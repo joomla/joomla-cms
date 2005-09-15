@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>{$lang_insert_image_title}</title>
+<script language="javascript" src="../../tiny_mce_popup.js"></script>
+<script language="javascript">
+	function insertImage() {
+		if (window.opener) {
+			var src = document.forms[0].src.value;
+			var alt = document.forms[0].alt.value;
+
+			window.opener.tinyMCE.insertImage(src, alt);
+			top.close();
+		}
+	}
+
+	function init() {
+		var formObj = document.forms[0];
+
+		formObj.src.value = tinyMCE.getWindowArg('src');
+		formObj.alt.value = tinyMCE.getWindowArg('alt');
+		formObj.insert.value = tinyMCE.getLang('lang_' + tinyMCE.getWindowArg('action'), 'Insert', true); 
+
+		window.focus();
+	}
+
+	function cancelAction() {
+		top.close();
+	}
+</script>
+</head>
+<body onload="window.focus();init();">
+<form onsubmit="insertImage();return false;">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+      <td align="center" valign="middle"><table border="0" cellpadding="4" cellspacing="0">
+          <tr>
+            <td colspan="2" class="title">{$lang_insert_image_title}</td>
+          </tr>
+          <tr>
+            <td>{$lang_insert_image_src}:</td>
+            <td><input name="src" type="text" id="src" value="" style="width: 200px"></td>
+          </tr>
+          <tr>
+            <td>{$lang_insert_image_alt}:</td>
+            <td><input name="alt" type="text" id="alt" value="" style="width: 200px"></td>
+          </tr>
+          <tr>
+            <td><input type="button" id="insert" name="insert" value="{$lang_insert}" onclick="insertImage();">
+            </td>
+            <td align="right"><input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onclick="cancelAction();"></td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

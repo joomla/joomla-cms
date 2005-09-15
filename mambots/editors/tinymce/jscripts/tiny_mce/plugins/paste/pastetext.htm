@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>{$lang_paste_text_desc}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+<meta http-equiv="Expires" content="Fri, Oct 24 1976 00:00:00 GMT" />
+<script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+<script type="text/javascript">
+<!--
+// Ryan Demmer 12/05/2005 (ryandemmer@gmail.com)
+// Pretty much a hack of the HTML Source Editor
+
+// Updated by speednet 24 May 2005
+
+tinyMCE.setWindowArg('mce_windowresize', false);
+
+function saveContent() {
+	if (window.opener) {
+		if (document.forms[0].htmlSource.value == ''){
+			window.close();
+			return false;
+		} else
+			window.opener.TinyMCE_paste__insertText(document.forms[0].htmlSource.value, document.forms[0].linebreaks.checked);
+
+		window.close();
+	}
+}
+
+function onLoadInit() {
+	resizeInputs();
+}
+
+var wHeight=0, wWidth=0, owHeight=0, owWidth=0;
+
+function resizeInputs() {
+	if (!tinyMCE.isMSIE) {
+		wHeight = self.innerHeight-80;
+		wWidth = self.innerWidth-25;
+	}
+	else {
+		wHeight = document.body.clientHeight-80;
+		wWidth = document.body.clientWidth-25;
+	}
+
+	document.forms[0].htmlSource.style.height = Math.abs(wHeight) + 'px';
+	document.forms[0].htmlSource.style.width  = Math.abs(wWidth) + 'px';
+}
+
+//--></script>
+</head>
+<body scroll="no" onload="onLoadInit();" onresize="resizeInputs();">
+<form name="source" onsubmit="saveContent();">
+    <table border="0" cellpadding="0" cellspacing="2" align="center">
+        <tr>
+            <td class="title">{$lang_paste_text_desc}</td>
+            <td align="right" nowrap="nowrap">
+                <input type="checkbox" name="linebreaks" id="linebreaks" class="wordWrapCode" checked="checked" /><label for="linebreaks">{$lang_paste_text_linebreaks}</label>
+            </td> 
+        </tr>
+        <tr>
+            <td colspan="2">{$lang_paste_text_title}</td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <textarea name="htmlSource" id="htmlSource" rows="15" cols="100" style="width: 100%; height: 100%; font-family: 'Courier New',Courier,mono; font-size: 12px;" dir="ltr" wrap="soft"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td width="50%" align="left"><input type="button" id="insert" name="insert" value="{$lang_insert}" onclick="saveContent();" /></td>
+            <td width="50%" align="right"><input type="button" value="{$lang_cancel}" onclick="window.close();" /></td>
+        </tr>
+    </table>
+</form>
+</body> 
+</html>

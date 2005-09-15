@@ -1,0 +1,371 @@
+<html>
+<head>
+<title>{$lang_insert_image_title}</title>
+<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+<script language="javascript">
+var url = tinyMCE.getParam("external_image_list_url");
+if (url != null) {
+	// Fix relative
+	if (url.charAt(0) != '/')
+		url = tinyMCE.documentBasePath + "/" + url;
+
+	document.write('<sc'+'ript language="javascript" type="text/javascript" src="' + url + '"></sc'+'ript>');
+}
+</script>
+<script language="javascript" type="text/javascript">
+<!--
+    function myRegexpReplace(in_str, reg_exp, replace_str, opts) {
+        if (typeof opts == "undefined")
+            opts = 'g';
+        var re = new RegExp(reg_exp, opts);
+        return in_str.replace(re, replace_str);
+    }
+
+    function insertImage() {
+		var formObj = document.forms[0];
+
+        if (window.opener) {
+            var src         = formObj.src.value;
+            var alt         = formObj.alt.value;
+            var title       = formObj.title.value;
+            var border      = formObj.border.value;
+            var vspace      = formObj.vspace.value;
+            var hspace      = formObj.hspace.value;
+            var width       = formObj.width.value;
+            var height      = formObj.height.value;
+            var align       = formObj.align.options[formObj.align.selectedIndex].value;
+            var onmouseover = formObj.onmouseover.value;
+            var onmouseout  = formObj.onmouseout.value;
+
+			if (!formObj.onmousemove.checked)
+				onmouseover = onmouseout = "";
+
+            window.opener.tinyMCE.insertImage(src, alt, border, hspace, vspace, width, height, align, title, onmouseover, onmouseout);
+
+			// Close the dialog
+			tinyMCE.closeDialog();
+        }
+    }
+
+    function init() {
+        var formObj = document.forms[0];
+        var strOnOver = "", strOnOut  = "";
+
+        for (var i=0; i<document.forms[0].align.options.length; i++) {
+            if (document.forms[0].align.options[i].value == tinyMCE.getWindowArg('align'))
+                document.forms[0].align.options.selectedIndex = i;
+        }
+
+        formObj.src.value    = tinyMCE.getWindowArg('src');
+        formObj.alt.value    = tinyMCE.getWindowArg('alt');
+        formObj.title.value  = tinyMCE.getWindowArg('title');
+        formObj.border.value = tinyMCE.getWindowArg('border');
+        formObj.vspace.value = tinyMCE.getWindowArg('vspace');
+        formObj.hspace.value = tinyMCE.getWindowArg('hspace');
+        formObj.width.value  = tinyMCE.getWindowArg('width');
+        formObj.height.value = tinyMCE.getWindowArg('height');
+
+		formObj.insert.value = tinyMCE.getLang('lang_' + tinyMCE.getWindowArg('action'), 'Insert', true); 
+
+        strOnOver            = tinyMCE.getWindowArg('onmouseover');
+        strOnOut             = tinyMCE.getWindowArg('onmouseout');
+
+        if (strOnOver != '' && strOnOut != '') {
+            setOnMouseInput('enabled');
+            formObj.onmousemove.checked = true;
+            formObj.onmouseover.value   = strOnOver;
+            formObj.onmouseout.value    = strOnOut;
+        } else {
+            setOnMouseInput('disabled');
+            formObj.onmousemove.checked = false;
+            formObj.onmouseover.value   = '';
+            formObj.onmouseout.value    = '';
+        }
+
+		// Handle file browser
+		if (tinyMCE.getParam("file_browser_callback") != null) {
+			document.getElementById('src').style.width = '260px';
+			document.getElementById('onmouseover').style.width = '260px';
+			document.getElementById('onmouseout').style.width = '260px';
+
+			document.getElementById('browser1').innerHTML = getBrowserHTML('src');
+			document.getElementById('browser2').innerHTML = getBrowserHTML('onmouseover');
+			document.getElementById('browser3').innerHTML = getBrowserHTML('onmouseout');
+		}
+
+		// Auto select image in list
+		selectByValue(formObj, "image_list", tinyMCE.getWindowArg('src'));
+		selectByValue(formObj, "image_list2", strOnOver);
+		selectByValue(formObj, "image_list3", strOnOut);
+
+		// Handle preview
+        var htmlprev = ''; 
+
+		var src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], document.forms[0].src.value);
+		if (src == "")
+			src = "about:blank";
+
+        htmlprev += ' <iframe id="preview" name="preview" scrolling="auto" ' 
+        htmlprev += ' marginwidth="0" marginheight="0" frameborder="0" src="' + src + '"' 
+        htmlprev += ' style="margin:0px;border: 1px solid black;width:135px;height:135px"></iframe>'; 
+
+        document.getElementById('prev').innerHTML = htmlprev;
+
+	getImageData();
+    }
+
+	function selectByValue(form_obj, field_name, value) {
+		if (!form_obj || !form_obj.elements[field_name])
+			return;
+
+		for (var i=0; i<form_obj.elements[field_name].options.length; i++) {
+			var option = form_obj.elements[field_name].options[i];
+			if (option.value == value)
+				option.selected = true;
+		}
+	}
+
+	function getBrowserHTML(name) {
+		var html = "";
+
+		html += '<img id="browserBtn" src="../../themes/advanced/images/browse.gif"';
+		html += ' onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');"';
+		html += ' onmouseout="tinyMCE.restoreClass(this);"';
+		html += ' onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');"';
+		html += ' onclick="javascript:tinyMCE.openFileBrowser(\'' + name + '\',document.forms[0].' + name + '.value,\'image\',window);"';
+		html += ' width="20" height="18" border="0" title="' + tinyMCE.getLang('lang_browse') + '"';
+		html += ' class="mceButtonNormal" alt="' + tinyMCE.getLang('lang_browse') + '" />';
+
+		return html;
+	}
+
+    function setOnMouseInput(stat){
+        var formObj = document.forms[0];
+        if (stat=='enabled') {
+            formObj.onmouseover.disabled = false;
+            formObj.onmouseout.disabled  = false;
+            if (document.getElementById) {
+                document.getElementById('showInput1').style.color="#000000";
+                document.getElementById('showInput2').style.color="#000000";
+            }
+            formObj.onmouseout.value = formObj.src.value;
+        } else {
+            formObj.onmouseover.disabled = true;
+            formObj.onmouseout.disabled  = true;
+            if (document.getElementById) {
+                document.getElementById('showInput1').style.color="#666666";
+                document.getElementById('showInput2').style.color="#666666";
+            }
+        }
+    }
+
+    function cancelAction() {
+		// Close the dialog
+		tinyMCE.closeDialog();
+    }
+
+	var preloadImg = new Image();
+
+	function resetImageData() {
+		var formObj = document.forms[0];
+		formObj.width.value = formObj.height.value = "";	
+	}
+
+	function updateImageData() {
+		var formObj = document.forms[0];
+
+		if (formObj.width.value == "")
+			formObj.width.value = preloadImg.width;
+
+		if (formObj.height.value == "")
+			formObj.height.value = preloadImg.height;
+	}
+
+	function getImageData() {
+		if (document.forms[0].src.value == "") {
+			self.preview.location = "about:blank";
+			return;
+		}
+
+		preloadImg = new Image();
+
+		tinyMCE.addEvent(preloadImg, "load", updateImageData);
+		tinyMCE.addEvent(preloadImg, "error", function () {var formObj = document.forms[0];formObj.width.value = formObj.height.value = "";});
+
+		preloadImg.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], document.forms[0].src.value);
+
+		var src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], document.forms[0].src.value);
+		if (src == "")
+			src = "about:blank";
+
+		self.preview.location = src; 
+	}
+
+    function changeHeight() {
+       	var formObj = document.forms[0];
+
+		if (!tinyMCE.getParam("advimage_constrain_proportions", false) || formObj.width.value == "")
+			return;
+
+       	var temp = (formObj.width.value / preloadImg.width) * preloadImg.height;
+       	formObj.height.value = temp.toFixed(0);
+    }
+
+   	function changeWidth() {
+       	var formObj = document.forms[0];
+
+		if (!tinyMCE.getParam("advimage_constrain_proportions", false) || formObj.height.value == "")
+			return;
+
+       	var temp = (formObj.height.value / preloadImg.height) * preloadImg.width;
+       	formObj.width.value = temp.toFixed(0);
+   	}
+//-->
+</script>
+</head>
+<body onload="init();"> 
+    <form onsubmit="insertImage();return false;"> 
+        <table border="0" cellpadding="0" cellspacing="0" width="300"> 
+            <tr> 
+                <td align="center" valign="middle"><table border="0" cellpadding="4" cellspacing="0"> 
+                    <tr> 
+                        <td colspan="3" class="title">{$lang_insert_image_title}</td> 
+                    </tr> 
+                    <tr> 
+                        <td align="right" nowrap="nowrap">{$lang_insert_image_src}:</td> 
+                      <td colspan="2"><table border="0" cellspacing="0" cellpadding="0"> 
+                            <tr> 
+                              <td><input name="src" type="text" id="src" value="" style="width: 280px" onchange="resetImageData();getImageData();" /></td> 
+                              <td id="browser1"></td> 
+                            </tr> 
+                          </table></td> 
+                    </tr> 
+                 <!-- Image list --> 
+                 <script language="javascript"> 
+                  if (typeof(tinyMCEImageList) != "undefined" && tinyMCEImageList.length > 0) { 
+                     var html = ""; 
+                     html += '<tr><td align="right" nowrap="nowrap">{$lang_image_list}:</td>'; 
+                     html += '<td colspan="2"><select name="image_list" style="width: 280px" onchange="this.form.alt.value=this.options[this.selectedIndex].text;this.form.title.value=this.options[this.selectedIndex].text;this.form.src.value=this.options[this.selectedIndex].value;resetImageData();getImageData();">'; 
+                     html += '<option value="">---</option>'; 
+
+                     for (var i=0; i<tinyMCEImageList.length; i++) 
+                        html += '<option value="' + tinyMCEImageList[i][1] + '">' + tinyMCEImageList[i][0] + '</option>'; 
+
+                     html += '</select></td></tr>'; 
+
+                     document.write(html); 
+                  } 
+                 </script> 
+                 <!-- /Image list --> 
+                    <tr> 
+                        <td align="right" nowrap="nowrap">{$lang_insert_image_alt}:</td> 
+                        <td colspan="2"><input name="alt" type="text" id="alt" value="" style="width: 280px" onblur="if(document.forms[0].title.value==''){ document.forms[0].title.value=this.value; }" onfocus="if(document.forms[0].title.value==''){ document.forms[0].title.value=this.value; }" /></td> 
+                    </tr> 
+                    <tr> 
+                        <td align="right" nowrap="nowrap">{$lang_insert_image_alt2}:</td> 
+                        <td colspan="2"><input name="title" type="text" id="title" value="" style="width: 280px" /></td> 
+                    </tr> 
+                    <tr> 
+                        <td align="right" nowrap="nowrap">{$lang_insert_image_dimensions}:</td> 
+                        <td nowrap="nowrap"> 
+                            <input name="width" type="text" id="width" value="" size="5" maxlength="5" style="vertical-align: middle; width: 50px; text-align: center;" onChange="changeHeight();" /> x 
+                            <input name="height" type="text" id="height" value="" size="5" maxlength="5" style="vertical-align: middle; width: 50px; text-align: center;" onChange="changeWidth();" /> px 
+                        </td>
+			<td rowspan="6" valign="top"><div id="prev" name="prev" style="margin:0px;border:none;width:135px;height:135px"></div></td> 
+                    </tr> 
+                    <tr> 
+                        <td align="right" nowrap="nowrap">{$lang_insert_image_border}:</td> 
+                        <td colspan="2"><input name="border" type="text" id="border" value="" size="3" maxlength="3" style="vertical-align: middle; width: 30px; text-align: center;" /></td> 
+                    </tr> 
+                    <tr> 
+                        <td align="right" nowrap="nowrap">{$lang_insert_image_align}:</td> 
+                        <td><select name="align" style="width: 100px"> 
+                                <option value="">{$lang_insert_image_align_default}</option> 
+                                <option value="baseline">{$lang_insert_image_align_baseline}</option> 
+                                <option value="top">{$lang_insert_image_align_top}</option> 
+                                <option value="middle">{$lang_insert_image_align_middle}</option> 
+                                <option value="bottom">{$lang_insert_image_align_bottom}</option> 
+                                <option value="texttop">{$lang_insert_image_align_texttop}</option> 
+                                <option value="absmiddle">{$lang_insert_image_align_absmiddle}</option> 
+                                <option value="absbottom">{$lang_insert_image_align_absbottom}</option> 
+                                <option value="left">{$lang_insert_image_align_left}</option> 
+                                <option value="right">{$lang_insert_image_align_right}</option> 
+                            </select> 
+                        </td> 
+                    </tr> 
+                    <tr> 
+                        <td align="right" nowrap="nowrap">{$lang_insert_image_vspace}:</td> 
+                        <td><input name="vspace" type="text" id="vspace" value="" size="3" maxlength="3" style="vertical-align: middle; width: 30px; text-align: center;" /></td> 
+                    </tr> 
+                    <tr> 
+                        <td align="right" nowrap="nowrap">{$lang_insert_image_hspace}:</td> 
+                        <td><input name="hspace" type="text" id="hspace" value="" size="3" maxlength="3" style="vertical-align: middle; width: 30px; text-align: center;" /></td> 
+                    </tr> 
+                    <tr> 
+                        <td colspan="2" nowrap="nowrap"><input type="checkbox" name="onmousemove" id="onmousemove" style="border: 1px none #000000; background-color: transparent; vertical-align: middle;" onclick="if(this.checked==true){ setOnMouseInput('enabled'); }else{ setOnMouseInput('enable'); }" /><label for="onmousemove"><b>{$lang_insert_image_onmousemove}</b>:</label></td> 
+                    </tr> 
+                    <tr> 
+                        <td align="right" nowrap="nowrap" id="showInput1">{$lang_insert_image_mouseover}:</td> 
+                        <td colspan="2"><table border="0" cellspacing="0" cellpadding="0"> 
+                            <tr> 
+                              <td><input name="onmouseover" type="text" id="onmouseover" value=""  style="width: 280px" /></td> 
+                              <td id="browser2"></td> 
+                            </tr> 
+                          </table></td> 
+                    </tr> 
+                 <!-- Image list --> 
+                 <script language="javascript"> 
+                  if (typeof(tinyMCEImageList) != "undefined" && tinyMCEImageList.length > 0) { 
+                     var html = ""; 
+
+                     html += '<tr><td align="right" nowrap="nowrap">{$lang_image_list}:</td>'; 
+                     html += '<td colspan="2"><select name="image_list2" style="width: 280px" onchange="this.form.onmouseover.value=this.options[this.selectedIndex].value;">'; 
+                     html += '<option value="">---</option>'; 
+
+                     for (var i=0; i<tinyMCEImageList.length; i++) 
+                        html += '<option value="' + tinyMCEImageList[i][1] + '">' + tinyMCEImageList[i][0] + '</option>'; 
+
+                     html += '</select></td></tr>'; 
+
+                     document.write(html); 
+                  } 
+                 </script> 
+                 <!-- /Image list --> 
+                    <tr> 
+                        <td align="right" nowrap="nowrap" id="showInput2">{$lang_insert_image_mouseout}:</td> 
+                        <td colspan="2"><table border="0" cellspacing="0" cellpadding="0"> 
+                            <tr> 
+                              <td><input name="onmouseout" type="text" id="onmouseout" value=""  style="width: 280px" /></td> 
+                              <td id="browser3"></td> 
+                            </tr> 
+                          </table></td> 
+                    </tr> 
+                 <!-- Image list --> 
+                 <script language="javascript"> 
+                  if (typeof(tinyMCEImageList) != "undefined" && tinyMCEImageList.length > 0) { 
+                     var html = ""; 
+
+                     html += '<tr><td align="right" nowrap="nowrap">{$lang_image_list}:</td>'; 
+                     html += '<td colspan="2"><select name="image_list3" style="width: 280px" onchange="this.form.onmouseout.value=this.options[this.selectedIndex].value;">'; 
+                     html += '<option value="">---</option>'; 
+
+                     for (var i=0; i<tinyMCEImageList.length; i++) 
+                        html += '<option value="' + tinyMCEImageList[i][1] + '">' + tinyMCEImageList[i][0] + '</option>'; 
+
+                     html += '</select></td></tr>'; 
+
+                     document.write(html); 
+                  } 
+                 </script> 
+                 <!-- /Image list --> 
+                    <tr> 
+                        <td><input type="button" name="insert" value="{$lang_insert}" onclick="insertImage();" id="insert" /></td> 
+                        <td>&nbsp;</td> 
+                        <td align="right"><input type="button" name="cancel" value="{$lang_cancel}" onclick="cancelAction();" id="cancel" /></td> 
+                    </tr> 
+                </table></td> 
+            </tr> 
+        </table> 
+    </form>
+</body> 
+</html> 

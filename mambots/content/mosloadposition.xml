@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall version="4.5.2" type="mambot" group="content">
+	<name>mosloadposition</name>
+	<author>Joomla! Project</author>
+	<creationDate>January 2005</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@mamboserver.com</authorEmail>
+	<authorUrl>www.mamboserver.com</authorUrl>
+	<version>4.5.2</version>
+	<description>Loads module positions within Content, Syntax: {mosloadposition user1}</description>
+	<files>
+		<filename mambot="mosloadposition">mosloadposition.php</filename>
+	</files>
+	<params>
+		<param name="style" type="list" default="0" label="Style" description="Code that will wrap modules">
+			<option value="0">Wrapped by Table - Column</option>
+			<option value="1">Wrapped by Table - Horizontal</option>
+			<option value="-2">Wrapped by Divs</option>
+			<option value="-1">No wrapping - raw output</option>
+		</param>
+	</params>
+</mosinstall>

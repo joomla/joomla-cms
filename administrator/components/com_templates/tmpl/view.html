@@ -1,0 +1,168 @@
+<mos:comment>
+@version $Id: view.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<script language="javascript" type="text/javascript">
+function showInfo(name) {
+	var pattern = /\b \b/ig;
+	name = name.replace(pattern,'_');
+	name = name.toLowerCase();
+	<mos:tmpl type="condition" conditionvar="body.client">
+		<mos:sub condition="__default">
+			var src = '{SITEURL}/templates/'+name+'/template_thumbnail.png';
+		</mos:sub>
+		<mos:sub condition="1">
+			var src = '{ADMINURL}/templates/'+name+'/template_thumbnail.png';
+		</mos:sub>
+	</mos:tmpl>
+	var html=name;
+	html = '<img border="1" src="'+src+'" name="imagelib" alt="No preview available" width="206" height="145" />';
+	return html;
+}
+</script>
+
+<div id="treecell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Navigator</mos:Translate>
+		</legend>
+		<mos:tmpl src="tree.html" />
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Related Links</mos:Translate>
+		</legend>
+		<mos:tmpl src="relatedLinks.html" varscope="body"/>
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Quick Tip</mos:Translate>
+		</legend>
+		<mos:Translate key="Quicktiptext"></mos:Translate>
+	</fieldset>
+</div>
+
+<div id="datacell">
+	<fieldset>
+		<legend>
+			<mos:tmpl type="condition" conditionvar="body.client">
+				<mos:sub condition="__default">
+					<mos:Translate>Site Templates</mos:Translate>
+				</mos:sub>
+
+				<mos:sub condition="1">
+					<mos:Translate>Administrator Templates</mos:Translate>
+				</mos:sub>
+			</mos:tmpl>
+		</legend>
+
+		<table class="adminlist" id="moslist">
+		<thead>
+			<tr>
+				<th width="20">
+					&nbsp;
+				</th>
+				<th class="left">
+					<mos:translate>Name</mos:translate>
+				</th>
+				<th>
+					<mos:translate>Default</mos:translate>
+				</th>
+				<mos:tmpl type="simplecondition" requiredvars="body.client=0">
+				<th>
+					<mos:translate>Assigned</mos:translate>
+				</th>
+				</mos:tmpl>
+				<th>
+					<mos:translate>Version</mos:translate>
+				</th>
+				<th>
+					<mos:translate>Date</mos:translate>
+				</th>
+				<th class="left">
+					<mos:translate>Author</mos:translate>
+				</th>
+				<th class="left">
+					<mos:translate>Web Site</mos:translate>
+				</th>
+				<th class="left">
+					<mos:translate>Email</mos:translate>
+				</th>
+			</tr>
+		</thead>
+		<tfoot>
+		<mos:tmpl name="admin-list-footer" varscope="body">
+			<tr>
+				<th colspan="9" class="center">
+					{PAGE_LINKS}
+				</th>
+			</tr>
+			<tr>
+				<td colspan="9" class="center">
+					<mos:Translate>Display Num</mos:Translate>
+					{PAGE_LIST_OPTIONS}
+					{PAGE_COUNTER}
+				</td>
+			</tr>
+		</mos:tmpl>
+		</tfoot>
+
+		<tbody>
+		<mos:tmpl name="body-list-rows" type="simplecondition" requiredvars="row_xml_name" varscope="body" addsystemvars="integer">
+			<tr class="row{PAT_IS_EVEN}">
+			    <td style="text-align:center">
+			    	<input type="radio" name="cid[]" id="cb{PAT_ROW_VAR}" value="{ROW_FOLDER}"  />
+				</td>
+				<td>
+					<a href="#default" onclick="return listItemTask('cb{PAT_ROW_VAR}','setDefault')" onmouseover="this.T_WIDTH=220;return escape(showInfo('{ROW_XML_NAME}'));" class="editlink">
+						{ROW_XML_NAME}</a>
+				</td>
+				<td align="center">
+					<mos:tmpl type="simplecondition" requiredvars="row_default=1" varscope="body-list-rows">
+						<img src="images/tick.png" alt="<mos:Translate>Published</mos:Translate>" />
+					</mos:tmpl>
+				</td>
+				<mos:tmpl type="simplecondition" requiredvars="body.client=0" varscope="body-list-rows">
+				<td align="center">
+					<mos:tmpl type="simplecondition" requiredvars="row_assigned=1" varscope="body-list-rows">
+						<img src="images/tick.png" alt="<mos:Translate>Published</mos:Translate>" />
+					</mos:tmpl>
+				</td>
+				</mos:tmpl>
+				<td align="center">
+					{ROW_XML_VERSION}
+				</td>
+				<td align="center">
+					{ROW_XML_CREATIONDATE}
+				</td>
+				<td>
+					{ROW_XML_AUTHOR}
+				</td>
+				<td>
+					<a href="{ROW_XML_AUTHORURL}" target="_blank" class="editlink">
+						<mos:Translate>Web</mos:Translate></a>
+
+				</td>
+				<td>
+					<a href="mailto:{ROW_XML_AUTHOREMAIL}" target="_blank" class="editlink">
+						<mos:Translate>Mail</mos:Translate></a>
+				</td>
+			</tr>
+		</mos:tmpl>
+		</tbody>
+		</table>
+	</fieldset>
+
+</div>
+
+<mos:link src="include-tooltips" />
+
+<input type="hidden" name="client" value="{CLIENT}" />
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="" />
+<input type="hidden" name="boxchecked" value="0" />

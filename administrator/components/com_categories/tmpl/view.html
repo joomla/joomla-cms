@@ -1,0 +1,72 @@
+<mos:comment>
+@version $Id: view.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<!-- this is a temporary wrapper -->
+<mos:tmpl name="body2">
+
+<div id="treecell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Related Links</mos:Translate>
+		</legend>
+		<ul class="relatedlinks">
+			<mos:tmpl type="condition" conditionvar="backlink" varscope="body2">
+			<mos:sub condition="{BACKLINK}">
+				<li><strong>
+				<a href="index2.php?option=com_{BACKLINK}">
+				<mos:Translate>Back to</mos:Translate> {BACKLINK} <mos:Translate>manager</mos:Translate></a>
+				</strong></li>
+			</mos:sub>
+			</mos:tmpl>
+			<li>
+				<a href="index2.php?option=com_sections&scope=content">
+					<mos:Translate>Sections Manager</mos:Translate></a>
+			</li>
+			<li>
+				<a href="index2.php?option=com_content">
+					<mos:Translate>Content Items Manager</mos:Translate></a>
+			</li>
+			<li>
+				<a href="index2.php?option=com_frontpage">
+					<mos:Translate>Frontpage Manager</mos:Translate></a>
+			</li>
+		</ul>
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Quick Tip</mos:Translate>
+		</legend>
+		<mos:Translate key="Quicktiptext"></mos:Translate>
+	</fieldset>
+</div>
+
+<div id="datacell">
+	<fieldset>
+		<legend>
+		<mos:Translate>Categories</mos:Translate> - {TITLE}
+		</legend>
+
+		<table width="100%">
+		<tr>
+			<td nowrap="nowrap" height="35">
+			<input type="text" name="search" id="search" value="{SEARCH}" class="text_area" title="<mos:Translate>Search</mos:Translate>" />
+			<input type="button" value="<mos:Translate>Go</mos:Translate>" class="button" onclick="this.form.submit();" />
+			<input type="button" value="<mos:Translate>Reset</mos:Translate>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+			</td>
+			<td align="right">
+			{LISTS_STATE}
+			{LISTS_ACCESS}
+			<mos:tmpl type="condition" conditionvar="section" varscope="body2">
+				<mos:sub condition="content">
+					{LISTS_SECTION}
+				</mos:sub>
+			</mos:tmpl>
+			</td>
+		</tr>
+		</table>
+</mos:tmpl>

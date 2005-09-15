@@ -1,0 +1,80 @@
+<mos:comment>
+@version $Id: config_cache.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<table class="adminform" id="editpage">
+<thead>
+	<tr>
+		<th colspan="2">
+			<mos:Translate>Cache Settings</mos:Translate>
+		</th>
+	</tr>
+</thead>
+<tfoot>
+	<tr>
+		<th colspan="2">
+		</th>
+	</tr>
+</tfoot>
+<tbody>
+	<mos:tmpl type="simplecondition" requiredvars="cache_writable=1" varscope="body">
+    	<tr>
+    		<td width="{COLWIDTH}">
+    			<mos:Translate>Template Caching</mos:Translate>
+    		</td>
+    		<td>
+    			{CONFIG_TMPL_CACHING}
+    		</td>
+    	</tr>
+    	<tr>
+    		<td>
+    			<mos:Translate>Item Caching</mos:Translate>
+    		</td>
+    		<td>
+    			{CONFIG_CACHING}
+    		</td>
+    	</tr>
+    	<tr>
+    		<td>
+    			<mos:Translate>Page Caching</mos:Translate>
+    		</td>
+    		<td>
+    			{CONFIG_PAGE_CACHING}
+    		</td>
+    	</tr>
+	</mos:tmpl>
+	<tr>
+		<td width="{COLWIDTH}">
+			<label for="config_cachepath">
+				<mos:tmpl type="condition" conditionvar="cache_writable" varscope="body">
+					<mos:sub condition="1">
+						<mos:Call template="tooltip" text="Cache Folder" tip="TIPCURRENTCACHEDIRWRITEABLE" />
+					</mos:sub>
+
+					<mos:sub condition="__default">
+						<mos:Call template="tooltip" text="Cache Folder" tip="TIPCACHEDIRISUNWRITEABLE" />
+						<img src="{SITEURL}/includes/js/ThemeOffice/warning.png" border="0" />
+					</mos:sub>
+				</mos:tmpl>
+			</label>
+		</td>
+		<td>
+			<input class="text_area" type="text" name="config_cachepath" id="config_cachepath" size="50" value="{CONFIG_CACHEPATH|htmlspecialchars}"/>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<label for="config_cachetime">
+				<mos:Translate>Cache Time</mos:Translate>
+			</label>
+		</td>
+		<td>
+			<input class="text_area" type="text" name="config_cachetime" id="config_cachetime" size="5" value="{CONFIG_CACHETIME|htmlspecialchars}"/>
+			<mos:Translate>seconds</mos:Translate>
+		</td>
+	</tr>
+</tbody>
+</table>

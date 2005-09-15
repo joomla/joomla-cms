@@ -1,0 +1,56 @@
+<mos:comment>
+@version $Id: mod_rss.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="mod_rss">
+
+	<div class="rss{CLASS}">
+		<div class="rss_title{CLASS}">
+			<strong>
+			<a href="{LINK}" target="_blank">
+				{TITLE}</a>
+			</strong>
+		</div>
+
+		<mos:tmpl type="simplecondition" requiredvars="SHOW_DESCRIP=1" varscope="body, mod_rss">
+		<!-- Show Feed Description -->
+			<div class="rss_descrip{CLASS}">
+				{DESCRIPTION}
+			</div>
+		</mos:tmpl>
+
+		<mos:tmpl type="simplecondition" requiredvars="SHOW_IMAGE=1" varscope="body, mod_rss">
+		<!-- Show Feed Image -->
+			<div class="rss_image{CLASS}">
+				<a href="{LINK}" target="_blank">
+					<img src="{IMAGE_LINK}" alt="{IMAGE_TITLE}" border="0"/></a>
+			</div>
+		</mos:tmpl>
+
+		<div class="rss_items{CLASS}">
+			<ul class="rss{CLASS}">
+
+				<mos:tmpl name="body-list-rows" varscope="body, mod_rss">
+					<li>
+						<strong>
+						<a href="{ROW_LINK}" target="_blank" class="rss{CLASS}">
+							{ROW_TITLE}</a>
+						</strong>
+
+						<mos:tmpl type="simplecondition" requiredvars="SHOW_IDESCRIP=1" varscope="body-list-rows">
+						<!-- Show Feed Description -->
+							<div class="rss_items_descrip{CLASS}">
+								{ROW_TEXT}
+							</div>
+						</mos:tmpl>
+					</li>
+				</mos:tmpl>
+
+			</ul>
+		</div>
+	</div>
+
+</mos:tmpl>

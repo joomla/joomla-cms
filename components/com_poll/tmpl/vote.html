@@ -1,0 +1,29 @@
+<mos:comment>
+@version $Id: vote.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<form action="" method="GET">
+
+<div align="center">
+	<div style="padding-bottom: 50px;">
+		<h3>
+			{TEXT}
+		</h3>
+	</div>
+
+	<mos:tmpl type="simplecondition" requiredvars="SHOW=1" varscope="BODY">
+		<input class="button" type="button" value="<mos:Translate>BUTTON_RESULTS</mos:Translate>" onClick="window.location='{LINK}'">
+	</mos:tmpl>
+
+
+	<mos:tmpl type="simplecondition" requiredvars="P_BACK_BUTTON=1" varscope="BODY">
+	<!-- Show Back Button -->
+		<br/>
+		<mos:link src="back_button" varscope="BODY"/>
+	</mos:tmpl>
+</div>
+
+</form>

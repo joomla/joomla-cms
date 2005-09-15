@@ -1,0 +1,82 @@
+<mos:comment>
+@version $Id: massCreate.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+
+<mos:tmpl name="masscreate">
+	<form action="index2.php?option=com_users" method="post" name="adminForm" id="userform" class="adminform">
+
+	<div id="treecell" style="width: 25%;">
+		<fieldset>
+			<legend>
+				<mos:Translate>Group</mos:Translate>
+			</legend>
+			{GID}
+		</fieldset>
+
+		<fieldset>
+			<legend>
+				<mos:Translate>Quick Tip</mos:Translate>
+			</legend>
+			<mos:Translate key="QuicktiptextMass"></mos:Translate>
+		</fieldset>
+	</div>
+
+	<div id="datacell" style="width: 73%;">
+		<fieldset>
+			<legend>
+				<mos:Translate>Users</mos:Translate>
+			</legend>
+
+			<table class="adminform" id="editlist">
+			<tr>
+				<th>
+					<mos:Translate>User Details</mos:Translate>
+				</th>
+			</tr>
+			<tr>
+				<td>
+					<mos:tmpl name="create-list" loop="10">
+						<fieldset>
+							<legend>
+								{PAT_ROW_VAR}.
+							</legend>
+
+							<table>
+							<tr>
+								<td width="100">
+									<label for="name{PAT_ROW_VAR}">
+										<mos:Translate>Name:</mos:Translate>
+									</label>
+								</td>
+								<td>
+									<input type="text" name="names[]" id="name{PAT_ROW_VAR}" class="inputbox" size="60" value="" />
+								</td>
+							</tr>
+							<tr>
+								<td width="100">
+									<label for="email{PAT_ROW_VAR}">
+										<mos:Translate>Email:</mos:Translate>
+									</label>
+								</td>
+								<td>
+									<input type="text" name="emails[]" id="email{PAT_ROW_VAR}" class="inputbox" size="60" value="" />
+								</td>
+							</tr>
+							</table>
+						</fieldset>
+					</mos:tmpl>
+				</td>
+			</tr>
+			</table>
+
+		</fieldset>
+	</div>
+
+	<input type="hidden" name="option" value="{OPTION}" />
+	<input type="hidden" name="task" value="" />
+	</form>
+</mos:tmpl>

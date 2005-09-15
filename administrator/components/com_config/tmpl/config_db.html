@@ -1,0 +1,100 @@
+<mos:comment>
+@version $Id: config_db.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<table class="adminform" id="editpage">
+	<thead>
+		<tr>
+			<th colspan="2">
+				<mos:Translate>Database Settings</mos:Translate>
+			</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<th colspan="2">
+			</th>
+		</tr>
+	</tfoot>
+	<tbody>
+		<tr>
+			<td>
+				<label for="config_dbtype">
+					<mos:Translate>Database Type</mos:Translate>
+				</label>
+			</td>
+			<td>
+				<select name="config_dbtype" id="config_dbtype" class="inputbox">
+				<mos:tmpl name="list-dbtype">
+					<option value="{VALUE}" {SELECTED}>{TEXT}</option>
+				</mos:tmpl>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td width="{COLWIDTH}">
+				<label for="config_host">
+					<mos:Translate>Database Hostname</mos:Translate>
+				</label>
+			</td>
+			<td>
+				<input class="text_area" type="text" name="config_host" id="config_host" size="25" value="{CONFIG_HOST|htmlspecialchars}"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="config_user">
+					<mos:Translate>Database Username</mos:Translate>
+				</label>
+			</td>
+			<td>
+				<input class="text_area" type="text" name="config_user" id="config_user" size="25" value="{CONFIG_USER|htmlspecialchars}"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="config_password">
+					<mos:Translate>Database Password</mos:Translate>
+				</label>
+			</td>
+			<td>
+				<input class="text_area" type="text" name="config_password" id="config_password" size="25" value="{CONFIG_PASSWORD|htmlspecialchars}"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="config_db">
+					<mos:Translate>Database Name</mos:Translate>
+				</label>
+			</td>
+			<td>
+				<input class="text_area" type="text" name="config_db" id="config_db" size="25" value="{CONFIG_DB|htmlspecialchars}"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="config_dbprefix">
+					<mos:Call template="tooltip" text="Database Prefix" tip="WARNDONOTCHANGEDATABASETABLESPREFIX" />
+					<img src="{SITEURL}/includes/js/ThemeOffice/warning.png" border="0" />
+				</label>
+			</td>
+			<td>
+				<input class="text_area" type="text" name="config_dbprefix" id="config_dbprefix" size="10" value="{CONFIG_DBPREFIX|htmlspecialchars}"/>
+
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="config_zero_date">
+					<mos:Call template="tooltip" text="Database Zero Date" tip="The date the database considers to be zero" />
+				</label>
+			</td>
+			<td>
+				<input class="text_area" type="text" name="config_zero_date" id="config_zero_date" size="20" value="{CONFIG_ZERO_DATE|htmlspecialchars}"/>
+			</td>
+		</tr>
+	</tbody>
+</table>

@@ -1,0 +1,58 @@
+<mos:comment>
+@version $Id: list.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<script type = "text/javascript">
+<!--
+var link = document.createElement('link');
+link.setAttribute('href', 'components/com_poll/poll_bars.css');
+link.setAttribute('rel', 'stylesheet');
+link.setAttribute('type', 'text/css');
+var head = document.getElementsByTagName('head').item(0);
+head.appendChild(link);
+//-->
+</script>
+
+<form action="index.php" method="post" name="poll" id="poll">
+
+<mos:tmpl type="simplecondition" requiredvars="P_PAGE_TITLE=1" varscope="BODY">
+<!-- Show Header -->
+	<div class="componentheading{PAGECLASS_SFX}">
+		{P_HEADER}
+	</div>
+</mos:tmpl>
+
+<table width="100%" align="center" class="contentpane{PAGECLASS_SFX}">
+<tr>
+	<td>
+		<div align="center">
+			<label for="polllist">
+				<mos:Translate>SEL_POLL</mos:Translate>
+			</label>
+
+			{P_POLL_LIST}
+		</div>
+	</td>
+</tr>
+
+<mos:tmpl type="simplecondition" requiredvars="P_SHOW_POLL=1" varscope="body">
+	<tr>
+		<td colspan="2">
+			<br/>
+			<mos:tmpl src="item.html" varscope="body"/>
+		</td>
+	</tr>
+</mos:tmpl>
+
+</table>
+
+</form>
+
+<mos:tmpl type="simplecondition" requiredvars="P_BACK_BUTTON=1" varscope="BODY">
+<!-- Show Back Button -->
+	<br/>
+	<mos:link src="back_button" varscope="BODY"/>
+</mos:tmpl>

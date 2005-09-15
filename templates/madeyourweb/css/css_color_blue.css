@@ -1,0 +1,101 @@
+body{
+background: #FFF url(../images_blue/back_verlauf.jpg) repeat-x top;
+}
+
+#header {
+background: #FFF url(../images_blue/back_verlauf.jpg) repeat-x top;
+ }
+ 
+#search {
+background: url(../images_blue/back_search.jpg) right top no-repeat;
+}
+
+a, #search .inputbox, #search .button{
+color: #002E61;
+}
+
+#outer {
+background: transparent url(../images_blue/content-top.gif) no-repeat top;
+}
+
+#banner {
+background: url(../images_blue/banner_back.jpg) no-repeat;
+}
+
+div.module h3 {
+color: #002E61;
+border-bottom: 1px solid #002E61;
+}
+
+ul#mainlevel-nav li{
+background: url(../images_blue/headmenu_left.gif) bottom left no-repeat;	
+}
+
+ul#mainlevel-nav li a{
+background: url(../images_blue/headmenu_right.gif) bottom right no-repeat;
+}
+
+#banner {
+background: url(../images_blue/banner_back.jpg) no-repeat;
+}
+
+ul#mainlevel-nav li:hover, ul#mainlevel-nav li.sfhover {
+background: url(../images_blue/headmenu_left_hover.gif) bottom left no-repeat;
+}
+
+ul#mainlevel-nav li:hover a, ul#mainlevel-nav li.sfhover a{
+background: url(../images_blue/headmenu_right_hover.gif) bottom right no-repeat;
+}
+
+#maincol-normal div.moduletable h3, #maincol-wide div.moduletable h3, #maincol-broad div.moduletable h3{
+background: url(../images_blue/module_head_back.jpg) repeat-x;
+}
+
+a.mainlevel {
+color: #002E61;
+}
+
+a.mainlevel:hover, a.mainlevel#active_menu {
+border-right: 4px solid #6685A3;
+}
+
+a.sublevel {
+color: #002E61;
+background: url(../images_blue/submenu_back.gif) left center no-repeat;
+}
+
+a.sublevel:hover, a.sublevel#active_menu {
+background: #F1F1F1 url(../images_blue/submenu_back.gif) left center no-repeat;
+border-right: 4px solid #6685A3;
+}
+
+.contentheading {
+border-bottom: 1px solid #002E61;
+color: #002E61;
+}
+
+a.readon:hover {
+background: #EEEEEE url(../images_blue/readon.gif) no-repeat left;
+}
+
+a.readon {
+background: url(../images_blue/readon.gif) no-repeat left;
+}
+
+table.contentpane td.contentheading {
+color: #002E61;
+}
+
+
+table.contentpane ul li{
+background: url(../images_blue/readon2.gif) no-repeat left top;
+}
+
+.componentheading {
+border-bottom: 1px solid #002E61;
+color: #002E61;
+}
+
+.blog_more ul li{
+background: url(../images_blue/readon.gif) no-repeat left;
+}

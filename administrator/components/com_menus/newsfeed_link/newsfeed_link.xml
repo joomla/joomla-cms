@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosparams type="menu" version="4.5.2">
+	<name>Link - Newsfeed</name>
+	<group>Component|Link</group>
+	<description>Creates a link to an individual Published Newsfeed</description>
+	<params>
+		<param name="feed_image" type="radio" default="1" label="Feed Image" description="paramFeedImage">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="feed_descr" type="radio" default="1" label="Feed Description" description="paramFeedDesc">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="item_descr" type="radio" default="1" label="Item Description" description="paramItemDesc">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="word_count" type="text" size="6" default="0" label="Word Count" description="paramWordCount" />
+	</params>
+</mosparams>

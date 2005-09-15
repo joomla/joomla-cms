@@ -1,0 +1,152 @@
+<mos:comment>
+@version $Id: edit.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<script language="javascript" type="text/javascript">
+function submitbutton(pressbutton) {
+	var form = document.adminForm;
+	if ( pressbutton == 'cancel' ) {
+		submitform( pressbutton );
+		return;
+	}
+
+	// do field validation
+	if (form.title.value == ""){
+		alert( '<mos:Translate>Weblink item must have a title</mos:Translate>' );
+	} else if ( getSelectedValue('adminForm','catid') < 1 ) {
+		alert( '<mos:Translate>You must select a category</mos:Translate>' );
+	} else if ( form.url.value == '' ){
+		alert( '<mos:Translate>You must have a url</mos:Translate>' );
+	} else {
+		submitform( pressbutton );
+	}
+}
+</script>
+<style type="text/css">
+span.editlinktip {
+	text-decoration:  none;
+	border-bottom: 1px dashed #aaa;
+}
+table.adminform th {
+	height: 30px;
+	color: #E15704;
+	font-size: 12px;
+	text-align: left;
+	padding: 6px 4px 2px 4px ;
+	background-color: #E9EFF5;
+}
+table.adminform td {
+	height: 35px;
+	padding-left: 10px;
+}
+fieldset {
+	width: 95%;
+}
+table.paramlist {
+	width: 100%;
+}
+table.paramlist td {
+	height: 35px;
+	padding-left: 10px;
+	vertical-align: middle;
+}
+table.paramlist td.column1 {
+	width: 130px;
+}
+</style>
+
+<form action="{FORM_URL}" method="post" name="adminForm" id="adminForm">
+
+<div class="componentheading{CLASS}">
+	<mos:Translate>Submit Weblink</mos:Translate>
+</div>
+
+<div align="center">
+	<fieldset >
+		<table class="adminform" width="100%">
+		<thead>
+		<tr>
+			<th colspan="3">
+				<mos:Translate>Details</mos:Translate>
+			</th>
+		</tr>
+		</thead>
+
+		<tr>
+			<td width="130" align="right">
+				<label for="title">
+					<mos:Translate>NAME</mos:Translate>
+				</label>
+			</td>
+			<td>
+				<input class="inputbox" type="text" id="title" name="title" size="40" maxlength="250" value="{ROW_TITLE}" />
+			</td>
+			<td rowspan="5" width="150" valign="top">
+				<div style="float: right;">
+					{TOOLBAR}
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td align="right">
+				<label for="catid">
+					<mos:Translate>SECTION</mos:Translate>
+				</label>
+			</td>
+			<td>
+				{CATEGORY}
+			</td>
+		</tr>
+		<tr>
+			<td align="right">
+				<label for="url">
+					<mos:Translate>URL</mos:Translate>
+				</label>
+			</td>
+			<td>
+				<input class="inputbox" type="text" id="url" name="url" value="{ROW_URL}" size="40" maxlength="250" />
+			</td>
+		</tr>
+		<tr>
+			<td valign="top" align="right">
+				<label for="description">
+					<mos:Translate>URL_DESC</mos:Translate>
+				</label>
+			</td>
+			<td>
+				<textarea class="inputbox" cols="30" rows="10" id="description"" name="description">{ROW_DESCRIPTION}</textarea>
+			</td>
+		</tr>
+		</table>
+
+		<mos:comment>
+		{PARAMS}
+		</mos:comment>
+
+		<table class="adminform" width="100%">
+		<thead>
+		<tr>
+			<th>
+			</th>
+		</tr>
+		</thead>
+		</table>
+	</fieldset>
+</div>
+
+<input type="hidden" name="id" value="{ROW_ID}" />
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="" />
+<input type="hidden" name="ordering" value="{ROW_ORDERING}" />
+<input type="hidden" name="approved" value="{ROW_APPROVED}" />
+<input type="hidden" name="Returnid" value="{RETURN}" />
+</form>
+
+<mos:tmpl type="simplecondition" requiredvars="P_BACK_BUTTON=1" varscope="BODY">
+<!-- Show Back Button -->
+	<br/>
+	<mos:link src="back_button" varscope="BODY"/>
+</mos:tmpl>

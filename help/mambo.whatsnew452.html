@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en_US" xml:lang="en_US">
+<head>
+<title>What's New in Version 4.5.2</title>
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<meta name="copyright" content="(C) 2005 Open Source Matters. All rights reserved." />
+<meta name="license" content="http://www.gnu.org/copyleft/gpl.html GNU/GPL" />
+</head>
+<body>
+<h1>What's New in Version 4.5.2</h1>
+
+{mosimage}Version 4.5.2 is the first maintenance release for the 4.5.x series of Mambo. It includes over 125 bug fixes and a
+counter measure for a XSS problem found in the PHP globals variable.
+<h1>Administrator Interface</h1><span style="color: rgb(255, 0, 0); font-weight: bold;">Important</span>: Whenever you enter most &quot;edit&quot; screens, that is, a screen where there is a &quot;Save&quot; button, the menubar will be hidden from view.&nbsp; This is a safety measure to ensure that a user does not simply navigate to another screen without either saving or cancelling, leaving the item &quot;checked out&quot;.<br /><h1>Templates</h1>
+
+
+<h2>Site Templates</h2>
+
+
+<p>Solar Flare II is a new template provided with this release.</p>
+
+
+<h1>Help System Changes</h1>
+
+
+<p>The Help Menu has been reduced to simply link to the index page. The help screen now has quick links to the Support,
+Credits and License pages.</p>
+
+
+<p>The glossary from the manual has now been included in the help system.</p>
+
+
+<p>System Info is also accessed from the help page.</p>
+
+
+<p>Help file can now be in html format as well as docbook xml. Help files can also be included with a component (see
+the API changes below).<br /></p><p>You also have the ability to link to the help files on help.mamboserver.com.&nbsp; In Global Configuration on the Server tab there is field for the &quot;Help Server&quot;.&nbsp; Enter http://mamboserver.com in this field and the help screens will be obtained directly from this site.&nbsp; This makes it possible to have the latest information at your fingertips without having to wait for the next version of Mambo.<br /></p>
+
+
+<h1>Components</h1>
+
+
+<h2>Contacts</h2>
+
+
+<p>V-card capabilities have been added.</p>
+
+
+<h2>Weblinks</h2>
+
+
+<p>If the weblinks list is filtered by a category, new items will auto-select this category.</p>
+
+
+<p>A parameter has been added to control how a weblink opens.</p>
+
+
+<h1>Mambots</h1>
+
+
+<p>A new code highlighting mambot based on GeSHi has been added.</p>
+
+
+<p>New search mambots have been added for Content Sections and Categories.</p>
+
+
+<p>A new Email cloaking Mambot has been added.</p>
+
+
+<h1>Menu Manager</h1>
+
+
+<p>In a menu list, a hyperlink has been to static content items that will take you directly to the edit screen for that
+item. This is also available for Contacts and and Newsfeeds.</p>
+
+
+<h1>Modules</h1>
+
+
+<p>The description of the module a now displayed on the module edit screen (this is sourced from the xml setup
+file).</p>
+
+
+<p>A &quot;Linked Title&quot; parameter has been added to the Newsflash module.</p>
+
+
+<h1>For Deveopers</h1>
+
+
+<h2>Libraries</h2>
+
+
+<p>The DOMIT! library has been updated to the latest version. The DOMIT! XML-RPC library has also been added.</p>
+
+
+<p>TinyMCE has been updated.</p>
+
+
+<p>Feedcreator has been updated.</p>
+
+
+<p>A new tooltip library has been added (author: Walter Zorn). The existing tooltip library is still included in this
+release.</p>
+
+
+<p>The patTemplate xml-based templating library has been added.</p>
+
+
+<h2>API</h2>
+
+
+<p>Parameters can assign a different name ot their form control.<br /></p>
+
+
+<p>The mosreadDirectory function is now able to recursively look in sub directories.</p>
+
+
+<p>The database class supports two new methods. <code>Quote</code> returns an escaped string wrapped in single quotes.
+<code>loadAssocList</code> returns a list of table rows as associative arrays.<br /></p><p><code>mosLoadModules</code> has a new '-3' style. &nbsp;This parameter renders a module using html definition list tags that allow greater flexibility for template designers. &nbsp;Techniques such as css rounded corners around a module is at last possible with this new option.</p>
+
+
+<h2>Admin Toolbars</h2>
+
+
+<p>You can now include help files with your components, for example, in a <code>/help</code> directory under the
+component directory. In addition, you may write help file in html as well as docbook example. To use these new
+features, write the full relative path as the first argument of the mosMenubar help method. Specify <code>true</code>
+as the second (optional) argument. This tells Joomla! to look in the component's directory first.</p>
+</body>
+</html>

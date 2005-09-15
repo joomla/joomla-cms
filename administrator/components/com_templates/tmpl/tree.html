@@ -1,0 +1,32 @@
+<mos:comment>
+@version $Id: tree.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:link src="include-tree" />
+
+<mos:link src="tree-buttons" />
+
+<script language="javascript" type="text/javascript">
+d = new dTree( 'd', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/' );
+d.config.useLines=true;
+d.config.useIcons=true;
+d.config.useCookies=true;
+d.add( 0, -1, '<mos:Translate>Templates</mos:Translate>' );
+
+d.add( 1, 0, '<mos:Translate>Site</mos:Translate>', 'index2.php?option={OPTION}&amp;task=view&amp;client=0', '' );
+d.add( 2, 0, '<mos:Translate>Administrator</mos:Translate>', 'index2.php?option={OPTION}&amp;task=view&amp;client=1', '' );
+d.add( 4, 0, '<mos:Translate>Positions</mos:Translate>' );
+d.add( 5, 4, '<mos:Translate>Edit Positions</mos:Translate>', 'index2.php?option={OPTION}&amp;task=positions', '' );
+d.add( 6, 4, '<mos:Translate>Preview Positions</mos:Translate>', 'index2.php?option={OPTION}&amp;task=preview2', '' );
+d.add( 7, 0, '<mos:Translate>Site Preview</mos:Translate>' );
+d.add( 8, 7, '<mos:Translate>In New Window</mos:Translate>', '{SITEURL}', '', '_blank' );
+d.add( 9, 7, '<mos:Translate>Inline</mos:Translate>', 'index2.php?option={OPTION}&amp;task=preview', '' );
+d.add( -1, 0, '<mos:Translate>Install</mos:Translate>', 'index2.php?option={OPTION}&amp;task=installOptions', '' );
+d.add( -1, 0, '<mos:Translate>List Packages</mos:Translate>', 'index2.php?option={OPTION}&amp;task=listFiles', '' );
+
+document.write(d);
+d.openAll();
+</script>

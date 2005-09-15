@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall version="4.5.3" client="administrator" type="language">
+    <name>Deutsch</name>
+    <version>4.5.3</version>
+    <creationDate>2005-03-17</creationDate>
+    <author>mambogtt</author>
+    <authorEmail>info@mambogtt.de</authorEmail>
+    <authorUrl>www.mambogtt.de</authorUrl>
+    <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <description></description>
+    <files>
+        <filename>german.com_admin.ini</filename>
+        <filename>german.com_banners.ini</filename>
+        <filename>german.com_categories.ini</filename>
+        <filename>german.com_checkin.ini</filename>
+        <filename>german.com_components.ini</filename>
+        <filename>german.com_config.ini</filename>
+        <filename>german.com_contact.ini</filename>
+        <filename>german.com_content.ini</filename>
+        <filename>german.com_export.ini</filename>
+        <filename>german.com_frontpage.ini</filename>
+        <filename>german.com_installer.ini</filename>
+        <filename>german.com_languages.ini</filename>
+        <filename>german.com_mambots.ini</filename>
+        <filename>german.com_massmail.ini</filename>
+        <filename>german.com_media.ini</filename>
+        <filename>german.com_menumanager.ini</filename>
+        <filename>german.com_menus.ini</filename>
+        <filename>german.com_messages.ini</filename>
+        <filename>german.com_modules.ini</filename>
+        <filename>german.com_newsfeeds.ini</filename>
+        <filename>german.com_poll.ini</filename>
+        <filename>german.com_sections.ini</filename>
+        <filename>german.com_statistics.ini</filename>
+        <filename>german.com_syndicate.ini</filename>
+        <filename>german.com_templates.ini</filename>
+        <filename>german.com_trash.ini</filename>
+        <filename>german.com_typedcontent.ini</filename>
+        <filename>german.com_users.ini</filename>
+        <filename>german.com_weblinks.ini</filename>
+        <filename>german.ini</filename>
+        <filename>german.xml</filename>
+        <filename>index.html</filename>
+    </files>
+    <params />
+</mosinstall>

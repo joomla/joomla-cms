@@ -1,0 +1,159 @@
+<mos:comment>
+@version $Id: config_content.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<table class="adminform" id="editpage">
+	<thead>
+		<tr>
+			<th colspan="2">
+				<mos:Translate>Content Settings</mos:Translate>
+			</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<th colspan="2">
+			</th>
+		</tr>
+	</tfoot>
+	<tbody>
+		<tr>
+			<td width="50%">
+				<table width="100%">
+				<tr>
+					<td width="{COLWIDTH}">
+						<mos:Call template="tooltip" text="Linked Titles" tip="TIPIFYESTITLECONTENTITEMS" />
+					</td>
+					<td>
+						{CONFIG_LINK_TITLES}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<mos:Call template="tooltip" text="Read More Link" tip="TIPIFSETTOSHOWREADMORELINK" />
+						</td>
+					<td>
+						{CONFIG_READMORE}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<mos:Call template="tooltip" text="Item Rating/Voting" tip="TIPIFSETTOSHOWVOTING" />
+					</td>
+					<td>
+						{CONFIG_VOTE}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<mos:Call template="tooltip" text="Author Names" tip="TIPIFSETTOSHOWAUTHOR" />
+					</td>
+					<td>
+						{CONFIG_HIDEAUTHOR}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<mos:Call template="tooltip" text="Created Date and Time" tip="TIPIFSETTOSHOWDATETIMECREATED" />
+					</td>
+					<td>
+						{CONFIG_HIDECREATEDATE}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<mos:Call template="tooltip" text="Modified Date and Time" tip="TIPIFSETTOSHOWDATETIMEMODIFIED" />
+					</td>
+					<td>
+						{CONFIG_HIDEMODIFYDATE}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<mos:Call template="tooltip" text="Hits" tip="TIPIFSETTOSHOWHITS" />
+					</td>
+					<td>
+						{CONFIG_HITS}
+					</td>
+				</tr>
+				</table>
+			</td>
+			<td width="50%">
+				<table width="100%">
+				<tr>
+					<td width="{COLWIDTH}">
+						<mos:tmpl type="condition" conditionvar="pdf_cache_writable" varscope="body">
+							<mos:sub condition="1">
+								<mos:Translate>PDF Icon</mos:Translate>
+							</mos:sub>
+							<mos:sub condition="__default">
+								<mos:Call template="tooltip" text="PDF Icon" tip="TIPOPTIONNOTAVAILABLEMEDIADIR" />
+							</mos:sub>
+						</mos:tmpl>
+					</td>
+					<td>
+						{CONFIG_HIDEPDF}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<mos:Translate>Print Icon</mos:Translate>
+					</td>
+					<td>
+						{CONFIG_HIDEPRINT}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<mos:Translate>Email Icon</mos:Translate>
+					</td>
+					<td>
+						{CONFIG_HIDEEMAIL}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<mos:Call template="tooltip" text="Icons" tip="TIPPRINTPDFEMAIL" />
+					</td>
+					<td>
+						{CONFIG_ICONS}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<mos:Translate>Back Button</mos:Translate>
+					</td>
+					<td>
+						{CONFIG_BACK_BUTTON}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<mos:Translate>Content Item Navigation</mos:Translate>
+					</td>
+					<td>
+						{CONFIG_ITEM_NAVIGATION}
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<mos:Call template="tooltip" text="Table of Contents" tip="WARNPARAMETERDEPRECIATEDGLOBALPARAMETER" />
+					</td>
+					<td colspan="2">
+						<mos:Translate>Deprecated</mos:Translate>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<br/>
+				<mos:Translate>DESCCONTROLOUTPUTELEMENTS</mos:Translate>
+			</td>
+		</tr>
+	</tbody>
+</table>

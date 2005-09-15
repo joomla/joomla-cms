@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="module" version="4.5.2">
+	<name>Wrapper Module</name>
+	<author>Joomla! Project</author>
+	<creationDate>October 2004</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@mamboserver.com</authorEmail>
+	<authorUrl>www.mamboserver.com</authorUrl>
+	<version>4.5.2</version>
+	<description>This module shows an IFrame window to specified location</description>
+	<files>
+		<filename module="mod_wrapper">mod_wrapper.php</filename>
+	</files>
+	<params>
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="A suffix to be applied to the css class of the module (table.moduletable), this allows individual module styling" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="url" type="text" size="30" default="" label="Url" description="Url to site/file you wish to display within the Iframe" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="target" type="text" size="30" default="" label="Target Name" description="Name of the IFrame when used as Target" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="scrolling" type="radio" default="auto" label="Scroll Bars" description="Show/Hide Horizontal &amp; Vertical scroll bars.">
+			<option value="no">No</option>
+			<option value="yes">Yes</option>
+			<option value="auto">Auto</option>
+		</param>
+		<param name="width" type="text" size="5" default="100%" label="Width" description="Width of the IFrame Window, you can enter an absolute figure in pixels, or a relative figure by adding a %" />
+		<param name="height" type="text" size="5" default="200" label="Height" description="Height of the IFrame Window" />
+		<param name="height_auto" type="radio" default="1" label="Auto Height" description="The height will automatically be set to the size of the external page. This will only work for pages on your own domain.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="add" type="radio" default="1" label="Auto Add" description="By default http:// will be added unless it detects http:// or https:// in the url link you provide, this allow you to switch this ability off">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+	</params>
+</mosinstall>

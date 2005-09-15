@@ -1,0 +1,24 @@
+<mos:comment>
+@version $Id: mod_rssfeed.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="mod_rssfeed">
+	<div class="syndicate{CLASS}">
+		<mos:tmpl type="simplecondition" requiredvars="SHOW_TEXT=1" varscope="mod_rssfeed">
+		<!-- Display Pre Text -->
+			<div align="center" class="syndicate_text{CLASS}">
+				{TEXT}
+			</div>
+		</mos:tmpl>
+
+		<mos:tmpl name="body-list-rows" varscope="body">
+			<div align="center">
+				<a href="{SITEURL}/{ROW_LINK}">
+					{ROW_IMAGE}</a>
+			</div>
+		</mos:tmpl>
+	</div>
+</mos:tmpl>

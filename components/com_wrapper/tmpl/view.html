@@ -1,0 +1,53 @@
+<mos:comment>
+@version $Id: view.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<script language="javascript" type="text/javascript">
+<!--
+{LOADX}
+function iFrameHeight() {
+	var h = 0;
+	if ( !document.all ) {
+		h = document.getElementById('blockrandom').contentDocument.height;
+		document.getElementById('blockrandom').style.height = h + 60 + 'px';
+	} else if( document.all ) {
+		h = document.frames('blockrandom').document.body.scrollHeight;
+		document.all.blockrandom.style.height = h + 20 + 'px';
+	}
+}
+//-->
+</script>
+
+<div class="contentpane{P_PAGECLASS_SFX}">
+
+	<mos:tmpl type="simplecondition" requiredvars="P_PAGE_TITLE=1" varscope="BODY">
+	<!-- Show Header -->
+		<div class="componentheading{P_PAGECLASS_SFX}">
+			{P_HEADER}
+		</div>
+	</mos:tmpl>
+
+	<iframe
+	id="blockrandom"
+	src="{URL}"
+	width="{P_WIDTH}"
+	height="{P_HEIGHT}"
+	scrolling="{P_SCROLLING}"
+	align="top"
+	frameborder="0"
+	class="wrapper{P_PAGECLASS_SFX}"
+	name="{P_NAME}"
+	{LOAD}
+	>
+		<mos:Translate>errorNoIFrames</mos:Translate>
+	</iframe>
+
+	<mos:tmpl type="simplecondition" requiredvars="P_BACK_BUTTON=1" varscope="BODY">
+	<!-- Show Back Button -->
+		<br/>
+		<mos:link src="back_button" varscope="BODY"/>
+	</mos:tmpl>
+</div>

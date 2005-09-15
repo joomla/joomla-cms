@@ -1,0 +1,78 @@
+<mos:comment>
+@version $Id: manage.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<div id="treecell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Navigator</mos:Translate>
+		</legend>
+		<mos:tmpl src="tree.html" />
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Related Links</mos:Translate>
+		</legend>
+		<mos:tmpl src="relatedLinks.html" varscope="body"/>
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Quick Tip</mos:Translate>
+		</legend>
+		<mos:Translate key="Quicktiptext installer"></mos:Translate>
+	</fieldset>
+</div>
+
+
+<div id="datacell">
+	<form action="index2.php" id="adminForm" name="adminForm" method="post">
+	<fieldset>
+		<legend>
+		<mos:Translate>Installed Non-Core Modules</mos:Translate>
+		</legend>
+		<table class="adminlist" id="moslist">
+			<thead>
+				<tr>
+					<th width="20">
+					</th>
+					<th>
+						<mos:Translate>Name</mos:Translate>
+					</th>
+					<th>
+						<mos:Translate>Module</mos:Translate>
+					</th>
+					<th>
+						<mos:Translate>Client</mos:Translate>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<mos:tmpl name="body-list-rows" type="simplecondition" requiredvars="row_id" varscope="body" addsystemvars="integer">
+				<tr class="row{PAT_IS_EVEN}">
+				    <td style="text-align:center">
+				    	<input type="radio" name="cid[]" id="cb{ROW_ID}" value="{ROW_ID}" />
+					</td>
+					<td>
+						{ROW_TITLE}
+					</td>
+					<td>
+						{ROW_MODULE}
+					</td>
+					<td>
+						{ROW_CLIENT_ID}
+					</td>
+				</tr>
+				</mos:tmpl>
+			</tbody>
+		</table>
+	</fieldset>
+
+	<input type="hidden" name="option" value="{OPTION}" />
+	<input type="hidden" name="task" value="" />
+	</form>
+</div>

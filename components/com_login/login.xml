@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="component" version="4.5.2">
+	<name>Contact Items</name>
+	<author>Joomla! Project</author>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@mamboserver.com</authorEmail>
+	<authorUrl>www.mamboserver.com</authorUrl>
+	<version>4.5.2</version>
+	<description>Parameters for individual Contact Items</description>
+	<params>
+		<param name="header_login" type="text" size="30" default="" label="Login Page Title" description="Text to display at the top of the page. If left blank, the Menu name will be used instead" />
+		<param name="login" type="text" size="30"  default="" label="Login Redirection URL" description="What page will the login redirect to after login, if let blank will load front page" />
+		<param name="login_message" type="radio" default="0" label="Login JS Message" description="Show/Hide the javascript Pop-up indicating Login Success">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="description_login" type="radio" default="0" label="Login Description" description="Show/Hide the Login Description below">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="description_login_text" type="textarea" cols="30" rows="5" default="" label="Login Description Text" description="Text to display on the login Page, if left blank _LOGIN_DESCRIPTION will be used" />
+		<param name="image_login" type="imagelist" directory="/images/stories" default="" label="Login Image" description="Image for the Login Page" />
+		<param name="image_login_align" type="radio" default="right" label="Login Image Align" description="Alignment for Login Image">
+			<option value="left">Left</option>
+			<option value="right">Right</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="header_logout" type="text" size="30" default="" label="Logout Page Title" description="Text to display at the top of the page. If left blank, the Menu name will be used instead" />
+		<param name="logout" type="text" size="30"  default="" label="Logout Redirection URL" description="What page will be redirected to after logout, if let blank will load front page" />
+		<param name="logout_message" type="radio" default="1" label="Logout JS Message" description="Show/Hide the javascript Pop-up indicating Logout Success">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="description_logout" type="radio" default="1" label="Logout Description" description="Show/Hide the Logout Description below">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="description_logout_text" type="textarea" cols="30" rows="5" default="" label="Logout Description Text" description="Text to display on the logout Page, if left blank _LOGOUT_DESCRIPTION will be used" />
+		<param name="image_logout" type="imagelist" directory="/images/stories" default="" label="Logout Image" description="Image for the Logout Page" />
+		<param name="image_logout_align" type="radio" default="1" label="Logout Image Align" description="Alignment for Logout Image">
+			<option value="left">Left</option>
+			<option value="right">Right</option>
+		</param>
+	</params>
+</mosinstall>

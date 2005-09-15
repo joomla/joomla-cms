@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="module" version="4.5.2">
+	<name>Random Image</name>
+	<author>Joomla! Project</author>
+	<creationDate>July 2004</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@mamboserver.com</authorEmail>
+	<authorUrl>www.mamboserver.com</authorUrl>
+	<version>4.5.2</version>
+	<description>This module display a random image from your chosen directory</description>
+	<files>
+	<filename module="mod_random_image">mod_random_image.php</filename>
+	</files>
+	<params>
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="type" type="text" default="jpg" label="Image Type" description="Type of image PNG/GIF/JPG etc. (default is JPG)" />
+		<param name="folder" type="text" default="" label="Image Folder" description="Path to the image folder relative to the site url, eg: images/stories" />
+		<param name="link" type="text" default="" label="Link" description="A URL to redirect to if image is clicked on, eg: http://www.mamboserver.com" />
+		<param name="target" type="list" default="_self" label="Target" description="Target for link">
+			<option value="_blank">New Window</option>
+			<option value="_self">Main Window</option>
+		</param>
+		<param name="width" type="text" default="" label="Width (px)" description="Image width (forces all images to be displayed with this width)" />
+		<param name="height" type="text" default="" label="Height (px)" description="Image height (forces all images to be displayed with the height)" />
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="A suffix to be applied to the css class of the module (table.moduletable), this allows individual module styling" />
+	</params>
+</mosinstall>

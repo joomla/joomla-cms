@@ -1,0 +1,19 @@
+<mos:comment>
+@version $Id: exportToFile.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+Note: DO NOT ADD WHITESPACE AFTER THIS COMMENT
+</mos:comment><mos:tmpl name="sql-dump-header" type="simplecondition" requiredvars="show_header" varscope="body">
+#
+# Joomla! Open Source CMS - MySQL-Dump
+# http://www.mamboserver.com
+#
+# Host: {SITENAME} {SITEURL}
+# Generation Time: {VAR_DATE}
+# Server version: {VAR_DB_VERSION}
+# PHP Version: {VAR_PHP_VERSION}
+# Database : {VAR_DBNAME}@{VAR_DBHOST}
+# {VAR_COMMENT}
+# --------------------------------------------------------
+</mos:tmpl>{BUFFER}

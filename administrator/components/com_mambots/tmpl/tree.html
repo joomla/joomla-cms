@@ -1,0 +1,28 @@
+<mos:comment>
+@version $Id: tree.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:link src="include-tree" />
+
+	<mos:link src="tree-buttons" />
+
+	<script language="javascript" type="text/javascript">
+	d = new dTree( 'd', '{SITEURL}/includes/js/dtree/img/' );
+	d.config.useLines=true;
+	d.config.useIcons=true;
+	d.config.useCookies=true;
+	d.add( 0, -1, '<mos:translate>Mambots</mos:translate>' );
+
+	d.add( 1, 0, '<mos:translate>Manage</mos:translate>', 'index2.php?option={OPTION}&amp;folder=', '<mos:translate>Show All</mos:translate>' );
+	<mos:tmpl name="mambot-folders" type="simplecondition" requiredvars="folder">
+		d.add( -1, 1, '{FOLDER}', 'index2.php?option={OPTION}&amp;folder={FOLDER}&amp;client=0', '{FOLDER}' );
+	</mos:tmpl>
+	d.add( -1, 0, '<mos:Translate>Install</mos:Translate>', 'index2.php?option={OPTION}&task=installOptions', '' );
+	d.add( -1, 0, '<mos:Translate>List Packages</mos:Translate>', 'index2.php?option={OPTION}&amp;task=listFiles', '' );
+
+	document.write(d);
+	d.openAll();
+	</script>

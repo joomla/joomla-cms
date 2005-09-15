@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall version="4.5.3" client="site" type="language">
+    <name>English</name>
+    <version>4.5.3</version>
+    <creationDate>2004-09-20</creationDate>
+    <author>Joomla! Project</author>
+    <authorEmail>admin@mamboserver.com</authorEmail>
+    <authorUrl>www.mamboserver.com</authorUrl>
+    <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <description></description>
+    <files>
+        <filename>english.com_banners.ini</filename>
+        <filename>english.com_contact.ini</filename>
+        <filename>english.com_content.ini</filename>
+        <filename>english.com_frontpage.ini</filename>
+        <filename>english.com_login.ini</filename>
+        <filename>english.com_messages.ini</filename>
+        <filename>english.com_newsfeeds.ini</filename>
+        <filename>english.com_poll.ini</filename>
+        <filename>english.com_registration.ini</filename>
+        <filename>english.com_rss.ini</filename>
+        <filename>english.com_search.ini</filename>
+        <filename>english.com_user.ini</filename>
+        <filename>english.com_weblinks.ini</filename>
+        <filename>english.com_wrapper.ini</filename>
+        <filename>english.ini</filename>
+        <filename>english.xml</filename>
+    </files>
+    <params />
+</mosinstall>

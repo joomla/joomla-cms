@@ -1,0 +1,298 @@
+/**
+* @version $Id: install_rtl.css 4 2005-09-06 19:22:37Z akede $
+* @package Mambo
+* @copyright (C) 2000 - 2005 Miro International Pty Ltd
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+* Mambo is Free Software
+*/
+body {
+	margin: 0px;
+	padding: 0px;
+	color : #333;
+	background-color : #FFF;
+	font-size : 11px;
+	font-family : Arial, Helvetica, sans-serif;
+}
+
+.langdirection {
+	direction: rtl; /* rtl-change */
+}
+#wrapper {
+        border: 0px;
+        margin: 0px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0px;
+}
+
+#header {
+        background-color: #FFF;
+        background-position: right top;
+        border-bottom: 4px solid #80B5D7;
+}
+
+#mambo {
+        position: relative;
+        width: 100%;
+        background: url(../images/header_blue.jpg) #30569D no-repeat;
+        background-position: top right;
+        margin: 0px;
+        padding: 0px;
+}
+
+#stepbar {
+	background-color: #F1F3F5;
+	width: 170px !important;
+	width: 170px;
+	height: 400px;
+	font-size: 11px;
+	float: right;
+	text-align: right;
+}
+
+#step {
+	background: url(../images/install_logo.png) no-repeat right;
+	font-size: 30px;
+	font-weight: bold;
+	text-align: right;
+	color: #666666;
+	padding: 10px 80px 20px 0px;
+	white-space: nowrap;
+	position: relative;
+	float: right;
+}
+
+.step-on {
+	color: #ff9900;
+	background: #30559C;
+	font-weight: bold;
+	font-size: 13px;
+	padding: 10px;
+	border: 1px solid #cccccc;
+	margin-bottom: 2px;
+}
+
+.step-off {
+  font-size: 13px;
+	color: #999999;
+	font-weight: bold;
+	padding: 10px;
+	border: 1px solid #cccccc;
+	margin-bottom: 2px;
+}
+
+
+#right {
+  float: left;
+  width: 555px !important;
+  width: 545px;
+  border-right: 1px solid #cccccc;
+  padding-right: 10px;
+
+}
+
+#break {
+	height: 20px;
+}
+
+.licensetext {
+  text-align: left;
+}
+
+.license {
+  padding: 0px;
+  width: 530px;
+  height: 300px;
+}
+
+.license-form {
+  float: left;
+}
+
+.install {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 3em;
+	margin-bottom: 3em;
+	padding: 10px;
+	border: 1px solid #cccccc;
+	width: 750px;
+	background: #F1F3F5;
+	direction: rtl;
+}
+	
+.install h1 {
+	font-size: 15px;
+	font-weight: bold;
+ 	color: #FF9900;
+	padding: 10px 0px 4px 10px;
+ 	text-align: right;
+	border-bottom: 1px solid #FF9900;
+	margin-bottom: 10px;
+
+}
+
+.install-form {
+  position: relative;
+	text-align: right;
+	float: left;
+	width: 69%;
+}
+
+.install-text {
+  position: relative;
+	text-align: right;
+	width: 30%;
+	float: right;
+}
+
+.form-block {
+	border: 1px solid #cccccc;
+	background: #E9ECEF;
+	padding-top: 5px;
+	padding-left: 5px;
+	padding-bottom: 5px;
+	padding-right: 5px;
+}
+
+.left {
+  position: relative;
+	text-align: left;
+	float: left;
+	width: 50%;
+}
+
+.right {
+  position: relative;
+	text-align: left;
+	float: right;
+	width: 50%;
+}
+
+.far-right {
+  position: relative;
+	text-align: right;
+	float: left;
+}
+
+.far-left {
+  position: relative; 
+	text-align: left;
+	float: left;
+}
+
+.clr {
+    clear:both;
+    }
+
+.ctr {
+	text-align: center;
+}
+
+.button {
+	border : solid 1px #cccccc;
+	background: #E9ECEF;
+	color : #666666;
+	font-weight : bold;
+	font-size : 11px;
+	padding: 4px;
+}
+
+table.content {
+	width: 80%;
+}
+
+table.content td {
+	color : #333333;
+	font-size: 11px;
+	width: 50%;
+}
+
+table.content2 {
+	width: 90%;
+}
+
+table.content2 td {
+	color : #333333;
+	font-size: 11px;
+}
+
+.toggle {
+	font-weight: bold;
+}
+
+.Yes {
+	color: green;
+	font-weight: bold;
+}
+.No {
+	color: red;
+	font-weight: bold;
+}
+
+/*  old stuff */
+
+a {
+	color : #FF9900;
+	text-decoration : none;
+}
+a:hover {
+	color : #999999;
+	text-decoration : underline;
+}
+a:active {
+	color : #FF6600;
+	text-decoration : underline;
+}
+
+.inputbox {
+
+	color: blue;
+	font-family: Arial, Helvetica, sans-serif;
+	z-index: -3;
+	font-size: 11px;
+}
+
+.small {
+	color : #333;
+	font-size : 10px;
+}
+
+.error {
+	color : #cc0000;
+	font-size : 12px;
+	font-weight : bold;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+
+select.options, input.options {
+	font-size: 8pt;
+	border: 1px solid #999;
+}
+
+form {
+	margin: 0px 0px 0px 0px;
+}
+
+
+.dottedline {
+	border-bottom: 1px solid #333;
+}
+
+.installheader {
+	color : #FFF;
+	font-size : 24px;
+}
+
+textarea {
+	color : #0000dd;
+	font-family : Arial;
+	font-size : 11px;
+	border: 1px;
+}
+
+fieldset {
+	border: 1px #999 solid;
+}

@@ -1,0 +1,66 @@
+<?php
+/**
+* @version $Id: com_search.php 137 2005-09-12 10:21:17Z eddieajau $
+* @package Rambo
+* @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+* Joomla! is free software and parts of it may contain or be derived from the
+* GNU General Public License or other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
+
+// no direct access
+defined( '_VALID_MOS' ) or die( 'Restricted access' );
+
+$_MAMBOTS->registerFunction( 'onGetWebServices', 'wsGetSearchWebServices' );
+
+/**
+* @return array An array of associative arrays defining the available methods
+*/
+function wsGetSearchWebServices() {
+	return array(
+		array(
+			'name' => 'search.site',
+			'method' => 'wsSearchSite',
+			'help' => 'Searches a remote site',
+			'signature' => array('string','string','string') // ??
+		),
+	);
+}
+
+/**
+* Remote Search method
+*
+* The sql must return the following fields that are used in a common display
+* routine: href, title, section, created, text, browsernav
+* @param string Target search string
+* @param string mathcing option, exact|any|all
+* @param string ordering option, newest|oldest|popular|alpha|category
+*/
+function wsSearchSite( $searchword, $phrase='', $order='' ) {
+	global $database, $my, $acl, $_LANG, $_MAMBOTS, $mosConfig_live_site;
+
+	if (!defined( '_MAMBOT_REMOTE_SEACH')) {
+		// flag that the site is being searched remotely
+		define( '_MAMBOT_REMOTE_SEACH', 1 );
+	}
+
+	$searchword = $database->getEscaped( trim( $searchword ) );
+	$phrase = '';
+	$ordering = '';
+
+	$_MAMBOTS->loadBotGroup( 'search' );
+	$results = $_MAMBOTS->trigger( 'onSearch', array( $searchword, $phrase, $ordering ) );
+
+	foreach ($results as $i=>$rows) {
+		foreach ($rows as $j=>$row) {
+			$results[$i][$j]->href = $mosConfig_live_site . '/' . $row->href;
+			$results[$i][$j]->text = mosPrepareSearchContent( $row->text );
+		}
+	}
+	return $results;
+
+	//return new dom_xmlrpc_fault( '-1', 'Fault' );
+}
+
+?>

@@ -1,0 +1,52 @@
+<mos:comment>
+@version $Id: files.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="file-list">
+<table class="adminlist" id="moslist">
+<thead>
+	<tr>
+		<th width="20">
+			<input type="checkbox" name="toggle" value="" />
+		</th>
+		<th class="title" width="">
+			<mos:Translate>File</mos:Translate>
+		</th>
+		<th width="10%">
+			<mos:Translate>Size</mos:Translate>
+		</th>
+		<th width="20%">
+			<mos:Translate>Last Modified</mos:Translate>
+		</th>
+		<th>
+			<mos:Translate>Permissions</mos:Translate>
+		</th>
+	</tr>
+</thead>
+<tbody>
+<mos:tmpl name="file-list-rows" type="simplecondition" requiredvars="file" varscope="body" addsystemvars="integer">
+	<tr class="row{PAT_IS_EVEN}">
+	    <td style="text-align:center">
+	    	<input type="checkbox" name="cid[]" id="cb{PAT_ROW_VAR}" value="{FILE}" />
+		</td>
+		<td>
+	    	<a href="{ADMINURL}/components/{OPTION}/files/{FILE}">
+				{FILE}</a>
+		</td>
+		<td align="right" nowrap="nowrap">
+			{FSIZE} b
+		</td>
+		<td>
+			{MTIME}
+		</td>
+		<td>
+			{PERMS}
+		</td>
+	</tr>
+</mos:tmpl>
+</tbody>
+</table>
+</mos:tmpl>

@@ -1,0 +1,77 @@
+<mos:comment>
+@version $Id: list_icons.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="list-files">
+
+	<div style="float:left;">
+
+		<mos:tmpl type="condition" conditionvar="type" varscope="list-files">
+			<mos:sub condition="image">
+				<div class="imgTotal">
+					<div align="center" class="imgBorder">
+						<a href="#"
+							onclick="javascript: window.open( '{SITEURL}/{URL}', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width={PWIDTH},height={PHEIGHT},directories=no,location=no,left=120,top=80');"
+							onmouseover="this.T_BGIMG='{SITEURL}/images/M_images/tt_bg.jpg';this.T_WIDTH=200;return escape('<mos:Translate>Name</mos:Translate>: {NAME}<br/><mos:Translate>Size</mos:Translate>: {SIZE}<br/><mos:Translate>Width</mos:Translate>: {WIDTH}px<br/><mos:Translate>Height</mos:Translate>: {HEIGHT}px')">
+							<div {PADDING}>
+								<img src="{SITEURL}/{URL}" width="{IWIDTH}" height="{IHEIGHT}" alt="" border="0" />
+							</div></a>
+					</div>
+					<div class="imginfoBorder">
+						{NAME}
+						<div class="buttonOut">
+							<a href="#" onclick="javascript:window.top.document.adminForm.imagecode.value='&lt;img src=&quot;{URL}&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;{NAME}&quot; /&gt;';">
+								<img src="{ADMINURL}/images/edit_pencil.gif" width="15" height="15" border="0" alt="<mos:Translate>Generate Code</mos:Translate>" title="<mos:Translate>Generate Code</mos:Translate>" /></a>
+							<a href="index2.php?option=com_media&amp;task=delete&amp;delFile={NAME}&amp;listdir={LISTDIR}"
+								target="_top"
+								onclick="return deleteImage('{NAME}');"
+								title="<mos:Translate>Delete Image</mos:Translate>">
+								<img src="{ADMINURL}/images/edit_trash.gif" width="15" height="15" border="0" alt="<mos:Translate>Delete Image</mos:Translate>" /></a>
+						</div>
+					</div>
+				</div>
+			</mos:sub>
+
+			<mos:sub condition="folder">
+				<div class="imgTotal">
+					<div align="center" class="imgBorder">
+						<a href="index2.php?option=com_media&amp;listdir={LISTDIR}/{NAME}"
+							onclick="javascript:updateDir();"
+							onmouseover="this.T_BGIMG='{SITEURL}/images/M_images/tt_bg.jpg';this.T_WIDTH=200;return escape('<mos:Translate>Name</mos:Translate>: {NAME}<br/><mos:Translate>Files</mos:Translate>: {NUMFILES}')">
+							<img src="{ADMINURL}/images/folder.gif" width="80" height="80" border="0" alt="" /></a>
+					</div>
+					<div class="imginfoBorder">
+						{NAME}
+						<div class="buttonOut">
+							<a href="index2.php?option=com_media&amp;task=delete&amp;delFile={NAME}&amp;listdir={LISTDIR}"
+								target="_top"
+								onclick="return deleteFolder('{NAME}', {NUMFILES});"
+								title="<mos:Translate>Delete Folder</mos:Translate>">
+								<img src="{ADMINURL}/images/edit_trash.gif" width="15" height="15" border="0" alt="<mos:Translate>Delete Folder</mos:Translate>" /></a>
+						</div>
+					</div>
+				</div>
+			</mos:sub>
+
+			<mos:sub condition="__default">
+				<div class="imgTotal">
+					<div align="center" class="imgBorder">
+					Doc
+					</div>
+					<div class="imginfoBorder">
+						{NAME}
+						<div class="buttonOut">
+						</div>
+					</div>
+				</div>
+			</mos:sub>
+		</mos:tmpl>
+
+	</div>
+
+</mos:tmpl>
+
+

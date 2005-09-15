@@ -1,0 +1,55 @@
+<mos:comment>
+@version $Id: mod_popular.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="mod_popular">
+
+	<table class="adminlist">
+	<thead>
+	<tr>
+		<th class="title">
+			<mos:Translate>Num</mos:Translate>
+		</th>
+		<th class="title">
+			<mos:Translate>Most Popular Items</mos:Translate>
+		</th>
+		<th class="title">
+			<mos:Translate>Created</mos:Translate>
+		</th>
+		<th class="title" align="center" width="20">
+			<mos:Translate>Hits</mos:Translate>
+		</th>
+	</tr>
+	</thead>
+	<tfoot>
+	<tr>
+		<th colspan="4">
+		</th>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<mos:tmpl name="POPULAR" type="simplecondition" requiredvars="ROW_TITLE" addSystemVars="integer">
+		<tr class="row{PAT_IS_EVEN}">
+			<td width="10" align="right">
+				{ROW_NUM}.
+			</td>
+			<td>
+				<a href="{ROW_LINK}" class="editlink">
+					{ROW_TITLE}</a>
+			</td>
+			<td>
+				{ROW_DATE}
+			</td>
+			<td align="right">
+				{ROW_HITS}
+			</td>
+		</tr>
+	</mos:tmpl>
+	</tbody>
+	</table>
+
+</mos:tmpl>

@@ -1,0 +1,269 @@
+<mos:comment>
+@version $Id: view.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<style type="text/css">
+	<!--
+	.separator {
+	  position: relative;
+	  margin: 3px;
+	  border-left: 1px solid ButtonShadow;
+	  border-right: 1px solid ButtonHighlight;
+	  width: 0px;
+	  height: 16px;
+	  padding: 0px;
+	}
+
+	.manager {
+		height: 315px;
+		width: 100%;
+		overflow: auto;
+		display: block;
+	}
+
+	.statusLayer {
+		background:#FFFFFF;
+		border: 1px solid #CCCCCC;
+	}
+
+	.statusText {
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+		font-size: 15px;
+		font-weight: bold;
+		color: #6699CC;
+		text-decoration: none;
+	}
+
+	div.nodirectory {
+		font-size: large;
+		font-weight: bold;
+		color: #CC0000;
+		font-family: Helvetica, sans-serif;
+		text-align: center;
+	}
+	div.dropdown {
+		vertical-align: middle;
+		height: 30px;
+		text-align: center;
+	}
+
+	div.noimages {
+		font-size: large;
+		font-weight: bold;
+		color: #CCCCCC;
+		font-family: Helvetica, sans-serif;
+	}
+	div.imgTotal {
+		border: 1px solid threedface;
+		margin: 2px;
+	}
+	div.imgBorder {
+		height: 70px;
+		vertical-align: middle;
+		width: 90px;
+		overflow: hidden;
+		border-bottom: 1px solid threedface;
+		margin: 2px;
+	}
+	div.imgBorder a {
+		height: 70px;
+		width: 90px;
+		display: block;
+	}
+	div.imgBorder a:hover {
+		height: 68px;
+		width: 88px;
+		background-color: #E9EFF5;
+		border: 1px solid #B5CDE8;
+		color : #FF6600;
+	}
+	.imgBorderHover {
+		background: #FFFFCC;
+		cursor: hand;
+	}
+	.imginfoBorder {
+		height: 35px;
+		border-top: 1px solid threedface;
+		margin: 2px;
+		vertical-align: middle;
+		width: 90px;
+		overflow: hidden
+	}
+
+	.buttonHover {
+		border: 1px solid;
+		border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
+		cursor: hand;
+		background: #FFFFCC;
+	}
+
+	.buttonOut {
+	 border: 0px;
+	}
+
+	.imgCaption {
+		font-size: 9pt;
+		font-family: "MS Shell Dlg", Helvetica, sans-serif;
+		text-align: center;
+	}
+	.dirField {
+		font-size: 9pt;
+		font-family: "MS Shell Dlg", Helvetica, sans-serif;
+		width:110px;
+	}
+	div.image {
+		padding-top: 20px;
+	}
+	ul.quicktip {
+		padding: 0 0 0 10px;
+	}
+	-->
+</style>
+
+<script language="javascript" type="text/javascript">
+	function deleteImage( file ) {
+		if ( confirm( "<mos:Translate>Delete file</mos:Translate>"+file ) ) {
+			return true;
+		}
+		return false;
+	}
+
+	function deleteFolder(folder, numFiles) {
+		if ( numFiles > 0 ) {
+			alert( "<mos:Translate>There are</mos:Translate>"+numFiles+" <mos:Translate>files/folders in</mos:Translate> \""+folder+"\".\n\n<?php echo $_LANG->_( 'Please delete all files/folder in' ); ?> \""+folder+"\" <mos:Translate>first</mos:Translate>" );
+			return false;
+		}
+		if ( confirm( "<mos:Translate>Delete folder</mos:Translate> \""+folder+"\"?" ) ) {
+			return true;
+		}
+		return false;
+	}
+
+	function dirup() {
+		var listdir 	= document.adminForm.upone.value;
+		window.location.href='index2.php?option=com_media&listdir=' + listdir;
+	}
+
+	function submitbutton( pressbutton ) {
+		var form = document.adminForm;
+
+		if (pressbutton == 'showUpload') {
+			dhtml.hideElem( 'newdir-container' );
+			dhtml.showElem( 'upload-container' );
+		} else if ( pressbutton == 'showNewDir' ) {
+			dhtml.hideElem( 'upload-container' );
+			dhtml.showElem( 'newdir-container' );
+		} else {
+			submitform( pressbutton );
+		}
+	}
+</script>
+
+<div id="treecell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Navigator</mos:Translate>
+		</legend>
+		<mos:tmpl src="tree.html" />
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Related Links</mos:Translate>
+		</legend>
+		<mos:tmpl src="relatedLinks.html" varscope="body"/>
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Quick Tip</mos:Translate>
+		</legend>
+		<ul class="quicktip">
+			<li>
+				<mos:Translate key="Quicktiptext 1"></mos:Translate>
+			</li>
+			<li>
+			<mos:Translate key="Quicktiptext 2"></mos:Translate>
+			</li>
+		<ul>
+	</fieldset>
+</div>
+
+<div id="datacell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Files</mos:Translate> : {PATH}
+		</legend>
+
+		<div id="upload-container" style="display:none">
+			<fieldset>
+				<legend>
+					<mos:Translate>Upload a File</mos:Translate>
+				</legend>
+
+				<mos:Translate>Select File</mos:Translate>
+				<br/>
+				<input class="inputbox" name="upload" type="file" size="70" />
+				[ <mos:Translate>Max size</mos:Translate> = {POST_MAX_SIZE} ]
+
+				<br/>
+				<input class="button" type="button" value="<mos:Translate>Upload</mos:Translate>" name="fileupload" onclick="javascript:submitbutton('upload')" />
+
+				<a href="#close" onclick="dhtml.hideElem('upload-container')" style="float:right">
+					<mos:Translate>Close</mos:Translate>
+					<img src="{ADMINURL}/images/publish_x.png" border="0" alt=""/></a>
+			</fieldset>
+		</div>
+
+		<div id="newdir-container" style="display:none">
+			<fieldset>
+				<legend>
+					<mos:Translate>Create a Directory</mos:Translate>
+				</legend>
+
+				<mos:Translate>Directory Name</mos:Translate>
+				<br/>
+				<input class="inputbox" name="foldername" type="text" size="60" />
+
+				<br/>
+				<input class="button" type="button" value="<mos:Translate>Create</mos:Translate>" onclick="javascript:submitbutton('create_folder')" />
+
+				<a href="#close" onclick="dhtml.hideElem('newdir-container')" style="float:right">
+					<mos:Translate>Close</mos:Translate>
+					<img src="{ADMINURL}/images/publish_x.png" border="0" alt=""/></a>
+		</div>
+
+		<div class="dropdown">
+			<a href="javascript:dirup()" id="updirectory">
+				<mos:Translate>Directory</mos:Translate>
+				{DIRPATH}
+				<img src="images/btnFolderUp.gif" width="15" height="15" border="0" alt="<mos:Translate>Go down one Directory Level</mos:Translate>" title="<mos:Translate>Go down one Directory Level</mos:Translate>" /></a>
+		</div>
+
+		<fieldset>
+			<div class="manager">
+				{LISTIMAGES}
+				<mos:link src="list-files" />
+			</div>
+		</fieldset>
+		<div>
+			<mos:Translate>Code Generated</mos:Translate>
+			<br/>
+			<textarea name="imagecode" id="imagecode" rows="5" cols="60"/></textarea>
+			<br/>
+			<input type="button" value="<mos:Translate>Select All</mos:Translate>" class="button" onclick="this.form.imagecode.focus();this.form.imagecode.select();" />
+			<input type="reset" value="<mos:Translate>Reset</mos:Translate>" class="button" />
+		</div>
+	</fieldset>
+</div>
+
+<mos:link src="include-tooltips" />
+
+
+<input type="hidden" name="listdir" value="{LISTDIR}" />
+<input type="hidden" name="upone" value="{UPONE}" />
+<input type="hidden" name="option" value="com_media" />
+<input type="hidden" name="task" value="" />

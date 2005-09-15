@@ -1,0 +1,68 @@
+<mos:comment>
+@version $Id: page.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+<mos:tmpl name="form" autoclear="yes"><?xml version="1.0" encoding="iso-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Joomla! - Web Installer</title>
+<meta http-equiv="Content-Type" content="text/html; {LANG_CHARSET}" />
+<link rel="shortcut icon" href="../../images/favicon.ico" />
+<link rel="stylesheet" href="tmpl/{INSTALLCSS}" type="text/css" />
+<script language="JavaScript" type="text/javascript" src="tmpl/install.js"></script>
+</head>
+<body>
+<div class="langdirection">
+
+<div id="wrapper">
+	<div id="header">
+		<div id="mambo">
+			<img src="images/header_install.png" alt="Joomla! Installation" />
+		</div>
+	</div>
+</div>
+
+<div id="ctr" align="center">
+	<div class="install">
+		<mos:tmpl name="stepbar">
+			<div id="stepbar">
+				<div class="step-{STEP_LANG}">
+					<mos:Translate>language</mos:Translate>
+				</div>
+				<div class="step-{STEP_PREINSTALL}">
+					<mos:Translate>preinstallation check</mos:Translate>
+				</div>
+				<div class="step-{STEP_LICENSE}">
+					<mos:Translate>license</mos:Translate>
+				</div>
+				<div class="step-{STEP_DBCONFIG}">
+				<mos:Translate>database</mos:Translate>
+				</div>
+				<div class="step-{STEP_MAINCONFIG}">
+					<mos:Translate>configuration</mos:Translate>
+				</div>
+				<div class="step-{STEP_FINISH}">
+				<mos:Translate>finish</mos:Translate>
+				</div>
+
+				<a href="http://www.mamboserver.com" target="_blank">Mambo</a>
+				<mos:Translate key="isFreeSoftware">is Free Software released under the GNU/GPL License.</mos:Translate>
+			</div>
+		</mos:tmpl>
+
+		<form action="index.php" method="post" name="adminForm">
+			<mos:tmpl name="body" src="dynamic" autoload="off" parse="on" varscope="form" />
+		</form>
+	</div>
+</div>
+
+<div class="ctr">
+	Copyright &copy; 2005 Open Source Matters. <mos:Translate>All rights reserved</mos:Translate>
+</div>
+</div>
+</body>
+</html>
+</mos:tmpl>

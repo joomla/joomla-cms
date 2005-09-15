@@ -1,0 +1,176 @@
+<mos:comment>
+@version $Id: item_table.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<script language="javascript" type="text/javascript">
+<!--
+// needed for Table Column ordering
+function tableOrdering( order, dir ) {
+	var form = document.adminForm;
+
+	form.tOrder.value 			= order;
+	form.tOrderDir.value 		= dir;
+	form.order_control.value 	= 0;
+	submitform( 'category' );
+}
+
+function submitform(pressbutton){
+	document.adminForm.task.value=pressbutton;
+	try {
+		document.adminForm.onsubmit();
+		}
+	catch(e){}
+	document.adminForm.submit();
+}
+//-->
+</script>
+
+<form action="{FORM_URL}" method="post" name="adminForm">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<mos:tmpl type="simplecondition" requiredvars="P_FILTER=1" varscope="BODY, CATEGORIES">
+		<td align="right" width="100%" nowrap="nowrap">
+			<mos:Translate>FILTER</mos:Translate>&nbsp;
+			<input type="text" name="filter" value="{FILTER}" class="inputbox" onchange="document.adminForm.submit();" />
+		</td>
+	</mos:tmpl>
+
+	<mos:tmpl type="simplecondition" requiredvars="P_ORDER_SELECT=1" varscope="BODY, CATEGORIES">
+		<td align="right" width="100%" nowrap="nowrap">
+			&nbsp;&nbsp;&nbsp;
+			<mos:Translate>ORDER_DROPDOWN</mos:Translate>&nbsp;
+			{ORDER_SELECT}
+		</td>
+	</mos:tmpl>
+
+	<mos:tmpl type="simplecondition" requiredvars="P_DISPLAY=1" varscope="BODY, CATEGORIES">
+		<td align="right" width="100%" nowrap="nowrap">
+			&nbsp;&nbsp;&nbsp;
+			<mos:Translate>Display Num</mos:Translate>
+			{P_PAGE_LIMIT}
+		</td>
+	</mos:tmpl>
+</tr>
+</table>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+<mos:tmpl type="simplecondition" requiredvars="P_HEADINGS=1" varscope="BODY, CATEGORIES">
+	<tr>
+		<mos:tmpl type="simplecondition" requiredvars="P_DATE=1" varscope="BODY, CATEGORIES">
+		<!-- Show Date column -->
+			<td class="sectiontableheader{CLASS}" width="35%" nowrap="nowrap">
+				{ORDER_DATE}
+			</td>
+		</mos:tmpl>
+
+		<mos:tmpl type="simplecondition" requiredvars="P_TITLE=1" varscope="BODY, CATEGORIES">
+		<!-- Show Title column -->
+			<td class="sectiontableheader{CLASS}" width="45%" nowrap="nowrap">
+				{ORDER_TITLE}
+			</td>
+		</mos:tmpl>
+
+		<mos:tmpl type="simplecondition" requiredvars="P_AUTHOR=1" varscope="BODY, CATEGORIES">
+		<!-- Show Author column -->
+			<td class="sectiontableheader{CLASS}" align="left" width="25%" nowrap="nowrap">
+				{ORDER_AUTHOR}
+			</td>
+		</mos:tmpl>
+
+		<mos:tmpl type="simplecondition" requiredvars="P_HITS=1" varscope="BODY, CATEGORIES">
+		<!-- Show Hits column -->
+			<td align="center" class="sectiontableheader{CLASS}" width="5%" nowrap="nowrap">
+				{ORDER_HITS}
+			</td>
+		</mos:tmpl>
+
+	</tr>
+</mos:tmpl>
+
+<mos:tmpl name="items" varscope="body">
+	<tr class="sectiontableentry{ITEM_NUM}{CLASS}" >
+		<mos:tmpl type="simplecondition" requiredvars="P_DATE=1" varscope="BODY, ITEMS">
+		<!-- Show Date column -->
+			<td width="35%">
+				{ITEM_CREATED}
+			</td>
+		</mos:tmpl>
+
+		<mos:tmpl type="simplecondition" requiredvars="P_TITLE=1" varscope="BODY, ITEMS">
+		<!-- Show Title column -->
+			<td width="45%">
+				{ITEM_EDIT_ICON}
+				<a href="{ITEM_ITEM_LINK}">
+					{ITEM_TITLE}</a>
+
+				<mos:tmpl type="simplecondition" requiredvars="ITEM_REGISTER=0" varscope="BODY, ITEMS">
+				<!-- Notice to Register to view content -->
+					<mos:Translate>Read more register</mos:Translate>
+				</mos:tmpl>
+			</td>
+		</mos:tmpl>
+
+		<mos:tmpl type="simplecondition" requiredvars="P_AUTHOR=1" varscope="BODY, ITEMS">
+		<!-- Show Author column -->
+			<td align="left" width="25%">
+				{ITEM_AUTHOR}
+			</td>
+		</mos:tmpl>
+
+		<mos:tmpl type="simplecondition" requiredvars="P_HITS=1" varscope="BODY, ITEMS">
+		<!-- Show Hits column -->
+			<td align="center" width="5%">
+				{ITEM_HITS}
+			</td>
+		</mos:tmpl>
+	</tr>
+</mos:tmpl>
+
+</table>
+
+
+<mos:tmpl type="simplecondition" requiredvars="P_NAVIGATION" varscope="BODY, CATEGORIES">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td align="center" class="sectiontablefooter{CLASS}">
+			<br/>
+			{P_PAGE_LINKS}
+		</td>
+	</tr>
+	<tr>
+		<td align="right">
+			{P_PAGE_COUNTER}
+		</td>
+	</tr>
+	</table>
+</mos:tmpl>
+
+<mos:tmpl type="simplecondition" requiredvars="SHOW_NEW_ICON=1" varscope="BODY, CATEGORIES">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>
+			<br/>
+			<a href="{NEW_ICON_LINK}">
+				<img src="{SITEURL}/images/M_images/new.png" width="13" height="14" align="middle" border="0" alt="<mos:Translate>New</mos:Translate>" title="<mos:Translate>New Content</mos:Translate>"/>
+				<mos:Translate>New Content Item</mos:Translate>...</a>
+		</td>
+	</tr>
+	</table>
+</mos:tmpl>
+
+<input type="hidden" name="tOrder" value="{ORDER}" />
+<input type="hidden" name="tOrder_old" value="{ORDER}" />
+<input type="hidden" name="tOrderDir" value="" />
+<input type="hidden" name="order_control" value="1" />
+<input type="hidden" name="limitstart" value="0" />
+<input type="hidden" name="id" value="{P_CATID}" />
+<input type="hidden" name="sectionid" value="{P_SECTIONID}" />
+<input type="hidden" name="task" value="{P_TASK}" />
+<input type="hidden" name="option" value="com_content" />
+
+</form>

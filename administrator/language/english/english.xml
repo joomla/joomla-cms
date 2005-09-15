@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall version="4.5.3" client="administrator" type="language">
+    <name>English</name>
+    <version>4.5.3</version>
+    <creationDate>2005-03-17</creationDate>
+    <author>Joomla! Project</author>
+    <authorEmail>admin@mamboserver.com</authorEmail>
+    <authorUrl>www.mamboserver.com</authorUrl>
+    <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <description></description>
+    <files>
+        <filename>english.com_admin.ini</filename>
+        <filename>english.com_banners.ini</filename>
+        <filename>english.com_categories.ini</filename>
+        <filename>english.com_checkin.ini</filename>
+        <filename>english.com_config.ini</filename>
+        <filename>english.com_contact.ini</filename>
+        <filename>english.com_content.ini</filename>
+        <filename>english.com_designer.ini</filename>
+        <filename>english.com_export.ini</filename>
+        <filename>english.com_installer.ini</filename>
+        <filename>english.com_jaforms.ini</filename>
+        <filename>english.com_languages.ini</filename>
+        <filename>english.com_mambots.ini</filename>
+        <filename>english.com_massmail.ini</filename>
+        <filename>english.com_media.ini</filename>
+        <filename>english.com_menumanager.ini</filename>
+        <filename>english.com_menus.ini</filename>
+        <filename>english.com_messages.ini</filename>
+        <filename>english.com_modules.ini</filename>
+        <filename>english.com_newsfeeds.ini</filename>
+        <filename>english.com_poll.ini</filename>
+        <filename>english.com_sections.ini</filename>
+        <filename>english.com_statistics.ini</filename>
+        <filename>english.com_syndicate.ini</filename>
+        <filename>english.com_templates.ini</filename>
+        <filename>english.com_trash.ini</filename>
+        <filename>english.com_typedcontent.ini</filename>
+        <filename>english.com_users.ini</filename>
+        <filename>english.com_weblinks.ini</filename>
+        <filename>english.ini</filename>
+        <filename>english.xml</filename>
+    </files>
+    <params />
+</mosinstall>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="component" version="4.5.2">
+	<name>Contact</name>
+	<author>Mambo Core</author>
+	<creationDate>-</creationDate>
+	<copyright>(C) 2000 - 2005 Miro International Pty Ltd</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@mamboserver.com</authorEmail>
+	<authorUrl>www.mamboserver.com</authorUrl>
+	<version>-</version>
+	<description>This component shows a listing of Contact Information</description>
+	<params>
+		<param name="other_cat_section" type="radio" default="1" label="Category List - Section" description="Show/Hide the List of Categories in List view page">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="other_cat" type="radio" default="1" label="Category List - Category" description="Show/Hide the List of Categories in Table view page">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="cat_description" type="radio" default="1" label="Category Description" description="Show/Hide the Description for the list of other catgeories">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="cat_items" type="radio" default="1" label="# Category Items" description="Show/Hide the number of items in each category">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="description" type="radio" default="1" label="Description" description="Show/Hide the Description below">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="description_text" type="textarea" default="" label="Description Text" rows="5" cols="30" description="Description for page, if left blank it will load _WEBLINKS_DESC from your language file"/>
+		<param name="image" type="imagelist" directory="/images/stories" hide_default="1" default="-1" label="Image" description="Image for page, must be located in the /images/stories folder. Default will load web_links.jpg, No image will mean an image is not loaded" />
+		<param name="image_align" type="radio" default="right" label="Image Align" description="Alignment of the image">
+			<option value="left">Left</option>
+			<option value="right">Right</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="headings" type="radio" default="1" label="Table Headings" description="Show/Hide the Table Headings">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="position" type="radio" default="1" label="Position Column" description="Show/Hide the Position column">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="email" type="radio" default="0" label="Email Column" description="Show/Hide the Email column">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="telephone" type="radio" default="1" label="Telephone Column" description="Show/Hide the Telephone column">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="fax" type="radio" default="1" label="Fax Column" description="Show/Hide the Fax column">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+	</params>
+</mosinstall>

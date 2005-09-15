@@ -1,0 +1,106 @@
+<mos:comment>
+@version $Id: login.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<form action="{FORM_URL}" method="post" name="login" id="login">
+
+<table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane{PAGECLASS_SFX}">
+<tr>
+	<td valign="top" colspan="2">
+		<mos:tmpl type="simplecondition" requiredvars="P_PAGE_TITLE=1" varscope="BODY">
+		<!-- Show Header -->
+			<div class="componentheading{PAGECLASS_SFX}">
+				{P_HEADER_LOGOUT}
+			</div>
+		</mos:tmpl>
+
+		<div>
+			{IMAGE}
+
+			<mos:tmpl type="simplecondition" requiredvars="P_DESCRIPTION_LOGOUT=1" varscope="BODY">
+				{P_DESCRIPTION_LOGOUT_TEXT}
+				<br/><br/>
+			</mos:tmpl>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td align="center" width="50%">
+		<table width="100%">
+		<tr>
+			<td align="center">
+				<label for="username">
+					<mos:Translate>USERNAME</mos:Translate>
+				</label>
+			</td>
+			<td align="center">
+				<label for="password">
+					<mos:Translate>PASSWORD</mos:Translate>
+				</label>
+			</td>
+		</tr>
+		<tr>
+			<td align="center">
+				<input name="username" id="username" type="text" class="inputbox" size="20" />
+			</td>
+			<td align="center">
+				<input name="passwd" id="password" type="password" class="inputbox" size="20" />
+			</td>
+		</tr>
+		<tr>
+			<td align="center" colspan="2">
+				<br/>
+
+				<label for="remember">
+					<mos:Translate>REMEMBER_ME</mos:Translate>
+				</label>
+				<input type="checkbox" name="remember" id="remember" class="inputbox" value="yes" />
+
+				<br/>
+
+				<a href="{URL_PASSWORD}">
+					<mos:Translate>LOST_PASSWORD</mos:Translate></a>
+
+				<mos:tmpl type="simplecondition" requiredvars="REGISTER=1" varscope="body">
+					<br/>
+
+					<mos:Translate>NO_ACCOUNT</mos:Translate>
+					<a href="{URL_REGISTER}">
+						<mos:Translate>CREATE_ACCOUNT</mos:Translate></a>
+				</mos:tmpl>
+
+				<br/><br/><br/>
+			</td>
+		</tr>
+		</table>
+	</td>
+	<td>
+		<div align="center">
+			<input type="submit" name="submit" class="button" value="<mos:Translate>BUTTON_LOGIN</mos:Translate>" />
+		</div>
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+		<noscript>
+			<mos:Translate>errorNoJavascript</mos:Translate>
+		</noscript>
+	</td>
+</tr>
+</table>
+
+<input type="hidden" name="op2" value="login" />
+<input type="hidden" name="return" value="{RETURN}" />
+<input type="hidden" name="lang" value="{LANG}" />
+<input type="hidden" name="message" value="{P_LOGIN_MESSAGE}" />
+
+</form>
+
+<mos:tmpl type="simplecondition" requiredvars="P_BACK_BUTTON=1" varscope="BODY">
+<!-- Show Back Button -->
+	<br/>
+	<mos:link src="back_button" varscope="BODY"/>
+</mos:tmpl>

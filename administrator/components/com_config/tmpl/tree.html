@@ -1,0 +1,36 @@
+<mos:comment>
+@version $Id: tree.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:link src="include-tree" />
+
+<mos:link src="tree-buttons" />
+
+<script language="javascript" type="text/javascript">
+<!--
+d = new dTree( 'd', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/' );
+d.config.useLines=true;
+d.config.useIcons=true;
+d.config.useCookies=false;
+d.add( 0, -1, '<mos:translate>Configuration</mos:translate>' );
+
+d.add( 1, 0, '<mos:translate>Site</mos:translate>', 'javascript:document.switcher.switchTo(\'site-page\');', '' );
+d.add( 2, 0, '<mos:translate>Server</mos:translate>', 'javascript:document.switcher.switchTo(\'server-page\');', '' );
+d.add( -1, 1, '<mos:translate>Debug</mos:translate>', 'javascript:document.switcher.switchTo(\'debug-page\');', '' );
+d.add( -1, 2, '<mos:translate>Database</mos:translate>', 'javascript:document.switcher.switchTo(\'db-page\');', '' );
+d.add( -1, 2, '<mos:translate>Locale</mos:translate>', 'javascript:document.switcher.switchTo(\'locale-page\');', '' );
+d.add( -1, 2, '<mos:translate>Mail</mos:translate>', 'javascript:document.switcher.switchTo(\'mail-page\');', '' );
+d.add( -1, 0, '<mos:translate>Cache</mos:translate>', 'javascript:document.switcher.switchTo(\'cache-page\');', '' );
+d.add( -1, 1, '<mos:translate>Users</mos:translate>', 'javascript:document.switcher.switchTo(\'user-page\');', '' );
+d.add( -1, 1, '<mos:translate>Meta</mos:translate>', 'javascript:document.switcher.switchTo(\'meta-page\');', '' );
+d.add( -1, 1, '<mos:translate>Statistics</mos:translate>', 'javascript:document.switcher.switchTo(\'stats-page\');', '' );
+d.add( -1, 1, '<mos:translate>SEO</mos:translate>', 'javascript:document.switcher.switchTo(\'seo-page\');', '' );
+d.add( -1, 1, '<mos:translate>Content</mos:translate>', 'javascript:document.switcher.switchTo(\'content-page\');', '' );
+
+document.write(d);
+d.openAll();
+//-->
+</script>

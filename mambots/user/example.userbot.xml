@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall version="4.5.3" type="mambot" group="user">
+	<name>Example Userbot</name>
+	<author>Joomla! Project</author>
+	<creationDate>Apr 2005</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@mamboserver.com</authorEmail>
+	<authorUrl>www.mamboserver.com</authorUrl>
+	<version>4.5.3</version>
+	<description>Provides hooks for syncing Joomla! and a third party application</description>
+	<files>
+		<filename mambot="example.userbot">example.userbot.php</filename>
+	</files>
+	<params/>
+</mosinstall>

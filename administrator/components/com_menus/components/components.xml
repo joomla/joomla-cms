@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosparams type="menu" version="4.5.2">
+	<name>Component</name>
+	<group>Component</group>
+	<description>Displays the frontend interface for a Component</description>
+	<params/>
+</mosparams>

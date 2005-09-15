@@ -1,0 +1,46 @@
+<mos:comment>
+@version $Id: mod_templatechooser.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="mod_templatechooser">
+
+	<form action="{URL}" name="templatechooserform" class="siteForm" id="templatechooserform" method="post">
+
+	<mos:tmpl type="simplecondition" requiredvars="SHOW_PREVIEW=1" varscope="body">
+	<!-- Show Preview Image -->
+		<script language="javascript" type="text/javascript">
+		<!--
+		function showimage() {
+			template = getSelectedValue( 'templatechooserform', 'mos_change_template' );
+			document.images.preview.src = 'templates/' + template + '/template_thumbnail.png';
+		}
+
+		function getSelectedValue( frmName, srcListName ) {
+			var form 	= eval( 'document.' + frmName );
+			var srcList = eval( 'form.' + srcListName );
+
+			i = srcList.selectedIndex;
+			if (i != null && i > -1) {
+				return srcList.options[i].value;
+			} else {
+				return null;
+			}
+		}
+		-->
+		</script>
+
+		<label for="mos_change_template">
+			<img src="templates/{TEMPLATE}/template_thumbnail.png" name="preview" border="1" width="{PREVIEW_WIDTH}" height="{PREVIEW_HEIGHT}" alt="{TEMPLATE}" />
+		</label>
+	</mos:tmpl>
+
+	{DROPDOWN}
+
+	<input class="button" type="submit" value="<mos:Translate>Select</mos:Translate>" />
+
+	</form>
+
+</mos:tmpl>

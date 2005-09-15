@@ -1,0 +1,50 @@
+<mos:comment>
+@version $Id: logout.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<form action="{FORM_URL}" method="post" name="login" id="login">
+
+<table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane{PAGECLASS_SFX}">
+<tr>
+	<td valign="top">
+		<mos:tmpl type="simplecondition" requiredvars="P_PAGE_TITLE=1" varscope="BODY">
+		<!-- Show Header -->
+			<div class="componentheading{PAGECLASS_SFX}">
+				{P_HEADER_LOGOUT}
+			</div>
+		</mos:tmpl>
+
+		<div>
+			{IMAGE}
+
+			<mos:tmpl type="simplecondition" requiredvars="P_DESCRIPTION_LOGOUT=1" varscope="BODY">
+				{P_DESCRIPTION_LOGOUT_TEXT}
+				<br/><br/>
+			</mos:tmpl>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td align="center">
+		<div align="center">
+			<input type="submit" name="Submit" class="button" value="<mos:Translate>Logout</mos:Translate>" />
+		</div>
+	</td>
+</tr>
+</table>
+
+<input type="hidden" name="op2" value="logout" />
+<input type="hidden" name="return" value="{RETURN}" />
+<input type="hidden" name="lang" value="{LANG}" />
+<input type="hidden" name="message" value="{P_LOGOUT_MESSAGE}" />
+
+</form>
+
+<mos:tmpl type="simplecondition" requiredvars="P_BACK_BUTTON=1" varscope="BODY">
+<!-- Show Back Button -->
+	<br/>
+	<mos:link src="back_button" varscope="BODY"/>
+</mos:tmpl>

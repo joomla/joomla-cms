@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosparams type="menu" version="4.5.2">
+	<name>Table - Content Category</name>
+	<group>Content</group>
+	<description>Shows a Table view of Content items for a particular Category</description>
+	<params>
+		<param name="orderby" type="list" default="" label="Order by" description="This overrides the ordering of the items.">
+			<option value="">Default</option>
+			<option value="date">Oldest first</option>
+			<option value="rdate">Most recent first</option>
+			<option value="alpha">Title Alphabetical</option>
+			<option value="ralpha">Title Reverse-Alphabetical</option>
+			<option value="author">Author Alphabetical</option>
+			<option value="rauthor">Author Reverse-Alphabetical</option>
+			<option value="hits">Most Hits</option>
+			<option value="rhits">Least Hits</option>
+			<option value="order">Ordering</option>
+		</param>
+
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+
+		<param name="description_cat" type="radio" default="1" label="Description" description="Show/Hide the Category Description">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="description_image_cat" type="radio" default="1" label="Description Image" description="Show/Hide the Category Description Image">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+
+		<param name="other_cat" type="radio" default="1" label="Other Categories" description="Show/Hide the listing of other Categories">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+	</params>
+</mosparams>

@@ -1,0 +1,45 @@
+<mos:comment>
+@version $Id: error.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<div id="right">
+
+	<div id="step"><mos:Translate>error</mos:Translate></div>
+
+	<div class="far-right">
+		<input type="button" class="button" value="&lt;&lt; Prev" onclick="submitForm( this.form, '{BACK}' );" />
+	</div>
+	<div class="clr"></div>
+
+	<h1><mos:Translate>An error has occurred</mos:Translate>:</h1>
+	<div class="install-text">
+		<p>
+			<mos:tmpl name="messages">
+			<mos:Translate>{MESSAGE}</mos:Translate>
+			</mos:tmpl>
+		</p>
+	</div>
+	<mos:tmpl name="xmessages" type="simplecondition" requiredvars="xmessage">
+	<div class="install-form">
+		<div class="form-block">
+			<textarea rows="10" cols="50">{XMESSAGE}</textarea>
+ 		</div>
+ 	</div>
+ 	</mos:tmpl>
+</div>
+
+		<div class="clr"></div>
+	</div>
+
+<input type="hidden" name="vars[lang]" value="{VAR_LANG}">
+<input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}">
+<input type="hidden" name="vars[DBtype]" value="{VAR_DBTYPE}">
+<input type="hidden" name="vars[DBhostname]" value="{VAR_DBHOSTNAME}">
+<input type="hidden" name="vars[DBuserName]" value="{VAR_DBUSERNAME}">
+<input type="hidden" name="vars[DBpassword]" value="{VAR_DBPASSWORD}">
+<input type="hidden" name="vars[DBDel]" value="{VAR_DBDEL}">
+<input type="hidden" name="vars[DBname]" value="{VAR_DBNAME}">
+<input type="hidden" name="task" value="" />

@@ -1,0 +1,27 @@
+<pat:comment>
+@version $Id: html.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</pat:comment>
+
+<pat:tmpl name="html-start"><mos:comment>
+@version $Id $
+@package {PACKAGE}
+@copyright {COPYRIGHT}
+@license {LICENSE}
+</mos:comment>
+</pat:tmpl>
+
+<pat:tmpl name="html-module">
+<mos:tmpl name="mod_{BASENAME}" varscope="body">
+	<div class="{BASENAME}\{CLASS\}">
+		<ul class="{BASENAME}\{CLASS\}">
+			<li>
+				<a href="#" class="{BASENAME}\{CLASS\}" title="{ROW_TEXT}">
+					{ROW_TEXT}</a>
+			</li>
+		</ul>
+	</div>
+</mos:tmpl>
+</pat:tmpl>

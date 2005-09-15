@@ -1,0 +1,23 @@
+<pat:comment>
+@version $Id: php_view_html.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</pat:comment>
+	/**
+	 * {BASENAME} list
+	 * @param array Data rows
+	 * @param array An array of data lists
+	 * @param object Page navigation
+	 */
+	function view( &$rows, &$vars, &$lists, &$pageNav ) {
+		$tmpl =& {BASENAME}Screens::createTemplate( 'view.html', array( 'adminlists.html', 'adminfilters.html' ) );
+
+		$tmpl->addVars( 'body', $vars );
+		$tmpl->addObject( 'list-items', $rows, 'item_' );
+
+		// setup the page navigation footer
+		$pageNav->setTemplateVars( $tmpl, 'list-navigation' );
+
+		$tmpl->displayParsedTemplate( 'form' );
+	}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosparams type="menu" version="4.5.2">
+	<name>Table - Content Section</name>
+	<group>Content</group>
+	<description>Creates a listing of Content categories for a particular section</description>
+	<params>
+		<param name="orderby" type="list" default="" label="Order by" description="paramOrderBy">
+			<option value="">Default</option>
+			<option value="alpha">Title Alphabetical</option>
+			<option value="ralpha">Title Reverse-Alphabetical</option>
+			<option value="order">Ordering</option>
+		</param>
+
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+
+		<param name="description" type="radio" default="1" label="Section - Description" description="Show/Hide the Section Description">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="description_image" type="radio" default="1" label="Section - Description Image" description="Show/Hide the Section Description Image">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="other_cat_section" type="radio" default="1" label="Section - Category List" description="paramOtherCatSec">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+
+		<param name="description_cat" type="radio" default="1" label="Category - Description" description="Show/Hide the Category Description">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="description_image_cat" type="radio" default="1" label="Category - Description Image" description="Show/Hide the Category Description Image">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="other_cat" type="radio" default="1" label="Category - Category List" description="paramOtherCat">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+	</params>
+</mosparams>

@@ -1,0 +1,32 @@
+<mos:comment>
+@version $Id: packageOptions.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<div id="treecell">
+	<mos:tmpl src="tree.html" />
+	<fieldset>
+		<legend>
+			<mos:Translate>Quick Tip</mos:Translate>
+		</legend>
+		<mos:Translate key="helpPackage" />
+	</fieldset>
+</div>
+
+<div id="datacell">
+	<mos:link src="package-options" />
+	<fieldset>
+		<legend>
+			<mos:Translate>XML</mos:Translate>
+		</legend>
+		<mos:link src="xml-meta-table" />
+	</fieldset>
+</div>
+
+
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="" />
+<input type="hidden" name="client" value="{CLIENT}" />
+<input type="hidden" name="element" value="{ELEMENT}" />

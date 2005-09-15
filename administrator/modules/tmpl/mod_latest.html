@@ -1,0 +1,56 @@
+<mos:comment>
+@version $Id: mod_latest.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="mod_latest">
+
+	<table class="adminlist">
+	<thead>
+	<tr>
+	    <th colspan="4">
+			<mos:Translate>Most Recently Added Content</mos:Translate>
+		</th>
+	</tr>
+	</thead>
+	<tfoot>
+	<tr>
+		<th colspan="4">
+		</th>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<mos:tmpl name="LATEST" type="simplecondition" requiredvars="ROW_TITLE" addSystemVars="integer">
+		<tr class="row{PAT_IS_EVEN}">
+			<td width="10" align="right">
+				{ROW_NUM}.
+			</td>
+			<td>
+				<a href="{ROW_LINK}" class="editlink">
+					{ROW_TITLE}
+				</a>
+			</td>
+			<td>
+				{ROW_DATE}
+			</td>
+			<td>
+				<mos:tmpl type="condition" conditionvar="ROW_LINKA" varscope="BODY, LATEST">
+					<mos:sub condition="#">
+						{ROW_AUTHOR}
+					</mos:sub>
+
+					<mos:sub condition="__default">
+						<a href="{ROW_LINKA}" class="editlink">
+							{ROW_AUTHOR}</a>
+					</mos:sub>
+				</mos:tmpl>
+			</td>
+		</tr>
+	</mos:tmpl>
+	</tbody>
+	</table>
+
+</mos:tmpl>

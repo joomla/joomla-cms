@@ -1,0 +1,119 @@
+<mos:comment>
+@version $Id: installer.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<!-- close adminform -->
+</form>
+
+<mos:tmpl name="package-options" varscope="body">
+	<fieldset>
+		<legend>
+			<mos:Translate>Package Options</mos:Translate>
+		</legend>
+
+		<label for="filename">
+			<mos:Translate>File Name</mos:Translate>:
+		</label>
+		<input type="text" name="filename" id="filename" value="{FILENAME}" size="40" maxlength="40" />
+
+		<br/>
+		<mos:Translate>File Format</mos:Translate>:
+
+		<input type="radio" name="compress" id="format_gz" value="gz" checked="true"/>
+		<label for="format_gz">
+			<mos:Translate>GZip</mos:Translate>
+		</label>
+		<input type="radio" name="compress" id="format_tar" value="tar"/>
+		<label for="format_tar">
+			<mos:Translate>Tar</mos:Translate>
+		</label>
+
+	</fieldset>
+</mos:tmpl>
+
+<mos:tmpl name="install-forms" varscope="body">
+	<script language="javascript" type="text/javascript">
+	function submit_package(task) {
+		var form = document.filename;
+
+		// do field validation
+		if ( form.userfile.value == '' ){
+			alert( "<mos:translate>Please select a Package File</mos:translate>" );
+			return;
+		} else {
+			submitform( task, form );
+		}
+	}
+
+	function submit_directory(task) {
+		var form = document.adminForm_dir;
+
+		// do field validation
+		if ( form.userfile.value == '' ){
+			alert( "<mos:translate>Please select a Directory</mos:translate>" );
+			return;
+		} else {
+			submitform( task, form );
+		}
+	}
+</script>
+<form enctype="multipart/form-data" action="index2.php" method="post" name="filename">
+	<fieldset>
+		<legend>
+			<mos:Translate>Upload Package File</mos:Translate>
+		</legend>
+
+		<label for="userfile">
+			<mos:translate>Package File</mos:translate>:
+		</label>
+		<input class="text_area" name="userfile" id="userfile" type="file" size="80"/>
+
+		<br />
+		<input type="checkbox" name="overwrite" id="overwrite" value="1" />
+		<label for="overwrite">
+			<mos:translate>Overwrite existing files</mos:translate>
+		</label>
+
+		<br />
+		<input type="checkbox" name="backup" id="backup" value="1" />
+		<label for="backup">
+			<mos:translate>Backup existing files</mos:translate>
+		</label>
+
+		<br />
+		<label for="backup_suffix">
+			<mos:translate>Backup suffix</mos:translate>
+		</label>
+		<input type="text" name="backup_suffix" id="backup_suffix" value="bak" class="inputbox" />
+
+		<br />
+		<br />
+		<input class="button" type="button" value="<mos:translate>Upload</mos:translate>" onclick="submit_package('installUpload')"/>
+
+		<input type="hidden" name="option" value="{OPTION}"/>
+		<input type="hidden" name="task" value=""/>
+	</fieldset>
+</form>
+
+<form enctype="multipart/form-data" action="index2.php" method="post" name="adminForm_dir">
+	<fieldset>
+		<legend>
+			<mos:Translate>Install From Directory</mos:Translate>
+		</legend>
+
+		<label for="userfile_dir">
+		<mos:translate>Install directory</mos:translate>:&nbsp;
+		<input type="text" name="userfile" id="userfile_dir" class="text_area" size="80" value="{SITEPATH}"/>
+
+		<br />
+		<br />
+		<input type="button" class="button" value="<mos:translate>Install</mos:translate>" onclick="submit_directory('installFromDir')" />
+
+		<input type="hidden" name="option" value="{OPTION}"/>
+		<input type="hidden" name="task" value="" />
+	</fieldset>
+</form>
+</mos:tmpl>

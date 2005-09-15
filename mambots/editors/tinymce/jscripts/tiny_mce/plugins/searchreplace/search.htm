@@ -1,0 +1,77 @@
+<html>
+<head>
+<title>{$lang_searchreplace_search_title}</title>
+<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+<script language="javascript" type="text/javascript">
+<!--
+    function init() {
+		var formObj = document.forms[0];
+
+		formObj.searchstring.value = tinyMCE.getWindowArg("searchstring");
+		formObj.casesensitivebox.checked = tinyMCE.getWindowArg("casesensitive");
+		formObj.backwards[0].checked = tinyMCE.getWindowArg("backwards");
+		formObj.backwards[1].checked = !tinyMCE.getWindowArg("backwards");
+//		formObj.wrapatend.checked = tinyMCE.getWindowArg("wrap");
+//		formObj.wholeword.checked = tinyMCE.getWindowArg("wholeword");
+
+		tinyMCE.execInstanceCommand(tinyMCE.getWindowArg("editor_id"), "mceResetSearch", false, {dummy : ""}, false);
+	}
+
+    function searchNext() {
+        var formObj = document.forms[0];
+
+		if (formObj.searchstring.value == "")
+			return;
+
+		// Do search
+		tinyMCE.execInstanceCommand(tinyMCE.getWindowArg("editor_id"), 'mceSearch', false, { 
+			string : formObj.searchstring.value,
+			casesensitive : formObj.casesensitivebox.checked,
+			backwards : formObj.backwards[0].checked
+//			wrap : formObj.wrapatend.checked,
+//			wholeword : formObj.wholeword.checked
+			}, false);
+    }
+
+    function cancelAction() {
+		// Close the dialog
+		tinyMCE.closeDialog();
+    }
+//-->
+</script>
+</head>
+<body onload="init();" style="margin: 4px;">
+<form onsubmit="searchNext();return false;">
+  <table border="0" cellspacing="0" cellpadding="2">
+        <tr>
+          <td>{$lang_searchreplace_findwhat}:&nbsp;<input type="text" name="searchstring" style="width: 200px" /></td>
+        </tr>
+        <tr>
+          <td><table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td>{$lang_searchreplace_direction}:&nbsp;</td>
+              <td><input name="backwards" class="radio" type="radio" value="true" /></td>
+              <td>{$lang_searchreplace_up}</td>
+              <td><input name="backwards" class="radio" type="radio" value="false" /></td>
+              <td>{$lang_searchreplace_down}</td>
+            </tr>
+          </table></td>
+        </tr>
+        <tr>
+<td><table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><input class="checkbox" type="checkbox" name="casesensitivebox" value="true" /></td>
+    <td>{$lang_searchreplace_case}</td>
+  </tr>
+</table></td>
+</tr>
+      </table>
+  <table border="0" width="300" cellspacing="0" cellpadding="4">
+    <tr>
+      <td><input name="findBtn" type="submit" id="findBtn" value="{$lang_searchreplace_findnext}" /></td>
+      <td align="right"><input name="cancelBtn" type="button" id="cancelBtn" value="{$lang_searchreplace_cancel}" onclick="cancelAction();" /></td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

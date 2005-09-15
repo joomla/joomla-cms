@@ -1,0 +1,49 @@
+<mos:comment>
+@version $Id: mod_poll.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="mod_poll">
+	<form name="siteForm" method="post" class="siteform" id="pollform" action="{URL_FORM}">
+
+	<table width="95%" border="0" cellspacing="0" cellpadding="1" align="center">
+	<tr>
+		<td colspan="2" class="poll">
+			<b>{TITLE}</b>
+		</td>
+	</tr>
+	<tr>
+		<td align="center">
+			<table class="pollstableborder" cellspacing="0" cellpadding="0" border="0">
+
+			<mos:tmpl name="poll-options" varscope="mod_poll">
+				<tr>
+					<td class="{CLASS}" valign="top">
+						<input type="radio" name="voteid" id="voteid{ROW_ID}" value="{ROW_ID}" alt="{ROW_ID}" />
+					</td>
+					<td class="{CLASS}" valign="top">
+						<label for="voteid{ROW_ID}">
+							{ROW_TEXT}
+						</label>
+					</td>
+				</tr>
+			</mos:tmpl>
+
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center">
+		<input type="submit" name="task_button" class="button" value="<mos:Translate>Vote</mos:Translate>" />
+		<input type="button" name="option" class="button" value="<mos:Translate>Results</mos:Translate>" onclick="document.location.href='{URL_RESULTS}';" />
+		</td>
+	</tr>
+	</table>
+
+	<input type="hidden" name="id" value="{ID}" />
+	<input type="hidden" name="task" value="vote" />
+
+	</form>
+</mos:tmpl>

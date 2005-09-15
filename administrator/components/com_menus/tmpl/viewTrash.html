@@ -1,0 +1,57 @@
+<mos:comment>
+@version $Id: viewTrash.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="body2">
+
+<div id="treecell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Menu Structure</mos:Translate>
+		</legend>
+		<mos:tmpl src="tree.html" />
+	</fieldset>
+
+	<mos:tmpl type="condition" conditionvar="menu" varscope="body2">
+		<mos:sub condition="mainmenu">
+			<fieldset>
+				<legend>
+					<mos:Translate>Important Note</mos:Translate>
+				</legend>
+
+				<div style="color: red; font-weight: normal; text-align: center">
+					{WARNING1}
+				</div>
+				<br/>
+				<div style="font-weight: normal; text-align: center">
+					{WARNING2}
+				</div>
+			</fieldset>
+		</mos:sub>
+	</mos:tmpl>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Related Links</mos:Translate>
+		</legend>
+		<mos:tmpl src="relatedLinks.html" varscope="body"/>
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Quick Tip</mos:Translate>
+		</legend>
+		<mos:Translate key="Quicktiptext trash"></mos:Translate>
+	</fieldset>
+</div>
+
+<div id="datacell">
+	<fieldset>
+		<legend>
+		<mos:Translate>Trashed Menus Items</mos:Translate>
+		</legend>
+
+</mos:tmpl>

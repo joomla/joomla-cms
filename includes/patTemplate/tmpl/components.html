@@ -1,0 +1,49 @@
+<mos:comment>
+@version $Id: components.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo_4.5.2
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<!-- CONTENT STRUCTURE DTREE -->
+
+<mos:tmpl name="contentTree" varscope="body">
+	<script type="text/javascript" src="{SITEURL}/includes/js/dtree/dtree.js"></script>
+	<link rel="stylesheet" href="{SITEURL}/includes/js/dtree/{TREECSS}" type="text/css" />
+
+	<div class="expander">
+		<a href="javascript:d.openAll();" title="<mos:Translate>Expand All</mos:Translate>">
+			<img src="{ADMINURL}/images/expandall.png" border="0" height="13" width="13" alt="<mos:Translate>Expand All</mos:Translate>"/></a>
+		<a href="javascript:d.closeAll();" title="<mos:Translate>Collapse All</mos:Translate>">
+			<img src="{ADMINURL}/images/collapseall.png" border="0" height="13" width="13" alt="<mos:Translate>Collapse All</mos:Translate>"/></a>
+	</div>
+
+	<script language="javascript" type="text/javascript">
+	<!--
+	d = new dTree( 'd', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/' );
+	d.config.useLines=true;
+	d.config.useIcons=true;
+	d.config.useCookies=true;
+	d.add( 0, -1, '<mos:translate>Content</mos:translate>', 'index2.php?option=com_content&sectionid=0', '<mos:translate>Content Items Manager</mos:translate>' );
+
+	d.add( 999999, 0, '<mos:translate>Static Content</mos:translate>', 'index2.php?option=com_typedcontent', '<mos:translate>Static Content Manager</mos:translate>' );
+
+	<mos:tmpl name="sections-list" type="simplecondition" requiredvars="row_id">
+		d.add( {ROW_ID}, 0, '{ROW_TITLE}', 'index2.php?option=com_content&sectionid={ROW_ID}', '<mos:translate>Section</mos:translate>: {ROW_TITLE}' );
+	</mos:tmpl>
+
+	<mos:tmpl name="categories-list" type="simplecondition" requiredvars="row_id">
+		d.add( -{ROW_ID}, {ROW_SECTION}, '{ROW_TITLE}', 'index2.php?option=com_content&categoryid={ROW_ID}', '<mos:translate>Category</mos:translate>: {ROW_TITLE}' );
+	</mos:tmpl>
+
+	d.add( 999995, 0, '<mos:translate>Frontpage</mos:translate>', 'index2.php?option=com_frontpage', '<mos:translate>Frontpage Manager</mos:translate>', '', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/frontpage.gif' );
+	d.add( 999996, 0, '<mos:translate>Archive</mos:translate>', 'index2.php?option=com_content&task=showarchive&sectionid=0', '<mos:translate>Archive Manager</mos:translate>', '', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/archive.gif' );
+
+	<mos:tmpl name="trash">
+		d.add( 999998, 0, '<mos:translate>Trash</mos:translate>{TRASH}', 'index2.php?option=com_content&task=trashview', '<mos:translate>Trash Manager</mos:translate>', '', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/trash.gif' );
+	</mos:tmpl>
+
+	document.write(d);
+	//-->
+	</script>
+</mos:tmpl>

@@ -1,0 +1,43 @@
+<mos:comment>
+@version $Id: checkin.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<div class="componentheading">
+	<mos:Translate>Check in my Items</mos:Translate>
+</div>
+
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td colspan="2">
+		<b>
+		<mos:Translate>CONF_CHECKED_IN</mos:Translate>
+		</b>
+
+		<br/><br/>
+	</td>
+</tr>
+
+<mos:tmpl name="ROWS" varscope="BODY">
+	<tr class="row{ROW_CLASS}">
+		<td width="250">
+			<mos:Translate>CHECK_TABLE</mos:Translate>
+			{ROW_TABLE}
+		 </td>
+		<td>
+			<mos:Translate>CHECKED_IN</mos:Translate>
+			<b>{ROW_NUM}</b>
+			<mos:Translate>CHECKED_IN_ITEMS</mos:Translate>
+		</td>
+	</tr>
+</mos:tmpl>
+
+</table>
+
+<mos:tmpl type="simplecondition" requiredvars="P_BACK_BUTTON=1" varscope="BODY">
+<!-- Show Back Button -->
+	<br/>
+	<mos:link src="back_button" varscope="BODY"/>
+</mos:tmpl>

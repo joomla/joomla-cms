@@ -1,0 +1,89 @@
+<mos:comment>
+@version $Id: positions.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<div id="treecell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Navigator</mos:Translate>
+		</legend>
+		<mos:tmpl src="tree.html" />
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Related Links</mos:Translate>
+		</legend>
+		<mos:tmpl src="relatedLinks.html" varscope="body"/>
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Quick Tip</mos:Translate>
+		</legend>
+		<mos:Translate key="Quicktiptext positions"></mos:Translate>
+	</fieldset>
+</div>
+
+<div id="datacell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Positions</mos:Translate>
+		</legend>
+
+		<table class="adminlist">
+		<thead>
+		<tr>
+		<mos:tmpl name="row" loop="2">
+			<th width="25">
+				<mos:translate>Num</mos:translate>
+			</th>
+			<th align="left">
+				<mos:translate>Position</mos:translate>
+			</th>
+			<th align="left">
+				<mos:translate>Description</mos:translate>
+			</th>
+		</mos:tmpl>
+		</tr>
+		</thead>
+		<tfoot>
+		<tr>
+			<th colspan="6">
+			</th>
+		</tr>
+		</tfoot>
+
+		<tbody>
+		<mos:tmpl name="positions-list" type="modulo" modulo="2">
+			<mos:sub condition="1">
+				<tr class="row{PAT_IS_EVEN}">
+					<mos:tmpl name="position-row" varscope="positions-list">
+					<td>
+						{ID}.
+					</td>
+					<td>
+						<input type="text" class="inputbox" name="position[{ID}]" value="{POSITION}" size="10" maxlength="10" />
+					</td>
+					<td>
+						<input type="text" class="inputbox" name="description[{ID}]" value="{POSITION}" size="30" maxlength="255" />
+					</td>
+					</mos:tmpl>
+			</mos:sub>
+
+			<mos:sub condition="0">
+				<mos:link src="position-row" />
+				</tr>
+			</mos:sub>
+		</mos:tmpl>
+		</tbody>
+		</table>
+	</fieldset>
+</div>
+
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="" />
+<input type="hidden" name="client" value="{CLIENT}" />

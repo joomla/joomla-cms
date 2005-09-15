@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosparams type="menu" version="4.5.3">
+	<name>Common Table XML</name>
+	<description>Parameters common to all Table Content Types, automatically loaded for Content Tables</description>
+	<params>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+
+		<param name="empty_cat" type="radio" default="0" label="Empty Categories" description="Show/Hide empty(no items) categories">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="cat_items" type="radio" default="1" label="# Category Items" description="paramCatItems">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="cat_description" type="radio" default="1" label="Category Description" description="paramCatDesc">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+
+		<param name="date_format" type="text" size="15" default="" label="Date Format" description="paramDateformat" />
+		<param name="date" type="list" default="" label="Date Column" description="Show/Hide the Date column">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="author" type="list" default="" label="Author Column" description="Show/Hide the Author column">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="hits" type="list" default="" label="Hits Column" description="Show/Hide the Hits column">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="headings" type="radio" default="1" label="Table Headings" description="Show/Hide the Table Headings">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="navigation" type="radio" default="1" label="Navigation Bar" description="Show/Hide the Navigation bar">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="order_select" type="radio" default="0" label="Order Select" description="Show/Hide the Order Select dropdown">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="display" type="radio" default="1" label="Display Select" description="Show/Hide the Display Select dropdown">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="display_num" type="list" default="50" label="Display Number" description="paramDisplayNum">
+			<option value="5">5</option>
+			<option value="10">10</option>
+			<option value="15">15</option>
+			<option value="20">20</option>
+			<option value="25">25</option>
+			<option value="30">30</option>
+			<option value="50">50</option>
+		</param>
+		<param name="filter" type="radio" default="0" label="Filter" description="Show/Hide the Filter ability">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="filter_type" type="list" default="title" label="Filter Field" description="Which field shall the filter apply to">
+			<option value="title">Title</option>
+			<option value="author">Author</option>
+			<option value="hits">Hits</option>
+		</param>
+	</params>
+</mosparams>

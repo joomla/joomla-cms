@@ -1,0 +1,734 @@
+/**
+* @version $Id: template_css.css 4 2005-09-06 19:22:37Z akede $
+* @package Mambo
+* @copyright (C) 2000 - 2005 Miro International Pty Ltd
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+* Mambo is Free Software
+*/
+
+/* -- General styles ----------------------------- */ 
+html { 
+	height		: 100%; 
+	margin-bottom	: 1px; 
+}
+
+body {
+	margin: 0; 
+	padding: 0;
+	color : #333; 
+	background-color: #F9FaFc;
+	font-size: 12px; 
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+a { 
+	color: #ff6600;  
+	text-decoration: none;       
+}
+a:link { 
+	color: #ff6600;  
+	text-decoration: none;       
+}
+a:hover { 
+	color : #30569D; 
+	text-decoration : underline; 
+}
+a:active { 
+	color : #FF9900; 
+	text-decoration : underline; 
+}
+
+td, th { 
+	font-family : Arial, Helvetica, sans-serif; 
+	font-size: 11px; 
+}
+
+td.center, th.center { 
+	text-align: center; 
+}
+td.left, th.left   { 
+	text-align: left;   
+}
+td.right, th.right { 
+	text-align: right;   
+}
+
+.clr { clear: both; }
+
+/* -- Form styles -------------------------------- */ 
+
+form { margin: 0; }
+
+input, textarea, select {
+	color : blue;
+	z-index : -3;
+	font-size: 11px;
+}
+
+input.button {
+	background: #E2E7EB;
+	border: 1px solid #999;
+	color : #f60;
+	font-weight : bold;
+}
+
+select.options, input.options { 
+	font-size: 8px; 
+	font-weight: normal;
+	border: 1px solid #999999;
+}
+
+.inputbox {
+	color: blue; 
+	background-color: #E9EFF5;
+	font-size: 11px; 
+	font-family: Courier, Helvetica, sans-serif;
+	z-index: -3;    
+}
+
+.text_area {
+  	border : 1px solid #999;
+  	color: blue; 
+	background: #E9EFF5;
+	font-size: 11px; 
+	font-family: Courier, Helvetica, sans-serif;
+	z-index: -3;     
+}
+
+fieldset {
+	margin-bottom: 10px;
+	border: 1px #ccc solid;
+	padding: 5px;
+	text-align: left;
+}
+
+fieldset p { 
+	margin: 10px 0px; 
+}
+
+legend { 
+	color: #999; 
+	font-size: 1.1em; 
+	font-weight: bold; 
+}
+
+/* -- ID styles ---------------------------------- */ 
+
+#wrapper      { 
+	margin: 0 auto; 
+	padding: 0; 
+}
+#wrapper1 div { 
+	display: inline;
+
+}
+
+#header {
+  	background-color: #FFF; 
+  	background-position: right top;
+  	border-bottom: 4px solid #80B5D7;
+}
+
+#mambo {
+   width: 100%; 
+   position: relative;
+   background: url(../images/header_blue.jpg) #30569D no-repeat top right;
+   margin: 0px; padding: 0px;
+}
+
+#treecell {
+	width: 20%; 
+	display: block; 
+	position: relative; 
+	float: left;
+	margin: 0; 
+	padding: 2px;
+	overflow: hidden;
+}
+
+#datacell {
+	width: 78%; 
+	display: block; 
+	float: left;
+	margin: 0; 
+	padding: 2px 0px 0px 0px;	
+}
+
+#datacellfull {
+	width: 98%; 
+	display: block; 
+	float: left;
+	margin: 0; 
+	padding: 2px;
+}
+
+#datacellcpanel {
+	width: 98%; 
+	display: block; 
+	float: left;
+	margin: 0; 
+	padding: 10px 0px 0px 5px;
+}
+
+#treecell fieldset { 
+}
+#datacell fieldset { 
+	border: 1px #ccc solid; 
+}
+
+/* -- Module styles ---------------------------- */ 
+
+/* mod_fullmenu */
+
+table.menubar { 
+	width: 100%; 
+}
+table.menubar .menubackgr     { 
+	background: #F1F3F5; 
+	border-bottom: 1px solid #cccccc; 
+	vertical-align: bottom;
+}
+table.menubar .menudottedline { 
+	border-bottom: 1px solid #cccccc; 
+	border-top: 1px solid #ffffff; 
+	background-color: #F1F3F5; 
+}
+
+/* mod_toolbar */
+
+div.title { 
+	float: left; 
+	height: 52px; 
+	width: auto;
+	margin: 2px;
+	color: #FF6600; 
+	font-size : 19px; 
+	font-weight: bold; 
+	text-align: left;
+	border: 1px none lavender;
+}
+
+div.admintoolbar { 
+	float: right; 
+	text-align: center; 
+	vertical-align: middle; 
+}
+
+div.admintoolbar a:link  { 
+}
+div.admintoolbar a:hover { 
+	text-decoration: none; 
+}
+
+div.admintoolbar .button { 
+	float: left; 
+/*
+	width: auto;
+*/	
+	margin: 2px;	
+}
+
+div.admintoolbar .divider {
+	float: left; 
+	height: 52px;
+	background: #d3d4d7;
+	margin: 2px;
+}
+
+div.admintoolbar .button a { 
+	height: 48px !important;
+	height: 50px; 
+	float: left;
+	display: block; 
+	border: 1px solid #e1e2e5;
+	padding: 2px 5px 1px 5px;
+	margin-bottom: 2px;
+/*	
+	padding: 5px;
+	width: auto;
+*/
+	color : #808080; 
+	text-decoration : none;
+}
+
+div.admintoolbar .button a.enabled:hover  { 
+	color : #FF6600; 
+	background-color: #E9EFF5; 
+	border: 1px solid #B5CDE8;
+	padding: 3px 4px 0px 6px;
+}
+div.admintoolbar .button a.enabled:active { 
+	color : #FF9900;  
+}
+
+div.admintoolbar .spacer { 
+	display: block; 
+	float: left; 
+	width: 5px; 
+	margin: 0 auto; 
+}
+
+/* mod_quickicon */
+
+#cpanel { 
+	text-align: center; 
+	vertical-align: middle; 
+}
+
+#cpanel div.icon   { 
+	margin: 3px; 
+}
+#cpanel div.icon a { 
+	display: block; 
+	height: 93px !important;
+	height: 95px; 
+	width: 108px !important;
+	width: 110px; 
+	vertical-align: middle; 
+	text-decoration : none;
+	border: 1px solid #e1e2e5;
+	padding: 2px 5px 1px 5px;
+}
+
+#cpanel div.icon a:link    { 
+	color : #808080; 
+}
+#cpanel div.icon a:hover   { 
+	color : #FF6600; 
+	background-color: #E9EFF5;  
+	border: 1px solid #B5CDE8;
+	padding: 3px 4px 0px 6px; 
+}
+#cpanel div.icon a:active  { 
+	color : #808080; 
+}
+#cpanel div.icon a:visited { 
+	color : #808080; 
+}
+
+#cpanel div.iconimage { 
+	padding-top: 13px; 
+}
+
+/* mod_login */
+
+a.logoutButton {
+	margin: 0px 20px 0 10px; 
+	border: 1px solid #e1e2e5;
+	padding: 3px;
+	color: #666; 
+	font-weight: normal;
+
+}
+
+a.logoutButton:hover {
+	text-decoration: none;
+	color: #f60;
+	background-color: #E9EFF5;  
+	border: 1px solid #B5CDE8;
+}
+
+/* mod_linkbar */
+
+/* Linkbar */
+
+ul#linkbar {
+	margin:0;
+	padding: 0;
+	list-style: none;
+	border: none;
+}
+
+#linkbar li {
+	display: block;
+	margin: 0;
+	padding: 0;
+	float:left;
+}
+
+#linkbar a {
+	display:block; 
+	position: relative;
+	margin:0; 
+	padding: 0.2em 2.4em 0.2em 36px;
+	color:#777;
+	text-decoration:none;
+	background: url(../images/lia.gif) no-repeat;
+	border-right: 1px solid #fff;
+}
+
+#linkbar a#a0 { 
+	left: 0px;
+}
+#linkbar a#a1 { 
+	left: -30px;
+}
+#linkbar a#a2 { 
+	left: -60px;
+}
+#linkbar a#a3 { 
+	left: -90px;
+}
+#linkbar a#a4 { 
+	left: -120px;
+}
+#linkbar a#a5 { 
+	left: -150px;
+}
+#linkbar a#a6 { 
+	left: -180px;
+}
+#linkbar a#a7 { 
+	left: -210px;
+}
+#linkbar a#a8 { 
+	left: -240px;
+}
+#linkbar a#a9 { 
+	left: -270px;
+}
+#linkbar a#a10 { 
+	left: -300px;
+}
+
+#linkbar a:hover {
+	background: url(../images/liahover.gif) no-repeat;
+	color: #FF6600;
+}
+
+#linkbar a.here {
+	position:relative;
+	z-index:102;
+	background: url(../images/liahover.gif) no-repeat;
+	border-right: 1px solid #777;
+	padding: 0.2em 1em 0.2em 35px;
+	margin: 0 4px 0 0;
+}
+
+/* -- Class styles ---------------------------------- */ 
+
+/* generic */
+
+.small     { 
+	color : #FF9900; 
+	font-size : 10px; 
+	font-family : Arial, Helvetica, sans-serif; 
+	text-decoration : none; 
+}
+.smallgrey { 
+	color : #999; 
+	font-size : 10px; 
+}
+.error { 
+	color : #C40000; 
+	font-size : 11px; 
+	font-weight : bold; 
+}
+
+.contentheading, .componentheading, .moduleheading { 
+	font-size: 14px; 
+	font-weight: bold; 
+}
+
+/* Text passed with mosmsg url parameter */
+.message {
+	color : #FF9900; 
+	font-size : 14px; 
+	font-weight: bold; 
+	font-family : "Trebuchet MS", Arial, Helvetica, sans-serif;
+	text-align: center;
+}
+
+.main   { 
+	width: 100%; 
+	margin: 0 0 0 0;
+	padding: 0 0 0 0; 
+}
+.quote  {
+	margin: 4px; 
+	padding: 10px;
+	border: 1px solid #cccccc;
+	background-color: #E9ECEF;
+	color: #254D78; 
+	font-size: 12px;
+}
+
+.pagetext  { 
+	display: none; 
+	visibility: hidden; 
+	position: relative; 
+	top: 0; 
+}
+
+.expander { 
+	float: right;  
+}
+
+ul.relatedlinks { 
+	padding: 0px;
+	margin: 0px;
+	margin-left: 20px;
+}
+
+table.paramlist { 
+	width: 100%; 
+}
+div.installLog  { 
+	width: 99%; 
+	height: 300px; 
+	overflow: auto; 
+}
+
+/* Page Navigiation */
+
+.pagenav { 
+	font-size : 10px; 
+	font-size: normal; 
+}
+a.pagenav:link { 
+	color : #ff9900; 
+	text-decoration : underline; 
+}
+a.pagenav:hover { 
+	color : white;   
+}
+a.pagenav:active { 
+	color : #ff9900; 
+}
+a.pagenav:visited { 
+	color : #ff9900; 
+}
+
+/* adminheader */
+
+table.adminheading {
+	width: 100%;
+	margin: 0px; 
+	padding: 0px; 
+	border: 0px; 
+	border-collapse: collapse;
+	color: #FF9E31; 
+	font-size : 18px; 
+	font-weight: bold;
+	text-align: left;
+}
+
+table.adminheading th {
+	width: 99%;
+	height: 50px;
+	padding-left: 50px;
+	background: url(../../../images/asterisk.png) no-repeat left;
+}
+
+table.adminheading td { 
+	color : #000; 
+}
+
+/* div adminlist */
+
+div.adminlist {
+	height: 20px;
+	margin: 0px; 
+	padding: 6px 4px 2px 4px;
+	background: url(../images/background.gif) repeat;
+	color: #ffffff; 
+	font-weight: bold;
+}
+
+div.adminlist a { 
+	color: #ff9900; 
+	text-decoration: none; 
+}
+
+/* table adminlist */
+
+table.adminlist {
+	width: 100%;
+	background-color: #FFFFFF;
+	margin: 0px; 
+	padding: 0px;
+	border-spacing: 0px; 
+	border-collapse: collapse;
+}
+
+table.adminlist th {
+	height: 25px;
+	margin: 0px; 
+	padding: 6px 4px 2px 4px;
+	background: url(../images/background.gif) repeat;
+	color: #ffffff;
+}
+
+table.adminlist th.title { 
+	text-align: left; 
+}
+table.adminlist th a     { 
+	color: #ff9900; 
+}
+
+table.adminlist tr.row0 { 
+	background-color: #F7F8F9; 
+}
+table.adminlist tr.row1 { 
+	background-color: #FFF;    
+}
+
+table.adminlist td { 
+	border-bottom: 1px solid #e5e5e5; 
+	padding: 4px; 
+}
+
+table.adminlist tr.row0:hover { 
+	background-color: #B5CDE8; 
+	border: 1px solid #30559C; 
+}
+table.adminlist tr.row1:hover { 
+	background-color: #B5CDE8; 
+	border: 1px solid #30559C; 
+}
+
+table.adminlist td.options { 
+	background-color: #ffffff; 
+	font-size: 8px; 
+}
+
+/* div adminfilters */
+
+div.adminfilters { 
+	height: 20px; 
+}
+
+/* table adminform */
+
+table.adminform {
+	width: 100%;
+	background-color: #F7F8F9;
+	border: solid 1px #d5d5d5;
+	padding: 10px;
+	border-collapse: collapse;
+}
+
+table.adminform th {
+	height: 25px;
+	color: #ffffff; 
+	font-size: 12px; 
+	text-align: left;
+	padding: 6px 4px 2px 4px ;
+	background: url(../images/background.gif) repeat;
+}
+
+table.adminform td { 
+	padding: 3px; 
+	text-align: left; 
+}
+
+table.adminform tr.row0 { 
+	background-color: #F7F8F9;
+}
+table.adminform tr.row1 { 
+	background-color: #eeeeee; 
+}
+
+table.adminform td.editor { 
+	font-size: 9px; 
+}
+
+table#editpage td {
+	height: 35px;
+	padding-left: 10px;	
+}
+
+/* Styles for dhtml tabbed-pages */
+.ontab {
+	width: 14%;
+	color: #FFFFFF; 
+	font-size: 12px; 
+	font-weight: bold;
+	background-color: #ffae00;
+	border: 1px solid #cccccc;
+	text-align: center;
+	cursor: hand;
+}
+
+.offtab {
+	width: 14%;
+	font-size: 12px; 
+	font-weight: normal;
+	background-color : #e5e5e5;
+	border: 1px solid #cccccc;
+	text-align: center;
+	cursor: hand;
+}
+.tabpadding { 
+}
+.tabheading { 
+	background-color: #FFAE00; 
+	color: #FFF; 
+	font-size: 10px; 
+	text-align: left; 
+}
+
+a.tooltip, a.tooltip:hover  {
+	color: black;
+	text-decoration: none;
+	border-bottom: 1px dashed #aaa;
+}
+
+a.tooltiplink {
+	display: block; 
+	width: 100%; 
+}
+a.tooltiplink:hover {
+	text-decoration:  none;
+}
+
+a.editlink, a.editlink:hover {
+	display: block; 
+	width: 100%; 
+	text-decoration:  none;
+}
+
+span.editlinktip {
+	text-decoration:  none;
+	border-bottom: 1px dashed #aaa;
+}
+
+/* Access formatting */
+
+a.access0, a.access0:hover {
+	color: green;
+	display: block; 
+	width: 100%; 
+	text-decoration:  none;
+}
+a.access1, a.access1:hover {
+	color: red;
+	display: block; 
+	width: 100%; 
+	text-decoration:  none;
+}
+a.access2, a.access2:hover {
+	color: black;
+	display: block; 
+	width: 100%; 
+	text-decoration:  none;
+}
+
+/* Column Ordering */
+
+a.col_ordering, a.col_ordering:hover {
+	display: block; 
+	width: 100%; 
+	text-decoration:  none;	
+}
+
+/* Menu Checkbox List */
+
+div.menulist {
+	height: 600px; 
+	overflow: auto; 
+	background-color: #E9EFF5; 
+	color: blue; 
+	border: 1px solid #999999;
+	padding: 10px 30px 10px 15px;
+}

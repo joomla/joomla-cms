@@ -1,0 +1,32 @@
+<mos:comment>
+@version $Id: export.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<link href="{ADMINURL}/components/{OPTION}/css/datamgr.css" rel="stylesheet" type="text/css" />
+
+<textarea rows="30" cols="80" name="buffer" class="inputbox"><mos:tmpl name="sql-dump-header" type="simplecondition" requiredvars="show_header" varscope="body">
+
+#
+# Joomla! Open Source CMS - MySQL-Dump
+# http://www.mamboserver.com
+#
+# Host: {SITENAME} {SITEURL}
+# Generation Time: {VAR_DATE}
+# Server version: {VAR_DB_VERSION}
+# PHP Version: {VAR_PHP_VERSION}
+# Database : {VAR_DBNAME}@{VAR_DBHOST}
+# {VAR_COMMENT}
+# --------------------------------------------------------
+
+</mos:tmpl>{BUFFER}
+
+</textarea>
+<br />
+<input type="button" onclick="this.form.buffer.focus();this.form.buffer.select();" class="button" value="Select All" />
+
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="function" value="{FUNCTION}" />
+<input type="hidden" name="task" value="" />

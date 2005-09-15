@@ -1,0 +1,36 @@
+div.fronttoolbar { 
+	text-align: center; 
+	vertical-align: middle; 
+	wdith: 100%;
+}		
+
+div.fronttoolbar a:link  { 
+}
+
+div.fronttoolbar a:hover { 
+	text-decoration: none; 
+}	
+	
+div.fronttoolbar .iconbutton { 
+	margin: 2px;	
+}
+
+div.fronttoolbar .iconbutton a { 
+	height: 48px !important;
+	height: 50px; 
+	float: left;
+	display: block; 
+	border: 1px solid #e1e2e5;
+	padding: 2px 5px 1px 5px;
+	margin-bottom: 2px;
+	margin-left: 4px;
+	color : #808080; 
+	text-decoration : none;
+}	
+	
+div.fronttoolbar .iconbutton a:hover  { 
+	color : #FF6600; 
+	background-color: #E9EFF5; 
+	border: 1px solid #B5CDE8;
+	padding: 3px 4px 0px 6px;
+}

@@ -1,0 +1,65 @@
+<mos:comment>
+@version $Id: snippets.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<script language="JavaScript" type="text/javascript" src="{SITEURL}/includes/js/mamboxml.js"></script>
+<mos:link src="include-tree" />
+
+<mos:link src="tree-buttons" />
+<script type="text/javascript">
+<!--
+var snippets = {
+	'live_site'	:	"$mosConfig_live_site",
+	'LoadModules0'	:	"<?php mosLoadModules( 'position' );?>",
+	'LoadModules1'	:	"<?php mosLoadModules( 'position', 1 );?>",
+	'LoadModules-1'	:	"<?php mosLoadModules( 'position', -1 );?>",
+	'LoadModules-2'	:	"<?php mosLoadModules( 'position', -2 );?>",
+	'LoadModules-3'	:	"<?php mosLoadModules( 'position', -3 );?>",
+	'ShowHead'		:	"<?php mosShowHead(); ?>"
+};
+
+function inSnip( type ) {
+	e = getElementByName( document.adminForm, 'filecontent' );
+	if (e) {
+		if (snippets[type]) {
+			snip = snippets[type];
+			if (snip.indexOf( 'LoadModules' ) >= 0) {
+				p = getSelectedValue( 'adminForm', 'positions' );
+				if (p != '0') {
+					snip = snip.replace( 'position', p );
+				}
+			}
+			insertAtCursor( e, snip );
+		}
+	}
+}
+
+d = new dTree( 'd', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/' );
+d.config.useLines=true;
+d.config.useIcons=true;
+d.config.useCookies=true;
+d.add( 0, -1, '<mos:Translate>Snippets</mos:Translate>' );
+
+d.add( 100, 0, '<mos:Translate>ShowHead</mos:Translate>', 'javascript:void inSnip( \'ShowHead\' );', '' );
+d.add( 200, 0, '<mos:Translate>Variables</mos:Translate>' );
+d.add( -1, 200, '<mos:Translate>Site URL</mos:Translate>', 'javascript:void inSnip( \'live_site\' );', '' );
+d.add( 900, 0, '<mos:Translate>Modules</mos:Translate>' );
+d.add( -1, 900, '<mos:Translate>Vertical</mos:Translate>', 'javascript:void inSnip( \'LoadModules0\' )', '' );
+d.add( -1, 900, '<mos:Translate>Horizontal</mos:Translate>', 'javascript:void inSnip( \'LoadModules1\' );', '' );
+d.add( -1, 900, '<mos:Translate>No Wrapper</mos:Translate>', 'javascript:void inSnip( \'LoadModules-1\' );', '' );
+d.add( -1, 900, '<mos:Translate>Div Wrapper</mos:Translate>', 'javascript:void inSnip( \'LoadModules-2\' );', '' );
+d.add( -1, 900, '<mos:Translate>Rounded</mos:Translate>', 'javascript:void inSnip( \'LoadModules-3\' );', '' );
+document.write(d);
+d.openAll();
+//-->
+</script>
+
+<select name="positions" class="inputbox">
+	<option value="0"><mos:Translate>Select Position</mos:Translate></option>
+	<mos:tmpl name="positions-list">
+		<option value="{POS_POSITION}">{POS_POSITION}</option>
+	</mos:tmpl>
+</select>

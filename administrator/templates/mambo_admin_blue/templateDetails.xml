@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="template" version="4.5.2" client="administrator">
+	<name>Joomla! Admin Blue</name>
+	<creationDate>07/27/04</creationDate>
+	<author>rhuk</author>
+	<copyright>GNU/GPL</copyright>
+	<authorEmail>rhuk@rhuk.net</authorEmail>
+	<authorUrl>http://www.mambodev.com</authorUrl>
+	<version>1.0</version>
+	<description></description>
+	<files>
+		<filename>index.php</filename>
+		<filename>css/template_css.css</filename>
+	</files>
+</mosinstall>

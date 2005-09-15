@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="component" version="4.5.2">
+	<name>Weblinks</name>
+	<author>Joomla! Core</author>
+	<creationDate>-</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@mamboserver.com</authorEmail>
+	<authorUrl>www.mamboserver.com</authorUrl>
+	<version>-</version>
+	<description>This component shows a listing of Weblinks</description>
+	<params>
+		<param name="headings" type="radio" default="1" label="Table Headings" description="Show/Hide the Table Headings">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="hits" type="list" default="" label="Hits" description="Show/Hide the Hits column">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="item_description" type="radio" default="1" label="Link Descriptions" description="paramItemDesc">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="other_cat_section" type="radio" default="1" label="Category List - Section" description="paramOtherCatSect">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="other_cat" type="radio" default="1" label="Category List - Category" description="paramOtherCat">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="cat_description" type="radio" default="1" label="Category Description" description="paramCategDesc">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="cat_items" type="radio" default="1" label="# Category Items" description="paramCatItems">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="description" type="radio" default="1" label="Description" description="Show/Hide the Description below">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="description_text" type="textarea" default="" label="Description Text" rows="5" cols="30" description="paramDescText"/>
+		<param name="image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Image" description="paramImagelist" />
+		<param name="image_align" type="radio" default="right" label="Image Align" description="Alignment of the image">
+			<option value="left">Left</option>
+			<option value="right">Right</option>
+		</param>
+		<param name="weblink_icons" type="imagelist" directory="/images/M_images" default="" label="Icon" description="paramWeblinkIcons" />
+	</params>
+</mosinstall>

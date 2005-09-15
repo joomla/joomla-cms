@@ -1,0 +1,19 @@
+# version $Id: save.html 137 2005-09-12 10:21:17Z eddieajau $
+# copyright (C) 2005 Open Source Matters. All rights reserved.
+# license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+# Joomla! is Free Software
+
+<mos:tmpl name="language-ini" autoclear="yes"># version {VERSION}
+# copyright (C) 2000 - 2005 Miro International Pty Ltd
+# license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+# Joomla! is Free Software
+<mos:tmpl name="strings" type="simplecondition" requiredvars="alias">
+{ALIAS}={TEXT}</mos:tmpl>
+<mos:tmpl name="metadata" type="simplecondition" requiredvars="name">
+[Metadata]
+__NAME={NAME}
+__ISO={ISO}
+__LOCALE={LOCALE}
+__ISOCODE={ISOCODE}
+__RTL={RTL}</mos:tmpl>
+</mos:tmpl>

@@ -1,0 +1,41 @@
+// PT lang variables
+
+
+tinyMCELang['lang_bold_desc'] = 'Negrito';
+tinyMCELang['lang_italic_desc'] = 'Itálico';
+tinyMCELang['lang_underline_desc'] = 'Sublinhar';
+tinyMCELang['lang_striketrough_desc'] = 'Riscado';
+tinyMCELang['lang_justifyleft_desc'] = 'Alinhar à esquerda';
+tinyMCELang['lang_justifycenter_desc'] = 'Alinhar ao centro';
+tinyMCELang['lang_justifyright_desc'] = 'Alinhar à direita';
+tinyMCELang['lang_justifyfull_desc'] = 'Justificado';
+tinyMCELang['lang_bullist_desc'] = 'Lista não ordenada';
+tinyMCELang['lang_numlist_desc'] = 'Lista ordenada';
+tinyMCELang['lang_outdent_desc'] = 'Retirar indentação';
+tinyMCELang['lang_indent_desc'] = 'Indentar';
+tinyMCELang['lang_undo_desc'] = 'Desfazer';
+tinyMCELang['lang_redo_desc'] = 'Refazer';
+tinyMCELang['lang_link_desc'] = 'Inserir Hiperligação';
+tinyMCELang['lang_unlink_desc'] = 'Remover hiperligação';
+tinyMCELang['lang_image_desc'] = 'Inserir Referência a imagem externa';
+tinyMCELang['lang_object_desc'] = 'Inserir Objeto Multimídia da Galeria';
+tinyMCELang['lang_cleanup_desc'] = 'Limpeza de código';
+tinyMCELang['lang_focus_alert'] = 'Uma instância do editor deverá estar selecionada antes de utilizar este comando.';
+tinyMCELang['lang_edit_confirm'] = 'Deseja utilizar o modo visual de edição para ezta área de texto?';
+tinyMCELang['lang_insert_link_title'] = 'Inserir/editar hiperligação';
+tinyMCELang['lang_insert'] = 'Inserir';
+tinyMCELang['lang_update'] = 'Atualizar';
+tinyMCELang['lang_cancel'] = 'Cancelar';
+tinyMCELang['lang_insert_link_url'] = 'URL de hiperligação';
+tinyMCELang['lang_insert_link_target'] = 'Destino';
+tinyMCELang['lang_insert_link_target_same'] = 'Abrir endereço na mesma janela';
+tinyMCELang['lang_insert_link_target_blank'] = 'Abrir endereço numa nova janela';
+tinyMCELang['lang_insert_image_title'] = 'Inserir/editar imagem';
+tinyMCELang['lang_insert_image_src'] = 'Endereço da imagem';
+tinyMCELang['lang_insert_image_alt'] = 'Descrição alt.';
+tinyMCELang['lang_help_desc'] = 'Ajuda';
+tinyMCELang['lang_bold_img'] = "bold.gif";
+tinyMCELang['lang_italic_img'] = "italic.gif";
+tinyMCELang['lang_underline_img'] = "underline.gif";
+tinyMCELang['lang_clipboard_msg'] = 'Copiar/Cortar/Colar não está disponível no Mozilla e Firefox.\nPretende obter mais informação acerca desta questão?';
+tinyMCELang['lang_popup_blocked'] = 'Sorry, but we have noticed that your popup-blocker has disabled a window that provides application functionality. You will need to disable popup blocking on this site in order to fully utilize this tool.';

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall version="4.5.3" type="module">
+    <name>Latest News</name>
+    <version>4.5.2</version>
+    <creationDate>July 2004</creationDate>
+    <author>Joomla! Project</author>
+    <authorEmail>admin@mamboserver.com</authorEmail>
+    <authorUrl>http://www.mamboserver.com</authorUrl>
+    <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <description>This module shows a list of the most recently published Items that are still current (some may have expired even though they are the most recent). Items that are displayed on the Front Page Component are not included in the list.</description>
+    <files>
+        <filename module="mod_latest">mod_latest.php</filename>
+    </files>
+    <params />
+</mosinstall>

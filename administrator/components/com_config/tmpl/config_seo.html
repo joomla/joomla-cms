@@ -1,0 +1,53 @@
+<mos:comment>
+@version $Id: config_seo.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<table class="adminform" id="editpage">
+	<thead>
+		<tr>
+			<th colspan="2">
+				<mos:Translate>Search Engine Optimization Settings</mos:Translate>
+			</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<th colspan="2">
+			</th>
+		</tr>
+	</tfoot>
+	<tbody>
+		<tr>
+			<td width="{COLWIDTH}">
+				<img src="{SITEURL}/includes/js/ThemeOffice/warning.png" border="0" hspace="2" align="left" />
+				<mos:Call template="tooltip" text="Search Engine Friendly URLs" tip="WARNAPACHEONLYRENAMEHTACCESS" />
+			</td>
+			<td>
+				{CONFIG_SEF}
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<mos:Call template="tooltip" text="Dynamic Page Titles" tip="TIPDYNAMICALLYCHANGESPAGETITLE" />
+			</td>
+			<td>
+				{CONFIG_PAGETITLES}
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<mos:Translate>Page Titles Format</mos:Translate>
+			</td>
+			<td>
+				<select name="config_pagetitles_format" id="config_pagetitles_format" class="inputbox">
+				<mos:tmpl name="list-pagetitles_format">
+					<option value="{VALUE}" {SELECTED}>{TEXT}</option>
+				</mos:tmpl>
+				</select>
+			</td>
+		</tr>
+	</tbody>
+</table>

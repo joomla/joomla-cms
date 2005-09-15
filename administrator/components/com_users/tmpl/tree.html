@@ -1,0 +1,36 @@
+<mos:comment>
+@version $Id: tree.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:link src="include-tree" />
+
+<mos:link src="tree-buttons" />
+
+<script language="javascript" type="text/javascript">
+<!--
+d = new dTree( 'd', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/' );
+d.config.useLines=true;
+d.config.useIcons=true;
+d.config.useCookies=true;
+d.add( 0, -1, '<mos:translate>User Manager</mos:translate>', 'index2.php?option=com_users' );
+
+d.add( 1, 0, '<mos:translate>Mass Create Users</mos:translate>', 'index2.php?option=com_users&task=masscreate', '<mos:translate>Mass Create Users</mos:translate>' );
+d.add( 2, 0, '<mos:translate>Frontend</mos:translate>', 'index2.php?option=com_users&group=29', '<mos:translate>Frontend Groups</mos:translate>' );
+d.add( 3, 0, '<mos:translate>Backend</mos:translate>', 'index2.php?option=com_users&group=30', '<mos:translate>Backend Groups</mos:translate>' );
+
+d.add( 4, 2, 'Registered', 'index2.php?option=com_users&group=18', 'Registered <mos:translate>Users</mos:translate>', '', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/square.gif', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/square.gif' );
+d.add( 5, 4, 'Author', 'index2.php?option=com_users&group=19', 'Author <mos:translate>Users</mos:translate>', '', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/square.gif', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/square.gif' );
+d.add( 6, 5, 'Editor', 'index2.php?option=com_users&group=20', 'Editor <mos:translate>Users</mos:translate>', '', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/square.gif', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/square.gif' );
+d.add( 7, 6, 'Publisher', 'index2.php?option=com_users&group=21', 'Publisher <mos:translate>Users</mos:translate>', '', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/square.gif', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/square.gif' );
+
+d.add( 8, 3, 'Manager', 'index2.php?option=com_users&group=23', 'Manager <mos:translate>Users</mos:translate>', '', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/square.gif', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/square.gif' );
+d.add( 9, 8, 'Administrator', 'index2.php?option=com_users&group=24', 'Administrator <mos:translate>Users</mos:translate>', '', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/square.gif', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/square.gif' );
+d.add( 10, 9, 'Super Administrator', 'index2.php?option=com_users&group=25', 'Super Administrator <mos:translate>Users</mos:translate>', '', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/square.gif', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/square.gif' );
+
+document.write(d);
+d.openAll();
+//-->
+</script>

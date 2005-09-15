@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en_US" xml:lang="en_US">
+<head>
+<title>Global Configuration</title>
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<meta name="copyright" content="(C) 2005 Open Source Matters. All rights reserved." />
+<meta name="license" content="http://www.gnu.org/copyleft/gpl.html GNU/GPL" />
+</head>
+<body>
+<h1>Global Configuration</h1>
+
+
+<p align="right">- Draft 4.5.3<br /><br /></p><p><span style="font-weight: bold;">Global Configuration</span> controls Mambo's operational settings. Changes made on this screen will update
+the configuration.php file. This file needs to be writable in order
+for you to be able to edit your configuration. This information is provided at the bottom of the Navigator. It is a good idea to make the file unwritable after changes are performed.<br /></p><h2>Toolbar Icons</h2><span style="font-weight: bold;">Save:</span> Saves the changes and returns to the Control Panel/Admin Home page.<br /><br /><span style="font-weight: bold;">Apply: </span>Saves the changes and keeps the Global Configuration displayed to edit.<br /><br /><span style="font-weight: bold;">Close:</span> Cancels the action. Any modification is lost.<br /><br /><h2>Navigator</h2>Provides direct access to the various parameters to be customised.<br />The Navigator is providing 3 types of links.<br /><span style="font-weight: bold;">1. Site -</span>&gt; Site settings<span style="font-weight: bold;"><br /></span><div style="margin-left: 40px;">Debug<br />Users<br />Meta<br />Statistics<br />SEO<br />Content<br /></div><span style="font-weight: bold;">2. Server -</span>&gt; Server Settings<br /><div style="margin-left: 40px;"><span style="font-weight: bold;"></span>Database<br />Locale<br />Mail<span style="font-weight: bold;"></span><br /><span style="font-weight: bold;"></span></div><span style="font-weight: bold;">3. Cache<br /></span><h2><span style="font-weight: bold;">File Settings</span></h2>Shows if your configuration.php file is writable or not.<br />Check the box to make it unwritable after saving.<br /><br /><h2><span style="font-weight: bold;"></span></h2><h2><strong>1. Site Settings</strong></h2><h2><strong></strong></h2><p><span style="font-weight: bold;">Site
+Offline</span> - Switch your websites
+'Front-end ' on or off. Use this option while you are updating modules or data, and do not wish to have your visitors
+view the site until you are finished. Remember to reset the &quot;Site offline&quot; option
+to &quot;No&quot; once you're done.</p><p><span style="font-weight: bold;">Offline Message</span> - When the site is <span>offline </span>(switch on 'Yes' position), this message will appear on the 'Front-end'.&nbsp; The default message is:<br />&quot;This site is down for maintenance. Please check back again soon.&quot;<br />You can change this text to whatever message you would like.</p><p><span style="font-weight: bold;">System
+Error Message</span> - This message will display if the initial
+database connection fails.&nbsp; You can type anything you like in this
+box. We suggest something non-technical, friendly and apologetic, stating that your
+site will be available again as soon as possible. You can use standard
+HTML code in this box also, for instance, &lt;<span>br</span> /&gt; to return a
+line. You might also consider adding an e-mail address, so that your
+visitors can contact your System Administrator or the Webmaster.</p><p><span style="font-weight: bold;">Site
+Name</span> - Allows you to set the content of the title bar for
+your site. It can also be displayed in your template by inserting the
+following code statement into your template file
+[Mambo_root/templates/template name/index.php] where you wish your Site
+Name to appear:</p><p>%%&lt;?php echo $_CONFIG-&gt;<span>SITENAME</span>; ?&gt;%%<br /></p><p><span style="font-weight: bold;">WYSIWYG Editor</span> - Used to define which of the installed Text Editors will be used as default.<br /></p><p><span style="font-weight: bold;">Popup Frontend Editing</span>: If enabled, editing an item in the Frontend will open a pop-up window instead of the default inline editing. The advantage is that you are not restricted by the template used and get more space when editing.<br /></p><p><span style="font-weight: bold;">List Length: </span>Sets the default length for lists in the Administrator. Please note that if you have previously visited a page with a list, changing this setting in Global Configuration will not be immediately visible. However, the setting you specify will be honoured as a default upon your next login.<br /></p><p><span style="font-weight: bold;">Favourites Site Icon</span> - Enter the path to the icon that
+appears in some browsers next to the name and/or address of your
+site.&nbsp; By default this is the Joomla! flower icon located in the images/stories folder. This file is typically named 'favicon.ico'.<br /></p><p><span style="font-weight: bold;">Internal Templates: </span>Allows loading of custom Internal Templates for Components, Modules and Mambots. These templates have to be present in the Template directory.<br /></p><p><span style="font-weight: bold;">Live Bookmarks:</span> Implements support for Firefox Live Bookmark functionnality.<br /></p><p><span style="font-weight: bold;">Live Bookmark where: </span>Choose between the Home page and all pages to implement Live Bookmarks.<br /></p><h2>Debug Settings</h2><p><span style="font-weight: bold;">Debug</span>: Allows you to view the error
+messages that are created by your site's php installation. It can be a
+handy tool for debugging if you are having problems, and for
+reporting errors to your System Administrator or Web host. The levels
+of error reporting can be set under the Global Configuration&gt;Server
+tab, and are as follows:<br />System Default, None, Simple and Maximum.</p><p><span style="font-weight: bold;">Debug Database: </span>displays SQL errors if present.<br /></p><p><span style="font-weight: bold;">Log Database Queries: </span>display or not log of SQL queries executed (for development purposes).<br /></p><h2>User Tab</h2><span style="font-weight: bold;">Allow User Registration: </span>Allows
+you to globally set whether visitors to your site can register for a
+user account. If set to 'Yes', the Login Form will include the prompt
+“No account yet? Create one”. If set to 'No', they will not be
+presented with an option to register, only with the name/pass fields to
+log into the site.<br /><br /><span style="font-weight: bold;">Usertype of new users:</span>
+Choose which type of users new users should automatically be created
+as. Choice is between Registered, Author, Editor, Publisher.<br />?Help: Information concerning User Types.<br /><br /><span style="font-weight: bold;">Use New Account Activation:</span>
+If Yes, an activation link will be sent to user's e-mail address. The
+User can not login until he has clicked on the activation link. If No,
+the user will be able to login right after his account creation,
+without any activation.<br /><p><span style="font-weight: bold;">Require Unique E-mail:</span>
+Select whether you want to prevent duplicate registration with the same
+e-mail address. In combination with user activation this option
+prevents users to sign up several times using the same e-mail address.</p><p><span style="font-weight: bold;">Show Unauthorised Links: </span>With
+this option turned on, all visitors&nbsp; will see content to which they
+would otherwise not have access, (that is, content given an Access
+Level of 'Registered' or 'Special'). With this option off, they will
+only see content with an Access Level of 'Public'.&nbsp; The Access Level
+for Content is selected under the Publishing tab for each item
+individually.</p><span style="font-weight: bold;"></span><p><span style="font-weight: bold;">Allow users to change their name:</span> If Yes, users will be able to change their name from the frontend.<br /><br style="font-weight: bold;" /><span style="font-weight: bold;">Allow users to change their username: </span>If yes, users will be able to change their username from the frontend.<br /></p><p><span style="font-weight: bold;">Min. Username Length:</span> Set the minimum amount of characters a Username may contains.<span style="font-weight: bold;"><br /></span></p><p><span style="font-weight: bold;">Min. Password length:</span> Set the minimum amount of characters a Password should contain.<br /></p><span style="font-weight: bold;">Frontend User Params: </span>Allows Users to control their extra parameters options (Frontend language, Editor).<br /><h2><strong><span>Metadata</span> Setings</strong></h2><p><span style="font-weight: bold;">Global Site Meta
+Description:&nbsp;</span> Type a description of your website used to assist Search Engines. You may want
+to limit your description to maybe twenty words or so, depending on the
+Search Engine you are targeting. Make it concise and pertinent to your
+site's contents. You can include some of your keywords and key phrases
+here too. As some search engines read more than 20 words you can add
+one or two sentences. Make sure that the most important and relevant part of
+your description is in the first 20 words, this will generally be displayed in Search Engine results.</p><p><span style="font-weight: bold;">Global Site Meta Keywords: </span>The
+optimal number of characters for a keyword description is said to be
+between 300 and 500. Do not repeat words too often and either separate
+your keywords with a comma or a space, or group two or three words
+together. 'Joomla! Open Source' would be an example of this.<br /><br /><span style="font-weight: bold;">Show Title Meta Tag: </span>Shows the Title meta tag when viewing content items.<br /><br style="font-weight: bold;" /><span style="font-weight: bold;">Show Author Meta Tag</span>: Shows the Authors meta tag when viewing content items.</p><p>The
+Description and Keyword Meta tags will have a bearing on how Search
+Engines will index your site. Some Search Engines completely ignore
+<span>Metadata</span> altogether. You should do some research on Search Engine
+Optimization (SEO) if high rankings and Search Engine traffic are important
+to you.</p><h2><strong>Statistics Tab</strong></h2><span style="font-weight: bold;">Statistics: </span>If this is set to 'Yes', the browser and visitor domain
+statistics will be collected on the basis of settings in&nbsp; the
+Content Tab. If this is set to 'No', the browser and visitor statistics
+will not be collected. If your site experiences a slight 'delay' the
+first time a user visits the site you should set this to 'No'.<p><span style="font-weight: bold;">Log
+Content Hits by Date: </span>Enables logging of the hits on
+content items, on a daily basis. There are currently no in-built
+analysis routines, to complement this logging feature. <br /><span style="font-style: italic;">Warning:</span> this will tend to collect large amount of data over time.</p><p><span style="font-weight: bold;">Log Search
+Strings:</span> Enables logging of the search text, entered
+by a user. Such logging facilitates the 'tuning' of your web site,
+giving you an insight into how your visitors are trying to find the
+information they seek. Analysis reporting is provided under
+Site-&gt;Statistics-&gt;Search Text.<br /></p><h2><strong><span>SEO</span> Tab</strong></h2><span style="font-weight: bold;">Search
+Engine Friendly URLs:&nbsp;</span> Changes the way site links are
+presented and <span>optimises</span> them so that search engines can access more of
+your site. <br />Warning: This option is ONLY available to sites hosted on Apache
+servers. If you use this option you must rename the <span>'htaccess</span>.<span>txt'</span> <span>file</span>
+in your sites root folder to '.<span>htaccess' (dot included, no extension!)&nbsp;</span> via FTP BEFORE activating. If your server does not support this setting, your site might become unusable!<br /><br />For additional information on SEO see the appendix <a href="http://help.mamboserver.com/index.php?option=com_content&task=view&id=796&Itemid=121">here</a>.<br /><p><span style="font-weight: bold;">Dynamic Page Titles:&nbsp;</span> Sets the
+page titles (that appear at the top on a viewers browser) to reflect page content. This helps search
+engines.</p><p><span style="font-weight: bold;">Page Titles format:</span>
+Choose in the drop-down to show Site -Title, Title - Site or page Title
+only. Excludes or includes and positions the site title with the page
+title,, if the previous setting (Dynamic Page Titles) is enabled.<br /></p><h2><strong>Content Tab</strong></h2><p><span style="font-weight: bold;">Linked Titles:</span> If 'Yes', the title of a content item will hyperlink to the item.&nbsp; <br /><br /><span style="font-weight: bold;">Read More Link:</span> Displays a &quot;Read More&quot; link at the bottom of Content if main text has been provided for the Content.<br /><br /><span style="font-weight: bold;">Item
+Rating / Voting: </span>Allows the rating of content items.
+If set to 'Yes', a 'Star Bar' will be shown on each content item, as
+well as a form for submitting your vote. The rating form is not shown
+for articles in 'Blog' lists.</p><p><span style="font-weight: bold;">Author Names: </span>Show or Hide the Author's name when a content item is displayed. </p><p><span style="font-weight: bold;">Created
+Date and Time: </span>Show or Hide the creation date and time when a content item is displayed.</p><p><span style="font-weight: bold;">Modified
+Date and Time: </span>Show or Hide the last modified date and timewhen a content item is displayed.<br /><br /><span style="font-weight: bold;">Hits:</span> Displays the number of hits (visits/clicks/accesses) an article/content has had. <br /><br /><span style="font-weight: bold;">PDF Icon:</span> Show or Hide the 'PDF creation' icon / link displayed when viewing a content item. <br /><span style="font-style: italic;">NOTE: &nbsp;This will not display at all if your media directory is not writable.</span></p><p><span style="font-weight: bold;">Print
+Icon:</span> Show or Hide the 'Printer
+Friendly Version' icon / link displayed when viewing a content item.</p><p><span style="font-weight: bold;">Email
+Icon:</span>&nbsp; Show or Hide the 'Email Page to
+Friend' icon / link displayed when viewing a content item.<br /><br /><span style="font-weight: bold;">Icons:</span> Choose here to display Text or Icons for the PDF, Print and Email Iinks.</p><p><span style="font-weight: bold;">Back Button:</span>&nbsp; Allows you to show or hide a back button at the bottom of screens to make it easier for users to navigate your site.</p><p><span style="font-weight: bold;">Content Item Navigation: </span>Shows 'Next' and 'Previous' links when viewing content items in a category.</p><span style="font-weight: bold;">Table
+of Contents with { mospagebreak }:</span> This parameters is deprecated in Global Configuration. It is now set directly in the MOSpaging Mambot parameters.<strong> <br /></strong><h2><strong>2. Server Settings</strong></h2><p>The two following items are predefined during the installation and are not configurable through this tab.</p><p><span style="font-weight: bold;">Absolute
+Path:&nbsp;</span> The absolute path is the directory information used by
+Joomla! on the server that orientates it to its surrounding system.</p><p><span style="font-weight: bold;">Live Site: </span>This is the absolute URL (web address) for your installation of Mambo.</p><p><span style="font-weight: bold;">Secret Word:</span> Unique word for every Joomla! installation. Used for security functions.</p><p><span style="font-weight: bold;">GZIP
+Page Compression: </span>Allows your web server to send
+compressed data if supported by the server itself and the client web
+browser. If enabled, this could significantly decrease the load time of
+your site for your visitors.</p><p><span style="font-weight: bold;">Login Session Lifetime: </span>Allows you to set the time in seconds an Administration session
+should be allowed to stay live before automatic logout occurs. After
+automatic logout, the Administrator will be required to login again
+using the correct <span>username</span> and password.<br /></p><p><span style="font-weight: bold;">State Restore: </span>Saves and then restore state after session timeout and re-login.<br /></p><span style="font-weight: bold;">Error Reporting:</span> If this option is enabled under the Site tab (Debug), then using the
+drop down box, select the level or reporting required.<br />Options are System Default, None, Simple and Maximum.<br />&nbsp; - System Default - &nbsp;This turns Error reporting to the system default according to php.<span>ini</span> on the server.<br />&nbsp;&nbsp;-&nbsp;None -&nbsp;This turns off error reporting.<br />&nbsp;
+- Simple - &nbsp;This turns error reporting to simple options using the
+following options: error_reporting (E_ERROR|E_WARNING|E_PARSE)<br />&nbsp; - Maximum - &nbsp;This turns error reporting to the Maximum level using the <span>following options</span>: error_reporting (E_ALL) <br /><br /><span style="font-weight: bold;">Help Server:</span>
+Type the path to the server providing your installation of Joomla! with
+your language help files. By default set to help.mamboserver.com for
+the English language.<br /><br /><span style="font-weight: bold;">Enable XML-RPC:</span> Allows a remote client to connect to your site via XML-RPC.<br /><br /><span style="font-weight: bold;">File
+Creation: </span>By default files created by the installation of components,
+modules and <span>mambots</span> inherit the server default permissions. By
+selecting CHMOD new files you can override the server <span>permissions</span>.<br /><br style="font-weight: bold;" /><span style="font-weight: bold;">Directory
+Creation: </span>As with files new directories will by default inherit the
+server default permissions. Select CHMOD new directories to override
+the server permissions.<br /><h2><strong>Database Settings<br /></strong></h2><font color="#cc0000">Warning:</font> &nbsp;These are very important settings. If your Joomla! Web site has been installed on your behalf do not alter these settings.<br /><br /><span style="font-weight: bold;">Database type:</span> Choose in this drop-down the type of database you are using.<br /><p><span style="font-weight: bold;">Database Hostname:</span> This is typically set to '<span>localhost</span>'.</p><p><span style="font-weight: bold;">Database  Username:</span> Type the <span>username</span> used to access your Joomla! database.</p><p><span style="font-weight: bold;">Database  Password:&nbsp;</span> Type the password used to access your Joomla! database.</p><p><span style="font-weight: bold;">Database Name:</span> Type the name of the database your Joomla! installation uses.</p><span></span><span>&nbsp;</span><span style="font-weight: bold;"> Database Prefix: </span>Type the prefix used for records in your Joomla! database. Typically “mos_&quot; by default.<br /><font color="#cc0000">Warning: </font>&nbsp;DO NOT CHANGE UNLESS YOU HAVE A DATABASE BUILT USING TABLES WITH THE PREFIX YOU ARE SETTING!!<br /><br /><span style="font-weight: bold;">Database Zero Date:</span> The date the database considers to be zero. Don't change if you don't know what you are doing...<br /><h2><strong>Locale Settings</strong></h2><p><span style="font-weight: bold;">Default country Locale: </span>The country locale is defined within the [language].ini definition file. This setting is for fall back purpose only.<br /><br /><span style="font-weight: bold;">Language:&nbsp;</span> Defines the default language used on your site. Choose among installed languages through the drop-down. Registered users may choose their default language by editing their details from the frontend if this setting is enabled (see User Tab). Managers and administrators may also choose a user-specific language for the administration interface.<br /></p><p><span style="font-weight: bold;">Time
+Offset: </span>Sets the time offset in hours between your server
+location and GMT (Greenwich Mean Time - UK). It will show the time
+chosen on the same line.</p><h2><strong>Mail Settings</strong></h2><p><span style="font-weight: bold;">Mailer:</span> Choose which mailer you wish to use: PHP mail function, <span>Sendmail</span> or SMTP Server.</p><p><span style="font-weight: bold;">Mail From:</span> Type the e-mail address that will show as the sender.</p><p><span style="font-weight: bold;">From Name</span>: Type the name that will show as the sender.</p><p><span style="font-weight: bold;">Sendmail Path:</span> Type the absolute path to sendmail.<br /></p><p><span style="font-weight: bold;">SMTP Auth: </span>Select whether SMTP Authentication is required or not by your host.</p><p><span style="font-weight: bold;">SMTP User:</span> If authentication is required and set above, enter your <span>username</span>.</p><p><span style="font-weight: bold;">SMTP Pass:</span> If authentication is required and set above, enter your password.</p><p><span style="font-weight: bold;">SMTP Host: </span>This is often set as <span>localhost</span>, but you may need to check this with your host.</p><h2><strong>3. Cache Settings</strong></h2><p>Caching will generally improve your site's performances.<br /></p><p>Choose which type of elements you wish to cache.<br /></p><p><span style="font-weight: bold;">Template Caching, Item Caching, Page caching.</span><br /></p><p><span style="font-weight: bold;">Cache Folder:</span> Enter the path to the folder or directory to store the cache files. This
+must be writable for this caching to be successfully implemented.
+Contact your Web Master if you have any difficulties. Default is mambo/cache.<br /></p><p><span style="font-weight: bold;">Cache Time</span>: This is the maximum length of time, in seconds, for a cache file to be stored before it is refreshed.</p><br /><br /><br /><br /><br />
+
+<br />
+
+</body>
+</html>

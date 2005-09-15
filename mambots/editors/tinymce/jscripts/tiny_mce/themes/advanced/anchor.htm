@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>{$lang_insert_anchor_title}</title>
+<script language="javascript" src="../../tiny_mce_popup.js"></script>
+<script language="javascript">
+	function init() {
+		document.forms[0].anchorName.value = tinyMCE.getWindowArg('name');
+		document.forms[0].insert.value = tinyMCE.getLang('lang_' + tinyMCE.getWindowArg('action'), 'Insert', true);
+	}
+
+	function insertAnchor() {
+		if (window.opener) {
+			tinyMCE.execInstanceCommand(tinyMCE.getWindowArg('editor_id'), 'mceAnchor', false, document.forms[0].anchorName.value);
+			tinyMCE.closeDialog();
+		}
+	}
+
+	function cancelAction() {
+		tinyMCE.closeDialog();
+	}
+</script>
+</head>
+<body onload="init();">
+<form onsubmit="insertAnchor();return false;">
+  <table border="0" cellpadding="0" cellspacing="0" width="200">
+    <tr>
+      <td align="center" valign="middle"><table border="0" cellpadding="4" cellspacing="0">
+          <tr>
+            <td colspan="2" class="title">{$lang_insert_anchor_title}</td>
+          </tr>
+          <tr>
+            <td nowrap="nowrap">{$lang_insert_anchor_name}:</td>
+            <td><input name="anchorName" type="text" id="anchorName" value="" style="width: 200px"></td>
+          </tr>
+          <tr>
+            <td><input type="button" id="insert" name="insert" value="{$lang_insert}" onclick="insertAnchor();">
+            </td>
+            <td align="right"><input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onclick="cancelAction();"></td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

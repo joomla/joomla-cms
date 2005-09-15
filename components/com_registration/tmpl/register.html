@@ -1,0 +1,121 @@
+<mos:comment>
+@version $Id: register.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:link src="include-overlib" />
+
+<script language="javascript" type="text/javascript">
+<!--
+function submitbutton() {
+	var form = document.mosForm;
+	var r = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", "i");
+
+	// do field validation
+	if ( form.name.value == '' ) {
+		alert( "<mos:Translate>REGWARN_NAME</mos:Translate>" );
+	} else if ( form.username.value == "") {
+		alert( '<mos:Translate>REGWARN_UNAME</mos:Translate>' );
+	} else if ( r.exec(form.username.value) || form.username.value.length < {LENGTH_NAME} ) {
+		alert( '<mos:Translate>VALID_AZ09</mos:Translate>, <mos:Translate>PROMPT_UNAME</mos:Translate>, {LENGTH_NAMEX}' );
+	} else if ( form.email.value == '' ) {
+		alert( '<mos:Translate>REGWARN_MAIL</mos:Translate>' );
+	} else if ( form.password2.value == "") {
+		alert( '<mos:Translate>REGWARN_VPASS1</mos:Translate>' );
+	} else if ( ( form.password.value != '' ) && ( form.password.value != form.password2.value ) ){
+		alert( '<mos:Translate>REGWARN_VPASS2</mos:Translate>' );
+	} else if ( r.exec( form.password.value ) || form.password.value.length < {LENGTH_PASS} ) {
+		alert( '<mos:Translate>VALID_AZ09</mos:Translate>, <mos:Translate>REGISTER_PASS</mos:Translate>, {LENGTH_PASSX}' );
+	} else {
+		form.submit();
+	}
+}
+//-->
+</script>
+
+<form action="index.php" method="post" name="mosForm">
+
+<div class="componentheading">
+	<mos:Translate>REGISTER_TITLE</mos:Translate>
+</div>
+
+<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentpane">
+
+<tr>
+	<td>
+		<label for="username">
+			<mos:Translate>REGISTER_UNAME</mos:Translate> *
+		</label>
+	</td>
+	<td>
+		<input type="text" id="username" name="username" size="40" value="" class="inputbox" />
+		{TIP_USER}
+	</td>
+</tr>
+<tr>
+	<td width="30%">
+		<label for="name">
+			<mos:Translate>REGISTER_NAME</mos:Translate> *
+		</label>
+	</td>
+	<td>
+		<input type="text" id="name" name="name" size="40" value="" class="inputbox" />
+	</td>
+</tr>
+<tr>
+	<td>
+		<label for="email">
+			<mos:Translate>REGISTER_EMAIL</mos:Translate> *
+		</label>
+	</td>
+	<td>
+		<input type="text" id="email" name="email" size="40" value="" class="inputbox" />
+	</td>
+</tr>
+<tr>
+	<td>
+		<label for="password">
+			<mos:Translate>REGISTER_PASS</mos:Translate> *
+		</label>
+	</td>
+	<td>
+		<input class="inputbox" id="password" type="password" name="password" size="40" value="" />
+		{TIP_PASS}
+	</td>
+</tr>
+<tr>
+	<td>
+		<label for="password2">
+			<mos:Translate>REGISTER_VPASS</mos:Translate> *
+		</label>
+	</td>
+	<td>
+		<input class="inputbox" type="password" id="password2"" name="password2" size="40" value="" />
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+		<mos:Translate>REGISTER_REQUIRED</mos:Translate>
+	</td>
+</tr>
+</table>
+
+<div align="center">
+	<input type="button" value="<mos:Translate>BUTTON_SEND_REG</mos:Translate>" class="button" onclick="submitbutton()" />
+</div>
+
+<input type="hidden" name="id" value="0" />
+<input type="hidden" name="gid" value="0" />
+<input type="hidden" name="useractivation" value="{USERACTIVATION}" />
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="saveRegistration" />
+
+</form>
+
+<mos:tmpl type="simplecondition" requiredvars="P_BACK_BUTTON=1" varscope="BODY">
+<!-- Show Back Button -->
+	<br/>
+	<mos:link src="back_button" varscope="BODY"/>
+</mos:tmpl>

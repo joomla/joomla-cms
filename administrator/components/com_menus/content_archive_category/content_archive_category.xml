@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosparams type="menu" version="4.5.2">
+	<name>Blog - Content Category Archive</name>
+	<group>Content</group>
+	<description>Shows a listing of Content items archived for a particular category</description>
+	<params>
+		<param name="orderby" type="list" default="" label="Order by" description="paramOrderBy">
+			<option value="">Default</option>
+			<option value="date">Oldest first</option>
+			<option value="rdate">Most recent first</option>
+			<option value="alpha">Title Alphabetical</option>
+			<option value="ralpha">Title Reverse-Alphabetical</option>
+			<option value="author">Author Alphabetical</option>
+			<option value="rauthor">Author Reverse-Alphabetical</option>
+			<option value="hits">Most Hits</option>
+			<option value="rhits">Least Hits</option>
+			<option value="order">Ordering</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+ 		<param name="description" type="radio" default="0" label="Description" description="Show/Hide the Category Description">
+ 			<option value="0">Hide</option>
+ 			<option value="1">Show</option>
+ 		</param>
+		<param name="description_image" type="radio" default="0" label="Description Image" description="Show/Hide the Category description Image">
+ 			<option value="0">Hide</option>
+ 			<option value="1">Show</option>
+ 		</param>
+ 		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="section" type="radio" default="0" label="Section Name" description="Show/Hide the Section the item belongs to">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="section_link" type="list" default="0" label="Section Name Linkable" description="paramSectionLink">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+	</params>
+</mosparams>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="component" version="4.5.2">
+	<name>Newsfeeds</name>
+	<author>Joomla! Core</author>
+	<creationDate>-</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@mamboserver.com</authorEmail>
+	<authorUrl>www.mamboserver.com</authorUrl>
+	<version>-</version>
+	<description>This component manages RSS/RDF newsfeeds</description>
+	<params>
+		<param name="other_cat_section" type="radio" default="1" label="Category List - Section" description="paramOtherCategSect">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="other_cat" type="radio" default="1" label="Category List - Category" description="paramOtherCat">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="cat_description" type="radio" default="1" label="Category Description" description="paramCatDesc">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="cat_items" type="radio" default="1" label="# Category Items" description="paramCatItems">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="description" type="radio" default="1" label="Description" description="Show/Hide the Description below">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="description_text" type="textarea" default="" label="Description Text" rows="5" cols="30" description="Description for page"/>
+		<param name="image" type="imagelist" directory="/images/stories" hide_default="1" default="-1" label="Image" description="paramImage" />
+		<param name="image_align" type="radio" default="right" label="Image Align" description="Alignment of the image">
+			<option value="left">Left</option>
+			<option value="right">Right</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="headings" type="radio" default="1" label="Table Headings" description="Show/Hide the Table Headings">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="name" type="radio" default="1" label="Name Column" description="Show/Hide the Feed Name column">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="articles" type="radio" default="1" label="# Articles Column" description="paramArticles">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="link" type="radio" default="1" label="Link Column" description="Show/Hide the Feed Link column">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="feed_image" type="radio" default="1" label="Feed Image" description="Show/Hide the image of the feed">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="feed_descr" type="radio" default="1" label="Feed Description" description="paramFeedDesc">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="item_descr" type="radio" default="1" label="Item Description" description="paramItemDesc">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="word_count" type="text" size="6" default="0" label="Word Count" description="paramWordCount" />
+	</params>
+</mosinstall>

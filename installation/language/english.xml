@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall version="4.5.3" client="installer" type="language">
+    <name>English</name>
+    <version>4.5.3</version>
+    <creationDate>April 2005</creationDate>
+    <author>Joomla! Project</author>
+    <authorEmail>admin@mamboserver.com</authorEmail>
+    <authorUrl>www.mamboserver.com</authorUrl>
+    <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <description>Enlgish language file for web installer</description>
+    <params />
+</mosinstall>

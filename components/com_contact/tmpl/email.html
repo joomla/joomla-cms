@@ -1,0 +1,86 @@
+<mos:comment>
+@version $Id: email.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function validate(){
+	if ( ( document.emailForm.text.value == '' ) || ( document.emailForm.email.value.search( '@' ) == -1 ) || ( document.emailForm.email.value.search( "[.*]" ) == -1 ) ) {
+		alert( "<mos:Translate>CONTACT_FORM_NC</mos:Translate>" );
+	} else {
+	document.emailForm.action = "{EMAIL_URL}"
+	document.emailForm.task.value = 'sendmail';
+	document.emailForm.submit();
+	}
+}
+//-->
+</script>
+
+<mos:tmpl type="simplecondition" requiredvars="SHOW_EMAIL_DESCRIP=1" varscope="BODY">
+<!-- Show Email Form -->
+	{P_EMAIL_DESCRIPTION}
+	<br /><br />
+</mos:tmpl>
+
+<form action="{EMAIL_FORM_URL}" method="post" name="emailForm" target="_top" id="emailForm">
+
+<div class="contact_email{PAGECLASS_SFX}">
+	<label for="name">
+		<mos:Translate>NAME_PROMPT</mos:Translate>
+	</label>
+	<br />
+	<input type="text" id="name" name="name" size="30" class="inputbox" value="" />
+
+	<br />
+
+	<label for="email">
+		<mos:Translate>EMAIL_PROMPT</mos:Translate>
+	</label>
+	<br />
+	<input type="text" id="email" name="email" size="30" class="inputbox" value="" />
+
+	<br />
+
+	<label for="subject">
+		<mos:Translate>SUBJECT_PROMPT</mos:Translate>
+	</label>
+	<br />
+	<input type="text" name="subject" id="subject" size="30" class="inputbox" value="" />
+
+	<br /><br />
+
+	<label for="text">
+		<mos:Translate>MESSAGE_PROMPT</mos:Translate>
+	</label>
+	<br />
+	<textarea cols="50" rows="10" id="text" name="text" class="inputbox"></textarea>
+
+	<mos:tmpl type="simplecondition" requiredvars="P_EMAIL_COPY=1" varscope="BODY">
+		<br />
+		<input type="checkbox" id="email_copy" name="email_copy"  value="1"  />
+		<label for="email_copy">
+			<mos:Translate>EMAIL_A_COPY</mos:Translate>
+		</label>
+	</mos:tmpl>
+
+	<br /><br />
+
+	<script language="JavaScript" type="text/javascript">
+	<!--
+	document.write ( '<input type="button" name="send" value="<mos:Translate>SEND_BUTTON</mos:Translate>" class="button" onclick="validate()" />' );
+	//-->
+	</script>
+	<noscript>
+		<input type="submit" name="send" value="<mos:Translate>SEND_BUTTON</mos:Translate>" class="button" />
+	</noscript>
+</div>
+
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="con_id" value="{CONTACT_ID}" />
+<input type="hidden" name="sitename" value="{SITENAME}" />
+<input type="hidden" name="task" value="sendmail" />
+
+</form>

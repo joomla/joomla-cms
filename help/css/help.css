@@ -1,0 +1,33 @@
+body {
+	font-family: verdana, arial, sans-serif;
+	font-size: 9pt;
+}
+
+h1 { 
+	color: #fea540;
+	font-size: 1.5em;
+    border-left: 25px solid #fea540;
+	border-bottom: 1px solid #fea540;
+	padding: 0 0 2px 5px;
+}
+
+h2 { 
+	color: #fea540;    
+	font-size: 1.3em;
+	margin: 1ex 0; 
+}
+
+pre {
+	text-align: left;
+	background-color: #fff;
+	border-left: 1px solid #aaa;
+	padding: 5px;
+}
+
+dt {
+	font-weight: bold;
+	color: #777;
+}
+dd {
+	padding-bottom: 3px;
+}

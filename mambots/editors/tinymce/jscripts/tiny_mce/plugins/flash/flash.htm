@@ -1,0 +1,182 @@
+<html>
+<head>
+<title>{$lang_insert_flash}</title>
+<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+<script language="javascript">
+var url = tinyMCE.getParam("flash_external_list_url");
+if (url != null) {
+	// Fix relative
+	if (url.charAt(0) != '/')
+		url = tinyMCE.documentBasePath + "/" + url;
+
+	document.write('<sc'+'ript language="javascript" type="text/javascript" src="' + url + '"></sc'+'ript>');
+}
+</script>
+<script language="javascript" type="text/javascript">
+<!--
+    function init() {
+    // modified 2004-11-10 by Michael Keck (me@michaelkeck.de)
+    // supporting onclick event to open pop windows
+        var formObj = document.forms[0];
+        var swffile   = tinyMCE.getWindowArg('swffile');
+        var swfwidth  = '' + tinyMCE.getWindowArg('swfwidth');
+        var swfheight = '' + tinyMCE.getWindowArg('swfheight');
+        if (swfwidth.indexOf('%')!=-1) {
+            formObj.width2.value = "%";
+            formObj.width.value  = swfwidth.substring(0,swfwidth.length-1);
+        } else {
+            formObj.width2.value = "px";
+            formObj.width.value  = swfwidth;
+        }
+        if (swfheight.indexOf('%')!=-1) {
+            formObj.height2.value = "%";
+            formObj.height.value  = swfheight.substring(0,swfheight.length-1);
+        } else {
+            formObj.height2.value = "px";
+            formObj.height.value  = swfheight;
+        }
+        formObj.file.value = swffile;
+        formObj.insert.value = tinyMCE.getLang('lang_' + tinyMCE.getWindowArg('action'), 'Insert', true);
+
+		// Handle file browser
+		if (tinyMCE.getParam("file_browser_callback") != null) {
+			document.getElementById('file').style.width = '230px';
+
+			var html = '';
+
+			html += '<img id="browserBtn" src="../../themes/advanced/images/browse.gif"';
+			html += ' onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');"';
+			html += ' onmouseout="tinyMCE.restoreClass(this);"';
+			html += ' onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');"';
+			html += ' onclick="javascript:tinyMCE.openFileBrowser(\'file\',document.forms[0].file.value,\'flash\',window);"';
+			html += ' width="20" height="18" border="0" title="' + tinyMCE.getLang('lang_browse') + '"';
+			html += ' class="mceButtonNormal" alt="' + tinyMCE.getLang('lang_browse') + '" />';
+
+			document.getElementById('browser').innerHTML = html;
+		}
+
+		// Auto select flash in list
+		if (typeof(tinyMCEFlashList) != "undefined" && tinyMCEFlashList.length > 0) {
+			for (var i=0; i<formObj.link_list.length; i++) {
+				if (formObj.link_list.options[i].value == tinyMCE.getWindowArg('swffile'))
+					formObj.link_list.options[i].selected = true;
+			}
+		}
+    }
+
+    function insertFlash() {
+        var formObj = document.forms[0];
+        if (window.opener) {
+            var html      = '';
+            var file      = formObj.file.value;
+            var width     = formObj.width.value;
+            var height    = formObj.height.value;
+            if (formObj.width2.value=='%') {
+                width = width + '%';
+            }
+            if (formObj.height2.value=='%') {
+                height = height + '%';
+            }
+
+			if (width == "")
+				width = 100;
+
+			if (height == "")
+				height = 100;
+
+            html += ''
+                + '<img src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '" '
+                + 'width="' + width + '" height="' + height + '" '
+                + 'border="0" alt="' + file + '" title="' + file + '" class="mce_plugin_flash" name="mce_plugin_flash" />';
+            tinyMCE.execCommand("mceInsertContent",true,html);
+			tinyMCE.selectedInstance.repaint();
+
+			// Close the dialog
+			tinyMCE.closeDialog();
+        }
+    }
+
+    function cancelAction() {
+		// Close the dialog
+		tinyMCE.closeDialog();
+    }
+
+//-->
+</script>
+<style type="text/css">
+<!--
+   input.radio {
+        border: 1px none #000000;
+        background-color: transparent;
+        vertical-align: middle;
+   }
+-->
+</style>
+</head>
+<body onload="init();">
+    <form onsubmit="insertFlash();return false;">
+        <table border="0" cellpadding="0" cellspacing="4" width="350">
+            <tr>
+                <td class="title">{$lang_insert_flash}</td>
+            </tr>
+            <tr>
+                <td><hr size="1" noshade="noshade" /></td>
+            </tr>
+            <tr>
+                <td align="center" valign="middle"><table border="0" cellpadding="4" cellspacing="0">
+                    <tr>
+                        <td align="right" nowrap="nowrap">{$lang_insert_flash_file}:</td>
+                      <td nowrap="nowrap">
+                            <table border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td><input name="file" type="text" id="file" value="" onfocus="this.select();" style="width: 250px; vertical-align: middle;" /></td>
+                                <td id="browser"></td>
+                              </tr>
+                            </table>
+                        </td>
+                    </tr>
+				  <!-- Link list -->
+				  <script language="javascript">
+					if (typeof(tinyMCEFlashList) != "undefined" && tinyMCEFlashList.length > 0) {
+						var html = "";
+
+						html += '<tr><td  align="right">{$lang_insert_flash_list}:</td>';
+						html += '<td><select name="link_list" style="width: 250px" onchange="this.form.file.value=this.options[this.selectedIndex].value;">';
+						html += '<option value="">---</option>';
+
+						for (var i=0; i<tinyMCEFlashList.length; i++)
+							html += '<option value="' + tinyMCEFlashList[i][1] + '">' + tinyMCEFlashList[i][0] + '</option>';
+
+						html += '</select></td></tr>';
+
+						document.write(html);
+					}
+				  </script>
+				  <!-- /Link list -->
+                    <tr>
+                        <td align="right" nowrap="nowrap">{$lang_insert_flash_size}:</td>
+                        <td nowrap="nowrap">
+                            <input name="width" type="text" id="width" value="" onfocus="this.select();" style="width: 50px; vertical-align: middle;" />
+                            <select name="width2" id="width2" style="width: 50px; vertical-align: middle;">
+                                <option value="">px</option>
+                                <option value="%">%</option>
+                            </select>&nbsp;x&nbsp;<input name="height" type="text" id="height" value="" onfocus="this.select();" style="width: 50px; vertical-align: middle;" />
+                            <select name="height2" id="height2" style="width: 50px; vertical-align: middle;">
+                                <option value="">px</option>
+                                <option value="%">%</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table></td>
+            <tr>
+                <td><hr size="1" noshade="noshade" /></td>
+            </tr>
+            <tr>
+                <td nowrap="nowrap" align="left">
+                    <input style="float:left" type="button" name="insert" value="{$lang_insert}" onclick="insertFlash();" id="insert" /><input style="float:right"  type="button" name="cancel" value="{$lang_cancel}" onclick="cancelAction();" id="cancel" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

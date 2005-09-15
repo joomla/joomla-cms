@@ -1,0 +1,242 @@
+<mos:comment>
+@version $Id: item.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="ROWS" varscope="BODY">
+	<div class="contentblock">
+	<mos:tmpl type="condition" conditionvar="SHOW_TITLE_AREA" varscope="BODY, ROWS">
+		<mos:sub condition="1">
+			<table class="contentpaneopen{P_PAGECLASS_SFX}">
+			<tr>
+				<mos:tmpl type="simplecondition" requiredvars="P_ITEM_TITLE=1" varscope="BODY, ROWS">
+				<!-- Show Title -->
+					<td class="contentheading{P_PAGECLASS_SFX}" width="100%">
+						{EDIT_ICON}
+						<mos:tmpl type="simplecondition" requiredvars="LINKED_TITLE=1" varscope="BODY, ROWS">
+						<!-- Show Linked Title -->
+							<a href="{ROW_LINK_ON}" class="contentpagetitle{P_PAGECLASS_SFX}">
+								{ROW_TITLE}</a>
+						</mos:tmpl>
+
+						<mos:tmpl type="simplecondition" requiredvars="LINKED_TITLE=0" varscope="BODY, ROWS">
+						<!-- Show Non-Linked Title -->
+							{ROW_TITLE}
+						</mos:tmpl>
+					</td>
+				</mos:tmpl>
+
+				<mos:tmpl type="simplecondition" requiredvars="P_ITEM_TITLE=0" varscope="BODY, ROWS">
+				<!-- Show Edit Icon -->
+					<td class="contentheading{P_PAGECLASS_SFX}" width="100%">
+						{EDIT_ICON}
+					</td>
+				</mos:tmpl>
+
+				<mos:tmpl type="simplecondition" requiredvars="P_PDF=1, P_POPUP=0" varscope="BODY, ROWS">
+				<!-- Show PDF Icon -->
+					<td align="right" width="100%" class="buttonheading">
+						<a href="#" onclick="{PDF_ONCLICK}" style="font-weight: normal;" title="<mos:Translate>PDF</mos:Translate>">
+							{PDF_IMAGE}</a>
+					</td>
+				</mos:tmpl>
+
+				<mos:tmpl type="simplecondition" requiredvars="P_PRINT=1" varscope="BODY, ROWS">
+				<!-- Show Print Icon -->
+					<mos:tmpl type="simplecondition" requiredvars="P_POPUP=1" varscope="BODY, ROWS">
+					<!-- Print Button - used in pop-up window -->
+						<td align="right" width="100%" class="buttonheading">
+							<a href="#" onclick="javascript:window.print(); return false" style="font-weight: normal;" title="<mos:Translate>Print</mos:Translate>">
+								{PRINT_IMAGE}</a>
+						</td>
+					</mos:tmpl>
+
+					<mos:tmpl type="simplecondition" requiredvars="P_POPUP=0" varscope="BODY, ROWS">
+					<!-- Print Preview button - used when viewing page -->
+						<td align="right" width="100%" class="buttonheading">
+							<a href="#" onclick="{PRINT_ONCLICK}" style="font-weight: normal;" title="<mos:Translate>Print</mos:Translate>">
+								{PRINT_IMAGE}</a>
+						</td>
+					</mos:tmpl>
+				</mos:tmpl>
+
+				<mos:tmpl type="simplecondition" requiredvars="P_EMAIL=1, P_POPUP=0" varscope="BODY, ROWS">
+				<!-- Show Email Icon -->
+					<td align="right" width="100%" class="buttonheading">
+						<a href="#" onclick="{EMAIL_ONCLICK}" style="font-weight: normal;" title="<mos:Translate>Email</mos:Translate>">
+							{EMAIL_IMAGE}</a>
+					</td>
+				</mos:tmpl>
+			</tr>
+			</table>
+		</mos:sub>
+
+		<mos:sub condition="0">
+		<!-- edit icon when item title set to hide -->
+			<table class="contentpaneopen{P_PAGECLASS_SFX}">
+			<tr>
+				<td>
+					{EDIT_ICON}
+				</td>
+			</tr>
+			</table>
+		</mos:sub>
+	</mos:tmpl>
+
+	<mos:comment>
+	Have to work out how to trigger these
+
+	if ( !$params->get( 'intro_only' ) ) {
+		$results = $_MAMBOTS->trigger( 'onAfterDisplayTitle', array( &$row, &$params, $page ) );
+		echo trim( implode( "\n", $results ) );
+	}
+
+	$results = $_MAMBOTS->trigger( 'onBeforeDisplayContent', array( &$row, &$params, $page ) );
+	echo trim( implode( "\n", $results ) );
+	</mos:comment>
+
+	<table class="contentpaneopen{P_PAGECLASS_SFX}">
+
+	<mos:tmpl type="simplecondition" requiredvars="SHOW_SEC_CAT=1" varscope="BODY, ROWS">
+	<!-- Show Section or Category -->
+		<tr>
+			<td>
+				<mos:tmpl type="simplecondition" requiredvars="P_SECTION=1, ROW_SECTION" varscope="BODY, ROWS">
+				<!-- Show Section -->
+						<span>
+							{ROW_SECTION}
+
+							<mos:tmpl type="simplecondition" requiredvars="P_CATEGORY=1, ROW_CATEGORY" varscope="BODY, ROWS">
+							<!-- Show Spacer between Section & Category -->
+								-
+							</mos:tmpl>
+						</span>
+				</mos:tmpl>
+
+				<mos:tmpl type="simplecondition" requiredvars="P_CATEGORY=1, ROW_CATEGORY" varscope="BODY, ROWS">
+				<!-- Show Category -->
+					<span>
+						{ROW_CATEGORY}
+					</span>
+				</mos:tmpl>
+			</td>
+		</tr>
+	</mos:tmpl>
+
+	<mos:tmpl type="simplecondition" requiredvars="P_AUTHOR=1, ROW_AUTHOR" varscope="BODY, ROWS">
+	<!-- Show Author -->
+		<tr>
+			<td width="70%" align="left" valign="top" colspan="2">
+				<span class="small">
+					<mos:Translate>Written by</mos:Translate>
+					{ROW_AUTHOR}
+				</span>
+			</td>
+		</tr>
+	</mos:tmpl>
+
+	<mos:tmpl type="simplecondition" requiredvars="P_CREATEDATE=1" varscope="BODY, ROWS">
+	<!-- Show Created Date -->
+		<tr>
+			<td valign="top" colspan="2" class="createdate">
+				{ROW_CREATED_DATE}
+			</td>
+		</tr>
+	</mos:tmpl>
+
+	<mos:tmpl type="simplecondition" requiredvars="P_URL=1, ROW_URLS" varscope="BODY, ROWS">
+	<!-- Show URL -->
+		<tr>
+			<td valign="top" colspan="2">
+				<a href="http://{ROW_URLS}" target="_blank">
+					{ROW_URLS}</a>
+			</td>
+		</tr>
+	</mos:tmpl>
+
+	<tr>
+		<td valign="top" colspan="2">
+			<mos:tmpl type="simplecondition" requiredvars="ROW_TOC=1" varscope="BODY, ROWS">
+			<!-- Show Table of Contents -->
+				{ROW_TOC}
+			</mos:tmpl>
+
+			{ROW_TEXT}
+		</td>
+	</tr>
+
+	<mos:tmpl type="simplecondition" requiredvars="P_MODIFYDATE=1, ROW_MOD_DATE" varscope="BODY, ROWS">
+	<!-- Show Modified Date -->
+		<tr>
+			<td colspan="2" align="left" class="modifydate">
+				<mos:Translate>Last Updated</mos:Translate>
+				{ROW_MOD_DATE}
+			</td>
+		</tr>
+	</mos:tmpl>
+
+	<mos:tmpl type="simplecondition" requiredvars="P_READMORE=1, P_INTRO_ONLY=1, ROW_LINK_TEXT" varscope="BODY, ROWS">
+	<!-- Show Readmore -->
+		<tr>
+			<td align="left" colspan="2">
+				<a href="{ROW_LINK_ON}" class="readon{P_PAGECLASS_SFX}" title="{ROW_LINK_TEXT} <mos:Translate>about</mos:Translate> {ROW_TITLE}">
+					{ROW_LINK_TEXT}
+						<span style="display: none;">
+							<mos:Translate>about</mos:Translate> {ROW_TITLE}
+						</span></a>
+			</td>
+		</tr>
+	</mos:tmpl>
+
+	</table>
+
+	<mos:tmpl type="simplecondition" requiredvars="SHOW_PAGE_NAV=1" varscope="BODY, ROWS">
+	<!-- Show Page Navigation -->
+		<table align="center" style="margin-top: 25px;">
+		<tr>
+			<mos:tmpl type="simplecondition" requiredvars="ROW_PREV" varscope="BODY, ROWS">
+				<th class="pagenav_prev">
+					<a href="{ROW_PREV}">
+						<mos:Translate>ITEM_PREVIOUS</mos:Translate></a>
+				</th>
+			</mos:tmpl>
+
+			<mos:tmpl type="simplecondition" requiredvars="ROW_PREV, ROW_NEXT" varscope="BODY, ROWS">
+				<td width="50">
+				</td>
+			</mos:tmpl>
+
+			<mos:tmpl type="simplecondition" requiredvars="ROW_NEXT" varscope="BODY, ROWS">
+				<th class="pagenav_next">
+					<a href="{ROW_NEXT}">
+						<mos:Translate>ITEM_NEXT</mos:Translate></a>
+				</th>
+			</mos:tmpl>
+		</tr>
+		</table>
+	</mos:tmpl>
+	</div>
+</mos:tmpl>
+
+<mos:tmpl type="simplecondition" requiredvars="P_BACK_BUTTON=1, P_POPUP=0" varscope="BODY">
+<!-- Show Back Button -->
+	<br/>
+	<mos:link src="back_button" varscope="BODY"/>
+</mos:tmpl>
+
+<mos:tmpl type="simplecondition" requiredvars="P_POPUP=1" varscope="BODY">
+<!-- Show Close Button -->
+	<br/>
+	<mos:link src="close_button" varscope="BODY"/>
+</mos:tmpl>
+
+
+<mos:comment>
+Have to work out how to trigger these
+
+$results = $_MAMBOTS->trigger( 'onAfterDisplayContent', array( &$row, &$params, $page ) );
+echo trim( implode( "\n", $results ) );
+</mos:comment>
+{ONAFTERDISPLAYCONTENT}

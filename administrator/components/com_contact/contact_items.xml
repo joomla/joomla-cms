@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosparams type="component" version="4.5.2">
+	<description>Parameters for individual Contact Items</description>
+	<params>
+		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="paramPageClassSfx" />
+		<param name="print" type="list" default="" label="Print Icon" description="paramPrint">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="back_button" type="list" default="" label="Back Button" description="paramBackButton">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="name" type="radio" default="1" label="Name" description="Show/Hide the name info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="position" type="radio" default="1" label="Position" description="Show/Hide the position info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="email" type="radio" default="0" label="Email" description="paramEmail">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="street_address" type="radio" default="1" label="Street Address" description="Show/Hide the street address info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="suburb" type="radio" default="1" label="Town/Suburb" description="Show/Hide the suburb info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="state" type="radio" default="1" label="State" description="Show/Hide the state info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="country" type="radio" default="1" label="Country" description="Show/Hide the country info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="postcode" type="radio" default="1" label="Post/Zip Code" description="Show/Hide the post code info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="telephone" type="radio" default="1" label="Telephone" description="Show/Hide the telephone info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="fax" type="radio" default="1" label="Fax" description="Show/Hide the fax info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="misc" type="radio" default="1" label="Misc Info" description="Show/Hide the misc info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="image" type="radio" default="1" label="Image" description="Show/Hide the image">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="email_description" type="radio" default="1" label="Email description" description="Show/Hide the Description Text below">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="email_description_text" type="text" size="30" default="" label="Description text" description="paramEmailDescText" />
+		<param name="email_form" type="radio" default="1" label="Email Form" description="Show/Hide the email to form">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="email_copy" type="radio" default="1" label="Email Copy" description="paramEmailCopy">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="drop_down" type="radio" default="0" label="Drop Down" description="paramDropDown">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="vcard" type="radio" default="1" label="Vcard" description="Show/Hide the Vcard download function">
+		<option value="0">Hide</option>
+		<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="contact_icons" type="list" default="0" label="Icons/text" description="paramContactIcons">
+			<option value="0">Icons</option>
+			<option value="1">Text</option>
+			<option value="2">None</option>
+		</param>
+		<param name="icon_address" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Address Icon" description="Icon for the Address info" />
+		<param name="icon_email" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Email Icon" description="Icon for the Email info" />
+		<param name="icon_telephone" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Telephone Icon" description="Icon for the Telephone info" />
+		<param name="icon_fax" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Fax Icon" description="Icon for the Fax info" />
+		<param name="icon_misc" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Misc Icon" description="Icon for the Misc info" />
+	</params>
+</mosparams>

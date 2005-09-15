@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="component" version="4.5.2">
+	<name>Syndicate</name>
+	<author>Joomla! Core</author>
+	<creationDate>-</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@mamboserver.com</authorEmail>
+	<authorUrl>www.mamboserver.com</authorUrl>
+	<version>-</version>
+	<description>This component controls the Syndication settings</description>
+	<params>
+		<param name="cache" type="radio" default="1" label="Cache" description="Cache the feed files">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="cache_time" type="text" size="8" default="3600" label="Cache Time" description="paramCaheTime" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="count" type="text" size="4" default="5" label="# Items" description="Number of Items to syndicate" />
+		<param name="title" type="text" size="40" default="Powered by Joomla! 4.5.2" label="Title" description="Syndication Title" />
+		<param name="description" type="textarea" rows="5" cols="30" default="Joomla! site syndication" label="Description" description="Syndication Description" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="image_file" type="imagelist" directory="/images/M_images" default="" label="Image" description="Image to be included in feed" />
+		<param name="image_alt" type="text" size="30" default="Powered by Joomla! 4.5.2" label="Image Alt" description="Alt text for image" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="limit_text" type="radio" default="1" label="Limit Text" description="paramLimitText">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="text_length" type="text" size="4" default="20" label="Text Length" description="paramTextLength" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="orderby" type="list" default="front" label="Order" description="paramOrderBy">
+			<option value="front">Default</option>
+			<option value="front">Frontpage Ordering</option>
+			<option value="date">Oldest first</option>
+			<option value="rdate">Most recent first</option>
+			<option value="alpha">Title Alphabetical</option>
+			<option value="ralpha">Title Reverse-Alphabetical</option>
+			<option value="author">Author Alphabetical</option>
+			<option value="rauthor">Author Reverse-Alphabetical</option>
+			<option value="hits">Most Hits</option>
+			<option value="rhits">Least Hits</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="Functionality moved to Global Configuration" type="link" default="index2.php?option=com_config" label="Live Bookmarks" description="paramLiveBookmark" />
+	</params>
+</mosinstall>

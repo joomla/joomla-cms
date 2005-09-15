@@ -1,0 +1,28 @@
+<mos:comment>
+@version $Id: tree.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:link src="include-tree" />
+
+<script type="text/javascript">
+	d = new dTree( 'd', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/' );
+	d.config.useLines=true;
+	d.config.useIcons=true;
+	d.config.useCookies=true;
+	d.add( 0, -1, '<mos:translate>Menus</mos:translate>' );
+
+	d.add( 999997, 0, '<mos:translate>Menu Manager</mos:translate>', 'index2.php?option=com_menumanager', '<mos:translate>Menu Manager</mos:translate>' );
+
+	<mos:tmpl name="menus-list" type="simplecondition" requiredvars="row_num">
+	d.add( '{ROW_NUM}', 0, '{ROW_TYPE}', 'index2.php?option=com_menus&menutype={ROW_TYPE}', '{ROW_TYPE}', '', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/folder.gif' );
+	</mos:tmpl>
+
+	<mos:tmpl name="trashMenu">
+	d.add( 999998, 0, '<mos:translate>Trash</mos:translate>{TRASH}', 'index2.php?option=com_menus&task=trashview', '<mos:translate>Trash Manager</mos:translate>', '', '{SITEURL}/includes/js/dtree/{TREEIMGFOLDER}/trash.gif' );
+	</mos:tmpl>
+
+	document.write(d);
+</script>

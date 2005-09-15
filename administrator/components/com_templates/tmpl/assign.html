@@ -1,0 +1,41 @@
+<mos:comment>
+@version $Id: assign.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<div id="treecell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Quick Tip</mos:Translate>
+		</legend>
+		<mos:Translate key="Quicktiptext asign"></mos:Translate>
+	</fieldset>
+</div>
+
+<div id="datacell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Asign</mos:Translate>
+		</legend>
+		<table class="adminform">
+		<tr>
+			<th class="left" colspan="2">
+				<mos:Translate>Template</mos:Translate>: {ELEMENT}
+			</th>
+		</tr>
+		<tr>
+			<td valign="top">
+				<mos:Translate>Page(s)</mos:Translate>
+			</td>
+			<td width="80%">
+				{MENULIST}
+			</td>
+		</tr>
+		</table>
+</div>
+
+<input type="hidden" name="element" value="{ELEMENT}" />
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="" />

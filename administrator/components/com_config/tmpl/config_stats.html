@@ -1,0 +1,49 @@
+<mos:comment>
+@version $Id: config_stats.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<table class="adminform" id="editpage">
+	<thead>
+		<tr>
+			<th colspan="2">
+				<mos:Translate>Statistics Settings</mos:Translate>
+			</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<th colspan="2">
+			</th>
+		</tr>
+	</tfoot>
+	<tbody>
+		<tr>
+			<td width="{COLWIDTH}">
+				<mos:Call template="tooltip" text="Statistics" tip="TIPENABLEDISABLESTATISTICS" />
+			</td>
+			<td>
+				{CONFIG_ENABLE_STATS}
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<img src="{SITEURL}/includes/js/ThemeOffice/warning.png" border="0" hspace="2" align="left" />
+				<mos:Call template="tooltip" text="Log Content Hits by Date" tip="TIPLARGEAMOUNTSOFDATA" />
+			</td>
+			<td>
+				{CONFIG_ENABLE_LOG_ITEMS}
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<mos:Translate>Log Search Strings</mos:Translate>
+			</td>
+			<td>
+				{CONFIG_ENABLE_LOG_SEARCHES}
+			</td>
+		</tr>
+	</tbody>
+</table>

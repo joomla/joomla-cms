@@ -1,0 +1,30 @@
+<mos:comment>
+@version $Id: preview.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<style type="text/css">
+.previewFrame {
+	border: none;
+	width: 98%;
+	height: 600px;
+	padding: 0px 5px 0px 10px;
+}
+</style>
+
+<div id="datacellfull">
+	<fieldset>
+		<legend>
+			<a href="{SITEURL}/index.php?tp={TP}" target="_blank">
+				{SITENAME}</a>
+		</legend>
+
+		<iframe name="previewFrame" src="{SITEURL}/index.php?tp={TP}" class="previewFrame" /></iframe>
+
+	</fieldset>
+</div>
+
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="" />

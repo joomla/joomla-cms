@@ -1,0 +1,197 @@
+<mos:comment>
+@version $Id: edit_category.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<script language="javascript" type="text/javascript">
+<!--
+{JS}
+function submitbutton( pressbutton ) {
+	var form = document.adminForm;
+	if ( pressbutton == 'cancel' ) {
+		submitform( pressbutton );
+		return;
+	}
+
+	// var goodexit=false;
+	form.goodexit.value = 1;
+
+	if ( form.title.value == '' ) {
+		alert ( "<mos:Translate>E_WARNTITLE</mos:Translate>" );
+	} else {
+		{GET_EDITOR}
+		submitform( pressbutton );
+	}
+}
+
+function setgood() {
+	document.adminForm.goodexit.value = 1;
+}
+
+function WarnUser() {
+	if ( document.adminForm.goodexit.value == 0 ) {
+		alert('<mos:Translate>E_WARNUSER</mos:Translate>');
+		window.location = "{LINK}";
+	}
+}
+//-->
+</script>
+<style type="text/css">
+table.adminform td {
+	height: 45px;
+	padding-left: 10px;
+}
+table.adminform th {
+	height: 30px;
+	color: #E15704;
+	font-size: 12px;
+	text-align: left;
+	padding: 6px 4px 2px 4px ;
+	background-color: #E9EFF5;
+}
+fieldset {
+	width: 97%;
+}
+div.surround {
+	margin-top: 10px;
+}
+div.editor {
+	padding: 20px 0px 10px 0px;
+}
+</style>
+
+<form action="index.php" method="post" name="adminForm" class="adminform" id="formsection" onsubmit="javascript:setgood();">
+
+<div class="componentheading">
+	<mos:Translate>E_EDIT</mos:Translate>
+	<mos:Translate>E_CATEGORY</mos:Translate>
+</div>
+
+<div align="center"class="surround">
+	<fieldset>
+		<table class="adminform" width="100%">
+		<tr>
+			<td>
+				<label for="title">
+					<mos:Translate>E_TITLE</mos:Translate>
+				</label>
+				<br/>
+				<input class="inputbox" type="text" name="title" id="title" size="50" maxlength="100" value="{ROW_TITLE}" />
+			</td>
+			<td rowspan="2" valign="top" align="right" width="200">
+				<div style="float: right;">
+					{TOOLBAR}
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="name">
+					<mos:Translate>E_NAME</mos:Translate>
+				</label>
+				<br/>
+				<input class="inputbox" type="text" name="name" id="name" size="50" maxlength="100" value="{ROW_NAME}" />
+			</td>
+		</tr>
+		</table>
+	</fieldset>
+</div>
+
+<div align="center"class="surround">
+	<fieldset>
+		<legend>
+			<mos:Translate>E_DESCRIPTION</mos:Translate>:
+		</legend>
+
+		<div align="center" class="editor">
+			{EDITOR}
+		</div>
+	</fieldset>
+</div>
+
+<div align="center"class="surround">
+	<fieldset>
+		<div align="center">
+			{TOOLBAR}
+		</div>
+
+		<div align="center" class="details">
+			<table class="adminform" width="100%" border="0">
+			<thead>
+			<tr>
+				<th colspan="6">
+					<mos:Translate>Details</mos:Translate>
+				</th>
+			</tr>
+			</thead>
+			<tfoot>
+			<tr>
+				<th colspan="6">
+				</th>
+			</tr>
+			</tfoot>
+
+			<tr>
+				<td align="left">
+					<label for="published">
+						<mos:Translate>E_STATE</mos:Translate>
+					</label>
+				</td>
+				<td>
+					{LIST_STATE}
+				</td>
+			</tr>
+			<tr>
+				<td align="left" valign="top">
+					<label for="access">
+						<mos:Translate>E_ACCESS_LEVEL</mos:Translate>
+					</label>
+				</td>
+				<td>
+					{LIST_ACCESS}
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="image">
+						<mos:Translate>E_IMAGE</mos:Translate>:
+					</label>
+				</td>
+				<td>
+					{LIST_IMAGE}
+				</td>
+				<td rowspan="4" width="50%">
+					<img src="{SITEURL}/images/stories/{ROW_IMAGE}" name="imagelib" width="80" height="80" border="2" alt="Preview" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="image_position">
+						<mos:Translate>E_IMAGE_POSITION</mos:Translate>:
+					</label>
+				</td>
+				<td>
+					{LIST_IMAGE_POSITION}
+				</td>
+			</tr>
+			</table>
+		</div>
+	</fieldset>
+</div>
+
+<div style="clear: both;"></div>
+
+<input type="hidden" name="images" value="" />
+<input type="hidden" name="goodexit" value="0" />
+<input type="hidden" name="option" value="com_content" />
+<input type="hidden" name="Returnid" value="{ROW_RETURN}" />
+<input type="hidden" name="id" value="{ROW_ID}" />
+<input type="hidden" name="ordering" value="{ROW_ORDERING}" />
+<input type="hidden" name="params" value="{ROW_PARAMS}" />
+<input type="hidden" name="referer" value="{REFERER}" />
+<input type="hidden" name="scope" value="content" />
+<input type="hidden" name="task" value="" />
+
+</form>

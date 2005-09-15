@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="component" version="4.5.2">
+	<name>Content Page</name>
+	<author>Joomla! Project</author>
+	<creationDate>July 2004</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@mamboserver.com</authorEmail>
+	<authorUrl>www.mamboserver.com</authorUrl>
+	<version>4.5.2</version>
+	<description>This shows a single content page</description>
+	<params>
+		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="paramPageClassSfx" />
+		<param name="back_button" type="list" default="" label="Back Button" description="paramBackButton">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="item_title" type="radio" default="1" label="Page Title" description="Show/Hide the items title">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="link_titles" type="list" default="" label="Linked Titles" description="Make your Item titles linkable">
+			<option value="">Use Global</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="introtext" type="radio" default="1" label="Intro Text" description="Show/Hide the intro text">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="section" type="radio" default="0" label="Section Name" description="paramSection">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="section_link" type="radio" default="0" label="Section Name Linkable" description="paramSectionLink">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="category" type="radio" default="0" label="Category Name" description="paramCateg">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="category_link" type="radio" default="0" label="Category Name Linkable" description="paramCategLink">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="rating" type="list" default="" label="Item Rating" description="paramRating">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="author" type="list" default="" label="Author Names" description="paramAuthor">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="createdate" type="list" default="" label="Created Date and Time" description="paramCreateDate">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="modifydate" type="list" default="" label="Modified Date and Time" description="paramModifyDate">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="pdf" type="list" default="" label="PDF Icon" description="paramPDF">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="print" type="list" default="" label="Print Icon" description="paramPrint">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="email" type="list" default="" label="Email Icon" description="paramEmail">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="language" type="language_list" default="" label="Content language" description="paramLanguage" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="keyref" type="text" size="25" default="" label="Key Reference" description="paramKeyRef" />
+		<param name="docbook_type" type="list" default="" label="DocBook Type" description="paramDocbookType">
+			<option value=""></option>
+			<option value="appendix">Appendix</option>
+			<option value="article">Article</option>
+			<option value="book">Book</option>
+			<option value="chapter">Chapter</option>
+			<option value="glossary">Glossary</option>
+			<option value="part">Part</option>
+			<option value="refentry">Refentry</option>
+			<option value="section">Section</option>
+		</param>
+	</params>
+</mosinstall>

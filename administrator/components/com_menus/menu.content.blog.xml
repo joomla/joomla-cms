@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosparams type="menu" version="4.5.3">
+	<name>Common Blog XML</name>
+	<description>Parameters common to all Blog Types, automatically loaded for Blogs</description>
+	<params>
+		<param name="content_meta" type="radio" default="0" label="Append Content Meta" description="paramContentMeta">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+
+		<param name="leading" type="text" size="3" default="1" label="# Leading" description="paramLeading" />
+		<param name="intro" type="text" size="3" default="4" label="# Intro" description="paramIntro" />
+		<param name="columns" type="text" size="3" default="2" label="Columns" description="paramColumns" />
+		<param name="link" type="text" size="3" default="4" label="# Links" description="Number of Items to display as Links." />
+
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+
+		<param name="item_title" type="radio" default="1" label="Item Titles" description="Show/Hide the items title">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="link_titles" type="list" default="" label="Linked Titles" description="Make your Item titles linkable">
+			<option value="">Use Global</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="readmore" type="list" default="" label="Read More" description="Show/Hide the Read More link">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="rating" type="list" default="" label="Item Rating" description="paramRating">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="author" type="list" default="" label="Author Names" description="paramAuthor">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="createdate" type="list" default="" label="Created Date and Time" description="paramCreateDate">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="modifydate" type="list" default="" label="Modified Date and Time" description="paramModifyDate">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="pdf" type="list" default="" label="PDF Icon" description="paramPDF">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="print" type="list" default="" label="Print Icon" description="paramPrint">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="email" type="list" default="" label="Email Icon" description="paramEmail">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+
+		<param name="pagination" type="list" default="2" label="Pagination" description="Show/Hide Pagination support">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+			<option value="2">Auto</option>
+		</param>
+		<param name="pagination_results" type="radio" default="1" label="Pagination Results" description="paramPaginationResults">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="image" type="radio" default="1" label="MOSImages" description="Display {mosimages}.">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+	</params>
+</mosparams>

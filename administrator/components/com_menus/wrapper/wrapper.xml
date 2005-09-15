@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosparams type="menu" version="4.5.2">
+	<name>Wrapper</name>
+	<group>Other</group>
+	<description>Creates an IFrame that will wrap an external page/site into Mambo</description>
+	<params>
+		<param name="target" type="text" size="30" default="" label="Target Name" description="paramTarget" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="scrolling" type="radio" default="auto" label="Scroll Bars" description="paramScrolling">
+			<option value="no">No</option>
+			<option value="yes">Yes</option>
+			<option value="auto">Auto</option>
+		</param>
+		<param name="width" type="text" size="5" default="100%" label="Width" description="paramWidth" />
+		<param name="height" type="text" size="5" default="500" label="Height" description="paramHeight" />
+		<param name="height_auto" type="radio" default="1" label="Auto Height" description="paramHeightAuto">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="xhtml" type="radio" default="0" label="XHTML Compliance" description="paramXhtml">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="add" type="radio" default="1" label="Auto Add" description="paramAdd">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+	</params>
+</mosparams>

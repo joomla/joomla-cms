@@ -1,0 +1,49 @@
+<mos:comment>
+@version $Id: language.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<script language="JavaScript" type="text/javascript">
+	function validateForm( frm, task ) {
+		submitForm( frm, task );
+	}
+</script>
+
+<div id="right">
+	<div id="step">
+			<mos:Translate>choose language</mos:Translate>
+	</div>
+
+	<div class="far-right">
+		<input type="button" class="button" value="<mos:Translate escape="yes">Next</mos:Translate> &gt;&gt;" onclick="validateForm( this.form, 'preinstall' );" />
+	</div>
+	<div class="clr"></div>
+
+	<h1><mos:Translate>Select Language</mos:Translate></h1>
+
+	<div class="install-text">
+		&nbsp;
+		<div class="ctr"></div>
+	</div>
+
+	<div class="install-form">
+		<div class="form-block">
+			<select name="vars[lang]" class="inputbox" size="10">
+			<mos:tmpl name="lang-options">
+				<option value="{VALUE}" {SELECTED}>{TEXT}</option>
+			</mos:tmpl>
+			</select>
+		</div>
+	</div>
+
+	<div class="clr"></div>
+	<div class="clr"></div>
+
+</div>
+
+<div class="clr"></div>
+
+<input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}" />
+<input type="hidden" name="task" value="" />

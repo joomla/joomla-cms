@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall version="4.5.2" type="mambot" group="content">
+	<name>mosemailcloak</name>
+	<author>Joomla! Project</author>
+	<creationDate>August 2004</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@mamboserver.com</authorEmail>
+	<authorUrl>www.mamboserver.com</authorUrl>
+	<version>4.5.2</version>
+	<description>Cloaks all emails in content from spambots using javascript</description>
+	<files>
+		<filename mambot="mosemailcloak">mosemailcloak.php</filename>
+	</files>
+	<params>
+		<param name="mode" type="list" default="1" label="Mode" description="Select how the emails will be displayed">
+			<option value="0">Nonlinkable Text</option>
+			<option value="1">As linkable mailto address</option>
+		</param>
+		<param name="noscript" type="list" default="0" label="Noscript Support" description="Enable noscript tag support.  *Please note activating this feature will break XHTML Compliance, thus it is deactivated by default.  This means that those with javascript turned off (or with older browsers) will see a message indicating that they need javascript turned on to see the email address.">
+			<option value="0">Disabled</option>
+			<option value="1">Enabled</option>
+		</param>
+	</params>
+</mosinstall>

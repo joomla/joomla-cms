@@ -1,0 +1,219 @@
+<mos:comment>
+@version $Id: dbconfig.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<script language="JavaScript" type="text/javascript">
+function validateForm( frm, task ) {
+	var DBtype = getElementByName( frm, 'vars[DBtype]' );
+	var DBhostname = getElementByName( frm, 'vars[DBhostname]' );
+
+	if ( DBtype.selectedIndex == 0 ) {
+		alert( '<mos:Translate key="validType" escape="yes">Please select the database type</mos:Translate>' );
+		return;
+	} else if (DBhostname.value == '') {
+		alert( '<mos:Translate key="validHost" escape="yes">Please enter the host name</mos:Translate>' );
+		return;
+	} else {
+		submitForm( frm, task );
+	}
+}
+</script>
+
+<div id="right">
+	<div id="step">
+		<mos:Translate>database configuration</mos:Translate>
+	</div>
+
+	<div class="far-right">
+		<input type="button" class="button" value="&lt;&lt; <mos:Translate escape="yes">Previous</mos:Translate>" onclick="submitForm( this.form, 'license' );" />
+		<input type="button" class="button" value="<mos:Translate escape="yes">Next</mos:Translate> &gt;&gt;" onclick="validateForm( this.form, 'makedb' );" />
+	</div>
+
+	<div class="clr"></div>
+
+	<h1>
+	<mos:Translate>Connection Settings</mos:Translate>:
+	</h1>
+
+	<div class="install-text">
+		<mos:Translate key="tipDatabaseSteps">
+		<p>Setting up Joomla! to run on your server involves 4 simple steps...</p>
+		<p>Please enter the hostname of the server Joomla! is to be installed on.</p>
+		<p>Enter the MySQL username, password and database name you wish to use with Mambo.</p>
+		<p>Enter a prefix to be used by tables for this Joomla! installation. Select how to handle exisitng tables from a previous installation.</p>
+		<p>Install the samples unless you are experienced want to start with a virtually empty site.</p>
+		</mos:Translate>
+	</div>
+
+	<div class="install-form">
+		<div class="form-block">
+ 			<table class="content2">
+  			<tr>
+    			<td></td>
+    			<td></td>
+    			<td></td>
+			</tr>
+  			<tr>
+    			<td colspan="2">
+    				<label for="vars_dbtype">
+    					<mos:Translate>Database Type</mos:Translate>
+    				</label>
+    				<br/>
+ 					<select id="vars_dbtype" name="vars[DBtype]" class="inputbox" size="1">
+					<option value="" selected="true"><mos:Translate>Select Type</mos:Translate></option>
+					<mos:tmpl name="dbtype-options">
+						<option {SELECTED}>{TEXT}</option>
+					</mos:tmpl>
+					</select>
+		   		</td>
+	  		    <td>
+	  		    	<em>
+	  		    	<mos:Translate key="tipType">This is probably 'mysql'</mos:Translate>
+	  		    	</em>
+	  		    </td>
+			</tr>
+  			<tr>
+    			<td colspan="2">
+    				<label for="vars_dbhostname">
+
+						<mos:Translate>Host Name</mos:Translate>
+
+					</label>
+
+    				<br/>
+
+    				<input id="vars_dbhostname" class="inputbox" type="text" name="vars[DBhostname]" value="{VAR_DBHOSTNAME}" />
+    			</td>
+	  		    <td>
+	  		    	<em>
+	  		    	<mos:Translate key="tipHost">This is usually 'localhost'</mos:Translate>
+	  		    	</em>
+	  		    </td>
+			</tr>
+			<tr>
+	  		    <td colspan="2">
+    				<label for="vars_dbusername">
+		  		    	<mos:Translate>User Name</mos:Translate>
+					</label>
+	  		    	<br/>
+	  		    	<input id="vars_dbusername" class="inputbox" type="text" name="vars[DBuserName]" value="{VAR_DBUSERNAME}" />
+	  		    </td>
+	  		    <td>
+	  		    	<em>
+	  		    	<mos:Translate key="tipUser">Either something as 'root' or a username given by the hoster</mos:Translate>
+	  		    	</em>
+	  		    </td>
+			</tr>
+	  		<tr>
+	  		    <td colspan="2">
+    				<label for="vars_dbpassword">
+	  		    		<mos:Translate>Password</mos:Translate>
+					</label>
+	  		    	<br/>
+	  		    	<input id="vars_dbpassword" class="inputbox" type="text" name="vars[DBpassword]" value="{VAR_DBPASSWORD}" />
+	  		    </td>
+	  		    <td>
+	  		    	<em>
+	  		    	<mos:Translate key="tipPassword">For site security using a password for the mysql account is mandatory</mos:Translate>
+	  		    	</em>
+	  		    </td>
+			</tr>
+  			<tr>
+    			<td colspan="2">
+    				<label for="vars_dbname">
+	    				<mos:Translate>Database Name</mos:Translate>
+					</label>
+    				<br/>
+    				<input id="vars_dbname" class="inputbox" type="text" name="vars[DBname]" value="{VAR_DBNAME}" />
+    			</td>
+	  		    <td>
+	  		    	<em>
+	  		    	<mos:Translate key="tipDatabase">Some hosts allow only a certain DB name per site. Use table prefix in this case for distinct Joomla! sites.</mos:Translate>
+	  		    	</em>
+	  		    </td>
+			</tr>
+  			<tr>
+    			<td colspan="2">
+    				<label for="vars_dbprefix">
+	    				<mos:Translate>Table Prefix</mos:Translate>
+					</label>
+    				<br/>
+    				<input id="vars_dbprefix" class="inputbox" type="text" name="vars[DBPrefix]" value="{VAR_DBPREFIX}" />
+    			</td>
+	  		    <td>
+	  		    	<em>
+	  		    	<mos:Translate key="tipPrefix">Dont use 'old_' since this is used for backup tables</mos:Translate>
+	  		    	</em>
+	  		    </td>
+			</tr>
+  			<tr>
+	  		    <td>
+	  		    	<input id="vars_dbdel" type="checkbox" name="vars[DBDel]" value="1" />
+	  		    </td>
+				<td>
+    				<label for="vars_dbdel">
+						<mos:Translate>Drop Existing Tables</mos:Translate>
+					</label>
+				</td>
+    			<td></td>
+	  		</tr>
+  			<tr>
+	  		    <td>
+	  		    	<input id="vars_dbbackup" type="checkbox" name="vars[DBBackup]" value="1" />
+	  		    </td>
+
+				<td>
+    				<label for="vars_dbbackup">
+						<mos:Translate>Backup Old Tables</mos:Translate>
+					</label>
+				</td>
+
+    			<td>
+    				<em>
+    				<mos:Translate key="tipBackup">Any existing backup tables from former Joomla! installations will be replaced</mos:Translate>
+    				</em>
+    			</td>
+	  		</tr>
+  			<tr>
+	  		    <td>
+	  		    	<input id="vars_dbsample" type="checkbox" name="vars[DBSample]" value="1" checked="checked"/>
+	  		    </td>
+				<td>
+    				<label for="vars_dbsample">
+						<mos:Translate>Install Sample Data</mos:Translate>
+					</label>
+				</td>
+	  		    <td>
+	  		    	<em>
+	  		    	<mos:Translate key="tipSample">Uncheck only if you are experienced with mambo!</mos:Translate>
+	  		    	</em>
+	  		    </td>
+	  		</tr>
+  			<tr>
+	  		    <td>
+	  		    	<input id="vars_dbschema" type="checkbox" name="vars[DBSchema]" value="1"/>
+	  		    </td>
+				<td>
+    				<label for="vars_dbschema">
+						<mos:Translate>Use XML Schema (<strong>EXPERIMENTAL</strong>)</mos:Translate>
+					</label>
+				</td>
+	  		    <td>
+	  		    	<em>
+	  		    	<mos:Translate key="tipXML">Use for testing install of other DB platforms</mos:Translate>
+	  		    	</em>
+	  		    </td>
+	  		</tr>
+  			</table>
+		</div>
+	</div>
+</div>
+
+<div class="clr"></div>
+
+<input type="hidden" name="vars[lang]" value="{VAR_LANG}" />
+<input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}" />
+<input type="hidden" name="task" value="" />

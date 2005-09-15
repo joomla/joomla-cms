@@ -1,0 +1,29 @@
+<pat:comment>
+@version $Id: php_publish.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</pat:comment>
+	/**
+	 * Publishes or Unpublishes one or more records
+	 */
+	function publish() {
+		global $database, $my, $_LANG;
+
+		$cid = mosGetParam( $_POST, 'cid', array(0) );
+		mosArrayToInts( $cid, array() );
+
+		$cids = implode( ',', $cid );
+		$value = intval( $this->getTask() == 'publish' );
+
+		$query = 'UPDATE #__{BASENAME}'
+		. ' SET published = ' . $database->Quote( $value )
+		. ' WHERE id IN (' . $cids . ')'
+		. ' AND (checked_out = \'0\' OR checked_out = ' . $database->Quote( $my->id ) . ')'
+		;
+		$database->setQuery( $query );
+		$database->query();
+		$msg = $database->getErrorMsg();
+
+		$this->setRedirect( 'index2.php?option=com_{BASENAME}', $msg );
+	}

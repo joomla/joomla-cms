@@ -1,0 +1,386 @@
+<mos:comment>
+@version $Id: mainconfig.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<script language="JavaScript" type="text/javascript">
+	function validateForm( frm, task ) {
+		var siteName = getElementByName( frm, 'vars[siteName]' );
+		var adminEmail = getElementByName( frm , 'vars[adminEmail]' );
+
+		if (siteName.value == '') {
+			alert( '<mos:Translate key="errSiteName" escape="yes">Please enter a site name</mos:Translate>' );
+		} else if (adminEmail.value == '') {
+			alert( '<mos:Translate key="errEmailAddress" escape="yes">Please enter a valid email address</mos:Translate>' );
+		} else {
+			submitForm( frm, task );
+		}
+	}
+</script>
+
+<div id="right">
+
+	<div id="step">
+		<mos:Translate>main configuration</mos:Translate>
+	</div>
+
+	<div class="far-right">
+		<input type="button" class="button" value="<mos:Translate escape="yes">Next</mos:Translate> &gt;&gt;" onclick="validateForm( this.form, 'saveconfig' );" />
+	</div>
+	<div class="clr"></div>
+
+	<h1><mos:Translate>Site Name</mos:Translate>:</h1>
+	<div class="install-text">
+		<mos:Translate key="enterSiteName">Enter the name of your Joomla! site.</mos:Translate>
+	</div>
+	<div class="install-form">
+		<div class="form-block">
+  				<table class="content2">
+  			   <tr>
+  				  <td width="100">
+  				  	<mos:Translate>Site name</mos:Translate>
+  				  </td>
+  				  <td align="center">
+  				  	<input class="inputbox" type="text" name="vars[siteName]" size="40" value="{VAR_SITENAME}" />
+  				  </td>
+  			   </tr>
+  				</table>
+		</div>
+	</div>
+
+
+    <div class="clr"></div>
+	<h1><mos:Translate key="confTitle">Confirm the site URL, path, admin e-mail and file/directory chmods</mos:Translate></h1>
+	<div class="install-text">
+		<mos:Translate key="tipConfSteps">
+		<p>If URL and Path looks correct then please do not change.
+	   If you are not sure then please contact your ISP or administrator. Usually
+	   the values displayed will work for your site.<br/>
+	   <br/>
+	   Enter your e-mail address, this will be the e-mail address of the site
+	   SuperAdministrator.<br />
+	   <br/>
+		The permission settings will be used while installing Joomla! itself, by
+		the Joomla! addon-installers and by the media manager. If you are unsure
+		what flags shall be set, leave the default settings at the moment.
+		You can still change these flags later in the site global configuration.</p>
+		</mos:Translate>
+	</div>
+	<div class="install-form">
+		<div class="form-block">
+			<table class="content2">
+		   <tr>
+			  <td width="100">
+			  	<mos:Translate>Site URL</mos:Translate>
+			  </td>
+			  <td align="center">
+			  	<input class="inputbox" type="text" name="vars[siteUrl]" value="{VAR_SITEURL}" size="40"/>
+			  </td>
+			</tr>
+		   <tr>
+			  <td>
+			  	<mos:Translate>Site Path</mos:Translate>
+			  </td>
+				<td align="center">
+					<input class="inputbox" type="text" name="vars[sitePath]" value="{VAR_SITEPATH}" size="40"/>
+				</td>
+			</tr>
+			<tr>
+			  <td>
+			  	<mos:Translate>Your E-mail</mos:Translate>
+			  </td>
+			  <td align="center">
+			  	<input class="inputbox" type="text" name="vars[adminEmail]" value="" size="40" />
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+			  	<mos:Translate>Admin password</mos:Translate>
+			  </td>
+			  <td align="center">
+			  	<input class="inputbox" type="text" name="vars[adminPassword]" value="{VAR_ADMINPASSWORD}" size="40"/>
+			  </td>
+		  </tr>
+		  <tr>
+			  <td colspan="2">
+					<fieldset>
+						<legend>
+							<mos:Translate>File Permissions</mos:Translate>
+						</legend>
+
+						<table cellpadding="1" cellspacing="1" border="0">
+			 		<tr>
+							<td>
+								<input type="radio" id="filePermsMode0" name="vars[filePermsMode]" value="0" onclick="changeFilePermsMode(0)" />
+							</td>
+							<td>
+								<label for="filePermsMode0">
+									<mos:Translate key="noChmodFiles">Don't CHMOD files (use server defaults)</mos:Translate>
+								</label>
+							</td>
+						</tr>
+						<tr>
+						<td>
+							<input type="radio" id="filePermsMode1" name="vars[filePermsMode]" value="1" onclick="changeFilePermsMode(1)" />
+						</td>
+
+							<td>
+								<label for="filePermsMode1">
+									<mos:Translate>CHMOD files to</mos:Translate>:
+								</label>
+							</td>
+						</tr>
+						<tr id="filePermsFlags">
+							<td>
+								&nbsp;
+							</td>
+							<td>
+						  <table cellpadding="1" cellspacing="0" border="0">
+						  <tr>
+							 <td>
+							 	<mos:Translate>User</mos:Translate>:
+							 </td>
+							 <td>
+							 	<input type="checkbox" id="filePermsUserRead" name="vars[filePermsUserRead]" value="1"{VAR_PERM_FUR} />
+							 </td>
+							 <td>
+							 	<label for="filePermsUserRead">
+							 		<mos:Translate>read</mos:Translate>
+							 	</label>
+							 </td>
+							 <td>
+							 	<input type="checkbox" id="filePermsUserWrite" name="vars[filePermsUserWrite]" value="1"{VAR_PERM_FUW} />
+							 </td>
+							 <td>
+							 	<label for="filePermsUserWrite">
+							 		<mos:Translate>write</mos:Translate>
+							 	</label>
+							 </td>
+							 <td>
+							 	<input type="checkbox" id="filePermsUserExecute" name="vars[filePermsUserExecute]" value="1"{VAR_PERM_FUE} />
+							 </td>
+							 <td width="100%">
+							 	<label for="filePermsUserExecute">
+							 		<mos:Translate>execute</mos:Translate>
+							 	</label>
+							 </td>
+						  </tr>
+						  <tr>
+							 <td>
+							 	<mos:Translate>Group</mos:Translate>:
+							 </td>
+							 <td>
+							 	<input type="checkbox" id="filePermsGroupRead" name="vars[filePermsGroupRead]" value="1"{VAR_PERM_FGR} />
+							 </td>
+							 <td>
+							 	<label for="filePermsGroupRead">
+							 		<mos:Translate>read</mos:Translate>
+							 	</label>
+							 </td>
+							 <td>
+							 	<input type="checkbox" id="filePermsGroupWrite" name="vars[filePermsGroupWrite]" value="1"{VAR_PERM_FGW} />
+							 </td>
+							 <td>
+							 	<label for="filePermsGroupWrite">
+							 		<mos:Translate>write</mos:Translate>
+							 	</label>
+							 </td>
+							 <td>
+							 	<input type="checkbox" id="filePermsGroupExecute" name="vars[filePermsGroupExecute]" value="1"{VAR_PERM_FGE} />
+							 </td>
+							 <td width="100%">
+							 	<label for="filePermsGroupExecute">
+							 		<mos:Translate>execute</mos:Translate>
+							 	</label>
+							 </td>
+						  </tr>
+						  <tr>
+							 <td>
+							 	<mos:Translate>World</mos:Translate>:
+							 </td>
+							 <td>
+							 	<input type="checkbox" id="filePermsWorldRead" name="vars[filePermsWorldRead]" value="1"{VAR_PERM_FWR} />
+							 </td>
+							 <td>
+							 	<label for="filePermsWorldRead">
+							 		<mos:Translate>read</mos:Translate>
+							 	</label>
+						    	</td>
+							 <td>
+							 	<input type="checkbox" id="filePermsWorldWrite" name="vars[filePermsWorldWrite]" value="1"{VAR_PERM_FWW} />
+							 </td>
+							 <td>
+							 	<label for="filePermsWorldWrite">
+							 		<mos:Translate>write</mos:Translate>
+							 	</label>
+							 </td>
+							 <td>
+							 	<input type="checkbox" id="filePermsWorldExecute" name="vars[filePermsWorldExecute]" value="1"{VAR_PERM_FWE} />
+							 </td>
+							 <td width="100%">
+							 	<label for="filePermsWorldExecute">
+							 		<mos:Translate>execute</mos:Translate>
+							 	</label>
+							 </td>
+						  </tr>
+						  </table>
+							</td>
+						</tr>
+						</table>
+					</fieldset>
+			 </td>
+		  </tr>
+
+		  <tr>
+			  <td colspan="2">
+					<fieldset>
+						<legend>
+							<mos:Translate>Directory Permissions</mos:Translate>
+						</legend>
+
+						<table cellpadding="1" cellspacing="1" border="0">
+			 		<tr>
+							<td>
+								<input type="radio" id="dirPermsMode0" name="vars[dirPermsMode]" value="0" onclick="changeDirPermsMode(0)" />
+							</td>
+							<td>
+								<label for="dirPermsMode0">
+									<mos:Translate key="noChmodDirs">Don't CHMOD directories (use server defaults)</mos:Translate>
+								</label>
+							</td>
+						</tr>
+						<tr>
+						<td>
+							<input type="radio" id="dirPermsMode1" name="vars[dirPermsMode]" value="1" onclick="changeDirPermsMode(1)" />
+						</td>
+							<td>
+								<label for="dirPermsMode1">
+									<mos:Translate>CHMOD directories to</mos:Translate>:
+								</label>
+							</td>
+						</tr>
+						<tr id="dirPermsFlags">
+							<td>
+								&nbsp;
+							</td>
+							<td>
+						  <table cellpadding="1" cellspacing="0" border="0">
+						  <tr>
+							 <td>
+							 	<mos:Translate>User</mos:Translate>:
+							 </td>
+							 <td>
+							 	<input type="checkbox" id="dirPermsUserRead" name="vars[dirPermsUserRead]" value="1"{VAR_PERM_DUR} />
+							 </td>
+							 <td>
+							 	<label for="dirPermsUserRead">
+							 		<mos:Translate>read</mos:Translate>
+							 	</label>
+							 </td>
+							 <td>
+							 	<input type="checkbox" id="dirPermsUserWrite" name="vars[dirPermsUserWrite]" value="1"{VAR_PERM_DUW} />
+							 </td>
+							 <td>
+							 	<label for="dirPermsUserWrite">
+							 		<mos:Translate>write</mos:Translate>
+							 	</label>
+							 </td>
+							 <td>
+							 	<input type="checkbox" id="dirPermsUserSearch" name="vars[dirPermsUserSearch]" value="1"{VAR_PERM_DUE} />
+							 </td>
+							 <td width="100%">
+							 	<label for="dirPermsUserSearch">
+							 		<mos:Translate>search</mos:Translate>
+							 	</label>
+							 </td>
+						  </tr>
+						  <tr>
+							 <td>
+							 	<mos:Translate>Group</mos:Translate>:
+							 </td>
+							 <td>
+							 	<input type="checkbox" id="dirPermsGroupRead" name="vars[dirPermsGroupRead]" value="1"{VAR_PERM_DGR} />
+							 </td>
+							 <td>
+							 	<label for="dirPermsGroupRead">
+							 		<mos:Translate>read</mos:Translate>
+							 	</label>
+							 </td>
+							 <td>
+							 	<input type="checkbox" id="dirPermsGroupWrite" name="vars[dirPermsGroupWrite]" value="1"{VAR_PERM_DGW} />
+							 </td>
+							 <td>
+							 	<label for="dirPermsGroupWrite">
+							 		<mos:Translate>write</mos:Translate>
+							 	</label>
+							 </td>
+							 <td>
+							 	<input type="checkbox" id="dirPermsGroupSearch" name="vars[dirPermsGroupSearch]" value="1"{VAR_PERM_DGE} />
+							 </td>
+							 <td width="100%">
+							 	<label for="dirPermsGroupSearch">
+							 		<mos:Translate>search</mos:Translate>
+							 	</label>
+							 </td>
+						  </tr>
+						  <tr>
+							 <td>
+							 	<mos:Translate>World</mos:Translate>:
+							 </td>
+							 <td>
+							 	<input type="checkbox" id="dirPermsWorldRead" name="vars[dirPermsWorldRead]" value="1"{VAR_PERM_DWR} />
+							 </td>
+							 <td>
+							 	<label for="dirPermsWorldRead">
+							 		<mos:Translate>read</mos:Translate>
+							 	</label>
+							 </td>
+							 <td>
+							 	<input type="checkbox" id="dirPermsWorldWrite" name="vars[dirPermsWorldWrite]" value="1"{VAR_PERM_DWW} />
+						    	</td>
+							 <td>
+							 	<label for="dirPermsWorldWrite">
+							 		<mos:Translate>write</mos:Translate>
+							 	</label></td>
+							 <td>
+							 	<input type="checkbox" id="dirPermsWorldSearch" name="vars[dirPermsWorldSearch]" value="1"{VAR_PERM_DWE} />
+							 </td>
+							 <td width="100%">
+							 	<label for="dirPermsWorldSearch">
+							 		<mos:Translate>search</mos:Translate>
+							 	</label>
+							 </td>
+						  </tr>
+						  </table>
+							</td>
+						</tr>
+						</table>
+					</fieldset>
+			 </td>
+		  </tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="clr"></div>
+
+
+<script type="text/javascript">
+	changeFilePermsMode( {FILEMODE} );
+	changeDirPermsMode( {DIRMODE} );
+</script>
+
+
+<input type="hidden" name="vars[lang]" value="{VAR_LANG}" />
+<input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}" />
+<input type="hidden" name="vars[DBtype]" value="{VAR_DBTYPE}" />
+<input type="hidden" name="vars[DBhostname]" value="{VAR_DBHOSTNAME}" />
+<input type="hidden" name="vars[DBuserName]" value="{VAR_DBUSERNAME}" />
+<input type="hidden" name="vars[DBpassword]" value="{VAR_DBPASSWORD}" />
+<input type="hidden" name="vars[DBname]" value="{VAR_DBNAME}" />
+<input type="hidden" name="vars[DBprefix]" value="{VAR_DBPREFIX}" />
+
+<input type="hidden" name="task" value="" />

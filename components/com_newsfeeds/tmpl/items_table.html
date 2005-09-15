@@ -1,0 +1,68 @@
+<mos:comment>
+@version $Id: items_table.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+
+<mos:tmpl type="simplecondition" requiredvars="P_HEADINGS=1" varscope="BODY">
+<!-- Show Table Headings -->
+	<tr>
+		<mos:tmpl type="simplecondition" requiredvars="P_NAME=1" varscope="BODY">
+		<!-- Show Name Column -->
+			<td height="20" class="sectiontableheader{PAGECLASS_SFX}">
+				<mos:Translate>FEED_NAME</mos:Translate>
+			</td>
+		</mos:tmpl>
+
+		<mos:tmpl type="simplecondition" requiredvars="P_ARTICLES=1" varscope="BODY">
+		<!-- Show Articles Column -->
+			<td height="20" class="sectiontableheader{PAGECLASS_SFX}" align="center">
+				<mos:Translate>FEED_ARTICLES</mos:Translate>
+			</td>
+		</mos:tmpl>
+
+		<mos:tmpl type="simplecondition" requiredvars="P_LINK=1" varscope="BODY">
+		<!-- Show Link Column -->
+			<td height="20" class="sectiontableheader{PAGECLASS_SFX}">
+				<mos:Translate>FEED_LINK</mos:Translate>
+			</td>
+		</mos:tmpl>
+
+		<td width="100%" class="sectiontableheader{PAGECLASS_SFX}">
+		</td>
+	</tr>
+</mos:tmpl>
+
+<mos:tmpl name="ROWS" varscope="BODY">
+	<tr>
+		<mos:tmpl type="simplecondition" requiredvars="P_NAME=1" varscope="ROWS, BODY">
+		<!-- Show Name Column -->
+			<td width="30%" height="20" class="{ROW_CLASS}">
+				<a href="{ROW_URL}" class="category{PAGECLASS_SFX}">
+					{ROW_NAME}</a>
+			</td>
+		</mos:tmpl>
+
+		<mos:tmpl type="simplecondition" requiredvars="P_ARTICLES=1" varscope="ROWS, BODY">
+		<!-- Show Articles Column -->
+			<td width="20%" class="{ROW_CLASS}" align="center">
+				{ROW_NUMARTICLES}
+			</td>
+		</mos:tmpl>
+
+		<mos:tmpl type="simplecondition" requiredvars="P_LINK=1" varscope="ROWS, BODY">
+		<!-- Show Link Column -->
+			<td width="50%" class="{ROW_CLASS}">
+				{ROW_LINK}
+			</td>
+		</mos:tmpl>
+
+		<td width="100%" class="{ROW_CLASS}">
+		</td>
+	</tr>
+</mos:tmpl>
+
+</table>

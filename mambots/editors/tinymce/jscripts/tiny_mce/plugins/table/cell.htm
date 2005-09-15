@@ -1,0 +1,137 @@
+<html>
+<head>
+<title>{$lang_table_cell_title}</title>
+<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+<script language="javascript" type="text/javascript">
+
+function insertTable() {
+	if (window.opener) {
+		var args = new Array();
+
+		args["width"] = document.forms[0].width.value;
+		args["height"] = document.forms[0].height.value;
+		args["align"] = document.forms[0].align.options[document.forms[0].align.selectedIndex].value;
+		args["valign"] = document.forms[0].valign.options[document.forms[0].valign.selectedIndex].value;
+		args["className"] = document.forms[0].styleSelect.options[document.forms[0].styleSelect.selectedIndex].value;
+		args["bordercolor"] = document.forms[0].bordercolor.value;
+		args["bgcolor"] = document.forms[0].bgcolor.value;
+
+		window.opener.tinyMCE.execCommand("mceTableCellProps", false, args);
+
+		// Close the dialog
+		tinyMCE.closeDialog();
+	}
+}
+
+function init() {
+	if (tinyMCE.settings['table_color_fields']) {
+		document.getElementById('colors').style.display = tinyMCE.isMSIE ? 'block' : 'table-row';
+		TinyMCEPlugin_onLoad(); // Resize again
+	}
+
+	document.forms[0].bordercolor.value = tinyMCE.getWindowArg('bordercolor');
+	document.forms[0].bgcolor.value = tinyMCE.getWindowArg('bgcolor');
+
+	for (var i=0; i<document.forms[0].align.options.length; i++) {
+		if (document.forms[0].align.options[i].value == tinyMCE.getWindowArg('align'))
+			document.forms[0].align.options.selectedIndex = i;
+	}
+
+	for (var i=0; i<document.forms[0].valign.options.length; i++) {
+		if (document.forms[0].valign.options[i].value == tinyMCE.getWindowArg('valign'))
+			document.forms[0].valign.options.selectedIndex = i;
+	}
+
+	var className = tinyMCE.getWindowArg('className');
+	var styleSelectElm = document.forms[0].styleSelect;
+	var stylesAr = tinyMCE.getParam('theme_advanced_styles', false);
+	if (stylesAr) {
+		stylesAr = stylesAr.split(';');
+
+		for (var i=0; i<stylesAr.length; i++) {
+			var key, value;
+
+			key = stylesAr[i].split('=')[0];
+			value = stylesAr[i].split('=')[1];
+
+			styleSelectElm.options[styleSelectElm.length] = new Option(key, value);
+			if (value == className)
+				styleSelectElm.options.selectedIndex = styleSelectElm.options.length-1;
+		}
+	} else {
+		var csses = tinyMCE.getCSSClasses(tinyMCE.getWindowArg('editor_id'));
+		for (var i=0; i<csses.length; i++) {
+			styleSelectElm.options[styleSelectElm.length] = new Option(csses[i], csses[i]);
+			if (csses[i] == className)
+				styleSelectElm.options.selectedIndex = styleSelectElm.options.length-1;
+		}
+	}
+
+	var formObj = document.forms[0];
+	formObj.width.value = tinyMCE.getWindowArg('width');
+	formObj.height.value = tinyMCE.getWindowArg('height');
+}
+
+function cancelAction() {
+	// Close the dialog
+	tinyMCE.closeDialog();
+}
+
+</script>
+</head>
+<body onload="init();">
+<form onsubmit="insertTable();return false;">
+  <table border="0" cellpadding="0" cellspacing="0" width="200">
+    <tr>
+      <td align="center" valign="middle"><table border="0" cellpadding="4" cellspacing="0">
+          <tr>
+            <td colspan="4" class="title">{$lang_table_cell_title}</td>
+          </tr>
+          <tr>
+            <td>{$lang_insert_table_align}:</td>
+            <td><select name="align">
+                <option value="">{$lang_insert_table_align_default}</option>
+                <option value="center">{$lang_insert_table_align_middle}</option>
+                <option value="left">{$lang_insert_table_align_left}</option>
+                <option value="right">{$lang_insert_table_align_right}</option>
+              </select></td>
+            <td>{$lang_insert_table_class}:</td>
+            <td><select name="styleSelect">
+                <option value="" selected="selected">-- {$lang_theme_style_select} --</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>{$lang_insert_table_valign}:</td>
+            <td><select name="valign">
+                <option value="">{$lang_insert_table_align_default}</option>
+                <option value="top">{$lang_insert_table_align_top}</option>
+                <option value="middle">{$lang_insert_table_align_middle}</option>
+                <option value="bottom">{$lang_insert_table_align_bottom}</option>
+            </select></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>{$lang_insert_table_width}:</td>
+            <td><input name="width" type="text" id="width" value="" size="4" maxlength="4"></td>
+            <td>{$lang_insert_table_height}: </td>
+            <td><input name="height" type="text" id="height" value="" size="4" maxlength="4"></td>
+          </tr>
+          <tr id="colors" style="display: none">
+            <td>{$lang_table_bordercolor}:</td>
+            <td><input name="bordercolor" type="text" id="bordercolor" value=""	size="9" maxlength="7"></td>
+            <td>{$lang_table_bgcolor}:</td>
+            <td><input name="bgcolor" type="text" id="bgcolor" value=""	size="9" maxlength="7"></td>
+          </tr>
+          <tr>
+            <td><input type="button" id="insert" name="insert" value="{$lang_update}" onclick="insertTable();"></td>
+            <td align="right">&nbsp;</td>
+            <td align="right">&nbsp;</td>
+            <td align="right"><input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onclick="cancelAction();"></td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

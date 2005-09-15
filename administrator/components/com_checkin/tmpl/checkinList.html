@@ -1,0 +1,140 @@
+<mos:comment>
+@version $Id: checkinList.html 137 2005-09-12 10:21:17Z eddieajau $
+@package dataMgr
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<div id="treecell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Related Links</mos:Translate>
+		</legend>
+		<mos:tmpl src="relatedLinks.html" varscope="body"/>
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Quick Tip</mos:Translate>
+		</legend>
+		<mos:Translate key="Quicktiptext"></mos:Translate>
+	</fieldset>
+</div>
+
+<div id="datacell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Items</mos:Translate>
+		</legend>
+
+		<table width="100%" id="filters">
+		<tr>
+			<td nowrap="nowrap" height="35">
+				<input type="text" name="search" id="search" value="{SEARCH}" class="text_area" title="<mos:Translate>Search</mos:Translate>" />
+				<input type="button" value="<mos:Translate>Go</mos:Translate>" class="button" onclick="this.form.submit();" />
+				<input type="button" value="<mos:Translate>Reset</mos:Translate>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+			</td>
+			<td align="right">
+				{TABLE}
+				{BY}
+			</td>
+		</tr>
+		</table>
+
+		<table class="adminlist" id="moslist">
+		<thead>
+		<tr>
+			<th width="10">
+				#
+			</th>
+			<th width="10">
+				<input type="checkbox" name="toggle" value="" />
+			</th>
+			<th class="title">
+				<a href="#" onclick="goDoTask(this, 'submit-reorder', 'task=reorder,col=item')" class="col_ordering">
+					<mos:Translate>Item</mos:Translate>
+					<mos:tmpl type="simplecondition" requiredvars="ordercol=item" varscope="body">
+						<img src="{SITEURL}/images/M_images/sort{ORDERDIRN}.png" alt="" border="0" />
+					</mos:tmpl></a>
+			</th>
+			<th width="17%">
+				<a href="#" onclick="goDoTask(this, 'submit-reorder', 'task=reorder,col=checked_out_by')" class="col_ordering">
+					<mos:Translate>By</mos:Translate>
+					<mos:tmpl type="simplecondition" requiredvars="ordercol=checked_out_by" varscope="body">
+						<img src="{SITEURL}/images/M_images/sort{ORDERDIRN}.png" alt="" border="0" />
+					</mos:tmpl></a>
+			</th>
+			<th width="17%">
+				<a href="#" onclick="goDoTask(this, 'submit-reorder', 'task=reorder,col=table')" class="col_ordering">
+					<mos:Translate>Table</mos:Translate>
+					<mos:tmpl type="simplecondition" requiredvars="ordercol=table" varscope="body">
+						<img src="{SITEURL}/images/M_images/sort{ORDERDIRN}.png" alt="" border="0" /></mos:tmpl></a>
+			</th>
+			<th width="12%">
+				<a href="#" onclick="goDoTask(this, 'submit-reorder', 'task=reorder,col=checked_out_date')" class="col_ordering">
+					<mos:Translate>Date</mos:Translate>
+					<mos:tmpl type="simplecondition" requiredvars="ordercol=checked_out_date" varscope="body">
+						<img src="{SITEURL}/images/M_images/sort{ORDERDIRN}.png" alt="" border="0" /></mos:tmpl></a>
+			</th>
+			<th width="7%">
+				<a href="#" onclick="goDoTask(this, 'submit-reorder', 'task=reorder,col=checked_out_time')" class="col_ordering">
+					<mos:Translate>Time</mos:Translate>
+					<mos:tmpl type="simplecondition" requiredvars="ordercol=checked_out_time" varscope="body">
+						<img src="{SITEURL}/images/M_images/sort{ORDERDIRN}.png" alt="" border="0" />
+					</mos:tmpl></a>
+			</th>
+		</tr>
+		</thead>
+		<tfoot>
+		<mos:tmpl name="admin-list-footer" varscope="body">
+			<tr>
+				<th colspan="7" class="center">
+					{PAGE_LINKS}
+				</th>
+			</tr>
+			<tr>
+				<td colspan="7" nowrap="true" class="center">
+					<mos:Translate>Display Num</mos:Translate>
+					{PAGE_LIST_OPTIONS}
+					{PAGE_COUNTER}
+				</td>
+			</tr>
+		</mos:tmpl>
+		</tfoot>
+
+		<tbody>
+		<mos:tmpl name="body-list-rows" type="simplecondition" requiredvars="row_item" varscope="body" addsystemvars="integer">
+			<tr class="row{PAT_IS_EVEN}">
+				<td>
+					{PAT_ROW_VAR}
+				</td>
+				<td style="text-align:center">
+					<input type="checkbox" name="cid[]" id="cb{PAT_ROW_VAR}" value="{ROW_TABLE},{ROW_TBKEYB},{ROW_TBKEYA}" />
+				</td>
+				<td>
+					{ROW_ITEM}
+				</td>
+				<td>
+					{ROW_CHECKED_OUT_BY}
+				</td>
+				<td>
+					{ROW_TABLE}
+				</td>
+				<td nowrap="nowrap">
+					{ROW_CHECKED_OUT_DATE}
+				</td>
+				<td>
+					{ROW_CHECKED_OUT_TIME}
+				</td>
+			</tr>
+		</mos:tmpl>
+		</tbody>
+		</table>
+	</fieldset>
+</div>
+
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="" />
+<input type="hidden" name="boxchecked" value="0" />
+<input type="hidden" name="orderCol" value="{ORDERCOL}" />
+<input type="hidden" name="orderDirn" value="{ORDERDIRN}" />

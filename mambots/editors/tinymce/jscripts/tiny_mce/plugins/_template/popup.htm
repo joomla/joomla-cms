@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>{$lang_template_title}</title>
+<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+<script language="javascript" type="text/javascript">
+<!--
+	function init() {
+		alert("Got a window argument from plugin: " + tinyMCE.getWindowArg('some_custom_arg'));
+	}
+
+	function insertSomething() {
+		// Execute the mceTemplate command without UI this time
+		tinyMCE.execInstanceCommand(tinyMCE.getWindowArg('editor_id'), 'mceTemplate');
+
+		// Close the dialog
+		tinyMCE.closeDialog();
+	}
+//-->
+</script>
+</head>
+<body onload="init();"> 
+	<h3>{$lang_template_title}</h3>
+
+	<form onsubmit="insert();return false;">
+		<!-- Just a simple insert button -->
+		<input type="button" name="insert" value="{$lang_insert}" onclick="insertSomething();" id="insert" />
+	</form>
+
+	<br />
+</body> 
+</html> 

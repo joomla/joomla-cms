@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosparams type="menu" version="4.5.2">
+	<name>Link - Contact Item</name>
+	<group>Component|Link</group>
+	<description>Creates a link to a Published Contact Item</description>
+	<params/>
+</mosparams>

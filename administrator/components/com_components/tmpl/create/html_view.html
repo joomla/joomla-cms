@@ -1,0 +1,117 @@
+<pat:comment>
+@version $Id: html_view.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</pat:comment>
+
+<pat:link src="navigator" />
+
+<div id="datacell">
+	<fieldset>
+		<legend>
+			<mos:Translate>{BASENAME}</mos:Translate>
+		</legend>
+
+		<table class="adminfilters" width="100%" >
+		<tr>
+			<td>
+				<mos:Translate>Search</mos:Translate>:
+				<mos:link src="list-search" />
+			</td>
+		</tr>
+		</table>
+
+		<table class="adminlist" id="moslist">
+		<thead>
+		<tr>
+			<th width="10">
+				#
+			</th>
+			<th width="10">
+				<input type="checkbox" class="selector" name="toggle" value="" />
+			</th>
+			<th class="title">
+				<a href="#reorder" onclick="goDoTask(this, 'submit-reorder', 'task=reorder,col=title')" class="col_ordering">
+					<mos:Translate>Title</mos:Translate>
+					<mos:tmpl type="simplecondition" requiredvars="ordercol=title" varscope="body">
+						<img src="\{SITEURL\}/images/M_images/sort\{ORDERDIRN\}.png" alt="" border="0" />
+					</mos:tmpl></a>
+			</th>
+			<th nowrap="true" width="5%" class="center">
+				<a href="#reorder" onclick="goDoTask(this, 'submit-reorder', 'task=reorder,col=published')" class="col_ordering">
+					<mos:Translate>Published</mos:Translate>
+					<mos:tmpl type="simplecondition" requiredvars="ordercol=published" varscope="body">
+						<img src="\{SITEURL\}/images/M_images/sort\{ORDERDIRN\}.png" alt="" border="0" />
+					</mos:tmpl></a>
+			</th>
+			<mos:tmpl type="simplecondition" requiredvars="ordercol=ordering,orderdirn=0" varscope="body">
+				<th nowrap="true" width="5%">
+						<mos:Translate>Reorder</mos:Translate>
+				</th>
+				<th nowrap="true" width="5%">
+					<a href="#reorder" onclick="goDoTask(this, 'submit-reorder', 'task=reorder,col=ordering')" class="col_ordering">
+					<mos:Translate>Order</mos:Translate>
+						<mos:tmpl type="simplecondition" requiredvars="ordercol=ordering" varscope="body">
+							<img src="\{SITEURL\}/images/M_images/sort\{ORDERDIRN\}.png" alt="" border="0" />
+						</mos:tmpl></a>
+				</th>
+				<th width="5">
+					<a href="#saveorder" onclick="goDoTask(this, 'submit-saveorder', 'task=saveorder')">
+						<img src="images/filesave.png" border="0" width="16" height="16" alt="<mos:Translate>Save Order</mos:Translate>"  title="<mos:Translate>Save Order</mos:Translate>"/></a>
+				</th>
+			</mos:tmpl>
+			<th nowrap="true" width="5%" class="center">
+				<a href="#" onclick="goDoTask(this, 'submit-reorder', 'task=reorder,col=id')" class="col_ordering">
+					<mos:Translate>ID</mos:Translate>
+					<mos:tmpl type="simplecondition" requiredvars="ordercol=id" varscope="body">
+						<img src="\{SITEURL\}/images/M_images/sort\{ORDERDIRN\}.png" alt="" border="0" />
+					</mos:tmpl></a>
+			</th>
+		</tr>
+		</thead>
+
+		<tfoot>
+			<mos:link src="list-navigation" />
+		</tfoot>
+
+		<tbody>
+		<mos:tmpl name="list-items" type="simplecondition" requiredvars="item_id" varscope="body" addsystemvars="integer">
+			<tr class="row\{PAT_IS_EVEN\}">
+				<td>
+
+				</td>
+			    <td>
+			    	<mos:link src="item-select-box" />
+				</td>
+				<td>
+					<a href="#edit" onclick="goDoTask(this, 'submit-edit', 'task=edit,id=cb\{ITEM_ID\},hide=true')" class="editlink">
+						\{ITEM_TITLE\}</a>
+				</td>
+				<td class="center">
+					<mos:link src="item-publish-icon" />
+				</td>
+				<mos:tmpl type="simplecondition" requiredvars="ordercol=ordering,orderdirn=0" varscope="body">
+					<td>
+						<mos:link src="item-reorder-icon" />
+					</td>
+					<td colspan="2" align="center">
+						<mos:link src="item-order-box" />
+					</td>
+				</mos:tmpl>
+				<td class="center">
+					\{ITEM_ID\}
+				</td>
+			</tr>
+		</mos:tmpl>
+		</tbody>
+		</table>
+	</fieldset>
+</div>
+
+<input type="hidden" name="option" value="\{OPTION\}" />
+<input type="hidden" name="task" value="" />
+<input type="hidden" name="orderCol" value="\{ORDERCOL\}" />
+<input type="hidden" name="orderDirn" value="\{ORDERDIRN\}" />
+
+<mos:link src="include-tooltips" />

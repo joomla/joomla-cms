@@ -1,0 +1,40 @@
+<mos:comment>
+@version $Id: mod_newsflash.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="mod_newsflash" type="condition" conditionvar="p_style">
+
+	<mos:sub condition="__default">
+		<mos:tmpl name="mod_newsflash-items">
+			{ROW_TEXT}
+			<mos:tmpl type="simplecondition" requiredvars="p_readmore=1" varscope="mod_newsflash-items">
+			<div>
+				<a href="{ROW_LINK_ON}" class="readon{P_PAGECLASS_SFX}" title="{ROW_LINK_TEXT} <mos:Translate>about</mos:Translate> {ROW_TITLE}">
+					{ROW_LINK_TEXT}</a>
+			</div>
+			</mos:tmpl>
+		</mos:tmpl>
+	</mos:sub>
+
+	<mos:sub condition="horiz">
+		<table class="moduletable{P_MODULECLASS_SFX}>
+			<tr>
+			<mos:tmpl type="simplecondition" requiredvars="p_readmore=1" varscope="mod_newsflash-items">
+				<td>
+					{ROW_TEXT}
+					<mos:tmpl type="simplecondition" requiredvars="p_readmore=1" varscope="mod_newsflash-items">
+					<div>
+						<a href="{ROW_LINK_ON}" class="readon{P_PAGECLASS_SFX}" title="{ROW_LINK_TEXT} <mos:Translate>about</mos:Translate> {ROW_TITLE}">
+							{ROW_LINK_TEXT}</a>
+					</div>
+					</mos:tmpl>
+				</td>
+			</mos:tmpl>
+			</tr>
+		</table>
+	</mos:sub>
+
+</mos:tmpl>

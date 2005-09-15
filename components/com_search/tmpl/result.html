@@ -1,0 +1,71 @@
+<mos:comment>
+@version $Id: result.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<div>
+	<mos:Translate>PROMPT_KEYWORD</mos:Translate>
+	<span class="highlight">
+	   <b>{P_SEARCHWORD}</b>
+	</span>
+	<mos:Translate>SEARCH_MATCHES</mos:Translate>
+</div>
+
+<table class="contentpaneopen{P_PAGECLASS_SFX}" width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+	<td width="98%">
+		{P_PAGE_COUNTER}
+	</td>
+	<td nowrap="nowrap">
+		<mos:Translate>Display Num</mos:Translate>
+		{P_PAGE_LIMIT}
+	</td>
+</tr>
+</table>
+
+<br/>
+
+<mos:tmpl name="SEARCHES" varscope="BODY">
+	<fieldset>
+		<legend>
+			[ {SEARCH_NUM} ]
+		</legend>
+
+		<div>
+			<a href="{SEARCH_HREF}" target="{ROW_TARGET}">
+				{SEARCH_TITLE}</a>
+		</div>
+
+		<mos:tmpl type="simplecondition" requiredvars="P_SHOW_SECTION=1" varscope="BODY, SEARCHES">
+			<div class="small{P_PAGECLASS_SFX}">
+				{SEARCH_SECTION}
+			</div>
+		</mos:tmpl>
+
+		<mos:tmpl type="simplecondition" requiredvars="P_SHOW_PREVIEW=1" varscope="BODY, SEARCHES">
+			<div>
+				{SEARCH_TEXT} &#133;
+			</div>
+		</mos:tmpl>
+		<mos:tmpl type="simplecondition" requiredvars="P_SHOW_DATE=1" varscope="BODY, SEARCHES">
+			<div class="small{P_PAGECLASS_SFX}">
+				{SEARCH_CREATED}
+			</div>
+		</mos:tmpl>
+	</fieldset>
+</mos:tmpl>
+
+<div align="center">
+	{P_PAGE_LINKS}
+</div>
+
+<mos:tmpl type="simplecondition" requiredvars="P_SHOW_GOOGLE=1" varscope="BODY">
+	<div align="center">
+		<br/>
+		<mos:Translate>CONCLUSION</mos:Translate>
+		<a href="http://www.google.com/search?q={P_SEARCHWORD}" target="_blank">
+			<img src="{SITEURL}/images/M_images/google.png" border="0" align="texttop" /></a>
+	</div>
+</mos:tmpl>

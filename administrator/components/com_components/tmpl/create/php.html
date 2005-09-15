@@ -1,0 +1,117 @@
+<pat:comment>
+@version $Id: php.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</pat:comment>
+
+<pat:tmpl name="options" />
+
+<pat:tmpl name="php-start"><?php
+/**
+ * @version $Id $
+ * @package {PACKAGE}
+ * @subpackage {SUBPACKAGE}
+ * @copyright {COPYRIGHT}
+ * @license {LICENSE}
+ */
+
+// ensure this file is being included by a parent file
+defined( '_VALID_MOS' ) or die( 'Direct access not allowed' );
+</pat:tmpl>
+
+<pat:tmpl name="php-end">
+?></pat:tmpl>
+
+<pat:tmpl name="php-tasker">
+mosFS::load( '@class' );
+
+/**
+ * @package {PACKAGE}
+ * @subpackage {SUBPACKAGE}
+ */
+class {BASENAME}Tasks extends mosAbstractTasker {
+	/**
+	 * Constructor
+	 */
+	function {BASENAME}Tasks() {
+		// auto register public methods as tasks, set the default task
+		parent::mosAbstractTasker( 'view' );
+
+		// set task level access control
+		//$this->setAccessControl( 'com_{BASENAME}', 'manage' );
+
+		// additional mappings<pat:tmpl type="simplecondition" requiredvars="options.hasEdit=1">
+		$this->registerTask( 'apply', 'save' );</pat:tmpl>
+		<pat:tmpl type="simplecondition" requiredvars="options.hasPublished=1">
+		$this->registerTask( 'unpublish', 'publish' );</pat:tmpl>
+	}
+<pat:tmpl type="simplecondition" requiredvars="options.hasView=1" src="php_about.html" />
+<pat:tmpl type="simplecondition" requiredvars="options.hasView=1" src="php_view.html" />
+<pat:tmpl type="simplecondition" requiredvars="options.hasEdit=1" src="php_edit.html" />
+<pat:tmpl type="simplecondition" requiredvars="options.hasSave=1" src="php_save.html" />
+<pat:tmpl type="simplecondition" requiredvars="options.hasCancel=1" src="php_cancel.html" />
+<pat:tmpl type="simplecondition" requiredvars="options.hasPublish=1" src="php_publish.html" />
+<pat:tmpl type="simplecondition" requiredvars="options.hasRemove=1" src="php_remove.html" />
+}
+
+$tasker =& new {BASENAME}Tasks();
+$tasker->performTask( mosGetParam( $_REQUEST, 'task', '' ) );
+$tasker->redirect();
+</pat:tmpl>
+
+<pat:tmpl name="php-class" src="php_class.html" />
+
+<pat:tmpl name="php-toolbar">
+/**
+ * Toolbar for Component Manager
+ * @package {PACKAGE}
+ * @subpackage {SUBPACKAGE}
+ */
+class {BASENAME}Toolbar extends mosAbstractTasker {
+	/**
+	 * Constructor
+	 */
+	function {BASENAME}Toolbar() {
+		// auto register public methods as tasks, set the default task
+		parent::mosAbstractTasker( 'view' );
+
+		// set task level access control
+		//$this->setAccessControl( 'com_{BASENAME}', 'manage' );
+
+		// additional mappings<pat:tmpl type="simplecondition" requiredvars="options.hasEdit=1">
+		$this->registerTask( 'apply', 'edit' );</pat:tmpl>
+	}
+<pat:tmpl type="simplecondition" requiredvars="options.hasView=1" src="php_view_toolbar.html" />
+<pat:tmpl type="simplecondition" requiredvars="options.hasEdit=1" src="php_edit_toolbar.html" />
+}
+
+$tasker =& new {BASENAME}Toolbar();
+$tasker->performTask( mosGetParam( $_REQUEST, 'task', '' ) );
+</pat:tmpl>
+
+<pat:tmpl name="php-screens">
+/**
+ * @package {PACKAGE}
+ * @subpackage {SUBPACKAGE}
+ */
+class {BASENAME}Screens {
+	/**
+	 * @param string The main template file to include for output
+	 * @param array An array of other standard files to include
+	 * @return patTemplate A template object
+	 */
+	function &createTemplate( $bodyHtml, $files=null) {
+		$tmpl =& mosFactory::getPatTemplate( $files );
+		$tmpl->setRoot( dirname( __FILE__ ) . '/tmpl' );
+		if ($bodyHtml) {
+			$tmpl->setAttribute( 'body', 'src', $bodyHtml );
+		}
+
+		return $tmpl;
+	}
+<pat:tmpl type="simplecondition" requiredvars="options.hasAbout=1" src="php_about_html.html" />
+<pat:tmpl type="simplecondition" requiredvars="options.hasView=1" src="php_view_html.html" />
+<pat:tmpl type="simplecondition" requiredvars="options.hasSave=1" src="php_edit_html.html" />
+}
+</pat:tmpl>

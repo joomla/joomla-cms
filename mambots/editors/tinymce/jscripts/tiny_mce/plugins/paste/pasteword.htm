@@ -1,0 +1,111 @@
+<html>
+<head>
+<title>{$lang_paste_word_desc}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+<meta http-equiv="Expires" content="Fri, Oct 24 1976 00:00:00 GMT" />
+<script type="text/javascript" src="../../tiny_mce.js"></script>
+<script type="text/javascript">
+<!--
+// Updated by speednet 25 May 2005 
+
+// Because we can't load tiny_mce_popup.js.
+// Get tinyMCE window
+var win = window.opener ? window.opener : window.dialogArguments;
+
+var tinyMCE = null;
+var tinyMCELang = null;
+
+// Use top window if not defined
+if (!win)
+	win = top;
+
+// Setup window opener
+window.opener = win;
+
+var tinyMCE = win.tinyMCE;
+var tinyMCELang = win.tinyMCELang;
+
+if (!tinyMCE)
+	alert("tinyMCE object reference not found from popup.");
+
+// Setup dir
+if (tinyMCELang['lang_dir'])
+	document.dir = tinyMCELang['lang_dir'];
+
+// Setup title
+var re = new RegExp('{|\\\$|}', 'g');
+var title = document.title.replace(re, "");
+
+if (typeof tinyMCELang[title] != "undefined") {
+	var divElm = document.createElement("div");
+	divElm.innerHTML = tinyMCELang[title];
+	document.title = divElm.innerHTML;
+}
+
+function saveContent() {
+	if (win) {
+		var html = document.getElementById("frmData").contentWindow.document.body.innerHTML;
+
+		if (html == ''){
+			window.close();
+			return false;
+		}
+
+		win.TinyMCE_paste__insertWordContent(html);
+		window.close();
+	}
+}
+
+function onLoadInit() {
+	document.body.innerHTML = tinyMCE.applyTemplate(document.body.innerHTML, tinyMCE.windowArgs);
+	document.getElementById("frmData").contentWindow.document.designMode='on';
+	document.getElementById("frmData").src = "blank.htm";
+	resizeInputs();
+}
+
+var wHeight=0, wWidth=0, owHeight=0, owWidth=0;
+
+function resizeInputs() {
+	if (!tinyMCE.isMSIE) {
+		wHeight = self.innerHeight - 80;
+		wWidth = self.innerWidth - 25;
+	}
+	else {
+		wHeight = document.body.clientHeight - 80;
+		wWidth = document.body.clientWidth - 25;
+	}
+
+	document.getElementById('frmData').style.height = Math.abs(wHeight) + 'px';
+	document.getElementById('frmData').style.width  = Math.abs(wWidth) + 'px';
+}
+
+// Output Popup CSS class
+document.write('<link href="' + tinyMCE.getParam("popups_css") + '" rel="stylesheet" type="text/css">');
+
+//--></script>
+
+</head>
+<body scroll="no" onload="onLoadInit();" onresize="resizeInputs();">
+<form name="source" onsubmit="saveContent();">
+    <table border="0" cellpadding="0" cellspacing="2" align="center">
+        <tr>
+            <td colspan="2" class="title">{$lang_paste_word_desc}</td>
+        </tr>
+        <tr>
+            <td colspan="2">{$lang_paste_word_title}</td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <iframe id="frmData" name="frmData" src="blank.htm" height="280" width="400" style="font-family:'Courier New',Courier,mono; font-size:10px; background-color:#FFFFFF; width:100%;" dir="ltr" wrap="soft"></iframe>
+            </td>
+        </tr>
+        <tr>
+            <td width="50%" align="left"><input type="button" id="insert" name="insert" value="{$lang_insert}" onclick="saveContent();" /></td>
+            <td width="50%" align="right"><input type="button" value="{$lang_cancel}" onclick="window.close();" /></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

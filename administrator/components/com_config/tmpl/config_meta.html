@@ -1,0 +1,60 @@
+<mos:comment>
+@version $Id: config_meta.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<table class="adminform" id="editpage">
+	<thead>
+		<tr>
+			<th colspan="2">
+				<mos:Translate>Metadata Settings</mos:Translate>
+			</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<th colspan="2">
+			</th>
+		</tr>
+	</tfoot>
+	<tbody>
+		<tr>
+			<td width="{COLWIDTH}" valign="top">
+				<label for="config_MetaDesc">
+					<mos:Translate>Global Site Meta Description</mos:Translate>
+				</label>
+			</td>
+			<td>
+				<textarea class="text_area" cols="50" rows="3" style="width: 98%; height: 50px" name="config_MetaDesc" id="config_MetaDesc">{CONFIG_METADESC|htmlspecialchars}</textarea>
+			</td>
+		</tr>
+		<tr>
+			<td valign="top">
+				<label for="config_MetaDesc">
+					<mos:Translate>Global Site Meta Keywords</mos:Translate>
+				</label>
+			</td>
+			<td>
+				<textarea class="text_area" cols="50" rows="3" style="width: 98%; height: 50px" name="config_MetaKeys" id="config_MetaKeys">{CONFIG_METAKEYS|htmlspecialchars}</textarea>
+			</td>
+		</tr>
+		<tr>
+			<td valign="top">
+				<mos:Call template="tooltip" text="Show Title Meta Tag" tip="TIPSHOWTITLEMETATAGITEMS" />
+			</td>
+			<td>
+				{CONFIG_METATITLE}
+			</td>
+	  	</tr>
+		<tr>
+			<td valign="top">
+				<mos:Call template="tooltip" text="Show Author Meta Tag" tip="TIPSHOWAUTHORMETATAGITEMS" />
+			</td>
+			<td>
+				{CONFIG_METAAUTHOR}
+			</td>
+		</tr>
+	</tbody>
+</table>

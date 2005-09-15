@@ -1,0 +1,126 @@
+<mos:comment>
+@version $Id: messageForm.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Massmail
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<script language="javascript" type="text/javascript">
+	function submitbutton(pressbutton) {
+		var form = document.adminForm;
+		if (pressbutton == 'cancel') {
+			submitform( pressbutton );
+			return;
+		}
+		// do field validation
+		if (form.mm_subject.value == ""){
+			alert( "<mos:Translate>Please fill in the subject</mos:Translate>" );
+		} else if (getSelectedValue('adminForm','mm_group') < 0){
+			alert( "<mos:Translate>Please select a group</mos:Translate>" );
+		} else if (form.mm_message.value == ""){
+			alert( "<mos:Translate>Please fillin the message</mos:Translate>" );
+		} else {
+			submitform( pressbutton );
+		}
+	}
+</script>
+
+<div id="treecell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Related Links</mos:Translate>
+		</legend>
+		<mos:tmpl src="relatedLinks.html" varscope="body"/>
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Quick Tip</mos:Translate>
+		</legend>
+		<mos:Translate key="Quicktiptext"></mos:Translate>
+	</fieldset>
+</div>
+
+<div id="datacell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Source</mos:Translate>
+		</legend>
+
+
+	<table class="adminform" id="editpage">
+	<thead>
+	<tr>
+		<th colspan="2">
+			<mos:Translate>Details</mos:Translate>
+		</th>
+	</tr>
+	</thead>
+	<tfoot>
+	<tr>
+		<th colspan="2">
+		</th>
+	</tr>
+	</tfoot>
+	<tr>
+		<td width="150">
+			<label for="mm_group">
+				<mos:Translate>Group</mos:Translate>:
+			</label>
+		</td>
+		<td>
+			<select id="mmgroup" name="mm_group" class="inputbox">
+				<option value="0">- <mos:Translate>All User Groups</mos:Translate> -</option>
+				<mos:tmpl name="options-list">
+					<option value="{VALUE}">{TEXT}</option>
+				</mos:tmpl>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<label for="mm_recurse">
+				<mos:Translate>Mail to Child Groups</mos:Translate>:
+			</label>
+		</td>
+		<td>
+		<input id="mm_recurse" type="checkbox" name="mm_recurse" value="RECURSE" />
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<label for="mm_mode">
+				<mos:Translate>Send in HTML mode</mos:Translate>:
+			</label>
+		</td>
+		<td>
+		<input id="mm_mode" type="checkbox" name="mm_mode" value="1" />
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<label for="mm_subject">
+				<mos:Translate>Subject</mos:Translate>:
+			</label>
+		</td>
+		<td>
+			<input id="mm_subject" class="inputbox" type="text" name="mm_subject" value="" size="50"/>
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<label for="mm_message">
+				<mos:Translate>Message</mos:Translate>:
+			</label>
+		</td>
+		<td>
+			<textarea id="mm_message" cols="80" rows="50" name="mm_message" class="inputbox"></textarea>
+		</td>
+	</tr>
+	</table>
+
+	</fieldset>
+</div>
+
+<input type="hidden" name="option" value="{OPTION}"/>
+<input type="hidden" name="task" value=""/>

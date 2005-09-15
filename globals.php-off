@@ -1,0 +1,41 @@
+<?php
+/**
+* @version $Id: globals.php-off 4 2005-09-06 19:22:37Z akede $
+* @package Mambo
+* @copyright (C) 2000 - 2005 Miro International Pty Ltd
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+* Mambo is Free Software
+*/
+
+/**
+* Emulates register globals = off
+*/
+function unregister_globals () {
+	$REQUEST = $_REQUEST;
+	$GET = $_GET;
+	$POST = $_POST;
+	$COOKIE = $_COOKIE;
+	if (isset ( $_SESSION )) {
+		$SESSION = $_SESSION;
+	}
+	$FILES = $_FILES;
+	$ENV = $_ENV;
+	$SERVER = $_SERVER;
+	foreach ($GLOBALS as $key => $value) {
+		if ( $key != 'GLOBALS' ) {
+			unset ( $GLOBALS [ $key ] );
+		}
+	}
+	$_REQUEST = $REQUEST;
+	$_GET = $GET;
+	$_POST = $POST;
+	$_COOKIE = $COOKIE;
+	if (isset ( $SESSION )) {
+		$_SESSION = $SESSION;
+	}
+	$_FILES = $FILES;
+	$_ENV = $ENV;
+	$_SERVER = $SERVER;
+}
+unregister_globals ();
+?>

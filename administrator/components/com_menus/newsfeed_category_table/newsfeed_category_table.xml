@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosparams type="menu" version="4.5.2">
+	<name>Table - Newsfeed Category</name>
+	<group>Component</group>
+	<description>Shows a Table view of Newsfeed items for a particular Category</description>
+	<params>
+		<param name="headings" type="radio" default="1" label="Table Headings" description="Show/Hide the Table Headings">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="name" type="radio" default="1" label="Name Column" description="Show/Hide the Name column">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="articles" type="radio" default="1" label="Articles Column" description="Show/Hide the Articles column">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="link" type="radio" default="1" label="Link Column" description="Show/Hide the Link column">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="other_cat" type="radio" default="1" label="Other Categories" description="paramOtherCat">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="cat_description" type="radio" default="1" label="Category Description" description="paramCatDesc">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="cat_items" type="radio" default="1" label="# Category Items" description="paramCatItems">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+	</params>
+</mosparams>

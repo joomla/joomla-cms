@@ -1,0 +1,222 @@
+<mos:comment>
+@version $Id: createOptions.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<div id="treecell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Navigator</mos:Translate>
+		</legend>
+		<mos:tmpl src="tree.html" />
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Related Links</mos:Translate>
+		</legend>
+
+		<mos:tmpl src="relatedLinks.html" varscope="body"/>
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Quick Tip</mos:Translate>
+		</legend>
+		<mos:Translate key="Quicktiptext create"></mos:Translate>
+	</fieldset>
+</div>
+
+<div id="datacell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Details</mos:Translate>
+		</legend>
+
+		<table width="100%">
+			<tr>
+				<td width="20%">
+					<label for="comname">
+						<mos:Call template="tooltip" text="Component Name" tip="tipCreateName" />
+					</label>
+				</td>
+				<td>
+					com_<input type="text" name="comname" id="comname" value="" size="40" maxlength="40"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="name">
+						<mos:Call template="tooltip" text="Component Client" tip="tipCreateClient" />
+					</label>
+				</td>
+				<td>
+					{RADIO_CLIENT}
+				</td>
+			</tr>
+		</table>
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Meta Information</mos:Translate>
+		</legend>
+
+		<table width="100%">
+			<tr>
+				<td width="20%">
+					<label for="meta_package">
+						<mos:Call template="tooltip" text="phpDoc Package" tip="tipCreatePackage" />
+					</label>
+				</td>
+				<td>
+					<input type="text" name="meta[package]" id="meta_package" value="" size="60" maxlength="255"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="meta_subpackage">
+						<mos:Call template="tooltip" text="phpDoc Sub-Package" tip="tipCreateSubPackage" />
+					</label>
+				</td>
+				<td>
+					<input type="text" name="meta[subpackage]" id="meta_package" value="" size="60" maxlength="255"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="meta_version">
+						<mos:Call template="tooltip" text="Version" tip="tipCreateVersion" />
+					</label>
+				</td>
+				<td>
+					<input type="text" name="meta[version]" id="meta_version" value="" size="60" maxlength="255"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="meta_author">
+						<mos:Call template="tooltip" text="Author" tip="tipCreateAuthor" />
+					</label>
+				</td>
+				<td>
+					<input type="text" name="meta[author]" id="meta_author" value="" size="60" maxlength="255"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="meta_authoremail">
+						<mos:Call template="tooltip" text="Author Email" tip="tipCreateAuthorEmail" />
+					</label>
+				</td>
+				<td>
+					<input type="text" name="meta[authoremail]" id="meta_authoremail" value="" size="60" maxlength="255"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="meta_authorurl">
+						<mos:Call template="tooltip" text="Author URL" tip="tipCreateAuthorURL" />
+					</label>
+				</td>
+				<td>
+					<input type="text" name="meta[authoreurl]" id="meta_authoreurl" value="" size="60" maxlength="255"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="meta_copyright">
+						<mos:Call template="tooltip" text="Copyright" tip="tipCreateCopyright" />
+					</label>
+				</td>
+				<td>
+					<input type="text" name="meta[copyright]" id="meta_copyright" value="" size="60" maxlength="255"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="meta_license">
+						<mos:Call template="tooltip" text="License" tip="tipCreateLicense" />
+					</label>
+				</td>
+				<td>
+					<input type="text" name="meta[license]" id="meta_license" value="" size="60" maxlength="255"/>
+				</td>
+			</tr>
+		</table>
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Options</mos:Translate>
+		</legend>
+
+		<table>
+			<tr>
+				<td>
+					<strong><mos:Translate>Presentation</mos:Translate></strong>
+				</td>
+				<td>
+					<strong><mos:Translate>Actions</mos:Translate></strong>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">
+					<input type="checkbox" name="options[hasview]" id="options_hasview" value="1" />
+					<label for="options_hasview">
+						<mos:Call template="tooltip" text="Has View List" tip="tipCreateHasView" />
+					</label>
+
+					<br />
+					<input type="checkbox" name="options[hasedit]" id="options_hasedit" value="1" />
+					<label for="options_hasedit">
+						<mos:Call template="tooltip" text="Has Edit Form" tip="tipCreateHasEdit" />
+					</label>
+
+					<br />
+					<input type="checkbox" name="options[hashelp]" id="options_hashelp" value="1" />
+					<label for="options_hashelp">
+						<mos:Call template="tooltip" text="Has Help Pages" tip="tipCreateHasHelp" />
+					</label>
+
+					<br />
+					<input type="checkbox" name="options[hasabout]" id="options_hasabout" value="1" />
+					<label for="options_hasabout">
+						<mos:Call template="tooltip" text="Has About Page" tip="tipCreateHasAbout" />
+					</label>
+				</td>
+				<td valign="top">
+					<input type="checkbox" name="options[hassave]" id="options_hassave" value="1" />
+					<label for="options_hassave">
+						<mos:Call template="tooltip" text="Has Save" tip="tipCreatehasSave" />
+					</label>
+
+					<br />
+					<input type="checkbox" name="options[haspublish]" id="options_haspublish" value="1" />
+					<label for="options_haspublish">
+						<mos:Call template="tooltip" text="Has Publish" tip="tipCreateHasPublish" />
+					</label>
+
+					<br />
+					<input type="checkbox" name="options[hascancel]" id="options_hascancel" value="1" />
+					<label for="options_hascancel">
+						<mos:Call template="tooltip" text="Has Cancel" tip="tipCreatehasCancel" />
+					</label>
+
+					<br />
+					<input type="checkbox" name="options[hasremove]" id="options_hasremove" value="1" />
+					<label for="options_hasremove">
+						<mos:Call template="tooltip" text="Has Remove" tip="tipCreateHasRemove" />
+					</label>
+				</td>
+			</tr>
+		</table>
+	</fieldset>
+</div>
+
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="" />
+
+<mos:link src="include-tooltips" />

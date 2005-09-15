@@ -1,0 +1,107 @@
+<html>
+<head>
+<title>{$lang_insert_link_title}</title>
+<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+<script language="javascript" type="text/javascript">
+<!--
+    function init() {
+    // modified 2004-11-10 by Michael Keck (me@michaelkeck.de)
+    // supporting onclick event to open pop windows
+        var formObj = document.forms[0];
+        formObj.width.value  = tinyMCE.getWindowArg('width');
+        formObj.size.value   = tinyMCE.getWindowArg('size');
+        formObj.insert.value = tinyMCE.getLang('lang_' + tinyMCE.getWindowArg('mceDo'));
+        if (tinyMCE.getWindowArg('noshade')) {
+            formObj.noshade.checked = true;
+        }
+        if (tinyMCE.getWindowArg('width').lastIndexOf('%')!=-1) {
+            formObj.width2.value = "%";
+            formObj.width.value  = formObj.width.value.substring(0,formObj.width.value.length-1);
+        }
+    }
+
+    function insertHR() {
+        var formObj = document.forms[0];
+        if (window.opener) {
+            var width   = formObj.width.value;
+            var size    = formObj.size.value;
+            var html = '<hr';
+            if (size!='' && size!=0) {
+                html += ' size="' + size + '"';
+            }
+            if (width!='' && width!=0) {
+                html += ' width="' + width;
+                if (formObj.width2.value=='%') {
+                    html += '%';
+                }
+                html += '"';
+            }
+            if (formObj.noshade.checked==true) {
+                html += ' noshade';
+            }
+            html += ' />';
+            tinyMCE.execCommand("mceInsertContent",true,html);
+
+			// Close the dialog
+			tinyMCE.closeDialog();
+		}
+    }
+
+    function cancelAction() {
+		// Close the dialog
+		tinyMCE.closeDialog();
+    }
+//-->
+</script>
+<style type="text/css">
+<!--
+   input.radio {
+        border: 1px none #000000;
+        background-color: transparent;
+        vertical-align: middle;
+   }
+-->
+</style>
+</head>
+<body onload="init();">
+    <form onsubmit="insertHR();return false;">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+                <td align="center" valign="middle"><table border="0" cellpadding="4" cellspacing="0">
+                    <tr>
+                        <td colspan="2" class="title">{$lang_insert_advhr_desc}</td>
+                    </tr>
+                    <tr>
+                        <td align="right">{$lang_insert_advhr_width}:</td>
+                        <td nowrap="nowrap">
+                            <input name="width" type="text" id="width" value="" style="width: 50px; vertical-align: middle;" />
+                            <select name="width2" id="width2" style="width: 50px; vertical-align: middle;">
+                                <option value="">px</option>
+                                <option value="%">%</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="top">{$lang_insert_advhr_size}:</td>
+                        <td><select name="size" type="text" id="size" value="" style="width: 100px;">
+                            <option value="">Normal</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select></td>
+                    <tr>
+                        <td align="right" valign="top"><input type="checkbox" name="noshade" id="noshade" class="radio" /></td>
+                        <td><label for="noshade">{$lang_insert_advhr_noshade}</label></td>
+                    </tr>
+                    <tr>
+                        <td><input type="button" name="insert" value="{$lang_insert}" onclick="insertHR();" id="insert" /></td>
+                        <td align="right"><input type="button" name="cancel" value="{$lang_cancel}" onclick="cancelAction();" id="cancel" /></td>
+                    </tr>
+                </table></td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

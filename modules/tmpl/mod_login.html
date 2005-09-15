@@ -1,0 +1,86 @@
+<mos:comment>
+@version $Id: mod_login.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<mos:tmpl name="mod_login" type="condition" conditionvar="type">
+	<mos:sub condition="login">
+		<!-- Display when Logged In -->
+		<form name="mod_login" action="index.php" method="post">
+			<mos:tmpl type="simplecondition" requiredvars="allowUserRegistration=1" varscope="mod_login">
+				<!-- Display Greeting -->
+					<mos:Translate>HI</mos:Translate>
+					{NAME}
+			</mos:tmpl>
+
+			<br />
+			<div align="center">
+				<input type="submit" name="Submit" class="button{CLASS}" value="<mos:Translate>Logout</mos:Translate>" />
+			</div>
+
+			<input type="hidden" name="option" value="logout" />
+			<input type="hidden" name="message" value="<mos:var name="LOGOUT_MESSAGE" modifier="Translate" />" />
+			<input type="hidden" name="return" value="{RETURN}" />
+		</form>
+	</mos:sub>
+
+	<mos:sub condition="logout">
+		<form name="mod_login" action="index.php" method="post">
+			<!-- Display when Logged Out -->
+			{PRETEXT}
+
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+			<tr>
+				<td>
+					<label for="username">
+						<mos:Translate>Username</mos:Translate>
+						<br />
+					</label>
+					<input id="username" name="username" type="text" class="inputbox{CLASS}" alt="username" size="10" />
+					<br />
+					<label for="passwd">
+						<mos:Translate>Password</mos:Translate>
+						<br />
+					</label>
+					<input id="passwd" type="password" name="passwd" class="inputbox{CLASS}" size="10" alt="password" />
+					<br />
+					<input id="remember" type="checkbox" name="remember" class="inputbox{CLASS}" value="yes" alt="Remember Me" />
+					<label for="remember">
+						<mos:Translate>Remember Me</mos:Translate>
+					</label>
+					<br />
+
+					<input type="hidden" name="option" value="login" />
+					<input type="submit" name="Submit" class="button{CLASS}" value="<mos:Translate>Login</mos:Translate>" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+				<a href="<mos:Sef>index.php?option=com_registration&amp;task=lostPassword</mos:Sef>" class="mod_login{CLASS}">
+					<mos:Translate key="LOST PASSWORD">Forgotten your password?</mos:Translate></a>
+				</td>
+			</tr>
+
+			<mos:tmpl type="simplecondition" requiredvars="allowUserRegistration=1" varscope="mod_login">
+				<!-- Display link to Register New Member -->
+				<tr>
+					<td>
+						<mos:Translate key="NO ACCOUNT">No account yet?</mos:Translate>
+						<a href="<mos:Sef>index.php?option=com_registration&amp;task=register</mos:Sef>" class="mod_login{CLASS}">
+							<mos:Translate key="CREATE ACCOUNT">Create one</mos:Translate></a>
+					</td>
+				</tr>
+			</mos:tmpl>
+
+			</table>
+
+			{POSTTEXT}
+
+			<input type="hidden" name="option" value="login" />
+			<input type="hidden" name="message" value="<mos:var name="LOGIN_MESSAGE" modifier="Translate" />" />
+			<input type="hidden" name="return" value="{RETURN}" />
+		</form>
+	</mos:sub>
+</mos:tmpl>

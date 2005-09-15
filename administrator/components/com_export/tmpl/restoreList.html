@@ -1,0 +1,84 @@
+<mos:comment>
+@version $Id: restoreList.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<div id="treecell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Related Links</mos:Translate>
+		</legend>
+		<mos:tmpl src="relatedLinks.html" varscope="body"/>
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Quick Tip</mos:Translate>
+		</legend>
+		<mos:Translate key="Quicktiptext restorelist"></mos:Translate>
+	</fieldset>
+</div>
+
+<div id="datacell">
+	<fieldset>
+		<legend>
+		<mos:Translate>Files</mos:Translate>
+		</legend>
+
+		<table class="adminlist" id="moslist">
+		<thead>
+		<tr>
+		    <th width="20">
+				<input type="checkbox" name="toggle" value="" />
+			</th>
+		    <th width="20%">
+				<mos:Translate>Filename</mos:Translate>
+			</th>
+			<th width="10%">
+				<mos:Translate>Size</mos:Translate>
+			</th>
+			<th width="20%">
+				<mos:Translate>Last Modified</mos:Translate>
+			</th>
+			<th width="20%">
+				<mos:Translate>Permissions</mos:Translate>
+			</th>
+		    <th>
+			</th>
+		</tr>
+		</thead>
+
+		<tbody>
+		<mos:tmpl name="body-list-rows" type="simplecondition" requiredvars="file" addSystemVars="integer">
+			<tr class="row{PAT_IS_EVEN}">
+			    <td style="text-align:center">
+			    	<input type="checkbox" name="cid[]" id="cb{PAT_ROW_VAR}" value="{FILE}"  />
+				</td>
+			    <td>
+			    	{FILE}
+				</td>
+				<td nowrap="nowrap">
+					{FSIZE} b
+				</td>
+				<td>
+					{MTIME}
+				</td>
+				<td>
+					{PERMS}
+				</td>
+			    <td>
+			    	<a href="{ADMINURL}/components/{OPTION}/files/{FILE}" class="editlink">
+						<mos:Translate>download</mos:Translate></a>
+				</td>
+			</tr>
+		</mos:tmpl>
+		</tbody>
+		</table>
+	</fieldset>
+</div>
+
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="function" value="{FUNCTION}" />
+<input type="hidden" name="task" value="" />

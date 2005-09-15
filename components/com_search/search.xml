@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="component" version="4.5.2">
+	<name>Search</name>
+	<author>Joomla! Project</author>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@mamboserver.com</authorEmail>
+	<authorUrl>www.mamboserver.com</authorUrl>
+	<version>4.5.2</version>
+	<description>This component manages the Search functionality.</description>
+	<params>
+		<param name="search_areas" type="radio" default="0" label="Use Search Areas" description="Show the search areas checkboxes">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="show_google" type="radio" default="1" label="Show Google Search" description="Shows the link to search for the text in google">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="show_section" type="radio" default="1" label="Show Section" description="Display section information for the search result items">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="show_preview" type="radio" default="1" label="Show Preview Text" description="Display preview text for the search result items">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="show_date" type="radio" default="1" label="Show Date" description="Display date for the search result items">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="text_highlight" type="radio" default="1" label="Highlight Text" description="Highlights the search term(s) in the preview text items">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+	</params>
+</mosinstall>

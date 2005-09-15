@@ -1,0 +1,444 @@
+<html>
+<head>
+<title>{$lang_insert_link_title}</title>
+<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+<script language="javascript">
+var url = tinyMCE.getParam("external_link_list_url");
+if (url != null) {
+	// Fix relative
+	if (url.charAt(0) != '/')
+		url = tinyMCE.documentBasePath + "/" + url;
+
+	document.write('<sc'+'ript language="javascript" type="text/javascript" src="' + url + '"></sc'+'ript>');
+}
+</script>
+<script language="javascript" type="text/javascript">
+<!--
+    function myRegexpReplace(in_str, reg_exp, replace_str, opts) {
+        if (typeof opts == "undefined")
+            opts = 'g';
+        var re = new RegExp(reg_exp, opts);
+        return in_str.replace(re, replace_str);
+    }
+
+    function init() {
+    // modified 2004-11-10 by Michael Keck (me@michaelkeck.de)
+    // supporting onclick event to open pop windows
+        var formObj = document.forms[0];
+        var arrOnClick = new Array(), arrWinFeatures = new Array();
+        var strOnClick = '', strDocReturn = '';
+        arrOnClick = tinyMCE.getWindowArg('onclick').split(';');
+        for (var i=0; i<arrOnClick.length; i++) {
+            if (arrOnClick[i].indexOf('window.open')!=-1) {
+                strOnClick = arrOnClick[i];
+                strOnClick = strOnClick.substring(12,strOnClick.length-1);
+                formObj.ispopup.checked=true;
+                break;
+            }
+        }
+
+        if (strOnClick!='') {
+            for (var i=0; i<arrOnClick.length; i++) {
+                if (arrOnClick[i].indexOf('return false')!=-1) {
+                    formObj.winreturn.checked=true;
+                    break;
+                }
+            }
+            // get the win features
+            arrWinFeatures = strOnClick.split(',');
+            if (arrWinFeatures[0]!='') // link , url
+                formObj.winurl.value = myRegexpReplace(arrWinFeatures[0],"'","","gi");
+            if (arrWinFeatures[1]!='') // link , url
+                formObj.winname.value = myRegexpReplace(arrWinFeatures[1],"'","","gi");
+
+            for (var i=2; i<arrWinFeatures.length; i++) { // special features
+                tmpFeature = myRegexpReplace(arrWinFeatures[i],"'","","gi");
+                valFeature = tmpFeature.split('=');
+                if (valFeature[0]!='left' && valFeature[0]!='top' && valFeature[0]!='width' && valFeature[0]!='height') {
+                    if (valFeature[1]=='yes')
+                        formObj.elements['win'+valFeature[0].toLowerCase()].checked=true;
+                    else
+                        formObj.elements['win'+valFeature[0].toLowerCase()].checked=false;
+                } else {
+                    switch (valFeature[0]) {
+                        case 'left':
+                        case 'top':
+                            if (valFeature[1].indexOf('screen.avail')!=-1)
+                                formObj.elements['win'+valFeature[0].toLowerCase()].value='c';
+                            else
+                                formObj.elements['win'+valFeature[0].toLowerCase()].value=valFeature[1];
+                        break;
+                        case 'width':
+                        case 'height':
+                            formObj.elements['win'+valFeature[0].toLowerCase()].value=valFeature[1];
+                        break;
+                    }
+                }
+            }
+        }
+        var myTarget = tinyMCE.getWindowArg('target');
+		myTarget = myTarget != "" ? myTarget : "_self";
+        formObj.target.value    = myTarget;
+        formObj.href.value      = tinyMCE.getWindowArg('href');
+        formObj.linktitle.value = tinyMCE.getWindowArg('title');
+        setMyTarget(myTarget);
+
+		// Handle file browser
+		if (tinyMCE.getParam("file_browser_callback") != null) {
+			document.getElementById('href').style.width = '280px';
+			document.getElementById('winurl').style.width = '180px';
+			document.getElementById('browser1').innerHTML = getBrowserHTML('href');
+			document.getElementById('browser2').innerHTML = getBrowserHTML('winurl');
+		}
+
+		// Auto select link in list
+		if (typeof(tinyMCELinkList) != "undefined" && tinyMCELinkList.length > 0) {
+			for (var i=0; i<formObj.link_list.length; i++) {
+				if (formObj.link_list.options[i].value == tinyMCE.getWindowArg('href'))
+					formObj.link_list.options[i].selected = true;
+			}
+		}
+    }
+
+    function insertLink() {
+        var formObj = document.forms[0];
+        if (window.opener) {
+            var href    = formObj.href.value;
+            var target  = formObj.target.value;
+            var title   = formObj.linktitle.value;
+            var onclick = '', features = '';
+            var winwith = '', winheight = '', winleft = '', wintop = '', winlocation = '', winmenubar = '', wintoolbar = '', winscrollbars = '', winresizable = '';
+            if (formObj.ispopup.checked==true) {
+            // building the onclick event
+                onclick = "window.open(";
+                // check if url given
+                if (formObj.winurl.value=='')
+                    onclick += "this.href,";
+                else
+                    onclick += "'" + formObj.winurl.value + "',";
+
+                onclick += "'" + formObj.winname.value + "'";
+                // get/set with and height
+                if (formObj.winwidth.value=='')
+                    formObj.winwidth.value = 640;
+                if (formObj.winheight.value=='')
+                    formObj.winheight.value = 480;
+                // win position
+                if (formObj.winleft.value=='c') {
+                    if (features!='') 
+                        features += ",";
+                    features += "left='+(screen.availWidth/2-" + (formObj.winwidth.value/2) + ")+'";
+                } else {
+                    if (formObj.winleft.value!='') {
+                        if (features!='') 
+                            features += ",";
+                        features += "left=" + formObj.winleft.value;
+                    }
+                }
+                if (formObj.wintop.value=='c') {
+                    if (features!='') 
+                        features += ",";
+                    features += "top='+(screen.availHeight/2-" + (formObj.winheight.value/2) + ")+'";
+                } else {
+                    if (formObj.wintop.value!='') {
+                        if (features!='') 
+                            features += ",";
+                        features += "top=" + formObj.wintop.value;
+                    }
+                }
+                if (features!='')
+                    features += ',';
+                features += "width=" + formObj.winwidth.value + ",height=" + formObj.winheight.value;
+                // some window features
+                if (formObj.winlocation.checked==true) {
+                    if (features!='')
+                        features += ',';
+                    features += "location=yes";
+                }
+                if (formObj.winmenubar.checked==true) {
+                    if (features!='')
+                        features += ',';
+                    features += "menubar=yes";
+                }
+                if (formObj.wintoolbar.checked==true) {
+                    if (features!='')
+                        features += ',';
+                    features += "toolbar=yes";
+                }
+                if (formObj.winstatus.checked==true) {
+                    if (features!='')
+                        features += ',';
+                    features += "status=yes";
+                }
+                if (formObj.winscrollbars.checked==true) {
+                    if (features!='')
+                        features += ',';
+                    features += "scrollbars=yes";
+                }
+                if (formObj.winresizable.checked==true) {
+                    if (features!='')
+                        features += ',';
+                    features += "resizable=yes";
+                }
+                if (features!='')
+                    onclick += ",'" + features + "'";
+                if (onclick!='')
+                    onclick += ");";
+                // return false means: open only the popup
+                if (formObj.winreturn.checked==true)
+                    onclick += "return false;";
+            }
+            if (target!='' && target!='please_insert_on_target_in_textfield') {
+                //alert (onclick);
+                window.opener.tinyMCE.insertLink(href, target, title, onclick);
+
+				// Close the dialog
+				tinyMCE.closeDialog();
+            } else {
+                alert(tinyMCE.getLang('lang_insert_link_popup_missingtarget'));
+                formObj.framename.select();
+            }
+        }
+    }
+
+    function setMyTarget(what) {
+        var formObj = document.forms[0];
+        formObj.target.value=what;
+        switch (what) {
+            case '':
+            case '_self':
+                document.getElementById('same').checked=true;
+                formObj.framename.value='_self';
+            break;
+            case '_blank':
+                document.getElementById('blank').checked=true; 
+                formObj.framename.value='';
+            break;
+            case '_parent':
+                document.getElementById('parent').checked=true;
+                formObj.framename.value='';
+            break;
+            case '_top':
+                document.getElementById('top').checked=true; 
+                formObj.framename.value='';
+            break;
+            default:
+                document.getElementById('named').checked=true;
+                if (what!='please_insert_on_target_in_textfield') { 
+                    formObj.framename.value=what;
+                }
+            break;
+        }
+    }
+
+	function getBrowserHTML(name) {
+		var html = "";
+
+		html += '<img id="browserBtn" src="../../themes/advanced/images/browse.gif"';
+		html += ' onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');"';
+		html += ' onmouseout="tinyMCE.restoreClass(this);"';
+		html += ' onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');"';
+		html += ' onclick="javascript:tinyMCE.openFileBrowser(\'' + name + '\',document.forms[0].' + name + '.value,\'file\',window);"';
+		html += ' width="20" height="18" border="0" title="' + tinyMCE.getLang('lang_browse') + '"';
+		html += ' class="mceButtonNormal" alt="' + tinyMCE.getLang('lang_browse') + '" />';
+
+		return html;
+	}
+
+    function setPopupInputs() {
+        var formObj = document.forms[0];
+        var ids     = new Array('url','name','left','top','width','height','location','menubar','toolbar','status','scrollbars','resizable','return');
+        if (formObj.ispopup.checked==false) {
+            formObj.winurl.value    = "";
+            formObj.winname.value   = "";
+            formObj.winwidth.value  = "";
+            formObj.winheight.value = "";
+            formObj.winleft.value   = "";
+            formObj.wintop.value    = "";
+            formObj.winlocation.checked   = false;
+            formObj.winmenubar.checked    = false;
+            formObj.wintoolbar.checked    = false;
+            formObj.winscrollbars.checked = false;
+            formObj.winresizable.checked  = false;
+            formObj.winstatus.checked     = false;
+            formObj.winreturn.checked     = false;
+            for (var i=0; i<ids.length; i++) {
+                if (typeof(formObj.elements['win'+ids[i]])!='undefined')
+                    formObj.elements['win'+ids[i]].disabled = true;
+                if (document.getElementById('label'+ids[i]))
+                    document.getElementById('label'+ids[i]).style.color = "#666666";
+            }
+       } else {
+            formObj.winreturn.checked = true;
+            for (var i=0; i<ids.length; i++) {
+                if (typeof(formObj.elements['win'+ids[i]])!='undefined')
+                    formObj.elements['win'+ids[i]].disabled = false;
+                if (document.getElementById('label'+ids[i]))
+                    document.getElementById('label'+ids[i]).style.color = "#000000";
+            }
+       }
+    }
+
+    function cancelAction() {
+		// Close the dialog
+		tinyMCE.closeDialog();
+    }
+//-->
+</script>
+<style type="text/css">
+<!--
+   input.radio {
+        border: 1px none #000000;
+        background-color: transparent;
+        vertical-align: middle;
+   }
+-->
+</style>
+</head>
+<body onload="init();">
+    <form onsubmit="insertLink();return false;">
+        <table border="0" cellpadding="0" cellspacing="0" width="100">
+            <tr>
+                <td align="center" valign="middle"><table border="0" cellpadding="4" cellspacing="0">
+                    <tr>
+                        <td colspan="2" class="title" nowrap="nowrap">{$lang_insert_link_title}</td>
+                    </tr>
+                    <tr>
+                        <td align="right" nowrap="nowrap">{$lang_insert_link_url}:</td>
+                      <td><table border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td><input name="href" type="text" id="href" value="" style="width: 300px;" /></td>
+                              <td id="browser1"></td>
+                            </tr>
+                          </table></td>
+                    </tr>
+					  <!-- Link list -->
+					  <script language="javascript">
+						if (typeof(tinyMCELinkList) != "undefined" && tinyMCELinkList.length > 0) {
+							var html = "";
+
+							html += '<tr><td align="right">{$lang_link_list}:</td>';
+							html += '<td><select name="link_list" style="width: 300px" onchange="this.form.href.value=this.options[this.selectedIndex].value;">';
+							html += '<option value="">---</option>';
+
+							for (var i=0; i<tinyMCELinkList.length; i++)
+								html += '<option value="' + tinyMCELinkList[i][1] + '">' + tinyMCELinkList[i][0] + '</option>';
+
+							html += '</select></td></tr>';
+
+							document.write(html);
+						}
+					  </script>
+					  <!-- /Link list -->
+                    <tr>
+                        <td align="right" nowrap="nowrap">{$lang_theme_insert_link_titlefield}:</td>
+                        <td><input name="linktitle" type="text" id="linktitle" value="" style="width: 300px;" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="top">{$lang_insert_link_target}:<input type="hidden" name="target" id="target" value="" /></td>
+                        <td>
+                            <table border="0" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td><input type="radio" id="same" name="linktarget" class="radio" onclick="setMyTarget('_self');" checked="checked" /></td>
+                                    <td nowrap="nowrap"><label for="same">_self</label></td>
+                                    <td nowrap="nowrap">&nbsp;({$lang_insert_link_target_same})</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" id="parent" name="linktarget" class="radio" onclick="setMyTarget('_parent');" checked="checked" /></td>
+                                    <td nowrap="nowrap"><label for="parent">_parent</label></td>
+                                    <td nowrap="nowrap">&nbsp;({$lang_insert_link_target_parent})</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" id="top" name="linktarget" class="radio" onclick="setMyTarget('_top');" checked="checked" /></td>
+                                    <td nowrap="nowrap"><label for="top">_top</label></td>
+                                    <td nowrap="nowrap">&nbsp;({$lang_insert_link_target_top})</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" id="blank" name="linktarget" class="radio" onclick="setMyTarget('_blank');" checked="checked" /></td>
+                                    <td nowrap="nowrap"><label for="blank">_blank</label></td>
+                                    <td nowrap="nowrap">&nbsp;({$lang_insert_link_target_blank})</td>
+                                </tr>
+                            </table>
+                            <table border="0" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td><input type="radio" id="named" name="linktarget" class="radio" onclick="setMyTarget('please_insert_on_target_in_textfield');" /></td>
+                                    <td nowrap="nowrap"><label for="named">{$lang_insert_link_target_named}:</label>&nbsp;</td>
+                                    <td nowrap="nowrap"><input type="text" name="framename" value="" id="framename" style="width: 120px; vertical-align: middle;" onblur="if(this.value!=''){ setMyTarget(this.value); }" onfocus="if(this.value!=''){ setMyTarget(this.value); }" maxlength="50" /></td>
+                                </tr>
+                            </table>                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="top"><input type="checkbox" id="ispopup" name="ispopup" class="radio" onclick="setPopupInputs();" /><label for="ispopup"><b>{$lang_insert_link_popup}:</b></label></td>
+                        <td>
+                            <table border="0" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td align="right" nowrap="nowrap">{$lang_insert_link_popup_url}:&nbsp;</td>
+                                    <td id="labelurl"><table border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td><input type="text" name="winurl" id="winurl" value="" style="width: 200px;" /></td>
+                              <td id="browser2"></td>
+                            </tr>
+                          </table></td>
+                                </tr>
+                                <tr>
+                                    <td align="right" nowrap="nowrap" id="labelname">{$lang_insert_link_popup_name}:&nbsp;</td>
+                                    <td><input type="text" name="winname" id="winname" value="" style="width: 200px;" /></td>
+                                </tr>
+                                <tr>
+                                    <td align="right" nowrap="nowrap" id="labelwidth">{$lang_insert_link_popup_size}:&nbsp;</td>
+                                    <td nowrap="nowrap" id="labelheight">
+                                        <input type="text" name="winwidth" id="winwidth" value="" style="width: 30px; vertical-align: middle; text-align: center;" /> x
+                                        <input type="text" name="winheight" id="winheight" value="" style="width: 30px; vertical-align: middle; text-align: center;" /> px
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right" nowrap="nowrap" id="labelleft">{$lang_insert_link_popup_position}:&nbsp;</td>
+                                    <td nowrap="nowrap" id="labeltop">
+                                        <input type="text" name="winleft" id="winleft" value="" style="width: 30px; vertical-align: middle; text-align: center;" /> /                                
+                                        <input type="text" name="wintop" id="wintop" value="" style="width: 30px; vertical-align: middle; text-align: center;" /> (c /c = center)
+                                    </td>
+                                </tr>
+                            </table>
+                            <table border="0" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td align="right"><input type="checkbox" id="winlocation" name="winloaction" class="radio" /></td>
+                                    <td nowrap="nowrap" id="labellocation"><label for="winloaction">{$lang_insert_link_popup_location}</label></td>
+                                    <td nowrap="nowrap">&nbsp;&nbsp;</td>
+                                    <td align="right"><input type="checkbox" id="winscrollbars" name="winscrollbars" class="radio" /></td>
+                                    <td nowrap="nowrap" id="labelscrollbars"><label for="winscrollbars">{$lang_insert_link_popup_scrollbars}</label></td>
+                                </tr>
+                                <tr>
+                                    <td align="right"><input type="checkbox" id="winmenubar" name="winmenubar" class="radio" /></td>
+                                    <td nowrap="nowrap" id="labelmenubar"><label for="winmenubar">{$lang_insert_link_popup_menubar}</label></td>
+                                    <td nowrap="nowrap">&nbsp;</td>
+                                    <td align="right"><input type="checkbox" id="winresizable" name="winresizable" class="radio" /></td>
+                                    <td nowrap="nowrap" id="labelresizable"><label for="winresizable">{$lang_insert_link_popup_resizable}</label></td>
+                                </tr>
+                                <tr>
+                                    <td align="right"><input type="checkbox" id="wintoolbar" name="wintoolbar" class="radio" /></td>
+                                    <td nowrap="nowrap" id="labeltoolbar"><label for="wintoolbar">{$lang_insert_link_popup_toolbar}</label></td>
+                                    <td nowrap="nowrap">&nbsp;</td>
+                                    <td nowrap="nowrap">&nbsp;</td>
+                                    <td nowrap="nowrap">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td align="right"><input type="checkbox" id="winstatus" name="winstatus" class="radio" /></td>
+                                    <td nowrap="nowrap" id="labelstatus"><label for="winstatus">{$lang_insert_link_popup_statusbar}</label></td>
+                                    <td nowrap="nowrap">&nbsp;</td>
+                                    <td align="right"><input type="checkbox" id="winreturn" name="winreturn" class="radio" checked="checked" /></td>
+                                    <td nowrap="nowrap" id="labelreturn"><label for="winreturn">{$lang_insert_link_popup_return}</label></td>
+                                </tr>
+                            </table>                           
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="button" name="insert" value="{$lang_insert}" onclick="insertLink();" id="insert" /></td>
+                        <td align="right"><input type="button" name="cancel" value="{$lang_cancel}" onclick="cancelAction();" id="cancel" /></td>
+                    </tr>
+                </table></td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

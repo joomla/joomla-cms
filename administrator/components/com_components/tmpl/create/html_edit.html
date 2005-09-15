@@ -1,0 +1,72 @@
+<pat:comment>
+@version $Id: html_edit.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Mambo
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</pat:comment>
+
+<mos:link src="include-calendar-1.0" />
+
+<div style="width:50%; float:left">
+	<fieldset>
+		<legend><mos:Translate>Details</mos:Translate></legend>
+
+		<table class="adminform">
+			<tr>
+				<td width="20%">
+					<mos:Translate>Title</mos:Translate>
+				</td>
+				<td width="80%">
+					<textarea name="title" style="width:98%" class="text_area">{ITEM_TITLE}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td width="20%">
+					<mos:Translate>Description</mos:Translate>
+				</td>
+				<td width="80%">
+					<textarea name="description" style="width:98%" class="text_area">{ITEM_DESCRIPTION}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<mos:Translate>Created Date</mos:Translate>
+				</td>
+				<td>
+					<input type="text" name="created_date" id="item_created_date" value="{ITEM_CREATED_DATE}" class="inputbox" />
+					<mos:Call template="calendar-field" id="item_created_date" format="%Y-%m-%d %I:%M:%S" class="button" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<mos:Translate>Published</mos:Translate>
+				</td>
+				<td>
+					{RADIO_PUBLISHED}
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<mos:Translate>Ordering</mos:Translate>
+				</td>
+				<td>
+					<input type="text" name="ordering" value="{ITEM_ORDERING}" class="inputbox" maxlength="6" />
+				</td>
+			</tr>
+		</table>
+	</fieldset>
+</div>
+
+<div style="width:50%; float:left">
+	<fieldset>
+		<legend><mos:Translate>Parameters</mos:Translate></legend>
+		{PARAMS}
+	</fieldset>
+
+</div>
+
+<input type="hidden" name="option" value="\{OPTION\}" />
+<input type="hidden" name="task" value="" />
+<input type="hidden" name="id" value="\{ITEM_ID\}" />
+
+<mos:link src="include-tooltips" />
