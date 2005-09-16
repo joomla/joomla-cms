@@ -713,7 +713,7 @@ class DOMIT_ChildNodes_Interface extends DOMIT_Node {
 			}
 			else {
 				$null = null;
-				return $null;	
+				return $null;
 			}
 		}
 		else {

@@ -970,6 +970,24 @@ class patTemplate
 		return true;
 	}
 
+	/**
+	 * set the prefix of the template cache
+	 *
+	 * @access	public
+	 * @param	string		the prefix of the template cache
+	 * @return	boolean		true on success, patError otherwise
+	 * @author  Johan Janssens
+	 * @since   1.1
+	 */
+	function setTemplateCachePrefix( $prefix ) {
+		if (!$this->_tmplCache) {
+			return false;
+		}
+
+		$this->_tmplCache->_params['prefix'] = $prefix;
+		return true;
+	}
+
    /**
 	* enable an output filter
 	*
