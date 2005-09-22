@@ -27,7 +27,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+
 --------------------------------------------------------------------------------------------------------------
+
+22-Sep-2005 Rey Gigataras
+ # Fixed artf1175 : Create catagory with selection of Section
 
 12-Sep-2005 Rey Gigataras
  # Poll class $this-> bug

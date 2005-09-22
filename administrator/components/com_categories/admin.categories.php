@@ -360,6 +360,18 @@ function editCategory( $uid=0, $section='' ) {
 		mosErrorAlert( $_LANG->_( 'Select an item to Edit' ) );
 	}
 
+	// check for existance of any sections
+	$query = "SELECT COUNT( id )"
+	. "\n FROM #__sections"
+	. "\n WHERE scope = 'content'"
+	;
+	$database->setQuery( $query );
+	$sections = $database->loadResult();
+	if (!$sections) {
+		echo "<script> alert('You need to have at least one Section before you can create a Category'); window.history.go(-1); </script>\n";
+		exit();
+	}	
+	
 	mosFS::load( '@class', 'com_content' );
 
 	$type 		= mosGetParam( $_REQUEST, 'type', '' );
