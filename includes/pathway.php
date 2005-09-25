@@ -30,7 +30,6 @@ function pathwayMakeLink( $id, $name, $link, $parent ) {
 */
 function showPathway( $Itemid ) {
 	global $database, $option, $task, $mainframe;
-	global $QUERY_STRING, $REQUEST_URI;
 
 	// get the home page
 	$query = "SELECT *"
@@ -53,7 +52,7 @@ function showPathway( $Itemid ) {
 	$mitems = $database->loadObjectList( 'id' );
 
 	$isWin = (substr(PHP_OS, 0, 3) == 'WIN');
-	$optionstring = $isWin ? $QUERY_STRING : $REQUEST_URI;
+	$optionstring = $isWin ? $_SERVER['QUERY_STRING'] : $_SERVER['REQUEST_URI'];
 
 	// are we at the home page or not
 	$home 		= @$mitems[$home_menu->id]->name;

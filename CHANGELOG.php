@@ -30,6 +30,9 @@ Legend:
 
 --------------------------------------------------------------------------------------------------------------
 
+25-Sep-2005 Emir Sakic
+ # Fixed artf1185 : globals.php-off breaks pathway
+
 22-Sep-2005 Rey Gigataras
  # Fixed artf1175 : Create catagory with selection of Section
 
