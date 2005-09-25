@@ -98,7 +98,7 @@ class content_blog_category {
 		$catids	= mosGetParam( $_POST, 'catid', array() );
 		$catid	= implode( ',', $catids );
 
-		$params[categoryid]	= $catid;
+		$params['categoryid']	= $catid;
 		if (is_array( $params )) {
 		    $txt = array();
 		    foreach ($params as $k=>$v) {
