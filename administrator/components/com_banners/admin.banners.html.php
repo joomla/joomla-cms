@@ -181,7 +181,7 @@ class HTML_banners {
 			<th>
 			<?php echo $_LANG->_( 'Banner' ); ?>:
 			<small>
-			<?php echo $_row->cid ? 'Edit' : 'New';?>
+			<?php echo $_row->cid ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' );?>
 			</small>
 			</th>
 		</tr>
