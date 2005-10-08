@@ -376,7 +376,7 @@ class categories_html {
 				</tr>
 				<tr>
 					<td>
-					Published:
+					<?php echo $_LANG->_( 'Published' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['published']; ?>
@@ -384,7 +384,7 @@ class categories_html {
 				</tr>
 				<tr>
 					<td valign="top">
-					Description:
+					<?php echo $_LANG->_( 'Description' ); ?>:
 					</td>
 					<td colspan="2">
 					<?php
@@ -401,18 +401,18 @@ class categories_html {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					Link to Menu
+					<?php echo $_LANG->_( 'Link to Menu' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td colspan="2">
-					This will create a new menu item in the menu you select
+					<?php echo $_LANG->_( 'Will Create New Menu Item in Menu Selected' ); ?>
 					<br /><br />
 					</td>
 				<tr>
 				<tr>
 					<td valign="top" width="100px">
-					Select a Menu
+					<?php echo $_LANG->_( 'Select a Menu' ); ?>
 					</td>
 					<td>
 					<?php echo $lists['menuselect']; ?>
@@ -420,7 +420,7 @@ class categories_html {
 				<tr>
 				<tr>
 					<td valign="top" width="100px">
-					Select Menu Type
+					<?php echo $_LANG->_( 'Select Menu Type' ); ?>
 					</td>
 					<td>
 					<?php echo $lists['link_type']; ?>
@@ -428,7 +428,7 @@ class categories_html {
 				<tr>
 				<tr>
 					<td valign="top" width="100px">
-					Menu Item Name
+					<?php echo $_LANG->_( 'Menu Item Name' ); ?>
 					</td>
 					<td>
 					<input type="text" name="link_name" class="inputbox" value="" size="25" />
