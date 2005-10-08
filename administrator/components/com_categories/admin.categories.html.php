@@ -27,7 +27,7 @@ class categories_html {
 	* @param string The name of the category section
 	*/
 	function show( &$rows, $section, $section_name, &$pageNav, &$lists, $type ) {
-		global $my;
+		global $my, $_LANG;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -38,7 +38,7 @@ class categories_html {
 			if ( $section == 'content') {
 				?>
 				<th class="categories">
-				Category Manager <small><small>[ Content: All ]</small></small>
+				<?php echo $_LANG->_( 'Category Manager' ); ?> <small><small>[ <?php echo $_LANG->_( 'Content: All' ); ?> ]</small></small>
 				</th>
 				<td width="right">
 				<?php echo $lists['sectionid'];?>
@@ -56,7 +56,7 @@ class categories_html {
 				}
 				?>
 				<th class="categories">
-				Category Manager <small><small>[ <?php echo $section_name;?> ]</small></small>
+				<?php echo $_LANG->_( 'Category Manager' ); ?> <small><small>[ <?php echo $section_name;?> ]</small></small>
 				</th>
 				<?php
 			}
@@ -73,49 +73,49 @@ class categories_html {
 			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows );?>);" />
 			</th>
 			<th class="title">
-			Category Name
+			<?php echo $_LANG->_( 'Category Name' ); ?>
 			</th>
 			<th width="10%">
-			Published
+			<?php echo $_LANG->_( 'Published' ); ?>
 			</th>
 			<?php
 			if ( $section <> 'content') {
 				?>
 				<th colspan="2" width="5%">
-				Reorder
+				<?php echo $_LANG->_( 'Reorder' ); ?>
 				</th>
 				<?php
 			}
 			?>
 			<th width="2%">
-			Order
+			<?php echo $_LANG->_( 'Order' ); ?>
 			</th>
 			<th width="1%">
 			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="Save Order" /></a>
 			</th>
 			<th width="10%">
-			Access
+			<?php echo $_LANG->_( 'Access' ); ?>
 			</th>
 			<?php
 			if ( $section == 'content') {
 				?>
 				<th width="12%" align="left">
-				Section
+				<?php echo $_LANG->_( 'Section' ); ?>
 				</th>
 				<?php
 			}
 			?>
 			<th width="5%" nowrap>
-			Category ID
+			<?php echo $_LANG->_( 'Category ID' ); ?>
 			</th>
 			<?php
 			if ( $type == 'content') {
 				?>
 				<th width="5%">
-				# Active
+				# <?php echo $_LANG->_( 'Active' ); ?>
 				</th>
 				<th width="5%">
-				# Trash
+				# <?php echo $_LANG->_( 'Trash' ); ?>
 				</th>
 				<?php
 			} else {
@@ -239,6 +239,7 @@ class categories_html {
 	* @param array
 	*/
 	function edit( &$row, &$lists, $redirect, $menus ) {
+	global $_LANG;
 		if ($row->image == "") {
 			$row->image = 'blank.png';
 		}
@@ -287,9 +288,9 @@ class categories_html {
 		<table class="adminheading">
 		<tr>
 			<th class="categories">
-			Category:
+			<?php echo $_LANG->_( 'Category' ); ?>:
 			<small>
-			<?php echo $row->id ? 'Edit' : 'New';?>
+			<?php echo $row->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' );?>
 			</small>
 			<small><small>
 			[ <?php echo $component; ?>: <?php echo $row->name; ?> ]
@@ -304,12 +305,12 @@ class categories_html {
 				<table class="adminform">
 				<tr>
 					<th colspan="3">
-					Category Details
+					<?php echo $_LANG->_( 'Category Details' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td>
-					Category Title:
+					<?php echo $_LANG->_( 'Category Title' ); ?>:
 					</td>
 					<td colspan="2">
 					<input class="text_area" type="text" name="title" value="<?php echo $row->title; ?>" size="50" maxlength="50" title="A short name to appear in menus" />
@@ -317,7 +318,7 @@ class categories_html {
 				</tr>
 				<tr>
 					<td>
-					Category Name:
+					<?php echo $_LANG->_( 'Category Name' ); ?>:
 					</td>
 					<td colspan="2">
 					<input class="text_area" type="text" name="name" value="<?php echo $row->name; ?>" size="50" maxlength="255" title="A long name to be displayed in headings" />
@@ -325,7 +326,7 @@ class categories_html {
 				</tr>
 				<tr>
 					<td>
-					Section:
+					<?php echo $_LANG->_( 'Section' ); ?>:
 					</td>
 					<td colspan="2">
 					<?php echo $lists['section']; ?>
@@ -333,7 +334,7 @@ class categories_html {
 				</tr>
 				<tr>
 					<td>
-					Image:
+					<?php echo $_LANG->_( 'Image' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['image']; ?>
@@ -351,7 +352,7 @@ class categories_html {
 				</tr>
 				<tr>
 					<td>
-					Image Position:
+					<?php echo $_LANG->_( 'Image Position' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['image_position']; ?>
@@ -359,7 +360,7 @@ class categories_html {
 				</tr>
 				<tr>
 					<td>
-					Ordering:
+					<?php echo $_LANG->_( 'Ordering' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['ordering']; ?>
@@ -367,7 +368,7 @@ class categories_html {
 				</tr>
 				<tr>
 					<td>
-					Access Level:
+					<?php echo $_LANG->_( 'Access Level' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['access']; ?>
