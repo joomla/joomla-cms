@@ -9,9 +9,9 @@
 	<version>1.0.0</version>
 	<description>This component shows a listing of Contact Information</description>
 	<params>
-		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="A small image to be placed to the left or right of your menu item, images must be in images/stories/" />
-		<param name="pageclass_sfx" type="text" default="" label="Page Class Suffix" description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
-		<param name="back_button" type="list" default="" label="Back Button" description="Show/Hide a Back Button, that returns you to the previously view page">
+		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
+		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
+		<param name="back_button" type="list" default="" label="Back Button" description="PARAMBACKBUTTON">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
@@ -20,33 +20,33 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="header" type="text" size="30" default="" label="Page Title" description="Text to display at the top of the page. If left blank, the Menu name will be used instead" />
+		<param name="header" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="catid" type="mos_category" default="0" scope="com_contact_details" label="Special defined category" description="Shows contacts only from the selected category" />
-		<param name="other_cat_section" type="radio" default="1" label="Category List - Section" description="Show/Hide the List of Categories in List view page">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="other_cat" type="radio" default="1" label="Category List - Category" description="Show/Hide the List of Categories in Table view page">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="cat_description" type="radio" default="1" label="Category Description" description="Show/Hide the Description for the list of other catgeories">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="cat_items" type="radio" default="1" label="# Category Items" description="Show/Hide the number of items in each category">
+		<param name="catid" type="mos_category" default="0" scope="com_contact_details" label="Special defined category" description="PARAMSPECCAT" />
+		<param name="other_cat_section" type="radio" default="1" label="Category List - Section" description="PARAMCATLIST">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="description" type="radio" default="1" label="Description" description="Show/Hide the Description below">
+		<param name="other_cat" type="radio" default="1" label="Category List - Category" description="PARAMCATLISTCAT">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="description_text" type="textarea" default="" label="Description Text" rows="5" cols="30" description="Description for page, if left blank it will load _WEBLINKS_DESC from your language file"/>
-		<param name="image" type="imagelist" directory="/images/stories" hide_default="1" default="-1" label="Image" description="Image for page, must be located in the /images/stories folder. Default will load web_links.jpg, No image will mean an image is not loaded" />
+		<param name="cat_description" type="radio" default="1" label="Category Description" description="PARAMCATDESC">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="cat_items" type="radio" default="1" label="Num Category Items" description="PARAMNUMCATITEM">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="description" type="radio" default="1" label="Description" description="Show/Hide the Description Text below">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="description_text" type="textarea" default="" label="Description Text" rows="5" cols="30" description="PARAMDESCTEXT"/>
+		<param name="image" type="imagelist" directory="/images/stories" hide_default="1" default="-1" label="Image" description="PARAMIMAGE" />
 		<param name="image_align" type="radio" default="right" label="Image Align" description="Alignment of the image">
 			<option value="left">Left</option>
 			<option value="right">Right</option>

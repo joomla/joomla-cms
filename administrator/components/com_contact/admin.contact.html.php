@@ -23,6 +23,7 @@ class HTML_contact {
 
 	function showContacts( &$rows, &$pageNav, $search, $option, &$lists ) {
 		global $my;
+		global $_LANG;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -30,10 +31,10 @@ class HTML_contact {
 		<table class="adminheading">
 		<tr>
 			<th>
-			Contact Manager
+			<?php echo $_LANG->_( 'Contact Manager' ); ?>
 			</th>
 			<td>
-			Filter:
+			<?php echo $_LANG->_( 'Filter' ); ?>:
 			</td>
 			<td>
 			<input type="text" name="search" value="<?php echo $search;?>" class="inputbox" onChange="document.adminForm.submit();" />
@@ -47,25 +48,25 @@ class HTML_contact {
 		<table class="adminlist">
 		<tr>
 			<th width="20">
-			#
+			<?php echo $_LANG->_( 'Num' ); ?>
 			</th>
 			<th width="20" class="title">
 			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 			</th>
 			<th class="title">
-			Name
+			<?php echo $_LANG->_( 'Name' ); ?>
 			</th>
 			<th width="5%" class="title" nowrap="true">
-			Published
+			<?php echo $_LANG->_( 'Published' ); ?>
 			</th>
 			<th colspan="2" nowrap="nowrap" width="5%">
-			Reorder
+			<?php echo $_LANG->_( 'Reorder' ); ?>
 			</th>
 			<th width="15%" align="left">
-			Category
+			<?php echo $_LANG->_( 'Category' ); ?>
 			</th>
 			<th class="title" nowrap="nowrap" width="15%">
-			Linked to User
+			<?php echo $_LANG->_( 'Linked to User' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -77,7 +78,7 @@ class HTML_contact {
 
 			$img 	= $row->published ? 'tick.png' : 'publish_x.png';
 			$task 	= $row->published ? 'unpublish' : 'publish';
-			$alt 	= $row->published ? 'Published' : 'Unpublished';
+			$alt 	= $row->published ? $_LANG->_( 'Published' ) : $_LANG->_( 'Unpublished' );
 
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 
@@ -97,7 +98,7 @@ class HTML_contact {
 					echo $row->name;
 				} else {
 					?>
-					<a href="<?php echo $link; ?>" title="Edit Contact">
+					<a href="<?php echo $link; ?>" title="<?php echo $_LANG->_( 'Edit Contact' ); ?>">
 					<?php echo $row->name; ?>
 					</a>
 					<?php
@@ -116,12 +117,12 @@ class HTML_contact {
 				<?php echo $pageNav->orderDownIcon( $i, $n, ( $row->catid == @$rows[$i+1]->catid ) ); ?>
 				</td>
 				<td>
-				<a href="<?php echo $row->cat_link; ?>" title="Edit Category">
+				<a href="<?php echo $row->cat_link; ?>" title="<?php echo $_LANG->_( 'Edit Category' ); ?>">
 				<?php echo $row->category; ?>
 				</a>
 				</td>
 				<td>
-				<a href="<?php echo $row->user_link; ?>" title="Edit User">
+				<a href="<?php echo $row->user_link; ?>" title="<?php echo $_LANG->_( 'Edit User' ); ?>">
 				<?php echo $row->user; ?>
 				</a>
 				</td>
@@ -144,6 +145,7 @@ class HTML_contact {
 
 	function editContact( &$row, &$lists, $option, &$params ) {
 		global $mosConfig_live_site;
+		global $_LANG;
 
 		if ($row->image == '') {
 			$row->image = 'blank.png';
@@ -164,9 +166,9 @@ class HTML_contact {
 
 			// do field validation
 			if ( form.name.value == "" ) {
-				alert( "You must provide a name." );
+				alert( "<?php echo $_LANG->_( 'You must provide a name.' ); ?>" );
 			} else if ( form.catid.value == 0 ) {
-				alert( "Please select a Category." );
+				alert( "<?php echo $_LANG->_( 'Please select a Category.' ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}
@@ -178,9 +180,9 @@ class HTML_contact {
 		<table class="adminheading">
 		<tr>
 			<th>
-			Contact:
+			<?php echo $_LANG->_( 'Contact' ); ?>:
 			<small>
-			<?php echo $row->id ? 'Edit' : 'New';?>
+			<?php echo $row->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' );?>
 			</small>
 			</th>
 		</tr>
@@ -192,12 +194,12 @@ class HTML_contact {
 				<table width="100%" class="adminform">
 				<tr>
 					<th colspan="2">
-					Contact Details
+					<?php echo $_LANG->_( 'Contact Details' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td width="20%" align="right">
-					Category:
+					<?php echo $_LANG->_( 'Category' ); ?>:
 					</td>
 					<td width="40%">
 					<?php echo $lists['catid'];?>
@@ -205,7 +207,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td width="20%" align="right">
-					Linked to User:
+					<?php echo $_LANG->_( 'Linked to User' ); ?>:
 					</td>
 					<td >
 					<?php echo $lists['user_id'];?>
@@ -213,7 +215,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td width="20%" align="right">
-					Name:
+					<?php echo $_LANG->_( 'Name' ); ?>:
 					</td>
 					<td >
 					<input class="inputbox" type="text" name="name" size="50" maxlength="100" value="<?php echo $row->name; ?>" />
@@ -221,7 +223,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right">
-					Contact's Position:
+					<?php echo $_LANG->_( 'Contact\'s Position' ); ?>:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="con_position" size="50" maxlength="50" value="<?php echo $row->con_position; ?>" />
@@ -229,7 +231,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right">
-					E-mail:
+					<?php echo $_LANG->_( 'E-mail' ); ?>:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="email_to" size="50" maxlength="100" value="<?php echo $row->email_to; ?>" />
@@ -237,7 +239,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right">
-					Street Address:
+					<?php echo $_LANG->_( 'Street Address' ); ?>:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="address" size="50" value="<?php echo $row->address; ?>" />
@@ -245,7 +247,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right">
-					Town/Suburb:
+					<?php echo $_LANG->_( 'Town/Suburb' ); ?>:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="suburb" size="50" maxlength="50" value="<?php echo $row->suburb;?>" />
@@ -253,7 +255,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right">
-					State/County:
+					<?php echo $_LANG->_( 'State/County' ); ?>:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="state" size="50" maxlength="20" value="<?php echo $row->state;?>" />
@@ -261,7 +263,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right">
-					Country:
+					<?php echo $_LANG->_( 'Country' ); ?>:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="country" size="50" maxlength="50" value="<?php echo $row->country;?>" />
@@ -269,7 +271,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right">
-					Postal Code/ZIP:
+					<?php echo $_LANG->_( 'Postal Code/ZIP' ); ?>:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="postcode" size="25" maxlength="10" value="<?php echo $row->postcode; ?>" />
@@ -277,7 +279,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right">
-					Telephone:
+					<?php echo $_LANG->_( 'Telephone' ); ?>:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="telephone" size="25" maxlength="25" value="<?php echo $row->telephone; ?>" />
@@ -285,7 +287,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right">
-					Fax:
+					<?php echo $_LANG->_( 'Fax' ); ?>:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="fax" size="25" maxlength="25" value="<?php echo $row->fax; ?>" />
@@ -293,7 +295,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right" valign="top">
-					Miscellaneous Info:
+					<?php echo $_LANG->_( 'Miscellaneous Info' ); ?>:
 					</td>
 					<td>
 					<textarea name="misc" rows="5" cols="50" class="inputbox"><?php echo $row->misc; ?></textarea>
@@ -304,18 +306,19 @@ class HTML_contact {
 			</td>
 			<td width="40%" valign="top">
 				<?php
+				$title = $_LANG->_( 'Publishing' );
 				$tabs->startPane("content-pane");
-				$tabs->startTab("Publishing","publish-page");
+				$tabs->startTab( $title, "publish-page" );
 				?>
 				<table width="100%" class="adminform">
 				<tr>
 					<th colspan="2">
-					Publishing Info
+					<?php echo $_LANG->_( 'Publishing Info' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td width="20%" align="right">
-					Site Default:
+					<?php echo $_LANG->_( 'Site Default' ); ?>:
 					</td>
 					<td >
 					<?php echo $lists['default_con']; ?>
@@ -323,7 +326,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Published:
+					<?php echo $_LANG->_( 'Published' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['published']; ?>
@@ -331,7 +334,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Ordering:
+					<?php echo $_LANG->_( 'Ordering' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['ordering']; ?>
@@ -339,7 +342,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					Access:
+					<?php echo $_LANG->_( 'Access' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['access']; ?>
@@ -347,23 +350,23 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td colspan="2">&nbsp;
-
 					</td>
 				</tr>
 				</table>
 				<?php
+				$title = $_LANG->_( 'Images' );
 				$tabs->endTab();
-				$tabs->startTab("Images","images-page");
+				$tabs->startTab( $title, "images-page" );
 				?>
 				<table width="100%" class="adminform">
 				<tr>
 					<th colspan="2">
-					Image Info
+					<?php echo $_LANG->_( 'Image Info' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td align="left" width="20%">
-					Image:
+					<?php echo $_LANG->_( 'Image' ); ?>:
 					</td>
 					<td align="left">
 					<?php echo $lists['image']; ?>
@@ -385,18 +388,19 @@ class HTML_contact {
 				</tr>
 				</table>
 				<?php
+				$title = $_LANG->_( 'Parameters' );
 				$tabs->endTab();
-				$tabs->startTab("Parameters","params-page");
+				$tabs->startTab( $title, "params-page" );
 				?>
 				<table class="adminform">
 				<tr>
 					<th>
-					Parameters
+					<?php echo $_LANG->_( 'Parameters' ); ?>
 					</th>
 				</tr>
 				<tr>
 					<td>
-					* These Parameters only control what you see when you click to view a Contact item *
+					<?php echo $_LANG->_( 'DESCPARAMWHENCLICKCONTAC' ); ?>
 					<br /><br />
 					</td>
 				</tr>

@@ -9,14 +9,14 @@
 	<version>1.0.0</version>
 	<description>Parameters for individual Contact Items</description>
 	<params>
-		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="A small image to be placed to the left or right of your menu item, images must be in images/stories/" />
-		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
-		<param name="print" type="list" default="" label="Print Icon" description="Show/Hide the item print button - only affects this page">
+		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
+		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
+		<param name="print" type="list" default="" label="Print Icon" description="PARAMPRINT">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="back_button" type="list" default="" label="Back Button" description="Show/Hide a Back Button, that returns you to the previously view page">
+		<param name="back_button" type="list" default="" label="Back Button" description="PARAMBACKBUTTON">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
@@ -30,7 +30,7 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="email" type="radio" default="0" label="Email" description="Show/Hide the email info, if you set to show the address will be protected from spambots by javascript cloaking">
+		<param name="email" type="radio" default="0" label="Email" description="PARAMEMAIL">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
@@ -79,22 +79,22 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="email_description_text" type="text" size="30" default="" label="Description text" description="The Description text for the Email form, if left blank it will use the _EMAIL_DESCRIPTION language definition" />
+		<param name="email_description_text" type="text" size="30" default="" label="Description text" description="PARAMEMAILDESCTEXT" />
 		<param name="email_form" type="radio" default="1" label="Email Form" description="Show/Hide the email to form">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="email_copy" type="radio" default="1" label="Email Copy" description="Show/Hide the checkbox to email a copy to the senders address">
+		<param name="email_copy" type="radio" default="1" label="Email Copy" description="PARAMEMAILCOPY">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="drop_down" type="radio" default="0" label="Drop Down" description="Show/Hide the Drop Down select list in Contact view">
+		<param name="drop_down" type="radio" default="0" label="Drop Down" description="PARAMDROPDOWN">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="contact_icons" type="list" default="0" label="Icons/text" description="Use Icons, text or nothing next to the contact information displayed">
+		<param name="contact_icons" type="list" default="0" label="Icons/text" description="PARAMCONTACTICONS">
 			<option value="0">Icons</option>
 			<option value="1">Text</option>
 			<option value="2">None</option>

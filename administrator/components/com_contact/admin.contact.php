@@ -265,10 +265,11 @@ function removeContacts( &$cid, $option ) {
 */
 function changeContact( $cid=null, $state=0, $option ) {
 	global $database, $my;
+	global $_LANG;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		$action = $publish ? 'publish' : 'unpublish';
-		echo "<script> alert('Select an item to $action'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". $_LANG->_( 'Select an item to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit();
 	}
 
