@@ -1,82 +1,81 @@
 <?php
 /**
-* @version $Id: mod_templatechooser.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-class modTemplatechooserData {
+global $cur_template;
 
-	function &getParams( &$params ) {
-		global $mainframe;
-		global $_LANG, $mosConfig_absolute_path;
+// titlelength can be set in module params
+$titlelength 	= $params->get( 'title_length', 20 );
+$preview_height = $params->get( 'preview_height', 90 );
+$preview_width 	= $params->get( 'preview_width', 140 );
+$show_preview 	= $params->get( 'show_preview', 0 );
 
-		$titlelength 	= $params->def( 'title_length', 20 );
-		$show_preview 	= $params->def( 'show_preview', 0 );
+// Read files from template directory
+$template_path 	= "$mosConfig_absolute_path/templates";
+$templatefolder = @dir( $template_path );
+$darray = array();
 
-		// Read files from template directory
-		$template_path 	= $mosConfig_absolute_path .'/templates';
-		$templatefolder = @dir( $template_path );
-		$darray 		= array();
-
-		if ( $templatefolder ) {
-			while ( $templatefile = $templatefolder->read() ) {
-				if ( $templatefile != '.' && $templatefile != '..' && $templatefile != 'CVS' && is_dir( $template_path .'/'. $templatefile )  ) {
-					if( strlen( $templatefile ) > $titlelength ) {
-						$templatename = substr( $templatefile, 0, $titlelength - 3 );
-						$templatename .= '...';
-					} else {
-						$templatename = $templatefile;
-					}
-					$darray[] = mosHTML::makeOption( $templatefile, $templatename );
-				}
+if ($templatefolder) {
+	while ($templatefile = $templatefolder->read()) {
+		if ($templatefile != "." && $templatefile != ".." && $templatefile != ".svn" && $templatefile != "css" && is_dir( "$template_path/$templatefile" )  ) {
+			if(strlen($templatefile) > $titlelength) {
+				$templatename = substr( $templatefile, 0, $titlelength-3 );
+				$templatename .= "...";
+			} else {
+				$templatename = $templatefile;
 			}
-			$templatefolder->close();
+			$darray[] = mosHTML::makeOption( $templatefile, $templatename );
 		}
-
-		$cur_template = $params->def( 'template', $mainframe->getTemplate() );
-		sort( $darray );
-		// Show the preview image
-		if( $show_preview ) {
-			$onchange = 'showimage()';
-		} else {
-			$onchange = '';
-		}
-		$list = mosHTML::selectList( $darray, 'mos_change_template', 'class="button" onchange="'. $onchange .'" onkeyup="'. $onchange .'"', 'value', 'text', $cur_template );
-		$params->set( 'dropdown', $list );
-
-		return $params;
 	}
+	$templatefolder->close();
 }
 
+sort( $darray );
 
-class modTemplatechooser {
-
-	function show ( &$params ) {
-		modTemplatechooser::_display($params);
-	}
-
-	function _display( &$params ) {
-
-		$params = modTemplatechooserData::getParams( $params );
-
-		$tmpl =& moduleScreens::createTemplate( 'mod_templatechooser.html' );
-
-		$tmpl->addVar( 'mod_templatechooser', 'class', 	$params->get( 'moduleclass_sfx' ) );
-		$tmpl->addVar( 'mod_templatechooser', 'url', ampReplace( $_SERVER['REQUEST_URI'] ) );
-
-		$tmpl->addObject( 'mod_templatechooser', $params->toObject() );
-
-		$tmpl->displayParsedTemplate( 'mod_templatechooser' );
-	}
-}
-
-modTemplatechooser::show( $params );
+// Show the preview image
+// Set up JavaScript for instant preview
+$onchange = "";
+if ($show_preview) {
+	$onchange = "showimage()";
 ?>
+<img src="<?php echo "templates/$cur_template/template_thumbnail.png";?>" name="preview" border="1" width="<?php echo $preview_width;?>" height="<?php echo $preview_height;?>" alt="<?php echo $cur_template; ?>" />
+<script language='JavaScript1.2' type='text/javascript'>
+<!--
+	function showimage() {
+		//if (!document.images) return;
+		document.images.preview.src = 'templates/' + getSelectedValue( 'templateform', 'jos_change_template' ) + '/template_thumbnail.png';
+	}
+	function getSelectedValue( frmName, srcListName ) {
+		var form = eval( 'document.' + frmName );
+		var srcList = eval( 'form.' + srcListName );
+
+		i = srcList.selectedIndex;
+		if (i != null && i > -1) {
+			return srcList.options[i].value;
+		} else {
+			return null;
+		}
+	}
+-->
+</script>
+<?php
+}
+?>
+<form action="<?php echo $_SERVER['REQUEST_URI'];?>" name='templateform' method="post">
+	<?php
+	echo mosHTML::selectList( $darray, 'jos_change_template', "id=\"mod_templatechooser_jos_change_template\" class=\"button\" onchange=\"$onchange\"",'value', 'text', $cur_template );
+	?>
+	<input class="button" type="submit" value="<?php echo _CMN_SELECT;?>" />
+</form>

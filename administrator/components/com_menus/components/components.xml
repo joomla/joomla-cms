@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosparams type="menu" version="4.5.2">
+<mosinstall type="menu" version="1.0.0">
 	<name>Component</name>
 	<group>Component</group>
-	<description>Displays the frontend interface for a Component</description>
+	<author>Joomla! Project</author>
+	<creationDate>July 2004</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>DESCFRONTEND</description>
 	<params/>
-</mosparams>
+</mosinstall>

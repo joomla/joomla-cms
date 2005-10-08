@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall version="4.5.2" type="mambot" group="content">
+<mosinstall version="1.0.0" type="mambot" group="content">
 	<name>mospaging</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2004</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-	<authorEmail>admin@mamboserver.com</authorEmail>
-	<authorUrl>www.mamboserver.com</authorUrl>
-	<version>4.5.2</version>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
 	<description>Add a Table of Contents functionality to a paginated item. Syntax: {mospagebreak} or {mospagebreak title=The page title} or {mospagebreak heading=The first page} or {mospagebreak title=The page title&heading=The first page} or {mospagebreak heading=The first page&title=The page title}</description>
 	<files>
 		<filename mambot="mospaging">mospaging.php</filename>
 	</files>
 	<params>
-		<param name="toc" type="list" default="0" label="Pages Display" description="Method of displaying pages">
-			<option value="0">Table of Contents</option>
-			<option value="1">Page Navigation</option>
-		</param>
-		<param name="title" type="radio" default="1" label="Site&Page Title" description="Title and Heading attibutes from mambot added to Site Title and the Page Title">
+		<param name="title" type="radio" default="1" label="Site Title" description="title and heading attibutes from mambot added to Site Title tag">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
-		<param name="separator" type="text" default="::" size="10" label="Separator" description="Allows you to control the separator between the article title and the page title as defined by using the `title` attribute for this mambot" />
 	</params>
 </mosinstall>

@@ -1,12 +1,14 @@
 <?php
 /**
-* @version $Id: admin.syndicate.php 137 2005-09-12 10:21:17Z eddieajau $
-* @package Mambo
+* @version $Id$
+* @package Joomla
 * @subpackage Syndicate
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -14,98 +16,95 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
-if (!($acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'all' )
- | $acl->acl_check( 'com_syndicate', 'manage', 'users', $my->usertype ))) {
-	mosRedirect( 'index2.php', $_LANG->_('NOT_AUTH') );
+if (!($acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'all' ) | $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'com_contact' ))) {
+	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
 }
 
-mosFS::load( '@admin_html' );
+require_once( $mainframe->getPath( 'admin_html' ) );
+
+
+switch ($task) {
+
+	case 'save':
+		saveSyndicate( $option );
+		break;
+
+  case 'cancel':
+		cancelSyndicate( );
+		break;
+
+	default:
+		showSyndicate( $option );
+		break;
+}
 
 /**
- * @package Syndicate
- * @subpackage Syndicate
- */
-class syndicateTasks extends mosAbstractTasker {
-	/**
-	 * Constructor
-	 */
-	function syndicateTasks() {
-		// auto register public methods as tasks, set the default task
-		parent::mosAbstractTasker( 'edit' );
+* List the records
+* @param string The current GET/POST option
+*/
+function showSyndicate( $option ) {
+	global $database, $mainframe, $mosConfig_list_limit;
 
-		// set task level access control
-		//$this->setAccessControl( 'com_templates', 'manage' );
-	}
+	$query = "SELECT a.id"
+	. "\n FROM #__components AS a"
+	. "\n WHERE a.name = 'Syndicate'"
+	;
+	$database->setQuery( $query );
+	$id = $database->loadResult();
 
-	/**
-	* List the records
-	*/
-	function edit() {
-		global $database, $mainframe;
+	// load the row from the db table
+	$row = new mosComponent( $database );
+	$row->load( $id );
 
-		$mainframe->set('disableMenu', true);
+	// get params definitions
+	$params = new mosParameters( $row->params, $mainframe->getPath( 'com_xml', $row->option ), 'component' );
 
-		$query = "SELECT a.id"
-		. "\n FROM #__components AS a"
-		. "\n WHERE a.option = 'com_syndicate'"
-		;
-		$database->setQuery( $query );
-		$id = $database->loadResult();
-
-		// load the row from the db table
-		$row = new mosComponent( $database );
-		$row->load( $id );
-
-		// get params definitions
-		$params = new mosParameters( $row->params, $mainframe->getPath( 'com_xml', $row->option ), 'component' );
-
-		HTML_syndicate::settings( 'com_syndicate', $params, $id );
-	}
-
-	/**
-	* Saves the record from an edit form submit
-	*/
-	function save() {
-		global $database;
-		global $_LANG;
-
-		$id 	= intval( mosGetParam( $_POST, 'id', '17' ) );
-		$params = mosGetParam( $_POST, 'params', '' );
-
-		if (is_array( $params )) {
-			$txt = array();
-			foreach ($params as $k=>$v) {
-				$txt[] = "$k=$v";
-			}
-			$_POST['params'] = mosParameters::textareaHandling( $txt );
-		}
-
-		$row = new mosComponent( $database );
-		$row->load( $id );
-
-		if (!$row->bind( $_POST )) {
-			mosErrorAlert( $row->getError() );
-		}
-		if (!$row->check()) {
-			mosErrorAlert( $row->getError() );
-		}
-		if (!$row->store()) {
-			mosErrorAlert( $row->getError() );
-		}
-
-		$msg = $_LANG->_( 'Settings successfully Saved' );
-		mosRedirect( 'index2.php?option=com_syndicate', $msg );
-	}
-
-	/**
-	* Cancels editing returns to Admin Home page
-	*/
-	function cancel() {
-		$this->setRedirect( 'index2.php' );
-	}
+	HTML_syndicate::settings( $option, $params, $id );
 }
 
-$tasker = new syndicateTasks();
-$tasker->performTask( mosGetParam( $_REQUEST, 'task', '' ) );
-$tasker->redirect();
+/**
+* Saves the record from an edit form submit
+* @param string The current GET/POST option
+*/
+function saveSyndicate( $option ) {
+	global $database;
+	global $_LANG;
+
+	$params = mosGetParam( $_POST, 'params', '' );
+	if (is_array( $params )) {
+		$txt = array();
+		foreach ($params as $k=>$v) {
+			$txt[] = "$k=$v";
+		}
+		$_POST['params'] = mosParameters::textareaHandling( $txt );
+	}
+
+	$id = mosGetParam( $_POST, 'id', '17' );
+	$row = new mosComponent( $database );
+	$row->load( $id );
+
+	if (!$row->bind( $_POST )) {
+		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		exit();
+	}
+
+	if (!$row->check()) {
+		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		exit();
+	}
+	if (!$row->store()) {
+		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		exit();
+	}
+
+	$msg = $_LANG->_( 'Settings successfully Saved' );
+	mosRedirect( 'index2.php?option='. $option, $msg );
+}
+
+/**
+* Cancels editing and checks in the record
+*/
+function cancelSyndicate(){
+	mosRedirect( 'index2.php' );
+}
 ?>

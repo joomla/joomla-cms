@@ -1,12 +1,14 @@
 <?php
 /**
-* @version $Id: components.class.php 137 2005-09-12 10:21:17Z eddieajau $
-* @package Mambo
+* @version $Id$
+* @package Joomla
 * @subpackage Menus
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -14,7 +16,7 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 /**
-* @package Mambo
+* @package Joomla
 * @subpackage Menus
 */
 class components_menu {
@@ -35,7 +37,8 @@ class components_menu {
 
 		// fail if checked out not by 'me'
 		if ( $menu->checked_out && $menu->checked_out <> $my->id ) {
-			mosErrorAlert( $_LANG->_( 'The module' ) .' '. $menu->title .' '. $_LANG->_( 'descBeingEditted' ) );
+			echo "<script>alert('". $_LANG->_( 'The module' ) ." ". $menu->title ." ". $_LANG->_( 'DESCBEINGEDITTED' ) ."'); document.location.href='index2.php?option=$option'</script>\n";
+			exit(0);
 		}
 
 		if ( $uid ) {
@@ -44,7 +47,11 @@ class components_menu {
 		} else {
 			// do stuff for new item
 			$menu->type 		= 'components';
-			mosMenuFactory::setValues( $menu, $menutype );
+			$menu->menutype 	= $menutype;
+			$menu->browserNav 	= 0;
+			$menu->ordering 	= 9999;
+			$menu->parent 		= intval( mosGetParam( $_POST, 'parent', 0 ) );
+			$menu->published 	= 1;
 		}
 
 		$query = "SELECT c.id AS value, c.name AS text, c.link"
@@ -56,21 +63,23 @@ class components_menu {
 		$components = $database->loadObjectList( );
 
 		// build the html select list for section
-		mosFS::load( '@class', 'com_components' );
-		$lists['componentid'] 	= mosComponentFactory::buildList( $menu, $uid );
+		$lists['componentid'] 	= mosAdminMenus::Component( $menu, $uid );
 
 		// componentname
-		$lists['componentname'] = mosComponentFactory::getComponentName( $menu, $uid );
-		// build common lists
-		mosMenuFactory::buildLists( $lists, $menu, $uid );
+		$lists['componentname'] = mosAdminMenus::ComponentName( $menu, $uid );
+		// build the html select list for ordering
+		$lists['ordering'] 		= mosAdminMenus::Ordering( $menu, $uid );
+		// build the html select list for the group access
+		$lists['access'] 		= mosAdminMenus::Access( $menu );
+		// build the html select list for paraent item
+		$lists['parent'] 		= mosAdminMenus::Parent( $menu );
+		// build published button option
+		$lists['published'] 	= mosAdminMenus::Published( $menu );
+		// build the url link output
+		$lists['link'] 		= mosAdminMenus::Link( $menu, $uid );
 
 		// get params definitions
-		// common
-		$commonParams = new mosParameters( $menu->params, $mainframe->getPath( 'commonmenu_xml' ), 'menu' );
-		// menu type specific
-		$itemParams = new mosParameters( $menu->params, $mainframe->getPath( 'com_xml', $row->option ), 'component' );
-		$params[] = $commonParams;
-		$params[] = $itemParams;
+		$params = new mosParameters( $menu->params, $mainframe->getPath( 'com_xml', $row->option ), 'component' );
 
 		components_menu_html::edit( $menu, $components, $lists, $params, $option );
 	}

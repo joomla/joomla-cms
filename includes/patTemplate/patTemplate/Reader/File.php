@@ -2,7 +2,7 @@
 /**
  * patTemplate Reader that reads from a file
  *
- * $Id: File.php 138 2005-09-12 10:37:53Z eddieajau $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Readers
@@ -12,7 +12,7 @@
 /**
  * patTemplate Reader that reads from a file
  *
- * $Id: File.php 138 2005-09-12 10:37:53Z eddieajau $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Readers

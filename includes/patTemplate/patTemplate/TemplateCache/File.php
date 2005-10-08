@@ -2,7 +2,7 @@
 /**
  * patTemplate Template cache that stores data on filesystem
  *
- * $Id: File.php 138 2005-09-12 10:37:53Z eddieajau $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Caches
@@ -12,7 +12,7 @@
 /**
  * patTemplate Template cache that stores data on filesystem
  *
- * $Id: File.php 138 2005-09-12 10:37:53Z eddieajau $
+ * $Id$
  *
  * Possible parameters for the cache are:
  * - cacheFolder : set the folder from which to load the cache

@@ -6,6 +6,7 @@
 .dynamic-tab-pane-control .tab-row .tab {
 	width: 70px;
 	height: 16px;
+	background-image: url( "tab.png" );
 	position: relative;
 	top: 0;
 	display: inline;
@@ -16,31 +17,33 @@
 	padding: 2px 0px 0px 0px;
 	border: 0;
 	z-index: 1;
-	font: 11px Tahoma;
+	font: 11px Tahoma, Helvetica, sans=serif;
 	white-space: nowrap;
 	text-align: center;
 }
 .dynamic-tab-pane-control .tab-row .tab.selected {
 	width: 74px !important;
 	height: 18px !important;
+	background-image:	url( "tab_active.png" ) !important;
 	background-repeat: no-repeat;
 	border-bottom-width:	0;
 	z-index: 3;
 	padding:	2px 0px 0px 0px;
 	margin: 1px -3px -3px 0px;
 	top: -2px;
-	font: 11px Tahoma;
+	font: 11px Tahoma, Helvetica, sans-serif;
 }
 .dynamic-tab-pane-control .tab-row .tab a {
-	font:	11px Tahoma;
+	font:	11px Tahoma, Helvetica, sans-serif;
 	color: #333;
 	text-decoration: none;
 	cursor: hand;
 }
 .dynamic-tab-pane-control .tab-row .tab.hover {
-	font:	11px Tahoma;
+	font:	11px Tahoma, Helvetica, sans-serif;
 	width: 70px;
 	height: 16px;
+	background-image:	url( "tab_hover.png" );
 	background-repeat: no-repeat;
 }
 .dynamic-tab-pane-control .tab-page {
@@ -50,7 +53,7 @@
 	z-index: 2;
 	position: relative;
 	top: -2px;
-	font: 11px Tahoma;
+	font: 11px Tahoma, Helvetica, sans-serif;
 	color: #333;
 	
 	/*244, 243, 238*/

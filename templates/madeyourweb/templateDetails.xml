@@ -1,86 +1,54 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <mosinstall type="template">
-<name>madeyourweb</name>
-<creationDate>08 08 2005</creationDate>
-<author>Marc Hinse</author>
-<copyright>This template is released under the GNU/GPL License</copyright>
-<authorEmail>marc_hinse@gmx.de</authorEmail>
-<authorUrl>http://www.madeyourweb.com</authorUrl>
-<version>1.1</version>
-<description>A clean template with a touch of MAC style. Look in the template_configuration.php for changing color and the width of the right modules. <br />For problems with your editor define the "editor_content.css" as custom edit CSS. For mosCE just say yes to "override template file". For standard tinymce WYSIWYG look in mambots->tinymce WYSIWYG->parameters. There you can put in the complete path to the editor_content.css</description>
-<files>
-<filename>index.php</filename>
-<filename>template_configuration.php</filename>
-<filename>template_thumbnail.png</filename>
-<filename>README.txt</filename>
-</files>
-<images>
-<filename>images/back_all.gif</filename>
-<filename>images/back_mainmenu.jpg</filename>
-<filename>images/footer.jpg</filename>
-<filename>images/indent1.png</filename>
-<filename>images/indent2.png</filename>
-<filename>images/module_bottom.jpg</filename>
-<filename>images/module_left_bottom.gif</filename>
-<filename>images/module_left_top.gif</filename>
-<filename>images/module_middle.jpg</filename>
-<filename>images/module_right_bottom.gif</filename>
-<filename>images/module_right_top.gif</filename>
-<filename>images/module_top.jpg</filename>
-<filename>images/right-bottom.gif</filename>
-<filename>images/right-top.gif</filename>
-<filename>images/module_middle_wide.jpg</filename>
-<filename>images/module_top_wide.jpg</filename>
-<filename>images/module_bottom_wide.jpg</filename>
-
-<filename>images_blue/submenu_back.gif</filename>
-<filename>images_blue/back_search.jpg</filename>
-<filename>images_blue/back_verlauf.jpg</filename>
-<filename>images_blue/banner_back.jpg</filename>
-<filename>images_blue/content-top.gif</filename>
-<filename>images_blue/headmenu_left.gif</filename>
-<filename>images_blue/headmenu_right.gif</filename>
-<filename>images_blue/headmenu_left_hover.gif</filename>
-<filename>images_blue/headmenu_right_hover.gif</filename>
-<filename>images_blue/logo.gif</filename>
-<filename>images_blue/readon2.gif</filename>
-<filename>images_blue/readon.gif</filename>
-<filename>images_blue/module_head_back.jpg</filename>
-
-<filename>images_green/submenu_back.gif</filename>
-<filename>images_green/back_search.jpg</filename>
-<filename>images_green/back_verlauf.jpg</filename>
-<filename>images_green/banner_back.jpg</filename>
-<filename>images_green/content-top.gif</filename>
-<filename>images_green/headmenu_left.gif</filename>
-<filename>images_green/headmenu_right.gif</filename>
-<filename>images_green/headmenu_left_hover.gif</filename>
-<filename>images_green/headmenu_right_hover.gif</filename>
-<filename>images_green/logo.gif</filename>
-<filename>images_green/readon2.gif</filename>
-<filename>images_green/readon.gif</filename>
-<filename>images_green/module_head_back.jpg</filename>
-
-<filename>images_red/submenu_back.gif</filename>
-<filename>images_red/back_search.jpg</filename>
-<filename>images_red/back_verlauf.jpg</filename>
-<filename>images_red/banner_back.jpg</filename>
-<filename>images_red/content-top.gif</filename>
-<filename>images_red/headmenu_left.gif</filename>
-<filename>images_red/headmenu_right.gif</filename>
-<filename>images_red/headmenu_left_hover.gif</filename>
-<filename>images_red/headmenu_right_hover.gif</filename>
-<filename>images_red/logo.gif</filename>
-<filename>images_red/readon2.gif</filename>
-<filename>images_red/readon.gif</filename>
-<filename>images_red/module_head_back.jpg</filename>
-
-</images>
-<css>
-<filename>css/template_css.css</filename>
-<filename>css/editor_content.css</filename>
-<filename>css/css_color_blue.css</filename>
-<filename>css/css_color_red.css</filename>
-<filename>css/css_color_green.css</filename>
-</css>
+	<name>madeyourweb</name>
+	<creationDate>15 09 2005</creationDate>
+	<author>Marc Hinse</author>
+	<copyright>This template is released under the GNU/GPL License</copyright>
+	<authorEmail>marc_hinse@gmx.de</authorEmail>
+	<authorUrl>http://www.madeyourweb.com</authorUrl>
+	<version>1.3</version>
+	<description>A clean template with a touch of MAC style.</description>
+	<files>
+		<filename>index.php</filename>
+		<filename>template_thumbnail.png</filename>
+	</files>
+	<images>
+		<filename>images/back_all.gif</filename>
+		<filename>images/back_all1024.gif</filename>
+		<filename>images/back_mainmenu.jpg</filename>
+		<filename>images/footer.jpg</filename>
+		<filename>images/footer1024.jpg</filename>
+		<filename>images/indent1.png</filename>
+		<filename>images/indent2.png</filename>
+		<filename>images/module_bottom.jpg</filename>
+		<filename>images/module_left_bottom.gif</filename>
+		<filename>images/module_left_top.gif</filename>
+		<filename>images/module_middle.jpg</filename>
+		<filename>images/module_right_bottom.gif</filename>
+		<filename>images/module_right_top.gif</filename>
+		<filename>images/module_top.jpg</filename>
+		<filename>images/right-bottom.gif</filename>
+		<filename>images/right-top.gif</filename>
+		<filename>images/module_middle_wide.jpg</filename>
+		<filename>images/module_top_wide.jpg</filename>
+		<filename>images/module_bottom_wide.jpg</filename>
+		<filename>images/submenu_back.gif</filename>
+		<filename>images/back_search.jpg</filename>
+		<filename>images/back_verlauf.jpg</filename>
+		<filename>images/banner_back.jpg</filename>
+		<filename>images/content-top.gif</filename>
+		<filename>images/content-top1024.gif</filename>
+		<filename>images/headmenu_left.gif</filename>
+		<filename>images/headmenu_right.gif</filename>
+		<filename>images/headmenu_left_hover.gif</filename>
+		<filename>images/headmenu_right_hover.gif</filename>
+		<filename>images/logo.gif</filename>
+		<filename>images/readon2.gif</filename>
+		<filename>images/readon.gif</filename>
+		<filename>images/module_head_back.jpg</filename>
+	</images>
+	<css>
+		<filename>css/template_css.css</filename>
+		<filename>css/css_color_green.css</filename>
+	</css>
 </mosinstall>

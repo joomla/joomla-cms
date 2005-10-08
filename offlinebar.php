@@ -1,24 +1,24 @@
 <?php
 /**
-* @version $Id: offlinebar.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
+/** ensure this file is being included by a parent file */
+defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 
-require_once( 'includes/mambo.php' );
+require_once( 'includes/joomla.php' );
+@include_once ('language/'.$mosConfig_lang.'.php');
 
 global $option, $database;
 global $mosConfig_live_site;
-
-$_LANG = mosFactory::getLanguage( $option );
-$_LANG->debug( $mosConfig_debug );
 
 // gets template for page
 $query = "SELECT template"
@@ -33,9 +33,10 @@ if ( !$cur_template ) {
 
 // HTML Output
 
+// needed to seperate the ISO number from the language file constant _ISO
+$iso = split( '=', _ISO );
 // xml prolog
-echo '<?xml version="1.0" encoding="'. $_LANG->iso() .'"?' .'>';
-
+echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -56,7 +57,7 @@ table.moswarning h2 {
 }
 
 </style>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $_LANG->iso(); ?>" />
+<meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>" />
 <title><?php echo $mosConfig_sitename; ?> - Offline</title>
 <link rel="stylesheet" href="<?php echo $mosConfig_live_site; ?>/templates/<?php echo $cur_template;?>/css/template_css.css" type="text/css" />
 </head>
@@ -91,7 +92,7 @@ table.moswarning h2 {
 	<tr>
 		<td>
 		<h2>
-		<?php echo $_LANG->_( 'INSTALL_WARN' ); ?>
+		<?php echo 'INSTALL_WARN'; ?>
 		</h2>
 		</td>
 	</tr>

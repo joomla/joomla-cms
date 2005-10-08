@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall version="1.0.0" type="language">
+	<name>English</name>
+	<version>1.0.0</version>
+	<creationDate>2004-09-20</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<files>
+		<filename>english.php</filename>
+	</files>
+</mosinstall>

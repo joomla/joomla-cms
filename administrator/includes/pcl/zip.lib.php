@@ -1,13 +1,13 @@
 <?php
 /**
-* @version $Id: zip.lib.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 */
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-// $Id: zip.lib.php 137 2005-09-12 10:21:17Z eddieajau $
+// $Id$
 //
 // The "GNU General Public License" (GPL) is available at
 // http://www.gnu.org/copyleft/gpl.html.
@@ -35,10 +35,10 @@ class zipfile {
 	function unix2DosTime($unixtime = 0) {
 		$timearray = ($unixtime == 0) ? getdate() : getdate($unixtime);
 		if ($timearray['year'] < 1980) {
-			$timearray['year']    = 1980;
-			$timearray['mon']	= 1;
-			$timearray['mday']    = 1;
-			$timearray['hours']   = 0;
+			$timearray['year']= 1980;
+			$timearray['mon'] = 1;
+			$timearray['mday']= 1;
+			$timearray['hours']	= 0;
 			$timearray['minutes'] = 0;
 			$timearray['seconds'] = 0;
 		}
@@ -46,9 +46,9 @@ class zipfile {
 	}
 
 	function addFile($data, $name, $time = 0) {
-		$name	= str_replace('\\', '/', $name);
+		$name = str_replace('\\', '/', $name);
 
-		$dtime    = dechex($this->unix2DosTime($time));
+		$dtime= dechex($this->unix2DosTime($time));
 		$hexdtime = '\x' . $dtime[6] . $dtime[7] . '\x' . $dtime[4] . $dtime[5] . '\x' . $dtime[2] . $dtime[3] . '\x' . $dtime[0] . $dtime[1];
 		eval('$hexdtime = "' . $hexdtime . '";');
 
@@ -58,7 +58,7 @@ class zipfile {
 		$crc = crc32($data);
 		$zdata = gzcompress($data);
 		$zdata = substr(substr($zdata, 0, strlen($zdata) - 4), 2);
-		$c_len   = strlen($zdata);
+		$c_len	= strlen($zdata);
 		$fr .= pack('V', $crc) . pack('V', $c_len) . pack('V', $unc_len) . pack('v', strlen($name)) . pack('v', 0) . $name . $zdata . pack('V', $crc) . pack('V', $c_len) . pack('V', $unc_len);
 
 		$this -> datasec[] = $fr;

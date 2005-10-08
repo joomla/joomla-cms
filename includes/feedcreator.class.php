@@ -27,6 +27,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 Changelog:
 
+v1.7.2	Joomla! 1.0
+15-Sep-2005 Rey Gigataras
+ ^ Added publish date to syndicated feeds output [credit: gharding]
+ ^ Added RSS Enclosure support to feedcreator [credit: Joseph L. LeBlanc]
+ ^ Added Google Sitemap support to feedcreator
+
 v1.7.2	10-11-04
 	license changed to LGPL
 
@@ -40,11 +46,11 @@ v1.7	07-18-04
 	added a switch to select an external stylesheet (thanks to Pascal Van Hecke)
 	changed default content-type to application/xml
 	added character encoding setting
-	fixed numerous smaller bugs (thanks to Sören Fuhrmann of golem.de)
+	fixed numerous smaller bugs (thanks to S�ren Fuhrmann of golem.de)
 	improved changing ATOM versions handling (thanks to August Trometer)
-	improved the UniversalFeedCreator's useCached method (thanks to Sören Fuhrmann of golem.de)
-	added charset output in HTTP headers (thanks to Sören Fuhrmann of golem.de)
-	added Slashdot namespace to RSS 1.0 (thanks to Sören Fuhrmann of golem.de)
+	improved the UniversalFeedCreator's useCached method (thanks to S�ren Fuhrmann of golem.de)
+	added charset output in HTTP headers (thanks to S�ren Fuhrmann of golem.de)
+	added Slashdot namespace to RSS 1.0 (thanks to S�ren Fuhrmann of golem.de)
 
 v1.6	05-10-04
 	added stylesheet to RSS 1.0 feeds
@@ -62,7 +68,7 @@ v1.6 beta	02-28-04
 	considered beta due to some internal changes
 
 v1.5.1	01-27-04
-	fixed some RSS 1.0 glitches (thanks to Stéphane Vanpoperynghe)
+	fixed some RSS 1.0 glitches (thanks to St�phane Vanpoperynghe)
 	fixed some inconsistencies between documentation and code (thanks to Timothy Martin)
 
 v1.5	01-06-04
@@ -155,7 +161,7 @@ echo $rss->saveFeed("RSS1.0", "news/feed.xml");
 *		  A little setup												 *
 **************************************************************************/
 
-// your local timezone, set to '' to disable or for GMT
+// your local timezone, set to "" to disable or for GMT
 define("TIME_ZONE","+01:00");
 
 
@@ -209,6 +215,17 @@ class FeedItem extends HtmlDescribable {
 	 * the FeedCreator class used.
 	 */
 	var $additionalElements = Array();
+
+
+	// Added by Joseph LeBlanc, contact@jlleblanc.com
+
+	var $enclosures = Array();
+
+	function addEnclosure($url, $length = 0, $type)	{
+		$this->enclosures[] = array("url" => $url, "length" => $length, "type" => $type);
+	}
+
+	// end add, Joseph LeBlanc
 
 	// on hold
 	// var $source;
@@ -304,7 +321,7 @@ class FeedHtmlField {
 		// - valid html in $rawFieldContent and we enclose in CDATA tags
 		// - no truncation (truncating risks producing invalid html)
 		if (!$this->rawFieldContent) {
-			$result = '';
+			$result = "";
 		}	elseif ($this->syndicateHtml) {
 			$result = "<![CDATA[".$this->rawFieldContent."]]>";
 		} else {
@@ -1569,5 +1586,8 @@ $rss->image = $image;
 
 // valid format strings are: RSS0.91, RSS1.0, RSS2.0, PIE0.1, MBOX, OPML, ATOM0.3, HTML, JS
 echo $rss->saveFeed("RSS0.91", "feed.xml");
+
+
+
 ***************************************************************************/
 ?>

@@ -1,11 +1,13 @@
 <?php
 /**
-* @version $Id: INSTALL.php 137 2005-09-12 10:21:17Z eddieajau $
-* @package Joomla_4.5
+* @version $Id$
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -16,7 +18,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 REQUIREMENTS
 ------------
 
-First you must have the base environment for Mambo.
+First you must have the base environment for Joomla.
 We have thoroughly tested Joomla! on: Linux, Free BSD, Mac OS X and Windows NT/2000.
 Linux or one of the BSD's are recommended, but anything else that can run the
 3 pieces of software listed below should do it.
@@ -30,7 +32,7 @@ SERVER CONFIGURATION
 --------------------
 
 You MUST ensure that PHP has been compiled with support for MySQL and Zlib
-in order to successfully run Mambo.
+in order to successfully run Joomla.
 
 While we have reports that Joomla! works on IIS server we recommend Apache
 for running Joomla! on Windows.
@@ -46,28 +48,28 @@ use local .htaccess files.
 INSTALLATION
 ------------
 
-1. DOWNLOAD Mambo
+1. DOWNLOAD Joomla
 
 	You can obtain the latest Joomla! release from:
-		http://mamboforge.net/projects/mambo.
+		http://www.joomla.org
 
 	Copy the tar.gz file into a working directory e.g.
 
-	$ cp MamboVx.x.x-Stable.tar.gz /tmp/Mambo
+	$ cp JoomlaVx.x.x-Stable.tar.gz /tmp/Joomla
 
 	Change to the working directory e.g.
 
-	$ cd /tmp/Mambo
+	$ cd /tmp/Joomla
 
 	Extract the files e.g.
 
-	$ tar -zxvf MamboVx.x.x-Stable.tar.gz
+	$ tar -zxvf JoomlaVx.x.x-Stable.tar.gz
 
 	This will extract all Joomla! files and directories.  Move the contents
 	of that directory into a directory within your web server's document
 	root or your public HTML directory e.g.
 
-	$ mv /tmp/Mambo/* /var/www/html
+	$ mv /tmp/Joomla/* /var/www/html
 
 	Alternatively if you downloaded the file to your computer and unpacked
 	it locally use a FTP program to upload all files to your server.
@@ -84,7 +86,7 @@ INSTALLATION
 
 	First, you must create a new database for your Joomla! site e.g.
 
-	$ mysqladmin -u db_user -p create Mambo
+	$ mysqladmin -u db_user -p create Joomla
 
 	MySQL will prompt for the 'db_user' database password and then create
 	the initial database files.  Next you must login and set the access
@@ -95,12 +97,12 @@ INSTALLATION
 	Again, you will be asked for the 'db_user' database password.  At the
 	MySQL prompt, enter following command:
 
-	GRANT ALL PRIVILEGES ON Mambo.*
+	GRANT ALL PRIVILEGES ON Joomla.*
 		TO nobody@localhost IDENTIFIED BY 'password';
 
 	where:
 
-	'Mambo' is the name of your database
+	'Joomla' is the name of your database
 	'nobody@localhost' is the userid of your webserver MySQL account
 	'password' is the password required to log in as the MySQL user
 
@@ -115,7 +117,7 @@ INSTALLATION
 	and then enter '\q' to exit MySQL.
 
 	Alternatively you can use your web control panel or phpMyAdmin to
-	create a database for Mambo.
+	create a database for Joomla.
 
 
 3. WEB INSTALLER
@@ -124,21 +126,21 @@ Finally point your web browser to http://www.mysite.com where the Joomla! web
 based installer will guide you through the rest of the installation.
 
 
-4. CONFIGURE Mambo
+4. CONFIGURE Joomla
 
 You can now launch your browser and point it to your Joomla! site e.g.
 
-   http://www.mysite.com -> Main Site
-   http://www.mysite.com/administrator -> Admin
+	http://www.mysite.com -> Main Site
+	http://www.mysite.com/administrator -> Admin
 
 You can log into Admin using the username 'admin' along with the
 password that was generated or you chose during the web based install.
 
 
 Joomla! ADMINISTRATION
----------------------
+----------------------
 
-Upon a new installation, your Joomla! website defaults to a very basic
+Upon a new installation, your JoomlaS website defaults to a very basic
 configuration with only a few active components, modules and templates
 (CMTs).
 
@@ -146,4 +148,4 @@ Use Admin to install and configure additional CMTs, add users, select
 default language and much more.
 
 Note that additional community-contributed CMTs and languages are
-available at http://mamboforge.net.
+available via http://www.joomla.org

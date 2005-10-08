@@ -1,9 +1,29 @@
 /* Import plugin specific language pack */
-tinyMCE.importPluginLanguagePack('table', 'en,ar,cs,da,de,el,es,fi,fr_ca,hu,it,ja,ko,nl,no,pl,pt,sv,tw,zh_cn,fr,de');
+tinyMCE.importPluginLanguagePack('table', 'en,ar,cs,da,de,el,es,fi,fr_ca,hu,it,ja,ko,nl,no,pl,pt,sv,tw,zh_cn,fr,de,he,no');
+
+function TinyMCE_table_getInfo() {
+	return {
+		longname : 'Tables',
+		author : 'Moxiecode Systems',
+		authorurl : 'http://tinymce.moxiecode.com',
+		infourl : 'http://tinymce.moxiecode.com/tinymce/docs/plugin_table.html',
+		version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion
+	};
+};
 
 function TinyMCE_table_initInstance(inst) {
-	if (tinyMCE.isGecko)
-		tinyMCE.addEvent(inst.getDoc(), "mouseup", TinyMCE_table_mouseDownHandler);
+	if (tinyMCE.isGecko) {
+		var doc = inst.getDoc();
+
+		tinyMCE.addEvent(doc, "mouseup", TinyMCE_table_mouseDownHandler);
+
+		try {
+			// For future FF versions
+			doc.execCommand('enableInlineTableEditing', false, false);
+		} catch (e) {
+			// Ignore
+		}
+	}
 
 	inst.tableRowClipboard = null;
 }
@@ -13,10 +33,10 @@ function TinyMCE_table_mouseDownHandler(e) {
 	var focusElm = tinyMCE.selectedInstance.getFocusElement();
 
 	// If press on special Mozilla create TD/TR thingie
-	if (elm.nodeName == "BODY" && (focusElm.nodeName == "TD" || (focusElm.parentNode && focusElm.parentNode.nodeName == "TD"))) {
+	if (elm.nodeName == "BODY" && (focusElm.nodeName == "TD" || focusElm.nodeName == "TH" || (focusElm.parentNode && focusElm.parentNode.nodeName == "TD") ||(focusElm.parentNode && focusElm.parentNode.nodeName == "TH") )) {
 		window.setTimeout(function() {
 			var tableElm = tinyMCE.getParentElement(focusElm, "table");
-			tinyMCE.handleVisualAid(tableElm, true, tinyMCE.settings['visual']);
+			tinyMCE.handleVisualAid(tableElm, true, tinyMCE.settings['visual'], tinyMCE.selectedInstance);
 		}, 10);
 	}
 }
@@ -29,10 +49,10 @@ function TinyMCE_table_getControlHTML(control_name) {
 		['table', 'table.gif', '{$lang_table_desc}', 'mceInsertTable', true],
 		['delete_col', 'table_delete_col.gif', '{$lang_table_delete_col_desc}', 'mceTableDeleteCol'],
 		['delete_row', 'table_delete_row.gif', '{$lang_table_delete_row_desc}', 'mceTableDeleteRow'],
-		['col_after', 'table_insert_col_after.gif', '{$lang_table_insert_col_after_desc}', 'mceTableInsertColAfter'],
-		['col_before', 'table_insert_col_before.gif', '{$lang_table_insert_col_before_desc}', 'mceTableInsertColBefore'],
-		['row_after', 'table_insert_row_after.gif', '{$lang_table_insert_row_after_desc}', 'mceTableInsertRowAfter'],
-		['row_before', 'table_insert_row_before.gif', '{$lang_table_insert_row_before_desc}', 'mceTableInsertRowBefore'],
+		['col_after', 'table_insert_col_after.gif', '{$lang_table_col_after_desc}', 'mceTableInsertColAfter'],
+		['col_before', 'table_insert_col_before.gif', '{$lang_table_col_before_desc}', 'mceTableInsertColBefore'],
+		['row_after', 'table_insert_row_after.gif', '{$lang_table_row_after_desc}', 'mceTableInsertRowAfter'],
+		['row_before', 'table_insert_row_before.gif', '{$lang_table_row_before_desc}', 'mceTableInsertRowBefore'],
 		['row_props', 'table_row_props.gif', '{$lang_table_row_desc}', 'mceTableRowProps', true],
 		['cell_props', 'table_cell_props.gif', '{$lang_table_cell_desc}', 'mceTableCellProps', true],
 		['split_cells', 'table_split_cells.gif', '{$lang_table_split_cells_desc}', 'mceTableSplitCells', true],
@@ -41,15 +61,11 @@ function TinyMCE_table_getControlHTML(control_name) {
 	// Render table control
 	for (var i=0; i<controls.length; i++) {
 		var but = controls[i];
-		var safariPatch = '" onclick="';
-
-		if (tinyMCE.isSafari)
-			safariPatch = "";
 
 		if (but[0] == control_name && (tinyMCE.isMSIE || !tinyMCE.settings['button_tile_map']))
-			return '<img id="{$editor_id}_' + but[0] + '" src="{$pluginurl}/images/' + but[1] + '" title="' + but[2] + '" width="20" height="20" class="mceButtonDisabled" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');' + safariPatch + 'tinyMCE.execInstanceCommand(\'{$editor_id}\',\'' + but[3] + '\', ' + (but.length > 4 ? but[4] : false) + (but.length > 5 ? ', \'' + but[5] + '\'' : '') + ')">';
+			return '<a href="javascript:tinyMCE.execInstanceCommand(\'{$editor_id}\',\'' + but[3] + '\', ' + (but.length > 4 ? but[4] : false) + (but.length > 5 ? ', \'' + but[5] + '\'' : '') + ');" target="_self" onmousedown="return false;"><img id="{$editor_id}_' + but[0] + '" src="{$pluginurl}/images/' + but[1] + '" title="' + but[2] + '" width="20" height="20" class="mceButtonDisabled" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" /></a>';
 		else if (but[0] == control_name)
-			return '<img id="{$editor_id}_' + but[0] + '" src="{$themeurl}/images/spacer.gif" style="background-image:url({$pluginurl}/images/buttons.gif); background-position: ' + (0-(i*20)) + 'px 0px" title="' + but[2] + '" width="20" height="20" class="mceButtonDisabled" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');' + safariPatch + 'tinyMCE.execInstanceCommand(\'{$editor_id}\',\'' + but[3] + '\', ' + (but.length > 4 ? but[4] : false) + (but.length > 5 ? ', \'' + but[5] + '\'' : '') + ')">';
+			return '<a href="javascript:tinyMCE.execInstanceCommand(\'{$editor_id}\',\'' + but[3] + '\', ' + (but.length > 4 ? but[4] : false) + (but.length > 5 ? ', \'' + but[5] + '\'' : '') + ');" target="_self" onmousedown="return false;"><img id="{$editor_id}_' + but[0] + '" src="{$themeurl}/images/spacer.gif" style="background-image:url({$pluginurl}/images/buttons.gif); background-position: ' + (0-(i*20)) + 'px 0px" title="' + but[2] + '" width="20" height="20" class="mceButtonDisabled" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" /></a>';
 	}
 
 	// Special tablecontrols
@@ -82,10 +98,45 @@ function TinyMCE_table_getControlHTML(control_name) {
  * Executes the table commands.
  */
 function TinyMCE_table_execCommand(editor_id, element, command, user_interface, value) {
+	// Is table command
+	switch (command) {
+		case "mceInsertTable":
+		case "mceTableRowProps":
+		case "mceTableCellProps":
+		case "mceTableSplitCells":
+		case "mceTableMergeCells":
+		case "mceTableInsertRowBefore":
+		case "mceTableInsertRowAfter":
+		case "mceTableDeleteRow":
+		case "mceTableInsertColBefore":
+		case "mceTableInsertColAfter":
+		case "mceTableDeleteCol":
+		case "mceTableCutRow":
+		case "mceTableCopyRow":
+		case "mceTablePasteRowBefore":
+		case "mceTablePasteRowAfter":
+		case "mceTableDelete":
+			var inst = tinyMCE.getInstanceById(editor_id);
+
+			inst.execCommand('mceBeginUndoLevel');
+			TinyMCE_table_doExecCommand(editor_id, element, command, user_interface, value);
+			inst.execCommand('mceEndUndoLevel');
+
+			return true;
+	}
+
+	// Pass to next handler in chain
+	return false;
+}
+
+/**
+ * Executes the table commands.
+ */
+function TinyMCE_table_doExecCommand(editor_id, element, command, user_interface, value) {
 	var inst = tinyMCE.getInstanceById(editor_id);
 	var focusElm = inst.getFocusElement();
 	var trElm = tinyMCE.getParentElement(focusElm, "tr");
-	var tdElm = tinyMCE.getParentElement(focusElm, "td");
+	var tdElm = tinyMCE.getParentElement(focusElm, "td,th");
 	var tableElm = tinyMCE.getParentElement(focusElm, "table");
 	var doc = inst.contentWindow.document;
 	var tableBorder = tableElm ? tableElm.getAttribute("border") : "";
@@ -209,10 +260,15 @@ function TinyMCE_table_execCommand(editor_id, element, command, user_interface, 
 		return null;
 	}
 
-	function nextElm(node, name) {
+	function nextElm(node, names) {
+
+        var namesAr = names.split(',');
+
 		while ((node = node.nextSibling) != null) {
-			if (node.nodeName == name)
-				return node;
+            for (var i=0; i<namesAr.length; i++) {
+                if (node.nodeName.toLowerCase() == namesAr[i].toLowerCase() )
+                    return node;
+            }
 		}
 
 		return null;
@@ -236,7 +292,7 @@ function TinyMCE_table_execCommand(editor_id, element, command, user_interface, 
 			var td = tr.cells[0];
 			if (td.cells > 1) {
 				do {
-					var nexttd = nextElm(td, "TD");
+					var nexttd = nextElm(td, "TD,TH");
 
 					if (td._delete)
 						td.parentNode.removeChild(td);
@@ -312,32 +368,17 @@ function TinyMCE_table_execCommand(editor_id, element, command, user_interface, 
 				var template = new Array();
 
 				template['file'] = '../../plugins/table/row.htm';
+				template['width'] = 380;
+				template['height'] = 295;
 
-				if (tinyMCE.settings['table_color_fields']) {
-					template['width'] = 400;
-					template['height'] = 220;
-				} else {
-					template['width'] = 340;
-					template['height'] = 220;
-				}
+				// Language specific width and height addons
+				template['width'] += tinyMCE.getLang('lang_table_rowprops_delta_width', 0);
+				template['height'] += tinyMCE.getLang('lang_table_rowprops_delta_width', 0);
 
 				// Open window
-				tinyMCE.openWindow(template, {editor_id : inst.editorId, align : tinyMCE.getAttrib(trElm, 'align'), valign : tinyMCE.getAttrib(trElm, 'valign'), height : tinyMCE.getAttrib(trElm, 'height'), className : tinyMCE.getVisualAidClass(tinyMCE.getAttrib(trElm, 'class'), false), bordercolor : tinyMCE.getAttrib(trElm, 'bordercolor'), bgcolor : tinyMCE.getAttrib(trElm, 'bgcolor')});
-			} else {
-				inst.execCommand("mceAddUndoLevel");
-
-				trElm.setAttribute('align', value['align']);
-				trElm.setAttribute('vAlign', value['valign']);
-				trElm.setAttribute('height', value['height']);
-				trElm.setAttribute('bordercolor', value['bordercolor']);
-				trElm.setAttribute('bgcolor', value['bgcolor']);
-				tinyMCE.setAttrib(trElm, 'class', value['className']);
-
-				trElm.borderColor = value['bordercolor'];
-				trElm.bgColor = value['bgcolor'];
+				tinyMCE.openWindow(template, {editor_id : inst.editorId, inline : "yes"});
 			}
 
-			tinyMCE.triggerNodeChange();
 			return true;
 
 		case "mceTableCellProps":
@@ -349,182 +390,44 @@ function TinyMCE_table_execCommand(editor_id, element, command, user_interface, 
 				var template = new Array();
 
 				template['file'] = '../../plugins/table/cell.htm';
+				template['width'] = 380;
+				template['height'] = 295;
 
-				if (tinyMCE.settings['table_color_fields']) {
-					template['width'] = 400;
-					template['height'] = 240;
-				} else {
-					template['width'] = 340;
-					template['height'] = 220;
-				}
+				// Language specific width and height addons
+				template['width'] += tinyMCE.getLang('lang_table_cellprops_delta_width', 0);
+				template['height'] += tinyMCE.getLang('lang_table_cellprops_delta_width', 0);
 
 				// Open window
-				tinyMCE.openWindow(template, {editor_id : inst.editorId, align : tinyMCE.getAttrib(tdElm, 'align'), valign : tinyMCE.getAttrib(tdElm, 'valign'), width : tinyMCE.getAttrib(tdElm, 'width'), height : tinyMCE.getAttrib(tdElm, 'height'), className : tinyMCE.getVisualAidClass(tinyMCE.getAttrib(tdElm, 'class'), false), bordercolor : tinyMCE.getAttrib(tdElm, 'bordercolor'), bgcolor : tinyMCE.getAttrib(tdElm, 'bgcolor')});
-			} else {
-				inst.execCommand("mceAddUndoLevel");
-
-				tdElm.setAttribute('align', value['align']);
-				tdElm.setAttribute('vAlign', value['valign']);
-				tdElm.setAttribute('width', value['width']);
-				tdElm.setAttribute('height', value['height']);
-				tdElm.setAttribute('bordercolor', value['bordercolor']);
-				tdElm.setAttribute('bgcolor', value['bgcolor']);
-				tinyMCE.setAttrib(tdElm, 'class', tinyMCE.getVisualAidClass(value['className']));
-
-				tdElm.borderColor = value['bordercolor'];
-				tdElm.bgColor = value['bgcolor'];
+				tinyMCE.openWindow(template, {editor_id : inst.editorId, inline : "yes"});
 			}
 
-			tinyMCE.triggerNodeChange();
 			return true;
 
 		case "mceInsertTable":
 			if (user_interface) {
-				var cols = 2, rows = 2, border = 0, cellpadding = "", cellspacing = "", align = "", width = "", height = "", bordercolor = "", bgcolor = "", action = "insert", className = "";
-
-				tinyMCE.tableElm = tinyMCE.getParentElement(inst.getFocusElement(), "table");
-
-				if (tinyMCE.tableElm && value != "insert") {
-					var rowsAr = tinyMCE.tableElm.rows;
-					var cols = 0;
-					for (var i=0; i<rowsAr.length; i++)
-						if (rowsAr[i].cells.length > cols)
-							cols = rowsAr[i].cells.length;
-
-					cols = cols;
-					rows = rowsAr.length;
-
-					border = tinyMCE.getAttrib(tinyMCE.tableElm, 'border', border);
-					cellpadding = tinyMCE.getAttrib(tinyMCE.tableElm, 'cellpadding', "");
-					cellspacing = tinyMCE.getAttrib(tinyMCE.tableElm, 'cellspacing', "");
-					width = tinyMCE.getAttrib(tinyMCE.tableElm, 'width', width);
-					height = tinyMCE.getAttrib(tinyMCE.tableElm, 'height', height);
-					bordercolor = tinyMCE.getAttrib(tinyMCE.tableElm, 'bordercolor', bordercolor);
-					bgcolor = tinyMCE.getAttrib(tinyMCE.tableElm, 'bgcolor', bgcolor);
-					align = tinyMCE.getAttrib(tinyMCE.tableElm, 'align', align);
-					className = tinyMCE.getVisualAidClass(tinyMCE.getAttrib(tinyMCE.tableElm, 'class'), false);
-
-					if (tinyMCE.isMSIE) {
-						width = tinyMCE.tableElm.style.pixelWidth == 0 ? tinyMCE.tableElm.getAttribute("width") : tinyMCE.tableElm.style.pixelWidth;
-						height = tinyMCE.tableElm.style.pixelHeight == 0 ? tinyMCE.tableElm.getAttribute("height") : tinyMCE.tableElm.style.pixelHeight;
-					}
-
-					action = "update";
-				}
-
 				// Setup template
 				var template = new Array();
 
 				template['file'] = '../../plugins/table/table.htm';
-				if (tinyMCE.settings['table_color_fields']) {
-					template['width'] = 400;
-					template['height'] = 240;
-				} else {
-					template['width'] = 340;
-					template['height'] = 220;
-				}
+				template['width'] = 380;
+				template['height'] = 295;
 
 				// Language specific width and height addons
-				template['width'] += tinyMCE.getLang('lang_insert_table_delta_width', 0);
-				template['height'] += tinyMCE.getLang('lang_insert_table_delta_height', 0);
+				template['width'] += tinyMCE.getLang('lang_table_table_delta_width', 0);
+				template['height'] += tinyMCE.getLang('lang_table_table_delta_height', 0);
 
 				// Open window
-				tinyMCE.openWindow(template, {editor_id : inst.editorId, cols : cols, rows : rows, border : border, cellpadding : cellpadding, cellspacing : cellspacing, align : align, width : width, height : height, bordercolor : bordercolor, bgcolor : bgcolor, action : action, className : className});
-			} else {
-				var html = '';
-				var cols = 2, rows = 2, border = 0, cellpadding = -1, cellspacing = -1, align, width, height, className, action;
-
-				if (typeof(value) == 'object') {
-					cols = value['cols'];
-					rows = value['rows'];
-					border = value['border'] != "" ? value['border'] : 0;
-					cellpadding = value['cellpadding'] != "" ? value['cellpadding'] : -1;
-					cellspacing = value['cellspacing'] != "" ? value['cellspacing'] : -1;
-					align = value['align'];
-					width = value['width'];
-					height = value['height'];
-					bordercolor = value['bordercolor'];
-					bgcolor = value['bgcolor'];
-					className = value['className'];
-					action = value['action'];
-				}
-
-				// Update table
-				if (tinyMCE.tableElm && action == "update") {
-					inst.execCommand("mceAddUndoLevel");
-
-					tinyMCE.setAttrib(tinyMCE.tableElm, 'cellPadding', cellpadding, true);
-					tinyMCE.setAttrib(tinyMCE.tableElm, 'cellSpacing', cellspacing, true);
-					tinyMCE.setAttrib(tinyMCE.tableElm, 'border', border, true);
-					tinyMCE.setAttrib(tinyMCE.tableElm, 'width', width, true);
-					tinyMCE.setAttrib(tinyMCE.tableElm, 'height', height, true);
-					tinyMCE.setAttrib(tinyMCE.tableElm, 'bordercolor', bordercolor);
-					tinyMCE.setAttrib(tinyMCE.tableElm, 'bgcolor', bgcolor);
-					tinyMCE.setAttrib(tinyMCE.tableElm, 'align', align);
-					tinyMCE.setAttrib(tinyMCE.tableElm, 'class', className);
-
-					if (tinyMCE.isMSIE) {
-						tinyMCE.tableElm.style.pixelWidth = (width == null || width == "") ? 0 : width;
-						tinyMCE.tableElm.style.pixelHeight = (height == null || height == "") ? 0 : height;
-						tinyMCE.tableElm.borderColor = bordercolor;
-						tinyMCE.tableElm.bgColor = bgcolor;
-					}
-
-					tinyMCE.handleVisualAid(tinyMCE.tableElm, false, inst.visualAid);
-
-					// Fix for stange MSIE align bug
-					tinyMCE.tableElm.outerHTML = tinyMCE.tableElm.outerHTML;
-
-					//inst.contentWindow.dispatchEvent(createEvent("click"));
-
-					tinyMCE.triggerNodeChange();
-					return true;
-				}
-
-				// Create new table
-				html += '<table border="' + border + '" ';
-
-				if (cellpadding != -1)
-					html += 'cellpadding="' + cellpadding + '" ';
-
-				if (cellspacing != -1)
-					html += 'cellspacing="' + cellspacing + '" ';
-
-				if (width != 0 && width != "")
-					html += 'width="' + width + '" ';
-
-				if (height != 0 && height != "")
-					html += 'height="' + height + '" ';
-
-				if (bordercolor != 0 && bordercolor != "")
-					html += 'bordercolor="' + bordercolor + '" ';
-
-				if (bgcolor != 0 && bgcolor != "")
-					html += 'bgcolor="' + bgcolor + '" ';
-
-				if (align)
-					html += 'align="' + align + '" ';
-
-				if (className)
-					html += 'class="' + tinyMCE.getVisualAidClass(className, border == 0) + '" ';
-
-				html += '>';
-
-				for (var y=0; y<rows; y++) {
-					html += "<tr>";
-
-					for (var x=0; x<cols; x++)
-						html += '<td>&nbsp;</td>';
-
-					html += "</tr>";
-				}
-
-				html += "</table>";
-
-				inst.execCommand('mceInsertContent', false, html);
-				tinyMCE.handleVisualAid(inst.getBody(), true, tinyMCE.settings['visual']);
+				tinyMCE.openWindow(template, {editor_id : inst.editorId, inline : "yes", action : value});
 			}
 
+			return true;
+
+		case "mceTableDelete":
+			var table = tinyMCE.getParentElement(inst.getFocusElement(), "table");
+			if (table) {
+				table.parentNode.removeChild(table);
+				inst.repaint();
+			}
 			return true;
 
 		case "mceTableSplitCells":
@@ -539,15 +442,15 @@ function TinyMCE_table_execCommand(editor_id, element, command, user_interface, 
 		case "mceTableCopyRow":
 		case "mceTablePasteRowBefore":
 		case "mceTablePasteRowAfter":
-			inst.execCommand("mceAddUndoLevel");
-
 			// No table just return (invalid command)
 			if (!tableElm)
 				return true;
 
 			// Table has a tbody use that reference
-			if (tableElm.firstChild && tableElm.firstChild.nodeName.toLowerCase() == "tbody")
-				tableElm = tableElm.firstChild;
+			// Changed logic by ApTest 2005.07.12 (www.aptest.com)
+			// Now lookk at the focused element and take its parentNode.  That will be a tbody or a table.
+			if (tableElm != trElm.parentNode)
+				tableElm = trElm.parentNode;
 
 			if (tableElm && trElm) {
 				switch (command) {
@@ -865,11 +768,15 @@ function TinyMCE_table_execCommand(editor_id, element, command, user_interface, 
 							var sp = getColRowSpan(tdElm);
 
 							template['file'] = '../../plugins/table/merge_cells.htm';
-							template['width'] = 160;
-							template['height'] = 220;
+							template['width'] = 250;
+							template['height'] = 105;
+
+							// Language specific width and height addons
+							template['width'] += tinyMCE.getLang('lang_table_merge_cells_delta_width', 0);
+							template['height'] += tinyMCE.getLang('lang_table_merge_cells_delta_height', 0);
 
 							// Open window
-							tinyMCE.openWindow(template, {editor_id : inst.editorId, action : "update", numcols : sp.colspan, numrows : sp.rowspan});
+							tinyMCE.openWindow(template, {editor_id : inst.editorId, inline : "yes", action : "update", numcols : sp.colspan, numrows : sp.rowspan});
 
 							return true;
 						} else {
@@ -1080,7 +987,7 @@ function TinyMCE_table_execCommand(editor_id, element, command, user_interface, 
 				}
 
 				tableElm = tinyMCE.getParentElement(inst.getFocusElement(), "table");
-				tinyMCE.handleVisualAid(tableElm, true, tinyMCE.settings['visual']);
+				tinyMCE.handleVisualAid(tableElm, true, tinyMCE.settings['visual'], tinyMCE.selectedInstance);
 				tinyMCE.triggerNodeChange();
 				inst.repaint();
 			}
@@ -1115,7 +1022,7 @@ function TinyMCE_table_handleNodeChange(editor_id, node, undo_index, undo_levels
 		tinyMCE.switchClassSticky(editor_id + '_row_props', 'mceButtonSelected', false);
 
 	// Within a td element
-	if (tdElm = tinyMCE.getParentElement(node, "td")) {
+	if (tdElm = tinyMCE.getParentElement(node, "td,th")) {
 		tinyMCE.switchClassSticky(editor_id + '_cell_props', 'mceButtonSelected', false);
 		tinyMCE.switchClassSticky(editor_id + '_row_before', 'mceButtonNormal', false);
 		tinyMCE.switchClassSticky(editor_id + '_row_after', 'mceButtonNormal', false);

@@ -1,388 +1,379 @@
 <?php
 /**
-* @version $Id: admin.config.php 137 2005-09-12 10:21:17Z eddieajau $
-* @package Mambo
+* @version $Id$
+* @package Joomla
 * @subpackage Config
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-if (!$acl->acl_check( 'com_config', 'manage', 'users', $my->usertype )) {
-	mosRedirect( 'index2.php', $_LANG->_('NOT_AUTH') );
+if (!$acl->acl_check( 'administration', 'config', 'users', $my->usertype )) {
+	mosRedirect( 'index2.php?', $_LANG->_('ALERTNOTAUTH') );
 }
 
-mosFS::load( '@admin_html' );
-mosFS::load( '@class' );
+require_once( $mainframe->getPath( 'class' ) );
+require_once( $mainframe->getPath( 'admin_html' ) );
+
+switch ( $task ) {
+	case 'apply':
+	case 'save':
+		saveconfig( $task );
+		break;
+
+	case 'cancel':
+		mosRedirect( 'index2.php' );
+		break;
+
+	default:
+		showconfig( $option );
+		break;
+}
 
 /**
- * @package Config
- * @subpackage Config
+ * Show the configuration edit form
+ * @param string The URL option
  */
-class configTasks extends mosAbstractTasker {
-	/**
-	 * Constructor
-	 */
-	function configTasks() {
-		// auto register public methods as tasks, set the default task
-		parent::mosAbstractTasker( 'edit' );
+function showconfig( $option) {
+	global $database, $mosConfig_absolute_path, $mosConfig_editor;
 
-		// set task level access control
-		//$this->setAccessControl( 'com_templates', 'manage' );
+	$row = new mosConfig();
+	$row->bindGlobals();
 
-		$this->registerTask( 'apply', 'save' );
-	}
+	// compile list of the languages
+	$langs 		= array();
+	$menuitems 	= array();
+	$lists 		= array();
 
-	/**
-	* List the records
-	*/
-	function edit() {
-		global $database,  $mainframe, $mosConfig_absolute_path;
-		global $_LANG;
+// PRE-PROCESS SOME LISTS
 
-		$row = new mosConfig();
-		$row->bindGlobals();
+	// -- Languages --
 
-		$lists = array();
-
-
-	// Site Settings ----------------
-		// compile list of the editors
-		$query = "SELECT element AS value, name AS text"
-		. "\n FROM #__mambots"
-		. "\n WHERE folder = 'editors'"
-		. "\n AND published >= 0"
-		. "\n ORDER BY ordering, name"
-		;
-		$database->setQuery( $query );
-		$lists['editor'] = $database->loadObjectList();
-		if ( !$row->config_editor ) {
-			$row->config_editor = 'editor';
-		}
-		$lists['list_limit']  = array(
-			mosHTML::makeOption( 5, 5 ),
-			mosHTML::makeOption( 10, 10 ),
-			mosHTML::makeOption( 15, 15 ),
-			mosHTML::makeOption( 20, 20 ),
-			mosHTML::makeOption( 25, 25 ),
-			mosHTML::makeOption( 30, 30 ),
-			mosHTML::makeOption( 50, 50 ),
-		);
-		$lists['live_bookmark'] = array(
-			mosHTML::makeOption( '0',		$_LANG->_( 'Off' ) ),
-			mosHTML::makeOption( 'RSS0.91',	$_LANG->_( 'RSS 0.91' ) ),
-			mosHTML::makeOption( 'RSS1.0',	$_LANG->_( 'RSS 1.0' ) ),
-			mosHTML::makeOption( 'RSS2.0',	$_LANG->_( 'RSS 2.0' ) ),
-			mosHTML::makeOption( 'ATOM0.3',	$_LANG->_( 'ATOM 0.3' ) ),
-		);
-		$lists['live_bookmark_show'] = array(
-			mosHTML::makeOption( 0,	$_LANG->_( 'All pages' ) ),
-			mosHTML::makeOption( 1,	$_LANG->_( 'Home page only' ) ),
-		);
-
-		//$lists['offline'] 				= mosHTML::yesnoRadioList( 'config_offline', 'class="inputbox"', $row->config_offline );
-		//$lists['editor'] 				= mosHTML::selectList( $edits, 'config_editor', 'id="config_editor" class="inputbox" size="1"', 'value', 'text', $row->config_editor );
-		//$lists['edit_popup']			= mosHTML::yesnoRadioList( 'config_edit_popup', 'class="inputbox"', $row->config_edit_popup );
-		//$lists['list_length'] 			= mosHTML::selectList( $list_length, 'config_list_limit', 'id="config_list_length" class="inputbox" size="1"', 'value', 'text', ( $row->config_list_limit ? $row->config_list_limit : 50 ) );
-		//$lists['debug'] 				= mosHTML::yesnoRadioList( 'config_debug', 'class="inputbox"', $row->config_debug );
-		//$lists['internal_templates']	= mosHTML::yesnoRadioList( 'config_internal_templates', 'class="inputbox"', $row->config_internal_templates );
-		//$lists['live_bookmark']			= mosHTML::selectList( $live_bookmark, 'config_live_bookmark', 'id="config_live_bookmark" class="inputbox" size="1"', 'value', 'text', $row->config_live_bookmark );
-		//$lists['live_bookmark_show']	= mosHTML::selectList( $live_bookmark_show, 'config_live_bookmark_show', 'id="config_live_bookmark_show" class="inputbox" size="1"', 'value', 'text', $row->config_live_bookmark_show );
-	////////////////////////////////////
-
-
-	// Database Settings ----------------
-		if ( !$row->config_dbtype ) {
-			$row->config_dbtype = 'mysql';
-		}
-		$lists['dbtype'] = mosReadDirectory( $mosConfig_absolute_path . '/includes/adodb/drivers/', '\.php$' );
-		foreach ($lists['dbtype'] as $i=>$file) {
-			$lists['dbtype'][$i] = mosHTML::makeOption( str_replace( array( 'adodb-', '.inc.php' ), '', $file ) );
-		}
-
-		//$lists['dbtype']				= mosHTML::selectList( $files, 'config_dbtype', 'id="config_dbtype" class="inputbox" size="1"', 'value', 'text', $row->config_dbtype );
-	////////////////////////////////////
-
-
-	// Server Settings ----------------
-		$lists['error_reporting'] = array(
-			mosHTML::makeOption( -1, 						$_LANG->_( 'System Default' ) ),
-			mosHTML::makeOption( 0, 						$_LANG->_( 'None' ) ),
-			mosHTML::makeOption( E_ERROR|E_WARNING|E_PARSE, $_LANG->_( 'Simple' ) ),
-			mosHTML::makeOption( E_ALL , 					$_LANG->_( 'Maximum' ) )
-		);
-		if ( !$row->config_secure_site ) {
-			$row->config_secure_site = str_replace( 'http://', 'https://', $row->config_live_site );
-		}
-
-		//$lists['gzip'] 					= mosHTML::yesnoRadioList( 'config_gzip', 'class="inputbox"', $row->config_gzip );
-		//$lists['savestate'] 			= mosHTML::yesnoRadioList( 'config_savestate', 'class="inputbox"', $row->config_savestate );
-		//$lists['error_reporting'] 		= mosHTML::selectList( $errors, 'config_error_reporting', 'id="config_error_reporting" class="inputbox" size="1"', 'value', 'text', $row->config_error_reporting );
-		//$lists['xmlrpc_server'] 		= mosHTML::yesnoRadioList( 'config_xmlrpc_server', 'class="inputbox"', $row->config_xmlrpc_server );
-		//$lists['ml_support'] 			= mosHTML::yesnoRadioList( 'config_mbf_content', 'class="inputbox" onclick="javascript: if (document.adminForm.config_mbf_content[1].checked) { alert(\'Remember to install the MambelFish component.\') }"', $row->config_mbf_content );
-	////////////////////////////////////
-
-
-	// Locale Settings ----------------
-		// compile list of the languages
-		$lists['lang'] = mosLanguageFactory::buildLanguageList( 'front', $row->config_lang);
-		// make a generic -24 - 24 list
-		for ($i=-24;$i<=24;$i++) {
-			$lists['offset'][] = mosHTML::makeOption( $i, $i );
-		}
-
-		//$lists['lang'] 					= mosHTML::selectList( $langs, 'config_lang', 'id="config_lang" class="inputbox" size="1"', 'value', 'text', $row->config_lang );
-		//$lists['offset'] 				= mosHTML::selectList( $timeoffset, 'config_offset', 'id="config_offset" class="inputbox" size="1"',	'value', 'text', $row->config_offset );
-	////////////////////////////////////
-
-
-	// Mail Settings ----------------
-		$lists['mailer'] = array(
-			mosHTML::makeOption( 'mail', 		$_LANG->_( 'PHP mail function' ) ),
-			mosHTML::makeOption( 'sendmail', 	$_LANG->_( 'Sendmail' ) ),
-			mosHTML::makeOption( 'smtp', 		$_LANG->_( 'SMTP Server' ) )
-		);
-
-		//$lists['mailer'] 				= mosHTML::selectList( $mailer, 'config_mailer', 'id="config_mailer" class="inputbox" size="1"', 'value', 'text', $row->config_mailer );
-		//$lists['smtpauth'] 				= mosHTML::yesnoRadioList( 'config_smtpauth', 'class="inputbox"', $row->config_smtpauth );
-	////////////////////////////////////
-
-
-	// Cache Settings ----------------
-		//$lists['tmpl_caching'] 				= mosHTML::yesnoRadioList( 'config_tmpl_caching', 'class="inputbox"', $row->config_tmpl_caching );
-		//$lists['caching'] 					= mosHTML::yesnoRadioList( 'config_caching', 'class="inputbox"', $row->config_caching );
-		//$lists['page_caching'] 				= mosHTML::yesnoRadioList( 'config_page_caching', 'class="inputbox"', $row->config_page_caching );
-	////////////////////////////////////
-
-
-	// User Settings ----------------
-		$lists['new_usertype'] = array(
-			mosHTML::makeOption( 'Registered', 	$_LANG->_( 'Registered' ) ),
-			mosHTML::makeOption( 'Author', 		$_LANG->_( 'Author' ) ),
-			mosHTML::makeOption( 'Editor', 		$_LANG->_( 'Editor' ) ),
-			mosHTML::makeOption( 'Publisher', 	$_LANG->_( 'Publisher' ) )
-		);
-		if ( !$row->config_username_length ) {
-			$row->config_username_length = 3;
-		}
-		if ( !$row->config_password_length ) {
-			$row->config_password_length = 6;
-		}
-
-		//$lists['allowuserregistration'] = mosHTML::yesnoRadioList( 'config_allowUserRegistration', 'class="inputbox"',	$row->config_allowUserRegistration );
-		//$lists['new_usertype'] 			= mosHTML::selectList( $usertypes, 'config_new_usertype', 'id="config_new_usertype" class="inputbox" size="1"', 'value', 'text', ( $row->config_new_usertype ? $row->config_new_usertype : 'Registered' ) );
-		//$lists['useractivation'] 		= mosHTML::yesnoRadioList( 'config_useractivation', 'class="inputbox"',	$row->config_useractivation );
-		//$lists['uniquemail'] 			= mosHTML::yesnoRadioList( 'config_uniquemail', 'class="inputbox"',	$row->config_uniquemail );
-		//$lists['shownoauth'] 			= mosHTML::yesnoRadioList( 'config_shownoauth', 'class="inputbox"', $row->config_shownoauth );
-		//$lists['name_change'] 			= mosHTML::yesnoRadioList( 'config_name_change', 'class="inputbox"', $row->config_name_change );
-		//$lists['username_change'] 		= mosHTML::yesnoRadioList( 'config_username_change', 'class="inputbox"', $row->config_username_change );
-		//$lists['user_params'] 			= mosHTML::yesnoRadioList( 'config_user_params', 'class="inputbox"', $row->config_user_params );
-	////////////////////////////////////
-
-
-	// Meta Settings ----------------
-		//$lists['metatitle'] 			= mosHTML::yesnoRadioList( 'config_MetaTitle', 'class="inputbox"', $row->config_MetaTitle );
-		//$lists['metaauthor']			= mosHTML::yesnoRadioList( 'config_MetaAuthor', 'class="inputbox"', $row->config_MetaAuthor );
-	////////////////////////////////////
-
-
-	// Statistics Settings ----------------
-		//$lists['enable_stats'] 			= mosHTML::yesnoRadioList( 'config_enable_stats', 'class="inputbox"', $row->config_enable_stats );
-		//$lists['enable_log_items']	 	= mosHTML::yesnoRadioList( 'config_enable_log_items', 'class="inputbox"', $row->config_enable_log_items );
-		//$lists['enable_log_searches'] 	= mosHTML::yesnoRadioList( 'config_enable_log_searches', 'class="inputbox"', $row->config_enable_log_searches );
-	////////////////////////////////////
-
-
-	// SEO Settings ----------------
-		$lists['pagetitles_format'] = array(
-			mosHTML::makeOption( 1,	$_LANG->_( 'Site - Title' ) ),
-			mosHTML::makeOption( 2,	$_LANG->_( 'Title - Site' ) ),
-			mosHTML::makeOption( 3,	$_LANG->_( 'Title' ) ),
-		);
-
-		//$lists['sef'] 					= mosHTML::yesnoRadioList( 'config_sef', 'class="inputbox" onclick="javascript: if (document.adminForm.config_sef[1].checked) { alert(\''. $_LANG->_( 'Remember to rename' ) .' htaccess.txt '. $_LANG->_( 'to' ) .' .htaccess\') }"', $row->config_sef );
-		//$lists['pagetitles'] 			= mosHTML::yesnoRadioList( 'config_pagetitles', 'class="inputbox"', $row->config_pagetitles );
-		//$lists['pagetitles_format']		= mosHTML::selectList( $pagetitle, 'config_pagetitles_format', ' id="config_pagetitles_format" class="inputbox" size="1"',	'value', 'text', $row->config_pagetitles_format );
-	////////////////////////////////////
-
-
-	// Content Settings ----------------
-		$icon_text = array(
-			mosHTML::makeOption( 0, $_LANG->_( 'Text' ) ),
-			mosHTML::makeOption( 1, $_LANG->_( 'Icons' ) ),
-		);
-
-		//$lists['link_titles'] 			= mosHTML::yesnoRadioList( 'config_link_titles', 'class="inputbox"', $row->config_link_titles );
-		//$lists['readmore'] 				= mosHTML::radiolist( $show_hide_r, 'config_readmore', 'class="inputbox"', $row->config_readmore, 'value', 'text' );
-		//$lists['vote'] 					= mosHTML::radiolist( $show_hide_r, 'config_vote', 'class="inputbox"', $row->config_vote, 'value', 'text' );
-		//$lists['hideauthor'] 			= mosHTML::radiolist( $show_hide, 'config_hideAuthor', 'class="inputbox"', $row->config_hideAuthor, 'value', 'text' );
-		//$lists['hideCreateDate'] 		= mosHTML::radiolist( $show_hide, 'config_hideCreateDate', 'class="inputbox"', $row->config_hideCreateDate, 'value', 'text' );
-		//$lists['hideModifyDate'] 		= mosHTML::radiolist( $show_hide, 'config_hideModifyDate', 'class="inputbox"', $row->config_hideModifyDate, 'value', 'text' );
-		//$lists['hits'] 					= mosHTML::radiolist( $show_hide_r, 'config_hits', 'class="inputbox"', $row->config_hits, 'value', 'text' );
-		//if ( is_writable( $mosConfig_absolute_path .'/media/' ) ) {
-			//$lists['hidepdf'] 			= mosHTML::radiolist( $show_hide, 'config_hidePdf', 'class="inputbox"', $row->config_hidePdf, 'value', 'text' );
-		//} else {
-			//$lists['hidepdf'] 			= '<input type="hidden" name="config_hidePdf" value="1" /><strong>'. $_LANG->_( 'Yes' ) .'</strong>';
-		//}
-		//$lists['hideprint'] 			= mosHTML::radiolist( $show_hide, 'config_hidePrint', 'class="inputbox"', $row->config_hidePrint, 'value', 'text' );
-		//$lists['hideemail'] 			= mosHTML::radiolist( $show_hide, 'config_hideEmail', 'class="inputbox"', $row->config_hideEmail, 'value', 'text' );
-		//$lists['icons'] 				= mosHTML::radiolist( $icon_text, 'config_icons', 'class="inputbox"', $row->config_icons, 'value', 'text' );
-		//$lists['back_button'] 			= mosHTML::radiolist( $show_hide_r, 'config_back_button', 'class="inputbox"', $row->config_back_button, 'value', 'text' );
-		//$lists['item_navigation'] 		= mosHTML::radiolist( $show_hide_r, 'config_item_navigation', 'class="inputbox"', $row->config_item_navigation, 'value', 'text' );
-	////////////////////////////////////
-
-		$mainframe->set('disableMenu', true);
-
-		$vars = array();
-
-		// configuration file permissions
-		$vars['config_write'] = is_writable( $mosConfig_absolute_path . '/configuration.php' );
-		$vars['config_chmod'] = is_writable( $mosConfig_absolute_path . '/configuration.php' );
-
-		configScreens::edit( $row, $lists, $vars );
-	}
-
-	/**
-	* Saves the record from an edit form submit
-	*/
-	function save() {
-		global $database, $mosConfig_absolute_path;
-		global $task;
-		global $_LANG;
-
-		$row = new mosConfig();
-		if (!$row->bind( $_POST )) {
-			mosErrorAlert( $row->getError() );
-		}
-
-		$editor = intval( mosGetParam( $_POST, 'editor', 0 ) );
-		if ($editor > 0) {
-			$query = "UPDATE #__mambots"
-			. "\n SET published = 0"
-			. "\n WHERE published >= 0"
-			. "\n AND folder = 'editors'"
-			;
-			$database->setQuery( $query );
-			if ( !$database->query() ) {
-				mosErrorAlert( $database->getErrorMsg() );
+	if ($handle = opendir( $mosConfig_absolute_path . '/language/' )) {
+		$i=0;
+		while (false !== ($file = readdir( $handle ))) {
+			if (!strcasecmp(substr($file,-4),".php") && $file <> "." && $file <> ".." && strcasecmp(substr($file,-11),".ignore.php")) {
+				$langs[] = mosHTML::makeOption( substr($file,0,-4) );
 			}
-
-			$query = "UPDATE #__mambots"
-			. "\n SET published = 1"
-			. "\n WHERE id = $editor"
-			;
-			$database->setQuery( $query );
-			if ( !$database->query() ) {
-				mosErrorAlert( $database->getErrorMsg() );
-			}
-		}
-
-		$config = "<?php \n";
-		$config .= $row->getVarText();
-		$config .= "setlocale (LC_TIME, \$mosConfig_locale);\n";
-		$config .= '?>';
-
-		$fname = $mosConfig_absolute_path . '/configuration.php';
-
-		$enable_write 	= mosGetParam( $_POST, 'enable_write', 0 );
-		$oldperms 		= fileperms( $fname );
-		if ( $enable_write ) {
-			@chmod( $fname, $oldperms | 0222);
-		}
-
-		if ( file_put_contents( $fname, $config ) ) {
-			if ( $enable_write ) {
-				@chmod( $fname, $oldperms );
-			} else {
-				if ( mosGetParam( $_POST, 'disable_write', 0 ) ) {
-					@chmod($fname, $oldperms & 0777555);
-				}
-			}
-
-			$msg = $_LANG->_( 'The Configuration Details have been updated' );
-
-			// apply file and directory permissions if requested by user
-			$applyFilePerms = mosGetParam( $_POST, 'applyFilePerms', 0 ) && $row->config_fileperms != '';
-			$applyDirPerms 	= mosGetParam( $_POST, 'applyDirPerms', 0 ) && $row->config_dirperms != '';
-			if ( $applyFilePerms || $applyDirPerms ) {
-				$mosrootfiles = array(
-					'administrator',
-					'cache',
-					'components',
-					'editor',
-					'help',
-					'images',
-					'includes',
-					'installation',
-					'language',
-					'mambots',
-					'media',
-					'modules',
-					'templates',
-					'CHANGELOG',
-					'configuration.php-dist',
-					'configuration.php',
-					'globals.php',
-					'htaccess.txt',
-					'index.php',
-					'index2.php',
-					'INSTALL',
-					'LICENSE',
-					'mainbody.php',
-					'offline.php',
-					'pathway.php',
-					'robots.txt'
-				);
-
-				$filemode = NULL;
-
-				if ( $applyFilePerms ) {
-					$filemode = octdec( $row->config_fileperms );
-				}
-
-				$dirmode = NULL;
-
-				if ( $applyDirPerms ) {
-					$dirmode = octdec( $row->config_dirperms );
-				}
-
-				foreach ( $mosrootfiles as $file ) {
-					mosFS::CHMOD( $mosConfig_absolute_path .'/'. $file, $filemode, $dirmode );
-				}
-			} // if
-
-			switch ( $task ) {
-				case 'apply':
-					mosRedirect( 'index2.php?option=com_config', $msg );
-					break;
-
-				case 'save':
-				default:
-					mosRedirect( 'index2.php', $msg );
-					break;
-			}
-		} else {
-			if ($enable_write) {
-				@chmod( $fname, $oldperms );
-			}
-			mosRedirect( 'index2.php', $_LANG->_( 'ERRORUNABLETOOPENCONFIGFILETOWRITE' ) );
 		}
 	}
 
-	/**
-	* Cancels editing returns to Admin Home page
-	*/
-	function cancel() {
-		$this->setRedirect( 'index2.php' );
+	// sort list of languages
+	sort( $langs );
+	reset( $langs );
+
+	// -- Editors --
+
+	// compile list of the editors
+	$query = "SELECT element AS value, name AS text"
+	. "\n FROM #__mambots"
+	. "\n WHERE folder = 'editors'"
+	. "\n AND published = 1"
+	. "\n ORDER BY ordering, name"
+	;
+	$database->setQuery( $query );
+	$edits = $database->loadObjectList();
+
+	// -- Show/Hide --
+
+	$show_hide = array(
+		mosHTML::makeOption( 1, 'Hide' ),
+		mosHTML::makeOption( 0, 'Show' ),
+	);
+
+	$show_hide_r = array(
+		mosHTML::makeOption( 0, 'Hide' ),
+		mosHTML::makeOption( 1, 'Show' ),
+	);
+
+	// -- menu items --
+
+	$query = "SELECT id AS value, name AS text FROM #__menu"
+	. "\n WHERE ( type='content_section' OR type='components' OR type='content_typed' )"
+	. "\n AND published = 1"
+	. "\n AND access = 0"
+	. "\n ORDER BY name"
+	;
+	$database->setQuery( $query );
+	$menuitems = array_merge( $menuitems, $database->loadObjectList() );
+
+
+// SITE SETTINGS
+
+	$lists['offline'] = mosHTML::yesnoRadioList( 'config_offline', 'class="inputbox"', $row->config_offline );
+
+	if ( !$row->config_editor ) {
+		$row->config_editor = '';
 	}
+	// build the html select list
+	$lists['editor'] = mosHTML::selectList( $edits, 'config_editor', 'class="inputbox" size="1"', 'value', 'text', $row->config_editor );
+
+	$listLimit = array(
+		mosHTML::makeOption( 5, 5 ),
+		mosHTML::makeOption( 10, 10 ),
+		mosHTML::makeOption( 15, 15 ),
+		mosHTML::makeOption( 20, 20 ),
+		mosHTML::makeOption( 25, 25 ),
+		mosHTML::makeOption( 30, 30 ),
+		mosHTML::makeOption( 50, 50 ),
+	);
+
+	$lists['list_limit'] = mosHTML::selectList( $listLimit, 'config_list_limit', 'class="inputbox" size="1"', 'value', 'text', ( $row->config_list_limit ? $row->config_list_limit : 50 ) );
+
+// DEBUG
+
+	$lists['debug'] = mosHTML::yesnoRadioList( 'config_debug', 'class="inputbox"', $row->config_debug );
+
+// DATABASE SETTINGS
+
+
+// SERVER SETTINGS
+
+	$lists['gzip'] = mosHTML::yesnoRadioList( 'config_gzip', 'class="inputbox"', $row->config_gzip );
+
+	$errors = array(
+		mosHTML::makeOption( -1, 'System Default' ),
+		mosHTML::makeOption( 0, 'None' ),
+		mosHTML::makeOption( E_ERROR|E_WARNING|E_PARSE, 'Simple' ),
+		mosHTML::makeOption( E_ALL , 'Maximum' )
+	);
+
+	$lists['error_reporting'] = mosHTML::selectList( $errors, 'config_error_reporting', 'class="inputbox" size="1"', 'value', 'text', $row->config_error_reporting );
+
+
+// LOCALE SETTINGS
+
+	$lists['lang'] = mosHTML::selectList( $langs, 'config_lang', 'class="inputbox" size="1"', 'value', 'text', $row->config_lang );
+	
+	$timeoffset = array(	
+		mosHTML::makeOption( -12, '(UTC -12:00) International Date Line West'),
+		mosHTML::makeOption( -11, '(UTC -11:00) Midway Island, Samoa'),
+		mosHTML::makeOption( -10, '(UTC -10:00) Hawaii'),
+		mosHTML::makeOption( -9.5, '(UTC -09:30) Taiohae, Marquesas Islands'),
+		mosHTML::makeOption( -9, '(UTC -09:00) Alaska'),
+		mosHTML::makeOption( -8, '(UTC -08:00) Pacific Time (US &amp; Canada)'),
+		mosHTML::makeOption( -7, '(UTC -07:00) Mountain Time (US &amp; Canada)'),
+		mosHTML::makeOption( -6, '(UTC -06:00) Central Time (US &amp; Canada), Mexico City'),
+		mosHTML::makeOption( -5, '(UTC -05:00) Eastern Time (US &amp; Canada), Bogota, Lima'),
+		mosHTML::makeOption( -4, '(UTC -04:00) Atlantic Time (Canada), Caracas, La Paz'),
+		mosHTML::makeOption( -3.5, '(UTC -03:30) St. John`s, Newfoundland and Labrador'),
+		mosHTML::makeOption( -3, '(UTC -03:00) Brazil, Buenos Aires, Georgetown'),
+		mosHTML::makeOption( -2, '(UTC -02:00) Mid-Atlantic'),
+		mosHTML::makeOption( -1, '(UTC -01:00 hour) Azores, Cape Verde Islands'),
+		mosHTML::makeOption( 0, '(UTC 00:00) Western Europe Time, London, Lisbon, Casablanca'),
+		mosHTML::makeOption( 1 , '(UTC +01:00 hour) Brussels, Copenhagen, Madrid, Paris'),
+		mosHTML::makeOption( 2, '(UTC +02:00) Kaliningrad, South Africa'),
+		mosHTML::makeOption( 3, '(UTC +03:00) Baghdad, Riyadh, Moscow, St. Petersburg'),
+		mosHTML::makeOption( 3.5, '(UTC +03:30) Tehran'),
+		mosHTML::makeOption( 4, '(UTC +04:00) Abu Dhabi, Muscat, Baku, Tbilisi'),
+		mosHTML::makeOption( 4.5, '(UTC +04:30) Kabul'),
+		mosHTML::makeOption( 5, '(UTC +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent'),
+		mosHTML::makeOption( 5.5, '(UTC +05:30) Bombay, Calcutta, Madras, New Delhi'),
+		mosHTML::makeOption( 5.75, '(UTC +05:45) Kathmandu'),
+		mosHTML::makeOption( 6, '(UTC +06:00) Almaty, Dhaka, Colombo'),
+		mosHTML::makeOption( 6.30, '(UTC +6:30) Yagoon'),
+		mosHTML::makeOption( 7, '(UTC +07:00) Bangkok, Hanoi, Jakarta'),
+		mosHTML::makeOption( 8, '(UTC +08:00) Beijing, Perth, Singapore, Hong Kong'),
+		mosHTML::makeOption( 8.75, '(UTC +08:00) Western Australia'),
+		mosHTML::makeOption( 9, '(UTC +09:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk'),
+		mosHTML::makeOption( 9.5, '(UTC +09:30) Adelaide, Darwin, Yakutsk'),
+		mosHTML::makeOption( 10, '(UTC +10:00) Eastern Australia, Guam, Vladivostok'),
+		mosHTML::makeOption( 10.5, '(UTC +10:30) Lord Howe Island (Australia)'),
+		mosHTML::makeOption( 11, '(UTC +11:00) Magadan, Solomon Islands, New Caledonia'),
+		mosHTML::makeOption( 11.30, '(UTC +11:30) Norfolk Island'),
+		mosHTML::makeOption( 12, '(UTC +12:00) Auckland, Wellington, Fiji, Kamchatka'),
+		mosHTML::makeOption( 12.75, '(UTC +12:45) Chatham Island'),
+		mosHTML::makeOption( 13, '(UTC +13:00) Tonga'),
+		mosHTML::makeOption( 14, '(UTC +14:00) Kiribati'),
+	);
+	
+	$lists['offset'] = mosHTML::selectList( $timeoffset, 'config_offset', 'class="inputbox" size="1"', 'value', 'text', $row->config_offset );
+
+// MAIL SETTINGS
+
+	$mailer = array(
+		mosHTML::makeOption( 'mail', 'PHP mail function' ),
+		mosHTML::makeOption( 'sendmail', 'Sendmail' ),
+		mosHTML::makeOption( 'smtp', 'SMTP Server' )
+	);
+	$lists['mailer'] 	= mosHTML::selectList( $mailer, 'config_mailer', 'class="inputbox" size="1"', 'value', 'text', $row->config_mailer );
+
+	$lists['smtpauth'] 	= mosHTML::yesnoRadioList( 'config_smtpauth', 'class="inputbox"', $row->config_smtpauth );
+
+
+// CACHE SETTINGS
+
+	$lists['caching'] 	= mosHTML::yesnoRadioList( 'config_caching', 'class="inputbox"', $row->config_caching );
+
+
+// USER SETTINGS
+
+	$lists['allowUserRegistration'] = mosHTML::yesnoRadioList( 'config_allowUserRegistration', 'class="inputbox"',	$row->config_allowUserRegistration );
+
+	$lists['useractivation'] 		= mosHTML::yesnoRadioList( 'config_useractivation', 'class="inputbox"',	$row->config_useractivation );
+
+	$lists['uniquemail'] 			= mosHTML::yesnoRadioList( 'config_uniquemail', 'class="inputbox"',	$row->config_uniquemail );
+
+	$lists['shownoauth'] 			= mosHTML::yesnoRadioList( 'config_shownoauth', 'class="inputbox"', $row->config_shownoauth );
+
+
+// META SETTINGS
+
+	$lists['MetaAuthor']			= mosHTML::yesnoRadioList( 'config_MetaAuthor', 'class="inputbox"', $row->config_MetaAuthor );
+
+	$lists['MetaTitle'] 			= mosHTML::yesnoRadioList( 'config_MetaTitle', 'class="inputbox"', $row->config_MetaTitle );
+
+
+// STATISTICS SETTINGS
+
+	$lists['log_searches'] 			= mosHTML::yesnoRadioList( 'config_enable_log_searches', 'class="inputbox"', $row->config_enable_log_searches );
+
+	$lists['enable_stats'] 			= mosHTML::yesnoRadioList( 'config_enable_stats', 'class="inputbox"', $row->config_enable_stats );
+
+	$lists['log_items']	 			= mosHTML::yesnoRadioList( 'config_enable_log_items', 'class="inputbox"', $row->config_enable_log_items );
+
+
+// SEO SETTINGS
+
+	$lists['sef'] 					= mosHTML::yesnoRadioList( 'config_sef', 'class="inputbox" onclick="javascript: if (document.adminForm.config_sef[1].checked) { alert(\'Remember to rename htaccess.txt to .htaccess\') }"', $row->config_sef );
+
+	$lists['pagetitles'] 			= mosHTML::yesnoRadioList( 'config_pagetitles', 'class="inputbox"', $row->config_pagetitles );
+
+
+// CONTENT SETTINGS
+
+	$lists['link_titles'] 			= mosHTML::yesnoRadioList( 'config_link_titles', 'class="inputbox"', $row->config_link_titles );
+
+	$lists['readmore'] 				= mosHTML::RadioList( $show_hide_r, 'config_readmore', 'class="inputbox"', $row->config_readmore, 'value', 'text' );
+
+	$lists['vote'] 					= mosHTML::RadioList( $show_hide_r, 'config_vote', 'class="inputbox"', $row->config_vote, 'value', 'text' );
+
+
+
+	$lists['hideAuthor'] 			= mosHTML::RadioList( $show_hide, 'config_hideAuthor', 'class="inputbox"', $row->config_hideAuthor, 'value', 'text' );
+
+	$lists['hideCreateDate'] 		= mosHTML::RadioList( $show_hide, 'config_hideCreateDate', 'class="inputbox"', $row->config_hideCreateDate, 'value', 'text' );
+
+	$lists['hideModifyDate'] 		= mosHTML::RadioList( $show_hide, 'config_hideModifyDate', 'class="inputbox"', $row->config_hideModifyDate, 'value', 'text' );
+
+	$lists['hits'] 					= mosHTML::RadioList( $show_hide_r, 'config_hits', 'class="inputbox"', $row->config_hits, 'value', 'text' );
+
+	if (is_writable( "$mosConfig_absolute_path/media/" )) {
+		$lists['hidePdf'] 			= mosHTML::RadioList( $show_hide, 'config_hidePdf', 'class="inputbox"', $row->config_hidePdf, 'value', 'text' );
+	} else {
+		$lists['hidePdf'] 			= '<input type="hidden" name="config_hidepdf" value="1" /><strong>Yes</strong>';
+	}
+
+	$lists['hidePrint'] 			= mosHTML::RadioList( $show_hide, 'config_hidePrint', 'class="inputbox"', $row->config_hidePrint, 'value', 'text' );
+
+	$lists['hideEmail'] 			= mosHTML::RadioList( $show_hide, 'config_hideEmail', 'class="inputbox"', $row->config_hideEmail, 'value', 'text' );
+
+	$lists['icons'] 				= mosHTML::RadioList( $show_hide_r, 'config_icons', 'class="inputbox"', $row->config_icons, 'value', 'text' );
+
+	$lists['back_button'] 			= mosHTML::RadioList( $show_hide_r, 'config_back_button', 'class="inputbox"', $row->config_back_button, 'value', 'text' );
+
+	$lists['item_navigation'] 		= mosHTML::RadioList( $show_hide_r, 'config_item_navigation', 'class="inputbox"', $row->config_item_navigation, 'value', 'text' );
+
+	$lists['ml_support'] 			= mosHTML::yesnoRadioList( 'config_ml_support', 'class="inputbox" onclick="javascript: if (document.adminForm.config_ml_support[1].checked) { alert(\'Remember to install the MambelFish component.\') }"', $row->config_ml_support );
+
+	$lists['multipage_toc'] 		= mosHTML::RadioList( $show_hide_r, 'config_multipage_toc', 'class="inputbox"', $row->config_multipage_toc, 'value', 'text' );
+
+// SHOW EDIT FORM
+
+	HTML_config::showconfig( $row, $lists, $option );
 }
 
-$tasker = new configTasks();
-$tasker->performTask( mosGetParam( $_REQUEST, 'task', '' ) );
-$tasker->redirect();
+/**
+ * Save the configuration
+ */
+function saveconfig( $task ) {
+	global $database, $mosConfig_absolute_path;
+
+	$row = new mosConfig();
+	if (!$row->bind( $_POST )) {
+		mosRedirect( 'index2.php', $row->getError() );
+	}
+	
+	$config = "<?php \n";
+	$config .= $row->getVarText();
+	$config .= "setlocale (LC_TIME, \$mosConfig_locale);\n";
+	$config .= '?>';
+
+	$fname = $mosConfig_absolute_path . '/configuration.php';
+
+	$enable_write 	= mosGetParam($_POST,'enable_write',0);
+	$oldperms 		= fileperms($fname);
+	if ( $enable_write ) {
+		@chmod( $fname, $oldperms | 0222);
+	}
+
+	if ( $fp = fopen($fname, 'w') ) {
+		fputs($fp, $config, strlen($config));
+		fclose($fp);
+		if ($enable_write) {
+			@chmod($fname, $oldperms);
+		} else {
+			if (mosGetParam($_POST,'disable_write',0))
+				@chmod($fname, $oldperms & 0777555);
+		} // if
+
+		$msg = 'The Configuration Details have been updated';
+
+		// apply file and directory permissions if requested by user
+		$applyFilePerms = mosGetParam($_POST,'applyFilePerms',0) && $row->config_fileperms!='';
+		$applyDirPerms = mosGetParam($_POST,'applyDirPerms',0) && $row->config_dirperms!='';
+		if ($applyFilePerms || $applyDirPerms) {
+			$mosrootfiles = array(
+				'administrator',
+				'cache',
+				'components',
+				'images',
+				'language',
+				'mambots',
+				'media',
+				'modules',
+				'templates',
+				'configuration.php'
+			);
+			$filemode = NULL;
+
+			if ( $applyFilePerms ) {
+				$filemode = octdec( $row->config_fileperms );
+			}
+
+			$dirmode = NULL;
+
+			if ( $applyDirPerms ) {
+				$dirmode = octdec( $row->config_dirperms );
+			}
+
+			foreach ($mosrootfiles as $file) {
+				mosChmodRecursive( $mosConfig_absolute_path.'/'.$file, $filemode, $dirmode );
+			}
+		} // if
+
+		switch ( $task ) {
+			case 'apply':
+				mosRedirect( 'index2.php?option=com_config&hidemainmenu=1', $msg );
+				break;
+
+			case 'save':
+			default:
+				mosRedirect( 'index2.php', $msg );
+				break;
+		}
+	} else {
+		if ($enable_write) {
+			@chmod( $fname, $oldperms );
+		}
+		mosRedirect( 'index2.php', 'An Error Has Occurred! Unable to open config file to write!' );
+	}
+}
 ?>

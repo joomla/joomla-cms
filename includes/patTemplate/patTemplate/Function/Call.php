@@ -6,7 +6,7 @@
  *
  * You may pass any variables to the template.
  *
- * $Id: Call.php 138 2005-09-12 10:37:53Z eddieajau $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Functions
@@ -25,7 +25,7 @@ define( 'PATTEMPLATE_FUNCTION_CALL_ERROR_NO_TEMPLATE', 'patTemplate::Function::C
  *
  * You may pass any variables to the template.
  *
- * $Id: Call.php 138 2005-09-12 10:37:53Z eddieajau $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Functions

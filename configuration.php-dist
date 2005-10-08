@@ -1,13 +1,15 @@
 <?php
 /**
-* @version $Id: configuration.php-dist 4 2005-09-06 19:22:37Z akede $
-* package Mambo
-* @copyright (C) 2000 - 2005 Miro International Pty Ltd
-* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-* Mambo is Free Software
+* @version $Id$
+* @package Joomla
+* @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+* Joomla! is free software and parts of it may contain or be derived from the
+* GNU General Public License or other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
 *
 * -------------------------------------------------------------------------
-* If you are installing Mambo manually i.e. not using the web installer
+* If you are installing Joomla manually i.e. not using the web installer
 * then rename this file to configuration.php e.g.
 *
 * UNIX -> mv configuration.php-dist configuration.php
@@ -19,144 +21,74 @@
 * Database configuration section
 * -------------------------------------------------------------------------
 */
-$mosConfig_dbtype = 'mysql';							// The database type, usually mysql but could be mysqli for PHP5
-$mosConfig_host = 'localhost';							// This is normally set to localhost
-$mosConfig_user = '';									// MySQL username
-$mosConfig_password = '';								// MySQL password
-$mosConfig_db = '';										// MySQL database name
-$mosConfig_dbprefix = 'mos_';							// Do not change unless you need to!
-$mosConfig_zero_date = '0000-00-00 00:00:00';			// Do not change unless you are using a database other than mysql
-/**
-* -------------------------------------------------------------------------
-* Site Settings
-* -------------------------------------------------------------------------
-*/
 $mosConfig_offline = '0';
+$mosConfig_host = 'localhost';	// This is normally set to localhost
+$mosConfig_user = '';			// MySQL username
+$mosConfig_password = '';		// MySQL password
+$mosConfig_db = '';				// MySQL database name
+$mosConfig_dbprefix = 'jos_';	// Do not change unless you need to!
+/**
+* -------------------------------------------------------------------------
+* Site specific configuration
+* -------------------------------------------------------------------------
+*/
+$mosConfig_lang = 'english';				// Site language
+$mosConfig_absolute_path = '/path/to/joomla/install';	// No trailing slash
+$mosConfig_live_site = 'http://your_joomla_site.com';	// No trailing slash
+$mosConfig_sitename = 'Joomla';				// Name of Joomla site
+$mosConfig_shownoauth = '1';				// Display links & categories users don't have access to
+$mosConfig_useractivation = '1';			// Send new registration passwords via e-mail
+$mosConfig_uniquemail = '1';				// Require unique email adress for each user
 $mosConfig_offline_message = 'This site is down for maintenance.<br /> Please check back again soon.';
-$mosConfig_error_message = 'This site is temporarily unavailable.<br /> Please notify the System Administrator';
-$mosConfig_sitename = 'Mambo';							// Name of Mambo site
-$mosConfig_editor = 'tinymce';							// wysiwyg editor
-$mosConfig_edit_popup = '0';
-$mosConfig_list_limit = '20';
-$mosConfig_favicon = '/images/favicon.ico';
-$mosConfig_internal_templates = '0';
-$mosConfig_live_bookmark = '0';
-$mosConfig_live_bookmark_show = '0';
-$mosConfig_live_bookmark_file = '';
-/**
-* -------------------------------------------------------------------------
-* Debug Settings
-* -------------------------------------------------------------------------
-*/
+$mosConfig_lifetime = '900'; 				// Session time
+$mosConfig_MetaDesc = 'Joomla - the dynamic portal engine and content management system';
+$mosConfig_MetaKeys = 'joomla';
+$mosConfig_MetaTitle = '1';
+$mosConfig_MetaAuthor = '1';
 $mosConfig_debug = '0';
-$mosConfig_debug_db = '0';
-$mosConfig_debug_dblog = '0';
-/**
-* -------------------------------------------------------------------------
-* Server Settings
-* -------------------------------------------------------------------------
-*/
-$mosConfig_absolute_path = '/path/to/mambo/install';	// No trailing slash
-$mosConfig_live_site = 'http://your_mambo_site.com';	// No trailing slash
-$mosConfig_secure_site = 'http://your_secure_site.com'; // No trailing slash
-$mosConfig_secret = 'FBVtggIk5lAzEU9H'; 				// Change this to something more secure
-$mosConfig_gzip = '0';
-$mosConfig_lifetime = '900';							// Session time
-$mosConfig_savestate = '0';								// Boolean to save state on timeout
-$mosConfig_error_reporting = '-1';
-$mosConfig_helpurl = 'http://help.mamboserver.com';
-$mosConfig_xmlrpc_server = '0';
-$mosConfig_fileperms = '0644';
-$mosConfig_dirperms = '0755';
-/**
-* -------------------------------------------------------------------------
-* Locale Settings
-* -------------------------------------------------------------------------
-*/
 $mosConfig_locale = 'en_GB';
-$mosConfig_lang = 'english';							// Site language
-$mosConfig_offset = '0';								// Local time offset
-/**
-* -------------------------------------------------------------------------
-* Mail Settings
-* -------------------------------------------------------------------------
-*/
+$mosConfig_offset = '0';				// Local time offset
+$mosConfig_hideAuthor = '0';
+$mosConfig_hideCreateDate = '0';
+$mosConfig_hideModifyDate = '0';
+$mosConfig_hidePdf = '0';
+$mosConfig_hidePrint = '0';
+$mosConfig_hideEmail = '0';
+$mosConfig_enable_log_items = '0';
+$mosConfig_enable_log_searches = '0';
+$mosConfig_enable_stats = '0';
+$mosConfig_sef = '0';
+$mosConfig_vote = '0';
+$mosConfig_gzip = '0';
+$mosConfig_multipage_toc = '0';
+$mosConfig_allowUserRegistration = '1';
+$mosConfig_error_reporting = -1;
+$mosConfig_error_message = 'This site is temporarily unavailable.<br />Please contact your System Administrator.';
+$mosConfig_link_titles = '0';
+$mosConfig_list_limit = '30';
+$mosConfig_caching = '0';
+$mosConfig_cachepath = '/path/to/joomla/install/cache';
+$mosConfig_cachetime = '900';
 $mosConfig_mailer = 'mail';
-$mosConfig_mailfrom = '';								// Admin Email address
-$mosConfig_fromname = '';								// Admin Email name
+$mosConfig_mailfrom = '';
+$mosConfig_fromname = '';
 $mosConfig_sendmail = '/usr/sbin/sendmail';
 $mosConfig_smtpauth = '0';
 $mosConfig_smtpuser = '';
 $mosConfig_smtppass = '';
 $mosConfig_smtphost = 'localhost';
-/**
-* -------------------------------------------------------------------------
-* Cache Settings
-* -------------------------------------------------------------------------
-*/
-$mosConfig_caching = '0';
-$mosConfig_tmpl_caching = '0';
-$mosConfig_page_caching = '0';
-$mosConfig_cachepath = '/path/to/mambo/install/cache';
-$mosConfig_cachetime = '900';
-/**
-* -------------------------------------------------------------------------
-* User Settings
-* -------------------------------------------------------------------------
-*/
-$mosConfig_allowUserRegistration = '1';
-$mosConfig_new_usertype = 'Registered';
-$mosConfig_useractivation = '1';						// Send new registration passwords via e-mail
-$mosConfig_uniquemail = '1';							// Require unique email adress for each user
-$mosConfig_shownoauth = '0';							// Display links & categories users don't have access to
-$mosConfig_name_change = '1';
-$mosConfig_username_change = '1';
-$mosConfig_password_length = '6';
-$mosConfig_username_length = '3';
-$mosConfig_user_params = '0';
-/**
-* -------------------------------------------------------------------------
-* Meta Settings
-* -------------------------------------------------------------------------
-*/
-$mosConfig_MetaDesc = 'Mambo - the dynamic portal engine and content management system';
-$mosConfig_MetaKeys = 'mambo, Mambo, Mambo, Mambo';
-$mosConfig_MetaTitle = '1';
-$mosConfig_MetaAuthor = '1';
-/**
-* -------------------------------------------------------------------------
-* Statistics Settings
-* -------------------------------------------------------------------------
-*/
-$mosConfig_enable_stats = '0';
-$mosConfig_enable_log_items = '0';
-$mosConfig_enable_log_searches = '0';
-/**
-* -------------------------------------------------------------------------
-* SEO Settings
-* -------------------------------------------------------------------------
-*/
-$mosConfig_sef = '0';
-$mosConfig_pagetitles = '1';
-$mosConfig_pagetitles_format = '1';
-/**
-* -------------------------------------------------------------------------
-* Content Settings
-* -------------------------------------------------------------------------
-*/
-$mosConfig_link_titles = '0';
-$mosConfig_readmore = '1';
-$mosConfig_vote = '0';
-$mosConfig_hideAuthor = '0';
-$mosConfig_hideCreateDate = '0';
-$mosConfig_hideModifyDate = '0';
-$mosConfig_hits = '1';
-$mosConfig_hidePdf = '0';
-$mosConfig_hidePrint = '0';
-$mosConfig_hideEmail = '0';
-$mosConfig_icons = '1';
 $mosConfig_back_button = '1';
 $mosConfig_item_navigation = '1';
-$mosConfig_mbf_content = '0';
+$mosConfig_secret = 'FBVtggIk5lAzEU9H'; //Change this to something more secure
+$mosConfig_pagetitles = '1';
+$mosConfig_readmore = '1';
+$mosConfig_hits = '1';
+$mosConfig_icons = '1';
+$mosConfig_favicon = 'favicon.ico';
+$mosConfig_fileperms = '';
+$mosConfig_dirperms = '';
+$mosConfig_helpurl = 'http://help.joomla.org';
+$mosConfig_mbf_content='0';
+$mosConfig_editor = 'tinymce';
 setlocale (LC_TIME, $mosConfig_locale);			// Country locale
 ?>

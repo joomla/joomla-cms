@@ -2,7 +2,7 @@
 /**
  * patTemplate Template cache that stores data in the MMCache Cache
  *
- * $Id: MMCache.php 138 2005-09-12 10:37:53Z eddieajau $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Caches
@@ -15,7 +15,7 @@
  * If the lifetime is set to auto, the cache files will be kept until
  * you delete them manually.
  *
- * $Id: MMCache.php 138 2005-09-12 10:37:53Z eddieajau $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Caches

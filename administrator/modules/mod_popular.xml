@@ -5,11 +5,12 @@
 	<creationDate>July 2004</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-	<authorEmail>admin@mamboserver.com</authorEmail>
-	<authorUrl>www.mamboserver.com</authorUrl>
-	<version>4.5.2</version>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
 	<description>This module shows a list of the popular published Items that are still current (some may have expired even though they are the most recent). Items that are displayed on the Front Page Component are not included in the list.</description>
 	<files>
 		<filename module="mod_popular">mod_popular.php</filename>
 	</files>
+	<params/>
 </mosinstall>

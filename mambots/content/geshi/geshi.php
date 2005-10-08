@@ -5,9 +5,9 @@
  * Author: Nigel McNie (oracle.shinoda@gmail.com)
  * Copyright: (c) 2004 Nigel McNie
  * Release Version: 1.0.4
- * CVS Revision Version: $Revision: 4 $
+ * CVS Revision Version: $Revision$
  * Date Started: 2004/05/20
- * Last Modified: $Date: 2005-09-06 15:22:37 -0400 (Tue, 06 Sep 2005) $
+ * Last Modified: $Date: 2005-09-12 07:24:33 -0500 (Mon, 12 Sep 2005) $
  *
  * The GeSHi class for Generic Syntax Highlighting. Please refer to the documentation
  * at http://qbnz.com/highlighter/documentation.php for more information about how to
@@ -17,7 +17,7 @@
  *
  *************************************************************************************
  *
- *     This file is part of GeSHi.
+ *	 This file is part of GeSHi.
  *
  *   GeSHi is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -104,47 +104,47 @@ class GeSHi
 	//
 
 	// Basic fields
-	var $source = '';                     // The source code to highlight
-	var $language = '';                   // The language to use when highlighting
-	var $language_data = array();         // The data for the language used
-	var $language_path = 'geshi/';        // The path to the language files
-	var $error = false;                   // The error message associated with an error
-	var $strict_mode = false;             // Whether highlighting is strict or not
-	var $use_classes = false;             // Whether to use classes
+	var $source = '';					 // The source code to highlight
+	var $language = '';				   // The language to use when highlighting
+	var $language_data = array();		 // The data for the language used
+	var $language_path = 'geshi/';		// The path to the language files
+	var $error = false;				   // The error message associated with an error
+	var $strict_mode = false;			 // Whether highlighting is strict or not
+	var $use_classes = false;			 // Whether to use classes
 	var $header_type = GESHI_HEADER_PRE;  // The type of header to use
-	var $lexic_permissions = array();     // Array of permissions for which lexics should be highlighted
+	var $lexic_permissions = array();	 // Array of permissions for which lexics should be highlighted
 	// Added in 1.0.2 basic fields
-	var $time = 0;                        // The time it took to parse the code
-	var $header_content = '';             // The content of the header block
-	var $footer_content = '';             // The content of the footer block
-	var $header_content_style = '';       // The style of the header block
-	var $footer_content_style = '';       // The style of the footer block
-	var $link_styles = array();           // The styles for hyperlinks in the code
+	var $time = 0;						// The time it took to parse the code
+	var $header_content = '';			 // The content of the header block
+	var $footer_content = '';			 // The content of the footer block
+	var $header_content_style = '';	   // The style of the header block
+	var $footer_content_style = '';	   // The style of the footer block
+	var $link_styles = array();		   // The styles for hyperlinks in the code
 	var $enable_important_blocks = true;  // Whether important blocks should be recognised or not
 	var $important_styles = 'font-weight: bold; color: red;'; // Styles for important parts of the code
-	var $add_ids = false;                 // Whether css IDs should be added to the code
+	var $add_ids = false;				 // Whether css IDs should be added to the code
 	var $highlight_extra_lines = array(); // Lines that should be highlighted extra
 	var $highlight_extra_lines_style = 'color: #cc0; background-color: #ffc;';// Styles of extra-highlighted lines
-	var $line_numbers_start = 1;          // Number at which line numbers should start at
+	var $line_numbers_start = 1;		  // Number at which line numbers should start at
 
 	// Style fields
-	var $overall_style = '';              // The overall style for this code block
+	var $overall_style = '';			  // The overall style for this code block
 	// The style for the actual code
 	var $code_style = 'font-family: \'Courier New\', Courier, monospace; font-weight: normal;';
-	var $overall_class = '';              // The overall class for this code block
-	var $overall_id = '';                 // The overall id for this code block
+	var $overall_class = '';			  // The overall class for this code block
+	var $overall_id = '';				 // The overall id for this code block
 	// Line number styles
 	var $line_style1 = 'font-family: \'Courier New\', Courier, monospace; color: black; font-weight: normal; font-style: normal;';
 	var $line_style2 = 'font-weight: bold;';
 	var $line_numbers = GESHI_NO_LINE_NUMBERS; // Flag for how line numbers are displayed
-	var $line_nth_row = 0;                // The "nth" value for fancy line highlighting
+	var $line_nth_row = 0;				// The "nth" value for fancy line highlighting
 
 	// Misc
-	var $tab_width = 8;                   // A value for the size of tab stops.
-	var $max_tabs = 20;                   // Maximum number of spaces per tab
-	var $min_tabs = 0;                    // Minimum  "   "    "    "    "
-	var $link_target = '';                // default target for keyword links
-	var $encoding = '';                   // The encoding to use for htmlentities() calls
+	var $tab_width = 8;				   // A value for the size of tab stops.
+	var $max_tabs = 20;				   // Maximum number of spaces per tab
+	var $min_tabs = 0;					// Minimum  "   "	"	"	"
+	var $link_target = '';				// default target for keyword links
+	var $encoding = '';				   // The encoding to use for htmlentities() calls
 
 	// Deprecated/unused
 	var $output_format = GESHI_OUTPUT_HTML;
@@ -2409,5 +2409,4 @@ if ( !function_exists('geshi_highlight') )
 		return true;
 	}
 }
-
 ?>

@@ -2,7 +2,7 @@
 /**
  * Base class for patTemplate output cache
  *
- * $Id: OutputCache.php 4 2005-09-06 19:22:37Z akede $
+ * $Id$
  *
  * An output cache is used to cache the data before
  * the template has been read.
@@ -20,7 +20,7 @@
 /**
  * Base class for patTemplate output cache
  *
- * $Id: OutputCache.php 4 2005-09-06 19:22:37Z akede $
+ * $Id$
  *
  * An output cache is used to cache the data before
  * the template has been read.

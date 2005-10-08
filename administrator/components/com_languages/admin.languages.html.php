@@ -1,12 +1,14 @@
 <?php
 /**
-* @version $Id: admin.languages.html.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Languages
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -14,242 +16,147 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 /**
- * @package Joomla
- * @subpackage Languages
- */
-class languageScreens {
-	/**
-	 * Static method to create the template object
-	 * @param int The client identifier
-	 * @param array An array of other standard files to include
-	 * @return patTemplate
-	 */
-	function &createTemplate( $client=0, $files=null ) {
-		$tmpl =& mosFactory::getPatTemplate( $files );
-		$tmpl->setRoot( dirname( __FILE__ ) . '/tmpl' );
-		$tmpl->addVar( 'body', 'client', $client );
+* @package Joomla
+* @subpackage Languages
+*/
+class HTML_languages {
 
-		return $tmpl;
+	function showLanguages( $cur_lang, &$rows, &$pageNav, $option ) {
+		global $my;
+		global $_LANG;
+		?>
+		<form action="index2.php" method="post" name="adminForm">
+		<table class="adminheading">
+		<tr>
+			<th class="langmanager"><?php echo $_LANG->_( 'Language Manager' ); ?>
+			 <small><small>[ <?php echo $_LANG->_( 'Site' ); ?> ]</small></small>
+			</th>
+		</tr>
+		</table>
+
+		<table class="adminlist">
+		<tr>
+			<th width="20">
+			<?php echo $_LANG->_( 'Num' ); ?>
+			</th>
+			<th width="30">
+			&nbsp;
+			</th>
+			<th width="25%" class="title">
+			<?php echo $_LANG->_( 'Language' ); ?>
+			</th>
+			<th width="5%">
+			<?php echo $_LANG->_( 'Published' ); ?>
+			</th>
+			<th width="10%">
+			<?php echo $_LANG->_( 'Version' ); ?>
+			</th>
+			<th width="10%">
+			<?php echo $_LANG->_( 'Date' ); ?>
+			</th>
+			<th width="20%">
+			<?php echo $_LANG->_( 'Author' ); ?>
+			</th>
+			<th width="25%">
+			<?php echo $_LANG->_( 'Author Email' ); ?>
+			</th>
+		</tr>
+		<?php
+		$k = 0;
+		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
+			$row = &$rows[$i];
+			?>
+			<tr class="<?php echo "row$k"; ?>">
+				<td width="20"><?php echo $pageNav->rowNumber( $i ); ?></td>
+				<td width="20">
+				<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->language; ?>" onClick="isChecked(this.checked);" />
+				</td>
+				<td width="25%">
+				<a href="#edit" onclick="hideMainMenu();return listItemTask('cb<?php echo $i;?>','edit_source')"><?php echo $row->name;?></a></td>
+				<td width="5%" align="center">
+				<?php
+				if ($row->published == 1) {	 ?>
+					<img src="images/tick.png" alt="<?php echo $_LANG->_( 'Published' ); ?>"/>
+					<?php
+				} else {
+					?>
+					&nbsp;
+				<?php
+				}
+				?>
+				</td>
+				<td align=center>
+				<?php echo $row->version; ?>
+				</td>
+				<td align=center>
+				<?php echo $row->creationdate; ?>
+				</td>
+				<td align=center>
+				<?php echo $row->author; ?>
+				</td>
+				<td align=center>
+				<?php echo $row->authorEmail; ?>
+				</td>
+			</tr>
+		<?php
+		}
+		?>
+		</table>
+		<?php echo $pageNav->getListFooter(); ?>
+
+		<input type="hidden" name="option" value="<?php echo $option;?>" />
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="hidemainmenu" value="0" />
+		<input type="hidden" name="boxchecked" value="0" />
+		</form>
+		<?php
 	}
 
-	/**
-	 * Adds the tree variables to the template
-	 * @param object patTemplate object
-	 * @param array Language list
-	 */
-	function addTree( &$tmpl, &$tree ) {
-		// set up the tree
-		if (count( $tree[0] )) {
-			$tmpl->addRows( 'site-files', $tree[0] );
-		}
-		if (count( $tree[1] )) {
-			$tmpl->addRows( 'admin-files', $tree[1] );
-		}
-		if (count( $tree[2] )) {
-			$tmpl->addRows( 'install-files', $tree[2] );
-		}
+	function editLanguageSource( $language, &$content, $option ) {
+		global $mosConfig_absolute_path;
+		global $_LANG;
+		$language_path = $mosConfig_absolute_path . "/language/" . $language . ".php";
+		?>
+		<form action="index2.php" method="post" name="adminForm">
+		<table cellpadding="1" cellspacing="1" border="0" width="100%">
+		<tr>
+			<td width="270"><table class="adminheading"><tr><th class="langmanager"><?php echo $_LANG->_( 'Language Editor' ); ?></th></tr></table></td>
+			<td width="240">
+				<span class="componentheading"><?php echo $language; ?>.php <?php echo $_LANG->_( 'is' ); ?> :
+				<b><?php echo is_writable($language_path) ? '<font color="green"> '. $_LANG->_( 'Writeable' ) .'</font>' : '<font color="red"> '. $_LANG->_( 'Unwriteable' ) .'</font>' ?></b>
+				</span>
+			</td>
+<?php
+			if (mosIsChmodable($language_path)) {
+				if (is_writable($language_path)) {
+?>
+			<td>
+				<input type="checkbox" id="disable_write" name="disable_write" value="1"/>
+				<label for="disable_write"><?php echo $_LANG->_( 'Make unwriteable after saving' ); ?></label>
+			</td>
+<?php
+				} else {
+?>
+			<td>
+				<input type="checkbox" id="enable_write" name="enable_write" value="1"/>
+				<label for="enable_write"><?php echo $_LANG->_( 'Override write protection while saving' ); ?></label>
+			</td>
+<?php
+				} // if
+			} // if
+?>
+		</tr>
+		</table>
+		<table class="adminform">
+			<tr><th><?php echo $language_path; ?></th></tr>
+			<tr><td><textarea style="width:100%" cols="110" rows="25" name="filecontent" class="inputbox"><?php echo $content; ?></textarea></td></tr>
+		</table>
+		<input type="hidden" name="language" value="<?php echo $language; ?>" />
+		<input type="hidden" name="option" value="<?php echo $option;?>" />
+		<input type="hidden" name="task" value="" />
+		</form>
+	<?php
 	}
 
-	/**
-	 * Installation form
-	 * @param int The client identifier
-	 */
-	function installOptions( &$tree ) {
-		$tmpl =& languageScreens::createTemplate( 0, array( 'installer.html' ) );
-		$tmpl->setAttribute( 'body', 'src', 'installOptions.html' );
-
-		$tmpl->addVar( 'body', 'sitepath', $GLOBALS['mosConfig_absolute_path'] );
-		languageScreens::addTree( $tmpl, $tree );
-
-		$tmpl->displayParsedTemplate( 'form' );
-	}
-	/**
-	 * Finished install
-	 */
-	function installDone( &$tree, $element, $errno, $error ) {
-		$tmpl =& languageScreens::createTemplate( 0 );
-		$tmpl->setAttribute( 'body', 'src', 'installDone.html' );
-
-		$tmpl->addVar( 'body', 'element', $element );
-		$tmpl->addVar( 'body', 'errno', $errno );
-		$tmpl->addVar( 'body', 'message', $error );
-		languageScreens::addTree( $tmpl, $tree );
-
-		$tmpl->displayParsedTemplate( 'form' );
-	}
-
-	/**
-	 * Installation form
-	 * @param int The client identifier
-	 */
-	function packageOptions( &$tree, $vars, $element, $client ) {
-		$tmpl =& languageScreens::createTemplate( $client, array( 'installer.html', 'xml.html' ) );
-		$tmpl->setAttribute( 'body', 'src', 'packageOptions.html' );
-
-		$fileName = mosMainFrame::getClientName( $client ) . 'Language_' . preg_replace( '#\.xml$#', '', $element );
-		$tmpl->addVar( 'body', 'filename', $fileName );
-		$tmpl->addVar( 'body', 'element', $element );
-		if (isset( $vars['meta'] )) {
-			$tmpl->addVars( 'body', $vars['meta'], 'meta_' );
-		}
-		if (isset( $vars['siteFiles'] )) {
-			$tmpl->addRows( 'xml-site-files', $vars['siteFiles'] );
-		}
-		languageScreens::addTree( $tmpl, $tree );
-
-		$tmpl->displayParsedTemplate( 'form' );
-	}
-
-	/**
-	 * Lists package files
-	 * @param array An array of files
-	 */
-	function listFiles( &$tree, &$files ) {
-		$tmpl =& languageScreens::createTemplate( 0, array( 'files.html' ) );
-		$tmpl->setAttribute( 'body', 'src', 'listFiles.html' );
-
-		// set up the tree
-		$tmpl->addRows( 'file-list-rows', $files );
-		languageScreens::addTree( $tmpl, $tree );
-
-		$tmpl->displayParsedTemplate( 'form' );
-	}
-
-	/**
-	 * Show the edit XML form
-	 * @param array An array of xml variables
-	 * @param string The language name
-	 * param int The client identifier
-	 */
-  	function editXML( &$vars, $element, $client ) {
-	   $tmpl =& languageScreens::createTemplate( $client, array( 'xml.html' ) );
-		$tmpl->setAttribute( 'body', 'src', 'editxml.html' );
-		$tmpl->readTemplatesFromInput( 'common.html' );
-
-		if (isset( $vars['meta'] )) {
-			$tmpl->addVars( 'body', $vars['meta'], 'meta_' );
-		}
-
-		if (isset( $vars['siteFiles'] )) {
-			$tmpl->addRows( 'site-files-list', $vars['siteFiles'] );
-		}
-		$tmpl->addVar( 'body', 'element', $element );
-		$tmpl->addVar( 'body', 'client', $client );
-
-		$tmpl->displayParsedTemplate( 'form' );
-	}
-
-	/**
-	 * Displays a message
-	 * @param string The text to display
-	 */
-	function message( $text ) {
-		$tmpl =& languageScreens::createTemplate( 0 );
-
-		$tmpl->readTemplatesFromInput( 'common.html' );
-		$tmpl->addVar( 'mosmsg', 'mosmsg', $text );
-		$tmpl->displayParsedTemplate( 'message' );
-	}
-
-	/**
-	* List languages
-	* @param array
-	*/
-	function listLangs( &$tree, &$rows, $xmlFile, $vars, $element, $client ) {
-		global $mosConfig_lang;
-
-		$tmpl =& languageScreens::createTemplate( $client );
-
-		$tmpl->setAttribute( 'body', 'src', 'listLangs.html' );
-
-		// set up the tree
-		if (count( $tree[0] )) {
-			$tmpl->addRows( 'site-files', $tree[0] );
-			if ($client == 0) {
-				$tmpl->addRows( 'copy-files', $tree[0] );
-			}
-		}
-		if (count( $tree[1] )) {
-			$tmpl->addRows( 'admin-files', $tree[1] );
-			if ($client == 1) {
-				$tmpl->addRows( 'copy-files', $tree[1] );
-			}
-		}
-		if (count( $tree[2] )) {
-			$tmpl->addRows( 'install-files', $tree[2] );
-			if ($client == 2) {
-				$tmpl->addRows( 'copy-files', $tree[2] );
-			}
-		}
-		if (!is_null( $xmlFile )) {
-			$tmpl->addVars( 'xml-meta', $xmlFile['meta'] );
-		}
-
-		// set up the list
-		$tmpl->addRows( 'body-list-rows', $rows );
-		$tmpl->addVar( 'body', 'element', $element );
-		$tmpl->addVars( 'body', $vars );
-
-		if ($element != 'english' && $element != $mosConfig_lang) {
-			$tmpl->addVar( 'body', 'canDelete', $client );
-		}
-
-		$tmpl->displayParsedTemplate( 'form' );
-	}
-
-	/**
-	* Edit language
-	* @param array
-	*/
-	function edit( &$rows, &$vars, $element, $client, $file ) {
-		$tmpl =& languageScreens::createTemplate( $client );
-
-		$tmpl->setAttribute( 'body', 'src', 'edit.html' );
-		//$tmpl->addVar( 'body', 'element', $element );
-		$tmpl->addRows( 'body-list-rows', $rows );
-
-		$tmpl->addVars( 'body', $vars, 'var_' );
-
-		if (isset( $vars['rtl'] )) {
-			$checked = array(
-				'rtl_0' => $vars['rtl'] == 0 ? 'checked="true"' : '',
-				'rtl_1' => $vars['rtl'] == 1 ? 'checked="true"' : ''
-			);
-			$tmpl->addVars( 'body', $checked, 'checked_' );
-		}
-		$tmpl->addVar( 'body', 'element', $element );
-		$tmpl->addVar( 'body', 'file', $file );
-
-		$tmpl->displayParsedTemplate( 'form' );
-	}
-
-	/**
-	 * Displays the option for trawling
-	 */
-    function trawlOptions( &$tree ) {
-	   // import the body of the page
-	   $tmpl =& languageScreens::createTemplate( 0 );
-	   $tmpl->setAttribute( 'body', 'src', 'trawlOptions.html' );
-		languageScreens::addTree( $tmpl, $tree );
-	   $tmpl->displayParsedTemplate( 'form' );
-    }
-	/**
-	 * Displays new langugae constants
-	 * @param string
-	 * @param string
-	 */
-    function trawl( &$tree, $buffers, $options ) {
-	   // import the body of the page
-	   $tmpl =& languageScreens::createTemplate( 0 );
-	   $tmpl->setAttribute( 'body', 'src', 'trawl.html' );
-
-	   $tmpl->addVar( 'body', 'buffer1', $buffers[0] );
-	   $tmpl->addVar( 'body', 'buffer2', $buffers[1] );
-	   //$tmpl->addVar( 'body', 'buffer3', $buffers[2] );
-	   $tmpl->addVars( 'body', $options );
-		languageScreens::addTree( $tmpl, $tree );
-
-	   $tmpl->displayParsedTemplate( 'form' );
-    }
 }
 ?>

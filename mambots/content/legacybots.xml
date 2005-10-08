@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall version="4.5.2" type="mambot" group="content">
+<mosinstall version="1.0.0" type="mambot" group="content">
 	<name>legacybots</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2004</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-	<authorEmail>admin@mamboserver.com</authorEmail>
-	<authorUrl>www.mamboserver.com</authorUrl>
-	<version>4.5.2</version>
-	<description>Support for outdated Joomla! 4.5 mambots</description>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>Support for outdated version 4.5 mambots</description>
 	<files>
 		<filename mambot="legacybots">legacybots.php</filename>
 	</files>

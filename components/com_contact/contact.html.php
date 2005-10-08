@@ -1,172 +1,722 @@
 <?php
 /**
-* @version $Id: contact.html.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Contact
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
+
 /**
- * @package Joomla
- * @subpackage Contact
- */
-class contactScreens_front {
+* @package Joomla
+* @subpackage Contact
+*/
+class HTML_contact {
+
+
+	function displaylist( &$categories, &$rows, $catid, $currentcat=NULL, &$params, $tabclass ) {
+		global $Itemid, $mosConfig_live_site, $hide_js;
+
+		if ( $params->get( 'page_title' ) ) {
+			?>
+	<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
+		<?php echo $currentcat->header; ?>
+	</div>
+			<?php
+		}
+		?>
+	<form action="index.php" method="post" name="adminForm">
+
+		<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
+		<tr>
+			<td width="60%" valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>" colspan="2">
+			<?php
+			// show image
+			if ( $currentcat->img ) {
+				?>
+				<img src="<?php echo $currentcat->img; ?>" align="<?php echo $currentcat->align; ?>" hspace="6" alt="<?php echo _WEBLINKS_TITLE; ?>" />
+				<?php
+			}
+			echo $currentcat->descrip;
+			?>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<?php
+			if ( count( $rows ) ) {
+				HTML_contact::showTable( $params, $rows, $catid, $tabclass );
+			}
+			?>
+			</td>
+		</tr>
+		<tr>
+			<td>&nbsp;
+
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<?php
+			// Displays listing of Categories
+			if ( ( $params->get( 'type' ) == 'category' ) && $params->get( 'other_cat' ) ) {
+				HTML_contact::showCategories( $params, $categories, $catid );
+			} else if ( ( $params->get( 'type' ) == 'section' ) && $params->get( 'other_cat_section' ) ) {
+				HTML_contact::showCategories( $params, $categories, $catid );
+			}
+			?>
+			</td>
+		</tr>
+		</table>
+		</form>
+		<?php
+		// displays back button
+		mosHTML::BackButton ( $params, $hide_js );
+	}
+
 	/**
-	 * @param string The main template file to include for output
-	 * @param array An array of other standard files to include
-	 * @return patTemplate A template object
-	 */
-	function &createTemplate( $bodyHtml='', $files=null ) {
-		$tmpl =& mosFactory::getPatTemplate( $files );
-
-		$directory = mosComponentDirectory( $bodyHtml, dirname( __FILE__ ) );
-		$tmpl->setRoot( $directory );
-
-		$tmpl->setAttribute( 'body', 'src', $bodyHtml );
-
-		return $tmpl;
-	}
-
-	function list_section( &$params, &$current, &$cats ) {
-		global $_MAMBOTS;
-		global $_LANG;
-
-		// process the new bots
-		$current->text = $current->descrip;
-		$_MAMBOTS->loadBotGroup( 'content' );
-		$results = $_MAMBOTS->trigger( 'onPrepareContent', array( &$current, &$params ), true );
-
-		$tmpl =& contactScreens_front::createTemplate( 'list-section.html' );
-
-		$tmpl->addVar( 'body', 'show_image',			( $current->img ? 1 : 0 ) );
-
-		$tmpl->addObject( 'current', $current, 'cur_' );
-
-		// category list params
-		$tmpl->addObject( 'categories', $cats, 'cat_' );
-
-		$tmpl->addObject( 'body', $params->toObject(), 'p_' );
-
-		$tmpl->displayParsedTemplate( 'body' );
-	}
-
-	function table_category( &$params, &$current, &$cats, &$rows ) {
-		global $_MAMBOTS;
-		global $_LANG;
-
-		// process the new bots
-		$current->text = $current->descrip;
-		$_MAMBOTS->loadBotGroup( 'content' );
-		$results = $_MAMBOTS->trigger( 'onPrepareContent', array( &$current, &$params ), true );
-
-		$tmpl =& contactScreens_front::createTemplate( 'table-category.html' );
-
-		$tmpl->addVar( 'body', 'show_image',			( $current->img ? 1 : 0 ) );
-
-		$tmpl->addObject( 'current', $current, 'cur_' );
-
-		// table item params
-		$tmpl->addObject( 'rows', $rows, 'row_' );
-
-		// category list params
-		$tmpl->addObject( 'body-list-cat', $cats, 'cat_' );
-
-		$tmpl->addObject( 'body', $params->toObject(), 'p_' );
-
-		$tmpl->displayParsedTemplate( 'body' );
-	}
-
-	function item( &$params, &$menu_params, &$contact, $list ) {
-		global $mainframe, $Itemid;
-		global $mosConfig_live_site;
-
-		$template	= $mainframe->getTemplate();
-		$back 		= mosHTML::BackButton ( $params, 0, 0 );
-		$close 		= mosHTML::CloseButton ( $params, 0, 0 );
-
-		// displays Print Icon
-		$print_link = $mosConfig_live_site. '/index2.php?option=com_contact&amp;task=view&amp;contact_id='. $contact->id .'&amp;Itemid='. $Itemid .'&amp;pop=1';
-		$print 		= mosHTML::PrintIcon( $contact, $params, 0, $print_link, '', 0 );
-
-		$show_email_form	= ( $contact->email_to && !$params->get( 'popup' ) && $params->get( 'email_form' ) ? 1 : 0 );
-		$show_dropdown		= ( ( $contact->count > 1 )  && !$params->get( 'popup' ) && $params->get( 'drop_down' ) );
-		$show_page_header	= ( $params->get( 'page_title' )  && !$params->get( 'popup' ) 	? 1 : 0 );
-
-		$show_name			= ( $contact->name && $params->get( 'name' ) 					? 1 : 0 );
-		$show_position		= ( $contact->con_position && $params->get( 'position' ) 		? 1 : 0 );
-		$show_image			= ( $contact->image && $params->get( 'image' ) 					? 1 : 0 );
-		$show_info_address	= ( $contact->address && $params->get( 'street_address' ) 		? 1 : 0 );
-		$show_info_suburb	= ( $contact->suburb && $params->get( 'suburb' ) 				? 1 : 0 );
-		$show_info_state	= ( $contact->state && $params->get( 'state' ) 					? 1 : 0 );
-		$show_info_country	= ( $contact->country && $params->get( 'country' ) 				? 1 : 0 );
-		$show_info_postcode	= ( $contact->postcode && $params->get( 'postcode' ) 			? 1 : 0 );
-
-		$show_info_misc		= ( $contact->misc && $params->get( 'misc' ) 					? 1 : 0 );
-		$show_info_fax		= ( $contact->fax && $params->get( 'fax' ) 						? 1 : 0 );
-		$show_info_phone	= ( $contact->telephone && $params->get( 'telephone' ) 			? 1 : 0 );
-		$show_info_email	= ( $contact->email_to && $params->get( 'email' ) 				? 1 : 0 );
-
-		$show_contact_contact	= ( $show_info_fax || $show_info_phone || $show_info_email	? 1 : 0  );
-		$show_contact_address	= ( $show_info_address || $show_info_suburb || $show_info_state || $show_info_country || $show_info_postcode ? 1 : 0 );
-
-		$show_email_descrip = ( $params->get( 'email_description' ) 						? 1 : 0 );
-
-		$n = count( $list );
-		for ( $i = 0; $i < $n; $i++ ) {
-			$link 				= sefRelToAbs( 'index.php?option=com_contact&task=view&contact_id='. $list[$i]->value .'&Itemid='. $Itemid );
-		   	$js_link[$i]->link 	= "\n links[".$list[$i]->value."] = '$link';";
+	* Display Table of items
+	*/
+	function showTable( &$params, &$rows, $catid, $tabclass ) {
+		global $mosConfig_live_site, $Itemid;
+		?>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+		<?php
+		if ( $params->get( 'headings' ) ) {
+			?>
+			<tr>
+				<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
+					<?php echo _CONTACT_HEADER_NAME; ?>
+				</td>
+				<?php
+				if ( $params->get( 'position' ) ) {
+					?>
+					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
+						<?php echo _CONTACT_HEADER_POS; ?>
+					</td>
+					<?php
+				}
+				?>
+				<?php
+				if ( $params->get( 'email' ) ) {
+					?>
+					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
+						<?php echo _CONTACT_HEADER_EMAIL; ?>
+					</td>
+					<?php
+				}
+				?>
+				<?php
+				if ( $params->get( 'telephone' ) ) {
+					?>
+					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
+						<?php echo _CONTACT_HEADER_PHONE; ?>
+					</td>
+					<?php
+				}
+				?>
+				<?php
+				if ( $params->get( 'fax' ) ) {
+					?>
+					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
+						<?php echo _CONTACT_HEADER_FAX; ?>
+					</td>
+					<?php
+				}
+				?>
+				<td width="100%"></td>
+			</tr>
+			<?php
 		}
 
-		$tmpl =& contactScreens_front::createTemplate( 'item.html' );
+		$k = 0;
+		foreach ($rows as $row) {
+			$link = 'index.php?option=com_contact&amp;task=view&amp;contact_id='. $row->id .'&amp;Itemid='. $Itemid;
+			?>
+			<tr>
+				<td width="25%" height="20" class="<?php echo $tabclass[$k]; ?>">
+					<a href="<?php echo sefRelToAbs( $link ); ?>" class="category<?php echo $params->get( 'pageclass_sfx' ); ?>">
+						<?php echo $row->name; ?></a>
+				</td>
+				<?php
+				if ( $params->get( 'position' ) ) {
+					?>
+					<td width="25%" class="<?php echo $tabclass[$k]; ?>">
+						<?php echo $row->con_position; ?>
+					</td>
+					<?php
+				}
+				?>
+				<?php
+				if ( $params->get( 'email' ) ) {
+					if ( $row->email_to ) {
+						$row->email_to = mosHTML::emailCloaking( $row->email_to, 1 );
+					}
+					?>
+					<td width="20%" class="<?php echo $tabclass[$k]; ?>">
+						<?php echo $row->email_to; ?>
+					</td>
+					<?php
+				}
+				?>
+				<?php
+				if ( $params->get( 'telephone' ) ) {
+					?>
+					<td width="15%" class="<?php echo $tabclass[$k]; ?>">
+						<?php echo $row->telephone; ?>
+					</td>
+					<?php
+				}
+				?>
+				<?php
+				if ( $params->get( 'fax' ) ) {
+					?>
+					<td width="15%" class="<?php echo $tabclass[$k]; ?>">
+						<?php echo $row->fax; ?>
+					</td>
+					<?php
+				}
+				?>
+				<td width="100%"></td>
+			</tr>
+			<?php
+			$k = 1 - $k;
+		}
+		?>
+		</table>
+		<?php
+	}
 
-		$tmpl->addVar( 'body', 'print_icon', 		$print );
-		$tmpl->addVar( 'body', 'show_back_button', 	( ( $params->get( 'back_button' ) && !$params->get( 'popup' ) ) ? 1 : 0 ) );
+	/**
+	* Display links to categories
+	*/
+	function showCategories( &$params, &$categories, $catid ) {
+		global $mosConfig_live_site, $Itemid;
+		?>
+		<ul>
+		<?php
+		foreach ( $categories as $cat ) {
+			if ( $catid == $cat->catid ) {
+				?>
+				<li>
+					<b>
+					<?php echo $cat->title;?>
+					</b>
+					&nbsp;
+					<span class="small<?php echo $params->get( 'pageclass_sfx' ); ?>">
+					(<?php echo $cat->numlinks;?>)
+					</span>
+				</li>
+				<?php
+			} else {
+				$link = 'index.php?option=com_contact&amp;catid='. $cat->catid .'&amp;Itemid='. $Itemid;
+				?>
+				<li>
+					<a href="<?php echo sefRelToAbs( $link ); ?>" class="category<?php echo $params->get( 'pageclass_sfx' ); ?>">
+						<?php echo $cat->title;?></a>
+					<?php
+					if ( $params->get( 'cat_items' ) ) {
+						?>
+						&nbsp;
+						<span class="small<?php echo $params->get( 'pageclass_sfx' ); ?>">
+							(<?php echo $cat->numlinks;?>)
+						</span>
+						<?php
+					}
+					?>
+					<?php
+					// Writes Category Description
+					if ( $params->get( 'cat_description' ) ) {
+						echo '<br />';
+						echo $cat->description;
+					}
+					?>
+				</li>
+				<?php
+			}
+		}
+		?>
+		</ul>
+		<?php
+	}
 
-		$tmpl->addVar( 'body', 'template_css',		$mosConfig_live_site .'/templates/'. $template .'/css/template_css.css'	);
-		$tmpl->addObject( 'body-list-js', $js_link, 'js_' );
 
-		// contact variables
-		$tmpl->addObject( 'contact', $contact, 'contact_' );
-		$tmpl->addVar( 'body', 'contact_form_url', sefRelToAbs( 'index.php?option=com_contact&amp;Itemid='. $Itemid ) );
+	function viewcontact( &$contact, &$params, $count, &$list, &$menu_params ) {
 
-		// show contact variables
-		$tmpl->addVar( 'body', 'show_email_form', 	$show_email_form );
-		$tmpl->addVar( 'body', 'show_dropdown', 	$show_dropdown );
+		global $mosConfig_live_site;
+		global $mainframe, $Itemid;
+		$template = $mainframe->getTemplate();
+		$sitename = $mainframe->getCfg( 'sitename' );
+		$hide_js = mosGetParam($_REQUEST,'hide_js', 0 );
+		?>
+		<script language="JavaScript" type="text/javascript">
+		<!--
+		function validate(){
+			if ( ( document.emailForm.text.value == "" ) || ( document.emailForm.email.value.search("@") == -1 ) || ( document.emailForm.email.value.search("[.*]" ) == -1 ) ) {
+				alert( "<?php echo _CONTACT_FORM_NC; ?>" );
+			} else {
+			document.emailForm.action = "<?php echo sefRelToAbs("index.php?option=com_contact&Itemid=$Itemid"); ?>"
+			document.emailForm.submit();
+			}
+		}
+		//-->
+		</script>
+		<script type="text/javascript">
+		<!--
+		function ViewCrossReference( selSelectObject ){
+			var links = new Array();
+			<?php
+			$n = count( $list );
+			for ($i = 0; $i < $n; $i++) {
+				echo "\nlinks[".$list[$i]->value."]='"
+					. sefRelToAbs( 'index.php?option=com_contact&task=view&contact_id='. $list[$i]->value .'&Itemid='. $Itemid )
+					. "';";
+			}
+			?>
 
-		$tmpl->addVar( 'body', 'show_info_name', 		$show_name );
-		$tmpl->addVar( 'body', 'show_info_position', 	$show_position );
-		$tmpl->addVar( 'body', 'show_info_image', 		$show_image );
+			var sel = selSelectObject.options[selSelectObject.selectedIndex].value
+			if (sel != "") {
+				location.href = links[sel];
+			}
+		}
+		//-->
+		</script>
+		<?php
+		// For the pop window opened for print preview
+		if ( $params->get( 'popup' ) ) {
+			?>
+			<title><?php echo $sitename ." :: ". $contact->name; ?></title>
+			<link rel="stylesheet" href="<?php echo $mosConfig_live_site ."/templates/". $template ."/css/template_css.css";?>" type="text/css" />
+			<?php
+		}
+		if ( $menu_params->get( 'page_title' ) ) {
+			?>
+			<div class="componentheading<?php echo $menu_params->get( 'pageclass_sfx' ); ?>">
+				<?php echo $menu_params->get( 'header' ); ?>
+			</div>
+			<?php
+		}
+		?>
 
-		$tmpl->addVar( 'body', 'show_contact_address', 	$show_contact_address );
-		$tmpl->addVar( 'body', 'show_info_address', 	$show_info_address );
-		$tmpl->addVar( 'body', 'show_info_suburb', 		$show_info_suburb );
-		$tmpl->addVar( 'body', 'show_info_state', 		$show_info_state );
-		$tmpl->addVar( 'body', 'show_info_country',		$show_info_country );
-		$tmpl->addVar( 'body', 'show_info_postcode', 	$show_info_postcode );
-		$tmpl->addVar( 'body', 'show_info_misc', 		$show_info_misc );
+		<table width="100%" cellpadding="0" cellspacing="0" border="0" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
+		<?php
+		// displays Page Title
+		HTML_contact::_writePageTitle( $params );
 
-		$tmpl->addVar( 'body', 'show_contact_contact', 	$show_contact_contact );
-		$tmpl->addVar( 'body', 'show_info_fax', 		$show_info_fax );
-		$tmpl->addVar( 'body', 'show_info_phone', 		$show_info_phone );
-		$tmpl->addVar( 'body', 'show_info_email', 		$show_info_email );
-		$tmpl->addVar( 'body', 'show_marker_address', 	$params->get( 'address_check' ) > 0 );
+		// displays Contact Select box
+		HTML_contact::_writeSelectContact( $contact, $params, $count );
 
-		// email variables
-		$tmpl->addVar( 'body', 'email_form_url', 		sefRelToAbs( 'index.php?option=com_contact&amp;Itemid='. $Itemid ) );
-		$tmpl->addVar( 'body', 'email_url', 			sefRelToAbs( 'index.php?option=com_contact&amp;Itemid='. $Itemid ) );
-		$tmpl->addVar( 'body', 'show_email_descrip',	$show_email_descrip );
+		// displays Name & Positione
+		HTML_contact::_writeContactName( $contact, $params, $hide_js );
+		?>
+		<tr>
+			<td>
+				<table border="0" width="100%">
+				<tr>
+					<td></td>
+					<td rowspan="2" align="right" valign="top">
+					<?php
+					// displays Image
+					HTML_contact::_writeImage( $contact, $params );
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<?php
+					// displays Address
+					HTML_contact::_writeContactAddress( $contact, $params );
 
-		$tmpl->addObject( 'body', $params->toObject(), 'p_' );
-		$tmpl->addObject( 'body', $menu_params->toObject(), 'm_' );
+					// displays Email & Telephone
+					HTML_contact::_writeContactContact( $contact, $params );
 
-		$tmpl->displayParsedTemplate( 'body' );
+					// displays Misc Info
+					HTML_contact::_writeContactMisc( $contact, $params );
+					?>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		<?php
+		// displays Email Form
+		HTML_contact::_writeVcard( $contact, $params );
+		// displays Email Form
+		HTML_contact::_writeEmailForm( $contact, $params, $sitename );
+		?>
+		</table>
+		<?php
+		// display Close button in pop-up window
+		mosHTML::CloseButton ( $params, $hide_js );
+
+		// displays back button
+		mosHTML::BackButton ( $params, $hide_js );
+	}
+
+
+	/**
+	* Writes Page Title
+	*/
+	function _writePageTitle( &$params ) {
+		if ( $params->get( 'page_title' )  && !$params->get( 'popup' ) ) {
+			?>
+			<tr>
+				<td class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>" colspan="2">
+					<?php echo $params->get( 'header' ); ?>
+				</td>
+			</tr>
+			<?php
+		}
+	}
+
+	/**
+	* Writes Dropdown box to select contact
+	*/
+	function _writeSelectContact( &$contact, &$params, $count ) {
+		if ( ( $count > 1 )  && !$params->get( 'popup' ) && $params->get( 'drop_down' ) ) {
+			global $Itemid;
+			?>
+			<tr>
+				<td colspan="2" align="center">
+				<br />
+				<form action="<?php echo sefRelToAbs( 'index.php?option=com_contact&amp;Itemid='. $Itemid ); ?>" method="post" name="selectForm" target="_top" id="selectForm">
+					<?php echo (_CONTACT_SEL); ?>
+					<br />
+					<?php echo $contact->select; ?>
+				</form>
+				</td>
+			</tr>
+			<?php
+		}
+	}
+
+	/**
+	* Writes Name & Position
+	*/
+	function _writeContactName( &$contact, &$params ) {
+		global $mosConfig_live_site, $Itemid, $hide_js;
+		global $mosConfig_absolute_path, $cur_template;
+		if ( $contact->name ||  $contact->con_position ) {
+			if ( $contact->name && $params->get( 'name' ) ) {
+				?>
+				<tr>
+					<td width="100%" class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
+					<?php
+					echo $contact->name;
+					?>
+					</td>
+					<?php
+					// displays Print Icon
+					$print_link = $mosConfig_live_site. '/index2.php?option=com_contact&amp;task=view&contact_id='. $contact->id .'&amp;Itemid='. $Itemid .'&amp;pop=1';
+					mosHTML::PrintIcon( $contact, $params, $hide_js, $print_link );
+					?>
+				</tr>
+				<?php
+			}
+			if ( $contact->con_position && $params->get( 'position' ) ) {
+				?>
+				<tr>
+					<td colspan="2">
+					<?php
+					echo $contact->con_position;
+					?>
+					<br /><br />
+					</td>
+				</tr>
+				<?php
+			}
+		}
+	}
+
+	/*
+	* Writes Image
+	*/
+	function _writeImage( &$contact, &$params ) {
+		global $mosConfig_live_site;
+		if ( $contact->image && $params->get( 'image' ) ) {
+			?>
+			<div style="float: right;">
+			<img src="<?php echo $mosConfig_live_site;?>/images/stories/<?php echo $contact->image; ?>" align="middle" alt="Contact" />
+			</div>
+			<?php
+		}
+	}
+
+	/**
+	* Writes Address
+	*/
+	function _writeContactAddress( &$contact, &$params ) {
+		if ( ( $params->get( 'address_check' ) > 0 ) &&  ( $contact->address || $contact->suburb  || $contact->state || $contact->country || $contact->postcode ) ) {
+			global $mosConfig_live_site;
+			?>
+			<table width="100%" cellpadding="0" cellspacing="0" border="0">
+			<?php
+			if ( $params->get( 'address_check' ) > 0 ) {
+				?>
+				<tr>
+					<td rowspan="6" valign="top" width="<?php echo $params->get( 'column_width' ); ?>" align="left">
+					<?php
+					echo $params->get( 'marker_address' );
+					?>
+					</td>
+				</tr>
+				<?php
+			}
+			?>
+			<?php
+			if ( $contact->address && $params->get( 'street_address' ) ) {
+				?>
+				<tr>
+					<td valign="top">
+					<?php
+					echo $contact->address;
+					?>
+					</td>
+				</tr>
+				<?php
+			}
+			if ( $contact->suburb && $params->get( 'suburb' ) ) {
+				?>
+				<tr>
+					<td valign="top">
+					<?php
+					echo $contact->suburb;
+					?>
+					</td>
+				</tr>
+				<?php
+			}
+			if ( $contact->state && $params->get( 'state' ) ) {
+				?>
+				<tr>
+					<td valign="top">
+					<?php
+					echo $contact->state;
+					?>
+					</td>
+				</tr>
+				<?php
+			}
+			if ( $contact->country && $params->get( 'country' ) ) {
+				?>
+				<tr>
+					<td valign="top">
+					<?php
+					echo $contact->country;
+					?>
+					</td>
+				</tr>
+				<?php
+			}
+			if ( $contact->postcode && $params->get( 'postcode' ) ) {
+				?>
+				<tr>
+					<td valign="top">
+					<?php
+					echo $contact->postcode;
+					?>
+					</td>
+				</tr>
+				<?php
+			}
+			?>
+			</table>
+			<br />
+			<?php
+		}
+	}
+
+	/**
+	* Writes Contact Info
+	*/
+	function _writeContactContact( &$contact, &$params ) {
+		if ( $contact->email_to || $contact->telephone  || $contact->fax ) {
+			global $mosConfig_live_site;
+			?>
+			<table width="100%" cellpadding="0" cellspacing="0" border="0">
+			<?php
+			if ( $contact->email_to && $params->get( 'email' ) ) {
+				?>
+				<tr>
+					<td width="<?php echo $params->get( 'column_width' ); ?>" align="left">
+					<?php
+					echo $params->get( 'marker_email' );
+					?>
+					</td>
+					<td>
+					<?php
+					echo $contact->email;
+					?>
+					</td>
+				</tr>
+				<?php
+			}
+			if ( $contact->telephone && $params->get( 'telephone' ) ) {
+				?>
+				<tr>
+					<td width="<?php echo $params->get( 'column_width' ); ?>" align="left">
+					<?php
+					echo $params->get( 'marker_telephone' );
+					?>
+					</td>
+					<td>
+					<?php
+					echo $contact->telephone;
+					?>
+					</td>
+				</tr>
+				<?php
+			}
+			if ( $contact->fax && $params->get( 'fax' ) ) {
+				?>
+				<tr>
+					<td width="<?php echo $params->get( 'column_width' ); ?>" align="left">
+					<?php
+					echo $params->get( 'marker_fax' );
+					?>
+					</td>
+					<td>
+					<?php
+					echo $contact->fax;
+					?>
+					</td>
+				</tr>
+				<?php
+			}
+			?>
+			</table>
+			<br />
+			<?php
+		}
+	}
+
+	/**
+	* Writes Misc Info
+	*/
+	function _writeContactMisc( &$contact, &$params ) {
+		if ( $contact->misc && $params->get( 'misc' ) ) {
+			global $mosConfig_live_site;
+			?>
+			<table width="100%" cellpadding="0" cellspacing="0" border="0">
+			<tr>
+				<td width="<?php echo $params->get( 'column_width' ); ?>" valign="top" align="left">
+				<?php
+				echo $params->get( 'marker_misc' );
+				?>
+				</td>
+				<td>
+				<?php
+				echo $contact->misc;
+				?>
+				</td>
+			</tr>
+			</table>
+			<br />
+			<?php
+		}
+	}
+
+	/**
+	* Writes Email form
+	*/
+	function _writeVcard( &$contact, &$params ) {
+		if ( $params->get( 'vcard' ) ) {
+			?>
+			<tr>
+				<td colspan="2">
+				<?php echo(_CONTACT_DOWNLOAD_AS);?>
+				<a href="index2.php?option=com_contact&task=vcard&contact_id=<?php echo $contact->id; ?>&no_html=1">
+				<?php echo(_VCARD);?>
+				</a>
+				</td>
+			</tr>
+			<?php
+		}
+	}
+
+	/**
+	* Writes Email form
+	*/
+	function _writeEmailForm( &$contact, &$params, $sitename ) {
+		if ( $contact->email_to && !$params->get( 'popup' ) && $params->get( 'email_form' ) ) {
+			?>
+			<tr>
+				<td colspan="2">
+				<br />
+				<?php echo $params->get( 'email_description' ) ?>
+				<br /><br />
+				<form action="<?php echo sefRelToAbs( 'index.php?option=com_contact&amp;Itemid='. $contact->id ); ?>" method="post" name="emailForm" target="_top" id="emailForm">
+				<div class="contact_email<?php echo $params->get( 'pageclass_sfx' ); ?>">
+					<label for="contact_name">
+						<?php echo(_NAME_PROMPT);?>
+					</label>
+					<br />
+					<input type="text" name="name" id="contact_name" size="30" class="inputbox" value="" />
+					<br />
+					<label for="contact_email">
+						<?php echo(_EMAIL_PROMPT);?>
+					</label>
+					<br />
+					<input type="text" name="email" id="contact_email" size="30" class="inputbox" value="" />
+					<br />
+					<label for="contact_subject">
+						<?php echo(_SUBJECT_PROMPT);?>
+					</label>
+					<br />
+					<input type="text" name="subject" id="contact_subject" size="30" class="inputbox" value="" />
+					<br /><br />
+					<label for="contact_text">
+						<?php echo(_MESSAGE_PROMPT);?>
+					</label>
+					<br />
+					<textarea cols="50" rows="10" name="text" id="contact_text" class="inputbox"></textarea>
+					<?php
+					if ( $params->get( 'email_copy' ) ) {
+						?>
+						<br />
+							<input type="checkbox" name="email_copy" id="contact_email_copy" value="1"  />
+							<label for="contact_email_copy">
+								<?php echo(_EMAIL_A_COPY); ?>
+							</label>
+						<?php
+					}
+					?>
+					<br />
+					<br />
+					<input type="button" name="send" value="<?php echo(_SEND_BUTTON); ?>" class="button" onclick="validate()" />
+				</div>
+				<input type="hidden" name="option" value="com_contact" />
+				<input type="hidden" name="con_id" value="<?php echo $contact->id; ?>" />
+				<input type="hidden" name="sitename" value="<?php echo $sitename; ?>" />
+				<input type="hidden" name="op" value="sendmail" />
+				</form>
+				<br />
+				</td>
+			</tr>
+			<?php
+		}
+	}
+
+
+	function nocontact( &$params ) {
+		?>
+		<br />
+		<br />
+			<?php echo _CONTACT_NONE;?>
+		<br />
+		<br />
+		<?php
+		// displays back button
+		mosHTML::BackButton ( $params );
 	}
 }
 ?>

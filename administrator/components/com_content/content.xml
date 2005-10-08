@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="component" version="4.5.2">
+<mosinstall type="component" version="1.0.0">
 	<name>Content Page</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-	<authorEmail>admin@mamboserver.com</authorEmail>
-	<authorUrl>www.mamboserver.com</authorUrl>
-	<version>4.5.2</version>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
 	<description>This shows a single content page</description>
 	<params>
-		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="paramPageClassSfx" />
-		<param name="back_button" type="list" default="" label="Back Button" description="paramBackButton">
+		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
+		<param name="back_button" type="list" default="" label="Back Button" description="Show/Hide a Back Button, that returns you to the previously view page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
@@ -29,62 +29,60 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="section" type="radio" default="0" label="Section Name" description="paramSection">
+		<param name="section" type="radio" default="0" label="Section Name" description="Show/Hide the Section the item belongs to">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="section_link" type="radio" default="0" label="Section Name Linkable" description="paramSectionLink">
+		<param name="section_link" type="radio" default="0" label="Section Name Linkable" description="Make the Section text a link to the actual section page">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
-		<param name="category" type="radio" default="0" label="Category Name" description="paramCateg">
+		<param name="category" type="radio" default="0" label="Category Name" description="Show/Hide the Category the item belongs to">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="category_link" type="radio" default="0" label="Category Name Linkable" description="paramCategLink">
+		<param name="category_link" type="radio" default="0" label="Category Name Linkable" description="Make the Category text a link to the actual Category page">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
-		<param name="rating" type="list" default="" label="Item Rating" description="paramRating">
+		<param name="rating" type="list" default="" label="Item Rating" description="Show/Hide the item rating - only affects this page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="author" type="list" default="" label="Author Names" description="paramAuthor">
+		<param name="author" type="list" default="" label="Author Names" description="Show/Hide the item author - only affects this page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="createdate" type="list" default="" label="Created Date and Time" description="paramCreateDate">
+		<param name="createdate" type="list" default="" label="Created Date and Time" description="Show/Hide the item creation date - only affects this page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="modifydate" type="list" default="" label="Modified Date and Time" description="paramModifyDate">
+		<param name="modifydate" type="list" default="" label="Modified Date and Time" description="Show/Hide the item modification date - only affects this page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="pdf" type="list" default="" label="PDF Icon" description="paramPDF">
+		<param name="pdf" type="list" default="" label="PDF Icon" description="Show/Hide the item pdf button - only affects this page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="print" type="list" default="" label="Print Icon" description="paramPrint">
+		<param name="print" type="list" default="" label="Print Icon" description="Show/Hide the item print button - only affects this page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="email" type="list" default="" label="Email Icon" description="paramEmail">
+		<param name="email" type="list" default="" label="Email Icon" description="Show/Hide the item email button - only affects this page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="language" type="language_list" default="" label="Content language" description="paramLanguage" />
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="keyref" type="text" size="25" default="" label="Key Reference" description="paramKeyRef" />
-		<param name="docbook_type" type="list" default="" label="DocBook Type" description="paramDocbookType">
+		<param name="keyref" type="text" size="25" default="" label="Key Reference" description="A text key that an item may be referenced by (like a help reference)" />
+		<param name="docbook_type" type="list" default="" label="DocBook Type" description="Associates a type of DocBook document with this content item (Note: experimental, not for production).">
 			<option value=""></option>
 			<option value="appendix">Appendix</option>
 			<option value="article">Article</option>

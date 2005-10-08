@@ -1,12 +1,14 @@
 <?php
 /**
-* @version $Id: poll.class.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Polls
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -42,21 +44,17 @@ class mosPoll extends mosDBTable {
 
 	// overloaded check function
 	function check() {
-  		global $_LANG;
-
 		// check for valid name
 		if (trim( $this->title ) == '') {
-			$this->_error = $_LANG->_( 'Your Poll must contain a title.' );
+			$this->_error = 'Your Poll must contain a title.';
 			return false;
 		}
-
 		// check for valid lag
 		$this->lag = intval( $this->lag );
 		if ($this->lag == 0) {
-			$this->_error = $_LANG->_( 'Your Poll must have a non-zero lag time.' );
+			$this->_error = 'Your Poll must have a non-zero lag time.';
 			return false;
 		}
-
 		// check for existing title
 		$query = "SELECT id"
 		. "\n FROM #__polls"
@@ -65,13 +63,13 @@ class mosPoll extends mosDBTable {
 		$this->_db->setQuery( $query );
 
 		$xid = intval( $this->_db->loadResult() );
-		if ($xid && $xid != intval( $this->id )) {
-			$this->_error = $_LANG->_( 'ERRORMODULEALREADYWITHTHATNAME' );
+		if ( $xid && $xid != intval( $this->id ) ) {
+			$this->_error = 'There is a module already with that name, please try again.';
 			return false;
 		}
 
 		// sanitise some data
-		if (!get_magic_quotes_gpc()) {
+		if ( !get_magic_quotes_gpc() ) {
 			$this->title = addslashes( $this->title );
 		}
 
@@ -81,7 +79,6 @@ class mosPoll extends mosDBTable {
 	// overloaded delete function
 	function delete( $oid=null ) {
 		$k = $this->_tbl_key;
-
 		if ( $oid ) {
 			$this->$k = intval( $oid );
 		}

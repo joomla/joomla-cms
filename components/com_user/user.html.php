@@ -1,12 +1,14 @@
 <?php
 /**
-* @version $Id: user.html.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Users
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -14,103 +16,152 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 /**
- * @package Joomla
- * @subpackage User
- */
-class userScreens_front {
-	/**
-	 * @param string The main template file to include for output
-	 * @param array An array of other standard files to include
-	 * @return patTemplate A template object
-	 */
-	function &createTemplate( $bodyHtml='', $files=null ) {
-		$tmpl =& mosFactory::getPatTemplate( $files );
+* @package Joomla
+* @subpackage Users
+*/
+class HTML_user {
+	function frontpage() {
+		?>
+		<div class="componentheading">
+			<?php echo _WELCOME; ?>
+		</div>
 
-		$directory = mosComponentDirectory( $bodyHtml, dirname( __FILE__ ) );
-		$tmpl->setRoot( $directory );
-
-		$tmpl->setAttribute( 'body', 'src', $bodyHtml );
-
-		return $tmpl;
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr>
+			<td>
+				<?php echo _WELCOME_DESC; ?>
+			</td>
+		</tr>
+		</table>
+		<?php
 	}
 
-	function welcome() {
-		global $mainframe;
+	function userEdit( $row, $option, $submitvalue, &$params ) {
+		global $mosConfig_absolute_path;
 
-		$tmpl =& userScreens_front::createTemplate( 'welcome.html' );
+		require_once( $mosConfig_absolute_path .'/includes/HTML_toolbar.php' );
 
-		$params = new mosParameters( '' );
-		$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
+		mosCommonHTML::loadOverlib();		
+		?>
+		<script language="javascript" type="text/javascript">
+		function submitbutton( pressbutton ) {
+			var form = document.mosUserForm;
+			var r = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", "i");
 
-		$tmpl->addObject( 'body', $params->toObject(), 'p_' );
+			if (pressbutton == 'cancel') {
+				form.task.value = 'cancel';
+				form.submit();
+				return;
+			}
 
-		$tmpl->displayParsedTemplate( 'body' );
-	}
-
-	function edit( &$row, &$params, &$list ) {
-		global $mosConfig_username_length, $mosConfig_username_change, $mosConfig_name_change, $mosConfig_password_length;
-		global $_LANG;
-
-		$Ndisabled 			= '';
-		$UNdisabled 		= '';
-		$txt 				= sprintf( $_LANG->_( 'VALID_AZ09' ), $_LANG->_( 'PROMPT_UNAME' ), $mosConfig_username_length - 1 );
-		$Ndisabled_tip 		= '';
-		$UNdisabled_tip 	= $txt;
-		if ( !$mosConfig_username_change ) {
-			$UNdisabled 	= 'disabled="disabled"';
-			$UNdisabled_tip = $_LANG->_( 'REGTIP_CHANGE_USERNAME' );
+			// do field validation
+			if (form.name.value == "") {
+				alert( "<?php echo _REGWARN_NAME;?>" );
+			} else if (form.username.value == "") {
+				alert( "<?php echo _REGWARN_UNAME;?>" );
+			} else if (r.exec(form.username.value) || form.username.value.length < 3) {
+				alert( "<?php printf( _VALID_AZ09, _PROMPT_UNAME, 4 );?>" );
+			} else if (form.email.value == "") {
+				alert( "<?php echo _REGWARN_MAIL;?>" );
+			} else if ((form.password.value != "") && (form.password.value != form.verifyPass.value)){
+				alert( "<?php echo _REGWARN_VPASS2;?>" );
+			} else if (r.exec(form.password.value)) {
+				alert( "<?php printf( _VALID_AZ09, _REGISTER_PASS, 4 );?>" );
+			} else {
+				form.submit();
+			}
 		}
+		</script>
+		<form action="index.php" method="post" name="mosUserForm">
+		<div class="componentheading">
+			<?php echo _EDIT_TITLE; ?>
+		</div>
 
-		if ( !$mosConfig_name_change ) {
-			$Ndisabled 		= 'disabled="disabled"';
-			$Ndisabled_tip 	= $_LANG->_( 'REGTIP_CHANGE_NAME' );
-		}
+		<div style="float: right;">
+			<?php
+			mosToolBar::startTable();
+			mosToolBar::spacer();
+			mosToolBar::save();
+			mosToolBar::cancel();
+			mosToolBar::endtable();
+			?>
+		</div>
 
-		$txt 		= sprintf( $_LANG->_( 'VALID_AZ09' ), $_LANG->_( 'REGISTER_PASS' ), $mosConfig_password_length - 1 );
-		$Pass_tip 	= $txt;
+		<table cellpadding="5" cellspacing="0" border="0" width="100%">
+		<tr>
+			<td width=85>
+				<?php echo _YOUR_NAME; ?>
+			</td>
+			<td>
+				<input class="inputbox" type="text" name="name" value="<?php echo $row->name;?>" size="40" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<?php echo _EMAIL; ?>
+			</td>
+			<td>
+				<input class="inputbox" type="text" name="email" value="<?php echo $row->email;?>" size="40" />
+			</td>
+		<tr>
+			<td>
+				<?php echo _UNAME; ?>
+			</td>
+			<td>
+				<input class="inputbox" type="text" name="username" value="<?php echo $row->username;?>" size="40" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<?php echo _PASS; ?>
+			</td>
+			<td>
+				<input class="inputbox" type="password" name="password" value="" size="40" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<?php echo _VPASS; ?>
+			</td>
+			<td>
+				<input class="inputbox" type="password" name="verifyPass" size="40" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<?php echo $params->render( 'params' ); ?>
+			</td>
+		</tr>
+		<!--
+		<tr>
+			<td colspan="2">
+				<input class="button" type="button" value="<?php echo $submitvalue; ?>" onclick="submitbutton()" />
+			</td>
+		</tr>
+		-->
+		</table>
 
-		$toolbar = mosToolBar_return::startTable();
-		$toolbar .= mosToolBar_return::save( 'saveUserEdit' );
-		$toolbar .= mosToolBar_return::cancel();
-		$toolbar .= mosToolBar_return::endTable();
-
-		$tmpl =& userScreens_front::createTemplate( 'edit.html' );
-
-		$tmpl->addVar( 'body', 'params',		$params->render( 'params', 0 ) );
-
-		$tmpl->addVar( 'body', 'length_name',	$list->length_name );
-		$tmpl->addVar( 'body', 'length_pass',	$list->length_pass );
-		$tmpl->addVar( 'body', 'length_nameX',	$list->length_name - 1 );
-		$tmpl->addVar( 'body', 'length_passX',	$list->length_pass - 1  );
-		$tmpl->addVar( 'body', 'show_params',	$list->show_params );
-
-		$tmpl->addVar( 'body', 'toolbar',		$toolbar );
-		$tmpl->addVar( 'body', 'tip_user',		$UNdisabled_tip );
-		$tmpl->addVar( 'body', 'dis_user',		$UNdisabled );
-		$tmpl->addVar( 'body', 'tip_name',		$Ndisabled_tip );
-		$tmpl->addVar( 'body', 'dis_name',		$Ndisabled );
-		$tmpl->addVar( 'body', 'tip_pass',		$Pass_tip );
-
-		$tmpl->addObject( 'body', $row, 'row_' );
-
-		$tmpl->addObject( 'body', $params->toObject(), 'p_' );
-
-		$tmpl->displayParsedTemplate( 'body' );
+		<input type="hidden" name="id" value="<?php echo $row->id;?>" />
+		<input type="hidden" name="option" value="<?php echo $option;?>">
+		<input type="hidden" name="task" value="saveUserEdit" />
+		</form>
+		<?php
 	}
 
-	function checkin( &$rows ) {
-		global $mainframe;
+	function confirmation() {
+		?>
+		<div class="componentheading">
+			<?php echo _SUBMIT_SUCCESS; ?>
+		</div>
 
-		$params = new mosParameters( '' );
-		$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
-
-		$tmpl =& userScreens_front::createTemplate( 'checkin.html' );
-
-		$tmpl->addObject( 'body', $params->toObject(), 'p_' );
-
-		$tmpl->addObject( 'rows', $rows, 'row_' );
-
-		$tmpl->displayParsedTemplate( 'body' );
+		<table>
+		<tr>
+			<td>
+				<?php echo _SUBMIT_SUCCESS_DESC; ?>
+			</td>
+		</tr>
+		</table>
+		<?php
 	}
 }
 ?>

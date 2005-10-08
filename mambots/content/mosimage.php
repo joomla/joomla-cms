@@ -1,11 +1,13 @@
 <?php
 /**
-* @version $Id: mosimage.php 137 2005-09-12 10:21:17Z eddieajau $
-* @package Mambo
+* @version $Id$
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -18,14 +20,23 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosImage' );
 */
 function botMosImage( $published, &$row, &$params, $page=0 ) {
 	global $database;
-
- 	// expression to search for
-	$regex = '/{mosimage\s*.*?}/i';
-
+	
 	// check whether mosimage has been disabled for page
 	if (!$published || !$params->get( 'image' )) {
-	    $row->text = str_replace( '{mosimage}', '', $row->text );
-	    return true;
+	$row->text = str_replace( '{mosimage}', '', $row->text );
+		return true;
+	}
+	
+ 	// expression to search for
+	$regex = '/{mosimage\s*.*?}/i';
+	
+
+	//count how many {mosimage} are in introtext if it is set to hidden.
+	$introCount=0;
+	if ( ! $params->get( 'introtext' ) & ! $params->get( 'intro_only') ) 
+	{
+		preg_match_all( $regex, $row->introtext, $matches );
+		$introCount = count ( $matches[0] );
 	}
 
 	// find all instances of mambot and put in $matches
@@ -46,28 +57,20 @@ function botMosImage( $published, &$row, &$params, $page=0 ) {
 	 	$id 	= $database->loadResult();
 	 	$mambot = new mosMambot( $database );
 	  	$mambot->load( $id );
-	 	$mparams = new mosParameters( $mambot->params );
+	 	$botParams = new mosParameters( $mambot->params );
 
-	 	$mparams->def( 'padding' );
-	 	$mparams->def( 'margin' );
-	 	$mparams->def( 'link', 0 );
+	 	$botParams->def( 'padding' );
+	 	$botParams->def( 'margin' );
+	 	$botParams->def( 'link', 0 );
 
- 		$images 	= processImages( $row, $mparams );
-
-		$start = 0;
-		// needed to stopping loading of images for the introtext, when it is set to hidden
-		if ( !$params->get( 'introtext' ) ) {
-			// find all instances of mambot in intro text and put in $matches
-			preg_match_all( $regex, $row->introtext, $matches_intro );
-		 	// Number of mambots
-			$start 		= count( $matches_intro[0] );
-		}
+		$images 	= processImages( $row, $botParams, $introCount );
 
 		// store some vars in globals to access from the replacer
-		$GLOBALS['botMosImageCount'] 	= $start;
-		$GLOBALS['botMosImageParams'] 	=& $params;
+		$GLOBALS['botMosImageCount'] 	= 0;
+		$GLOBALS['botMosImageParams'] 	=& $botParams;
 		$GLOBALS['botMosImageArray'] 	=& $images;
-
+		//$GLOBALS['botMosImageArray'] 	=& $combine;
+		
 		// perform the replacement
 		$row->text = preg_replace_callback( $regex, 'botMosImage_replacer', $row->text );
 
@@ -75,22 +78,21 @@ function botMosImage( $published, &$row, &$params, $page=0 ) {
 		unset( $GLOBALS['botMosImageCount'] );
 		unset( $GLOBALS['botMosImageMask'] );
 		unset( $GLOBALS['botMosImageArray'] );
-
+		unset( $GLOBALS['botJosIntroCount'] );
 		return true;
 	}
 }
 
-function processImages ( &$row, &$mparams ) {
+function processImages ( &$row, &$params, &$introCount ) {
 	global $mosConfig_absolute_path, $mosConfig_live_site;
 
 	$images 		= array();
 
 	// split on \n the images fields into an array
 	$row->images 	= explode( "\n", $row->images );
+	$total 			= count( $row->images );
 
-	$start = 0;
-	$total = count( $row->images );
-
+	$start = $introCount; 
 	for ( $i = $start; $i < $total; $i++ ) {
 		$img = trim( $row->images[$i] );
 
@@ -101,7 +103,7 @@ function processImages ( &$row, &$mparams ) {
 
 			// $attrib[1] alignment
 			if ( !isset($attrib[1]) || !$attrib[1] ) {
-				$attrib[1] = 'left';
+				$attrib[1] = '';
 			}
 
 			// $attrib[2] alt & title
@@ -139,27 +141,7 @@ function processImages ( &$row, &$mparams ) {
 				$attrib[7] 	= '';
 				$width 		= '';
 			} else {
-				$width 		= ' width: '. $attrib[7] .'px';
-			}
-
-			// $attrib[8] link
-			if ( !isset($attrib[8]) || !$attrib[8] ) {
-				$attrib[8] 	= '';
-				$link 		= '';
-			} else {
-				$link 		= $attrib[8];
-				// adds 'http://' if none is set
-				if ( !strstr( $link, 'http' ) && !strstr( $link, 'https' ) ) {
-					$link = 'http://'. $link;
-				}
-			}
-
-			// $attrib[9] link target
-			if ( !isset($attrib[9]) || !$attrib[9] ) {
-				$attrib[9] 	= '';
-				$target 	= '_blank';
-			} else {
-				$target 	= $attrib[9];
+				$width 		= ' width: '. $attrib[7] .'px;';
 			}
 
 			// image size attibutes
@@ -172,42 +154,23 @@ function processImages ( &$row, &$mparams ) {
 			}
 
 			// assemble the <image> tag
-			$image = '';
-			if ( $link ) {
-				// link
-				$image .= '<a href="'. $link .'" target="'. $target .'" style="display: block;">';
-			}
-			$image .= '<img src="'. $mosConfig_live_site .'/images/stories/'. $attrib[0] .'" '. $size;
+			$image = '<img src="'. $mosConfig_live_site .'/images/stories/'. $attrib[0] .'"'. $size;
 			// no aligment variable - if caption detected
 			if ( !$attrib[4] ) {
 				$image .= $attrib[1] ? ' align="'. $attrib[1] .'"' : '';
 			}
 			$image .=' hspace="6" alt="'. $attrib[2] .'" title="'. $attrib[2] .'" border="'. $border .'" />';
-			if ( $link ) {
-				// link
-				$image .= '</a>';
-			}
 
 			// assemble caption - if caption detected
 			if ( $attrib[4] ) {
 				$caption = '<div class="mosimage_caption" style="width: '. $width .'; text-align: '. $attrib[6] .';" align="'. $attrib[6] .'">';
-				if ( $link ) {
-					// link
-					$caption .= '<a href="'. $link .'" target="'. $target .'" style="display: block;">';
-				}
 				$caption .= $attrib[4];
-				if ( $link ) {
-					// link
-					$caption .= '</a>';
-				}
 				$caption .='</div>';
 			}
 
 			// final output
-			$img = '';
 			if ( $attrib[4] ) {
-				// surrounding div
-				$img .= '<div class="mosimage" style="border-width: '. $attrib[3] .'px; float: '. $attrib[1] .'; margin: '. $mparams->def( 'margin' ) .'px; padding: '. $mparams->def( 'padding' ) .'px;'. $width .'" align="center">';
+				$img = '<div class="mosimage" style="border-width: '. $attrib[3] .'px; float: '. $attrib[1] .'; margin: '. $params->def( 'margin' ) .'px; padding: '. $params->def( 'padding' ) .'px;'. $width .'" align="center">';
 
 				// display caption in top position
 				if ( $attrib[5] == 'top' ) {
@@ -221,7 +184,6 @@ function processImages ( &$row, &$mparams ) {
 					$img .= $caption;
 				}
 				$img .='</div>';
-
 			} else {
 				$img = $image;
 			}

@@ -1,24 +1,33 @@
 <?php
 /**
-* @version $Id: admin.users.php 137 2005-09-12 10:21:17Z eddieajau $
-* @package Mambo
+* @version $Id$
+* @package Joomla
 * @subpackage Users
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-if (!$acl->acl_check( 'com_users', 'manage', 'users', $my->usertype )) {
-	mosRedirect( 'index2.php', $_LANG->_('NOT_AUTH') );
+if (!$acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'components', 'com_users' )) {
+	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
 }
 
-mosFS::load( '@class' );
-mosFS::load( '@admin_html' );
+require_once( $mainframe->getPath( 'admin_html' ) );
+require_once( $mainframe->getPath( 'class' ) );
+
+$task 	= mosGetParam( $_REQUEST, 'task' );
+$cid 	= mosGetParam( $_REQUEST, 'cid', array( 0 ) );
+$id 	= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
+if (!is_array( $cid )) {
+	$cid = array ( 0 );
+}
 
 switch ($task) {
 	case 'new':
@@ -26,7 +35,7 @@ switch ($task) {
 		break;
 
 	case 'edit':
-		editUser( $cid[0], $option );
+		editUser( intval( $cid[0] ), $option );
 		break;
 
 	case 'editA':
@@ -35,31 +44,31 @@ switch ($task) {
 
 	case 'save':
 	case 'apply':
- 		saveUser( $task );
+ 		saveUser( $option, $task );
 		break;
 
 	case 'remove':
-		removeUsers( $cid );
+		removeUsers( $cid, $option );
 		break;
 
 	case 'block':
-		changeUserBlock( $cid, 1 );
+		changeUserBlock( $cid, 1, $option );
 		break;
 
 	case 'unblock':
-		changeUserBlock( $cid, 0 );
+		changeUserBlock( $cid, 0, $option );
 		break;
 
 	case 'logout':
-		logoutUser( $cid, $task );
+		logoutUser( $cid, $option, $task );
 		break;
 
 	case 'flogout':
-		logoutUser( $id, $task );
+		logoutUser( $id, $option, $task );
 		break;
 
 	case 'cancel':
-		mosRedirect( 'index2.php?option=com_users&task=view' );
+		cancelUser( $option );
 		break;
 
 	case 'contact':
@@ -67,61 +76,33 @@ switch ($task) {
 		mosRedirect( 'index2.php?option=com_contact&task=editA&id='. $contact_id );
 		break;
 
-	case 'masscreate':
-	   massCreate();
-	   break;
-
-	case 'savemasscreate':
-	   savemassCreate();
-	   break;
-
 	default:
 		showUsers( $option );
 		break;
 }
 
 function showUsers( $option ) {
-	global $database, $mainframe, $my, $acl, $mosConfig_list_limit, $_LANG;
+	global $database, $mainframe, $my, $acl, $mosConfig_list_limit;
+	global $_LANG;
 
 	$filter_type	= $mainframe->getUserStateFromRequest( "filter_type{$option}", 'filter_type', 0 );
 	$filter_logged	= $mainframe->getUserStateFromRequest( "filter_logged{$option}", 'filter_logged', 0 );
 	$limit 			= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
 	$limitstart 	= $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
 	$search 		= $mainframe->getUserStateFromRequest( "search{$option}", 'search', '' );
-	$search 		= trim( strtolower( $search ) );
+	$search 		= $database->getEscaped( trim( strtolower( $search ) ) );
 	$where 			= array();
-	$group 			= mosGetParam( $_REQUEST, 'group', '' );
-	$tOrder			= mosGetParam( $_POST, 'tOrder', 'a.name' );
-	$tOrder_old		= mosGetParam( $_POST, 'tOrder_old', 'a.name' );
 
-	// table column ordering values
-	if ( $tOrder_old <> $tOrder && ( $tOrder <> 'loggedin' ) ) {
-		$tOrderDir = 'ASC';
-	} else {
-		$tOrderDir = mosGetParam( $_POST, 'tOrderDir', 'ASC' );
-	}
-	if ( $tOrderDir == 'ASC' ) {
-		$lists['tOrderDir'] 	= 'DESC';
-	} else {
-		$lists['tOrderDir'] 	= 'ASC';
-	}
-	$lists['tOrder'] 		= $tOrder;
-
-	// used by filter
 	if (isset( $search ) && $search!= "") {
 		$where[] = "(a.username LIKE '%$search%' OR a.email LIKE '%$search%' OR a.name LIKE '%$search%')";
 	}
-	if ( $group ) {
-		$filter_type = $group;
-	}
 	if ( $filter_type ) {
-		// TODO: unsafe to use hard-coded values
-		if ( $filter_type == 29 ) {
-			$where[] = "a.gid = '18' OR a.gid = '19' OR a.gid = '20' OR a.gid = '21'";
-		} else if ( $filter_type == 30 ) {
-			$where[] = "a.gid = '23' OR a.gid = '24' OR a.gid = '25'";
+		if ( $filter_type == 'Public Frontend' ) {
+			$where[] = "a.usertype = 'Registered' OR a.usertype = 'Author' OR a.usertype = 'Editor' OR a.usertype = 'Publisher'";
+		} else if ( $filter_type == 'Public Backend' ) {
+			$where[] = "a.usertype = 'Manager' OR a.usertype = 'Administrator' OR a.usertype = 'Super Administrator'";
 		} else {
-			$where[] = "a.gid = '$filter_type'";
+			$where[] = "a.usertype = LOWER( '$filter_type' )";
 		}
 	}
 	if ( $filter_logged == 1 ) {
@@ -131,52 +112,43 @@ function showUsers( $option ) {
 	}
 
 	// exclude any child group id's for this user
-	$myObjectID = $acl->get_object_id( 'users', $my->id, 'ARO' );
-	$myGroups 	= $acl->get_object_groups( $myObjectID, 'ARO' );
-	$pgids 		= $acl->get_group_children( $myGroups[0], 'ARO', 'RECURSE' );
+	//$acl->_debug = true;
+	$pgids = $acl->get_group_children( $my->gid, 'ARO', 'RECURSE' );
 
 	if (is_array( $pgids ) && count( $pgids ) > 0) {
 		$where[] = "(a.gid NOT IN (" . implode( ',', $pgids ) . "))";
 	}
 
-	$where = ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
-
-	// table column ordering
-	$order = "\n ORDER BY $tOrder $tOrderDir, a.name ASC";
-
 	$query = "SELECT COUNT(a.id)"
 	. "\n FROM #__users AS a";
 
 	if ($filter_logged == 1 || $filter_logged == 2) {
-		// this join is a resource hog, hence it is separated
 		$query .= "\n INNER JOIN #__session AS s ON s.userid = a.id";
 	}
 
-	$query .= $where;
-
+	$query .= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' )
+	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
-	// load navigation files
-	mosFS::load( '@pageNavigationAdmin' );
+	require_once( $GLOBALS['mosConfig_absolute_path'] . '/administrator/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
 
-	// main query
 	$query = "SELECT a.*, g.name AS groupname"
 	. "\n FROM #__users AS a"
-	. "\n INNER JOIN #__core_acl_aro AS aro ON aro.value = a.id"				// map user to aro
-	. "\n INNER JOIN #__core_acl_groups_aro_map AS gm ON gm.aro_id = aro.id"	// map aro to group
-	. "\n INNER JOIN #__core_acl_aro_groups AS g ON g.id = gm.group_id";
+	. "\n INNER JOIN #__core_acl_aro AS aro ON aro.value = a.id"	// map user to aro
+	. "\n INNER JOIN #__core_acl_groups_aro_map AS gm ON gm.aro_id = aro.aro_id"	// map aro to group
+	. "\n INNER JOIN #__core_acl_aro_groups AS g ON g.group_id = gm.group_id";
 
 	if ($filter_logged == 1 || $filter_logged == 2) {
 		$query .= "\n INNER JOIN #__session AS s ON s.userid = a.id";
 	}
 
-	$query .= $where
+	$query .= (count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : "")
 	. "\n GROUP BY a.id"
-	. $order
+	. "\n LIMIT $pageNav->limitstart, $pageNav->limit"
 	;
-	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
+	$database->setQuery( $query );
 	$rows = $database->loadObjectList();
 
 	if ($database->getErrorNum()) {
@@ -194,7 +166,7 @@ function showUsers( $option ) {
 	}
 
 	// get list of Groups for dropdown filter
-	$query = "SELECT id AS value, name AS text"
+	$query = "SELECT name AS value, name AS text"
 	. "\n FROM #__core_acl_aro_groups"
 	. "\n WHERE name != 'ROOT'"
 	. "\n AND name != 'USERS'"
@@ -209,16 +181,17 @@ function showUsers( $option ) {
 	$logged[] = mosHTML::makeOption( 1, $_LANG->_( 'Logged In' ) );
 	$lists['logged'] = mosHTML::selectList( $logged, 'filter_logged', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_logged" );
 
-	$search = stripslashes( $search );
-
 	HTML_users::showUsers( $rows, $pageNav, $search, $option, $lists );
 }
 
-function editUser( $uid=0, $option='users' ) {
+/**
+ * Edit the user
+ * @param int The user ID
+ * @param string The URL option
+ */
+function editUser( $uid='0', $option='users' ) {
 	global $database, $my, $acl, $mainframe;
 	global $_LANG;
-
-	$mainframe->set('disableMenu', true);
 
 	$row = new mosUser( $database );
 	// load the row from the db table
@@ -227,7 +200,7 @@ function editUser( $uid=0, $option='users' ) {
 	if ( $uid ) {
 		$query = "SELECT *"
 		. "\n FROM #__contact_details"
-		. "\n WHERE user_id = '$row->id'"
+		. "\n WHERE user_id = $row->id"
 		;
 		$database->setQuery( $query );
 		$contact = $database->loadObjectList();
@@ -236,90 +209,94 @@ function editUser( $uid=0, $option='users' ) {
 		$row->block = 0;
 	}
 
-	$userObjectID 	= $acl->get_object_id( 'users', $row->id, 'ARO' );
-	$userGroups 	= $acl->get_object_groups( $userObjectID, 'ARO' );
-	$userGroupName 	= strtolower( $acl->get_group_name( $userGroups[0], 'ARO' ) );
-
-	$myObjectID 	= $acl->get_object_id( 'users', $my->id, 'ARO' );
-	$myGroups 		= $acl->get_object_groups( $myObjectID, 'ARO' );
-	$myGroupName 	= strtolower( $acl->get_group_name( $myGroups[0], 'ARO' ) );;
-
-	// ensure user can't add/edit group higher than themselves
-	if ( is_array( $myGroups ) && count( $myGroups ) > 0 ) {
-		$excludeGroups = (array) $acl->get_group_children( $myGroups[0], 'ARO', 'RECURSE' );
-	} else {
-		$excludeGroups = array();
+	// check to ensure only super admins can edit super admin info
+	if ( ( $my->gid < 25 ) && ( $row->gid == 25 ) ) {
+		mosRedirect( 'index2.php?option=com_users', $_LANG->_('ALERTNOTAUTH') );
 	}
 
-	if ( in_array( $userGroups[0], $excludeGroups ) ) {
-		echo 'not auth';
-		mosRedirect( 'index2.php?option=com_users', $_LANG->_('NOT_AUTH') );
-	}
-
-	//if ( $userGroupName == 'super administrator' ) {
-		// super administrators can't change
-	// 	$lists['gid'] = '<input type="hidden" name="gid" value="'. $my->gid .'" /><strong>'. $_LANG->_( 'Super Administrator' ) .'</strong>';
-	//} else if ( $userGroupName == $myGroupName && $myGroupName == 'administrator' ) {
-	if ( $userGroupName == $myGroupName && $myGroupName == 'administrator' ) {
-		// administrators can't change each other
+	$my_group = strtolower( $acl->get_group_name( $row->gid, 'ARO' ) );
+	if ( $my_group == 'super administrator' ) {
+		$lists['gid'] = '<input type="hidden" name="gid" value="'. $my->gid .'" /><strong>'. $_LANG->_( 'Super Administrator' ) .'</strong>';
+	} else if ( $my->gid == 24 && $row->gid == 24 ) {
 		$lists['gid'] = '<input type="hidden" name="gid" value="'. $my->gid .'" /><strong>'. $_LANG->_( 'Administrator' ) .'</strong>';
 	} else {
+		// ensure user can't add group higher than themselves
+		$my_groups = $acl->get_object_groups( 'users', $my->id, 'ARO' );
+		if (is_array( $my_groups ) && count( $my_groups ) > 0) {
+			$ex_groups = $acl->get_group_children( $my_groups[0], 'ARO', 'RECURSE' );
+		} else {
+			$ex_groups = array();
+		}
+
 		$gtree = $acl->get_group_children_tree( null, 'USERS', false );
 
 		// remove users 'above' me
 		$i = 0;
 		while ($i < count( $gtree )) {
-			if ( in_array( $gtree[$i]->value, $excludeGroups ) ) {
+			if (in_array( $gtree[$i]->value, $ex_groups )) {
 				array_splice( $gtree, $i, 1 );
 			} else {
 				$i++;
 			}
 		}
 
-		$lists['gid'] 	= mosHTML::selectList( $gtree, 'gid', 'size="10"', 'value', 'text', $row->gid );
+		$lists['gid'] 		= mosHTML::selectList( $gtree, 'gid', 'size="10"', 'value', 'text', $row->gid );
 	}
 
 	// build the html select list
-	$lists['block'] 	= mosHTML::yesnoRadioList( 'block', 'class="inputbox" size="1"', $row->block );
+	$lists['block'] 		= mosHTML::yesnoRadioList( 'block', 'class="inputbox" size="1"', $row->block );
 	// build the html select list
-	$lists['sendEmail'] = mosHTML::yesnoRadioList( 'sendEmail', 'class="inputbox" size="1"', $row->sendEmail );
+	$lists['sendEmail'] 	= mosHTML::yesnoRadioList( 'sendEmail', 'class="inputbox" size="1"', $row->sendEmail );
 
 	$file 	= $mainframe->getPath( 'com_xml', 'com_users' );
-	$params = new mosUserParameters( $row->params, $file, 'component' );
+	$params =& new mosUserParameters( $row->params, $file, 'component' );
 
 	HTML_users::edituser( $row, $contact, $lists, $option, $uid, $params );
 }
 
-function saveUser( $task ) {
-	global $database, $my, $mainframe;
-	global $_LANG, $_MAMBOTS;
-
-	$user_id 	= intval( mosGetParam( $_POST, 'id', 0 ));
-	$isOld		= $user_id;
-
-	// number of Super Administrators
-	$query = "SELECT COUNT( id  )"
-	. "\n FROM #__users"
-	. "\n WHERE gid = '25'"
-	. "\n AND block = 0"
-	;
-	$database->setQuery( $query );
-	$super_count = $database->loadResult();
-	// check if only one Super Administrator exists
-	if ( $super_count == 1 && $_POST['block'] ) {
-		mosErrorAlert( $_LANG->_( 'SUPERBLOCK' ) );
-	}
+function saveUser( $option, $task ) {
+	global $database, $my;
+	global $mosConfig_live_site, $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_sitename;
+	global $_LANG;
 
 	$row = new mosUser( $database );
-	$row->load( $user_id );
-	$orig_password = $row->password;
-
-	if ( !$row->bind( $_POST ) ) {
-		mosErrorAlert( $row->getError() );
+	if (!$row->bind( $_POST )) {
+		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		exit();
 	}
 
-	//load user bot group
-	$_MAMBOTS->loadBotGroup( 'user' );
+	$isNew 	= !$row->id;
+	$pwd 	= '';
+
+	// MD5 hash convert passwords
+	if ($isNew) {
+		// new user stuff
+		if ($row->password == '') {
+			$pwd = mosMakePassword();
+			$row->password = md5( $pwd );
+		} else {
+			$pwd = $row->password;
+			$row->password = md5( $row->password );
+		}
+		$row->registerDate = date( 'Y-m-d H:i:s' );
+	} else {
+		// existing user stuff
+		if ($row->password == '') {
+			// password set to null if empty
+			$row->password = null;
+		} else {
+			$row->password = md5( $row->password );
+		}
+	}
+
+	// save usertype to usetype column
+	$query = "SELECT name"
+	. "\n FROM #__core_acl_aro_groups"
+	. "\n WHERE group_id = $row->gid"
+	;
+	$database->setQuery( $query );
+	$usertype = $database->loadResult();
+	$row->usertype = $usertype;
 
 	// save params
 	$params = mosGetParam( $_POST, 'params', '' );
@@ -331,50 +308,71 @@ function saveUser( $task ) {
 		$row->params = implode( "\n", $txt );
 	}
 
-	if ( isset( $_POST['password'] ) && isset( $_POST['password2'] ) && $_POST['password'] != '' ) {
-		if ( $_POST['password2'] == $_POST['password'] ) {
-			$row->password = md5( $_POST['password'] );
-		} else {
-			mosErrorAlert( $_LANG->_( 'errorPasswordMatch' ) );
-		}
-	} else {
-		// Restore 'original password'
-		$row->password = $orig_password;
+	if (!$row->check()) {
+		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		exit();
 	}
-
-	// usertype for usetype column
-	$row->usertype = GIDusertype( $row->gid);
-
-	// save register date for new users
-	if ( !$isOld ) {
-		$row->registerDate = $mainframe->getDateTime();
-	}
-
-	if ( !$row->check() ) {
-		mosErrorAlert( $row->getError() );
-	}
-
-	//trigger the onBeforeStoreUser event
-	$results = $_MAMBOTS->trigger( 'onBeforeStoreUser', array( get_object_vars( $row ), $user_id ) );
-
 	if (!$row->store()) {
-		mosErrorAlert( $row->getError() );
+		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		exit();
 	}
-
 	$row->checkin();
 
+	session_start();
+	$_SESSION['session_user_params']= $row->params;
+	session_write_close();
+
 	// update the ACL
-	if ( !$isOld ) {
-		newUser( $row );
+	if ( !$isNew ) {
+		$query = "SELECT aro_id"
+		. "\n FROM #__core_acl_aro"
+		. "\n WHERE value = '$row->id'"
+		;
+		$database->setQuery( $query );
+		$aro_id = $database->loadResult();
+
+		$query = "UPDATE #__core_acl_groups_aro_map"
+		. "\n SET group_id = $row->gid"
+		. "\n WHERE aro_id = $aro_id"
+		;
+		$database->setQuery( $query );
+		$database->query() or die( $database->stderr() );
 	}
 
-	//trigger the onAfterStoreUser event
-	$results = $_MAMBOTS->trigger( 'onAfterStoreUser', array( get_object_vars( $row ), $user_id, true, null ) );
+	// for new users, email username and password
+	if ($isNew) {
+		$query = "SELECT email"
+		. "\n FROM #__users"
+		. "\n WHERE id = $my->id"
+		;
+		$database->setQuery( $query );
+		$adminEmail = $database->loadResult();
+
+		$subject = _NEW_USER_MESSAGE_SUBJECT;
+		$message = sprintf ( _NEW_USER_MESSAGE, $row->name, $mosConfig_sitename, $mosConfig_live_site, $row->username, $pwd );
+
+		if ($mosConfig_mailfrom != "" && $mosConfig_fromname != "") {
+			$adminName 	= $mosConfig_fromname;
+			$adminEmail = $mosConfig_mailfrom;
+		} else {
+			$query = "SELECT name, email"
+			. "\n FROM #__users"
+			// administrator
+			. "\n WHERE gid = 25"
+			;
+			$database->setQuery( $query );
+			$admins = $database->loadObjectList();
+			$admin 		= $admins[0];
+			$adminName 	= $admin->name;
+			$adminEmail = $admin->email;
+		}
+		mosMail( $adminEmail, $adminName, $row->email, $subject, $message );
+	}
 
 	switch ( $task ) {
 		case 'apply':
 			$msg = $_LANG->_( 'Successfully Saved changes to User' ) .': '. $row->name;
-			mosRedirect( 'index2.php?option=com_users&task=editA&id='. $row->id, $msg );
+			mosRedirect( 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
@@ -385,153 +383,43 @@ function saveUser( $task ) {
 	}
 }
 
-function massCreate() {
-	global $mosConfig_new_usertype;
-	global $mainframe, $my, $acl;
-	global $_LANG;
-
-	$mainframe->set('disableMenu', true);
-
-	$gid = usertypeGID( $mosConfig_new_usertype );
-
-	$userObjectID 	= $acl->get_object_id( 'users', 0, 'ARO' );
-	$userGroups 	= $acl->get_object_groups( $userObjectID, 'ARO' );
-
-	$myObjectID 	= $acl->get_object_id( 'users', $my->id, 'ARO' );
-	$myGroups 		= $acl->get_object_groups( $myObjectID, 'ARO' );
-
-	// ensure user can't add/edit group higher than themselves
-	if ( is_array( $myGroups ) && count( $myGroups ) > 0 ) {
-		$excludeGroups = (array) $acl->get_group_children( $myGroups[0], 'ARO', 'RECURSE' );
-	} else {
-		$excludeGroups = array();
-	}
-
-	if ( in_array( $userGroups[0], $excludeGroups ) ) {
-		echo 'not auth';
-		mosRedirect( 'index2.php?option=com_users', $_LANG->_('NOT_AUTH') );
-	}
-
-	$gtree = $acl->get_group_children_tree( null, 'USERS', false );
-
-	// remove users 'above' me
-	$i = 0;
-	while ($i < count( $gtree )) {
-		if ( in_array( $gtree[$i]->value, $excludeGroups ) ) {
-			array_splice( $gtree, $i, 1 );
-		} else {
-			$i++;
-		}
-	}
-
-	$lists['gid'] 	= mosHTML::selectList( $gtree, 'gid', 'size="10"', 'value', 'text', $gid );
-
-	usersScreens::massCreate( $lists );
+/**
+* Cancels an edit operation
+* @param option component option to call
+*/
+function cancelUser( $option ) {
+	mosRedirect( 'index2.php?option='. $option .'&task=view' );
 }
 
-function savemassCreate() {
-	global $mosConfig_password_length, $mosConfig_new_usertype;
-	global $mainframe, $database, $acl, $_MAMBOTS;
-	global $_LANG;
-
-	$default_gid   = GIDusertype( $mosConfig_new_usertype );
-	$gid		   = mosGetParam( $_POST, 'gid', $default_gid );
-	$usertype	  = GIDusertype( $gid );
-
-	$names		 = mosGetParam( $_POST, 'names', array(0) );
-	$emails		= mosGetParam( $_POST, 'emails', array(0) );
-
-	$z = 0;
-	for ( $i=0; $i < 10; $i++ ) {
-		if ( $names[$i] && ( $emails[$i] && strchr( $emails[$i], '@' ) ) ) {
-		// filter entries for only data
-			$users[$z]->name   = $names[$i];
-			$users[$z]->email  = $emails[$i];
-			$z++;
-		}
-	}
-	$count = count( $users );
-
-	for ( $i=0; $i < $count; $i++ ) {
-	// creates each individual user
-		//load user bot group
-		$_MAMBOTS->loadBotGroup( 'user' );
-
-		$row = new mosUser( $database );
-		$row->load( 0 );
-
-		$row->name		  = $users[$i]->name;
-		$row->username	  = $users[$i]->name;
-		$row->email		 = $users[$i]->email;
-		$row->password	  = mosMakePassword( $mosConfig_password_length );
-		$row->usertype	  = $usertype;
-		$row->gid		   = $gid;
-		$row->registerDate  = $mainframe->getDateTime();
-
-	 	if ( !$row->check() ) {
-			mosErrorAlert( $row->getError() );
-		}
-
-	   	//trigger the onBeforeStoreUser event
-		$results = $_MAMBOTS->trigger( 'onBeforeStoreUser', array( get_object_vars( $row ), $row->id ) );
-
-
-		if (!$row->store()) {
-			mosErrorAlert( $row->getError() );
-		}
-
-		newUser( $row );
-
-		//trigger the onAfterStoreUser event
-		$results = $_MAMBOTS->trigger( 'onAfterStoreUser', array( get_object_vars( $row ), $row->id, true, null ) );
-	}
-
-	$msg = $count .' '. $_LANG->_( 'Users created' );
-	mosRedirect( 'index2.php?option=com_users', $msg );
-}
-
-function removeUsers( $cid ) {
+function removeUsers( $cid, $option ) {
 	global $database, $acl, $my;
-	global $_LANG, $_MAMBOTS;
+	global $_LANG;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		mosErrorAlert( $_LANG->_( 'Select an item to delete' ) );
+		echo "<script> alert('". $_LANG->_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
+		exit;
 	}
 
 	if ( count( $cid ) ) {
-
-		//load user bot group
-		$_MAMBOTS->loadBotGroup( 'user' );
-
 		$obj = new mosUser( $database );
-		foreach ( $cid as $id ) {
+		foreach ($cid as $id) {
 			// check for a super admin ... can't delete them
-			$objectID 	= $acl->get_object_id( 'users', $id, 'ARO' );
-			$groups 	= $acl->get_object_groups( $objectID, 'ARO' );
+			$groups 	= $acl->get_object_groups( 'users', $id, 'ARO' );
 			$this_group = strtolower( $acl->get_group_name( $groups[0], 'ARO' ) );
-
-			//trigger the onBeforeDeleteUser event
-			$results = $_MAMBOTS->trigger( 'onBeforeDeleteUser', array( array( 'id' => $id ) ) );
-
-			$success = false;
-			if ( ( $this_group == 'super administrator' ) && ( $my->gid != 25 ) ) {
+			if ( $this_group == 'super administrator' ) {
 				$msg = $_LANG->_( 'You cannot delete a Super Administrator' );
  			} else if ( $id == $my->id ){
  				$msg = $_LANG->_( 'You cannot delete Yourself!' );
- 			} else if ( ( $this_group == 'administrator' ) && ( $my->gid == 24 ) ) {
- 				$msg = $_LANG->_( 'You cannot delete another `Administrator` only `Super Administrators` have this power' );
+ 			} else if ( ( $this_group == 'administrator' ) && ( $my->gid == 24 ) ){
+ 				$msg = $_LANG->_( 'WARNDELETE' );
 			} else {
 				$obj->delete( $id );
 				$msg = $obj->getError();
-				$success = true;
 			}
-
-			//trigger the onAfterDeleteUser event
-			$results = $_MAMBOTS->trigger( 'onAfterDeleteUser', array( array('id' => $id), $success, $msg ) );
 		}
 	}
 
-	mosRedirect( 'index2.php?option=com_users', $msg );
+	mosRedirect( 'index2.php?option='. $option, $msg );
 }
 
 /**
@@ -540,175 +428,70 @@ function removeUsers( $cid ) {
 * @param integer 0 if unblock, 1 if blocking
 * @param string The current url option
 */
-function changeUserBlock( $cid=null, $block=1 ) {
-	global $database, $my;
-	global $_LANG, $_MAMBOTS;
+function changeUserBlock( $cid=null, $block=1, $option ) {
+	global $database;
+	global $_LANG;
 
 	if (count( $cid ) < 1) {
 		$action = $block ? 'block' : 'unblock';
-		mosErrorAlert( $_LANG->_( 'Select an item to' ) .' '. $action );
-	}
-
-	//load user bot group
-	$_MAMBOTS->loadBotGroup( 'user' );
-
-	foreach( $cid as $id ) {
-
-		$row = new mosUser( $database );
-		$row->load( $id );
-
-		echo $id;
-
-		//trigger the onBeforeStoreUser event
-		$results = $_MAMBOTS->trigger( 'onBeforeStoreUser', array( get_object_vars( $row ), false ) );
+		echo "<script> alert('". $_LANG->_( 'Select an item to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
+		exit;
 	}
 
 	$cids = implode( ',', $cid );
 
 	$query = "UPDATE #__users"
-	. "\n SET block = '$block'"
+	. "\n SET block = $block"
 	. "\n WHERE id IN ( $cids )"
 	;
 	$database->setQuery( $query );
 	if (!$database->query()) {
-		mosErrorAlert( $database->getErrorMsg() );
+		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		exit();
 	}
 
-	foreach( $cid as $id ) {
-		$row = new mosUser( $database );
-		$row->load( $id );
-
-		//trigger the onAfterStoreUser event
-		$results = $_MAMBOTS->trigger( 'onAfterStoreUser', array( get_object_vars( $row ), !$block, true, null ) );
-	}
-
-	mosRedirect( 'index2.php?option=com_users' );
+	mosRedirect( 'index2.php?option='. $option );
 }
 
 /**
 * @param array An array of unique user id numbers
 * @param string The current url option
 */
-function logoutUser( $cid=null, $task ) {
+function logoutUser( $cid=null, $option, $task ) {
 	global $database, $my;
 	global $_LANG;
 
 	$cids = $cid;
 	if ( is_array( $cid ) ) {
-		if ( count( $cid ) < 1 ) {
-			mosRedirect( 'index2.php?option=com_users', $_LANG->_( 'Please select a user' ) );
+		if (count( $cid ) < 1) {
+			mosRedirect( 'index2.php?option='. $option, $_LANG->_( 'Please select a user' ) );
 		}
 		$cids = implode( ',', $cid );
 	}
 
 	$query = "DELETE FROM #__session"
-	. "\n WHERE userid IN ( $cids )"
-	;
+ 	. "\n WHERE userid IN ( $cids )"
+ 	;
 	$database->setQuery( $query );
 	$database->query();
 
-	$msg = $_LANG->_( 'User Sesssion ended' );
 	switch ( $task ) {
 		case 'flogout':
-			mosRedirect( 'index2.php', $msg );
+			mosRedirect( 'index2.php', $database->getErrorMsg() );
 			break;
 
 		default:
-			mosRedirect( 'index2.php?option=com_users', $msg );
+			mosRedirect( 'index2.php?option='. $option, $database->getErrorMsg() );
 			break;
 	}
 }
 
-function is_email( $email ){
+function is_email($email){
 	$rBool=false;
 
-	if( preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $email ) ){
+	if(preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $email)){
 		$rBool=true;
 	}
 	return $rBool;
-}
-
-/*
-* Complete entry into proper tables to create a user
-*/
-function newUser( &$row ) {
-	global $database;
-
-	$query = "SELECT id"
-	. "\n FROM #__core_acl_aro"
-	. "\n WHERE value = '$row->id'"
-	;
-	$database->setQuery( $query );
-	$aro_id = $database->loadResult();
-
-	$query = "UPDATE #__core_acl_groups_aro_map"
-	. "\n SET group_id = '$row->gid'"
-	. "\n WHERE aro_id = '$aro_id'"
-	;
-	$database->setQuery( $query );
-	if ( !$database->query() ) {
-		mosErrorAlert( $database->stderr() );
-	}
-
-	mailUserInfo( $row );
-}
-
-/*
-* Email User their registration details
-*/
-function mailUserInfo( &$row ) {
-	global $mainframe;
-	global $mosConfig_live_site, $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_sitename;
-	global $_LANG;
-
-	$subject = $_LANG->_( 'emailNewUserSubject' );
-	$message = $_LANG->sprintf ( 'emailNewUserBody', $row->name, $mosConfig_sitename, $mosConfig_live_site, $row->username, $row->password );
-
-	if ( $mosConfig_mailfrom != '' && $mosConfig_fromname != '' ) {
-		$site_Name 	= $mosConfig_fromname;
-		$site_Email = $mosConfig_mailfrom;
-	} else {
-	// If no `From Name` and `From Email` set in GC, use first Super Administrator
-		// List of Super Administrators
-		$admins 	= $mainframe->getAdmins();
-
-		$site_Name 	= $admins[0]->name;
-		$site_Email = $admins[0]->email;
-	}
-
-	// email user registration information to user
-	mosMail( $site_Email, $site_Name, $row->email, $subject, $message );
-}
-
-/*
-* Give GID integer value from a Usertype string value
-*/
-function usertypeGID ( &$usertype ) {
-	global $database;
-
-	$query = "SELECT id"
-	. "\n FROM #__core_acl_aro_groups"
-	. "\n WHERE LOWER( name ) = '". strtolower( $usertype ) ."'"
-	;
-	$database->setQuery( $query );
-	$gid = $database->loadResult();
-
-	return $gid;
-}
-
-/*
-* Give Usertype string value from a GID integer value
-*/
-function GIDusertype ( &$gid ) {
-	global $database;
-
-	$query = "SELECT name"
-	. "\n FROM #__core_acl_aro_groups"
-	. "\n WHERE id = $gid"
-	;
-	$database->setQuery( $query );
-	$usertype = $database->loadResult();
-
-	return $usertype;
 }
 ?>

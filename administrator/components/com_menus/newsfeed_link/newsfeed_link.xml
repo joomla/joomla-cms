@@ -1,21 +1,41 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosparams type="menu" version="4.5.2">
+<mosinstall type="menu" version="1.0.0">
 	<name>Link - Newsfeed</name>
 	<group>Component|Link</group>
+	<author>Joomla! Project</author>
+	<creationDate>July 2004</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
 	<description>Creates a link to an individual Published Newsfeed</description>
 	<params>
-		<param name="feed_image" type="radio" default="1" label="Feed Image" description="paramFeedImage">
+		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
+		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
+		<param name="back_button" type="list" default="" label="Back Button" description="PARAMBACKBUTTON">
+			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="feed_descr" type="radio" default="1" label="Feed Description" description="paramFeedDesc">
+		<param name="header" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE" />
+		<param name="page_title" type="radio" default="1" label="Page Title" description="Show/Hide the pages Title">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="item_descr" type="radio" default="1" label="Item Description" description="paramItemDesc">
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="feed_image" type="radio" default="1" label="Feed Image" description="Show/Hide the image of the feed">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="word_count" type="text" size="6" default="0" label="Word Count" description="paramWordCount" />
+		<param name="feed_descr" type="radio" default="1" label="Feed Description" description="PARAMFEEDDESC">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="item_descr" type="radio" default="1" label="Item Description" description="PARAMITEMDESC">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="word_count" type="text" size="6" default="0" label="Word Count" description="PARAMWORDCOUNT" />
 	</params>
-</mosparams>
+</mosinstall>

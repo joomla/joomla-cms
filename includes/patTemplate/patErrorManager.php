@@ -4,7 +4,7 @@
  * application-internal error management. Creates patError objects for
  * any errors for precise error management.
  *
- *	$Id: patErrorManager.php 4 2005-09-06 19:22:37Z akede $
+ *	$Id$
  *
  * @package	patError
  */

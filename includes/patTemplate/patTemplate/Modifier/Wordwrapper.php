@@ -2,7 +2,7 @@
 /**
  * patTemplate modfifier Wordwrapper
  *
- * $Id: Wordwrapper.php 137 2005-09-12 10:21:17Z eddieajau $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Modifiers

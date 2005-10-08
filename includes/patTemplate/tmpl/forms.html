@@ -1,32 +1,16 @@
 <mos:comment>
-@version $Id: forms.html 137 2005-09-12 10:21:17Z eddieajau $
-@package Mambo
+@version $Id$
+@package Joomla
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
-@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+Joomla! is free software. This version may have been modified pursuant
+to the GNU General Public License, and as distributed it includes or
+is derivative of works licensed under the GNU General Public License or
+other free or open source software licenses.
+See COPYRIGHT.php for copyright notices and details.
 </mos:comment>
 
 <!-- SELECT LISTS -->
-<mos:tmpl name="yes-no-radio" type="condition" conditionvar="value">
-	<mos:sub condition="__default">
-		<input type="radio" name="{NAME}" class="{CLASS}" />
-		<mos:Translate>No</mos:Translate>
-		<input type="radio" name="{NAME}" class="{CLASS}" />
-		<mos:Translate>Yes</mos:Translate>
-	</mos:sub>
-	<mos:sub condition="0">
-		<input type="radio" name="{NAME}" class="{CLASS}" checked="yes" />
-		<mos:Translate>No</mos:Translate>
-		<input type="radio" name="{NAME}" class="{CLASS}" />
-		<mos:Translate>Yes</mos:Translate>
-	</mos:sub>
-	<mos:sub condition="1">
-		<input type="radio" name="{NAME}" class="{CLASS}" />
-		<mos:Translate>No</mos:Translate>
-		<input type="radio" name="{NAME}" class="{CLASS}" checked="yes" />
-		<mos:Translate>Yes</mos:Translate>
-	</mos:sub>
-</mos:tmpl>
-
 <mos:tmpl name="radio-set" autoclear="yes">
 	<input type="radio" name="{NAME}" value="{VALUE}" id="{NAME}{VALUE}" class="{CLASS}" {SELECTED} />
 	<label for="{NAME}{VALUE}">

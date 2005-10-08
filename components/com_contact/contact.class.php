@@ -1,19 +1,21 @@
 <?php
 /**
-* @version $Id: contact.class.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Contact
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-mosFS::load( 'includes/vcard.class.php' );
+include_once( $mosConfig_absolute_path .'/includes/vcard.class.php' );
 
 /**
 * @package Joomla
@@ -21,57 +23,57 @@ mosFS::load( 'includes/vcard.class.php' );
 */
 class mosContact extends mosDBTable {
 	/** @var int Primary key */
-	var $id=null;
+	var $id 				= null;
 	/** @var string */
-	var $name=null;
+	var $name 				= null;
 	/** @var string */
-	var $con_position=null;
+	var $con_position 		= null;
 	/** @var string */
-	var $address=null;
+	var $address 			= null;
 	/** @var string */
-	var $suburb=null;
+	var $suburb 			= null;
 	/** @var string */
-	var $state=null;
+	var $state 				= null;
 	/** @var string */
-	var $country=null;
+	var $country 			= null;
 	/** @var string */
-	var $postcode=null;
+	var $postcode 			= null;
 	/** @var string */
-	var $telephone=null;
+	var $telephone 			= null;
 	/** @var string */
-	var $fax=null;
+	var $fax 				= null;
 	/** @var string */
-	var $misc=null;
+	var $misc 				= null;
 	/** @var string */
-	var $image=null;
+	var $image 				= null;
 	/** @var string */
-	var $imagepos=null;
+	var $imagepos 			= null;
 	/** @var string */
-	var $email_to=null;
+	var $email_to 			= null;
 	/** @var int */
-	var $default_con=null;
+	var $default_con 		= null;
 	/** @var int */
-	var $published=null;
+	var $published 			= null;
 	/** @var int */
-	var $checked_out=null;
+	var $checked_out 		= null;
 	/** @var datetime */
-	var $checked_out_time=null;
+	var $checked_out_time 	= null;
 	/** @var int */
-	var $ordering=null;
+	var $ordering 			= null;
 	/** @var string */
-	var $params=null;
+	var $params 			= null;
 	/** @var int A link to a registered user */
-	var $user_id=null;
+	var $user_id 			= null;
 	/** @var int A link to a category */
-	var $catid=null;
+	var $catid 				= null;
 	/** @var int */
-	var $access=null;
+	var $access 			= null;
 
 	/**
 	* @param database A database connector object
 	*/
 	function mosContact() {
-	    global $database;
+		global $database;
 		$this->mosDBTable( '#__contact_details', 'id', $database );
 	}
 
@@ -127,11 +129,10 @@ class MambovCard extends vCard {
 		foreach( $this->properties as $key => $value ) {
 			$text	.= "$key:$value\r\n";
 		}
-		$text	.= "REV:" .date("Y-m-d") ."T". date("H:i:s"). "Z\r\n";
+		$text	.= "REV:" .date( 'Y-m-d' ) ."T". date( 'H:i:s' ). "Z\r\n";
 		$text	.= "MAILER: Joomla! vCard for ". $sitename ."\r\n";
 		$text	.= "END:VCARD\r\n";
 		return $text;
 	}
-
 }
 ?>

@@ -1,12 +1,14 @@
 <?php
 /**
-* @version $Id: newsfeeds.class.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Newsfeeds
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -19,27 +21,27 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class mosNewsFeed extends mosDBTable {
 /** @var int Primary key */
-	var $id=null;
+	var $id					= null;
 /** @var int */
-	var $catid=null;
+	var $catid				= null;
 /** @var string */
-	var $name=null;
+	var $name				= null;
 /** @var string */
-	var $link=null;
+	var $link				= null;
 /** @var string */
-	var $filename=null;
+	var $filename			= null;
 /** @var int */
-	var $published=null;
+	var $published			= null;
 /** @var int */
-	var $numarticles=null;
+	var $numarticles		= null;
 /** @var int */
-	var $cache_time=null;
+	var $cache_time			= null;
 /** @var int */
-	var $checked_out=null;
+	var $checked_out		= null;
 /** @var time */
-	var $checked_out_time=null;
+	var $checked_out_time	= null;
 /** @var int */
-	var $ordering=null;
+	var $ordering			= null;
 
 /**
 * @param database A database connector object
@@ -47,6 +49,5 @@ class mosNewsFeed extends mosDBTable {
 	function mosNewsFeed( &$db ) {
 		$this->mosDBTable( '#__newsfeeds', 'id', $db );
 	}
-
 }
 ?>

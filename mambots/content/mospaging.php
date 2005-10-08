@@ -1,11 +1,13 @@
 <?php
 /**
-* @version $Id: mospaging.php 137 2005-09-12 10:21:17Z eddieajau $
-* @package Mambo
+* @version $Id$
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -29,23 +31,13 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosPaging' );
 *
 */
 function botMosPaging( $published, &$row, &$params, $page=0 ) {
-	global $mainframe, $Itemid, $database, $_LANG;
+	global $mainframe, $Itemid, $database;
 
  	// expression to search for
  	$regex = '/{(mospagebreak)\s*(.*?)}/i';
 
- 	if ( !$published || $params->get( 'intro_only' ) )  {
+ 	if (!$published || $params->get( 'intro_only' )|| $params->get( 'popup' )) {
 		$row->text = preg_replace( $regex, '', $row->text );
-		return;
-	}
-
-	// used to replace {mospagebreak} tags when previewing item via popup
- 	if ( $params->get( 'popup' ) ) {
- 		$replace = '<div class="preview">';
- 		$replace .= $_LANG->_( 'Page Break' );
- 		$replace .= '<hr/></div><br/>';
-
- 		$row->text = preg_replace( $regex, $replace, $row->text );
 		return;
 	}
 
@@ -62,27 +54,26 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 	// we have found at least one mambot, therefore at least 2 pages
 	if ($n > 1) {
 		// load mambot params info
-		$query = "SELECT id FROM #__mambots WHERE element = 'mospaging' AND folder = 'content'";
+		$query = "SELECT id"
+		. "\n FROM #__mambots"
+		. "\n WHERE element = 'mospaging'"
+		. "\n AND folder = 'content'"
+		;
 		$database->setQuery( $query );
 	 	$id 	= $database->loadResult();
 	 	$mambot = new mosMambot( $database );
 	  	$mambot->load( $id );
-	 	$params = new mosParameters( $mambot->params );
+	 	$botParams = new mosParameters( $mambot->params );
 
-	 	$title		= $params->def( 'title', 1 );
-	 	$separator	= $params->def( 'separator', ' :: ' );
-
-	 	// depreciated GC param shifted to Joomla! param
-		//$hasToc 	= $mainframe->getCfg( 'multipage_toc' );
-		$hasToc 	= $params->def( 'toc', 0 );
+	 	$title	= $botParams->def( 'title', 1 );
 
 	 	// adds heading or title to <site> Title
 	 	if ( $title ) {
 			$page_text = $page + 1;
-			$row->page_title = $_LANG->_( 'Page' ) .' '. $page_text;
+			$row->page_title = _PN_PAGE .' '. $page_text;
 			if ( !$page ) {
 				// processing for first page
-				parse_str( $matches[0][2], $args );
+				parse_str( str_replace( '&amp;', '&', $matches[0][2] ), $args );
 
 				if ( @$args['heading'] ) {
 					$row->page_title = $args['heading'];
@@ -90,7 +81,7 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 					$row->page_title = '';
 				}
 			} else if ( $matches[$page-1][2] ) {
-				parse_str( $matches[$page-1][2], $args );
+				parse_str(  str_replace( '&amp;', '&', $matches[$page-1][2] ), $args );
 
 				if ( @$args['title'] ) {
 					$row->page_title = $args['title'];
@@ -101,15 +92,17 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 		// reset the text, we already hold it in the $text array
 		$row->text = '';
 
-		if ( !$hasToc ) {
+		$hasToc = $mainframe->getCfg( 'multipage_toc' );
+
+		if ( $hasToc ) {
 			// display TOC
 			createTOC( $row, $matches, $page );
 		} else {
 			$row->toc = '';
 		}
 
-		// load navigation files
-		mosFS::load( '@pageNavigation' );
+		// traditional mos page navigation
+		require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/pageNavigation.php' );
 		$pageNav = new mosPageNav( $n, $page, 1 );
 
 		// page counter
@@ -124,31 +117,23 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 		$row->text .= '<div class="pagenavbar">';
 
 		// adds navigation between pages to bottom of text
-		if ( !$hasToc ) {
+		if ( $hasToc ) {
 			createNavigation( $row, $page, $n );
 		}
 
 		// page links shown at bottom of page if TOC disabled
-		if ( $hasToc )  {
+		if (!$hasToc) {
 			$row->text .= $pageNav->writePagesLinks( 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid );
 		}
 
 		$row->text .= '</div><br />';
 	}
 
-	// adds mospagebreak heading or title to <site> Title and page title
-	if ( isset( $row->page_title ) ) {
-		if ( $row->page_title ) {
-			$row->title .= ' '. $separator .' '. $row->page_title;
-			$mainframe->SetPageTitle( $row->title );
-		}
-	}
-
 	return true;
 }
 
 function createTOC( &$row, &$matches, &$page ) {
-	global $Itemid, $_LANG;
+	global $Itemid;
 
 	$nonseflink = 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
 	$link = 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
@@ -157,10 +142,11 @@ function createTOC( &$row, &$matches, &$page ) {
 	$heading = $row->title;
 	// allows customization of first page title by checking for `heading` attribute in first bot
 	if ( @$matches[0][2] ) {
-		parse_str( $matches[0][2], $args );
+		parse_str( str_replace( '&amp;', '&', $matches[0][2] ), $args );
 
 		if ( @$args['heading'] ) {
 			$heading = $args['heading'];
+			$row->title .= ': '. $heading;
 		}
 	}
 
@@ -168,7 +154,9 @@ function createTOC( &$row, &$matches, &$page ) {
 	$row->toc = '
 	<table cellpadding="0" cellspacing="0" class="contenttoc" align="right">
 	<tr>
-		<th>'. $_LANG->_( 'TOC_JUMPTO' ) .'</th>
+		<th>'
+		. _TOC_JUMPTO .
+		'</th>
 	</tr>
 	';
 
@@ -208,7 +196,7 @@ function createTOC( &$row, &$matches, &$page ) {
 				<tr>
 					<td>
 					<a href="'. $link .'" class="toclink">'
-					. $_LANG->_( 'Page' ) .' '. $i .
+					. _PN_PAGE .' '. $i .
 					'</a>
 					</td>
 				</tr>
@@ -219,7 +207,7 @@ function createTOC( &$row, &$matches, &$page ) {
 			<tr>
 				<td>
 				<a href="'. $link .'" class="toclink">'
-				. $_LANG->_( 'Page' ) .' '. $i .
+				. _PN_PAGE .' '. $i .
 				'</a>
 				</td>
 			</tr>
@@ -232,7 +220,7 @@ function createTOC( &$row, &$matches, &$page ) {
 }
 
 function createNavigation( &$row, $page, $n ) {
-	global $Itemid, $_LANG;
+	global $Itemid;
 
 	$link = 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
 
@@ -240,18 +228,18 @@ function createNavigation( &$row, $page, $n ) {
 		$link_next = $link .'&amp;limit=1&amp;limitstart='. ( $page + 1 );
 		$link_next = sefRelToAbs( $link_next );
 
-		$next = '<a href="'. $link_next .'">' .$_LANG->_( 'Next' ) . $_LANG->_( 'NEXT_ARROW' ) .'</a>';
+		$next = '<a href="'. $link_next .'">' ._CMN_NEXT . _CMN_NEXT_ARROW .'</a>';
 	} else {
-		$next = $_LANG->_( 'Next' );
+		$next = _CMN_NEXT;
 	}
 
 	if ( $page > 0 ) {
 		$link_prev = $link .'&amp;limit=1&amp;limitstart='. ( $page - 1 );
 		$link_prev = sefRelToAbs( $link_prev );
 
-		$prev = '<a href="'. $link_prev .'">'. $_LANG->_( 'PREV_ARROW' ) . $_LANG->_( 'Prev' ) .'</a>';
+		$prev = '<a href="'. $link_prev .'">'. _CMN_PREV_ARROW . _CMN_PREV .'</a>';
 	} else {
-		$prev = $_LANG->_( 'Prev' );
+		$prev = _CMN_PREV;
 	}
 
 	$row->text .= '<div>' . $prev . ' - ' . $next .'</div>';

@@ -1,12 +1,14 @@
 <?php
 /**
-* @version $Id: admin.contact.html.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Contact
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -14,219 +16,127 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 /**
- * @package Joomla
- * @subpackage Contact
- */
-class contactsScreens {
-	/**
-	 * Static method to create the template object
-	 * @param array An array of other standard files to include
-	 * @return patTemplate
-	 */
-	function &createTemplate( $files=null) {
-
-		$tmpl =& mosFactory::getPatTemplate( $files );
-		$tmpl->setRoot( dirname( __FILE__ ) . '/tmpl' );
-
-		return $tmpl;
-	}
-
-	/**
-	* List languages
-	* @param array
-	*/
-	function view( &$lists ) {
-		global $mosConfig_lang;
-
-		$tmpl =& contactsScreens::createTemplate();
-
-		$tmpl->readTemplatesFromInput( 'view.html' );
-
-		$tmpl->addVar( 'body2', 'search', $lists['search'] );
-
-		// temp lists --- these can be done in pat a lot better
-		$tmpl->addVar( 'body2', 'lists_state', $lists['state'] );
-		$tmpl->addVar( 'body2', 'lists_catid', $lists['catid'] );
-
-		//$tmpl->addObject( )
-		$tmpl->displayParsedTemplate( 'body2' );
-	}
-
-	function editContacts() {
-		global $mosConfig_lang;
-
-		$tmpl =& contactsScreens::createTemplate();
-
-		$tmpl->readTemplatesFromInput( 'editContacts.html' );
-
-		//$tmpl->addObject( )
-		$tmpl->displayParsedTemplate( 'body2' );
-	}
-}
-
-/**
 * @package Joomla
 * @subpackage Contact
 */
 class HTML_contact {
 
-	function showContacts( &$rows, &$pageNav, $option, &$lists ) {
+	function showContacts( &$rows, &$pageNav, $search, $option, &$lists ) {
 		global $my;
-		global $_LANG;
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php" method="post" name="adminForm" id="contactsform" class="adminform">
+		<form action="index2.php" method="post" name="adminForm">
+		<table class="adminheading">
+		<tr>
+			<th>
+			Contact Manager
+			</th>
+			<td>
+			Filter:
+			</td>
+			<td>
+			<input type="text" name="search" value="<?php echo $search;?>" class="inputbox" onChange="document.adminForm.submit();" />
+			</td>
+			<td width="right">
+			<?php echo $lists['catid'];?>
+			</td>
+		</tr>
+		</table>
 
+		<table class="adminlist">
+		<tr>
+			<th width="20">
+			#
+			</th>
+			<th width="20" class="title">
+			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
+			</th>
+			<th class="title">
+			Name
+			</th>
+			<th width="5%" class="title" nowrap="true">
+			Published
+			</th>
+			<th colspan="2" nowrap="nowrap" width="5%">
+			Reorder
+			</th>
+			<th width="15%" align="left">
+			Category
+			</th>
+			<th class="title" nowrap="nowrap" width="15%">
+			Linked to User
+			</th>
+		</tr>
 		<?php
-		contactsScreens::view( $lists );
-		?>
-				<table class="adminlist" id="moslist">
-				<thead>
-				<tr>
-					<th width="10">
-						<?php echo $_LANG->_( 'Num' ); ?>
-					</th>
-					<th width="10" class="title">
-						<input type="checkbox" name="toggle" value="" />
-					</th>
-					<th class="title">
-						<?php echo mosCommonHTML::tOrder( $lists, $_LANG->_( 'Name' ), 'cd.name' ); ?>
-					</th>
-					<th width="18%" align="left">
-						<?php echo mosCommonHTML::tOrder( $lists, $_LANG->_( 'Category' ), 'category' ); ?>
-					</th>
-					<th class="title" nowrap="nowrap" width="18%">
-						<?php echo mosCommonHTML::tOrder( $lists, $_LANG->_( 'Linked to User' ), 'user' ); ?>
-					</th>
-					<th width="5%" class="title" nowrap="true">
-						<?php echo mosCommonHTML::tOrder( $lists, $_LANG->_( 'Published' ), 'cd.published' ); ?>
-					</th>
-					<th colspan="2" nowrap="nowrap" width="5%">
-						<?php echo $_LANG->_( 'Reorder' ); ?>
-					</th>
-					<th width="2%" nowrap="nowrap">
-						<?php echo mosCommonHTML::tOrder( $lists, $_LANG->_( 'Order' ), 'cd.ordering' ); ?>
-					</th>
-					<th width="1%">
-						<?php mosAdminHTML::saveOrderIcon( $rows ); ?>
-					</th>
-					<th nowrap="nowrap" width="20" align="center">
-						<?php echo mosCommonHTML::tOrder( $lists, $_LANG->_( 'ID' ), 'cd.id' ); ?>
-					</th>
-				</tr>
-				</thead>
-				<tfoot>
-					<tr>
-						<th colspan="11" align="center">
-							<?php echo $pageNav->getPagesLinks(); ?>
-						</th>
-					</tr>
-					<tr>
-						<td colspan="11" align="center">
-							<?php echo $_LANG->_( 'Display Num' ) ?>
-							<?php echo  $pageNav->getLimitBox() ?>
-							<?php echo $pageNav->getPagesCounter() ?>
-						</td>
-					</tr>
-				</tfoot>
-				<tbody>
+		$k = 0;
+		for ($i=0, $n=count($rows); $i < $n; $i++) {
+			$row = $rows[$i];
+
+			$link 	= 'index2.php?option=com_contact&task=editA&hidemainmenu=1&id='. $row->id;
+
+			$img 	= $row->published ? 'tick.png' : 'publish_x.png';
+			$task 	= $row->published ? 'unpublish' : 'publish';
+			$alt 	= $row->published ? 'Published' : 'Unpublished';
+
+			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
+
+			$row->cat_link 	= 'index2.php?option=com_categories&section=com_contacts&task=editA&hidemainmenu=1&id='. $row->catid;
+			$row->user_link	= 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->user_id;
+			?>
+			<tr class="<?php echo "row$k"; ?>">
+				<td>
+				<?php echo $pageNav->rowNumber( $i ); ?>
+				</td>
+				<td>
+				<?php echo $checked; ?>
+				</td>
+				<td>
 				<?php
-				$k = 0;
-				for ($i=0, $n=count( $rows ); $i < $n; $i++) {
-					$row = $rows[$i];
-
-					$link 	= 'index2.php?option=com_contact&amp;task=editA&amp;id='. $row->id;
-
-					$img 	= $row->published ? 'tick.png' : 'publish_x.png';
-					$task 	= $row->published ? 'unpublish' : 'publish';
-					$alt 	= $row->published ? 'Published' : 'Unpublished';
-
-					$checked 	= mosAdminHTML::checkedOutProcessing( $row, $i );
-
-					$row->cat_link 	= 'index2.php?option=com_categories&amp;section=com_contact_details&amp;task=editA&amp;id='. $row->catid;
-					$row->user_link	= 'index2.php?option=com_users&amp;task=editA&amp;id='. $row->user_id;
+				if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+					echo $row->name;
+				} else {
 					?>
-					<tr class="<?php echo "row$k"; ?>">
-						<td width="10">
-							<?php echo $pageNav->rowNumber( $i ); ?>
-						</td>
-						<td width="10">
-							<?php echo $checked; ?>
-						</td>
-						<td>
-							<?php
-							if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-								echo $row->name;
-							} else {
-								?>
-								<a href="<?php echo $link; ?>" title="<?php echo $_LANG->_( 'Edit Contact' ); ?>" class="editlink">
-									<?php echo $row->name; ?>
-								</a>
-								<?php
-							}
-							?>
-						</td>
-						<td>
-							<a href="<?php echo $row->cat_link; ?>" title="<?php echo $_LANG->_( 'Edit Category' ); ?>" class="editlink">
-								<?php echo $row->category; ?>
-							</a>
-						</td>
-						<td>
-							<?php
-							if ( $row->user ) {
-								?>
-								<a href="<?php echo $row->user_link; ?>" title="<?php echo $_LANG->_( 'Edit User' ); ?>" class="editlink">
-									<?php echo $row->user; ?>
-								</a>
-								<?php
-							} else {
-								?>
-								-
-								<?php
-							}
-							?>
-						</td>
-						<td align="center">
-							<a href="javascript:void(0);" onClick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
-								<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" />
-							</a>
-						</td>
-						<td>
-							<?php
-							if ( $lists['tOrder'] == 'category' && ( $lists['tOrderDir'] == 'DESC' )  ) {
-								echo $pageNav->orderUpIcon( $i, ( $row->catid == @$rows[$i-1]->catid ) );
-							}
-							?>
-						</td>
-						<td>
-							<?php
-							if ( $lists['tOrder'] == 'category' && ( $lists['tOrderDir'] == 'DESC' )  ) {
-								echo $pageNav->orderDownIcon( $i, $n, ( $row->catid == @$rows[$i+1]->catid ) );
-							}
-							?>
-						</td>
-						<td align="center" colspan="2">
-							<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
-						</td>
-						<td align="center">
-							<?php echo $row->id; ?>
-						</td>
-					</tr>
+					<a href="<?php echo $link; ?>" title="Edit Contact">
+					<?php echo $row->name; ?>
+					</a>
 					<?php
-					$k = 1 - $k;
 				}
 				?>
-				</tbody>
-				</table>
-			</fieldset>
-		</div>
+				</td>
+				<td align="center">
+				<a href="javascript: void(0);" onClick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
+				<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" />
+				</a>
+				</td>
+				<td>
+				<?php echo $pageNav->orderUpIcon( $i, ( $row->catid == @$rows[$i-1]->catid ) ); ?>
+				</td>
+				<td>
+				<?php echo $pageNav->orderDownIcon( $i, $n, ( $row->catid == @$rows[$i+1]->catid ) ); ?>
+				</td>
+				<td>
+				<a href="<?php echo $row->cat_link; ?>" title="Edit Category">
+				<?php echo $row->category; ?>
+				</a>
+				</td>
+				<td>
+				<a href="<?php echo $row->user_link; ?>" title="Edit User">
+				<?php echo $row->user; ?>
+				</a>
+				</td>
+			</tr>
+			<?php
+			$k = 1 - $k;
+		}
+		?>
+		</table>
+		<?php echo $pageNav->getListFooter(); ?>
 
-		<input type="hidden" name="tOrder" value="<?php echo $lists['tOrder']; ?>" />
-		<input type="hidden" name="tOrder_old" value="<?php echo $lists['tOrder']; ?>" />
-		<input type="hidden" name="tOrderDir" value="" />
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="hidemainmenu" value="0">
 		</form>
 		<?php
 	}
@@ -234,16 +144,17 @@ class HTML_contact {
 
 	function editContact( &$row, &$lists, $option, &$params ) {
 		global $mosConfig_live_site;
-		global $_LANG;
 
 		if ($row->image == '') {
 			$row->image = 'blank.png';
 		}
 
+		$tabs = new mosTabs(0);
+
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'misc' );
-		mosCommonHTML::loadOverlib();
 		?>
 		<script language="javascript" type="text/javascript">
+		<!--
 		function submitbutton(pressbutton) {
 			var form = document.adminForm;
 			if (pressbutton == 'cancel') {
@@ -253,30 +164,40 @@ class HTML_contact {
 
 			// do field validation
 			if ( form.name.value == "" ) {
-				alert( "<?php echo $_LANG->_( 'validName' ); ?>" );
+				alert( "You must provide a name." );
 			} else if ( form.catid.value == 0 ) {
-				alert( "<?php echo $_LANG->_( 'Please select a Category.' ); ?>" );
+				alert( "Please select a Category." );
 			} else {
 				submitform( pressbutton );
 			}
 		}
+		//-->
 		</script>
+		
 		<form action="index2.php" method="post" name="adminForm">
-		<?php
-		contactsScreens::editContacts( $lists );
-		?>
+		<table class="adminheading">
+		<tr>
+			<th>
+			Contact:
+			<small>
+			<?php echo $row->id ? 'Edit' : 'New';?>
+			</small>
+			</th>
+		</tr>
+		</table>
+
 		<table width="100%">
 		<tr>
 			<td width="60%" valign="top">
 				<table width="100%" class="adminform">
 				<tr>
 					<th colspan="2">
-					<?php echo $_LANG->_( 'Contact Details' ); ?>
+					Contact Details
 					</th>
 				<tr>
 				<tr>
 					<td width="20%" align="right">
-					<?php echo $_LANG->_( 'Category' ); ?>:
+					Category:
 					</td>
 					<td width="40%">
 					<?php echo $lists['catid'];?>
@@ -284,7 +205,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td width="20%" align="right">
-					<?php echo $_LANG->_( 'Linked to User' ); ?>:
+					Linked to User:
 					</td>
 					<td >
 					<?php echo $lists['user_id'];?>
@@ -292,7 +213,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td width="20%" align="right">
-					<?php echo $_LANG->_( 'Name' ); ?>:
+					Name:
 					</td>
 					<td >
 					<input class="inputbox" type="text" name="name" size="50" maxlength="100" value="<?php echo $row->name; ?>" />
@@ -300,7 +221,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right">
-					<?php echo $_LANG->_( "Contact's Position" ); ?>:
+					Contact's Position:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="con_position" size="50" maxlength="50" value="<?php echo $row->con_position; ?>" />
@@ -308,7 +229,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right">
-					<?php echo $_LANG->_( 'Email' ); ?>:
+					E-mail:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="email_to" size="50" maxlength="100" value="<?php echo $row->email_to; ?>" />
@@ -316,7 +237,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right">
-					<?php echo $_LANG->_( 'Street Address' ); ?>:
+					Street Address:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="address" size="50" value="<?php echo $row->address; ?>" />
@@ -324,7 +245,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right">
-					<?php echo $_LANG->_( 'Town/Suburb' ); ?>:
+					Town/Suburb:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="suburb" size="50" maxlength="50" value="<?php echo $row->suburb;?>" />
@@ -332,7 +253,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right">
-					<?php echo $_LANG->_( 'State/County' ); ?>:
+					State/County:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="state" size="50" maxlength="20" value="<?php echo $row->state;?>" />
@@ -340,7 +261,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right">
-					<?php echo $_LANG->_( 'Country' ); ?>:
+					Country:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="country" size="50" maxlength="50" value="<?php echo $row->country;?>" />
@@ -348,7 +269,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right">
-					<?php echo $_LANG->_( 'Postal Code/ZIP' ); ?>:
+					Postal Code/ZIP:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="postcode" size="25" maxlength="10" value="<?php echo $row->postcode; ?>" />
@@ -356,7 +277,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right">
-					<?php echo $_LANG->_( 'Telephone' ); ?>:
+					Telephone:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="telephone" size="25" maxlength="25" value="<?php echo $row->telephone; ?>" />
@@ -364,7 +285,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right">
-					<?php echo $_LANG->_( 'Fax' ); ?>:
+					Fax:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="fax" size="25" maxlength="25" value="<?php echo $row->fax; ?>" />
@@ -372,7 +293,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td align="right" valign="top">
-					<?php echo $_LANG->_( 'Miscellaneous Info' ); ?>:
+					Miscellaneous Info:
 					</td>
 					<td>
 					<textarea name="misc" rows="5" cols="50" class="inputbox"><?php echo $row->misc; ?></textarea>
@@ -380,16 +301,29 @@ class HTML_contact {
 				</tr>
 				<tr>
 				</table>
-
+			</td>
+			<td width="40%" valign="top">
+				<?php
+				$tabs->startPane("content-pane");
+				$tabs->startTab("Publishing","publish-page");
+				?>
 				<table width="100%" class="adminform">
 				<tr>
 					<th colspan="2">
-					<?php echo $_LANG->_( 'Publishing Info' ); ?>
+					Publishing Info
 					</th>
 				<tr>
 				<tr>
+					<td width="20%" align="right">
+					Site Default:
+					</td>
+					<td >
+					<?php echo $lists['default_con']; ?>
+					</td>
+				</tr>
+				<tr>
 					<td valign="top" align="right">
-					<?php echo $_LANG->_( 'Published' ); ?>:
+					Published:
 					</td>
 					<td>
 					<?php echo $lists['published']; ?>
@@ -397,7 +331,7 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					<?php echo $_LANG->_( 'Ordering' ); ?>:
+					Ordering:
 					</td>
 					<td>
 					<?php echo $lists['ordering']; ?>
@@ -405,27 +339,31 @@ class HTML_contact {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					<?php echo $_LANG->_( 'Access' ); ?>:
+					Access:
 					</td>
 					<td>
 					<?php echo $lists['access']; ?>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2">
+					<td colspan="2">&nbsp;
+
 					</td>
 				</tr>
 				</table>
-
+				<?php
+				$tabs->endTab();
+				$tabs->startTab("Images","images-page");
+				?>
 				<table width="100%" class="adminform">
 				<tr>
 					<th colspan="2">
-					<?php echo $_LANG->_( 'Image Info' ); ?>
+					Image Info
 					</th>
 				<tr>
 				<tr>
 					<td align="left" width="20%">
-					<?php echo $_LANG->_( 'Image' ); ?>:
+					Image:
 					</td>
 					<td align="left">
 					<?php echo $lists['image']; ?>
@@ -441,39 +379,42 @@ class HTML_contact {
 					} else {
 						jsimg='../images/M_images/blank.png';
 					}
-					document.write('<img src=' + jsimg + ' name="imagelib" width="100" height="100" border="2" alt="<?php echo $_LANG->_( 'Preview' ); ?>" />');
+					document.write('<img src=' + jsimg + ' name="imagelib" width="100" height="100" border="2" alt="Preview" />');
 					</script>
 					</td>
 				</tr>
 				</table>
-
-			</td>
-			<td width="40%" valign="top">
+				<?php
+				$tabs->endTab();
+				$tabs->startTab("Parameters","params-page");
+				?>
 				<table class="adminform">
 				<tr>
 					<th>
-					<?php echo $_LANG->_( 'Parameters' ); ?>
+					Parameters
 					</th>
 				</tr>
 				<tr>
 					<td>
-					<?php echo $_LANG->_( 'DESCPARAMCONTROLWHATSEEWHENCLICKCONTACTITEM' ); ?>
+					* These Parameters only control what you see when you click to view a Contact item *
 					<br /><br />
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<?php echo $params->render( 'params', 0 );?>
+					<?php echo $params->render();?>
 					</td>
 				</tr>
 				</table>
+				<?php
+				$tabs->endTab();
+				$tabs->endPane();
+				?>
 			</td>
 		</tr>
 		</table>
-		<fieldset>
-	</div>
 
-		<input type="hidden" name="referer" value="<?php echo @$_SERVER['HTTP_REFERER']; ?>" />
+		<script language="Javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="task" value="" />

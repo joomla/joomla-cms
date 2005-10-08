@@ -1,34 +1,42 @@
 <?xml version="1.0" ?>
-<mosinstall version="4.5.2" type="mambot" group="editors">
-    <name>TinyMCE</name>
-    <version>1.26</version>
-    <creationDate>August 2004</creationDate>
-    <author>Moxiecode Systems AB</author>
-    <authorEmail>N/A</authorEmail>
-    <authorUrl>tinymce.moxiecode.com/</authorUrl>
-    <copyright>Moxiecode Systems AB</copyright>
-    <license>LGPL</license>
-    <description>TinyMCE is a platform independent web based Javascript HTML WYSIWYG editor control.</description>
+<mosinstall version="1.0.0" type="mambot" group="editors">
+	<name>TinyMCE</name>
+	<version>2.0 RC2</version>
+	<creationDate>2005</creationDate>
+	<author>Moxiecode Systems AB</author>
+	<authorEmail>N/A</authorEmail>
+	<authorUrl>tinymce.moxiecode.com/</authorUrl>
+	<copyright>Moxiecode Systems AB</copyright>
+	<license>LGPL</license>
+	<description>TinyMCE is a platform independent web based Javascript HTML WYSIWYG editor control.</description>
 	<params>
 		<param name="theme" type="list" default="advanced" label="Functionality" description="Select functionality">
 			<option value="simple">Simple</option>
-			<option value="default">Basic</option>
 			<option value="advanced">Advanced</option>
 		</param>
+ 		<param name="@spacer" type="spacer" default="" label="" description="" />
+ 		<param name="cleanup" type="radio" default="1" label="Code Cleanup" description="By default TinyMCE will celan your code of certain html elements, like script and center tags, for security and XHTML compliance.  We recommend you do no deactivate this funcitonality">
+ 			<option value="0">Off</option>
+ 			<option value="1">On</option>
+ 		</param>
+ 		<param name="compressed" type="radio" default="0" label="Compressed Version" description="Tiny can be run in compressed mode, leading to slightly faster load speeds.  However, this mode does not always work, especially in IE, so default this is off.  Be careful when enabling this to ensure it works on your system">
+ 			<option value="0">Off</option>
+ 			<option value="1">On</option>
+ 		</param>
  		<param name="@spacer" type="spacer" default="" label="" description="" />
  		<param name="text_direction" type="list" default="ltr" label="Text Direction" description="Ability to change text direction">
  			<option value="ltr">Left to Right</option>
  			<option value="rtl">Right to Left</option>
  		</param>
- 		<param name="invalid_elements" type="text" default="script,applet,iframe" label="Prohibited Elements" description="Elements that will be cleaned from the text"/>
+ 		<param name="invalid_elements" type="text" default="applet" label="Prohibited Elements" description="Elements that will be cleaned from the text"/>
  		<param name="content_css" type="radio" default="1" label="Template CSS classes" description="Load CSS classes from template_css.css">
  			<option value="0">No</option>
  			<option value="1">Yes</option>
  		</param>
  		<param name="content_css_custom" type="text" default="" label="Custom CSS Classes" description="You can specify the loading of a custom CSS file - simply enter the FULL path to the css file you want loaded"/>
-  		<param name="newlines" type="list" default="false" label="Newlines" description="Newlines will be made into the selected option">
- 			<option value="true">BR Elements</option>
- 			<option value="false">P Elements</option>
+  		<param name="newlines" type="list" default="0" label="Newlines" description="Newlines will be made into the selected option">
+ 			<option value="1">BR Elements</option>
+ 			<option value="0">P Elements</option>
  		</param>
  		<param name="@spacer" type="spacer" default="" label="" description="" />
  		<param name="toolbar" type="list" default="top" label="Toolbar" description="Position of the toolbar">
@@ -57,10 +65,6 @@
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
- 		<param name="contextmenu" type="radio" default="1" label="Context Menu" description="Show/Hide a TinyMCE Context Menu within the editor. Only works in `Advanced` mode">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
- 		</param>
  		<param name="html_height" type="text" default="550" label="HTML Height" description="Height of HTML mode pop-up window. Only works in `Advanced` mode"/>
  		<param name="html_width" type="text" default="750" label="HTML Width" description="Width of HTML mode pop-up window. Only works in `Advanced` mode"/>
  		<param name="preview" type="radio" default="1" label="Preveiw" description="Show/Hide the Preview buttons. Only works in `Advanced` mode">
@@ -83,5 +87,5 @@
  			<option value="1">Show</option>
  		</param>
   		<param name="format_time" type="text" default="%H:%M:%S" label="Time format" description="Format of inserted Time. Only works in `Advanced` mode"/>
-	</params>
+   	</params>
 </mosinstall>

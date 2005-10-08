@@ -1,81 +1,62 @@
 <?php
 /**
-* @version $Id: toolbar.poll.php 137 2005-09-12 10:21:17Z eddieajau $
-* @package Mambo
+* @version $Id$
+* @package Joomla
 * @subpackage Polls
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-/**
- * Toolbar for Poll Manager
- * @package Mambo
- * @subpackage Poll
- */
-class pollToolbar extends mosAbstractTasker {
-	/**
-	 * Constructor
-	 */
-	function pollToolbar() {
-		// auto register public methods as tasks, set the default task
-		parent::mosAbstractTasker( 'view' );
+require_once( $mainframe->getPath( 'toolbar_html' ) );
 
-		// set task level access control
-		//$this->setAccessControl( 'com_weblinks', 'manage' );
+switch ($task) {
+	case 'new':
+		TOOLBAR_poll::_NEW();
+		break;
 
-		// additional mappings
-		$this->registerTask( 'edit', 'edit' );
-		$this->registerTask( 'editA', 'edit' );
-		$this->registerTask( 'new', 'edit' );
-	}
-
-	function view() {
-		global $_LANG;
-
-		mosMenuBar::title( $_LANG->_( 'Poll Manager' ), 'properties_f2.png', 'index2.php?option=com_poll' );
-
-		mosMenuBar::startTable();
-		mosMenuBar::publishList();
-		mosMenuBar::unpublishList();
-		mosMenuBar::deleteList();
-		mosMenuBar::editList();
-		mosMenuBar::addNew();
-		mosMenuBar::help( 'screen.polls' );
-		mosMenuBar::endTable();
-	}
-
-	function edit( ){
-		global $_LANG;
-		global $id;
-
-		if ( !$id ) {
-			$id = mosGetParam( $_REQUEST, 'cid', '' );
+	case 'edit':
+		$cid = mosGetParam( $_REQUEST, 'cid', array(0) );
+		if (!is_array( $cid )) {
+			$cid = array(0);
 		}
-		$text = ( $id ? $_LANG->_( 'Edit Poll' ) : $_LANG->_( 'New Poll' ) );
 
-		mosMenuBar::title( $text, 'properties_f2.png' );
+		$query = "SELECT published"
+		. "\n FROM #__polls"
+		. "\n WHERE id = $cid[0]"
+		;
+		$database->setQuery( $query );
+		$published = $database->loadResult();
 
-		mosMenuBar::startTable();
-		mosMenuBar::popup('', 'previewpoll', 'preview.png', 'Preview');
-	    mosMenuBar::save();
-		mosMenuBar::apply();
-		if ( $id ) {
-			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', 'Close' );
-		} else {
-			mosMenuBar::cancel();
-		}
-	    mosMenuBar::help( 'screen.polls.edit' );
-	    mosMenuBar::endTable();
-	}
+		$cur_template = $mainframe->getTemplate();
+
+		TOOLBAR_poll::_EDIT( $cid[0], $cur_template );
+		break;
+
+	case 'editA':
+		$id = mosGetParam( $_REQUEST, 'id', 0 );
+
+		$query = "SELECT published"
+		. "\n FROM #__polls"
+		. "\n WHERE id = $id"
+		;
+		$database->setQuery( $query );
+		$published = $database->loadResult();
+
+		$cur_template = $mainframe->getTemplate();
+
+		TOOLBAR_poll::_EDIT( $id, $cur_template );
+		break;
+
+	default:
+		TOOLBAR_poll::_DEFAULT();
+		break;
 }
-
-$tasker = new pollToolbar();
-$tasker->performTask( mosGetParam( $_REQUEST, 'task', '' ) );
 ?>

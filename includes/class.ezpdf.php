@@ -1304,13 +1304,13 @@ function ezImage($image,$pad = 5,$width = 0,$resize = 'full',$just = 'center',$b
 	{
 		$fp = @fopen($image,"rb");
 		while(!feof($fp))
-   		{
+		{
 	  			$cont.= fread($fp,1024);
-   		}
-   		fclose($fp);
+		}
+		fclose($fp);
 		$image = tempnam ("/tmp", "php-pdf");
 		$fp2 = @fopen($image,"w");
-   		fwrite($fp2,$cont);
+		fwrite($fp2,$cont);
   		fclose($fp2);
 		$temp = true;
 	}

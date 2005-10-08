@@ -1,170 +1,90 @@
 <?php
 /**
-* @version $Id: toolbar.menus.php 137 2005-09-12 10:21:17Z eddieajau $
-* @package Mambo
+* @version $Id$
+* @package Joomla
 * @subpackage Menus
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-/**
- * Toolbar for Menu Manager
- * @package Mambo
- * @subpackage Menu
- */
-class menuToolbar extends mosAbstractTasker {
-	/**
-	 * Constructor
-	 */
-	function menuToolbar() {
-		// auto register public methods as tasks, set the default task
-		parent::mosAbstractTasker( 'view' );
+require_once( $mainframe->getPath( 'toolbar_html' ) );
+require_once( $mainframe->getPath( 'toolbar_default' ) );
 
-		// set task level access control
-		//$this->setAccessControl( 'com_weblinks', 'manage' );
+switch ($task) {
+	case 'new':
+		TOOLBAR_menus::_NEW();
+		break;
 
-		// additional mappings
-		$this->registerTask( 'new', 'newmenu' );
-		$this->registerTask( 'copymenu', 'copy' );
-		$this->registerTask( 'movemenu', 'move' );
-	}
+	case 'movemenu':
+		TOOLBAR_menus::_MOVEMENU();
+		break;
 
-	function view() {
-		global $_LANG;
+	case 'copymenu':
+		TOOLBAR_menus::_COPYMENU();
+		break;
 
-		$menutype 	= mosGetParam( $_REQUEST, 'menutype', 'mainmenu' );
-
-		mosMenuBar::title( $_LANG->_( 'Menus' ), 'menu.png', 'index2.php?option=com_menus&amp;menutype='. $menutype );
-
-		mosMenuBar::startTable();
-		mosMenuBar::publishList();
-		mosMenuBar::unpublishList();
-		mosMenuBar::customX( 'movemenu', 'move.png', 'move_f2.png', $_LANG->_( 'Move' ), true );
-		mosMenuBar::customX( 'copymenu', 'copy.png', 'copy_f2.png', $_LANG->_( 'Copy' ), true );
-		mosMenuBar::trash();
-		mosMenuBar::editListX();
-		mosMenuBar::addNewX();
-		mosMenuBar::help( 'screen.menus' );
-		mosMenuBar::endTable();
-	}
-
-	function edit( ){
-		global $id, $database;
-		global $_LANG;
-
-		if ( !$id ) {
-			$id = mosGetParam( $_REQUEST, 'cid', '' );
+	case 'edit':
+		$cid 	= mosGetParam( $_POST, 'cid', array(0) );
+		if (!is_array( $cid )) {
+			$cid = array(0);
 		}
+		$path 	= $mosConfig_absolute_path .'/administrator/components/com_menus/';
 
-		if ( !$id ) {
-			$cid = mosGetParam( $_POST, 'cid', array(0) );
-			$id = intval( $cid[0] );
-		}
-		$menutype	= mosGetParam( $_REQUEST, 'menutype', 'mainmenu' );
-		$type		= mosGetParam( $_REQUEST, 'type', 'edit' );
+		if ( $cid[0] ) {
+			$query = "SELECT type"
+			. "\n FROM #__menu"
+			. "\n WHERE id = $cid[0]"
+			;
+			$database->setQuery( $query );
+			$type = $database->loadResult();
+			$item_path  = $path . $type .'/'. $type .'.menubar.php';
 
-		$text = ( $id ? $_LANG->_( 'Edit Menu Item' ) : $_LANG->_( 'New Menu Item' ) );
-
-		$row 	= new mosMenu($database);
-		// load the row from the db table
-		$row->load( $id );
-		$name = ( $row->type ? $row->type : $type );
-
-		mosMenuBar::title( $text, 'menu.png' );
-
-		mosMenuBar::startTable();
-		if ( !$id ) {
-			$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=new';
-			mosMenuBar::link( $link );
-
-		}
-		mosMenuBar::save();
-		mosMenuBar::apply();
-		if ( $id ) {
-			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', $_LANG->_( 'Close' ) );
+			if ( $type ) {
+				if ( file_exists( $item_path  ) ) {
+					require_once( $item_path  );
+				} else {
+					TOOLBAR_menus::_EDIT();
+				}
+			} else {
+				echo $database->stderr();
+			}
 		} else {
-			mosMenuBar::cancel();
+			$type 		= mosGetParam( $_REQUEST, 'type', null );
+			$item_path  = $path . $type .'/'. $type .'.menubar.php';
+
+			if ( $type ) {
+				if ( file_exists( $item_path ) ) {
+					require_once( $item_path  );
+				} else {
+					TOOLBAR_menus::_EDIT();
+				}
+			} else {
+				TOOLBAR_menus::_EDIT();
+			}
 		}
-		mosMenuBar::help( 'screen.menus.'. $name );
-		mosMenuBar::endTable();
-	}
+		break;
 
-	function newmenu() {
-		global $_LANG;
+	default:
+		$type 		= mosGetParam( $_REQUEST, 'type' );
+		$item_path  = $path . $type .'/'. $type .'.menubar.php';
 
-		mosMenuBar::title( $_LANG->_( 'New Menu Item' ), 'menu.png' );
-
-		mosMenuBar::startTable();
-		mosMenuBar::customX( 'edit', 'next.png', 'next_f2.png', $_LANG->_( 'Next' ), false );
-		mosMenuBar::cancel();
-		mosMenuBar::help( 'screen.menus.new' );
-		mosMenuBar::endTable();
-	}
-
-	function copy() {
-		global $_LANG;
-
-		mosMenuBar::title( $_LANG->_( 'Copy Menu Items' ), 'menu.png' );
-
-		mosMenuBar::startTable();
-		mosMenuBar::custom( 'copymenusave', 'copy.png', 'copy_f2.png', $_LANG->_( 'Copy' ), false );
-		mosMenuBar::cancel( 'cancelcopymenu' );
-		mosMenuBar::help( 'screen.menus.copy' );
-		mosMenuBar::endTable();
-	}
-
-	function move() {
-		global $_LANG;
-
-		mosMenuBar::title( $_LANG->_( 'Move Menu Items' ), 'menu.png' );
-
-		mosMenuBar::startTable();
-		mosMenuBar::custom( 'movemenusave', 'move.png', 'move_f2.png', $_LANG->_( 'Move' ), false );
-		mosMenuBar::cancel( 'cancelmovemenu' );
-		mosMenuBar::help( 'screen.menus.move' );
-		mosMenuBar::endTable();
-	}
-
-	function trashview() {
-		global $_LANG;
-
-		mosMenuBar::title( $_LANG->_( 'Trashed Menu Items' ), 'trash.png' );
-
-		mosMenuBar::startTable();
-		mosMenuBar::custom('trashrestoreconfirm','restore.png','restore_f2.png',$_LANG->_( 'Restore' ), true);
-		mosMenuBar::custom('trashdeleteconfirm','delete.png','delete_f2.png',$_LANG->_( 'Delete' ), true);
-		mosMenuBar::help( 'screen.menus.trash' );
-		mosMenuBar::endTable();
-	}
-
-	function trashrestoreconfirm( ) {
-		global $_LANG;
-
-		mosMenuBar::title( $_LANG->_( 'Restore Menu Items' ), 'trash.png' );
-
-		mosMenuBar::startTable();
-		mosMenuBar::cancel( 'cancelrestore' );
-		mosMenuBar::endTable();
-	}
-
-	function trashdeleteconfirm( ) {
-		global $_LANG;
-
-		mosMenuBar::title( $_LANG->_( 'Delete Menu Items' ), 'trash.png' );
-
-		mosMenuBar::startTable();
-		mosMenuBar::cancel( 'canceldelete' );
-		mosMenuBar::endTable();
-	}
+		if ( $type ) {
+			if ( file_exists( $item_path ) ) {
+				require_once( $item_path );
+			} else {
+				TOOLBAR_menus::_DEFAULT();
+			}
+		} else {
+			TOOLBAR_menus::_DEFAULT();
+		}
+		break;
 }
-
-$tasker = new menuToolbar();
-$tasker->performTask( mosGetParam( $_REQUEST, 'task', '' ) );
 ?>

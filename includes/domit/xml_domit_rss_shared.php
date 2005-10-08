@@ -44,7 +44,8 @@ define('DOMIT_RSS_PARSING_ERR', 104);
 define('DOMIT_RSS_ONERROR_CONTINUE', 1);
 /** die on error  */
 define('DOMIT_RSS_ONERROR_DIE', 2);
-
+/** die on error  */
+define('DOMIT_RSS_ONERROR_RETURN', 3);
 
 /**
 * The base class of all DOMIT! RSS objects

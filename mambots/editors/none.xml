@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<mosinstall version="4.5.2" type="mambot" group="editors">
+<mosinstall version="1.0.0" type="mambot" group="editors">
     <name>none</name>
     <version></version>
     <creationDate>August 2004</creationDate>

@@ -1,10 +1,10 @@
 // <?php !! This fools phpdocumentor into parsing this file
 /**
-* @version $Id: mambojavascript.js 4 2005-09-06 19:22:37Z akede $
-* @package Mambo
-* @copyright (C) 2000 - 2005 Miro International Pty Ltd
+* @version $Id$
+* @package Joomla
+* @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-* Mambo is Free Software
+* Joomla! is Free Software
 */
 
 // general utility for browsing a named array or object
@@ -236,16 +236,10 @@ function showImageProps(base_path) {
 	setSelectedValue( 'adminForm', '_align', parts[1] || '' );
 	form._alt.value = parts[2] || '';
 	form._border.value = parts[3] || '0';
-	if(form._caption) {
-       form._caption.value = parts[4] || '';
-       setSelectedValue( 'adminForm', '_caption_position', parts[5] || '' );
-       setSelectedValue( 'adminForm', '_caption_align', parts[6] || '' );
-	} 
-	if(form._width) {
-       form._width.value = parts[7] || '';
-	} 
-	form._link.value = parts[8] || '';
-	setSelectedValue( 'adminForm', '_link_target', parts[9] || '' );
+	form._caption.value = parts[4] || '';
+	setSelectedValue( 'adminForm', '_caption_position', parts[5] || '' );
+	setSelectedValue( 'adminForm', '_caption_align', parts[6] || '' );
+	form._width.value = parts[7] || '';
 
 	//previewImage( 'imagelist', 'view_imagelist', base_path );
 	srcImage = eval( "document." + 'view_imagelist' );
@@ -261,36 +255,25 @@ function applyImageProps() {
 	value = form._source.value + '|'
 	+ getSelectedValue( 'adminForm', '_align' ) + '|'
 	+ form._alt.value + '|'
-	+ parseInt( form._border.value );
-
-	if(form._caption) {
-       value += '|'
-       + form._caption.value + '|'
-       + getSelectedValue( 'adminForm', '_caption_position' ) + '|'
-       + getSelectedValue( 'adminForm', '_caption_align' );
-	}
-	if(form._width) {
-       value += '|'
-       + form._width.value;
-	}
-	chgSelectedValue( 'adminForm', 'imagelist', value ); 
+	+ parseInt( form._border.value ) + '|'
+	+ form._caption.value + '|'
+	+ getSelectedValue( 'adminForm', '_caption_position' ) + '|'
+	+ getSelectedValue( 'adminForm', '_caption_align' ) + '|'
+	+ form._width.value;
+	chgSelectedValue( 'adminForm', 'imagelist', value );
 }
 
 function previewImage( list, image, base_path ) {
 	form = document.adminForm;
 	srcList = eval( "form." + list );
 	srcImage = eval( "document." + image );
-	if(srcList.selectedIndex >= 0) {
-       var fileName = srcList.options[srcList.selectedIndex].text;
-       var fileName2 = srcList.options[srcList.selectedIndex].value;
-       if (fileName.length == 0 || fileName2.length == 0) {
-               srcImage.src = 'images/blank.png';
-       } else {
-               srcImage.src = base_path + fileName2;
-       }
+	var fileName = srcList.options[srcList.selectedIndex].text;
+	var fileName2 = srcList.options[srcList.selectedIndex].value;
+	if (fileName.length == 0 || fileName2.length == 0) {
+		srcImage.src = 'images/blank.gif';
 	} else {
-       srcImage.src = 'images/blank.png';
-	} 
+		srcImage.src = base_path + fileName2;
+	}
 }
 
 /**
@@ -301,11 +284,6 @@ function previewImage( list, image, base_path ) {
 * @param An alternative field name
 */
 function checkAll( n, fldName ) {
-  
-  if(!document.adminForm.boxchecked) {
-	 	return;
-	}
-  
   if (!fldName) {
      fldName = 'cb';
   }
@@ -324,32 +302,10 @@ function checkAll( n, fldName ) {
 	} else {
 		document.adminForm.boxchecked.value = 0;
 	}
-	
-	if(document.toolbar) {
-		document.toolbar.enable(document.adminForm.boxchecked);
-	}
-}
-
-function isChecked(isitchecked){
-	 if(!document.adminForm.boxchecked) {
-	 	return;
-	 }
-	 
-	if (isitchecked == true){
-			document.adminForm.boxchecked.value++;
-	}
-	else {
-		document.adminForm.boxchecked.value--;
-	}
-		
-	if(document.toolbar) {
-		document.toolbar.enable(document.adminForm.boxchecked);
-	}
 }
 
 function listItemTask( id, task ) {
-    
-	 var f = document.adminForm;
+    var f = document.adminForm;
     cb = eval( 'f.' + id );
     if (cb) {
         for (i = 0; true; i++) {
@@ -358,26 +314,28 @@ function listItemTask( id, task ) {
             cbx.checked = false;
         } // for
         cb.checked = true;
-        if( f.boxchecked) {
-        		f.boxchecked.value = 1;
-        }
+        f.boxchecked.value = 1;
         submitbutton(task);
     }
     return false;
 }
 
-/**
-	* @deprecated
-	* @since 4.5.3
-	*/
-function hideMainMenu() {
+function hideMainMenu()
+{
 	document.adminForm.hidemainmenu.value=1;
 }
 
+function isChecked(isitchecked){
+	if (isitchecked == true){
+		document.adminForm.boxchecked.value++;
+	}
+	else {
+		document.adminForm.boxchecked.value--;
+	}
+}
 
 /**
 * Default function.  Usually would be overriden by the component
-* @param string The task name
 */
 function submitbutton(pressbutton) {
 	submitform(pressbutton);
@@ -385,23 +343,14 @@ function submitbutton(pressbutton) {
 
 /**
 * Submit the admin form
-* @param string The task name
-* @param object The form (optional)
 */
-function submitform(pressbutton, frm){
-	if (!frm) {
-		frm = document.adminForm;
-	}
-	var img = document.getElementById( 'loadingImage' );
-	if (img) {
-		img.src = 'images/loading.gif';
-	}
-	frm.task.value=pressbutton;
+function submitform(pressbutton){
+	document.adminForm.task.value=pressbutton;
 	try {
-		frm.onsubmit();
+		document.adminForm.onsubmit();
 		}
 	catch(e){}
-	frm.submit();
+	document.adminForm.submit();
 }
 
 /**
@@ -560,15 +509,6 @@ function mosDHTML(){
 			elem.style.display = 'none';
 		}
 	}
-	this.flipElem = function(id) {
-		if (elem = document.getElementById(id)) {
-			if (elem.style.visibility == 'hidden') {
-				this.showElem(id);
-			} else {
-				this.hideElem(id);
-			}
-		}
-	}
 	this.cycleTab = function(name) {
 		if (this.activeTab) {
 			this.setElemStyle( this.activeTab, this.offTabStyle );
@@ -645,49 +585,4 @@ function getElementByName( f, name ) {
 		}
 	}
 	return null;
-}
-
-/**
-* @param object A form element
-* @param string The name of the element to find
-* @return array
-*/
-function getElementsByName( f, name ) {
-	elems = new Array();
-	if (f.elements) {
-		for (i=0, n=f.elements.length; i < n; i++) {
-			if (f.elements[i].name == name) {
-				elems[elems.length] = f.elements[i];
-			}
-		}
-	}
-	return elems;
-}
-
-// needed for Table Column ordering
-function tableOrdering( order, dir ) {
-	var form = document.adminForm;
-
-	form.tOrder.value 		= order;
-	form.tOrderDir.value 	= dir;
-	submitform( null );
-}
-
-/**
- * Must have a hidden field called orderCol and orderDirn
- * @param string The order field
- * @param string The task
- * @param object The form to use
- */
-function reorder( order, task, frm ) {
-	if (!frm) {
-		frm = document.adminForm;
-	}
-	if (frm.orderCol.value == order) {
-		frm.orderDirn.value = 1 - frm.orderDirn.value;
-	} else {
-		frm.orderDirn.value = 0;
-	}
-	frm.orderCol.value = order;
-	submitform( task );
 }

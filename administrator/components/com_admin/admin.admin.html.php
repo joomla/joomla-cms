@@ -1,73 +1,19 @@
 <?php
 /**
-* @version $Id: admin.admin.html.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Admin
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
-
-
-/**
- * @package Joomla
- * @subpackage Contact
- */
-class adminScreens {
-	/**
-	 * Static method to create the template object
-	 * @param array An array of other standard files to include
-	 * @return patTemplate
-	 */
-	function &createTemplate( $files=null ) {
-		$tmpl =& mosFactory::getPatTemplate( $files );
-		$tmpl->setRoot( dirname( __FILE__ ) . '/tmpl' );
-
-		return $tmpl;
-	}
-
-	/**
-	* List languages
-	* @param array
-	*/
-	function sysinfo() {
-		$tmpl =& adminScreens::createTemplate();
-
-		$tmpl->readTemplatesFromInput( 'sysinfo.html' );
-
-		$tmpl->displayParsedTemplate( 'body2' );
-	}
-
-	/**
-	* List languages
-	* @param array
-	*/
-	function help( $search, $index ) {
-		global $mosConfig_helpurl, $mosConfig_live_site;
-
-		if ( $mosConfig_helpurl ) {
-            $url = $mosConfig_helpurl .'/index2.php?option=com_content&amp;task=findkey&pop=1&keyref=';
-		} else {
-		    $url = $mosConfig_live_site .'/help/';
-		}
-
-		$tmpl =& adminScreens::createTemplate();
-
-		$tmpl->readTemplatesFromInput( 'help.html' );
-
-		$tmpl->addVar( 'body2', 'url', $url );
-		$tmpl->addVar( 'body2', 'search', $search );
-
-		$tmpl->addObject( 'index', $index, 'index_' );
-
-		$tmpl->displayParsedTemplate( 'body2' );
-	}
-}
 
 /**
 * @package Joomla
@@ -79,26 +25,31 @@ class HTML_admin_misc {
 	* Control panel
 	*/
 	function controlPanel() {
-	    global $mosConfig_absolute_path, $mainframe;
-		global $_LANG;
-
+		global $mosConfig_absolute_path, $mainframe, $_LANG;
+		?>
+		<table class="adminheading" border="0">
+		<tr>
+			<th class="cpanel">
+			<?php echo $_LANG->_( 'Control Panel' ); ?>
+			</th>
+		</tr>
+		</table>
+		<?php
 		$path = $mosConfig_absolute_path . '/administrator/templates/' . $mainframe->getTemplate() . '/cpanel.php';
 		if (file_exists( $path )) {
-		    require $path;
+			require $path;
 		} else {
-		    echo '<br />';
+			echo '<br />';
 			mosLoadAdminModules( 'cpanel', 1 );
 		}
 	}
 
 	function get_php_setting($val) {
-		global $_LANG;
 		$r =  (ini_get($val) == '1' ? 1 : 0);
-		return $r ? $_LANG->_( 'ON' ) : $_LANG->_( 'OFF' ) ;
+		return $r ? 'ON' : 'OFF';
 	}
 
 	function get_server_software() {
-		global $_LANG;
 		if (isset($_SERVER['SERVER_SOFTWARE'])) {
 			return $_SERVER['SERVER_SOFTWARE'];
 		} else if (($sf = getenv('SERVER_SOFTWARE'))) {
@@ -108,362 +59,342 @@ class HTML_admin_misc {
 		}
 	}
 
-	function system_info() {
-		global $mosConfig_absolute_path, $database;
-		global $_LANG;
-
+	function system_info( $version ) {
+		global $mosConfig_absolute_path, $database, $_LANG;
+		//$tab = mosGetParam( $_REQUEST, 'tab', 'tab1' );
 		$width = 400;	// width of 100%
+		$tabs = new mosTabs(0);
 		?>
 
+		<table class="adminheading">
+		<tr>
+			<th class="info">
+			<?php echo $_LANG->_( 'Information' ); ?>
+			</th>
+		</tr>
+		</table>
+		
 		<?php
-		adminScreens::sysinfo();
+		$tabs->startPane("sysinfo");
+		$tabs->startTab("System Info","system-page");
 		?>
-				<?php
-				$title = $_LANG->_( 'System Info' );
-				?>
-<form action="index2.php" method="post" name="adminForm">
-		<div id="mosswitcher">
-			<div id="system-info">
-					<table class="adminform">
-					<tr>
-						<th colspan="2">
-			            	<?php echo $_LANG->_( 'System Information' ); ?>
-						</th>
-					</tr>
-					<tr>
-						<td valign="top" width="250">
-							<b>
-				            <?php echo $_LANG->_( 'PHP built On' ); ?>:
-							</b>
-						</td>
-						<td>
-							<?php echo php_uname(); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<b>
-				            <?php echo $_LANG->_( 'Database Version' ); ?>:
-							</b>
-						</td>
-						<td>
-							<?php echo $database->getVersion(); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<b>
-				            <?php echo $_LANG->_( 'PHP Version' ); ?>:
-							</b>
-						</td>
-						<td>
-							<?php echo phpversion(); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<b>
-				            <?php echo $_LANG->_( 'Web Server' ); ?>:
-							</b>
-						</td>
-						<td>
-							<?php echo HTML_admin_misc::get_server_software(); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<b>
-				            <?php echo $_LANG->_( 'WebServer to PHP interface' ); ?>:
-							</b>
-						</td>
-						<td>
-							<?php echo php_sapi_name(); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<b>
-				            <?php echo $_LANG->_( 'Joomla! Version' ); ?>:
-							</b>
-						</td>
-						<td>
-							<?php echo $GLOBALS['_VERSION']->getLongVersion(); ?>
-						</td>
-					</tr>
+			<table class="adminform">
+			<tr>
+				<th colspan="2">
+				<?php echo $_LANG->_( 'System Information' ); ?>
+				</th>
+			</tr>
+			<tr>
+				<td valign="top" width="250">
+					<strong><?php echo $_LANG->_( 'PHP built On' ); ?>:</strong>
+				</td>
+				<td>
+					<?php echo php_uname(); ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<strong><?php echo $_LANG->_( 'Database Version' ); ?>:</strong>
+				</td>
+				<td>
+					<?php echo $database->getVersion(); ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<strong><?php echo $_LANG->_( 'PHP Version' ); ?>:</strong>
+				</td>
+				<td>
+					<?php echo phpversion(); ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<strong><?php echo $_LANG->_( 'Web Server' ); ?>:</strong>
+				</td>
+				<td>
+					<?php echo HTML_admin_misc::get_server_software(); ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<strong><?php echo $_LANG->_( 'WebServer to PHP interface' ); ?>:</strong>
+				</td>
+				<td>
+					<?php echo php_sapi_name(); ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<strong><?php echo $_LANG->_( 'Joomla! Version' ); ?>:</strong>
+				</td>
+				<td>
+					<?php echo $version; ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<strong><?php echo $_LANG->_( 'User Agent' ); ?>:</strong>
+				</td>
+				<td>
+					<?php echo phpversion() <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];?>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">
+					<strong><?php echo $_LANG->_( 'Relevant PHP Settings' ); ?>:</strong>
+				</td>
+				<td>
+					<table cellspacing="1" cellpadding="1" border="0">
 					<tr>
 						<td>
-							<b>
-				            <?php echo $_LANG->_( 'User Agent' ); ?>:
-							</b>
+							<?php echo $_LANG->_( 'Safe Mode' ); ?>:
 						</td>
 						<td>
-							<?php echo phpversion() <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];?>
+							<?php echo HTML_admin_misc::get_php_setting('safe_mode'); ?>
 						</td>
 					</tr>
 					<tr>
-						<td valign="top">
-							<b>
-				            <?php echo $_LANG->_( 'Relevant PHP Settings' ); ?>:
-							</b>
+						<td>
+							<?php echo $_LANG->_( 'Open basedir' ); ?>:
 						</td>
 						<td>
-							<table cellspacing="1" cellpadding="1" border="0">
-							<tr>
-								<td>
-			                    	<?php echo $_LANG->_( 'Safe Mode' ); ?>:
-								</td>
-								<td>
-									<?php echo HTML_admin_misc::get_php_setting('safe_mode'); ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-			                    	<?php echo $_LANG->_( 'Open basedir' ); ?>:
-								</td>
-								<td>
-									<?php echo (($ob = ini_get('open_basedir')) ? $ob : $_LANG->_( 'none' ) ); ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-			                    	<?php echo $_LANG->_( 'Display Errors' ); ?>:
-								</td>
-								<td>
-									<?php echo HTML_admin_misc::get_php_setting('display_errors'); ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-			                    	<?php echo $_LANG->_( 'Short Open Tags' ); ?>:
-								</td>
-								<td>
-									<?php echo HTML_admin_misc::get_php_setting('short_open_tag'); ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-			                    	<?php echo $_LANG->_( 'File Uploads' ); ?>:
-								</td>
-								<td>
-									<?php echo HTML_admin_misc::get_php_setting('file_uploads'); ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-			                    	<?php echo $_LANG->_( 'Magic Quotes' ); ?>:
-								</td>
-								<td>
-									<?php echo HTML_admin_misc::get_php_setting('magic_quotes_gpc'); ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-			                   		<?php echo $_LANG->_( 'Register Globals' ); ?>:
-								</td>
-								<td>
-									<?php echo HTML_admin_misc::get_php_setting('register_globals'); ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-			                    	<?php echo $_LANG->_( 'Output Buffering' ); ?>:
-								</td>
-								<td>
-									<?php echo HTML_admin_misc::get_php_setting('output_buffering'); ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-			                    	<?php echo $_LANG->_( 'Session save path' ); ?>:
-								</td>
-								<td>
-									<?php echo (($sp=ini_get('session.save_path')) ? $sp : $_LANG->_( 'none' ) ); ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-			                    	<?php echo $_LANG->_( 'Session auto start' ); ?>:
-								</td>
-								<td>
-									<?php echo intval( ini_get( 'session.auto_start' ) ); ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-			                    	<?php echo $_LANG->_( 'XML enabled' ); ?>:
-								</td>
-								<td>
-									<?php echo extension_loaded('xml') ? $_LANG->_( 'Yes' ) : $_LANG->_( 'No' ) ; ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-			                    	<?php echo $_LANG->_( 'Zlib enabled' ); ?>:
-								</td>
-								<td>
-									<?php echo extension_loaded('zlib') ? $_LANG->_( 'Yes' ) : $_LANG->_( 'No' ) ; ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-			                   		<?php echo $_LANG->_( 'Disabled Functions' ); ?>:
-								</td>
-								<td>
-									<?php echo (($df=ini_get('disable_functions')) ? $df : $_LANG->_( 'none' ) ); ?>
-								</td>
-							</tr>
-							<?php
-							$query = "SELECT name FROM #__mambots"
-							. "\n WHERE folder='editors' AND published='1'";
-							$database->setQuery( $query, 0, 1 );
-							$editor = $database->loadResult();
-							?>
-							<tr>
-								<td>
-			                    	<?php echo $_LANG->_( 'WYSIWYG Editor' ); ?>:
-								</td>
-								<td>
-									<?php echo $editor; ?>
-								</td>
-							</tr>
-							</table>
+							<?php echo (($ob = ini_get('open_basedir')) ? $ob : 'none'); ?>
 						</td>
 					</tr>
 					<tr>
-						<td valign="top">
-							<b>
-				            <?php echo $_LANG->_( 'Configuration File' ); ?>:
-							</b>
+						<td>
+							<?php echo $_LANG->_( 'Display Errors' ); ?>:
 						</td>
 						<td>
-							<?php
-							$cf = file( $mosConfig_absolute_path . '/configuration.php' );
-							foreach ($cf as $k=>$v) {
-								if (eregi( 'mosConfig_host', $v)) {
-									$cf[$k] = '$mosConfig_host = \'xxxxxx\'';
-								} else if (eregi( 'mosConfig_user', $v)) {
-									$cf[$k] = '$mosConfig_user = \'xxxxxx\'';
-								} else if (eregi( 'mosConfig_password', $v)) {
-									$cf[$k] = '$mosConfig_password = \'xxxxxx\'';
-								} else if (eregi( 'mosConfig_db ', $v)) {
-									$cf[$k] = '$mosConfig_db = \'xxxxxx\'';
-								} else if (eregi( '<?php', $v)) {
-									$cf[$k] = '&lt;?php';
-								}
-							}
-							echo implode( "<br />", $cf );
-							?>
+							<?php echo HTML_admin_misc::get_php_setting('display_errors'); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<?php echo $_LANG->_( 'Short Open Tags' ); ?>:
+						</td>
+						<td>
+							<?php echo HTML_admin_misc::get_php_setting('short_open_tag'); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<?php echo $_LANG->_( 'File Uploads' ); ?>:
+						</td>
+						<td>
+							<?php echo HTML_admin_misc::get_php_setting('file_uploads'); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<?php echo $_LANG->_( 'Magic Quotes' ); ?>:
+						</td>
+						<td>
+							<?php echo HTML_admin_misc::get_php_setting('magic_quotes_gpc'); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<?php echo $_LANG->_( 'Register Globals' ); ?>:
+						</td>
+						<td>
+							<?php echo HTML_admin_misc::get_php_setting('register_globals'); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<?php echo $_LANG->_( 'Output Buffering' ); ?>:
+						</td>
+						<td>
+							<?php echo HTML_admin_misc::get_php_setting('output_buffering'); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<?php echo $_LANG->_( 'Session save path' ); ?>:
+						</td>
+						<td>
+							<?php echo (($sp=ini_get('session.save_path'))?$sp:'none'); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<?php echo $_LANG->_( 'Session auto start' ); ?>:
+						</td>
+						<td>
+							<?php echo intval( ini_get( 'session.auto_start' ) ); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<?php echo $_LANG->_( 'XML enabled' ); ?>:
+						</td>
+						<td>
+						<?php echo extension_loaded('xml')?'Yes':'No'; ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<?php echo $_LANG->_( 'Zlib enabled' ); ?>:
+						</td>
+						<td>
+							<?php echo extension_loaded('zlib')?'Yes':'No'; ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<?php echo $_LANG->_( 'Disabled Functions' ); ?>:
+						</td>
+						<td>
+							<?php echo (($df=ini_get('disable_functions'))?$df:'none'); ?>
+						</td>
+					</tr>
+					<?php
+					$query = "SELECT name FROM #__mambots"
+					. "\nWHERE folder='editors' AND published='1'"
+					. "\nLIMIT 1";
+					$database->setQuery( $query );
+					$editor = $database->loadResult();
+					?>
+					<tr>
+						<td>
+							<?php echo $_LANG->_( 'WYSIWYG Editor' ); ?>:
+						</td>
+						<td>
+							<?php echo $editor; ?>
 						</td>
 					</tr>
 					</table>
-
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">
+					<strong><?php echo $_LANG->_( 'Configuration File' ); ?>:</strong>
+				</td>
+				<td>
 				<?php
-				$title = $_LANG->_( 'PHP Info' );
+				$cf = file( $mosConfig_absolute_path . '/configuration.php' );
+				foreach ($cf as $k=>$v) {
+					if (eregi( 'mosConfig_host', $v)) {
+						$cf[$k] = '$mosConfig_host = \'xxxxxx\'';
+					} else if (eregi( 'mosConfig_user', $v)) {
+						$cf[$k] = '$mosConfig_user = \'xxxxxx\'';
+					} else if (eregi( 'mosConfig_password', $v)) {
+						$cf[$k] = '$mosConfig_password = \'xxxxxx\'';
+					} else if (eregi( 'mosConfig_db ', $v)) {
+						$cf[$k] = '$mosConfig_db = \'xxxxxx\'';
+					} else if (eregi( '<?php', $v)) {
+						$cf[$k] = '&lt;?php';
+					}
+				}
+				echo implode( "<br />", $cf );
 				?>
-		</div>
-			<div id="php-info">
-					<table class="adminform">
-					<tr>
-						<th colspan="2">
-			            	<?php echo $_LANG->_( 'PHP Information' ); ?>
-						</th>
-					</tr>
-					<tr>
-						<td>
-							<?php
-							ob_start();
-							phpinfo(INFO_GENERAL | INFO_CONFIGURATION | INFO_MODULES);
-							$phpinfo = ob_get_contents();
-							ob_end_clean();
-							preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpinfo, $output);
-							$output = preg_replace('#<table#', '<table class="adminlist" align="center"', $output[1][0]);
-							$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
-							$output = preg_replace('#border="0" cellpadding="3" width="600"#', 'border="0" cellspacing="1" cellpadding="4" width="95%"', $output);
-							$output = preg_replace('#<hr />#', '', $output);
-							echo $output;
-							?>
-						</td>
-					</tr>
-					</table>
-
+				</td>
+			</tr>
+			</table>
+		<?php
+		$tabs->endTab();
+		$tabs->startTab("PHP Info","php-page");
+		?>
+			<table class="adminform">
+			<tr>
+				<th colspan="2">
+					<?php echo $_LANG->_( 'PHP Information' ); ?>
+				</th>
+			</tr>
+			<tr>
+				<td>
 				<?php
-				$title = $_LANG->_( 'Permissions' );
+				ob_start();
+				phpinfo(INFO_GENERAL | INFO_CONFIGURATION | INFO_MODULES);
+				$phpinfo = ob_get_contents();
+				ob_end_clean();
+				preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpinfo, $output);
+				$output = preg_replace('#<table#', '<table class="adminlist" align="center"', $output[1][0]);
+				$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
+				$output = preg_replace('#border="0" cellpadding="3" width="600"#', 'border="0" cellspacing="1" cellpadding="4" width="95%"', $output);
+				$output = preg_replace('#<hr />#', '', $output);
+				echo $output;
 				?>
-			</div>
-			<div id="permissions">
-					<table class="adminform">
-					<tr>
-						<th colspan="2">
-							<?php echo $_LANG->_( 'Directory Permissions' ); ?>
-						</th>
-					</tr>
-					<tr>
-						<td>
-							<strong>
-								<?php echo $_LANG->_( 'DESCDIRWRITABLE' ); ?>:
-							</strong>
-							<table class="adminform">
-							<?php
-							mosHTML::writableCell( 'administrator/backups' );
-							mosHTML::writableCell( 'administrator/components' );
-							mosHTML::writableCell( 'administrator/components/com_export/files' );
-							mosHTML::writableCell( 'administrator/modules' );
-							mosHTML::writableCell( 'administrator/templates' );
-							mosHTML::writableCell( 'cache' );
-							mosHTML::writableCell( 'components' );
-							mosHTML::writableCell( 'images' );
-							mosHTML::writableCell( 'images/banners' );
-							mosHTML::writableCell( 'images/stories' );
-							mosHTML::writableCell( 'language' );
-							mosHTML::writableCell( 'mambots' );
-							mosHTML::writableCell( 'mambots/content' );
-							mosHTML::writableCell( 'mambots/editors' );
-							mosHTML::writableCell( 'mambots/search' );
-							mosHTML::writableCell( 'media' );
-							mosHTML::writableCell( 'modules' );
-							mosHTML::writableCell( 'templates' );
-							?>
-							</table>
-						</td>
-					</tr>
-					</table>
-				</div>
-				</div>
-				</form>
-			</fieldset>
-		</div>
+				</td>
+			</tr>
+			</table>
+		<?php
+		$tabs->endTab();
+		$tabs->startTab('Permissions','perms');
+		?>
+			<table class="adminform">
+			<tr>
+				<th colspan="2">
+					<?php echo $_LANG->_( 'Directory Permissions' ); ?>
+				</th>
+			</tr>
+			<tr>
+				<td>
+					<strong><?php echo $_LANG->_( 'DescDirWritable' ); ?>:</strong>
+					<?php
+					mosHTML::writableCell( 'administrator/backups' );
+					mosHTML::writableCell( 'administrator/components' );
+					mosHTML::writableCell( 'administrator/modules' );
+					mosHTML::writableCell( 'administrator/templates' );
+					mosHTML::writableCell( 'cache' );
+					mosHTML::writableCell( 'components' );
+					mosHTML::writableCell( 'images' );
+					mosHTML::writableCell( 'images/banners' );
+					mosHTML::writableCell( 'images/stories' );
+					mosHTML::writableCell( 'language' );
+					mosHTML::writableCell( 'mambots' );
+					mosHTML::writableCell( 'mambots/content' );
+					mosHTML::writableCell( 'mambots/editors' );
+					mosHTML::writableCell( 'mambots/editors-xtd' );
+					mosHTML::writableCell( 'mambots/search' );
+					mosHTML::writableCell( 'media' );
+					mosHTML::writableCell( 'modules' );
+					mosHTML::writableCell( 'templates' );				
+					?>
+				</td>
+			</tr>
+			</table>
+		<?php
+		$tabs->endTab();
+		$tabs->endPane();
+		?>
 		<?php
 	}
 
+	function ListComponents() {
+		global $database;
+		
+		$query = "SELECT params"
+		. "\n FROM #__modules "
+		. "\n WHERE module = 'mod_components'"
+		;
+		$database->setQuery( $query );
+		$row = $database->loadResult();
+		$params = new mosParameters( $row );
+		
+		mosLoadAdminModule( 'components', $params );
+	}
+
 	/**
-	* Display Help Page
-	*/
+	 * Display Help Page
+	 */
 	function help() {
-		global $mosConfig_live_site, $mosConfig_helpurl;
-		global $mainframe;
-		global $_LANG;
-
-		$fullhelpurl = $mosConfig_helpurl . '/index2.php?option=com_content&amp;task=findkey&pop=1&keyref=';
-
-		$search 	= $mainframe->getUserStateFromRequest( 'search', 'search', '' );
-		$search 	= trim( strtolower( $search ) );
-		$page 		= mosGetParam( $_REQUEST, 'page', 'mambo.whatsnew452.html' );
-		$toc 		= getHelpToc( $search );
-		if ( !eregi( '\.html$', $page ) ) {
-			$page .= '.xml';
+		global $mosConfig_live_site, $_LANG;
+		$helpurl 	= mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
+		
+		if ( $helpurl == 'http://help.mamboserver.com' ) {
+			$helpurl = 'http://help.joomla.org';
 		}
+		
+		$fullhelpurl = $helpurl . '/index2.php?option=com_content&amp;task=findkey&pop=1&keyref=';
 
-		$i = 0;
-		foreach ( $toc as $k => $v ) {
-			if ( $mosConfig_helpurl ) {
-				$index[$i]->url 	= $fullhelpurl . urlencode( $k );
-			} else {
-				$index[$i]->url 	= $mosConfig_live_site . '/help/' . $k;
-			}
-			$index[$i]->text 	= addslashes( $v );
-			$index[$i]->num 	= $i + 1;
-
-			$i++;
+		$helpsearch = mosGetParam( $_REQUEST, 'helpsearch', '' );
+		$page 		= mosGetParam( $_REQUEST, 'page', 'joomla.whatsnew100.html' );
+		$toc 		= getHelpToc( $helpsearch );
+		if (!eregi( '\.html$', $page )) {
+			$page .= '.xml';
 		}
 		?>
 		<style type="text/css">
@@ -480,59 +411,146 @@ class HTML_admin_misc {
 			border-top: none;
 			border-bottom: none;
 			width: 100%;
-			height: 600px;
+			height: 700px;
 			padding: 0px 5px 0px 10px;
 		}
 		</style>
 		<form name="adminForm">
-
-		<?php
-		adminScreens::help( $search, $index );
-		?>
-				<table class="adminform" border="1">
-				<tr valign="top">
-					<td valign="top">
-						<iframe name="helpFrame" src="<?php echo $mosConfig_live_site . '/help/' . $page;?>" class="helpFrame" frameborder="0" /></iframe>
-					</td>
-				</tr>
+		<table class="adminform" border="1">
+			<tr>
+				<th colspan="2" class="title">
+					Help
+				</th>
+			</tr>
+			<tr>
+			<td colspan="2">
+				<table width="100%">
+					<tr>
+						<td>
+							<strong>Search:</strong>
+							<input class="text_area" type="hidden" name="option" value="com_admin" />
+							<input type="text" name="helpsearch" value="<?php echo $helpsearch;?>" class="inputbox" />
+							<input type="submit" value="Go" class="button" />
+							<input type="button" value="<?php echo $_LANG->_( 'Clear Results' ); ?>" class="button" onclick="f=document.adminForm;f.helpsearch.value='';f.submit()" />
+							</td>
+							<td style="text-align:right">
+							<?php
+							if ($helpurl) {
+							?>
+							<a href="<?php echo $fullhelpurl;?>joomla.glossary" target="helpFrame">
+								<?php echo $_LANG->_( 'Glossary' ); ?></a>
+							|
+							<a href="<?php echo $fullhelpurl;?>joomla.credits" target="helpFrame">
+								<?php echo $_LANG->_( 'Credits' ); ?></a>
+							|
+							<a href="<?php echo $fullhelpurl;?>joomla.support" target="helpFrame">
+								<?php echo $_LANG->_( 'Support' ); ?></a>
+							<?php
+							} else {
+							?>
+							<a href="<?php echo $mosConfig_live_site;?>/help/joomla.glossary.html" target="helpFrame">
+								<?php echo $_LANG->_( 'Glossary' ); ?></a>
+							|
+							<a href="<?php echo $mosConfig_live_site;?>/help/joomla.credits.html" target="helpFrame">
+								<?php echo $_LANG->_( 'Credits' ); ?></a>
+							|
+							<a href="<?php echo $mosConfig_live_site;?>/help/joomla.support.html" target="helpFrame">
+								<?php echo $_LANG->_( 'Support' ); ?></a>
+							<?php
+							}
+							?>
+							|
+							<a href="http://www.gnu.org/copyleft/gpl.html" target="helpFrame">
+								<?php echo $_LANG->_( 'License' ); ?></a>
+							|
+							<a href="http://help.joomla.org" target="_blank">
+								help.joomla.org</a>
+							|
+							<a href="<?php echo $mosConfig_live_site;?>/administrator/index3.php?option=com_admin&task=changelog" target="helpFrame">
+								<?php echo $_LANG->_( 'Changelog' ); ?></a>
+							|
+							<a href="<?php echo $mosConfig_live_site;?>/administrator/index3.php?option=com_admin&task=sysinfo" target="helpFrame">
+								System Info</a>
+							|
+							<a href="http://www.joomla.org/content/blogcategory/32/66/" target="_blank">
+								Latest Version Check</a>
+						</td>
+					</tr>
 				</table>
-			</fieldset>
-		</div>
+			</td>
+		</tr>
+		<tr valign="top">
+			<td width="20%" valign="top">
+				<strong><?php echo $_LANG->_( 'Index' ); ?></strong>
+				<div class="helpIndex">
+				<?php
+				foreach ($toc as $k=>$v) {
+					if ($helpurl) {
+						echo '<br /><a href="' . $fullhelpurl . urlencode( $k ) . '" target="helpFrame">' . $v . '</a>';
+					} else {
+						echo '<br /><a href="' . $mosConfig_live_site . '/help/' . $k . '" target="helpFrame">' . $v . '</a>';
+					}
+				}
+				?>
+				</div>
+			</td>
+			<td valign="top">
+				<iframe name="helpFrame" src="<?php echo $mosConfig_live_site . '/help/' . $page;?>" class="helpFrame" frameborder="0" /></iframe>
+			</td>
+		</tr>
+		</table>
 
-		<input type="hidden" name="option" value="com_admin" />
 		<input type="hidden" name="task" value="help" />
 		</form>
 		<?php
 	}
 
+	/**
+	* Preview site
+	*/
+	function preview( $tp=0 ) {
+		global $mosConfig_live_site;
+		$tp = intval( $tp );
+		?>
+		<style type="text/css">
+		.previewFrame {
+			border: none;
+			width: 95%;
+			height: 600px;
+			padding: 0px 5px 0px 10px;
+		}
+		</style>
+		<table class="adminform">
+		<tr>
+			<th width="50%" class="title">
+			<?php echo $_LANG->_( 'Site Preview' ); ?>
+			</th>
+			<th width="50%" style="text-align:right">
+			<a href="<?php echo $mosConfig_live_site . '/index.php?tp=' . $tp;?>" target="_blank">
+			<?php echo $_LANG->_( 'Open in new window' ); ?>
+			</a>
+			</th>
+		</tr>
+		<tr>
+			<td width="100%" valign="top" colspan="2">
+			<iframe name="previewFrame" src="<?php echo $mosConfig_live_site . '/index.php?tp=' . $tp;?>" class="previewFrame" /></iframe>
+			</td>
+		</tr>
+		</table>
+		<?php
+	}
+
+	/*
+	* Displays contents of Changelog.php file
+	*/
 	function changelog() {
-        ?>
-        <style type="text/css">
-        s {
-        	color: red;
-        }
-        .todo {
-        	background-color: #E9EFF5;
-        	text-align: left;
-        	overflow: auto;
-        	color: blue;
-        	border: 1px solid #999999;
-        	padding: 20px;
-        }
-        hr {
-        	border: 1px dotted black;
-        }
-        span.todotitle {
-        	font-weight: bold;
-        	color: black;
-        }
-        </style>
-        <pre class="todo">
-            <?php
-    		readfile( $GLOBALS['mosConfig_absolute_path'].'/changelog.php' );
-            ?>
-        </pre>
-        <?php
+		?>
+		<pre>
+			<?php
+			readfile( $GLOBALS['mosConfig_absolute_path'].'/CHANGELOG.php' );
+			?>
+		</pre>
+		<?php
 	}
 }
 
@@ -546,7 +564,7 @@ function getHelpTOC( $helpsearch ) {
 
 	$files = mosReadDirectory( $mosConfig_absolute_path . '/help/', '\.xml$|\.html$' );
 
-	mosFS::load( 'includes/domit/xml_domit_lite_include.php' );
+	require_once( $mosConfig_absolute_path . '/includes/domit/xml_domit_lite_include.php' );
 
 	$toc = array();
 	foreach ($files as $file) {
@@ -558,12 +576,12 @@ function getHelpTOC( $helpsearch ) {
 					// strip the extension
 					$file = preg_replace( '#\.xml$|\.html$#', '', $file );
 				}
-		        if ($helpsearch) {
-		            if (strpos( strip_tags( $buffer ), $helpsearch ) !== false) {
-				    	$toc[$file] = $title;
+				if ($helpsearch) {
+					if (strpos( strip_tags( $buffer ), $helpsearch ) !== false) {
+						$toc[$file] = $title;
 					}
 				} else {
-				    $toc[$file] = $title;
+					$toc[$file] = $title;
 				}
 			}
 		}

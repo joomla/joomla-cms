@@ -1,12 +1,14 @@
 <?php
 /**
-* @version $Id: admin.media.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Massmail
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -15,219 +17,344 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!($acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'all' )
- | $acl->acl_check( 'com_media', 'manage', 'users', $my->usertype, 'components', 'com_media' ))) {
-	mosRedirect( 'index2.php', $_LANG->_('NOT_AUTH') );
+		| $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'com_media' ))) {
+	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
 }
 
-mosFS::load( '@admin_html' );
+require_once( $mainframe->getPath( 'admin_html' ) );
+//require_once( $mainframe->getPath( 'class' ) );
 
-$listdir = mosGetParam( $_REQUEST, 'listdir', 'images' );
-$listdir = mosFS::getNativePath( $listdir, false );
+$cid = mosGetParam( $_POST, 'cid', array(0) );
+if (!is_array( $cid )) {
+	$cid = array(0);
+}
 
-// check for snooping
-mosFS::check( mosFS::getNativePath( $mosConfig_absolute_path . '/' . $listdir ) );
+if (!(isset($listdir))){
+	$listdir='';
+}
 
-// base path of images directory
-$basePath 	= mosFS::getNativePath( $mosConfig_absolute_path . '/images' );
-$baseUrl 	= $mosConfig_live_site .'/images';
+if (is_int(strpos ($listdir, "..")) && $listdir<>'') {
+	mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], $_LANG->_( 'NO HACKING PLEASE' ) );
+}
+
+$base = '/images';
 
 switch ($task) {
-	case 'cancel':
-		mosRedirect( 'index2.php' );
-		break;
 
 	case 'upload':
 		upload();
+		showMedia($dirPath);
 		break;
 
-	// popup directory creation interface for use by components
-	case 'popupDirectory':
-		HTML_Media::popupDirectory( $basePath );
-		break;
-
-	// popup upload interface for use by components
-	case 'popupUpload':
-		HTML_Media::popupUpload( $basePath );
-		break;
-
-	case 'create_folder':
-		if ( ini_get('safe_mode') == 'On' ) {
-			$msg = $_LANG->_( 'WARNDIRCREATIONNOTALLOWEDSAFEMODE' );
-			mosErrorAlert( $msg );
-		} else {
-			create_folder( $listdir );
+	case 'newdir':
+		if (ini_get('safe_mode')=='On') {
+			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], $_LANG->_( 'WARNSAFEMODE' ) );
+			}
+		else {
+			create_folder($foldername,$dirPath);
 		}
+		showMedia($dirPath);
 		break;
 
 	case 'delete':
-		delete_file( $delFile, $listdir );
+		delete_file($delFile,$listdir);
 		showMedia($listdir);
 		break;
 
 	case 'deletefolder':
-		delete_folder( $delFolder, $listdir );
-		showMedia( $listdir );
+		delete_folder($delFolder,$listdir);
+		showMedia($listdir);
 		break;
 
 	case 'list':
-		listImages( $listdir );
+		listImages($listdir);
 		break;
 
+	case 'cancel':
+		mosRedirect( 'index2.php' );
+		break;
+	
 	default:
-		showMedia( $listdir );
+		showMedia($listdir);
 		break;
 }
+
+
+
+
+function delete_file($delfile, $listdir) {
+	global $mosConfig_absolute_path;
+	global $base;
+	
+	$del_image = $mosConfig_absolute_path . $base . $listdir .'/'. $delfile;
+	
+	unlink($del_image);
+}
+
+function create_folder($folder_name,$dirPath) {
+	global $mosConfig_absolute_path;
+	global $base;
+	global $_LANG;
+
+	if(strlen($folder_name) >0) {
+		if (eregi("[^0-9a-zA-Z_]", $folder_name)) {
+			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], $_LANG->_( 'WARNDIRNAME' ) );
+		}
+		$folder = $mosConfig_absolute_path. $base . $dirPath .'/'. $folder_name;
+		if(!is_dir($folder) && !is_file($folder)) {
+			mosMakePath($folder);
+			$fp = fopen($folder."/index.html", "w" );
+			fwrite( $fp, "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>" );
+			fclose( $fp );
+			mosChmod($folder."/index.html");
+			$refresh_dirs = true;
+		}
+	}
+}
+
+function delete_folder($delFolder,$listdir) {
+	global $mosConfig_absolute_path;
+	global $base;
+	global $_LANG;
+
+	$del_html 	= $mosConfig_absolute_path. $base .$listdir.$delFolder.'/index.html';
+	$del_folder = $mosConfig_absolute_path. $base .$listdir.$delFolder;
+
+	$entry_count = 0;
+	$dir = opendir( $del_folder );
+	while ( $entry = readdir( $dir ))
+	{
+		if( $entry != "." & $entry != ".." & strtolower($entry) != "index.html" )
+		$entry_count++;
+	}
+	closedir( $dir );
+
+	if( $entry_count < 1 )
+	{
+		@unlink($del_html);
+		rmdir($del_folder);
+	} else {
+		echo "<font color="red">". $_LANG->_( 'Unable to delete: not empty!' ) ."</font>";
+	}
+}
+
+function upload(){
+	global $mosConfig_absolute_path;
+	global $base;
+
+	if(isset($_FILES['upload']) && is_array($_FILES['upload']) && isset($_POST['dirPath'])) {
+		$dirPathPost = $_POST['dirPath'];
+
+		if(strlen($dirPathPost) > 0) {
+			if(substr($dirPathPost,0,1)=='/')
+				$IMG_ROOT .= $dirPathPost;
+			else
+				$IMG_ROOT = $dirPathPost;
+		}
+
+		if(strrpos($IMG_ROOT, '/')!= strlen($IMG_ROOT)-1)
+			$IMG_ROOT .= '/';
+
+	do_upload( $_FILES['upload'], $mosConfig_absolute_path. $base .$dirPathPost.'/');
+	}
+}
+
+function do_upload($file, $dest_dir) {
+	global $clearUploads;
+	global $_LANG;
+
+		if (file_exists($dest_dir.$file['name'])) {
+			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], $_LANG->_( 'Upload FAILED.File allready exists' ) );
+		}
+
+		$format = substr( $file['name'], -3 );
+
+		$allowable = array (
+			'xcf',
+			'odg',
+			'gif',
+			'jpg',
+			'epg',
+			'png',
+			'bmp',
+			'doc',
+			'txt',
+			'xls',
+			'csv',
+			'ppt',
+			'swf',
+			'pdf',
+			'odt',
+			'ods',
+			'odp'
+		);
+
+        $noMatch = 0;
+		foreach( $allowable as $ext ) {
+			if ( strcasecmp( $format, $ext ) == 0 ) $noMatch = 1;
+		}
+        if(!$noMatch){
+			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], $_LANG->_( 'This file type is not supported' ) );
+        }
+
+		if (!move_uploaded_file($file['tmp_name'], $dest_dir.strtolower($file['name']))){
+			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], $_LANG->_( 'Upload FAILED' ) );
+			}
+		else {
+			mosChmod($dest_dir.strtolower($file['name']));
+			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], $_LANG->_( 'Upload complete' ) );
+		}
+
+	$clearUploads = true;
+}
+
+function recursive_listdir($base) {
+	static $filelist = array();
+	static $dirlist = array();
+
+	if(is_dir($base)) {
+		$dh = opendir($base);
+		while (false !== ($dir = readdir($dh))) {
+			if (is_dir($base ."/". $dir) && $dir !== '.' && $dir !== '..' && strtolower($dir) !== 'cvs' && strtolower($dir) !== '.svn') {
+				$subbase = $base ."/". $dir;
+				$dirlist[] = $subbase;
+				$subdirlist = recursive_listdir($subbase);
+			}
+		}
+		closedir($dh);
+	}
+	return $dirlist;
+ }
 
 
 /**
 * Show media manager
 * @param string The image directory to display
 */
-function showMedia( $listdir ) {
-	global $basePath;
+function showMedia($listdir) {
+	global $base;
+	global $mosConfig_absolute_path, $mosConfig_live_site;
 
-	$lists['folders'] 		= mosFS::listFolderTree( $GLOBALS['mosConfig_absolute_path'] . '/images', '.' );
-	$lists['folders-media'] = mosFS::listFolderTree( $GLOBALS['mosConfig_absolute_path'] . '/media', '.' );
-	$lists['filelist']		= mosFS::listFiles( $GLOBALS['mosConfig_absolute_path'] . '/' . $listdir );
+	// get list of directories
+	$imgFiles 	= recursive_listdir( $mosConfig_absolute_path. $base  );
+	$images 	= array();
+	$folders 	= array();
+	$folders[] 	= mosHTML::makeOption( "/" );
 
-	mediaScreens::view( $listdir, $lists );
+	foreach ($imgFiles as $file) {
+		$folders[] = mosHTML::makeOption( substr($file,strlen($mosConfig_absolute_path. $base )) );
+	}
+	if (is_array($folders)) {
+		sort( $folders );
+	}
+	// create folder selectlist
+	$dirPath = mosHTML::selectList( $folders, 'dirPath', "class=\"inputbox\" size=\"1\" onchange=\"goUpDir()\" ", 'value', 'text', $listdir );
+
+	HTML_Media::showMedia($dirPath,$listdir);
 }
 
-function delete_file( $delfile, $listdir ) {
-	global $mosConfig_absolute_path, $_LANG;
 
-	$file = mosFS::getNativePath( $mosConfig_absolute_path . '/' . $listdir .'/'. $delfile, false );
-	if (mosFS::deleteFile( $file )) {
-		$msg = $_LANG->_( 'Success' );
-	} else {
-		$msg = $_LANG->_( 'Failed' );
-	}
-	mosRedirect( 'index2.php?option=com_media&listdir='.$listdir, $msg );
-}
+/**
+* Build imagelist
+* @param string The image directory to display
+*/
+function listImages($listdir) {
+	global $mosConfig_absolute_path, $mosConfig_live_site;
+	global $base;
 
-function create_folder( $dirPath ) {
-	global $mosConfig_absolute_path;
-	global $_LANG;
+	// get list of images
+	$d = @dir($mosConfig_absolute_path. $base ."/".$listdir);
 
-	$folder_name = mosGetParam( $_POST, 'foldername', '' );
-	// error check
-	if ( !$folder_name ) {
-		mosErrorAlert( $_LANG->_( 'Please enter the name of the directory you want to create' ) );
-	}
+	if($d) {
+		//var_dump($d);
+		$images 	= array();
+		$folders 	= array();
+		$docs 		= array();
+		$allowable 	= 'xcf|odg|gif|jpg|png|bmp';
 
-	if (strlen( $folder_name ) > 0) {
-		if (eregi("[^0-9a-zA-Z_]", $folder_name)) {
-			mosErrorAlert( $_LANG->_( 'WARNDIRNAMEMUSTCONTAINALPHACHARACTERS' ) );
-		}
-		$folder = mosFS::getNativePath( $mosConfig_absolute_path . '/' . $dirPath . '/'. $folder_name, false );
-
-		if (!is_dir( $folder ) && !is_file( $folder )) {
-			mosFS::autocreatePath( $folder );
-			$fp = fopen( $folder .'/index.html', 'w' );
-			fwrite( $fp, '<html><body></body></html>' );
-			fclose( $fp );
-			mosFS::CHMOD( $folder . '/index.html' );
-			$refresh_dirs = true;
-		}
-	}
-
-	mosRedirect( 'index2.php?option=com_media&listdir=' . $dirPath, $_LANG->_( 'Directory successfully Created' ) );
-}
-
-function delete_folder( $delFolder, $listdir ) {
-	global $basePath;
-	global $_LANG;
-
-	$del_html 	= $basePath .$listdir . $delFolder .'/index.html';
-	$del_folder = $basePath .$listdir . $delFolder;
-
-	$entry_count = 0;
-	$dir = opendir( $del_folder );
-	while ( $entry = readdir( $dir )) {
-		if( $entry != "." & $entry != ".." & strtolower( $entry ) != 'index.html' )
-		$entry_count++;
-	}
-	closedir( $dir );
-
-	if ( $entry_count < 1 ) {
-		@unlink( $del_html );
-		rmdir( $del_folder );
-	} else {
-		echo '<font color="red">'. $_LANG->_( 'Unable to delete: not empty!' ) .'</font>';
-	}
-}
-
-function upload() {
-	global $basePath;
-	global $_LANG;
-	// error check
-	if ( !isset( $_FILES['upload'] ) ) {
-		mosErrorAlert( $_LANG->_( 'Please Select a file to Upload' ) );
-	}
-
-	if ( isset( $_FILES['upload'] ) && is_array( $_FILES['upload'] ) && isset( $_POST['dirPath'] ) ) {
-		$dirPathPost = $_POST['dirPath'];
-
-		if ( strlen( $dirPathPost ) > 0 ) {
-			if( substr( $dirPathPost, 0, 1 ) == '/' ) {
-				$IMG_ROOT .= $dirPathPost;
-			} else {
-				$IMG_ROOT = $dirPathPost;
+		while (false !== ($entry = $d->read())) {
+			$img_file = $entry;
+			if(is_file($mosConfig_absolute_path. $base .$listdir.'/'.$img_file) && substr($entry,0,1) != '.' && strtolower($entry) !== 'index.html') {
+				if (eregi( $allowable, $img_file )) {
+					$image_info = @getimagesize($mosConfig_absolute_path. $base ."/".$listdir.'/'.$img_file);
+					$file_details['file'] = $mosConfig_absolute_path. $base .$listdir."/".$img_file;
+					$file_details['img_info'] = $image_info;
+					$file_details['size'] = filesize($mosConfig_absolute_path. $base .$listdir."/".$img_file);
+					$images[$entry] = $file_details;
+				} else {
+					// file is document
+					$file_details['size'] = filesize($mosConfig_absolute_path. $base .$listdir."/".$img_file);
+					$file_details['file'] = $mosConfig_absolute_path. $base .$listdir."/".$img_file;
+					//$docs[$entry] = $img_file;
+					$docs[$entry] = $file_details;
+				}
+			} else if(is_dir($mosConfig_absolute_path. $base ."/".$listdir.'/'.$img_file) && substr($entry,0,1) != '.' && strtolower($entry) !== 'cvs') {
+				$folders[$entry] = $img_file;
 			}
 		}
+		$d->close();
 
-		if ( strrpos( $IMG_ROOT, '/') != strlen( $IMG_ROOT ) - 1 ) {
-			$IMG_ROOT .= '/';
+		HTML_Media::imageStyle($listdir);
+
+		if(count($images) > 0 || count($folders) > 0 || count($docs) > 0) {
+			//now sort the folders and images by name.
+			ksort($images);
+			ksort($folders);
+			ksort($docs);
+
+
+			HTML_Media::draw_table_header();
+
+			for($i=0; $i<count($folders); $i++) {
+				$folder_name = key($folders);
+				HTML_Media::show_dir('/'.$folders[$folder_name], $folder_name,$listdir);
+				next($folders);
+			}
+
+			for($i=0; $i<count($docs); $i++) {
+				$doc_name = key($docs);
+				$iconfile= $mosConfig_absolute_path."/administrator/components/com_media/images/".substr($doc_name,-3)."_16.png";
+				if (file_exists($iconfile))	{
+					$icon = "components/com_media/images/".(substr($doc_name,-3))."_16.png"	;
+				} else {
+					$icon = "components/com_media/images/con_info.png";
+				}
+				//HTML_Media::show_doc($docs[$doc_name], $listdir, $icon);
+				HTML_Media::show_doc($doc_name, $docs[$doc_name]['size'],$listdir, $icon);
+				next($docs);
+			}
+
+			for($i=0; $i<count($images); $i++) {
+				$image_name = key($images);
+				HTML_Media::show_image($images[$image_name]['file'], $image_name, $images[$image_name]['img_info'], $images[$image_name]['size'],$listdir);
+				next($images);
+			}
+
+			HTML_Media::draw_table_footer();
+		} else {
+			HTML_Media::draw_no_results();
 		}
-
-		do_upload( $_FILES['upload'], $basePath . $dirPathPost. '/' );
-	}
-}
-
-function do_upload( $file, $dest_dir ) {
-	global $clearUploads;
-	global $_LANG;
-
-	if ( file_exists( $dest_dir . $file['name'] ) ) {
-		mosErrorAlert( $_LANG->_( 'Upload FAILED.File already exists' ) );
-	}
-
-	if ( ( strcasecmp( substr( $file['name'], -4 ), '.gif' ) ) && ( strcasecmp( substr($file['name'],-4),'.jpg')) && (strcasecmp(substr($file['name'],-4),'.png')) && (strcasecmp(substr($file['name'],-4),'.bmp')) &&(strcasecmp(substr($file['name'],-4),'.doc')) && (strcasecmp(substr($file['name'],-4),'.xls')) && (strcasecmp(substr($file['name'],-4),'.ppt')) && ( strcasecmp( substr( $file['name'], -4 ), '.swf' ) ) && ( strcasecmp( substr( $file['name'], -4 ), '.pdf' ) ) && ( strcasecmp( substr( $file['name'], -4 ), '.xcf' ) ) && ( strcasecmp( substr( $file['name'], -4 ), '.txt' ) ) ) {
-		mosErrorAlert( $_LANG->_( 'Only files of type' ) .' gif, png, jpg, bmp, pdf, swf, txt, doc, xls, xcf '. $_LANG->_( 'or' ) .' ppt '. $_LANG->_( 'can be uploaded' ) );
-	}
-
-	if ( !move_uploaded_file( $file['tmp_name'], $dest_dir.strtolower($file['name'] ) ) ){
-		mosErrorAlert( $_LANG->_( 'Upload FAILED' ) );
 	} else {
-		mosFS::CHMOD( $dest_dir . strtolower( $file['name'] ) );
-
-		// kill popup window
-		?>
-		<script language="javascript" type="text/javascript">
-		<!--
-		alert( '<?php echo $_LANG->_( 'File successfully Uploaded' ); ?>' );
-		onLoad = window.close( 'win1' );
-		// reload main window
-		opener.location.href ='index2.php?option=com_media';
-		-->
-		</script>
-		<?php
-		exit;
+		HTML_Media::draw_no_dir();
 	}
-
-	$clearUploads = true;
 }
 
 function rm_all_dir($dir) {
-	if ( is_dir( $dir ) ) {
-		$d = @dir( $dir );
+	//$dir = dir_name($dir);
+	//echo "OPEN:".$dir.'<Br>';
+	if(is_dir($dir)) {
+		$d = @dir($dir);
 
 		while ( false !== ( $entry = $d->read() ) ) {
+			//echo "#".$entry.'<br>';
 			if($entry != '.' && $entry != '..') {
-				$node = $dir .'/'. $entry;
-				if ( is_file( $node ) ) {
-					unlink( $node );
-				} else if( is_dir( $node ) ) {
+				$node = $dir.'/'.$entry;
+				//echo "NODE:".$node;
+				if(is_file($node)) {
+					//echo " - is file<br>";
+					unlink($node);
+				} else if(is_dir($node)) {
+					//echo " -	is Dir<br>";
 					rm_all_dir($node);
 				}
 			}
@@ -236,55 +363,6 @@ function rm_all_dir($dir) {
 
 		rmdir($dir);
 	}
-}
-
-function parse_size( $size ){
-	if ( $size < 1024 ) {
-		return $size.' bytes';
-	} else if ( $size >= 1024 && $size < 1024 * 1024 ) {
-		return sprintf( '%01.2f', $size / 1024.0 ). ' Kb';
-	} else {
-		return sprintf( '%01.2f', $size / ( 1024.0 * 1024 ) ) .' Mb';
-	}
-}
-
-/*
-* takes the larger size of the width and height and applies the
-* formula accordingly...this is so this script will work
-* dynamically with any size image
-*/
-function imageResize( $width, $height, $target ) {
-	if ( $width > $target || $height > $target ) {
-		if ( $width > $height ) {
-			$percentage = ( $target / $width );
-		} else {
-			$percentage = ( $target / $height );
-		}
-
-		//gets the new value and applies the percentage, then rounds the value
-		$width 	= round( $width * $percentage );
-		$height = round( $height * $percentage );
-	}
-
-	return 'width="'. $width .'" height="'. $height .'"';
-}
-
-function imageResize2( &$width, &$height, $target ) {
-	if ( $width > $target || $height > $target ) {
-		if ( $width > $height ) {
-			$percentage = ( $target / $width );
-		} else {
-			$percentage = ( $target / $height );
-		}
-
-		//gets the new value and applies the percentage, then rounds the value
-		$width 	= round( $width * $percentage );
-		$height = round( $height * $percentage );
-	}
-}
-
-function num_files( $dir ) {
-	$files = mosFS::listFiles( $dir );
-	return count( $files );
+	//echo "RM: $dir <br>";
 }
 ?>

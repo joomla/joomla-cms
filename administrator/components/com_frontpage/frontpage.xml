@@ -1,36 +1,30 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="component" version="4.5.2">
+<mosinstall type="component" version="1.0.0">
 	<name>Frontpage</name>
 	<author>Joomla! Project</author>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-	<authorEmail>admin@mamboserver.com</authorEmail>
-	<authorUrl>www.mamboserver.com</authorUrl>
-	<version>4.5.2</version>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
 	<description>This component shows all the published content items from your site marked Show on Frontpage.</description>
 	<params>
-		<param name="content_meta" type="radio" default="1" label="Append Content Meta" description="DescEnableMetaKeywordsAndDescriptionsFromContentItem">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
-
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-
-		<param name="pagination" type="list" default="2" label="Pagination" description="Show/Hide Pagination support">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-			<option value="2">Auto</option>
-		</param>
-		<param name="pagination_results" type="radio" default="1" label="Pagination Results" description="paramPaginationResults">
+		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="A small image to be placed to the left or right of your menu item, images must be in images/stories/" />
+		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
+		<param name="header" type="text" size="30" default="" label="Page Title" description="Text to display at the top of the page" />
+		<param name="page_title" type="radio" default="1" label="Page Title" description="Show/Hide the Page title">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-
+		<param name="back_button" type="list" default="0" label="Back Button" description="Show/Hide a Back Button, that returns you to the previously view page">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-
-		<param name="leading" type="text" size="3" default="1" label="# Leading" description="paramLeading" />
-		<param name="intro" type="text" size="3" default="4" label="# Intro" description="paramIntro" />
-		<param name="columns" type="text" size="3" default="2" label="Columns" description="paramColumns" />
+		<param name="leading" type="text" size="3" default="1" label="# Leading" description="Number of Items to display as a leading (full width) item. 0 will mean that no items will be displayed as leading." />
+		<param name="intro" type="text" size="3" default="4" label="# Intro" description="Number of Items to display with the introduction text shown." />
+		<param name="columns" type="text" size="3" default="2" label="Columns" description="When displaying the intro text, how many columns to use per row" />
 		<param name="link" type="text" size="3" default="4" label="# Links" description="Number of Items to display as Links." />
 		<param name="orderby_pri" type="list" default="" label="Category Order" description="Order items by catgeory">
 			<option value="">No, order by Primary Order only</option>
@@ -38,7 +32,7 @@
 			<option value="ralpha">Title Reverse-Alphabetical</option>
 			<option value="order">Ordering</option>
 		</param>
-		<param name="orderby_sec" type="list" default="front" label="Primary Order" description="paramOrderBySec">
+		<param name="orderby_sec" type="list" default="front" label="Primary Order" description="Order that the items will be displayed in.">
 			<option value="front">Default</option>
 			<option value="front">Frontpage Ordering</option>
 			<option value="date">Oldest first</option>
@@ -50,10 +44,36 @@
 			<option value="hits">Most Hits</option>
 			<option value="rhits">Least Hits</option>
 		</param>
-
-
+		<param name="pagination" type="list" default="2" label="Pagination" description="Show/Hide Pagination support">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+			<option value="2">Auto</option>
+		</param>
+		<param name="pagination_results" type="radio" default="1" label="Pagination Results" description="Show/Hide Pagination Results info ( e.g 1-4 of 4 )">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-
+		<param name="image" type="radio" default="1" label="MOSImages" description="Display {mosimages}.">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="section" type="radio" default="0" label="Section Name" description="Show/Hide the Section the item belongs to">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="section_link" type="radio" default="0" label="Section Name Linkable" description="Make the Section text a link to the actual section page">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="category" type="radio" default="0" label="Category Name" description="Show/Hide the Category the item belongs to">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="category_link" type="radio" default="0" label="Category Name Linkable" description="Make the Category text a link to the actual Category page">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
 		<param name="item_title" type="radio" default="1" label="Item Titles" description="Show/Hide the items title">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
@@ -68,63 +88,40 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="rating" type="list" default="" label="Item Rating" description="paramRating">
+		<param name="rating" type="list" default="" label="Item Rating" description="Show/Hide the item rating - only affects this page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="author" type="list" default="" label="Author Names" description="paramAuthor">
+		<param name="author" type="list" default="" label="Author Names" description="Show/Hide the item author - only affects this page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="createdate" type="list" default="" label="Created Date and Time" description="paramCreateDate">
+		<param name="createdate" type="list" default="" label="Created Date and Time" description="Show/Hide the item creation date - only affects this page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="modifydate" type="list" default="" label="Modified Date and Time" description="paramModifyDate">
+		<param name="modifydate" type="list" default="" label="Modified Date and Time" description="Show/Hide the item modification date - only affects this page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="pdf" type="list" default="0" label="PDF Icon" description="paramPDF">
+		<param name="pdf" type="list" default="" label="PDF Icon" description="Show/Hide the item pdf button - only affects this page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="print" type="list" default="0" label="Print Icon" description="paramPrint">
+		<param name="print" type="list" default="" label="Print Icon" description="Show/Hide the item print button - only affects this page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="email" type="list" default="0" label="Email Icon" description="paramEmail">
+		<param name="email" type="list" default="" label="Email Icon" description="Show/Hide the item email button - only affects this page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
-		</param>
-
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-
-		<param name="image" type="radio" default="1" label="MOSImages" description="Display {mosimages}.">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="section" type="radio" default="0" label="Section Name" description="paramSection">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="section_link" type="radio" default="0" label="Section Name Linkable" description="paramSectionLink">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
-		<param name="category" type="radio" default="0" label="Category Name" description="paramCateg">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="category_link" type="radio" default="0" label="Category Name Linkable" description="paramCategLink">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
 		</param>
 	</params>
 </mosinstall>

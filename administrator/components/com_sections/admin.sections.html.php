@@ -1,66 +1,19 @@
- <?php
+<?php
 /**
-* @version $Id: admin.sections.html.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Sections
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
-
-/**
- * @package Joomla
- * @subpackage Sections
- */
-class sectionsScreens {
-	/**
-	 * Static method to create the template object
-	 * @param array An array of other standard files to include
-	 * @return patTemplate
-	 */
-	function &createTemplate( $files=null) {
-
-		$tmpl =& mosFactory::getPatTemplate( $files );
-		$tmpl->setRoot( dirname( __FILE__ ) . '/tmpl' );
-
-		return $tmpl;
-	}
-
-	/**
-	* List languages
-	* @param array
-	*/
-	function view( &$lists ) {
-		global $mosConfig_lang;
-
-		$tmpl =& sectionsScreens::createTemplate();
-
-		$tmpl->readTemplatesFromInput( 'view.html' );
-
-		$tmpl->addVar( 'body2', 'search', $lists['search'] );
-
-		// temp lists --- these can be done in pat a lot better
-		$tmpl->addVar( 'body2', 'lists_access', $lists['access'] );
-		$tmpl->addVar( 'body2', 'lists_state', $lists['state'] );
-
-		$tmpl->displayParsedTemplate( 'body2' );
-	}
-
-	function editSection() {
-		global $mosConfig_lang;
-
-		$tmpl =& sectionsScreens::createTemplate();
-
-		$tmpl->readTemplatesFromInput( 'editSection.html' );
-
-		$tmpl->displayParsedTemplate( 'body2' );
-	}
-}
 
 /**
 * @package Joomla
@@ -72,155 +25,137 @@ class sections_html {
 	* @param array An array of category objects
 	* @param string The name of the category section
 	*/
-	function show( &$rows, $scope, $myid, &$pageNav, $option, $lists ) {
+	function show( &$rows, $scope, $myid, &$pageNav, $option ) {
 		global $my;
   		global $_LANG;
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php" method="post" name="adminForm" id="sectionsform" class="adminform">
+		<form action="index2.php" method="post" name="adminForm">
+		<table class="adminheading">
+		<tr>
+			 <th class="sections">
+			<?php echo $_LANG->_( 'Section Manager' ); ?>
+			</th>
+		</tr>
+		</table>
 
+		<table class="adminlist">
+		<tr>
+			<th width="20">
+			<?php echo $_LANG->_( 'NUM' ); ?>
+			</th>
+			<th width="20">
+			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows );?>);" />
+			</th>
+			<th class="title">
+			<?php echo $_LANG->_( 'Section Name' ); ?>
+			</th>
+			<th width="10%">
+			<?php echo $_LANG->_( 'Published' ); ?>
+			</th>
+			<th colspan="2" width="5%">
+			<?php echo $_LANG->_( 'Reorder' ); ?>
+			</th>
+			<th width="2%">
+			<?php echo $_LANG->_( 'Order' ); ?>
+			</th>
+			<th width="1%">
+			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="Save Order" /></a>
+			</th>
+			<th width="8%">
+			<?php echo $_LANG->_( 'Access' ); ?>
+			</th>
+			<th width="12%" nowrap>
+			<?php echo $_LANG->_( 'Section ID' ); ?>
+			</th>
+			<th width="12%" nowrap>
+			<?php echo $_LANG->_( 'Num Categories' ); ?>
+			</th>
+			<th width="12%" nowrap>
+			<?php echo $_LANG->_( 'Num Active' ); ?>
+			</th>
+			<th width="12%" nowrap>
+			<?php echo $_LANG->_( 'Num Trash' ); ?>
+			</th>
+
+		</tr>
 		<?php
-		sectionsScreens::view( $lists );
-		?>
-				<table class="adminlist" id="moslist">
-				<thead>
-				<tr>
-					<th width="10">
-					#
-					</th>
-					<th width="10">
-						<input type="checkbox" name="toggle" value="" />
-					</th>
-					<th class="title">
-						<?php echo mosCommonHTML::tOrder( $lists, $_LANG->_( 'Section Name' ), 'name' ); ?>
-					</th>
-					<th width="2%">
-						<?php echo mosCommonHTML::tOrder( $lists, $_LANG->_( 'Published' ), 'published' ); ?>
-					</th>
-					<th colspan="2" width="5%">
-						<?php echo $_LANG->_( 'Reorder' ); ?>
-					</th>
-					<th width="2%" nowrap="nowrap">
-						<?php echo mosCommonHTML::tOrder( $lists, $_LANG->_( 'Order' ), 'ordering' ); ?>
-					</th>
-					<th width="1%">
-						<?php mosAdminHTML::saveOrderIcon( $rows ); ?>
-					</th>
-					<th width="10%" align="center">
-						<?php echo mosCommonHTML::tOrder( $lists, $_LANG->_( 'Access' ), 'access' ); ?>
-					</th>
-					<th width="2%" nowrap="nowrap" align="center">
-						<?php echo mosCommonHTML::tOrder( $lists, $_LANG->_( 'ID' ), 'id' ); ?>
-					</th>
-				</tr>
-				</thead>
-				<tfoot>
-				<tr>
-					<th colspan="14" class="center">
-						<?php echo $pageNav->getPagesLinks(); ?>
-					</th>
-				</tr>
-				<tr>
-					<td colspan="14" class="center">
-						<?php echo $_LANG->_( 'Display Num' ) ?>
-						<?php echo  $pageNav->getLimitBox() ?>
-						<?php echo $pageNav->getPagesCounter() ?>
-					</td>
-				</tr>
-				</tfoot>
+		$k = 0;
+		for ( $i=0, $n=count( $rows ); $i < $n; $i++ ) {
+			$row = &$rows[$i];
 
-				<tbody>
+			$link = 'index2.php?option=com_sections&scope=content&task=editA&hidemainmenu=1&id='. $row->id;
+
+			$access 	= mosCommonHTML::AccessProcessing( $row, $i );
+			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
+			$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
+			?>
+			<tr class="<?php echo "row$k"; ?>">
+				<td width="20" align="right">
+				<?php echo $pageNav->rowNumber( $i ); ?>
+				</td>
+				<td width="20">
+				<?php echo $checked; ?>
+				</td>
+				<td width="35%">
 				<?php
-				$k = 0;
-				for ( $i=0, $n=count( $rows ); $i < $n; $i++ ) {
-					$row = &$rows[$i];
-
-					$link = 'index2.php?option=com_sections&amp;scope=content&amp;task=editA&amp;id='. $row->id;
-
-					$access 	= mosAdminHTML::accessProcessing( $row, $i );
-					$checked 	= mosAdminHTML::checkedOutProcessing( $row, $i );
-					$published 	= mosAdminHTML::publishedProcessing( $row, $i );
-
-					$info 		= '<tr><td>'. $_LANG->_( 'Name' ) .':</td><td>'. $row->name .'</td></tr>';
-					$info 		.= '<tr><td>'. $_LANG->_( 'Title' ) .':</td><td>'. $row->title .'</td></tr>';
-					$info 		.= '<tr><td>'. $_LANG->_( 'Num Categories' ) .':</td><td>'. $row->categories .'</td></tr>';
-					$info 		.= '<tr><td>'. $_LANG->_( 'Num Active' ) .':</td><td>'. $row->active .'</td></tr>';
-					$info 		.= '<tr><td>'. $_LANG->_( 'Num Trash' ) .':</td><td>'. $row->trash .'</td></tr>';
-					$info 		.= '<tr><td>'. $_LANG->_( 'Num Links' ) .':</td><td>'. $row->links .'</td></tr>';
+				if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+					echo $row->name. " ( ". $row->title ." )";
+				} else {
 					?>
-					<tr class="<?php echo "row$k"; ?>">
-						<td width="10">
-							<?php echo $pageNav->rowNumber( $i ); ?>
-						</td>
-						<td>
-							<?php echo $checked; ?>
-						</td>
-						<td onmouseover="return overlib('<table><?php echo $info; ?></table>', CAPTION, '<?php echo $_LANG->_( 'Section Information' ); ?>', BELOW, RIGHT, WIDTH, 250);" onmouseout="return nd();">
-							<?php
-							if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-								?>
-								<span class="editlinktip">
-									<?php echo $row->name; ?>
-								</span>
-								<?php
-							} else {
-								?>
-								<a href="<?php echo $link; ?>" class="editlink">
-									<span class="editlinktip">
-										<?php echo $row->name; ?>
-									</span>
-								</a>
-								<?php
-							}
-							?>
-						</td>
-						<td align="center">
-							<?php echo $published;?>
-						</td>
-						<td>
-							<?php
-							if ( $lists['tOrder'] == 'ordering' && ( $lists['tOrderDir'] == 'DESC' )  ) {
-								echo $pageNav->orderUpIcon( $i );
-							}
-							?>
-						</td>
-						<td>
-							<?php
-							if ( $lists['tOrder'] == 'ordering' && ( $lists['tOrderDir'] == 'DESC' )  ) {
-								echo $pageNav->orderDownIcon( $i, $n );
-							}
-							?>
-						</td>
-						<td align="center" colspan="2">
-							<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
-						</td>
-						<td align="center">
-							<?php echo $access;?>
-						</td>
-						<td align="center">
-							<?php echo $row->id; ?>
-						</td>
-						<?php
-						$k = 1 - $k;
-						?>
-					</tr>
+					<a href="<?php echo $link; ?>">
+					<?php echo $row->name. " ( ". $row->title ." )"; ?>
+					</a>
 					<?php
 				}
 				?>
-				</tbody>
-				</table>
-			</fieldset>
-		</div>
+				</td>
+				<td align="center">
+				<?php echo $published;?>
+				</td>
+				<td>
+				<?php echo $pageNav->orderUpIcon( $i ); ?>
+				</td>
+				<td>
+				<?php echo $pageNav->orderDownIcon( $i, $n ); ?>
+				</td>
+				<td align="center" colspan="2">
+				<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
+				</td>
+				<td align="center">
+				<?php echo $access;?>
+				</td>
+				<td align="center">
+				<?php echo $row->id; ?>
+				</td>
+				<td align="center">
+				<?php echo $row->categories; ?>
+				</td>
+				<td align="center">
+				<?php echo $row->active; ?>
+				</td>
+				<td align="center">
+				<?php echo $row->trash; ?>
+				</td>
+				<?php
+				$k = 1 - $k;
+				?>
+			</tr>
+			<?php
+		}
+		?>
+		</table>
 
-		<input type="hidden" name="tOrder" value="<?php echo $lists['tOrder']; ?>" />
-		<input type="hidden" name="tOrder_old" value="<?php echo $lists['tOrder']; ?>" />
-		<input type="hidden" name="tOrderDir" value="" />
+		<?php echo $pageNav->getListFooter(); ?>
+
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="scope" value="<?php echo $scope;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="chosen" value="" />
 		<input type="hidden" name="act" value="" />
+		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
 		<?php
 	}
@@ -244,9 +179,9 @@ class sections_html {
 		if ( $row->name != '' ) {
 			$name = $row->name;
 		} else {
-			$name = 'New Section';
+			$name = $_LANG->_( 'New Section' );
 		}
-		if ( $row->image == '' ) {
+		if ($row->image == "") {
 			$row->image = 'blank.png';
 		}
 		?>
@@ -283,9 +218,20 @@ class sections_html {
 		</script>
 
 		<form action="index2.php" method="post" name="adminForm">
-		<?php
-		sectionsScreens::editSection();
-		?>
+		<table class="adminheading">
+		<tr>
+			<th class="sections">
+			<?php echo $_LANG->_( 'Section' ); ?>:
+			<small>
+			<?php echo $row->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' );?>
+			</small>
+			<small><small>
+			[ <?php echo $name ; ?> ]
+			</small></small>
+			</th>
+		</tr>
+		</table>
+
 		<table width="100%">
 		<tr>
 			<td valign="top" width="60%">
@@ -310,15 +256,15 @@ class sections_html {
 					<?php echo $_LANG->_( 'Title' ); ?>:
 					</td>
 					<td colspan="2">
-					<input class="text_area" type="text" name="title" value="<?php echo $row->title; ?>" size="50" maxlength="50" title="<?php echo $_LANG->_( 'tipTitleField' ); ?>" />
+					<input class="text_area" type="text" name="title" value="<?php echo $row->title; ?>" size="50" maxlength="50" title="<?php echo $_LANG->_( 'TIPTITLEFIELD' ); ?>" />
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<?php echo (isset($row->section) ? $_LANG->_( 'Category' ) : $_LANG->_( 'Section' ));?> <?php echo $_LANG->_( 'Name' ); ?>:
+					<?php echo (isset($row->section) ? $_LANG->_( 'Category' ) : $_LANG->_( 'Section' ) );?> Name:
 					</td>
 					<td colspan="2">
-					<input class="text_area" type="text" name="name" value="<?php echo $row->name; ?>" size="50" maxlength="255" title="<?php echo $_LANG->_( 'tipNameField' ); ?>" />
+					<input class="text_area" type="text" name="name" value="<?php echo $row->name; ?>" size="50" maxlength="255" title="<?php echo $_LANG->_( 'TIPNAMEFIELD' ); ?>" />
 					</td>
 				</tr>
 				<tr>
@@ -377,13 +323,15 @@ class sections_html {
 					<td colspan="2">
 					<?php
 					// parameters : areaname, content, hidden field, width, height, rows, cols
-					editorArea( 'editor1',  $row->description , 'description', '100%;', '300', '60', '20', 0 ) ; ?>
+					editorArea( 'editor1',  $row->description , 'description', '100%;', '300', '60', '20' ) ; ?>
 					</td>
 				</tr>
 				</table>
 			</td>
 			<td valign="top">
-			<?php // Link to Menu ?>
+			<?php
+			if ( $row->id > 0 ) {
+					?>
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
@@ -392,7 +340,7 @@ class sections_html {
 				<tr>
 				<tr>
 					<td colspan="2">
-					<?php echo $_LANG->_( 'descNewMenuItem' ); ?>
+					<?php echo $_LANG->_( 'DESCNEWMENUITEM' ); ?>
 					<br /><br />
 					</td>
 				<tr>
@@ -442,8 +390,7 @@ class sections_html {
 					</tr>
 					<?php
 				} else {
-					mosFS::load( '@class', 'com_menus' );
-					mosMenuFactory::buildLinksSecCat( $menus );
+					mosCommonHTML::menuLinksSecCat( $menus );
 				}
 				?>
 				<tr>
@@ -451,16 +398,25 @@ class sections_html {
 					</td>
 				</tr>
 				</table>
+			<?php
+			} else {
+			?>
+			<table class="adminform" width="40%">
+				<tr><th>&nbsp;</th></tr>
+				<tr><td><?php echo $_LANG->_( 'Menu links available when saved' ); ?></td></tr>
+			</table>
+			<?php
+			}
+			?>
 			</td>
 		</tr>
 		</table>
-		</fieldset>
-		</div>
-		<input type="hidden" name="referer" value="<?php echo @$_SERVER['HTTP_REFERER']; ?>" />
+
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="scope" value="<?php echo $row->scope; ?>" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="hidemainmenu" value="0" />
 		<input type="hidden" name="oldtitle" value="<?php echo $row->title ; ?>" />
 		</form>
 		<?php
@@ -474,6 +430,14 @@ class sections_html {
   		global $_LANG;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
+		<br />
+		<table class="adminheading">
+		<tr>
+			<th class="sections">
+			<?php echo $_LANG->_( 'Copy Section' ); ?>
+			</th>
+		</tr>
+		</table>
 
 		<br />
 		<table class="adminform">

@@ -2,7 +2,7 @@
 /**
  * Base class for patTemplate input filter
  *
- * $Id: InputFilter.php 4 2005-09-06 19:22:37Z akede $
+ * $Id$
  *
  * An input filter is used to modify the stream
  * before it has been processed by patTemplate_Reader.
@@ -15,7 +15,7 @@
 /**
  * Base class for patTemplate input filter
  *
- * $Id: InputFilter.php 4 2005-09-06 19:22:37Z akede $
+ * $Id$
  *
  * An input filter is used to modify the stream
  * before it has been processed by patTemplate_Reader.

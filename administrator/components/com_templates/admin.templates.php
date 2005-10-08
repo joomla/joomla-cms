@@ -1,644 +1,528 @@
 <?php
 /**
- * @version $Id: admin.templates.php 137 2005-09-12 10:21:17Z eddieajau $
- * @package Mambo
- * @subpackage Templates
- * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
- * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
- * Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* @version $Id$
+* @package Joomla
+* @subpackage Templates
+* @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
- */
+*/
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
-if (!$acl->acl_check( 'com_templates', 'manage', 'users', $GLOBALS['my']->usertype )) {
-	mosRedirect( 'index2.php', $_LANG->_('NOT_AUTH') );
+if (!$acl->acl_check( 'administration', 'manage', 'users', $GLOBALS['my']->usertype, 'components', 'com_templates' )) {
+	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
 }
 
-mosFS::load( '@admin_html' );
-mosFS::load( '@class' );
+require_once( $mainframe->getPath( 'admin_html' ) );
+require_once( $mosConfig_absolute_path .'/administrator/components/com_templates/admin.templates.class.php' );
+// XML library
+require_once( $mosConfig_absolute_path .'/includes/domit/xml_domit_lite_include.php' );
+
+$cid 	= mosGetParam( $_REQUEST, 'cid', array(0) );
+$client = mosGetParam( $_REQUEST, 'client', '' );
+
+if (!is_array( $cid )) {
+	$cid = array(0);
+}
+
+switch ($task) {
+	case 'new':
+		mosRedirect ( 'index2.php?option=com_installer&element=template&client='. $client );
+		break;
+
+	case 'edit_source':
+		editTemplateSource( $cid[0], $option, $client );
+		break;
+
+	case 'save_source':
+		saveTemplateSource( $option, $client );
+		break;
+
+	case 'edit_css':
+		editTemplateCSS( $cid[0], $option, $client );
+		break;
+
+	case 'save_css':
+		saveTemplateCSS( $option, $client );
+		break;
+
+	case 'remove':
+		removeTemplate( $cid[0], $option, $client );
+		break;
+
+	case 'publish':
+		defaultTemplate( $cid[0], $option, $client );
+		break;
+
+	case 'default':
+		defaultTemplate( $cid[0], $option, $client );
+		break;
+
+	case 'assign':
+		assignTemplate( $cid[0], $option, $client );
+		break;
+
+	case 'save_assign':
+		saveTemplateAssign( $option, $client );
+		break;
+
+	case 'cancel':
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client );
+		break;
+
+	case 'positions':
+		editPositions( $option );
+		break;
+
+	case 'save_positions':
+		savePositions( $option );
+		break;
+
+	default:
+		viewTemplates( $option, $client );
+		break;
+}
+
 
 /**
- * @package Languages
- * @subpackage Languages
- */
-class templateTasks extends mosAbstractTasker {
-	/**
-	 * Constructor
-	 */
-	function templateTasks() {
-		// auto register public methods as tasks, set the default task
-		parent::mosAbstractTasker( 'view' );
+* Compiles a list of installed, version 4.5+ templates
+*
+* Based on xml files found.  If no xml file found the template
+* is ignored
+*/
+function viewTemplates( $option, $client ) {
+	global $database, $mainframe;
+	global $mosConfig_absolute_path, $mosConfig_list_limit;
 
-		// set task level access control
-		$this->setAccessControl( 'com_templates', 'manage' );
-		$this->registerTask( 'preview2', 'preview' );
+	$limit = $mainframe->getUserStateFromRequest( 'viewlistlimit', 'limit', $mosConfig_list_limit );
+	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
 
-		$this->registerTask( 'saveHTML', 'saveSource' );
-		$this->registerTask( 'applyHTML', 'saveSource' );
-		$this->registerTask( 'saveCSS', 'saveSource' );
-		$this->registerTask( 'applyHTML', 'saveSource' );
-
-		$this->registerTask( 'refreshFiles', 'editXML' );
-
-		$this->registerTask( 'installUpload', 'install' );
-		$this->registerTask( 'installFromDir', 'install' );
-
-		$this->registerTask( 'default', 'setDefault' );
+	if ($client == 'admin') {
+		$templateBaseDir = mosPathName( $mosConfig_absolute_path . '/administrator/templates' );
+	} else {
+		$templateBaseDir = mosPathName( $mosConfig_absolute_path . '/templates' );
 	}
 
-	/**
-	 * Generic install page
-	 */
-	function installOptions() {
-		templateScreens::installOptions();
+	$rows = array();
+	// Read the template dir to find templates
+	$templateDirs		= mosReadDirectory($templateBaseDir);
+
+	$id = intval( $client == 'admin' );
+
+	if ($client=='admin') {
+		$query = "SELECT template"
+		. "\n FROM #__templates_menu"
+		. "\n WHERE client_id = 1"
+		. "\n AND menuid = 0"
+		;
+		$database->setQuery( $query );
+	} else {
+		$query = "SELECT template"
+		. "\n FROM #__templates_menu"
+		. "\n WHERE client_id = 0"
+		. "\n AND menuid = 0"
+		;
+		$database->setQuery( $query );
 	}
+	$cur_template = $database->loadResult();
 
-	/**
-	 * Installs template
-	 */
-	function install() {
-		$userfile = mosGetParam( $_FILES, 'userfile', null );
+	$rowid = 0;
+	// Check that the directory contains an xml file
+	foreach($templateDirs as $templateDir) {
+		$dirName = mosPathName($templateBaseDir . $templateDir);
+		$xmlFilesInDir = mosReadDirectory($dirName,'.xml$');
 
-		$installer = mosTemplateFactory::createInstaller();
-		if ($this->getTask() == 'installUpload') {
-			if (!$installer->uploadArchive( $userfile )) {
-				$msg = $installer->error();
-				$this->setRedirect( 'index2.php?option=com_templates&task=installOptions', $msg );
+		foreach($xmlFilesInDir as $xmlfile) {
+			// Read the file to see if it's a valid template XML file
+			$xmlDoc = new DOMIT_Lite_Document();
+			$xmlDoc->resolveErrors( true );
+			if (!$xmlDoc->loadXML( $dirName . $xmlfile, false, true )) {
+				continue;
 			}
-			if (!$installer->extractArchive()) {
-				$msg = $installer->error();
-				$this->setRedirect( 'index2.php?option=com_templates&task=installOptions', $msg );
+
+			$root = &$xmlDoc->documentElement;
+
+			if ($root->getTagName() != 'mosinstall') {
+				continue;
 			}
-		} else {
-			$installer->installDir( $userfile );
-		}
-		if (!$installer->install()) {
-			$installer->cleanupInstall();
-			$msg = $installer->error();
-			$this->setRedirect( 'index2.php?option=com_templates&task=installOptions', $msg );
-		}
-		$installer->cleanupInstall();
-
-		templateScreens::installDone( $installer->elementName(), $installer->errno(), $installer->error() );
-	}
-
-	/**
-	 * Options for packaging
-	 */
-	function packageOptions() {
-		$cid = mosGetParam( $_REQUEST, 'cid', array(0) );
-		$client = mosGetParam( $_REQUEST, 'client', '' );
-		$client = mosMainFrame::getClientID( $client );
-
-		$element = $cid[0];
-
-		templateScreens::packageOptions( $element, $client );
-	}
-
-	/**
-	 * Build the package
-	 */
-	function package() {
-		global $_LANG;
-
-		$compress = mosGetParam( $_POST, 'compress', 'gz' );
-		$element = mosGetParam( $_POST, 'element', '' );
-		$fileName = mosGetParam( $_POST, 'filename', $element );
-		$client = mosGetParam( $_POST, 'client', '' );
-		$client = mosMainFrame::getClientID( $client );
-
-		$redirect = 'index2.php?option=com_templates&client='. $client;
-		if (empty( $element )) {
-			$this->setRedirect( $redirect, $_LANG->_( 'Template not supplied' ) );
-			return false;
-		}
-
-		mosFS::load( 'includes/mambo.files.xml.php' );
-		$basePath = mosTemplate::getBasePath( $client ) . $element . DIRECTORY_SEPARATOR;
-
-		$xmlFile = $basePath . 'templateDetails.xml';
-
-		if (!mosXMLFS::read( $xmlFile, 'template', $vars )) {
-			$this->setRedirect( $redirect, $_LANG->_( 'Failed to open XML file' ) );
-			return false;
-		}
-
-		$archiveName = mosFS::getNativePath( dirname( __FILE__ ) . '/files/' . $fileName, false );
-
-		$files = mosGetParam( $vars, 'siteFiles', array() );
-
-		foreach ($files as $k => $v) {
-			$files[$k] = $basePath . $files[$k]['file'];
-		}
-		$archive = mosFS::archive( $archiveName, $files, $compress, '', $basePath, true, false );
-
-		$msg = $_LANG->_( 'Package Made' );
-		$this->setRedirect( 'index2.php?option=com_templates&task=listFiles', $msg );
-	}
-
-	/**
-	 * List files in /files directory
-	 */
-	function listFiles() {
-		$path = mosFS::getNativePath( dirname( __FILE__ ) . '/files' );
-
-		$files = mosFS::listFiles( $path, '\.(tar|gz)$' );
-		foreach ($files as $i=>$file) {
-			$files[$i] = array(
-				'file' => $file,
-				'fsize' => number_format( filesize( $path . $file ) ),
-				'mtime' => date ("d-m-Y H:i:s", filemtime( $path . $file ) ),
-				'perms' => mosFS::getPermissions( $path . $file )
-			);
-		}
-		templateScreens::listFiles( $files );
-	}
-
-	/**
-	 * Delete a set of language files
-	 */
-	function deleteFile() {
-		global $_LANG;
-
-		$cid = mosGetParam( $_POST, 'cid', array() );
-		$path = mosFS::getNativePath( dirname( __FILE__ ) . '/files' );
-
-		$redirect = 'index2.php?option=com_templates&task=listFiles';
-		if (count( $cid ) < 1) {
-			$msg = $_LANG->_( 'errorNoFile' );
-			mosRedirect( $redirect, $msg );
-		}
-
-		foreach ($cid as $file) {
-			mosFS::deleteFile( $path . $file );
-		}
-
-		$msg = $_LANG->_( 'Deleted' );
-		$this->setRedirect( $redirect, $msg );
-	}
-
-	/**
-	 * Edit XML Setup File
-	 */
-	function editXML() {
-		mosFS::load( '/includes/mambo.files.xml.php' );
-
-		$client = mosGetParam( $_REQUEST, 'client', '' );
-		$client = mosMainFrame::getClientID( $client );
-
-		$basePath = mosTemplate::getBasePath( $client );
-
-		switch ($this->getTask()) {
-			case 'refreshFiles':
-				// template files
-				$element = mosGetParam( $_POST, 'element', array(0) );
-				$xmlVars = mosGetParam( $_POST, 'vars', array() );
-				$exclude = mosGetParam( $_POST, 'exclude', '' );
-				varsStripSlashes( $vars );
-
-				$dir = mosFS::getNativePath( $basePath . $element, false );
-				$files = mosFS::listFiles( $dir, '.', true, true );
-				$templ = array();
-				foreach ($files as $i => $v) {
-					if (empty( $exclude ) || ($exclude && !eregi( $exclude, $v ) )) {
-						$temp[] = array( 'file' => str_replace( $dir . DIRECTORY_SEPARATOR, '', $v ) );
-					}
-				}
-				$xmlVars['siteFiles'] = $temp;
-				break;
-
-			default:
-				$cid = mosGetParam( $_POST, 'cid', array(0) );
-				$element = $cid[0];
-
-				$file = mosFS::getNativePath( $basePath . $element .'/templateDetails.xml', false );
-				if (file_exists( $file )) {
-					mosXMLFS::read( $file, 'template', $xmlVars );
-				} else {
-					$xmlVars = array();
-				}
-				break;
-		}
-
-		templateScreens::editXML( $xmlVars, $element, $client );
-	}
-
-	/**
-	 * Saves the xml setup file
-	 */
-	function saveXML() {
-		global $_LANG;
-
-		mosFS::load( '/includes/mambo.files.xml.php' );
-		$client		= mosGetParam( $_REQUEST, 'client', '' );
-		$client_id	= mosMainFrame::getClientID( $client );
-		$element	= mosGetParam( $_POST, 'element', '' );
-		$vars		= mosGetParam( $_POST, 'vars', array() );
-
-		$basePath	= mosTemplate::getBasePath( $client );
-
-		$file = mosFS::getNativePath( $basePath . $element .'/templateDetails.xml', false );
-		if (!file_exists( $file )) {
-			$msg = $_LANG->_( 'File not found' );
-			$this->redirect( 'index2.php?option=com_templates&client='. $client, $msg );
-			return false;
-		}
-
-		$vars['client'] = mosMainFrame::getClientName( $client_id );
-
-		$msg = mosXMLFS::write( 'template', $vars, $file )
-			? $_LANG->_( 'File Saved' )
-			: $_LANG->_( 'Error saving file' );
-
-		$this->setRedirect( 'index2.php?option=com_templates&client=' . $client, $msg );
-	}
-
-	/**
-	 * List the templates
-	 */
-	function view() {
-		global $database, $mainframe, $option;
-		global $mosConfig_absolute_path, $mosConfig_list_limit;
-
-		mosFS::load( 'includes/mambo.files.xml.php' );
-
-		// form data
-		$limit 		= $mainframe->getUserStateFromRequest( 'viewlistlimit', 'limit', $mosConfig_list_limit );
-		$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
-
-		$client		= mosGetParam( $_REQUEST, 'client', '' );
-		$client 	= mosMainFrame::getClientID( $client );
-
-		$basePath 	= mosTemplate::getBasePath( $client );
-		$folders 	= mosFS::listFolders( $basePath, '.' );
-
-		$tMenu 		= new mosTemplatesMenu( $database );
-		$curTemplate = $tMenu->getCurrent( $client, 0 );
-
-		$rows = array();
-		foreach ($folders as $folder) {
-			$xmlFile = mosFS::getNativePath( $basePath. $folder . '/templateDetails.xml', false );
-			if (file_exists( $xmlFile )) {
-				if (mosXMLFS::read( $xmlFile, 'template', $vars )) {
-					$row = new stdClass;
-
-					if (isset( $vars['meta'] )) {
-						// append the vars to the row object
-						foreach ($vars['meta'] as $k => $v) {
-							$row->{'xml_' . $k} = $v;
-						}
-					}
-					$menus = $tMenu->getMenus( $client, $folder );
-					$assigned = 0;
-					foreach ($menus as $menu) {
-						if ($menu['menuid']!=0) {
-							$assigned = 1;
-						}
-					}
-					$row->assigned = $assigned;
-					$row->default = ($folder == $curTemplate);
-					$row->folder = $folder;
-					$rows[] = $row;
-				}
+			if ($root->getAttribute( 'type' ) != 'template') {
+				continue;
 			}
-		}
 
-		mosFS::load( '@pageNavigationAdmin' );
+			$row = new StdClass();
+			$row->id 		= $rowid;
+			$row->directory = $templateDir;
+			$element 		= &$root->getElementsByPath('name', 1 );
+			$row->name 		= $element->getText();
 
-		$total 		= count( $rows );
-		$pageNav 	= new mosPageNav( $total, $limitstart, $limit );
-		$rows 		= array_slice( $rows, $pageNav->limitstart, $pageNav->limit );
+			$element 		= &$root->getElementsByPath('creationDate', 1);
+			$row->creationdate = $element ? $element->getText() : 'Unknown';
 
-		templateScreens::view( $rows, $pageNav, $client );
-	}
+			$element 		= &$root->getElementsByPath('author', 1);
+			$row->author 	= $element ? $element->getText() : 'Unknown';
 
-	/**
-	 * Shows preview screen
-	 */
-	function preview() {
-		$tp = ($this->getTask() == 'preview2');
-		templateScreens::preview( $tp );
-	}
+			$element 		= &$root->getElementsByPath('copyright', 1);
+			$row->copyright = $element ? $element->getText() : '';
 
-	/**
-	 * Edit form for the template index.php file
-	 */
-	function editHTML() {
-		global $database;
-		global $_LANG;
+			$element 		= &$root->getElementsByPath('authorEmail', 1);
+			$row->authorEmail = $element ? $element->getText() : '';
 
-		$cid 	= mosGetParam( $_REQUEST, 'cid', array(0) );
-		$client = mosGetParam( $_REQUEST, 'client', '' );
-		$client = mosMainFrame::getClientID( $client );
+			$element 		= &$root->getElementsByPath('authorUrl', 1);
+			$row->authorUrl = $element ? $element->getText() : '';
 
-		$element = $cid[0];
+			$element 		= &$root->getElementsByPath('version', 1);
+			$row->version 	= $element ? $element->getText() : '';
 
-		$basePath = mosTemplate::getBasePath( $client );
-		$file = mosFS::getNativePath( $basePath . $element .'/index.php', false );
-		if (!mosFS::read( $file, $content )) {
-			$redirect = 'index2.php?option=com_templates&client='. $client;
-			$this->setRedirect( $redirect, $_LANG->_( 'Could not find file ' ) );
-			return false;
-		}
-
-		$oPositions = new mosTemplatePosition( $database );
-		$positions 	= $oPositions->select();
-
-		$vars = array(
-			'writable' => intval( is_writable( $file ) ),
-			'chmodable' => intval( mosIsChmodable( $file ) ),
-			'file' => $file,
-			'content' => &$content,
-			'element' => $element
-		);
-
-		templateScreens::editHTML( $vars, $positions, $client );
-	}
-
-	/**
-	 * Edit form for the template index.php file
-	 */
-	function editCSS() {
-		global $_LANG;
-
-		$cid 	= mosGetParam( $_REQUEST, 'cid', array(0) );
-		$client = mosGetParam( $_REQUEST, 'client', '' );
-		$client = mosMainFrame::getClientID( $client );
-
-		$element = $cid[0];
-
-		$basePath 	= mosTemplate::getBasePath( $client );
-		$file 		= mosFS::getNativePath( $basePath . $element .'/css/template_css' . ($_LANG->rtl() == 1 ? '_rtl.css': '.css'), false );
-		if (!mosFS::read( $file, $content )) {
-			$redirect = 'index2.php?option=com_templates&client='. $client;
-			$this->setRedirect( $redirect, $_LANG->_( 'Could not find file ' ) );
-			return false;
-		}
-
-		$vars = array(
-			'writable' => intval( is_writable( $file ) ),
-			'chmodable' => intval( mosIsChmodable( $file ) ),
-			'file' => $file,
-			'content' => &$content,
-			'element' => $element
-		);
-
-		templateScreens::editCSS( $vars, $client );
-	}
-
-	/**
-	 * Save html source
-	 */
-	function saveSource() {
-		global $mosConfig_absolute_path;
-		global $_LANG;
-
-	    $enable_write 	= mosGetParam( $_POST, 'enable_write', 0 );
-		$buffer 	= mosGetParam( $_POST, 'filecontent', '', _MOS_ALLOWRAW );
-		$client		= mosGetParam( $_REQUEST, 'client', '' );
-		$client_id	= mosMainFrame::getClientID( $client );
-		$element	= mosGetParam( $_POST, 'element', '' );
-
-		$basePath	= mosTemplate::getBasePath( $client );
-
-		switch ($this->getTask()) {
-			case 'saveHTML':
-			case 'applyHTML':
-				$file = $basePath . $element . '/index.php';
-				break;
-
-			case 'saveCSS':
-			case 'applyCSS':
-				$file = $basePath . $element . '/css/template_css' . $_LANG->rtl() ? '_rtl':'' . '.css';
-				break;
-		}
-
-		if (!file_exists( $file )) {
-			$msg = $_LANG->_( 'Error. Template file not found' );
-			$this->redirect( 'index2.php?option=com_templates&client='. $client, $msg );
-			return false;
-		}
-		if (empty( $buffer )) {
-			$msg = $_LANG->_( 'Error. Source empty.' );
-			$this->redirect( 'index2.php?option=com_templates&client='. $client, $msg );
-			return false;
-		}
-
-		$oldperms = fileperms( $file );
-		if ($enable_write) {
-			@chmod( $file, $oldperms | 0222 );
-		}
-
-		clearstatcache();
-
-		if (is_writable( $file ) == false) {
-			$msg = $_LANG->_( 'Error. File is not writable.' );
-			$this->redirect( 'index2.php?option=com_templates&client='. $client, $msg );
-			return false;
-		}
-
-		if (mosFS::write( $file, stripslashes( $buffer ) )) {
-			if ($enable_write) {
-				chmod( $file, $oldperms );
+			// Get info from db
+			if ($cur_template == $templateDir) {
+				$row->published	= 1;
 			} else {
-				if ( mosGetParam($_POST,'disable_write',0) ) {
-					chmod($file, $oldperms & 0777555);
-				}
-			} // if
-
-			$msg = 'File saved';
-			switch ($this->getTask()) {
-				case 'applyHTML':
-					$this->setRedirect( 'index2.php?option=com_templates&task=editHTML&cid[]='. $element .'&client='. $client, $msg );
-					break;
-
-				default:
-					$this->setRedirect( 'index2.php?option=com_templates&client='. $client, $msg );
-					break;
+				$row->published = 0;
 			}
 
-		} else {
-			// Saving Uwriteable
-			if ( $enable_write ) {
-				chmod($file, $oldperms);
-			}
+			$row->checked_out = 0;
+			$row->mosname = strtolower( str_replace( ' ', '_', $row->name ) );
 
-			$msg = $_LANG->_( 'DESCFAILEDTOOPENFILEFORWRITING' );
-			$this->redirect( 'index2.php?option=com_templates&client='. $client, $msg );
-		}
-	}
-
-	/**
-	 * Edit the template/module positions
-	 */
-	function positions() {
-		$client = mosGetParam( $_REQUEST, 'client', '' );
-		$client = mosMainFrame::getClientID( $client );
-
-		$oPositions = new mosTemplatePosition( $GLOBALS['database'] );
-		$positions = $oPositions->select();
-
-		$n = count( $positions );
-		for ($i = $n + 1; $i <= 50; $i++ ) {
-			$o = new stdClass;
-			$o->id = $i;
-			$positions[] = $o;
-		}
-
-		templateScreens::positions( $positions, $client );
-	}
-
-	/**
-	 * Save the template/module positions
-	 */
-	function savePositions() {
-		global $_LANG;
-
-		$redirect = 'index2.php?option=com_templates&task=positions';
-
-		$positions 		= mosGetParam( $_POST, 'position', array() );
-		$descriptions 	= mosGetParam( $_POST, 'description', array() );
-
-		$oPositions = new mosTemplatePosition( $GLOBALS['database'] );
-
-		if (!$oPositions->clear()) {
-			$this->setRedirect( $redirect, $oPositions->getError() );
-			return false;
-		}
-
-		foreach ($positions as $id=>$position) {
-		    $position = trim( $position );
-		    $description = mosGetParam( $descriptions, $id, '' );
-			if ($position != '') {
-				$oPositions->id = $id;
-				$oPositions->position = $position;
-				$oPositions->description = $description;
-				if (!$oPositions->insert()) {
-					$this->setRedirect( $redirect, $oPositions->getError() );
-					return false;
-				}
-			}
-		}
-		$this->setRedirect( $redirect, $_LANG->_( 'Positions saved' ) );
-	}
-
-	/**
-	 * Form to assign the menu/template mapping
-	 */
-	function assign() {
-		global $database;
-
-		$cid = mosGetParam( $_REQUEST, 'cid', array(0) );
-		$client = mosGetParam( $_REQUEST, 'client', '' );
-		$client = mosMainFrame::getClientID( $client );
-
-		$element = $database->getEscaped( $cid[0] );
-
-		// get selected pages for $menulist
-		if ( $element ) {
-			$query = "SELECT menuid AS value"
+			// check if template is assigned
+			$query = "SELECT COUNT(*)"
 			. "\n FROM #__templates_menu"
-			. "\n WHERE client_id = '0'"
-			. "\n AND template = '$element'"
+			. "\n WHERE client_id = 0"
+			. "\n AND template = '$row->directory'"
+			. "\n AND menuid <> 0"
 			;
 			$database->setQuery( $query );
-			$lookup = $database->loadObjectList();
+			$row->assigned = $database->loadResult() ? 1 : 0;
+
+			$rows[] = $row;
+			$rowid++;
 		}
-
-		// build the html select list
-		mosFS::load( '@class', 'com_menus' );
-		$menulist = mosMenuFactory::buildMenuLinks( $lookup, 0, 1 );
-
-		templateScreens::assign( $element, $menulist, $client );
 	}
 
-	/**
-	 * Saves the template-menu mapping
-	 */
-	function saveAssign() {
-		global $database, $mainframe;
+	require_once( $GLOBALS['mosConfig_absolute_path'] . '/administrator/includes/pageNavigation.php' );
+	$pageNav = new mosPageNav( count( $rows ), $limitstart, $limit );
 
-		$client		= mosGetParam( $_REQUEST, 'client', '' );
-		$client_id	= $mainframe->getClientID( $client );
-		$menus 		= mosGetParam( $_POST, 'selections', array() );
-		$element 	= mosGetParam( $_POST, 'element', '' );
+	$rows = array_slice( $rows, $pageNav->limitstart, $pageNav->limit );
 
+	HTML_templates::showTemplates( $rows, $pageNav, $option, $client );
+}
+
+
+/**
+* Publish, or make current, the selected template
+*/
+function defaultTemplate( $p_tname, $option, $client ) {
+	global $database;
+
+	if ($client=='admin') {
 		$query = "DELETE FROM #__templates_menu"
-		. "\n WHERE client_id = '0'"
-		. "\n AND template = '$element'"
-		. "\n AND menuid <> '0'"
+		. "\n WHERE client_id = 1"
+		. "\n AND menuid = 0"
 		;
 		$database->setQuery( $query );
 		$database->query();
 
-		if (!in_array( '', $menus )) {
-			foreach ( $menus as $menuid ){
-				// If 'None' is not in array
-				if ( $menuid <> -999 ) {
-					// check if there is already a template assigned to this menu item
-					$query = "DELETE FROM #__templates_menu"
-					. "\n WHERE client_id = '0'"
-					. "\n AND menuid = '$menuid'"
-					;
-					$database->setQuery( $query );
-					$database->query();
+		$query = "INSERT INTO #__templates_menu"
+		. "\n SET client_id = 1, template = '$p_tname', menuid = 0"
+		;
+		$database->setQuery( $query );
+		$database->query();
+	} else {
+		$query = "DELETE FROM #__templates_menu"
+		. "\n WHERE client_id = 0"
+		. "\n AND menuid = 0"
+		;
+		$database->setQuery( $query );
+		$database->query();
 
-					$query = "INSERT INTO #__templates_menu"
-					. "\n SET client_id = '0', template = '$element', menuid = '$menuid'"
-					;
-					$database->setQuery( $query );
-					$database->query();
-				}
-			}
-		}
+		$query = "INSERT INTO #__templates_menu"
+		. "\n SET client_id = 0, template = '$p_tname', menuid = 0"
+		;
+		$database->setQuery( $query );
+		$database->query();
 
-		$this->setRedirect( 'index2.php?option=com_templates&client='. $client );
+		$_SESSION['cur_template'] = $p_tname;
 	}
 
-	/**
-	 * Publish, or make current, the selected template
-	 */
-	function setDefault() {
-		global $database, $mainframe;
+	mosRedirect('index2.php?option='. $option .'&client='. $client);
+}
 
-		$cid 	= mosGetParam( $_REQUEST, 'cid', array( '' ) );
-		$client = mosGetParam( $_REQUEST, 'client', '' );
+/**
+* Remove the selected template
+*/
+function removeTemplate( $cid, $option, $client ) {
+	global $database;
+	global $_LANG;
 
-		$tMenuPos = new mosTemplatesMenu( $database );
-		$tMenuPos->client_id 	= $mainframe->getClientID( $client );
-		$tMenuPos->template 	= $cid[0];
-		$tMenuPos->setDefault();
+	$client_id = $client=='admin' ? 1 : 0;
 
-		$this->setRedirect( 'index2.php?option=com_templates&client='. $client );
+	$query = "SELECT template"
+	. "\n FROM #__templates_menu"
+	. "\n WHERE client_id = $client_id"
+	. "\n AND menuid = 0"
+	;
+	$database->setQuery( $query );
+	$cur_template = $database->loadResult();
+
+	if ($cur_template == $cid) {
+		echo "<script>alert(\"". $_LANG->_( 'You can not delete template in use.' ) ."\"); window.history.go(-1); </script>\n";
+		exit();
 	}
 
-	/**
-	 * Remove the selected template
-	 */
-	function remove() {
-		global $database, $mainframe;
-		global $_LANG;
+	// Un-assign
+	$query = "DELETE FROM #__templates_menu"
+	. "\n WHERE template = '$cid'"
+	. "\n AND client_id = $client_id"
+	. "\n AND menuid <> 0"
+	;
+	$database->setQuery( $query );
+	$database->query();
 
-		$cid 		= mosGetParam( $_REQUEST, 'cid', array(0) );
-		$client 	= mosGetParam( $_REQUEST, 'client', '' );
-		$client_id 	= $mainframe->getClientID( $client );
+	mosRedirect( 'index2.php?option=com_installer&element=template&client='. $client .'&task=remove&cid[]='. $cid );
+}
 
-		$installer = mosTemplateFactory::createInstaller();
-		if ($installer->uninstall( $cid[0], $client_id )) {
-			$msg = $_LANG->_( 'Success' );
-		} else {
-			$msg = $installer->error();
-		}
+function editTemplateSource( $p_tname, $option, $client ) {
+	global $mosConfig_absolute_path;
+	global $_LANG;
 
-		$this->setRedirect( 'index2.php?option=com_templates&client='. $client, $msg );
+	if ( $client == 'admin' ) {
+		$file = $mosConfig_absolute_path .'/administrator/templates/'. $p_tname .'/index.php';
+	} else {
+		$file = $mosConfig_absolute_path .'/templates/'. $p_tname .'/index.php';
+	}
+
+	if ( $fp = fopen( $file, 'r' ) ) {
+		$content = fread( $fp, filesize( $file ) );
+		$content = htmlspecialchars( $content );
+
+		HTML_templates::editTemplateSource( $p_tname, $content, $option, $client );
+	} else {
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'Could not open' ) .' '. $file );
 	}
 }
 
-$tasker = new templateTasks();
-$tasker->performTask( mosGetParam( $_REQUEST, 'task', '' ) );
-$tasker->redirect();
+
+function saveTemplateSource( $option, $client ) {
+	global $mosConfig_absolute_path;
+	global $_LANG;
+
+	$template 		= mosGetParam( $_POST, 'template', '' );
+	$filecontent 	= mosGetParam( $_POST, 'filecontent', '', _MOS_ALLOWHTML );
+
+	if ( !$template ) {
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'No template specified.' ) );
+	}
+	if ( !$filecontent ) {
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'Content empty.' ) );
+	}
+
+	if ( $client == 'admin' ) {
+		$file = $mosConfig_absolute_path .'/administrator/templates/'. $template .'/index.php';
+	} else {
+		$file = $mosConfig_absolute_path .'/templates/'. $template .'/index.php';
+	}
+
+	$enable_write = mosGetParam($_POST,'enable_write',0);
+	$oldperms = fileperms($file);
+	if ($enable_write) @chmod($file, $oldperms | 0222);
+
+	clearstatcache();
+	if ( is_writable( $file ) == false ) {
+		mosRedirect( 'index2.php?option='. $option , $_LANG->_( 'Operation Failed' ) .': '. $file .' '. $_LANG->_( 'is not writable.' ) );
+	}
+
+	if ( $fp = fopen ($file, 'w' ) ) {
+		fputs( $fp, stripslashes( $filecontent ), strlen( $filecontent ) );
+		fclose( $fp );
+		if ($enable_write) {
+			@chmod($file, $oldperms);
+		} else {
+			if (mosGetParam($_POST,'disable_write',0))
+				@chmod($file, $oldperms & 0777555);
+		} // if
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client );
+	} else {
+		if ($enable_write) @chmod($file, $oldperms);
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'Failed to open file for writing.' ) );
+	}
+
+}
+
+function editTemplateCSS( $p_tname, $option, $client ) {
+	global $mosConfig_absolute_path;
+	global $_LANG;
+
+	if ( $client == 'admin' ) {
+		$file = $mosConfig_absolute_path .'/administrator/templates/'. $p_tname .'/css/template_css.css';
+	} else {
+		$file = $mosConfig_absolute_path .'/templates/'. $p_tname .'/css/template_css.css';
+	}
+
+	if ($fp = fopen( $file, 'r' )) {
+		$content = fread( $fp, filesize( $file ) );
+		$content = htmlspecialchars( $content );
+
+		HTML_templates::editCSSSource( $p_tname, $content, $option, $client );
+	} else {
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'Could not open' ) .' '. $file );
+	}
+}
+
+
+function saveTemplateCSS( $option, $client ) {
+	global $mosConfig_absolute_path;
+	global $_LANG;
+
+	$template = mosGetParam( $_POST, 'template', '' );
+	$filecontent = mosGetParam( $_POST, 'filecontent', '', _MOS_ALLOWHTML );
+
+	if ( !$template ) {
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'No template specified.' ) );
+	}
+
+	if ( !$filecontent ) {
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'Content empty.' ) );
+	}
+
+	if ( $client == 'admin' ) {
+		$file = $mosConfig_absolute_path .'/administrator/templates/'. $template .'/css/template_css.css';
+	} else {
+		$file = $mosConfig_absolute_path .'/templates/'. $template .'/css/template_css.css';
+	}
+
+	$enable_write = mosGetParam($_POST,'enable_write',0);
+	$oldperms = fileperms($file);
+	if ($enable_write) @chmod($file, $oldperms | 0222);
+
+	clearstatcache();
+	if ( is_writable( $file ) == false ) {
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'The file is not writable.' ) );
+	}
+
+	if ($fp = fopen ($file, 'w')) {
+		fputs( $fp, stripslashes( $filecontent ) );
+		fclose( $fp );
+		if ($enable_write) {
+			@chmod($file, $oldperms);
+		} else {
+			if (mosGetParam($_POST,'disable_write',0))
+				@chmod($file, $oldperms & 0777555);
+		} // if
+		mosRedirect( 'index2.php?option='. $option );
+	} else {
+		if ($enable_write) @chmod($file, $oldperms);
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'Failed to open file for writing.' ) );
+	}
+
+}
+
+
+function assignTemplate( $p_tname, $option, $client ) {
+	global $database;
+
+	// get selected pages for $menulist
+	if ( $p_tname ) {
+
+		$query = "SELECT menuid AS value"
+		. "\n FROM #__templates_menu"
+		. "\n WHERE client_id = 0"
+		. "\n AND template = '$p_tname'"
+		;
+		$database->setQuery( $query );
+		$lookup = $database->loadObjectList();
+	}
+
+	// build the html select list
+	$menulist = mosAdminMenus::MenuLinks( $lookup, 0, 1 );
+
+	HTML_templates::assignTemplate( $p_tname, $menulist, $option, $client );
+}
+
+
+function saveTemplateAssign( $option, $client ) {
+	global $database;
+
+	$menus 		= mosGetParam( $_POST, 'selections', array() );
+	$template 	= mosGetParam( $_POST, 'template', '' );
+
+	$query = "DELETE FROM #__templates_menu"
+	. "\n WHERE client_id = 0"
+	. "\n AND template = '$template'"
+	. "\n AND menuid <> 0"
+	;
+	$database->setQuery( $query );
+	$database->query();
+
+	if ( !in_array( '', $menus ) ) {
+		foreach ( $menus as $menuid ){
+			// If 'None' is not in array
+			if ( $menuid <> -999 ) {
+				// check if there is already a template assigned to this menu item
+				$query = "DELETE FROM #__templates_menu"
+				. "\n WHERE client_id = 0"
+				. "\n AND menuid = $menuid"
+				;
+				$database->setQuery( $query );
+				$database->query();
+
+				$query = "INSERT INTO #__templates_menu"
+				. "\n SET client_id = 0, template = '$template', menuid = $menuid"
+				;
+				$database->setQuery( $query );
+				$database->query();
+			}
+		}
+	}
+
+	mosRedirect( 'index2.php?option='. $option .'&client='. $client );
+}
+
+
+/**
+*/
+function editPositions( $option ) {
+	global $database;
+
+	$query = "SELECT *"
+	. "\n FROM #__template_positions"
+	;
+	$database->setQuery( $query );
+	$positions = $database->loadObjectList();
+
+	HTML_templates::editPositions( $positions, $option );
+}
+
+/**
+*/
+function savePositions( $option ) {
+	global $database;
+	global $_LANG;
+
+	$positions 		= mosGetParam( $_POST, 'position', array() );
+	$descriptions 	= mosGetParam( $_POST, 'description', array() );
+
+	$query = "DELETE FROM #__template_positions";
+	$database->setQuery( $query );
+	$database->query();
+
+	foreach ($positions as $id=>$position) {
+		$position = trim( $database->getEscaped( $position ) );
+		$description = mosGetParam( $descriptions, $id, '' );
+		if ($position != '') {
+			$id = intval( $id );
+			$query = "INSERT INTO #__template_positions"
+			. "\n VALUES ( $id, '$position', '$description' )"
+			;
+			$database->setQuery( $query );
+			$database->query();
+		}
+	}
+	mosRedirect( 'index2.php?option='. $option .'&task=positions', $_LANG->_( 'Positions saved' ) );
+}
 ?>

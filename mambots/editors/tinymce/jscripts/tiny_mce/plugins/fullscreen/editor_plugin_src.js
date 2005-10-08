@@ -1,10 +1,20 @@
 /* Import plugin specific language pack */
-tinyMCE.importPluginLanguagePack('fullscreen', 'en,sv,cs,fr_ca,zh_cn');
+tinyMCE.importPluginLanguagePack('fullscreen', 'en,sv,cs,fr_ca,zh_cn,da,he,no,de,hu');
+
+function TinyMCE_fullscreen_getInfo() {
+	return {
+		longname : 'Fullscreen',
+		author : 'Moxiecode Systems',
+		authorurl : 'http://tinymce.moxiecode.com',
+		infourl : 'http://tinymce.moxiecode.com/tinymce/docs/plugin_fullscreen.html',
+		version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion
+	};
+};
 
 function TinyMCE_fullscreen_getControlHTML(control_name) {
 	switch (control_name) {
 		case "fullscreen":
-			return '<img id="{$editor_id}_fullscreen" src="{$pluginurl}/images/fullscreen.gif" title="{$lang_fullscreen_desc}" width="20" height="20" class="mceButton' + (tinyMCE.getParam('fullscreen_is_enabled') ? 'Selected' : 'Normal') + '" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mceFullScreen\');" />';
+			return '<a href="javascript:tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mceFullScreen\');" onmousedown="return false;"><img id="{$editor_id}_fullscreen" src="{$pluginurl}/images/fullscreen.gif" title="{$lang_fullscreen_desc}" width="20" height="20" class="mceButton' + (tinyMCE.getParam('fullscreen_is_enabled') ? 'Selected' : 'Normal') + '" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" /></a>';
 	}
 
 	return "";

@@ -1,12 +1,14 @@
 <?php
 /**
-* @version $Id: content_blog_category.class.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Menus
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -25,27 +27,28 @@ class content_blog_category {
 	*/
 	function edit( &$uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
-  		global $_LANG;
+		global $_LANG;
 
 		$menu = new mosMenu( $database );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
 		if ($menu->checked_out && $menu->checked_out <> $my->id) {
-			mosErrorAlert( $_LANG->_( 'The module' ) .' '. $menu->title .' '. $_LANG->_( 'descBeingEditted' ) );
+			echo "<script>alert('". $_LANG->_( 'The module' ) ." ". $menu->title ." ". $_LANG->_( 'DESCBEINGEDITTED' ) ."'); document.location.href='index2.php?option=$option'</script>\n";
+			exit(0);
 		}
 
 		if ($uid) {
 			$menu->checkout( $my->id );
 			// get previously selected Categories
 			$params = new mosParameters( $menu->params );
-			$catids 				= $params->def( 'categoryid', '' );
+			$catids = $params->def( 'categoryid', '' );
 			if ( $catids ) {
 				$query = "SELECT c.id AS `value`, c.section AS `id`, CONCAT_WS( ' / ', s.title, c.title) AS `text`"
 				. "\n FROM #__sections AS s"
 				. "\n INNER JOIN #__categories AS c ON c.section = s.id"
 				. "\n WHERE s.scope = 'content'"
-				. "\n AND c.id IN ( ". $catids . ")"
+				. "\n AND c.id IN ( $catids )"
 				. "\n ORDER BY s.name,c.name"
 				;
 				$database->setQuery( $query );
@@ -55,7 +58,10 @@ class content_blog_category {
 			}
 		} else {
 			$menu->type 			= 'content_blog_category';
-			mosMenuFactory::setValues( $menu, $menutype );
+			$menu->menutype 		= $menutype;
+			$menu->ordering 		= 9999;
+			$menu->parent 			= intval( mosGetParam( $_POST, 'parent', 0 ) );
+			$menu->published 		= 1;
 			$lookup 				= '';
 		}
 
@@ -70,29 +76,29 @@ class content_blog_category {
 		$database->setQuery( $query );
 		$rows = array_merge( $rows, $database->loadObjectList() );
 		$category = mosHTML::selectList( $rows, 'catid[]', 'class="inputbox" size="10" multiple="multiple"', 'value', 'text', $lookup );
-		$lists['categoryid'] = $category;
+		$lists['categoryid']	= $category;
 
-		// build common lists
-		mosMenuFactory::buildLists( $lists, $menu, $uid );
+		// build the html select list for ordering
+		$lists['ordering'] 		= mosAdminMenus::Ordering( $menu, $uid );
+		// build the html select list for the group access
+		$lists['access'] 		= mosAdminMenus::Access( $menu );
+		// build the html select list for paraent item
+		$lists['parent'] 		= mosAdminMenus::Parent( $menu );
+		// build published button option
+		$lists['published'] 	= mosAdminMenus::Published( $menu );
+		// build the url link output
+		$lists['link'] 		= mosAdminMenus::Link( $menu, $uid );
 
 		// get params definitions
-		// common
-		$commonParams = new mosParameters( $menu->params, $mainframe->getPath( 'commonmenu_xml' ), 'menu' );
-		// blog type specific
-		$blogParams = new mosParameters( $menu->params, $mainframe->getPath( 'blogmenu_xml' ), 'menu' );
-		// menu type specific
-		$itemParams = new mosParameters( $menu->params, $mainframe->getPath( 'menu_xml', $menu->type ), 'menu' );
-		$params = array();
-		$params[] = $commonParams;
-		$params[] = $blogParams;
-		$params[] = $itemParams;
+		$params = new mosParameters( $menu->params, $mainframe->getPath( 'menu_xml', $menu->type ), 'menu' );
 
+		/* chipjack: passing $sectCatList (categories) instead of $slist (sections) */
 		content_blog_category_html::edit( $menu, $lists, $params, $option );
 	}
 
 	function saveMenu( $option, $task ) {
 		global $database;
-  		global $_LANG;
+		global $_LANG;
 
 		$params = mosGetParam( $_POST, 'params', '' );
 		$catids	= mosGetParam( $_POST, 'catid', array() );
@@ -100,9 +106,9 @@ class content_blog_category {
 
 		$params['categoryid']	= $catid;
 		if (is_array( $params )) {
-		    $txt = array();
-		    foreach ($params as $k=>$v) {
-			   $txt[] = "$k=$v";
+			$txt = array();
+			foreach ($params as $k=>$v) {
+				$txt[] = "$k=$v";
 			}
 			$_POST['params'] = mosParameters::textareaHandling( $txt );
 		}
@@ -110,7 +116,8 @@ class content_blog_category {
 		$row = new mosMenu( $database );
 
 		if (!$row->bind( $_POST )) {
-			mosErrorAlert( $row->getError() );
+			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+			exit();
 		}
 
 		if (count($catids)==1 && $catids[0]!="") {
@@ -119,13 +126,15 @@ class content_blog_category {
 		}
 
 		if (!$row->check()) {
-			mosErrorAlert( $row->getError() );
+			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+			exit();
 		}
 		if (!$row->store()) {
-			mosErrorAlert( $row->getError() );
+			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+			exit();
 		}
 		$row->checkin();
-		$row->updateOrder( "menutype='$row->menutype' AND parent='$row->parent'" );
+		$row->updateOrder( "menutype = '$row->menutype' AND parent = $row->parent" );
 
 		$msg = $_LANG->_( 'Menu item Saved' );
 		switch ( $task ) {

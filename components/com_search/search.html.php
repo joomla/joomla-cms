@@ -1,12 +1,14 @@
 <?php
 /**
-* @version $Id: search.html.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Search
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -14,51 +16,216 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 /**
- * @package Joomla
- * @subpackage Search
- */
-class searchScreens_front {
-	/**
-	 * @param string The main template file to include for output
-	 * @param array An array of other standard files to include
-	 * @return patTemplate A template object
-	 */
-	function &createTemplate( $bodyHtml='', $files=null ) {
-		$tmpl =& mosFactory::getPatTemplate( $files );
+* @package Joomla
+* @subpackage Search
+*/
+class search_html {
 
-		$directory = mosComponentDirectory( $bodyHtml, dirname( __FILE__ ) );
-		$tmpl->setRoot( $directory );
-
-		$tmpl->setAttribute( 'body', 'src', $bodyHtml );
-
-		return $tmpl;
+	function openhtml( $params ) {
+		if ( $params->get( 'page_title' ) ) {
+			?>
+			<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
+				<?php echo $params->get( 'header' ); ?>
+			</div>
+			<?php
+		}
 	}
 
-	function displaylist( &$params, &$lists, &$areas, &$searches ) {
+	function searchbox( $searchword, &$lists, $params ) {
+		global $Itemid;
+		?>
+		<form action="index.php" method="get">
+		<input type="hidden" name="option" value="com_search" />
+		<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
+		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
+			<tr>
+				<td nowrap="nowrap">
+					<label for="search_searchword">
+						<?php echo _PROMPT_KEYWORD; ?>:
+					</label>
+				</td>
+				<td nowrap="nowrap">
+					<input type="text" name="searchword" id="search_searchword" size="15" value="<?php echo stripslashes($searchword);?>" class="inputbox" />
+				</td>
+				<td width="100%" nowrap="nowrap">
+					<input type="submit" name="submit" value="<?php echo _SEARCH_TITLE;?>" class="button" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<?php echo $lists['searchphrase']; ?>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<label for="search_ordering">
+						<?php echo _CMN_ORDERING;?>:
+					</label>
+					<?php echo $lists['ordering'];?>
+				</td>
+			</tr>
+		</table>
+		</form>
+		<?php
+	}
 
-		$showAreas = mosGetParam( $lists, 'areas', array() );
-		$allAreas = array();
-		foreach ( $showAreas as $area ) {
-			$allAreas = array_merge( $allAreas, $area );
-		}
-		$i = 0;
-		$hasAreas = is_array( $areas );
-		foreach ( $allAreas as $val => $txt ) {
-			$checked = $hasAreas && in_array( $val, $areas ) ? 'checked="true"' : '';
-			$rows[$i]->val 		= $val;
-			$rows[$i]->txt 		= $txt;
-			$rows[$i]->checked 	= $checked;
-			$i++;
-		}
+	function searchintro( $searchword, $params ) {
+		?>
+		<table class="searchintro<?php echo $params->get( 'pageclass_sfx' ); ?>">
+		<tr>
+			<td colspan="3" align="left">
+			<?php echo _PROMPT_KEYWORD . ' <b>' . stripslashes($searchword) . '</b>'; ?>
+		<?php
+	}
 
-		$tmpl =& searchScreens_front::createTemplate( 'list.html' );
+	function message( $message, $params ) {
+		?>
+		<table class="searchintro<?php echo $params->get( 'pageclass_sfx' ); ?>">
+		<tr>
+			<td colspan="3" align="left">
+			<?php eval ('echo "'.$message.'";'); ?>
+			</td>
+		</tr>
+		</table>
+		<?php
+	}
 
-		$tmpl->addObject( 'rows', $rows, 'row_' );
-		$tmpl->addObject( 'searches', $searches, 'search_' );
+	function displaynoresult() {
+		?>
+			</td>
+		</tr>
+		<?php
+	}
 
-		$tmpl->addObject( 'body', $params->toObject(), 'p_' );
+	function display( &$rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword ) {
+		global $mosConfig_hideCreateDate;
+		global $mosConfig_live_site, $option, $Itemid;
 
-		$tmpl->displayParsedTemplate( 'body' );
+
+		$c = count ($rows);
+
+				// number of matches found
+				echo '<br/>';
+				eval ('echo "'._CONCLUSION.'";');
+				?>
+				<a href="http://www.google.com/search?q=<?php echo stripslashes($searchword);?>" target="_blank">
+				<img src="<?php echo $mosConfig_live_site;?>/images/M_images/google.png" border="0" align="texttop" />
+				</a>
+			</td>
+		</tr>
+		</table>
+		<br />
+		<div align="center">
+			<?php
+			echo $pageNav->writePagesCounter();
+
+			$searchphrase = trim( strtolower( mosGetParam( $_REQUEST, 'searchphrase', 'any' ) ) );
+			$ordering = trim( strtolower( mosGetParam( $_REQUEST, 'ordering', 'newest' ) ) );
+
+			$link = $mosConfig_live_site ."/index.php?option=$option&Itemid=$Itemid&searchword=$searchword&searchphrase=$searchphrase&ordering=$ordering";
+			echo $pageNav->getLimitBox( $link );
+			?>
+		</div>
+		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
+		<tr class="<?php echo $params->get( 'pageclass_sfx' ); ?>">
+			<td>
+				<?php
+				$z		= $limitstart + 1;
+				$end 	= $limit + $z;
+				if ( $end > $total ) {
+					$end = $total + 1;
+				}
+				for( $i=$z; $i < $end; $i++ ) {
+					$row = $rows[$i-1];
+					if ($row->created) {
+						$created = mosFormatDate ($row->created, '%d %B, %Y');
+					} else {
+						$created = '';
+					}
+					?>
+					<fieldset>
+						<div>
+							<span class="small<?php echo $params->get( 'pageclass_sfx' ); ?>">
+								<?php echo $i.'. ';?>
+							</span>
+							<?php
+							if ( $row->href ) {
+								if ($row->browsernav == 1 ) {
+									?>
+									<a href="<?php echo sefRelToAbs($row->href); ?>" target="_blank">
+									<?php
+								} else {
+									?>
+									<a href="<?php echo sefRelToAbs($row->href); ?>">
+									<?php
+								}
+							}
+
+							echo $row->title;
+
+							if ( $row->href ) {
+								?>
+								</a>
+								<?php
+							}
+							if ( $row->section ) {
+								?>
+								<br/>
+								<span class="small<?php echo $params->get( 'pageclass_sfx' ); ?>">
+									(<?php echo $row->section; ?>)
+								</span>
+								<?php
+							}
+							?>
+						</div>
+
+						<div>
+							<?php echo $row->text;?>
+						</div>
+
+						<?php
+						if ( !$mosConfig_hideCreateDate ) {
+							?>
+							<div class="small<?php echo $params->get( 'pageclass_sfx' ); ?>">
+								<?php echo $created; ?>
+							</div>
+							<?php
+						}
+						?>
+					</fieldset>
+					<br/>
+					<?php
+				}
+				?>
+			</td>
+		<?php
+	}
+
+	function conclusion( $totalRows, $searchword, $pageNav ) {
+		global $mosConfig_live_site, $option, $Itemid;
+		?>
+		<tr>
+			<td colspan="3">
+				<div align="center">
+					<?php
+
+				$searchphrase = trim( strtolower( mosGetParam( $_REQUEST, 'searchphrase', 'any' ) ) );
+				$ordering = trim( strtolower( mosGetParam( $_REQUEST, 'ordering', 'newest' ) ) );
+
+				$link = $mosConfig_live_site ."/index.php?option=$option&Itemid=$Itemid&searchword=$searchword&searchphrase=$searchphrase&ordering=$ordering";
+
+				echo $pageNav->writePagesLinks( $link );
+					?>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+
+			</td>
+		</tr>
+		</table>
+		<?php
 	}
 }
 ?>

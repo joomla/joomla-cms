@@ -1,5 +1,15 @@
 /* Import plugin specific language pack */
-tinyMCE.importPluginLanguagePack('emotions', 'en,sv,zh_cn,cs,fa,fr_ca,fr,de,pl,pt_br,nl');
+tinyMCE.importPluginLanguagePack('emotions', 'en,sv,zh_cn,cs,fa,fr_ca,fr,de,pl,pt_br,nl,da,he,no,hu');
+
+function TinyMCE_emotions_getInfo() {
+	return {
+		longname : 'Emotions',
+		author : 'Moxiecode Systems',
+		authorurl : 'http://tinymce.moxiecode.com',
+		infourl : 'http://tinymce.moxiecode.com/tinymce/docs/plugin_emotions.html',
+		version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion
+	};
+};
 
 /**
  * Returns the HTML contents of the emotions control.
@@ -7,7 +17,7 @@ tinyMCE.importPluginLanguagePack('emotions', 'en,sv,zh_cn,cs,fa,fr_ca,fr,de,pl,p
 function TinyMCE_emotions_getControlHTML(control_name) {
 	switch (control_name) {
 		case "emotions":
-			return '<img id="{$editor_id}_emotions" src="{$pluginurl}/images/emotions.gif" title="{$lang_emotions_desc}" width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mceEmotion\');">';
+			return '<a href="javascript:tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mceEmotion\');" target="_self" onmousedown="return false;"><img id="{$editor_id}_emotions" src="{$pluginurl}/images/emotions.gif" title="{$lang_emotions_desc}" width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" /></a>';
 	}
 
 	return "";
@@ -23,10 +33,14 @@ function TinyMCE_emotions_execCommand(editor_id, element, command, user_interfac
 			var template = new Array();
 
 			template['file'] = '../../plugins/emotions/emotions.htm'; // Relative to theme
-			template['width'] = 150;
-			template['height'] = 180;
+			template['width'] = 160;
+			template['height'] = 160;
 
-			tinyMCE.openWindow(template, {editor_id : editor_id});
+			// Language specific width and height addons
+			template['width'] += tinyMCE.getLang('lang_emotions_delta_width', 0);
+			template['height'] += tinyMCE.getLang('lang_emotions_delta_height', 0);
+
+			tinyMCE.openWindow(template, {editor_id : editor_id, inline : "yes"});
 
 			return true;
 	}

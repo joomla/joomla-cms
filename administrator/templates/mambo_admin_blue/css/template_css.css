@@ -1,271 +1,416 @@
 /**
-* @version $Id: template_css.css 4 2005-09-06 19:22:37Z akede $
+* @version $Id: template_css.css,v 1.5 2005/01/06 01:13:26 eddieajau Exp $
 * @package Mambo
 * @copyright (C) 2000 - 2005 Miro International Pty Ltd
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 * Mambo is Free Software
 */
 
-/* -- General styles ----------------------------- */ 
-html { 
-	height		: 100%; 
-	margin-bottom	: 1px; 
+#wrapper {
+        border: 0px;
+        margin: 0px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0px;
 }
 
-body {
-	margin: 0; 
-	padding: 0;
-	color : #333; 
-	background-color: #F9FaFc;
-	font-size: 12px; 
+#header {
+        background-color: #FFF;
+        background-position: right top;
+        border-bottom: 4px solid #80B5D7;
+}
+
+#mambo {
+        position: relative;
+        width: 100%;
+        background: url(../images/header_blue.jpg) #30569D no-repeat;
+        background-position: top right;
+        margin: 0px;
+        padding: 0px;
+}
+
+#wrapper1 div {
+    border: 0px;
+    margin: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0px 5px 0px 5px;
+    display: inline;
+}
+
+BODY {
+	margin: 0px 0px 0px 0px;
+	color : #333;
+	background-color: #FFF;
 	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
 }
-
-a { 
-	color: #ff6600;  
-	text-decoration: none;       
+a {
+	color: #ff6600;
+	text-decoration: none;
 }
-a:link { 
-	color: #ff6600;  
-	text-decoration: none;       
+a:hover {
+	color : #30569D;
+	text-decoration : underline;
 }
-a:hover { 
-	color : #30569D; 
-	text-decoration : underline; 
+a:active {
+	color : #FF9900;
+	text-decoration : underline;
 }
-a:active { 
-	color : #FF9900; 
-	text-decoration : underline; 
+a.toolbar {
+	color : #808080;
+	text-decoration : none;
 }
-
-td, th { 
-	font-family : Arial, Helvetica, sans-serif; 
-	font-size: 11px; 
+a.toolbar:hover {
+	color : #FF6600;
 }
-
-td.center, th.center { 
-	text-align: center; 
+a.toolbar:active {
+	color : #FF9900;
 }
-td.left, th.left   { 
-	text-align: left;   
+.pagenav {
+	font-size : 10px;
 }
-td.right, th.right { 
-	text-align: right;   
+a.pagenav {
+	color : #808080;
+	font-size : 10px;
+	text-decoration : underline;
 }
-
-.clr { clear: both; }
-
-/* -- Form styles -------------------------------- */ 
-
-form { margin: 0; }
-
-input, textarea, select {
+a.pagenav:hover {
+	color : #FFF;
+	font-size : 10px;
+}
+a.pagenav:active {
+	color : #333;
+	font-size : 10px;
+}
+.sectionname {
+	color : #FF9900;
+	font-family : Arial, Helvetica, sans-serif;
+	font-size : 18px;
+	font-weight: bold;
+}
+.button {
+	border-top : solid 1px #d5d5d5;
+	border-right : solid 1px #808080;
+	border-bottom : solid 1px #808080;
+	border-left : solid 1px #d5d5d5;
+	color : #333;
+	font-weight : bold;
+}
+.inputbox {
+        color: blue;
+        background: #E9EFF5;
+        font-family: Courier, Helvetica, sans-serif;
+        z-index: -3;
+        font-size: 11px;
+}
+.text_area {
+        border : 1px solid #999;
+        color: blue;
+        background: #E9EFF5;
+        font-family: Courier, Helvetica, sans-serif;
+        z-index: -3;
+        font-size: 11px
+}
+INPUT, TEXTAREA, SELECT {
 	color : blue;
 	z-index : -3;
 	font-size: 11px;
 }
-
-input.button {
-	background: #E2E7EB;
-	border: 1px solid #999;
-	color : #f60;
+.small {
+	color : #FF9900;
+	font-family : Arial, Helvetica, sans-serif;
+	font-size : 10px;
+	text-decoration : none;
+}
+.smallgrey {
+	color : #999;
+	font-size : 10px;
+}
+.error {
+	color : #C40000;
+	font-size : 11px;
 	font-weight : bold;
 }
+.contentheading, .componentheading, .moduleheading {
+	font-size: 14px;
+	font-weight: bold;
+}
+table.menubar {
+	width: 100%;
+	
+}
+td {
+	font-size: 11px;
+}
+/* header block */
+table.adminheading {
+	background-color: #FFF;
+	font-family : Arial, Helvetica, sans-serif;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	width: 100%;
+	border-collapse: collapse;
+	color: #FF9E31;
+	font-size : 18px;
+	font-weight: bold;
+	text-align: left;
+}
+table.adminheading th {
+	width: 99%;
+	height: 50px;
+	padding-left: 50px;
+	background: url(../../../images/asterisk.png) no-repeat left;
+}
+table.adminheading th.checkin {
+	background: url(../../../images/checkin.png) no-repeat left;
+}
+table.adminheading th.cpanel {
+	background: url(../../../images/cpanel.png) no-repeat left;
+}
+table.adminheading th.config {
+	background: url(../../../images/config.png) no-repeat left;
+}
+table.adminheading th.modules {
+	background: url(../../../images/module.png) no-repeat left;
+}
+table.adminheading th.menus {
+	background: url(../../../images/menu.png) no-repeat left;
+}
+table.adminheading th.trash {
+	background: url(../../../images/trash.png) no-repeat left;
+}
+table.adminheading th.user {
+	background: url(../../../images/user.png) no-repeat left;
+}
+table.adminheading th.inbox {
+	background: url(../../../images/inbox.png) no-repeat left;
+}
+table.adminheading th.msgconfig {
+	background: url(../../../images/message_config.png) no-repeat left;
+}
+table.adminheading th.langmanager {
+	background: url(../../../images/langmanager.png) no-repeat left;
+}
+table.adminheading th.mediamanager {
+	background: url(../../../images/mediamanager.png) no-repeat left;
+}
+table.adminheading th.impressions {
+	background: url(../../../images/impressions.png) no-repeat left;
+}
+table.adminheading th.browser {
+	background: url(../../../images/browser.png) no-repeat left;
+}
+table.adminheading th.searchtext {
+	background: url(../../../images/searchtext.png) no-repeat left;
+}
+table.adminheading th.templates {
+	background: url(../../../images/templatemanager.png) no-repeat left;
+}
+table.adminheading th.massemail {
+	background: url(../../../images/massemail.png) no-repeat left;
+}
+table.adminheading th.frontpage {
+	background: url(../../../images/frontpage.png) no-repeat left;
+}
+table.adminheading th.sections {
+	background: url(../../../images/sections.png) no-repeat left;
+}
+table.adminheading th.edit {
+	background: url(../../../images/addedit.png) no-repeat left;
+}
+table.adminheading th.categories {
+	background: url(../../../images/categories.png) no-repeat left;
+}
+table.adminheading th.install {
+	background: url(../../../images/install.png) no-repeat left;
+}
+table.adminheading th.dbbackup {
+	background: url(../../../images/backup.png) no-repeat left;
+}
+table.adminheading th.dbrestore {
+	background: url(../../../images/dbrestore.png) no-repeat left;
+}
+table.adminheading th.dbquery {
+	background: url(../../../images/query.png) no-repeat left;
+}
+table.adminheading th.info {
+	background: url(../../../images/systeminfo.png) no-repeat left;
+}
 
-select.options, input.options { 
-	font-size: 8px; 
+table.adminheading td {
+	color : #000;
+}
+/* standard list style table */
+table.adminlist {
+	background-color: #FFFFFF;
+	margin: 0px;
+	padding: 0px;
+	border: 1px solid #CCCCCC;
+	border-spacing: 0px;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+table.adminlist th {
+	margin: 0px;
+	padding: 6px 4px 2px 4px;
+	height: 25px;
+	background: url(../images/background.gif);
+	background-repeat: repeat;
+	font-size: 11px;
+	color: #ffffff;
+}
+table.adminlist th.title {
+	text-align: left;
+}
+
+table.adminlist th a {
+	color: #ff9900;
+}
+
+table.adminlist tr.row0 {
+	background-color: #F5F5F5;
+}
+table.adminlist tr.row1 {
+	background-color: #FFF;
+}
+table.adminlist td {
+	border-bottom: 1px solid #e5e5e5;
+	padding: 4px;
+}
+table.adminlist tr.row0:hover {
+	background-color: #f1f1f1;
+}
+table.adminlist tr.row1:hover {
+	background-color: #f1f1f1;
+}
+table.adminlist td.options {
+	background-color: #ffffff;
+	font-size: 8px;
+}
+select.options, input.options {
+	font-size: 8px;
 	font-weight: normal;
 	border: 1px solid #999999;
 }
-
-.inputbox {
-	color: blue; 
-	background-color: #E9EFF5;
-	font-size: 11px; 
-	font-family: Courier, Helvetica, sans-serif;
-	z-index: -3;    
+/* standard form style table */
+table.adminform {
+	background-color: #f5f5f5;
+	border: solid 1px #d5d5d5;
+	width: 100%;
+	padding: 10px;
+	border-collapse: collapse;
 }
-
-.text_area {
-  	border : 1px solid #999;
-  	color: blue; 
-	background: #E9EFF5;
-	font-size: 11px; 
-	font-family: Courier, Helvetica, sans-serif;
-	z-index: -3;     
+table.adminform tr.row0 {
+	background-color: #f5f5f5;
 }
-
-fieldset {
-	margin-bottom: 10px;
-	border: 1px #ccc solid;
-	padding: 5px;
+table.adminform tr.row1 {
+	background-color: #eeeeee;
+}
+table.adminform th {
+	font-size: 12px;
+	padding-top: 6px;
+	padding-bottom: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
+	text-align: left;
+	height: 25px;
+	color: #ffffff;
+	background: url(../images/background.gif);
+	background-repeat: repeat;
+}
+table.adminform td {
+	padding: 3px;
 	text-align: left;
 }
-
-fieldset p { 
-	margin: 10px 0px; 
+table.adminform td.editor {
+	font-size: 9px;
 }
 
-legend { 
-	color: #999; 
-	font-size: 1.1em; 
-	font-weight: bold; 
+table.cpanel td {
+	text-align: center;
 }
 
-/* -- ID styles ---------------------------------- */ 
-
-#wrapper      { 
-	margin: 0 auto; 
-	padding: 0; 
+form {
+	margin: 0px 0px 0px 0px;
 }
-#wrapper1 div { 
-	display: inline;
-
+/* Styles for dhtml tabbed-pages */
+.ontab {
+	font-size: 12px;
+	background-color: #ffae00;
+	border: 1px solid #cccccc;
+	width: 14%;
+	text-align: center;
+	cursor: hand;
+	font-weight: bold;
+	color: #FFFFFF;
 }
-
-#header {
-  	background-color: #FFF; 
-  	background-position: right top;
-  	border-bottom: 4px solid #80B5D7;
+.offtab {
+	font-size: 12px;
+	background-color : #e5e5e5;
+	border: 1px solid #cccccc;
+	width: 14%;
+	text-align: center;
+	cursor: hand;
+	font-weight: normal;
 }
-
-#mambo {
-   width: 100%; 
-   position: relative;
-   background: url(../images/header_blue.jpg) #30569D no-repeat top right;
-   margin: 0px; padding: 0px;
+.tabpadding {
+	/*border-bottom: solid 1px #D5D5D5;*/
 }
-
-#treecell {
-	width: 20%; 
-	display: block; 
-	position: relative; 
-	float: left;
-	margin: 0; 
-	padding: 2px;
-	overflow: hidden;
-}
-
-#datacell {
-	width: 78%; 
-	display: block; 
-	float: left;
-	margin: 0; 
-	padding: 2px 0px 0px 0px;	
-}
-
-#datacellfull {
-	width: 98%; 
-	display: block; 
-	float: left;
-	margin: 0; 
-	padding: 2px;
-}
-
-#datacellcpanel {
-	width: 98%; 
-	display: block; 
-	float: left;
-	margin: 0; 
-	padding: 10px 0px 0px 5px;
-}
-
-#treecell fieldset { 
-}
-#datacell fieldset { 
-	border: 1px #ccc solid; 
-}
-
-/* -- Module styles ---------------------------- */ 
-
-/* mod_fullmenu */
-
-table.menubar { 
-	width: 100%; 
-}
-table.menubar .menubackgr     { 
-	background: #F1F3F5; 
-	border-bottom: 1px solid #cccccc; 
-	vertical-align: bottom;
-}
-table.menubar .menudottedline { 
-	border-bottom: 1px solid #cccccc; 
-	border-top: 1px solid #ffffff; 
-	background-color: #F1F3F5; 
-}
-
-/* mod_toolbar */
-
-div.title { 
-	float: left; 
-	height: 52px; 
-	width: auto;
-	margin: 2px;
-	color: #FF6600; 
-	font-size : 19px; 
-	font-weight: bold; 
+.tabheading {
+	background-color: #FFAE00;
+	color: #FFF;
+	font-size: 10px;
 	text-align: left;
-	border: 1px none lavender;
 }
+.pagetext {
+	visibility: hidden;
+	display: none;
+	position: relative;
+	top: 0;
+}
+.menubackgr {
+	background: #F1F3F5;
+	border-bottom: 1px solid #cccccc;
 
-div.admintoolbar { 
-	float: right; 
-	text-align: center; 
-	vertical-align: middle; 
 }
-
-div.admintoolbar a:link  { 
+.menudottedline {
+	border-bottom: 1px solid #cccccc;
+	border-top: 1px solid #ffffff;
+	background-color: #F1F3F5;
 }
-div.admintoolbar a:hover { 
-	text-decoration: none; 
+.pathway {
+	border: 1px inset;
+	background-color: #FFF;
+	padding: 2px;
+	width: 95%;
+	margin: 3px;
 }
-
-div.admintoolbar .button { 
-	float: left; 
-/*
-	width: auto;
-*/	
-	margin: 2px;	
+.adminheader {
+	color : #FF9900;
+	font-size : 24px;
 }
-
-div.admintoolbar .divider {
-	float: left; 
-	height: 52px;
-	background: #d3d4d7;
-	margin: 2px;
+/* Text passed with mosmsg url parameter */
+.message {
+	font-family : "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size : 14px;
+	color : #FF9900;
+	text-align: center;
 }
-
-div.admintoolbar .button a { 
-	height: 48px !important;
-	height: 50px; 
-	float: left;
-	display: block; 
-	border: 1px solid #e1e2e5;
-	padding: 2px 5px 1px 5px;
-	margin-bottom: 2px;
-/*	
-	padding: 5px;
-	width: auto;
-*/
-	color : #808080; 
-	text-decoration : none;
+.main {
+	border: 1px solid #d5d5d5;
+	width: 98%;
 }
-
-div.admintoolbar .button a.enabled:hover  { 
-	color : #FF6600; 
-	background-color: #E9EFF5; 
-	border: 1px solid #B5CDE8;
-	padding: 3px 4px 0px 6px;
-}
-div.admintoolbar .button a.enabled:active { 
-	color : #FF9900;  
-}
-
-div.admintoolbar .spacer { 
-	display: block; 
-	float: left; 
-	width: 5px; 
-	margin: 0 auto; 
+.quote {
+	margin: 4px;
+	border: 1px solid #cccccc;
+	background-color: #E9ECEF;
+	padding: 10px;
+	font-size: 12px;
+	color: #254D78;
 }
 
 /* mod_quickicon */
@@ -286,7 +431,7 @@ div.admintoolbar .spacer {
 	width: 110px; 
 	vertical-align: middle; 
 	text-decoration : none;
-	border: 1px solid #e1e2e5;
+	border: 1px solid #DDD;
 	padding: 2px 5px 1px 5px;
 }
 
@@ -294,9 +439,9 @@ div.admintoolbar .spacer {
 	color : #808080; 
 }
 #cpanel div.icon a:hover   { 
-	color : #FF6600; 
-	background-color: #E9EFF5;  
-	border: 1px solid #B5CDE8;
+	color : #333; 
+	background-color: #f1e8e6;  
+	border: 1px solid #c24733;
 	padding: 3px 4px 0px 6px; 
 }
 #cpanel div.icon a:active  { 
@@ -310,425 +455,8 @@ div.admintoolbar .spacer {
 	padding-top: 13px; 
 }
 
-/* mod_login */
-
-a.logoutButton {
-	margin: 0px 20px 0 10px; 
-	border: 1px solid #e1e2e5;
-	padding: 3px;
-	color: #666; 
-	font-weight: normal;
-
-}
-
-a.logoutButton:hover {
-	text-decoration: none;
-	color: #f60;
-	background-color: #E9EFF5;  
-	border: 1px solid #B5CDE8;
-}
-
-/* mod_linkbar */
-
-/* Linkbar */
-
-ul#linkbar {
-	margin:0;
-	padding: 0;
-	list-style: none;
-	border: none;
-}
-
-#linkbar li {
-	display: block;
-	margin: 0;
-	padding: 0;
-	float:left;
-}
-
-#linkbar a {
-	display:block; 
-	position: relative;
-	margin:0; 
-	padding: 0.2em 2.4em 0.2em 36px;
-	color:#777;
-	text-decoration:none;
-	background: url(../images/lia.gif) no-repeat;
-	border-right: 1px solid #fff;
-}
-
-#linkbar a#a0 { 
-	left: 0px;
-}
-#linkbar a#a1 { 
-	left: -30px;
-}
-#linkbar a#a2 { 
-	left: -60px;
-}
-#linkbar a#a3 { 
-	left: -90px;
-}
-#linkbar a#a4 { 
-	left: -120px;
-}
-#linkbar a#a5 { 
-	left: -150px;
-}
-#linkbar a#a6 { 
-	left: -180px;
-}
-#linkbar a#a7 { 
-	left: -210px;
-}
-#linkbar a#a8 { 
-	left: -240px;
-}
-#linkbar a#a9 { 
-	left: -270px;
-}
-#linkbar a#a10 { 
-	left: -300px;
-}
-
-#linkbar a:hover {
-	background: url(../images/liahover.gif) no-repeat;
-	color: #FF6600;
-}
-
-#linkbar a.here {
-	position:relative;
-	z-index:102;
-	background: url(../images/liahover.gif) no-repeat;
-	border-right: 1px solid #777;
-	padding: 0.2em 1em 0.2em 35px;
-	margin: 0 4px 0 0;
-}
-
-/* -- Class styles ---------------------------------- */ 
-
-/* generic */
-
-.small     { 
-	color : #FF9900; 
-	font-size : 10px; 
-	font-family : Arial, Helvetica, sans-serif; 
-	text-decoration : none; 
-}
-.smallgrey { 
-	color : #999; 
-	font-size : 10px; 
-}
-.error { 
-	color : #C40000; 
-	font-size : 11px; 
-	font-weight : bold; 
-}
-
-.contentheading, .componentheading, .moduleheading { 
-	font-size: 14px; 
-	font-weight: bold; 
-}
-
-/* Text passed with mosmsg url parameter */
-.message {
-	color : #FF9900; 
-	font-size : 14px; 
-	font-weight: bold; 
-	font-family : "Trebuchet MS", Arial, Helvetica, sans-serif;
-	text-align: center;
-}
-
-.main   { 
-	width: 100%; 
-	margin: 0 0 0 0;
-	padding: 0 0 0 0; 
-}
-.quote  {
-	margin: 4px; 
-	padding: 10px;
-	border: 1px solid #cccccc;
-	background-color: #E9ECEF;
-	color: #254D78; 
-	font-size: 12px;
-}
-
-.pagetext  { 
-	display: none; 
-	visibility: hidden; 
-	position: relative; 
-	top: 0; 
-}
-
-.expander { 
-	float: right;  
-}
-
-ul.relatedlinks { 
-	padding: 0px;
-	margin: 0px;
-	margin-left: 20px;
-}
-
-table.paramlist { 
-	width: 100%; 
-}
-div.installLog  { 
-	width: 99%; 
-	height: 300px; 
-	overflow: auto; 
-}
-
-/* Page Navigiation */
-
-.pagenav { 
-	font-size : 10px; 
-	font-size: normal; 
-}
-a.pagenav:link { 
-	color : #ff9900; 
-	text-decoration : underline; 
-}
-a.pagenav:hover { 
-	color : white;   
-}
-a.pagenav:active { 
-	color : #ff9900; 
-}
-a.pagenav:visited { 
-	color : #ff9900; 
-}
-
-/* adminheader */
-
-table.adminheading {
-	width: 100%;
-	margin: 0px; 
-	padding: 0px; 
-	border: 0px; 
-	border-collapse: collapse;
-	color: #FF9E31; 
-	font-size : 18px; 
-	font-weight: bold;
-	text-align: left;
-}
-
-table.adminheading th {
-	width: 99%;
-	height: 50px;
-	padding-left: 50px;
-	background: url(../../../images/asterisk.png) no-repeat left;
-}
-
-table.adminheading td { 
-	color : #000; 
-}
-
-/* div adminlist */
-
-div.adminlist {
-	height: 20px;
-	margin: 0px; 
-	padding: 6px 4px 2px 4px;
-	background: url(../images/background.gif) repeat;
-	color: #ffffff; 
-	font-weight: bold;
-}
-
-div.adminlist a { 
-	color: #ff9900; 
-	text-decoration: none; 
-}
-
-/* table adminlist */
-
-table.adminlist {
-	width: 100%;
-	background-color: #FFFFFF;
-	margin: 0px; 
-	padding: 0px;
-	border-spacing: 0px; 
-	border-collapse: collapse;
-}
-
-table.adminlist th {
-	height: 25px;
-	margin: 0px; 
-	padding: 6px 4px 2px 4px;
-	background: url(../images/background.gif) repeat;
-	color: #ffffff;
-}
-
-table.adminlist th.title { 
-	text-align: left; 
-}
-table.adminlist th a     { 
-	color: #ff9900; 
-}
-
-table.adminlist tr.row0 { 
-	background-color: #F7F8F9; 
-}
-table.adminlist tr.row1 { 
-	background-color: #FFF;    
-}
-
-table.adminlist td { 
-	border-bottom: 1px solid #e5e5e5; 
-	padding: 4px; 
-}
-
-table.adminlist tr.row0:hover { 
-	background-color: #B5CDE8; 
-	border: 1px solid #30559C; 
-}
-table.adminlist tr.row1:hover { 
-	background-color: #B5CDE8; 
-	border: 1px solid #30559C; 
-}
-
-table.adminlist td.options { 
-	background-color: #ffffff; 
-	font-size: 8px; 
-}
-
-/* div adminfilters */
-
-div.adminfilters { 
-	height: 20px; 
-}
-
-/* table adminform */
-
-table.adminform {
-	width: 100%;
-	background-color: #F7F8F9;
-	border: solid 1px #d5d5d5;
-	padding: 10px;
-	border-collapse: collapse;
-}
-
-table.adminform th {
-	height: 25px;
-	color: #ffffff; 
-	font-size: 12px; 
-	text-align: left;
-	padding: 6px 4px 2px 4px ;
-	background: url(../images/background.gif) repeat;
-}
-
-table.adminform td { 
-	padding: 3px; 
-	text-align: left; 
-}
-
-table.adminform tr.row0 { 
-	background-color: #F7F8F9;
-}
-table.adminform tr.row1 { 
-	background-color: #eeeeee; 
-}
-
-table.adminform td.editor { 
-	font-size: 9px; 
-}
-
-table#editpage td {
-	height: 35px;
-	padding-left: 10px;	
-}
-
-/* Styles for dhtml tabbed-pages */
-.ontab {
-	width: 14%;
-	color: #FFFFFF; 
-	font-size: 12px; 
-	font-weight: bold;
-	background-color: #ffae00;
-	border: 1px solid #cccccc;
-	text-align: center;
-	cursor: hand;
-}
-
-.offtab {
-	width: 14%;
-	font-size: 12px; 
-	font-weight: normal;
-	background-color : #e5e5e5;
-	border: 1px solid #cccccc;
-	text-align: center;
-	cursor: hand;
-}
-.tabpadding { 
-}
-.tabheading { 
-	background-color: #FFAE00; 
-	color: #FFF; 
-	font-size: 10px; 
-	text-align: left; 
-}
-
-a.tooltip, a.tooltip:hover  {
-	color: black;
-	text-decoration: none;
-	border-bottom: 1px dashed #aaa;
-}
-
-a.tooltiplink {
-	display: block; 
-	width: 100%; 
-}
-a.tooltiplink:hover {
-	text-decoration:  none;
-}
-
-a.editlink, a.editlink:hover {
-	display: block; 
-	width: 100%; 
-	text-decoration:  none;
-}
-
-span.editlinktip {
-	text-decoration:  none;
-	border-bottom: 1px dashed #aaa;
-}
-
-/* Access formatting */
-
-a.access0, a.access0:hover {
-	color: green;
-	display: block; 
-	width: 100%; 
-	text-decoration:  none;
-}
-a.access1, a.access1:hover {
-	color: red;
-	display: block; 
-	width: 100%; 
-	text-decoration:  none;
-}
-a.access2, a.access2:hover {
-	color: black;
-	display: block; 
-	width: 100%; 
-	text-decoration:  none;
-}
-
-/* Column Ordering */
-
-a.col_ordering, a.col_ordering:hover {
-	display: block; 
-	width: 100%; 
-	text-decoration:  none;	
-}
-
-/* Menu Checkbox List */
-
-div.menulist {
-	height: 600px; 
-	overflow: auto; 
-	background-color: #E9EFF5; 
-	color: blue; 
-	border: 1px solid #999999;
-	padding: 10px 30px 10px 15px;
+.menudottedline {
+	border-bottom: 1px solid #cccccc;
+	border-top: 1px solid #ffffff;
+	background-color: #F1F3F5;
 }

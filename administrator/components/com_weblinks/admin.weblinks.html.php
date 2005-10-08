@@ -1,12 +1,14 @@
 <?php
 /**
-* @version $Id: admin.weblinks.html.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Weblinks
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -14,213 +16,124 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 /**
- * @package Joomla
- * @subpackage POlls
- */
-class weblinksScreens {
-	/**
-	 * Static method to create the template object
-	 * @param array An array of other standard files to include
-	 * @return patTemplate
-	 */
-	function &createTemplate( $files=null) {
-
-		$tmpl =& mosFactory::getPatTemplate( $files );
-		$tmpl->setRoot( dirname( __FILE__ ) . '/tmpl' );
-
-		return $tmpl;
-	}
-
-	/**
-	* List languages
-	* @param array
-	*/
-	function view( &$lists ) {
-		global $mosConfig_lang;
-
-		$tmpl =& weblinksScreens::createTemplate();
-
-		$tmpl->readTemplatesFromInput( 'view.html' );
-
-		$tmpl->addVar( 'body2', 'search', $lists['search'] );
-
-		// temp lists --- these can be done in pat a lot better
-		$tmpl->addVar( 'body2', 'lists_state', $lists['state'] );
-		$tmpl->addVar( 'body2', 'lists_catid', $lists['catid'] );
-
-		//$tmpl->addObject( )
-		$tmpl->displayParsedTemplate( 'body2' );
-	}
-
-	function editWeblinks() {
-		global $mosConfig_lang;
-
-		$tmpl =& weblinksScreens::createTemplate();
-
-		$tmpl->readTemplatesFromInput( 'editWeblinks.html' );
-
-		$tmpl->displayParsedTemplate( 'body2' );
-	}
-}
-
-/**
 * @package Joomla
 * @subpackage Weblinks
 */
 class HTML_weblinks {
 
-	function showWeblinks( $option, &$rows, &$lists, &$pageNav ) {
+	function showWeblinks( $option, &$rows, &$lists, &$search, &$pageNav ) {
 		global $my;
- 	 	global $_LANG;
+		global $_LANG;
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php" method="post" name="adminForm" id="weblinksform" class="adminform">
+		<form action="index2.php" method="post" name="adminForm">
+		<table class="adminheading">
+		<tr>
+			<th>
+			<?php echo $_LANG->_( 'Weblink Manager' ); ?>
+			</th>
+			<td>
+			<?php echo $_LANG->_( 'Filter' ); ?>:
+			</td>
+			<td>
+			<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
+			</td>
+			<td width="right">
+			<?php echo $lists['catid'];?>
+			</td>
+		</tr>
+		</table>
 
+		<table class="adminlist">
+		<tr>
+			<th width="5">
+			<?php echo $_LANG->_( 'NUM' ); ?>
+			</th>
+			<th width="20">
+			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+			</th>
+			<th class="title">
+			<?php echo $_LANG->_( 'Title' ); ?>
+			</th>
+			<th width="5%">
+			<?php echo $_LANG->_( 'Published' ); ?>
+			</th>
+			<th colspan="2" width="5%">
+			<?php echo $_LANG->_( 'Reorder' ); ?>
+			</th>
+			<th width="25%" align="left">
+			<?php echo $_LANG->_( 'Category' ); ?>
+			</th>
+			<th width="5%">
+			<?php echo $_LANG->_( 'Hits' ); ?>
+			</th>
+		</tr>
 		<?php
-		weblinksScreens::view( $lists );
-		?>
-				<table class="adminlist" id="moslist">
-				<thead>
-				<tr>
-					<th width="5">
-						<?php echo $_LANG->_( 'Num' ); ?>
-					</th>
-					<th width="20">
-						<input type="checkbox" name="toggle" value="" />
-					</th>
-					<th class="title">
-						<?php echo mosCommonHTML::tOrder( $lists, $_LANG->_( 'Title' ), 'a.title' ); ?>
-					</th>
-					<th width="25%" align="left">
-						<?php echo mosCommonHTML::tOrder( $lists, $_LANG->_( 'Category' ), 'category' ); ?>
-					</th>
-					<th width="5%" nowrap="nowrap">
-						<?php echo mosCommonHTML::tOrder( $lists, $_LANG->_( 'Published' ), 'a.published' ); ?>
-					</th>
-					<th width="5%" nowrap="nowrap">
-						<?php echo mosCommonHTML::tOrder( $lists, $_LANG->_( 'Approved' ), 'a.approved' ); ?>
-					</th>
-					<th colspan="2" width="5%">
-						<?php echo $_LANG->_( 'Reorder' ); ?>
-					</th>
-					<th width="2%" nowrap="nowrap">
-						<?php echo mosCommonHTML::tOrder( $lists, $_LANG->_( 'Order' ), 'a.ordering' ); ?>
-					</th>
-					<th width="1%">
-						<?php mosAdminHTML::saveOrderIcon( $rows ); ?>
-					</th>
-					<th width="5%" nowrap="nowrap" align="center">
-						<?php echo mosCommonHTML::tOrder( $lists, $_LANG->_( 'Hits' ), 'a.hits' ); ?>
-					</th>
-					<th width="20" nowrap="nowrap" align="center">
-						<?php echo mosCommonHTML::tOrder( $lists, $_LANG->_( 'ID' ), 'a.id' ); ?>
-					</th>
-				</tr>
-				</thead>
-				<tfoot>
-					<tr>
-						<th colspan="13" class="center">
-							<?php echo $pageNav->getPagesLinks(); ?>
-						</th>
-					</tr>
-					<tr>
-						<td colspan="13" class="center">
-							<?php echo $_LANG->_( 'Display Num' ) ?>
-							<?php echo  $pageNav->getLimitBox() ?>
-							<?php echo $pageNav->getPagesCounter() ?>
-						</td>
-					</tr>
-				</tfoot>
-				<tbody>
+		$k = 0;
+		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
+			$row = &$rows[$i];
+
+			$link 	= 'index2.php?option=com_weblinks&task=editA&hidemainmenu=1&id='. $row->id;
+
+			$task 	= $row->published ? 'unpublish' : 'publish';
+			$img 	= $row->published ? 'publish_g.png' : 'publish_x.png';
+			$alt 	= $row->published ? $_LANG->_( 'Published' ) : $_LANG->_( 'Unpublished' );
+
+			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
+
+			$row->cat_link 	= 'index2.php?option=com_categories&section=com_weblinks&task=editA&hidemainmenu=1&id='. $row->catid;
+			?>
+			<tr class="<?php echo "row$k"; ?>">
+				<td>
+				<?php echo $pageNav->rowNumber( $i ); ?>
+				</td>
+				<td>
+				<?php echo $checked; ?>
+				</td>
+				<td>
 				<?php
-				$k = 0;
-				for ($i=0, $n=count( $rows ); $i < $n; $i++) {
-					$row = &$rows[$i];
-
-					$link 	= 'index2.php?option=com_weblinks&amp;task=editA&amp;id='. $row->id;
-
-					$task 	= $row->published ? 'unpublish' : 'publish';
-					$img 	= $row->published ? 'tick.png' : 'publish_x.png';
-					$alt 	= $row->published ? $_LANG->_( 'Published' ) : $_LANG->_( 'Unpublished' );
-					$img1 	= $row->approved ? 'tick.png' : 'publish_x.png';
-					$alt1 	= $row->published ? $_LANG->_( 'Approved' ) : $_LANG->_( 'Denied' );
-
-					$checked 	= mosAdminHTML::checkedOutProcessing( $row, $i );
-
-					$row->cat_link 	= 'index2.php?option=com_categories&amp;section=com_weblinks&amp;task=editA&amp;id='. $row->catid;
+				if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+					echo $row->title;
+				} else {
 					?>
-					<tr class="<?php echo "row$k"; ?>">
-						<td>
-							<?php echo $pageNav->rowNumber( $i ); ?>
-						</td>
-						<td>
-							<?php echo $checked; ?>
-						</td>
-						<td>
-							<?php
-							if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-								echo $row->title;
-							} else {
-								?>
-								<a href="<?php echo $link; ?>" title="<?php echo $_LANG->_( 'Edit Weblinks' ); ?>" class="editlink">
-									<?php echo $row->title; ?>
-								</a>
-								<?php
-							}
-							?>
-						</td>
-						<td>
-							<a href="<?php echo $row->cat_link; ?>" title="<?php echo $_LANG->_( 'Edit Category' ); ?>">
-								<?php echo $row->category; ?>
-							</a>
-						</td>
-						<td align="center">
-							<a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
-								<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" />
-							</a>
-						</td>
-						<td align="center">
-							<img src="images/<?php echo $img1;?>" width="12" height="12" border="0" alt="<?php echo $alt1; ?>" />
-						</td>
-						<td>
-							<?php
-							if ( $lists['tOrder'] == 'category' && ( $lists['tOrderDir'] == 'DESC' )  ) {
-								echo $pageNav->orderUpIcon( $i, ($row->catid == @$rows[$i-1]->catid) );
-							}
-						?>
-						</td>
-			 			<td>
-							<?php
-							if ( $lists['tOrder'] == 'category' && ( $lists['tOrderDir'] == 'DESC' )  ) {
-								echo $pageNav->orderDownIcon( $i, $n, ($row->catid == @$rows[$i+1]->catid) );
-							}
-							?>
-						</td>
-						<td align="center" colspan="2">
-							<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
-						</td>
-						<td align="center">
-							<?php echo $row->hits; ?>
-						</td>
-						<td align="center">
-							<?php echo $row->id; ?>
-						</td>
-					</tr>
+					<a href="<?php echo $link; ?>" title="Edit Weblinks">
+					<?php echo $row->title; ?>
+					</a>
 					<?php
-					$k = 1 - $k;
 				}
 				?>
-				</tbody>
-				</table>
-			</fieldset>
-		</div>
-
-		<input type="hidden" name="tOrder" value="<?php echo $lists['tOrder']; ?>" />
-		<input type="hidden" name="tOrder_old" value="<?php echo $lists['tOrder']; ?>" />
-		<input type="hidden" name="tOrderDir" value="" />
+				</td>
+				<td align="center">
+				<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
+				<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" />
+				</a>
+				</td>
+				<td>
+				<?php echo $pageNav->orderUpIcon( $i, ($row->catid == @$rows[$i-1]->catid) ); ?>
+				</td>
+	  			<td>
+				<?php echo $pageNav->orderDownIcon( $i, $n, ($row->catid == @$rows[$i+1]->catid) ); ?>
+				</td>
+				<td>
+				<a href="<?php echo $row->cat_link; ?>" title="Edit Category">
+				<?php echo $row->category; ?>
+				</a>
+				</td>
+				<td align="center">
+				<?php echo $row->hits; ?>
+				</td>
+			</tr>
+			<?php
+			$k = 1 - $k;
+		}
+		?>
+		</table>
+		<?php echo $pageNav->getListFooter(); ?>
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="hidemainmenu" value="0">
 		</form>
 		<?php
 	}
@@ -236,9 +149,10 @@ class HTML_weblinks {
 	* @param string The option
 	*/
 	function editWeblink( &$row, &$lists, &$params, $option ) {
-	  	global $_LANG;
+		global $_LANG;
 
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'description' );
+		
 		mosCommonHTML::loadOverlib();
 		?>
 		<script language="javascript" type="text/javascript">
@@ -261,10 +175,17 @@ class HTML_weblinks {
 			}
 		}
 		</script>
-		<?php
-		weblinksScreens::editWeblinks( $lists );
-		?>
 		<form action="index2.php" method="post" name="adminForm" id="adminForm">
+		<table class="adminheading">
+		<tr>
+			<th>
+			<?php echo $_LANG->_( 'Weblink' ); ?>:
+			<small>
+			<?php echo $row->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' ); ?>
+			</small>
+			</th>
+		</tr>
+		</table>
 
 		<table width="100%">
 		<tr>
@@ -304,7 +225,7 @@ class HTML_weblinks {
 					<?php echo $_LANG->_( 'Description' ); ?>:
 					</td>
 					<td>
-					<textarea class="text_area" cols="50" rows="5" name="description" style="width:500px"><?php echo $row->description; ?></textarea>
+					<textarea class="text_area" cols="50" rows="5" name="description" style="width:500px" width="500"><?php echo $row->description; ?></textarea>
 					</td>
 				</tr>
 
@@ -314,14 +235,6 @@ class HTML_weblinks {
 					</td>
 					<td>
 					<?php echo $lists['ordering']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right">
-					<?php echo $_LANG->_( 'Approved' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['approved']; ?>
 					</td>
 				</tr>
 				<tr>
@@ -343,15 +256,13 @@ class HTML_weblinks {
 				</tr>
 				<tr>
 					<td>
-					<?php echo $params->render( 'params', 0 );?>
+					<?php echo $params->render();?>
 					</td>
 				</tr>
 				</table>
 			</td>
 		</tr>
 		</table>
-		</fieldset>
-		</div>
 
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />

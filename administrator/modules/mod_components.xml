@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <mosinstall type="module">
-	<name>Components List</name>
+	<name>Component List</name>
 	<author>Joomla! Project</author>
-	<creationDate>February 2005</creationDate>
+	<creationDate>July 2004</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-	<authorEmail>admin@mamboserver.com</authorEmail>
-	<authorUrl>www.mamboserver.com</authorUrl>
-	<version>4.5.3</version>
-	<description>This module shows a list of Components.</description>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>This module shows a list of installed Components</description>
 	<files>
 		<filename module="mod_components">mod_components.php</filename>
 	</files>
 	<params>
-		<param name="list_num" type="text" default="15" label="Number to Display" description="Number of components to Display" />
+		<param name="count" type="text" default="10" label="Components" description="Number of Components to display" />
 	</params>
 </mosinstall>

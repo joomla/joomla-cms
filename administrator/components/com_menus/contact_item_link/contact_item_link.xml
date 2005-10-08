@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosparams type="menu" version="4.5.2">
+<mosinstall type="menu" version="1.0.0">
 	<name>Link - Contact Item</name>
 	<group>Component|Link</group>
-	<description>Creates a link to a Published Contact Item</description>
-	<params/>
-</mosparams>
+	<author>Joomla! Project</author>
+	<creationDate>July 2004</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>DESCLINKCONTACT</description>
+	<params>
+		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
+		<param name="pageclass_sfx" type="text" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
+		<param name="page_title" type="radio" default="1" label="Page Title" description="Show/Hide the pages Title">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="header" type="text" size="30" default="" label="Page Title" description="PARAMHEADER" />
+	</params>
+</mosinstall>

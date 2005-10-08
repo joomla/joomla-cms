@@ -1,13 +1,58 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="component" version="4.5.2">
-	<name>Login Component</name>
+<mosinstall type="component" version="1.0.0">
+	<name>Login</name>
 	<author>Joomla! Project</author>
-	<creationDate>July 2004</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-	<authorEmail>admin@mamboserver.com</authorEmail>
-	<authorUrl>www.mamboserver.com</authorUrl>
-	<version>4.5.3</version>
-	<description></description>
-	<params/>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>Parameters for Login Component</description>
+	<params>
+		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
+		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
+		<param name="back_button" type="list" default="" label="Back Button" description="PARAMBACKBUTTON">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="page_title" type="radio" default="1" label="Page Title" description="Show/Hide the pages Title">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="header_login" type="text" size="30" default="" label="Login Page Title" description="PARAMLOGINPAGETITLE" />
+		<param name="login" type="text" size="30"  default="" label="Login Redirection URL" description="PARAMLOGINURL" />
+		<param name="login_message" type="radio" default="0" label="Login JS Message" description="PARAMLOGINJSMESSAGE">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="description_login" type="radio" default="0" label="Login Description" description="Show/Hide the Login Description below">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="description_login_text" type="textarea" cols="30" rows="5" default="" label="Login Description Text" description="PARAMLOGINDESCTEXT" />
+		<param name="image_login" type="imagelist" directory="/images/stories" default="" label="Login Image" description="Image for the Login Page" />
+		<param name="image_login_align" type="radio" default="right" label="Login Image Align" description="Alignment for Login Image">
+			<option value="left">Left</option>
+			<option value="right">Right</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="header_logout" type="text" size="30" default="" label="Logout Page Title" description="PARAMLOGOUTPAGETITLE" />
+		<param name="logout" type="text" size="30"  default="" label="Logout Redirection URL" description="PARAMLOGOUTURL" />
+		<param name="logout_message" type="radio" default="1" label="Logout JS Message" description="PARAMLOGOUTJSMESSAGE">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="description_logout" type="radio" default="1" label="Logout Description" description="Show/Hide the Logout Description below">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="description_logout_text" type="textarea" cols="30" rows="5" default="" label="Logout Description Text" description="PARAMLOGOUTDESCTEXT" />
+		<param name="image_logout" type="imagelist" directory="/images/stories" default="" label="Logout Image" description="Image for the Logout Page" />
+		<param name="image_logout_align" type="radio" default="1" label="Logout Image Align" description="Alignment for Logout Image">
+			<option value="left">Left</option>
+			<option value="right">Right</option>
+		</param>
+	</params>
 </mosinstall>

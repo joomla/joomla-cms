@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en_US" xml:lang="en_US">
+<head>
+<title>What's New in Version 1.0.0</title>
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<meta name="copyright" content="(C) 2005 Open Source Matters. All rights reserved." />
+<meta name="license" content="http://www.gnu.org/copyleft/gpl.html GNU/GPL" />
+</head>
+<body>
+
+<h1>What's New in Version 1.0.0</h1>
+
+<p>The following outlines the highlights of this debut version of Joomla!&nbsp; All comments are made in reference to Mambo 4.5.2.3 with regard to changes and improvements made.<br />
+ </p>
+ <h3>Bug Fixes</h3>
+<p>Several crucial fixes have been applied to this version:</p>
+
+<ul>
+<li>&nbsp;You can now properly login to different sites even if they share the same domain and are nested in sub-directories.</li>
+
+<li>Slow queries in the User Manager have been corrected.&nbsp; This bug affected sites with thousands of registered users.&nbsp; Registered users (that don't have edit rights) are also excluded from the Author select list shown when editing content pages.</li>
+<li>Variable references that caused notices in PHP 4.4 have been fixed.<br />
+   </li>
+	</ul>
+<p>Check the CHANGELOG.php file for more information.</p>
+<p>&nbsp;</p>
+<h3>&nbsp;Security Fixes</h3>
+<p>&nbsp;Several important vulnerabilities have been patched in this version:</p>
+<ul>
+<li>Known vulnerabilities in the phpMailer class</li>
+
+<li>SQL injection vulnerability via the user activation feature</li>
+
+<li>SQL injection vulnerability via the polls component</li>
+<li>Files such as the CHANGELOG have been converted to PHP files to prevent them being visible.</li>
+
+<li>The &quot;Email from Friend&quot; form has been hardened to reduce the risk of it being used as a gateway for spam</li>
+<li>The mosGetParam has been hardened by using phpInputFilter for NO_HTML mode</li>
+<li>An alternative version of globals.php has been provided.&nbsp; If you rename globals.php-off to globals.php Joomla! will emulate the php setting register_globals=off.&nbsp; This affords some protection against certainly types of malicious attacks but may prevent some third party applications from working correctly.<br />
+   </li>
+    </ul>
+<p>&nbsp;</p>
+<h3>Joomla! Site (Front End)</h3>
+<ul>
+<li>&nbsp;The site is now visibile to Administrators even when the site is in Offline mode.<br />
+   </li>
+<li>Frontend Users can select the WYSIWYG editor they want to use rather than having to use the default.</li>
+ </ul>
+
+<p>&nbsp;</p>
+ <h3>&nbsp;Joomla! Administrator (Back End)<br />
+ </h3>
+<ul>
+<li>The System Information link has been added back to the System Menu. <br />
+   </li>
+
+<li>&quot;Force Logout&quot; in the User Manager toolbar has been renamed to simply &quot;Logout&quot;.</li>
+
+<li>&quot;Submit - Content&quot; is a new menu type available</li>
+
+<li>HTML output is now buffered to improve performance of non-display actions (like saving content)</li>
+<li>Users can select the WYSIWYG editor they want to use rather than having to use the default.</li>
+<li>Contact component: added parameter to define a certain category for a contact menu.</li>
+   </ul>
+
+<p>&nbsp;</p>
+ <h3>Language Support&nbsp;&nbsp;</h3>
+<p>&nbsp;A number of minor changes have been made to facilitate the use of Mambelfish.</p>
+<p>&nbsp;</p>
+ <h3>Templates&nbsp;</h3>
+<p>&nbsp;The Solar Flare 2 template has been freshened with the new name.&nbsp; Andy Miller joined forces with Robert Deutz to deliver a stunning new Adminstrator Template for Joomla!</p>
+<p>Toolbar icons in the Administrator toolbar are now shown in full colour rather than greyed out (which would normally indicate they were unavailable).&nbsp;</p>
+<p>&nbsp;</p>
+ <h3>Miscellaneous Bits</h3>
+<ul>
+<li>A &quot;check again&quot; button has been added to the first page of the web installer.&nbsp;</li>
+ </ul>
+
+<p>&nbsp;</p>
+ <h3>Support for MySQL 4.1.x<br />
+ </h3>
+<p>&nbsp;Joomla! will support installation and use with PHP 5 and MySQL 4.1.&nbsp; An alternative database file is provided in the /includes directory.&nbsp; SImply copy database.mysqli.php over the existing databased.php file.&nbsp; Following this you can use the web installer normally to install Joomla!.<br />
+ </p>
+ <h3>Library Upgrades</h3>
+<p>&nbsp;The following developer libraries have been upgraded:</p>
+
+<ul>
+<li>patTemplate (this version now supports the short tag modifiers)</li>
+
+<li>Overlib</li>
+<li>TinyMCE</li>
+
+<li>Walter Zorn tooltips</li>
+
+<li>JSCookMenu</li>
+<li>DOMIT!</li>
+
+<li>DOMIT! RSS<br />
+   </li>
+   </ul>
+
+<p>&nbsp;</p>
+ <h3>Useability and Accessibility</h3>
+<p>A huge thrust is being made to make Joomla! compliant with web standards for useability and accessibility.&nbsp; While much more will be done in future versions, the following first steps have been taken to achieve this goal:</p>
+
+<ul>
+<li>Label tags have been added to Site module and component output</li>
+
+<li>mosHTML::selectList and mosHTML::radioList automatically provide the correct label tags&nbsp;</li>
+ </ul>
+
+<p>&nbsp;</p>
+ <h3>Developer Extras</h3>
+<p>A number of new things are available for developers.&nbsp; These include:</p>
+
+<ul>
+<li>&nbsp;patHTML class provides several utility methods for handling selection lists</li>
+
+<li>mosAbstractTasker class now auto-maps public methods to tasks</li>
+
+<li>setTemplateVars method has been added to both the Site and Administrator page navigation classes</li>
+
+<li>mosHash function provides a convenient method for producing secure hashes</li>
+
+<li>A &lt;span class=&quot;article_separator&quot;&gt;&lt;/span&gt; now separates content items in lists</li>
+<li>mosParameter::_mos_filelist has been added to supportXML params</li>
+
+<li>Paramater files can now use the root element &lt;mosparams&gt;.&nbsp; This enables you to have more than one XML params file in your component installation files.</li>
+
+<li>A number of new mambot triggers have been included: onStart, onAfterMainframe</li>
+
+<li>A number of new toolbar icons have been added</li>
+<li>The mosToolBar::help method now correctly supports local help files in a components /help folder.</li>
+
+<li>mosDBTable::isCheckedOut method has been added</li>
+
+<li>CSS styles have been added to the administrator template to support Joomla! 1.1-like (Mambo 4.5.3-like) screen layouts.</li>
+
+<li>The dTree javascript tree library has been added</li>
+<li>database:setQuery now takes arguments for query limit offset and number of records to be returned.</li>
+    </ul>
+<p>&nbsp;</p>
+<p><br />
+ </p>
+<h3>&nbsp;Compatibility</h3>
+<p>We have made every effort to make this version backwardly compatible with Mambo 4.5.2.3 but there are a few changes that may affect a small selection of existing addons.&nbsp; If you are a developer of Mambo addons (and soon to be Joomla! developer) then your attention should be drawn to the following points:<br />
+ </p>
+<ul>
+<li>patTemplate::createTemplate arguments have changed</li>
+
+<li>database:setQuery arguments have changed but this is unlikely to affect most sites<br />
+ </li>
+ </ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>

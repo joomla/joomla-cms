@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="template" version="4.5.2">
+<mosinstall type="template" version="1.0.0">
 	<name>rhuk_solarflare_ii</name>
-	<creationDate>11/02/04</creationDate>
+	<creationDate>10/20/05</creationDate>
 	<author>rhuk</author>
 	<copyright>GNU/GPL</copyright>
-	<authorEmail>rhuk@rhuk.net</authorEmail>
-	<authorUrl>http://www.mambodev.com</authorUrl>
-	<version>2.01</version>
+	<authorEmail>rhuk@jamboworks</authorEmail>
+	<authorUrl>http://www.jamboworks.com</authorUrl>
+	<version>2.2</version>
 	<description>SolarFlare II is a simple and stylish template.  The clean design of this template makes it very lightweight and fast.  This is a significatn upgrade for the original SolarFlare template in that is has a completely revised layout that uses an alternate box model hack that makes it easier to modify.  Also a table has been introduced in the main content area that better constricts layout causing less problems with 'problematic' components. New headers and menu elements give this template a 'fresher' look.</description>
 	<files>
 		<filename>index.php</filename>

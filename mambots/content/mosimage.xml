@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall version="4.5.3" type="mambot" group="content">
-    <name>mosimage</name>
-    <version>4.5.2</version>
-    <creationDate>August 2004</creationDate>
-    <author>Joomla! Project</author>
-    <authorEmail>admin@mamboserver.com</authorEmail>
-    <authorUrl>http://www.mamboserver.com</authorUrl>
-    <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
-    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-    <description>Replaces {mosimage} tag in content with specified images</description>
-    <files>
-        <filename mambot="mosimage">mosimage.php</filename>
-        <filename>mosimage.xml</filename>
-    </files>
-    <params>
-        <param name="margin" type="text" default="5" size="5" label="Margin" description="Margin in px, of Div surrounding Image &amp; Caption - only applies if using a Caption" />
-        <param name="padding" type="text" default="5" size="5" label="Padding" description="Padding in px, of Div surrounding Image &amp; Caption - only applies if using a Caption" />
-    </params>
+<mosinstall version="1.0.0" type="mambot" group="content">
+	<name>mosimage</name>
+	<author>Joomla! Project</author>
+	<creationDate>August 2004</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>Replaces {mosimage} tag in content with specified images</description>
+	<files>
+		<filename mambot="mosimage">mosimage.php</filename>
+	</files>
+	<params>
+		<param name="margin" type="text" default="5" size="5" label="Margin" description="Margin in px, of Div surrounding Image & Caption - only applies if using a Caption" />
+		<param name="padding" type="text" default="5" size="5" label="Padding" description="Padding in px, of Div surrounding Image & Caption - only applies if using a Caption" />
+	</params>
 </mosinstall>

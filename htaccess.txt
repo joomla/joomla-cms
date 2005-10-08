@@ -1,9 +1,9 @@
 ##
-# @version $Id: htaccess.txt 4 2005-09-06 19:22:37Z akede $
-# @package Mambo
-# @copyright (C) 2000 - 2005 Miro International Pty Ltd
+# @version $Id$
+# @package Joomla
+# @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 # @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-# Mambo is Free Software
+# Joomla! is Free Software
 ##
 
 #
@@ -14,9 +14,9 @@ RewriteEngine On
 
 #  Uncomment following line if your webserver's URL 
 #  is not directly related to physical file paths.
-#  Update YourMamboDirectory (just / for root)
+#  Update YourJoomlaDirectory (just / for root)
 
-# RewriteBase /YourMamboDirectory
+# RewriteBase /YourJoomlaDirectory
 
 #
 #  Rules

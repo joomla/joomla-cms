@@ -1,5 +1,5 @@
 /*
-	JSCookMenu v1.31.  (c) Copyright 2002-2005 by Heng Yuan
+	JSCookMenu v1.4.3.  (c) Copyright 2002-2005 by Heng Yuan
 
 	Permission is hereby granted, free of charge, to any person obtaining a
 	copy of this software and associated documentation files (the "Software"),
@@ -68,7 +68,15 @@ var _cmNodeProperties =
 	// cell spacing for sub menus
 	subSpacing: 0,
 	// auto disappear time for submenus in milli-seconds
-	delay: 500
+	delay: 500,
+
+	// act on click to open sub menu
+	// not yet implemented
+	// 0 : use default behavior
+	// 1 : hover open in all cases
+	// 2 : click on main, hover on sub
+	// 3 : click open in all cases
+	clickOpen: 1
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -90,13 +98,23 @@ function cmNewID ()
 //
 function cmActionItem (item, prefix, isMain, idSub, orient, nodeProperties)
 {
+	var clickOpen = _cmNodeProperties.clickOpen;
+	if (nodeProperties.clickOpen)
+		clickOpen = nodeProperties.clickOpen;
+
 	// var index = _cmItemList.push (item) - 1;
 	_cmItemList[_cmItemList.length] = item;
 	var index = _cmItemList.length - 1;
 	idSub = (!idSub) ? 'null' : ('\'' + idSub + '\'');
 	orient = '\'' + orient + '\'';
 	prefix = '\'' + prefix + '\'';
-	return ' onmouseover="cmItemMouseOver (this,' + prefix + ',' + isMain + ',' + idSub + ',' + orient + ',' + index + ')" onmouseout="cmItemMouseOut (this,' + nodeProperties.delay + ')" onmousedown="cmItemMouseDown (this,' + index + ')" onmouseup="cmItemMouseUp (this,' + index + ')"';
+	var onClick = (clickOpen == 3) || (clickOpen == 2 && isMain);
+	var returnStr;
+	if (onClick)
+		returnStr = ' onmouseover="cmItemMouseOver (this,' + prefix + ',' + isMain + ',' + idSub + ',' + index + ')" onmousedown="cmItemMouseDownOpenSub (this,' + index + ',' + prefix + ',' + orient + ',' + idSub + ')"';
+	else
+		returnStr = ' onmouseover="cmItemMouseOverOpenSub (this,' + prefix + ',' + isMain + ',' + idSub + ',' + orient + ',' + index + ')" onmousedown="cmItemMouseDown (this,' + index + ')"';
+	return returnStr + ' onmouseout="cmItemMouseOut (this,' + nodeProperties.delay + ')" onmouseup="cmItemMouseUp (this,' + index + ')"';
 }
 
 //
@@ -111,7 +129,7 @@ function cmNoClickItem (item, prefix, isMain, idSub, orient, nodeProperties)
 	idSub = (!idSub) ? 'null' : ('\'' + idSub + '\'');
 	orient = '\'' + orient + '\'';
 	prefix = '\'' + prefix + '\'';
-	return ' onmouseover="cmItemMouseOver (this,' + prefix + ',' + isMain + ',' + idSub + ',' + orient + ',' + index + ')" onmouseout="cmItemMouseOut (this,' + nodeProperties.delay + ')"';
+	return ' onmouseover="cmItemMouseOver (this,' + prefix + ',' + isMain + ',' + idSub + ',' + index + ')" onmouseout="cmItemMouseOut (this,' + nodeProperties.delay + ')"';
 }
 
 function cmNoActionItem (item, prefix)
@@ -132,8 +150,7 @@ function cmSplitItem (prefix, isMain, vertical)
 	}
 	else
 		classStr += 'HSplit';
-	var item = eval (classStr);
-	return cmNoActionItem (item, prefix);
+	return eval (classStr);
 }
 
 //
@@ -161,19 +178,15 @@ function cmDrawSubMenu (subMenu, prefix, id, orient, nodeProperties)
 		hasChild = (item.length > 5);
 		idSub = hasChild ? cmNewID () : null;
 
+		if (item == _cmSplit)
+			item = cmSplitItem (prefix, 0, true);
+
 		str += '<tr class="' + prefix + 'MenuItem"';
 		if (item[0] != _cmNoClick)
 			str += cmActionItem (item, prefix, 0, idSub, orient, nodeProperties);
 		else
 			str += cmNoClickItem (item, prefix, 0, idSub, orient, nodeProperties);
 		str += '>'
-
-		if (item == _cmSplit)
-		{
-			str += cmSplitItem (prefix, 0, true);
-			str += '</tr>';
-			continue;
-		}
 
 		if (item[0] == _cmNoAction || item[0] == _cmNoClick)
 		{
@@ -192,9 +205,9 @@ function cmDrawSubMenu (subMenu, prefix, id, orient, nodeProperties)
 		else
 			str += hasChild ? nodeProperties.folderLeft : nodeProperties.itemLeft;
 
-		str += '<td class="' + classStr + 'Text">' + item[1];
+		str += '</td><td class="' + classStr + 'Text">' + item[1];
 
-		str += '<td class="' + classStr + 'Right">';
+		str += '</td><td class="' + classStr + 'Right">';
 
 		if (hasChild)
 		{
@@ -275,11 +288,7 @@ function cmDraw (id, menu, orient, nodeProperties, prefix)
 		str += cmActionItem (item, prefix, 1, idSub, orient, nodeProperties) + '>';
 
 		if (item == _cmSplit)
-		{
-			str += cmSplitItem (prefix, 1, vertical);
-			str += vertical? '</tr>' : '</td>';
-			continue;
-		}
+			item = cmSplitItem (prefix, 1, vertical);
 
 		if (item[0] == _cmNoAction || item[0] == _cmNoClick)
 		{
@@ -322,6 +331,102 @@ function cmDraw (id, menu, orient, nodeProperties, prefix)
 	//document.write ("<xmp>" + str + "</xmp>");
 }
 
+//
+// The function builds the menu inside the specified element id.
+//
+// This function is similar to cmDraw except that menu is taken from HTML node
+// rather a javascript tree.  This feature allows links to be scanned by search
+// bots.
+//
+// This function basically converts HTML node to a javascript tree, and then calls
+// cmDraw to draw the actual menu, replacing the hidden menu tree.
+//
+// Format:
+//	<div id="menu">
+//		<ul style="visibility: hidden">
+//			<li><span>icon</span><a href="link" title="description">main menu text</a>
+//				<ul>
+//					<li><span>icon</span><a href="link" title="description">submenu item</a>
+//					</li>
+//				</ul>
+//			</li>
+//		</ul>
+//	</div>
+//
+function cmDrawFromText (id, orient, nodeProperties, prefix)
+{
+	var domMenu = cmGetObject (id);
+	var menu = null;
+	for (var currentDomItem = domMenu.firstChild; currentDomItem; currentDomItem = currentDomItem.nextSibling)
+	{
+		if (!currentDomItem.tagName || currentDomItem.tagName.toLowerCase () != 'ul')
+			continue;
+		menu = cmDrawFromTextSubMenu (currentDomItem);
+		break;
+	}
+	if (menu)
+		cmDraw (id, menu, orient, nodeProperties, prefix);
+}
+
+//
+// a recursive function that build menu tree structure
+//
+function cmDrawFromTextSubMenu (domMenu)
+{
+	var items = new Array ();
+	for (var currentDomItem = domMenu.firstChild; currentDomItem; currentDomItem = currentDomItem.nextSibling)
+	{
+		if (!currentDomItem.tagName || currentDomItem.tagName.toLowerCase () != 'li')
+			continue;
+		if (currentDomItem.firstChild == null)
+		{
+			items[items.length] = _cmSplit;
+			continue;
+		}
+		var item = new Array ();
+		var currentItem = currentDomItem.firstChild;
+		for (; currentItem; currentItem = currentItem.nextSibling)
+		{
+			// scan for span tag
+			if (!currentItem.tagName || currentItem.tagName.toLowerCase () != 'span')
+				continue;
+			if (!currentItem.firstChild)
+				item[0] = null;
+			else
+				item[0] = currentItem.innerHTML;
+			break;
+		}
+		if (!currentItem)
+			continue;
+		for (; currentItem; currentItem = currentItem.nextSibling)
+		{
+			// scan for span tag
+			if (!currentItem.tagName || currentItem.tagName.toLowerCase () != 'a')
+				continue;
+			item[1] = currentItem.innerHTML;
+			item[2] = currentItem.href;
+			item[3] = currentItem.target;
+			item[4] = currentItem.title;
+			if (item[4] == '')
+				item[4] = null;
+			break;
+		}
+
+		for (; currentItem; currentItem = currentItem.nextSibling)
+		{
+			// scan for span tag
+			if (!currentItem.tagName || currentItem.tagName.toLowerCase () != 'ul')
+				continue;
+			var subMenuItems = cmDrawFromTextSubMenu (currentItem);
+			for (i = 0; i < subMenuItems.length; ++i)
+				item[i + 5] = subMenuItems[i];
+			break;
+		}
+		items[items.length] = item;
+	}
+	return items;
+}
+
 //////////////////////////////////////////////////////////////////////
 //
 // Mouse Event Handling Functions
@@ -331,7 +436,9 @@ function cmDraw (id, menu, orient, nodeProperties, prefix)
 //
 // action should be taken for mouse moving in to the menu item
 //
-function cmItemMouseOver (obj, prefix, isMain, idSub, orient, index)
+// Here we just do things concerning this menu item, w/o opening sub menus.
+//
+function cmItemMouseOver (obj, prefix, isMain, idSub, index)
 {
 	clearTimeout (_cmTimeOut);
 
@@ -363,11 +470,16 @@ function cmItemMouseOver (obj, prefix, isMain, idSub, orient, index)
 	{
 		// occationally, we get this case when user
 		// move the mouse slowly to the border
-		if (_cmCurrentItem == thisMenu)
+		if (_cmCurrentItem == obj || _cmCurrentItem == thisMenu)
+		{
+			var item = _cmItemList[index];
+			cmSetStatus (item);
 			return;
+		}
 
 		var thatPrefix = _cmCurrentItem.cmPrefix;
 		var thatMenu = cmGetThisMenu (_cmCurrentItem, thatPrefix);
+
 		if (thatMenu != thisMenu.cmParentMenu)
 		{
 			if (_cmCurrentItem.cmIsMain)
@@ -396,19 +508,23 @@ function cmItemMouseOver (obj, prefix, isMain, idSub, orient, index)
 			obj.className = prefix + 'MenuItemHover';
 	}
 
+	cmSetStatus (item);
+}
+
+//
+// action should be taken for mouse moving in to the menu item
+//
+// This function also opens sub menu
+//
+function cmItemMouseOverOpenSub (obj, prefix, isMain, idSub, orient, index)
+{
+	cmItemMouseOver (obj, prefix, isMain, idSub, index);
+
 	if (idSub)
 	{
 		var subMenu = cmGetObject (idSub);
 		cmShowSubMenu (obj, prefix, subMenu, orient);
 	}
-
-	var descript = '';
-	if (item.length > 4)
-		descript = (item[4] != null) ? item[4] : (item[2] ? item[2] : descript);
-	else if (item.length > 2)
-		descript = (item[2] ? item[2] : descript);
-
-	window.defaultStatus = descript;
 }
 
 //
@@ -433,6 +549,21 @@ function cmItemMouseDown (obj, index)
 			obj.className = obj.cmPrefix + 'MainItemActive';
 		else
 			obj.className = obj.cmPrefix + 'MenuItemActive';
+	}
+}
+
+//
+// action should be taken for mouse button down at a menu item
+// this is one also opens submenu if needed
+//
+function cmItemMouseDownOpenSub (obj, index, prefix, orient, idSub)
+{
+	cmItemMouseDown (obj, index);
+
+	if (idSub)
+	{
+		var subMenu = cmGetObject (idSub);
+		cmShowSubMenu (obj, prefix, subMenu, orient);
 	}
 }
 
@@ -649,6 +780,7 @@ function cmHideMenuTime ()
 	{
 		var prefix = _cmCurrentItem.cmPrefix;
 		cmHideMenu (cmGetThisMenu (_cmCurrentItem, prefix), null, prefix);
+		_cmCurrentItem = null;
 	}
 }
 
@@ -906,6 +1038,21 @@ function cmGetYAt (obj, elm)
 }
 
 //
+// extract description from the menu item and set the status text
+// @param	item	the menu item
+//
+function cmSetStatus (item)
+{
+	var descript = '';
+	if (item.length > 4)
+		descript = (item[4] != null) ? item[4] : (item[2] ? item[2] : descript);
+	else if (item.length > 2)
+		descript = (item[2] ? item[2] : descript);
+
+	window.defaultStatus = descript;
+}
+
+//
 // debug function, ignore :)
 //
 function cmGetProperties (obj)
@@ -922,6 +1069,29 @@ function cmGetProperties (obj)
 	return msg;
 }
 
+/* v1.4.3			1. changed how _cmSplit is handled a bit so that _cmNoClick can work
+						properly.  All splits in predefined themes are changed to use
+						_cmNoClick instead of _cmNoAction.
+*/
+/* v1.4.2			1. fixed _cmNoClick mouse hoover bug.
+					2. fixed a statusbar text problem that cause text to disappear when
+						hoovering mouse within the same menu item.
+					3. changed the behavior of cmDrawFromText s.t. if the title of the
+						of a link is empty, the actual url is used as text.  To clear
+						this link information, title needs to be ' '.
+*/
+/* v1.4.1			1. fixed a problem introduced in 1.4 where re-entering a main menu
+						item which doesn't have a child can disable its hover setting.
+						Apparently I deleted an extra line of code when I was doing
+						cleaning up.  Reported by David Maliachi and a few others.
+*/
+/* JSCookMenu v1.4	1. fixed a minor td cell closure problem.  Thanks to Georg Lorenz
+					   <georg@lonux.de> for discovering that.
+					2. added clickOpen to nodeProperties.  See _cmNodeProperties for
+						description.  Basically menus can be opened on click only.
+					3. added an ability to draw menu from an html node instead of a javascript
+						tree, making this script search bot friendly (I hope?).
+*/
 /* JSCookMenu v1.31 1. fix a bug on IE with causes submenus to display at the top
 					   left corner due to doctype.  The fix was provided by
 					   Burton Strauss <Burton@ntopsupport.com>.

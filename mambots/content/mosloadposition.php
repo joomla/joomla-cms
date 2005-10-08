@@ -1,11 +1,13 @@
 <?php
 /**
-* @version $Id: mosloadposition.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -32,14 +34,18 @@ function botMosLoadPosition( $published, &$row, &$params, $page=0 ) {
  	// mambot only processes if there are any instances of the mambot in the text
  	if ( $count ) {
 		// load mambot params info
-		$query = "SELECT id FROM #__mambots WHERE element = 'mosloadmodule' AND folder = 'content'";
+		$query = "SELECT id"
+		. "\n FROM #__mambots"
+		. "\n WHERE element = 'mosloadmodule'"
+		. "\n AND folder = 'content'"
+		;
 		$database->setQuery( $query );
 	 	$id 	= $database->loadResult();
 	 	$mambot = new mosMambot( $database );
 	  	$mambot->load( $id );
-	 	$Mparams = new mosParameters( $mambot->params );
+	 	$botParams = new mosParameters( $mambot->params );
 
-	 	$style	= $Mparams->def( 'style', -2 );
+	 	$style	= $botParams->def( 'style', -2 );
 
  		processPositions( $row, $matches, $count, $regex, $style );
 	}
@@ -76,14 +82,13 @@ function processPositions ( &$row, &$matches, $count, $regex, $style ) {
 
 function loadPosition( $position, $style=-2 ) {
 	$modules = '';
-
 	if ( mosCountModules( $position ) ) {
 		ob_start();
-		mosLoadModules( $position, $style );
+		mosLoadModules ( $position, $style );
 		$modules = ob_get_contents();
 		ob_end_clean();
 	}
 
 	return $modules;
 }
-
+?>

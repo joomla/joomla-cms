@@ -1,14 +1,7 @@
 <?php
 /**
-* PHP 4.2.x Compatibility functions
-* @version $Id: compat.php42x.php 137 2005-09-12 10:21:17Z eddieajau $
-* @package Joomla
-* @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
-* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * PHP 4.2.x Compatibility functions
+ */
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
@@ -20,9 +13,9 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
  * @package	 PHP_Compat
  * @link		http://php.net/function.file_get_contents
  * @author	  Aidan Lister <aidan@php.net>
- * @version	 $Revision: 137 $
+ * @version	 $Revision$
  * @internal	resource_context is not supported
- * @since	   PHP 5
+ * @since		PHP 5
  * @require	 PHP 4.0.1 (trigger_error)
  */
 if (!function_exists('file_get_contents')) {
@@ -63,9 +56,9 @@ if (!defined('FILE_APPEND')) {
  * @package	 PHP_Compat
  * @link		http://php.net/function.file_put_contents
  * @author	  Aidan Lister <aidan@php.net>
- * @version	 $Revision: 137 $
+ * @version	 $Revision$
  * @internal	resource_context is not supported
- * @since	   PHP 5
+ * @since		PHP 5
  * @require	 PHP 4.0.1 (trigger_error)
  */
 if (!function_exists('file_put_contents')) {
@@ -127,4 +120,5 @@ if (!function_exists('file_put_contents')) {
 		return $bytes;
 	}
 }
+
 ?>

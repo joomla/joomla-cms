@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <mosinstall version="4.5.3" client="administrator" type="language">
     <name>English</name>
-    <version>4.5.3</version>
-    <creationDate>2005-03-17</creationDate>
+    <version>1.1.x</version>
+    <creationDate>2005-10-06</creationDate>
     <author>Joomla! Project</author>
-    <authorEmail>admin@mamboserver.com</authorEmail>
-    <authorUrl>www.mamboserver.com</authorUrl>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
     <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
     <description></description>
@@ -31,6 +31,7 @@
         <filename>english.com_modules.ini</filename>
         <filename>english.com_newsfeeds.ini</filename>
         <filename>english.com_poll.ini</filename>
+        <filename>english.com_search.ini</filename>
         <filename>english.com_sections.ini</filename>
         <filename>english.com_statistics.ini</filename>
         <filename>english.com_syndicate.ini</filename>

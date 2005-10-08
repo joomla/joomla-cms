@@ -2,7 +2,7 @@
 /**
  * patTemplate StripComments input filter
  *
- * $Id: StripComments.php 138 2005-09-12 10:37:53Z eddieajau $
+ * $Id$
  *
  * Will remove all HTML comments.
  *
@@ -14,7 +14,7 @@
 /**
  * patTemplate StripComments output filter
  *
- * $Id: StripComments.php 138 2005-09-12 10:37:53Z eddieajau $
+ * $Id$
  *
  * Will remove all HTML comments.
  *

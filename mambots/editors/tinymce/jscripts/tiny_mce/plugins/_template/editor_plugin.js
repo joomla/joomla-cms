@@ -47,8 +47,8 @@ function TinyMCE_template_execCommand(editor_id, element, command, user_interfac
 				var template = new Array();
 
 				template['file'] = '../../plugins/template/popup.htm'; // Relative to theme
-				template['width'] = 150;
-				template['height'] = 180;
+				template['width'] = 300;
+				template['height'] = 200;
 
 				tinyMCE.openWindow(template, {editor_id : editor_id, some_custom_arg : "somecustomdata"});
 

@@ -1,11 +1,13 @@
 <?php
 /**
-* @version $Id: geshi.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -60,7 +62,15 @@ function botGeshi_replacer( &$matches ) {
 
 	$text = str_replace('&lt;', '<', $text);
 	$text = str_replace('&gt;', '>', $text);
-	$text = str_replace('&amp;', '&', $text);
+
+/*
+	// Replace 2 spaces with "&nbsp; " so non-tabbed code indents without making huge long lines.
+	$text = str_replace("  ", "&nbsp; ", $text);
+	// now Replace 2 spaces with " &nbsp;" to catch odd #s of spaces.
+	$text = str_replace("  ", " &nbsp;", $text);
+*/
+	// Replace tabs with "&nbsp; &nbsp;" so tabbed code indents sorta right without making huge long lines.
+	//$text = str_replace("\t", "&nbsp; &nbsp;", $text);
 	$text = str_replace( "\t", '  ', $text );
 
 	$geshi = new GeSHi( $text, $lang, dirname( __FILE__ ) . '/geshi/geshi' );

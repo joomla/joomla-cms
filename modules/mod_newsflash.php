@@ -1,125 +1,107 @@
 <?php
 /**
- * @version $Id: mod_newsflash.php 137 2005-09-12 10:21:17Z eddieajau $
- * @package Joomla
- * @subpackage Modules
- * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
- * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
- * Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* @version $Id$
+* @package Joomla
+* @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
- */
+*/
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-class modNewsflashData {
+require_once( $mainframe->getPath( 'front_html', 'com_content') );
 
-	function &getRows( &$params ) {
-		global $my, $mainframe, $database;
-		global $mosConfig_shownoauth, $mosConfig_zero_date, $acl;
+global $my, $mosConfig_shownoauth, $mosConfig_offset, $acl;
 
-		$now = $mainframe->getDateTime();
+// Disable edit ability icon
+$access = new stdClass();
+$access->canEdit 	= 0;
+$access->canEditOwn = 0;
+$access->canPublish = 0;
 
-		$catid 				= intval( $params->get( 'catid' ) );
-		$style 				= $params->get( 'style' );
-		$image 				= $params->get( 'image' );
-		$readmore 			= $params->get( 'readmore' );
-		$items 				= intval( $params->get( 'items' ) );
-		$moduleclass_sfx 	= $params->get( 'moduleclass_sfx' );
+$now = date( 'Y-m-d H:i:s', time()+$mosConfig_offset*60*60 );
 
-		$params->set( 'intro_only', 		1 );
-		$params->set( 'hide_author', 		1 );
-		$params->set( 'hide_createdate', 	0 );
-		$params->set( 'hide_modifydate', 	1 );
+$catid 				= intval( $params->get( 'catid' ) );
+$style 				= $params->get( 'style' );
+$image 				= $params->get( 'image' );
+$readmore 			= $params->get( 'readmore' );
+$items 				= intval( $params->get( 'items' ) );
 
-		if ( ( $items ) && ( $style != 'flash' ) && ( $style != 'random' ) ) {
-			$limit = $items;
+$params->set( 'intro_only', 1 );
+$params->set( 'hide_author', 1 );
+$params->set( 'hide_createdate', 0 );
+$params->set( 'hide_modifydate', 1 );
+
+if ( $items ) {
+	$limit = "LIMIT $items";
+} else {
+	$limit = '';
+}
+
+$noauth = !$mainframe->getCfg( 'shownoauth' );
+$nullDate = $database->getNullDate();
+
+// query to determine article count
+$query = "SELECT a.id"
+."\n FROM #__content AS a"
+."\n INNER JOIN #__categories AS b ON b.id = a.catid"
+."\n WHERE a.state = 1"
+. ( $noauth ? "\n AND a.access <= $my->gid AND b.access <= $my->gid" : '' )
+."\n AND (a.publish_up = '$nullDate' OR a.publish_up <= '$now' ) "
+."\n AND (a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
+."\n AND catid = $catid"
+."\n ORDER BY a.ordering"
+."\n $limit"
+;
+$database->setQuery( $query );
+$rows = $database->loadResultArray();
+$numrows = count( $rows );
+
+$row = new mosContent( $database );
+
+switch ($style) {
+	case 'horiz':
+		echo '<table class="moduletable' . $moduleclass_sfx .'">';
+		echo '<tr>';
+		foreach ($rows as $id) {
+			$row->load( $id );
+			$row->text = $row->introtext;
+			$row->groups = '';
+			echo '<td>';
+			HTML_content::show( $row, $params, $access, 0, 'com_content' );
+			echo '</td>';
+		}
+		echo '</tr></table>';
+		break;
+
+	case 'vert':
+		foreach ($rows as $id) {
+			$row->load( $id );
+			$row->text = $row->introtext;
+			$row->groups = '';
+
+			HTML_content::show( $row, $params, $access, 0, 'com_content' );
+		}
+		break;
+
+	case 'flash':
+		default:
+		if ($numrows > 0) {
+			srand ((double) microtime() * 1000000);
+			$flashnum = $rows[rand( 0, $numrows-1 )];
 		} else {
-			$limit = null;
+			$flashnum = 0;
 		}
+		$row->load( $flashnum );
+		$row->text = $row->introtext;
+		$row->groups = '';
 
-		$noauth = !$mainframe->getCfg( 'shownoauth' );
-
-		// query to determine article count
-		$query = "SELECT a.id"
-		."\n FROM #__content AS a"
-		."\n INNER JOIN #__categories AS b ON b.id = a.catid"
-		."\n WHERE a.state = 1"
-		. ( $noauth ? "\n AND a.access <= '$my->gid' AND b.access <= '$my->gid'" : '' )
-		."\n AND ( a.publish_up = '$mosConfig_zero_date' OR a.publish_up <= '$now' )"
-		."\n AND ( a.publish_down = '$mosConfig_zero_date' OR a.publish_down >= '$now' )"
-		."\n AND catid = '$catid'"
-		."\n ORDER BY a.ordering"
-		;
-		$database->setQuery( $query, 0, $limit );
-		$rows = $database->loadResultArray();
-		$nrows = count( $rows );
-
-		$row = new mosContent( $database );
-
-		//mosFS::load( 'components/com_content/content.html.php' );
-
-		if ($nrows > 0) {
-			if ($style == '' || $style == 'random') {
-				$id = rand( 0, $nrows - 1 );
-				$rows = array( $rows[$id] );
-			}
-
-			$query = 'SELECT *' .
-					' FROM #__content' .
-					' WHERE id=' . implode( ' OR id=', $rows );
-			$database->setQuery( $query, 0, $limit );
-			$rows = $database->loadObjectList();
-
-			return $rows;
-		}
-	}
+		HTML_content::show( $row, $params, $access, 0, 'com_content' );
+		break;
 }
-
-/**
- * @package Joomla
- * @subpackage Modules
- */
-class modNewsflash {
-
-	function show ( &$params ) {
-		global $my;
-
-		$cache  = mosFactory::getCache( "mod_newsflash" );
-
-		$cache->setCaching($params->get('cache', 1));
-		$cache->setLifeTime($params->get('cache_time', 900));
-		$cache->setCacheValidation(true);
-
-		$cache->callId( "modNewsflash::_display", array( $params ), "mod_newsflash".$my->gid );
-	}
-
-	function _display( &$params ) {
-		global $_MAMBOTS;
-
-		$rows = modNewsflashData::getRows( $params );
-
-		$tmpl =& moduleScreens::createTemplate( 'mod_newsflash.html' );
-
-		// process the new bots
-		$_MAMBOTS->loadBotGroup( 'content' );
-
-		$nrows = count( $rows );
-		for ($i = 0; $i < $nrows; $i++) {
-			$row =& $rows[$i];
-			$row->text 		= $row->introtext;
-			$row->groups 	= '';
-			$_MAMBOTS->trigger( 'onPrepareContent', array( &$row, &$params ), true );
-		}
-
-		$tmpl->addVar( 'mod_newsflash', 'class', $params->get( 'moduleclass_sfx' ) );
-		$tmpl->addObject( 'mod_newsflash-items', $rows, 'row_' );
-		$tmpl->addObject( 'mod_newsflash', $params->toObject(), 'p_' );
-
-		$tmpl->displayParsedTemplate( 'mod_newsflash' );
-	}
-}
-
-modNewsflash::show( $params );
 ?>

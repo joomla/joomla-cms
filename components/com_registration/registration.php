@@ -1,293 +1,262 @@
 <?php
 /**
-* @version $Id: registration.php 137 2005-09-12 10:21:17Z eddieajau $
-* @package Mambo
+* @version $Id$
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-/**
- * @package Registration
- * @subpackage Registration
- */
-class registrationTasks_front extends mosAbstractTasker {
-	/**
-	 * Constructor
-	 */
-	function registrationTasks_front() {
-		// auto register public methods as tasks, set the default task
-		parent::mosAbstractTasker( 'register' );
+require_once( $mainframe->getPath( 'front_html' ) );
 
-		// set task level access control
-		//$this->setAccessControl( 'com_templates', 'manage' );
+switch( $task ) {
+	case 'lostPassword':
+		lostPassForm( $option );
+		break;
+
+	case 'sendNewPass':
+		sendNewPass( $option );
+		break;
+
+	case 'register':
+		registerForm( $option, $mosConfig_useractivation );
+		break;
+
+	case 'saveRegistration':
+		saveRegistration( $option );
+		break;
+
+	case 'activate':
+		activate( $option );
+		break;
+}
+
+function lostPassForm( $option ) {
+	global $mainframe;
+
+	$mainframe->SetPageTitle(_PROMPT_PASSWORD);
+
+	HTML_registration::lostPassForm($option);
+}
+
+function sendNewPass( $option ) {
+	global $database, $Itemid;
+	global $mosConfig_live_site, $mosConfig_sitename;
+	global $mosConfig_mailfrom, $mosConfig_fromname;
+
+	$_live_site = $mosConfig_live_site;
+	$_sitename 	= $mosConfig_sitename;
+
+	// ensure no malicous sql gets past
+	$checkusername	= mosGetParam( $_POST, 'checkusername', '' );
+	$checkusername	= $database->getEscaped( $checkusername );
+	$confirmEmail	= mosGetParam( $_POST, 'confirmEmail', '');
+	$confirmEmail	= $database->getEscaped( $confirmEmail );
+
+	$query = "SELECT id"
+	. "\n FROM #__users"
+	. "\n WHERE username = '$checkusername'"
+	. "\n AND email = '$confirmEmail'"
+	;
+	$database->setQuery( $query );
+	if (!($user_id = $database->loadResult()) || !$checkusername || !$confirmEmail) {
+		mosRedirect( "index.php?option=$option&task=lostPassword&mosmsg="._ERROR_PASS );
 	}
 
-	/**
-	 * Loads `Registration` HTML Output
-	 */
-	function register() {
-		global $mainframe;
-		global $_LANG;
+	$newpass = mosMakePassword();
+	$message = _NEWPASS_MSG;
+	eval ("\$message = \"$message\";");
+	$subject = _NEWPASS_SUB;
+	eval ("\$subject = \"$subject\";");
 
-		if ( !$mainframe->getCfg( 'allowUserRegistration' ) ) {
-			mosNotAuth();
-			return;
-		}
+	mosMail($mosConfig_mailfrom, $mosConfig_fromname, $confirmEmail, $subject, $message);
 
-		$mainframe->SetPageTitle( $_LANG->_( 'REGISTER_TITLE' ) );
-
-		mosFS::load( '@front_html' );
-
-		registrationScreens_front::register();
+	$newpass = md5( $newpass );
+	$sql = "UPDATE #__users"
+	. "\n SET password = '$newpass'"
+	. "\n WHERE id = $user_id"
+	;
+	$database->setQuery( $sql );
+	if (!$database->query()) {
+		die("SQL error" . $database->stderr(true));
 	}
 
-	/**
-	 * Loads `Lost Password` HTML Output
-	 */
-	function lostPassword() {
-	  	global $_LANG, $mainframe;
+	mosRedirect( "index.php?Itemid=$Itemid&mosmsg="._NEWPASS_SENT );
+}
 
-		$mainframe->SetPageTitle( $_LANG->_( 'PROMPT_PASSWORD' ) );
+function registerForm( $option, $useractivation ) {
+	global $mainframe;
 
-		mosFS::load( '@front_html' );
-
-		registrationScreens_front::lostPass();
+	if (!$mainframe->getCfg( 'allowUserRegistration' )) {
+		mosNotAuth();
+		return;
 	}
 
-	/**
-	 * Used to send a new password to a User, if they have forgotten their old password
-	 */
-	function sendNewPass() {
-		global $database;
-		global $mosConfig_sitename, $mosConfig_mailfrom;
-	  	global $_LANG;
+  	$mainframe->SetPageTitle(_REGISTER_TITLE);
 
-		// ensure no malicous sql gets past
-		$userName 	= trim( mosGetParam( $_POST, 'checkusername', '') );
-		$userName 	= $database->getEscaped( $userName );
-		$userEmail 	= trim( mosGetParam( $_POST, 'confirmEmail', '') );
-		$userEmail 	= $database->getEscaped( $userEmail );
+	HTML_registration::registerForm($option, $useractivation);
+}
 
-		$query = "SELECT id"
+function saveRegistration( $option ) {
+	global $database, $acl;
+	global $mosConfig_sitename, $mosConfig_live_site, $mosConfig_useractivation, $mosConfig_allowUserRegistration;
+	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_mailfrom, $mosConfig_fromname;
+
+	if ($mosConfig_allowUserRegistration=='0') {
+		mosNotAuth();
+		return;
+	}
+
+	$row = new mosUser( $database );
+
+	if (!$row->bind( $_POST, 'usertype' )) {
+		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		exit();
+	}
+
+	mosMakeHtmlSafe($row);
+
+	$row->id = 0;
+	$row->usertype = '';
+	$row->gid = $acl->get_group_id( 'Registered', 'ARO' );
+
+	if ($mosConfig_useractivation == '1') {
+		$row->activation = md5( mosMakePassword() );
+		$row->block = '1';
+	}
+
+	if (!$row->check()) {
+		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		exit();
+	}
+
+	$pwd 				= $row->password;
+	$row->password 		= md5( $row->password );
+	$row->registerDate 	= date('Y-m-d H:i:s');
+
+	if (!$row->store()) {
+		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		exit();
+	}
+	$row->checkin();
+
+	$name 		= $row->name;
+	$email 		= $row->email;
+	$username 	= $row->username;
+
+	$subject 	= sprintf (_SEND_SUB, $name, $mosConfig_sitename);
+	$subject 	= html_entity_decode($subject, ENT_QUOTES);
+	if ($mosConfig_useractivation=="1"){
+		$message = sprintf (_USEND_MSG_ACTIVATE, $name, $mosConfig_sitename, $mosConfig_live_site."/index.php?option=com_registration&task=activate&activation=".$row->activation, $mosConfig_live_site, $username, $pwd);
+	} else {
+		$message = sprintf (_USEND_MSG, $name, $mosConfig_sitename, $mosConfig_live_site);
+	}
+
+	$message = html_entity_decode($message, ENT_QUOTES);
+	// Send email to user
+	if ($mosConfig_mailfrom != "" && $mosConfig_fromname != "") {
+		$adminName2 = $mosConfig_fromname;
+		$adminEmail2 = $mosConfig_mailfrom;
+	} else {
+		$query = "SELECT name, email"
 		. "\n FROM #__users"
-		. "\n WHERE username = '$userName'"
-		. "\n AND email = '$userEmail'"
+		. "\n WHERE LOWER( usertype ) = 'superadministrator'"
+		. "\n OR LOWER( usertype ) = 'super administrator'"
 		;
 		$database->setQuery( $query );
-		// validate new password request
-		if ( !( $user_id = $database->loadResult() ) || !$userName || !$userEmail ) {
-			mosErrorAlert( $_LANG->_( 'ERROR_PASS' ) );
+		$rows = $database->loadObjectList();
+		$row2 			= $rows[0];
+		$adminName2 	= $row2->name;
+		$adminEmail2 	= $row2->email;
+	}
+
+	mosMail($adminEmail2, $adminName2, $email, $subject, $message);
+
+	// Send notification to all administrators
+	$subject2 = sprintf (_SEND_SUB, $name, $mosConfig_sitename);
+	$message2 = sprintf (_ASEND_MSG, $adminName2, $mosConfig_sitename, $row->name, $email, $username);
+	$subject2 = html_entity_decode($subject2, ENT_QUOTES);
+	$message2 = html_entity_decode($message2, ENT_QUOTES);
+
+	// get superadministrators id
+	$admins = $acl->get_group_objects( 25, 'ARO' );
+
+	foreach ( $admins['users'] AS $id ) {
+		$query = "SELECT email, sendEmail"
+		. "\n FROM #__users"
+		."\n WHERE id = $id"
+		;
+		$database->setQuery( $query );
+		$rows = $database->loadObjectList();
+
+		$row = $rows[0];
+
+		if ($row->sendEmail) {
+			mosMail($adminEmail2, $adminName2, $row->email, $subject2, $message2);
 		}
+	}
 
-		// generate a new password
-		$newpass 		= mosMakePassword();
-		// convert password to md5
-		$newpass_md5 	= md5( $newpass );
+	if ( $mosConfig_useractivation == 1 ){
+		echo _REG_COMPLETE_ACTIVATE;
+	} else {
+		echo _REG_COMPLETE;
+	}
+}
 
-		// Change password
+function activate( $option ) {
+	global $database;
+	global $mosConfig_useractivation, $mosConfig_allowUserRegistration;
+
+	if ($mosConfig_allowUserRegistration == '0' || $mosConfig_useractivation == '0') {
+		mosNotAuth();
+		return;
+	}
+
+	$activation = mosGetParam( $_REQUEST, 'activation', '' );
+	$activation = $database->getEscaped( $activation );
+
+	if (empty( $activation )) {
+		echo _REG_ACTIVATE_NOT_FOUND;
+		return;
+	}
+
+	$query = "SELECT id"
+	. "\n FROM #__users"
+	. "\n WHERE activation = '$activation'"
+	. "\n AND block = 1"
+	;
+	$database->setQuery( $query );
+	$result = $database->loadResult();
+
+	if ($result) {
 		$query = "UPDATE #__users"
-		. "\n SET password = '$newpass_md5'"
-		. "\n WHERE id = '$user_id'"
+		. "\n SET block = 0, activation = ''"
+		. "\n WHERE activation = '$activation'"
+		. "\n AND block = 1"
 		;
 		$database->setQuery( $query );
 		if (!$database->query()) {
-			mosErrorAlert( $database->stderr() );
+			echo "SQL error" . $database->stderr(true);
 		}
-
-		// email password to user
-		$message = $_LANG->_( 'NEWPASS_MSG' );
-		eval ( "\$message = \"$message\";" );
-
-		$subject = $_LANG->_( 'NEWPASS_SUB' );
-		eval ( "\$subject = \"$subject\";" );
-
-		mosMail( $mosConfig_mailfrom, $mosConfig_sitename, $userEmail, $subject, $message );
-
-		mosRedirect( 'index.php', $_LANG->_( 'NEWPASS_SENT' ) );
-	}
-
-	/**
-	 * Save submit of registration form
-	 */
-	function saveRegistration() {
-		global $database, $acl, $_MAMBOTS, $mainframe;
-		global $mosConfig_sitename, $mosConfig_live_site, $mosConfig_useractivation, $mosConfig_allowUserRegistration;
-		global $mosConfig_mailfrom, $mosConfig_fromname;
-		global $mosConfig_new_usertype;
-		global $_LANG;
-
-		// Check whether User Registration is enabled
-		if ( !$mosConfig_allowUserRegistration ) {
-			mosNotAuth();
-			return;
-		}
-
-		$row = new mosUser( $database );
-
-		mosMakeHtmlSafe( $row );
-
-		if ( !$row->bind( $_POST, 'usertype' ) ) {
-			mosErrorAlert( $row->getError() );
-		}
-
-		//load user bot group
-		$_MAMBOTS->loadBotGroup( 'user' );
-
-		$row->id 		= 0;
-		// new user Usertype as set in Global Configuration
-		$row->usertype 	= $mosConfig_new_usertype;
-		// Get GID for usertype set in Global Configuration
-		$row->gid 		= $acl->get_group_id( null, $mosConfig_new_usertype, 'ARO' );
-
-		// Account activation email check
-		if ( $mosConfig_useractivation ) {
-			$row->activation 	= md5( mosMakePassword() );
-			$row->block 		= 1;
-		}
-
-		if ( !$row->check() ) {
-			mosErrorAlert( $row->getError() );
-		}
-
-		// md5 hash password
-		$pwd 				= $row->password;
-		$row->password 		= md5( $row->password );
-		// register date
-		$row->registerDate 	= $mainframe->getDateTime();
-
-		//trigger the onBeforeStoreUser event
-		$results = $_MAMBOTS->trigger( 'onBeforeStoreUser', array( get_object_vars( $row ), false ) );
-
-		if ( !$row->store() ) {
-			mosErrorAlert( $row->getError() );
-		}
-		$row->checkin();
-
-		//trigger the onAfterStoreUser event
-		$results = $_MAMBOTS->trigger( 'onAfterStoreUser', array( get_object_vars( $row ), false, true, null ) );
-
-		// List of Super Administrators
-		$admins = $mainframe->getAdmins();
-
-		// email registration information handling
-		$user_name 		= $row->name;
-		$user_email 	= $row->email;
-		$user_username 	= $row->username;
-
-		$user_subject 	= $_LANG->sprintf ( 'SEND_SUB', $user_name, $mosConfig_sitename );
-		$user_subject 	= html_entity_decode( $user_subject, ENT_QUOTES);
-
-		if ( $mosConfig_useractivation ) {
-			$user_message = $_LANG->sprintf ( 'USEND_MSG_ACTIVATE', $user_name, $mosConfig_sitename, $mosConfig_live_site .'/index.php?option=com_registration&task=activate&activation='. $row->activation, $mosConfig_live_site, $user_username, $pwd );
-		} else {
-			$user_message = $_LANG->sprintf ( 'USEND_MSG', $user_name, $mosConfig_sitename, $mosConfig_live_site );
-		}
-		$user_message = html_entity_decode( $user_message, ENT_QUOTES );
-
-		if ( $mosConfig_mailfrom != '' && $mosConfig_fromname != '' ) {
-			$site_Name 	= $mosConfig_fromname;
-			$site_Email = $mosConfig_mailfrom;
-		} else {
-		// If no `From Name` and `From Email` set in GC, use first Super Administrator
-			$site_Name 	= $admins[0]->name;
-			$site_Email = $admins[0]->email;
-		}
-
-		// send email notification/activation to new user
-		mosMail( $site_Email, $site_Name, $user_email, $user_subject, $user_message );
-
-		////////////////////////////////////
-
-		$admin_subject = $_LANG->sprintf ( 'SEND_SUB', $user_name, $mosConfig_sitename );
-		$admin_subject = html_entity_decode( $admin_subject, ENT_QUOTES );
-		$admin_message = $_LANG->sprintf ( 'ASEND_MSG', $site_Name, $mosConfig_sitename, $user_name, $user_email, $user_username );
-		$admin_message = html_entity_decode( $admin_message, ENT_QUOTES );
-
-		// send email notification to administrators
-		foreach ( $admins as $admin ) {
-			mosMail( $site_Email, $site_Name, $admin->email, $admin_subject, $admin_message );
-		}
-
-		if ( $mosConfig_useractivation ) {
-			$msg = $_LANG->_( 'REG_COMPLETE_ACTIVATE' );
-		} else {
-			$msg = $_LANG->_( 'REG_COMPLETE' );
-		}
-
-		mosRedirect( 'index.php', $msg );
-	}
-
-	/**
-	 * Activates a user that has applied for registration
-	 */
-	function activate() {
-		global $database;
-		global $mosConfig_useractivation, $mosConfig_allowUserRegistration;
-		global $_LANG;
-
-		if ($mosConfig_allowUserRegistration == '0' || $mosConfig_useractivation == '0') {
-			mosNotAuth();
-			return;
-		}
-
-		$activation = mosGetParam( $_REQUEST, 'activation', '' );
-		$activation = $database->getEscaped( $activation );
-
-		if (empty( $activation )) {
-			$msg = $_LANG->_( 'REG_ACTIVATE_NOT_FOUND' );
-			mosRedirect( 'index.php', $msg );
-		}
-
-		$query = "SELECT id"
-		. "\n FROM #__users"
-		. "\n WHERE activation = '$activation'"
-		. "\n AND block = '1'"
-		;
-		$database->setQuery( $query );
-		$result = $database->loadResult();
-
-		if ( $result ) {
-			// Activate User
-			$query = "UPDATE #__users"
-			. "\n SET block = '0', activation = ''"
-			. "\n WHERE activation = '$activation'"
-			. "\n AND block = '1'"
-			;
-			$database->setQuery( $query );
-			if ( !$database->query() ) {
-				mosErrorAlert( 'SQL error ' . $database->stderr() );
-			}
-
-			$msg = $_LANG->_( 'REG_ACTIVATE_COMPLETE' );
-		} else {
-			$msg = $_LANG->_( 'REG_ACTIVATE_NOT_FOUND' );
-		}
-
-		mosRedirect( 'index.php', $msg );
+		echo _REG_ACTIVATE_COMPLETE;
+	} else {
+		echo _REG_ACTIVATE_NOT_FOUND;
 	}
 }
-$tasker = new registrationTasks_front();
-$tasker->performTask( mosGetParam( $_REQUEST, 'task', '' ) );
-$tasker->redirect();
 
-/**
- * Checks for correct email syntax
- * @param string
- * @return bool
- */
-function is_email( $email ){
-	$rBool = false;
+function is_email($email){
+	$rBool=false;
 
-	if ( preg_match( "/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $email ) ) {
+	if(preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $email)){
 		$rBool=true;
 	}
-
 	return $rBool;
 }
 ?>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="template" version="1.0.0" client="administrator">
+	<name>Joomla Admin</name>
+	<creationDate>09/7/05</creationDate>
+	<author>Robert Deutz</author>
+	<copyright>GNU/GPL</copyright>
+	<authorEmail>mambo@run-digital.com</authorEmail>
+	<authorUrl>http://www.run-digital.com</authorUrl>
+	<version>1.0</version>
+	<description></description>
+	<files>
+		<filename>index.php</filename>
+		<filename>css/template_css.css</filename>
+	</files>
+</mosinstall>

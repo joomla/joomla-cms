@@ -1,23 +1,12 @@
 /* CSS Document */
 
-html { 
-	height		: 100%; 
-	margin-bottom	: 1px; 
+html {
+	height: 100%;
 }
 
 body {
-	height:  100%;
+	height: 100%;
 	margin-bottom: 1px;
-}
-
-table.blog table td.columnpad {
-  padding-left: 10px;
-}
-
-
-/* new class element surrounding content, can be used to add spaces between */
-div.contentblock {
-	margin-bottom: 10px;
 }
 
 .clr {
@@ -30,37 +19,41 @@ div.contentblock {
 	padding: 2px;
 }
 
-#pathway_outer {
+#buttons_outer {
 	width: 635px;
-  float: left;
-  margin-bottom: 2px;
+  	margin-bottom: 2px;
 	margin-right: 2px;
+	float: left;
+
 }
 
-#pathway_inner {
-  float: none !important;
-  float: left;
+#buttons_inner {
 	border: 1px solid #cccccc;
 	height: 21px;
 }
 
 #pathway_text {
   overflow: hidden;
-	float: left;
 	display: block;
-	padding-top: 4px;
-	height: 18px;
-	padding-left: 5px;
+	height: 25px;
+	line-height: 25px !important;
+	line-height: 22px;
+	padding-left: 4px;
+	border: 1px solid #ccc;
+	margin-bottom: 2px;
 }
 
-a.pathway {
+#pathway_text img {
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-top: 6px;
 }
 
 #buttons {
-	float: right;
+	float: left;
 	margin: 0px;
 	padding: 0px;
-	width: 50%;
+	width: auto;
 }
 
 
@@ -74,23 +67,19 @@ ul#mainlevel-nav
 
 ul#mainlevel-nav li
 {
-	display: block;
 	background-image: none;
 	padding-left: 0px;
 	padding-right: 0px;
-	float: right;
+	float: left;
 	margin: 0;
-	width: auto !important;
-  width: 15%;
 	font-size: 11px;
 	line-height: 21px;
 	white-space: nowrap;
-	border-left: 1px solid #cccccc;
+	border-right: 1px solid #cccccc;
 }
 
 ul#mainlevel-nav li a
 {
-	width: 100%;
 	display: block;
 	padding-left: 15px;
 	padding-right: 15px;
@@ -103,8 +92,8 @@ ul#mainlevel-nav li a
 
 	ul#mainlevel-nav li a:hover
 {
-	color: #ffcc00;
-	background: #D84203;
+	color: #fff;
+	background: #c64934;
 }
 
 
@@ -131,7 +120,7 @@ ul#mainlevel-nav li a
 	padding: 3px 3px 3px 5px;
 	font-family: arial, helvetica, sans-serif;
 	font-size: 11px;
-	color: #ff6600;
+	color: #c64934;
 }
 
 #header_outer {
@@ -256,12 +245,12 @@ table td.body_outer {
 
 
 #active_menu {
-	color:#FFCC00;
+	color:#fff;
 	font-weight: bold;
 }
 
 a#active_menu:hover {
-	color: #E15704;
+	color: #fff;
 }
 
 .maintitle {
@@ -329,9 +318,9 @@ li
 line-height: 15px;
 padding-left: 15px;
 padding-top: 0px;
-background-image: url(../images/arrow.png) ;
+background-image: url(../images/arrow.png);
 background-repeat: no-repeat;
-background-position: 0px 3px;
+background-position: 0px 2px;
 }
 
 
@@ -347,19 +336,20 @@ body {
 	height: 100%;
 	padding: 0px;
 	font-family: Arial, Helvetica, Sans Serif;
+	line-height: 120%;
 	font-size: 11px;
 	color: #333333;
 	background: #ffffff;
 }
 
-/* mambo core stuff */
+/* Joomla core stuff */
 a:link, a:visited {
-	color: #ff6600; text-decoration: none;
+	color: #c64934; text-decoration: none;
 	font-weight: bold;
 }
 
 a:hover {
-	color: #C43C03;	text-decoration: none;
+	color: #900;	text-decoration: none;
 	font-weight: bold;
 }
 
@@ -398,8 +388,13 @@ table.contentpane td.componentheading {
 	padding-left: 4px;
 }
 
+table.contentpaneopen fieldset {
+	border: 0px;
+	border-bottom: 1px solid #eee;
+}
+
 .button {
-  color: #ff6600;
+  color: #c64934;
   font-family: Arial, Hevlvetica, sans-serif;
   text-align: center;
   font-size: 11px;
@@ -440,11 +435,10 @@ table.contentpane td.componentheading {
 
 .contentheading {
 	height: 30px;
-	background: url(../images/contenthead.png) top left repeat-x;
-	color: #666666;
-	text-indent: 15px;
+
+	color: #c64934;
 	font-weight: bold;
-	font-size: 11px;
+	font-size: 14px;
 	white-space: nowrap;
 }
 
@@ -473,16 +467,22 @@ table.moduletable {
 	border-collapse: collapse;
 }
 
-table.moduletable th {
+div.moduletable {
+	padding: 0;
+	margin-bottom: 2px;
+}
+
+table.moduletable th, div.moduletable h3 {
 	background: url(../images/subhead_bg.png) repeat-x;
 	color: #666666;
 	text-align: left;
-	padding-top: 4px;
 	padding-left: 4px;
 	height: 21px;
+	line-height: 21px;
 	font-weight: bold;
 	font-size: 10px;
 	text-transform: uppercase;
+	margin: 0 0 2px 0;
 }
 
 table.moduletable td {
@@ -517,7 +517,6 @@ table.pollstableborder td {
 .small {
 	color: #999999;
 	font-size: 11px;
-	font-weight: bold;
 }
 
 .createdate {
@@ -525,7 +524,6 @@ table.pollstableborder td {
 	padding-bottom: 10px;
 	color: #999999;
 	font-size: 11px;
-	font-weight: bold;
 }
 
 .modifydate {
@@ -533,7 +531,6 @@ table.pollstableborder td {
 	padding-top: 10px;
 	color: #999999;
 	font-size: 11px;
-	font-weight: bold;
 }
 
 table.contenttoc {
@@ -565,7 +562,7 @@ a.mainlevel:link, a.mainlevel:visited {
 	vertical-align: middle;
 	font-size: 11px;
 	font-weight: bold;
-	color: #ffffff;
+	color: #ccc;
 	text-align: left;
 	padding-top: 5px;
 	padding-left: 18px;
@@ -578,7 +575,7 @@ a.mainlevel:link, a.mainlevel:visited {
 a.mainlevel:hover {
 	background-position: 0px -25px;
 	text-decoration: none;
-	color: #333333;
+	color: #fff;
 }
 
 a.sublevel:link, a.sublevel:visited {
@@ -586,12 +583,12 @@ a.sublevel:link, a.sublevel:visited {
 	vertical-align: middle;
 	font-size: 11px;
 	font-weight: bold;
-	color: #ff6600;
+	color: #c64934;
 	text-align: left;
 }
 
 a.sublevel:hover {
-	color: #C43C03;
+	color: #900;
 	text-decoration: none;
 }
 .highlight {
@@ -627,27 +624,4 @@ div.mosimage {
   text-transform: normal;
   font-size: 10px;
   border-top: 1px solid #cccccc;
-}
-
-fieldset {
-	margin-bottom: 10px;
-	border: 1px #ccc solid;
-	padding: 5px;
-	text-align: left;
-}
-
-legend {
-	font-weight: bold;
-	color: #999;
-	font-size: .9em;
-}
-
-div.preview {
-	font-weight: bold;
-	color: #999;
-	font-size: .9em;
-}
-
-div.preview hr {
-	border: 1px #ccc solid;
 }

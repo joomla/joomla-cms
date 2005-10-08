@@ -3,7 +3,7 @@
  * patTemplate function to dynamically change the
  * value of _any_ attribute of the parent tag.
  *
- * $Id: Attribute.php 137 2005-09-12 10:21:17Z eddieajau $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Functions
@@ -19,7 +19,7 @@
  *
  * The enclosed data will be used as the value of the attribute.
  *
- * $Id: Attribute.php 137 2005-09-12 10:21:17Z eddieajau $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Functions

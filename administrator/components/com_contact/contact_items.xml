@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosparams type="component" version="4.5.2">
+<mosinstall type="component" version="1.0.0">
+	<name>Contact Items</name>
+	<author>Joomla! Project</author>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
 	<description>Parameters for individual Contact Items</description>
 	<params>
-		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="paramPageClassSfx" />
-		<param name="print" type="list" default="" label="Print Icon" description="paramPrint">
+		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="A small image to be placed to the left or right of your menu item, images must be in images/stories/" />
+		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
+		<param name="print" type="list" default="" label="Print Icon" description="Show/Hide the item print button - only affects this page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="back_button" type="list" default="" label="Back Button" description="paramBackButton">
+		<param name="back_button" type="list" default="" label="Back Button" description="Show/Hide a Back Button, that returns you to the previously view page">
 			<option value="">Use Global</option>
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
@@ -22,7 +30,7 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="email" type="radio" default="0" label="Email" description="paramEmail">
+		<param name="email" type="radio" default="0" label="Email" description="Show/Hide the email info, if you set to show the address will be protected from spambots by javascript cloaking">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
@@ -62,32 +70,31 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
+		<param name="vcard" type="radio" default="1" label="VCard" description="Show/Hide VCard">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="email_description" type="radio" default="1" label="Email description" description="Show/Hide the Description Text below">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="email_description_text" type="text" size="30" default="" label="Description text" description="paramEmailDescText" />
+		<param name="email_description_text" type="text" size="30" default="" label="Description text" description="The Description text for the Email form, if left blank it will use the _EMAIL_DESCRIPTION language definition" />
 		<param name="email_form" type="radio" default="1" label="Email Form" description="Show/Hide the email to form">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="email_copy" type="radio" default="1" label="Email Copy" description="paramEmailCopy">
+		<param name="email_copy" type="radio" default="1" label="Email Copy" description="Show/Hide the checkbox to email a copy to the senders address">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="drop_down" type="radio" default="0" label="Drop Down" description="paramDropDown">
+		<param name="drop_down" type="radio" default="0" label="Drop Down" description="Show/Hide the Drop Down select list in Contact view">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="vcard" type="radio" default="1" label="Vcard" description="Show/Hide the Vcard download function">
-		<option value="0">Hide</option>
-		<option value="1">Show</option>
-		</param>
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="contact_icons" type="list" default="0" label="Icons/text" description="paramContactIcons">
+		<param name="contact_icons" type="list" default="0" label="Icons/text" description="Use Icons, text or nothing next to the contact information displayed">
 			<option value="0">Icons</option>
 			<option value="1">Text</option>
 			<option value="2">None</option>
@@ -98,4 +105,4 @@
 		<param name="icon_fax" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Fax Icon" description="Icon for the Fax info" />
 		<param name="icon_misc" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Misc Icon" description="Icon for the Misc info" />
 	</params>
-</mosparams>
+</mosinstall>

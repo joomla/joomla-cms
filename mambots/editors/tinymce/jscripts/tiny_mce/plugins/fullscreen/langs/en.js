@@ -1,4 +1,6 @@
 // UK lang variables
 
-tinyMCELang['lang_fullscreen_title'] = 'Fullscreen mode'
-tinyMCELang['lang_fullscreen_desc'] = 'Toggle fullscreen mode'
+tinyMCE.addToLang('',{
+fullscreen_title : 'Fullscreen mode',
+fullscreen_desc : 'Toggle fullscreen mode'
+});

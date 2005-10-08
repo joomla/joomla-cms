@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosparams type="menu" version="4.5.2">
+<mosinstall type="menu" version="1.0.0">
 	<name>Table - Newsfeed Category</name>
 	<group>Component</group>
+	<author>Joomla! Project</author>
+	<creationDate>July 2004</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
 	<description>Shows a Table view of Newsfeed items for a particular Category</description>
 	<params>
+		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
+		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
+		<param name="back_button" type="list" default="" label="Back Button" description="PARAMBACKBUTTON">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="page_title" type="radio" default="1" label="Page Title" description="Show/Hide the pages Title">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="header" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="headings" type="radio" default="1" label="Table Headings" description="Show/Hide the Table Headings">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
@@ -21,17 +41,17 @@
 			<option value="1">Show</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="other_cat" type="radio" default="1" label="Other Categories" description="paramOtherCat">
+		<param name="other_cat" type="radio" default="1" label="Other Categories" description="PARAMWHENVIEWCAT">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="cat_description" type="radio" default="1" label="Category Description" description="paramCatDesc">
+		<param name="cat_description" type="radio" default="1" label="Category Description" description="PARAMCATDESC">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="cat_items" type="radio" default="1" label="# Category Items" description="paramCatItems">
+		<param name="cat_items" type="radio" default="1" label="Num Category Items" description="PARAMCATITEMS">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
 	</params>
-</mosparams>
+</mosinstall>

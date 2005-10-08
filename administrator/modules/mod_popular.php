@@ -1,11 +1,13 @@
 <?php
 /**
-* @version $Id: mod_popular.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -15,37 +17,51 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 $query = "SELECT a.hits, a.id, a.sectionid, a.title, a.created, u.name"
 . "\n FROM #__content AS a"
 . "\n LEFT JOIN #__users AS u ON u.id=a.created_by"
-. "\n WHERE a.state <> '-2'"
+. "\n WHERE a.state <> -2"
 . "\n ORDER BY hits DESC"
+. "\n LIMIT 10"
 ;
-$database->setQuery( $query, 0, 10 );
+$database->setQuery( $query );
 $rows = $database->loadObjectList();
+?>
 
-$i = 0;
+<table class="adminlist">
+<tr>
+	<th class="title">
+		Most Popular Items
+	</th>
+	<th class="title">
+		Created
+	</th>
+	<th class="title">
+		Hits
+	</th>
+</tr>
+<?php
 foreach ($rows as $row) {
 	if ( $row->sectionid == 0 ) {
-		$link = 'index2.php?option=com_typedcontent&amp;task=edit&amp;id='. $row->id;
+		$link = 'index2.php?option=com_typedcontent&amp;task=edit&amp;hidemainmenu=1&amp;id='. $row->id;
 	} else {
-		$link = 'index2.php?option=com_content&amp;task=edit&amp;id='. $row->id;
+		$link = 'index2.php?option=com_content&amp;task=edit&amp;hidemainmenu=1&amp;id='. $row->id;
 	}
-
-	$rows[$i]->num 		= $i + 1;
-	$rows[$i]->link 	= $link;
-	$rows[$i]->title 	= htmlspecialchars($row->title, ENT_QUOTES);
-	$rows[$i]->date 	= mosFormatDate( $row->created, $_LANG->_( 'DATE_FORMAT_LC3' ) );
-
-	$i++;
-}
-mod_popularScreens::view( $rows );
-
-
-class mod_popularScreens {
-	function view( &$rows ) {
-		$tmpl =& moduleScreens_admin::createTemplate( 'mod_popular.html' );
-
-		$tmpl->addObject( 'popular', $rows, 'row_' );
-
-		$tmpl->displayParsedTemplate( 'mod_popular' );
-	}
+	?>
+	<tr>
+		<td>
+			<a href="<?php echo $link; ?>"">
+				<?php echo htmlspecialchars($row->title, ENT_QUOTES);?></a>
+		</td>
+		<td>
+			<?php echo $row->created;?>
+		</td>
+		<td>
+			<?php echo $row->hits;?>
+		</td>
+	</tr>
+	<?php
 }
 ?>
+<tr>
+	<th colspan="3">
+	</th>
+</tr>
+</table>

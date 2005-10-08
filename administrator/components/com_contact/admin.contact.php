@@ -1,12 +1,14 @@
 <?php
 /**
-* @version $Id: admin.contact.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Contact
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -15,22 +17,20 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!($acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'all' )
- | $acl->acl_check( 'com_contact', 'manage', 'users', $my->usertype ))) {
-	mosRedirect( 'index2.php', $_LANG->_('NOT_AUTH') );
+		| $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'com_contact' ))) {
+	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
 }
 
-mosFS::load( '@class' );
-mosFS::load( '@admin_html' );
+require_once( $mainframe->getPath( 'admin_html' ) );
+require_once( $mainframe->getPath( 'class' ) );
+
+$id 	= mosGetParam( $_GET, 'id', 0 );
+$cid 	= mosGetParam( $_POST, 'cid', array(0) );
+if (!is_array( $cid )) {
+	$cid = array(0);
+}
 
 switch ($task) {
-	case 'cancel':
-		cancelContact();
-		break;
-
-	case 'orderup':
-	case 'orderdown':
-		orderModule( $cid[0], ($task == 'orderup' ? -1 : 1), $option );
-		break;
 
 	case 'new':
 		editContact( '0', $option);
@@ -45,8 +45,7 @@ switch ($task) {
 		break;
 
 	case 'save':
-	case 'apply':
-		saveContact( $task );
+		saveContact( $option );
 		break;
 
 	case 'remove':
@@ -69,12 +68,8 @@ switch ($task) {
 		orderContacts( $cid[0], 1, $option );
 		break;
 
-	case 'saveorder':
-		saveOrder( $cid );
-		break;
-
-	case 'checkin':
-		checkin( $id );
+	case 'cancel':
+		cancelContact();
 		break;
 
 	default:
@@ -89,51 +84,22 @@ switch ($task) {
 function showContacts( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$filter_state 	= $mainframe->getUserStateFromRequest( "filter_state{$option}", 'filter_state', NULL );
-	$catid 			= $mainframe->getUserStateFromRequest( "catid{$option}", 'catid', 0 );
-	$limit 			= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart 	= $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
-	$search 		= $mainframe->getUserStateFromRequest( "search{$option}", 'search', '' );
-	$search 		= trim( strtolower( $search ) );
-	$tOrder			= mosGetParam( $_POST, 'tOrder', 'category' );
-	$tOrder_old		= mosGetParam( $_POST, 'tOrder_old', 'category' );
+	$catid 		= $mainframe->getUserStateFromRequest( "catid{$option}", 'catid', 0 );
+	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
+	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
+	$search 	= $mainframe->getUserStateFromRequest( "search{$option}", 'search', '' );
+	$search 	= $database->getEscaped( trim( strtolower( $search ) ) );
 
-	mosFS::load( '@class', 'com_components' );
-
-	// table column ordering values
-	if ( $tOrder_old <> $tOrder && ( $tOrder <> 'cd.published' ) ) {
-		$tOrderDir = 'ASC';
-	} else {
-		$tOrderDir = mosGetParam( $_POST, 'tOrderDir', 'ASC' );
-	}
-	if ( $tOrderDir == 'ASC' ) {
-		$lists['tOrderDir'] 	= 'DESC';
-	} else {
-		$lists['tOrderDir'] 	= 'ASC';
-	}
-	$lists['tOrder'] = $tOrder;
-
-	// used by filter
 	if ( $search ) {
 		$where[] = "cd.name LIKE '%$search%'";
 	}
 	if ( $catid ) {
 		$where[] = "cd.catid = '$catid'";
 	}
-	if ( $filter_state <> NULL ) {
-		$where[] = "cd.published = '$filter_state'";
-	}
 	if ( isset( $where ) ) {
 		$where = "\n WHERE ". implode( ' AND ', $where );
 	} else {
 		$where = '';
-	}
-
-	// table column ordering
-	switch ( $tOrder ) {
-		default:
-			$order = "\n ORDER BY $tOrder $tOrderDir, category ASC, cd.ordering ASC";
-			break;
 	}
 
 	// get the total number of records
@@ -144,11 +110,9 @@ function showContacts( $option ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
-	// load navigation files
-	mosFS::load( '@pageNavigationAdmin' );
+	require_once( $GLOBALS['mosConfig_absolute_path'] . '/administrator/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
 
-	// main query
 	// get the subset (based on limits) of required records
 	$query = "SELECT cd.*, cc.title AS category, u.name AS user, v.name as editor"
 	. "\n FROM #__contact_details AS cd"
@@ -156,22 +120,17 @@ function showContacts( $option ) {
 	. "\n LEFT JOIN #__users AS u ON u.id = cd.user_id"
 	. "\n LEFT JOIN #__users AS v ON v.id = cd.checked_out"
 	. $where
-	. $order
+	. "\n ORDER BY cd.catid, cd.ordering, cd.name ASC"
+	. "\n LIMIT $pageNav->limitstart, $pageNav->limit"
 	;
-	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
+	$database->setQuery( $query );
 	$rows = $database->loadObjectList();
 
 	// build list of categories
 	$javascript = 'onchange="document.adminForm.submit();"';
-	$lists['catid'] = mosComponentFactory::buildCategoryList( 'catid', 'com_contact_details', intval( $catid ), $javascript );
+	$lists['catid'] = mosAdminMenus::ComponentCategory( 'catid', 'com_contact_details', intval( $catid ), $javascript );
 
-	// get list of State for dropdown filter
-	$javascript 	= 'onchange="document.adminForm.submit();"';
-	$lists['state']	= mosAdminHTML::stateList( 'filter_state', $filter_state, $javascript );
-
-	$lists['search'] = stripslashes( $search );
-
-	HTML_contact::showcontacts( $rows, $pageNav, $option, $lists );
+	HTML_contact::showcontacts( $rows, $pageNav, $search, $option, $lists );
 }
 
 /**
@@ -180,12 +139,8 @@ function showContacts( $option ) {
 * @param string The current GET/POST option
 */
 function editContact( $id, $option ) {
-	global $database, $my, $mainframe;
+	global $database, $my;
 	global $mosConfig_absolute_path;
-
-	$mainframe->set('disableMenu', true);
-
-	mosFS::load( '@class', 'com_components' );
 
 	$row = new mosContact( $database );
 	// load the row from the db table
@@ -212,9 +167,9 @@ function editContact( $id, $option ) {
 	$lists['ordering'] 			= mosAdminMenus::SpecificOrdering( $row, $id, $query, 1 );
 
 	// build list of users
-	$lists['user_id'] 			= mosAdminHTML::userSelect( 'user_id', $row->user_id, 1 );
+	$lists['user_id'] 			= mosAdminMenus::UserSelect( 'user_id', $row->user_id, 1, NULL, 'name', 0 );
 	// build list of categories
-	$lists['catid'] 			= mosComponentFactory::buildCategoryList( 'catid', 'com_contact_details', intval( $row->catid ) );
+	$lists['catid'] 			= mosAdminMenus::ComponentCategory( 'catid', 'com_contact_details', intval( $row->catid ) );
 	// build the html select list for images
 	$lists['image'] 			= mosAdminMenus::Images( 'image', $row->image );
 	// build the html select list for the group access
@@ -235,13 +190,13 @@ function editContact( $id, $option ) {
 * Saves the record from an edit form submit
 * @param string The current GET/POST option
 */
-function saveContact( $task ) {
+function saveContact( $option ) {
 	global $database;
-	global $_LANG;
 
 	$row = new mosContact( $database );
-	if ( !$row->bind( $_POST ) ) {
-		mosErrorAlert( $row->getError() );
+	if (!$row->bind( $_POST )) {
+		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		exit();
 	}
 
 	// save params
@@ -255,35 +210,29 @@ function saveContact( $task ) {
 	}
 
 	// pre-save checks
-	if ( !$row->check() ) {
-		mosErrorAlert( $row->getError() );
+	if (!$row->check()) {
+		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		exit();
 	}
 
 	// save the changes
-	if ( !$row->store() ) {
-		mosErrorAlert( $row->getError() );
+	if (!$row->store()) {
+		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		exit();
 	}
 	$row->checkin();
-	$row->updateOrder( "catid='$row->catid' AND published >= 0" );
-
-	switch ( $task ) {
-		case 'apply':
-			$msg = $_LANG->_( 'Successfully Saved changes' );
-			mosRedirect( 'index2.php?option=com_contact&amp;task=editA&amp;id='. $row->id, $msg );
-			break;
-
-		case 'save':
-		default:
-			$msg = $_LANG->_( 'Successfully Saved' );
-
-			$referer	= mosGetParam( $_POST, 'referer', '' );
-			if ( $referer ) {
-				mosRedirect( $referer, $msg );
-			} else {
-				mosRedirect( 'index2.php?option=com_contact', $msg );
-			}
-			break;
+	$row->updateOrder();
+	if ($row->default_con) {
+		$query = "UPDATE #__contact_details"
+		. "\n SET default_con = 0"
+		. "\n WHERE id <> $row->id"
+		. "\n AND default_con = 1"
+		;
+		$database->setQuery( $query );
+		$database->query();
 	}
+
+	mosRedirect( "index2.php?option=$option" );
 }
 
 /**
@@ -296,10 +245,12 @@ function removeContacts( &$cid, $option ) {
 
 	if (count( $cid )) {
 		$cids = implode( ',', $cid );
-		$query = "DELETE FROM #__contact_details WHERE id IN ( $cids )";
+		$query = "DELETE FROM #__contact_details"
+		. "\n WHERE id IN ( $cids )"
+		;
 		$database->setQuery( $query );
 		if (!$database->query()) {
-			mosErrorAlert( $database->getErrorMsg() );
+			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		}
 	}
 
@@ -314,23 +265,24 @@ function removeContacts( &$cid, $option ) {
 */
 function changeContact( $cid=null, $state=0, $option ) {
 	global $database, $my;
-	global $_LANG;
 
-	if (count( $cid ) < 1) {
-		$action = $state == 1 ? 'publish' : 'unpublish';
-		echo "<script> alert('". $_LANG->_( 'Select a record to' ) .' '. $action ."'); window.history.go(-1);</script>\n";
-		exit;
+	if (!is_array( $cid ) || count( $cid ) < 1) {
+		$action = $publish ? 'publish' : 'unpublish';
+		echo "<script> alert('Select an item to $action'); window.history.go(-1);</script>\n";
+		exit();
 	}
 
 	$cids = implode( ',', $cid );
 
 	$query = "UPDATE #__contact_details"
-	. "\n SET published = '$state'"
+	. "\n SET published = " . intval( $state )
 	. "\n WHERE id IN ( $cids )"
-	. "\n AND ( checked_out = 0 OR ( checked_out = '$my->id' ) )";
+	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
+	;
 	$database->setQuery( $query );
 	if (!$database->query()) {
-		mosErrorAlert( $database->getErrorMsg() );
+		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		exit();
 	}
 
 	if (count( $cid ) == 1) {
@@ -364,80 +316,6 @@ function cancelContact() {
 	$row = new mosContact( $database );
 	$row->bind( $_POST );
 	$row->checkin();
-
 	mosRedirect('index2.php?option=com_contact');
-}
-
-function saveOrder( &$cid ) {
-	global $database;
-  	global $_LANG;
-
-	$total		= count( $cid );
-	$order 		= mosGetParam( $_POST, 'order', array(0) );
-	$row 		= new mosContact( $database );
-	$conditions = array();
-
-	// update ordering values
-	for( $i=0; $i < $total; $i++ ) {
-		$row->load( $cid[$i] );
-
-		if ( $row->ordering != $order[$i] ) {
-			$row->ordering = $order[$i];
-			if (!$row->store()) {
-				mosErrorAlert( $database->getErrorMsg() );
-			} // if
-
-			// remember to updateOrder this group
-			$condition = "catid='$row->catid'";
-			$found = false;
-			foreach ( $conditions as $cond ) {
-				if ($cond[1]==$condition) {
-					$found = true;
-					break;
-				} // if
-			}
-			if ( !$found ) {
-				$conditions[] = array($row->id, $condition);
-			}
-		} // if
-	} // for
-
-	// execute updateOrder for each group
-	foreach ( $conditions as $cond ) {
-		$row->load( $cond[0] );
-		$row->updateOrder( $cond[1] );
-	} // foreach
-
-	$msg = $_LANG->_( 'New ordering saved' );
-	mosRedirect( 'index2.php?option=com_contact', $msg );
-} // saveOrder
-
-/**
-* Moves the order of a record
-* @param integer The unique id of record
-* @param integer The increment to reorder by
-*/
-function orderModule( $uid, $inc, $option ) {
-	global $database;
-
-	$row = new mosContact( $database );
-	$row->load( $uid );
-
-	$row->move( $inc, "catid='$row->catid' AND published >= 0"  );
-
-	mosRedirect( 'index2.php?option=com_contact' );
-}
-
-function checkin( $id ) {
-	global $database;
-	global $_LANG;
-
-	$row = new mosContact( $database );
-	$row->load( $id );
-	// checkin item
-	$row->checkin();
-
-	$msg = $_LANG->_( 'Item Checked In' );
-	mosRedirect( 'index2.php?option=com_contact', $msg );
 }
 ?>

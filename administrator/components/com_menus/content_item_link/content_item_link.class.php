@@ -1,12 +1,14 @@
 <?php
 /**
-* @version $Id: content_item_link.class.php 137 2005-09-12 10:21:17Z eddieajau $
-* @package Mambo
+* @version $Id$
+* @package Joomla
 * @subpackage Menus
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -15,21 +17,23 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 /**
 * Content item link class
-* @package Mambo
+* @package Joomla
 * @subpackage Menus
 */
 class content_item_link_menu {
 
 	function edit( &$uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
-	  	global $_LANG;
+		global $mosConfig_absolute_path;
+		global $_LANG;
 
 		$menu = new mosMenu( $database );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
 		if ($menu->checked_out && $menu->checked_out <> $my->id) {
-			mosErrorAlert( $_LANG->_( 'The module' ) .' '. $menu->title .' '. $_LANG->_( 'descBeingEditted' ) );
+			echo "<script>alert('". $_LANG->_( 'The module' ) ." ". $menu->title ." ". $_LANG->_( 'DESCBEINGEDITTED' ) ."'); document.location.href='index2.php?option=$option'</script>\n";
+			exit(0);
 		}
 
 		if ( $uid ) {
@@ -37,7 +41,11 @@ class content_item_link_menu {
 		} else {
 			// load values for new entry
 			$menu->type 		= 'content_item_link';
-			mosMenuFactory::setValues( $menu, $menutype );
+			$menu->menutype 	= $menutype;
+			$menu->browserNav 	= 0;
+			$menu->ordering 	= 9999;
+			$menu->parent 		= intval( mosGetParam( $_POST, 'parent', 0 ) );
+			$menu->published 	= 1;
 		}
 
 		if ( $uid ) {
@@ -48,7 +56,7 @@ class content_item_link_menu {
 			. "\n FROM #__content AS a"
 			. "\n LEFT JOIN #__categories AS c ON a.catid = c.id"
 			. "\n LEFT JOIN #__sections AS s ON a.sectionid = s.id"
-			. "\n WHERE a.id = '". $temp[1] ."'"
+			. "\n WHERE a.id = $temp[1]"
 			;
 			$database->setQuery( $query );
 			$content = $database->loadObjectlist();
@@ -89,24 +97,26 @@ class content_item_link_menu {
 			. "\n FROM #__content AS a"
 			. "\n INNER JOIN #__categories AS c ON a.catid = c.id"
 			. "\n INNER JOIN #__sections AS s ON a.sectionid = s.id"
-			. "\n WHERE a.state = '1'"
+			. "\n WHERE a.state = 1"
 			. "\n ORDER BY a.sectionid, a.catid, a.title"
 			;
 			$database->setQuery( $query );
 			$contents = $database->loadObjectList( );
 
 			foreach ( $contents as $content ) {
-				$database->setQuery( "SELECT s.title"
+				$query = "SELECT s.title"
 				. "\n FROM #__sections AS s"
 				. "\n WHERE s.scope = 'content'"
-				. "\n AND s.id = '". $content->sectionid ."'"
-				);
+				. "\n AND s.id = $content->sectionid"
+				;
+				$database->setQuery( $query );
 				$section = $database->loadResult();
 
-				$database->setQuery( "SELECT c.title"
+				$query = "SELECT c.title"
 				. "\n FROM #__categories AS c"
-				. "\n WHERE c.id = '". $content->catid ."'"
-				);
+				. "\n WHERE c.id = $content->catid"
+				;
+				$database->setQuery( $query );
 				$category = $database->loadResult();
 
 				$value = $content->value;
@@ -120,8 +130,19 @@ class content_item_link_menu {
 			$lists['content'] = mosHTML::selectList( $contents, 'content_item_link', 'class="inputbox" size="10"', 'value', 'text', '' );
 		}
 
-		// build common lists
-		mosMenuFactory::buildLists( $lists, $menu, $uid );
+		// build html select list for target window
+		$lists['target'] 		= mosAdminMenus::Target( $menu );
+
+		// build the html select list for ordering
+		$lists['ordering'] 		= mosAdminMenus::Ordering( $menu, $uid );
+		// build the html select list for the group access
+		$lists['access'] 		= mosAdminMenus::Access( $menu );
+		// build the html select list for paraent item
+		$lists['parent'] 		= mosAdminMenus::Parent( $menu );
+		// build published button option
+		$lists['published'] 	= mosAdminMenus::Published( $menu );
+		// build the url link output
+		$lists['link'] 			= mosAdminMenus::Link( $menu, $uid );
 
 		// get params definitions
 		$params = new mosParameters( $menu->params, $mainframe->getPath( 'menu_xml', $menu->type ), 'menu' );

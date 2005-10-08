@@ -2,7 +2,7 @@
 /**
  * Base class for patTemplate dumpers
  *
- * $Id: Dump.php 138 2005-09-12 10:37:53Z eddieajau $
+ * $Id$
  *
  * The dump functionality is separated from the main class
  * for performance reasons.

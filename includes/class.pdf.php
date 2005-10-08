@@ -210,7 +210,7 @@ function Cpdf ($pageSize=array(0,0,612,792)){
 * Each function has the same call list ($id,$action,$options).
 * $id = the object ID of the object, or what it is to be if it is being created
 * $action = a string specifying the action to be performed, though ALL must support:
-*	 	  'new' - create the object with the id $id
+*		   'new' - create the object with the id $id
 *		   'out' - produce the output for the pdf object
 * $options = optional, a string or array containing the various parameters for the object
 *
@@ -1401,7 +1401,7 @@ function openFont($font){
 	$fp = @fopen($dir.'php_'.$name.'.afm','w') or die ("Please make sure your \"media\" directory is writeable (CHMOD 777).");
 	fwrite($fp,serialize($data));
 	fclose($fp);
-	mosFS::CHMOD( $dir . 'php_' . $name . '.afm' );
+	mosChmod($dir.'php_'.$name.'.afm');
   } else if (!isset($this->fonts[$font])){
 	$this->addMessage('openFont: no font file found');
 //	echo 'Font not Found '.$font;

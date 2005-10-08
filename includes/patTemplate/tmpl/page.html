@@ -1,9 +1,17 @@
 <mos:comment>
-@version $Id: page.html 137 2005-09-12 10:21:17Z eddieajau $
-@package Mambo_4.5.2
+@version $Id$
+@package Joomla
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
-@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+Joomla! is free software. This version may have been modified pursuant
+to the GNU General Public License, and as distributed it includes or
+is derivative of works licensed under the GNU General Public License or
+other free or open source software licenses.
+See COPYRIGHT.php for copyright notices and details.
 </mos:comment>
+
+<!-- GENERIC PAGE -->
+<mos:tmpl name="page" src="dynamic" autoload="off" parse="on" />
 
 <!-- GENERIC FORM -->
 <mos:tmpl name="form" autoclear="yes">
@@ -48,16 +56,16 @@
 	</script>
 </mos:tmpl>
 
+
 <!-- TOOL TIPS :: note include must go last -->
 <mos:tmpl name="include-tooltips">
-	<script language="JavaScript" type="text/javascript" src="{SITEURL}/includes/js/wz_tooltip.js"></script>
+<script language="JavaScript" type="text/javascript" src="{SITEURL}/includes/js/wz_tooltip.js"></script>
 </mos:tmpl>
 
 <mos:tmpl name="tooltip" unusedvars="ignore">
 	<a href="#" onmouseover="this.T_BGIMG='{SITEURL}/images/M_images/tt_bg.jpg';this.T_WIDTH=200;{OPTIONS};return escape('<mos:var name="tip" modifier="Translate" />')" class="tooltip">
 		<mos:var name="text" modifier="Translate" /></a>
 </mos:tmpl>
-
 <mos:tmpl name="tooltip-i" unusedvars="ignore">
 	<a href="#" onmouseover="this.T_BGIMG='{SITEURL}/images/M_images/tt_bg.jpg';this.T_WIDTH=200;{OPTIONS};return escape('<mos:var name="tip" modifier="Translate" />')">
 		<img src="{SITEURL}/includes/js/ThemeOffice/tooltip.png" border="0" /></a>
@@ -71,7 +79,6 @@
 
 <!-- DYNAMIC TABS -->
 <mos:tmpl name="includeTabs" useglobals="yes">
-	<!-- <link id="luna-tab-style-sheet" type="text/css" rel="stylesheet" href="{SITEURL}/includes/js/tabs/{TABPANECSS}" /> -->
 	<link id="luna-tab-style-sheet" type="text/css" rel="stylesheet" href="{SITEURL}/includes/js/tabs/tabpane.css" />
 	<script type="text/javascript" src="{SITEURL}/includes/js/tabs/tabpane.js"></script>
 	<style type="text/css">
@@ -97,14 +104,14 @@
 
 <mos:tmpl name="startTab" varscope="body">
 	<div class="tab-page" id="{PANEID}">
-		<h2 class="tab">
+	<h2 class="tab">
 			<mos:var name="tabtitle" modifier="translate" />
-		</h2>
+	</h2>
 		<script language="javascript" type="text/javascript">
 		<!--
-		tabPane1.addTabPage( document.getElementById( '{PANEID}' ) );
+	tabPane1.addTabPage( document.getElementById( '{PANEID}' ) );
 		//-->
-		</script>
+	</script>
 </mos:tmpl>
 
 <mos:tmpl name="endTab">
@@ -140,27 +147,3 @@
 	</div>
 </mos:tmpl>
 
-<!-- Calander -->
-<mos:tmpl name="include-calendar">
-	<link rel="stylesheet" type="text/css" media="all" href="{SITEURL}/includes/js/calendar/calendar-mos.css" title="green" />
-	<script type="text/javascript" src="{SITEURL}/includes/js/calendar/calendar.js"></script>
-	<script type="text/javascript" src="{SITEURL}/includes/js/calendar/lang/calendar-en.js"></script>
-</mos:tmpl>
-
-<!-- Back Button -->
-<mos:tmpl name="back_button">
-	<div class="back_button">
-		<a href="#" onclick="javascript:history.go(-1)">
-			<mos:Translate>Back</mos:Translate>	</a>
-	</div>
-</mos:tmpl>
-
-<!-- Close Button -->
-<mos:tmpl name="close_button">
-	<div align="center" style="margin-top: 30px; margin-bottom: 30px;" class="close_button">
-		<a href="#" onclick="javascript:window.close();">
-			<span class="small">
-				<mos:Translate>PROMPT_CLOSE</mos:Translate>
-			</span></a>
-	</div>
-</mos:tmpl>

@@ -1,78 +1,73 @@
 <?php
 /**
-* @version $Id: mod_search.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-class modSearchData {
+$button			= $params->get( 'button', '' );
+$button_pos		= $params->get( 'button_pos', 'left' );
+$button_text	= $params->get( 'button_text', _SEARCH_TITLE );
+$width 			= intval( $params->get( 'width', 20 ) );
+$text 			= $params->get( 'text', _SEARCH_BOX );
 
-	function &getLists( &$params ){
-		global $database, $_LANG;
+$output = '<input name="searchword" id="mod_search_searchword" alt="search" class="inputbox'. $moduleclass_sfx .'" type="text" size="'. $width .'" value="'. $text .'"  onblur="if(this.value==\'\') this.value=\''. $text .'\';" onfocus="if(this.value==\''. $text .'\') this.value=\'\';" />';
 
-		// settings for advanced link
-		$adv_link = $params->get( 'advanced_link', 0 );
-
-		$link = '';
-		if ( $adv_link ) {
-			$query = "SELECT m.id"
-			. "\n FROM #__menu AS m"
-			. "\n WHERE m.link LIKE '%com_search%'"
-			;
-			$database->setQuery( $query, 0, 1 );
-			$link = $database->loadResult();
-
-			if ( $link ) {
-				$link = sefRelToAbs( 'index.php?option=com_search&amp;Itemid='. $link );
-			} else {
-				$link = sefRelToAbs( 'index.php?option=com_search' );
-			}
-		}
-
-		$list = new stdClass();
-		$list->url_adv	 	= $link;
-		$list->adv_link 	= $params->get( 'advanced_link', 0 );
-		$list->button_text 	= $params->get( 'button_text', $_LANG->_( 'SEARCH_BUTTON' ) );
-		$list->width 		= intval( $params->get( 'width', 20 ) );
-		$list->text 		= $params->get( 'text', $_LANG->_( 'SEARCH_BOX' ) );
-		$list->button 		= $params->get( 'button', 0 );
-
-		return $list;
-	}
+if ( $button ) {
+	$button = '<input type="submit" value="'. $button_text .'" class="button'. $moduleclass_sfx .'"/>';
 }
 
-class modSearch {
+switch ( $button_pos ) {
+	case 'top':
+		$button = $button .'<br/>';
+		$output = $button . $output;
+		break;
 
-	function show( &$params ){
-		$cache = mosFactory::getCache("mod_search");
+	case 'bottom':
+		$button =  '<br/>'. $button;
+		$output = $output . $button;
+		break;
 
-		$cache->setCaching($params->get('cache', 1));
-		$cache->setCacheValidation(false);
+	case 'right':
+		$output = $output . $button;
+		break;
 
-		$cache->callId("modSearch::_display", array( $params ), "mod_search");
-	}
-
-	function _display( &$params ) {
-
-		$list = modSearchData::getLists( $params );
-
-		$tmpl =& moduleScreens::createTemplate( 'mod_search.html' );
-
-		$tmpl->addVar( 'mod_search', 'class', 	$params->get( 'moduleclass_sfx' ) );
-		$tmpl->addVar( 'mod_search', 'url', 		sefRelToAbs( 'index.php' ) );
-
-		$tmpl->addObject( 'mod_search', $list );
-
-		$tmpl->displayParsedTemplate( 'mod_search' );
-	}
+	case 'left':
+	default:
+		$output = $button . $output;
+		break;
 }
 
-modSearch::show( $params );
+$query = "SELECT id"
+. "\n FROM #__menu"
+. "\n WHERE link = 'index.php?option=com_search'"
+;
+$database->setQuery( $query );
+$rows = $database->loadObjectList();
+
+if ( count( $rows ) ) {
+	$_Itemid	= $rows[0]->id;
+	$link 		= 'index.php?option=com_search&Itemid='. $_Itemid;
+} else {
+	$_Itemid 	= '';
+	$link 		= 'index.php?option=com_search';	
+}
 ?>
+
+<form action="<?php echo sefRelToAbs( $link ); ?>" method="get">
+	<div align="left" class="search<?php echo $moduleclass_sfx; ?>">
+		<?php echo $output; ?>
+	</div>
+
+	<input type="hidden" name="option" value="com_search" />
+	<input type="hidden" name="Itemid" value="<?php echo $_Itemid; ?>" />	
+</form>

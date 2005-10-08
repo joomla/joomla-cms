@@ -1,139 +1,135 @@
 <?php
 /**
-* @version $Id: index2.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-/** Set flag that this is a parent file */
-define( "_VALID_MOS", 1 );
+// Set flag that this is a parent file
+define( '_VALID_MOS', 1 );
 
-include_once ('globals.php');
-require_once ('configuration.php');
+include_once( 'globals.php' );
+require_once( 'configuration.php' );
+require_once( 'includes/joomla.php' );
 
-// enables switching to secure https
-require_once( 'includes/mambo.ssl.init.php' );
+// displays offline/maintanance page or bar
+if ($mosConfig_offline == 1) {
+	require( 'offline.php' );
+}
 
-require_once ('includes/mambo.php');
+// load system bot group
+$_MAMBOTS->loadBotGroup( 'system' );
+
+// trigger the onStart events
+$_MAMBOTS->trigger( 'onStart' );
+
 if (file_exists( 'components/com_sef/sef.php' )) {
 	require_once( 'components/com_sef/sef.php' );
 } else {
 	require_once( 'includes/sef.php' );
 }
-require_once ('includes/frontend.php');
+require_once( 'includes/frontend.php' );
 
 // retrieve some expected url (or form) arguments
-$option 	= trim( strtolower( mosGetParam( $_REQUEST, 'option' ) ) );
+$option 	= strtolower( mosGetParam( $_REQUEST, 'option' ) );
+$Itemid 	= strtolower( mosGetParam( $_REQUEST, 'Itemid',0 ) );
 $no_html 	= intval( mosGetParam( $_REQUEST, 'no_html', 0 ) );
-$Itemid 	= strtolower( trim( mosGetParam( $_REQUEST, 'Itemid',0 ) ) );
 $act 		= mosGetParam( $_REQUEST, 'act', '' );
 $do_pdf 	= intval( mosGetParam( $_REQUEST, 'do_pdf', 0 ) );
-$pop	 	= intval( mosGetParam( $_REQUEST, 'pop', 0 ) );
-$id 		= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
 
 // mainframe is an API workhorse, lots of 'core' interaction routines
-$mainframe = new mosMainFrame( $database, $option );
-
+$mainframe = new mosMainFrame( $database, $option, '.' );
 $mainframe->initSession();
+
+// trigger the onAfterStart events
+$_MAMBOTS->trigger( 'onAfterStart' );
+
 // get the information about the current user from the sessions table
 $my = $mainframe->getUser();
+// patch to lessen the impact on templates
+if ($option == 'search') {
+	$option = 'com_search';
+}
 
 // loads english language file by default
-if ( $mosConfig_lang == '' ) {
+if ($mosConfig_lang=='') {
 	$mosConfig_lang = 'english';
 }
-$_LANG = mosFactory::getLanguage( $option );
-$_LANG->debug( $mosConfig_debug );
+include_once( 'language/' . $mosConfig_lang . '.php' );
 
-$cur_template = $mainframe->getTemplate();
 
-// displays offline/maintanance page or bar
-if ($mosConfig_offline == 1){
-	// get gid
-	$query = '
-	SELECT gid
-	FROM #__users
-	WHERE id = '. intval( $my->id );
-	$database->setQuery( $query );
-	$userstate = $database->loadResult();
-
-	// if superadministrator, administrator or manager show offline message bar + site
-	if ( $userstate == '25' || $userstate == '24' || $userstate == '23') {
-		include( 'offlinebar.php' );
-	}
-	else {
-		include( 'offline.php' );
-		exit();
-	}
-}
-
-if ( $option == 'login' ) {
+if ($option == 'login') {
 	$mainframe->login();
 	mosRedirect('index.php');
-} else if ( $option == 'logout' ) {
+} else if ($option == 'logout') {
 	$mainframe->logout();
 	mosRedirect( 'index.php' );
 }
 
 if ( $do_pdf == 1 ){
-	include_once('includes/pdf.php');
+	include ('includes/pdf.php');
 	exit();
 }
 
+
+// detect first visit
+$mainframe->detect();
+
 $gid = intval( $my->gid );
+
+$cur_template = $mainframe->getTemplate();
 
 // precapture the output of the component
 require_once( $mosConfig_absolute_path . '/editor/editor.php' );
 
 ob_start();
 if ($path = $mainframe->getPath( 'front' )) {
-	$task = mosGetParam( $_REQUEST, 'task', '' );
-	$ret = mosMenuCheck( $Itemid, $option, $task, $gid );
+	$task 	= mosGetParam( $_REQUEST, 'task', '' );
+	$ret 	= mosMenuCheck( $Itemid, $option, $task, $gid );
 	if ($ret) {
 		require_once( $path );
 	} else {
 		mosNotAuth();
 	}
 } else {
-	echo $_LANG->_( 'NOT_EXIST' );
+	echo _NOT_EXIST;
 }
 $_MOS_OPTION['buffer'] = ob_get_contents();
 ob_end_clean();
 
 initGzip();
 
-header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" );
-header( "Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT" );
-header( "Cache-Control: no-store, no-cache, must-revalidate" );
-header( "Cache-Control: post-check=0, pre-check=0", false );
-header( "Pragma: no-cache" );
+header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
+header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
+header( 'Cache-Control: no-store, no-cache, must-revalidate' );
+header( 'Cache-Control: post-check=0, pre-check=0', false );
+header( 'Pragma: no-cache' );
 
-// print template
-if ( $pop == 1 ){
-	// load from template directory if one can be found, otherwise run default index2.php template
-	$path = 'templates/' .$cur_template .'/print.php';
-	if ( file_exists( $path ) ) {
-		include_once( $path );
-		exit();
-	}
+// display the offline alert if an admin is logged in
+if (defined( '_ADMIN_OFFLINE' )) {
+	include( 'offlinebar.php' );
 }
 
 // start basic HTML
 if ( $no_html == 0 ) {
+	// needed to seperate the ISO number from the language file constant _ISO
+	$iso = split( '=', _ISO );
 	// xml prolog
-	echo '<?xml version="1.0" encoding="'. $_LANG->iso() .'"?' .'>';
+	echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 	?>
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-	<html xmlns="http://www.w3.org/1999/xhtml" lang="<?php echo $_LANG->isoCode();?>">
+	<html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $_LANG->iso(); ?>" />
-	<?php mosShowHead(); ?>
 	<link rel="stylesheet" href="templates/<?php echo $cur_template;?>/css/template_css.css" type="text/css" />
-	<meta name="robots" content="noindex, nofollow" />
+	<link rel="shortcut icon" href="<?php echo $mosConfig_live_site; ?>/images/favicon.ico" />
+	<meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>" />
+	<meta name="robots" content="noindex, nofollow">
 	</head>
 	<body class="contentpane">
 	<?php mosMainBody(); ?>

@@ -1,12 +1,14 @@
 <?php
 /**
-* @version $Id: admin.menumanager.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Menus
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -14,16 +16,16 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
-if (!$acl->acl_check( 'com_menumanager', 'manage', 'users', $my->usertype )) {
-	mosRedirect( 'index2.php', $_LANG->_('NOT_AUTH') );
+if (!$acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'components', 'com_menumanager' )) {
+	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
 }
 
-mosFS::load( '@admin_html' );
+require_once( $mainframe->getPath( 'admin_html' ) );
 
 $menu 		= mosGetParam( $_GET, 'menu', '' );
+$task 		= mosGetParam( $_REQUEST, 'task', array(0) );
 $type 		= mosGetParam( $_POST, 'type', '' );
-$cid		= mosGetParam( $_REQUEST, 'cid', null );
-mosArrayToStr( $cid, '' );
+$cid 		= mosGetParam( $_POST, 'cid', '' );
 
 switch ($task) {
 	case 'new':
@@ -74,16 +76,14 @@ function showMenu( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
 	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
+	$limitstart = $mainframe->getUserStateFromRequest( "view{". $option ."}limitstart", 'limitstart', 0 );
 
-	mosFS::load( '@class', 'com_menus' );
-	$menuTypes = mosMenuFactory::getMenuTypes();
+	$menuTypes 	= mosAdminMenus::menutypes();
 	$total		= count( $menuTypes );
 	$i			= 0;
 	foreach ( $menuTypes as $a ) {
 		$menus[$i]->type 		= $a;
 
-		$a = addslashes( $a );
 		// query to get number of modules for menutype
 		$query = "SELECT count( id )"
 		. "\n FROM #__modules"
@@ -161,12 +161,10 @@ function showMenu( $option ) {
 		}
 	}
 
-	mosFS::load( '@pageNavigationAdmin' );
+	require_once( $GLOBALS['mosConfig_absolute_path'] . '/administrator/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
 
-	mosMenuFactory::menutreeQueries( $lists );
-
-	HTML_menumanager::show( $option, $menus, $pageNav, $lists );
+	HTML_menumanager::show( $option, $menus, $pageNav );
 }
 
 
@@ -177,19 +175,10 @@ function showMenu( $option ) {
 * @param cid	menu id
 */
 function editMenu( $option, $menu ) {
-	global $database, $task;
-	global $_LANG;
+	global $database;
 
-	// error check
-	if ( !$menu && $task <> 'new' ) {
-		mosErrorAlert( $_LANG->_( 'Select a menu to Edit' ) );
-	}
-	if ( $menu == 'mainmenu' ) {
-		mosErrorAlert( $_LANG->_( 'errorEditMainMenu' ) );
-	}
-
-	if ( $menu ) {
-		$row->menutype 	= stripslashes( $menu );
+	if( $menu ) {
+		$row->menutype 	= $menu;
 	} else {
 		$row = new mosModule( $database );
 		// setting default values
@@ -212,14 +201,14 @@ function saveMenu() {
 	global $_LANG;
 
 	$menutype 		= mosGetParam( $_POST, 'menutype', '' );
-	$menutype		= stripslashes( $menutype );
 	$old_menutype 	= mosGetParam( $_POST, 'old_menutype', '' );
 	$new			= mosGetParam( $_POST, 'new', 1 );
 
 	// block to stop renaming of 'mainmenu' menutype
 	if ( $old_menutype == 'mainmenu' ) {
 		if ( $menutype <> 'mainmenu' ) {
-			mosErrorAlert( $_LANG->_( 'errorEditMainMenu' ) );
+			echo "<script> alert('". $_LANG->_( 'WARNMAINMENU' ) ."'); window.history.go(-1); </script>\n";
+			exit;
 		}
 	}
 
@@ -233,7 +222,8 @@ function saveMenu() {
 	foreach ( $menus as $menu ) {
 		$params = mosParseParams( $menu );
 		if ( $params->menutype == $menutype ) {
-			mosErrorAlert( $_LANG->_( 'VALIDMENUALREADYEXIST' ) );
+			echo "<script> alert('". $_LANG->_( 'ERRORMENUNAMEEXISTS' ) ."'); window.history.go(-1); </script>\n";
+			exit;
 		}
 	}
 
@@ -247,10 +237,12 @@ function saveMenu() {
 
 			// check then store data in db
 			if (!$row->check()) {
-				mosErrorAlert( $_LANG->_( $row->getError() ) );
+				echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+				exit();
 			}
 			if (!$row->store()) {
-				mosErrorAlert( $_LANG->_( $row->getError() ) );
+				echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+				exit();
 			}
 
 			$row->checkin();
@@ -261,7 +253,8 @@ function saveMenu() {
 			$query = "INSERT INTO #__modules_menu VALUES ( $row->id, 0 )";
 			$database->setQuery( $query );
 			if ( !$database->query() ) {
-				mosErrorAlert( $_LANG->_( $row->getErrorMsg() ) );
+				echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+				exit();
 			}
 
 			$msg = $_LANG->_( 'New Menu created' ) .' [ '. $menutype .' ]';
@@ -298,10 +291,12 @@ function saveMenu() {
 
 					// check then store data in db
 					if ( !$row->check() ) {
-						mosErrorAlert( $_LANG->_( $row->getError() ) );
+						echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+						exit();
 					}
 					if ( !$row->store() ) {
-						mosErrorAlert( $_LANG->_( $row->getError() ) );
+						echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+						exit();
 					}
 
 					$row->checkin();
@@ -312,7 +307,8 @@ function saveMenu() {
 			if ( $menutype <> $old_menutype ) {
 				$query = "UPDATE #__menu"
 				. "\n SET menutype = '$menutype'"
-				. "\n WHERE menutype = '$old_menutype'";
+				. "\n WHERE menutype = '$old_menutype'"
+				;
 				$database->setQuery( $query );
 				$database->query();
 			}
@@ -331,14 +327,9 @@ function deleteConfirm( $option, $type ) {
 	global $database;
 	global $_LANG;
 
-	$type = stripslashes( $type );
-
-	// error check
-	if ( !$type ) {
-		mosErrorAlert( $_LANG->_( 'Select a menu to Delete' ) );
-	}
 	if ( $type == 'mainmenu' ) {
-		mosErrorAlert( $_LANG->_( 'errorEditMainMenu' ) );
+		echo "<script> alert('". $_LANG->_( 'WARNDELMAINMENU' ) ."'); window.history.go(-1); </script>\n";
+		exit();
 	}
 
 	// list of menu items to delete
@@ -350,15 +341,15 @@ function deleteConfirm( $option, $type ) {
 	$database->setQuery( $query );
 	$items = $database->loadObjectList();
 
-	// list of mod_mainmenu modules
+	// list of modules to delete
 	$query = "SELECT id"
 	. "\n FROM #__modules"
 	. "\n WHERE module = 'mod_mainmenu'"
+	. "\n AND params LIKE '%$type%'"
 	;
 	$database->setQuery( $query );
 	$mods = $database->loadResultArray();
 
-	$mids = array();
 	foreach ( $mods as $module ) {
 		$row = new mosModule( $database );
 		$row->load( $module );
@@ -369,14 +360,13 @@ function deleteConfirm( $option, $type ) {
 		}
 	}
 
-	$modules = array();
-	$mids = implode( ',', $mid );
+	@$mids = implode( ',', $mid );
 	$query = "SELECT id, title"
 	. "\n FROM #__modules"
 	. "\n WHERE id IN ( $mids )"
 	;
 	$database->setQuery( $query );
-	$modules = $database->loadObjectList();
+	@$modules = $database->loadObjectList();
 
 	HTML_menumanager::showDelete( $option, $type, $items, $modules );
 }
@@ -389,21 +379,23 @@ function deleteMenu( $option, $cid, $type ) {
 	global $_LANG;
 
 	if ( $type == 'mainmenu' ) {
-		mosErrorAlert( $_LANG->_( 'errorEditMainMenu' ) );
+		echo "<script> alert('". $_LANG->_( 'WARNDELMAINMENU' ) ."'); window.history.go(-1); </script>\n";
+		exit();
 	}
 
 
-	$mids 		= mosGetParam( $_POST, 'mids', 0 );
+	$mids = mosGetParam( $_POST, 'mids', 0 );
 	if ( is_array( $mids ) ) {
 		$mids = implode( ',', $mids );
 	}
 	// delete menu items
-	$query = 	"DELETE FROM #__menu"
+	$query = "DELETE FROM #__menu"
 	. "\n WHERE ( id IN ( $mids ) )"
 	;
 	$database->setQuery( $query );
 	if ( !$database->query() ) {
-		mosErrorAlert( $database->getErrorMsg() );
+		echo "<script> alert('". $database->getErrorMsg() ."');</script>\n";
+		exit;
 	}
 
 	if ( is_array( $cid ) ) {
@@ -420,15 +412,17 @@ function deleteMenu( $option, $cid, $type ) {
 		;
 		$database->setQuery( $query );
 		if ( !$database->query() ) {
-			mosErrorAlert( $database->getErrorMsg() );
+			echo "<script> alert('". $database->getErrorMsg() ."'); window.history.go(-1); </script>\n";
+			exit;
 		}
-		// delete all module entires in mos_modules_menu
+		// delete all module entires in jos_modules_menu
 		$query = "DELETE FROM #__modules_menu"
-		. "\n WHERE moduleid IN ( ". $cids ." )"
+		. "\n WHERE moduleid IN ( $cids )"
 		;
 		$database->setQuery( $query );
 		if ( !$database->query() ) {
-			mosErrorAlert( $database->getErrorMsg() );
+			echo "<script> alert('". $database->getErrorMsg() ."');</script>\n";
+			exit;
 		}
 
 		// reorder modules after deletion
@@ -448,17 +442,11 @@ function deleteMenu( $option, $cid, $type ) {
 */
 function copyConfirm( $option, $type ) {
 	global $database;
-	global $_LANG;
 
-	if ( !$type ) {
-		mosErrorAlert( $_LANG->_( 'Select a menu to Copy' ) );
-	}
-
-	// Menu Items query
+	// Content Items query
 	$query = 	"SELECT a.name, a.id"
 	. "\n FROM #__menu AS a"
-	. "\n WHERE ( a.menutype IN ( '". $type ."' ) )"
-	. "\n AND a.published <> '-2'"
+	. "\n WHERE ( a.menutype IN ( '$type' ) )"
 	. "\n ORDER BY a.name"
 	;
 	$database->setQuery( $query );
@@ -488,7 +476,8 @@ function copyMenu( $option, $cid, $type ) {
 	foreach ( $menus as $menu ) {
 		$params = mosParseParams( $menu );
 		if ( $params->menutype == $menu_name ) {
-			mosErrorAlert( $_LANG->_( 'errorMenuNameExists' ) );
+			echo "<script> alert('". $_LANG->_( 'ERRORMENUNAMEEXISTS' ) ."'); window.history.go(-1); </script>\n";
+			exit;
 		}
 	}
 
@@ -508,10 +497,12 @@ function copyMenu( $option, $cid, $type ) {
 		$copy->menutype = $menu_name;
 
 		if ( !$copy->check() ) {
-			mosErrorAlert( $_LANG->_( $row->getError() ) );
+			echo "<script> alert('".$copy->getError()."'); window.history.go(-1); </script>\n";
+			exit();
 		}
 		if ( !$copy->store() ) {
-			mosErrorAlert( $_LANG->_( $row->getError() ) );
+			echo "<script> alert('".$copy->getError()."'); window.history.go(-1); </script>\n";
+			exit();
 		}
 		$a_ids[$original->id] = $copy->id;
 	}
@@ -527,22 +518,25 @@ function copyMenu( $option, $cid, $type ) {
 	$row->params 	= 'menutype='. $menu_name;
 
 	if (!$row->check()) {
-		mosErrorAlert( $_LANG->_( $row->getError() ) );
+		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		exit();
 	}
 	if (!$row->store()) {
-		mosErrorAlert( $_LANG->_( $row->getError() ) );
+		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+		exit();
 	}
 	$row->checkin();
-	$row->updateOrder( "position='". $row->position ."'" );
+	$row->updateOrder( "position='$row->position'" );
 	// module assigned to show on All pages by default
 	// ToDO: Changed to become a Joomla! db-object
 	$query = "INSERT INTO #__modules_menu VALUES ( $row->id, 0 )";
 	$database->setQuery( $query );
 	if ( !$database->query() ) {
-		mosErrorAlert( $_LANG->_( $row->getErrorMsg() ) );
+		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		exit();
 	}
 
-	$msg = $_LANG->_( 'Copy of Menu' ) .' "'. $type .'" '. $_LANG->_( 'created, consisting of' ) .' '. $total .' items';
+	$msg = $_LANG->_( 'Copy of Menu' ) .' `'. $type .'` '. $_LANG->_( 'created, consisting of' ) .' '. $total .' '. $_LANG->_( 'items' );
 	mosRedirect( 'index2.php?option=' . $option, $msg );
 }
 

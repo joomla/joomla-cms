@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: globals.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -9,46 +9,24 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-/**
-* Emulates register globals = off
-*/
-function unregister_globals () {
-	$REQUEST 	= $_REQUEST;
-	$GET 		= $_GET;
-	$POST 		= $_POST;
-	$COOKIE 	= $_COOKIE;
-
-	if (isset ( $_SESSION )) {
-		$SESSION = $_SESSION;
-	}
-
-	$FILES 	= $_FILES;
-	$ENV 	= $_ENV;
-	$SERVER = $_SERVER;
-
-	foreach ($GLOBALS as $key => $value) {
-		if ( $key != 'GLOBALS' ) {
-			unset ( $GLOBALS [ $key ] );
+if (!ini_get('register_globals')) {
+	while (list( $key, $value ) = each( $_FILES )) $GLOBALS[$key] = $value;
+	while (list( $key, $value ) = each( $_ENV )) $GLOBALS[$key] = $value;
+	while (list( $key, $value ) = each( $_GET )) $GLOBALS[$key] = $value;
+	while (list( $key, $value ) = each( $_POST )) $GLOBALS[$key] = $value;
+	while (list( $key, $value ) = each( $_COOKIE )) $GLOBALS[$key] = $value;
+	while (list( $key, $value ) = each( $_SERVER )) $GLOBALS[$key] = $value;	
+	
+	if (isset($_SESSION)) {
+		while (list( $key, $value ) = @each( $_SESSION )) $GLOBALS[$key] = $value;
+	}	
+	
+	foreach ($_FILES as $key => $value){
+		$GLOBALS[$key] = $_FILES[$key]['tmp_name'];
+		foreach ($value as $ext => $value2){
+			$key2 = $key . '_' . $ext;
+			$GLOBALS[$key2] = $value2;
 		}
 	}
-
-	$_REQUEST 	= $REQUEST;
-	$_GET 		= $GET;
-	$_POST 		= $POST;
-	$_COOKIE 	= $COOKIE;
-
-	if (isset ( $SESSION )) {
-		$_SESSION = $SESSION;
-	}
-
-	$_FILES 	= $FILES;
-	$_ENV 		= $ENV;
-	$_SERVER 	= $SERVER;
-
-	// Support for IIS which does not support $_SERVER['REQUEST_URI']
-	if ( strlen( $_SERVER['REQUEST_URI'] ) == 0 ) {
- 		$_SERVER['REQUEST_URI'] = $_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING'];
-	}
 }
-unregister_globals ();
 ?>

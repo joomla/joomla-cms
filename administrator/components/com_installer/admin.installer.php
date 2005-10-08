@@ -1,12 +1,14 @@
 <?php
 /**
-* @version $Id: admin.installer.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Installer
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -23,17 +25,17 @@ $client 	= mosGetParam( $_REQUEST, 'client', '' );
 $path 		= $mosConfig_absolute_path . "/administrator/components/com_installer/$element/$element.php";
 
 // ensure user has access to this function
-if (!$acl->acl_check( $option, $element, 'users', $my->usertype )) {
-	mosRedirect( 'index2.php', $_LANG->_('NOT_AUTH') );
+if ( !$acl->acl_check( 'administration', 'install', 'users', $my->usertype, $element . 's', 'all' ) ) {
+	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
 }
 
 // map the element to the required derived class
 $classMap = array(
-    'component' => 'mosInstallerComponent',
-    'language' => 'mosInstallerLanguage',
-    'mambot' => 'mosInstallerMambot',
-    'module' => 'mosInstallerModule',
-    'template' => 'mosInstallerTemplate'
+	'component' => 'mosInstallerComponent',
+	'language' 	=> 'mosInstallerLanguage',
+	'mambot' 	=> 'mosInstallerMambot',
+	'module' 	=> 'mosInstallerModule',
+	'template' 	=> 'mosInstallerTemplate'
 );
 
 if (array_key_exists ( $element, $classMap )) {
@@ -42,7 +44,7 @@ if (array_key_exists ( $element, $classMap )) {
 	switch ($task) {
 
 		case 'uploadfile':
-		    uploadPackage( $classMap[$element], $option, $element, $client );
+			uploadPackage( $classMap[$element], $option, $element, $client );
 			break;
 
 		case 'installfromdir':
@@ -50,7 +52,7 @@ if (array_key_exists ( $element, $classMap )) {
 			break;
 
 		case 'remove':
-		    removeElement( $classMap[$element], $option, $element, $client );
+			removeElement( $classMap[$element], $option, $element, $client );
 			break;
 
 		default:
@@ -59,12 +61,12 @@ if (array_key_exists ( $element, $classMap )) {
 			if (file_exists( $path )) {
 				require $path;
 			} else {
-				echo $_LANG->_( 'Installer not found for element' ) ." [".$element ."]";
+				echo $_LANG->_( 'Installer not found for element' ) .' ['. $element .']';
 			}
-		    break;
+			break;
 	}
 } else {
-	echo $_LANG->_( 'Installer not available for element' ) ." [". $element ."]";
+	echo $_LANG->_( 'Installer not available for element' ) .' ['. $element .']';
 }
 
 /**
@@ -73,26 +75,20 @@ if (array_key_exists ( $element, $classMap )) {
 * @param string The element name
 */
 function uploadPackage( $installerClass, $option, $element, $client ) {
-	global $mainframe;
-    global $_LANG;
+	global $_LANG;
 
 	$installer = new $installerClass();
 
-	$suffix = mosFS::makeSafe( mosGetParam( $_POST, 'backup_suffix', 'bak' ) );
-	$installer->backupSuffix( $suffix );
-	$installer->allowOverwrite( mosGetParam( $_POST, 'overwrite', 0 ) );
-	$installer->backupFiles( mosGetParam( $_POST, 'backup', 0 ) );
-
 	// Check if file uploads are enabled
 	if (!(bool)ini_get('file_uploads')) {
-		HTML_installer::showInstallMessage( $_LANG->_( "The installer can't continue before file uploads are enabled. Please use the install from directory method." ),
+		HTML_installer::showInstallMessage( $_LANG->_( 'WARNINSTALLFILE' ),
 			$_LANG->_( 'Installer - Error' ), $installer->returnTo( $option, $element, $client ) );
 		exit();
 	}
 
 	// Check that the zlib is available
 	if(!extension_loaded('zlib')) {
-		HTML_installer::showInstallMessage( $_LANG->_( "The installer can't continue before zlib is installed" ),
+		HTML_installer::showInstallMessage( $_LANG->_( 'WARNINSTALLZLIB' )",
 			$_LANG->_( 'Installer - Error' ), $installer->returnTo( $option, $element, $client ) );
 		exit();
 	}
@@ -131,7 +127,7 @@ function uploadPackage( $installerClass, $option, $element, $client ) {
 * @param string The URL option
 */
 function installFromDirectory( $installerClass, $option, $element, $client ) {
-    global $_LANG;
+	global $_LANG;
 
 	$userfile = mosGetParam( $_REQUEST, 'userfile', '' );
 
@@ -141,38 +137,64 @@ function installFromDirectory( $installerClass, $option, $element, $client ) {
 
 	$installer = new $installerClass();
 
-	$suffix = mosFS::makeSafe( mosGetParam( $_POST, 'backup_suffix', 'bak' ) );
-	$installer->backupSuffix( $suffix );
-	$installer->allowOverwrite( mosGetParam( $_POST, 'overwrite', 0 ) );
-	$installer->backupFiles( mosGetParam( $_POST, 'backup', 0 ) );
-
 	$path = mosPathName( $userfile );
 	if (!is_dir( $path )) {
 		$path = dirname( $path );
 	}
 
 	$ret = $installer->install( $path );
-	HTML_installer::showInstallMessage( $installer->getError(), $_LANG->_( 'Upload new' ) .' '.$element.' - '.($ret ? $_LANG->_( 'Success' ) : $_LANG->_( 'Error' )),
-		$installer->returnTo( $option, $element, $client ) );
+	HTML_installer::showInstallMessage( $installer->getError(), $_LANG->_( 'Upload new' ) .' '.$element.' - '.($ret ? $_LANG->_( 'Success' ) : $_LANG->_( 'Error' )), $installer->returnTo( $option, $element, $client ) );
 }
 /**
 *
 * @param
 */
 function removeElement( $installerClass, $option, $element, $client ) {
-    global $_LANG;
+	global $_LANG;
 
-	$cid	= mosGetParam( $_POST, 'cid', null );
-	mosArrayToInts( $cid, 0 );
+	$cid = mosGetParam( $_REQUEST, 'cid', array(0) );
+	if (!is_array( $cid )) {
+		$cid = array(0);
+	}
 
-	$installer = new $installerClass();
-	$result = false;
+	$installer 	= new $installerClass();
+	$result 	= false;
 	if ($cid[0]) {
-	    $result = $installer->uninstall( $cid[0], $option, $client );
+		$result = $installer->uninstall( $cid[0], $option, $client );
 	}
 
 	$msg = $installer->getError();
 
 	mosRedirect( $installer->returnTo( $option, $element, $client ), $result ? $_LANG->_( 'Success' ) .' '. $msg : $_LANG->_( 'Failed' ) .' '. $msg );
+}
+/**
+* @param string The name of the php (temporary) uploaded file
+* @param string The name of the file to put in the temp directory
+* @param string The message to return
+*/
+function uploadFile( $filename, $userfile_name, &$msg ) {
+	global $mosConfig_absolute_path;
+	global $_LANG;
+
+	$baseDir = mosPathName( $mosConfig_absolute_path . '/media' );
+
+	if (file_exists( $baseDir )) {
+		if (is_writable( $baseDir )) {
+			if (move_uploaded_file( $filename, $baseDir . $userfile_name )) {
+				if (mosChmod( $baseDir . $userfile_name )) {
+					return true;
+				} else {
+					$msg = $_LANG->_( 'WARNPERMISSIONS' );
+				}
+			} else {
+				$msg = $_LANG->_( 'Failed to move uploaded file to' ) .'<code>/media</code>'. $_LANG->_( 'directory.' );
+			}
+		} else {
+			$msg = $_LANG->_( 'Upload failed as' ) .'<code>/media</code>'. $_LANG->_( 'directory is not writable.' );
+		}
+	} else {
+		$msg = $_LANG->_( 'Upload failed as' ) .'<code>/media</code>'. $_LANG->_( 'directory does not exist.' );
+	}
+	return false;
 }
 ?>

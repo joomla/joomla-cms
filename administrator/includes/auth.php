@@ -1,47 +1,44 @@
 <?php
 /**
-* @version $Id: auth.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-require( dirname( dirname( dirname( __FILE__ ) ) ) . '/configuration.php' );
-
-// enables switching to secure https
-if ( $_SERVER["SERVER_PORT"] == '443' ) {
-   $mosConfig_live_site = str_replace( 'http://', 'https://', $mosConfig_live_site );
-}
+$basePath 	= dirname( __FILE__ );
+$path 		= $basePath . '/../../configuration.php';
+require( $path );
 
 if (!defined( '_MOS_MAMBO_INCLUDED' )) {
-	require( $mosConfig_absolute_path . '/includes/mambo.php' );
+	$path = $basePath . '/../../includes/joomla.php';
+	require( $path );
 }
 
-session_name( 'mosadmin' );
+session_name( md5( $mosConfig_live_site ) );
 session_start();
-
-if (!mosGetParam( $_SESSION, 'session_id' )) {
-	mosRedirect( 'index.php' );
+// restore some session variables
+if (!isset( $my )) {
+	$my = new mosUser( $database );
 }
 
-// mainframe is an API workhorse, lots of 'core' interaction routines
-$mainframe = new mosMainFrame( $database, null, true );
-$mainframe->initSession( 'php' );
+$my->id 		= mosGetParam( $_SESSION, 'session_user_id', '' );
+$my->username 	= mosGetParam( $_SESSION, 'session_username', '' );
+$my->usertype 	= mosGetParam( $_SESSION, 'session_usertype', '' );
+$my->gid 		= mosGetParam( $_SESSION, 'session_gid', '' );
+$session_id 	= mosGetParam( $_SESSION, 'session_id', '' );
+$logintime 		= mosGetParam( $_SESSION, 'session_logintime', '' );
 
-/** get the information about the current user from the sessions table */
-$my = $mainframe->getUser();
-// TODO: fix this patch to get gid to work properly
-$my->gid = array_shift( $acl->get_object_groups( $acl->get_object_id( 'users', $my->id, 'ARO' ), 'ARO' ) );
-
-// double check
-if ($my->id < 1 || !$acl->acl_check( 'login', 'administrator', 'users', $my->usertype )) {
-	$mainframe->logout();
-	mosRedirect( 'index.php' );
+if ( $session_id != md5( $my->id.$my->username.$my->usertype.$logintime ) ) {
+	mosRedirect( "index.php" );
+	die;
 }
 ?>

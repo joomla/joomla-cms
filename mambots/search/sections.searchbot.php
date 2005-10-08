@@ -1,11 +1,13 @@
 <?php
 /**
-* @version $Id: sections.searchbot.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
@@ -13,40 +15,21 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 $_MAMBOTS->registerFunction( 'onSearch', 'botSearchSections' );
-$_MAMBOTS->registerFunction( 'onSearchAreas', 'botSearchSectionAreas' );
-
-$GLOBALS['_SEARCH_SECTION_AREAS'] = array(
-	'sections' => 'Sections'
-);
 
 /**
- * @return array An array of search areas
- */
-function &botSearchSectionAreas() {
-	return $GLOBALS['_SEARCH_SECTION_AREAS'];
-}
+* Sections Search method
+*
+* The sql must return the following fields that are used in a common display
+* routine: href, title, section, created, text, browsernav
+* @param string Target search string
+* @param string mathcing option, exact|any|all
+* @param string ordering option, newest|oldest|popular|alpha|category
+*/
+function botSearchSections( $text, $phrase='', $ordering='' ) {
+	global $database, $my;
 
-/**
- * Sections Search method
- *
- * The sql must return the following fields that are used in a common display
- * routine: href, title, section, created, text, browsernav
- * @param string Target search string
- * @param string mathcing option, exact|any|all
- * @param string ordering option, newest|oldest|popular|alpha|category
- * @param mixed An array if the search it to be restricted to areas, null if search all
- */
-function botSearchSections( $text, $phrase='', $ordering='', $areas=null ) {
-	global $database, $my, $_LANG;
-
-	if ( is_array( $areas ) ) {
-		if ( !array_intersect( $areas, array_keys( $GLOBALS['_SEARCH_SECTION_AREAS'] ) ) ) {
-			return array();
-		}
-	}
-
-	$text = trim( $text );
-	if ( $text == '' ) {
+	 $text = trim( $text );
+	if ($text == '') {
 		return array();
 	}
 
@@ -72,8 +55,8 @@ function botSearchSections( $text, $phrase='', $ordering='', $areas=null ) {
 	. "\n WHERE ( a.name LIKE '%$text%'"
 	. "\n OR a.title LIKE '%$text%'"
 	. "\n OR a.description LIKE '%$text%' )"
-	. "\n AND a.published = '1'"
-	. "\n AND a.access <= '$my->gid'"
+	. "\n AND a.published = 1"
+	. "\n AND a.access <= $my->gid"
 	. "\n AND ( m.type = 'content_section' OR m.type = 'content_blog_section' )"
 	. "\n ORDER BY $order"
 	;

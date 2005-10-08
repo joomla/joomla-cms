@@ -2,7 +2,7 @@
 /**
  * patTemplate
  *
- * $Id: patTemplate.php 138 2005-09-12 10:37:53Z eddieajau $
+ * $Id$
  *
  * powerful templating engine
  *
@@ -967,24 +967,6 @@ class patTemplate
 			return $cache;
 
 		$this->_tmplCache = &$cache;
-		return true;
-	}
-
-	/**
-	 * set the prefix of the template cache
-	 *
-	 * @access	public
-	 * @param	string		the prefix of the template cache
-	 * @return	boolean		true on success, patError otherwise
-	 * @author  Johan Janssens
-	 * @since   1.1
-	 */
-	function setTemplateCachePrefix( $prefix ) {
-		if (!$this->_tmplCache) {
-			return false;
-		}
-
-		$this->_tmplCache->_params['prefix'] = $prefix;
 		return true;
 	}
 
@@ -2659,6 +2641,64 @@ class patTemplate
 	function __toString()
 	{
 		return $this->getParsedTemplate();
+	}
+}
+
+/**
+ * @package Joomla
+ */
+class patFactory {
+	/**
+	 * @param array An array of additional files to include from the root folder
+	 * @return object
+	 */
+	function &createTemplate( $files=null ) {
+		global $mainframe;
+		$tmpl = new patTemplate;
+
+		// patTemplate
+		if ($GLOBALS['mosConfig_caching']) {
+	   		$tmpl->useTemplateCache( 'File', array(
+                'cacheFolder' => $GLOBALS['mosConfig_cachepath'], 'lifetime' => 20 ));
+		}
+
+		$tmpl->setNamespace( 'mos' );
+
+		// load the wrapper and common templates
+		$tmpl->setRoot( dirname( __FILE__ ) . '/tmpl' );
+		$tmpl->readTemplatesFromFile( 'page.html' );
+		$tmpl->applyInputFilter('ShortModifiers');
+
+		if (is_array( $files )) {
+			foreach ($files as $file) {
+				$tmpl->readTemplatesFromInput( $file );
+			}
+		}
+		//echo $this->basePath() . '/components/' . $option . '/tmpl';
+
+		$tmpl->addGlobalVar( 'option', 			$GLOBALS['option'] );
+		$tmpl->addGlobalVar( 'self', 			$_SERVER['PHP_SELF'] );
+		$tmpl->addGlobalVar( 'itemid', 			$GLOBALS['Itemid'] );
+		$tmpl->addGlobalVar( 'siteurl', $GLOBALS['mosConfig_live_site'] );
+		$tmpl->addGlobalVar( 'adminurl', $GLOBALS['mosConfig_live_site'] . '/administrator' );
+		$tmpl->addGlobalVar( 'admintemplateurl', $GLOBALS['mosConfig_live_site'] . '/administrator/templates/' . $mainframe->getTemplate() );
+		$tmpl->addGlobalVar( 'sitename', $GLOBALS['mosConfig_sitename'] );
+		$tmpl->addGlobalVar('treecss', 'dtree.css');
+		$tmpl->addGlobalVar('treeimgfolder', 'img');
+
+		$iso = split( '=', _ISO );
+		$tmpl->addGlobalVar( 'page_encoding', $iso[1] );
+		$tmpl->addGlobalVar( 'version_copyright', $GLOBALS['_VERSION']->COPYRIGHT );
+		$tmpl->addGlobalVar( 'version_url', $GLOBALS['_VERSION']->URL );
+
+		$tmpl->addVar( 'form', 'formAction', $_SERVER['PHP_SELF'] );
+		$tmpl->addVar( 'form', 'formName', 'adminForm' );
+
+		// tabs
+		$turl = $GLOBALS['mosConfig_live_site'] .'/includes/js/tabs/';
+		$tmpl->addVar( 'includeTabs', 'taburl', $turl );
+
+		return $tmpl;
 	}
 }
 ?>

@@ -2,7 +2,7 @@
 /**
  * Base class for patTemplate functions
  *
- * $Id: Function.php 137 2005-09-12 10:21:17Z eddieajau $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Functions
@@ -22,7 +22,7 @@ define('PATTEMPLATE_FUNCTION_RUNTIME', 2);
 /**
  * Base class for patTemplate functions
  *
- * $Id: Function.php 137 2005-09-12 10:21:17Z eddieajau $
+ * $Id$
  *
  * @abstract
  * @package		patTemplate

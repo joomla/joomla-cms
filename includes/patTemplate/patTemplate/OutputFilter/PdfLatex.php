@@ -2,7 +2,7 @@
 /**
  * patTemplate output filter that creates PDF files from latex
  *
- * $Id: PdfLatex.php 138 2005-09-12 10:37:53Z eddieajau $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Filters
@@ -12,7 +12,7 @@
 /**
  * patTemplate output filter that creates PDF files from latex
  *
- * $Id: PdfLatex.php 138 2005-09-12 10:37:53Z eddieajau $
+ * $Id$
  *
  * @package		patTemplate
  * @subpackage	Filters

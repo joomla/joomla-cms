@@ -1,52 +1,19 @@
 <?php
 /**
-* @version $Id: admin.syndicate.html.php 137 2005-09-12 10:21:17Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Syndicate
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software and parts of it may contain or be derived from the
-* GNU General Public License or other free or open source software licenses.
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
-
-/**
- * @package Joomla
- * @subpackage Statistics
- */
-class syndicateScreens {
-	/**
-	 * Static method to create the template object
-	 * @param array An array of other standard files to include
-	 * @return patTemplate
-	 */
-	function &createTemplate( $files=null) {
-
-		$tmpl =& mosFactory::getPatTemplate( $files );
-		$tmpl->setRoot( dirname( __FILE__ ) . '/tmpl' );
-
-		return $tmpl;
-	}
-
-	/**
-	* List languages
-	* @param array
-	*/
-	function view() {
-		global $mosConfig_lang;
-
-		$tmpl =& syndicateScreens::createTemplate();
-
-		$tmpl->readTemplatesFromInput( 'view.html' );
-
-		//$tmpl->addVar( 'body2', 'client', $lists['client'] );
-
-		$tmpl->displayParsedTemplate( 'body2' );
-	}
-}
 
 /**
 * @package Joomla
@@ -56,53 +23,32 @@ class HTML_syndicate {
 
 	function settings( $option, &$params, $id ) {
 		global $mosConfig_live_site;
-  		global $_LANG;
-
-		mosCommonHTML::loadOverlib();
+		global $_LANG;
 		?>
-		<style type="text/css">
-		table.paramlist {
-			width: 100%;
-		}
-		table.paramlist td {
-			height: 35px;
-			padding-left: 10px;
-			vertical-align: middle;
-		}
-		table.paramlist td.column1 {
-			width: 200px;
-		}
-		</style>
-
+		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<form action="index2.php" method="post" name="adminForm">
+		<table class="adminheading">
+		<tr>
+			<th>
+			<?php echo $_LANG->_( 'Syndication Settings' ); ?>
+			</th>
+		</tr>
+		</table>
 
-		<?php
-		syndicateScreens::view();
-		?>
-			<table class="adminform">
-			<thead>
-			<tr>
-				<th>
-					<?php echo $_LANG->_( 'Parameters' ); ?>
-				</th>
-			</tr>
-			</thead>
-			<tfoot>
-			<tr>
-				<th>
-				</th>
-			</tr>
-			</tfoot>
-			<tr>
-				<td>
-					<?php
-					echo $params->render( 'params', 0 );
-					?>
-				</td>
-			</tr>
-			</table>
-		</fieldset>
-	</div>
+		<table class="adminform">
+		<tr>
+			<th>
+			<?php echo $_LANG->_( 'Parameters' ); ?>
+			</th>
+		</tr>
+		<tr>
+			<td>
+			<?php
+			echo $params->render();
+			?>
+			</td>
+		</tr>
+		</table>
 
 		<input type="hidden" name="id" value="<?php echo $id; ?>" />
 		<input type="hidden" name="name" value="Syndicate" />
@@ -114,6 +60,7 @@ class HTML_syndicate {
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		</form>
+		<script language="Javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
 		<?php
 	}
 }
