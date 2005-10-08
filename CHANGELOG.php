@@ -33,6 +33,9 @@ Legend:
 
 --------------------
 
+08-Oct-2005 Johan Janssens
+ # Fixed artf1384 : tinyMCE doesnt save converted entities
+
 07-Oct-2005 Andy Miller
  # Fixed tabpane css font issue
 

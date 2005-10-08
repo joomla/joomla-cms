@@ -179,7 +179,7 @@ return <<<EOD
 		document_base_url : "$mosConfig_live_site/",
 		relative_urls : false,
 		remove_script_host : false,
-		save_callback : "MamboSave",
+		save_callback : "TinyMCE_Save",
 		invalid_elements : "$invalid_elements",
 		theme_advanced_toolbar_location : "$toolbar",
 		theme_advanced_source_editor_height : "$html_height",
@@ -205,7 +205,7 @@ return <<<EOD
 	function MamboSave(editor_id, content, node)
 	{
 		base_url = tinyMCE.settings['document_base_url'];
-		var vHTML = node.innerHTML;
+		var vHTML = content;
 		if (true == true){
 			vHTML = tinyMCE.regexpReplace(vHTML, 'href\s*=\s*"?'+base_url+'', 'href="', 'gi');
 			vHTML = tinyMCE.regexpReplace(vHTML, 'src\s*=\s*"?'+base_url+'', 'src="', 'gi');
