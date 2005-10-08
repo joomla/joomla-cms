@@ -21,6 +21,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class TOOLBAR_FrontPage {
 	function _DEFAULT() {
+		global $_LANG;
 		mosMenuBar::startTable();
 		mosMenuBar::archiveList();
 		mosMenuBar::spacer();
@@ -28,7 +29,7 @@ class TOOLBAR_FrontPage {
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();
 		mosMenuBar::spacer();
-		mosMenuBar::custom('remove','delete.png','delete_f2.png','Remove', true);
+		mosMenuBar::custom('remove','delete.png','delete_f2.png',$_LANG->_( 'Remove' ), true);
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.frontpage' );
 		mosMenuBar::endTable();

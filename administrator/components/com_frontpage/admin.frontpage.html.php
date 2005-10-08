@@ -26,6 +26,7 @@ class HTML_content {
 	*/
 	function showList( &$rows, $search, $pageNav, $option, $lists ) {
 		global $my, $acl, $database;
+		global $_LANG;
 
 		mosCommonHTML::loadOverlib();
 		$nullDate = $database->getNullDate();
@@ -34,7 +35,7 @@ class HTML_content {
 		<table class="adminheading">
 		<tr>
 			<th class="frontpage" rowspan="2">
-			Frontpage Manager
+			<?php echo $_LANG->_( 'Frontpage Manager' ); ?>
 			</th>
 			<td width="right">
 			<?php echo $lists['sectionid'];?>
@@ -48,7 +49,7 @@ class HTML_content {
 		</tr>
 		<tr>
 			<td align="right" colspan="2">
-			Filter:
+			<?php echo $_LANG->_( 'Filter' ); ?>:
 			</td>
 			<td>
 			<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
@@ -59,37 +60,37 @@ class HTML_content {
 		<table class="adminlist">
 		<tr>
 			<th width="5">
-			#
+			<?php echo $_LANG->_( 'Num' ); ?>
 			</th>
 			<th width="20">
 			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th class="title">
-			Title
+			<?php echo $_LANG->_( 'Title' ); ?>
 			</th>
 			<th width="10%" nowrap="nowrap">
-			Published
+			<?php echo $_LANG->_( 'Published' ); ?>
 			</th>
 			<th colspan="2" nowrap="nowrap" width="5%">
-			Reorder
+			<?php echo $_LANG->_( 'Reorder' ); ?>
 			</th>
 			<th width="2%">
-			Order
+            <?php echo $_LANG->_( 'Order' ); ?>
 			</th>
 			<th width="1%">
 			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="Save Order" /></a>
 			</th>
 			<th width="8%" nowrap="nowrap">
-			Access
+			<?php echo $_LANG->_( 'Access' ); ?>
 			</th>
 			<th width="10%" align="left">
-			Section
+			<?php echo $_LANG->_( 'Section' ); ?>
 			</th>
 			<th width="10%" align="left">
-			Category
+			<?php echo $_LANG->_( 'Category' ); ?>
 			</th>
 			<th width="10%" align="left">
-			Author
+			<?php echo $_LANG->_( 'Author' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -105,31 +106,31 @@ class HTML_content {
 			$now = date( 'Y-m-d H:i:s' );
 			if ( $now <= $row->publish_up && $row->state == '1' ) {
 				$img = 'publish_y.png';
-				$alt = 'Published';
+				$alt = $_LANG->_( 'Published' );
 			} else if (($now <= $row->publish_down || $row->publish_down == $nullDate) && $row->state == '1') {
 				$img = 'publish_g.png';
-				$alt = 'Published';
+				$alt = $_LANG->_( 'Published' );
 			} else if ( $now > $row->publish_down && $row->state == '1' ) {
 				$img = 'publish_r.png';
-				$alt = 'Expired';
+				$alt = $_LANG->_( 'Expired' );
 			} elseif ( $row->state == "0" ) {
 				$img = "publish_x.png";
-				$alt = 'Unpublished';
+				$alt = $_LANG->_( 'Unpublished' );
 			}
 
 			$times = '';
 			if ( isset( $row->publish_up ) ) {
 				  if ( $row->publish_up == $nullDate) {
-						$times .= '<tr><td>Start: Always</td></tr>';
+						$times .= '<tr><td>'. $_LANG->_( 'Start: Always' ) .'</td></tr>';
 				  } else {
-						$times .= '<tr><td>Start: '. $row->publish_up .'</td></tr>';
+						$times .= '<tr><td>'. $_LANG->_( 'Start' ) .': '. $row->publish_up .'</td></tr>';
 				  }
 			}
 			if ( isset( $row->publish_down ) ) {
 				  if ($row->publish_down == $nullDate) {
-						$times .= '<tr><td>Finish: No Expiry</td></tr>';
+						$times .= '<tr><td>'. $_LANG->_( 'Finish: No Expiry' ) .'</td></tr>';
 				  } else {
-				  $times .= '<tr><td>Finish: '. $row->publish_down .'</td></tr>';
+				  $times .= '<tr><td>'. $_LANG->_( 'Finish' ) .': '. $row->publish_down .'</td></tr>';
 				  }
 			}
 
@@ -141,7 +142,7 @@ class HTML_content {
 					$author = $row->created_by_alias;
 				} else {
 					$linkA 	= 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->created_by;
-					$author = '<a href="'. $linkA .'" title="Edit User">'. $row->author .'</a>';
+					$author = '<a href="'. $linkA .'" title="'. $_LANG->_( 'Edit User' ) .'">'. $row->author .'</a>';
 				}
 			} else {
 				if ( $row->created_by_alias ) {
@@ -164,7 +165,7 @@ class HTML_content {
 					echo $row->title;
 				} else {
 					?>
-					<a href="<?php echo $link; ?>" title="Edit Content">
+					<a href="<?php echo $link; ?>" title="<?php echo $_LANG->_( 'Edit Content' ); ?>">
 					<?php echo $row->title; ?>
 					</a>
 					<?php
@@ -175,7 +176,7 @@ class HTML_content {
 				if ( $times ) {
 					?>
 					<td align="center">
-					<a href="javascript: void(0);" onmouseover="return overlib('<table><?php echo $times; ?></table>', CAPTION, 'Publish Information', BELOW, RIGHT);" onMouseOut="return nd();" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $row->state ? "unpublish" : "publish";?>')">
+					<a href="javascript: void(0);" onmouseover="return overlib('<table><?php echo $times; ?></table>', CAPTION, 'Publish Information', BELOW, RIGHT);" onMouseOut="return nd();" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $row->state ? $_LANG->_( 'unpublish' ) : $_LANG->_( 'publish' );?>')">
 					<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt;?>" />
 					</a>
 					</td>
@@ -195,12 +196,12 @@ class HTML_content {
 				<?php echo $access;?>
 				</td>
 				<td>
-				<a href="<?php echo $row->sect_link; ?>" title="Edit Section">
+				<a href="<?php echo $row->sect_link; ?>" title="<?php echo $_LANG->_( 'Edit Section' ); ?>">
 				<?php echo $row->sect_name; ?>
 				</a>
 				</td>
 				<td>
-				<a href="<?php echo $row->cat_link; ?>" title="Edit Category">
+				<a href="<?php echo $row->cat_link; ?>" title="<?php echo $_LANG->_( 'Edit Category' ); ?>">
 				<?php echo $row->name; ?>
 				</a>
 				</td>
