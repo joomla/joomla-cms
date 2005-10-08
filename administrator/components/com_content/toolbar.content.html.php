@@ -19,6 +19,7 @@
 class TOOLBAR_content {
 	function _EDIT() {
 		global $id;
+		global $_LANG;
 
 		mosMenuBar::startTable();
 		mosMenuBar::preview( 'contentwindow', true );
@@ -31,7 +32,7 @@ class TOOLBAR_content {
 		mosMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', 'Close' );
+			mosMenuBar::cancel( 'cancel', $_LANG->_( 'Close' ) );
 		} else {
 			mosMenuBar::cancel();
 		}
@@ -41,32 +42,36 @@ class TOOLBAR_content {
 	}
 
 	function _ARCHIVE() {
+		global $_LANG;
 		mosMenuBar::startTable();
 		mosMenuBar::unarchiveList();
 		mosMenuBar::spacer();
-		mosMenuBar::custom( 'remove', 'delete.png', 'delete_f2.png', 'Trash', false );
+		mosMenuBar::custom( 'remove', 'delete.png', 'delete_f2.png', $_LANG->_( 'Trash' ), false );
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.content.archive' );
 		mosMenuBar::endTable();
 	}
 
 	function _MOVE() {
+		global $_LANG;
 		mosMenuBar::startTable();
-		mosMenuBar::custom( 'movesectsave', 'save.png', 'save_f2.png', 'Save', false );
+		mosMenuBar::custom( 'movesectsave', 'save.png', 'save_f2.png', $_LANG->_( 'Save' ), false );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::endTable();
 	}
 
 	function _COPY() {
+		global $_LANG;
 		mosMenuBar::startTable();
-		mosMenuBar::custom( 'copysave', 'save.png', 'save_f2.png', 'Save', false );
+		mosMenuBar::custom( 'copysave', 'save.png', 'save_f2.png', $_LANG->_( 'Save' ), false );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::endTable();
 	}
 
 	function _DEFAULT() {
+		global $_LANG;
 		mosMenuBar::startTable();
 		mosMenuBar::archiveList();
 		mosMenuBar::spacer();
@@ -74,9 +79,9 @@ class TOOLBAR_content {
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();
 		mosMenuBar::spacer();
-		mosMenuBar::customX( 'movesect', 'move.png', 'move_f2.png', 'Move' );
+		mosMenuBar::customX( 'movesect', 'move.png', 'move_f2.png', $_LANG->_( 'Move' ) );
 		mosMenuBar::spacer();
-		mosMenuBar::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
+		mosMenuBar::customX( 'copy', 'copy.png', 'copy_f2.png', $_LANG->_( 'Copy' ) );
 		mosMenuBar::spacer();
 		mosMenuBar::trash();
 		mosMenuBar::spacer();
