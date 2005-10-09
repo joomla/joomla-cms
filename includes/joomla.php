@@ -2808,7 +2808,7 @@ function mosMakeHtmlSafe( &$mixed, $quote_style=ENT_QUOTES, $exclude_keys='' ) {
 function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 	global $database;
 	$dblink="index.php?option=$menu_option";
-	if ($Itemid!="" && $Itemid!=0) {
+	if ($Itemid!="" && $Itemid!=0 && $Itemid!=99999999) {
 		$query = "SELECT access"
 		. "\n FROM #__menu"
 		. "\n WHERE id = $Itemid"
