@@ -461,20 +461,40 @@ function logoutUser( $cid=null, $option, $task ) {
 	global $database, $my;
 	global $_LANG;
 
-	$cids = $cid;
 	if ( is_array( $cid ) ) {
 		if (count( $cid ) < 1) {
 			mosRedirect( 'index2.php?option='. $option, $_LANG->_( 'Please select a user' ) );
 		}
-		$cids = implode( ',', $cid );
+		
+		foreach( $cid as $cidA ) {
+			$temp = new mosUser( $database );
+			$temp->load( $cidA );
+			
+			// check to see whether a Administrator is attempting to log out a Super Admin
+			if ( !( $my->gid == 24 && $temp->gid == 25 ) ) {
+				$id[] = $cidA;
+			}
+		}	
+		$ids = implode( ',', $id );		
+	} else {
+		$temp = new mosUser( $database );
+		$temp->load( $cid );
+		
+		// check to see whether a Administrator is attempting to log out a Super Admin
+		if ( $my->gid == 24 && $temp->gid == 25 ) {
+			$alert = $_LANG->_( 'You cannot log out a Super Administrator' );
+			echo "<script> alert('$alert'); window.history.go(-1); </script>\n";
+			exit();
+		}
+		$ids = $cid;
 	}
-
+	
 	$query = "DELETE FROM #__session"
- 	. "\n WHERE userid IN ( $cids )"
- 	;
+	. "\n WHERE userid IN ( $ids )"
+	;
 	$database->setQuery( $query );
 	$database->query();
-
+	
 	switch ( $task ) {
 		case 'flogout':
 			mosRedirect( 'index2.php', $database->getErrorMsg() );
