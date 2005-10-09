@@ -264,19 +264,19 @@ class categories_html {
 
 			if ( pressbutton == 'menulink' ) {
 				if ( form.menuselect.value == "" ) {
-					alert( "Please select a Menu" );
+					alert( "<?php echo $_LANG->_( 'Please select a Menu' ); ?>" );
 					return;
 				} else if ( form.link_type.value == "" ) {
-					alert( "Please select a menu type" );
+					alert( "<?php echo $_LANG->_( 'Please select a menu type' ); ?>" );
 					return;
 				} else if ( form.link_name.value == "" ) {
-					alert( "Please enter a Name for this menu item" );
+					alert( "<?php echo $_LANG->_( 'Please enter a Name for this menu item' ); ?>" );
 					return;
 				}
 			}
 
 			if ( form.name.value == "" ) {
-				alert("Category must have a name");
+				alert("<?php echo $_LANG->_( 'Category must have a name' ); ?>");
 			} else {
 				<?php getEditorContents( 'editor1', 'description' ) ; ?>
 				submitform(pressbutton);
@@ -438,12 +438,12 @@ class categories_html {
 					<td>
 					</td>
 					<td>
-					<input name="menu_link" type="button" class="button" value="Link to Menu" onClick="submitbutton('menulink');" />
+					<input name="menu_link" type="button" class="button" value="<?php echo $_LANG->_( 'Link to Menu' ); ?>" onClick="submitbutton('menulink');" />
 					</td>
 				<tr>
 				<tr>
 					<th colspan="2">
-					Existing Menu Links
+					<?php echo $_LANG->_( 'Existing Menu Links' ); ?>
 					</th>
 				</tr>
 				<?php
@@ -451,7 +451,7 @@ class categories_html {
 					?>
 					<tr>
 						<td colspan="2">
-						None
+						<?php echo $_LANG->_( 'None' ); ?>
 						</td>
 					</tr>
 					<?php
@@ -469,7 +469,7 @@ class categories_html {
 			?>
 			<table class="adminform" width="40%">
 				<tr><th>&nbsp;</th></tr>
-				<tr><td>Menu links available when saved</td></tr>
+				<tr><td><?php echo $_LANG->_( 'Menu links available when saved' ); ?></td></tr>
 			</table>
 			<?php
 			}
@@ -494,13 +494,14 @@ class categories_html {
 	* Form to select Section to move Category to
 	*/
 	function moveCategorySelect( $option, $cid, $SectionList, $items, $sectionOld, $contents, $redirect ) {
+	global $_LANG;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<br />
 		<table class="adminheading">
 		<tr>
 			<th class="categories">
-			Move Category
+			<?php echo $_LANG->_( 'Move Category' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -510,13 +511,13 @@ class categories_html {
 		<tr>
 			<td width="3%"></td>
 			<td align="left" valign="top" width="30%">
-			<strong>Move to Section:</strong>
+			<strong><?php echo $_LANG->_( 'Move to Section' ); ?>:</strong>
 			<br />
 			<?php echo $SectionList ?>
 			<br /><br />
 			</td>
 			<td align="left" valign="top" width="20%">
-			<strong>Categories being moved:</strong>
+			<strong><?php echo $_LANG->_( 'Categories being moved' ); ?>:</strong>
 			<br />
 			<?php
 			echo "<ol>";
@@ -527,7 +528,7 @@ class categories_html {
 			?>
 			</td>
 			<td valign="top" width="20%">
-			<strong>Content Items being moved:</strong>
+			<strong><?php echo $_LANG->_( 'Content Items being moved' ); ?>:</strong>
 			<br />
 			<?php
 			echo "<ol>";
@@ -538,11 +539,11 @@ class categories_html {
 			?>
 			</td>
 			<td valign="top">
-			This will move the Categories listed
+			<?php echo $_LANG->_( 'This will move the Categories listed' ); ?>
 			<br />
-			and all the items within the category (also listed)
+			<?php echo $_LANG->_( 'and all the items within the category (also listed)' ); ?>
 			<br />
-			to the selected Section.
+			<?php echo $_LANG->_( 'to the selected Section' ); ?>.
 			</td>.
 		</tr>
 		</table>
@@ -567,13 +568,14 @@ class categories_html {
 	* Form to select Section to copy Category to
 	*/
 	function copyCategorySelect( $option, $cid, $SectionList, $items, $sectionOld, $contents, $redirect ) {
+	global $_LANG;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<br />
 		<table class="adminheading">
 		<tr>
 			<th class="categories">
-			Copy Category
+			<?php echo $_LANG->_( 'Copy Category' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -583,13 +585,13 @@ class categories_html {
 		<tr>
 			<td width="3%"></td>
 			<td align="left" valign="top" width="30%">
-			<strong>Copy to Section:</strong>
+			<strong><?php echo $_LANG->_( 'Copy to Section' ); ?>:</strong>
 			<br />
 			<?php echo $SectionList ?>
 			<br /><br />
 			</td>
 			<td align="left" valign="top" width="20%">
-			<strong>Categories being copied:</strong>
+			<strong><?php echo $_LANG->_( 'Categories being copied' ); ?>:</strong>
 			<br />
 			<?php
 			echo "<ol>";
@@ -600,7 +602,7 @@ class categories_html {
 			?>
 			</td>
 			<td valign="top" width="20%">
-			<strong>Content Items being copied:</strong>
+			<strong><?php echo $_LANG->_( 'Content Items being copied' ); ?>:</strong>
 			<br />
 			<?php
 			echo "<ol>";
@@ -612,11 +614,11 @@ class categories_html {
 			?>
 			</td>
 			<td valign="top">
-			This will copy the Categories listed
+			<?php echo $_LANG->_( 'This will copy the Categories listed' ); ?>
 			<br />
-			and all the items within the category (also listed)
+			<?php echo $_LANG->_( 'and all the items within the category (also listed)' ); ?>
 			<br />
-			to the selected Section.
+			<?php echo $_LANG->_( 'to the selected Section' ); ?>.
 			</td>.
 		</tr>
 		</table>
