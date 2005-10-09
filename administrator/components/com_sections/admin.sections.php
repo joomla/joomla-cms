@@ -167,7 +167,7 @@ function showSections( $scope, $option ) {
 		$query = "SELECT COUNT( a.id )"
 		. "\n FROM #__content AS a"
 		. "\n WHERE a.sectionid = '". $rows[$i]->id ."'"
-		. "\n AND a.state <> -2"
+		. "\n AND a.state = -2"
 		;
 		$database->setQuery( $query );
 		$trash = $database->loadResult();

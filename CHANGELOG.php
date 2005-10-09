@@ -34,6 +34,7 @@ Legend:
 --------------------
 
 09-Oct-2005 Rey Gigataras
+ # Fixed artf1476 : Error at "number of Trashed Items" in sections
  # Fixed artf1415 : Wrong image in editList() function of mosToolBar class
 
 08-Oct-2005 Johan Janssens
