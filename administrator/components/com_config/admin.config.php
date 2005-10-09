@@ -269,7 +269,7 @@ function showconfig( $option) {
 	if (is_writable( "$mosConfig_absolute_path/media/" )) {
 		$lists['hidePdf'] 			= mosHTML::RadioList( $show_hide, 'config_hidePdf', 'class="inputbox"', $row->config_hidePdf, 'value', 'text' );
 	} else {
-		$lists['hidePdf'] 			= '<input type="hidden" name="config_hidepdf" value="1" /><strong>Yes</strong>';
+		$lists['hidePdf'] 			= '<input type="hidden" name="config_hidePdf" value="1" /><strong>Hide</strong>';
 	}
 
 	$lists['hidePrint'] 			= mosHTML::RadioList( $show_hide, 'config_hidePrint', 'class="inputbox"', $row->config_hidePrint, 'value', 'text' );
