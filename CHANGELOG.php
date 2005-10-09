@@ -34,6 +34,7 @@ Legend:
 --------------------
 
 09-Oct-2005 Rey Gigataras
+ # Fixed artf1483 : SEF default .htaccess file settings are too lax
  # Fixed artf1480 : Administrator type user can loggof Super Adminstrator
  # Fixed artf1405 : Joomla shows Items to unauthorized users [Minor Security Bug in 1.0.2]
  # Fixed artf1422 : PDF Icon is set to on when it should be off

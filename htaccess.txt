@@ -22,6 +22,7 @@ RewriteEngine On
 #  Rules
 #
 
+RewriteCond %{REQUEST_FILENAME} !\.(jpg|jpeg|gif|png|css|js|pl|txt)$
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*) index.php
