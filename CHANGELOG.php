@@ -34,6 +34,7 @@ Legend:
 --------------------
 
 09-Oct-2005 Rey Gigataras
+ # Fixed artf1454 : After update email_cloacking bot is always on
  # Fixed artf1447 : Bug in mosloadposition mambot
  # Fixed artf1483 : SEF default .htaccess file settings are too lax
  # Fixed artf1480 : Administrator type user can loggof Super Adminstrator

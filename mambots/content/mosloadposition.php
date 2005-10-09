@@ -25,6 +25,12 @@ function botMosLoadPosition( $published, &$row, &$params, $page=0 ) {
  	// expression to search for
  	$regex = '/{mosloadposition\s*.*?}/i';
 
+	// check whether mambot has been unpublished
+	if ( !$published ) {
+		$row->text = preg_replace( $regex, '', $row->text );
+		return true;
+	}
+	
  	// find all instances of mambot and put in $matches
 	preg_match_all( $regex, $row->text, $matches );
 

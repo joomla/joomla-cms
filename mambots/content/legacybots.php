@@ -27,6 +27,11 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botLegacyBots' );
 function botLegacyBots( $published, &$row, &$params, $page=0 ) {
 	global $mosConfig_absolute_path;
 
+	// check whether mambot has been unpublished
+	if ( !$published ) {
+		return true;
+	}
+	
 	// process any legacy bots
 	$bots = mosReadDirectory( "$mosConfig_absolute_path/mambots", "\.php$" );
 	sort( $bots );

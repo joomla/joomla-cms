@@ -22,6 +22,11 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosEmailCloak' );
 function botMosEmailCloak( $published, &$row, &$params, $page=0 ) {
 	global $database;
 
+	// check whether mambot has been unpublished
+	if ( !$published ) {
+		return true;
+	}
+	
 	// load mambot params info
 	$query = "SELECT id"
 	. "\n FROM #__mambots"

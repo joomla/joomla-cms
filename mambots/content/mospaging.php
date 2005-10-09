@@ -36,6 +36,7 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
  	// expression to search for
  	$regex = '/{(mospagebreak)\s*(.*?)}/i';
 
+	// check whether mambot has been unpublished
  	if (!$published || $params->get( 'intro_only' )|| $params->get( 'popup' )) {
 		$row->text = preg_replace( $regex, '', $row->text );
 		return;

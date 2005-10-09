@@ -24,13 +24,13 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botGeshi' );
 function botGeshi( $published, &$row, &$params, $page=0 ) {
 	require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/domit/xml_saxy_shared.php' );
 
+	// check whether mambot has been unpublished
+	if ( !$published ) {
+		return true;
+	}
+	
 	// define the regular expression for the bot
 	$regex = "#<pre\s*(.*?)>(.*?)</pre>#s";
-
-	if (!$published) {
-		$row->text = preg_replace( $regex, '', $row->text );
-		return;
-	}
 
 	$GLOBALS['_MAMBOT_GESHI_PARAMS'] =& $params;
 

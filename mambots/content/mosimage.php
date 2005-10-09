@@ -21,15 +21,15 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosImage' );
 function botMosImage( $published, &$row, &$params, $page=0 ) {
 	global $database;
 	
-	// check whether mosimage has been disabled for page
-	if (!$published || !$params->get( 'image' )) {
-	$row->text = str_replace( '{mosimage}', '', $row->text );
-		return true;
-	}
-	
  	// expression to search for
 	$regex = '/{mosimage\s*.*?}/i';
 	
+	// check whether mosimage has been disabled for page
+	// check whether mambot has been unpublished
+	if (!$published || !$params->get( 'image' )) {
+		$row->text = preg_replace( $regex, '', $row->text );
+		return true;
+	}	
 
 	//count how many {mosimage} are in introtext if it is set to hidden.
 	$introCount=0;

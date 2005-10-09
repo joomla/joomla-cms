@@ -24,6 +24,11 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosSef' );
 */
 function botMosSef( $published, &$row, &$params, $page=0 ) {
 
+	// check whether mambot has been unpublished
+	if ( !$published ) {
+		return true;
+	}
+	
 	// define the regular expression for the bot
 	$regex = "#href=\"(.*?)\"#s";
 
