@@ -180,7 +180,7 @@ function view( $option ) {
 	. "\n GROUP BY u.name"
 	. "\n ORDER BY u.name"
 	;
-	$authors[] = mosHTML::makeOption( '0', _SEL_AUTHOR );
+	$authors[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Author' ) .' -' );
 	$database->setQuery( $query );
 	$authors = array_merge( $authors, $database->loadObjectList() );
 	$lists['authorid']	= mosHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_authorid );

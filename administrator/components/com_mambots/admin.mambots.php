@@ -142,7 +142,7 @@ function viewMambots( $option, $client ) {
 	. "\n GROUP BY folder"
 	. "\n ORDER BY folder"
 	;
-	$types[] = mosHTML::makeOption( 1, _SEL_TYPE );
+	$types[] = mosHTML::makeOption( 1, '- '. $_LANG->_( 'Select Type' ) .' -' );
 	$database->setQuery( $query );
 	$types 			= array_merge( $types, $database->loadObjectList() );
 	$lists['type']	= mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_type );

@@ -138,7 +138,7 @@ function editPoll( $uid=0, $option='com_poll' ) {
 		$database->setQuery( $query );
 		$lookup = $database->loadObjectList();
 	} else {
-		$lookup = array( mosHTML::makeOption( 0, 'All' ) );
+		$lookup = array( mosHTML::makeOption( 0, $_LANG->_( 'All' ) ) );
 	}
 
 	// build the html select list

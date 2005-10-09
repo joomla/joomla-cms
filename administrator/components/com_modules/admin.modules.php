@@ -155,7 +155,7 @@ function viewModules( $option, $client ) {
 	. "\n GROUP BY t.position"
 	. "\n ORDER BY t.position"
 	;
-	$positions[] = mosHTML::makeOption( '0', _SEL_POSITION );
+	$positions[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Position' ) .' -' );
 	$database->setQuery( $query );
 	$positions = array_merge( $positions, $database->loadObjectList() );
 	$lists['position']	= mosHTML::selectList( $positions, 'filter_position', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_position" );
@@ -167,7 +167,7 @@ function viewModules( $option, $client ) {
 	. "\n GROUP BY module"
 	. "\n ORDER BY module"
 	;
-	$types[] = mosHTML::makeOption( '0', _SEL_TYPE );
+	$types[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Type' ) .' -' );
 	$database->setQuery( $query );
 	$types = array_merge( $types, $database->loadObjectList() );
 	$lists['type']	= mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_type" );
@@ -395,7 +395,7 @@ function editModule( $option, $uid, $client ) {
 		$database->setQuery( $query );
 		$lookup = $database->loadObjectList();
 	} else {
-		$lookup = array( mosHTML::makeOption( 0, 'All' ) );
+		$lookup = array( mosHTML::makeOption( 0, $_LANG->_( 'All' ) ) );
 	}
 
 	if ( $row->access == 99 || $row->client_id == 1 || $lists['client_id'] ) {

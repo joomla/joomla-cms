@@ -395,6 +395,7 @@ DEFINE('_DATE_FORMAT','l, F d Y');  //Uses PHP's DATE Command Format - Depreciat
 *e.g. DEFINE("_DATE_FORMAT_LC","%A, %d %B %Y %H:%M"); //Uses PHP's strftime Command Format
 */
 DEFINE('_DATE_FORMAT_LC',"%A, %d %B %Y"); //Uses PHP's strftime Command Format
+/*for the $_LANG->()  DATEFORMATLC2=%A, %d %B %Y %H:%M  */
 DEFINE('_DATE_FORMAT_LC2',"%A, %d %B %Y %H:%M");
 DEFINE('_SEARCH_BOX','search...');
 DEFINE('_NEWSFLASH_BOX','Newsflash!');
