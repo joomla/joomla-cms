@@ -18,7 +18,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 require_once( $mainframe->getPath( 'front_html', 'com_content' ) );
 
 $id			= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
-$sectionid 	= mosGetParam( $_REQUEST, 'sectionid', 0 );
+$sectionid 	= intval( mosGetParam( $_REQUEST, 'sectionid', 0 ) );
 $pop 		= intval( mosGetParam( $_REQUEST, 'pop', 0 ) );
 $id 		= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
 $limit 		= intval( mosGetParam( $_REQUEST, 'limit', '' ) );

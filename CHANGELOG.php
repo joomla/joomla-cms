@@ -34,11 +34,12 @@ Legend:
 --------------------
 
 09-Oct-2005 Rey Gigataras
+ # Fixed SQL injection bug in content submission - * Medium Security Bug *
  # Fixed artf1454 : After update email_cloacking bot is always on
  # Fixed artf1447 : Bug in mosloadposition mambot
  # Fixed artf1483 : SEF default .htaccess file settings are too lax
  # Fixed artf1480 : Administrator type user can loggof Super Adminstrator
- # Fixed artf1405 : Joomla shows Items to unauthorized users [Minor Security Bug in 1.0.2]
+ # Fixed artf1405 : Joomla shows Items to unauthorized users - * Minor Security Bug in 1.0.2 *
  # Fixed artf1422 : PDF Icon is set to on when it should be off
  # Fixed artf1476 : Error at "number of Trashed Items" in sections
  # Fixed artf1415 : Wrong image in editList() function of mosToolBar class
