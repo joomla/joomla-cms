@@ -17,6 +17,7 @@
 			<option value="0">Wrapped by Table - Column</option>
 			<option value="1">Wrapped by Table - Horizontal</option>
 			<option value="-2">Wrapped by Divs</option>
+			<option value="-3">Wrapped by Multiple Divs</option>
 			<option value="-1">No wrapping - raw output</option>
 		</param>
 	</params>

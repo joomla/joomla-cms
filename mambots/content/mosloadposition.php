@@ -36,7 +36,7 @@ function botMosLoadPosition( $published, &$row, &$params, $page=0 ) {
 		// load mambot params info
 		$query = "SELECT id"
 		. "\n FROM #__mambots"
-		. "\n WHERE element = 'mosloadmodule'"
+		. "\n WHERE element = 'mosloadposition'"
 		. "\n AND folder = 'content'"
 		;
 		$database->setQuery( $query );
