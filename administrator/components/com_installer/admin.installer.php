@@ -88,8 +88,7 @@ function uploadPackage( $installerClass, $option, $element, $client ) {
 
 	// Check that the zlib is available
 	if(!extension_loaded('zlib')) {
-		HTML_installer::showInstallMessage( $_LANG->_( 'WARNINSTALLZLIB' )",
-			$_LANG->_( 'Installer - Error' ), $installer->returnTo( $option, $element, $client ) );
+		HTML_installer::showInstallMessage( $_LANG->_( 'WARNINSTALLZLIB' ), $_LANG->_( 'Installer - Error' ), $installer->returnTo( $option, $element, $client ) );
 		exit();
 	}
 

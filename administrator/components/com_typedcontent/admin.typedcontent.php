@@ -210,7 +210,8 @@ function edit( $uid, $option ) {
 
 		// fail if checked out not by 'me'
 		if ($row->isCheckedOut( $my->id )) {
-			echo "<script>alert('". $_LANG->_( 'The module' ) ." ". $row->title ." ". $_LANG->_( 'DESCBEINGEDITTED' ) ); document.location.href='index2.php?option=$option'</script>\n";
+			$alert = $_LANG->_( 'The module' ) .' '. $row->title .' '. $_LANG->_( 'DESCBEINGEDITTED' );
+			echo "<script>alert('$alert'); document.location.href='index2.php?option=$option'</script>\n";
 			exit(0);
 		}
 

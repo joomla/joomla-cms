@@ -134,7 +134,7 @@ function delete_folder($delFolder,$listdir) {
 		@unlink($del_html);
 		rmdir($del_folder);
 	} else {
-		echo "<font color="red">". $_LANG->_( 'Unable to delete: not empty!' ) ."</font>";
+		echo '<font color="red">'. $_LANG->_( 'Unable to delete: not empty!' ) .'</font>';
 	}
 }
 
