@@ -33,6 +33,9 @@ Legend:
 
 --------------------
 
+09-Oct-2005 Rey Gigataras
+ # Fixed artf1415 : Wrong image in editList() function of mosToolBar class
+
 08-Oct-2005 Johan Janssens
  # Fixed artf1384 : tinyMCE doesnt save converted entities
 
