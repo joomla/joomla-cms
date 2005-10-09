@@ -23,20 +23,20 @@ $nullDate = $database->getNullDate();
 <table class="adminheading">
 	<tr>
 		<th class="checkin">
-			Global Check-in
+			<?php echo $_LANG->_( 'Global Check-in' ); ?>
 		</th>
 	</tr>
 </table>
 <table class="adminform">
 	<tr>
 		<th class="title">
-			Database Table
+			<?php echo $_LANG->_( 'Database Table' ); ?>
 		</th>
 		<th class="title">
-			# of Items
+			<?php echo $_LANG->_( 'Num of Items' ); ?>
 		</th>
 		<th class="title">
-			Checked-In
+			<?php echo $_LANG->_( 'Checked-In' ); ?>
 		</th>
 		<th class="title">
 		</th>
@@ -92,15 +92,15 @@ foreach ($tables as $tn) {
 		if ($res == 1) {
 			if ($num > 0) {
 				echo "<tr class=\"row$k\">";
-				echo "\n	<td width=\"350\">Checking table - $tn</td>";
-				echo "\n	<td width=\"150\">Checked in <b>$num</b> items</td>";
-				echo "\n	<td width=\"100\" align=\"center\"><img src=\"images/tick.png\" border=\"0\" alt=\"tick\" /></td>";
+				echo "\n	<td width=\"350\">". $_LANG->_( 'Checking table' ) ." - ". $tn ."</td>";
+				echo "\n	<td width=\"150\">". $_LANG->_( 'Checked-In' ) ." <b>". $num ."</b> ". $_LANG->_( 'items' ) ."</td>";
+				echo "\n	<td width=\"100\" align=\"center\"><img src=\"images/tick.png\" border=\"0\" alt=\"". $_LANG->_( 'tick' ) ."\" /></td>";
 				echo "\n	<td>&nbsp;</td>";
 				echo "\n</tr>";
 			} else {
 				echo "<tr class=\"row$k\">";
-				echo "\n	<td width=\"350\">Checking table - $tn</td>";
-				echo "\n	<td width=\"150\">Checked in <b>$num</b> items</td>";
+				echo "\n	<td width=\"350\">". $_LANG->_( 'Checking table' ) ." - ". $tn ."</td>";
+				echo "\n	<td width=\"150\">". $_LANG->_( 'Checked-In' ) ." <b>". $num ."</b> ". $_LANG->_( 'items' ) ."</td>";
 				echo "\n	<td width=\"100\">&nbsp;</td>";
 				echo "\n	<td>&nbsp;</td>";
 				echo "\n</tr>";
@@ -112,7 +112,7 @@ foreach ($tables as $tn) {
 ?>
 	<tr>
 		<td colspan="4">
-			<strong>Checked out items have now been all checked in</strong>
+			<strong><?php echo $_LANG->_( 'Checked out items have now been all checked in' ); ?></strong>
 		</td>
 	</tr>
 </table>
