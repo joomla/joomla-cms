@@ -16,6 +16,9 @@ define( "_VALID_MOS", 1 );
 
 require_once( '../includes/auth.php' );
 
+$_LANG =& mosFactory::getLanguage( $option, true );
+$_LANG->debug( $mosConfig_debug );
+
 $database = new database( $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix );
 $database->debug( $mosConfig_debug );
 
@@ -40,7 +43,7 @@ $options = $database->loadResultArray();
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-	<title>Poll Preview</title>
+	<title><?php echo $_LANG->_( 'Poll Preview' ); ?></title>
 	<link rel="stylesheet" href="../../templates/<?php echo $css; ?>/css/template_css.css" type="text/css">
 </head>
 
@@ -61,10 +64,10 @@ $options = $database->loadResultArray();
 		<?php }
 	} ?>
 	<tr>
-		<td valign="middle" height="50" colspan="2" align="center"><input type="button" name="submit" value="Vote">&nbsp;&nbsp;<input type="button" name="result" value="Results"></td>
+		<td valign="middle" height="50" colspan="2" align="center"><input type="button" name="submit" value="<?php echo $_LANG->_( 'Vote' ); ?>">&nbsp;&nbsp;<input type="button" name="result" value="<?php echo $_LANG->_( 'Results' ); ?>"></td>
 	</tr>
 	<tr>
-		<td align="center" colspan="2"><a href="#" onClick="window.close()">Close</a></td>
+		<td align="center" colspan="2"><a href="#" onClick="window.close()"><?php echo $_LANG->_( 'Close' ); ?></a></td>
 	</tr>
 </table>
 </form>

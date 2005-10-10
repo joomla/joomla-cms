@@ -17,6 +17,9 @@ define( "_VALID_MOS", 1 );
 require_once( '../includes/auth.php' );
 include_once ( $mosConfig_absolute_path . '/language/' . $mosConfig_lang . '.php' );
 
+$_LANG =& mosFactory::getLanguage( $option, true );
+$_LANG->debug( $mosConfig_debug );
+
 $css = mosGetParam( $_REQUEST, 't', '' );
 
 $iso = split( '=', _ISO );
@@ -27,7 +30,7 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 <html xmlns="http://www.w3.org/1999/xhtml">
 <base href="<?php echo($mosConfig_live_site); ?>/" />
 <head>
-<title>Content Preview</title>
+<title><?php echo $_LANG->_( 'Content Preview' ); ?></title>
 <link rel="stylesheet" href="templates/<?php echo $css;?>/css/template_css.css" type="text/css" />
 	<script>
 		var form = window.opener.document.adminForm
@@ -65,8 +68,8 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 		<script>document.write("<td valign=\"top\" height=\"90%\" colspan=\"2\">" + alltext + "</td>");</script>
 	</tr>
 	<tr>
-		<td align="right"><a href="#" onClick="window.close()">Close</a></td>
-		<td align="left"><a href="javascript:;" onClick="window.print(); return false">Print</a></td>
+		<td align="right"><a href="#" onClick="window.close()"><?php echo $_LANG->_( 'Close' ); ?></a></td>
+		<td align="left"><a href="javascript:;" onClick="window.print(); return false"><?php echo $_LANG->_( 'Print' ); ?></a></td>
 	</tr>
 </table>
 </body>
