@@ -25,10 +25,10 @@ $rows = $database->loadObjectList();
 <table class="adminlist">
 	<tr>
 		<th class="title" width="80%">
-			Menu
+			<?php echo $_LANG->_( 'Menu' ); ?>
 		</th>
 		<th class="title">
-			# Items
+			<?php echo $_LANG->_( 'Num Items' ); ?>
 		</th>
 	</tr>
 <?php

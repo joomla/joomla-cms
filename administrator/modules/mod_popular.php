@@ -28,13 +28,13 @@ $rows = $database->loadObjectList();
 <table class="adminlist">
 <tr>
 	<th class="title">
-		Most Popular Items
+		<?php echo $_LANG->_( 'Most Popular Items' ); ?>
 	</th>
 	<th class="title">
-		Created
+		<?php echo $_LANG->_( 'Created' ); ?>
 	</th>
 	<th class="title">
-		Hits
+		<?php echo $_LANG->_( 'Hits' ); ?>
 	</th>
 </tr>
 <?php

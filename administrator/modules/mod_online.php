@@ -24,5 +24,5 @@ $query = "SELECT COUNT( session_id )"
 $database->setQuery($query);
 $online_num = intval( $database->loadResult() );
 
-echo $online_num . " <img src=\"images/users.png\" align=\"middle\" alt=\"Users Online\" />";
+echo $online_num . " <img src=\"images/users.png\" align=\"middle\" alt=\"". $_LANG->_( 'Users Online' ) ."\" />";
 ?>
