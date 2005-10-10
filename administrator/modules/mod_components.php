@@ -50,7 +50,7 @@ foreach ($comps as $row) {
 <table class="adminlist">
 <tr>
 	<th class="title">
-	   Components
+	   <?php echo $_LANG->_( 'Components' ); ?>
 	</th>
 </tr>
 <tr>
@@ -75,7 +75,7 @@ foreach ($comps as $row) {
 							<table width="100%" class="adminlist">
 							<tr>
 								<td align="center" style="text-align: center; font-weight: bold;">
-									<a href="index2.php?option=com_admin&task=listcomponents">Full Component List</a>
+									<a href="index2.php?option=com_admin&task=listcomponents"><?php echo $_LANG->_( 'Full Component List' ); ?></a>
 								</td>
 							</tr>		
 							</table>					
@@ -96,7 +96,7 @@ foreach ($comps as $row) {
 								<tr>
 									<td>
 										<?php
-										echo '<a href="index2.php?'.htmlspecialchars($row->admin_menu_link,ENT_QUOTES).'"><strong>'.$name.'</strong></a><br/>';
+										echo '<a href="index2.php?'.htmlspecialchars($row->admin_menu_link,ENT_QUOTES).'"><strong>'.$name.'</strong></a><br />';
 										?>
 									</td>
 								</tr>
@@ -108,7 +108,7 @@ foreach ($comps as $row) {
 										<strong>
 										<?php echo $name; ?>
 										</strong>
-										<br/>
+                                      <br />
 									</td>
 								</tr>
 								<?php
@@ -127,14 +127,14 @@ foreach ($comps as $row) {
 												if ($sub->admin_menu_link) {
 													?>
 													<li>
-														<?php echo '<a href="index2.php?'.htmlspecialchars($sub->admin_menu_link, ENT_QUOTES).'">'.$name.'</a><br/>'; ?>
+														<?php echo '<a href="index2.php?'.htmlspecialchars($sub->admin_menu_link, ENT_QUOTES).'">'.$name.'</a><br />'; ?>
 													</li>
 													<?php
 												} else {
 													?>
 													<li>
 														<?php echo $name; ?>
-														<br/>
+														<br />
 													</li>
 													<?php
 												} // if else
