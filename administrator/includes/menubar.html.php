@@ -36,8 +36,12 @@ class mosMenuBar {
 	* @param boolean True if required to check that a standard list item is checked
 	*/
 	function custom( $task='', $icon='', $iconOver='', $alt='', $listSelect=true ) {
+        global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		if ($listSelect) {
-			$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to $alt');}else{submitbutton('$task')}";
+			$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('". $_LANG->_( 'Please make a selection from the list to' ) ." ". $alt ."');}else{submitbutton('$task')}";
 		} else {
 			$href = "javascript:submitbutton('$task')";
 		}
@@ -69,8 +73,12 @@ class mosMenuBar {
 	* @param boolean True if required to check that a standard list item is checked
 	*/
 	function customX( $task='', $icon='', $iconOver='', $alt='', $listSelect=true ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		if ($listSelect) {
-			$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to $alt');}else{hideMainMenu();submitbutton('$task')}";
+			$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('". $_LANG->_( 'Please make a selection from the list to' ) ." ". $alt ."');}else{hideMainMenu();submitbutton('$task')}";
 		} else {
 			$href = "javascript:hideMainMenu();submitbutton('$task')";
 		}
@@ -98,6 +106,10 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function addNew( $task='new', $alt='New' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'new_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
@@ -115,6 +127,10 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function addNewX( $task='new', $alt='New' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'new_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
@@ -131,6 +147,10 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function publish( $task='publish', $alt='Publish' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'publish_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
@@ -147,10 +167,14 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function publishList( $task='publish', $alt='Publish' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'publish_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 	 	<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to publish'); } else {submitbutton('<?php echo $task;?>', '');}"">
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo $_LANG->_( 'Please make a selection from the list to' ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}"">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt; ?></a>
 		</td>
@@ -163,10 +187,14 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function makeDefault( $task='default', $alt='Default' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'publish_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please select an item to make default'); } else {submitbutton('<?php echo $task;?>', '');}">
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo $_LANG->_( 'Please select an item to make' ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt; ?></a>
 		</td>
@@ -179,10 +207,14 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function assign( $task='assign', $alt='Assign' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'publish_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please select an item to assign'); } else {submitbutton('<?php echo $task;?>', '');}">
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo $_LANG->_( 'Please select an item to' ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt; ?></a>
 		</td>
@@ -195,6 +227,10 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function unpublish( $task='unpublish', $alt='Unpublish' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'unpublish_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
@@ -211,10 +247,14 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function unpublishList( $task='unpublish', $alt='Unpublish' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'unpublish_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to unpublish'); } else {submitbutton('<?php echo $task;?>', '');}">
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo $_LANG->_( 'Please make a selection from the list to' ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt; ?></a>
 		</td>
@@ -227,10 +267,14 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function archiveList( $task='archive', $alt='Archive' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'archive_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to archive'); } else {submitbutton('<?php echo $task;?>', '');}">
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo $_LANG->_( 'Please make a selection from the list to' ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt; ?></a>
 		</td>
@@ -243,10 +287,14 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function unarchiveList( $task='unarchive', $alt='Unarchive' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'unarchive_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please select a news story to unarchive'); } else {submitbutton('<?php echo $task;?>', '');}">
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo $_LANG->_( 'Please select a news story to' ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt; ?></a>
 		</td>
@@ -259,10 +307,14 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function editList( $task='edit', $alt='Edit' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'edit_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please select an item from the list to edit'); } else {submitbutton('<?php echo $task;?>', '');}">
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo $_LANG->_( 'Please select an item from the list to' ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt; ?></a>
 		</td>
@@ -276,10 +328,14 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function editListX( $task='edit', $alt='Edit' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'edit_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please select an item from the list to edit'); } else {hideMainMenu();submitbutton('<?php echo $task;?>', '');}">
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo $_LANG->_( 'Please select an item from the list to' ); ?> <?php echo $alt; ?>'); } else {hideMainMenu();submitbutton('<?php echo $task;?>', '');}">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt; ?></a>
 		</td>
@@ -292,10 +348,14 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function editHtml( $task='edit_source', $alt='Edit&nbsp;HTML' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'html_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please select an item from the list to edit'); } else {submitbutton('<?php echo $task;?>', '');}">
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo $_LANG->_( 'Please select an item from the list to' ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt; ?></a>
 		</td>
@@ -309,10 +369,14 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function editHtmlX( $task='edit_source', $alt='Edit&nbsp;HTML' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'html_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please select an item from the list to edit'); } else {hideMainMenu();submitbutton('<?php echo $task;?>', '');}"">
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo $_LANG->_( 'Please select an item from the list to' ); ?> <?php echo $alt; ?>'); } else {hideMainMenu();submitbutton('<?php echo $task;?>', '');}"">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt; ?></a>
 		</td>
@@ -325,10 +389,14 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function editCss( $task='edit_css', $alt='Edit&nbsp;CSS' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'css_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please select an item from the list to edit'); } else {submitbutton('<?php echo $task;?>', '');}"">
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo $_LANG->_( 'Please select an item from the list to' ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}"">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt; ?></a>
 		</td>
@@ -342,10 +410,14 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function editCssX( $task='edit_css', $alt='Edit&nbsp;CSS' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'css_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please select an item from the list to edit'); } else {hideMainMenu();submitbutton('<?php echo $task;?>', '');}">
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo $_LANG->_( 'Please select an item from the list to' ); ?> <?php echo $alt; ?>'); } else {hideMainMenu();submitbutton('<?php echo $task;?>', '');}">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt; ?></a>
 		</td>
@@ -359,10 +431,14 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function deleteList( $msg='', $task='remove', $alt='Delete' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'delete_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to delete'); } else if (confirm('Are you sure you want to delete selected items? <?php echo $msg;?>')){ submitbutton('<?php echo $task;?>');}">
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo $_LANG->_( 'Please make a selection from the list to' ); ?> <?php echo $alt; ?>'); } else if (confirm('Are you sure you want to delete selected items? <?php echo $msg;?>')){ submitbutton('<?php echo $task;?>');}">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt; ?></a>
 		</td>
@@ -377,10 +453,14 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function deleteListX( $msg='', $task='remove', $alt='Delete' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'delete_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to delete'); } else if (confirm('Are you sure you want to delete selected items? <?php echo $msg;?>')){ hideMainMenu();submitbutton('<?php echo $task;?>');}">
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo $_LANG->_( 'Please make a selection from the list to' ); ?> <?php echo $alt; ?>'); } else if (confirm('<?php echo $_LANG->_( 'VALIDDELETEITEMS' ); ?> <?php echo $msg;?>')){ hideMainMenu();submitbutton('<?php echo $task;?>');}">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt; ?></a>
 		</td>
@@ -391,10 +471,14 @@ class mosMenuBar {
 	* Write a trash button that will move items to Trash Manager
 	*/
 	function trash( $task='remove', $alt='Trash', $check=true ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'delete_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		
 		if ( $check ) {
-			$js = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to Trash'); } else { submitbutton('$task');}";
+			$js = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('". $_LANG->_( 'Please make a selection from the list to' ) ." ". $alt ."'); } else { submitbutton('$task');}";
 		} else {
 			$js = "javascript:submitbutton('$task');";
 		}
@@ -414,6 +498,8 @@ class mosMenuBar {
 	*/
 	function preview( $popup='', $updateEditors=false ) {
 		global $database;
+		global $_LANG;
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'preview_f2.png', '/administrator/images/', NULL, NULL, 'Preview', 'preview', 1 );
 
 		$sql = "SELECT template FROM #__templates_menu WHERE client_id='0' AND menuid='0'";
@@ -434,7 +520,7 @@ class mosMenuBar {
 			</script>
 		 	<a class="toolbar" href="#" onclick="popup();">
 				<?php echo $image2; ?>
-				<br />Preview</a>
+				<br /><?php echo $_LANG->_( 'Preview' ); ?></a>
 		</td>
 		<?php
 	}
@@ -446,6 +532,8 @@ class mosMenuBar {
 	*/
 	function help( $ref, $com=false ) {
 		global $mosConfig_live_site;
+		global $_LANG;
+
 		$image2 	= mosAdminMenus::ImageCheckAdmin( 'help_f2.png', '/administrator/images/', NULL, NULL, 'Help', 'help', 1 );
 		$helpUrl 	= mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
 		
@@ -474,7 +562,7 @@ class mosMenuBar {
 		<td>
 			<a class="toolbar" href="#" onclick="window.open('<?php echo $url;?>', 'mambo_help_win', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');">
 				<?php echo $image2; ?>
-				<br />Help</a>
+				<br /><?php echo $_LANG->_( 'Help' ); ?></a>
 		</td>
 		<?php
 	}
@@ -486,6 +574,10 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function apply( $task='apply', $alt='Apply' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image 	= mosAdminMenus::ImageCheckAdmin( 'apply.png', '/administrator/images/', NULL, NULL, $alt, $task );
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'apply_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
@@ -504,6 +596,10 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function save( $task='save', $alt='Save' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'save_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
@@ -518,12 +614,14 @@ class mosMenuBar {
 	* Writes a save button for a given option (NOTE this is being deprecated)
 	*/
 	function savenew() {
+		global $_LANG;
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'save_f2.png', '/administrator/images/', NULL, NULL, 'save', 'save', 1 );
 		?>
 		<td>
 			<a class="toolbar" href="javascript:submitbutton('savenew');">
 				<?php echo $image2; ?>
-				<br />Save</a>
+				<br /><?php echo $_LANG->_( 'Save' ); ?></a>
 		</td>
 		<?php
 	}
@@ -532,12 +630,14 @@ class mosMenuBar {
 	* Writes a save button for a given option (NOTE this is being deprecated)
 	*/
 	function saveedit() {
+		global $_LANG;
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'save_f2.png', '/administrator/images/', NULL, NULL, 'save', 'save', 1 );
 		?>
 		<td>
 			<a class="toolbar" href="javascript:submitbutton('saveedit');">
 				<?php echo $image2; ?>
-				<br />Save</a>
+				<br /><?php echo $_LANG->_( 'Save' ); ?></a>
 		</td>
 		<?php
 	}
@@ -548,6 +648,10 @@ class mosMenuBar {
 	* @param string An override for the alt text
 	*/
 	function cancel( $task='cancel', $alt='Cancel' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'cancel_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
@@ -563,6 +667,10 @@ class mosMenuBar {
 	* any other operation
 	*/
 	function back( $alt='Back', $href='' ) {
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'back_f2.png', '/administrator/images/', NULL, NULL, 'back', 'cancel', 1 );
 		if ( $href ) {
 			$link = $href;
@@ -596,6 +704,10 @@ class mosMenuBar {
 	*/
 	function media_manager( $directory = '', $alt='Upload' ) {
 		global $database;
+		global $_LANG;
+
+    	$alt = $_LANG->_( $alt );
+
 		$sql = "SELECT template FROM #__templates_menu WHERE client_id='1' AND menuid='0'";
 		$database->setQuery( $sql );
 		$cur_template = $database->loadResult();

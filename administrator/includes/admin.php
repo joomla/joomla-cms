@@ -37,6 +37,7 @@ function mosCountAdminModules(  $position='left' ) {
 */
 function mosLoadAdminModules( $position='left', $style=0 ) {
 	global $database, $acl, $my;
+    global $_LANG;
 
 	$cache =& mosCache::getCache( 'com_content' );
 
@@ -64,7 +65,7 @@ function mosLoadAdminModules( $position='left', $style=0 ) {
 				$editAllComponents 	= $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'all' );
 				// special handling for components module
 				if ( $module->module != 'mod_components' || ( $module->module == 'mod_components' && $editAllComponents ) ) {
-					$tabs->startTab( $module->title, 'module' . $module->id );
+					$tabs->startTab( $_LANG->_( $module->title ), 'module' . $module->id );
 					if ( $module->module == '' ) {
 						mosLoadCustomModule( $module, $params );
 					} else {
@@ -189,6 +190,8 @@ function mosLoadCustomModule( &$module, &$params ) {
 }
 
 function mosShowSource( $filename, $withLineNums=false ) {
+    global $_LANG;
+
 	ini_set('highlight.html', '000000');
 	ini_set('highlight.default', '#800000');
 	ini_set('highlight.keyword','#0000ff');
@@ -196,7 +199,7 @@ function mosShowSource( $filename, $withLineNums=false ) {
 	ini_set('highlight.comment','#008000');
 
 	if (!($source = @highlight_file( $filename, true ))) {
-		return 'Operation Failed';
+		return $_LANG->_( 'Operation Failed' );
 	}
 	$source = explode("<br />", $source);
 
