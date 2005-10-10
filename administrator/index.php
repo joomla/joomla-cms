@@ -44,7 +44,7 @@ if (isset( $_POST['submit'] )) {
 	$pass 		= $database->getEscaped( mosGetParam( $_POST, 'pass', '' ) );
 
 	if (!$pass) {
-		echo "<script>alert('Please enter a password'); document.location.href='index.php';</script>\n";
+		echo "<script>alert('". $_LANG->_( 'Please enter a password' ) ."'); document.location.href='index.php';</script>\n";
 	} else {
 		$pass = md5( $pass );
 	}
@@ -81,7 +81,7 @@ if (isset( $_POST['submit'] )) {
 		$my->usertype 	= $grp->name;
 
 		if ( strcmp( $my->password, $pass ) || !$acl->acl_check( 'administration', 'login', 'users', $my->usertype ) ) {
-			echo "<script>alert('Incorrect Username, Password, or Access Level.  Please try again'); document.location.href='index.php';</script>\n";
+			echo "<script>alert('". $_LANG->_( 'VALIDUSERPASSACCESS' ) ."'); document.location.href='index.php';</script>\n";
 			exit();
 		}
 
@@ -112,7 +112,7 @@ if (isset( $_POST['submit'] )) {
 		echo "<script>document.location.href='index2.php';</script>\n";
 		exit();
 	} else {
-		echo "<script>alert('Incorrect Username and Password, please try again'); document.location.href='index.php';</script>\n";
+		echo "<script>alert('". $_LANG->_( 'VALIDUSERPASS' ) ."'); document.location.href='index.php';</script>\n";
 		exit();
 	}
 } else {

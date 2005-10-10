@@ -127,7 +127,7 @@ initGzip();
 if ($no_html == 0) {
 	// loads template file
 	if ( !file_exists( $mosConfig_absolute_path .'/administrator/templates/'. $cur_template .'/index.php' ) ) {
-		echo 'TEMPLATE '. $cur_template .' NOT FOUND' ;
+		echo $_LANG->_( 'TEMPLATE' ) .' '. $cur_template .' '. $_LANG->_( 'NOT FOUND' );
 	} else {
 		require_once( $mosConfig_absolute_path .'/administrator/templates/'. $cur_template .'/index.php' );
 	}
