@@ -11,15 +11,14 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 
 $tstart = mosProfiler::getmicrotime();
-// needed to seperate the ISO number from the language file constant _ISO
-$iso = explode( '=', _ISO );
+
 // xml prolog
-echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
+echo '<?xml version="1.0" encoding="'. $_LANG->iso() .'"?' .'>';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="<?php echo $_LANG->isoCode();?>">
 <head>
-<title><?php echo $mosConfig_sitename; ?> - Administration [Mambo]</title>
+<title><?php echo $mosConfig_sitename; ?> - <?php echo $_LANG->_( 'Administration' ); ?> [Joomla]</title>
 <link rel="stylesheet" href="templates/mambo_admin_blue/css/template_css.css" type="text/css" />
 <link rel="stylesheet" href="templates/mambo_admin_blue/css/theme.css" type="text/css" />
 <script language="JavaScript" src="<?php echo $mosConfig_live_site; ?>/includes/js/JSCookMenu_mini.js" type="text/javascript"></script>
@@ -29,7 +28,7 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 include_once( $mosConfig_absolute_path . "/editor/editor.php" );
 initEditor();
 ?>
-<meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>" />
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $_LANG->iso(); ?>" />
 <!--
 *	DO NOT REMOVE THE FOLLOWING - FAILURE TO COMPLY IS A DIRECT VIOLATION
 *	OF THE GNU GENERAL PUBLIC LICENSE - http://www.gnu.org/copyleft/gpl.html
@@ -56,7 +55,7 @@ echo "<meta name=\"Generator\" content=\"Mambo (C) 2000 - 2005 Miro Internationa
 			<?php mosLoadAdminModules( 'header', 2 );?>
 		</div>
 	</td>
-    <td class="menubackgr" align="right"><a href="index2.php?option=logout" style="color: #333333; font-weight: bold">Logout</a> <strong><?php echo $my->username;?></strong>&nbsp;</td>
+    <td class="menubackgr" align="right"><a href="index2.php?option=logout" style="color: #333333; font-weight: bold"><?php echo $_LANG->_( 'Logout' ); ?></a> <strong><?php echo $my->username;?></strong>&nbsp;</td>
     </tr>
 </table>
 <?php } ?>
@@ -90,7 +89,7 @@ include ($mosConfig_absolute_path . "/includes/footer.php");
 echo ("<div class=\"smallgrey\">");
 $tend = mosProfiler::getmicrotime();
 $totaltime = ($tend - $tstart);
-printf ("Page was generated in %f seconds", $totaltime);
+printf ( $_LANG->_( 'Page was generated in' ) ." %f ". $_LANG->_( 'seconds' ), $totaltime);
 echo ("</div>");
 ?>
 </td></tr></table>
