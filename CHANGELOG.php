@@ -33,6 +33,9 @@ Legend:
 
 --------------------
 
+11-Oct-2005 Rey Gigataras
+  # Fixed Search Component flooding, by limiting searching to 20 characters
+
 09-Oct-2005 Rey Gigataras
  # Fixed SQL injection bug in content submission - * Medium Security Bug *
  # Fixed artf1454 : After update email_cloacking bot is always on

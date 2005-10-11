@@ -20,7 +20,7 @@ $button_text	= $params->get( 'button_text', _SEARCH_TITLE );
 $width 			= intval( $params->get( 'width', 20 ) );
 $text 			= $params->get( 'text', _SEARCH_BOX );
 
-$output = '<input name="searchword" id="mod_search_searchword" alt="search" class="inputbox'. $moduleclass_sfx .'" type="text" size="'. $width .'" value="'. $text .'"  onblur="if(this.value==\'\') this.value=\''. $text .'\';" onfocus="if(this.value==\''. $text .'\') this.value=\'\';" />';
+$output = '<input name="searchword" id="mod_search_searchword" maxlength="20" alt="search" class="inputbox'. $moduleclass_sfx .'" type="text" size="'. $width .'" value="'. $text .'"  onblur="if(this.value==\'\') this.value=\''. $text .'\';" onfocus="if(this.value==\''. $text .'\') this.value=\'\';" />';
 
 if ( $button ) {
 	$button = '<input type="submit" value="'. $button_text .'" class="button'. $moduleclass_sfx .'"/>';

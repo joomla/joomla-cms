@@ -67,6 +67,11 @@ function viewSearch() {
 	$searchword = mosGetParam( $_REQUEST, 'searchword', '' );
 	$searchword = $database->getEscaped( trim( $searchword ) );
 
+	// limit searchword to 20 characters
+	if ( strlen( $searchword ) > 20 ) {
+		$searchword = substr( $searchword, 0, 19 );
+	}
+	
 	$search_ignore = array();
 	@include "$mosConfig_absolute_path/language/$mosConfig_lang.ignore.php";
 
