@@ -92,7 +92,6 @@ if ($option == '') {
 }
 if ( !$Itemid ) {
 // when no Itemid give a default value	$Itemid = 99999999;
-	$Itemid = 99999999;	
 } 
 	
 // mainframe is an API workhorse, lots of 'core' interaction routines

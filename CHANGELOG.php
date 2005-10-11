@@ -24,6 +24,7 @@ code fixes.
 
 Legend:
 
+* -> Security Fix
 # -> Bug Fix
 + -> Addition
 ^ -> Change
@@ -34,17 +35,18 @@ Legend:
 --------------------
 
 11-Oct-2005 Rey Gigataras
+ * Fixed Search Component flooding, by limiting searching to between 3 and 20 characters [ Minor Security Bug in 1.0.x ]
+ # Fixed artf1494 : Template fault in offline preview
  # Fixed artf1497 : mosemailcloak adds trailing space
  # Fixed artf1493 : mod_whosonline.php
- # Fixed Search Component flooding, by limiting searching to between 3 and 20 characters
 
 09-Oct-2005 Rey Gigataras
- # Fixed SQL injection bug in content submission - * Medium Security Bug *
+ * Fixed SQL injection bug in content submission [ Medium Security Bug in 1.0.x ]
+ * Fixed artf1405 : Joomla shows Items to unauthorized users [ Minor Security Bug in 1.0.2 ]
  # Fixed artf1454 : After update email_cloacking bot is always on
  # Fixed artf1447 : Bug in mosloadposition mambot
  # Fixed artf1483 : SEF default .htaccess file settings are too lax
  # Fixed artf1480 : Administrator type user can loggof Super Adminstrator
- # Fixed artf1405 : Joomla shows Items to unauthorized users - * Minor Security Bug in 1.0.2 *
  # Fixed artf1422 : PDF Icon is set to on when it should be off
  # Fixed artf1476 : Error at "number of Trashed Items" in sections
  # Fixed artf1415 : Wrong image in editList() function of mosToolBar class
@@ -441,12 +443,12 @@ Legend:
  ^ Convert 4xSpace to tab
 
 08-Aug-2005 Andrew Eddie
+ * Fixed SQL injection bugs in user activation (thanks Enno Klasing)
  ^ Encased text files in PHP wrapper to help obsfucate version info
  # Changed admin session name to hash of live_site to allow you to log into more than one Joomla! on the same host
  # Fixed hardcoded (c) character in web installer files
  # Fixed slow query in admin User Manager list screen
  # Fixed bug in poll stats calculation
- # Fixed SQL injection bugs in user activation (thanks Enno Klasing)
  # Updated bug fixes in phpMailer class
  # Fixed login bug for nested Joomla! sites on the same domain
 

@@ -76,7 +76,7 @@ function viewSearch() {
 	}
 	
 	// searchword must contain a minimum of 3 characters
-	if ( strlen( $searchword ) < 3 ) {
+	if ( $searchword && strlen( $searchword ) < 3 ) {
 		$searchword 	= '';
 		$restriction 	= 1;
 	}
