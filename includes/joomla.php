@@ -1742,11 +1742,11 @@ class mosHTML {
 			$replacement 	.= "document.write( addy". $rand ." ); \n";
 		}
 		$replacement 	.= "//--> \n";
-		$replacement 	.= "</script> \n";
+		$replacement 	.= "</script>";
 		$replacement 	.= "<noscript> \n";
 		$replacement 	.= _CLOAKING;
-		$replacement 	.= "\n</noscript> \n";
-
+		$replacement 	.= "\n</noscript>";
+		
 		return $replacement;
 	}
 

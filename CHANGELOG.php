@@ -34,6 +34,7 @@ Legend:
 --------------------
 
 11-Oct-2005 Rey Gigataras
+ # Fixed artf1497 : mosemailcloak adds trailing space
  # Fixed artf1493 : mod_whosonline.php
  # Fixed Search Component flooding, by limiting searching to between 3 and 20 characters
 
