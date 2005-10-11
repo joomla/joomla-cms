@@ -19,18 +19,18 @@ $showmode 	= $params->get( 'showmode' );
 $content 	= '';
 
 if ($showmode==0 || $showmode==2) {
-	$query1 = "SELECT COUNT( session_id ) AS guest_online"
+	$query = "SELECT COUNT( session_id ) AS guest_online"
 	. "\n FROM #__session"
 	. "\n WHERE guest = 1"
 	. "\n AND ( usertype is NULL OR usertype = '' )";
-	$database->setQuery($query1);
+	$database->setQuery( $query );
 	$guest_array = $database->loadResult();
-
-	$query2 = "SELECT DISTINCT COUNT( username ) AS user_online"
+	
+	$query = "SELECT COUNT( DISTINCT( username ) ) AS user_online"
 	. "\n FROM #__session"
 	. "\n WHERE guest = 0"
 	;
-	$database->setQuery($query2);
+	$database->setQuery( $query );
 	$user_array = $database->loadResult();
 
 	if ($guest_array<>0 && $user_array==0) {
