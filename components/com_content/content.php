@@ -650,7 +650,8 @@ function showArchiveSection( $id=NULL, $gid, &$access, $pop, $option ) {
 	$rows = $database->loadObjectList();
 
 	// initiate form
- 	echo '<form action="'.sefRelToAbs( 'index.php').'" method="post">';
+	$link = 'index.php?option=com_content&task=archivesection&id='. $id .'&Itemid='. $Itemid;
+ 	echo '<form action="'.sefRelToAbs( $link ).'" method="post">';
 
 	// Dynamic Page Title
 	$mainframe->SetPageTitle( $menu->name );
@@ -733,7 +734,8 @@ function showArchiveCategory( $id=0, $gid, &$access, $pop, $option, $now ) {
 	$rows = $database->loadObjectList();
 
 	// initiate form
- 	echo '<form action="'.sefRelToAbs( 'index.php').'" method="post">';
+	$link = 'index.php?option=com_content&task=archivecategory&id='. $id .'&Itemid='. $Itemid;
+ 	echo '<form action="'.sefRelToAbs( $link ).'" method="post">';
 
 	// Page Title
 	$mainframe->SetPageTitle( $menu->name );
@@ -742,7 +744,12 @@ function showArchiveCategory( $id=0, $gid, &$access, $pop, $option, $now ) {
 		// if no archives for category, hides search and outputs empty message
 		echo '<br /><div align="center">'. _CATEGORY_ARCHIVE_EMPTY .'</div>';
 	} else {
-		BlogOutput( $rows, $params, $gid, $access, $pop, $menu, 1 );
+		// if coming from the Archive Module, the Archive Dropdown selector is not shown
+		if ( $id ) {
+			BlogOutput( $rows, $params, $gid, $access, $pop, $menu, 1 );
+		} else {
+			BlogOutput( $rows, $params, $gid, $access, $pop, $menu, 0 );
+		}
 	}
 
  	echo '<input type="hidden" name="id" value="'. $id .'" />';
