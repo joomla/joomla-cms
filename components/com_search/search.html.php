@@ -45,7 +45,7 @@ class search_html {
 					</label>
 				</td>
 				<td nowrap="nowrap">
-					<input type="text" name="searchword" id="search_searchword" size="15" maxlength="20" value="<?php echo stripslashes($searchword);?>" class="inputbox" />
+					<input type="text" name="searchword" id="search_searchword" size="30" maxlength="20" value="<?php echo stripslashes($searchword);?>" class="inputbox" />
 				</td>
 				<td width="100%" nowrap="nowrap">
 					<input type="submit" name="submit" value="<?php echo _SEARCH_TITLE;?>" class="button" />

@@ -28,6 +28,8 @@ function viewSearch() {
 	global $Itemid, $database, $_MAMBOTS;
 	global $mosConfig_list_limit;
 
+	$restriction = 0;
+	
 	// try to find search component's Itemid
 	$query = "SELECT id"
 		. "\n FROM #__menu"
@@ -69,7 +71,14 @@ function viewSearch() {
 
 	// limit searchword to 20 characters
 	if ( strlen( $searchword ) > 20 ) {
-		$searchword = substr( $searchword, 0, 19 );
+		$searchword 	= substr( $searchword, 0, 19 );
+		$restriction 	= 1;
+	}
+	
+	// searchword must contain a minimum of 3 characters
+	if ( strlen( $searchword ) < 3 ) {
+		$searchword 	= '';
+		$restriction 	= 1;
 	}
 	
 	$search_ignore = array();
@@ -113,12 +122,20 @@ function viewSearch() {
 			// html output
 			// no matches found
 			search_html::message( _NOKEYWORD, $params );
+		} else if ( $restriction ) {
+				// html output
+				search_html::message( 'Search term must be a minimum of 3 characters and a maximum of 20 characters', $params );
 		}
 	} else if ( in_array( $searchword, $search_ignore ) ) {
 		// html output
 		search_html::message( _IGNOREKEYWORD, $params );
 	} else {
 		// html output
+		
+		if ( $restriction ) {
+			// html output
+			search_html::message( 'Search term must be a minimum of 3 characters and a maximum of 20 characters', $params );
+		}
 		
 		$searchword_clean = htmlspecialchars( stripslashes( $searchword ) );
 		
