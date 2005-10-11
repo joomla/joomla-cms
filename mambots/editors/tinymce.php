@@ -78,11 +78,17 @@ function botTinymceEditorInit() {
 	$fullscreen			=  $params->def( 'fullscreen', 1 );
 
 	if ( $content_css ) {
-		$template 		= $mainframe->getTemplate();
+		$query = "SELECT template"
+		. "\n FROM #__templates_menu"
+		. "\n WHERE client_id = 0"
+		. "\n AND menuid = 0"
+		;
+		$database->setQuery( $query );
+		$template = $database->loadResult();
 		
 		$file			= $mosConfig_absolute_path .'/templates/'. $template .'/css/editor_content.css';
 		if ( file_exists( $file ) ) {
-			$content_css	= 'content_css : "'. $file .'", ';
+			$content_css	= 'content_css : "'. $mosConfig_live_site .'/templates/'. $template .'/css/editor_content.css", ';
 		} else {
 			$content_css	= 'content_css : "'. $mosConfig_live_site .'/templates/'. $template .'/css/template_css.css", ';
 		}
