@@ -620,7 +620,7 @@ function showArchiveSection( $id=NULL, $gid, &$access, $pop, $option ) {
 	if ( $id == 0 ) {
 		$check = '';
 	} else {
-		$check = "AND a.sectionid = $id";
+		$check = "\n AND a.sectionid = $id";
 	}
 	// query to determine if there are any archived entries for the section
 	$query = 	"SELECT a.id"
@@ -684,7 +684,7 @@ function showArchiveCategory( $id=0, $gid, &$access, $pop, $option, $now ) {
 	if ( $module ) {
 		$check = '';
 	} else {
-		$check = 'AND a.catid = '. $id;
+		$check = "\n AND a.catid = $id";
 	}
 
 	if ( $Itemid ) {
