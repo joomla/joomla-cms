@@ -35,14 +35,14 @@ Legend:
 --------------------
 
 11-Oct-2005 Rey Gigataras
- * Fixed Search Component flooding, by limiting searching to between 3 and 20 characters [ Minor Security Bug in 1.0.x ]
+ * Fixed Search Component flooding, by limiting searching to between 3 and 20 characters [ Low Level Security Bug in 1.0.x ]
  # Fixed artf1494 : Template fault in offline preview
  # Fixed artf1497 : mosemailcloak adds trailing space
  # Fixed artf1493 : mod_whosonline.php
 
 09-Oct-2005 Rey Gigataras
- * Fixed SQL injection bug in content submission [ Medium Security Bug in 1.0.x ]
- * Fixed artf1405 : Joomla shows Items to unauthorized users [ Minor Security Bug in 1.0.2 ]
+ * Fixed SQL injection bug in content submission [ Medium Level Security Bug in 1.0.x ]
+ * Fixed artf1405 : Joomla shows Items to unauthorized users [ Low Level Security Bug in 1.0.2 ]
  # Fixed artf1454 : After update email_cloacking bot is always on
  # Fixed artf1447 : Bug in mosloadposition mambot
  # Fixed artf1483 : SEF default .htaccess file settings are too lax
@@ -443,7 +443,7 @@ Legend:
  ^ Convert 4xSpace to tab
 
 08-Aug-2005 Andrew Eddie
- * Fixed SQL injection bugs in user activation (thanks Enno Klasing)
+ * Fixed SQL injection bugs in user activation (thanks Enno Klasing) [ Medium Level Security Bug ]
  ^ Encased text files in PHP wrapper to help obsfucate version info
  # Changed admin session name to hash of live_site to allow you to log into more than one Joomla! on the same host
  # Fixed hardcoded (c) character in web installer files
@@ -453,8 +453,8 @@ Legend:
  # Fixed login bug for nested Joomla! sites on the same domain
 
 02-Aug-2005 Alex Kempkens
- # [#6775] Display of static content without Itemid
- # [#6330] Corrected default value of field
+ * Fixed [#6775] Display of static content without Itemid [ Low Level Security Bug ]
+ # Fixed [#6330] Corrected default value of field
 
 ----- Derived from Mambo 4.5.2.3 circa. 17 Aug 12005 -----
 
