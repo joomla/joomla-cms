@@ -312,7 +312,7 @@ class HTML_users {
 				<table class="adminform">
 				<tr>
 					<th colspan="1">
-					<?php echo 'Parameters'; ?>
+					<?php echo $_LANG->_( 'Parameters' ); ?>
 					</th>
 				</tr>
 				<tr>

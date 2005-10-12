@@ -91,7 +91,7 @@ class HTML_Media {
 								</td>
 								<td class="buttonOut" width="10">
 									<a href="javascript:dirup()">
-										<img src="components/com_media/images/btnFolderUp.gif" width="15" height="15" border="0" alt="Up">
+										<img src="components/com_media/images/btnFolderUp.gif" width="15" height="15" border="0" alt="<?php echo $_LANG->_( 'Up' ); ?>">
 									</a>
 								</td>
 								<td align="right"><?php echo $_LANG->_( 'File Upload' ); ?>

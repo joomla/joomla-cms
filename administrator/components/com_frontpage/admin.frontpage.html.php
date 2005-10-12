@@ -78,7 +78,7 @@ class HTML_content {
             <?php echo $_LANG->_( 'Order' ); ?>
 			</th>
 			<th width="1%">
-			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="Save Order" /></a>
+			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo $_LANG->_( 'Save Order' ); ?>" /></a>
 			</th>
 			<th width="8%" nowrap="nowrap">
 			<?php echo $_LANG->_( 'Access' ); ?>

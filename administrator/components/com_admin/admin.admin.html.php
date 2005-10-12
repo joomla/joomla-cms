@@ -45,11 +45,15 @@ class HTML_admin_misc {
 	}
 
 	function get_php_setting($val) {
+		global $_LANG;
+
 		$r =  (ini_get($val) == '1' ? 1 : 0);
-		return $r ? 'ON' : 'OFF';
+		return $r ? $_LANG->_( 'ON' ) : $_LANG->_( 'OFF' ) ;
 	}
 
 	function get_server_software() {
+		global $_LANG;
+
 		if (isset($_SERVER['SERVER_SOFTWARE'])) {
 			return $_SERVER['SERVER_SOFTWARE'];
 		} else if (($sf = getenv('SERVER_SOFTWARE'))) {
@@ -75,8 +79,9 @@ class HTML_admin_misc {
 		</table>
 		
 		<?php
+		$title = $_LANG->_( 'System Info' );
 		$tabs->startPane("sysinfo");
-		$tabs->startTab("System Info","system-page");
+		$tabs->startTab( $title, "system-page" );
 		?>
 			<table class="adminform">
 			<tr>
@@ -294,8 +299,9 @@ class HTML_admin_misc {
 			</tr>
 			</table>
 		<?php
+		$title = $_LANG->_( 'PHP Info' );
 		$tabs->endTab();
-		$tabs->startTab("PHP Info","php-page");
+		$tabs->startTab( $title, "php-page" );
 		?>
 			<table class="adminform">
 			<tr>
@@ -321,8 +327,9 @@ class HTML_admin_misc {
 			</tr>
 			</table>
 		<?php
+		$title = $_LANG->_( 'Permissions' );
 		$tabs->endTab();
-		$tabs->startTab('Permissions','perms');
+		$tabs->startTab( $title, "perms" );
 		?>
 			<table class="adminform">
 			<tr>
@@ -510,6 +517,8 @@ class HTML_admin_misc {
 	*/
 	function preview( $tp=0 ) {
 		global $mosConfig_live_site;
+		global $_LANG;
+
 		$tp = intval( $tp );
 		?>
 		<style type="text/css">

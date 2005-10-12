@@ -69,7 +69,7 @@ class HTML_templates {
 		</table>
 		<table class="adminlist">
 		<tr>
-			<th width="5%">#</th>
+			<th width="5%"><?php echo $_LANG->_( 'Num' ); ?></th>
 			<th width="5%">&nbsp;</th>
 			<th width="25%" class="title">
 			<?php echo $_LANG->_( 'Name' ); ?>

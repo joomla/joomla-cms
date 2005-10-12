@@ -382,7 +382,7 @@ class HTML_contact {
 					} else {
 						jsimg='../images/M_images/blank.png';
 					}
-					document.write('<img src=' + jsimg + ' name="imagelib" width="100" height="100" border="2" alt="Preview" />');
+					document.write('<img src=' + jsimg + ' name="imagelib" width="100" height="100" border="2" alt="<?php echo $_LANG->_( 'Preview' ); ?>" />');
 					</script>
 					</td>
 				</tr>
