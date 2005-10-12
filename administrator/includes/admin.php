@@ -109,7 +109,7 @@ function mosLoadAdminModules( $position='left', $style=0 ) {
 */
 function mosLoadAdminModule( $name, $params=NULL ) {
 	global $mosConfig_absolute_path, $mosConfig_live_site;
-	global $database, $acl, $my, $mainframe, $option;
+	global $database, $acl, $my, $mainframe, $option, $_LANG;
 
 	$task = mosGetParam( $_REQUEST, 'task', '' );
 	// legacy support for $act
@@ -124,7 +124,7 @@ function mosLoadAdminModule( $name, $params=NULL ) {
 }
 
 function mosLoadCustomModule( &$module, &$params ) {
-	global $mosConfig_absolute_path;
+	global $mosConfig_absolute_path, $_LANG;
 
 	$rssurl 			= $params->get( 'rssurl', '' );
 	$rssitems 			= $params->get( 'rssitems', '' );
