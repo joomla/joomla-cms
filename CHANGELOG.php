@@ -38,6 +38,7 @@ Legend:
  # Fixed artf1266 : gzip compression conflict
 
 12-Oct-2005 Rey Gigataras
+ # Fixed bug in Global Config param `Time Offset`
  # Fixed artf1414 : Missing images in HTML_toolbar
  # Fixed artf1513 : PDF format does not work at version 1.0.2
 

@@ -195,7 +195,7 @@ function showconfig( $option) {
 		mosHTML::makeOption( 14, $_LANG->_( '(UTC +14:00) Kiribati' ) ),
 	);
 	
-	$lists['offset'] = mosHTML::selectList( $timeoffset, 'config_offset', 'class="inputbox" size="1"', 'value', 'text', $row->config_offset );
+	$lists['offset'] = mosHTML::selectList( $timeoffset, 'config_offset_user', 'class="inputbox" size="1"', 'value', 'text', $row->config_offset_user );
 
 // MAIL SETTINGS
 
@@ -302,6 +302,10 @@ function saveconfig( $task ) {
 	if (!$row->bind( $_POST )) {
 		mosRedirect( 'index2.php', $row->getError() );
 	}
+	
+	$server_time 		= date( 'O' ) / 100;
+	$offset 			= $_POST['config_offset_user'] - $server_time;
+	$row->config_offset = $offset;	
 	
 	$config = "<?php \n";
 	$config .= $row->getVarText();

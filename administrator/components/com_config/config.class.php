@@ -79,6 +79,8 @@ class mosConfig {
 	var $config_lang			= null;
 	/** @var int */
 	var $config_offset			= null;
+	/** @var int */
+	var $config_offset_user		= null;
 
 // Mail Settings
 	/** @var string */

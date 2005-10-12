@@ -240,6 +240,12 @@ class HTML_config {
 				</td>
 			</tr>
 			<tr>
+				<td width="185"><?php echo $_LANG->_( 'Server Offset' ); ?>:</td>
+				<td>
+				<input class="text_area" type="text" name="config_offset" size="15" value="<?php echo $row->config_offset; ?>" disabled="true"/>
+				</td>
+			</tr>
+			<tr>
 				<td width="185"><?php echo $_LANG->_( 'Country Locale' ); ?>:</td>
 				<td>
 				<input class="text_area" type="text" name="config_locale" size="15" value="<?php echo $row->config_locale; ?>"/>

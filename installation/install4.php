@@ -165,6 +165,7 @@ if ($siteUrl) {
 	$config .= "\$mosConfig_MetaAuthor = '1';\n";
 	$config .= "\$mosConfig_locale = 'en_GB';\n";
 	$config .= "\$mosConfig_offset = '0';\n";
+	$config .= "\$mosConfig_offset_user = '0';\n";
 	$config .= "\$mosConfig_hideAuthor = '0';\n";
 	$config .= "\$mosConfig_hideCreateDate = '0';\n";
 	$config .= "\$mosConfig_hideModifyDate = '0';\n";
