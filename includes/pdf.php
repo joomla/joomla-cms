@@ -59,7 +59,7 @@ function dofreePDF ( $database ) {
 	$txt1 = $row->title;
 	$pdf->ezText( $txt1, 14 );
 
-	$txt2 = AuthorDateLine( &$row, &$params );
+	$txt2 = AuthorDateLine( $row, $params );
 
 	$pdf->ezText( $txt2, 8 );
 	

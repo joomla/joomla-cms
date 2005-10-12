@@ -34,6 +34,9 @@ Legend:
 
 --------------------
 
+12-Oct-2005 Rey Gigataras
+ # Fixed artf1513 : PDF format does not work at version 1.0.2
+
 11-Oct-2005 Rey Gigataras
  * Fixed Search Component flooding, by limiting searching to between 3 and 20 characters [ Low Level Security Bug in 1.0.x ]
  ^ Blog - Content Category Archive will no longer show dropdown selector when coming from Archive Module
