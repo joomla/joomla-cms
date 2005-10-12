@@ -56,7 +56,7 @@ $rows = $database->loadObjectList();
 
 if ( count( $rows ) ) {
 	$_Itemid	= $rows[0]->id;
-	$link 		= 'index.php?option=com_search&Itemid='. $_Itemid;
+	$link 		= 'index.php?option=com_search&amp;Itemid='. $_Itemid;
 } else {
 	$_Itemid 	= '';
 	$link 		= 'index.php?option=com_search';	
