@@ -34,6 +34,9 @@ Legend:
 
 --------------------
 
+12-Oct-2005 Johan Janssens
+ # Fixed artf1266 : gzip compression conflict
+
 12-Oct-2005 Rey Gigataras
  # Fixed artf1513 : PDF format does not work at version 1.0.2
 

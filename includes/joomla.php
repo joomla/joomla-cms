@@ -3051,7 +3051,9 @@ function initGzip() {
 				)
 			) {
 			if ( extension_loaded('zlib') ) {
-				ob_start( 'ob_gzhandler' );
+				// You cannot specify additional output handlers if 
+				// zlib.output_compression is activated here
+				ob_start( );
 				return;
 			}
 		} else if ( $phpver > '4.0' ) {
