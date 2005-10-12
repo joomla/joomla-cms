@@ -92,6 +92,7 @@ switch ( $task ) {
 */
 function viewModules( $option, $client ) {
 	global $database, $my, $mainframe, $mosConfig_list_limit, $mosConfig_absolute_path;
+	global $_LANG;
 
 	$filter_position 	= $mainframe->getUserStateFromRequest( "filter_position{$option}{$client}", 'filter_position', 0 );
 	$filter_type	 	= $mainframe->getUserStateFromRequest( "filter_type{$option}{$client}", 'filter_type', 0 );

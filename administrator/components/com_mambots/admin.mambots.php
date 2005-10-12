@@ -85,6 +85,7 @@ switch ( $task ) {
 function viewMambots( $option, $client ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 	global $mosConfig_absolute_path;
+	global $_LANG;
 
 	$limit 			= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
 	$limitstart 	= $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
