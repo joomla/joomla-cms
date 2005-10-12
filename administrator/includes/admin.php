@@ -144,7 +144,7 @@ function mosLoadCustomModule( &$module, &$params ) {
 		$cacheDir = $mosConfig_absolute_path .'/cache/';
 		if (!is_writable( $cacheDir )) {
 			echo '<tr>';
-			echo '<td>Please make cache directory writable.</td>';
+			echo '<td>'. $_LANG->_( 'Please make cache directory writable.' ) .'</td>';
 			echo '</tr>';
 		} else {
 			$LitePath = $mosConfig_absolute_path .'/includes/Cache/Lite.php';
