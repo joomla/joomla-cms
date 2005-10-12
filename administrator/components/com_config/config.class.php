@@ -58,6 +58,8 @@ class mosConfig {
 	/** @var string */
 	var $config_live_site		= null;
 	/** @var string */
+	var $config_secure_site	= null;
+	/** @var string */
 	var $config_secret			= null;
 	/** @var int */
 	var $config_gzip			= 0;

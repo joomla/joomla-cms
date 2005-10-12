@@ -60,8 +60,13 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 
 		$mitem->link = ampReplace( $mitem->link );
 
+		$menu_params = new stdClass();
+		$menu_params = & new mosParameters( $mitem->params );
+		$menu_secure = $menu_params->def( 'secure', 0 );
+
+
 		if ( strcasecmp( substr( $mitem->link,0,4 ), 'http' ) ) {
-			$mitem->link = sefRelToAbs( $mitem->link );
+			$mitem->link = mosLink( $mitem->link, $menu_secure);
 		}
 
 		$menuclass = 'mainlevel'. $params->get( 'class_sfx' );

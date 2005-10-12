@@ -169,8 +169,16 @@ if ($mosConfig_sef) {
 	include( "configuration.php" );
 }
 
+
+/**
+ * 3 states for SSL
+ *
+ * -1 = Off, use non-SSL URL
+ *  0 = Ignore, and use whatever site is using
+ *  1 = On, use SSL URL
+ */
 function sefRelToAbs( $string ) {
-	GLOBAL $mosConfig_live_site, $mosConfig_sef, $mosConfig_mbf_content;
+	global $mosConfig_live_site, $mosConfig_sef, $mosConfig_mbf_content;
 
 	global $iso_client_lang;
 	if( $mosConfig_mbf_content && $string!="index.php" &&
@@ -256,10 +264,9 @@ function sefRelToAbs( $string ) {
 			}
 			$string = str_replace( '=', ',', $sefstring );
 		}
-		//echo $mosConfig_live_site."/".$string;
-		return $mosConfig_live_site."/".$string;
-	} else {
-		return $string;
-	}
+		
+	} 
+	
+	return $mosConfig_live_site."/".$string;
 }
 ?>

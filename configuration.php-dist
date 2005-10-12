@@ -35,6 +35,7 @@ $mosConfig_dbprefix = 'jos_';	// Do not change unless you need to!
 $mosConfig_lang = 'english';				// Site language
 $mosConfig_absolute_path = '/path/to/joomla/install';	// No trailing slash
 $mosConfig_live_site = 'http://your_joomla_site.com';	// No trailing slash
+$mosConfig_secure_site = 'http://your_secure_site.com'; // No trailing slash
 $mosConfig_sitename = 'Joomla';				// Name of Joomla site
 $mosConfig_shownoauth = '1';				// Display links & categories users don't have access to
 $mosConfig_useractivation = '1';			// Send new registration passwords via e-mail

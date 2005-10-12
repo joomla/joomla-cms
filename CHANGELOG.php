@@ -36,6 +36,9 @@ Legend:
 12-Oct-2005 Marko Schmuck
  # Fixed securitybug in admin.content.html.php when 2 logged in and try to edit the same content
 
+12-Oct-2005 Andy Miller
+ + Added advanced SSL support plus new mosLink() method for 3pd's to use
+
 12-Oct-2005 Johan Janssens
  # Fixed artf1266 : gzip compression conflict
 

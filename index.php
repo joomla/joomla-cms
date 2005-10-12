@@ -23,6 +23,10 @@ if (!file_exists( 'configuration.php' ) || filesize( 'configuration.php' ) < 10)
 
 include_once( 'globals.php' );
 require_once( 'configuration.php' );
+
+// enables switching to secure https
+require_once( 'includes/joomla.ssl.init.php' );
+
 require_once( 'includes/joomla.php' );
 
 //Installation sub folder check, removed for work with CVS

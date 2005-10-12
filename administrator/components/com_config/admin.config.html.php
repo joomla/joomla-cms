@@ -416,6 +416,16 @@ class HTML_config {
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
+				<td><?php echo $_LANG->_( 'Secure Site' ); ?>:</td>
+				<td>
+				<input class="text_area" type="text" name="config_secure_site" size="50" value="<?php echo $row->config_secure_site; ?>"/>
+				<?php
+                    $tip = $_LANG->_( 'TIPSECURESITE' );
+                    echo mosToolTip( $tip ); ?>
+				</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
 				<td><?php echo $_LANG->_( 'Secret Word' ); ?>:</td>
 				<td><strong><?php echo $row->config_secret; ?></strong></td>
 				<td>&nbsp;</td>

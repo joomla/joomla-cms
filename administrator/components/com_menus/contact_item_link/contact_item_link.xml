@@ -12,6 +12,11 @@
 	<description>DESCLINKCONTACT</description>
 	<params>
 		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
+		<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
+			<option value="-1">Off</option>
+			<option value="0">Ignore</option>
+			<option value="1">On</option>
+		</param>	
 		<param name="pageclass_sfx" type="text" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
 		<param name="page_title" type="radio" default="1" label="Page Title" description="Show/Hide the pages Title">
 			<option value="0">Hide</option>

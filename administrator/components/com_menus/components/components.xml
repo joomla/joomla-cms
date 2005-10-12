@@ -10,5 +10,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.0.0</version>
 	<description>DESCFRONTEND</description>
-	<params/>
+	<params>
+		<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
+			<option value="-1">Off</option>
+			<option value="0">Ignore</option>
+			<option value="1">On</option>
+		</param>	
+	</params>
 </mosinstall>
