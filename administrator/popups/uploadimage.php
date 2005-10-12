@@ -60,15 +60,15 @@ if (isset($_FILES['userfile'])) {
 			exit();
 		}
 		else {
-			echo "<script>alert('". $_LANG->_( 'Upload of' ) ." ". $userfile_name to $media_path ". $_LANG->_( 'successful' ) ."'); window.history.go(-1);</script>\n";
+			echo "<script>alert('". $_LANG->_( 'Upload of' ) ." $userfile_name to $media_path ". $_LANG->_( 'successful' ) ."'); window.history.go(-1);</script>\n";
 			exit();
 		}
 	} elseif (!move_uploaded_file ($_FILES['userfile']['tmp_name'],$base_Dir.$_FILES['userfile']['name']) || !mosChmod($base_Dir.$_FILES['userfile']['name'])) {
-		echo "<script>alert('". $_LANG->_( 'Upload of' ) ." ". $userfile_name ". $_LANG->_( 'failed' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script>alert('". $_LANG->_( 'Upload of' ) ." ". $userfile_name . " " . $_LANG->_( 'failed' ) ."'); window.history.go(-1);</script>\n";
 		exit();
 	}
 	else {
-		echo "<script>alert('". $_LANG->_( 'Upload of' ) ." ". $userfile_name to $base_Dir ". $_LANG->_( 'successful' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script>alert('". $_LANG->_( 'Upload of' ) ." $userfile_name to $base_Dir " . $_LANG->_( 'successful' ) ."'); window.history.go(-1);</script>\n";
 		exit();
 	}
 
