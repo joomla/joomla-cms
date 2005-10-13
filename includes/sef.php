@@ -250,7 +250,7 @@ function sefRelToAbs( $string ) {
 				$sefstring .= "lang,".$temp[0]."/";
 			}
 			$string = $sefstring;
-		} else if (eregi("option=com_",$string) && !eregi("option=com_registration",$string) && !eregi("task=new",$string) && !eregi("task=edit",$string)) {
+		} else if (eregi("option=com_",$string) && !eregi("task=new",$string) && !eregi("task=edit",$string)) {
 			/*
 			Components
 			index.php?option=com_xxxx&...
