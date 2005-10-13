@@ -145,7 +145,7 @@ class modules_html {
 				<tr>
 					<td>
 						<strong>
-						<a href="<?php echo $currChannel->getLink(); ?>" target="_blank">
+						<a href="<?php echo ampReplace( $currChannel->getLink() ); ?>" target="_blank">
 							<?php echo $currChannel->getTitle(); ?></a>
 						</strong>
 					</td>
@@ -195,7 +195,7 @@ class modules_html {
 						?>
 						<li class="newsfeed<?php echo $moduleclass_sfx; ?>">
 							<strong>
-							<a href="<?php echo $currItem->getLink(); ?>" target="_blank">
+							<a href="<?php echo ampReplace( $currItem->getLink() ); ?>" target="_blank">
                                 <?php echo str_replace('&apos;', "'", html_entity_decode( $currItem->getTitle() ) ); ?></a>
 							</strong>
 							<?php
