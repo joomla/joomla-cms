@@ -416,7 +416,7 @@ class HTML_contact {
 					</td>
 					<?php
 					// displays Print Icon
-					$print_link = $mosConfig_live_site. '/index2.php?option=com_contact&amp;task=view&contact_id='. $contact->id .'&amp;Itemid='. $Itemid .'&amp;pop=1';
+					$print_link = 'index2.php?option=com_contact&amp;task=view&contact_id='. $contact->id .'&amp;Itemid='. $Itemid .'&amp;pop=1';
 					mosHTML::PrintIcon( $contact, $params, $hide_js, $print_link );
 					?>
 				</tr>
