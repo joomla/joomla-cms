@@ -464,7 +464,7 @@ INSERT INTO `#__modules_menu` VALUES (13,0);
 INSERT INTO `#__modules_menu` VALUES (15,0);
 INSERT INTO `#__modules_menu` VALUES (17,0);
 INSERT INTO `#__modules_menu` VALUES (18,0);
-INSERT INTO `#__modules_menu` VALUES (31, 0);
+INSERT INTO `#__modules_menu` VALUES (30,0);
 
 # --------------------------------------------------------
 
