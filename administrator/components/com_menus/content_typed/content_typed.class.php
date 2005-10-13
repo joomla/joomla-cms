@@ -64,7 +64,7 @@ class content_typed_menu {
 			$contents 	= '';
 			$link 		= 'javascript:submitbutton( \'redirect\' );';
 			$lists['content'] = '<input type="hidden" name="content_typed" value="'. $temp[1] .'" />';
-			$lists['content'] .= '<a href="'. $link .'" title="Edit Static Content Item">'. $content[0]->title . $alias .'</a>';
+			$lists['content'] .= '<a href="'. $link .'" title="'. $_LANG->_( 'Edit Static Content Item' ) .'">'. $content[0]->title . $alias .'</a>';
 		} else {
 			$query = "SELECT a.id AS value, CONCAT( a.title, '(', a.title_alias, ')' ) AS text"
 			. "\n FROM #__content AS a"

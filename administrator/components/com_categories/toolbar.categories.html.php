@@ -23,6 +23,7 @@ class TOOLBAR_categories {
 	*/
 	function _EDIT() {
 		global $id;
+		global $_LANG;
 
 		mosMenuBar::startTable();
 		mosMenuBar::media_manager();
@@ -33,7 +34,7 @@ class TOOLBAR_categories {
 		mosMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', 'Close' );
+			mosMenuBar::cancel( 'cancel', $_LANG->_( 'Close' ) );
 		} else {
 			mosMenuBar::cancel();
 		}
@@ -67,6 +68,8 @@ class TOOLBAR_categories {
 	* Draws the menu for Editing an existing category
 	*/
 	function _DEFAULT(){
+		global $_LANG;
+
 		$section = mosGetParam( $_REQUEST, 'section', '' );
 
 		mosMenuBar::startTable();
@@ -75,9 +78,9 @@ class TOOLBAR_categories {
 		mosMenuBar::unpublishList();
 		mosMenuBar::spacer();
 		if ( $section == 'content' || ( $section > 0 ) ) {
-			mosMenuBar::customX( 'moveselect', 'move.png', 'move_f2.png', 'Move', true );
+			mosMenuBar::customX( 'moveselect', 'move.png', 'move_f2.png', $_LANG->_( 'Move' ), true );
 			mosMenuBar::spacer();
-			mosMenuBar::customX( 'copyselect', 'copy.png', 'copy_f2.png', 'Copy', true );
+			mosMenuBar::customX( 'copyselect', 'copy.png', 'copy_f2.png', $_LANG->_( 'Copy' ), true );
 			mosMenuBar::spacer();
 		}
 		mosMenuBar::deleteList();

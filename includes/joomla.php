@@ -3724,6 +3724,7 @@ class mosAdminMenus {
 	*/
 	function Images( $name, &$active, $javascript=NULL, $directory=NULL ) {
 		global $mosConfig_absolute_path;
+		global $_LANG;
 
 		if ( !$javascript ) {
 			$javascript = "onchange=\"javascript:if (document.forms[0].image.options[selectedIndex].value!='') {document.imagelib.src='../images/stories/' + document.forms[0].image.options[selectedIndex].value} else {document.imagelib.src='../images/blank.png'}\"";
@@ -3749,6 +3750,7 @@ class mosAdminMenus {
 	*/
 	function SpecificOrdering( &$row, $id, $query, $neworder=0 ) {
 		global $database;
+		global $_LANG;
 
 		if ( $neworder ) {
 			$text = $_LANG->_( 'descNewItemsFirst' );
@@ -4123,37 +4125,38 @@ class mosAdminMenus {
 class mosCommonHTML {
 
 	function ContentLegend( ) {
+		global $_LANG;
 		?>
 		<table cellspacing="0" cellpadding="4" border="0" align="center">
 		<tr align="center">
 			<td>
-			<img src="images/publish_y.png" width="12" height="12" border="0" alt="Pending" />
+			<img src="images/publish_y.png" width="12" height="12" border="0" alt="<?php echo $_LANG->_( 'Pending' ); ?>" />
 			</td>
 			<td>
-			Published, but is <u>Pending</u> |
+			<?php echo $_LANG->_( 'Published, but is' ); ?> <u><?php echo $_LANG->_( 'Pending' ); ?></u> |
 			</td>
 			<td>
-			<img src="images/publish_g.png" width="12" height="12" border="0" alt="Visible" />
+			<img src="images/publish_g.png" width="12" height="12" border="0" alt="<?php echo $_LANG->_( 'Visible' ); ?>" />
 			</td>
 			<td>
-			Published and is <u>Current</u> |
+			<?php echo $_LANG->_( 'Published and is' ); ?> <u><?php echo $_LANG->_( 'Current' ); ?></u> |
 			</td>
 			<td>
-			<img src="images/publish_r.png" width="12" height="12" border="0" alt="Finished" />
+			<img src="images/publish_r.png" width="12" height="12" border="0" alt="<?php echo $_LANG->_( 'Finished' ); ?>" />
 			</td>
 			<td>
-			Published, but has <u>Expired</u> |
+			<?php echo $_LANG->_( 'Published, but has' ); ?> <u><?php echo $_LANG->_( 'Expired' ); ?></u> |
 			</td>
 			<td>
-			<img src="images/publish_x.png" width="12" height="12" border="0" alt="Finished" />
+			<img src="images/publish_x.png" width="12" height="12" border="0" alt="<?php echo $_LANG->_( 'Finished' ); ?>" />
 			</td>
 			<td>
-			Not Published
+			<?php echo $_LANG->_( 'Not Published' ); ?>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="8" align="center">
-			Click on icon to toggle state.
+			<?php echo $_LANG->_( 'Click on icon to toggle state.' ); ?>
 			</td>
 		</tr>
 		</table>
@@ -4409,9 +4412,11 @@ class mosCommonHTML {
 	}
 
 	function PublishedProcessing( &$row, $i ) {
+		global $_LANG;
+
 		$img 	= $row->published ? 'publish_g.png' : 'publish_x.png';
 		$task 	= $row->published ? 'unpublish' : 'publish';
-		$alt 	= $row->published ? 'Published' : 'Unpublished';
+		$alt 	= $row->published ? $_LANG->_( 'Published' ) : $_LANG->_( 'Unpublished' );
 		$action	= $row->published ? 'Unpublish Item' : 'Publish item';
 
 		$href = '

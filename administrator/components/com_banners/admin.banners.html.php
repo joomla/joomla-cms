@@ -83,7 +83,7 @@ class HTML_banners {
 
 			$task 	= $row->showBanner ? 'unpublish' : 'publish';
 			$img 	= $row->showBanner ? 'publish_g.png' : 'publish_x.png';
-			$alt 	= $row->showBanner ? 'Published' : 'Unpublished';
+			$alt 	= $row->showBanner ? $_LANG->_( 'Published' ) : $_LANG->_( 'Unpublished' );
 
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 			?>
@@ -100,7 +100,7 @@ class HTML_banners {
 					echo $row->name;
 				} else {
 					?>
-					<a href="<?php echo $link; ?>" title="Edit Banner">
+					<a href="<?php echo $link; ?>" title="<?php echo $_LANG->_( 'Edit Banner' ); ?>">
 					<?php echo $row->name; ?>
 					</a>
 					<?php
@@ -190,7 +190,7 @@ class HTML_banners {
 		<table class="adminform">
 		<tr>
 			<th colspan="2">
-			Details
+			<?php echo $_LANG->_( 'Details' ); ?>
 			</th>
 		</tr>
 		<tr>
@@ -260,7 +260,7 @@ class HTML_banners {
 		<tr >
 			<td valign="top" align="right">
 			<?php echo $_LANG->_( 'Clicks' ); ?>
-			<br/>
+           <br />
 			<input name="reset_hits" type="button" class="button" value="<?php echo $_LANG->_( 'Reset Clicks' ); ?>" onClick="submitbutton('resethits');">
 			</td>
 			<td colspan="2">
@@ -369,7 +369,7 @@ class HTML_bannerClient {
 					echo $row->name;
 				} else {
 					?>
-					<a href="<?php echo $link; ?>" title="Edit Banner Client">
+					<a href="<?php echo $link; ?>" title="<?php echo $_LANG->_( 'Edit Banner Client' ); ?>">
 					<?php echo $row->name; ?>
 					</a>
 					<?php
@@ -428,7 +428,7 @@ class HTML_bannerClient {
 			<th>
 			<?php echo $_LANG->_( 'Banner Client' ); ?>:
 			<small>
-			<?php echo $row->cid ? 'Edit' : 'New';?>
+			<?php echo $row->cid ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' );?>
 			</small>
 			</th>
 		</tr>

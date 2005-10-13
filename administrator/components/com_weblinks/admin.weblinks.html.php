@@ -97,7 +97,7 @@ class HTML_weblinks {
 					echo $row->title;
 				} else {
 					?>
-					<a href="<?php echo $link; ?>" title="Edit Weblinks">
+					<a href="<?php echo $link; ?>" title="<?php echo $_LANG->_( 'Edit Weblinks' ); ?>">
 					<?php echo $row->title; ?>
 					</a>
 					<?php
@@ -116,7 +116,7 @@ class HTML_weblinks {
 				<?php echo $pageNav->orderDownIcon( $i, $n, ($row->catid == @$rows[$i+1]->catid) ); ?>
 				</td>
 				<td>
-				<a href="<?php echo $row->cat_link; ?>" title="Edit Category">
+				<a href="<?php echo $row->cat_link; ?>" title="<?php echo $_LANG->_( 'Edit Category' ); ?>">
 				<?php echo $row->category; ?>
 				</a>
 				</td>

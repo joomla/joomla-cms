@@ -164,7 +164,7 @@ class HTML_admin_misc {
 							<?php echo $_LANG->_( 'Open basedir' ); ?>:
 						</td>
 						<td>
-							<?php echo (($ob = ini_get('open_basedir')) ? $ob : 'none'); ?>
+							<?php echo (($ob = ini_get('open_basedir')) ? $ob : $_LANG->_( 'none' ) ); ?>
 						</td>
 					</tr>
 					<tr>
@@ -220,7 +220,7 @@ class HTML_admin_misc {
 							<?php echo $_LANG->_( 'Session save path' ); ?>:
 						</td>
 						<td>
-							<?php echo (($sp=ini_get('session.save_path'))?$sp:'none'); ?>
+							<?php echo (($sp=ini_get('session.save_path')) ? $sp : $_LANG->_( 'none' ) ); ?>
 						</td>
 					</tr>
 					<tr>
@@ -236,7 +236,7 @@ class HTML_admin_misc {
 							<?php echo $_LANG->_( 'XML enabled' ); ?>:
 						</td>
 						<td>
-						<?php echo extension_loaded('xml')?'Yes':'No'; ?>
+						<?php echo extension_loaded('xml') ? $_LANG->_( 'Yes' ) : $_LANG->_( 'No' ); ?>
 						</td>
 					</tr>
 					<tr>
@@ -244,7 +244,7 @@ class HTML_admin_misc {
 							<?php echo $_LANG->_( 'Zlib enabled' ); ?>:
 						</td>
 						<td>
-							<?php echo extension_loaded('zlib')?'Yes':'No'; ?>
+							<?php echo extension_loaded('zlib') ? $_LANG->_( 'Yes' ) : $_LANG->_( 'No' ); ?>
 						</td>
 					</tr>
 					<tr>
@@ -252,7 +252,7 @@ class HTML_admin_misc {
 							<?php echo $_LANG->_( 'Disabled Functions' ); ?>:
 						</td>
 						<td>
-							<?php echo (($df=ini_get('disable_functions'))?$df:'none'); ?>
+							<?php echo (($df=ini_get('disable_functions')) ? $df : $_LANG->_( 'none' ) ); ?>
 						</td>
 					</tr>
 					<?php
@@ -426,7 +426,7 @@ class HTML_admin_misc {
 		<table class="adminform" border="1">
 			<tr>
 				<th colspan="2" class="title">
-					Help
+					<?php echo $_LANG->_( 'Help' ); ?>
 				</th>
 			</tr>
 			<tr>
@@ -434,10 +434,10 @@ class HTML_admin_misc {
 				<table width="100%">
 					<tr>
 						<td>
-							<strong>Search:</strong>
+							<strong><?php echo $_LANG->_( 'Search' ); ?>:</strong>
 							<input class="text_area" type="hidden" name="option" value="com_admin" />
 							<input type="text" name="helpsearch" value="<?php echo $helpsearch;?>" class="inputbox" />
-							<input type="submit" value="Go" class="button" />
+							<input type="submit" value="<?php echo $_LANG->_( 'Go' ); ?>" class="button" />
 							<input type="button" value="<?php echo $_LANG->_( 'Clear Results' ); ?>" class="button" onclick="f=document.adminForm;f.helpsearch.value='';f.submit()" />
 							</td>
 							<td style="text-align:right">
@@ -477,10 +477,10 @@ class HTML_admin_misc {
 								<?php echo $_LANG->_( 'Changelog' ); ?></a>
 							|
 							<a href="<?php echo $mosConfig_live_site;?>/administrator/index3.php?option=com_admin&task=sysinfo" target="helpFrame">
-								System Info</a>
+								<?php echo $_LANG->_( 'System Info' ); ?></a>
 							|
 							<a href="http://www.joomla.org/content/blogcategory/32/66/" target="_blank">
-								Latest Version Check</a>
+								<?php echo $_LANG->_( 'Latest Version Check' ); ?></a>
 						</td>
 					</tr>
 				</table>

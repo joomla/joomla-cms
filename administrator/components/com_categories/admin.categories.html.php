@@ -67,7 +67,7 @@ class categories_html {
 		<table class="adminlist">
 		<tr>
 			<th width="10" align="left">
-			#
+            <?php echo $_LANG->_( 'Num' ); ?>
 			</th>
 			<th width="20">
 			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows );?>);" />
@@ -112,10 +112,10 @@ class categories_html {
 			if ( $type == 'content') {
 				?>
 				<th width="5%">
-				# <?php echo $_LANG->_( 'Active' ); ?>
+				<?php echo $_LANG->_( 'Num Active' ); ?>
 				</th>
 				<th width="5%">
-				# <?php echo $_LANG->_( 'Trash' ); ?>
+				<?php echo $_LANG->_( 'Num Trash' ); ?>
 				</th>
 				<?php
 			} else {
@@ -184,7 +184,7 @@ class categories_html {
 				if ( $section == 'content' ) {
 					?>
 					<td align="left">
-					<a href="<?php echo $row->sect_link; ?>" title="Edit Section">
+					<a href="<?php echo $row->sect_link; ?>" title="<?php echo $_LANG->_( 'Edit Section' ); ?>">
 					<?php echo $row->section_name; ?>
 					</a>
 					</td>
@@ -313,7 +313,7 @@ class categories_html {
 					<?php echo $_LANG->_( 'Category Title' ); ?>:
 					</td>
 					<td colspan="2">
-					<input class="text_area" type="text" name="title" value="<?php echo $row->title; ?>" size="50" maxlength="50" title="A short name to appear in menus" />
+					<input class="text_area" type="text" name="title" value="<?php echo $row->title; ?>" size="50" maxlength="50" title="<?php echo $_LANG->_( 'A short name to appear in menus' ); ?>" />
 					</td>
 				</tr>
 				<tr>
@@ -321,7 +321,7 @@ class categories_html {
 					<?php echo $_LANG->_( 'Category Name' ); ?>:
 					</td>
 					<td colspan="2">
-					<input class="text_area" type="text" name="name" value="<?php echo $row->name; ?>" size="50" maxlength="255" title="A long name to be displayed in headings" />
+					<input class="text_area" type="text" name="name" value="<?php echo $row->name; ?>" size="50" maxlength="255" title="<?php echo $_LANG->_( 'A long name to be displayed in headings' ); ?>" />
 					</td>
 				</tr>
 				<tr>

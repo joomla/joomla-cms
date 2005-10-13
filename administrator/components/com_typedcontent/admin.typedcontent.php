@@ -89,6 +89,7 @@ switch ( $task ) {
 */
 function view( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
+	global $_LANG;
 
 	$filter_authorid 	= $mainframe->getUserStateFromRequest( "filter_authorid{$option}", 'filter_authorid', 0 );
 	$order 				= $mainframe->getUserStateFromRequest( "zorder", 'zorder', 'c.ordering DESC' );

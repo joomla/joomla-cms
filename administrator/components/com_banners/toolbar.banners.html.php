@@ -25,6 +25,7 @@ class TOOLBAR_banners {
 	*/
 	function _EDIT() {
 		global $id;
+		global $_LANG;
 
 		mosMenuBar::startTable();
 		mosMenuBar::media_manager( 'banners' );
@@ -33,7 +34,7 @@ class TOOLBAR_banners {
 		mosMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', 'Close' );
+			mosMenuBar::cancel( 'cancel', $_LANG->_( 'Close' ) );
 		} else {
 			mosMenuBar::cancel();
 		}
@@ -70,13 +71,14 @@ class TOOLBAR_bannerClient {
 	*/
 	function _EDIT() {
 		global $id;
+		global $_LANG;
 
 		mosMenuBar::startTable();
 		mosMenuBar::save( 'saveclient' );
 		mosMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancelclient', 'Close' );
+			mosMenuBar::cancel( 'cancelclient', $_LANG->_( 'Close' ) );
 		} else {
 			mosMenuBar::cancel( 'cancelclient' );
 		}

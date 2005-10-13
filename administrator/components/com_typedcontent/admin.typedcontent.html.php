@@ -152,7 +152,7 @@ class HTML_typedcontent {
 					$author = $row->created_by_alias;
 				} else {
 					$linkA 	= 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->created_by;
-					$author = '<a href="'. $linkA .'" title="Edit User">'. $row->creator .'</a>';
+					$author = '<a href="'. $linkA .'" title="'. $_LANG->_( 'Edit User' ) .'">'. $row->creator .'</a>';
 				}
 			} else {
 				if ( $row->created_by_alias ) {
