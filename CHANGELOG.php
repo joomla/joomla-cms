@@ -36,6 +36,7 @@ Legend:
 
 13-Oct-2005 Rey Gigataras
  # Fixed XHTML issue in com_search
+ # Fixed artf1533 : rhuk_solarflare_ii 2.2 active_menu
  # Fixed artf1354 : Can't create new user
  # Fixed artf1433 : Images in Templates
  # Fixed artf1531 : RSS Feed showing wrong livesite URL

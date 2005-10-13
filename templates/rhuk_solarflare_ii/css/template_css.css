@@ -591,6 +591,17 @@ a.sublevel:hover {
 	color: #900;
 	text-decoration: none;
 }
+
+a.sublevel#active_menu{
+	color: #000;
+	text-decoration: bold;
+}
+
+a.sublevel#active_menu:hover{
+	color: #CCC;
+	text-decoration: bold;
+}
+
 .highlight {
 	background-color: Yellow;
 	color: Blue;
