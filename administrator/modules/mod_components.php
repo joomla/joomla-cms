@@ -89,8 +89,10 @@ foreach ($comps as $row) {
 						<?php
 						if ($i < $topLevelLimit ) {
 							$i++;
-							$name = htmlspecialchars( $row->name, ENT_QUOTES );
+							//$name = htmlspecialchars( $row->name, ENT_QUOTES );
 							// $alt = htmlspecialchars( $row->admin_menu_alt, ENT_QUOTES );
+							$name = $_LANG->_( $row->name );
+
 							if ($row->admin_menu_link) {
 								?>
 								<tr>
@@ -120,7 +122,8 @@ foreach ($comps as $row) {
 										<td>
 											<ul style="padding: 0px 0px 0px 20px; margin: 0px;">
 												<?php
-					   							$name = htmlspecialchars( $sub->name );
+												$name = $_LANG->_( $sub->name );
+					   							//$name = htmlspecialchars( $sub->name );
 												// $alt = htmlspecialchars( $sub->admin_menu_alt );
 												// $link = $sub->admin_menu_link ? "" : "null";
 												// $img = $sub->admin_menu_img ? "<img src=\"../includes/$sub->admin_menu_img\" />" : '';
