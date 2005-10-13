@@ -181,7 +181,7 @@ function publishLanguage( $p_lname, $option ) {
 /**
 * Remove the selected language
 */
-function removeLanguage( $cid, $option, $client ) {
+function removeLanguage( $cid, $option, $client = 'admin' ) {
 	global $mosConfig_lang;
 	global $_LANG;
 
