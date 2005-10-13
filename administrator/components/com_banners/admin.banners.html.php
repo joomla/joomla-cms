@@ -38,7 +38,7 @@ class HTML_banners {
 		<table class="adminlist">
 		<tr>
 			<th width="20">
-			#
+            <?php echo $_LANG->_( 'Num' ); ?>
 			</th>
 			<th width="20">
 			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
@@ -331,7 +331,7 @@ class HTML_bannerClient {
 		<table class="adminlist">
 		<tr>
 			<th width="20">
-			#
+            <?php echo $_LANG->_( 'Num' ); ?>
 			</th>
 			<th width="20">
 			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
