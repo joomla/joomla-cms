@@ -2857,7 +2857,8 @@ function mosFormatDate( $date, $format="", $offset="" ){
 
 	if ( $format == '' ) {
 		// %Y-%m-%d %H:%M:%S
-		$format = $GLOBALS['_LANG']->_( 'DATE_FORMAT_LC' );
+		//after conversion $format = $GLOBALS['_LANG']->_( 'DATE_FORMAT_LC' );
+		$format = _DATE_FORMAT_LC;
 	}
 	if ( $offset == '' ) {
 		$offset = $mosConfig_offset;

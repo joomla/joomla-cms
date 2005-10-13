@@ -347,10 +347,10 @@ class mosMenuBar {
 	* @param string An override for the task
 	* @param string An override for the alt text
 	*/
-	function editHtml( $task='edit_source', $alt='Edit&nbsp;HTML' ) {
+	function editHtml( $task='edit_source', $alt='' ) {
 		global $_LANG;
 
-    	$alt = $_LANG->_( $alt );
+    	$alt = $_LANG->_( 'Edit HTML' );
 
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'html_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
@@ -368,10 +368,10 @@ class mosMenuBar {
 	* @param string An override for the task
 	* @param string An override for the alt text
 	*/
-	function editHtmlX( $task='edit_source', $alt='Edit&nbsp;HTML' ) {
+	function editHtmlX( $task='edit_source', $alt='' ) {
 		global $_LANG;
 
-    	$alt = $_LANG->_( $alt );
+    	$alt = $_LANG->_( 'Edit HTML' );
 
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'html_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
@@ -388,10 +388,10 @@ class mosMenuBar {
 	* @param string An override for the task
 	* @param string An override for the alt text
 	*/
-	function editCss( $task='edit_css', $alt='Edit&nbsp;CSS' ) {
+	function editCss( $task='edit_css', $alt='' ) {
 		global $_LANG;
 
-    	$alt = $_LANG->_( $alt );
+    	$alt = $_LANG->_( 'Edit CSS' );
 
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'css_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
@@ -409,10 +409,10 @@ class mosMenuBar {
 	* @param string An override for the task
 	* @param string An override for the alt text
 	*/
-	function editCssX( $task='edit_css', $alt='Edit&nbsp;CSS' ) {
+	function editCssX( $task='edit_css', $alt='' ) {
 		global $_LANG;
 
-    	$alt = $_LANG->_( $alt );
+    	$alt = $_LANG->_( 'Edit CSS' );
 
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'css_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
 		?>
