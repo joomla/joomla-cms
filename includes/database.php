@@ -557,7 +557,10 @@ class database {
 				continue;
 			}
 			if( $v == '' ) {
-				$val = "''";
+				//$val = "''";
+				if ($k != 'guest') {
+					$val = "''";
+				}
 			} else {
 				$val = $this->Quote( $v );
 			}
