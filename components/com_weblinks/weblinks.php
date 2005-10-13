@@ -59,7 +59,7 @@ function listWeblinks( $catid ) {
 	$query = "SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc"
 	. "\n LEFT JOIN #__weblinks AS a ON a.catid = cc.id"
 	. "\n WHERE a.published = 1"
-	. "\n AND a.approved = 1"
+	//. "\n AND a.approved = 1"
 	. "\n AND section = 'com_weblinks'"
 	. "\n AND cc.published = 1"
 	. "\n AND cc.access <= $my->gid"
@@ -77,7 +77,7 @@ function listWeblinks( $catid ) {
 		. "\n FROM #__weblinks"
 		. "\n WHERE catid = $catid"
 		. "\n AND published = 1"
-		. "\n AND approved = 1"
+		//. "\n AND approved = 1"
 		. "\n AND archived = 0"
 		. "\n ORDER BY ordering"
 		;
@@ -204,7 +204,7 @@ function editWebLink( $id, $option ) {
 	} else {
 		// initialise new record
 		$row->published 		= 0;
-		$row->approved 		= 0;
+		$row->approved 		= 1;
 		$row->ordering 		= 0;
 	}
 /*
@@ -258,7 +258,7 @@ function saveWeblink( $option ) {
 	}
 
 	$row = new mosWeblink( $database );
-	if (!$row->bind( $_POST, "approved published" )) {
+	if (!$row->bind( $_POST, "published" )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}

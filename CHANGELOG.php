@@ -41,6 +41,7 @@ Legend:
 
 12-Oct-2005 Johan Janssens
  # Fixed artf1266 : gzip compression conflict
+ # Fixed artf1453 : Weblink item missing approved parameter
 
 12-Oct-2005 Rey Gigataras
  # Fixed bug in Global Config param `Time Offset`
