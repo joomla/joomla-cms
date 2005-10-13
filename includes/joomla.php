@@ -2754,7 +2754,8 @@ function mosGetOS( $agent ) {
 * @param integer The length of the truncated headline
 */
 function mosGetOrderingList( $sql, $chop='30' ) {
-	global $database, $_LANG;
+	global $database;
+	global $_LANG;
 
 	$order = array();
 	$database->setQuery( $sql );
@@ -3443,7 +3444,8 @@ class mosAdminMenus {
 	*/
 	function Parent( &$row ) {
 		global $database;
-
+		global $_LANG;
+		
 		// get a list of the menu items
 		$query = "SELECT m.*"
 		. "\n FROM #__menu m"
@@ -3468,7 +3470,7 @@ class mosAdminMenus {
 
 		// assemble menu items to the array
 		$mitems = array();
-		$mitems[] = mosHTML::makeOption( '0', 'Top' );
+		$mitems[] = mosHTML::makeOption( '0', $_LANG->_( 'Top' ) );
 		$this_treename = '';
 		foreach ( $list as $item ) {
 			if ( $this_treename ) {
@@ -3529,6 +3531,7 @@ class mosAdminMenus {
 	*/
 	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 ) {
 		global $database;
+		global $_LANG;
 
 		// get a list of the menu items
 		$query = "SELECT m.*"
@@ -3579,19 +3582,19 @@ class mosAdminMenus {
 		$mitems = array();
 		if ( $all ) {
 			// prepare an array with 'all' as the first item
-			$mitems[] = mosHTML::makeOption( 0, 'All' );
+			$mitems[] = mosHTML::makeOption( 0, $_LANG->_( 'All' ) );
 			// adds space, in select box which is not saved
 			$mitems[] = mosHTML::makeOption( -999, '----' );
 		}
 		if ( $none ) {
 			// prepare an array with 'all' as the first item
-			$mitems[] = mosHTML::makeOption( -999, 'None' );
+			$mitems[] = mosHTML::makeOption( -999, $_LANG->_( 'None' ) );
 			// adds space, in select box which is not saved
 			$mitems[] = mosHTML::makeOption( -999, '----' );
 		}
 		if ( $none ) {
 			// prepare an array with 'all' as the first item
-			$mitems[] = mosHTML::makeOption( 99999999, 'Unassigned' );
+			$mitems[] = mosHTML::makeOption( 99999999, $_LANG->_( 'Unassigned' ) );
 			// adds space, in select box which is not saved
 			$mitems[] = mosHTML::makeOption( -999, '----' );
 		}
@@ -3639,6 +3642,7 @@ class mosAdminMenus {
 	*/
 	function Section( &$menu, $id, $all=0 ) {
 		global $database;
+		global $_LANG;
 
 		$query = "SELECT s.id AS `value`, s.id AS `id`, s.title AS `text`"
 		. "\n FROM #__sections AS s"
@@ -3647,7 +3651,7 @@ class mosAdminMenus {
 		;
 		$database->setQuery( $query );
 		if ( $all ) {
-			$rows[] = mosHTML::makeOption( 0, '- All Sections -' );
+			$rows[] = mosHTML::makeOption( 0, '- '. $_LANG->_( 'All Sections' ) .' -' );
 			$rows = array_merge( $rows, $database->loadObjectList() );
 		} else {
 			$rows = $database->loadObjectList();
@@ -3773,6 +3777,7 @@ class mosAdminMenus {
 	*/
 	function UserSelect( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 ) {
 		global $database, $my;
+		global $_LANG;
 
 		$and = '';
 		if ( $reg ) {
@@ -3788,7 +3793,7 @@ class mosAdminMenus {
 		;
 		$database->setQuery( $query );
 		if ( $nouser ) {
-			$users[] = mosHTML::makeOption( '0', '- No User -' );
+			$users[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'No User' ) .' -' );
 			$users = array_merge( $users, $database->loadObjectList() );
 		} else {
 			$users = $database->loadObjectList();
@@ -3828,6 +3833,7 @@ class mosAdminMenus {
 	*/
 	function ComponentCategory( $name, $section, $active=NULL, $javascript=NULL, $order='ordering', $size=1, $sel_cat=1 ) {
 		global $database;
+		global $_LANG;
 
 		$query = "SELECT id AS value, name AS text"
 		. "\n FROM #__categories"
@@ -3837,14 +3843,14 @@ class mosAdminMenus {
 		;
 		$database->setQuery( $query );
 		if ( $sel_cat ) {
-			$categories[] = mosHTML::makeOption( '0', _SEL_CATEGORY );
+			$categories[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select a Category' ) .' -' );
 			$categories = array_merge( $categories, $database->loadObjectList() );
 		} else {
 			$categories = $database->loadObjectList();
 		}
 
 		if ( count( $categories ) < 1 ) {
-			mosRedirect( 'index2.php?option=com_categories&section='. $section, 'You must create a category first.' );
+			mosRedirect( 'index2.php?option=com_categories&section='. $section, $_LANG->_( 'You must create a category first.' ) );
 		}
 
 		$category = mosHTML::selectList( $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'value', 'text', $active );
@@ -3857,8 +3863,9 @@ class mosAdminMenus {
 	*/
 	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' ) {
 		global $database;
+		global $_LANG;
 
-		$categories[] = mosHTML::makeOption( '0', _SEL_SECTION );
+		$categories[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Section' ) .' -' );
 		$query = "SELECT id AS value, title AS text"
 		. "\n FROM #__sections"
 		. "\n WHERE published = 1"
@@ -4165,6 +4172,7 @@ class mosCommonHTML {
 	}
 
 	function menuLinksContent( &$menus ) {
+		global $_LANG;
 		?>
 		<script language="javascript" type="text/javascript">
 		function go2( pressbutton, menu, id ) {
@@ -4194,21 +4202,21 @@ class mosCommonHTML {
 			</tr>
 			<tr>
 				<td width="90px" valign="top">
-				Menu
+				<?php echo $_LANG->_( 'Menu' ); ?>
 				</td>
 				<td>
-				<a href="javascript:go2( 'go2menu', '<?php echo $menu->menutype; ?>' );" title="Go to Menu">
+				<a href="javascript:go2( 'go2menu', '<?php echo $menu->menutype; ?>' );" title="<?php echo $_LANG->_( 'Go to Menu' ); ?>">
 				<?php echo $menu->menutype; ?>
 				</a>
 				</td>
 			</tr>
 			<tr>
 				<td width="90px" valign="top">
-				Link Name
+				<?php echo $_LANG->_( 'Link Name' ); ?>
 				</td>
 				<td>
 				<strong>
-				<a href="javascript:go2( 'go2menuitem', '<?php echo $menu->menutype; ?>', '<?php echo $menu->id; ?>' );" title="Go to Menu Item">
+				<a href="javascript:go2( 'go2menuitem', '<?php echo $menu->menutype; ?>', '<?php echo $menu->id; ?>' );" title="<?php echo $_LANG->_( 'Go to Menu Item' ); ?>">
 				<?php echo $menu->name; ?>
 				</a>
 				</strong>
@@ -4216,20 +4224,20 @@ class mosCommonHTML {
 			</tr>
 			<tr>
 				<td width="90px" valign="top">
-				State
+				<?php echo $_LANG->_( 'State' ); ?>
 				</td>
 				<td>
 				<?php
 				switch ( $menu->published ) {
 					case -2:
-						echo '<font color="red">Trashed</font>';
+						echo '<font color="red">'. $_LANG->_( 'Trashed' ) .'</font>';
 						break;
 					case 0:
-						echo 'UnPublished';
+						echo $_LANG->_( 'UnPublished' );
 						break;
 					case 1:
 					default:
-						echo '<font color="green">Published</font>';
+						echo '<font color="green">'. $_LANG->_( 'Published' ) .'</font>';
 						break;
 				}
 				?>
@@ -4244,6 +4252,7 @@ class mosCommonHTML {
 	}
 
 	function menuLinksSecCat( &$menus ) {
+		global $_LANG;
 		?>
 		<script language="javascript" type="text/javascript">
 		function go2( pressbutton, menu, id ) {
@@ -4273,17 +4282,17 @@ class mosCommonHTML {
 			</tr>
 			<tr>
 				<td width="90px" valign="top">
-				Menu
+				<?php echo $_LANG->_( 'Menu' ); ?>
 				</td>
 				<td>
-				<a href="javascript:go2( 'go2menu', '<?php echo $menu->menutype; ?>' );" title="Go to Menu">
+				<a href="javascript:go2( 'go2menu', '<?php echo $menu->menutype; ?>' );" title="<?php echo $_LANG->_( 'Go to Menu' ); ?>">
 				<?php echo $menu->menutype; ?>
 				</a>
 				</td>
 			</tr>
 			<tr>
 				<td width="90px" valign="top">
-				Type
+				<?php echo $_LANG->_( 'Type' ); ?>
 				</td>
 				<td>
 				<?php echo $menu->type; ?>
@@ -4291,11 +4300,11 @@ class mosCommonHTML {
 			</tr>
 			<tr>
 				<td width="90px" valign="top">
-				Item Name
+				<?php echo $_LANG->_( 'Item Name' ); ?>
 				</td>
 				<td>
 				<strong>
-				<a href="javascript:go2( 'go2menuitem', '<?php echo $menu->menutype; ?>', '<?php echo $menu->id; ?>' );" title="Go to Menu Item">
+				<a href="javascript:go2( 'go2menuitem', '<?php echo $menu->menutype; ?>', '<?php echo $menu->id; ?>' );" title="<?php echo $_LANG->_( 'Go to Menu Item' ); ?>">
 				<?php echo $menu->name; ?>
 				</a>
 				</strong>
@@ -4303,20 +4312,20 @@ class mosCommonHTML {
 			</tr>
 			<tr>
 				<td width="90px" valign="top">
-				State
+				<?php echo $_LANG->_( 'State' ); ?>
 				</td>
 				<td>
 				<?php
 				switch ( $menu->published ) {
 					case -2:
-						echo '<font color="red">Trashed</font>';
+						echo '<font color="red">'. $_LANG->_( 'Trashed' ) .'</font>';
 						break;
 					case 0:
-						echo 'UnPublished';
+						echo $_LANG->_( 'UnPublished' );
 						break;
 					case 1:
 					default:
-						echo '<font color="green">Published</font>';
+						echo '<font color="green">'. $_LANG->_( 'Published' ) .'</font>';
 						break;
 				}
 				?>
@@ -4370,8 +4379,9 @@ class mosCommonHTML {
 	*/
 	function loadCalendar() {
 		global  $mosConfig_live_site;
+		global $_LANG;
 		?>
-		<link rel="stylesheet" type="text/css" media="all" href="<?php echo $mosConfig_live_site;?>/includes/js/calendar/calendar-mos.css" title="green" />
+		<link rel="stylesheet" type="text/css" media="all" href="<?php echo $mosConfig_live_site;?>/includes/js/calendar/calendar-mos.css" title="<?php echo $_LANG->_( 'green' ); ?>" />
 		<!-- import the calendar script -->
 		<script type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/calendar/calendar_mini.js"></script>
 		<!-- import the language module -->

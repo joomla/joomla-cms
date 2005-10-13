@@ -211,7 +211,7 @@ class HTML_content {
 				if ( $times ) {
 					?>
 					<td align="center">
-					<a href="javascript: void(0);" onMouseOver="return overlib('<table><?php echo $times; ?></table>', CAPTION, 'Publish Information', BELOW, RIGHT);" onMouseOut="return nd();" onClick="return listItemTask('cb<?php echo $i;?>','<?php echo $row->state ? $_LANG->_( 'unpublish' ) : $_LANG->_( 'publish' );?>')">
+					<a href="javascript: void(0);" onMouseOver="return overlib('<table><?php echo $times; ?></table>', CAPTION, '<?php echo $_LANG->_( 'Publish Information' ); ?>', BELOW, RIGHT);" onMouseOut="return nd();" onClick="return listItemTask('cb<?php echo $i;?>','<?php echo $row->state ? $_LANG->_( 'unpublish' ) : $_LANG->_( 'publish' );?>')">
 					<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" />
 					</a>
 					</td>

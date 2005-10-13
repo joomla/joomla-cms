@@ -208,6 +208,7 @@ class mosParameters {
 */
 	function render( $name='params' ) {
 		global $mosConfig_absolute_path;
+		global $_LANG;
 
 		if ($this->_path) {
 			if (!is_object( $this->_xmlElem )) {
@@ -247,7 +248,7 @@ class mosParameters {
 				$result = $this->renderParam( $param, $name );
 				$html[] = '<tr>';
 
-				$html[] = '<td width="40%" align="right" valign="top"><span class="editlinktip">' . $result[0] . '</span></td>';
+				$html[] = '<td width="40%" align="right" valign="top"><span class="editlinktip">' . $_LANG->_( $result[0] ) . '</span></td>';
 				$html[] = '<td>' . $result[1] . '</td>';
 
 				$html[] = '</tr>';
@@ -357,6 +358,7 @@ class mosParameters {
 	*/
 	function _form_mos_section( $name, $value, &$node, $control_name ) {
 		global $database;
+		global $_LANG;
 
 		$query = "SELECT id, title"
 		. "\n FROM #__sections"
@@ -366,7 +368,7 @@ class mosParameters {
 		;
 		$database->setQuery( $query );
 		$options = $database->loadObjectList();
-		array_unshift( $options, mosHTML::makeOption( '0', '- Select Content Section -', 'id', 'title' ) );
+		array_unshift( $options, mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Content Section' ) .' -', 'id', 'title' ) );
 
 		return mosHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'id', 'title', $value );
 	}
@@ -379,6 +381,7 @@ class mosParameters {
 	*/
 	function _form_mos_category( $name, $value, &$node, $control_name ) {
 		global $database;
+		global $_LANG;
 
 		$scope = $node->getAttribute( 'scope' );
 		if( !isset($scope) ) {
@@ -404,7 +407,7 @@ class mosParameters {
 		}
 		$database->setQuery( $query );
 		$options = $database->loadObjectList();
-		array_unshift( $options, mosHTML::makeOption( '0', '- Select Content Category -', 'id', 'title' ) );
+		array_unshift( $options, mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Content Category' ) .' -', 'id', 'title' ) );
 
 		return mosHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'id', 'title', $value );
 	}
@@ -417,13 +420,14 @@ class mosParameters {
 	*/
 	function _form_mos_menu( $name, $value, &$node, $control_name ) {
 		global $database;
+		global $_LANG;
 
 		$menuTypes = mosAdminMenus::menutypes();
 
 		foreach($menuTypes as $menutype ) {
 			$options[] = mosHTML::makeOption( $menutype, $menutype );
 		}
-		array_unshift( $options, mosHTML::makeOption( '', '- Select Menu -' ) );
+		array_unshift( $options, mosHTML::makeOption( '', '- '. $_LANG->_( 'Select Menu' ) .' -' ) );
 
 		return mosHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value );
 	}
@@ -436,6 +440,7 @@ class mosParameters {
 	*/
 	function _form_filelist( $name, $value, &$node, $control_name ) {
 		global $mosConfig_absolute_path;
+		global $_LANG;
 
 		// path to images directory
 		$path 	= $mosConfig_absolute_path . $node->getAttribute( 'directory' );
@@ -447,10 +452,10 @@ class mosParameters {
 			$options[] = mosHTML::makeOption( $file, $file );
 		}
 		if ( !$node->getAttribute( 'hide_none' ) ) {
-			array_unshift( $options, mosHTML::makeOption( '-1', '- '. 'Do not use an image' .' -' ) );
+			array_unshift( $options, mosHTML::makeOption( '-1', '- '. $_LANG->_( 'Do not use an image' ) .' -' ) );
 		}
 		if ( !$node->getAttribute( 'hide_default' ) ) {
-			array_unshift( $options, mosHTML::makeOption( '', '- '. 'Use Default image' .' -' ) );
+			array_unshift( $options, mosHTML::makeOption( '', '- '. $_LANG->_( 'Use Default image' ) .' -' ) );
 		}
 
 		return mosHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value, "param$name" );
