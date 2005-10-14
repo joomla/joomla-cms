@@ -242,17 +242,6 @@ table td.body_outer {
 	border: 1px solid #cccccc;
 }
 
-
-
-#active_menu {
-	color:#fff;
-	font-weight: bold;
-}
-
-a#active_menu:hover {
-	color: #fff;
-}
-
 .maintitle {
 	color: #ffffff;
 	font-size: 40px;
@@ -578,6 +567,15 @@ a.mainlevel:hover {
 	color: #fff;
 }
 
+a.mainlevel#active_menu {
+	color:#fff;
+	font-weight: bold;
+}
+
+a.mainlevel#active_menu:hover {
+	color: #fff;
+}
+
 a.sublevel:link, a.sublevel:visited {
 	padding-left: 1px;
 	vertical-align: middle;
@@ -592,13 +590,8 @@ a.sublevel:hover {
 	text-decoration: none;
 }
 
-a.sublevel#active_menu{
-	color: #000;
-	text-decoration: bold;
-}
-
-a.sublevel#active_menu:hover{
-	color: #CCC;
+a.sublevel#active_menu {
+	color: #333;
 	text-decoration: bold;
 }
 

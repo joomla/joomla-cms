@@ -34,6 +34,9 @@ Legend:
 
 --------------------
 
+13-Oct-2005 Andy Miller
+ # Fixed artf1504 : rhuk_solarflare_ii Template | Menus with " not displaying correctly
+
 13-Oct-2005 Rey Gigataras
  # Fixed duplicated module creation in install
  # Fixed XHTML issue in rss feed module
