@@ -105,7 +105,7 @@ switch ( strtolower( $task ) ) {
 		break;
 
 	case 'vote':
-		recordVote ( $url , $user_rating , $cid , $database);
+		recordVote ();
 		break;
 
 	default:
