@@ -286,7 +286,7 @@ class database {
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
 		if ($p_transaction_safe) {
-			$si = mysql_get_server_info();
+			$si = mysql_get_server_info( $this->_resource );
 			preg_match_all( "/(\d+)\.(\d+)\.(\d+)/i", $si, $m );
 			if ($m[1] >= 4) {
 				$this->_sql = 'START TRANSACTION;' . $this->_sql . '; COMMIT;';
