@@ -32,6 +32,11 @@ Legend:
 ! -> Note
 
 
+14-Oct-2005 Levis Bisson
+ + Added the choice for the admin language
+ + Wrapped all backend static texts
+ + Added the english admin language files
+
 14-Oct-2005 Johan Janssens
  + Added userbot group
  + Added Joomla, LDAP and example userbots
