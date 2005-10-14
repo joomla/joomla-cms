@@ -38,8 +38,8 @@ $cache =& mosCache::getCache( 'com_content' );
 
 // loads function for frontpage component
 if ( $option == 'com_frontpage' ) {
-	frontpage( $option, $gid, $pop, $now );
-	//$cache->call( 'frontpage', $gid, $access, $pop, $now );
+	//frontpage( $gid, $access, $pop, $now );
+	$cache->call( 'frontpage', $gid, $access, $pop, $now );
 	return;
 }
 
