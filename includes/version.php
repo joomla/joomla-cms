@@ -29,11 +29,11 @@ class joomlaVersion {
 	/** @var string Codename */
 	var $CODENAME 	= 'Nigthfall';
 	/** @var string Date */
-	var $RELDATE 	= '';
+	var $RELDATE 	= 'TBA';
 	/** @var string Time */
-	var $RELTIME 	= '';
+	var $RELTIME 	= 'TBA';
 	/** @var string Timezone */
-	var $RELTZ 		= '';
+	var $RELTZ 		= 'UTC';
 	/** @var string Copyright Text */
 	var $COPYRIGHT 	= 'Copyright (C) 2005 Open Source Matters. All rights reserved.';
 	/** @var string URL */
