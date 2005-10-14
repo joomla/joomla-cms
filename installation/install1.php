@@ -51,6 +51,10 @@ function check()
 		alert('Please enter a Name for your new Database');
 		f.DBname.focus();
 		formValid=false;
+	} else if ( f.DBPrefix.value == 'old_' ) {
+		alert('You cannot use "old_" as the MySQL Table Prefix because Joomla uses this prefix for backup tables.');
+		f.DBPrefix.focus();
+		formValid=false;
 	} else if ( confirm('Are you sure these settings are correct? \nJoomla will now attempt to populate a Database with the settings you have supplied')) {
 		formValid=true;
 	}
