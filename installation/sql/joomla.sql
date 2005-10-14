@@ -305,6 +305,9 @@ INSERT INTO `#__mambots` VALUES (16, 'Email Cloaking', 'mosemailcloak', 'content
 INSERT INTO `#__mambots` VALUES (17, 'GeSHi', 'geshi', 'content', 0, 5, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__mambots` VALUES (18, 'Search Newsfeeds', 'newsfeeds.searchbot', 'search', 0, 6, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__mambots` VALUES (19, 'Load Module Positions', 'mosloadposition', 'content', 0, 6, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__mambots` VALUES (20, 'Joomla Userbot', 'joomla.userbot', 'user', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__mambots` VALUES (21, 'LDAP Userbot', 'ldap.userbot', 'user', 0, 2, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
+
 # --------------------------------------------------------
 
 #

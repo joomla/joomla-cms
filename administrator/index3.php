@@ -26,77 +26,47 @@ require_once( '../configuration.php' );
 require_once( $mosConfig_absolute_path .'/includes/joomla.ssl.init.php' );
 
 require_once( $mosConfig_absolute_path . '/includes/joomla.php' );
-include_once( $mosConfig_absolute_path . '/language/'. $mosConfig_lang. '.php' );
 require_once( $mosConfig_absolute_path . '/administrator/includes/admin.php' );
 
-$option = trim( strtolower( mosGetParam( $_REQUEST, 'option', '' ) ) );
+$option = strtolower( mosGetParam( $_REQUEST, 'option', 'com_admin' ) );
 
 // must start the session before we create the mainframe object
 session_name( md5( $mosConfig_live_site ) );
 session_start();
 
+if (!mosGetParam( $_SESSION, 'session_id' )) {
+	mosRedirect( 'index.php' );
+}
+
 // mainframe is an API workhorse, lots of 'core' interaction routines
 $mainframe = new mosMainFrame( $database, $option, '..', true );
+$mainframe->initSession( 'php' );
+
+// get the information about the current user from the sessions table 
+$my = $mainframe->getUser();
+// TODO: fix this patch to get gid to work properly
+//$my->gid = array_shift( $acl->get_object_groups( $acl->get_object_id( 'users', $my->id, 'ARO' ), 'ARO' ) );
 
 // initialise some common request directives
 $task		= mosGetParam( $_REQUEST, 'task', '' );
 $act		= strtolower( mosGetParam( $_REQUEST, 'act', '' ) );
 $section	= mosGetParam( $_REQUEST, 'section', '' );
-$mosmsg		= strip_tags( mosGetParam( $_REQUEST, 'mosmsg', '' ) );
 $no_html	= strtolower( mosGetParam( $_REQUEST, 'no_html', '' ) );
 
 if ($option == 'logout') {
-	require 'logout.php';
-	exit();
+	$mainframe->logout();
+	mosRedirect( $mosConfig_live_site );
 }
 
-// restore some session variables
-$my = new mosUser( $database );
-$my->id 		= mosGetParam( $_SESSION, 'session_user_id', '' );
-$my->username 	= mosGetParam( $_SESSION, 'session_username', '' );
-$my->usertype 	= mosGetParam( $_SESSION, 'session_usertype', '' );
-$my->gid 		= mosGetParam( $_SESSION, 'session_gid', '' );
+$params = $database->loadResult();
+$my->params = new mosParameters( $params );
 
-$session_id 	= mosGetParam( $_SESSION, 'session_id', '' );
-$logintime 		= mosGetParam( $_SESSION, 'session_logintime', '' );
+$session_id = mosGetParam( $_SESSION, 'session_id', '' );
+$logintime 	= mosGetParam( $_SESSION, 'session_logintime', '' );
 
 // check against db record of session
-if ( $session_id == md5( $my->id . $my->username . $my->usertype . $logintime ) ) {
-	$query = "SELECT *"
-	. "\n FROM #__session"
-	. "\n WHERE session_id = '$session_id'"
-	. "\n AND username = '" . $database->getEscaped( $my->username ) . "'"
-	. "\n AND userid = " . intval( $my->id )
-	;
-	$database->setQuery( $query );
-	if (!$result = $database->query()) {
-		echo $database->stderr();
-	}
-	if ($database->getNumRows( $result ) <> 1) {
-		echo "<script>document.location.href='index.php'</script>\n";
-		exit();
-	}
-} else {
-	echo "<script>document.location.href='index.php'</script>\n";
-	exit();
-}
-
-// update session timestamp
-$current_time = time();
-$query = "UPDATE #__session"
-. "\n SET time = '$current_time'"
-. "\n WHERE session_id = '$session_id'"
-;
-$database->setQuery( $query );
-$database->query();
-
-// timeout old sessions
-$past = time()-1800;
-$query = "DELETE FROM #__session"
-. "\n WHERE time < '$past'"
-;
-$database->setQuery( $query );
-$database->query();
+$_LANG =& mosFactory::getLanguage( $option, true );
+$_LANG->debug( $mosConfig_debug );
 
 // start the html output
 if ($no_html) {

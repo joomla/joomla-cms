@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall version="4.5.3" type="mambot"  group="user">
+    <name>LDAP Authentication</name>
+    <author>Joomla! Project</author>
+	<creationDate>Oct 2005</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+    <description></description>
+    <files>
+        <filename mambot="ldap.userbot">ldap.userbot.php</filename>
+    </files>
+    <params>
+        <param name="host" type="text" size="20" default="" label="Host" description="For example, openldap.mycompany.org" />
+        <param name="post" type="text" size="20" default="389" label="Port" description="Default port is 389" />
+        <param name="use_ldapV3" type="radio" default="0" label="LDAP V3" description="Default is LDAP2, but latest versions of OpenLdap require clients to use LDAPV3">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="negotiate_tls" type="radio" default="0" label="Negociate TLS" description="Negotiate TLS encryption with the LDAP server. This requires all traffic to and from my LDAP server to be encrypted.">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="no_referrals" type="radio" default="0" label="Don&apos;t follow referrals" description="This option clears the LDAP_OPT_REFERRALS flag.You&apos;ll need to check it for Windows 2003 servers.">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="base_dn" type="text" size="20" default="" label="Base DN" description="The base DN of your LDAP server, e.g o=mydomain.com" />
+        <param name="@spacer" type="spacer" default="" label="" description="" />
+        <param name="connect" type="text" size="20" default="" label="Connect string" description="The Connect String and Connect password define connection parameters for the DN lookup phase. 3 options are available:- Anonymous DN lookup. Leave both fields blank.- Administrative connection: &apos;Connect String&apos; is the DN of an administrative account, e.g uid=admin,ou=users,o=mydomain.com. &apos;Connect password&apos; is the actual password of your administrative account.- Connection with the user-supplied login/password: &apos;Connect String&apos; is a DN, where the [login] token will be dynamically replaced by the user login, e.g uid=[login],ou=People,dc=my-domain,dc=com. &apos;Connect password&apos; should be " />
+        <param name="password" type="text" size="20" default="" label="Connect password" description="" />
+        <param name="search_string" type="text" size="20" default="" label="Search string" description="A query string used for search for a given user. The [login] keyword is dynamically replaced by the user-provided login, so an example string is: uid=[login]. Several strings can be used, separated by semicolons." />
+        <param name="users_dn" type="text" size="20" default="" label="Users DN" description="The [login] keyword is dynamically replaced by the user-provided login, so an example string is: uid=[login], dc=my-domain, dc=com. Several strings can be used, separated by semicolons." />
+    </params>
+</mosinstall>

@@ -392,7 +392,7 @@ class mosLanguageFactory {
 		} else {
 			$langs = mosLanguage::getKnownLanguages( $client );
 		}
-
+		
 		foreach ($langs as $lang=>$name) {
 			$option = array();
 			$option['text'] = $name;

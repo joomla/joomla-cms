@@ -550,157 +550,137 @@ class mosMainFrame {
 		}
 	}
 	/**
-	* Initialises the user session
-	*
-	* Old sessions are flushed based on the configuration value for the cookie
-	* lifetime. If an existing session, then the last access time is updated.
-	* If a new session, a session id is generated and a record is created in
-	* the jos_sessions table.
-	*/
-	function initSession() {
+	 * Initialises the user session
+	 *
+	 * Old sessions are flushed based on the configuration value for the cookie
+	 * lifetime. If an existing session, then the last access time is updated.
+	 * If a new session, a session id is generated and a record is created in
+	 * the mos_sessions table.
+	 * @param string The session persistance type: cookie|php
+	 */
+	function initSession( $type='cookie' ) {
 		$session =& $this->_session;
-		$session = new mosSession( $this->_db );
-		$session->purge(intval( $this->getCfg( 'lifetime' ) ));
+		$session = new mosSession( $this->_db, $type );
+		$session->purge( intval( $this->getCfg( 'lifetime' ) ) );
 
-		$sessionCookieName = md5( 'site'.$GLOBALS['mosConfig_live_site'] );
+		$sessioncookie = $session->restore();
 
-		$sessioncookie 	= mosGetParam( $_COOKIE, $sessionCookieName, null );
-		$usercookie 	= mosGetParam( $_COOKIE, 'usercookie', null );
-
-		if ($session->load( md5( $sessioncookie . $_SERVER['REMOTE_ADDR'] ) )) {
+		if ($session->load( $session->hash( $sessioncookie ) )) {
 			// Session cookie exists, update time in session table
-			$session->time = time();
 			$session->update();
 		} else {
-			$session->generateId();
-			$session->guest 	= 1;
-			$session->username 	= '';
-			$session->time 		= time();
-			$session->gid 		= 0;
-
 			if (!$session->insert()) {
 				die( $session->getError() );
 			}
-
-			setcookie( $sessionCookieName, $session->getCookie(), time() + 43200, '/' );
-			//$_COOKIE["sessioncookie"] = $session->getCookie();
-
-			if ($usercookie) {
-				// Remember me cookie exists. Login with usercookie info.
-				$this->login($usercookie['username'], $usercookie['password']);
-			}
+			$session->persist();
 		}
 	}
 
 	/**
 	* Login validation function
 	*
-	* Username and encoded password is compare to db entries in the jos_users
-	* table. A successful validation updates the current session record with
-	* the users details.
+	* Username and encoded password are passed the the onLoginUser event who
+	* is responsible for the user validation.
+	* A successful validation updates the current session record with the
+	* users details.
 	*/
 	function login( $username=null,$passwd=null ) {
-		global $acl;
-		global $_LANG;
+		global $database, $mainframe, $acl, $_MAMBOTS, $_LANG;
 
-		$usercookie 	= mosGetParam( $_COOKIE, 'usercookie', '' );
-		$sessioncookie 	= mosGetParam( $_COOKIE, 'sessioncookie', '' );
+		//$usercookie = mosGetParam( $_COOKIE, 'usercookie', '' );
+		//$sessioncookie = mosGetParam( $_COOKIE, 'sessioncookie', '' );
 		if (!$username || !$passwd) {
-			$username 	= mosGetParam( $_POST, 'username', '' );
-			$passwd 	= mosGetParam( $_POST, 'passwd', '' );
-			$passwd 	= md5( $passwd );
+			$username 	= $database->getEscaped( trim( mosGetParam( $_POST, 'username', '' ) ) );
+			$passwd 	= $database->getEscaped( trim( mosGetParam( $_POST, 'passwd', '' ) ) );
 			$bypost 	= 1;
 		}
-		$remember = mosGetParam( $_POST, 'remember', '' );
 
 		if (!$username || !$passwd) {
-			echo "<script> alert(\"". $_LANG->_( 'LOGIN_INCOMPLETE' ) ."\"); window.history.go(-1); </script>\n";
-			exit();
+			// Error check if still no username or password values
+			mosErrorAlert( $_LANG->_( 'LOGIN_INCOMPLETE' ) );
+			
 		} else {
-			$query = "SELECT *"
-			. "\n FROM #__users"
-			. "\n WHERE username = '$username'"
-			. "\n AND password = '$passwd'"
-			;
-			$this->_db->setQuery( $query );
-			$row = null;
-			if ($this->_db->loadObject( $row )) {
-				if ($row->block == 1) {
-					echo "<script>alert(\"". $_LANG->_( 'LOGIN_BLOCKED' ) ."\"); window.history.go(-1); </script>\n";
-					exit();
+			
+			//load user bot group
+			$_MAMBOTS->loadBotGroup( 'user' );
+
+			//trigger the onBeforeStoreUser event
+			$results = $_MAMBOTS->trigger( 'onLoginUser', array( $username, $passwd ) );
+
+			// TODO: Handle multiple authentication checks
+			if ($results[0] > 0) {
+				
+				$user = new mosUser( $database );
+				$user->load( intval( $results[0] ) );
+
+				// check to see if user is blocked from logging in
+				if ($user->block == 1) {
+					mosErrorAlert( $_LANG->_( 'LOGIN_BLOCKED' ) );
 				}
 				// fudge the group stuff
-				$grp = $acl->getAroGroup( $row->id );
-				$row->gid = 1;
+				$grp 		= $acl->getAroGroup( $user->id );
+				$row->gid 	= 1;
 
-				if ($acl->is_group_child_of( $grp->name, 'Registered', 'ARO' ) ||
-				$acl->is_group_child_of( $grp->name, 'Public Backend', 'ARO' )) {
+				if ( $acl->is_group_child_of( $grp->name, 'Registered', 'ARO' ) || $acl->is_group_child_of( $grp->name, 'Public Backend', 'ARO' )) {
 					// fudge Authors, Editors, Publishers and Super Administrators into the Special Group
-					$row->gid = 2;
+					$user->gid = 2;
 				}
-				$row->usertype = $grp->name;
+				$user->usertype = $grp->name;
+
+				// access control check
+				$client = $this->_isAdmin ? 'administrator' : 'site';
+				//if ( !$acl->acl_check( 'login', $client, 'users', $user->usertype ) ) {
+				//	return false;
+				//}
 
 				$session =& $this->_session;
-				$session->guest 		= 0;
-				$session->username 		= $username;
-				$session->userid 		= intval( $row->id );
-				$session->usertype 		= $row->usertype;
-				$session->gid 			= intval( $row->gid );
+				$session->guest 	= 0;
+				$session->username 	= $user->username;
+				$session->userid 	= intval( $user->id );
+				$session->usertype 	= $user->usertype;
+				$session->gid 		= intval( $user->gid );
 
-				$session->update();
+				$session->store();
 
-				$currentDate = date("Y-m-d\TH:i:s");
-				$query = "UPDATE #__users"
-				. "\n SET lastvisitDate = '$currentDate'"
-				. "\n WHERE id = $session->userid"
-				;
-				$this->_db->setQuery($query);
-				if (!$this->_db->query()) {
-					die($this->_db->stderr(true));
+				$user->setLastVisit();
+
+				$remember = trim( mosGetParam( $_POST, 'remember', '' ) );
+				if ($remember == 'yes') {
+					$session->remember( $user->username, $user->password );
 				}
 
-				if ($remember=="yes") {
-					$lifetime = time() + 365*24*60*60;
-					setcookie( "usercookie[username]", $username, $lifetime, "/" );
-					setcookie( "usercookie[password]", $passwd, $lifetime, "/" );
-				}
 				//mosCache::cleanCache('com_content');
 				mosCache::cleanCache();
+				return true;
 			} else {
-				if (isset($bypost)) {
-					echo "<script>alert(\"". $_LANG->_( 'LOGIN_INCORRECT' )."\"); window.history.go(-1); </script>\n";
-				} else {
-					$this->logout();
-					mosRedirect("index.php");
-				}
-				exit();
+				return false;
 			}
 		}
 	}
+	
 	/**
 	* User logout
 	*
-	* Reverts the current session record back to 'anonymous' parameters
+	* Passed the current user information to the onLogoutUser event and reverts the current
+	* session record back to 'anonymous' parameters
 	*/
 	function logout() {
+		global $_MAMBOTS;
+
+		//load user bot group
+		$_MAMBOTS->loadBotGroup( 'user' );
+
+		//get the user
+		$user = $this->getUser();
+
+		//trigger the onLogOutUser event
+		$results = $_MAMBOTS->trigger( 'onLogoutUser', array( &$user ));
+
 		//mosCache::cleanCache('com_content');
 		mosCache::cleanCache();
+
 		$session =& $this->_session;
-
-		$session->guest 		= 1;
-		$session->username 		= '';
-		$session->userid 		= '';
-		$session->usertype 		= '';
-		$session->gid = 0;
-
-		$session->update();
-
-		// this is daggy??
-		$lifetime = time() - 1800;
-		setcookie( "usercookie[username]", " ", $lifetime, "/" );
-		setcookie( "usercookie[password]", " ", $lifetime, "/" );
-		setcookie( "usercookie", " ", $lifetime, "/" );
-		@session_destroy();
+		$session->destroy();
 	}
 	/**
 	* @return mosUser A user object with the information from the current session
@@ -1381,30 +1361,43 @@ class mosHTML {
 	* @param mixed The key that is selected
 	* @returns string HTML for the select list
 	*/
-	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL ) {
+	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag='' ) {
 		reset( $arr );
-		$html = "\n<select name=\"$tag_name\" $tag_attribs>";
+		
+		$id = $tag_name;
+		if ( $idtag ) {
+			$id = $idtag;
+		}
+
+		$html = '<select name="'. $tag_name .'" id="'. $id .'" '. $tag_attribs .'>';
 		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {
-			$k = $arr[$i]->$key;
-			$t = $arr[$i]->$text;
-			$id = ( isset($arr[$i]->id) ? @$arr[$i]->id : null);
+			if( is_array( $arr[$i] ) ) {
+				$k 		= $arr[$i][$key];
+				$t	 	= $arr[$i][$text];
+				$id 	= ( isset( $arr[$i]['id'] ) ? $arr[$i]['id'] : null );
+			} else {
+				$k 		= $arr[$i]->$key;
+				$t	 	= $arr[$i]->$text;
+				$id 	= ( isset( $arr[$i]->id ) ? $arr[$i]->id : null );
+			}
 
 			$extra = '';
-			$extra .= $id ? " id=\"" . $arr[$i]->id . "\"" : '';
+			$extra .= $id ? ' id="' . $arr[$i]->id . '"' : '';
 			if (is_array( $selected )) {
 				foreach ($selected as $obj) {
 					$k2 = $obj->$key;
 					if ($k == $k2) {
-						$extra .= " selected=\"selected\"";
+						$extra .= ' selected="selected"';
 						break;
 					}
 				}
 			} else {
-				$extra .= ($k == $selected ? " selected=\"selected\"" : '');
+				$extra .= ( $k == $selected ? ' selected="selected"' : '' );
 			}
-			$html .= "\n\t<option value=\"".$k."\"$extra>" . $t . "</option>";
+			$html .= '<option value="'. $k .'" '. $extra .'>' . $t . '</option>';
 		}
-		$html .= "\n</select>\n";
+		$html .= '</select>';
+
 		return $html;
 	}
 
@@ -2265,6 +2258,47 @@ class mosUser extends mosDBTable {
 			return false;
 		}
 	}
+	
+	/**
+	 * Updates last visit time of user
+	 * @param int The timestamp, defaults to 'now'
+	 * @return boolean False if an error occurs
+	 */
+	function setLastVisit( $timeStamp=null, $id=null ) {
+		global $_LANG;
+
+		// check for User ID
+		if (is_null( $id )) {
+			if (isset( $this )) {
+				$id = $this->id;
+			} else {
+				// do not translate
+				die( $_LANG->_( 'Error mosUser::setLastVisit cannot call method statically with no id' ) );
+			}
+		}
+		// data check
+		$id = intval( $id );
+
+		// if no timestamp value is passed to functon, than current time is used
+		if ( $timeStamp ) {
+			$dateTime = date( 'Y-m-d H:i:s', $timeStamp );
+		} else {
+			$dateTime = date( 'Y-m-d H:i:s' );
+		}
+
+		// updates user lastvistdate field with date and time
+		$query = "UPDATE $this->_tbl"
+		. "\n SET lastvisitDate = '$dateTime'"
+		. "\n WHERE id = '$id'"
+		;
+		$this->_db->setQuery( $query );
+		if (!$this->_db->query()) {
+			$this->_error = $this->_db->getErrorMsg();
+			return false;
+		}
+
+		return true;
+	}
 
 	/**
 	 * Gets the users from a group
@@ -2461,6 +2495,28 @@ function mosRedirect( $url, $msg='' ) {
 	exit();
 }
 
+function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
+	$text = nl2br( $text );
+	$text = addslashes( $text );
+	$text = strip_tags( $text );
+
+	switch ( $mode ) {
+		case 2:
+			echo "<script>$action</script> \n";
+			break;
+
+		case 1:
+		default:
+			echo "<script>alert('$text'); $action</script> \n";
+			echo '<noscript>';
+			mosRedirect( @$_SERVER['HTTP_REFERER'], $text );
+			echo '</noscript>';
+			break;
+	}
+
+	exit;
+}
+
 function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level=0, $type=1 ) {
 	if (@$children[$id] && $level <= $maxlevel) {
 		foreach ($children[$id] as $v) {
@@ -2608,17 +2664,28 @@ class mosSession extends mosDBTable {
 	var $gid				= null;
 	/** @var int */
 	var $guest				= null;
+
 	/** @var string */
 	var $_session_cookie	= null;
+	/** @var string */
+	var $_sessionType		= null;
 
 	/**
-	* @param database A database connector object
-	*/
-	function mosSession( &$db ) {
+	 * Constructor
+	 * @param database A database connector object
+	 */
+	function mosSession( &$db, $type='cookie' ) {
 		$this->mosDBTable( '#__session', 'session_id', $db );
+
+		$this->guest = 1;
+		$this->username = '';
+		$this->gid = 0;
+		$this->_sessionType = $type;
 	}
 
 	function insert() {
+		$this->generateId();
+		$this->time = time();
 		$ret = $this->_db->insertObject( $this->_tbl, $this );
 
 		if( !$ret ) {
@@ -2630,6 +2697,7 @@ class mosSession extends mosDBTable {
 	}
 
 	function update( $updateNulls=false ) {
+		$this->time = time();
 		$ret = $this->_db->updateObject( $this->_tbl, $this, 'session_id', $updateNulls );
 
 		if( !$ret ) {
@@ -2640,16 +2708,132 @@ class mosSession extends mosDBTable {
 		}
 	}
 
+	/**
+	 * @return string The id of the session
+	 */
+	function restore() {
+		switch ($this->_sessionType) {
+			case 'php':
+				$id = mosGetParam( $_SESSION, 'session_id', null );
+				break;
+
+			case 'cookie':
+			default:
+				$id = mosGetParam( $_COOKIE, 'sessioncookie', null );
+				break;
+		}
+		return $id;
+	}
+
+	/**
+	 * Set the information to allow a session to persist
+	 */
+	function persist() {
+		global $mainframe;
+
+		switch ($this->_sessionType) {
+			case 'php':
+				$_SESSION['session_id'] = $this->getCookie();
+				break;
+
+			case 'cookie':
+			default:
+				setcookie( 'sessioncookie', $this->getCookie(), time() + 43200, '/' );
+
+				$usercookie = mosGetParam( $_COOKIE, 'usercookie', null );
+				if ($usercookie) {
+					// Remember me cookie exists. Login with usercookie info.
+					$mainframe->login( $usercookie['username'], $usercookie['password'] );
+				}
+				break;
+		}
+	}
+
+	/**
+	 * Allows site to remember login
+	 * @param string The username
+	 * @param string The user password
+	 */
+	function remember( $username, $password ) {
+		switch ($this->_sessionType) {
+			case 'php':
+				// not recommended
+				break;
+
+			case 'cookie':
+			default:
+				$lifetime = time() + 365*24*60*60;
+				setcookie( 'usercookie[username]', $user->username, $lifetime, '/' );
+				setcookie( 'usercookie[password]', $user->password, $lifetime, '/' );
+				break;
+		}
+	}
+
+	/**
+	 * Destroys the pesisting session
+	 */
+	function destroy() {
+		if ($this->userid) {
+			// update the user last visit
+			$query = "UPDATE #__users"
+			. "\n SET lastvisitDate = " . $this->_db->Quote( date( 'Y-m-d\TH:i:s' ) )
+			. "\n WHERE id='". intval( $this->userid ) ."'";
+			$this->_db->setQuery( $query );
+
+			if ( !$this->_db->query() ) {
+		 		mosErrorAlert( $database->stderr() );
+			}
+		}
+
+		switch ($this->_sessionType) {
+			case 'php':
+				$query = "DELETE FROM #__session"
+				. "\n WHERE session_id = ". $this->_db->Quote( $this->session_id )
+				;
+				$this->_db->setQuery( $query );
+				if ( !$this->_db->query() ) {
+			 		mosErrorAlert( $this->_db->stderr() );
+				}
+
+				session_unset();
+				//session_unregister( 'session_id' );
+				if ( session_is_registered( 'session_id' ) ) {
+					session_destroy();
+				}
+				break;
+			case 'cookie':
+			default:
+				// revert the session
+				$this->guest 	= 1;
+				$this->username = '';
+				$this->userid 	= '';
+				$this->usertype = '';
+				$this->gid 		= 0;
+
+				$this->update();
+
+				$lifetime = time() - 1800;
+				setcookie( 'usercookie[username]', ' ', $lifetime, '/' );
+				setcookie( 'usercookie[password]', ' ', $lifetime, '/' );
+				setcookie( 'usercookie', ' ', $lifetime, '/' );
+				@session_destroy();
+				break;
+		}
+	}
+
+	/**
+	 * Generates a unique id for the session
+	 */
 	function generateId() {
 		$failsafe = 20;
 		$randnum = 0;
 		while ($failsafe--) {
 			$randnum = md5( uniqid( microtime(), 1 ) );
-			if ($randnum != "") {
+			if ($randnum != '') {
 				$cryptrandnum = md5( $randnum );
 				$query = "SELECT $this->_tbl_key"
 				. "\n FROM $this->_tbl"
-				. "\n WHERE $this->_tbl_key = MD5( '$randnum' )"
+				. "\n WHERE $this->_tbl_key = ". $this->_db->Quote( md5( $randnum ) )
 				;
 				$this->_db->setQuery( $query );
 				if(!$result = $this->_db->query()) {
@@ -2662,17 +2846,39 @@ class mosSession extends mosDBTable {
 			}
 		}
 		$this->_session_cookie = $randnum;
-		$this->session_id = md5( $randnum . $_SERVER['REMOTE_ADDR'] );
+		$this->session_id = $this->hash( $randnum );
 	}
 
+	/**
+	 * @return string The cookie|session based session id
+	 */
 	function getCookie() {
 		return $this->_session_cookie;
 	}
 
-	function purge( $inc=1800 ) {
-		$past = time() - $inc;
+	/**
+	 * Encodes a session id
+	 */
+	function hash( $value ) {
+		if (phpversion() <= '4.2.1') {
+			$agent = getenv( 'HTTP_USER_AGENT' );
+		} else {
+			$agent = $_SERVER['HTTP_USER_AGENT'];
+		}
+
+		return md5( $agent . $GLOBALS['mosConfig_secret'] . $value . $_SERVER['REMOTE_ADDR'] );
+	}
+
+	/**
+	* Purge old sessions
+	* @param int Session age in seconds
+	* @return mixed Resource on success, null on fail
+	*/
+	function purge( $age=1800 ) {
+		$past = time() - $age;
 		$query = "DELETE FROM $this->_tbl"
-		. "\n WHERE ( time < '$past' )";
+		. "\n WHERE ( time < $past )"
+		;
 		$this->_db->setQuery($query);
 
 		return $this->_db->query();

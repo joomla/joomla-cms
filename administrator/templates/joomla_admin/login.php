@@ -14,6 +14,13 @@
 /** ensure this file is being included by a parent file */
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
+$languages = array();
+$languages = mosLanguageFactory::buildLanguageList( 'admin', $mosConfig_lang );
+array_unshift( $languages, mosHTML::makeOption( '', $_LANG->_( 'Default' ) ) );
+$lists['langs'] = mosHTML::selectList( $languages, 'lang', ' class="inputbox" id="language"', 'value', 'text', '' );
+
+$handle = mosGetParam( $_REQUEST, 'handle', NULL );
+
 $tstart = mosProfiler::getmicrotime();
 ?>
 <?php echo "<?xml version=\"1.0\"?>\r\n"; ?>
@@ -45,11 +52,36 @@ $tstart = mosProfiler::getmicrotime();
 			<img src="templates/joomla_admin/images/login.gif" alt="<?php echo $_LANG->_( 'Login' ); ?>" />
 			<form action="index.php" method="post" name="loginForm" id="loginForm">
 			<div class="form-block">
-				<div class="inputlabel"><?php echo $_LANG->_( 'Username' ); ?></div>
-				<div><input name="usrname" type="text" class="inputbox" size="15" /></div>
-				<div class="inputlabel"><?php echo $_LANG->_( 'Password' ); ?></div>
-				<div><input name="pass" type="password" class="inputbox" size="15" /></div>
-				<div align="left"><input type="submit" name="submit" class="button" value="<?php echo $_LANG->_( 'Login' ); ?>" /></div>
+				<?php if ($handle) {
+				echo '<div class="timeout">' . $_LANG->_( 'Session_Timeout' ) . '</div>';
+				} ?>
+				<div class="inputlabel">
+					<label for="username">
+						<?php echo $_LANG->_( 'Username' ); ?>
+					</label>
+				</div>
+				<div>
+					<input name="username" id="username" type="text" class="inputbox" size="15" />
+				</div>
+				<div class="inputlabel">
+					<label for="password">
+						<?php echo $_LANG->_( 'Password' ); ?>
+					</label>
+				</div>
+				<div>
+					<input name="passwd" id="password" type="password" class="inputbox" size="15" />
+				</div>
+				<div class="inputlabel">
+					<label for="language">
+						<?php echo $_LANG->_( 'Language' ); ?>
+					</label>
+				</div>
+				<div>
+					<?php echo $lists['langs']; ?>
+				</div>
+				<div class="flushstart" align="left">
+					<input type="submit" name="submit" class="button" value="<?php echo $_LANG->_( 'Login' ); ?>" />
+				</div>
 			</div>
 			</form>
 		</div>

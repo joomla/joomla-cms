@@ -38,7 +38,30 @@ require_once( 'includes/joomla.php' );
 
 // displays offline/maintanance page or bar
 if ($mosConfig_offline == 1) {
-	require( 'offline.php' );
+	// mainframe is an API workhorse, lots of 'core' interaction routines
+	$mainframe = new mosMainFrame( $database, $option='' );
+	$mainframe->initSession();
+	
+	// get the information about the current user from the sessions table
+	$my = $mainframe->getUser();
+	
+	// get gid
+	$query = '
+	SELECT gid
+	FROM #__users
+	WHERE id = '. intval( $my->id );
+	;
+	$database->setQuery( $query );
+	$userstate = $database->loadResult();
+	
+	// if superadministrator, administrator or manager show offline message bar + site
+	if ( $userstate == '25' || $userstate == '24' || $userstate == '23') {
+		include( 'offlinebar.php' );
+	}
+	else {
+		include( 'offline.php' );	
+		exit();
+	}
 }
 
 // load system bot group
@@ -140,12 +163,15 @@ include_once( 'language/' . $mosConfig_lang . '.php' );
 $return = mosGetParam( $_REQUEST, 'return', NULL );
 $message = mosGetParam( $_POST, 'message', 0 );
 if ($option == 'login') {
-	$mainframe->login();
+	if (!$mainframe->login()) {
+		$mainframe->logout();
+		mosErrorAlert( $_LANG->_( 'LOGIN_INCORRECT' ) );
+	}
 
 	// JS Popup message
 	if ( $message ) {
 		?>
-		<script>
+		<script language="javascript" type="text/javascript"> 
 		<!--//
 		alert( "<?php echo _LOGIN_SUCCESS; ?>" );
 		//-->
@@ -165,7 +191,7 @@ if ($option == 'login') {
 	// JS Popup message
 	if ( $message ) {
 		?>
-		<script>
+		<script language="javascript" type="text/javascript"> 
 		<!--//
 		alert( "<?php echo _LOGOUT_SUCCESS; ?>" );
 		//-->
