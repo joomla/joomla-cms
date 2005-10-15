@@ -393,7 +393,7 @@ class mosMainFrame {
 		if (isset( $_SESSION['session_userstate'] )) {
 			$this->_userstate =& $_SESSION['session_userstate'];
 		} else {
-			$this->_userstate = null;
+			$this->_userstate = array();
 		}
 		$this->_head = array();
 		$this->_head['title'] 	= $GLOBALS['mosConfig_sitename'];
