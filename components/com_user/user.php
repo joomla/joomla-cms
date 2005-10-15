@@ -131,12 +131,17 @@ function userSave( $option, $uid) {
 	$row = new mosUser( $database );
 	$row->load( $user_id );
 	$row->orig_password = $row->password;
+	
+	mosMakeHtmlSafe($row);
 
 	if (!$row->bind( $_POST, "gid usertype" )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	mosMakeHtmlSafe($row);
+	
+	//load user bot group
+	$_MAMBOTS->loadBotGroup( 'user' );
+
 
 	if(isset($_POST["password"]) && $_POST["password"] != "") {
 		if(isset($_POST["verifyPass"]) && ($_POST["verifyPass"] == $_POST["password"])) {
@@ -164,6 +169,9 @@ function userSave( $option, $uid) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
+	
+	//trigger the onBeforeStoreUser event
+	$results = $_MAMBOTS->trigger( 'onBeforeStoreUser', array(get_object_vars($row), false));
 
 	unset($row->orig_password); // prevent DB error!!
 
@@ -171,6 +179,9 @@ function userSave( $option, $uid) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
+	
+	//trigger the onAfterStoreUser event
+	$results = $_MAMBOTS->trigger( 'onAfterStoreUser', array(get_object_vars($row), false, true, null ));
 
 	$link = $_SERVER['HTTP_REFERER'];
 	mosRedirect( $link, _USER_DETAILS_SAVE );

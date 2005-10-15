@@ -1718,7 +1718,7 @@ class gacl_api extends gacl {
 		}
 
 		$where = '';
-		if ($root->lft+$root->rgt <> 0) {
+		if ($root->lft+$root->rgt != 0) {
 			if ($inclusive) {
 				$where = "WHERE g1.lft BETWEEN $root->lft AND $root->rgt";
 			} else {

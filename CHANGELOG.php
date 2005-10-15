@@ -31,6 +31,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Oct-2005 Johan Janssens
+ + Added user bot triggers
 
 14-Oct-2005 Levis Bisson
  + Added the choice for the admin language
