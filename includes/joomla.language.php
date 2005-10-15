@@ -378,6 +378,7 @@ class mosLanguageFactory {
 	 * @param array	An array of arrays ( text, value, selected )
 	 */
 	function buildLanguageList( $client=2, $actualLanguage ) {
+		global $_LANG;
 
 		$list = array();
 
@@ -395,7 +396,8 @@ class mosLanguageFactory {
 		
 		foreach ($langs as $lang=>$name) {
 			$option = array();
-			$option['text'] = $name;
+
+			$option['text'] = $_LANG->_( $name );
 			$option['value'] = $lang;
 			if( $lang == $actualLanguage ) {
 				$option['selected'] = 'selected="true"';
