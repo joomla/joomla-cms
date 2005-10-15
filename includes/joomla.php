@@ -3099,6 +3099,7 @@ function mosCurrentDate( $format="" ) {
 */
 function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='#', $link=1 ) {
 	global $mosConfig_live_site;
+	global $_LANG;
 
 	if ( $width ) {
 		$width = ', WIDTH, \''.$width .'\'';
@@ -3110,6 +3111,9 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 		$image 	= $mosConfig_live_site . '/includes/js/ThemeOffice/'. $image;
 		$text 	= '<img src="'. $image .'" border="0" />';
 	}
+	else{
+		$text 	= $_LANG->_( $text );
+    }
 	$style = 'style="text-decoration: none; color: #333;"';
 	if ( $href ) {
 		$style = '';

@@ -208,7 +208,6 @@ class mosParameters {
 */
 	function render( $name='params' ) {
 		global $mosConfig_absolute_path;
-		global $_LANG;
 
 		if ($this->_path) {
 			if (!is_object( $this->_xmlElem )) {
@@ -248,19 +247,19 @@ class mosParameters {
 				$result = $this->renderParam( $param, $name );
 				$html[] = '<tr>';
 
-				$html[] = '<td width="40%" align="right" valign="top"><span class="editlinktip">' . $_LANG->_( $result[0] ) . '</span></td>';
-				$html[] = '<td>' . $result[1] . '</td>';
+				$html[] = '<td width="40%" align="right" valign="top"><span class="editlinktip">'. $result[0] .'</span></td>';
+				$html[] = '<td>'. $result[1] .'</td>';
 
 				$html[] = '</tr>';
 			}
 			$html[] = '</table>';
 
 			if (count( $element->childNodes ) < 1) {
-				$html[] = "<tr><td colspan=\"2\"><i>" . _NO_PARAMS . "</i></td></tr>";
+				$html[] = "<tr><td colspan=\"2\"><i>". _NO_PARAMS ."</i></td></tr>";
 			}
 			return implode( "\n", $html );
 		} else {
-			return "<textarea name=\"$name\" cols=\"40\" rows=\"10\" class=\"text_area\">$this->_raw</textarea>";
+			return "<textarea name=\"". $name ."\" cols=\"40\" rows=\"10\" class=\"text_area\">". $this->_raw ."</textarea>";
 		}
 	}
 /**
