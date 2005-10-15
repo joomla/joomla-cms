@@ -34,8 +34,8 @@ $tstart = mosProfiler::getmicrotime();
 </style>
 <script language="javascript" type="text/javascript">
 	function setFocus() {
-		document.loginForm.usrname.select();
-		document.loginForm.usrname.focus();
+		document.loginForm.username.select();
+		document.loginForm.username.focus();
 	}
 </script>
 <link rel="shortcut icon" href="<?php echo $mosConfig_live_site .'/images/favicon.ico';?>" />
