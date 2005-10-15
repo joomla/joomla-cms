@@ -39,7 +39,7 @@ function botJoomlaLoginUser( $username, $password ) {
 }
 
 /**
-* Mambo logout user method
+* Joomla logout user method
 * Method is called when a user is login out
 * @param 	array	  	holds the user data
 */

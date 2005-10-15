@@ -70,7 +70,7 @@ function botMamboLogoutUser( $user ) {
 
 /**
  * LDAP Connector class
- * @package Mambo
+ * @package Joomla
  * @subpackage Mambots
  */
 class ldapConnector {

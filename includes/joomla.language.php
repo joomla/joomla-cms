@@ -65,12 +65,12 @@ class mosLanguage {
 		$key = strtoupper( $string );
 		$key = substr( $key, 0, 1) == '_' ? substr( $key, 1 ) : $key;
 		if (isset( $this->_strings[$key] )) {
-			$string = $this->_debug ? "&bull;".$this->_strings[$key]."&bull;" : $this->_strings[$key];
+			$string = $this->_debug ? "&bull;". $this->_strings[$key] ."&bull;" : $this->_strings[$key];
 		} else {
 			if( defined( $string ) ) {
-				$string = $this->_debug ? "!!" .constant( $string ). "!!" : constant( $string );
+				$string = $this->_debug ? "!!". constant( $string ) ."!!" : constant( $string );
 			} else {
-				$string = $this->_debug ? "??$string??" : $string;
+				$string = $this->_debug ? "??". $string ."??" : $string;
 			}
 		}
 		if ($jsSafe) {
@@ -368,7 +368,7 @@ class mosLanguage {
 }
 
 /**
- * @package Mambo
+ * @package Joomla
  * @subpackage Language
  */
 class mosLanguageFactory {
