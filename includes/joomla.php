@@ -3105,7 +3105,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 		$width = ', WIDTH, \''.$width .'\'';
 	}
 	if ( $title ) {
-		$title = ', CAPTION, \''.$title .'\'';
+		$title = ', CAPTION, \''. $_LANG->_( $title ) .'\'';
 	}
 	if ( !$text ) {
 		$image 	= $mosConfig_live_site . '/includes/js/ThemeOffice/'. $image;
@@ -3121,9 +3121,9 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 	else{ $href = "#"; }
 
 	if ( $link ) {
-		$tip = "<a href=\"". $href ."\" onMouseOver=\"return overlib('" . $tooltip . "'". $title .", BELOW, RIGHT". $width .");\" onmouseout=\"return nd();\" ". $style .">". $text ."</a>";
+		$tip = "<a href=\"". $href ."\" onMouseOver=\"return overlib('" . $_LANG->_( $tooltip ) . "'". $title .", BELOW, RIGHT". $width .");\" onmouseout=\"return nd();\" ". $style .">". $text ."</a>";
 	} else {
-		$tip = "<span onMouseOver=\"return overlib('" . $tooltip . "'". $title .", BELOW, RIGHT". $width .");\" onmouseout=\"return nd();\" ". $style .">". $text ."</span>";
+		$tip = "<span onMouseOver=\"return overlib('" . $_LANG->_( $tooltip ) . "'". $title .", BELOW, RIGHT". $width .");\" onmouseout=\"return nd();\" ". $style .">". $text ."</span>";
 	}
 
 	return $tip;
