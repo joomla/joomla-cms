@@ -320,13 +320,15 @@ class mosParameters {
 	* @return string The html for the element
 	*/
 	function _form_list( $name, $value, &$node, $control_name ) {
+		global $_LANG;
+
 		$size = $node->getAttribute( 'size' );
 
 		$options = array();
 		foreach ($node->childNodes as $option) {
 			$val = $option->getAttribute( 'value' );
 			$text = $option->gettext();
-			$options[] = mosHTML::makeOption( $val, $text );
+			$options[] = mosHTML::makeOption( $val, $_LANG->_( $text ) );
 		}
 
 		return mosHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value );
@@ -339,11 +341,13 @@ class mosParameters {
 	* @return string The html for the element
 	*/
 	function _form_radio( $name, $value, &$node, $control_name ) {
+		global $_LANG;
+
 		$options = array();
 		foreach ($node->childNodes as $option) {
 			$val 	= $option->getAttribute( 'value' );
 			$text 	= $option->gettext();
-			$options[] = mosHTML::makeOption( $val, $text );
+			$options[] = mosHTML::makeOption( $val, $_LANG->_( $text ) );
 		}
 
 		return mosHTML::radioList( $options, ''. $control_name .'['. $name .']', '', $value );
