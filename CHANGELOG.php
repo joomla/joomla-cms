@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Oct-2005 Alex Kempkens
+ + Added site url system bot for URL rewrite depending on protocol and domain name
+
 15-Oct-2005 Johan Janssens
  + Added user bot triggers
 

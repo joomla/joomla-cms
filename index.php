@@ -23,10 +23,6 @@ if (!file_exists( 'configuration.php' ) || filesize( 'configuration.php' ) < 10)
 
 include_once( 'globals.php' );
 require_once( 'configuration.php' );
-
-// enables switching to secure https
-require_once( 'includes/joomla.ssl.init.php' );
-
 require_once( 'includes/joomla.php' );
 
 //Installation sub folder check, removed for work with CVS
@@ -118,7 +114,8 @@ if ($option == '') {
 	}
 }
 if ( !$Itemid ) {
-// when no Itemid give a default value	$Itemid = 99999999;
+// when no Itemid give a default value
+	$Itemid = 99999999;
 } 
 	
 // mainframe is an API workhorse, lots of 'core' interaction routines
