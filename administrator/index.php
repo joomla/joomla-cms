@@ -29,8 +29,13 @@ require_once( '../configuration.php' );
 }*/
 
 // enables switching to secure https
-require_once( $mosConfig_absolute_path .'/includes/joomla.ssl.init.php' );
 require_once(  $mosConfig_absolute_path . '/includes/joomla.php' );
+
+// load system bot group
+$_MAMBOTS->loadBotGroup( 'system' );
+
+// trigger the onStart events
+$_MAMBOTS->trigger( 'onBeforeStart' );
 
 $option = mosGetParam( $_REQUEST, 'option', NULL );
 $handle = mosGetParam( $_POST, 'handle', NULL );
@@ -42,6 +47,9 @@ session_start();
 // mainframe is an API workhorse, lots of 'core' interaction routines
 $mainframe = new mosMainFrame( $database, $option, '..', true );
 $mainframe->initSession( 'php' );
+
+// trigger the onStart events
+$_MAMBOTS->trigger( 'onBeforeStart' );
 
 $lang = mosGetParam( $_REQUEST, 'lang', $mosConfig_lang );
 

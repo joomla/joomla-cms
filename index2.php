@@ -31,7 +31,7 @@ if ($mosConfig_offline == 1) {
 $_MAMBOTS->loadBotGroup( 'system' );
 
 // trigger the onStart events
-$_MAMBOTS->trigger( 'onStart' );
+$_MAMBOTS->trigger( 'onBeforeStart' );
 
 if (file_exists( 'components/com_sef/sef.php' )) {
 	require_once( 'components/com_sef/sef.php' );

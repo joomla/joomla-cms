@@ -93,7 +93,7 @@ function viewFrontPage( $option ) {
 	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
 	$search 	= $mainframe->getUserStateFromRequest( "search{$option}", 'search', '' );
 	$search 	= $database->getEscaped( trim( strtolower( $search ) ) );
-
+	
 	$where = array(
 	"c.state >= 0"
 	);

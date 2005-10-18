@@ -23,19 +23,15 @@ require_once( '../globals.php' );
 require_once( '../configuration.php' );
 
 // enables switching to secure https
-require_once( $mosConfig_absolute_path .'/includes/joomla.ssl.init.php' );
-
 require_once( $mosConfig_absolute_path . '/includes/joomla.php' );
 require_once( $mosConfig_absolute_path . '/administrator/includes/admin.php' );
 
-// must start the session before we create the mainframe object
-session_name( md5( $mosConfig_live_site ) );
-session_start();
+// load system bot group
+$_MAMBOTS->loadBotGroup( 'system' );
 
-$option = strtolower( mosGetParam( $_REQUEST, 'option', '' ) );
-if ($option == '') {
-	$option = 'com_admin';
-}
+// trigger the onStart events
+$_MAMBOTS->trigger( 'onBeforeStart' );
+
 // must start the session before we create the mainframe object
 session_name( md5( $mosConfig_live_site ) );
 session_start();
@@ -44,9 +40,17 @@ if (!mosGetParam( $_SESSION, 'session_id' )) {
 	mosRedirect( 'index.php' );
 }
 
+$option = strtolower( mosGetParam( $_REQUEST, 'option', '' ) );
+if ($option == '') {
+	$option = 'com_admin';
+}
+
 // mainframe is an API workhorse, lots of 'core' interaction routines
 $mainframe = new mosMainFrame( $database, $option, '..', true );
 $mainframe->initSession( 'php' );
+
+// trigger the onStart events
+$_MAMBOTS->trigger( 'onBeforeStart' );
 
 /** get the information about the current user from the sessions table */
 $my = $mainframe->getUser();
