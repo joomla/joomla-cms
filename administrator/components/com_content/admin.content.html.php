@@ -196,9 +196,10 @@ class HTML_content {
 				</td>
 				<td>
 				<?php
-				if ( $row->checked_out ) {
+				if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
 					echo $row->title;
-				} else {
+				}
+                else {
 					?>
 					<a href="<?php echo $link; ?>" title="<?php echo $_LANG->_( 'Edit Content' ); ?>">
 					<?php echo htmlspecialchars($row->title, ENT_QUOTES); ?>

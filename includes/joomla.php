@@ -3135,7 +3135,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 * @param string Box title
 * @returns HTML code for Warning
 */
-function mosWarning($warning, $title='Joomla! Warning') {
+function mosWarning($warning, $title='') {
 	global $mosConfig_live_site, $_LANG;
 
 	$title = $_LANG->_( 'Joomla Warning' );
@@ -4550,6 +4550,8 @@ class mosCommonHTML {
 	}
 
 	function checkedOut( &$row, $overlib=1 ) {
+		global $_LANG;
+
 		$hover = '';
 		if ( $overlib ) {
 			$date 				= mosFormatDate( $row->checked_out_time, '%A, %d %B %Y' );
@@ -4559,7 +4561,7 @@ class mosCommonHTML {
 			$checked_out_text 	.= '<tr><td>'. $date .'</td></tr>';
 			$checked_out_text 	.= '<tr><td>'. $time .'</td></tr>';
 			$checked_out_text 	.= '</table>';
-			$hover = 'onMouseOver="return overlib(\''. $checked_out_text .'\', CAPTION, \'Checked Out\', BELOW, RIGHT);" onMouseOut="return nd();"';
+			$hover = 'onMouseOver="return overlib(\''. $checked_out_text .'\', CAPTION, \''. $_LANG->_( 'Checked Out' ) .'\', BELOW, RIGHT);" onMouseOut="return nd();"';
 		}
 		$checked	 		= '<img src="images/checked_out.png" '. $hover .'/>';
 
