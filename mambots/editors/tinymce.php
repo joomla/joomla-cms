@@ -208,7 +208,7 @@ return <<<EOD
 			theme_advanced_path_location : "top"
 		}
 	});
-	function MamboSave(editor_id, content, node)
+	function TinyMCE_Save(editor_id, content, node)
 	{
 		base_url = tinyMCE.settings['document_base_url'];
 		var vHTML = content;
