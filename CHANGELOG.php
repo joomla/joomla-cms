@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Oct-2005 Levis Bisson
+^ Applyed Feature Requests:
+  Artifact artf1282 : Easier sorting of static content in creating menu links
+
 19-Oct-2005 Johan Janssens
  + Added full UTF-8 support
 

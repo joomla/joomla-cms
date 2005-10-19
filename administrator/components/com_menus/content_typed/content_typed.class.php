@@ -71,7 +71,7 @@ class content_typed_menu {
 			. "\n WHERE a.state = 1"
 			. "\n AND a.sectionid = 0"
 			. "\n AND a.catid = 0"
-			. "\n ORDER BY a.id, a.title"
+			. "\n ORDER BY a.title, a.id"
 			;
 			$database->setQuery( $query );
 			$contents = $database->loadObjectList( );
