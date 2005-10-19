@@ -52,10 +52,10 @@ class HTML_module {
 				<th width="20%" class="title">
 				<?php echo $_LANG->_( 'Module File' ); ?>
 				</th>
-				<th width="10%" align="left">
+				<th width="10%" align="left" class="rtl_right">
 				<?php echo $_LANG->_( 'Client' ); ?>
 				</th>
-				<th width="10%" align="left">
+				<th width="10%" align="left" class="rtl_right">
 				<?php echo $_LANG->_( 'Author' ); ?>
 				</th>
 				<th width="5%" align="center">
@@ -64,10 +64,10 @@ class HTML_module {
 				<th width="10%" align="center">
 				<?php echo $_LANG->_( 'Date' ); ?>
 				</th>
-				<th width="15%" align="left">
+				<th width="15%" align="left" class="rtl_right">
 				<?php echo $_LANG->_( 'Author Email' ); ?>
 				</th>
-				<th width="15%" align="left">
+				<th width="15%" align="left" class="rtl_right">
 				<?php echo $_LANG->_( 'Author URL' ); ?>
 				</th>
 			</tr>

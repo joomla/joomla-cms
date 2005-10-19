@@ -85,7 +85,7 @@ class HTML_typedcontent {
 			<th width="1%" align="left">
 			<?php echo $_LANG->_( 'Links' ); ?>
 			</th>
-			<th width="20%" align="left">
+			<th width="20%" align="left" class="rtl_right">
 			<?php echo $_LANG->_( 'Author' ); ?>
 			</th>
 			<th align="center" width="10">
@@ -217,7 +217,7 @@ class HTML_typedcontent {
 				<td align="center">
 				<?php echo $row->links;?>
 				</td>
-				<td align="left">
+				<td align="left" class="rtl_right">
 				<?php echo $author;?>
 				</td>
 				<td>

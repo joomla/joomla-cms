@@ -15,8 +15,10 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 function quickiconButton( $link, $image, $text ) {
+	global $_LANG;
+	
 	?>
-	<div style="float:left;">
+	<div style="float:<?php echo ($_LANG->rtl()) ? 'right' : 'left'; ?>;">
 		<div class="icon">
 			<a href="<?php echo $link; ?>">
 				<div class="iconimage">

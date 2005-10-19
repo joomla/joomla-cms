@@ -1,0 +1,601 @@
+/**
+* @version $Id: template_css_rtl.css,v 1.1 2005/10/14 14:10:32 davidgal Exp $
+* @package Joomla
+* @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+* Joomla! is free software and parts of it may contain or be derived from works
+* licensed under the GNU General Public License or other free or open source
+* software licenses. See COPYRIGHT.php for copyright notices and details.
+*/
+
+#langdirection {
+	direction: rtl;
+}
+.rtl_right {
+	text-align: right;
+}
+#wrapper {
+        border: 0px;
+        margin: 0px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0px;
+}
+
+#header {
+        background-color: #FFF;
+        background-position: right top;
+        border-bottom: 4px solid #C64934;
+        background: url(../images/header_bg.png);
+}
+
+#joomla {
+        position: relative;
+        width: 100%;
+        background: url(../images/version_rtl.png) no-repeat;
+        background-position: bottom left;
+        margin: 0px;
+        padding: 0px;
+}
+
+#wrapper1 div {
+    border: 0px;
+    margin: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0px 5px 0px 5px;
+    display: inline;
+}
+
+BODY {
+	margin: 0px 0px 0px 0px;
+	color : #333;
+	background-color: #FFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+a {
+	color: #C64934;
+	text-decoration: none;
+}
+a:hover {
+	color : #30569D;
+	text-decoration : underline;
+}
+a:active {
+	color : #333333;
+	text-decoration : underline;
+}
+
+table#toolbar {
+	float: left;
+	margin-left: 10px;
+}
+
+table#toolbar a.toolbar {
+	color : #808080;
+	text-decoration : none;
+	display: block;
+	border: 1px solid #DDD;
+	width: 55px;
+	padding: 2px 1px 2px 1px;
+}
+table#toolbar a.toolbar:hover {
+	color : #C64934;
+	border: 1px solid #c24733;
+	background-color: #f1e8e6;
+	padding: 3px 0px 1px 2px;
+}
+table#toolbar a.toolbar:active {
+	color : #FF9900;
+}
+.pagenav {
+	font-size : 10px;
+}
+a.pagenav {
+	color : #808080;
+	font-size : 10px;
+	text-decoration : underline;
+}
+a.pagenav:hover {
+	color : #FFF;
+	font-size : 10px;
+}
+a.pagenav:active {
+	color : #333;
+	font-size : 10px;
+}
+.sectionname {
+	color : #FF9900;
+	font-family : Arial, Helvetica, sans-serif;
+	font-size : 18px;
+	font-weight: bold;
+}
+.button {
+	border-top : solid 1px #d5d5d5;
+	border-right : solid 1px #808080;
+	border-bottom : solid 1px #808080;
+	border-left : solid 1px #d5d5d5;
+	color : #333;
+	font-weight : bold;
+}
+.inputbox {
+        z-index: -3;
+        font-size: 11px;
+}
+.text_area {
+        border : 1px solid ccc;
+        z-index: -3;
+        font-size: 11px
+}
+INPUT, TEXTAREA, SELECT {
+	z-index : -3;
+	font-size: 11px;
+}
+.small {
+	color : #FF9900;
+	font-family : Arial, Helvetica, sans-serif;
+	font-size : 10px;
+	text-decoration : none;
+}
+.smallgrey {
+	color : #999;
+	font-size : 10px;
+}
+.error {
+	color : #C40000;
+	font-size : 11px;
+	font-weight : bold;
+}
+.contentheading, .componentheading, .moduleheading {
+	font-size: 14px;
+	font-weight: bold;
+}
+table.menubar {
+	width: 100%;
+	direction: rtl;
+	
+}
+td {
+	font-size: 11px;
+}
+/* header block */
+table.adminheading {
+	background-color: #FFF;
+	font-family : Arial, Helvetica, sans-serif;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	width: 100%;
+	border-collapse: collapse;
+	color: #C64934;
+	font-size : 18px;
+	font-weight: bold;
+	text-align: left;
+}
+table.adminheading th {
+	background: url(../../../images/generic.png) no-repeat right;
+	text-align: right;
+	height: 50px;
+	width: 99%;
+	padding-right: 50px;
+	border-bottom: 5px solid #fff;
+}
+table.adminheading th.checkin {
+	background: url(../../../images/checkin.png) no-repeat right;
+}
+table.adminheading th.cpanel {
+	background: url(../../../images/cpanel.png) no-repeat right;
+}
+table.adminheading th.config {
+	background: url(../../../images/config.png) no-repeat right;
+}
+table.adminheading th.modules {
+	background: url(../../../images/module.png) no-repeat right;
+}
+table.adminheading th.menus {
+	background: url(../../../images/menu.png) no-repeat right;
+}
+table.adminheading th.trash {
+	background: url(../../../images/trash.png) no-repeat right;
+}
+table.adminheading th.user {
+	background: url(../../../images/user.png) no-repeat right;
+}
+table.adminheading th.inbox {
+	background: url(../../../images/inbox.png) no-repeat right;
+}
+table.adminheading th.msgconfig {
+	background: url(../../../images/message_config.png) no-repeat right;
+}
+table.adminheading th.langmanager {
+	background: url(../../../images/langmanager.png) no-repeat right;
+}
+table.adminheading th.mediamanager {
+	background: url(../../../images/mediamanager.png) no-repeat right;
+}
+table.adminheading th.impressions {
+	background: url(../../../images/impressions.png) no-repeat right;
+}
+table.adminheading th.browser {
+	background: url(../../../images/browser.png) no-repeat right;
+}
+table.adminheading th.searchtext {
+	background: url(../../../images/searchtext.png) no-repeat right;
+}
+table.adminheading th.templates {
+	background: url(../../../images/templatemanager.png) no-repeat right;
+}
+table.adminheading th.massemail {
+	background: url(../../../images/massemail.png) no-repeat right;
+}
+table.adminheading th.frontpage {
+	background: url(../../../images/frontpage.png) no-repeat right;
+}
+table.adminheading th.sections {
+	background: url(../../../images/sections.png) no-repeat right;
+}
+table.adminheading th.edit {
+	background: url(../../../images/addedit.png) no-repeat right;
+}
+table.adminheading th.categories {
+	background: url(../../../images/categories.png) no-repeat right;
+}
+table.adminheading th.install {
+	background: url(../../../images/install.png) no-repeat right;
+}
+table.adminheading th.dbbackup {
+	background: url(../../../images/backup.png) no-repeat right;
+}
+table.adminheading th.dbrestore {
+	background: url(../../../images/dbrestore.png) no-repeat right;
+}
+table.adminheading th.dbquery {
+	background: url(../../../images/query.png) no-repeat right;
+}
+table.adminheading th.info {
+	background: url(../../../images/systeminfo.png) no-repeat right;
+}
+
+table.adminheading td {
+	color : #000;
+}
+/* standard list style table */
+table.adminlist {
+	background-color: #FFFFFF;
+	margin: 0px;
+	padding: 0px;
+	border: 1px solid #ddd;
+	border-spacing: 0px;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+table.adminlist th {
+	margin: 0px;
+	padding: 6px 4px 2px 4px;
+	height: 25px;
+	background: url(../images/background.jpg);
+	background-repeat: repeat;
+	font-size: 11px;
+	color: #000;
+}
+table.adminlist th.title {
+	text-align: right;
+}
+
+table.adminlist th a:link, table.adminlist th a:visited {
+	color: #c64934;
+	text-decoration: none;
+}
+
+table.adminlist th a:hover {
+	text-decoration: underline;
+}
+
+table.adminlist tr.row0 {
+	background-color: #F9F9F9;
+}
+table.adminlist tr.row1 {
+	background-color: #FFF;
+}
+table.adminlist td {
+	border-bottom: 1px solid #e5e5e5;
+	padding: 4px;
+}
+table.adminlist tr.row0:hover {
+	background-color: #f1f1f1;
+}
+table.adminlist tr.row1:hover {
+	background-color: #f1f1f1;
+}
+table.adminlist td.options {
+	background-color: #ffffff;
+	font-size: 8px;
+}
+select.options, input.options {
+	font-size: 8px;
+	font-weight: normal;
+	border: 1px solid #999999;
+}
+/* standard form style table */
+table.adminform {
+	background-color: #f9f9f9;
+	border: solid 1px #d5d5d5;
+	width: 100%;
+	padding: 10px;
+	border-collapse: collapse;
+}
+table.adminform tr.row0 {
+	background-color: #f9f9f9;
+}
+table.adminform tr.row1 {
+	background-color: #eeeeee;
+}
+table.adminform th {
+	font-size: 11px;
+	padding-top: 6px;
+	padding-bottom: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
+	text-align: right;
+	height: 25px;
+	background: url(../images/background.jpg);
+	color: #000;
+	background-repeat: repeat;
+}
+table.adminform td {
+	padding: 3px;
+	text-align: right;
+}
+table.adminform td.editor {
+	font-size: 9px;
+}
+
+table.cpanel td {
+	text-align: center;
+}
+
+form {
+	margin: 0px 0px 0px 0px;
+}
+/* Styles for dhtml tabbed-pages */
+.ontab {
+	font-size: 12px;
+	background-color: #ffae00;
+	border: 1px solid #cccccc;
+	width: 14%;
+	text-align: center;
+	cursor: hand;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+.offtab {
+	font-size: 12px;
+	background-color : #e5e5e5;
+	border: 1px solid #cccccc;
+	width: 14%;
+	text-align: center;
+	cursor: hand;
+	font-weight: normal;
+}
+.tabpadding {
+	/*border-bottom: solid 1px #D5D5D5;*/
+}
+.tabheading {
+	background-color: #FFAE00;
+	color: #FFF;
+	font-size: 10px;
+	text-align: left;
+}
+.pagetext {
+	visibility: hidden;
+	display: none;
+	position: relative;
+	top: 0;
+}
+.menubackgr {
+	background: #F1F3F5;
+	border-bottom: 1px solid #cccccc;
+
+}
+.menudottedline {
+	border-bottom: 1px solid #cccccc;
+	border-top: 1px solid #ffffff;
+	background-color: #F1F3F5;
+}
+.pathway {
+	margin-right: 15px;
+}
+.adminheader {
+	color : #c30;
+	font-size : 24px;
+}
+/* Text passed with mosmsg url parameter */
+.message {
+	font-family : "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size : 14px;
+	color : #c30;
+	text-align: center;
+}
+
+div.centermain {
+	padding: 0 10px;
+}
+
+div.main {
+	width: 99%;
+	padding: 0;
+}
+.quote {
+	margin: 4px;
+	border: 1px solid #cccccc;
+	background-color: #E9ECEF;
+	padding: 10px;
+	font-size: 12px;
+	color: #254D78;
+}
+
+
+/* mod_quickicon */
+
+#cpanel { 
+	text-align: center; 
+	vertical-align: middle; 
+}
+
+#cpanel div.icon   { 
+	margin: 3px; 
+}
+#cpanel div.icon a { 
+	display: block; 
+	height: 93px !important;
+	height: 95px; 
+	width: 108px !important;
+	width: 110px; 
+	vertical-align: middle; 
+	text-decoration : none;
+	border: 1px solid #DDD;
+	padding: 2px 5px 1px 5px;
+}
+
+#cpanel div.icon a:link    { 
+	color : #808080; 
+}
+#cpanel div.icon a:hover   { 
+	color : #333; 
+	background-color: #f1e8e6;  
+	border: 1px solid #c24733;
+	padding: 3px 4px 0px 6px; 
+}
+#cpanel div.icon a:active  { 
+	color : #808080; 
+}
+#cpanel div.icon a:visited { 
+	color : #808080; 
+}
+
+#cpanel div.iconimage { 
+	padding-top: 13px; 
+}
+
+/* Tooltips */
+a.tooltip, a.tooltip:hover  {
+	color: black;
+	text-decoration: none;
+	border-bottom: 1px dashed #aaa;
+}
+
+a.tooltiplink {
+	display: block; 
+	width: 100%; 
+}
+a.tooltiplink:hover {
+	text-decoration:  none;
+}
+
+/* Fieldsets */
+fieldset {
+	margin-bottom: 10px;
+	border: 1px #ccc solid;
+	padding: 5px;
+	text-align: left;
+}
+
+fieldset p { 
+	margin: 10px 0px; 
+}
+
+legend { 
+	color: #c24733; 
+	font-size: 1.1em; 
+	font-weight: bold; 
+}
+
+/* Two Pane Formatting */
+#treecell {
+	width: 20%; 
+	display: block; 
+	position: relative; 
+	float: left;
+	margin: 0; 
+	padding: 2px;
+	overflow: hidden;
+}
+
+.expander { 
+	float: left;  
+}
+
+#datacell {
+	width: 78%; 
+	display: block; 
+	float: left;
+	margin: 0; 
+	padding: 2px 0px 0px 0px;	
+}
+
+#datacellfull {
+	width: 98%; 
+	display: block; 
+	float: left;
+	margin: 0; 
+	padding: 2px;
+}
+
+#treecell fieldset { 
+}
+#datacell fieldset { 
+	border: 1px #ccc solid; 
+}
+
+span.editlinktip {
+	text-decoration:  none;
+	border-bottom: 1px dashed #aaa;
+}
+
+table.paramlist td {
+	height: 30px;
+}
+
+div.footer {
+	clear: both;
+	margin-top: 10px;
+}
+
+.dynamic-tab-pane-control .tab-row .tab {
+	width: 70px;
+	height: 16px;
+	background-image: url( "tab.png" );
+	position: relative;
+	top: 0;
+	display: inline;
+	float: right;
+	overflow: hidden;
+	cursor: hand;
+	margin: 1px -1px 1px 2px;
+	padding: 2px 0px 0px 0px;
+	border: 0;
+	z-index: 1;
+	font: 11px Tahoma;
+	white-space: nowrap;
+	text-align: center;
+}
+.dynamic-tab-pane-control .tab-page {
+
+	border: 1px solid rgb( 145, 155, 156 );
+	background: rgb( 252, 252, 254 );
+	z-index: 2;
+	position: relative;
+	top: -2px;
+	font: 11px Tahoma;
+	color: #333;
+	
+	/*244, 243, 238*/
+	/* 145, 155, 156*/
+	padding:	5px;
+	width: 97%;  /* stupid stupid stupid IE!!! */
+	float: right;
+
+}

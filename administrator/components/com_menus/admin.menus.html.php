@@ -92,7 +92,7 @@ class HTML_menusections {
 			<th>
 			<?php echo $_LANG->_( 'Itemid' ); ?>
 			</th>
-			<th width="35%" align="left">
+			<th width="35%" align="left" class="rtl_right">
 			<?php echo $_LANG->_( 'Type' ); ?>
 			</th>
 			<th>
@@ -147,7 +147,7 @@ class HTML_menusections {
 				<td align="center">
 				<?php echo $row->id; ?>
 				</td>
-				<td align="left">
+				<td align="left" class="rtl_right">
 					<span class="editlinktip">
 						<?php
 						echo mosToolTip( $row->descrip, '', 280, 'tooltip.png', $row->type, $row->edit );

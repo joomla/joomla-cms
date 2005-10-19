@@ -83,13 +83,13 @@ class HTML_content {
 			<th width="8%" nowrap="nowrap">
 			<?php echo $_LANG->_( 'Access' ); ?>
 			</th>
-			<th width="10%" align="left">
+			<th width="10%" align="left" class="rtl_right">
 			<?php echo $_LANG->_( 'Section' ); ?>
 			</th>
-			<th width="10%" align="left">
+			<th width="10%" align="left" class="rtl_right">
 			<?php echo $_LANG->_( 'Category' ); ?>
 			</th>
-			<th width="10%" align="left">
+			<th width="10%" align="left" class="rtl_right">
 			<?php echo $_LANG->_( 'Author' ); ?>
 			</th>
 		</tr>

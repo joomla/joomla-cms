@@ -24,6 +24,7 @@ class mosFullAdminMenu {
 	* @param string The current user type
 	*/
 	function show( $usertype='' ) {
+		global $_LANG;
 		global $acl, $database;
 		global $mosConfig_live_site, $mosConfig_enable_stats, $mosConfig_caching;
 		global $_LANG;
@@ -309,7 +310,7 @@ class mosFullAdminMenu {
 	// Help Sub-Menu
 ?>			[null,'<?php echo $_LANG->_( 'Help' ); ?>','index2.php?option=com_admin&task=help',null,null]
 		];
-		cmDraw ('myMenuID', myMenu, 'hbr', cmThemeOffice, 'ThemeOffice');
+		cmDraw ('myMenuID', myMenu, <?php echo ($_LANG->rtl()) ? "'hbl'" : "'hbr'"; ?>, cmThemeOffice, 'ThemeOffice');
 		</script>
 <?php
 	}
@@ -431,7 +432,7 @@ class mosFullAdminMenu {
 			?>
 			[null,'<?php echo $_LANG->_( 'Help' ); ?>',null,null,'<?php echo $text; ?>']
 		];
-		cmDraw ('myMenuID', myMenu, 'hbr', cmThemeOffice, 'ThemeOffice');
+		cmDraw ('myMenuID', myMenu, <?php echo ($_LANG->rtl()) ? "'hbl'" : "'hbr'"; ?>, cmThemeOffice, 'ThemeOffice');
 		</script>
 		<?php
 	}

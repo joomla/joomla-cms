@@ -74,10 +74,10 @@ class HTML_modules {
 			<th nowrap="nowrap" width="10%">
 			<?php echo $_LANG->_( 'Access' ); ?>
 			</th>
-			<th nowrap="nowrap" align="left" width="10%">
+			<th nowrap="nowrap" align="left" width="10%" class="rtl_right">
 			<?php echo $_LANG->_( 'Type' ); ?>
 			</th>
-			<th nowrap="nowrap" align="left" width="10%">
+			<th nowrap="nowrap" align="left" width="10%" class="rtl_right">
 			<?php echo $_LANG->_( 'File' ); ?>
 			</th>
 		</tr>
@@ -125,10 +125,10 @@ class HTML_modules {
 				<td align="center">
 				<?php echo $access;?>
 				</td>
-				<td align="left" nowrap="true">
+				<td align="left" nowrap="true" class="rtl_right">
 				<?php echo $row->folder;?>
 				</td>
-				<td align="left" nowrap="true">
+				<td align="left" nowrap="true" class="rtl_right">
 				<?php echo $row->element;?>
 				</td>
 			</tr>

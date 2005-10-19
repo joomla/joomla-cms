@@ -92,7 +92,7 @@ class HTML_templates {
 				<?php
 			}
 			?>
-			<th width="20%" align="left">
+			<th width="20%" align="left" class="rtl_right">
 			<?php echo $_LANG->_( 'Author' ); ?>
 			</th>
 			<th width="5%" align="center">
@@ -101,7 +101,7 @@ class HTML_templates {
 			<th width="10%" align="center">
 			<?php echo $_LANG->_( 'Date' ); ?>
 			</th>
-			<th width="20%" align="left">
+			<th width="20%" align="left" class="rtl_right">
 			<?php echo $_LANG->_( 'Author URL' ); ?>
 			</th>
 		</tr>
@@ -384,10 +384,10 @@ class HTML_templates {
 			<th width="25">
 			<?php echo $_LANG->_( 'NUM' ); ?>
 			</th>
-			<th align="left">
+			<th align="left" class="rtl_right">
 			<?php echo $_LANG->_( 'Position' ); ?>
 			</th>
-			<th align="left">
+			<th align="left" class="rtl_right">
 			<?php echo $_LANG->_( 'Description' ); ?>
 			</th>
 			<?php

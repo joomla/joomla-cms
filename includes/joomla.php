@@ -3560,8 +3560,13 @@ class mosTabs {
 	* @param int useCookies, if set to 1 cookie will hold last used tab between page refreshes
 	*/
 	function mosTabs($useCookies) {
-		global $mosConfig_live_site;
-		echo "<link id=\"luna-tab-style-sheet\" type=\"text/css\" rel=\"stylesheet\" href=\"" . $mosConfig_live_site. "/includes/js/tabs/tabpane.css\" />";
+		global $mosConfig_live_site, $_LANG;
+		if ($_LANG->rtl()) {
+			echo "<link id=\"luna-tab-style-sheet\" type=\"text/css\" rel=\"stylesheet\" href=\"" . $mosConfig_live_site. "/includes/js/tabs/tabpane_rtl.css\" />";
+
+		} else {
+			echo "<link id=\"luna-tab-style-sheet\" type=\"text/css\" rel=\"stylesheet\" href=\"" . $mosConfig_live_site. "/includes/js/tabs/tabpane.css\" />";
+		}
 		echo "<script type=\"text/javascript\" src=\"". $mosConfig_live_site . "/includes/js/tabs/tabpane_mini.js\"></script>";
 		$this->useCookies = $useCookies;
 	}

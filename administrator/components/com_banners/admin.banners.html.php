@@ -43,7 +43,7 @@ class HTML_banners {
 			<th width="20">
 			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
-			<th align="left" nowrap>
+			<th align="left" nowrap class="rtl_right">
 			<?php echo $_LANG->_( 'Banner Name' ); ?>
 			</th>
 			<th width="10%" nowrap>
@@ -94,7 +94,7 @@ class HTML_banners {
 				<td align="center">
 				<?php echo $checked; ?>
 				</td>
-				<td align="left">
+				<td align="left" class="rtl_right">
 				<?php
 				if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
 					echo $row->name;
@@ -336,10 +336,10 @@ class HTML_bannerClient {
 			<th width="20">
 			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
-			<th align="left" nowrap>
+			<th align="left" nowrap class="rtl_right">
 			<?php echo $_LANG->_( 'Client Name' ); ?>
 			</th>
-			<th align="left" nowrap>
+			<th align="left" nowrap class="rtl_right">
 			<?php echo $_LANG->_( 'Contact' ); ?>
 			</th>
 			<th align="center" nowrap>

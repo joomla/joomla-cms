@@ -23,10 +23,10 @@ echo '<?xml version="1.0" encoding="'. $_LANG->iso() .'"?' .'>';
 <html xmlns="http://www.w3.org/1999/xhtml" lang="<?php echo $_LANG->isoCode();?>">
 <head>
 <title><?php echo $mosConfig_sitename; ?> - <?php echo $_LANG->_( 'Administration' ); ?> [Joomla]</title>
-<link rel="stylesheet" href="templates/joomla_admin/css/template_css.css" type="text/css" />
-<link rel="stylesheet" href="templates/joomla_admin/css/theme.css" type="text/css" />
+<link rel="stylesheet" href="templates/joomla_admin/css/<?php echo ($_LANG->rtl()) ? 'template_css_rtl.css' : 'template_css.css'; ?>" type="text/css" />
+<link rel="stylesheet" href="templates/joomla_admin/css/<?php echo ($_LANG->rtl()) ? 'theme_rtl.css' : 'theme.css'; ?>" type="text/css" />
 <script language="JavaScript" src="<?php echo $mosConfig_live_site; ?>/includes/js/JSCookMenu_mini.js" type="text/javascript"></script>
-<script language="JavaScript" src="<?php echo $mosConfig_live_site; ?>/administrator/includes/js/ThemeOffice/theme.js" type="text/javascript"></script>
+<script language="JavaScript" src="<?php echo $mosConfig_live_site; ?>/administrator/includes/js/ThemeOffice/<?php echo ($_LANG->rtl()) ? 'theme_rtl.js' : 'theme.js'; ?>" type="text/javascript"></script>
 <script language="JavaScript" src="<?php echo $mosConfig_live_site; ?>/includes/js/joomla.javascript.js" type="text/javascript"></script>
 <?php
 include_once( $mosConfig_absolute_path . '/editor/editor.php' );
@@ -37,10 +37,10 @@ initEditor();
 <link rel="shortcut icon" href="<?php echo $mosConfig_live_site .'/images/favicon.ico';?>" />
 </head>
 <body onload="MM_preloadImages('images/help_f2.png','images/archive_f2.png','images/back_f2.png','images/cancel_f2.png','images/delete_f2.png','images/edit_f2.png','images/new_f2.png','images/preview_f2.png','images/publish_f2.png','images/save_f2.png','images/unarchive_f2.png','images/unpublish_f2.png','images/upload_f2.png')">
-
+<div id="langdirection">
 <div id="wrapper">
 	<div id="header">
-			<div id="joomla"><img src="templates/joomla_admin/images/header_text.png" alt="<?php echo $_LANG->_( 'Joomla! Logo' ); ?>" /></div>
+			<div id="joomla"><img src="templates/joomla_admin/images/<?php echo ($_LANG->rtl()) ? 'header_text_rtl.png' : 'header_text.png'; ?>" alt="<?php echo $_LANG->_( 'Joomla! Logo' ); ?>" /></div>
 	</div>
 </div>
 <table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
@@ -108,5 +108,6 @@ initEditor();
 </div>
 
 <?php mosLoadAdminModules( 'debug' );?>
+</div>
 </body>
 </html>

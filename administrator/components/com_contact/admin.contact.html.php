@@ -62,7 +62,7 @@ class HTML_contact {
 			<th colspan="2" nowrap="nowrap" width="5%">
 			<?php echo $_LANG->_( 'Reorder' ); ?>
 			</th>
-			<th width="15%" align="left">
+			<th width="15%" align="left" class="rtl_right">
 			<?php echo $_LANG->_( 'Category' ); ?>
 			</th>
 			<th class="title" nowrap="nowrap" width="15%">
