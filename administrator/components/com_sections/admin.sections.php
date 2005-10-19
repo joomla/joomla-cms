@@ -678,6 +678,10 @@ function menuLink( $id ) {
 	$row->link			= $link;
 	$row->ordering		= 9999;
 
+	if ( $type == 'content_blog_section' ) {
+		$row->params = 'sectionid='. $id;
+	}
+	
 	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
