@@ -54,11 +54,11 @@ class HTML_mambot {
 				</th>
 				<!--
 				Currently Unsupported
-				<th width="10%" align="left">
+				<th width="10%" >
 				Client
 				</th>
 				-->
-				<th width="10%" align="left" class="rtl_right">
+				<th width="10%"  class="rtl_right">
 				<?php echo $_LANG->_( 'Author' ); ?>
 				</th>
 				<th width="5%" align="center">
@@ -67,10 +67,10 @@ class HTML_mambot {
 				<th width="10%" align="center">
 				<?php echo $_LANG->_( 'Date' ); ?>
 				</th>
-				<th width="15%" align="left" class="rtl_right">
+				<th width="15%"  class="rtl_right">
 				<?php echo $_LANG->_( 'Author Email' ); ?>
 				</th>
-				<th width="15%" align="left" class="rtl_right">
+				<th width="15%"  class="rtl_right">
 				<?php echo $_LANG->_( 'Author URL' ); ?>
 				</th>
 			</tr>

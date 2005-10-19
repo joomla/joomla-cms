@@ -212,7 +212,7 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 
 		$indents = array(
 		// block prefix / item prefix / item suffix / block suffix
-		array( '<table width="100%" border="0" cellpadding="0" cellspacing="0">', '<tr align="left"><td>' , '</td></tr>', '</table>' ),
+		array( '<table width="100%" border="0" cellpadding="0" cellspacing="0">', '<tr ><td>' , '</td></tr>', '</table>' ),
 		array( '', '<div style="padding-left: 4px">'. $img[1] , '</div>', '' ),
 		array( '', '<div style="padding-left: 8px">'. $img[2] , '</div>', '' ),
 		array( '', '<div style="padding-left: 12px">'. $img[3] , '</div>', '' ),

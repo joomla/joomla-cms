@@ -365,10 +365,10 @@ class HTML_contact {
 					</th>
 				<tr>
 				<tr>
-					<td align="left" width="20%">
+					<td  width="20%">
 					<?php echo $_LANG->_( 'Image' ); ?>:
 					</td>
-					<td align="left">
+					<td >
 					<?php echo $lists['image']; ?>
 					</td>
 				</tr>

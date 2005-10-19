@@ -143,7 +143,7 @@ class mosPageNav {
 		$html .= '</th></tr><tr>';
 		$html .= '<td nowrap="true" width="48%" align="right">'. $_LANG->_( 'Display Num' ) .'</td>';
 		$html .= '<td>' .$this->getLimitBox() . '</td>';
-		$html .= '<td nowrap="true" width="48%" align="left">' . $this->getPagesCounter() . '</td>';
+		$html .= '<td nowrap="true" width="48%" >' . $this->getPagesCounter() . '</td>';
 		$html .= '</tr></table>';
   		return $html;
 	}

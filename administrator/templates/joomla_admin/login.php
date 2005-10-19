@@ -79,7 +79,7 @@ $tstart = mosProfiler::getmicrotime();
 				<div>
 					<?php echo $lists['langs']; ?>
 				</div>
-				<div class="flushstart" align="left">
+				<div class="flushstart" >
 					<input type="submit" name="submit" class="button" value="<?php echo $_LANG->_( 'Login' ); ?>" />
 				</div>
 			</div>

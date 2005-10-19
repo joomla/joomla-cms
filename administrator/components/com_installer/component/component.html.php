@@ -46,7 +46,7 @@ class HTML_component {
 				<th width="20%" class="title">
 				<?php echo $_LANG->_( 'Component Menu Link' ); ?>
 				</th>
-				<th width="10%" align="left" class="rtl_right">
+				<th width="10%"  class="rtl_right">
 				<?php echo $_LANG->_( 'Author' ); ?>
 				</th>
 				<th width="5%" align="center">
@@ -55,10 +55,10 @@ class HTML_component {
 				<th width="10%" align="center">
 				<?php echo $_LANG->_( 'Date' ); ?>
 				</th>
-				<th width="15%" align="left" class="rtl_right">
+				<th width="15%"  class="rtl_right">
 				<?php echo $_LANG->_( 'Author Email' ); ?>
 				</th>
-				<th width="15%" align="left" class="rtl_right">
+				<th width="15%"  class="rtl_right">
 				<?php echo $_LANG->_( 'Author URL' ); ?>
 				</th>
 			</tr>
@@ -68,16 +68,16 @@ class HTML_component {
 				$row =& $rows[$i];
 				?>
 				<tr class="<?php echo "row$rc"; ?>">
-					<td align="left" class="rtl_right">
+					<td  class="rtl_right">
 					<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);">
 					<span class="bold">
 					<?php echo $row->name; ?>
 					</span>
 					</td>
-					<td align="left" class="rtl_right">
+					<td  class="rtl_right">
 					<?php echo @$row->link != "" ? $row->link : "&nbsp;"; ?>
 					</td>
-					<td align="left" class="rtl_right">
+					<td  class="rtl_right">
 					<?php echo @$row->author != "" ? $row->author : "&nbsp;"; ?>
 					</td>
 					<td align="center">

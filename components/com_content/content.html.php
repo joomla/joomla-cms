@@ -218,7 +218,7 @@ class HTML_content {
 				}
 				if ( $params->get( 'author' ) ) {
 					?>
-					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" align="left" width="25%">
+					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>"  width="25%">
 					<?php echo _HEADER_AUTHOR; ?>
 					</td>
 					<?php
@@ -277,7 +277,7 @@ class HTML_content {
 				}
 				if ( $params->get( 'author' ) ) {
 					?>
-					<td align="left">
+					<td >
 					<?php echo $row->created_by_alias ? $row->created_by_alias : $row->author; ?>
 					</td>
 					<?php
@@ -736,7 +736,7 @@ class HTML_content {
 			$by = $is_frontend_user ? _AUTHOR_BY : _WRITTEN_BY;
 		?>
 		<tr>
-			<td width="70%" align="left" valign="top" colspan="2">
+			<td width="70%"  valign="top" colspan="2">
 			<span class="small">
 			<?php echo $by. ' '.( $row->created_by_alias ? $row->created_by_alias : $row->author ); ?>
 			</span>
@@ -804,7 +804,7 @@ class HTML_content {
 		if ( ( $mod_date != '' ) && $params->get( 'modifydate' ) ) {
 			?>
 			<tr>
-				<td colspan="2" align="left" class="modifydate">
+				<td colspan="2"  class="modifydate">
 				<?php echo _LAST_UPDATED; ?> ( <?php echo $mod_date; ?> )
 				</td>
 			</tr>
@@ -820,7 +820,7 @@ class HTML_content {
 			if ( $params->get( 'intro_only' ) && $link_text ) {
 				?>
 				<tr>
-					<td align="left" colspan="2">
+					<td  colspan="2">
 					<a href="<?php echo $link_on;?>" class="readon<?php echo $params->get( 'pageclass_sfx' ); ?>">
 					<?php echo $link_text;?>
 					</a>
@@ -1219,7 +1219,7 @@ class HTML_content {
 			if ($access->canPublish) {
 				?>
 				<tr>
-					<td align="left">
+					<td >
 					<?php echo _E_STATE; ?>
 					</td>
 					<td>
@@ -1229,7 +1229,7 @@ class HTML_content {
 				<?php
 			} ?>
 			<tr>
-				<td align="left">
+				<td >
 				<?php echo _E_ACCESS_LEVEL; ?>
 				</td>
 				<td>
@@ -1237,7 +1237,7 @@ class HTML_content {
 				</td>
 			</tr>
 			<tr>
-				<td align="left">
+				<td >
 				<?php echo _E_AUTHOR_ALIAS; ?>
 				</td>
 				<td>
@@ -1245,7 +1245,7 @@ class HTML_content {
 				</td>
 			</tr>
 			<tr>
-				<td align="left">
+				<td >
 				<?php echo _E_ORDERING; ?>
 				</td>
 				<td>
@@ -1253,7 +1253,7 @@ class HTML_content {
 				</td>
 			</tr>
 			<tr>
-				<td align="left">
+				<td >
 				<?php echo _E_START_PUB; ?>
 				</td>
 				<td>
@@ -1262,7 +1262,7 @@ class HTML_content {
 				</td>
 			</tr>
 			<tr>
-				<td align="left">
+				<td >
 				<?php echo _E_FINISH_PUB; ?>
 				</td>
 				<td>
@@ -1271,7 +1271,7 @@ class HTML_content {
 				</td>
 			</tr>
 			<tr>
-				<td align="left">
+				<td >
 				<?php echo _E_SHOW_FP; ?>
 				</td>
 				<td>
@@ -1285,7 +1285,7 @@ class HTML_content {
 		?>
 			<table class="adminform">
 			<tr>
-				<td align="left" valign="top">
+				<td  valign="top">
 				<?php echo _E_M_DESC; ?>
 				</td>
 				<td>
@@ -1293,7 +1293,7 @@ class HTML_content {
 				</td>
 			</tr>
 			<tr>
-				<td align="left" valign="top">
+				<td  valign="top">
 				<?php echo _E_M_KEY; ?>
 				</td>
 				<td>

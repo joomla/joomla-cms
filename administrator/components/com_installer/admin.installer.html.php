@@ -19,7 +19,7 @@ function writableCell( $folder ) {
 	global $_LANG;
 	echo '<tr>';
 	echo '<td class="item">' . $folder . '/</td>';
-	echo '<td align="left">';
+	echo '<td >';
 	echo is_writable( $GLOBALS['mosConfig_absolute_path'] . '/' . $folder ) ? '<b><font color="green">'. $_LANG->_( 'Writeable' ) .'</font></b>' : '<b><font color="red">'. $_LANG->_( 'Unwriteable' ) .'</font></b>';
 	echo '</td></tr>';
 }
@@ -63,7 +63,7 @@ class HTML_installer {
 			</th>
 		</tr>
 		<tr>
-			<td align="left">
+			<td >
 			<?php echo $_LANG->_( 'Package File' ); ?>:
 			<input class="text_area" name="userfile" type="file" size="70"/>
 			<input class="button" type="submit" value="<?php echo $_LANG->_( 'Upload File' ); ?> &amp; <?php echo $_LANG->_( 'Install' ); ?>" />
@@ -86,7 +86,7 @@ class HTML_installer {
 			</th>
 		</tr>
 		<tr>
-			<td align="left">
+			<td >
 			<?php echo $_LANG->_( 'Install directory' ); ?>:&nbsp;
 			<input type="text" name="userfile" class="text_area" size="65" value="<?php echo $p_startdir; ?>"/>&nbsp;
 			<input type="button" class="button" value="<?php echo $_LANG->_( 'Install' ); ?>" onclick="submitbutton3()" />
@@ -122,7 +122,7 @@ class HTML_installer {
 
 		<table class="adminform">
 		<tr>
-			<td align="left">
+			<td >
 			<strong><?php echo $message; ?></strong>
 			</td>
 		</tr>

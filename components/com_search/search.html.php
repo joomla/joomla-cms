@@ -73,7 +73,7 @@ class search_html {
 		?>
 		<table class="searchintro<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr>
-			<td colspan="3" align="left">
+			<td colspan="3" >
 			<?php echo _PROMPT_KEYWORD . ' <b>' . stripslashes($searchword) . '</b>'; ?>
 		<?php
 	}
@@ -82,7 +82,7 @@ class search_html {
 		?>
 		<table class="searchintro<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr>
-			<td colspan="3" align="left">
+			<td colspan="3" >
 			<?php eval ('echo "'.$message.'";'); ?>
 			</td>
 		</tr>

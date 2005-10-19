@@ -237,13 +237,13 @@ class HTML_trash {
 		<table class="adminform">
 		<tr>
 			<td width="3%"></td>
-			<td align="left" valign="top" width="20%">
+			<td  valign="top" width="20%">
 			<strong><?php echo $_LANG->_( 'Number of Items' ); ?>:</strong>
 			<br />
 			<font color="#000066"><strong><?php echo count( $cid ); ?></strong></font>
 			<br /><br />
 			</td>
-			<td align="left" valign="top" width="25%">
+			<td  valign="top" width="25%">
 			<strong><?php echo $_LANG->_( 'Items being Deleted' ); ?>:</strong>
 			<br />
 			<?php
@@ -303,13 +303,13 @@ class HTML_trash {
 		<table class="adminform">
 		<tr>
 			<td width="3%"></td>
-			<td align="left" valign="top" width="20%">
+			<td  valign="top" width="20%">
 			<strong><?php echo $_LANG->_( 'Number of Items' ); ?>:</strong>
 			<br />
 			<font color="#000066"><strong><?php echo count( $cid ); ?></strong></font>
 			<br /><br />
 			</td>
-			<td align="left" valign="top" width="25%">
+			<td  valign="top" width="25%">
 			<strong><?php echo $_LANG->_( 'Items being Restored' ); ?>:</strong>
 			<br />
 			<?php

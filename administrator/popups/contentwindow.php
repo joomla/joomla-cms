@@ -69,7 +69,7 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 	</tr>
 	<tr>
 		<td align="right"><a href="#" onClick="window.close()"><?php echo $_LANG->_( 'Close' ); ?></a></td>
-		<td align="left"><a href="javascript:;" onClick="window.print(); return false"><?php echo $_LANG->_( 'Print' ); ?></a></td>
+		<td ><a href="javascript:;" onClick="window.print(); return false"><?php echo $_LANG->_( 'Print' ); ?></a></td>
 	</tr>
 </table>
 </body>

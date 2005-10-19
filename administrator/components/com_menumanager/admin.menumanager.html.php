@@ -192,7 +192,7 @@ class HTML_menumanager {
 
 		<table class="adminform">
 		<tr height="45px;">
-			<td width="100px" align="left">
+			<td width="100px" >
 			<strong><?php echo $_LANG->_( 'Menu Name' ); ?>:</strong>
 			</td>
 			<td>
@@ -207,7 +207,7 @@ class HTML_menumanager {
 		if ( $new ) {
 			?>
 			<tr>
-				<td width="100px" align="left" valign="top">
+				<td width="100px"  valign="top">
 				<strong><?php echo $_LANG->_( 'Module Title' ); ?>:</strong>
 				</td>
 				<td>
@@ -278,7 +278,7 @@ class HTML_menumanager {
 		<table class="adminform">
 		<tr>
 			<td width="3%"></td>
-			<td align="left" valign="top" width="20%">
+			<td  valign="top" width="20%">
 			<?php
 			if ( $modules ) {
 				?>
@@ -303,7 +303,7 @@ class HTML_menumanager {
 			}
 			?>
 			</td>
-			<td align="left" valign="top" width="25%">
+			<td  valign="top" width="25%">
 			<strong><?php echo $_LANG->_( 'Menu Items being Deleted' ); ?>:</strong>
 			<br />
 			<ol>
@@ -384,7 +384,7 @@ class HTML_menumanager {
 		<table class="adminform">
 		<tr>
 			<td width="3%"></td>
-			<td align="left" valign="top" width="30%">
+			<td  valign="top" width="30%">
 			<strong><?php echo $_LANG->_( 'New Menu Name' ); ?>:</strong>
 			<br />
 			<input class="inputbox" type="text" name="menu_name" size="30" value="" />
@@ -394,7 +394,7 @@ class HTML_menumanager {
 			<input class="inputbox" type="text" name="module_name" size="30" value="" />
 			<br /><br />
 			</td>
-			<td align="left" valign="top" width="25%">
+			<td  valign="top" width="25%">
 			<strong>
 			<?php echo $_LANG->_( 'Menu being copied' ); ?>:
 			</strong>

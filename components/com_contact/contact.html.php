@@ -463,7 +463,7 @@ class HTML_contact {
 			if ( $params->get( 'address_check' ) > 0 ) {
 				?>
 				<tr>
-					<td rowspan="6" valign="top" width="<?php echo $params->get( 'column_width' ); ?>" align="left">
+					<td rowspan="6" valign="top" width="<?php echo $params->get( 'column_width' ); ?>" >
 					<?php
 					echo $params->get( 'marker_address' );
 					?>
@@ -547,7 +547,7 @@ class HTML_contact {
 			if ( $contact->email_to && $params->get( 'email' ) ) {
 				?>
 				<tr>
-					<td width="<?php echo $params->get( 'column_width' ); ?>" align="left">
+					<td width="<?php echo $params->get( 'column_width' ); ?>" >
 					<?php
 					echo $params->get( 'marker_email' );
 					?>
@@ -563,7 +563,7 @@ class HTML_contact {
 			if ( $contact->telephone && $params->get( 'telephone' ) ) {
 				?>
 				<tr>
-					<td width="<?php echo $params->get( 'column_width' ); ?>" align="left">
+					<td width="<?php echo $params->get( 'column_width' ); ?>" >
 					<?php
 					echo $params->get( 'marker_telephone' );
 					?>
@@ -579,7 +579,7 @@ class HTML_contact {
 			if ( $contact->fax && $params->get( 'fax' ) ) {
 				?>
 				<tr>
-					<td width="<?php echo $params->get( 'column_width' ); ?>" align="left">
+					<td width="<?php echo $params->get( 'column_width' ); ?>" >
 					<?php
 					echo $params->get( 'marker_fax' );
 					?>
@@ -608,7 +608,7 @@ class HTML_contact {
 			?>
 			<table width="100%" cellpadding="0" cellspacing="0" border="0">
 			<tr>
-				<td width="<?php echo $params->get( 'column_width' ); ?>" valign="top" align="left">
+				<td width="<?php echo $params->get( 'column_width' ); ?>" valign="top" >
 				<?php
 				echo $params->get( 'marker_misc' );
 				?>

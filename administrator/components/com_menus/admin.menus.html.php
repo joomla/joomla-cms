@@ -92,7 +92,7 @@ class HTML_menusections {
 			<th>
 			<?php echo $_LANG->_( 'Itemid' ); ?>
 			</th>
-			<th width="35%" align="left" class="rtl_right">
+			<th width="35%"  class="rtl_right">
 			<?php echo $_LANG->_( 'Type' ); ?>
 			</th>
 			<th>
@@ -147,7 +147,7 @@ class HTML_menusections {
 				<td align="center">
 				<?php echo $row->id; ?>
 				</td>
-				<td align="left" class="rtl_right">
+				<td  class="rtl_right">
 					<span class="editlinktip">
 						<?php
 						echo mosToolTip( $row->descrip, '', 280, 'tooltip.png', $row->type, $row->edit );
@@ -356,13 +356,13 @@ class HTML_menusections {
 		<table class="adminform">
 		<tr>
 			<td width="3%"></td>
-			<td align="left" valign="top" width="30%">
+			<td  valign="top" width="30%">
 			<strong><?php echo $_LANG->_( 'Move to Menu' ); ?>:</strong>
 			<br />
 			<?php echo $MenuList ?>
 			<br /><br />
 			</td>
-			<td align="left" valign="top">
+			<td  valign="top">
 			<strong>
 			<?php echo $_LANG->_( 'Menu Items being moved' ); ?>:
 			</strong>
@@ -417,7 +417,7 @@ class HTML_menusections {
 		<table class="adminform">
 		<tr>
 			<td width="3%"></td>
-			<td align="left" valign="top" width="30%">
+			<td  valign="top" width="30%">
 			<strong>
 			<?php echo $_LANG->_( 'Copy to Menu' ); ?>:
 			</strong>
@@ -425,7 +425,7 @@ class HTML_menusections {
 			<?php echo $MenuList ?>
 			<br /><br />
 			</td>
-			<td align="left" valign="top">
+			<td  valign="top">
 			<strong>
 			<?php echo $_LANG->_( 'Menu Items being copied' ); ?>:
 			</strong>

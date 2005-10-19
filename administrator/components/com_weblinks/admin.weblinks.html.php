@@ -62,7 +62,7 @@ class HTML_weblinks {
 			<th colspan="2" width="5%">
 			<?php echo $_LANG->_( 'Reorder' ); ?>
 			</th>
-			<th width="25%" align="left" class="rtl_right">
+			<th width="25%"  class="rtl_right">
 			<?php echo $_LANG->_( 'Category' ); ?>
 			</th>
 			<th width="5%">

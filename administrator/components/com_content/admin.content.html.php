@@ -110,16 +110,16 @@ class HTML_content {
 			<?php
 			if ( $all ) {
 				?>
-				<th align="left" class="rtl_right">
+				<th  class="rtl_right">
 				<?php echo $_LANG->_( 'Section' ); ?>
 				</th>
 				<?php
 			}
 			?>
-			<th align="left" class="rtl_right">
+			<th  class="rtl_right">
 			<?php echo $_LANG->_( 'Category' ); ?>
 			</th>
-			<th align="left" class="rtl_right">
+			<th  class="rtl_right">
 			<?php echo $_LANG->_( 'Author' ); ?>
 			</th>
 			<th align="center" width="10" class="rtl_right">
@@ -227,7 +227,7 @@ class HTML_content {
 				<td align="right">
 				<?php echo $pageNav->orderUpIcon( $i, ($row->catid == @$rows[$i-1]->catid) ); ?>
 				</td>
-				<td align="left">
+				<td >
 				<?php echo $pageNav->orderDownIcon( $i, $n, ($row->catid == @$rows[$i+1]->catid) ); ?>
 				</td>
 				<td align="center" colspan="2">
@@ -236,13 +236,13 @@ class HTML_content {
 				<td align="center">
 				<?php echo $access;?>
 				</td>
-				<td align="left" class="rtl_right">
+				<td  class="rtl_right">
 				<?php echo $row->id; ?>
 				</td>
 				<?php
 				if ( $all ) {
 					?>
-					<td align="left" class="rtl_right">
+					<td  class="rtl_right">
 					<a href="<?php echo $row->sect_link; ?>" title="<?php echo $_LANG->_( 'Edit Section' ); ?>">
 					<?php echo $row->section_name; ?>
 					</a>
@@ -250,15 +250,15 @@ class HTML_content {
 					<?php
 				}
 				?>
-				<td align="left" class="rtl_right">
+				<td  class="rtl_right">
 				<a href="<?php echo $row->cat_link; ?>" title="<?php echo $_LANG->_( 'Edit Category' ); ?>">
 				<?php echo $row->name; ?>
 				</a>
 				</td>
-				<td align="left" class="rtl_right">
+				<td  class="rtl_right">
 				<?php echo $author; ?>
 				</td>
-				<td align="left" class="rtl_right">
+				<td  class="rtl_right">
 				<?php echo $date; ?>
 				</td>
 			</tr>
@@ -365,10 +365,10 @@ class HTML_content {
 			<th width="1%">
 			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo $_LANG->_( 'Save Order' ); ?>" /></a>
 			</th>
-			<th width="15%" align="left" class="rtl_right">
+			<th width="15%"  class="rtl_right">
 			<?php echo $_LANG->_( 'Category' ); ?>
 			</th>
-			<th width="15%" align="left" class="rtl_right">
+			<th width="15%"  class="rtl_right">
 			<?php echo $_LANG->_( 'Author' ); ?>
 			</th>
 			<th align="center" width="10">
@@ -1094,13 +1094,13 @@ class HTML_content {
 		<br />
 		<table class="adminform">
 		<tr>
-			<td align="left" valign="top" width="40%">
+			<td  valign="top" width="40%">
 			<strong><?php echo $_LANG->_( 'Move to Section/Category' ); ?>:</strong>
 			<br />
 			<?php echo $sectCatList; ?>
 			<br /><br />
 			</td>
-			<td align="left" valign="top">
+			<td  valign="top">
 			<strong><?php echo $_LANG->_( 'Items being Moved' ); ?>:</strong>
 			<br />
 			<?php
@@ -1164,13 +1164,13 @@ class HTML_content {
 		<br />
 		<table class="adminform">
 		<tr>
-			<td align="left" valign="top" width="40%">
+			<td  valign="top" width="40%">
 			<strong><?php echo $_LANG->_( 'Copy to Section/Category' ); ?>:</strong>
 			<br />
 			<?php echo $sectCatList; ?>
 			<br /><br />
 			</td>
-			<td align="left" valign="top">
+			<td  valign="top">
 			<strong><?php echo $_LANG->_( 'Items being copied' ); ?>:</strong>
 			<br />
 			<?php

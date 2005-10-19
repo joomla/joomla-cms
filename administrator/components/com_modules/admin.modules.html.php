@@ -94,7 +94,7 @@ class HTML_modules {
 			<th nowrap="nowrap" width="5%">
 			<?php echo $_LANG->_( 'ID' ); ?>
 			</th>
-			<th nowrap="nowrap" width="10%" align="left" class="rtl_right">
+			<th nowrap="nowrap" width="10%"  class="rtl_right">
 			<?php echo $_LANG->_( 'Type' ); ?>
 			</th>
 		</tr>
@@ -167,7 +167,7 @@ class HTML_modules {
 				<td align="center">
 				<?php echo $row->id;?>
 				</td>
-				<td align="left" class="rtl_right">
+				<td  class="rtl_right">
 				<?php echo $row->module ? $row->module : $_LANG->_( 'User' );?>
 				</td>
 			</tr>
@@ -263,7 +263,7 @@ class HTML_modules {
 					</th>
 				<tr>
 				<tr>
-					<td width="100" align="left">
+					<td width="100" >
 					<?php echo $_LANG->_( 'Title' ); ?>:
 					</td>
 					<td>
@@ -272,7 +272,7 @@ class HTML_modules {
 				</tr>
 				<!-- START selectable pages -->
 				<tr>
-					<td width="100" align="left">
+					<td width="100" >
 					<?php echo $_LANG->_( 'Show title' ); ?>:
 					</td>
 					<td>
@@ -280,7 +280,7 @@ class HTML_modules {
 					</td>
 				</tr>
 				<tr>
-					<td valign="top" align="left">
+					<td valign="top" >
 					<?php echo $_LANG->_( 'Position' ); ?>:
 					</td>
 					<td>
@@ -288,7 +288,7 @@ class HTML_modules {
 					</td>
 				</tr>
 				<tr>
-					<td valign="top" align="left">
+					<td valign="top" >
 					<?php echo $_LANG->_( 'Module Order' ); ?>:
 					</td>
 					<td>
@@ -300,7 +300,7 @@ class HTML_modules {
 					</td>
 				</tr>
 				<tr>
-					<td valign="top" align="left">
+					<td valign="top" >
 					<?php echo $_LANG->_( 'Access Level' ); ?>:
 					</td>
 					<td>
@@ -379,7 +379,7 @@ class HTML_modules {
 							</th>
 						<tr>
 						<tr>
-							<td valign="top" align="left">
+							<td valign="top" >
 							<?php echo $_LANG->_( 'Content' ); ?>:
 							</td>
 							<td>

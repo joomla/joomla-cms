@@ -82,10 +82,10 @@ class HTML_typedcontent {
 			<th width="5%">
 			<?php echo $_LANG->_( 'ID' ); ?>
 			</th>
-			<th width="1%" align="left">
+			<th width="1%" >
 			<?php echo $_LANG->_( 'Links' ); ?>
 			</th>
-			<th width="20%" align="left" class="rtl_right">
+			<th width="20%"  class="rtl_right">
 			<?php echo $_LANG->_( 'Author' ); ?>
 			</th>
 			<th align="center" width="10">
@@ -217,7 +217,7 @@ class HTML_typedcontent {
 				<td align="center">
 				<?php echo $row->links;?>
 				</td>
-				<td align="left" class="rtl_right">
+				<td  class="rtl_right">
 				<?php echo $author;?>
 				</td>
 				<td>
@@ -340,7 +340,7 @@ class HTML_typedcontent {
 					</th>
 				<tr>
 				<tr>
-					<td align="left">
+					<td >
 					<?php echo $_LANG->_( 'Title' ); ?>:
 					</td>
 					<td>
@@ -348,7 +348,7 @@ class HTML_typedcontent {
 					</td>
 				</tr>
 				<tr>
-					<td align="left">
+					<td >
 					<?php echo $_LANG->_( 'Title Alias' ); ?>:
 					</td>
 					<td>
@@ -356,7 +356,7 @@ class HTML_typedcontent {
 					</td>
 				</tr>
 				<tr>
-					<td valign="top" align="left" colspan="2">
+					<td valign="top"  colspan="2">
 					<?php echo $_LANG->_( 'Text: (required)' ); ?><br />
 					<?php
 					// parameters : areaname, content, hidden field, width, height, rows, cols
@@ -677,13 +677,13 @@ class HTML_typedcontent {
 					</th>
 				<tr>
 				<tr>
-					<td align="left">
+					<td >
 					<?php echo $_LANG->_( 'Description' ); ?>:<br />
 					<textarea class="inputbox" cols="40" rows="5" name="metadesc" style="width:300px"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
 					</td>
 				</tr>
 				<tr>
-					<td align="left">
+					<td >
 					<?php echo $_LANG->_( 'Keywords' ); ?>:<br />
 					<textarea class="inputbox" cols="40" rows="5" name="metakey" style="width:300px"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
 					</td>

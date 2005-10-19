@@ -1346,7 +1346,7 @@ class mosHTML {
 
   	echo '<tr>';
   	echo '<td class="item">' . $folder . '/</td>';
-  	echo '<td align="left">';
+  	echo '<td >';
   	echo is_writable( "../$folder" ) ? '<b><font color="green">'. $_LANG->_( 'Writeable' ) .'</font></b>' : '<b><font color="red">'. $_LANG->_( 'Unwriteable' ) .'</font></b>' . '</td>';
   	echo '</tr>';
   }

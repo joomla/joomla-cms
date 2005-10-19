@@ -443,13 +443,13 @@ class sections_html {
 		<table class="adminform">
 		<tr>
 			<td width="3%"></td>
-			<td align="left" valign="top" width="30%">
+			<td  valign="top" width="30%">
 			<strong><?php echo $_LANG->_( 'Copy to Section' ); ?>:</strong>
 			<br />
 			<input class="text_area" type="text" name="title" value="" size="35" maxlength="50" title="<?php echo $_LANG->_( 'The new Section name' ); ?>" />
 			<br /><br />
 			</td>
-			<td align="left" valign="top" width="20%">
+			<td  valign="top" width="20%">
 			<strong><?php echo $_LANG->_( 'Categories being copied' ); ?>:</strong>
 			<br />
 			<?php

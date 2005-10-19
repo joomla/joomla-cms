@@ -99,7 +99,7 @@ class categories_html {
 			<?php
 			if ( $section == 'content') {
 				?>
-				<th width="12%" align="left" class="rtl_right">
+				<th width="12%"  class="rtl_right">
 				<?php echo $_LANG->_( 'Section' ); ?>
 				</th>
 				<?php
@@ -183,7 +183,7 @@ class categories_html {
 				<?php
 				if ( $section == 'content' ) {
 					?>
-					<td align="left" class="rtl_right">
+					<td  class="rtl_right">
 					<a href="<?php echo $row->sect_link; ?>" title="<?php echo $_LANG->_( 'Edit Section' ); ?>">
 					<?php echo $row->section_name; ?>
 					</a>
@@ -510,13 +510,13 @@ class categories_html {
 		<table class="adminform">
 		<tr>
 			<td width="3%"></td>
-			<td align="left" valign="top" width="30%">
+			<td  valign="top" width="30%">
 			<strong><?php echo $_LANG->_( 'Move to Section' ); ?>:</strong>
 			<br />
 			<?php echo $SectionList ?>
 			<br /><br />
 			</td>
-			<td align="left" valign="top" width="20%">
+			<td  valign="top" width="20%">
 			<strong><?php echo $_LANG->_( 'Categories being moved' ); ?>:</strong>
 			<br />
 			<?php
@@ -584,13 +584,13 @@ class categories_html {
 		<table class="adminform">
 		<tr>
 			<td width="3%"></td>
-			<td align="left" valign="top" width="30%">
+			<td  valign="top" width="30%">
 			<strong><?php echo $_LANG->_( 'Copy to Section' ); ?>:</strong>
 			<br />
 			<?php echo $SectionList ?>
 			<br /><br />
 			</td>
-			<td align="left" valign="top" width="20%">
+			<td  valign="top" width="20%">
 			<strong><?php echo $_LANG->_( 'Categories being copied' ); ?>:</strong>
 			<br />
 			<?php

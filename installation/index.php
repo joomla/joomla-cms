@@ -28,7 +28,7 @@ function get_php_setting($val) {
 function writableCell( $folder ) {
 	echo '<tr>';
 	echo '<td class="item">' . $folder . '/</td>';
-	echo '<td align="left">';
+	echo '<td >';
 	echo is_writable( "../$folder" ) ? '<b><font color="green">Writeable</font></b>' : '<b><font color="red">Unwriteable</font></b>' . '</td>';
 	echo '</tr>';
 }
@@ -91,7 +91,7 @@ correctly.
 	<td class="item">
 	PHP version >= 4.1.0
 	</td>
-	<td align="left">
+	<td >
 	<?php echo phpversion() < '4.1' ? '<b><font color="red">No</font></b>' : '<b><font color="green">Yes</font></b>';?>
 	</td>
 </tr>
@@ -99,7 +99,7 @@ correctly.
 	<td>
 	&nbsp; - zlib compression support
 	</td>
-	<td align="left">
+	<td >
 	<?php echo extension_loaded('zlib') ? '<b><font color="green">Available</font></b>' : '<b><font color="red">Unavailable</font></b>';?>
 	</td>
 </tr>
@@ -107,7 +107,7 @@ correctly.
 	<td>
 	&nbsp; - XML support
 	</td>
-	<td align="left">
+	<td >
 	<?php echo extension_loaded('xml') ? '<b><font color="green">Available</font></b>' : '<b><font color="red">Unavailable</font></b>';?>
 	</td>
 </tr>
@@ -115,7 +115,7 @@ correctly.
 	<td>
 	&nbsp; - MySQL support
 	</td>
-	<td align="left">
+	<td >
 	<?php echo function_exists( 'mysql_connect' ) ? '<b><font color="green">Available</font></b>' : '<b><font color="red">Unavailable</font></b>';?>
 	</td>
 </tr>
@@ -123,7 +123,7 @@ correctly.
 	<td valign="top" class="item">
 	configuration.php
 	</td>
-	<td align="left">
+	<td >
 	<?php
 	if (@file_exists('../configuration.php') &&  @is_writable( '../configuration.php' )){
 		echo '<b><font color="green">Writeable</font></b>';
@@ -138,7 +138,7 @@ correctly.
 	<td class="item">
 	Session save path
 	</td>
-	<td align="left">
+	<td >
 	<b><?php echo (($sp=ini_get('session.save_path'))?$sp:'Not set'); ?></b>,
 	<?php echo is_writable( $sp ) ? '<b><font color="green">Writeable</font></b>' : '<b><font color="red">Unwriteable</font></b>';?>
 	</td>

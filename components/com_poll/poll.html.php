@@ -51,10 +51,10 @@ class poll_html {
 			<td align="center">
 				<table class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 				<tr>
-					<td align="left">
+					<td >
 					<?php echo _SEL_POLL; ?>&nbsp;
 					</td>
-					<td align="left">
+					<td >
 					<?php echo $pollist; ?>
 					</td>
 				</tr>
@@ -155,10 +155,10 @@ class poll_html {
 						<?php echo $hits; ?>
 						</b>
 						</td>
-						<td align="left" width="2">&nbsp;
+						<td  width="2">&nbsp;
 
 						</td>
-						<td width="30" align="left">
+						<td width="30" >
 						<?php echo $percent; ?>%
 						</td>
 						<?php
@@ -174,8 +174,8 @@ class poll_html {
 							$tdclass = "polls_color_".$polls_barcolor;
 						}
 						?>
-						<td width="300" align="left">
-						<div align="left">
+						<td width="300" >
+						<div >
 						&nbsp;
 						<img src='<?php echo $mosConfig_live_site; ?>/components/com_poll/images/blank.png' class='<?php echo $tdclass; ?>' height='<?php echo $polls_barheight; ?>' width='<?php echo $width; ?>' alt="" />
 						</div>
