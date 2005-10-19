@@ -16,6 +16,11 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
+		<param name="secure" type="radio" default="0" label="SSL Enabled" description="PARAMSECURE">
+			<option value="-1">Off</option>
+			<option value="0">Ignore</option>
+			<option value="1">On</option>
+		</param>
 		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
 		<param name="back_button" type="list" default="" label="Back Button" description="PARAMBACKBUTTON">
 			<option value="">Use Global</option>
