@@ -162,7 +162,8 @@ $message = mosGetParam( $_POST, 'message', 0 );
 if ($option == 'login') {
 	if (!$mainframe->login()) {
 		$mainframe->logout();
-		mosErrorAlert( $_LANG->_( 'LOGIN_INCORRECT' ) );
+		//mosErrorAlert( $_LANG->_( 'LOGIN_INCORRECT' ) );
+		mosErrorAlert( 'Incorrect username or password. Please try again.' );
 	}
 
 	// JS Popup message

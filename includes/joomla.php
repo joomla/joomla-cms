@@ -293,7 +293,8 @@ class mosAbstractTasker {
 	 */
 	function taskNotFound( $task ) {
 		global $_LANG;
-		echo $_LANG->_( 'Task' ) .' ' . $task . ' '. $_LANG->_( 'not found' );
+		//echo $_LANG->_( 'Task' ) .' ' . $task . ' '. $_LANG->_( 'not found' );
+		echo 'Task ' . $task . ' not found';
 		return null;
 	}
 	/**
@@ -303,7 +304,8 @@ class mosAbstractTasker {
 	 */
 	function methodNotFound( $name ) {
 		global $_LANG;
-		echo $_LANG->_( 'Method' ) .' ' . $name . ' '. $_LANG->_( 'not found' );
+		//echo $_LANG->_( 'Method' ) .' ' . $name . ' '. $_LANG->_( 'not found' );
+		echo 'Method ' . $name . ' not found';
 		return null;
 	}
 	/**
@@ -597,8 +599,8 @@ class mosMainFrame {
 
 		if (!$username || !$passwd) {
 			// Error check if still no username or password values
-			mosErrorAlert( $_LANG->_( 'LOGIN_INCOMPLETE' ) );
-			
+			//mosErrorAlert( $_LANG->_( 'LOGIN_INCOMPLETE' ) );
+			mosErrorAlert( _LOGIN_INCOMPLETE );
 		} else {
 			
 			//load user bot group
@@ -615,7 +617,8 @@ class mosMainFrame {
 
 				// check to see if user is blocked from logging in
 				if ($user->block == 1) {
-					mosErrorAlert( $_LANG->_( 'LOGIN_BLOCKED' ) );
+					//mosErrorAlert( $_LANG->_( 'LOGIN_BLOCKED' ) );
+					mosErrorAlert( _LOGIN_BLOCKED );
 				}
 				// fudge the group stuff
 				$grp 		= $acl->getAroGroup( $user->id );
@@ -1347,7 +1350,8 @@ class mosHTML {
   	echo '<tr>';
   	echo '<td class="item">' . $folder . '/</td>';
   	echo '<td >';
-  	echo is_writable( "../$folder" ) ? '<b><font color="green">'. $_LANG->_( 'Writeable' ) .'</font></b>' : '<b><font color="red">'. $_LANG->_( 'Unwriteable' ) .'</font></b>' . '</td>';
+  	//echo is_writable( "../$folder" ) ? '<b><font color="green">'. $_LANG->_( 'Writeable' ) .'</font></b>' : '<b><font color="red">'. $_LANG->_( 'Unwriteable' ) .'</font></b>' . '</td>';
+  	echo is_writable( "../$folder" ) ? '<b><font color="green">Writeable</font></b>' : '<b><font color="red">Unwriteable</font></b>' . '</td>';
   	echo '</tr>';
   }
 
@@ -1437,6 +1441,19 @@ class mosHTML {
 		global $_LANG;
 
 		$arr = array(
+			mosHTML::makeOption( '01', _JAN ),
+			mosHTML::makeOption( '02', _FEB ),
+			mosHTML::makeOption( '03', _MAR ),
+			mosHTML::makeOption( '04', _APR ),
+			mosHTML::makeOption( '05', _MAY ),
+			mosHTML::makeOption( '06', _JUN ),
+			mosHTML::makeOption( '07', _JUL ),
+			mosHTML::makeOption( '08', _AUG ),
+			mosHTML::makeOption( '09', _SEP ),
+			mosHTML::makeOption( '10', _OCT ),
+			mosHTML::makeOption( '11', _NOV ),
+			mosHTML::makeOption( '12', _DEC )
+            /*
 			mosHTML::makeOption( '01', $_LANG->_( 'JAN' ) ),
 			mosHTML::makeOption( '02', $_LANG->_( 'FEB' ) ),
 			mosHTML::makeOption( '03', $_LANG->_( 'MAR' ) ),
@@ -1449,6 +1466,7 @@ class mosHTML {
 			mosHTML::makeOption( '10', $_LANG->_( 'OCT' ) ),
 			mosHTML::makeOption( '11', $_LANG->_( 'NOV' ) ),
 			mosHTML::makeOption( '12', $_LANG->_( 'DEC' ) )
+			*/
 		);
 
 		return mosHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );
@@ -1621,7 +1639,7 @@ class mosHTML {
 			<div align="center" style="margin-top: 30px; margin-bottom: 30px;">
 			<a href='javascript:window.close();'>
 			<span class="small">
-			<?php echo $_LANG->_( 'PROMPT_CLOSE' );?>
+			<?php echo _PROMPT_CLOSE;?>
 			</span>
 			</a>
 			</div>
@@ -2273,7 +2291,8 @@ class mosUser extends mosDBTable {
 				$id = $this->id;
 			} else {
 				// do not translate
-				die( $_LANG->_( 'Error mosUser::setLastVisit cannot call method statically with no id' ) );
+				//die( $_LANG->_( 'Error mosUser::setLastVisit cannot call method statically with no id' ) );
+				die( 'Error mosUser::setLastVisit cannot call method statically with no id' );
 			}
 		}
 		// data check
@@ -2970,11 +2989,13 @@ function mosGetOrderingList( $sql, $chop='30' ) {
 			echo $database->stderr();
 			return false;
 		} else {
-			$order[] = mosHTML::makeOption( 1, $_LANG->_( 'first' ) );
+			//$order[] = mosHTML::makeOption( 1, $_LANG->_( 'first' ) );
+			$order[] = mosHTML::makeOption( 1, 'first' );
 			return $order;
 		}
 	}
-	$order[] = mosHTML::makeOption( 0, '0 '. $_LANG->_( 'first' ) );
+	//$order[] = mosHTML::makeOption( 0, '0 '. $_LANG->_( 'first' ) );
+	$order[] = mosHTML::makeOption( 0, '0 first' );
 	for ($i=0, $n=count( $orders ); $i < $n; $i++) {
 
 		if (strlen($orders[$i]->text) > $chop) {
@@ -2985,7 +3006,8 @@ function mosGetOrderingList( $sql, $chop='30' ) {
 
 		$order[] = mosHTML::makeOption( $orders[$i]->value, $orders[$i]->value.' ('.$text.')' );
 	}
-	$order[] = mosHTML::makeOption( $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' '. $_LANG->_( 'last' ) );
+	//$order[] = mosHTML::makeOption( $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' '. $_LANG->_( 'last' ) );
+	$order[] = mosHTML::makeOption( $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' last' );
 
 	return $order;
 }
@@ -3111,7 +3133,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 		$image 	= $mosConfig_live_site . '/includes/js/ThemeOffice/'. $image;
 		$text 	= '<img src="'. $image .'" border="0" />';
 	}
-	else{
+    else{
 		$text 	= $_LANG->_( $text );
     }
 	$style = 'style="text-decoration: none; color: #333;"';
@@ -3135,10 +3157,10 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 * @param string Box title
 * @returns HTML code for Warning
 */
-function mosWarning($warning, $title='') {
+function mosWarning($warning, $title='Joomla! Warning') {
 	global $mosConfig_live_site, $_LANG;
 
-	$title = $_LANG->_( 'Joomla Warning' );
+	//$title = $_LANG->_( 'Joomla Warning' );
 	$tip = "<a href=\"#\" onMouseOver=\"return overlib('" . $warning . "', CAPTION, '$title', BELOW, RIGHT);\" onmouseout=\"return nd();\"><img src=\"" . $mosConfig_live_site . "/includes/js/ThemeOffice/warning.png\" border=\"0\" /></a>";
 	return $tip;
 }
@@ -3178,7 +3200,8 @@ function mosCreateMail( $from='', $fromname='', $subject, $body ) {
 
 	$mail->PluginDir = $mosConfig_absolute_path .'/includes/phpmailer/';
 	$mail->SetLanguage( 'en', $mosConfig_absolute_path . '/includes/phpmailer/language/' );
-	$mail->CharSet 	= $_LANG->iso();
+	//$mail->CharSet 	= $_LANG->iso();
+	$mail->CharSet 	= substr_replace(_ISO, '', 0, 8);
 	$mail->IsMail();
 	$mail->From 	= $from ? $from : $mosConfig_mailfrom;
 	$mail->FromName = $fromname ? $fromname : $mosConfig_fromname;
@@ -3561,12 +3584,12 @@ class mosTabs {
 	*/
 	function mosTabs($useCookies) {
 		global $mosConfig_live_site, $_LANG;
-		if ($_LANG->rtl()) {
+		/*if ($_LANG->rtl()) {
 			echo "<link id=\"luna-tab-style-sheet\" type=\"text/css\" rel=\"stylesheet\" href=\"" . $mosConfig_live_site. "/includes/js/tabs/tabpane_rtl.css\" />";
 
-		} else {
+		} else { */
 			echo "<link id=\"luna-tab-style-sheet\" type=\"text/css\" rel=\"stylesheet\" href=\"" . $mosConfig_live_site. "/includes/js/tabs/tabpane.css\" />";
-		}
+		//}
 		echo "<script type=\"text/javascript\" src=\"". $mosConfig_live_site . "/includes/js/tabs/tabpane_mini.js\"></script>";
 		$this->useCookies = $useCookies;
 	}
@@ -3685,7 +3708,8 @@ class mosAdminMenus {
 
 		// assemble menu items to the array
 		$mitems = array();
-		$mitems[] = mosHTML::makeOption( '0', $_LANG->_( 'Top' ) );
+		//$mitems[] = mosHTML::makeOption( '0', $_LANG->_( 'Top' ) );
+		$mitems[] = mosHTML::makeOption( '0', 'Top' );
 		$this_treename = '';
 		foreach ( $list as $item ) {
 			if ( $this_treename ) {
@@ -3734,9 +3758,12 @@ class mosAdminMenus {
 	function Target( &$row ) {
 		global $_LANG;
 
-		$click[] = mosHTML::makeOption( '0', $_LANG->_( 'Parent Window With Browser Navigation' ) );
-		$click[] = mosHTML::makeOption( '1', $_LANG->_( 'New Window With Browser Navigation' ) );
-		$click[] = mosHTML::makeOption( '2', $_LANG->_( 'New Window Without Browser Navigation' ) );
+		//$click[] = mosHTML::makeOption( '0', $_LANG->_( 'Parent Window With Browser Navigation' ) );
+		//$click[] = mosHTML::makeOption( '1', $_LANG->_( 'New Window With Browser Navigation' ) );
+		//$click[] = mosHTML::makeOption( '2', $_LANG->_( 'New Window Without Browser Navigation' ) );
+		$click[] = mosHTML::makeOption( '0', 'Parent Window With Browser Navigation' );
+		$click[] = mosHTML::makeOption( '1', 'New Window With Browser Navigation' );
+		$click[] = mosHTML::makeOption( '2', 'New Window Without Browser Navigation' );
 		$target = mosHTML::selectList( $click, 'browserNav', 'class="inputbox" size="4"', 'value', 'text', intval( $row->browserNav ) );
 		return $target;
 	}
@@ -3866,7 +3893,8 @@ class mosAdminMenus {
 		;
 		$database->setQuery( $query );
 		if ( $all ) {
-			$rows[] = mosHTML::makeOption( 0, '- '. $_LANG->_( 'All Sections' ) .' -' );
+			//$rows[] = mosHTML::makeOption( 0, '- '. $_LANG->_( 'All Sections' ) .' -' );
+			$rows[] = mosHTML::makeOption( 0, '- All Sections -' );
 			$rows = array_merge( $rows, $database->loadObjectList() );
 		} else {
 			$rows = $database->loadObjectList();
@@ -3954,7 +3982,8 @@ class mosAdminMenus {
 		}
 
 		$imageFiles = mosReadDirectory( $mosConfig_absolute_path . $directory );
-		$images = array(  mosHTML::makeOption( '', '- '. $_LANG->_( 'Select Image' ) .' -' ) );
+		//$images = array(  mosHTML::makeOption( '', '- '. $_LANG->_( 'Select Image' ) .' -' ) );
+		$images = array(  mosHTML::makeOption( '', '- Select Image -' ) );
 		foreach ( $imageFiles as $file ) {
 			if ( eregi( "bmp|gif|jpg|png", $file ) ) {
 				$images[] = mosHTML::makeOption( $file );
@@ -3973,9 +4002,11 @@ class mosAdminMenus {
 		global $_LANG;
 
 		if ( $neworder ) {
-			$text = $_LANG->_( 'descNewItemsFirst' );
+			//$text = $_LANG->_( 'descNewItemsFirst' );
+			$text = _CMN_NEW_ITEM_FIRST;
 		} else {
-			$text = $_LANG->_( 'descNewItemsLast' );
+			//$text = $_LANG->_( 'descNewItemsLast' );
+			$text = _CMN_NEW_ITEM_LAST;
 		}
 
 		if ( $id ) {
@@ -4026,16 +4057,20 @@ class mosAdminMenus {
 		global $_LANG;
 
 		if ( $none ) {
-			$pos[] = mosHTML::makeOption( '', $_LANG->_( 'None' ) );
+			//$pos[] = mosHTML::makeOption( '', $_LANG->_( 'None' ) );
+			$pos[] = mosHTML::makeOption( '', _CMN_NONE );
 		}
 		if ( $center ) {
-			$pos[] = mosHTML::makeOption( 'center', $_LANG->_( 'Center' ) );
+			//$pos[] = mosHTML::makeOption( 'center', $_LANG->_( 'Center' ) );
+			$pos[] = mosHTML::makeOption( 'center', _CMN_CENTER );
 		}
 		if ( $left ) {
-			$pos[] = mosHTML::makeOption( 'left', $_LANG->_( 'Left' ) );
+			//$pos[] = mosHTML::makeOption( 'left', $_LANG->_( 'Left' ) );
+			$pos[] = mosHTML::makeOption( 'left', _CMN_LEFT );
 		}
 		if ( $right ) {
-			$pos[] = mosHTML::makeOption( 'right', $_LANG->_( 'Right' ) );
+			//$pos[] = mosHTML::makeOption( 'right', $_LANG->_( 'Right' ) );
+			$pos[] = mosHTML::makeOption( 'right', _CMN_RIGHT );
 		}
 
 		$positions = mosHTML::selectList( $pos, $name, 'class="inputbox" size="1"'. $javascript, 'value', 'text', $active );
@@ -4058,14 +4093,16 @@ class mosAdminMenus {
 		;
 		$database->setQuery( $query );
 		if ( $sel_cat ) {
-			$categories[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select a Category' ) .' -' );
+			//$categories[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select a Category' ) .' -' );
+			$categories[] = mosHTML::makeOption( '0', _SEL_CATEGORY );
 			$categories = array_merge( $categories, $database->loadObjectList() );
 		} else {
 			$categories = $database->loadObjectList();
 		}
 
 		if ( count( $categories ) < 1 ) {
-			mosRedirect( 'index2.php?option=com_categories&section='. $section, $_LANG->_( 'You must create a category first.' ) );
+			//mosRedirect( 'index2.php?option=com_categories&section='. $section, $_LANG->_( 'You must create a category first.' ) );
+			mosRedirect( 'index2.php?option=com_categories&section='. $section, 'You must create a category first.' );
 		}
 
 		$category = mosHTML::selectList( $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'value', 'text', $active );
@@ -4080,7 +4117,8 @@ class mosAdminMenus {
 		global $database;
 		global $_LANG;
 
-		$categories[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Section' ) .' -' );
+		//$categories[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Section' ) .' -' );
+		$categories[] = mosHTML::makeOption( '0', _SEL_SECTION );
 		$query = "SELECT id AS value, title AS text"
 		. "\n FROM #__sections"
 		. "\n WHERE published = 1"
@@ -4566,7 +4604,8 @@ class mosCommonHTML {
 			$checked_out_text 	.= '<tr><td>'. $date .'</td></tr>';
 			$checked_out_text 	.= '<tr><td>'. $time .'</td></tr>';
 			$checked_out_text 	.= '</table>';
-			$hover = 'onMouseOver="return overlib(\''. $checked_out_text .'\', CAPTION, \''. $_LANG->_( 'Checked Out' ) .'\', BELOW, RIGHT);" onMouseOut="return nd();"';
+			//$hover = 'onMouseOver="return overlib(\''. $checked_out_text .'\', CAPTION, \''. $_LANG->_( 'Checked Out' ) .'\', BELOW, RIGHT);" onMouseOut="return nd();"';
+			$hover = 'onMouseOver="return overlib(\''. $checked_out_text .'\', CAPTION, \'Checked Out\', BELOW, RIGHT);" onMouseOut="return nd();"';
 		}
 		$checked	 		= '<img src="images/checked_out.png" '. $hover .'/>';
 
@@ -4698,8 +4737,10 @@ function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
 	global $mosConfig_live_site;
 	global $_LANG;
 
-	$subject = $_LANG->_( 'MAIL_SUB' )." '$type'";
-	$message = $_LANG->_( 'MAIL_MSG' );
+	//$subject = $_LANG->_( 'MAIL_SUB' )." '$type'";
+	//$message = $_LANG->_( 'MAIL_MSG' );
+	$subject = _MAIL_SUB." '$type'";
+	$message = _MAIL_MSG;
 	eval ("\$message = \"$message\";");
 	mosMail($mosConfig_mailfrom, $mosConfig_fromname, $adminEmail, $subject, $message);
 }
@@ -4742,9 +4783,11 @@ function mosLink( $url, $ssl=0, $sef=1 ) {
 function mosNotAuth() {
 	global $my, $_LANG;
 
-	echo $_LANG->_('NOT_AUTH');
+	//echo $_LANG->_('NOT_AUTH');
+	echo _NOT_AUTH;
 	if ($my->id < 1) {
-		echo "<br />" . $_LANG->_('You need to login');
+		//echo "<br />" . $_LANG->_('You need to login');
+		echo "<br />" . _DO_LOGIN;
 	}
 }
 
