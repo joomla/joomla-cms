@@ -194,8 +194,14 @@ class HTML_content {
 				<td align="center">
 				<?php echo $checked; ?>
 				</td>
-				<td>
-				<?php
+    			<?php
+    			if ( $row->title_alias ) {
+                    ?><td onmouseover="return overlib('<?php echo $row->title_alias; ?>', CAPTION, '<?php echo $_LANG->_( 'Title Alias' ); ?>', BELOW, RIGHT);" onmouseout="return nd();" >
+                    <?php
+    			}
+    			else{
+					echo "<td>";
+                }
 				if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
 					echo $row->title;
 				}
