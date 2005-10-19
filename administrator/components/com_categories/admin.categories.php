@@ -264,7 +264,7 @@ function editCategory( $uid=0, $section='' ) {
 	;
 	$database->setQuery( $query );
 	$sections = $database->loadResult();
-	if (!$sections && $type!="other") {
+	if (!$sections && $type != 'other') {
 		echo "<script> alert('". $_LANG->_( 'WARNSECTION' ) ."'); window.history.go(-1); </script>\n";
 		exit();
 	}	
