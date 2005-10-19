@@ -70,7 +70,7 @@ See COPYRIGHT.php for copyright notices and details.
    	<input type="checkbox" name="cid[]" id="cb{ITEM_ID}" value="{ITEM_ID}" />
 </mos:tmpl>
 
-<mos:tmpl name="item-title" varscope="list-items">
+<mos:tmpl name="item-title" varscope="list-items" autoclear="yes">
 	<a href="#edit" onclick="listItemTask( 'cb{ITEM_ID}', 'edit' )">{ITEM_TITLE}</a>
 </mos:tmpl>
 
