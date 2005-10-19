@@ -85,11 +85,11 @@ if (isset( $_POST['submit'] )) {
 		mosErrorAlert( $_LANG->_( 'validUserPassAccess' ), "document.location.href='index.php'" );
 	}
 } else {
-	initGzip();
 	
+	initGzip();
+	header(' Content-Type: text/htm; charset=UTF-8');
 	$path = $mosConfig_absolute_path . '/administrator/templates/' . $cur_template . '/login.php';
 	require_once( $path );
-	
 	doGzip();
 }
 ?>

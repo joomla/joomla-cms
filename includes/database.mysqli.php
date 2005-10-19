@@ -86,6 +86,11 @@ class database {
 				exit();
 			}
 		}
+		
+		//set character sets
+		mysqli_query($this->_resource, "SET CHARACTER SET utf8");
+		mysqli_query($this->_resource, "SET NAMES 'utf8'");
+		
 		$this->_table_prefix = $table_prefix;
 		$this->_ticker = 0;
 		$this->_log = array();

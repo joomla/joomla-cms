@@ -80,11 +80,6 @@ class mosFactory {
 			$_LANG->loadAll( $option, 1 );
 		}
 
-		// backward compatibility for templates
-		if ( !defined( '_ISO') ) {
-			define( '_ISO', 'charset=' . $_LANG->iso() );
-		}
-
 		// make sure the locale setting is correct
 		setlocale( LC_ALL, $_LANG->locale() );
 

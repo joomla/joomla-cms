@@ -32,6 +32,9 @@ Legend:
 ! -> Note
 
 19-Oct-2005 Johan Janssens
+ + Added full UTF-8 support
+
+18-Oct-2005 Johan Janssens
  + Added RTL compilance changes (submitted by David Gal)
 
 17-Oct-2005 Alex Kempkens

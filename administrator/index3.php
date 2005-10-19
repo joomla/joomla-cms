@@ -84,19 +84,20 @@ if ($no_html) {
 }
 
 initGzip();
+header(' Content-Type: text/htm; charset=UTF-8');
 
 ?>
-<?php echo "<?xml version=\"1.0\"?>"; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title><?php echo $mosConfig_sitename; ?> - Administration [Joomla]</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"" />
 <link rel="stylesheet" href="templates/<?php echo $mainframe->getTemplate(); ?>/css/template_css.css" type="text/css">
 <link rel="stylesheet" href="templates/<?php echo $mainframe->getTemplate(); ?>/css/<?php echo ($_LANG->rtl()) ? 'theme_rtl.css' : 'theme.css' ?>" type="text/css">
 <script language="JavaScript" src="../includes/js/JSCookMenu_mini.js" type="text/javascript"></script>
 <script language="JavaScript" src="includes/js/ThemeOffice/<?php echo ($_LANG->rtl()) ? 'theme_rtl.js' : 'theme.js' ?>" type="text/javascript"></script>
 <script language="JavaScript" src="../includes/js/joomla.javascript.js" type="text/javascript"></script>
-<meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>" />
+
 <?php
 $mainframe->set( 'loadEditor', true );
 include_once( $mosConfig_absolute_path . '/editor/editor.php' );

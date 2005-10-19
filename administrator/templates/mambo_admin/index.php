@@ -12,13 +12,12 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 
 $tstart = mosProfiler::getmicrotime();
 
-// xml prolog
-echo '<?xml version="1.0" encoding="'. $_LANG->iso() .'"?' .'>';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="<?php echo $_LANG->isoCode();?>">
 <head>
 <title><?php echo $mosConfig_sitename; ?> - <?php echo $_LANG->_( 'Administration' ); ?> [Joomla]</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="templates/mambo_admin/css/template_css.css" type="text/css" />
 <link rel="stylesheet" href="templates/mambo_admin/css/theme.css" type="text/css" />
 <script language="JavaScript" src="<?php echo $mosConfig_live_site; ?>/includes/js/JSCookMenu_mini.js" type="text/javascript"></script>
@@ -28,7 +27,6 @@ echo '<?xml version="1.0" encoding="'. $_LANG->iso() .'"?' .'>';
 include_once( $mosConfig_absolute_path . "/editor/editor.php" );
 initEditor();
 ?>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $_LANG->iso(); ?>" />
 <!--
 *	DO NOT REMOVE THE FOLLOWING - FAILURE TO COMPLY IS A DIRECT VIOLATION
 *	OF THE GNU GENERAL PUBLIC LICENSE - http://www.gnu.org/copyleft/gpl.html

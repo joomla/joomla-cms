@@ -86,8 +86,13 @@ class database {
 				exit();
 			}
 		}
+		
+		
+		//Set charactersets (needed for MySQL 4.1.2+)
+		mysql_query("SET CHARACTER SET utf8",$this->_resource); 
+		mysql_query("SET NAMES 'utf8'", $this->_resource); 
+		
 		$this->_table_prefix = $table_prefix;
-        //@mysql_query("SET NAMES 'utf8'", $this->_resource);
 		$this->_ticker = 0;
 		$this->_log = array();
 	}

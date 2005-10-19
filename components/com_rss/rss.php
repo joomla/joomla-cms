@@ -53,12 +53,11 @@ function feedFrontpage( $showFeed ) {
 	$params = new mosParameters( $component->params );
 
 	$now 	= date( 'Y-m-d H:i:s', time() + $mosConfig_offset * 60 * 60 );
-	$iso 	= split( '=', _ISO );
 
 	// parameter intilization
 	$info[ 'date' ] 		= date( 'r' );
 	$info[ 'year' ] 		= date( 'Y' );
-	$info[ 'encoding' ] 	= $iso[1];
+	$info[ 'encoding' ] 	= "utf-8";
 	$info[ 'link' ] 		= htmlspecialchars( $mosConfig_live_site );
 	$info[ 'cache' ] 		= $params->def( 'cache', 1 );
 	$info[ 'cache_time' ] 	= $params->def( 'cache_time', 3600 );

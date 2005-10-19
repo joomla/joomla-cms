@@ -75,6 +75,7 @@ if (@$mosConfig_error_reporting === 0) {
 }
 
 require_once( $mosConfig_absolute_path . '/includes/version.php' );
+require_once( $mosConfig_absolute_path . '/includes/joomla.legacy.php' );
 require_once( $mosConfig_absolute_path . '/includes/joomla.factory.php' );
 require_once( $mosConfig_absolute_path . '/includes/joomla.files.php' );
 require_once( $mosConfig_absolute_path . '/includes/database.php' );
@@ -3200,8 +3201,7 @@ function mosCreateMail( $from='', $fromname='', $subject, $body ) {
 
 	$mail->PluginDir = $mosConfig_absolute_path .'/includes/phpmailer/';
 	$mail->SetLanguage( 'en', $mosConfig_absolute_path . '/includes/phpmailer/language/' );
-	//$mail->CharSet 	= $_LANG->iso();
-	$mail->CharSet 	= substr_replace(_ISO, '', 0, 8);
+	$mail->CharSet 	= "utf-8";
 	$mail->IsMail();
 	$mail->From 	= $from ? $from : $mosConfig_mailfrom;
 	$mail->FromName = $fromname ? $fromname : $mosConfig_fromname;

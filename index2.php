@@ -114,6 +114,7 @@ header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
 header( 'Cache-Control: no-store, no-cache, must-revalidate' );
 header( 'Cache-Control: post-check=0, pre-check=0', false );
 header( 'Pragma: no-cache' );
+header(' Content-Type: text/htm; charset=UTF-8');
 
 // display the offline alert if an admin is logged in
 if (defined( '_ADMIN_OFFLINE' )) {
@@ -122,17 +123,13 @@ if (defined( '_ADMIN_OFFLINE' )) {
 
 // start basic HTML
 if ( $no_html == 0 ) {
-	// needed to seperate the ISO number from the language file constant _ISO
-	$iso = split( '=', _ISO );
-	// xml prolog
-	echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 	?>
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 	<html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 	<link rel="stylesheet" href="templates/<?php echo $cur_template;?>/css/template_css.css" type="text/css" />
 	<link rel="shortcut icon" href="<?php echo $mosConfig_live_site; ?>/images/favicon.ico" />
-	<meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="robots" content="noindex, nofollow">
 	</head>
 	<body class="contentpane">

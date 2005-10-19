@@ -1,9 +1,5 @@
 <?php
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
-// needed to seperate the ISO number from the language file constant _ISO
-$iso = explode( '=', _ISO );
-// xml prolog
-echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -39,7 +35,6 @@ if ( mosCountModules( 'right' ) and ( empty( $_REQUEST['task'] ) || $_REQUEST['t
 	$right = 1;
 }
 ?>
-<meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>" />
 <link href="<?php echo $mosConfig_live_site;?>/templates/rhuk_solarflare_ii/css/template_css.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
