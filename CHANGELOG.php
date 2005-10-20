@@ -32,8 +32,9 @@ Legend:
 ! -> Note
 
 19-Oct-2005 Levis Bisson
-^ Applyed Feature Requests:
-  Artifact artf1282 : Easier sorting of static content in creating menu links
+  Applyed Feature Requests:
+^ Artifact artf1282 : Easier sorting of static content in creating menu links
+^ Artifact artf1162 : Remove hardcoding of <<, <, > and >> in pageNavigation.php
 
 19-Oct-2005 Johan Janssens
  + Added full UTF-8 support
