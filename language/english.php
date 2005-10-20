@@ -159,6 +159,8 @@ DEFINE('_CONTACT_DOWNLOAD_AS','Download information as a');
 DEFINE('_VCARD','VCard');
 
 /** pageNavigation */
+DEFINE('_PN_LT','&lt;');
+DEFINE('_PN_RT','&gt;');
 DEFINE('_PN_PAGE','Page');
 DEFINE('_PN_OF','of');
 DEFINE('_PN_START','Start');
