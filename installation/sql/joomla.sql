@@ -166,8 +166,8 @@ CREATE TABLE `#__contact_details` (
 
 CREATE TABLE `#__content` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `title` varchar(100) NOT NULL default '',
-  `title_alias` varchar(100) NOT NULL default '',
+  `title` varchar(255) NOT NULL default '',
+  `title_alias` varchar(255) NOT NULL default '',
   `introtext` mediumtext NOT NULL,
   `fulltext` mediumtext NOT NULL,
   `state` tinyint(3) NOT NULL default '0',

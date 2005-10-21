@@ -343,7 +343,7 @@ class HTML_typedcontent {
 					<?php echo $_LANG->_( 'Title' ); ?>:
 					</td>
 					<td>
-					<input class="inputbox" type="text" name="title" size="30" maxlength="100" value="<?php echo $row->title; ?>" />
+					<input class="inputbox" type="text" name="title" size="30" maxlength="255" value="<?php echo $row->title; ?>" />
 					</td>
 				</tr>
 				<tr>
@@ -351,7 +351,7 @@ class HTML_typedcontent {
 					<?php echo $_LANG->_( 'Title Alias' ); ?>:
 					</td>
 					<td>
-					<input class="inputbox" type="text" name="title_alias" size="30" maxlength="100" value="<?php echo $row->title_alias; ?>" />
+					<input class="inputbox" type="text" name="title_alias" size="30" maxlength="255" value="<?php echo $row->title_alias; ?>" />
 					</td>
 				</tr>
 				<tr>

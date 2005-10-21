@@ -587,7 +587,7 @@ class HTML_content {
 							<?php echo $_LANG->_( 'Title' ); ?>:
 							</td>
 							<td>
-							<input class="text_area" type="text" name="title" size="30" maxlength="100" value="<?php echo $row->title; ?>" />
+							<input class="text_area" type="text" name="title" size="30" maxlength="255" value="<?php echo $row->title; ?>" />
 							</td>
 							<td>
 							<?php echo $_LANG->_( 'Section' ); ?>:
@@ -601,7 +601,7 @@ class HTML_content {
 							<?php echo $_LANG->_( 'Title Alias' ); ?>:
 							</td>
 							<td>
-							<input name="title_alias" type="text" class="text_area" id="title_alias" value="<?php echo $row->title_alias; ?>" size="30" maxlength="100" />
+							<input name="title_alias" type="text" class="text_area" id="title_alias" value="<?php echo $row->title_alias; ?>" size="30" maxlength="255" />
 							</td>
 							<td>
 							<?php echo $_LANG->_( 'Category' ); ?>:
