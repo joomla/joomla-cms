@@ -33,6 +33,7 @@ Legend:
 
 20-Oct-2005 Levis Bisson
   Applied Feature Requests:
+^ Artifact artf1206 : Don't show Database Password in admin area
 ^ Artifact artf1301 : Expand content title lengths
 ^ Artifact artf1282 : Easier sorting of static content in creating menu links
 ^ Artifact artf1162 : Remove hardcoding of <<, <, > and >> in pageNavigation.php

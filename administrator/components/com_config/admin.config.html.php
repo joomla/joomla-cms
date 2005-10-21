@@ -383,7 +383,7 @@ class HTML_config {
 			</tr>
 			<tr>
 				<td><?php echo $_LANG->_( 'MySQL Password' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_password" size="25" value="<?php echo $row->config_password; ?>"/></td>
+				<td><input class="text_area" type="password" name="config_password" size="25" value="<?php echo $row->config_password; ?>"/></td>
 			</tr>
 			<tr>
 				<td><?php echo $_LANG->_( 'MySQL Database' ); ?>:</td>
