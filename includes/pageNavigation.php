@@ -103,14 +103,16 @@ class mosPageNav {
 		}
 
 		$link .= '&amp;limit='. $this->limit;
+		
+        if (_PN_LT || _PN_RT) $pnSpace = " ";
 
 		if ($this_page > 1) {
 			$page = ($this_page - 2) * $this->limit;
-			$txt .= '<a href="'. sefRelToAbs( "$link&amp;limitstart=0" ) .'" class="pagenav" title="first page">'. _PN_LT . _PN_LT .' '. _PN_START .'</a> ';
-			$txt .= '<a href="'. sefRelToAbs( "$link&amp;limitstart=$page" ) .'" class="pagenav" title="previous page">'. _PN_LT .' '. _PN_PREVIOUS .'</a> ';
+			$txt .= '<a href="'. sefRelToAbs( "$link&amp;limitstart=0" ) .'" class="pagenav" title="first page">'. _PN_LT . _PN_LT . $pnSpace . _PN_START .'</a> ';
+			$txt .= '<a href="'. sefRelToAbs( "$link&amp;limitstart=$page" ) .'" class="pagenav" title="previous page">'. _PN_LT . $pnSpace . _PN_PREVIOUS .'</a> ';
 		} else {
-			$txt .= '<span class="pagenav">'. _PN_LT . _PN_LT .' '. _PN_START .'</span> ';
-			$txt .= '<span class="pagenav">'. _PN_LT .' '. _PN_PREVIOUS .'</span> ';
+			$txt .= '<span class="pagenav">'. _PN_LT . _PN_LT . $pnSpace . _PN_START .'</span> ';
+			$txt .= '<span class="pagenav">'. _PN_LT . $pnSpace . _PN_PREVIOUS .'</span> ';
 		}
 
 		for ($i=$start_loop; $i <= $stop_loop; $i++) {
@@ -125,11 +127,11 @@ class mosPageNav {
 		if ($this_page < $total_pages) {
 			$page = $this_page * $this->limit;
 			$end_page = ($total_pages-1) * $this->limit;
-			$txt .= '<a href="'. sefRelToAbs( $link .'&amp;limitstart='. $page ) .' " class="pagenav" title="next page">'. _PN_NEXT .' '. _PN_RT .'</a> ';
-			$txt .= '<a href="'. sefRelToAbs( $link .'&amp;limitstart='. $end_page ) .' " class="pagenav" title="end page">'. _PN_END .' '. _PN_RT . _PN_RT .'</a>';
+			$txt .= '<a href="'. sefRelToAbs( $link .'&amp;limitstart='. $page ) .' " class="pagenav" title="next page">'. _PN_NEXT . $pnSpace . _PN_RT .'</a> ';
+			$txt .= '<a href="'. sefRelToAbs( $link .'&amp;limitstart='. $end_page ) .' " class="pagenav" title="end page">'. _PN_END . $pnSpace . _PN_RT . _PN_RT .'</a>';
 		} else {
-			$txt .= '<span class="pagenav">'. _PN_NEXT .' '. _PN_RT .'</span> ';
-			$txt .= '<span class="pagenav">'. _PN_END .' '. _PN_RT . _PN_RT .'</span>';
+			$txt .= '<span class="pagenav">'. _PN_NEXT . $pnSpace . _PN_RT .'</span> ';
+			$txt .= '<span class="pagenav">'. _PN_END . $pnSpace . _PN_RT . _PN_RT .'</span>';
 		}
 		return $txt;
 	}
