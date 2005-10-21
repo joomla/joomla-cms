@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Oct-2005 Arno Zijlstra
+^ Changed template css editor. Choose css file to edit.
+
 20-Oct-2005 Levis Bisson
   Applied Feature Requests:
 ^ Artifact artf1206 : Don't show Database Password in admin area

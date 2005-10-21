@@ -266,19 +266,96 @@ class HTML_templates {
 		<?php
 	}
 
-
+	function chooseCSSFiles ( $template, $t_dir='', $s_dir='', $t_files='', $s_files='', $option, $client ) {
+		global $mosConfig_absolute_path;
+		global $_LANG;
+	?>
+		<form action="index2.php" method="post" name="adminForm">
+		<table cellpadding="1" cellspacing="1" border="0" width="100%">
+		<tr>
+			<td width="290">
+			<table class="adminheading"><tr><th class="templates"><?php echo $_LANG->_( 'Template CSS Editor' ); ?></th></tr></table>
+			</td>
+			<td width="220"><span class="componentheading"></span></td><td></td><td></td>	
+		</tr>
+		</table>
+		<table class="adminlist">
+		<tr>
+			<th width="5%" align="left"><?php echo $_LANG->_( 'Num' ); ?></th>
+			<th width="85%" align="left"><?php echo $t_dir; ?></th>
+			<th width="10%"><?php echo $_LANG->_( 'Writeable' ); ?>/<?php echo $_LANG->_( 'Unwriteable' ); ?></th>
+		</tr>
+		<?php 
+		$k = 0;		
+		for ( $i=0, $n = count( $t_files ); $i < $n; $i++ ) {
+			$file = &$t_files[$i]; ?>
+			<tr class="<?php echo 'row'. $k; ?>">
+				<td width="5%">
+				<input type="radio" id="cb<?php echo $i;?>" name="tp_name" value="<?php echo '/templates/'. $template .'/css/'. $file; ?>" onClick="isChecked(this.checked);" />
+				</td>
+				<td width="85%">
+				<?php echo $file; ?>
+				</td>
+				<td width="10%">
+				<?php echo is_writable($t_dir .'/'. $file) ? '<font color="green"> '. $_LANG->_( 'Writeable' ) .'</font>' : '<font color="red"> '. $_LANG->_( 'Unwriteable' ) .'</font>' ?>
+				</td>
+			</tr>
+		<?php 
+		$k = 1 - $k; } 
+		
+		if ( $client != 'admin' ) {
+		?>
+		<tr>
+			<th width="5%" align="left"><?php echo $_LANG->_( 'Num' ); ?></th>
+			<th width="85%" align="left"><?php echo $s_dir; ?></th>
+			<th width="10%"><?php echo $_LANG->_( 'Writeable' ); ?>/<?php echo $_LANG->_( 'Unwriteable' ); ?></th>
+		</tr>
+		<?php 
+		$kk = 0;		
+		for ( $i=0, $n = count( $s_files ); $i < $n; $i++ ) {
+			$sy_file = &$s_files[$i]; ?>
+			<tr class="<?php echo 'row'. $kk; ?>">
+				<td width="5%">
+				<input type="radio" id="cb<?php echo $i;?>" name="tp_name" value="<?php echo '/templates/css/'. $sy_file; ?>" onClick="isChecked(this.checked);" />
+				</td>
+				<td width="85%">
+				<?php echo $sy_file; ?>
+				</td>
+				<td width="10%">
+				<?php echo is_writable($s_dir .'/'. $sy_file) ? '<font color="green"> '. $_LANG->_( 'Writeable' ) .'</font>' : '<font color="red"> '. $_LANG->_( 'Unwriteable' ) .'</font>' ?>
+				</td>
+			</tr>
+		<?php 
+		$kk = 1 - $kk; }
+		} 
+		?>	
+		</table>
+		<table class="adminlist"><th></th></table>
+		<input type="hidden" name="template" value="<?php echo $template; ?>" />
+		<input type="hidden" name="option" value="<?php echo $option;?>" />
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="client" value="<?php echo $client;?>" />
+		</form>
+	<?php			
+	}
+	
 	/**
 	* @param string Template name
 	* @param string Source code
 	* @param string The option
 	*/
-	function editCSSSource( $template, &$content, $option, $client ) {
+	function editCSSSource( $template, $tp_name, &$content, $option, $client ) {
 		global $mosConfig_absolute_path;
 		global $_LANG;
 
-		$css_path =
-			$mosConfig_absolute_path . ($client == 'admin' ? '/administrator' : '')
-			. '/templates/' . $template . '/css/template_css.css';
+		if ( $client == 'admin' ) {
+			$css_path = $mosConfig_absolute_path . '/administrator' . $tp_name;
+		}
+		else {
+			$css_path = $mosConfig_absolute_path . $tp_name;
+		}
+		
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
@@ -315,6 +392,7 @@ class HTML_templates {
 			<tr><td><textarea style="width:100%;height:500px" cols="110" rows="25" name="filecontent" class="inputbox"><?php echo $content; ?></textarea></td></tr>
 		</table>
 		<input type="hidden" name="template" value="<?php echo $template; ?>" />
+		<input type="hidden" name="tp_fname" value="<?php echo $css_path; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="client" value="<?php echo $client;?>" />

@@ -37,7 +37,7 @@ class TOOLBAR_templates {
 		mosMenuBar::spacer();
 		mosMenuBar::editHtmlX( 'edit_source' );
 		mosMenuBar::spacer();
-		mosMenuBar::editCssX( 'edit_css' );
+		mosMenuBar::editCssX( 'choose_css' );
 		mosMenuBar::spacer();
 		mosMenuBar::addNew();
 		mosMenuBar::spacer();
@@ -56,6 +56,15 @@ class TOOLBAR_templates {
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::endTable();
+	}
+	
+	function _CHOOSE_CSS(){
+		global $_LANG;
+		mosMenuBar::startTable();
+		mosMenuBar::custom( 'edit_css', 'next.png', 'next_f2.png', $_LANG->_( 'Next' ), true );
+		mosMenuBar::spacer();
+		mosMenuBar::cancel();
+		mosMenuBar::endTable();		
 	}
 
 	function _EDIT_CSS(){

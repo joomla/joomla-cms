@@ -29,6 +29,10 @@ switch ($task) {
 		TOOLBAR_templates::_EDIT_SOURCE();
 		break;
 
+	case 'choose_css':
+		TOOLBAR_templates::_CHOOSE_CSS();
+		break;
+		
 	case 'edit_css':
 		TOOLBAR_templates::_EDIT_CSS();
 		break;

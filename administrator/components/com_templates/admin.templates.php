@@ -44,7 +44,11 @@ switch ($task) {
 	case 'save_source':
 		saveTemplateSource( $option, $client );
 		break;
-
+		
+	case 'choose_css':
+		chooseTemplateCSS( $cid[0], $option, $client );
+		break;
+		
 	case 'edit_css':
 		editTemplateCSS( $cid[0], $option, $client );
 		break;
@@ -354,21 +358,59 @@ function saveTemplateSource( $option, $client ) {
 
 }
 
+function chooseTemplateCSS( $p_tname, $option, $client ) {
+	global $mosConfig_absolute_path;
+	global $_LANG;
+
+	$readd = new mosFS();	
+	
+	if ( $client == 'admin' ) {
+		// Admin template css dir
+		$a_dir = $mosConfig_absolute_path .'/administrator/templates/'. $p_tname .'/css';
+		// List .css files
+		$a_files = $readd->listFiles( $a_dir, $filter='.css', $recurse=false, $fullpath=false  );
+		$fs_dir='';
+		$fs_files='';
+		
+		HTML_templates::chooseCSSFiles( $p_tname, $a_dir, $fs_dir, $a_files, $fs_files, $option, $client );				
+	
+	} else {
+		// Template css dir
+		$f_dir = $mosConfig_absolute_path .'/templates/'. $p_tname .'/css';
+		// System css dir
+		$fs_dir = $mosConfig_absolute_path .'/templates/css';
+		
+		// List template .css files
+		$f_files = $readd->listFiles( $f_dir, $filter='.css', $recurse=false, $fullpath=false  );
+		// List system .css files
+		$fs_files = $readd->listFiles( $fs_dir, $filter='.css', $recurse=false, $fullpath=false  );
+	
+    	HTML_templates::chooseCSSFiles( $p_tname, $f_dir, $fs_dir, $f_files, $fs_files, $option, $client );		
+	
+	}
+}
+
 function editTemplateCSS( $p_tname, $option, $client ) {
 	global $mosConfig_absolute_path;
 	global $_LANG;
 
+	$template = mosGetParam( $_POST, 'template', '' );
+	$tp_name = mosGetParam( $_POST, 'tp_name', '' );
+	
 	if ( $client == 'admin' ) {
-		$file = $mosConfig_absolute_path .'/administrator/templates/'. $p_tname .'/css/template_css.css';
+		$file = $mosConfig_absolute_path .'/administrator' . $tp_name;
+		$p_tname = $template;
+
 	} else {
-		$file = $mosConfig_absolute_path .'/templates/'. $p_tname .'/css/template_css.css';
+		$file = $mosConfig_absolute_path . $tp_name;
+		$p_tname = $template;
 	}
 
 	if ($fp = fopen( $file, 'r' )) {
 		$content = fread( $fp, filesize( $file ) );
 		$content = htmlspecialchars( $content );
 
-		HTML_templates::editCSSSource( $p_tname, $content, $option, $client );
+		HTML_templates::editCSSSource( $p_tname, $tp_name, $content, $option, $client );
 	} else {
 		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'Could not open' ) .' '. $file );
 	}
@@ -381,6 +423,7 @@ function saveTemplateCSS( $option, $client ) {
 
 	$template = mosGetParam( $_POST, 'template', '' );
 	$filecontent = mosGetParam( $_POST, 'filecontent', '', _MOS_ALLOWHTML );
+	$tp_fname = mosGetParam( $_POST, 'tp_fname', '' );
 
 	if ( !$template ) {
 		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'No template specified.' ) );
@@ -390,11 +433,7 @@ function saveTemplateCSS( $option, $client ) {
 		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'Content empty.' ) );
 	}
 
-	if ( $client == 'admin' ) {
-		$file = $mosConfig_absolute_path .'/administrator/templates/'. $template .'/css/template_css.css';
-	} else {
-		$file = $mosConfig_absolute_path .'/templates/'. $template .'/css/template_css.css';
-	}
+		$file = $tp_fname;
 
 	$enable_write = mosGetParam($_POST,'enable_write',0);
 	$oldperms = fileperms($file);
@@ -414,7 +453,7 @@ function saveTemplateCSS( $option, $client ) {
 			if (mosGetParam($_POST,'disable_write',0))
 				@chmod($file, $oldperms & 0777555);
 		} // if
-		mosRedirect( 'index2.php?option='. $option );
+		mosRedirect( 'index2.php?option='. $option.'&client='. $client );
 	} else {
 		if ($enable_write) @chmod($file, $oldperms);
 		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $_LANG->_( 'Operation Failed' ) .': '. $_LANG->_( 'Failed to open file for writing.' ) );
