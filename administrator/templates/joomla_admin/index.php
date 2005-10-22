@@ -73,7 +73,7 @@ initEditor();
 <br />
 <?php mosLoadAdminModule( 'mosmsg' );?>
 
-<div align="center" class="centermain">
+<div class="centermain">
 	<div class="main">
 		<?php mosMainBody_Admin(); ?>
 	</div>
@@ -90,7 +90,7 @@ initEditor();
 				<?php echo $version; ?>
 				<br/>
 				<a href="http://www.joomla.org/content/blogcategory/32/66/" target="_blank"><?php echo $_LANG->_( 'Check for latest Version' ); ?></a>
-			</div>			
+			</div>
 			<?php
 			if ( $mosConfig_debug ) {
 				echo '<div class="smallgrey">';
@@ -99,7 +99,7 @@ initEditor();
 				printf ( $_LANG->_( 'Page was generated in' ) ." %f ". $_LANG->_( 'seconds' ), $totaltime);
 				echo '</div>';
 			}
-			?>			
+			?>
 		</td>
 	</tr>
 	</table>
