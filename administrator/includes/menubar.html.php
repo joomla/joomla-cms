@@ -476,13 +476,13 @@ class mosMenuBar {
     	$alt = $_LANG->_( $alt );
 
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'delete_f2.png', '/administrator/images/', NULL, NULL, $alt, $task, 1 );
-		
+
 		if ( $check ) {
 			$js = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('". $_LANG->_( 'Please make a selection from the list to' ) ." ". $alt ."'); } else { submitbutton('$task');}";
 		} else {
 			$js = "javascript:submitbutton('$task');";
 		}
-		
+
 		?>
 		 <td>
 			<a class="toolbar" href="<?php echo $js; ?>">
@@ -536,11 +536,11 @@ class mosMenuBar {
 
 		$image2 	= mosAdminMenus::ImageCheckAdmin( 'help_f2.png', '/administrator/images/', NULL, NULL, 'Help', 'help', 1 );
 		$helpUrl 	= mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
-		
+
 		if ( $helpUrl == 'http://help.mamboserver.com' ) {
 			$helpUrl = 'http://help.joomla.org';
 		}
-				
+
 		if ($com) {
 	   // help file for 3PD Components
 			$url = $mosConfig_live_site . '/administrator/components/' . $GLOBALS['option'] . '/help/';

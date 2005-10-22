@@ -31,7 +31,7 @@ function botLegacyBots( $published, &$row, &$params, $page=0 ) {
 	if ( !$published ) {
 		return true;
 	}
-	
+
 	// process any legacy bots
 	$bots = mosReadDirectory( "$mosConfig_absolute_path/mambots", "\.php$" );
 	sort( $bots );

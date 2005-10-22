@@ -20,18 +20,18 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 function dofreePDF ( $database ) {
 	global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_offset;
 	global $mainframe;
-	
+
 	include( 'includes/class.ezpdf.php' );
 
 	$id = intval( mosGetParam( $_REQUEST, 'id', 1 ) );
 	$row = new mosContent( $database );
 	$row->load( $id );
 
-	$params = new mosParameters( $row->attribs );	
+	$params = new mosParameters( $row->attribs );
 	$params->def( 'author', 	!$mainframe->getCfg( 'hideAuthor' ) );
 	$params->def( 'createdate', !$mainframe->getCfg( 'hideCreateDate' ) );
 	$params->def( 'modifydate', !$mainframe->getCfg( 'hideModifyDate' ) );
-	
+
 	$row->fulltext 	= pdfCleaner( $row->fulltext );
 	$row->introtext = pdfCleaner( $row->introtext );
 
@@ -62,29 +62,29 @@ function dofreePDF ( $database ) {
 	$txt2 = AuthorDateLine( $row, $params );
 
 	$pdf->ezText( $txt2, 8 );
-	
+
 	$txt3 = $row->introtext ."\n". $row->fulltext;
 	$pdf->ezText( $txt3, 10 );
-	
+
 	$pdf->ezStream();
 }
 
 function decodeHTML( $string ) {
 	$string = strtr( $string, array_flip(get_html_translation_table( HTML_ENTITIES ) ) );
 	$string = preg_replace( "/&#([0-9]+);/me", "chr('\\1')", $string );
-	
+
 	return $string;
 }
 
 function get_php_setting ($val ) {
 	$r = ( ini_get( $val ) == '1' ? 1 : 0 );
-	
+
 	return $r ? 'ON' : 'OFF';
 }
 
-function pdfCleaner( $text ) {	
+function pdfCleaner( $text ) {
 	// Ugly but needed to get rid of all the stuff the PDF class cant handle
-	
+
 	$text = str_replace( '<p>', 			"\n\n", 	$text );
 	$text = str_replace( '<P>', 			"\n\n", 	$text );
 	$text = str_replace( '<br />', 			"\n", 		$text );
@@ -95,7 +95,7 @@ function pdfCleaner( $text ) {
 	$text = str_replace( '<LI>', 			"\n - ", 	$text );
 	$text = str_replace( '{mosimage}', 		'', 		$text );
 	$text = str_replace( '{mospagebreak}', 	'',			$text );
-	
+
 	$text = strip_tags( $text );
 	$text = decodeHTML( $text );
 
@@ -104,18 +104,18 @@ function pdfCleaner( $text ) {
 
 function AuthorDateLine( &$row, &$params ) {
 	global $database;
-	
+
 	$text = '';
-	
+
 	if ( $params->get( 'author' ) ) {
 		// Display Author name
-		
+
 		//Find Author Name
 		$users_rows = new mosUser( $database );
 		$users_rows->load( $row->created_by );
 		$row->author 	= $users_rows->name;
-		$row->usertype 	= $users_rows->usertype;		
-		
+		$row->usertype 	= $users_rows->usertype;
+
 		if ($row->usertype == 'administrator' || $row->usertype == 'superadministrator') {
 			$text .= "\n";
 			$text .=  _WRITTEN_BY .' '. ( $row->created_by_alias ? $row->created_by_alias : $row->author );
@@ -124,34 +124,34 @@ function AuthorDateLine( &$row, &$params ) {
 			$text .=  _AUTHOR_BY .' '. ( $row->created_by_alias ? $row->created_by_alias : $row->author );
 		}
 	}
-	
+
 	if ( $params->get( 'createdate' ) && $params->get( 'author' ) ) {
 		// Display Separator
 		$text .= "\n";
 	}
-	
+
 	if ( $params->get( 'createdate' ) ) {
 		// Display Created Date
 		if ( intval( $row->created ) ) {
 			$create_date 	= mosFormatDate( $row->created );
 			$text .= $create_date;
-		}				
-	}	
-	
+		}
+	}
+
 	if ( $params->get( 'modifydate' ) && ( $params->get( 'author' ) || $params->get( 'createdate' ) ) ) {
 		// Display Separator
 		$text .= "\n";
 	}
-	
+
 	if ( $params->get( 'modifydate' ) ) {
 		// Display Modified Date
 		if ( intval( $row->modified ) ) {
 			$mod_date 	= mosFormatDate( $row->modified );
 			$text 		.= _LAST_UPDATED .' '. $mod_date;
-			
+
 		}
-	}	
-	
+	}
+
 	$text .= "\n\n";
 
 	return $text;

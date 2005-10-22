@@ -235,9 +235,9 @@ class HTML_weblinks {
 	* @param string The html for the categories select list
 	*/
 	function editWeblink( $option, &$row, &$lists ) {
-		
+
 		require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/HTML_toolbar.php' );
-		
+
 		$Returnid = intval( mosGetParam( $_REQUEST, 'Returnid', 0 ) );
 		?>
 		<script language="javascript" type="text/javascript">

@@ -59,7 +59,7 @@ if ( count( $rows ) ) {
 	$link 		= 'index.php?option=com_search&amp;Itemid='. $_Itemid;
 } else {
 	$_Itemid 	= '';
-	$link 		= 'index.php?option=com_search';	
+	$link 		= 'index.php?option=com_search';
 }
 ?>
 
@@ -69,5 +69,5 @@ if ( count( $rows ) ) {
 	</div>
 
 	<input type="hidden" name="option" value="com_search" />
-	<input type="hidden" name="Itemid" value="<?php echo $_Itemid; ?>" />	
+	<input type="hidden" name="Itemid" value="<?php echo $_Itemid; ?>" />
 </form>

@@ -25,7 +25,7 @@ if ($showmode==0 || $showmode==2) {
 	. "\n AND ( usertype is NULL OR usertype = '' )";
 	$database->setQuery( $query );
 	$guest_array = $database->loadResult();
-	
+
 	$query = "SELECT COUNT( DISTINCT( username ) ) AS user_online"
 	. "\n FROM #__session"
 	. "\n WHERE guest = 0"

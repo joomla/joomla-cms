@@ -131,14 +131,14 @@ function userSave( $option, $uid) {
 	$row = new mosUser( $database );
 	$row->load( $user_id );
 	$row->orig_password = $row->password;
-	
+
 	mosMakeHtmlSafe($row);
 
 	if (!$row->bind( $_POST, "gid usertype" )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	
+
 	//load user bot group
 	$_MAMBOTS->loadBotGroup( 'user' );
 
@@ -169,7 +169,7 @@ function userSave( $option, $uid) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	
+
 	//trigger the onBeforeStoreUser event
 	$results = $_MAMBOTS->trigger( 'onBeforeStoreUser', array(get_object_vars($row), false));
 
@@ -179,7 +179,7 @@ function userSave( $option, $uid) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	
+
 	//trigger the onAfterStoreUser event
 	$results = $_MAMBOTS->trigger( 'onAfterStoreUser', array(get_object_vars($row), false, true, null ));
 

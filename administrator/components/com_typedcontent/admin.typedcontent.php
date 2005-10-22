@@ -338,7 +338,7 @@ function save( $option, $task ) {
 	$row->state = mosGetParam( $_REQUEST, 'published', 0 );
 
 	$row->title = ampReplace( $row->title );
-	
+
 	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();

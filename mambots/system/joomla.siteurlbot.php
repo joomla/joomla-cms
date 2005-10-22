@@ -22,20 +22,20 @@ $_MAMBOTS->registerFunction( 'onBeforeStart', 'botJoomlaSiteUrl' );
 */
 function botJoomlaSiteUrl( ) {
 	global $mosConfig_live_site, $mosConfig_unsecure_site, $mosConfig_original_site;
-	
+
 	$mosConfig_original_site = $mosConfig_live_site;
-	
+
 	// Testing the server information
 	if ( isset ( $_SERVER['PHP_SELF'] ) ) {
 		$siteProtocol = 'http';
 		if ( isset( $_SERVER['HTTPS'] ) && ( strtolower( $_SERVER['HTTPS'] ) != 'off' ) ) {
 			$siteProtocol = 'https';
-			
+
 		} else if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
 			$url = parse_url( $_SERVER['HTTP_REFERER'] );
 			$siteProtocol = $url['scheme'];
 		}
-	
+
 		# $_SERVER['SERVER_PORT'] is not defined in case of php-cgi.exe
 		if ( isset( $_SERVER['SERVER_PORT'] ) ) {
 			$sitePort = ':' . $_SERVER['SERVER_PORT'];
@@ -43,14 +43,14 @@ function botJoomlaSiteUrl( ) {
 			  || ( $sitePort == ':443' && $siteProtocol == 'https' )) {
 				$sitePort = '';
 			}
-			
+
 			if( $sitePort == ':443' && $siteProtocol == 'http' ) {
 				$siteProtocol = 'https';
-			} 
+			}
 		} else {
 			$sitePort = '';
 		}
-	
+
 		if ( isset( $_SERVER['HTTP_HOST'] ) ) {
 			$siteHost = $_SERVER['HTTP_HOST'];
 		} else if ( isset( $_SERVER['SERVER_NAME'] ) ) {
@@ -60,7 +60,7 @@ function botJoomlaSiteUrl( ) {
 		} else {
 			$siteHost = $mosConfig_live_site;
 		}
-	
+
 		$sitePath = dirname( $_SERVER['PHP_SELF'] );
 		if ( $sitePath == '/' || $sitePath == '\\' ) {
 			$sitePath = '';
@@ -68,7 +68,7 @@ function botJoomlaSiteUrl( ) {
 		if( eregi( '/administrator', $sitePath ) ) {
 			$sitePath = substr( $sitePath, 0, strpos( $sitePath, "/administrator") );
 		}
-	
+
 		$mosConfig_unsecure_site = 'http://' . $siteHost . $sitePath;
 		$mosConfig_live_site = $siteProtocol . '://' . $siteHost . $sitePath;
 	}

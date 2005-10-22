@@ -264,7 +264,7 @@ function saveUser( $option, $task ) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	
+
 	$isNew 	= !$row->id;
 	$pwd 	= '';
 
@@ -297,7 +297,7 @@ function saveUser( $option, $task ) {
 	$database->setQuery( $query );
 	$usertype = $database->loadResult();
 	$row->usertype = $usertype;
-	
+
 	//load user bot group
 	$_MAMBOTS->loadBotGroup( 'user' );
 
@@ -315,10 +315,10 @@ function saveUser( $option, $task ) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	
+
 	//trigger the onBeforeStoreUser event
 	$results = $_MAMBOTS->trigger( 'onBeforeStoreUser', array( get_object_vars( $row ), $row->id ) );
-	
+
 	if (!$row->store()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -375,10 +375,10 @@ function saveUser( $option, $task ) {
 		}
 		mosMail( $adminEmail, $adminName, $row->email, $subject, $message );
 	}
-	
+
 	//trigger the onAfterStoreUser event
-	$results = $_MAMBOTS->trigger( 'onAfterStoreUser', array( get_object_vars( $row ), $row->id, true, null ) );	
-	
+	$results = $_MAMBOTS->trigger( 'onAfterStoreUser', array( get_object_vars( $row ), $row->id, true, null ) );
+
 
 	switch ( $task ) {
 		case 'apply':
@@ -412,19 +412,19 @@ function removeUsers( $cid, $option ) {
 	}
 
 	if ( count( $cid ) ) {
-			
+
 		//load user bot group
 		$_MAMBOTS->loadBotGroup( 'user' );
-		
+
 		$obj = new mosUser( $database );
 		foreach ($cid as $id) {
 			// check for a super admin ... can't delete them
 			$groups 	= $acl->get_object_groups( 'users', $id, 'ARO' );
 			$this_group = strtolower( $acl->get_group_name( $groups[0], 'ARO' ) );
-			
+
 			//trigger the onBeforeDeleteUser event
 			$results = $_MAMBOTS->trigger( 'onBeforeDeleteUser', array( array( 'id' => $id ) ) );
-			
+
 			$success = false;
 			if ( $this_group == 'super administrator' ) {
 				$msg = $_LANG->_( 'You cannot delete a Super Administrator' );
@@ -437,7 +437,7 @@ function removeUsers( $cid, $option ) {
 				$msg = $obj->getError();
 				$success = true;
 			}
-			
+
 			//trigger the onAfterDeleteUser event
 			$results = $_MAMBOTS->trigger( 'onAfterDeleteUser', array( array('id' => $id), $success, $msg ) );
 		}
@@ -489,21 +489,21 @@ function logoutUser( $cid=null, $option, $task ) {
 		if (count( $cid ) < 1) {
 			mosRedirect( 'index2.php?option='. $option, $_LANG->_( 'Please select a user' ) );
 		}
-		
+
 		foreach( $cid as $cidA ) {
 			$temp = new mosUser( $database );
 			$temp->load( $cidA );
-			
+
 			// check to see whether a Administrator is attempting to log out a Super Admin
 			if ( !( $my->gid == 24 && $temp->gid == 25 ) ) {
 				$id[] = $cidA;
 			}
-		}	
-		$ids = implode( ',', $id );		
+		}
+		$ids = implode( ',', $id );
 	} else {
 		$temp = new mosUser( $database );
 		$temp->load( $cid );
-		
+
 		// check to see whether a Administrator is attempting to log out a Super Admin
 		if ( $my->gid == 24 && $temp->gid == 25 ) {
 			$alert = $_LANG->_( 'You cannot log out a Super Administrator' );
@@ -512,13 +512,13 @@ function logoutUser( $cid=null, $option, $task ) {
 		}
 		$ids = $cid;
 	}
-	
+
 	$query = "DELETE FROM #__session"
 	. "\n WHERE userid IN ( $ids )"
 	;
 	$database->setQuery( $query );
 	$database->query();
-	
+
 	switch ( $task ) {
 		case 'flogout':
 			mosRedirect( 'index2.php', $database->getErrorMsg() );

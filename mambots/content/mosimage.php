@@ -20,20 +20,20 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosImage' );
 */
 function botMosImage( $published, &$row, &$params, $page=0 ) {
 	global $database;
-	
+
  	// expression to search for
 	$regex = '/{mosimage\s*.*?}/i';
-	
+
 	// check whether mosimage has been disabled for page
 	// check whether mambot has been unpublished
 	if (!$published || !$params->get( 'image' )) {
 		$row->text = preg_replace( $regex, '', $row->text );
 		return true;
-	}	
+	}
 
 	//count how many {mosimage} are in introtext if it is set to hidden.
 	$introCount=0;
-	if ( ! $params->get( 'introtext' ) & ! $params->get( 'intro_only') ) 
+	if ( ! $params->get( 'introtext' ) & ! $params->get( 'intro_only') )
 	{
 		preg_match_all( $regex, $row->introtext, $matches );
 		$introCount = count ( $matches[0] );
@@ -70,7 +70,7 @@ function botMosImage( $published, &$row, &$params, $page=0 ) {
 		$GLOBALS['botMosImageParams'] 	=& $botParams;
 		$GLOBALS['botMosImageArray'] 	=& $images;
 		//$GLOBALS['botMosImageArray'] 	=& $combine;
-		
+
 		// perform the replacement
 		$row->text = preg_replace_callback( $regex, 'botMosImage_replacer', $row->text );
 
@@ -92,7 +92,7 @@ function processImages ( &$row, &$params, &$introCount ) {
 	$row->images 	= explode( "\n", $row->images );
 	$total 			= count( $row->images );
 
-	$start = $introCount; 
+	$start = $introCount;
 	for ( $i = $start; $i < $total; $i++ ) {
 		$img = trim( $row->images[$i] );
 

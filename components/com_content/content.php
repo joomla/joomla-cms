@@ -1357,7 +1357,7 @@ function saveContent( &$access, $task ) {
 	if ( trim( $row->publish_down ) == 'Never' ) {
 		$row->publish_down = $nullDate;
 	}
-	
+
 	// code cleaner for xhtml transitional compliance
 	$row->introtext = str_replace( '<br>', '<br />', $row->introtext );
 	$row->fulltext 	= str_replace( '<br>', '<br />', $row->fulltext );
@@ -1368,7 +1368,7 @@ function saveContent( &$access, $task ) {
  	if ( $length && $search ) {
  		$row->fulltext = NULL;
  	}
-	
+
 	$row->title = ampReplace( $row->title );
 
 	if (!$row->check()) {
@@ -1480,7 +1480,7 @@ function cancelContent( &$access ) {
 
 	$row = new mosContent( $database );
 	$row->bind( $_POST );
-	
+
 	if ( $access->canEdit || ( $access->canEditOwn && $row->created_by == $my->id ) ) {
 		$row->checkin();
 	}
@@ -1495,7 +1495,7 @@ function cancelContent( &$access ) {
 		$Itemid  = mosGetParam( $_POST, 'Returnid', '' );
 		$referer = 'index.php?option=com_content&task=view&id='. $row->id.'&Itemid='. $Itemid;
 	}
-	
+
 	if ( $referer && !( $query['task'] == 'new' ) ) {
 		mosRedirect( $referer );
 	} else {
@@ -1704,7 +1704,7 @@ function _orderby_sec( $orderby ) {
 */
 function _where( $type=1, &$access, &$noauth, $gid, $id, $now=NULL, $year=NULL, $month=NULL ) {
 	global $database;
-	
+
 	$nullDate = $database->getNullDate();
 	$where = array();
 

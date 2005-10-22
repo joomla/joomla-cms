@@ -56,8 +56,8 @@ table.moswarning h2 {
 <body style="margin: 0px; padding: 0px;">
 
 <table width="100%" align="center" class="moswarning">
-<?php 
-if ( $mosConfig_offline == 1 ) { 
+<?php
+if ( $mosConfig_offline == 1 ) {
 	?>
 	<tr>
 		<td>

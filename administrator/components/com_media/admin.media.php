@@ -73,7 +73,7 @@ switch ($task) {
 	case 'cancel':
 		mosRedirect( 'index2.php' );
 		break;
-	
+
 	default:
 		showMedia($listdir);
 		break;
@@ -85,9 +85,9 @@ switch ($task) {
 function delete_file($delfile, $listdir) {
 	global $mosConfig_absolute_path;
 	global $base;
-	
+
 	$del_image = $mosConfig_absolute_path . $base . $listdir .'/'. $delfile;
-	
+
 	unlink($del_image);
 }
 

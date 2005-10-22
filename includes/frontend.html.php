@@ -137,7 +137,7 @@ class modules_html {
 
 			// feed title
 			?>
-			<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $moduleclass_sfx; ?>">			
+			<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $moduleclass_sfx; ?>">
 			<?php
 			// feed description
 			if ( $currChannel->getTitle() && $rsstitle ) {
@@ -204,7 +204,7 @@ class modules_html {
 								// item description
 								$text = html_entity_decode( $currItem->getDescription() );
                                 $text = str_replace('&apos;', "'", $text);
-                                
+
 								// word limit check
 								if ( $words ) {
 									$texts = explode( ' ', $text );
@@ -262,7 +262,7 @@ class modules_html {
 					echo $module->content;
 				} else {
 					include( $mosConfig_absolute_path . '/modules/' . $module->module . '.php' );
-					
+
 					if (isset( $content)) {
 						echo $content;
 					}
@@ -285,7 +285,7 @@ class modules_html {
 			echo $module->content;
 		} else {
 			include( $mosConfig_absolute_path . '/modules/' . $module->module . '.php' );
-			
+
 			if (isset( $content)) {
 				echo $content;
 			}
@@ -314,7 +314,7 @@ class modules_html {
 				echo $module->content;
 			} else {
 				include( $mosConfig_absolute_path . '/modules/' . $module->module . '.php' );
-				
+
 				if (isset( $content)) {
 					echo $content;
 				}
@@ -344,7 +344,7 @@ class modules_html {
 							echo $module->content;
 						} else {
 							include( $mosConfig_absolute_path . '/modules/' . $module->module . '.php' );
-							
+
 							if (isset( $content)) {
 								echo $content;
 							}

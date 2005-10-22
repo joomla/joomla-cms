@@ -28,7 +28,7 @@ function botGeshi( $published, &$row, &$params, $page=0 ) {
 	if ( !$published ) {
 		return true;
 	}
-	
+
 	// define the regular expression for the bot
 	$regex = "#<pre\s*(.*?)>(.*?)</pre>#s";
 

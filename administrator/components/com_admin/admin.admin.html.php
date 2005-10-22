@@ -77,7 +77,7 @@ class HTML_admin_misc {
 			</th>
 		</tr>
 		</table>
-		
+
 		<?php
 		$title = $_LANG->_( 'System Info' );
 		$tabs->startPane("sysinfo");
@@ -358,7 +358,7 @@ class HTML_admin_misc {
 					mosHTML::writableCell( 'mambots/search' );
 					mosHTML::writableCell( 'media' );
 					mosHTML::writableCell( 'modules' );
-					mosHTML::writableCell( 'templates' );				
+					mosHTML::writableCell( 'templates' );
 					?>
 				</td>
 			</tr>
@@ -372,7 +372,7 @@ class HTML_admin_misc {
 
 	function ListComponents() {
 		global $database;
-		
+
 		$query = "SELECT params"
 		. "\n FROM #__modules "
 		. "\n WHERE module = 'mod_components'"
@@ -380,7 +380,7 @@ class HTML_admin_misc {
 		$database->setQuery( $query );
 		$row = $database->loadResult();
 		$params = new mosParameters( $row );
-		
+
 		mosLoadAdminModule( 'components', $params );
 	}
 
@@ -390,11 +390,11 @@ class HTML_admin_misc {
 	function help() {
 		global $mosConfig_live_site, $_LANG;
 		$helpurl 	= mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
-		
+
 		if ( $helpurl == 'http://help.mamboserver.com' ) {
 			$helpurl = 'http://help.joomla.org';
 		}
-		
+
 		$fullhelpurl = $helpurl . '/index2.php?option=com_content&amp;task=findkey&pop=1&keyref=';
 
 		$helpsearch = mosGetParam( $_REQUEST, 'helpsearch', '' );

@@ -276,7 +276,7 @@ class HTML_templates {
 			<td width="290">
 			<table class="adminheading"><tr><th class="templates"><?php echo $_LANG->_( 'Template CSS Editor' ); ?></th></tr></table>
 			</td>
-			<td width="220"><span class="componentheading"></span></td><td></td><td></td>	
+			<td width="220"><span class="componentheading"></span></td><td></td><td></td>
 		</tr>
 		</table>
 		<table class="adminlist">
@@ -285,8 +285,8 @@ class HTML_templates {
 			<th width="85%" align="left"><?php echo $t_dir; ?></th>
 			<th width="10%"><?php echo $_LANG->_( 'Writeable' ); ?>/<?php echo $_LANG->_( 'Unwriteable' ); ?></th>
 		</tr>
-		<?php 
-		$k = 0;		
+		<?php
+		$k = 0;
 		for ( $i=0, $n = count( $t_files ); $i < $n; $i++ ) {
 			$file = &$t_files[$i]; ?>
 			<tr class="<?php echo 'row'. $k; ?>">
@@ -300,9 +300,9 @@ class HTML_templates {
 				<?php echo is_writable($t_dir .'/'. $file) ? '<font color="green"> '. $_LANG->_( 'Writeable' ) .'</font>' : '<font color="red"> '. $_LANG->_( 'Unwriteable' ) .'</font>' ?>
 				</td>
 			</tr>
-		<?php 
-		$k = 1 - $k; } 
-		
+		<?php
+		$k = 1 - $k; }
+
 		if ( $client != 'admin' ) {
 		?>
 		<tr>
@@ -310,8 +310,8 @@ class HTML_templates {
 			<th width="85%" align="left"><?php echo $s_dir; ?></th>
 			<th width="10%"><?php echo $_LANG->_( 'Writeable' ); ?>/<?php echo $_LANG->_( 'Unwriteable' ); ?></th>
 		</tr>
-		<?php 
-		$kk = 0;		
+		<?php
+		$kk = 0;
 		for ( $i=0, $n = count( $s_files ); $i < $n; $i++ ) {
 			$sy_file = &$s_files[$i]; ?>
 			<tr class="<?php echo 'row'. $kk; ?>">
@@ -325,10 +325,10 @@ class HTML_templates {
 				<?php echo is_writable($s_dir .'/'. $sy_file) ? '<font color="green"> '. $_LANG->_( 'Writeable' ) .'</font>' : '<font color="red"> '. $_LANG->_( 'Unwriteable' ) .'</font>' ?>
 				</td>
 			</tr>
-		<?php 
+		<?php
 		$kk = 1 - $kk; }
-		} 
-		?>	
+		}
+		?>
 		</table>
 		<table class="adminlist"><th></th></table>
 		<input type="hidden" name="template" value="<?php echo $template; ?>" />
@@ -337,9 +337,9 @@ class HTML_templates {
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="client" value="<?php echo $client;?>" />
 		</form>
-	<?php			
+	<?php
 	}
-	
+
 	/**
 	* @param string Template name
 	* @param string Source code
@@ -355,7 +355,7 @@ class HTML_templates {
 		else {
 			$css_path = $mosConfig_absolute_path . $tp_name;
 		}
-		
+
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">

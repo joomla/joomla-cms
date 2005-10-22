@@ -219,9 +219,9 @@ class HTML_menusections {
 						$row = &$types_content[$i];
 
 						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&hidemainmenu=1&type='. $row->type;
-						
+
 						HTML_menusections::htmlOptions( $row, $link, $k, $i );
-						
+
 						$k = 1 - $k;
 					}
 					?>
@@ -237,9 +237,9 @@ class HTML_menusections {
 						$row = &$types_other[$i];
 
 						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&type='. $row->type;
-						
+
 						HTML_menusections::htmlOptions( $row, $link, $k, $i );
-							
+
 						$k = 1 - $k;
 					}
 					?>
@@ -255,9 +255,9 @@ class HTML_menusections {
 						$row = &$types_submit[$i];
 
 						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&type='. $row->type;
-						
+
 						HTML_menusections::htmlOptions( $row, $link, $k, $i );
-							
+
 						$k = 1 - $k;
 					}
 					?>
@@ -275,9 +275,9 @@ class HTML_menusections {
 						$row = &$types_component[$i];
 
 						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&type='. $row->type;
-						
+
 						HTML_menusections::htmlOptions( $row, $link, $k, $i );
-							
+
 						$k = 1 - $k;
 					}
 					?>
@@ -293,9 +293,9 @@ class HTML_menusections {
 						$row = &$types_link[$i];
 
 						$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=edit&type='. $row->type;
-						
+
 						HTML_menusections::htmlOptions( $row, $link, $k, $i );
-							
+
 						$k = 1 - $k;
 					}
 					?>
@@ -333,7 +333,7 @@ class HTML_menusections {
 			<td width="20">
 			</td>
 		</tr>
-		<?php		
+		<?php
 	}
 
 	/**

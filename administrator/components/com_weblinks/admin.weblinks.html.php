@@ -152,7 +152,7 @@ class HTML_weblinks {
 		global $_LANG;
 
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'description' );
-		
+
 		mosCommonHTML::loadOverlib();
 		?>
 		<script language="javascript" type="text/javascript">

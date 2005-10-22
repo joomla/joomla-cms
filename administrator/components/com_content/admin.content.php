@@ -640,7 +640,7 @@ function saveContent( $sectionid, $task ) {
  	if ( $length && $search ) {
  		$row->fulltext = NULL;
  	}
-	
+
 	$row->title = ampReplace( $row->title );
 
  	if (!$row->check()) {

@@ -74,7 +74,7 @@ class mosInstallerMambot extends mosInstaller {
 			$row->access 	= 0;
 			$row->client_id = 0;
 			$row->element 	= $this->elementSpecial();
-			
+
 			if ($folder == 'editors') {
 				$row->published	= 1;
 			}

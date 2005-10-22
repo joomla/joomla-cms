@@ -142,7 +142,7 @@ class HTML_banners {
 
 	function bannerForm( &$_row, &$lists, $_option ) {
 		global $_LANG;
-		
+
 		mosMakeHtmlSafe( $_row, ENT_QUOTES, 'custombannercode' );
 		?>
 		<script language="javascript">
@@ -399,7 +399,7 @@ class HTML_bannerClient {
 
 	function bannerClientForm( &$row, $option ) {
 		global $_LANG;
-		
+
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'extrainfo' );
 		?>
 		<script language="javascript">

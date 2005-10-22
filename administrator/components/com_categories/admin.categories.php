@@ -255,8 +255,8 @@ function editCategory( $uid=0, $section='' ) {
 	global $_LANG;
 
 	$type 		= mosGetParam( $_REQUEST, 'type', '' );
-	$redirect 	= mosGetParam( $_REQUEST, 'section', 'content' );	
-	
+	$redirect 	= mosGetParam( $_REQUEST, 'section', 'content' );
+
 	// check for existance of any sections
 	$query = "SELECT COUNT( id )"
 	. "\n FROM #__sections"
@@ -267,8 +267,8 @@ function editCategory( $uid=0, $section='' ) {
 	if (!$sections && $type != 'other') {
 		echo "<script> alert('". $_LANG->_( 'WARNSECTION' ) ."'); window.history.go(-1); </script>\n";
 		exit();
-	}	
-	
+	}
+
 	$row = new mosCategory( $database );
 	// load the row from the db table
 	$row->load( $uid );
@@ -284,24 +284,24 @@ function editCategory( $uid=0, $section='' ) {
 		// existing record
 		$row->checkout( $my->id );
 		// code for Link Menu
-		
+
 		switch ( $row->section ) {
 			case 'com_weblinks':
 				$and 	= "\n AND type = 'weblink_category_table'";
 				$link 	= $_LANG->_( 'Table - Weblink Category' );
 				break;
-			
+
 			case 'com_newsfeeds':
 				$and 	= "\n AND type = 'newsfeed_category_table'";
 				$link 	= $_LANG->_( 'Table - Newsfeeds Category' );
 				break;
-			
+
 			case 'com_contact_details':
 				$and 	= "\n AND type = 'contact_category_table'";
 				$link 	= $_LANG->_( 'Table - Contacts Category' );
 				break;
 		}
-		
+
 		if ( $row->section > 0 ) {
 			// content
 			$query = "SELECT *"
@@ -311,18 +311,18 @@ function editCategory( $uid=0, $section='' ) {
 			;
 			$database->setQuery( $query );
 			$menus = $database->loadObjectList();
-			
+
 			$count = count( $menus );
 			for( $i = 0; $i < $count; $i++ ) {
 				switch ( $menus[$i]->type ) {
 					case 'content_category':
 					$menus[$i]->type = $_LANG->_( 'Table - Content Category' );
 					break;
-					
+
 					case 'content_blog_category':
 					$menus[$i]->type = $_LANG->_( 'Blog - Content Category' );
 					break;
-					
+
 					case 'content_archive_category':
 					$menus[$i]->type = $_LANG->_( 'Blog - Content Category Archive' );
 					break;
@@ -337,13 +337,13 @@ function editCategory( $uid=0, $section='' ) {
 			;
 			$database->setQuery( $query );
 			$menus = $database->loadObjectList();
-			
+
 			$count = count( $menus );
 			for( $i = 0; $i < $count; $i++ ) {
 				$menus[$i]->type = $link;
 			}
 			$lists['links']	= 1;
-		}	
+		}
 	} else {
 		// new record
 		$row->section 	= $section;
@@ -922,7 +922,7 @@ function menuLink( $id ) {
 	$row->componentid	= $id;
 	$row->link			= $link;
 	$row->ordering		= 9999;
-	
+
 	if ( $type == 'content_blog_category' ) {
 		$row->params = 'categoryid='. $id;
 	}

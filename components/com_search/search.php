@@ -29,7 +29,7 @@ function viewSearch() {
 	global $mosConfig_list_limit;
 
 	$restriction = 0;
-	
+
 	// try to find search component's Itemid
 	$query = "SELECT id"
 		. "\n FROM #__menu"
@@ -74,13 +74,13 @@ function viewSearch() {
 		$searchword 	= substr( $searchword, 0, 19 );
 		$restriction 	= 1;
 	}
-	
+
 	// searchword must contain a minimum of 3 characters
 	if ( $searchword && strlen( $searchword ) < 3 ) {
 		$searchword 	= '';
 		$restriction 	= 1;
 	}
-	
+
 	$search_ignore = array();
 	@include "$mosConfig_absolute_path/language/$mosConfig_lang.ignore.php";
 
@@ -131,14 +131,14 @@ function viewSearch() {
 		search_html::message( _IGNOREKEYWORD, $params );
 	} else {
 		// html output
-		
+
 		if ( $restriction ) {
 			// html output
 			search_html::message( 'Search term must be a minimum of 3 characters and a maximum of 20 characters', $params );
 		}
-		
+
 		$searchword_clean = htmlspecialchars( stripslashes( $searchword ) );
-		
+
 		search_html::searchintro( $searchword_clean, $params );
 
 		mosLogSearch( $searchword );
@@ -167,12 +167,12 @@ function viewSearch() {
 			}
 
 			$row = mosPrepareSearchContent( $row, 200, $needle );
-	
+
 		  	foreach ($searchwords as $hlword) {
 				$hlword = htmlspecialchars( stripslashes( $hlword ) );
-				$row = eregi_replace( $hlword, '<span class="highlight">\0</span>', $row );				
+				$row = eregi_replace( $hlword, '<span class="highlight">\0</span>', $row );
 			}
-	
+
 			if (!eregi( '^http', $rows[$i]->href )) {
 				// determines Itemid for Content items
 				if ( strstr( $rows[$i]->href, 'view' ) ) {

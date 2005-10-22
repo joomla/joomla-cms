@@ -49,7 +49,7 @@ $mainframe->initSession( 'php' );
 // trigger the onStart events
 $_MAMBOTS->trigger( 'onBeforeStart' );
 
-// get the information about the current user from the sessions table 
+// get the information about the current user from the sessions table
 $my = $mainframe->getUser();
 // TODO: fix this patch to get gid to work properly
 //$my->gid = array_shift( $acl->get_object_groups( $acl->get_object_id( 'users', $my->id, 'ARO' ), 'ARO' ) );

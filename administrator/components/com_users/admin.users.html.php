@@ -77,7 +77,7 @@ class HTML_users {
 			</th>
 			<th width="1%" class="title">
 			<?php echo $_LANG->_( 'ID' ); ?>
-			</th>			
+			</th>
 		</tr>
 		<?php
 		$k = 0;

@@ -175,7 +175,7 @@ class HTML_contact {
 		}
 		//-->
 		</script>
-		
+
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>

@@ -215,7 +215,7 @@ class HTML_config {
 				<?php
 				$tip = $_LANG->_( 'TIPBLANKORFOUND' );
 				echo mosToolTip( $tip, 'Favourite Icon' );
-				?>			
+				?>
 				</td>
 			</tr>
 			</table>
@@ -236,7 +236,7 @@ class HTML_config {
 				<?php
 				$tip = $_LANG->_( 'Current date/time configured to display' ) .': '. mosCurrentDate( $_LANG->_( 'DATEFORMATLC2' ) );
 				echo mosToolTip( $tip );
-				?>			
+				?>
 				</td>
 			</tr>
 			<tr>
@@ -327,11 +327,11 @@ class HTML_config {
 					echo mosToolTip( $tip );
 					echo "</td>";
 				} else {
-					?>				
+					?>
 					<td>&nbsp;</td>
 					<?php
 				}
-				?>		
+				?>
 			</tr>
 			<tr>
 				<td><?php echo $_LANG->_( 'Print Icon' ); ?>:</td>
@@ -722,7 +722,7 @@ class HTML_config {
                     $warn = $_LANG->_( 'TIPCACHEDIRISUNWRITEABLE' );
 					echo mosWarning( $warn );
 				}
-				?>			
+				?>
 				</td>
 				<td>&nbsp;</td>
 			</tr>
@@ -788,7 +788,7 @@ class HTML_config {
 		$tabs->endTab();
 		$tabs->endPane();
 		?>
-		
+
 		<input type="hidden" name="option" value="<?php echo $option; ?>"/>
 		<input type="hidden" name="config_absolute_path" value="<?php echo $row->config_absolute_path; ?>"/>
 		<input type="hidden" name="config_live_site" value="<?php echo $row->config_live_site; ?>"/>

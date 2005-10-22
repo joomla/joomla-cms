@@ -28,7 +28,7 @@ $access 	= !$mainframe->getCfg( 'shownoauth' );
 $nullDate = $database->getNullDate();
 // select between Content Items, Static Content or both
 switch ( $type ) {
-	case 2: 
+	case 2:
 	//Static Content only
 		$query = "SELECT a.id, a.title"
 		. "\n FROM #__content AS a"
@@ -43,7 +43,7 @@ switch ( $type ) {
 		$rows = $database->loadObjectList();
 		break;
 
-	case 3: 
+	case 3:
 	//Both
 		$query = "SELECT a.id, a.title, a.sectionid"
 		. "\n FROM #__content AS a"
@@ -51,14 +51,14 @@ switch ( $type ) {
 		. "\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )"
 		. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
 		. ( $access ? "\n AND a.access <= '$my->gid'" : '' )
-		. "\n ORDER BY a.created DESC" 
+		. "\n ORDER BY a.created DESC"
 		. "\n LIMIT $count"
 		;
 		$database->setQuery( $query );
 		$rows = $database->loadObjectList();
 		break;
 
-	case 1:  
+	case 1:
 	default:
 	//Content Items only
 		$query = "SELECT a.id, a.title, a.sectionid, a.catid"

@@ -402,7 +402,7 @@ class mosMainFrame {
 		$this->_head['title'] 	= $GLOBALS['mosConfig_sitename'];
 		$this->_head['meta'] 	= array();
 		$this->_head['custom'] 	= array();
-		
+
 		//set the admin check
 		$this->_isAdmin 		= (boolean) $isAdmin;
 	}
@@ -603,7 +603,7 @@ class mosMainFrame {
 			//mosErrorAlert( $_LANG->_( 'LOGIN_INCOMPLETE' ) );
 			mosErrorAlert( _LOGIN_INCOMPLETE );
 		} else {
-			
+
 			//load user bot group
 			$_MAMBOTS->loadBotGroup( 'user' );
 
@@ -612,7 +612,7 @@ class mosMainFrame {
 
 			// TODO: Handle multiple authentication checks
 			if ($results[0] > 0) {
-				
+
 				$user = new mosUser( $database );
 				$user->load( intval( $results[0] ) );
 
@@ -661,7 +661,7 @@ class mosMainFrame {
 			}
 		}
 	}
-	
+
 	/**
 	* User logout
 	*
@@ -836,7 +836,7 @@ class mosMainFrame {
 			$this->_path->admin_html = "$basePath/administrator/components/com_admin/admin.admin.html.php";
 		}
 	}
-	
+
 	/**
 	 * Gets the id number for a client
 	 * @param mixed A client identifier
@@ -862,7 +862,7 @@ class mosMainFrame {
 				break;
 		}
 	}
-	
+
 	/**
 	* Returns a stored path variable
 	*
@@ -950,7 +950,7 @@ class mosMainFrame {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Gets the base path for the client
 	 * @param mixed A client identifier
@@ -980,7 +980,7 @@ class mosMainFrame {
 
 		}
 	}
-	
+
 	/**
 	* Detects a 'visit'
 	*
@@ -1182,7 +1182,7 @@ class mosMainFrame {
 			$this->_db->setQuery( $query );
 			$_Itemid = $this->_db->loadResult();
 		}
-		
+
 		if ( $_Itemid != '' ) {
 			return $_Itemid;
 		} else {
@@ -1285,7 +1285,7 @@ class mosMainFrame {
 			return $default;
 		}
 	}
-	
+
 	/** Is admin interface?
 	 * @return boolean
 	 * @since 1.0.2
@@ -1368,7 +1368,7 @@ class mosHTML {
 	*/
 	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag='' ) {
 		reset( $arr );
-		
+
 		$id = $tag_name;
 		if ( $idtag ) {
 			$id = $idtag;
@@ -1770,7 +1770,7 @@ class mosHTML {
 		$replacement 	.= "<noscript> \n";
 		$replacement 	.= _CLOAKING;
 		$replacement 	.= "\n</noscript>";
-		
+
 		return $replacement;
 	}
 
@@ -2277,7 +2277,7 @@ class mosUser extends mosDBTable {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Updates last visit time of user
 	 * @param int The timestamp, defaults to 'now'
@@ -2483,20 +2483,20 @@ function mosBindArrayToObject( $array, &$obj, $ignore='', $prefix=NULL, $checkSl
 * @param string A filter for the names
 */
 function mosRedirect( $url, $msg='' ) {
-   
+
    global $mainframe;
-   
+
     // specific filters
 	$iFilter = new InputFilter();
 	$url = $iFilter->process( $url );
 	if (!empty($msg)) {
 		$msg = $iFilter->process( $msg );
 	}
-	
+
 	if ($iFilter->badAttributeValue( array( 'href', $url ))) {
 		$url = $GLOBALS['mosConfig_live_site'];
 	}
-	
+
 	if (trim( $msg )) {
 	 	if (strpos( $url, '?' )) {
 			$url .= '&mosmsg=' . urlencode( $msg );
@@ -2504,7 +2504,7 @@ function mosRedirect( $url, $msg='' ) {
 			$url .= '?mosmsg=' . urlencode( $msg );
 		}
 	}
-	
+
 	if (headers_sent()) {
 		echo "<script>document.location.href='$url';</script>\n";
 	} else {
@@ -3302,7 +3302,7 @@ function initGzip() {
 				)
 			) {
 			if ( extension_loaded('zlib') ) {
-				// You cannot specify additional output handlers if 
+				// You cannot specify additional output handlers if
 				// zlib.output_compression is activated here
 				ob_start( );
 				return;
@@ -3426,7 +3426,7 @@ class mosMambotHandler {
 		}
 
 		$group = trim( $group );
-		
+
 		switch ( $group ) {
 			case 'content':
 				$query = "SELECT folder, element, published, params"
@@ -3436,7 +3436,7 @@ class mosMambotHandler {
 				. "\n ORDER BY ordering"
 				;
 				break;
-			
+
 			default:
 				$query = "SELECT folder, element, published, params"
 				. "\n FROM #__mambots"
@@ -3683,7 +3683,7 @@ class mosAdminMenus {
 	function Parent( &$row ) {
 		global $database;
 		global $_LANG;
-		
+
 		// get a list of the menu items
 		$query = "SELECT m.*"
 		. "\n FROM #__menu m"
@@ -4617,7 +4617,7 @@ class mosCommonHTML {
 	*/
 	function loadOverlib() {
 		global  $mosConfig_live_site, $mainframe;
-		
+
 		if ( !$mainframe->get( 'loadOverlib' ) ) {
 		// check if this function is already loaded
 			?>

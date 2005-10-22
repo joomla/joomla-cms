@@ -69,7 +69,7 @@ class HTML_Media {
 							<td>
 								<input class="inputbox" type="text" name="imagecode" style="width:400px" />
 							</td>
-						</tr>						
+						</tr>
 						</table>
 					</td>
 				</tr>
@@ -98,7 +98,7 @@ class HTML_Media {
 									 <small>[ <?php echo $_LANG->_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]</small>
 									&nbsp;&nbsp;&nbsp;&nbsp;
 									<input class="inputbox" type="file" name="upload" id="upload" size="63">&nbsp;
-								</td>							
+								</td>
 							</tr>
 							</table>
 						</td>
@@ -216,7 +216,7 @@ class HTML_Media {
 		} else {
 			$img_dimensions = 'width="'. $info[0] .'" height="'. $info[1] .'"';
 		}
-		
+
 		$overlib = $_LANG->_( 'Width' ) .': '. $info[0].'px<br/>'. $_LANG->_( 'Height' ) .': '.$info[1] . $_LANG->_( 'px' );
 		$overlib .= '<br/>'. $_LANG->_( 'Filesize' ) .': '. $filesize;
 		$overlib .= '<br/><br/> '. $_LANG->_( '*Click to Enlarge*' );
@@ -226,7 +226,7 @@ class HTML_Media {
 			<div class="imgTotal"  onMouseOver="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $file; ?>', BELOW, LEFT, WIDTH, 150 );" onMouseOut="return nd();">
 				<div align="center" class="imgBorder">
 					<a href="javascript:;"
-						onclick="javascript: window.open( '<?php echo $img_url; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=<?php echo $info[0] * 1.5;?>,height=<?php echo $info[1] * 1.5;?>,directories=no,location=no,left=120,top=80'); 
+						onclick="javascript: window.open( '<?php echo $img_url; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=<?php echo $info[0] * 1.5;?>,height=<?php echo $info[1] * 1.5;?>,directories=no,location=no,left=120,top=80');
 									window.top.document.forms[0].imagecode.value = '<img src=&quot;<?php echo $img_url;?>&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;<?php echo $_LANG->_( 'Image' ); ?>&quot />';"
 						style="display: block; width: 100%; height: 100%">
 						<div class="image">
@@ -244,7 +244,7 @@ class HTML_Media {
 						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo $_LANG->_( 'Delete' ); ?>"></a>
 					<a href="javascript:;" onClick="javascript:window.top.document.forms[0].imagecode.value = '<img src=&quot;<?php echo $img_url;?>&quot; align=&quot;left&quot; hspace=&quot;6&quot; alt=&quot;<?php echo $_LANG->_( 'Image' ); ?>&quot; />';" title="<?php echo $_LANG->_( 'Image Code' ); ?>">
 						<img src="components/com_media/images/edit_pencil.gif" width="15" height="15" border="0" alt="<?php echo $_LANG->_( 'Code' ); ?>"></a>
-				</div>					
+				</div>
 			</div>
 		</div>
 		<?php
@@ -263,7 +263,7 @@ class HTML_Media {
 		}
 
 		$link = 'index3.php?option=com_media&task=list&listdir='. $listdir . $path;
-		
+
 		$overlib = $_LANG->_( 'Files' ) .' '. $num_files;
 		$overlib .= '<br /><br />'. $_LANG->_( '*Click to Open*' );
 		?>
@@ -288,12 +288,12 @@ class HTML_Media {
 	}
 
 	function show_doc($doc, $size, $listdir, $icon) {
-		global $mosConfig_live_site;		
+		global $mosConfig_live_site;
 		global $base;
     	global $_LANG;
 
 		$size = HTML_Media::parse_size( $size );
-		
+
 		$overlib = $_LANG->_( 'Filesize' ) .': '. $size;
 		$overlib .= '<br /><br />'. $_LANG->_( '*Click for Url*' );
 		?>
@@ -359,14 +359,14 @@ class HTML_Media {
 
 			$d = dir($dir);
 			while (false !== ($entry = $d->read())) {
-				
+
 				if(substr($entry,0,1) != '.') {
 					$total++;
 				}
 			}
 			$d->close();
 		}
-		
+
 		return $total - 1;
 	}
 

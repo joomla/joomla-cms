@@ -22,7 +22,7 @@ if (!file_exists( '../configuration.php' )) {
 require_once( '../configuration.php' );
 
 //Installation sub folder check, removed for work with SVN
-/*if (file_exists( '../installation/index.php' )) {	
+/*if (file_exists( '../installation/index.php' )) {
 	define( '_INSTALL_CHECK', 1 );
 	include ('../offline.php');
 	exit();
@@ -67,8 +67,8 @@ if (isset( $_POST['submit'] )) {
 	;
 	$database->setQuery( $query );
 	$count = intval( $database->loadResult() );
-	
-	
+
+
 	if ( $count < 1 ) {
 		mosErrorAlert( $_LANG->_( 'errorNoAdmins' ) );
 	}
@@ -85,7 +85,7 @@ if (isset( $_POST['submit'] )) {
 		mosErrorAlert( $_LANG->_( 'validUserPassAccess' ), "document.location.href='index.php'" );
 	}
 } else {
-	
+
 	initGzip();
 	header(' Content-Type: text/html; charset=UTF-8');
 	$path = $mosConfig_absolute_path . '/administrator/templates/' . $cur_template . '/login.php';

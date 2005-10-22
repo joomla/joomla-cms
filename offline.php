@@ -25,7 +25,7 @@ if (!defined( '_INSTALL_CHECK' )) {
 	// this method is different from 1.1 because the session handling is not the same
 	session_name( md5( $mosConfig_live_site ) );
 	session_start();
-	
+
 	if (class_exists( 'mosUser' )) {
 		// restore some session variables
 		$admin 			= new mosUser( $database );
@@ -34,7 +34,7 @@ if (!defined( '_INSTALL_CHECK' )) {
 		$admin->usertype 	= mosGetParam( $_SESSION, 'session_usertype', '' );
 		$session_id 	= mosGetParam( $_SESSION, 'session_id', '' );
 		$logintime 		= mosGetParam( $_SESSION, 'session_logintime', '' );
-	
+
 		// check against db record of session
 		if ($session_id == md5( $admin->id . $admin->username . $admin->usertype . $logintime )) {
 			$query = "SELECT *"
@@ -67,7 +67,7 @@ if (!defined( '_ADMIN_OFFLINE' ) || defined( '_INSTALL_CHECK' )) {
 		<link rel="shortcut icon" href="<?php echo $mosConfig_live_site; ?>/images/favicon.ico" />
 	</head>
 	<body>
-	
+
 		<p>&nbsp;</p>
 		<table width="550" align="center" class="outline">
 		<tr>
@@ -117,7 +117,7 @@ if (!defined( '_ADMIN_OFFLINE' ) || defined( '_INSTALL_CHECK' )) {
 		}
 		?>
 		</table>
-	
+
 	</body>
 	</html>
 	<?php

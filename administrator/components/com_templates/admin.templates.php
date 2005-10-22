@@ -44,11 +44,11 @@ switch ($task) {
 	case 'save_source':
 		saveTemplateSource( $option, $client );
 		break;
-		
+
 	case 'choose_css':
 		chooseTemplateCSS( $cid[0], $option, $client );
 		break;
-		
+
 	case 'edit_css':
 		editTemplateCSS( $cid[0], $option, $client );
 		break;
@@ -362,8 +362,8 @@ function chooseTemplateCSS( $p_tname, $option, $client ) {
 	global $mosConfig_absolute_path;
 	global $_LANG;
 
-	$readd = new mosFS();	
-	
+	$readd = new mosFS();
+
 	if ( $client == 'admin' ) {
 		// Admin template css dir
 		$a_dir = $mosConfig_absolute_path .'/administrator/templates/'. $p_tname .'/css';
@@ -371,22 +371,22 @@ function chooseTemplateCSS( $p_tname, $option, $client ) {
 		$a_files = $readd->listFiles( $a_dir, $filter='.css', $recurse=false, $fullpath=false  );
 		$fs_dir='';
 		$fs_files='';
-		
-		HTML_templates::chooseCSSFiles( $p_tname, $a_dir, $fs_dir, $a_files, $fs_files, $option, $client );				
-	
+
+		HTML_templates::chooseCSSFiles( $p_tname, $a_dir, $fs_dir, $a_files, $fs_files, $option, $client );
+
 	} else {
 		// Template css dir
 		$f_dir = $mosConfig_absolute_path .'/templates/'. $p_tname .'/css';
 		// System css dir
 		$fs_dir = $mosConfig_absolute_path .'/templates/css';
-		
+
 		// List template .css files
 		$f_files = $readd->listFiles( $f_dir, $filter='.css', $recurse=false, $fullpath=false  );
 		// List system .css files
 		$fs_files = $readd->listFiles( $fs_dir, $filter='.css', $recurse=false, $fullpath=false  );
-	
-    	HTML_templates::chooseCSSFiles( $p_tname, $f_dir, $fs_dir, $f_files, $fs_files, $option, $client );		
-	
+
+    	HTML_templates::chooseCSSFiles( $p_tname, $f_dir, $fs_dir, $f_files, $fs_files, $option, $client );
+
 	}
 }
 
@@ -396,7 +396,7 @@ function editTemplateCSS( $p_tname, $option, $client ) {
 
 	$template = mosGetParam( $_POST, 'template', '' );
 	$tp_name = mosGetParam( $_POST, 'tp_name', '' );
-	
+
 	if ( $client == 'admin' ) {
 		$file = $mosConfig_absolute_path .'/administrator' . $tp_name;
 		$p_tname = $template;

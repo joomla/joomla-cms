@@ -107,7 +107,7 @@ class search_html {
 				// number of matches found
 				echo '<br/>';
 				eval ('echo "'._CONCLUSION.'";');
-				
+
 				$image = mosAdminMenus::ImageCheck( 'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
 				?>
 				<a href="http://www.google.com/search?q=<?php echo stripslashes($searchword);?>" target="_blank">

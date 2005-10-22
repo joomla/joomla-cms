@@ -32,7 +32,7 @@ switch ($task) {
 	case 'choose_css':
 		TOOLBAR_templates::_CHOOSE_CSS();
 		break;
-		
+
 	case 'edit_css':
 		TOOLBAR_templates::_EDIT_CSS();
 		break;

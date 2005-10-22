@@ -39,10 +39,10 @@ class mosFactory {
 		$mosConfig_admin_path = $mosConfig_absolute_path .'/administrator';
 		$path = $mosConfig_absolute_path . '/language/';
 		$lang = $mosConfig_lang;
-	
+
 		//Jinx : Outcommented for quick backport, fix later
 		/*if ($my && isset( $my->params ) && $userLang = $my->params->get( 'language', $lang )) {
-			
+
 			// if admin && special lang?
 			if( $mainframe && $mainframe->isAdmin() ) {
 				$userLang = $my->params->get( 'admin_language', $lang );

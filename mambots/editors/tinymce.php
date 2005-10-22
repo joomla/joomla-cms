@@ -41,7 +41,7 @@ function botTinymceEditorInit() {
 	if ($theme == 'default' ) {
 		$theme = 'advanced';
 	}
-	
+
 	$toolbar 			= $params->def( 'toolbar', 'top' );
 	$html_height		= $params->def( 'html_height', '550' );
 	$html_width			= $params->def( 'html_width', '750' );
@@ -85,7 +85,7 @@ function botTinymceEditorInit() {
 		;
 		$database->setQuery( $query );
 		$template = $database->loadResult();
-		
+
 		$file			= $mosConfig_absolute_path .'/templates/'. $template .'/css/editor_content.css';
 		if ( file_exists( $file ) ) {
 			$content_css	= 'content_css : "'. $mosConfig_live_site .'/templates/'. $template .'/css/editor_content.css", ';
@@ -116,8 +116,8 @@ function botTinymceEditorInit() {
 	} else {
 		$newlines	= 'false';
 	}
-	
-	if ( $compressed ) {		
+
+	if ( $compressed ) {
 		$load = '<script type="text/javascript" src="'. $mosConfig_live_site .'/mambots/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php"></script>';
 	} else {
 		$load = '<script type="text/javascript" src="'. $mosConfig_live_site .'/mambots/editors/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>';
@@ -174,9 +174,9 @@ if ( $searchreplace ) {
 	$buttons3 	= implode( ',', $buttons3 );
 	$plugins 	= implode( ',', $plugins );
 	$elements 	= implode( ',', $elements );
-	
+
 return <<<EOD
-	$load	
+	$load
 	<script type="text/javascript">
 	tinyMCE.init({
 		theme : "$theme",

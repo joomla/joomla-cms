@@ -382,7 +382,7 @@ function saveMenu( $option, $task='save' ) {
 	}
 
 	$row->name = ampReplace( $row->name );
-	
+
 	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();

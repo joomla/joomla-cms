@@ -26,7 +26,7 @@ function botMosEmailCloak( $published, &$row, &$params, $page=0 ) {
 	if ( !$published ) {
 		return true;
 	}
-	
+
 	// load mambot params info
 	$query = "SELECT id"
 	. "\n FROM #__mambots"

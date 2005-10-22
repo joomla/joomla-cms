@@ -41,7 +41,7 @@ class HTML_user {
 
 		require_once( $mosConfig_absolute_path .'/includes/HTML_toolbar.php' );
 
-		mosCommonHTML::loadOverlib();		
+		mosCommonHTML::loadOverlib();
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton( pressbutton ) {

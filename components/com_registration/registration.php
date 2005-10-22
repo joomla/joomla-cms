@@ -115,14 +115,14 @@ function saveRegistration( $option ) {
 	}
 
 	$row = new mosUser( $database );
-	
+
 	mosMakeHtmlSafe($row);
 
 	if (!$row->bind( $_POST, 'usertype' )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	
+
 	//load user bot group
 	$_MAMBOTS->loadBotGroup( 'user' );
 
@@ -143,7 +143,7 @@ function saveRegistration( $option ) {
 	$pwd 				= $row->password;
 	$row->password 		= md5( $row->password );
 	$row->registerDate 	= date('Y-m-d H:i:s');
-	
+
 	//trigger the onBeforeStoreUser event
 	$results = $_MAMBOTS->trigger( 'onBeforeStoreUser', array( get_object_vars( $row ), true ) );
 
@@ -152,7 +152,7 @@ function saveRegistration( $option ) {
 		exit();
 	}
 	$row->checkin();
-	
+
 		//trigger the onAfterStoreUser event
 		$results = $_MAMBOTS->trigger( 'onAfterStoreUser', array( get_object_vars( $row ), true, true, null ) );
 
