@@ -26,7 +26,7 @@ require_once( 'configuration.php' );
 require_once( 'includes/joomla.php' );
 
 //Installation sub folder check, removed for work with CVS
-/*if (file_exists( 'installation/index.php' )) {	
+/*if (file_exists( 'installation/index.php' )) {
 	define( '_INSTALL_CHECK', 1 );
 	include ('offline.php');
 	exit();
@@ -37,10 +37,10 @@ if ($mosConfig_offline == 1) {
 	// mainframe is an API workhorse, lots of 'core' interaction routines
 	$mainframe = new mosMainFrame( $database, $option='' );
 	$mainframe->initSession();
-	
+
 	// get the information about the current user from the sessions table
 	$my = $mainframe->getUser();
-	
+
 	// get gid
 	$query = '
 	SELECT gid
@@ -49,13 +49,13 @@ if ($mosConfig_offline == 1) {
 	;
 	$database->setQuery( $query );
 	$userstate = $database->loadResult();
-	
+
 	// if superadministrator, administrator or manager show offline message bar + site
 	if ( $userstate == '25' || $userstate == '24' || $userstate == '23') {
 		include( 'offlinebar.php' );
 	}
 	else {
-		include( 'offline.php' );	
+		include( 'offline.php' );
 		exit();
 	}
 }
@@ -66,11 +66,6 @@ $_MAMBOTS->loadBotGroup( 'system' );
 // trigger the onStart events
 $_MAMBOTS->trigger( 'onBeforeStart' );
 
-if (file_exists( 'components/com_sef/sef.php' )) {
-	require_once( 'components/com_sef/sef.php' );
-} else {
-	require_once( 'includes/sef.php' );
-}
 require_once( 'includes/frontend.php' );
 
 // retrieve some expected url (or form) arguments
@@ -116,8 +111,8 @@ if ($option == '') {
 if ( !$Itemid ) {
 // when no Itemid give a default value
 	$Itemid = 99999999;
-} 
-	
+}
+
 // mainframe is an API workhorse, lots of 'core' interaction routines
 $mainframe = new mosMainFrame( $database, $option, '.' );
 $mainframe->initSession();
@@ -169,14 +164,14 @@ if ($option == 'login') {
 	// JS Popup message
 	if ( $message ) {
 		?>
-		<script language="javascript" type="text/javascript"> 
+		<script language="javascript" type="text/javascript">
 		<!--//
 		alert( "<?php echo _LOGIN_SUCCESS; ?>" );
 		//-->
 		</script>
 		<?php
 	}
-	
+
 	if ($return) {
 		mosRedirect( $return );
 	} else {
@@ -189,7 +184,7 @@ if ($option == 'login') {
 	// JS Popup message
 	if ( $message ) {
 		?>
-		<script language="javascript" type="text/javascript"> 
+		<script language="javascript" type="text/javascript">
 		<!--//
 		alert( "<?php echo _LOGOUT_SUCCESS; ?>" );
 		//-->

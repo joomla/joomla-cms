@@ -31,15 +31,19 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Oct-2005 Emir Sakic
+ + Turned SEF in system bot and added the mambot
+ - Removed SEF include
+
 21-Oct-2005 Arno Zijlstra
-^ Changed template css editor. Choose css file to edit.
+ ^ Changed template css editor. Choose css file to edit.
 
 20-Oct-2005 Levis Bisson
-  Applied Feature Requests:
-^ Artifact artf1206 : Don't show Database Password in admin area
-^ Artifact artf1301 : Expand content title lengths
-^ Artifact artf1282 : Easier sorting of static content in creating menu links
-^ Artifact artf1162 : Remove hardcoding of <<, <, > and >> in pageNavigation.php
+ Applied Feature Requests:
+ ^ Artifact artf1206 : Don't show Database Password in admin area
+ ^ Artifact artf1301 : Expand content title lengths
+ ^ Artifact artf1282 : Easier sorting of static content in creating menu links
+ ^ Artifact artf1162 : Remove hardcoding of <<, <, > and >> in pageNavigation.php
 
 19-Oct-2005 Johan Janssens
  + Added full UTF-8 support

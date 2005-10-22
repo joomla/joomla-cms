@@ -6,6 +6,7 @@
 INSERT INTO `#__mambots` VALUES (0, 'Joomla Userbot', 'joomla.userbot', 'user', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__mambots` VALUES (0, 'LDAP Userbot', 'ldap.userbot', 'user', 0, 1, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__mambots` VALUES (0, 'Joomla SiteURLBot', 'joomla.siteurlbot', 'system', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__mambots` VALUES (0, 'Joomla SEFURLBot', 'joomla.sefurlbot', 'system', 0, 2, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 
 # Expand content title lengths
 ALTER TABLE `#__content` CHANGE `title` `title` varchar(255) NOT NULL default '';

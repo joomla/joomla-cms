@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall version="1.0.0" type="mambot" group="system">
+	<name>SEF URLs</name>
+	<author>Joomla! Project</author>
+	<creationDate>October 2005</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>Converts Joomla! URLs to Search Engine Friendly ones</description>
+	<files>
+		<filename mambot="joomla.sefurlbot">joomla.sefurlbot.php</filename>
+	</files>
+	<params/>
+</mosinstall>
