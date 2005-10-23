@@ -155,7 +155,7 @@ class HTML_newsfeed {
 				if ( $params->get( 'link' ) ) {
 					?>
 					<td width="50%" class="<?php echo $tabclass[$k]; ?>">
-					<?php echo $row->link; ?>
+					<?php echo ampReplace( $row->link ); ?>
 					</td>
 					<?php
 				}
@@ -270,7 +270,7 @@ class HTML_newsfeed {
 				?>
 				<tr>
 					<td class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
-					<a href="<?php echo $currChannel->getLink(); ?>" target="_child">
+					<a href="<?php echo ampReplace( $currChannel->getLink() ); ?>" target="_blank">
 					<?php echo $currChannel->getTitle(); ?>
 					</a>
 					</td>
@@ -313,7 +313,7 @@ class HTML_newsfeed {
 						$currItem =& $currChannel->getItem($j);
 						?>
 							<li>
-							<a href="<?php echo $currItem->getLink(); ?>" target="_child">
+							<a href="<?php echo ampReplace( $currItem->getLink() ); ?>" target="_blank">
 							<?php echo $currItem->getTitle(); ?>
 							</a>
 							<?php

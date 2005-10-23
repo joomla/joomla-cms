@@ -87,7 +87,7 @@ class HTML_weblinks {
 		global $mosConfig_live_site;
 		// icon in table display
 		if ( $params->get( 'weblink_icons' ) <> -1 ) {
-			$img = mosAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $params->get( 'weblink_icons' ) );
+			$img = mosAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $params->get( 'weblink_icons' ), NULL, 'Link', 'Link' );
 		} else {
 			$img = NULL;
 		}
@@ -112,7 +112,7 @@ class HTML_weblinks {
 				<?php
 				if ( $params->get( 'hits' ) ) {
 					?>
-					<td width="30px" height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" align="right">
+					<td width="30" height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" align="right">
 					<?php echo _HEADER_HITS; ?>
 					</td>
 					<?php
@@ -127,7 +127,10 @@ class HTML_weblinks {
 			$iparams = new mosParameters( $row->params );
 
 			$link = sefRelToAbs( 'index.php?option=com_weblinks&task=view&catid='. $catid .'&id='. $row->id );
+			$link = ampReplace( $link );
+			
 			$menuclass = 'category'.$params->get( 'pageclass_sfx' );
+			
 			switch ($iparams->get( 'target' )) {
 				// cases are slightly different
 				case 1:
@@ -150,7 +153,7 @@ class HTML_weblinks {
 				<?php
 				if ( $img ) {
 					?>
-					<td width="100px" height="20" align="center">
+					<td width="100" height="20" align="center">
 					&nbsp;&nbsp;<?php echo $img;?>&nbsp;&nbsp;
 					</td>
 					<?php
