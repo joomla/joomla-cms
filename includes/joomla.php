@@ -730,6 +730,9 @@ class mosMainFrame {
 		global $Itemid;
 		$mosConfig_absolute_path = $this->getCfg( 'absolute_path' );
 
+/*
+Unneeded Query
+http://developer.joomla.org/sf/go/artf1710?nav=1
 		// Default template
 		$query = "SELECT template"
 		. "\n FROM #__templates_menu"
@@ -750,7 +753,7 @@ class mosMainFrame {
 			$this->_db->setQuery( $query );
 			$cur_template = $this->_db->loadResult() ? $this->_db->loadResult() : $cur_template;
 		}
-
+*/
 		if ($isAdmin) {
 			$query = "SELECT template"
 			. "\n FROM #__templates_menu"
@@ -764,6 +767,18 @@ class mosMainFrame {
 				$cur_template = 'joomla_admin';
 			}
 		} else {
+			$assigned = ( !empty( $Itemid ) ? " OR menuid = $Itemid" : '' );
+			
+			$query = "SELECT template"
+			. "\n FROM #__templates_menu"
+			. "\n WHERE client_id = 0"
+			. "\n AND ( menuid = 0 $assigned )"
+			. "\n ORDER BY menuid DESC"
+			. "\n LIMIT 1"
+			;
+			$this->_db->setQuery( $query );
+			$cur_template = $this->_db->loadResult();
+			
 			// TemplateChooser Start
 			$jos_user_template = mosGetParam( $_COOKIE, 'jos_user_template', '' );
 			$jos_change_template = mosGetParam( $_REQUEST, 'jos_change_template', $jos_user_template );
