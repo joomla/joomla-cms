@@ -512,7 +512,7 @@ class HTML_content {
 			HTML_content::TOC( $row );
 
 			// displays Item Text
-			echo $row->text;
+			echo ampReplace( $row->text );
 			?>
 			</td>
 		</tr>
