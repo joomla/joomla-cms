@@ -832,40 +832,40 @@ class HTML_content {
 	*/
 	function Navigation( $row, $params ) {
 		$task = mosGetParam( $_REQUEST, 'task', '' );
-		if ( $params->get( 'item_navigation' ) && ( $task == "view" ) && !$params->get( 'popup' ) ) {
-		?>
-		<table align="center" style="margin-top: 25px;">
-		<tr>
-			<?php
-			if ( $row->prev ) {
-				?>
-				<th class="pagenav_prev">
-				<a href="<?php echo $row->prev; ?>">
-				<?php echo _ITEM_PREVIOUS; ?>
-				</a>
-				</th>
-				<?php
-			}
-			if ( $row->prev && $row->next ) {
-				?>
-				<td width="50px">&nbsp;
-
-				</td>
-				<?php
-			}
-			if ( $row->next ) {
-				?>
-				<th class="pagenav_next">
-				<a href="<?php echo $row->next; ?>">
-				<?php echo _ITEM_NEXT; ?>
-				</a>
-				</th>
-				<?php
-			}
+		if ( $params->get( 'item_navigation' ) && ( $task == "view" ) && !$params->get( 'popup' ) && ( $row->prev || $row->next ) ) {
 			?>
-		</tr>
-		</table>
-		<?php
+			<table align="center" style="margin-top: 25px;">
+			<tr>
+				<?php
+				if ( $row->prev ) {
+					?>
+					<th class="pagenav_prev">
+					<a href="<?php echo $row->prev; ?>">
+					<?php echo _ITEM_PREVIOUS; ?>
+					</a>
+					</th>
+					<?php
+				}
+				if ( $row->prev && $row->next ) {
+					?>
+					<td width="50">&nbsp;
+	
+					</td>
+					<?php
+				}
+				if ( $row->next ) {
+					?>
+					<th class="pagenav_next">
+					<a href="<?php echo $row->next; ?>">
+					<?php echo _ITEM_NEXT; ?>
+					</a>
+					</th>
+					<?php
+				}
+				?>
+			</tr>
+			</table>
+			<?php
 		}
 	}
 
