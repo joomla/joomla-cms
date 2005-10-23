@@ -55,10 +55,17 @@ $_MAMBOTS->trigger( 'onAfterStart' );
 /** get the information about the current user from the sessions table */
 $my = $mainframe->getUser();
 
+$handle = mosGetParam( $_REQUEST, 'handle', null );
+
+// double check (this one is used on timeouts)
+if ($my->id < 1) {
+	$mainframe->logout();
+	mosRedirect( 'index.php' . $handle );
+}
+
 // TODO: fix this patch to get gid to work properly
 //$my->gid = array_shift( $acl->get_object_groups( $acl->get_object_id( 'users', $my->id, 'ARO' ), 'ARO' ) );
 
-$handle = mosGetParam( $_REQUEST, 'handle', null );
 
 // initialise some common request directives
 $option 	= strtolower( mosGetParam( $_REQUEST, 'option', 'com_admin' ) );
