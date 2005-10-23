@@ -33,13 +33,6 @@ $_MAMBOTS->loadBotGroup( 'system' );
 // trigger the onStart events
 $_MAMBOTS->trigger( 'onBeforeStart' );
 
-if (file_exists( 'components/com_sef/sef.php' )) {
-	require_once( 'components/com_sef/sef.php' );
-} else {
-	require_once( 'includes/sef.php' );
-}
-require_once( 'includes/frontend.php' );
-
 // retrieve some expected url (or form) arguments
 $option 	= strtolower( mosGetParam( $_REQUEST, 'option' ) );
 $Itemid 	= strtolower( mosGetParam( $_REQUEST, 'Itemid',0 ) );
@@ -56,6 +49,7 @@ $_MAMBOTS->trigger( 'onAfterStart' );
 
 // get the information about the current user from the sessions table
 $my = $mainframe->getUser();
+
 // patch to lessen the impact on templates
 if ($option == 'search') {
 	$option = 'com_search';
@@ -80,7 +74,6 @@ if ( $do_pdf == 1 ){
 	include ('includes/pdf.php');
 	exit();
 }
-
 
 // detect first visit
 $mainframe->detect();
