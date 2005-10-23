@@ -47,7 +47,7 @@ $mainframe = new mosMainFrame( $database, $option, '..', true );
 $mainframe->initSession( 'php' );
 
 // trigger the onStart events
-$_MAMBOTS->trigger( 'onBeforeStart' );
+$_MAMBOTS->trigger( 'onAfterStart' );
 
 // get the information about the current user from the sessions table
 $my = $mainframe->getUser();
