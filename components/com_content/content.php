@@ -20,7 +20,6 @@ require_once( $mainframe->getPath( 'front_html', 'com_content' ) );
 $id			= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
 $sectionid 	= intval( mosGetParam( $_REQUEST, 'sectionid', 0 ) );
 $pop 		= intval( mosGetParam( $_REQUEST, 'pop', 0 ) );
-$id 		= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
 $limit 		= intval( mosGetParam( $_REQUEST, 'limit', '' ) );
 $order 		= mosGetParam( $_REQUEST, 'order', '' );
 $limitstart = intval( mosGetParam( $_REQUEST, 'limitstart', 0 ) );
@@ -197,23 +196,24 @@ function showSection( $id, $gid, &$access, $now ) {
 		$menu->load( $Itemid );
 		$params = new mosParameters( $menu->params );
 	} else {
-		$menu = "";
+		$menu 	= '';
 		$params = new mosEmpty();
 
 	}
 	$orderby = $params->get( 'orderby', '' );
 
-	$params->set( 'type', 'section' );
+	$params->set( 'type', 				'section' );
 
-	$params->def( 'page_title', 1 );
-	$params->def( 'pageclass_sfx', '' );
-	$params->def( 'other_cat_section', 1 );
-	$params->def( 'other_cat', 1 );
-	$params->def( 'empty_cat', 0 );
-	$params->def( 'cat_items', 1 );
-	$params->def( 'cat_description', 1 );
-	$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
-	$params->def( 'pageclass_sfx', '' );
+	$params->def( 'page_title', 		1 );
+	$params->def( 'pageclass_sfx', 		'' );
+	$params->def( 'other_cat_section', 	1 );
+	$params->def( 'empty_cat_section', 	0 );
+	$params->def( 'other_cat', 			1 );
+	$params->def( 'empty_cat', 			0 );
+	$params->def( 'cat_items', 			1 );
+	$params->def( 'cat_description', 	1 );
+	$params->def( 'back_button', 		$mainframe->getCfg( 'back_button' ) );
+	$params->def( 'pageclass_sfx', 		'' );
 
 	// Ordering control
 	$orderby = _orderby_sec( $orderby );
@@ -227,18 +227,31 @@ function showSection( $id, $gid, &$access, $now ) {
 	} else {
 		$xwhere = "\n AND a.published = 1";
 		$xwhere2 = "\n AND b.state = 1"
-		. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )"
-		. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
+		. "\n AND ( b.publish_up = '$nullDate' OR b.publish_up <= '$now' )"
+		. "\n AND ( b.publish_down = '$nullDate' OR b.publish_down >= '$now' )"
 		;
 	}
 
-	// show/hide empty categories
-	if ( $params->get( 'empty_cat' ) ) {
-		$empty = '';
-	} else {
-		$empty = "\n HAVING COUNT( b.id ) > 0";
+	$empty 		= '';
+	$empty_sec 	= '';
+	if ( $params->get( 'type' ) == 'category' ) {
+		// show/hide empty categories
+		if ( !$params->get( 'empty_cat' ) ) {
+			$empty = "\n HAVING numitems > 0";
+		}
+	}	
+	if ( $params->get( 'type' ) == 'section' ) {
+		// show/hide empty categories in section
+		if ( !$params->get( 'empty_cat_section' ) ) {
+			$empty_sec = "\n HAVING numitems > 0";
+		}
 	}
-
+	
+	$access = '';
+	if ($noauth) {
+		$access = "\n AND a.access <= $gid";
+	}
+	
 	// Main Query
 	$query = "SELECT a.*, COUNT( b.id ) AS numitems"
 	. "\n FROM #__categories AS a"
@@ -246,14 +259,10 @@ function showSection( $id, $gid, &$access, $now ) {
 	. $xwhere2
 	. "\n WHERE a.section = '$section->id'"
 	. $xwhere
-	;
-	if ($noauth) {
-		$query .= "\n AND a.access <= $gid"
-		. "\n AND b.access <= $gid"
-		;
-	}
-	$query .= "\n GROUP BY a.id"
+	. $access
+	. "\n GROUP BY a.id"
 	. $empty
+	. $empty_sec
 	. "\n ORDER BY $orderby"
 	;
 	$database->setQuery( $query );

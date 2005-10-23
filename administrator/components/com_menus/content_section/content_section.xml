@@ -39,6 +39,10 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
+		<param name="empty_cat_section" type="radio" default="0" label="Empty Categories in Section" description="Show/Hide empty(no items) categories in Section view">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="description" type="radio" default="0" label="Description" description="Show/Hide the Category Description">
 			<option value="0">Hide</option>
