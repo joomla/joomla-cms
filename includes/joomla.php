@@ -692,24 +692,11 @@ class mosMainFrame {
 	function getUser() {
 		global $database;
 
-		$user = new mosUser( $this->_db );
+		$user = new mosUser( $this->_db);
 
-		$user->id 			= intval( $this->_session->userid );
-		$user->username 	= $this->_session->username;
-		$user->usertype 	= $this->_session->usertype;
-		$user->gid 			= intval( $this->_session->gid );
-
-		if ($user->id) {
-			$query = "SELECT params"
-			. "\n FROM #__users"
-			. "\n WHERE id = ". intval( $user->id )
-			;
-			$database->setQuery( $query );
-			$params = $database->loadResult();
-		} else {
-			$params = '';
-		}
-		$user->params = $params;
+		if (intval( $this->_session->userid )) {
+			$user->load($this->_session->userid);
+		} 
 
 		return $user;
 	}
