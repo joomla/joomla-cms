@@ -47,7 +47,7 @@ $d_path				= $mosConfig_live_site .'/images/M_images/';
 	<?php
 	// rss091 link
 	if ( $rss091 ) {
-		$img = mosAdminMenus::ImageCheck( 'rss091.gif', '/images/M_images/', $rss091_image, '/images/M_images/', 'RSS 0.91' );
+		$img = mosAdminMenus::ImageCheck( 'rss091.gif', '/images/M_images/', $rss091_image, '/images/M_images/', 'RSS_091' );
 		?>
 		<div align="center">
 			<a href="index2.php?option=com_rss&amp;feed=RSS0.91&amp;no_html=1">
@@ -60,7 +60,7 @@ $d_path				= $mosConfig_live_site .'/images/M_images/';
 	<?php
 	// rss10 link
 	if ( $rss10 ) {
-		$img = mosAdminMenus::ImageCheck( 'rss10.gif', '/images/M_images/', $rss10_image, '/images/M_images/', 'RSS 1.0' );
+		$img = mosAdminMenus::ImageCheck( 'rss10.gif', '/images/M_images/', $rss10_image, '/images/M_images/', 'RSS 1.0', 'RSS_10' );
 		?>
 		<div align="center">
 			<a href="index2.php?option=com_rss&amp;feed=RSS1.0&amp;no_html=1">
@@ -73,7 +73,7 @@ $d_path				= $mosConfig_live_site .'/images/M_images/';
 	<?php
 	// rss20 link
 	if ( $rss20 ) {
-		$img = mosAdminMenus::ImageCheck( 'rss20.gif', '/images/M_images/', $rss20_image, '/images/M_images/', 'RSS 2.0' );
+		$img = mosAdminMenus::ImageCheck( 'rss20.gif', '/images/M_images/', $rss20_image, '/images/M_images/', 'RSS 2.0', 'RSS_20' );
 		?>
 		<div align="center">
 		<a href="index2.php?option=com_rss&amp;feed=RSS2.0&amp;no_html=1">
@@ -86,7 +86,7 @@ $d_path				= $mosConfig_live_site .'/images/M_images/';
 	<?php
 	// atom link
 	if ( $atom ) {
-		$img = mosAdminMenus::ImageCheck( 'atom03.gif', '/images/M_images/', $atom_image, '/images/M_images/', 'ATOM 0.3' );
+		$img = mosAdminMenus::ImageCheck( 'atom03.gif', '/images/M_images/', $atom_image, '/images/M_images/', 'ATOM 0.3', 'ATOM_03' );
 		?>
 		<div align="center">
 		<a href="index2.php?option=com_rss&amp;feed=ATOM0.3&amp;no_html=1">
@@ -99,7 +99,7 @@ $d_path				= $mosConfig_live_site .'/images/M_images/';
 	<?php
 	// opml link
 	if ( $opml ) {
-		$img = mosAdminMenus::ImageCheck( 'opml.png', '/images/M_images/', $opml_image, '/images/M_images/', 'OPML' );
+		$img = mosAdminMenus::ImageCheck( 'opml.png', '/images/M_images/', $opml_image, '/images/M_images/', 'OPML', 'OPML' );
 		?>
 		<div align="center">
 		<a href="index2.php?option=com_rss&amp;feed=OPML&amp;no_html=1">
