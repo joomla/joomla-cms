@@ -339,7 +339,7 @@ class categories_html {
 					<td>
 					<?php echo $lists['image']; ?>
 					</td>
-					<td rowspan="4" width="50%">
+					<td rowspan="5" width="50%" align="center" valign="top">&nbsp;&nbsp;&nbsp;
 					<script language="javascript" type="text/javascript">
 					if (document.forms[0].image.options.value!=''){
 					  jsimg='../images/stories/' + getSelectedValue( 'adminForm', 'image' );
@@ -348,6 +348,14 @@ class categories_html {
 					}
 					document.write('<img src=' + jsimg + ' name="imagelib" width="80" height="80" border="2" alt="<?php echo $_LANG->_( 'Preview' ); ?>" />');
 					</script>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<?php echo $_LANG->_( 'Alt Text' ); ?>:
+					</td>
+					<td>
+					<input class="text_area" type="text" name="alttext" value="<?php echo $row->alttext; ?>" size="40" maxlength="100" title="<?php echo $_LANG->_( 'A short Alt attribute for image' ); ?>" />
 					</td>
 				</tr>
 				<tr>

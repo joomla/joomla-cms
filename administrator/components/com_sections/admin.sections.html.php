@@ -260,8 +260,8 @@ class sections_html {
 					</td>
 				</tr>
 				<tr>
-					<td>
-					<?php echo (isset($row->section) ? $_LANG->_( 'Category' ) : $_LANG->_( 'Section' ) );?> Name:
+					<td nowrap>
+					<?php echo $_LANG->_( 'Section Name' ); ?>:
 					</td>
 					<td colspan="2">
 					<input class="text_area" type="text" name="name" value="<?php echo $row->name; ?>" size="50" maxlength="255" title="<?php echo $_LANG->_( 'TIPNAMEFIELD' ); ?>" />
@@ -274,7 +274,7 @@ class sections_html {
 					<td>
 					<?php echo $lists['image']; ?>
 					</td>
-					<td rowspan="4" width="50%">
+					<td rowspan="5" width="50%" align="center" valign="top">&nbsp;&nbsp;&nbsp;
 					<?php
 						$path = $mosConfig_live_site . "/images/";
 						if ($row->image != "blank.png") {
@@ -286,6 +286,14 @@ class sections_html {
 				</tr>
 				<tr>
 					<td>
+					<?php echo $_LANG->_( 'Alt Text' ); ?>:
+					</td>
+					<td>
+					<input class="text_area" type="text" name="alttext" value="<?php echo $row->alttext; ?>" size="40" maxlength="100" title="<?php echo $_LANG->_( 'A short Alt attribute for image' ); ?>" />
+					</td>
+				</tr>
+				<tr>
+					<td nowrap>
 					<?php echo $_LANG->_( 'Image Position' ); ?>:
 					</td>
 					<td>
@@ -301,7 +309,7 @@ class sections_html {
 					</td>
 				</tr>
 				<tr>
-					<td>
+					<td nowrap>
 					<?php echo $_LANG->_( 'Access Level' ); ?>:
 					</td>
 					<td>
