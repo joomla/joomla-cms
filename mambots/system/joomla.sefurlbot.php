@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: jossiteurl.php 85 2005-09-15 23:12:03Z akede $
+* @version $Id: joomla.sefurlbot.php 1 2005-10-23 23:12:03Z saka $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
