@@ -140,7 +140,7 @@ class search_html {
 				for( $i=$z; $i < $end; $i++ ) {
 					$row = $rows[$i-1];
 					if ($row->created) {
-						$created = mosFormatDate ($row->created, '%d %B, %Y');
+						$created = mosFormatDate ($row->created, _DATE_FORMAT_LC);
 					} else {
 						$created = '';
 					}
