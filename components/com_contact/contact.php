@@ -285,7 +285,7 @@ function contactpage( $contact_id ) {
 				$params->set( 'marker_telephone', _CONTACT_TELEPHONE );
 				$params->set( 'marker_fax', _CONTACT_FAX );
 				$params->set( 'marker_misc', _CONTACT_MISC );
-				$params->set( 'column_width', '100px' );
+				$params->set( 'column_width', '100' );
 				break;
 			case 2:
 			// none
@@ -294,21 +294,21 @@ function contactpage( $contact_id ) {
 				$params->set( 'marker_telephone', '' );
 				$params->set( 'marker_fax', '' );
 				$params->set( 'marker_misc', '' );
-				$params->set( 'column_width', '0px' );
+				$params->set( 'column_width', '0' );
 				break;
 			default:
 			// icons
-				$image1 = mosAdminMenus::ImageCheck( 'con_address.png', '/images/M_images/', $params->get( 'icon_address' ) );
-				$image2 = mosAdminMenus::ImageCheck( 'emailButton.png', '/images/M_images/', $params->get( 'icon_email' ) );
-				$image3 = mosAdminMenus::ImageCheck( 'con_tel.png', '/images/M_images/', $params->get( 'icon_telephone' ) );
-				$image4 = mosAdminMenus::ImageCheck( 'con_fax.png', '/images/M_images/', $params->get( 'icon_fax' ) );
-				$image5 = mosAdminMenus::ImageCheck( 'con_info.png', '/images/M_images/', $params->get( 'icon_misc' ) );
+				$image1 = mosAdminMenus::ImageCheck( 'con_address.png', '/images/M_images/', $params->get( 'icon_address' ), NULL, _CONTACT_ADDRESS, _CONTACT_ADDRESS );
+				$image2 = mosAdminMenus::ImageCheck( 'emailButton.png', '/images/M_images/', $params->get( 'icon_email' ), NULL, _CONTACT_EMAIL, _CONTACT_EMAIL );
+				$image3 = mosAdminMenus::ImageCheck( 'con_tel.png', '/images/M_images/', $params->get( 'icon_telephone' ), NULL, _CONTACT_TELEPHONE, _CONTACT_TELEPHONE );
+				$image4 = mosAdminMenus::ImageCheck( 'con_fax.png', '/images/M_images/', $params->get( 'icon_fax' ), NULL, _CONTACT_FAX, _CONTACT_FAX );
+				$image5 = mosAdminMenus::ImageCheck( 'con_info.png', '/images/M_images/', $params->get( 'icon_misc' ), NULL, _CONTACT_MISC, _CONTACT_MISC );
 				$params->set( 'marker_address', $image1 );
 				$params->set( 'marker_email', $image2 );
 				$params->set( 'marker_telephone', $image3 );
 				$params->set( 'marker_fax', $image4 );
 				$params->set( 'marker_misc', $image5 );
-				$params->set( 'column_width', '40px' );
+				$params->set( 'column_width', '40' );
 				break;
 		}
 

@@ -207,7 +207,7 @@ class HTML_weblinks {
 				</li>
 				<?php
 			} else {
-				$link = 'index.php?option=com_weblinks&catid='. $cat->catid .'&Itemid='. $Itemid;
+				$link = 'index.php?option=com_weblinks&amp;catid='. $cat->catid .'&amp;Itemid='. $Itemid;
 				?>
 				<li>
 					<a href="<?php echo sefRelToAbs( $link ); ?>" class="category<?php echo $params->get( 'pageclass_sfx' ); ?>">

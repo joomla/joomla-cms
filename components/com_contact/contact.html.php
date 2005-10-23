@@ -416,7 +416,7 @@ class HTML_contact {
 					</td>
 					<?php
 					// displays Print Icon
-					$print_link = 'index2.php?option=com_contact&amp;task=view&contact_id='. $contact->id .'&amp;Itemid='. $Itemid .'&amp;pop=1';
+					$print_link = 'index2.php?option=com_contact&amp;task=view&amp;contact_id='. $contact->id .'&amp;Itemid='. $Itemid .'&amp;pop=1';
 					mosHTML::PrintIcon( $contact, $params, $hide_js, $print_link );
 					?>
 				</tr>
@@ -634,7 +634,7 @@ class HTML_contact {
 			<tr>
 				<td colspan="2">
 				<?php echo(_CONTACT_DOWNLOAD_AS);?>
-				<a href="index2.php?option=com_contact&task=vcard&contact_id=<?php echo $contact->id; ?>&no_html=1">
+				<a href="index2.php?option=com_contact&amp;task=vcard&amp;contact_id=<?php echo $contact->id; ?>&amp;no_html=1">
 				<?php echo(_VCARD);?>
 				</a>
 				</td>

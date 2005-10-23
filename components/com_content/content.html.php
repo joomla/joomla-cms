@@ -428,11 +428,7 @@ class HTML_content {
 
 		// for pop-up page
 		if ( $params->get( 'popup' ) && $no_html == 0) {
-			?>
-			<title>
-			<?php echo $mosConfig_sitename .' :: '. $row->title; ?>
-			</title>
-			<?php
+			$mainframe->setPageTitle( $mosConfig_sitename .' :: '. $row->title );
 		}
 
 		// determines links to next and prev content items within category
@@ -1326,7 +1322,9 @@ class HTML_content {
 	* Writes Email form for filling in the send destination
 	*/
 	function emailForm( $uid, $title, $template='' ) {
-		global $mosConfig_sitename;
+		global $mosConfig_sitename, $mainframe;
+		
+		$mainframe->setPageTitle( $mosConfig_sitename .' :: '. $title );
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton() {
@@ -1340,7 +1338,6 @@ class HTML_content {
 		}
 		</script>
 
-		<title><?php echo $mosConfig_sitename; ?> :: <?php echo $title; ?></title>
 		<link rel="stylesheet" href="templates/<?php echo $template; ?>/css/template_css.css" type="text/css" />
 		<form action="index2.php?option=com_content&task=emailsend" name="frontendForm" method="post" onSubmit="return submitbutton();">
 		<table cellspacing="0" cellpadding="0" border="0">
