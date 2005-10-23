@@ -591,7 +591,7 @@ class HTML_content {
 		mosCommonHTML::loadOverlib();
 
 		$link = 'index.php?option=com_content&amp;task=edit&amp;id='. $row->id .'&amp;Itemid='. $Itemid .'&amp;Returnid='. $Itemid;
-		$image = mosAdminMenus::ImageCheck( 'edit.png', '/images/M_images/', NULL, NULL, _E_EDIT );
+		$image = mosAdminMenus::ImageCheck( 'edit.png', '/images/M_images/', NULL, NULL, _E_EDIT, _E_EDIT );
 
 		if ( $row->state == 0 ) {
 			$overlib = _CMN_UNPUBLISHED;
@@ -885,15 +885,16 @@ class HTML_content {
 		require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/HTML_toolbar.php' );
 
 		$Returnid 	= intval( mosGetParam( $_REQUEST, 'Returnid', $Itemid ) );
-		$tabs 		= new mosTabs(0);
+		$tabs 		= new mosTabs(0, 1);
+		
+		$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="all" href="includes/js/calendar/calendar-mos.css" title="green" />' );	
 		?>
   		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
-  		<link rel="stylesheet" type="text/css" media="all" href="includes/js/calendar/calendar-mos.css" title="green" />
-			<!-- import the calendar script -->
-			<script type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/calendar/calendar_mini.js"></script>
-			<!-- import the language module -->
-			<script type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/calendar/lang/calendar-en.js"></script>
-	  	<script language="Javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
+		<!-- import the calendar script -->
+		<script language="javascript" type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/calendar/calendar_mini.js"></script>
+		<!-- import the language module -->
+		<script language="javascript" type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/calendar/lang/calendar-en.js"></script>
+	  	<script language="javascript" type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
 	  	<script language="javascript" type="text/javascript">
 		onunload = WarnUser;
 		var folderimages = new Array;
@@ -964,8 +965,6 @@ class HTML_content {
 		</script>
 
 		<?php
-		//$docinfo = "<strong>"._E_SUBJECT."</strong> ";
-		//$docinfo .= $row->title."<br />";
 		$docinfo = "<strong>"._E_EXPIRES."</strong> ";
 		$docinfo .= $row->publish_down."<br />";
 		$docinfo .= "<strong>"._E_VERSION."</strong> ";
@@ -1312,7 +1311,7 @@ class HTML_content {
 		<input type="hidden" name="version" value="<?php echo $row->version; ?>" />
 		<input type="hidden" name="sectionid" value="<?php echo $row->sectionid; ?>" />
 		<input type="hidden" name="created_by" value="<?php echo $row->created_by; ?>" />
-		<input type="hidden" name="referer" value="<?php echo $_SERVER['HTTP_REFERER']; ?>" />
+		<input type="hidden" name="referer" value="<?php echo ampReplace( $_SERVER['HTTP_REFERER'] ); ?>" />
 		<input type="hidden" name="task" value="" />
 		</form>
 		<?php
@@ -1325,6 +1324,7 @@ class HTML_content {
 		global $mosConfig_sitename, $mainframe;
 		
 		$mainframe->setPageTitle( $mosConfig_sitename .' :: '. $title );
+		$mainframe->addCustomHeadTag( '<link rel="stylesheet" href="templates/'. $template .'/css/template_css.css" type="text/css" />' );
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton() {
@@ -1337,9 +1337,8 @@ class HTML_content {
 			return true;
 		}
 		</script>
-
-		<link rel="stylesheet" href="templates/<?php echo $template; ?>/css/template_css.css" type="text/css" />
-		<form action="index2.php?option=com_content&task=emailsend" name="frontendForm" method="post" onSubmit="return submitbutton();">
+		
+		<form action="index2.php?option=com_content&amp;task=emailsend" name="frontendForm" method="post" onSubmit="return submitbutton();">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
 			<td colspan="2">
@@ -1354,7 +1353,7 @@ class HTML_content {
 			<?php echo _EMAIL_FRIEND_ADDR; ?>
 			</td>
 			<td>
-			<input type="text" name="email" class="inputbox" size="25">
+			<input type="text" name="email" class="inputbox" size="25" />
 			</td>
 		</tr>
 		<tr>
@@ -1362,7 +1361,7 @@ class HTML_content {
 			<?php echo _EMAIL_YOUR_NAME; ?>
 			</td>
 			<td>
-			<input type="text" name="yourname" class="inputbox" size="25">
+			<input type="text" name="yourname" class="inputbox" size="25" />
 			</td>
 		</tr>
 		<tr>
@@ -1370,7 +1369,7 @@ class HTML_content {
 			<?php echo _EMAIL_YOUR_MAIL; ?>
 			</td>
 			<td>
-			<input type="text" name="youremail" class="inputbox" size="25">
+			<input type="text" name="youremail" class="inputbox" size="25" />
 			</td>
 		</tr>
 		<tr>
@@ -1378,7 +1377,7 @@ class HTML_content {
 			<?php echo _SUBJECT_PROMPT; ?>
 			</td>
 			<td>
-			<input type="text" name="subject" class="inputbox" maxlength="100" size="40">
+			<input type="text" name="subject" class="inputbox" maxlength="100" size="40" />
 			</td>
 		</tr>
 		<tr>
@@ -1386,14 +1385,15 @@ class HTML_content {
 		</tr>
 		<tr>
 			<td colspan="2">
-			<input type="submit" name="submit" class="button" value="<?php echo _BUTTON_SUBMIT_MAIL; ?>">
-			&nbsp;&nbsp; <input type="button" name="cancel" value="<?php echo _BUTTON_CANCEL; ?>" class="button" onclick="window.close();">
+			<input type="submit" name="submit" class="button" value="<?php echo _BUTTON_SUBMIT_MAIL; ?>" />
+			&nbsp;&nbsp; 
+			<input type="button" name="cancel" value="<?php echo _BUTTON_CANCEL; ?>" class="button" onclick="window.close();" />
 			</td>
 		</tr>
 		</table>
 
-		<input type="hidden" name="id" value="<?php echo $uid; ?>">
-		<input type="hidden" name="<?php echo mosHash( 'validate' );?>" value="1">
+		<input type="hidden" name="id" value="<?php echo $uid; ?>" />
+		<input type="hidden" name="<?php echo mosHash( 'validate' );?>" value="1" />
 		</form>
 		<?php
 	}
@@ -1404,10 +1404,11 @@ class HTML_content {
 	* @param string The current template
 	*/
 	function emailSent( $to, $template='' ) {
-		global $mosConfig_sitename;
+		global $mosConfig_sitename, $mainframe;
+		
+		$mainframe->setPageTitle( $mosConfig_sitename );
+		$mainframe->addCustomHeadTag( '<link rel="stylesheet" href="templates/'. $template .'/css/template_css.css" type="text/css" />' );
 		?>
-		<title><?php echo $mosConfig_sitename; ?></title>
-		<link rel="stylesheet" href="templates/<?php echo $template; ?>/css/template_css.css" type="text/css" />
 		<span class="contentheading"><?php echo _EMAIL_SENT." $to";?></span> <br />
 		<br />
 		<br />
