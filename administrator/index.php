@@ -48,8 +48,8 @@ session_start();
 $mainframe = new mosMainFrame( $database, $option, '..', true );
 $mainframe->initSession( 'php' );
 
-// trigger the onStart events
-$_MAMBOTS->trigger( 'onBeforeStart' );
+// trigger the onAfterStart events
+$_MAMBOTS->trigger( 'onAfterStart' );
 
 $lang = mosGetParam( $_REQUEST, 'lang', $mosConfig_lang );
 
