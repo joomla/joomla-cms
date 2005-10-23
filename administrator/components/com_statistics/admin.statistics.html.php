@@ -41,11 +41,18 @@ class HTML_statistics {
 		</tr>
 		</table>
 		<form action="index2.php" method="post" name="adminForm">
+		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<?php
 		$title = $_LANG->_( 'Browsers' );
 		$tabs->startPane("statsPane");
 		$tabs->startTab( $title, "browsers-page" );
 		?>
+		<table>
+			<tr>
+				<td><a href="index2.php?option=com_statistics&task=reset&op=bod"><?php echo $_LANG->_( 'reset statistics' ); ?></a></td>
+				<td><?php echo mosWarning( $_LANG->_( 'warning loose stats' ) ); ?></td>
+			</tr>
+		</table>
 		<table class="adminlist">
 		<tr>
 			<th  class="rtl_right">&nbsp;<?php echo $_LANG->_( 'Browser' ); ?>&nbsp;<?php echo $sorts['b_agent'];?></th>
@@ -90,6 +97,12 @@ class HTML_statistics {
 		$tabs->endTab();
 		$tabs->startTab( $title, "os-page" );
 		?>
+		<table>
+			<tr>
+				<td><a href="index2.php?option=com_statistics&task=reset&op=bod"><?php echo $_LANG->_( 'reset statistics' ); ?></a></td>
+				<td><?php echo mosWarning( $_LANG->_( 'warning loose stats' ) ); ?></td>
+			</tr>
+		</table>
 		<table class="adminlist">
 		<tr>
 			<th  class="rtl_right">&nbsp;<?php echo $_LANG->_( 'Operating System' ); ?>&nbsp;<?php echo $sorts['o_agent'];?></th>
@@ -134,6 +147,12 @@ class HTML_statistics {
 		$tabs->endTab();
 		$tabs->startTab( $title, "domain-page" );
 		?>
+		<table>
+			<tr>
+				<td><a href="index2.php?option=com_statistics&task=reset&op=bod"><?php echo $_LANG->_( 'reset statistics' ); ?></a></td>
+				<td><?php echo mosWarning( $_LANG->_( 'warning loose stats' ) ); ?></td>
+			</tr>
+		</table>
 		<table class="adminlist">
 		<tr>
 			<th  class="rtl_right">&nbsp;<?php echo $_LANG->_( 'Domain' ); ?>&nbsp;<?php echo $sorts['d_agent'];?></th>
@@ -180,18 +199,25 @@ class HTML_statistics {
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="tab" value="<?php echo $tab;?>" />
 		</form>
+		<script  type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
 		<?php
 	}
 
 	function pageImpressions( &$rows, $pageNav, $option, $task ) {
-		global $_LANG;
+		global $_LANG, $mosConfig_live_site;
 		?>
 		<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminheading">
 		<tr>
 			<th width="100%" class="impressions"><?php echo $_LANG->_( 'Page Impression Statistics' ); ?></th>
 		</tr>
 		</table>
-
+		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
+		<table>
+			<tr>
+				<td><a href="index2.php?option=com_statistics&task=reset&op=pi"><?php echo $_LANG->_( 'reset page impressions' ); ?></a></td>
+				<td><?php echo mosWarning( $_LANG->_( 'warning loose impressions' ) ); ?></td>
+			</tr>
+		</table>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminlist">
 		<tr>
@@ -224,14 +250,16 @@ class HTML_statistics {
 	  	<input type="hidden" name="option" value="<?php echo $option;?>" />
 	  	<input type="hidden" name="task" value="<?php echo $task;?>" />
 		</form>
+		<script type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
 		<?php
 	}
 
 	function showSearches( &$rows, $pageNav, $option, $task ) {
-		global $mainframe;
+		global $mainframe, $mosConfig_live_site;
 		global $_LANG;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
+		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminheading">
 			<tr>
 				<th width="100%" class="searchtext">
@@ -242,7 +270,12 @@ class HTML_statistics {
 				</th>
 			</tr>
 		</table>
-
+		<table>
+			<tr>
+				<td><a href="index2.php?option=com_statistics&task=reset&op=set"><?php echo $_LANG->_( 'reset search text' ); ?></a></td>
+				<td><?php echo mosWarning( $_LANG->_( 'warning loose search text' ) ); ?></td>
+			</tr>
+		</table>
 		<table class="adminlist">
 		<tr>
 			<th style="text-align:right"><?php echo $_LANG->_( 'NUM' ); ?></th>
@@ -272,6 +305,7 @@ class HTML_statistics {
   	<input type="hidden" name="option" value="<?php echo $option;?>" />
   	<input type="hidden" name="task" value="<?php echo $task;?>" />
 	</form>
+	<script  type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
 	<?php
 	}
 }

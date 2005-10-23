@@ -24,6 +24,10 @@ switch ($task) {
 	case 'pageimp':
 		showPageImpressions( $option, $task );
 		break;
+		
+	case 'reset':
+		resetStats ( $option, $task );
+		break;
 
 	default:
 		showSummary( $option, $task );
@@ -201,5 +205,79 @@ function showSearches( $option, $task ) {
 	}
 
 	HTML_statistics::showSearches( $rows, $pageNav, $option, $task );
+}
+
+function resetStats( $option, $task ) {
+		global $database, $mainfraime, $_LANG;
+		
+		$op = mosGetParam( $_REQUEST, 'op', '' );
+		
+		switch ($op) {
+			case 'bod':
+				// get the total number of records
+				$query = "SELECT COUNT( * )"
+				. "\n FROM #__stats_agents"
+				;
+				$database->setQuery( $query );
+				$total = $database->loadResult();
+
+					if ( $total == 0 ) {
+						$msg = $_LANG->_( 'reset statistics failed' );
+						$redirecturl = 'index2.php?option=com_statistics';
+					}
+					else {
+   						$query = "DELETE FROM #__stats_agents";
+						$msg = $_LANG->_( 'reset statistics success' );
+						$redirecturl = 'index2.php?option=com_statistics';
+					}					
+			break;
+			
+			case 'pi':
+				// get the total number of records
+				$query = "SELECT COUNT( * )"
+				. "\n FROM #__content"
+				. "\n WHERE hits != 0"
+				;
+				$database->setQuery( $query );
+				$total = $database->loadResult();
+
+					if ( $total == 0 ) {
+						$msg = $_LANG->_( 'reset statistics failed' );
+						$redirecturl = 'index2.php?option=com_statistics&task=pageimp';
+					}
+					else {
+						$query = "UPDATE #__content"
+						. "\n SET hits = 0"
+						. "\n WHERE hits != 0"
+						;
+						$msg = $_LANG->_( 'reset statistics success' );
+						$redirecturl = 'index2.php?option=com_statistics&task=pageimp';
+					}			
+			break;
+			
+			case 'set':
+				// get the total number of records
+				$query = "SELECT COUNT( * )"
+				. "\n FROM #__core_log_searches"
+				;
+				$database->setQuery( $query );
+				$total = $database->loadResult();
+
+					if ( $total == 0 ) {
+						$msg = $_LANG->_( 'reset statistics failed' );
+						$redirecturl = 'index2.php?option=com_statistics&task=searches';
+					}
+					else {
+   						$query = "DELETE FROM #__core_log_searches";
+						$msg = $_LANG->_( 'reset statistics success' );
+						$redirecturl = 'index2.php?option=com_statistics&task=searches';
+					}			
+			break;
+		}
+		
+		$database->setQuery( $query );
+		$database->query();
+		
+		mosRedirect( $redirecturl, $msg );
 }
 ?>

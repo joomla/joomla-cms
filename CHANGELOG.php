@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Oct-2005 Arno Zijlstra
+ + Added reset statistics functions
+
 23-Oct-2005 Andrew Eddie
  ^ Changed globals.php to emulate off mode (fixes many potential security holes)
 
