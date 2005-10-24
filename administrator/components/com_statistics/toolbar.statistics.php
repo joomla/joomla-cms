@@ -22,6 +22,13 @@ switch ($task) {
 	case "searches":
 		TOOLBAR_statistics::_SEARCHES();
 		break;
-
+		
+	case "pageimp":
+		TOOLBAR_statistics::_PAGEIMP();
+		break;
+		
+	default:
+		TOOLBAR_statistics::_DEFAULT();
+		break;
 }
 ?>

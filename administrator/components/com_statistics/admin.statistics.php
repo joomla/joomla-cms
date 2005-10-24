@@ -25,7 +25,7 @@ switch ($task) {
 		showPageImpressions( $option, $task );
 		break;
 		
-	case 'reset':
+	case 'resetStats':
 		resetStats ( $option, $task );
 		break;
 
