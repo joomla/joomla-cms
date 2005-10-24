@@ -33,6 +33,7 @@ Legend:
 
 23-Oct-2005 Johan Janssens
  # Fixed artf1684 : Media manager broken
+ # Fixed artf1742 : Can't login in front-end, wrong link
 
 23-Oct-2005 Arno Zijlstra
  + Added reset statistics functions

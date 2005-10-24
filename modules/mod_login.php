@@ -14,7 +14,8 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$return = mosGetParam( $_SERVER, 'REQUEST_URI', null );
+$return = mosGetParam( $_SERVER, 'QUERY_STRING', null );
+
 // converts & to &amp; for xtml compliance
 $return = str_replace( '&', '&amp;', $return );
 
@@ -41,7 +42,7 @@ if ( $name ) {
 
 if ( $my->id ) {
 	?>
-	<form action="<?php echo sefRelToAbs( 'index.php?option=logout' ); ?>" method="post" name="login">
+	<form action="index.php" method="post" name="login">
 	<?php
 	if ( $greeting ) {
 		echo _HI;
@@ -54,14 +55,15 @@ if ( $my->id ) {
 	</div>
 
 	<input type="hidden" name="op2" value="logout" />
+	<input type="hidden" name="option" value="logout" />
 	<input type="hidden" name="lang" value="<?php echo $mosConfig_lang; ?>" />
-	<input type="hidden" name="return" value="<?php echo sefRelToAbs( $logout ); ?>" />
+	<input type="hidden" name="return" value="<?php echo sefRelToAbs( 'index.php?'.$logout ); ?>" />
 	<input type="hidden" name="message" value="<?php echo $message_logout; ?>" />
 	</form>
 	<?php
 } else {
 	?>
-	<form action="<?php echo sefRelToAbs( 'index.php' ); ?>" method="post" name="login" >
+	<form action="index.php" method="post" name="login" >
 	<?php
 	echo $pretext;
 	?>
@@ -115,7 +117,7 @@ if ( $my->id ) {
 
 	<input type="hidden" name="op2" value="login" />
 	<input type="hidden" name="lang" value="<?php echo $mosConfig_lang; ?>" />
-	<input type="hidden" name="return" value="<?php echo sefRelToAbs( $login ); ?>" />
+	<input type="hidden" name="return" value="<?php echo sefRelToAbs( 'index.php?'.$login ); ?>" />
 	<input type="hidden" name="message" value="<?php echo $message_login; ?>" />
 	</form>
 	<?php
