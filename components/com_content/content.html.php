@@ -878,7 +878,7 @@ class HTML_content {
 	* @param string The html for the groups select list
 	*/
 	function editContent( &$row, $section, &$lists, &$images, &$access, $myid, $sectionid, $task, $Itemid ) {
-		global $mosConfig_live_site;
+		global $mosConfig_live_site,$mainframe;
 
 		mosMakeHtmlSafe( $row );
 
