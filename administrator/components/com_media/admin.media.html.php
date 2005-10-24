@@ -372,6 +372,7 @@ class HTML_Media {
 
 
 	function imageStyle($listdir) {
+		global $_LANG;
 		?>
 		<script language="javascript" type="text/javascript">
 		function updateDir(){

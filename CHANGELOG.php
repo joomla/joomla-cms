@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Oct-2005 Johan Janssens
+ # Fixed artf1684 : Media manager broken
+
 23-Oct-2005 Arno Zijlstra
  + Added reset statistics functions
 
