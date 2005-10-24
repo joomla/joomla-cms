@@ -1805,8 +1805,6 @@ class mosCategory extends mosDBTable {
 	/** @var string */
 	var $image				= null;
 	/** @var string */
-	var $alttext    		= null;
-	/** @var string */
 	var $section			= null;
 	/** @var int */
 	var $image_position		= null;
@@ -1872,8 +1870,6 @@ class mosSection extends mosDBTable {
 	var $name				= null;
 	/** @var string */
 	var $image				= null;
-	/** @var string */
-	var $alttext    		= null;
 	/** @var string */
 	var $scope				= null;
 	/** @var int */

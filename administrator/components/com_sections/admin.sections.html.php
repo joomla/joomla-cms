@@ -274,7 +274,7 @@ class sections_html {
 					<td>
 					<?php echo $lists['image']; ?>
 					</td>
-					<td rowspan="5" width="50%" align="center" valign="top">&nbsp;&nbsp;&nbsp;
+					<td rowspan="4" width="50%">
 					<?php
 						$path = $mosConfig_live_site . "/images/";
 						if ($row->image != "blank.png") {
@@ -282,14 +282,6 @@ class sections_html {
 						}
 					?>
 					<img src="<?php echo $path;?><?php echo $row->image;?>" name="imagelib" width="80" height="80" border="2" alt="<?php echo $_LANG->_( 'Preview' ); ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td>
-					<?php echo $_LANG->_( 'Alt Text' ); ?>:
-					</td>
-					<td>
-					<input class="text_area" type="text" name="alttext" value="<?php echo $row->alttext; ?>" size="40" maxlength="100" title="<?php echo $_LANG->_( 'A short Alt attribute for image' ); ?>" />
 					</td>
 				</tr>
 				<tr>

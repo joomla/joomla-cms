@@ -11,7 +11,3 @@ INSERT INTO `#__mambots` VALUES (0, 'Joomla SEFURLBot', 'joomla.sefurlbot', 'sys
 # Expand content title lengths
 ALTER TABLE `#__content` CHANGE `title` `title` varchar(255) NOT NULL default '';
 ALTER TABLE `#__content` CHANGE `title_alias` `title_alias` varchar(255) NOT NULL default '';
-
-# Ad a Alt attribute for image
-ALTER TABLE `#__sections` ADD `alttext` varchar(100) NOT NULL default '';
-ALTER TABLE `#__categories` ADD `alttext` varchar(100) NOT NULL default '';

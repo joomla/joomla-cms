@@ -17,16 +17,16 @@ INSERT INTO `#__bannerclient` VALUES (1, 'Open Source Matters', 'Administrator',
 # Dumping data for table `#__categories`
 #
 
-INSERT INTO `#__categories` VALUES (1, 0, 'Latest', 'Latest News', 'taking_notes.jpg', 'alttext', '1', 'left', 'The latest news from the Joomla! Team', 1, 0, '0000-00-00 00:00:00', '', 0, 0, 1, '');
-INSERT INTO `#__categories` VALUES (2, 0, 'Joomla!', 'Joomla!', 'clock.jpg', 'alttext', 'com_weblinks', 'left', 'A selection of links that are all related to the Joomla! Project.', 1, 0, '0000-00-00 00:00:00', NULL, 0, 0, 0, '');
-INSERT INTO `#__categories` VALUES (3, 0, 'Newsflash', 'Newsflash', '', 'alttext', '2', 'left', '', 1, 0, '0000-00-00 00:00:00', '', 0, 0, 0, '');
-INSERT INTO `#__categories` VALUES (4, 0, 'Joomla!', 'Joomla!', '', 'alttext', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 2, 0, 0, '');
-INSERT INTO `#__categories` VALUES (5, 0, 'Business: general', 'Business: general', '', 'alttext', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');
-INSERT INTO `#__categories` VALUES (7, 0, 'Examples', 'Example FAQs', 'key.jpg', 'alttext', '3', 'left', 'Here you will find an example set of FAQs.', 1, 0, '0000-00-00 00:00:00', NULL, 0, 0, 2, '');
-INSERT INTO `#__categories` VALUES (9, 0, 'Finance', 'Finance', '', 'alttext', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 5, 0, 0, '');
-INSERT INTO `#__categories` VALUES (10, 0, 'Linux', 'Linux', '', 'alttext', 'com_newsfeeds', 'left', '<br />\r\n', 1, 0, '0000-00-00 00:00:00', NULL, 6, 0, 0, '');
-INSERT INTO `#__categories` VALUES (11, 0, 'Internet', 'Internet', '', 'alttext', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 7, 0, 0, '');
-INSERT INTO `#__categories` VALUES (12, 0, 'Contacts', 'Contacts', '', 'alttext', 'com_contact_details', 'left', 'Contact Details for this website', 1, 0, '0000-00-00 00:00:00', NULL, 0, 0, 0, '');
+INSERT INTO `#__categories` VALUES (1, 0, 'Latest', 'Latest News', 'taking_notes.jpg', '1', 'left', 'The latest news from the Joomla! Team', 1, 0, '0000-00-00 00:00:00', '', 0, 0, 1, '');
+INSERT INTO `#__categories` VALUES (2, 0, 'Joomla!', 'Joomla!', 'clock.jpg', 'com_weblinks', 'left', 'A selection of links that are all related to the Joomla! Project.', 1, 0, '0000-00-00 00:00:00', NULL, 0, 0, 0, '');
+INSERT INTO `#__categories` VALUES (3, 0, 'Newsflash', 'Newsflash', '', '2', 'left', '', 1, 0, '0000-00-00 00:00:00', '', 0, 0, 0, '');
+INSERT INTO `#__categories` VALUES (4, 0, 'Joomla!', 'Joomla!', '', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 2, 0, 0, '');
+INSERT INTO `#__categories` VALUES (5, 0, 'Business: general', 'Business: general', '', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');
+INSERT INTO `#__categories` VALUES (7, 0, 'Examples', 'Example FAQs', 'key.jpg', '3', 'left', 'Here you will find an example set of FAQs.', 1, 0, '0000-00-00 00:00:00', NULL, 0, 0, 2, '');
+INSERT INTO `#__categories` VALUES (9, 0, 'Finance', 'Finance', '', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 5, 0, 0, '');
+INSERT INTO `#__categories` VALUES (10, 0, 'Linux', 'Linux', '', 'com_newsfeeds', 'left', '<br />\r\n', 1, 0, '0000-00-00 00:00:00', NULL, 6, 0, 0, '');
+INSERT INTO `#__categories` VALUES (11, 0, 'Internet', 'Internet', '', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 7, 0, 0, '');
+INSERT INTO `#__categories` VALUES (12, 0, 'Contacts', 'Contacts', '', 'com_contact_details', 'left', 'Contact Details for this website', 1, 0, '0000-00-00 00:00:00', NULL, 0, 0, 0, '');
 
 
 #
@@ -136,9 +136,9 @@ INSERT INTO `#__poll_menu` VALUES (14, 1);
 # Dumping data for table `#__sections`
 #
 
-INSERT INTO `#__sections` VALUES (1, 'News', 'The News', 'articles.jpg', 'alttext', 'content', 'right', 'Select a news topic from the list below, then select a news article to read.', 1, 0, '0000-00-00 00:00:00', 1, 0, 1, '');
-INSERT INTO `#__sections` VALUES (2, 'Newsflashes', 'Newsflashes', '', 'alttext', 'content', 'left', '', 1, 0, '0000-00-00 00:00:00', 2, 0, 1, '');
-INSERT INTO `#__sections` VALUES (3, 'FAQs', 'Frequently Asked Questions', 'pastarchives.jpg', 'alttext', 'content', 'left', 'From the list below choose one of our FAQs topics, then select an FAQ to read. If you have a question which is not in this section, please contact us.', 1, 0, '0000-00-00 00:00:00', 2, 0, 1, '');
+INSERT INTO `#__sections` VALUES (1, 'News', 'The News', 'articles.jpg', 'content', 'right', 'Select a news topic from the list below, then select a news article to read.', 1, 0, '0000-00-00 00:00:00', 1, 0, 1, '');
+INSERT INTO `#__sections` VALUES (2, 'Newsflashes', 'Newsflashes', '', 'content', 'left', '', 1, 0, '0000-00-00 00:00:00', 2, 0, 1, '');
+INSERT INTO `#__sections` VALUES (3, 'FAQs', 'Frequently Asked Questions', 'pastarchives.jpg', 'content', 'left', 'From the list below choose one of our FAQs topics, then select an FAQ to read. If you have a question which is not in this section, please contact us.', 1, 0, '0000-00-00 00:00:00', 2, 0, 1, '');
 
 
 #

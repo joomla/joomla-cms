@@ -42,9 +42,6 @@ Legend:
 23-Oct-2005 Andrew Eddie
  ^ Changed globals.php to emulate off mode (fixes many potential security holes)
 
-22-Oct-2005 Levis Bisson
- ^ Artifact artf1520 : Alt attribute for image in Section and Categories
-
 22-Oct-2005 Emir Sakic
  + Turned SEF in system bot and added the mambot
  - Removed SEF include
