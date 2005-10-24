@@ -24,8 +24,12 @@ class mosUserParameters extends mosParameters {
 	* @return string The html for the element
 	*/
 	function _form_editor_list( $name, $value, &$node, $control_name ) {
-		global $database;
+		global $database, $my;
 		global $_LANG;
+		
+		if(!($my->gid >= 20) ) {
+			return $_LANG->_('No Access');
+		}
 
 		// compile list of the editors
 		$query = "SELECT element AS value, name AS text"

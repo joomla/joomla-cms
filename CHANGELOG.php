@@ -34,6 +34,7 @@ Legend:
 23-Oct-2005 Johan Janssens
  # Fixed artf1684 : Media manager broken
  # Fixed artf1742 : Can't login in front-end, wrong link
+ ^ Artifact artf1413 : My Settings Page: editor selection option
 
 23-Oct-2005 Arno Zijlstra
  + Added reset statistics functions
