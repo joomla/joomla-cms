@@ -2144,6 +2144,10 @@ class mosUser extends mosDBTable {
 	*/
 	function mosUser( &$database ) {
 		$this->mosDBTable( '#__users', 'id', $database );
+		
+		//initialise
+		$this->id  = 0;
+		$this->gid = 0;
 	}
 
 	/**
@@ -3590,11 +3594,11 @@ class mosTabs {
 	*/
 	function mosTabs( $useCookies, $xhtml=NULL ) {
 		global $mosConfig_live_site, $_LANG, $mainframe;
-		/*if ($_LANG->rtl()) {
+		if ($_LANG->rtl()) {
 			echo "<link id=\"luna-tab-style-sheet\" type=\"text/css\" rel=\"stylesheet\" href=\"" . $mosConfig_live_site. "/includes/js/tabs/tabpane_rtl.css\" />";
 
-		} else { */
-		//}
+		} else {
+		}
 		
 		if ( $xhtml ) {
 			$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="all" href="includes/js/calendar/calendar-mos.css" title="green" />' );	

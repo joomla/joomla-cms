@@ -40,8 +40,7 @@ class mosFactory {
 		$path = $mosConfig_absolute_path . '/language/';
 		$lang = $mosConfig_lang;
 
-		//Jinx : Outcommented for quick backport, fix later
-		/*if ($my && isset( $my->params ) && $userLang = $my->params->get( 'language', $lang )) {
+		if ($my && isset( $my->params ) && $userLang = $my->params->get( 'language', $lang )) {
 
 			// if admin && special lang?
 			if( $mainframe && $mainframe->isAdmin() ) {
@@ -51,7 +50,7 @@ class mosFactory {
 			if( $userLang != '' && $userLang != '0' ) {
 				$lang = $userLang;
 			}
-		}*/
+		}
 
 		// Checks if the session does have different values
 		if ($mainframe) {

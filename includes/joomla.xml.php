@@ -519,6 +519,39 @@ class mosParameters {
 
 		return $txt;
 	}
+	
+	/**
+	* Returns the list of existing frontend languages (independed if used or not!)
+	* @param string The name of the form element
+	* @param string The value of the element
+	* @param object The xml element for the parameter
+	* @param string The control name
+	* @return string The html for the element
+	*/
+	function _form_language_list( $name, $value, &$node, $control_name) {
+		global $_LANG;
+		
+		$languages = mosLanguageFactory::buildLanguageList( 'front', $value );
+		array_unshift( $languages, mosHTML::makeOption( '',  '- ' .$_LANG->_( 'Select Language' ). ' -' ) );
+
+		return mosHTML::selectList( $languages, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value, "param$name" );
+	}
+	/**
+	* Returns the list of existing admin languages
+	* @param string The name of the form element
+	* @param string The value of the element
+	* @param object The xml element for the parameter
+	* @param string The control name
+	* @return string The html for the element
+	*/
+	function _form_admin_language_list( $name, $value, &$node, $control_name) {
+		global $_LANG;
+
+		$languages = mosLanguageFactory::buildLanguageList( 'admin', $value );
+		array_unshift( $languages, mosHTML::makeOption( '0',  '- ' .$_LANG->_( 'Select Language' ). ' -' ) );
+
+		return mosHTML::selectList( $languages, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value, "param$name" );
+	}
 }
 
 /**

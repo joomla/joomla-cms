@@ -209,44 +209,53 @@ function editUser( $uid='0', $option='users' ) {
 		$row->block = 0;
 	}
 
-	// check to ensure only super admins can edit super admin info
-	if ( ( $my->gid < 25 ) && ( $row->gid == 25 ) ) {
-		mosRedirect( 'index2.php?option=com_users', $_LANG->_('ALERTNOTAUTH') );
+	$userObjectID 	= $acl->get_object_id( 'users', $row->id, 'ARO' );
+	$userGroups 	= $acl->get_object_groups( $userObjectID, 'ARO' );
+	$userGroupName 	= strtolower( $acl->get_group_name( $userGroups[0], 'ARO' ) );
+
+	$myObjectID 	= $acl->get_object_id( 'users', $my->id, 'ARO' );
+	$myGroups 		= $acl->get_object_groups( $myObjectID, 'ARO' );
+	$myGroupName 	= strtolower( $acl->get_group_name( $myGroups[0], 'ARO' ) );;
+
+	// ensure user can't add/edit group higher than themselves
+	if ( is_array( $myGroups ) && count( $myGroups ) > 0 ) {
+		$excludeGroups = (array) $acl->get_group_children( $myGroups[0], 'ARO', 'RECURSE' );
+	} else {
+		$excludeGroups = array();
+	}
+	
+	if ( in_array( $userGroups[0], $excludeGroups ) ) {
+		echo 'not auth';
+		mosRedirect( 'index2.php?option=com_users', $_LANG->_('NOT_AUTH') );
 	}
 
-	$my_group = strtolower( $acl->get_group_name( $row->gid, 'ARO' ) );
-	if ( $my_group == 'super administrator' ) {
-		$lists['gid'] = '<input type="hidden" name="gid" value="'. $my->gid .'" /><strong>'. $_LANG->_( 'Super Administrator' ) .'</strong>';
-	} else if ( $my->gid == 24 && $row->gid == 24 ) {
+	//if ( $userGroupName == 'super administrator' ) {
+		// super administrators can't change
+	// 	$lists['gid'] = '<input type="hidden" name="gid" value="'. $my->gid .'" /><strong>'. $_LANG->_( 'Super Administrator' ) .'</strong>';
+	//} else if ( $userGroupName == $myGroupName && $myGroupName == 'administrator' ) {
+	if ( $userGroupName == $myGroupName && $myGroupName == 'administrator' ) {
+		// administrators can't change each other
 		$lists['gid'] = '<input type="hidden" name="gid" value="'. $my->gid .'" /><strong>'. $_LANG->_( 'Administrator' ) .'</strong>';
 	} else {
-		// ensure user can't add group higher than themselves
-		$my_groups = $acl->get_object_groups( 'users', $my->id, 'ARO' );
-		if (is_array( $my_groups ) && count( $my_groups ) > 0) {
-			$ex_groups = $acl->get_group_children( $my_groups[0], 'ARO', 'RECURSE' );
-		} else {
-			$ex_groups = array();
-		}
-
 		$gtree = $acl->get_group_children_tree( null, 'USERS', false );
 
 		// remove users 'above' me
 		$i = 0;
 		while ($i < count( $gtree )) {
-			if (in_array( $gtree[$i]->value, $ex_groups )) {
+			if ( in_array( $gtree[$i]->value, $excludeGroups ) ) {
 				array_splice( $gtree, $i, 1 );
 			} else {
 				$i++;
 			}
 		}
 
-		$lists['gid'] 		= mosHTML::selectList( $gtree, 'gid', 'size="10"', 'value', 'text', $row->gid );
+		$lists['gid'] 	= mosHTML::selectList( $gtree, 'gid', 'size="10"', 'value', 'text', $row->gid );
 	}
 
 	// build the html select list
-	$lists['block'] 		= mosHTML::yesnoRadioList( 'block', 'class="inputbox" size="1"', $row->block );
+	$lists['block'] 	= mosHTML::yesnoRadioList( 'block', 'class="inputbox" size="1"', $row->block );
 	// build the html select list
-	$lists['sendEmail'] 	= mosHTML::yesnoRadioList( 'sendEmail', 'class="inputbox" size="1"', $row->sendEmail );
+	$lists['sendEmail'] = mosHTML::yesnoRadioList( 'sendEmail', 'class="inputbox" size="1"', $row->sendEmail );
 
 	$file 	= $mainframe->getPath( 'com_xml', 'com_users' );
 	$params =& new mosUserParameters( $row->params, $file, 'component' );
@@ -485,47 +494,28 @@ function logoutUser( $cid=null, $option, $task ) {
 	global $database, $my;
 	global $_LANG;
 
+	$cids = $cid;
 	if ( is_array( $cid ) ) {
-		if (count( $cid ) < 1) {
-			mosRedirect( 'index2.php?option='. $option, $_LANG->_( 'Please select a user' ) );
+		if ( count( $cid ) < 1 ) {
+			mosRedirect( 'index2.php?option=com_users', $_LANG->_( 'Please select a user' ) );
 		}
-
-		foreach( $cid as $cidA ) {
-			$temp = new mosUser( $database );
-			$temp->load( $cidA );
-
-			// check to see whether a Administrator is attempting to log out a Super Admin
-			if ( !( $my->gid == 24 && $temp->gid == 25 ) ) {
-				$id[] = $cidA;
-			}
-		}
-		$ids = implode( ',', $id );
-	} else {
-		$temp = new mosUser( $database );
-		$temp->load( $cid );
-
-		// check to see whether a Administrator is attempting to log out a Super Admin
-		if ( $my->gid == 24 && $temp->gid == 25 ) {
-			$alert = $_LANG->_( 'You cannot log out a Super Administrator' );
-			echo "<script> alert('$alert'); window.history.go(-1); </script>\n";
-			exit();
-		}
-		$ids = $cid;
+		$cids = implode( ',', $cid );
 	}
 
 	$query = "DELETE FROM #__session"
-	. "\n WHERE userid IN ( $ids )"
+	. "\n WHERE userid IN ( $cids )"
 	;
 	$database->setQuery( $query );
 	$database->query();
 
+	$msg = $_LANG->_( 'User Sesssion ended' );
 	switch ( $task ) {
-		case 'flogout':
-			mosRedirect( 'index2.php', $database->getErrorMsg() );
+		case 'flogout':			
+			mosRedirect( 'index2.php', $msg );
 			break;
-
+	
 		default:
-			mosRedirect( 'index2.php?option='. $option, $database->getErrorMsg() );
+			mosRedirect( 'index2.php?option=com_users', $msg );
 			break;
 	}
 }
