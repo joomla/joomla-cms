@@ -537,7 +537,7 @@ class HTML_contact {
 	* Writes Contact Info
 	*/
 	function _writeContactContact( &$contact, &$params ) {
-		if ( $contact->email_to || $contact->telephone  || $contact->fax ) {
+		if ( ($contact->email_to && $params->get( 'email' )) || $contact->telephone  || $contact->fax ) {
 			global $mosConfig_live_site;
 			?>
 			<table width="100%" cellpadding="0" cellspacing="0" border="0">
