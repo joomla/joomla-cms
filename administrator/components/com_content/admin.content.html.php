@@ -49,7 +49,7 @@ class HTML_content {
 			}
 			?>
 			</th>
-			<td width="right" valign="top">
+			<td align="right" valign="top" nowrap="nowrap">
 				<?php
 				if ( $all ) {
 					echo $lists['sectionid'];
@@ -60,11 +60,11 @@ class HTML_content {
 			</td>
 		</tr>
 		<tr>
-			<td align="right" nowrap="nowrap">
-			<?php echo $_LANG->_( 'Filter' ); ?>:
-			<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
-			<input type="button" value="<?php echo $_LANG->_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
-			<input type="button" value="<?php echo $_LANG->_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+			<td align="right" valign="top" nowrap="nowrap">
+				<?php echo $_LANG->_( 'Filter' ); ?>:
+				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
+				<input type="button" value="<?php echo $_LANG->_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+				<input type="button" value="<?php echo $_LANG->_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 		</tr>
 		</table>
