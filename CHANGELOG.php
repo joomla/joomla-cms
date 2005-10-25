@@ -33,6 +33,7 @@ Legend:
 
 25-Oct-2005 Emir Sakic
  # Fixed a bug with live_site appended prefix in SEF
+ # $mosConfig_mbf_content missing in mosConfig class
 
 23-Oct-2005 Johan Janssens
  # Fixed artf1684 : Media manager broken
