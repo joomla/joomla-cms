@@ -696,7 +696,7 @@ class mosMainFrame {
 
 		if (intval( $this->_session->userid )) {
 			$user->load($this->_session->userid);
-			$user->params = new mosParameters($this->params);
+			$user->params = new mosParameters($user->params);
 		} 
 
 		return $user;
