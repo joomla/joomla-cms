@@ -163,10 +163,6 @@ function mosShowHead() {
 		<?php
 	}
 
-	if ( isset($mosConfig_sef) && $mosConfig_sef ) {
-		echo "<base href=\"$mosConfig_live_site/\" />\r\n";
-	}
-
 	$mainframe->addMetaTag( 'Content-Type', 'text/html; charset=utf-8' );
 	$mainframe->addMetaTag( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
 	$mainframe->addMetaTag( 'robots', 'index, follow' );
@@ -175,6 +171,10 @@ function mosShowHead() {
 	$mainframe->appendMetaTag( 'keywords', $mosConfig_MetaKeys );
 
 	echo $mainframe->getHead();
+	
+	if ( isset($mosConfig_sef) && $mosConfig_sef ) {
+		echo "<base href=\"$mosConfig_live_site/\" />\r\n";
+	}
 
 	// support for Firefox Live Bookmarks ability for site syndication
 	$query = "SELECT a.id"
