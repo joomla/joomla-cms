@@ -29,6 +29,8 @@ if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
+$listdir = mosGetParam( $_REQUEST, 'listdir', '' );
+
 if (!(isset($listdir))){
 	$listdir='';
 }

@@ -59,6 +59,7 @@ $task		= mosGetParam( $_REQUEST, 'task', '' );
 $act		= strtolower( mosGetParam( $_REQUEST, 'act', '' ) );
 $section	= mosGetParam( $_REQUEST, 'section', '' );
 $no_html	= strtolower( mosGetParam( $_REQUEST, 'no_html', '' ) );
+$mosmsg		= strip_tags( mosGetParam( $_REQUEST, 'mosmsg', '' ) );
 
 if ($option == 'logout') {
 	$mainframe->logout();

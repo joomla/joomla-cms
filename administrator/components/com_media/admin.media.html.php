@@ -266,6 +266,7 @@ class HTML_Media {
 
 		$overlib = $_LANG->_( 'Files' ) .' '. $num_files;
 		$overlib .= '<br /><br />'. $_LANG->_( '*Click to Open*' );
+
 		?>
 		<div style="float:left; padding: 5px">
 			<div class="imgTotal" onMouseOver="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $dir; ?>', BELOW, RIGHT, WIDTH, 150 );" onMouseOut="return nd();">
