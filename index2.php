@@ -17,9 +17,6 @@ define( '_VALID_MOS', 1 );
 include_once( 'globals.php' );
 require_once( 'configuration.php' );
 
-// enables switching to secure https
-require_once( 'includes/joomla.ssl.init.php' );
-
 require_once( 'includes/joomla.php' );
 
 // displays offline/maintanance page or bar
