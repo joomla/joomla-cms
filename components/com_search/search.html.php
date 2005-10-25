@@ -119,13 +119,14 @@ class search_html {
 		<br />
 		<div align="center">
 			<?php
-			echo $pageNav->writePagesCounter();
 
 			$searchphrase = trim( strtolower( mosGetParam( $_REQUEST, 'searchphrase', 'any' ) ) );
 			$ordering = trim( strtolower( mosGetParam( $_REQUEST, 'ordering', 'newest' ) ) );
 
 			$link = $mosConfig_live_site ."/index.php?option=$option&amp;Itemid=$Itemid&amp;searchword=$searchword&amp;searchphrase=$searchphrase&amp;ordering=$ordering";
 			echo $pageNav->getLimitBox( $link );
+			echo "<br />\n";
+			echo $pageNav->writePagesCounter();
 			?>
 		</div>
 		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">

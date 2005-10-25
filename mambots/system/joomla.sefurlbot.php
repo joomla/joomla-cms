@@ -273,10 +273,11 @@ function sefRelToAbs( $string ) {
 			}
 			$string = str_replace( '=', ',', $sefstring );
 		}
-
+		return $GLOBALS['mosConfig_live_site'] . "/" . $string;
+	} else {
+		return $string;
 	}
 
-	return $GLOBALS['mosConfig_live_site'] . "/" . $string;
 }
 
 ?>

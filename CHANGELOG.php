@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Oct-2005 Emir Sakic
+ # Fixed a bug with live_site appended prefix in SEF
+
 23-Oct-2005 Johan Janssens
  # Fixed artf1684 : Media manager broken
  # Fixed artf1742 : Can't login in front-end, wrong link
