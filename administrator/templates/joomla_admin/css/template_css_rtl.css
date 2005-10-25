@@ -15,9 +15,7 @@ html {
 #langdirection {
 	direction: rtl;
 }
-.rtl_right {
-	text-align: right;
-}
+
 #wrapper {
         border: 0px;
         margin: 0px;

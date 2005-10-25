@@ -69,7 +69,7 @@ class HTML_templates {
 		</table>
 		<table class="adminlist">
 		<tr>
-			<th width="5%"><?php echo $_LANG->_( 'Num' ); ?></th>
+			<th width="5%" class="title"><?php echo $_LANG->_( 'Num' ); ?></th>
 			<th width="5%">&nbsp;</th>
 			<th width="25%" class="title">
 			<?php echo $_LANG->_( 'Name' ); ?>
@@ -92,7 +92,7 @@ class HTML_templates {
 				<?php
 			}
 			?>
-			<th width="20%"  class="rtl_right">
+			<th width="20%"  class="title">
 			<?php echo $_LANG->_( 'Author' ); ?>
 			</th>
 			<th width="5%" align="center">
@@ -101,7 +101,7 @@ class HTML_templates {
 			<th width="10%" align="center">
 			<?php echo $_LANG->_( 'Date' ); ?>
 			</th>
-			<th width="20%"  class="rtl_right">
+			<th width="20%"  class="title">
 			<?php echo $_LANG->_( 'Author URL' ); ?>
 			</th>
 		</tr>
@@ -462,10 +462,10 @@ class HTML_templates {
 			<th width="25">
 			<?php echo $_LANG->_( 'NUM' ); ?>
 			</th>
-			<th  class="rtl_right">
+			<th  class="title">
 			<?php echo $_LANG->_( 'Position' ); ?>
 			</th>
-			<th  class="rtl_right">
+			<th  class="title">
 			<?php echo $_LANG->_( 'Description' ); ?>
 			</th>
 			<?php

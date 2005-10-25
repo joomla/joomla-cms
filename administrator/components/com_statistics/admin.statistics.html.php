@@ -48,10 +48,10 @@ class HTML_statistics {
 		?>
 		<table class="adminlist">
 		<tr>
-			<th  class="rtl_right">&nbsp;<?php echo $_LANG->_( 'Browser' ); ?>&nbsp;<?php echo $sorts['b_agent'];?></th>
+			<th class="title">&nbsp;<?php echo $_LANG->_( 'Browser' ); ?>&nbsp;<?php echo $sorts['b_agent'];?></th>
 			<th>&nbsp;</th>
-			<th width="100"  class="rtl_right">% <?php echo $sorts['b_hits'];?></th>
-			<th width="100"  class="rtl_right"><?php echo $_LANG->_( 'NUM' ); ?></th>
+			<th width="100" class="title">% <?php echo $sorts['b_hits'];?></th>
+			<th width="100" class="title"><?php echo $_LANG->_( 'NUM' ); ?></th>
 		</tr>
 		<?php
 		$c = 1;
@@ -62,16 +62,16 @@ class HTML_statistics {
 				$w = $width * $f;
 			?>
 			<tr class="row<?php echo $k;?>">
-				<td width="200"  class="rtl_right">
+				<td width="200">
 					&nbsp;<?php echo $b->agent; ?>&nbsp;
 				</td>
 				<td  width="<?php echo $width+10;?>">
-					<div  class="rtl_right">&nbsp;<img src="<?php echo $mosConfig_live_site; ?>/components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>"></div>
+					<div>&nbsp;<img src="<?php echo $mosConfig_live_site; ?>/components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>"></div>
 				</td>
-				<td  class="rtl_right">
+				<td>
 					<?php printf( "%.2f%%", $f * 100 );?>
 				</td>
-				<td  class="rtl_right">
+				<td>
 					<?php echo $b->hits;?>
 				</td>
 			</tr>
@@ -92,10 +92,10 @@ class HTML_statistics {
 		?>
 		<table class="adminlist">
 		<tr>
-			<th  class="rtl_right">&nbsp;<?php echo $_LANG->_( 'Operating System' ); ?>&nbsp;<?php echo $sorts['o_agent'];?></th>
+			<th class="title">&nbsp;<?php echo $_LANG->_( 'Operating System' ); ?>&nbsp;<?php echo $sorts['o_agent'];?></th>
 			<th>&nbsp;</th>
-			<th width="100"  class="rtl_right">% <?php echo $sorts['o_hits'];?></th>
-			<th width="100"  class="rtl_right"><?php echo $_LANG->_( 'NUM' ); ?></th>
+			<th width="100" class="title">% <?php echo $sorts['o_hits'];?></th>
+			<th width="100" class="title"><?php echo $_LANG->_( 'NUM' ); ?></th>
 		</tr>
 		<?php
 		$c = 1;
@@ -106,16 +106,16 @@ class HTML_statistics {
 				$w = $width * $f;
 				?>
 				<tr class="row<?php echo $k;?>">
-					<td width="200"  class="rtl_right">
+					<td width="200">
 					&nbsp;<?php echo $p->agent; ?>&nbsp;
 					</td>
 					<td  width="<?php echo $width+10;?>">
-					<div  class="rtl_right">&nbsp;<img src="<?php echo $mosConfig_live_site; ?>/components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>"></div>
+					<div>&nbsp;<img src="<?php echo $mosConfig_live_site; ?>/components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>"></div>
 					</td>
-					<td  class="rtl_right">
+					<td>
 					<?php printf( "%.2f%%", $f * 100 );?>
 					</td>
-					<td  class="rtl_right">
+					<td>
 					<?php echo $p->hits;?>
 					</td>
 				</tr>
@@ -136,10 +136,10 @@ class HTML_statistics {
 		?>
 		<table class="adminlist">
 		<tr>
-			<th  class="rtl_right">&nbsp;<?php echo $_LANG->_( 'Domain' ); ?>&nbsp;<?php echo $sorts['d_agent'];?></th>
+			<th class="title">&nbsp;<?php echo $_LANG->_( 'Domain' ); ?>&nbsp;<?php echo $sorts['d_agent'];?></th>
 			<th>&nbsp;</th>
-			<th width="100"  class="rtl_right">% <?php echo $sorts['d_hits'];?></th>
-			<th width="100"  class="rtl_right"><?php echo $_LANG->_( 'NUM' ); ?></th>
+			<th width="100" class="title">% <?php echo $sorts['d_hits'];?></th>
+			<th width="100" class="title"><?php echo $_LANG->_( 'NUM' ); ?></th>
 		</tr>
 		<?php
 		$c = 1;
@@ -150,16 +150,16 @@ class HTML_statistics {
 				$w = $width * $f;
 				?>
 				<tr class="row<?php echo $k;?>">
-					<td width="200"  class="rtl_right">
+					<td width="200">
 						&nbsp;<?php echo $b->agent; ?>&nbsp;
 					</td>
 					<td  width="<?php echo $width+10;?>">
-						<div  class="rtl_right">&nbsp;<img src="<?php echo $mosConfig_live_site; ?>/components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>"></div>
+						<div>&nbsp;<img src="<?php echo $mosConfig_live_site; ?>/components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>"></div>
 					</td>
-					<td  class="rtl_right">
+					<td>
 						<?php printf( "%.2f%%", $f * 100 );?>
 					</td>
-					<td  class="rtl_right">
+					<td>
 						<?php echo $b->hits;?>
 					</td>
 				</tr>
@@ -209,7 +209,7 @@ class HTML_statistics {
 				<td align="right">
 					<?php echo ++$i; ?>
 				</td>
-				<td  class="rtl_right">
+				<td>
 					&nbsp;<?php echo $row->title." (".$row->created.")"; ?>&nbsp;
 				</td>
 				<td align="center">
@@ -260,8 +260,8 @@ class HTML_statistics {
 				<td align="right">
 				<?php echo $i+1+$pageNav->limitstart; ?>
 				</td>
-				<td  class="rtl_right"><?php echo $row->search_term;?></td>
-				<td align="center"><?php echo $row->hits; ?></td>
+				<td><?php echo $row->search_term;?></td>
+				<td><?php echo $row->hits; ?></td>
 				<td align="center"><?php echo $row->returns; ?></td>
 			</tr>
 			<?php

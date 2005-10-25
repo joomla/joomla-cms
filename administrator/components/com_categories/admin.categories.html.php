@@ -99,7 +99,7 @@ class categories_html {
 			<?php
 			if ( $section == 'content') {
 				?>
-				<th width="12%"  class="rtl_right">
+				<th width="12%"  class="title">
 				<?php echo $_LANG->_( 'Section' ); ?>
 				</th>
 				<?php
@@ -183,7 +183,7 @@ class categories_html {
 				<?php
 				if ( $section == 'content' ) {
 					?>
-					<td  class="rtl_right">
+					<td>
 					<a href="<?php echo $row->sect_link; ?>" title="<?php echo $_LANG->_( 'Edit Section' ); ?>">
 					<?php echo $row->section_name; ?>
 					</a>

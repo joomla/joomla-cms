@@ -42,7 +42,7 @@ class HTML_poll {
 			<th width="20">
 			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
-			<th  class="rtl_right">
+			<th  class="title">
 			<?php echo $_LANG->_( 'Poll Title' ); ?>
 			</th>
 			<th width="10%" align="center">

@@ -98,25 +98,25 @@ class HTML_content {
 			<th >
 			<?php echo $_LANG->_( 'Access' ); ?>
 			</th>
-			<th width="2%" class="rtl_right">
+			<th width="2%" class="title">
 			<?php echo $_LANG->_( 'ID' ); ?>
 			</th>
 			<?php
 			if ( $all ) {
 				?>
-				<th  class="rtl_right">
+				<th  class="title">
 				<?php echo $_LANG->_( 'Section' ); ?>
 				</th>
 				<?php
 			}
 			?>
-			<th  class="rtl_right">
+			<th  class="title">
 			<?php echo $_LANG->_( 'Category' ); ?>
 			</th>
-			<th  class="rtl_right">
+			<th  class="title">
 			<?php echo $_LANG->_( 'Author' ); ?>
 			</th>
-			<th align="center" width="10" class="rtl_right">
+			<th align="center" width="10">
 			<?php echo $_LANG->_( 'Date' ); ?>
 			</th>
 		  </tr>
@@ -236,13 +236,13 @@ class HTML_content {
 				<td align="center">
 				<?php echo $access;?>
 				</td>
-				<td  class="rtl_right">
+				<td>
 				<?php echo $row->id; ?>
 				</td>
 				<?php
 				if ( $all ) {
 					?>
-					<td  class="rtl_right">
+					<td>
 					<a href="<?php echo $row->sect_link; ?>" title="<?php echo $_LANG->_( 'Edit Section' ); ?>">
 					<?php echo $row->section_name; ?>
 					</a>
@@ -250,15 +250,15 @@ class HTML_content {
 					<?php
 				}
 				?>
-				<td  class="rtl_right">
+				<td>
 				<a href="<?php echo $row->cat_link; ?>" title="<?php echo $_LANG->_( 'Edit Category' ); ?>">
 				<?php echo $row->name; ?>
 				</a>
 				</td>
-				<td  class="rtl_right">
+				<td>
 				<?php echo $author; ?>
 				</td>
-				<td  class="rtl_right">
+				<td>
 				<?php echo $date; ?>
 				</td>
 			</tr>
@@ -359,10 +359,10 @@ class HTML_content {
 			<th width="1%">
 			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo $_LANG->_( 'Save Order' ); ?>" /></a>
 			</th>
-			<th width="15%"  class="rtl_right">
+			<th width="15%"  class="title">
 			<?php echo $_LANG->_( 'Category' ); ?>
 			</th>
-			<th width="15%"  class="rtl_right">
+			<th width="15%"  class="title">
 			<?php echo $_LANG->_( 'Author' ); ?>
 			</th>
 			<th align="center" width="10">

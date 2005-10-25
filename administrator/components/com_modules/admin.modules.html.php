@@ -94,7 +94,7 @@ class HTML_modules {
 			<th nowrap="nowrap" width="5%">
 			<?php echo $_LANG->_( 'ID' ); ?>
 			</th>
-			<th nowrap="nowrap" width="10%"  class="rtl_right">
+			<th nowrap="nowrap" width="10%"  class="title">
 			<?php echo $_LANG->_( 'Type' ); ?>
 			</th>
 		</tr>
@@ -167,7 +167,7 @@ class HTML_modules {
 				<td align="center">
 				<?php echo $row->id;?>
 				</td>
-				<td  class="rtl_right">
+				<td>
 				<?php echo $row->module ? $row->module : $_LANG->_( 'User' );?>
 				</td>
 			</tr>
