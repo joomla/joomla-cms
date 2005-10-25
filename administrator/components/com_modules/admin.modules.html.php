@@ -38,19 +38,19 @@ class HTML_modules {
 			<th class="modules" rowspan="2"><?php echo $_LANG->_( 'Module Manager' ); ?>
 			 <small><small>[ <?php echo $client == 'admin' ? $_LANG->_( 'Administrator' ) : $_LANG->_( 'Site' );?> ]</small></small>
 			</th>
-			<td width="right">
-			<?php echo $lists['position'];?>
-			</td>
-			<td width="right">
-			<?php echo $lists['type'];?>
+			<td align="right" valign="top" nowrap="nowrap">
+				<?php
+				echo $lists['position'];
+				echo $lists['type'];
+				?>
 			</td>
 		</tr>
 		<tr>
-			<td align="right">
-			<?php echo $_LANG->_( 'Filter' ); ?>:
-			</td>
-			<td>
-			<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
+			<td align="right" valign="top" nowrap="nowrap">
+				<?php echo $_LANG->_( 'Filter' ); ?>:
+				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
+				<input type="button" value="<?php echo $_LANG->_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+				<input type="button" value="<?php echo $_LANG->_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 		</tr>
 		</table>

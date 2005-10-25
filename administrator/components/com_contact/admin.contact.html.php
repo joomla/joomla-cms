@@ -39,7 +39,7 @@ class HTML_contact {
 			<td>
 			<input type="text" name="search" value="<?php echo $search;?>" class="inputbox" onChange="document.adminForm.submit();" />
 			</td>
-			<td width="right">
+			<td align="right">
 			<?php echo $lists['catid'];?>
 			</td>
 		</tr>

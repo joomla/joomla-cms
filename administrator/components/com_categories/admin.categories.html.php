@@ -40,7 +40,7 @@ class categories_html {
 				<th class="categories">
 				<?php echo $_LANG->_( 'Category Manager' ); ?> <small><small>[ <?php echo $_LANG->_( 'Content: All' ); ?> ]</small></small>
 				</th>
-				<td width="right">
+				<td align="right">
 				<?php echo $lists['sectionid'];?>
 				</td>
 				<?php

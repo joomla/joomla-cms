@@ -37,10 +37,10 @@ class HTML_users {
 			<td>
 			<input type="text" name="search" value="<?php echo $search;?>" class="inputbox" onChange="document.adminForm.submit();" />
 			</td>
-			<td width="right">
+			<td align="right">
 			<?php echo $lists['type'];?>
 			</td>
-			<td width="right">
+			<td align="right">
 			<?php echo $lists['logged'];?>
 			</td>
 		</tr>

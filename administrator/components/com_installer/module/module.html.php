@@ -35,7 +35,7 @@ class HTML_module {
 				<td>
 				<?php echo $_LANG->_( 'Filter' ); ?>:
 				</td>
-				<td width="right">
+				<td align="right">
 				<?php echo $lists['filter'];?>
 				</td>
 			</tr>

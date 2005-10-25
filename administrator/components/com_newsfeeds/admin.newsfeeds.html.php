@@ -33,7 +33,7 @@ class HTML_newsfeeds {
 			<th>
 			<?php echo $_LANG->_( 'Newsfeed Manager' ); ?>
 			</th>
-			<td width="right">
+			<td align="right">
 			<?php echo $lists['category'];?>
 			</td>
 		</tr>
