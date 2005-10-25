@@ -35,23 +35,24 @@ class HTML_typedcontent {
 
 		<table class="adminheading">
 		<tr>
-			<th class="edit">
-			<?php echo $_LANG->_( 'Static Content Manager' ); ?>
+			<th class="edit" rowspan="2" nowrap="nowrap">
+				<?php echo $_LANG->_( 'Static Content Manager' ); ?>
 			</th>
-			<td>
-			<?php echo $_LANG->_( 'Filter' ); ?>:&nbsp;
+			<td align="right" nowrap="nowrap">
+				<?php
+				echo $_LANG->_( 'Order' ); ?>:
+				<?php
+				echo $lists['order'];
+				echo $lists['authorid'];
+				?>
 			</td>
-			<td>
-			<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
-			</td>
-			<td>
-			&nbsp;&nbsp;&nbsp;<?php echo $_LANG->_( 'Order' ); ?>:&nbsp;
-			</td>
-			<td>
-			<?php echo $lists['order']; ?>
-			</td>
-			<td width="right">
-			<?php echo $lists['authorid'];?>
+		</tr>
+		<tr>
+			<td align="right" valign="top" nowrap="nowrap">
+				<?php echo $_LANG->_( 'Filter' ); ?>:
+				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
+				<input type="button" value="<?php echo $_LANG->_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+				<input type="button" value="<?php echo $_LANG->_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 		</tr>
 		</table>

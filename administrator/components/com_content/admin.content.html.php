@@ -35,7 +35,7 @@ class HTML_content {
 
 		<table class="adminheading">
 		<tr>
-			<th class="edit" rowspan="2" nowrap>
+			<th class="edit" rowspan="2" nowrap="nowrap">
 			<?php
             echo $_LANG->_( 'Content Items Manager' );
 			if ( $all ) {
