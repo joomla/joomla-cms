@@ -28,7 +28,7 @@ CREATE TABLE `#__banner` (
 # Table structure for table `#__bannerclient`
 #
 
-CREATE TABLE `#__bannerc
+CREATE TABLE `#__bannerclient` (
   `cid` int(11) NOT NULL auto_increment,
   `name` varchar(60) NOT NULL default '',
   `contact` varchar(60) NOT NULL default '',
