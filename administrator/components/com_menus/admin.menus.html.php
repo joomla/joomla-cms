@@ -30,20 +30,20 @@ class HTML_menusections {
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
-			<th class="menus">
-			<?php echo $_LANG->_( 'Menu Manager' ); ?> <small><small>[ <?php echo $menutype;?> ]</small></small>
+			<th class="menus" rowspan="2" nowrap="nowrap">
+				<?php echo $_LANG->_( 'Menu Manager' ); ?> <small><small>[ <?php echo $menutype;?> ]</small></small>
 			</th>
-			<td nowrap="true">
-			<?php echo $_LANG->_( 'Max Levels' ); ?>
+			<td align="right" valign="top" nowrap="nowrap">
+				<?php echo $_LANG->_( 'Max Levels' ); ?>
+				<?php echo $levellist;?>
 			</td>
-			<td>
-			<?php echo $levellist;?>
-			</td>
-			<td>
-			<?php echo $_LANG->_( 'Filter' ); ?>:
-			</td>
-			<td>
-			<input type="text" name="search" value="<?php echo $search;?>" class="inputbox" />
+		</tr>
+		<tr>
+			<td align="right" valign="top" nowrap="nowrap">
+				<?php echo $_LANG->_( 'Filter' ); ?>:
+				<input type="text" name="search" value="<?php echo $search;?>" class="inputbox" />
+				<input type="button" value="<?php echo $_LANG->_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+				<input type="button" value="<?php echo $_LANG->_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 		</tr>
 		<?php
