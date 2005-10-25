@@ -35,24 +35,22 @@ class HTML_content {
 		<table class="adminheading">
 		<tr>
 			<th class="frontpage" rowspan="2">
-			<?php echo $_LANG->_( 'Frontpage Manager' ); ?>
+				<?php echo $_LANG->_( 'Frontpage Manager' ); ?>
 			</th>
-			<td width="right">
-			<?php echo $lists['sectionid'];?>
-			</td>
-			<td width="right">
-			<?php echo $lists['catid'];?>
-			</td>
-			<td width="right">
-			<?php echo $lists['authorid'];?>
+			<td align="right" valign="top" nowrap="nowrap">
+				<?php
+				echo $lists['sectionid'];
+				echo $lists['catid'];
+				echo $lists['authorid'];
+				?>
 			</td>
 		</tr>
 		<tr>
-			<td align="right" colspan="2">
+			<td align="right" valign="top" nowrap="nowrap">
 			<?php echo $_LANG->_( 'Filter' ); ?>:
-			</td>
-			<td>
 			<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
+			<input type="button" value="<?php echo $_LANG->_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+			<input type="button" value="<?php echo $_LANG->_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 		</tr>
 		</table>
