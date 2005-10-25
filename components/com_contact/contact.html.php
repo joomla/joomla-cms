@@ -652,7 +652,7 @@ class HTML_contact {
 				<br />
 				<?php echo $params->get( 'email_description' ) ?>
 				<br /><br />
-				<form action="<?php echo sefRelToAbs( 'index.php?option=com_contact&amp;Itemid='. $contact->id ); ?>" method="post" name="emailForm" target="_top" id="emailForm">
+				<form action="<?php echo sefRelToAbs( 'index.php?option=com_contact&amp;Itemid='. $Itemid ); ?>" method="post" name="emailForm" target="_top" id="emailForm">
 				<div class="contact_email<?php echo $params->get( 'pageclass_sfx' ); ?>">
 					<label for="contact_name">
 						<?php echo(_NAME_PROMPT);?>
