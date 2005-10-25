@@ -38,28 +38,20 @@ class mosFactory {
 
 		$mosConfig_admin_path = $mosConfig_absolute_path .'/administrator';
 		$path = $mosConfig_absolute_path . '/language/';
-		$lang = $mosConfig_lang;
-
-		if ($my && isset( $my->params ) && $userLang = $my->params->get( 'language', $lang )) {
+		
+		$lang = $mainframe->getUserState( 'lang' );
+		
+		if ($lang == '' && $my && isset( $my->params )) {
 
 			// if admin && special lang?
 			if( $mainframe && $mainframe->isAdmin() ) {
-				$userLang = $my->params->get( 'admin_language', $lang );
-			}
-
-			if( $userLang != '' && $userLang != '0' ) {
-				$lang = $userLang;
+				$lang = $my->params->get( 'admin_language', $lang );
 			}
 		}
-
-		// Checks if the session does have different values
-		if ($mainframe) {
-			$lang = $mainframe->getUserState( 'lang', $lang );
-		}
-
+		
 		// loads english language file by default
-		if ($lang == '') {
-			$lang = 'english';
+		if ($lang == '0') {
+			$lang = $mosConfig_lang;
 		}
 
 		// load the site language file (the old way - to be deprecated)

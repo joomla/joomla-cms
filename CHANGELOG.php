@@ -33,6 +33,7 @@ Legend:
 
 25-Oct-2005 Johan Janssens
  # Fixed artf1724 : Back end language is not being selected
+ # Fixed artf1784 : Back end language selected on each user not working
 
 25-Oct-2005 Emir Sakic
  # Fixed a bug with live_site appended prefix in SEF

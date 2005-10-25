@@ -53,7 +53,6 @@ $_MAMBOTS->trigger( 'onAfterStart' );
 
 $lang = mosGetParam( $_REQUEST, 'lang', $mosConfig_lang );
 
-$mosConfig_lang = $lang;
 $_LANG =& mosFactory::getLanguage( $option, true );
 $_LANG->debug( $mosConfig_debug );
 
@@ -68,15 +67,12 @@ if (isset( $_POST['submit'] )) {
 	$database->setQuery( $query );
 	$count = intval( $database->loadResult() );
 
-
 	if ( $count < 1 ) {
 		mosErrorAlert( $_LANG->_( 'errorNoAdmins' ) );
 	}
 
 	if ($mainframe->login()) {
-		if( $lang && $lang != '' ) {
-			$mainframe->setUserState( 'lang', $lang );
-		}
+		$mainframe->setUserState( 'lang', $lang );
 		session_write_close();
 		/** cannot using mosredirect as this stuffs up the cookie in IIS */
 		$handle = isset($handle) ? ('?handle=' . $handle) : '';
