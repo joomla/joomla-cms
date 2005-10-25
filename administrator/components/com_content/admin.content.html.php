@@ -49,28 +49,22 @@ class HTML_content {
 			}
 			?>
 			</th>
-			<?php
-			if ( $all ) {
-				?>
-				<td width="right" rowspan="2" valign="top">
-				<?php echo $lists['sectionid'];?>
-				</td>
+			<td width="right" valign="top">
 				<?php
-			}
-			?>
-			<td width="right" valign="top">
-			<?php echo $lists['catid'];?>
-			</td>
-			<td width="right" valign="top">
-			<?php echo $lists['authorid'];?>
+				if ( $all ) {
+					echo $lists['sectionid'];
+				}
+				echo $lists['catid'];
+				echo $lists['authorid'];
+				?>
 			</td>
 		</tr>
 		<tr>
-			<td align="right">
+			<td align="right" nowrap="nowrap">
 			<?php echo $_LANG->_( 'Filter' ); ?>:
-			</td>
-			<td>
 			<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
+			<input type="button" value="<?php echo $_LANG->_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+			<input type="button" value="<?php echo $_LANG->_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 		</tr>
 		</table>
