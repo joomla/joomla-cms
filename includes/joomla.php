@@ -3590,16 +3590,15 @@ class mosTabs {
 	*/
 	function mosTabs( $useCookies, $xhtml=NULL ) {
 		global $mosConfig_live_site, $_LANG, $mainframe;
-		if ($_LANG->rtl()) {
-			echo "<link id=\"luna-tab-style-sheet\" type=\"text/css\" rel=\"stylesheet\" href=\"" . $mosConfig_live_site. "/includes/js/tabs/tabpane_rtl.css\" />";
-
-		} else {
-		}
 		
 		if ( $xhtml ) {
 			$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="all" href="includes/js/calendar/calendar-mos.css" title="green" />' );	
 		} else {
-			echo "<link id=\"luna-tab-style-sheet\" type=\"text/css\" rel=\"stylesheet\" href=\"" . $mosConfig_live_site. "/includes/js/tabs/tabpane.css\" />";
+			if ($_LANG->rtl()) {
+				echo "<link id=\"luna-tab-style-sheet\" type=\"text/css\" rel=\"stylesheet\" href=\"" . $mosConfig_live_site. "/includes/js/tabs/tabpane_rtl.css\" />";
+			} else {
+				echo "<link id=\"luna-tab-style-sheet\" type=\"text/css\" rel=\"stylesheet\" href=\"" . $mosConfig_live_site. "/includes/js/tabs/tabpane.css\" />";
+			}
 		}		
 
 		echo "<script type=\"text/javascript\" src=\"". $mosConfig_live_site . "/includes/js/tabs/tabpane_mini.js\"></script>";
