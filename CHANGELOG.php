@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Oct-2005 Johan Janssens
+ # Fixed artf1724 : Back end language is not being selected
+
 25-Oct-2005 Emir Sakic
  # Fixed a bug with live_site appended prefix in SEF
  # $mosConfig_mbf_content missing in mosConfig class

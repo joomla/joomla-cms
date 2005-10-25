@@ -388,22 +388,21 @@ class mosMainFrame {
 	* @param string The path of the mos directory
 	*/
 	function mosMainFrame( &$db, $option, $basePath, $isAdmin=false ) {
+		
 		$this->_db =& $db;
 
-		// load the configuration values
 		$this->_setTemplate( $isAdmin );
 		$this->_setAdminPaths( $option, $this->getCfg( 'absolute_path' ) );
-		if (isset( $_SESSION['session_userstate'] )) {
-			$this->_userstate =& $_SESSION['session_userstate'];
-		} else {
-			$this->_userstate = array();
+
+		if (!isset( $_SESSION['session_userstate'] )) {
+			$_SESSION['session_userstate'] = array();
 		}
-		$this->_head = array();
+		$this->_userstate =& $_SESSION['session_userstate'];
+
+		$this->_head 			= array();
 		$this->_head['title'] 	= $GLOBALS['mosConfig_sitename'];
 		$this->_head['meta'] 	= array();
 		$this->_head['custom'] 	= array();
-
-		//set the admin check
 		$this->_isAdmin 		= (boolean) $isAdmin;
 	}
 	/**
