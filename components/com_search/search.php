@@ -124,7 +124,7 @@ function viewSearch() {
 			search_html::message( _NOKEYWORD, $params );
 		} else if ( $restriction ) {
 				// html output
-				search_html::message( 'Search term must be a minimum of 3 characters and a maximum of 20 characters', $params );
+				search_html::message( _SEARCH_MESSAGE, $params );
 		}
 	} else if ( in_array( $searchword, $search_ignore ) ) {
 		// html output
@@ -134,7 +134,7 @@ function viewSearch() {
 
 		if ( $restriction ) {
 			// html output
-			search_html::message( 'Search term must be a minimum of 3 characters and a maximum of 20 characters', $params );
+			search_html::message( _SEARCH_MESSAGE, $params );
 		}
 
 		$searchword_clean = htmlspecialchars( stripslashes( $searchword ) );

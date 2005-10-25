@@ -386,6 +386,7 @@ DEFINE('_SEARCH_OLDEST','Oldest first');
 DEFINE('_SEARCH_POPULAR','Most popular');
 DEFINE('_SEARCH_ALPHABETICAL','Alphabetical');
 DEFINE('_SEARCH_CATEGORY','Section/Category');
+DEFINE('_SEARCH_MESSAGE','Search term must be a minimum of 3 characters and a maximum of 20 characters');
 
 /** templates.php */
 DEFINE('_DATE_FORMAT','l, F d Y');  //Uses PHP's DATE Command Format - Depreciated
