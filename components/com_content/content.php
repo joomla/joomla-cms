@@ -1210,8 +1210,7 @@ function editItem( $uid, $gid, &$access, $sectionid=0, $task, $Itemid ){
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
-		echo"<script>alert('The module [ ".$row->title." ] is currently being edited by another person.'); window.history.go(-1); </script>";
-		exit;
+		mosErrorAlert("The module [ ".$row->title." ] is currently being edited by another person.");
 	}
 
 	if ( $uid ) {
@@ -1562,8 +1561,7 @@ function emailContentSend( $uid ) {
 	$subject = mosGetParam( $_POST, 'subject', $subject_default );
 
 	if ($uid < 1 || !$email || !$youremail || ( is_email( $email ) == false ) || (is_email( $youremail ) == false)) {
-		echo '<script>alert ("' . _EMAIL_ERR_NOINFO . '");window.history.go(-1);</script>';
-		exit(0);
+		mosErrorAlert(_EMAIL_ERR_NOINFO);
 	}
 
 	$query = "SELECT template"

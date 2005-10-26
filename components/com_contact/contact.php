@@ -349,8 +349,7 @@ function sendmail( $con_id, $option ) {
 	$email_copy = mosGetParam( $_POST, 'email_copy', 0 );
 
 	if ( !$email || !$text || ( is_email( $email )==false ) ) {
-		echo "<script>alert (\""._CONTACT_FORM_NC."\"); window.history.go(-1);</script>";
-		exit(0);
+		mosErrorAlert(_CONTACT_FORM_NC);
 	}
 	$prefix = sprintf( _ENQUIRY_TEXT, $mosConfig_live_site );
 	$text 	= $prefix ."\n". $name. ' <'. $email .'>' ."\n\n". stripslashes( $text );

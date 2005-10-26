@@ -212,8 +212,8 @@ function edit( $uid, $option ) {
 		// fail if checked out not by 'me'
 		if ($row->isCheckedOut( $my->id )) {
 			$alert = $_LANG->_( 'The module' ) .' '. $row->title .' '. $_LANG->_( 'DESCBEINGEDITTED' );
-			echo "<script>alert('$alert'); document.location.href='index2.php?option=$option'</script>\n";
-			exit(0);
+			$action = "document.location.href='index2.php?option=$option'";
+			mosErrorAlert( $alert, $action );
 		}
 
 		$row->checkout( $my->id );

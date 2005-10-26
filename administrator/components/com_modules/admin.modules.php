@@ -315,8 +315,7 @@ function editModule( $option, $uid, $client ) {
 	$row->load( $uid );
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
-		echo "<script>alert('". $_LANG->_( 'The module' ) ." ". $row->title ." ". $_LANG->_( 'DESCBEINGEDITTED' ) ."'); document.location.href='index2.php?option=$option'</script>\n";
-		exit(0);
+		mosErrorAlert($_LANG->_( 'The module' ) ." ". $row->title ." ". $_LANG->_( 'DESCBEINGEDITTED' ), "document.location.href='index2.php?option=$option");
 	}
 
 	$row->content = htmlspecialchars( str_replace( '&amp;', '&', $row->content ) );

@@ -220,8 +220,7 @@ function editMambot( $option, $uid, $client ) {
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
-		echo "<script>alert('". $_LANG->_( 'The module' ) ." ". $row->title ." ". $_LANG->_( 'DESCBEINGEDITTED' ) ."'); document.location.href='index2.php?option=$option'</script>\n";
-		exit(0);
+		mosErrorAlert($_LANG->_( 'The module' ) ." ". $row->title ." ". $_LANG->_( 'DESCBEINGEDITTED' ), "document.location.href='index2.php?option=$option'");
 	}
 
 	if ($client == 'admin') {

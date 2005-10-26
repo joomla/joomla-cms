@@ -35,8 +35,9 @@ class newsfeed_category_table_menu {
 
 		// fail if checked out not by 'me'
 		if ($menu->checked_out && $menu->checked_out <> $my->id) {
-			echo "<script>alert('". $_LANG->_( 'The module' ) ." ". $menu->title ." ". $_LANG->_( 'DESCBEINGEDITTED' ) ."'); document.location.href='index2.php?option=$option'</script>\n";
-			exit(0);
+			$alert = $_LANG->_( 'The module' ) .' '. $row->title .' '. $_LANG->_( 'DESCBEINGEDITTED' );
+			$action = "document.location.href='index2.php?option=$option'";
+			mosErrorAlert( $alert, $action );
 		}
 
 		if ( $uid ) {

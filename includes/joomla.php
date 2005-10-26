@@ -2534,9 +2534,9 @@ function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 		case 1:
 		default:
 			echo "<script>alert('$text'); $action</script> \n";
-			echo '<noscript>';
-			mosRedirect( @$_SERVER['HTTP_REFERER'], $text );
-			echo '</noscript>';
+			//echo '<noscript>';
+			//mosRedirect( @$_SERVER['HTTP_REFERER'], $text );
+			//echo '</noscript>';
 			break;
 	}
 
