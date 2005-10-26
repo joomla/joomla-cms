@@ -608,55 +608,55 @@ class mosMainFrame {
 			//trigger the onBeforeStoreUser event
 			$results = $_MAMBOTS->trigger( 'onLoginUser', array( $username, $passwd ) );
 
-			// TODO: Handle multiple authentication checks
-			if ($results[0] > 0) {
+			foreach($results as $result) {
+				if ($result > 0) {
 
-				$user = new mosUser( $database );
-				$user->load( intval( $results[0] ) );
+					$user = new mosUser( $database );
+					$user->load( intval( $result ) );
 
-				// check to see if user is blocked from logging in
-				if ($user->block == 1) {
-					//mosErrorAlert( $_LANG->_( 'LOGIN_BLOCKED' ) );
-					mosErrorAlert( _LOGIN_BLOCKED );
-				}
-				// fudge the group stuff
-				$grp 		= $acl->getAroGroup( $user->id );
-				$row->gid 	= 1;
-
-				if ( $acl->is_group_child_of( $grp->name, 'Registered', 'ARO' ) || $acl->is_group_child_of( $grp->name, 'Public Backend', 'ARO' )) {
-					// fudge Authors, Editors, Publishers and Super Administrators into the Special Group
-					$user->gid = 2;
-				}
-				$user->usertype = $grp->name;
-
-				// access control check
-				$client = $this->_isAdmin ? 'administrator' : 'site';
-				//if ( !$acl->acl_check( 'login', $client, 'users', $user->usertype ) ) {
-				//	return false;
-				//}
-
-				$session =& $this->_session;
-				$session->guest 	= 0;
-				$session->username 	= $user->username;
-				$session->userid 	= intval( $user->id );
-				$session->usertype 	= $user->usertype;
-				$session->gid 		= intval( $user->gid );
-
-				$session->store();
-
-				$user->setLastVisit();
-
-				$remember = trim( mosGetParam( $_POST, 'remember', '' ) );
-				if ($remember == 'yes') {
-					$session->remember( $user->username, $user->password );
-				}
-
-				//mosCache::cleanCache('com_content');
-				mosCache::cleanCache();
-				return true;
-			} else {
-				return false;
+					// check to see if user is blocked from logging in
+					if ($user->block == 1) {
+						//mosErrorAlert( $_LANG->_( 'LOGIN_BLOCKED' ) );
+						mosErrorAlert( _LOGIN_BLOCKED );
+					}
+					// fudge the group stuff
+					$grp 		= $acl->getAroGroup( $user->id );
+					$row->gid 	= 1;
+	
+					if ( $acl->is_group_child_of( $grp->name, 'Registered', 'ARO' ) || $acl->is_group_child_of( $grp->name, 'Public Backend', 'ARO' )) {
+						// fudge Authors, Editors, Publishers and Super Administrators into the Special Group
+						$user->gid = 2;
+					}
+					$user->usertype = $grp->name;
+	
+					// access control check
+					$client = $this->_isAdmin ? 'administrator' : 'site';
+					//if ( !$acl->acl_check( 'login', $client, 'users', $user->usertype ) ) {
+					//	return false;
+					//}
+	
+					$session =& $this->_session;
+					$session->guest 	= 0;
+					$session->username 	= $user->username;
+					$session->userid 	= intval( $user->id );
+					$session->usertype 	= $user->usertype;
+					$session->gid 		= intval( $user->gid );
+	
+					$session->store();
+	
+					$user->setLastVisit();
+	
+					$remember = trim( mosGetParam( $_POST, 'remember', '' ) );
+					if ($remember == 'yes') {
+						$session->remember( $user->username, $user->password );
+					}
+	
+					//mosCache::cleanCache('com_content');
+					mosCache::cleanCache();
+					return true;
+				} 
 			}
+			return false;
 		}
 	}
 
