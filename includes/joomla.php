@@ -384,15 +384,14 @@ class mosMainFrame {
 	/**
 	* Class constructor
 	* @param database A database connection object
-	* @param string The url option
-	* @param string The path of the mos directory
+	* @param string The url option [DEPRECATED]
+	* @param string The path of the mos directory [DEPRECATED]
 	*/
 	function mosMainFrame( &$db, $option, $basePath, $isAdmin=false ) {
 		
 		$this->_db =& $db;
 
 		$this->_setTemplate( $isAdmin );
-		$this->_setAdminPaths( $option, $this->getCfg( 'absolute_path' ) );
 
 		if (!isset( $_SESSION['session_userstate'] )) {
 			$_SESSION['session_userstate'] = array();
@@ -714,33 +713,9 @@ class mosMainFrame {
 	}
 
 	function _setTemplate( $isAdmin=false ) {
-		global $Itemid;
+		global $Itemid,$mosConfig_live_site;
 		$mosConfig_absolute_path = $this->getCfg( 'absolute_path' );
 
-/*
-Unneeded Query
-http://developer.joomla.org/sf/go/artf1710?nav=1
-		// Default template
-		$query = "SELECT template"
-		. "\n FROM #__templates_menu"
-		. "\n WHERE client_id = 0"
-		. "\n AND menuid = 0"
-		;
-		$this->_db->setQuery( $query );
-		$cur_template = $this->_db->loadResult();
-
-		// Assigned template
-		if (isset($Itemid) && $Itemid!="" && $Itemid!=0) {
-			$query = "SELECT template"
-			. "\n FROM #__templates_menu"
-			. "\n WHERE client_id = 0"
-			. "\n AND menuid = $Itemid"
-			. "\n LIMIT 1"
-			;
-			$this->_db->setQuery( $query );
-			$cur_template = $this->_db->loadResult() ? $this->_db->loadResult() : $cur_template;
-		}
-*/
 		if ($isAdmin) {
 			$query = "SELECT template"
 			. "\n FROM #__templates_menu"
@@ -753,6 +728,10 @@ http://developer.joomla.org/sf/go/artf1710?nav=1
 			if (!file_exists( $path )) {
 				$cur_template = 'joomla_admin';
 			}
+			
+			$this->_templatePath 	= mosFS::getNativePath( $mosConfig_absolute_path . '/administrator/templates/' . $cur_template );
+			$this->_templateURL 	= $mosConfig_live_site . '/administrator/templates/' . $cur_template;
+			
 		} else {
 			$assigned = ( !empty( $Itemid ) ? " OR menuid = $Itemid" : '' );
 			
@@ -780,63 +759,37 @@ http://developer.joomla.org/sf/go/artf1710?nav=1
 				}
 			}
 			// TemplateChooser End
+			$this->_templatePath 	= mosFS::getNativePath( $mosConfig_absolute_path . '/templates/' . $cur_template );
+			$this->_templateURL 	= $mosConfig_live_site . '/templates/' . $cur_template;
 		}
 
 		$this->_template = $cur_template;
 	}
 
+	/**
+	 * Gets the name of the current template
+	 * @return string
+	 */
 	function getTemplate() {
 		return $this->_template;
 	}
 
 	/**
-	* Determines the paths for including engine and menu files
-	* @param string The current option used in the url
-	* @param string The base path from which to load the configuration file
-	*/
-	function _setAdminPaths( $option, $basePath='.' ) {
-		$option = strtolower( $option );
-		$this->_path = new stdClass();
+	 * Get the path to the current template
+	 * @return string
+	 * @since 1.1
+	 */
+	function getTemplatePath() {
+		return $this->_templatePath;
+	}
 
-		$prefix = substr( $option, 0, 4 );
-		if ($prefix != 'com_') {
-			// ensure backward compatibility with existing links
-			$name = $option;
-			$option = "com_$option";
-		} else {
-			$name = substr( $option, 4 );
-		}
-		// components
-		if (file_exists( "$basePath/templates/$this->_template/components/$name.html.php" )) {
-			$this->_path->front = "$basePath/components/$option/$name.php";
-			$this->_path->front_html = "$basePath/templates/$this->_template/components/$name.html.php";
-		} else if (file_exists( "$basePath/components/$option/$name.php" )) {
-			$this->_path->front = "$basePath/components/$option/$name.php";
-			$this->_path->front_html = "$basePath/components/$option/$name.html.php";
-		}
-		if (file_exists( "$basePath/administrator/components/$option/admin.$name.php" )) {
-			$this->_path->admin = "$basePath/administrator/components/$option/admin.$name.php";
-			$this->_path->admin_html = "$basePath/administrator/components/$option/admin.$name.html.php";
-		}
-		if (file_exists( "$basePath/administrator/components/$option/toolbar.$name.php" )) {
-			$this->_path->toolbar = "$basePath/administrator/components/$option/toolbar.$name.php";
-			$this->_path->toolbar_html = "$basePath/administrator/components/$option/toolbar.$name.html.php";
-			$this->_path->toolbar_default = "$basePath/administrator/includes/toolbar.html.php";
-		}
-		if (file_exists( "$basePath/components/$option/$name.class.php" )) {
-			$this->_path->class = "$basePath/components/$option/$name.class.php";
-		} else if (file_exists( "$basePath/administrator/components/$option/$name.class.php" )) {
-			$this->_path->class = "$basePath/administrator/components/$option/$name.class.php";
-		} else if (file_exists( "$basePath/includes/$name.php" )) {
-			$this->_path->class = "$basePath/includes/$name.php";
-		}
-		if (file_exists("$basePath/administrator/components/$option/admin.$name.php" )) {
-			$this->_path->admin = "$basePath/administrator/components/$option/admin.$name.php";
-			$this->_path->admin_html = "$basePath/administrator/components/$option/admin.$name.html.php";
-		} else {
-			$this->_path->admin = "$basePath/administrator/components/com_admin/admin.admin.php";
-			$this->_path->admin_html = "$basePath/administrator/components/com_admin/admin.admin.html.php";
-		}
+	/**
+	 * Get the path to the current template
+	 * @return string
+	 * @since 1.1
+	 */
+	function getTemplateURL() {
+		return $this->_templateURL;
 	}
 
 	/**
@@ -866,90 +819,151 @@ http://developer.joomla.org/sf/go/artf1710?nav=1
 	}
 
 	/**
+	 * Tries to find a file in the administrator or site areas
+	 * @param string A file name
+	 * @param int 0 to check site, 1 to check site and admin only, -1 to check admin only
+	 * @since 1.1 
+	 */
+	function _checkPath( $path, $checkAdmin=1 ) {
+		global $mosConfig_absolute_path;
+
+		$file = $mosConfig_absolute_path . $path;
+		if ($checkAdmin > -1 && file_exists( $file )) {
+			return $file;
+		} else if ($checkAdmin != 0) {
+			$file = $mosConfig_absolute_path . '/administrator' . $path;
+			if (file_exists( $file )) {
+				return $file;
+			}
+		}
+
+		return null;
+	}
+	/**
 	* Returns a stored path variable
+	* @return string
 	*
 	*/
-	function getPath( $varname, $option='' ) {
+	function getPath( $varname, $user_option=null ) {
 		global $mosConfig_absolute_path;
-		if ($option) {
-			$temp = $this->_path;
-			$this->_setAdminPaths( $option, $this->getCfg( 'absolute_path' ) );
+
+		if ( !$user_option ) {
+			$user_option = $GLOBALS['option'];
 		}
 		$result = null;
-		if (isset( $this->_path->$varname )) {
+		$name 	= substr( $user_option, 4 );
+		if (isset( $this->_path->$varname ) ) {
 			$result = $this->_path->$varname;
 		} else {
 			switch ($varname) {
-				case 'com_xml':
-					$name = substr( $option, 4 );
-					$path = "$mosConfig_absolute_path/administrator/components/$option/$name.xml";
-					if (file_exists( $path )) {
-						$result = $path;
-					} else {
-						$path = "$mosConfig_absolute_path/components/$option/$name.xml";
-						if (file_exists( $path )) {
-							$result = $path;
-						}
+				case 'front':
+					$result = $this->_checkPath( '/components/'. $user_option .'/'. $name .'.php', 0 );
+					break;
+
+				case 'html':
+				case 'front_html':
+					if ( !( $result = $this->_checkPath( '/templates/'. $this->_template .'/components/'. $name .'.html.php', 0 ) ) ) {
+						$result = $this->_checkPath( '/components/'. $user_option .'/'. $name .'.html.php', 0 );
 					}
+					break;
+
+				case 'toolbar':
+					$result = $this->_checkPath( '/components/'. $user_option .'/toolbar.'. $name .'.php', -1 );
+					break;
+
+				case 'toolbar_html':
+					$result = $this->_checkPath( '/components/'. $user_option .'/toolbar.'. $name .'.html.php', -1 );
+					break;
+
+				case 'toolbar_default':
+				case 'toolbar_front':
+					$result = $this->_checkPath( '/includes/HTML_toolbar.php', 0 );
+					break;
+
+				case 'admin':
+					$path 	= '/components/'. $user_option .'/admin.'. $name .'.php';
+					$result = $this->_checkPath( $path, -1 );
+					break;
+
+				case 'admin_html':
+					$path	= '/components/'. $user_option .'/admin.'. $name .'.html.php';
+					$result = $this->_checkPath( $path, -1 );
+					break;
+
+				case 'class':
+					if ( !( $result = $this->_checkPath( '/components/'. $user_option .'/'. $name .'.class.php' ) ) ) {
+						$result = $this->_checkPath( '/includes/'. $name .'.php' );
+					}
+					break;
+
+				case 'com_xml':
+					$path 	= '/components/'. $user_option .'/'. $name .'.xml';
+					$result = $this->_checkPath( $path, 1 );
 					break;
 
 				case 'mod0_xml':
 					// Site modules
-					if ($option == '') {
-						$path = $mosConfig_absolute_path . "/modules/custom.xml";
+					if ( $user_option == '' ) {
+						$path = '/modules/custom.xml';
 					} else {
-						$path = $mosConfig_absolute_path . "/modules/$option.xml";
+						$path = '/modules/'. $user_option .'.xml';
 					}
-					if (file_exists( $path )) {
-						$result = $path;
-					}
+					$result = $this->_checkPath( $path, 0 );
 					break;
 
 				case 'mod1_xml':
 					// admin modules
-					if ($option == '') {
-						$path = $mosConfig_absolute_path . '/administrator/modules/custom.xml';
+					if ($user_option == '') {
+						$path = '/modules/custom.xml';
 					} else {
-						$path = $mosConfig_absolute_path . "/administrator/modules/$option.xml";
+						$path = '/modules/'. $user_option .'.xml';
 					}
-					if (file_exists( $path )) {
-						$result = $path;
-					}
+					$result = $this->_checkPath( $path, -1 );
 					break;
 
 				case 'bot_xml':
 					// Site mambots
-					$path = $mosConfig_absolute_path . "/mambots/$option.xml";
-					if (file_exists( $path )) {
-						$result = $path;
-					}
+					$path 	= '/mambots/'. $user_option .'.xml';
+					$result = $this->_checkPath( $path, 0 );
 					break;
 
 				case 'menu_xml':
-					$path = $mosConfig_absolute_path . "/administrator/components/com_menus/$option/$option.xml";
-					if (file_exists( $path )) {
-						$result = $path;
-					}
+					$path 	= '/components/com_menus/'. $user_option .'/'. $user_option .'.xml';
+					$result = $this->_checkPath( $path, -1 );
+					break;
+
+				case 'commonmenu_xml':
+					$path 	= '/components/com_menus/menu.common.xml';
+					$result = $this->_checkPath( $path, -1 );
+					break;
+
+				case 'blogmenu_xml':
+					$path 	= '/components/com_menus/menu.content.blog.xml';
+					$result = $this->_checkPath( $path, -1 );
+					break;
+
+				case 'tablemenu_xml':
+					$path 	= '/components/com_menus/menu.content.table.xml';
+					$result = $this->_checkPath( $path, -1 );
 					break;
 
 				case 'installer_html':
-					$path = $mosConfig_absolute_path . "/administrator/components/com_installer/$option/$option.html.php";
-					if (file_exists( $path )) {
-						$result = $path;
-					}
+					$path 	= '/components/com_installer/'. $user_option .'/'. $user_option .'.html.php';
+					$result = $this->_checkPath( $path, -1 );
 					break;
 
 				case 'installer_class':
-					$path = $mosConfig_absolute_path . "/administrator/components/com_installer/$option/$option.class.php";
-					if (file_exists( $path )) {
-						$result = $path;
-					}
+					$path 	= '/components/com_installer/'. $user_option .'/'. $user_option .'.class.php';
+					$result = $this->_checkPath( $path, -1 );
+					break;
+
+				case 'admin_functions':
+					$path 	= '/components/'. $user_option .'/'. $name .'.functions.php';
+					$result = $this->_checkPath( $path, -1 );
 					break;
 			}
 		}
-		if ($option) {
-			$this->_path = $temp;
-		}
+
 		return $result;
 	}
 
