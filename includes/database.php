@@ -68,7 +68,7 @@ class database {
 				exit();
 			}
 		}
-		if (!($this->_resource = @mysql_connect( $host, $user, $pass ))) {
+		if (!($this->_resource = @mysql_connect( $host, $user, $pass, true ))) { // true forces a new connection even if the same username and password
 			$mosSystemError = 2;
 			if ($goOffline) {
 				$basePath = dirname( __FILE__ );
