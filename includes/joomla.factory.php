@@ -50,7 +50,7 @@ class mosFactory {
 		}
 		
 		// loads english language file by default
-		if ($lang == '0') {
+		if ($lang == '0' || $lang == '') {
 			$lang = $mosConfig_lang;
 		}
 
