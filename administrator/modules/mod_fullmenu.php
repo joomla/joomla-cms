@@ -282,7 +282,7 @@ class mosFullAdminMenu {
 	// Messages Sub-Menu
 	if ($canConfig) {
 ?>			_cmSplit,
-  			[null,'Messages',null,null,'Messaging Management',
+  			[null,'<?php echo $_LANG->_( 'Messages' ); ?>',null,null,'Messaging Management',
   				['<img src="../includes/js/ThemeOffice/messaging_inbox.png" />','<?php echo $_LANG->_( 'Inbox' ); ?>','index2.php?option=com_messages',null,'Private Messages'],
   				['<img src="../includes/js/ThemeOffice/messaging_config.png" />','<?php echo $_LANG->_( 'Configuration' ); ?>','index2.php?option=com_messages&task=config&hidemainmenu=1',null,'Configuration']
   			],
