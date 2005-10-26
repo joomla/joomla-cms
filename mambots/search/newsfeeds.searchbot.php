@@ -76,7 +76,7 @@ function botSearchNewsfeedslinks( $text, $phrase='', $ordering='' ) {
 	$query = "SELECT a.name AS title,"
 	. "\n '' AS created,"
 	. "\n a.link AS text,"
-	. "\n CONCAT_WS( ' / ','Newsfeeds', b.title )AS section,"
+	. "\n CONCAT_WS( ' / ','". _SEARCH_NEWSFEEDS ."', b.title )AS section,"
 	. "\n CONCAT( 'index.php?option=com_newsfeeds&task=view&feedid=', a.id ) AS href,"
 	. "\n '1' AS browsernav"
 	. "\n FROM #__newsfeeds AS a"

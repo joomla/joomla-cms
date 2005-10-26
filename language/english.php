@@ -390,6 +390,7 @@ DEFINE('_SEARCH_MESSAGE','Search term must be a minimum of 3 characters and a ma
 DEFINE('_SEARCH_ARCHIVED','Archived');
 DEFINE('_SEARCH_CATBLOG','Category Blog');
 DEFINE('_SEARCH_CATLIST','Category List');
+DEFINE('_SEARCH_NEWSFEEDS','Newsfeeds');
 DEFINE('_SEARCH_SECLIST','Section List');
 DEFINE('_SEARCH_SECBLOG','Section Blog');
 
