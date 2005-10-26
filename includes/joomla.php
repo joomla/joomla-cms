@@ -1404,7 +1404,7 @@ class mosHTML {
             //if no string after hypen - take hypen out
             $splitText = explode( " - ", $t, 2 );
             $t = $splitText[0];
-            if($splitText[1]){ $t .= " - ". $splitText[1]; }
+            if(isset($splitText[1])){ $t .= " - ". $splitText[1]; }
     
 			$extra = '';
 			$extra .= $id ? ' id="' . $arr[$i]->id . '"' : '';
