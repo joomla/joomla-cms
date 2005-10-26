@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Oct-2005 Samuel Moffatt
+ # Fixed user login where only the first user bot would be checked.
+
 26-Oct-2005 Levis Bisson
  # Fixed Artifact artf1713 : Hardcoded text in searchbot
  # Fixed selectlist finishing by an Hypen
