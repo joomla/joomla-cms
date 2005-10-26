@@ -29,3 +29,32 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 	</td>
 </tr>
 </table>
+
+<style type="text/css">
+#notes { text-align: center; margin: auto 0; }
+
+s { color: red; }
+.todo {
+	background-color: #F9F9F9;
+	height: 300px;
+	overflow: auto;
+	color: black;
+	border: 1px solid #999999;
+	padding: 20px;
+	display: block;
+	text-align: left;
+}
+hr { border: 1px dotted black; }
+span.todotitle {
+	font-weight: bold;
+	color: black;
+}
+</style>
+<div id="notes">
+<h2>TESTER NOTES</h2>
+<pre class="todo">
+	<?php
+	readfile( $GLOBALS['mosConfig_absolute_path'].'/TODO.php' );
+	?>
+</pre>
+</div>

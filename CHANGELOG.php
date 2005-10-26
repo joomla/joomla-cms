@@ -31,6 +31,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+-------------------- 1.1.0 Alpha Released [26-Oct-2005] ------------------------
+
 26-Oct-2005 Samuel Moffatt
  # Fixed user login where only the first user bot would be checked.
  # Fixed bug where a new database object with the same username, password and host but different database name would kill Joomla!

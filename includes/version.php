@@ -21,9 +21,9 @@ class joomlaVersion {
 	/** @var int Main Release Level */
 	var $RELEASE 	= '1.1';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'Dev';
+	var $DEV_STATUS = 'Alpha';
 	/** @var int Sub Release Level */
-	var $DEV_LEVEL 	= '1';
+	var $DEV_LEVEL 	= '0';
 	/** @var int build Number */
 	var $BUILD	 	= '$Revision$';
 	/** @var string Codename */
