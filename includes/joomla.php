@@ -1401,7 +1401,11 @@ class mosHTML {
 				$t	 	= $arr[$i]->$text;
 				$id 	= ( isset( $arr[$i]->id ) ? $arr[$i]->id : null );
 			}
-
+            //if no string after hypen - take hypen out
+            $splitText = explode( " - ", $t, 2 );
+            $t = $splitText[0];
+            if($splitText[1]){ $t .= " - ". $splitText[1]; }
+    
 			$extra = '';
 			$extra .= $id ? ' id="' . $arr[$i]->id . '"' : '';
 			if (is_array( $selected )) {

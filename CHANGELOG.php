@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Oct-2005 Levis Bisson
+ # Fixed Artifact artf1713 : Hardcoded text in searchbot
+ # Fixed selectlist finishing by an Hypen
+
 25-Oct-2005 Johan Janssens
  # Fixed artf1724 : Back end language is not being selected
  # Fixed artf1784 : Back end language selected on each user not working
