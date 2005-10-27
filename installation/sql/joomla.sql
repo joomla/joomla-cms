@@ -740,7 +740,6 @@ CREATE TABLE `#__core_acl_aro` (
   `hidden` int(11) NOT NULL default '0',
   PRIMARY KEY  (`aro_id`),
   UNIQUE KEY `section_value_value_aro` (`section_value`(100),`value`(100)),
-  UNIQUE KEY `#__gacl_section_value_value_aro` (`section_value`(100),`value`(100)),
   KEY `hidden_aro` (`hidden`),
   KEY `#__gacl_hidden_aro` (`hidden`)
 ) TYPE=MyISAM;
