@@ -36,6 +36,8 @@ Legend:
  # Fixed artf1820 : Call to undefined function: mosmainbody()
  # Fixed artf1825 : Can't delete uploaded pic from media manager
  # Fixed artf1818 : Error at "Edit Your Details"
+ # Fixed artf1814 : Tab Class wrong?
+ ^ Moved backtemplate head handling into new mosShowHead_Admin();
 
 27-Oct-2005 Robin Muilwijk
  # Fixed artf1824, fatal error in Private messaging, backend

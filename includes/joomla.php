@@ -3605,22 +3605,16 @@ class mosTabs {
 	* Constructor
 	* Includes files needed for displaying tabs and sets cookie options
 	* @param int useCookies, if set to 1 cookie will hold last used tab between page refreshes
+	* @param boolean xhtml [DEPRECATED]
 	*/
 	function mosTabs( $useCookies, $xhtml=NULL ) {
 		global $mosConfig_live_site, $_LANG, $mainframe;
 		
-		if ( $xhtml ) {
-			$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="all" href="includes/js/calendar/calendar-mos.css" title="green" />' );	
-		} else {
-			if ($_LANG->rtl()) {
-				echo "<link id=\"luna-tab-style-sheet\" type=\"text/css\" rel=\"stylesheet\" href=\"" . $mosConfig_live_site. "/includes/js/tabs/tabpane_rtl.css\" />";
-			} else {
-				echo "<link id=\"luna-tab-style-sheet\" type=\"text/css\" rel=\"stylesheet\" href=\"" . $mosConfig_live_site. "/includes/js/tabs/tabpane.css\" />";
-			}
-		}		
-
-		echo "<script type=\"text/javascript\" src=\"". $mosConfig_live_site . "/includes/js/tabs/tabpane_mini.js\"></script>";
+		$css = $_LANG->rtl() ? 'tabpane_rtl.css' : 'tabpane.css';
 		
+		$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="screen, projection" href="'.$mosConfig_live_site.'/includes/js/tabs/'.$css.'" id="luna-tab-style-sheet" />' );		
+		$mainframe->addCustomHeadTag( '<script type="text/javascript" src="'.$mosConfig_live_site.'/includes/js/tabs/tabpane_mini.js"></script>' );		
+
 		$this->useCookies = $useCookies;
 	}
 

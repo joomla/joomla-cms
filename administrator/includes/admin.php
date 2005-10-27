@@ -219,6 +219,57 @@ function mosShowSource( $filename, $withLineNums=false ) {
 	return $txt;
 }
 
+/**
+* Assembles head tags
+*/
+function mosShowHead_Admin() {
+	global $database, $option, $my, $mainframe;
+	global $mosConfig_MetaDesc, $mosConfig_MetaKeys, $mosConfig_live_site, $mosConfig_sef, $mosConfig_absolute_path, $mosConfig_sitename, $mosConfig_favicon, $mosConfig_caching;
+	global $_LANG, $_VERSION, $_MAMBOTS;
+
+	$template 	= $mainframe->getTemplate();
+
+	$mainframe->SetPageTitle( $mosConfig_sitename .' :: '. $_LANG->_( 'Administration' ) .'  [Mambo]' );
+	$mainframe->appendMetaTag( 'description', $mosConfig_MetaDesc );
+	$mainframe->appendMetaTag( 'keywords', $mosConfig_MetaKeys );
+	$mainframe->addMetaTag( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
+	$mainframe->addMetaTag( 'robots', 'noindex, nofollow' );
+
+	echo $mainframe->getHead();
+
+	if ( $my->id ) {
+		?>
+		<script type="text/javascript" src="<?php echo $mosConfig_live_site; ?>/includes/js/JSCookMenu.js"></script>
+		<script type="text/javascript" src="<?php echo $mosConfig_live_site; ?>/includes/js/mambojavascript.js"></script>
+		<script type="text/javascript" src="<?php echo $mosConfig_live_site; ?>/administrator/includes/js/ThemeOffice/theme.js"></script>
+		<?php
+
+		// load editor
+		initEditor();
+	}
+	?>
+	<link type="text/css" rel="stylesheet" href="templates/<?php echo $template; ?>/css/template_css<?php echo $_LANG->rtl() ? '_rtl': ''; ?>.css" />
+	<link type="text/css" rel="stylesheet" href="templates/<?php echo $template; ?>/css/theme<?php echo $_LANG->rtl() ? '_rtl': ''; ?>.css" />
+	<?php
+
+	// favourites icon
+	if ( $mosConfig_favicon ) {
+		$icon = $mosConfig_absolute_path . $mosConfig_favicon;
+
+		// checks to see if file exists
+		if ( !file_exists( $icon ) ) {
+			$icon = $mosConfig_live_site .'/images/favicon.ico';
+		} else {
+			$icon = $mosConfig_live_site . $mosConfig_favicon;
+		}
+
+		// outputs link tag for page
+		?>
+		<link rel="shortcut icon" href="<?php echo $icon;?>" />
+		<?php
+	}
+}
+
 function mosMainBody_Admin() {
 	echo $GLOBALS['_MOS_OPTION']['buffer'];
 }

@@ -24,10 +24,9 @@ $handle = mosGetParam( $_REQUEST, 'handle', NULL );
 $tstart = mosProfiler::getmicrotime();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $_LANG->isoCode();?>" lang="<?php echo $_LANG->isoCode();?>" dir="<?php echo $_LANG->rtl() ? 'rtl' : 'ltr'; ?>">
 <head>
 <title><?php echo $mosConfig_sitename; ?> - <?php echo $_LANG->_( 'Administration' ); ?> [Joomla]</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 @import url(templates/joomla_admin/css/admin_login.css);
 </style>
