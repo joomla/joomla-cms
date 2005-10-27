@@ -31,6 +31,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+-------------------- 1.1.x ? [??-???-2005] ------------------------
+
+27-Oct-2005 Robin Muilwijk
+ # Fixed artf1824, fatal error in Private messaging, backend
+ 
 -------------------- 1.1.0 Alpha Released [26-Oct-2005] ------------------------
 
 26-Oct-2005 Samuel Moffatt
