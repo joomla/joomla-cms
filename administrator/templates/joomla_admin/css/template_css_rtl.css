@@ -467,8 +467,8 @@ div.main {
 #cpanel div.icon a:active  {  color : #808080;  }
 #cpanel div.icon a:visited {  color : #808080;  }
 
-#cpanel div.icon img { margin-top: 13px; }
-#cpanel div.icon p   { margin: 0; }
+#cpanel div.icon img  { margin-top: 13px; }
+#cpanel div.icon span { display: block; padding-top: 3px;}
 
 /* Tooltips */
 a.tooltip, a.tooltip:hover  {
