@@ -500,16 +500,28 @@ class mosFS {
 	 * @return boolean
 	 */
 	function load( $file, $option='' ) {
-		if (substr( $file, 0, 1 ) == '@') {
-			// load a library file
-			$file = mosFS::getLibraryPath( substr( $file, 1 ), $option );
-			if ($file == '') {
-				trigger_error( 'Library ' . $file . ' unknown', E_USER_NOTICE );
-				return false;
-			}
-			$file = mosFS::getNativePath( $file, false );
-		} else {
-			$file = mosFS::getNativePath( MOSFS_ROOT . DIRECTORY_SEPARATOR . $file, false );
+		switch(substr( $file, 0, 1 )) { 
+			case '@':
+				// load a library file
+				$file = mosFS::getLibraryPath( substr( $file, 1 ), $option );
+				if ($file == '') {
+					trigger_error( 'Library ' . $file . ' unknown', E_USER_NOTICE );
+					return false;
+				}
+				$file = mosFS::getNativePath( $file, false );
+				break;
+			case '#':
+				// load a 1.1+ library file
+				$file = mosFS::getLibraryPath2( substr( $file, 1), $option );
+				if($file == '') {
+					trigger_error( 'Library ' . $file . ' unknown', E_USER_NOTICE );
+					return false;
+				}
+				$file = mosFS::getNativePath( $file, false );
+				break;
+			default:
+				$file = mosFS::getNativePath( MOSFS_ROOT . DIRECTORY_SEPARATOR . $file, false );
+				break;
 		}
 		mosFS::check( $file );
 
