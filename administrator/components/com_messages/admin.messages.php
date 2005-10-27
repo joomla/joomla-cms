@@ -103,7 +103,7 @@ function saveConfig( $option ) {
 }
 
 function newMessage( $option, $user, $subject ) {
-	global $database, $mainframe, $my, $acl;
+	global $database, $mainframe, $my, $acl, $_LANG;
 
 	// get available backend user groups
 	$gid 	= $acl->get_group_id( 'Public Backend', 'ARO' );
