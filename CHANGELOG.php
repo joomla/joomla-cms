@@ -31,7 +31,8 @@ Legend:
 - -> Removed
 ! -> Note
 
--------------------- 1.1.x ? [??-???-2005] ------------------------
+27-Oct-2005 Johan Janssens
+ # Fixed  artf1826 : Typo's in language files
 
 27-Oct-2005 Robin Muilwijk
  # Fixed artf1824, fatal error in Private messaging, backend
