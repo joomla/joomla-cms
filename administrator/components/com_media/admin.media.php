@@ -30,10 +30,7 @@ if (!is_array( $cid )) {
 }
 
 $listdir = mosGetParam( $_REQUEST, 'listdir', '' );
-
-if (!(isset($listdir))){
-	$listdir='';
-}
+$dirPath = mosGetParam( $_POST, 'dirpath', '' );
 
 if (is_int(strpos ($listdir, "..")) && $listdir<>'') {
 	mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], $_LANG->_( 'NO HACKING PLEASE' ) );
@@ -53,18 +50,18 @@ switch ($task) {
 			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], $_LANG->_( 'WARNSAFEMODE' ) );
 			}
 		else {
-			create_folder($foldername,$dirPath);
+			create_folder($dirPath);
 		}
 		showMedia($dirPath);
 		break;
 
 	case 'delete':
-		delete_file($delFile,$listdir);
+		delete_file($listdir);
 		showMedia($listdir);
 		break;
 
 	case 'deletefolder':
-		delete_folder($delFolder,$listdir);
+		delete_folder($listdir);
 		showMedia($listdir);
 		break;
 
@@ -84,19 +81,20 @@ switch ($task) {
 
 
 
-function delete_file($delfile, $listdir) {
-	global $mosConfig_absolute_path;
-	global $base;
-
-	$del_image = $mosConfig_absolute_path . $base . $listdir .'/'. $delfile;
+function delete_file($listdir) {
+	global $mosConfig_absolute_path, $base;
+	
+	$delFile = mosGetParam( $_REQUEST, 'delFile', '' );
+	$del_image = $mosConfig_absolute_path . $base . $listdir .'/'. $delFile;
 
 	unlink($del_image);
 }
 
-function create_folder($folder_name,$dirPath) {
-	global $mosConfig_absolute_path;
-	global $base;
+function create_folder($dirPath) {
+	global $mosConfig_absolute_path , $base;
 	global $_LANG;
+	
+	$folder_name = mosGetParam( $_POST, 'foldername', '' );
 
 	if(strlen($folder_name) >0) {
 		if (eregi("[^0-9a-zA-Z_]", $folder_name)) {
@@ -114,10 +112,11 @@ function create_folder($folder_name,$dirPath) {
 	}
 }
 
-function delete_folder($delFolder,$listdir) {
-	global $mosConfig_absolute_path;
-	global $base;
+function delete_folder($listdir) {
+	global $mosConfig_absolute_path, $base;
 	global $_LANG;
+	
+	$delFolder = mosGetParam( $_REQUEST, 'delFolder', '' );
 
 	$del_html 	= $mosConfig_absolute_path. $base .$listdir.$delFolder.'/index.html';
 	$del_folder = $mosConfig_absolute_path. $base .$listdir.$delFolder;
