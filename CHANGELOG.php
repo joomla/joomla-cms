@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Oct-2005 Johan Janssens
+ ^ Changed artf1719 : Don't run initeditor from template
+
 27-Oct-2005 Marko Schmuck
  # Fixed artf1805 : Time Offset problem
 
@@ -45,7 +48,7 @@ Legend:
 
 27-Oct-2005 Robin Muilwijk
  # Fixed artf1824, fatal error in Private messaging, backend
- 
+
 -------------------- 1.1.0 Alpha Released [26-Oct-2005] ------------------------
 
 26-Oct-2005 Samuel Moffatt

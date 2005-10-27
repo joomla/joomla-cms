@@ -6,9 +6,6 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 <head>
 <?php mosShowHead(); ?>
 <?php
-if ( $my->id ) {
-	initEditor();
-}
 $collspan_offset = ( mosCountModules( 'right' ) + mosCountModules( 'user2' ) ) ? 2 : 1;
 //script to determine which div setup for layout to use based on module configuration
 $user1 = 0;

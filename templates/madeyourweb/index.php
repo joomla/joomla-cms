@@ -4,10 +4,6 @@
 <head>
 <?php mosShowHead(); ?>
 <?php
-if ( $my->id ) {
-	initEditor();
-}
-
 if ((mosCountModules( 'user1' )) && (mosCountModules( 'user2' ))) {
 //if both modules are loaded, we need a 50%-layout for them
 	$usera = 'user1';

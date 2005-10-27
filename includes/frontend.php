@@ -163,7 +163,6 @@ function mosShowHead() {
 		<?php
 	}
 
-	$mainframe->addMetaTag( 'Content-Type', 'text/html; charset=utf-8' );
 	$mainframe->addMetaTag( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
 	$mainframe->addMetaTag( 'robots', 'index, follow' );
 
@@ -171,6 +170,9 @@ function mosShowHead() {
 	$mainframe->appendMetaTag( 'keywords', $mosConfig_MetaKeys );
 
 	echo $mainframe->getHead();
+	
+	//load editor
+	initEditor();
 	
 	if ( isset($mosConfig_sef) && $mosConfig_sef ) {
 		echo "<base href=\"$mosConfig_live_site/\" />\r\n";
