@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Oct-2005 Marko Schmuck
+ # Fixed artf1805 : Time Offset problem
+
 27-Oct-2005 Johan Janssens
  # Fixed artf1826 : Typo's in language files
  # Fixed artf1820 : Call to undefined function: mosmainbody()
