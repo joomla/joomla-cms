@@ -296,6 +296,33 @@ class mosFS {
 		}
 		return $file;
 	}
+
+	/**
+	 * Get the path to a predefined library (4.5.3+ method)
+	 * @author Samuel Moffatt (pasamio)
+	 * @param string The name of the library
+	 */
+	function getLibraryPath2( $name ) {
+		global $mainframe,$database;
+		// Aliasing System - Used for forward and backwards compat
+//		$database->setQuery("SELECT path FROM mos_library_aliases WHERE name = $name");
+//		$database->Query();
+//		if($database->getNumRows()) {		
+			// Return the alias
+//			$path = $database->loadResult(); 
+//		} else {
+			// Return the processed path
+			$path = implode(DIRECTORY_SEPARATOR, explode('.',$name)); 
+//		}
+
+		if(is_dir(MOSFS_ROOT . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR . $path)) { 
+			$path .= DIRECTORY_SEPARATOR . 'factory.php';
+		} else {
+			$path .= '.php';
+		}			
+		return MOSFS_ROOT . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR .  $path;
+	}	
+	
 	/**
 	 * Function to strip additional / or \ in a path name
 	 * @param string The path
