@@ -16,7 +16,6 @@ define( '_VALID_MOS', 1 );
 
 include_once( 'globals.php' );
 require_once( 'configuration.php' );
-
 require_once( 'includes/joomla.php' );
 
 // displays offline/maintanance page or bar
@@ -96,6 +95,8 @@ if ($path = $mainframe->getPath( 'front' )) {
 }
 $_MOS_OPTION['buffer'] = ob_get_contents();
 ob_end_clean();
+
+require_once( 'includes/frontend.php' );
 
 initGzip();
 

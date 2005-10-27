@@ -66,8 +66,6 @@ $_MAMBOTS->loadBotGroup( 'system' );
 // trigger the onStart events
 $_MAMBOTS->trigger( 'onBeforeStart' );
 
-require_once( 'includes/frontend.php' );
-
 // retrieve some expected url (or form) arguments
 $option = trim( strtolower( mosGetParam( $_REQUEST, 'option' ) ) );
 $Itemid = intval( mosGetParam( $_REQUEST, 'Itemid', null ) );
@@ -234,6 +232,8 @@ if ($path = $mainframe->getPath( 'front' )) {
 }
 $_MOS_OPTION['buffer'] = ob_get_contents();
 ob_end_clean();
+
+require_once( 'includes/frontend.php' );
 
 initGzip();
 
