@@ -149,6 +149,10 @@ if ($mosConfig_lang=='') {
 }
 include_once( 'language/' . $mosConfig_lang . '.php' );
 
+// loads language depending on the user settings
+$_LANG = mosFactory::getLanguage( $option );
+$_LANG->debug( $mosConfig_debug );
+
 // frontend login & logout controls
 $return = mosGetParam( $_REQUEST, 'return', NULL );
 $message = mosGetParam( $_POST, 'message', 0 );

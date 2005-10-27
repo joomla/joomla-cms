@@ -57,6 +57,10 @@ if ($mosConfig_lang=='') {
 }
 include_once( 'language/' . $mosConfig_lang . '.php' );
 
+// loads language depending on the user settings
+$_LANG = mosFactory::getLanguage( $option );
+$_LANG->debug( $mosConfig_debug );
+
 
 if ($option == 'login') {
 	$mainframe->login();

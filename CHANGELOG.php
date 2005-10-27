@@ -35,6 +35,7 @@ Legend:
  # Fixed artf1826 : Typo's in language files
  # Fixed artf1820 : Call to undefined function: mosmainbody()
  # Fixed artf1825 : Can't delete uploaded pic from media manager
+ # Fixed artf1818 : Error at "Edit Your Details"
 
 27-Oct-2005 Robin Muilwijk
  # Fixed artf1824, fatal error in Private messaging, backend
