@@ -442,18 +442,13 @@ div.main {
 
 /* mod_quickicon */
 
-#cpanel { 
-	text-align: center; 
-	vertical-align: middle; 
-}
+#cpanel {  text-align: center;  vertical-align: middle; }
 
-#cpanel div.icon   { 
-	margin: 3px; 
-}
+#cpanel div.icon   { margin: 3px; }
 #cpanel div.icon a { 
-	display: block; 
-	height: 93px !important;
-	height: 95px; 
+	display: block; float: left;
+	height: 97px !important;
+	height: 100px; 
 	width: 108px !important;
 	width: 110px; 
 	vertical-align: middle; 
@@ -462,25 +457,18 @@ div.main {
 	padding: 2px 5px 1px 5px;
 }
 
-#cpanel div.icon a:link    { 
-	color : #808080; 
-}
+#cpanel div.icon a:link    {  color : #808080;  }
 #cpanel div.icon a:hover   { 
 	color : #333; 
 	background-color: #f1e8e6;  
 	border: 1px solid #c24733;
 	padding: 3px 4px 0px 6px; 
 }
-#cpanel div.icon a:active  { 
-	color : #808080; 
-}
-#cpanel div.icon a:visited { 
-	color : #808080; 
-}
+#cpanel div.icon a:active  {  color : #808080;  }
+#cpanel div.icon a:visited {  color : #808080;  }
 
-#cpanel div.iconimage { 
-	padding-top: 13px; 
-}
+#cpanel div.icon img { margin-top: 13px; }
+#cpanel div.icon p   { margin: 0; }
 
 /* Tooltips */
 a.tooltip, a.tooltip:hover  {

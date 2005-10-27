@@ -38,6 +38,7 @@ Legend:
  # Fixed artf1818 : Error at "Edit Your Details"
  # Fixed artf1814 : Tab Class wrong?
  ^ Moved backtemplate head handling into new mosShowHead_Admin();
+ # Fixed artf1086 : Icons at the control panel fall apart
 
 27-Oct-2005 Robin Muilwijk
  # Fixed artf1824, fatal error in Private messaging, backend
