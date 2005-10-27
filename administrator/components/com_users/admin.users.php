@@ -413,7 +413,7 @@ function cancelUser( $option ) {
 
 function removeUsers( $cid, $option ) {
 	global $database, $acl, $my;
-	global $_LANG;
+	global $_LANG, $_MAMBOTS;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". $_LANG->_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
