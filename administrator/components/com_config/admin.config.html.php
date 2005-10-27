@@ -234,7 +234,7 @@ class HTML_config {
 				<td>
 				<?php echo $lists['offset']; ?>
 				<?php
-				$tip = $_LANG->_( 'Current date/time configured to display' ) .': '. mosCurrentDate( $_LANG->_( 'DATEFORMATLC2' ) );
+				$tip = $_LANG->_( 'Current date/time configured to display' ) .': '. mosCurrentDate( $_LANG->_( '_DATE_FORMAT_LC2' ) );
 				echo mosToolTip( $tip );
 				?>
 				</td>
