@@ -31,6 +31,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Oct-2005 Samuel Moffatt
+ + Library Support Added
+ + Added getUserList() and userExists($username) functions to mosUser
+ ^ LDAP userbot modified (class moved to libraries)
+
+
 28-Oct-2005 Johan Janssens
  ^ Changed artf1719 : Don't run initeditor from template
 
