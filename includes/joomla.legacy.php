@@ -1,8 +1,8 @@
 <?php
 
 /**
-* @version $Id: joomla.legacy.php 700 2005-10-27 22:43:07Z Jinx $
-* @package Joomla
+* @version $Id:  $
+* @package Joomla 
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
