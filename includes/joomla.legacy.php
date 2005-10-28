@@ -1,7 +1,7 @@
 <?php
 
 /**
-* @version $Id: CHANGELOG.php 700 2005-10-27 22:43:07Z Jinx $
+* @version $Id: joomla.legacy.php 700 2005-10-27 22:43:07Z Jinx $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
