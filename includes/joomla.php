@@ -2345,6 +2345,28 @@ class mosUser extends mosDBTable {
 	}
 
 	/**
+	 * Returns if a user exists
+	 * @param string The username to search on
+	 * @return int Number of matching rows (either 0 or 1)
+	 */
+        function userExists($username) {
+                global $database;
+                $database->setQuery("SELECT username FROM #__users WHERE username = '$username' LIMIT 1");
+                $database->Query();
+                return $database->getNumRows();
+        }
+
+	/**
+	 * Returns a complete user list
+	 * @return array
+	 */
+        function getUserList() {
+                global $database;
+                $database->setQuery("SELECT username FROM #__users");
+                return $database->loadAssocList();
+        }
+
+	/**
 	 * Gets the users from a group
 	 * @param string The value for the group (not used 1.0)
 	 * @param string The name for the group
