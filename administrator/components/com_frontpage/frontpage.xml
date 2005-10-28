@@ -31,7 +31,7 @@
 		<param name="intro" type="text" size="3" default="4" label="Num Intro" description="PARAMINTRO" />
 		<param name="columns" type="text" size="3" default="2" label="Columns" description="PARAMCOLUMNS" />
 		<param name="link" type="text" size="3" default="4" label="Num Links" description="Number of Items to display as Links." />
-		<param name="orderby_pri" type="list" default="" label="Category Order" description="Order items by catgeory">
+		<param name="orderby_pri" type="list" default="" label="Category Order" description="Order items by category">
 			<option value="">No, order by Primary Order only</option>
 			<option value="alpha">Title Alphabetical</option>
 			<option value="ralpha">Title Reverse-Alphabetical</option>
