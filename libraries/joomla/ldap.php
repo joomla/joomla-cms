@@ -10,6 +10,8 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+
 class ldapConnector {
 	/** @var string */
 	var $host = null;
