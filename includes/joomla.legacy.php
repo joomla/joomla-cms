@@ -14,5 +14,4 @@
 
 /* _ISO defined not used anymore. All output is forced as utf-8 */
 DEFINE('_ISO','charset=utf-8');
-
 ?>
