@@ -1,7 +1,7 @@
 <?php
 
 /**
-* @version $Id$
+* @version $Id: joomla.factory.php 719 2005-10-28 14:44:21Z Jinx $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -18,6 +18,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 /**
  * The Joomla! Factory class
  * @package Joomla
+ * @since 1.1
  */
 class mosFactory {
 	/**
@@ -34,7 +35,7 @@ class mosFactory {
 		global $mosConfig_absolute_path, $mainframe;
 		global $mosConfig_lang, $my;
 
-		require_once $mosConfig_absolute_path .'/includes/joomla.language.php';
+		require_once $mosConfig_absolute_path .'/libraries/joomla/language.php';
 
 		$mosConfig_admin_path = $mosConfig_absolute_path .'/administrator';
 		$path = $mosConfig_absolute_path . '/language/';

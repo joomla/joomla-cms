@@ -1,7 +1,7 @@
 <?php
 
 /**
-* @version $Id$
+* @version $Id: joomla.language.php 719 2005-10-28 14:44:21Z Jinx $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -19,6 +19,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 * Languages/translation handler class
 * @package Joomla
 * @subpackage Language
+* @since 1.1
 */
 class mosLanguage {
 	/** @var boolean If true, highlights string not found */
@@ -370,6 +371,7 @@ class mosLanguage {
 /**
  * @package Joomla
  * @subpackage Language
+ * @since 1.0
  */
 class mosLanguageFactory {
 	/**

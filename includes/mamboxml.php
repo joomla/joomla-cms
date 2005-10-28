@@ -1,3 +1,3 @@
 <?php // compatibility
-require_once( dirname( __FILE__ ) . '/joomla.xml.php' );
+require_once( $mosConfig_absolute_path . '/libraries/joomla/xml.php' );
 ?>
