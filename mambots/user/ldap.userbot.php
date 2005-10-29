@@ -36,7 +36,7 @@ function botLdapLoginUser( $username, $password ) {
 	$params = $database->loadResult();
 	$mambotParams =& new mosParameters( $params );
 
-	$ldap = new ldapConnector( $mambotParams );
+	$ldap = new JLDAP( $mambotParams );
 	//print_r($ldap);
 	if (!$ldap->connect()) {
 		return 0;
