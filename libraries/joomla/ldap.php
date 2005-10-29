@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: joomla.php 104 2005-09-11 21:20:55Z stingrey $ 
+* @version $Id$ 
 * @package Joomla
 * @subpackage LDAP Connector
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
@@ -12,7 +12,7 @@
 
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 
-class ldapConnector {
+class JLDAP {
 	/** @var string */
 	var $host = null;
 	/** @var int */
@@ -44,7 +44,7 @@ class ldapConnector {
 	 * Constructor
 	 * @param object An object of configuration variables
 	 */
-	function ldapConnector( $configObj=null ) {
+	function JLDAP( $configObj=null ) {
 		if (is_object( $configObj )) {
 			$vars = get_class_vars( get_class( $this ) );
 			foreach (array_keys( $vars ) as $var) {
