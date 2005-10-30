@@ -56,6 +56,8 @@ if (!defined( '_MOS_POLL_MODULE' )) {
 	}
 
 	function poll_vote_form_html( &$poll, &$options, $Itemid ) {
+		global $_LANG;
+		
 		$tabclass_arr = array( 'sectiontableentry2', 'sectiontableentry1' );
 		$tabcnt = 0;
 		?>
@@ -94,8 +96,8 @@ if (!defined( '_MOS_POLL_MODULE' )) {
 			</tr>
 			<tr>
 				<td colspan="2" align="center">
-					<input type="submit" name="task_button" class="button" value="<?php echo _BUTTON_VOTE; ?>" />&nbsp;&nbsp;
-					<input type="button" name="option" class="button" value="<?php echo _BUTTON_RESULTS; ?>" onclick="document.location.href='<?php echo sefRelToAbs("index.php?option=com_poll&amp;task=results&amp;id=$poll->id"); ?>';" />
+					<input type="submit" name="task_button" class="button" value="<?php echo $_LANG->_('Vote'); ?>" />&nbsp;&nbsp;
+					<input type="button" name="option" class="button" value="<?php echo $_LANG->_('Results'); ?>" onclick="document.location.href='<?php echo sefRelToAbs("index.php?option=com_poll&amp;task=results&amp;id=$poll->id"); ?>';" />
 				</td>
 			</tr>
 		</table>

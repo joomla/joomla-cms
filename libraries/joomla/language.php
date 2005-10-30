@@ -146,23 +146,23 @@ class mosLanguage {
 
 	/**
 	 * Loads a single langauge file
-	 * @param string The option
+	 * @param string The prefix
 	 * @param mixed The client id: 0=site, 1=admin, 2=installation
 	 */
-	function load( $option='', $client=0 ) {
+	function load( $prefix='', $client=0 ) {
 		$basePath = mosLanguage::getLanguagePath( $client, $this->_userLang );
 
-		if (empty( $option )) {
+		if (empty( $prefix )) {
 			$filename = $basePath . $this->_userLang . '.ini';
 			if (!file_exists( $filename ) ) {
 				// roll back to default language
 				$filename = $basePath . $this->_defaultLang . '.ini';
 			}
 		} else {
-			$filename = $basePath . $this->_userLang . '.' . $option . '.ini';
+			$filename = $basePath . $this->_userLang . '.' . $prefix . '.ini';
 			if (!file_exists( $filename ) ) {
 				// roll back to default language
-				$filename = $basePath . $this->_defaultLang . '.' . $option . '.ini';
+				$filename = $basePath . $this->_defaultLang . '.' . $prefix . '.ini';
 			}
 		}
 
@@ -371,7 +371,7 @@ class mosLanguage {
 /**
  * @package Joomla
  * @subpackage Language
- * @since 1.0
+ * @since 1.1
  */
 class mosLanguageFactory {
 	/**

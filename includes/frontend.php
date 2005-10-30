@@ -90,7 +90,8 @@ function mosCountModules( $position='left' ) {
 * @param int The style.  0=normal, 1=horiz, -1=no wrapper
 */
 function mosLoadModules( $position='left', $style=0 ) {
-	global $mosConfig_gzip, $mosConfig_absolute_path, $database, $my, $Itemid, $mosConfig_caching;
+	global $mosConfig_gzip, $mosConfig_absolute_path, $mosConfig_caching;
+	global $database, $my, $Itemid, $_LANG;
 
 	$tp = mosGetParam( $_GET, 'tp', 0 );
 	if ($tp) {
@@ -128,6 +129,9 @@ function mosLoadModules( $position='left', $style=0 ) {
 		echo $prepend;
 
 		if ((substr("$module->module",0,4))=="mod_") {
+			
+			$_LANG->load($module->module);
+			
 			if ($params->get('cache') == 1 && $mosConfig_caching == 1) {
 				$cache->call('modules_html::module2', $module, $params, $Itemid, $style );
 			} else {

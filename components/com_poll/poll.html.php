@@ -24,7 +24,7 @@ class poll_html {
 
 
 	function showResults( &$poll, &$votes, $first_vote, $last_vote, $pollist, $params ) {
-		global $mosConfig_live_site;
+		global $mosConfig_live_site, $_LANG;
 		?>
 		<script type = "text/javascript">
 		<!--
@@ -52,7 +52,7 @@ class poll_html {
 				<table class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 				<tr>
 					<td >
-					<?php echo _SEL_POLL; ?>&nbsp;
+					<?php echo $_LANG->_('Select Poll'); ?>&nbsp;
 					</td>
 					<td >
 					<?php echo $pollist; ?>
