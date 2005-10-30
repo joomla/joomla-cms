@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Oct-2005 Levis Bisson
+ + Added the new frontend language files (structure)
+
 28-Oct-2005 Samuel Moffatt
  + Library Support Added
  + Added getUserList() and userExists($username) functions to mosUser
