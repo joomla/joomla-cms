@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Oct-2005 Johan Janssens
+ # Fixed artf1878 : english.com_config.ini missing Berlin
+
 30-Oct-2005 Levis Bisson
  + Added the new frontend language files (structure)
 
@@ -38,7 +41,6 @@ Legend:
  + Library Support Added
  + Added getUserList() and userExists($username) functions to mosUser
  ^ LDAP userbot modified (class moved to libraries)
-
 
 28-Oct-2005 Johan Janssens
  ^ Changed artf1719 : Don't run initeditor from template
