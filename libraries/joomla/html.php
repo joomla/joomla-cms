@@ -709,6 +709,7 @@ class mosCommonHTML {
 		// check if this function is already loaded
 			?>
 			<script language="javascript" type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
+			<script language="javascript" type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_hideform_mini.js"></script>
 			<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 			<?php
 			// change state so it isnt loaded a second time
