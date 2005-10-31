@@ -406,7 +406,7 @@ class database {
 		$array = array();
 		while ($row = mysql_fetch_assoc( $cur )) {
 			if ($key) {
-				$array[$row->$key] = $row;
+				$array[$row[$key]] = $row;
 			} else {
 				$array[] = $row;
 			}
