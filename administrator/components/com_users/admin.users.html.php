@@ -272,7 +272,7 @@ class HTML_users {
 					?>
 					<tr>
 						<td>
-						<?php echo $_LANG->_( 'Receive Submission Emails' ); ?>
+						<?php echo $_LANG->_( 'Receive System Emails' ); ?>
 						</td>
 						<td>
 						<?php echo $lists['sendEmail']; ?>

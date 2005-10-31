@@ -753,22 +753,41 @@ function changeContent( $cid=null, $state=0, $option ) {
 	}
 
 	if ( $state == "-1" ) {
-		$msg = $total ." ". $_LANG->_( 'Item(s) successfully Archived' );
+		$msg = $total .' '. $_LANG->_( 'Item(s) successfully Archived' );
 	} else if ( $state == "1" ) {
-		$msg = $total ." ". $_LANG->_( 'Item(s) successfully Published' );
+		$msg = $total .' '. $_LANG->_( 'Item(s) successfully Published' );
 	} else if ( $state == "0" ) {
-		$msg = $total ." ". $_LANG->_( 'Item(s) successfully Unpublished' );
+		$msg = $total .' '. $_LANG->_( 'Item(s) successfully Unpublished' );
 	}
 
-	$redirect = mosGetParam( $_POST, 'redirect', $row->sectionid );
-	$task = mosGetParam( $_POST, 'returntask', '' );
-	if ( $task ) {
-		$task = '&task='. $task;
+	switch ( $state ) {
+		case -1:				
+			$msg = $total .' '. $_LANG->_( 'Item(s) successfully Archived' );
+			break;
+		
+		case 1:				
+			$msg = $total .' '. $_LANG->_( 'Item(s) successfully Published' );
+			break;
+		
+		case 0:				
+		default:
+			if ( $task == 'unarchive' ) {
+				$msg = $total .' '. $_LANG->_( 'Item(s) successfully Unarchived' );
+			} else {
+				$msg = $total .' '. $_LANG->_( 'Item(s) successfully Unpublished' );
+			}
+			break;
+	}
+	
+	$redirect 	= mosGetParam( $_POST, 'redirect', $row->sectionid );
+	$rtask 		= mosGetParam( $_POST, 'returntask', '' );
+	if ( $rtask ) {
+		$rtask = '&task='. $rtask;
 	} else {
-		$task = '';
+		$rtask = '';
 	}
-
-	mosRedirect( 'index2.php?option='. $option . $task .'&sectionid='. $redirect .'&mosmsg='. $msg );
+	
+	mosRedirect( 'index2.php?option='. $option . $rtask .'&sectionid='. $redirect .'&mosmsg='. $msg );
 }
 
 /**
