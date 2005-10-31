@@ -110,12 +110,12 @@ DEFINE('_NOT_EXIST','The page you are trying to access does not exist.<br />Plea
 DEFINE('_BUTTON_VOTE','Vote');
 DEFINE('_BUTTON_RESULTS','Results');
 DEFINE('_USERNAME','Username');
-DEFINE('_LOST_PASSWORD','Forgotten your password?');
+DEFINE('_LOST_PASSWORD','Lost Password?');
 DEFINE('_PASSWORD','Password');
 DEFINE('_BUTTON_LOGIN','Login');
 DEFINE('_BUTTON_LOGOUT','Logout');
 DEFINE('_NO_ACCOUNT','No account yet?');
-DEFINE('_CREATE_ACCOUNT','Create one');
+DEFINE('_CREATE_ACCOUNT','Register');
 DEFINE('_VOTE_POOR','Poor');
 DEFINE('_VOTE_BEST','Best');
 DEFINE('_USER_RATING','User Rating');

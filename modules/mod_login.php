@@ -41,6 +41,8 @@ if ( $name ) {
 }
 
 if ( $my->id ) {
+// Logout output
+// ie HTML when already logged in and trying to logout
 	?>
 	<form action="index.php" method="post" name="login">
 	<?php
@@ -62,6 +64,8 @@ if ( $my->id ) {
 	</form>
 	<?php
 } else {
+// Login output
+// ie HTML when not logged in and trying to login
 	?>
 	<form action="index.php" method="post" name="login" >
 	<?php
