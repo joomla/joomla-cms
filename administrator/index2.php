@@ -89,10 +89,6 @@ $cur_template = $mainframe->getTemplate();
 // set for overlib check
 $mainframe->set( 'loadOverlib', false );
 
-// precapture the output of the component
-require_once( $mosConfig_absolute_path . '/editor/editor.php' );
-
-
 ob_start();
 if ($path = $mainframe->getPath( 'admin' )) {
 		require_once ( $path );

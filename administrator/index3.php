@@ -101,7 +101,6 @@ header(' Content-Type: text/html; charset=UTF-8');
 
 <?php
 $mainframe->set( 'loadEditor', true );
-include_once( $mosConfig_absolute_path . '/editor/editor.php' );
 initEditor();
 ?>
 </head>

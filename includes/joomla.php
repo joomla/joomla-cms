@@ -70,19 +70,9 @@ $database->debug( $mosConfig_debug );
 /** @global $acl */
 $acl = new gacl_api();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /** @global $_MAMBOTS */
 $_MAMBOTS = new mosMambotHandler();
+
+//TODO : implement mambothandler class as singleton, add getBotHandler to JFactory
+require_once( $mosConfig_absolute_path . '/libraries/joomla/editor.php' );
 ?>

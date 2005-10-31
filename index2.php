@@ -82,9 +82,6 @@ $gid = intval( $my->gid );
 
 $cur_template = $mainframe->getTemplate();
 
-// precapture the output of the component
-require_once( $mosConfig_absolute_path . '/editor/editor.php' );
-
 ob_start();
 if ($path = $mainframe->getPath( 'front' )) {
 	$task 	= mosGetParam( $_REQUEST, 'task', '' );

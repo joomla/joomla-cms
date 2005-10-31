@@ -219,9 +219,6 @@ $cur_template = $mainframe->getTemplate();
 /** @global A places to store information from processing of the component */
 $_MOS_OPTION = array();
 
-// precapture the output of the component
-require_once( $mosConfig_absolute_path . '/editor/editor.php' );
-
 ob_start();
 if ($path = $mainframe->getPath( 'front' )) {
 	$task 	= mosGetParam( $_REQUEST, 'task', '' );

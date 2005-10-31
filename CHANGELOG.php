@@ -33,6 +33,8 @@ Legend:
 
 30-Oct-2005 Johan Janssens
  # Fixed artf1878 : english.com_config.ini missing Berlin
+ ^ Moved editor/editor.php to libraries/joomla/editor.php
+ - Removed editor folder
 
 30-Oct-2005 Levis Bisson
  + Added the new frontend language files (structure)
