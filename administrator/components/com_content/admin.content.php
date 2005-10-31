@@ -457,10 +457,10 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 		$and = "\n AND componentid = $row->id";
 		$menus = mosAdminMenus::Links2Menu( 'content_item_link', $and );
 	} else {
-		if ( !$sectionid && $_POST['filter_sectionid'] ) {
+		if ( !$sectionid && @$_POST['filter_sectionid'] ) {
 			$sectionid = $_POST['filter_sectionid'];
 		}
-		if ( $_POST['catid'] ) {
+		if ( @$_POST['catid'] ) {
 			$row->catid 	= $_POST['catid'];
 			$category = new mosCategory( $database );
 			$category->load( $_POST['catid'] );
