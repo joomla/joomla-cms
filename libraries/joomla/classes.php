@@ -970,7 +970,12 @@ class mosMainFrame {
 				$agent = getenv( "HTTP_USER_AGENT" );
 				$domain = gethostbyaddr( getenv( "REMOTE_ADDR" ) );
 			} else {
-				$agent = $_SERVER['HTTP_USER_AGENT'];
+				if ( isset($_SERVER['HTTP_USER_AGENT']) ) {
+					$agent = $_SERVER['HTTP_USER_AGENT'];
+				} else {
+					$agent = 'Unknown';
+				}
+				
 				$domain = gethostbyaddr( $_SERVER['REMOTE_ADDR'] );
 			}
 
