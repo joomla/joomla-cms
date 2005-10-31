@@ -34,6 +34,7 @@ Legend:
 31-Oct-2005 Johan Janssens 
  # Fixed : artf1883 : DESCMENUGROUP twice in english.com_menus.ini
  # Fixed : artf1891 : When trying to register a new user get Fatal error.
+ # Fixed artf1277 : News Feed Display Bad Accent character
 
 31-Oct-2005 Rey Gigataras
  # Fixed artf1666 : Notice: on component installation

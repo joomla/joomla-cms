@@ -271,7 +271,7 @@ class HTML_newsfeed {
 				<tr>
 					<td class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
 					<a href="<?php echo ampReplace( $currChannel->getLink() ); ?>" target="_blank">
-					<?php echo $currChannel->getTitle(); ?>
+					<?php echo str_replace('&apos;', "'", $currChannel->getTitle()); ?>
 					</a>
 					</td>
 				</tr>
@@ -281,7 +281,7 @@ class HTML_newsfeed {
 					?>
 					<tr>
 						<td>
-						<?php echo $currChannel->getDescription(); ?>
+						<?php echo str_replace('&apos;', "'", $currChannel->getDescription()); ?>
 						<br /><br />
 						</td>
 					</tr>
@@ -314,12 +314,13 @@ class HTML_newsfeed {
 						?>
 							<li>
 							<a href="<?php echo ampReplace( $currItem->getLink() ); ?>" target="_blank">
-							<?php echo $currItem->getTitle(); ?>
+							<?php echo str_replace('&apos;', "'", $currItem->getTitle()); ?>
 							</a>
 							<?php
 							// item description
 							if ( $params->get( 'item_descr' ) ) {
-								$text 	= html_entity_decode( $currItem->getDescription() );
+								$text   = $currItem->getDescription();
+								$text   = str_replace('&apos;', "'", $text);
 								$num 	= $params->get( 'word_count' );
 
 								// word limit check
