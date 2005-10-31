@@ -1099,8 +1099,6 @@ function copyItemSave( $cid, $sectionid, $option ) {
 		$row->modified_by 		= $item[0]->modified_by;
 		$row->checked_out 		= $item[0]->checked_out;
 		$row->checked_out_time 	= $item[0]->checked_out_time;
-		$row->frontpage_up 		= $item[0]->frontpage_up;
-		$row->frontpage_down 	= $item[0]->frontpage_down;
 		$row->publish_up 		= $item[0]->publish_up;
 		$row->publish_down 		= $item[0]->publish_down;
 		$row->images 			= $item[0]->images;
