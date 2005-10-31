@@ -214,23 +214,17 @@ class HTML_banners {
 			<?php echo $_LANG->_( 'Impressions Purchased' ); ?>:
 			</td>
 			<?php
-			if ($_row->imptotal == "0") {
-				$unlimited="checked";
-				$_row->imptotal="";
+			if ($_row->imptotal == 0) {
+				$unlimited = 'checked';
+				$_row->imptotal = '';
 			} else {
-				$unlimited = "";
+				$unlimited = '';
 			}
 			?>
 			<td>
-			<input class="inputbox" type="text" name="imptotal" size="12" maxlength="11" value="<?php echo $_row->imptotal;?>">&nbsp;<?php echo $_LANG->_( 'Unlimited' ); ?> <input type="checkbox" name="unlimited" <?php echo $unlimited;?>>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top">
-			<?php echo $_LANG->_( 'Banner URL' ); ?>:
-			</td>
-			<td >
-			<?php echo $lists['imageurl']; ?>
+			<input class="inputbox" type="text" name="imptotal" size="12" maxlength="11" value="<?php echo $_row->imptotal;?>">
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<?php echo $_LANG->_( 'Unlimited' ); ?> <input type="checkbox" name="unlimited" <?php echo $unlimited;?>>
 			</td>
 		</tr>
 		<tr>
@@ -246,7 +240,17 @@ class HTML_banners {
 			<?php echo $_LANG->_( 'Click URL' ); ?>:
 			</td>
 			<td>
-			<input class="inputbox" type="text" name="clickurl" size="50" maxlength="200" value="<?php echo $_row->clickurl;?>">
+			<input class="inputbox" type="text" name="clickurl" size="100" maxlength="200" value="<?php echo $_row->clickurl;?>">
+			</td>
+		</tr>
+		<tr >
+			<td valign="top" align="right">
+			<?php echo $_LANG->_( 'Clicks' ); ?>
+ 			</td>
+			<td colspan="2">
+			<?php echo $_row->clicks;?>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<input name="reset_hits" type="button" class="button" value="<?php echo $_LANG->_( 'Reset Clicks' ); ?>" onClick="submitbutton('resethits');">
 			</td>
 		</tr>
 		<tr>
@@ -257,18 +261,16 @@ class HTML_banners {
 			<textarea class="inputbox" cols="70" rows="5" name="custombannercode"><?php echo $_row->custombannercode;?></textarea>
 			</td>
 		</tr>
-		<tr >
-			<td valign="top" align="right">
-			<?php echo $_LANG->_( 'Clicks' ); ?>
-           <br />
-			<input name="reset_hits" type="button" class="button" value="<?php echo $_LANG->_( 'Reset Clicks' ); ?>" onClick="submitbutton('resethits');">
-			</td>
-			<td colspan="2">
-			<?php echo $_row->clicks;?>
+		<tr>
+			<td colspan="3">
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3">
+			<td valign="top">
+			<?php echo $_LANG->_( 'Banner Image Selector' ); ?>:
+			</td>
+			<td >
+			<?php echo $lists['imageurl']; ?>
 			</td>
 		</tr>
 		<tr>
