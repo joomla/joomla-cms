@@ -995,11 +995,18 @@ class mosAdminMenus {
 
 		// get a list of the menu items
 		$query = "SELECT m.*"
-		. "\n FROM #__menu m"
-		. "\n WHERE type != 'url'"
-		. "\n AND type != 'separator'"
-		. "\n AND published = 1"
-		. "\n ORDER BY menutype, parent, ordering"
+		. "\n FROM #__menu AS m"
+//		. "\n WHERE type != 'url'"
+//		. "\n AND type != 'separator'"
+// Change adds Itemid support for Link - Urls without `index.php` or `Itemid=` in their url
+		. "\n WHERE m.type != 'separator'"
+		. "\n AND NOT ("
+			. "\n ( m.type = 'url' )" 
+			. "\n AND ( m.link LIKE '%index.php%' )"
+			. "\n AND ( m.link LIKE '%Itemid=%' )"
+		. "\n )"
+		. "\n AND m.published = 1"
+		. "\n ORDER BY m.menutype, m.parent, m.ordering"
 		;
 		$database->setQuery( $query );
 		$mitems = $database->loadObjectList();
