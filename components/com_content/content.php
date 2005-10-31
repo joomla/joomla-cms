@@ -1579,7 +1579,7 @@ function emailContentSend( $uid ) {
 	$msg = sprintf( _EMAIL_MSG, $mosConfig_sitename, $yourname, $youremail, $link );
 
 	// mail function
-	mosMail( $mosConfig_mailfrom, $mosConfig_fromname, $email, $subject, $msg );
+	mosMail( $youremail, $yourname, $email, $subject, $msg );
 
 	HTML_content::emailSent( $email, $template );
 }
