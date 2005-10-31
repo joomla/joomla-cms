@@ -31,6 +31,30 @@ Legend:
 - -> Removed
 ! -> Note
 
+31-Oct-2005 Johan Janssens 
+ # Fixed : artf1883 : DESCMENUGROUP twice in english.com_menus.ini
+
+31-Oct-2005 Rey Gigataras
+ # Fixed artf1666 : Notice: on component installation
+ # Fixed artf1573 : Manage Banners | Error in Field Name
+ # Fixed artf1597 : Small bug in loadAssocList function in database.php
+ # Fixed artf1832 : Logout problem
+ # Fixed artf1769 : Undefined index: 2 in includes/joomla.php on line 2721
+ # Fixed artf1749 : Email-to-friend is NOT actually from friend
+ # Fixed artf1591 : page is expired at installation
+ # Fixed artf1851 : 1.0.2 copy content has error
+ # Fixed artf1569 : Display of mouseover in IE gives a problem with a dropdown-box
+ # Fixed artf1869 : Poll produces MySQL-Error when accessed via Component Link
+ # Fixed artf1694 : 1.0.3 undefined indexes filter_sectionid and catid on "Add New Content"
+ # Fixed artf1834 : English Localisation
+ # Fixed artf1771 : Wrong mosmsg
+ # Fixed artf1792 : "Receive Submission Emails" label is misleading
+ # Fixed artf1770 : Undefined index: HTTP_USER_AGENT 
+ 
+30-Oct-2005 Rey Gigataras
+ ^ Upgraded TinyMCE Compressor [1.02]
+ ^ Upgraded TinyMCE [2.0 RC4]
+
 30-Oct-2005 Johan Janssens
  # Fixed artf1878 : english.com_config.ini missing Berlin
  ^ Moved editor/editor.php to libraries/joomla/editor.php
