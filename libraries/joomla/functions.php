@@ -140,7 +140,7 @@ function mosBindArrayToObject( $array, &$obj, $ignore='', $prefix=NULL, $checkSl
 
 	foreach (get_object_vars($obj) as $k => $v) {
 		if( substr( $k, 0, 1 ) != '_' ) {			// internal attributes of an object are ignored
-			if (strpos( $ignore, $k) === false) {
+			if ( !in_array( $k, $ignore ) ) {
 				if ($prefix) {
 					$ak = $prefix . $k;
 				} else {
