@@ -118,8 +118,8 @@ function db_err($step, $alert) {
 	<input type=\"hidden\" name=\"DBDel\" value=\"$DBDel\">
 	<input type=\"hidden\" name=\"DBname\" value=\"$DBname\">
 	</form>\n";
-	//echo "<script>alert(\"$alert\"); document.$step.submit();</script>";
-	echo "<script>alert(\"$alert\"); window.history.go(-1);</script>";  //this wasn't working
+	//echo "<script>alert(\"$alert\"); window.history.go(-1);</script>";
+	echo "<script>alert(\"$alert\"); document.location.href='install1.php';</script>";  
 	exit();
 }
 
