@@ -53,7 +53,7 @@ $_MAMBOTS->trigger( 'onAfterStart' );
 
 $lang = mosGetParam( $_REQUEST, 'lang', $mosConfig_lang );
 
-$_LANG =& mosFactory::getLanguage( $option, true );
+$_LANG =& JFactory::getLanguage( $option, true );
 $_LANG->debug( $mosConfig_debug );
 
 // gets template for page

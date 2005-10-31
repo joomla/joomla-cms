@@ -17,7 +17,7 @@ define( "_VALID_MOS", 1 );
 require( "../includes/auth.php" );
 include_once ( $mosConfig_absolute_path . '/language/' . $mosConfig_lang . '.php' );
 
-$_LANG =& mosFactory::getLanguage( $option, true );
+$_LANG =& JFactory::getLanguage( $option, true );
 $_LANG->debug( $mosConfig_debug );
 
 $directory	= mosGetParam( $_REQUEST, 'directory', '');

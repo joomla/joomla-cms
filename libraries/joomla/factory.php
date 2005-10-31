@@ -20,7 +20,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
  * @package Joomla
  * @since 1.1
  */
-class mosFactory {
+class JFactory {
 	/**
 	* Load language files
 	* The function will load the common language file of the system and the

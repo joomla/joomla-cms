@@ -16,7 +16,7 @@ define( "_VALID_MOS", 1 );
 
 require_once( '../includes/auth.php' );
 
-$_LANG =& mosFactory::getLanguage( $option, true );
+$_LANG =& JFactory::getLanguage( $option, true );
 $_LANG->debug( $mosConfig_debug );
 
 $database = new database( $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix );

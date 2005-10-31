@@ -73,7 +73,7 @@ $session_id = mosGetParam( $_SESSION, 'session_id', '' );
 $logintime 	= mosGetParam( $_SESSION, 'session_logintime', '' );
 
 // check against db record of session
-$_LANG =& mosFactory::getLanguage( $option, true );
+$_LANG =& JFactory::getLanguage( $option, true );
 $_LANG->debug( $mosConfig_debug );
 
 // start the html output

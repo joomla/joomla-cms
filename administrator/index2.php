@@ -81,7 +81,7 @@ if ($option == 'logout') {
 	mosRedirect( $mosConfig_live_site );
 }
 
-$_LANG =& mosFactory::getLanguage( $option, true );
+$_LANG =& JFactory::getLanguage( $option, true );
 $_LANG->debug( $mosConfig_debug );
 
 $cur_template = $mainframe->getTemplate();
