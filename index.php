@@ -177,7 +177,7 @@ if ($option == 'login') {
 	if ($return) {
 		mosRedirect( $return );
 	} else {
-		mosRedirect( 'index.php' );
+		mosRedirect( $mosConfig_live_site );
 	}
 
 } else if ($option == 'logout') {
@@ -197,7 +197,7 @@ if ($option == 'login') {
 	if ($return) {
 		mosRedirect( $return );
 	} else {
-		mosRedirect( 'index.php' );
+		mosRedirect( $mosConfig_live_site );
 	}
 }
 
