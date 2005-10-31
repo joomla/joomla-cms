@@ -103,6 +103,7 @@ class MambovCard extends vCard {
 			$key	.= ';'. $type;
 		}
 		$key.= ';ENCODING=QUOTED-PRINTABLE';
+		
 		$this->properties[$key] = encode( $extended ) .';'. encode( $street ) .';'. encode( $city ) .';'. encode( $region) .';'. encode( $zip ) .';'. encode( $country );
 	}
 
@@ -114,24 +115,34 @@ class MambovCard extends vCard {
 	// added ability to set position/title
 	function setTitle( $title ) {
 		$title 	= trim( $title );
+		
 		$this->properties['TITLE'] 	= $title;
 	}
 
 	// added ability to set organisation/company
 	function setOrg( $org ) {
 		$org 	= trim( $org );
-		$this->properties['ORG'] 	= $org;
+		
+		$this->properties['ORG'] = $org;
 	}
 
 	function getVCard( $sitename ) {
-		$text 	= "BEGIN:VCARD\r\n";
-		$text 	.= "VERSION:2.1\r\n";
+		$text 	= 'BEGIN:VCARD';
+		$text	.= "\r\n";
+		$text 	.= 'VERSION:2.1';
+		$text	.= "\r\n";
+
 		foreach( $this->properties as $key => $value ) {
-			$text	.= "$key:$value\r\n";
+			$text	.= "$key:$value";
+			$text	.= "\r\n";
 		}
-		$text	.= "REV:" .date( 'Y-m-d' ) ."T". date( 'H:i:s' ). "Z\r\n";
-		$text	.= "MAILER: Joomla! vCard for ". $sitename ."\r\n";
-		$text	.= "END:VCARD\r\n";
+		$text	.= 'REV:'. date( 'Y-m-d' ) .'T'. date( 'H:i:s' ). 'Z';
+		$text	.= "\r\n";
+		$text	.= 'MAILER: Joomla! vCard for '. $sitename;
+		$text	.= "\r\n";
+		$text	.= 'END:VCARD';
+		$text	.= "\r\n";
+
 		return $text;
 	}
 }

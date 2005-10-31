@@ -27,11 +27,11 @@ class joomlaVersion {
 	/** @var int build Number */
 	var $BUILD	 	= '$Revision$';
 	/** @var string Codename */
-	var $CODENAME 	= 'Nigthfall';
+	var $CODENAME 	= 'Nightfall';
 	/** @var string Date */
-	var $RELDATE 	= 'TBA';
+	var $RELDATE 	= '**-***-2005';
 	/** @var string Time */
-	var $RELTIME 	= 'TBA';
+	var $RELTIME 	= '**:**';
 	/** @var string Timezone */
 	var $RELTZ 		= 'UTC';
 	/** @var string Copyright Text */

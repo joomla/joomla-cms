@@ -138,7 +138,7 @@ function listContacts( $option, $catid ) {
 
 		// page description
 		$currentcat->descrip = '';
-		if( isset($currentcat->description) && ($currentcat->description <> '') ) {
+		if( isset($currentcat->description) && ($currentcat->description != '') ) {
 			$currentcat->descrip = $currentcat->description;
 		} else if ( !$catid ) {
 			// show description
@@ -150,11 +150,11 @@ function listContacts( $option, $catid ) {
 		// page image
 		$currentcat->img = '';
 		$path = $mosConfig_live_site .'/images/stories/';
-		if ( isset($currentcat->image) && ($currentcat->image <> '') ) {
+		if ( isset($currentcat->image) && ($currentcat->image != '') ) {
 			$currentcat->img = $path . $currentcat->image;
 			$currentcat->align = $currentcat->image_position;
 		} else if ( !$catid ) {
-			if ( $params->get( 'image' ) <> -1 ) {
+			if ( $params->get( 'image' ) != -1 ) {
 				$currentcat->img = $path . $params->get( 'image' );
 				$currentcat->align = $params->get( 'image_align' );
 			}
@@ -162,7 +162,7 @@ function listContacts( $option, $catid ) {
 
 		// page header
 		$currentcat->header = '';
-		if ( isset($currentcat->name) && ($currentcat->name <> '') ) {
+		if ( isset($currentcat->name) && ($currentcat->name != '') ) {
 			$currentcat->header = $params->get( 'header' ) .' - '. $currentcat->name;
 		} else {
 			$currentcat->header = $params->get( 'header' );
@@ -349,7 +349,7 @@ function sendmail( $con_id, $option ) {
 	$email_copy = mosGetParam( $_POST, 'email_copy', 0 );
 
 	if ( !$email || !$text || ( is_email( $email )==false ) ) {
-		mosErrorAlert(_CONTACT_FORM_NC);
+		mosErrorAlert( _CONTACT_FORM_NC );
 	}
 	$prefix = sprintf( _ENQUIRY_TEXT, $mosConfig_live_site );
 	$text 	= $prefix ."\n". $name. ' <'. $email .'>' ."\n\n". stripslashes( $text );
@@ -382,9 +382,9 @@ function is_email($email){
 
 function vCard( $id ) {
 	global $database;
-	global $mosConfig_sitename, $mosConfig_absolute_path, $mosConfig_live_site;
+	global $mosConfig_sitename, $mosConfig_live_site;
 
-	$contact 	= new mosContact( $database );
+	$contact	= new mosContact( $database );
 	$contact->load( $id );
 	$name 	= explode( ' ', $contact->name );
 	$count 	= count( $name );
@@ -429,13 +429,15 @@ function vCard( $id ) {
 	$v->setFilename( $filename );
 
 	$output 	= $v->getVCard( $mosConfig_sitename );
-	$filename = $v->getFileName();
+	$filename 	= $v->getFileName();
 
 	// header info for page
 	header( 'Content-Disposition: attachment; filename='. $filename );
 	header( 'Content-Length: '. strlen( $output ) );
 	header( 'Connection: close' );
-	header( 'Content-Type: text/x-vCard; name='. $filename );
+	header( 'Content-Type: text/x-vCard; name='. $filename );	
+	header( 'Cache-Control: store, cache' );
+	header( 'Pragma: cache' );
 
 	print $output;
 }
