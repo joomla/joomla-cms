@@ -1484,7 +1484,7 @@ function saveContent( &$access, $task ) {
 * @param database A database connector object
 */
 function cancelContent( &$access ) {
-	global $database, $my;
+	global $database, $my, $task;
 
 	$row = new mosContent( $database );
 	$row->bind( $_POST );
@@ -1499,12 +1499,12 @@ function cancelContent( &$access ) {
 	$parts 		= parse_url( $referer );
 	parse_str( $parts['query'], $query );
 
-	if ( $query['task'] == 'edit' ) {
+	if ( $task == 'edit' ) {
 		$Itemid  = mosGetParam( $_POST, 'Returnid', '' );
 		$referer = 'index.php?option=com_content&task=view&id='. $row->id.'&Itemid='. $Itemid;
 	}
 
-	if ( $referer && !( $query['task'] == 'new' ) ) {
+	if ( $referer && !( $task == 'new' ) ) {
 		mosRedirect( $referer );
 	} else {
 		mosRedirect( 'index.php' );

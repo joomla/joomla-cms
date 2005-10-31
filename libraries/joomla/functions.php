@@ -317,7 +317,7 @@ function mosGetBrowser( $agent ) {
 	&& !preg_match( "/galeon/i", $agent )
 	&& !preg_match( "/safari/i", $agent )) {
 		// Netscape 3.x, 4.x ...
-		return "Netscape $m[2]";
+		return "Netscape $m[1]";
 	} else {
 		// Other
 		$found = false;
