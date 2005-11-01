@@ -23,6 +23,7 @@ class loginHTML {
 
 	function loginpage ( &$params, $image ) {
 		global $mosConfig_lang;
+		global $_LANG;
 
 		$return = $params->get('login');
 		?>
@@ -58,11 +59,11 @@ class loginHTML {
 				<table>
 				<tr>
 					<td align="center">
-					<?php echo _USERNAME; ?>
+					<?php echo $_LANG->_( 'Username' ); ?>
 					<br />
 					</td>
 					<td align="center">
-					<?php echo _PASSWORD; ?>
+					<?php echo $_LANG->_( 'Password' ); ?>
 					<br />
 					</td>
 				</tr>
@@ -77,19 +78,19 @@ class loginHTML {
 				<tr>
 					<td align="center" colspan="2">
 					<br/>
-					<?php echo _REMEMBER_ME; ?>
+					<?php echo $_LANG->_( 'Remember me' ); ?>
 					<input type="checkbox" name="remember" class="inputbox" value="yes" />
 					<br/>
 					<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=lostPassword' ); ?>">
-					<?php echo _LOST_PASSWORD; ?>
+					<?php echo $_LANG->_( 'Lost Password?' ); ?>
 					</a>
 					<?php
 					if ( $params->get( 'registration' ) ) {
 						?>
 						<br/>
-						<?php echo _NO_ACCOUNT; ?>
+						<?php echo $_LANG->_( 'No account yet?' ); ?>
 						<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=register' ); ?>">
-						<?php echo _CREATE_ACCOUNT;?>
+						<?php echo $_LANG->_( 'Register' );?>
 						</a>
 						<?php
 					}
@@ -101,7 +102,7 @@ class loginHTML {
 			</td>
 			<td>
 			<div align="center">
-			<input type="submit" name="submit" class="button" value="<?php echo _BUTTON_LOGIN; ?>" />
+			<input type="submit" name="submit" class="button" value="<?php echo $_LANG->_( 'Login' ); ?>" />
 			</div>
 
 			</td>
@@ -109,7 +110,7 @@ class loginHTML {
 		<tr>
 			<td colspan="2">
 			<noscript>
-			<?php echo _CMN_JAVASCRIPT; ?>
+			<?php echo $_LANG->_( 'WARNJAVASCRIPT' ); ?>
 			</noscript>
 			</td>
 		</tr>
@@ -129,6 +130,7 @@ class loginHTML {
 
 	function logoutpage( &$params, $image ) {
 		global $mosConfig_lang;
+		global $_LANG;
 
 		$return = $params->get('logout');
 		?>
@@ -162,7 +164,7 @@ class loginHTML {
 		<tr>
 			<td align="center">
 			<div align="center">
-			<input type="submit" name="Submit" class="button" value="<?php echo _BUTTON_LOGOUT; ?>" />
+			<input type="submit" name="Submit" class="button" value="<?php echo $_LANG->_( 'Logout' ); ?>" />
 			</div>
 			</td>
 		</tr>
