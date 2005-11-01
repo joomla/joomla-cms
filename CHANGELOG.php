@@ -31,7 +31,12 @@ Legend:
 - -> Removed
 ! -> Note
 
-01-Oct-2005 Johan Janssens
+01-Nov-2005 Arno Zijlstra
+ + Added footer module
+ + Added footer module english language file
+ ^ Changed templates and installer sql files to work with footer module
+
+01-Nov-2005 Johan Janssens
  - Removed global $version, use $_VERSION->getLongVersion() instead.
  ^ Moved includes/version.php to libraries/joomla/version.php
  # Fixed artf1901 : english.com_templates.ini

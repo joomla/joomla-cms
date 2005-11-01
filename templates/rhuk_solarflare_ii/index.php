@@ -180,7 +180,7 @@ if ( mosCountModules( 'right' ) and ( empty( $_REQUEST['task'] ) || $_REQUEST['t
 	  </tr>
   </table>
 </div>
-<?php mosLoadModules( 'footer', -1 );?>
+<div align="center"><?php mosLoadModules( 'footer', -1 );?></div>
 <?php mosLoadModules( 'debug', -1 );?>
 </body>
 </html>

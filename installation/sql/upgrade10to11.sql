@@ -9,8 +9,7 @@ INSERT INTO `#__mambots` VALUES (0, 'Joomla SiteURLBot', 'joomla.siteurlbot', 's
 INSERT INTO `#__mambots` VALUES (0, 'Joomla SEFURLBot', 'joomla.sefurlbot', 'system', 0, 2, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 
 # Module Additions
-INSERT INTO `#__modules` VALUES (0, 'Footer', '', 1, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 0, 1, '', 1, 0);
-INSERT INTO `#__modules` VALUES (0, 'Footer', '', 0, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 0, 1, '', 1, 1);
+INSERT INTO `#__modules` VALUES (0, 'Footer', '', 1, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 0, 0, '', 1, 0);
 
 # Expand content title lengths
 ALTER TABLE `#__content` CHANGE `title` `title` varchar(255) NOT NULL default '';
