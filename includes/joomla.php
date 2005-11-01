@@ -62,13 +62,14 @@ function jimport( $path, $requireOnce=true ) {
 }
 
 // experimenting
-jimport( 'includes.version' );
+
 jimport( 'includes.database' );
 require_once( $mosConfig_absolute_path . '/includes/gacl.class.php' );
 require_once( $mosConfig_absolute_path . '/includes/gacl_api.class.php' );
 require_once( $mosConfig_absolute_path . '/includes/phpmailer/class.phpmailer.php' );
 require_once( $mosConfig_absolute_path . '/includes/phpInputFilter/class.inputfilter.php' );
 
+jimport( 'libraries.joomla.version' );
 jimport( 'libraries.joomla.functions' );
 jimport( 'libraries.joomla.classes' );
 jimport( 'libraries.joomla.models' );
@@ -76,7 +77,6 @@ jimport( 'libraries.joomla.html' );
 jimport( 'libraries.joomla.factory' );
 jimport( 'libraries.joomla.files' );
 jimport( 'libraries.joomla.xml' );
-jimport( 'libraries.joomla.legacy' );
 
 /*
 require_once( $mosConfig_absolute_path . '/includes/version.php' );
@@ -118,5 +118,8 @@ $_MAMBOTS = new mosMambotHandler();
 $_VERSION = new JVersion();
 
 //TODO : implement mambothandler class as singleton, add getBotHandler to JFactory
-require_once( $mosConfig_absolute_path . '/libraries/joomla/editor.php' );
+jimport( 'libraries.joomla.editor' );
+
+//TODO : implement mambothandler class as singleton, add getVersion to JFactory
+jimport( 'libraries.joomla.legacy' );
 ?>

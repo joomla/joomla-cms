@@ -79,6 +79,7 @@ function mosIsChmodable( $file ) {
 /**
 * Legacy function, use $_VERSION->getLongVersion() instead
 */
+global $_VERSION;
 $version = $_VERSION->PRODUCT .' '. $_VERSION->RELEASE .'.'. $_VERSION->DEV_LEVEL .' '
 . $_VERSION->DEV_STATUS
 .' [ '.$_VERSION->CODENAME .' ] '. $_VERSION->RELDATE .' '

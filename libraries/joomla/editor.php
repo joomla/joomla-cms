@@ -16,7 +16,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 if (!defined( '_MOS_EDITOR_INCLUDED' )) {
 	global $mosConfig_editor;
-	global $my;
+	global $my, $_MAMBOTS;
 
 	if ($mosConfig_editor == '') {
 		$mosConfig_editor = 'none';
