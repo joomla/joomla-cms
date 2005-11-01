@@ -24,25 +24,25 @@ function botJoomlaSEFUrl( ) {
 	global $task, $sectionid, $id, $Itemid, $limit, $limitstart;
 
 	if ($GLOBALS['mosConfig_sef']) {
-		$url_array = explode("/", $_SERVER['REQUEST_URI']);
+		$url_array = explode('/', $_SERVER['REQUEST_URI']);
 		/**
 		* Content
 		* http://www.domain.com/$option/$task/$sectionid/$id/$Itemid/$limit/$limitstart
 		*/
-		if (in_array("content", $url_array)) {
+		if (in_array('content', $url_array)) {
 
-			$uri 				= explode("content/", $_SERVER['REQUEST_URI']);
-			$option 			= "com_content";
+			$uri 				= explode('content/', $_SERVER['REQUEST_URI']);
+			$option 			= 'com_content';
 			$_GET['option'] 	= $option;
 			$_REQUEST['option'] = $option;
-			$pos = array_search ("content", $url_array);
+			$pos 				= array_search ('content', $url_array);
 
 			// language hook for content
-			$lang = "";
+			$lang = '';
 			foreach($url_array as $key=>$value) {
-				if ( !strcasecmp(substr($value,0,5),"lang,") ) {
-					$temp = explode(",", $value);
-					if (isset($temp[0]) && $temp[0]!="" && isset($temp[1]) && $temp[1]!="") {
+				if ( !strcasecmp(substr($value,0,5),'lang,') ) {
+					$temp = explode(',', $value);
+					if (isset($temp[0]) && $temp[0]!='' && isset($temp[1]) && $temp[1]!='') {
 						$_GET['lang'] 		= $temp[1];
 						$_REQUEST['lang'] 	= $temp[1];
 						$lang 				= $temp[1];
@@ -52,13 +52,15 @@ function botJoomlaSEFUrl( ) {
 			}
 
 			// $option/$task/$sectionid/$id/$Itemid/$limit/$limitstart
-			if (isset($url_array[$pos+6]) && $url_array[$pos+6]!="") {
+			if (isset($url_array[$pos+6]) && $url_array[$pos+6]!='') {
 				$task 					= $url_array[$pos+1];
 				$sectionid				= $url_array[$pos+2];
 				$id 					= $url_array[$pos+3];
 				$Itemid 				= $url_array[$pos+4];
 				$limit 					= $url_array[$pos+5];
 				$limitstart 			= $url_array[$pos+6];
+				
+				// pass data onto global variables
 				$_GET['task'] 			= $task;
 				$_REQUEST['task'] 		= $task;
 				$_GET['sectionid'] 		= $sectionid;
@@ -74,12 +76,14 @@ function botJoomlaSEFUrl( ) {
 
 				$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&id=$id&Itemid=$Itemid&limit=$limit&limitstart=$limitstart";
 				// $option/$task/$id/$Itemid/$limit/$limitstart
-			} else if (isset($url_array[$pos+5]) && $url_array[$pos+5]!="") {
+			} else if (isset($url_array[$pos+5]) && $url_array[$pos+5]!='') {
 				$task 					= $url_array[$pos+1];
 				$id 					= $url_array[$pos+2];
 				$Itemid 				= $url_array[$pos+3];
 				$limit 					= $url_array[$pos+4];
 				$limitstart 			= $url_array[$pos+5];
+				
+				// pass data onto global variables
 				$_GET['task'] 			= $task;
 				$_REQUEST['task'] 		= $task;
 				$_GET['id'] 			= $id;
@@ -93,11 +97,13 @@ function botJoomlaSEFUrl( ) {
 
 				$QUERY_STRING = "option=com_content&task=$task&id=$id&Itemid=$Itemid&limit=$limit&limitstart=$limitstart";
 				// $option/$task/$sectionid/$id/$Itemid
-			} else if (!(isset($url_array[$pos+5]) && $url_array[$pos+5]!="") && isset($url_array[$pos+4]) && $url_array[$pos+4]!="") {
+			} else if (!(isset($url_array[$pos+5]) && $url_array[$pos+5]!='') && isset($url_array[$pos+4]) && $url_array[$pos+4]!='') {
 				$task 					= $url_array[$pos+1];
 				$sectionid 				= $url_array[$pos+2];
 				$id 					= $url_array[$pos+3];
 				$Itemid 				= $url_array[$pos+4];
+				
+				// pass data onto global variables
 				$_GET['task'] 			= $task;
 				$_REQUEST['task'] 		= $task;
 				$_GET['sectionid'] 		= $sectionid;
@@ -109,10 +115,12 @@ function botJoomlaSEFUrl( ) {
 
 				$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&id=$id&Itemid=$Itemid";
 				// $option/$task/$id/$Itemid
-			} else if (!(isset($url_array[$pos+4]) && $url_array[$pos+4]!="") && (isset($url_array[$pos+3]) && $url_array[$pos+3]!="")) {
+			} else if (!(isset($url_array[$pos+4]) && $url_array[$pos+4]!='') && (isset($url_array[$pos+3]) && $url_array[$pos+3]!='')) {
 				$task 					= $url_array[$pos+1];
 				$id 					= $url_array[$pos+2];
 				$Itemid 				= $url_array[$pos+3];
+				
+				// pass data onto global variables
 				$_GET['task'] 			= $task;
 				$_REQUEST['task'] 		= $task;
 				$_GET['id'] 			= $id;
@@ -122,9 +130,11 @@ function botJoomlaSEFUrl( ) {
 
 				$QUERY_STRING = "option=com_content&task=$task&id=$id&Itemid=$Itemid";
 				// $option/$task/$id
-			} else if (!(isset($url_array[$pos+3]) && $url_array[$pos+3]!="") && (isset($url_array[$pos+2]) && $url_array[$pos+2]!="")) {
+			} else if (!(isset($url_array[$pos+3]) && $url_array[$pos+3]!='') && (isset($url_array[$pos+2]) && $url_array[$pos+2]!='')) {
 				$task 					= $url_array[$pos+1];
 				$id 					= $url_array[$pos+2];
+				
+				// pass data onto global variables
 				$_GET['task'] 			= $task;
 				$_REQUEST['task'] 		= $task;
 				$_GET['id'] 			= $id;
@@ -132,50 +142,52 @@ function botJoomlaSEFUrl( ) {
 
 				$QUERY_STRING = "option=com_content&task=$task&id=$id";
 				// $option/$task
-			} else if (!(isset($url_array[$pos+2]) && $url_array[$pos+2]!="") && (isset($url_array[$pos+1]) && $url_array[$pos+1]!="")) {
+			} else if (!(isset($url_array[$pos+2]) && $url_array[$pos+2]!='') && (isset($url_array[$pos+1]) && $url_array[$pos+1]!='')) {
 				$task = $url_array[$pos+1];
+				
+				// pass data onto global variables
 				$_GET['task'] 			= $task;
 				$_REQUEST['task'] 		= $task;
 
-				$QUERY_STRING = "option=com_content&task=$task";
+				$QUERY_STRING = 'option=com_content&task='. $task;
 			}
 
-			if ($lang!="") {
-				$QUERY_STRING .= "&lang=$lang";
+			if ($lang!='') {
+				$QUERY_STRING .= '&lang='. $lang;
 			}
 
-			$_SERVER['QUERY_STRING'] = $QUERY_STRING;
-			$REQUEST_URI = $uri[0]."index.php?".$QUERY_STRING;
-			$_SERVER['REQUEST_URI'] = $REQUEST_URI;
+			$_SERVER['QUERY_STRING'] 	= $QUERY_STRING;
+			$REQUEST_URI 				= $uri[0].'index.php?'.$QUERY_STRING;
+			$_SERVER['REQUEST_URI'] 	= $REQUEST_URI;
 		}
 
 		/*
 		Components
 		http://www.domain.com/component/$name,$value
 		*/
-		if (in_array("component", $url_array)) {
+		if (in_array('component', $url_array)) {
 
-			$uri = explode("component/", $_SERVER['REQUEST_URI']);
-			$uri_array = explode("/", $uri[1]);
-			$QUERY_STRING = "";
+			$uri = explode('component/', $_SERVER['REQUEST_URI']);
+			$uri_array = explode('/', $uri[1]);
+			$QUERY_STRING = '';
 
 			foreach($uri_array as $value) {
-				$temp = explode(",", $value);
-				if (isset($temp[0]) && $temp[0]!="" && isset($temp[1]) && $temp[1]!="") {
+				$temp = explode(',', $value);
+				if (isset($temp[0]) && $temp[0]!='' && isset($temp[1]) && $temp[1]!='') {
 					$_GET[$temp[0]] 	= $temp[1];
 					$_REQUEST[$temp[0]] = $temp[1];
-					$QUERY_STRING .= $temp[0]=="option" ? "$temp[0]=$temp[1]" : "&$temp[0]=$temp[1]";
+					$QUERY_STRING .= $temp[0]=='option' ? "$temp[0]=$temp[1]" : "&$temp[0]=$temp[1]";
 				}
 			}
 
 			$_SERVER['QUERY_STRING'] 	= $QUERY_STRING;
-			$REQUEST_URI 				= $uri[0]."index.php?".$QUERY_STRING;
+			$REQUEST_URI 				= $uri[0].'index.php?'.$QUERY_STRING;
 			$_SERVER['REQUEST_URI'] 	= $REQUEST_URI;
 		}
 		// Extract to globals
 		while(list($key,$value)=each($_GET)) $GLOBALS[$key]=$value;
 		// Don't allow config vars to be passed as global
-		include( $GLOBALS['mosConfig_absolute_path'] . "/configuration.php" );
+		include( $GLOBALS['mosConfig_absolute_path'] . '/configuration.php' );
 	}
 
 }
@@ -190,14 +202,11 @@ function botJoomlaSEFUrl( ) {
 function sefRelToAbs( $string ) {
 	global $iso_client_lang;
 
-	if( $GLOBALS['mosConfig_mbf_content'] && $string!="index.php" &&
-		!eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),"index.php") &&
-		!eregi("lang=", $string) ) {
+	if( $GLOBALS['mosConfig_mbf_content'] && $string!='index.php' && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),'index.php') && !eregi('lang=', $string) ) {
 		$string .= "&lang=$iso_client_lang";
 	}
 
-	if ($GLOBALS['mosConfig_sef'] && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),"index.php")) {
-
+	if ($GLOBALS['mosConfig_sef'] && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),'index.php')) {
 		// Replace all &amp; with &
 		$string = str_replace( '&amp;', '&', $string );
 
@@ -205,79 +214,82 @@ function sefRelToAbs( $string ) {
 		Home
 		index.php
 		*/
-		if ($string=="index.php") {
-			$string="";
+		if ($string=='index.php') {
+			$string='';
 		}
 
-		$sefstring = "";
-		if ( (eregi("option=com_content",$string) || eregi("option=content",$string) ) && !eregi("task=new",$string) && !eregi("task=edit",$string) ) {
+		$sefstring = '';
+		if ( (eregi('option=com_content',$string) || eregi('option=content',$string) ) && !eregi('task=new',$string) && !eregi('task=edit',$string) ) {
 			/*
 			Content
 			index.php?option=com_content&task=$task&sectionid=$sectionid&id=$id&Itemid=$Itemid&limit=$limit&limitstart=$limitstart
 			*/
-			$sefstring .= "content/";
-			if (eregi("&task=",$string)) {
-				$temp = split("&task=", $string);
-				$temp = split("&", $temp[1]);
+			$sefstring .= 'content/';
+			if (eregi('&task=',$string)) {
+				$temp = split('&task=', $string);
+				$temp = split('&', $temp[1]);
 
-				$sefstring .= $temp[0]."/";
+				$sefstring .= $temp[0].'/';
 			}
-			if (eregi("&sectionid=",$string)) {
-				$temp = split("&sectionid=", $string);
-				$temp = split("&", $temp[1]);
+			if (eregi('&sectionid=',$string)) {
+				$temp = split('&sectionid=', $string);
+				$temp = split('&', $temp[1]);
 
-				$sefstring .= $temp[0]."/";
+				$sefstring .= $temp[0].'/';
 			}
-			if (eregi("&id=",$string)) {
-				$temp = split("&id=", $string);
-				$temp = split("&", $temp[1]);
+			if (eregi('&id=',$string)) {
+				$temp = split('&id=', $string);
+				$temp = split('&', $temp[1]);
 
-				$sefstring .= $temp[0]."/";
+				$sefstring .= $temp[0].'/';
 			}
-			if (eregi("&Itemid=",$string)) {
-				$temp = split("&Itemid=", $string);
-				$temp = split("&", $temp[1]);
+			if (eregi('&Itemid=',$string)) {
+				$temp = split('&Itemid=', $string);
+				$temp = split('&', $temp[1]);
 
-				$sefstring .= $temp[0]."/";
+				$sefstring .= $temp[0].'/';
 			}
-			if (eregi("&limit=",$string)) {
-				$temp = split("&limit=", $string);
-				$temp = split("&", $temp[1]);
+			if (eregi('&limit=',$string)) {
+				$temp = split('&limit=', $string);
+				$temp = split('&', $temp[1]);
 
-				$sefstring .= $temp[0]."/";
+				$sefstring .= $temp[0].'/';
 			}
-			if (eregi("&limitstart=",$string)) {
-				$temp = split("&limitstart=", $string);
-				$temp = split("&", $temp[1]);
+			if (eregi('&limitstart=',$string)) {
+				$temp = split('&limitstart=', $string);
+				$temp = split('&', $temp[1]);
 
-				$sefstring .= $temp[0]."/";
+				$sefstring .= $temp[0].'/';
 			}
-			if (eregi("&lang=",$string)) {
-				$temp = split("&lang=", $string);
-				$temp = split("&", $temp[1]);
+			if (eregi('&lang=',$string)) {
+				$temp = split('&lang=', $string);
+				$temp = split('&', $temp[1]);
 
-				$sefstring .= "lang,".$temp[0]."/";
+				$sefstring .= 'lang,'.$temp[0].'/';
 			}
 			$string = $sefstring;
-		} else if (eregi("option=com_",$string) && !eregi("task=new",$string) && !eregi("task=edit",$string)) {
+		} else if (eregi('option=com_',$string) && !eregi('task=new',$string) && !eregi('task=edit',$string)) {
 			/*
 			Components
 			index.php?option=com_xxxx&...
 			*/
-			$sefstring 	= "component/";
+			$sefstring 	= 'component/';
 			$temp 		= split("\?", $string);
-			$temp 		= split("&", $temp[1]);
+			$temp 		= split('&', $temp[1]);
 
 			foreach($temp as $key => $value) {
-				$sefstring .= $value."/";
+				$sefstring .= $value.'/';
 			}
 			$string = str_replace( '=', ',', $sefstring );
 		}
-		return $GLOBALS['mosConfig_live_site'] . "/" . $string;
+		
+		return $GLOBALS['mosConfig_live_site'] . '/' . $string;
+		
+		// allows SEF without mod_rewrite
+		// uncomment Line 290 and comment out Line 286
+		//return $GLOBALS['mosConfig_live_site'].'/index.php/'.$string;
 	} else {
 		return $string;
 	}
-
 }
-
 ?>

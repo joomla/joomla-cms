@@ -308,27 +308,27 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limi
 		$selected = $orderby;
 	}
 
-	$params->set( 'type', 'category' );
+	$params->set( 'type', 				'category' );
 
-	$params->def( 'page_title', 1 );
-	$params->def( 'title', 1 );
-	$params->def( 'hits', $mainframe->getCfg( 'hits' ) );
-	$params->def( 'author', !$mainframe->getCfg( 'hideAuthor' ) );
-	$params->def( 'date', !$mainframe->getCfg( 'hideCreateDate' ) );
-	$params->def( 'date_format', _DATE_FORMAT_LC );
-	$params->def( 'navigation', 2 );
-	$params->def( 'display', 1 );
-	$params->def( 'display_num', $mosConfig_list_limit );
-	$params->def( 'other_cat', 1 );
-	$params->def( 'empty_cat', 0 );
-	$params->def( 'cat_items', 1 );
-	$params->def( 'cat_description', 0 );
-	$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
-	$params->def( 'pageclass_sfx', '' );
-	$params->def( 'headings', 1 );
-	$params->def( 'order_select', 1 );
-	$params->def( 'filter', 1 );
-	$params->def( 'filter_type', 'title' );
+	$params->def( 'page_title', 		1 );
+	$params->def( 'title', 				1 );
+	$params->def( 'hits', 				$mainframe->getCfg( 'hits' ) );
+	$params->def( 'author', 			!$mainframe->getCfg( 'hideAuthor' ) );
+	$params->def( 'date', 				!$mainframe->getCfg( 'hideCreateDate' ) );
+	$params->def( 'date_format', 		_DATE_FORMAT_LC );
+	$params->def( 'navigation', 		2 );
+	$params->def( 'display', 			1 );
+	$params->def( 'display_num', 		$mosConfig_list_limit );
+	$params->def( 'other_cat', 			1 );
+	$params->def( 'empty_cat', 			0 );
+	$params->def( 'cat_items', 			1 );
+	$params->def( 'cat_description', 	0 );
+	$params->def( 'back_button', 		$mainframe->getCfg( 'back_button' ) );
+	$params->def( 'pageclass_sfx', 		'' );
+	$params->def( 'headings', 			1 );
+	$params->def( 'order_select', 		1 );
+	$params->def( 'filter', 			1 );
+	$params->def( 'filter_type', 		'title' );
 
 	// Ordering control
 	$orderby = _orderby_sec( $orderby );
@@ -512,8 +512,8 @@ function showBlogSection( $id=0, $gid, &$access, $pop, $now=NULL ) {
 	// Ordering control
 	$orderby_sec 	= $params->def( 'orderby_sec', 'rdate' );
 	$orderby_pri 	= $params->def( 'orderby_pri', '' );
-	$order_sec 	= _orderby_sec( $orderby_sec );
-	$order_pri 	= _orderby_pri( $orderby_pri );
+	$order_sec 		= _orderby_sec( $orderby_sec );
+	$order_pri 		= _orderby_pri( $orderby_pri );
 
 	// Main data query
 	$query = "SELECT a.*, ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, cc.name AS category, g.name AS groups"
@@ -566,8 +566,8 @@ function showBlogCategory( $id=0, $gid, &$access, $pop, $now ) {
 	// Ordering control
 	$orderby_sec 	= $params->def( 'orderby_sec', 'rdate' );
 	$orderby_pri 	= $params->def( 'orderby_pri', '' );
-	$order_sec 	= _orderby_sec( $orderby_sec );
-	$order_pri 	= _orderby_pri( $orderby_pri );
+	$order_sec 		= _orderby_sec( $orderby_sec );
+	$order_pri 		= _orderby_pri( $orderby_pri );
 
 	// Main data query
 	$query = "SELECT a.*, ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, g.name AS groups, cc.name AS category"
@@ -686,8 +686,8 @@ function showArchiveCategory( $id=0, $gid, &$access, $pop, $option, $now ) {
 
 	// Parameters
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
-	$year 	= mosGetParam( $_REQUEST, 'year', date( 'Y' ) );
-	$month 	= mosGetParam( $_REQUEST, 'month', date( 'm' ) );
+	$year 	= mosGetParam( $_REQUEST, 'year', 	date( 'Y' ) );
+	$month 	= mosGetParam( $_REQUEST, 'month', 	date( 'm' ) );
 	$module = mosGetParam( $_REQUEST, 'module', '' );
 
 	// used by archive module
@@ -782,14 +782,14 @@ function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=N
 	if ( $columns == 0 ) {
 		$columns = 1;
 	}
-	$intro				= $params->def( 'intro', 4 );
-	$leading 			= $params->def( 'leading', 1 );
-	$links				= $params->def( 'link', 4 );
-	$pagination 		= $params->def( 'pagination', 2 );
-	$pagination_results = $params->def( 'pagination_results', 1 );
-	$pagination_results = $params->def( 'pagination_results', 1 );
-	$descrip		 	= $params->def( 'description', 1 );
-	$descrip_image	 	= $params->def( 'description_image', 1 );
+	$intro				= $params->def( 'intro', 				4 );
+	$leading 			= $params->def( 'leading', 				1 );
+	$links				= $params->def( 'link', 				4 );
+	$pagination 		= $params->def( 'pagination', 			2 );
+	$pagination_results = $params->def( 'pagination_results', 	1 );
+	$pagination_results = $params->def( 'pagination_results', 	1 );
+	$descrip		 	= $params->def( 'description', 			1 );
+	$descrip_image	 	= $params->def( 'description_image', 	1 );
 	// needed for back button for page
 	$back 				= $params->get( 'back_button', $mainframe->getCfg( 'back_button' ) );
 	// needed to disable back button for item
@@ -1120,26 +1120,26 @@ function show( $row, $params, $gid, &$access, $pop, $option, $ItemidCount=NULL )
 	}
 
 	// GC Parameters
-	$params->def( 'link_titles', $mainframe->getCfg( 'link_titles' ) );
-	$params->def( 'author', !$mainframe->getCfg( 'hideAuthor' ) );
-	$params->def( 'createdate', !$mainframe->getCfg( 'hideCreateDate' ) );
-	$params->def( 'modifydate', !$mainframe->getCfg( 'hideModifyDate' ) );
-	$params->def( 'print', !$mainframe->getCfg( 'hidePrint' ) );
-	$params->def( 'pdf', !$mainframe->getCfg( 'hidePdf' ) );
-	$params->def( 'email', !$mainframe->getCfg( 'hideEmail' ) );
-	$params->def( 'rating', $mainframe->getCfg( 'vote' ) );
-	$params->def( 'icons', $mainframe->getCfg( 'icons' ) );
-	$params->def( 'readmore', $mainframe->getCfg( 'readmore' ) );
+	$params->def( 'link_titles', 	$mainframe->getCfg( 'link_titles' ) );
+	$params->def( 'author', 		!$mainframe->getCfg( 'hideAuthor' ) );
+	$params->def( 'createdate', 	!$mainframe->getCfg( 'hideCreateDate' ) );
+	$params->def( 'modifydate', 	!$mainframe->getCfg( 'hideModifyDate' ) );
+	$params->def( 'print', 			!$mainframe->getCfg( 'hidePrint' ) );
+	$params->def( 'pdf', 			!$mainframe->getCfg( 'hidePdf' ) );
+	$params->def( 'email', 			!$mainframe->getCfg( 'hideEmail' ) );
+	$params->def( 'rating', 		$mainframe->getCfg( 'vote' ) );
+	$params->def( 'icons', 			$mainframe->getCfg( 'icons' ) );
+	$params->def( 'readmore', 		$mainframe->getCfg( 'readmore' ) );
 	// Other Params
-	$params->def( 'image', 1 );
-	$params->def( 'section', 0 );
-	$params->def( 'section_link', 0 );
-	$params->def( 'category', 0 );
-	$params->def( 'category_link', 0 );
-	$params->def( 'introtext', 1 );
-	$params->def( 'pageclass_sfx', '' );
-	$params->def( 'item_title', 1 );
-	$params->def( 'url', 1 );
+	$params->def( 'image', 			1 );
+	$params->def( 'section', 		0 );
+	$params->def( 'section_link', 	0 );
+	$params->def( 'category', 		0 );
+	$params->def( 'category_link', 	0 );
+	$params->def( 'introtext', 		1 );
+	$params->def( 'pageclass_sfx', 	'' );
+	$params->def( 'item_title', 	1 );
+	$params->def( 'url', 			1 );
 
 	// loads the link for Section name
 	if ( $params->get( 'section_link' ) ) {
@@ -1149,8 +1149,13 @@ function show( $row, $params, $gid, &$access, $pop, $option, $ItemidCount=NULL )
 		;
 		$database->setQuery( $query );
 		$_Itemid = $database->loadResult();
-		$link = sefRelToAbs( 'index.php?option=com_content&amp;task=section&amp;id='. $row->sectionid .'&amp;Itemid='.$_Itemid );
-		$row->section = '<a href="'. $link .'">'. $row->section .'</a>';
+		
+		if ( $_Itemid ) {
+			$_Itemid = '&amp;Itemid='. $_Itemid;
+		}
+		
+		$link 			= sefRelToAbs( 'index.php?option=com_content&amp;task=section&amp;id='. $row->sectionid . $_Itemid );
+		$row->section 	= '<a href="'. $link .'">'. $row->section .'</a>';
 	}
 
 	// loads the link for Category name
@@ -1161,8 +1166,13 @@ function show( $row, $params, $gid, &$access, $pop, $option, $ItemidCount=NULL )
 		;
 		$database->setQuery( $query );
 		$_Itemid = $database->loadResult();
-		$link = sefRelToAbs( 'index.php?option=com_content&amp;task=category&amp;sectionid='. $row->sectionid .'&amp;id='. $row->catid .'&amp;Itemid='.$_Itemid );
-		$row->category = '<a href="'. $link .'">'. $row->category .'</a>';
+		
+		if ( $_Itemid ) {
+			$_Itemid = '&amp;Itemid='. $_Itemid;
+		}
+		
+		$link 			= sefRelToAbs( 'index.php?option=com_content&amp;task=category&amp;sectionid='. $row->sectionid .'&amp;id='. $row->catid . $_Itemid );
+		$row->category 	= '<a href="'. $link .'">'. $row->category .'</a>';
 	}
 
 	// loads current template for the pop-up window
@@ -1246,7 +1256,7 @@ function editItem( $uid, $gid, &$access, $sectionid=0, $task, $Itemid ){
 
 	if ( $uid ) {
 		$row->checkout( $my->id );
-		if (trim( $row->publish_down ) == "0000-00-00 00:00:00") {
+		if (trim( $row->publish_down ) == '0000-00-00 00:00:00') {
 			$row->publish_down = 'Never';
 		}
 		if (trim( $row->images )) {
