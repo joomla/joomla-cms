@@ -25,6 +25,7 @@ class HTML_contact {
 
 	function displaylist( &$categories, &$rows, $catid, $currentcat=NULL, &$params, $tabclass ) {
 		global $Itemid, $mosConfig_live_site, $hide_js;
+		global $_LANG;
 
 		if ( $params->get( 'page_title' ) ) {
 			?>
@@ -43,7 +44,7 @@ class HTML_contact {
 			// show image
 			if ( $currentcat->img ) {
 				?>
-				<img src="<?php echo $currentcat->img; ?>" align="<?php echo $currentcat->align; ?>" hspace="6" alt="<?php echo _WEBLINKS_TITLE; ?>" />
+				<img src="<?php echo $currentcat->img; ?>" align="<?php echo $currentcat->align; ?>" hspace="6" alt="<?php echo $_LANG->_( 'Web Links' ); ?>" />
 				<?php
 			}
 			echo $currentcat->descrip;
@@ -88,6 +89,7 @@ class HTML_contact {
 	*/
 	function showTable( &$params, &$rows, $catid, $tabclass ) {
 		global $mosConfig_live_site, $Itemid;
+		global $_LANG;
 		?>
 		<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
 		<?php
@@ -95,13 +97,13 @@ class HTML_contact {
 			?>
 			<tr>
 				<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
-					<?php echo _CONTACT_HEADER_NAME; ?>
+					<?php echo $_LANG->_( 'Name' ); ?>
 				</td>
 				<?php
 				if ( $params->get( 'position' ) ) {
 					?>
 					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
-						<?php echo _CONTACT_HEADER_POS; ?>
+						<?php echo $_LANG->_( 'Position' ); ?>
 					</td>
 					<?php
 				}
@@ -110,7 +112,7 @@ class HTML_contact {
 				if ( $params->get( 'email' ) ) {
 					?>
 					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
-						<?php echo _CONTACT_HEADER_EMAIL; ?>
+						<?php echo $_LANG->_( 'Email' ); ?>
 					</td>
 					<?php
 				}
@@ -119,7 +121,7 @@ class HTML_contact {
 				if ( $params->get( 'telephone' ) ) {
 					?>
 					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
-						<?php echo _CONTACT_HEADER_PHONE; ?>
+						<?php echo $_LANG->_( 'Phone' ); ?>
 					</td>
 					<?php
 				}
@@ -128,7 +130,7 @@ class HTML_contact {
 				if ( $params->get( 'fax' ) ) {
 					?>
 					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
-						<?php echo _CONTACT_HEADER_FAX; ?>
+						<?php echo $_LANG->_( 'Fax' ); ?>
 					</td>
 					<?php
 				}
@@ -251,9 +253,10 @@ class HTML_contact {
 
 
 	function viewcontact( &$contact, &$params, $count, &$list, &$menu_params ) {
-
 		global $mosConfig_live_site;
 		global $mainframe, $Itemid;
+		global $_LANG;
+
 		$template = $mainframe->getTemplate();
 		$sitename = $mainframe->getCfg( 'sitename' );
 		$hide_js = mosGetParam($_REQUEST,'hide_js', 0 );
@@ -262,7 +265,7 @@ class HTML_contact {
 		<!--
 		function validate(){
 			if ( ( document.emailForm.text.value == "" ) || ( document.emailForm.email.value.search("@") == -1 ) || ( document.emailForm.email.value.search("[.*]" ) == -1 ) ) {
-				alert( "<?php echo _CONTACT_FORM_NC; ?>" );
+				alert( "<?php echo $_LANG->_( 'CONTACT_FORM_NC' ); ?>" );
 			} else {
 			document.emailForm.action = "<?php echo sefRelToAbs("index.php?option=com_contact&Itemid=$Itemid"); ?>"
 			document.emailForm.submit();
@@ -380,6 +383,8 @@ class HTML_contact {
 	* Writes Dropdown box to select contact
 	*/
 	function _writeSelectContact( &$contact, &$params, $count ) {
+		global $_LANG;
+
 		if ( ( $count > 1 )  && !$params->get( 'popup' ) && $params->get( 'drop_down' ) ) {
 			global $Itemid;
 			?>
@@ -387,7 +392,7 @@ class HTML_contact {
 				<td colspan="2" align="center">
 				<br />
 				<form action="<?php echo sefRelToAbs( 'index.php?option=com_contact&amp;Itemid='. $Itemid ); ?>" method="post" name="selectForm" target="_top" id="selectForm">
-					<?php echo (_CONTACT_SEL); ?>
+					<?php echo $_LANG->_( 'Select Contact' ); ?>:
 					<br />
 					<?php echo $contact->select; ?>
 				</form>
@@ -440,10 +445,12 @@ class HTML_contact {
 	*/
 	function _writeImage( &$contact, &$params ) {
 		global $mosConfig_live_site;
+		global $_LANG;
+
 		if ( $contact->image && $params->get( 'image' ) ) {
 			?>
 			<div style="float: right;">
-			<img src="<?php echo $mosConfig_live_site;?>/images/stories/<?php echo $contact->image; ?>" align="middle" alt="Contact" />
+			<img src="<?php echo $mosConfig_live_site;?>/images/stories/<?php echo $contact->image; ?>" align="middle" alt="<?php echo $_LANG->_( 'Contact' ); ?>" />
 			</div>
 			<?php
 		}
@@ -627,13 +634,15 @@ class HTML_contact {
 	* Writes Email form
 	*/
 	function _writeVcard( &$contact, &$params ) {
+		global $_LANG;
+
 		if ( $params->get( 'vcard' ) ) {
 			?>
 			<tr>
 				<td colspan="2">
-				<?php echo(_CONTACT_DOWNLOAD_AS);?>
+				<?php echo $_LANG->_( 'Download information as a' );?>
 				<a href="index2.php?option=com_contact&amp;task=vcard&amp;contact_id=<?php echo $contact->id; ?>&amp;no_html=1">
-				<?php echo(_VCARD);?>
+				<?php echo $_LANG->_( 'VCard' );?>
 				</a>
 				</td>
 			</tr>
@@ -645,6 +654,8 @@ class HTML_contact {
 	* Writes Email form
 	*/
 	function _writeEmailForm( &$contact, &$params, $sitename ) {
+		global $_LANG;
+
 		if ( $contact->email_to && !$params->get( 'popup' ) && $params->get( 'email_form' ) ) {
 			?>
 			<tr>
@@ -655,25 +666,25 @@ class HTML_contact {
 				<form action="<?php echo sefRelToAbs( 'index.php?option=com_contact&amp;Itemid='. $Itemid ); ?>" method="post" name="emailForm" target="_top" id="emailForm">
 				<div class="contact_email<?php echo $params->get( 'pageclass_sfx' ); ?>">
 					<label for="contact_name">
-						<?php echo(_NAME_PROMPT);?>
+						&nbsp;<?php echo $_LANG->_( 'Enter your name' );?>:
 					</label>
 					<br />
 					<input type="text" name="name" id="contact_name" size="30" class="inputbox" value="" />
 					<br />
 					<label for="contact_email">
-						<?php echo(_EMAIL_PROMPT);?>
+						&nbsp;<?php echo $_LANG->_( 'Email address' );?>:
 					</label>
 					<br />
 					<input type="text" name="email" id="contact_email" size="30" class="inputbox" value="" />
 					<br />
 					<label for="contact_subject">
-						<?php echo(_SUBJECT_PROMPT);?>
+						&nbsp;<?php echo $_LANG->_( 'Message subject' );?>:
 					</label>
 					<br />
 					<input type="text" name="subject" id="contact_subject" size="30" class="inputbox" value="" />
 					<br /><br />
 					<label for="contact_text">
-						<?php echo(_MESSAGE_PROMPT);?>
+						&nbsp;<?php echo $_LANG->_( 'Enter your message' );?>:
 					</label>
 					<br />
 					<textarea cols="50" rows="10" name="text" id="contact_text" class="inputbox"></textarea>
@@ -683,14 +694,14 @@ class HTML_contact {
 						<br />
 							<input type="checkbox" name="email_copy" id="contact_email_copy" value="1"  />
 							<label for="contact_email_copy">
-								<?php echo(_EMAIL_A_COPY); ?>
+								<?php echo $_LANG->_( 'EMAIL_A_COPY' ); ?>
 							</label>
 						<?php
 					}
 					?>
 					<br />
 					<br />
-					<input type="button" name="send" value="<?php echo(_SEND_BUTTON); ?>" class="button" onclick="validate()" />
+					<input type="button" name="send" value="<?php echo $_LANG->_( 'Send' ); ?>" class="button" onclick="validate()" />
 				</div>
 				<input type="hidden" name="option" value="com_contact" />
 				<input type="hidden" name="con_id" value="<?php echo $contact->id; ?>" />
@@ -706,10 +717,11 @@ class HTML_contact {
 
 
 	function nocontact( &$params ) {
+		global $_LANG;
 		?>
 		<br />
 		<br />
-			<?php echo _CONTACT_NONE;?>
+			<?php echo $_LANG->_( 'There are no Contact Details listed.' );?>
 		<br />
 		<br />
 		<?php

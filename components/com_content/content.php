@@ -1549,7 +1549,7 @@ function emailContentSend( $uid ) {
 	$validate = mosGetParam( $_POST, mosHash( 'validate' ), 0 );
 	if (!$validate) {
 		// probably a spoofing attack
-		echo _NOT_AUTH;
+		echo $_LANG->_('ALERTNOTAUTH');
 		return;
 	}
 

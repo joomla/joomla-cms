@@ -55,7 +55,7 @@ function pollAddVote( $uid ) {
 
 	$poll = new mosPoll( $database );
 	if (!$poll->load( $uid )) {
-		echo '<h3>'. _NOT_AUTH .'</h3>';
+		echo '<h3>'. $_LANG->_('ALERTNOTAUTH') .'</h3>';
 		echo '<input class="button" type="button" value="'. _CMN_CONTINUE .'" onClick="window.history.go(-1);">';
 		return;
 	}

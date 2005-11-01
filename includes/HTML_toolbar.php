@@ -266,7 +266,9 @@ class mosToolBar {
 	* @param string An override for the task
 	* @param string An override for the alt text
 	*/
-	function save( $task='save', $alt=_CMN_SAVE ) {
+	function save( $task='save', $alt='Save' ) {
+	
+        $alt= $_LANG->_( 'Save' );
 		$image = mosAdminMenus::ImageCheck( 'save_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
@@ -322,7 +324,9 @@ class mosToolBar {
 	* @param string An override for the task
 	* @param string An override for the alt text
 	*/
-	function cancel( $task='cancel', $alt=_CMN_CANCEL ) {
+	function cancel( $task='cancel', $alt='Cancel' ) {
+	
+        $alt= $_LANG->_( 'Cancel' );
 		$image = mosAdminMenus::ImageCheck( 'cancel_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>

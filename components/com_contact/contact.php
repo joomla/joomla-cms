@@ -53,6 +53,7 @@ function listContacts( $option, $catid ) {
 	global $mainframe, $database, $my;
 	global $mosConfig_live_site;
 	global $Itemid;
+	global $_LANG;
 
 	/* Query to retrieve all categories that belong under the contacts section and that are published. */
 	$query = "SELECT *, COUNT( a.id ) AS numlinks"
@@ -87,7 +88,7 @@ function listContacts( $option, $catid ) {
 		$params->def( 'pageclass_sfx', '' );
 		$params->def( 'headings', 1 );
 		$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
-		$params->def( 'description_text', _CONTACTS_DESC );
+		$params->def( 'description_text', $_LANG->_( 'The Contact list for this Website.' ) );
 		$params->def( 'image', -1 );
 		$params->def( 'image_align', 'right' );
 		$params->def( 'other_cat_section', 1 );
@@ -178,6 +179,7 @@ function listContacts( $option, $catid ) {
 
 function contactpage( $contact_id ) {
 	global $mainframe, $database, $my, $Itemid;
+	global $_LANG;
 
 	$query = "SELECT a.id AS value, CONCAT_WS( ' - ', a.name, a.con_position ) AS text"
 	. "\n FROM #__contact_details AS a"
@@ -207,7 +209,7 @@ function contactpage( $contact_id ) {
 		$contacts = $database->LoadObjectList();
 
 		if (!$contacts){
-			echo _NOT_AUTH;
+			echo $_LANG->_('ALERTNOTAUTH');
 			return;
 		}
 		$contact = $contacts[0];
@@ -233,7 +235,7 @@ function contactpage( $contact_id ) {
 		$params->def( 'misc', '1' );
 		$params->def( 'image', '1' );
 		$params->def( 'email_description', '1' );
-		$params->def( 'email_description_text', _EMAIL_DESCRIPTION );
+		$params->def( 'email_description_text', $_LANG->_( 'Send an Email to this Contact:' ) );
 		$params->def( 'email_form', '1' );
 		$params->def( 'email_copy', '1' );
 		// global pront|pdf|email
@@ -280,11 +282,11 @@ function contactpage( $contact_id ) {
 		switch ( $params->get( 'contact_icons' ) ) {
 			case 1:
 			// text
-				$params->set( 'marker_address', _CONTACT_ADDRESS );
-				$params->set( 'marker_email', _CONTACT_EMAIL );
-				$params->set( 'marker_telephone', _CONTACT_TELEPHONE );
-				$params->set( 'marker_fax', _CONTACT_FAX );
-				$params->set( 'marker_misc', _CONTACT_MISC );
+				$params->set( 'marker_address', $_LANG->_( 'Address' ) .": " );
+				$params->set( 'marker_email', $_LANG->_( 'Email' ) .": " );
+				$params->set( 'marker_telephone', $_LANG->_( 'Telephone' ) .": " );
+				$params->set( 'marker_fax', $_LANG->_( 'Fax' ) .": " );
+				$params->set( 'marker_misc', $_LANG->_( 'Information' ) .": " );
 				$params->set( 'column_width', '100' );
 				break;
 			case 2:
@@ -298,11 +300,11 @@ function contactpage( $contact_id ) {
 				break;
 			default:
 			// icons
-				$image1 = mosAdminMenus::ImageCheck( 'con_address.png', '/images/M_images/', $params->get( 'icon_address' ), NULL, _CONTACT_ADDRESS, _CONTACT_ADDRESS );
-				$image2 = mosAdminMenus::ImageCheck( 'emailButton.png', '/images/M_images/', $params->get( 'icon_email' ), NULL, _CONTACT_EMAIL, _CONTACT_EMAIL );
-				$image3 = mosAdminMenus::ImageCheck( 'con_tel.png', '/images/M_images/', $params->get( 'icon_telephone' ), NULL, _CONTACT_TELEPHONE, _CONTACT_TELEPHONE );
-				$image4 = mosAdminMenus::ImageCheck( 'con_fax.png', '/images/M_images/', $params->get( 'icon_fax' ), NULL, _CONTACT_FAX, _CONTACT_FAX );
-				$image5 = mosAdminMenus::ImageCheck( 'con_info.png', '/images/M_images/', $params->get( 'icon_misc' ), NULL, _CONTACT_MISC, _CONTACT_MISC );
+				$image1 = mosAdminMenus::ImageCheck( 'con_address.png', '/images/M_images/', $params->get( 'icon_address' ), NULL, $_LANG->_( 'Address' ) .": ", $_LANG->_( 'Address' ) .": " );
+				$image2 = mosAdminMenus::ImageCheck( 'emailButton.png', '/images/M_images/', $params->get( 'icon_email' ), NULL, $_LANG->_( 'Email' ) .": ", $_LANG->_( 'Email' ) .": " );
+				$image3 = mosAdminMenus::ImageCheck( 'con_tel.png', '/images/M_images/', $params->get( 'icon_telephone' ), NULL, $_LANG->_( 'Telephone' ) .": ", $_LANG->_( 'Telephone' ) .": " );
+				$image4 = mosAdminMenus::ImageCheck( 'con_fax.png', '/images/M_images/', $params->get( 'icon_fax' ), NULL, $_LANG->_( 'Fax' ) .": ", $_LANG->_( 'Fax' ) .": " );
+				$image5 = mosAdminMenus::ImageCheck( 'con_info.png', '/images/M_images/', $params->get( 'icon_misc' ), NULL, $_LANG->_( 'Information' ) .": ", $_LANG->_( 'Information' ) .": " );
 				$params->set( 'marker_address', $image1 );
 				$params->set( 'marker_email', $image2 );
 				$params->set( 'marker_telephone', $image3 );
@@ -333,6 +335,7 @@ function contactpage( $contact_id ) {
 function sendmail( $con_id, $option ) {
 	global $database, $Itemid;
 	global $mosConfig_sitename, $mosConfig_live_site, $mosConfig_mailfrom, $mosConfig_fromname;
+	global $_LANG;
 
 	$query = "SELECT *"
 	. "\n FROM #__contact_details"
@@ -341,7 +344,7 @@ function sendmail( $con_id, $option ) {
 	$database->setQuery( $query );
 	$contact 	= $database->loadObjectList();
 
-	$default 	= $mosConfig_sitename.' '. _ENQUIRY;
+	$default 	= $mosConfig_sitename.' '. $_LANG->_( 'Enquiry' );
 	$email 		= mosGetParam( $_POST, 'email', '' );
 	$text 		= mosGetParam( $_POST, 'text', '' );
 	$name 		= mosGetParam( $_POST, 'name', '' );
@@ -349,22 +352,22 @@ function sendmail( $con_id, $option ) {
 	$email_copy = mosGetParam( $_POST, 'email_copy', 0 );
 
 	if ( !$email || !$text || ( is_email( $email )==false ) ) {
-		mosErrorAlert( _CONTACT_FORM_NC );
+		mosErrorAlert( $_LANG->_( 'CONTACT_FORM_NC' ) );
 	}
-	$prefix = sprintf( _ENQUIRY_TEXT, $mosConfig_live_site );
+	$prefix = sprintf( $_LANG->_( 'ENQUIRY_TEXT' ), $mosConfig_live_site );
 	$text 	= $prefix ."\n". $name. ' <'. $email .'>' ."\n\n". stripslashes( $text );
 
 	mosMail( $email, $name , $contact[0]->email_to, $mosConfig_fromname .': '. $subject, $text );
 
 	if ( $email_copy ) {
-		$copy_text = sprintf( _COPY_TEXT, $contact[0]->name, $mosConfig_sitename );
-		$copy_text = $copy_text ."\n\n". $text .'';
-		$copy_subject = _COPY_SUBJECT . $subject;
+		$copy_text = sprintf( $_LANG->_( 'Copy of:' ), $contact[0]->name, $mosConfig_sitename );
+		$copy_text = $copy_text ."\n\n". $text;
+		$copy_subject = $_LANG->_( 'Copy of:' ) ." ". $subject;
 		mosMail( $mosConfig_mailfrom, $mosConfig_fromname, $email, $copy_subject, $copy_text );
 	}
 	?>
 	<script>
-	alert( "<?php echo _THANK_MESSAGE; ?>" );
+	alert( "<?php echo $_LANG->_( 'Thank you for your e-mail' ); ?>" );
 	document.location.href='<?php echo sefRelToAbs( 'index.php?option='. $option .'&Itemid='. $Itemid ); ?>';
 	</script>
 	<?php

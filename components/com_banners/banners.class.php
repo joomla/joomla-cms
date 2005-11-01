@@ -34,21 +34,23 @@ class mosBannerClient extends mosDBTable {
 	}
 
 	function check() {
+		global $_LANG;
+
 		// check for valid client name
 		if (trim($this->name == '')) {
-			$this->_error = _BNR_CLIENT_NAME;
+			$this->_error = $_LANG->_( 'BNR_CLIENT_NAME' );
 			return false;
 		}
 
 		// check for valid client contact
 		if (trim($this->contact == '')) {
-			$this->_error = _BNR_CONTACT;
+			$this->_error = $_LANG->_( 'BNR_CONTACT' );
 			return false;
 		}
 
 		// check for valid client email
 		if ((trim($this->email == '')) || (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $this->email )==false)) {
-			$this->_error = _BNR_VALID_EMAIL;
+			$this->_error = $_LANG->_( 'BNR_VALID_EMAIL' );
 			return false;
 		}
 		return true;
@@ -105,23 +107,25 @@ class mosBanner extends mosDBTable {
 	}
 
 	function check() {
+		global $_LANG;
+
 		// check for valid client id
 		if (is_null($this->cid) || $this->cid == 0) {
-			$this->_error = _BNR_CLIENT;
+			$this->_error = $_LANG->_( 'BNR_CLIENT' );
 			return false;
 		}
 
 		if(trim($this->name) == '') {
-			$this->_error = _BNR_NAME;
+			$this->_error = $_LANG->_( 'BNR_NAME' );
 			return false;
 		}
 
 		if(trim($this->imageurl) == '') {
-			$this->_error = _BNR_IMAGE;
+			$this->_error = $_LANG->_( 'BNR_IMAGE' );
 			return false;
 		}
 		if(trim($this->clickurl) == '' && trim($this->custombannercode) == '') {
-			$this->_error = _BNR_URL;
+			$this->_error = $_LANG->_( 'BNR_URL' );
 			return false;
 		}
 

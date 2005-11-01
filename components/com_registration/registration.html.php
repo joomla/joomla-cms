@@ -74,7 +74,7 @@ class HTML_registration {
 			} else if (form.username.value == "") {
 				alert( "<?php echo html_entity_decode(_REGWARN_UNAME);?>" );
 			} else if (r.exec(form.username.value) || form.username.value.length < 3) {
-				alert( "<?php printf( html_entity_decode(_VALID_AZ09), html_entity_decode(_PROMPT_UNAME), 2 );?>" );
+				alert( "<?php printf( html_entity_decode( $_LANG->_( 'VALID_AZ09' ) ), html_entity_decode(_PROMPT_UNAME), 2 );?>" );
 			} else if (form.email.value == "") {
 				alert( "<?php echo html_entity_decode(_REGWARN_MAIL);?>" );
 			} else if (form.password.value.length < 6) {

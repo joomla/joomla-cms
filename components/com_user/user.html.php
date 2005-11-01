@@ -60,7 +60,7 @@ class HTML_user {
 			} else if (form.username.value == "") {
 				alert( "<?php echo _REGWARN_UNAME;?>" );
 			} else if (r.exec(form.username.value) || form.username.value.length < 3) {
-				alert( "<?php printf( _VALID_AZ09, _PROMPT_UNAME, 4 );?>" );
+				alert( "<?php printf( $_LANG->_( 'VALID_AZ09' ), _PROMPT_UNAME, 4 );?>" );
 			} else if (form.email.value == "") {
 				alert( "<?php echo _REGWARN_MAIL;?>" );
 			} else if ((form.password.value != "") && (form.password.value != form.verifyPass.value)){
