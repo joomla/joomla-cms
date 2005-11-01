@@ -35,53 +35,53 @@ if ($showmode==0 || $showmode==2) {
 
 	if ($guest_array<>0 && $user_array==0) {
 		if ($guest_array==1) {
-			$content.=_WE_HAVE;
-			$content.=_GUEST_COUNT;
-			$content.=_ONLINE;
+			$content.= $_LANG->_( 'We have' );
+			$content.= $guest_array ." ". $_LANG->_( 'guest' );
+			$content.= " ". $_LANG->_( 'online' );
 			eval ("\$content = \"$content\";");
 		} else {
-			$content.=_WE_HAVE;
-			$content.=_GUESTS_COUNT;
-			$content.=_ONLINE;
+			$content.= $_LANG->_( 'We have' );
+			$content.= $guest_array ." ". $_LANG->_( 'guests' );
+			$content.= " ". $_LANG->_( 'online' );
 			eval ("\$content = \"$content\";");
 		}
 	}
 
 	if ($guest_array==0 && $user_array<>0) {
 		if ($user_array==1) {
-			$content.=_WE_HAVE;
-			$content.=_MEMBER_COUNT;
-			$content.=_ONLINE;
+			$content.= $_LANG->_( 'We have' );
+			$content.= $user_array ." ". $_LANG->_( 'member' );
+			$content.= " ". $_LANG->_( 'online' );
 			eval ("\$content = \"$content\";");
 		} else {
-			$content.=_WE_HAVE;
-			$content.=_MEMBERS_COUNT;
-			$content.=_ONLINE;
+			$content.= $_LANG->_( 'We have' );
+			$content.= $user_array ." ". $_LANG->_( 'members' );
+			$content.= " ". $_LANG->_( 'online' );
 			eval ("\$content = \"$content\";");
 		}
 	}
 
 	if ($guest_array<>0 && $user_array<>0) {
 		if ($guest_array==1) {
-			$content.=_WE_HAVE;
-			$content.=_GUEST_COUNT;
-			$content.=_AND;
+			$content.= $_LANG->_( 'We have' );
+			$content.= $guest_array ." ". $_LANG->_( 'guest' );
+			$content.= " ". $_LANG->_( 'and' );
 			eval ("\$content = \"$content\";");
 		} else {
-			$content.=_WE_HAVE;
-			$content.=_GUESTS_COUNT;
-			$content.=_ONLINE;
-			$content.=_AND;
+			$content.= $_LANG->_( 'We have' );
+			$content.= $guest_array ." ". $_LANG->_( 'guests' );
+			$content.= " ". $_LANG->_( 'online' );
+			$content.= " ". $_LANG->_( 'and' );
 			eval ("\$content = \"$content\";");
 		}
 
 		if ($user_array==1) {
-			$content.=_MEMBER_COUNT;
-			$content.=_ONLINE;
+			$content.= $user_array ." ". $_LANG->_( 'member' );
+			$content.= " ". $_LANG->_( 'online' );
 			eval ("\$content = \"$content\";");
 		} else {
-			$content.=_MEMBERS_COUNT;
-			$content.=_ONLINE;
+			$content.= $user_array ." ". $_LANG->_( 'members' );
+			$content.= " ". $_LANG->_( 'online' );
 			eval ("\$content = \"$content\";");
 		}
 
@@ -102,7 +102,7 @@ if ($showmode==1 || $showmode==2) {
 	}
 
 	if ( !$content ) {
-		echo _NONE ."\n";
+		echo $_LANG->_( 'No Users Online' ) ."\n";
 	} else {
 		echo $content;
 	}

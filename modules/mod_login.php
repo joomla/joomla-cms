@@ -47,13 +47,12 @@ if ( $my->id ) {
 	<form action="index.php" method="post" name="login">
 	<?php
 	if ( $greeting ) {
-		echo _HI;
-		echo $name;
+		echo $_LANG->_( 'Hi,' ) ." ". $name;
 	}
 	?>
 	<br />
 	<div align="center">
-		<input type="submit" name="Submit" class="button" value="<?php echo _BUTTON_LOGOUT; ?>" />
+		<input type="submit" name="Submit" class="button" value="<?php echo $_LANG->_( 'BUTTON_LOGOUT'); ?>" />
 	</div>
 
 	<input type="hidden" name="op2" value="logout" />
@@ -75,30 +74,30 @@ if ( $my->id ) {
 	<tr>
 		<td>
 			<label for="mod_login_username">
-				<?php echo _USERNAME; ?>
+				<?php echo $_LANG->_( 'Username' ); ?>
 			</label>
 			<br />
-			<input name="username" id="mod_login_username" type="text" class="inputbox" alt="username" size="10" />
+			<input name="username" id="mod_login_username" type="text" class="inputbox" alt="<?php echo $_LANG->_( 'Username' ); ?>" size="10" />
 			<br />
 			<label for="mod_login_password">
-				<?php echo _PASSWORD; ?>
+				<?php echo $_LANG->_( 'Password' ); ?>
 			</label>
 			<br />
-			<input type="password" id="mod_login_password" name="passwd" class="inputbox" size="10" alt="password" />
+			<input type="password" id="mod_login_password" name="passwd" class="inputbox" size="10" alt="<?php echo $_LANG->_( 'Password' ); ?>" />
 			<br />
-			<input type="checkbox" name="remember" id="mod_login_remember" class="inputbox" value="yes" alt="Remember Me" />
+			<input type="checkbox" name="remember" id="mod_login_remember" class="inputbox" value="yes" alt="<?php echo $_LANG->_( 'Remember me' ); ?>" />
 			<label for="mod_login_remember">
-				<?php echo _REMEMBER_ME; ?>
+				<?php echo $_LANG->_( 'Remember me' ); ?>
 			</label>
 			<br />
 			<input type="hidden" name="option" value="login" />
-			<input type="submit" name="Submit" class="button" value="<?php echo _BUTTON_LOGIN; ?>" />
+			<input type="submit" name="Submit" class="button" value="<?php echo $_LANG->_( 'BUTTON_LOGIN'); ?>" />
 		</td>
 	</tr>
 	<tr>
 		<td>
 		<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=lostPassword' ); ?>">
-			<?php echo _LOST_PASSWORD; ?></a>
+			<?php echo $_LANG->_( 'Lost Password?'); ?></a>
 		</td>
 	</tr>
 	<?php
@@ -106,9 +105,9 @@ if ( $my->id ) {
 		?>
 		<tr>
 			<td>
-				<?php echo _NO_ACCOUNT; ?>
+				<?php echo $_LANG->_( 'No account yet?'); ?>
 				<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=register' ); ?>">
-					<?php echo _CREATE_ACCOUNT; ?></a>
+					<?php echo $_LANG->_( 'Register'); ?></a>
 			</td>
 		</tr>
 		<?php

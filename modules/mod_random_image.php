@@ -44,7 +44,7 @@ if (is_dir($abspath_folder)) {
 	}
 
 	if (!$the_image) {
-		echo 'No images';
+		echo $_LANG->_( 'No images ');
 	} else {
 
   	$i = count($the_image);
