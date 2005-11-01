@@ -27,6 +27,7 @@ class HTML_content {
 	*/
 	function showContentList( $title, &$items, &$access, $id=0, $sectionid=NULL, $gid, &$params, &$pageNav, $other_categories, &$lists, $order ) {
 		global $Itemid, $mosConfig_live_site;
+		global $_LANG;
 
 		if ( $sectionid ) {
 			$id = $sectionid;
@@ -69,7 +70,7 @@ class HTML_content {
 			} else if ( $catid ) {
 				?>
 				<br />
-				<?php echo _EMPTY_CATEGORY; ?>
+				<?php echo $_LANG->_( 'This Category is currently empty' ); ?>
 				<br /><br />
 				<?php
 			}
@@ -102,6 +103,7 @@ class HTML_content {
 	* Display links to categories
 	*/
 	function showCategories( &$params, &$items, $gid, &$other_categories, $catid, $id, $Itemid ) {
+		global $_LANG;
 		?>
 		<ul>
 		<?php
@@ -117,7 +119,7 @@ class HTML_content {
 					<?php
 					if ( $params->get( 'cat_items' ) ) {
 						?>
-						&nbsp;<i>( <?php echo $row->numitems; echo _CHECKED_IN_ITEMS;?> )</i>
+						&nbsp;<i>( <?php echo $row->numitems ." ". $_LANG->_( 'items' );?> )</i>
 						<?php
 					}
 					// Writes Category Description
@@ -133,7 +135,7 @@ class HTML_content {
 					<li>
 					<?php echo $row->name; ?>
 					<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=register' ); ?>">
-					( <?php echo _E_REGISTERED; ?> )
+					( <?php echo $_LANG->_( 'Registered Users Only' ); ?> )
 					</a>
 					<?php
 				}
@@ -150,6 +152,8 @@ class HTML_content {
 	*/
 	function showTable( &$params, &$items, &$gid, $catid, $id, &$pageNav, &$access, &$sectionid, &$lists, $order ) {
 		global $mosConfig_live_site, $Itemid;
+		global $_LANG;
+
 		$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='. $sectionid .'&amp;id='. $catid .'&amp;order='. $order .'&amp;Itemid='. $Itemid;
 		?>
 		<form action="<?php echo sefRelToAbs($link); ?>" method="post" name="adminForm">
@@ -163,7 +167,7 @@ class HTML_content {
 						?>
 						<td align="right" width="100%" nowrap="nowrap">
 						<?php
-						echo _FILTER .'&nbsp;';
+						echo $_LANG->_( 'Filter' ) .'&nbsp;';
 						?>
 						<input type="text" name="filter" value="<?php echo $lists['filter'];?>" class="inputbox" onchange="document.adminForm.submit();" />
 						</td>
@@ -174,7 +178,7 @@ class HTML_content {
 						?>
 						<td align="right" width="100%" nowrap="nowrap">
 						<?php
-						echo '&nbsp;&nbsp;&nbsp;'. _ORDER_DROPDOWN .'&nbsp;';
+						echo '&nbsp;&nbsp;&nbsp;'. $_LANG->_( 'Order' ) .'&nbsp;';
 						echo $lists['order'];
 						?>
 						</td>
@@ -185,7 +189,7 @@ class HTML_content {
 						?>
 						<td align="right" width="100%" nowrap="nowrap">
 						<?php
-						echo '&nbsp;&nbsp;&nbsp;'. _PN_DISPLAY_NR .'&nbsp;';
+						echo '&nbsp;&nbsp;&nbsp;'. $_LANG->_( 'Display Num' ) .'&nbsp;';
 						$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='. $sectionid .'&amp;id='. $catid .'&amp;order='. $order .'&amp;Itemid='. $Itemid;
 						echo $pageNav->getLimitBox( $link );
 						?>
@@ -205,28 +209,28 @@ class HTML_content {
 				if ( $params->get( 'date' ) ) {
 					?>
 					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="35%">
-					&nbsp;<?php echo _DATE; ?>
+					&nbsp;<?php echo $_LANG->_( 'Date' ); ?>
 					</td>
 					<?php
 				}
 				if ( $params->get( 'title' ) ) {
 					?>
 					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="45%">
-					<?php echo _HEADER_TITLE; ?>
+					<?php echo $_LANG->_( 'Item Title' ); ?>
 					</td>
 					<?php
 				}
 				if ( $params->get( 'author' ) ) {
 					?>
 					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>"  width="25%">
-					<?php echo _HEADER_AUTHOR; ?>
+					<?php echo $_LANG->_( 'Author' ); ?>
 					</td>
 					<?php
 				}
 				if ( $params->get( 'hits' ) ) {
 					?>
 					<td align="center" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="5%">
-					<?php echo _HEADER_HITS; ?>
+					<?php echo $_LANG->_( 'Hits' ); ?>
 					</td>
 					<?php
 				}
@@ -269,7 +273,7 @@ class HTML_content {
 						$link = sefRelToAbs( 'index.php?option=com_registration&amp;task=register' );
 						?>
 						<a href="<?php echo $link; ?>">
-						<?php echo _READ_MORE_REGISTER; ?>
+						<?php echo $_LANG->_( 'Register to read more...' ); ?>
 						</a>
 						</td>
 						<?php
@@ -321,8 +325,8 @@ class HTML_content {
 			<tr>
 				<td colspan="4">
 				<a href="<?php echo $link; ?>">
-				<img src="<?php echo $mosConfig_live_site;?>/images/M_images/new.png" width="13" height="14" align="middle" border="0" alt="<?php echo _CMN_NEW;?>" />
-				&nbsp;<?php echo _CMN_NEW;?>...
+				<img src="<?php echo $mosConfig_live_site;?>/images/M_images/new.png" width="13" height="14" align="middle" border="0" alt="<?php echo $_LANG->_( 'New' );?>" />
+				&nbsp;<?php echo $_LANG->_( 'New' );?>...
 				</a>
 				</td>
 			</tr>
@@ -344,12 +348,13 @@ class HTML_content {
 	*/
 	function showLinks( &$rows, $links, $total, $i=0, $show=1, $ItemidCount ) {
 		global $mainframe;
+		global $_LANG;
 
 		if ( $show ) {
 			?>
 			<div>
 			<strong>
-			<?php echo _MORE; ?>
+			<?php echo $_LANG->_( 'Read more...' ); ?>
 			</strong>
 			</div>
 			<ul>
@@ -387,6 +392,7 @@ class HTML_content {
 		global $mainframe, $my, $hide_js;
 		global $mosConfig_sitename, $Itemid, $mosConfig_live_site, $task;
 		global $_MAMBOTS;
+		global $_LANG;
 
 		$mainframe->appendMetaTag( 'description', $row->metadesc );
 		$mainframe->appendMetaTag( 'keywords', $row->metakey );
@@ -414,12 +420,12 @@ class HTML_content {
 				}
 				$link_on = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$row->id."&amp;Itemid=".$_Itemid);
 				if ( strlen( trim( $row->fulltext ) )) {
-					$link_text = _READ_MORE;
+					$link_text = $_LANG->_( 'Read more...' );
 				}
 			} else {
 				$link_on = sefRelToAbs("index.php?option=com_registration&amp;task=register");
 				if (strlen( trim( $row->fulltext ) )) {
-					$link_text = _READ_MORE_REGISTER;
+					$link_text = $_LANG->_( 'Register to read more...' );
 				}
 			}
 		}
@@ -545,6 +551,8 @@ class HTML_content {
 	* Writes Title
 	*/
 	function Title( $row, $params, $link_on, $access ) {
+		global $_LANG;
+
 		if ( $params->get( 'item_title' ) ) {
 			if ( $params->get( 'link_titles' ) && $link_on != '' ) {
 				?>
@@ -577,6 +585,7 @@ class HTML_content {
 	*/
 	function EditIcon( $row, $params, $access ) {
 		global $Itemid, $my, $mainframe;
+		global $_LANG;
 
 		if ( $params->get( 'popup' ) ) {
 			return;
@@ -591,12 +600,12 @@ class HTML_content {
 		mosCommonHTML::loadOverlib();
 
 		$link = 'index.php?option=com_content&amp;task=edit&amp;id='. $row->id .'&amp;Itemid='. $Itemid .'&amp;Returnid='. $Itemid;
-		$image = mosAdminMenus::ImageCheck( 'edit.png', '/images/M_images/', NULL, NULL, _E_EDIT, _E_EDIT );
+		$image = mosAdminMenus::ImageCheck( 'edit.png', '/images/M_images/', NULL, NULL, $_LANG->_( 'Edit' ), $_LANG->_( 'Edit' ) );
 
 		if ( $row->state == 0 ) {
-			$overlib = _CMN_UNPUBLISHED;
+			$overlib = $_LANG->_( 'Unpublished' );
 		} else {
-			$overlib = _CMN_PUBLISHED;
+			$overlib = $_LANG->_( 'Published' );
 		}
 		$date 		= mosFormatDate( $row->created );
 		$author		= $row->created_by_alias ? $row->created_by_alias : $row->author;
@@ -608,7 +617,7 @@ class HTML_content {
 		$overlib 	.= '<br />';
 		$overlib 	.= $author;
 		?>
-		<a href="<?php echo sefRelToAbs( $link ); ?>" title="<?php echo _E_EDIT;?>"  onMouseOver="return overlib('<?php echo $overlib; ?>', CAPTION, '<?php echo 'Edit Item'; ?>', BELOW, RIGHT);" onMouseOut="return nd();">
+		<a href="<?php echo sefRelToAbs( $link ); ?>" title="<?php echo $_LANG->_( 'Edit' );?>"  onMouseOver="return overlib('<?php echo $overlib; ?>', CAPTION, '<?php echo $_LANG->_( 'Edit Item' ); ?>', BELOW, RIGHT);" onMouseOut="return nd();">
 		<?php echo $image; ?>
 		</a>
 		<?php
@@ -620,17 +629,19 @@ class HTML_content {
 	*/
 	function PdfIcon( $row, $params, $link_on, $hide_js ) {
 		global $mosConfig_live_site;
+		global $_LANG;
+
 		if ( $params->get( 'pdf' ) && !$params->get( 'popup' ) && !$hide_js ) {
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 			$link = $mosConfig_live_site. '/index2.php?option=com_content&amp;do_pdf=1&amp;id='. $row->id;
 			if ( $params->get( 'icons' ) ) {
-				$image = mosAdminMenus::ImageCheck( 'pdf_button.png', '/images/M_images/', NULL, NULL, _CMN_PDF, _CMN_PDF );
+				$image = mosAdminMenus::ImageCheck( 'pdf_button.png', '/images/M_images/', NULL, NULL, $_LANG->_( 'PDF' ), $_LANG->_( 'PDF' ) );
 			} else {
-				$image = _CMN_PDF .'&nbsp;';
+				$image = $_LANG->_( 'PDF' ) .'&nbsp;';
 			}
 			?>
 			<td align="right" width="100%" class="buttonheading">
-			<a href="#" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo _CMN_PDF;?>">
+			<a href="#" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo $_LANG->_( 'PDF' );?>">
 			<?php echo $image; ?>
 			</a>
 			</td>
@@ -644,17 +655,19 @@ class HTML_content {
 	*/
 	function EmailIcon( $row, $params, $hide_js ) {
 		global $mosConfig_live_site;
+		global $_LANG;
+
 		if ( $params->get( 'email' ) && !$params->get( 'popup' ) && !$hide_js ) {
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=400,height=250,directories=no,location=no';
 			$link = $mosConfig_live_site .'/index2.php?option=com_content&amp;task=emailform&amp;id='. $row->id;
 			if ( $params->get( 'icons' ) ) {
-				$image = mosAdminMenus::ImageCheck( 'emailButton.png', '/images/M_images/', NULL, NULL, _CMN_EMAIL, _CMN_EMAIL );
+				$image = mosAdminMenus::ImageCheck( 'emailButton.png', '/images/M_images/', NULL, NULL, $_LANG->_( 'Email' ), $_LANG->_( 'Email' ) );
 			} else {
-				$image = '&nbsp;'. _CMN_EMAIL;
+				$image = '&nbsp;'. $_LANG->_( 'Email' );
 			}
 			?>
 			<td align="right" width="100%" class="buttonheading">
-			<a href="#" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo _CMN_EMAIL;?>">
+			<a href="#" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo $_LANG->_( 'Email' );?>">
 			<?php echo $image; ?>
 			</a>
 			</td>
@@ -666,6 +679,7 @@ class HTML_content {
 	* Writes Container for Section & Category
 	*/
 	function Section_Category( $row, $params ) {
+
 		if ( $params->get( 'section' ) || $params->get( 'category' ) ) {
 			?>
 			<tr>
@@ -691,6 +705,7 @@ class HTML_content {
 	* Writes Section
 	*/
 	function Section( $row, $params ) {
+
 		if ( $params->get( 'section' ) ) {
 				?>
 				<span>
@@ -710,6 +725,7 @@ class HTML_content {
 	* Writes Category
 	*/
 	function Category( $row, $params ) {
+
 		if ( $params->get( 'category' ) ) {
 			?>
 			<span>
@@ -726,15 +742,17 @@ class HTML_content {
 	*/
 	function Author( $row, $params ) {
 		global $acl;
+		global $_LANG;
+
 		if ( ( $params->get( 'author' ) ) && ( $row->author != "" ) ) {
 			$grp = $acl->getAroGroup( $row->created_by );
 			$is_frontend_user = $acl->is_group_child_of( intval( $grp->group_id ), 'Public Frontend', 'ARO' );
-			$by = $is_frontend_user ? _AUTHOR_BY : _WRITTEN_BY;
+			$by = $is_frontend_user ? $_LANG->_( 'Contributed by' ) : $_LANG->_( 'Written by' );
 		?>
 		<tr>
 			<td width="70%"  valign="top" colspan="2">
 			<span class="small">
-			<?php echo $by. ' '.( $row->created_by_alias ? $row->created_by_alias : $row->author ); ?>
+			&nbsp;<?php echo $by. ' '.( $row->created_by_alias ? $row->created_by_alias : $row->author ); ?>
 			</span>
 			&nbsp;&nbsp;
 			</td>
@@ -793,6 +811,8 @@ class HTML_content {
 	* Writes Modified Date
 	*/
 	function ModifiedDate( $row, $params ) {
+		global $_LANG;
+
 		$mod_date = null;
 		if ( intval( $row->modified ) != 0) {
 			$mod_date = mosFormatDate( $row->modified );
@@ -801,7 +821,7 @@ class HTML_content {
 			?>
 			<tr>
 				<td colspan="2"  class="modifydate">
-				<?php echo _LAST_UPDATED; ?> ( <?php echo $mod_date; ?> )
+				<?php echo $_LANG->_( 'Last Updated' ); ?> ( <?php echo $mod_date; ?> )
 				</td>
 			</tr>
 			<?php
@@ -831,8 +851,12 @@ class HTML_content {
 	* Writes Next & Prev navigation button
 	*/
 	function Navigation( $row, $params ) {
+		global $_LANG;
+
 		$task = mosGetParam( $_REQUEST, 'task', '' );
 		if ( $params->get( 'item_navigation' ) && ( $task == "view" ) && !$params->get( 'popup' ) && ( $row->prev || $row->next ) ) {
+            $pnSpace = "";
+            if ($_LANG->_( 'PREV_LT' ) || $_LANG->_( 'NEXT_GT' )) $pnSpace = " ";
 			?>
 			<table align="center" style="margin-top: 25px;">
 			<tr>
@@ -841,7 +865,7 @@ class HTML_content {
 					?>
 					<th class="pagenav_prev">
 					<a href="<?php echo $row->prev; ?>">
-					<?php echo _ITEM_PREVIOUS; ?>
+					<?php echo $_LANG->_( 'PREV_LT' ) . $pnSpace . $_LANG->_( 'Prev' ); ?>
 					</a>
 					</th>
 					<?php
@@ -857,7 +881,7 @@ class HTML_content {
 					?>
 					<th class="pagenav_next">
 					<a href="<?php echo $row->next; ?>">
-					<?php echo _ITEM_NEXT; ?>
+					<?php echo $_LANG->_( 'Next' ) . $pnSpace . $_LANG->_( 'NEXT_GT' ); ?>
 					</a>
 					</th>
 					<?php
@@ -879,6 +903,7 @@ class HTML_content {
 	*/
 	function editContent( &$row, $section, &$lists, &$images, &$access, $myid, $sectionid, $task, $Itemid ) {
 		global $mosConfig_live_site,$mainframe;
+		global $_LANG;
 
 		mosMakeHtmlSafe( $row );
 
@@ -887,7 +912,7 @@ class HTML_content {
 		$Returnid 	= intval( mosGetParam( $_REQUEST, 'Returnid', $Itemid ) );
 		$tabs 		= new mosTabs(0, 1);
 		
-		$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="all" href="includes/js/calendar/calendar-mos.css" title="green" />' );	
+		$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="all" href="includes/js/calendar/calendar-mos.css" />' );	
 		?>
   		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<!-- import the calendar script -->
@@ -927,13 +952,13 @@ class HTML_content {
 			catch(e){}
 			// do field validation
 			if (form.title.value == "") {
-				alert ( "<?php echo _E_WARNTITLE; ?>" );
+				alert ( "<?php echo $_LANG->_( 'Content item must have a title' ); ?>" );
 			} else if (parseInt('<?php echo $row->sectionid;?>')) {
 				// for content items
 				if (getSelectedValue('adminForm','catid') < 1) {
-					alert ( "<?php echo _E_WARNCAT; ?>" );
+					alert ( "<?php echo $_LANG->_( 'Please select a category' ); ?>" );
 				//} else if (form.introtext.value == "") {
-				//	alert ( "<?php echo _E_WARNTEXT; ?>" );
+				//	alert ( "<?php echo $_LANG->_( 'Content item must have intro text' ); ?>" );
 				} else {
 					<?php
 					getEditorContents( 'editor1', 'introtext' );
@@ -942,7 +967,7 @@ class HTML_content {
 					submitform(pressbutton);
 				}
 			//} else if (form.introtext.value == "") {
-			//	alert ( "<?php echo _E_WARNTEXT; ?>" );
+			//	alert ( "<?php echo $_LANG->_( 'Content item must have intro text' ); ?>" );
 			} else {
 				// for static content
 				<?php
@@ -958,22 +983,22 @@ class HTML_content {
 
 		function WarnUser(){
 			if (document.adminForm.goodexit.value==0) {
-				alert('<?php echo _E_WARNUSER;?>');
+				alert('<?php echo $_LANG->_( 'WARNUSER' );?>');
 				window.location="<?php echo sefRelToAbs("index.php?option=com_content&task=".$task."&sectionid=".$sectionid."&id=".$row->id."&Itemid=".$Itemid); ?>";
 			}
 		}
 		</script>
 
 		<?php
-		$docinfo = "<strong>"._E_EXPIRES."</strong> ";
+		$docinfo = "<strong>". $_LANG->_( 'Expiry Date' ) .":</strong> ";
 		$docinfo .= $row->publish_down."<br />";
-		$docinfo .= "<strong>"._E_VERSION."</strong> ";
+		$docinfo .= "<strong>". $_LANG->_( 'Version' ) .":</strong> ";
 		$docinfo .= $row->version."<br />";
-		$docinfo .= "<strong>"._E_CREATED."</strong> ";
+		$docinfo .= "<strong>". $_LANG->_( 'Created' ) .":</strong> ";
 		$docinfo .= $row->created."<br />";
-		$docinfo .= "<strong>"._E_LAST_MOD."</strong> ";
+		$docinfo .= "<strong>". $_LANG->_( 'Last Modified' ) .":</strong> ";
 		$docinfo .= $row->modified."<br />";
-		$docinfo .= "<strong>"._E_HITS."</strong> ";
+		$docinfo .= "<strong>". $_LANG->_( 'Hits' ) .":</strong> ";
 		$docinfo .= $row->hits."<br />";
 		?>
 		<form action="index.php" method="post" name="adminForm" onSubmit="javascript:setgood();">
@@ -981,10 +1006,10 @@ class HTML_content {
 		<table cellspacing="0" cellpadding="0" border="0" width="100%">
 		<tr>
 			<td class="contentheading" >
-			<?php echo $section;?> / <?php echo $row->id ? _E_EDIT : _E_ADD;?>&nbsp;
-			<?php echo _E_CONTENT;?> &nbsp;&nbsp;&nbsp;
-			<a href="javascript: void(0);" onMouseOver="return overlib('<table><?php echo $docinfo; ?></table>', CAPTION, '<?php echo _E_ITEM_INFO;?>', BELOW, RIGHT);" onMouseOut="return nd();">
-			<strong>[Info]</strong>
+			<?php echo $section;?> / <?php echo $row->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'Add' );?>&nbsp;
+			<?php echo $_LANG->_( 'Content' );?> &nbsp;&nbsp;&nbsp;
+			<a href="javascript: void(0);" onMouseOver="return overlib('<table><?php echo $docinfo; ?></table>', CAPTION, '<?php echo $_LANG->_( 'Item Information' );?>', BELOW, RIGHT);" onMouseOut="return nd();">
+			<strong>[<?php echo $_LANG->_( 'Info' );?>]</strong>
 			</a>
 			</td>
 		</tr>
@@ -994,7 +1019,7 @@ class HTML_content {
 		<tr>
 			<td>
 				<div style="float: left;">
-					<?php echo _E_TITLE; ?>
+					<?php echo $_LANG->_( 'Title' ); ?>:
 					<br />
 					<input class="inputbox" type="text" name="title" size="50" maxlength="100" value="<?php echo $row->title; ?>" />
 				</div>
@@ -1015,7 +1040,7 @@ class HTML_content {
 			?>
 			<tr>
 				<td>
-				<?php echo _E_CATEGORY; ?>
+				<?php echo $_LANG->_( 'Category' ); ?>:
 				<br />
 				<?php echo $lists['catid']; ?>
 				</td>
@@ -1028,13 +1053,13 @@ class HTML_content {
 			if (intval( $row->sectionid ) > 0) {
 				?>
 				<td>
-				<?php echo _E_INTRO.' ('._CMN_REQUIRED.')'; ?>:
+				<?php echo $_LANG->_( 'Intro Text' ) .' ('. $_LANG->_( 'Required' ) .')'; ?>:
 				</td>
 				<?php
 			} else {
 				?>
 				<td>
-				<?php echo _E_MAIN.' ('._CMN_REQUIRED.')'; ?>:
+				<?php echo $_LANG->_( 'Main Text' ) .' ('. $_LANG->_( 'Required' ) .')'; ?>:
 				</td>
 			<?php
 			} ?>
@@ -1052,7 +1077,7 @@ class HTML_content {
 			?>
 			<tr>
 				<td>
-				<?php echo _E_MAIN.' ('._CMN_OPTIONAL.')'; ?>:
+				<?php echo $_LANG->_( 'Main Text' ) .' ('. $_LANG->_( 'Optional' ) .')'; ?>:
 				</td>
 			</tr>
 			<tr>
@@ -1078,50 +1103,51 @@ class HTML_content {
 		?>
 
 	 	<?php
+	 	$title = $_LANG->_( 'Images' );
 		$tabs->startPane( 'content-pane' );
-		$tabs->startTab( _E_IMAGES, 'images-page' );
+		$tabs->startTab( $title, 'images-page' );
 		?>
 			<table class="adminform">
 			<tr>
 				<td colspan="4">
-				<?php echo _CMN_SUBFOLDER; ?> :: <?php echo $lists['folders'];?>
+				<?php echo $_LANG->_( 'Sub-folder' ); ?> :: <?php echo $lists['folders'];?>
 				</td>
 			</tr>
 			<tr>
 				<td align="top">
-					<?php echo _E_GALLERY_IMAGES; ?>
+					<?php echo $_LANG->_( 'Gallery Images' ); ?>
 				</td>
 				<td width="2%">
 				</td>
 				<td align="top">
-					<?php echo _E_CONTENT_IMAGES; ?>
+					<?php echo $_LANG->_( 'Content Images' ); ?>
 				</td>
 				<td align="top">
-					<?php echo _E_EDIT_IMAGE; ?>
+					<?php echo $_LANG->_( 'Edit Image' ); ?>
 				</td>
 			</tr>
 			<tr>
 				<td valign="top">
 					<?php echo $lists['imagefiles'];?>
 					<br />
-					<input class="button" type="button" value="<?php echo _E_INSERT; ?>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" />
+					<input class="button" type="button" value="<?php echo $_LANG->_( 'Insert' ); ?>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" />
 				</td>
 				<td width="2%">
-					<input class="button" type="button" value=">>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" title="Add"/>
+					<input class="button" type="button" value=">>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" title="<?php echo $_LANG->_( 'Add' ); ?>"/>
 					<br/>
-					<input class="button" type="button" value="<<" onclick="delSelectedFromList('adminForm','imagelist')" title="Remove"/>
+					<input class="button" type="button" value="<<" onclick="delSelectedFromList('adminForm','imagelist')" title="<?php echo $_LANG->_( 'Remove' ); ?>"/>
 				</td>
 				<td valign="top">
 					<?php echo $lists['imagelist'];?>
 					<br />
-					<input class="button" type="button" value="<?php echo _E_UP; ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,-1)" />
-					<input class="button" type="button" value="<?php echo _E_DOWN; ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,+1)" />
+					<input class="button" type="button" value="<?php echo $_LANG->_( 'Up' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,-1)" />
+					<input class="button" type="button" value="<?php echo $_LANG->_( 'Down' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,+1)" />
 				</td>
 				<td valign="top">
 					<table>
 					<tr>
 						<td align="right">
-						<?php echo _E_SOURCE; ?>
+						<?php echo $_LANG->_( 'Source' ); ?>:
 						</td>
 						<td>
 						<input class="inputbox" type="text" name= "_source" value="" size="15" />
@@ -1129,7 +1155,7 @@ class HTML_content {
 					</tr>
 					<tr>
 						<td align="right" valign="top">
-						<?php echo _E_ALIGN; ?>
+						<?php echo $_LANG->_( 'Align' ); ?>:
 						</td>
 						<td>
 						<?php echo $lists['_align']; ?>
@@ -1137,7 +1163,7 @@ class HTML_content {
 					</tr>
 					<tr>
 						<td align="right">
-						<?php echo _E_ALT; ?>
+						<?php echo $_LANG->_( 'Alt Text' ); ?>:
 						</td>
 						<td>
 						<input class="inputbox" type="text" name="_alt" value="" size="15" />
@@ -1145,7 +1171,7 @@ class HTML_content {
 					</tr>
 					<tr>
 						<td align="right">
-						<?php echo _E_BORDER; ?>
+						<?php echo $_LANG->_( 'Border' ); ?>:
 						</td>
 						<td>
 						<input class="inputbox" type="text" name="_border" value="" size="3" maxlength="1" />
@@ -1153,7 +1179,7 @@ class HTML_content {
 					</tr>
 					<tr>
 						<td align="right">
-						Caption:
+						<?php echo $_LANG->_( 'Caption' ); ?>:
 						</td>
 						<td>
 						<input class="text_area" type="text" name="_caption" value="" size="30" />
@@ -1161,7 +1187,7 @@ class HTML_content {
 					</tr>
 					<tr>
 						<td align="right">
-						Caption Position:
+						<?php echo $_LANG->_( 'Caption Position' ); ?>:
 						</td>
 						<td>
 						<?php echo $lists['_caption_position']; ?>
@@ -1169,7 +1195,7 @@ class HTML_content {
 					</tr>
 					<tr>
 						<td align="right">
-						Caption Align:
+						<?php echo $_LANG->_( 'Caption Align' ); ?>:
 						</td>
 						<td>
 						<?php echo $lists['_caption_align']; ?>
@@ -1177,7 +1203,7 @@ class HTML_content {
 					</tr>
 					<tr>
 						<td align="right">
-						Caption Width:
+						<?php echo $_LANG->_( 'Caption Width' ); ?>:
 						</td>
 						<td>
 						<input class="text_area" type="text" name="_width" value="" size="5" maxlength="5" />
@@ -1186,7 +1212,7 @@ class HTML_content {
 					<tr>
 						<td align="right"></td>
 						<td>
-						<input class="button" type="button" value="<?php echo _E_APPLY; ?>" onclick="applyImageProps()" />
+						<input class="button" type="button" value="<?php echo $_LANG->_( 'Apply' ); ?>" onclick="applyImageProps()" />
 						</td>
 					</tr>
 					</table>
@@ -1194,20 +1220,21 @@ class HTML_content {
 			</tr>
 			<tr>
 				<td>
-					<img name="view_imagefiles" src="<?php echo $mosConfig_live_site;?>/images/M_images/blank.png" width="50" alt="No Image" />
+					<img name="view_imagefiles" src="<?php echo $mosConfig_live_site;?>/images/M_images/blank.png" width="50" alt="<?php echo $_LANG->_( 'No Image' ); ?>" />
 				</td>
 				<td width="2%">
 				</td>
 				<td>
-					<img name="view_imagelist" src="<?php echo $mosConfig_live_site;?>/images/M_images/blank.png" width="50" alt="No Image" />
+					<img name="view_imagelist" src="<?php echo $mosConfig_live_site;?>/images/M_images/blank.png" width="50" alt="<?php echo $_LANG->_( 'No Image' ); ?>" />
 				</td>
 				<td>
 				</td>
 			</tr>
 			</table>
 		<?php
+	 	$title = $_LANG->_( 'Publishing' );
 		$tabs->endTab();
-		$tabs->startTab( _E_PUBLISHING, 'publish-page' );
+		$tabs->startTab( $title, 'publish-page' );
 		?>
 			<table class="adminform">
 			<?php
@@ -1215,7 +1242,7 @@ class HTML_content {
 				?>
 				<tr>
 					<td >
-					<?php echo _E_STATE; ?>
+					<?php echo $_LANG->_( 'State' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['state']; ?>
@@ -1225,7 +1252,7 @@ class HTML_content {
 			} ?>
 			<tr>
 				<td >
-				<?php echo _E_ACCESS_LEVEL; ?>
+				<?php echo $_LANG->_( 'Access Level' ); ?>:
 				</td>
 				<td>
 				<?php echo $lists['access']; ?>
@@ -1233,7 +1260,7 @@ class HTML_content {
 			</tr>
 			<tr>
 				<td >
-				<?php echo _E_AUTHOR_ALIAS; ?>
+				<?php echo $_LANG->_( 'Author Alias' ); ?>:
 				</td>
 				<td>
 				<input type="text" name="created_by_alias" size="50" maxlength="100" value="<?php echo $row->created_by_alias; ?>" class="inputbox" />
@@ -1241,7 +1268,7 @@ class HTML_content {
 			</tr>
 			<tr>
 				<td >
-				<?php echo _E_ORDERING; ?>
+				<?php echo $_LANG->_( 'Ordering' ); ?>:
 				</td>
 				<td>
 				<?php echo $lists['ordering']; ?>
@@ -1249,7 +1276,7 @@ class HTML_content {
 			</tr>
 			<tr>
 				<td >
-				<?php echo _E_START_PUB; ?>
+				<?php echo $_LANG->_( 'Start Publishing' ); ?>:
 				</td>
 				<td>
 				<input class="inputbox" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo $row->publish_up; ?>" />
@@ -1258,7 +1285,7 @@ class HTML_content {
 			</tr>
 			<tr>
 				<td >
-				<?php echo _E_FINISH_PUB; ?>
+				<?php echo $_LANG->_( 'Finish Publishing' ); ?>:
 				</td>
 				<td>
 				<input class="inputbox" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $row->publish_down; ?>" />
@@ -1267,7 +1294,7 @@ class HTML_content {
 			</tr>
 			<tr>
 				<td >
-				<?php echo _E_SHOW_FP; ?>
+				<?php echo $_LANG->_( 'Show on Front Page' ); ?>:
 				</td>
 				<td>
 				<input type="checkbox" name="frontpage" value="1" <?php echo $row->frontpage ? 'checked="checked"' : ''; ?> />
@@ -1275,13 +1302,14 @@ class HTML_content {
 			</tr>
 			</table>
 		<?php
+	 	$title = $_LANG->_( 'Metadata' );
 		$tabs->endTab();
-		$tabs->startTab( _E_METADATA, 'meta-page' );
+		$tabs->startTab( $title, 'meta-page' );
 		?>
 			<table class="adminform">
 			<tr>
 				<td  valign="top">
-				<?php echo _E_M_DESC; ?>
+				<?php echo $_LANG->_( 'Description' ); ?>:
 				</td>
 				<td>
 				<textarea class="inputbox" cols="45" rows="3" name="metadesc"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
@@ -1289,7 +1317,7 @@ class HTML_content {
 			</tr>
 			<tr>
 				<td  valign="top">
-				<?php echo _E_M_KEY; ?>
+				<?php echo $_LANG->_( 'Keywords' ); ?>:
 				</td>
 				<td>
 				<textarea class="inputbox" cols="45" rows="3" name="metakey"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
@@ -1322,6 +1350,7 @@ class HTML_content {
 	*/
 	function emailForm( $uid, $title, $template='' ) {
 		global $mosConfig_sitename, $mainframe;
+		global $_LANG;
 		
 		$mainframe->setPageTitle( $mosConfig_sitename .' :: '. $title );
 		$mainframe->addCustomHeadTag( '<link rel="stylesheet" href="templates/'. $template .'/css/template_css.css" type="text/css" />' );
@@ -1331,7 +1360,7 @@ class HTML_content {
 			var form = document.frontendForm;
 			// do field validation
 			if (form.email.value == "" || form.youremail.value == "") {
-				alert( '<?php echo addslashes( _EMAIL_ERR_NOINFO ); ?>' );
+				alert( "<?php echo $_LANG->_( 'EMAIL_ERR_NOINFO' ); ?>" );
 				return false;
 			}
 			return true;
@@ -1342,7 +1371,7 @@ class HTML_content {
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
 			<td colspan="2">
-			<?php echo _EMAIL_FRIEND; ?>
+			<?php echo $_LANG->_( 'Email this to a friend.' ); ?>
 			</td>
 		</tr>
 		<tr>
@@ -1350,7 +1379,7 @@ class HTML_content {
 		</tr>
 		<tr>
 			<td width="130">
-			<?php echo _EMAIL_FRIEND_ADDR; ?>
+			<?php echo $_LANG->_( 'Your friend`s Email' ); ?>:
 			</td>
 			<td>
 			<input type="text" name="email" class="inputbox" size="25" />
@@ -1358,7 +1387,7 @@ class HTML_content {
 		</tr>
 		<tr>
 			<td height="27">
-			<?php echo _EMAIL_YOUR_NAME; ?>
+			<?php echo $_LANG->_( 'Your Name' ); ?>:
 			</td>
 			<td>
 			<input type="text" name="yourname" class="inputbox" size="25" />
@@ -1366,7 +1395,7 @@ class HTML_content {
 		</tr>
 		<tr>
 			<td>
-			<?php echo _EMAIL_YOUR_MAIL; ?>
+			<?php echo $_LANG->_( 'Your Email' ); ?>:
 			</td>
 			<td>
 			<input type="text" name="youremail" class="inputbox" size="25" />
@@ -1374,7 +1403,7 @@ class HTML_content {
 		</tr>
 		<tr>
 			<td>
-			<?php echo _SUBJECT_PROMPT; ?>
+			&nbsp;<?php echo $_LANG->_( 'Message subject' ); ?>:
 			</td>
 			<td>
 			<input type="text" name="subject" class="inputbox" maxlength="100" size="40" />
@@ -1385,9 +1414,9 @@ class HTML_content {
 		</tr>
 		<tr>
 			<td colspan="2">
-			<input type="submit" name="submit" class="button" value="<?php echo _BUTTON_SUBMIT_MAIL; ?>" />
+			<input type="submit" name="submit" class="button" value="<?php echo $_LANG->_( 'Send email' ); ?>" />
 			&nbsp;&nbsp; 
-			<input type="button" name="cancel" value="<?php echo _BUTTON_CANCEL; ?>" class="button" onclick="window.close();" />
+			<input type="button" name="cancel" value="<?php echo $_LANG->_( 'Cancel' ); ?>" class="button" onclick="window.close();" />
 			</td>
 		</tr>
 		</table>
@@ -1405,15 +1434,16 @@ class HTML_content {
 	*/
 	function emailSent( $to, $template='' ) {
 		global $mosConfig_sitename, $mainframe;
+		global $_LANG;
 		
 		$mainframe->setPageTitle( $mosConfig_sitename );
 		$mainframe->addCustomHeadTag( '<link rel="stylesheet" href="templates/'. $template .'/css/template_css.css" type="text/css" />' );
 		?>
-		<span class="contentheading"><?php echo _EMAIL_SENT." $to";?></span> <br />
+		<span class="contentheading"><?php echo $_LANG->_( 'This item has been sent to' )." $to";?></span> <br />
 		<br />
 		<br />
 		<a href='javascript:window.close();'>
-		<span class="small"><?php echo _PROMPT_CLOSE;?></span>
+		<span class="small"><?php echo $_LANG->_( 'Close Window' );?></span>
 		</a>
 		<?php
 	}
