@@ -119,7 +119,7 @@ class database {
 	* @return string
 	*/
 	function getEscaped( $text ) {
-		return mysql_escape_string( $text );
+		return mysql_real_escape_string( $text );
 	}
 	/**
 	* Get a quoted database escaped string

@@ -114,9 +114,9 @@ if ((mosCountModules( 'user1' )) && (mosCountModules( 'user2' ))) {
 		?>
 		<div class="clr"></div>
 	</div>
-
+   
 	<div id="footer-800" >
-		<?php include_once( $mosConfig_absolute_path .'/includes/footer.php' ); ?>
+		<?php mosLoadModules( 'footer', -1);?>
 		<?php mosLoadModules( 'debug', -1 );?>
 	</div>
 </div>

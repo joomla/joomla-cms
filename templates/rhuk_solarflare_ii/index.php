@@ -180,7 +180,7 @@ if ( mosCountModules( 'right' ) and ( empty( $_REQUEST['task'] ) || $_REQUEST['t
 	  </tr>
   </table>
 </div>
-<?php include_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/footer.php' ); ?>
+<?php mosLoadModules( 'footer', -1 );?>
 <?php mosLoadModules( 'debug', -1 );?>
 </body>
 </html>

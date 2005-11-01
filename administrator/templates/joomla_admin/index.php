@@ -71,14 +71,7 @@ $tstart = mosProfiler::getmicrotime();
 	<table width="99%" border="0">
 	<tr>
 		<td align="center">
-			<div align="center">
-				<?php echo $_VERSION->URL; ?>
-			</div>
-			<div align="center" class="smallgrey">
-				<?php echo $_VERSION->getLongVersion(); ?>
-				<br/>
-				<a href="http://www.joomla.org/content/blogcategory/32/66/" target="_blank"><?php echo $_LANG->_( 'Check for latest Version' ); ?></a>
-			</div>
+			<?php mosLoadAdminModules( 'footer', -1 );?>
 			<?php
 			if ( $mosConfig_debug ) {
 				echo '<div class="smallgrey">';
@@ -92,7 +85,6 @@ $tstart = mosProfiler::getmicrotime();
 	</tr>
 	</table>
 </div>
-
 <?php mosLoadAdminModules( 'debug' );?>
 </div>
 </body>
