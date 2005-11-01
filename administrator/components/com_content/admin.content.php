@@ -598,13 +598,11 @@ function saveContent( $sectionid, $task ) {
 
 	$isNew = ( $row->id < 1 );
 	if ($isNew) {
-		//$row->created		= $row->created ? $row->created : date( 'Y-m-d H:i:s' );
-		$row->created 		= $row->created ? mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S', -$mosConfig_offset * 60 * 60 ) : date( 'Y-m-d H:i:s' );
+		$row->created 		= $row->created ? mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S', -$mosConfig_offset ) : date( 'Y-m-d H:i:s' );
 		$row->created_by 	= $row->created_by ? $row->created_by : $my->id;
 	} else {
 		$row->modified 		= date( 'Y-m-d H:i:s' );
 		$row->modified_by 	= $my->id;
-		//$row->created 	= $row->created ? $row->created : date( 'Y-m-d H:i:s' );
 		$row->created 		= $row->created ? mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S', -$mosConfig_offset ) : date( 'Y-m-d H:i:s' );
 		$row->created_by 	= $row->created_by ? $row->created_by : $my->id;
 	}
