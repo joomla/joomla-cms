@@ -77,6 +77,40 @@ function mosIsChmodable( $file ) {
 
 
 /**
+* Legacy function, replaced by geshi bot
+*/
+function mosShowSource( $filename, $withLineNums=false ) {
+    global $_LANG;
+
+	ini_set('highlight.html', '000000');
+	ini_set('highlight.default', '#800000');
+	ini_set('highlight.keyword','#0000ff');
+	ini_set('highlight.string', '#ff00ff');
+	ini_set('highlight.comment','#008000');
+
+	if (!($source = @highlight_file( $filename, true ))) {
+		return $_LANG->_( 'Operation Failed' );
+	}
+	$source = explode("<br />", $source);
+
+	$ln = 1;
+
+	$txt = '';
+	foreach( $source as $line ) {
+		$txt .= "<code>";
+		if ($withLineNums) {
+			$txt .= "<font color=\"#aaaaaa\">";
+			$txt .= str_replace( ' ', '&nbsp;', sprintf( "%4d:", $ln ) );
+			$txt .= "</font>";
+		}
+		$txt .= "$line<br /><code>";
+		$ln++;
+	}
+	return $txt;
+}
+
+
+/**
 * Legacy function, use $_VERSION->getLongVersion() instead
 */
 global $_VERSION;
