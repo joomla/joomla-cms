@@ -39,6 +39,46 @@ if (@$mosConfig_error_reporting === 0) {
 	error_reporting( $mosConfig_error_reporting );
 }
 
+/**
+ * Intelligent file importer
+ * @param string A dot syntax path
+ * @param boolean True to use require_once, false to use require
+ */
+function jimport( $path, $requireOnce=true ) {
+	global $mosConfig_absolute_path;
+
+	$path = $mosConfig_absolute_path
+		. DIRECTORY_SEPARATOR . str_replace( '.', DIRECTORY_SEPARATOR, $path );
+	
+	// TODO: Rules, try a few variations, search for factories, etc
+
+	$path = $path . '.php';
+
+	if ($requireOnce) {
+		return require_once( $path );
+	} else {
+		return require( $path );
+	}
+}
+
+// experimenting
+jimport( 'includes.version' );
+jimport( 'includes.database' );
+require_once( $mosConfig_absolute_path . '/includes/gacl.class.php' );
+require_once( $mosConfig_absolute_path . '/includes/gacl_api.class.php' );
+require_once( $mosConfig_absolute_path . '/includes/phpmailer/class.phpmailer.php' );
+require_once( $mosConfig_absolute_path . '/includes/phpInputFilter/class.inputfilter.php' );
+
+jimport( 'libraries.joomla.functions' );
+jimport( 'libraries.joomla.classes' );
+jimport( 'libraries.joomla.models' );
+jimport( 'libraries.joomla.html' );
+jimport( 'libraries.joomla.factory' );
+jimport( 'libraries.joomla.files' );
+jimport( 'libraries.joomla.xml' );
+jimport( 'libraries.joomla.legacy' );
+
+/*
 require_once( $mosConfig_absolute_path . '/includes/version.php' );
 require_once( $mosConfig_absolute_path . '/includes/database.php' );
 require_once( $mosConfig_absolute_path . '/includes/gacl.class.php' );
@@ -54,6 +94,7 @@ require_once( $mosConfig_absolute_path . '/libraries/joomla/factory.php' );
 require_once( $mosConfig_absolute_path . '/libraries/joomla/files.php' );
 require_once( $mosConfig_absolute_path . '/libraries/joomla/xml.php' );
 require_once( $mosConfig_absolute_path . '/libraries/joomla/legacy.php' );
+*/
 
 
 /** @global $database */
