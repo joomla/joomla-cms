@@ -22,17 +22,11 @@ function mosMainBody() {
 		$mosmsg = addslashes( $mosmsg );
 	}
 
-	$popMessages = false;
-
-	if ($mosmsg && !$popMessages) {
+	if ($mosmsg) {
 		echo "\n<div class=\"message\">$mosmsg</div>";
 	}
 
 	echo $GLOBALS['_MOS_OPTION']['buffer'];
-
-	if ($mosmsg && $popMessages) {
-		echo "\n<script language=\"javascript\">alert('$mosmsg');</script>";
-	}
 }
 /**
 * Utility functions and classes
@@ -71,7 +65,6 @@ function &initModules() {
 * @param string THe template position
 */
 function mosCountModules( $position='left' ) {
-	global $database, $my, $Itemid;
 
 	$tp = mosGetParam( $_GET, 'tp', 0 );
 	if ($tp) {
@@ -90,8 +83,8 @@ function mosCountModules( $position='left' ) {
 * @param int The style.  0=normal, 1=horiz, -1=no wrapper
 */
 function mosLoadModules( $position='left', $style=0 ) {
-	global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
-	global $mainframe, $database, $my, $Itemid, $_LANG;
+	global $mosConfig_lang, $mosConfig_absolute_path;
+	global $_LANG;
 
 	$tp = mosGetParam( $_GET, 'tp', 0 );
 	if ($tp) {
@@ -131,18 +124,38 @@ function mosLoadModules( $position='left', $style=0 ) {
 		
 		if(substr( $module->module, 0, 4 )  == 'mod_') {
 			ob_start();
-			include( $mosConfig_absolute_path . '/modules/' . $module->module . '.php' );
+			mosLoadModule(substr( $module->module, 4 ), $params);
 			$module->content = ob_get_contents();
 			ob_end_clean();
 		}
 			
 		if ($params->get('cache') == 1 && $mosConfig_caching == 1) {
-			$cache->call('modules_html::module2', $module, $params, $style );
+			$cache->call('modules_html::module', $module, $params, $style );
 		} else {
 			modules_html::module( $module, $params, $style );
 		}
 	}
 }
+
+/**
+* Loads an admin module
+*/
+function mosLoadModule( $name, $params=NULL ) {
+	global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
+	global $mainframe, $database, $my, $Itemid, $_LANG, $acl;
+
+	$task = mosGetParam( $_REQUEST, 'task', '' );
+
+	$name = str_replace( '/', '', $name );
+	$name = str_replace( '\\', '', $name );
+	
+	$path = "$mosConfig_absolute_path/modules/mod_$name.php";
+	
+	if (file_exists( $path )) {
+		require $path;
+	}
+}
+
 /**
 * Assembles head tags
 */

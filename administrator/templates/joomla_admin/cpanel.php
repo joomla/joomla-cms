@@ -23,7 +23,14 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 	<td width="45%" valign="top">
 		<div style="width=100%;">
 			<form action="index2.php" method="post" name="adminForm">
+			<?php
+			$tabs = new mosTabs(1);
+			$tabs->startPane( 'modules-cpanel' );
+			?>
 			<?php mosLoadAdminModules( 'cpanel', 1 ); ?>
+			<?php
+			$tabs->endPane();
+			?>
 			</form>
 		</div>
 	</td>

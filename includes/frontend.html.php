@@ -27,8 +27,6 @@ class modules_html {
 	function module( &$module, &$params, $style=0 ) {
 		global $mosConfig_lang, $mosConfig_absolute_path;
 
-		$rssurl 		 = $params->get( 'rssurl' );
-
 		switch ( $style ) {
 			case -3:
 			// allows for rounded corners
@@ -44,22 +42,133 @@ class modules_html {
 			// show a naked module - no wrapper and no title
 				modules_html::modoutput_naked( $module, $params );
 				break;
-				
-			case 0:
-			// standard tabled output
-				modules_html::modoutput_table( $module, $params );
-				break;
-				
+			
 			case 1:
 			// show a naked module - no wrapper and no title
 				modules_html::modoutput_horz( $module, $params );
 				break;
+				
+			case 0:
+			default:
+			// standard tabled output
+				modules_html::modoutput_table( $module, $params );
+				break;
+				
+			
 		}
 		
-		if ( $rssurl ) {
+		if ( $params->get( 'rssurl' ) ) {
 			// feed output
 			modules_html::modoutput_feed( $params );
 		}
+	}
+	
+		/*
+	* standard tabled output
+	*/
+	function modoutput_table( $module, $params  ) {
+		
+		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
+		
+		?>
+		<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $moduleclass_sfx; ?>">
+		<?php
+		if ( $module->showtitle != 0 ) {
+			?>
+			<tr>
+				<th valign="top">
+					<?php echo $module->title; ?>
+				</th>
+			</tr>
+			<?php
+		}
+		?>
+		<tr>
+			<td>
+				<?php echo $module->content;?>
+			</td>
+		</tr>
+		</table>
+		<?php
+	}
+	
+	/*
+	* standard tabled output
+	*/
+	function modoutput_horz( $module, $params  ) {
+		?>
+		<table cellspacing="1" cellpadding="0" border="0" width="100%">
+		<tr>
+		<td valign="top">
+		<?php
+		modules_html::modoutput_table($module, $params);
+		?>
+		</td>
+		</tr>
+		</table>
+		<?php
+	}
+
+	/*
+	* show a naked module - no wrapper and no title
+	*/
+	function modoutput_naked( $module, $params  ) {
+		
+		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
+		
+		echo $module->content;
+	}
+
+	/*
+	* xhtml (divs and font headder tags)
+	*/
+	function modoutput_xhtml( $module, $params ) {
+		
+		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
+		
+		?>
+		<div class="moduletable<?php echo $moduleclass_sfx; ?>">
+			<?php
+			if ($module->showtitle != 0) {
+				//echo $number;
+				?>
+				<h3>
+					<?php echo $module->title; ?>
+				</h3>
+				<?php
+			}
+
+			echo $module->content;
+			?>
+		</div>
+		<?php
+	}
+
+	/*
+	* allows for rounded corners
+	*/
+	function modoutput_rounded( $module, $params ) {
+		
+		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
+		
+		?>
+		<div class="module<?php echo $moduleclass_sfx; ?>">
+			<div>
+				<div>
+					<div>
+						<?php
+						if ($module->showtitle != 0) {
+							echo "<h3>$module->title</h3>";
+						}
+						
+						echo $module->content;
+						
+						?>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php
 	}
 
 	// feed output
@@ -196,114 +305,6 @@ class modules_html {
 			</table>
 			<?php
 		}
-	}
-
-	/*
-	* standard tabled output
-	*/
-	function modoutput_table( $module, $params  ) {
-		
-		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
-		
-		?>
-		<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $moduleclass_sfx; ?>">
-		<?php
-		if ( $module->showtitle != 0 ) {
-			?>
-			<tr>
-				<th valign="top">
-					<?php echo $module->title; ?>
-				</th>
-			</tr>
-			<?php
-		}
-		?>
-		<tr>
-			<td>
-				<?php echo $module->content;?>
-			</td>
-		</tr>
-		</table>
-		<?php
-	}
-	
-	/*
-	* standard tabled output
-	*/
-	function modoutput_horz( $module, $params  ) {
-		?>
-		<table cellspacing="1" cellpadding="0" border="0" width="100%">
-		<tr>
-		<td valign="top">
-		<?php
-		modules_html::modoutput_table($module, $params);
-		?>
-		</td>
-		</tr>
-		</table>
-		<?php
-	}
-
-	/*
-	* show a naked module - no wrapper and no title
-	*/
-	function modoutput_naked( $module, $params  ) {
-		
-		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
-		
-		echo $module->content;
-	}
-
-	/*
-	* xhtml (divs and font headder tags)
-	*/
-	function modoutput_xhtml( $module, $params ) {
-		
-		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
-		
-		?>
-		<div class="moduletable<?php echo $moduleclass_sfx; ?>">
-			<?php
-			if ($module->showtitle != 0) {
-				//echo $number;
-				?>
-				<h3>
-					<?php echo $module->title; ?>
-				</h3>
-				<?php
-			}
-
-			echo $module->content;
-			?>
-		</div>
-		<?php
-	}
-
-	/*
-	* allows for rounded corners
-	*/
-	function modoutput_rounded( $module, $params ) {
-		
-		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
-		
-		?>
-		<div class="module<?php echo $moduleclass_sfx; ?>">
-			<div>
-				<div>
-					<div>
-						<?php
-						if ($module->showtitle != 0) {
-							echo "<h3>$module->title</h3>";
-						}
-						
-						echo $module->content;
-						
-						?>
-					</div>
-				</div>
-			</div>
-		</div>
-		<?php
 	}
 }
 ?>

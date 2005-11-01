@@ -14,21 +14,50 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
+function mosMainBody_Admin() {
+	echo $GLOBALS['_MOS_OPTION']['buffer'];
+}
+
+/**
+* Cache some modules information
+* @return array
+*/
+function &initModules() {
+	global $database, $my, $Itemid;
+
+	if (!isset( $GLOBALS['_MOS_MODULES'] )) {
+		$query = "SELECT id, title, module, position, content, showtitle, params"
+			. "\n FROM #__modules AS m"
+			. "\n WHERE m.published = 1"
+			. "\n AND m.client_id = 1"
+			. "\n ORDER BY m.ordering"
+			;
+
+		$database->setQuery( $query );
+		$modules = $database->loadObjectList();
+		foreach ($modules as $module) {
+			$GLOBALS['_MOS_MODULES'][$module->position][] = $module;
+		}
+	}
+	return $GLOBALS['_MOS_MODULES'];
+}
+
 /**
 * @param string THe template position
 */
 function mosCountAdminModules(  $position='left' ) {
-	global $database;
+	
+	$tp = mosGetParam( $_GET, 'tp', 0 );
+	if ($tp) {
+		return 1;
+	}
 
-	$query = "SELECT COUNT( m.id )"
-	. "\n FROM #__modules AS m"
-	. "\n WHERE m.published = '1'"
-	. "\n AND m.position = '$position'"
-	. "\n AND m.client_id = 1"
-	;
-	$database->setQuery( $query );
-
-	return $database->loadResult();
+	$modules =& initModules();
+	if (isset( $GLOBALS['_MOS_MODULES'][$position] )) {
+		return count( $GLOBALS['_MOS_MODULES'][$position] );
+	} else {
+		return 0;
+	}
 }
 /**
 * Loads admin modules via module position
@@ -36,73 +65,50 @@ function mosCountAdminModules(  $position='left' ) {
 * @param int 0 = no style, 1 = tabbed
 */
 function mosLoadAdminModules( $position='left', $style=0 ) {
-	global $database, $acl, $my;
-    global $_LANG;
-
-	$cache =& mosCache::getCache( 'com_content' );
-
-	$query = "SELECT id, title, module, position, content, showtitle, params"
-	. "\n FROM #__modules AS m"
-	. "\n WHERE m.published = 1"
-	. "\n AND m.position = '$position'"
-	. "\n AND m.client_id = 1"
-	. "\n ORDER BY m.ordering"
-	;
-	$database->setQuery( $query );
-	$modules = $database->loadObjectList();
-	if($database->getErrorNum()) {
-		echo "MA ".$database->stderr(true);
+	global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
+	global $mainframe, $database, $my, $Itemid, $_LANG;
+	
+	$tp = mosGetParam( $_GET, 'tp', 0 );
+	if ($tp) {
+		echo '<div style="height:50px;background-color:#eee;margin:2px;padding:10px;border:1px solid #f00;color:#700;">';
+		echo $position;
+		echo '</div>';
 		return;
 	}
+	$style = intval( $style );
+	$cache =& mosCache::getCache( 'com_content' );
+	
+	require_once( $mosConfig_absolute_path . '/administrator/includes/admin.html.php' );
 
-	switch ($style) {
-		case 1:
-			// Tabs
-			$tabs = new mosTabs(1);
-			$tabs->startPane( 'modules-' . $position );
-			foreach ($modules as $module) {
-				$params = new mosParameters( $module->params );
-				$editAllComponents 	= $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'all' );
-				// special handling for components module
-				if ( $module->module != 'mod_components' || ( $module->module == 'mod_components' && $editAllComponents ) ) {
-					$tabs->startTab( $_LANG->_( $module->title ), 'module' . $module->id );
-					if ( $module->module == '' ) {
-						mosLoadCustomModule( $module, $params );
-					} else {
-						mosLoadAdminModule( substr( $module->module, 4 ), $params );
-					}
-					$tabs->endTab();
-				}
-			}
-			$tabs->endPane();
-			break;
-
-		case 2:
-			// Div'd
-			foreach ($modules as $module) {
-				$params = new mosParameters( $module->params );
-				echo '<div>';
-				if ( $module->module == '' ) {
-					mosLoadCustomModule( $module, $params );
-				} else {
-					mosLoadAdminModule( substr( $module->module, 4 ), $params );
-				}
-				echo '</div>';
-			}
-			break;
-
-		case 0:
-		default:
-			foreach ($modules as $module) {
-				$params = new mosParameters( $module->params );
-				if ( $module->module == '' ) {
-					mosLoadCustomModule( $module, $params );
-				} else {
-					mosLoadAdminModule( substr( $module->module, 4 ), $params );
-				}
-			}
-			break;
+	$allModules =& initModules();
+	if (isset( $GLOBALS['_MOS_MODULES'][$position] )) {
+		$modules = $GLOBALS['_MOS_MODULES'][$position];
+	} else {
+		$modules = array();
 	}
+	
+	foreach ($modules as $module) {
+		
+		$_LANG->load($module->module);
+		
+		$params = new mosParameters( $module->params );
+		
+		if(substr( $module->module, 0, 4 )  == 'mod_') {
+			ob_start();
+			mosLoadAdminModule(substr( $module->module, 4 ), $params);
+			$module->content = ob_get_contents();
+			ob_end_clean();
+		}
+			
+		if ($params->get('cache') == 1 && $mosConfig_caching == 1) {
+			$cache->call('modules_html::module', $module, $params, $style );
+		} else {
+			modules_html::module( $module, $params, $style );
+		}
+		
+	}
+
+	
 }
 /**
 * Loads an admin module
@@ -112,81 +118,15 @@ function mosLoadAdminModule( $name, $params=NULL ) {
 	global $database, $acl, $my, $mainframe, $option, $_LANG;
 
 	$task = mosGetParam( $_REQUEST, 'task', '' );
-	// legacy support for $act
-	$act = mosGetParam( $_REQUEST, 'act', '' );
 
 	$name = str_replace( '/', '', $name );
 	$name = str_replace( '\\', '', $name );
+	
 	$path = "$mosConfig_absolute_path/administrator/modules/mod_$name.php";
+	
 	if (file_exists( $path )) {
 		require $path;
 	}
-}
-
-function mosLoadCustomModule( &$module, &$params ) {
-	global $mosConfig_absolute_path, $_LANG;
-
-	$rssurl 			= $params->get( 'rssurl', '' );
-	$rssitems 			= $params->get( 'rssitems', '' );
-	$rssdesc 			= $params->get( 'rssdesc', '' );
-	$moduleclass_sfx 	= $params->get( 'moduleclass_sfx', '' );
-
-	echo '<table cellpadding="0" cellspacing="0" class="moduletable' . $moduleclass_sfx . '">';
-
-	if ($module->content) {
-		echo '<tr>';
-		echo '<td>' . $module->content . '</td>';
-		echo '</tr>';
-	}
-
-	// feed output
-	if ( $rssurl ) {
-		$cacheDir = $mosConfig_absolute_path .'/cache/';
-		if (!is_writable( $cacheDir )) {
-			echo '<tr>';
-			echo '<td>'. $_LANG->_( 'Please make cache directory writable.' ) .'</td>';
-			echo '</tr>';
-		} else {
-			$LitePath = $mosConfig_absolute_path .'/includes/Cache/Lite.php';
-			require_once( $mosConfig_absolute_path .'/includes/domit/xml_domit_rss_lite.php');
-			$rssDoc = new xml_domit_rss_document_lite();
-			$rssDoc->useCacheLite(true, $LitePath, $cacheDir, 3600);
-			$rssDoc->loadRSS( $rssurl );
-			$totalChannels = $rssDoc->getChannelCount();
-
-			for ($i = 0; $i < $totalChannels; $i++) {
-				$currChannel =& $rssDoc->getChannel($i);
-				echo '<tr>';
-				echo '<td><strong><a href="'. $currChannel->getLink() .'" target="_child">';
-				echo $currChannel->getTitle() .'</a></strong></td>';
-				echo '</tr>';
-				if ($rssdesc) {
-					echo '<tr>';
-					echo '<td>'. $currChannel->getDescription() .'</td>';
-					echo '</tr>';
-				}
-
-				$actualItems = $currChannel->getItemCount();
-				$setItems = $rssitems;
-
-				if ($setItems > $actualItems) {
-					$totalItems = $actualItems;
-				} else {
-					$totalItems = $setItems;
-				}
-
-				for ($j = 0; $j < $totalItems; $j++) {
-					$currItem =& $currChannel->getItem($j);
-
-					echo '<tr>';
-					echo '<td><strong><a href="'. $currItem->getLink() .'" target="_child">';
-					echo $currItem->getTitle() .'</a></strong> - '. $currItem->getDescription() .'</td>';
-					echo '</tr>';
-				}
-			}
-		}
-	}
-	echo '</table>';
 }
 
 /**
@@ -240,7 +180,5 @@ function mosShowHead_Admin() {
 	}
 }
 
-function mosMainBody_Admin() {
-	echo $GLOBALS['_MOS_OPTION']['buffer'];
-}
+
 ?>
