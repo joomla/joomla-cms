@@ -16,11 +16,13 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 global $mosConfig_offset, $mosConfig_live_site;
 
-$type 		= intval( $params->get( 'type', 1 ) );
-$count 		= intval( $params->get( 'count', 5 ) );
-$catid 		= trim( $params->get( 'catid' ) );
-$secid 		= trim( $params->get( 'secid' ) );
-$show_front	= $params->get( 'show_front', 1 );
+$type 		     = intval( $params->get( 'type', 1 ) );
+$count 		     = intval( $params->get( 'count', 5 ) );
+$catid 		     = trim( $params->get( 'catid' ) );
+$secid 		     = trim( $params->get( 'secid' ) );
+$show_front	     = $params->get( 'show_front', 1 );
+$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
+
 $now 		= date( 'Y-m-d H:i:s', time()+$mosConfig_offset*60*60 );
 $access 	= !$mainframe->getCfg( 'shownoauth' );
 

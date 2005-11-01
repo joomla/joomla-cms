@@ -20,8 +20,6 @@ global $mosConfig_gzip;
 $serverinfo = $params->get( 'serverinfo' );
 $siteinfo 	= $params->get( 'siteinfo' );
 
-$content = '';
-
 if ($serverinfo) {
 	echo "<strong>OS:</strong> "  . substr(php_uname(),0,7) . "<br />\n";
 	echo "<strong>PHP:</strong> " .phpversion() . "<br />\n";
@@ -68,9 +66,9 @@ if ($mosConfig_enable_stats) {
 		$hits = $hits + $increase;
 
 		if ($hits == NULL) {
-			$content .= "<strong>" . _VISITORS . ":</strong> 0\n";
+			echo "<strong>" . _VISITORS . ":</strong> 0\n";
 		} else {
-			$content .= "<strong>" . _VISITORS . ":</strong> " . $hits . "\n";
+			echo "<strong>" . _VISITORS . ":</strong> " . $hits . "\n";
 		}
 	}
 }

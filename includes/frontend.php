@@ -90,8 +90,8 @@ function mosCountModules( $position='left' ) {
 * @param int The style.  0=normal, 1=horiz, -1=no wrapper
 */
 function mosLoadModules( $position='left', $style=0 ) {
-	global $mosConfig_gzip, $mosConfig_absolute_path, $mosConfig_caching;
-	global $database, $my, $Itemid, $_LANG;
+	global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
+	global $mainframe, $database, $my, $Itemid, $_LANG;
 
 	$tp = mosGetParam( $_GET, 'tp', 0 );
 	if ($tp) {
@@ -112,44 +112,35 @@ function mosLoadModules( $position='left', $style=0 ) {
 		$modules = array();
 	}
 
-	if (count( $modules ) < 1) {
-		$style = 0;
-	}
-	if ($style == 1) {
-		echo "<table cellspacing=\"1\" cellpadding=\"0\" border=\"0\" width=\"100%\">\n";
-		echo "<tr>\n";
-	}
-	$prepend = ($style == 1) ? "<td valign=\"top\">\n" : '';
-	$postpend = ($style == 1) ? "</td>\n" : '';
-
-	$count = 1;
 	foreach ($modules as $module) {
-		$params = new mosParameters( $module->params );
-
-		echo $prepend;
-
-		if ((substr("$module->module",0,4))=="mod_") {
+		
+		$_LANG->load($module->module);
 			
-			$_LANG->load($module->module);
-			
-			if ($params->get('cache') == 1 && $mosConfig_caching == 1) {
-				$cache->call('modules_html::module2', $module, $params, $Itemid, $style );
-			} else {
-				modules_html::module2( $module, $params, $Itemid, $style, $count );
-			}
+		// check for custom language file
+		$path = $mosConfig_absolute_path . '/modules/' . $module->module . $mosConfig_lang .'.php';
+		if (file_exists( $path )) {
+			include( $path );
 		} else {
-			if ($params->get('cache') == 1 && $mosConfig_caching == 1) {
-				$cache->call('modules_html::module', $module, $params, $Itemid, $style );
-			} else {
-				modules_html::module( $module, $params, $Itemid, $style );
+			$path = $mosConfig_absolute_path .'/modules/'. $module->module .'.eng.php';
+			if (file_exists( $path )) {
+				include( $path );
 			}
 		}
-
-		echo $postpend;
-		$count++;
-	}
-	if ($style == 1) {
-		echo "</tr>\n</table>\n";
+		
+		$params = new mosParameters( $module->params );
+		
+		if(substr( $module->module, 0, 4 )  == 'mod_') {
+			ob_start();
+			include( $mosConfig_absolute_path . '/modules/' . $module->module . '.php' );
+			$module->content = ob_get_contents();
+			ob_end_clean();
+		}
+			
+		if ($params->get('cache') == 1 && $mosConfig_caching == 1) {
+			$cache->call('modules_html::module2', $module, $params, $style );
+		} else {
+			modules_html::module( $module, $params, $style );
+		}
 	}
 }
 /**

@@ -103,6 +103,8 @@ if ($showmode==1 || $showmode==2) {
 
 	if ( !$content ) {
 		echo _NONE ."\n";
+	} else {
+		echo $content;
 	}
 }
 ?>

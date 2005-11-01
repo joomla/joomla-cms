@@ -31,6 +31,7 @@ $style 				= $params->get( 'style' );
 $image 				= $params->get( 'image' );
 $readmore 			= $params->get( 'readmore' );
 $items 				= intval( $params->get( 'items' ) );
+$moduleclass_sfx    = $params->get( 'moduleclass_sfx' );
 
 $params->set( 'intro_only', 1 );
 $params->set( 'hide_author', 1 );

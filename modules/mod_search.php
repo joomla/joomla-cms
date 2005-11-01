@@ -14,11 +14,12 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$button			= $params->get( 'button', '' );
-$button_pos		= $params->get( 'button_pos', 'left' );
-$button_text	= $params->get( 'button_text', _SEARCH_TITLE );
-$width 			= intval( $params->get( 'width', 20 ) );
-$text 			= $params->get( 'text', _SEARCH_BOX );
+$button			 = $params->get( 'button', '' );
+$button_pos		 = $params->get( 'button_pos', 'left' );
+$button_text	 = $params->get( 'button_text', _SEARCH_TITLE );
+$width 			 = intval( $params->get( 'width', 20 ) );
+$text 			 = $params->get( 'text', _SEARCH_BOX );
+$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
 
 $output = '<input name="searchword" id="mod_search_searchword" maxlength="20" alt="search" class="inputbox'. $moduleclass_sfx .'" type="text" size="'. $width .'" value="'. $text .'"  onblur="if(this.value==\'\') this.value=\''. $text .'\';" onfocus="if(this.value==\''. $text .'\') this.value=\'\';" />';
 
