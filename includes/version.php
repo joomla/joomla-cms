@@ -15,7 +15,7 @@
  * Version information
  * @package Joomla
  */
-class joomlaVersion {
+class JVersion {
 	/** @var string Product */
 	var $PRODUCT 	= 'Joomla!';
 	/** @var int Main Release Level */
@@ -67,10 +67,4 @@ class joomlaVersion {
 		}
 	}
 }
-$_VERSION = new joomlaVersion();
-
-$version = $_VERSION->PRODUCT .' '. $_VERSION->RELEASE .'.'. $_VERSION->DEV_LEVEL .' '
-. $_VERSION->DEV_STATUS
-.' [ '.$_VERSION->CODENAME .' ] '. $_VERSION->RELDATE .' '
-. $_VERSION->RELTIME .' '. $_VERSION->RELTZ;
 ?>

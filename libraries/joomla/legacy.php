@@ -74,4 +74,13 @@ function mosChmodRecursive( $path, $filemode=NULL, $dirmode=NULL ) {
 function mosIsChmodable( $file ) {
 	return mosFS::canCHMOD( $file );
 }
+
+
+/**
+* Legacy function, use $_VERSION->getLongVersion() instead
+*/
+$version = $_VERSION->PRODUCT .' '. $_VERSION->RELEASE .'.'. $_VERSION->DEV_LEVEL .' '
+. $_VERSION->DEV_STATUS
+.' [ '.$_VERSION->CODENAME .' ] '. $_VERSION->RELDATE .' '
+. $_VERSION->RELTIME .' '. $_VERSION->RELTZ;
 ?>

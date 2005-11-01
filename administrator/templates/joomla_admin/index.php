@@ -75,7 +75,7 @@ $tstart = mosProfiler::getmicrotime();
 				<?php echo $_VERSION->URL; ?>
 			</div>
 			<div align="center" class="smallgrey">
-				<?php echo $version; ?>
+				<?php echo $_VERSION->getLongVersion(); ?>
 				<br/>
 				<a href="http://www.joomla.org/content/blogcategory/32/66/" target="_blank"><?php echo $_LANG->_( 'Check for latest Version' ); ?></a>
 			</div>

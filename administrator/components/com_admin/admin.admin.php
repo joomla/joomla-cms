@@ -44,7 +44,7 @@ switch ($task) {
 		break;
 
 	case 'sysinfo':
-		HTML_admin_misc::system_info( $version, $option );
+		HTML_admin_misc::system_info( );
 		break;
 
 	case 'changelog':

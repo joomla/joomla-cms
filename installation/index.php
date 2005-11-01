@@ -17,6 +17,9 @@ if (file_exists( '../configuration.php' ) && filesize( '../configuration.php' ) 
 }
 require_once( '../includes/version.php' );
 
+/** @global $_VERSION */
+$_VERSION = new JVersion();
+
 /** Include common.php */
 include_once( 'common.php' );
 
@@ -73,7 +76,7 @@ function writableCell( $folder ) {
 </div>
 <div class="clr"></div>
 
-<h1>Pre-installation check for:<br/><?php echo $version; ?></h1>
+<h1>Pre-installation check for:<br/><?php echo $_VERSION->getLongVersion(); ?></h1>
 <div class="install-text">
 If any of these items are highlighted
 in red then please take actions to correct them. Failure to do so

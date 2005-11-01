@@ -114,6 +114,9 @@ $acl = new gacl_api();
 /** @global $_MAMBOTS */
 $_MAMBOTS = new mosMambotHandler();
 
+/** @global $_VERSION */
+$_VERSION = new JVersion();
+
 //TODO : implement mambothandler class as singleton, add getBotHandler to JFactory
 require_once( $mosConfig_absolute_path . '/libraries/joomla/editor.php' );
 ?>

@@ -63,9 +63,9 @@ class HTML_admin_misc {
 		}
 	}
 
-	function system_info( $version ) {
-		global $mosConfig_absolute_path, $database, $_LANG;
-		//$tab = mosGetParam( $_REQUEST, 'tab', 'tab1' );
+	function system_info( ) {
+		global $mosConfig_absolute_path, $database, $_LANG, $_VERSION;
+		
 		$width = 400;	// width of 100%
 		$tabs = new mosTabs(0);
 		?>
@@ -134,7 +134,7 @@ class HTML_admin_misc {
 					<strong><?php echo $_LANG->_( 'Joomla! Version' ); ?>:</strong>
 				</td>
 				<td>
-					<?php echo $version; ?>
+					<?php echo $_VERSION->getLongVersion() ?>
 				</td>
 			</tr>
 			<tr>

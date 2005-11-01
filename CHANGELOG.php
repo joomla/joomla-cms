@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Oct-2005 Johan Janssens
+ - Removed global $version, use $_VERSION->getLongVersion() instead.
+
 31-Oct-2005 Johan Janssens 
  # Fixed : artf1883 : DESCMENUGROUP twice in english.com_menus.ini
  # Fixed : artf1891 : When trying to register a new user get Fatal error.
