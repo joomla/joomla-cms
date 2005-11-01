@@ -34,6 +34,7 @@ Legend:
 01-Oct-2005 Johan Janssens
  - Removed global $version, use $_VERSION->getLongVersion() instead.
  ^ Moved includes/version.php to libraries/joomla/version.php
+ # Fixed artf1901 : english.com_templates.ini
 
 31-Oct-2005 Johan Janssens 
  # Fixed : artf1883 : DESCMENUGROUP twice in english.com_menus.ini
