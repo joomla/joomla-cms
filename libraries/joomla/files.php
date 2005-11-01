@@ -189,6 +189,8 @@ class mosFS {
 	 * @return mixed
 	 */
 	function copy( $src, $dest, $path = '' ) {
+		global $_LANG;
+
 		if ($path) {
 			$src = mosFS::getNativePath( $path . $src, false );
 			$dest = mosFS::getNativePath( $path . $dest, false );
@@ -198,15 +200,15 @@ class mosFS {
 		mosFS::check( $dest );
 
    		if (!file_exists( $src )) {
-			return 'Cannot find source file';
+			return $_LANG->_( 'Cannot find source file' );
 		}
    		if (!is_writable( $dest )) {
    			if (!is_writable( dirname( $dest ) )) {
-				return 'Directory unwritable';
+				return $_LANG->_( 'Directory unwritable' );
    			}
 		}
 		if (!@copy( $src, $dest )) {
-			return 'Copy failed';
+			return $_LANG->_( 'Copy failed' );
 		}
 		return true;
 	}
@@ -528,12 +530,14 @@ class mosFS {
 	 * @return boolean
 	 */
 	function load( $file, $option='' ) {
+		global $_LANG;
+
 		switch(substr( $file, 0, 1 )) { 
 			case '@':
 				// load a library file
 				$file = mosFS::getLibraryPath( substr( $file, 1 ), $option );
 				if ($file == '') {
-					trigger_error( 'Library ' . $file . ' unknown', E_USER_NOTICE );
+					trigger_error( $_LANG->_( 'Library' ) .' ' . $file . ' '. $_LANG->_( 'unknown' ), E_USER_NOTICE );
 					return false;
 				}
 				$file = mosFS::getNativePath( $file, false );
@@ -542,7 +546,7 @@ class mosFS {
 				// load a 1.1+ library file
 				$file = mosFS::getLibraryPath2( substr( $file, 1), $option );
 				if($file == '') {
-					trigger_error( 'Library ' . $file . ' unknown', E_USER_NOTICE );
+					trigger_error( $_LANG->_( 'Library' ) .' ' . $file . ' '. $_LANG->_( 'unknown' ), E_USER_NOTICE );
 					return false;
 				}
 				$file = mosFS::getNativePath( $file, false );
@@ -580,6 +584,8 @@ class mosFS {
 	 * @param string The message to return
 	 */
 	function uploadFile( $srcFile, $destFile, &$msg ) {
+		global $_LANG;
+
 		$srcFile = mosFS::getNativePath( $srcFile, false );
 		$destFile = mosFS::getNativePath( $destFile, false );
 		mosFS::check( $destFile );
@@ -592,16 +598,16 @@ class mosFS {
 					if (mosFS::CHMOD( $destFile )) {
 						return true;
 					} else {
-						$msg = MOSFS_ERR01;
+						$msg = $_LANG->_( 'WARNFS_ERR01' );
 					}
 				} else {
-					$msg = MOSFS_ERR02;
+					$msg = $_LANG->_( 'WARNFS_ERR02' );
 				}
 			} else {
-				$msg = MOSFS_ERR03;
+				$msg = $_LANG->_( 'WARNFS_ERR03' );
 			}
 		} else {
-			$msg = MOSFS_ERR04;
+			$msg = $_LANG->_( 'WARNFS_ERR04' );
 		}
 		return false;
 	}
@@ -609,11 +615,6 @@ class mosFS {
 
 /** boolean True if a Windows based host */
 define( 'MOSFS_ISWIN', (substr(PHP_OS, 0, 3) == 'WIN') );
-
-define( 'MOSFS_ERR01', 'Warning - Failed to change file permissions' );
-define( 'MOSFS_ERR02', 'Warning - Failed to move file' );
-define( 'MOSFS_ERR03', 'Upload failed, directory not writable' );
-define( 'MOSFS_ERR04', 'Upload failed, directory does not exist' );
 
 if (!defined( 'MOSFS_ROOT' )) {
 	/** string The root directory of the file system in native format */

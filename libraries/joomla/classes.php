@@ -248,8 +248,7 @@ class mosAbstractTasker {
 	 */
 	function taskNotFound( $task ) {
 		global $_LANG;
-		//echo $_LANG->_( 'Task' ) .' ' . $task . ' '. $_LANG->_( 'not found' );
-		echo 'Task ' . $task . ' not found';
+		echo $_LANG->_( 'Task' ) .' ' . $task . ' '. $_LANG->_( 'not found' );
 		return null;
 	}
 	/**
@@ -259,8 +258,7 @@ class mosAbstractTasker {
 	 */
 	function methodNotFound( $name ) {
 		global $_LANG;
-		//echo $_LANG->_( 'Method' ) .' ' . $name . ' '. $_LANG->_( 'not found' );
-		echo 'Method ' . $name . ' not found';
+		echo $_LANG->_( 'Method' ) .' ' . $name . ' '. $_LANG->_( 'not found' );
 		return null;
 	}
 	/**
@@ -269,7 +267,7 @@ class mosAbstractTasker {
 	 * @return null
 	 */
 	function notAllowed( $name ) {
-		echo $GLOBALS['_LANG']->_( 'NOT_AUTH' );
+		echo $GLOBALS['_LANG']->_( 'ALERTNOTAUTH' );
 
 		return null;
 	}
@@ -553,8 +551,7 @@ class mosMainFrame {
 
 		if (!$username || !$passwd) {
 			// Error check if still no username or password values
-			//mosErrorAlert( $_LANG->_( 'LOGIN_INCOMPLETE' ) );
-			mosErrorAlert( _LOGIN_INCOMPLETE );
+			mosErrorAlert( $_LANG->_( 'LOGIN_INCOMPLETE' ) );
 		} else {
 
 			//load user bot group
@@ -571,8 +568,7 @@ class mosMainFrame {
 
 					// check to see if user is blocked from logging in
 					if ($user->block == 1) {
-						//mosErrorAlert( $_LANG->_( 'LOGIN_BLOCKED' ) );
-						mosErrorAlert( _LOGIN_BLOCKED );
+						mosErrorAlert( $_LANG->_( 'LOGIN_BLOCKED' ) );
 					}
 					// fudge the group stuff
 					$grp 		= $acl->getAroGroup( $user->id );

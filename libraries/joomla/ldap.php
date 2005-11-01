@@ -61,6 +61,8 @@ class JLDAP {
 	 * @return boolean True if successful
 	 */
 	function connect() {
+		global $_LANG;
+
 		if ($this->host == '') {
 			return false;
 		}
@@ -69,17 +71,17 @@ class JLDAP {
 			if ($this->use_ldapV3) {
 				if (!ldap_set_option( $this->_resource, LDAP_OPT_PROTOCOL_VERSION, 3 )) {
 					return false;
-					echo "<script> alert(\" failed to set LDAP protocol V3\"); </script>\n";
+					echo "<script> alert(\"". $_LANG->_( 'failed to set LDAP protocol V3' ) ."\"); </script>\n";
 				}
 			}
 			if (!ldap_set_option( $this->_resource, LDAP_OPT_REFERRALS, intval( $this->no_referrals ))) {
 				return false;
-				echo "<script> alert(\" failed to set LDAP_OPT_REFERRALS option\"); </script>\n";
+				echo "<script> alert(\"". $_LANG->_( 'failed to set LDAP_OPT_REFERRALS option' ) ."\"); </script>\n";
 			}
 			if ($this->negotiate_tls) {
 				if (!ldap_start_tls( $this->_resource )) {
 					return false;
-					echo "<script> alert(\" ldap_start_tls failed\"); </script>\n";
+					echo "<script> alert(\"". $_LANG->_( 'ldap_start_tls failed' ) ."\"); </script>\n";
 				}
 			}
 			return true;

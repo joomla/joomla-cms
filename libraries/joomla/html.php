@@ -31,8 +31,7 @@ class mosHTML {
   	echo '<tr>';
   	echo '<td class="item">' . $folder . '/</td>';
   	echo '<td >';
-  	//echo is_writable( "../$folder" ) ? '<b><font color="green">'. $_LANG->_( 'Writeable' ) .'</font></b>' : '<b><font color="red">'. $_LANG->_( 'Unwriteable' ) .'</font></b>' . '</td>';
-  	echo is_writable( "../$folder" ) ? '<b><font color="green">Writeable</font></b>' : '<b><font color="red">Unwriteable</font></b>' . '</td>';
+  	echo is_writable( "../$folder" ) ? '<b><font color="green">'. $_LANG->_( 'Writeable' ) .'</font></b>' : '<b><font color="red">'. $_LANG->_( 'Unwriteable' ) .'</font></b>' . '</td>';
   	echo '</tr>';
   }
 
@@ -126,19 +125,6 @@ class mosHTML {
 		global $_LANG;
 
 		$arr = array(
-			mosHTML::makeOption( '01', _JAN ),
-			mosHTML::makeOption( '02', _FEB ),
-			mosHTML::makeOption( '03', _MAR ),
-			mosHTML::makeOption( '04', _APR ),
-			mosHTML::makeOption( '05', _MAY ),
-			mosHTML::makeOption( '06', _JUN ),
-			mosHTML::makeOption( '07', _JUL ),
-			mosHTML::makeOption( '08', _AUG ),
-			mosHTML::makeOption( '09', _SEP ),
-			mosHTML::makeOption( '10', _OCT ),
-			mosHTML::makeOption( '11', _NOV ),
-			mosHTML::makeOption( '12', _DEC )
-            /*
 			mosHTML::makeOption( '01', $_LANG->_( 'JAN' ) ),
 			mosHTML::makeOption( '02', $_LANG->_( 'FEB' ) ),
 			mosHTML::makeOption( '03', $_LANG->_( 'MAR' ) ),
@@ -150,8 +136,7 @@ class mosHTML {
 			mosHTML::makeOption( '09', $_LANG->_( 'SEP' ) ),
 			mosHTML::makeOption( '10', $_LANG->_( 'OCT' ) ),
 			mosHTML::makeOption( '11', $_LANG->_( 'NOV' ) ),
-			mosHTML::makeOption( '12', $_LANG->_( 'DEC' ) )
-			*/
+			mosHTML::makeOption( '12', $_LANG->_( 'DEC' ) )			
 		);
 
 		return mosHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );
@@ -293,11 +278,12 @@ class mosHTML {
 
 	function sortIcon( $base_href, $field, $state='none' ) {
 		global $mosConfig_live_site;
+		global $_LANG;
 
 		$alts = array(
-			'none' 	=> _CMN_SORT_NONE,
-			'asc' 	=> _CMN_SORT_ASC,
-			'desc' 	=> _CMN_SORT_DESC,
+			'none' 	=> $_LANG->_( 'No Sorting' ),
+			'asc' 	=> $_LANG->_( 'Sort Ascending' ),
+			'desc' 	=> $_LANG->_( 'Sort Descending' ),
 		);
 		$next_state = 'asc';
 		if ($state == 'asc') {
@@ -324,7 +310,7 @@ class mosHTML {
 			<div align="center" style="margin-top: 30px; margin-bottom: 30px;">
 			<a href='javascript:window.close();'>
 			<span class="small">
-			<?php echo _PROMPT_CLOSE;?>
+			<?php echo $_LANG->_( 'Close Window' );?>
 			</span>
 			</a>
 			</div>
@@ -336,12 +322,14 @@ class mosHTML {
 	* Writes Back Button
 	*/
 	function BackButton ( &$params, $hide_js=NULL ) {
+		global $_LANG;
+
 		// Back Button
 		if ( $params->get( 'back_button' ) && !$params->get( 'popup' ) && !$hide_js) {
 			?>
 			<div class="back_button">
 			<a href='javascript:history.go(-1)'>
-			<?php echo _BACK; ?>
+			<?php echo $_LANG->_( 'BACK' ); ?>
 			</a>
 			</div>
 			<?php
@@ -369,7 +357,9 @@ class mosHTML {
 	*/
 	function PrintIcon( &$row, &$params, $hide_js, $link, $status=NULL ) {
 		global $mosConfig_live_site, $mosConfig_absolute_path, $cur_template, $Itemid;
-		if ( $params->get( 'print' )  && !$hide_js ) {
+		global $_LANG;
+
+    	if ( $params->get( 'print' )  && !$hide_js ) {
 			// use default settings if none declared
 			if ( !$status ) {
 				$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
@@ -377,16 +367,16 @@ class mosHTML {
 
 			// checks template image directory for image, if non found default are loaded
 			if ( $params->get( 'icons' ) ) {
-				$image = mosAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, _CMN_PRINT, _CMN_PRINT );
+				$image = mosAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, $_LANG->_( 'Print' ), $_LANG->_( 'Print' ) );
 			} else {
-				$image = _ICON_SEP .'&nbsp;'. _CMN_PRINT. '&nbsp;'. _ICON_SEP;
+				$image = $_LANG->_( 'ICON_SEP' ) .'&nbsp;'. $_LANG->_( 'Print' ) .'&nbsp;'. $_LANG->_( 'ICON_SEP' );
 			}
 
 			if ( $params->get( 'popup' ) && !$hide_js ) {
 				// Print Preview button - used when viewing page
 				?>
 				<td align="right" width="100%" class="buttonheading">
-				<a href="#" onclick="javascript:window.print(); return false" title="<?php echo _CMN_PRINT;?>">
+				<a href="#" onclick="javascript:window.print(); return false" title="<?php echo $_LANG->_( 'Print' );?>">
 				<?php echo $image;?>
 				</a>
 				</td>
@@ -395,7 +385,7 @@ class mosHTML {
 				// Print Button - used in pop-up window
 				?>
 				<td align="right" width="100%" class="buttonheading">
-				<a href="#" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo _CMN_PRINT;?>">
+				<a href="#" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo $_LANG->_( 'Print' );?>">
 				<?php echo $image;?>
 				</a>
 				</td>
@@ -410,6 +400,8 @@ class mosHTML {
  	* by default replaces an email with a mailto link with email cloacked
 	*/
 	function emailCloaking( $mail, $mailto=1, $text='', $email=1 ) {
+		global $_LANG;
+
 		// convert text
 		$mail 		= mosHTML::encoding_converter( $mail );
 		// split email by @ symbol
@@ -452,7 +444,7 @@ class mosHTML {
 		$replacement 	.= "//--> \n";
 		$replacement 	.= "</script>";
 		$replacement 	.= "<noscript> \n";
-		$replacement 	.= _CLOAKING;
+		$replacement 	.= $_LANG->_( 'CLOAKING' );
 		$replacement 	.= "\n</noscript>";
 
 		return $replacement;
@@ -691,8 +683,7 @@ class mosCommonHTML {
 			$checked_out_text 	.= '<tr><td>'. $date .'</td></tr>';
 			$checked_out_text 	.= '<tr><td>'. $time .'</td></tr>';
 			$checked_out_text 	.= '</table>';
-			//$hover = 'onMouseOver="return overlib(\''. $checked_out_text .'\', CAPTION, \''. $_LANG->_( 'Checked Out' ) .'\', BELOW, RIGHT);" onMouseOut="return nd();"';
-			$hover = 'onMouseOver="return overlib(\''. $checked_out_text .'\', CAPTION, \'Checked Out\', BELOW, RIGHT);" onMouseOut="return nd();"';
+			$hover = 'onMouseOver="return overlib(\''. $checked_out_text .'\', CAPTION, \''. $_LANG->_( 'Checked Out' ) .'\', BELOW, RIGHT);" onMouseOut="return nd();"';
 		}
 		$checked	 		= '<img src="images/checked_out.png" '. $hover .'/>';
 
@@ -861,6 +852,7 @@ class mosAdminMenus {
 	*/
 	function Ordering( &$row, $id ) {
 		global $database;
+		global $_LANG;
 
 		if ( $id ) {
 			$query = "SELECT ordering AS value, name AS text"
@@ -873,7 +865,7 @@ class mosAdminMenus {
 			$order = mosGetOrderingList( $query );
 			$ordering = mosHTML::selectList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
-			$ordering = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. _CMN_NEW_ITEM_LAST;
+			$ordering = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. $_LANG->_( 'CMN_NEW_ITEM_LAST' );
 		}
 		return $ordering;
 	}
@@ -926,8 +918,7 @@ class mosAdminMenus {
 
 		// assemble menu items to the array
 		$mitems = array();
-		//$mitems[] = mosHTML::makeOption( '0', $_LANG->_( 'Top' ) );
-		$mitems[] = mosHTML::makeOption( '0', 'Top' );
+		$mitems[] = mosHTML::makeOption( '0', $_LANG->_( 'Top' ) );
 		$this_treename = '';
 		foreach ( $list as $item ) {
 			if ( $this_treename ) {
@@ -976,12 +967,9 @@ class mosAdminMenus {
 	function Target( &$row ) {
 		global $_LANG;
 
-		//$click[] = mosHTML::makeOption( '0', $_LANG->_( 'Parent Window With Browser Navigation' ) );
-		//$click[] = mosHTML::makeOption( '1', $_LANG->_( 'New Window With Browser Navigation' ) );
-		//$click[] = mosHTML::makeOption( '2', $_LANG->_( 'New Window Without Browser Navigation' ) );
-		$click[] = mosHTML::makeOption( '0', 'Parent Window With Browser Navigation' );
-		$click[] = mosHTML::makeOption( '1', 'New Window With Browser Navigation' );
-		$click[] = mosHTML::makeOption( '2', 'New Window Without Browser Navigation' );
+		$click[] = mosHTML::makeOption( '0', $_LANG->_( 'Parent Window With Browser Navigation' ) );
+		$click[] = mosHTML::makeOption( '1', $_LANG->_( 'New Window With Browser Navigation' ) );
+		$click[] = mosHTML::makeOption( '2', $_LANG->_( 'New Window Without Browser Navigation' ) );
 		$target = mosHTML::selectList( $click, 'browserNav', 'class="inputbox" size="4"', 'value', 'text', intval( $row->browserNav ) );
 		return $target;
 	}
@@ -1118,8 +1106,7 @@ class mosAdminMenus {
 		;
 		$database->setQuery( $query );
 		if ( $all ) {
-			//$rows[] = mosHTML::makeOption( 0, '- '. $_LANG->_( 'All Sections' ) .' -' );
-			$rows[] = mosHTML::makeOption( 0, '- All Sections -' );
+			$rows[] = mosHTML::makeOption( 0, '- '. $_LANG->_( 'All Sections' ) .' -' );
 			$rows = array_merge( $rows, $database->loadObjectList() );
 		} else {
 			$rows = $database->loadObjectList();
@@ -1207,8 +1194,7 @@ class mosAdminMenus {
 		}
 
 		$imageFiles = mosReadDirectory( $mosConfig_absolute_path . $directory );
-		//$images = array(  mosHTML::makeOption( '', '- '. $_LANG->_( 'Select Image' ) .' -' ) );
-		$images = array(  mosHTML::makeOption( '', '- Select Image -' ) );
+		$images = array(  mosHTML::makeOption( '', '- '. $_LANG->_( 'Select Image' ) .' -' ) );
 		foreach ( $imageFiles as $file ) {
 			if ( eregi( "bmp|gif|jpg|png", $file ) ) {
 				$images[] = mosHTML::makeOption( $file );
@@ -1227,11 +1213,9 @@ class mosAdminMenus {
 		global $_LANG;
 
 		if ( $neworder ) {
-			//$text = $_LANG->_( 'descNewItemsFirst' );
-			$text = _CMN_NEW_ITEM_FIRST;
+			$text = $_LANG->_( 'descNewItemsFirst' );
 		} else {
-			//$text = $_LANG->_( 'descNewItemsLast' );
-			$text = _CMN_NEW_ITEM_LAST;
+			$text = $_LANG->_( 'descNewItemsLast' );
 		}
 
 		if ( $id ) {
@@ -1282,20 +1266,16 @@ class mosAdminMenus {
 		global $_LANG;
 
 		if ( $none ) {
-			//$pos[] = mosHTML::makeOption( '', $_LANG->_( 'None' ) );
-			$pos[] = mosHTML::makeOption( '', _CMN_NONE );
+			$pos[] = mosHTML::makeOption( '', $_LANG->_( 'None' ) );
 		}
 		if ( $center ) {
-			//$pos[] = mosHTML::makeOption( 'center', $_LANG->_( 'Center' ) );
-			$pos[] = mosHTML::makeOption( 'center', _CMN_CENTER );
+			$pos[] = mosHTML::makeOption( 'center', $_LANG->_( 'Center' ) );
 		}
 		if ( $left ) {
-			//$pos[] = mosHTML::makeOption( 'left', $_LANG->_( 'Left' ) );
-			$pos[] = mosHTML::makeOption( 'left', _CMN_LEFT );
+			$pos[] = mosHTML::makeOption( 'left', $_LANG->_( 'Left' ) );
 		}
 		if ( $right ) {
-			//$pos[] = mosHTML::makeOption( 'right', $_LANG->_( 'Right' ) );
-			$pos[] = mosHTML::makeOption( 'right', _CMN_RIGHT );
+			$pos[] = mosHTML::makeOption( 'right', $_LANG->_( 'Right' ) );
 		}
 
 		$positions = mosHTML::selectList( $pos, $name, 'class="inputbox" size="1"'. $javascript, 'value', 'text', $active );
@@ -1318,16 +1298,14 @@ class mosAdminMenus {
 		;
 		$database->setQuery( $query );
 		if ( $sel_cat ) {
-			//$categories[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select a Category' ) .' -' );
-			$categories[] = mosHTML::makeOption( '0', _SEL_CATEGORY );
+			$categories[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select a Category' ) .' -' );
 			$categories = array_merge( $categories, $database->loadObjectList() );
 		} else {
 			$categories = $database->loadObjectList();
 		}
 
 		if ( count( $categories ) < 1 ) {
-			//mosRedirect( 'index2.php?option=com_categories&section='. $section, $_LANG->_( 'You must create a category first.' ) );
-			mosRedirect( 'index2.php?option=com_categories&section='. $section, 'You must create a category first.' );
+			mosRedirect( 'index2.php?option=com_categories&section='. $section, $_LANG->_( 'You must create a category first.' ) );
 		}
 
 		$category = mosHTML::selectList( $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'value', 'text', $active );
@@ -1342,8 +1320,7 @@ class mosAdminMenus {
 		global $database;
 		global $_LANG;
 
-		//$categories[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Section' ) .' -' );
-		$categories[] = mosHTML::makeOption( '0', _SEL_SECTION );
+		$categories[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select a Section' ) .' -' );
 		$query = "SELECT id AS value, title AS text"
 		. "\n FROM #__sections"
 		. "\n WHERE published = 1"

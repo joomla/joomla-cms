@@ -94,13 +94,15 @@ class mosCategory extends mosDBTable {
 	}
 	// overloaded check function
 	function check() {
+		global $_LANG;
+
 		// check for valid name
 		if (trim( $this->title ) == '') {
-			$this->_error = "Your Category must contain a title.";
+			$this->_error = $_LANG->_( 'Your') ." ". $_LANG->_( 'Category') ." ". $_LANG->_( 'must contain a title.' );
 			return false;
 		}
 		if (trim( $this->name ) == '') {
-			$this->_error = "Your Category must have a name.";
+			$this->_error = $_LANG->_( 'Your') ." ". $_LANG->_( 'Category') ." ". $_LANG->_( 'must have a name.' );
 			return false;
 		}
 		// check for existing name
@@ -113,7 +115,7 @@ class mosCategory extends mosDBTable {
 
 		$xid = intval( $this->_db->loadResult() );
 		if ($xid && $xid != intval( $this->id )) {
-			$this->_error = "There is a category already with that name, please try again.";
+			$this->_error = $_LANG->_( 'There is a' ) ." ". $_LANG->_( 'Category') ." ". $_LANG->_( 'already with that name, please try again.' );
 			return false;
 		}
 		return true;
@@ -161,13 +163,15 @@ class mosSection extends mosDBTable {
 	}
 	// overloaded check function
 	function check() {
+		global $_LANG;
+
 		// check for valid name
 		if (trim( $this->title ) == '') {
-			$this->_error = "Your Section must contain a title.";
+			$this->_error = $_LANG->_( 'Your') ." ". $_LANG->_( 'Section') ." ". $_LANG->_( 'must contain a title.' );
 			return false;
 		}
 		if (trim( $this->name ) == '') {
-			$this->_error = "Your Section must have a name.";
+			$this->_error = $_LANG->_( 'Your') ." ". $_LANG->_( 'Section') ." ". $_LANG->_( 'must have a name.' );
 			return false;
 		}
 		// check for existing name
@@ -180,7 +184,7 @@ class mosSection extends mosDBTable {
 
 		$xid = intval( $this->_db->loadResult() );
 		if ($xid && $xid != intval( $this->id )) {
-			$this->_error = "There is a section already with that name, please try again.";
+			$this->_error = $_LANG->_( 'There is a' ) ." ". $_LANG->_( 'Section') ." ". $_LANG->_( 'already with that name, please try again.' );
 			return false;
 		}
 		return true;
@@ -420,28 +424,29 @@ class mosUser extends mosDBTable {
 	 */
 	function check() {
 		global $mosConfig_uniquemail;
+		global $_LANG;
 
 		// filter malicious code
 		//$this->filter();
 
 		// Validate user information
 		if (trim( $this->name ) == '') {
-			$this->_error = _REGWARN_NAME;
+			$this->_error = $_LANG->_( 'Please enter your name.' );
 			return false;
 		}
 
 		if (trim( $this->username ) == '') {
-			$this->_error = _REGWARN_UNAME;
+			$this->_error = $_LANG->_( 'Please enter a user name.');
 			return false;
 		}
 
 		if (eregi( "[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", $this->username) || strlen( $this->username ) < 3) {
-			$this->_error = sprintf( _VALID_AZ09, _PROMPT_UNAME, 2 );
+			$this->_error = sprintf( $_LANG->_( 'VALID_AZ09' ), $_LANG->_( 'Username' ), 2 );
 			return false;
 		}
 
 		if ((trim($this->email == "")) || (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $this->email )==false)) {
-			$this->_error = _REGWARN_MAIL;
+			$this->_error = $_LANG->_( 'WARNREG_MAIL' );
 			return false;
 		}
 
@@ -454,7 +459,7 @@ class mosUser extends mosDBTable {
 		$this->_db->setQuery( $query );
 		$xid = intval( $this->_db->loadResult() );
 		if ($xid && $xid != intval( $this->id )) {
-			$this->_error = _REGWARN_INUSE;
+			$this->_error = $_LANG->_( 'WARNREG_INUSE' );
 			return false;
 		}
 
@@ -468,7 +473,7 @@ class mosUser extends mosDBTable {
 			$this->_db->setQuery( $query );
 			$xid = intval( $this->_db->loadResult() );
 			if ($xid && $xid != intval( $this->id )) {
-				$this->_error = _REGWARN_EMAIL_INUSE;
+				$this->_error = $_LANG->_( 'WARNREG_EMAIL_INUSE' );
 				return false;
 			}
 		}
@@ -478,6 +483,8 @@ class mosUser extends mosDBTable {
 
 	function store( $updateNulls=false ) {
 		global $acl, $migrate;
+		global $_LANG;
+
 		$section_value = 'users';
 
 		$k = $this->_tbl_key;
@@ -502,7 +509,7 @@ class mosUser extends mosDBTable {
 			$acl->add_group_object( $this->gid, $section_value, $this->$k, 'ARO' );
 		}
 		if( !$ret ) {
-			$this->_error = strtolower(get_class( $this ))."::store failed <br />" . $this->_db->getErrorMsg();
+			$this->_error = strtolower(get_class( $this ))."::". $_LANG->_( 'store failed' ) ."<br />" . $this->_db->getErrorMsg();
 			return false;
 		} else {
 			return true;
@@ -566,8 +573,7 @@ class mosUser extends mosDBTable {
 				$id = $this->id;
 			} else {
 				// do not translate
-				//die( $_LANG->_( 'Error mosUser::setLastVisit cannot call method statically with no id' ) );
-				die( 'Error mosUser::setLastVisit cannot call method statically with no id' );
+				die( 'WARNMOSUSER' );
 			}
 		}
 		// data check
@@ -754,9 +760,11 @@ class mosModule extends mosDBTable {
 	}
 	// overloaded check function
 	function check() {
+		global $_LANG;
+
 		// check for valid name
 		if (trim( $this->title ) == '') {
-			$this->_error = "Your Module must contain a title.";
+			$this->_error = $_LANG->_( 'Your' ) ." ". $_LANG->_( 'Module' ) ." ". $_LANG->_( 'must contain a title.' );
 			return false;
 		}
 
@@ -815,12 +823,14 @@ class mosSession extends mosDBTable {
 	}
 
 	function insert() {
+		global $_LANG;
+
 		$this->generateId();
 		$this->time = time();
 		$ret = $this->_db->insertObject( $this->_tbl, $this );
 
 		if( !$ret ) {
-			$this->_error = strtolower(get_class( $this ))."::store failed <br />" . $this->_db->stderr();
+			$this->_error = strtolower(get_class( $this ))."::". $_LANG->_( 'store failed' ) ."<br />" . $this->_db->stderr();
 			return false;
 		} else {
 			return true;
@@ -828,11 +838,13 @@ class mosSession extends mosDBTable {
 	}
 
 	function update( $updateNulls=false ) {
+		global $_LANG;
+
 		$this->time = time();
 		$ret = $this->_db->updateObject( $this->_tbl, $this, 'session_id', $updateNulls );
 
 		if( !$ret ) {
-			$this->_error = strtolower(get_class( $this ))."::store failed <br />" . $this->_db->stderr();
+			$this->_error = strtolower(get_class( $this ))."::". $_LANG->_( 'store failed' ) ." <br />" . $this->_db->stderr();
 			return false;
 		} else {
 			return true;

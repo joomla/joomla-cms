@@ -208,6 +208,7 @@ class mosParameters {
 */
 	function render( $name='params' ) {
 		global $mosConfig_absolute_path;
+		global $_LANG;
 
 		if ($this->_path) {
 			if (!is_object( $this->_xmlElem )) {
@@ -255,7 +256,7 @@ class mosParameters {
 			$html[] = '</table>';
 
 			if (count( $element->childNodes ) < 1) {
-				$html[] = "<tr><td colspan=\"2\"><i>". _NO_PARAMS ."</i></td></tr>";
+				$html[] = "<tr><td colspan=\"2\"><i>". $_LANG->_( 'There are no Parameters for this item' ) ."</i></td></tr>";
 			}
 			return implode( "\n", $html );
 		} else {
@@ -268,6 +269,8 @@ class mosParameters {
 * @return array Any array of the label, the form element and the tooltip
 */
 	function renderParam( &$param, $control_name='params' ) {
+		global $_LANG;
+
 		$result = array();
 
 		$name = $param->getAttribute( 'name' );
@@ -288,7 +291,7 @@ class mosParameters {
 		if (in_array( '_form_' . $type, $this->_methods )) {
 			$result[1] = call_user_func( array( &$this, '_form_' . $type ), $name, $value, $param, $control_name );
 		} else {
-			$result[1] = _HANDLER . ' = ' . $type;
+			$result[1] = $_LANG->_( 'Handler not defined for type' ) . ' = ' . $type;
 		}
 
 		if ( $description ) {
@@ -532,7 +535,7 @@ class mosParameters {
 		global $_LANG;
 		
 		$languages = mosLanguageFactory::buildLanguageList( 'front', $value );
-		array_unshift( $languages, mosHTML::makeOption( '',  '- ' .$_LANG->_( 'Select Language' ). ' -' ) );
+		array_unshift( $languages, mosHTML::makeOption( '',  '- '. $_LANG->_( 'Select Language' ) .' -' ) );
 
 		return mosHTML::selectList( $languages, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value, "param$name" );
 	}
@@ -548,7 +551,7 @@ class mosParameters {
 		global $_LANG;
 
 		$languages = mosLanguageFactory::buildLanguageList( 'admin', $value );
-		array_unshift( $languages, mosHTML::makeOption( '0',  '- ' .$_LANG->_( 'Select Language' ). ' -' ) );
+		array_unshift( $languages, mosHTML::makeOption( '0',  '- '. $_LANG->_( 'Select Language' ) .' -' ) );
 
 		return mosHTML::selectList( $languages, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value, "param$name" );
 	}

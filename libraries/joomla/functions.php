@@ -244,7 +244,7 @@ function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 function mosWarning($warning, $title='Joomla! Warning') {
 	global $mosConfig_live_site, $_LANG;
 
-	//$title = $_LANG->_( 'Joomla Warning' );
+	$title = $_LANG->_( 'Joomla Warning' );
 	$tip = "<a href=\"#\" onMouseOver=\"return overlib('" . $warning . "', CAPTION, '$title', BELOW, RIGHT);\" onmouseout=\"return nd();\"><img src=\"" . $mosConfig_live_site . "/includes/js/ThemeOffice/warning.png\" border=\"0\" /></a>";
 	return $tip;
 }
@@ -257,11 +257,9 @@ function mosWarning($warning, $title='Joomla! Warning') {
 function mosNotAuth() {
 	global $my, $_LANG;
 
-	//echo $_LANG->_('NOT_AUTH');
-	echo _NOT_AUTH;
+	echo $_LANG->_('ALERTNOTAUTH');
 	if ($my->id < 1) {
-		//echo "<br />" . $_LANG->_('You need to login');
-		echo "<br />" . _DO_LOGIN;
+		echo "<br />" . $_LANG->_( 'You need to login.' );
 	}
 }
 
@@ -364,13 +362,11 @@ function mosGetOrderingList( $sql, $chop='30' ) {
 			echo $database->stderr();
 			return false;
 		} else {
-			//$order[] = mosHTML::makeOption( 1, $_LANG->_( 'first' ) );
-			$order[] = mosHTML::makeOption( 1, 'first' );
+			$order[] = mosHTML::makeOption( 1, $_LANG->_( 'first' ) );
 			return $order;
 		}
 	}
-	//$order[] = mosHTML::makeOption( 0, '0 '. $_LANG->_( 'first' ) );
-	$order[] = mosHTML::makeOption( 0, '0 first' );
+	$order[] = mosHTML::makeOption( 0, '0 '. $_LANG->_( 'first' ) );
 	for ($i=0, $n=count( $orders ); $i < $n; $i++) {
 
 		if (strlen($orders[$i]->text) > $chop) {
@@ -381,8 +377,7 @@ function mosGetOrderingList( $sql, $chop='30' ) {
 
 		$order[] = mosHTML::makeOption( $orders[$i]->value, $orders[$i]->value.' ('.$text.')' );
 	}
-	//$order[] = mosHTML::makeOption( $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' '. $_LANG->_( 'last' ) );
-	$order[] = mosHTML::makeOption( $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' last' );
+	$order[] = mosHTML::makeOption( $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' '. $_LANG->_( 'last' ) );
 
 	return $order;
 }
@@ -432,11 +427,11 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 */
 function mosFormatDate( $date, $format="", $offset="" ){
 	global $mosConfig_offset;
+	global $_LANG;
 
 	if ( $format == '' ) {
 		// %Y-%m-%d %H:%M:%S
-		//after conversion $format = $GLOBALS['_LANG']->_( 'DATE_FORMAT_LC' );
-		$format = _DATE_FORMAT_LC;
+		$format = $GLOBALS['_LANG']->_( 'DATE_FORMAT_LC' );
 	}
 	if ( $offset == '' ) {
 		$offset = $mosConfig_offset;
@@ -455,8 +450,10 @@ function mosFormatDate( $date, $format="", $offset="" ){
 */
 function mosCurrentDate( $format="" ) {
 	global $mosConfig_offset;
+	global $_LANG;
+
 	if ($format=="") {
-		$format = _DATE_FORMAT_LC;
+		$format = $GLOBALS['_LANG']->_( 'DATE_FORMAT_LC' );
 	}
 	$date = strftime( $format, time() + ($mosConfig_offset*60*60) );
 	return $date;
@@ -675,10 +672,13 @@ function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
 	global $mosConfig_live_site;
 	global $_LANG;
 
-	//$subject = $_LANG->_( 'MAIL_SUB' )." '$type'";
-	//$message = $_LANG->_( 'MAIL_MSG' );
-	$subject = _MAIL_SUB." '$type'";
-	$message = _MAIL_MSG;
+	$subject = $_LANG->_( 'User Submitted' ) ." '". $type ."'";
+
+    $message = $_LANG->_( 'Hello') ." ". $adminName .",\n\n\n". $_LANG->_( 'A user submitted') ." ". $type .":\n [ ". $title ." ]\n". $_LANG->_( 'has been just submitted by user') .":\n [ ". $author ." ]\n"
+        . $_LANG->_( 'for') ." ". $mosConfig_live_site .".\n\n\n\n"
+        . $_LANG->_( 'Please go to') ." ". $mosConfig_live_site ."/". $_LANG->_( 'administrator') ." ". $_LANG->_( 'to view and approve this') ." ". $type .".\n\n"
+        . $_LANG->_( 'MAIL_MSG') ."\n";
+
 	eval ("\$message = \"$message\";");
 	mosMail($mosConfig_mailfrom, $mosConfig_fromname, $adminEmail, $subject, $message);
 }
