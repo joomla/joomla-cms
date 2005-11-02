@@ -144,6 +144,9 @@ class HTML_newsfeeds {
 
 
 	function editNewsFeed( &$row, &$lists, $option ) {
+		
+		global $_LANG;
+		
 		mosMakeHtmlSafe( $row, ENT_QUOTES );
 		?>
 		<script language="javascript" type="text/javascript">

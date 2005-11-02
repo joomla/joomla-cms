@@ -34,13 +34,13 @@ Legend:
 02-Nov-2005 Andrew Eddie
  ^ Reworked ACL ACO's to better align with future requirements
 
-=======
 02-Nov-2005 Arno Zijlstra
  ^ Changed footer module
  # Fixed : version include path in joomla installer
  
 02-Nov-2005 Johan Janssens
  + Added XML-RPC support
+ # Fixed artf1918 : Edit News Feeds gives error
 
 01-Nov-2005 Arno Zijlstra
  + Added footer module english language file
