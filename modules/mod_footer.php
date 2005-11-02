@@ -17,11 +17,22 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 global $_VERSION;
 
 // NOTE - You may change this file to suit your site needs
-?>
-<div align="center">
-	(C) <?php echo mosCurrentDate( '%Y' ) . ' ' . $GLOBALS['mosConfig_sitename'];?>
-</div>
 
-<div align="center">
-	<?php echo $_VERSION->URL; ?>
-</div>
+$cur_year = mosCurrentDate( '%Y' );
+$csite_name = $GLOBALS['mosConfig_sitename'];
+
+if ( strpos( $_LANG->_( 'FOOTER_LINE1' ), '%date%' ) ) {
+	$line1 = ereg_replace('%date%', $cur_year, $_LANG->_( 'FOOTER_LINE1' ) );
+}
+else {
+	$line1 = $_LANG->_( 'FOOTER_LINE1' );
+}
+if ( strpos( $line1, '%sitename%' ) ) {
+	$lineone = ereg_replace('%sitename%', $csite_name, $line1 );
+}
+else {
+	$lineone = $line1;
+}
+echo $lineone;
+echo $_LANG->_( 'FOOTER_LINE2' );
+?>

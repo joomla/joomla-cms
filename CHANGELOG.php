@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Nov-2005 Arno Zijlstra
+ ^ Changed footer module
+ # Fixed : version include path in joomla installer
+ 
 02-Nov-2005 Johan Janssens
  + Added XML-RPC support
 
