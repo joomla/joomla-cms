@@ -40,8 +40,9 @@ switch( $task ) {
 
 function lostPassForm( $option ) {
 	global $mainframe;
+	global $_LANG;
 
-	$mainframe->SetPageTitle(_PROMPT_PASSWORD);
+	$mainframe->SetPageTitle( $_LANG->_( 'Lost your Password?' ) );
 
 	HTML_registration::lostPassForm($option);
 }
@@ -50,6 +51,7 @@ function sendNewPass( $option ) {
 	global $database, $Itemid;
 	global $mosConfig_live_site, $mosConfig_sitename;
 	global $mosConfig_mailfrom, $mosConfig_fromname;
+	global $_LANG;
 
 	$_live_site = $mosConfig_live_site;
 	$_sitename 	= $mosConfig_sitename;
@@ -67,13 +69,16 @@ function sendNewPass( $option ) {
 	;
 	$database->setQuery( $query );
 	if (!($user_id = $database->loadResult()) || !$checkusername || !$confirmEmail) {
-		mosRedirect( "index.php?option=$option&task=lostPassword&mosmsg="._ERROR_PASS );
+		mosRedirect( "index.php?option=$option&task=lostPassword&mosmsg=". $_LANG->_( 'Sorry, no corresponding user was found' ) );
 	}
 
 	$newpass = mosMakePassword();
-	$message = _NEWPASS_MSG;
+	$message = $_LANG->_( 'The user account' ) ." ". $checkusername ." ". $_LANG->_( 'NEWPASS_MSG1' ) 
+                ." ". $mosConfig_live_site ." ". $_LANG->_( 'NEWPASS_MSG2' )
+                ." ". $newpass . $_LANG->_( 'NEWPASS_MSG3' );
+
 	eval ("\$message = \"$message\";");
-	$subject = _NEWPASS_SUB;
+	$subject = $_sitename ." :: ". $_LANG->_( 'New password for -' ) ." ". $checkusername;
 	eval ("\$subject = \"$subject\";");
 
 	mosMail($mosConfig_mailfrom, $mosConfig_fromname, $confirmEmail, $subject, $message);
@@ -88,18 +93,19 @@ function sendNewPass( $option ) {
 		die("SQL error" . $database->stderr(true));
 	}
 
-	mosRedirect( "index.php?Itemid=$Itemid&mosmsg="._NEWPASS_SENT );
+	mosRedirect( "index.php?Itemid=$Itemid&mosmsg=". $_LANG->_( 'New User Password created and sent!' ) );
 }
 
 function registerForm( $option, $useractivation ) {
 	global $mainframe;
+	global $_LANG;
 
 	if (!$mainframe->getCfg( 'allowUserRegistration' )) {
 		mosNotAuth();
 		return;
 	}
 
-  	$mainframe->SetPageTitle(_REGISTER_TITLE);
+  	$mainframe->SetPageTitle( $_LANG->_( 'Registration' ) );
 
 	HTML_registration::registerForm($option, $useractivation);
 }
@@ -108,6 +114,7 @@ function saveRegistration( $option ) {
 	global $database, $acl, $_MAMBOTS;
 	global $mosConfig_sitename, $mosConfig_live_site, $mosConfig_useractivation, $mosConfig_allowUserRegistration;
 	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_mailfrom, $mosConfig_fromname;
+	global $_LANG;
 
 	if ($mosConfig_allowUserRegistration=='0') {
 		mosNotAuth();
@@ -160,12 +167,12 @@ function saveRegistration( $option ) {
 	$email 		= $row->email;
 	$username 	= $row->username;
 
-	$subject 	= sprintf (_SEND_SUB, $name, $mosConfig_sitename);
+	$subject 	= sprintf ( $_LANG->_( 'Account details for %s at %s' ), $name, $mosConfig_sitename);
 	$subject 	= html_entity_decode($subject, ENT_QUOTES);
 	if ($mosConfig_useractivation=="1"){
-		$message = sprintf (_USEND_MSG_ACTIVATE, $name, $mosConfig_sitename, $mosConfig_live_site."/index.php?option=com_registration&task=activate&activation=".$row->activation, $mosConfig_live_site, $username, $pwd);
+		$message = sprintf ( $_LANG->_( 'SEND_MSG_ACTIVATE' ), $name, $mosConfig_sitename, $mosConfig_live_site."/index.php?option=com_registration&task=activate&activation=".$row->activation, $mosConfig_live_site, $username, $pwd);
 	} else {
-		$message = sprintf (_USEND_MSG, $name, $mosConfig_sitename, $mosConfig_live_site);
+		$message = sprintf ( $_LANG->_( 'SEND_MSG' ), $name, $mosConfig_sitename, $mosConfig_live_site);
 	}
 
 	$message = html_entity_decode($message, ENT_QUOTES);
@@ -189,8 +196,8 @@ function saveRegistration( $option ) {
 	mosMail($adminEmail2, $adminName2, $email, $subject, $message);
 
 	// Send notification to all administrators
-	$subject2 = sprintf (_SEND_SUB, $name, $mosConfig_sitename);
-	$message2 = sprintf (_ASEND_MSG, $adminName2, $mosConfig_sitename, $row->name, $email, $username);
+	$subject2 = sprintf ( $_LANG->_( 'Account details for %s at %s' ), $name, $mosConfig_sitename);
+	$message2 = sprintf ( $_LANG->_( 'SEND_MSG_ADMIN' ), $adminName2, $mosConfig_sitename, $row->name, $email, $username);
 	$subject2 = html_entity_decode($subject2, ENT_QUOTES);
 	$message2 = html_entity_decode($message2, ENT_QUOTES);
 
@@ -213,15 +220,16 @@ function saveRegistration( $option ) {
 	}
 
 	if ( $mosConfig_useractivation == 1 ){
-		echo _REG_COMPLETE_ACTIVATE;
+		echo $_LANG->_( 'REG_COMPLETE_ACTIVATE' );
 	} else {
-		echo _REG_COMPLETE;
+		echo $_LANG->_( 'REG_COMPLETE' );
 	}
 }
 
 function activate( $option ) {
 	global $database;
 	global $mosConfig_useractivation, $mosConfig_allowUserRegistration;
+	global $_LANG;
 
 	if ($mosConfig_allowUserRegistration == '0' || $mosConfig_useractivation == '0') {
 		mosNotAuth();
@@ -232,7 +240,7 @@ function activate( $option ) {
 	$activation = $database->getEscaped( $activation );
 
 	if (empty( $activation )) {
-		echo _REG_ACTIVATE_NOT_FOUND;
+		echo $_LANG->_( 'REG_ACTIVATE_NOT_FOUND' );
 		return;
 	}
 
@@ -254,9 +262,9 @@ function activate( $option ) {
 		if (!$database->query()) {
 			echo "SQL error" . $database->stderr(true);
 		}
-		echo _REG_ACTIVATE_COMPLETE;
+		echo $_LANG->_( 'REG_ACTIVATE_COMPLETE' );
 	} else {
-		echo _REG_ACTIVATE_NOT_FOUND;
+		echo $_LANG->_( 'REG_ACTIVATE_NOT_FOUND' );
 	}
 }
 
