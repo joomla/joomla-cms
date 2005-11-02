@@ -250,6 +250,22 @@ function mosWarning($warning, $title='Joomla! Warning') {
 }
 
 /**
+ * Format a backtrace error
+ * @since 1.1
+ */
+function mosBackTrace() {
+	if (function_exists( 'debug_backtrace' )) {
+		echo '<div align="left">';
+		foreach( debug_backtrace() as $back) {
+			if (@$back['file']) {
+				echo '<br />' . str_replace( MOSFS_ROOT, '', $back['file'] ) . ':' . $back['line'];
+			}
+		}
+		echo '</div>';
+	}
+}
+
+/**
 * Displays a not authorised message
 *
 * If the user is not logged in then an addition message is displayed.

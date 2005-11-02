@@ -41,6 +41,7 @@ Legend:
 02-Nov-2005 Johan Janssens
  + Added XML-RPC support
  # Fixed artf1918 : Edit News Feeds gives error
+ # Fixed artf1841 : Problem with E-Mail / Print Icon Links
 
 01-Nov-2005 Arno Zijlstra
  + Added footer module english language file
