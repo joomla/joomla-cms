@@ -14,16 +14,14 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
+global $_VERSION;
+
 // NOTE - You may change this file to suit your site needs
-// Text located in language directory filename language.mod_footer.ini
-$cur_year = mosCurrentDate( '%Y' );
- 
-if ( strpos( $_LANG->_( 'FOOTER_LINE1' ), '%date%' ) ) {
-	echo ereg_replace('%date%', $cur_year, $_LANG->_( 'FOOTER_LINE1' ) );
-	echo $_LANG->_( 'FOOTER_LINE2' );
-}
-else {
-	echo $_LANG->_( 'FOOTER_LINE1' );
-	echo $_LANG->_( 'FOOTER_LINE2' );
-}
 ?>
+<div align="center">
+	(C) <?php echo mosCurrentDate( '%Y' ) . ' ' . $GLOBALS['mosConfig_sitename'];?>
+</div>
+
+<div align="center">
+	<?php echo $_VERSION->URL; ?>
+</div>
