@@ -15,7 +15,7 @@ if (file_exists( '../configuration.php' ) && filesize( '../configuration.php' ) 
 	header( "Location: ../index.php" );
 	exit();
 }
-require_once( '../includes/version.php' );
+require_once( '../libraries/joomla/version.php' );
 
 /** @global $_VERSION */
 $_VERSION = new JVersion();
