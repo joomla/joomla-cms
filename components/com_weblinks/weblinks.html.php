@@ -23,6 +23,8 @@ class HTML_weblinks {
 
 	function displaylist( &$categories, &$rows, $catid, $currentcat=NULL, &$params, $tabclass ) {
 		global $Itemid, $mosConfig_live_site, $hide_js;
+		global $_LANG;
+
 		if ( $params->get( 'page_title' ) ) {
 			?>
 			<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
@@ -40,7 +42,7 @@ class HTML_weblinks {
 			// show image
 			if ( $currentcat->img ) {
 				?>
-				<img src="<?php echo $currentcat->img; ?>" align="<?php echo $currentcat->align; ?>" hspace="6" alt="<?php echo _WEBLINKS_TITLE; ?>" />
+				<img src="<?php echo $currentcat->img; ?>" align="<?php echo $currentcat->align; ?>" hspace="6" alt="<?php echo $_LANG->_( 'Web Links' ); ?>" />
 				<?php
 			}
 			echo $currentcat->descrip;
@@ -85,6 +87,8 @@ class HTML_weblinks {
 	*/
 	function showTable( &$params, &$rows, $catid, $tabclass ) {
 		global $mosConfig_live_site;
+		global $_LANG;
+
 		// icon in table display
 		if ( $params->get( 'weblink_icons' ) <> -1 ) {
 			$img = mosAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $params->get( 'weblink_icons' ), NULL, 'Link', 'Link' );
@@ -107,13 +111,13 @@ class HTML_weblinks {
 				}
 				?>
 				<td width="90%" height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
-				<?php echo _HEADER_TITLE_WEBLINKS; ?>
+				<?php echo $_LANG->_( 'Web Link' ); ?>
 				</td>
 				<?php
 				if ( $params->get( 'hits' ) ) {
 					?>
 					<td width="30" height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" align="right">
-					<?php echo _HEADER_HITS; ?>
+					<?php echo $_LANG->_( 'Hits' ); ?>
 					</td>
 					<?php
 				}
@@ -238,6 +242,7 @@ class HTML_weblinks {
 	* @param string The html for the categories select list
 	*/
 	function editWeblink( $option, &$row, &$lists ) {
+		global $_LANG;
 
 		require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/HTML_toolbar.php' );
 
@@ -253,11 +258,11 @@ class HTML_weblinks {
 
 			// do field validation
 			if (form.title.value == ""){
-				alert( "Weblink item must have a title" );
+				alert( "<?php echo $_LANG->_( 'Weblink item must have a title' ); ?>" );
 			} else if (getSelectedValue('adminForm','catid') < 1) {
-				alert( "You must select a category." );
+				alert( "<?php echo $_LANG->_( 'You must select a category.' ); ?>" );
 			} else if (form.url.value == ""){
-				alert( "You must have a url." );
+				alert( "<?php echo $_LANG->_( 'You must have a url.' ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}
@@ -268,7 +273,7 @@ class HTML_weblinks {
 		<table cellpadding="0" cellspacing="0" border="0" width="100%">
 		<tr>
 			<td class="contentheading">
-			<?php echo _SUBMIT_LINK;?>
+			<?php echo $_LANG->_( 'Submit A Web Link' );?>
 			</td>
 			<td width="10%">
 			<?php
@@ -285,7 +290,7 @@ class HTML_weblinks {
 		<table cellpadding="4" cellspacing="1" border="0" width="100%">
 		<tr>
 			<td width="20%" align="right">
-			<?php echo _NAME; ?>
+			<?php echo $_LANG->_( 'Name' ); ?>:
 			</td>
 			<td width="80%">
 			<input class="inputbox" type="text" name="title" size="50" maxlength="250" value="<?php echo htmlspecialchars( $row->title, ENT_QUOTES );?>" />
@@ -293,7 +298,7 @@ class HTML_weblinks {
 		</tr>
 		<tr>
 			<td valign="top" align="right">
-			<?php echo _SECTION; ?>
+			<?php echo $_LANG->_( 'Section' ); ?>:
 			</td>
 			<td>
 			<?php echo $lists['catid']; ?>
@@ -301,7 +306,7 @@ class HTML_weblinks {
 		</tr>
 		<tr>
 			<td valign="top" align="right">
-			<?php echo _URL; ?>
+			<?php echo $_LANG->_( 'URL' ); ?>:
 			</td>
 			<td>
 			<input class="inputbox" type="text" name="url" value="<?php echo $row->url; ?>" size="50" maxlength="250" />
@@ -309,7 +314,7 @@ class HTML_weblinks {
 		</tr>
 		<tr>
 			<td valign="top" align="right">
-			<?php echo _URL_DESC; ?>
+			<?php echo $_LANG->_( 'Description' ); ?>:
 			</td>
 			<td>
 			<textarea class="inputbox" cols="30" rows="6" name="description" style="width:300px" width="300"><?php echo htmlspecialchars( $row->description, ENT_QUOTES );?></textarea>
