@@ -10,7 +10,7 @@
 	<version>1.0.0</version>
 	<description>Modifies the site url to fit to the HTTP request</description>
 	<files>
-		<filename mambot="search.xmlrpcbot.php">search.xmlrpcbot.php</filename>
+		<filename mambot="joomla.siteurlbot">joomla.siteurlbot.php</filename>
 	</files>
 	<params/>
 </mosinstall>
