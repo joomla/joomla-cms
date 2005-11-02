@@ -60,6 +60,8 @@ class mosPageNav {
 	* Writes the html for the pages counter, eg, Results 1-10 of x
 	*/
 	function writePagesCounter() {
+		global $_LANG;
+
 		$txt = '';
 		$from_result = $this->limitstart+1;
 		if ($this->limitstart + $this->limit < $this->total) {
@@ -68,7 +70,7 @@ class mosPageNav {
 			$to_result = $this->total;
 		}
 		if ($this->total > 0) {
-			$txt .= _PN_RESULTS." $from_result - $to_result "._PN_OF." $this->total";
+			$txt .= $_LANG->_( 'Results' ) ." ". $from_result ." - ". $to_result ." ". $_LANG->_( 'of' ) ." ". $this->total;
 		}
 		return $txt;
 	}
@@ -77,10 +79,12 @@ class mosPageNav {
 	* Writes the html for the leafs counter, eg, Page 1 of x
 	*/
 	function writeLeafsCounter() {
+		global $_LANG;
+
 		$txt = '';
 		$page = $this->limitstart+1;
 		if ($this->total > 0) {
-			$txt .= _PN_PAGE." $page "._PN_OF." $this->total";
+			$txt .= $_LANG->_( 'Page' ) ." ". $page ." ". $_LANG->_( 'of' ) ." ". $this->total;
 		}
 		return $txt;
 	}
@@ -90,6 +94,8 @@ class mosPageNav {
 	* @param string The basic link to include in the href
 	*/
 	function writePagesLinks( $link ) {
+		global $_LANG;
+
 		$txt = '';
 
 		$displayed_pages = 10;
@@ -104,15 +110,16 @@ class mosPageNav {
 
 		$link .= '&amp;limit='. $this->limit;
 
-        if (_PN_LT || _PN_RT) $pnSpace = " ";
+        $pnSpace = "";
+        if ($_LANG->_( '_LT' ) || $_LANG->_( '_RT' )) $pnSpace = " ";
 
 		if ($this_page > 1) {
 			$page = ($this_page - 2) * $this->limit;
-			$txt .= '<a href="'. sefRelToAbs( "$link&amp;limitstart=0" ) .'" class="pagenav" title="first page">'. _PN_LT . _PN_LT . $pnSpace . _PN_START .'</a> ';
-			$txt .= '<a href="'. sefRelToAbs( "$link&amp;limitstart=$page" ) .'" class="pagenav" title="previous page">'. _PN_LT . $pnSpace . _PN_PREVIOUS .'</a> ';
+			$txt .= '<a href="'. sefRelToAbs( "$link&amp;limitstart=0" ) .'" class="pagenav" title="first page">'. $_LANG->_( '_LT' ) . $_LANG->_( '_LT' ) . $pnSpace . $_LANG->_( 'Start' ) .'</a> ';
+			$txt .= '<a href="'. sefRelToAbs( "$link&amp;limitstart=$page" ) .'" class="pagenav" title="previous page">'. $_LANG->_( '_LT' ) . $pnSpace . $_LANG->_( 'Prev' ) .'</a> ';
 		} else {
-			$txt .= '<span class="pagenav">'. _PN_LT . _PN_LT . $pnSpace . _PN_START .'</span> ';
-			$txt .= '<span class="pagenav">'. _PN_LT . $pnSpace . _PN_PREVIOUS .'</span> ';
+			$txt .= '<span class="pagenav">'. $_LANG->_( '_LT' ) . $_LANG->_( '_LT' ) . $pnSpace . $_LANG->_( 'Start' ) .'</span> ';
+			$txt .= '<span class="pagenav">'. $_LANG->_( '_LT' ) . $pnSpace . $_LANG->_( 'Prev' ) .'</span> ';
 		}
 
 		for ($i=$start_loop; $i <= $stop_loop; $i++) {
@@ -127,11 +134,11 @@ class mosPageNav {
 		if ($this_page < $total_pages) {
 			$page = $this_page * $this->limit;
 			$end_page = ($total_pages-1) * $this->limit;
-			$txt .= '<a href="'. sefRelToAbs( $link .'&amp;limitstart='. $page ) .' " class="pagenav" title="next page">'. _PN_NEXT . $pnSpace . _PN_RT .'</a> ';
-			$txt .= '<a href="'. sefRelToAbs( $link .'&amp;limitstart='. $end_page ) .' " class="pagenav" title="end page">'. _PN_END . $pnSpace . _PN_RT . _PN_RT .'</a>';
+			$txt .= '<a href="'. sefRelToAbs( $link .'&amp;limitstart='. $page ) .' " class="pagenav" title="next page">'. $_LANG->_( 'Next' ) . $pnSpace . $_LANG->_( '_RT' ) .'</a> ';
+			$txt .= '<a href="'. sefRelToAbs( $link .'&amp;limitstart='. $end_page ) .' " class="pagenav" title="end page">'. $_LANG->_( 'End' ) . $pnSpace . $_LANG->_( '_RT' ) . $_LANG->_( '_RT' ) .'</a>';
 		} else {
-			$txt .= '<span class="pagenav">'. _PN_NEXT . $pnSpace . _PN_RT .'</span> ';
-			$txt .= '<span class="pagenav">'. _PN_END . $pnSpace . _PN_RT . _PN_RT .'</span>';
+			$txt .= '<span class="pagenav">'. $_LANG->_( 'Next' ) . $pnSpace . $_LANG->_( '_RT' ) .'</span> ';
+			$txt .= '<span class="pagenav">'. $_LANG->_( 'End' ) . $pnSpace . $_LANG->_( '_RT' ) . $_LANG->_( '_RT' ) .'</span>';
 		}
 		return $txt;
 	}

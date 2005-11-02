@@ -20,6 +20,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 function dofreePDF ( $database ) {
 	global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_offset;
 	global $mainframe;
+	global $_LANG;
 
 	include( 'includes/class.ezpdf.php' );
 
@@ -48,8 +49,8 @@ function dofreePDF ( $database ) {
 	$pdf->line( 10, 40, 578, 40 );
 	$pdf->line( 10, 818, 578, 818 );
 	$pdf->addText( 30, 34, 6, $mosConfig_live_site );
-	$pdf->addText( 250, 34, 6, _PDF_POWERED );
-	$pdf->addText( 450, 34, 6, _PDF_GENERATED .' '. date( 'j F, Y, H:i', time() + $mosConfig_offset * 60 * 60 ) );
+	$pdf->addText( 250, 34, 6, $_LANG->_( 'Powered by' ) .' Joomla!' );
+	$pdf->addText( 450, 34, 6, $_LANG->_( 'Generated' ) .': '. date( 'j F, Y, H:i', time() + $mosConfig_offset * 60 * 60 ) );
 
 	$pdf->restoreState();
 	$pdf->closeObject();
@@ -104,6 +105,7 @@ function pdfCleaner( $text ) {
 
 function AuthorDateLine( &$row, &$params ) {
 	global $database;
+	global $_LANG;
 
 	$text = '';
 
@@ -117,11 +119,11 @@ function AuthorDateLine( &$row, &$params ) {
 		$row->usertype 	= $users_rows->usertype;
 
 		if ($row->usertype == 'administrator' || $row->usertype == 'superadministrator') {
-			$text .= "\n";
-			$text .=  _WRITTEN_BY .' '. ( $row->created_by_alias ? $row->created_by_alias : $row->author );
+			$text .= "\n ";
+			$text .=  $_LANG->_( 'Written by' ) .' '. ( $row->created_by_alias ? $row->created_by_alias : $row->author );
 		} else {
-			$text .= "\n";
-			$text .=  _AUTHOR_BY .' '. ( $row->created_by_alias ? $row->created_by_alias : $row->author );
+			$text .= "\n ";
+			$text .=  $_LANG->_( 'Contributed by' ) .' '. ( $row->created_by_alias ? $row->created_by_alias : $row->author );
 		}
 	}
 
@@ -147,7 +149,7 @@ function AuthorDateLine( &$row, &$params ) {
 		// Display Modified Date
 		if ( intval( $row->modified ) ) {
 			$mod_date 	= mosFormatDate( $row->modified );
-			$text 		.= _LAST_UPDATED .' '. $mod_date;
+			$text 		.= $_LANG->_( 'Last Updated' ) .' '. $mod_date;
 
 		}
 	}
