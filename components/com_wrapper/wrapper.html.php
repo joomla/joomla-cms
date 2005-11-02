@@ -22,6 +22,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class HTML_wrapper {
 
 	function displayWrap( &$row, &$params, &$menu ) {
+		global $_LANG;
 		?>
 		<script language="javascript" type="text/javascript">
 		function iFrameHeight() {
@@ -57,7 +58,7 @@ class HTML_wrapper {
 		align="top"
 		frameborder="0"
 		class="wrapper<?php echo $params->get( 'pageclass_sfx' ); ?>">
-		<?php echo _CMN_IFRAMES; ?>
+		<?php echo $_LANG->_( 'NO_IFRAMES' ); ?>
 		</iframe>
 
 		</div>
