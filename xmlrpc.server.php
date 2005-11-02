@@ -25,7 +25,7 @@ $mainframe = new mosMainFrame( $database, '' );
 $mainframe->initSession();
 
 /** get the information about the current user from the sessions table */
-$GLOBALS['my'] =& $mainframe->getUser();
+$my = $mainframe->getUser();
 
 $_LANG = JFactory::getLanguage();
 $_LANG->debug( $mosConfig_debug );
