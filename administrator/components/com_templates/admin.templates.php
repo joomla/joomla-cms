@@ -16,7 +16,7 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
-if (!$acl->acl_check( 'administration', 'manage', 'users', $GLOBALS['my']->usertype, 'components', 'com_templates' )) {
+if (!$acl->acl_check( 'com_templates', 'manage', 'users', $GLOBALS['my']->usertype )) {
 	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
 }
 
@@ -361,7 +361,7 @@ function chooseTemplateCSS( $p_tname, $option, $client ) {
 	global $mosConfig_absolute_path;
 	global $_LANG;
 
-	$readd = new mosFS();
+	$readd = new JFile();
 
 	if ( $client == 'admin' ) {
 		// Admin template css dir

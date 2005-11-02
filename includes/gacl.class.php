@@ -105,72 +105,85 @@ class gacl {
 		$this->acl = array();
 
 		// backend login
-		$this->_mos_add_acl( 'administration', 'login', 'users', 'administrator', null, null );
-		$this->_mos_add_acl( 'administration', 'login', 'users', 'super administrator', null, null );
-		$this->_mos_add_acl( 'administration', 'login', 'users', 'manager', null, null );
+		$this->_mos_add_acl( 'login', 'administrator', 'users', 'administrator', null, null );
+		$this->_mos_add_acl( 'login', 'administrator', 'users', 'super administrator', null, null );
+		$this->_mos_add_acl( 'login', 'administrator', 'users', 'manager', null, null );
+
 		// backend menus
-		//$this->_mos_add_acl( 'administration', 'config', 'users', 'administrator', null, null );
-		$this->_mos_add_acl( 'administration', 'config', 'users', 'super administrator', null, null );
+		$this->_mos_add_acl( 'com_checkin', 'manage', 'users', 'super administrator' );
+		$this->_mos_add_acl( 'com_checkin', 'manage', 'users', 'administrator' );
 
-		// access to db admin
-		//$this->_mos_add_acl( 'administration', 'manage', 'users', 'super administrator', 'components', 'com_dbadmin' );
+		$this->_mos_add_acl( 'com_components', 'manage', 'users', 'super administrator' );
 
-		// access to templates
-		//$this->_mos_add_acl( 'administration', 'manage', 'user', 'administrator', 'components', 'com_templates' )
-		$this->_mos_add_acl( 'administration', 'manage', 'users', 'super administrator', 'components', 'com_templates' );
-		$this->_mos_add_acl( 'administration', 'install', 'users', 'super administrator', 'templates', 'all' );
+		$this->_mos_add_acl( 'com_config', 'manage', 'users', 'super administrator' );
+		//$this->_mos_add_acl( 'com_config', 'manage', 'users', 'administrator' );
 
-		// access to trash
-		$this->_mos_add_acl( 'administration', 'manage', 'users', 'administrator', 'components', 'com_trash' );
-		$this->_mos_add_acl( 'administration', 'manage', 'users', 'super administrator', 'components', 'com_trash' );
+		$this->_mos_add_acl( 'com_languages', 'manage', 'users', 'super administrator' );
 
-		// access to menu manager
-		$this->_mos_add_acl( 'administration', 'manage', 'users', 'administrator', 'components', 'com_menumanager' );
-		$this->_mos_add_acl( 'administration', 'manage', 'users', 'super administrator', 'components', 'com_menumanager' );
+		$this->_mos_add_acl( 'com_mambots', 'manage', 'users', 'super administrator' );
+		$this->_mos_add_acl( 'com_mambots', 'manage', 'users', 'administrator' );
 
-		// access to language
-		//$this->_mos_add_acl( 'administration', 'manage', 'users', 'administrator', 'components', 'com_languages' );
-		$this->_mos_add_acl( 'administration', 'manage', 'users', 'super administrator', 'components', 'com_languages' );
-		$this->_mos_add_acl( 'administration', 'install', 'users', 'super administrator', 'languages', 'all' );
+		$this->_mos_add_acl( 'com_menumanager', 'manage', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_menumanager', 'manage', 'users', 'super administrator' );
 
-		// access to modules
-		$this->_mos_add_acl( 'administration', 'install', 'users', 'administrator', 'modules', 'all' );
-		$this->_mos_add_acl( 'administration', 'install', 'users', 'super administrator', 'modules', 'all' );
+		$this->_mos_add_acl( 'com_modules', 'manage', 'users', 'super administrator' );
+		$this->_mos_add_acl( 'com_modules', 'manage', 'users', 'administrator' );
 
-		$this->_mos_add_acl( 'administration', 'edit', 'users', 'super administrator', 'modules', 'all' );
-		$this->_mos_add_acl( 'administration', 'edit', 'users', 'administrator', 'modules', 'all' );
+		$this->_mos_add_acl( 'com_templates', 'manage', 'users', 'super administrator' );
 
-		// access to modules
-		$this->_mos_add_acl( 'administration', 'install', 'users', 'administrator', 'mambots', 'all' );
-		$this->_mos_add_acl( 'administration', 'install', 'users', 'super administrator', 'mambots', 'all' );
+		$this->_mos_add_acl( 'com_trash', 'manage', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_trash', 'manage', 'users', 'super administrator' );
 
-		$this->_mos_add_acl( 'administration', 'edit', 'users', 'super administrator', 'mambots', 'all' );
-		$this->_mos_add_acl( 'administration', 'edit', 'users', 'administrator', 'mambots', 'all' );
-		// uncomment following to allow managers to edit modules
-		//array( 'administration', 'edit', 'users', 'manager', 'modules', 'all' );
+		$this->_mos_add_acl( 'com_users', 'manage', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_users', 'manage', 'users', 'super administrator' );
+		$this->_mos_add_acl( 'com_users', 'block user', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_users', 'block user', 'users', 'super administrator' );
+
+		// access to installers
+
+		$this->_mos_add_acl( 'com_installer', 'component', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_installer', 'component', 'users', 'super administrator' );
+
+		//$this->_mos_add_acl( 'com_languages', 'manage', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_installer', 'language', 'users', 'super administrator' );
+
+		$this->_mos_add_acl( 'com_installer', 'module', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_installer', 'module', 'users', 'super administrator' );
+
+		$this->_mos_add_acl( 'com_installer', 'mambot', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_installer', 'mambot', 'users', 'super administrator' );
+
+		$this->_mos_add_acl( 'com_installer', 'template', 'users', 'super administrator' );
 
 		// access to components
-		$this->_mos_add_acl( 'administration', 'install', 'users', 'administrator', 'components', 'all' );
-		$this->_mos_add_acl( 'administration', 'install', 'users', 'super administrator', 'components', 'all' );
 
-		$this->_mos_add_acl( 'administration', 'edit', 'users', 'super administrator', 'components', 'all' );
-		$this->_mos_add_acl( 'administration', 'edit', 'users', 'administrator', 'components', 'all' );
+		$this->_mos_add_acl( 'com_banners', 'manage', 'users', 'super administrator' );
+		$this->_mos_add_acl( 'com_banners', 'manage', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_banners', 'manage', 'users', 'manager' );
 
-		$this->_mos_add_acl( 'administration', 'edit', 'users', 'manager', 'components', 'com_newsflash' );
-		$this->_mos_add_acl( 'administration', 'edit', 'users', 'manager', 'components', 'com_frontpage' );
-		$this->_mos_add_acl( 'administration', 'edit', 'users', 'manager', 'components', 'com_media' );
-			// ** add additional components for a manager as desired, or give access to all
+		$this->_mos_add_acl( 'com_contact', 'manage', 'users', 'super administrator' );
+		$this->_mos_add_acl( 'com_contact', 'manage', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_contact', 'manage', 'users', 'manager' );
 
-		// massmail
-		$this->_mos_add_acl( 'administration', 'manage', 'users', 'super administrator', 'components', 'com_massmail' );
+		$this->_mos_add_acl( 'com_frontpage', 'manage', 'users', 'super administrator' );
+		$this->_mos_add_acl( 'com_frontpage', 'manage', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_frontpage', 'manage', 'users', 'manager' );
 
-		// manage users
-		$this->_mos_add_acl( 'administration', 'manage', 'users', 'administrator', 'components', 'com_users' );
-		$this->_mos_add_acl( 'administration', 'manage', 'users', 'super administrator', 'components', 'com_users' );
+		$this->_mos_add_acl( 'com_massmail', 'manage', 'users', 'super administrator' );
 
-		// email block users property
-		$this->_mos_add_acl( 'administration', 'edit', 'users', 'administrator', 'user properties', 'block_user' );
-		$this->_mos_add_acl( 'administration', 'edit', 'users', 'super administrator', 'user properties', 'block_user' );
+		$this->_mos_add_acl( 'com_media', 'manage', 'users', 'manager' );
+
+		$this->_mos_add_acl( 'com_newsfeeds', 'manage', 'users', 'super administrator' );
+		$this->_mos_add_acl( 'com_newsfeeds', 'manage', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_newsfeeds', 'manage', 'users', 'manager' );
+
+		$this->_mos_add_acl( 'com_poll', 'manage', 'users', 'super administrator' );
+		$this->_mos_add_acl( 'com_poll', 'manage', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_poll', 'manage', 'users', 'manager' );
+
+		$this->_mos_add_acl( 'com_syndicate', 'manage', 'users', 'super administrator' );
+		$this->_mos_add_acl( 'com_syndicate', 'manage', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_syndicate', 'manage', 'users', 'manager' );
 
 		// email system events
 		$this->_mos_add_acl( 'workflow', 'email_events', 'users', 'administrator', null, null );
@@ -197,6 +210,10 @@ class gacl {
 		$this->_mos_add_acl( 'action', 'edit', 'users', 'super administrator', 'content', 'all' );
 
 		$this->_mos_add_acl( 'action', 'publish', 'users', 'super administrator', 'content', 'all' );
+
+		// Legacy ACL's for backward compat
+		$this->_mos_add_acl( 'administration', 'edit', 'users', 'super administrator', 'components', 'all' );
+		$this->_mos_add_acl( 'administration', 'edit', 'users', 'administrator', 'components', 'all' );
 
 		$this->acl_count = count( $this->acl );
 	}

@@ -15,7 +15,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-if (!$acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'components', 'com_users' )) {
+if (!$acl->acl_check( 'com_users', 'manage', 'users', $my->usertype )) {
 	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
 }
 

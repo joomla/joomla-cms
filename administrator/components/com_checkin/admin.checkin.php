@@ -15,7 +15,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-if (!$acl->acl_check( 'administration', 'config', 'users', $my->usertype )) {
+if (!$acl->acl_check( 'com_checkin', 'manage', 'users', $my->usertype )) {
 	mosRedirect( 'index2.php?', $_LANG->_('ALERTNOTAUTH') );
 }
 $nullDate = $database->getNullDate();

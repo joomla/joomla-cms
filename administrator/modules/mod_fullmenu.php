@@ -30,20 +30,21 @@ class mosFullAdminMenu {
 		global $_LANG;
 
 		// cache some acl checks
-		$canConfig 			= $acl->acl_check( 'administration', 'config', 'users', $usertype );
+		$canCheckin			= $acl->acl_check( 'com_checkin', 'manage', 'users', $usertype );
+		$canConfig 			= $acl->acl_check( 'com_config', 'manage', 'users', $usertype );
 
-		$manageTemplates 	= $acl->acl_check( 'administration', 'manage', 'users', $usertype, 'components', 'com_templates' );
-		$manageTrash 		= $acl->acl_check( 'administration', 'manage', 'users', $usertype, 'components', 'com_trash' );
-		$manageMenuMan 		= $acl->acl_check( 'administration', 'manage', 'users', $usertype, 'components', 'com_menumanager' );
-		$manageLanguages 	= $acl->acl_check( 'administration', 'manage', 'users', $usertype, 'components', 'com_languages' );
-		$installModules 	= $acl->acl_check( 'administration', 'install', 'users', $usertype, 'modules', 'all' );
-		$editAllModules 	= $acl->acl_check( 'administration', 'edit', 'users', $usertype, 'modules', 'all' );
-		$installMambots 	= $acl->acl_check( 'administration', 'install', 'users', $usertype, 'mambots', 'all' );
-		$editAllMambots 	= $acl->acl_check( 'administration', 'edit', 'users', $usertype, 'mambots', 'all' );
-		$installComponents 	= $acl->acl_check( 'administration', 'install', 'users', $usertype, 'components', 'all' );
-		$editAllComponents 	= $acl->acl_check( 'administration', 'edit', 'users', $usertype, 'components', 'all' );
-		$canMassMail 		= $acl->acl_check( 'administration', 'manage', 'users', $usertype, 'components', 'com_massmail' );
-		$canManageUsers 	= $acl->acl_check( 'administration', 'manage', 'users', $usertype, 'components', 'com_users' );
+		$manageTemplates 	= $acl->acl_check( 'com_templates', 'manage', 'users', $usertype );
+		$manageTrash 		= $acl->acl_check( 'com_trash', 'manage', 'users', $usertype );
+		$manageMenuMan 		= $acl->acl_check( 'com_menumanager', 'manage', 'users', $usertype );
+		$manageLanguages 	= $acl->acl_check( 'com_languages', 'manage', 'users', $usertype );
+		$installModules 	= $acl->acl_check( 'com_installer', 'module', 'users', $usertype );
+		$editAllModules 	= $acl->acl_check( 'com_modules', 'manage', 'users', $usertype );
+		$installMambots 	= $acl->acl_check( 'com_installer', 'mambot', 'users', $usertype );
+		$editAllMambots 	= $acl->acl_check( 'com_mambots', 'manage', 'users', $usertype );
+		$installComponents 	= $acl->acl_check( 'com_installer', 'component', 'users', $usertype );
+		$editAllComponents 	= $acl->acl_check( 'com_components', 'manage', 'users', $usertype );
+		$canMassMail 		= $acl->acl_check( 'com_massmail', 'manage', 'users', $usertype );
+		$canManageUsers 	= $acl->acl_check( 'com_users', 'manage', 'users', $usertype );
 
 		$query = "SELECT a.id, a.title, a.name, COUNT( DISTINCT c.id ) AS numcat, COUNT( DISTINCT b.id ) AS numarc"
 		. "\n FROM #__sections AS a"
@@ -293,7 +294,7 @@ class mosFullAdminMenu {
   			   ['<img src="../includes/js/ThemeOffice/sysinfo.png" />', '<?php echo $_LANG->_( 'System Info' ); ?>', 'index2.php?option=com_admin&task=sysinfo', null,'System Information'],
 
 <?php
-  		if ($canConfig) {
+  		if ($canCheckin) {
 ?>				['<img src="../includes/js/ThemeOffice/checkin.png" />', '<?php echo $_LANG->_( 'Global Checkin' ); ?>', 'index2.php?option=com_checkin', null,'Check-in all checked-out items'],
 <?php
 			if ($mosConfig_caching) {
@@ -323,15 +324,15 @@ class mosFullAdminMenu {
 	function showDisabled( $usertype='' ) {
 		global $acl, $_LANG;
 
-		$canConfig 			= $acl->acl_check( 'administration', 'config', 'users', $usertype );
-		$installModules 	= $acl->acl_check( 'administration', 'install', 'users', $usertype, 'modules', 'all' );
-		$editAllModules 	= $acl->acl_check( 'administration', 'edit', 'users', $usertype, 'modules', 'all' );
-		$installMambots 	= $acl->acl_check( 'administration', 'install', 'users', $usertype, 'mambots', 'all' );
-		$editAllMambots 	= $acl->acl_check( 'administration', 'edit', 'users', $usertype, 'mambots', 'all' );
-		$installComponents 	= $acl->acl_check( 'administration', 'install', 'users', $usertype, 'components', 'all' );
-		$editAllComponents 	= $acl->acl_check( 'administration', 'edit', 'users', $usertype, 'components', 'all' );
-		$canMassMail 		= $acl->acl_check( 'administration', 'manage', 'users', $usertype, 'components', 'com_massmail' );
-		$canManageUsers 	= $acl->acl_check( 'administration', 'manage', 'users', $usertype, 'components', 'com_users' );
+		$canConfig 			= $acl->acl_check( 'com_config', 'manage', 'users', $usertype );
+		$installModules 	= $acl->acl_check( 'com_install', 'module', 'users', $usertype );
+		$editAllModules 	= $acl->acl_check( 'com_modules', 'manage', 'users', $usertype );
+		$installMambots 	= $acl->acl_check( 'com_install', 'mambot', 'users', $usertype );
+		$editAllMambots 	= $acl->acl_check( 'com_mambots', 'manage', 'users', $usertype );
+		$installComponents 	= $acl->acl_check( 'com_install', 'component', 'users', $usertype );
+		$editAllComponents 	= $acl->acl_check( 'com_components', 'manage', 'users', $usertype );
+		$canMassMail 		= $acl->acl_check( 'com_massmail', 'manage', 'users', $usertype );
+		$canManageUsers 	= $acl->acl_check( 'com_users', 'manage', 'users', $usertype );
 
 		$text = $_LANG->_( 'Menu inactive for this Page' );
 		?>

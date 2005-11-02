@@ -15,16 +15,16 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // cache some acl checks
-$canConfig = $acl->acl_check( 'administration', 'config', 'users', $my->usertype );
+$canConfig = $acl->acl_check( 'com_config', 'manage', 'users', $my->usertype );
 
-$manageTemplates 	= $acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'components', 'com_templates' );
-$manageLanguages 	= $acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'components', 'com_languages' );
-$installModules 	= $acl->acl_check( 'administration', 'install', 'users', $my->usertype, 'modules', 'all' );
-$editAllModules 	= $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'modules', 'all' );
-$installComponents 	= $acl->acl_check( 'administration', 'install', 'users', $my->usertype, 'components', 'all' );
-$editAllComponents 	= $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'all' );
-$canMassMail 		= $acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'components', 'com_massmail' );
-$canManageUsers 	= $acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'components', 'com_users' );
+$manageTemplates 	= $acl->acl_check( 'com_templates', 'manage', 'users', $my->usertype );
+$manageLanguages 	= $acl->acl_check( 'com_languages', 'manage', 'users', $my->usertype );
+$installModules 	= $acl->acl_check( 'com_install', 'module', 'users', $my->usertype );
+$editAllModules 	= $acl->acl_check( 'com_modules', 'manage', 'users', $my->usertype );
+$installComponents 	= $acl->acl_check( 'com_install', 'component', 'users', $my->usertype );
+$editAllComponents 	= $acl->acl_check( 'com_components', 'manage', 'users', $my->usertype );
+$canMassMail 		= $acl->acl_check( 'com_massmail', 'manage', 'users', $my->usertype );
+$canManageUsers 	= $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype );
 
 $count = intval( $params->def( 'count', 10 ) );
 

@@ -135,7 +135,7 @@ class HTML_content {
 			$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 
-			if ( $acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'components', 'com_users' ) ) {
+			if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
 				if ( $row->created_by_alias ) {
 					$author = $row->created_by_alias;
 				} else {

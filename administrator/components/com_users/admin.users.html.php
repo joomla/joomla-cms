@@ -149,7 +149,7 @@ class HTML_users {
 		$tabs = new mosTabs( 0 );
 
 		mosCommonHTML::loadOverlib();
-		$canBlockUser 	= $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'user properties', 'block_user' );
+		$canBlockUser 	= $acl->acl_check( 'com_user', 'block user', 'users', $my->usertype );
 		$canEmailEvents = $acl->acl_check( 'workflow', 'email_events', 'users', $acl->get_group_name( $row->gid, 'ARO' ) );
 		?>
 		<script language="javascript" type="text/javascript">

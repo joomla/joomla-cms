@@ -25,7 +25,7 @@ $client 	= mosGetParam( $_REQUEST, 'client', '' );
 $path 		= $mosConfig_absolute_path . "/administrator/components/com_installer/$element/$element.php";
 
 // ensure user has access to this function
-if ( !$acl->acl_check( 'administration', 'install', 'users', $my->usertype, $element . 's', 'all' ) ) {
+if ( !$acl->acl_check( 'com_installer', $element, 'users', $my->usertype ) ) {
 	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
 }
 

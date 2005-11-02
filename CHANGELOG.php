@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Nov-2005 Andrew Eddie
+ ^ Reworked ACL ACO's to better align with future requirements
+
+=======
 02-Nov-2005 Arno Zijlstra
  ^ Changed footer module
  # Fixed : version include path in joomla installer

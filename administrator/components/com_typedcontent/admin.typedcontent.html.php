@@ -148,7 +148,7 @@ class HTML_typedcontent {
 				$checked	 		= mosHTML::idBox( $i, $row->id, ($row->checked_out && $row->checked_out != $my->id ) );
 			}
 
-			if ( $acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'components', 'com_users' ) ) {
+			if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
 				if ( $row->created_by_alias ) {
 					$author = $row->created_by_alias;
 				} else {

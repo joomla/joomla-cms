@@ -161,7 +161,7 @@ class HTML_content {
 				}
 			}
 
-			if ( $acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'components', 'com_users' ) ) {
+			if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
 				if ( $row->created_by_alias ) {
 					$author = $row->created_by_alias;
 				} else {
@@ -376,7 +376,7 @@ class HTML_content {
 
 			$row->cat_link 	= 'index2.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid;
 
-			if ( $acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'components', 'com_users' ) ) {
+			if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
 				if ( $row->created_by_alias ) {
 					$author = $row->created_by_alias;
 				} else {
