@@ -171,11 +171,12 @@ function mosShowHead() {
 		<?php
 	}
 
-	$mainframe->addMetaTag( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
-	$mainframe->addMetaTag( 'robots', 'index, follow' );
-
+	$mainframe->appendMetaTag( 'Content-Type', 'text/html; charset=utf-8' );
 	$mainframe->appendMetaTag( 'description', $mosConfig_MetaDesc );
 	$mainframe->appendMetaTag( 'keywords', $mosConfig_MetaKeys );
+	
+	$mainframe->addMetaTag( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
+	$mainframe->addMetaTag( 'robots', 'index, follow' );
 
 	echo $mainframe->getHead();
 	

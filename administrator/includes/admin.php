@@ -138,8 +138,9 @@ function mosShowHead_Admin() {
 	global $_LANG, $_VERSION, $_MAMBOTS;
 
 	$template 	= $mainframe->getTemplate();
-
+	
 	$mainframe->SetPageTitle( $mosConfig_sitename .' :: '. $_LANG->_( 'Administration' ) .'  [Mambo]' );
+	$mainframe->appendMetaTag( 'Content-Type', 'text/html; charset=utf-8' );
 	$mainframe->appendMetaTag( 'description', $mosConfig_MetaDesc );
 	$mainframe->appendMetaTag( 'keywords', $mosConfig_MetaKeys );
 	$mainframe->addMetaTag( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
