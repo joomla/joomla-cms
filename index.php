@@ -153,8 +153,7 @@ $message = mosGetParam( $_POST, 'message', 0 );
 if ($option == 'login') {
 	if (!$mainframe->login()) {
 		$mainframe->logout();
-		//mosErrorAlert( $_LANG->_( 'LOGIN_INCORRECT' ) );
-		mosErrorAlert( 'Incorrect username or password. Please try again.' );
+		mosErrorAlert( $_LANG->_( 'LOGIN_INCORRECT' ) );
 	}
 
 	// JS Popup message
@@ -162,7 +161,7 @@ if ($option == 'login') {
 		?>
 		<script language="javascript" type="text/javascript">
 		<!--//
-		alert( "<?php echo _LOGIN_SUCCESS; ?>" );
+		alert( "<?php echo $_LANG->_( 'LOGIN_SUCCESS' ); ?>" );
 		//-->
 		</script>
 		<?php
@@ -182,7 +181,7 @@ if ($option == 'login') {
 		?>
 		<script language="javascript" type="text/javascript">
 		<!--//
-		alert( "<?php echo _LOGOUT_SUCCESS; ?>" );
+		alert( "<?php echo $_LANG->_( 'LOGOUT_SUCCESS' ); ?>" );
 		//-->
 		</script>
 		<?php
@@ -223,7 +222,7 @@ if ($path = $mainframe->getPath( 'front' )) {
 		mosNotAuth();
 	}
 } else {
-	echo _NOT_EXIST;
+	echo $_LANG->_( 'NOT_EXIST' );
 }
 $_MOS_OPTION['buffer'] = ob_get_contents();
 ob_end_clean();
@@ -246,7 +245,7 @@ if (defined( '_ADMIN_OFFLINE' )) {
 
 // loads template file
 if ( !file_exists( 'templates/'. $cur_template .'/index.php' ) ) {
-	echo _TEMPLATE_WARN . $cur_template;
+	echo $_LANG->_( 'TEMPLATE_WARN' ) . $cur_template;
 } else {
 	require_once( 'templates/'. $cur_template .'/index.php' );
 	echo "<!-- ".time()." -->";

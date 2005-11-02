@@ -86,7 +86,7 @@ if ($path = $mainframe->getPath( 'front' )) {
 		mosNotAuth();
 	}
 } else {
-	echo _NOT_EXIST;
+	echo $_LANG->_( 'NOT_EXIST' );
 }
 $_MOS_OPTION['buffer'] = ob_get_contents();
 ob_end_clean();
@@ -129,3 +129,4 @@ if ( $no_html == 0 ) {
 }
 doGzip();
 ?>
+

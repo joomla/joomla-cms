@@ -87,7 +87,7 @@ if ( $mosConfig_offline == 1 ) {
 	<tr>
 		<td>
 			<h2>
-			<?php echo 'INSTALL_WARN'; ?>
+			<?php echo $_LANG->_( 'WARNINSTALL' ); ?>
 			</h2>
 		</td>
 	</tr>
