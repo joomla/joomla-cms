@@ -118,7 +118,10 @@ $_MAMBOTS = new mosMambotHandler();
 $_VERSION = new JVersion();
 
 //TODO : implement mambothandler class as singleton, add getBotHandler to JFactory
+
+//TODO : implement editor functionality as a class
 jimport( 'libraries.joomla.editor' );
+
 
 //TODO : implement mambothandler class as singleton, add getVersion to JFactory
 jimport( 'libraries.joomla.legacy' );

@@ -23,10 +23,10 @@ if (!defined( '_MOS_EDITOR_INCLUDED' )) {
 	}
 
 	// Per User Editor selection
-	$params = new mosParameters( $my->params );
-	$editor = $params->get( 'editor', '' );
-	if (!$editor) {
-		$editor = $mosConfig_editor;
+	$editor = $mosConfig_editor;
+	if(isset($my)) {
+		$params = new mosParameters( $my->params );
+		$editor = $params->get( 'editor', $mosConfig_editor );
 	}
 
 	$_MAMBOTS->loadBot( 'editors', $editor, 1 );

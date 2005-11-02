@@ -51,12 +51,6 @@ if ($option == 'search') {
 	$option = 'com_search';
 }
 
-// loads english language file by default
-if ($mosConfig_lang=='') {
-	$mosConfig_lang = 'english';
-}
-include_once( 'language/' . $mosConfig_lang . '.php' );
-
 // loads language depending on the user settings
 $_LANG = JFactory::getLanguage( $option );
 $_LANG->debug( $mosConfig_debug );
