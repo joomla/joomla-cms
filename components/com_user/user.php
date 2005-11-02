@@ -28,7 +28,7 @@ switch( $task ) {
 		break;
 
 	case 'UserDetails':
-		userEdit( $option, $my->id, _UPDATE );
+		userEdit( $option, $my->id, $_LANG->_( 'Update' ) );
 		break;
 
 	case 'saveUserEdit':
@@ -50,6 +50,7 @@ switch( $task ) {
 
 function saveUpload( $_dbprefix, $uid, $option, $userfile, $userfile_name, $type, $existingImage ) {
 	global $database;
+	global $_LANG;
 
 	if ($uid == 0) {
 		mosNotAuth();
@@ -60,17 +61,17 @@ function saveUpload( $_dbprefix, $uid, $option, $userfile, $userfile_name, $type
 	$checksize	= filesize($userfile);
 
 	if ($checksize > 50000) {
-		echo "<script> alert(\""._UP_SIZE."\"); window.history.go(-1); </script>\n";
+		echo "<script> alert(\"". $_LANG->_( 'UP_SIZE' ) ."\"); window.history.go(-1); </script>\n";
 	} else {
 		if (file_exists($base_Dir.$userfile_name)) {
-			$message=_UP_EXISTS;
+			$message= $_LANG->_( 'UP_EXISTS' );
 			eval ("\$message = \"$message\";");
 			print "<script> alert('$message'); window.history.go(-1);</script>\n";
 		} else {
 			if ((!strcasecmp(substr($userfile_name,-4),".gif")) || (!strcasecmp(substr($userfile_name,-4),".jpg"))) {
 				if (!move_uploaded_file($userfile, $base_Dir.$userfile_name))
 				{
-					echo _UP_COPY_FAIL." $userfile_name";
+					echo $_LANG->_( 'Failed to copy' ) ." $userfile_name";
 				} else {
 					echo "<script>window.opener.focus;</script>";
 					if ($type=="news") {
@@ -92,7 +93,7 @@ function saveUpload( $_dbprefix, $uid, $option, $userfile, $userfile_name, $type
 					echo "<script>window.close(); </script>";
 				}
 			} else {
-				echo "<script> alert(\""._UP_TYPE_WARN."\"); window.history.go(-1); </script>\n";
+				echo "<script> alert(\"". $_LANG->_( 'You may only upload a gif, or jpg image.' ) ."\"); window.history.go(-1); </script>\n";
 			}
 		}
 	}
@@ -120,6 +121,7 @@ function userEdit( $option, $uid, $submitvalue) {
 
 function userSave( $option, $uid) {
 	global $database, $Itemid;
+	global $_LANG;
 
 	$user_id = intval( mosGetParam( $_POST, 'id', 0 ));
 
@@ -147,7 +149,7 @@ function userSave( $option, $uid) {
 		if(isset($_POST["verifyPass"]) && ($_POST["verifyPass"] == $_POST["password"])) {
 			$row->password = md5($_POST["password"]);
 		} else {
-			echo "<script> alert(\""._PASS_MATCH."\"); window.history.go(-1); </script>\n";
+			echo "<script> alert(\"". $_LANG->_( 'Passwords do not match' ) ."\"); window.history.go(-1); </script>\n";
 			exit();
 		}
 	} else {
@@ -184,12 +186,13 @@ function userSave( $option, $uid) {
 	$results = $_MAMBOTS->trigger( 'onAfterStoreUser', array(get_object_vars($row), false, true, null ));
 
 	$link = $_SERVER['HTTP_REFERER'];
-	mosRedirect( $link, _USER_DETAILS_SAVE );
+	mosRedirect( $link, $_LANG->_( 'Your settings have been saved.' ) );
 }
 
 function CheckIn( $userid, $access, $option ){
 	global $database;
 	global $mosConfig_db;
+	global $_LANG;
 
 	$nullDate = $database->getNullDate();
 	if (!($access->canEdit || $access->canEditOwn || $userid > 0)) {
@@ -259,12 +262,10 @@ function CheckIn( $userid, $access, $option ){
 				if ($num > 0) {
 					echo "\n<tr class=\"row$k\">";
 					echo "\n	<td width=\"250\">";
-					echo _CHECK_TABLE;
+					echo $_LANG->_( 'Checking table' );
 					echo " - $tn</td>";
 					echo "\n	<td>";
-					echo _CHECKED_IN;
-					echo "<b>$num</b>";
-					echo _CHECKED_IN_ITEMS;
+					echo $_LANG->_( 'Checked in' ) ." <b>". $num ."</b> ". $_LANG->_( 'items' );
 					echo "</td>";
 					echo "\n</tr>";
 				}
@@ -275,7 +276,7 @@ function CheckIn( $userid, $access, $option ){
 	?>
 	<tr>
 		<td colspan="2">
-			<b><?php echo _CONF_CHECKED_IN; ?></b>
+			<b><?php echo $_LANG->_( 'CONF_CHECKED_IN' ); ?></b>
 		</td>
 	</tr>
 	</table>
