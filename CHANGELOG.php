@@ -31,10 +31,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Nov-2005 Johan Janssens
+ + Added XML-RPC support
+
 01-Nov-2005 Arno Zijlstra
- + Added footer module
  + Added footer module english language file
- ^ Changed templates and installer sql files to work with footer module
 
 01-Nov-2005 Johan Janssens
  - Removed global $version, use $_VERSION->getLongVersion() instead.

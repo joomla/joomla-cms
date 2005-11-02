@@ -341,7 +341,7 @@ class mosMainFrame {
 	* @param string The url option [DEPRECATED]
 	* @param string The path of the mos directory [DEPRECATED]
 	*/
-	function mosMainFrame( &$db, $option, $basePath, $isAdmin=false ) {
+	function mosMainFrame( &$db, $option, $basePath=null, $isAdmin=false ) {
 		
 		$this->_db =& $db;
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall version="1.0.0" type="mambot" group="system">
-	<name>Life Site rewrite</name>
+<mosinstall version="1.0.0" type="mambot" group="xmlrpc">
+	<name>Search XML-RPC bot</name>
 	<author>Joomla! Project</author>
-	<creationDate>October 2005</creationDate>
+	<creationDate>Nov 2005</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -10,7 +10,7 @@
 	<version>1.0.0</version>
 	<description>Modifies the site url to fit to the HTTP request</description>
 	<files>
-		<filename mambot="jossiteurl">jossiteurl.php</filename>
+		<filename mambot="search.xmlrpcbot.php">search.xmlrpcbot.php</filename>
 	</files>
 	<params/>
 </mosinstall>
