@@ -27,6 +27,7 @@ $tstart = mosProfiler::getmicrotime();
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $_LANG->isoCode();?>" lang="<?php echo $_LANG->isoCode();?>" dir="<?php echo $_LANG->rtl() ? 'rtl' : 'ltr'; ?>">
 <head>
 <title><?php echo $mosConfig_sitename; ?> - <?php echo $_LANG->_( 'Administration' ); ?> [Joomla]</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <style type="text/css">
 @import url(templates/joomla_admin/css/admin_login.css);
 </style>
