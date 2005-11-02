@@ -84,7 +84,7 @@ class poll_html {
 					?>
 					<tr>
 						<td valign="bottom">
-						<?php echo _NO_RESULTS; ?>
+						<?php echo $_LANG->_( 'There are no results for this poll.' ); ?>
 						</td>
 					</tr>
 					<?php
@@ -105,6 +105,8 @@ class poll_html {
 
 	function graphit( $data_arr, $graphtitle, $first_vote, $last_vote ) {
 		global $mosConfig_live_site, $polls_maxcolors, $tabclass,
+    	global $_LANG;
+    
 		$polls_barheight, $polls_graphwidth, $polls_barcolor;
 
 		$tabclass_arr = explode( ",", $tabclass );
@@ -194,7 +196,7 @@ class poll_html {
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
 			<td class='smalldark'>
-			<?php echo _NUM_VOTERS; ?>
+			<?php echo $_LANG->_( 'Number of Voters' ); ?>
 			</td>
 			<td class='smalldark'>
 			&nbsp;:&nbsp;
@@ -203,7 +205,7 @@ class poll_html {
 		</tr>
 		<tr>
 			<td class='smalldark'>
-			<?php echo _FIRST_VOTE; ?>
+			<?php echo $_LANG->_( 'First Vote' ); ?>
 			</td>
 			<td class='smalldark'>
 			&nbsp;:&nbsp;
@@ -212,7 +214,7 @@ class poll_html {
 		</tr>
 		<tr>
 			<td class='smalldark'>
-			<?php echo _LAST_VOTE; ?>
+			<?php echo $_LANG->_( 'Last Vote' ); ?>
 			</td>
 			<td class='smalldark'>
 			&nbsp;:&nbsp;

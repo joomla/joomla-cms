@@ -44,15 +44,17 @@ class mosPoll extends mosDBTable {
 
 	// overloaded check function
 	function check() {
+		global $_LANG;
+
 		// check for valid name
 		if (trim( $this->title ) == '') {
-			$this->_error = 'Your Poll must contain a title.';
+			$this->_error = $_LANG->_( 'Your Poll must contain a title.' );
 			return false;
 		}
 		// check for valid lag
 		$this->lag = intval( $this->lag );
 		if ($this->lag == 0) {
-			$this->_error = 'Your Poll must have a non-zero lag time.';
+			$this->_error = $_LANG->_( 'Your Poll must have a non-zero lag time.' );
 			return false;
 		}
 		// check for existing title
@@ -64,7 +66,7 @@ class mosPoll extends mosDBTable {
 
 		$xid = intval( $this->_db->loadResult() );
 		if ( $xid && $xid != intval( $this->id ) ) {
-			$this->_error = 'There is a module already with that name, please try again.';
+			$this->_error = $_LANG->_( 'WARNSAMENAME' );
 			return false;
 		}
 

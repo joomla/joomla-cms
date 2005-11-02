@@ -48,6 +48,7 @@ class mosMessage extends mosDBTable {
 
 	function send( $from_id=null, $to_id=null, $subject=null, $message=null ) {
 		global $database;
+		global $_LANG;
 
 		if (is_object( $this )) {
 			$from_id 	= $from_id ? $from_id : $this->user_id_from;
@@ -81,8 +82,8 @@ class mosMessage extends mosDBTable {
 					;
 					$database->setQuery( $query );
 					$recipient = $database->loadResult();
-					$subject 	= _NEW_MESSAGE;
-					$msg 		= _NEW_MESSAGE;
+					$subject 	= $_LANG->_( 'A new private message has arrived' );
+					$msg 		= $_LANG->_( 'A new private message has arrived' );
 
 					mosMail( $mosConfig_mailfrom, $mosConfig_fromname, $recipient, $subject, $msg );
 				}
@@ -90,7 +91,7 @@ class mosMessage extends mosDBTable {
 			}
 		} else {
 			if (is_object( $this )) {
-				$this->_error = _MESSAGE_FAILED;
+				$this->_error = $_LANG->_( 'MESSAGE_FAILED' );
 			}
 		}
 		return false;

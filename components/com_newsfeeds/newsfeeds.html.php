@@ -24,6 +24,8 @@ class HTML_newsfeed {
 
 	function displaylist( &$categories, &$rows, $catid, $currentcat=NULL, &$params, $tabclass ) {
 		global $Itemid, $mosConfig_live_site, $hide_js;
+		global $_LANG;
+
 		if ( $params->get( 'page_title' ) ) {
 			?>
 			<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
@@ -41,7 +43,7 @@ class HTML_newsfeed {
 			// show image
 			if ( $currentcat->img ) {
 				?>
-				<img src="<?php echo $currentcat->img; ?>" align="<?php echo $currentcat->align; ?>" hspace="6" alt="<?php echo _WEBLINKS_TITLE; ?>" />
+				<img src="<?php echo $currentcat->img; ?>" align="<?php echo $currentcat->align; ?>" hspace="6" alt="<?php echo $_LANG->_( 'Web Links' ); ?>" />
 				<?php
 			}
 			echo $currentcat->descrip;
@@ -86,6 +88,8 @@ class HTML_newsfeed {
 	*/
 	function showTable( &$params, &$rows, $catid, $tabclass ) {
 		global $mosConfig_live_site, $Itemid;
+		global $_LANG;
+
 		// icon in table display
 		$img = mosAdminMenus::ImageCheck( 'con_info.png', '/images/M_images/', $params->get( 'icon' ) );
 		?>
@@ -98,7 +102,7 @@ class HTML_newsfeed {
 				if ( $params->get( 'name' ) ) {
 					?>
 					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
-					<?php echo _FEED_NAME; ?>
+					<?php echo $_LANG->_( 'Feed Name' ); ?>
 					</td>
 					<?php
 				}
@@ -107,7 +111,7 @@ class HTML_newsfeed {
 				if ( $params->get( 'articles' ) ) {
 					?>
 					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" align="center">
-					<?php echo _FEED_ARTICLES; ?>
+					<?php echo $_LANG->_( 'Num Articles' ); ?>
 					</td>
 					<?php
 				}
@@ -116,7 +120,7 @@ class HTML_newsfeed {
 				if ( $params->get( 'link' ) ) {
 					?>
 					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
-					<?php echo _FEED_LINK; ?>
+					<?php echo $_LANG->_( 'Feed Link' ); ?>
 					</td>
 					<?php
 				}
