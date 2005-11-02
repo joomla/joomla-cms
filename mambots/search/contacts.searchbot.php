@@ -27,13 +27,14 @@ $_MAMBOTS->registerFunction( 'onSearch', 'botSearchContacts' );
 */
 function botSearchContacts( $text, $phrase='', $ordering='' ) {
 	global $database, $my;
+	global $_LANG;
 
 	 $text = trim( $text );
 	if ($text == '') {
 		return array();
 	}
 
-	$section = _CONTACT_TITLE;
+	$section = $_LANG->_( 'Contact' );
 
 	switch ( $ordering ) {
 		case 'alpha':

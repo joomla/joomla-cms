@@ -27,12 +27,13 @@ $_MAMBOTS->registerFunction( 'onSearch', 'botSearchWeblinks' );
 */
 function botSearchWeblinks( $text, $phrase='', $ordering='' ) {
 	global $database, $my;
+	global $_LANG;
 
 	$text = trim( $text );
 	if ($text == '') {
 		return array();
 	}
-	$section 	= _WEBLINKS_TITLE;
+	$section 	= $_LANG->_( 'Web Links' );
 
 	$wheres 	= array();
 	switch ($phrase) {

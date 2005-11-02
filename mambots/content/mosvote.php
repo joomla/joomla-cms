@@ -18,6 +18,7 @@ $_MAMBOTS->registerFunction( 'onBeforeDisplayContent', 'botVoting' );
 
 function botVoting( &$row, &$params, $page=0 ) {
 	global $Itemid;
+	global $_LANG;
 
 	$id 	= $row->id;
 	$option = 'com_content';
@@ -39,7 +40,7 @@ function botVoting( &$row, &$params, $page=0 ) {
 			$img .= $starImageOff;
 		}
 		$html .= '<span class="content_rating">';
-		$html .= _USER_RATING . ':' . $img . '&nbsp;/&nbsp;';
+		$html .= $_LANG->_( 'User Rating' ) .':'. $img .'&nbsp;/&nbsp;';
 		$html .= intval( $row->rating_count );
 		$html .= "</span>\n<br />\n";
 		$url = @$_SERVER['REQUEST_URI'];
@@ -47,14 +48,14 @@ function botVoting( &$row, &$params, $page=0 ) {
 
 		if (!$params->get( 'intro_only' ) && $task != "blogsection") {
 			$html .= '<span class="content_vote">';
-			$html .= _VOTE_POOR;
+			$html .= $_LANG->_( 'Poor' );
 			$html .= '<input type="radio" alt="vote 1 star" name="user_rating" value="1" />';
 			$html .= '<input type="radio" alt="vote 2 star" name="user_rating" value="2" />';
 			$html .= '<input type="radio" alt="vote 3 star" name="user_rating" value="3" />';
 			$html .= '<input type="radio" alt="vote 4 star" name="user_rating" value="4" />';
 			$html .= '<input type="radio" alt="vote 5 star" name="user_rating" value="5" checked="checked" />';
-			$html .= _VOTE_BEST;
-			$html .= '&nbsp;<input class="button" type="submit" name="submit_vote" value="'. _RATE_BUTTON .'" />';
+			$html .= $_LANG->_( 'Best' );
+			$html .= '&nbsp;<input class="button" type="submit" name="submit_vote" value="'. $_LANG->_( 'Rate' ) .'" />';
 			$html .= '<input type="hidden" name="task" value="vote" />';
 			$html .= '<input type="hidden" name="pop" value="0" />';
 			$html .= '<input type="hidden" name="option" value="com_content" />';

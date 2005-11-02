@@ -32,6 +32,7 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosPaging' );
 */
 function botMosPaging( $published, &$row, &$params, $page=0 ) {
 	global $mainframe, $Itemid, $database;
+	global $_LANG;
 
  	// expression to search for
  	$regex = '/{(mospagebreak)\s*(.*?)}/i';
@@ -71,7 +72,7 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 	 	// adds heading or title to <site> Title
 	 	if ( $title ) {
 			$page_text = $page + 1;
-			$row->page_title = _PN_PAGE .' '. $page_text;
+			$row->page_title = $_LANG->_( 'Page' ) .' '. $page_text;
 			if ( !$page ) {
 				// processing for first page
 				parse_str( str_replace( '&amp;', '&', $matches[0][2] ), $args );
@@ -135,6 +136,7 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 
 function createTOC( &$row, &$matches, &$page ) {
 	global $Itemid;
+	global $_LANG;
 
 	$nonseflink = 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
 	$link = 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
@@ -156,7 +158,7 @@ function createTOC( &$row, &$matches, &$page ) {
 	<table cellpadding="0" cellspacing="0" class="contenttoc" align="right">
 	<tr>
 		<th>'
-		. _TOC_JUMPTO .
+		. $_LANG->_( 'Article Index' ) .
 		'</th>
 	</tr>
 	';
@@ -197,7 +199,7 @@ function createTOC( &$row, &$matches, &$page ) {
 				<tr>
 					<td>
 					<a href="'. $link .'" class="toclink">'
-					. _PN_PAGE .' '. $i .
+					. $_LANG->_( 'Page' ) .' '. $i .
 					'</a>
 					</td>
 				</tr>
@@ -208,7 +210,7 @@ function createTOC( &$row, &$matches, &$page ) {
 			<tr>
 				<td>
 				<a href="'. $link .'" class="toclink">'
-				. _PN_PAGE .' '. $i .
+				. $_LANG->_( 'Page' ) .' '. $i .
 				'</a>
 				</td>
 			</tr>
@@ -222,25 +224,29 @@ function createTOC( &$row, &$matches, &$page ) {
 
 function createNavigation( &$row, $page, $n ) {
 	global $Itemid;
+	global $_LANG;
 
 	$link = 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
+
+	$pnSpace = "";
+    if ($_LANG->_( '_LT' ) || $_LANG->_( '_RT' )) $pnSpace = " ";
 
 	if ( $page < $n-1 ) {
 		$link_next = $link .'&amp;limit=1&amp;limitstart='. ( $page + 1 );
 		$link_next = sefRelToAbs( $link_next );
 
-		$next = '<a href="'. $link_next .'">' ._CMN_NEXT . _CMN_NEXT_ARROW .'</a>';
+		$next = '<a href="'. $link_next .'">' . $_LANG->_( 'Next' ) . $pnSpace . $_LANG->_( '_RT' ) . $_LANG->_( '_RT' ) .'</a>';
 	} else {
-		$next = _CMN_NEXT;
+		$next = $_LANG->_( 'Next' );
 	}
 
 	if ( $page > 0 ) {
 		$link_prev = $link .'&amp;limit=1&amp;limitstart='. ( $page - 1 );
 		$link_prev = sefRelToAbs( $link_prev );
 
-		$prev = '<a href="'. $link_prev .'">'. _CMN_PREV_ARROW . _CMN_PREV .'</a>';
+		$prev = '<a href="'. $link_prev .'">'. $_LANG->_( '_LT' ) . $_LANG->_( '_LT' ) . $pnSpace . $_LANG->_( 'Prev' ) .'</a>';
 	} else {
-		$prev = _CMN_PREV;
+		$prev = $_LANG->_( 'Prev' );
 	}
 
 	$row->text .= '<div>' . $prev . ' - ' . $next .'</div>';

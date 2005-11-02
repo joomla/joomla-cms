@@ -28,6 +28,7 @@ $_MAMBOTS->registerFunction( 'onSearch', 'botSearchContent' );
 function botSearchContent( $text, $phrase='', $ordering='' ) {
 	global $my, $database;
 	global $mosConfig_abolute_path, $mosConfig_offset;
+	global $_LANG;
 
 	$nullDate = $database->getNullDate();
 	$_SESSION['searchword'] = $text;
@@ -129,11 +130,13 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 	$database->setQuery( $query );
 	$list2 = $database->loadObjectList();
 
-	// search archived content
+	$searchArchived = $_LANG->_( 'Archived' );
+	
+    // search archived content
 	$query = "SELECT a.title AS title,"
 	. "\n a.created AS created,"
 	. "\n a.introtext AS text,"
-	. "\n CONCAT_WS( '/', '". _SEARCH_ARCHIVED ." ', u.title, b.title ) AS section,"
+	. "\n CONCAT_WS( '/', '". $searchArchived ." ', u.title, b.title ) AS section,"
 	. "\n CONCAT('index.php?option=com_content&task=view&id=',a.id) AS href,"
 	. "\n '2' AS browsernav"
 	. "\n FROM #__content AS a"
