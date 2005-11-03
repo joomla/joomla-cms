@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id:  $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -43,7 +43,7 @@ function botJoomlaLoginUser( $username, $password ) {
 * Method is called when a user is login out
 * @param 	array	  	holds the user data
 */
-function botMamboLogoutUser( $user ) {
+function botJoomlaLogoutUser( $user ) {
 	//do nothing
 }
 
