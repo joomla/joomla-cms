@@ -24,7 +24,6 @@ class mosFullAdminMenu {
 	* @param string The current user type
 	*/
 	function show( $usertype='' ) {
-		global $_LANG;
 		global $acl, $database;
 		global $mosConfig_live_site, $mosConfig_enable_stats, $mosConfig_caching;
 		global $_LANG;

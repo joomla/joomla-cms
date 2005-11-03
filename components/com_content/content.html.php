@@ -54,7 +54,7 @@ class HTML_content {
 			if ( $title->image ) {
 				$link = $mosConfig_live_site .'/images/stories/'. $title->image;
 				?>
-				<img src="<?php echo $link;?>" align="<?php echo $title->image_position;?>" hspace="6" alt="<?php echo $title->alttext;?>" />
+				<img src="<?php echo $link;?>" align="<?php echo $title->image_position;?>" hspace="6" alt="<?php echo $title->image;?>" />
 				<?php
 			}
 			echo $title->description;
