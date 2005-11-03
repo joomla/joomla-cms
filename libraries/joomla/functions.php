@@ -687,13 +687,14 @@ function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NUL
 function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) {
 	global $mosConfig_live_site;
 	global $_LANG;
-
+    
+    // soon $mosConfig_admin_dir
+    $strAdminDir = "administrator";
+    
 	$subject = $_LANG->_( 'User Submitted' ) ." '". $type ."'";
 
-    $message = $_LANG->_( 'Hello') ." ". $adminName .",\n\n\n". $_LANG->_( 'A user submitted') ." ". $type .":\n [ ". $title ." ]\n". $_LANG->_( 'has been just submitted by user') .":\n [ ". $author ." ]\n"
-        . $_LANG->_( 'for') ." ". $mosConfig_live_site .".\n\n\n\n"
-        . $_LANG->_( 'Please go to') ." ". $mosConfig_live_site ."/". $_LANG->_( 'administrator') ." ". $_LANG->_( 'to view and approve this') ." ". $type .".\n\n"
-        . $_LANG->_( 'MAIL_MSG') ."\n";
+	$message = sprintf ( $_LANG->_( 'MAIL_MSG_ADMIN' ), $adminName, $type, $title, $author, $mosConfig_live_site, $mosConfig_live_site, $strAdminDir, $type);
+    $message .= $_LANG->_( 'MAIL_MSG') ."\n";
 
 	eval ("\$message = \"$message\";");
 	mosMail($mosConfig_mailfrom, $mosConfig_fromname, $adminEmail, $subject, $message);

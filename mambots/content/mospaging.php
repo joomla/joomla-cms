@@ -234,7 +234,7 @@ function createNavigation( &$row, $page, $n ) {
 	if ( $page < $n-1 ) {
 		$link_next = $link .'&amp;limit=1&amp;limitstart='. ( $page + 1 );
 		$link_next = sefRelToAbs( $link_next );
-
+        // Next >>
 		$next = '<a href="'. $link_next .'">' . $_LANG->_( 'Next' ) . $pnSpace . $_LANG->_( '_RT' ) . $_LANG->_( '_RT' ) .'</a>';
 	} else {
 		$next = $_LANG->_( 'Next' );
@@ -243,7 +243,7 @@ function createNavigation( &$row, $page, $n ) {
 	if ( $page > 0 ) {
 		$link_prev = $link .'&amp;limit=1&amp;limitstart='. ( $page - 1 );
 		$link_prev = sefRelToAbs( $link_prev );
-
+        // << Prev
 		$prev = '<a href="'. $link_prev .'">'. $_LANG->_( '_LT' ) . $_LANG->_( '_LT' ) . $pnSpace . $_LANG->_( 'Prev' ) .'</a>';
 	} else {
 		$prev = $_LANG->_( 'Prev' );

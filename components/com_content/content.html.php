@@ -855,8 +855,9 @@ class HTML_content {
 
 		$task = mosGetParam( $_REQUEST, 'task', '' );
 		if ( $params->get( 'item_navigation' ) && ( $task == "view" ) && !$params->get( 'popup' ) && ( $row->prev || $row->next ) ) {
+
             $pnSpace = "";
-            if ($_LANG->_( 'PREV_LT' ) || $_LANG->_( 'NEXT_GT' )) $pnSpace = " ";
+            if ($_LANG->_( '_LT' ) || $_LANG->_( '_RT' )) $pnSpace = " ";
 			?>
 			<table align="center" style="margin-top: 25px;">
 			<tr>
@@ -865,7 +866,7 @@ class HTML_content {
 					?>
 					<th class="pagenav_prev">
 					<a href="<?php echo $row->prev; ?>">
-					<?php echo $_LANG->_( 'PREV_LT' ) . $pnSpace . $_LANG->_( 'Prev' ); ?>
+					<?php echo $_LANG->_( '_LT' ) . $pnSpace . $_LANG->_( 'Prev' ); ?>
 					</a>
 					</th>
 					<?php
@@ -881,7 +882,7 @@ class HTML_content {
 					?>
 					<th class="pagenav_next">
 					<a href="<?php echo $row->next; ?>">
-					<?php echo $_LANG->_( 'Next' ) . $pnSpace . $_LANG->_( 'NEXT_GT' ); ?>
+					<?php echo $_LANG->_( 'Next' ) . $pnSpace . $_LANG->_( '_RT' ); ?>
 					</a>
 					</th>
 					<?php

@@ -872,7 +872,7 @@ class mosAdminMenus {
 			$order = mosGetOrderingList( $query );
 			$ordering = mosHTML::selectList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
-			$ordering = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. $_LANG->_( 'CMN_NEW_ITEM_LAST' );
+			$ordering = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. $_LANG->_( 'DESCNEWITEMSLAST' );
 		}
 		return $ordering;
 	}

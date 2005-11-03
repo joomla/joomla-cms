@@ -76,7 +76,7 @@ class HTML_registration {
 			} else if (form.username.value == "") {
 				alert( "<?php echo $_LANG->_( 'Please enter a user name.' );?>" );
 			} else if (r.exec(form.username.value) || form.username.value.length < 3) {
-				alert( "<?php echo $_LANG->_( 'VALID_AZ09' ) .", ". $_LANG->_( 'Username' );?>" );
+				alert( "<?php printf( $_LANG->_( 'VALID_AZ09' ), $_LANG->_( 'Username' ), 2 );?>" );
 			} else if (form.email.value == "") {
 				alert( "<?php echo $_LANG->_( 'Please enter a valid e-mail address.' );?>" );
 			} else if (form.password.value.length < 6) {
@@ -86,7 +86,7 @@ class HTML_registration {
 			} else if ((form.password.value != "") && (form.password.value != form.password2.value)){
 				alert( "<?php echo $_LANG->_( 'REGWARN_VPASS2' );?>" );
 			} else if (r.exec(form.password.value)) {
-				alert( "<?php echo $_LANG->_( 'VALID_AZ09' ) .", ". $_LANG->_( 'Password' );?>" );
+				alert( "<?php printf( $_LANG->_( 'VALID_AZ09' ), $_LANG->_( 'Password' ), 6 );?>" );
 			} else {
 				form.submit();
 			}

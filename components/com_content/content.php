@@ -1595,7 +1595,7 @@ function emailContentSend( $uid ) {
 	$link = sefRelToAbs( $mosConfig_live_site .'/index.php?option=com_content&task=view&id='. $uid .'&Itemid='. $_Itemid );
 
 	// message text
-	$msg = sprintf( $_LANG->_( 'EMAIL_MSG' ) ."<br /><br />". $_LANG->_( 'EMAIL_MSG2' ), $mosConfig_sitename, $yourname, $youremail, $link );
+	$msg = sprintf( $_LANG->_( 'EMAIL_MSG' ), $mosConfig_sitename, $yourname, $youremail, $link );
 
 	// mail function
 	mosMail( $youremail, $yourname, $email, $subject, $msg );

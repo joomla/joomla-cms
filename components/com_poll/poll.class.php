@@ -66,7 +66,7 @@ class mosPoll extends mosDBTable {
 
 		$xid = intval( $this->_db->loadResult() );
 		if ( $xid && $xid != intval( $this->id ) ) {
-			$this->_error = $_LANG->_( 'WARNSAMENAME' );
+			$this->_error = $_LANG->_( 'There is a' ) ." ". $_LANG->_( 'Module') ." ". $_LANG->_( 'already with that name, please try again.' );
 			return false;
 		}
 
