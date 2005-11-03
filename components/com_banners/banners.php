@@ -94,7 +94,7 @@ function viewbanner() {
 				echo $banner->custombannercode;
 			} else if (eregi( "(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$", $banner->imageurl )) {
 				$imageurl = "$mosConfig_live_site/images/banners/$banner->imageurl";
-				echo "<a href=\"".sefRelToAbs("index.php?option=com_banners&amp;task=click&amp;bid=$banner->bid")."\" target=\"_blank\"><img src=\"$imageurl\" border=\"0\" alt=\"". $_LANG->_( 'Pub' ) ."\" /></a>";
+				echo "<a href=\"".sefRelToAbs("index.php?option=com_banners&amp;task=click&amp;bid=$banner->bid")."\" target=\"_blank\"><img src=\"$imageurl\" border=\"0\" alt=\"". $_LANG->_( 'Banner' ) ."\" /></a>";
 
 			} else if (eregi("\.swf$", $banner->imageurl)) {
 				$imageurl = "$mosConfig_live_site/images/banners/".$banner->imageurl;
