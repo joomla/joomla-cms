@@ -82,5 +82,30 @@ class JFactory {
 
 		return $_LANG;
 	}
+	
+	/**
+	 * Creates an access control object
+	 * @param object A Joomla! database object
+	 * @return object
+	 * $since 1.1
+	 */
+	function &getACL( ) {
+		$acl =& JFactory::_createACL();
+		return $acl;
+	}
+	
+	/**
+	 * $since 1.1
+	 */
+	function &_createACL()	{
+		global $mosConfig_absolute_path;
+
+		require_once( $mosConfig_absolute_path . '/includes/gacl.class.php' );
+		require_once( $mosConfig_absolute_path . '/includes/gacl_api.class.php' );
+
+		$acl = new gacl_api();
+
+		return $acl;
+	}
 }
 ?>

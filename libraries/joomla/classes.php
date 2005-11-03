@@ -315,7 +315,7 @@ class mosCache {
 * @package Joomla
 * @since 1.0
 */
-class mosMainFrame {
+class mosMainFrame extends JObject {
 	/** @var database Internal database class pointer */
 	var $_db				= null;
 	/** @var object An object of configuration variables */
@@ -341,7 +341,7 @@ class mosMainFrame {
 	* @param string The url option [DEPRECATED]
 	* @param string The path of the mos directory [DEPRECATED]
 	*/
-	function mosMainFrame( &$db, $option, $basePath=null, $isAdmin=false ) {
+	function __construct( &$db, $option, $basePath=null, $isAdmin=false ) {
 		
 		$this->_db =& $db;
 
@@ -1234,27 +1234,6 @@ class mosMainFrame {
 		$this->_db->setQuery( $query );
 		$count = $this->_db->loadResult();
 		return $count;
-	}
-
-	/**
-	* @param string The name of the property
-	* @param mixed The value of the property to set
-	*/
-	function set( $property, $value=null ) {
-		$this->$property = $value;
-	}
-
-	/**
-	* @param string The name of the property
-	* @param mixed  The default value
-	* @return mixed The value of the property
-	*/
-	function get($property, $default=null) {
-		if(isset($this->$property)) {
-			return $this->$property;
-		} else {
-			return $default;
-		}
 	}
 
 	/** Is admin interface?

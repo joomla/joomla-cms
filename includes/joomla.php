@@ -64,11 +64,11 @@ function jimport( $path, $requireOnce=true ) {
 // experimenting
 
 jimport( 'includes.database' );
-require_once( $mosConfig_absolute_path . '/includes/gacl.class.php' );
-require_once( $mosConfig_absolute_path . '/includes/gacl_api.class.php' );
+
 require_once( $mosConfig_absolute_path . '/includes/phpmailer/class.phpmailer.php' );
 require_once( $mosConfig_absolute_path . '/includes/phpInputFilter/class.inputfilter.php' );
 
+jimport( 'libraries.joomla.classes.object' );
 jimport( 'libraries.joomla.version' );
 jimport( 'libraries.joomla.functions' );
 jimport( 'libraries.joomla.classes' );
@@ -109,7 +109,7 @@ if ($database->getErrorNum()) {
 $database->debug( $mosConfig_debug );
 
 /** @global $acl */
-$acl = new gacl_api();
+$acl =& JFactory::getACL();
 
 /** @global $_MAMBOTS */
 $_MAMBOTS = new mosMambotHandler();
