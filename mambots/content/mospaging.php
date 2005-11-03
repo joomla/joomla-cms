@@ -229,13 +229,13 @@ function createNavigation( &$row, $page, $n ) {
 	$link = 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
 
 	$pnSpace = "";
-    if ($_LANG->_( '_LT' ) || $_LANG->_( '_RT' )) $pnSpace = " ";
+    if ($_LANG->_( '&lt' ) || $_LANG->_( '&gt' )) $pnSpace = " ";
 
 	if ( $page < $n-1 ) {
 		$link_next = $link .'&amp;limit=1&amp;limitstart='. ( $page + 1 );
 		$link_next = sefRelToAbs( $link_next );
         // Next >>
-		$next = '<a href="'. $link_next .'">' . $_LANG->_( 'Next' ) . $pnSpace . $_LANG->_( '_RT' ) . $_LANG->_( '_RT' ) .'</a>';
+		$next = '<a href="'. $link_next .'">' . $_LANG->_( 'Next' ) . $pnSpace . $_LANG->_( '&gt' ) . $_LANG->_( '&gt' ) .'</a>';
 	} else {
 		$next = $_LANG->_( 'Next' );
 	}
@@ -244,7 +244,7 @@ function createNavigation( &$row, $page, $n ) {
 		$link_prev = $link .'&amp;limit=1&amp;limitstart='. ( $page - 1 );
 		$link_prev = sefRelToAbs( $link_prev );
         // << Prev
-		$prev = '<a href="'. $link_prev .'">'. $_LANG->_( '_LT' ) . $_LANG->_( '_LT' ) . $pnSpace . $_LANG->_( 'Prev' ) .'</a>';
+		$prev = '<a href="'. $link_prev .'">'. $_LANG->_( '&lt' ) . $_LANG->_( '&lt' ) . $pnSpace . $_LANG->_( 'Prev' ) .'</a>';
 	} else {
 		$prev = $_LANG->_( 'Prev' );
 	}

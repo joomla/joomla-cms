@@ -111,15 +111,15 @@ class mosPageNav {
 		$link .= '&amp;limit='. $this->limit;
 
         $pnSpace = "";
-        if ($_LANG->_( '_LT' ) || $_LANG->_( '_RT' )) $pnSpace = " ";
+        if ($_LANG->_( '&lt' ) || $_LANG->_( '&gt' )) $pnSpace = " ";
 
 		if ($this_page > 1) {
 			$page = ($this_page - 2) * $this->limit;
-			$txt .= '<a href="'. sefRelToAbs( "$link&amp;limitstart=0" ) .'" class="pagenav" title="first page">'. $_LANG->_( '_LT' ) . $_LANG->_( '_LT' ) . $pnSpace . $_LANG->_( 'Start' ) .'</a> ';
-			$txt .= '<a href="'. sefRelToAbs( "$link&amp;limitstart=$page" ) .'" class="pagenav" title="previous page">'. $_LANG->_( '_LT' ) . $pnSpace . $_LANG->_( 'Prev' ) .'</a> ';
+			$txt .= '<a href="'. sefRelToAbs( "$link&amp;limitstart=0" ) .'" class="pagenav" title="first page">'. $_LANG->_( '&lt' ) . $_LANG->_( '&lt' ) . $pnSpace . $_LANG->_( 'Start' ) .'</a> ';
+			$txt .= '<a href="'. sefRelToAbs( "$link&amp;limitstart=$page" ) .'" class="pagenav" title="previous page">'. $_LANG->_( '&lt' ) . $pnSpace . $_LANG->_( 'Prev' ) .'</a> ';
 		} else {
-			$txt .= '<span class="pagenav">'. $_LANG->_( '_LT' ) . $_LANG->_( '_LT' ) . $pnSpace . $_LANG->_( 'Start' ) .'</span> ';
-			$txt .= '<span class="pagenav">'. $_LANG->_( '_LT' ) . $pnSpace . $_LANG->_( 'Prev' ) .'</span> ';
+			$txt .= '<span class="pagenav">'. $_LANG->_( '&lt' ) . $_LANG->_( '&lt' ) . $pnSpace . $_LANG->_( 'Start' ) .'</span> ';
+			$txt .= '<span class="pagenav">'. $_LANG->_( '&lt' ) . $pnSpace . $_LANG->_( 'Prev' ) .'</span> ';
 		}
 
 		for ($i=$start_loop; $i <= $stop_loop; $i++) {
@@ -134,11 +134,11 @@ class mosPageNav {
 		if ($this_page < $total_pages) {
 			$page = $this_page * $this->limit;
 			$end_page = ($total_pages-1) * $this->limit;
-			$txt .= '<a href="'. sefRelToAbs( $link .'&amp;limitstart='. $page ) .' " class="pagenav" title="next page">'. $_LANG->_( 'Next' ) . $pnSpace . $_LANG->_( '_RT' ) .'</a> ';
-			$txt .= '<a href="'. sefRelToAbs( $link .'&amp;limitstart='. $end_page ) .' " class="pagenav" title="end page">'. $_LANG->_( 'End' ) . $pnSpace . $_LANG->_( '_RT' ) . $_LANG->_( '_RT' ) .'</a>';
+			$txt .= '<a href="'. sefRelToAbs( $link .'&amp;limitstart='. $page ) .' " class="pagenav" title="next page">'. $_LANG->_( 'Next' ) . $pnSpace . $_LANG->_( '&gt' ) .'</a> ';
+			$txt .= '<a href="'. sefRelToAbs( $link .'&amp;limitstart='. $end_page ) .' " class="pagenav" title="end page">'. $_LANG->_( 'End' ) . $pnSpace . $_LANG->_( '&gt' ) . $_LANG->_( '&gt' ) .'</a>';
 		} else {
-			$txt .= '<span class="pagenav">'. $_LANG->_( 'Next' ) . $pnSpace . $_LANG->_( '_RT' ) .'</span> ';
-			$txt .= '<span class="pagenav">'. $_LANG->_( 'End' ) . $pnSpace . $_LANG->_( '_RT' ) . $_LANG->_( '_RT' ) .'</span>';
+			$txt .= '<span class="pagenav">'. $_LANG->_( 'Next' ) . $pnSpace . $_LANG->_( '&gt' ) .'</span> ';
+			$txt .= '<span class="pagenav">'. $_LANG->_( 'End' ) . $pnSpace . $_LANG->_( '&gt' ) . $_LANG->_( '&gt' ) .'</span>';
 		}
 		return $txt;
 	}
