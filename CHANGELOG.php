@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Nov-2005 Samuel Moffatt
+# Fixed up bug which prevented component uninstall if another XML file was in the directory
+
 02-Nov-2005 Andrew Eddie
  ^ Reworked ACL ACO's to better align with future requirements
 
