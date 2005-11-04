@@ -115,5 +115,6 @@ if (!defined( '_MOS_POLL_MODULE' )) {
 	}
 }
 
+$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
 show_poll_vote_form( $Itemid, $moduleclass_sfx );
 ?>
