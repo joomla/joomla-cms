@@ -8,7 +8,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.0.0</version>
-	<description>This module shows a list of the calendar months, which contain Archived items. After you have changed the status of a Content Item to 'Archived' this list will be automatically generated.</description>
+	<description>DESCARCHIVE</description>
 	<files>
 		<filename module="mod_archive">mod_archive.php</filename>
 	</files>
@@ -18,6 +18,6 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
-		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="A suffix to be applied to the css class of the module (table.moduletable), this allows individual module styling" />
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</params>
 </mosinstall>

@@ -13,16 +13,16 @@
 		<filename module="mod_login">mod_login.php</filename>
 	</files>
 	<params>
-		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="A suffix to be applied to the css class of the module (table.moduletable), this allows individual module styling" />
-		<param name="pretext" type="textarea" cols="20" rows="5" default="" label="Pre-text" description="This is the Text or HTML that is displayed above the login form" />
-		<param name="posttext" type="textarea" cols="20" rows="5" label="Post-text" description="This is the Text or HTML that is displayed below the login form" />
-		<param name="login" type="text" default="" label="Login Redirection URL" description="What page will the login redirect to after login, if let blank will load front page" />
-		<param name="logout" type="text" default="" label="Logout Redirection URL" description="What page will the login redirect to after login, if let blank will load front page" />
-		<param name="login_message" type="radio" default="0" label="Login Message" description="Show/Hide the javascript Pop-up indicating Login Success">
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+		<param name="pretext" type="textarea" cols="20" rows="5" default="" label="Pre-text" description="PARAMPRETEXT" />
+		<param name="posttext" type="textarea" cols="20" rows="5" label="Post-text" description="PARAMPOSTTEXT" />
+		<param name="login" type="text" default="" label="Login Redirection URL" description="PARAMLOGINREDIRECTURL" />
+		<param name="logout" type="text" default="" label="Logout Redirection URL" description="PARAMLOGOUTREDIRECTURL" />
+		<param name="login_message" type="radio" default="0" label="Login Message" description="PARAMLOGINMESSAGE">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="logout_message" type="radio" default="0" label="Logout Message" description="Show/Hide the javascript Pop-up indicating Logout Success">
+		<param name="logout_message" type="radio" default="0" label="Logout Message" description="PARAMLOGOUTMESSAGE">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
