@@ -1,3 +1,3 @@
 <?php // compatibility
-require_once( $mosConfig_absolute_path .'/libraries/joomla/database/mysqli.php' );
+require_once( dirname(__FILE__) .'/../libraries/joomla/database/mysqli.php' );
 ?>
