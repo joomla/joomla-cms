@@ -104,7 +104,7 @@ class poll_html {
 
 
 	function graphit( $data_arr, $graphtitle, $first_vote, $last_vote ) {
-		global $mosConfig_live_site, $polls_maxcolors, $tabclass,
+		global $mosConfig_live_site, $polls_maxcolors, $tabclass;
     	global $_LANG;
     
 		$polls_barheight, $polls_graphwidth, $polls_barcolor;
