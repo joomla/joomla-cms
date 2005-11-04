@@ -59,7 +59,10 @@ class modules_html {
 		
 		if ( $params->get( 'rssurl' ) ) {
 			// feed output
-			modules_html::modoutput_feed( $params );
+			// load RSS module file
+			// kept for backward compatability
+			mosFS::load( 'modules/mod_rss.php' );
+			//modules_html::modoutput_feed( $params );
 		}
 	}
 	
@@ -99,11 +102,11 @@ class modules_html {
 		?>
 		<table cellspacing="1" cellpadding="0" border="0" width="100%">
 		<tr>
-		<td valign="top">
-		<?php
-		modules_html::modoutput_table($module, $params);
-		?>
-		</td>
+			<td valign="top">
+				<?php
+				modules_html::modoutput_table($module, $params);
+				?>
+			</td>
 		</tr>
 		</table>
 		<?php
@@ -170,7 +173,7 @@ class modules_html {
 		</div>
 		<?php
 	}
-
+/*
 	// feed output
 	function modoutput_feed( &$params, $moduleclass_sfx ) {
 		global $mosConfig_absolute_path;
@@ -306,5 +309,6 @@ class modules_html {
 			<?php
 		}
 	}
+*/
 }
 ?>
