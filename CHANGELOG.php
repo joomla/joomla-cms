@@ -31,8 +31,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Nov-2005 Johan Janssens 
+ # Fixed artf1949 : Typo in back-end com_config.ini
+
 03-Nov-2005 Samuel Moffatt
-# Fixed up bug which prevented component uninstall if another XML file was in the directory
+ # Fixed up bug which prevented component uninstall if another XML file was in the directory
 
 02-Nov-2005 Andrew Eddie
  ^ Reworked ACL ACO's to better align with future requirements
