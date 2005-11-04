@@ -13,15 +13,15 @@
 		<filename module="mod_search">mod_search.php</filename>
 	</files>
 	<params>
-		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="A suffix to be applied to the css class of the module (table.moduletable), this allows individual module styling" />
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="cache" type="radio" default="0" label="Enable Cache" description="Select whether to cache the content of this module">
+		<param name="cache" type="radio" default="0" label="Enable Cache" description="PARAMENABLECACHE">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="width" type="text" default="20" label="Box Width" description="Size of the search text box" />
-		<param name="text" type="text" default="" label="Text" description="The text that appears in the search text box, if left blank it will load _SEARCH_BOX from your language file" />
+		<param name="text" type="text" default="" label="Text" description="PARAMTEXT" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="button" type="radio" default="" label="Search Button" description="Display a Search Button">
 			<option value="">No</option>
@@ -33,6 +33,6 @@
 			<option value="top">Top</option>
 			<option value="bottom">Bottom</option>
 		</param>
-		<param name="button_text" type="text" default="" label="Button Text" description="The text that appears in the search buttin, if left blank it will load _SEARCH_TITLE from your language file" />
+		<param name="button_text" type="text" default="" label="Button Text" description="PARAMBUTTONTEXT" />
 	</params>
 </mosinstall>

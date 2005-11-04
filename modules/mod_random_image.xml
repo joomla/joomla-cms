@@ -8,16 +8,16 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.0.0</version>
-	<description>This module display a random image from your chosen directory</description>
+	<description>DESCRANDOMIMAGE</description>
 	<files>
 	<filename module="mod_random_image">mod_random_image.php</filename>
 	</files>
 	<params>
 		<param name="type" type="text" default="jpg" label="Image Type" description="Type of image PNG/GIF/JPG etc. (default is JPG)" />
-		<param name="folder" type="text" default="" label="Image Folder" description="Path to the image folder relative to the site url, eg: images/stories" />
-		<param name="link" type="text" default="" label="Link" description="A URL to redirect to if image is clicked on, eg: http://www.joomla.org" />
-		<param name="width" type="text" default="" label="Width (px)" description="Image width (forces all images to be displayed with this width)" />
-		<param name="height" type="text" default="" label="Height (px)" description="Image height (forces all images to be displayed with the height)" />
-		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="A suffix to be applied to the css class of the module (table.moduletable), this allows individual module styling" />
+		<param name="folder" type="text" default="" label="Image Folder" description="PARAMIMAGEFOLDER" />
+		<param name="link" type="text" default="" label="Link" description="PARAMLINK" />
+		<param name="width" type="text" default="" label="Width (px)" description="PARAMWIDTHPX" />
+		<param name="height" type="text" default="" label="Height (px)" description="PARAMHEIGHTPX" />
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</params>
 </mosinstall>
