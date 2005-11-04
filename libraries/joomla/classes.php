@@ -333,7 +333,7 @@ class mosMainFrame extends JObject {
 	/** @var string Custom html string to append to the pathway */
 	var $_custom_pathway	= null;
 	/** @var boolean True if in the admin client */
-	var $_isAdmin 			= false;
+	var $_client 			= null;
 
 	/**
 	* Class constructor
@@ -341,11 +341,9 @@ class mosMainFrame extends JObject {
 	* @param string The url option [DEPRECATED]
 	* @param string The path of the mos directory [DEPRECATED]
 	*/
-	function __construct( &$db, $option, $basePath=null, $isAdmin=false ) {
+	function __construct( &$db, $option, $basePath=null, $client=0 ) {
 		
 		$this->_db =& $db;
-
-		$this->_setTemplate( $isAdmin );
 
 		if (!isset( $_SESSION['session_userstate'] )) {
 			$_SESSION['session_userstate'] = array();
@@ -356,7 +354,9 @@ class mosMainFrame extends JObject {
 		$this->_head['title'] 	= $GLOBALS['mosConfig_sitename'];
 		$this->_head['meta'] 	= array();
 		$this->_head['custom'] 	= array();
-		$this->_isAdmin 		= (boolean) $isAdmin;
+		$this->_client 		    = $client;
+		
+		$this->_setTemplate( );
 	}
 	/**
 	* @param string
@@ -662,11 +662,11 @@ class mosMainFrame extends JObject {
 		}
 	}
 
-	function _setTemplate( $isAdmin=false ) {
+	function _setTemplate( ) {
 		global $Itemid,$mosConfig_live_site;
 		$mosConfig_absolute_path = $this->getCfg( 'absolute_path' );
 
-		if ($isAdmin) {
+		if ($this->isAdmin()) {
 			$query = "SELECT template"
 			. "\n FROM #__templates_menu"
 			. "\n WHERE client_id = 1"
@@ -743,29 +743,12 @@ class mosMainFrame extends JObject {
 	}
 
 	/**
-	 * Gets the id number for a client
+	 * Gets the client id
 	 * @param mixed A client identifier
+	 * @since 1.1
 	 */
-	function getClientID( $client ) {
-		switch ($client) {
-			case '2':
-			case 'installation':
-				return 2;
-				break;
-
-			case '1':
-			case 'admin':
-			case 'administrator':
-				return 1;
-				break;
-
-			case '0':
-			case 'site':
-			case 'front':
-			default:
-				return 0;
-				break;
-		}
+	function getClient( ) {
+		return $this->_client;
 	}
 
 	/**
@@ -922,26 +905,22 @@ class mosMainFrame extends JObject {
 	 * @param mixed A client identifier
 	 * @param boolean True (default) to add traling slash
 	 */
-	function getBasePath( $client=0, $addTrailingSlash=true ) {
+	function getBasePath( $addTrailingSlash=true ) {
 		global $mosConfig_absolute_path;
 
-		switch ($client) {
-			case '0':
-			case 'site':
-			case 'front':
-			default:
-				return mosFS::getNativePath( $mosConfig_absolute_path, $addTrailingSlash );
-				break;
-
+		switch ($this->_client) {
+			
 			case '2':
-			case 'installation':
 				return mosFS::getNativePath( $mosConfig_absolute_path . '/installation', $addTrailingSlash );
 				break;
 
 			case '1':
-			case 'admin':
-			case 'administrator':
 				return mosFS::getNativePath( $mosConfig_absolute_path . '/administrator', $addTrailingSlash );
+				break;
+				
+			case '0':
+			default:
+				return mosFS::getNativePath( $mosConfig_absolute_path, $addTrailingSlash );
 				break;
 
 		}
@@ -1241,7 +1220,23 @@ class mosMainFrame extends JObject {
 	 * @since 1.0.2
 	 */
 	function isAdmin() {
-		return $this->_isAdmin;
+		return ($this->_client == 1) ?  true : false;
+	}
+	
+	/** Is site interface?
+	 * @return boolean
+	 * @since 1.1
+	 */
+	function isSite() {
+		return ($this->_client == 0) ?  true : false;
+	}
+	
+	/** Is admin interface?
+	 * @return boolean
+	 * @since 1.1
+	 */
+	function isInstall() {
+		return ($this->_client == 2) ?  true : false;
 	}
 }
 

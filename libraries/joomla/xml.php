@@ -534,7 +534,7 @@ class mosParameters {
 	function _form_language_list( $name, $value, &$node, $control_name) {
 		global $_LANG;
 		
-		$languages = JLanguageHelper::buildLanguageList( 'front', $value );
+		$languages = JLanguageHelper::buildLanguageList( 0, $value );
 		array_unshift( $languages, mosHTML::makeOption( '',  '- '. $_LANG->_( 'Select Language' ) .' -' ) );
 
 		return mosHTML::selectList( $languages, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value, "param$name" );
@@ -550,7 +550,7 @@ class mosParameters {
 	function _form_admin_language_list( $name, $value, &$node, $control_name) {
 		global $_LANG;
 
-		$languages = JLanguageHelper::buildLanguageList( 'admin', $value );
+		$languages = JLanguageHelper::buildLanguageList( 1, $value );
 		array_unshift( $languages, mosHTML::makeOption( '0',  '- '. $_LANG->_( 'Select Language' ) .' -' ) );
 
 		return mosHTML::selectList( $languages, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value, "param$name" );

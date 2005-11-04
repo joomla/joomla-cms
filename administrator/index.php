@@ -45,7 +45,7 @@ session_name( md5( $mosConfig_live_site ) );
 session_start();
 
 // mainframe is an API workhorse, lots of 'core' interaction routines
-$mainframe = new mosMainFrame( $database, $option, '..', true );
+$mainframe = new mosMainFrame( $database, $option, '..', 1 );
 $mainframe->initSession( 'php' );
 
 // trigger the onAfterStart events

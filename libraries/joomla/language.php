@@ -147,10 +147,9 @@ class JLanguage extends JObject {
 	/**
 	 * Loads a single langauge file
 	 * @param string The prefix
-	 * @param mixed The client id: 0=site, 1=admin, 2=installation
 	 */
-	function load( $prefix='', $client=0 ) {
-		$basePath = JLanguage::getLanguagePath( $client, $this->_userLang );
+	function load( $prefix='') {
+		$basePath = JLanguage::getLanguagePath( $this->_userLang );
 
 		if (empty( $prefix )) {
 			$filename = $basePath . $this->_userLang . '.ini';
@@ -165,7 +164,7 @@ class JLanguage extends JObject {
 				$filename = $basePath . $this->_defaultLang . '.' . $prefix . '.ini';
 			}
 		}
-
+	
 		$this->_load( $filename );
 	}
 
@@ -174,14 +173,14 @@ class JLanguage extends JObject {
 	 * @param string The option
 	 * @param mixed The client id: 0=site, 1=admin, 2=installation
 	 */
-	function loadAll( $option='', $client=0 ) {
+	function loadAll( $option='') {
 		// load primary language file
-		$this->load( '', $client );
+		$this->load( '');
 
 		// load 'option'(al) language file
 		$option = trim( $option );
 		if ($option) {
-			$this->load( $option, $client );
+			$this->load( $option );
 		}
 	}
 	/**
@@ -246,12 +245,14 @@ class JLanguage extends JObject {
 	 * @param int The client number
 	 * @return string	language related path or null
 	 */
-	function getLanguagePath( $client=0, $language=null, $addTrailingSlash=true ) {
-		$dir = mosMainFrame::getBasePath( $client ) . 'language' . DIRECTORY_SEPARATOR;
-		if ($client != mosMainFrame::getClientID( 'installation' ) && isset( $language )) {
+	function getLanguagePath( $language=null, $addTrailingSlash=true ) {
+		global $mainframe;
+		
+		$dir = $mainframe->getBasePath( ) . 'language' . DIRECTORY_SEPARATOR;
+		if (isset( $language )) {
 			$dir .= $language .DIRECTORY_SEPARATOR;
 		}
-
+		
 		return mosFS::getNativePath( $dir, $addTrailingSlash );
 	}
 	/**
@@ -268,11 +269,12 @@ class JLanguage extends JObject {
 	 */
 	function getKnownLanguages( $client=2 ) {
 		static $knownLanguages=null;
+		global $mainframe; 
 
-		if (is_string( $client )) {
-			$client = mosMainFrame::getClientID( $client );
+		if (!isset( $client )) {
+			$client = $mainframe->getClient( );
 		}
-		$dir = JLanguage::getLanguagePath( $client );
+		$dir = JLanguage::getLanguagePath( );
 
 		if( !isset( $knownLanguages[$client] ) ) {
 			$knownLanguages[$client] = JLanguage::_parseLanguageFiles( $dir, $client );
@@ -380,12 +382,12 @@ class JLanguageHelper {
 	 * @param array	An array of arrays ( text, value, selected )
 	 */
 	function buildLanguageList( $client=2, $actualLanguage ) {
-		global $_LANG;
+		global $_LANG, $mainframe;
 
 		$list = array();
 
-		if( is_string( $client ) ) {
-			$client = mosMainFrame::getClientID( $client );
+		if( !isset( $client ) ) {
+			$client = $mainframe->getClient( );
 		}
 
 		// cache activation
