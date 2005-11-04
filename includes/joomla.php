@@ -15,30 +15,6 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 define( '_MOS_MAMBO_INCLUDED', 1 );
 
-if (phpversion() < '4.2.0') {
-	require_once( $mosConfig_absolute_path . '/includes/compat.php41x.php' );
-}
-if (phpversion() < '4.3.0') {
-	require_once( $mosConfig_absolute_path . '/includes/compat.php42x.php' );
-}
-if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
-	die( 'Fatal error.  Global variable hack attempted.' );
-}
-if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
-	die( 'Fatal error.  Post variable hack attempted.' );
-}
-if (version_compare( phpversion(), '5.0' ) < 0) {
-	require_once( $mosConfig_absolute_path . '/includes/compat.php50x.php' );
-}
-
-@set_magic_quotes_runtime( 0 );
-
-if (@$mosConfig_error_reporting === 0) {
-	error_reporting( 0 );
-} else if (@$mosConfig_error_reporting > 0) {
-	error_reporting( $mosConfig_error_reporting );
-}
-
 /**
  * Intelligent file importer
  * @param string A dot syntax path
@@ -59,6 +35,30 @@ function jimport( $path, $requireOnce=true ) {
 	} else {
 		return require( $path );
 	}
+}
+
+if (phpversion() < '4.2.0') {
+	jimport('libraries.joomla.compat.php41x' );
+}
+if (phpversion() < '4.3.0') {
+	jimport('libraries.joomla.compat.php42x' );
+}
+if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
+	die( 'Fatal error.  Global variable hack attempted.' );
+}
+if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
+	die( 'Fatal error.  Post variable hack attempted.' );
+}
+if (version_compare( phpversion(), '5.0' ) < 0) {
+	jimport('libraries.joomla.compat.php50x' );
+}
+
+@set_magic_quotes_runtime( 0 );
+
+if (@$mosConfig_error_reporting === 0) {
+	error_reporting( 0 );
+} else if (@$mosConfig_error_reporting > 0) {
+	error_reporting( $mosConfig_error_reporting );
 }
 
 // experimenting
