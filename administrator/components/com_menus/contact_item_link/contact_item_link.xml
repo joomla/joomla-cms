@@ -22,6 +22,6 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="header" type="text" size="30" default="" label="Page Title" description="PARAMHEADER" />
+		<param name="header" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE" />
 	</params>
 </mosinstall>

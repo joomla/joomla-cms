@@ -26,7 +26,7 @@
 			<option value="1">Show</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="header_login" type="text" size="30" default="" label="Login Page Title" description="PARAMLOGINPAGETITLE" />
+		<param name="header_login" type="text" size="30" default="" label="Login Page Title" description="PARAMPAGETITLE" />
 		<param name="login" type="text" size="30"  default="" label="Login Redirection URL" description="PARAMLOGINURL" />
 		<param name="login_message" type="radio" default="0" label="Login JS Message" description="PARAMLOGINJSMESSAGE">
 			<option value="0">Hide</option>
