@@ -66,7 +66,7 @@ class JFactory {
 			}
 		}
 
-		$_LANG = new mosLanguage( $lang );
+		$_LANG = new JLanguage( $lang );
 		$_LANG->loadAll( $option, 0 );
 		if ($isAdmin) {
 			$_LANG->loadAll( $option, 1 );

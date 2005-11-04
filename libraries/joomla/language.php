@@ -21,7 +21,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 * @subpackage Language
 * @since 1.1
 */
-class mosLanguage {
+class JLanguage extends JObject {
 	/** @var boolean If true, highlights string not found */
 	var $_debug = false;
 
@@ -48,7 +48,7 @@ class mosLanguage {
 	/**
 	* Constructor activating the default information of the language
 	*/
-	function mosLanguage( $userLang='' ) {
+	function __construct( $userLang='' ) {
 		$this->_strings = array();
 
 		if( isset( $this->_locale ) ) {
@@ -150,7 +150,7 @@ class mosLanguage {
 	 * @param mixed The client id: 0=site, 1=admin, 2=installation
 	 */
 	function load( $prefix='', $client=0 ) {
-		$basePath = mosLanguage::getLanguagePath( $client, $this->_userLang );
+		$basePath = JLanguage::getLanguagePath( $client, $this->_userLang );
 
 		if (empty( $prefix )) {
 			$filename = $basePath . $this->_userLang . '.ini';
@@ -272,10 +272,10 @@ class mosLanguage {
 		if (is_string( $client )) {
 			$client = mosMainFrame::getClientID( $client );
 		}
-		$dir = mosLanguage::getLanguagePath( $client );
+		$dir = JLanguage::getLanguagePath( $client );
 
 		if( !isset( $knownLanguages[$client] ) ) {
-			$knownLanguages[$client] = mosLanguage::_parseLanguageFiles( $dir, $client );
+			$knownLanguages[$client] = JLanguage::_parseLanguageFiles( $dir, $client );
 		}
 
 		return $knownLanguages[$client];
@@ -290,11 +290,11 @@ class mosLanguage {
 
 		if ($client == 2) {
 			// Installation without subdirs!
-			$languages = mosLanguage::_parseINILanguageFiles( $dir );
+			$languages = JLanguage::_parseINILanguageFiles( $dir );
 		} else {
 			$subdirs = mosFS::listFolders( $dir );
 			foreach ($subdirs as $path) {
-				$langs = mosLanguage::_parseXMLLanguageFiles( $dir . $path . DIRECTORY_SEPARATOR );
+				$langs = JLanguage::_parseXMLLanguageFiles( $dir . $path . DIRECTORY_SEPARATOR );
 				$languages = array_merge( $languages, $langs );
 			}
 		}
@@ -373,7 +373,7 @@ class mosLanguage {
  * @subpackage Language
  * @since 1.1
  */
-class mosLanguageFactory {
+class JLanguageHelper {
 	/**
 	 * Builds a list of the system languages which can be used in a select option
 	 * @param string	client key for the area
@@ -390,10 +390,10 @@ class mosLanguageFactory {
 
 		// cache activation
 		if( class_exists( 'mosCache' ) ) {
-			$cache =& mosCache::getCache( 'mosLanguage' );
-			$langs = $cache->call( 'mosLanguage::getKnownLanguages', $client );
+			$cache =& mosCache::getCache( 'JLanguage' );
+			$langs = $cache->call( 'JLanguage::getKnownLanguages', $client );
 		} else {
-			$langs = mosLanguage::getKnownLanguages( $client );
+			$langs = JLanguage::getKnownLanguages( $client );
 		}
 
 		foreach ($langs as $lang=>$name) {
@@ -408,15 +408,6 @@ class mosLanguageFactory {
 		}
 
 		return $list;
-	}
-
-	/**
-	 * @return object A template installer object
-	 */
-	function &createInstaller() {
-		mosFS::load( '/administrator/components/com_installer/installer.class.php' );
-		mosFS::load( '/administrator/components/com_languages/languages.installer.php' );
-		return new mosLanguageInstaller();
 	}
 }
 ?>
