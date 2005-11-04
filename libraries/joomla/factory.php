@@ -84,6 +84,35 @@ class JFactory {
 	}
 	
 	/**
+	 * @param array An array of additional template files to load
+	 * @param boolean True to use caching
+	 */
+	function &getPatTemplate( $files=null ) {
+		global $mainframe;
+
+		// For some reason on PHP4 the singleton does not clone deep enough
+		// The Reader object is not behaving itself and causing problems
+		$tmpl =& JFactory::_createPatTemplate();
+
+		//set template cache prefix
+		$prefix = '';
+		if($mainframe->isAdmin()) {
+			$prefix .= 'administrator__';
+		}
+		$prefix .= $GLOBALS['option'].'__';
+		$tmpl->setTemplateCachePrefix($prefix);
+
+
+		if ( is_array( $files ) ) {
+			foreach ( $files as $file ) {
+				$tmpl->readTemplatesFromInput( $file );
+			}
+		}
+
+		return $tmpl;
+	}
+	
+	/**
 	 * Creates an access control object
 	 * @param object A Joomla! database object
 	 * @return object
@@ -95,7 +124,8 @@ class JFactory {
 	}
 	
 	/**
-	 * $since 1.1
+	 * @return object
+	 * @since 1.1
 	 */
 	function &_createACL()	{
 		global $mosConfig_absolute_path;
@@ -106,6 +136,75 @@ class JFactory {
 		$acl = new gacl_api();
 
 		return $acl;
+	}
+	
+	/**
+	 * @return object
+	 * @since 1.1
+	 */
+	function &_createPatTemplate() {
+		global $_LANG, $mainframe;
+		global $mosConfig_absolute_path, $mosConfig_live_site;
+
+		$path = $mosConfig_absolute_path . '/libraries/pattemplate';
+
+		require_once( $path .'/patTemplate.php' );
+		$tmpl = new patTemplate;
+
+		//TODO : add config var
+		if ($GLOBALS['mosConfig_tmpl_caching']) {
+
+			$info = array(
+				'cacheFolder' 	=> $GLOBALS['mosConfig_cachepath'].'/pattemplate',
+				'lifetime' 		=> 'auto',
+				'prefix'		=> 'global__',
+				'filemode' 		=> 0755
+			);
+		 	$tmpl->useTemplateCache( 'File', $info );
+		}
+
+		$tmpl->setNamespace( 'jos' );
+
+		// load the wrapper and common templates
+		$tmpl->setRoot( $path .'/tmpl' );
+		$tmpl->readTemplatesFromInput( 'page.html' );
+		$tmpl->applyInputFilter('ShortModifiers');
+
+		$tmpl->addGlobalVar( 'option', 				$GLOBALS['option'] );
+		$tmpl->addGlobalVar( 'self', 				$_SERVER['PHP_SELF'] );
+		$tmpl->addGlobalVar( 'itemid', 				$GLOBALS['Itemid'] );
+		$tmpl->addGlobalVar( 'siteurl', 			$mosConfig_live_site );
+		$tmpl->addGlobalVar( 'adminurl', 			$mosConfig_live_site .'/administrator' );
+		$tmpl->addGlobalVar( 'admintemplateurl', 	$mosConfig_live_site .'/administrator/templates/'. $mainframe->getTemplate() );
+		$tmpl->addGlobalVar( 'sitename', 			$GLOBALS['mosConfig_sitename'] );
+
+		$tmpl->addGlobalVar( 'page_encoding', 		$_LANG->iso() );
+		$tmpl->addGlobalVar( 'version_copyright', 	$GLOBALS['_VERSION']->COPYRIGHT );
+		$tmpl->addGlobalVar( 'version_url', 		$GLOBALS['_VERSION']->URL );
+
+		$tmpl->addVar( 'form', 'formAction', 		$_SERVER['PHP_SELF'] );
+		$tmpl->addVar( 'form', 'formName', 			'adminForm' );
+
+		if ($_LANG->iso()) {
+			$tmpl->addGlobalVar( 'lang_iso', 		$_LANG->iso() );
+		} else {
+			// TODO: Try and determine the charset from the browser
+			$tmpl->addGlobalVar( 'lang_iso', 		'iso-8859-1' );
+			
+		}
+		
+		$tmpl->addGlobalVar( 'lang_charset',	'charset=UTF-8' );
+
+		// tabs
+		$tpath = mosFS::getNativePath( $mainframe->getTemplatePath() . 'images/tabs' );
+		if (is_dir( $tpath )) {
+			$turl = $mainframe->getTemplateURL() .'/images/tabs/';
+		} else {
+			$turl = $mosConfig_live_site .'/includes/js/tabs/';
+		}
+		$tmpl->addVar( 'includeTabs', 'taburl', $turl );
+
+		return $tmpl;
 	}
 }
 ?>
