@@ -1,0 +1,110 @@
+<mos:comment>
+@version $Id: adminlists.html 558 2005-10-19 12:07:41Z eddieajau $
+@package Joomla
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+Joomla! is free software. This version may have been modified pursuant
+to the GNU General Public License, and as distributed it includes or
+is derivative of works licensed under the GNU General Public License or
+other free or open source software licenses.
+See COPYRIGHT.php for copyright notices and details.
+</mos:comment>
+
+<mos:tmpl name="newCheckAll">
+<script type="text/javascript">
+	<!--
+	function checkAll( checkbox, stub ) {
+		c = 0;
+		for (i=0, n=checkbox.form.elements.length; i < n; i++) {
+			e = checkbox.form.elements[i];
+			if (e.type == checkbox.type) {
+				if ((stub && e.name.indexOf( stub ) == 0) || !stub) {
+					e.checked = checkbox.checked;
+					c += (e.checked == true ? 1 : 0);
+				}
+			}
+		}
+		if (checkbox.form.boxchecked) {
+			checkbox.form.boxchecked.value = c;
+		}
+		return true;
+	}
+	function isChecked( checkbox ){
+		if (checkbox.checked == true){
+			checkbox.form.boxchecked.value++;
+		} else {
+			checkbox.form.boxchecked.value--;
+		}
+	}
+	-->
+</script>
+</mos:tmpl>
+
+<mos:tmpl name="list-navigation" varscope="body">
+	<tr>
+		<th colspan="99" align="center">
+			{PAGE_LINKS}
+		</th>
+	</tr>
+	<tr>
+		<td colspan="99" nowrap="true" align="center">
+			<mos:Translate>Display Num</mos:Translate>
+			{PAGE_LIST_OPTIONS}
+			{PAGE_COUNTER}
+		</td>
+	</tr>
+</mos:tmpl>
+
+<mos:tmpl name="item-select-box" type="condition" conditionvar="item_checked_out" varscope="list-items">
+	<mos:sub condition="0">
+    	<input type="checkbox" name="cid[]" id="cb{ITEM_ID}" value="{ITEM_ID}" />
+	</mos:sub>
+	<mos:sub condition="__default">
+		<a href="javascript:submitbutton('checkin');" onmouseover="return escape('{ITEM_EDITOR}<br/>{ITEM_CHECKED_OUT_TIME}<br/><mos:Translate>Click to check in</mos:Translate>')">
+			<img src="{ADMINURL}/images/checked_out.png" border="0" alt="" /></a>
+		<input type="hidden" name="id" value="{ITEM_ID}" />
+	</mos:sub>
+</mos:tmpl>
+
+<mos:tmpl name="item-select-box-nco" varscope="list-items" autoclear="yes">
+   	<input type="checkbox" name="cid[]" id="cb{ITEM_ID}" value="{ITEM_ID}" />
+</mos:tmpl>
+
+<mos:tmpl name="item-title" varscope="list-items" autoclear="yes">
+	<a href="#edit" onclick="listItemTask( 'cb{ITEM_ID}', 'edit' )">{ITEM_TITLE}</a>
+</mos:tmpl>
+
+<mos:tmpl name="item-sticky-icon" type="condition" conditionvar="item_sticky" varscope="list-items" autoclear="yes">
+	<mos:sub condition="0">
+		<a href="#publish" onclick="listItemTask('cb{ITEM_ID}', 'stick' )" title="Toggle">
+			<img src="images/publish_x.png" alt="<mos:Translate>Free</mos:Translate>" border="0" /></a>
+	</mos:sub>
+	<mos:sub condition="1">
+		<a href="#unpublish" onclick="listItemTask('cb{ITEM_ID}', 'unstick' )" title="Toggle">
+			<img src="images/tick.png" alt="<mos:Translate>Sticky</mos:Translate>" border="0" /></a>
+	</mos:sub>
+</mos:tmpl>
+
+<mos:tmpl name="item-publish-icon" type="condition" conditionvar="item_published" varscope="list-items" autoclear="yes">
+	<mos:sub condition="0">
+		<a href="#publish" onclick="listItemTask('cb{ITEM_ID}', 'publish' )" title="Toggle">
+			<img src="images/publish_x.png" alt="<mos:Translate>Unpublished</mos:Translate>" border="0" /></a>
+	</mos:sub>
+	<mos:sub condition="1">
+		<a href="#unpublish" onclick="listItemTask('cb{ITEM_ID}', 'unpublish' )" title="Toggle">
+			<img src="images/tick.png" alt="<mos:Translate>Published</mos:Translate>" border="0" /></a>
+	</mos:sub>
+</mos:tmpl>
+
+<mos:tmpl name="item-reorder-icon" varscope="list-items" autoclear="yes">
+	<span style="padding: 0 5px;">
+		{ITEM_ORDERUPICON}
+	</span>
+	<span style="padding: 0 5px;">
+		{ITEM_ORDERDOWNICON}
+	</span>
+</mos:tmpl>
+
+<mos:tmpl name="item-order-box" varscope="list-items" autoclear="yes">
+	<input type="text" name="order[]" size="5" value="{ITEM_ORDERING}" class="text_area" style="text-align: center" />
+</mos:tmpl>
