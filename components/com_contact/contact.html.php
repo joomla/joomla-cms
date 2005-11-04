@@ -29,13 +29,13 @@ class HTML_contact {
 
 		if ( $params->get( 'page_title' ) ) {
 			?>
-	<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
-		<?php echo $currentcat->header; ?>
-	</div>
+			<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
+				<?php echo $currentcat->header; ?>
+			</div>
 			<?php
 		}
 		?>
-	<form action="index.php" method="post" name="adminForm">
+		<form action="index.php" method="post" name="adminForm">
 
 		<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr>
@@ -308,16 +308,16 @@ class HTML_contact {
 		}
 		?>
 
-		<table width="100%" cellpadding="0" cellspacing="0" border="0" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
+		<table width="100%" cellpadding="0" cellspacing="0" border="0" class="contentpane<?php echo $menu_params->get( 'pageclass_sfx' ); ?>">
 		<?php
 		// displays Page Title
-		HTML_contact::_writePageTitle( $params );
+		HTML_contact::_writePageTitle( $params, $menu_params );
 
 		// displays Contact Select box
 		HTML_contact::_writeSelectContact( $contact, $params, $count );
 
 		// displays Name & Positione
-		HTML_contact::_writeContactName( $contact, $params, $hide_js );
+		HTML_contact::_writeContactName( $contact, $params, $menu_params );
 		?>
 		<tr>
 			<td>
@@ -352,7 +352,7 @@ class HTML_contact {
 		// displays Email Form
 		HTML_contact::_writeVcard( $contact, $params );
 		// displays Email Form
-		HTML_contact::_writeEmailForm( $contact, $params, $sitename );
+		HTML_contact::_writeEmailForm( $contact, $params, $sitename, $menu_params );
 		?>
 		</table>
 		<?php
@@ -367,11 +367,11 @@ class HTML_contact {
 	/**
 	* Writes Page Title
 	*/
-	function _writePageTitle( &$params ) {
+	function _writePageTitle( &$params, &$menu_params ) {
 		if ( $params->get( 'page_title' )  && !$params->get( 'popup' ) ) {
 			?>
 			<tr>
-				<td class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>" colspan="2">
+				<td class="componentheading<?php echo $menu_params->get( 'pageclass_sfx' ); ?>" colspan="2">
 					<?php echo $params->get( 'header' ); ?>
 				</td>
 			</tr>
@@ -405,14 +405,14 @@ class HTML_contact {
 	/**
 	* Writes Name & Position
 	*/
-	function _writeContactName( &$contact, &$params ) {
-		global $mosConfig_live_site, $Itemid, $hide_js;
-		global $mosConfig_absolute_path, $cur_template;
+	function _writeContactName( &$contact, &$params, &$menu_params ) {
+		global $Itemid, $hide_js;
+		
 		if ( $contact->name ||  $contact->con_position ) {
 			if ( $contact->name && $params->get( 'name' ) ) {
 				?>
 				<tr>
-					<td width="100%" class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
+					<td width="100%" class="contentheading<?php echo $menu_params->get( 'pageclass_sfx' ); ?>">
 					<?php
 					echo $contact->name;
 					?>
@@ -461,7 +461,6 @@ class HTML_contact {
 	*/
 	function _writeContactAddress( &$contact, &$params ) {
 		if ( ( $params->get( 'address_check' ) > 0 ) &&  ( $contact->address || $contact->suburb  || $contact->state || $contact->country || $contact->postcode ) ) {
-			global $mosConfig_live_site;
 			?>
 			<table width="100%" cellpadding="0" cellspacing="0" border="0">
 			<?php
@@ -609,7 +608,6 @@ class HTML_contact {
 	*/
 	function _writeContactMisc( &$contact, &$params ) {
 		if ( $contact->misc && $params->get( 'misc' ) ) {
-			global $mosConfig_live_site;
 			?>
 			<table width="100%" cellpadding="0" cellspacing="0" border="0">
 			<tr>
@@ -653,7 +651,7 @@ class HTML_contact {
 	/**
 	* Writes Email form
 	*/
-	function _writeEmailForm( &$contact, &$params, $sitename ) {
+	function _writeEmailForm( &$contact, &$params, $sitename, &$menu_params ) {
 		global $_LANG;
 
 		if ( $contact->email_to && !$params->get( 'popup' ) && $params->get( 'email_form' ) ) {
@@ -664,7 +662,7 @@ class HTML_contact {
 				<?php echo $params->get( 'email_description' ) ?>
 				<br /><br />
 				<form action="<?php echo sefRelToAbs( 'index.php?option=com_contact&amp;Itemid='. $Itemid ); ?>" method="post" name="emailForm" target="_top" id="emailForm">
-				<div class="contact_email<?php echo $params->get( 'pageclass_sfx' ); ?>">
+				<div class="contact_email<?php echo $menu_params->get( 'pageclass_sfx' ); ?>">
 					<label for="contact_name">
 						&nbsp;<?php echo $_LANG->_( 'Enter your name' );?>:
 					</label>

@@ -245,8 +245,9 @@ function mosWarning($warning, $title='Joomla! Warning') {
 	global $mosConfig_live_site, $_LANG;
 
 	$title 		= $_LANG->_( 'Joomla Warning' );
-	$mousover 	= 'return overlib("'. $warning .'", CAPTION, "$title", BELOW, RIGHT);';
+	$mousover 	= 'return overlib(\''. $warning .'\', CAPTION, \'$title\', BELOW, RIGHT);';
 	
+	$tip 		= '<!--'. $_LANG->_( 'Joomla Warning' ) ."--> \n";
 	$tip 		= '<a href="#" onmouseover="'. $mouseover .'" onmouseout="return nd();">';
 	$tip 		.= '<img src="'. $mosConfig_live_site .'/includes/js/ThemeOffice/warning.png" border="0"  alt="'. $title .'"/></a>';
 
@@ -493,7 +494,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 		$width = ', WIDTH, \''.$width .'\'';
 	}
 	if ( $title ) {
-		$title = ', CAPTION, \''. $_LANG->_( $title ) .'\'';
+		$title = ', CAPTION, \''.$title .'\'';
 	}
 	if ( !$text ) {
 		$image 	= $mosConfig_live_site . '/includes/js/ThemeOffice/'. $image;
@@ -508,7 +509,9 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 		$href = '#'; 
 	}
 
-	$mousover = 'return overlib("' . $tooltip . '"'. $title .', BELOW, RIGHT'. $width .');';
+	$mousover = 'return overlib(\''. $tooltip .'\''. $title .', BELOW, RIGHT'. $width .');';
+	
+	$tip = '<!--'. $_LANG->_( 'Joomla Tooltip' ) ."--> \n";
 	if ( $link ) {
 		$tip = '<a href="'. $href .'" onmouseover="'. $mousover .'" onmouseout="return nd();" '. $style .'>'. $text .'</a>';
 	} else {
