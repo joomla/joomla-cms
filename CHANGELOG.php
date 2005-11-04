@@ -34,9 +34,6 @@ Legend:
 04-Nov-2005 Johan Janssens 
  # Fixed artf1949 : Typo in back-end com_config.ini
 
-03-Nov-2005 Samuel Moffatt
- # Fixed up bug which prevented component uninstall if another XML file was in the directory
-
 02-Nov-2005 Andrew Eddie
  ^ Reworked ACL ACO's to better align with future requirements
 
@@ -61,7 +58,6 @@ Legend:
 31-Oct-2005 Johan Janssens 
  # Fixed : artf1883 : DESCMENUGROUP twice in english.com_menus.ini
  # Fixed : artf1891 : When trying to register a new user get Fatal error.
- # Fixed artf1277 : News Feed Display Bad Accent character
 
 31-Oct-2005 Rey Gigataras
  # Fixed artf1666 : Notice: on component installation
@@ -108,9 +104,7 @@ Legend:
  # Fixed artf1820 : Call to undefined function: mosmainbody()
  # Fixed artf1825 : Can't delete uploaded pic from media manager
  # Fixed artf1818 : Error at "Edit Your Details"
- # Fixed artf1814 : Tab Class wrong?
  ^ Moved backtemplate head handling into new mosShowHead_Admin();
- # Fixed artf1086 : Icons at the control panel fall apart
 
 27-Oct-2005 Robin Muilwijk
  # Fixed artf1824, fatal error in Private messaging, backend
@@ -128,8 +122,6 @@ Legend:
 25-Oct-2005 Johan Janssens
  # Fixed artf1724 : Back end language is not being selected
  # Fixed artf1784 : Back end language selected on each user not working
- # Fixed artf1733 : $contact->id used instead of $Itemid
- # Fixed artf1654 : base url above title tag
 
 25-Oct-2005 Emir Sakic
  # Fixed a bug with live_site appended prefix in SEF

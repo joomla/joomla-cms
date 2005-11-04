@@ -244,8 +244,12 @@ function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 function mosWarning($warning, $title='Joomla! Warning') {
 	global $mosConfig_live_site, $_LANG;
 
-	$title = $_LANG->_( 'Joomla Warning' );
-	$tip = "<a href=\"#\" onMouseOver=\"return overlib('" . $warning . "', CAPTION, '$title', BELOW, RIGHT);\" onmouseout=\"return nd();\"><img src=\"" . $mosConfig_live_site . "/includes/js/ThemeOffice/warning.png\" border=\"0\" /></a>";
+	$title 		= $_LANG->_( 'Joomla Warning' );
+	$mousover 	= 'return overlib("'. $warning .'", CAPTION, "$title", BELOW, RIGHT);';
+	
+	$tip 		= '<a href="#" onmouseover="'. $mouseover .'" onmouseout="return nd();">';
+	$tip 		.= '<img src="'. $mosConfig_live_site .'/includes/js/ThemeOffice/warning.png" border="0"  alt="'. $title .'"/></a>';
+
 	return $tip;
 }
 
@@ -493,21 +497,22 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 	}
 	if ( !$text ) {
 		$image 	= $mosConfig_live_site . '/includes/js/ThemeOffice/'. $image;
-		$text 	= '<img src="'. $image .'" border="0" />';
-	}
-    else{
+		$text 	= '<img src="'. $image .'" border="0" alt="tooltip"/>';
+	} else{
 		$text 	= $_LANG->_( $text );
     }
 	$style = 'style="text-decoration: none; color: #333;"';
 	if ( $href ) {
 		$style = '';
+	}else{ 
+		$href = '#'; 
 	}
-	else{ $href = "#"; }
 
+	$mousover = 'return overlib("' . $tooltip . '"'. $title .', BELOW, RIGHT'. $width .');';
 	if ( $link ) {
-		$tip = "<a href=\"". $href ."\" onMouseOver=\"return overlib('" . $_LANG->_( $tooltip ) . "'". $title .", BELOW, RIGHT". $width .");\" onmouseout=\"return nd();\" ". $style .">". $text ."</a>";
+		$tip = '<a href="'. $href .'" onmouseover="'. $mousover .'" onmouseout="return nd();" '. $style .'>'. $text .'</a>';
 	} else {
-		$tip = "<span onMouseOver=\"return overlib('" . $_LANG->_( $tooltip ) . "'". $title .", BELOW, RIGHT". $width .");\" onmouseout=\"return nd();\" ". $style .">". $text ."</span>";
+		$tip = '<span onmouseover="" onmouseout="return nd();" '. $style .'>'. $text .'</span>';
 	}
 
 	return $tip;
