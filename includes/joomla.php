@@ -63,7 +63,7 @@ if (@$mosConfig_error_reporting === 0) {
 
 // experimenting
 
-jimport( 'includes.database' );
+jimport( 'libraries.joomla.database.mysql' );
 
 require_once( $mosConfig_absolute_path . '/includes/phpmailer/class.phpmailer.php' );
 require_once( $mosConfig_absolute_path . '/includes/phpInputFilter/class.inputfilter.php' );
@@ -78,35 +78,9 @@ jimport( 'libraries.joomla.factory' );
 jimport( 'libraries.joomla.files' );
 jimport( 'libraries.joomla.xml' );
 
-/*
-require_once( $mosConfig_absolute_path . '/includes/version.php' );
-require_once( $mosConfig_absolute_path . '/includes/database.php' );
-require_once( $mosConfig_absolute_path . '/includes/gacl.class.php' );
-require_once( $mosConfig_absolute_path . '/includes/gacl_api.class.php' );
-require_once( $mosConfig_absolute_path . '/includes/phpmailer/class.phpmailer.php' );
-require_once( $mosConfig_absolute_path . '/includes/phpInputFilter/class.inputfilter.php' );
-
-require_once( $mosConfig_absolute_path . '/libraries/joomla/functions.php' );
-require_once( $mosConfig_absolute_path . '/libraries/joomla/classes.php' );
-require_once( $mosConfig_absolute_path . '/libraries/joomla/models.php' );
-require_once( $mosConfig_absolute_path . '/libraries/joomla/html.php' );
-require_once( $mosConfig_absolute_path . '/libraries/joomla/factory.php' );
-require_once( $mosConfig_absolute_path . '/libraries/joomla/files.php' );
-require_once( $mosConfig_absolute_path . '/libraries/joomla/xml.php' );
-require_once( $mosConfig_absolute_path . '/libraries/joomla/legacy.php' );
-*/
-
 
 /** @global $database */
-$database = new database( $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix );
-if ($database->getErrorNum()) {
-	$mosSystemError = $database->getErrorNum();
-	$basePath = dirname( __FILE__ );
-	include $basePath . '/../configuration.php';
-	include $basePath . '/../offline.php';
-	exit();
-}
-$database->debug( $mosConfig_debug );
+$database =& JFactory::getDatabase();
 
 /** @global $acl */
 $acl =& JFactory::getACL();

@@ -30,6 +30,8 @@ class JFactory {
 	* @subpackage Language
 	* @param string		actual component which files should be loaded
 	* @param boolean	admin languages to be loaded?
+	* @return object
+	* @since 1.1
 	*/
 	function &getLanguage( $option=null, $isAdmin=false ) {
 		global $mosConfig_absolute_path, $mainframe;
@@ -86,6 +88,8 @@ class JFactory {
 	/**
 	 * @param array An array of additional template files to load
 	 * @param boolean True to use caching
+	 * @return object
+	 * @since 1.1
 	 */
 	function &getPatTemplate( $files=null ) {
 		global $mainframe;
@@ -110,6 +114,29 @@ class JFactory {
 		}
 
 		return $tmpl;
+	}
+	
+	/**
+	 * @param array An array of additional template files to load
+	 * @param boolean True to use caching
+	 * @return object
+	 * @since 1.1
+	 */
+	function &getDatabase()
+	{
+		global $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix, $mosConfig_debug;
+		
+		/** @global $database */
+		$database = new database( $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix );
+		if ($database->getErrorNum()) {
+			$mosSystemError = $database->getErrorNum();
+			$basePath = dirname( __FILE__ );
+			include $basePath . '/../../configuration.php';
+			include $basePath . '/../../offline.php';
+			exit();
+		}
+		$database->debug( $mosConfig_debug );
+		return $database;
 	}
 	
 	/**
