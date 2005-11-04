@@ -33,7 +33,7 @@ class JFactory {
 	* @return object
 	* @since 1.1
 	*/
-	function &getLanguage( $option=null, $isAdmin=false ) {
+	function &getLanguage( $option=null ) {
 		global $mosConfig_absolute_path, $mainframe;
 		global $mosConfig_lang, $my;
 
@@ -69,10 +69,7 @@ class JFactory {
 		}
 
 		$_LANG = new JLanguage( $lang );
-		$_LANG->loadAll( $option, 0 );
-		if ($isAdmin) {
-			$_LANG->loadAll( $option, 1 );
-		}
+		$_LANG->loadAll( $option, $mainframe->getClient() );
 
 		// make sure the locale setting is correct
 		setlocale( LC_ALL, $_LANG->locale() );
