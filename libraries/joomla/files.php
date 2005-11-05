@@ -542,6 +542,7 @@ class mosFS {
 				}
 				$file = mosFS::getNativePath( $file, false );
 				break;
+				
 			case '#':
 				// load a 1.1+ library file
 				$file = mosFS::getLibraryPath2( substr( $file, 1), $option );
@@ -551,6 +552,7 @@ class mosFS {
 				}
 				$file = mosFS::getNativePath( $file, false );
 				break;
+				
 			default:
 				$file = mosFS::getNativePath( MOSFS_ROOT . DIRECTORY_SEPARATOR . $file, false );
 				break;

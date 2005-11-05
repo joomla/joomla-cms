@@ -315,7 +315,7 @@ function editModule( $option, $uid, $client ) {
 	$row->load( $uid );
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
-		mosErrorAlert($_LANG->_( 'The module' ) ." ". $row->title ." ". $_LANG->_( 'DESCBEINGEDITTED' ), "document.location.href='index2.php?option=$option");
+		mosErrorAlert($_LANG->_( 'The module' ) .' '. $row->title .' '. $_LANG->_( 'DESCBEINGEDITTED' ), "document.location.href='index2.php?option=$option");
 	}
 
 	$row->content = htmlspecialchars( str_replace( '&amp;', '&', $row->content ) );
@@ -335,11 +335,11 @@ function editModule( $option, $uid, $client ) {
 
 
 	if ( $client == 'admin' ) {
-		$where 				= "client_id = 1";
+		$where 				= 'client_id = 1';
 		$lists['client_id'] = 1;
 		$path				= 'mod1_xml';
 	} else {
-		$where 				= "client_id = 0";
+		$where 				= 'client_id = 0';
 		$lists['client_id'] = 0;
 		$path				= 'mod0_xml';
 	}
@@ -382,9 +382,9 @@ function editModule( $option, $uid, $client ) {
 	}
 
 	// build the html select list
-	$pos_select = 'onchange="changeDynaList(\'ordering\',orders,document.adminForm.position.options[document.adminForm.position.selectedIndex].value, originalPos, originalOrder)"';
-	$active = ( $row->position ? $row->position : 'left' );
-	$lists['position'] = mosHTML::selectList( $pos, 'position', 'class="inputbox" size="1" '. $pos_select, 'value', 'text', $active );
+	$pos_select 		= 'onchange="changeDynaList(\'ordering\',orders,document.adminForm.position.options[document.adminForm.position.selectedIndex].value, originalPos, originalOrder)"';
+	$active 			= ( $row->position ? $row->position : 'left' );
+	$lists['position'] 	= mosHTML::selectList( $pos, 'position', 'class="inputbox" size="1" '. $pos_select, 'value', 'text', $active );
 
 	// get selected pages for $lists['selections']
 	if ( $uid ) {

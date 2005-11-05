@@ -778,13 +778,15 @@ class mosMainFrame extends JObject {
 	*
 	*/
 	function getPath( $varname, $user_option=null ) {
-		global $mosConfig_absolute_path;
-
-		if ( !$user_option ) {
+		// check needed for handling of custom/new module xml file loading
+		$check = ( ( $varname == 'mod0_xml' ) || ( $varname == 'mod1_xml' ) );
+		if ( !$user_option && !$check ) {
 			$user_option = $GLOBALS['option'];
 		}
+		
 		$result = null;
 		$name 	= substr( $user_option, 4 );
+		
 		if (isset( $this->_path->$varname ) ) {
 			$result = $this->_path->$varname;
 		} else {
