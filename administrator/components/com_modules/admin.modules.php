@@ -128,7 +128,7 @@ function viewModules( $option, $client ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
-	mosFS::load( 'administrator/includes/pageNavigation.php' );
+	require_once( $mosConfig_absolute_path .'/administrator/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
 	$query = "SELECT m.*, u.name AS editor, g.name AS groupname, MIN(mm.menuid) AS pages"
@@ -305,7 +305,7 @@ function saveModule( $option, $client, $task ) {
 * @param integer The unique id of the record to edit
 */
 function editModule( $option, $uid, $client ) {
-	global $database, $my, $mainframe;
+	global $database, $my, $mainframe, $mosConfig_absolute_path;
 	global $_LANG;
 
 	$lists 	= array();
@@ -418,7 +418,7 @@ function editModule( $option, $uid, $client ) {
 	$row->description = '';
 
 	// XML library
-	mosFS::load( 'includes/domit/xml_domit_lite_include.php' );
+	require_once( $mosConfig_absolute_path .'/includes/domit/xml_domit_lite_include.php' );
 	// xml file for module
 	$xmlfile = $mainframe->getPath( $path, $row->module );
 	$xmlDoc = new DOMIT_Lite_Document();
