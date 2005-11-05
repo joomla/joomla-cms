@@ -17,11 +17,10 @@
         <filename>english.com_config.ini</filename>
         <filename>english.com_contact.ini</filename>
         <filename>english.com_content.ini</filename>
-        <filename>english.com_designer.ini</filename>
-        <filename>english.com_export.ini</filename>
+        <filename>english.com_frontpage.ini</filename>
         <filename>english.com_installer.ini</filename>
-        <filename>english.com_jaforms.ini</filename>
         <filename>english.com_languages.ini</filename>
+        <filename>english.com_login.ini</filename>
         <filename>english.com_mambots.ini</filename>
         <filename>english.com_massmail.ini</filename>
         <filename>english.com_media.ini</filename>
@@ -41,6 +40,15 @@
         <filename>english.com_users.ini</filename>
         <filename>english.com_weblinks.ini</filename>
         <filename>english.ini</filename>
+        <filename>english.mod_components.ini</filename>
+        <filename>english.mod_footer.ini</filename>
+        <filename>english.mod_fullmenu.ini</filename>
+        <filename>english.mod_latest.ini</filename>
+        <filename>english.mod_logged.ini</filename>
+        <filename>english.mod_online.ini</filename>
+        <filename>english.mod_popular.ini</filename>
+        <filename>english.mod_quickicon.ini</filename>
+        <filename>english.mod_stats.ini</filename>
         <filename>english.xml</filename>
     </files>
     <params />
