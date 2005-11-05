@@ -128,7 +128,7 @@ function viewModules( $option, $client ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
-	require_once( $mosConfig_absolute_path . '/administrator/includes/pageNavigation.php' );
+	mosFS::load( 'administrator/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
 	$query = "SELECT m.*, u.name AS editor, g.name AS groupname, MIN(mm.menuid) AS pages"
@@ -306,11 +306,10 @@ function saveModule( $option, $client, $task ) {
 */
 function editModule( $option, $uid, $client ) {
 	global $database, $my, $mainframe;
-	global $mosConfig_absolute_path;
 	global $_LANG;
 
-	$lists = array();
-	$row = new mosModule( $database );
+	$lists 	= array();
+	$row 	= new mosModule( $database );
 	// load the row from the db table
 	$row->load( $uid );
 	// fail if checked out not by 'me'
@@ -363,8 +362,8 @@ function editModule( $option, $uid, $client ) {
 	// hard code options for now
 	$positions = $database->loadObjectList();
 
-	$orders2 = array();
-	$pos = array();
+	$orders2 	= array();
+	$pos 		= array();
 	foreach ($positions as $position) {
 		$orders2[$position->position] = array();
 		$pos[] = mosHTML::makeOption( $position->position, $position->description );
@@ -417,8 +416,9 @@ function editModule( $option, $uid, $client ) {
 	$lists['published'] 			= mosAdminMenus::Published( $row );
 
 	$row->description = '';
+
 	// XML library
-	require_once( $mosConfig_absolute_path . '/includes/domit/xml_domit_lite_include.php' );
+	mosFS::load( 'includes/domit/xml_domit_lite_include.php' );
 	// xml file for module
 	$xmlfile = $mainframe->getPath( $path, $row->module );
 	$xmlDoc = new DOMIT_Lite_Document();
@@ -445,7 +445,7 @@ function editModule( $option, $uid, $client ) {
 * @param array An array of unique category id numbers
 */
 function removeModule( &$cid, $option, $client ) {
-	global $database, $my;
+	global $database;
 	global $_LANG;
 
 	if (count( $cid ) < 1) {

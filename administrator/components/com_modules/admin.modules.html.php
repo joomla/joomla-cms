@@ -57,7 +57,9 @@ class HTML_modules {
 
 		<table class="adminlist">
 		<tr>
-			<th width="20px"><?php echo $_LANG->_( 'NUM' ); ?></th>
+			<th width="20px">
+			<?php echo $_LANG->_( 'NUM' ); ?>
+			</th>
 			<th width="20px">
 			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 			</th>
@@ -203,7 +205,6 @@ class HTML_modules {
 	* @param object Parameters
 	*/
 	function editModule( &$row, &$orders2, &$lists, &$params, $option ) {
-		global $mosConfig_live_site;
 		global $_LANG;
 
 		$row->titleA = '';
@@ -218,17 +219,19 @@ class HTML_modules {
 			if ( ( pressbutton == 'save' ) && ( document.adminForm.title.value == "" ) ) {
 				alert("<?php echo $_LANG->_( 'Module must have a title' ); ?>");
 			} else {
-				<?php if ($row->module == "") {
+				<?php 
+				if ($row->module == '') {
 					getEditorContents( 'editor1', 'content' );
-				}?>
+				}
+				?>
 				submitform(pressbutton);
 			}
 			submitform(pressbutton);
 		}
 		<!--
-		var originalOrder = '<?php echo $row->ordering;?>';
-		var originalPos = '<?php echo $row->position;?>';
-		var orders = new Array();	// array in the format [key,value,text]
+		var originalOrder 	= '<?php echo $row->ordering;?>';
+		var originalPos 	= '<?php echo $row->position;?>';
+		var orders 			= new Array();	// array in the format [key,value,text]
 		<?php	$i = 0;
 		foreach ($orders2 as $k=>$items) {
 			foreach ($items as $v) {
@@ -337,18 +340,29 @@ class HTML_modules {
 				</tr>
 				</table>
 
-				<table class="adminform">
-				<tr>
-					<th >
-					<?php echo $_LANG->_( 'Parameters' ); ?>
-					</th>
-				<tr>
-				<tr>
-					<td>
-					<?php echo $params->render();?>
-					</td>
-				</tr>
-				</table>
+				<?php
+				// Hide params for Custom/New modules
+				// Show custom.xml params for backward compat with existing custom modules
+				// that are used to show rss feeds
+				// extra backward compat check [$params->get( 'rssurl', '' )] can be depreciated in 1.2
+				if ( $row->module || $params->get( 'rssurl', '' ) ) {
+					// Render Parameter list
+					?>
+					<table class="adminform">
+					<tr>
+						<th >
+						<?php echo $_LANG->_( 'Parameters' ); ?>
+						</th>
+					<tr>
+					<tr>
+						<td>
+						<?php echo $params->render();?>
+						</td>
+					</tr>
+					</table>
+					<?php
+				}
+				?>				
 			</td>
 			<td width="40%" >
 				<table width="100%" class="adminform">
@@ -368,7 +382,7 @@ class HTML_modules {
 			</td>
 		</tr>
 		<?php
-		if ($row->module == "") {
+		if ( !$row->module ) {
 			?>
 			<tr>
 				<td colspan="2">

@@ -31,6 +31,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+05-Nov-2005 Rey Gigataras
+ ^ Separated newsfeed ability from custom/new module into its own module = `Newsfeed` [mod_rss.php] 
+   Backward compatability retained for existing custom modules with newsfeed params
+
 04-Nov-2005 Levis Bisson
  + Added the modules frontend and backend language files
  + Wrapped all frontend texts with the new $_LANG->_() 
