@@ -31,6 +31,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Nov-2005 Levis Bisson
+ + Added the modules frontend and backend language files
+ + Wrapped all frontend texts with the new $_LANG->_() 
+ ^ Optimized the english backend language files
+
 04-Nov-2005 Johan Janssens 
  # Fixed artf1949 : Typo in back-end com_config.ini
  # Fixed artf1866 : Alpha1: Content categories don't show
