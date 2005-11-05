@@ -15,26 +15,93 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 define( '_MOS_MAMBO_INCLUDED', 1 );
 
+class JBase 
+{
+    /**
+    * Loads a class from specified directories.
+    *
+    * @param string $name The class name to look for.
+    * @param string|array $dirs Search these directories for the class.
+    * @return void
+    * @since 1.1
+    */
+   function import($name, $dirs = null) 
+   {
+	   global $mosConfig_absolute_path;
+	   
+       // pre-empt loading if the class exists
+       if (class_exists($name)) {
+           return;
+       }
+       // if no dirs specified, look at the filename
+       // (this only works if underscores are allowed)
+       if (! $dirs) {
+           $dirs = str_replace('.', DIRECTORY_SEPARATOR, $name);
+       }
+	   
+	   $path = 
+       // look for it in the various dirs
+       $found = false;
+       $file = false;
+       foreach ((array) $dirs as $dir) {
+           $file = $mosConfig_absolute_path . DIRECTORY_SEPARATOR . $dir . '.php';
+           if (JBase::isReadable($file)) {
+               $found = true;
+               break;
+           }
+       }
+       // did we find it?
+       if (! $found) {
+           $message = "File for class '$name' not found or not readable.";
+           //throw new $exception($message);
+       }
+       
+       // load the file, see if the class existed in it
+       include_once($file);
+       if (! class_exists($name)) {
+           $message = "File '$file' loaded, but class '$name' not defined.";
+           //thrown new $exception($message);
+       }
+       
+       return;
+   }
+
+   /**
+    * A common object factory.
+    *     * Assumes that the class constructor takes only one parameter, an
+    * associative array of construction options.
+    *     * Attempts to load the class automatically.
+    *
+    * @param string $class The class name to instantiate.
+    * @param array $options An associative array of options (default null).
+    * @return object An object instance.
+    */
+   function &factory($class, $options = null) {
+       JBase::import($class);
+       $obj = new $class($options);
+       return $obj;
+   }
+   /**
+    * The equivalent of is_readable(), but uses the include_path.
+    *
+    * @param string $file The file to look for.
+    * @return bool True if the file was found and readable, false if not.
+    */
+   function isReadable($file) {
+       $fp = @fopen($file, 'r', true);
+       $ok = ($fp) ? true : false;
+       @fclose($fp);
+       return $ok;
+   }
+}
+
 /**
  * Intelligent file importer
  * @param string A dot syntax path
  * @param boolean True to use require_once, false to use require
  */
-function jimport( $path, $requireOnce=true ) {
-	global $mosConfig_absolute_path;
-
-	$path = $mosConfig_absolute_path
-		. DIRECTORY_SEPARATOR . str_replace( '.', DIRECTORY_SEPARATOR, $path );
-	
-	// TODO: Rules, try a few variations, search for factories, etc
-
-	$path = $path . '.php';
-
-	if ($requireOnce) {
-		return require_once( $path );
-	} else {
-		return require( $path );
-	}
+function jimport( $path ) {
+	JBase::import($path);
 }
 
 if (phpversion() < '4.2.0') {
