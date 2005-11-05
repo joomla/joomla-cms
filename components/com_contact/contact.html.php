@@ -652,6 +652,7 @@ class HTML_contact {
 	* Writes Email form
 	*/
 	function _writeEmailForm( &$contact, &$params, $sitename, &$menu_params ) {
+		global $Itemid;
 		global $_LANG;
 
 		if ( $contact->email_to && !$params->get( 'popup' ) && $params->get( 'email_form' ) ) {
