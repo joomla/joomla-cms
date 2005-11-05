@@ -25,46 +25,43 @@ class JBase
     * @return void
     * @since 1.1
     */
-   function import($name, $dirs = null) 
+   function import($filePath) 
    {
-	   global $mosConfig_absolute_path;
-	   
-       // pre-empt loading if the class exists
-       if (class_exists($name)) {
-           return;
-       }
-       // if no dirs specified, look at the filename
-       // (this only works if underscores are allowed)
-       if (! $dirs) {
-           $dirs = str_replace('.', DIRECTORY_SEPARATOR, $name);
-       }
-	   
-	   $path = 
-       // look for it in the various dirs
-       $found = false;
-       $file = false;
-       foreach ((array) $dirs as $dir) {
-           $file = $mosConfig_absolute_path . DIRECTORY_SEPARATOR . $dir . '.php';
-           if (JBase::isReadable($file)) {
-               $found = true;
-               break;
-           }
-       }
-       // did we find it?
-       if (! $found) {
-           $message = "File for class '$name' not found or not readable.";
-           //throw new $exception($message);
-       }
-       
-       // load the file, see if the class existed in it
-       include_once($file);
-       if (! class_exists($name)) {
-           $message = "File '$file' loaded, but class '$name' not defined.";
-           //thrown new $exception($message);
-       }
-       
-       return;
-   }
+	   global  $mosConfig_absolute_path;
+			
+		$parts = explode('.', $filePath);
+		
+		if(array_pop($parts) == '*') 
+		{
+			$path = $mosConfig_absolute_path. DIRECTORY_SEPARATOR .implode( DIRECTORY_SEPARATOR, $parts);
+		
+			if(!is_dir($path)) {
+				return; //TODO : throw error
+			}
+			
+			$dir = dir($path);
+			while($file = $dir->read()) {
+				if(ereg('\.php$', $file)) {	
+					include_once $path.DIRECTORY_SEPARATOR.$file;
+				}
+			}
+			$dir->close();
+		} 
+		else 
+		{
+			$path = str_replace('.', DIRECTORY_SEPARATOR, $filePath).'.php'; 
+			
+			if(file_exists($mosConfig_absolute_path.DIRECTORY_SEPARATOR.$path)) {
+				$filePath = $mosConfig_absolute_path.DIRECTORY_SEPARATOR.$path;
+			}  else {
+				return;  //TODO : throw error
+			}
+		
+			include_once $filePath;
+		}
+	
+		return;
+	}
 
    /**
     * A common object factory.
@@ -80,18 +77,6 @@ class JBase
        JBase::import($class);
        $obj = new $class($options);
        return $obj;
-   }
-   /**
-    * The equivalent of is_readable(), but uses the include_path.
-    *
-    * @param string $file The file to look for.
-    * @return bool True if the file was found and readable, false if not.
-    */
-   function isReadable($file) {
-       $fp = @fopen($file, 'r', true);
-       $ok = ($fp) ? true : false;
-       @fclose($fp);
-       return $ok;
    }
 }
 
@@ -139,7 +124,7 @@ jimport( 'libraries.joomla.classes.object' );
 jimport( 'libraries.joomla.version' );
 jimport( 'libraries.joomla.functions' );
 jimport( 'libraries.joomla.classes' );
-jimport( 'libraries.joomla.models' );
+jimport( 'libraries.joomla.models.*' );
 jimport( 'libraries.joomla.html' );
 jimport( 'libraries.joomla.factory' );
 jimport( 'libraries.joomla.files' );
