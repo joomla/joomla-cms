@@ -356,6 +356,9 @@ class HTML_admin_misc {
 					mosHTML::writableCell( 'mambots/editors' );
 					mosHTML::writableCell( 'mambots/editors-xtd' );
 					mosHTML::writableCell( 'mambots/search' );
+					mosHTML::writableCell( 'mambots/system' );
+					mosHTML::writableCell( 'mambots/user' );
+					mosHTML::writableCell( 'mambots/xmlrpc' );
 					mosHTML::writableCell( 'media' );
 					mosHTML::writableCell( 'modules' );
 					mosHTML::writableCell( 'templates' );
