@@ -132,7 +132,7 @@ jimport( 'libraries.joomla.xml' );
 
 
 /** @global $database */
-$database =& JFactory::getDatabase();
+$database =& JFactory::getDBO();
 
 /** @global $acl */
 $acl =& JFactory::getACL();

@@ -119,7 +119,7 @@ class JFactory {
 	 * @return object
 	 * @since 1.1
 	 */
-	function &getDatabase()
+	function &getDBO()
 	{
 		global $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix, $mosConfig_debug;
 		
