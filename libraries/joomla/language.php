@@ -1,7 +1,7 @@
 <?php
 
 /**
-* @version $Id: joomla.language.php 719 2005-10-28 14:44:21Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -335,7 +335,8 @@ class JLanguage extends JObject {
 	 * @return array	with found languages as filename => real name pairs
 	 */
 	function _parseXMLLanguageFiles( $dir=null ) {
-		mosFS::load( '@domit' );
+		global $mosConfig_absolute_path;
+		require_once( $mosConfig_absolute_path . '/includes/domit/xml_domit_lite_include.php' );
 
 		if ($dir == null ) {
 			return null;

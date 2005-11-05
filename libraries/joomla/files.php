@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: joomla.files.php 719 2005-10-28 14:44:21Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -266,65 +266,6 @@ class mosFS {
    		$file = mosFS::getNativePath( $file, false );
 		return file_exists( $file );
 	}
-	/**
-	 * Get the path to a predefined library
-	 * @param string The name of the library
-	 */
-	function getLibraryPath( $name, $user_option=null ) {
-		global $mainframe;
-		switch ( $name ) {
-			case 'domit':
-				$file = MOSFS_ROOT . '/includes/domit/xml_domit_lite_include.php';
-				break;
-
-			case 'patTemplate':
-				$file = MOSFS_ROOT . '/includes/patTemplate/patTemplate.php';
-				break;
-
-			case 'pageNavigation':
-				$file = MOSFS_ROOT . '/includes/pageNavigation.php';
-				break;
-
-			case 'pageNavigationAdmin':
-				$file = MOSFS_ROOT . '/administrator/includes/pageNavigation.php';
-				break;
-
-			case 'Tar':
-				$file = MOSFS_ROOT . '/includes/Archive/Tar.php';
-				break;
-
-			default:
-				$file = $mainframe->getPath( $name, $user_option, false );
-				break;
-		}
-		return $file;
-	}
-
-	/**
-	 * Get the path to a predefined library (4.5.3+ method)
-	 * @author Samuel Moffatt (pasamio)
-	 * @param string The name of the library
-	 */
-	function getLibraryPath2( $name ) {
-		global $mainframe,$database;
-		// Aliasing System - Used for forward and backwards compat
-//		$database->setQuery("SELECT path FROM mos_library_aliases WHERE name = $name");
-//		$database->Query();
-//		if($database->getNumRows()) {		
-			// Return the alias
-//			$path = $database->loadResult(); 
-//		} else {
-			// Return the processed path
-			$path = implode(DIRECTORY_SEPARATOR, explode('.',$name)); 
-//		}
-
-		if(is_dir(MOSFS_ROOT . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR . $path)) { 
-			$path .= DIRECTORY_SEPARATOR . 'factory.php';
-		} else {
-			$path .= '.php';
-		}			
-		return MOSFS_ROOT . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR .  $path;
-	}	
 	
 	/**
 	 * Function to strip additional / or \ in a path name
@@ -524,48 +465,6 @@ class mosFS {
 	}
 
 	/**
-	 * Function to include files safely (note exclude the base path from the filename)
-	 * @param string The path or @library
-	 * @param string An alternative option for library files
-	 * @return boolean
-	 */
-	function load( $file, $option='' ) {
-		global $_LANG;
-
-		switch(substr( $file, 0, 1 )) { 
-			case '@':
-				// load a library file
-				$file = mosFS::getLibraryPath( substr( $file, 1 ), $option );
-				if ($file == '') {
-					trigger_error( $_LANG->_( 'Library' ) .' ' . $file . ' '. $_LANG->_( 'unknown' ), E_USER_NOTICE );
-					return false;
-				}
-				$file = mosFS::getNativePath( $file, false );
-				break;
-				
-			case '#':
-				// load a 1.1+ library file
-				$file = mosFS::getLibraryPath2( substr( $file, 1), $option );
-				if($file == '') {
-					trigger_error( $_LANG->_( 'Library' ) .' ' . $file . ' '. $_LANG->_( 'unknown' ), E_USER_NOTICE );
-					return false;
-				}
-				$file = mosFS::getNativePath( $file, false );
-				break;
-				
-			default:
-				$file = mosFS::getNativePath( MOSFS_ROOT . DIRECTORY_SEPARATOR . $file, false );
-				break;
-		}
-		mosFS::check( $file );
-
-		// set up some globals for legacy compat, do not add more
-		global $mainframe, $database, $task;
-
-		return require_once( $file );
-	}
-
-	/**
 	 * @param string The full file path
 	 * @param string The buffer to write
 	 * @return mixed The number of bytes on success, false otherwise
@@ -629,31 +528,6 @@ if (!defined( 'MOSFS_FILEPEMS' )) {
 if (!defined( 'MOSFS_DIRPEMS' )) {
 	/** string The default directory permissions */
 	define( 'MOSFS_DIRPEMS',  !empty( $mosConfig_dirperms ) ? octdec( $mosConfig_dirperms ) : null );
-}
-
-/**
- * Gets the base path for a client type
- * @param mixed String or interger value for the client
- * @return string
- */
-function mosGetBasePath( $client=null ) {
-	global $mosConfig_absolute_path;
-
-	switch ($client) {
-		case '2':
-		case 'installer':
-			$basePath = $mosConfig_absolute_path . '/installation/';
-			break;
-		case '1':
-		case 'admin':
-		case 'administrator':
-			$basePath = $mosConfig_absolute_path . '/administrator/';
-			break;
-		default:
-			$basePath = $mosConfig_absolute_path;
-			break;
-	}
-	return mosFS::getNativePath( $basePath );
 }
 
 /**

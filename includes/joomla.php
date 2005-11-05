@@ -31,9 +31,11 @@ class JBase
 			
 		$parts = explode('.', $filePath);
 		
+		$base =  $mosConfig_absolute_path. DIRECTORY_SEPARATOR . 'libraries';		
+		
 		if(array_pop($parts) == '*') 
 		{
-			$path = $mosConfig_absolute_path. DIRECTORY_SEPARATOR .implode( DIRECTORY_SEPARATOR, $parts);
+			$path = $base.DIRECTORY_SEPARATOR.implode( DIRECTORY_SEPARATOR, $parts);
 		
 			if(!is_dir($path)) {
 				return; //TODO : throw error
@@ -51,8 +53,8 @@ class JBase
 		{
 			$path = str_replace('.', DIRECTORY_SEPARATOR, $filePath).'.php'; 
 			
-			if(file_exists($mosConfig_absolute_path.DIRECTORY_SEPARATOR.$path)) {
-				$filePath = $mosConfig_absolute_path.DIRECTORY_SEPARATOR.$path;
+			if(file_exists($base.DIRECTORY_SEPARATOR.$path)) {
+				$filePath = $base.DIRECTORY_SEPARATOR.$path;
 			}  else {
 				return;  //TODO : throw error
 			}
@@ -90,10 +92,10 @@ function jimport( $path ) {
 }
 
 if (phpversion() < '4.2.0') {
-	jimport('libraries.joomla.compat.php41x' );
+	jimport('joomla.compat.php41x' );
 }
 if (phpversion() < '4.3.0') {
-	jimport('libraries.joomla.compat.php42x' );
+	jimport('joomla.compat.php42x' );
 }
 if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
 	die( 'Fatal error.  Global variable hack attempted.' );
@@ -102,7 +104,7 @@ if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER 
 	die( 'Fatal error.  Post variable hack attempted.' );
 }
 if (version_compare( phpversion(), '5.0' ) < 0) {
-	jimport('libraries.joomla.compat.php50x' );
+	jimport('joomla.compat.php50x' );
 }
 
 @set_magic_quotes_runtime( 0 );
@@ -115,20 +117,20 @@ if (@$mosConfig_error_reporting === 0) {
 
 // experimenting
 
-jimport( 'libraries.joomla.database.mysql' );
+jimport( 'joomla.database.mysql' );
 
 require_once( $mosConfig_absolute_path . '/includes/phpmailer/class.phpmailer.php' );
 require_once( $mosConfig_absolute_path . '/includes/phpInputFilter/class.inputfilter.php' );
 
-jimport( 'libraries.joomla.classes.object' );
-jimport( 'libraries.joomla.version' );
-jimport( 'libraries.joomla.functions' );
-jimport( 'libraries.joomla.classes' );
-jimport( 'libraries.joomla.models.*' );
-jimport( 'libraries.joomla.html' );
-jimport( 'libraries.joomla.factory' );
-jimport( 'libraries.joomla.files' );
-jimport( 'libraries.joomla.xml' );
+jimport( 'joomla.classes.object' );
+jimport( 'joomla.version' );
+jimport( 'joomla.functions' );
+jimport( 'joomla.classes' );
+jimport( 'joomla.models.*' );
+jimport( 'joomla.html' );
+jimport( 'joomla.factory' );
+jimport( 'joomla.files' );
+jimport( 'joomla.xml' );
 
 
 /** @global $database */
@@ -146,9 +148,9 @@ $_VERSION = new JVersion();
 //TODO : implement mambothandler class as singleton, add getBotHandler to JFactory
 
 //TODO : implement editor functionality as a class
-jimport( 'libraries.joomla.editor' );
+jimport( 'joomla.editor' );
 
 
 //TODO : implement mambothandler class as singleton, add getVersion to JFactory
-jimport( 'libraries.joomla.legacy' );
+jimport( 'joomla.legacy' );
 ?>

@@ -25,7 +25,7 @@ class JVersion {
 	/** @var int Sub Release Level */
 	var $DEV_LEVEL 	= '0';
 	/** @var int build Number */
-	var $BUILD	 	= '$Revision$';
+	var $BUILD	 	= '$Revision: 789 $';
 	/** @var string Codename */
 	var $CODENAME 	= 'Nightfall';
 	/** @var string Date */

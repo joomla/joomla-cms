@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: ldap.userbot.php,v 1.2 2005/08/09 06:56:42 eddieajau Exp $
+* @version $Id$
 * @package Joomla
 * @subpackage Mambots
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
@@ -15,7 +15,7 @@
 /** ensure this file is being included by a parent file */
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 
-mosFS::load('#joomla.ldap');
+import('joomla.ldap');
 //Login User event
 $_MAMBOTS->registerFunction( 'onLoginUser', 'botLdapLoginUser' );
 
