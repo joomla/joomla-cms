@@ -17,4 +17,7 @@ INSERT INTO `#__modules` VALUES (0, 'Footer', '', 0, 'footer', 0, '0000-00-00 00
 ALTER TABLE `#__content` CHANGE `title` `title` varchar(255) NOT NULL default '';
 ALTER TABLE `#__content` CHANGE `title_alias` `title_alias` varchar(255) NOT NULL default '';
 
+UPDATE `#__components` SET `admin_menu_link` = 'option=com_categories&section=com_contact_details' WHERE `id` = '9'  LIMIT 1;
+UPDATE `#__components` SET `admin_menu_link` = 'option=com_categories&section=com_weblinks' WHERE `id` = '6'  LIMIT 1;
+
 

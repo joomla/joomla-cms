@@ -33,6 +33,7 @@ Legend:
 
 04-Nov-2005 Johan Janssens 
  # Fixed artf1949 : Typo in back-end com_config.ini
+ # Fixed artf1866 : Alpha1: Content categories don't show
 
 02-Nov-2005 Andrew Eddie
  ^ Reworked ACL ACO's to better align with future requirements
