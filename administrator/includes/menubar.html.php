@@ -26,6 +26,7 @@ class mosMenuBar {
 	* @param string The title
 	* @param string The image.  If starting with / it using the component image directory
 	* @param string
+	* @since 1.1
 	*/
 	function title( $title, $icon='blank.png', $href='#' ) {
 		$image = mosAdminMenus::ImageCheckAdmin( $icon, '/administrator/images/', NULL, NULL, $title, $title, 1 );
@@ -41,6 +42,7 @@ class mosMenuBar {
 	
 	/**
 	* Writes the start of the button bar table
+	* @since 1.0
 	*/
 	function startTable() {
 		?>
@@ -56,6 +58,7 @@ class mosMenuBar {
 	* @param string The image to display when moused over
 	* @param string The alt text for the icon image
 	* @param boolean True if required to check that a standard list item is checked
+	* @since 1.0
 	*/
 	function custom( $task='', $icon='', $iconOver='', $alt='', $listSelect=true ) {
         global $_LANG;
@@ -97,6 +100,7 @@ class mosMenuBar {
 	* @param string The image to display when moused over
 	* @param string The alt text for the icon image
 	* @param boolean True if required to check that a standard list item is checked
+	* @since 1.0
 	*/
 	function customX( $task='', $icon='', $iconOver='', $alt='', $listSelect=true ) {
 		global $_LANG;
@@ -133,6 +137,7 @@ class mosMenuBar {
 	* Writes the common 'new' icon for the button bar
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function addNew( $task='new', $alt='New' ) {
 		global $_LANG;
@@ -154,6 +159,7 @@ class mosMenuBar {
 	* Extended version of addNew() calling hideMainMenu() before submitbutton().
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function addNewX( $task='new', $alt='New' ) {
 		global $_LANG;
@@ -174,6 +180,7 @@ class mosMenuBar {
 	* Writes a common 'publish' button
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function publish( $task='publish', $alt='Publish' ) {
 		global $_LANG;
@@ -194,6 +201,7 @@ class mosMenuBar {
 	* Writes a common 'publish' button for a list of records
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function publishList( $task='publish', $alt='Publish' ) {
 		global $_LANG;
@@ -214,6 +222,7 @@ class mosMenuBar {
 	* Writes a common 'default' button for a record
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function makeDefault( $task='default', $alt='Default' ) {
 		global $_LANG;
@@ -234,6 +243,7 @@ class mosMenuBar {
 	* Writes a common 'assign' button for a record
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function assign( $task='assign', $alt='Assign' ) {
 		global $_LANG;
@@ -254,6 +264,7 @@ class mosMenuBar {
 	* Writes a common 'unpublish' button
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function unpublish( $task='unpublish', $alt='Unpublish' ) {
 		global $_LANG;
@@ -274,6 +285,7 @@ class mosMenuBar {
 	* Writes a common 'unpublish' button for a list of records
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function unpublishList( $task='unpublish', $alt='Unpublish' ) {
 		global $_LANG;
@@ -294,6 +306,7 @@ class mosMenuBar {
 	* Writes a common 'archive' button for a list of records
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function archiveList( $task='archive', $alt='Archive' ) {
 		global $_LANG;
@@ -314,6 +327,7 @@ class mosMenuBar {
 	* Writes an unarchive button for a list of records
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function unarchiveList( $task='unarchive', $alt='Unarchive' ) {
 		global $_LANG;
@@ -334,6 +348,7 @@ class mosMenuBar {
 	* Writes a common 'edit' button for a list of records
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function editList( $task='edit', $alt='Edit' ) {
 		global $_LANG;
@@ -355,6 +370,7 @@ class mosMenuBar {
 	* Extended version of editList() calling hideMainMenu() before submitbutton().
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function editListX( $task='edit', $alt='Edit' ) {
 		global $_LANG;
@@ -375,6 +391,7 @@ class mosMenuBar {
 	* Writes a common 'edit' button for a template html
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function editHtml( $task='edit_source', $alt='' ) {
 		global $_LANG;
@@ -396,6 +413,7 @@ class mosMenuBar {
 	* Extended version of editHtml() calling hideMainMenu() before submitbutton().
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function editHtmlX( $task='edit_source', $alt='' ) {
 		global $_LANG;
@@ -416,6 +434,7 @@ class mosMenuBar {
 	* Writes a common 'edit' button for a template css
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function editCss( $task='edit_css', $alt='' ) {
 		global $_LANG;
@@ -437,6 +456,7 @@ class mosMenuBar {
 	* Extended version of editCss() calling hideMainMenu() before submitbutton().
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function editCssX( $task='edit_css', $alt='' ) {
 		global $_LANG;
@@ -458,6 +478,7 @@ class mosMenuBar {
 	* @param string  Postscript for the 'are you sure' message
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function deleteList( $msg='', $task='remove', $alt='Delete' ) {
 		global $_LANG;
@@ -480,6 +501,7 @@ class mosMenuBar {
 	* @param string  Postscript for the 'are you sure' message
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function deleteListX( $msg='', $task='remove', $alt='Delete' ) {
 		global $_LANG;
@@ -498,6 +520,7 @@ class mosMenuBar {
 
 	/**
 	* Write a trash button that will move items to Trash Manager
+	* @since 1.0
 	*/
 	function trash( $task='remove', $alt='Trash', $check=true ) {
 		global $_LANG;
@@ -524,6 +547,7 @@ class mosMenuBar {
 	/**
 	* Writes a preview button for a given option (opens a popup window)
 	* @param string The name of the popup file (excluding the file extension)
+	* @since 1.0
 	*/
 	function preview( $popup='', $updateEditors=false ) {
 		global $database;
@@ -558,6 +582,7 @@ class mosMenuBar {
 	* Writes a preview button for a given option (opens a popup window)
 	* @param string The name of the popup file (excluding the file extension for an xml file)
 	* @param boolean Use the help file in the component directory
+	* @since 1.0
 	*/
 	function help( $ref, $com=false ) {
 		global $mosConfig_live_site;
@@ -601,6 +626,7 @@ class mosMenuBar {
 	* Apply operation leads to a save action only (does not leave edit mode)
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function apply( $task='apply', $alt='Apply' ) {
 		global $_LANG;
@@ -623,6 +649,7 @@ class mosMenuBar {
 	* Save operation leads to a save and then close action
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function save( $task='save', $alt='Save' ) {
 		global $_LANG;
@@ -641,6 +668,7 @@ class mosMenuBar {
 
 	/**
 	* Writes a save button for a given option (NOTE this is being deprecated)
+	* @since 1.0
 	*/
 	function savenew() {
 		global $_LANG;
@@ -657,6 +685,7 @@ class mosMenuBar {
 
 	/**
 	* Writes a save button for a given option (NOTE this is being deprecated)
+	* @since 1.0
 	*/
 	function saveedit() {
 		global $_LANG;
@@ -675,6 +704,7 @@ class mosMenuBar {
 	* Writes a cancel button and invokes a cancel operation (eg a checkin)
 	* @param string An override for the task
 	* @param string An override for the alt text
+	* @since 1.0
 	*/
 	function cancel( $task='cancel', $alt='Cancel' ) {
 		global $_LANG;
@@ -694,6 +724,7 @@ class mosMenuBar {
 	/**
 	* Writes a cancel button that will go back to the previous page without doing
 	* any other operation
+	* @since 1.0
 	*/
 	function back( $alt='Back', $href='' ) {
 		global $_LANG;
@@ -717,6 +748,7 @@ class mosMenuBar {
 
 	/**
 	* Write a divider between menu buttons
+	* @since 1.0
 	*/
 	function divider() {
 		$image = mosAdminMenus::ImageCheckAdmin( 'menu_divider.png', '/administrator/images/' );
@@ -730,6 +762,7 @@ class mosMenuBar {
 	/**
 	* Writes a media_manager button
 	* @param string The sub-drectory to upload the media to
+	* @since 1.0
 	*/
 	function media_manager( $directory = '', $alt='Upload' ) {
 		global $database;
@@ -753,6 +786,7 @@ class mosMenuBar {
 	/**
 	* Writes a spacer cell
 	* @param string The width for the cell
+	* @since 1.0
 	*/
 	function spacer( $width='' ) {
 		if ($width != '') {
@@ -768,6 +802,7 @@ class mosMenuBar {
 
 	/**
 	* Writes the end of the menu bar table
+	* @since 1.0
 	*/
 	function endTable() {
 		?>
