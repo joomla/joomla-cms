@@ -42,13 +42,13 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 	$mambot->load( $id );
 	$botParams = new mosParameters( $mambot->params );
 	
-	$limit = $botParams->def( 'search_limit', 50 );
-	$limit = "\n LIMIT $limit";	
-	
 	$sContent 	= $botParams->get( 'search_content', 	1 );
 	$sStatic 	= $botParams->get( 'search_static', 	1 );
-	$sArchived 	= $botParams->get( 'search_archived', 	1 );
+	$sArchived 	= $botParams->get( 'search_archived', 	1 );	
 	
+	$limit 		= $botParams->def( 'search_limit', 		50 );
+	$limit 		= "\n LIMIT $limit";	
+
 	$nullDate 	= $database->getNullDate();
 	$now 		= date( 'Y-m-d H:i:s', time()+$mosConfig_offset*60*60 );
 
@@ -166,6 +166,8 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 	
 	// search archived content
 	if ( $sArchived ) {
+		$searchArchived = $_LANG->_( 'Archived' );	
+			
 		$query = "SELECT a.title AS title,"
 		. "\n a.created AS created,"
 		. "\n a.introtext AS text,"
@@ -186,9 +188,7 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 		$database->setQuery( $query );
 		$list3 = $database->loadObjectList();
 		
-		$rows[] = $list3;
-		
-		$searchArchived = $_LANG->_( 'Archived' );		
+		$rows[] = $list3;		
 	}
 	
 	$count = count( $rows );
