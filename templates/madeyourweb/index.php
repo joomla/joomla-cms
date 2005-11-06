@@ -61,7 +61,7 @@ if ((mosCountModules( 'user1' )) && (mosCountModules( 'user2' ))) {
 	</div>
 	<div id="outer-800" >
 		<div id="pathway">
-			<?php mospathway() ?>
+			<?php mosLoadModules ( 'pathway', -1 ); ?>
 		</div>
 		<div id="leftcol">
 			<a name="menu"></a>
@@ -116,7 +116,9 @@ if ((mosCountModules( 'user1' )) && (mosCountModules( 'user2' ))) {
 	</div>
    
 	<div id="footer-800" >
-		<div align="center"><?php mosLoadModules( 'footer', -1);?></div>
+		<div align="center">
+			<?php mosLoadModules( 'footer', -1);?>
+		</div>
 		<?php mosLoadModules( 'debug', -1 );?>
 	</div>
 </div>

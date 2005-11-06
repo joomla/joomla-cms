@@ -145,7 +145,7 @@ if ( mosCountModules( 'right' ) and ( empty( $_REQUEST['task'] ) || $_REQUEST['t
 								<tr>
 									<td colspan="<?php echo $colspan; ?>">
 										<div id="pathway_text">
-										<?php mosPathWay(); ?>
+											<?php mosLoadModules ( 'pathway', -1 ); ?>
 										</div>
 									</td>
 								</tr>
@@ -180,7 +180,9 @@ if ( mosCountModules( 'right' ) and ( empty( $_REQUEST['task'] ) || $_REQUEST['t
 	  </tr>
   </table>
 </div>
-<div align="center"><?php mosLoadModules( 'footer', -1 );?></div>
+<div align="center">
+	<?php mosLoadModules( 'footer', -1 );?>
+</div>
 <?php mosLoadModules( 'debug', -1 );?>
 </body>
 </html>

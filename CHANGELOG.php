@@ -33,6 +33,7 @@ Legend:
 
 
 06-Nov-2005 Rey Gigataras
+ + Added `Pathway` module, templates now no longer call function directly
  + Added param to `Content SearchBot` allowing you determine whether to search `Content Items`, `Static Content` and `Archived Content`
 
 05-Nov-2005 Rey Gigataras
