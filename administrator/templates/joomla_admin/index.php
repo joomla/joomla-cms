@@ -49,9 +49,6 @@ $tstart = mosProfiler::getmicrotime();
 
 <table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td class="menudottedline" width="40%">
-		<?php mosLoadAdminModule( 'pathway' );?>
-	</td>
 	<td class="menudottedline" align="right">
 		<?php mosLoadAdminModule( 'toolbar' );?>
 	</td>

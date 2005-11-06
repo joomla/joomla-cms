@@ -26,7 +26,11 @@ class TOOLBAR_contact {
 	function _EDIT() {
 		global $id;
     	global $_LANG;
+			
+		$text = ( $id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' ) );
+		
 		mosMenuBar::startTable();
+		mosMenuBar::title( $_LANG->_( 'Contact' ) .': '. $text, 'generic.png' );
 		mosMenuBar::save();
 		mosMenuBar::spacer();
 		if ( $id ) {
@@ -41,7 +45,10 @@ class TOOLBAR_contact {
 	}
 
 	function _DEFAULT() {
+		global $_LANG;
+		
 		mosMenuBar::startTable();
+		mosMenuBar::title( $_LANG->_( 'Contact Manager' ), 'blank.png', 'index2.php?option=com_contact_details' );
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();

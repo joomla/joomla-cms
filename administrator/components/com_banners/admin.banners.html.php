@@ -27,14 +27,7 @@ class HTML_banners {
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminheading">
-		<tr>
-			<th>
-			<?php echo $_LANG->_( 'Banner Manager' ); ?>
-			</th>
-		</tr>
-		</table>
-
+		
 		<table class="adminlist">
 		<tr>
 			<th width="20">
@@ -176,16 +169,6 @@ class HTML_banners {
 		//-->
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminheading">
-		<tr>
-			<th>
-			<?php echo $_LANG->_( 'Banner' ); ?>:
-			<small>
-			<?php echo $_row->cid ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' );?>
-			</small>
-			</th>
-		</tr>
-		</table>
 
 		<table class="adminform">
 		<tr>
@@ -322,13 +305,6 @@ class HTML_bannerClient {
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminheading">
-		<tr>
-			<th>
-			<?php echo $_LANG->_( 'Banner Client Manager' ); ?>
-			</th>
-		</tr>
-		</table>
 
 		<table class="adminlist">
 		<tr>
@@ -425,18 +401,9 @@ class HTML_bannerClient {
 		}
 		//-->
 		</script>
-		<table class="adminheading">
-		<tr>
-			<th>
-			<?php echo $_LANG->_( 'Banner Client' ); ?>:
-			<small>
-			<?php echo $row->cid ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' );?>
-			</small>
-			</th>
-		</tr>
-		</table>
 
 		<form action="index2.php" method="post" name="adminForm">
+		
 		<table class="adminform">
 		<tr>
 			<th colspan="2">

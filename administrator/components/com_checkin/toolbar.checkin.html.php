@@ -24,7 +24,10 @@ class TOOLBAR_checkin {
 	* Draws the menu for a New category
 	*/
 	function _DEFAULT() {
+		global $_LANG;
+		
 		mosMenuBar::startTable();
+		mosMenuBar::title( $_LANG->_( 'Global Check-in' ), 'checkin.png', 'index2.php?option=com_checkin' );
 		mosMenuBar::help( 'screen.checkin' );
 		mosMenuBar::endTable();
 	}

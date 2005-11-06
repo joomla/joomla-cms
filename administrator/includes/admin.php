@@ -180,6 +180,4 @@ function mosShowHead_Admin() {
 		<?php
 	}
 }
-
-
 ?>

@@ -25,16 +25,8 @@ class HTML_admin_misc {
 	* Control panel
 	*/
 	function controlPanel() {
-		global $mosConfig_absolute_path, $mainframe, $_LANG;
-		?>
-		<table class="adminheading" border="0">
-		<tr>
-			<th class="cpanel">
-			<?php echo $_LANG->_( 'Control Panel' ); ?>
-			</th>
-		</tr>
-		</table>
-		<?php
+		global $mosConfig_absolute_path, $mainframe;
+		
 		$path = $mosConfig_absolute_path . '/administrator/templates/' . $mainframe->getTemplate() . '/cpanel.php';
 		if (file_exists( $path )) {
 			require $path;
@@ -68,17 +60,7 @@ class HTML_admin_misc {
 		
 		$width = 400;	// width of 100%
 		$tabs = new mosTabs(0);
-		?>
-
-		<table class="adminheading">
-		<tr>
-			<th class="info">
-			<?php echo $_LANG->_( 'Information' ); ?>
-			</th>
-		</tr>
-		</table>
-
-		<?php
+		
 		$title = $_LANG->_( 'System Info' );
 		$tabs->startPane("sysinfo");
 		$tabs->startTab( $title, "system-page" );
@@ -427,12 +409,7 @@ class HTML_admin_misc {
 		</style>
 		<form name="adminForm">
 		<table class="adminform" border="1">
-			<tr>
-				<th colspan="2" class="title">
-					<?php echo $_LANG->_( 'Help' ); ?>
-				</th>
-			</tr>
-			<tr>
+		<tr>
 			<td colspan="2">
 				<table width="100%">
 					<tr>

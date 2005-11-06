@@ -25,7 +25,10 @@ class TOOLBAR_categories {
 		global $id;
 		global $_LANG;
 
+		$text = ( $id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' ) );
+		
 		mosMenuBar::startTable();
+		mosMenuBar::title( $_LANG->_( 'Category' ) .': '. $text, 'categories.png' );
 		mosMenuBar::media_manager();
 		mosMenuBar::spacer();
 		mosMenuBar::save();
@@ -47,7 +50,10 @@ class TOOLBAR_categories {
 	* @param int The published state (to display the inverse button)
 	*/
 	function _MOVE() {
+		global $_LANG;
+		
 		mosMenuBar::startTable();
+		mosMenuBar::title( $_LANG->_( 'Move Category' ) );
 		mosMenuBar::save( 'movesave' );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
@@ -58,7 +64,10 @@ class TOOLBAR_categories {
 	* @param int The published state (to display the inverse button)
 	*/
 	function _COPY() {
+		global $_LANG;
+		
 		mosMenuBar::startTable();
+		mosMenuBar::title( $_LANG->_( 'Copy Category' ) );
 		mosMenuBar::save( 'copysave' );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
@@ -73,6 +82,7 @@ class TOOLBAR_categories {
 		$section = mosGetParam( $_REQUEST, 'section', '' );
 
 		mosMenuBar::startTable();
+		mosMenuBar::title( $_LANG->_( 'Category Manager' ), 'categories.png' );
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();

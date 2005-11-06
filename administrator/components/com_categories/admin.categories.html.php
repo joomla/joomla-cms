@@ -37,11 +37,13 @@ class categories_html {
 			<?php
 			if ( $section == 'content') {
 				?>
-				<th class="categories">
-				<?php echo $_LANG->_( 'Category Manager' ); ?> <small><small>[ <?php echo $_LANG->_( 'Content: All' ); ?> ]</small></small>
-				</th>
+				<td>
+					<small><small>
+					[ <?php echo $_LANG->_( 'Content: All' ); ?> ]
+					</small></small>
+				</td>
 				<td align="right">
-				<?php echo $lists['sectionid'];?>
+					<?php echo $lists['sectionid'];?>
 				</td>
 				<?php
 			} else {
@@ -55,9 +57,11 @@ class categories_html {
 					}
 				}
 				?>
-				<th class="categories">
-				<?php echo $_LANG->_( 'Category Manager' ); ?> <small><small>[ <?php echo $section_name;?> ]</small></small>
-				</th>
+				<td>
+					<small><small>
+					[ <?php echo $section_name;?> ]
+					</small></small>
+				</td>
 				<?php
 			}
 			?>
@@ -239,8 +243,9 @@ class categories_html {
 	* @param array
 	*/
 	function edit( &$row, &$lists, $redirect, $menus ) {
-	global $_LANG;
-		if ($row->image == "") {
+		global $_LANG;
+		
+		if ($row->image == '') {
 			$row->image = 'blank.png';
 		}
 
@@ -287,15 +292,11 @@ class categories_html {
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
-			<th class="categories">
-			<?php echo $_LANG->_( 'Category' ); ?>:
-			<small>
-			<?php echo $row->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' );?>
-			</small>
-			<small><small>
-			[ <?php echo $component; ?>: <?php echo $row->name; ?> ]
-			</small></small>
-			</th>
+			<td>
+				<small><small>
+				[ <?php echo $component; ?>: <?php echo $row->name; ?> ]
+				</small></small>
+			</td>
 		</tr>
 		</table>
 
@@ -494,17 +495,9 @@ class categories_html {
 	* Form to select Section to move Category to
 	*/
 	function moveCategorySelect( $option, $cid, $SectionList, $items, $sectionOld, $contents, $redirect ) {
-	global $_LANG;
+		global $_LANG;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-		<br />
-		<table class="adminheading">
-		<tr>
-			<th class="categories">
-			<?php echo $_LANG->_( 'Move Category' ); ?>
-			</th>
-		</tr>
-		</table>
 
 		<br />
 		<table class="adminform">
@@ -571,14 +564,6 @@ class categories_html {
 	global $_LANG;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-		<br />
-		<table class="adminheading">
-		<tr>
-			<th class="categories">
-			<?php echo $_LANG->_( 'Copy Category' ); ?>
-			</th>
-		</tr>
-		</table>
 
 		<br />
 		<table class="adminform">

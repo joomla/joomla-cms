@@ -22,7 +22,9 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class TOOLBAR_FrontPage {
 	function _DEFAULT() {
 		global $_LANG;
+		
 		mosMenuBar::startTable();
+		mosMenuBar::title( $_LANG->_( 'Frontpage Manager' ), 'frontpage.png', 'index2.php?option=com_frontpage' );
 		mosMenuBar::archiveList();
 		mosMenuBar::spacer();
 		mosMenuBar::publishList();

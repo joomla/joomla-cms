@@ -103,10 +103,11 @@ class HTML_config {
 		//-->
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
+		
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
+		
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
 		<tr>
-			<td width="250"><table class="adminheading"><tr><th nowrap class="config"><?php echo $_LANG->_( 'Global Configuration' ); ?></th></tr></table></td>
 			<td width="270">
 				<span class="componentheading"><?php echo $_LANG->_( 'configuration.php is' ); ?> :
 				<?php echo is_writable( '../configuration.php' ) ? '<b><font color="green"> '. $_LANG->_( 'Writeable' ) .'</font></b>' : '<b><font color="red"> '. $_LANG->_( 'Unwriteable' ) .'</font></b>' ?>
@@ -133,11 +134,13 @@ class HTML_config {
 			?>
 		</tr>
 		</table>
+		
 			<?php
 		$title = $_LANG->_( 'Site' );
 		$tabs->startPane("configPane");
 		$tabs->startTab( $title, "site-page" );
 			?>
+			
 			<table class="adminform">
 			<tr>
 				<td width="185"><?php echo $_LANG->_( 'Site Offline' ); ?>:</td>
@@ -219,11 +222,13 @@ class HTML_config {
 				</td>
 			</tr>
 			</table>
+			
 			<?php
 		$title = $_LANG->_( 'Locale' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "Locale-page" );
 			?>
+			
 			<table class="adminform">
 			<tr>
 				<td width="185"><?php echo $_LANG->_( 'Language' ); ?>:</td>
@@ -252,11 +257,13 @@ class HTML_config {
 				</td>
 			</tr>
 			</table>
+			
 			<?php
 		$title = $_LANG->_( 'Content' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "content-page" );
 			?>
+			
 			<table class="adminform">
 			<tr>
 				<td colspan="3"><?php echo $_LANG->_( 'DESCCONTROLOUTPUTELEMENTS' ); ?><br /><br /></td>
@@ -367,11 +374,13 @@ class HTML_config {
 			</tr>
 			</table>
 			<input type="hidden" name="config_ml_support" value="<?php echo $row->config_ml_support?>">
+			
 			<?php
 		$title = $_LANG->_( 'Database' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "db-page" );
 			?>
+			
 			<table class="adminform">
 			<tr>
 				<td width="185"><?php echo $_LANG->_( 'Hostname' ); ?>:</td>
@@ -399,11 +408,13 @@ class HTML_config {
 				</td>
 			</tr>
 			</table>
+			
 			<?php
 		$title = $_LANG->_( 'Server' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "server-page" );
 			?>
+			
 			<table class="adminform">
 			<tr>
 				<td width="185"><?php echo $_LANG->_( 'Absolute Path' ); ?>:</td>
@@ -619,11 +630,13 @@ class HTML_config {
 				<td>&nbsp;</td>
 			  </tr>
 			</table>
+			
 			<?php
 		$title = $_LANG->_( 'Metadata' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "metadata-page" );
 			?>
+			
 			<table class="adminform">
 			<tr>
 				<td width="185" valign="top"><?php echo $_LANG->_( 'Global Site Meta Description' ); ?>:</td>
@@ -654,11 +667,13 @@ class HTML_config {
 				</td>
 			</tr>
 			</table>
+			
 			<?php
 		$title = $_LANG->_( 'Mail' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "mail-page" );
 			?>
+			
 			<table class="adminform">
 			<tr>
 				<td width="185"><?php echo $_LANG->_( 'Mailer' ); ?>:</td>
@@ -693,11 +708,13 @@ class HTML_config {
 				<td><input class="text_area" type="text" name="config_smtphost" size="50" value="<?php echo $row->config_smtphost; ?>"/></td>
 			</tr>
 			</table>
+			
 			<?php
 		$title = $_LANG->_( 'Cache' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "cache-page" );
 			?>
+			
 			<table class="adminform" border="0">
 			<?php
 			if (is_writeable($row->config_cachepath)) {
@@ -732,11 +749,13 @@ class HTML_config {
 				<td>&nbsp;</td>
 			</tr>
 			</table>
+			
 			<?php
 		$title = $_LANG->_( 'Statistics' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "stats-page" );
 			?>
+			
 			<table class="adminform">
 			<tr>
 				<td width="185"><?php echo $_LANG->_( 'Statistics' ); ?>:</td>
@@ -758,11 +777,13 @@ class HTML_config {
 				<td>&nbsp;</td>
 			</tr>
 			</table>
+			
 			<?php
 		$title = $_LANG->_( 'SEO' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "seo-page" );
 			?>
+			
 			<table class="adminform">
 			<tr>
 				<td width="200"><strong><?php echo $_LANG->_( 'Search Engine Optimization Settings' ); ?></strong></td>
@@ -784,7 +805,8 @@ class HTML_config {
                     mosToolTip( $tip ); ?></td>
 			</tr>
 			</table>
-			<?php
+			
+		<?php
 		$tabs->endTab();
 		$tabs->endPane();
 		?>
@@ -795,9 +817,9 @@ class HTML_config {
 		<input type="hidden" name="config_secret" value="<?php echo $row->config_secret; ?>"/>
 	  	<input type="hidden" name="task" value=""/>
 		</form>
+		
 		<script  type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
 		<?php
 	}
-
 }
 ?>

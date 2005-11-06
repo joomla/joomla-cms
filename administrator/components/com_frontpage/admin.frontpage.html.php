@@ -34,9 +34,6 @@ class HTML_content {
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
-			<th class="frontpage" rowspan="2">
-				<?php echo $_LANG->_( 'Frontpage Manager' ); ?>
-			</th>
 			<td align="right" valign="top" nowrap="nowrap">
 				<?php
 				echo $lists['sectionid'];
@@ -47,10 +44,10 @@ class HTML_content {
 		</tr>
 		<tr>
 			<td align="right" valign="top" nowrap="nowrap">
-			<?php echo $_LANG->_( 'Filter' ); ?>:
-			<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
-			<input type="button" value="<?php echo $_LANG->_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
-			<input type="button" value="<?php echo $_LANG->_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+				<?php echo $_LANG->_( 'Filter' ); ?>:
+				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
+				<input type="button" value="<?php echo $_LANG->_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+				<input type="button" value="<?php echo $_LANG->_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 		</tr>
 		</table>

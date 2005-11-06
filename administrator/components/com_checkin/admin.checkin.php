@@ -20,27 +20,20 @@ if (!$acl->acl_check( 'com_checkin', 'manage', 'users', $my->usertype )) {
 }
 $nullDate = $database->getNullDate();
 ?>
-<table class="adminheading">
-	<tr>
-		<th class="checkin">
-			<?php echo $_LANG->_( 'Global Check-in' ); ?>
-		</th>
-	</tr>
-</table>
 <table class="adminform">
-	<tr>
-		<th class="title">
-			<?php echo $_LANG->_( 'Database Table' ); ?>
-		</th>
-		<th class="title">
-			<?php echo $_LANG->_( 'Num of Items' ); ?>
-		</th>
-		<th class="title">
-			<?php echo $_LANG->_( 'Checked-In' ); ?>
-		</th>
-		<th class="title">
-		</th>
-	</tr>
+<tr>
+	<th class="title">
+		<?php echo $_LANG->_( 'Database Table' ); ?>
+	</th>
+	<th class="title">
+		<?php echo $_LANG->_( 'Num of Items' ); ?>
+	</th>
+	<th class="title">
+		<?php echo $_LANG->_( 'Checked-In' ); ?>
+	</th>
+	<th class="title">
+	</th>
+</tr>
 <?php
 $tables = $database->getTableList();
 $k = 0;
@@ -110,9 +103,11 @@ foreach ($tables as $tn) {
 	}
 }
 ?>
-	<tr>
-		<td colspan="4">
-			<strong><?php echo $_LANG->_( 'Checked out items have now been all checked in' ); ?></strong>
-		</td>
-	</tr>
+<tr>
+	<td colspan="4">
+		<strong>
+		<?php echo $_LANG->_( 'Checked out items have now been all checked in' ); ?>
+		</strong>
+	</td>
+</tr>
 </table>

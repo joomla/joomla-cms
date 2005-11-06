@@ -86,6 +86,15 @@ table#toolbar a.toolbar:hover {
 table#toolbar a.toolbar:active {
 	color : #FF9900;
 }
+table#toolbar td.title {
+	color: #C64934;
+	font-size : 18px;
+	font-weight: bold;
+	text-align: left;
+	width: 100%;
+	padding-left: 10px;
+}
+
 .pagenav {
 	font-size : 10px;
 }

@@ -27,21 +27,15 @@ class mosMenuBar {
 	* @param string The image.  If starting with / it using the component image directory
 	* @param string
 	*/
-	function title( $title, $icon='asterisk.png', $href='#' ) {
-		global $option;
-		
-		if (substr( $icon, 0, 1) == '/') {
-			$iconPath = '/administrator/components/' . $option . '/images/';
-		} else {
-			$iconPath = '/administrator/images';
-		}
+	function title( $title, $icon='blank.png', $href='#' ) {
+		$image = mosAdminMenus::ImageCheckAdmin( $icon, '/administrator/images/', NULL, NULL, $title, $title, 1 );
 		?>
-		<div class="title">
+		<td class="title">
 			<a href="<?php echo $href; ?>">
-				<?php echo mosAdminHTML::imageCheck( $icon, $iconPath ); ?></a>
+				<?php echo $image; ?></a>
 			<a href="<?php echo $href; ?>">
 				<?php echo $title; ?></a>
-		</div>
+		</td>
 		<?php
 	}
 	
