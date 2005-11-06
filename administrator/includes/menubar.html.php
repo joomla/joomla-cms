@@ -17,6 +17,34 @@
 */
 class mosMenuBar {
 
+
+	/**
+	* Title cell
+	* For the title and toolbar to be rendered correctly,
+	* this title fucntion must be called before the starttable function and the toolbars icons
+	* this is due to the nature of how the css has been used to postion the title in respect to the toolbar
+	* @param string The title
+	* @param string The image.  If starting with / it using the component image directory
+	* @param string
+	*/
+	function title( $title, $icon='asterisk.png', $href='#' ) {
+		global $option;
+		
+		if (substr( $icon, 0, 1) == '/') {
+			$iconPath = '/administrator/components/' . $option . '/images/';
+		} else {
+			$iconPath = '/administrator/images';
+		}
+		?>
+		<div class="title">
+			<a href="<?php echo $href; ?>">
+				<?php echo mosAdminHTML::imageCheck( $icon, $iconPath ); ?></a>
+			<a href="<?php echo $href; ?>">
+				<?php echo $title; ?></a>
+		</div>
+		<?php
+	}
+	
 	/**
 	* Writes the start of the button bar table
 	*/
@@ -40,26 +68,30 @@ class mosMenuBar {
 
     	$alt = $_LANG->_( $alt );
 
+		$icon 	= ( $iconOver ? $iconOver : $icon );
+		$image 	= mosAdminMenus::ImageCheckAdmin( $icon, '/administrator/images/', NULL, NULL, $alt, $task, 1 );
+
 		if ($listSelect) {
 			$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('". $_LANG->_( 'Please make a selection from the list to' ) ." ". $alt ."');}else{submitbutton('$task')}";
 		} else {
 			$href = "javascript:submitbutton('$task')";
 		}
-		if ($icon && $iconOver) {
-		?>
-		<td>
-			<a class="toolbar" href="<?php echo $href;?>">
-				<img name="<?php echo $task;?>" src="images/<?php echo $iconOver;?>" alt="<?php echo $alt;?>" border="0" align="middle" />
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+		
+		if ($icon || $iconOver) {
+			?>
+			<td>
+				<a class="toolbar" href="<?php echo $href;?>">
+					<?php echo $image; ?>
+					<br /><?php echo $alt; ?></a>
+			</td>
+			<?php
 		} else {
-		?>
-		<td>
-			<a class="toolbar" href="<?php echo $href;?>">
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+			?>
+			<td>
+				<a class="toolbar" href="<?php echo $href;?>">
+					<br /><?php echo $alt; ?></a>
+			</td>
+			<?php
 		}
 	}
 
@@ -77,26 +109,29 @@ class mosMenuBar {
 
     	$alt = $_LANG->_( $alt );
 
+		$icon 	= ( $iconOver ? $iconOver : $icon );
+		$image 	= mosAdminMenus::ImageCheckAdmin( $icon, '/administrator/images/', NULL, NULL, $alt, $task, 1 );
+		
 		if ($listSelect) {
 			$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('". $_LANG->_( 'Please make a selection from the list to' ) ." ". $alt ."');}else{hideMainMenu();submitbutton('$task')}";
 		} else {
 			$href = "javascript:hideMainMenu();submitbutton('$task')";
 		}
-		if ($icon && $iconOver) {
-		?>
-		<td>
-			<a class="toolbar" href="<?php echo $href;?>">
-				<img name="<?php echo $task;?>" src="images/<?php echo $iconOver;?>" alt="<?php echo $alt;?>" border="0" align="middle" />
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+		if ($icon || $iconOver) {
+			?>
+			<td>
+				<a class="toolbar" href="<?php echo $href;?>">
+					<?php echo $image; ?>
+					<br /><?php echo $alt; ?></a>
+			</td>
+			<?php
 		} else {
-		?>
-		<td>
-			<a class="toolbar" href="<?php echo $href;?>">
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+			?>
+			<td>
+				<a class="toolbar" href="<?php echo $href;?>">
+					<br /><?php echo $alt; ?></a>
+			</td>
+			<?php
 		}
 	}
 
