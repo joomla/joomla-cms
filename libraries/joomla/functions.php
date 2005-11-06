@@ -1,7 +1,7 @@
 <?php
 
 /**
-* @version $Id:  $
+* @version $Id$
 * @package Joomla 
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -706,14 +706,6 @@ function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
 
 	eval ("\$message = \"$message\";");
 	mosMail($mosConfig_mailfrom, $mosConfig_fromname, $adminEmail, $subject, $message);
-}
-
-/*
-* Includes pathway file
-*/
-function mosPathWay() {
-	$Itemid = mosGetParam($_REQUEST,'Itemid','');
-	require $GLOBALS['mosConfig_absolute_path'] . '/includes/pathway.php';
 }
 
 /**

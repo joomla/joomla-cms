@@ -1,7 +1,7 @@
 <?php
 
 /**
-* @version $Id: joomla.legacy.php 712 2005-10-28 05:18:19Z pasamio $
+* @version $Id$
 * @package Joomla 
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -107,6 +107,13 @@ function mosShowSource( $filename, $withLineNums=false ) {
 		$ln++;
 	}
 	return $txt;
+}
+
+/**
+* Legacy function, use mosLoadModules('pathway'); instead
+*/
+function mosPathWay() {
+	mosLoadModules('pathway', -1);
 }
 
 
