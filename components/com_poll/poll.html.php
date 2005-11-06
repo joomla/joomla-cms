@@ -107,7 +107,7 @@ class poll_html {
 		global $mosConfig_live_site, $polls_maxcolors, $tabclass;
     	global $_LANG;
     
-		$polls_barheight, $polls_graphwidth, $polls_barcolor;
+		global $polls_barheight, $polls_graphwidth, $polls_barcolor;
 
 		$tabclass_arr = explode( ",", $tabclass );
 		$tabcnt = 0;

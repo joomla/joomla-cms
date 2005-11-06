@@ -45,15 +45,6 @@ function pollAddVote( $uid ) {
 
 	$redirect = 1;
 
-	$sessionCookieName 	= md5( 'site'.$GLOBALS['mosConfig_live_site'] );
-	$sessioncookie 		= mosGetParam( $_REQUEST, $sessionCookieName, '' );
-
-	if (!$sessioncookie) {
-		echo '<h3>'. $_LANG->_( 'Cookies must be enabled!' ) .'</h3>';
-		echo '<input class="button" type="button" value="'. $_LANG->_( 'Continue' ) .'" onClick="window.history.go(-1);">';
-		return;
-	}
-
 	$poll = new mosPoll( $database );
 	if (!$poll->load( $uid )) {
 		echo '<h3>'. $_LANG->_('ALERTNOTAUTH') .'</h3>';
