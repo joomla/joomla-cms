@@ -32,6 +32,9 @@ Legend:
 ! -> Note
 
 
+06-Nov-2005 Rey Gigataras
+ + Added param to `Content SearchBot` allowing you determine whether to search `Content Items`, `Static Content` and `Archived Content`
+
 05-Nov-2005 Rey Gigataras
  ^ Separated newsfeed ability from custom/new module into its own module = `Newsfeed` [mod_rss.php] 
    Backward compatability retained for existing custom modules with newsfeed params

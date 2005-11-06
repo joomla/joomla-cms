@@ -29,6 +29,21 @@ function botSearchWeblinks( $text, $phrase='', $ordering='' ) {
 	global $database, $my;
 	global $_LANG;
 
+	// load mambot params info
+	$query = "SELECT id"
+	. "\n FROM #__mambots"
+	. "\n WHERE element = 'categories.searchbot'"
+	. "\n AND folder = 'search'"
+	;
+	$database->setQuery( $query );
+	$id 	= $database->loadResult();
+	$mambot = new mosMambot( $database );
+	$mambot->load( $id );
+	$botParams = new mosParameters( $mambot->params );
+	
+	$limit = $botParams->def( 'search_limit', 50 );
+	$limit = "\n LIMIT $limit";	
+	
 	$text = trim( $text );
 	if ($text == '') {
 		return array();
@@ -38,12 +53,11 @@ function botSearchWeblinks( $text, $phrase='', $ordering='' ) {
 	$wheres 	= array();
 	switch ($phrase) {
 		case 'exact':
-			$wheres2 = array();
-
-			$wheres2[] = "LOWER(a.url) LIKE '%$text%'";
-			$wheres2[] = "LOWER(a.description) LIKE '%$text%'";
-			$wheres2[] = "LOWER(a.title) LIKE '%$text%'";
-			$where = '(' . implode( ') OR (', $wheres2 ) . ')';
+			$wheres2 	= array();
+			$wheres2[] 	= "LOWER(a.url) LIKE '%$text%'";
+			$wheres2[] 	= "LOWER(a.description) LIKE '%$text%'";
+			$wheres2[] 	= "LOWER(a.title) LIKE '%$text%'";
+			$where 		= '(' . implode( ') OR (', $wheres2 ) . ')';
 			break;
 
 		case 'all':
@@ -52,7 +66,7 @@ function botSearchWeblinks( $text, $phrase='', $ordering='' ) {
 			$words 	= explode( ' ', $text );
 			$wheres = array();
 			foreach ($words as $word) {
-				$wheres2 = array();
+				$wheres2 	= array();
 		  		$wheres2[] 	= "LOWER(a.url) LIKE '%$word%'";
 				$wheres2[] 	= "LOWER(a.description) LIKE '%$word%'";
 				$wheres2[] 	= "LOWER(a.title) LIKE '%$word%'";
@@ -95,9 +109,11 @@ function botSearchWeblinks( $text, $phrase='', $ordering='' ) {
 	. "\n WHERE ($where)"
 	. "\n AND a.published = 1"
 	. "\n ORDER BY $order"
+	. $limit
 	;
 	$database->setQuery( $query );
 	$rows = $database->loadObjectList();
+	
 	return $rows;
 }
 ?>

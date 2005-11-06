@@ -27,13 +27,30 @@ $_MAMBOTS->registerFunction( 'onSearch', 'botSearchContent' );
 */
 function botSearchContent( $text, $phrase='', $ordering='' ) {
 	global $my, $database;
-	global $mosConfig_abolute_path, $mosConfig_offset;
+	global $mosConfig_offset;
 	global $_LANG;
 
-	$nullDate = $database->getNullDate();
-	$_SESSION['searchword'] = $text;
-
-	$now = date( 'Y-m-d H:i:s', time()+$mosConfig_offset*60*60 );
+	// load mambot params info
+	$query = "SELECT id"
+	. "\n FROM #__mambots"
+	. "\n WHERE element = 'categories.searchbot'"
+	. "\n AND folder = 'search'"
+	;
+	$database->setQuery( $query );
+	$id 	= $database->loadResult();
+	$mambot = new mosMambot( $database );
+	$mambot->load( $id );
+	$botParams = new mosParameters( $mambot->params );
+	
+	$limit = $botParams->def( 'search_limit', 50 );
+	$limit = "\n LIMIT $limit";	
+	
+	$sContent 	= $botParams->get( 'search_content', 	1 );
+	$sStatic 	= $botParams->get( 'search_static', 	1 );
+	$sArchived 	= $botParams->get( 'search_archived', 	1 );
+	
+	$nullDate 	= $database->getNullDate();
+	$now 		= date( 'Y-m-d H:i:s', time()+$mosConfig_offset*60*60 );
 
 	$text = trim( $text );
 	if ($text == '') {
@@ -43,27 +60,28 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 	$wheres = array();
 	switch ($phrase) {
 		case 'exact':
-			$wheres2 = array();
-			$wheres2[] = "LOWER(a.title) LIKE '%$text%'";
-			$wheres2[] = "LOWER(a.introtext) LIKE '%$text%'";
-			$wheres2[] = "LOWER(a.fulltext) LIKE '%$text%'";
-			$wheres2[] = "LOWER(a.metakey) LIKE '%$text%'";
-			$wheres2[] = "LOWER(a.metadesc) LIKE '%$text%'";
-			$where = '(' . implode( ') OR (', $wheres2 ) . ')';
+			$wheres2 	= array();
+			$wheres2[] 	= "LOWER(a.title) LIKE '%$text%'";
+			$wheres2[] 	= "LOWER(a.introtext) LIKE '%$text%'";
+			$wheres2[] 	= "LOWER(a.fulltext) LIKE '%$text%'";
+			$wheres2[] 	= "LOWER(a.metakey) LIKE '%$text%'";
+			$wheres2[] 	= "LOWER(a.metadesc) LIKE '%$text%'";
+			$where 		= '(' . implode( ') OR (', $wheres2 ) . ')';
 			break;
+			
 		case 'all':
 		case 'any':
 		default:
 			$words = explode( ' ', $text );
 			$wheres = array();
 			foreach ($words as $word) {
-				$wheres2 = array();
-				$wheres2[] = "LOWER(a.title) LIKE '%$word%'";
-				$wheres2[] = "LOWER(a.introtext) LIKE '%$word%'";
-				$wheres2[] = "LOWER(a.fulltext) LIKE '%$word%'";
-				$wheres2[] = "LOWER(a.metakey) LIKE '%$word%'";
-				$wheres2[] = "LOWER(a.metadesc) LIKE '%$word%'";
-				$wheres[] = implode( ' OR ', $wheres2 );
+				$wheres2 	= array();
+				$wheres2[] 	= "LOWER(a.title) LIKE '%$word%'";
+				$wheres2[] 	= "LOWER(a.introtext) LIKE '%$word%'";
+				$wheres2[] 	= "LOWER(a.fulltext) LIKE '%$word%'";
+				$wheres2[] 	= "LOWER(a.metakey) LIKE '%$word%'";
+				$wheres2[] 	= "LOWER(a.metadesc) LIKE '%$word%'";
+				$wheres[] 	= implode( ' OR ', $wheres2 );
 			}
 			$where = '(' . implode( ($phrase == 'all' ? ') AND (' : ') OR ('), $wheres ) . ')';
 			break;
@@ -71,87 +89,124 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 
 	$morder = '';
 	switch ($ordering) {
-		case 'newest':
-		default:
-			$order = 'a.created DESC';
-			break;
 		case 'oldest':
 			$order = 'a.created ASC';
 			break;
+			
 		case 'popular':
 			$order = 'a.hits DESC';
 			break;
+			
 		case 'alpha':
 			$order = 'a.title ASC';
 			break;
+			
 		case 'category':
 			$order = 'b.title ASC, a.title ASC';
 			$morder = 'a.title ASC';
 			break;
+			
+		case 'newest':
+			default:
+			$order = 'a.created DESC';
+			break;		
 	}
 
-	$query = "SELECT a.title AS title,"
-	. "\n a.created AS created,"
-	. "\n CONCAT(a.introtext, a.fulltext) AS text,"
-	. "\n CONCAT_WS( '/', u.title, b.title ) AS section,"
-	. "\n CONCAT( 'index.php?option=com_content&task=view&id=', a.id ) AS href,"
-	. "\n '2' AS browsernav"
-	. "\n FROM #__content AS a"
-	. "\n INNER JOIN #__categories AS b ON b.id=a.catid AND b.access <= '$my->gid'"
-	. "\n LEFT JOIN #__sections AS u ON u.id = a.sectionid"
-	. "\n WHERE ( $where )"
-	. "\n AND a.state = '1'"
-	. "\n AND a.access <= '$my->gid'"
-	. "\n AND u.published = '1'"
-	. "\n AND b.published = '1'"
-	. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )"
-	. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
-	. "\n ORDER BY $order";
-
-	$database->setQuery( $query );
-
-	$list = $database->loadObjectList();
-
-	// search typed content
-	$query = "SELECT a.title AS title, a.created AS created,"
-	. "\n a.introtext AS text,"
-	. "\n CONCAT( 'index.php?option=com_content&task=view&id=', a.id, '&Itemid=', m.id ) AS href,"
-	. "\n '2' as browsernav, 'Menu' AS section"
-	. "\n FROM #__content AS a"
-	. "\n LEFT JOIN #__menu AS m ON m.componentid = a.id"
-	. "\n WHERE ($where)"
-	. "\n AND a.state = 1"
-	. "\n AND a.access <= $my->gid"
-	. "\n AND m.type = 'content_typed'"
-	. "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now' )"
-	. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
-	. "\n ORDER BY ". ($morder ? $morder : $order)
-	;
-	$database->setQuery( $query );
-	$list2 = $database->loadObjectList();
-
-	$searchArchived = $_LANG->_( 'Archived' );
+	$rows = array();
 	
-    // search archived content
-	$query = "SELECT a.title AS title,"
-	. "\n a.created AS created,"
-	. "\n a.introtext AS text,"
-	. "\n CONCAT_WS( '/', '". $searchArchived ." ', u.title, b.title ) AS section,"
-	. "\n CONCAT('index.php?option=com_content&task=view&id=',a.id) AS href,"
-	. "\n '2' AS browsernav"
-	. "\n FROM #__content AS a"
-	. "\n INNER JOIN #__categories AS b ON b.id=a.catid AND b.access <='$my->gid'"
-	. "\n LEFT JOIN #__sections AS u ON u.id = a.sectionid"
-	. "\n WHERE ( $where )"
-	. "\n AND a.state = -1"
-	. "\n AND a.access <= $my->gid"
-	. "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now' )"
-	. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
-	. "\n ORDER BY $order"
-	;
-	$database->setQuery( $query );
-	$list3 = $database->loadObjectList();
-
-	return array_merge( $list, $list2, $list3 );
+	// search content items
+	if ( $sContent ) {
+		$query = "SELECT a.title AS title,"
+		. "\n a.created AS created,"
+		. "\n CONCAT(a.introtext, a.fulltext) AS text,"
+		. "\n CONCAT_WS( '/', u.title, b.title ) AS section,"
+		. "\n CONCAT( 'index.php?option=com_content&task=view&id=', a.id ) AS href,"
+		. "\n '2' AS browsernav"
+		. "\n FROM #__content AS a"
+		. "\n INNER JOIN #__categories AS b ON b.id=a.catid AND b.access <= '$my->gid'"
+		. "\n LEFT JOIN #__sections AS u ON u.id = a.sectionid"
+		. "\n WHERE ( $where )"
+		. "\n AND a.state = '1'"
+		. "\n AND a.access <= '$my->gid'"
+		. "\n AND u.published = '1'"
+		. "\n AND b.published = '1'"
+		. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )"
+		. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
+		. "\n ORDER BY $order"
+		. $limit
+		;
+		$database->setQuery( $query );	
+		$list = $database->loadObjectList();
+		
+		$rows[] = $list;
+	}
+	
+	// search static content
+	if ( $sStatic ) {
+		$query = "SELECT a.title AS title, a.created AS created,"
+		. "\n a.introtext AS text,"
+		. "\n CONCAT( 'index.php?option=com_content&task=view&id=', a.id, '&Itemid=', m.id ) AS href,"
+		. "\n '2' as browsernav, 'Menu' AS section"
+		. "\n FROM #__content AS a"
+		. "\n LEFT JOIN #__menu AS m ON m.componentid = a.id"
+		. "\n WHERE ($where)"
+		. "\n AND a.state = 1"
+		. "\n AND a.access <= $my->gid"
+		. "\n AND m.type = 'content_typed'"
+		. "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now' )"
+		. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
+		. "\n ORDER BY ". ($morder ? $morder : $order)
+		. $limit
+		;
+		$database->setQuery( $query );
+		$list2 = $database->loadObjectList();		
+		
+		$rows[] = $list2;
+	}
+	
+	// search archived content
+	if ( $sArchived ) {
+		$query = "SELECT a.title AS title,"
+		. "\n a.created AS created,"
+		. "\n a.introtext AS text,"
+		. "\n CONCAT_WS( '/', '". $searchArchived ." ', u.title, b.title ) AS section,"
+		. "\n CONCAT('index.php?option=com_content&task=view&id=',a.id) AS href,"
+		. "\n '2' AS browsernav"
+		. "\n FROM #__content AS a"
+		. "\n INNER JOIN #__categories AS b ON b.id=a.catid AND b.access <='$my->gid'"
+		. "\n LEFT JOIN #__sections AS u ON u.id = a.sectionid"
+		. "\n WHERE ( $where )"
+		. "\n AND a.state = -1"
+		. "\n AND a.access <= $my->gid"
+		. "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now' )"
+		. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
+		. "\n ORDER BY $order"
+		. $limit
+		;
+		$database->setQuery( $query );
+		$list3 = $database->loadObjectList();
+		
+		$rows[] = $list3;
+		
+		$searchArchived = $_LANG->_( 'Archived' );		
+	}
+	
+	$count = count( $rows );
+	if ( $count > 1 ) {
+		switch ( $count ) {
+			case 2:
+			$results = array_merge( $rows[0], $rows[1] );
+			break;
+			
+			case 3:
+			default:		
+			$results = array_merge( $rows[0], $rows[1], $rows[2] );
+			break;
+		}
+		
+		return $results;
+	} else if ( $count == 1 ) {
+		return $rows[0];
+	} 	
 }
 ?>

@@ -29,6 +29,21 @@ function botSearchCategories( $text, $phrase='', $ordering='' ) {
 	global $database, $my;
 	global $_LANG;
 
+	// load mambot params info
+	$query = "SELECT id"
+	. "\n FROM #__mambots"
+	. "\n WHERE element = 'categories.searchbot'"
+	. "\n AND folder = 'search'"
+	;
+	$database->setQuery( $query );
+	$id 	= $database->loadResult();
+	$mambot = new mosMambot( $database );
+	$mambot->load( $id );
+	$botParams = new mosParameters( $mambot->params );
+	
+	$limit = $botParams->def( 'search_limit', 50 );
+	$limit = "\n LIMIT $limit";	
+
 	$text = trim( $text );
 	if ( $text == '' ) {
 		return array();
@@ -66,6 +81,7 @@ function botSearchCategories( $text, $phrase='', $ordering='' ) {
 	. "\n AND ( m.type = 'content_section' OR m.type = 'content_blog_section'"
 	. "\n OR m.type = 'content_category' OR m.type = 'content_blog_category')"
 	. "\n ORDER BY $order"
+	. $limit
 	;
 	$database->setQuery( $query );
 	$rows = $database->loadObjectList();

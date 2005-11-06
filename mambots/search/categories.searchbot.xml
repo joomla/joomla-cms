@@ -12,5 +12,7 @@
 	<files>
 		<filename mambot="categories.searchbot">categories.searchbot.php</filename>
 	</files>
-	<params/>
+	<params>
+		<param name="search_limit" type="text" size="5" default="50" label="Search Limit" description="Nmber of Search items to return"/>		
+	</params>
 </mosinstall>

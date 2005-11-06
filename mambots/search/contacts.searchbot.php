@@ -29,7 +29,22 @@ function botSearchContacts( $text, $phrase='', $ordering='' ) {
 	global $database, $my;
 	global $_LANG;
 
-	 $text = trim( $text );
+	// load mambot params info
+	$query = "SELECT id"
+	. "\n FROM #__mambots"
+	. "\n WHERE element = 'contacts.searchbot'"
+	. "\n AND folder = 'search'"
+	;
+	$database->setQuery( $query );
+	$id 	= $database->loadResult();
+	$mambot = new mosMambot( $database );
+	$mambot->load( $id );
+	$botParams = new mosParameters( $mambot->params );
+	
+	$limit = $botParams->def( 'search_limit', 50 );
+	$limit = "\n LIMIT $limit";	
+	
+	$text = trim( $text );
 	if ($text == '') {
 		return array();
 	}
@@ -40,9 +55,11 @@ function botSearchContacts( $text, $phrase='', $ordering='' ) {
 		case 'alpha':
 			$order = 'a.name ASC';
 			break;
+			
 		case 'category':
 			$order = 'b.title ASC, a.name ASC';
 			break;
+			
 		case 'popular':
 		case 'newest':
 		case 'oldest':
@@ -70,9 +87,11 @@ function botSearchContacts( $text, $phrase='', $ordering='' ) {
 	. "\n OR a.fax LIKE '%$text%' )"
 	. "\n AND a.published = 1"
 	. "\n ORDER BY $order"
+	. $limit
 	;
 	$database->setQuery( $query );
 	$rows = $database->loadObjectList();
+	
 	return $rows;
 }
 ?>
