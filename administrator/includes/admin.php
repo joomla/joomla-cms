@@ -116,6 +116,8 @@ function mosLoadAdminModules( $position='left', $style=0 ) {
 function mosLoadAdminModule( $name, $params=NULL ) {
 	global $mosConfig_absolute_path, $mosConfig_live_site;
 	global $database, $acl, $my, $mainframe, $option, $_LANG;
+	
+	$_LANG->load('mod_'.$name);
 
 	$task = mosGetParam( $_REQUEST, 'task', '' );
 

@@ -143,6 +143,8 @@ function mosLoadModules( $position='left', $style=0 ) {
 function mosLoadModule( $name, $params=NULL ) {
 	global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
 	global $mainframe, $database, $my, $Itemid, $_LANG, $acl;
+	
+	$_LANG->load('mod_'.$name);
 
 	$task = mosGetParam( $_REQUEST, 'task', '' );
 
