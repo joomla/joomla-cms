@@ -47,7 +47,6 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 	$sArchived 	= $botParams->get( 'search_archived', 	1 );	
 	
 	$limit 		= $botParams->def( 'search_limit', 		50 );
-	$limit 		= "\n LIMIT $limit";	
 
 	$nullDate 	= $database->getNullDate();
 	$now 		= date( 'Y-m-d H:i:s', time()+$mosConfig_offset*60*60 );
@@ -133,9 +132,8 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 		. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )"
 		. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
 		. "\n ORDER BY $order"
-		. $limit
 		;
-		$database->setQuery( $query );	
+		$database->setQuery( $query, 0, $limit );	
 		$list = $database->loadObjectList();
 		
 		$rows[] = $list;
@@ -156,9 +154,8 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 		. "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now' )"
 		. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
 		. "\n ORDER BY ". ($morder ? $morder : $order)
-		. $limit
 		;
-		$database->setQuery( $query );
+		$database->setQuery( $query, 0, $limit );
 		$list2 = $database->loadObjectList();		
 		
 		$rows[] = $list2;
@@ -183,9 +180,8 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 		. "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now' )"
 		. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
 		. "\n ORDER BY $order"
-		. $limit
 		;
-		$database->setQuery( $query );
+		$database->setQuery( $query, 0, $limit );
 		$list3 = $database->loadObjectList();
 		
 		$rows[] = $list3;		

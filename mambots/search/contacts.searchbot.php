@@ -42,7 +42,6 @@ function botSearchContacts( $text, $phrase='', $ordering='' ) {
 	$botParams = new mosParameters( $mambot->params );
 	
 	$limit = $botParams->def( 'search_limit', 50 );
-	$limit = "\n LIMIT $limit";	
 	
 	$text = trim( $text );
 	if ($text == '') {
@@ -87,9 +86,8 @@ function botSearchContacts( $text, $phrase='', $ordering='' ) {
 	. "\n OR a.fax LIKE '%$text%' )"
 	. "\n AND a.published = 1"
 	. "\n ORDER BY $order"
-	. $limit
 	;
-	$database->setQuery( $query );
+	$database->setQuery( $query, 0, $limit );	
 	$rows = $database->loadObjectList();
 	
 	return $rows;

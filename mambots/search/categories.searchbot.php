@@ -42,7 +42,6 @@ function botSearchCategories( $text, $phrase='', $ordering='' ) {
 	$botParams = new mosParameters( $mambot->params );
 	
 	$limit = $botParams->def( 'search_limit', 50 );
-	$limit = "\n LIMIT $limit";	
 
 	$text = trim( $text );
 	if ( $text == '' ) {
@@ -81,9 +80,8 @@ function botSearchCategories( $text, $phrase='', $ordering='' ) {
 	. "\n AND ( m.type = 'content_section' OR m.type = 'content_blog_section'"
 	. "\n OR m.type = 'content_category' OR m.type = 'content_blog_category')"
 	. "\n ORDER BY $order"
-	. $limit
 	;
-	$database->setQuery( $query );
+	$database->setQuery( $query, 0, $limit );
 	$rows = $database->loadObjectList();
 
 	$count = count( $rows );
