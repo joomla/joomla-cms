@@ -214,10 +214,12 @@ return <<<EOD
 	function TinyMCE_Save(editor_id, content, node)
 	{
 		base_url = tinyMCE.settings['document_base_url'];
-		var vHTML = node.innerHTML;
+		var vHTML = content;
 		if (true == true){
 			vHTML = tinyMCE.regexpReplace(vHTML, 'href\s*=\s*"?'+base_url+'', 'href="', 'gi');
 			vHTML = tinyMCE.regexpReplace(vHTML, 'src\s*=\s*"?'+base_url+'', 'src="', 'gi');
+			vHTML = tinyMCE.regexpReplace(vHTML, 'mce_real_src\s*=\s*"?', '', 'gi');
+			vHTML = tinyMCE.regexpReplace(vHTML, 'mce_real_href\s*=\s*"?', '', 'gi');
 		}
 		return vHTML;
 	}

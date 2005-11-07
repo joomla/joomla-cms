@@ -5314,7 +5314,7 @@ TinyMCEControl.prototype.execCommand = function(command, user_interface, value) 
 			var insertHTMLFailed = false;
 			this.getWin().focus();
 
-			if (tinyMCE.isGecko || tinyMCE.isOpera) {
+			if (tinyMCE.isOpera) {
 				try {this.getDoc().execCommand('inserthtml', false, value);} catch (ex) {insertHTMLFailed = true;}
 				if (!insertHTMLFailed) {
 					tinyMCE.triggerNodeChange();

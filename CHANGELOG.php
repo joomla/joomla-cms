@@ -32,7 +32,8 @@ Legend:
 ! -> Note
 
 07-Nov-2005 Johan Janssens
- # Fixed  artf1648 : tinyMCE BR and P elements
+ # Fixed artf1648 : tinyMCE BR and P elements
+ # Fixed artf1700 : TinyMCE doesn't support relative URL's for images
 
 06-Nov-2005 Rey Gigataras
  + Added `Pathway` module, templates now no longer call function directly
