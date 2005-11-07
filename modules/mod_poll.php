@@ -14,9 +14,9 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-if (!defined( '_MOS_POLL_MODULE' )) {
+if (!defined( '_JOS_POLL_MODULE' )) {
 	/** ensure that functions are declared only once */
-	define( '_MOS_POLL_MODULE', 1 );
+	define( '_JOS_POLL_MODULE', 1 );
 
 	function show_poll_vote_form( $Itemid, $moduleclass_sfx ) {
 		global $database;
