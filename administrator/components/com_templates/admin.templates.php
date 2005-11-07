@@ -361,7 +361,7 @@ function chooseTemplateCSS( $p_tname, $option, $client ) {
 	global $mosConfig_absolute_path;
 	global $_LANG;
 
-	$readd = new JFile();
+	$readd = new mosFS();
 
 	if ( $client == 'admin' ) {
 		// Admin template css dir

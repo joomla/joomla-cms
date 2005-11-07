@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Nov-2005 Arno Zijlstra
+ # Fixed template css manager
+ 
 07-Nov-2005 Johan Janssens
  # Fixed artf1648 : tinyMCE BR and P elements
  # Fixed artf1700 : TinyMCE doesn't support relative URL's for images
