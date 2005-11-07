@@ -147,10 +147,11 @@ class JLanguage extends JObject {
 	/**
 	 * Loads a single langauge file
 	 * @param string The prefix
+	 * @param number Client identifier
 	 */
-	function load( $prefix='') {
-		$basePath = JLanguage::getLanguagePath( $this->_userLang );
-
+	function load( $prefix='', $client = null) {
+		$basePath = JLanguage::getLanguagePath( $this->_userLang, $client);
+		
 		if (empty( $prefix )) {
 			$filename = $basePath . $this->_userLang . '.ini';
 			if (!file_exists( $filename ) ) {
@@ -245,10 +246,10 @@ class JLanguage extends JObject {
 	 * @param int The client number
 	 * @return string	language related path or null
 	 */
-	function getLanguagePath( $language=null, $addTrailingSlash=true ) {
+	function getLanguagePath( $language=null, $client = null, $addTrailingSlash=true ) {
 		global $mainframe;
 		
-		$dir = $mainframe->getBasePath( ) . 'language' . DIRECTORY_SEPARATOR;
+		$dir = $mainframe->getBasePath( $addTrailingSlash, $client ) . 'language' . DIRECTORY_SEPARATOR;
 		if (isset( $language )) {
 			$dir .= $language .DIRECTORY_SEPARATOR;
 		}

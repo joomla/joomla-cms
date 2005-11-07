@@ -206,6 +206,8 @@ class HTML_modules {
 	*/
 	function editModule( &$row, &$orders2, &$lists, &$params, $option ) {
 		global $_LANG;
+		
+		$_LANG->load($row->module, $row->client_id);
 
 		$row->titleA = '';
 		if ( $row->id ) {

@@ -907,10 +907,12 @@ class mosMainFrame extends JObject {
 	 * @param mixed A client identifier
 	 * @param boolean True (default) to add traling slash
 	 */
-	function getBasePath( $addTrailingSlash=true ) {
+	function getBasePath( $addTrailingSlash=true, $client = null ) {
 		global $mosConfig_absolute_path;
 
-		switch ($this->_client) {
+		$client = is_null($client) ? $this->_client : $client;
+		  
+		switch ($client) {
 			
 			case '2':
 				return mosFS::getNativePath( $mosConfig_absolute_path . '/installation', $addTrailingSlash );
