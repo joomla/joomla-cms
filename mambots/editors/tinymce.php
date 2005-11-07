@@ -112,9 +112,11 @@ function botTinymceEditorInit() {
 	}
 
 	if ( $newlines ) {
-		$newlines	= 'true';
+		$br_newlines	= 'true';
+		$p_newlines     = 'false';
 	} else {
-		$newlines	= 'false';
+		$br_newlines	= 'false';
+		$p_newlines     = 'true';
 	}
 
 	if ( $compressed ) {
@@ -191,7 +193,8 @@ return <<<EOD
 		theme_advanced_source_editor_height : "$html_height",
 		theme_advanced_source_editor_width : "$html_width",
 		directionality: "$text_direction",
-		force_br_newlines : "$newlines",
+		force_br_newlines : "$br_newlines",
+		force_p_newlines : "$p_newlines",
 		$content_css
 		debug : false,
 		cleanup : $cleanup,
