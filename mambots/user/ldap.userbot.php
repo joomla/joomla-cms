@@ -15,7 +15,8 @@
 /** ensure this file is being included by a parent file */
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 
-import('joomla.ldap');
+jimport('joomla.ldap');
+
 //Login User event
 $_MAMBOTS->registerFunction( 'onLoginUser', 'botLdapLoginUser' );
 
