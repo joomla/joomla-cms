@@ -232,7 +232,7 @@ class mosInstallerComponent extends mosInstaller {
 	* @param int The client id
 	*/
 	function uninstall( $cid, $option, $client=0 ) {
-		global $database,$mosConfig_absolute_path, mosConfig_admin_path;
+		global $database,$mosConfig_absolute_path, $mosConfig_admin_path;
 		global $_LANG;
 
 		$uninstallret = '';

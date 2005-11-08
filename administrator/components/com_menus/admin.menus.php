@@ -275,7 +275,7 @@ function viewMenuItems( $menutype, $option ) {
 * Displays a selection list for menu item types
 */
 function addMenuItem( &$cid, $menutype, $option, $task ) {
-	global $mosConfig_absolute_path, mosConfig_admin_path;
+	global $mosConfig_absolute_path, $mosConfig_admin_path;
 
 	$types 	= array();
 
@@ -723,7 +723,7 @@ function copyMenuSave( $option, $cid, $menu, $menutype ) {
 }
 
 function ReadMenuXML( $type, $component=-1 ) {
-	global $mosConfig_absolute_path, mosConfig_admin_path;
+	global $mosConfig_absolute_path, $mosConfig_admin_path;
 
 	// XML library
 	require_once( $mosConfig_absolute_path . '/includes/domit/xml_domit_lite_include.php' );
