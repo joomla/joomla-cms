@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Nov-2005 Johan Janssens
+ # Fixed  artf2002 : Can't access Site Mambots
+
 08-Nov-2005 Alex Kempkens
  + Added variable admin path with config vars $mosConfig_admin_path & $mosConfig_admin_site
  ^ changed -hopefully all- administrator references of site or path type to the new variables
