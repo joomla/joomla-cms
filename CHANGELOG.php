@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Nov-2005 Levis Bisson
+ + Added the mambots language files 
+ ^ Modified some xml mambots files for translation
+
 08-Nov-2005 Johan Janssens
  # Fixed artf2002 : Can't access Site Mambots
  # Fixed artf2003 : Fatal errors - typos in backend
