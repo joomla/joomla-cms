@@ -184,6 +184,10 @@ class gacl {
 		$this->_mos_add_acl( 'com_syndicate', 'manage', 'users', 'super administrator' );
 		$this->_mos_add_acl( 'com_syndicate', 'manage', 'users', 'administrator' );
 		$this->_mos_add_acl( 'com_syndicate', 'manage', 'users', 'manager' );
+		
+		$this->_mos_add_acl( 'com_weblinks', 'manage', 'users', 'super administrator' );
+		$this->_mos_add_acl( 'com_weblinks', 'manage', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_weblinks', 'manage', 'users', 'manager' );
 
 		// email system events
 		$this->_mos_add_acl( 'workflow', 'email_events', 'users', 'administrator', null, null );

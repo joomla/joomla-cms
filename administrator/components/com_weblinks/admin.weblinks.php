@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!$acl->acl_check( 'com_weblinks', 'manage', 'users', $my->usertype )) {
-	mosRedirect( 'index2.php', $_LANG->_('NOT_AUTH') );
+	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
