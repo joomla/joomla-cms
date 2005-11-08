@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Nov-2005 Arno Zijlstra
+ # Fixed : Notices in sefurlbot 
+
 08-Nov-2005 Levis Bisson
  + Added the mambots language files 
  ^ Modified some xml mambots files for translation
