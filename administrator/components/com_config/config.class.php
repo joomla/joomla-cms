@@ -176,11 +176,9 @@ class mosConfig {
 	/** @var int */
 	var $config_item_navigation	= 0;
 	/** @var int */
-	var $config_ml_support		= 0;
-	/** @var int */
 	var $config_multipage_toc	= 0;
 	/** @var int */
-	var $mosConfig_mbf_content	= 0;
+	var $config_multilingual_support	= 0;
 
 	/**
 	 * @return array An array of the public vars in the class

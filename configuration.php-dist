@@ -92,7 +92,7 @@ $mosConfig_favicon = 'favicon.ico';
 $mosConfig_fileperms = '';
 $mosConfig_dirperms = '';
 $mosConfig_helpurl = 'http://help.joomla.org';
-$mosConfig_mbf_content='0';
+$mosConfig_multilingual_content='0';
 $mosConfig_editor = 'tinymce';
 setlocale (LC_TIME, $mosConfig_locale);			// Country locale
 ?>

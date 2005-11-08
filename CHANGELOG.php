@@ -34,6 +34,7 @@ Legend:
 08-Nov-2005 Alex Kempkens
  + Added variable admin path with config vars $mosConfig_admin_path & $mosConfig_admin_site
  ^ changed -hopefully all- administrator references of site or path type to the new variables
+ ^ changed config var mbf_content to multilingual_support for future independence
 
 07-Nov-2005 Arno Zijlstra
  # Fixed template css manager

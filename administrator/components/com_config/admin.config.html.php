@@ -373,8 +373,6 @@ class HTML_config {
 				<td>&nbsp;</td>
 			</tr>
 			</table>
-			<input type="hidden" name="config_ml_support" value="<?php echo $row->config_ml_support?>">
-			
 			<?php
 		$title = $_LANG->_( 'Database' );
 		$tabs->endTab();
@@ -817,6 +815,7 @@ class HTML_config {
 		<input type="hidden" name="config_absolute_path" value="<?php echo $row->config_absolute_path; ?>"/>
 		<input type="hidden" name="config_live_site" value="<?php echo $row->config_live_site; ?>"/>
 		<input type="hidden" name="config_secret" value="<?php echo $row->config_secret; ?>"/>
+		<input type="hidden" name="config_multilingual_support" value="<?php echo $row->config_multilingual_support; ?>"/>
 	  	<input type="hidden" name="task" value=""/>
 		</form>
 		
