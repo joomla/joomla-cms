@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall version="1.1.x" type="mambot" group="content">
+<mosinstall version="1.1" type="mambot" group="content">
 	<name>mosloadposition</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.1.x</version>
+	<version>1.1</version>
 	<description>DESCMOSLOADPOSITION</description>
 	<files>
 		<filename mambot="mosloadposition">mosloadposition.php</filename>

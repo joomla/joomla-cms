@@ -1,4 +1,5 @@
-<mosinstall version="1.1.x" type="mambot" group="search">
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall version="1.1" type="mambot" group="search">
 	<name>contacts searchbot</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
@@ -6,7 +7,7 @@
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.1.x</version>
+	<version>1.1</version>
 	<description>Allows Searching of Newsfeeds</description>
 	<files>
 		<filename mambot="newsfeeds.searchbot">newsfeeds.searchbot.php</filename>

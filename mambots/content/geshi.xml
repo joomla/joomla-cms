@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall version="1.1.x" type="mambot" group="content">
+<mosinstall version="1.1" type="mambot" group="content">
 	<name>GeSHi</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorUrl>qbnz.com/highlighter</authorUrl>
-	<version>1.1.x</version>
+	<version>1.1</version>
 	<description>DESCGESHI</description>
 	<files>
 		<filename mambot="geshi">geshi.php</filename>
