@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall version="1.0.0" type="mambot" group="content">
+<mosinstall version="1.1.x" type="mambot" group="content">
 	<name>mosvote</name>
 	<author>Joomla! Project</author>
-	<creationDate>August 2004</creationDate>
+	<creationDate>November 2005</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.0.0</version>
+	<version>1.1.x</version>
 	<description>Add the Voting functionality to Items</description>
 	<files>
 		<filename mambot="mosvote">mosvote.php</filename>
