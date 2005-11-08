@@ -111,7 +111,7 @@ switch ($task) {
 * @param string The name of the category section
 */
 function showCategories( $section, $option ) {
-	global $database, $mainframe, $mosConfig_list_limit, $mosConfig_absolute_path;
+	global $database, $mainframe, $mosConfig_list_limit, $mosConfig_admin_path;
 
 	$sectionid 		= $mainframe->getUserStateFromRequest( "sectionid{$option}{$section}", 'sectionid', 0 );
 	$limit 			= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
@@ -188,7 +188,7 @@ function showCategories( $section, $option ) {
 		$filter = '';
 	}
 
-	require_once( $mosConfig_absolute_path . '/administrator/includes/pageNavigation.php' );
+	require_once( $mosConfig_admin_path . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
 	$query = "SELECT  c.*, c.checked_out as checked_out_contact_category, g.name AS groupname, u.name AS editor,"

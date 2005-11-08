@@ -105,7 +105,7 @@ function showWeblinks( $option ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
-	require_once( $GLOBALS['mosConfig_absolute_path'] . '/administrator/includes/pageNavigation.php' );
+	require_once( $GLOBALS['mosConfig_admin_path'] . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
 
 	$query = "SELECT a.*, cc.name AS category, u.name AS editor"
@@ -136,7 +136,7 @@ function showWeblinks( $option ) {
 * @param integer The unique id of the record to edit (0 if new)
 */
 function editWeblink( $option, $id ) {
-	global $database, $my, $mosConfig_absolute_path, $mosConfig_live_site;
+	global $database, $my, $mosConfig_absolute_path, $mosConfig_live_site, $mosConfig_admin_path;
 	global $_LANG;
 
 	$lists = array();
@@ -173,7 +173,7 @@ function editWeblink( $option, $id ) {
 	// build the html select list
 	$lists['published'] 		= mosHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
 
-	$file 	= $mosConfig_absolute_path .'/administrator/components/com_weblinks/weblinks_item.xml';
+	$file 	= $mosConfig_admin_path .'/components/com_weblinks/weblinks_item.xml';
 	$params = new mosParameters( $row->params, $file, 'component' );
 
 	HTML_weblinks::editWeblink( $row, $lists, $params, $option );

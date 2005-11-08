@@ -101,9 +101,9 @@ function saveUpload( $_dbprefix, $uid, $option, $userfile, $userfile_name, $type
 
 function userEdit( $option, $uid, $submitvalue) {
 	global $database, $mainframe;
-	global $mosConfig_absolute_path;
+	global $mosConfig_absolute_path, $mosConfig_admin_path;
 
-	require_once( $mosConfig_absolute_path .'/administrator/components/com_users/users.class.php' );
+	require_once( $mosConfig_admin_path .'/components/com_users/users.class.php' );
 
 	if ($uid == 0) {
 		mosNotAuth();

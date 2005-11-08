@@ -65,6 +65,7 @@ function botJoomlaSiteUrl( ) {
 		if ( $sitePath == '/' || $sitePath == '\\' ) {
 			$sitePath = '';
 		}
+		// ToDo: Needs some rework in order to make this flexible
 		if( eregi( '/administrator', $sitePath ) ) {
 			$sitePath = substr( $sitePath, 0, strpos( $sitePath, "/administrator") );
 		}

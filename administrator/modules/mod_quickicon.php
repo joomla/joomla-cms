@@ -25,7 +25,7 @@ if (!defined( '_JOS_QUICKICON_MODULE' )) {
 		<div style="float:<?php echo ($_LANG->rtl()) ? 'right' : 'left'; ?>;">
 			<div class="icon">
 				<a href="<?php echo $link; ?>">
-					<?php echo mosAdminMenus::imageCheck( $image, '/administrator/images/', NULL, NULL, $text ); ?>
+					<?php echo mosAdminMenus::imageCheckAdmin( $image, '/images/', NULL, NULL, $text ); ?>
 					<span><?php echo $text; ?></span>
 				</a>
 			</div>

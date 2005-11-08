@@ -27,7 +27,7 @@ $ItemName	= mosGetParam( $_POST, 'ItemName', '' );
 $menu 		= mosGetParam( $_POST, 'menu', '' );
 $cid 		= mosGetParam( $_POST, 'cid', array(0) );
 
-$path 		= $mosConfig_absolute_path .'/administrator/components/com_menus/';
+$path 		= $GLOBALS['mosConfig_admin_path'] . '/components/com_menus/';
 
 if (!is_array( $cid )) {
 	$cid = array(0);
@@ -204,7 +204,7 @@ function viewMenuItems( $menutype, $option ) {
 
 	$total = count( $list );
 
-	require_once( $GLOBALS['mosConfig_absolute_path'] . '/administrator/includes/pageNavigation.php' );
+	require_once( $GLOBALS['mosConfig_admin_path'] . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
 
 	$levellist = mosHTML::integerSelectList( 1, 20, 1, 'levellimit', 'size="1" onchange="document.adminForm.submit();"', $levellimit );
@@ -275,18 +275,18 @@ function viewMenuItems( $menutype, $option ) {
 * Displays a selection list for menu item types
 */
 function addMenuItem( &$cid, $menutype, $option, $task ) {
-	global $mosConfig_absolute_path;
+	global $mosConfig_absolute_path, mosConfig_admin_path;
 
 	$types 	= array();
 
 	// list of directories
-	$dirs 	= mosReadDirectory( $mosConfig_absolute_path .'/administrator/components/com_menus' );
+	$dirs 	= mosReadDirectory( $mosConfig_admin_path .'/components/com_menus' );
 
 	// load files for menu types
 	foreach ( $dirs as $dir ) {
 		// needed within menu type .php files
 		$type 	= $dir;
-		$dir 	= $mosConfig_absolute_path .'/administrator/components/com_menus/'. $dir;
+		$dir 	= $mosConfig_admin_path .'/components/com_menus/'. $dir;
 		if ( is_dir( $dir ) ) {
 			$files = mosReadDirectory( $dir, ".\.menu\.php$" );
 			foreach ($files as $file) {
@@ -415,7 +415,7 @@ function saveMenu( $option, $task='save' ) {
 * @param integer 0 if unpublishing, 1 if publishing
 */
 function publishMenuSection( $cid=null, $publish=1 ) {
-	global $database, $mosConfig_absolute_path;
+	global $database, $mosConfig_admin_path;
 	global $_LANG;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
@@ -439,7 +439,7 @@ function publishMenuSection( $cid=null, $publish=1 ) {
 			$task = $publish ? 'publish' : 'unpublish';
 			// $type value is used in *.menu.php
 			$type = $menu->type;
-			require_once( $mosConfig_absolute_path . '/administrator/components/com_menus/' . $type . '/' . $type . '.menu.php' );
+			require_once( $mosConfig_admin_path . '/components/com_menus/' . $type . '/' . $type . '.menu.php' );
 		}
 	}
 	return null;
@@ -723,12 +723,12 @@ function copyMenuSave( $option, $cid, $menu, $menutype ) {
 }
 
 function ReadMenuXML( $type, $component=-1 ) {
-	global $mosConfig_absolute_path;
+	global $mosConfig_absolute_path, mosConfig_admin_path;
 
 	// XML library
 	require_once( $mosConfig_absolute_path . '/includes/domit/xml_domit_lite_include.php' );
 	// xml file for module
-	$xmlfile = $mosConfig_absolute_path .'/administrator/components/com_menus/'. $type .'/'. $type .'.xml';
+	$xmlfile = $mosConfig_admin_path .'/components/com_menus/'. $type .'/'. $type .'.xml';
 	$xmlDoc = new DOMIT_Lite_Document();
 	$xmlDoc->resolveErrors( true );
 

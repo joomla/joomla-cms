@@ -26,7 +26,7 @@ class HTML_templates {
 	* @param string The option
 	*/
 	function showTemplates( &$rows, &$pageNav, $option, $client ) {
-		global $my, $mosConfig_live_site;
+		global $my, $mosConfig_live_site, $mosConfig_admin_site;
 		global $_LANG;
 
 		if ( isset( $row->authorUrl) && $row->authorUrl != '' ) {
@@ -42,7 +42,7 @@ class HTML_templates {
 			name = name.replace(pattern,'_');
 			name = name.toLowerCase();
 			if (document.adminForm.doPreview.checked) {
-				var src = '<?php echo $mosConfig_live_site . ($client == 'admin' ? '/administrator' : '');?>/templates/'+name+'/template_thumbnail.png';
+				var src = '<?php echo  ($client == 'admin' ? $mosConfig_admin_site : $mosConfig_live_site );?>/templates/'+name+'/template_thumbnail.png';
 				var html=name;
 				html = '<br /><img border="1" src="'+src+'" name="imagelib" alt="<?php echo $_LANG->_( 'No preview available' ); ?>" width="206" height="145" />';
 				return overlib(html, CAPTION, name)
@@ -217,12 +217,10 @@ class HTML_templates {
 	* @param string The option
 	*/
 	function editTemplateSource( $template, &$content, $option, $client ) {
-		global $mosConfig_absolute_path;
+		global $mosConfig_absolute_path, $mosConfig_admin_path;
 		global $_LANG;
 
-		$template_path =
-			$mosConfig_absolute_path . ($client == 'admin' ? '/administrator' : '') .
-			'/templates/' . $template . '/index.php';
+		$template_path = ($client == 'admin' ? $mosConfig_admin_path : $mosConfig_absolute_path) . '/templates/' . $template . '/index.php';
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
@@ -346,11 +344,11 @@ class HTML_templates {
 	* @param string The option
 	*/
 	function editCSSSource( $template, $tp_name, &$content, $option, $client ) {
-		global $mosConfig_absolute_path;
+		global $mosConfig_absolute_path, $mosConfig_admin_path;
 		global $_LANG;
 
 		if ( $client == 'admin' ) {
-			$css_path = $mosConfig_absolute_path . '/administrator' . $tp_name;
+			$css_path = $mosConfig_admin_path . '/administrator' . $tp_name;
 		}
 		else {
 			$css_path = $mosConfig_absolute_path . $tp_name;

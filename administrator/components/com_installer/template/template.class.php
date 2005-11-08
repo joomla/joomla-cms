@@ -31,7 +31,7 @@ class mosInstallerTemplate extends mosInstaller {
 	* @param boolean True if installing from directory
 	*/
 	function install( $p_fromdir = null ) {
-		global $mosConfig_absolute_path,$database;
+		global $mosConfig_absolute_path,$mosConfig_admin_path,$database;
 		global $_LANG;
 
 		if (!$this->preInstallCheck( $p_fromdir, 'template' )) {
@@ -54,8 +54,7 @@ class mosInstallerTemplate extends mosInstaller {
 		// Set some vars
 		$e = &$mosinstall->getElementsByPath( 'name', 1 );
 		$this->elementName($e->getText());
-		$this->elementDir( mosPathName( $mosConfig_absolute_path
-		. ($client == 'admin' ? '/administrator' : '')
+		$this->elementDir( mosPathName( '' . ($client == 'admin' ? $mosConfig_admin_path : $mosConfig_absolute_path)
 		. '/templates/' . strtolower(str_replace(" ","_",$this->elementName())))
 		);
 
@@ -89,13 +88,11 @@ class mosInstallerTemplate extends mosInstaller {
 	* @param int The client id
 	*/
 	function uninstall( $id, $option, $client=0 ) {
-		global $database, $mosConfig_absolute_path;
+		global $database, $mosConfig_absolute_path, mosConfig_admin_path;
 		global $_LANG;
 
 		// Delete directories
-		$path = $mosConfig_absolute_path
-		. ($client == 'admin' ? '/administrator' : '' )
-		. '/templates/' . $id;
+		$path = ($client == 'admin' ? $mosConfig_admin_path : $mosConfig_absolute_path )	. '/templates/' . $id;
 
 		$id = str_replace( '..', '', $id );
 		if (trim( $id )) {

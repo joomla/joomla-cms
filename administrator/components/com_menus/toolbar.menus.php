@@ -36,7 +36,7 @@ switch ($task) {
 		if (!is_array( $cid )) {
 			$cid = array(0);
 		}
-		$path 	= $mosConfig_absolute_path .'/administrator/components/com_menus/';
+		$path 	= $GLOBALS['mosConfig_admin_path'] .'/components/com_menus/';
 
 		if ( $cid[0] ) {
 			$query = "SELECT type"

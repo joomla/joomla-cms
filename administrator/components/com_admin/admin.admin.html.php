@@ -25,9 +25,9 @@ class HTML_admin_misc {
 	* Control panel
 	*/
 	function controlPanel() {
-		global $mosConfig_absolute_path, $mainframe;
+		global $mosConfig_admin_path, $mainframe;
 		
-		$path = $mosConfig_absolute_path . '/administrator/templates/' . $mainframe->getTemplate() . '/cpanel.php';
+		$path = $mosConfig_admin_path . '/templates/' . $mainframe->getTemplate() . '/cpanel.php';
 		if (file_exists( $path )) {
 			require $path;
 		} else {

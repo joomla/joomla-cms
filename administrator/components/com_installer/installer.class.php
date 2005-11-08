@@ -73,7 +73,7 @@ class mosInstaller {
 	* @return boolean True on success, False on error
 	*/
 	function extractArchive() {
-		global $mosConfig_absolute_path;
+		global $mosConfig_absolute_path, $mosConfig_admin_path;
 		global $_LANG;
 
 		$base_Dir 		= mosPathName( $mosConfig_absolute_path . '/media' );
@@ -88,10 +88,10 @@ class mosInstaller {
 
 		if (eregi( '.zip$', $archivename )) {
 			// Extract functions
-			require_once( $mosConfig_absolute_path . '/administrator/includes/pcl/pclzip.lib.php' );
-			require_once( $mosConfig_absolute_path . '/administrator/includes/pcl/pclerror.lib.php' );
-			//require_once( $mosConfig_absolute_path . '/administrator/includes/pcl/pcltrace.lib.php' );
-			//require_once( $mosConfig_absolute_path . '/administrator/includes/pcl/pcltar.lib.php' );
+			require_once( $mosConfig_admin_path . '/includes/pcl/pclzip.lib.php' );
+			require_once( $mosConfig_admin_path . '/includes/pcl/pclerror.lib.php' );
+			//require_once( $mosConfig_admin_path . '/includes/pcl/pcltrace.lib.php' );
+			//require_once( $mosConfig_admin_path . '/includes/pcl/pcltar.lib.php' );
 			$zipfile = new PclZip( $archivename );
 			if($this->isWindows()) {
 				define('OS_WINDOWS',1);

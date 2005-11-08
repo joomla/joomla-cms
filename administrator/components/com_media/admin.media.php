@@ -259,7 +259,7 @@ function showMedia($listdir) {
 * @param string The image directory to display
 */
 function listImages($listdir) {
-	global $mosConfig_absolute_path, $mosConfig_live_site;
+	global $mosConfig_absolute_path, mosConfig_admin_path, $mosConfig_live_site;
 	global $base;
 
 	// get list of images
@@ -313,7 +313,7 @@ function listImages($listdir) {
 
 			for($i=0; $i<count($docs); $i++) {
 				$doc_name = key($docs);
-				$iconfile= $mosConfig_absolute_path."/administrator/components/com_media/images/".substr($doc_name,-3)."_16.png";
+				$iconfile= $mosConfig_admin_path."/components/com_media/images/".substr($doc_name,-3)."_16.png";
 				if (file_exists($iconfile))	{
 					$icon = "components/com_media/images/".(substr($doc_name,-3))."_16.png"	;
 				} else {

@@ -21,7 +21,7 @@ if (!$acl->acl_check( 'com_templates', 'manage', 'users', $GLOBALS['my']->userty
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
-require_once( $mosConfig_absolute_path .'/administrator/components/com_templates/admin.templates.class.php' );
+require_once( $GLOBALS['mosConfig_admin_path'] .'/components/com_templates/admin.templates.class.php' );
 // XML library
 require_once( $mosConfig_absolute_path .'/includes/domit/xml_domit_lite_include.php' );
 
@@ -103,13 +103,13 @@ switch ($task) {
 */
 function viewTemplates( $option, $client ) {
 	global $database, $mainframe;
-	global $mosConfig_absolute_path, $mosConfig_list_limit;
+	global $mosConfig_absolute_path, $mosConfig_admin_path, $mosConfig_list_limit;
 
 	$limit = $mainframe->getUserStateFromRequest( 'viewlistlimit', 'limit', $mosConfig_list_limit );
 	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
 
 	if ($client == 'admin') {
-		$templateBaseDir = mosPathName( $mosConfig_absolute_path . '/administrator/templates' );
+		$templateBaseDir = mosPathName( $mosConfig_admin_path . '/templates' );
 	} else {
 		$templateBaseDir = mosPathName( $mosConfig_absolute_path . '/templates' );
 	}
@@ -209,7 +209,7 @@ function viewTemplates( $option, $client ) {
 		}
 	}
 
-	require_once( $GLOBALS['mosConfig_absolute_path'] . '/administrator/includes/pageNavigation.php' );
+	require_once( $GLOBALS['mosConfig_admin_path'] . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( count( $rows ), $limitstart, $limit );
 
 	$rows = array_slice( $rows, $pageNav->limitstart, $pageNav->limit );
@@ -295,7 +295,7 @@ function editTemplateSource( $p_tname, $option, $client ) {
 	global $_LANG;
 
 	if ( $client == 'admin' ) {
-		$file = $mosConfig_absolute_path .'/administrator/templates/'. $p_tname .'/index.php';
+		$file = $GLOBALS['mosConfig_admin_path'] .'/templates/'. $p_tname .'/index.php';
 	} else {
 		$file = $mosConfig_absolute_path .'/templates/'. $p_tname .'/index.php';
 	}
@@ -312,7 +312,7 @@ function editTemplateSource( $p_tname, $option, $client ) {
 
 
 function saveTemplateSource( $option, $client ) {
-	global $mosConfig_absolute_path;
+	global $mosConfig_absolute_path, $mosConfig_admin_path;
 	global $_LANG;
 
 	$template 		= mosGetParam( $_POST, 'template', '' );
@@ -326,7 +326,7 @@ function saveTemplateSource( $option, $client ) {
 	}
 
 	if ( $client == 'admin' ) {
-		$file = $mosConfig_absolute_path .'/administrator/templates/'. $template .'/index.php';
+		$file = $mosConfig_admin_path .'/templates/'. $template .'/index.php';
 	} else {
 		$file = $mosConfig_absolute_path .'/templates/'. $template .'/index.php';
 	}
@@ -358,14 +358,14 @@ function saveTemplateSource( $option, $client ) {
 }
 
 function chooseTemplateCSS( $p_tname, $option, $client ) {
-	global $mosConfig_absolute_path;
+	global $mosConfig_absolute_path, $mosConfig_admin_path;
 	global $_LANG;
 
 	$readd = new mosFS();
 
 	if ( $client == 'admin' ) {
 		// Admin template css dir
-		$a_dir = $mosConfig_absolute_path .'/administrator/templates/'. $p_tname .'/css';
+		$a_dir = $$mosConfig_admin_path .'/templates/'. $p_tname .'/css';
 		// List .css files
 		$a_files = $readd->listFiles( $a_dir, $filter='.css', $recurse=false, $fullpath=false  );
 		$fs_dir='';
@@ -390,14 +390,14 @@ function chooseTemplateCSS( $p_tname, $option, $client ) {
 }
 
 function editTemplateCSS( $p_tname, $option, $client ) {
-	global $mosConfig_absolute_path;
+	global $mosConfig_absolute_path, $mosConfig_admin_path;
 	global $_LANG;
 
 	$template = mosGetParam( $_POST, 'template', '' );
 	$tp_name = mosGetParam( $_POST, 'tp_name', '' );
 
 	if ( $client == 'admin' ) {
-		$file = $mosConfig_absolute_path .'/administrator' . $tp_name;
+		$file = $mosConfig_admin_path  . $tp_name;
 		$p_tname = $template;
 
 	} else {

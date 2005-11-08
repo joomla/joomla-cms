@@ -663,8 +663,9 @@ class mosMainFrame extends JObject {
 	}
 
 	function _setTemplate( ) {
-		global $Itemid,$mosConfig_live_site;
+		global $Itemid, $mosConfig_live_site, $mosConfig_admin_site;
 		$mosConfig_absolute_path = $this->getCfg( 'absolute_path' );
+		$mosConfig_admin_path = $this->getCfg( 'mosConfig_admin_path' );
 
 		if ($this->isAdmin()) {
 			$query = "SELECT template"
@@ -674,13 +675,13 @@ class mosMainFrame extends JObject {
 			;
 			$this->_db->setQuery( $query );
 			$cur_template = $this->_db->loadResult();
-			$path = "$mosConfig_absolute_path/administrator/templates/$cur_template/index.php";
+			$path = "$mosConfig_admin_path/templates/$cur_template/index.php";
 			if (!file_exists( $path )) {
 				$cur_template = 'joomla_admin';
 			}
 			
-			$this->_templatePath 	= mosFS::getNativePath( $mosConfig_absolute_path . '/administrator/templates/' . $cur_template );
-			$this->_templateURL 	= $mosConfig_live_site . '/administrator/templates/' . $cur_template;
+			$this->_templatePath 	= mosFS::getNativePath( $mosConfig_admin_path . '/templates/' . $cur_template );
+			$this->_templateURL 	= $mosConfig_admin_site . '/templates/' . $cur_template;
 			
 		} else {
 			$assigned = ( !empty( $Itemid ) ? " OR menuid = $Itemid" : '' );
@@ -758,13 +759,13 @@ class mosMainFrame extends JObject {
 	 * @since 1.1 
 	 */
 	function _checkPath( $path, $checkAdmin=1 ) {
-		global $mosConfig_absolute_path;
+		global $mosConfig_absolute_path, $mosConfig_admin_path;
 
 		$file = $mosConfig_absolute_path . $path;
 		if ($checkAdmin > -1 && file_exists( $file )) {
 			return $file;
 		} else if ($checkAdmin != 0) {
-			$file = $mosConfig_absolute_path . '/administrator' . $path;
+			$file = $mosConfig_admin_path . $path;
 			if (file_exists( $file )) {
 				return $file;
 			}
@@ -908,7 +909,7 @@ class mosMainFrame extends JObject {
 	 * @param boolean True (default) to add traling slash
 	 */
 	function getBasePath( $addTrailingSlash=true, $client = null ) {
-		global $mosConfig_absolute_path;
+		global $mosConfig_absolute_path, $mosConfig_admin_path;
 
 		$client = is_null($client) ? $this->_client : $client;
 		  
@@ -919,7 +920,7 @@ class mosMainFrame extends JObject {
 				break;
 
 			case '1':
-				return mosFS::getNativePath( $mosConfig_absolute_path . '/administrator', $addTrailingSlash );
+				return mosFS::getNativePath( $mosConfig_admin_path . '', $addTrailingSlash );
 				break;
 				
 			case '0':

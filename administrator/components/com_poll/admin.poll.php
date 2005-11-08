@@ -78,7 +78,7 @@ function showPolls( $option ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
-	require_once( $GLOBALS['mosConfig_absolute_path'] . '/administrator/includes/pageNavigation.php' );
+	require_once( $GLOBALS['mosConfig_admin_path'] . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
 
 	$query = "SELECT m.*, u.name AS editor,"

@@ -38,7 +38,7 @@ showInstalledModules( $option );
 * @param string The URL option
 */
 function showInstalledModules( $_option ) {
-	global $database, $mosConfig_absolute_path;
+	global $database, $mosConfig_absolute_path, mosConfig_admin_path;
 	global $_LANG;
 
 	$filter 		= mosGetParam( $_POST, 'filter', '' );
@@ -70,7 +70,7 @@ function showInstalledModules( $_option ) {
 
 		// path to module directory
 		if ($row->client_id == "1"){
-			$moduleBaseDir	= mosPathName( mosPathName( $mosConfig_absolute_path ) . "administrator/modules" );
+			$moduleBaseDir	= mosPathName( mosPathName( $mosConfig_admin_path ) . "modules" );
 		} else {
 			$moduleBaseDir	= mosPathName( mosPathName( $mosConfig_absolute_path ) . "modules" );
 		}

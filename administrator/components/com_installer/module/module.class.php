@@ -110,7 +110,7 @@ class mosInstallerModule extends mosInstaller {
 	* @param int The client id
 	*/
 	function uninstall( $id, $option, $client=0 ) {
-		global $database, $mosConfig_absolute_path;
+		global $database, $mosConfig_absolute_path, $mosConfig_absolute_path;
 		global $_LANG;
 
 		$id = intval( $id );
@@ -158,7 +158,7 @@ class mosInstallerModule extends mosInstaller {
     		if ( !$row->client_id ) {
     			$basepath = $mosConfig_absolute_path . '/modules/';
     		} else {
-    			$basepath = $mosConfig_absolute_path . '/administrator/modules/';
+    			$basepath = $mosConfig_admin_path . '/modules/';
     		}
 
       		$xmlfile = $basepath . $row->module . '.xml';

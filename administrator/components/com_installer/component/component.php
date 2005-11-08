@@ -39,7 +39,7 @@ showInstalledComponents( $option );
 * @param string The URL option
 */
 function showInstalledComponents( $option ) {
-	global $database, $mosConfig_absolute_path;
+	global $database, $mosConfig_admin_path;
 
 	$query = "SELECT *"
 	. "\n FROM #__components"
@@ -51,7 +51,7 @@ function showInstalledComponents( $option ) {
 	$rows = $database->loadObjectList();
 
 	// Read the component dir to find components
-	$componentBaseDir	= mosPathName( $mosConfig_absolute_path . '/administrator/components' );
+	$componentBaseDir	= mosPathName( $mosConfig_admin_path . '/components' );
 	$componentDirs 		= mosReadDirectory( $componentBaseDir );
 
 	$n = count( $rows );

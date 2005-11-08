@@ -24,7 +24,7 @@ require_once( '../configuration.php' );
 
 // enables switching to secure https
 require_once( $mosConfig_absolute_path . '/includes/joomla.php' );
-require_once( $mosConfig_absolute_path . '/administrator/includes/admin.php' );
+require_once( $mosConfig_admin_path . '/includes/admin.php' );
 
 // load system bot group
 $_MAMBOTS->loadBotGroup( 'system' );

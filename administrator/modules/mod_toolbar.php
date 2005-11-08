@@ -14,7 +14,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-require_once( $mosConfig_absolute_path .'/administrator/includes/menubar.html.php' );
+require_once( $GLOBALS['mosConfig_admin_path'] .'/includes/menubar.html.php' );
 
 if ($path = $mainframe->getPath( 'toolbar' )) {
 	include_once( $path );

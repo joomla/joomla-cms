@@ -140,7 +140,7 @@ function viewLanguages( $option ) {
 		$rowid++;
 	}
 
-	require_once( $GLOBALS['mosConfig_absolute_path'] . '/administrator/includes/pageNavigation.php' );
+	require_once( $GLOBALS['mosConfig_admin_path'] . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( count( $rows ), $limitstart, $limit );
 
 	$rows = array_slice( $rows, $pageNav->limitstart, $pageNav->limit );

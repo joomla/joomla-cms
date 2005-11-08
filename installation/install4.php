@@ -134,10 +134,12 @@ if (file_exists( '../configuration.php' )) {
 
 if ($siteUrl) {
 	$configArray['siteUrl']=$siteUrl;
+	$configArray['adminUrl']=$siteUrl . '/administrator';
 	// Fix for Windows
 	$absolutePath= str_replace("\\","/", $absolutePath);
 	$absolutePath= str_replace("//","/", $absolutePath);
 	$configArray['absolutePath']=$absolutePath;
+	$configArray['adminPath']=$absolutePath . '/administrator';
 	$configArray['filePerms']=$filePerms;
 	$configArray['dirPerms']=$dirPerms;
 
@@ -151,6 +153,8 @@ if ($siteUrl) {
 	$config .= "\$mosConfig_lang = 'english';\n";
 	$config .= "\$mosConfig_absolute_path = '{$configArray['absolutePath']}';\n";
 	$config .= "\$mosConfig_live_site = '{$configArray['siteUrl']}';\n";
+	$config .= "\$mosConfig_admin_path = '{$configArray['adminPath']}';\n";
+	$config .= "\$mosConfig_admin_site = '{$configArray['adminUrl']}';\n";
 	$config .= "\$mosConfig_sitename = '{$configArray['sitename']}';\n";
 	$config .= "\$mosConfig_shownoauth = '0';\n";
 	$config .= "\$mosConfig_useractivation = '1';\n";
