@@ -259,7 +259,7 @@ function showMedia($listdir) {
 * @param string The image directory to display
 */
 function listImages($listdir) {
-	global $mosConfig_absolute_path, mosConfig_admin_path, $mosConfig_live_site;
+	global $mosConfig_absolute_path, $mosConfig_admin_path, $mosConfig_live_site;
 	global $base;
 
 	// get list of images
