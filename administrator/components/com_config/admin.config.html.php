@@ -453,7 +453,7 @@ class HTML_config {
 				<td><?php echo $_LANG->_( 'Login Session Lifetime' ); ?>:</td>
 				<td>
 				<input class="text_area" type="text" name="config_lifetime" size="10" value="<?php echo $row->config_lifetime; ?>"/>
-				&nbsp;<?php echo $_LANG->('seconds'); ?>&nbsp;
+				&nbsp;<?php echo $_LANG->_('seconds'); ?>&nbsp;
 				<?php
                     $tip = $_LANG->_( 'TIPAUTOLOGOUTTIMEOF' );
                     echo mosToolTip( $tip ); ?>
