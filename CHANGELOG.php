@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Nov-2005 Samuel Moffatt
+ ^ Installer Alterations; Note: installfromdir and installfromurl are presently broken
+
 09-Nov-2005 Johan Janssens 
  # Fixed artf2018 : Admin Menu strings missing
  ^ Moved includes/gacl.class.php and gacl_api_class.php into libraries/phpgacl
