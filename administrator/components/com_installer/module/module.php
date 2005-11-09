@@ -38,7 +38,7 @@ showInstalledModules( $option );
 * @param string The URL option
 */
 function showInstalledModules( $_option ) {
-	global $database, $mosConfig_absolute_path, mosConfig_admin_path;
+	global $database, $mosConfig_absolute_path, $mosConfig_admin_path;
 	global $_LANG;
 
 	$filter 		= mosGetParam( $_POST, 'filter', '' );
