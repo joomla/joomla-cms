@@ -14,12 +14,14 @@
 * HTMLDoc is available from: http://www.easysw.com/htmldoc and needs installing on the server for better HTML to PDF conversion
 **/
 
+jimport('cpdf.ezpdf');
+
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-function dofreePDF ( $database ) {
+function dofreePDF () {
 	global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_offset;
-	global $mainframe;
+	global $mainframe, $database;
 	global $_LANG;
 
 	include( 'includes/class.ezpdf.php' );
@@ -67,7 +69,7 @@ function dofreePDF ( $database ) {
 	$txt3 = $row->introtext ."\n". $row->fulltext;
 	$pdf->ezText( $txt3, 10 );
 
-	//$pdf->ezStream();
+	$pdf->ezStream();
 }
 
 function decodeHTML( $string ) {
@@ -159,5 +161,5 @@ function AuthorDateLine( &$row, &$params ) {
 	return $text;
 }
 
-dofreePDF ( $database );
+dofreePDF ( );
 ?>
