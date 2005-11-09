@@ -16,7 +16,7 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // load feed creator class
-require_once( $mosConfig_absolute_path .'/includes/feedcreator.class.php' );
+jimport('joomla.bitfolge.feedcreator');
 
 $info	=	null;
 $rss	=	null;

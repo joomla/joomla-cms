@@ -51,15 +51,21 @@ class JBase
 		} 
 		else 
 		{
-			$path = str_replace('.', DIRECTORY_SEPARATOR, $filePath).'.php'; 
+			$path = str_replace('.', DIRECTORY_SEPARATOR, $filePath); 
 			
-			if(file_exists($base.DIRECTORY_SEPARATOR.$path)) {
-				$filePath = $base.DIRECTORY_SEPARATOR.$path;
-			}  else {
+			$found = false;
+			foreach(array('.php', '.class.php') as $suffix) {
+				if(file_exists($base.DIRECTORY_SEPARATOR.$path.$suffix)) {
+					$found = true;
+					break;
+				}
+			}
+			
+			if($found) {
+				include_once $base.DIRECTORY_SEPARATOR.$path.$suffix;
+			} else {
 				return;  //TODO : throw error
 			}
-		
-			include_once $filePath;
 		}
 	
 		return;

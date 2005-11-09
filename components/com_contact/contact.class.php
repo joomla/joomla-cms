@@ -15,7 +15,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-include_once( $mosConfig_absolute_path .'/includes/vcard.class.php' );
+jimport('bitfolge.vcard');
 
 /**
 * @package Joomla
