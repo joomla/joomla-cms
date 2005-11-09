@@ -81,22 +81,30 @@ class mosInstaller {
 		return 0;
 	}	
 	
-	function downloadPackage($url,$target=0) {
+	/**
+	* Downloads a package
+	* @param string URL of file to download
+	* @param string Download target
+	*/
+	function downloadPackage($url,$target=false) {
 		global $mosConfig_absolute_path,$_LANG,$mainframe;
-		$target = false;
-		// Check that the zlib is available
-		if (!extension_loaded( 'zlib' )) {
-			$this->error( $_LANG->_( 'errorZlibNotAvailable' ) );
-			return false;
-		}		
+		$php_errormsg = 'Error Unknown';
+		ini_set('track_errors',true);
+		
 		// Open remote server
-		$input_handle = fopen($url, "r") or die("Remote server connection failed");
-		if (!$input_handle) { die("Error initiating remote download ($url)"); }
+		$input_handle = @fopen($url, "r"); // or die("Remote server connection failed");
+		if (!$input_handle) { 
+			$this->setError(42, 'Remote Server connection failed: ' . $php_errormsg);
+			return false; 
+		}
 		if(!$target) {
 			$target = $mosConfig_absolute_path . '/media/' . $this->getFilenameFromURL($url);
 		}	
-		$output_handle = fopen($target, "wb") or die("Local output opening failed");
-		if (!$output_handle) { die("Error opening download target."); }
+		$output_handle = fopen($target, "wb"); // or die("Local output opening failed");
+		if (!$output_handle) { 
+			$this->setError(43, 'Local output opening failed: ' . $php_erromsg);
+			return false; 
+		}
 		$contents = '';
 		
 		while (!feof($input_handle)) {

@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 
 
 // Load the base line installer class
-mosFS::load('#joomla.installers.installer');
+jimport('joomla.installers.installer');
 
 
 class JInstallerFactory {
@@ -45,33 +45,31 @@ class JInstallerFactory {
 		$this->_type = $name;
 		switch($name) {
 			case 'component':
-				mosFS::load('#joomla.installers.component');
+				jimport('joomla.installers.component');
 		                $this->_class = new mosInstallerComponent();
 				$success = true;
 				break;
 			case 'module':
-				mosFS::load('#joomla.installers.module');
+				jimport('joomla.installers.module');
 				$this->_class = new mosInstallerModule();
 				$success = true;
 				break;
 			case 'mambot':
-				mosFS::load('#joomla.installers.mambot');
+				jimport('joomla.installers.mambot');
 				$this->_class = new mosInstallerMambot();
 				$success = true;
 				break;
 			case 'template':
-				mosFS::load('#joomla.installers.template');
+				jimport('joomla.installers.template');
 				$this->_class = new mosInstallerTemplate();
 				$success = true;
 				break;
 			case 'language':
-				mosFS::load('#joomla.installers.language');
+				jimport('joomla.installers.language');
 				$this->_class = new mosInstallerLanguage();
 				$success = true;
 				break;
 			default:
-				echo '<pre>';
-				print_r(debug_backtrace());
 				die("<p>Attempt to create a '$name' installer failed</p>");
 				break;
 		}
@@ -83,7 +81,7 @@ class JInstallerFactory {
 		// Provide an auto install system. Generic should work for all cases,
 		// but a switch statement is provided for future possibilities
 		switch($this->_type) {
-			default: $this->autoInstallGeneric($method, $data); break;
+			default: return $this->autoInstallGeneric($method, $data); break;
 		}
 	}
 
@@ -92,6 +90,9 @@ class JInstallerFactory {
 	function &webInstall($url) {
 		$processor = new mosInstaller();
 		$location = $processor->downloadPackage($url);
+		if(!$location) {
+			return $processor; 
+		}
 		mosChmod($location);
 		$processor->extractArchive();
 		$type = $this->detectType($processor->unpackDir());		
@@ -108,7 +109,7 @@ class JInstallerFactory {
 		$files = mosFS::listFiles( $location, '\.xml$', true, true );
 
 		if (count( $files ) > 0) {
-			mosFS::load( '@domit' );
+			jimport( '@domit' );
 
 			foreach ($files as $file) {
 				$xmlDoc = new DOMIT_Lite_Document();
