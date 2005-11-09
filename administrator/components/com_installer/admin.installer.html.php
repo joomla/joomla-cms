@@ -43,6 +43,18 @@ class HTML_installer {
 				form.submit();
 			}
 		}
+
+		function submitbutton4(pressbutton) {
+			var form = document.webinstall;
+
+			// do field validation
+			if (form.userfile.value == ""){
+				alert( "<?php echo $_LANG->_( 'Please enter a URL' ); ?>" );
+			} else {
+				form.submit();
+			}
+		}
+
 		</script>
 		<form enctype="multipart/form-data" action="index2.php" method="post" name="filename">
 		<table class="adminheading">
@@ -99,8 +111,9 @@ class HTML_installer {
 		<input type="hidden" name="element" value="<?php echo $element;?>"/>
 		<input type="hidden" name="client" value="<?php echo $client;?>"/>
 		</form>
+		<br />
 
-                <form enctype="multipart/form-data" action="index2.php" method="post" name="adminForm_url">
+                <form enctype="multipart/form-data" action="index2.php" method="post" name="webinstall">
                 <table class="adminform">
                 <tr>
                         <th>
@@ -111,14 +124,14 @@ class HTML_installer {
                         <td >
                         <?php echo $_LANG->_( 'Install URL' ); ?>:&nbsp;
                         <input type="text" name="userfile" class="text_area" size="65" value="http://"/>&nbsp;
-                        <input type="button" class="button" value="<?php echo $_LANG->_( 'Install' ); ?>" onclick="submitbutton3()" />
+                        <input type="button" class="button" value="<?php echo $_LANG->_( 'Install' ); ?>" onclick="submitbutton4()" />
                         </td>
                 </tr>
                 </table>
 
                 <input type="hidden" name="task" value="installfromurl" />
                 <input type="hidden" name="option" value="<?php echo $option;?>"/>
-                <input type="hidden" name="element" value="<?php echo $element;?>"/>
+                <input type="hidden" name="esulement" value="<?php echo $element;?>"/>
                 <input type="hidden" name="client" value="<?php echo $client;?>"/>
                 </form>
 

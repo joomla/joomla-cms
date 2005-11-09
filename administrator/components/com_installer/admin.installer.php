@@ -24,7 +24,7 @@ $element 	= mosGetParam( $_REQUEST, 'element', '' );
 $client 	= mosGetParam( $_REQUEST, 'client', '' );
 $path 		= $GLOBALS['mosConfig_admin_path'] . "/components/com_installer/$element/$element.php";
 
-mosFS::load('#joomla.installers');
+jimport('joomla.installers.factory');
 
 // ensure user has access to this function
 if (!$acl->acl_check( 'com_installer', 'installer', 'users', $my->usertype ) ) {
@@ -39,7 +39,7 @@ $classMap = array(
 	'module' 	=> 'mosInstallerModule',
 	'template' 	=> 'mosInstallerTemplate'
 );
-
+//echo $task;
 switch ($task) {
 	case 'uploadfile':
 		uploadPackage( $option );
@@ -113,7 +113,7 @@ function uploadPackage( $option ) {
 	}
 
 	$userfile_name = $userfile['name'];
-
+	$client = '';
 	$msg = '';
 	$resultdir = uploadFile( $userfile['tmp_name'], $userfile['name'], $msg );
 	if ($resultdir !== false) {
@@ -143,15 +143,24 @@ function uploadPackage( $option ) {
 function installFromDirectory( $option ) {
 	global $_LANG, $classpath;
 
+	$client = '';
 	$userfile = mosGetParam( $_REQUEST, 'userfile', '' );
 
 	if (!$userfile) {
 		mosRedirect( "index2.php?option=$option&element=$element", $_LANG->_( 'Please select a directory' ) );
 	}
 	$installerFactory = new JInstallerFactory();
-	$element = $installerFactroy->getType($userfile);	
+	$installer = new mosInstaller();
+	$element = $installerFactory->getType($userfile);
+	
 	$installerClass = $classpath[$element];
-
+	if(!$installerClass) {
+		HTML_installer::showInstallMessage( "Unable to detect the type of install", 
+			$_LANG->_( 'Install' ) .' '. $element .' - '. $_LANG->_( 'Detection Error' ),
+			$installer->returnTo( $option, $element, $client ) );
+		return;
+	}
+		
 	$installer = new $installerClass();
 
 	$path = mosPathName( $userfile );
@@ -171,7 +180,7 @@ function installFromUrl($option) {
 	global $_LANG;
 	$installerFactory = new JInstallerFactory();
 	$userfile = mosGetParam( $_REQUEST, 'userfile', '' );
-
+	$client = '';
 	if(!$userfile) {
 		mosRedirect( "index2.php?option=$option", $_LANG->_( 'Please enter a URL' ) );
 	}
@@ -180,7 +189,7 @@ function installFromUrl($option) {
         $ret = $installer->msg;
 	HTML_installer::showInstallMessage( 
 		$installer->getError(), 
-		$_LANG->_( 'Upload new' ) .' '.$element.' - '.($ret ? $_LANG->_( 'Success' ) : $_LANG->_( 'Error' )), 
+		$_LANG->_( 'Install new element' ) .' '.$element.' - '.($ret ? $_LANG->_( 'Success' ) : $_LANG->_( 'Error' )), 
 		$installer->returnTo( $option, $element, $client ) );	
 }
 
@@ -196,7 +205,7 @@ function removeElement( $installerClass, $option, $element, $client ) {
 		$cid = array(0);
 	}
 
-	mosFS::load('#joomla.installers.'.$element);
+	jimport('joomla.installers.'.$element);
 	$installer 	= new $installerClass();
 	$result 	= false;
 	if ($cid[0]) {
