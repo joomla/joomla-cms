@@ -33,7 +33,6 @@ $_MAMBOTS->trigger( 'onBeforeStart' );
 $option 	= strtolower( mosGetParam( $_REQUEST, 'option' ) );
 $Itemid 	= strtolower( mosGetParam( $_REQUEST, 'Itemid',0 ) );
 $no_html 	= intval( mosGetParam( $_REQUEST, 'no_html', 0 ) );
-$act 		= mosGetParam( $_REQUEST, 'act', '' );
 $do_pdf 	= intval( mosGetParam( $_REQUEST, 'do_pdf', 0 ) );
 
 // mainframe is an API workhorse, lots of 'core' interaction routines
@@ -65,7 +64,7 @@ if ($option == 'login') {
 }
 
 if ( $do_pdf == 1 ){
-	include ('includes/pdf.php');
+	jimport('joomla.pdf');
 	exit();
 }
 

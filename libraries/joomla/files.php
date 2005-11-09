@@ -148,7 +148,7 @@ class mosFS {
 	* @return TRUE=all succeeded FALSE=one or more chmods failed
 	*/
 	function CHMOD( $path, $filemode=MOSFS_FILEPEMS, $dirmode=MOSFS_DIRPEMS ) {
-		mosFS::check( $path );
+		//mosFS::check( $path );
 
 		$ret = TRUE;
 		if (is_dir($path)) {
