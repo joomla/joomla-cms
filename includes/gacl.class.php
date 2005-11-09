@@ -173,8 +173,8 @@ class gacl {
 
 		$this->_mos_add_acl( 'com_massmail', 'manage', 'users', 'super administrator' );
 
-		$this->_mos_add_acl( 'com_syndicate', 'manage', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'com_syndicate', 'manage', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_media', 'manage', 'users', 'super administrator' );
+		$this->_mos_add_acl( 'com_media', 'manage', 'users', 'administrator' );
 		$this->_mos_add_acl( 'com_media', 'manage', 'users', 'manager' );
 
 		$this->_mos_add_acl( 'com_newsfeeds', 'manage', 'users', 'super administrator' );
