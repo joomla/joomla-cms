@@ -16,7 +16,7 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
-if (!$acl->acl_check( 'com_contact', 'manage', 'users', $my->usertype, 'components', 'all' )) {
+if (!$acl->acl_check( 'com_contact', 'manage', 'users', $my->usertype )) {
 	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
 }
 
