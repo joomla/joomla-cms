@@ -139,7 +139,9 @@ class gacl {
 		$this->_mos_add_acl( 'com_users', 'block user', 'users', 'administrator' );
 		$this->_mos_add_acl( 'com_users', 'block user', 'users', 'super administrator' );
 
-		// access to installers
+		// access to installers and base installer
+		$this->_mos_add_acl( 'com_installer', 'installer', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_installer', 'installer', 'users', 'super administrator' );
 
 		$this->_mos_add_acl( 'com_installer', 'component', 'users', 'administrator' );
 		$this->_mos_add_acl( 'com_installer', 'component', 'users', 'super administrator' );

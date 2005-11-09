@@ -22,6 +22,7 @@ if ( !$acl->acl_check( 'com_installer', $element, 'users', $my->usertype ) ) {
 
 require_once( $mainframe->getPath( 'installer_html', 'component' ) );
 
+?> <!--
 HTML_installer::showInstallForm( 'Install new Component', $option, 'component', '', dirname(__FILE__) );
 ?>
 <table class="content">
@@ -31,7 +32,7 @@ writableCell( 'administrator/components' );
 writableCell( 'components' );
 writableCell( 'images/stories' );
 ?>
-</table>
+</table> -->
 <?php
 showInstalledComponents( $option );
 

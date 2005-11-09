@@ -258,27 +258,19 @@ class mosFullAdminMenu {
 	}
 ?>
 <?php
-	// Installer Sub-Menu
+	// Elements Sub-Menu
 	if ($installModules) {
 ?>			_cmSplit,
-			[null,'<?php echo $_LANG->_( 'Installers' ); ?>',null,null,'Installer List',
-<?php
-		if ($manageTemplates) {
-?>				['<img src="../includes/js/ThemeOffice/install.png" />','<?php echo $_LANG->_( 'Templates - Site' ); ?>','index2.php?option=com_installer&element=template&client=',null,'Install Site Templates'],
-				['<img src="../includes/js/ThemeOffice/install.png" />','<?php echo $_LANG->_( 'Templates - Admin' ); ?>','index2.php?option=com_installer&element=template&client=admin',null,'Install Administrator Templates'],
-<?php
-		}
-		if ($manageLanguages) {
-?>				['<img src="../includes/js/ThemeOffice/install.png" />','<?php echo $_LANG->_( 'Languages' ); ?>','index2.php?option=com_installer&element=language',null,'Install Languages'],
+			[null,'<?php echo $_LANG->_( 'Elements' ); ?>',null,null,'Element List',
+				['<img src="../includes/js/ThemeOffice/install.png" />','<?php echo $_LANG->_( 'Installer' ); ?>','index2.php?option=com_installer&task=installer&client=admin',null,'Install Elements'],
+				['<img src="../includes/js/ThemeOffice/install.png" />','<?php echo $_LANG->_( 'Updater' ); ?>','index2.php?option=com_installer&task=updater&client=admin',null,'Update Elements'],
 				_cmSplit,
-<?php
-		}
-?>				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo $_LANG->_( 'Components' ); ?>','index2.php?option=com_installer&element=component',null,'Install/Uninstall Components'],
+				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo $_LANG->_( 'Components' ); ?>','index2.php?option=com_installer&element=component',null,'Install/Uninstall Components'],
 				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo $_LANG->_( 'Modules' ); ?>', 'index2.php?option=com_installer&element=module', null, 'Install/Uninstall Modules'],
 				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo $_LANG->_( 'Mambots' ); ?>', 'index2.php?option=com_installer&element=mambot', null, 'Install/Uninstall Mambots'],
 			],
 <?php
-	} // if ($installModules)
+	}
 	// Messages Sub-Menu
 	if ($canConfig) {
 ?>			_cmSplit,

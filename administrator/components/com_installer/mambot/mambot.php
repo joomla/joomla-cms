@@ -21,7 +21,7 @@ if ( !$acl->acl_check( 'com_installer', $element, 'users', $my->usertype ) ) {
 }
 
 require_once( $mainframe->getPath( 'installer_html', 'mambot' ) );
-
+?><!--<?php
 HTML_installer::showInstallForm( $_LANG->_( 'Install new Mambots' ), $option, 'mambot', '', dirname(__FILE__) );
 ?>
 <table class="content">
@@ -32,7 +32,7 @@ writableCell( 'mambots' );
 writableCell( 'mambots/content' );
 writableCell( 'mambots/search' );
 ?>
-</table>
+</table>-->
 <?php
 showInstalledMambots( $option );
 

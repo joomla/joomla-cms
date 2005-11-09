@@ -21,7 +21,7 @@ if ( !$acl->acl_check( 'com_installer', $element, 'users', $my->usertype ) ) {
 }
 
 require_once( $mainframe->getPath( 'installer_html', 'module' ) );
-
+?><!--<?php
 HTML_installer::showInstallForm( $_LANG->_( 'Install new Modules' ), $option, 'module', '', dirname(__FILE__) );
 ?>
 <table class="content">
@@ -30,7 +30,7 @@ writableCell( 'media' );
 writableCell( 'administrator/modules' );
 writableCell( 'modules' );
 ?>
-</table>
+</table>-->
 <?php
 showInstalledModules( $option );
 

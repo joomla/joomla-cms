@@ -99,6 +99,29 @@ class HTML_installer {
 		<input type="hidden" name="element" value="<?php echo $element;?>"/>
 		<input type="hidden" name="client" value="<?php echo $client;?>"/>
 		</form>
+
+                <form enctype="multipart/form-data" action="index2.php" method="post" name="adminForm_url">
+                <table class="adminform">
+                <tr>
+                        <th>
+                        <?php echo $_LANG->_( 'Install from URL' ); ?>
+                        </th>
+                </tr>
+                <tr>
+                        <td >
+                        <?php echo $_LANG->_( 'Install URL' ); ?>:&nbsp;
+                        <input type="text" name="userfile" class="text_area" size="65" value="http://"/>&nbsp;
+                        <input type="button" class="button" value="<?php echo $_LANG->_( 'Install' ); ?>" onclick="submitbutton3()" />
+                        </td>
+                </tr>
+                </table>
+
+                <input type="hidden" name="task" value="installfromurl" />
+                <input type="hidden" name="option" value="<?php echo $option;?>"/>
+                <input type="hidden" name="element" value="<?php echo $element;?>"/>
+                <input type="hidden" name="client" value="<?php echo $client;?>"/>
+                </form>
+
 		<?php
 	}
 

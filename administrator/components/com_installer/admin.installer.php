@@ -18,14 +18,16 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 // XML library
 require_once( $mosConfig_absolute_path . '/includes/domit/xml_domit_lite_include.php' );
 require_once( $mainframe->getPath( 'admin_html' ) );
-require_once( $mainframe->getPath( 'class' ) );
+//require_once( $mainframe->getPath( 'class' ) );
 
 $element 	= mosGetParam( $_REQUEST, 'element', '' );
 $client 	= mosGetParam( $_REQUEST, 'client', '' );
 $path 		= $GLOBALS['mosConfig_admin_path'] . "/components/com_installer/$element/$element.php";
 
+mosFS::load('#joomla.installers');
+
 // ensure user has access to this function
-if ( !$acl->acl_check( 'com_installer', $element, 'users', $my->usertype ) ) {
+if (!$acl->acl_check( 'com_installer', 'installer', 'users', $my->usertype ) ) {
 	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
 }
 
@@ -38,47 +40,57 @@ $classMap = array(
 	'template' 	=> 'mosInstallerTemplate'
 );
 
-if (array_key_exists ( $element, $classMap )) {
-	require_once( $mainframe->getPath( 'installer_class', $element ) );
+switch ($task) {
+	case 'uploadfile':
+		uploadPackage( $option );
+		break;
 
-	switch ($task) {
+	case 'installfromdir':
+		installFromDirectory( $option );
+		break;
+	
+	case 'installfromurl':
+		installFromUrl( $option );
+		break;
 
-		case 'uploadfile':
-			uploadPackage( $classMap[$element], $option, $element, $client );
-			break;
+	case 'remove':
+		removeElement( $classMap[$element], $option, $element, $client );
+		break;
 
-		case 'installfromdir':
-			installFromDirectory( $classMap[$element], $option, $element, $client );
-			break;
-
-		case 'remove':
-			removeElement( $classMap[$element], $option, $element, $client );
-			break;
-
-		default:
+	case 'installer':
+		doInstaller();
+		break;
+	case 'updater':
+		doUpdate();
+		break;
+	default:
+		if (array_key_exists ( $element, $classMap ) ){
+			require_once( $mainframe->getPath( 'installer_class', $element ) );
 			$path = $GLOBALS['mosConfig_admin_path'] . "/components/com_installer/$element/$element.php";
 
 			if (file_exists( $path )) {
 				require $path;
 			} else {
-				echo $_LANG->_( 'Installer not found for element' ) .' ['. $element .']';
+				doInstaller();
+				//echo $_LANG->_( 'Installer not found for element' ) .' ['. $element .']';
 			}
-			break;
-	}
-} else {
-	echo $_LANG->_( 'Installer not available for element' ) .' ['. $element .']';
+		} else {
+			doInstaller();
+			//echo $_LANG->_( 'Installer not available for element' ) .' ['. $element .']';
+		}
+		break;
 }
+
 
 /**
 * @param string The class name for the installer
 * @param string The URL option
 * @param string The element name
 */
-function uploadPackage( $installerClass, $option, $element, $client ) {
+function uploadPackage( $option ) {
 	global $_LANG;
-
-	$installer = new $installerClass();
-
+	$installerFactory = new JInstallerFactory();
+	$installer = new mosInstaller(); // Create a blank installer until we work out what the file is!
 	// Check if file uploads are enabled
 	if (!(bool)ini_get('file_uploads')) {
 		HTML_installer::showInstallMessage( $_LANG->_( 'WARNINSTALLFILE' ),
@@ -95,7 +107,7 @@ function uploadPackage( $installerClass, $option, $element, $client ) {
 	$userfile = mosGetParam( $_FILES, 'userfile', null );
 
 	if (!$userfile) {
-		HTML_installer::showInstallMessage( $_LANG->_( 'No file selected' ), $_LANG->_( 'Upload new module - error' ),
+		HTML_installer::showInstallMessage( $_LANG->_( 'No file selected' ), $_LANG->_( 'Upload new element - error' ),
 			$installer->returnTo( $option, $element, $client ));
 		exit();
 	}
@@ -104,13 +116,16 @@ function uploadPackage( $installerClass, $option, $element, $client ) {
 
 	$msg = '';
 	$resultdir = uploadFile( $userfile['tmp_name'], $userfile['name'], $msg );
-
 	if ($resultdir !== false) {
 		if (!$installer->upload( $userfile['name'] )) {
 			HTML_installer::showInstallMessage( $installer->getError(), $_LANG->_( 'Upload' ) .' '. $element .' - '. $_LANG->_( 'Upload Failed' ),
 				$installer->returnTo( $option, $element, $client ) );
 		}
-		$ret = $installer->install();
+		$installdir = $installer->i_installdir;
+		$element = $installerFactory->detectType($installer->unpackDir());
+		$installerFactory->createClass($element);
+                $installer = $installerFactory->getClass();
+		$ret = $installer->install($installdir);
 
 		HTML_installer::showInstallMessage( $installer->getError(), $_LANG->_( 'Upload' ) .' '. $element .' - '.($ret ? $_LANG->_( 'Success' ) : $_LANG->_( 'Failed' )),
 			$installer->returnTo( $option, $element, $client ) );
@@ -125,14 +140,17 @@ function uploadPackage( $installerClass, $option, $element, $client ) {
 * Install a template from a directory
 * @param string The URL option
 */
-function installFromDirectory( $installerClass, $option, $element, $client ) {
-	global $_LANG;
+function installFromDirectory( $option ) {
+	global $_LANG, $classpath;
 
 	$userfile = mosGetParam( $_REQUEST, 'userfile', '' );
 
 	if (!$userfile) {
-		mosRedirect( "index2.php?option=$option&element=module", $_LANG->_( 'Please select a directory' ) );
+		mosRedirect( "index2.php?option=$option&element=$element", $_LANG->_( 'Please select a directory' ) );
 	}
+	$installerFactory = new JInstallerFactory();
+	$element = $installerFactroy->getType($userfile);	
+	$installerClass = $classpath[$element];
 
 	$installer = new $installerClass();
 
@@ -144,6 +162,28 @@ function installFromDirectory( $installerClass, $option, $element, $client ) {
 	$ret = $installer->install( $path );
 	HTML_installer::showInstallMessage( $installer->getError(), $_LANG->_( 'Upload new' ) .' '.$element.' - '.($ret ? $_LANG->_( 'Success' ) : $_LANG->_( 'Error' )), $installer->returnTo( $option, $element, $client ) );
 }
+
+/**
+* Install an element from a URL
+* @param string The URL
+*/
+function installFromUrl($option) {
+	global $_LANG;
+	$installerFactory = new JInstallerFactory();
+	$userfile = mosGetParam( $_REQUEST, 'userfile', '' );
+
+	if(!$userfile) {
+		mosRedirect( "index2.php?option=$option", $_LANG->_( 'Please enter a URL' ) );
+	}
+	$installer = $installerFactory->webInstall( $userfile );
+	$element = $installerFactory->getType();
+        $ret = $installer->msg;
+	HTML_installer::showInstallMessage( 
+		$installer->getError(), 
+		$_LANG->_( 'Upload new' ) .' '.$element.' - '.($ret ? $_LANG->_( 'Success' ) : $_LANG->_( 'Error' )), 
+		$installer->returnTo( $option, $element, $client ) );	
+}
+
 /**
 *
 * @param
@@ -156,6 +196,7 @@ function removeElement( $installerClass, $option, $element, $client ) {
 		$cid = array(0);
 	}
 
+	mosFS::load('#joomla.installers.'.$element);
 	$installer 	= new $installerClass();
 	$result 	= false;
 	if ($cid[0]) {
@@ -195,5 +236,39 @@ function uploadFile( $filename, $userfile_name, &$msg ) {
 		$msg = $_LANG->_( 'Upload failed as' ) .'<code>/media</code>'. $_LANG->_( 'directory does not exist.' );
 	}
 	return false;
+}
+
+/**
+* Temporary Updater
+*/
+function doUpdate() {
+	?>Updater not written yet, but this is where it would go if it was!<?php
+}
+
+/**
+* Unified intaller
+*/
+function doInstaller() {
+	global $option;
+	HTML_installer::showInstallForm( 'Install new Element', $option, 'element', '', dirname(__FILE__) );
+?>
+<table class="content">
+<?php
+writableCell( 'media' );
+writableCell( 'images/stories' );
+writableCell( 'administrator/components' );
+writableCell( 'components' );
+writableCell( 'administrator/modules' );
+writableCell( 'modules' );
+writableCell( 'administrator/templates' );
+writableCell( 'templates' );
+writableCell( 'language' );
+writableCell( 'mambots' );
+writableCell( 'mambots/content' );
+writableCell( 'mambots/search' );
+
+?>
+</table>
+<?php 
 }
 ?>
