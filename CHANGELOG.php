@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Nov-2005 Johan Janssens 
+ # Fixed artf2018 : Admin Menu strings missing
+
 08-Nov-2005 Arno Zijlstra
  # Fixed : Notices in sefurlbot 
 
