@@ -153,8 +153,8 @@ class JFactory {
 	function &_createACL()	{
 		global $mosConfig_absolute_path;
 
-		require_once( $mosConfig_absolute_path . '/includes/gacl.class.php' );
-		require_once( $mosConfig_absolute_path . '/includes/gacl_api.class.php' );
+		require_once( $mosConfig_absolute_path . '/libraries/phpgacl/gacl.class.php' );
+		require_once( $mosConfig_absolute_path . '/libraries/phpgacl/gacl_api.class.php' );
 
 		$acl = new gacl_api();
 
