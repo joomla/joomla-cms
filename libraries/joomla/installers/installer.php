@@ -25,14 +25,14 @@ class mosInstaller {
 	// name of the XML file with installation information
 	var $i_installfilename	= "";
 	var $i_installarchive	= "";
-	var $i_installdir		= "";
+	var $i_installdir		= '';
 	var $i_iswin			= false;
 	var $i_errno			= 0;
-	var $i_error			= "";
-	var $i_installtype		= "";
-	var $i_unpackdir		= "";
+	var $i_error			= '';
+	var $i_installtype		= '';
+	var $i_unpackdir		= '';
 	var $i_docleanup		= true;
-	var $msg			= "";
+	var $msg			= '';
 
 	/** @var string The directory where the element is to be installed */
 	var $i_elementdir 		= '';
@@ -102,14 +102,16 @@ class mosInstaller {
 		}	
 		$output_handle = fopen($target, "wb"); // or die("Local output opening failed");
 		if (!$output_handle) { 
-			$this->setError(43, 'Local output opening failed: ' . $php_erromsg);
+			$this->setError(43, 'Local output opening failed: ' . $php_errormsg);
 			return false; 
 		}
 		$contents = '';
 		
 		while (!feof($input_handle)) {
-  			$contents = fread($input_handle, 4096) or die('Cannot read network resource');
-			fwrite($output_handle, $contents) or die('Cannot write to local target');
+  			$contents = fread($input_handle, 4096);
+			if($contents == false) { $this->setError(44,'Failed reading network resource: ' . $php_errormsg); return false; }
+			$write_res = fwrite($output_handle, $contents);
+			if($write_res == false) { $this->setError(45,'Cannot write to local target: ' . $php_errormsg); return false; }
 		}
 		fclose($output_handle);
 		fclose($input_handle);	
@@ -154,7 +156,7 @@ class mosInstaller {
 				return false;
 			}
 		} else {
-			jimport('archive.tar');
+			jimport('archive.Tar');
 			$archive = new Archive_Tar( $archivename );
 			$archive->setErrorHandling( PEAR_ERROR_PRINT );
 
