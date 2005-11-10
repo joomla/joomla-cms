@@ -88,7 +88,7 @@ class mosInstallerTemplate extends mosInstaller {
 	* @param int The client id
 	*/
 	function uninstall( $id, $option, $client=0 ) {
-		global $database, $mosConfig_absolute_path, mosConfig_admin_path;
+		global $database, $mosConfig_absolute_path, $mosConfig_admin_path;
 		global $_LANG;
 
 		// Delete directories
