@@ -33,6 +33,7 @@ Legend:
 
 10-Nov-2005 Andy Miller
  ^ Modified the tab code to support variable width tabs (needed for language support)
+ ^ Cleaned up and modified some images
 
 10-Nov-2005 Samuel Moffatt
  ^ Installer Alterations
