@@ -40,6 +40,7 @@ Legend:
  ^ Moved includes/vcard.class.php and feedcreator.class.php to libraries/bitfolge
  ^ Moved includes/class.pdf.php and class.ezpdf.php to libraries/cpdf
  ^ Moved includes/pdf.php to libraries/joomla
+ ^ Moved administrator/includes/pcl to libraries/pcl
 
 08-Nov-2005 Arno Zijlstra
  # Fixed : Notices in sefurlbot 

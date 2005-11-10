@@ -137,10 +137,10 @@ class mosInstaller {
 		$this->unpackDir( $extractdir );
 		if (eregi( '.zip$', $archivename )) {
 			// Extract functions
-			require_once( $mosConfig_absolute_path . '/administrator/includes/pcl/pclzip.lib.php' );
-			require_once( $mosConfig_absolute_path . '/administrator/includes/pcl/pclerror.lib.php' );
-			//require_once( $mosConfig_absolute_path . '/administrator/includes/pcl/pcltrace.lib.php' );
-			//require_once( $mosConfig_absolute_path . '/administrator/includes/pcl/pcltar.lib.php' );
+			jimport('pcl.pclzip');
+			jimport('pcl.pclerror');
+			//jimport('pcl.pcltrace');
+			//jimport('pcl.pcltar');
 			$zipfile = new PclZip( $archivename );
 			if($this->isWindows()) {
 				define('OS_WINDOWS',1);

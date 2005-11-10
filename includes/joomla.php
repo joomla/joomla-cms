@@ -54,7 +54,7 @@ class JBase
 			$path = str_replace('.', DIRECTORY_SEPARATOR, $filePath); 
 			
 			$found = false;
-			foreach(array('.php', '.class.php') as $suffix) {
+			foreach(array('.php', '.class.php', 'lib.php') as $suffix) {
 				if(file_exists($base.DIRECTORY_SEPARATOR.$path.$suffix)) {
 					$found = true;
 					break;
