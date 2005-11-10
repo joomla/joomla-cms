@@ -191,9 +191,9 @@ function contactpage( $contact_id ) {
 	. "\n ORDER BY a.default_con DESC, a.ordering ASC"
 	;
 	$database->setQuery( $query );
-	$list = $database->loadObjectList();
+	$checks = $database->loadObjectList();
 
-	$count = count( $list );
+	$count = count( $checks );
 	if ($count) {
 		if ($contact_id < 1) {
 			$contact_id = $list[0]->value;
@@ -213,6 +213,13 @@ function contactpage( $contact_id ) {
 			return;
 		}
 		$contact = $contacts[0];
+		
+		$list = array();
+		foreach ( $checks as $check ) {
+			if ( $check->catid == $contact->catid ) {
+				$list[] = $check;
+			}
+		}		
 		// creates dropdown select list
 		$contact->select = mosHTML::selectList( $list, 'contact_id', 'class="inputbox" onchange="ViewCrossReference(this);"', 'value', 'text', $contact_id );
 
