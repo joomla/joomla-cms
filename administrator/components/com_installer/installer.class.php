@@ -105,7 +105,7 @@ class mosInstaller {
 				return false;
 			}
 		} else {
-			require_once( $mosConfig_absolute_path . '/includes/Archive/Tar.php' );
+			jimport('archive.tar');
 			$archive = new Archive_Tar( $archivename );
 			$archive->setErrorHandling( PEAR_ERROR_PRINT );
 
