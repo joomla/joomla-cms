@@ -141,7 +141,7 @@ function uploadPackage( $option ) {
 * @param string The URL option
 */
 function installFromDirectory( $option ) {
-	global $_LANG, $classpath;
+	global $_LANG, $classMap;
 
 	$client = '';
 	$userfile = mosGetParam( $_REQUEST, 'userfile', '' );
@@ -151,16 +151,23 @@ function installFromDirectory( $option ) {
 	}
 	$installerFactory = new JInstallerFactory();
 	$installer = new mosInstaller();
-	$element = $installerFactory->getType($userfile);
+	$installer->installDir($userfile);
+	if(!$installer->findInstallFile()) {
+		HTML_installer::showInstallMessage( "Unable to find valid XML install" . ' ' . $userfile, 
+			$_LANG->_( 'Install' ) .' '. $element .' - '. $_LANG->_( 'Detection Error' ),
+			$installer->returnTo( $option, $element, $client ) );
+	}
 	
-	$installerClass = $classpath[$element];
+	$element = $installerFactory->detectType($userfile.'/');
+	$installerClass = $classMap[$element];
 	if(!$installerClass) {
-		HTML_installer::showInstallMessage( "Unable to detect the type of install", 
+		HTML_installer::showInstallMessage( "Unable to detect the type of install" . ' ' . $userfile,
 			$_LANG->_( 'Install' ) .' '. $element .' - '. $_LANG->_( 'Detection Error' ),
 			$installer->returnTo( $option, $element, $client ) );
 		return;
 	}
 		
+	jimport('joomla.installers.'.$element);
 	$installer = new $installerClass();
 
 	$path = mosPathName( $userfile );
@@ -189,7 +196,7 @@ function installFromUrl($option) {
         $ret = $installer->msg;
 	HTML_installer::showInstallMessage( 
 		$installer->getError(), 
-		$_LANG->_( 'Install new element' ) .' '.$element.' - '.($ret ? $_LANG->_( 'Success' ) : $_LANG->_( 'Error' )), 
+		$_LANG->_( 'Install new' ) .' '.$element.' - '.($ret ? $_LANG->_( 'Success' ) : $_LANG->_( 'Error' )), 
 		$installer->returnTo( $option, $element, $client ) );	
 }
 
@@ -259,7 +266,7 @@ function doUpdate() {
 */
 function doInstaller() {
 	global $option;
-	HTML_installer::showInstallForm( 'Install new Element', $option, 'element', '', dirname(__FILE__) );
+	HTML_installer::showInstallForm( 'Install new Extension', $option, 'element', '', dirname(__FILE__) );
 ?>
 <table class="content">
 <?php
