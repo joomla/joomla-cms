@@ -32,7 +32,8 @@ Legend:
 ! -> Note
 
 10-Nov-2005 Samuel Moffatt
- ^ Installer Alterations; Note: installfromdir and installfromurl are presently broken
+ ^ Installer Alterations
+ ^ Fixed up a few capitalization issues
 
 09-Nov-2005 Johan Janssens 
  # Fixed artf2018 : Admin Menu strings missing
