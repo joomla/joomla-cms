@@ -21,7 +21,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-require_once $GLOBALS['mosConfig_absolute_path'] . '/includes/PEAR/PEAR.php';
+jimport('pear.pear');
 
 define ('ARCHIVE_TAR_ATT_SEPARATOR', 90001);
 

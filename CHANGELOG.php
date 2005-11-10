@@ -42,6 +42,7 @@ Legend:
  ^ Moved includes/pdf.php to libraries/joomla
  ^ Moved includes/Archive to libraries/archive
  ^ Moved includes/phpInputFilter to libraries/phpinputfilter
+ ^ Moved includes/PEAR to libraries/pear
  ^ Moved administrator/includes/pcl to libraries/pcl
 
 08-Nov-2005 Arno Zijlstra
