@@ -834,7 +834,7 @@ class mosTabs {
 	*/
 	function startTab( $tabText, $paneid ) {
 		echo "<div class=\"tab-page\" id=\"".$paneid."\">";
-		echo "<h2 class=\"tab\">".$tabText."</h2>";
+		echo "<h2 class=\"tab\"><span>".$tabText."</span></h2>";
 		echo "<script type=\"text/javascript\">\n";
 		echo "  tabPane1.addTabPage( document.getElementById( \"".$paneid."\" ) );";
 		echo "</script>";

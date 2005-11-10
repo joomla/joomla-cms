@@ -4,9 +4,8 @@
 	/*margin-right:	-2px;	 to make room for the shadow */
 }
 .dynamic-tab-pane-control .tab-row .tab {
-	width: 70px;
 	height: 16px;
-	background-image: url( "tab.png" );
+	background: url(tab_r.png) top right no-repeat;
 	position: relative;
 	top: 0;
 	display: inline;
@@ -14,25 +13,39 @@
 	overflow: hidden;
 	cursor: hand;
 	margin: 1px -1px 1px 2px;
-	padding: 2px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
 	border: 0;
 	z-index: 1;
 	font: 11px Tahoma, Helvetica, sans=serif;
 	white-space: nowrap;
 	text-align: center;
 }
+
+.dynamic-tab-pane-control .tab-row .tab span {
+	display: block;
+	height: 16px;
+	padding: 2px 10px;
+	background: url(tab_l.png) top left no-repeat;
+}
+
 .dynamic-tab-pane-control .tab-row .tab.selected {
-	width: 74px !important;
 	height: 18px !important;
-	background-image:	url( "tab_active.png" ) !important;
-	background-repeat: no-repeat;
+	background:	url(tab_active_r.png) top right no-repeat !important;
 	border-bottom-width:	0;
 	z-index: 3;
-	padding:	2px 0px 0px 0px;
+	padding:	0px 0px 0px 0px;
 	margin: 1px -3px -3px 0px;
 	top: -2px;
 	font: 11px Tahoma, Helvetica, sans-serif;
 }
+
+.dynamic-tab-pane-control .tab-row .tab.selected span {
+	display: block;
+	height: 16px;
+	padding: 2px 10px;
+	background: url(tab_active_l.png) top left no-repeat !important;
+}
+
 .dynamic-tab-pane-control .tab-row .tab a {
 	font:	11px Tahoma, Helvetica, sans-serif;
 	color: #333;
@@ -41,11 +54,17 @@
 }
 .dynamic-tab-pane-control .tab-row .tab.hover {
 	font:	11px Tahoma, Helvetica, sans-serif;
-	width: 70px;
 	height: 16px;
-	background-image:	url( "tab_hover.png" );
-	background-repeat: no-repeat;
+	background: url(tab_hover_r.png) top right no-repeat;
 }
+
+.dynamic-tab-pane-control .tab-row .tab.hover span {
+	display: block;
+	height: 16px;
+	padding: 2px 10px;
+	background: url(tab_hover_l.png) top left no-repeat;
+}
+
 .dynamic-tab-pane-control .tab-page {
 
 	border: 1px solid rgb( 145, 155, 156 );

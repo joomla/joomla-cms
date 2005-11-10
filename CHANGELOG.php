@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Nov-2005 Andy Miller
+ ^ Modified the tab code to support variable width tabs (needed for language support)
+
 10-Nov-2005 Samuel Moffatt
  ^ Installer Alterations
  ^ Fixed up a few capitalization issues
