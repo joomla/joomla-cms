@@ -12,12 +12,9 @@
 
 define( '_VALID_MOS', 1 );
 
-if (file_exists( '../configuration.php' ) && filesize( '../configuration.php' ) > 10) {
-	header( 'Location: ../index.php' );
-	exit();
-}
+define('JPATH_BASE', dirname(__FILE__) );
 
-// include support libraries
+require_once ( 'includes/defines.php');
 require_once( 'includes/installation.php' );
 
 header( 'Cache-Control: no-cache, must-revalidate');	// HTTP/1.1

@@ -18,25 +18,18 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 error_reporting( E_ALL );
 @set_magic_quotes_runtime( 0 );
 
-$path = dirname( __FILE__ );
-$path = str_replace( '\\', '/', $path );
-$parts = explode( '/', $path );
-array_pop( $parts );
-array_pop( $parts );
-
-$base_path = implode( '/', $parts );
-
-//Defines
-DEFINE('JPATH_ROOT'        , $base_path );
-DEFINE('JPATH_LIBRARIES'   , JPATH_ROOT . DIRECTORY_SEPARATOR . 'libraries');
-DEFINE('JPATH_INSTALLATION', JPATH_ROOT . DIRECTORY_SEPARATOR . 'installation');
+if (file_exists( JPATH_ROOT . '/configuration.php' && filesize( JPATH_ROOT . '/configuration.php' ) > 10)) {
+	header( 'Location: ../installation/index.php' );
+	exit();
+}
 
 //Globals
-$GLOBALS['mosConfig_absolute_path'] = $base_path . DIRECTORY_SEPARATOR;
+$GLOBALS['mosConfig_absolute_path'] = JPATH_ROOT . DIRECTORY_SEPARATOR;
 $GLOBALS['mosConfig_sitename']      = 'Joomla! - Web Installer';
 
+require_once( JPATH_LIBRARIES . '/loader.php' );
+
 //File includes
-require_once( dirname(__FILE__). '/common.php' );
 require_once( dirname(__FILE__). '/functions.php' );
 require_once( dirname(__FILE__). '/classes.php' );
 require_once( dirname(__FILE__). '/html.php' );
@@ -60,7 +53,7 @@ class JInstallation extends JApplication {
 	* Class constructor
 	* @param database A database connection object
 	*/
-	function __construct( $client=0 ) {
+	function __construct( ) {
 		
 		if (!isset( $_SESSION['session_userstate'] )) {
 			$_SESSION['session_userstate'] = array();
@@ -71,11 +64,11 @@ class JInstallation extends JApplication {
 		$this->_head['title'] 	= $GLOBALS['mosConfig_sitename'];
 		$this->_head['meta'] 	= array();
 		$this->_head['custom'] 	= array();
-		$this->_client 		    = $client;
+		$this->_client 		    = 2;
 	}
 }
 
-$mainframe =& new JInstallation(2);
+$mainframe =& new JInstallation();
 
 /** @global $_VERSION */
 $_VERSION = new JVersion();
