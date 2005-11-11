@@ -18,9 +18,11 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 error_reporting( E_ALL );
 @set_magic_quotes_runtime( 0 );
 
-if (file_exists( JPATH_SITE . '/configuration.php' && filesize( JPATH_SITE . '/configuration.php' ) > 10)) {
-	header( 'Location: ../installation/index.php' );
-	exit();
+if (file_exists( JPATH_SITE . '/configuration.php')) {
+	if(filesize( JPATH_SITE . '/configuration.php' ) > 10) {
+		header( 'Location: ../installation/index.php' );
+		exit();
+	}
 }
 
 //Globals
