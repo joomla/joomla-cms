@@ -184,9 +184,6 @@ if ($option == 'login') {
 //get user information
 $my = $mainframe->getUser();
 
-// detect first visit
-$mainframe->detect();
-
 // set for overlib check
 $mainframe->set( 'loadOverlib', false );
 

@@ -354,6 +354,14 @@ class JApplication extends JObject {
 
 		return $user;
 	}
+	
+	/**
+	* @return JBrowser A browser object holding the browser information
+	*/
+	function &getBrowser(){
+		jimport('joomla.classes.browser');
+		return JBrowser::getInstance();
+	}
 	/**
 	 * @param string The name of the variable (from configuration.php)
 	 * @return mixed The value of the configuration variable or null if not found
@@ -632,114 +640,6 @@ class JApplication extends JObject {
 				return mosFS::getNativePath( $mosConfig_absolute_path, $addTrailingSlash );
 				break;
 
-		}
-	}
-
-	/**
-	* Detects a 'visit'
-	*
-	* This function updates the agent and domain table hits for a particular
-	* visitor.  The user agent is recorded/incremented if this is the first visit.
-	* A cookie is set to mark the first visit.
-	*/
-	function detect() {
-		global $mosConfig_enable_stats;
-		if ($mosConfig_enable_stats == 1) {
-			if (mosGetParam( $_COOKIE, 'mosvisitor', 0 )) {
-				return;
-			}
-			setcookie( "mosvisitor", "1" );
-
-			if (phpversion() <= "4.2.1") {
-				$agent = getenv( "HTTP_USER_AGENT" );
-				$domain = gethostbyaddr( getenv( "REMOTE_ADDR" ) );
-			} else {
-				if ( isset($_SERVER['HTTP_USER_AGENT']) ) {
-					$agent = $_SERVER['HTTP_USER_AGENT'];
-				} else {
-					$agent = 'Unknown';
-				}
-				
-				$domain = gethostbyaddr( $_SERVER['REMOTE_ADDR'] );
-			}
-
-			$browser = mosGetBrowser( $agent );
-
-			$query = "SELECT COUNT(*)"
-			. "\n FROM #__stats_agents"
-			. "\n WHERE agent = '$browser'"
-			. "\n AND type = 0"
-			;
-			$this->_db->setQuery( $query );
-			if ($this->_db->loadResult()) {
-				$query = "UPDATE #__stats_agents"
-				. "\n SET hits = ( hits + 1 )"
-				. "\n WHERE agent = '$browser'"
-				. "\n AND type = 0"
-				;
-				$this->_db->setQuery( $query );
-			} else {
-				$query = "INSERT INTO #__stats_agents"
-				. "\n ( agent, type )"
-				. "\n VALUES ( '$browser', 0 )"
-				;
-				$this->_db->setQuery( $query );
-			}
-			$this->_db->query();
-
-			$os = mosGetOS( $agent );
-
-			$query = "SELECT COUNT(*)"
-			. "\n FROM #__stats_agents"
-			. "\n WHERE agent = '$os'"
-			. "\n AND type = 1"
-			;
-			$this->_db->setQuery( $query );
-			if ($this->_db->loadResult()) {
-				$query = "UPDATE #__stats_agents"
-				. "\n SET hits = ( hits + 1 )"
-				. "\n WHERE agent = '$os'"
-				. "\n AND type = 1"
-				;
-				$this->_db->setQuery( $query );
-			} else {
-				$query = "INSERT INTO #__stats_agents"
-				. "\n ( agent, type )"
-				. "\n VALUES ( '$os', 1 )"
-				;
-				$this->_db->setQuery( $query );
-			}
-			$this->_db->query();
-
-			// tease out the last element of the domain
-			$tldomain = split( "\.", $domain );
-			$tldomain = $tldomain[count( $tldomain )-1];
-
-			if (is_numeric( $tldomain )) {
-				$tldomain = "Unknown";
-			}
-
-			$query = "SELECT COUNT(*)"
-			. "\n FROM #__stats_agents"
-			. "\n WHERE agent = '$tldomain'"
-			. "\n AND type = 2"
-			;
-			$this->_db->setQuery( $query );
-			if ($this->_db->loadResult()) {
-				$query = "UPDATE #__stats_agents"
-				. "\n SET hits = ( hits + 1 )"
-				. "\n WHERE agent = '$tldomain'"
-				. "\n AND type = 2"
-				;
-				$this->_db->setQuery( $query );
-			} else {
-				$query = "INSERT INTO #__stats_agents"
-				. "\n ( agent, type )"
-				. "\n VALUES ( '$tldomain', 2 )"
-				;
-				$this->_db->setQuery( $query );
-			}
-			$this->_db->query();
 		}
 	}
 

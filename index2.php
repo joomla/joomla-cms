@@ -69,9 +69,6 @@ if ( $do_pdf == 1 ){
 	exit();
 }
 
-// detect first visit
-$mainframe->detect();
-
 $gid = intval( $my->gid );
 
 $cur_template = $mainframe->getTemplate();

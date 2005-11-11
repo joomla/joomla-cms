@@ -312,62 +312,6 @@ function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level
 	return $list;
 }
 
-
-
-/**
-* Checks the user agent string against known browsers
-*/
-function mosGetBrowser( $agent ) {
-	require( 'includes/agent_browser.php' );
-
-	if (preg_match( "/msie[\/\sa-z]*([\d\.]*)/i", $agent, $m )
-	&& !preg_match( "/webtv/i", $agent )
-	&& !preg_match( "/omniweb/i", $agent )
-	&& !preg_match( "/opera/i", $agent )) {
-		// IE
-		return "MS Internet Explorer $m[1]";
-	} else if (preg_match( "/netscape.?\/([\d\.]*)/i", $agent, $m )) {
-		// Netscape 6.x, 7.x ...
-		return "Netscape $m[1]";
-	} else if ( preg_match( "/mozilla[\/\sa-z]*([\d\.]*)/i", $agent, $m )
-	&& !preg_match( "/gecko/i", $agent )
-	&& !preg_match( "/compatible/i", $agent )
-	&& !preg_match( "/opera/i", $agent )
-	&& !preg_match( "/galeon/i", $agent )
-	&& !preg_match( "/safari/i", $agent )) {
-		// Netscape 3.x, 4.x ...
-		return "Netscape $m[1]";
-	} else {
-		// Other
-		$found = false;
-		foreach ($browserSearchOrder as $key) {
-			if (preg_match( "/$key.?\/([\d\.]*)/i", $agent, $m )) {
-				$name = "$browsersAlias[$key] $m[1]";
-				return $name;
-				break;
-			}
-		}
-	}
-
-	return 'Unknown';
-}
-
-/**
-* Checks the user agent string against known operating systems
-*/
-function mosGetOS( $agent ) {
-	require( "includes/agent_os.php" );
-
-	foreach ($osSearchOrder as $key) {
-		if (preg_match( "/$key/i", $agent )) {
-			return $osAlias[$key];
-			break;
-		}
-	}
-
-	return 'Unknown';
-}
-
 /**
 * @param string SQL with ordering As value and 'name field' AS text
 * @param integer The length of the truncated headline

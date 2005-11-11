@@ -135,6 +135,22 @@ class mosMainFrame extends JApplication
 
 
 /**
+* Legacy function, use JApplication::getBrowser() instead
+*/
+function mosGetBrowser( $agent ) {
+	$browser = JApplication::getBrowser();
+	return $browser->getBrowser();
+}
+
+/**
+* Legacy function, use JApplication::getBrowser() instead
+*/
+function mosGetOS( $agent ) {
+	$browser = JApplication::getBrowser();
+	return $broser->getPlatform();
+}
+
+/**
 * Legacy function, use $_VERSION->getLongVersion() instead
 */
 global $_VERSION;

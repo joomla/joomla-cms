@@ -15,8 +15,10 @@
 /**
  * Object class, allowing __construct and __destruct in PHP4.
  *
+ * @author Johan Janssens <johan@joomla.be>
  * @package Joomla
- * @subpackage 
+ * @subpackage JFramework
+ * @abstract
  * @since 1.1
  */
  
@@ -64,9 +66,8 @@ class JObject
 	function get($property, $default=null) {
 		if(isset($this->$property)) {
 			return $this->$property;
-		} else {
-			return $default;
-		}
+		} 
+		return $default;
 	}
 
 	/**
