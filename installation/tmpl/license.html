@@ -1,0 +1,44 @@
+<mos:comment>
+@version $Id: license.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Joomla
+@subpackage Installation
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+<div id="right">
+	<div id="step">
+		<mos:Translate>license</mos:Translate>
+	</div>
+
+	<div class="far-right">
+		<input type="button" class="button" value="&lt;&lt; <mos:Translate escape="yes">Previous</mos:Translate>" onclick="submitForm( this.form, 'preinstall' );" />
+		<input class="button" type="submit" name="next" value="<mos:Translate escape="yes">Next</mos:Translate> &gt;&gt;" onclick="submitForm( this.form, 'dbconfig' );"/>
+	</div>
+
+	<div class="clr"></div>
+	<h1>
+	<mos:Translate>GNU/GPL License</mos:Translate>:
+	</h1>
+
+	<div class="clr"></div>
+	<div class="license-form">
+		<div class="form-block" style="padding: 0px;">
+			<iframe src="gpl.html" class="license" frameborder="0" scrolling="auto"></iframe>
+		</div>
+	</div>
+
+	<div class="clr"></div>
+	
+	</div>
+
+	<div id="break"></div>
+
+	<div class="clr"></div>
+
+	<div class="clr"></div>
+</div>
+
+<input type="hidden" name="vars[lang]" value="{VAR_LANG}" />
+<input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}" />
+<input type="hidden" name="task" value="" />

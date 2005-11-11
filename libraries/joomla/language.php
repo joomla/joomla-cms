@@ -15,6 +15,8 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
+jimport('joomla.classes.object');
+
 /**
 * Languages/translation handler class
 * @package Joomla
@@ -276,7 +278,7 @@ class JLanguage extends JObject {
 			$client = $mainframe->getClient( );
 		}
 		$dir = JLanguage::getLanguagePath( );
-
+		
 		if( !isset( $knownLanguages[$client] ) ) {
 			$knownLanguages[$client] = JLanguage::_parseLanguageFiles( $dir, $client );
 		}

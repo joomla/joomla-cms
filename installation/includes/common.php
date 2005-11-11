@@ -2,6 +2,7 @@
 /**
 * @version $Id$
 * @package Joomla
+* @subpackage Installation
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -13,7 +14,9 @@
 
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
-define( '_MOS_MAMBO_INCLUDED', 1 );
+
+error_reporting( E_ALL );
+@set_magic_quotes_runtime( 0 );
 
 class JBase 
 {
@@ -26,12 +29,12 @@ class JBase
     * @since 1.1
     */
    function import($filePath) 
-   {
-	   global  $mosConfig_absolute_path;
-			
-		$parts = explode('.', $filePath);
+   {	
+		global  $mosConfig_absolute_path; //for backwards compilance 
+	   
+	   $parts = explode('.', $filePath);
 		
-		$base =  $mosConfig_absolute_path. DIRECTORY_SEPARATOR . 'libraries';		
+		$base =  JPATH_LIBRARIES;		
 		
 		if(array_pop($parts) == '*') 
 		{
@@ -112,51 +115,4 @@ if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER 
 if (version_compare( phpversion(), '5.0' ) < 0) {
 	jimport('joomla.compat.php50x' );
 }
-
-@set_magic_quotes_runtime( 0 );
-
-if (@$mosConfig_error_reporting === 0) {
-	error_reporting( 0 );
-} else if (@$mosConfig_error_reporting > 0) {
-	error_reporting( $mosConfig_error_reporting );
-}
-
-// experimenting
-
-jimport( 'joomla.database.mysql' );
-
-require_once( $mosConfig_absolute_path . '/includes/phpmailer/class.phpmailer.php' );
-
-jimport( 'phpinputfilter.inputfilter' );
-jimport( 'joomla.version' );
-jimport( 'joomla.functions' );
-jimport( 'joomla.classes' );
-jimport( 'joomla.classes.app');
-jimport( 'joomla.models.*' );
-jimport( 'joomla.html' );
-jimport( 'joomla.factory' );
-jimport( 'joomla.files' );
-jimport( 'joomla.xml' );
-
-
-/** @global $database */
-$database =& JFactory::getDBO();
-
-/** @global $acl */
-$acl =& JFactory::getACL();
-
-/** @global $_MAMBOTS */
-$_MAMBOTS = new mosMambotHandler();
-
-/** @global $_VERSION */
-$_VERSION = new JVersion();
-
-//TODO : implement mambothandler class as singleton, add getBotHandler to JFactory
-
-//TODO : implement editor functionality as a class
-jimport( 'joomla.editor' );
-
-
-//TODO : implement mambothandler class as singleton, add getVersion to JFactory
-jimport( 'joomla.legacy' );
 ?>

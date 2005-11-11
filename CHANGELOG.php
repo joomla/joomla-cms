@@ -31,13 +31,16 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Nov-2005 Johan Janssens
+ ^ Installation alterations, backported Mambo 4.5.3 installation
+
 10-Nov-2005 Andy Miller
  # Fixed IE issues with variable tabs
  ^ Modified the tab code to support variable width tabs (needed for language support)
  ^ Cleaned up and modified some images
 
 10-Nov-2005 Samuel Moffatt
- ^ Installer Alterations
+ ^ Installer alterations
  ^ Fixed up a few capitalization issues
 
 09-Nov-2005 Johan Janssens 

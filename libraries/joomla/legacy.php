@@ -116,6 +116,23 @@ function mosPathWay() {
 	mosLoadModules('pathway', -1);
 }
 
+/**
+* Legacy class, derive from JApplication instead
+*/
+
+class mosMainFrame extends JApplication
+{
+	/**
+	* Class constructor
+	* @param database A database connection object
+	* @param string The url option [DEPRECATED]
+	* @param string The path of the mos directory [DEPRECATED]
+	*/
+	function __construct( &$db, $option, $basePath=null, $client=0 ) {
+		parent::__construct($db, $client);
+	}
+}
+
 
 /**
 * Legacy function, use $_VERSION->getLongVersion() instead

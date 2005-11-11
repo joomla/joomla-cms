@@ -60,13 +60,16 @@ class database {
 	function database( $host='localhost', $user, $pass, $db='', $table_prefix='', $goOffline=true ) {
 		// perform a number of fatality checks, then die gracefully
 		if (!function_exists( 'mysqli_connect' )) {
-			$mosSystemError = 1;
+			$this->_errorNum = 1;
+			return;
 		}
 		if (!($this->_resource = @mysqli_connect( $host, $user, $pass ))) {
-			$mosSystemError = 2;
+			$this->_errorNum = 2;
+			return;
 		}
 		if ($db != '' && !mysqli_select_db($this->_resource, $db)) {
-			$mosSystemError = 3;
+			$this->_errorNum = 3;
+			return;
 		}
 
 		//set character sets
@@ -74,7 +77,8 @@ class database {
 		mysqli_query($this->_resource, "SET NAMES 'utf8'");
 
 		$this->_table_prefix = $table_prefix;
-		$this->_ticker = 0;
+		$this->_ticker   = 0;
+		$this->_errorNum = 0;
 		$this->_log = array();
 	}
 	/**

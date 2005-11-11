@@ -60,21 +60,25 @@ class database {
 	function database( $host='localhost', $user, $pass, $db='', $table_prefix='', $goOffline=true ) {
 		// perform a number of fatality checks, then die gracefully
 		if (!function_exists( 'mysql_connect' )) {
-			$mosSystemError = 1;
+			$this->_errorNum = 1;
+			return;
 		}
 		if (!($this->_resource = @mysql_connect( $host, $user, $pass, true ))) { // true forces a new connection even if the same username and password
-			$mosSystemError = 2;
+			$this->_errorNum = 2;
+			return;
 		}
 		if ($db != '' && !mysql_select_db( $db, $this->_resource )) {
-			$mosSystemError = 3;
+			$this->_errorNum = 3;
+			return;
 		}
-
+		
 		//Set charactersets (needed for MySQL 4.1.2+)
 		mysql_query("SET CHARACTER SET utf8",$this->_resource);
 		mysql_query("SET NAMES 'utf8'", $this->_resource);
 
 		$this->_table_prefix = $table_prefix;
-		$this->_ticker = 0;
+		$this->_ticker   = 0;
+		$this->_errorNum = 0;
 		$this->_log = array();
 	}
 	/**

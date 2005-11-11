@@ -37,7 +37,7 @@ class JFactory {
 		global $mosConfig_absolute_path, $mosConfig_admin_path, $mainframe;
 		global $mosConfig_lang, $my;
 
-		require_once $mosConfig_absolute_path .'/libraries/joomla/language.php';
+		jimport('joomla.language');
 
 		$path = $mosConfig_absolute_path . '/language/';
 		
@@ -113,14 +113,15 @@ class JFactory {
 	}
 	
 	/**
-	 * @param array An array of additional template files to load
-	 * @param boolean True to use caching
+	 * @param string The database type
 	 * @return object
 	 * @since 1.1
 	 */
 	function &getDBO()
 	{
-		global $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix, $mosConfig_debug;
+		global $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix, $mosConfig_debug, $mosConfig_dbtype;
+		
+		jimport('joomla.database.'.$mosConfig_dbtype);
 		
 		/** @global $database */
 		$database = new database( $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix );

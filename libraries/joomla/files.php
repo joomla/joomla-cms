@@ -378,7 +378,7 @@ class mosFS {
 		}
 
 		// prevent snooping of the file system
-		mosFS::check( $path );
+		//mosFS::check( $path );
 
 		// read the source directory
 		$handle = opendir( $path );
