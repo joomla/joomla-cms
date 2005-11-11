@@ -22,6 +22,7 @@ array_pop( $parts );
 //Defines
 DEFINE('JPATH_ROOT'        , implode( '/', $parts ) );
 
+DEFINE('JPATH_SITE'         , JPATH_ROOT );
 DEFINE('JPATH_ADMINISTRATOR', JPATH_ROOT . DIRECTORY_SEPARATOR . 'administrator' );
 DEFINE('JPATH_LIBRARIES'    , JPATH_ROOT . DIRECTORY_SEPARATOR . 'libraries');
 DEFINE('JPATH_INSTALLATION' , JPATH_ROOT . DIRECTORY_SEPARATOR . 'installation');

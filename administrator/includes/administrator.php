@@ -16,7 +16,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 @set_magic_quotes_runtime( 0 );
 
-if (!file_exists( JPATH_ROOT . '/configuration.php' )) {
+if (!file_exists( JPATH_SITE . '/configuration.php' )) {
 	header( 'Location: ../installation/index.php' );
 	exit();
 }
@@ -25,13 +25,13 @@ if (!file_exists( JPATH_ROOT . '/configuration.php' )) {
 //Installation sub folder check, removed for work with SVN
 //if (file_exists( JPATH_INSTALLATION .'/index.php' )) {
 //	define( '_INSTALL_CHECK', 1 );
-//	include (JPATH_ROOT .'/offline.php');
+//	include (JPATH_SITE .'/offline.php');
 //	exit();
 //}
 
 //File includes
-require_once( JPATH_ROOT      . '/globals.php' );
-require_once( JPATH_ROOT      . '/configuration.php' );
+require_once( JPATH_SITE      . '/globals.php' );
+require_once( JPATH_SITE      . '/configuration.php' );
 require_once( JPATH_LIBRARIES . '/loader.php' );
 
 if (phpversion() < '4.2.0') {

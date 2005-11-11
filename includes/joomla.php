@@ -18,7 +18,7 @@ define( '_MOS_MAMBO_INCLUDED', 1 );
 @set_magic_quotes_runtime( 0 );
 
 // checks for configuration file, if none found loads installation page
-if (!file_exists( JPATH_ROOT . '/configuration.php' ) || filesize( JPATH_ROOT .'/configuration.php' ) < 10) {
+if (!file_exists( JPATH_SITE . '/configuration.php' ) || filesize( JPATH_SITE .'/configuration.php' ) < 10) {
 	$self = str_replace( '/index.php','', $_SERVER['PHP_SELF'] ). '/';
 	header("Location: http://" . $_SERVER['HTTP_HOST'] . $self . "installation/index.php" );
 	exit();
@@ -32,8 +32,8 @@ if (!file_exists( JPATH_ROOT . '/configuration.php' ) || filesize( JPATH_ROOT .'
 }*/
 
 //File includes
-require_once( JPATH_ROOT      . '/globals.php' );
-require_once( JPATH_ROOT      . '/configuration.php' );
+require_once( JPATH_SITE      . '/globals.php' );
+require_once( JPATH_SITE      . '/configuration.php' );
 require_once( JPATH_LIBRARIES . '/loader.php' );
 
 if (phpversion() < '4.2.0') {

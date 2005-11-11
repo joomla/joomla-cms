@@ -18,13 +18,13 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 error_reporting( E_ALL );
 @set_magic_quotes_runtime( 0 );
 
-if (file_exists( JPATH_ROOT . '/configuration.php' && filesize( JPATH_ROOT . '/configuration.php' ) > 10)) {
+if (file_exists( JPATH_SITE . '/configuration.php' && filesize( JPATH_SITE . '/configuration.php' ) > 10)) {
 	header( 'Location: ../installation/index.php' );
 	exit();
 }
 
 //Globals
-$GLOBALS['mosConfig_absolute_path'] = JPATH_ROOT . DIRECTORY_SEPARATOR;
+$GLOBALS['mosConfig_absolute_path'] = JPATH_SITE . DIRECTORY_SEPARATOR;
 $GLOBALS['mosConfig_sitename']      = 'Joomla! - Web Installer';
 
 require_once( JPATH_LIBRARIES . '/loader.php' );

@@ -121,7 +121,7 @@ class installationTasks {
 		foreach ($folders as $folder) {
 			$lists['folderPerms'][] = array(
 				'label' => $folder,
-				'state' => is_writeable( JPATH_ROOT . '/' . $folder ) ? 'Yes' : 'No'
+				'state' => is_writeable( JPATH_SITE . '/' . $folder ) ? 'Yes' : 'No'
 			);
 		}
 
@@ -272,7 +272,7 @@ class installationTasks {
 		if (isset( $vars['sitePath'] )) {
 			$vars['sitePath'] = stripslashes( stripslashes( $vars['sitePath'] ) );
 		} else {
-			$vars['sitePath'] = JPATH_ROOT;
+			$vars['sitePath'] = JPATH_SITE;
 		}
 		if (isset( $vars['siteName'] )) {
 			$vars['siteName'] = stripslashes( stripslashes( $vars['siteName'] ) );
@@ -370,12 +370,12 @@ class installationTasks {
 		$tmpl->addVars( 'configuration', $vars, 'var_' );
 
 		$buffer = $tmpl->getParsedTemplate( 'configuration' );
-		$path = JPATH_ROOT . '/configuration.php';
+		$path = JPATH_SITE . '/configuration.php';
 
 		if (file_exists( $path )) {
 			$canWrite = is_writable( $path );
 		} else {
-			$canWrite = is_writable( JPATH_ROOT);
+			$canWrite = is_writable( JPATH_SITE);
 		}
 		if ($canWrite) {
 			file_put_contents( $path, $buffer );
