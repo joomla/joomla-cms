@@ -22,7 +22,8 @@
 }
 
 .dynamic-tab-pane-control .tab-row .tab span {
-	display: block;
+	display: inline;
+	float: left;
 	height: 16px;
 	padding: 2px 10px;
 	background: url(tab_l.png) top left no-repeat;
@@ -40,9 +41,6 @@
 }
 
 .dynamic-tab-pane-control .tab-row .tab.selected span {
-	display: block;
-	height: 16px;
-	padding: 2px 10px;
 	background: url(tab_active_l.png) top left no-repeat !important;
 }
 
@@ -59,9 +57,6 @@
 }
 
 .dynamic-tab-pane-control .tab-row .tab.hover span {
-	display: block;
-	height: 16px;
-	padding: 2px 10px;
 	background: url(tab_hover_l.png) top left no-repeat;
 }
 

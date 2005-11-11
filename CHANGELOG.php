@@ -32,6 +32,7 @@ Legend:
 ! -> Note
 
 10-Nov-2005 Andy Miller
+ # Fixed IE issues with variable tabs
  ^ Modified the tab code to support variable width tabs (needed for language support)
  ^ Cleaned up and modified some images
 
