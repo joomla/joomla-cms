@@ -14,7 +14,7 @@
 // Set flag that this is a parent file
 define( '_VALID_MOS', 1 );
 
-define('JPATH_ADMINISTRATOR', dirname(__FILE__) );
+define('JPATH_BASE', dirname(__FILE__) );
 
 require_once ( 'includes/defines.php');
 require_once(  'includes/administrator.php' );

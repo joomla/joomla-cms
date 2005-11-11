@@ -14,9 +14,10 @@
 // Set flag that this is a parent file
 define( '_VALID_MOS', 1 );
 
-include_once( 'globals.php' );
-require_once( 'configuration.php' );
-require_once( 'includes/joomla.php' );
+define('JPATH_BASE', dirname(__FILE__) );
+
+require_once ( 'includes/defines.php');
+require_once ( 'includes/joomla.php' );
 
 // displays offline/maintanance page or bar
 if ($mosConfig_offline == 1) {
@@ -90,7 +91,7 @@ if ($path = $mainframe->getPath( 'front' )) {
 $_MOS_OPTION['buffer'] = ob_get_contents();
 ob_end_clean();
 
-require_once( 'includes/frontend.php' );
+require_once( 'includes/template.php' );
 
 initGzip();
 

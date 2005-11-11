@@ -96,7 +96,7 @@ function mosLoadModules( $position='left', $style=0 ) {
 	$style = intval( $style );
 	$cache =& mosCache::getCache( 'com_content' );
 
-	require_once( $mosConfig_absolute_path . '/includes/frontend.html.php' );
+	require_once( $mosConfig_absolute_path . '/includes/template.html.php' );
 
 	$allModules =& initModules();
 	if (isset( $GLOBALS['_MOS_MODULES'][$position] )) {

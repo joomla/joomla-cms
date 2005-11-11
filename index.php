@@ -14,28 +14,15 @@
 // Set flag that this is a parent file
 define( '_VALID_MOS', 1 );
 
-// checks for configuration file, if none found loads installation page
-if (!file_exists( 'configuration.php' ) || filesize( 'configuration.php' ) < 10) {
-	$self = str_replace( '/index.php','', $_SERVER['PHP_SELF'] ). '/';
-	header("Location: http://" . $_SERVER['HTTP_HOST'] . $self . "installation/index.php" );
-	exit();
-}
+define('JPATH_BASE', dirname(__FILE__) );
 
-include_once( 'globals.php' );
-require_once( 'configuration.php' );
-require_once( 'includes/joomla.php' );
-
-//Installation sub folder check, removed for work with CVS
-/*if (file_exists( 'installation/index.php' )) {
-	define( '_INSTALL_CHECK', 1 );
-	include ('offline.php');
-	exit();
-}*/
+require_once ( 'includes/defines.php');
+require_once ( 'includes/joomla.php' );
 
 // displays offline/maintanance page or bar
 if ($mosConfig_offline == 1) {
 	// mainframe is an API workhorse, lots of 'core' interaction routines
-	$mainframe = new mosMainFrame( $database, $option='' );
+	$mainframe = new JSite();
 	$mainframe->initSession();
 
 	// get the information about the current user from the sessions table
@@ -112,7 +99,7 @@ if ( !$Itemid ) {
 }
 
 // mainframe is an API workhorse, lots of 'core' interaction routines
-$mainframe = new mosMainFrame( $database, $option, '.' );
+$mainframe = new JSite( );
 $mainframe->initSession();
 
 // trigger the onAfterStart events
@@ -227,7 +214,7 @@ if ($path = $mainframe->getPath( 'front' )) {
 $_MOS_OPTION['buffer'] = ob_get_contents();
 ob_end_clean();
 
-require_once( 'includes/frontend.php' );
+require_once( 'includes/template.php' );
 
 initGzip();
 

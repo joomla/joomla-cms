@@ -15,12 +15,14 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$path = str_replace( '\\', '/', JPATH_ADMINISTRATOR );
+$path = str_replace( '\\', '/', JPATH_BASE );
 $parts = explode( '/', $path );
 array_pop( $parts );
 
 //Defines
 DEFINE('JPATH_ROOT'        , implode( '/', $parts ) );
-DEFINE('JPATH_LIBRARIES'   , JPATH_ROOT . DIRECTORY_SEPARATOR . 'libraries');
-DEFINE('JPATH_INSTALLATION', JPATH_ROOT . DIRECTORY_SEPARATOR . 'installation');
+
+DEFINE('JPATH_ADMINISTRATOR', JPATH_ROOT . DIRECTORY_SEPARATOR . 'administrator' );
+DEFINE('JPATH_LIBRARIES'    , JPATH_ROOT . DIRECTORY_SEPARATOR . 'libraries');
+DEFINE('JPATH_INSTALLATION' , JPATH_ROOT . DIRECTORY_SEPARATOR . 'installation');
 ?>

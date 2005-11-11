@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: defines.php 974 2005-11-11 03:38:53Z Jinx $
+* @version $Id$
 * @package Joomla
 * @subpackage Administration
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
@@ -17,7 +17,6 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 $path = str_replace( '\\', '/', JPATH_BASE );
 $parts = explode( '/', $path );
-array_pop( $parts );
 
 //Defines
 DEFINE('JPATH_ROOT'         , implode( '/', $parts ) );
