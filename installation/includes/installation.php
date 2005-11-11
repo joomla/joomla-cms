@@ -20,7 +20,7 @@ error_reporting( E_ALL );
 
 if (file_exists( JPATH_SITE . '/configuration.php')) {
 	if(filesize( JPATH_SITE . '/configuration.php' ) > 10) {
-		header( 'Location: ../installation/index.php' );
+		header( 'Location: ../index.php' );
 		exit();
 	}
 }
