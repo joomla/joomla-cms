@@ -22,6 +22,7 @@ require_once( 'includes/installation.php' );
 
 header( 'Cache-Control: no-cache, must-revalidate');	// HTTP/1.1
 header( 'Pragma: no-cache');	// HTTP/1.0
+header(' Content-Type: text/html; charset=UTF-8');
 
 $vars = mosGetParam( $_POST, 'vars', array() );
 $mosConfig_lang = mosGetParam( $vars, 'lang', detectLanguage() );
