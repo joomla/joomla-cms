@@ -258,16 +258,15 @@ class mosFullAdminMenu {
 	}
 ?>
 <?php
-	// Elements Sub-Menu
+	// Extensions Sub-Menu
 	if ($installModules) {
 ?>			_cmSplit,
-			[null,'<?php echo $_LANG->_( 'Elements' ); ?>',null,null,'Element List',
-				['<img src="../includes/js/ThemeOffice/install.png" />','<?php echo $_LANG->_( 'Installer' ); ?>','index2.php?option=com_installer&task=installer&client=admin',null,'Install Elements'],
-				['<img src="../includes/js/ThemeOffice/install.png" />','<?php echo $_LANG->_( 'Updater' ); ?>','index2.php?option=com_installer&task=updater&client=admin',null,'Update Elements'],
+			[null,'<?php echo $_LANG->_( 'Extensions' ); ?>',null,null,'Element List',
+				['<img src="../includes/js/ThemeOffice/install.png" />','<?php echo $_LANG->_( 'Installer' ); ?>','index2.php?option=com_installer&task=installer&client=admin',null,'Install Extensions'],
 				_cmSplit,
-				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo $_LANG->_( 'Components' ); ?>','index2.php?option=com_installer&element=component',null,'Install/Uninstall Components'],
-				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo $_LANG->_( 'Modules' ); ?>', 'index2.php?option=com_installer&element=module', null, 'Install/Uninstall Modules'],
-				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo $_LANG->_( 'Mambots' ); ?>', 'index2.php?option=com_installer&element=mambot', null, 'Install/Uninstall Mambots'],
+				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo $_LANG->_( 'Components' ); ?>','index2.php?option=com_installer&element=component',null,'Uninstall Components'],
+				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo $_LANG->_( 'Modules' ); ?>', 'index2.php?option=com_installer&element=module', null, 'Uninstall Modules'],
+				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo $_LANG->_( 'Mambots' ); ?>', 'index2.php?option=com_installer&element=mambot', null, 'Uninstall Mambots'],
 			],
 <?php
 	}
