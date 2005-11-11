@@ -14,22 +14,10 @@
 // Set flag that this is a parent file
 define( '_VALID_MOS', 1 );
 
-if (!file_exists( '../configuration.php' )) {
-	header( 'Location: ../installation/index.php' );
-	exit();
-}
+define('JPATH_ADMINISTRATOR', dirname(__FILE__) );
 
-require_once( '../configuration.php' );
-
-//Installation sub folder check, removed for work with SVN
-/*if (file_exists( '../installation/index.php' )) {
-	define( '_INSTALL_CHECK', 1 );
-	include ('../offline.php');
-	exit();
-}*/
-
-// enables switching to secure https
-require_once(  $mosConfig_absolute_path . '/includes/joomla.php' );
+require_once ( 'includes/defines.php');
+require_once(  'includes/administrator.php' );
 
 // load system bot group
 $_MAMBOTS->loadBotGroup( 'system' );
@@ -45,7 +33,7 @@ session_name( md5( $mosConfig_live_site ) );
 session_start();
 
 // mainframe is an API workhorse, lots of 'core' interaction routines
-$mainframe = new mosMainFrame( $database, $option, '..', 1 );
+$mainframe =& new JAdministrator();
 $mainframe->initSession( 'php' );
 
 // trigger the onAfterStart events
