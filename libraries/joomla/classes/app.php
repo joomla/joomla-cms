@@ -370,7 +370,6 @@ class JApplication extends JObject {
 	function _setTemplate( ) {
 		global $Itemid, $mosConfig_live_site, $mosConfig_admin_site;
 		$mosConfig_absolute_path = $this->getCfg( 'absolute_path' );
-		$mosConfig_admin_path = $this->getCfg( 'mosConfig_admin_path' );
 
 		if ($this->isAdmin()) {
 			$query = "SELECT template"
@@ -380,12 +379,12 @@ class JApplication extends JObject {
 			;
 			$this->_db->setQuery( $query );
 			$cur_template = $this->_db->loadResult();
-			$path = "$mosConfig_admin_path/templates/$cur_template/index.php";
+			$path = JPATH_ADMINISTRATOR ."/templates/$cur_template/index.php";
 			if (!file_exists( $path )) {
 				$cur_template = 'joomla_admin';
 			}
 			
-			$this->_templatePath 	= mosFS::getNativePath( $mosConfig_admin_path . '/templates/' . $cur_template );
+			$this->_templatePath 	= mosFS::getNativePath( JPATH_ADMINISTRATOR . '/templates/' . $cur_template );
 			$this->_templateURL 	= $mosConfig_admin_site . '/templates/' . $cur_template;
 			
 		} else {
@@ -464,13 +463,13 @@ class JApplication extends JObject {
 	 * @since 1.1 
 	 */
 	function _checkPath( $path, $checkAdmin=1 ) {
-		global $mosConfig_absolute_path, $mosConfig_admin_path;
+		global $mosConfig_absolute_path;
 
 		$file = $mosConfig_absolute_path . $path;
 		if ($checkAdmin > -1 && file_exists( $file )) {
 			return $file;
 		} else if ($checkAdmin != 0) {
-			$file = $mosConfig_admin_path . $path;
+			$file = JPATH_ADMINISTRATOR . $path;
 			if (file_exists( $file )) {
 				return $file;
 			}
@@ -614,7 +613,7 @@ class JApplication extends JObject {
 	 * @param boolean True (default) to add traling slash
 	 */
 	function getBasePath( $addTrailingSlash=true, $client = null ) {
-		global $mosConfig_absolute_path, $mosConfig_admin_path;
+		global $mosConfig_absolute_path;
 
 		$client = is_null($client) ? $this->_client : $client;
 		  
@@ -625,7 +624,7 @@ class JApplication extends JObject {
 				break;
 
 			case '1':
-				return mosFS::getNativePath( $mosConfig_admin_path . '', $addTrailingSlash );
+				return mosFS::getNativePath( JPATH_ADMINISTRATOR . '', $addTrailingSlash );
 				break;
 				
 			case '0':

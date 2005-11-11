@@ -57,7 +57,7 @@ switch ($task) {
 */
 function viewTrash( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
-	require_once( $GLOBALS['mosConfig_admin_path'] . '/includes/pageNavigation.php' );
+	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
 
 	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
 	$limitstart = $mainframe->getUserStateFromRequest( "view{". $option ."}limitstart", 'limitstart', 0 );

@@ -158,7 +158,7 @@ class mosInstallerModule extends mosInstaller {
     		if ( !$row->client_id ) {
     			$basepath = $mosConfig_absolute_path . '/modules/';
     		} else {
-    			$basepath = $mosConfig_admin_path . '/modules/';
+    			$basepath = JPATH_ADMINISTRATOR . '/modules/';
     		}
 
       		$xmlfile = $basepath . $row->module . '.xml';

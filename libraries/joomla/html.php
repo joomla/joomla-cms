@@ -1488,7 +1488,7 @@ class mosAdminMenus {
 	* load the default or use no image
 	*/
 	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' ) {
-		global $mosConfig_absolute_path, $mosConfig_live_site, $mosConfig_admin_path, $mosConfig_admin_site, $mainframe;
+		global $mosConfig_absolute_path, $mosConfig_live_site, $mosConfig_admin_site, $mainframe;
 		$cur_template = $mainframe->getTemplate();
 
 		if ( $param ) {
@@ -1499,7 +1499,7 @@ class mosAdminMenus {
 		} else if ( $param == -1 ) {
 			$image = '';
 		} else {
-			if ( file_exists( $mosConfig_admin_path .'/templates/'. $cur_template .'/images/'. $file ) ) {
+			if ( file_exists( JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/images/'. $file ) ) {
 				$image = $mosConfig_admin_site .'/templates/'. $cur_template .'/images/'. $file;
 			} else {
 				$image = $mosConfig_admin_site. $directory . $file;
@@ -1583,9 +1583,8 @@ class mosAdminMenus {
 	* loads files required for menu items
 	*/
 	function menuItem( $item ) {
-		global $mosConfig_admin_path;
 
-		$path = $mosConfig_admin_path .'/components/com_menus/'. $item .'/';
+		$path = JPATH_ADMINISTRATOR .'/components/com_menus/'. $item .'/';
 		include_once( $path . $item .'.class.php' );
 		include_once( $path . $item .'.menu.html.php' );
 	}

@@ -16,7 +16,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 global $mosConfig_list_limit;
 
-require_once( $GLOBALS[ 'mosConfig_admin_path' ] .'/includes/pageNavigation.php' );
+require_once( JPATH_ADMINISTRATOR .'/includes/pageNavigation.php' );
 
 $limit 			= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
 $limitstart 	= $mainframe->getUserStateFromRequest( "view{$option}", 'limitstart', 0 );

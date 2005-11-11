@@ -131,7 +131,7 @@ function showUsers( $option ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
-	require_once( $GLOBALS['mosConfig_admin_path'] . '/includes/pageNavigation.php' );
+	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
 
 	$query = "SELECT a.*, g.name AS groupname"

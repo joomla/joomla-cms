@@ -110,7 +110,7 @@ function viewBanners( $option ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
-	require_once( $GLOBALS['mosConfig_admin_path'] . '/includes/pageNavigation.php' );
+	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
 	$query = "SELECT b.*, u.name AS editor"
@@ -269,7 +269,7 @@ function viewBannerClients( $option ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
-	require_once( $GLOBALS['mosConfig_admin_path'] . '/includes/pageNavigation.php' );
+	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
 	$sql = "SELECT a.*,	count(b.bid) AS bid, u.name AS editor"

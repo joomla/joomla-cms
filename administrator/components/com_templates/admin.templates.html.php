@@ -217,10 +217,10 @@ class HTML_templates {
 	* @param string The option
 	*/
 	function editTemplateSource( $template, &$content, $option, $client ) {
-		global $mosConfig_absolute_path, $mosConfig_admin_path;
+		global $mosConfig_absolute_path;
 		global $_LANG;
 
-		$template_path = ($client == 'admin' ? $mosConfig_admin_path : $mosConfig_absolute_path) . '/templates/' . $template . '/index.php';
+		$template_path = ($client == 'admin' ? JPATH_ADMINISTRATOR : $mosConfig_absolute_path) . '/templates/' . $template . '/index.php';
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
@@ -344,11 +344,11 @@ class HTML_templates {
 	* @param string The option
 	*/
 	function editCSSSource( $template, $tp_name, &$content, $option, $client ) {
-		global $mosConfig_absolute_path, $mosConfig_admin_path;
+		global $mosConfig_absolute_path;
 		global $_LANG;
 
 		if ( $client == 'admin' ) {
-			$css_path = $mosConfig_admin_path . '/administrator' . $tp_name;
+			$css_path = JPATH_ADMINISTRATOR . '/administrator' . $tp_name;
 		}
 		else {
 			$css_path = $mosConfig_absolute_path . $tp_name;

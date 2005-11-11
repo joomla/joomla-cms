@@ -22,7 +22,7 @@ require_once( $mainframe->getPath( 'admin_html' ) );
 
 $element 	= mosGetParam( $_REQUEST, 'element', '' );
 $client 	= mosGetParam( $_REQUEST, 'client', '' );
-$path 		= $GLOBALS['mosConfig_admin_path'] . "/components/com_installer/$element/$element.php";
+$path 		= JPATH_ADMINISTRATOR . "/components/com_installer/$element/$element.php";
 
 jimport('joomla.installers.factory');
 
@@ -66,7 +66,7 @@ switch ($task) {
 	default:
 		if (array_key_exists ( $element, $classMap ) ){
 			require_once( $mainframe->getPath( 'installer_class', $element ) );
-			$path = $GLOBALS['mosConfig_admin_path'] . "/components/com_installer/$element/$element.php";
+			$path = JPATH_ADMINISTRATOR . "/components/com_installer/$element/$element.php";
 
 			if (file_exists( $path )) {
 				require $path;

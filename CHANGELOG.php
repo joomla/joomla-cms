@@ -34,6 +34,7 @@ Legend:
 10-Nov-2005 Johan Janssens
  ^ Installation alterations, backported Mambo 4.5.3 installation
  ^ Deprecated mosMainFrame class
+ ^ Introduced JPATH defines, replaced $mosConfig_admin_path by JPATH_ADMINISTRATOR
 
 10-Nov-2005 Andy Miller
  # Fixed IE issues with variable tabs

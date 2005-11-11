@@ -73,7 +73,7 @@ class mosInstaller {
 	* @return boolean True on success, False on error
 	*/
 	function extractArchive() {
-		global $mosConfig_absolute_path, $mosConfig_admin_path;
+		global $mosConfig_absolute_path;
 		global $_LANG;
 
 		$base_Dir 		= mosPathName( $mosConfig_absolute_path . '/media' );

@@ -54,7 +54,7 @@ class mosInstallerComponent extends mosInstaller {
 		$this->elementDir( mosPathName( $mosConfig_absolute_path . "/components/"
 			. strtolower("com_" . str_replace(" ","",$this->elementName())) . "/" )
 		);
-		$this->componentAdminDir( mosPathName( $GLOBALS['mosConfig_admin_path'] . "/components/"
+		$this->componentAdminDir( mosPathName( JPATH_ADMINISTRATOR . "/components/"
 			. strtolower( "com_" . str_replace( " ","",$this->elementName() ) ) )
 		);
 
@@ -232,7 +232,7 @@ class mosInstallerComponent extends mosInstaller {
 	* @param int The client id
 	*/
 	function uninstall( $cid, $option, $client=0 ) {
-		global $database,$mosConfig_absolute_path, $mosConfig_admin_path;
+		global $database,$mosConfig_absolute_path;
 		global $_LANG;
 
 		$uninstallret = '';
@@ -278,25 +278,25 @@ class mosInstallerComponent extends mosInstaller {
 		}
 
 		// Try to find the uninstall file
-		$filesindir = mosReadDirectory( $mosConfig_admin_path.'/components/'.$row->option, 'uninstall' );
+		$filesindir = mosReadDirectory( JPATH_ADMINISTRATOR.'/components/'.$row->option, 'uninstall' );
 		if (count( $filesindir ) > 0) {
 			$uninstall_file = $filesindir[0];
-			if(file_exists($mosConfig_admin_path . '/components/'.$row->option .'/'.$uninstall_file))
+			if(file_exists(JPATH_ADMINISTRATOR . '/components/'.$row->option .'/'.$uninstall_file))
 			{
-				require_once($mosConfig_admin_path . '/components/'.$row->option .'/'.$uninstall_file );
+				require_once(JPATH_ADMINISTRATOR . '/components/'.$row->option .'/'.$uninstall_file );
 				$uninstallret = com_uninstall();
 			}
 		}
 
 		// Try to find the XML file
-		$filesindir = mosReadDirectory( mosPathName( $mosConfig_admin_path . '/components/'.$row->option ), '.xml$');
+		$filesindir = mosReadDirectory( mosPathName( JPATH_ADMINISTRATOR . '/components/'.$row->option ), '.xml$');
 		if (count($filesindir) > 0) {
 			$ismosinstall = false;
 			$found = 0;
 			foreach ($filesindir as $file) {
 				$xmlDoc = new DOMIT_Lite_Document();
 				$xmlDoc->resolveErrors( true );
-				if (!$xmlDoc->loadXML( $mosConfig_admin_path . "/components/".$row->option . "/" . $file, false, true )) {
+				if (!$xmlDoc->loadXML( JPATH_ADMINISTRATOR . "/components/".$row->option . "/" . $file, false, true )) {
 					return false;
 				}
 				$root = &$xmlDoc->documentElement;
@@ -332,7 +332,7 @@ class mosInstallerComponent extends mosInstaller {
 			}
 		} else {
 			/*
-			HTML_installer::showInstallMessage( 'Could not find XML Setup file in '.$$mosConfig_admin_path . '/components/'.$row->option,
+			HTML_installer::showInstallMessage( 'Could not find XML Setup file in '.JPATH_ADMINISTRATOR . '/components/'.$row->option,
 				'Uninstall -  error', $option, 'component' );
 			exit();
 			*/
@@ -342,7 +342,7 @@ class mosInstallerComponent extends mosInstaller {
 
 		if (trim( $row->option )) {
 			$result = 0;
-			$path = mosPathName( $mosConfig_admin_path . '/components/' . $row->option );
+			$path = mosPathName( JPATH_ADMINISTRATOR . '/components/' . $row->option );
 			if (is_dir( $path )) {
 				$result |= deldir( $path );
 			}

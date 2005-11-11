@@ -72,7 +72,7 @@ if (isset( $_POST['submit'] )) {
 
 	initGzip();
 	header(' Content-Type: text/html; charset=UTF-8');
-	$path = $mosConfig_admin_path . '/templates/' . $cur_template . '/login.php';
+	$path = JPATH_ADMINISTRATOR . '/templates/' . $cur_template . '/login.php';
 	require_once( $path );
 	doGzip();
 }

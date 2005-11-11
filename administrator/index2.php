@@ -102,10 +102,10 @@ header(' Content-Type: text/html; charset=UTF-8');
 // start the html output
 if ($no_html == 0) {
 	// loads template file
-	if ( !file_exists( $mosConfig_admin_path .'/templates/'. $cur_template .'/index.php' ) ) {
+	if ( !file_exists( JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/index.php' ) ) {
 		echo $_LANG->_( 'TEMPLATE' ) .' '. $cur_template .' '. $_LANG->_( 'NOT FOUND' );
 	} else {
-		require_once( $mosConfig_admin_path .'/templates/'. $cur_template .'/index.php' );
+		require_once( JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/index.php' );
 	}
 } else {
 	mosMainBody_Admin();

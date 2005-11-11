@@ -109,7 +109,7 @@ function showContacts( $option ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
-	require_once( $GLOBALS['mosConfig_admin_path'] . '/includes/pageNavigation.php' );
+	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
 
 	// get the subset (based on limits) of required records
@@ -178,7 +178,7 @@ function editContact( $id, $option ) {
 	$lists['default_con'] 		= mosHTML::yesnoradioList( 'default_con', '', $row->default_con );
 
 	// get params definitions
-	$file = $GLOBALS['mosConfig_admin_path'] .'/components/com_contact/contact_items.xml';
+	$file = JPATH_ADMINISTRATOR .'/components/com_contact/contact_items.xml';
 	$params = new mosParameters( $row->params, $file, 'component' );
 
 	HTML_contact::editcontact( $row, $lists, $option, $params );

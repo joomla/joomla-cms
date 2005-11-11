@@ -91,7 +91,7 @@ switch ( $task ) {
 * Compiles a list of installed or defined modules
 */
 function viewModules( $option, $client ) {
-	global $database, $my, $mainframe, $mosConfig_list_limit, $mosConfig_absolute_path, $mosConfig_admin_path;
+	global $database, $my, $mainframe, $mosConfig_list_limit, $mosConfig_absolute_path;
 	global $_LANG;
 
 	$filter_position 	= $mainframe->getUserStateFromRequest( "filter_position{$option}{$client}", 'filter_position', 0 );
@@ -128,7 +128,7 @@ function viewModules( $option, $client ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
-	require_once( $mosConfig_admin_path .'/includes/pageNavigation.php' );
+	require_once( JPATH_ADMINISTRATOR .'/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
 	$query = "SELECT m.*, u.name AS editor, g.name AS groupname, MIN(mm.menuid) AS pages"

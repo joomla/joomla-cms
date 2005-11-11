@@ -161,7 +161,7 @@ function showMenu( $option ) {
 		}
 	}
 
-	require_once( $GLOBALS['mosConfig_admin_path'] . '/includes/pageNavigation.php' );
+	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
 
 	HTML_menumanager::show( $option, $menus, $pageNav );

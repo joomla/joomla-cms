@@ -34,7 +34,7 @@ class JFactory {
 	* @since 1.1
 	*/
 	function &getLanguage( $option=null ) {
-		global $mosConfig_absolute_path, $mosConfig_admin_path, $mainframe;
+		global $mosConfig_absolute_path, $mainframe;
 		global $mosConfig_lang, $my;
 
 		jimport('joomla.language');
