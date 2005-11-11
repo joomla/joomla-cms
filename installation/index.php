@@ -18,7 +18,7 @@ define( '_VALID_MOS', 1 );
 //}
 
 // include support libraries
-require_once( 'includes/joomla.php' );
+require_once( 'includes/installation.php' );
 
 header( 'Cache-Control: no-cache, must-revalidate');	// HTTP/1.1
 header( 'Pragma: no-cache');	// HTTP/1.0

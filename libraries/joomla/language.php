@@ -255,7 +255,6 @@ class JLanguage extends JObject {
 		if (isset( $language )) {
 			$dir .= $language .DIRECTORY_SEPARATOR;
 		}
-		
 		return mosFS::getNativePath( $dir, $addTrailingSlash );
 	}
 	/**
@@ -338,8 +337,8 @@ class JLanguage extends JObject {
 	 * @return array	with found languages as filename => real name pairs
 	 */
 	function _parseXMLLanguageFiles( $dir=null ) {
-		global $mosConfig_absolute_path;
-		require_once( $mosConfig_absolute_path . '/includes/domit/xml_domit_lite_include.php' );
+			
+		require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/domit/xml_domit_lite_include.php' );
 
 		if ($dir == null ) {
 			return null;

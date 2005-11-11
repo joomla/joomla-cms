@@ -69,11 +69,12 @@ function get_php_setting($val) {
  * Tries to detect the language
  */
 function detectLanguage() {
+	
 	$vars = mosGetParam( $_REQUEST, 'vars', array() );
 
 	$client_lang = '';
 	if ($_SERVER['HTTP_ACCEPT_LANGUAGE'] != '') {
-		$languages = JLanguageHelper::buildLanguageList( 'install', '' );
+		$languages = JLanguageHelper::buildLanguageList( 2, '' );
 		$active_lang = array();
 
 		foreach ($languages as $language) {

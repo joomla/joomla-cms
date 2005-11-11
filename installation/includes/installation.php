@@ -32,7 +32,7 @@ DEFINE('JPATH_LIBRARIES'   , JPATH_ROOT . DIRECTORY_SEPARATOR . 'libraries');
 DEFINE('JPATH_INSTALLATION', JPATH_ROOT . DIRECTORY_SEPARATOR . 'installation');
 
 //Globals
-$GLOBALS['mosConfig_absolute_path'] = $base_path . DIRECTORY_SEPARATOR . 'installation';
+$GLOBALS['mosConfig_absolute_path'] = $base_path . DIRECTORY_SEPARATOR;
 $GLOBALS['mosConfig_sitename']      = 'Joomla! - Web Installer';
 
 //File includes
@@ -75,7 +75,7 @@ class JInstallation extends JApplication {
 	}
 }
 
-$mainframe =& new JInstallation(3);
+$mainframe =& new JInstallation(2);
 
 /** @global $_VERSION */
 $_VERSION = new JVersion();
