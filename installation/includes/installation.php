@@ -29,6 +29,23 @@ $GLOBALS['mosConfig_sitename']      = 'Joomla! - Web Installer';
 
 require_once( JPATH_LIBRARIES . '/loader.php' );
 
+if (phpversion() < '4.2.0') {
+	jimport('joomla.compat.php41x' );
+}
+if (phpversion() < '4.3.0') {
+	jimport('joomla.compat.php42x' );
+}
+if (version_compare( phpversion(), '5.0' ) < 0) {
+	jimport('joomla.compat.php50x' );
+}
+
+if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
+	die( 'Fatal error.  Global variable hack attempted.' );
+}
+if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
+	die( 'Fatal error.  Post variable hack attempted.' );
+}
+
 //File includes
 require_once( dirname(__FILE__). '/functions.php' );
 require_once( dirname(__FILE__). '/classes.php' );
