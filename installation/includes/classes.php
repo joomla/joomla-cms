@@ -101,7 +101,6 @@ class installationTasks {
 			'administrator/backups',
 			'administrator/components',
 			'administrator/language',
-			'administrator/components/com_export/files',
 			'administrator/modules',
 			'administrator/templates',
 			'cache',
