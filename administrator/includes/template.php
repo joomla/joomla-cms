@@ -139,7 +139,7 @@ function mosShowHead_Admin() {
 
 	$template 	= $mainframe->getTemplate();
 	
-	$mainframe->SetPageTitle( $mosConfig_sitename .' :: '. $_LANG->_( 'Administration' ) .'  [Mambo]' );
+	$mainframe->SetPageTitle( $mosConfig_sitename .' :: '. $_LANG->_( 'Administration' ) .'  [Joomla!]' );
 	$mainframe->appendMetaTag( 'Content-Type', 'text/html; charset=utf-8' );
 	$mainframe->appendMetaTag( 'description', $mosConfig_MetaDesc );
 	$mainframe->appendMetaTag( 'keywords', $mosConfig_MetaKeys );
@@ -151,7 +151,7 @@ function mosShowHead_Admin() {
 	if ( $my->id ) {
 		?>
 		<script type="text/javascript" src="<?php echo $mosConfig_live_site; ?>/includes/js/JSCookMenu.js"></script>
-		<script type="text/javascript" src="<?php echo $mosConfig_live_site; ?>/includes/js/mambojavascript.js"></script>
+		<script type="text/javascript" src="<?php echo $mosConfig_live_site; ?>/includes/js/joomla.javascript.js"></script>
 		<script type="text/javascript" src="<?php echo $mosConfig_admin_site; ?>/includes/js/ThemeOffice/theme.js"></script>
 		<?php
 
