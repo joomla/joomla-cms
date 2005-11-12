@@ -59,7 +59,7 @@ function botJoomlaSEFUrl( ) {
 				$Itemid 				= $url_array[$pos+4];
 				$limit 					= $url_array[$pos+5];
 				$limitstart 			= $url_array[$pos+6];
-				
+
 				// pass data onto global variables
 				$_GET['task'] 			= $task;
 				$_REQUEST['task'] 		= $task;
@@ -82,7 +82,7 @@ function botJoomlaSEFUrl( ) {
 				$Itemid 				= $url_array[$pos+3];
 				$limit 					= $url_array[$pos+4];
 				$limitstart 			= $url_array[$pos+5];
-				
+
 				// pass data onto global variables
 				$_GET['task'] 			= $task;
 				$_REQUEST['task'] 		= $task;
@@ -102,7 +102,7 @@ function botJoomlaSEFUrl( ) {
 				$sectionid 				= $url_array[$pos+2];
 				$id 					= $url_array[$pos+3];
 				$Itemid 				= $url_array[$pos+4];
-				
+
 				// pass data onto global variables
 				$_GET['task'] 			= $task;
 				$_REQUEST['task'] 		= $task;
@@ -119,7 +119,7 @@ function botJoomlaSEFUrl( ) {
 				$task 					= $url_array[$pos+1];
 				$id 					= $url_array[$pos+2];
 				$Itemid 				= $url_array[$pos+3];
-				
+
 				// pass data onto global variables
 				$_GET['task'] 			= $task;
 				$_REQUEST['task'] 		= $task;
@@ -133,7 +133,7 @@ function botJoomlaSEFUrl( ) {
 			} else if (!(isset($url_array[$pos+3]) && $url_array[$pos+3]!='') && (isset($url_array[$pos+2]) && $url_array[$pos+2]!='')) {
 				$task 					= $url_array[$pos+1];
 				$id 					= $url_array[$pos+2];
-				
+
 				// pass data onto global variables
 				$_GET['task'] 			= $task;
 				$_REQUEST['task'] 		= $task;
@@ -144,7 +144,7 @@ function botJoomlaSEFUrl( ) {
 				// $option/$task
 			} else if (!(isset($url_array[$pos+2]) && $url_array[$pos+2]!='') && (isset($url_array[$pos+1]) && $url_array[$pos+1]!='')) {
 				$task = $url_array[$pos+1];
-				
+
 				// pass data onto global variables
 				$_GET['task'] 			= $task;
 				$_REQUEST['task'] 		= $task;
@@ -202,7 +202,7 @@ function botJoomlaSEFUrl( ) {
 function sefRelToAbs( $string ) {
 	global $iso_client_lang;
 
-	if( isset($GLOBALS['mosConfig_mbf_content']) && $string!='index.php' && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),'index.php') && !eregi('lang=', $string) ) {
+	if( isset($GLOBALS['mosConfig_mbf_content']) && $GLOBALS['mosConfig_mbf_content'] && $string!='index.php' && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),'index.php') && !eregi('lang=', $string) ) {
 		$string .= "&lang=$iso_client_lang";
 	}
 
@@ -282,9 +282,9 @@ function sefRelToAbs( $string ) {
 			}
 			$string = str_replace( '=', ',', $sefstring );
 		}
-		
+
 		return $GLOBALS['mosConfig_live_site'] . '/' . $string;
-		
+
 		// allows SEF without mod_rewrite
 		// uncomment Line 290 and comment out Line 286
 		//return $GLOBALS['mosConfig_live_site'].'/index.php/'.$string;
