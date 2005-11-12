@@ -116,7 +116,6 @@ class JFactory
 	
 	/**
 	 * Creates a database object
-	 * @param string The database type
 	 * @return object
 	 * @since 1.1
 	 */
@@ -164,13 +163,22 @@ class JFactory
 	
 	/**
 	 * Creates an access control object
-	 * @param object A Joomla! database object
 	 * @return object
 	 * $since 1.1
 	 */
 	function &getACL( ) {
 		$acl =& JFactory::_createACL();
 		return $acl;
+	}
+	
+	/**
+	 * Creates a mailer object
+	 * @return object
+	 * $since 1.1
+	 */
+	function &getMailer( ) {
+		$mailer =& JFactory::_createMailer();
+		return $mailer;
 	}
 	
 	/**
@@ -255,6 +263,46 @@ class JFactory
 		$tmpl->addVar( 'includeTabs', 'taburl', $turl );
 
 		return $tmpl;
+	}
+	
+	/**
+	 * @return object
+	 * @since 1.1
+	 */
+	function &_createMailer()
+	{
+		global $mosConfig_sendmail;
+		global $mosConfig_smtpauth, $mosConfig_smtpuser;
+		global $mosConfig_smtppass, $mosConfig_smtphost;
+		global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_mailer;
+	
+		jimport('phpmailer.phpmailer');
+		
+		$mail = new mosPHPMailer();
+
+		$mail->PluginDir = JPATH_LIBRARIES .'/phpmailer/';
+		$mail->SetLanguage( 'en', JPATH_LIBRARIES . '/includes/phpmailer/language/' );
+		$mail->CharSet 	= "utf-8";
+		$mail->IsMail();
+		$mail->From 	= $mosConfig_mailfrom;
+		$mail->FromName = $mosConfig_fromname;
+		$mail->Mailer 	= $mosConfig_mailer;
+
+		// Add smtp values if needed
+		if ( $mosConfig_mailer == 'smtp' ) {
+			$mail->SMTPAuth = $mosConfig_smtpauth;
+			$mail->Username = $mosConfig_smtpuser;
+			$mail->Password = $mosConfig_smtppass;
+			$mail->Host 	= $mosConfig_smtphost;
+		} else
+
+		// Set sendmail path
+		if ( $mosConfig_mailer == 'sendmail' ) {
+			if (isset($mosConfig_sendmail))
+				$mail->Sendmail = $mosConfig_sendmail;
+		} // if
+
+		return $mail;
 	}
 }
 ?>

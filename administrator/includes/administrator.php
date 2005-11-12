@@ -55,9 +55,6 @@ require_once( dirname(__FILE__) . '/template.php' );
 
 //Library imports
 jimport( 'joomla.database.mysql' );
-
-require_once( $mosConfig_absolute_path . '/includes/phpmailer/class.phpmailer.php' );
-
 jimport( 'phpinputfilter.inputfilter' );
 jimport( 'joomla.version' );
 jimport( 'joomla.functions' );

@@ -539,36 +539,11 @@ if (!function_exists('html_entity_decode')) {
 * @return object Mail object
 */
 function mosCreateMail( $from='', $fromname='', $subject, $body ) {
-	global $mosConfig_absolute_path, $mosConfig_sendmail;
-	global $mosConfig_smtpauth, $mosConfig_smtpuser;
-	global $mosConfig_smtppass, $mosConfig_smtphost;
-	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_mailer;
-	global $_LANG;
+	
+	$mail =& JFactory::getMailer();
 
-	$mail = new mosPHPMailer();
-
-	$mail->PluginDir = $mosConfig_absolute_path .'/includes/phpmailer/';
-	$mail->SetLanguage( 'en', $mosConfig_absolute_path . '/includes/phpmailer/language/' );
-	$mail->CharSet 	= "utf-8";
-	$mail->IsMail();
-	$mail->From 	= $from ? $from : $mosConfig_mailfrom;
-	$mail->FromName = $fromname ? $fromname : $mosConfig_fromname;
-	$mail->Mailer 	= $mosConfig_mailer;
-
-	// Add smtp values if needed
-	if ( $mosConfig_mailer == 'smtp' ) {
-		$mail->SMTPAuth = $mosConfig_smtpauth;
-		$mail->Username = $mosConfig_smtpuser;
-		$mail->Password = $mosConfig_smtppass;
-		$mail->Host 	= $mosConfig_smtphost;
-	} else
-
-	// Set sendmail path
-	if ( $mosConfig_mailer == 'sendmail' ) {
-		if (isset($mosConfig_sendmail))
-			$mail->Sendmail = $mosConfig_sendmail;
-	} // if
-
+	$mail->From 	= $from ? $from : $mail->From;
+	$mail->FromName = $fromname ? $fromname : $mail->FromName;
 	$mail->Subject 	= $subject;
 	$mail->Body 	= $body;
 

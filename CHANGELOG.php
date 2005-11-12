@@ -35,6 +35,7 @@ Legend:
  ^ Moved includes/Cache to libraries/cache
  - Deprecated mosCache, use JFactory::getCache instead
  + Added improved JCache class
+ ^ Moved includes/phpmailer to libraries/phpmailer
 
 11-Nov-2005 Levis Bisson
  ^ Fixed installation - added alert when empty password field

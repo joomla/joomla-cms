@@ -61,11 +61,9 @@ if (@$mosConfig_error_reporting === 0) {
 
 // experimenting
 
-jimport( 'joomla.database.mysql' );
-
-require_once( $mosConfig_absolute_path . '/includes/phpmailer/class.phpmailer.php' );
-
+jimport( 'phpmailer.phpmailer');
 jimport( 'phpinputfilter.inputfilter' );
+jimport( 'joomla.database.mysql' );
 jimport( 'joomla.version' );
 jimport( 'joomla.functions' );
 jimport( 'joomla.classes' );
