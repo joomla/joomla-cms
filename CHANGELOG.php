@@ -31,6 +31,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Nov-2005 Levis Bisson
+ ^ Fixed installation - added alert when empty password field
+ ^ Wrapped installation static text for translation
+ ^ Optimized the installation english.ini file
+ # Fixed "GNU Lesser General Public License" link
+
 11-Nov-2005 Johan Janssens
  + Added new JBrowser class
  - Deprecated mosGetOS and mosGetBrowser, use JBrowser instead

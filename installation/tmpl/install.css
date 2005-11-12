@@ -225,6 +225,15 @@ table.content2 td {
 	font-weight: bold;
 }
 
+.Writeable {
+	color: green;
+	font-weight: bold;
+}
+.Unwriteable {
+	color: red;
+	font-weight: bold;
+}
+
 /*  old stuff */
 
 a {

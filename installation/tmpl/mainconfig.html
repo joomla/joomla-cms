@@ -10,11 +10,14 @@
 	function validateForm( frm, task ) {
 		var siteName = getElementByName( frm, 'vars[siteName]' );
 		var adminEmail = getElementByName( frm , 'vars[adminEmail]' );
+		var adminPassword = getElementByName( frm , 'vars[adminPassword]' );
 
 		if (siteName.value == '') {
-			alert( '<mos:Translate key="errSiteName" escape="yes">Please enter a site name</mos:Translate>' );
+			alert( '<mos:Translate key="warnSiteName" escape="yes">Please enter a site name</mos:Translate>' );
 		} else if (adminEmail.value == '') {
-			alert( '<mos:Translate key="errEmailAddress" escape="yes">Please enter a valid email address</mos:Translate>' );
+			alert( '<mos:Translate key="warnEmailAddress" escape="yes">Please enter a valid email address</mos:Translate>' );
+		} else if (adminPassword.value == '') {
+			alert( '<mos:Translate key="warnAdminPassword" escape="yes">Please enter a valid admin password</mos:Translate>' );
 		} else {
 			submitForm( frm, task );
 		}

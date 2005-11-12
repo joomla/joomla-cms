@@ -37,55 +37,56 @@ class installationTasks {
 	 * @param patTemplate A template object
 	 */
 	function preInstall() {
+    	global $_LANG;
 
 		$vars = mosGetParam( $_POST, 'vars', array() );
 		$lists = array();
 
 		$phpOptions[] = array(
-			'label' => 'PHP version >= 4.1.0',
+			'label' => $_LANG->_( 'PHP version' ) .' >= 4.1.0',
 			'state' => phpversion() < '4.1' ? 'No' : 'Yes'
 
 		);
 		$phpOptions[] = array(
-			'label' => '- zlib compression support',
+			'label' => '- '. $_LANG->_( 'zlib compression support' ),
 			'state' => extension_loaded('zlib') ? 'Yes' : 'No'
 		);
 		$phpOptions[] = array(
-			'label' => '- XML support',
+			'label' => '- '. $_LANG->_( 'XML support' ),
 			'state' => extension_loaded('xml') ? 'Yes' : 'No',
 			'statetext' => extension_loaded('xml') ? 'Yes' : 'No'
 		);
 		$phpOptions[] = array(
-			'label' => '- MySQL support',
+			'label' => '- '. $_LANG->_( 'MySQL support' ),
 			'state' => function_exists( 'mysql_connect' ) ? 'Yes' : 'No'
 		);
 		$sp = '';
 		$phpOptions[] = array(
-			'label' => 'Session path set',
+			'label' => $_LANG->_( 'Session path set' ),
 			'state' =>  ($sp = ini_get( 'session.save_path' )) ? 'Yes' : 'No'
 		);
 		$phpOptions[] = array(
-			'label' => 'Session path writeable',
+			'label' => $_LANG->_( 'Session path writeable' ),
 			'state' =>  is_writable( $sp ) ? 'Yes' : 'No'
 		);
 		$cW = (@file_exists('../configuration.php') &&  @is_writable( '../configuration.php' ))
 			|| is_writable( '..' );
 		$phpOptions[] = array(
-			'label' => 'configuration.php writeable',
+			'label' => 'configuration.php '. $_LANG->_( 'writeable' ),
 			'state' =>  $cW ? 'Yes' : 'No',
-			'notice' => $cW ? '' : 'You can still continue the install as the configuration will be displayed at the end, just copy & paste this and upload.'
+			'notice' => $cW ? '' : $_LANG->_( 'NOTICEYOUCANSTILLINSTALL' )
 		);
 		$lists['phpOptions'] =& $phpOptions;
 
 		$phpRecommended = array(
-			array( 'Safe Mode', 'safe_mode', 'OFF' ),
-			array( 'Display Errors', 'display_errors', 'ON' ),
-			array( 'File Uploads', 'file_uploads', 'ON' ),
-			array( 'Magic Quotes GPC', 'magic_quotes_gpc', 'ON' ),
-			array( 'Magic Quotes Runtime', 'magic_quotes_runtime', 'OFF' ),
-			array( 'Register Globals', 'register_globals', 'OFF' ),
-			array( 'Output Buffering', 'output_buffering', 'OFF' ),
-			array( 'Session auto start', 'session.auto_start', 'OFF' )
+			array( $_LANG->_( 'Safe Mode' ), 'safe_mode', 'OFF' ),
+			array( $_LANG->_( 'Display Errors' ), 'display_errors', 'ON' ),
+			array( $_LANG->_( 'File Uploads' ), 'file_uploads', 'ON' ),
+			array( $_LANG->_( 'Magic Quotes GPC' ), 'magic_quotes_gpc', 'ON' ),
+			array( $_LANG->_( 'Magic Quotes Runtime' ), 'magic_quotes_runtime', 'OFF' ),
+			array( $_LANG->_( 'Register Globals' ), 'register_globals', 'OFF' ),
+			array( $_LANG->_( 'Output Buffering' ), 'output_buffering', 'OFF' ),
+			array( $_LANG->_( 'Session auto start' ), 'session.auto_start', 'OFF' )
 		);
 
 		foreach ($phpRecommended as $setting) {
@@ -120,7 +121,7 @@ class installationTasks {
 		foreach ($folders as $folder) {
 			$lists['folderPerms'][] = array(
 				'label' => $folder,
-				'state' => is_writeable( JPATH_SITE . '/' . $folder ) ? 'Yes' : 'No'
+				'state' => is_writeable( JPATH_SITE . '/' . $folder ) ? 'Writeable' : 'Unwriteable'
 			);
 		}
 
@@ -210,12 +211,13 @@ class installationTasks {
 						$database =& new database( $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix );
 					} else {
 						$error = $database->getErrorMsg();
-						installationScreens::error( $vars, array( 'An error occurred while trying to create the datbase ', $DBname ), 'dbconfig', $error );
+						installationScreens::error( $vars, array( $_LANG->_( 'WARNCREATEDB' ) .' '. $DBname ), 'dbconfig', $error );
 						return false;
 					}
 				} else {
 					// connection failed
-					installationScreens::error( $vars, array( 'Could not connect to the database.  Connector returned', $database->getErrorNum() ), 'dbconfig', $database->getErrorMsg() );
+					//installationScreens::error( $vars, array( 'Could not connect to the database.  Connector returned', $database->getErrorNum() ), 'dbconfig', $database->getErrorMsg() );
+					installationScreens::error( $vars, array( $_LANG->_( 'WARNNOTCONNECTDB' ) .' '. $database->getErrorNum() ), 'dbconfig', $database->getErrorMsg() );
 					return false;
 				}
 			}
@@ -224,7 +226,7 @@ class installationTasks {
 
 			if ($DBBackup) {
 				if (mosInstallation::backupDatabase( $database, $DBname, $DBPrefix, $errors )) {
-					installationScreens::error( $vars, 'Some errors occurred backing up the database.', 'dbconfig', mosInstallation::errors2string( $errors ) );
+					installationScreens::error( $vars, $_LANG->_( 'WARNBACKINGUPDB' ), 'dbconfig', mosInstallation::errors2string( $errors ) );
 					return false;
 				}
 			}
