@@ -394,12 +394,8 @@ class JLanguageHelper {
 		}
 
 		// cache activation
-		if( class_exists( 'mosCache' ) ) {
-			$cache =& mosCache::getCache( 'JLanguage' );
-			$langs = $cache->call( 'JLanguage::getKnownLanguages', $client );
-		} else {
-			$langs = JLanguage::getKnownLanguages( $client );
-		}
+		$cache =& JFactory::getCache( 'JLanguage' );
+		$langs = $cache->call( 'JLanguage::getKnownLanguages', $client );
 
 		foreach ($langs as $lang=>$name) {
 			$option = array();

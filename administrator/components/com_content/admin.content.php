@@ -43,7 +43,8 @@ switch ($task) {
 	case 'menulink':
 	case 'apply':
 	case 'save':
-		mosCache::cleanCache( 'com_content' );
+		$cache = JFactory::getCache();
+		$cache->cleanCache( );
 		saveContent( $sectionid, $task );
 		break;
 

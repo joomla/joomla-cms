@@ -76,7 +76,7 @@ function mosLoadAdminModules( $position='left', $style=0 ) {
 		return;
 	}
 	$style = intval( $style );
-	$cache =& mosCache::getCache( 'com_content' );
+	$cache =& JFactory::getCache( 'com_content' );
 	
 	require_once( JPATH_ADMINISTRATOR . '/includes/template.html.php' );
 

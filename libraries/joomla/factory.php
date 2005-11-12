@@ -20,7 +20,8 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
  * @package Joomla
  * @since 1.1
  */
-class JFactory {
+class JFactory 
+{	
 	/**
 	* Load language files
 	* The function will load the common language file of the system and the
@@ -82,6 +83,7 @@ class JFactory {
 	}
 	
 	/**
+	 * Creates a patTemplate oject
 	 * @param array An array of additional template files to load
 	 * @param boolean True to use caching
 	 * @return object
@@ -113,6 +115,7 @@ class JFactory {
 	}
 	
 	/**
+	 * Creates a database object
 	 * @param string The database type
 	 * @return object
 	 * @since 1.1
@@ -134,6 +137,29 @@ class JFactory {
 		}
 		$database->debug( $mosConfig_debug );
 		return $database;
+	}
+	
+	/**
+	 * Creates a cache object
+	 * @param string The cache group name
+	 * @param string The cache class name
+	 * @return object
+	 */
+	function &getCache($group='', $handler = 'JCache_Function'){
+		global $mosConfig_absolute_path, $mosConfig_caching, $mosConfig_cachepath, $mosConfig_cachetime;
+
+		jimport('joomla.cache');
+
+		$options = array(
+			'cacheDir' 		=> $mosConfig_cachepath . '/',
+			'caching' 		=> $mosConfig_caching,
+			'defaultGroup' 	=> $group,
+			'lifeTime' 		=> $mosConfig_cachetime,
+			'fileNameProtection' => false
+		);
+		$cache = new $handler( $options );
+
+		return $cache;
 	}
 	
 	/**

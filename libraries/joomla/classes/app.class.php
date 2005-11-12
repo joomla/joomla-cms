@@ -19,6 +19,7 @@ jimport( 'joomla.classes.object' );
 * Provide many supporting API functions
 *
 * @package Joomla
+* @subpackage JFramework
 * @abstract
 * @since 1.1
 */
@@ -307,7 +308,8 @@ class JApplication extends JObject {
 						$session->remember( $user->username, $user->password );
 					}
 	
-					mosCache::cleanCache();
+					$cache = JFactory::getCache();
+					$cache->cleanCache( );
 					return true;
 				} 
 			}

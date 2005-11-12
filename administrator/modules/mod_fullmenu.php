@@ -428,7 +428,7 @@ class mosFullAdminMenu {
 		<?php
 	}
 }
-$cache =& mosCache::getCache( 'mos_fullmenu' );
+$cache =& JFactory::getCache( 'mos_fullmenu' );
 
 $hide = mosGetParam( $_REQUEST, 'hidemainmenu', 0 );
 

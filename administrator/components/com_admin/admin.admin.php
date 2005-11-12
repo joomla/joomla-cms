@@ -19,12 +19,14 @@ require_once( $mainframe->getPath( 'admin_html' ) );
 switch ($task) {
 
 	case 'clean_cache':
-		mosCache::cleanCache( 'com_content' );
+		$cache = JFactory::getCache();
+		$cache->cleanCache( 'com_content' );
 		mosRedirect( 'index2.php', $_LANG->_( 'Content caches cleaned' ) );
 		break;
 
 	case 'clean_all_cache':
-		mosCache::cleanCache();
+		$cache = JFactory::getCache();
+		$cache->cleanCache( );
 		mosRedirect( 'index2.php', $_LANG->_( 'All caches cleaned' ) );
 		break;
 

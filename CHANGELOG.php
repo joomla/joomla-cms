@@ -31,6 +31,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Nov-2005 Johan Janssens
+ ^ Moved includes/Cache to libraries/cache
+ - Deprecated mosCache, use JFactory::getCache instead
+ + Added improved JCache class
+
 11-Nov-2005 Levis Bisson
  ^ Fixed installation - added alert when empty password field
  ^ Wrapped installation static text for translation
@@ -41,7 +46,6 @@ Legend:
  + Added new JBrowser class
  - Deprecated mosGetOS and mosGetBrowser, use JBrowser instead
  + Added new Visitor Statistics system bot
- ^ Moved includes/Cache to libraries/cache
 
 10-Nov-2005 Johan Janssens
  ^ Installation alterations, backported Mambo 4.5.3 installation

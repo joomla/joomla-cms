@@ -49,7 +49,8 @@ switch ( $task ) {
 
 	case 'save':
 	case 'apply':
-		mosCache::cleanCache( 'com_content' );
+		$cache = JFactory::getCache();
+		$cache->cleanCache( 'com_content' );
 		saveModule( $option, $client, $task );
 		break;
 

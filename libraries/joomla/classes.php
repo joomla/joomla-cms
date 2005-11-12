@@ -273,40 +273,6 @@ class mosAbstractTasker {
 	}
 }
 
-/**
-* Class to support function caching
-* @package Joomla
-* @since 1.0
-*/
-class mosCache {
-	/**
-	* @return object A function cache object
-	*/
-	function &getCache(  $group=''  ) {
-		global $mosConfig_absolute_path, $mosConfig_caching, $mosConfig_cachepath, $mosConfig_cachetime;
-
-		require_once( $mosConfig_absolute_path . '/includes/Cache/Lite/Function.php' );
-
-		$options = array(
-			'cacheDir' 		=> $mosConfig_cachepath . '/',
-			'caching' 		=> $mosConfig_caching,
-			'defaultGroup' 	=> $group,
-			'lifeTime' 		=> $mosConfig_cachetime
-		);
-		$cache = new Cache_Lite_Function( $options );
-		return $cache;
-	}
-	/**
-	* Cleans the cache
-	*/
-	function cleanCache( $group=false ) {
-		global $mosConfig_caching;
-		if ($mosConfig_caching) {
-			$cache =& mosCache::getCache( $group );
-			$cache->clean( $group );
-		}
-	}
-}
 
 /**
 * Plugin handler

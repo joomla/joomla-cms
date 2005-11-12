@@ -135,6 +135,24 @@ class mosMainFrame extends JApplication
 
 
 /**
+* Legacy class, use JFactory::getCache instead
+*/
+class mosCache {
+	/**
+	* @return object A function cache object
+	*/
+	function &getCache(  $group=''  ) {
+		return JFactory::getCache($group);
+	}
+	/**
+	* Cleans the cache
+	*/
+	function cleanCache( $group=false ) {
+		$cache =& JFactory::getCache($group);
+		$cache->cleanCache($group);
+	}
+}
+/**
 * Legacy function, use JApplication::getBrowser() instead
 */
 function mosGetBrowser( $agent ) {

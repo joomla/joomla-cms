@@ -33,7 +33,7 @@ $access->canEditOwn = $acl->acl_check( 'action', 'edit', 'users', $my->usertype,
 $access->canPublish = $acl->acl_check( 'action', 'publish', 'users', $my->usertype, 'content', 'all' );
 
 // cache activation
-$cache =& mosCache::getCache( 'com_content' );
+$cache =& JFactory::getCache( 'com_content' );
 
 // loads function for frontpage component
 if ( $option == 'com_frontpage' ) {
@@ -87,7 +87,8 @@ switch ( strtolower( $task ) ) {
 	case 'save':
 	case 'apply':
 	case 'apply_new':
-		mosCache::cleanCache( 'com_content' );
+		$cache = JFactory::getCache();
+		$cache->cleanCache( 'com_content' );
 		saveContent( $access, $task );
 		break;
 
