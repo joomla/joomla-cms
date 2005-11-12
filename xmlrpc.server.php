@@ -14,7 +14,7 @@
 /** Set flag that this is a parent file */
 define( "_VALID_MOS", 1 );
 
-// crank up mambo
+// crank up Joomla!
 require_once( 'configuration.php' );
 //if (!$mosConfig_xmlrpc_server) {
 //	die( 'XML-RPC server not enabled.' );
