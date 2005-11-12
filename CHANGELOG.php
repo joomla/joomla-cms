@@ -41,6 +41,7 @@ Legend:
  + Added new JBrowser class
  - Deprecated mosGetOS and mosGetBrowser, use JBrowser instead
  + Added new Visitor Statistics system bot
+ ^ Moved includes/Cache to libraries/cache
 
 10-Nov-2005 Johan Janssens
  ^ Installation alterations, backported Mambo 4.5.3 installation
