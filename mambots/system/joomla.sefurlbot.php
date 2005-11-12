@@ -202,7 +202,7 @@ function botJoomlaSEFUrl( ) {
 function sefRelToAbs( $string ) {
 	global $iso_client_lang;
 
-	if( $GLOBALS['mosConfig_mbf_content'] && $string!='index.php' && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),'index.php') && !eregi('lang=', $string) ) {
+	if( isset($GLOBALS['mosConfig_mbf_content']) && $string!='index.php' && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),'index.php') && !eregi('lang=', $string) ) {
 		$string .= "&lang=$iso_client_lang";
 	}
 
