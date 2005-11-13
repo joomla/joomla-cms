@@ -6,6 +6,8 @@
 # Joomla! is Free Software
 ##
 
+Options +FollowSymLinks
+
 #
 #  mod_rewrite in use
 #

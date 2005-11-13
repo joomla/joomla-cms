@@ -98,13 +98,22 @@ class MambovCard extends vCard {
 	// needed to fix bug in vcard class
 	function setAddress( $postoffice='', $extended='', $street='', $city='', $region='', $zip='', $country='', $type='HOME;POSTAL' ) {
 		// $type may be DOM | INTL | POSTAL | PARCEL | HOME | WORK or any combination of these: e.g. "WORK;PARCEL;POSTAL"
-		$key 	= 'ADR';
+		$separator = ';';
+		
+		$key 		= 'ADR';
 		if ( $type != '' ) {
-			$key	.= ';'. $type;
+			$key	.= $separator . $type;
 		}
 		$key.= ';ENCODING=QUOTED-PRINTABLE';
 		
-		$this->properties[$key] = encode( $extended ) .';'. encode( $street ) .';'. encode( $city ) .';'. encode( $region) .';'. encode( $zip ) .';'. encode( $country );
+		$return = encode( $extended );
+		$return .= $separator . encode( $street );
+		$return .= $separator . encode( $city );
+		$return .= $separator . encode( $region);
+		$return .= $separator . encode( $zip );
+		$return .= $separator . encode( $country );
+		
+		$this->properties[$key] = $return;
 	}
 
 	// added ability to set filename
