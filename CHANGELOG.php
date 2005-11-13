@@ -33,6 +33,16 @@ Legend:
 
 13-Nov-2005 Johan Janssens
  ^ Renamed mosConfig_mbf_content to mosConfig_multilingual_support
+ # Fixed artf2081 : Contact us: You are not authorized to view this resource.
+ 
+13-Nov-2005 Rey Gigataras
+ # PERFORMANCE: Fixed artf1993 : Inefficient queries in com_content
+ # Fixed artf2021 : artf1791 : Failed Login results in redirect to referring page 
+ # Fixed artf2021 : appendMetaTag() prepends instead of appends
+ # Fixed artf1981 : incorrect url's at next/previous links at content items
+ # Fixed artf2079 : SQL error in category manager thru contact manager
+ # Fixed artf1586 : .htaccess - RewriteEngine problem
+ # Fixed artf1976 : Check for custom icon in mod_quickicon.php
 
 13-Nov-2005 Arno Zijlstra
  + Added languagepack info text and button/link to the joomla help site to the finish installation screen
