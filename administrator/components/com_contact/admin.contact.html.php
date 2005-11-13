@@ -79,7 +79,7 @@ class HTML_contact {
 
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 
-			$row->cat_link 	= 'index2.php?option=com_categories&section=com_contacts&task=editA&hidemainmenu=1&id='. $row->catid;
+			$row->cat_link 	= 'index2.php?option=com_categories&section=com_contact_details&task=editA&hidemainmenu=1&id='. $row->catid;
 			$row->user_link	= 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->user_id;
 			?>
 			<tr class="<?php echo "row$k"; ?>">
