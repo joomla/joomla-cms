@@ -246,8 +246,10 @@ function sefRelToAbs( $string ) {
 			if (eregi('&Itemid=',$string)) {
 				$temp = split('&Itemid=', $string);
 				$temp = split('&', $temp[1]);
-
-				$sefstring .= $temp[0].'/';
+				
+				if ( $temp[0] !=  99999999 ) {
+					$sefstring .= $temp[0].'/';
+				}
 			}
 			if (eregi('&limit=',$string)) {
 				$temp = split('&limit=', $string);
