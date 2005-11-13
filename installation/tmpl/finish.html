@@ -28,6 +28,11 @@
 	   Click the "Site" button to start Joomla! site or "Admin" to take you to administrator login.
 	   </p>
 	   </mos:Translate>
+       <mos:Translate key="languageinfo">
+	   <p>
+	   On the Joomla! help page for languages you will find an easy step by step help to install your own languagepack in Joomla!<br/>You will find a list there with links to the available languagepacks.<br/>Click the button on the right to open the helpsite in a new window.
+	   </p>
+	   </mos:Translate>
     </div>
 
     <div class="install-form">
@@ -63,7 +68,24 @@
 		  	<td>&nbsp;</td>
 		  </tr>
 		  <tr>
-		  	<td align="right">&nbsp;</td>
+		  	<td align="center" class="notice">
+			<div id="cpanel">
+					<div>
+						<div class="icon">
+							<a href="http://help.joomla.org" target="_blank">
+							<br />
+							<b><mos:Translate key="languagebuttonlineone">Joomla! in your own language?</mos:Translate></b>
+							<br />
+							<mos:Translate key="languagebuttonlinetwo">Visit the Joomla! help site for more information and downloads.</mos:Translate>
+							<br /><br />
+							</a></td>
+						</div>
+					</div>
+			</div>
+			</td>
+		  </tr>
+		  <tr>
+		  	<td>&nbsp;</td>
 		  </tr>
 		  <mos:tmpl name="configuration-error" type="simplecondition" requiredvars="buffer">
 		  <tr>

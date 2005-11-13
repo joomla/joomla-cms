@@ -303,3 +303,31 @@ textarea {
 fieldset {
 	border: 1px #999 solid;
 }
+
+/* mod_quickicon */
+#cpanel {  
+	width: 208px !important;
+	width: 210px;
+	text-align: center;  
+	vertical-align: middle;
+	color : #cc0000;
+	font-size : 12px;	
+}
+
+#cpanel div.icon a { 
+	display: block;
+	width: 208px !important;
+	width: 210px; 
+	vertical-align: middle; 
+	text-decoration : none;
+	border: 1px solid #c24733;
+}
+
+#cpanel div.icon a:link    {  color : #cc0000;  }
+#cpanel div.icon a:hover   { 
+	color : #cc0000; 
+	background-color: #f1e8e6;  
+	border: 1px solid #c24733;
+}
+#cpanel div.icon a:active  {  color : #cc0000;  }
+#cpanel div.icon a:visited {  color : #cc0000;  }

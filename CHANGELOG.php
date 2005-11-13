@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Nov-2005 Arno Zijlstra
+ + Added languagepack info text and button/link to the joomla help site to the finish installation screen
+ ! Link needs to change when the specific language help page is ready
+ 
 12-Nov-2005 Levis Bisson
  ^ Changed from backported Mambo 4.5.3 installation template to the joomla template 
 
