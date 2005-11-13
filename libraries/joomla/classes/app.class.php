@@ -258,7 +258,9 @@ class JApplication extends JObject {
 
 		if (!$username || !$passwd) {
 			// Error check if still no username or password values
-			mosErrorAlert( $_LANG->_( 'LOGIN_INCOMPLETE' ) );
+			echo "<script> alert(\"". $_LANG->_( 'LOGIN_INCOMPLETE' ) ."\"); </script>\n";
+			mosRedirect( mosGetParam( $_POST, 'return', '/' ) );
+			exit();
 		} else {
 
 			//load user bot group
@@ -275,7 +277,9 @@ class JApplication extends JObject {
 
 					// check to see if user is blocked from logging in
 					if ($user->block == 1) {
-						mosErrorAlert( $_LANG->_( 'LOGIN_BLOCKED' ) );
+						echo "<script>alert(\"". $_LANG->_( 'LOGIN_BLOCKED' ) ."\"); </script>\n";
+						mosRedirect(mosGetParam( $_POST, 'return', '/' ));
+						exit();
 					}
 					// fudge the group stuff
 					$grp 		= $acl->getAroGroup( $user->id );
