@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Nov-2005 Johan Janssens
+ ^ Renamed mosConfig_mbf_content to mosConfig_multilingual_support
+
 13-Nov-2005 Arno Zijlstra
  + Added languagepack info text and button/link to the joomla help site to the finish installation screen
  ! Link needs to change when the specific language help page is ready
