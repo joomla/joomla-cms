@@ -419,12 +419,14 @@ class HTML_content {
 					$_Itemid = $mainframe->getItemid( $row->id, 0, 0, $ItemidCount['bs'], $ItemidCount['bc'], $ItemidCount['gbs'] );
 				}
 				$link_on = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$row->id."&amp;Itemid=".$_Itemid);
-				if ( strlen( trim( $row->fulltext ) )) {
+				//if ( strlen( trim( $row->fulltext ) )) {
+				if ( @$row->readmore ) {
 					$link_text = $_LANG->_( 'Read more...' );
 				}
 			} else {
 				$link_on = sefRelToAbs("index.php?option=com_registration&amp;task=register");
-				if (strlen( trim( $row->fulltext ) )) {
+				//if (strlen( trim( $row->fulltext ) )) {
+				if ( @$row->readmore ) {
 					$link_text = $_LANG->_( 'Register to read more...' );
 				}
 			}
