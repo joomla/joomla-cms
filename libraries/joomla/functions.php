@@ -628,9 +628,10 @@ function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
 }
 
 /**
- * method that sets SSL-ness of a url
+ * Method that sets SSL-ness of a url
+ * @since 1.1
  */
-function mosLink( $url, $ssl=0, $sef=1 ) {
+function josURL( $url, $ssl=0, $sef=1 ) {
 	global $mosConfig_live_site, $mosConfig_unsecure_site, $mosConfig_secure_site;
 
 	if ( ( $sef == 1 ) && ( function_exists('sefRelToAbs' ) ) )

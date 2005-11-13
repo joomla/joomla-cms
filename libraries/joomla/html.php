@@ -1488,7 +1488,7 @@ class mosAdminMenus {
 	* load the default or use no image
 	*/
 	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' ) {
-		global $mosConfig_absolute_path, $mosConfig_live_site, $mosConfig_admin_site, $mainframe;
+		global $mosConfig_absolute_path, $mosConfig_live_site, $mainframe;
 		$cur_template = $mainframe->getTemplate();
 
 		if ( $param ) {
@@ -1500,11 +1500,11 @@ class mosAdminMenus {
 			$image = '';
 		} else {
 			if ( file_exists( JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/images/'. $file ) ) {
-				$image = $mosConfig_admin_site .'/templates/'. $cur_template .'/images/'. $file;
+				$image = $mosConfig_live_site .'/administrator/templates/'. $cur_template .'/images/'. $file;
 			} else {
-				$image = $mosConfig_admin_site. $directory . $file;
+				$image = $mosConfig_live_site. '/administrator'. $directory . $file;
 			}
-
+			
 			// outputs actual html <img> tag
 			if ( $type ) {
 				$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" name="'. $name .'" border="0" />';

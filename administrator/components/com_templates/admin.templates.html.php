@@ -26,7 +26,7 @@ class HTML_templates {
 	* @param string The option
 	*/
 	function showTemplates( &$rows, &$pageNav, $option, $client ) {
-		global $my, $mosConfig_live_site, $mosConfig_admin_site;
+		global $my, $mosConfig_live_site;
 		global $_LANG;
 
 		if ( isset( $row->authorUrl) && $row->authorUrl != '' ) {
@@ -42,7 +42,7 @@ class HTML_templates {
 			name = name.replace(pattern,'_');
 			name = name.toLowerCase();
 			if (document.adminForm.doPreview.checked) {
-				var src = '<?php echo  ($client == 'admin' ? $mosConfig_admin_site : $mosConfig_live_site );?>/templates/'+name+'/template_thumbnail.png';
+				var src = '<?php echo  ($client == 'admin' ? $mosConfig_live_site.'/administrator' : $mosConfig_live_site );?>/templates/'+name+'/template_thumbnail.png';
 				var html=name;
 				html = '<br /><img border="1" src="'+src+'" name="imagelib" alt="<?php echo $_LANG->_( 'No preview available' ); ?>" width="206" height="145" />';
 				return overlib(html, CAPTION, name)

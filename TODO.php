@@ -50,7 +50,7 @@ Tracker : <a target="_new" href="http://developer.joomla.org/sf/tracker/do/listA
 	* UTF-8 output
 	
 - Systembots
-	* SSL + new mosLink function
+	* SSL + new josURL function
 	* SEF
 
 - Userbots 

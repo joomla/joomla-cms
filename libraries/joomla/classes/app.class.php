@@ -382,7 +382,7 @@ class JApplication extends JObject {
 	}
 
 	function _setTemplate( ) {
-		global $Itemid, $mosConfig_live_site, $mosConfig_admin_site;
+		global $Itemid, $mosConfig_live_site;
 		$mosConfig_absolute_path = $this->getCfg( 'absolute_path' );
 
 		if ($this->isAdmin()) {
@@ -399,7 +399,7 @@ class JApplication extends JObject {
 			}
 			
 			$this->_templatePath 	= mosFS::getNativePath( JPATH_ADMINISTRATOR . '/templates/' . $cur_template );
-			$this->_templateURL 	= $mosConfig_admin_site . '/templates/' . $cur_template;
+			$this->_templateURL 	= $mosConfig_live_site . 'administrator/templates/' . $cur_template;
 			
 		} else {
 			$assigned = ( !empty( $Itemid ) ? " OR menuid = $Itemid" : '' );

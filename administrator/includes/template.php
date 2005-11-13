@@ -134,7 +134,7 @@ function mosLoadAdminModule( $name, $params=NULL ) {
 */
 function mosShowHead_Admin() {
 	global $database, $option, $my, $mainframe;
-	global $mosConfig_MetaDesc, $mosConfig_MetaKeys, $mosConfig_live_site, $mosConfig_sef, $mosConfig_absolute_path, $mosConfig_sitename, $mosConfig_favicon, $mosConfig_caching, $mosConfig_admin_site;
+	global $mosConfig_MetaDesc, $mosConfig_MetaKeys, $mosConfig_live_site, $mosConfig_sef, $mosConfig_absolute_path, $mosConfig_sitename, $mosConfig_favicon, $mosConfig_caching;
 	global $_LANG, $_VERSION, $_MAMBOTS;
 
 	$template 	= $mainframe->getTemplate();
@@ -152,7 +152,7 @@ function mosShowHead_Admin() {
 		?>
 		<script type="text/javascript" src="<?php echo $mosConfig_live_site; ?>/includes/js/JSCookMenu.js"></script>
 		<script type="text/javascript" src="<?php echo $mosConfig_live_site; ?>/includes/js/joomla.javascript.js"></script>
-		<script type="text/javascript" src="<?php echo $mosConfig_admin_site; ?>/includes/js/ThemeOffice/theme.js"></script>
+		<script type="text/javascript" src="<?php echo $mosConfig_live_site; ?>/administrator/includes/js/ThemeOffice/theme.js"></script>
 		<?php
 
 		// load editor

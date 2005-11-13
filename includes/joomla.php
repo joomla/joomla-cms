@@ -19,7 +19,7 @@ define( '_MOS_MAMBO_INCLUDED', 1 );
 
 // checks for configuration file, if none found loads installation page
 if (!file_exists( JPATH_SITE . '/configuration.php' ) || filesize( JPATH_SITE .'/configuration.php' ) < 10) {
-	$self = str_replace( '/index.php','', $_SERVER['PHP_SELF'] ). '/';
+	$self = str_replace( '/index.php','', strtolower($_SERVER['PHP_SELF']) ). '/';
 	header("Location: http://" . $_SERVER['HTTP_HOST'] . $self . "installation/index.php" );
 	exit();
 }

@@ -202,7 +202,7 @@ class JFactory
 	 */
 	function &_createPatTemplate() {
 		global $_LANG, $mainframe;
-		global $mosConfig_absolute_path, $mosConfig_live_site, $mosConfig_admin_site;
+		global $mosConfig_absolute_path, $mosConfig_live_site;
 
 		$path = $mosConfig_absolute_path . '/libraries/pattemplate';
 
@@ -232,8 +232,8 @@ class JFactory
 		$tmpl->addGlobalVar( 'self', 				$_SERVER['PHP_SELF'] );
 		$tmpl->addGlobalVar( 'itemid', 				$GLOBALS['Itemid'] );
 		$tmpl->addGlobalVar( 'siteurl', 			$mosConfig_live_site );
-		$tmpl->addGlobalVar( 'adminurl', 			$mosConfig_admin_site );
-		$tmpl->addGlobalVar( 'admintemplateurl', 	$mosConfig_admin_site . '/templates/'. $mainframe->getTemplate() );
+		$tmpl->addGlobalVar( 'adminurl', 			$mosConfig_live_site.'/administrator' );
+		$tmpl->addGlobalVar( 'admintemplateurl', 	$mosConfig_live_site . '/administrator/templates/'. $mainframe->getTemplate() );
 		$tmpl->addGlobalVar( 'sitename', 			$GLOBALS['mosConfig_sitename'] );
 
 		$tmpl->addGlobalVar( 'page_encoding', 		$_LANG->iso() );

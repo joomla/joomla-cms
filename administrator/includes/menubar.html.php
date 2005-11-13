@@ -585,7 +585,7 @@ class mosMenuBar {
 	* @since 1.0
 	*/
 	function help( $ref, $com=false ) {
-		global $mosConfig_live_site, $mosConfig_admin_site;
+		global $mosConfig_live_site;
 		global $_LANG;
 
 		$image2 	= mosAdminMenus::ImageCheckAdmin( 'help_f2.png', '/images/', NULL, NULL, 'Help', 'help', 1 );
@@ -597,7 +597,7 @@ class mosMenuBar {
 
 		if ($com) {
 	   // help file for 3PD Components
-			$url = $mosConfig_admin_site . '/components/' . $GLOBALS['option'] . '/help/';
+			$url = $mosConfig_live_site . 'administrator/components/' . $GLOBALS['option'] . '/help/';
 			if (!eregi( '\.html$', $ref )) {
 				$ref = $ref . '.html';
 			}

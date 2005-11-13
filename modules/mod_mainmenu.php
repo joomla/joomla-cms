@@ -66,7 +66,7 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 
 
 		if ( strcasecmp( substr( $mitem->link,0,4 ), 'http' ) ) {
-			$mitem->link = mosLink( $mitem->link, $menu_secure);
+			$mitem->link = josURL( $mitem->link, $menu_secure);
 		}
 
 		$menuclass = 'mainlevel'. $params->get( 'class_sfx' );

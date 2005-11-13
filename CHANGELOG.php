@@ -34,6 +34,8 @@ Legend:
 13-Nov-2005 Johan Janssens
  ^ Renamed mosConfig_mbf_content to mosConfig_multilingual_support
  # Fixed artf2081 : Contact us: You are not authorized to view this resource.
+ ^ Renamed mosLink function to josURL.
+ ^ Reverted use of mosConfig_admin_site back to mosConfig_live_site
  
 13-Nov-2005 Rey Gigataras
  # PERFORMANCE: Fixed artf1993 : Inefficient queries in com_content
@@ -277,7 +279,7 @@ Legend:
  + Added backend language chooser on login page
 
 12-Oct-2005 Andy Miller
- + Added advanced SSL support plus new mosLink() method for 3pd's to use
+ + Added advanced SSL support plus new mosLink method
 
 -------------------- 1.0.3 Released [14-Oct-2005 08:00 UTC] ----------------------
 
