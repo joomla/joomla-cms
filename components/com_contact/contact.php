@@ -181,7 +181,7 @@ function contactpage( $contact_id ) {
 	global $mainframe, $database, $my, $Itemid;
 	global $_LANG;
 
-	$query = "SELECT a.id AS value, CONCAT_WS( ' - ', a.name, a.con_position ) AS text"
+	$query = "SELECT a.id AS value, CONCAT_WS( ' - ', a.name, a.con_position ) AS text, a.catid"
 	. "\n FROM #__contact_details AS a"
 	. "\n LEFT JOIN #__categories AS cc ON cc.id = a.catid"
 	. "\n WHERE a.published = 1"
@@ -196,7 +196,7 @@ function contactpage( $contact_id ) {
 	$count = count( $checks );
 	if ($count) {
 		if ($contact_id < 1) {
-			$contact_id = $list[0]->value;
+			$contact_id = $checks[0]->value;
 		}
 
 		$query = "SELECT *"
