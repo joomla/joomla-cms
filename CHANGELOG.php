@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Nov-2005 Levis Bisson
+ ^ Changed from backported Mambo 4.5.3 installation template to the joomla template 
+
 12-Nov-2005 Johan Janssens
  ^ Moved includes/Cache to libraries/cache
  - Deprecated mosCache, use JFactory::getCache instead
