@@ -292,8 +292,7 @@ class JApplication extends JObject {
 					$user->usertype = $grp->name;
 	
 					// access control check
-					$client = $this->_isAdmin ? 'administrator' : 'site';
-					//if ( !$acl->acl_check( 'login', $client, 'users', $user->usertype ) ) {
+					//if ( !$acl->acl_check( 'login', $this->_client, 'users', $user->usertype ) ) {
 					//	return false;
 					//}
 	
