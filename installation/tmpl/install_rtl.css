@@ -28,20 +28,21 @@ body {
 #header {
         background-color: #FFF;
         background-position: right top;
-        border-bottom: 4px solid #80B5D7;
+        border-bottom: 4px solid #C64934;
+        background: url(header_bg.png);
 }
 
 #joomla {
         position: relative;
         width: 100%;
-        background: url(../images/header_blue.jpg) #30569D no-repeat;
-        background-position: top right;
+        background: url(header_version.png) no-repeat;
+        background-position: bottom right;
         margin: 0px;
         padding: 0px;
 }
 
 #stepbar {
-	background-color: #F1F3F5;
+	background-color: #F1F1F1;
 	width: 170px !important;
 	width: 170px;
 	height: 400px;
@@ -63,8 +64,8 @@ body {
 }
 
 .step-on {
-	color: #ff9900;
-	background: #30559C;
+	color: #fff;
+	background: #c64934;
 	font-weight: bold;
 	font-size: 13px;
 	padding: 10px;
@@ -80,7 +81,6 @@ body {
 	border: 1px solid #cccccc;
 	margin-bottom: 2px;
 }
-
 
 #right {
   float: left;
@@ -117,17 +117,17 @@ body {
 	padding: 10px;
 	border: 1px solid #cccccc;
 	width: 750px;
-	background: #F1F3F5;
+	background: #F1F1F1;
 	direction: rtl;
 }
 	
 .install h1 {
 	font-size: 15px;
 	font-weight: bold;
- 	color: #FF9900;
+ 	color: #c64934;
 	padding: 10px 0px 4px 10px;
  	text-align: right;
-	border-bottom: 1px solid #FF9900;
+	border-bottom: 1px solid #c64934;
 	margin-bottom: 10px;
 
 }
@@ -242,15 +242,15 @@ table.content2 td {
 /*  old stuff */
 
 a {
-	color : #FF9900;
+	color: #C64934;
 	text-decoration : none;
 }
 a:hover {
-	color : #999999;
+	color : #30569D;
 	text-decoration : underline;
 }
 a:active {
-	color : #FF6600;
+	color : #FF9900;
 	text-decoration : underline;
 }
 
@@ -275,7 +275,6 @@ a:active {
 	padding-bottom: 10px;
 }
 
-
 select.options, input.options {
 	font-size: 8pt;
 	border: 1px solid #999;
@@ -284,7 +283,6 @@ select.options, input.options {
 form {
 	margin: 0px 0px 0px 0px;
 }
-
 
 .dottedline {
 	border-bottom: 1px solid #333;
