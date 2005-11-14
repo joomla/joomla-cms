@@ -27,7 +27,7 @@ function viewSearch() {
 	global $mainframe, $mosConfig_absolute_path, $mosConfig_lang, $my;
 	global $Itemid, $database, $_MAMBOTS;
 	global $mosConfig_list_limit;
-	global $_LANG;
+	;
 
 	$restriction = 0;
 
@@ -54,13 +54,13 @@ function viewSearch() {
 		$params = new mosParameters( $menu->params );
 		$params->def( 'page_title', 1 );
 		$params->def( 'pageclass_sfx', '' );
-		$params->def( 'header', $menu->name, $_LANG->_( 'Search' ) );
+		$params->def( 'header', $menu->name, JText::_( 'Search' ) );
 		$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
 	} else {
 		$params = new mosParameters('');
 		$params->def( 'page_title', 1 );
 		$params->def( 'pageclass_sfx', '' );
-		$params->def( 'header', $_LANG->_( 'Search' ) );
+		$params->def( 'header', JText::_( 'Search' ) );
 		$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
 	}
 
@@ -86,11 +86,11 @@ function viewSearch() {
 	@include "$mosConfig_absolute_path/language/$mosConfig_lang.ignore.php";
 
 	$orders = array();
-	$orders[] = mosHTML::makeOption( 'newest', $_LANG->_( 'Newest first' ) );
-	$orders[] = mosHTML::makeOption( 'oldest', $_LANG->_( 'Oldest first' ) );
-	$orders[] = mosHTML::makeOption( 'popular', $_LANG->_( 'Most popular' ) );
-	$orders[] = mosHTML::makeOption( 'alpha', $_LANG->_( 'Alphabetical' ) );
-	$orders[] = mosHTML::makeOption( 'category', $_LANG->_( 'Section/Category' ) );
+	$orders[] = mosHTML::makeOption( 'newest', JText::_( 'Newest first' ) );
+	$orders[] = mosHTML::makeOption( 'oldest', JText::_( 'Oldest first' ) );
+	$orders[] = mosHTML::makeOption( 'popular', JText::_( 'Most popular' ) );
+	$orders[] = mosHTML::makeOption( 'alpha', JText::_( 'Alphabetical' ) );
+	$orders[] = mosHTML::makeOption( 'category', JText::_( 'Section/Category' ) );
 	$ordering = mosGetParam( $_REQUEST, 'ordering', 'newest');
 	$lists = array();
 	$lists['ordering'] = mosHTML::selectList( $orders, 'ordering', 'id="search_ordering" class="inputbox"', 'value', 'text', $ordering );
@@ -100,17 +100,17 @@ function viewSearch() {
 
 	$phrase = new stdClass();
 	$phrase->value = 'any';
-	$phrase->text = $_LANG->_( 'Any words' );
+	$phrase->text = JText::_( 'Any words' );
 	$searchphrases[] = $phrase;
 
 	$phrase = new stdClass();
 	$phrase->value = 'all';
-	$phrase->text = $_LANG->_( 'All words' );
+	$phrase->text = JText::_( 'All words' );
 	$searchphrases[] = $phrase;
 
 	$phrase = new stdClass();
 	$phrase->value = 'exact';
-	$phrase->text = $_LANG->_( 'Exact phrase' );
+	$phrase->text = JText::_( 'Exact phrase' );
 	$searchphrases[] = $phrase;
 
 	$lists['searchphrase']= mosHTML::radioList( $searchphrases, 'searchphrase', '', $searchphrase );
@@ -122,20 +122,20 @@ function viewSearch() {
 		if ( count( $_POST ) ) {
 			// html output
 			// no matches found
-			search_html::message( $_LANG->_( 'No results were found' ), $params );
+			search_html::message( JText::_( 'No results were found' ), $params );
 		} else if ( $restriction ) {
 				// html output
-				search_html::message( $_LANG->_( 'SEARCH_MESSAGE' ), $params );
+				search_html::message( JText::_( 'SEARCH_MESSAGE' ), $params );
 		}
 	} else if ( in_array( $searchword, $search_ignore ) ) {
 		// html output
-		search_html::message( $_LANG->_( 'IGNOREKEYWORD' ), $params );
+		search_html::message( JText::_( 'IGNOREKEYWORD' ), $params );
 	} else {
 		// html output
 
 		if ( $restriction ) {
 			// html output
-			search_html::message( $_LANG->_( 'SEARCH_MESSAGE' ), $params );
+			search_html::message( JText::_( 'SEARCH_MESSAGE' ), $params );
 		}
 
 		$searchword_clean = htmlspecialchars( stripslashes( $searchword ) );
@@ -186,7 +186,7 @@ function viewSearch() {
 			}
 		}
 
-		$mainframe->setPageTitle( $_LANG->_( 'Search' ) );
+		$mainframe->setPageTitle( JText::_( 'Search' ) );
 
 		$total 		= $totalRows;
 		$limit		= mosGetParam( $_GET, 'limit', $mosConfig_list_limit );

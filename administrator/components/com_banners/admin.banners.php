@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!$acl->acl_check( 'com_banners', 'manage', 'users', $my->usertype )) {
-	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
+	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -130,7 +130,7 @@ function viewBanners( $option ) {
 
 function editBanner( $bannerid, $option ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	$lists = array();
 
@@ -151,7 +151,7 @@ function editBanner( $bannerid, $option ) {
 		return;
 	}
 
-	$clientlist[] 	= mosHTML::makeOption( '0', $_LANG->_( 'Select Client' ), 'cid', 'name' );
+	$clientlist[] 	= mosHTML::makeOption( '0', JText::_( 'Select Client' ), 'cid', 'name' );
 	$clientlist 	= array_merge( $clientlist, $database->loadObjectList() );
 	$lists['cid'] 	= mosHTML::selectList( $clientlist, 'cid', 'class="inputbox" size="1"','cid', 'name', $row->cid);
 
@@ -162,8 +162,8 @@ function editBanner( $bannerid, $option ) {
 
 
 	// make the select list for the image positions
-	$yesno[] = mosHTML::makeOption( '0', $_LANG->_( 'No' ) );
-  	$yesno[] = mosHTML::makeOption( '1', $_LANG->_( 'Yes' ) );
+	$yesno[] = mosHTML::makeOption( '0', JText::_( 'No' ) );
+  	$yesno[] = mosHTML::makeOption( '1', JText::_( 'Yes' ) );
 
   	$lists['showBanner'] = mosHTML::selectList( $yesno, 'showBanner', 'class="inputbox" size="1"' , 'value', 'text', $row->showBanner );
 
@@ -172,14 +172,14 @@ function editBanner( $bannerid, $option ) {
 
 function saveBanner( $task ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$row = new mosBanner($database);
 
-	$msg = $_LANG->_( 'Saved Banner info' );
+	$msg = JText::_( 'Saved Banner info' );
 	if ( $task == 'resethits' ) {
 		$row->clicks = 0;
-		$msg = $_LANG->_( 'Reset Banner clicks' );
+		$msg = JText::_( 'Reset Banner clicks' );
 	}
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
@@ -210,11 +210,11 @@ function cancelEditBanner() {
 
 function publishBanner( $cid, $publish=1 ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		$action = $publish ? 'publish' : 'unpublish';
-		echo "<script> alert('". $_LANG->_( 'Select an item to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit();
 	}
 
@@ -297,7 +297,7 @@ function editBannerClient( $clientid, $option ) {
 
 	// fail if checked out not by 'me'
 	if ($row->checked_out && $row->checked_out <> $my->id) {
-		$msg = $_LANG->_( 'The client' ) .' [ '. $row->name. ' ] '. $_LANG->_( 'WARNEDITEDBYPERSON' );
+		$msg = JText::_( 'The client' ) .' [ '. $row->name. ' ] '. JText::_( 'WARNEDITEDBYPERSON' );
 		mosRedirect( 'index2.php?option='. $option .'&task=listclients', $msg );
 	}
 

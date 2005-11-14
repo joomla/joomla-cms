@@ -21,17 +21,16 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class TOOLBAR_FrontPage {
 	function _DEFAULT() {
-		global $_LANG;
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( $_LANG->_( 'Frontpage Manager' ), 'frontpage.png', 'index2.php?option=com_frontpage' );
+		mosMenuBar::title( JText::_( 'Frontpage Manager' ), 'frontpage.png', 'index2.php?option=com_frontpage' );
 		mosMenuBar::archiveList();
 		mosMenuBar::spacer();
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();
 		mosMenuBar::spacer();
-		mosMenuBar::custom('remove','delete.png','delete_f2.png',$_LANG->_( 'Remove' ), true);
+		mosMenuBar::custom('remove','delete.png','delete_f2.png',JText::_( 'Remove' ), true);
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.frontpage' );
 		mosMenuBar::endTable();

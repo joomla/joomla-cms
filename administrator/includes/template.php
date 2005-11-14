@@ -66,7 +66,7 @@ function mosCountAdminModules(  $position='left' ) {
 */
 function mosLoadAdminModules( $position='left', $style=0 ) {
 	global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang;
-	global $mainframe, $database, $my, $Itemid, $_LANG;
+	global $mainframe, $database, $my, $Itemid;
 	
 	$tp = mosGetParam( $_GET, 'tp', 0 );
 	if ($tp) {
@@ -89,7 +89,10 @@ function mosLoadAdminModules( $position='left', $style=0 ) {
 	
 	foreach ($modules as $module) {
 		
-		$_LANG->load($module->module);
+		global $mainframe;
+		
+		$lang =& $mainframe->getLanguage();
+		$lang->load($module->module);
 		
 		$params = new mosParameters( $module->params );
 		
@@ -113,9 +116,10 @@ function mosLoadAdminModules( $position='left', $style=0 ) {
 */
 function mosLoadAdminModule( $name, $params=NULL ) {
 	global $mosConfig_live_site;
-	global $database, $acl, $my, $mainframe, $option, $_LANG;
+	global $database, $acl, $my, $mainframe, $option;
 	
-	$_LANG->load('mod_'.$name);
+	$lang =& $mainframe->getLanguage();
+	$lang->load('mod_'.$name);
 
 	$task = mosGetParam( $_REQUEST, 'task', '' );
 
@@ -135,11 +139,12 @@ function mosLoadAdminModule( $name, $params=NULL ) {
 function mosShowHead_Admin() {
 	global $database, $option, $my, $mainframe;
 	global $mosConfig_MetaDesc, $mosConfig_MetaKeys, $mosConfig_live_site, $mosConfig_sef, $mosConfig_absolute_path, $mosConfig_sitename, $mosConfig_favicon, $mosConfig_caching;
-	global $_LANG, $_VERSION, $_MAMBOTS;
+	global $_VERSION, $_MAMBOTS;
 
-	$template 	= $mainframe->getTemplate();
+	$template =  $mainframe->getTemplate();
+	$lang     =& $mainframe->getLanguage();
 	
-	$mainframe->SetPageTitle( $mosConfig_sitename .' :: '. $_LANG->_( 'Administration' ) .'  [Joomla!]' );
+	$mainframe->SetPageTitle( $mosConfig_sitename .' :: '. JText::_( 'Administration' ) .'  [Joomla!]' );
 	$mainframe->appendMetaTag( 'Content-Type', 'text/html; charset=utf-8' );
 	$mainframe->appendMetaTag( 'description', $mosConfig_MetaDesc );
 	$mainframe->appendMetaTag( 'keywords', $mosConfig_MetaKeys );
@@ -159,8 +164,8 @@ function mosShowHead_Admin() {
 		initEditor();
 	}
 	?>
-	<link type="text/css" rel="stylesheet" href="templates/<?php echo $template; ?>/css/template_css<?php echo $_LANG->rtl() ? '_rtl': ''; ?>.css" />
-	<link type="text/css" rel="stylesheet" href="templates/<?php echo $template; ?>/css/theme<?php echo $_LANG->rtl() ? '_rtl': ''; ?>.css" />
+	<link type="text/css" rel="stylesheet" href="templates/<?php echo $template; ?>/css/template_css<?php echo $lang->rtl() ? '_rtl': ''; ?>.css" />
+	<link type="text/css" rel="stylesheet" href="templates/<?php echo $template; ?>/css/theme<?php echo $lang->rtl() ? '_rtl': ''; ?>.css" />
 	<?php
 
 	// favourites icon

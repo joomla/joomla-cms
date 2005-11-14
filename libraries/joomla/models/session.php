@@ -52,14 +52,14 @@ class mosSession extends mosDBTable {
 	}
 
 	function insert() {
-		global $_LANG;
+		;
 
 		$this->generateId();
 		$this->time = time();
 		$ret = $this->_db->insertObject( $this->_tbl, $this );
 
 		if( !$ret ) {
-			$this->_error = strtolower(get_class( $this ))."::". $_LANG->_( 'store failed' ) ."<br />" . $this->_db->stderr();
+			$this->_error = strtolower(get_class( $this ))."::". JText::_( 'store failed' ) ."<br />" . $this->_db->stderr();
 			return false;
 		} else {
 			return true;
@@ -67,13 +67,13 @@ class mosSession extends mosDBTable {
 	}
 
 	function update( $updateNulls=false ) {
-		global $_LANG;
+		;
 
 		$this->time = time();
 		$ret = $this->_db->updateObject( $this->_tbl, $this, 'session_id', $updateNulls );
 
 		if( !$ret ) {
-			$this->_error = strtolower(get_class( $this ))."::". $_LANG->_( 'store failed' ) ." <br />" . $this->_db->stderr();
+			$this->_error = strtolower(get_class( $this ))."::". JText::_( 'store failed' ) ." <br />" . $this->_db->stderr();
 			return false;
 		} else {
 			return true;

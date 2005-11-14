@@ -17,12 +17,12 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if ( !$acl->acl_check( 'com_installer', $element, 'users', $my->usertype ) ) {
-	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
+	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( $mainframe->getPath( 'installer_html', 'module' ) );
 ?><!--<?php
-HTML_installer::showInstallForm( $_LANG->_( 'Install new Modules' ), $option, 'module', '', dirname(__FILE__) );
+HTML_installer::showInstallForm( JText::_( 'Install new Modules' ), $option, 'module', '', dirname(__FILE__) );
 ?>
 <table class="content">
 <?php
@@ -39,12 +39,12 @@ showInstalledModules( $option );
 */
 function showInstalledModules( $_option ) {
 	global $database, $mosConfig_absolute_path;
-	global $_LANG;
+	;
 
 	$filter 		= mosGetParam( $_POST, 'filter', '' );
-	$select[] 		= mosHTML::makeOption( '', $_LANG->_( 'All' ) );
-	$select[] 		= mosHTML::makeOption( '0', $_LANG->_( 'Site Modules' ) );
-	$select[] 		= mosHTML::makeOption( '1', $_LANG->_( 'Admin Modules' ) );
+	$select[] 		= mosHTML::makeOption( '', JText::_( 'All' ) );
+	$select[] 		= mosHTML::makeOption( '0', JText::_( 'Site Modules' ) );
+	$select[] 		= mosHTML::makeOption( '1', JText::_( 'Admin Modules' ) );
 	$lists['filter'] = mosHTML::selectList( $select, 'filter', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter );
 	if ( $filter == NULL ) {
 		$and = '';

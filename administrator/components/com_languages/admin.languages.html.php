@@ -23,13 +23,13 @@ class HTML_languages {
 
 	function showLanguages( $cur_lang, &$rows, &$pageNav, $option ) {
 		global $my;
-		global $_LANG;
+		;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
-			<th class="langmanager"><?php echo $_LANG->_( 'Language Manager' ); ?>
-			 <small><small>[ <?php echo $_LANG->_( 'Site' ); ?> ]</small></small>
+			<th class="langmanager"><?php echo JText::_( 'Language Manager' ); ?>
+			 <small><small>[ <?php echo JText::_( 'Site' ); ?> ]</small></small>
 			</th>
 		</tr>
 		</table>
@@ -37,28 +37,28 @@ class HTML_languages {
 		<table class="adminlist">
 		<tr>
 			<th width="20">
-			<?php echo $_LANG->_( 'Num' ); ?>
+			<?php echo JText::_( 'Num' ); ?>
 			</th>
 			<th width="30">
 			&nbsp;
 			</th>
 			<th width="25%" class="title">
-			<?php echo $_LANG->_( 'Language' ); ?>
+			<?php echo JText::_( 'Language' ); ?>
 			</th>
 			<th width="5%">
-			<?php echo $_LANG->_( 'Published' ); ?>
+			<?php echo JText::_( 'Published' ); ?>
 			</th>
 			<th width="10%">
-			<?php echo $_LANG->_( 'Version' ); ?>
+			<?php echo JText::_( 'Version' ); ?>
 			</th>
 			<th width="10%">
-			<?php echo $_LANG->_( 'Date' ); ?>
+			<?php echo JText::_( 'Date' ); ?>
 			</th>
 			<th width="20%">
-			<?php echo $_LANG->_( 'Author' ); ?>
+			<?php echo JText::_( 'Author' ); ?>
 			</th>
 			<th width="25%">
-			<?php echo $_LANG->_( 'Author Email' ); ?>
+			<?php echo JText::_( 'Author Email' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -76,7 +76,7 @@ class HTML_languages {
 				<td width="5%" align="center">
 				<?php
 				if ($row->published == 1) {	 ?>
-					<img src="images/tick.png" alt="<?php echo $_LANG->_( 'Published' ); ?>"/>
+					<img src="images/tick.png" alt="<?php echo JText::_( 'Published' ); ?>"/>
 					<?php
 				} else {
 					?>
@@ -114,16 +114,16 @@ class HTML_languages {
 
 	function editLanguageSource( $language, &$content, $option ) {
 		global $mosConfig_absolute_path;
-		global $_LANG;
+		;
 		$language_path = $mosConfig_absolute_path . "/language/" . $language . ".php";
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
 		<tr>
-			<td width="270"><table class="adminheading"><tr><th class="langmanager"><?php echo $_LANG->_( 'Language Editor' ); ?></th></tr></table></td>
+			<td width="270"><table class="adminheading"><tr><th class="langmanager"><?php echo JText::_( 'Language Editor' ); ?></th></tr></table></td>
 			<td width="240">
-				<span class="componentheading"><?php echo $language; ?>.php <?php echo $_LANG->_( 'is' ); ?> :
-				<b><?php echo is_writable($language_path) ? '<font color="green"> '. $_LANG->_( 'Writeable' ) .'</font>' : '<font color="red"> '. $_LANG->_( 'Unwriteable' ) .'</font>' ?></b>
+				<span class="componentheading"><?php echo $language; ?>.php <?php echo JText::_( 'is' ); ?> :
+				<b><?php echo is_writable($language_path) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?></b>
 				</span>
 			</td>
 <?php
@@ -132,14 +132,14 @@ class HTML_languages {
 ?>
 			<td>
 				<input type="checkbox" id="disable_write" name="disable_write" value="1"/>
-				<label for="disable_write"><?php echo $_LANG->_( 'Make unwriteable after saving' ); ?></label>
+				<label for="disable_write"><?php echo JText::_( 'Make unwriteable after saving' ); ?></label>
 			</td>
 <?php
 				} else {
 ?>
 			<td>
 				<input type="checkbox" id="enable_write" name="enable_write" value="1"/>
-				<label for="enable_write"><?php echo $_LANG->_( 'Override write protection while saving' ); ?></label>
+				<label for="enable_write"><?php echo JText::_( 'Override write protection while saving' ); ?></label>
 			</td>
 <?php
 				} // if

@@ -26,12 +26,12 @@ class mosHTML {
 	}
 
   function writableCell( $folder ) {
-	global $_LANG;
+	;
 
   	echo '<tr>';
   	echo '<td class="item">' . $folder . '/</td>';
   	echo '<td >';
-  	echo is_writable( "../$folder" ) ? '<b><font color="green">'. $_LANG->_( 'Writeable' ) .'</font></b>' : '<b><font color="red">'. $_LANG->_( 'Unwriteable' ) .'</font></b>' . '</td>';
+  	echo is_writable( "../$folder" ) ? '<b><font color="green">'. JText::_( 'Writeable' ) .'</font></b>' : '<b><font color="red">'. JText::_( 'Unwriteable' ) .'</font></b>' . '</td>';
   	echo '</tr>';
   }
 
@@ -122,21 +122,21 @@ class mosHTML {
 	* @returns string HTML for the select list values
 	*/
 	function monthSelectList( $tag_name, $tag_attribs, $selected ) {
-		global $_LANG;
+		;
 
 		$arr = array(
-			mosHTML::makeOption( '01', $_LANG->_( 'JAN' ) ),
-			mosHTML::makeOption( '02', $_LANG->_( 'FEB' ) ),
-			mosHTML::makeOption( '03', $_LANG->_( 'MAR' ) ),
-			mosHTML::makeOption( '04', $_LANG->_( 'APR' ) ),
-			mosHTML::makeOption( '05', $_LANG->_( 'MAY' ) ),
-			mosHTML::makeOption( '06', $_LANG->_( 'JUN' ) ),
-			mosHTML::makeOption( '07', $_LANG->_( 'JUL' ) ),
-			mosHTML::makeOption( '08', $_LANG->_( 'AUG' ) ),
-			mosHTML::makeOption( '09', $_LANG->_( 'SEP' ) ),
-			mosHTML::makeOption( '10', $_LANG->_( 'OCT' ) ),
-			mosHTML::makeOption( '11', $_LANG->_( 'NOV' ) ),
-			mosHTML::makeOption( '12', $_LANG->_( 'DEC' ) )			
+			mosHTML::makeOption( '01', JText::_( 'JAN' ) ),
+			mosHTML::makeOption( '02', JText::_( 'FEB' ) ),
+			mosHTML::makeOption( '03', JText::_( 'MAR' ) ),
+			mosHTML::makeOption( '04', JText::_( 'APR' ) ),
+			mosHTML::makeOption( '05', JText::_( 'MAY' ) ),
+			mosHTML::makeOption( '06', JText::_( 'JUN' ) ),
+			mosHTML::makeOption( '07', JText::_( 'JUL' ) ),
+			mosHTML::makeOption( '08', JText::_( 'AUG' ) ),
+			mosHTML::makeOption( '09', JText::_( 'SEP' ) ),
+			mosHTML::makeOption( '10', JText::_( 'OCT' ) ),
+			mosHTML::makeOption( '11', JText::_( 'NOV' ) ),
+			mosHTML::makeOption( '12', JText::_( 'DEC' ) )			
 		);
 
 		return mosHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );
@@ -196,11 +196,11 @@ class mosHTML {
 	* @returns string HTML for the select list values
 	*/
 	function yesnoSelectList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no' ) {
-		global $_LANG;
+		;
 
 		$arr = array(
-			mosHTML::makeOption( '0', $_LANG->_( $no ) ),
-			mosHTML::makeOption( '1', $_LANG->_( $yes ) ),
+			mosHTML::makeOption( '0', JText::_( $no ) ),
+			mosHTML::makeOption( '1', JText::_( $yes ) ),
 		);
 
 		return mosHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );
@@ -252,11 +252,11 @@ class mosHTML {
 	* @returns string HTML for the radio list
 	*/
 	function yesnoRadioList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no' ) {
-		global $_LANG;
+		;
 
 		$arr = array(
-			mosHTML::makeOption( '0', $_LANG->_( $no ) ),
-			mosHTML::makeOption( '1', $_LANG->_( $yes ) )
+			mosHTML::makeOption( '0', JText::_( $no ) ),
+			mosHTML::makeOption( '1', JText::_( $yes ) )
 		);
 		return mosHTML::radioList( $arr, $tag_name, $tag_attribs, $selected );
 	}
@@ -278,12 +278,12 @@ class mosHTML {
 
 	function sortIcon( $base_href, $field, $state='none' ) {
 		global $mosConfig_live_site;
-		global $_LANG;
+		;
 
 		$alts = array(
-			'none' 	=> $_LANG->_( 'No Sorting' ),
-			'asc' 	=> $_LANG->_( 'Sort Ascending' ),
-			'desc' 	=> $_LANG->_( 'Sort Descending' ),
+			'none' 	=> JText::_( 'No Sorting' ),
+			'asc' 	=> JText::_( 'Sort Ascending' ),
+			'desc' 	=> JText::_( 'Sort Descending' ),
 		);
 		$next_state = 'asc';
 		if ($state == 'asc') {
@@ -302,7 +302,7 @@ class mosHTML {
 	* Writes Close Button
 	*/
 	function CloseButton ( &$params, $hide_js=NULL ) {
-		global $_LANG;
+		;
 
 		// displays close button in Pop-up window
 		if ( $params->get( 'popup' ) && !$hide_js ) {
@@ -310,7 +310,7 @@ class mosHTML {
 			<div align="center" style="margin-top: 30px; margin-bottom: 30px;">
 			<a href='javascript:window.close();'>
 			<span class="small">
-			<?php echo $_LANG->_( 'Close Window' );?>
+			<?php echo JText::_( 'Close Window' );?>
 			</span>
 			</a>
 			</div>
@@ -322,14 +322,14 @@ class mosHTML {
 	* Writes Back Button
 	*/
 	function BackButton ( &$params, $hide_js=NULL ) {
-		global $_LANG;
+		;
 
 		// Back Button
 		if ( $params->get( 'back_button' ) && !$params->get( 'popup' ) && !$hide_js) {
 			?>
 			<div class="back_button">
 			<a href='javascript:history.go(-1)'>
-			<?php echo $_LANG->_( 'BACK' ); ?>
+			<?php echo JText::_( 'BACK' ); ?>
 			</a>
 			</div>
 			<?php
@@ -357,7 +357,7 @@ class mosHTML {
 	*/
 	function PrintIcon( &$row, &$params, $hide_js, $link, $status=NULL ) {
 		global $mosConfig_live_site, $mosConfig_absolute_path, $cur_template, $Itemid;
-		global $_LANG;
+		;
 
     	if ( $params->get( 'print' )  && !$hide_js ) {
 			// use default settings if none declared
@@ -367,16 +367,16 @@ class mosHTML {
 
 			// checks template image directory for image, if non found default are loaded
 			if ( $params->get( 'icons' ) ) {
-				$image = mosAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, $_LANG->_( 'Print' ), $_LANG->_( 'Print' ) );
+				$image = mosAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Print' ), JText::_( 'Print' ) );
 			} else {
-				$image = $_LANG->_( 'ICON_SEP' ) .'&nbsp;'. $_LANG->_( 'Print' ) .'&nbsp;'. $_LANG->_( 'ICON_SEP' );
+				$image = JText::_( 'ICON_SEP' ) .'&nbsp;'. JText::_( 'Print' ) .'&nbsp;'. JText::_( 'ICON_SEP' );
 			}
 
 			if ( $params->get( 'popup' ) && !$hide_js ) {
 				// Print Preview button - used when viewing page
 				?>
 				<td align="right" width="100%" class="buttonheading">
-				<a href="#" onclick="javascript:window.print(); return false" title="<?php echo $_LANG->_( 'Print' );?>">
+				<a href="#" onclick="javascript:window.print(); return false" title="<?php echo JText::_( 'Print' );?>">
 				<?php echo $image;?>
 				</a>
 				</td>
@@ -385,7 +385,7 @@ class mosHTML {
 				// Print Button - used in pop-up window
 				?>
 				<td align="right" width="100%" class="buttonheading">
-				<a href="#" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo $_LANG->_( 'Print' );?>">
+				<a href="#" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'Print' );?>">
 				<?php echo $image;?>
 				</a>
 				</td>
@@ -400,7 +400,7 @@ class mosHTML {
  	* by default replaces an email with a mailto link with email cloacked
 	*/
 	function emailCloaking( $mail, $mailto=1, $text='', $email=1 ) {
-		global $_LANG;
+		;
 
 		// convert text
 		$mail 		= mosHTML::encoding_converter( $mail );
@@ -444,7 +444,7 @@ class mosHTML {
 		$replacement 	.= "//--> \n";
 		$replacement 	.= "</script>";
 		$replacement 	.= "<noscript> \n";
-		$replacement 	.= $_LANG->_( 'CLOAKING' );
+		$replacement 	.= JText::_( 'CLOAKING' );
 		$replacement 	.= "\n</noscript>";
 
 		return $replacement;
@@ -465,38 +465,38 @@ class mosHTML {
 class mosCommonHTML {
 
 	function ContentLegend( ) {
-		global $_LANG;
+		;
 		?>
 		<table cellspacing="0" cellpadding="4" border="0" align="center">
 		<tr align="center">
 			<td>
-			<img src="images/publish_y.png" width="12" height="12" border="0" alt="<?php echo $_LANG->_( 'Pending' ); ?>" />
+			<img src="images/publish_y.png" width="12" height="12" border="0" alt="<?php echo JText::_( 'Pending' ); ?>" />
 			</td>
 			<td>
-			<?php echo $_LANG->_( 'Published, but is' ); ?> <u><?php echo $_LANG->_( 'Pending' ); ?></u> |
+			<?php echo JText::_( 'Published, but is' ); ?> <u><?php echo JText::_( 'Pending' ); ?></u> |
 			</td>
 			<td>
-			<img src="images/publish_g.png" width="12" height="12" border="0" alt="<?php echo $_LANG->_( 'Visible' ); ?>" />
+			<img src="images/publish_g.png" width="12" height="12" border="0" alt="<?php echo JText::_( 'Visible' ); ?>" />
 			</td>
 			<td>
-			<?php echo $_LANG->_( 'Published and is' ); ?> <u><?php echo $_LANG->_( 'Current' ); ?></u> |
+			<?php echo JText::_( 'Published and is' ); ?> <u><?php echo JText::_( 'Current' ); ?></u> |
 			</td>
 			<td>
-			<img src="images/publish_r.png" width="12" height="12" border="0" alt="<?php echo $_LANG->_( 'Finished' ); ?>" />
+			<img src="images/publish_r.png" width="12" height="12" border="0" alt="<?php echo JText::_( 'Finished' ); ?>" />
 			</td>
 			<td>
-			<?php echo $_LANG->_( 'Published, but has' ); ?> <u><?php echo $_LANG->_( 'Expired' ); ?></u> |
+			<?php echo JText::_( 'Published, but has' ); ?> <u><?php echo JText::_( 'Expired' ); ?></u> |
 			</td>
 			<td>
-			<img src="images/publish_x.png" width="12" height="12" border="0" alt="<?php echo $_LANG->_( 'Finished' ); ?>" />
+			<img src="images/publish_x.png" width="12" height="12" border="0" alt="<?php echo JText::_( 'Finished' ); ?>" />
 			</td>
 			<td>
-			<?php echo $_LANG->_( 'Not Published' ); ?>
+			<?php echo JText::_( 'Not Published' ); ?>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="8" align="center">
-			<?php echo $_LANG->_( 'Click on icon to toggle state.' ); ?>
+			<?php echo JText::_( 'Click on icon to toggle state.' ); ?>
 			</td>
 		</tr>
 		</table>
@@ -504,7 +504,7 @@ class mosCommonHTML {
 	}
 
 	function menuLinksContent( &$menus ) {
-		global $_LANG;
+		;
 		?>
 		<script language="javascript" type="text/javascript">
 		function go2( pressbutton, menu, id ) {
@@ -534,21 +534,21 @@ class mosCommonHTML {
 			</tr>
 			<tr>
 				<td width="90px" valign="top">
-				<?php echo $_LANG->_( 'Menu' ); ?>
+				<?php echo JText::_( 'Menu' ); ?>
 				</td>
 				<td>
-				<a href="javascript:go2( 'go2menu', '<?php echo $menu->menutype; ?>' );" title="<?php echo $_LANG->_( 'Go to Menu' ); ?>">
+				<a href="javascript:go2( 'go2menu', '<?php echo $menu->menutype; ?>' );" title="<?php echo JText::_( 'Go to Menu' ); ?>">
 				<?php echo $menu->menutype; ?>
 				</a>
 				</td>
 			</tr>
 			<tr>
 				<td width="90px" valign="top">
-				<?php echo $_LANG->_( 'Link Name' ); ?>
+				<?php echo JText::_( 'Link Name' ); ?>
 				</td>
 				<td>
 				<strong>
-				<a href="javascript:go2( 'go2menuitem', '<?php echo $menu->menutype; ?>', '<?php echo $menu->id; ?>' );" title="<?php echo $_LANG->_( 'Go to Menu Item' ); ?>">
+				<a href="javascript:go2( 'go2menuitem', '<?php echo $menu->menutype; ?>', '<?php echo $menu->id; ?>' );" title="<?php echo JText::_( 'Go to Menu Item' ); ?>">
 				<?php echo $menu->name; ?>
 				</a>
 				</strong>
@@ -556,20 +556,20 @@ class mosCommonHTML {
 			</tr>
 			<tr>
 				<td width="90px" valign="top">
-				<?php echo $_LANG->_( 'State' ); ?>
+				<?php echo JText::_( 'State' ); ?>
 				</td>
 				<td>
 				<?php
 				switch ( $menu->published ) {
 					case -2:
-						echo '<font color="red">'. $_LANG->_( 'Trashed' ) .'</font>';
+						echo '<font color="red">'. JText::_( 'Trashed' ) .'</font>';
 						break;
 					case 0:
-						echo $_LANG->_( 'UnPublished' );
+						echo JText::_( 'UnPublished' );
 						break;
 					case 1:
 					default:
-						echo '<font color="green">'. $_LANG->_( 'Published' ) .'</font>';
+						echo '<font color="green">'. JText::_( 'Published' ) .'</font>';
 						break;
 				}
 				?>
@@ -584,7 +584,7 @@ class mosCommonHTML {
 	}
 
 	function menuLinksSecCat( &$menus ) {
-		global $_LANG;
+		;
 		?>
 		<script language="javascript" type="text/javascript">
 		function go2( pressbutton, menu, id ) {
@@ -614,17 +614,17 @@ class mosCommonHTML {
 			</tr>
 			<tr>
 				<td width="90px" valign="top">
-				<?php echo $_LANG->_( 'Menu' ); ?>
+				<?php echo JText::_( 'Menu' ); ?>
 				</td>
 				<td>
-				<a href="javascript:go2( 'go2menu', '<?php echo $menu->menutype; ?>' );" title="<?php echo $_LANG->_( 'Go to Menu' ); ?>">
+				<a href="javascript:go2( 'go2menu', '<?php echo $menu->menutype; ?>' );" title="<?php echo JText::_( 'Go to Menu' ); ?>">
 				<?php echo $menu->menutype; ?>
 				</a>
 				</td>
 			</tr>
 			<tr>
 				<td width="90px" valign="top">
-				<?php echo $_LANG->_( 'Type' ); ?>
+				<?php echo JText::_( 'Type' ); ?>
 				</td>
 				<td>
 				<?php echo $menu->type; ?>
@@ -632,11 +632,11 @@ class mosCommonHTML {
 			</tr>
 			<tr>
 				<td width="90px" valign="top">
-				<?php echo $_LANG->_( 'Item Name' ); ?>
+				<?php echo JText::_( 'Item Name' ); ?>
 				</td>
 				<td>
 				<strong>
-				<a href="javascript:go2( 'go2menuitem', '<?php echo $menu->menutype; ?>', '<?php echo $menu->id; ?>' );" title="<?php echo $_LANG->_( 'Go to Menu Item' ); ?>">
+				<a href="javascript:go2( 'go2menuitem', '<?php echo $menu->menutype; ?>', '<?php echo $menu->id; ?>' );" title="<?php echo JText::_( 'Go to Menu Item' ); ?>">
 				<?php echo $menu->name; ?>
 				</a>
 				</strong>
@@ -644,20 +644,20 @@ class mosCommonHTML {
 			</tr>
 			<tr>
 				<td width="90px" valign="top">
-				<?php echo $_LANG->_( 'State' ); ?>
+				<?php echo JText::_( 'State' ); ?>
 				</td>
 				<td>
 				<?php
 				switch ( $menu->published ) {
 					case -2:
-						echo '<font color="red">'. $_LANG->_( 'Trashed' ) .'</font>';
+						echo '<font color="red">'. JText::_( 'Trashed' ) .'</font>';
 						break;
 					case 0:
-						echo $_LANG->_( 'UnPublished' );
+						echo JText::_( 'UnPublished' );
 						break;
 					case 1:
 					default:
-						echo '<font color="green">'. $_LANG->_( 'Published' ) .'</font>';
+						echo '<font color="green">'. JText::_( 'Published' ) .'</font>';
 						break;
 				}
 				?>
@@ -672,7 +672,7 @@ class mosCommonHTML {
 	}
 
 	function checkedOut( &$row, $overlib=1 ) {
-		global $_LANG;
+		;
 
 		$hover = '';
 		if ( $overlib ) {
@@ -683,7 +683,7 @@ class mosCommonHTML {
 			$checked_out_text 	.= '<tr><td>'. $date .'</td></tr>';
 			$checked_out_text 	.= '<tr><td>'. $time .'</td></tr>';
 			$checked_out_text 	.= '</table>';
-			$hover = 'onMouseOver="return overlib(\''. $checked_out_text .'\', CAPTION, \''. $_LANG->_( 'Checked Out' ) .'\', BELOW, RIGHT);" onMouseOut="return nd();"';
+			$hover = 'onMouseOver="return overlib(\''. $checked_out_text .'\', CAPTION, \''. JText::_( 'Checked Out' ) .'\', BELOW, RIGHT);" onMouseOut="return nd();"';
 		}
 		$checked	 		= '<img src="images/checked_out.png" '. $hover .'/>';
 
@@ -714,9 +714,9 @@ class mosCommonHTML {
 	*/
 	function loadCalendar() {
 		global  $mosConfig_live_site;
-		global $_LANG;
+		;
 		?>
-		<link rel="stylesheet" type="text/css" media="all" href="<?php echo $mosConfig_live_site;?>/includes/js/calendar/calendar-mos.css" title="<?php echo $_LANG->_( 'green' ); ?>" />
+		<link rel="stylesheet" type="text/css" media="all" href="<?php echo $mosConfig_live_site;?>/includes/js/calendar/calendar-mos.css" title="<?php echo JText::_( 'green' ); ?>" />
 		<!-- import the calendar script -->
 		<script type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/calendar/calendar_mini.js"></script>
 		<!-- import the language module -->
@@ -758,11 +758,11 @@ class mosCommonHTML {
 	}
 
 	function PublishedProcessing( &$row, $i ) {
-		global $_LANG;
+		;
 
 		$img 	= $row->published ? 'publish_g.png' : 'publish_x.png';
 		$task 	= $row->published ? 'unpublish' : 'publish';
-		$alt 	= $row->published ? $_LANG->_( 'Published' ) : $_LANG->_( 'Unpublished' );
+		$alt 	= $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
 		$action	= $row->published ? 'Unpublish Item' : 'Publish item';
 
 		$href = '
@@ -792,13 +792,14 @@ class mosTabs {
 	* @param boolean xhtml [DEPRECATED]
 	*/
 	function mosTabs( $useCookies, $xhtml=NULL ) {
-		global $mosConfig_live_site, $_LANG, $mainframe;
+		global $mosConfig_live_site, $mainframe;
 		
 		if($mainframe->get( 'loadTabs')) {
 			return;
 		}
-
-		$css = $_LANG->rtl() ? 'tabpane_rtl.css' : 'tabpane.css';
+		
+		$lang =& $mainframe->getLanguage();
+		$css = $lang->rtl() ? 'tabpane_rtl.css' : 'tabpane.css';
 		
 		$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="screen, projection" href="'.$mosConfig_live_site.'/includes/js/tabs/'.$css.'" id="luna-tab-style-sheet" />' );		
 		$mainframe->addCustomHeadTag( '<script type="text/javascript" src="'.$mosConfig_live_site.'/includes/js/tabs/tabpane_mini.js"></script>' );		
@@ -859,7 +860,7 @@ class mosAdminMenus {
 	*/
 	function Ordering( &$row, $id ) {
 		global $database;
-		global $_LANG;
+		;
 
 		if ( $id ) {
 			$query = "SELECT ordering AS value, name AS text"
@@ -872,7 +873,7 @@ class mosAdminMenus {
 			$order = mosGetOrderingList( $query );
 			$ordering = mosHTML::selectList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
-			$ordering = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. $_LANG->_( 'DESCNEWITEMSLAST' );
+			$ordering = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'DESCNEWITEMSLAST' );
 		}
 		return $ordering;
 	}
@@ -899,7 +900,7 @@ class mosAdminMenus {
 	*/
 	function Parent( &$row ) {
 		global $database;
-		global $_LANG;
+		;
 
 		// get a list of the menu items
 		$query = "SELECT m.*"
@@ -925,7 +926,7 @@ class mosAdminMenus {
 
 		// assemble menu items to the array
 		$mitems = array();
-		$mitems[] = mosHTML::makeOption( '0', $_LANG->_( 'Top' ) );
+		$mitems[] = mosHTML::makeOption( '0', JText::_( 'Top' ) );
 		$this_treename = '';
 		foreach ( $list as $item ) {
 			if ( $this_treename ) {
@@ -972,11 +973,11 @@ class mosAdminMenus {
 	* build the select list for target window
 	*/
 	function Target( &$row ) {
-		global $_LANG;
+		;
 
-		$click[] = mosHTML::makeOption( '0', $_LANG->_( 'Parent Window With Browser Navigation' ) );
-		$click[] = mosHTML::makeOption( '1', $_LANG->_( 'New Window With Browser Navigation' ) );
-		$click[] = mosHTML::makeOption( '2', $_LANG->_( 'New Window Without Browser Navigation' ) );
+		$click[] = mosHTML::makeOption( '0', JText::_( 'Parent Window With Browser Navigation' ) );
+		$click[] = mosHTML::makeOption( '1', JText::_( 'New Window With Browser Navigation' ) );
+		$click[] = mosHTML::makeOption( '2', JText::_( 'New Window Without Browser Navigation' ) );
 		$target = mosHTML::selectList( $click, 'browserNav', 'class="inputbox" size="4"', 'value', 'text', intval( $row->browserNav ) );
 		return $target;
 	}
@@ -986,7 +987,7 @@ class mosAdminMenus {
 	*/
 	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 ) {
 		global $database;
-		global $_LANG;
+		;
 
 		// get a list of the menu items
 		$query = "SELECT m.*"
@@ -1044,19 +1045,19 @@ class mosAdminMenus {
 		$mitems = array();
 		if ( $all ) {
 			// prepare an array with 'all' as the first item
-			$mitems[] = mosHTML::makeOption( 0, $_LANG->_( 'All' ) );
+			$mitems[] = mosHTML::makeOption( 0, JText::_( 'All' ) );
 			// adds space, in select box which is not saved
 			$mitems[] = mosHTML::makeOption( -999, '----' );
 		}
 		if ( $none ) {
 			// prepare an array with 'all' as the first item
-			$mitems[] = mosHTML::makeOption( -999, $_LANG->_( 'None' ) );
+			$mitems[] = mosHTML::makeOption( -999, JText::_( 'None' ) );
 			// adds space, in select box which is not saved
 			$mitems[] = mosHTML::makeOption( -999, '----' );
 		}
 		if ( $none ) {
 			// prepare an array with 'all' as the first item
-			$mitems[] = mosHTML::makeOption( 99999999, $_LANG->_( 'Unassigned' ) );
+			$mitems[] = mosHTML::makeOption( 99999999, JText::_( 'Unassigned' ) );
 			// adds space, in select box which is not saved
 			$mitems[] = mosHTML::makeOption( -999, '----' );
 		}
@@ -1104,7 +1105,7 @@ class mosAdminMenus {
 	*/
 	function Section( &$menu, $id, $all=0 ) {
 		global $database;
-		global $_LANG;
+		;
 
 		$query = "SELECT s.id AS `value`, s.id AS `id`, s.title AS `text`"
 		. "\n FROM #__sections AS s"
@@ -1113,7 +1114,7 @@ class mosAdminMenus {
 		;
 		$database->setQuery( $query );
 		if ( $all ) {
-			$rows[] = mosHTML::makeOption( 0, '- '. $_LANG->_( 'All Sections' ) .' -' );
+			$rows[] = mosHTML::makeOption( 0, '- '. JText::_( 'All Sections' ) .' -' );
 			$rows = array_merge( $rows, $database->loadObjectList() );
 		} else {
 			$rows = $database->loadObjectList();
@@ -1191,7 +1192,7 @@ class mosAdminMenus {
 	*/
 	function Images( $name, &$active, $javascript=NULL, $directory=NULL ) {
 		global $mosConfig_absolute_path;
-		global $_LANG;
+		;
 
 		if ( !$javascript ) {
 			$javascript = "onchange=\"javascript:if (document.forms[0].image.options[selectedIndex].value!='') {document.imagelib.src='../images/stories/' + document.forms[0].image.options[selectedIndex].value} else {document.imagelib.src='../images/blank.png'}\"";
@@ -1201,7 +1202,7 @@ class mosAdminMenus {
 		}
 
 		$imageFiles = mosReadDirectory( $mosConfig_absolute_path . $directory );
-		$images = array(  mosHTML::makeOption( '', '- '. $_LANG->_( 'Select Image' ) .' -' ) );
+		$images = array(  mosHTML::makeOption( '', '- '. JText::_( 'Select Image' ) .' -' ) );
 		foreach ( $imageFiles as $file ) {
 			if ( eregi( "bmp|gif|jpg|png", $file ) ) {
 				$images[] = mosHTML::makeOption( $file );
@@ -1217,12 +1218,12 @@ class mosAdminMenus {
 	*/
 	function SpecificOrdering( &$row, $id, $query, $neworder=0 ) {
 		global $database;
-		global $_LANG;
+		;
 
 		if ( $neworder ) {
-			$text = $_LANG->_( 'descNewItemsFirst' );
+			$text = JText::_( 'descNewItemsFirst' );
 		} else {
-			$text = $_LANG->_( 'descNewItemsLast' );
+			$text = JText::_( 'descNewItemsLast' );
 		}
 
 		if ( $id ) {
@@ -1239,7 +1240,7 @@ class mosAdminMenus {
 	*/
 	function UserSelect( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 ) {
 		global $database, $my;
-		global $_LANG;
+		;
 
 		$and = '';
 		if ( $reg ) {
@@ -1255,7 +1256,7 @@ class mosAdminMenus {
 		;
 		$database->setQuery( $query );
 		if ( $nouser ) {
-			$users[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'No User' ) .' -' );
+			$users[] = mosHTML::makeOption( '0', '- '. JText::_( 'No User' ) .' -' );
 			$users = array_merge( $users, $database->loadObjectList() );
 		} else {
 			$users = $database->loadObjectList();
@@ -1270,19 +1271,19 @@ class mosAdminMenus {
 	* Select list of positions - generally used for location of images
 	*/
 	function Positions( $name, $active=NULL, $javascript=NULL, $none=1, $center=1, $left=1, $right=1 ) {
-		global $_LANG;
+		;
 
 		if ( $none ) {
-			$pos[] = mosHTML::makeOption( '', $_LANG->_( 'None' ) );
+			$pos[] = mosHTML::makeOption( '', JText::_( 'None' ) );
 		}
 		if ( $center ) {
-			$pos[] = mosHTML::makeOption( 'center', $_LANG->_( 'Center' ) );
+			$pos[] = mosHTML::makeOption( 'center', JText::_( 'Center' ) );
 		}
 		if ( $left ) {
-			$pos[] = mosHTML::makeOption( 'left', $_LANG->_( 'Left' ) );
+			$pos[] = mosHTML::makeOption( 'left', JText::_( 'Left' ) );
 		}
 		if ( $right ) {
-			$pos[] = mosHTML::makeOption( 'right', $_LANG->_( 'Right' ) );
+			$pos[] = mosHTML::makeOption( 'right', JText::_( 'Right' ) );
 		}
 
 		$positions = mosHTML::selectList( $pos, $name, 'class="inputbox" size="1"'. $javascript, 'value', 'text', $active );
@@ -1295,7 +1296,7 @@ class mosAdminMenus {
 	*/
 	function ComponentCategory( $name, $section, $active=NULL, $javascript=NULL, $order='ordering', $size=1, $sel_cat=1 ) {
 		global $database;
-		global $_LANG;
+		;
 
 		$query = "SELECT id AS value, name AS text"
 		. "\n FROM #__categories"
@@ -1305,14 +1306,14 @@ class mosAdminMenus {
 		;
 		$database->setQuery( $query );
 		if ( $sel_cat ) {
-			$categories[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select a Category' ) .' -' );
+			$categories[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select a Category' ) .' -' );
 			$categories = array_merge( $categories, $database->loadObjectList() );
 		} else {
 			$categories = $database->loadObjectList();
 		}
 
 		if ( count( $categories ) < 1 ) {
-			mosRedirect( 'index2.php?option=com_categories&section='. $section, $_LANG->_( 'You must create a category first.' ) );
+			mosRedirect( 'index2.php?option=com_categories&section='. $section, JText::_( 'You must create a category first.' ) );
 		}
 
 		$category = mosHTML::selectList( $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'value', 'text', $active );
@@ -1325,9 +1326,9 @@ class mosAdminMenus {
 	*/
 	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' ) {
 		global $database;
-		global $_LANG;
+		;
 
-		$categories[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select a Section' ) .' -' );
+		$categories[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select a Section' ) .' -' );
 		$query = "SELECT id AS value, title AS text"
 		. "\n FROM #__sections"
 		. "\n WHERE published = 1"

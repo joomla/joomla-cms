@@ -131,7 +131,7 @@ switch ($task) {
 */
 function viewContent( $sectionid, $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
-	global $_LANG;
+	;
 
 	$catid 				= $mainframe->getUserStateFromRequest( "catid{$option}{$sectionid}", 'catid', 0 );
 	$filter_authorid 	= $mainframe->getUserStateFromRequest( "filter_authorid{$option}{$sectionid}", 'filter_authorid', 0 );
@@ -241,7 +241,7 @@ function viewContent( $sectionid, $option ) {
 	. "\n GROUP BY u.name"
 	. "\n ORDER BY u.name"
 	;
-	$authors[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Author' ) .' -', 'created_by', 'name' );
+	$authors[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Author' ) .' -', 'created_by', 'name' );
 	$database->setQuery( $query );
 	$authors = array_merge( $authors, $database->loadObjectList() );
 	$lists['authorid']	= mosHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid );
@@ -255,7 +255,7 @@ function viewContent( $sectionid, $option ) {
 */
 function viewArchive( $sectionid, $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
-	global $_LANG;
+	;
 
 	$catid 				= $mainframe->getUserStateFromRequest( "catidarc{$option}{$sectionid}", 'catid', 0 );
 	$limit 				= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
@@ -351,7 +351,7 @@ function viewArchive( $sectionid, $option ) {
 	. "\n GROUP BY u.name"
 	. "\n ORDER BY u.name"
 	;
-	$authors[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Author' ) .' -', 'created_by', 'name' );
+	$authors[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Author' ) .' -', 'created_by', 'name' );
 	$database->setQuery( $query );
 	$authors = array_merge( $authors, $database->loadObjectList() );
 	$lists['authorid']	= mosHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid );
@@ -368,7 +368,7 @@ function viewArchive( $sectionid, $option ) {
 function editContent( $uid=0, $sectionid=0, $option ) {
 	global $database, $my, $mainframe;
 	global $mosConfig_absolute_path, $mosConfig_live_site, $mosConfig_offset;
-	global $_LANG;
+	;
 
 	$redirect = mosGetParam( $_POST, 'redirect', '' );
 	if ( !$redirect ) {
@@ -382,7 +382,7 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 	if ($uid) {
 		$sectionid = $row->sectionid;
 		if ($row->state < 0) {
-			mosRedirect( 'index2.php?option=com_content&sectionid='. $row->sectionid, $_LANG->_( 'You cannot edit an archived item' ) );
+			mosRedirect( 'index2.php?option=com_content&sectionid='. $row->sectionid, JText::_( 'You cannot edit an archived item' ) );
 		}
 	}
 
@@ -413,7 +413,7 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 
 	// fail if checked out not by 'me'
 	if ($row->checked_out && $row->checked_out <> $my->id) {
-		mosRedirect( 'index2.php?option=com_content', $_LANG->_( 'The module' ) .' '. $row->title .' '. $_LANG->_( 'DESCBEINGEDITTED' ) );
+		mosRedirect( 'index2.php?option=com_content', JText::_( 'The module' ) .' '. $row->title .' '. JText::_( 'DESCBEINGEDITTED' ) );
 	}
 
 	if ($uid) {
@@ -489,7 +489,7 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 	. "\n ORDER BY s.ordering";
 	$database->setQuery( $query );
 	if ( $sectionid == 0 ) {
-		$sections[] = mosHTML::makeOption( '-1', '- '. $_LANG->_( 'Select Section' ) .' -', 'id', 'title' );
+		$sections[] = mosHTML::makeOption( '-1', '- '. JText::_( 'Select Section' ) .' -', 'id', 'title' );
 		$sections = array_merge( $sections, $database->loadObjectList() );
 		$lists['sectionid'] = mosHTML::selectList( $sections, 'sectionid', 'class="inputbox" size="1" '. $javascript, 'id', 'title' );
 	} else {
@@ -501,7 +501,7 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 
 	$sectioncategories 			= array();
 	$sectioncategories[-1] 		= array();
-	$sectioncategories[-1][] 	= mosHTML::makeOption( '-1', '- '. $_LANG->_( 'Select Category' ) .' -', 'id', 'name' );
+	$sectioncategories[-1][] 	= mosHTML::makeOption( '-1', '- '. JText::_( 'Select Category' ) .' -', 'id', 'name' );
 	foreach($sections as $section) {
 		$sectioncategories[$section->id] = array();
 		$query = "SELECT id, name"
@@ -518,7 +518,7 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 
  	// get list of categories
   	if ( !$row->catid && !$row->sectionid ) {
- 		$categories[] 		= mosHTML::makeOption( '-1', '- '. $_LANG->_( 'Select Category' ) .' -', 'id', 'name' );
+ 		$categories[] 		= mosHTML::makeOption( '-1', '- '. JText::_( 'Select Category' ) .' -', 'id', 'name' );
  		$lists['catid'] 	= mosHTML::selectList( $categories, 'catid', 'class="inputbox" size="1"', 'id', 'name' );
   	} else {
  		$query = "SELECT id, name"
@@ -527,7 +527,7 @@ function editContent( $uid=0, $sectionid=0, $option ) {
  		. "\n ORDER BY ordering"
  		;
  		$database->setQuery( $query );
- 		$categories[] 		= mosHTML::makeOption( '-1', '- '. $_LANG->_( 'Select Category' ) .' -', 'id', 'name' );
+ 		$categories[] 		= mosHTML::makeOption( '-1', '- '. JText::_( 'Select Category' ) .' -', 'id', 'name' );
  		$categories 		= array_merge( $categories, $database->loadObjectList() );
  		$lists['catid'] 	= mosHTML::selectList( $categories, 'catid', 'class="inputbox" size="1"', 'id', 'name', intval( $row->catid ) );
   	}
@@ -569,8 +569,8 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 	$lists['menuselect']		= mosAdminMenus::MenuSelect( );
 
 	// build the select list for the image caption position
-	$pos[] = mosHTML::makeOption( 'bottom', $_LANG->_( 'Bottom' ) );
-	$pos[] = mosHTML::makeOption( 'top', $_LANG->_( 'Top' ) );
+	$pos[] = mosHTML::makeOption( 'bottom', JText::_( 'Bottom' ) );
+	$pos[] = mosHTML::makeOption( 'top', JText::_( 'Top' ) );
 	$lists['_caption_position'] = mosHTML::selectList( $pos, '_caption_position', 'class="inputbox" size="1"', 'value', 'text' );
 
 
@@ -586,7 +586,7 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 */
 function saveContent( $sectionid, $task ) {
 	global $database, $my, $mainframe, $mosConfig_offset;
-	global $_LANG;
+	;
 
 	$menu 		= mosGetParam( $_POST, 'menu', 'mainmenu' );
 	$menuid		= mosGetParam( $_POST, 'menuid', 0 );
@@ -702,13 +702,13 @@ function saveContent( $sectionid, $task ) {
 			break;
 
 		case 'apply':
-			$msg = $_LANG->_( 'Successfully Saved changes to Item' ) .': '. $row->title;
+			$msg = JText::_( 'Successfully Saved changes to Item' ) .': '. $row->title;
 			mosRedirect( 'index2.php?option=com_content&sectionid='. $redirect .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
-			$msg = $_LANG->_( 'Successfully Saved Item' ) .': '. $row->title;
+			$msg = JText::_( 'Successfully Saved Item' ) .': '. $row->title;
 			mosRedirect( 'index2.php?option=com_content&sectionid='. $redirect, $msg );
 
 			break;
@@ -725,11 +725,11 @@ function saveContent( $sectionid, $task ) {
 */
 function changeContent( $cid=null, $state=0, $option ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	if (count( $cid ) < 1) {
 		$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
-		echo "<script> alert('". $_LANG->_( 'Select an item to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -752,28 +752,28 @@ function changeContent( $cid=null, $state=0, $option ) {
 	}
 
 	if ( $state == "-1" ) {
-		$msg = $total .' '. $_LANG->_( 'Item(s) successfully Archived' );
+		$msg = $total .' '. JText::_( 'Item(s) successfully Archived' );
 	} else if ( $state == "1" ) {
-		$msg = $total .' '. $_LANG->_( 'Item(s) successfully Published' );
+		$msg = $total .' '. JText::_( 'Item(s) successfully Published' );
 	} else if ( $state == "0" ) {
-		$msg = $total .' '. $_LANG->_( 'Item(s) successfully Unpublished' );
+		$msg = $total .' '. JText::_( 'Item(s) successfully Unpublished' );
 	}
 
 	switch ( $state ) {
 		case -1:				
-			$msg = $total .' '. $_LANG->_( 'Item(s) successfully Archived' );
+			$msg = $total .' '. JText::_( 'Item(s) successfully Archived' );
 			break;
 		
 		case 1:				
-			$msg = $total .' '. $_LANG->_( 'Item(s) successfully Published' );
+			$msg = $total .' '. JText::_( 'Item(s) successfully Published' );
 			break;
 		
 		case 0:				
 		default:
 			if ( $task == 'unarchive' ) {
-				$msg = $total .' '. $_LANG->_( 'Item(s) successfully Unarchived' );
+				$msg = $total .' '. JText::_( 'Item(s) successfully Unarchived' );
 			} else {
-				$msg = $total .' '. $_LANG->_( 'Item(s) successfully Unpublished' );
+				$msg = $total .' '. JText::_( 'Item(s) successfully Unpublished' );
 			}
 			break;
 	}
@@ -799,10 +799,10 @@ function changeContent( $cid=null, $state=0, $option ) {
 */
 function toggleFrontPage( $cid, $section, $option ) {
 	global $database, $mainframe;
-	global $_LANG;
+	;
 
 	if (count( $cid ) < 1) {
-		echo "<script> alert('". $_LANG->_( 'Select an item to toggle' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to toggle' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -837,11 +837,11 @@ function toggleFrontPage( $cid, $section, $option ) {
 
 function removeContent( &$cid, $sectionid, $option ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$total = count( $cid );
 	if ( $total < 1) {
-		echo "<script> alert('". $_LANG->_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -859,7 +859,7 @@ function removeContent( &$cid, $sectionid, $option ) {
 		exit();
 	}
 
-	$msg = $total ." ". $_LANG->_( 'Item(s) sent to the Trash' );
+	$msg = $total ." ". JText::_( 'Item(s) sent to the Trash' );
 	$return = mosGetParam( $_POST, 'returntask', '' );
 	mosRedirect( 'index2.php?option='. $option .'&task='. $return .'&sectionid='. $sectionid, $msg );
 }
@@ -899,10 +899,10 @@ function orderContent( $uid, $inc, $option ) {
 */
 function moveSection( $cid, $sectionid, $option ) {
 	global $database;
-	global $_LANG;
+	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		echo "<script> alert('". $_LANG->_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -936,13 +936,13 @@ function moveSection( $cid, $sectionid, $option ) {
 */
 function moveSectionSave( &$cid, $sectionid, $option ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	$sectcat = mosGetParam( $_POST, 'sectcat', '' );
 	list( $newsect, $newcat ) = explode( ',', $sectcat );
 
 	if (!$newsect && !$newcat ) {
-		mosRedirect( "index.php?option=com_content&sectionid=". $sectionid ."&mosmsg=". $_LANG->_( 'An error has occurred' ) );
+		mosRedirect( "index.php?option=com_content&sectionid=". $sectionid ."&mosmsg=". JText::_( 'An error has occurred' ) );
 	}
 
 	// find section name
@@ -991,7 +991,7 @@ function moveSectionSave( &$cid, $sectionid, $option ) {
 		$row->updateOrder( "catid = $row->catid AND state >= 0" );
 	}
 
-	$msg = $total. ' '. $_LANG->_( 'Item(s) successfully moved to Section' ) .': '. $section .', '. $_LANG->_( 'Category' ) .': '. $category;
+	$msg = $total. ' '. JText::_( 'Item(s) successfully moved to Section' ) .': '. $section .', '. JText::_( 'Category' ) .': '. $category;
 	mosRedirect( 'index2.php?option='. $option .'&sectionid='. $sectionid .'&mosmsg='. $msg );
 }
 
@@ -1001,10 +1001,10 @@ function moveSectionSave( &$cid, $sectionid, $option ) {
 **/
 function copyItem( $cid, $sectionid, $option ) {
 	global $database;
-	global $_LANG;
+	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		echo "<script> alert('". $_LANG->_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -1040,7 +1040,7 @@ function copyItem( $cid, $sectionid, $option ) {
 **/
 function copyItemSave( $cid, $sectionid, $option ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$sectcat = mosGetParam( $_POST, 'sectcat', '' );
 	//seperate sections and categories from selection
@@ -1048,7 +1048,7 @@ function copyItemSave( $cid, $sectionid, $option ) {
 	list( $newsect, $newcat ) = $sectcat;
 
 	if ( !$newsect && !$newcat ) {
-		mosRedirect( 'index.php?option=com_content&sectionid='. $sectionid .'&mosmsg='. $_LANG->_( 'An error has occurred' ) );
+		mosRedirect( 'index.php?option=com_content&sectionid='. $sectionid .'&mosmsg='. JText::_( 'An error has occurred' ) );
 	}
 
 	// find section name
@@ -1119,7 +1119,7 @@ function copyItemSave( $cid, $sectionid, $option ) {
 		$row->updateOrder( "catid='". $row->catid ."' AND state >= 0" );
 	}
 
-	$msg = $total. ' '. $_LANG->_( 'Item(s) successfully copied to Section' ) .': '. $section .', '. $_LANG->_( 'Category' ) .': '. $category;
+	$msg = $total. ' '. JText::_( 'Item(s) successfully copied to Section' ) .': '. $section .', '. JText::_( 'Category' ) .': '. $category;
 	mosRedirect( 'index2.php?option='. $option .'&sectionid='. $sectionid .'&mosmsg='. $msg );
 }
 
@@ -1129,7 +1129,7 @@ function copyItemSave( $cid, $sectionid, $option ) {
 */
 function resethits( $redirect, $id ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$row = new mosContent($database);
 	$row->Load($id);
@@ -1137,7 +1137,7 @@ function resethits( $redirect, $id ) {
 	$row->store();
 	$row->checkin();
 
-	$msg = $_LANG->_( 'Successfully Reset Hit count' );
+	$msg = JText::_( 'Successfully Reset Hit count' );
 	mosRedirect( 'index2.php?option=com_content&sectionid='. $redirect .'&task=edit&hidemainmenu=1&id='. $id, $msg );
 }
 
@@ -1148,7 +1148,7 @@ function resethits( $redirect, $id ) {
 */
 function accessMenu( $uid, $access, $option ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$row = new mosContent( $database );
 	$row->load( $uid );
@@ -1168,9 +1168,9 @@ function accessMenu( $uid, $access, $option ) {
 
 function filterCategory( $query, $active=NULL ) {
 	global $database;
-	global $_LANG;
+	;
 
-	$categories[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Category' ) .' -' );
+	$categories[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Category' ) .' -' );
 	$database->setQuery( $query );
 	$categories = array_merge( $categories, $database->loadObjectList() );
 
@@ -1181,7 +1181,7 @@ function filterCategory( $query, $active=NULL ) {
 
 function menuLink( $redirect, $id ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$menu = mosGetParam( $_POST, 'menuselect', '' );
 	$link = mosGetParam( $_POST, 'link_name', '' );
@@ -1206,7 +1206,7 @@ function menuLink( $redirect, $id ) {
 	$row->checkin();
 	$row->updateOrder( "menutype = '$row->menutype' AND parent = $row->parent" );
 
-	$msg = $link .' '. $_LANG->_( '(Link - Content Item) in menu' ) .': '. $menu .' '. $_LANG->_( 'successfully created' );
+	$msg = $link .' '. JText::_( '(Link - Content Item) in menu' ) .': '. $menu .' '. JText::_( 'successfully created' );
 	mosRedirect( 'index2.php?option=com_content&sectionid='. $redirect .'&task=edit&hidemainmenu=1&id='. $id, $msg );
 }
 
@@ -1225,7 +1225,7 @@ function go2menuitem() {
 
 function saveOrder( &$cid ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
@@ -1261,7 +1261,7 @@ function saveOrder( &$cid ) {
 		$row->updateOrder( $cond[1] );
 	} // foreach
 
-	$msg 	= $_LANG->_( 'New ordering saved' );
+	$msg 	= JText::_( 'New ordering saved' );
 	switch ( $rettask ) {
 		case 'showarchive':
 			mosRedirect( 'index2.php?option=com_content&task=showarchive&sectionid='. $redirect, $msg );

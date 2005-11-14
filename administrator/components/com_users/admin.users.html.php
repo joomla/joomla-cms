@@ -22,17 +22,17 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class HTML_users {
 
 	function showUsers( &$rows, $pageNav, $search, $option, $lists ) {
-		global $_LANG;
+		;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 
 		<table class="adminheading">
 		<tr>
 			<th class="user">
-			<?php echo $_LANG->_( 'User Manager' ); ?>
+			<?php echo JText::_( 'User Manager' ); ?>
 			</th>
 			<td>
-			<?php echo $_LANG->_( 'Filter' ); ?>:
+			<?php echo JText::_( 'Filter' ); ?>:
 			</td>
 			<td>
 			<input type="text" name="search" value="<?php echo $search;?>" class="inputbox" onChange="document.adminForm.submit();" />
@@ -49,34 +49,34 @@ class HTML_users {
 		<table class="adminlist">
 		<tr>
 			<th width="2%" class="title">
-			<?php echo $_LANG->_( 'NUM' ); ?>
+			<?php echo JText::_( 'NUM' ); ?>
 			</th>
 			<th width="3%" class="title">
 			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count($rows); ?>);" />
 			</th>
 			<th class="title">
-			<?php echo $_LANG->_( 'Name' ); ?>
+			<?php echo JText::_( 'Name' ); ?>
 			</th>
 			<th width="15%" class="title" >
-			<?php echo $_LANG->_( 'Username' ); ?>
+			<?php echo JText::_( 'Username' ); ?>
 			</th>
 			<th width="5%" class="title" nowrap="nowrap">
-			<?php echo $_LANG->_( 'Logged In' ); ?>
+			<?php echo JText::_( 'Logged In' ); ?>
 			</th>
 			<th width="5%" class="title">
-			<?php echo $_LANG->_( 'Enabled' ); ?>
+			<?php echo JText::_( 'Enabled' ); ?>
 			</th>
 			<th width="15%" class="title">
-			<?php echo $_LANG->_( 'Group' ); ?>
+			<?php echo JText::_( 'Group' ); ?>
 			</th>
 			<th width="15%" class="title">
-			<?php echo $_LANG->_( 'E-Mail' ); ?>
+			<?php echo JText::_( 'E-Mail' ); ?>
 			</th>
 			<th width="10%" class="title">
-			<?php echo $_LANG->_( 'Last Visit' ); ?>
+			<?php echo JText::_( 'Last Visit' ); ?>
 			</th>
 			<th width="1%" class="title">
-			<?php echo $_LANG->_( 'ID' ); ?>
+			<?php echo JText::_( 'ID' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -86,7 +86,7 @@ class HTML_users {
 
 			$img 	= $row->block ? 'publish_x.png' : 'tick.png';
 			$task 	= $row->block ? 'unblock' : 'block';
-			$alt 	= $row->block ? $_LANG->_( 'Enabled' ) : $_LANG->_( 'Blocked' );
+			$alt 	= $row->block ? JText::_( 'Enabled' ) : JText::_( 'Blocked' );
 			$link 	= 'index2.php?option=com_users&amp;task=editA&amp;id='. $row->id. '&amp;hidemainmenu=1';
 			?>
 			<tr class="<?php echo "row$k"; ?>">
@@ -145,7 +145,7 @@ class HTML_users {
 	function edituser( &$row, &$contact, &$lists, $option, $uid, &$params ) {
 		global $my, $acl;
 		global $mosConfig_live_site;
-		global $_LANG;
+		;
 		$tabs = new mosTabs( 0 );
 
 		mosCommonHTML::loadOverlib();
@@ -163,21 +163,21 @@ class HTML_users {
 
 			// do field validation
 			if (trim(form.name.value) == "") {
-				alert( "<?php echo $_LANG->_( 'You must provide a name.' ); ?>" );
+				alert( "<?php echo JText::_( 'You must provide a name.' ); ?>" );
 			} else if (form.username.value == "") {
-				alert( "<?php echo $_LANG->_( 'You must provide a user login name.' ); ?>" );
+				alert( "<?php echo JText::_( 'You must provide a user login name.' ); ?>" );
 			} else if (r.exec(form.username.value) || form.username.value.length < 3) {
-				alert( "<?php echo $_LANG->_( 'WARNLOGININVALID' ); ?>" );
+				alert( "<?php echo JText::_( 'WARNLOGININVALID' ); ?>" );
 			} else if (trim(form.email.value) == "") {
-				alert( "<?php echo $_LANG->_( 'You must provide an email address.' ); ?>" );
+				alert( "<?php echo JText::_( 'You must provide an email address.' ); ?>" );
 			} else if (form.gid.value == "") {
-				alert( "<?php echo $_LANG->_( 'You must assign user to a group.' ); ?>" );
+				alert( "<?php echo JText::_( 'You must assign user to a group.' ); ?>" );
 			} else if (trim(form.password.value) != "" && form.password.value != form.password2.value){
-				alert( "<?php echo $_LANG->_( 'Password do not match.' ); ?>" );
+				alert( "<?php echo JText::_( 'Password do not match.' ); ?>" );
 			} else if (form.gid.value == "29") {
-				alert( "<?php echo $_LANG->_( 'WARNSELECTPF' ); ?>" );
+				alert( "<?php echo JText::_( 'WARNSELECTPF' ); ?>" );
 			} else if (form.gid.value == "30") {
-				alert( "<?php echo $_LANG->_( 'WARNSELECTPB' ); ?>" );
+				alert( "<?php echo JText::_( 'WARNSELECTPB' ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}
@@ -194,7 +194,7 @@ class HTML_users {
 		<table class="adminheading">
 		<tr>
 			<th class="user">
-			<?php echo $_LANG->_( 'User' ); ?>: <small><?php echo $row->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'Add' );?></small>
+			<?php echo JText::_( 'User' ); ?>: <small><?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?></small>
 			</th>
 		</tr>
 		</table>
@@ -205,12 +205,12 @@ class HTML_users {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					<?php echo $_LANG->_( 'User Details' ); ?>
+					<?php echo JText::_( 'User Details' ); ?>
 					</th>
 				</tr>
 				<tr>
 					<td width="100">
-					<?php echo $_LANG->_( 'Name' ); ?>:
+					<?php echo JText::_( 'Name' ); ?>:
 					</td>
 					<td width="85%">
 					<input type="text" name="name" class="inputbox" size="40" value="<?php echo $row->name; ?>" />
@@ -218,14 +218,14 @@ class HTML_users {
 				</tr>
 				<tr>
 					<td>
-					<?php echo $_LANG->_( 'Username' ); ?>:
+					<?php echo JText::_( 'Username' ); ?>:
 					</td>
 					<td>
 					<input type="text" name="username" class="inputbox" size="40" value="<?php echo $row->username; ?>" />
 					</td>
 				<tr>
 					<td>
-					<?php echo $_LANG->_( 'Email' ); ?>:
+					<?php echo JText::_( 'Email' ); ?>:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="email" size="40" value="<?php echo $row->email; ?>" />
@@ -233,7 +233,7 @@ class HTML_users {
 				</tr>
 				<tr>
 					<td>
-					<?php echo $_LANG->_( 'New Password' ); ?>:
+					<?php echo JText::_( 'New Password' ); ?>:
 					</td>
 					<td>
 					<input class="inputbox" type="password" name="password" size="40" value="" />
@@ -241,7 +241,7 @@ class HTML_users {
 				</tr>
 				<tr>
 					<td>
-					<?php echo $_LANG->_( 'Verify Password' ); ?>:
+					<?php echo JText::_( 'Verify Password' ); ?>:
 					</td>
 					<td>
 					<input class="inputbox" type="password" name="password2" size="40" value="" />
@@ -249,7 +249,7 @@ class HTML_users {
 				</tr>
 				<tr>
 					<td valign="top">
-					<?php echo $_LANG->_( 'Group' ); ?>:
+					<?php echo JText::_( 'Group' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['gid']; ?>
@@ -260,7 +260,7 @@ class HTML_users {
 					?>
 					<tr>
 						<td>
-						<?php echo $_LANG->_( 'Block User' ); ?>
+						<?php echo JText::_( 'Block User' ); ?>
 						</td>
 						<td>
 						<?php echo $lists['block']; ?>
@@ -272,7 +272,7 @@ class HTML_users {
 					?>
 					<tr>
 						<td>
-						<?php echo $_LANG->_( 'Receive System Emails' ); ?>
+						<?php echo JText::_( 'Receive System Emails' ); ?>
 						</td>
 						<td>
 						<?php echo $lists['sendEmail']; ?>
@@ -284,7 +284,7 @@ class HTML_users {
 					?>
 					<tr>
 						<td>
-						<?php echo $_LANG->_( 'Register Date' ); ?>
+						<?php echo JText::_( 'Register Date' ); ?>
 						</td>
 						<td>
 						<?php echo $row->registerDate;?>
@@ -292,7 +292,7 @@ class HTML_users {
 					</tr>
 				<tr>
 					<td>
-					<?php echo $_LANG->_( 'Last Visit Date' ); ?>
+					<?php echo JText::_( 'Last Visit Date' ); ?>
 					</td>
 					<td>
 					<?php echo $row->lastvisitDate;?>
@@ -312,7 +312,7 @@ class HTML_users {
 				<table class="adminform">
 				<tr>
 					<th colspan="1">
-					<?php echo $_LANG->_( 'Parameters' ); ?>
+					<?php echo JText::_( 'Parameters' ); ?>
 					</th>
 				</tr>
 				<tr>
@@ -328,15 +328,15 @@ class HTML_users {
 					<table class="adminform">
 					<tr>
 						<th>
-						<?php echo $_LANG->_( 'Contact Information' ); ?>
+						<?php echo JText::_( 'Contact Information' ); ?>
 						</th>
 					</tr>
 					<tr>
 						<td>
 						<br />
-						<?php echo $_LANG->_( 'No Contact details linked to this User' ); ?>:
+						<?php echo JText::_( 'No Contact details linked to this User' ); ?>:
 						<br />
-						<?php echo $_LANG->_( 'SEECOMPCONTACTFORDETAILS' ); ?>.
+						<?php echo JText::_( 'SEECOMPCONTACTFORDETAILS' ); ?>.
 						<br /><br />
 						</td>
 					</tr>
@@ -347,12 +347,12 @@ class HTML_users {
 					<table class="adminform">
 					<tr>
 						<th colspan="2">
-						<?php echo $_LANG->_( 'Contact Information' ); ?>
+						<?php echo JText::_( 'Contact Information' ); ?>
 						</th>
 					</tr>
 					<tr>
 						<td width="15%">
-						<?php echo $_LANG->_( 'Name' ); ?>:
+						<?php echo JText::_( 'Name' ); ?>:
 						</td>
 						<td>
 						<strong>
@@ -362,7 +362,7 @@ class HTML_users {
 					</tr>
 					<tr>
 						<td>
-						<?php echo $_LANG->_( 'Position' ); ?>:
+						<?php echo JText::_( 'Position' ); ?>:
 						</td>
 						<td >
 						<strong>
@@ -372,7 +372,7 @@ class HTML_users {
 					</tr>
 					<tr>
 						<td>
-						<?php echo $_LANG->_( 'Telephone' ); ?>:
+						<?php echo JText::_( 'Telephone' ); ?>:
 						</td>
 						<td >
 						<strong>
@@ -382,7 +382,7 @@ class HTML_users {
 					</tr>
 					<tr>
 						<td>
-						<?php echo $_LANG->_( 'Fax' ); ?>:
+						<?php echo JText::_( 'Fax' ); ?>:
 						</td>
 						<td >
 						<strong>
@@ -404,7 +404,7 @@ class HTML_users {
 						<tr>
 							<td></td>
 							<td valign="top">
-							<img src="<?php echo $mosConfig_live_site;?>/images/stories/<?php echo $contact[0]->image; ?>" align="middle" alt="<?php echo $_LANG->_( 'Contact' ); ?>" />
+							<img src="<?php echo $mosConfig_live_site;?>/images/stories/<?php echo $contact[0]->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
 							</td>
 						</tr>
 						<?php
@@ -413,10 +413,10 @@ class HTML_users {
 					<tr>
 						<td colspan="2">
 						<br /><br />
-						<input class="button" type="button" value="<?php echo $_LANG->_( 'change Contact Details' ); ?>" onclick="javascript: gotocontact( '<?php echo $contact[0]->id; ?>' )">
+						<input class="button" type="button" value="<?php echo JText::_( 'change Contact Details' ); ?>" onclick="javascript: gotocontact( '<?php echo $contact[0]->id; ?>' )">
 						<i>
 						<br />
-						'<?php echo $_LANG->_( 'Components -> Contact -> Manage Contacts' ); ?>'
+						'<?php echo JText::_( 'Components -> Contact -> Manage Contacts' ); ?>'
 						</i>
 						</td>
 					</tr>

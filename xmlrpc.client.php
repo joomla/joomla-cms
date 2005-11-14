@@ -23,9 +23,6 @@ require_once( JPATH_SITE .'includes/joomla.php' );
 
 jimport('domit.dom_xmlrpc_client.php' );
 
-//$_LANG = JFactory::getLanguage();
-//$_LANG->debug( $mosConfig_debug );
-
 error_reporting( E_ALL );
 
 $uri 	= dirname( $_SERVER['PHP_SELF'] );

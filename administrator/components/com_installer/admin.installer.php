@@ -27,7 +27,7 @@ jimport('joomla.installers.factory');
 
 // ensure user has access to this function
 if (!$acl->acl_check( 'com_installer', 'installer', 'users', $my->usertype ) ) {
-	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
+	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 // map the element to the required derived class
@@ -71,11 +71,11 @@ switch ($task) {
 				require $path;
 			} else {
 				doInstaller();
-				//echo $_LANG->_( 'Installer not found for element' ) .' ['. $element .']';
+				//echo JText::_( 'Installer not found for element' ) .' ['. $element .']';
 			}
 		} else {
 			doInstaller();
-			//echo $_LANG->_( 'Installer not available for element' ) .' ['. $element .']';
+			//echo JText::_( 'Installer not available for element' ) .' ['. $element .']';
 		}
 		break;
 }
@@ -87,26 +87,26 @@ switch ($task) {
 * @param string The element name
 */
 function uploadPackage( $option ) {
-	global $_LANG;
+	;
 	$installerFactory = new JInstallerFactory();
 	$installer = new mosInstaller(); // Create a blank installer until we work out what the file is!
 	// Check if file uploads are enabled
 	if (!(bool)ini_get('file_uploads')) {
-		HTML_installer::showInstallMessage( $_LANG->_( 'WARNINSTALLFILE' ),
-			$_LANG->_( 'Installer - Error' ), $installer->returnTo( $option, $element, $client ) );
+		HTML_installer::showInstallMessage( JText::_( 'WARNINSTALLFILE' ),
+			JText::_( 'Installer - Error' ), $installer->returnTo( $option, $element, $client ) );
 		exit();
 	}
 
 	// Check that the zlib is available
 	if(!extension_loaded('zlib')) {
-		HTML_installer::showInstallMessage( $_LANG->_( 'WARNINSTALLZLIB' ), $_LANG->_( 'Installer - Error' ), $installer->returnTo( $option, $element, $client ) );
+		HTML_installer::showInstallMessage( JText::_( 'WARNINSTALLZLIB' ), JText::_( 'Installer - Error' ), $installer->returnTo( $option, $element, $client ) );
 		exit();
 	}
 
 	$userfile = mosGetParam( $_FILES, 'userfile', null );
 
 	if (!$userfile) {
-		HTML_installer::showInstallMessage( $_LANG->_( 'No file selected' ), $_LANG->_( 'Upload new element - error' ),
+		HTML_installer::showInstallMessage( JText::_( 'No file selected' ), JText::_( 'Upload new element - error' ),
 			$installer->returnTo( $option, $element, $client ));
 		exit();
 	}
@@ -117,7 +117,7 @@ function uploadPackage( $option ) {
 	$resultdir = uploadFile( $userfile['tmp_name'], $userfile['name'], $msg );
 	if ($resultdir !== false) {
 		if (!$installer->upload( $userfile['name'] )) {
-			HTML_installer::showInstallMessage( $installer->getError(), $_LANG->_( 'Upload' ) .' '. $element .' - '. $_LANG->_( 'Upload Failed' ),
+			HTML_installer::showInstallMessage( $installer->getError(), JText::_( 'Upload' ) .' '. $element .' - '. JText::_( 'Upload Failed' ),
 				$installer->returnTo( $option, $element, $client ) );
 		}
 		$installdir = $installer->i_installdir;
@@ -126,11 +126,11 @@ function uploadPackage( $option ) {
                 $installer = $installerFactory->getClass();
 		$ret = $installer->install($installdir);
 
-		HTML_installer::showInstallMessage( $installer->getError(), $_LANG->_( 'Upload' ) .' '. $element .' - '.($ret ? $_LANG->_( 'Success' ) : $_LANG->_( 'Failed' )),
+		HTML_installer::showInstallMessage( $installer->getError(), JText::_( 'Upload' ) .' '. $element .' - '.($ret ? JText::_( 'Success' ) : JText::_( 'Failed' )),
 			$installer->returnTo( $option, $element, $client ) );
 		cleanupInstall( $userfile['name'], $installer->unpackDir() );
 	} else {
-		HTML_installer::showInstallMessage( $msg, $_LANG->_( 'Upload' ) .' '. $element .' - '. $_LANG->_( 'Upload Error' ),
+		HTML_installer::showInstallMessage( $msg, JText::_( 'Upload' ) .' '. $element .' - '. JText::_( 'Upload Error' ),
 			$installer->returnTo( $option, $element, $client ) );
 	}
 }
@@ -140,20 +140,20 @@ function uploadPackage( $option ) {
 * @param string The URL option
 */
 function installFromDirectory( $option ) {
-	global $_LANG, $classMap;
+	global $classMap;
 
 	$client = '';
 	$userfile = mosGetParam( $_REQUEST, 'userfile', '' );
 
 	if (!$userfile) {
-		mosRedirect( "index2.php?option=$option&element=$element", $_LANG->_( 'Please select a directory' ) );
+		mosRedirect( "index2.php?option=$option&element=$element", JText::_( 'Please select a directory' ) );
 	}
 	$installerFactory = new JInstallerFactory();
 	$installer = new mosInstaller();
 	$installer->installDir($userfile);
 	if(!$installer->findInstallFile()) {
 		HTML_installer::showInstallMessage( "Unable to find valid XML install" . ' ' . $userfile, 
-			$_LANG->_( 'Install' ) .' '. $element .' - '. $_LANG->_( 'Detection Error' ),
+			JText::_( 'Install' ) .' '. $element .' - '. JText::_( 'Detection Error' ),
 			$installer->returnTo( $option, $element, $client ) );
 	}
 	
@@ -161,7 +161,7 @@ function installFromDirectory( $option ) {
 	$installerClass = $classMap[$element];
 	if(!$installerClass) {
 		HTML_installer::showInstallMessage( "Unable to detect the type of install" . ' ' . $userfile,
-			$_LANG->_( 'Install' ) .' '. $element .' - '. $_LANG->_( 'Detection Error' ),
+			JText::_( 'Install' ) .' '. $element .' - '. JText::_( 'Detection Error' ),
 			$installer->returnTo( $option, $element, $client ) );
 		return;
 	}
@@ -175,7 +175,7 @@ function installFromDirectory( $option ) {
 	}
 
 	$ret = $installer->install( $path );
-	HTML_installer::showInstallMessage( $installer->getError(), $_LANG->_( 'Upload new' ) .' '.$element.' - '.($ret ? $_LANG->_( 'Success' ) : $_LANG->_( 'Error' )), $installer->returnTo( $option, $element, $client ) );
+	HTML_installer::showInstallMessage( $installer->getError(), JText::_( 'Upload new' ) .' '.$element.' - '.($ret ? JText::_( 'Success' ) : JText::_( 'Error' )), $installer->returnTo( $option, $element, $client ) );
 }
 
 /**
@@ -183,19 +183,19 @@ function installFromDirectory( $option ) {
 * @param string The URL
 */
 function installFromUrl($option) {
-	global $_LANG;
+	;
 	$installerFactory = new JInstallerFactory();
 	$userfile = mosGetParam( $_REQUEST, 'userfile', '' );
 	$client = '';
 	if(!$userfile) {
-		mosRedirect( "index2.php?option=$option", $_LANG->_( 'Please enter a URL' ) );
+		mosRedirect( "index2.php?option=$option", JText::_( 'Please enter a URL' ) );
 	}
 	$installer = $installerFactory->webInstall( $userfile );
 	$element = $installerFactory->getType();
         $ret = $installer->msg;
 	HTML_installer::showInstallMessage( 
 		$installer->getError(), 
-		$_LANG->_( 'Install new' ) .' '.$element.' - '.($ret ? $_LANG->_( 'Success' ) : $_LANG->_( 'Error' )), 
+		JText::_( 'Install new' ) .' '.$element.' - '.($ret ? JText::_( 'Success' ) : JText::_( 'Error' )), 
 		$installer->returnTo( $option, $element, $client ) );	
 }
 
@@ -204,7 +204,7 @@ function installFromUrl($option) {
 * @param
 */
 function removeElement( $installerClass, $option, $element, $client ) {
-	global $_LANG;
+	;
 
 	$cid = mosGetParam( $_REQUEST, 'cid', array(0) );
 	if (!is_array( $cid )) {
@@ -220,7 +220,7 @@ function removeElement( $installerClass, $option, $element, $client ) {
 
 	$msg = $installer->getError();
 
-	mosRedirect( $installer->returnTo( $option, $element, $client ), $result ? $_LANG->_( 'Success' ) .' '. $msg : $_LANG->_( 'Failed' ) .' '. $msg );
+	mosRedirect( $installer->returnTo( $option, $element, $client ), $result ? JText::_( 'Success' ) .' '. $msg : JText::_( 'Failed' ) .' '. $msg );
 }
 /**
 * @param string The name of the php (temporary) uploaded file
@@ -229,7 +229,7 @@ function removeElement( $installerClass, $option, $element, $client ) {
 */
 function uploadFile( $filename, $userfile_name, &$msg ) {
 	global $mosConfig_absolute_path;
-	global $_LANG;
+	;
 
 	$baseDir = mosPathName( $mosConfig_absolute_path . '/media' );
 
@@ -239,16 +239,16 @@ function uploadFile( $filename, $userfile_name, &$msg ) {
 				if (mosChmod( $baseDir . $userfile_name )) {
 					return true;
 				} else {
-					$msg = $_LANG->_( 'WARNPERMISSIONS' );
+					$msg = JText::_( 'WARNPERMISSIONS' );
 				}
 			} else {
-				$msg = $_LANG->_( 'Failed to move uploaded file to' ) .'<code>/media</code>'. $_LANG->_( 'directory.' );
+				$msg = JText::_( 'Failed to move uploaded file to' ) .'<code>/media</code>'. JText::_( 'directory.' );
 			}
 		} else {
-			$msg = $_LANG->_( 'Upload failed as' ) .'<code>/media</code>'. $_LANG->_( 'directory is not writable.' );
+			$msg = JText::_( 'Upload failed as' ) .'<code>/media</code>'. JText::_( 'directory is not writable.' );
 		}
 	} else {
-		$msg = $_LANG->_( 'Upload failed as' ) .'<code>/media</code>'. $_LANG->_( 'directory does not exist.' );
+		$msg = JText::_( 'Upload failed as' ) .'<code>/media</code>'. JText::_( 'directory does not exist.' );
 	}
 	return false;
 }

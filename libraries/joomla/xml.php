@@ -208,7 +208,7 @@ class mosParameters {
 */
 	function render( $name='params' ) {
 		global $mosConfig_absolute_path;
-		global $_LANG;
+		;
 
 		if ($this->_path) {
 			if (!is_object( $this->_xmlElem )) {
@@ -255,7 +255,7 @@ class mosParameters {
 			$html[] = '</table>';
 
 			if (count( $element->childNodes ) < 1) {
-				$html[] = "<tr><td colspan=\"2\"><i>". $_LANG->_( 'There are no Parameters for this item' ) ."</i></td></tr>";
+				$html[] = "<tr><td colspan=\"2\"><i>". JText::_( 'There are no Parameters for this item' ) ."</i></td></tr>";
 			}
 			return implode( "\n", $html );
 		} else {
@@ -268,7 +268,7 @@ class mosParameters {
 * @return array Any array of the label, the form element and the tooltip
 */
 	function renderParam( &$param, $control_name='params' ) {
-		global $_LANG;
+		;
 
 		$result = array();
 
@@ -290,7 +290,7 @@ class mosParameters {
 		if (in_array( '_form_' . $type, $this->_methods )) {
 			$result[1] = call_user_func( array( &$this, '_form_' . $type ), $name, $value, $param, $control_name );
 		} else {
-			$result[1] = $_LANG->_( 'Handler not defined for type' ) . ' = ' . $type;
+			$result[1] = JText::_( 'Handler not defined for type' ) . ' = ' . $type;
 		}
 
 		if ( $description ) {
@@ -322,7 +322,7 @@ class mosParameters {
 	* @return string The html for the element
 	*/
 	function _form_list( $name, $value, &$node, $control_name ) {
-		global $_LANG;
+		;
 
 		$size = $node->getAttribute( 'size' );
 
@@ -330,7 +330,7 @@ class mosParameters {
 		foreach ($node->childNodes as $option) {
 			$val = $option->getAttribute( 'value' );
 			$text = $option->gettext();
-			$options[] = mosHTML::makeOption( $val, $_LANG->_( $text ) );
+			$options[] = mosHTML::makeOption( $val, JText::_( $text ) );
 		}
 
 		return mosHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value );
@@ -343,13 +343,13 @@ class mosParameters {
 	* @return string The html for the element
 	*/
 	function _form_radio( $name, $value, &$node, $control_name ) {
-		global $_LANG;
+		;
 
 		$options = array();
 		foreach ($node->childNodes as $option) {
 			$val 	= $option->getAttribute( 'value' );
 			$text 	= $option->gettext();
-			$options[] = mosHTML::makeOption( $val, $_LANG->_( $text ) );
+			$options[] = mosHTML::makeOption( $val, JText::_( $text ) );
 		}
 
 		return mosHTML::radioList( $options, ''. $control_name .'['. $name .']', '', $value );
@@ -363,7 +363,7 @@ class mosParameters {
 	*/
 	function _form_mos_section( $name, $value, &$node, $control_name ) {
 		global $database;
-		global $_LANG;
+		;
 
 		$query = "SELECT id, title"
 		. "\n FROM #__sections"
@@ -373,7 +373,7 @@ class mosParameters {
 		;
 		$database->setQuery( $query );
 		$options = $database->loadObjectList();
-		array_unshift( $options, mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Content Section' ) .' -', 'id', 'title' ) );
+		array_unshift( $options, mosHTML::makeOption( '0', '- '. JText::_( 'Select Content Section' ) .' -', 'id', 'title' ) );
 
 		return mosHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'id', 'title', $value );
 	}
@@ -386,7 +386,7 @@ class mosParameters {
 	*/
 	function _form_mos_category( $name, $value, &$node, $control_name ) {
 		global $database;
-		global $_LANG;
+		;
 
 		$scope = $node->getAttribute( 'scope' );
 		if( !isset($scope) ) {
@@ -412,7 +412,7 @@ class mosParameters {
 		}
 		$database->setQuery( $query );
 		$options = $database->loadObjectList();
-		array_unshift( $options, mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Content Category' ) .' -', 'id', 'title' ) );
+		array_unshift( $options, mosHTML::makeOption( '0', '- '. JText::_( 'Select Content Category' ) .' -', 'id', 'title' ) );
 
 		return mosHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'id', 'title', $value );
 	}
@@ -425,14 +425,14 @@ class mosParameters {
 	*/
 	function _form_mos_menu( $name, $value, &$node, $control_name ) {
 		global $database;
-		global $_LANG;
+		;
 
 		$menuTypes = mosAdminMenus::menutypes();
 
 		foreach($menuTypes as $menutype ) {
 			$options[] = mosHTML::makeOption( $menutype, $menutype );
 		}
-		array_unshift( $options, mosHTML::makeOption( '', '- '. $_LANG->_( 'Select Menu' ) .' -' ) );
+		array_unshift( $options, mosHTML::makeOption( '', '- '. JText::_( 'Select Menu' ) .' -' ) );
 
 		return mosHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value );
 	}
@@ -445,7 +445,7 @@ class mosParameters {
 	*/
 	function _form_filelist( $name, $value, &$node, $control_name ) {
 		global $mosConfig_absolute_path;
-		global $_LANG;
+		;
 
 		// path to images directory
 		$path 	= $mosConfig_absolute_path . $node->getAttribute( 'directory' );
@@ -457,10 +457,10 @@ class mosParameters {
 			$options[] = mosHTML::makeOption( $file, $file );
 		}
 		if ( !$node->getAttribute( 'hide_none' ) ) {
-			array_unshift( $options, mosHTML::makeOption( '-1', '- '. $_LANG->_( 'Do not use an image' ) .' -' ) );
+			array_unshift( $options, mosHTML::makeOption( '-1', '- '. JText::_( 'Do not use an image' ) .' -' ) );
 		}
 		if ( !$node->getAttribute( 'hide_default' ) ) {
-			array_unshift( $options, mosHTML::makeOption( '', '- '. $_LANG->_( 'Use Default image' ) .' -' ) );
+			array_unshift( $options, mosHTML::makeOption( '', '- '. JText::_( 'Use Default image' ) .' -' ) );
 		}
 
 		return mosHTML::selectList( $options, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value, "param$name" );
@@ -531,10 +531,10 @@ class mosParameters {
 	* @return string The html for the element
 	*/
 	function _form_language_list( $name, $value, &$node, $control_name) {
-		global $_LANG;
+		;
 		
 		$languages = JLanguageHelper::buildLanguageList( 0, $value );
-		array_unshift( $languages, mosHTML::makeOption( '',  '- '. $_LANG->_( 'Select Language' ) .' -' ) );
+		array_unshift( $languages, mosHTML::makeOption( '',  '- '. JText::_( 'Select Language' ) .' -' ) );
 
 		return mosHTML::selectList( $languages, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value, "param$name" );
 	}
@@ -547,10 +547,10 @@ class mosParameters {
 	* @return string The html for the element
 	*/
 	function _form_admin_language_list( $name, $value, &$node, $control_name) {
-		global $_LANG;
+		;
 
 		$languages = JLanguageHelper::buildLanguageList( 1, $value );
-		array_unshift( $languages, mosHTML::makeOption( '0',  '- '. $_LANG->_( 'Select Language' ) .' -' ) );
+		array_unshift( $languages, mosHTML::makeOption( '0',  '- '. JText::_( 'Select Language' ) .' -' ) );
 
 		return mosHTML::selectList( $languages, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value, "param$name" );
 	}

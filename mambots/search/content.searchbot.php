@@ -28,7 +28,7 @@ $_MAMBOTS->registerFunction( 'onSearch', 'botSearchContent' );
 function botSearchContent( $text, $phrase='', $ordering='' ) {
 	global $my, $database;
 	global $mosConfig_offset;
-	global $_LANG;
+	;
 
 	// load mambot params info
 	$query = "SELECT id"
@@ -163,7 +163,7 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 	
 	// search archived content
 	if ( $sArchived ) {
-		$searchArchived = $_LANG->_( 'Archived' );	
+		$searchArchived = JText::_( 'Archived' );	
 			
 		$query = "SELECT a.title AS title,"
 		. "\n a.created AS created,"

@@ -142,7 +142,7 @@ switch ($task) {
 */
 function viewMenuItems( $menutype, $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
-	global $_LANG;
+	;
 
 	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
 	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart$menutype", 'limitstart', 0 );
@@ -230,24 +230,24 @@ function viewMenuItems( $menutype, $option ) {
 
 			case 'newsfeed_link':
 				$edit = 'index2.php?option=com_newsfeeds&task=edit&hidemainmenu=1A&id=' . $mitem->componentid;
-				$list[$i]->descrip 	= $_LANG->_( 'Edit this Newsfeed' );
+				$list[$i]->descrip 	= JText::_( 'Edit this Newsfeed' );
 				$mitem->link .= '&Itemid='. $mitem->id;
 				break;
 
 			case 'contact_item_link':
 				$edit = 'index2.php?option=com_contact&task=editA&hidemainmenu=1&id=' . $mitem->componentid;
-				$list[$i]->descrip 	= $_LANG->_( 'Edit this Contact' );
+				$list[$i]->descrip 	= JText::_( 'Edit this Contact' );
 				$mitem->link .= '&Itemid='. $mitem->id;
 				break;
 
 			case 'content_item_link':
 				$edit = 'index2.php?option=com_content&task=edit&hidemainmenu=1&id=' . $mitem->componentid;
-				$list[$i]->descrip 	= $_LANG->_( 'Edit this Content' );
+				$list[$i]->descrip 	= JText::_( 'Edit this Content' );
 				break;
 
 			case 'content_typed':
 				$edit = 'index2.php?option=com_typedcontent&task=edit&hidemainmenu=1&id='. $mitem->componentid;
-				$list[$i]->descrip 	= $_LANG->_( 'Edit this Static Content' );
+				$list[$i]->descrip 	= JText::_( 'Edit this Static Content' );
 				break;
 
 			default:
@@ -416,10 +416,10 @@ function saveMenu( $option, $task='save' ) {
 */
 function publishMenuSection( $cid=null, $publish=1 ) {
 	global $database;
-	global $_LANG;
+	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		return $_LANG->_( 'Select an item to' ) . ($publish ? $_LANG->_( 'publish' ) : $_LANG->_( 'unpublish' ) );
+		return JText::_( 'Select an item to' ) . ($publish ? JText::_( 'publish' ) : JText::_( 'unpublish' ) );
 	}
 
 	$menu = new mosMenu( $database );
@@ -450,7 +450,7 @@ function publishMenuSection( $cid=null, $publish=1 ) {
 */
 function TrashMenuSection( $cid=NULL ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$state = "-2";
 	//seperate contentids
@@ -467,7 +467,7 @@ function TrashMenuSection( $cid=NULL ) {
 
 	$total = count( $cid );
 
-	$msg = $total ." ". $_LANG->_( 'Item(s) sent to the Trash' );
+	$msg = $total ." ". JText::_( 'Item(s) sent to the Trash' );
 	return $msg;
 }
 
@@ -536,10 +536,10 @@ function accessMenu( $uid, $access, $option, $menutype ) {
 */
 function moveMenu( $option, $cid, $menutype ) {
 	global $database;
-	global $_LANG;
+	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		echo "<script> alert('". $_LANG->_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -606,7 +606,7 @@ function addDescendants($id, &$cid) {
 */
 function moveMenuSave( $option, $cid, $menu, $menutype ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	// add all decendants to the list
 	foreach ($cid as $id) addDescendants($id, $cid);
@@ -643,7 +643,7 @@ function moveMenuSave( $option, $cid, $menu, $menutype ) {
 		$row->updateOrder( "menutype = '$row->menutype' AND parent = $row->parent" );
 	} // if
 
-	$msg = count($cid) ." ". $_LANG->_( 'Menu Items moved to' ) ." ". $menu;
+	$msg = count($cid) ." ". JText::_( 'Menu Items moved to' ) ." ". $menu;
 	mosRedirect( 'index2.php?option='. $option .'&menutype='. $menutype .'&mosmsg='. $msg );
 } // moveMenuSave
 
@@ -652,10 +652,10 @@ function moveMenuSave( $option, $cid, $menu, $menutype ) {
 */
 function copyMenu( $option, $cid, $menutype ) {
 	global $database;
-	global $_LANG;
+	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		echo "<script> alert('". $_LANG->_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -684,7 +684,7 @@ function copyMenu( $option, $cid, $menutype ) {
 */
 function copyMenuSave( $option, $cid, $menu, $menutype ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$curr = new mosMenu( $database );
 	$cidref = array();
@@ -718,7 +718,7 @@ function copyMenuSave( $option, $cid, $menu, $menutype ) {
 		}
 		$curr->updateOrder( "menutype = '$curr->menutype' AND parent = $curr->parent" );
 	} // foreach
-	$msg = count( $cid ) ." ". $_LANG->_( 'Menu Items Copied to' ) ." ". $menu;
+	$msg = count( $cid ) ." ". JText::_( 'Menu Items Copied to' ) ." ". $menu;
 	mosRedirect( 'index2.php?option='. $option .'&menutype='. $menutype .'&mosmsg='. $msg );
 }
 
@@ -759,7 +759,7 @@ function ReadMenuXML( $type, $component=-1 ) {
 
 function saveOrder( &$cid, $menutype ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
@@ -793,7 +793,7 @@ function saveOrder( &$cid, $menutype ) {
 		$row->updateOrder( $cond[1] );
 	} // foreach
 
-	$msg 	= $_LANG->_( 'New ordering saved' );
+	$msg 	= JText::_( 'New ordering saved' );
 	mosRedirect( 'index2.php?option=com_menus&menutype='. $menutype, $msg );
 } // saveOrder
 ?>

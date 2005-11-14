@@ -73,6 +73,7 @@ jimport( 'joomla.html' );
 jimport( 'joomla.factory' );
 jimport( 'joomla.files' );
 jimport( 'joomla.xml' );
+jimport( 'joomla.language' );
 
 /**
 * Joomla! Mainframe class

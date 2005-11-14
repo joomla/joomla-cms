@@ -186,7 +186,7 @@ function showSections( $scope, $option ) {
 */
 function editSection( $uid=0, $scope='', $option ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	$row = new mosSection( $database );
 	// load the row from the db table
@@ -194,7 +194,7 @@ function editSection( $uid=0, $scope='', $option ) {
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
-		$msg = $_LANG->_( 'The section' ) .' '. $row->title .' '. $_LANG->_( 'DESCBEINGEDITTED' );
+		$msg = JText::_( 'The section' ) .' '. $row->title .' '. JText::_( 'DESCBEINGEDITTED' );
 		mosRedirect( 'index2.php?option='. $option .'&scope='. $row->scope .'&mosmsg='. $msg );
 	}
 
@@ -212,15 +212,15 @@ function editSection( $uid=0, $scope='', $option ) {
 			for( $i = 0; $i < $count; $i++ ) {
 				switch ( $menus[$i]->type ) {
 					case 'content_section':
-						$menus[$i]->type = $_LANG->_( 'Section Table' );
+						$menus[$i]->type = JText::_( 'Section Table' );
 						break;
 
 					case 'content_blog_section':
-						$menus[$i]->type = $_LANG->_( 'Section Blog' );
+						$menus[$i]->type = JText::_( 'Section Blog' );
 						break;
 
 					case 'content_archive_section':
-						$menus[$i]->type = $_LANG->_( 'Section Blog Archive' );
+						$menus[$i]->type = JText::_( 'Section Blog Archive' );
 						break;
 				}
 			}
@@ -234,10 +234,10 @@ function editSection( $uid=0, $scope='', $option ) {
 	}
 
 	// build the html select list for section types
-	$types[] = mosHTML::makeOption( '', $_LANG->_( 'Select Type' ) );
-	$types[] = mosHTML::makeOption( 'content_section', $_LANG->_( 'Section List' ) );
-	$types[] = mosHTML::makeOption( 'content_blog_section', $_LANG->_( 'Section Blog' ) );
-	$types[] = mosHTML::makeOption( 'content_archive_section', $_LANG->_( 'Section Archive Blog' ) );
+	$types[] = mosHTML::makeOption( '', JText::_( 'Select Type' ) );
+	$types[] = mosHTML::makeOption( 'content_section', JText::_( 'Section List' ) );
+	$types[] = mosHTML::makeOption( 'content_blog_section', JText::_( 'Section Blog' ) );
+	$types[] = mosHTML::makeOption( 'content_archive_section', JText::_( 'Section Archive Blog' ) );
 	$lists['link_type'] 		= mosHTML::selectList( $types, 'link_type', 'class="inputbox" size="1"', 'value', 'text' );;
 
 	// build the html select list for ordering
@@ -269,7 +269,7 @@ function editSection( $uid=0, $scope='', $option ) {
 */
 function saveSection( $option, $scope, $task ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$menu 		= mosGetParam( $_POST, 'menu', 'mainmenu' );
 	$menuid		= mosGetParam( $_POST, 'menuid', 0 );
@@ -317,13 +317,13 @@ function saveSection( $option, $scope, $task ) {
 			break;
 
 		case 'apply':
-			$msg = $_LANG->_( 'Changes to Section saved' );
+			$msg = JText::_( 'Changes to Section saved' );
 			mosRedirect( 'index2.php?option='. $option .'&scope='. $scope .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
-			$msg = $_LANG->_( 'Section saved' );
+			$msg = JText::_( 'Section saved' );
 			mosRedirect( 'index2.php?option='. $option .'&scope='. $scope, $msg );
 			break;
 	}
@@ -336,10 +336,10 @@ function saveSection( $option, $scope, $task ) {
 */
 function removeSections( $cid, $scope, $option ) {
 	global $database;
-	global $_LANG;
+	;
 
 	if (count( $cid ) < 1) {
-		echo "<script> alert('". $_LANG->_( 'Select a section to delete' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select a section to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -380,12 +380,12 @@ function removeSections( $cid, $scope, $option ) {
 
 	if (count( $err )) {
 		$cids = implode( ', ', $err );
-		$msg = $_LANG->_( 'Sections(s)' ) .': '. $cids .' '. $_LANG->_( 'DESCCANNOTBEREMOVED' );
+		$msg = JText::_( 'Sections(s)' ) .': '. $cids .' '. JText::_( 'DESCCANNOTBEREMOVED' );
 		mosRedirect( 'index2.php?option='. $option .'&scope='. $scope, $msg );
 	}
 
 	$names = implode( ', ', $name );
-	$msg = $_LANG->_( 'Sections(s)' ) .': '. $names .' '. $_LANG->_( 'successfully deleted' );
+	$msg = JText::_( 'Sections(s)' ) .': '. $names .' '. JText::_( 'successfully deleted' );
 	mosRedirect( 'index2.php?option='. $option .'&scope='. $scope, $msg );
 }
 
@@ -400,11 +400,11 @@ function removeSections( $cid, $scope, $option ) {
 */
 function publishSections( $scope, $cid=null, $publish=1, $option ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	if ( !is_array( $cid ) || count( $cid ) < 1 ) {
 		$action = $publish ? 'publish' : 'unpublish';
-		echo "<script> alert('". $_LANG->_( 'Select a section to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select a section to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -412,7 +412,7 @@ function publishSections( $scope, $cid=null, $publish=1, $option ) {
 	$count = count( $cid );
 	if ( $publish ) {
 		if ( !$count ){
-			echo "<script> alert('". $_LANG->_( 'Cannot Publish an Empty Section' ) .": ". $count ."'); window.history.go(-1);</script>\n";
+			echo "<script> alert('". JText::_( 'Cannot Publish an Empty Section' ) .": ". $count ."'); window.history.go(-1);</script>\n";
 			return;
 		}
 	}
@@ -493,10 +493,10 @@ function orderSection( $uid, $inc, $option, $scope ) {
 */
 function copySectionSelect( $option, $cid, $section ) {
 	global $database;
-	global $_LANG;
+	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		echo "<script> alert('". $_LANG->_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -527,7 +527,7 @@ function copySectionSelect( $option, $cid, $section ) {
 */
 function copySectionSave( $sectionid ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$title 		= mosGetParam( $_REQUEST, 'title', '' );
 	$contentid 	= mosGetParam( $_REQUEST, 'content', '' );
@@ -615,7 +615,7 @@ function copySectionSave( $sectionid ) {
 	$sectionOld = new mosSection ( $database );
 	$sectionOld->load( $sectionMove );
 
-	$msg = $_LANG->_( 'Section' ) .' '. $sectionOld-> name .' '. $_LANG->_( 'DESCCATANDITEMSCOPIED' ) .' '. $title;
+	$msg = JText::_( 'Section' ) .' '. $sectionOld-> name .' '. JText::_( 'DESCCATANDITEMSCOPIED' ) .' '. $title;
 	mosRedirect( 'index2.php?option=com_sections&scope=content&mosmsg='. $msg );
 }
 
@@ -642,7 +642,7 @@ function accessMenu( $uid, $access, $option ) {
 
 function menuLink( $id ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$section = new mosSection( $database );
 	$section->bind( $_POST );
@@ -693,13 +693,13 @@ function menuLink( $id ) {
 	$row->checkin();
 	$row->updateOrder( "menutype = '$menu'" );
 
-	$msg = $name .' ( '. $menutype .' ) '. $_LANG->_( 'in menu' ) .': '. $menu .' '. $_LANG->_( 'successfully created' );
+	$msg = $name .' ( '. $menutype .' ) '. JText::_( 'in menu' ) .': '. $menu .' '. JText::_( 'successfully created' );
 	mosRedirect( 'index2.php?option=com_sections&scope=content&task=editA&hidemainmenu=1&id='. $id,  $msg );
 }
 
 function saveOrder( &$cid ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
@@ -733,7 +733,7 @@ function saveOrder( &$cid ) {
 		$row->updateOrder( $cond[1] );
 	} // foreach
 
-	$msg 	= $_LANG->_( 'New ordering saved' );
+	$msg 	= JText::_( 'New ordering saved' );
 	mosRedirect( 'index2.php?option=com_sections&scope=content', $msg );
 } // saveOrder
 ?>

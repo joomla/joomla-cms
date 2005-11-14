@@ -44,7 +44,7 @@ if (is_dir($abspath_folder)) {
 	}
 
 	if (!$the_image) {
-		echo $_LANG->_( 'No images ');
+		echo JText::_( 'No images ');
 	} else {
 
   	$i = count($the_image);

@@ -37,56 +37,56 @@ class installationTasks {
 	 * @param patTemplate A template object
 	 */
 	function preInstall() {
-    	global $_LANG;
+    	;
 
 		$vars = mosGetParam( $_POST, 'vars', array() );
 		$lists = array();
 
 		$phpOptions[] = array(
-			'label' => $_LANG->_( 'PHP version' ) .' >= 4.1.0',
+			'label' => JText::_( 'PHP version' ) .' >= 4.1.0',
 			'state' => phpversion() < '4.1' ? 'No' : 'Yes'
 
 		);
 		$phpOptions[] = array(
-			'label' => '- '. $_LANG->_( 'zlib compression support' ),
+			'label' => '- '. JText::_( 'zlib compression support' ),
 			'state' => extension_loaded('zlib') ? 'Yes' : 'No'
 		);
 		$phpOptions[] = array(
-			'label' => '- '. $_LANG->_( 'XML support' ),
+			'label' => '- '. JText::_( 'XML support' ),
 			'state' => extension_loaded('xml') ? 'Yes' : 'No',
 			'statetext' => extension_loaded('xml') ? 'Yes' : 'No'
 		);
 		$phpOptions[] = array(
-			'label' => '- '. $_LANG->_( 'MySQL support' ),
+			'label' => '- '. JText::_( 'MySQL support' ),
 			'state' => function_exists( 'mysql_connect' ) ? 'Yes' : 'No'
 		);
 		$sp = '';
 		$phpOptions[] = array(
-			'label' => $_LANG->_( 'Session path set' ),
+			'label' => JText::_( 'Session path set' ),
 			'state' =>  ($sp = ini_get( 'session.save_path' )) ? 'Yes' : 'No'
 		);
 		$phpOptions[] = array(
-			'label' => $_LANG->_( 'Session path writeable' ),
+			'label' => JText::_( 'Session path writeable' ),
 			'state' =>  is_writable( $sp ) ? 'Yes' : 'No'
 		);
 		$cW = (@file_exists('../configuration.php') &&  @is_writable( '../configuration.php' ))
 			|| is_writable( '..' );
 		$phpOptions[] = array(
-			'label' => 'configuration.php '. $_LANG->_( 'writeable' ),
+			'label' => 'configuration.php '. JText::_( 'writeable' ),
 			'state' =>  $cW ? 'Yes' : 'No',
-			'notice' => $cW ? '' : $_LANG->_( 'NOTICEYOUCANSTILLINSTALL' )
+			'notice' => $cW ? '' : JText::_( 'NOTICEYOUCANSTILLINSTALL' )
 		);
 		$lists['phpOptions'] =& $phpOptions;
 
 		$phpRecommended = array(
-			array( $_LANG->_( 'Safe Mode' ), 'safe_mode', 'OFF' ),
-			array( $_LANG->_( 'Display Errors' ), 'display_errors', 'ON' ),
-			array( $_LANG->_( 'File Uploads' ), 'file_uploads', 'ON' ),
-			array( $_LANG->_( 'Magic Quotes GPC' ), 'magic_quotes_gpc', 'ON' ),
-			array( $_LANG->_( 'Magic Quotes Runtime' ), 'magic_quotes_runtime', 'OFF' ),
-			array( $_LANG->_( 'Register Globals' ), 'register_globals', 'OFF' ),
-			array( $_LANG->_( 'Output Buffering' ), 'output_buffering', 'OFF' ),
-			array( $_LANG->_( 'Session auto start' ), 'session.auto_start', 'OFF' )
+			array( JText::_( 'Safe Mode' ), 'safe_mode', 'OFF' ),
+			array( JText::_( 'Display Errors' ), 'display_errors', 'ON' ),
+			array( JText::_( 'File Uploads' ), 'file_uploads', 'ON' ),
+			array( JText::_( 'Magic Quotes GPC' ), 'magic_quotes_gpc', 'ON' ),
+			array( JText::_( 'Magic Quotes Runtime' ), 'magic_quotes_runtime', 'OFF' ),
+			array( JText::_( 'Register Globals' ), 'register_globals', 'OFF' ),
+			array( JText::_( 'Output Buffering' ), 'output_buffering', 'OFF' ),
+			array( JText::_( 'Session auto start' ), 'session.auto_start', 'OFF' )
 		);
 
 		foreach ($phpRecommended as $setting) {
@@ -169,7 +169,7 @@ class installationTasks {
 	 * @return boolean True if successful
 	 */
 	function dbCollation() {
-		global $_LANG;
+		;
 
 		$vars = mosGetParam( $_POST, 'vars', array() );
 
@@ -190,15 +190,15 @@ class installationTasks {
 		$DBversion		= mosGetParam( $vars, 'DBversion', '' );
 	
 		if($DBtype == '') {
-			installationScreens::error( $vars, $_LANG->_( 'validType' ), 'dbconfig' );
+			installationScreens::error( $vars, JText::_( 'validType' ), 'dbconfig' );
 			return false;
 		}
 		if (!$DBhostname || !$DBuserName || !$DBname) {
-			installationScreens::error( $vars, $_LANG->_( 'validDBDetails' ), 'dbconfig' );
+			installationScreens::error( $vars, JText::_( 'validDBDetails' ), 'dbconfig' );
 			return false;
 		}
 		if($DBname == '') {
-			installationScreens::error( $vars, $_LANG->_( 'emptyDBName' ), 'dbconfig' );
+			installationScreens::error( $vars, JText::_( 'emptyDBName' ), 'dbconfig' );
 			return false;
 		}
 			
@@ -206,7 +206,7 @@ class installationTasks {
 			
 				
 		if (!$link) {
-			installationScreens::error( $vars, $_LANG->_( 'connection fail' ), 'dbconfig' );
+			installationScreens::error( $vars, JText::_( 'connection fail' ), 'dbconfig' );
 			return false;
 		}
 
@@ -239,7 +239,7 @@ class installationTasks {
 	 * @return boolean True if successful
 	 */
 	function makeDB() {
-		global $_LANG;
+		;
 
 		$vars = mosGetParam( $_POST, 'vars', array() );
 
@@ -259,15 +259,15 @@ class installationTasks {
 		$DBversion		= mosGetParam( $vars, 'DBversion', '' );
 	
 		if($DBtype == '') {
-			installationScreens::error( $vars, $_LANG->_( 'validType' ), 'dbconfig' );
+			installationScreens::error( $vars, JText::_( 'validType' ), 'dbconfig' );
 			return false;
 		}
 		if (!$DBhostname || !$DBuserName || !$DBname) {
-			installationScreens::error( $vars, $_LANG->_( 'validDBDetails' ), 'dbconfig' );
+			installationScreens::error( $vars, JText::_( 'validDBDetails' ), 'dbconfig' );
 			return false;
 		}
 		if($DBname == '') {
-			installationScreens::error( $vars, $_LANG->_( 'emptyDBName' ), 'dbconfig' );
+			installationScreens::error( $vars, JText::_( 'emptyDBName' ), 'dbconfig' );
 			return false;
 		}
 
@@ -284,13 +284,13 @@ class installationTasks {
 						$database =& new database( $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix );
 					} else {
 						$error = $database->getErrorMsg();
-						installationScreens::error( $vars, array( $_LANG->_( 'WARNCREATEDB' ) .' '. $DBname ), 'dbconfig', $error );
+						installationScreens::error( $vars, array( JText::_( 'WARNCREATEDB' ) .' '. $DBname ), 'dbconfig', $error );
 						return false;
 					}
 				} else {
 					// connection failed
 					//installationScreens::error( $vars, array( 'Could not connect to the database.  Connector returned', $database->getErrorNum() ), 'dbconfig', $database->getErrorMsg() );
-					installationScreens::error( $vars, array( $_LANG->_( 'WARNNOTCONNECTDB' ) .' '. $database->getErrorNum() ), 'dbconfig', $database->getErrorMsg() );
+					installationScreens::error( $vars, array( JText::_( 'WARNNOTCONNECTDB' ) .' '. $database->getErrorNum() ), 'dbconfig', $database->getErrorMsg() );
 					return false;
 				}
 			}
@@ -299,7 +299,7 @@ class installationTasks {
 
 			if ($DBBackup) {
 				if (mosInstallation::backupDatabase( $database, $DBname, $DBPrefix, $errors )) {
-					installationScreens::error( $vars, $_LANG->_( 'WARNBACKINGUPDB' ), 'dbconfig', mosInstallation::errors2string( $errors ) );
+					installationScreens::error( $vars, JText::_( 'WARNBACKINGUPDB' ), 'dbconfig', mosInstallation::errors2string( $errors ) );
 					return false;
 				}
 			}

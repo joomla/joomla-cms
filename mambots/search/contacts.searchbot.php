@@ -27,7 +27,7 @@ $_MAMBOTS->registerFunction( 'onSearch', 'botSearchContacts' );
 */
 function botSearchContacts( $text, $phrase='', $ordering='' ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	// load mambot params info
 	$query = "SELECT id"
@@ -48,7 +48,7 @@ function botSearchContacts( $text, $phrase='', $ordering='' ) {
 		return array();
 	}
 
-	$section = $_LANG->_( 'Contact' );
+	$section = JText::_( 'Contact' );
 
 	switch ( $ordering ) {
 		case 'alpha':

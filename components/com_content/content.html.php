@@ -27,7 +27,6 @@ class HTML_content {
 	*/
 	function showContentList( $title, &$items, &$access, $id=0, $sectionid=NULL, $gid, &$params, &$pageNav, $other_categories, &$lists, $order ) {
 		global $Itemid, $mosConfig_live_site;
-		global $_LANG;
 
 		if ( $sectionid ) {
 			$id = $sectionid;
@@ -70,7 +69,7 @@ class HTML_content {
 			} else if ( $catid ) {
 				?>
 				<br />
-				<?php echo $_LANG->_( 'This Category is currently empty' ); ?>
+				<?php echo JText::_( 'This Category is currently empty' ); ?>
 				<br /><br />
 				<?php
 			}
@@ -103,7 +102,7 @@ class HTML_content {
 	* Display links to categories
 	*/
 	function showCategories( &$params, &$items, $gid, &$other_categories, $catid, $id, $Itemid ) {
-		global $_LANG;
+		;
 		?>
 		<ul>
 		<?php
@@ -119,7 +118,7 @@ class HTML_content {
 					<?php
 					if ( $params->get( 'cat_items' ) ) {
 						?>
-						&nbsp;<i>( <?php echo $row->numitems ." ". $_LANG->_( 'items' );?> )</i>
+						&nbsp;<i>( <?php echo $row->numitems ." ". JText::_( 'items' );?> )</i>
 						<?php
 					}
 					// Writes Category Description
@@ -135,7 +134,7 @@ class HTML_content {
 					<li>
 					<?php echo $row->name; ?>
 					<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=register' ); ?>">
-					( <?php echo $_LANG->_( 'Registered Users Only' ); ?> )
+					( <?php echo JText::_( 'Registered Users Only' ); ?> )
 					</a>
 					<?php
 				}
@@ -152,7 +151,7 @@ class HTML_content {
 	*/
 	function showTable( &$params, &$items, &$gid, $catid, $id, &$pageNav, &$access, &$sectionid, &$lists, $order ) {
 		global $mosConfig_live_site, $Itemid;
-		global $_LANG;
+		;
 
 		$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='. $sectionid .'&amp;id='. $catid .'&amp;order='. $order .'&amp;Itemid='. $Itemid;
 		?>
@@ -167,7 +166,7 @@ class HTML_content {
 						?>
 						<td align="right" width="100%" nowrap="nowrap">
 						<?php
-						echo $_LANG->_( 'Filter' ) .'&nbsp;';
+						echo JText::_( 'Filter' ) .'&nbsp;';
 						?>
 						<input type="text" name="filter" value="<?php echo $lists['filter'];?>" class="inputbox" onchange="document.adminForm.submit();" />
 						</td>
@@ -178,7 +177,7 @@ class HTML_content {
 						?>
 						<td align="right" width="100%" nowrap="nowrap">
 						<?php
-						echo '&nbsp;&nbsp;&nbsp;'. $_LANG->_( 'Order' ) .'&nbsp;';
+						echo '&nbsp;&nbsp;&nbsp;'. JText::_( 'Order' ) .'&nbsp;';
 						echo $lists['order'];
 						?>
 						</td>
@@ -189,7 +188,7 @@ class HTML_content {
 						?>
 						<td align="right" width="100%" nowrap="nowrap">
 						<?php
-						echo '&nbsp;&nbsp;&nbsp;'. $_LANG->_( 'Display Num' ) .'&nbsp;';
+						echo '&nbsp;&nbsp;&nbsp;'. JText::_( 'Display Num' ) .'&nbsp;';
 						$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='. $sectionid .'&amp;id='. $catid .'&amp;order='. $order .'&amp;Itemid='. $Itemid;
 						echo $pageNav->getLimitBox( $link );
 						?>
@@ -209,28 +208,28 @@ class HTML_content {
 				if ( $params->get( 'date' ) ) {
 					?>
 					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="35%">
-					&nbsp;<?php echo $_LANG->_( 'Date' ); ?>
+					&nbsp;<?php echo JText::_( 'Date' ); ?>
 					</td>
 					<?php
 				}
 				if ( $params->get( 'title' ) ) {
 					?>
 					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="45%">
-					<?php echo $_LANG->_( 'Item Title' ); ?>
+					<?php echo JText::_( 'Item Title' ); ?>
 					</td>
 					<?php
 				}
 				if ( $params->get( 'author' ) ) {
 					?>
 					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>"  width="25%">
-					<?php echo $_LANG->_( 'Author' ); ?>
+					<?php echo JText::_( 'Author' ); ?>
 					</td>
 					<?php
 				}
 				if ( $params->get( 'hits' ) ) {
 					?>
 					<td align="center" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="5%">
-					<?php echo $_LANG->_( 'Hits' ); ?>
+					<?php echo JText::_( 'Hits' ); ?>
 					</td>
 					<?php
 				}
@@ -273,7 +272,7 @@ class HTML_content {
 						$link = sefRelToAbs( 'index.php?option=com_registration&amp;task=register' );
 						?>
 						<a href="<?php echo $link; ?>">
-						<?php echo $_LANG->_( 'Register to read more...' ); ?>
+						<?php echo JText::_( 'Register to read more...' ); ?>
 						</a>
 						</td>
 						<?php
@@ -325,8 +324,8 @@ class HTML_content {
 			<tr>
 				<td colspan="4">
 				<a href="<?php echo $link; ?>">
-				<img src="<?php echo $mosConfig_live_site;?>/images/M_images/new.png" width="13" height="14" align="middle" border="0" alt="<?php echo $_LANG->_( 'New' );?>" />
-				&nbsp;<?php echo $_LANG->_( 'New' );?>...
+				<img src="<?php echo $mosConfig_live_site;?>/images/M_images/new.png" width="13" height="14" align="middle" border="0" alt="<?php echo JText::_( 'New' );?>" />
+				&nbsp;<?php echo JText::_( 'New' );?>...
 				</a>
 				</td>
 			</tr>
@@ -348,13 +347,13 @@ class HTML_content {
 	*/
 	function showLinks( &$rows, $links, $total, $i=0, $show=1, $ItemidCount ) {
 		global $mainframe;
-		global $_LANG;
+		;
 
 		if ( $show ) {
 			?>
 			<div>
 			<strong>
-			<?php echo $_LANG->_( 'Read more...' ); ?>
+			<?php echo JText::_( 'Read more...' ); ?>
 			</strong>
 			</div>
 			<ul>
@@ -392,7 +391,7 @@ class HTML_content {
 		global $mainframe, $my, $hide_js;
 		global $mosConfig_sitename, $Itemid, $mosConfig_live_site, $task;
 		global $_MAMBOTS;
-		global $_LANG;
+		;
 
 		$mainframe->appendMetaTag( 'description', $row->metadesc );
 		$mainframe->appendMetaTag( 'keywords', $row->metakey );
@@ -421,13 +420,13 @@ class HTML_content {
 				$link_on = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$row->id."&amp;Itemid=".$_Itemid);
 				//if ( strlen( trim( $row->fulltext ) )) {
 				if ( @$row->readmore ) {
-					$link_text = $_LANG->_( 'Read more...' );
+					$link_text = JText::_( 'Read more...' );
 				}
 			} else {
 				$link_on = sefRelToAbs("index.php?option=com_registration&amp;task=register");
 				//if (strlen( trim( $row->fulltext ) )) {
 				if ( @$row->readmore ) {
-					$link_text = $_LANG->_( 'Register to read more...' );
+					$link_text = JText::_( 'Register to read more...' );
 				}
 			}
 		}
@@ -553,7 +552,7 @@ class HTML_content {
 	* Writes Title
 	*/
 	function Title( $row, $params, $link_on, $access ) {
-		global $_LANG;
+		;
 
 		if ( $params->get( 'item_title' ) ) {
 			if ( $params->get( 'link_titles' ) && $link_on != '' ) {
@@ -587,7 +586,7 @@ class HTML_content {
 	*/
 	function EditIcon( $row, $params, $access ) {
 		global $Itemid, $my, $mainframe;
-		global $_LANG;
+		;
 
 		if ( $params->get( 'popup' ) ) {
 			return;
@@ -602,12 +601,12 @@ class HTML_content {
 		mosCommonHTML::loadOverlib();
 
 		$link = 'index.php?option=com_content&amp;task=edit&amp;id='. $row->id .'&amp;Itemid='. $Itemid .'&amp;Returnid='. $Itemid;
-		$image = mosAdminMenus::ImageCheck( 'edit.png', '/images/M_images/', NULL, NULL, $_LANG->_( 'Edit' ), $_LANG->_( 'Edit' ) );
+		$image = mosAdminMenus::ImageCheck( 'edit.png', '/images/M_images/', NULL, NULL, JText::_( 'Edit' ), JText::_( 'Edit' ) );
 
 		if ( $row->state == 0 ) {
-			$overlib = $_LANG->_( 'Unpublished' );
+			$overlib = JText::_( 'Unpublished' );
 		} else {
-			$overlib = $_LANG->_( 'Published' );
+			$overlib = JText::_( 'Published' );
 		}
 		$date 		= mosFormatDate( $row->created );
 		$author		= $row->created_by_alias ? $row->created_by_alias : $row->author;
@@ -619,7 +618,7 @@ class HTML_content {
 		$overlib 	.= '<br />';
 		$overlib 	.= $author;
 		?>
-		<a href="<?php echo sefRelToAbs( $link ); ?>" onmouseover="return overlib('<?php echo $overlib; ?>', CAPTION, '<?php echo $_LANG->_( 'Edit Item' ); ?>', BELOW, RIGHT);" onmouseout="return nd();">
+		<a href="<?php echo sefRelToAbs( $link ); ?>" onmouseover="return overlib('<?php echo $overlib; ?>', CAPTION, '<?php echo JText::_( 'Edit Item' ); ?>', BELOW, RIGHT);" onmouseout="return nd();">
 		<?php echo $image; ?>
 		</a>
 		<?php
@@ -631,19 +630,19 @@ class HTML_content {
 	*/
 	function PdfIcon( $row, $params, $link_on, $hide_js ) {
 		global $mosConfig_live_site;
-		global $_LANG;
+		;
 
 		if ( $params->get( 'pdf' ) && !$params->get( 'popup' ) && !$hide_js ) {
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 			$link = $mosConfig_live_site. '/index2.php?option=com_content&amp;do_pdf=1&amp;id='. $row->id;
 			if ( $params->get( 'icons' ) ) {
-				$image = mosAdminMenus::ImageCheck( 'pdf_button.png', '/images/M_images/', NULL, NULL, $_LANG->_( 'PDF' ), $_LANG->_( 'PDF' ) );
+				$image = mosAdminMenus::ImageCheck( 'pdf_button.png', '/images/M_images/', NULL, NULL, JText::_( 'PDF' ), JText::_( 'PDF' ) );
 			} else {
-				$image = $_LANG->_( 'PDF' ) .'&nbsp;';
+				$image = JText::_( 'PDF' ) .'&nbsp;';
 			}
 			?>
 			<td align="right" width="100%" class="buttonheading">
-			<a href="#" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo $_LANG->_( 'PDF' );?>">
+			<a href="#" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'PDF' );?>">
 			<?php echo $image; ?>
 			</a>
 			</td>
@@ -657,19 +656,19 @@ class HTML_content {
 	*/
 	function EmailIcon( $row, $params, $hide_js ) {
 		global $mosConfig_live_site;
-		global $_LANG;
+		;
 
 		if ( $params->get( 'email' ) && !$params->get( 'popup' ) && !$hide_js ) {
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=400,height=250,directories=no,location=no';
 			$link = $mosConfig_live_site .'/index2.php?option=com_content&amp;task=emailform&amp;id='. $row->id;
 			if ( $params->get( 'icons' ) ) {
-				$image = mosAdminMenus::ImageCheck( 'emailButton.png', '/images/M_images/', NULL, NULL, $_LANG->_( 'Email' ), $_LANG->_( 'Email' ) );
+				$image = mosAdminMenus::ImageCheck( 'emailButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Email' ), JText::_( 'Email' ) );
 			} else {
-				$image = '&nbsp;'. $_LANG->_( 'Email' );
+				$image = '&nbsp;'. JText::_( 'Email' );
 			}
 			?>
 			<td align="right" width="100%" class="buttonheading">
-			<a href="#" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo $_LANG->_( 'Email' );?>">
+			<a href="#" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'Email' );?>">
 			<?php echo $image; ?>
 			</a>
 			</td>
@@ -744,12 +743,12 @@ class HTML_content {
 	*/
 	function Author( $row, $params ) {
 		global $acl;
-		global $_LANG;
+		;
 
 		if ( ( $params->get( 'author' ) ) && ( $row->author != "" ) ) {
 			$grp = $acl->getAroGroup( $row->created_by );
 			$is_frontend_user = $acl->is_group_child_of( intval( $grp->group_id ), 'Public Frontend', 'ARO' );
-			$by = $is_frontend_user ? $_LANG->_( 'Contributed by' ) : $_LANG->_( 'Written by' );
+			$by = $is_frontend_user ? JText::_( 'Contributed by' ) : JText::_( 'Written by' );
 		?>
 		<tr>
 			<td width="70%"  valign="top" colspan="2">
@@ -813,7 +812,7 @@ class HTML_content {
 	* Writes Modified Date
 	*/
 	function ModifiedDate( $row, $params ) {
-		global $_LANG;
+		;
 
 		$mod_date = null;
 		if ( intval( $row->modified ) != 0) {
@@ -823,7 +822,7 @@ class HTML_content {
 			?>
 			<tr>
 				<td colspan="2"  class="modifydate">
-				<?php echo $_LANG->_( 'Last Updated' ); ?> ( <?php echo $mod_date; ?> )
+				<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo $mod_date; ?> )
 				</td>
 			</tr>
 			<?php
@@ -853,13 +852,13 @@ class HTML_content {
 	* Writes Next & Prev navigation button
 	*/
 	function Navigation( $row, $params ) {
-		global $_LANG;
+		;
 
 		$task = mosGetParam( $_REQUEST, 'task', '' );
 		if ( $params->get( 'item_navigation' ) && ( $task == "view" ) && !$params->get( 'popup' ) && ( $row->prev || $row->next ) ) {
 
             $pnSpace = "";
-            if ($_LANG->_( '&lt' ) || $_LANG->_( '&gt' )) $pnSpace = " ";
+            if (JText::_( '&lt' ) || JText::_( '&gt' )) $pnSpace = " ";
 			?>
 			<table align="center" style="margin-top: 25px;">
 			<tr>
@@ -868,7 +867,7 @@ class HTML_content {
 					?>
 					<th class="pagenav_prev">
 					<a href="<?php echo $row->prev; ?>">
-					<?php echo $_LANG->_( '&lt' ) . $pnSpace . $_LANG->_( 'Prev' ); ?>
+					<?php echo JText::_( '&lt' ) . $pnSpace . JText::_( 'Prev' ); ?>
 					</a>
 					</th>
 					<?php
@@ -884,7 +883,7 @@ class HTML_content {
 					?>
 					<th class="pagenav_next">
 					<a href="<?php echo $row->next; ?>">
-					<?php echo $_LANG->_( 'Next' ) . $pnSpace . $_LANG->_( '&gt' ); ?>
+					<?php echo JText::_( 'Next' ) . $pnSpace . JText::_( '&gt' ); ?>
 					</a>
 					</th>
 					<?php
@@ -906,7 +905,7 @@ class HTML_content {
 	*/
 	function editContent( &$row, $section, &$lists, &$images, &$access, $myid, $sectionid, $task, $Itemid ) {
 		global $mosConfig_live_site,$mainframe;
-		global $_LANG;
+		;
 
 		mosMakeHtmlSafe( $row );
 
@@ -955,13 +954,13 @@ class HTML_content {
 			catch(e){}
 			// do field validation
 			if (form.title.value == "") {
-				alert ( "<?php echo $_LANG->_( 'Content item must have a title' ); ?>" );
+				alert ( "<?php echo JText::_( 'Content item must have a title' ); ?>" );
 			} else if (parseInt('<?php echo $row->sectionid;?>')) {
 				// for content items
 				if (getSelectedValue('adminForm','catid') < 1) {
-					alert ( "<?php echo $_LANG->_( 'Please select a category' ); ?>" );
+					alert ( "<?php echo JText::_( 'Please select a category' ); ?>" );
 				//} else if (form.introtext.value == "") {
-				//	alert ( "<?php echo $_LANG->_( 'Content item must have intro text' ); ?>" );
+				//	alert ( "<?php echo JText::_( 'Content item must have intro text' ); ?>" );
 				} else {
 					<?php
 					getEditorContents( 'editor1', 'introtext' );
@@ -970,7 +969,7 @@ class HTML_content {
 					submitform(pressbutton);
 				}
 			//} else if (form.introtext.value == "") {
-			//	alert ( "<?php echo $_LANG->_( 'Content item must have intro text' ); ?>" );
+			//	alert ( "<?php echo JText::_( 'Content item must have intro text' ); ?>" );
 			} else {
 				// for static content
 				<?php
@@ -986,22 +985,22 @@ class HTML_content {
 
 		function WarnUser(){
 			if (document.adminForm.goodexit.value==0) {
-				alert('<?php echo $_LANG->_( 'WARNUSER' );?>');
+				alert('<?php echo JText::_( 'WARNUSER' );?>');
 				window.location="<?php echo sefRelToAbs("index.php?option=com_content&task=".$task."&sectionid=".$sectionid."&id=".$row->id."&Itemid=".$Itemid); ?>";
 			}
 		}
 		</script>
 
 		<?php
-		$docinfo = "<strong>". $_LANG->_( 'Expiry Date' ) .":</strong> ";
+		$docinfo = "<strong>". JText::_( 'Expiry Date' ) .":</strong> ";
 		$docinfo .= $row->publish_down."<br />";
-		$docinfo .= "<strong>". $_LANG->_( 'Version' ) .":</strong> ";
+		$docinfo .= "<strong>". JText::_( 'Version' ) .":</strong> ";
 		$docinfo .= $row->version."<br />";
-		$docinfo .= "<strong>". $_LANG->_( 'Created' ) .":</strong> ";
+		$docinfo .= "<strong>". JText::_( 'Created' ) .":</strong> ";
 		$docinfo .= $row->created."<br />";
-		$docinfo .= "<strong>". $_LANG->_( 'Last Modified' ) .":</strong> ";
+		$docinfo .= "<strong>". JText::_( 'Last Modified' ) .":</strong> ";
 		$docinfo .= $row->modified."<br />";
-		$docinfo .= "<strong>". $_LANG->_( 'Hits' ) .":</strong> ";
+		$docinfo .= "<strong>". JText::_( 'Hits' ) .":</strong> ";
 		$docinfo .= $row->hits."<br />";
 		?>
 		<form action="index.php" method="post" name="adminForm" onSubmit="javascript:setgood();">
@@ -1009,10 +1008,10 @@ class HTML_content {
 		<table cellspacing="0" cellpadding="0" border="0" width="100%">
 		<tr>
 			<td class="contentheading" >
-			<?php echo $section;?> / <?php echo $row->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'Add' );?>&nbsp;
-			<?php echo $_LANG->_( 'Content' );?> &nbsp;&nbsp;&nbsp;
-			<a href="javascript: void(0);" onMouseOver="return overlib('<table><?php echo $docinfo; ?></table>', CAPTION, '<?php echo $_LANG->_( 'Item Information' );?>', BELOW, RIGHT);" onMouseOut="return nd();">
-			<strong>[<?php echo $_LANG->_( 'Info' );?>]</strong>
+			<?php echo $section;?> / <?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?>&nbsp;
+			<?php echo JText::_( 'Content' );?> &nbsp;&nbsp;&nbsp;
+			<a href="javascript: void(0);" onMouseOver="return overlib('<table><?php echo $docinfo; ?></table>', CAPTION, '<?php echo JText::_( 'Item Information' );?>', BELOW, RIGHT);" onMouseOut="return nd();">
+			<strong>[<?php echo JText::_( 'Info' );?>]</strong>
 			</a>
 			</td>
 		</tr>
@@ -1022,7 +1021,7 @@ class HTML_content {
 		<tr>
 			<td>
 				<div style="float: left;">
-					<?php echo $_LANG->_( 'Title' ); ?>:
+					<?php echo JText::_( 'Title' ); ?>:
 					<br />
 					<input class="inputbox" type="text" name="title" size="50" maxlength="100" value="<?php echo $row->title; ?>" />
 				</div>
@@ -1043,7 +1042,7 @@ class HTML_content {
 			?>
 			<tr>
 				<td>
-				<?php echo $_LANG->_( 'Category' ); ?>:
+				<?php echo JText::_( 'Category' ); ?>:
 				<br />
 				<?php echo $lists['catid']; ?>
 				</td>
@@ -1056,13 +1055,13 @@ class HTML_content {
 			if (intval( $row->sectionid ) > 0) {
 				?>
 				<td>
-				<?php echo $_LANG->_( 'Intro Text' ) .' ('. $_LANG->_( 'Required' ) .')'; ?>:
+				<?php echo JText::_( 'Intro Text' ) .' ('. JText::_( 'Required' ) .')'; ?>:
 				</td>
 				<?php
 			} else {
 				?>
 				<td>
-				<?php echo $_LANG->_( 'Main Text' ) .' ('. $_LANG->_( 'Required' ) .')'; ?>:
+				<?php echo JText::_( 'Main Text' ) .' ('. JText::_( 'Required' ) .')'; ?>:
 				</td>
 			<?php
 			} ?>
@@ -1080,7 +1079,7 @@ class HTML_content {
 			?>
 			<tr>
 				<td>
-				<?php echo $_LANG->_( 'Main Text' ) .' ('. $_LANG->_( 'Optional' ) .')'; ?>:
+				<?php echo JText::_( 'Main Text' ) .' ('. JText::_( 'Optional' ) .')'; ?>:
 				</td>
 			</tr>
 			<tr>
@@ -1106,51 +1105,51 @@ class HTML_content {
 		?>
 
 	 	<?php
-	 	$title = $_LANG->_( 'Images' );
+	 	$title = JText::_( 'Images' );
 		$tabs->startPane( 'content-pane' );
 		$tabs->startTab( $title, 'images-page' );
 		?>
 			<table class="adminform">
 			<tr>
 				<td colspan="4">
-				<?php echo $_LANG->_( 'Sub-folder' ); ?> :: <?php echo $lists['folders'];?>
+				<?php echo JText::_( 'Sub-folder' ); ?> :: <?php echo $lists['folders'];?>
 				</td>
 			</tr>
 			<tr>
 				<td align="top">
-					<?php echo $_LANG->_( 'Gallery Images' ); ?>
+					<?php echo JText::_( 'Gallery Images' ); ?>
 				</td>
 				<td width="2%">
 				</td>
 				<td align="top">
-					<?php echo $_LANG->_( 'Content Images' ); ?>
+					<?php echo JText::_( 'Content Images' ); ?>
 				</td>
 				<td align="top">
-					<?php echo $_LANG->_( 'Edit Image' ); ?>
+					<?php echo JText::_( 'Edit Image' ); ?>
 				</td>
 			</tr>
 			<tr>
 				<td valign="top">
 					<?php echo $lists['imagefiles'];?>
 					<br />
-					<input class="button" type="button" value="<?php echo $_LANG->_( 'Insert' ); ?>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" />
+					<input class="button" type="button" value="<?php echo JText::_( 'Insert' ); ?>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" />
 				</td>
 				<td width="2%">
-					<input class="button" type="button" value=">>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" title="<?php echo $_LANG->_( 'Add' ); ?>"/>
+					<input class="button" type="button" value=">>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" title="<?php echo JText::_( 'Add' ); ?>"/>
 					<br/>
-					<input class="button" type="button" value="<<" onclick="delSelectedFromList('adminForm','imagelist')" title="<?php echo $_LANG->_( 'Remove' ); ?>"/>
+					<input class="button" type="button" value="<<" onclick="delSelectedFromList('adminForm','imagelist')" title="<?php echo JText::_( 'Remove' ); ?>"/>
 				</td>
 				<td valign="top">
 					<?php echo $lists['imagelist'];?>
 					<br />
-					<input class="button" type="button" value="<?php echo $_LANG->_( 'Up' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,-1)" />
-					<input class="button" type="button" value="<?php echo $_LANG->_( 'Down' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,+1)" />
+					<input class="button" type="button" value="<?php echo JText::_( 'Up' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,-1)" />
+					<input class="button" type="button" value="<?php echo JText::_( 'Down' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,+1)" />
 				</td>
 				<td valign="top">
 					<table>
 					<tr>
 						<td align="right">
-						<?php echo $_LANG->_( 'Source' ); ?>:
+						<?php echo JText::_( 'Source' ); ?>:
 						</td>
 						<td>
 						<input class="inputbox" type="text" name= "_source" value="" size="15" />
@@ -1158,7 +1157,7 @@ class HTML_content {
 					</tr>
 					<tr>
 						<td align="right" valign="top">
-						<?php echo $_LANG->_( 'Align' ); ?>:
+						<?php echo JText::_( 'Align' ); ?>:
 						</td>
 						<td>
 						<?php echo $lists['_align']; ?>
@@ -1166,7 +1165,7 @@ class HTML_content {
 					</tr>
 					<tr>
 						<td align="right">
-						<?php echo $_LANG->_( 'Alt Text' ); ?>:
+						<?php echo JText::_( 'Alt Text' ); ?>:
 						</td>
 						<td>
 						<input class="inputbox" type="text" name="_alt" value="" size="15" />
@@ -1174,7 +1173,7 @@ class HTML_content {
 					</tr>
 					<tr>
 						<td align="right">
-						<?php echo $_LANG->_( 'Border' ); ?>:
+						<?php echo JText::_( 'Border' ); ?>:
 						</td>
 						<td>
 						<input class="inputbox" type="text" name="_border" value="" size="3" maxlength="1" />
@@ -1182,7 +1181,7 @@ class HTML_content {
 					</tr>
 					<tr>
 						<td align="right">
-						<?php echo $_LANG->_( 'Caption' ); ?>:
+						<?php echo JText::_( 'Caption' ); ?>:
 						</td>
 						<td>
 						<input class="text_area" type="text" name="_caption" value="" size="30" />
@@ -1190,7 +1189,7 @@ class HTML_content {
 					</tr>
 					<tr>
 						<td align="right">
-						<?php echo $_LANG->_( 'Caption Position' ); ?>:
+						<?php echo JText::_( 'Caption Position' ); ?>:
 						</td>
 						<td>
 						<?php echo $lists['_caption_position']; ?>
@@ -1198,7 +1197,7 @@ class HTML_content {
 					</tr>
 					<tr>
 						<td align="right">
-						<?php echo $_LANG->_( 'Caption Align' ); ?>:
+						<?php echo JText::_( 'Caption Align' ); ?>:
 						</td>
 						<td>
 						<?php echo $lists['_caption_align']; ?>
@@ -1206,7 +1205,7 @@ class HTML_content {
 					</tr>
 					<tr>
 						<td align="right">
-						<?php echo $_LANG->_( 'Caption Width' ); ?>:
+						<?php echo JText::_( 'Caption Width' ); ?>:
 						</td>
 						<td>
 						<input class="text_area" type="text" name="_width" value="" size="5" maxlength="5" />
@@ -1215,7 +1214,7 @@ class HTML_content {
 					<tr>
 						<td align="right"></td>
 						<td>
-						<input class="button" type="button" value="<?php echo $_LANG->_( 'Apply' ); ?>" onclick="applyImageProps()" />
+						<input class="button" type="button" value="<?php echo JText::_( 'Apply' ); ?>" onclick="applyImageProps()" />
 						</td>
 					</tr>
 					</table>
@@ -1223,19 +1222,19 @@ class HTML_content {
 			</tr>
 			<tr>
 				<td>
-					<img name="view_imagefiles" src="<?php echo $mosConfig_live_site;?>/images/M_images/blank.png" width="50" alt="<?php echo $_LANG->_( 'No Image' ); ?>" />
+					<img name="view_imagefiles" src="<?php echo $mosConfig_live_site;?>/images/M_images/blank.png" width="50" alt="<?php echo JText::_( 'No Image' ); ?>" />
 				</td>
 				<td width="2%">
 				</td>
 				<td>
-					<img name="view_imagelist" src="<?php echo $mosConfig_live_site;?>/images/M_images/blank.png" width="50" alt="<?php echo $_LANG->_( 'No Image' ); ?>" />
+					<img name="view_imagelist" src="<?php echo $mosConfig_live_site;?>/images/M_images/blank.png" width="50" alt="<?php echo JText::_( 'No Image' ); ?>" />
 				</td>
 				<td>
 				</td>
 			</tr>
 			</table>
 		<?php
-	 	$title = $_LANG->_( 'Publishing' );
+	 	$title = JText::_( 'Publishing' );
 		$tabs->endTab();
 		$tabs->startTab( $title, 'publish-page' );
 		?>
@@ -1245,7 +1244,7 @@ class HTML_content {
 				?>
 				<tr>
 					<td >
-					<?php echo $_LANG->_( 'State' ); ?>:
+					<?php echo JText::_( 'State' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['state']; ?>
@@ -1255,7 +1254,7 @@ class HTML_content {
 			} ?>
 			<tr>
 				<td >
-				<?php echo $_LANG->_( 'Access Level' ); ?>:
+				<?php echo JText::_( 'Access Level' ); ?>:
 				</td>
 				<td>
 				<?php echo $lists['access']; ?>
@@ -1263,7 +1262,7 @@ class HTML_content {
 			</tr>
 			<tr>
 				<td >
-				<?php echo $_LANG->_( 'Author Alias' ); ?>:
+				<?php echo JText::_( 'Author Alias' ); ?>:
 				</td>
 				<td>
 				<input type="text" name="created_by_alias" size="50" maxlength="100" value="<?php echo $row->created_by_alias; ?>" class="inputbox" />
@@ -1271,7 +1270,7 @@ class HTML_content {
 			</tr>
 			<tr>
 				<td >
-				<?php echo $_LANG->_( 'Ordering' ); ?>:
+				<?php echo JText::_( 'Ordering' ); ?>:
 				</td>
 				<td>
 				<?php echo $lists['ordering']; ?>
@@ -1279,7 +1278,7 @@ class HTML_content {
 			</tr>
 			<tr>
 				<td >
-				<?php echo $_LANG->_( 'Start Publishing' ); ?>:
+				<?php echo JText::_( 'Start Publishing' ); ?>:
 				</td>
 				<td>
 				<input class="inputbox" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo $row->publish_up; ?>" />
@@ -1288,7 +1287,7 @@ class HTML_content {
 			</tr>
 			<tr>
 				<td >
-				<?php echo $_LANG->_( 'Finish Publishing' ); ?>:
+				<?php echo JText::_( 'Finish Publishing' ); ?>:
 				</td>
 				<td>
 				<input class="inputbox" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $row->publish_down; ?>" />
@@ -1297,7 +1296,7 @@ class HTML_content {
 			</tr>
 			<tr>
 				<td >
-				<?php echo $_LANG->_( 'Show on Front Page' ); ?>:
+				<?php echo JText::_( 'Show on Front Page' ); ?>:
 				</td>
 				<td>
 				<input type="checkbox" name="frontpage" value="1" <?php echo $row->frontpage ? 'checked="checked"' : ''; ?> />
@@ -1305,14 +1304,14 @@ class HTML_content {
 			</tr>
 			</table>
 		<?php
-	 	$title = $_LANG->_( 'Metadata' );
+	 	$title = JText::_( 'Metadata' );
 		$tabs->endTab();
 		$tabs->startTab( $title, 'meta-page' );
 		?>
 			<table class="adminform">
 			<tr>
 				<td  valign="top">
-				<?php echo $_LANG->_( 'Description' ); ?>:
+				<?php echo JText::_( 'Description' ); ?>:
 				</td>
 				<td>
 				<textarea class="inputbox" cols="45" rows="3" name="metadesc"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
@@ -1320,7 +1319,7 @@ class HTML_content {
 			</tr>
 			<tr>
 				<td  valign="top">
-				<?php echo $_LANG->_( 'Keywords' ); ?>:
+				<?php echo JText::_( 'Keywords' ); ?>:
 				</td>
 				<td>
 				<textarea class="inputbox" cols="45" rows="3" name="metakey"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
@@ -1353,7 +1352,7 @@ class HTML_content {
 	*/
 	function emailForm( $uid, $title, $template='' ) {
 		global $mosConfig_sitename, $mainframe;
-		global $_LANG;
+		;
 		
 		$mainframe->setPageTitle( $mosConfig_sitename .' :: '. $title );
 		$mainframe->addCustomHeadTag( '<link rel="stylesheet" href="templates/'. $template .'/css/template_css.css" type="text/css" />' );
@@ -1363,7 +1362,7 @@ class HTML_content {
 			var form = document.frontendForm;
 			// do field validation
 			if (form.email.value == "" || form.youremail.value == "") {
-				alert( "<?php echo $_LANG->_( 'EMAIL_ERR_NOINFO' ); ?>" );
+				alert( "<?php echo JText::_( 'EMAIL_ERR_NOINFO' ); ?>" );
 				return false;
 			}
 			return true;
@@ -1374,7 +1373,7 @@ class HTML_content {
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
 			<td colspan="2">
-			<?php echo $_LANG->_( 'Email this to a friend.' ); ?>
+			<?php echo JText::_( 'Email this to a friend.' ); ?>
 			</td>
 		</tr>
 		<tr>
@@ -1382,7 +1381,7 @@ class HTML_content {
 		</tr>
 		<tr>
 			<td width="130">
-			<?php echo $_LANG->_( 'Your friend`s Email' ); ?>:
+			<?php echo JText::_( 'Your friend`s Email' ); ?>:
 			</td>
 			<td>
 			<input type="text" name="email" class="inputbox" size="25" />
@@ -1390,7 +1389,7 @@ class HTML_content {
 		</tr>
 		<tr>
 			<td height="27">
-			<?php echo $_LANG->_( 'Your Name' ); ?>:
+			<?php echo JText::_( 'Your Name' ); ?>:
 			</td>
 			<td>
 			<input type="text" name="yourname" class="inputbox" size="25" />
@@ -1398,7 +1397,7 @@ class HTML_content {
 		</tr>
 		<tr>
 			<td>
-			<?php echo $_LANG->_( 'Your Email' ); ?>:
+			<?php echo JText::_( 'Your Email' ); ?>:
 			</td>
 			<td>
 			<input type="text" name="youremail" class="inputbox" size="25" />
@@ -1406,7 +1405,7 @@ class HTML_content {
 		</tr>
 		<tr>
 			<td>
-			&nbsp;<?php echo $_LANG->_( 'Message subject' ); ?>:
+			&nbsp;<?php echo JText::_( 'Message subject' ); ?>:
 			</td>
 			<td>
 			<input type="text" name="subject" class="inputbox" maxlength="100" size="40" />
@@ -1417,9 +1416,9 @@ class HTML_content {
 		</tr>
 		<tr>
 			<td colspan="2">
-			<input type="submit" name="submit" class="button" value="<?php echo $_LANG->_( 'Send email' ); ?>" />
+			<input type="submit" name="submit" class="button" value="<?php echo JText::_( 'Send email' ); ?>" />
 			&nbsp;&nbsp; 
-			<input type="button" name="cancel" value="<?php echo $_LANG->_( 'Cancel' ); ?>" class="button" onclick="window.close();" />
+			<input type="button" name="cancel" value="<?php echo JText::_( 'Cancel' ); ?>" class="button" onclick="window.close();" />
 			</td>
 		</tr>
 		</table>
@@ -1437,16 +1436,16 @@ class HTML_content {
 	*/
 	function emailSent( $to, $template='' ) {
 		global $mosConfig_sitename, $mainframe;
-		global $_LANG;
+		;
 		
 		$mainframe->setPageTitle( $mosConfig_sitename );
 		$mainframe->addCustomHeadTag( '<link rel="stylesheet" href="templates/'. $template .'/css/template_css.css" type="text/css" />' );
 		?>
-		<span class="contentheading"><?php echo $_LANG->_( 'This item has been sent to' )." $to";?></span> <br />
+		<span class="contentheading"><?php echo JText::_( 'This item has been sent to' )." $to";?></span> <br />
 		<br />
 		<br />
 		<a href='javascript:window.close();'>
-		<span class="small"><?php echo $_LANG->_( 'Close Window' );?></span>
+		<span class="small"><?php echo JText::_( 'Close Window' );?></span>
 		</a>
 		<?php
 	}

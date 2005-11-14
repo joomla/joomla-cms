@@ -21,27 +21,27 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class HTML_messages {
 	function showMessages( &$rows, $pageNav, $search, $option ) {
-		global $_LANG;
+		;
 ?>
 <form action="index2.php" method="post" name="adminForm">
   <table class="adminheading">
 	<tr>
-	  <th class="inbox"><?php echo $_LANG->_( 'Private Messaging' ); ?></th>
-	  <td><?php echo $_LANG->_( 'Search' ); ?>:</td>
+	  <th class="inbox"><?php echo JText::_( 'Private Messaging' ); ?></th>
+	  <td><?php echo JText::_( 'Search' ); ?>:</td>
 	  <td> <input type="text" name="search" value="<?php echo $search;?>" class="inputbox" onChange="document.adminForm.submit();" />
 	  </td>
 	</tr>
   </table>
   <table class="adminlist">
 	<tr>
-	  <th width="20"><?php echo $_LANG->_( 'NUM' ); ?></th>
+	  <th width="20"><?php echo JText::_( 'NUM' ); ?></th>
 	  <th width="5%" class="title"> <input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count($rows); ?>);" />
 	  </th>
-	  <th width="60%" class="title"><?php echo $_LANG->_( 'Subject' ); ?></th>
-	  <th width="15%" class="title"><?php echo $_LANG->_( 'From' ); ?></th>
+	  <th width="60%" class="title"><?php echo JText::_( 'Subject' ); ?></th>
+	  <th width="15%" class="title"><?php echo JText::_( 'From' ); ?></th>
 	  <!-- <th width="20%" class="title">UserType</th> -->
-	  <th width="15%" class="title"><?php echo $_LANG->_( 'Date' ); ?></th>
-	  <th width="5%" class="title"><?php echo $_LANG->_( 'Read' ); ?></th>
+	  <th width="15%" class="title"><?php echo JText::_( 'Date' ); ?></th>
+	  <th width="5%" class="title"><?php echo JText::_( 'Read' ); ?></th>
 	</tr>
 <?php
 $k = 0;
@@ -57,9 +57,9 @@ for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 	  <td width="15%"><?php echo $row->date_time; ?></td>
 	  <td width="15%"><?php
 	  if (intval( $row->state ) == "1") {
-	  	echo $_LANG->_( 'Read' );
+	  	echo JText::_( 'Read' );
 	  } else {
-	  	echo $_LANG->_( 'Unread' );
+	  	echo JText::_( 'Unread' );
 	  } ?></td>
 	</tr>
 	<?php $k = 1 - $k;
@@ -74,17 +74,17 @@ for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 <?php }
 
 function editConfig( &$vars, $option) {
-	global $_LANG;
+	;
 
 	$tabs = new mosTabs(0);
 ?>
 <table class="adminheading">
   <tr>
-	<th class="msgconfig"><?php echo $_LANG->_( 'Private Messaging Configuration' ); ?></th>
+	<th class="msgconfig"><?php echo JText::_( 'Private Messaging Configuration' ); ?></th>
   </tr>
 </table>
 <?php
-$title = $_LANG->_( 'General' );
+$title = JText::_( 'General' );
 $tabs->startPane("messages");
 $tabs->startTab( $title, "general-page" );
 ?>
@@ -93,7 +93,7 @@ $tabs->startTab( $title, "general-page" );
 function submitbutton(pressbutton) {
 	var form = document.adminForm;
 	if (pressbutton == 'saveconfig') {
-		if (confirm ("<?php echo $_LANG->_( 'Are you sure?' ); ?>")) {
+		if (confirm ("<?php echo JText::_( 'Are you sure?' ); ?>")) {
 			submitform( pressbutton );
 		}
 	} else {
@@ -105,11 +105,11 @@ function submitbutton(pressbutton) {
 
 	<table class="adminform">
 	  <tr>
-		<td width="20%"><?php echo $_LANG->_( 'Lock Inbox' ); ?>:</td>
+		<td width="20%"><?php echo JText::_( 'Lock Inbox' ); ?>:</td>
 		<td> <?php echo $vars['lock']; ?> </td>
 	  </tr>
 	  <tr>
-		<td width="20%"><?php echo $_LANG->_( 'Mail me on new Message' ); ?>:</td>
+		<td width="20%"><?php echo JText::_( 'Mail me on new Message' ); ?>:</td>
 		<td> <?php echo $vars['mail_on_new']; ?> </td>
 	  </tr>
 	</table>
@@ -124,30 +124,30 @@ $tabs->endPane();
 <?php }
 
 function viewMessage( &$row, $option ) {
-	global $_LANG;
+	;
 ?>
 	<table class="adminheading">
 		<tr>
-			<th class="inbox"><?php echo $_LANG->_( 'View Private Message' ); ?></th>
+			<th class="inbox"><?php echo JText::_( 'View Private Message' ); ?></th>
 		</tr>
 	</table>
 
 	<form action="index2.php" method="post" name="adminForm">
 	<table class="adminform">
 		<tr>
-			<td width="100"><?php echo $_LANG->_( 'From' ); ?>:</td>
+			<td width="100"><?php echo JText::_( 'From' ); ?>:</td>
 			<td width="85%" bgcolor="#ffffff"><?php echo $row->user_from;?></td>
 		</tr>
 		<tr>
-			<td><?php echo $_LANG->_( 'Posted' ); ?>:</td>
+			<td><?php echo JText::_( 'Posted' ); ?>:</td>
 			<td bgcolor="#ffffff"><?php echo $row->date_time;?></td>
 		</tr>
 		<tr>
-			<td><?php echo $_LANG->_( 'Subject' ); ?>:</td>
+			<td><?php echo JText::_( 'Subject' ); ?>:</td>
 			<td bgcolor="#ffffff"><?php echo $row->subject;?></td>
 		</tr>
 		<tr>
-			<td valign="top"><?php echo $_LANG->_( 'Message' ); ?>:</td>
+			<td valign="top"><?php echo JText::_( 'Message' ); ?>:</td>
 			<td width="100%" bgcolor="#ffffff"><pre><?php echo htmlspecialchars( $row->message );?></pre></td>
 		</tr>
 	</table>
@@ -163,7 +163,7 @@ function viewMessage( &$row, $option ) {
 
 function newMessage($option, $recipientslist, $subject ) {
 	global $my;
-	global $_LANG;
+	;
 ?>
 	<script language="javascript" type="text/javascript">
 	function submitbutton(pressbutton) {
@@ -175,11 +175,11 @@ function newMessage($option, $recipientslist, $subject ) {
 
 		// do field validation
 		if (form.subject.value == "") {
-			alert( "<?php echo $_LANG->_( 'You must provide a subject.' ); ?>" );
+			alert( "<?php echo JText::_( 'You must provide a subject.' ); ?>" );
 		} else if (form.message.value == "") {
-			alert( "<?php echo $_LANG->_( 'You must provide a message.' ); ?>" );
+			alert( "<?php echo JText::_( 'You must provide a message.' ); ?>" );
 		} else if (getSelectedValue('adminForm','user_id_to') < 1) {
-			alert( "<?php echo $_LANG->_( 'You must select a recipient.' ); ?>" );
+			alert( "<?php echo JText::_( 'You must select a recipient.' ); ?>" );
 		} else {
 			submitform( pressbutton );
 		}
@@ -188,24 +188,24 @@ function newMessage($option, $recipientslist, $subject ) {
 
 	<table class="adminheading">
 		<tr>
-			<th class="inbox"><?php echo $_LANG->_( 'New Private Message' ); ?></th>
+			<th class="inbox"><?php echo JText::_( 'New Private Message' ); ?></th>
 		</tr>
 	</table>
 
 	<form action="index2.php" method="post" name="adminForm">
 	<table class="adminform">
 		<tr>
-			<td width="100"><?php echo $_LANG->_( 'To' ); ?>:</td>
+			<td width="100"><?php echo JText::_( 'To' ); ?>:</td>
 			<td width="85%"><?php echo $recipientslist; ?></td>
 		</tr>
 		<tr>
-			<td><?php echo $_LANG->_( 'Subject' ); ?>:</td>
+			<td><?php echo JText::_( 'Subject' ); ?>:</td>
 			<td>
 				<input type="text" name="subject" size="50" maxlength="100" class="inputbox" value="<?php echo $subject; ?>"/>
 			</td>
 		</tr>
 		<tr>
-			<td valign="top"><?php echo $_LANG->_( 'Message' ); ?>:</td>
+			<td valign="top"><?php echo JText::_( 'Message' ); ?>:</td>
 			<td width="100%">
 				<textarea name="message" style="width:100%" rows="30" class="inputbox"></textarea>
 			</td>

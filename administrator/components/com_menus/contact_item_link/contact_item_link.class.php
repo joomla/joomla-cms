@@ -24,14 +24,14 @@ class contact_item_link_menu {
 
 	function edit( &$uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
-		global $_LANG;
+		;
 
 		$menu = new mosMenu( $database );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
 		if ($menu->checked_out && $menu->checked_out <> $my->id) {
-			$alert = $_LANG->_( 'The module' ) .' '. $row->title .' '. $_LANG->_( 'DESCBEINGEDITTED' );
+			$alert = JText::_( 'The module' ) .' '. $row->title .' '. JText::_( 'DESCBEINGEDITTED' );
 			$action = "document.location.href='index2.php?option=$option'";
 			mosErrorAlert( $alert, $action );
 		}
@@ -61,7 +61,7 @@ class contact_item_link_menu {
 			<table width="100%">
 			<tr>
 				<td width="10%">
-				'. $_LANG->_( 'Name' ) .':
+				'. JText::_( 'Name' ) .':
 				</td>
 				<td>
 				'. $contact[0]->name .'
@@ -69,7 +69,7 @@ class contact_item_link_menu {
 			</tr>
 			<tr>
 				<td width="10%">
-				'. $_LANG->_( 'Position' ) .':
+				'. JText::_( 'Position' ) .':
 				</td>
 				<td>
 				'. $contact[0]->con_position .'

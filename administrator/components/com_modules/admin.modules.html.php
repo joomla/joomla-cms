@@ -27,7 +27,7 @@ class HTML_modules {
 	*/
 	function showModules( &$rows, $myid, $client, &$pageNav, $option, &$lists, $search ) {
 		global $my;
-		global $_LANG;
+		;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -35,8 +35,8 @@ class HTML_modules {
 
 		<table class="adminheading">
 		<tr>
-			<th class="modules" rowspan="2"><?php echo $_LANG->_( 'Module Manager' ); ?>
-			 <small><small>[ <?php echo $client == 'admin' ? $_LANG->_( 'Administrator' ) : $_LANG->_( 'Site' );?> ]</small></small>
+			<th class="modules" rowspan="2"><?php echo JText::_( 'Module Manager' ); ?>
+			 <small><small>[ <?php echo $client == 'admin' ? JText::_( 'Administrator' ) : JText::_( 'Site' );?> ]</small></small>
 			</th>
 			<td align="right" valign="top" nowrap="nowrap">
 				<?php
@@ -47,10 +47,10 @@ class HTML_modules {
 		</tr>
 		<tr>
 			<td align="right" valign="top" nowrap="nowrap">
-				<?php echo $_LANG->_( 'Filter' ); ?>:
+				<?php echo JText::_( 'Filter' ); ?>:
 				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
-				<input type="button" value="<?php echo $_LANG->_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
-				<input type="button" value="<?php echo $_LANG->_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 		</tr>
 		</table>
@@ -58,46 +58,46 @@ class HTML_modules {
 		<table class="adminlist">
 		<tr>
 			<th width="20px">
-			<?php echo $_LANG->_( 'NUM' ); ?>
+			<?php echo JText::_( 'NUM' ); ?>
 			</th>
 			<th width="20px">
 			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 			</th>
 			<th class="title">
-			<?php echo $_LANG->_( 'Module Name' ); ?>
+			<?php echo JText::_( 'Module Name' ); ?>
 			</th>
 			<th nowrap="nowrap" width="10%">
-			<?php echo $_LANG->_( 'Published' ); ?>
+			<?php echo JText::_( 'Published' ); ?>
 			</th>
 			<th colspan="2" align="center" width="5%">
-			<?php echo $_LANG->_( 'Reorder' ); ?>
+			<?php echo JText::_( 'Reorder' ); ?>
 			</th>
 			<th width="2%">
-			<?php echo $_LANG->_( 'Order' ); ?>
+			<?php echo JText::_( 'Order' ); ?>
 			</th>
 			<th width="1%">
-			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo $_LANG->_( 'Save Order' ); ?>" /></a>
+			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
 			</th>
 			<?php
 			if ( !$client ) {
 				?>
 				<th nowrap="nowrap" width="7%">
-				<?php echo $_LANG->_( 'Access' ); ?>
+				<?php echo JText::_( 'Access' ); ?>
 				</th>
 				<?php
 			}
 			?>
 			<th nowrap="nowrap" width="7%">
-			<?php echo $_LANG->_( 'Position' ); ?>
+			<?php echo JText::_( 'Position' ); ?>
 			</th>
 			<th nowrap="nowrap" width="5%">
-			<?php echo $_LANG->_( 'Pages' ); ?>
+			<?php echo JText::_( 'Pages' ); ?>
 			</th>
 			<th nowrap="nowrap" width="5%">
-			<?php echo $_LANG->_( 'ID' ); ?>
+			<?php echo JText::_( 'ID' ); ?>
 			</th>
 			<th nowrap="nowrap" width="10%"  class="title">
-			<?php echo $_LANG->_( 'Type' ); ?>
+			<?php echo JText::_( 'Type' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -158,11 +158,11 @@ class HTML_modules {
 				<td align="center">
 				<?php
 				if (is_null( $row->pages )) {
-					echo $_LANG->_( 'None' );
+					echo JText::_( 'None' );
 				} else if ($row->pages > 0) {
-					echo $_LANG->_( 'Varies' );
+					echo JText::_( 'Varies' );
 				} else {
-					echo $_LANG->_( 'All' );
+					echo JText::_( 'All' );
 				}
 				?>
 				</td>
@@ -170,7 +170,7 @@ class HTML_modules {
 				<?php echo $row->id;?>
 				</td>
 				<td>
-				<?php echo $row->module ? $row->module : $_LANG->_( 'User' );?>
+				<?php echo $row->module ? $row->module : JText::_( 'User' );?>
 				</td>
 			</tr>
 			<?php
@@ -205,9 +205,11 @@ class HTML_modules {
 	* @param object Parameters
 	*/
 	function editModule( &$row, &$orders2, &$lists, &$params, $option ) {
-		global $_LANG;
+		global $mainframe;
 		
-		$_LANG->load($row->module, $row->client_id);
+		$lang =& $mainframe->getLanguage();
+		
+		$lang->load($row->module, $row->client_id);
 
 		$row->titleA = '';
 		if ( $row->id ) {
@@ -219,7 +221,7 @@ class HTML_modules {
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
 			if ( ( pressbutton == 'save' ) && ( document.adminForm.title.value == "" ) ) {
-				alert("<?php echo $_LANG->_( 'Module must have a title' ); ?>");
+				alert("<?php echo JText::_( 'Module must have a title' ); ?>");
 			} else {
 				<?php 
 				if ($row->module == '') {
@@ -246,10 +248,10 @@ class HTML_modules {
 		<table class="adminheading">
 		<tr>
 			<th class="modules">
-			<?php echo $lists['client_id'] ? $_LANG->_( 'Administrator' ) : $_LANG->_( 'Site' );?>
-			<?php echo $_LANG->_( 'Module' ); ?>:
+			<?php echo $lists['client_id'] ? JText::_( 'Administrator' ) : JText::_( 'Site' );?>
+			<?php echo JText::_( 'Module' ); ?>:
 			<small>
-			<?php echo $row->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' );?>
+			<?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'New' );?>
 			</small>
 			<?php echo $row->titleA; ?>
 			</th>
@@ -264,12 +266,12 @@ class HTML_modules {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					<?php echo $_LANG->_( 'Details' ); ?>
+					<?php echo JText::_( 'Details' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td width="100" >
-					<?php echo $_LANG->_( 'Title' ); ?>:
+					<?php echo JText::_( 'Title' ); ?>:
 					</td>
 					<td>
 					<input class="text_area" type="text" name="title" size="35" value="<?php echo $row->title; ?>" />
@@ -278,7 +280,7 @@ class HTML_modules {
 				<!-- START selectable pages -->
 				<tr>
 					<td width="100" >
-					<?php echo $_LANG->_( 'Show title' ); ?>:
+					<?php echo JText::_( 'Show title' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['showtitle']; ?>
@@ -286,7 +288,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top" >
-					<?php echo $_LANG->_( 'Position' ); ?>:
+					<?php echo JText::_( 'Position' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['position']; ?>
@@ -294,7 +296,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top" >
-					<?php echo $_LANG->_( 'Module Order' ); ?>:
+					<?php echo JText::_( 'Module Order' ); ?>:
 					</td>
 					<td>
 					<script language="javascript" type="text/javascript">
@@ -306,7 +308,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top" >
-					<?php echo $_LANG->_( 'Access Level' ); ?>:
+					<?php echo JText::_( 'Access Level' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['access']; ?>
@@ -314,7 +316,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top">
-					<?php echo $_LANG->_( 'Published' ); ?>:
+					<?php echo JText::_( 'Published' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['published']; ?>
@@ -326,7 +328,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top">
-					<?php echo $_LANG->_( 'ID' ); ?>:
+					<?php echo JText::_( 'ID' ); ?>:
 					</td>
 					<td>
 					<?php echo $row->id; ?>
@@ -334,7 +336,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top">
-					<?php echo $_LANG->_( 'Description' ); ?>:
+					<?php echo JText::_( 'Description' ); ?>:
 					</td>
 					<td>
 					<?php echo $row->description; ?>
@@ -353,7 +355,7 @@ class HTML_modules {
 					<table class="adminform">
 					<tr>
 						<th >
-						<?php echo $_LANG->_( 'Parameters' ); ?>
+						<?php echo JText::_( 'Parameters' ); ?>
 						</th>
 					<tr>
 					<tr>
@@ -370,12 +372,12 @@ class HTML_modules {
 				<table width="100%" class="adminform">
 				<tr>
 					<th>
-					<?php echo $_LANG->_( 'Pages / Items' ); ?>
+					<?php echo JText::_( 'Pages / Items' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td>
-					<?php echo $_LANG->_( 'Menu Item Link(s)' ); ?>:
+					<?php echo JText::_( 'Menu Item Link(s)' ); ?>:
 					<br />
 					<?php echo $lists['selections']; ?>
 					</td>
@@ -391,12 +393,12 @@ class HTML_modules {
 						<table width="100%" class="adminform">
 						<tr>
 							<th colspan="2">
-							<?php echo $_LANG->_( 'Custom Output' ); ?>
+							<?php echo JText::_( 'Custom Output' ); ?>
 							</th>
 						<tr>
 						<tr>
 							<td valign="top" >
-							<?php echo $_LANG->_( 'Content' ); ?>:
+							<?php echo JText::_( 'Content' ); ?>:
 							</td>
 							<td>
 							<?php

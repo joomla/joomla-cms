@@ -27,9 +27,9 @@ class patTemplate_Modifier_Translate extends patTemplate_Modifier
 	*/
 	function modify( $value, $params = array() )
 	{
-		global $_LANG;
+		;
 		if (is_object( $_LANG )) {
-			return $_LANG->_( $value );
+			return JText::_( $value );
 		} else {
 			return $value;
 		}

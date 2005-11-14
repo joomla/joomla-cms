@@ -17,9 +17,6 @@ define( "_VALID_MOS", 1 );
 require_once( '../includes/auth.php' );
 include_once ( $mosConfig_absolute_path . '/language/' . $mosConfig_lang . '.php' );
 
-$_LANG =& JFactory::getLanguage( $option );
-$_LANG->debug( $mosConfig_debug );
-
 $database = new database( $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix );
 $database->debug( $mosConfig_debug );
 
@@ -46,7 +43,7 @@ $title		= eregi_replace($pat2, $replace2, $row->title);
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><?php echo $_LANG->_( 'Module Preview' ); ?></title>
+<title><?php echo JText::_( 'Module Preview' ); ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"" />
 <link rel="stylesheet" href="../../templates/<?php echo $css; ?>/css/template_css.css" type="text/css">
 <script>
@@ -75,7 +72,7 @@ content = content.replace('src=\"images', 'src=\"../../images');
 	<td valign="top" height="90%"><script>document.write(content);</script></td>
 </tr>
 <tr>
-	<td align="center"><a href="#" onClick="window.close()"><?php echo $_LANG->_( 'Close' ); ?></a></td>
+	<td align="center"><a href="#" onClick="window.close()"><?php echo JText::_( 'Close' ); ?></a></td>
 </tr>
 </table>
 </body>

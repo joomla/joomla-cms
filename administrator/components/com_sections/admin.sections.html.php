@@ -27,7 +27,7 @@ class sections_html {
 	*/
 	function show( &$rows, $scope, $myid, &$pageNav, $option ) {
 		global $my;
-  		global $_LANG;
+  		;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -35,7 +35,7 @@ class sections_html {
 		<table class="adminheading">
 		<tr>
 			 <th class="sections">
-			<?php echo $_LANG->_( 'Section Manager' ); ?>
+			<?php echo JText::_( 'Section Manager' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -43,40 +43,40 @@ class sections_html {
 		<table class="adminlist">
 		<tr>
 			<th width="20">
-			<?php echo $_LANG->_( 'NUM' ); ?>
+			<?php echo JText::_( 'NUM' ); ?>
 			</th>
 			<th width="20">
 			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows );?>);" />
 			</th>
 			<th class="title">
-			<?php echo $_LANG->_( 'Section Name' ); ?>
+			<?php echo JText::_( 'Section Name' ); ?>
 			</th>
 			<th width="10%">
-			<?php echo $_LANG->_( 'Published' ); ?>
+			<?php echo JText::_( 'Published' ); ?>
 			</th>
 			<th colspan="2" width="5%">
-			<?php echo $_LANG->_( 'Reorder' ); ?>
+			<?php echo JText::_( 'Reorder' ); ?>
 			</th>
 			<th width="2%">
-			<?php echo $_LANG->_( 'Order' ); ?>
+			<?php echo JText::_( 'Order' ); ?>
 			</th>
 			<th width="1%">
-			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo $_LANG->_( 'Save Order' ); ?>" /></a>
+			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
 			</th>
 			<th width="8%">
-			<?php echo $_LANG->_( 'Access' ); ?>
+			<?php echo JText::_( 'Access' ); ?>
 			</th>
 			<th width="12%" nowrap>
-			<?php echo $_LANG->_( 'Section ID' ); ?>
+			<?php echo JText::_( 'Section ID' ); ?>
 			</th>
 			<th width="12%" nowrap>
-			<?php echo $_LANG->_( 'Num Categories' ); ?>
+			<?php echo JText::_( 'Num Categories' ); ?>
 			</th>
 			<th width="12%" nowrap>
-			<?php echo $_LANG->_( 'Num Active' ); ?>
+			<?php echo JText::_( 'Num Active' ); ?>
 			</th>
 			<th width="12%" nowrap>
-			<?php echo $_LANG->_( 'Num Trash' ); ?>
+			<?php echo JText::_( 'Num Trash' ); ?>
 			</th>
 
 		</tr>
@@ -174,12 +174,12 @@ class sections_html {
 	*/
 	function edit( &$row, $option, &$lists, &$menus ) {
 		global $mosConfig_live_site;
-  		global $_LANG;
+  		;
 
 		if ( $row->name != '' ) {
 			$name = $row->name;
 		} else {
-			$name = $_LANG->_( 'New Section' );
+			$name = JText::_( 'New Section' );
 		}
 		if ($row->image == "") {
 			$row->image = 'blank.png';
@@ -195,21 +195,21 @@ class sections_html {
 
 			if ( pressbutton == 'menulink' ) {
 				if ( form.menuselect.value == '' ) {
-					alert( "<?php echo $_LANG->_( 'Please select a Menu' ); ?>" );
+					alert( "<?php echo JText::_( 'Please select a Menu' ); ?>" );
 					return;
 				} else if ( form.link_type.value == "" ) {
-					alert( "<?php echo $_LANG->_( 'Please select a menu type' ); ?>" );
+					alert( "<?php echo JText::_( 'Please select a menu type' ); ?>" );
 					return;
 				} else if ( form.link_name.value == "" ) {
-					alert( "<?php echo $_LANG->_( 'Please enter a Name for this menu item' ); ?>" );
+					alert( "<?php echo JText::_( 'Please enter a Name for this menu item' ); ?>" );
 					return;
 				}
 			}
 
 			if ( form.name.value == '' ){
-				alert("<?php echo $_LANG->_( 'Section must have a name' ); ?>");
+				alert("<?php echo JText::_( 'Section must have a name' ); ?>");
 			} else if ( form.title.value == '' ){
-				alert("<?php echo $_LANG->_( 'Section must have a title' ); ?>");
+				alert("<?php echo JText::_( 'Section must have a title' ); ?>");
 			} else {
 				<?php getEditorContents( 'editor1', 'description' ) ; ?>
 				submitform(pressbutton);
@@ -221,9 +221,9 @@ class sections_html {
 		<table class="adminheading">
 		<tr>
 			<th class="sections">
-			<?php echo $_LANG->_( 'Section' ); ?>:
+			<?php echo JText::_( 'Section' ); ?>:
 			<small>
-			<?php echo $row->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' );?>
+			<?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'New' );?>
 			</small>
 			<small><small>
 			[ <?php echo $name ; ?> ]
@@ -238,12 +238,12 @@ class sections_html {
 				<table class="adminform">
 				<tr>
 					<th colspan="3">
-					<?php echo $_LANG->_( 'Section Details' ); ?>
+					<?php echo JText::_( 'Section Details' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td width="150">
-					<?php echo $_LANG->_( 'Scope' ); ?>:
+					<?php echo JText::_( 'Scope' ); ?>:
 					</td>
 					<td width="85%" colspan="2">
 					<strong>
@@ -253,23 +253,23 @@ class sections_html {
 				</tr>
 				<tr>
 					<td>
-					<?php echo $_LANG->_( 'Title' ); ?>:
+					<?php echo JText::_( 'Title' ); ?>:
 					</td>
 					<td colspan="2">
-					<input class="text_area" type="text" name="title" value="<?php echo $row->title; ?>" size="50" maxlength="50" title="<?php echo $_LANG->_( 'TIPTITLEFIELD' ); ?>" />
+					<input class="text_area" type="text" name="title" value="<?php echo $row->title; ?>" size="50" maxlength="50" title="<?php echo JText::_( 'TIPTITLEFIELD' ); ?>" />
 					</td>
 				</tr>
 				<tr>
 					<td nowrap>
-					<?php echo $_LANG->_( 'Section Name' ); ?>:
+					<?php echo JText::_( 'Section Name' ); ?>:
 					</td>
 					<td colspan="2">
-					<input class="text_area" type="text" name="name" value="<?php echo $row->name; ?>" size="50" maxlength="255" title="<?php echo $_LANG->_( 'TIPNAMEFIELD' ); ?>" />
+					<input class="text_area" type="text" name="name" value="<?php echo $row->name; ?>" size="50" maxlength="255" title="<?php echo JText::_( 'TIPNAMEFIELD' ); ?>" />
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<?php echo $_LANG->_( 'Image' ); ?>:
+					<?php echo JText::_( 'Image' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['image']; ?>
@@ -281,12 +281,12 @@ class sections_html {
 							$path.= "stories/";
 						}
 					?>
-					<img src="<?php echo $path;?><?php echo $row->image;?>" name="imagelib" width="80" height="80" border="2" alt="<?php echo $_LANG->_( 'Preview' ); ?>" />
+					<img src="<?php echo $path;?><?php echo $row->image;?>" name="imagelib" width="80" height="80" border="2" alt="<?php echo JText::_( 'Preview' ); ?>" />
 					</td>
 				</tr>
 				<tr>
 					<td nowrap>
-					<?php echo $_LANG->_( 'Image Position' ); ?>:
+					<?php echo JText::_( 'Image Position' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['image_position']; ?>
@@ -294,7 +294,7 @@ class sections_html {
 				</tr>
 				<tr>
 					<td>
-					<?php echo $_LANG->_( 'Ordering' ); ?>:
+					<?php echo JText::_( 'Ordering' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['ordering']; ?>
@@ -302,7 +302,7 @@ class sections_html {
 				</tr>
 				<tr>
 					<td nowrap>
-					<?php echo $_LANG->_( 'Access Level' ); ?>:
+					<?php echo JText::_( 'Access Level' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['access']; ?>
@@ -310,7 +310,7 @@ class sections_html {
 				</tr>
 				<tr>
 					<td>
-					<?php echo $_LANG->_( 'Published' ); ?>:
+					<?php echo JText::_( 'Published' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['published']; ?>
@@ -318,7 +318,7 @@ class sections_html {
 				</tr>
 				<tr>
 					<td valign="top">
-					<?php echo $_LANG->_( 'Description' ); ?>:
+					<?php echo JText::_( 'Description' ); ?>:
 					</td>
 					<td colspan="2">
 					<?php
@@ -335,18 +335,18 @@ class sections_html {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					<?php echo $_LANG->_( 'Link to Menu' ); ?>
+					<?php echo JText::_( 'Link to Menu' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td colspan="2">
-					<?php echo $_LANG->_( 'DESCNEWMENUITEM' ); ?>
+					<?php echo JText::_( 'DESCNEWMENUITEM' ); ?>
 					<br /><br />
 					</td>
 				<tr>
 				<tr>
 					<td valign="top" width="100px">
-					<?php echo $_LANG->_( 'Select a Menu' ); ?>
+					<?php echo JText::_( 'Select a Menu' ); ?>
 					</td>
 					<td>
 					<?php echo $lists['menuselect']; ?>
@@ -354,7 +354,7 @@ class sections_html {
 				<tr>
 				<tr>
 					<td valign="top" width="100px">
-					<?php echo $_LANG->_( 'Select Menu Type' ); ?>
+					<?php echo JText::_( 'Select Menu Type' ); ?>
 					</td>
 					<td>
 					<?php echo $lists['link_type']; ?>
@@ -362,7 +362,7 @@ class sections_html {
 				<tr>
 				<tr>
 					<td valign="top" width="100px">
-					<?php echo $_LANG->_( 'Menu Item Name' ); ?>
+					<?php echo JText::_( 'Menu Item Name' ); ?>
 					</td>
 					<td>
 					<input type="text" name="link_name" class="inputbox" value="" size="25" />
@@ -372,12 +372,12 @@ class sections_html {
 					<td>
 					</td>
 					<td>
-					<input name="menu_link" type="button" class="button" value="<?php echo $_LANG->_( 'Link to Menu' ); ?>" onClick="submitbutton('menulink');" />
+					<input name="menu_link" type="button" class="button" value="<?php echo JText::_( 'Link to Menu' ); ?>" onClick="submitbutton('menulink');" />
 					</td>
 				<tr>
 				<tr>
 					<th colspan="2">
-					<?php echo $_LANG->_( 'Existing Menu Links' ); ?>
+					<?php echo JText::_( 'Existing Menu Links' ); ?>
 					</th>
 				</tr>
 				<?php
@@ -385,7 +385,7 @@ class sections_html {
 					?>
 					<tr>
 						<td colspan="2">
-						<?php echo $_LANG->_( 'None' ); ?>
+						<?php echo JText::_( 'None' ); ?>
 						</td>
 					</tr>
 					<?php
@@ -403,7 +403,7 @@ class sections_html {
 			?>
 			<table class="adminform" width="40%">
 				<tr><th>&nbsp;</th></tr>
-				<tr><td><?php echo $_LANG->_( 'Menu links available when saved' ); ?></td></tr>
+				<tr><td><?php echo JText::_( 'Menu links available when saved' ); ?></td></tr>
 			</table>
 			<?php
 			}
@@ -427,14 +427,14 @@ class sections_html {
 	* Form to select Section to copy Category to
 	*/
 	function copySectionSelect( $option, $cid, $categories, $contents, $section ) {
-  		global $_LANG;
+  		;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<br />
 		<table class="adminheading">
 		<tr>
 			<th class="sections">
-			<?php echo $_LANG->_( 'Copy Section' ); ?>
+			<?php echo JText::_( 'Copy Section' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -444,13 +444,13 @@ class sections_html {
 		<tr>
 			<td width="3%"></td>
 			<td  valign="top" width="30%">
-			<strong><?php echo $_LANG->_( 'Copy to Section' ); ?>:</strong>
+			<strong><?php echo JText::_( 'Copy to Section' ); ?>:</strong>
 			<br />
-			<input class="text_area" type="text" name="title" value="" size="35" maxlength="50" title="<?php echo $_LANG->_( 'The new Section name' ); ?>" />
+			<input class="text_area" type="text" name="title" value="" size="35" maxlength="50" title="<?php echo JText::_( 'The new Section name' ); ?>" />
 			<br /><br />
 			</td>
 			<td  valign="top" width="20%">
-			<strong><?php echo $_LANG->_( 'Categories being copied' ); ?>:</strong>
+			<strong><?php echo JText::_( 'Categories being copied' ); ?>:</strong>
 			<br />
 			<?php
 			echo "<ol>";
@@ -462,7 +462,7 @@ class sections_html {
 			?>
 			</td>
 			<td valign="top" width="20%">
-			<strong><?php echo $_LANG->_( 'Content Items being copied' ); ?>:</strong>
+			<strong><?php echo JText::_( 'Content Items being copied' ); ?>:</strong>
 			<br />
 			<?php
 			echo "<ol>";
@@ -474,11 +474,11 @@ class sections_html {
 			?>
 			</td>
 			<td valign="top">
-			<?php echo $_LANG->_( 'This will copy the Categories listed' ); ?>
+			<?php echo JText::_( 'This will copy the Categories listed' ); ?>
 			<br />
-			<?php echo $_LANG->_( 'DESCALLITEMSWITHINCAT' ); ?>
+			<?php echo JText::_( 'DESCALLITEMSWITHINCAT' ); ?>
 			<br />
-			<?php echo $_LANG->_( 'to the new Section created.' ); ?>
+			<?php echo JText::_( 'to the new Section created.' ); ?>
 			</td>.
 		</tr>
 		</table>

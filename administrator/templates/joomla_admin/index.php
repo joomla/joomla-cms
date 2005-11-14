@@ -16,9 +16,11 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 $tstart = mosProfiler::getmicrotime();
 
+$lang = $mainframe->getLanguage();
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $_LANG->isoCode();?>" lang="<?php echo $_LANG->isoCode();?>" dir="<?php echo $_LANG->rtl() ? 'rtl' : 'ltr'; ?>">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $lang->isoCode();?>" lang="<?php echo $lang->isoCode();?>" dir="<?php echo $lang->rtl() ? 'rtl' : 'ltr'; ?>">
 <head>
 <?php mosShowHead_Admin(); ?>
 </head>
@@ -26,7 +28,7 @@ $tstart = mosProfiler::getmicrotime();
 <div id="langdirection">
 <div id="wrapper">
 	<div id="header">
-			<div id="joomla"><img src="templates/joomla_admin/images/<?php echo ($_LANG->rtl()) ? 'header_text_rtl.png' : 'header_text.png'; ?>" alt="<?php echo $_LANG->_( 'Joomla! Logo' ); ?>" /></div>
+			<div id="joomla"><img src="templates/joomla_admin/images/<?php echo ($lang->rtl()) ? 'header_text_rtl.png' : 'header_text.png'; ?>" alt="<?php echo JText::_( 'Joomla! Logo' ); ?>" /></div>
 	</div>
 </div>
 <table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
@@ -41,7 +43,7 @@ $tstart = mosProfiler::getmicrotime();
 	</td>
 	<td class="menubackgr" align="right" style="padding-right:5px;">
 		<a href="index2.php?option=logout" style="color: #333333; font-weight: bold">
-			<?php echo $_LANG->_( 'Logout' ); ?></a>
+			<?php echo JText::_( 'Logout' ); ?></a>
 		<strong><?php echo $my->username;?></strong>
 	</td>
 </tr>
@@ -74,7 +76,7 @@ $tstart = mosProfiler::getmicrotime();
 				echo '<div class="smallgrey">';
 				$tend = mosProfiler::getmicrotime();
 				$totaltime = ($tend - $tstart);
-				printf ( $_LANG->_( 'Page was generated in' ) ." %f ". $_LANG->_( 'seconds' ), $totaltime);
+				printf ( JText::_( 'Page was generated in' ) ." %f ". JText::_( 'seconds' ), $totaltime);
 				echo '</div>';
 			}
 			?>

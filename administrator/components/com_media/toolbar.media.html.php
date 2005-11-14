@@ -25,11 +25,11 @@ class TOOLBAR_media {
 	*/
 
 	function _DEFAULT() {
-		global $_LANG;
+		
 		mosMenuBar::startTable();
-		mosMenuBar::custom('upload','upload.png','upload_f2.png',$_LANG->_( 'Upload' ),false);
+		mosMenuBar::custom('upload','upload.png','upload_f2.png',JText::_( 'Upload' ),false);
 		mosMenuBar::spacer();
-		mosMenuBar::custom('newdir','new.png','new_f2.png',$_LANG->_( 'Create' ),false);
+		mosMenuBar::custom('newdir','new.png','new_f2.png',JText::_( 'Create' ),false);
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::spacer();

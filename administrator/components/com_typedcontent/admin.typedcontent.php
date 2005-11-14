@@ -89,7 +89,7 @@ switch ( $task ) {
 */
 function view( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
-	global $_LANG;
+	;
 
 	$filter_authorid 	= $mainframe->getUserStateFromRequest( "filter_authorid{$option}", 'filter_authorid', 0 );
 	$order 				= $mainframe->getUserStateFromRequest( "zorder", 'zorder', 'c.ordering DESC' );
@@ -156,20 +156,20 @@ function view( $option ) {
 		$rows[$i]->links = $database->loadResult();
 	}
 
-	$ordering[] = mosHTML::makeOption( 'c.ordering ASC', $_LANG->_( 'Ordering asc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.ordering DESC', $_LANG->_( 'Ordering desc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.id ASC', $_LANG->_( 'ID asc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.id DESC', $_LANG->_( 'ID desc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.title ASC', $_LANG->_( 'Title asc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.title DESC', $_LANG->_( 'Title desc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.created ASC', $_LANG->_( 'Date asc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.created DESC', $_LANG->_( 'Date desc' ) );
-	$ordering[] = mosHTML::makeOption( 'z.name ASC', $_LANG->_( 'Author asc' ) );
-	$ordering[] = mosHTML::makeOption( 'z.name DESC', $_LANG->_( 'Author desc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.state ASC', $_LANG->_( 'Published asc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.state DESC', $_LANG->_( 'Published desc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.access ASC', $_LANG->_( 'Access asc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.access DESC', $_LANG->_( 'Access desc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.ordering ASC', JText::_( 'Ordering asc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.ordering DESC', JText::_( 'Ordering desc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.id ASC', JText::_( 'ID asc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.id DESC', JText::_( 'ID desc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.title ASC', JText::_( 'Title asc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.title DESC', JText::_( 'Title desc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.created ASC', JText::_( 'Date asc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.created DESC', JText::_( 'Date desc' ) );
+	$ordering[] = mosHTML::makeOption( 'z.name ASC', JText::_( 'Author asc' ) );
+	$ordering[] = mosHTML::makeOption( 'z.name DESC', JText::_( 'Author desc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.state ASC', JText::_( 'Published asc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.state DESC', JText::_( 'Published desc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.access ASC', JText::_( 'Access asc' ) );
+	$ordering[] = mosHTML::makeOption( 'c.access DESC', JText::_( 'Access desc' ) );
 	$javascript = 'onchange="document.adminForm.submit();"';
 	$lists['order'] = mosHTML::selectList( $ordering, 'zorder', 'class="inputbox" size="1"'. $javascript, 'value', 'text', $order );
 
@@ -181,7 +181,7 @@ function view( $option ) {
 	. "\n GROUP BY u.name"
 	. "\n ORDER BY u.name"
 	;
-	$authors[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Author' ) .' -' );
+	$authors[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Author' ) .' -' );
 	$database->setQuery( $query );
 	$authors = array_merge( $authors, $database->loadObjectList() );
 	$lists['authorid']	= mosHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_authorid );
@@ -198,7 +198,7 @@ function view( $option ) {
 function edit( $uid, $option ) {
 	global $database, $my, $mainframe;
 	global $mosConfig_absolute_path, $mosConfig_live_site;
-	global $_LANG;
+	;
 
 	$nullDate = $database->getNullDate();
 	$row = new mosContent( $database );
@@ -211,7 +211,7 @@ function edit( $uid, $option ) {
 
 		// fail if checked out not by 'me'
 		if ($row->isCheckedOut( $my->id )) {
-			$alert = $_LANG->_( 'The module' ) .' '. $row->title .' '. $_LANG->_( 'DESCBEINGEDITTED' );
+			$alert = JText::_( 'The module' ) .' '. $row->title .' '. JText::_( 'DESCBEINGEDITTED' );
 			$action = "document.location.href='index2.php?option=$option'";
 			mosErrorAlert( $alert, $action );
 		}
@@ -284,8 +284,8 @@ function edit( $uid, $option ) {
 	// build the select list for the image caption alignment
 	$lists['_caption_align'] 	= mosAdminMenus::Positions( '_caption_align' );
 	// build the select list for the image caption position
-	$pos[] = mosHTML::makeOption( 'bottom', $_LANG->_( 'Bottom' ) );
-	$pos[] = mosHTML::makeOption( 'top', $_LANG->_( 'Top' ) );
+	$pos[] = mosHTML::makeOption( 'bottom', JText::_( 'Bottom' ) );
+	$pos[] = mosHTML::makeOption( 'top', JText::_( 'Top' ) );
 	$lists['_caption_position'] = mosHTML::selectList( $pos, '_caption_position', 'class="inputbox" size="1"', 'value', 'text' );
 
 	// get params definitions
@@ -299,7 +299,7 @@ function edit( $uid, $option ) {
 */
 function save( $option, $task ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	$nullDate = $database->getNullDate();
 	$menu 		= mosGetParam( $_POST, 'menu', 'mainmenu' );
@@ -367,13 +367,13 @@ function save( $option, $task ) {
 			break;
 
 		case 'save':
-			$msg = $_LANG->_( 'Typed Content Item saved' );
+			$msg = JText::_( 'Typed Content Item saved' );
 			mosRedirect( 'index2.php?option='. $option, $msg );
 			break;
 
 		case 'apply':
 		default:
-			$msg = $_LANG->_( 'Changes to Typed Content Item saved' );
+			$msg = JText::_( 'Changes to Typed Content Item saved' );
 			mosRedirect( 'index2.php?option='. $option .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 	}
@@ -384,11 +384,11 @@ function save( $option, $task ) {
 */
 function trash( &$cid, $option ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$total = count( $cid );
 	if ( $total < 1) {
-		echo "<script> alert('". $_LANG->_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -406,7 +406,7 @@ function trash( &$cid, $option ) {
 		exit();
 	}
 
-	$msg = $total ." ". $_LANG->_( 'Item(s) sent to the Trash' );
+	$msg = $total ." ". JText::_( 'Item(s) sent to the Trash' );
 	mosRedirect( 'index2.php?option='. $option, $msg );
 }
 
@@ -420,11 +420,11 @@ function trash( &$cid, $option ) {
 */
 function changeState( $cid=null, $state=0, $option ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	if (count( $cid ) < 1) {
 		$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
-		echo "<script> alert('". $_LANG->_( 'Select an item to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -448,9 +448,9 @@ function changeState( $cid=null, $state=0, $option ) {
 	}
 
 	if ( $state == "1" ) {
-		$msg = $total ." ". $_LANG->_( 'Item(s) successfully Published' );
+		$msg = $total ." ". JText::_( 'Item(s) successfully Published' );
 	} else if ( $state == "0" ) {
-		$msg = $total ." ". $_LANG->_( 'Item(s) successfully Unpublished' );
+		$msg = $total ." ". JText::_( 'Item(s) successfully Unpublished' );
 	}
 	mosRedirect( 'index2.php?option='. $option .'&msg='. $msg );
 }
@@ -482,7 +482,7 @@ function changeAccess( $id, $access, $option  ) {
 */
 function resethits( $option, $id ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$row = new mosContent($database);
 	$row->Load( $id );
@@ -490,7 +490,7 @@ function resethits( $option, $id ) {
 	$row->store();
 	$row->checkin();
 
-	$msg = $_LANG->_( 'Successfully Reset Hit' );
+	$msg = JText::_( 'Successfully Reset Hit' );
 	mosRedirect( 'index2.php?option='. $option .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
 }
 
@@ -509,7 +509,7 @@ function cancel( $option ) {
 
 function menuLink( $option, $id ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$menu 	= mosGetParam( $_POST, 'menuselect', '' );
 	$link 	= mosGetParam( $_POST, 'link_name', '' );
@@ -534,7 +534,7 @@ function menuLink( $option, $id ) {
 	$row->checkin();
 	$row->updateOrder( "menutype='$row->menutype' AND parent='$row->parent'" );
 
-	$msg = $link ." ". $_LANG->_( '(Link - Static Content) in menu' ) .": ". $menu ." ". $_LANG->_( 'successfully created' );
+	$msg = $link ." ". JText::_( '(Link - Static Content) in menu' ) .": ". $menu ." ". JText::_( 'successfully created' );
 	mosRedirect( 'index2.php?option='. $option .'&task=edit&hidemainmenu=1&id='. $id, $msg );
 }
 
@@ -567,7 +567,7 @@ function go2menuitem() {
 
 function saveOrder( &$cid ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
@@ -601,7 +601,7 @@ function saveOrder( &$cid ) {
 		$row->updateOrder( $cond[1] );
 	} // foreach
 
-	$msg 	= $_LANG->_( 'New ordering saved' );
+	$msg 	= JText::_( 'New ordering saved' );
 	mosRedirect( 'index2.php?option=com_typedcontent', $msg );
 } // saveOrder
 ?>

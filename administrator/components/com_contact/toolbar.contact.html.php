@@ -25,17 +25,16 @@ class TOOLBAR_contact {
 	*/
 	function _EDIT() {
 		global $id;
-    	global $_LANG;
 			
-		$text = ( $id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' ) );
+		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( $_LANG->_( 'Contact' ) .': '. $text, 'generic.png' );
+		mosMenuBar::title( JText::_( 'Contact' ) .': '. $text, 'generic.png' );
 		mosMenuBar::save();
 		mosMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', $_LANG->_( 'Close' ) );
+			mosMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
 			mosMenuBar::cancel();
 		}
@@ -45,10 +44,9 @@ class TOOLBAR_contact {
 	}
 
 	function _DEFAULT() {
-		global $_LANG;
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( $_LANG->_( 'Contact Manager' ), 'blank.png', 'index2.php?option=com_contact_details' );
+		mosMenuBar::title( JText::_( 'Contact Manager' ), 'blank.png', 'index2.php?option=com_contact_details' );
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();

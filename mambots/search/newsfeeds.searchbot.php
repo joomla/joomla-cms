@@ -27,7 +27,7 @@ $_MAMBOTS->registerFunction( 'onSearch', 'botSearchNewsfeedslinks' );
 */
 function botSearchNewsfeedslinks( $text, $phrase='', $ordering='' ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	// load mambot params info
 	$query = "SELECT id"
@@ -88,7 +88,7 @@ function botSearchNewsfeedslinks( $text, $phrase='', $ordering='' ) {
 			$order = 'a.name ASC';
 	}
 
-	$searchNewsfeeds = $_LANG->_( 'Newsfeeds' );
+	$searchNewsfeeds = JText::_( 'Newsfeeds' );
 
 	$query = "SELECT a.name AS title,"
 	. "\n '' AS created,"

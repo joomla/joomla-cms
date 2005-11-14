@@ -35,6 +35,7 @@ Legend:
  # Fixed artf2102 : Cpanel: logged.php works displays incomplete info.
  # Fixed artf2034 : patTemplate - page.html, et al: wrong namespace
  + UTF-8 modifications to the installation (contributed by David Gal)
+ ^ Changed all instances of $_LANG to JText
 
 14-Nov-2005 Emir Sakic
  + Added support for SEF without mod_rewrite as mambot parameter
@@ -142,7 +143,7 @@ Legend:
 
 04-Nov-2005 Levis Bisson
  + Added the modules frontend and backend language files
- + Wrapped all frontend texts with the new $_LANG->_()
+ + Wrapped all frontend texts with the new JText::_()
  ^ Optimized the english backend language files
 
 04-Nov-2005 Johan Janssens

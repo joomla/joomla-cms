@@ -22,7 +22,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class HTML_statistics {
 	function show( &$browsers, &$platforms, $tldomains, $bstats, $pstats, $dstats, $sorts, $option ) {
 		global $mosConfig_live_site;
-		global $_LANG;
+		;
 
 		$tab = mosGetParam( $_REQUEST, 'tab', 'tab1' );
 		$width = 400;	// width of 100%
@@ -37,21 +37,21 @@ class HTML_statistics {
 		</style>
 		<table class="adminheading">
 		<tr>
-			<th class="browser"><?php echo $_LANG->_( 'Browser, OS, Domain Statistics' ); ?></th>
+			<th class="browser"><?php echo JText::_( 'Browser, OS, Domain Statistics' ); ?></th>
 		</tr>
 		</table>
 		<form action="index2.php" method="post" name="adminForm">
 		<?php
-		$title = $_LANG->_( 'Browsers' );
+		$title = JText::_( 'Browsers' );
 		$tabs->startPane("statsPane");
 		$tabs->startTab( $title, "browsers-page" );
 		?>
 		<table class="adminlist">
 		<tr>
-			<th class="title">&nbsp;<?php echo $_LANG->_( 'Browser' ); ?>&nbsp;<?php echo $sorts['b_agent'];?></th>
+			<th class="title">&nbsp;<?php echo JText::_( 'Browser' ); ?>&nbsp;<?php echo $sorts['b_agent'];?></th>
 			<th>&nbsp;</th>
 			<th width="100" class="title">% <?php echo $sorts['b_hits'];?></th>
-			<th width="100" class="title"><?php echo $_LANG->_( 'NUM' ); ?></th>
+			<th width="100" class="title"><?php echo JText::_( 'NUM' ); ?></th>
 		</tr>
 		<?php
 		$c = 1;
@@ -86,16 +86,16 @@ class HTML_statistics {
 		</tr>
 		</table>
 		<?php
-		$title = $_LANG->_( 'OS Stats' );
+		$title = JText::_( 'OS Stats' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "os-page" );
 		?>
 		<table class="adminlist">
 		<tr>
-			<th class="title">&nbsp;<?php echo $_LANG->_( 'Operating System' ); ?>&nbsp;<?php echo $sorts['o_agent'];?></th>
+			<th class="title">&nbsp;<?php echo JText::_( 'Operating System' ); ?>&nbsp;<?php echo $sorts['o_agent'];?></th>
 			<th>&nbsp;</th>
 			<th width="100" class="title">% <?php echo $sorts['o_hits'];?></th>
-			<th width="100" class="title"><?php echo $_LANG->_( 'NUM' ); ?></th>
+			<th width="100" class="title"><?php echo JText::_( 'NUM' ); ?></th>
 		</tr>
 		<?php
 		$c = 1;
@@ -130,16 +130,16 @@ class HTML_statistics {
 		</tr>
 		</table>
 		<?php
-		$title = $_LANG->_( 'Domain Stats' );
+		$title = JText::_( 'Domain Stats' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "domain-page" );
 		?>
 		<table class="adminlist">
 		<tr>
-			<th class="title">&nbsp;<?php echo $_LANG->_( 'Domain' ); ?>&nbsp;<?php echo $sorts['d_agent'];?></th>
+			<th class="title">&nbsp;<?php echo JText::_( 'Domain' ); ?>&nbsp;<?php echo $sorts['d_agent'];?></th>
 			<th>&nbsp;</th>
 			<th width="100" class="title">% <?php echo $sorts['d_hits'];?></th>
-			<th width="100" class="title"><?php echo $_LANG->_( 'NUM' ); ?></th>
+			<th width="100" class="title"><?php echo JText::_( 'NUM' ); ?></th>
 		</tr>
 		<?php
 		$c = 1;
@@ -186,19 +186,19 @@ class HTML_statistics {
 	}
 
 	function pageImpressions( &$rows, $pageNav, $option, $task ) {
-		global $_LANG, $mosConfig_live_site;
+		global $mosConfig_live_site;
 		?>
 		<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminheading">
 		<tr>
-			<th width="100%" class="impressions"><?php echo $_LANG->_( 'Page Impression Statistics' ); ?></th>
+			<th width="100%" class="impressions"><?php echo JText::_( 'Page Impression Statistics' ); ?></th>
 		</tr>
 		</table>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminlist">
 		<tr>
-			<th style="text-align:right"><?php echo $_LANG->_( 'NUM' ); ?></th>
-			<th class="title"><?php echo $_LANG->_( 'Title' ); ?></th>
-			<th align="center" nowrap="nowrap"><?php echo $_LANG->_( 'Page Impressions' ); ?></th>
+			<th style="text-align:right"><?php echo JText::_( 'NUM' ); ?></th>
+			<th class="title"><?php echo JText::_( 'Title' ); ?></th>
+			<th align="center" nowrap="nowrap"><?php echo JText::_( 'Page Impressions' ); ?></th>
 		</tr>
 		<?php
 		$i = $pageNav->limitstart;
@@ -231,25 +231,25 @@ class HTML_statistics {
 
 	function showSearches( &$rows, $pageNav, $option, $task ) {
 		global $mainframe, $mosConfig_live_site;
-		global $_LANG;
+		;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminheading">
 			<tr>
 				<th width="100%" class="searchtext">
-				<?php echo $_LANG->_( 'Search Engine Text' ); ?> :
-				<span class="componentheading"><?php echo $_LANG->_( 'logging is' ); ?> :
-				<?php echo $mainframe->getCfg( 'enable_log_searches' ) ? '<b><font color="green">'. $_LANG->_( 'Enabled' ) .'</font></b>' : '<b><font color="red">'. $_LANG->_( 'Disabled' ) .'</font></b>' ?>
+				<?php echo JText::_( 'Search Engine Text' ); ?> :
+				<span class="componentheading"><?php echo JText::_( 'logging is' ); ?> :
+				<?php echo $mainframe->getCfg( 'enable_log_searches' ) ? '<b><font color="green">'. JText::_( 'Enabled' ) .'</font></b>' : '<b><font color="red">'. JText::_( 'Disabled' ) .'</font></b>' ?>
 				</span>
 				</th>
 			</tr>
 		</table>
 		<table class="adminlist">
 		<tr>
-			<th style="text-align:right"><?php echo $_LANG->_( 'NUM' ); ?></th>
-			<th class="title"><?php echo $_LANG->_( 'Search Text' ); ?></th>
-			<th nowrap="nowrap"><?php echo $_LANG->_( 'Times Requested' ); ?></th>
-			<th nowrap="nowrap"><?php echo $_LANG->_( 'Results Returned' ); ?></th>
+			<th style="text-align:right"><?php echo JText::_( 'NUM' ); ?></th>
+			<th class="title"><?php echo JText::_( 'Search Text' ); ?></th>
+			<th nowrap="nowrap"><?php echo JText::_( 'Times Requested' ); ?></th>
+			<th nowrap="nowrap"><?php echo JText::_( 'Results Returned' ); ?></th>
 		</tr>
 		<?php
 		$k = 0;

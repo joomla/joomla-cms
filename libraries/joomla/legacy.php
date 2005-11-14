@@ -80,7 +80,7 @@ function mosIsChmodable( $file ) {
 * Legacy function, replaced by geshi bot
 */
 function mosShowSource( $filename, $withLineNums=false ) {
-    global $_LANG;
+    ;
 
 	ini_set('highlight.html', '000000');
 	ini_set('highlight.default', '#800000');
@@ -89,7 +89,7 @@ function mosShowSource( $filename, $withLineNums=false ) {
 	ini_set('highlight.comment','#008000');
 
 	if (!($source = @highlight_file( $filename, true ))) {
-		return $_LANG->_( 'Operation Failed' );
+		return JText::_( 'Operation Failed' );
 	}
 	$source = explode("<br />", $source);
 

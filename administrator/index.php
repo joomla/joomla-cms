@@ -39,11 +39,6 @@ $mainframe->initSession( 'php' );
 // trigger the onAfterStart events
 $_MAMBOTS->trigger( 'onAfterStart' );
 
-$lang = mosGetParam( $_REQUEST, 'lang', $mosConfig_lang );
-
-$_LANG =& JFactory::getLanguage( $option );
-$_LANG->debug( $mosConfig_debug );
-
 // gets template for page
 $cur_template = $mainframe->getTemplate();
 
@@ -56,17 +51,17 @@ if (isset( $_POST['submit'] )) {
 	$count = intval( $database->loadResult() );
 
 	if ( $count < 1 ) {
-		mosErrorAlert( $_LANG->_( 'errorNoAdmins' ) );
+		mosErrorAlert( JText::_( 'errorNoAdmins' ) );
 	}
 
 	if ($mainframe->login()) {
-		$mainframe->setUserState( 'lang', $lang );
+		$mainframe->setUserState( 'lang', mosGetParam( $_REQUEST, 'lang', $mosConfig_lang ) );
 		session_write_close();
 		/** cannot using mosredirect as this stuffs up the cookie in IIS */
 		$handle = isset($handle) ? ('?handle=' . $handle) : '';
 		mosErrorAlert( '', "document.location.href='index2.php" . $handle . "'", 2 );
 	} else {
-		mosErrorAlert( $_LANG->_( 'validUserPassAccess' ), "document.location.href='index.php'" );
+		mosErrorAlert( JText::_( 'validUserPassAccess' ), "document.location.href='index.php'" );
 	}
 } else {
 

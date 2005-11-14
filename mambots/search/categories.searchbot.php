@@ -27,7 +27,7 @@ $_MAMBOTS->registerFunction( 'onSearch', 'botSearchCategories' );
 */
 function botSearchCategories( $text, $phrase='', $ordering='' ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	// load mambot params info
 	$query = "SELECT id"
@@ -88,10 +88,10 @@ function botSearchCategories( $text, $phrase='', $ordering='' ) {
 	for ( $i = 0; $i < $count; $i++ ) {
 		if ( $rows[$i]->menutype == 'content_blog_category' ) {
 			$rows[$i]->href = 'index.php?option=com_content&task=blogcategory&id='. $rows[$i]->catid .'&Itemid='. $rows[$i]->menuid;
-			$rows[$i]->section 	= $_LANG->_( 'Category Blog' );
+			$rows[$i]->section 	= JText::_( 'Category Blog' );
 		} else {
 			$rows[$i]->href = 'index.php?option=com_content&task=category&sectionid='. $rows[$i]->secid .'&id='. $rows[$i]->catid .'&Itemid='. $rows[$i]->menuid;
-			$rows[$i]->section 	= $_LANG->_( 'Category List' );
+			$rows[$i]->section 	= JText::_( 'Category List' );
 		}
 	}
 

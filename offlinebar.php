@@ -87,7 +87,7 @@ if ( $mosConfig_offline == 1 ) {
 	<tr>
 		<td>
 			<h2>
-			<?php echo $_LANG->_( 'WARNINSTALL' ); ?>
+			<?php echo JText::_( 'WARNINSTALL' ); ?>
 			</h2>
 		</td>
 	</tr>

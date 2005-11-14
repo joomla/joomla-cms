@@ -50,7 +50,7 @@ foreach ($comps as $row) {
 <table class="adminlist">
 <tr>
 	<th class="title">
-	   <?php echo $_LANG->_( 'Components' ); ?>
+	   <?php echo JText::_( 'Components' ); ?>
 	</th>
 </tr>
 <tr>
@@ -75,7 +75,7 @@ foreach ($comps as $row) {
 							<table width="100%" class="adminlist">
 							<tr>
 								<td align="center" style="text-align: center; font-weight: bold;">
-									<a href="index2.php?option=com_admin&task=listcomponents"><?php echo $_LANG->_( 'Full Component List' ); ?></a>
+									<a href="index2.php?option=com_admin&task=listcomponents"><?php echo JText::_( 'Full Component List' ); ?></a>
 								</td>
 							</tr>
 							</table>
@@ -91,7 +91,7 @@ foreach ($comps as $row) {
 							$i++;
 							//$name = htmlspecialchars( $row->name, ENT_QUOTES );
 							// $alt = htmlspecialchars( $row->admin_menu_alt, ENT_QUOTES );
-							$name = $_LANG->_( $row->name );
+							$name = JText::_( $row->name );
 
 							if ($row->admin_menu_link) {
 								?>
@@ -122,7 +122,7 @@ foreach ($comps as $row) {
 										<td>
 											<ul style="padding: 0px 0px 0px 20px; margin: 0px;">
 												<?php
-												$name = $_LANG->_( $sub->name );
+												$name = JText::_( $sub->name );
 					   							//$name = htmlspecialchars( $sub->name );
 												// $alt = htmlspecialchars( $sub->admin_menu_alt );
 												// $link = $sub->admin_menu_link ? "" : "null";

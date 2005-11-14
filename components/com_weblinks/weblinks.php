@@ -18,7 +18,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 /** load the html drawing class */
 require_once( $mainframe->getPath( 'front_html' ) );
 require_once( $mainframe->getPath( 'class' ) );
-$mainframe->setPageTitle( $_LANG->_( 'Web Links' ) );
+$mainframe->setPageTitle( JText::_( 'Web Links' ) );
 
 $id 	= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
 $catid 	= intval( mosGetParam( $_REQUEST, 'catid', 0 ) );
@@ -54,7 +54,7 @@ function listWeblinks( $catid ) {
 	global $mainframe, $database, $my;
 	global $mosConfig_live_site;
 	global $Itemid;
-	global $_LANG;
+	;
 
 	/* Query to retrieve all categories that belong under the web links section and that are published. */
 	$query = "SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc"
@@ -108,7 +108,7 @@ function listWeblinks( $catid ) {
 	$params->def( 'other_cat_section', 1 );
 	$params->def( 'other_cat', 1 );
 	$params->def( 'description', 1 );
-	$params->def( 'description_text', $_LANG->_( 'WEBLINKS_DESC' ) );
+	$params->def( 'description_text', JText::_( 'WEBLINKS_DESC' ) );
 	$params->def( 'image', '-1' );
 	$params->def( 'weblink_icons', '' );
 	$params->def( 'image_align', 'right' );
@@ -252,7 +252,7 @@ function cancelWebLink( $option ) {
 */
 function saveWeblink( $option ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	if ($my->gid < 1) {
 		mosNotAuth();
@@ -294,7 +294,7 @@ function saveWeblink( $option ) {
 		mosSendAdminMail($adminRow->name, $adminRow->email, "", "Weblink", $row->title, $my->username );
 	}
 
-	$msg 	= $isNew ? $_LANG->_( 'THANK_SUB' ) : '';
+	$msg 	= $isNew ? JText::_( 'THANK_SUB' ) : '';
 	mosRedirect( 'index.php', $msg );
 }
 ?>

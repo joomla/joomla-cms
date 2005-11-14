@@ -258,7 +258,7 @@ class JApplication extends JObject {
 
 		if (!$username || !$passwd) {
 			// Error check if still no username or password values
-			echo "<script> alert(\"". $_LANG->_( 'LOGIN_INCOMPLETE' ) ."\"); </script>\n";
+			echo "<script> alert(\"". JText::_( 'LOGIN_INCOMPLETE' ) ."\"); </script>\n";
 			mosRedirect( mosGetParam( $_POST, 'return', '/' ) );
 			exit();
 		} else {
@@ -277,7 +277,7 @@ class JApplication extends JObject {
 
 					// check to see if user is blocked from logging in
 					if ($user->block == 1) {
-						echo "<script>alert(\"". $_LANG->_( 'LOGIN_BLOCKED' ) ."\"); </script>\n";
+						echo "<script>alert(\"". JText::_( 'LOGIN_BLOCKED' ) ."\"); </script>\n";
 						mosRedirect(mosGetParam( $_POST, 'return', '/' ));
 						exit();
 					}
@@ -348,9 +348,9 @@ class JApplication extends JObject {
 	/**
 	* @return mosUser A user object with the information from the current session
 	*/
-	function getUser() {
-		global $database;
-
+	//TODO : implement signleton 
+	function &getUser() {
+		
 		$user = new mosUser( $this->_db);
 
 		if (intval( $this->_session->userid )) {
@@ -359,6 +359,63 @@ class JApplication extends JObject {
 		} 
 
 		return $user;
+	}
+	
+	/**
+	* Load language files
+	* The function will load the common language file of the system and the
+	* special files for the actual component.
+	* The module related files will be loaded automatically
+	*
+	* @param string		actual component which files should be loaded
+	* @return object
+	* @since 1.1
+	*/
+	//TODO : implement signleton -> needs preformance improvements
+	function &getLanguage( $option=null ) {
+		global $mosConfig_lang, $mosConfig_debug, $my;
+
+		jimport('joomla.language');
+
+		$lang = $this->getUserState( 'lang' );
+		
+		if ($lang == '' && $my && isset( $my->params )) {
+
+			// if admin && special lang?
+			if( $this->isAdmin() ) {
+				$lang = $my->params->get( 'admin_language', $lang );
+			}
+		}
+		
+		// loads english language file by default
+		if ($lang == '0' || $lang == '') {
+			$lang = $mosConfig_lang;
+		}
+
+		// load the site language file (the old way - to be deprecated)
+		$file = JPATH_SITE .'/language/' . $lang .'.php';
+		if (file_exists( $file )) {
+			require_once( $file);
+		} else {
+			$file = JPATH_SITE .'/language/english.php';
+			if (file_exists( $file )) {
+				require_once( $file );
+			}
+		}
+
+		$_LANG =& JLanguage::getInstance( $lang );
+		$_LANG->debug( $mosConfig_debug );
+		$_LANG->loadAll( $option, $this->getClient() );
+
+		// make sure the locale setting is correct
+		setlocale( LC_ALL, $_LANG->locale() );
+
+		// In case of frontend modify the config value in order to keep backward compatiblitity
+		if( !$this->isAdmin() ) {
+			$mosConfig_lang = $lang;
+		}
+
+		return $_LANG;
 	}
 	
 	/**

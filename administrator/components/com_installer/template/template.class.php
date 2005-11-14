@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!$acl->acl_check( 'com_templates', 'manage', 'users', $GLOBALS['my']->usertype )) {
-	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
+	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 /**
@@ -32,7 +32,7 @@ class mosInstallerTemplate extends mosInstaller {
 	*/
 	function install( $p_fromdir = null ) {
 		global $mosConfig_absolute_path,$database;
-		global $_LANG;
+		;
 
 		if (!$this->preInstallCheck( $p_fromdir, 'template' )) {
 			return false;
@@ -45,7 +45,7 @@ class mosInstallerTemplate extends mosInstaller {
 		if ($mosinstall->getAttribute( 'client' )) {
 			$validClients = array( 'administrator' );
 			if (!in_array( $mosinstall->getAttribute( 'client' ), $validClients )) {
-				$this->setError( 1, $_LANG->_( 'Unknown client type' ) .' ['.$mosinstall->getAttribute( 'client' ).']' );
+				$this->setError( 1, JText::_( 'Unknown client type' ) .' ['.$mosinstall->getAttribute( 'client' ).']' );
 				return false;
 			}
 			$client = 'admin';
@@ -59,7 +59,7 @@ class mosInstallerTemplate extends mosInstaller {
 		);
 
 		if (!file_exists( $this->elementDir() ) && !mosMakePath( $this->elementDir() )) {
-			$this->setError(1, $_LANG->_( 'Failed to create directory' ) .' "' . $this->elementDir() . '"' );
+			$this->setError(1, JText::_( 'Failed to create directory' ) .' "' . $this->elementDir() . '"' );
 			return false;
 		}
 
@@ -90,7 +90,7 @@ class mosInstallerTemplate extends mosInstaller {
 	function uninstall( $id, $option, $client=0 ) {
 
 		global $database, $mosConfig_absolute_path;
-		global $_LANG;
+		;
 
 		// Delete directories
 		$path = ($client == 'admin' ? JPATH_ADMINISTRATOR : $mosConfig_absolute_path )	. '/templates/' . $id;
@@ -100,11 +100,11 @@ class mosInstallerTemplate extends mosInstaller {
 			if (is_dir( $path )) {
 				return deldir( mosPathName( $path ) );
 			} else {
-				HTML_installer::showInstallMessage( $_LANG->_( 'Directory does not exist, cannot remove files' ), $_LANG->_( 'Uninstall - error' ),
+				HTML_installer::showInstallMessage( JText::_( 'Directory does not exist, cannot remove files' ), JText::_( 'Uninstall - error' ),
 					$this->returnTo( $option, 'template', $client ) );
 			}
 		} else {
-			HTML_installer::showInstallMessage( $_LANG->_( 'Template id is empty, cannot remove files' ), $_LANG->_( 'Uninstall - error' ),
+			HTML_installer::showInstallMessage( JText::_( 'Template id is empty, cannot remove files' ), JText::_( 'Uninstall - error' ),
 				$this->returnTo( $option, 'template', $client ) );
 			exit();
 		}

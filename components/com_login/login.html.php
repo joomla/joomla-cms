@@ -23,7 +23,7 @@ class loginHTML {
 
 	function loginpage ( &$params, $image ) {
 		global $mosConfig_lang;
-		global $_LANG;
+		;
 
 		$return = $params->get('login');
 		?>
@@ -59,11 +59,11 @@ class loginHTML {
 				<table>
 				<tr>
 					<td align="center">
-					<?php echo $_LANG->_( 'Username' ); ?>
+					<?php echo JText::_( 'Username' ); ?>
 					<br />
 					</td>
 					<td align="center">
-					<?php echo $_LANG->_( 'Password' ); ?>
+					<?php echo JText::_( 'Password' ); ?>
 					<br />
 					</td>
 				</tr>
@@ -78,19 +78,19 @@ class loginHTML {
 				<tr>
 					<td align="center" colspan="2">
 					<br/>
-					<?php echo $_LANG->_( 'Remember me' ); ?>
+					<?php echo JText::_( 'Remember me' ); ?>
 					<input type="checkbox" name="remember" class="inputbox" value="yes" />
 					<br/>
 					<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=lostPassword' ); ?>">
-					<?php echo $_LANG->_( 'Lost Password?' ); ?>
+					<?php echo JText::_( 'Lost Password?' ); ?>
 					</a>
 					<?php
 					if ( $params->get( 'registration' ) ) {
 						?>
 						<br/>
-						<?php echo $_LANG->_( 'No account yet?' ); ?>
+						<?php echo JText::_( 'No account yet?' ); ?>
 						<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=register' ); ?>">
-						<?php echo $_LANG->_( 'Register' );?>
+						<?php echo JText::_( 'Register' );?>
 						</a>
 						<?php
 					}
@@ -102,7 +102,7 @@ class loginHTML {
 			</td>
 			<td>
 			<div align="center">
-			<input type="submit" name="submit" class="button" value="<?php echo $_LANG->_( 'Login' ); ?>" />
+			<input type="submit" name="submit" class="button" value="<?php echo JText::_( 'Login' ); ?>" />
 			</div>
 
 			</td>
@@ -110,7 +110,7 @@ class loginHTML {
 		<tr>
 			<td colspan="2">
 			<noscript>
-			<?php echo $_LANG->_( 'WARNJAVASCRIPT' ); ?>
+			<?php echo JText::_( 'WARNJAVASCRIPT' ); ?>
 			</noscript>
 			</td>
 		</tr>
@@ -130,7 +130,7 @@ class loginHTML {
 
 	function logoutpage( &$params, $image ) {
 		global $mosConfig_lang;
-		global $_LANG;
+		;
 
 		$return = $params->get('logout');
 		?>
@@ -164,7 +164,7 @@ class loginHTML {
 		<tr>
 			<td align="center">
 			<div align="center">
-			<input type="submit" name="Submit" class="button" value="<?php echo $_LANG->_( 'Logout' ); ?>" />
+			<input type="submit" name="Submit" class="button" value="<?php echo JText::_( 'Logout' ); ?>" />
 			</div>
 			</td>
 		</tr>

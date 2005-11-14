@@ -21,23 +21,23 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class HTML_registration {
 	function lostPassForm($option) {
-		global $_LANG;
+		;
 		?>
 		<form action="index.php" method="post">
 
 		<div class="componentheading">
-			<?php echo $_LANG->_( 'Lost your Password?' ); ?>
+			<?php echo JText::_( 'Lost your Password?' ); ?>
 		</div>
 
 		<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentpane">
 		<tr>
 			<td colspan="2">
-				<?php echo $_LANG->_( 'NEW_PASS_DESC' ); ?>
+				<?php echo JText::_( 'NEW_PASS_DESC' ); ?>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<?php echo $_LANG->_( 'Username' ); ?>:
+				<?php echo JText::_( 'Username' ); ?>:
 			</td>
 			<td>
 				<input type="text" name="checkusername" class="inputbox" size="40" maxlength="25" />
@@ -45,7 +45,7 @@ class HTML_registration {
 		</tr>
 		<tr>
 			<td>
-				<?php echo $_LANG->_( 'Email Address' ); ?>:
+				<?php echo JText::_( 'Email Address' ); ?>:
 			</td>
 			<td>
 				<input type="text" name="confirmEmail" class="inputbox" size="40" />
@@ -63,7 +63,7 @@ class HTML_registration {
 	}
 
 	function registerForm($option, $useractivation) {
-		global $_LANG;
+		;
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton() {
@@ -72,21 +72,21 @@ class HTML_registration {
 
 			// do field validation
 			if (form.name.value == "") {
-				alert( "<?php echo $_LANG->_( 'Please enter your name.' );?>" );
+				alert( "<?php echo JText::_( 'Please enter your name.' );?>" );
 			} else if (form.username.value == "") {
-				alert( "<?php echo $_LANG->_( 'Please enter a user name.' );?>" );
+				alert( "<?php echo JText::_( 'Please enter a user name.' );?>" );
 			} else if (r.exec(form.username.value) || form.username.value.length < 3) {
-				alert( "<?php printf( $_LANG->_( 'VALID_AZ09' ), $_LANG->_( 'Username' ), 2 );?>" );
+				alert( "<?php printf( JText::_( 'VALID_AZ09' ), JText::_( 'Username' ), 2 );?>" );
 			} else if (form.email.value == "") {
-				alert( "<?php echo $_LANG->_( 'Please enter a valid e-mail address.' );?>" );
+				alert( "<?php echo JText::_( 'Please enter a valid e-mail address.' );?>" );
 			} else if (form.password.value.length < 6) {
-				alert( "<?php echo $_LANG->_( 'REGWARN_PASS' );?>" );
+				alert( "<?php echo JText::_( 'REGWARN_PASS' );?>" );
 			} else if (form.password2.value == "") {
-				alert( "<?php echo $_LANG->_( 'Please verify the password.' );?>" );
+				alert( "<?php echo JText::_( 'Please verify the password.' );?>" );
 			} else if ((form.password.value != "") && (form.password.value != form.password2.value)){
-				alert( "<?php echo $_LANG->_( 'REGWARN_VPASS2' );?>" );
+				alert( "<?php echo JText::_( 'REGWARN_VPASS2' );?>" );
 			} else if (r.exec(form.password.value)) {
-				alert( "<?php printf( $_LANG->_( 'VALID_AZ09' ), $_LANG->_( 'Password' ), 6 );?>" );
+				alert( "<?php printf( JText::_( 'VALID_AZ09' ), JText::_( 'Password' ), 6 );?>" );
 			} else {
 				form.submit();
 			}
@@ -95,16 +95,16 @@ class HTML_registration {
 		<form action="index.php" method="post" name="mosForm">
 
 		<div class="componentheading">
-			<?php echo $_LANG->_( 'Registration' ); ?>
+			<?php echo JText::_( 'Registration' ); ?>
 		</div>
 
 		<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentpane">
 		<tr>
-			<td colspan="2"><?php echo $_LANG->_( 'REGISTER_REQUIRED' ); ?></td>
+			<td colspan="2"><?php echo JText::_( 'REGISTER_REQUIRED' ); ?></td>
 		</tr>
 		<tr>
 			<td width="30%">
-				<?php echo $_LANG->_( 'Name' ); ?>: *
+				<?php echo JText::_( 'Name' ); ?>: *
 			</td>
 		  	<td>
 		  		<input type="text" name="name" size="40" value="" class="inputbox" />
@@ -112,14 +112,14 @@ class HTML_registration {
 		</tr>
 		<tr>
 			<td>
-				<?php echo $_LANG->_( 'Username' ); ?>: *
+				<?php echo JText::_( 'Username' ); ?>: *
 			</td>
 			<td>
 				<input type="text" name="username" size="40" value="" class="inputbox" />
 			</td>
 		<tr>
 			<td>
-				<?php echo $_LANG->_( 'Email' ); ?>: *
+				<?php echo JText::_( 'Email' ); ?>: *
 			</td>
 			<td>
 				<input type="text" name="email" size="40" value="" class="inputbox" />
@@ -127,7 +127,7 @@ class HTML_registration {
 		</tr>
 		<tr>
 			<td>
-				<?php echo $_LANG->_( 'Password' ); ?>: *
+				<?php echo JText::_( 'Password' ); ?>: *
 			</td>
 		  	<td>
 		  		<input class="inputbox" type="password" name="password" size="40" value="" />
@@ -135,7 +135,7 @@ class HTML_registration {
 		</tr>
 		<tr>
 			<td>
-				<?php echo $_LANG->_( 'Verify Password' ); ?>: *
+				<?php echo JText::_( 'Verify Password' ); ?>: *
 			</td>
 			<td>
 				<input class="inputbox" type="password" name="password2" size="40" value="" />
@@ -156,7 +156,7 @@ class HTML_registration {
 		<input type="hidden" name="useractivation" value="<?php echo $useractivation;?>" />
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="saveRegistration" />
-		<input type="button" value="<?php echo $_LANG->_( 'Send Registration' ); ?>" class="button" onclick="submitbutton()" />
+		<input type="button" value="<?php echo JText::_( 'Send Registration' ); ?>" class="button" onclick="submitbutton()" />
 		</form>
 		<?php
 	}

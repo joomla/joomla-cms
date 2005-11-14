@@ -244,10 +244,10 @@ function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 function mosWarning($warning, $title='Joomla! Warning') {
 	global $mosConfig_live_site, $_LANG;
 
-	$title 		= $_LANG->_( 'Joomla Warning' );
+	$title 		= JText::_( 'Joomla Warning' );
 	$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \'$title\', BELOW, RIGHT);';
 	
-	$tip 		= '<!--'. $_LANG->_( 'Joomla Warning' ) ."--> \n";
+	$tip 		= '<!--'. JText::_( 'Joomla Warning' ) ."--> \n";
 	$tip 		= '<a href="#" onmouseover="'. $mouseover .'" onmouseout="return nd();">';
 	$tip 		.= '<img src="'. $mosConfig_live_site .'/includes/js/ThemeOffice/warning.png" border="0"  alt="'. $title .'"/></a>';
 
@@ -278,9 +278,9 @@ function mosBackTrace() {
 function mosNotAuth() {
 	global $my, $_LANG;
 
-	echo $_LANG->_('ALERTNOTAUTH');
+	echo JText::_('ALERTNOTAUTH');
 	if ($my->id < 1) {
-		echo "<br />" . $_LANG->_( 'You need to login.' );
+		echo "<br />" . JText::_( 'You need to login.' );
 	}
 }
 
@@ -318,7 +318,7 @@ function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level
 */
 function mosGetOrderingList( $sql, $chop='30' ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$order = array();
 	$database->setQuery( $sql );
@@ -327,11 +327,11 @@ function mosGetOrderingList( $sql, $chop='30' ) {
 			echo $database->stderr();
 			return false;
 		} else {
-			$order[] = mosHTML::makeOption( 1, $_LANG->_( 'first' ) );
+			$order[] = mosHTML::makeOption( 1, JText::_( 'first' ) );
 			return $order;
 		}
 	}
-	$order[] = mosHTML::makeOption( 0, '0 '. $_LANG->_( 'first' ) );
+	$order[] = mosHTML::makeOption( 0, '0 '. JText::_( 'first' ) );
 	for ($i=0, $n=count( $orders ); $i < $n; $i++) {
 
 		if (strlen($orders[$i]->text) > $chop) {
@@ -342,7 +342,7 @@ function mosGetOrderingList( $sql, $chop='30' ) {
 
 		$order[] = mosHTML::makeOption( $orders[$i]->value, $orders[$i]->value.' ('.$text.')' );
 	}
-	$order[] = mosHTML::makeOption( $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' '. $_LANG->_( 'last' ) );
+	$order[] = mosHTML::makeOption( $orders[$i-1]->value+1, ($orders[$i-1]->value+1).' '. JText::_( 'last' ) );
 
 	return $order;
 }
@@ -391,12 +391,11 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 * @returns formated date
 */
 function mosFormatDate( $date, $format="", $offset="" ){
-	global $mosConfig_offset;
-	global $_LANG;
+	global $mosConfig_offset, $mainframe;
 
 	if ( $format == '' ) {
 		// %Y-%m-%d %H:%M:%S
-		$format = $GLOBALS['_LANG']->_( 'DATE_FORMAT_LC' );
+		$format = JText::_( 'DATE_FORMAT_LC' );
 	}
 	if ( $offset == '' ) {
 		$offset = $mosConfig_offset;
@@ -415,7 +414,7 @@ function mosFormatDate( $date, $format="", $offset="" ){
 */
 function mosCurrentDate( $format="" ) {
 	global $mosConfig_offset;
-	global $_LANG;
+	;
 
 	if ($format=="") {
 		$format = $GLOBALS['_LANG']->_( 'DATE_FORMAT_LC' );
@@ -432,7 +431,7 @@ function mosCurrentDate( $format="" ) {
 */
 function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='#', $link=1 ) {
 	global $mosConfig_live_site;
-	global $_LANG;
+	;
 
 	if ( $width ) {
 		$width = ', WIDTH, \''.$width .'\'';
@@ -444,7 +443,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 		$image 	= $mosConfig_live_site . '/includes/js/ThemeOffice/'. $image;
 		$text 	= '<img src="'. $image .'" border="0" alt="tooltip"/>';
 	} else{
-		$text 	= $_LANG->_( $text );
+		$text 	= JText::_( $text );
     }
 	$style = 'style="text-decoration: none; color: #333;"';
 	if ( $href ) {
@@ -455,7 +454,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 
 	$mousover = 'return overlib(\''. $tooltip .'\''. $title .', BELOW, RIGHT'. $width .');';
 	
-	$tip = '<!--'. $_LANG->_( 'Joomla Tooltip' ) ."--> \n";
+	$tip = '<!--'. JText::_( 'Joomla Tooltip' ) ."--> \n";
 	if ( $link ) {
 		$tip = '<a href="'. $href .'" onmouseover="'. $mousover .'" onmouseout="return nd();" '. $style .'>'. $text .'</a>';
 	} else {
@@ -613,15 +612,15 @@ function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NUL
 */
 function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) {
 	global $mosConfig_live_site;
-	global $_LANG;
+	;
     
     // soon $mosConfig_admin_dir
     $strAdminDir = "administrator";
     
-	$subject = $_LANG->_( 'User Submitted' ) ." '". $type ."'";
+	$subject = JText::_( 'User Submitted' ) ." '". $type ."'";
 
-	$message = sprintf ( $_LANG->_( 'MAIL_MSG_ADMIN' ), $adminName, $type, $title, $author, $mosConfig_live_site, $mosConfig_live_site, $strAdminDir, $type);
-    $message .= $_LANG->_( 'MAIL_MSG') ."\n";
+	$message = sprintf ( JText::_( 'MAIL_MSG_ADMIN' ), $adminName, $type, $title, $author, $mosConfig_live_site, $mosConfig_live_site, $strAdminDir, $type);
+    $message .= JText::_( 'MAIL_MSG') ."\n";
 
 	eval ("\$message = \"$message\";");
 	mosMail($mosConfig_mailfrom, $mosConfig_fromname, $adminEmail, $subject, $message);

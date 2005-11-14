@@ -21,16 +21,16 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class HTML_user {
 	function frontpage() {
-		global $_LANG;
+		;
 		?>
 		<div class="componentheading">
-			<?php echo $_LANG->_( 'Welcome!' ); ?>
+			<?php echo JText::_( 'Welcome!' ); ?>
 		</div>
 
 		<table cellpadding="0" cellspacing="0" border="0" width="100%">
 		<tr>
 			<td>
-				<?php echo $_LANG->_( 'WELCOME_DESC' ); ?>
+				<?php echo JText::_( 'WELCOME_DESC' ); ?>
 			</td>
 		</tr>
 		</table>
@@ -39,7 +39,7 @@ class HTML_user {
 
 	function userEdit( $row, $option, $submitvalue, &$params ) {
 		global $mosConfig_absolute_path;
-		global $_LANG;
+		;
 
 		require_once( JPATH_SITE .'/includes/HTML_toolbar.php' );
 
@@ -58,17 +58,17 @@ class HTML_user {
 
 			// do field validation
 			if (form.name.value == "") {
-				alert( "<?php echo $_LANG->_( 'Please enter your name.' );?>" );
+				alert( "<?php echo JText::_( 'Please enter your name.' );?>" );
 			} else if (form.username.value == "") {
-				alert( "<?php echo $_LANG->_( 'Please enter a user name.' );?>" );
+				alert( "<?php echo JText::_( 'Please enter a user name.' );?>" );
 			} else if (r.exec(form.username.value) || form.username.value.length < 3) {
-				alert( "<?php printf( $_LANG->_( 'VALID_AZ09' ), $_LANG->_( 'Username' ), 4 );?>" );
+				alert( "<?php printf( JText::_( 'VALID_AZ09' ), JText::_( 'Username' ), 4 );?>" );
 			} else if (form.email.value == "") {
-				alert( "<?php echo $_LANG->_( 'Please enter a valid e-mail address.' );?>" );
+				alert( "<?php echo JText::_( 'Please enter a valid e-mail address.' );?>" );
 			} else if ((form.password.value != "") && (form.password.value != form.verifyPass.value)){
-				alert( "<?php echo $_LANG->_( 'REGWARN_VPASS2' );?>" );
+				alert( "<?php echo JText::_( 'REGWARN_VPASS2' );?>" );
 			} else if (r.exec(form.password.value)) {
-				alert( "<?php printf( $_LANG->_( 'VALID_AZ09' ), $_LANG->_( 'Password' ), 4 );?>" );
+				alert( "<?php printf( JText::_( 'VALID_AZ09' ), JText::_( 'Password' ), 4 );?>" );
 			} else {
 				form.submit();
 			}
@@ -76,7 +76,7 @@ class HTML_user {
 		</script>
 		<form action="index.php" method="post" name="mosUserForm">
 		<div class="componentheading">
-			<?php echo $_LANG->_( 'Edit Your Details' ); ?>
+			<?php echo JText::_( 'Edit Your Details' ); ?>
 		</div>
 
 		<div style="float: right;">
@@ -92,7 +92,7 @@ class HTML_user {
 		<table cellpadding="5" cellspacing="0" border="0" width="100%">
 		<tr>
 			<td width=85>
-				<?php echo $_LANG->_( 'Your Name' ); ?>:
+				<?php echo JText::_( 'Your Name' ); ?>:
 			</td>
 			<td>
 				<input class="inputbox" type="text" name="name" value="<?php echo $row->name;?>" size="40" />
@@ -100,14 +100,14 @@ class HTML_user {
 		</tr>
 		<tr>
 			<td>
-				<?php echo $_LANG->_( 'email' ); ?>:
+				<?php echo JText::_( 'email' ); ?>:
 			</td>
 			<td>
 				<input class="inputbox" type="text" name="email" value="<?php echo $row->email;?>" size="40" />
 			</td>
 		<tr>
 			<td>
-				<?php echo $_LANG->_( 'User Name' ); ?>:
+				<?php echo JText::_( 'User Name' ); ?>:
 			</td>
 			<td>
 				<input class="inputbox" type="text" name="username" value="<?php echo $row->username;?>" size="40" />
@@ -115,7 +115,7 @@ class HTML_user {
 		</tr>
 		<tr>
 			<td>
-				<?php echo $_LANG->_( 'Password' ); ?>:
+				<?php echo JText::_( 'Password' ); ?>:
 			</td>
 			<td>
 				<input class="inputbox" type="password" name="password" value="" size="40" />
@@ -123,7 +123,7 @@ class HTML_user {
 		</tr>
 		<tr>
 			<td>
-				<?php echo $_LANG->_( 'Verify Password' ); ?>:
+				<?php echo JText::_( 'Verify Password' ); ?>:
 			</td>
 			<td>
 				<input class="inputbox" type="password" name="verifyPass" size="40" />
@@ -151,16 +151,16 @@ class HTML_user {
 	}
 
 	function confirmation() {
-		global $_LANG;
+		;
 		?>
 		<div class="componentheading">
-			<?php echo $_LANG->_( 'Submission Success!' ); ?>
+			<?php echo JText::_( 'Submission Success!' ); ?>
 		</div>
 
 		<table>
 		<tr>
 			<td>
-				<?php echo $_LANG->_( 'SUBMIT_SUCCESS_DESC' ); ?>
+				<?php echo JText::_( 'SUBMIT_SUCCESS_DESC' ); ?>
 			</td>
 		</tr>
 		</table>

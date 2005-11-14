@@ -33,7 +33,7 @@ class search_html {
 
 	function searchbox( $searchword, &$lists, $params ) {
 		global $Itemid;
-		global $_LANG;
+		;
 		?>
 		<form action="index.php" method="get">
 		<input type="hidden" name="option" value="com_search" />
@@ -42,14 +42,14 @@ class search_html {
 			<tr>
 				<td nowrap="nowrap">
 					<label for="search_searchword">
-						<?php echo $_LANG->_( 'Search Keyword' ); ?>:
+						<?php echo JText::_( 'Search Keyword' ); ?>:
 					</label>
 				</td>
 				<td nowrap="nowrap">
 					<input type="text" name="searchword" id="search_searchword" size="30" maxlength="20" value="<?php echo stripslashes($searchword);?>" class="inputbox" />
 				</td>
 				<td width="100%" nowrap="nowrap">
-					<input type="submit" name="submit" value="<?php echo $_LANG->_( 'Search' );?>" class="button" />
+					<input type="submit" name="submit" value="<?php echo JText::_( 'Search' );?>" class="button" />
 				</td>
 			</tr>
 			<tr>
@@ -60,7 +60,7 @@ class search_html {
 			<tr>
 				<td colspan="3">
 					<label for="search_ordering">
-						<?php echo $_LANG->_( 'Ordering' );?>:
+						<?php echo JText::_( 'Ordering' );?>:
 					</label>
 					<?php echo $lists['ordering'];?>
 				</td>
@@ -71,12 +71,12 @@ class search_html {
 	}
 
 	function searchintro( $searchword, $params ) {
-		global $_LANG;
+		;
 		?>
 		<table class="searchintro<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr>
 			<td colspan="3" >
-			<?php echo $_LANG->_( 'Search Keyword' ) .' <b>'. stripslashes($searchword) .'</b>'; ?>
+			<?php echo JText::_( 'Search Keyword' ) .' <b>'. stripslashes($searchword) .'</b>'; ?>
 		<?php
 	}
 
@@ -102,13 +102,13 @@ class search_html {
 	function display( &$rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword ) {
 		global $mosConfig_hideCreateDate;
 		global $mosConfig_live_site, $option, $Itemid;
-		global $_LANG;
+		;
 
 		$c = count ($rows);
 
 				// number of matches found
 				echo '<br/>';
-				$strResult = $_LANG->_( 'Total' ) ." ". $totalRows ." ". $_LANG->_( 'results found. Search for' ) ." <b>". $searchword ."</b> ". $_LANG->_( 'with' );
+				$strResult = JText::_( 'Total' ) ." ". $totalRows ." ". JText::_( 'results found. Search for' ) ." <b>". $searchword ."</b> ". JText::_( 'with' );
 				eval ('echo "'. $strResult .'";');
 
 				$image = mosAdminMenus::ImageCheck( 'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
@@ -144,7 +144,7 @@ class search_html {
 				for( $i=$z; $i < $end; $i++ ) {
 					$row = $rows[$i-1];
 					if ($row->created) {
-						$created = mosFormatDate ( $row->created, $_LANG->_( 'DATE_FORMAT_LC' ) );
+						$created = mosFormatDate ( $row->created, JText::_( 'DATE_FORMAT_LC' ) );
 					} else {
 						$created = '';
 					}

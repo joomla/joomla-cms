@@ -64,29 +64,29 @@ class mosUser extends mosDBTable {
 	 */
 	function check() {
 		global $mosConfig_uniquemail;
-		global $_LANG;
+		;
 
 		// filter malicious code
 		//$this->filter();
 
 		// Validate user information
 		if (trim( $this->name ) == '') {
-			$this->_error = $_LANG->_( 'Please enter your name.' );
+			$this->_error = JText::_( 'Please enter your name.' );
 			return false;
 		}
 
 		if (trim( $this->username ) == '') {
-			$this->_error = $_LANG->_( 'Please enter a user name.');
+			$this->_error = JText::_( 'Please enter a user name.');
 			return false;
 		}
 
 		if (eregi( "[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", $this->username) || strlen( $this->username ) < 3) {
-			$this->_error = sprintf( $_LANG->_( 'VALID_AZ09' ), $_LANG->_( 'Username' ), 2 );
+			$this->_error = sprintf( JText::_( 'VALID_AZ09' ), JText::_( 'Username' ), 2 );
 			return false;
 		}
 
 		if ((trim($this->email == "")) || (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $this->email )==false)) {
-			$this->_error = $_LANG->_( 'WARNREG_MAIL' );
+			$this->_error = JText::_( 'WARNREG_MAIL' );
 			return false;
 		}
 
@@ -99,7 +99,7 @@ class mosUser extends mosDBTable {
 		$this->_db->setQuery( $query );
 		$xid = intval( $this->_db->loadResult() );
 		if ($xid && $xid != intval( $this->id )) {
-			$this->_error = $_LANG->_( 'WARNREG_INUSE' );
+			$this->_error = JText::_( 'WARNREG_INUSE' );
 			return false;
 		}
 
@@ -113,7 +113,7 @@ class mosUser extends mosDBTable {
 			$this->_db->setQuery( $query );
 			$xid = intval( $this->_db->loadResult() );
 			if ($xid && $xid != intval( $this->id )) {
-				$this->_error = $_LANG->_( 'WARNREG_EMAIL_INUSE' );
+				$this->_error = JText::_( 'WARNREG_EMAIL_INUSE' );
 				return false;
 			}
 		}
@@ -123,7 +123,7 @@ class mosUser extends mosDBTable {
 
 	function store( $updateNulls=false ) {
 		global $acl, $migrate;
-		global $_LANG;
+		;
 
 		$section_value = 'users';
 
@@ -149,7 +149,7 @@ class mosUser extends mosDBTable {
 			$acl->add_group_object( $this->gid, $section_value, $this->$k, 'ARO' );
 		}
 		if( !$ret ) {
-			$this->_error = strtolower(get_class( $this ))."::". $_LANG->_( 'store failed' ) ."<br />" . $this->_db->getErrorMsg();
+			$this->_error = strtolower(get_class( $this ))."::". JText::_( 'store failed' ) ."<br />" . $this->_db->getErrorMsg();
 			return false;
 		} else {
 			return true;
@@ -205,7 +205,7 @@ class mosUser extends mosDBTable {
 	 * @return boolean False if an error occurs
 	 */
 	function setLastVisit( $timeStamp=null, $id=null ) {
-		global $_LANG;
+		;
 
 		// check for User ID
 		if (is_null( $id )) {

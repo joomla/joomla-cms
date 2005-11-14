@@ -102,7 +102,7 @@ class JInstallerFactory {
 	}
 	
 	function detectType( $location ) {
-		global $_LANG;
+		;
 
 		$found = false;
 		// Search the install dir for an xml file
@@ -126,10 +126,10 @@ class JInstallerFactory {
 				return $root->getAttribute( 'type' );
 				
 			}
-//			$this->setError( 1, $_LANG->_( 'ERRORNOTFINDMAMBOXMLSETUPFILE' ) );
+//			$this->setError( 1, JText::_( 'ERRORNOTFINDMAMBOXMLSETUPFILE' ) );
 			return false;
 		} else {
-//			$this->setError( 1, $_LANG->_( 'ERRORNOTFINDXMLSETUPFILE' ) );
+//			$this->setError( 1, JText::_( 'ERRORNOTFINDXMLSETUPFILE' ) );
 			return false;
 		}
 		return false;

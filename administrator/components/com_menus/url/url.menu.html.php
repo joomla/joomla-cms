@@ -27,7 +27,7 @@ class url_menu_html {
 
 	function edit( $menu, $lists, $params, $option ) {
 		global $mosConfig_live_site;
-		global $_LANG;
+		;
 		?>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<script language="javascript" type="text/javascript">
@@ -40,9 +40,9 @@ class url_menu_html {
 
 			// do field validation
 			if (trim(form.name.value) == ""){
-				alert( "<?php echo $_LANG->_( 'Link must have a name' ); ?>" );
+				alert( "<?php echo JText::_( 'Link must have a name' ); ?>" );
 			} else if (trim(form.link.value) == ""){
-				alert( "<?php echo $_LANG->_( 'You must provide a url.' ); ?>" );
+				alert( "<?php echo JText::_( 'You must provide a url.' ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}
@@ -53,7 +53,7 @@ class url_menu_html {
 		<table class="adminheading">
 		<tr>
 			<th>
-			<?php echo $menu->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'Add' );?> <?php echo $_LANG->_( 'Menu Item :: Link - URL' ); ?>
+			<?php echo $menu->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?> <?php echo JText::_( 'Menu Item :: Link - URL' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -64,12 +64,12 @@ class url_menu_html {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					<?php echo $_LANG->_( 'Details' ); ?>
+					<?php echo JText::_( 'Details' ); ?>
 					</th>
 				</tr>
 				<tr>
 					<td width="20%" align="right">
-					<?php echo $_LANG->_( 'Name' ); ?>:
+					<?php echo JText::_( 'Name' ); ?>:
 					</td>
 					<td width="80%">
 					<input class="inputbox" type="text" name="name" size="50" maxlength="150" value="<?php echo $menu->name; ?>" />
@@ -77,7 +77,7 @@ class url_menu_html {
 				</tr>
 				<tr>
 					<td width="20%" align="right">
-					<?php echo $_LANG->_( 'Link' ); ?>:
+					<?php echo JText::_( 'Link' ); ?>:
 					</td>
 					<td width="80%">
 					<input class="inputbox" type="text" name="link" size="50" maxlength="250" value="<?php echo $menu->link; ?>" />
@@ -85,7 +85,7 @@ class url_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					<?php echo $_LANG->_( 'On Click, Open in' ); ?>:
+					<?php echo JText::_( 'On Click, Open in' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['target']; ?>
@@ -93,7 +93,7 @@ class url_menu_html {
 				</tr>
 				<tr>
 					<td align="right">
-					<?php echo $_LANG->_( 'Parent Item' ); ?>:
+					<?php echo JText::_( 'Parent Item' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['parent']; ?>
@@ -101,7 +101,7 @@ class url_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					<?php echo $_LANG->_( 'Ordering' ); ?>:
+					<?php echo JText::_( 'Ordering' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['ordering']; ?>
@@ -109,7 +109,7 @@ class url_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					<?php echo $_LANG->_( 'Access Level' ); ?>:
+					<?php echo JText::_( 'Access Level' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['access']; ?>
@@ -117,7 +117,7 @@ class url_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					<?php echo $_LANG->_( 'Published' ); ?>:
+					<?php echo JText::_( 'Published' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['published']; ?>
@@ -129,7 +129,7 @@ class url_menu_html {
 				<table class="adminform">
 				<tr>
 					<th>
-					<?php echo $_LANG->_( 'Parameters' ); ?>
+					<?php echo JText::_( 'Parameters' ); ?>
 					</th>
 				</tr>
 				<tr>

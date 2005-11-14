@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!$acl->acl_check( 'com_menumanager', 'manage', 'users', $my->usertype )) {
-	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
+	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -198,7 +198,7 @@ function editMenu( $option, $menu ) {
 */
 function saveMenu() {
 	global $database;
-	global $_LANG;
+	;
 
 	$menutype 		= mosGetParam( $_POST, 'menutype', '' );
 	$old_menutype 	= mosGetParam( $_POST, 'old_menutype', '' );
@@ -207,7 +207,7 @@ function saveMenu() {
 	// block to stop renaming of 'mainmenu' menutype
 	if ( $old_menutype == 'mainmenu' ) {
 		if ( $menutype <> 'mainmenu' ) {
-			echo "<script> alert('". $_LANG->_( 'WARNMAINMENU' ) ."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('". JText::_( 'WARNMAINMENU' ) ."'); window.history.go(-1); </script>\n";
 			exit;
 		}
 	}
@@ -222,7 +222,7 @@ function saveMenu() {
 	foreach ( $menus as $menu ) {
 		$params = mosParseParams( $menu );
 		if ( $params->menutype == $menutype ) {
-			echo "<script> alert('". $_LANG->_( 'ERRORMENUNAMEEXISTS' ) ."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('". JText::_( 'ERRORMENUNAMEEXISTS' ) ."'); window.history.go(-1); </script>\n";
 			exit;
 		}
 	}
@@ -257,7 +257,7 @@ function saveMenu() {
 				exit();
 			}
 
-			$msg = $_LANG->_( 'New Menu created' ) .' [ '. $menutype .' ]';
+			$msg = JText::_( 'New Menu created' ) .' [ '. $menutype .' ]';
 			break;
 
 		default:
@@ -313,7 +313,7 @@ function saveMenu() {
 				$database->query();
 			}
 
-			$msg = $_LANG->_( 'Menu Items & Modules updated' );
+			$msg = JText::_( 'Menu Items & Modules updated' );
 			break;
 	}
 
@@ -325,10 +325,10 @@ function saveMenu() {
 */
 function deleteConfirm( $option, $type ) {
 	global $database;
-	global $_LANG;
+	;
 
 	if ( $type == 'mainmenu' ) {
-		echo "<script> alert('". $_LANG->_( 'WARNDELMAINMENU' ) ."'); window.history.go(-1); </script>\n";
+		echo "<script> alert('". JText::_( 'WARNDELMAINMENU' ) ."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
@@ -376,10 +376,10 @@ function deleteConfirm( $option, $type ) {
 */
 function deleteMenu( $option, $cid, $type ) {
 	global $database;
-	global $_LANG;
+	;
 
 	if ( $type == 'mainmenu' ) {
-		echo "<script> alert('". $_LANG->_( 'WARNDELMAINMENU' ) ."'); window.history.go(-1); </script>\n";
+		echo "<script> alert('". JText::_( 'WARNDELMAINMENU' ) ."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
@@ -432,7 +432,7 @@ function deleteMenu( $option, $cid, $type ) {
 		$mod->updateOrder( "position='right'" );
 	}
 
-	$msg = $_LANG->_( 'Menu Deleted' );
+	$msg = JText::_( 'Menu Deleted' );
 	mosRedirect( 'index2.php?option=' . $option, $msg );
 }
 
@@ -461,7 +461,7 @@ function copyConfirm( $option, $type ) {
 */
 function copyMenu( $option, $cid, $type ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$menu_name 		= mosGetParam( $_POST, 'menu_name', 'New Menu' );
 	$module_name 	= mosGetParam( $_POST, 'module_name', 'New Module' );
@@ -476,7 +476,7 @@ function copyMenu( $option, $cid, $type ) {
 	foreach ( $menus as $menu ) {
 		$params = mosParseParams( $menu );
 		if ( $params->menutype == $menu_name ) {
-			echo "<script> alert('". $_LANG->_( 'ERRORMENUNAMEEXISTS' ) ."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('". JText::_( 'ERRORMENUNAMEEXISTS' ) ."'); window.history.go(-1); </script>\n";
 			exit;
 		}
 	}
@@ -536,7 +536,7 @@ function copyMenu( $option, $cid, $type ) {
 		exit();
 	}
 
-	$msg = $_LANG->_( 'Copy of Menu' ) .' `'. $type .'` '. $_LANG->_( 'created, consisting of' ) .' '. $total .' '. $_LANG->_( 'items' );
+	$msg = JText::_( 'Copy of Menu' ) .' `'. $type .'` '. JText::_( 'created, consisting of' ) .' '. $total .' '. JText::_( 'items' );
 	mosRedirect( 'index2.php?option=' . $option, $msg );
 }
 

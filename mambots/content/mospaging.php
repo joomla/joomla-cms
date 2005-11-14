@@ -32,7 +32,7 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosPaging' );
 */
 function botMosPaging( $published, &$row, &$params, $page=0 ) {
 	global $mainframe, $Itemid, $database;
-	global $_LANG;
+	;
 
  	// expression to search for
  	$regex = '/{(mospagebreak)\s*(.*?)}/i';
@@ -72,7 +72,7 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 	 	// adds heading or title to <site> Title
 	 	if ( $title ) {
 			$page_text = $page + 1;
-			$row->page_title = $_LANG->_( 'Page' ) .' '. $page_text;
+			$row->page_title = JText::_( 'Page' ) .' '. $page_text;
 			if ( !$page ) {
 				// processing for first page
 				parse_str( str_replace( '&amp;', '&', $matches[0][2] ), $args );
@@ -136,7 +136,7 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 
 function createTOC( &$row, &$matches, &$page ) {
 	global $Itemid;
-	global $_LANG;
+	;
 
 	$nonseflink = 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
 	$link = 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
@@ -158,7 +158,7 @@ function createTOC( &$row, &$matches, &$page ) {
 	<table cellpadding="0" cellspacing="0" class="contenttoc" align="right">
 	<tr>
 		<th>'
-		. $_LANG->_( 'Article Index' ) .
+		. JText::_( 'Article Index' ) .
 		'</th>
 	</tr>
 	';
@@ -199,7 +199,7 @@ function createTOC( &$row, &$matches, &$page ) {
 				<tr>
 					<td>
 					<a href="'. $link .'" class="toclink">'
-					. $_LANG->_( 'Page' ) .' '. $i .
+					. JText::_( 'Page' ) .' '. $i .
 					'</a>
 					</td>
 				</tr>
@@ -210,7 +210,7 @@ function createTOC( &$row, &$matches, &$page ) {
 			<tr>
 				<td>
 				<a href="'. $link .'" class="toclink">'
-				. $_LANG->_( 'Page' ) .' '. $i .
+				. JText::_( 'Page' ) .' '. $i .
 				'</a>
 				</td>
 			</tr>
@@ -224,29 +224,29 @@ function createTOC( &$row, &$matches, &$page ) {
 
 function createNavigation( &$row, $page, $n ) {
 	global $Itemid;
-	global $_LANG;
+	;
 
 	$link = 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
 
 	$pnSpace = "";
-    if ($_LANG->_( '&lt' ) || $_LANG->_( '&gt' )) $pnSpace = " ";
+    if (JText::_( '&lt' ) || JText::_( '&gt' )) $pnSpace = " ";
 
 	if ( $page < $n-1 ) {
 		$link_next = $link .'&amp;limit=1&amp;limitstart='. ( $page + 1 );
 		$link_next = sefRelToAbs( $link_next );
         // Next >>
-		$next = '<a href="'. $link_next .'">' . $_LANG->_( 'Next' ) . $pnSpace . $_LANG->_( '&gt' ) . $_LANG->_( '&gt' ) .'</a>';
+		$next = '<a href="'. $link_next .'">' . JText::_( 'Next' ) . $pnSpace . JText::_( '&gt' ) . JText::_( '&gt' ) .'</a>';
 	} else {
-		$next = $_LANG->_( 'Next' );
+		$next = JText::_( 'Next' );
 	}
 
 	if ( $page > 0 ) {
 		$link_prev = $link .'&amp;limit=1&amp;limitstart='. ( $page - 1 );
 		$link_prev = sefRelToAbs( $link_prev );
         // << Prev
-		$prev = '<a href="'. $link_prev .'">'. $_LANG->_( '&lt' ) . $_LANG->_( '&lt' ) . $pnSpace . $_LANG->_( 'Prev' ) .'</a>';
+		$prev = '<a href="'. $link_prev .'">'. JText::_( '&lt' ) . JText::_( '&lt' ) . $pnSpace . JText::_( 'Prev' ) .'</a>';
 	} else {
-		$prev = $_LANG->_( 'Prev' );
+		$prev = JText::_( 'Prev' );
 	}
 
 	$row->text .= '<div>' . $prev . ' - ' . $next .'</div>';

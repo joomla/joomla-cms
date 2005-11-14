@@ -38,7 +38,7 @@ class mosInstallerComponent extends mosInstaller {
 	*/
 	function install($p_fromdir = null) {
 		global $mosConfig_absolute_path,$database;
-		global $_LANG;
+		;
 
 		if (!$this->preInstallCheck( $p_fromdir, 'component' )) {
 			return false;
@@ -59,17 +59,17 @@ class mosInstallerComponent extends mosInstaller {
 		);
 
 		if (file_exists($this->elementDir())) {
-			$this->setError( 1, $_LANG->_( 'Another component is already using directory' ) .': "' . $this->elementDir() . '"' );
+			$this->setError( 1, JText::_( 'Another component is already using directory' ) .': "' . $this->elementDir() . '"' );
 			return false;
 		}
 
 		if(!file_exists($this->elementDir()) && !mosMakePath($this->elementDir())) {
-			$this->setError( 1, $_LANG->_( 'Failed to create directory' ) .' "' . $this->elementDir() . '"' );
+			$this->setError( 1, JText::_( 'Failed to create directory' ) .' "' . $this->elementDir() . '"' );
 			return false;
 		}
 
 		if(!file_exists($this->componentAdminDir()) && !mosMakePath($this->componentAdminDir())) {
-			$this->setError( 1, $_LANG->_( 'Failed to create directory' ) .' "' . $this->componentAdminDir() . '"' );
+			$this->setError( 1, JText::_( 'Failed to create directory' ) .' "' . $this->componentAdminDir() . '"' );
 			return false;
 		}
 
@@ -90,7 +90,7 @@ class mosInstallerComponent extends mosInstaller {
 				$database->setQuery( $query->getText());
 				if (!$database->query())
 				{
-					$this->setError( 1, $_LANG->_( 'SQL Error' ) ." " . $database->stderr( true ) );
+					$this->setError( 1, JText::_( 'SQL Error' ) ." " . $database->stderr( true ) );
 					return false;
 				}
 			}
@@ -103,7 +103,7 @@ class mosInstallerComponent extends mosInstaller {
 			// check if parse files has already copied the install.component.php file (error in 3rd party xml's!)
 			if (!file_exists($this->componentAdminDir().$installfile_elemet->getText())) {
 				if(!$this->copyFiles($this->installDir(), $this->componentAdminDir(), array($installfile_elemet->getText())))  			{
-					$this->setError( 1, $_LANG->_( 'Could not copy PHP install file.' ) );
+					$this->setError( 1, JText::_( 'Could not copy PHP install file.' ) );
 					return false;
 				}
 			}
@@ -115,7 +115,7 @@ class mosInstallerComponent extends mosInstaller {
 		if(!is_null($uninstallfile_elemet)) {
 			if (!file_exists($this->componentAdminDir().$uninstallfile_elemet->getText())) {
 				if(!$this->copyFiles($this->installDir(), $this->componentAdminDir(), array($uninstallfile_elemet->getText()))) {
-					$this->setError( 1, $_LANG->_( 'Could not copy PHP uninstall file.' ) );
+					$this->setError( 1, JText::_( 'Could not copy PHP uninstall file.' ) );
 					return false;
 				}
 			}
@@ -233,7 +233,7 @@ class mosInstallerComponent extends mosInstaller {
 	*/
 	function uninstall( $cid, $option, $client=0 ) {
 		global $database,$mosConfig_absolute_path;
-		global $_LANG;
+		;
 
 		$uninstallret = '';
 
@@ -245,13 +245,13 @@ class mosInstallerComponent extends mosInstaller {
 
 		$row = null;
 		if (!$database->loadObject( $row )) {
-			HTML_installer::showInstallMessage($database->stderr(true),$_LANG->_( 'Uninstall - error' ),
+			HTML_installer::showInstallMessage($database->stderr(true),JText::_( 'Uninstall - error' ),
 				$this->returnTo( $option, 'component', $client ) );
 			exit();
 		}
 
 		if ($row->iscore) {
-			HTML_installer::showInstallMessage( $_LANG->_( 'Component' ) ." ". $row->name ." ". $_LANG->_( 'WARNCORECOMPONENT' ) ."<br />". $_LANG->_( 'WARNCORECOMPONENT2' ), $_LANG->_( 'Uninstall - error' ),
+			HTML_installer::showInstallMessage( JText::_( 'Component' ) ." ". $row->name ." ". JText::_( 'WARNCORECOMPONENT' ) ."<br />". JText::_( 'WARNCORECOMPONENT2' ), JText::_( 'Uninstall - error' ),
 				$this->returnTo( $option, 'component', $client ) );
 			exit();
 		}
@@ -262,7 +262,7 @@ class mosInstallerComponent extends mosInstaller {
 		;
 		$database->setQuery($sql);
 		if (!$database->query()) {
-			HTML_installer::showInstallMessage($database->stderr(true),$_LANG->_( 'Uninstall - error' ),
+			HTML_installer::showInstallMessage($database->stderr(true),JText::_( 'Uninstall - error' ),
 				$this->returnTo( $option, 'component', $client ) );
 			exit();
 		}
@@ -272,7 +272,7 @@ class mosInstallerComponent extends mosInstaller {
 		;
 		$database->setQuery($sql);
 		if (!$database->query()) {
-			HTML_installer::showInstallMessage($database->stderr(true),$_LANG->_( 'Uninstall - error' ),
+			HTML_installer::showInstallMessage($database->stderr(true),JText::_( 'Uninstall - error' ),
 				$this->returnTo( $option, 'component', $client ) );
 			exit();
 		}
@@ -302,7 +302,7 @@ class mosInstallerComponent extends mosInstaller {
 				$root = &$xmlDoc->documentElement;
 
 				if ($root->getTagName() != 'mosinstall') {
-//					HTML_installer::showInstallMessage('XML File invalid',$_LANG->_( 'Uninstall - error' ),
+//					HTML_installer::showInstallMessage('XML File invalid',JText::_( 'Uninstall - error' ),
 //						$this->returnTo( $option, 'component', $client ) );
 					continue;
 				}
@@ -317,7 +317,7 @@ class mosInstallerComponent extends mosInstaller {
 						$database->setQuery( $query->getText());
 						if (!$database->query())
 						{
-							HTML_installer::showInstallMessage($database->stderr(true),$_LANG->_( 'Uninstall - error' ),
+							HTML_installer::showInstallMessage($database->stderr(true),JText::_( 'Uninstall - error' ),
 								$this->returnTo( $option, 'component', $client ) );
 							exit();
 						}
@@ -326,7 +326,7 @@ class mosInstallerComponent extends mosInstaller {
 				break;
 			}
 			if(!$found) {
-                                        HTML_installer::showInstallMessage('XML File invalid or not found',$_LANG->_( 'Uninstall - error' ),$this->returnTo( $option, 'component', $client ) );
+                                        HTML_installer::showInstallMessage('XML File invalid or not found',JText::_( 'Uninstall - error' ),$this->returnTo( $option, 'component', $client ) );
 					exit();
 											
 			}
@@ -352,7 +352,7 @@ class mosInstallerComponent extends mosInstaller {
 			}
 			return $result;
 		} else {
-			HTML_installer::showInstallMessage( 'Option field empty, cannot remove files', $_LANG->_( 'Uninstall - error' ), $option,'component');
+			HTML_installer::showInstallMessage( 'Option field empty, cannot remove files', JText::_( 'Uninstall - error' ), $option,'component');
 			exit();
 		}
 

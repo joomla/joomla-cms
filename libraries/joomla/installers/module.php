@@ -26,7 +26,7 @@ class mosInstallerModule extends mosInstaller {
 	*/
 	function install( $p_fromdir = null ) {
 		global $mosConfig_absolute_path, $database;
-		global $_LANG;
+		;
 
 		if (!$this->preInstallCheck( $p_fromdir, 'module' )) {
 			return false;
@@ -39,7 +39,7 @@ class mosInstallerModule extends mosInstaller {
 		if ($mosinstall->getAttribute( 'client' )) {
 			$validClients = array( 'administrator' );
 			if (!in_array( $mosinstall->getAttribute( 'client' ), $validClients )) {
-				$this->setError( 1, $_LANG->_( 'Unknown client type' ) .' ['.$mosinstall->getAttribute( 'client' ).']' );
+				$this->setError( 1, JText::_( 'Unknown client type' ) .' ['.$mosinstall->getAttribute( 'client' ).']' );
 				return false;
 			}
 			$client = 'admin';
@@ -53,7 +53,7 @@ class mosInstallerModule extends mosInstaller {
 			. '/modules/' )
 		);
 
-		if ($this->parseFiles( 'files', 'module', $_LANG->_( 'No file is marked as module file' ) ) === false) {
+		if ($this->parseFiles( 'files', 'module', JText::_( 'No file is marked as module file' ) ) === false) {
 			return false;
 		}
 		$this->parseFiles( 'images' );
@@ -66,7 +66,7 @@ class mosInstallerModule extends mosInstaller {
 		;
 		$database->setQuery( $query );
 		if (!$database->query()) {
-			$this->setError( 1, $_LANG->_( 'SQL error' ) .': ' . $database->stderr( true ) );
+			$this->setError( 1, JText::_( 'SQL error' ) .': ' . $database->stderr( true ) );
 			return false;
 		}
 
@@ -90,11 +90,11 @@ class mosInstallerModule extends mosInstaller {
 			;
 			$database->setQuery( $query );
 			if(!$database->query()) {
-				$this->setError( 1, $_LANG->_( 'SQL error' ) .': '. $database->stderr( true ) );
+				$this->setError( 1, JText::_( 'SQL error' ) .': '. $database->stderr( true ) );
 				return false;
 			}
 		} else {
-			$this->setError( 1, $_LANG->_( 'Module' ) .' "'. $this->elementName() .'" '. $_LANG->_( 'already exists!' ) );
+			$this->setError( 1, JText::_( 'Module' ) .' "'. $this->elementName() .'" '. JText::_( 'already exists!' ) );
 			return false;
 		}
 		if ($e = &$mosinstall->getElementsByPath( 'description', 1 )) {
@@ -111,7 +111,7 @@ class mosInstallerModule extends mosInstaller {
 	*/
 	function uninstall( $id, $option, $client=0 ) {
 		global $database, $mosConfig_absolute_path;
-		global $_LANG;
+		;
 
 		$id = intval( $id );
 
@@ -123,7 +123,7 @@ class mosInstallerModule extends mosInstaller {
 		$database->loadObject( $row );
 
 		if ($row->iscore) {
-			HTML_installer::showInstallMessage( $row->title .' '. $_LANG->_( 'WARNCOREMODULE' ) .'<br />'. $_LANG->_( 'WARNCORECOMPONENT2' ), $_LANG->_( 'Uninstall - error' ), $this->returnTo( $option, 'module', $row->client_id ? '' : 'admin' ) );
+			HTML_installer::showInstallMessage( $row->title .' '. JText::_( 'WARNCOREMODULE' ) .'<br />'. JText::_( 'WARNCORECOMPONENT2' ), JText::_( 'Uninstall - error' ), $this->returnTo( $option, 'module', $row->client_id ? '' : 'admin' ) );
 			exit();
 		}
 
@@ -181,10 +181,10 @@ class mosInstallerModule extends mosInstaller {
     							$parts = pathinfo( $filename );
     							$subpath = $parts['dirname'];
     							if ($subpath <> '' && $subpath <> '.' && $subpath <> '..') {
-    								echo '<br />'. $_LANG->_( 'Deleting' ) .': '. $basepath . $subpath;
+    								echo '<br />'. JText::_( 'Deleting' ) .': '. $basepath . $subpath;
     								$result = deldir(mosPathName( $basepath . $subpath . '/' ));
     							} else {
-    								echo '<br />'. $_LANG->_( 'Deleting' ) .': '. $basepath . $filename;
+    								echo '<br />'. JText::_( 'Deleting' ) .': '. $basepath . $filename;
     								$result = unlink( mosPathName ($basepath . $filename, false));
     							}
     							echo intval( $result );
@@ -192,7 +192,7 @@ class mosInstallerModule extends mosInstaller {
     					}
 
     					// remove XML file from front
-    					echo $_LANG->_( 'Deleting XML File' ) .": ". $xmlfile;
+    					echo JText::_( 'Deleting XML File' ) .": ". $xmlfile;
     					@unlink(  mosPathName ($xmlfile, false ) );
     					return true;
     				}

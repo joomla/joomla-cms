@@ -51,11 +51,6 @@ if ($option == 'search') {
 	$option = 'com_search';
 }
 
-// loads language depending on the user settings
-$_LANG = JFactory::getLanguage( $option );
-$_LANG->debug( $mosConfig_debug );
-
-
 if ($option == 'login') {
 	$mainframe->login();
 	mosRedirect('index.php');
@@ -83,7 +78,7 @@ if ($path = $mainframe->getPath( 'front' )) {
 		mosNotAuth();
 	}
 } else {
-	echo $_LANG->_( 'NOT_EXIST' );
+	echo JText::_( 'NOT_EXIST' );
 }
 $_MOS_OPTION['buffer'] = ob_get_contents();
 ob_end_clean();

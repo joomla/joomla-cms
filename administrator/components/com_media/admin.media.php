@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!$acl->acl_check( 'com_media', 'manage', 'users', $my->usertype )) {
-	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
+	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -32,7 +32,7 @@ $listdir = mosGetParam( $_REQUEST, 'listdir', '' );
 $dirPath = mosGetParam( $_POST, 'dirpath', '' );
 
 if (is_int(strpos ($listdir, "..")) && $listdir<>'') {
-	mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], $_LANG->_( 'NO HACKING PLEASE' ) );
+	mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], JText::_( 'NO HACKING PLEASE' ) );
 }
 
 $base = '/images';
@@ -46,7 +46,7 @@ switch ($task) {
 
 	case 'newdir':
 		if (ini_get('safe_mode')=='On') {
-			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], $_LANG->_( 'WARNSAFEMODE' ) );
+			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], JText::_( 'WARNSAFEMODE' ) );
 			}
 		else {
 			create_folder($dirPath);
@@ -91,13 +91,13 @@ function delete_file($listdir) {
 
 function create_folder($dirPath) {
 	global $mosConfig_absolute_path , $base;
-	global $_LANG;
+	;
 	
 	$folder_name = mosGetParam( $_POST, 'foldername', '' );
 
 	if(strlen($folder_name) >0) {
 		if (eregi("[^0-9a-zA-Z_]", $folder_name)) {
-			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], $_LANG->_( 'WARNDIRNAME' ) );
+			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], JText::_( 'WARNDIRNAME' ) );
 		}
 		$folder = $mosConfig_absolute_path. $base . $dirPath .'/'. $folder_name;
 		if(!is_dir($folder) && !is_file($folder)) {
@@ -113,7 +113,7 @@ function create_folder($dirPath) {
 
 function delete_folder($listdir) {
 	global $mosConfig_absolute_path, $base;
-	global $_LANG;
+	;
 	
 	$delFolder = mosGetParam( $_REQUEST, 'delFolder', '' );
 
@@ -134,7 +134,7 @@ function delete_folder($listdir) {
 		@unlink($del_html);
 		rmdir($del_folder);
 	} else {
-		echo '<font color="red">'. $_LANG->_( 'Unable to delete: not empty!' ) .'</font>';
+		echo '<font color="red">'. JText::_( 'Unable to delete: not empty!' ) .'</font>';
 	}
 }
 
@@ -161,10 +161,10 @@ function upload(){
 
 function do_upload($file, $dest_dir) {
 	global $clearUploads;
-	global $_LANG;
+	;
 
 		if (file_exists($dest_dir.$file['name'])) {
-			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], $_LANG->_( 'Upload FAILED.File allready exists' ) );
+			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], JText::_( 'Upload FAILED.File allready exists' ) );
 		}
 
 		$format = substr( $file['name'], -3 );
@@ -194,15 +194,15 @@ function do_upload($file, $dest_dir) {
 			if ( strcasecmp( $format, $ext ) == 0 ) $noMatch = 1;
 		}
         if(!$noMatch){
-			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], $_LANG->_( 'This file type is not supported' ) );
+			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], JText::_( 'This file type is not supported' ) );
         }
 
 		if (!move_uploaded_file($file['tmp_name'], $dest_dir.strtolower($file['name']))){
-			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], $_LANG->_( 'Upload FAILED' ) );
+			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], JText::_( 'Upload FAILED' ) );
 			}
 		else {
 			mosChmod($dest_dir.strtolower($file['name']));
-			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], $_LANG->_( 'Upload complete' ) );
+			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], JText::_( 'Upload complete' ) );
 		}
 
 	$clearUploads = true;

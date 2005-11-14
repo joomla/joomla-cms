@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!$acl->acl_check( 'com_frontpage', 'manage', 'users', $my->usertype )) {
-	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
+	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 // call
@@ -82,7 +82,7 @@ switch ($task) {
 */
 function viewFrontPage( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
-	global $_LANG;
+	;
 
 	$catid 				= $mainframe->getUserStateFromRequest( "catid{$option}", 'catid', 0 );
 	$filter_authorid 	= $mainframe->getUserStateFromRequest( "filter_authorid{$option}", 'filter_authorid', 0 );
@@ -152,7 +152,7 @@ function viewFrontPage( $option ) {
 	. "\n INNER JOIN #__sections AS s ON s.id = cc.section "
 	. "\n ORDER BY s.ordering, cc.ordering"
 	;
-	$categories[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Category' ) .' -' );
+	$categories[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Category' ) .' -' );
 	$database->setQuery( $query );
 	$categories = array_merge( $categories, $database->loadObjectList() );
 	$lists['catid'] = mosHTML::selectList( $categories, 'catid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $catid );
@@ -171,7 +171,7 @@ function viewFrontPage( $option ) {
 	. "\n GROUP BY u.name"
 	. "\n ORDER BY u.name"
 	;
-	$authors[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Author' ) .' -', 'created_by', 'name' );
+	$authors[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Author' ) .' -', 'created_by', 'name' );
 	$database->setQuery( $query );
 	$authors = array_merge( $authors, $database->loadObjectList() );
 	$lists['authorid']	= mosHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid );
@@ -186,11 +186,11 @@ function viewFrontPage( $option ) {
 */
 function changeFrontPage( $cid=null, $state=0, $option ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	if (count( $cid ) < 1) {
 		$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
-		echo "<script> alert('". $_LANG->_( 'Select an item to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -217,10 +217,10 @@ function changeFrontPage( $cid=null, $state=0, $option ) {
 
 function removeFrontPage( &$cid, $option ) {
 	global $database;
-	global $_LANG;
+	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		echo "<script> alert('". $_LANG->_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 	$fp = new mosFrontPage( $database );
@@ -280,7 +280,7 @@ function accessMenu( $uid, $access ) {
 
 function saveOrder( &$cid ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
@@ -301,7 +301,7 @@ function saveOrder( &$cid ) {
 		$row->updateOrder();
 	}
 
-	$msg 	= $_LANG->_( 'New ordering saved' );
+	$msg 	= JText::_( 'New ordering saved' );
 	mosRedirect( 'index2.php?option=com_frontpage', $msg );
 }
 ?>

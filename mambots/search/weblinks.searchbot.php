@@ -27,7 +27,7 @@ $_MAMBOTS->registerFunction( 'onSearch', 'botSearchWeblinks' );
 */
 function botSearchWeblinks( $text, $phrase='', $ordering='' ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	// load mambot params info
 	$query = "SELECT id"
@@ -47,7 +47,7 @@ function botSearchWeblinks( $text, $phrase='', $ordering='' ) {
 	if ($text == '') {
 		return array();
 	}
-	$section 	= $_LANG->_( 'Web Links' );
+	$section 	= JText::_( 'Web Links' );
 
 	$wheres 	= array();
 	switch ($phrase) {

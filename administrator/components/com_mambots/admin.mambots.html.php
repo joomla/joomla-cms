@@ -27,7 +27,7 @@ class HTML_modules {
 	*/
 	function showMambots( &$rows, $client, &$pageNav, $option, &$lists, $search ) {
 		global $my;
-    	global $_LANG;
+    	;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -35,8 +35,8 @@ class HTML_modules {
 
 		<table class="adminheading">
 		<tr>
-			<th class="modules" rowspan="2" nowrap="nowrap"><?php echo $_LANG->_( 'Mambot Manager' ); ?>
-			 <small><small>[ <?php echo $client == 'admin' ? $_LANG->_( 'Administrator' ) : $_LANG->_( 'Site' );?> ]</small></small>
+			<th class="modules" rowspan="2" nowrap="nowrap"><?php echo JText::_( 'Mambot Manager' ); ?>
+			 <small><small>[ <?php echo $client == 'admin' ? JText::_( 'Administrator' ) : JText::_( 'Site' );?> ]</small></small>
 			</th>
 			<td align="right" valign="top" nowrap="nowrap">
 				<?php echo $lists['type'];?>
@@ -44,43 +44,43 @@ class HTML_modules {
 		</tr>
 		<tr>
 			<td align="right" valign="top" nowrap="nowrap">
-				<?php echo $_LANG->_( 'Filter' ); ?>:
+				<?php echo JText::_( 'Filter' ); ?>:
 				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
-				<input type="button" value="<?php echo $_LANG->_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
-				<input type="button" value="<?php echo $_LANG->_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 		</tr>
 		</table>
 
 		<table class="adminlist">
 		<tr>
-			<th width="20"><?php echo $_LANG->_( 'Num' ); ?></th>
+			<th width="20"><?php echo JText::_( 'Num' ); ?></th>
 			<th width="20">
 			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 			</th>
 			<th class="title">
-			<?php echo $_LANG->_( 'Mambot Name' ); ?>
+			<?php echo JText::_( 'Mambot Name' ); ?>
 			</th>
 			<th nowrap="nowrap" width="10%">
-	  		<?php echo $_LANG->_( 'Published' ); ?>
+	  		<?php echo JText::_( 'Published' ); ?>
 			</th>
 			<th colspan="2" nowrap="true" width="5%">
-			<?php echo $_LANG->_( 'Reorder' ); ?>
+			<?php echo JText::_( 'Reorder' ); ?>
 			</th>
 			<th width="2%">
-			<?php echo $_LANG->_( 'Order' ); ?>
+			<?php echo JText::_( 'Order' ); ?>
 			</th>
 			<th width="1%">
-			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo $_LANG->_( 'Save Order' ); ?>" /></a>
+			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
 			</th>
 			<th nowrap="nowrap" width="10%">
-			<?php echo $_LANG->_( 'Access' ); ?>
+			<?php echo JText::_( 'Access' ); ?>
 			</th>
 			<th nowrap="nowrap"  width="10%" class="title">
-			<?php echo $_LANG->_( 'Type' ); ?>
+			<?php echo JText::_( 'Type' ); ?>
 			</th>
 			<th nowrap="nowrap"  width="10%" class="title">
-			<?php echo $_LANG->_( 'File' ); ?>
+			<?php echo JText::_( 'File' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -167,7 +167,7 @@ class HTML_modules {
 	*/
 	function editMambot( &$row, &$lists, &$params, $option ) {
 		global $mosConfig_live_site;
-    	global $_LANG;
+    	;
 
 		$row->nameA = '';
 		if ( $row->id ) {
@@ -184,9 +184,9 @@ class HTML_modules {
 			// validation
 			var form = document.adminForm;
 			if (form.name.value == "") {
-				alert( "<?php echo $_LANG->_( 'Mambot must have a name' ); ?>" );
+				alert( "<?php echo JText::_( 'Mambot must have a name' ); ?>" );
 			} else if (form.element.value == "") {
-				alert( "<?php echo $_LANG->_( 'Mambot must have a filename' ); ?>" );
+				alert( "<?php echo JText::_( 'Mambot must have a filename' ); ?>" );
 			} else {
 				submitform(pressbutton);
 			}
@@ -195,9 +195,9 @@ class HTML_modules {
 		<table class="adminheading">
 		<tr>
 			<th class="mambots">
-			<?php echo $_LANG->_( 'Site Mambot' ); ?>:
+			<?php echo JText::_( 'Site Mambot' ); ?>:
 			<small>
-			<?php echo $row->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' );?>
+			<?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'New' );?>
 			</small>
 			<?php echo $row->nameA; ?>
 			</th>
@@ -211,12 +211,12 @@ class HTML_modules {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					<?php echo $_LANG->_( 'Mambot Details' ); ?>
+					<?php echo JText::_( 'Mambot Details' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td width="100" >
-					<?php echo $_LANG->_( 'Name' ); ?>:
+					<?php echo JText::_( 'Name' ); ?>:
 					</td>
 					<td>
 					<input class="text_area" type="text" name="name" size="35" value="<?php echo $row->name; ?>" />
@@ -224,7 +224,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top" >
-					<?php echo $_LANG->_( 'Folder' ); ?>:
+					<?php echo JText::_( 'Folder' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['folder']; ?>
@@ -232,7 +232,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top" >
-					<?php echo $_LANG->_( 'Mambot file' ); ?>:
+					<?php echo JText::_( 'Mambot file' ); ?>:
 					</td>
 					<td>
 					<input class="text_area" type="text" name="element" size="35" value="<?php echo $row->element; ?>" />.php
@@ -240,7 +240,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top" >
-					<?php echo $_LANG->_( 'Mambot Order' ); ?>:
+					<?php echo JText::_( 'Mambot Order' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['ordering']; ?>
@@ -248,7 +248,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top" >
-					<?php echo $_LANG->_( 'Access Level' ); ?>:
+					<?php echo JText::_( 'Access Level' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['access']; ?>
@@ -256,7 +256,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top">
-					<?php echo $_LANG->_( 'Published' ); ?>:
+					<?php echo JText::_( 'Published' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['published']; ?>
@@ -268,7 +268,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top">
-					<?php echo $_LANG->_( 'Description' ); ?>:
+					<?php echo JText::_( 'Description' ); ?>:
 					</td>
 					<td>
 					<?php echo $row->description; ?>
@@ -280,7 +280,7 @@ class HTML_modules {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					<?php echo $_LANG->_( 'Parameters' ); ?>
+					<?php echo JText::_( 'Parameters' ); ?>
 					</th>
 				<tr>
 				<tr>
@@ -289,7 +289,7 @@ class HTML_modules {
 					if ( $row->id ) {
 						echo $params->render();
 					} else {
-						echo '<i>'. $_LANG->_( 'No Parameters' ) .'</i>';
+						echo '<i>'. JText::_( 'No Parameters' ) .'</i>';
 					}
 					?>
 					</td>

@@ -21,11 +21,11 @@ global $_VERSION;
 $cur_year = mosCurrentDate( '%Y' );
 $csite_name = $GLOBALS['mosConfig_sitename'];
 
-if ( strpos( $_LANG->_( 'FOOTER_LINE1' ), '%date%' ) ) {
-	$line1 = ereg_replace('%date%', $cur_year, $_LANG->_( 'FOOTER_LINE1' ) );
+if ( strpos( JText::_( 'FOOTER_LINE1' ), '%date%' ) ) {
+	$line1 = ereg_replace('%date%', $cur_year, JText::_( 'FOOTER_LINE1' ) );
 }
 else {
-	$line1 = $_LANG->_( 'FOOTER_LINE1' );
+	$line1 = JText::_( 'FOOTER_LINE1' );
 }
 if ( strpos( $line1, '%sitename%' ) ) {
 	$lineone = ereg_replace('%sitename%', $csite_name, $line1 );
@@ -34,5 +34,5 @@ else {
 	$lineone = $line1;
 }
 echo $lineone;
-echo $_LANG->_( 'FOOTER_LINE2' );
+echo JText::_( 'FOOTER_LINE2' );
 ?>

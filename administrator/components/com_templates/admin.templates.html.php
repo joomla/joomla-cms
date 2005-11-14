@@ -27,7 +27,7 @@ class HTML_templates {
 	*/
 	function showTemplates( &$rows, &$pageNav, $option, $client ) {
 		global $my, $mosConfig_live_site;
-		global $_LANG;
+		;
 
 		if ( isset( $row->authorUrl) && $row->authorUrl != '' ) {
 			$row->authorUrl = str_replace( 'http://', '', $row->authorUrl );
@@ -44,7 +44,7 @@ class HTML_templates {
 			if (document.adminForm.doPreview.checked) {
 				var src = '<?php echo  ($client == 'admin' ? $mosConfig_live_site.'/administrator' : $mosConfig_live_site );?>/templates/'+name+'/template_thumbnail.png';
 				var html=name;
-				html = '<br /><img border="1" src="'+src+'" name="imagelib" alt="<?php echo $_LANG->_( 'No preview available' ); ?>" width="206" height="145" />';
+				html = '<br /><img border="1" src="'+src+'" name="imagelib" alt="<?php echo JText::_( 'No preview available' ); ?>" width="206" height="145" />';
 				return overlib(html, CAPTION, name)
 			} else {
 				return false;
@@ -56,11 +56,11 @@ class HTML_templates {
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
-			<th class="templates"><?php echo $_LANG->_( 'Template Manager' ); ?>
-			 <small><small>[ <?php echo $client == 'admin' ? $_LANG->_( 'Administrator' ) : $_LANG->_( 'Site' );?> ]</small></small>
+			<th class="templates"><?php echo JText::_( 'Template Manager' ); ?>
+			 <small><small>[ <?php echo $client == 'admin' ? JText::_( 'Administrator' ) : JText::_( 'Site' );?> ]</small></small>
 			</th>
 			<td align="right" nowrap="true">
-             <?php echo $_LANG->_( 'Preview Template' ); ?>
+             <?php echo JText::_( 'Preview Template' ); ?>
 			</td>
 			<td align="right">
 			<input type="checkbox" name="doPreview" checked="checked"/>
@@ -69,40 +69,40 @@ class HTML_templates {
 		</table>
 		<table class="adminlist">
 		<tr>
-			<th width="5%" class="title"><?php echo $_LANG->_( 'Num' ); ?></th>
+			<th width="5%" class="title"><?php echo JText::_( 'Num' ); ?></th>
 			<th width="5%">&nbsp;</th>
 			<th width="25%" class="title">
-			<?php echo $_LANG->_( 'Name' ); ?>
+			<?php echo JText::_( 'Name' ); ?>
 			</th>
 			<?php
 			if ( $client == 'admin' ) {
 				?>
 				<th width="10%">
-				<?php echo $_LANG->_( 'Default' ); ?>
+				<?php echo JText::_( 'Default' ); ?>
 				</th>
 				<?php
 			} else {
 				?>
 				<th width="5%">
-				<?php echo $_LANG->_( 'Default' ); ?>
+				<?php echo JText::_( 'Default' ); ?>
 				</th>
 				<th width="5%">
-				<?php echo $_LANG->_( 'Assigned' ); ?>
+				<?php echo JText::_( 'Assigned' ); ?>
 				</th>
 				<?php
 			}
 			?>
 			<th width="20%"  class="title">
-			<?php echo $_LANG->_( 'Author' ); ?>
+			<?php echo JText::_( 'Author' ); ?>
 			</th>
 			<th width="5%" align="center">
-			<?php echo $_LANG->_( 'Version' ); ?>
+			<?php echo JText::_( 'Version' ); ?>
 			</th>
 			<th width="10%" align="center">
-			<?php echo $_LANG->_( 'Date' ); ?>
+			<?php echo JText::_( 'Date' ); ?>
 			</th>
 			<th width="20%"  class="title">
-			<?php echo $_LANG->_( 'Author URL' ); ?>
+			<?php echo JText::_( 'Author URL' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -139,7 +139,7 @@ class HTML_templates {
 					<?php
 					if ( $row->published == 1 ) {
 						?>
-					<img src="images/tick.png" alt="<?php echo $_LANG->_( 'Published' ); ?>">
+					<img src="images/tick.png" alt="<?php echo JText::_( 'Published' ); ?>">
 						<?php
 					} else {
 						?>
@@ -155,7 +155,7 @@ class HTML_templates {
 					<?php
 					if ( $row->published == 1 ) {
 						?>
-						<img src="images/tick.png" alt="<?php echo $_LANG->_( 'Default' ); ?>">
+						<img src="images/tick.png" alt="<?php echo JText::_( 'Default' ); ?>">
 						<?php
 					} else {
 						?>
@@ -168,7 +168,7 @@ class HTML_templates {
 					<?php
 					if ( $row->assigned == 1 ) {
 						?>
-						<img src="images/tick.png" alt="<?php echo $_LANG->_( 'Assigned' ); ?>" />
+						<img src="images/tick.png" alt="<?php echo JText::_( 'Assigned' ); ?>" />
 						<?php
 					} else {
 						?>
@@ -218,17 +218,17 @@ class HTML_templates {
 	*/
 	function editTemplateSource( $template, &$content, $option, $client ) {
 		global $mosConfig_absolute_path;
-		global $_LANG;
+		;
 
 		$template_path = ($client == 'admin' ? JPATH_ADMINISTRATOR : $mosConfig_absolute_path) . '/templates/' . $template . '/index.php';
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
 		<tr>
-			<td width="290"><table class="adminheading"><tr><th class="templates"><?php echo $_LANG->_( 'Template HTML Editor' ); ?></th></tr></table></td>
+			<td width="290"><table class="adminheading"><tr><th class="templates"><?php echo JText::_( 'Template HTML Editor' ); ?></th></tr></table></td>
 			<td width="220">
-				<span class="componentheading">index.php <?php echo $_LANG->_( 'is' ); ?>:
-				<b><?php echo is_writable($template_path) ? '<font color="green"> '. $_LANG->_( 'Writeable' ) .'</font>' : '<font color="red"> '. $_LANG->_( 'Unwriteable' ) .'</font>' ?></b>
+				<span class="componentheading">index.php <?php echo JText::_( 'is' ); ?>:
+				<b><?php echo is_writable($template_path) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?></b>
 				</span>
 			</td>
 <?php
@@ -237,14 +237,14 @@ class HTML_templates {
 ?>
 			<td>
 				<input type="checkbox" id="disable_write" name="disable_write" value="1"/>
-				<label for="disable_write"><?php echo $_LANG->_( 'Make unwriteable after saving' ); ?></label>
+				<label for="disable_write"><?php echo JText::_( 'Make unwriteable after saving' ); ?></label>
 			</td>
 <?php
 				} else {
 ?>
 			<td>
 				<input type="checkbox" id="enable_write" name="enable_write" value="1"/>
-				<label for="enable_write"><?php echo $_LANG->_( 'Override write protection while saving' ); ?></label>
+				<label for="enable_write"><?php echo JText::_( 'Override write protection while saving' ); ?></label>
 			</td>
 <?php
 				} // if
@@ -266,22 +266,22 @@ class HTML_templates {
 
 	function chooseCSSFiles ( $template, $t_dir='', $s_dir='', $t_files='', $s_files='', $option, $client ) {
 		global $mosConfig_absolute_path;
-		global $_LANG;
+		;
 	?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
 		<tr>
 			<td width="290">
-			<table class="adminheading"><tr><th class="templates"><?php echo $_LANG->_( 'Template CSS Editor' ); ?></th></tr></table>
+			<table class="adminheading"><tr><th class="templates"><?php echo JText::_( 'Template CSS Editor' ); ?></th></tr></table>
 			</td>
 			<td width="220"><span class="componentheading"></span></td><td></td><td></td>
 		</tr>
 		</table>
 		<table class="adminlist">
 		<tr>
-			<th width="5%" align="left"><?php echo $_LANG->_( 'Num' ); ?></th>
+			<th width="5%" align="left"><?php echo JText::_( 'Num' ); ?></th>
 			<th width="85%" align="left"><?php echo $t_dir; ?></th>
-			<th width="10%"><?php echo $_LANG->_( 'Writeable' ); ?>/<?php echo $_LANG->_( 'Unwriteable' ); ?></th>
+			<th width="10%"><?php echo JText::_( 'Writeable' ); ?>/<?php echo JText::_( 'Unwriteable' ); ?></th>
 		</tr>
 		<?php
 		$k = 0;
@@ -295,7 +295,7 @@ class HTML_templates {
 				<?php echo $file; ?>
 				</td>
 				<td width="10%">
-				<?php echo is_writable($t_dir .'/'. $file) ? '<font color="green"> '. $_LANG->_( 'Writeable' ) .'</font>' : '<font color="red"> '. $_LANG->_( 'Unwriteable' ) .'</font>' ?>
+				<?php echo is_writable($t_dir .'/'. $file) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?>
 				</td>
 			</tr>
 		<?php
@@ -304,9 +304,9 @@ class HTML_templates {
 		if ( $client != 'admin' ) {
 		?>
 		<tr>
-			<th width="5%" align="left"><?php echo $_LANG->_( 'Num' ); ?></th>
+			<th width="5%" align="left"><?php echo JText::_( 'Num' ); ?></th>
 			<th width="85%" align="left"><?php echo $s_dir; ?></th>
-			<th width="10%"><?php echo $_LANG->_( 'Writeable' ); ?>/<?php echo $_LANG->_( 'Unwriteable' ); ?></th>
+			<th width="10%"><?php echo JText::_( 'Writeable' ); ?>/<?php echo JText::_( 'Unwriteable' ); ?></th>
 		</tr>
 		<?php
 		$kk = 0;
@@ -320,7 +320,7 @@ class HTML_templates {
 				<?php echo $sy_file; ?>
 				</td>
 				<td width="10%">
-				<?php echo is_writable($s_dir .'/'. $sy_file) ? '<font color="green"> '. $_LANG->_( 'Writeable' ) .'</font>' : '<font color="red"> '. $_LANG->_( 'Unwriteable' ) .'</font>' ?>
+				<?php echo is_writable($s_dir .'/'. $sy_file) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?>
 				</td>
 			</tr>
 		<?php
@@ -345,7 +345,7 @@ class HTML_templates {
 	*/
 	function editCSSSource( $template, $tp_name, &$content, $option, $client ) {
 		global $mosConfig_absolute_path;
-		global $_LANG;
+		;
 
 		if ( $client == 'admin' ) {
 			$css_path = JPATH_ADMINISTRATOR . '/administrator' . $tp_name;
@@ -358,10 +358,10 @@ class HTML_templates {
 		<form action="index2.php" method="post" name="adminForm">
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
 		<tr>
-			<td width="280"><table class="adminheading"><tr><th class="templates"><?php echo $_LANG->_( 'Template CSS Editor' ); ?></th></tr></table></td>
+			<td width="280"><table class="adminheading"><tr><th class="templates"><?php echo JText::_( 'Template CSS Editor' ); ?></th></tr></table></td>
 			<td width="260">
-				<span class="componentheading"><?php echo $_LANG->_( 'template_css.css is' ); ?> :
-				<b><?php echo is_writable($css_path) ? '<font color="green"> '. $_LANG->_( 'Writeable' ) .'</font>' : '<font color="red"> '. $_LANG->_( 'Unwriteable' ) .'</font>' ?></b>
+				<span class="componentheading"><?php echo JText::_( 'template_css.css is' ); ?> :
+				<b><?php echo is_writable($css_path) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?></b>
 				</span>
 			</td>
 <?php
@@ -370,14 +370,14 @@ class HTML_templates {
 ?>
 			<td>
 				<input type="checkbox" id="disable_write" name="disable_write" value="1"/>
-				<label for="disable_write"><?php echo $_LANG->_( 'Make unwriteable after saving' ); ?></label>
+				<label for="disable_write"><?php echo JText::_( 'Make unwriteable after saving' ); ?></label>
 			</td>
 <?php
 				} else {
 ?>
 			<td>
 				<input type="checkbox" id="enable_write" name="enable_write" value="1"/>
-				<label for="enable_write"><?php echo $_LANG->_( 'Override write protection while saving' ); ?></label>
+				<label for="enable_write"><?php echo JText::_( 'Override write protection while saving' ); ?></label>
 			</td>
 <?php
 				} // if
@@ -405,19 +405,19 @@ class HTML_templates {
 	* @param string The option
 	*/
 	function assignTemplate( $template, &$menulist, $option ) {
-		global $_LANG;
+		;
 
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminform">
 		<tr>
-			<th class="left" colspan="2"><?php echo $_LANG->_( 'Assign template' ); ?>
-			 <?php echo $template; ?> <?php echo $_LANG->_( 'to menu items' ); ?>
+			<th class="left" colspan="2"><?php echo JText::_( 'Assign template' ); ?>
+			 <?php echo $template; ?> <?php echo JText::_( 'to menu items' ); ?>
 			</th>
 		</tr>
 		<tr>
 			<td valign="top" >
-			<?php echo $_LANG->_( 'Page(s)' ); ?>:
+			<?php echo JText::_( 'Page(s)' ); ?>:
 			</td>
 			<td width="90%">
 			<?php echo $menulist; ?>
@@ -437,7 +437,7 @@ class HTML_templates {
 	* @param string The option
 	*/
 	function editPositions( &$positions, $option ) {
-		global $_LANG;
+		;
 
 		$rows = 25;
 		$cols = 2;
@@ -447,7 +447,7 @@ class HTML_templates {
 		<table class="adminheading">
 		<tr>
 			<th class="templates">
-			<?php echo $_LANG->_( 'Module Positions' ); ?>
+			<?php echo JText::_( 'Module Positions' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -458,13 +458,13 @@ class HTML_templates {
 		for ( $c = 0; $c < $cols; $c++ ) {
 			?>
 			<th width="25">
-			<?php echo $_LANG->_( 'NUM' ); ?>
+			<?php echo JText::_( 'NUM' ); ?>
 			</th>
 			<th  class="title">
-			<?php echo $_LANG->_( 'Position' ); ?>
+			<?php echo JText::_( 'Position' ); ?>
 			</th>
 			<th  class="title">
-			<?php echo $_LANG->_( 'Description' ); ?>
+			<?php echo JText::_( 'Description' ); ?>
 			</th>
 			<?php
 		}

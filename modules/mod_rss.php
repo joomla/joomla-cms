@@ -18,7 +18,7 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 $cacheDir = $mosConfig_absolute_path .'/cache/';
 if ( !is_writable( $cacheDir ) ) {
 	echo '<div>';
-	echo $_LANG->_( 'Please make cache directory writable.' );
+	echo JText::_( 'Please make cache directory writable.' );
 	echo '</div>';
 	
 	exit;

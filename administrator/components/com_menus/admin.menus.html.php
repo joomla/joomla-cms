@@ -23,7 +23,7 @@ class HTML_menusections {
 
 	function showMenusections( $rows, $pageNav, $search, $levellist, $menutype, $option ) {
 		global $my;
-    	global $_LANG;
+    	;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -31,19 +31,19 @@ class HTML_menusections {
 		<table class="adminheading">
 		<tr>
 			<th class="menus" rowspan="2" nowrap="nowrap">
-				<?php echo $_LANG->_( 'Menu Manager' ); ?> <small><small>[ <?php echo $menutype;?> ]</small></small>
+				<?php echo JText::_( 'Menu Manager' ); ?> <small><small>[ <?php echo $menutype;?> ]</small></small>
 			</th>
 			<td align="right" valign="top" nowrap="nowrap">
-				<?php echo $_LANG->_( 'Max Levels' ); ?>
+				<?php echo JText::_( 'Max Levels' ); ?>
 				<?php echo $levellist;?>
 			</td>
 		</tr>
 		<tr>
 			<td align="right" valign="top" nowrap="nowrap">
-				<?php echo $_LANG->_( 'Filter' ); ?>:
+				<?php echo JText::_( 'Filter' ); ?>:
 				<input type="text" name="search" value="<?php echo $search;?>" class="inputbox" />
-				<input type="button" value="<?php echo $_LANG->_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
-				<input type="button" value="<?php echo $_LANG->_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 		</tr>
 		<?php
@@ -51,10 +51,10 @@ class HTML_menusections {
 			?>
 			<tr>
 				<td align="right" nowrap style="color: red; font-weight: normal;" colspan="5">
-				<?php echo $_LANG->_( 'WARNDELETEMENU' ); ?>
+				<?php echo JText::_( 'WARNDELETEMENU' ); ?>
 				<br/>
 				<span style="color: black;">
-				<?php echo $_LANG->_( 'WARNMAINMENUHOME' ); ?>
+				<?php echo JText::_( 'WARNMAINMENUHOME' ); ?>
 				</span>
 				</td>
 			</tr>
@@ -66,37 +66,37 @@ class HTML_menusections {
 		<table class="adminlist">
 		<tr>
 			<th width="20">
-			<?php echo $_LANG->_( 'NUM' ); ?>
+			<?php echo JText::_( 'NUM' ); ?>
 			</th>
 			<th width="20">
 			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 			</th>
 			<th class="title" width="40%">
-			<?php echo $_LANG->_( 'Menu Item' ); ?>
+			<?php echo JText::_( 'Menu Item' ); ?>
 			</th>
 			<th width="5%">
-			<?php echo $_LANG->_( 'Published' ); ?>
+			<?php echo JText::_( 'Published' ); ?>
 			</th>
 			<th colspan="2" width="5%">
-			<?php echo $_LANG->_( 'Reorder' ); ?>
+			<?php echo JText::_( 'Reorder' ); ?>
 			</th>
 			<th width="2%">
-			<?php echo $_LANG->_( 'Order' ); ?>
+			<?php echo JText::_( 'Order' ); ?>
 			</th>
 			<th width="1%">
-			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo $_LANG->_( 'Save Order' ); ?>" /></a>
+			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
 			</th>
 			<th width="10%">
-			<?php echo $_LANG->_( 'Access' ); ?>
+			<?php echo JText::_( 'Access' ); ?>
 			</th>
 			<th>
-			<?php echo $_LANG->_( 'Itemid' ); ?>
+			<?php echo JText::_( 'Itemid' ); ?>
 			</th>
 			<th width="35%"  class="title">
-			<?php echo $_LANG->_( 'Type' ); ?>
+			<?php echo JText::_( 'Type' ); ?>
 			</th>
 			<th>
-			<?php echo $_LANG->_( 'CID' ); ?>
+			<?php echo JText::_( 'CID' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -181,7 +181,7 @@ class HTML_menusections {
 	* Displays a selection list for menu item types
 	*/
 	function addMenuItem( &$cid, $menutype, $option, $types_content, $types_component, $types_link, $types_other, $types_submit ) {
-    	global $_LANG;
+    	;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -198,10 +198,10 @@ class HTML_menusections {
 		<table class="adminheading">
 		<tr>
 			<th class="menus">
-			<?php echo $_LANG->_( 'New Menu Item' ); ?>
+			<?php echo JText::_( 'New Menu Item' ); ?>
 			</th>
 			<td valign="bottom" nowrap style="color: red;">
-            <?php echo $_LANG->_( 'DESCMENUGROUP' ); ?>
+            <?php echo JText::_( 'DESCMENUGROUP' ); ?>
 			</td>
 		</tr>
 		</table>
@@ -210,7 +210,7 @@ class HTML_menusections {
 		<tr>
 			<td width="50%" valign="top">
 				<fieldset>
-					<legend><?php echo $_LANG->_( 'Content' ); ?></legend>
+					<legend><?php echo JText::_( 'Content' ); ?></legend>
 					<table class="adminform">
 					<?php
 					$k 		= 0;
@@ -228,7 +228,7 @@ class HTML_menusections {
 					</table>
 				</fieldset>
 				<fieldset>
-					<legend><?php echo $_LANG->_( 'Miscellaneous' ); ?></legend>
+					<legend><?php echo JText::_( 'Miscellaneous' ); ?></legend>
 					<table class="adminform">
 					<?php
 					$k 		= 0;
@@ -246,7 +246,7 @@ class HTML_menusections {
 					</table>
 				</fieldset>
 				<fieldset>
-					<legend><?php echo $_LANG->_( 'Submit' ); ?></legend>
+					<legend><?php echo JText::_( 'Submit' ); ?></legend>
 					<table class="adminform">
 					<?php
 					$k 		= 0;
@@ -266,7 +266,7 @@ class HTML_menusections {
 			</td>
 			<td width="50%" valign="top">
 				<fieldset>
-					<legend><?php echo $_LANG->_( 'Components' ); ?></legend>
+					<legend><?php echo JText::_( 'Components' ); ?></legend>
 					<table class="adminform">
 					<?php
 					$k 		= 0;
@@ -284,7 +284,7 @@ class HTML_menusections {
 					</table>
 				</fieldset>
 				<fieldset>
-					<legend><?php echo $_LANG->_( 'Links' ); ?></legend>
+					<legend><?php echo JText::_( 'Links' ); ?></legend>
 					<table class="adminform">
 					<?php
 					$k 		= 0;
@@ -315,7 +315,7 @@ class HTML_menusections {
 	}
 
 	function htmlOptions( &$row, $link, $k, $i ) {
-    	global $_LANG;
+    	;
 		?>
 		<tr class="<?php echo "row$k"; ?>">
 			<td width="20">
@@ -340,14 +340,14 @@ class HTML_menusections {
 	* Form to select Menu to move menu item(s) to
 	*/
 	function moveMenu( $option, $cid, $MenuList, $items, $menutype  ) {
-    	global $_LANG;
+    	;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<br />
 		<table class="adminheading">
 		<tr>
 			<th>
-			<?php echo $_LANG->_( 'Move Menu Items' ); ?>
+			<?php echo JText::_( 'Move Menu Items' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -357,14 +357,14 @@ class HTML_menusections {
 		<tr>
 			<td width="3%"></td>
 			<td  valign="top" width="30%">
-			<strong><?php echo $_LANG->_( 'Move to Menu' ); ?>:</strong>
+			<strong><?php echo JText::_( 'Move to Menu' ); ?>:</strong>
 			<br />
 			<?php echo $MenuList ?>
 			<br /><br />
 			</td>
 			<td  valign="top">
 			<strong>
-			<?php echo $_LANG->_( 'Menu Items being moved' ); ?>:
+			<?php echo JText::_( 'Menu Items being moved' ); ?>:
 			</strong>
 			<br />
 			<ol>
@@ -401,14 +401,14 @@ class HTML_menusections {
 	* Form to select Menu to copy menu item(s) to
 	*/
 	function copyMenu( $option, $cid, $MenuList, $items, $menutype  ) {
-    	global $_LANG;
+    	;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<br />
 		<table class="adminheading">
 		<tr>
 			<th>
-			<?php echo $_LANG->_( 'Copy Menu Items' ); ?>
+			<?php echo JText::_( 'Copy Menu Items' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -419,7 +419,7 @@ class HTML_menusections {
 			<td width="3%"></td>
 			<td  valign="top" width="30%">
 			<strong>
-			<?php echo $_LANG->_( 'Copy to Menu' ); ?>:
+			<?php echo JText::_( 'Copy to Menu' ); ?>:
 			</strong>
 			<br />
 			<?php echo $MenuList ?>
@@ -427,7 +427,7 @@ class HTML_menusections {
 			</td>
 			<td  valign="top">
 			<strong>
-			<?php echo $_LANG->_( 'Menu Items being copied' ); ?>:
+			<?php echo JText::_( 'Menu Items being copied' ); ?>:
 			</strong>
 			<br />
 			<ol>

@@ -24,7 +24,7 @@ class contact_item_link_menu_html {
 
 	function edit( &$menu, &$lists, &$params, $option, $contact ) {
 		global $mosConfig_live_site;
-		global $_LANG;
+		;
 		?>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<script language="javascript" type="text/javascript">
@@ -37,9 +37,9 @@ class contact_item_link_menu_html {
 
 			// do field validation
 			if (trim(form.name.value) == ""){
-				alert( "<?php echo $_LANG->_( 'Link must have a name' ); ?>" );
+				alert( "<?php echo JText::_( 'Link must have a name' ); ?>" );
 			} else if (trim(form.contact_item_link.value) == ""){
-				alert( "<?php echo $_LANG->_( 'You must select a Contact to link to' ); ?>" );
+				alert( "<?php echo JText::_( 'You must select a Contact to link to' ); ?>" );
 			} else {
 				form.link.value = "index.php?option=com_contact&task=view&contact_id=" + form.contact_item_link.value;
 				form.componentid.value = form.contact_item_link.value;
@@ -52,7 +52,7 @@ class contact_item_link_menu_html {
 		<table class="adminheading">
 		<tr>
 			<th>
-			<?php echo $menu->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'Add' );?> <?php echo $_LANG->_( 'Menu Item :: Link - Contact Item' ); ?>
+			<?php echo $menu->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?> <?php echo JText::_( 'Menu Item :: Link - Contact Item' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -63,12 +63,12 @@ class contact_item_link_menu_html {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					<?php echo $_LANG->_( 'Details' ); ?>
+					<?php echo JText::_( 'Details' ); ?>
 					</th>
 				</tr>
 				<tr>
 					<td width="10%" align="right">
-					<?php echo $_LANG->_( 'Name' ); ?>:
+					<?php echo JText::_( 'Name' ); ?>:
 					</td>
 					<td width="80%">
 					<input class="inputbox" type="text" name="name" size="50" maxlength="100" value="<?php echo $menu->name; ?>" />
@@ -76,21 +76,21 @@ class contact_item_link_menu_html {
 				</tr>
 				<tr>
 					<td width="10%" align="right" valign="top">
-					<?php echo $_LANG->_( 'Contact to Link' ); ?>:
+					<?php echo JText::_( 'Contact to Link' ); ?>:
 					</td>
 					<td width="80%">
 					<?php echo $lists['contact']; ?>
 					</td>
 				</tr>
 				<tr>
-					<td width="10%" align="right"><?php echo $_LANG->_( 'Url' ); ?>:</td>
+					<td width="10%" align="right"><?php echo JText::_( 'Url' ); ?>:</td>
 					<td width="80%">
                     <?php echo ampReplace($lists['link']); ?>
 					</td>
 				</tr>
 				<tr>
 					<td width="10%" align="right" valign="top">
-					<?php echo $_LANG->_( 'On Click, Open in' ); ?>:
+					<?php echo JText::_( 'On Click, Open in' ); ?>:
 					</td>
 					<td width="80%">
 					<?php echo $lists['target']; ?>
@@ -98,7 +98,7 @@ class contact_item_link_menu_html {
 				</tr>
 				<tr>
 					<td align="right">
-					<?php echo $_LANG->_( 'Parent Item' ); ?>:
+					<?php echo JText::_( 'Parent Item' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['parent']; ?>
@@ -106,7 +106,7 @@ class contact_item_link_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					<?php echo $_LANG->_( 'Ordering' ); ?>:
+					<?php echo JText::_( 'Ordering' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['ordering']; ?>
@@ -114,14 +114,14 @@ class contact_item_link_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					<?php echo $_LANG->_( 'Access Level' ); ?>:
+					<?php echo JText::_( 'Access Level' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['access']; ?>
 					</td>
 				</tr>
 				<tr>
-					<td valign="top" align="right"><?php echo $_LANG->_( 'Published' ); ?>:</td>
+					<td valign="top" align="right"><?php echo JText::_( 'Published' ); ?>:</td>
 					<td>
 					<?php echo $lists['published']; ?>
 					</td>
@@ -135,7 +135,7 @@ class contact_item_link_menu_html {
 				<table class="adminform">
 				<tr>
 					<th>
-					<?php echo $_LANG->_( 'Parameters' ); ?>
+					<?php echo JText::_( 'Parameters' ); ?>
 					</th>
 				</tr>
 				<tr>

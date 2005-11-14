@@ -24,10 +24,10 @@ if ($serverinfo) {
 	echo "<strong>OS:</strong> "  . substr(php_uname(),0,7) . "<br />\n";
 	echo "<strong>PHP:</strong> " .phpversion() . "<br />\n";
 	echo "<strong>MySQL:</strong> " .$database->getVersion() . "<br />\n";
-	echo "<strong>". $_LANG->_( 'Time' ) .": </strong> " .date("H:i",time()+($mosConfig_offset*60*60)) . "<br />\n";
-	$c = $mosConfig_caching ? $_LANG->_( 'Enabled' ) : $_LANG->_( 'Disabled' );
+	echo "<strong>". JText::_( 'Time' ) .": </strong> " .date("H:i",time()+($mosConfig_offset*60*60)) . "<br />\n";
+	$c = $mosConfig_caching ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 	echo "<strong>Caching:</strong> " . $c . "<br />\n";
-	$z = $mosConfig_gzip ? $_LANG->_( 'Enabled' ) : $_LANG->_( 'Disabled' );
+	$z = $mosConfig_gzip ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 	echo "<strong>GZIP:</strong> " . $z . "<br />\n";
 }
 
@@ -36,20 +36,20 @@ if ($siteinfo) {
 	. "\n FROM #__users"
 	;
 	$database->setQuery($query);
-	echo "<strong>". $_LANG->_( 'Members' ) .":</strong> " .$database->loadResult() . "<br />\n";
+	echo "<strong>". JText::_( 'Members' ) .":</strong> " .$database->loadResult() . "<br />\n";
 
 	$query="SELECT COUNT( id ) AS count_items"
 	. "\n FROM #__content"
 	;
 	$database->setQuery($query);
-	echo "<strong>". $_LANG->_( 'News' ) .":</strong> ".$database->loadResult() . "<br />\n";
+	echo "<strong>". JText::_( 'News' ) .":</strong> ".$database->loadResult() . "<br />\n";
 
 	$query="SELECT COUNT( id ) AS count_links"
 	. "\n FROM #__weblinks"
 	. "\n WHERE published = 1"
 	;
 	$database->setQuery($query);
-	echo "<strong>". $_LANG->_( 'WebLinks' ) .":</strong> ".$database->loadResult() . "<br />\n";
+	echo "<strong>". JText::_( 'WebLinks' ) .":</strong> ".$database->loadResult() . "<br />\n";
 }
 
 if ($mosConfig_enable_stats) {
@@ -66,9 +66,9 @@ if ($mosConfig_enable_stats) {
 		$hits = $hits + $increase;
 
 		if ($hits == NULL) {
-			echo "<strong>" . $_LANG->_( 'Visitors' ) . ":</strong> 0\n";
+			echo "<strong>" . JText::_( 'Visitors' ) . ":</strong> 0\n";
 		} else {
-			echo "<strong>" . $_LANG->_( 'Visitors' ) . ":</strong> " . $hits . "\n";
+			echo "<strong>" . JText::_( 'Visitors' ) . ":</strong> " . $hits . "\n";
 		}
 	}
 }

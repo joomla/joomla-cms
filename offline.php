@@ -109,7 +109,7 @@ if (!defined( '_ADMIN_OFFLINE' ) || defined( '_INSTALL_CHECK' )) {
 			<tr>
 				<td width="39%" align="center">
 				<h2>
-					<?php echo $_LANG->_( 'WARNINSTALL' ); ?>
+					<?php echo JText::_( 'WARNINSTALL' ); ?>
 				</h2>
 				</td>
 			</tr>

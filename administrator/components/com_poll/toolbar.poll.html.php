@@ -37,7 +37,6 @@ class TOOLBAR_poll {
 	*/
 	function _EDIT( $pollid, $cur_template ) {
 		global $database, $id;
-		global $_LANG;
 
 		$sql = "SELECT template"
 		. "\n FROM #__templates_menu"
@@ -49,14 +48,14 @@ class TOOLBAR_poll {
 		mosMenuBar::startTable();
 		$popup='pollwindow';
 		?>
-		<td><a class="toolbar" href="#" onclick="window.open('popups/<?php echo $popup;?>.php?pollid=<?php echo $pollid; ?>&t=<?php echo $cur_template; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage('preview','','images/preview_f2.png',1);"><img src="images/preview.png" alt="<?php echo $_LANG->_( 'Preview' ); ?>" border="0" name="preview" align="middle" />&nbsp;Preview</a></td>
+		<td><a class="toolbar" href="#" onclick="window.open('popups/<?php echo $popup;?>.php?pollid=<?php echo $pollid; ?>&t=<?php echo $cur_template; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage('preview','','images/preview_f2.png',1);"><img src="images/preview.png" alt="<?php echo JText::_( 'Preview' ); ?>" border="0" name="preview" align="middle" />&nbsp;Preview</a></td>
 		<?php
 		mosMenuBar::spacer();
 		mosMenuBar::save();
 		mosMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', $_LANG->_( 'Close' ) );
+			mosMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
 			mosMenuBar::cancel();
 		}

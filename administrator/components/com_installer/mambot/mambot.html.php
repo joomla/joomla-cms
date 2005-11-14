@@ -26,17 +26,17 @@ class HTML_mambot {
 * @param strong The URL option
 */
 	function showInstalledMambots( &$rows, $option ) {
-		global $_LANG;
+		;
 		?>
 		<table class="adminheading">
 		<tr>
 			<th class="install">
-			<?php echo $_LANG->_( 'Installed Mambots' ); ?>
+			<?php echo JText::_( 'Installed Mambots' ); ?>
 			</th>
 		</tr>
 		<tr>
 			<td>
-			<?php echo $_LANG->_( 'DESCMAMBOTS' ); ?>
+			<?php echo JText::_( 'DESCMAMBOTS' ); ?>
 			<br /><br />
 			</td>
 		</tr>
@@ -47,10 +47,10 @@ class HTML_mambot {
 			<table class="adminlist">
 			<tr>
 				<th width="20%" class="title">
-				<?php echo $_LANG->_( 'Mambot' ); ?>
+				<?php echo JText::_( 'Mambot' ); ?>
 				</th>
 				<th width="10%" class="title">
-				<?php echo $_LANG->_( 'Type' ); ?>
+				<?php echo JText::_( 'Type' ); ?>
 				</th>
 				<!--
 				Currently Unsupported
@@ -59,19 +59,19 @@ class HTML_mambot {
 				</th>
 				-->
 				<th width="10%"  class="title">
-				<?php echo $_LANG->_( 'Author' ); ?>
+				<?php echo JText::_( 'Author' ); ?>
 				</th>
 				<th width="5%" align="center">
-				<?php echo $_LANG->_( 'Version' ); ?>
+				<?php echo JText::_( 'Version' ); ?>
 				</th>
 				<th width="10%" align="center">
-				<?php echo $_LANG->_( 'Date' ); ?>
+				<?php echo JText::_( 'Date' ); ?>
 				</th>
 				<th width="15%"  class="title">
-				<?php echo $_LANG->_( 'Author Email' ); ?>
+				<?php echo JText::_( 'Author Email' ); ?>
 				</th>
 				<th width="15%"  class="title">
-				<?php echo $_LANG->_( 'Author URL' ); ?>
+				<?php echo JText::_( 'Author URL' ); ?>
 				</th>
 			</tr>
 			<?php
@@ -125,7 +125,7 @@ class HTML_mambot {
 			</form>
 			<?php
 		} else {
-			echo $_LANG->_( 'WARNNONONCORE' );
+			echo JText::_( 'WARNNONONCORE' );
 		}
 	}
 }

@@ -247,8 +247,8 @@ class mosAbstractTasker {
 	 * @return null
 	 */
 	function taskNotFound( $task ) {
-		global $_LANG;
-		echo $_LANG->_( 'Task' ) .' ' . $task . ' '. $_LANG->_( 'not found' );
+		;
+		echo JText::_( 'Task' ) .' ' . $task . ' '. JText::_( 'not found' );
 		return null;
 	}
 	/**
@@ -257,8 +257,8 @@ class mosAbstractTasker {
 	 * @return null
 	 */
 	function methodNotFound( $name ) {
-		global $_LANG;
-		echo $_LANG->_( 'Method' ) .' ' . $name . ' '. $_LANG->_( 'not found' );
+		;
+		echo JText::_( 'Method' ) .' ' . $name . ' '. JText::_( 'not found' );
 		return null;
 	}
 	/**

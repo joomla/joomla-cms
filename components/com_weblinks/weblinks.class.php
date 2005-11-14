@@ -60,7 +60,7 @@ class mosWeblink extends mosDBTable {
 	}
 	/** overloaded check function */
 	function check() {
-    	global $_LANG;
+    	;
 
 		// filter malicious code
 		$ignoreList = array( 'params' );
@@ -70,13 +70,13 @@ class mosWeblink extends mosDBTable {
 		$iFilter = new InputFilter();
 
 		if ($iFilter->badAttributeValue( array( 'href', $this->url ))) {
-			$this->_error = $_LANG->_( 'Please provide a valid URL' );
+			$this->_error = JText::_( 'Please provide a valid URL' );
 			return false;
 		}
 
 		/** check for valid name */
 		if (trim( $this->title ) == '') {
-			$this->_error = $_LANG->_( 'Your Weblink must contain a title.' );
+			$this->_error = JText::_( 'Your Weblink must contain a title.' );
 			return false;
 		}
 
@@ -94,7 +94,7 @@ class mosWeblink extends mosDBTable {
 
 		$xid = intval( $this->_db->loadResult() );
 		if ($xid && $xid != intval( $this->id )) {
-			$this->_error = $_LANG->_( 'There is a' ) ." ". $_LANG->_( 'Web Link') ." ". $_LANG->_( 'already with that name, please try again.' );
+			$this->_error = JText::_( 'There is a' ) ." ". JText::_( 'Web Link') ." ". JText::_( 'already with that name, please try again.' );
 			return false;
 		}
 		return true;

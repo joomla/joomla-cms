@@ -17,9 +17,6 @@ define( "_VALID_MOS", 1 );
 require( "../includes/auth.php" );
 include_once ( $mosConfig_absolute_path . '/language/' . $mosConfig_lang . '.php' );
 
-$_LANG =& JFactory::getLanguage( $option );
-$_LANG->debug( $mosConfig_debug );
-
 $directory	= mosGetParam( $_REQUEST, 'directory', '');
 $media_path	= $mosConfig_absolute_path.'/media/';
 
@@ -33,35 +30,35 @@ if (isset($_FILES['userfile'])) {
 		$base_Dir = "../../images/banners/";
 	}
 	if (empty($userfile_name)) {
-		mosErrorAlert( $_LANG->_( 'Please select an image to upload' ), "document.location.href='uploadimage.php'");
+		mosErrorAlert( JText::_( 'Please select an image to upload' ), "document.location.href='uploadimage.php'");
 	}
 
 	$filename = split("\.", $userfile_name);
 
 	if (eregi("[^0-9a-zA-Z_]", $filename[0])) {
-		mosErrorAlert( $_LANG->_( 'VALIDALPHANOSPACES' ));
+		mosErrorAlert( JText::_( 'VALIDALPHANOSPACES' ));
 	}
 
 	if (file_exists($base_Dir.$userfile_name)) {
-		mosErrorAlert( $_LANG->_( 'Image' ) ." ". $userfile_name ." ". $_LANG->_( 'already exists' ));
+		mosErrorAlert( JText::_( 'Image' ) ." ". $userfile_name ." ". JText::_( 'already exists' ));
 	}
 
 	if ((strcasecmp(substr($userfile_name,-4),".gif")) && (strcasecmp(substr($userfile_name,-4),".jpg")) && (strcasecmp(substr($userfile_name,-4),".png")) && (strcasecmp(substr($userfile_name,-4),".bmp")) &&(strcasecmp(substr($userfile_name,-4),".doc")) && (strcasecmp(substr($userfile_name,-4),".xls")) && (strcasecmp(substr($userfile_name,-4),".ppt")) && (strcasecmp(substr($userfile_name,-4),".swf")) && (strcasecmp(substr($userfile_name,-4),".pdf"))) {
-		mosErrorAlert( $_LANG->_( 'The file must be' ) ." gif, png, jpg, bmp, swf, doc, xls or ppt");
+		mosErrorAlert( JText::_( 'The file must be' ) ." gif, png, jpg, bmp, swf, doc, xls or ppt");
 	}
 
 	if (eregi(".pdf", $userfile_name) || eregi(".doc", $userfile_name) || eregi(".xls", $userfile_name) || eregi(".ppt", $userfile_name)) {
 		if (!move_uploaded_file ($_FILES['userfile']['tmp_name'],$media_path.$_FILES['userfile']['name']) || !mosChmod($media_path.$_FILES['userfile']['name'])) {
-			mosErrorAlert( $_LANG->_( 'Upload of' ) ." ". $userfile_name ." ". $_LANG->_( 'failed' ));
+			mosErrorAlert( JText::_( 'Upload of' ) ." ". $userfile_name ." ". JText::_( 'failed' ));
 		}
 		else {
-			mosErrorAlert( $_LANG->_( 'Upload of' ) ." $userfile_name to $media_path ". $_LANG->_( 'successful' ));
+			mosErrorAlert( JText::_( 'Upload of' ) ." $userfile_name to $media_path ". JText::_( 'successful' ));
 		}
 	} elseif (!move_uploaded_file ($_FILES['userfile']['tmp_name'],$base_Dir.$_FILES['userfile']['name']) || !mosChmod($base_Dir.$_FILES['userfile']['name'])) {
-		mosErrorAlert( $_LANG->_( 'Upload of' ) ." ". $userfile_name . " " . $_LANG->_( 'failed' ));
+		mosErrorAlert( JText::_( 'Upload of' ) ." ". $userfile_name . " " . JText::_( 'failed' ));
 	}
 	else {
-		mosErrorAlert( $_LANG->_( 'Upload of' ) ." $userfile_name to $base_Dir " . $_LANG->_( 'successful' ));
+		mosErrorAlert( JText::_( 'Upload of' ) ." $userfile_name to $base_Dir " . JText::_( 'successful' ));
 	}
 }
 
@@ -69,7 +66,7 @@ if (isset($_FILES['userfile'])) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><?php echo $_LANG->_( 'Upload a file' ); ?></title>
+<title><?php echo JText::_( 'Upload a file' ); ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"" />
 </head>
 <body>
@@ -80,7 +77,7 @@ $css = mosGetParam($_REQUEST,"t","");
 <table class="adminform">
   <form method="post" action="uploadimage.php" enctype="multipart/form-data" name="filename">
 	<tr>
-	  <th class="title"> <?php echo $_LANG->_( 'File Upload' ); ?> : <?php echo $directory; ?></th>
+	  <th class="title"> <?php echo JText::_( 'File Upload' ); ?> : <?php echo $directory; ?></th>
 	</tr>
 	<tr>
 	  <td align="center">
@@ -89,8 +86,8 @@ $css = mosGetParam($_REQUEST,"t","");
 	</tr>
 	<tr>
 	  <td>
-		<input class="button" type="submit" value="<?php echo $_LANG->_( 'Upload' ); ?>" name="fileupload" />
-		<?php echo $_LANG->_( 'Max size' ); ?> = <?php echo ini_get( 'post_max_size' );?>
+		<input class="button" type="submit" value="<?php echo JText::_( 'Upload' ); ?>" name="fileupload" />
+		<?php echo JText::_( 'Max size' ); ?> = <?php echo ini_get( 'post_max_size' );?>
 	  </td>
 	<tr>
 	  <td>

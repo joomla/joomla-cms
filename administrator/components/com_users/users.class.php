@@ -25,10 +25,10 @@ class mosUserParameters extends mosParameters {
 	*/
 	function _form_editor_list( $name, $value, &$node, $control_name ) {
 		global $database, $my;
-		global $_LANG;
+		;
 		
 		if(!($my->gid >= 20) ) {
-			return $_LANG->_('No Access');
+			return JText::_('No Access');
 		}
 
 		// compile list of the editors
@@ -41,7 +41,7 @@ class mosUserParameters extends mosParameters {
 		$database->setQuery( $query );
 		$editors = $database->loadObjectList();
 
-		array_unshift( $editors, mosHTML::makeOption( '', '- '. $_LANG->_( 'Select Editor' ) .' -' ) );
+		array_unshift( $editors, mosHTML::makeOption( '', '- '. JText::_( 'Select Editor' ) .' -' ) );
 
 		return mosHTML::selectList( $editors, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value );
 	}

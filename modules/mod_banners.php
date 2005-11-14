@@ -85,7 +85,7 @@ if($numrows){
     		} else if (eregi( "(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$", $banner->imageurl )) {
     			$imageurl 	= $mosConfig_live_site .'/images/banners/'. $banner->imageurl;
     			$link		= sefRelToAbs( 'index.php?option=com_banners&amp;task=click&amp;bid='. $banner->bid );
-    			echo '<a href="'. $link .'" target="_blank"><img src="'. $imageurl .'" border="0" alt="'. $_LANG->_( 'Banner' ) .'" /></a>';
+    			echo '<a href="'. $link .'" target="_blank"><img src="'. $imageurl .'" border="0" alt="'. JText::_( 'Banner' ) .'" /></a>';
 
     		} else if (eregi("\.swf$", $banner->imageurl)) {
     			$imageurl 	= "$mosConfig_live_site/images/banners/".$banner->imageurl;

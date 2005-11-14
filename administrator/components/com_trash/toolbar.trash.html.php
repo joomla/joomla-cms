@@ -21,12 +21,11 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class TOOLBAR_Trash {
 	function _DEFAULT() {
-		global $_LANG;
 
 		mosMenuBar::startTable();
-		mosMenuBar::custom('restoreconfirm','restore.png','restore_f2.png', $_LANG->_( 'Restore' ), true);
+		mosMenuBar::custom('restoreconfirm','restore.png','restore_f2.png', JText::_( 'Restore' ), true);
 		mosMenuBar::spacer();
-		mosMenuBar::custom('deleteconfirm','delete.png','delete_f2.png', $_LANG->_( 'Delete' ), true);
+		mosMenuBar::custom('deleteconfirm','delete.png','delete_f2.png', JText::_( 'Delete' ), true);
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.trashmanager' );
 		mosMenuBar::endTable();

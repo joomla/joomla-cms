@@ -31,28 +31,28 @@ class HTML_banners {
 		<table class="adminlist">
 		<tr>
 			<th width="20">
-            <?php echo $_LANG->_( 'Num' ); ?>
+            <?php echo JText::_( 'Num' ); ?>
 			</th>
 			<th width="20">
 			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th nowrap class="title">
-			<?php echo $_LANG->_( 'Banner Name' ); ?>
+			<?php echo JText::_( 'Banner Name' ); ?>
 			</th>
 			<th width="10%" nowrap>
-			<?php echo $_LANG->_( 'Published' ); ?>
+			<?php echo JText::_( 'Published' ); ?>
 			</th>
 			<th width="11%" nowrap>
-			<?php echo $_LANG->_( 'Impressions Made' ); ?>
+			<?php echo JText::_( 'Impressions Made' ); ?>
 			</th>
 			<th width="11%" nowrap>
-			<?php echo $_LANG->_( 'Impressions Left' ); ?>
+			<?php echo JText::_( 'Impressions Left' ); ?>
 			</th>
 			<th width="8%">
-			<?php echo $_LANG->_( 'Clicks' ); ?>
+			<?php echo JText::_( 'Clicks' ); ?>
 			</th>
 			<th width="8%" nowrap>
-			<?php echo $_LANG->_( '% Clicks' ); ?>
+			<?php echo JText::_( '% Clicks' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -76,7 +76,7 @@ class HTML_banners {
 
 			$task 	= $row->showBanner ? 'unpublish' : 'publish';
 			$img 	= $row->showBanner ? 'publish_g.png' : 'publish_x.png';
-			$alt 	= $row->showBanner ? $_LANG->_( 'Published' ) : $_LANG->_( 'Unpublished' );
+			$alt 	= $row->showBanner ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
 
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 			?>
@@ -93,7 +93,7 @@ class HTML_banners {
 					echo $row->name;
 				} else {
 					?>
-					<a href="<?php echo $link; ?>" title="<?php echo $_LANG->_( 'Edit Banner' ); ?>">
+					<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Banner' ); ?>">
 					<?php echo $row->name; ?>
 					</a>
 					<?php
@@ -134,7 +134,7 @@ class HTML_banners {
 	}
 
 	function bannerForm( &$_row, &$lists, $_option ) {
-		global $_LANG;
+		;
 
 		mosMakeHtmlSafe( $_row, ENT_QUOTES, 'custombannercode' );
 		?>
@@ -155,13 +155,13 @@ class HTML_banners {
 			}
 			// do field validation
 			if (form.name.value == "") {
-				alert( "<?php echo $_LANG->_( 'You must provide a banner name.' ); ?>" );
+				alert( "<?php echo JText::_( 'You must provide a banner name.' ); ?>" );
 			} else if (getSelectedValue('adminForm','cid') < 1) {
-				alert( "<?php echo $_LANG->_( 'Please select a client.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please select a client.' ); ?>" );
 			} else if (!getSelectedValue('adminForm','imageurl')) {
-				alert( "<?php echo $_LANG->_( 'Please select an image.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please select an image.' ); ?>" );
 			} else if (form.clickurl.value == "") {
-				alert( "<?php echo $_LANG->_( 'Please fill in the URL for the banner.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please fill in the URL for the banner.' ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}
@@ -173,12 +173,12 @@ class HTML_banners {
 		<table class="adminform">
 		<tr>
 			<th colspan="2">
-			<?php echo $_LANG->_( 'Details' ); ?>
+			<?php echo JText::_( 'Details' ); ?>
 			</th>
 		</tr>
 		<tr>
 			<td width="20%">
-			<?php echo $_LANG->_( 'Banner Name' ); ?>:
+			<?php echo JText::_( 'Banner Name' ); ?>:
 			</td>
 			<td width="80%">
 			<input class="inputbox" type="text" name="name" value="<?php echo $_row->name;?>">
@@ -186,7 +186,7 @@ class HTML_banners {
 		</tr>
 		<tr>
 			<td>
-			<?php echo $_LANG->_( 'Client Name' ); ?>:
+			<?php echo JText::_( 'Client Name' ); ?>:
 			</td>
 			<td >
 			<?php echo $lists['cid']; ?>
@@ -194,7 +194,7 @@ class HTML_banners {
 		</tr>
 		<tr>
 			<td>
-			<?php echo $_LANG->_( 'Impressions Purchased' ); ?>:
+			<?php echo JText::_( 'Impressions Purchased' ); ?>:
 			</td>
 			<?php
 			if ($_row->imptotal == 0) {
@@ -207,12 +207,12 @@ class HTML_banners {
 			<td>
 			<input class="inputbox" type="text" name="imptotal" size="12" maxlength="11" value="<?php echo $_row->imptotal;?>">
 			&nbsp;&nbsp;&nbsp;&nbsp;
-			<?php echo $_LANG->_( 'Unlimited' ); ?> <input type="checkbox" name="unlimited" <?php echo $unlimited;?>>
+			<?php echo JText::_( 'Unlimited' ); ?> <input type="checkbox" name="unlimited" <?php echo $unlimited;?>>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<?php echo $_LANG->_( 'Show Banner' ); ?>:
+			<?php echo JText::_( 'Show Banner' ); ?>:
 			</td>
 			<td>
 			<?php echo $lists['showBanner']; ?>
@@ -220,7 +220,7 @@ class HTML_banners {
 		</tr>
 		<tr>
 			<td>
-			<?php echo $_LANG->_( 'Click URL' ); ?>:
+			<?php echo JText::_( 'Click URL' ); ?>:
 			</td>
 			<td>
 			<input class="inputbox" type="text" name="clickurl" size="100" maxlength="200" value="<?php echo $_row->clickurl;?>">
@@ -228,17 +228,17 @@ class HTML_banners {
 		</tr>
 		<tr >
 			<td valign="top" align="right">
-			<?php echo $_LANG->_( 'Clicks' ); ?>
+			<?php echo JText::_( 'Clicks' ); ?>
  			</td>
 			<td colspan="2">
 			<?php echo $_row->clicks;?>
 			&nbsp;&nbsp;&nbsp;&nbsp;
-			<input name="reset_hits" type="button" class="button" value="<?php echo $_LANG->_( 'Reset Clicks' ); ?>" onClick="submitbutton('resethits');">
+			<input name="reset_hits" type="button" class="button" value="<?php echo JText::_( 'Reset Clicks' ); ?>" onClick="submitbutton('resethits');">
 			</td>
 		</tr>
 		<tr>
 			<td valign="top">
-			<?php echo $_LANG->_( 'Custom banner code' ); ?>:
+			<?php echo JText::_( 'Custom banner code' ); ?>:
 			</td>
 			<td>
 			<textarea class="inputbox" cols="70" rows="5" name="custombannercode"><?php echo $_row->custombannercode;?></textarea>
@@ -250,7 +250,7 @@ class HTML_banners {
 		</tr>
 		<tr>
 			<td valign="top">
-			<?php echo $_LANG->_( 'Banner Image Selector' ); ?>:
+			<?php echo JText::_( 'Banner Image Selector' ); ?>:
 			</td>
 			<td >
 			<?php echo $lists['imageurl']; ?>
@@ -258,7 +258,7 @@ class HTML_banners {
 		</tr>
 		<tr>
 			<td valign="top">
-			<?php echo $_LANG->_( 'Banner Image' ); ?>:
+			<?php echo JText::_( 'Banner Image' ); ?>:
 			</td>
 			<td valign="top">
 			<?php
@@ -309,19 +309,19 @@ class HTML_bannerClient {
 		<table class="adminlist">
 		<tr>
 			<th width="20">
-            <?php echo $_LANG->_( 'Num' ); ?>
+            <?php echo JText::_( 'Num' ); ?>
 			</th>
 			<th width="20">
 			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th nowrap class="title">
-			<?php echo $_LANG->_( 'Client Name' ); ?>
+			<?php echo JText::_( 'Client Name' ); ?>
 			</th>
 			<th nowrap class="title">
-			<?php echo $_LANG->_( 'Contact' ); ?>
+			<?php echo JText::_( 'Contact' ); ?>
 			</th>
 			<th align="center" nowrap>
-			<?php echo $_LANG->_( 'No. of Active Banners' ); ?>
+			<?php echo JText::_( 'No. of Active Banners' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -347,7 +347,7 @@ class HTML_bannerClient {
 					echo $row->name;
 				} else {
 					?>
-					<a href="<?php echo $link; ?>" title="<?php echo $_LANG->_( 'Edit Banner Client' ); ?>">
+					<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Banner Client' ); ?>">
 					<?php echo $row->name; ?>
 					</a>
 					<?php
@@ -376,7 +376,7 @@ class HTML_bannerClient {
 	}
 
 	function bannerClientForm( &$row, $option ) {
-		global $_LANG;
+		;
 
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'extrainfo' );
 		?>
@@ -390,11 +390,11 @@ class HTML_bannerClient {
 			}
 			// do field validation
 			if (form.name.value == "") {
-				alert( "<?php echo $_LANG->_( 'Please fill in the Client Name.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please fill in the Client Name.' ); ?>" );
 			} else if (form.contact.value == "") {
-				alert( "<?php echo $_LANG->_( 'Please fill in the Contact Name.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please fill in the Contact Name.' ); ?>" );
 			} else if (form.email.value == "") {
-				alert( "<?php echo $_LANG->_( 'Please fill in the Contact Email.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please fill in the Contact Email.' ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}
@@ -407,12 +407,12 @@ class HTML_bannerClient {
 		<table class="adminform">
 		<tr>
 			<th colspan="2">
-			<?php echo $_LANG->_( 'Details' ); ?>
+			<?php echo JText::_( 'Details' ); ?>
 			</th>
 		</tr>
 		<tr>
 			<td width="10%">
-			<?php echo $_LANG->_( 'Client Name' ); ?>:
+			<?php echo JText::_( 'Client Name' ); ?>:
 			</td>
 			<td>
 			<input class="inputbox" type="text" name="name" size="30" maxlength="60" valign="top" value="<?php echo $row->name; ?>">
@@ -420,7 +420,7 @@ class HTML_bannerClient {
 		</tr>
 		<tr>
 			<td width="10%">
-			<?php echo $_LANG->_( 'Contact Name' ); ?>:
+			<?php echo JText::_( 'Contact Name' ); ?>:
 			</td>
 			<td>
 			<input class="inputbox" type="text" name="contact" size="30" maxlength="60" value="<?php echo $row->contact; ?>">
@@ -428,7 +428,7 @@ class HTML_bannerClient {
 		</tr>
 		<tr>
 			<td width="10%">
-			<?php echo $_LANG->_( 'Contact Email' ); ?>:
+			<?php echo JText::_( 'Contact Email' ); ?>:
 			</td>
 			<td>
 			<input class="inputbox" type="text" name="email" size="30" maxlength="60" value="<?php echo $row->email; ?>">
@@ -436,7 +436,7 @@ class HTML_bannerClient {
 		</tr>
 		<tr>
 			<td valign="top">
-			<?php echo $_LANG->_( 'Extra Info' ); ?>:
+			<?php echo JText::_( 'Extra Info' ); ?>:
 			</td>
 			<td>
 			<textarea class="inputbox" name="extrainfo" cols="60" rows="10"><?php echo str_replace('&','&amp;',$row->extrainfo);?></textarea>

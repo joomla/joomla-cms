@@ -25,9 +25,9 @@ class TOOLBAR_installer
 	}
 
 	function _DEFAULT2()	{
-		global $_LANG;
+		
 		mosMenuBar::startTable();
-		mosMenuBar::deleteList( '', 'remove', $_LANG->_( 'Uninstall' ) );
+		mosMenuBar::deleteList( '', 'remove', JText::_( 'Uninstall' ) );
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.installer2' );
 		mosMenuBar::endTable();

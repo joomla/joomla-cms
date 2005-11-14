@@ -26,5 +26,5 @@ global $_VERSION, $_LANG;
 </div>
 
 <div>
-	<a href="http://www.joomla.org/content/blogcategory/32/66/" target="_blank"><?php echo $_LANG->_( 'Check for latest Version' ); ?></a>
+	<a href="http://www.joomla.org/content/blogcategory/32/66/" target="_blank"><?php echo JText::_( 'Check for latest Version' ); ?></a>
 </div>

@@ -123,7 +123,7 @@ switch ( strtolower( $task ) ) {
  */
 function findKeyItem( $gid, $access, $pop, $option, $now ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$keyref = mosGetParam( $_REQUEST, 'keyref', '' );
 	$keyref = $database->getEscaped( $keyref );
@@ -137,7 +137,7 @@ function findKeyItem( $gid, $access, $pop, $option, $now ) {
 	if ($id > 0) {
 		showItem( $id, $gid, $access, $pop, $option, $now );
 	} else {
-		echo $_LANG->_( 'Key not found' );
+		echo JText::_( 'Key not found' );
 	}
 }
 
@@ -293,7 +293,7 @@ function showSection( $id, $gid, &$access, $now ) {
 */
 function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limitstart, $now  ) {
 	global $database, $mainframe, $Itemid, $mosConfig_list_limit;
-	global $_LANG;
+	;
 
 	$nullDate = $database->getNullDate();
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
@@ -323,7 +323,7 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limi
 	$params->def( 'hits',            $mainframe->getCfg( 'hits' ) );
 	$params->def( 'author',          !$mainframe->getCfg( 'hideAuthor' ) );
 	$params->def( 'date',            !$mainframe->getCfg( 'hideCreateDate' ) );
-	$params->def( 'date_format',     $_LANG->_( 'DATE_FORMAT_LC' ) );
+	$params->def( 'date_format',     JText::_( 'DATE_FORMAT_LC' ) );
 	$params->def( 'navigation',      2 );
 	$params->def( 'display',         1 );
 	$params->def( 'display_num',     $mosConfig_list_limit );
@@ -458,26 +458,26 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limi
 
 	$check = 0;
 	if ( $params->get( 'date' ) ) {
-		$order[] = mosHTML::makeOption( 'date', $_LANG->_( 'Date asc' ) );
-		$order[] = mosHTML::makeOption( 'rdate', $_LANG->_( 'Date desc' ) );
+		$order[] = mosHTML::makeOption( 'date', JText::_( 'Date asc' ) );
+		$order[] = mosHTML::makeOption( 'rdate', JText::_( 'Date desc' ) );
 		$check .= 1;
 	}
 	if ( $params->get( 'title' ) ) {
-		$order[] = mosHTML::makeOption( 'alpha', $_LANG->_( 'Title asc' ) );
-		$order[] = mosHTML::makeOption( 'ralpha', $_LANG->_( 'Title desc' )  );
+		$order[] = mosHTML::makeOption( 'alpha', JText::_( 'Title asc' ) );
+		$order[] = mosHTML::makeOption( 'ralpha', JText::_( 'Title desc' )  );
 		$check .= 1;
 	}
 	if ( $params->get( 'hits' ) ) {
-		$order[] = mosHTML::makeOption( 'hits', $_LANG->_( 'Hits asc' ) );
-		$order[] = mosHTML::makeOption( 'rhits', $_LANG->_( 'Hits desc' ) );
+		$order[] = mosHTML::makeOption( 'hits', JText::_( 'Hits asc' ) );
+		$order[] = mosHTML::makeOption( 'rhits', JText::_( 'Hits desc' ) );
 		$check .= 1;
 	}
 	if ( $params->get( 'author' ) ) {
-		$order[] = mosHTML::makeOption( 'author', $_LANG->_( 'Author asc' ) );
-		$order[] = mosHTML::makeOption( 'rauthor', $_LANG->_( 'Author desc' ) );
+		$order[] = mosHTML::makeOption( 'author', JText::_( 'Author asc' ) );
+		$order[] = mosHTML::makeOption( 'rauthor', JText::_( 'Author desc' ) );
 		$check .= 1;
 	}
-	$order[] = mosHTML::makeOption( 'order', $_LANG->_( 'Ordering' ) );
+	$order[] = mosHTML::makeOption( 'order', JText::_( 'Ordering' ) );
 	$lists['order'] = mosHTML::selectList( $order, 'order', 'class="inputbox" size="1"  onchange="document.adminForm.submit();"', 'value', 'text', $selected );
 	if ( $check < 1 ) {
 		$lists['order'] = '';
@@ -611,7 +611,7 @@ function showBlogCategory( $id=0, $gid, &$access, $pop, $now ) {
 function showArchiveSection( $id=NULL, $gid, &$access, $pop, $option ) {
 	global $database, $mainframe;
 	global $Itemid;
-	global $_LANG;
+	;
 
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
 
@@ -688,7 +688,7 @@ function showArchiveSection( $id=NULL, $gid, &$access, $pop, $option ) {
 
 	if ( !$archives ) {
 		// if no archives for category, hides search and outputs empty message
-		echo '<br /><div align="center">'. $_LANG->_( 'CATEGORY_ARCHIVE_EMPTY' ) .'</div>';
+		echo '<br /><div align="center">'. JText::_( 'CATEGORY_ARCHIVE_EMPTY' ) .'</div>';
 	} else {
 		BlogOutput( $rows, $params, $gid, $access, $pop, $menu, 1 );
 	}
@@ -704,7 +704,7 @@ function showArchiveSection( $id=NULL, $gid, &$access, $pop, $option ) {
 function showArchiveCategory( $id=0, $gid, &$access, $pop, $option, $now ) {
 	global $database, $mainframe;
 	global $Itemid;
-	global $_LANG;
+	;
 
 	// Parameters
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
@@ -777,7 +777,7 @@ function showArchiveCategory( $id=0, $gid, &$access, $pop, $option, $now ) {
 
 	if ( !$archives ) {
 		// if no archives for category, hides search and outputs empty message
-		echo '<br /><div align="center">'. $_LANG->_( 'CATEGORY_ARCHIVE_EMPTY' ) .'</div>';
+		echo '<br /><div align="center">'. JText::_( 'CATEGORY_ARCHIVE_EMPTY' ) .'</div>';
 	} else {
 		// if coming from the Archive Module, the Archive Dropdown selector is not shown
 		if ( $id ) {
@@ -797,7 +797,7 @@ function showArchiveCategory( $id=0, $gid, &$access, $pop, $option, $now ) {
 
 function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=NULL ) {
 	global $mainframe, $Itemid, $task, $id, $option, $database, $mosConfig_live_site;
-	global $_LANG;
+	;
 
 	// parameters
 	if ( $params->get( 'page_title', 1 ) && $menu) {
@@ -879,7 +879,7 @@ function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=N
 
 		if ( $archive ) {
 			// Search Success message
-			$msg = sprintf( $_LANG->_( 'ARCHIVE_SEARCH_SUCCESS' ), $params->get( 'month' ), $params->get( 'year' ) );
+			$msg = sprintf( JText::_( 'ARCHIVE_SEARCH_SUCCESS' ), $params->get( 'month' ), $params->get( 'year' ) );
 			echo "<br /><br /><div align='center'>". $msg ."</div><br /><br />";
 		}
 		echo '<table class="blog' . $params->get( 'pageclass_sfx' ) . '" cellpadding="0" cellspacing="0">';
@@ -1013,7 +1013,7 @@ function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=N
 
 	} else if ( $archive && !$total ) {
 		// Search Failure message for Archives
-		$msg = sprintf( $_LANG->_( 'ARCHIVE_SEARCH_FAILURE' ), $params->get( 'month' ), $params->get( 'year' ) );
+		$msg = sprintf( JText::_( 'ARCHIVE_SEARCH_FAILURE' ), $params->get( 'month' ), $params->get( 'year' ) );
 		echo '<br /><br /><div align="center">'. $msg .'</div><br />';
 	} else {
 		// Generic blog empty display
@@ -1239,7 +1239,7 @@ function show( $row, $params, $gid, &$access, $pop, $option, $ItemidCount=NULL )
 function editItem( $uid, $gid, &$access, $sectionid=0, $task, $Itemid ){
 	global $database, $my;
 	global $mosConfig_absolute_path, $mosConfig_live_site;
-	global $_LANG;
+	;
 
 	$nullDate = $database->getNullDate();
 	$row = new mosContent( $database );
@@ -1248,7 +1248,7 @@ function editItem( $uid, $gid, &$access, $sectionid=0, $task, $Itemid ){
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
-		mosErrorAlert( $_LANG->_( 'The module' ) ." [ ".$row->title." ] ". $_LANG->_( 'DESCBEINGEDITTEDBY' ) );
+		mosErrorAlert( JText::_( 'The module' ) ." [ ".$row->title." ] ". JText::_( 'DESCBEINGEDITTEDBY' ) );
 	}
 
 	if ( $uid ) {
@@ -1361,8 +1361,8 @@ function editItem( $uid, $gid, &$access, $sectionid=0, $task, $Itemid ){
 	$lists['_caption_align'] 	= mosAdminMenus::Positions( '_caption_align' );
 	// build the html select list for the group access
 	// build the select list for the image caption position
-	$pos[] = mosHTML::makeOption( 'bottom', $_LANG->_( 'Bottom' ) );
-	$pos[] = mosHTML::makeOption( 'top', $_LANG->_( 'Top' ) );
+	$pos[] = mosHTML::makeOption( 'bottom', JText::_( 'Bottom' ) );
+	$pos[] = mosHTML::makeOption( 'top', JText::_( 'Top' ) );
 	$lists['_caption_position'] = mosHTML::selectList( $pos, '_caption_position', 'class="inputbox" size="1"', 'value', 'text' );
 
 	HTML_content::editContent( $row, $section, $lists, $images, $access, $my->id, $sectionid, $task, $Itemid );
@@ -1375,7 +1375,7 @@ function editItem( $uid, $gid, &$access, $sectionid=0, $task, $Itemid ){
 function saveContent( &$access, $task ) {
 	global $database, $mainframe, $my;
 	global $mosConfig_absolute_path, $Itemid;
-	global $_LANG;
+	;
 
 	$nullDate = $database->getNullDate();
 	$row = new mosContent( $database );
@@ -1488,11 +1488,11 @@ function saveContent( &$access, $task ) {
 		$users = $database->loadResultArray();
 		foreach ($users as $user_id) {
 			$msg = new mosMessage( $database );
-			$msg->send( $my->id, $user_id, "New Item", sprintf( $_LANG->_( 'ON_NEW_CONTENT' ), $my->username, $row->title, $section, $category ) );
+			$msg->send( $my->id, $user_id, "New Item", sprintf( JText::_( 'ON_NEW_CONTENT' ), $my->username, $row->title, $section, $category ) );
 		}
 	}
 
-	$msg = $isNew ? $_LANG->_( 'THANK_SUB' ) : $_LANG->_( 'Item succesfully saved.' );
+	$msg = $isNew ? JText::_( 'THANK_SUB' ) : JText::_( 'Item succesfully saved.' );
 	switch ( $task ) {
 		case 'apply':
 			$link = $_SERVER['HTTP_REFERER'];
@@ -1584,12 +1584,12 @@ function emailContentSend( $uid ) {
 	global $database, $mainframe;
 	global $mosConfig_live_site, $mosConfig_sitename;
 	global $mosConfig_mailfrom, $mosConfig_fromname;
-	global $_LANG;
+	;
 
 	$validate = mosGetParam( $_POST, mosHash( 'validate' ), 0 );
 	if (!$validate) {
 		// probably a spoofing attack
-		echo $_LANG->_('ALERTNOTAUTH');
+		echo JText::_('ALERTNOTAUTH');
 		return;
 	}
 
@@ -1597,11 +1597,11 @@ function emailContentSend( $uid ) {
 	$email 				= mosGetParam( $_POST, 'email', '' );
 	$yourname 			= mosGetParam( $_POST, 'yourname', '' );
 	$youremail 			= mosGetParam( $_POST, 'youremail', '' );
-	$subject_default 	= $_LANG->_( 'Item sent by' ) .' '. $yourname;
+	$subject_default 	= JText::_( 'Item sent by' ) .' '. $yourname;
 	$subject = mosGetParam( $_POST, 'subject', $subject_default );
 
 	if ($uid < 1 || !$email || !$youremail || ( is_email( $email ) == false ) || (is_email( $youremail ) == false)) {
-		mosErrorAlert( $_LANG->_( 'EMAIL_ERR_NOINFO' ) );
+		mosErrorAlert( JText::_( 'EMAIL_ERR_NOINFO' ) );
 	}
 
 	$query = "SELECT template"
@@ -1616,7 +1616,7 @@ function emailContentSend( $uid ) {
 	$link = sefRelToAbs( $mosConfig_live_site .'/index.php?option=com_content&task=view&id='. $uid .'&Itemid='. $_Itemid );
 
 	// message text
-	$msg = sprintf( $_LANG->_( 'EMAIL_MSG' ), $mosConfig_sitename, $yourname, $youremail, $link );
+	$msg = sprintf( JText::_( 'EMAIL_MSG' ), $mosConfig_sitename, $yourname, $youremail, $link );
 
 	// mail function
 	mosMail( $youremail, $yourname, $email, $subject, $msg );
@@ -1635,7 +1635,7 @@ function is_email( $email ){
 
 function recordVote() {
 	global $database;
-	global $_LANG;
+	;
 
 	$user_rating = mosGetParam( $_REQUEST, 'user_rating', 0 );
 	$url = mosGetParam( $_REQUEST, 'url', '' );
@@ -1666,10 +1666,10 @@ function recordVote() {
 				$database->setQuery( $query );
 				$database->query() or die( $database->stderr() );
 			} else {
-				mosRedirect ( $url, $_LANG->_( 'You already voted for this poll today!' ) );
+				mosRedirect ( $url, JText::_( 'You already voted for this poll today!' ) );
 			}
 		}
-		mosRedirect ( $url, $_LANG->_( 'Thanks for your vote!' ) );
+		mosRedirect ( $url, JText::_( 'Thanks for your vote!' ) );
 	}
 }
 

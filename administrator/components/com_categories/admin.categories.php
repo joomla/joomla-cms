@@ -252,7 +252,7 @@ function showCategories( $section, $option ) {
 */
 function editCategory( $uid=0, $section='' ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	$type 		= mosGetParam( $_REQUEST, 'type', '' );
 	$redirect 	= mosGetParam( $_REQUEST, 'section', 'content' );
@@ -265,7 +265,7 @@ function editCategory( $uid=0, $section='' ) {
 	$database->setQuery( $query );
 	$sections = $database->loadResult();
 	if (!$sections && $type != 'other') {
-		echo "<script> alert('". $_LANG->_( 'WARNSECTION' ) ."'); window.history.go(-1); </script>\n";
+		echo "<script> alert('". JText::_( 'WARNSECTION' ) ."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
@@ -275,7 +275,7 @@ function editCategory( $uid=0, $section='' ) {
 
 	// fail if checked out not by 'me'
 	if ($row->checked_out && $row->checked_out <> $my->id) {
-		mosRedirect( 'index2.php?option=categories&section='. $row->section, $_LANG->_( 'The category' ) .' '. $row->title .' '. $_LANG->_( 'DESCBEINGEDITTED' ) );
+		mosRedirect( 'index2.php?option=categories&section='. $row->section, JText::_( 'The category' ) .' '. $row->title .' '. JText::_( 'DESCBEINGEDITTED' ) );
 	}
 
 	$lists['links']	= 0;
@@ -288,17 +288,17 @@ function editCategory( $uid=0, $section='' ) {
 		switch ( $row->section ) {
 			case 'com_weblinks':
 				$and 	= "\n AND type = 'weblink_category_table'";
-				$link 	= $_LANG->_( 'Table - Weblink Category' );
+				$link 	= JText::_( 'Table - Weblink Category' );
 				break;
 
 			case 'com_newsfeeds':
 				$and 	= "\n AND type = 'newsfeed_category_table'";
-				$link 	= $_LANG->_( 'Table - Newsfeeds Category' );
+				$link 	= JText::_( 'Table - Newsfeeds Category' );
 				break;
 
 			case 'com_contact_details':
 				$and 	= "\n AND type = 'contact_category_table'";
-				$link 	= $_LANG->_( 'Table - Contacts Category' );
+				$link 	= JText::_( 'Table - Contacts Category' );
 				break;
 		}
 
@@ -316,15 +316,15 @@ function editCategory( $uid=0, $section='' ) {
 			for( $i = 0; $i < $count; $i++ ) {
 				switch ( $menus[$i]->type ) {
 					case 'content_category':
-					$menus[$i]->type = $_LANG->_( 'Table - Content Category' );
+					$menus[$i]->type = JText::_( 'Table - Content Category' );
 					break;
 
 					case 'content_blog_category':
-					$menus[$i]->type = $_LANG->_( 'Blog - Content Category' );
+					$menus[$i]->type = JText::_( 'Blog - Content Category' );
 					break;
 
 					case 'content_archive_category':
-					$menus[$i]->type = $_LANG->_( 'Blog - Content Category Archive' );
+					$menus[$i]->type = JText::_( 'Blog - Content Category Archive' );
 					break;
 				}
 			}
@@ -375,7 +375,7 @@ function editCategory( $uid=0, $section='' ) {
 		$lists['section'] = mosHTML::selectList( $sections, 'section', 'class="inputbox" size="1"', 'value', 'text' );;
 	} else {
 		if ( $type == 'other' ) {
-			$section_name = $_LANG->_( 'N/A' );
+			$section_name = JText::_( 'N/A' );
 		} else {
 			$temp = new mosSection( $database );
 			$temp->load( $row->section );
@@ -385,19 +385,19 @@ function editCategory( $uid=0, $section='' ) {
 	}
 
 	// build the html select list for category types
-	$types[] = mosHTML::makeOption( '', $_LANG->_( 'Select Type' ) );
+	$types[] = mosHTML::makeOption( '', JText::_( 'Select Type' ) );
 	if ($row->section == 'com_contact_details') {
-		$types[] = mosHTML::makeOption( 'contact_category_table', $_LANG->_( 'Contact Category Table' ) );
+		$types[] = mosHTML::makeOption( 'contact_category_table', JText::_( 'Contact Category Table' ) );
 	} else
 	if ($row->section == 'com_newsfeeds') {
-		$types[] = mosHTML::makeOption( 'newsfeed_category_table', $_LANG->_( 'Newsfeed Category Table' ) );
+		$types[] = mosHTML::makeOption( 'newsfeed_category_table', JText::_( 'Newsfeed Category Table' ) );
 	} else
 	if ($row->section == 'com_weblinks') {
-		$types[] = mosHTML::makeOption( 'weblink_category_table', $_LANG->_( 'Weblink Category Table' ) );
+		$types[] = mosHTML::makeOption( 'weblink_category_table', JText::_( 'Weblink Category Table' ) );
 	} else {
-		$types[] = mosHTML::makeOption( 'content_category', $_LANG->_( 'Content Category Table' ) );
-		$types[] = mosHTML::makeOption( 'content_blog_category', $_LANG->_( 'Content Category Blog' ) );
-		$types[] = mosHTML::makeOption( 'content_archive_category', $_LANG->_( 'Content Category Archive Blog' ) );
+		$types[] = mosHTML::makeOption( 'content_category', JText::_( 'Content Category Table' ) );
+		$types[] = mosHTML::makeOption( 'content_blog_category', JText::_( 'Content Category Blog' ) );
+		$types[] = mosHTML::makeOption( 'content_archive_category', JText::_( 'Content Category Archive Blog' ) );
 	} // if
 	$lists['link_type'] 		= mosHTML::selectList( $types, 'link_type', 'class="inputbox" size="1"', 'value', 'text' );;
 
@@ -430,7 +430,7 @@ function editCategory( $uid=0, $section='' ) {
 */
 function saveCategory( $task ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$menu 		= mosGetParam( $_POST, 'menu', 'mainmenu' );
 	$menuid		= mosGetParam( $_POST, 'menuid', 0 );
@@ -495,13 +495,13 @@ function saveCategory( $task ) {
 			break;
 
 		case 'apply':
-			$msg = $_LANG->_( 'Changes to Category saved' ) .' '.$row->section;
+			$msg = JText::_( 'Changes to Category saved' ) .' '.$row->section;
 			mosRedirect( 'index2.php?option=com_categories&section='. $redirect .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
-			$msg = $_LANG->_( 'Category saved' );
+			$msg = JText::_( 'Category saved' );
 			mosRedirect( 'index2.php?option=com_categories&section='. $redirect, $msg );
 			break;
 	}
@@ -514,10 +514,10 @@ function saveCategory( $task ) {
 */
 function removeCategories( $section, $cid ) {
 	global $database;
-	global $_LANG;
+	;
 
 	if (count( $cid ) < 1) {
-		echo "<script> alert('". $_LANG->_( 'Select a category to delete' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select a category to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -566,7 +566,7 @@ function removeCategories( $section, $cid ) {
 
 	if (count( $err )) {
 		$cids = implode( "\', \'", $err );
-		$msg = $_LANG->_( 'Category(s)' ) .': '. $cids .' '. $_LANG->_( 'WARNNOTREMOVEDRECORDS' );
+		$msg = JText::_( 'Category(s)' ) .': '. $cids .' '. JText::_( 'WARNNOTREMOVEDRECORDS' );
 		mosRedirect( 'index2.php?option=com_categories&section='. $section .'&mosmsg='. $msg );
 	}
 
@@ -583,7 +583,7 @@ function removeCategories( $section, $cid ) {
 */
 function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	if (!is_array( $cid )) {
 		$cid = array();
@@ -594,7 +594,7 @@ function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 ) 
 
 	if (count( $cid ) < 1) {
 		$action = $publish ? 'publish' : 'unpublish';
-		echo "<script> alert('". $_LANG->_( 'Select a category to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select a category to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -655,12 +655,12 @@ function orderCategory( $uid, $inc ) {
 */
 function moveCategorySelect( $option, $cid, $sectionOld ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$redirect = mosGetParam( $_POST, 'section', 'content' );;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		echo "<script> alert('". $_LANG->_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -703,7 +703,7 @@ function moveCategorySelect( $option, $cid, $sectionOld ) {
 */
 function moveCategorySave( $cid, $sectionOld ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$sectionMove = mosGetParam( $_REQUEST, 'sectionmove', '' );
 
@@ -731,7 +731,7 @@ function moveCategorySave( $cid, $sectionOld ) {
 	$sectionNew = new mosSection ( $database );
 	$sectionNew->load( $sectionMove );
 
-	$msg = $total ." ". $_LANG->_( 'Categories moved to' ) ." ". $sectionNew->name;
+	$msg = $total ." ". JText::_( 'Categories moved to' ) ." ". $sectionNew->name;
 	mosRedirect( 'index2.php?option=com_categories&section='. $sectionOld .'&mosmsg='. $msg );
 }
 
@@ -740,12 +740,12 @@ function moveCategorySave( $cid, $sectionOld ) {
 */
 function copyCategorySelect( $option, $cid, $sectionOld ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$redirect = mosGetParam( $_POST, 'section', 'content' );;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		echo "<script> alert('". $_LANG->_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -788,7 +788,7 @@ function copyCategorySelect( $option, $cid, $sectionOld ) {
 */
 function copyCategorySave( $cid, $sectionOld ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$sectionMove 	= mosGetParam( $_REQUEST, 'sectionmove', '' );
 	$contentid 		= mosGetParam( $_REQUEST, 'item', '' );
@@ -798,8 +798,8 @@ function copyCategorySave( $cid, $sectionOld ) {
 	foreach( $cid as $id ) {
 		$category->load( $id );
 		$category->id 		= NULL;
-		$category->title 	= $_LANG->_( 'Copy of' ) .' '. $category->title;
-		$category->name 	= $_LANG->_( 'Copy of' ) .' '. $category->name;
+		$category->title 	= JText::_( 'Copy of' ) .' '. $category->title;
+		$category->name 	= JText::_( 'Copy of' ) .' '. $category->name;
 		$category->section 	= $sectionMove;
 		if (!$category->check()) {
 			echo "<script> alert('".$category->getError()."'); window.history.go(-1); </script>\n";
@@ -843,7 +843,7 @@ function copyCategorySave( $cid, $sectionOld ) {
 	$sectionNew = new mosSection ( $database );
 	$sectionNew->load( $sectionMove );
 
-	$msg = $total .' '. $_LANG->_( 'Categories copied to' ) .' '. $sectionNew->name;
+	$msg = $total .' '. JText::_( 'Categories copied to' ) .' '. $sectionNew->name;
 	mosRedirect( 'index2.php?option=com_categories&section='. $sectionOld .'&mosmsg='. $msg );
 }
 
@@ -870,7 +870,7 @@ function accessMenu( $uid, $access, $section ) {
 
 function menuLink( $id ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$category = new mosCategory( $database );
 	$category->bind( $_POST );
@@ -885,32 +885,32 @@ function menuLink( $id ) {
 	switch ( $type ) {
 		case 'content_category':
 			$link 		= 'index.php?option=com_content&task=category&sectionid='. $sectionid .'&id='. $id;
-			$menutype	= $_LANG->_( 'Content Category Table' );
+			$menutype	= JText::_( 'Content Category Table' );
 			break;
 
 		case 'content_blog_category':
 			$link 		= 'index.php?option=com_content&task=blogcategory&id='. $id;
-			$menutype	= $_LANG->_( 'Content Category Blog' );
+			$menutype	= JText::_( 'Content Category Blog' );
 			break;
 
 		case 'content_archive_category':
 			$link 		= 'index.php?option=com_content&task=archivecategory&id='. $id;
-			$menutype	= $_LANG->_( 'Content Category Blog Archive' );
+			$menutype	= JText::_( 'Content Category Blog Archive' );
 			break;
 
 		case 'contact_category_table':
 			$link 		= 'index.php?option=com_contact&catid='. $id;
-			$menutype	= $_LANG->_( 'Contact Category Table' );
+			$menutype	= JText::_( 'Contact Category Table' );
 			break;
 
 		case 'newsfeed_category_table':
 			$link 		= 'index.php?option=com_newsfeeds&catid='. $id;
-			$menutype	= $_LANG->_( 'Newsfeed Category Table' );
+			$menutype	= JText::_( 'Newsfeed Category Table' );
 			break;
 
 		case 'weblink_category_table':
 			$link 		= 'index.php?option=com_weblinks&catid='. $id;
-			$menutype	= $_LANG->_( 'Weblink Category Table' );
+			$menutype	= JText::_( 'Weblink Category Table' );
 			break;
 	}
 
@@ -938,13 +938,13 @@ function menuLink( $id ) {
 	$row->checkin();
 	$row->updateOrder( "menutype = '$menu'" );
 
-	$msg = $name .' ( '. $menutype .' ) '. $_LANG->_( 'in menu' ) .': '. $menu .' '. $_LANG->_( 'successfully created' );
+	$msg = $name .' ( '. $menutype .' ) '. JText::_( 'in menu' ) .': '. $menu .' '. JText::_( 'successfully created' );
 	mosRedirect( 'index2.php?option=com_categories&section='. $redirect .'&task=editA&hidemainmenu=1&id='. $id, $msg );
 }
 
 function saveOrder( &$cid, $section ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
@@ -978,7 +978,7 @@ function saveOrder( &$cid, $section ) {
 		$row->updateOrder( $cond[1] );
 	} // foreach
 
-	$msg 	= $_LANG->_( 'New ordering saved' );
+	$msg 	= JText::_( 'New ordering saved' );
 	mosRedirect( 'index2.php?option=com_categories&section='. $section, $msg );
 } // saveOrder
 ?>

@@ -130,17 +130,13 @@ if ($option == 'search') {
 	$option = 'com_search';
 }
 
-// loads language depending on the user settings
-$_LANG = JFactory::getLanguage( $option );
-$_LANG->debug( $mosConfig_debug );
-
 // frontend login & logout controls
 $return = mosGetParam( $_REQUEST, 'return', NULL );
 $message = mosGetParam( $_POST, 'message', 0 );
 if ($option == 'login') {
 	if (!$mainframe->login()) {
 		$mainframe->logout();
-		mosErrorAlert( $_LANG->_( 'LOGIN_INCORRECT' ) );
+		mosErrorAlert( JText::_( 'LOGIN_INCORRECT' ) );
 	}
 
 	// JS Popup message
@@ -148,7 +144,7 @@ if ($option == 'login') {
 		?>
 		<script language="javascript" type="text/javascript">
 		<!--//
-		alert( "<?php echo $_LANG->_( 'LOGIN_SUCCESS' ); ?>" );
+		alert( "<?php echo JText::_( 'LOGIN_SUCCESS' ); ?>" );
 		//-->
 		</script>
 		<?php
@@ -168,7 +164,7 @@ if ($option == 'login') {
 		?>
 		<script language="javascript" type="text/javascript">
 		<!--//
-		alert( "<?php echo $_LANG->_( 'LOGOUT_SUCCESS' ); ?>" );
+		alert( "<?php echo JText::_( 'LOGOUT_SUCCESS' ); ?>" );
 		//-->
 		</script>
 		<?php
@@ -206,7 +202,7 @@ if ($path = $mainframe->getPath( 'front' )) {
 		mosNotAuth();
 	}
 } else {
-	echo $_LANG->_( 'NOT_EXIST' );
+	echo JText::_( 'NOT_EXIST' );
 }
 $_MOS_OPTION['buffer'] = ob_get_contents();
 ob_end_clean();
@@ -229,7 +225,7 @@ if (defined( '_ADMIN_OFFLINE' )) {
 
 // loads template file
 if ( !file_exists( 'templates/'. $cur_template .'/index.php' ) ) {
-	echo $_LANG->_( 'TEMPLATE_WARN' ) . $cur_template;
+	echo JText::_( 'TEMPLATE_WARN' ) . $cur_template;
 } else {
 	require_once( 'templates/'. $cur_template .'/index.php' );
 	echo "<!-- ".time()." -->";

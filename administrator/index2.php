@@ -74,9 +74,6 @@ if ($option == 'logout') {
 	mosRedirect( $mosConfig_live_site );
 }
 
-$_LANG =& JFactory::getLanguage( $option );
-$_LANG->debug( $mosConfig_debug );
-
 $cur_template = $mainframe->getTemplate();
 
 // set for overlib check
@@ -103,7 +100,7 @@ header(' Content-Type: text/html; charset=UTF-8');
 if ($no_html == 0) {
 	// loads template file
 	if ( !file_exists( JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/index.php' ) ) {
-		echo $_LANG->_( 'TEMPLATE' ) .' '. $cur_template .' '. $_LANG->_( 'NOT FOUND' );
+		echo JText::_( 'TEMPLATE' ) .' '. $cur_template .' '. JText::_( 'NOT FOUND' );
 	} else {
 		require_once( JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/index.php' );
 	}

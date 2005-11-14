@@ -21,25 +21,22 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class TOOLBAR_statistics {
 	function _SEARCHES() {
-		global $_LANG;
 		mosMenuBar::startTable();
-		mosMenuBar::custom( 'resetStats', 'delete.png', 'delete_f2.png', $_LANG->_( 'Reset' ), false );
+		mosMenuBar::custom( 'resetStats', 'delete.png', 'delete_f2.png', JText::_( 'Reset' ), false );
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.stats.searches' );
 		mosMenuBar::endTable();
 	}
 	
 	function _PAGEIMP() {
-		global $_LANG;
 		mosMenuBar::startTable();
-		mosMenuBar::custom( 'resetStats', 'delete.png', 'delete_f2.png', $_LANG->_( 'Reset' ), false );
+		mosMenuBar::custom( 'resetStats', 'delete.png', 'delete_f2.png', JText::_( 'Reset' ), false );
 		mosMenuBar::endTable();		
 	}
 	
 	function _DEFAULT() {
-		global $_LANG;
 		mosMenuBar::startTable();
-		mosMenuBar::custom( 'resetStats', 'delete.png', 'delete_f2.png', $_LANG->_( 'Reset' ), false );
+		mosMenuBar::custom( 'resetStats', 'delete.png', 'delete_f2.png', JText::_( 'Reset' ), false );
 		mosMenuBar::endTable();			
 	}
 }

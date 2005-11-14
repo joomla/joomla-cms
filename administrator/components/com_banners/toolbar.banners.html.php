@@ -25,22 +25,21 @@ class TOOLBAR_banners {
 	*/
 	function _EDIT() {
 		global $id;
-		global $_LANG;
 		
 		if ( !$id ) {
 			$id = mosGetParam( $_REQUEST, 'cid', '' );
 		}
-		$text = ( $id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' ) );
+		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( $_LANG->_( 'Banner' ) .': '. $text, 'generic.png' );
+		mosMenuBar::title( JText::_( 'Banner' ) .': '. $text, 'generic.png' );
 		mosMenuBar::media_manager( 'banners' );
 		mosMenuBar::spacer();
 		mosMenuBar::save();
 		mosMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', $_LANG->_( 'Close' ) );
+			mosMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
 			mosMenuBar::cancel();
 		}
@@ -49,10 +48,9 @@ class TOOLBAR_banners {
 		mosMenuBar::endTable();
 	}
 	function _DEFAULT() {
-		global $_LANG;
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( $_LANG->_( 'Banner Manager' ), 'blank.png', 'index2.php?option=com_banners' );
+		mosMenuBar::title( JText::_( 'Banner Manager' ), 'blank.png', 'index2.php?option=com_banners' );
 		mosMenuBar::media_manager( 'banners' );
 		mosMenuBar::spacer();
 		mosMenuBar::publishList();
@@ -80,19 +78,19 @@ class TOOLBAR_bannerClient {
 	*/
 	function _EDIT() {
 		global $id;
-		global $_LANG;
+		;
 		if ( !$id ) {
 			$id = mosGetParam( $_REQUEST, 'cid', '' );
 		}
-		$text = ( $id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' ) );
+		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( $_LANG->_( 'Banner Client' ) .': '. $text, 'generic.png' );
+		mosMenuBar::title( JText::_( 'Banner Client' ) .': '. $text, 'generic.png' );
 		mosMenuBar::save( 'saveclient' );
 		mosMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancelclient', $_LANG->_( 'Close' ) );
+			mosMenuBar::cancel( 'cancelclient', JText::_( 'Close' ) );
 		} else {
 			mosMenuBar::cancel( 'cancelclient' );
 		}
@@ -104,10 +102,10 @@ class TOOLBAR_bannerClient {
 	* Draws the default menu
 	*/
 	function _DEFAULT() {
-		global $_LANG;
+		;
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( $_LANG->_( 'Banner Client Manager' ), 'blank.png', 'index2.php?option=com_banners&task=listclients' );
+		mosMenuBar::title( JText::_( 'Banner Client Manager' ), 'blank.png', 'index2.php?option=com_banners&task=listclients' );
 		mosMenuBar::deleteList( '', 'removeclients' );
 		mosMenuBar::spacer();
 		mosMenuBar::editListX( 'editclient' );

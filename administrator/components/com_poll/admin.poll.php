@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!$acl->acl_check( 'com_poll', 'manage', 'users', $my->usertype )) {
-	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
+	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -102,7 +102,7 @@ function showPolls( $option ) {
 
 function editPoll( $uid=0, $option='com_poll' ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	$row = new mosPoll( $database );
 	// load the row from the db table
@@ -110,7 +110,7 @@ function editPoll( $uid=0, $option='com_poll' ) {
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
-		mosRedirect( 'index2.php?option='. $option, $_LANG->_( 'The poll' ) .' '. $row->title .' '. $_LANG->_( 'DESCBEINGEDITTED' ) );
+		mosRedirect( 'index2.php?option='. $option, JText::_( 'The poll' ) .' '. $row->title .' '. JText::_( 'DESCBEINGEDITTED' ) );
 	}
 
 	$options = array();
@@ -137,7 +137,7 @@ function editPoll( $uid=0, $option='com_poll' ) {
 		$database->setQuery( $query );
 		$lookup = $database->loadObjectList();
 	} else {
-		$lookup = array( mosHTML::makeOption( 0, $_LANG->_( 'All' ) ) );
+		$lookup = array( mosHTML::makeOption( 0, JText::_( 'All' ) ) );
 	}
 
 	// build the html select list
@@ -234,13 +234,13 @@ function removePoll( $cid, $option ) {
 */
 function publishPolls( $cid=null, $publish=1, $option ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	$catid = mosGetParam( $_POST, 'catid', array(0) );
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		$action = $publish ? 'publish' : 'unpublish';
-		echo "<script> alert('". $_LANG->_( 'Select an item to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 

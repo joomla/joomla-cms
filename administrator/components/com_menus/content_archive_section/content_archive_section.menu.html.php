@@ -27,7 +27,7 @@ class content_archive_section_menu_html {
 
 	function editSection( &$menu, &$lists, &$params, $option ) {
 		global $mosConfig_live_site;
-		global $_LANG;
+		;
 		?>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<script language="javascript" type="text/javascript">
@@ -41,7 +41,7 @@ class content_archive_section_menu_html {
 			if ( !$menu->id ) {
 				?>
 				if ( getSelectedValue( 'adminForm', 'componentid' ) < 0 ) {
-					alert( "<?php echo $_LANG->_( 'You must select a Section' ); ?>" );
+					alert( "<?php echo JText::_( 'You must select a Section' ); ?>" );
 					return;
 				}
 
@@ -58,7 +58,7 @@ class content_archive_section_menu_html {
 			} else {
 				?>
 				if ( form.name.value == '' ) {
-					alert( "<?php echo $_LANG->_( 'This Menu item must have a title' ); ?>" );
+					alert( "<?php echo JText::_( 'This Menu item must have a title' ); ?>" );
 				} else {
 					submitform( pressbutton );
 				}
@@ -72,7 +72,7 @@ class content_archive_section_menu_html {
 		<table class="adminheading">
 		<tr>
 			<th>
-			<?php echo $menu->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'Add' );?> <?php echo $_LANG->_( 'Menu Item :: Blog - Content Section Archive' ); ?>
+			<?php echo $menu->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?> <?php echo JText::_( 'Menu Item :: Blog - Content Section Archive' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -83,54 +83,54 @@ class content_archive_section_menu_html {
 				<table class="adminform">
 				<tr>
 					<th colspan="3">
-					<?php echo $_LANG->_( 'Details' ); ?>
+					<?php echo JText::_( 'Details' ); ?>
 					</th>
 				</tr>
 				<tr>
-					<td width="10%" align="right" valign="top"><?php echo $_LANG->_( 'Name' ); ?>:</td>
+					<td width="10%" align="right" valign="top"><?php echo JText::_( 'Name' ); ?>:</td>
 					<td width="200px">
 					<input type="text" name="name" size="30" maxlength="100" class="inputbox" value="<?php echo $menu->name; ?>"/>
 					</td>
 					<td>
 					<?php
 					if ( !$menu->id ) {
-						echo mosToolTip( $_LANG->_( 'TIPIFLEAVEBLANKSECTIONNAMEUSED' ) );
+						echo mosToolTip( JText::_( 'TIPIFLEAVEBLANKSECTIONNAMEUSED' ) );
 					}
 					?>
 					</td>
 				</tr>
 				<tr>
-					<td valign="top" align="right"><?php echo $_LANG->_( 'Section' ); ?>:</td>
+					<td valign="top" align="right"><?php echo JText::_( 'Section' ); ?>:</td>
 					<td colspan="2">
 					<?php echo $lists['componentid']; ?>
 					</td>
 				</tr>
 				<tr>
-					<td align="right"><?php echo $_LANG->_( 'Url' ); ?>:</td>
+					<td align="right"><?php echo JText::_( 'Url' ); ?>:</td>
 					<td colspan="2">
                     <?php echo ampReplace($lists['link']); ?>
 					</td>
 				</tr>
 				<tr>
-					<td align="right"><?php echo $_LANG->_( 'Parent Item' ); ?>:</td>
+					<td align="right"><?php echo JText::_( 'Parent Item' ); ?>:</td>
 					<td colspan="2">
 					<?php echo $lists['parent']; ?>
 					</td>
 				</tr>
 				<tr>
-					<td valign="top" align="right"><?php echo $_LANG->_( 'Ordering' ); ?>:</td>
+					<td valign="top" align="right"><?php echo JText::_( 'Ordering' ); ?>:</td>
 					<td colspan="2">
 					<?php echo $lists['ordering']; ?>
 					</td>
 				</tr>
 				<tr>
-					<td valign="top" align="right"><?php echo $_LANG->_( 'Access Level' ); ?>:</td>
+					<td valign="top" align="right"><?php echo JText::_( 'Access Level' ); ?>:</td>
 					<td colspan="2">
 					<?php echo $lists['access']; ?>
 					</td>
 				</tr>
 				<tr>
-					<td valign="top" align="right"><?php echo $_LANG->_( 'Published' ); ?>:</td>
+					<td valign="top" align="right"><?php echo JText::_( 'Published' ); ?>:</td>
 					<td colspan="2">
 					<?php echo $lists['published']; ?>
 					</td>
@@ -144,7 +144,7 @@ class content_archive_section_menu_html {
 				<table class="adminform">
 				<tr>
 					<th>
-					<?php echo $_LANG->_( 'Parameters' ); ?>
+					<?php echo JText::_( 'Parameters' ); ?>
 					</th>
 				</tr>
 				<tr>

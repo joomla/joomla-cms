@@ -17,16 +17,16 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if ( !$acl->acl_check( 'com_installer', $element, 'users', $my->usertype ) ) {
-	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
+	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 $client 	= mosGetParam( $_REQUEST, 'client', '' );
 $userfile 	= mosGetParam( $_REQUEST, 'userfile', dirname( __FILE__ ) );
 $userfile 	= mosPathName( $userfile );
 
-HTML_installer::showInstallForm( $_LANG->_( 'Install new Template' ) .'<small><small>[ ' . ($client == 'admin' ? $_LANG->_( 'Administrator' ) : $_LANG->_( 'Site' ) ) .' ]</small></small>',
+HTML_installer::showInstallForm( JText::_( 'Install new Template' ) .'<small><small>[ ' . ($client == 'admin' ? JText::_( 'Administrator' ) : JText::_( 'Site' ) ) .' ]</small></small>',
 	$option, 'template', $client, $userfile,
-	'<a href="index2.php?option=com_templates&client='.$client.'">'. $_LANG->_( 'Back to Templates' ) .'</a>'
+	'<a href="index2.php?option=com_templates&client='.$client.'">'. JText::_( 'Back to Templates' ) .'</a>'
 );
 ?>
 <table class="content">

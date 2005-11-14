@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!$acl->acl_check( 'com_massmail', 'manage', 'users', $my->usertype )) {
-	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
+	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -38,10 +38,10 @@ switch ($task) {
 
 function messageForm( $option ) {
 	global $acl;
-	global $_LANG;
+	;
 
 	$gtree = array(
-	mosHTML::makeOption( 0, '- '. $_LANG->_( 'All User Groups' ) .' -' )
+	mosHTML::makeOption( 0, '- '. JText::_( 'All User Groups' ) .' -' )
 	);
 
 	// get list of groups
@@ -56,7 +56,7 @@ function sendMail() {
 	global $database, $my, $acl;
 	global $mosConfig_sitename;
 	global $mosConfig_mailfrom, $mosConfig_fromname;
-	global $_LANG;
+	;
 
 	$mode				= mosGetParam( $_POST, 'mm_mode', 0 );
 	$subject			= mosGetParam( $_POST, 'mm_subject', '' );
@@ -72,7 +72,7 @@ function sendMail() {
 	$message_body 		= stripslashes( $message_body );
 
 	if (!$message_body || !$subject || $gou === null) {
-		mosRedirect( 'index2.php?option=com_massmail&mosmsg='. $_LANG->_( 'Please fill in the form correctly' ) );
+		mosRedirect( 'index2.php?option=com_massmail&mosmsg='. JText::_( 'Please fill in the form correctly' ) );
 	}
 
 	// get users in the group out of the acl
@@ -108,7 +108,7 @@ function sendMail() {
 		}
 	}
 
-	$msg = $_LANG->_( 'E-mail sent to' ) .' '. count( $rows ) .' '. $_LANG->_( 'users' );
+	$msg = JText::_( 'E-mail sent to' ) .' '. count( $rows ) .' '. JText::_( 'users' );
 	mosRedirect( 'index2.php?option=com_massmail', $msg );
 }
 ?>

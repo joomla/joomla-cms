@@ -189,7 +189,7 @@ class mosFS {
 	 * @return mixed
 	 */
 	function copy( $src, $dest, $path = '' ) {
-		global $_LANG;
+		;
 
 		if ($path) {
 			$src = mosFS::getNativePath( $path . $src, false );
@@ -200,15 +200,15 @@ class mosFS {
 		mosFS::check( $dest );
 
    		if (!file_exists( $src )) {
-			return $_LANG->_( 'Cannot find source file' );
+			return JText::_( 'Cannot find source file' );
 		}
    		if (!is_writable( $dest )) {
    			if (!is_writable( dirname( $dest ) )) {
-				return $_LANG->_( 'Directory unwritable' );
+				return JText::_( 'Directory unwritable' );
    			}
 		}
 		if (!@copy( $src, $dest )) {
-			return $_LANG->_( 'Copy failed' );
+			return JText::_( 'Copy failed' );
 		}
 		return true;
 	}
@@ -485,7 +485,7 @@ class mosFS {
 	 * @param string The message to return
 	 */
 	function uploadFile( $srcFile, $destFile, &$msg ) {
-		global $_LANG;
+		;
 
 		$srcFile = mosFS::getNativePath( $srcFile, false );
 		$destFile = mosFS::getNativePath( $destFile, false );
@@ -499,16 +499,16 @@ class mosFS {
 					if (mosFS::CHMOD( $destFile )) {
 						return true;
 					} else {
-						$msg = $_LANG->_( 'WARNFS_ERR01' );
+						$msg = JText::_( 'WARNFS_ERR01' );
 					}
 				} else {
-					$msg = $_LANG->_( 'WARNFS_ERR02' );
+					$msg = JText::_( 'WARNFS_ERR02' );
 				}
 			} else {
-				$msg = $_LANG->_( 'WARNFS_ERR03' );
+				$msg = JText::_( 'WARNFS_ERR03' );
 			}
 		} else {
-			$msg = $_LANG->_( 'WARNFS_ERR04' );
+			$msg = JText::_( 'WARNFS_ERR04' );
 		}
 		return false;
 	}

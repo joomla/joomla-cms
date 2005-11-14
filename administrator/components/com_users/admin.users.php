@@ -16,7 +16,7 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 if (!$acl->acl_check( 'com_users', 'manage', 'users', $my->usertype )) {
-	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
+	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -83,7 +83,7 @@ switch ($task) {
 
 function showUsers( $option ) {
 	global $database, $mainframe, $my, $acl, $mosConfig_list_limit;
-	global $_LANG;
+	;
 
 	$filter_type	= $mainframe->getUserStateFromRequest( "filter_type{$option}", 'filter_type', 0 );
 	$filter_logged	= $mainframe->getUserStateFromRequest( "filter_logged{$option}", 'filter_logged', 0 );
@@ -171,14 +171,14 @@ function showUsers( $option ) {
 	. "\n WHERE name != 'ROOT'"
 	. "\n AND name != 'USERS'"
 	;
-	$types[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Group' ) .' -' );
+	$types[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Group' ) .' -' );
 	$database->setQuery( $query );
 	$types = array_merge( $types, $database->loadObjectList() );
 	$lists['type'] = mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_type" );
 
 	// get list of Log Status for dropdown filter
-	$logged[] = mosHTML::makeOption( 0, '- '. $_LANG->_( 'Select Log Status' ) .' -');
-	$logged[] = mosHTML::makeOption( 1, $_LANG->_( 'Logged In' ) );
+	$logged[] = mosHTML::makeOption( 0, '- '. JText::_( 'Select Log Status' ) .' -');
+	$logged[] = mosHTML::makeOption( 1, JText::_( 'Logged In' ) );
 	$lists['logged'] = mosHTML::selectList( $logged, 'filter_logged', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_logged" );
 
 	HTML_users::showUsers( $rows, $pageNav, $search, $option, $lists );
@@ -191,7 +191,7 @@ function showUsers( $option ) {
  */
 function editUser( $uid='0', $option='users' ) {
 	global $database, $my, $acl, $mainframe;
-	global $_LANG;
+	;
 
 	$row = new mosUser( $database );
 	// load the row from the db table
@@ -226,16 +226,16 @@ function editUser( $uid='0', $option='users' ) {
 	
 	if ( in_array( $userGroups[0], $excludeGroups ) ) {
 		echo 'not auth';
-		mosRedirect( 'index2.php?option=com_users', $_LANG->_('NOT_AUTH') );
+		mosRedirect( 'index2.php?option=com_users', JText::_('NOT_AUTH') );
 	}
 
 	//if ( $userGroupName == 'super administrator' ) {
 		// super administrators can't change
-	// 	$lists['gid'] = '<input type="hidden" name="gid" value="'. $my->gid .'" /><strong>'. $_LANG->_( 'Super Administrator' ) .'</strong>';
+	// 	$lists['gid'] = '<input type="hidden" name="gid" value="'. $my->gid .'" /><strong>'. JText::_( 'Super Administrator' ) .'</strong>';
 	//} else if ( $userGroupName == $myGroupName && $myGroupName == 'administrator' ) {
 	if ( $userGroupName == $myGroupName && $myGroupName == 'administrator' ) {
 		// administrators can't change each other
-		$lists['gid'] = '<input type="hidden" name="gid" value="'. $my->gid .'" /><strong>'. $_LANG->_( 'Administrator' ) .'</strong>';
+		$lists['gid'] = '<input type="hidden" name="gid" value="'. $my->gid .'" /><strong>'. JText::_( 'Administrator' ) .'</strong>';
 	} else {
 		$gtree = $acl->get_group_children_tree( null, 'USERS', false );
 
@@ -266,7 +266,7 @@ function editUser( $uid='0', $option='users' ) {
 function saveUser( $option, $task ) {
 	global $database, $my;
 	global $mosConfig_live_site, $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_sitename;
-	global $_LANG, $_MAMBOTS;;
+	global $_MAMBOTS;
 
 	$row = new mosUser( $database );
 	if (!$row->bind( $_POST )) {
@@ -391,13 +391,13 @@ function saveUser( $option, $task ) {
 
 	switch ( $task ) {
 		case 'apply':
-			$msg = $_LANG->_( 'Successfully Saved changes to User' ) .': '. $row->name;
+			$msg = JText::_( 'Successfully Saved changes to User' ) .': '. $row->name;
 			mosRedirect( 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
-			$msg = $_LANG->_( 'Successfully Saved User' ) .': '. $row->name;
+			$msg = JText::_( 'Successfully Saved User' ) .': '. $row->name;
 			mosRedirect( 'index2.php?option=com_users', $msg );
 			break;
 	}
@@ -413,10 +413,10 @@ function cancelUser( $option ) {
 
 function removeUsers( $cid, $option ) {
 	global $database, $acl, $my;
-	global $_LANG, $_MAMBOTS;
+	global $_MAMBOTS;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		echo "<script> alert('". $_LANG->_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -436,11 +436,11 @@ function removeUsers( $cid, $option ) {
 
 			$success = false;
 			if ( $this_group == 'super administrator' ) {
-				$msg = $_LANG->_( 'You cannot delete a Super Administrator' );
+				$msg = JText::_( 'You cannot delete a Super Administrator' );
  			} else if ( $id == $my->id ){
- 				$msg = $_LANG->_( 'You cannot delete Yourself!' );
+ 				$msg = JText::_( 'You cannot delete Yourself!' );
  			} else if ( ( $this_group == 'administrator' ) && ( $my->gid == 24 ) ){
- 				$msg = $_LANG->_( 'WARNDELETE' );
+ 				$msg = JText::_( 'WARNDELETE' );
 			} else {
 				$obj->delete( $id );
 				$msg = $obj->getError();
@@ -463,11 +463,11 @@ function removeUsers( $cid, $option ) {
 */
 function changeUserBlock( $cid=null, $block=1, $option ) {
 	global $database;
-	global $_LANG;
+	;
 
 	if (count( $cid ) < 1) {
 		$action = $block ? 'block' : 'unblock';
-		echo "<script> alert('". $_LANG->_( 'Select an item to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -492,12 +492,12 @@ function changeUserBlock( $cid=null, $block=1, $option ) {
 */
 function logoutUser( $cid=null, $option, $task ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	$cids = $cid;
 	if ( is_array( $cid ) ) {
 		if ( count( $cid ) < 1 ) {
-			mosRedirect( 'index2.php?option=com_users', $_LANG->_( 'Please select a user' ) );
+			mosRedirect( 'index2.php?option=com_users', JText::_( 'Please select a user' ) );
 		}
 		$cids = implode( ',', $cid );
 	}
@@ -508,7 +508,7 @@ function logoutUser( $cid=null, $option, $task ) {
 	$database->setQuery( $query );
 	$database->query();
 
-	$msg = $_LANG->_( 'User Sesssion ended' );
+	$msg = JText::_( 'User Sesssion ended' );
 	switch ( $task ) {
 		case 'flogout':			
 			mosRedirect( 'index2.php', $msg );

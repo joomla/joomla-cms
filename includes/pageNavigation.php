@@ -60,7 +60,7 @@ class mosPageNav {
 	* Writes the html for the pages counter, eg, Results 1-10 of x
 	*/
 	function writePagesCounter() {
-		global $_LANG;
+		;
 
 		$txt = '';
 		$from_result = $this->limitstart+1;
@@ -70,7 +70,7 @@ class mosPageNav {
 			$to_result = $this->total;
 		}
 		if ($this->total > 0) {
-			$txt .= $_LANG->_( 'Results' ) ." ". $from_result ." - ". $to_result ." ". $_LANG->_( 'of' ) ." ". $this->total;
+			$txt .= JText::_( 'Results' ) ." ". $from_result ." - ". $to_result ." ". JText::_( 'of' ) ." ". $this->total;
 		}
 		return $txt;
 	}
@@ -79,12 +79,12 @@ class mosPageNav {
 	* Writes the html for the leafs counter, eg, Page 1 of x
 	*/
 	function writeLeafsCounter() {
-		global $_LANG;
+		;
 
 		$txt = '';
 		$page = $this->limitstart+1;
 		if ($this->total > 0) {
-			$txt .= $_LANG->_( 'Page' ) ." ". $page ." ". $_LANG->_( 'of' ) ." ". $this->total;
+			$txt .= JText::_( 'Page' ) ." ". $page ." ". JText::_( 'of' ) ." ". $this->total;
 		}
 		return $txt;
 	}
@@ -94,7 +94,7 @@ class mosPageNav {
 	* @param string The basic link to include in the href
 	*/
 	function writePagesLinks( $link ) {
-		global $_LANG;
+		;
 
 		$txt = '';
 
@@ -111,15 +111,15 @@ class mosPageNav {
 		$link .= '&amp;limit='. $this->limit;
 
         $pnSpace = "";
-        if ($_LANG->_( '&lt' ) || $_LANG->_( '&gt' )) $pnSpace = " ";
+        if (JText::_( '&lt' ) || JText::_( '&gt' )) $pnSpace = " ";
 
 		if ($this_page > 1) {
 			$page = ($this_page - 2) * $this->limit;
-			$txt .= '<a href="'. sefRelToAbs( "$link&amp;limitstart=0" ) .'" class="pagenav" title="first page">'. $_LANG->_( '&lt' ) . $_LANG->_( '&lt' ) . $pnSpace . $_LANG->_( 'Start' ) .'</a> ';
-			$txt .= '<a href="'. sefRelToAbs( "$link&amp;limitstart=$page" ) .'" class="pagenav" title="previous page">'. $_LANG->_( '&lt' ) . $pnSpace . $_LANG->_( 'Prev' ) .'</a> ';
+			$txt .= '<a href="'. sefRelToAbs( "$link&amp;limitstart=0" ) .'" class="pagenav" title="first page">'. JText::_( '&lt' ) . JText::_( '&lt' ) . $pnSpace . JText::_( 'Start' ) .'</a> ';
+			$txt .= '<a href="'. sefRelToAbs( "$link&amp;limitstart=$page" ) .'" class="pagenav" title="previous page">'. JText::_( '&lt' ) . $pnSpace . JText::_( 'Prev' ) .'</a> ';
 		} else {
-			$txt .= '<span class="pagenav">'. $_LANG->_( '&lt' ) . $_LANG->_( '&lt' ) . $pnSpace . $_LANG->_( 'Start' ) .'</span> ';
-			$txt .= '<span class="pagenav">'. $_LANG->_( '&lt' ) . $pnSpace . $_LANG->_( 'Prev' ) .'</span> ';
+			$txt .= '<span class="pagenav">'. JText::_( '&lt' ) . JText::_( '&lt' ) . $pnSpace . JText::_( 'Start' ) .'</span> ';
+			$txt .= '<span class="pagenav">'. JText::_( '&lt' ) . $pnSpace . JText::_( 'Prev' ) .'</span> ';
 		}
 
 		for ($i=$start_loop; $i <= $stop_loop; $i++) {
@@ -134,11 +134,11 @@ class mosPageNav {
 		if ($this_page < $total_pages) {
 			$page = $this_page * $this->limit;
 			$end_page = ($total_pages-1) * $this->limit;
-			$txt .= '<a href="'. sefRelToAbs( $link .'&amp;limitstart='. $page ) .' " class="pagenav" title="next page">'. $_LANG->_( 'Next' ) . $pnSpace . $_LANG->_( '&gt' ) .'</a> ';
-			$txt .= '<a href="'. sefRelToAbs( $link .'&amp;limitstart='. $end_page ) .' " class="pagenav" title="end page">'. $_LANG->_( 'End' ) . $pnSpace . $_LANG->_( '&gt' ) . $_LANG->_( '&gt' ) .'</a>';
+			$txt .= '<a href="'. sefRelToAbs( $link .'&amp;limitstart='. $page ) .' " class="pagenav" title="next page">'. JText::_( 'Next' ) . $pnSpace . JText::_( '&gt' ) .'</a> ';
+			$txt .= '<a href="'. sefRelToAbs( $link .'&amp;limitstart='. $end_page ) .' " class="pagenav" title="end page">'. JText::_( 'End' ) . $pnSpace . JText::_( '&gt' ) . JText::_( '&gt' ) .'</a>';
 		} else {
-			$txt .= '<span class="pagenav">'. $_LANG->_( 'Next' ) . $pnSpace . $_LANG->_( '&gt' ) .'</span> ';
-			$txt .= '<span class="pagenav">'. $_LANG->_( 'End' ) . $pnSpace . $_LANG->_( '&gt' ) . $_LANG->_( '&gt' ) .'</span>';
+			$txt .= '<span class="pagenav">'. JText::_( 'Next' ) . $pnSpace . JText::_( '&gt' ) .'</span> ';
+			$txt .= '<span class="pagenav">'. JText::_( 'End' ) . $pnSpace . JText::_( '&gt' ) . JText::_( '&gt' ) .'</span>';
 		}
 		return $txt;
 	}

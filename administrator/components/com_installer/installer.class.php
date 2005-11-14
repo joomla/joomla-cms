@@ -74,7 +74,7 @@ class mosInstaller {
 	*/
 	function extractArchive() {
 		global $mosConfig_absolute_path;
-		global $_LANG;
+		;
 
 		$base_Dir 		= mosPathName( $mosConfig_absolute_path . '/media' );
 
@@ -101,7 +101,7 @@ class mosInstaller {
 
 			$ret = $zipfile->extract( PCLZIP_OPT_PATH, $extractdir );
 			if($ret == 0) {
-				$this->setError( 1, $_LANG->_( 'Unrecoverable error' ) .' "'.$zipfile->errorName(true).'"' );
+				$this->setError( 1, JText::_( 'Unrecoverable error' ) .' "'.$zipfile->errorName(true).'"' );
 				return false;
 			}
 		} else {
@@ -110,7 +110,7 @@ class mosInstaller {
 			$archive->setErrorHandling( PEAR_ERROR_PRINT );
 
 			if (!$archive->extractModify( $extractdir, '' )) {
-				$this->setError( 1, $_LANG->_( 'Extract Error' ) );
+				$this->setError( 1, JText::_( 'Extract Error' ) );
 				return false;
 			}
 		}
@@ -133,7 +133,7 @@ class mosInstaller {
 	* @return boolean True on success, False on error
 	*/
 	function findInstallFile() {
-		global $_LANG;
+		;
 
 		$found = false;
 		// Search the install dir for an xml file
@@ -147,10 +147,10 @@ class mosInstaller {
 					return true;
 				}
 			}
-			$this->setError( 1, $_LANG->_( 'ERRORJOSXMLSETUP' ) );
+			$this->setError( 1, JText::_( 'ERRORJOSXMLSETUP' ) );
 			return false;
 		} else {
-			$this->setError( 1, $_LANG->_( 'ERRORXMLSETUP' ) );
+			$this->setError( 1, JText::_( 'ERRORXMLSETUP' ) );
 			return false;
 		}
 	}
@@ -180,10 +180,10 @@ class mosInstaller {
 	* @return boolean True on success, False on error
 	*/
 	function readInstallFile() {
-		global $_LANG;
+		;
 
 		if ($this->installFilename() == "") {
-			$this->setError( 1, $_LANG->_( 'No filename specified' ) );
+			$this->setError( 1, JText::_( 'No filename specified' ) );
 			return false;
 		}
 
@@ -196,7 +196,7 @@ class mosInstaller {
 
 		// Check that it's am installation file
 		if ($root->getTagName() != 'mosinstall') {
-			$this->setError( 1, $_LANG->_( 'File' ) .': "' . $this->installFilename() . '" '. $_LANG->_( 'is not a valid Joomla! installation file' ) );
+			$this->setError( 1, JText::_( 'File' ) .': "' . $this->installFilename() . '" '. JText::_( 'is not a valid Joomla! installation file' ) );
 			return false;
 		}
 
@@ -207,15 +207,15 @@ class mosInstaller {
 	* Abstract install method
 	*/
 	function install() {
-		global $_LANG;
-		die( $_LANG->_( 'Method "install" cannot be called by class' ) .' ' . strtolower(get_class( $this )) );
+		;
+		die( JText::_( 'Method "install" cannot be called by class' ) .' ' . strtolower(get_class( $this )) );
 	}
 	/**
 	* Abstract uninstall method
 	*/
 	function uninstall() {
-		global $_LANG;
-		die( $_LANG->_( 'Method "uninstall" cannot be called by class' ) .' ' . strtolower(get_class( $this )) );
+		;
+		die( JText::_( 'Method "uninstall" cannot be called by class' ) .' ' . strtolower(get_class( $this )) );
 	}
 	/**
 	* return to method
@@ -229,7 +229,7 @@ class mosInstaller {
 	* @return boolean
 	*/
 	function preInstallCheck( $p_fromdir, $type ) {
-		global $_LANG;
+		;
 
 		if (!is_null($p_fromdir)) {
 			$this->installDir($p_fromdir);
@@ -240,12 +240,12 @@ class mosInstaller {
 		}
 
 		if (!$this->readInstallFile()) {
-			$this->setError( 1, $_LANG->_( 'Installation file not found' ) .':<br />' . $this->installDir() );
+			$this->setError( 1, JText::_( 'Installation file not found' ) .':<br />' . $this->installDir() );
 			return false;
 		}
 
 		if ($this->installType() != $type) {
-			$this->setError( 1, $_LANG->_( 'XML setup file is not for a' ) .' "'.$type.'".' );
+			$this->setError( 1, JText::_( 'XML setup file is not for a' ) .' "'.$type.'".' );
 			return false;
 		}
 
@@ -265,7 +265,7 @@ class mosInstaller {
 	*/
 	function parseFiles( $tagName='files', $special='', $specialError='', $adminFiles=0 ) {
 		global $mosConfig_absolute_path;
-		global $_LANG;
+		;
 
 		// Find files to copy
 		$xmlDoc =& $this->xmlDoc();
@@ -305,12 +305,12 @@ class mosInstaller {
 
 				if ($adminFiles){
 					if (!mosMakePath( $this->componentAdminDir(), $newdir )) {
-						$this->setError( 1, $_LANG->_( 'Failed to create directory' ) .' "'. ($this->componentAdminDir()) . $newdir .'"' );
+						$this->setError( 1, JText::_( 'Failed to create directory' ) .' "'. ($this->componentAdminDir()) . $newdir .'"' );
 						return false;
 					}
 				} else {
 					if (!mosMakePath( $this->elementDir(), $newdir )) {
-						$this->setError( 1, $_LANG->_( 'Failed to create directory' ) .' "'. ($this->elementDir()) . $newdir .'"' );
+						$this->setError( 1, JText::_( 'Failed to create directory' ) .' "'. ($this->elementDir()) . $newdir .'"' );
 						return false;
 					}
 				}
@@ -350,7 +350,7 @@ class mosInstaller {
 	* @return boolean True on success, False on error
 	*/
 	function copyFiles( $p_sourcedir, $p_destdir, $p_files, $overwrite=false ) {
-		global $_LANG;
+		;
 
 		if (is_array( $p_files ) && count( $p_files ) > 0) {
 			foreach($p_files as $_file) {
@@ -358,14 +358,14 @@ class mosInstaller {
 				$filedest	= mosPathName( mosPathName( $p_destdir ) . $_file, false );
 
 				if (!file_exists( $filesource )) {
-					$this->setError( 1, $_LANG->_( 'File' ) .' '. $filesource .' '. $_LANG->_( 'does not exist!' ) );
+					$this->setError( 1, JText::_( 'File' ) .' '. $filesource .' '. JText::_( 'does not exist!' ) );
 					return false;
 				} else if (file_exists( $filedest ) && !$overwrite) {
-					$this->setError( 1, $_LANG->_( 'There is already a file called' ) .' '. $filedest .' '. $_LANG->_( 'WARNSAME' ) );
+					$this->setError( 1, JText::_( 'There is already a file called' ) .' '. $filedest .' '. JText::_( 'WARNSAME' ) );
 					return false;
 				} else {
 					if( !( copy($filesource,$filedest) && mosChmod($filedest) ) ) {
-						$this->setError( 1, $_LANG->_( 'Failed to copy file' ) .': '. $filesource .' '. $_LANG->_( 'to' ) .' '. $filedest );
+						$this->setError( 1, JText::_( 'Failed to copy file' ) .': '. $filesource .' '. JText::_( 'to' ) .' '. $filedest );
 						return false;
 					}
 				}

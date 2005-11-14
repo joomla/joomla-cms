@@ -17,6 +17,16 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 jimport('joomla.classes.object');
 
+class JText
+{
+	function _($string, $jsSafe=false) {
+		global $mainframe, $option;
+		
+		$lang =& $mainframe->getLanguage($option);
+		return $lang->_($string, $jsSafe);
+	}
+}
+
 /**
 * Languages/translation handler class
 * @package Joomla
@@ -58,6 +68,33 @@ class JLanguage extends JObject {
 		}
 		$this->_defaultLang = 'english';
 		$this->_userLang = $userLang;
+	}
+	
+	/**      
+	 * Returns a reference to the global Language object, only creating it      
+	 * if it doesn't already exist.   
+	 *   
+	 * This method must be invoked as:
+	 * 		<pre>  $browser = &JLanguage::getInstance([$userLang);</pre>      
+	 *      
+	 * @param string $userLang  The language to use.      
+	 * @return JLanguage  The Language object.      
+	 */
+	function &getInstance($userLang) 
+	{
+		static $instances; 
+		        
+		if (!isset($instances)) {             
+			$instances = array();         
+		}         
+		
+		$signature = serialize(array($userLang));         
+		
+		if (empty($instances[$signature])) {             
+			$instances[$signature] = new JLanguage($userLang);         
+		}         
+		
+		return $instances[$signature];
 	}
 
 	/**
@@ -383,7 +420,7 @@ class JLanguageHelper {
 	 * @param array	An array of arrays ( text, value, selected )
 	 */
 	function buildLanguageList( $client=2, $actualLanguage ) {
-		global $_LANG, $mainframe;
+		global $mainframe;
 
 		$list = array();
 
@@ -398,7 +435,7 @@ class JLanguageHelper {
 		foreach ($langs as $lang=>$name) {
 			$option = array();
 
-			$option['text'] = $_LANG->_( $name );
+			$option['text'] = JText::_( $name );
 			$option['value'] = $lang;
 			if( $lang == $actualLanguage ) {
 				$option['selected'] = 'selected="true"';

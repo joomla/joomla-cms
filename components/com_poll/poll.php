@@ -41,14 +41,14 @@ switch ($task) {
 
 function pollAddVote( $uid ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$redirect = 1;
 
 	$poll = new mosPoll( $database );
 	if (!$poll->load( $uid )) {
-		echo '<h3>'. $_LANG->_('ALERTNOTAUTH') .'</h3>';
-		echo '<input class="button" type="button" value="'. $_LANG->_( 'Continue' ) .'" onClick="window.history.go(-1);">';
+		echo '<h3>'. JText::_('ALERTNOTAUTH') .'</h3>';
+		echo '<input class="button" type="button" value="'. JText::_( 'Continue' ) .'" onClick="window.history.go(-1);">';
 		return;
 	}
 
@@ -56,15 +56,15 @@ function pollAddVote( $uid ) {
 	$voted = mosGetParam( $_COOKIE, $cookiename, '0' );
 
 	if ($voted) {
-		echo "<h3>". $_LANG->_( 'You already voted for this poll today!' ) ."</h3>";
-		echo "<input class=\"button\" type=\"button\" value=\"". $_LANG->_( 'Continue' )."\" onClick=\"window.history.go(-1);\">";
+		echo "<h3>". JText::_( 'You already voted for this poll today!' ) ."</h3>";
+		echo "<input class=\"button\" type=\"button\" value=\"". JText::_( 'Continue' )."\" onClick=\"window.history.go(-1);\">";
 		return;
 	}
 
 	$voteid = mosGetParam( $_POST, 'voteid', 0 );
 	if (!$voteid) {
-		echo "<h3>". $_LANG->_( 'WARNSELECT' ) ."</h3>";
-		echo '<input class="button" type="button" value="'. $_LANG->_( 'Continue' ) .'" onClick="window.history.go(-1);">';
+		echo "<h3>". JText::_( 'WARNSELECT' ) ."</h3>";
+		echo '<input class="button" type="button" value="'. JText::_( 'Continue' ) .'" onClick="window.history.go(-1);">';
 		return;
 	}
 
@@ -94,11 +94,11 @@ function pollAddVote( $uid ) {
 	$database->query();
 
 	if ( $redirect ) {
-		mosRedirect( sefRelToAbs( 'index.php?option=com_poll&task=results&id='. $uid ), $_LANG->_( 'Thanks for your vote!' ) );
+		mosRedirect( sefRelToAbs( 'index.php?option=com_poll&task=results&id='. $uid ), JText::_( 'Thanks for your vote!' ) );
 	} else {
-		echo '<h3>'. $_LANG->_( 'Thanks for your vote!' ) .'</h3>';
+		echo '<h3>'. JText::_( 'Thanks for your vote!' ) .'</h3>';
 		echo '<form action="" method="GET">';
-		echo '<input class="button" type="button" value="'. $_LANG->_( 'Results' ) .'" onClick="window.location=\''. sefRelToAbs( 'index.php?option=com_poll&task=results&id='. $uid ) .'\'">';
+		echo '<input class="button" type="button" value="'. JText::_( 'Results' ) .'" onClick="window.location=\''. sefRelToAbs( 'index.php?option=com_poll&task=results&id='. $uid ) .'\'">';
 		echo '</form>';
 	}
 }
@@ -106,14 +106,14 @@ function pollAddVote( $uid ) {
 function pollresult( $uid ) {
 	global $database, $Itemid;
 	global $mainframe;
-	global $_LANG;
+	;
 
 	$poll = new mosPoll( $database );
 	$poll->load( $uid );
 
 	if (empty($poll->title)) {
 		$poll->id = '';
-		$poll->title = $_LANG->_( 'Select Poll from the list' );
+		$poll->title = JText::_( 'Select Poll from the list' );
 	}
 
 	$first_vote = '';
@@ -129,8 +129,8 @@ function pollresult( $uid ) {
 		$dates = $database->loadObjectList();
 
 		if (isset($dates[0]->mindate)) {
-			$first_vote = mosFormatDate( $dates[0]->mindate, $_LANG->_( 'DATE_FORMAT_LC2' ) );
-			$last_vote = mosFormatDate( $dates[0]->maxdate, $_LANG->_( 'DATE_FORMAT_LC2' ) );
+			$first_vote = mosFormatDate( $dates[0]->mindate, JText::_( 'DATE_FORMAT_LC2' ) );
+			$last_vote = mosFormatDate( $dates[0]->maxdate, JText::_( 'DATE_FORMAT_LC2' ) );
 		}
 		
 		$query = "SELECT a.id, a.text, count( DISTINCT b.id ) AS hits, count( DISTINCT b.id )/COUNT( DISTINCT a.id )*100.0 AS percent"
@@ -157,7 +157,7 @@ function pollresult( $uid ) {
 	reset( $polls );
 	$link = sefRelToAbs( 'index.php?option=com_poll&amp;task=results&amp;id=\' + this.options[selectedIndex].value + \'&amp;Itemid='. $Itemid .'\' + \'' );
 	$pollist = '<select name="id" class="inputbox" size="1" style="width:200px" onchange="if (this.options[selectedIndex].value != \'\') {document.location.href=\''. $link .'\'}">';
-	$pollist .= '<option value="">'. $_LANG->_( 'Select Poll from the list' ) .'</option>';
+	$pollist .= '<option value="">'. JText::_( 'Select Poll from the list' ) .'</option>';
 	for ($i=0, $n=count( $polls ); $i < $n; $i++ ) {
 		$k = $polls[$i]->id;
 		$t = $polls[$i]->title;

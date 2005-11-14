@@ -21,7 +21,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class HTML_massmail {
 	function messageForm( &$lists, $option ) {
-		global $_LANG;
+		;
 		?>
 		<script language="javascript" type="text/javascript">
 			function submitbutton(pressbutton) {
@@ -32,11 +32,11 @@ class HTML_massmail {
 				}
 				// do field validation
 				if (form.mm_subject.value == ""){
-					alert( "<?php echo $_LANG->_( 'Please fill in the subject' ); ?>" );
+					alert( "<?php echo JText::_( 'Please fill in the subject' ); ?>" );
 				} else if (getSelectedValue('adminForm','mm_group') < 0){
-					alert( "<?php echo $_LANG->_( 'Please select a group' ); ?>" );
+					alert( "<?php echo JText::_( 'Please select a group' ); ?>" );
 				} else if (form.mm_message.value == ""){
-					alert( "<?php echo $_LANG->_( 'Please fillin the message' ); ?>" );
+					alert( "<?php echo JText::_( 'Please fillin the message' ); ?>" );
 				} else {
 					submitform( pressbutton );
 				}
@@ -47,7 +47,7 @@ class HTML_massmail {
 		<table class="adminheading">
 		<tr>
 			<th class="massemail">
-			<?php echo $_LANG->_( 'Mass Mail' ); ?>
+			<?php echo JText::_( 'Mass Mail' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -55,12 +55,12 @@ class HTML_massmail {
 		<table class="adminform">
 		<tr>
 			<th colspan="2">
-			<?php echo $_LANG->_( 'Details' ); ?>
+			<?php echo JText::_( 'Details' ); ?>
 			</th>
 		</tr>
 		<tr>
 			<td width="150" valign="top">
-			<?php echo $_LANG->_( 'Group' ); ?>:
+			<?php echo JText::_( 'Group' ); ?>:
 			</td>
 			<td width="85%">
 			<?php echo $lists['gid']; ?>
@@ -68,7 +68,7 @@ class HTML_massmail {
 		</tr>
 		<tr>
 			<td>
-			<?php echo $_LANG->_( 'Mail to Child Groups' ); ?>:
+			<?php echo JText::_( 'Mail to Child Groups' ); ?>:
 			</td>
 			<td>
 			<input type="checkbox" name="mm_recurse" value="RECURSE" />
@@ -76,7 +76,7 @@ class HTML_massmail {
 		</tr>
 		<tr>
 			<td>
-			<?php echo $_LANG->_( 'Send in HTML mode' ); ?>:
+			<?php echo JText::_( 'Send in HTML mode' ); ?>:
 			</td>
 			<td>
 			<input type="checkbox" name="mm_mode" value="1" />
@@ -84,7 +84,7 @@ class HTML_massmail {
 		</tr>
 		<tr>
 			<td>
-			<?php echo $_LANG->_( 'Subject' ); ?>:
+			<?php echo JText::_( 'Subject' ); ?>:
 			</td>
 			<td>
 			<input class="inputbox" type="text" name="mm_subject" value="" size="50"/>
@@ -92,7 +92,7 @@ class HTML_massmail {
 		</tr>
 		<tr>
 			<td valign="top">
-			<?php echo $_LANG->_( 'Message' ); ?>:
+			<?php echo JText::_( 'Message' ); ?>:
 			</td>
 			<td>
 			<textarea cols="80" rows="25" name="mm_message" class="inputbox"></textarea>

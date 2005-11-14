@@ -52,7 +52,7 @@ class poll_html {
 				<table class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 				<tr>
 					<td >
-					<?php echo $_LANG->_('Select Poll'); ?>&nbsp;
+					<?php echo JText::_('Select Poll'); ?>&nbsp;
 					</td>
 					<td >
 					<?php echo $pollist; ?>
@@ -84,7 +84,7 @@ class poll_html {
 					?>
 					<tr>
 						<td valign="bottom">
-						<?php echo $_LANG->_( 'There are no results for this poll.' ); ?>
+						<?php echo JText::_( 'There are no results for this poll.' ); ?>
 						</td>
 					</tr>
 					<?php
@@ -105,7 +105,7 @@ class poll_html {
 
 	function graphit( $data_arr, $graphtitle, $first_vote, $last_vote ) {
 		global $mosConfig_live_site, $polls_maxcolors, $tabclass;
-    	global $_LANG;
+    	;
     
 		global $polls_barheight, $polls_graphwidth, $polls_barcolor;
 
@@ -196,7 +196,7 @@ class poll_html {
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
 			<td class='smalldark'>
-			<?php echo $_LANG->_( 'Number of Voters' ); ?>
+			<?php echo JText::_( 'Number of Voters' ); ?>
 			</td>
 			<td class='smalldark'>
 			&nbsp;:&nbsp;
@@ -205,7 +205,7 @@ class poll_html {
 		</tr>
 		<tr>
 			<td class='smalldark'>
-			<?php echo $_LANG->_( 'First Vote' ); ?>
+			<?php echo JText::_( 'First Vote' ); ?>
 			</td>
 			<td class='smalldark'>
 			&nbsp;:&nbsp;
@@ -214,7 +214,7 @@ class poll_html {
 		</tr>
 		<tr>
 			<td class='smalldark'>
-			<?php echo $_LANG->_( 'Last Vote' ); ?>
+			<?php echo JText::_( 'Last Vote' ); ?>
 			</td>
 			<td class='smalldark'>
 			&nbsp;:&nbsp;

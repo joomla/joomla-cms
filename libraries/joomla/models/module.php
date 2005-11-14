@@ -57,11 +57,11 @@ class mosModule extends mosDBTable {
 	}
 	// overloaded check function
 	function check() {
-		global $_LANG;
+		;
 
 		// check for valid name
 		if (trim( $this->title ) == '') {
-			$this->_error = $_LANG->_( 'Your' ) ." ". $_LANG->_( 'Module' ) ." ". $_LANG->_( 'must contain a title.' );
+			$this->_error = JText::_( 'Your' ) ." ". JText::_( 'Module' ) ." ". JText::_( 'must contain a title.' );
 			return false;
 		}
 

@@ -201,9 +201,9 @@ class mosConfig {
 	 *	@return null|string	null is operation was satisfactory, otherwise returns an error
 	 */
 	function bind( $array, $ignore='' ) {
-		global $_LANG;
+		;
 		if (!is_array( $array )) {
-			$this->_error = strtolower(get_class( $this )).'::'. $_LANG->_( 'bind failed.' );
+			$this->_error = strtolower(get_class( $this )).'::'. JText::_( 'bind failed.' );
 			return false;
 		} else {
 			return mosBindArrayToObject( $array, $this, $ignore );

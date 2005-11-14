@@ -21,11 +21,10 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class TOOLBAR_templates {
 	function _DEFAULT($client) {
-		global $_LANG;
 
 		mosMenuBar::startTable();
 		if ($client=="admin") {
-			mosMenuBar::custom('publish', 'publish.png', 'publish_f2.png', $_LANG->_( 'Default' ), true);
+			mosMenuBar::custom('publish', 'publish.png', 'publish_f2.png', JText::_( 'Default' ), true);
 			mosMenuBar::spacer();
 		} else {
 			mosMenuBar::makeDefault();
@@ -59,9 +58,8 @@ class TOOLBAR_templates {
 	}
 
 	function _CHOOSE_CSS(){
-		global $_LANG;
 		mosMenuBar::startTable();
-		mosMenuBar::custom( 'edit_css', 'next.png', 'next_f2.png', $_LANG->_( 'Next' ), true );
+		mosMenuBar::custom( 'edit_css', 'next.png', 'next_f2.png', JText::_( 'Next' ), true );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::endTable();
@@ -76,9 +74,8 @@ class TOOLBAR_templates {
 	}
 
 	function _ASSIGN(){
-		global $_LANG;
 		mosMenuBar::startTable();
-		mosMenuBar::save( 'save_assign', $_LANG->_( 'Save' ) );
+		mosMenuBar::save( 'save_assign', JText::_( 'Save' ) );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::spacer();

@@ -26,7 +26,7 @@ class HTML_trash {
 	*/
 	function showList( $option, $contents, $menus, $pageNav_content, $pageNav_menu ) {
 		global $my;
-		global $_LANG;
+		;
 
 		$tabs = new mosTabs(1);
 		?>
@@ -58,39 +58,39 @@ class HTML_trash {
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
-			<th class="trash"><?php echo $_LANG->_( 'Trash Manager' ); ?></th>
+			<th class="trash"><?php echo JText::_( 'Trash Manager' ); ?></th>
 		</tr>
 		</table>
 
 		<?php
-		$title = $_LANG->_( 'Content Items' );
+		$title = JText::_( 'Content Items' );
 		$tabs->startPane("content-pane");
 		$tabs->startTab( $title, "content_items" );
 		?>
 		<table class="adminheading" width="90%">
 		<tr>
-			<th><small><?php echo $_LANG->_( 'Content Items' ); ?></small></th>
+			<th><small><?php echo JText::_( 'Content Items' ); ?></small></th>
 		</tr>
 		</table>
 
 		<table class="adminlist" width="90%">
 		<tr>
-			<th width="20"><?php echo $_LANG->_( 'NUM' ); ?></th>
+			<th width="20"><?php echo JText::_( 'NUM' ); ?></th>
 			<th width="20">
 			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $contents );?>);" />
 			</th>
 			<th width="20px">&nbsp;</th>
 			<th class="title">
-			<?php echo $_LANG->_( 'Title' ); ?>
+			<?php echo JText::_( 'Title' ); ?>
 			</th>
 			<th>
-			<?php echo $_LANG->_( 'Section' ); ?>
+			<?php echo JText::_( 'Section' ); ?>
 			</th>
 			<th>
-			<?php echo $_LANG->_( 'Category' ); ?>
+			<?php echo JText::_( 'Category' ); ?>
 			</th>
 			<th width="70px">
-			<?php echo $_LANG->_( 'ID' ); ?>
+			<?php echo JText::_( 'ID' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -134,34 +134,34 @@ class HTML_trash {
 		</table>
 		<?php echo $pageNav_content->getListFooter(); ?>
 		<?php
-		$title = $_LANG->_( 'Menu Items' );
+		$title = JText::_( 'Menu Items' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "menu_items" );
 		?>
 		<table class="adminheading" width="90%">
 		<tr>
-			<th><small><?php echo $_LANG->_( 'Menu Items' ); ?></small></th>
+			<th><small><?php echo JText::_( 'Menu Items' ); ?></small></th>
 		</tr>
 		</table>
 
 		<table class="adminlist" width="90%">
 		<tr>
-			<th width="20"><?php echo $_LANG->_( 'NUM' ); ?></th>
+			<th width="20"><?php echo JText::_( 'NUM' ); ?></th>
 			<th width="20">
 			<input type="checkbox" name="toggle1" value="" onClick="checkAll_xtd(<?php echo count( $menus );?>);" />
 			</th>
 			<th width="20px">&nbsp;</th>
 			<th class="title">
-			<?php echo $_LANG->_( 'Title' ); ?>
+			<?php echo JText::_( 'Title' ); ?>
 			</th>
 			<th>
-			<?php echo $_LANG->_( 'Menu' ); ?>
+			<?php echo JText::_( 'Menu' ); ?>
 			</th>
 			<th>
-			<?php echo $_LANG->_( 'Type' ); ?>
+			<?php echo JText::_( 'Type' ); ?>
 			</th>
 			<th width="70px">
-			<?php echo $_LANG->_( 'ID' ); ?>
+			<?php echo JText::_( 'ID' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -224,12 +224,12 @@ class HTML_trash {
 	* Writes list of the items that have been selected for deletion
 	*/
 	function showDelete( $option, $cid, $items, $type ) {
-		global $_LANG;
+		;
 	?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
-			<th><?php echo $_LANG->_( 'Delete Items' ); ?></th>
+			<th><?php echo JText::_( 'Delete Items' ); ?></th>
 		</tr>
 		</table>
 
@@ -238,13 +238,13 @@ class HTML_trash {
 		<tr>
 			<td width="3%"></td>
 			<td  valign="top" width="20%">
-			<strong><?php echo $_LANG->_( 'Number of Items' ); ?>:</strong>
+			<strong><?php echo JText::_( 'Number of Items' ); ?>:</strong>
 			<br />
 			<font color="#000066"><strong><?php echo count( $cid ); ?></strong></font>
 			<br /><br />
 			</td>
 			<td  valign="top" width="25%">
-			<strong><?php echo $_LANG->_( 'Items being Deleted' ); ?>:</strong>
+			<strong><?php echo JText::_( 'Items being Deleted' ); ?>:</strong>
 			<br />
 			<?php
 			echo "<ol>";
@@ -254,13 +254,13 @@ class HTML_trash {
 			echo "</ol>";
 			?>
 			</td>
-			 <td valign="top"><?php echo $_LANG->_( '* This will' ); ?>
-			 <strong><font color="#FF0000"><?php echo $_LANG->_( 'Permanently Delete' ); ?></font></strong> <br /><?php echo $_LANG->_( 'these Items from the Database *' ); ?>
+			 <td valign="top"><?php echo JText::_( '* This will' ); ?>
+			 <strong><font color="#FF0000"><?php echo JText::_( 'Permanently Delete' ); ?></font></strong> <br /><?php echo JText::_( 'these Items from the Database *' ); ?>
 			<br /><br /><br />
 			<div style="border: 1px dotted gray; width: 70px; padding: 10px; margin-left: 50px;">
-			<a class="toolbar" href="javascript:if (confirm('<?php echo $_LANG->_( 'WARNWANTDELLISTEDITEMS' ); ?>')){ submitbutton('delete');}" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage('remove','','images/delete_f2.png',1);">
-			<img name="remove" src="images/delete.png" alt="<?php echo $_LANG->_( 'Delete' ); ?>" border="0" align="middle" />
-			&nbsp;<?php echo $_LANG->_( 'Delete' ); ?>
+			<a class="toolbar" href="javascript:if (confirm('<?php echo JText::_( 'WARNWANTDELLISTEDITEMS' ); ?>')){ submitbutton('delete');}" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage('remove','','images/delete_f2.png',1);">
+			<img name="remove" src="images/delete.png" alt="<?php echo JText::_( 'Delete' ); ?>" border="0" align="middle" />
+			&nbsp;<?php echo JText::_( 'Delete' ); ?>
 			</a>
 			</div>
 			</td>
@@ -290,12 +290,12 @@ class HTML_trash {
 	* Writes list of the items that have been selected for restore
 	*/
 	function showRestore( $option, $cid, $items, $type ) {
-		global $_LANG;
+		;
 	?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
-			<th><?php echo $_LANG->_( 'Restore Items' ); ?></th>
+			<th><?php echo JText::_( 'Restore Items' ); ?></th>
 		</tr>
 		</table>
 
@@ -304,13 +304,13 @@ class HTML_trash {
 		<tr>
 			<td width="3%"></td>
 			<td  valign="top" width="20%">
-			<strong><?php echo $_LANG->_( 'Number of Items' ); ?>:</strong>
+			<strong><?php echo JText::_( 'Number of Items' ); ?>:</strong>
 			<br />
 			<font color="#000066"><strong><?php echo count( $cid ); ?></strong></font>
 			<br /><br />
 			</td>
 			<td  valign="top" width="25%">
-			<strong><?php echo $_LANG->_( 'Items being Restored' ); ?>:</strong>
+			<strong><?php echo JText::_( 'Items being Restored' ); ?>:</strong>
 			<br />
 			<?php
 			echo "<ol>";
@@ -320,13 +320,13 @@ class HTML_trash {
 			echo "</ol>";
 			?>
 			</td>
-			 <td valign="top"><?php echo $_LANG->_( '* This will' ); ?>
-			 <strong><font color="#FF0000"><?php echo $_LANG->_( 'Restore' ); ?></font></strong> <?php echo $_LANG->_( 'these Items,' ); ?><br /><?php echo $_LANG->_( 'TIPWILLBERETURNED' ); ?>
+			 <td valign="top"><?php echo JText::_( '* This will' ); ?>
+			 <strong><font color="#FF0000"><?php echo JText::_( 'Restore' ); ?></font></strong> <?php echo JText::_( 'these Items,' ); ?><br /><?php echo JText::_( 'TIPWILLBERETURNED' ); ?>
 			<br /><br /><br />
 			<div style="border: 1px dotted gray; width: 80px; padding: 10px; margin-left: 50px;">
-			<a class="toolbar" href="javascript:if (confirm('<?php echo $_LANG->_( 'WARNRESTORE' ); ?>')){ submitbutton('restore');}" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage('restore','','images/restore_f2.png',1);">
-			<img name="restore" src="images/restore.png" alt="<?php echo $_LANG->_( 'Restore' ); ?>" border="0" align="middle" />
-			&nbsp;<?php echo $_LANG->_( 'Restore' ); ?>
+			<a class="toolbar" href="javascript:if (confirm('<?php echo JText::_( 'WARNRESTORE' ); ?>')){ submitbutton('restore');}" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage('restore','','images/restore_f2.png',1);">
+			<img name="restore" src="images/restore.png" alt="<?php echo JText::_( 'Restore' ); ?>" border="0" align="middle" />
+			&nbsp;<?php echo JText::_( 'Restore' ); ?>
 			</a>
 			</div>
 			</td>

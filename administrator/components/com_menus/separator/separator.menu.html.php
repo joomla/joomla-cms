@@ -27,7 +27,7 @@ class separator_menu_html {
 
 	function edit( $menu, $lists, $params, $option ) {
 		global $mosConfig_live_site;
-		global $_LANG;
+		;
 		?>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<script language="javascript" type="text/javascript">
@@ -46,7 +46,7 @@ class separator_menu_html {
 		<table class="adminheading">
 		<tr>
 			<th>
-			<?php echo $menu->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'Add' );?> <?php echo $_LANG->_( 'Menu Item :: Separator / Placeholder' ); ?>
+			<?php echo $menu->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?> <?php echo JText::_( 'Menu Item :: Separator / Placeholder' ); ?>
 			</th>
 		</tr>
 		</table>
@@ -57,12 +57,12 @@ class separator_menu_html {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					<?php echo $_LANG->_( 'Details' ); ?>
+					<?php echo JText::_( 'Details' ); ?>
 					</th>
 				</tr>
 				<tr>
 					<td align="right">
-					<?php echo $_LANG->_( 'Pattern/Name' ); ?>:
+					<?php echo JText::_( 'Pattern/Name' ); ?>:
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="name" size="50" maxlength="100" value="<?php echo $menu->name; ?>" />
@@ -70,7 +70,7 @@ class separator_menu_html {
 				</tr>
 				<tr>
 					<td align="right">
-					<?php echo $_LANG->_( 'Parent Item' ); ?>:
+					<?php echo JText::_( 'Parent Item' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['parent']; ?>
@@ -78,7 +78,7 @@ class separator_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					<?php echo $_LANG->_( 'Ordering' ); ?>:
+					<?php echo JText::_( 'Ordering' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['ordering']; ?>
@@ -86,14 +86,14 @@ class separator_menu_html {
 				</tr>
 				<tr>
 					<td valign="top" align="right">
-					<?php echo $_LANG->_( 'Access Level' ); ?>:
+					<?php echo JText::_( 'Access Level' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['access']; ?>
 					</td>
 				</tr>
 				<tr>
-					<td valign="top" align="right"><?php echo $_LANG->_( 'Published' ); ?>:</td>
+					<td valign="top" align="right"><?php echo JText::_( 'Published' ); ?>:</td>
 					<td>
 					<?php echo $lists['published']; ?>
 					</td>
@@ -107,7 +107,7 @@ class separator_menu_html {
 				<table class="adminform">
 				<tr>
 					<th>
-					<?php echo $_LANG->_( 'Parameters' ); ?>
+					<?php echo JText::_( 'Parameters' ); ?>
 					</th>
 				</tr>
 				<tr>

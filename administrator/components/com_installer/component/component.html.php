@@ -25,7 +25,7 @@ class HTML_component {
 * @param string The URL option
 */
 	function showInstalledComponents( $rows, $option ) {
-		global $_LANG;
+		;
 
 		if (count( $rows )) {
 			?>
@@ -33,7 +33,7 @@ class HTML_component {
 			<table class="adminheading">
 			<tr>
 				<th class="install">
-				<?php echo $_LANG->_( 'Installed Components' ); ?>
+				<?php echo JText::_( 'Installed Components' ); ?>
 				</th>
 			</tr>
 			</table>
@@ -41,25 +41,25 @@ class HTML_component {
 			<table class="adminlist">
 			<tr>
 				<th width="20%" class="title">
-				<?php echo $_LANG->_( 'Currently Installed' ); ?>
+				<?php echo JText::_( 'Currently Installed' ); ?>
 				</th>
 				<th width="20%" class="title">
-				<?php echo $_LANG->_( 'Component Menu Link' ); ?>
+				<?php echo JText::_( 'Component Menu Link' ); ?>
 				</th>
 				<th width="10%"  class="title">
-				<?php echo $_LANG->_( 'Author' ); ?>
+				<?php echo JText::_( 'Author' ); ?>
 				</th>
 				<th width="5%" align="center">
-				<?php echo $_LANG->_( 'Version' ); ?>
+				<?php echo JText::_( 'Version' ); ?>
 				</th>
 				<th width="10%" align="center">
-				<?php echo $_LANG->_( 'Date' ); ?>
+				<?php echo JText::_( 'Date' ); ?>
 				</th>
 				<th width="15%"  class="title">
-				<?php echo $_LANG->_( 'Author Email' ); ?>
+				<?php echo JText::_( 'Author Email' ); ?>
 				</th>
 				<th width="15%"  class="title">
-				<?php echo $_LANG->_( 'Author URL' ); ?>
+				<?php echo JText::_( 'Author URL' ); ?>
 				</th>
 			</tr>
 			<?php
@@ -99,7 +99,7 @@ class HTML_component {
 		} else {
 			?>
 			<td class="small">
-			<?php echo $_LANG->_( 'There are no custom components installed' ); ?>
+			<?php echo JText::_( 'There are no custom components installed' ); ?>
 			</td>
 			<?php
 		}

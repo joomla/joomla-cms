@@ -23,12 +23,11 @@ class TOOLBAR_categories {
 	*/
 	function _EDIT() {
 		global $id;
-		global $_LANG;
-
-		$text = ( $id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' ) );
+	
+		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( $_LANG->_( 'Category' ) .': '. $text, 'categories.png' );
+		mosMenuBar::title( JText::_( 'Category' ) .': '. $text, 'categories.png' );
 		mosMenuBar::media_manager();
 		mosMenuBar::spacer();
 		mosMenuBar::save();
@@ -37,7 +36,7 @@ class TOOLBAR_categories {
 		mosMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', $_LANG->_( 'Close' ) );
+			mosMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
 			mosMenuBar::cancel();
 		}
@@ -50,10 +49,9 @@ class TOOLBAR_categories {
 	* @param int The published state (to display the inverse button)
 	*/
 	function _MOVE() {
-		global $_LANG;
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( $_LANG->_( 'Move Category' ) );
+		mosMenuBar::title( JText::_( 'Move Category' ) );
 		mosMenuBar::save( 'movesave' );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
@@ -64,10 +62,9 @@ class TOOLBAR_categories {
 	* @param int The published state (to display the inverse button)
 	*/
 	function _COPY() {
-		global $_LANG;
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( $_LANG->_( 'Copy Category' ) );
+		mosMenuBar::title( JText::_( 'Copy Category' ) );
 		mosMenuBar::save( 'copysave' );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
@@ -77,20 +74,19 @@ class TOOLBAR_categories {
 	* Draws the menu for Editing an existing category
 	*/
 	function _DEFAULT(){
-		global $_LANG;
 
 		$section = mosGetParam( $_REQUEST, 'section', '' );
 
 		mosMenuBar::startTable();
-		mosMenuBar::title( $_LANG->_( 'Category Manager' ), 'categories.png' );
+		mosMenuBar::title( JText::_( 'Category Manager' ), 'categories.png' );
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();
 		mosMenuBar::spacer();
 		if ( $section == 'content' || ( $section > 0 ) ) {
-			mosMenuBar::customX( 'moveselect', 'move.png', 'move_f2.png', $_LANG->_( 'Move' ), true );
+			mosMenuBar::customX( 'moveselect', 'move.png', 'move_f2.png', JText::_( 'Move' ), true );
 			mosMenuBar::spacer();
-			mosMenuBar::customX( 'copyselect', 'copy.png', 'copy_f2.png', $_LANG->_( 'Copy' ), true );
+			mosMenuBar::customX( 'copyselect', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), true );
 			mosMenuBar::spacer();
 		}
 		mosMenuBar::deleteList();

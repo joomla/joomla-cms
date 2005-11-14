@@ -57,7 +57,7 @@ class mosInstallerLanguage extends mosInstaller {
 	*/
 	function uninstall( $id, $option, $client=0 ) {
 		global $mosConfig_absolute_path;
-		global $_LANG;
+		;
 
 		$id = str_replace( array( '\\', '/' ), '', $id );
 
@@ -81,7 +81,7 @@ class mosInstallerLanguage extends mosInstaller {
 						$filename = $file->getText();
 						echo $filename;
 						if (file_exists( $basepath . $filename )) {
-							echo '<br />'. $_LANG->_( 'Deleting' ) .': '. $basepath . $filename;
+							echo '<br />'. JText::_( 'Deleting' ) .': '. $basepath . $filename;
 							$result = unlink( $basepath . $filename );
 						}
 						echo intval( $result );
@@ -89,7 +89,7 @@ class mosInstallerLanguage extends mosInstaller {
 				}
 			}
 		} else {
-			HTML_installer::showInstallMessage( $_LANG->_( 'Language id empty, cannot remove files' ), $_LANG->_( 'Uninstall - error' ), $this->returnTo( $option, 'language', $client ) );
+			HTML_installer::showInstallMessage( JText::_( 'Language id empty, cannot remove files' ), JText::_( 'Uninstall - error' ), $this->returnTo( $option, 'language', $client ) );
 			exit();
 		}
 

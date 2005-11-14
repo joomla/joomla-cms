@@ -66,7 +66,7 @@ class mosPageNav {
 	* @return string The html for the pages counter, eg, Results 1-10 of x
 	*/
 	function getPagesCounter() {
-		global $_LANG;
+		;
 
 		$html = '';
 		$from_result = $this->limitstart+1;
@@ -76,9 +76,9 @@ class mosPageNav {
 			$to_result = $this->total;
 		}
 		if ($this->total > 0) {
-			$html .= "\n". $_LANG->_( 'Results' ) ." ". $from_result ." - ". $to_result ." ". $_LANG->_( 'of' ) ." ". $this->total;
+			$html .= "\n". JText::_( 'Results' ) ." ". $from_result ." - ". $to_result ." ". JText::_( 'of' ) ." ". $this->total;
 		} else {
-			$html .= "\n". $_LANG->_( 'No records found' );
+			$html .= "\n". JText::_( 'No records found' );
 		}
 		return $html;
 	}
@@ -92,7 +92,7 @@ class mosPageNav {
 	* @return string The html links for pages, eg, previous, next, 1 2 3 ... x
 	*/
 	function getPagesLinks() {
-		global $_LANG;
+		;
 
 		$html 				= '';
 		$displayed_pages 	= 10;
@@ -107,11 +107,11 @@ class mosPageNav {
 
 		if ($this_page > 1) {
 			$page = ($this_page - 2) * $this->limit;
-			$html .= "\n<a href=\"#beg\" class=\"pagenav\" title=\"". $_LANG->_( 'first page' ) ."\" onclick=\"javascript: document.adminForm.limitstart.value=0; document.adminForm.submit();return false;\"><< ". $_LANG->_( 'Start' ) ."</a>";
-			$html .= "\n<a href=\"#prev\" class=\"pagenav\" title=\"". $_LANG->_( 'previous page' ) ."\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\">< ". $_LANG->_( 'Previous' ) ."</a>";
+			$html .= "\n<a href=\"#beg\" class=\"pagenav\" title=\"". JText::_( 'first page' ) ."\" onclick=\"javascript: document.adminForm.limitstart.value=0; document.adminForm.submit();return false;\"><< ". JText::_( 'Start' ) ."</a>";
+			$html .= "\n<a href=\"#prev\" class=\"pagenav\" title=\"". JText::_( 'previous page' ) ."\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\">< ". JText::_( 'Previous' ) ."</a>";
 		} else {
-			$html .= "\n<span class=\"pagenav\"><< ". $_LANG->_( 'Start' ) ."</span>";
-			$html .= "\n<span class=\"pagenav\">< ". $_LANG->_( 'Previous' ) ."</span>";
+			$html .= "\n<span class=\"pagenav\"><< ". JText::_( 'Start' ) ."</span>";
+			$html .= "\n<span class=\"pagenav\">< ". JText::_( 'Previous' ) ."</span>";
 		}
 
 		for ($i=$start_loop; $i <= $stop_loop; $i++) {
@@ -126,22 +126,22 @@ class mosPageNav {
 		if ($this_page < $total_pages) {
 			$page = $this_page * $this->limit;
 			$end_page = ($total_pages-1) * $this->limit;
-			$html .= "\n<a href=\"#next\" class=\"pagenav\" title=\"". $_LANG->_( 'next page' ) ."\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\"> ". $_LANG->_( 'Next' ) ." ></a>";
-			$html .= "\n<a href=\"#end\" class=\"pagenav\" title=\"". $_LANG->_( 'end page' ) ."\" onclick=\"javascript: document.adminForm.limitstart.value=$end_page; document.adminForm.submit();return false;\"> ". $_LANG->_( 'End' ) ." >></a>";
+			$html .= "\n<a href=\"#next\" class=\"pagenav\" title=\"". JText::_( 'next page' ) ."\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\"> ". JText::_( 'Next' ) ." ></a>";
+			$html .= "\n<a href=\"#end\" class=\"pagenav\" title=\"". JText::_( 'end page' ) ."\" onclick=\"javascript: document.adminForm.limitstart.value=$end_page; document.adminForm.submit();return false;\"> ". JText::_( 'End' ) ." >></a>";
 		} else {
-			$html .= "\n<span class=\"pagenav\">". $_LANG->_( 'Next' ) ." ></span>";
-			$html .= "\n<span class=\"pagenav\">". $_LANG->_( 'End' ) ." >></span>";
+			$html .= "\n<span class=\"pagenav\">". JText::_( 'Next' ) ." ></span>";
+			$html .= "\n<span class=\"pagenav\">". JText::_( 'End' ) ." >></span>";
 		}
 		return $html;
 	}
 
 	function getListFooter() {
-		global $_LANG;
+		;
 
 		$html = '<table class="adminlist"><tr><th colspan="3">';
 		$html .= $this->getPagesLinks();
 		$html .= '</th></tr><tr>';
-		$html .= '<td nowrap="true" width="48%" align="right">'. $_LANG->_( 'Display Num' ) .'</td>';
+		$html .= '<td nowrap="true" width="48%" align="right">'. JText::_( 'Display Num' ) .'</td>';
 		$html .= '<td>' .$this->getLimitBox() . '</td>';
 		$html .= '<td nowrap="true" width="48%" >' . $this->getPagesCounter() . '</td>';
 		$html .= '</tr></table>';
@@ -161,8 +161,8 @@ class mosPageNav {
 * @return string
 */
 	function orderUpIcon( $i, $condition=true, $task='orderup', $alt='Move Up' ) {
-		global $_LANG;
-        $alt = $_LANG->_( $alt );
+		;
+        $alt = JText::_( $alt );
 
 		if (($i > 0 || ($i+$this->limitstart > 0)) && $condition) {
 			return '<a href="#reorder" onClick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">
@@ -180,8 +180,8 @@ class mosPageNav {
 * @return string
 */
 	function orderDownIcon( $i, $n, $condition=true, $task='orderdown', $alt='Move Down' ) {
-		global $_LANG;
-        $alt = $_LANG->_( $alt );
+		;
+        $alt = JText::_( $alt );
 
 		if (($i < $n-1 || $i+$this->limitstart < $this->total-1) && $condition) {
 			return '<a href="#reorder" onClick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">
@@ -199,11 +199,11 @@ class mosPageNav {
 	 * @return string
 	 */
 	function orderUpIcon2( $id, $order, $condition=true, $task='orderup', $alt='#' ) {
-		global $_LANG;
+		;
 
 		// handling of default value
 		if ($alt = '#') {
-			$alt = $_LANG->_( 'Move Up' );
+			$alt = JText::_( 'Move Up' );
 		}
 
 		if ($order == 0) {
@@ -234,11 +234,11 @@ class mosPageNav {
 	 * @return string
 	 */
 	function orderDownIcon2( $id, $order, $condition=true, $task='orderdown', $alt='#' ) {
-		global $_LANG;
+		;
 
 		// handling of default value
 		if ($alt = '#') {
-			$alt = $_LANG->_( 'Move Down' );
+			$alt = JText::_( 'Move Down' );
 		}
 
 		if ($order == 0) {

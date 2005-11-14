@@ -84,7 +84,6 @@ function mosCountModules( $position='left' ) {
 */
 function mosLoadModules( $position='left', $style=0 ) {
 	global $mosConfig_lang, $mosConfig_absolute_path;
-	global $_LANG;
 
 	$tp = mosGetParam( $_GET, 'tp', 0 );
 	if ($tp) {
@@ -107,7 +106,10 @@ function mosLoadModules( $position='left', $style=0 ) {
 
 	foreach ($modules as $module) {
 
-		$_LANG->load($module->module);
+		global $mainframe;
+		
+		$lang =& $mainframe->getLanguage();
+		$lang->load($module->module);
 
 		// check for custom language file
 		$path = $mosConfig_absolute_path . '/modules/' . $module->module . $mosConfig_lang .'.php';
@@ -142,9 +144,10 @@ function mosLoadModules( $position='left', $style=0 ) {
 */
 function mosLoadModule( $name, $params=NULL ) {
 	global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
-	global $mainframe, $database, $my, $Itemid, $_LANG, $acl;
+	global $mainframe, $database, $my, $Itemid, $acl;
 
-	$_LANG->load('mod_'.$name);
+	$lang =& $mainframe->getLanguage();
+	$lang->load('mod_'.$name);
 
 	$task = mosGetParam( $_REQUEST, 'task', '' );
 

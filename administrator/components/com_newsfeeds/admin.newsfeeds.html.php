@@ -23,7 +23,7 @@ class HTML_newsfeeds {
 
 	function showNewsFeeds( &$rows, &$lists, $pageNav, $option ) {
 		global $my;
-		global $_LANG;
+		;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -31,7 +31,7 @@ class HTML_newsfeeds {
 		<table class="adminheading">
 		<tr>
 			<th>
-			<?php echo $_LANG->_( 'Newsfeed Manager' ); ?>
+			<?php echo JText::_( 'Newsfeed Manager' ); ?>
 			</th>
 			<td align="right">
 			<?php echo $lists['category'];?>
@@ -42,28 +42,28 @@ class HTML_newsfeeds {
 		<table class="adminlist">
 		<tr>
 			<th width="20">
-			<?php echo $_LANG->_( 'NUM' ); ?>
+			<?php echo JText::_( 'NUM' ); ?>
 			</th>
 			<th width="20">
 			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th class="title">
-			<?php echo $_LANG->_( 'News Feed' ); ?>
+			<?php echo JText::_( 'News Feed' ); ?>
 			</th>
 			<th width="5%">
-			<?php echo $_LANG->_( 'Published' ); ?>
+			<?php echo JText::_( 'Published' ); ?>
 			</th>
 			<th colspan="2" width="5%">
-			<?php echo $_LANG->_( 'Reorder' ); ?>
+			<?php echo JText::_( 'Reorder' ); ?>
 			</th>
 			<th class="title" width="20%">
-			<?php echo $_LANG->_( 'Category' ); ?>
+			<?php echo JText::_( 'Category' ); ?>
 			</th>
 			<th width="5%" nowrap="nowrap">
-			<?php echo $_LANG->_( 'Num Articles' ); ?>
+			<?php echo JText::_( 'Num Articles' ); ?>
 			</th>
 			<th width="10%">
-			<?php echo $_LANG->_( 'Cache time' ); ?>
+			<?php echo JText::_( 'Cache time' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -75,7 +75,7 @@ class HTML_newsfeeds {
 
 			$img 	= $row->published ? 'tick.png' : 'publish_x.png';
 			$task 	= $row->published ? 'unpublish' : 'publish';
-			$alt 	= $row->published ? $_LANG->_( 'Published' ) : $_LANG->_( 'Unpublished' );
+			$alt 	= $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
 
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 
@@ -93,11 +93,11 @@ class HTML_newsfeeds {
 				if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
 					?>
 					<?php echo $row->name; ?>
-					&nbsp;[ <i><?php echo $_LANG->_( 'Checked Out' ); ?></i> ]
+					&nbsp;[ <i><?php echo JText::_( 'Checked Out' ); ?></i> ]
 					<?php
 				} else {
 					?>
-					<a href="<?php echo $link; ?>" title="<?php echo $_LANG->_( 'Edit Newsfeed' ); ?>">
+					<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Newsfeed' ); ?>">
 					<?php echo $row->name; ?>
 					</a>
 					<?php
@@ -116,7 +116,7 @@ class HTML_newsfeeds {
 				<?php echo $pageNav->orderDownIcon( $i, $n ); ?>
 				</td>
 				<td>
-				<a href="<?php echo $row->cat_link; ?>" title="<?php echo $_LANG->_( 'Edit Category' ); ?>">
+				<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
 				<?php echo $row->catname;?>
 				</a>
 				</td>
@@ -145,7 +145,7 @@ class HTML_newsfeeds {
 
 	function editNewsFeed( &$row, &$lists, $option ) {
 		
-		global $_LANG;
+		;
 		
 		mosMakeHtmlSafe( $row, ENT_QUOTES );
 		?>
@@ -159,17 +159,17 @@ class HTML_newsfeeds {
 
 			// do field validation
 			if (form.name.value == '') {
-				alert( "<?php echo $_LANG->_( 'Please fill in the newsfeed name.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please fill in the newsfeed name.' ); ?>" );
 			} else if (form.catid.value == 0) {
-				alert( "<?php echo $_LANG->_( 'Please select a Category.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please select a Category.' ); ?>" );
 			} else if (form.link.value == '') {
-				alert( "<?php echo $_LANG->_( 'Please fill in the newsfeed link.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please fill in the newsfeed link.' ); ?>" );
 			} else if (getSelectedValue('adminForm','catid') < 0) {
-				alert( "<?php echo $_LANG->_( 'Please select a category.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please select a category.' ); ?>" );
 			} else if (form.numarticles.value == "" || form.numarticles.value == 0) {
-				alert( "<?php echo $_LANG->_( 'VALIDARTICLESDISPLAY' ); ?>" );
+				alert( "<?php echo JText::_( 'VALIDARTICLESDISPLAY' ); ?>" );
 			} else if (form.cache_time.value == "" || form.cache_time.value == 0) {
-				alert( "<?php echo $_LANG->_( 'Please fill in the cache refresh time.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please fill in the cache refresh time.' ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}
@@ -179,8 +179,8 @@ class HTML_newsfeeds {
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
-			<th class="edit"><?php echo $_LANG->_( 'Newsfeed' ); ?>:
-			<small><?php echo $row->id ? $_LANG->_( 'Edit' ) : $_LANG->_( 'New' );?></small> <small><small>[ <?php echo $row->name;?> ]</small></small>
+			<th class="edit"><?php echo JText::_( 'Newsfeed' ); ?>:
+			<small><?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'New' );?></small> <small><small>[ <?php echo $row->name;?> ]</small></small>
 			</th>
 		</tr>
 		</table>
@@ -188,12 +188,12 @@ class HTML_newsfeeds {
 		<table class="adminform">
 		<tr>
 			<th colspan="2">
-			<?php echo $_LANG->_( 'Details' ); ?>
+			<?php echo JText::_( 'Details' ); ?>
 			</th>
 		</tr>
 		<tr>
 			<td>
-			<?php echo $_LANG->_( 'Name' ); ?>
+			<?php echo JText::_( 'Name' ); ?>
 			</td>
 			<td>
 			<input class="inputbox" type="text" size="40" name="name" value="<?php echo $row->name; ?>">
@@ -201,7 +201,7 @@ class HTML_newsfeeds {
 		</tr>
 		<tr>
 			<td>
-			<?php echo $_LANG->_( 'Category' ); ?>
+			<?php echo JText::_( 'Category' ); ?>
 			</td>
 			<td>
 			<?php echo $lists['category']; ?>
@@ -209,7 +209,7 @@ class HTML_newsfeeds {
 		</tr>
 		<tr>
 			<td>
-			<?php echo $_LANG->_( 'Link' ); ?>
+			<?php echo JText::_( 'Link' ); ?>
 			</td>
 			<td>
 			<input class="inputbox" type="text" size="60" name="link" value="<?php echo $row->link; ?>">
@@ -217,7 +217,7 @@ class HTML_newsfeeds {
 		</tr>
 		<tr>
 			<td>
-			<?php echo $_LANG->_( 'Number of Articles' ); ?>
+			<?php echo JText::_( 'Number of Articles' ); ?>
 			</td>
 			<td>
 			<input class="inputbox" type="text" size="2" name="numarticles" value="<?php echo $row->numarticles; ?>">
@@ -225,7 +225,7 @@ class HTML_newsfeeds {
 		</tr>
 		<tr>
 			<td>
-			<?php echo $_LANG->_( 'Cache time (in seconds)' ); ?>
+			<?php echo JText::_( 'Cache time (in seconds)' ); ?>
 			</td>
 			<td>
 			<input class="inputbox" type="text" size="4" name="cache_time" value="<?php echo $row->cache_time; ?>">
@@ -233,7 +233,7 @@ class HTML_newsfeeds {
 		</tr>
 		<tr>
 			<td>
-			<?php echo $_LANG->_( 'Ordering' ); ?>
+			<?php echo JText::_( 'Ordering' ); ?>
 			</td>
 			<td>
 			<?php echo $lists['ordering']; ?>
@@ -241,7 +241,7 @@ class HTML_newsfeeds {
 		</tr>
 		<tr>
 			<td valign="top" align="right">
-			<?php echo $_LANG->_( 'Published' ); ?>:
+			<?php echo JText::_( 'Published' ); ?>:
 			</td>
 			<td>
 			<?php echo $lists['published']; ?>

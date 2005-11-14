@@ -92,6 +92,6 @@ $mainframe =& new JInstallation();
 /** @global $_VERSION */
 $_VERSION = new JVersion();
 
-$_LANG =& JFactory::getLanguage();
-$_LANG->_load( JPATH_INSTALLATION .'/language/' . $mosConfig_lang . '.ini' );
+//$_LANG =& JFactory::getLanguage();
+//JText::_load( JPATH_INSTALLATION .'/language/' . $mosConfig_lang . '.ini' );
 ?>

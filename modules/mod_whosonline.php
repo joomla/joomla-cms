@@ -35,53 +35,53 @@ if ($showmode==0 || $showmode==2) {
 
 	if ($guest_array<>0 && $user_array==0) {
 		if ($guest_array==1) {
-			$content.= $_LANG->_( 'We have' );
-			$content.= $guest_array ." ". $_LANG->_( 'guest' );
-			$content.= " ". $_LANG->_( 'online' );
+			$content.= JText::_( 'We have' );
+			$content.= $guest_array ." ". JText::_( 'guest' );
+			$content.= " ". JText::_( 'online' );
 			eval ("\$content = \"$content\";");
 		} else {
-			$content.= $_LANG->_( 'We have' );
-			$content.= $guest_array ." ". $_LANG->_( 'guests' );
-			$content.= " ". $_LANG->_( 'online' );
+			$content.= JText::_( 'We have' );
+			$content.= $guest_array ." ". JText::_( 'guests' );
+			$content.= " ". JText::_( 'online' );
 			eval ("\$content = \"$content\";");
 		}
 	}
 
 	if ($guest_array==0 && $user_array<>0) {
 		if ($user_array==1) {
-			$content.= $_LANG->_( 'We have' );
-			$content.= $user_array ." ". $_LANG->_( 'member' );
-			$content.= " ". $_LANG->_( 'online' );
+			$content.= JText::_( 'We have' );
+			$content.= $user_array ." ". JText::_( 'member' );
+			$content.= " ". JText::_( 'online' );
 			eval ("\$content = \"$content\";");
 		} else {
-			$content.= $_LANG->_( 'We have' );
-			$content.= $user_array ." ". $_LANG->_( 'members' );
-			$content.= " ". $_LANG->_( 'online' );
+			$content.= JText::_( 'We have' );
+			$content.= $user_array ." ". JText::_( 'members' );
+			$content.= " ". JText::_( 'online' );
 			eval ("\$content = \"$content\";");
 		}
 	}
 
 	if ($guest_array<>0 && $user_array<>0) {
 		if ($guest_array==1) {
-			$content.= $_LANG->_( 'We have' );
-			$content.= $guest_array ." ". $_LANG->_( 'guest' );
-			$content.= " ". $_LANG->_( 'and' );
+			$content.= JText::_( 'We have' );
+			$content.= $guest_array ." ". JText::_( 'guest' );
+			$content.= " ". JText::_( 'and' );
 			eval ("\$content = \"$content\";");
 		} else {
-			$content.= $_LANG->_( 'We have' );
-			$content.= $guest_array ." ". $_LANG->_( 'guests' );
-			$content.= " ". $_LANG->_( 'online' );
-			$content.= " ". $_LANG->_( 'and' );
+			$content.= JText::_( 'We have' );
+			$content.= $guest_array ." ". JText::_( 'guests' );
+			$content.= " ". JText::_( 'online' );
+			$content.= " ". JText::_( 'and' );
 			eval ("\$content = \"$content\";");
 		}
 
 		if ($user_array==1) {
-			$content.= $user_array ." ". $_LANG->_( 'member' );
-			$content.= " ". $_LANG->_( 'online' );
+			$content.= $user_array ." ". JText::_( 'member' );
+			$content.= " ". JText::_( 'online' );
 			eval ("\$content = \"$content\";");
 		} else {
-			$content.= $user_array ." ". $_LANG->_( 'members' );
-			$content.= " ". $_LANG->_( 'online' );
+			$content.= $user_array ." ". JText::_( 'members' );
+			$content.= " ". JText::_( 'online' );
 			eval ("\$content = \"$content\";");
 		}
 
@@ -102,7 +102,7 @@ if ($showmode==1 || $showmode==2) {
 	}
 
 	if ( !$content ) {
-		echo $_LANG->_( 'No Users Online' ) ."\n";
+		echo JText::_( 'No Users Online' ) ."\n";
 	} else {
 		echo $content;
 	}

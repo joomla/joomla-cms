@@ -37,43 +37,39 @@ class HTML_admin_misc {
 	}
 
 	function get_php_setting($val) {
-		global $_LANG;
-
 		$r =  (ini_get($val) == '1' ? 1 : 0);
-		return $r ? $_LANG->_( 'ON' ) : $_LANG->_( 'OFF' ) ;
+		return $r ? JText::_( 'ON' ) : JText::_( 'OFF' ) ;
 	}
 
 	function get_server_software() {
-		global $_LANG;
-
 		if (isset($_SERVER['SERVER_SOFTWARE'])) {
 			return $_SERVER['SERVER_SOFTWARE'];
 		} else if (($sf = getenv('SERVER_SOFTWARE'))) {
 			return $sf;
 		} else {
-			return $_LANG->_( 'n/a' );
+			return JText::_( 'n/a' );
 		}
 	}
 
 	function system_info( ) {
-		global $mosConfig_absolute_path, $database, $_LANG, $_VERSION;
+		global $mosConfig_absolute_path, $database, $_VERSION;
 		
 		$width = 400;	// width of 100%
 		$tabs = new mosTabs(0);
 		
-		$title = $_LANG->_( 'System Info' );
+		$title = JText::_( 'System Info' );
 		$tabs->startPane("sysinfo");
 		$tabs->startTab( $title, "system-page" );
 		?>
 			<table class="adminform">
 			<tr>
 				<th colspan="2">
-				<?php echo $_LANG->_( 'System Information' ); ?>
+				<?php echo JText::_( 'System Information' ); ?>
 				</th>
 			</tr>
 			<tr>
 				<td valign="top" width="250">
-					<strong><?php echo $_LANG->_( 'PHP built On' ); ?>:</strong>
+					<strong><?php echo JText::_( 'PHP built On' ); ?>:</strong>
 				</td>
 				<td>
 					<?php echo php_uname(); ?>
@@ -81,7 +77,7 @@ class HTML_admin_misc {
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo $_LANG->_( 'Database Version' ); ?>:</strong>
+					<strong><?php echo JText::_( 'Database Version' ); ?>:</strong>
 				</td>
 				<td>
 					<?php echo $database->getVersion(); ?>
@@ -89,7 +85,7 @@ class HTML_admin_misc {
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo $_LANG->_( 'PHP Version' ); ?>:</strong>
+					<strong><?php echo JText::_( 'PHP Version' ); ?>:</strong>
 				</td>
 				<td>
 					<?php echo phpversion(); ?>
@@ -97,7 +93,7 @@ class HTML_admin_misc {
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo $_LANG->_( 'Web Server' ); ?>:</strong>
+					<strong><?php echo JText::_( 'Web Server' ); ?>:</strong>
 				</td>
 				<td>
 					<?php echo HTML_admin_misc::get_server_software(); ?>
@@ -105,7 +101,7 @@ class HTML_admin_misc {
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo $_LANG->_( 'WebServer to PHP interface' ); ?>:</strong>
+					<strong><?php echo JText::_( 'WebServer to PHP interface' ); ?>:</strong>
 				</td>
 				<td>
 					<?php echo php_sapi_name(); ?>
@@ -113,7 +109,7 @@ class HTML_admin_misc {
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo $_LANG->_( 'Joomla! Version' ); ?>:</strong>
+					<strong><?php echo JText::_( 'Joomla! Version' ); ?>:</strong>
 				</td>
 				<td>
 					<?php echo $_VERSION->getLongVersion() ?>
@@ -121,7 +117,7 @@ class HTML_admin_misc {
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo $_LANG->_( 'User Agent' ); ?>:</strong>
+					<strong><?php echo JText::_( 'User Agent' ); ?>:</strong>
 				</td>
 				<td>
 					<?php echo phpversion() <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];?>
@@ -129,13 +125,13 @@ class HTML_admin_misc {
 			</tr>
 			<tr>
 				<td valign="top">
-					<strong><?php echo $_LANG->_( 'Relevant PHP Settings' ); ?>:</strong>
+					<strong><?php echo JText::_( 'Relevant PHP Settings' ); ?>:</strong>
 				</td>
 				<td>
 					<table cellspacing="1" cellpadding="1" border="0">
 					<tr>
 						<td>
-							<?php echo $_LANG->_( 'Safe Mode' ); ?>:
+							<?php echo JText::_( 'Safe Mode' ); ?>:
 						</td>
 						<td>
 							<?php echo HTML_admin_misc::get_php_setting('safe_mode'); ?>
@@ -143,15 +139,15 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							<?php echo $_LANG->_( 'Open basedir' ); ?>:
+							<?php echo JText::_( 'Open basedir' ); ?>:
 						</td>
 						<td>
-							<?php echo (($ob = ini_get('open_basedir')) ? $ob : $_LANG->_( 'none' ) ); ?>
+							<?php echo (($ob = ini_get('open_basedir')) ? $ob : JText::_( 'none' ) ); ?>
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<?php echo $_LANG->_( 'Display Errors' ); ?>:
+							<?php echo JText::_( 'Display Errors' ); ?>:
 						</td>
 						<td>
 							<?php echo HTML_admin_misc::get_php_setting('display_errors'); ?>
@@ -159,7 +155,7 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							<?php echo $_LANG->_( 'Short Open Tags' ); ?>:
+							<?php echo JText::_( 'Short Open Tags' ); ?>:
 						</td>
 						<td>
 							<?php echo HTML_admin_misc::get_php_setting('short_open_tag'); ?>
@@ -167,7 +163,7 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							<?php echo $_LANG->_( 'File Uploads' ); ?>:
+							<?php echo JText::_( 'File Uploads' ); ?>:
 						</td>
 						<td>
 							<?php echo HTML_admin_misc::get_php_setting('file_uploads'); ?>
@@ -175,7 +171,7 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							<?php echo $_LANG->_( 'Magic Quotes' ); ?>:
+							<?php echo JText::_( 'Magic Quotes' ); ?>:
 						</td>
 						<td>
 							<?php echo HTML_admin_misc::get_php_setting('magic_quotes_gpc'); ?>
@@ -183,7 +179,7 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							<?php echo $_LANG->_( 'Register Globals' ); ?>:
+							<?php echo JText::_( 'Register Globals' ); ?>:
 						</td>
 						<td>
 							<?php echo HTML_admin_misc::get_php_setting('register_globals'); ?>
@@ -191,7 +187,7 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							<?php echo $_LANG->_( 'Output Buffering' ); ?>:
+							<?php echo JText::_( 'Output Buffering' ); ?>:
 						</td>
 						<td>
 							<?php echo HTML_admin_misc::get_php_setting('output_buffering'); ?>
@@ -199,15 +195,15 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							<?php echo $_LANG->_( 'Session save path' ); ?>:
+							<?php echo JText::_( 'Session save path' ); ?>:
 						</td>
 						<td>
-							<?php echo (($sp=ini_get('session.save_path')) ? $sp : $_LANG->_( 'none' ) ); ?>
+							<?php echo (($sp=ini_get('session.save_path')) ? $sp : JText::_( 'none' ) ); ?>
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<?php echo $_LANG->_( 'Session auto start' ); ?>:
+							<?php echo JText::_( 'Session auto start' ); ?>:
 						</td>
 						<td>
 							<?php echo intval( ini_get( 'session.auto_start' ) ); ?>
@@ -215,26 +211,26 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							<?php echo $_LANG->_( 'XML enabled' ); ?>:
+							<?php echo JText::_( 'XML enabled' ); ?>:
 						</td>
 						<td>
-						<?php echo extension_loaded('xml') ? $_LANG->_( 'Yes' ) : $_LANG->_( 'No' ); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo $_LANG->_( 'Zlib enabled' ); ?>:
-						</td>
-						<td>
-							<?php echo extension_loaded('zlib') ? $_LANG->_( 'Yes' ) : $_LANG->_( 'No' ); ?>
+						<?php echo extension_loaded('xml') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<?php echo $_LANG->_( 'Disabled Functions' ); ?>:
+							<?php echo JText::_( 'Zlib enabled' ); ?>:
 						</td>
 						<td>
-							<?php echo (($df=ini_get('disable_functions')) ? $df : $_LANG->_( 'none' ) ); ?>
+							<?php echo extension_loaded('zlib') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<?php echo JText::_( 'Disabled Functions' ); ?>:
+						</td>
+						<td>
+							<?php echo (($df=ini_get('disable_functions')) ? $df : JText::_( 'none' ) ); ?>
 						</td>
 					</tr>
 					<?php
@@ -246,7 +242,7 @@ class HTML_admin_misc {
 					?>
 					<tr>
 						<td>
-							<?php echo $_LANG->_( 'WYSIWYG Editor' ); ?>:
+							<?php echo JText::_( 'WYSIWYG Editor' ); ?>:
 						</td>
 						<td>
 							<?php echo $editor; ?>
@@ -257,7 +253,7 @@ class HTML_admin_misc {
 			</tr>
 			<tr>
 				<td valign="top">
-					<strong><?php echo $_LANG->_( 'Configuration File' ); ?>:</strong>
+					<strong><?php echo JText::_( 'Configuration File' ); ?>:</strong>
 				</td>
 				<td>
 				<?php
@@ -281,14 +277,14 @@ class HTML_admin_misc {
 			</tr>
 			</table>
 		<?php
-		$title = $_LANG->_( 'PHP Info' );
+		$title = JText::_( 'PHP Info' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "php-page" );
 		?>
 			<table class="adminform">
 			<tr>
 				<th colspan="2">
-					<?php echo $_LANG->_( 'PHP Information' ); ?>
+					<?php echo JText::_( 'PHP Information' ); ?>
 				</th>
 			</tr>
 			<tr>
@@ -309,19 +305,19 @@ class HTML_admin_misc {
 			</tr>
 			</table>
 		<?php
-		$title = $_LANG->_( 'Permissions' );
+		$title = JText::_( 'Permissions' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "perms" );
 		?>
 			<table class="adminform">
 			<tr>
 				<th colspan="2">
-					<?php echo $_LANG->_( 'Directory Permissions' ); ?>
+					<?php echo JText::_( 'Directory Permissions' ); ?>
 				</th>
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo $_LANG->_( 'DescDirWritable' ); ?>:</strong>
+					<strong><?php echo JText::_( 'DescDirWritable' ); ?>:</strong>
 					<?php
 					mosHTML::writableCell( 'administrator/backups' );
 					mosHTML::writableCell( 'administrator/components' );
@@ -414,53 +410,53 @@ class HTML_admin_misc {
 				<table width="100%">
 					<tr>
 						<td>
-							<strong><?php echo $_LANG->_( 'Search' ); ?>:</strong>
+							<strong><?php echo JText::_( 'Search' ); ?>:</strong>
 							<input class="text_area" type="hidden" name="option" value="com_admin" />
 							<input type="text" name="helpsearch" value="<?php echo $helpsearch;?>" class="inputbox" />
-							<input type="submit" value="<?php echo $_LANG->_( 'Go' ); ?>" class="button" />
-							<input type="button" value="<?php echo $_LANG->_( 'Clear Results' ); ?>" class="button" onclick="f=document.adminForm;f.helpsearch.value='';f.submit()" />
+							<input type="submit" value="<?php echo JText::_( 'Go' ); ?>" class="button" />
+							<input type="button" value="<?php echo JText::_( 'Clear Results' ); ?>" class="button" onclick="f=document.adminForm;f.helpsearch.value='';f.submit()" />
 							</td>
 							<td style="text-align:right">
 							<?php
 							if ($helpurl) {
 							?>
 							<a href="<?php echo $fullhelpurl;?>joomla.glossary" target="helpFrame">
-								<?php echo $_LANG->_( 'Glossary' ); ?></a>
+								<?php echo JText::_( 'Glossary' ); ?></a>
 							|
 							<a href="<?php echo $fullhelpurl;?>joomla.credits" target="helpFrame">
-								<?php echo $_LANG->_( 'Credits' ); ?></a>
+								<?php echo JText::_( 'Credits' ); ?></a>
 							|
 							<a href="<?php echo $fullhelpurl;?>joomla.support" target="helpFrame">
-								<?php echo $_LANG->_( 'Support' ); ?></a>
+								<?php echo JText::_( 'Support' ); ?></a>
 							<?php
 							} else {
 							?>
 							<a href="<?php echo $mosConfig_live_site;?>/help/joomla.glossary.html" target="helpFrame">
-								<?php echo $_LANG->_( 'Glossary' ); ?></a>
+								<?php echo JText::_( 'Glossary' ); ?></a>
 							|
 							<a href="<?php echo $mosConfig_live_site;?>/help/joomla.credits.html" target="helpFrame">
-								<?php echo $_LANG->_( 'Credits' ); ?></a>
+								<?php echo JText::_( 'Credits' ); ?></a>
 							|
 							<a href="<?php echo $mosConfig_live_site;?>/help/joomla.support.html" target="helpFrame">
-								<?php echo $_LANG->_( 'Support' ); ?></a>
+								<?php echo JText::_( 'Support' ); ?></a>
 							<?php
 							}
 							?>
 							|
 							<a href="http://www.gnu.org/copyleft/gpl.html" target="helpFrame">
-								<?php echo $_LANG->_( 'License' ); ?></a>
+								<?php echo JText::_( 'License' ); ?></a>
 							|
 							<a href="http://help.joomla.org" target="_blank">
 								help.joomla.org</a>
 							|
 							<a href="<?php echo $mosConfig_live_site;?>/administrator/index3.php?option=com_admin&task=changelog" target="helpFrame">
-								<?php echo $_LANG->_( 'Changelog' ); ?></a>
+								<?php echo JText::_( 'Changelog' ); ?></a>
 							|
 							<a href="<?php echo $mosConfig_live_site;?>/administrator/index3.php?option=com_admin&task=sysinfo" target="helpFrame">
-								<?php echo $_LANG->_( 'System Info' ); ?></a>
+								<?php echo JText::_( 'System Info' ); ?></a>
 							|
 							<a href="http://www.joomla.org/content/blogcategory/32/66/" target="_blank">
-								<?php echo $_LANG->_( 'Latest Version Check' ); ?></a>
+								<?php echo JText::_( 'Latest Version Check' ); ?></a>
 						</td>
 					</tr>
 				</table>
@@ -468,7 +464,7 @@ class HTML_admin_misc {
 		</tr>
 		<tr valign="top">
 			<td width="20%" valign="top">
-				<strong><?php echo $_LANG->_( 'Index' ); ?></strong>
+				<strong><?php echo JText::_( 'Index' ); ?></strong>
 				<div class="helpIndex">
 				<?php
 				foreach ($toc as $k=>$v) {
@@ -497,7 +493,7 @@ class HTML_admin_misc {
 	*/
 	function preview( $tp=0 ) {
 		global $mosConfig_live_site;
-		global $_LANG;
+		;
 
 		$tp = intval( $tp );
 		?>
@@ -512,11 +508,11 @@ class HTML_admin_misc {
 		<table class="adminform">
 		<tr>
 			<th width="50%" class="title">
-			<?php echo $_LANG->_( 'Site Preview' ); ?>
+			<?php echo JText::_( 'Site Preview' ); ?>
 			</th>
 			<th width="50%" style="text-align:right">
 			<a href="<?php echo $mosConfig_live_site . '/index.php?tp=' . $tp;?>" target="_blank">
-			<?php echo $_LANG->_( 'Open in new window' ); ?>
+			<?php echo JText::_( 'Open in new window' ); ?>
 			</a>
 			</th>
 		</tr>

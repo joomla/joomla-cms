@@ -48,14 +48,13 @@ class TOOLBAR_newsfeeds  {
 
 	function _EDIT() {
 		global $id;
-		global $_LANG;
-
+		
 		mosMenuBar::startTable();
 		mosMenuBar::save();
 		mosMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', $_LANG->_( 'Close' ) );
+			mosMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
 			mosMenuBar::cancel();
 		}

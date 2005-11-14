@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!$acl->acl_check( 'com_newsfeeds', 'manage', 'users', $my->usertype )) {
-	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
+	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -201,11 +201,11 @@ function saveNewsFeed( $option ) {
 */
 function publishNewsFeeds( $cid, $publish, $option ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	if (count( $cid ) < 1) {
-		$action = $publish ? $_LANG->_( 'publish' ) : $_LANG->_( 'unpublish' );
-		echo "<script> alert('". $_LANG->_( 'Select a module to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
+		$action = $publish ? JText::_( 'publish' ) : JText::_( 'unpublish' );
+		echo "<script> alert('". JText::_( 'Select a module to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -237,10 +237,10 @@ function publishNewsFeeds( $cid, $publish, $option ) {
 */
 function removeNewsFeeds( &$cid, $option ) {
 	global $database;
-	global $_LANG;
+	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		echo "<script> alert('". $_LANG->_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 	if (count( $cid )) {

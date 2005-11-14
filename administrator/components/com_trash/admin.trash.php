@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!($acl->acl_check( 'com_trash', 'manage', 'users', $my->usertype ))) {
-	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
+	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -162,7 +162,7 @@ function viewdeleteTrash( $cid, $mid, $option ) {
 */
 function deleteTrash( $cid, $option ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$type = mosGetParam( $_POST, 'type', array(0) );
 
@@ -184,7 +184,7 @@ function deleteTrash( $cid, $option ) {
 		}
 	}
 
-	$msg = $total. " ". $_LANG->_( 'Item(s) successfully Deleted' );
+	$msg = $total. " ". JText::_( 'Item(s) successfully Deleted' );
 	mosRedirect( "index2.php?option=$option&mosmsg=". $msg ."" );
 }
 
@@ -232,7 +232,7 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 */
 function restoreTrash( $cid, $option ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$type = mosGetParam( $_POST, 'type', array(0) );
 
@@ -262,7 +262,7 @@ function restoreTrash( $cid, $option ) {
 		exit();
 	}
 
-	$msg = $total. " ". $_LANG->_( 'Item(s) successfully Restored' );
+	$msg = $total. " ". JText::_( 'Item(s) successfully Restored' );
 	mosRedirect( "index2.php?option=$option&mosmsg=". $msg ."" );
 }
 ?>

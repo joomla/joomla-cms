@@ -78,7 +78,7 @@ class modules_html {
 		// special handling for components module
 		
 		if ( $module->module != 'mod_components' || ( $module->module == 'mod_components' && $editAllComponents ) ) {
-				$tabs->startTab( $_LANG->_( $module->title ), 'module' . $module->id );
+				$tabs->startTab( JText::_( $module->title ), 'module' . $module->id );
 				echo $module->content;
 				$tabs->endTab();
 		}
@@ -115,7 +115,7 @@ class modules_html {
 			$cacheDir = $mosConfig_absolute_path .'/cache/';
 			if (!is_writable( $cacheDir )) {
 				echo '<tr>';
-				echo '<td>'. $_LANG->_( 'Please make cache directory writable.' ) .'</td>';
+				echo '<td>'. JText::_( 'Please make cache directory writable.' ) .'</td>';
 				echo '</tr>';
 			} else {
 				$LitePath = $mosConfig_absolute_path .'/includes/Cache/Lite.php';

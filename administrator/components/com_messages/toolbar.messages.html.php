@@ -21,9 +21,9 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class TOOLBAR_messages {
 	function _VIEW() {
-		global $_LANG;
+		
 		mosMenuBar::startTable();
-		mosMenuBar::customX('reply', 'restore.png', 'restore_f2.png', $_LANG->_( 'Reply' ), false );
+		mosMenuBar::customX('reply', 'restore.png', 'restore_f2.png', JText::_( 'Reply' ), false );
 		mosMenuBar::spacer();
 		mosMenuBar::deleteList();
 		mosMenuBar::spacer();
@@ -32,9 +32,9 @@ class TOOLBAR_messages {
 	}
 
 	function _EDIT() {
-		global $_LANG;
+		
 		mosMenuBar::startTable();
-		mosMenuBar::save( 'save', $_LANG->_( 'Send' ) );
+		mosMenuBar::save( 'save', JText::_( 'Send' ) );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::spacer();

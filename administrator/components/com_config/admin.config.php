@@ -16,7 +16,7 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 if (!$acl->acl_check( 'com_config', 'manage', 'users', $my->usertype )) {
-	mosRedirect( 'index2.php?', $_LANG->_('ALERTNOTAUTH') );
+	mosRedirect( 'index2.php?', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( $mainframe->getPath( 'class' ) );
@@ -43,7 +43,7 @@ switch ( $task ) {
  */
 function showconfig( $option) {
 	global $database, $mosConfig_absolute_path, $mosConfig_editor;
-	global $_LANG;
+	;
 
 	$row = new mosConfig();
 	$row->bindGlobals();
@@ -85,13 +85,13 @@ function showconfig( $option) {
 	// -- Show/Hide --
 
 	$show_hide = array(
-		mosHTML::makeOption( 1, $_LANG->_( 'Hide' ) ),
-		mosHTML::makeOption( 0, $_LANG->_( 'Show' ) ),
+		mosHTML::makeOption( 1, JText::_( 'Hide' ) ),
+		mosHTML::makeOption( 0, JText::_( 'Show' ) ),
 	);
 
 	$show_hide_r = array(
-		mosHTML::makeOption( 0, $_LANG->_( 'Hide' ) ),
-		mosHTML::makeOption( 1, $_LANG->_( 'Show' ) ),
+		mosHTML::makeOption( 0, JText::_( 'Hide' ) ),
+		mosHTML::makeOption( 1, JText::_( 'Show' ) ),
 	);
 
 	// -- menu items --
@@ -140,10 +140,10 @@ function showconfig( $option) {
 	$lists['gzip'] = mosHTML::yesnoRadioList( 'config_gzip', 'class="inputbox"', $row->config_gzip );
 
 	$errors = array(
-		mosHTML::makeOption( -1, $_LANG->_( 'System Default' ) ),
-		mosHTML::makeOption( 0, $_LANG->_( 'None' ) ),
-		mosHTML::makeOption( E_ERROR|E_WARNING|E_PARSE, $_LANG->_( 'Simple' ) ),
-		mosHTML::makeOption( E_ALL , $_LANG->_( 'Maximum' ) )
+		mosHTML::makeOption( -1, JText::_( 'System Default' ) ),
+		mosHTML::makeOption( 0, JText::_( 'None' ) ),
+		mosHTML::makeOption( E_ERROR|E_WARNING|E_PARSE, JText::_( 'Simple' ) ),
+		mosHTML::makeOption( E_ALL , JText::_( 'Maximum' ) )
 	);
 
 	$lists['error_reporting'] = mosHTML::selectList( $errors, 'config_error_reporting', 'class="inputbox" size="1"', 'value', 'text', $row->config_error_reporting );
@@ -157,45 +157,45 @@ function showconfig( $option) {
 	$lists['lang'] = mosHTML::selectList( $langs, 'config_lang', 'class="inputbox" size="1"', 'value', 'text', $row->config_lang );
 
 	$timeoffset = array(
-		mosHTML::makeOption( -12, $_LANG->_( '(UTC -12:00) International Date Line West' ) ),
-		mosHTML::makeOption( -11, $_LANG->_( '(UTC -11:00) Midway Island, Samoa' ) ),
-		mosHTML::makeOption( -10, $_LANG->_( '(UTC -10:00) Hawaii' ) ),
-		mosHTML::makeOption( -9.5, $_LANG->_( '(UTC -09:30) Taiohae, Marquesas Islands' ) ),
-		mosHTML::makeOption( -9, $_LANG->_( '(UTC -09:00) Alaska' ) ),
-		mosHTML::makeOption( -8, $_LANG->_( '(UTC -08:00) Pacific Time (US &amp; Canada)' ) ),
-		mosHTML::makeOption( -7, $_LANG->_( '(UTC -07:00) Mountain Time (US &amp; Canada)' ) ),
-		mosHTML::makeOption( -6, $_LANG->_( '(UTC -06:00) Central Time (US &amp; Canada), Mexico City' ) ),
-		mosHTML::makeOption( -5, $_LANG->_( '(UTC -05:00) Eastern Time (US &amp; Canada), Bogota, Lima' ) ),
-		mosHTML::makeOption( -4, $_LANG->_( '(UTC -04:00) Atlantic Time (Canada), Caracas, La Paz' ) ),
-		mosHTML::makeOption( -3.5, $_LANG->_( '(UTC -03:30) St. John`s, Newfoundland and Labrador' ) ),
-		mosHTML::makeOption( -3, $_LANG->_( '(UTC -03:00) Brazil, Buenos Aires, Georgetown' ) ),
-		mosHTML::makeOption( -2, $_LANG->_( '(UTC -02:00) Mid-Atlantic' ) ),
-		mosHTML::makeOption( -1, $_LANG->_( '(UTC -01:00) Azores, Cape Verde Islands' ) ),
-		mosHTML::makeOption( 0, $_LANG->_( '(UTC 00:00) Western Europe Time, London, Lisbon, Casablanca' ) ),
-		mosHTML::makeOption( 1 , $_LANG->_( '(UTC +01:00) Berlin, Brussels, Copenhagen, Madrid, Paris' ) ),
-		mosHTML::makeOption( 2, $_LANG->_( '(UTC +02:00) Kaliningrad, South Africa' ) ),
-		mosHTML::makeOption( 3, $_LANG->_( '(UTC +03:00) Baghdad, Riyadh, Moscow, St. Petersburg' ) ),
-		mosHTML::makeOption( 3.5, $_LANG->_( '(UTC +03:30) Tehran' ) ),
-		mosHTML::makeOption( 4, $_LANG->_( '(UTC +04:00) Abu Dhabi, Muscat, Baku, Tbilisi' ) ),
-		mosHTML::makeOption( 4.5, $_LANG->_( '(UTC +04:30) Kabul' ) ),
-		mosHTML::makeOption( 5, $_LANG->_( '(UTC +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent' ) ),
-		mosHTML::makeOption( 5.5, $_LANG->_( '(UTC +05:30) Bombay, Calcutta, Madras, New Delhi' ) ),
-		mosHTML::makeOption( 5.75, $_LANG->_( '(UTC +05:45) Kathmandu' ) ),
-		mosHTML::makeOption( 6, $_LANG->_( '(UTC +06:00) Almaty, Dhaka, Colombo' ) ),
-		mosHTML::makeOption( 6.30, $_LANG->_( '(UTC +06:30) Yagoon' ) ),
-		mosHTML::makeOption( 7, $_LANG->_( '(UTC +07:00) Bangkok, Hanoi, Jakarta' ) ),
-		mosHTML::makeOption( 8, $_LANG->_( '(UTC +08:00) Beijing, Perth, Singapore, Hong Kong' ) ),
-		mosHTML::makeOption( 8.75, $_LANG->_( '(UTC +08:00) Western Australia' ) ),
-		mosHTML::makeOption( 9, $_LANG->_( '(UTC +09:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk' ) ),
-		mosHTML::makeOption( 9.5, $_LANG->_( '(UTC +09:30) Adelaide, Darwin, Yakutsk' ) ),
-		mosHTML::makeOption( 10, $_LANG->_( '(UTC +10:00) Eastern Australia, Guam, Vladivostok' ) ),
-		mosHTML::makeOption( 10.5, $_LANG->_( '(UTC +10:30) Lord Howe Island (Australia)' ) ),
-		mosHTML::makeOption( 11, $_LANG->_( '(UTC +11:00) Magadan, Solomon Islands, New Caledonia' ) ),
-		mosHTML::makeOption( 11.30, $_LANG->_( '(UTC +11:30) Norfolk Island' ) ),
-		mosHTML::makeOption( 12, $_LANG->_( '(UTC +12:00) Auckland, Wellington, Fiji, Kamchatka' ) ),
-		mosHTML::makeOption( 12.75, $_LANG->_( '(UTC +12:45) Chatham Island' ) ),
-		mosHTML::makeOption( 13, $_LANG->_( '(UTC +13:00) Tonga' ) ),
-		mosHTML::makeOption( 14, $_LANG->_( '(UTC +14:00) Kiribati' ) ),
+		mosHTML::makeOption( -12, JText::_( '(UTC -12:00) International Date Line West' ) ),
+		mosHTML::makeOption( -11, JText::_( '(UTC -11:00) Midway Island, Samoa' ) ),
+		mosHTML::makeOption( -10, JText::_( '(UTC -10:00) Hawaii' ) ),
+		mosHTML::makeOption( -9.5, JText::_( '(UTC -09:30) Taiohae, Marquesas Islands' ) ),
+		mosHTML::makeOption( -9, JText::_( '(UTC -09:00) Alaska' ) ),
+		mosHTML::makeOption( -8, JText::_( '(UTC -08:00) Pacific Time (US &amp; Canada)' ) ),
+		mosHTML::makeOption( -7, JText::_( '(UTC -07:00) Mountain Time (US &amp; Canada)' ) ),
+		mosHTML::makeOption( -6, JText::_( '(UTC -06:00) Central Time (US &amp; Canada), Mexico City' ) ),
+		mosHTML::makeOption( -5, JText::_( '(UTC -05:00) Eastern Time (US &amp; Canada), Bogota, Lima' ) ),
+		mosHTML::makeOption( -4, JText::_( '(UTC -04:00) Atlantic Time (Canada), Caracas, La Paz' ) ),
+		mosHTML::makeOption( -3.5, JText::_( '(UTC -03:30) St. John`s, Newfoundland and Labrador' ) ),
+		mosHTML::makeOption( -3, JText::_( '(UTC -03:00) Brazil, Buenos Aires, Georgetown' ) ),
+		mosHTML::makeOption( -2, JText::_( '(UTC -02:00) Mid-Atlantic' ) ),
+		mosHTML::makeOption( -1, JText::_( '(UTC -01:00) Azores, Cape Verde Islands' ) ),
+		mosHTML::makeOption( 0, JText::_( '(UTC 00:00) Western Europe Time, London, Lisbon, Casablanca' ) ),
+		mosHTML::makeOption( 1 , JText::_( '(UTC +01:00) Berlin, Brussels, Copenhagen, Madrid, Paris' ) ),
+		mosHTML::makeOption( 2, JText::_( '(UTC +02:00) Kaliningrad, South Africa' ) ),
+		mosHTML::makeOption( 3, JText::_( '(UTC +03:00) Baghdad, Riyadh, Moscow, St. Petersburg' ) ),
+		mosHTML::makeOption( 3.5, JText::_( '(UTC +03:30) Tehran' ) ),
+		mosHTML::makeOption( 4, JText::_( '(UTC +04:00) Abu Dhabi, Muscat, Baku, Tbilisi' ) ),
+		mosHTML::makeOption( 4.5, JText::_( '(UTC +04:30) Kabul' ) ),
+		mosHTML::makeOption( 5, JText::_( '(UTC +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent' ) ),
+		mosHTML::makeOption( 5.5, JText::_( '(UTC +05:30) Bombay, Calcutta, Madras, New Delhi' ) ),
+		mosHTML::makeOption( 5.75, JText::_( '(UTC +05:45) Kathmandu' ) ),
+		mosHTML::makeOption( 6, JText::_( '(UTC +06:00) Almaty, Dhaka, Colombo' ) ),
+		mosHTML::makeOption( 6.30, JText::_( '(UTC +06:30) Yagoon' ) ),
+		mosHTML::makeOption( 7, JText::_( '(UTC +07:00) Bangkok, Hanoi, Jakarta' ) ),
+		mosHTML::makeOption( 8, JText::_( '(UTC +08:00) Beijing, Perth, Singapore, Hong Kong' ) ),
+		mosHTML::makeOption( 8.75, JText::_( '(UTC +08:00) Western Australia' ) ),
+		mosHTML::makeOption( 9, JText::_( '(UTC +09:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk' ) ),
+		mosHTML::makeOption( 9.5, JText::_( '(UTC +09:30) Adelaide, Darwin, Yakutsk' ) ),
+		mosHTML::makeOption( 10, JText::_( '(UTC +10:00) Eastern Australia, Guam, Vladivostok' ) ),
+		mosHTML::makeOption( 10.5, JText::_( '(UTC +10:30) Lord Howe Island (Australia)' ) ),
+		mosHTML::makeOption( 11, JText::_( '(UTC +11:00) Magadan, Solomon Islands, New Caledonia' ) ),
+		mosHTML::makeOption( 11.30, JText::_( '(UTC +11:30) Norfolk Island' ) ),
+		mosHTML::makeOption( 12, JText::_( '(UTC +12:00) Auckland, Wellington, Fiji, Kamchatka' ) ),
+		mosHTML::makeOption( 12.75, JText::_( '(UTC +12:45) Chatham Island' ) ),
+		mosHTML::makeOption( 13, JText::_( '(UTC +13:00) Tonga' ) ),
+		mosHTML::makeOption( 14, JText::_( '(UTC +14:00) Kiribati' ) ),
 	);
 
 	$lists['offset'] = mosHTML::selectList( $timeoffset, 'config_offset_user', 'class="inputbox" size="1"', 'value', 'text', $row->config_offset_user );
@@ -203,9 +203,9 @@ function showconfig( $option) {
 // MAIL SETTINGS
 
 	$mailer = array(
-		mosHTML::makeOption( 'mail', $_LANG->_( 'PHP mail function' ) ),
-		mosHTML::makeOption( 'sendmail', $_LANG->_( 'Sendmail' ) ),
-		mosHTML::makeOption( 'smtp', $_LANG->_( 'SMTP Server' ) )
+		mosHTML::makeOption( 'mail', JText::_( 'PHP mail function' ) ),
+		mosHTML::makeOption( 'sendmail', JText::_( 'Sendmail' ) ),
+		mosHTML::makeOption( 'smtp', JText::_( 'SMTP Server' ) )
 	);
 	$lists['mailer'] 	= mosHTML::selectList( $mailer, 'config_mailer', 'class="inputbox" size="1"', 'value', 'text', $row->config_mailer );
 
@@ -246,7 +246,7 @@ function showconfig( $option) {
 
 // SEO SETTINGS
 
-	$lists['sef'] 					= mosHTML::yesnoRadioList( 'config_sef', 'class="inputbox" onclick="javascript: if (document.adminForm.config_sef[1].checked) { alert(\''. $_LANG->_( 'Remember to rename htaccess.txt to .htaccess' ) .'\') }"', $row->config_sef );
+	$lists['sef'] 					= mosHTML::yesnoRadioList( 'config_sef', 'class="inputbox" onclick="javascript: if (document.adminForm.config_sef[1].checked) { alert(\''. JText::_( 'Remember to rename htaccess.txt to .htaccess' ) .'\') }"', $row->config_sef );
 
 	$lists['pagetitles'] 			= mosHTML::yesnoRadioList( 'config_pagetitles', 'class="inputbox"', $row->config_pagetitles );
 
@@ -285,7 +285,7 @@ function showconfig( $option) {
 
 	$lists['item_navigation'] 		= mosHTML::RadioList( $show_hide_r, 'config_item_navigation', 'class="inputbox"', $row->config_item_navigation, 'value', 'text' );
 
-	$lists['ml_support'] 			= mosHTML::yesnoRadioList( 'config_ml_support', 'class="inputbox" onclick="javascript: if (document.adminForm.config_ml_support[1].checked) { alert(\''. $_LANG->_( 'Remember to install the MambelFish component.' ) .'\') }"', $row->config_ml_support );
+	$lists['ml_support'] 			= mosHTML::yesnoRadioList( 'config_ml_support', 'class="inputbox" onclick="javascript: if (document.adminForm.config_ml_support[1].checked) { alert(\''. JText::_( 'Remember to install the MambelFish component.' ) .'\') }"', $row->config_ml_support );
 
 	$lists['multipage_toc'] 		= mosHTML::RadioList( $show_hide_r, 'config_multipage_toc', 'class="inputbox"', $row->config_multipage_toc, 'value', 'text' );
 
@@ -299,7 +299,7 @@ function showconfig( $option) {
  */
 function saveconfig( $task ) {
 	global $database, $mosConfig_absolute_path;
-	global $_LANG;
+	;
 
 	$row = new mosConfig();
 	if (!$row->bind( $_POST )) {
@@ -333,7 +333,7 @@ function saveconfig( $task ) {
 				@chmod($fname, $oldperms & 0777555);
 		} // if
 
-		$msg = $_LANG->_( 'The Configuration Details have been updated' );
+		$msg = JText::_( 'The Configuration Details have been updated' );
 
 		// apply file and directory permissions if requested by user
 		$applyFilePerms = mosGetParam($_POST,'applyFilePerms',0) && $row->config_fileperms!='';
@@ -382,7 +382,7 @@ function saveconfig( $task ) {
 		if ($enable_write) {
 			@chmod( $fname, $oldperms );
 		}
-		mosRedirect( 'index2.php', $_LANG->_( 'ERRORCONFIGFILE' ) );
+		mosRedirect( 'index2.php', JText::_( 'ERRORCONFIGFILE' ) );
 	}
 }
 ?>

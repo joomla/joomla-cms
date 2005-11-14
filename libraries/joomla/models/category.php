@@ -55,15 +55,15 @@ class mosCategory extends mosDBTable {
 	}
 	// overloaded check function
 	function check() {
-		global $_LANG;
+		;
 
 		// check for valid name
 		if (trim( $this->title ) == '') {
-			$this->_error = $_LANG->_( 'Your') ." ". $_LANG->_( 'Category') ." ". $_LANG->_( 'must contain a title.' );
+			$this->_error = JText::_( 'Your') ." ". JText::_( 'Category') ." ". JText::_( 'must contain a title.' );
 			return false;
 		}
 		if (trim( $this->name ) == '') {
-			$this->_error = $_LANG->_( 'Your') ." ". $_LANG->_( 'Category') ." ". $_LANG->_( 'must have a name.' );
+			$this->_error = JText::_( 'Your') ." ". JText::_( 'Category') ." ". JText::_( 'must have a name.' );
 			return false;
 		}
 		// check for existing name
@@ -76,7 +76,7 @@ class mosCategory extends mosDBTable {
 
 		$xid = intval( $this->_db->loadResult() );
 		if ($xid && $xid != intval( $this->id )) {
-			$this->_error = $_LANG->_( 'There is a' ) ." ". $_LANG->_( 'Category') ." ". $_LANG->_( 'already with that name, please try again.' );
+			$this->_error = JText::_( 'There is a' ) ." ". JText::_( 'Category') ." ". JText::_( 'already with that name, please try again.' );
 			return false;
 		}
 		return true;

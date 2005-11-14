@@ -59,7 +59,7 @@ $rows = $database->loadObjectList();
 <table class="adminlist">
 <tr>
 	<th colspan="4">
-	<?php echo $_LANG->_( 'Currently Logged in Users' ); ?>
+	<?php echo JText::_( 'Currently Logged in Users' ); ?>
 	</th>
 </tr>
 <?php
@@ -67,7 +67,7 @@ $i = 0;
 foreach ( $rows as $row ) {
 	if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
 		$link 	= 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->userid;
-		$name 	= '<a href="'. $link .'" title="'. $_LANG->_( 'Edit User' ) .'">'. $row->username .'</a>';
+		$name 	= '<a href="'. $link .'" title="'. JText::_( 'Edit User' ) .'">'. $row->username .'</a>';
 	} else {
 		$name 	= $row->username;
 	}
@@ -87,7 +87,7 @@ foreach ( $rows as $row ) {
 			?>
 			<td>
 			<a href="index2.php?option=com_users&task=flogout&id=<?php echo $row->userid; ?>">
-			<img src="images/publish_x.png" width="12" height="12" border="0" alt="<?php echo $_LANG->_( 'Logout' ); ?>" Title="<?php echo $_LANG->_( 'Force Logout User' ); ?>" />
+			<img src="images/publish_x.png" width="12" height="12" border="0" alt="<?php echo JText::_( 'Logout' ); ?>" Title="<?php echo JText::_( 'Force Logout User' ); ?>" />
 			</a>
 			</td>
 			<?php

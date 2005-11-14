@@ -222,12 +222,12 @@ function resetStats( $option, $task ) {
 				$total = $database->loadResult();
 
 					if ( $total == 0 ) {
-						$msg = $_LANG->_( 'reset statistics failed' );
+						$msg = JText::_( 'reset statistics failed' );
 						$redirecturl = 'index2.php?option=com_statistics';
 					}
 					else {
    						$query = "DELETE FROM #__stats_agents";
-						$msg = $_LANG->_( 'reset statistics success' );
+						$msg = JText::_( 'reset statistics success' );
 						$redirecturl = 'index2.php?option=com_statistics';
 					}					
 			break;
@@ -242,7 +242,7 @@ function resetStats( $option, $task ) {
 				$total = $database->loadResult();
 
 					if ( $total == 0 ) {
-						$msg = $_LANG->_( 'reset statistics failed' );
+						$msg = JText::_( 'reset statistics failed' );
 						$redirecturl = 'index2.php?option=com_statistics&task=pageimp';
 					}
 					else {
@@ -250,7 +250,7 @@ function resetStats( $option, $task ) {
 						. "\n SET hits = 0"
 						. "\n WHERE hits != 0"
 						;
-						$msg = $_LANG->_( 'reset statistics success' );
+						$msg = JText::_( 'reset statistics success' );
 						$redirecturl = 'index2.php?option=com_statistics&task=pageimp';
 					}			
 			break;
@@ -264,12 +264,12 @@ function resetStats( $option, $task ) {
 				$total = $database->loadResult();
 
 					if ( $total == 0 ) {
-						$msg = $_LANG->_( 'reset statistics failed' );
+						$msg = JText::_( 'reset statistics failed' );
 						$redirecturl = 'index2.php?option=com_statistics&task=searches';
 					}
 					else {
    						$query = "DELETE FROM #__core_log_searches";
-						$msg = $_LANG->_( 'reset statistics success' );
+						$msg = JText::_( 'reset statistics success' );
 						$redirecturl = 'index2.php?option=com_statistics&task=searches';
 					}			
 			break;

@@ -17,12 +17,12 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if ( !$acl->acl_check( 'com_installer', $element, 'users', $my->usertype ) ) {
-	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
+	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( $mainframe->getPath( 'installer_html', 'mambot' ) );
 ?><!--<?php
-HTML_installer::showInstallForm( $_LANG->_( 'Install new Mambots' ), $option, 'mambot', '', dirname(__FILE__) );
+HTML_installer::showInstallForm( JText::_( 'Install new Mambots' ), $option, 'mambot', '', dirname(__FILE__) );
 ?>
 <table class="content">
 <?php

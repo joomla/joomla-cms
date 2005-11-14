@@ -27,9 +27,6 @@ $mainframe->initSession();
 /** get the information about the current user from the sessions table */
 $my = $mainframe->getUser();
 
-$_LANG = JFactory::getLanguage();
-$_LANG->debug( $mosConfig_debug );
-
 
 /**
 * CUSTOM HANDLER FOR METHOD NOT FOUND

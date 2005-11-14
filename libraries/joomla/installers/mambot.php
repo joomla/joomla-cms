@@ -27,7 +27,7 @@ class mosInstallerMambot extends mosInstaller {
 	*/
 	function install( $p_fromdir = null ) {
 		global $mosConfig_absolute_path, $database;
-		global $_LANG;
+		;
 
 		if (!$this->preInstallCheck( $p_fromdir, 'mambot' )) {
 			return false;
@@ -44,11 +44,11 @@ class mosInstallerMambot extends mosInstaller {
 		$this->elementDir( mosPathName( $mosConfig_absolute_path . '/mambots/' . $folder ) );
 
 		if(!file_exists($this->elementDir()) && !mosMakePath($this->elementDir())) {
-			$this->setError( 1, $_LANG->_( 'Failed to create directory' ) .' "' . $this->elementDir() . '"' );
+			$this->setError( 1, JText::_( 'Failed to create directory' ) .' "' . $this->elementDir() . '"' );
 			return false;
 		}
 
-		if ($this->parseFiles( 'files', 'mambot', $_LANG->_( 'No file is marked as mambot file' ) ) === false) {
+		if ($this->parseFiles( 'files', 'mambot', JText::_( 'No file is marked as mambot file' ) ) === false) {
 			return false;
 		}
 
@@ -59,7 +59,7 @@ class mosInstallerMambot extends mosInstaller {
 		;
 		$database->setQuery( $query );
 		if (!$database->query()) {
-			$this->setError( 1, $_LANG->_( 'SQL error' ) .': ' . $database->stderr( true ) );
+			$this->setError( 1, JText::_( 'SQL error' ) .': ' . $database->stderr( true ) );
 			return false;
 		}
 
@@ -80,11 +80,11 @@ class mosInstallerMambot extends mosInstaller {
 			}
 
 			if (!$row->store()) {
-				$this->setError( 1, $_LANG->_( 'SQL error' ) .': ' . $row->getError() );
+				$this->setError( 1, JText::_( 'SQL error' ) .': ' . $row->getError() );
 				return false;
 			}
 		} else {
-			$this->setError( 1, $_LANG->_( 'Mambot' ) .' "'. $this->elementName() .'" '. $_LANG->_( 'already exists!' ) );
+			$this->setError( 1, JText::_( 'Mambot' ) .' "'. $this->elementName() .'" '. JText::_( 'already exists!' ) );
 			return false;
 		}
 		if ($e = &$mosinstall->getElementsByPath( 'description', 1 )) {
@@ -101,7 +101,7 @@ class mosInstallerMambot extends mosInstaller {
 	*/
 	function uninstall( $id, $option, $client=0 ) {
 		global $database, $mosConfig_absolute_path;
-		global $_LANG;
+		;
 
 		$id = intval( $id );
 		$query = "SELECT name, folder, element, iscore"
@@ -113,18 +113,18 @@ class mosInstallerMambot extends mosInstaller {
 		$row = null;
 		$database->loadObject( $row );
 		if ($database->getErrorNum()) {
-			HTML_installer::showInstallMessage( $database->stderr(), $_LANG->_( 'Uninstall - error' ),
+			HTML_installer::showInstallMessage( $database->stderr(), JText::_( 'Uninstall - error' ),
 			$this->returnTo( $option, 'mambot', $client ) );
 			exit();
 		}
 		if ($row == null) {
-			HTML_installer::showInstallMessage( 'Invalid object id', $_LANG->_( 'Uninstall - error' ),
+			HTML_installer::showInstallMessage( 'Invalid object id', JText::_( 'Uninstall - error' ),
 			$this->returnTo( $option, 'mambot', $client ) );
 			exit();
 		}
 
 		if (trim( $row->folder ) == '') {
-			HTML_installer::showInstallMessage( $_LANG->_( 'Folder field empty, cannot remove files' ), $_LANG->_( 'Uninstall - error' ),
+			HTML_installer::showInstallMessage( JText::_( 'Folder field empty, cannot remove files' ), JText::_( 'Uninstall - error' ),
 			$this->returnTo( $option, 'mambot', $client ) );
 			exit();
 		}
@@ -150,10 +150,10 @@ class mosInstallerMambot extends mosInstaller {
 							$parts = pathinfo( $filename );
 							$subpath = $parts['dirname'];
 							if ($subpath <> '' && $subpath <> '.' && $subpath <> '..') {
-								echo '<br />'. $_LANG->_( 'Deleting' ) .': '. $basepath . $subpath;
+								echo '<br />'. JText::_( 'Deleting' ) .': '. $basepath . $subpath;
 								$result = deldir(mosPathName( $basepath . $subpath . '/' ));
 							} else {
-								echo '<br />'. $_LANG->_( 'Deleting' ) .': '. $basepath . $filename;
+								echo '<br />'. JText::_( 'Deleting' ) .': '. $basepath . $filename;
 								$result = unlink( mosPathName ($basepath . $filename, false));
 							}
 							echo intval( $result );
@@ -161,7 +161,7 @@ class mosInstallerMambot extends mosInstaller {
 					}
 
 					// remove XML file from front
-					echo $_LANG->_( 'Deleting XML File' ) .": ". $xmlfile;
+					echo JText::_( 'Deleting XML File' ) .": ". $xmlfile;
 					@unlink(  mosPathName ($xmlfile, false ) );
 
 					// define folders that should not be removed
@@ -180,8 +180,8 @@ class mosInstallerMambot extends mosInstaller {
 		}
 
 		if ($row->iscore) {
-			HTML_installer::showInstallMessage( $row->name .' '. $_LANG->_( 'WARNCOREELEMENT' ) .'<br />'. $_LANG->_( 'WARNCORECOMPONENT2' ),
-			$_LANG->_( 'Uninstall - error' ), $this->returnTo( $option, 'mambot', $client ) );
+			HTML_installer::showInstallMessage( $row->name .' '. JText::_( 'WARNCOREELEMENT' ) .'<br />'. JText::_( 'WARNCORECOMPONENT2' ),
+			JText::_( 'Uninstall - error' ), $this->returnTo( $option, 'mambot', $client ) );
 			exit();
 		}
 

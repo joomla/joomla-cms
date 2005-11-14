@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!$acl->acl_check( 'com_syndicate', 'manage', 'users', $my->usertype )) {
-	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
+	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -68,7 +68,7 @@ function showSyndicate( $option ) {
 */
 function saveSyndicate( $option ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$params = mosGetParam( $_POST, 'params', '' );
 	if (is_array( $params )) {
@@ -97,7 +97,7 @@ function saveSyndicate( $option ) {
 		exit();
 	}
 
-	$msg = $_LANG->_( 'Settings successfully Saved' );
+	$msg = JText::_( 'Settings successfully Saved' );
 	mosRedirect( 'index2.php?option='. $option, $msg );
 }
 

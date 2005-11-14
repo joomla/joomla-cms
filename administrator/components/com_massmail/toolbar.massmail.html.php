@@ -24,9 +24,9 @@ class TOOLBAR_massmail {
 	* Draws the menu for a New Contact
 	*/
 	function _DEFAULT() {
-		global $_LANG;
+		
 		mosMenuBar::startTable();
-		mosMenuBar::custom('send','publish.png','publish_f2.png',$_LANG->_( 'Send Mail' ),false);
+		mosMenuBar::custom('send','publish.png','publish_f2.png',JText::_( 'Send Mail' ),false);
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::spacer();

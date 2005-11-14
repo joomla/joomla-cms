@@ -23,66 +23,6 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class JFactory 
 {	
 	/**
-	* Load language files
-	* The function will load the common language file of the system and the
-	* special files for the actual component.
-	* The module related files will be loaded automatically
-	*
-	* @subpackage Language
-	* @param string		actual component which files should be loaded
-	* @param boolean	admin languages to be loaded?
-	* @return object
-	* @since 1.1
-	*/
-	function &getLanguage( $option=null ) {
-		global $mosConfig_absolute_path, $mainframe;
-		global $mosConfig_lang, $my;
-
-		jimport('joomla.language');
-
-		$path = $mosConfig_absolute_path . '/language/';
-		
-		$lang = $mainframe->getUserState( 'lang' );
-		
-		if ($lang == '' && $my && isset( $my->params )) {
-
-			// if admin && special lang?
-			if( $mainframe && $mainframe->isAdmin() ) {
-				$lang = $my->params->get( 'admin_language', $lang );
-			}
-		}
-		
-		// loads english language file by default
-		if ($lang == '0' || $lang == '') {
-			$lang = $mosConfig_lang;
-		}
-
-		// load the site language file (the old way - to be deprecated)
-		$file = $path . $lang .'.php';
-		if (file_exists( $file )) {
-			require_once( $path . $lang .'.php' );
-		} else {
-			$file = $path .'english.php';
-			if (file_exists( $file )) {
-				require_once( $file );
-			}
-		}
-
-		$_LANG = new JLanguage( $lang );
-		$_LANG->loadAll( $option, $mainframe->getClient() );
-
-		// make sure the locale setting is correct
-		setlocale( LC_ALL, $_LANG->locale() );
-
-		// In case of frontend modify the config value in order to keep backward compatiblitity
-		if( $mainframe && !$mainframe->isAdmin() ) {
-			$mosConfig_lang = $lang;
-		}
-
-		return $_LANG;
-	}
-	
-	/**
 	 * Creates a patTemplate oject
 	 * @param array An array of additional template files to load
 	 * @param boolean True to use caching
@@ -234,7 +174,7 @@ class JFactory
 	 * @since 1.1
 	 */
 	function &_createPatTemplate() {
-		global $_LANG, $mainframe;
+		global $mainframe;
 		global $mosConfig_absolute_path, $mosConfig_live_site;
 
 		$path = $mosConfig_absolute_path . '/libraries/pattemplate';
@@ -269,15 +209,15 @@ class JFactory
 		$tmpl->addGlobalVar( 'admintemplateurl', 	$mosConfig_live_site . '/administrator/templates/'. $mainframe->getTemplate() );
 		$tmpl->addGlobalVar( 'sitename', 			$GLOBALS['mosConfig_sitename'] );
 
-		$tmpl->addGlobalVar( 'page_encoding', 		$_LANG->iso() );
+		$tmpl->addGlobalVar( 'page_encoding', 		JText::iso() );
 		$tmpl->addGlobalVar( 'version_copyright', 	$GLOBALS['_VERSION']->COPYRIGHT );
 		$tmpl->addGlobalVar( 'version_url', 		$GLOBALS['_VERSION']->URL );
 
 		$tmpl->addVar( 'form', 'formAction', 		$_SERVER['PHP_SELF'] );
 		$tmpl->addVar( 'form', 'formName', 			'adminForm' );
 
-		if ($_LANG->iso()) {
-			$tmpl->addGlobalVar( 'lang_iso', 		$_LANG->iso() );
+		if (JText::iso()) {
+			$tmpl->addGlobalVar( 'lang_iso', 		JText::iso() );
 		} else {
 			// TODO: Try and determine the charset from the browser
 			$tmpl->addGlobalVar( 'lang_iso', 		'iso-8859-1' );

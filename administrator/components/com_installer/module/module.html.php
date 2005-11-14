@@ -22,7 +22,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class HTML_module {
 
 	function showInstalledModules( &$rows, $option, &$xmlfile, &$lists ) {
-		global $_LANG;
+		;
 
 		if (count($rows)) {
 			?>
@@ -30,10 +30,10 @@ class HTML_module {
 			<table class="adminheading">
 			<tr>
 				<th class="install">
-				<?php echo $_LANG->_( 'Installed Modules' ); ?>
+				<?php echo JText::_( 'Installed Modules' ); ?>
 				</th>
 				<td>
-				<?php echo $_LANG->_( 'Filter' ); ?>:
+				<?php echo JText::_( 'Filter' ); ?>:
 				</td>
 				<td align="right">
 				<?php echo $lists['filter'];?>
@@ -41,7 +41,7 @@ class HTML_module {
 			</tr>
 			<tr>
 				<td colspan="3">
-				<?php echo $_LANG->_( 'DESCMODULES' ); ?>
+				<?php echo JText::_( 'DESCMODULES' ); ?>
 				<br /><br />
 				</td>
 			</tr>
@@ -50,25 +50,25 @@ class HTML_module {
 			<table class="adminlist">
 			<tr>
 				<th width="20%" class="title">
-				<?php echo $_LANG->_( 'Module File' ); ?>
+				<?php echo JText::_( 'Module File' ); ?>
 				</th>
 				<th width="10%"  class="title">
-				<?php echo $_LANG->_( 'Client' ); ?>
+				<?php echo JText::_( 'Client' ); ?>
 				</th>
 				<th width="10%"  class="title">
-				<?php echo $_LANG->_( 'Author' ); ?>
+				<?php echo JText::_( 'Author' ); ?>
 				</th>
 				<th width="5%" align="center">
-				<?php echo $_LANG->_( 'Version' ); ?>
+				<?php echo JText::_( 'Version' ); ?>
 				</th>
 				<th width="10%" align="center">
-				<?php echo $_LANG->_( 'Date' ); ?>
+				<?php echo JText::_( 'Date' ); ?>
 				</th>
 				<th width="15%"  class="title">
-				<?php echo $_LANG->_( 'Author Email' ); ?>
+				<?php echo JText::_( 'Author Email' ); ?>
 				</th>
 				<th width="15%"  class="title">
-				<?php echo $_LANG->_( 'Author URL' ); ?>
+				<?php echo JText::_( 'Author URL' ); ?>
 				</th>
 			</tr>
 			<?php
@@ -80,7 +80,7 @@ class HTML_module {
 					<td>
 					<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);"><span class="bold"><?php echo $row->module; ?></span></td>
 					<td>
-					<?php echo $row->client_id == "0" ? $_LANG->_( 'Site' ) : $_LANG->_( 'Administrator' ); ?>
+					<?php echo $row->client_id == "0" ? JText::_( 'Site' ) : JText::_( 'Administrator' ); ?>
 					</td>
 					<td>
 					<?php echo @$row->author != "" ? $row->author : "&nbsp;"; ?>
@@ -104,7 +104,7 @@ class HTML_module {
 		} else {
 			?>
 			<td class="small">
-			<?php echo $_LANG->_( 'No custom modules installed' ); ?>
+			<?php echo JText::_( 'No custom modules installed' ); ?>
 			</td>
 			<?php
 		}

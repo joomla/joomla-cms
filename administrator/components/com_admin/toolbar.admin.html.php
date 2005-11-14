@@ -21,37 +21,33 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class TOOLBAR_admin {
 	function _SYSINFO() {
-		global $_LANG;
-		
+	
 		mosMenuBar::startTable();
-		mosMenuBar::title( $_LANG->_( 'Information' ), 'systeminfo.png', 'index2.php?option=com_admin&task=sysinfo' );
+		mosMenuBar::title( JText::_( 'Information' ), 'systeminfo.png', 'index2.php?option=com_admin&task=sysinfo' );
 		mosMenuBar::help( 'screen.system.info' );
 		mosMenuBar::endTable();
 	}
 
 	function _CPANEL() {
-		global $_LANG;
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( $_LANG->_( 'Control Panel' ), 'cpanel.png', 'index2.php' );
+		mosMenuBar::title( JText::_( 'Control Panel' ), 'cpanel.png', 'index2.php' );
 		mosMenuBar::help( 'screen.cpanel' );
 		mosMenuBar::endTable();
 	}
 
 	function _HELP() {
-		global $_LANG;
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( $_LANG->_( 'Help' ), 'help_f2.png', 'index2.php?option=com_admin&task=help' );
+		mosMenuBar::title( JText::_( 'Help' ), 'help_f2.png', 'index2.php?option=com_admin&task=help' );
 		mosMenuBar::spacer();
 		mosMenuBar::endTable();
 	}
 	
 	function _PREVIEW() {
-		global $_LANG;
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( $_LANG->_( 'Preview' ) );
+		mosMenuBar::title( JText::_( 'Preview' ) );
 		mosMenuBar::spacer();
 		mosMenuBar::endTable();
 	}

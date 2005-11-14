@@ -111,7 +111,7 @@ function newMessage( $option, $user, $subject ) {
 	$gids 	= implode( ',', $gids );
 
 	// get list of usernames
-	$recipients = array( mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select User' ) .' -' ) );
+	$recipients = array( mosHTML::makeOption( '0', '- '. JText::_( 'Select User' ) .' -' ) );
 	$query = "SELECT id AS value, username AS text FROM #__users"
 	. "\n WHERE gid IN ( $gids )"
 	. "\n ORDER BY name"
@@ -215,10 +215,10 @@ function viewMessage( $uid='0', $option ) {
 
 function removeMessage( $cid, $option ) {
 	global $database;
-	global $_LANG;
+	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		echo "<script> alert('". $_LANG->_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 	if (count( $cid )) {

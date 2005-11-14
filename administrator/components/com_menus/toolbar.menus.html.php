@@ -24,9 +24,9 @@ class TOOLBAR_menus {
 	* Draws the menu for a New top menu item
 	*/
 	function _NEW()	{
-		global $_LANG;
+		
 		mosMenuBar::startTable();
-		mosMenuBar::customX( 'edit', 'next.png', 'next_f2.png', $_LANG->_( 'Next' ), true );
+		mosMenuBar::customX( 'edit', 'next.png', 'next_f2.png', JText::_( 'Next' ), true );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::spacer();
@@ -38,9 +38,9 @@ class TOOLBAR_menus {
 	* Draws the menu to Move Menut Items
 	*/
 	function _MOVEMENU()	{
-		global $_LANG;
+		
 		mosMenuBar::startTable();
-		mosMenuBar::custom( 'movemenusave', 'move.png', 'move_f2.png', $_LANG->_( 'Move' ), false );
+		mosMenuBar::custom( 'movemenusave', 'move.png', 'move_f2.png', JText::_( 'Move' ), false );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel( 'cancelmovemenu' );
 		mosMenuBar::spacer();
@@ -52,9 +52,9 @@ class TOOLBAR_menus {
 	* Draws the menu to Move Menut Items
 	*/
 	function _COPYMENU()	{
-		global $_LANG;
+		
 		mosMenuBar::startTable();
-		mosMenuBar::custom( 'copymenusave', 'copy.png', 'copy_f2.png', $_LANG->_( 'Copy' ), false );
+		mosMenuBar::custom( 'copymenusave', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), false );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel( 'cancelcopymenu' );
 		mosMenuBar::spacer();
@@ -96,15 +96,15 @@ class TOOLBAR_menus {
 	}
 
 	function _DEFAULT() {
-		global $_LANG;
+		
 		mosMenuBar::startTable();
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();
 		mosMenuBar::spacer();
-		mosMenuBar::customX( 'movemenu', 'move.png', 'move_f2.png', $_LANG->_( 'Move' ), true );
+		mosMenuBar::customX( 'movemenu', 'move.png', 'move_f2.png', JText::_( 'Move' ), true );
 		mosMenuBar::spacer();
-		mosMenuBar::customX( 'copymenu', 'copy.png', 'copy_f2.png', $_LANG->_( 'Copy' ), true );
+		mosMenuBar::customX( 'copymenu', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), true );
 		mosMenuBar::spacer();
 		mosMenuBar::trash();
 		mosMenuBar::spacer();

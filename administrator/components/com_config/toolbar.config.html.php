@@ -21,10 +21,9 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class TOOLBAR_config {
 	function _DEFAULT() {
-		global $_LANG;
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( $_LANG->_( 'Global Configuration' ), 'config.png', 'index2.php?option=com_config&amp;hidemainmenu=1' );
+		mosMenuBar::title( JText::_( 'Global Configuration' ), 'config.png', 'index2.php?option=com_config&amp;hidemainmenu=1' );
 		mosMenuBar::save();
 		mosMenuBar::spacer();
 		mosMenuBar::apply();

@@ -16,11 +16,11 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 function writableCell( $folder ) {
-	global $_LANG;
+	;
 	echo '<tr>';
 	echo '<td class="item">' . $folder . '/</td>';
 	echo '<td >';
-	echo is_writable( $GLOBALS['mosConfig_absolute_path'] . '/' . $folder ) ? '<b><font color="green">'. $_LANG->_( 'Writeable' ) .'</font></b>' : '<b><font color="red">'. $_LANG->_( 'Unwriteable' ) .'</font></b>';
+	echo is_writable( $GLOBALS['mosConfig_absolute_path'] . '/' . $folder ) ? '<b><font color="green">'. JText::_( 'Writeable' ) .'</font></b>' : '<b><font color="red">'. JText::_( 'Unwriteable' ) .'</font></b>';
 	echo '</td></tr>';
 }
 
@@ -30,7 +30,7 @@ function writableCell( $folder ) {
 class HTML_installer {
 
 	function showInstallForm( $title, $option, $element, $client = "", $p_startdir = "", $backLink="" ) {
-    	global $_LANG;
+    	;
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton3(pressbutton) {
@@ -38,7 +38,7 @@ class HTML_installer {
 
 			// do field validation
 			if (form.userfile.value == ""){
-				alert( "<?php echo $_LANG->_( 'Please select a directory' ); ?>" );
+				alert( "<?php echo JText::_( 'Please select a directory' ); ?>" );
 			} else {
 				form.submit();
 			}
@@ -49,7 +49,7 @@ class HTML_installer {
 
 			// do field validation
 			if (form.userfile.value == ""){
-				alert( "<?php echo $_LANG->_( 'Please enter a URL' ); ?>" );
+				alert( "<?php echo JText::_( 'Please enter a URL' ); ?>" );
 			} else {
 				form.submit();
 			}
@@ -71,14 +71,14 @@ class HTML_installer {
 		<table class="adminform">
 		<tr>
 			<th>
-			<?php echo $_LANG->_( 'Upload Package File' ); ?>
+			<?php echo JText::_( 'Upload Package File' ); ?>
 			</th>
 		</tr>
 		<tr>
 			<td >
-			<?php echo $_LANG->_( 'Package File' ); ?>:
+			<?php echo JText::_( 'Package File' ); ?>:
 			<input class="text_area" name="userfile" type="file" size="70"/>
-			<input class="button" type="submit" value="<?php echo $_LANG->_( 'Upload File' ); ?> &amp; <?php echo $_LANG->_( 'Install' ); ?>" />
+			<input class="button" type="submit" value="<?php echo JText::_( 'Upload File' ); ?> &amp; <?php echo JText::_( 'Install' ); ?>" />
 			</td>
 		</tr>
 		</table>
@@ -94,14 +94,14 @@ class HTML_installer {
 		<table class="adminform">
 		<tr>
 			<th>
-			<?php echo $_LANG->_( 'Install from directory' ); ?>
+			<?php echo JText::_( 'Install from directory' ); ?>
 			</th>
 		</tr>
 		<tr>
 			<td >
-			<?php echo $_LANG->_( 'Install directory' ); ?>:&nbsp;
+			<?php echo JText::_( 'Install directory' ); ?>:&nbsp;
 			<input type="text" name="userfile" class="text_area" size="65" value="<?php echo $p_startdir; ?>"/>&nbsp;
-			<input type="button" class="button" value="<?php echo $_LANG->_( 'Install' ); ?>" onclick="submitbutton3()" />
+			<input type="button" class="button" value="<?php echo JText::_( 'Install' ); ?>" onclick="submitbutton3()" />
 			</td>
 		</tr>
 		</table>
@@ -117,14 +117,14 @@ class HTML_installer {
                 <table class="adminform">
                 <tr>
                         <th>
-                        <?php echo $_LANG->_( 'Install from URL' ); ?>
+                        <?php echo JText::_( 'Install from URL' ); ?>
                         </th>
                 </tr>
                 <tr>
                         <td >
-                        <?php echo $_LANG->_( 'Install URL' ); ?>:&nbsp;
+                        <?php echo JText::_( 'Install URL' ); ?>:&nbsp;
                         <input type="text" name="userfile" class="text_area" size="65" value="http://"/>&nbsp;
-                        <input type="button" class="button" value="<?php echo $_LANG->_( 'Install' ); ?>" onclick="submitbutton4()" />
+                        <input type="button" class="button" value="<?php echo JText::_( 'Install' ); ?>" onclick="submitbutton4()" />
                         </td>
                 </tr>
                 </table>
@@ -146,7 +146,7 @@ class HTML_installer {
 	*/
 	function showInstallMessage( $message, $title, $url ) {
 		global $PHP_SELF;
-    	global $_LANG;
+    	;
 		?>
 		<table class="adminheading">
 		<tr>
@@ -164,7 +164,7 @@ class HTML_installer {
 		</tr>
 		<tr>
 			<td colspan="2" align="center">
-			[&nbsp;<a href="<?php echo $url;?>" style="font-size: 16px; font-weight: bold"><?php echo $_LANG->_( 'Continue ...' ); ?></a>&nbsp;]
+			[&nbsp;<a href="<?php echo $url;?>" style="font-size: 16px; font-weight: bold"><?php echo JText::_( 'Continue ...' ); ?></a>&nbsp;]
 			</td>
 		</tr>
 		</table>

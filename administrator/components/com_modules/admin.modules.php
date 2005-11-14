@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if (!($acl->acl_check( 'com_modules', 'manage', 'users', $my->usertype ))) {
-	mosRedirect( 'index2.php', $_LANG->_('ALERTNOTAUTH') );
+	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( $mainframe->getPath( 'admin_html' ) );
@@ -93,7 +93,7 @@ switch ( $task ) {
 */
 function viewModules( $option, $client ) {
 	global $database, $my, $mainframe, $mosConfig_list_limit, $mosConfig_absolute_path;
-	global $_LANG;
+	;
 
 	$filter_position 	= $mainframe->getUserStateFromRequest( "filter_position{$option}{$client}", 'filter_position', 0 );
 	$filter_type	 	= $mainframe->getUserStateFromRequest( "filter_type{$option}{$client}", 'filter_type', 0 );
@@ -157,7 +157,7 @@ function viewModules( $option, $client ) {
 	. "\n GROUP BY t.position"
 	. "\n ORDER BY t.position"
 	;
-	$positions[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Position' ) .' -' );
+	$positions[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Position' ) .' -' );
 	$database->setQuery( $query );
 	$positions = array_merge( $positions, $database->loadObjectList() );
 	$lists['position']	= mosHTML::selectList( $positions, 'filter_position', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_position" );
@@ -169,7 +169,7 @@ function viewModules( $option, $client ) {
 	. "\n GROUP BY module"
 	. "\n ORDER BY module"
 	;
-	$types[] = mosHTML::makeOption( '0', '- '. $_LANG->_( 'Select Type' ) .' -' );
+	$types[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Type' ) .' -' );
 	$database->setQuery( $query );
 	$types = array_merge( $types, $database->loadObjectList() );
 	$lists['type']	= mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_type" );
@@ -184,12 +184,12 @@ function viewModules( $option, $client ) {
 */
 function copyModule( $option, $uid, $client ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	$row = new mosModule( $database );
 	// load the row from the db table
 	$row->load( $uid );
-	$row->title 		= $_LANG->_( 'Copy of' ) .' '.$row->title;
+	$row->title 		= JText::_( 'Copy of' ) .' '.$row->title;
 	$row->id 			= 0;
 	$row->iscore 		= 0;
 	$row->published 	= 0;
@@ -225,7 +225,7 @@ function copyModule( $option, $uid, $client ) {
 		$database->query();
 	}
 
-	$msg = $_LANG->_( 'Module Copied' ) .' ['. $row->title .']';
+	$msg = JText::_( 'Module Copied' ) .' ['. $row->title .']';
 	mosRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
 }
 
@@ -234,7 +234,7 @@ function copyModule( $option, $uid, $client ) {
 */
 function saveModule( $option, $client, $task ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$params = mosGetParam( $_POST, 'params', '' );
 	if (is_array( $params )) {
@@ -288,13 +288,13 @@ function saveModule( $option, $client, $task ) {
 
 	switch ( $task ) {
 		case 'apply':
-			$msg = $_LANG->_( 'Successfully Saved changes to Module' ) .': '. $row->title;
+			$msg = JText::_( 'Successfully Saved changes to Module' ) .': '. $row->title;
 			mosRedirect( 'index2.php?option='. $option .'&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
-			$msg = $_LANG->_( 'Successfully Saved Module' ) .': '. $row->title;
+			$msg = JText::_( 'Successfully Saved Module' ) .': '. $row->title;
 			mosRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
 			break;
 	}
@@ -307,7 +307,7 @@ function saveModule( $option, $client, $task ) {
 */
 function editModule( $option, $uid, $client ) {
 	global $database, $my, $mainframe, $mosConfig_absolute_path;
-	global $_LANG;
+	;
 
 	$lists 	= array();
 	$row 	= new mosModule( $database );
@@ -315,7 +315,7 @@ function editModule( $option, $uid, $client ) {
 	$row->load( $uid );
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
-		mosErrorAlert($_LANG->_( 'The module' ) .' '. $row->title .' '. $_LANG->_( 'DESCBEINGEDITTED' ), "document.location.href='index2.php?option=$option");
+		mosErrorAlert(JText::_( 'The module' ) .' '. $row->title .' '. JText::_( 'DESCBEINGEDITTED' ), "document.location.href='index2.php?option=$option");
 	}
 	
 	$row->content = htmlspecialchars( str_replace( '&amp;', '&', $row->content ) );
@@ -395,7 +395,7 @@ function editModule( $option, $uid, $client ) {
 		$database->setQuery( $query );
 		$lookup = $database->loadObjectList();
 	} else {
-		$lookup = array( mosHTML::makeOption( 0, $_LANG->_( 'All' ) ) );
+		$lookup = array( mosHTML::makeOption( 0, JText::_( 'All' ) ) );
 	}
 
 	if ( $row->access == 99 || $row->client_id == 1 || $lists['client_id'] ) {
@@ -445,10 +445,10 @@ function editModule( $option, $uid, $client ) {
 */
 function removeModule( &$cid, $option, $client ) {
 	global $database;
-	global $_LANG;
+	;
 
 	if (count( $cid ) < 1) {
-		echo "<script> alert('". $_LANG->_( 'Select a module to delete' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select a module to delete' ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -474,7 +474,7 @@ function removeModule( &$cid, $option, $client ) {
 		// mod_mainmenu modules only deletable via Menu Manager
 		if ( $row->module == 'mod_mainmenu' ) {
 			if ( strstr( $row->params, 'mainmenu' ) ) {
-				echo "<script> alert('". $_LANG->_( 'WARNMAINMENU' ) ."'); window.history.go(-1); </script>\n";
+				echo "<script> alert('". JText::_( 'WARNMAINMENU' ) ."'); window.history.go(-1); </script>\n";
 				exit;
 			}
 		}
@@ -506,7 +506,7 @@ function removeModule( &$cid, $option, $client ) {
 
 	if (count( $err )) {
 		$cids = addslashes( implode( "', '", $err ) );
-		echo "<script>alert('". $_LANG->_( 'Module(s)' ) .": \'". $cids ."\' ". $_LANG->_( 'WARNMODULES' ) ."');</script>\n";
+		echo "<script>alert('". JText::_( 'Module(s)' ) .": \'". $cids ."\' ". JText::_( 'WARNMODULES' ) ."');</script>\n";
 	}
 
 	mosRedirect( 'index2.php?option='. $option .'&client='. $client );
@@ -519,11 +519,11 @@ function removeModule( &$cid, $option, $client ) {
 */
 function publishModule( $cid=null, $publish=1, $option, $client ) {
 	global $database, $my;
-	global $_LANG;
+	;
 
 	if (count( $cid ) < 1) {
 		$action = $publish ? 'publish' : 'unpublish';
-		echo "<script> alert('". $_LANG->_( 'Select a module to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select a module to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -627,7 +627,7 @@ function accessMenu( $uid, $access, $option, $client ) {
 
 function saveOrder( &$cid, $client ) {
 	global $database;
-	global $_LANG;
+	;
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
@@ -661,7 +661,7 @@ function saveOrder( &$cid, $client ) {
 		$row->updateOrder( $cond[1] );
 	} // foreach
 
-	$msg 	= $_LANG->_( 'New ordering saved' );
+	$msg 	= JText::_( 'New ordering saved' );
 	mosRedirect( 'index2.php?option=com_modules&client='. $client, $msg );
 } // saveOrder
 ?>

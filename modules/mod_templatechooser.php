@@ -77,5 +77,5 @@ if ($show_preview) {
 	<?php
 	echo mosHTML::selectList( $darray, 'jos_change_template', "id=\"mod_templatechooser_jos_change_template\" class=\"button\" onchange=\"$onchange\"",'value', 'text', $cur_template );
 	?>
-	<input class="button" type="submit" value="<?php echo $_LANG->_( 'Select' );?>" />
+	<input class="button" type="submit" value="<?php echo JText::_( 'Select' );?>" />
 </form>
