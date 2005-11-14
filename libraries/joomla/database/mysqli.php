@@ -101,10 +101,10 @@ class database {
 			$instances = array();         
 		}         
 		
-		$signature = serialize(array($host='localhost', $user, $pass, $db='', $table_prefix=''));         
+		$signature = serialize(array($host, $user, $pass, $db, $table_prefix));         
 		
 		if (empty($instances[$signature])) {             
-			$instances[$signature] = new database($host='localhost', $user, $pass, $db='', $table_prefix='');         
+			$instances[$signature] = new database($host, $user, $pass, $db, $table_prefix);         
 		}         
 		
 		return $instances[$signature];
