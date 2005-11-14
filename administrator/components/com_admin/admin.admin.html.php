@@ -553,8 +553,6 @@ function getHelpTOC( $helpsearch ) {
 
 	$files = mosReadDirectory( $mosConfig_absolute_path . '/help/', '\.xml$|\.html$' );
 
-	require_once( $mosConfig_absolute_path . '/includes/domit/xml_domit_lite_include.php' );
-
 	$toc = array();
 	foreach ($files as $file) {
 		$buffer = file_get_contents( $mosConfig_absolute_path . '/help/' . $file );

@@ -294,7 +294,7 @@ class mosInstallerComponent extends mosInstaller {
 			$ismosinstall = false;
 			$found = 0;
 			foreach ($filesindir as $file) {
-				$xmlDoc = new DOMIT_Lite_Document();
+				$xmlDoc =& JFactory::getXMLParser();
 				$xmlDoc->resolveErrors( true );
 				if (!$xmlDoc->loadXML( JPATH_ADMINISTRATOR . "/components/".$row->option . "/" . $file, false, true )) {
 					return false;

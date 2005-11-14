@@ -338,8 +338,6 @@ class JLanguage extends JObject {
 	 */
 	function _parseXMLLanguageFiles( $dir=null ) {
 			
-		require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/domit/xml_domit_lite_include.php' );
-
 		if ($dir == null ) {
 			return null;
 		}
@@ -348,7 +346,7 @@ class JLanguage extends JObject {
 		$files = mosFS::listFiles( $dir, '^([A-Za-z]*)\.xml$' );
 		foreach ($files as $file) {
 			if ($content = file_get_contents( $dir . $file )) {
-				$xmlDoc = new DOMIT_Lite_Document();
+				$xmlDoc =& JFactory::getXMLParser();
 				$xmlDoc->resolveErrors( true );
 				if (!$xmlDoc->loadXML( $dir . $file, false, true )) {
 					continue;

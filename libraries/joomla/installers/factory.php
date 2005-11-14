@@ -109,10 +109,9 @@ class JInstallerFactory {
 		$files = mosFS::listFiles( $location, '\.xml$', true, true );
 
 		if (count( $files ) > 0) {
-			jimport( '@domit' );
 
 			foreach ($files as $file) {
-				$xmlDoc = new DOMIT_Lite_Document();
+				$xmlDoc =& JFactory::getXMLParser();
 				$xmlDoc->resolveErrors( true );
 
 				if (!$xmlDoc->loadXML( $file, false, true )) {

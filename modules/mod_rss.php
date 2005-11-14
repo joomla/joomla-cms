@@ -36,9 +36,8 @@ $rsstitle			= $params->get( 'rsstitle', 1 );
 
 $cacheDir 			= $mosConfig_absolute_path .'/cache/';
 $LitePath 			= $mosConfig_absolute_path .'/includes/Cache/Lite.php';
-require_once( $mosConfig_absolute_path .'/includes/domit/xml_domit_rss.php' );
 
-$rssDoc = new xml_domit_rss_document();
+$rssDoc =& JFactory::getXMLParser('RSS');
 $rssDoc->useCacheLite(true, $LitePath, $cacheDir, 3600);
 $rssDoc->loadRSS( $rssurl );
 $totalChannels 	= $rssDoc->getChannelCount();

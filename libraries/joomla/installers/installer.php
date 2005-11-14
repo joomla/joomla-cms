@@ -210,7 +210,7 @@ class mosInstaller {
 	* @return object A DOMIT XML document, or null if the file failed to parse
 	*/
 	function isPackageFile( $p_file ) {
-		$xmlDoc = new DOMIT_Lite_Document();
+		$xmlDoc =& JFactory::getXMLParser();
 		$xmlDoc->resolveErrors( true );
 
 		if (!$xmlDoc->loadXML( $p_file, false, true )) {
@@ -238,7 +238,7 @@ class mosInstaller {
 			return false;
 		}
 
-		$this->i_xmldoc = new DOMIT_Lite_Document();
+		$this->i_xmldoc =& JFactory::getXMLParser();
 		$this->i_xmldoc->resolveErrors( true );
 		if (!$this->i_xmldoc->loadXML( $this->installFilename(), false, true )) {
 			return false;

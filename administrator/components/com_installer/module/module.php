@@ -79,7 +79,7 @@ function showInstalledModules( $_option ) {
 		$xmlfile = $moduleBaseDir. "/" .$row->module .".xml";
 
 		if (file_exists( $xmlfile )) {
-			$xmlDoc = new DOMIT_Lite_Document();
+			$xmlDoc =& JFactory::getXMLParser();
 			$xmlDoc->resolveErrors( true );
 			if (!$xmlDoc->loadXML( $xmlfile, false, true )) {
 				continue;

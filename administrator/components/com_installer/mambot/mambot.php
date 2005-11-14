@@ -58,7 +58,7 @@ function showInstalledMambots( $_option ) {
 		$xmlfile = $mambotBaseDir. "/" .$row->folder . '/' . $row->element .".xml";
 
 		if (file_exists( $xmlfile )) {
-			$xmlDoc = new DOMIT_Lite_Document();
+			$xmlDoc =& JFactory::getXMLParser();
 			$xmlDoc->resolveErrors( true );
 			if (!$xmlDoc->loadXML( $xmlfile, false, true )) {
 				continue;

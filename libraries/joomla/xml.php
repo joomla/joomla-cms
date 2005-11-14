@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: joomla.xml.php 618 2005-10-24 00:21:08Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -212,9 +212,8 @@ class mosParameters {
 
 		if ($this->_path) {
 			if (!is_object( $this->_xmlElem )) {
-				require_once( $mosConfig_absolute_path . '/includes/domit/xml_domit_lite_include.php' );
 
-				$xmlDoc = new DOMIT_Lite_Document();
+				$xmlDoc =& JFactory::getXMLParser();
 				$xmlDoc->resolveErrors( true );
 				if ($xmlDoc->loadXML( $this->_path, false, true )) {
 					$root =& $xmlDoc->documentElement;

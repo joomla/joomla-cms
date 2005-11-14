@@ -64,7 +64,7 @@ function showInstalledComponents( $option ) {
 
 		foreach ($xmlFilesInDir as $xmlfile) {
 			// Read the file to see if it's a valid component XML file
-			$xmlDoc = new DOMIT_Lite_Document();
+			$xmlDoc =& JFactory::getXMLParser();
 			$xmlDoc->resolveErrors( true );
 
 			if (!$xmlDoc->loadXML( $dirName . '/' . $xmlfile, false, true )) {

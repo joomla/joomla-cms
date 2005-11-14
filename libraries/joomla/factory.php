@@ -182,6 +182,39 @@ class JFactory
 	}
 	
 	/**
+	 * Creates a XML document
+	 * @return object
+	 * @param boolean If true, include lite version
+	 * $since 1.1
+	 */
+	 
+	 function &getXMLParser( $type = 'DOM', $lite =  true) {
+		
+		$doc = null;
+		switch($type)
+		{
+			case 'DOM'  :
+			{
+				if($lite) {
+					jimport('domit.xml_domit_lite_include');
+					$doc = new DOMIT_Lite_Document();
+				} else {
+					jimport('domit.xml_domit_include');
+					$doc = new DOMIT_Document();
+				}
+			} break;
+			
+			case 'RSS'  :
+			{
+				jimport('domit.xml_domit_rss_lite');
+				$doc = new xml_domit_rss_document();
+			} break;
+		}
+		 
+		return $doc;
+	}
+	
+	/**
 	 * @return object
 	 * @since 1.1
 	 */

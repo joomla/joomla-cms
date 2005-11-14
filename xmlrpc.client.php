@@ -20,7 +20,8 @@ require_once( 'configuration.php' );
 //	die( 'XML-RPC server not enabled.' );
 //}
 require_once( $mosConfig_absolute_path . '/includes/joomla.php' );
-require_once( $mosConfig_absolute_path . '/includes/domit/dom_xmlrpc_client.php' );
+
+jimport('domit.dom_xmlrpc_client.php' );
 
 //$_LANG = JFactory::getLanguage();
 //$_LANG->debug( $mosConfig_debug );

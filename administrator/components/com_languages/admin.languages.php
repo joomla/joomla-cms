@@ -22,8 +22,6 @@ if (!$acl->acl_check( 'com_languages', 'manage', 'users', $my->usertype )) {
 
 
 require_once( $mainframe->getPath( 'admin_html' ) );
-// XML library
-require_once( "$mosConfig_absolute_path/includes/domit/xml_domit_lite_include.php" );
 
 $task 	= trim( strtolower( mosGetParam( $_REQUEST, 'task', '' ) ) );
 $cid 	= mosGetParam( $_REQUEST, 'cid', array(0) );
@@ -88,7 +86,7 @@ function viewLanguages( $option ) {
 	$dirName = $languageBaseDir;
 	foreach($xmlFilesInDir as $xmlfile) {
 		// Read the file to see if it's a valid template XML file
-		$xmlDoc = new DOMIT_Lite_Document();
+		$xmlDoc =& JFactory::getXMLParser();
 		$xmlDoc->resolveErrors( true );
 		if (!$xmlDoc->loadXML( $dirName . $xmlfile, false, true )) {
 			continue;

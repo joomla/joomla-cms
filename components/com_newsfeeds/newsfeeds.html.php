@@ -246,7 +246,7 @@ class HTML_newsfeed {
 
 		foreach ( $newsfeeds as $newsfeed ) {
 			// full RSS parser used to access image information
-			$rssDoc = new xml_domit_rss_document();
+			$rssDoc =& JFactory::getXMLParser('RSS');
 			$rssDoc->useCacheLite( true, $LitePath, $cacheDir, $newsfeed->cache_time );
 			$rssDoc->loadRSS( $newsfeed->link );
 			$totalChannels = $rssDoc->getChannelCount();

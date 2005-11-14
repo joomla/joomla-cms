@@ -22,7 +22,6 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botGeshi' );
 * Replaces <pre>...</pre> tags with highlighted text
 */
 function botGeshi( $published, &$row, &$params, $page=0 ) {
-	require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/domit/xml_saxy_shared.php' );
 
 	// check whether mambot has been unpublished
 	if ( !$published ) {
@@ -48,6 +47,7 @@ function botGeshi_replacer( &$matches ) {
 	$params =& $GLOBALS['_MAMBOT_GESHI_PARAMS'];
 	include_once( dirname( __FILE__ ) . '/geshi/geshi.php' );
 
+	jimport('domit.xml_saxy_shared');
 	$args = SAXY_Parser_Base::parseAttributes( $matches[1] );
 	$text = $matches[2];
 

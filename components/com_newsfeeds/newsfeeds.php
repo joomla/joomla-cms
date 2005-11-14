@@ -151,7 +151,6 @@ function showFeed( $option, $feedid ) {
 	global $database, $mainframe, $mosConfig_absolute_path, $Itemid;
 
 	// full RSS parser used to access image information
-	require_once( $mosConfig_absolute_path . '/includes/domit/xml_domit_rss.php');
 	$cacheDir = $mosConfig_absolute_path . '/cache/';
 	$LitePath = $mosConfig_absolute_path . '/includes/Cache/Lite.php';
 

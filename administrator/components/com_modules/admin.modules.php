@@ -418,11 +418,9 @@ function editModule( $option, $uid, $client ) {
 
 	$row->description = '';
 
-	// XML library
-	require_once( $mosConfig_absolute_path .'/includes/domit/xml_domit_lite_include.php' );
 	// xml file for module
 	$xmlfile = $mainframe->getPath( $path, $row->module );
-	$xmlDoc = new DOMIT_Lite_Document();
+	$xmlDoc =& JFactory::getXMLParser();
 	$xmlDoc->resolveErrors( true );
 	if ($xmlDoc->loadXML( $xmlfile, false, true )) {
 		$root = &$xmlDoc->documentElement;

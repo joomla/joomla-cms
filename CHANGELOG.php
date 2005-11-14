@@ -36,6 +36,8 @@ Legend:
  # Fixed artf2081 : Contact us: You are not authorized to view this resource.
  ^ Renamed mosLink function to josURL.
  ^ Reverted use of mosConfig_admin_site back to mosConfig_live_site
+ ^ Moved includes/domit to libraries/domit
+ + Added a JFactory::getXMLParser method to get xml and rss document parsers
  
 13-Nov-2005 Rey Gigataras
  # PERFORMANCE: Fixed artf1993 : Inefficient queries in com_content

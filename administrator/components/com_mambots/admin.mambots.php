@@ -257,11 +257,9 @@ function editMambot( $option, $uid, $client ) {
 		}
 		$lists['folder'] = '<input type="hidden" name="folder" value="'. $row->folder .'" />'. $row->folder;
 
-		// XML library
-		require_once( $mosConfig_absolute_path . '/includes/domit/xml_domit_lite_include.php' );
 		// xml file for module
 		$xmlfile = $mosConfig_absolute_path . '/mambots/' .$row->folder . '/' . $row->element .'.xml';
-		$xmlDoc = new DOMIT_Lite_Document();
+		$xmlDoc =& JFactory::getXMLParser();
 		$xmlDoc->resolveErrors( true );
 		if ($xmlDoc->loadXML( $xmlfile, false, true )) {
 			$root = &$xmlDoc->documentElement;

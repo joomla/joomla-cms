@@ -725,11 +725,9 @@ function copyMenuSave( $option, $cid, $menu, $menutype ) {
 function ReadMenuXML( $type, $component=-1 ) {
 	global $mosConfig_absolute_path;
 
-	// XML library
-	require_once( $mosConfig_absolute_path . '/includes/domit/xml_domit_lite_include.php' );
 	// xml file for module
 	$xmlfile = JPATH_ADMINISTRATOR .'/components/com_menus/'. $type .'/'. $type .'.xml';
-	$xmlDoc = new DOMIT_Lite_Document();
+	$xmlDoc =& JFactory::getXMLParser();
 	$xmlDoc->resolveErrors( true );
 
 	if ($xmlDoc->loadXML( $xmlfile, false, true )) {

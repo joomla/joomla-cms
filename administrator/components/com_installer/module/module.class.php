@@ -165,7 +165,7 @@ class mosInstallerModule extends mosInstaller {
 
     			// see if there is an xml install file, must be same name as element
     		if (file_exists( $xmlfile )) {
-    			$this->i_xmldoc = new DOMIT_Lite_Document();
+    			$this->i_xmldoc =& JFactory::getXMLParser();
     			$this->i_xmldoc->resolveErrors( true );
 
     			if ($this->i_xmldoc->loadXML( $xmlfile, false, true )) {

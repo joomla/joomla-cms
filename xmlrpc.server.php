@@ -46,8 +46,8 @@ function domXmlRpcFault( &$server, $methodName, &$params ) {
 
 
 // Includes the required class file for the XML-RPC Server
-require_once( $mosConfig_absolute_path . '/includes/domit/dom_xmlrpc_server.php' );
-require_once( DOM_XMLRPC_INCLUDE_PATH . 'dom_xmlrpc_fault.php' );
+jimport('domit.dom_xmlrpc_server.php' );
+jimport('domit.dom_xmlrpc_fault.php' );
 
 $xmlrpcServer = new dom_xmlrpc_server();
 $xmlrpcServer->setMethodNotFoundHandler( 'domXmlRpcFault' );

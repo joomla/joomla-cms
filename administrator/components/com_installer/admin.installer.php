@@ -16,7 +16,6 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // XML library
-require_once( $mosConfig_absolute_path . '/includes/domit/xml_domit_lite_include.php' );
 require_once( $mainframe->getPath( 'admin_html' ) );
 //require_once( $mainframe->getPath( 'class' ) );
 
