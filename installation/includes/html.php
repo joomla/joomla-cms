@@ -25,7 +25,10 @@ class installationScreens {
 	 * @return patTemplate
 	 */
 	function &createTemplate() {
-		;
+		
+		global $mainframe;
+		
+		$lang =& $mainframe->getLanguage();
 		
 		jimport('pattemplate.patTemplate');
 
@@ -36,7 +39,7 @@ class installationScreens {
 		$tmpl->setRoot( JPATH_INSTALLATION . '/tmpl' );
 		$tmpl->readTemplatesFromFile( 'page.html' );
 
-		if (JText::rtl()) {
+		if ($lang->rtl()) {
 			$tmpl->addGlobalVar( 'installcss', 'install_rtl.css' );
 		} else {
 			$tmpl->addGlobalVar( 'installcss', 'install.css' );

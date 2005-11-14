@@ -108,20 +108,17 @@ class patTemplate_Function_Translate extends patTemplate_Function
 	* Function modifed for Joomla!
 	*/
 	function call( $params, $content )
-	{
-		;
+	{		
 		$escape = isset( $params['escape'] ) ? $params['escape'] : '';
 
-		if (is_object( $_LANG )) {
-			// just use the Joomla translation tool
-			if( count( $params ) > 0 && key_exists( 'key', $params ) ) {
-				$text = JText::_( $params['key'] );
-			} else {
-				$text = JText::_( $content );
-			}
+		
+		// just use the Joomla translation tool
+		if( count( $params ) > 0 && key_exists( 'key', $params ) ) {
+			$text = JText::_( $params['key'] );
 		} else {
-			$text = $content;
+			$text = JText::_( $content );
 		}
+	
 		if ($escape == 'yes' || $escape == 'true') {
 			$text = addslashes( $text );
 		}

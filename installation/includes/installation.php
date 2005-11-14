@@ -59,6 +59,7 @@ jimport( 'joomla.classes.app');
 jimport( 'joomla.factory' );
 jimport( 'joomla.files' );
 jimport( 'joomla.xml' );
+jimport( 'joomla.language' );
 
 /**
 * Joomla! Mainframe class
@@ -92,6 +93,4 @@ $mainframe =& new JInstallation();
 /** @global $_VERSION */
 $_VERSION = new JVersion();
 
-//$_LANG =& JFactory::getLanguage();
-//JText::_load( JPATH_INSTALLATION .'/language/' . $mosConfig_lang . '.ini' );
 ?>
