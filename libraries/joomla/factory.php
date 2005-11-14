@@ -126,7 +126,7 @@ class JFactory
 		jimport('joomla.database.'.$mosConfig_dbtype);
 		
 		/** @global $database */
-		$daabase =& database::getInstance( $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix );
+		$database =& database::getInstance( $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix );
 		if ($database->getErrorNum()) {
 			$mosSystemError = $database->getErrorNum();
 			$basePath = dirname( __FILE__ );

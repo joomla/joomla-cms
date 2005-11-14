@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Nov-2005 Arno Zijlstra
+ # Fixed typo in libraries/joomla/factory.php
+ 
 13-Nov-2005 Johan Janssens
  ^ Renamed mosConfig_mbf_content to mosConfig_multilingual_support
  # Fixed artf2081 : Contact us: You are not authorized to view this resource.
