@@ -47,6 +47,10 @@ class database {
 	var $_nullDate		= '0000-00-00 00:00:00';
 	/** @var string Quote for named objects */
 	var $_nameQuote		= '`';
+	/** @var boolean UTF-8 support 
+	*   @since 1.1
+	*/
+	var $_utf			= 0;
 
 	/**
 	* Database object constructor
@@ -72,10 +76,16 @@ class database {
 			return;
 		}
 		
-		//Set charactersets (needed for MySQL 4.1.2+)
-		mysql_query("SET CHARACTER SET utf8",$this->_resource);
-		mysql_query("SET NAMES 'utf8'", $this->_resource);
+		// Determine MySQL version (needed for utf-8 support)
+		$verParts = explode('.', mysql_get_server_info($this->_resource));
+		$this->_utf = ($verParts[0] == 5 || ($verParts[0] == 4 && $verParts[1] == 1 && (int)$verParts[2] >= 2));
 
+		//Set charactersets (needed for MySQL 4.1.2+)
+		if ($this->_utf){
+			//mysql_query("SET CHARACTER SET utf8",$this->_resource);
+			mysql_query("SET NAMES 'utf8'", $this->_resource);
+		}
+		
 		$this->_table_prefix = $table_prefix;
 		$this->_ticker   = 0;
 		$this->_errorNum = 0;
@@ -116,6 +126,16 @@ class database {
 	function debug( $level ) {
 		$this->_debug = intval( $level );
 	}
+	
+	/**
+	* @return boolean True if the database version supports utf storage
+	* 				  False if backward compatibility is being used
+	* @since 1.1
+	*/
+	function getUtfSupport() {
+		return $this->_utf;
+	}
+	
 	/**
 	* @return int The error number for the most recent query
 	*/

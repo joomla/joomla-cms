@@ -7,8 +7,8 @@
 CREATE TABLE `#__banner` (
   `bid` int(11) NOT NULL auto_increment,
   `cid` int(11) NOT NULL default '0',
-  `type` varchar(10) NOT NULL default 'banner',
-  `name` varchar(50) NOT NULL default '',
+  `type` varchar(30) NOT NULL default 'banner',
+  `name` varchar(150) NOT NULL default '',
   `imptotal` int(11) NOT NULL default '0',
   `impmade` int(11) NOT NULL default '0',
   `clicks` int(11) NOT NULL default '0',
@@ -18,11 +18,11 @@ CREATE TABLE `#__banner` (
   `showBanner` tinyint(1) NOT NULL default '0',
   `checked_out` tinyint(1) NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `editor` varchar(50) default NULL,
+  `editor` varchar(150) default NULL,
   `custombannercode` text,
   PRIMARY KEY  (`bid`),
   KEY `viewbanner` (`showBanner`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci` AUTO_INCREMENT=1 ;
+) TYPE=MyISAM AUTO_INCREMENT=1 ;
 
 #
 # Table structure for table `#__bannerclient`
@@ -30,15 +30,15 @@ CREATE TABLE `#__banner` (
 
 CREATE TABLE `#__bannerclient` (
   `cid` int(11) NOT NULL auto_increment,
-  `name` varchar(60) NOT NULL default '',
-  `contact` varchar(60) NOT NULL default '',
+  `name` varchar(180) NOT NULL default '',
+  `contact` varchar(180) NOT NULL default '',
   `email` varchar(60) NOT NULL default '',
   `extrainfo` text NOT NULL,
   `checked_out` tinyint(1) NOT NULL default '0',
   `checked_out_time` time default NULL,
-  `editor` varchar(50) default NULL,
+  `editor` varchar(150) default NULL,
   PRIMARY KEY  (`cid`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__bannerfinish`
@@ -47,15 +47,15 @@ CREATE TABLE `#__bannerclient` (
 CREATE TABLE `#__bannerfinish` (
   `bid` int(11) NOT NULL auto_increment,
   `cid` int(11) NOT NULL default '0',
-  `type` varchar(10) NOT NULL default '',
-  `name` varchar(50) NOT NULL default '',
+  `type` varchar(30) NOT NULL default '',
+  `name` varchar(150) NOT NULL default '',
   `impressions` int(11) NOT NULL default '0',
   `clicks` int(11) NOT NULL default '0',
   `imageurl` varchar(50) NOT NULL default '',
   `datestart` datetime default NULL,
   `dateend` datetime default NULL,
   PRIMARY KEY  (`bid`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM ;
 
 #
 # Table structure for table `#__categories`
@@ -64,16 +64,16 @@ CREATE TABLE `#__bannerfinish` (
 CREATE TABLE `#__categories` (
   `id` int(11) NOT NULL auto_increment,
   `parent_id` int(11) NOT NULL default 0,
-  `title` varchar(50) NOT NULL default '',
-  `name` varchar(255) NOT NULL default '',
-  `image` varchar(100) NOT NULL default '',
-  `section` varchar(50) NOT NULL default '',
-  `image_position` varchar(10) NOT NULL default '',
+  `title` varchar(150) NOT NULL default '',
+  `name` text NOT NULL default '',
+  `image` text NOT NULL default '',
+  `section` varchar(150) NOT NULL default '',
+  `image_position` varchar(30) NOT NULL default '',
   `description` text NOT NULL,
   `published` tinyint(1) NOT NULL default '0',
   `checked_out` int(11) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `editor` varchar(50) default NULL,
+  `editor` varchar(150) default NULL,
   `ordering` int(11) NOT NULL default '0',
   `access` tinyint(3) unsigned NOT NULL default '0',
   `count` int(11) NOT NULL default '0',
@@ -83,7 +83,7 @@ CREATE TABLE `#__categories` (
   KEY `idx_section` (`section`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM ;
 
 #
 # Table structure for table `#__components`
@@ -103,7 +103,7 @@ CREATE TABLE `#__components` (
   `iscore` tinyint(4) NOT NULL default '0',
   `params` text NOT NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Dumping data for table `#__components`
@@ -135,13 +135,13 @@ INSERT INTO `#__components` VALUES (18, 'Mass Mail', '', 0, 0, 'option=com_massm
 
 CREATE TABLE `#__contact_details` (
   `id` int(11) NOT NULL auto_increment,
-  `name` varchar(100) NOT NULL default '',
-  `con_position` varchar(50) default NULL,
+  `name` text NOT NULL default '',
+  `con_position` varchar(150) default NULL,
   `address` text,
-  `suburb` varchar(50) default NULL,
-  `state` varchar(20) default NULL,
-  `country` varchar(50) default NULL,
-  `postcode` varchar(10) default NULL,
+  `suburb` varchar(150) default NULL,
+  `state` varchar(60) default NULL,
+  `country` varchar(150) default NULL,
+  `postcode` varchar(30) default NULL,
   `telephone` varchar(25) default NULL,
   `fax` varchar(25) default NULL,
   `misc` mediumtext,
@@ -158,7 +158,7 @@ CREATE TABLE `#__contact_details` (
   `catid` int(11) NOT NULL default '0',
   `access` tinyint(3) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__content`
@@ -166,8 +166,8 @@ CREATE TABLE `#__contact_details` (
 
 CREATE TABLE `#__content` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `title` varchar(255) NOT NULL default '',
-  `title_alias` varchar(255) NOT NULL default '',
+  `title` text NOT NULL default '',
+  `title_alias` text NOT NULL default '',
   `introtext` mediumtext NOT NULL,
   `fulltext` mediumtext NOT NULL,
   `state` tinyint(3) NOT NULL default '0',
@@ -176,7 +176,7 @@ CREATE TABLE `#__content` (
   `catid` int(11) unsigned NOT NULL default '0',
   `created` datetime NOT NULL default '0000-00-00 00:00:00',
   `created_by` int(11) unsigned NOT NULL default '0',
-  `created_by_alias` varchar(100) NOT NULL default '',
+  `created_by_alias` text NOT NULL default '',
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',
   `modified_by` int(11) unsigned NOT NULL default '0',
   `checked_out` int(11) unsigned NOT NULL default '0',
@@ -200,7 +200,7 @@ CREATE TABLE `#__content` (
   KEY `idx_state` (`state`),
   KEY `idx_catid` (`catid`),
   KEY `idx_mask` (`mask`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__content_frontpage`
@@ -210,7 +210,7 @@ CREATE TABLE `#__content_frontpage` (
   `content_id` int(11) NOT NULL default '0',
   `ordering` int(11) NOT NULL default '0',
   PRIMARY KEY  (`content_id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__content_rating`
@@ -222,7 +222,7 @@ CREATE TABLE `#__content_rating` (
   `rating_count` int(11) unsigned NOT NULL default '0',
   `lastip` varchar(50) NOT NULL default '',
   PRIMARY KEY  (`content_id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__core_log_items`
@@ -234,7 +234,7 @@ CREATE TABLE `#__core_log_items` (
   `item_table` varchar(50) NOT NULL default '',
   `item_id` int(11) unsigned NOT NULL default '0',
   `hits` int(11) unsigned NOT NULL default '0'
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__core_log_searches`
@@ -242,9 +242,9 @@ CREATE TABLE `#__core_log_items` (
 # To be implemented in Version 4.6
 
 CREATE TABLE `#__core_log_searches` (
-  `search_term` varchar(128) NOT NULL default '',
+  `search_term` text NOT NULL default '',
   `hits` int(11) unsigned NOT NULL default '0'
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__groups`
@@ -254,7 +254,7 @@ CREATE TABLE `#__groups` (
   `id` tinyint(3) unsigned NOT NULL default '0',
   `name` varchar(50) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Dumping data for table `#__groups`
@@ -271,7 +271,7 @@ INSERT INTO `#__groups` VALUES (2, 'Special');
 
 CREATE TABLE `#__mambots` (
   `id` int(11) NOT NULL auto_increment,
-  `name` varchar(100) NOT NULL default '',
+  `name` text NOT NULL default '',
   `element` varchar(100) NOT NULL default '',
   `folder` varchar(100) NOT NULL default '',
   `access` tinyint(3) unsigned NOT NULL default '0',
@@ -284,7 +284,7 @@ CREATE TABLE `#__mambots` (
   `params` text NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `idx_folder` (`published`,`client_id`,`access`,`folder`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 INSERT INTO `#__mambots` VALUES (1,'MOS Image','mosimage','content',0,-10000,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__mambots` VALUES (2,'MOS Pagination','mospaging','content',0,10000,1,1,0,0,'0000-00-00 00:00:00','');
@@ -307,8 +307,8 @@ INSERT INTO `#__mambots` VALUES (18, 'Search Newsfeeds', 'newsfeeds.searchbot', 
 INSERT INTO `#__mambots` VALUES (19, 'Load Module Positions', 'mosloadposition', 'content', 0, 6, 1, 0, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__mambots` VALUES (20, 'Joomla Userbot', 'joomla.userbot', 'user', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__mambots` VALUES (21, 'LDAP Userbot', 'ldap.userbot', 'user', 0, 2, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__mambots` VALUES (22, 'Joomla SSL URLs', 'joomla.siteurlbot', 'system', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__mambots` VALUES (23, 'Joomla SEF URLs', 'joomla.sefurlbot', 'system', 0, 2, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__mambots` VALUES (22, 'Joomla SSL URL\'s', 'joomla.siteurlbot', 'system', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__mambots` VALUES (23, 'Joomla SEF URL\'s', 'joomla.sefurlbot', 'system', 0, 2, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__mambots` VALUES (24, 'Search XML-RPC', 'search.xmlrpcbot', 'xmlrpc', 0, 7, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__mambots` VALUES (25, 'Visitor Statistics', 'joomla.visitorbot', 'system', 0, 3, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 
@@ -320,8 +320,8 @@ INSERT INTO `#__mambots` VALUES (25, 'Visitor Statistics', 'joomla.visitorbot', 
 
 CREATE TABLE `#__menu` (
   `id` int(11) NOT NULL auto_increment,
-  `menutype` varchar(25) default NULL,
-  `name` varchar(100) default NULL,
+  `menutype` varchar(75) default NULL,
+  `name` text default NULL,
   `link` text,
   `type` varchar(50) NOT NULL default '',
   `published` tinyint(1) NOT NULL default '0',
@@ -339,7 +339,7 @@ CREATE TABLE `#__menu` (
   PRIMARY KEY  (`id`),
   KEY `componentid` (`componentid`,`menutype`,`published`,`access`),
   KEY `menutype` (`menutype`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 INSERT INTO `#__menu` VALUES (1, 'mainmenu', 'Home', 'index.php?option=com_frontpage', 'components', 1, 0, 10, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'leading=1\r\nintro=2\r\nlink=1\r\nimage=1\r\npage_title=0\r\nheader=Welcome to the Frontpage\r\norderby_sec=front\r\nprint=0\r\npdf=0\r\nemail=0\r\nback_button=0');
 # --------------------------------------------------------
@@ -356,10 +356,10 @@ CREATE TABLE `#__messages` (
   `date_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `state` int(11) NOT NULL default '0',
   `priority` int(1) unsigned NOT NULL default '0',
-  `subject` varchar(230) NOT NULL default '',
+  `subject` text NOT NULL default '',
   `message` text NOT NULL,
   PRIMARY KEY  (`message_id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__messages_cfg`
@@ -367,10 +367,10 @@ CREATE TABLE `#__messages` (
 
 CREATE TABLE `#__messages_cfg` (
   `user_id` int(10) unsigned NOT NULL default '0',
-  `cfg_name` varchar(100) NOT NULL default '',
-  `cfg_value` varchar(255) NOT NULL default '',
+  `cfg_name` varchar(255) NOT NULL default '',
+  `cfg_value` text NOT NULL default '',
   UNIQUE `idx_user_var_name` (`user_id`,`cfg_name`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__modules`
@@ -395,7 +395,7 @@ CREATE TABLE `#__modules` (
   PRIMARY KEY  (`id`),
   KEY `published` (`published`,`access`),
   KEY `newsfeeds` (`module`,`published`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Dumping data for table `#__modules`
@@ -448,7 +448,7 @@ CREATE TABLE `#__modules_menu` (
   `moduleid` int(11) NOT NULL default '0',
   `menuid` int(11) NOT NULL default '0',
   PRIMARY KEY  (`moduleid`,`menuid`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Dumping data for table `#__modules_menu`
@@ -500,7 +500,7 @@ CREATE TABLE `#__newsfeeds` (
   `ordering` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `published` (`published`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__poll_data`
@@ -513,7 +513,7 @@ CREATE TABLE `#__poll_data` (
   `hits` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `pollid` (`pollid`,`text`(1))
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__poll_date`
@@ -526,7 +526,7 @@ CREATE TABLE `#__poll_date` (
   `poll_id` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `poll_id` (`poll_id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__polls`
@@ -534,7 +534,7 @@ CREATE TABLE `#__poll_date` (
 
 CREATE TABLE `#__polls` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `title` varchar(100) NOT NULL default '',
+  `title` text NOT NULL default '',
   `voters` int(9) NOT NULL default '0',
   `checked_out` int(11) NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -542,7 +542,7 @@ CREATE TABLE `#__polls` (
   `access` int(11) NOT NULL default '0',
   `lag` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__poll_menu`
@@ -552,7 +552,7 @@ CREATE TABLE `#__poll_menu` (
   `pollid` int(11) NOT NULL default '0',
   `menuid` int(11) NOT NULL default '0',
   PRIMARY KEY  (`pollid`,`menuid`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__sections`
@@ -560,8 +560,8 @@ CREATE TABLE `#__poll_menu` (
 
 CREATE TABLE `#__sections` (
   `id` int(11) NOT NULL auto_increment,
-  `title` varchar(50) NOT NULL default '',
-  `name` varchar(255) NOT NULL default '',
+  `title` varchar(150) NOT NULL default '',
+  `name` text NOT NULL default '',
   `image` varchar(100) NOT NULL default '',
   `scope` varchar(50) NOT NULL default '',
   `image_position` varchar(10) NOT NULL default '',
@@ -575,14 +575,14 @@ CREATE TABLE `#__sections` (
   `params` text NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `idx_scope` (`scope`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__session`
 #
 
 CREATE TABLE `#__session` (
-  `username` varchar(50) default '',
+  `username` varchar(150) default '',
   `time` varchar(14) default '',
   `session_id` varchar(200) NOT NULL default '0',
   `guest` tinyint(4) default '1',
@@ -591,7 +591,7 @@ CREATE TABLE `#__session` (
   `gid` tinyint(3) unsigned NOT NULL default '0',
   PRIMARY KEY  (`session_id`),
   KEY `whosonline` (`guest`,`usertype`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__stats_agents`
@@ -601,18 +601,18 @@ CREATE TABLE `#__stats_agents` (
   `agent` varchar(255) NOT NULL default '',
   `type` tinyint(1) unsigned NOT NULL default '0',
   `hits` int(11) unsigned NOT NULL default '1'
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__templates_menu`
 #
 
 CREATE TABLE `#__templates_menu` (
-  `template` varchar(50) NOT NULL default '',
+  `template` varchar(150) NOT NULL default '',
   `menuid` int(11) NOT NULL default '0',
   `client_id` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`template`,`menuid`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 # Dumping data for table `#__templates_menu`
 
@@ -628,9 +628,9 @@ INSERT INTO `#__templates_menu` VALUES ('joomla_admin', '0', '1');
 CREATE TABLE `#__template_positions` (
   `id` int(11) NOT NULL auto_increment,
   `position` varchar(10) NOT NULL default '',
-  `description` varchar(255) NOT NULL default '',
+  `description` text NOT NULL default '',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Dumping data for table `#__template_positions`
@@ -671,10 +671,10 @@ INSERT INTO `#__template_positions` VALUES (0, 'debug', '');
 
 CREATE TABLE `#__users` (
   `id` int(11) NOT NULL auto_increment,
-  `name` varchar(50) NOT NULL default '',
-  `username` varchar(25) NOT NULL default '',
+  `name` varchar(150) NOT NULL default '',
+  `username` varchar(75) NOT NULL default '',
   `email` varchar(100) NOT NULL default '',
-  `password` varchar(100) NOT NULL default '',
+  `password` text NOT NULL default '',
   `usertype` varchar(25) NOT NULL default '',
   `block` tinyint(4) NOT NULL default '0',
   `sendEmail` tinyint(4) default '0',
@@ -686,7 +686,7 @@ CREATE TABLE `#__users` (
   PRIMARY KEY  (`id`),
   KEY `usertype` (`usertype`),
   KEY `idx_name` (`name`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__usertypes`
@@ -697,7 +697,7 @@ CREATE TABLE `#__usertypes` (
   `name` varchar(50) NOT NULL default '',
   `mask` varchar(11) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Dumping data for table `#__usertypes`
@@ -720,9 +720,9 @@ CREATE TABLE `#__weblinks` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `catid` int(11) NOT NULL default '0',
   `sid` int(11) NOT NULL default '0',
-  `title` varchar(250) NOT NULL default '',
+  `title` text NOT NULL default '',
   `url` varchar(250) NOT NULL default '',
-  `description` varchar(250) NOT NULL default '',
+  `description` text NOT NULL default '',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   `hits` int(11) NOT NULL default '0',
   `published` tinyint(1) NOT NULL default '0',
@@ -734,7 +734,7 @@ CREATE TABLE `#__weblinks` (
   `params` text NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `catid` (`catid`,`published`,`archived`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__core_acl_aro`
@@ -750,7 +750,7 @@ CREATE TABLE `#__core_acl_aro` (
   PRIMARY KEY  (`aro_id`),
   UNIQUE KEY `__section_value_value_aro` (`section_value`(100),`value`(100)),
   KEY `#__gacl_hidden_aro` (`hidden`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM;
 
 #
 # Table structure for table `#__core_acl_aro_groups`
@@ -758,14 +758,14 @@ CREATE TABLE `#__core_acl_aro` (
 CREATE TABLE `#__core_acl_aro_groups` (
   `group_id` int(11) NOT NULL auto_increment,
   `parent_id` int(11) NOT NULL default '0',
-  `name` varchar(255) NOT NULL default '',
+  `name` text NOT NULL default '',
   `lft` int(11) NOT NULL default '0',
   `rgt` int(11) NOT NULL default '0',
   PRIMARY KEY  (`group_id`),
   KEY `parent_id_aro_groups` (`parent_id`),
   KEY `#__gacl_parent_id_aro_groups` (`parent_id`),
   KEY `#__gacl_lft_rgt_aro_groups` (`lft`,`rgt`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM ;
 
 #
 # Dumping data for table `#__core_acl_aro_groups`
@@ -790,7 +790,7 @@ CREATE TABLE `#__core_acl_groups_aro_map` (
   `section_value` varchar(240) NOT NULL default '',
   `aro_id` int(11) NOT NULL default '0',
   UNIQUE KEY `group_id_aro_id_groups_aro_map` (`group_id`,`section_value`,`aro_id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM ;
 
 #
 # Table structure for table `#__core_acl_aro_sections`
@@ -806,6 +806,6 @@ CREATE TABLE `#__core_acl_aro_sections` (
   UNIQUE KEY `#__gacl_value_aro_sections` (`value`),
   KEY `hidden_aro_sections` (`hidden`),
   KEY `#__gacl_hidden_aro_sections` (`hidden`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+) TYPE=MyISAM ;
 
 INSERT INTO `#__core_acl_aro_sections` VALUES (10,'users',1,'Users',0);

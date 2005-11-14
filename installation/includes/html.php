@@ -154,6 +154,32 @@ class installationScreens {
 	 * The index page
 	 * @param array An array of lists
 	 */
+	function dbCollation( &$vars, &$collations ) {
+		global $steps;
+
+		$tmpl =& installationScreens::createTemplate();
+		$tmpl->setAttribute( 'body', 'src', 'dbcollation.html' );
+
+		$steps['dbcollation'] = 'on';
+
+		$tmpl->addVars( 'stepbar', $steps, 'step_' );
+		$tmpl->addVars( 'body', 	$vars, 'var_' );
+
+		if ($vars['DButfSupport']){
+			$tmpl->addVar( 'utf_text', 'utfsupport', 'true');
+		} else {
+			$tmpl->addVar( 'utf_text', 'utfsupport', 'false');
+		}
+		
+		$tmpl->addRows( 'collation-options', $collations );
+
+		$tmpl->displayParsedTemplate( 'form' );
+	}
+
+	/**
+	 * The index page
+	 * @param array An array of lists
+	 */
 	function mainConfig( &$vars ) {
 		global $steps;
 

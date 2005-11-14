@@ -1,0 +1,84 @@
+<mos:comment>
+@version $Id$
+@package Joomla
+@subpackage Installation
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</mos:comment>
+
+
+<div id="right">
+	<div id="step">
+		<mos:Translate>database collation</mos:Translate>
+	</div>
+
+	<div class="far-right">
+		<input type="button" class="button" value="&lt;&lt; <mos:Translate escape="yes">Previous</mos:Translate>" onclick="submitForm( this.form, 'dbconfig' );" />
+		<input type="button" class="button" value="<mos:Translate escape="yes">Next</mos:Translate> &gt;&gt;" onclick="submitForm( this.form, 'makedb' );" />
+	</div>
+
+	<div class="clr"></div>
+
+	<h1>
+	<mos:Translate>Collation selection</mos:Translate>:
+	</h1>
+
+	<div class="install-text">
+		<p><mos:Translate>databaseVersion</mos:Translate> {VAR_DBVERSION}</p>
+		<mos:tmpl name="utf_text" type="condition" conditionvar="utfsupport" >
+			<mos:sub condition="true">
+				<mos:Translate key="tipCollationUtf">
+				<p>This version of MySQL includes UTF-8 support which is the required encoding.</p>
+				<p>Choose a collation from the list. If none appears for your language, that is because the default collation <em>utf8_general_ci</em> is suitable.</p>
+				</mos:Translate>
+			</mos:sub>
+				<mos:sub condition="false">
+				<mos:Translate key="tipCollationNonUtf">
+				<p>This version of MySQL does not have UTF-8 support which is the required encoding.</p>
+				<p>It is recommended that you upgrade your database to a version newer than 4.1.2. If this is not possible, Joomla! will store utf-8 encoded content in your existing database in a backward compatibility mode. Collation selection is not possible in this mode and a default collation will be used.</p>
+				</mos:Translate>
+			</mos:sub>
+		</mos:tmpl>
+	</div>
+	<div class="install-form">
+		<div class="form-block">
+ 			<table class="content2">
+  			<tr>
+    			<td></td>
+    			<td></td>
+    			<td></td>
+			</tr>
+  			<tr>
+    			<td colspan="2">
+    				<label for="vars_dbtype">
+    					<mos:Translate>Available collations</mos:Translate>
+    				</label>
+    				<br/>
+ 					<select id="vars_dbcollation" name="vars[DBcollation]" class="inputbox" size="1">
+					<mos:tmpl name="collation-options">
+						<option>{COLLATION}</option>
+					</mos:tmpl>
+					</select>
+		   		</td>
+	  		    <td>&nbsp;
+	  		    </td>
+			</tr>
+  			</table>
+		</div>
+	</div>
+</div>
+
+<div class="clr"></div>
+
+<input type="hidden" name="vars[lang]" value="{VAR_LANG}">
+<input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}">
+<input type="hidden" name="vars[DBtype]" value="{VAR_DBTYPE}">
+<input type="hidden" name="vars[DBhostname]" value="{VAR_DBHOSTNAME}">
+<input type="hidden" name="vars[DBuserName]" value="{VAR_DBUSERNAME}">
+<input type="hidden" name="vars[DBpassword]" value="{VAR_DBPASSWORD}">
+<input type="hidden" name="vars[DBPrefix]" value="{VAR_DBPREFIX}">
+<input type="hidden" name="vars[DBDel]" value="{VAR_DBDEL}">
+<input type="hidden" name="vars[DBname]" value="{VAR_DBNAME}">
+<input type="hidden" name="vars[DBversion]" value="{VAR_DBVERSION}">
+<input type="hidden" name="vars[DButfSupport]" value="{VAR_DBUTFSUPPORT}">
+<input type="hidden" name="task" value="" />

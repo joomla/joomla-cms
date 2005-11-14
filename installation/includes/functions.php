@@ -20,6 +20,7 @@ $steps = array(
 	'preinstall' => 'off',
 	'license' => 'off',
 	'dbconfig' => 'off',
+	'dbcollation' => 'off',
 	'mainconfig' => 'off',
 	'finish' => 'off'
 );

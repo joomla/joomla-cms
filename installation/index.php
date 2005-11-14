@@ -39,6 +39,10 @@ switch ($task) {
 		installationTasks::dbConfig();
 		break;
 
+	case 'dbcollation':
+		installationTasks::dbCollation();
+		break;
+		
 	case 'makedb':
 		if (installationTasks::makeDB()) {
 			installationTasks::mainConfig( 1 );
