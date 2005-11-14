@@ -65,7 +65,7 @@ $rows = $database->loadObjectList();
 <?php
 $i = 0;
 foreach ( $rows as $row ) {
-	if ( $acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'components', 'com_users' ) ) {
+	if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
 		$link 	= 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->userid;
 		$name 	= '<a href="'. $link .'" title="'. $_LANG->_( 'Edit User' ) .'">'. $row->username .'</a>';
 	} else {
@@ -83,7 +83,7 @@ foreach ( $rows as $row ) {
 		<?php echo $row->usertype;?>
 		</td>
 		<?php
-		if ( $acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'components', 'com_users' ) ) {
+		if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
 			?>
 			<td>
 			<a href="index2.php?option=com_users&task=flogout&id=<?php echo $row->userid; ?>">
