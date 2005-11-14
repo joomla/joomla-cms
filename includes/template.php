@@ -106,9 +106,9 @@ function mosLoadModules( $position='left', $style=0 ) {
 	}
 
 	foreach ($modules as $module) {
-		
+
 		$_LANG->load($module->module);
-			
+
 		// check for custom language file
 		$path = $mosConfig_absolute_path . '/modules/' . $module->module . $mosConfig_lang .'.php';
 		if (file_exists( $path )) {
@@ -119,16 +119,16 @@ function mosLoadModules( $position='left', $style=0 ) {
 				include( $path );
 			}
 		}
-		
+
 		$params = new mosParameters( $module->params );
-		
+
 		if(substr( $module->module, 0, 4 )  == 'mod_') {
 			ob_start();
 			mosLoadModule(substr( $module->module, 4 ), $params);
 			$module->content = ob_get_contents();
 			ob_end_clean();
 		}
-			
+
 		if ($params->get('cache') == 1 && $mosConfig_caching == 1) {
 			$cache->call('modules_html::module', $module, $params, $style );
 		} else {
@@ -143,16 +143,16 @@ function mosLoadModules( $position='left', $style=0 ) {
 function mosLoadModule( $name, $params=NULL ) {
 	global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
 	global $mainframe, $database, $my, $Itemid, $_LANG, $acl;
-	
+
 	$_LANG->load('mod_'.$name);
 
 	$task = mosGetParam( $_REQUEST, 'task', '' );
 
 	$name = str_replace( '/', '', $name );
 	$name = str_replace( '\\', '', $name );
-	
+
 	$path = "$mosConfig_absolute_path/modules/mod_$name.php";
-	
+
 	if (file_exists( $path )) {
 		require $path;
 	}
@@ -176,15 +176,15 @@ function mosShowHead() {
 	$mainframe->appendMetaTag( 'Content-Type', 'text/html; charset=utf-8' );
 	$mainframe->appendMetaTag( 'description', $mosConfig_MetaDesc );
 	$mainframe->appendMetaTag( 'keywords', $mosConfig_MetaKeys );
-	
+
 	$mainframe->addMetaTag( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
 	$mainframe->addMetaTag( 'robots', 'index, follow' );
 
 	echo $mainframe->getHead();
-	
+
 	//load editor
 	initEditor();
-	
+
 	if ( isset($mosConfig_sef) && $mosConfig_sef ) {
 		echo "<base href=\"$mosConfig_live_site/\" />\r\n";
 	}

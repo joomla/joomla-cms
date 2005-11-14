@@ -200,7 +200,22 @@ function botJoomlaSEFUrl( ) {
  *  1 = On, use SSL URL
  */
 function sefRelToAbs( $string ) {
-	global $iso_client_lang;
+	global $iso_client_lang, $_MAMBOTS, $database;
+
+	// load mambot params info
+	$query = "SELECT id"
+	. "\n FROM #__mambots"
+	. "\n WHERE element = 'joomla.sefurlbot'"
+	. "\n AND folder = 'system'"
+	. "\n AND published = '1'"
+	;
+	$database->setQuery( $query );
+	$id 	= $database->loadResult();
+	$mambot = new mosMambot( $database );
+	$mambot->load( $id );
+	$botParams = new mosParameters( $mambot->params );
+
+	$mod_rewrite_off = $botParams->get( 'mode', 0 );
 
 	if( isset($GLOBALS['$mosConfig_multilingual_support']) && $GLOBALS['$mosConfig_multilingual_support'] && $string!='index.php' && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),'index.php') && !eregi('lang=', $string) ) {
 		$string .= "&lang=$iso_client_lang";
@@ -246,7 +261,7 @@ function sefRelToAbs( $string ) {
 			if (eregi('&Itemid=',$string)) {
 				$temp = split('&Itemid=', $string);
 				$temp = split('&', $temp[1]);
-				
+
 				if ( $temp[0] !=  99999999 ) {
 					$sefstring .= $temp[0].'/';
 				}
@@ -285,11 +300,12 @@ function sefRelToAbs( $string ) {
 			$string = str_replace( '=', ',', $sefstring );
 		}
 
-		return $GLOBALS['mosConfig_live_site'] . '/' . $string;
+		if ( $mod_rewrite_off ) {
+			return $GLOBALS['mosConfig_live_site'] . '/index.php/' . $string;
+		} else {
+			return $GLOBALS['mosConfig_live_site'] . '/' . $string;
+		}
 
-		// allows SEF without mod_rewrite
-		// uncomment Line 290 and comment out Line 286
-		//return $GLOBALS['mosConfig_live_site'].'/index.php/'.$string;
 	} else {
 		return $string;
 	}

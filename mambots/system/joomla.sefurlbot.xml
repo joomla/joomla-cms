@@ -12,5 +12,10 @@
 	<files>
 		<filename mambot="joomla.sefurlbot">joomla.sefurlbot.php</filename>
 	</files>
-	<params/>
+	<params>
+		<param name="mode" type="list" default="0" label="mod_rewrite options" description="Option for SEF URLs on servers without mod_rewrite support">
+			<option value="0">mod_rewrite supported</option>
+			<option value="1">mod_rewrite not supported</option>
+		</param>
+	</params>
 </mosinstall>

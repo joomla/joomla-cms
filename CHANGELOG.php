@@ -31,9 +31,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Nov-2005 Emir Sakic
+ + Added support for SEF without mod_rewrite as mambot parameter
+
 14-Nov-2005 Arno Zijlstra
  # Fixed typo in libraries/joomla/factory.php
- 
+
 13-Nov-2005 Johan Janssens
  ^ Renamed mosConfig_mbf_content to mosConfig_multilingual_support
  # Fixed artf2081 : Contact us: You are not authorized to view this resource.
@@ -41,10 +44,10 @@ Legend:
  ^ Reverted use of mosConfig_admin_site back to mosConfig_live_site
  ^ Moved includes/domit to libraries/domit
  + Added a JFactory::getXMLParser method to get xml and rss document parsers
- 
+
 13-Nov-2005 Rey Gigataras
  # PERFORMANCE: Fixed artf1993 : Inefficient queries in com_content
- # Fixed artf2021 : artf1791 : Failed Login results in redirect to referring page 
+ # Fixed artf2021 : artf1791 : Failed Login results in redirect to referring page
  # Fixed artf2021 : appendMetaTag() prepends instead of appends
  # Fixed artf1981 : incorrect url's at next/previous links at content items
  # Fixed artf2079 : SQL error in category manager thru contact manager
@@ -54,9 +57,9 @@ Legend:
 13-Nov-2005 Arno Zijlstra
  + Added languagepack info text and button/link to the joomla help site to the finish installation screen
  ! Link needs to change when the specific language help page is ready
- 
+
 12-Nov-2005 Levis Bisson
- ^ Changed from backported Mambo 4.5.3 installation template to the joomla template 
+ ^ Changed from backported Mambo 4.5.3 installation template to the joomla template
 
 12-Nov-2005 Johan Janssens
  ^ Moved includes/Cache to libraries/cache
@@ -90,7 +93,7 @@ Legend:
  ^ Installer alterations
  ^ Fixed up a few capitalization issues
 
-09-Nov-2005 Johan Janssens 
+09-Nov-2005 Johan Janssens
  # Fixed artf2018 : Admin Menu strings missing
  ^ Moved includes/gacl.class.php and gacl_api_class.php to libraries/phpgacl
  ^ Moved includes/vcard.class.php and feedcreator.class.php to libraries/bitfolge
@@ -102,10 +105,10 @@ Legend:
  ^ Moved administrator/includes/pcl to libraries/pcl
 
 08-Nov-2005 Arno Zijlstra
- # Fixed : Notices in sefurlbot 
+ # Fixed : Notices in sefurlbot
 
 08-Nov-2005 Levis Bisson
- + Added the mambots language files 
+ + Added the mambots language files
  ^ Modified some xml mambots files for translation
 
 08-Nov-2005 Johan Janssens
@@ -119,7 +122,7 @@ Legend:
 
 07-Nov-2005 Arno Zijlstra
  # Fixed template css manager
- 
+
 07-Nov-2005 Johan Janssens
  # Fixed artf1648 : tinyMCE BR and P elements
  # Fixed artf1700 : TinyMCE doesn't support relative URL's for images
@@ -129,15 +132,15 @@ Legend:
  + Added param to `Content SearchBot` allowing you determine whether to search `Content Items`, `Static Content` and `Archived Content`
 
 05-Nov-2005 Rey Gigataras
- ^ Separated newsfeed ability from custom/new module into its own module = `Newsfeed` [mod_rss.php] 
+ ^ Separated newsfeed ability from custom/new module into its own module = `Newsfeed` [mod_rss.php]
    Backward compatability retained for existing custom modules with newsfeed params
 
 04-Nov-2005 Levis Bisson
  + Added the modules frontend and backend language files
- + Wrapped all frontend texts with the new $_LANG->_() 
+ + Wrapped all frontend texts with the new $_LANG->_()
  ^ Optimized the english backend language files
 
-04-Nov-2005 Johan Janssens 
+04-Nov-2005 Johan Janssens
  # Fixed artf1949 : Typo in back-end com_config.ini
  # Fixed artf1866 : Alpha1: Content categories don't show
 
@@ -147,7 +150,7 @@ Legend:
 02-Nov-2005 Arno Zijlstra
  ^ Changed footer module
  # Fixed : version include path in joomla installer
- 
+
 02-Nov-2005 Johan Janssens
  + Added XML-RPC support
  # Fixed artf1918 : Edit News Feeds gives error
@@ -162,7 +165,7 @@ Legend:
  # Fixed artf1901 : english.com_templates.ini
  + Added artf1895 : Footer as as module
 
-31-Oct-2005 Johan Janssens 
+31-Oct-2005 Johan Janssens
  # Fixed : artf1883 : DESCMENUGROUP twice in english.com_menus.ini
  # Fixed : artf1891 : When trying to register a new user get Fatal error.
 
@@ -181,8 +184,8 @@ Legend:
  # Fixed artf1834 : English Localisation
  # Fixed artf1771 : Wrong mosmsg
  # Fixed artf1792 : "Receive Submission Emails" label is misleading
- # Fixed artf1770 : Undefined index: HTTP_USER_AGENT 
- 
+ # Fixed artf1770 : Undefined index: HTTP_USER_AGENT
+
 30-Oct-2005 Rey Gigataras
  ^ Upgraded TinyMCE Compressor [1.02]
  ^ Upgraded TinyMCE [2.0 RC4]

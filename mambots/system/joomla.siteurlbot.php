@@ -30,7 +30,6 @@ function botJoomlaSiteUrl( ) {
 		$siteProtocol = 'http';
 		if ( isset( $_SERVER['HTTPS'] ) && ( strtolower( $_SERVER['HTTPS'] ) != 'off' ) ) {
 			$siteProtocol = 'https';
-
 		} else if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
 			$url = parse_url( $_SERVER['HTTP_REFERER'] );
 			$siteProtocol = $url['scheme'];
@@ -68,6 +67,8 @@ function botJoomlaSiteUrl( ) {
 		// ToDo: Needs some rework in order to make this flexible
 		if( eregi( '/administrator', $sitePath ) ) {
 			$sitePath = substr( $sitePath, 0, strpos( $sitePath, "/administrator") );
+		} else if ( eregi( '/index.php', $sitePath ) ) {
+			$sitePath = substr( $sitePath, 0, strpos( $sitePath, "/index.php") );
 		}
 
 		$mosConfig_unsecure_site = 'http://' . $siteHost . $sitePath;
