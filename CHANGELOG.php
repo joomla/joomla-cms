@@ -33,6 +33,7 @@ Legend:
 
 14-Nov-2005 Johan Janssens
  # Fixed artf2102 : Cpanel: logged.php works displays incomplete info.
+ # Fixed artf2034 : patTemplate - page.html, et al: wrong namespace
 
 14-Nov-2005 Emir Sakic
  + Added support for SEF without mod_rewrite as mambot parameter
