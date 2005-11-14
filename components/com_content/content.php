@@ -437,7 +437,7 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limi
 	$limit = $limit ? $limit : $params->get( 'display_num' ) ;
 	if ( $total <= $limit ) $limitstart = 0;
 
-	require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/pageNavigation.php' );
+	require_once( JPATH_SITE . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
 	// get the list of items for this category
@@ -982,7 +982,7 @@ function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=N
 			} else {
 				// get the total number of records
 				$limitstart = $limitstart ? $limitstart : 0;
-				require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/pageNavigation.php' );
+				require_once( JPATH_SITE . '/includes/pageNavigation.php' );
 				$pageNav = new mosPageNav( $total, $limitstart, $limit );
 				if ( $option == 'com_frontpage' ) {
 					$link = 'index.php?option=com_frontpage&amp;Itemid='. $Itemid;
@@ -1478,7 +1478,7 @@ function saveContent( &$access, $task ) {
 
 	if ( $isNew ) {
 		// messaging for new items
-		require_once( $mosConfig_absolute_path .'/components/com_messages/messages.class.php' );
+		require_once( JPATH_SITE .'/components/com_messages/messages.class.php' );
 
 		$query = "SELECT id"
 		. "\n FROM #__users"

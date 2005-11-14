@@ -244,7 +244,7 @@ class HTML_weblinks {
 	function editWeblink( $option, &$row, &$lists ) {
 		global $_LANG;
 
-		require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/HTML_toolbar.php' );
+		require_once( JPATH_SITE . '/includes/HTML_toolbar.php' );
 
 		$Returnid = intval( mosGetParam( $_REQUEST, 'Returnid', 0 ) );
 		?>

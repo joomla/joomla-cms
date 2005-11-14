@@ -104,7 +104,7 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 		}
 
 		// traditional mos page navigation
-		require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/pageNavigation.php' );
+		require_once( JPATH_SITE . '/includes/pageNavigation.php' );
 		$pageNav = new mosPageNav( $n, $page, 1 );
 
 		// page counter

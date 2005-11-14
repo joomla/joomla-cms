@@ -193,7 +193,7 @@ function viewSearch() {
 		$limitstart = mosGetParam( $_GET, 'limitstart', 0 );
 		if ( $n ) {
 		// html output
-			require_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/pageNavigation.php' );
+			require_once( JPATH_SITE . '/includes/pageNavigation.php' );
 			$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
 			search_html::display( $rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword_clean );

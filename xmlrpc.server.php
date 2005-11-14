@@ -19,7 +19,7 @@ require_once( 'configuration.php' );
 //if (!$mosConfig_xmlrpc_server) {
 //	die( 'XML-RPC server not enabled.' );
 //}
-require_once( $mosConfig_absolute_path . '/includes/joomla.php' );
+require_once( JPATH_SITE .'includes/joomla.php' );
 
 $mainframe = new mosMainFrame( $database, '' );
 $mainframe->initSession();

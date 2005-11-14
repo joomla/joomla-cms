@@ -41,7 +41,7 @@ class HTML_user {
 		global $mosConfig_absolute_path;
 		global $_LANG;
 
-		require_once( $mosConfig_absolute_path .'/includes/HTML_toolbar.php' );
+		require_once( JPATH_SITE .'/includes/HTML_toolbar.php' );
 
 		mosCommonHTML::loadOverlib();
 		?>
