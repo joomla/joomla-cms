@@ -19,6 +19,8 @@ define('JPATH_BASE', dirname(__FILE__) );
 require_once ( 'includes/defines.php');
 require_once ( 'includes/administrator.php' );
 
+$_PROFILER->mark( 'onBeforeStart' );
+
 // load system bot group
 $_MAMBOTS->loadBotGroup( 'system' );
 
@@ -44,6 +46,8 @@ $mainframe->initSession( 'php' );
 
 // trigger the onStart events
 $_MAMBOTS->trigger( 'onAfterStart' );
+
+$_PROFILER->mark( 'onAfterStart' );
 
 /** get the information about the current user from the sessions table */
 $my = $mainframe->getUser();
@@ -79,6 +83,8 @@ $cur_template = $mainframe->getTemplate();
 // set for overlib check
 $mainframe->set( 'loadOverlib', false );
 
+$_PROFILER->mark( 'onBeforeBuffer' );
+
 ob_start();
 if ($path = $mainframe->getPath( 'admin' )) {
 		require_once ( $path );
@@ -91,6 +97,10 @@ if ($path = $mainframe->getPath( 'admin' )) {
 
 $_MOS_OPTION['buffer'] = ob_get_contents();
 ob_end_clean();
+
+$_PROFILER->mark( 'onAfterBuffer' );
+
+$_PROFILER->mark( 'onBeforeOutput' );
 
 initGzip();
 
@@ -108,10 +118,12 @@ if ($no_html == 0) {
 	mosMainBody_Admin();
 }
 
+$_PROFILER->mark( 'onAfterOutput' );
+
 doGzip();
 
 if ($mainframe->getCfg('debug')) {
-	$_PROFILER->mark( 's execution time' );
 	echo $_PROFILER->report();
+	echo $_PROFILER->getMemory();
 }
 ?>

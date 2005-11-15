@@ -14,9 +14,9 @@
 /** ensure this file is being included by a parent file */
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$tstart = mosProfiler::getmicrotime();
+$tstart = JProfiler::getmicrotime();
 
-$lang = $mainframe->getLanguage();
+$lang =& $mainframe->getLanguage();
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -74,7 +74,7 @@ $lang = $mainframe->getLanguage();
 			<?php
 			if ( $mosConfig_debug ) {
 				echo '<div class="smallgrey">';
-				$tend = mosProfiler::getmicrotime();
+				$tend = JProfiler::getmicrotime();
 				$totaltime = ($tend - $tstart);
 				printf ( JText::_( 'Page was generated in' ) ." %f ". JText::_( 'seconds' ), $totaltime);
 				echo '</div>';

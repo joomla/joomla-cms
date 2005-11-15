@@ -369,7 +369,7 @@ class HTML_admin_misc {
 	 * Display Help Page
 	 */
 	function help() {
-		global $mosConfig_live_site, $_LANG;
+		global $mosConfig_live_site;
 		$helpurl 	= mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
 
 		if ( $helpurl == 'http://help.mamboserver.com' ) {
@@ -420,43 +420,32 @@ class HTML_admin_misc {
 							<?php
 							if ($helpurl) {
 							?>
-							<a href="<?php echo $fullhelpurl;?>joomla.glossary" target="helpFrame">
-								<?php echo JText::_( 'Glossary' ); ?></a>
+							<?php echo mosHTML::Link($fullhelpurl.'joomla.glossary', JText::_( 'Glossary' ), array('target' => 'helpFrame')) ?>
 							|
-							<a href="<?php echo $fullhelpurl;?>joomla.credits" target="helpFrame">
-								<?php echo JText::_( 'Credits' ); ?></a>
+							<?php echo mosHTML::Link($fullhelpurl.'joomla.credits', JText::_( 'Credits' ), array('target' => 'helpFrame')) ?>
 							|
-							<a href="<?php echo $fullhelpurl;?>joomla.support" target="helpFrame">
-								<?php echo JText::_( 'Support' ); ?></a>
+							<?php echo mosHTML::Link($fullhelpurl.'joomla.support', JText::_( 'Support' ), array('target' => 'helpFrame')) ?>
 							<?php
 							} else {
 							?>
-							<a href="<?php echo $mosConfig_live_site;?>/help/joomla.glossary.html" target="helpFrame">
-								<?php echo JText::_( 'Glossary' ); ?></a>
+							<?php echo mosHTML::Link('/help/joomla.glossary.html', JText::_( 'Glossary' ), array('target' => 'helpFrame')) ?>
 							|
-							<a href="<?php echo $mosConfig_live_site;?>/help/joomla.credits.html" target="helpFrame">
-								<?php echo JText::_( 'Credits' ); ?></a>
+							<?php echo mosHTML::Link('/help/joomla.credits.html', JText::_( 'Credits' ), array('target' => 'helpFrame')) ?>
 							|
-							<a href="<?php echo $mosConfig_live_site;?>/help/joomla.support.html" target="helpFrame">
-								<?php echo JText::_( 'Support' ); ?></a>
+							<?php echo mosHTML::Link('/help/joomla.support.html', JText::_( 'Support' ), array('target' => 'helpFrame')) ?>
 							<?php
 							}
 							?>
 							|
-							<a href="http://www.gnu.org/copyleft/gpl.html" target="helpFrame">
-								<?php echo JText::_( 'License' ); ?></a>
+							<?php echo mosHTML::Link('http://www.gnu.org/copyleft/gpl.html', JText::_( 'License' ), array('target' => 'helpFrame')) ?>
 							|
-							<a href="http://help.joomla.org" target="_blank">
-								help.joomla.org</a>
+							<?php echo mosHTML::Link('http://help.joomla.org', 'help.joomla.org', array('target' => '_blank')) ?>
 							|
-							<a href="<?php echo $mosConfig_live_site;?>/administrator/index3.php?option=com_admin&task=changelog" target="helpFrame">
-								<?php echo JText::_( 'Changelog' ); ?></a>
+							<?php echo mosHTML::Link('/administrator/index3.php?option=com_admin&task=changelog', JText::_( 'Changelog' ), array('target' => 'helpFrame')) ?>
 							|
-							<a href="<?php echo $mosConfig_live_site;?>/administrator/index3.php?option=com_admin&task=sysinfo" target="helpFrame">
-								<?php echo JText::_( 'System Info' ); ?></a>
+							<?php echo mosHTML::Link('/administrator/index3.php?option=com_admin&task=sysinfo', JText::_( 'System Info' ), array('target' => 'helpFrame')) ?>
 							|
-							<a href="http://www.joomla.org/content/blogcategory/32/66/" target="_blank">
-								<?php echo JText::_( 'Latest Version Check' ); ?></a>
+							<?php echo mosHTML::Link('http://www.joomla.org/content/blogcategory/32/66/', JText::_( 'Latest Version Check' ), array('target' => '_blank')) ?>
 						</td>
 					</tr>
 				</table>
@@ -469,9 +458,11 @@ class HTML_admin_misc {
 				<?php
 				foreach ($toc as $k=>$v) {
 					if ($helpurl) {
-						echo '<br /><a href="' . $fullhelpurl . urlencode( $k ) . '" target="helpFrame">' . $v . '</a>';
+						echo '<br />';
+						echo mosHTML::Link($fullhelpurl . urlencode( $k ), $v, array('target' => 'helpFrame'));
 					} else {
-						echo '<br /><a href="' . $mosConfig_live_site . '/help/' . $k . '" target="helpFrame">' . $v . '</a>';
+						echo '<br />';
+						echo mosHTML::Link('/help/'.$k, $v, array('target' => 'helpFrame'));
 					}
 				}
 				?>
@@ -493,7 +484,6 @@ class HTML_admin_misc {
 	*/
 	function preview( $tp=0 ) {
 		global $mosConfig_live_site;
-		;
 
 		$tp = intval( $tp );
 		?>
@@ -511,9 +501,7 @@ class HTML_admin_misc {
 			<?php echo JText::_( 'Site Preview' ); ?>
 			</th>
 			<th width="50%" style="text-align:right">
-			<a href="<?php echo $mosConfig_live_site . '/index.php?tp=' . $tp;?>" target="_blank">
-			<?php echo JText::_( 'Open in new window' ); ?>
-			</a>
+			<?php echo mosHTML::Link('/index.php?tp='.$tp, JText::_( 'Open in new window' ), array('target' => '_blank')); ?>
 			</th>
 		</tr>
 		<tr>

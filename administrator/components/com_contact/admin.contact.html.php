@@ -142,7 +142,6 @@ class HTML_contact {
 
 	function editContact( &$row, &$lists, $option, &$params ) {
 		global $mosConfig_live_site;
-		;
 
 		if ($row->image == '') {
 			$row->image = 'blank.png';

@@ -22,7 +22,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class HTML_config {
 
 	function showconfig( &$row, &$lists, $option) {
-		global $mosConfig_absolute_path, $mosConfig_live_site;
+		global $mosConfig_absolute_path;
 		;
 		$tabs = new mosTabs(1);
 		?>
@@ -819,8 +819,8 @@ class HTML_config {
 	  	<input type="hidden" name="task" value=""/>
 		</form>
 		
-		<script  type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
 		<?php
+		echo mosHTML::Script('/includes/js/overlib_mini.js');
 	}
 }
 ?>

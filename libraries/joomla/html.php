@@ -17,7 +17,70 @@
 * @package Joomla
 * @since 1.0
 */
-class mosHTML {
+class mosHTML 
+{
+	/**
+	 * Write a <a></a> element
+	 * 
+	 * @param string 	The relative URL to use for the href attribute
+	 * @param string	The target attribute to use
+	 * @param array		An associative array of attributes to add
+	 * @since 1.1
+	 */
+	
+	function Link($url, $text, $attribs = null) {
+		global $mainframe;
+		
+		$src = substr( $url, 0, 4 ) != 'http' ? $mainframe->getCfg('live_site') . $url : $url;
+		
+		if (is_array($attribs)) {
+            $attribs = mosHTML::_implode_assoc('=', ' ', $attribs);
+		 }
+
+		return '<a href="'.$src.'" '.$attribs.'>'.$text.'</a>';
+	}
+	
+	/**
+	 * Write a <img></amg> element
+	 * 
+	 * @param string 	The relative URL to use for the src attribute
+	 * @param string	The target attribute to use
+	 * @param array		An associative array of attributes to add
+	 * @since 1.1
+	 */
+	function Image($url, $alt, $attribs = null) {
+		global $mainframe;
+		
+		$src = substr( $url, 0, 4 ) != 'http' ? $mainframe->getCfg('live_site') . $url : $url;
+		
+		 if (is_array($attribs)) {
+            $attribs = mosHTML::_implode_assoc('=', ' ', $attribs);
+		 }
+
+		return '<img src="'.$src.'" alt="'.$alt.'" '.$attribs.' />';
+		
+	}
+	
+	/**
+	 * Write a <script></script> element
+	 * 
+	 * @param string 	The relative URL to use for the src attribute
+	 * @param string	The target attribute to use
+	 * @param array		An associative array of attributes to add
+	 * @since 1.1
+	 */
+	function Script($url, $attribs = null) {
+		global $mainframe;
+		
+		$src = $mainframe->getCfg('live_site') . $url;
+		
+		 if (is_array($attribs)) {
+            $attribs = mosHTML::_implode_assoc('=', ' ', $attribs);
+		 }
+
+		return '<script type="text/javascript" src="'.$src.'" '.$attribs.'></script>';
+	}
+	
 	function makeOption( $value, $text='', $value_name='value', $text_name='text' ) {
 		$obj = new stdClass;
 		$obj->$value_name = $value;
@@ -25,15 +88,13 @@ class mosHTML {
 		return $obj;
 	}
 
-  function writableCell( $folder ) {
-	;
-
-  	echo '<tr>';
-  	echo '<td class="item">' . $folder . '/</td>';
-  	echo '<td >';
-  	echo is_writable( "../$folder" ) ? '<b><font color="green">'. JText::_( 'Writeable' ) .'</font></b>' : '<b><font color="red">'. JText::_( 'Unwriteable' ) .'</font></b>' . '</td>';
-  	echo '</tr>';
-  }
+	function writableCell( $folder ) {
+		echo '<tr>';
+		echo '<td class="item">' . $folder . '/</td>';
+		echo '<td >';
+		echo is_writable( "../$folder" ) ? '<b><font color="green">'. JText::_( 'Writeable' ) .'</font></b>' : '<b><font color="red">'. JText::_( 'Unwriteable' ) .'</font></b>' . '</td>';
+		echo '</tr>';
+	}
 
 	/**
 	* Generates an HTML select list
@@ -122,8 +183,6 @@ class mosHTML {
 	* @returns string HTML for the select list values
 	*/
 	function monthSelectList( $tag_name, $tag_attribs, $selected ) {
-		;
-
 		$arr = array(
 			mosHTML::makeOption( '01', JText::_( 'JAN' ) ),
 			mosHTML::makeOption( '02', JText::_( 'FEB' ) ),
@@ -196,8 +255,6 @@ class mosHTML {
 	* @returns string HTML for the select list values
 	*/
 	function yesnoSelectList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no' ) {
-		;
-
 		$arr = array(
 			mosHTML::makeOption( '0', JText::_( $no ) ),
 			mosHTML::makeOption( '1', JText::_( $yes ) ),
@@ -252,7 +309,6 @@ class mosHTML {
 	* @returns string HTML for the radio list
 	*/
 	function yesnoRadioList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no' ) {
-		;
 
 		$arr = array(
 			mosHTML::makeOption( '0', JText::_( $no ) ),
@@ -278,7 +334,6 @@ class mosHTML {
 
 	function sortIcon( $base_href, $field, $state='none' ) {
 		global $mosConfig_live_site;
-		;
 
 		$alts = array(
 			'none' 	=> JText::_( 'No Sorting' ),
@@ -302,7 +357,6 @@ class mosHTML {
 	* Writes Close Button
 	*/
 	function CloseButton ( &$params, $hide_js=NULL ) {
-		;
 
 		// displays close button in Pop-up window
 		if ( $params->get( 'popup' ) && !$hide_js ) {
@@ -322,7 +376,6 @@ class mosHTML {
 	* Writes Back Button
 	*/
 	function BackButton ( &$params, $hide_js=NULL ) {
-		;
 
 		// Back Button
 		if ( $params->get( 'back_button' ) && !$params->get( 'popup' ) && !$hide_js) {
@@ -356,8 +409,6 @@ class mosHTML {
 	* Writes Print icon
 	*/
 	function PrintIcon( &$row, &$params, $hide_js, $link, $status=NULL ) {
-		global $mosConfig_live_site, $mosConfig_absolute_path, $cur_template, $Itemid;
-		;
 
     	if ( $params->get( 'print' )  && !$hide_js ) {
 			// use default settings if none declared
@@ -400,10 +451,9 @@ class mosHTML {
  	* by default replaces an email with a mailto link with email cloacked
 	*/
 	function emailCloaking( $mail, $mailto=1, $text='', $email=1 ) {
-		;
 
 		// convert text
-		$mail 		= mosHTML::encoding_converter( $mail );
+		$mail 		= mosHTML::_encoding_converter( $mail );
 		// split email by @ symbol
 		$mail		= explode( '@', $mail );
 		$mail_parts	= explode( '.', $mail[1] );
@@ -421,13 +471,13 @@ class mosHTML {
 			if ( $text ) {
 				if ( $email ) {
 					// convert text
-					$text 	= mosHTML::encoding_converter( $text );
+					$text 	= mosHTML::_encoding_converter( $text );
 					// split email by @ symbol
 					$text 	= explode( '@', $text );
 					$text_parts	= explode( '.', $text[1] );
 					$replacement 	.= "var addy_text". $rand ." = '". @$text[0] ."' + '&#64;' + '". implode( "' + '&#46;' + '", @$text_parts ) ."'; \n";
 				} else {
-					$text 	= mosHTML::encoding_converter( $text );
+					$text 	= mosHTML::_encoding_converter( $text );
 					$replacement 	.= "var addy_text". $rand ." = '". $text ."';\n";
 				}
 				$replacement 	.= "document.write( '<a ' + path + '\'' + prefix + ':' + addy". $rand ." + '\'>' ); \n";
@@ -450,7 +500,7 @@ class mosHTML {
 		return $replacement;
 	}
 
-	function encoding_converter( $text ) {
+	function _encoding_converter( $text ) {
 		// replace vowels with character encoding
 		$text 	= str_replace( 'a', '&#97;', $text );
 		$text 	= str_replace( 'e', '&#101;', $text );
@@ -460,12 +510,27 @@ class mosHTML {
 
 		return $text;
 	}
+	
+	function _implode_assoc($inner_glue = "=", $outer_glue = "\n", $array = null, $keepOuterKey = false)
+    {
+        $output = array();
+
+        foreach($array as $key => $item)
+        if (is_array ($item)) {
+            if ($keepOuterKey)
+                $output[] = $key;
+            // This is value is an array, go and do it again!
+            $output[] = implode_assoc($inner_glue, $outer_glue, $item, $keepOuterKey);
+        } else
+            $output[] = $key . $inner_glue . $item;
+
+        return implode($outer_glue, $output);
+    }
 }
 
 class mosCommonHTML {
 
 	function ContentLegend( ) {
-		;
 		?>
 		<table cellspacing="0" cellpadding="4" border="0" align="center">
 		<tr align="center">
@@ -504,7 +569,6 @@ class mosCommonHTML {
 	}
 
 	function menuLinksContent( &$menus ) {
-		;
 		?>
 		<script language="javascript" type="text/javascript">
 		function go2( pressbutton, menu, id ) {
@@ -584,7 +648,6 @@ class mosCommonHTML {
 	}
 
 	function menuLinksSecCat( &$menus ) {
-		;
 		?>
 		<script language="javascript" type="text/javascript">
 		function go2( pressbutton, menu, id ) {
@@ -672,7 +735,6 @@ class mosCommonHTML {
 	}
 
 	function checkedOut( &$row, $overlib=1 ) {
-		;
 
 		$hover = '';
 		if ( $overlib ) {
@@ -714,7 +776,6 @@ class mosCommonHTML {
 	*/
 	function loadCalendar() {
 		global  $mosConfig_live_site;
-		;
 		?>
 		<link rel="stylesheet" type="text/css" media="all" href="<?php echo $mosConfig_live_site;?>/includes/js/calendar/calendar-mos.css" title="<?php echo JText::_( 'green' ); ?>" />
 		<!-- import the calendar script -->
@@ -758,7 +819,6 @@ class mosCommonHTML {
 	}
 
 	function PublishedProcessing( &$row, $i ) {
-		;
 
 		$img 	= $row->published ? 'publish_g.png' : 'publish_x.png';
 		$task 	= $row->published ? 'unpublish' : 'publish';
@@ -900,7 +960,6 @@ class mosAdminMenus {
 	*/
 	function Parent( &$row ) {
 		global $database;
-		;
 
 		// get a list of the menu items
 		$query = "SELECT m.*"
@@ -973,8 +1032,6 @@ class mosAdminMenus {
 	* build the select list for target window
 	*/
 	function Target( &$row ) {
-		;
-
 		$click[] = mosHTML::makeOption( '0', JText::_( 'Parent Window With Browser Navigation' ) );
 		$click[] = mosHTML::makeOption( '1', JText::_( 'New Window With Browser Navigation' ) );
 		$click[] = mosHTML::makeOption( '2', JText::_( 'New Window Without Browser Navigation' ) );
@@ -987,7 +1044,6 @@ class mosAdminMenus {
 	*/
 	function MenuLinks( &$lookup, $all=NULL, $none=NULL, $unassigned=1 ) {
 		global $database;
-		;
 
 		// get a list of the menu items
 		$query = "SELECT m.*"
@@ -1192,7 +1248,6 @@ class mosAdminMenus {
 	*/
 	function Images( $name, &$active, $javascript=NULL, $directory=NULL ) {
 		global $mosConfig_absolute_path;
-		;
 
 		if ( !$javascript ) {
 			$javascript = "onchange=\"javascript:if (document.forms[0].image.options[selectedIndex].value!='') {document.imagelib.src='../images/stories/' + document.forms[0].image.options[selectedIndex].value} else {document.imagelib.src='../images/blank.png'}\"";
@@ -1218,7 +1273,6 @@ class mosAdminMenus {
 	*/
 	function SpecificOrdering( &$row, $id, $query, $neworder=0 ) {
 		global $database;
-		;
 
 		if ( $neworder ) {
 			$text = JText::_( 'descNewItemsFirst' );
@@ -1240,7 +1294,6 @@ class mosAdminMenus {
 	*/
 	function UserSelect( $name, $active, $nouser=0, $javascript=NULL, $order='name', $reg=1 ) {
 		global $database, $my;
-		;
 
 		$and = '';
 		if ( $reg ) {
@@ -1271,7 +1324,6 @@ class mosAdminMenus {
 	* Select list of positions - generally used for location of images
 	*/
 	function Positions( $name, $active=NULL, $javascript=NULL, $none=1, $center=1, $left=1, $right=1 ) {
-		;
 
 		if ( $none ) {
 			$pos[] = mosHTML::makeOption( '', JText::_( 'None' ) );
@@ -1296,7 +1348,6 @@ class mosAdminMenus {
 	*/
 	function ComponentCategory( $name, $section, $active=NULL, $javascript=NULL, $order='ordering', $size=1, $sel_cat=1 ) {
 		global $database;
-		;
 
 		$query = "SELECT id AS value, name AS text"
 		. "\n FROM #__categories"
@@ -1326,7 +1377,6 @@ class mosAdminMenus {
 	*/
 	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' ) {
 		global $database;
-		;
 
 		$categories[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select a Section' ) .' -' );
 		$query = "SELECT id AS value, title AS text"
