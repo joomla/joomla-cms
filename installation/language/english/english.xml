@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <mosinstall version="1.1" client="installer" type="language">
     <name>English</name>
-    <version>1.0</version>
+    <version>1.1.0</version>
     <creationDate>Nov 2005</creationDate>
     <author>Joomla! Project</author>
     <authorEmail>admin@joomla.org</authorEmail>
