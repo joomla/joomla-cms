@@ -1,0 +1,359 @@
+/* CSS Document */
+html {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	background: #444 url(../images/dark_bg.png) repeat-x;
+	height: 100%;
+	padding-bottom: 1px;
+}
+
+.footer {
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	line-height: 18px;
+	background: #C64934;
+	text-align: center;
+	color: #fff;
+	font-size: 11px;
+}
+
+.footer a:hover {
+	color: #ccc;
+}
+
+body, div, p, td, span {
+	font-family: Tahoma, Helvetica, sans-serif;
+	font-size: 11px;
+}
+
+a:link, a:visited {
+	color: #fff;
+}
+
+a:hover {
+	color: #C64934;
+}
+
+.logo {
+	height: 80px;
+	background: url(../images/dark_logo.png) no-repeat;
+}
+
+.watermark {
+	background: url(../images/dark_watermark.png) 50% 0 no-repeat;
+	height: 546px;
+}
+
+/* installer */
+#stepbar {
+	width: 205px;
+	height: 400px;
+	font-size: 11px;
+	float: left;
+	text-align: left;
+}
+
+#steppad {
+	padding: 10px;
+}
+
+.step-on {
+	color: #fff;
+	font-weight: bold;
+	font-size: 13px;
+	padding: 7px;
+	border: 1px solid #fff;
+	margin-bottom: 5px;
+}
+
+.step-off {
+  font-size: 13px;
+	color: #999999;
+	font-weight: bold;
+	padding: 7px;
+	border: 1px solid #999;
+	margin-bottom: 5px;
+}
+
+#right {
+  float: right;
+  width: 560px;
+}
+
+#rightpad {
+	padding: 10px;
+}
+
+#break {
+	height: 20px;
+}
+
+.licensetext {
+  text-align: left;
+}
+
+.license {
+  padding: 0px;
+  width: 530px;
+  height: 300px;
+}
+
+.license-form {
+  float: left;
+}
+
+.install {
+	position: absolute;
+	left: 50%;
+	margin-top: 25px;
+	margin-left: -385px;
+	background: #323232 url(../images/dark_install_bg.png) 0 0 no-repeat;
+	width: 770px;
+	padding-bottom: 20px;
+}
+
+.install h1, #step {
+	display: inline-block;
+	text-align: left;
+	margin: 0 0 15px 0;
+	padding: 0;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 23px;
+	color: #EBEBEB;
+}
+
+#step {
+	float: left;
+}
+	
+.install h2 {
+	font-size: 12px;
+	font-weight: bold;
+ 	color: #c64934;
+	padding: 10px 10px 4px 0px;
+ 	text-align: left;
+	border-bottom: 1px solid #c64934;
+	margin-bottom: 10px;
+
+}
+
+.install h3 {
+	color: #ccc;
+}
+
+.install-form {
+  position: relative;
+	text-align: left;
+	margin-left: 32%;
+	width: auto !important;
+	width: 350px;
+	border: 0px solid #0f0;
+}
+
+.install-form label {
+	line-height: 16px;
+	color: #fff;
+}
+
+.install-form em {
+	display: block;
+	font-style: normal;
+	font-size: 11px;
+	margin-left: 10px;
+	padding-top: 5px;
+}
+
+.install-text {
+  position: relative;
+	text-align: left;
+	width: 30%;
+	float: left;
+	color: #ddd;
+	border: 0px solid #c00;
+}
+
+.form-block {
+	background: #333;
+	padding: 5px;
+	border: 1px solid #444;
+}
+
+.left {
+  position: relative;
+	text-align: left;
+	float: left;
+	width: 50%;
+}
+
+.right {
+  position: relative;
+	text-align: left;
+	float: right;
+	width: 50%;
+}
+
+.far-right {
+  position: relative;
+	text-align: right;
+	float: right;
+}
+
+.far-left {
+  position: relative; 
+	text-align: left;
+	float: left;
+}
+
+.clr {
+    clear:both;
+    }
+
+.ctr {
+	text-align: center;
+}
+
+table.content {
+	width: 80%;
+}
+
+table.content td {
+	color : #ddd;
+	font-size: 11px;
+	width: 50%;
+}
+
+table.content2 {
+	width: 90%;
+}
+
+table.content2 td {
+	color : #ddd;
+	font-size: 11px;
+}
+
+.toggle {
+	font-weight: bold;
+}
+
+.Yes {
+	color: #5aa426;
+	font-weight: bold;
+}
+.No {
+	color: #e52626;
+	font-weight: bold;
+}
+
+.Writeable {
+	color: #5aa426;
+	font-weight: bold;
+}
+.Unwriteable {
+	color: #e52626;
+	font-weight: bold;
+}
+
+.install .inputbox {
+	background: #000;
+	color: #fff;
+	border: 1px solid #666;
+	padding-left: 3px;
+}
+
+/*  old stuff */
+
+.small {
+	color : #ddd;
+	font-size : 10px;
+}
+
+.error {
+	color : #C64934;
+	font-size : 12px;
+	font-weight : bold;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.notice {
+	color: #fff;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+select.options, input.options {
+	font-size: 8pt;
+	border: 1px solid #999;
+}
+
+.install form {
+	margin: 0;
+	padding: 0;
+}
+
+.dottedline {
+	border-bottom: 1px solid #333;
+}
+
+.installheader {
+	color : #FFF;
+	font-size : 24px;
+}
+
+textarea {
+	color : #0000dd;
+	font-family : Arial;
+	font-size : 11px;
+	border: 1px;
+}
+
+fieldset {
+	border: 1px #666 solid;
+}
+
+input.button {
+	border: 1px solid #333;
+	background: url(../images/dark_button_bg.png) repeat-x;
+	font-family: Tahoma, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	color: #fff;
+	padding: 2px 10px !important;
+	padding: 2px 0px;
+	margin: 0;
+}
+
+/* mod_quickicon */
+#cpanel {  
+	width: 208px !important;
+	width: 210px;
+	text-align: center;  
+	vertical-align: middle;
+	color : #C64934;
+	font-size : 12px;	
+}
+
+#cpanel div.icon a { 
+	display: block;
+	width: 208px !important;
+	width: 210px; 
+	vertical-align: middle; 
+	text-decoration : none;
+	border: 1px solid #C64934;
+	background: #222;
+}
+
+#cpanel div.icon a:link    {  color : #C64934;  }
+#cpanel div.icon a:hover   { 
+	color : #C64934; 
+	background-color: #000;  
+	border: 1px solid #C64934;
+}
+#cpanel div.icon a:active  {  color : #C64934;  }
+#cpanel div.icon a:visited {  color : #C64934;  }

@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Nov-2005 Andy Miller
+ ^ Reimplemented installation with new 'dark' theme
+
 14-Nov-2005 Johan Janssens
  # Fixed artf2102 : Cpanel: logged.php works displays incomplete info.
  # Fixed artf2034 : patTemplate - page.html, et al: wrong namespace

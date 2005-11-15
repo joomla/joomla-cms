@@ -13,35 +13,36 @@
 </script>
 
 <div id="right">
-	<div id="step">
-			<mos:Translate>choose language</mos:Translate>
-	</div>
-
-	<div class="far-right">
-		<input type="button" class="button" value="<mos:Translate escape="yes">Next</mos:Translate> &gt;&gt;" onclick="validateForm( this.form, 'preinstall' );" />
-	</div>
-	<div class="clr"></div>
-
-	<h1><mos:Translate>Select Language</mos:Translate></h1>
-
-	<div class="install-text">
-		&nbsp;
-		<div class="ctr"></div>
-	</div>
-
-	<div class="install-form">
-		<div class="form-block">
-			<select name="vars[lang]" class="inputbox" size="10">
-			<mos:tmpl name="lang-options">
-				<option value="{VALUE}" {SELECTED}>{TEXT}</option>
-			</mos:tmpl>
-			</select>
+	<div id="rightpad">
+		<div id="step">
+				<mos:Translate>Choose Language</mos:Translate>
 		</div>
+	
+		<div class="far-right">
+			<input type="button" class="button" value="<mos:Translate escape="yes">Next</mos:Translate> &gt;&gt;" onclick="validateForm( this.form, 'preinstall' );" />
+		</div>
+		<div class="clr"></div>
+	
+		<h2><mos:Translate>Select Language</mos:Translate></h2>
+	
+		<div class="install-text">
+			&nbsp;
+			<div class="ctr"></div>
+		</div>
+	
+		<div class="install-form">
+			<div class="form-block">
+				<select name="vars[lang]" class="inputbox" size="10">
+				<mos:tmpl name="lang-options">
+					<option value="{VALUE}" {SELECTED}>{TEXT}</option>
+				</mos:tmpl>
+				</select>
+			</div>
+		</div>
+	
+		<div class="clr"></div>
+		<div class="clr"></div>
 	</div>
-
-	<div class="clr"></div>
-	<div class="clr"></div>
-
 </div>
 
 <div class="clr"></div>

@@ -42,7 +42,7 @@ class installationScreens {
 		if ($lang->rtl()) {
 			$tmpl->addGlobalVar( 'installcss', 'install_rtl.css' );
 		} else {
-			$tmpl->addGlobalVar( 'installcss', 'install.css' );
+			$tmpl->addGlobalVar( 'installcss', 'install_dark.css' );
 		}
 
 		return $tmpl;

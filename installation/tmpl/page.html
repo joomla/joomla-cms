@@ -16,52 +16,51 @@
 <script language="JavaScript" type="text/javascript" src="tmpl/install.js"></script>
 </head>
 <body>
-<div class="langdirection">
+	<div class="langdirection">
 
-<div id="wrapper">
-<div id="header">
-<div id="joomla"><img src="images/header_install.png" alt="Joomla Installation" /></div>
-</div>
-</div>
-
-<div id="ctr" align="center">
-	<div class="install">
-		<mos:tmpl name="stepbar">
-			<div id="stepbar">
-				<div class="step-{STEP_LANG}">
-					<mos:Translate>language</mos:Translate>
-				</div>
-				<div class="step-{STEP_PREINSTALL}">
-					<mos:Translate>preinstallation check</mos:Translate>
-				</div>
-				<div class="step-{STEP_LICENSE}">
-					<mos:Translate>license</mos:Translate>
-				</div>
-				<div class="step-{STEP_DBCONFIG}">
-				<mos:Translate>database</mos:Translate>
-				</div>
-				<div class="step-{STEP_DBCOLLATION}">
-				<mos:Translate>collation</mos:Translate>
-				</div>
-				<div class="step-{STEP_MAINCONFIG}">
-					<mos:Translate>configuration</mos:Translate>
-				</div>
-				<div class="step-{STEP_FINISH}">
-				<mos:Translate>finish</mos:Translate>
-				</div>
+		<div class="logo"></div>
+		<div class="watermark">
+		
+		<div id="ctr" align="center">
+			<div class="install">
+				<mos:tmpl name="stepbar">
+					<div id="stepbar">
+						<div id="steppad">
+							<h1><mos:Translate>Installation</mos:Translate></h1>
+							<div class="step-{STEP_LANG}">
+								1 - <mos:Translate>Language</mos:Translate>
+							</div>
+							<div class="step-{STEP_PREINSTALL}">
+								2 - <mos:Translate>Pre-Installation check</mos:Translate>
+							</div>
+							<div class="step-{STEP_LICENSE}">
+								3 - <mos:Translate>License</mos:Translate>
+							</div>
+							<div class="step-{STEP_DBCONFIG}">
+								4 - <mos:Translate>Database</mos:Translate>
+							</div>
+							<div class="step-{STEP_DBCOLLATION}">
+								5 - <mos:Translate>Collation</mos:Translate>
+							</div>
+							<div class="step-{STEP_MAINCONFIG}">
+								6 - <mos:Translate>Configuration</mos:Translate>
+							</div>
+							<div class="step-{STEP_FINISH}">
+								7 - <mos:Translate>Finish</mos:Translate>
+							</div>
+						</div>
+					</div>
+				</mos:tmpl>
+		
+				<form action="index.php" method="post" name="adminForm">
+					<mos:tmpl name="body" src="dynamic" autoload="off" parse="on" varscope="form" />
+				</form>
 			</div>
-		</mos:tmpl>
-
-		<form action="index.php" method="post" name="adminForm">
-			<mos:tmpl name="body" src="dynamic" autoload="off" parse="on" varscope="form" />
-		</form>
+		</div>
 	</div>
-</div>
-
-<div class="ctr">
-	<a href="http://www.joomla.org" target="_blank">Joomla!</a> <mos:Translate key="isFreeSoftware">is Free Software released under the GNU/GPL License.</mos:Translate>
-</div>
-</div>
+	<div class="footer">
+		<a href="http://www.joomla.org" target="_blank">Joomla!</a> <mos:Translate key="isFreeSoftware">is Free Software released under the GNU/GPL License.</mos:Translate>
+	</div>
 </body>
 </html>
 </mos:tmpl>

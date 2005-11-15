@@ -7,109 +7,107 @@
 </mos:comment>
 
 <div id="right">
-	<div id="step">
-	<mos:Translate>finish</mos:Translate>
-	</div>
-
-	<div class="far-right">
-		<input type="button" class="button" value="<mos:Translate escape="yes">Site</mos:Translate>" onclick="window.location.href='{VAR_SITEURL}/';" />
-		<input type="button" class="button" value="<mos:Translate escape="yes">Admin</mos:Translate>" onclick="window.location.href='{VAR_ADMINURL}/';" />
-	</div>
-
-	<div class="clr"></div>
-
-    <h1>
-    <mos:Translate key="congratulations">Congratulations! Joomla! is installed.</mos:Translate>
-    </h1>
-
-    <div class="install-text">
-    	<mos:Translate key="finishButtons">
-	   <p>
-	   Click the "Site" button to start Joomla! site or "Admin" to take you to administrator login.
-	   </p>
-	   </mos:Translate>
-       <mos:Translate key="languageinfo">
-	   <p>
-	   On the Joomla! help page for languages you will find an easy step by step help to install your own languagepack in Joomla!<br/>You will find a list there with links to the available languagepacks.<br/>Click the button on the right to open the helpsite in a new window.
-	   </p>
-	   </mos:Translate>
-    </div>
-
-    <div class="install-form">
-	   <div class="form-block">
-		  <table width="100%">
-		  <tr>
-		  	<td class="error" align="center">
-		  		<mos:Translate key="removeInstallation">PLEASE REMEMBER TO COMPLETELY<br/>REMOVE THE INSTALLATION DIRECTORY</mos:Translate>
-		  	</td>
-		  </tr>
-		  <tr>
-		  	<td align="center">
-		  		<h5>
-		  		<mos:Translate>Administration Login Details</mos:Translate>
-		  		</h5>
-		  	</td>
-		  </tr>
-		  <tr>
-		  	<td align="center" class="notice">
-		  		<b>
-		  		<mos:Translate>Username</mos:Translate> : admin
-		  		</b>
-		  	</td>
-		  </tr>
-		  <tr>
-		  	<td align="center" class="notice">
-		  		<b>
-		  		<mos:Translate>Password</mos:Translate> : {VAR_ADMINPASSWORD}
-		  		</b>
-		  	</td>
-		  </tr>
-		  <tr>
-		  	<td>&nbsp;</td>
-		  </tr>
-		  <tr>
-		  	<td align="center" class="notice">
-			<div id="cpanel">
-					<div>
-						<div class="icon">
-							<a href="http://help.joomla.org" target="_blank">
-							<br />
-							<b><mos:Translate key="languagebuttonlineone">Joomla! in your own language?</mos:Translate></b>
-							<br />
-							<mos:Translate key="languagebuttonlinetwo">Visit the Joomla! help site for more information and downloads.</mos:Translate>
-							<br /><br />
-							</a></td>
+	<div id="rightpad">
+		<div id="step">
+		<mos:Translate>Finish</mos:Translate>
+		</div>
+	
+		<div class="far-right">
+			<input type="button" class="button" value="<mos:Translate escape="yes">Site</mos:Translate>" onclick="window.location.href='{VAR_SITEURL}/';" />
+			<input type="button" class="button" value="<mos:Translate escape="yes">Admin</mos:Translate>" onclick="window.location.href='{VAR_ADMINURL}/';" />
+		</div>
+	
+		<div class="clr"></div>
+	
+	    <h2>
+	    <mos:Translate key="congratulations">Congratulations! Joomla! is installed.</mos:Translate>
+	    </h2>
+	
+	    <div class="install-text">
+	    	<mos:Translate key="finishButtons">
+		   <p>
+		   Click the "Site" button to start Joomla! site or "Admin" to take you to administrator login.
+		   </p>
+		   </mos:Translate>
+	       <mos:Translate key="languageinfo">
+		   <p>
+		   On the Joomla! help page for languages you will find an easy step by step help to install your own languagepack in Joomla!<br/>You will find a list there with links to the available languagepacks.<br/>Click the button on the right to open the helpsite in a new window.
+		   </p>
+		   </mos:Translate>
+	    </div>
+	
+	    <div class="install-form">
+		   <div class="form-block">
+			  <table width="100%">
+			  <tr>
+			  	<td class="error" align="center">
+			  		<mos:Translate key="removeInstallation">PLEASE REMEMBER TO COMPLETELY<br/>REMOVE THE INSTALLATION DIRECTORY</mos:Translate>
+			  	</td>
+			  </tr>
+			  <tr>
+			  	<td align="center">
+			  		<h3>
+			  		<mos:Translate>Administration Login Details</mos:Translate>
+			  		</h3>
+			  	</td>
+			  </tr>
+			  <tr>
+			  	<td align="center" class="notice">
+			  		<mos:Translate>Username</mos:Translate> : admin
+			  	</td>
+			  </tr>
+			  <tr>
+			  	<td align="center" class="notice">
+			  		<mos:Translate>Password</mos:Translate> : {VAR_ADMINPASSWORD}
+			  	</td>
+			  </tr>
+			  <tr>
+			  	<td>&nbsp;</td>
+			  </tr>
+			  <tr>
+			  	<td align="center" class="notice">
+				<div id="cpanel">
+						<div>
+							<div class="icon">
+								<a href="http://help.joomla.org" target="_blank">
+								<br />
+								<b><mos:Translate key="languagebuttonlineone">Joomla! in your own language?</mos:Translate></b>
+								<br />
+								<mos:Translate key="languagebuttonlinetwo">Visit the Joomla! help site for more information and downloads.</mos:Translate>
+								<br /><br />
+								</a></td>
+							</div>
 						</div>
-					</div>
-			</div>
-			</td>
-		  </tr>
-		  <tr>
-		  	<td>&nbsp;</td>
-		  </tr>
-		  <mos:tmpl name="configuration-error" type="simplecondition" requiredvars="buffer">
-		  <tr>
-			 <td class="small">
-				<mos:Translate key="confProblem">
-				Your configuration file or directory is not writeable,
-				or there was a problem creating the configuration file. You'll have to
-				upload the following code by hand. Click in the textarea to highlight
-				all of the code.
-				</mos:Translate>
-			 </td>
-		  </tr>
-		  <tr>
-
-			 <td align="center">
-				<textarea rows="5" cols="60" name="configcode" onclick="javascript:this.form.configcode.focus();this.form.configcode.select();" >{BUFFER}</textarea>
-			 </td>
-		  </tr>
-			</mos:tmpl>
-		</table>
-	   </div>
-    </div>
-
-    <div id="break"></div>
+				</div>
+				</td>
+			  </tr>
+			  <tr>
+			  	<td>&nbsp;</td>
+			  </tr>
+			  <mos:tmpl name="configuration-error" type="simplecondition" requiredvars="buffer">
+			  <tr>
+				 <td class="small">
+					<mos:Translate key="confProblem">
+					Your configuration file or directory is not writeable,
+					or there was a problem creating the configuration file. You'll have to
+					upload the following code by hand. Click in the textarea to highlight
+					all of the code.
+					</mos:Translate>
+				 </td>
+			  </tr>
+			  <tr>
+	
+				 <td align="center">
+					<textarea rows="5" cols="60" name="configcode" onclick="javascript:this.form.configcode.focus();this.form.configcode.select();" >{BUFFER}</textarea>
+				 </td>
+			  </tr>
+				</mos:tmpl>
+			</table>
+		   </div>
+	    </div>
+	
+	    <div id="break"></div>
+	</div>
 </div>
 
 <div class="clr"></div>
