@@ -20,7 +20,7 @@ $parts = explode( '/', $path );
 array_pop( $parts );
 
 //Defines
-DEFINE('JPATH_ROOT'        , implode( '/', $parts ) );
+DEFINE('JPATH_ROOT'         , implode( '/', $parts ) );
 
 DEFINE('JPATH_SITE'         , JPATH_ROOT );
 DEFINE('JPATH_ADMINISTRATOR', JPATH_ROOT . DIRECTORY_SEPARATOR . 'administrator' );

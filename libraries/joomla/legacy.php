@@ -176,4 +176,18 @@ $version = $_VERSION->PRODUCT .' '. $_VERSION->RELEASE .'.'. $_VERSION->DEV_LEVE
 . $_VERSION->DEV_STATUS
 .' [ '.$_VERSION->CODENAME .' ] '. $_VERSION->RELDATE .' '
 . $_VERSION->RELTIME .' '. $_VERSION->RELTZ;
+
+
+/**
+* Load the site language file (the old way - to be deprecated)
+*/
+$file = JPATH_SITE .'/language/' . $mosConfig_lang .'.php';
+if (file_exists( $file )) {
+	require_once( $file);
+} else {
+	$file = JPATH_SITE .'/language/english.php';
+	if (file_exists( $file )) {
+		require_once( $file );
+	}
+}
 ?>

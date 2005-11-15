@@ -14,7 +14,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-global $_VERSION, $_LANG;
+global $_VERSION;
 
 ?>
 <div>

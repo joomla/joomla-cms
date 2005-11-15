@@ -42,6 +42,8 @@ class JApplication extends JObject {
 	var $_custom_pathway	= null;
 	/** @var boolean True if in the admin client */
 	var $_client 			= null;
+	/** @var string A string holding the current active language */
+	var $_lang 			    = null;
 
 	/**
 	* Class constructor
@@ -62,6 +64,7 @@ class JApplication extends JObject {
 		$this->_head['custom'] 	= array();
 		$this->_client 		    = $client;
 		
+		$this->setLanguage();
 		$this->_setTemplate( );
 	}
 	/**
@@ -362,60 +365,55 @@ class JApplication extends JObject {
 	}
 	
 	/**
-	* Load language files
-	* The function will load the common language file of the system and the
-	* special files for the actual component.
-	* The module related files will be loaded automatically
-	*
-	* @param string		actual component which files should be loaded
-	* @return object
-	* @since 1.1
-	*/
-	//TODO : implement signleton -> needs preformance improvements
-	function &getLanguage( $option=null ) {
-		global $mosConfig_lang, $mosConfig_debug, $my;
-
-		jimport('joomla.language');
-
-		$lang = $this->getUserState( 'lang' );
+	 * Set language 
+	 * 
+	 * @param string 	The language name
+	 * @since 1.1
+	 */
+	
+	function setLanguage($strLang = null) 
+	{
+		global $my, $option;
 		
-		if ($lang == '' && $my && isset( $my->params )) {
+		$strLang = $this->getUserState( 'lang' );
+		
+		if ($strLang == '' && $my && isset( $my->params )) {
 
 			// if admin && special lang?
 			if( $this->isAdmin() ) {
-				$lang = $my->params->get( 'admin_language', $lang );
+				$strLang = $my->params->get( 'admin_language', $strLang );
 			}
 		}
 		
 		// loads english language file by default
-		if ($lang == '0' || $lang == '') {
-			$lang = $mosConfig_lang;
+		if ($strLang == '0' || $strLang == '') {
+			$strLang = $this->getCfg('lang');
 		}
-
-		// load the site language file (the old way - to be deprecated)
-		$file = JPATH_SITE .'/language/' . $lang .'.php';
-		if (file_exists( $file )) {
-			require_once( $file);
-		} else {
-			$file = JPATH_SITE .'/language/english.php';
-			if (file_exists( $file )) {
-				require_once( $file );
-			}
-		}
-
-		$_LANG =& JLanguage::getInstance( $lang );
-		$_LANG->debug( $mosConfig_debug );
-		$_LANG->loadAll( $option, $this->getClient() );
-
-		// make sure the locale setting is correct
-		setlocale( LC_ALL, $_LANG->locale() );
-
+		
 		// In case of frontend modify the config value in order to keep backward compatiblitity
 		if( !$this->isAdmin() ) {
-			$mosConfig_lang = $lang;
+			$mosConfig_lang = $strLang;
 		}
+		
+		$lang =& JLanguage::getInstance( $strLang );
+		$lang->debug( $this->getCfg('debug') );
+		$lang->load($option);
 
-		return $_LANG;
+		// make sure the locale setting is correct
+		setlocale( LC_ALL, $lang->locale() );
+		
+		$this->_lang = $strLang;
+	}
+	
+	/**
+	* Return an instance of the JLanguage class
+	*
+	* @return JLanguage
+	* @since 1.1
+	*/
+	//TODO : implement signleton -> needs preformance improvements
+	function &getLanguage( ) {
+		return JLanguage::getInstance($this->_lang );
 	}
 	
 	/**

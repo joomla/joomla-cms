@@ -17,12 +17,18 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 jimport('joomla.classes.object');
 
+/**
+* Text handling class
+* @package Joomla
+* @subpackage Language
+* @static
+* @since 1.1
+*/
 class JText
 {
 	function _($string, $jsSafe=false) {
-		global $mainframe, $option;
-		
-		$lang =& $mainframe->getLanguage($option);
+		global $mainframe;
+		$lang =& $mainframe->getLanguage();
 		return $lang->_($string, $jsSafe);
 	}
 }
@@ -36,7 +42,6 @@ class JText
 class JLanguage extends JObject {
 	/** @var boolean If true, highlights string not found */
 	var $_debug = false;
-
 	/** @var string Official element name of the language */
 	var $_name=null;
 	/** @var string language locale for the locale formating */
@@ -66,8 +71,12 @@ class JLanguage extends JObject {
 		if( isset( $this->_locale ) ) {
 			setlocale (LC_TIME, $this->_locale);
 		}
+		
 		$this->_defaultLang = 'english';
 		$this->_userLang = $userLang;
+		
+		//load common language files
+		$this->load();
 	}
 	
 	/**      
@@ -101,6 +110,7 @@ class JLanguage extends JObject {
 	* Translator function, mimics the php gettext (alias _) function
 	*/
 	function _( $string, $jsSafe=false ) {
+		
 		//$key = str_replace( ' ', '_', strtoupper( trim( $string ) ) );echo '<br>'.$key;
 		$key = strtoupper( $string );
 		$key = substr( $key, 0, 1) == '_' ? substr( $key, 1 ) : $key;
@@ -186,32 +196,22 @@ class JLanguage extends JObject {
 	/**
 	 * Loads a single langauge file
 	 * @param string The prefix
-	 * @param number Client identifier
 	 */
-	function load( $prefix='', $client = null) {
-		$basePath = JLanguage::getLanguagePath( $this->_userLang, $client);
+	function load( $prefix='') {
+		$basePath = JLanguage::getLanguagePath( $this->_userLang);
 		
-		if (empty( $prefix )) {
-			$filename = $basePath . $this->_userLang . '.ini';
-			if (!file_exists( $filename ) ) {
-				// roll back to default language
-				$filename = $basePath . $this->_defaultLang . '.ini';
-			}
-		} else {
-			$filename = $basePath . $this->_userLang . '.' . $prefix . '.ini';
-			if (!file_exists( $filename ) ) {
-				// roll back to default language
-				$filename = $basePath . $this->_defaultLang . '.' . $prefix . '.ini';
-			}
+		$filename = empty( $prefix ) ?  $this->_userLang : $this->_userLang . '.' . $prefix ;
+		if (!file_exists( $basePath . $filename .'.ini') ) {
+			// roll back to default language
+			$filename = empty( $prefix ) ?  $this->_defaultLang  : $this->_defaultLang . '.' . $prefix  ;
 		}
-	
-		$this->_load( $filename );
+		
+		$this->_load( $basePath . $filename .'.ini' );
 	}
 
 	/**
 	 * Loads the main and component language files
 	 * @param string The option
-	 * @param mixed The client id: 0=site, 1=admin, 2=installation
 	 */
 	function loadAll( $option='') {
 		// load primary language file
@@ -223,12 +223,7 @@ class JLanguage extends JObject {
 			$this->load( $option );
 		}
 	}
-	/**
-	 * Is this a primary language file
-	 */
-	function isPrimary( $lang, $client, $file ) {
-		return (($client == 0 || $client == 2) && $file == $lang.'.ini' );
-	}
+	
 	/**
 	* Getter for Name
 	* @param string An optional value
@@ -285,10 +280,9 @@ class JLanguage extends JObject {
 	 * @param int The client number
 	 * @return string	language related path or null
 	 */
-	function getLanguagePath( $language=null, $client = null, $addTrailingSlash=true ) {
-		global $mainframe;
+	function getLanguagePath( $language=null, $addTrailingSlash=true ) {
 		
-		$dir = $mainframe->getBasePath( $addTrailingSlash, $client ) . 'language' . DIRECTORY_SEPARATOR;
+		$dir = JPATH_BASE. DIRECTORY_SEPARATOR. 'language' . DIRECTORY_SEPARATOR;
 		if (isset( $language )) {
 			$dir .= $language .DIRECTORY_SEPARATOR;
 		}
@@ -306,38 +300,29 @@ class JLanguage extends JObject {
 	 * @param string	key of the area (front, admin, install)
 	 * @return array	key/value pair with the language file and real name
 	 */
-	function getKnownLanguages( $client=2 ) {
+	function getKnownLanguages( ) {
 		static $knownLanguages=null;
-		global $mainframe; 
-
-		if (!isset( $client )) {
-			$client = $mainframe->getClient( );
-		}
+	
 		$dir = JLanguage::getLanguagePath( );
 		
-		if( !isset( $knownLanguages[$client] ) ) {
-			$knownLanguages[$client] = JLanguage::_parseLanguageFiles( $dir, $client );
+		if( !isset( $knownLanguages ) ) {
+			$knownLanguages = JLanguage::_parseLanguageFiles( $dir );
 		}
 
-		return $knownLanguages[$client];
+		return $knownLanguages;
 	}
 
 	/** Searches for language directories within a certain base dir
 	 * @param string	directory of files
 	 * @return array	with found languages as filename => real name pairs
 	 */
-	function _parseLanguageFiles( $dir=null, $client ) {
+	function _parseLanguageFiles( $dir=null ) {
 		$languages = array();
 
-		if ($client == 2) {
-			// Installation without subdirs!
-			$languages = JLanguage::_parseINILanguageFiles( $dir );
-		} else {
-			$subdirs = mosFS::listFolders( $dir );
-			foreach ($subdirs as $path) {
-				$langs = JLanguage::_parseXMLLanguageFiles( $dir . $path . DIRECTORY_SEPARATOR );
-				$languages = array_merge( $languages, $langs );
-			}
+		 $subdirs = mosFS::listFolders( $dir );
+		foreach ($subdirs as $path) {
+			$langs = JLanguage::_parseXMLLanguageFiles( $dir . $path . DIRECTORY_SEPARATOR );
+			$languages = array_merge( $languages, $langs );
 		}
 
 		return $languages;
@@ -419,18 +404,13 @@ class JLanguageHelper {
 	 * @param string	client key for the area
 	 * @param array	An array of arrays ( text, value, selected )
 	 */
-	function buildLanguageList( $client=2, $actualLanguage ) {
-		global $mainframe;
+	function buildLanguageList( $actualLanguage ) {
 
 		$list = array();
 
-		if( !isset( $client ) ) {
-			$client = $mainframe->getClient( );
-		}
-
 		// cache activation
 		$cache =& JFactory::getCache( 'JLanguage' );
-		$langs = $cache->call( 'JLanguage::getKnownLanguages', $client );
+		$langs = $cache->call( 'JLanguage::getKnownLanguages');
 
 		foreach ($langs as $lang=>$name) {
 			$option = array();
