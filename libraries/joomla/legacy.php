@@ -176,7 +176,7 @@ function mosGetBrowser( $agent ) {
 */
 function mosGetOS( $agent ) {
 	$browser = JApplication::getBrowser();
-	return $broser->getPlatform();
+	return $browser->getPlatform();
 }
 
 /**
