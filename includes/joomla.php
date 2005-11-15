@@ -68,6 +68,7 @@ jimport( 'joomla.version' );
 jimport( 'joomla.functions' );
 jimport( 'joomla.classes' );
 jimport( 'joomla.classes.app');
+jimport( 'joomla.classes.profiler');
 jimport( 'joomla.models.*' );
 jimport( 'joomla.html' );
 jimport( 'joomla.factory' );

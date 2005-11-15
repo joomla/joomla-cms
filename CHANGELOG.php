@@ -36,6 +36,7 @@ Legend:
  # Fixed artf2034 : patTemplate - page.html, et al: wrong namespace
  + UTF-8 modifications to the installation (contributed by David Gal)
  ^ Changed all instances of $_LANG to JText
+ - Deprecated mosProfiler, use JProfiler instead
 
 14-Nov-2005 Emir Sakic
  + Added support for SEF without mod_rewrite as mambot parameter

@@ -13,94 +13,6 @@
 */
 
 /**
- * Page generation time
- * @package Joomla
- * @since 1.0
- */
-class mosProfiler {
-	/** @var int Start time stamp */
-	var $start=0;
-	/** @var string A prefix for mark messages */
-	var $prefix='';
-
-	/**
-	 * Constructor
-	 * @param string A prefix for mark messages
-	 */
-	function mosProfiler( $prefix='' ) {
-		$this->start = $this->getmicrotime();
-		$this->prefix = $prefix;
-	}
-
-	/**
-	 * @return string A format message of the elapsed time
-	 */
-	function mark( $label ) {
-		return sprintf ( "\n<div class=\"profiler\">$this->prefix %.3f $label</div>", $this->getmicrotime() - $this->start );
-	}
-
-	/**
-	 * @return float The current time in milliseconds
-	 */
-	function getmicrotime(){
-		list($usec, $sec) = explode(" ",microtime());
-		return ((float)$usec + (float)$sec);
-	}
-}
-
-/**
- * @package Joomla
- * @abstract
- * @since 1.0
- */
-class mosAbstractLog {
-	/** @var array */
-	var $_log	= null;
-
-	/**
-	 * Constructor
-	 */
-	function mosAbstractLog() {
-		$this->__constructor();
-	}
-
-	/**
-	 * Generic constructor
-	 */
-	function __constructor() {
-		$this->_log = array();
-	}
-
-	/**
-	 * @param string Log message
-	 * @param boolean True to append to last message
-	 */
-	function log( $text, $append=false ) {
-		$n = count( $this->_log );
-		if ($append && $n > 0) {
-			$this->_log[count( $this->_log )-1] .= $text;
-		} else {
-			$this->_log[] = $text;
-		}
-	}
-
-	/**
-	 * @param string The glue for each log item
-	 * @return string Returns the log
-	 */
-	function getLog( $glue='<br/>', $truncate=9000, $htmlSafe=false ) {
-		$logs = array();
-		foreach ($this->_log as $log) {
-			if ($htmlSafe) {
-				$log = htmlspecialchars( $log );
-			}
-			$logs[] = substr( $log, 0, $truncate );
-		}
-		return  implode( $glue, $logs );
-	}
-}
-
-/**
  * Task routing class
  * @package Joomla
  * @abstract
@@ -247,7 +159,6 @@ class mosAbstractTasker {
 	 * @return null
 	 */
 	function taskNotFound( $task ) {
-		;
 		echo JText::_( 'Task' ) .' ' . $task . ' '. JText::_( 'not found' );
 		return null;
 	}
@@ -257,7 +168,6 @@ class mosAbstractTasker {
 	 * @return null
 	 */
 	function methodNotFound( $name ) {
-		;
 		echo JText::_( 'Method' ) .' ' . $name . ' '. JText::_( 'not found' );
 		return null;
 	}
@@ -267,7 +177,7 @@ class mosAbstractTasker {
 	 * @return null
 	 */
 	function notAllowed( $name ) {
-		echo $GLOBALS['_LANG']->_( 'ALERTNOTAUTH' );
+		echo JText::_( 'ALERTNOTAUTH' );
 
 		return null;
 	}

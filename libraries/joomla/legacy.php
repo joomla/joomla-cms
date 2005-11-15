@@ -75,7 +75,6 @@ function mosIsChmodable( $file ) {
 	return mosFS::canCHMOD( $file );
 }
 
-
 /**
 * Legacy function, replaced by geshi bot
 */
@@ -150,6 +149,18 @@ class mosCache {
 	function cleanCache( $group=false ) {
 		$cache =& JFactory::getCache($group);
 		$cache->cleanCache($group);
+	}
+}
+
+/**
+* Legacy class, use JProfiler instead
+*/
+class mosProfiler extends JProfiler {
+	/**
+	* @return object A function cache object
+	*/
+	function JProfiler (  $prefix=''  ) {
+		parent::__construct($prefix);
 	}
 }
 /**

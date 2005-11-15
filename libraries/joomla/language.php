@@ -170,7 +170,7 @@ class JLanguage extends JObject {
 				}
 
 				$this->_strings = array_merge( $this->_strings, mosParameters::parse( $content, false, true ) );
-
+				
 				if (isset( $this->_strings['__NAME'] )) {
 					$this->name( $this->_strings['__NAME'] );
 				}
@@ -186,7 +186,6 @@ class JLanguage extends JObject {
 				if (isset( $this->_strings['__RTL'] )) {
 					$this->rtl( $this->_strings['__RTL'] );
 				}
-
 				return true;
 			}
 		}
@@ -339,9 +338,7 @@ class JLanguage extends JObject {
 		$files = mosFS::listFiles( $dir, '^([_A-Za-z]*)\.ini$' );
 		foreach ($files as $file) {
 			if ($content = file_get_contents( $dir . $file )) {
-
 				$langContent = mosParameters::parse( $content, false, true );
-
 				$lang = str_replace( '.ini', '', $file );
 				$name = $lang;
 				if (isset( $langContent['__NAME'] )) {

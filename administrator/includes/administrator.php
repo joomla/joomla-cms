@@ -60,6 +60,7 @@ jimport( 'joomla.version' );
 jimport( 'joomla.functions' );
 jimport( 'joomla.classes' );
 jimport( 'joomla.classes.app');
+jimport( 'joomla.classes.profiler' );
 jimport( 'joomla.models.*' );
 jimport( 'joomla.html' );
 jimport( 'joomla.factory' );
@@ -96,6 +97,9 @@ $_MAMBOTS = new mosMambotHandler();
 
 /** @global $_VERSION */
 $_VERSION = new JVersion();
+
+// page generation speed calculator
+$_PROFILER = new JProfiler( 'Core' );
 
 //TODO : implement mambothandler class as singleton, add getBotHandler to JFactory
 

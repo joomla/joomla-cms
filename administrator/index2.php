@@ -109,4 +109,9 @@ if ($no_html == 0) {
 }
 
 doGzip();
+
+if ($mainframe->getCfg('debug')) {
+	$_PROFILER->mark( 's execution time' );
+	echo $_PROFILER->report();
+}
 ?>
