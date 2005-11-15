@@ -13,8 +13,7 @@ body {
 
 .footer {
 	width: 100%;
-	position: fixed;
-	bottom: 0;
+	margin-top: 20px;
 	line-height: 18px;
 	background: #C64934;
 	text-align: center;
@@ -114,7 +113,6 @@ a:hover {
 	margin-left: -385px;
 	background: #323232 url(../images/dark_install_bg.png) 0 0 no-repeat;
 	width: 770px;
-	padding-bottom: 20px;
 }
 
 .install h1, #step {
@@ -125,7 +123,7 @@ a:hover {
 	font-weight: bold;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 23px;
-	color: #EBEBEB;
+	color: #ccc;
 }
 
 #step {
