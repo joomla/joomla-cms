@@ -5,9 +5,15 @@
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 */
+html {
+	height: 100%;
+}
+
 body {
 	margin: 0px;
 	padding: 0px;
+	height: 100%;
+	padding-bottom: 1px;
 	color : #333;
 	background-color : #FFF;
 	font-size : 11px;
@@ -46,18 +52,6 @@ body {
 	font-size: 11px;
 	float: left;
 	text-align: left;
-}
-
-#step {
-	background: url(../images/install_logo.png) no-repeat;
-	font-size: 30px;
-	font-weight: bold;
-	text-align: left;
-	color: #666666;
-	padding: 10px 0px 20px 80px;
-	white-space: nowrap;
-	position: relative;
-	float: left;
 }
 
 .step-on {
@@ -116,8 +110,23 @@ body {
 	width: 750px;
 	background: #F1F1F1;
 }
+
+.install h1, #step {
+	display: inline-block;
+	text-align: left;
+	margin: 0 0 15px 0;
+	padding: 0;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 23px;
+	color: #333;
+}
+
+#step {
+	float: left;
+}
 	
-.install h1 {
+.install h2 {
 	font-size: 15px;
 	font-weight: bold;
  	color: #c64934;
