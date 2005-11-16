@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+16-Nov-2005 Emir Sakic
+ # Optimized SEF query usage
+
 15-Nov-2005 Levis Bisson
  + Added new language terms in language files
  ^ Deprecated mosWarning, use JWarning instead
