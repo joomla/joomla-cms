@@ -735,14 +735,19 @@ class mosMenuBar {
 	* @param string The sub-drectory to upload the media to
 	* @since 1.0
 	*/
-	function media_manager( $directory = '', $alt='Upload' ) {
+	function media_manager( $directory='', $alt='Upload' ) {
 		global $database;
 
     	$alt = JText::_( $alt );
 
-		$sql = "SELECT template FROM #__templates_menu WHERE client_id='1' AND menuid='0'";
-		$database->setQuery( $sql );
+		$query = "SELECT template"
+		. "\n FROM #__templates_menu"
+		. "\n WHERE client_id = 1"
+		. "\n AND menuid = 0"
+		;
+		$database->setQuery( $query );		
 		$cur_template = $database->loadResult();
+		
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'upload_f2.png', '/images/', NULL, NULL, 'Upload Image', 'uploadPic', 1 );
 		?>
 		<td>

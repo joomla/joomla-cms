@@ -17,18 +17,21 @@ define( "_VALID_MOS", 1 );
 require( "../includes/auth.php" );
 include_once ( $mosConfig_absolute_path . '/language/' . $mosConfig_lang . '.php' );
 
-$directory	= mosGetParam( $_REQUEST, 'directory', '');
-$media_path	= $mosConfig_absolute_path.'/media/';
+$directory		= mosGetParam( $_REQUEST, 'directory', '');
+$media_path		= $mosConfig_absolute_path .'/media/';
 
-$userfile2=(isset($_FILES['userfile']['tmp_name']) ? $_FILES['userfile']['tmp_name'] : "");
-$userfile_name=(isset($_FILES['userfile']['name']) ? $_FILES['userfile']['name'] : "");
+$userfile2		= (isset($_FILES['userfile']['tmp_name']) ? $_FILES['userfile']['tmp_name'] : "");
+$userfile_name	= (isset($_FILES['userfile']['name']) ? $_FILES['userfile']['name'] : "");
 
 if (isset($_FILES['userfile'])) {
-	if ($directory!="banners") {
-		$base_Dir = "../../images/stories/";
-	} else {
+	if ($directory == 'banners') {
 		$base_Dir = "../../images/banners/";
+	} else if ( $directory != '' ) {
+		$base_Dir = '../../images/stories/'. $directory;
+	} else {
+		$base_Dir = '../../images/stories/';
 	}
+	
 	if (empty($userfile_name)) {
 		mosErrorAlert( JText::_( 'Please select an image to upload' ), "document.location.href='uploadimage.php'");
 	}
@@ -74,27 +77,29 @@ if (isset($_FILES['userfile'])) {
 $css = mosGetParam($_REQUEST,"t","");
 ?>
 <link rel="stylesheet" href="../templates/<?php echo $css; ?>/css/template_css.css" type="text/css" />
+<form method="post" action="uploadimage.php" enctype="multipart/form-data" name="filename">
+
 <table class="adminform">
-  <form method="post" action="uploadimage.php" enctype="multipart/form-data" name="filename">
-	<tr>
-	  <th class="title"> <?php echo JText::_( 'File Upload' ); ?> : <?php echo $directory; ?></th>
-	</tr>
-	<tr>
-	  <td align="center">
+<tr>
+	<th class="title"> 
+		<?php echo JText::_( 'File Upload' ); ?> : <?php echo $directory; ?>
+	</th>
+</tr>
+<tr>
+	<td align="center">
 		<input class="inputbox" name="userfile" type="file" />
-	  </td>
-	</tr>
-	<tr>
-	  <td>
+	</td>
+</tr>
+<tr>
+	<td>
 		<input class="button" type="submit" value="<?php echo JText::_( 'Upload' ); ?>" name="fileupload" />
 		<?php echo JText::_( 'Max size' ); ?> = <?php echo ini_get( 'post_max_size' );?>
-	  </td>
-	<tr>
-	  <td>
-		<input type="hidden" name="directory" value="<?php echo $directory;?>" />
-	  </td>
-	</tr>
-  </form>
+	</td>
+</tr>
 </table>
+
+<input type="hidden" name="directory" value="<?php echo $directory;?>" />
+</form>
+
 </body>
 </html>
