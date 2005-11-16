@@ -27,7 +27,7 @@ class categories_html {
 	* @param string The name of the category section
 	*/
 	function show( &$rows, $section, $section_name, &$pageNav, &$lists, $type ) {
-		global $my, $_LANG;
+		global $my;
 
 		mosCommonHTML::loadOverlib();
 		?>

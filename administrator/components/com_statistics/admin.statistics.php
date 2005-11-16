@@ -208,7 +208,7 @@ function showSearches( $option, $task ) {
 }
 
 function resetStats( $option, $task ) {
-		global $database, $mainfraime, $_LANG;
+		global $database, $mainfraime;
 		
 		$op = mosGetParam( $_REQUEST, 'op', '' );
 		

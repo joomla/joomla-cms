@@ -41,7 +41,7 @@ function wsGetSearchWebServices() {
 * @param string ordering option, newest|oldest|popular|alpha|category
 */
 function wsSearchSite( $searchword, $phrase='', $order='' ) {
-	global $database, $my, $acl, $_LANG, $_MAMBOTS, $mosConfig_live_site;
+	global $database, $my, $acl, $_MAMBOTS, $mosConfig_live_site;
 
 	if (!defined( '_MAMBOT_REMOTE_SEACH')) {
 		// flag that the site is being searched remotely

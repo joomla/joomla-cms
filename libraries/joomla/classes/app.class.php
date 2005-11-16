@@ -251,7 +251,7 @@ class JApplication extends JObject {
 	* users details.
 	*/
 	function login( $username=null,$passwd=null ) {
-		global $database, $acl, $_MAMBOTS, $_LANG;
+		global $database, $acl, $_MAMBOTS;
 
 		if (!$username || !$passwd) {
 			$username 	= $database->getEscaped( trim( mosGetParam( $_POST, 'username', '' ) ) );

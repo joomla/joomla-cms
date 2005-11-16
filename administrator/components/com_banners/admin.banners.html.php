@@ -22,7 +22,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class HTML_banners {
 
 	function showBanners( &$rows, &$pageNav, $option ) {
-		global $my, $_LANG;
+		global $my;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -300,7 +300,7 @@ class HTML_banners {
 class HTML_bannerClient {
 
 	function showClients( &$rows, &$pageNav, $option ) {
-		global $my, $_LANG;
+		global $my;
 
 		mosCommonHTML::loadOverlib();
 		?>

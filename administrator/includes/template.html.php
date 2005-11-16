@@ -70,7 +70,7 @@ class modules_html {
 	*/
 	function modoutput_tabs( $module, $params  ) {
 		
-		global $acl, $my, $_LANG;
+		global $acl, $my;
 		
 		$tabs = new mosTabs(1);
 		
@@ -95,7 +95,7 @@ class modules_html {
 	}
 
 	function modoutput_feed( &$module, &$params ) {
-		global $mosConfig_absolute_path, $_LANG;
+		global $mosConfig_absolute_path;
 
 		$rssurl 			= $params->get( 'rssurl', '' );
 		$rssitems 			= $params->get( 'rssitems', '' );

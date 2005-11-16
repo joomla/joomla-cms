@@ -87,7 +87,7 @@ class mosInstaller {
 	* @param string Download target
 	*/
 	function downloadPackage($url,$target=false) {
-		global $mosConfig_absolute_path,$_LANG,$mainframe;
+		global $mosConfig_absolute_path, $mainframe;
 		$php_errormsg = 'Error Unknown';
 		ini_set('track_errors',true);
 		

@@ -24,7 +24,7 @@ class poll_html {
 
 
 	function showResults( &$poll, &$votes, $first_vote, $last_vote, $pollist, $params ) {
-		global $mosConfig_live_site, $_LANG;
+		global $mosConfig_live_site;
 		?>
 		<script type = "text/javascript">
 		<!--

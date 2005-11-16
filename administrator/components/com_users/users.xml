@@ -10,8 +10,8 @@
 	<version>1.1.0</version>
 	<description>User Manager</description>
 	<params>
-	    <param name="admin_language" type="admin_language_list" default="" label="Admin Language" description="paramAdminLanguage" />
-		<param name="language" type="language_list" default="" label="Language of the frontend" description="paramLanguage" />
+	    <param name="admin_language" type="admin_language_list" default="" label="Back-end Language" description="paramAdminLanguage" />
+		<param name="language" type="language_list" default="" label="Front-end Language" description="paramLanguage" />
 		<param name="editor" type="editor_list" default="" label="User Editor" description="WYSYWYG Editor for this User" />
 	</params>
 </mosinstall>

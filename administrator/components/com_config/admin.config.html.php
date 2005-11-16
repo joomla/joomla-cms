@@ -402,7 +402,7 @@ class HTML_config {
 				<input class="text_area" type="text" name="config_dbprefix" size="10" value="<?php echo $row->config_dbprefix; ?>"/>
 				&nbsp;<?php
                 $warn = JText::_( 'WARNDONOTCHANGEDATABASETABLESPREFIX' );
-                echo mosWarning( $warn ); ?>
+                echo JWarning( $warn ); ?>
 				</td>
 			</tr>
 			</table>
@@ -527,7 +527,7 @@ class HTML_config {
 													<?php echo JText::_( 'Apply to existing files' ); ?>
 													&nbsp;<?php
 													$warn = JText::_( 'WARNWILLAPPLYPERMISSIONFLAGSTO' );
-													echo mosWarning( $warn );?>
+													echo JWarning( $warn );?>
 												</label>
 											</td>
 										</tr>
@@ -606,7 +606,7 @@ class HTML_config {
 													<?php echo JText::_( 'Apply to existing directories' ); ?>
 													&nbsp;<?php
 													$tip = JText::_( 'WARNCHECK' );
-													echo mosWarning( $tip );?>
+													echo JWarning( $tip );?>
 												</label>
 											</td>
 										</tr>
@@ -735,7 +735,7 @@ class HTML_config {
 					echo mosToolTip( $tip );
 				} else {
                     $warn = JText::_( 'TIPCACHEDIRISUNWRITEABLE' );
-					echo mosWarning( $warn );
+					echo JWarning( $warn );
 				}
 				?>
 				</td>
@@ -767,7 +767,7 @@ class HTML_config {
 				<td><?php echo $lists['log_items']; ?></td>
 				<td><span class="error"><?php
                     $warn = JText::_( 'TIPLARGEAMOUNTSOFDATA' );
-                    echo mosWarning( $warn ); ?></span></td>
+                    echo JWarning( $warn ); ?></span></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Log Search Strings' ); ?>:</td>
@@ -793,7 +793,7 @@ class HTML_config {
 				<td><?php echo $lists['sef']; ?>&nbsp;</td>
 				<td><span class="error"><?php
                 $tip = JText::_( 'WARNAPACHEONLY' );
-                echo mosWarning( $tip ); ?></span></td>
+                echo JWarning( $tip ); ?></span></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Dynamic Page Titles' ); ?>:</td>

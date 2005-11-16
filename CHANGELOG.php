@@ -31,6 +31,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Nov-2005 Levis Bisson
+ + Added new language terms in language files
+ ^ Deprecated mosWarning, use JWarning instead
+ - Removed the left over Global $_LANG in each function
+
 15-Nov-2005 Johan Janssens
  # Fixed artf2122 : Typo in mosGetOS function
  + Added new DS define to shortcut DIRECTORT_SEPERATOR

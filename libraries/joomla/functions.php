@@ -241,15 +241,15 @@ function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 * @param string Box title
 * @returns HTML code for Warning
 */
-function mosWarning($warning, $title='Joomla! Warning') {
-	global $mosConfig_live_site, $_LANG;
+function JWarning($warning, $title='Joomla! Warning') {
+	global $mosConfig_live_site;
 
 	$title 		= JText::_( 'Joomla Warning' );
-	$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \'$title\', BELOW, RIGHT);';
+	$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \''. $title .'\', BELOW, RIGHT);';
 	
 	$tip 		= '<!--'. JText::_( 'Joomla Warning' ) ."--> \n";
 	$tip 		= '<a href="#" onmouseover="'. $mouseover .'" onmouseout="return nd();">';
-	$tip 		.= '<img src="'. $mosConfig_live_site .'/includes/js/ThemeOffice/warning.png" border="0"  alt="'. $title .'"/></a>';
+	$tip 		.= '<img src="'. $mosConfig_live_site .'/includes/js/ThemeOffice/warning.png" border="0"  alt=""/></a>';
 
 	return $tip;
 }
@@ -276,7 +276,7 @@ function mosBackTrace() {
 * If the user is not logged in then an addition message is displayed.
 */
 function mosNotAuth() {
-	global $my, $_LANG;
+	global $my;
 
 	echo JText::_('ALERTNOTAUTH');
 	if ($my->id < 1) {
