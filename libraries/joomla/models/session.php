@@ -33,28 +33,22 @@ class mosSession extends mosDBTable {
 	/** @var int */
 	var $guest				= null;
 
-	/** @var string */
-	var $_session_cookie	= null;
-	/** @var string */
-	var $_sessionType		= null;
-
 	/**
 	 * Constructor
 	 * @param database A database connector object
 	 */
-	function mosSession( &$db, $type='cookie' ) {
+	function mosSession( &$db ) {
 		$this->mosDBTable( '#__session', 'session_id', $db );
 
 		$this->guest = 1;
 		$this->username = '';
 		$this->gid = 0;
-		$this->_sessionType = $type;
 	}
 
-	function insert() {
-		;
+	function insert($id) {
 
-		$this->generateId();
+		$this->session_id = $id;
+		
 		$this->time = time();
 		$ret = $this->_db->insertObject( $this->_tbl, $this );
 
@@ -67,7 +61,6 @@ class mosSession extends mosDBTable {
 	}
 
 	function update( $updateNulls=false ) {
-		;
 
 		$this->time = time();
 		$ret = $this->_db->updateObject( $this->_tbl, $this, 'session_id', $updateNulls );
@@ -81,43 +74,15 @@ class mosSession extends mosDBTable {
 	}
 
 	/**
-	 * @return string The id of the session
-	 */
-	function restore() {
-		switch ($this->_sessionType) {
-			case 'php':
-				$id = mosGetParam( $_SESSION, 'session_id', null );
-				break;
-
-			case 'cookie':
-			default:
-				$id = mosGetParam( $_COOKIE, 'sessioncookie', null );
-				break;
-		}
-		return $id;
-	}
-
-	/**
 	 * Set the information to allow a session to persist
 	 */
 	function persist() {
 		global $mainframe;
 
-		switch ($this->_sessionType) {
-			case 'php':
-				$_SESSION['session_id'] = $this->getCookie();
-				break;
-
-			case 'cookie':
-			default:
-				setcookie( 'sessioncookie', $this->getCookie(), time() + 43200, '/' );
-
-				$usercookie = mosGetParam( $_COOKIE, 'usercookie', null );
-				if ($usercookie) {
-					// Remember me cookie exists. Login with usercookie info.
-					$mainframe->login( $usercookie['username'], $usercookie['password'] );
-				}
-				break;
+		$usercookie = mosGetParam( $_COOKIE, 'usercookie', null );
+		if ($usercookie) {
+			// Remember me cookie exists. Login with usercookie info.
+			$mainframe->login( $usercookie['username'], $usercookie['password'] );
 		}
 	}
 
@@ -127,18 +92,11 @@ class mosSession extends mosDBTable {
 	 * @param string The user password
 	 */
 	function remember( $username, $password ) {
-		switch ($this->_sessionType) {
-			case 'php':
-				// not recommended
-				break;
-
-			case 'cookie':
-			default:
-				$lifetime = time() + 365*24*60*60;
-				setcookie( 'usercookie[username]', $user->username, $lifetime, '/' );
-				setcookie( 'usercookie[password]', $user->password, $lifetime, '/' );
-				break;
-		}
+		
+		$lifetime = time() + 365*24*60*60;
+		setcookie( 'usercookie[username]', $user->username, $lifetime, '/' );
+		setcookie( 'usercookie[password]', $user->password, $lifetime, '/' );
+		break;
 	}
 
 	/**
@@ -157,68 +115,13 @@ class mosSession extends mosDBTable {
 			}
 		}
 
-		switch ($this->_sessionType) {
-			case 'php':
-				$query = "DELETE FROM #__session"
-				. "\n WHERE session_id = ". $this->_db->Quote( $this->session_id )
-				;
-				$this->_db->setQuery( $query );
-				if ( !$this->_db->query() ) {
-			 		mosErrorAlert( $this->_db->stderr() );
-				}
-
-				session_unset();
-				//session_unregister( 'session_id' );
-				if ( session_is_registered( 'session_id' ) ) {
-					session_destroy();
-				}
-				break;
-			case 'cookie':
-			default:
-				// revert the session
-				$this->guest 	= 1;
-				$this->username = '';
-				$this->userid 	= '';
-				$this->usertype = '';
-				$this->gid 		= 0;
-
-				$this->update();
-
-				$lifetime = time() - 1800;
-				setcookie( 'usercookie[username]', ' ', $lifetime, '/' );
-				setcookie( 'usercookie[password]', ' ', $lifetime, '/' );
-				setcookie( 'usercookie', ' ', $lifetime, '/' );
-				@session_destroy();
-				break;
+		$query = "DELETE FROM #__session"
+			. "\n WHERE session_id = ". $this->_db->Quote( $this->session_id )
+			;
+		$this->_db->setQuery( $query );
+		if ( !$this->_db->query() ) {
+			mosErrorAlert( $this->_db->stderr() );
 		}
-	}
-
-	/**
-	 * Generates a unique id for the session
-	 */
-	function generateId() {
-		$failsafe = 20;
-		$randnum = 0;
-		while ($failsafe--) {
-			$randnum = md5( uniqid( microtime(), 1 ) );
-			if ($randnum != '') {
-				$cryptrandnum = md5( $randnum );
-				$query = "SELECT $this->_tbl_key"
-				. "\n FROM $this->_tbl"
-				. "\n WHERE $this->_tbl_key = ". $this->_db->Quote( md5( $randnum ) )
-				;
-				$this->_db->setQuery( $query );
-				if(!$result = $this->_db->query()) {
-					die( $this->_db->stderr( true ));
-					// todo: handle gracefully
-				}
-				if ($this->_db->getNumRows($result) == 0) {
-					break;
-				}
-			}
-		}
-		$this->_session_cookie = $randnum;
-		$this->session_id = $this->hash( $randnum );
 	}
 
 	/**

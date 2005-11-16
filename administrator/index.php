@@ -28,13 +28,9 @@ $_MAMBOTS->trigger( 'onBeforeStart' );
 $option = mosGetParam( $_REQUEST, 'option', NULL );
 $handle = mosGetParam( $_POST, 'handle', NULL );
 
-// must start the session before we create the mainframe object
-session_name( md5( $mosConfig_live_site ) );
-session_start();
-
 // mainframe is an API workhorse, lots of 'core' interaction routines
 $mainframe =& new JAdministrator();
-$mainframe->initSession( 'php' );
+$mainframe->initSession( );
 
 // trigger the onAfterStart events
 $_MAMBOTS->trigger( 'onAfterStart' );
@@ -56,7 +52,7 @@ if (isset( $_POST['submit'] )) {
 
 	if ($mainframe->login()) {
 		$mainframe->setUserState( 'lang', mosGetParam( $_REQUEST, 'lang', $mosConfig_lang ) );
-		session_write_close();
+		JSession::pause();
 		/** cannot using mosredirect as this stuffs up the cookie in IIS */
 		$handle = isset($handle) ? ('?handle=' . $handle) : '';
 		mosErrorAlert( '', "document.location.href='index2.php" . $handle . "'", 2 );

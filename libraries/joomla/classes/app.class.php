@@ -23,6 +23,7 @@ jimport( 'joomla.classes.object' );
 * @abstract
 * @since 1.1
 */
+
 class JApplication extends JObject {
 	/** @var database Internal database class pointer */
 	var $_db				= null;
@@ -52,11 +53,6 @@ class JApplication extends JObject {
 	function __construct( &$db, $client=0 ) {
 		
 		$this->_db =& $db;
-
-		if (!isset( $_SESSION['session_userstate'] )) {
-			$_SESSION['session_userstate'] = array();
-		}
-		$this->_userstate =& $_SESSION['session_userstate'];
 
 		$this->_head 			= array();
 		$this->_head['title'] 	= $GLOBALS['mosConfig_sitename'];
@@ -221,25 +217,45 @@ class JApplication extends JObject {
 	 * lifetime. If an existing session, then the last access time is updated.
 	 * If a new session, a session id is generated and a record is created in
 	 * the mos_sessions table.
-	 * @param string The session persistance type: cookie|php
+	 * @param boolean 
 	 */
-	function initSession( $type='cookie' ) {
-		$session =& $this->_session;
+	function initSession( $useCookies = true) {
 		
-		$session = new mosSession( $this->_db, $type );
+		global $mosConfig_live_site;
+		
+		JSession::useCookies(true);
+		JSession::start(md5( $mosConfig_live_site ));
+			
+		if (!isset( $_SESSION['session_userstate'] )) {
+			$_SESSION['session_userstate'] = array();
+		}
+		$this->_userstate =& $_SESSION['session_userstate'];
+			
+		/*$session = new mosSession( $this->_db );
 		$session->purge( intval( $this->getCfg( 'lifetime' ) ) );
 
-		$sessioncookie = $session->restore();
-
-		if ($session->load( $session->hash( $sessioncookie ) )) {
+		if ($session->load( $session->hash( JSession::id() ) )) {
 			// Session cookie exists, update time in session table
 			$session->update();
 		} else {
-			if (!$session->insert()) {
+		
+			if (!$session->insert($session->hash( JSession::id())) {
 				die( $session->getError() );
 			}
 			$session->persist();
 		}
+		
+		$this->_session = $session;
+		*/
+		
+		
+		JSession::setIdle($this->getCfg('lifetime')); 
+		
+		if (JSession::isIdle()) {
+			$this->logout();
+		}
+		
+		JSession::updateIdle();
 	}
 
 	/**
@@ -298,16 +314,16 @@ class JApplication extends JObject {
 					//if ( !$acl->acl_check( 'login', $this->_client, 'users', $user->usertype ) ) {
 					//	return false;
 					//}
+					
+					JSession::set('guest'		, 0);
+					JSession::set('username' 	, $user->username);
+					JSession::set('userid' 		, intval( $user->id ));
+					JSession::set('usertype' 	, $user->usertype);
+					JSession::set('gid' 		, intval( $user->gid ));
 	
-					$session =& $this->_session;
-					$session->guest 	= 0;
-					$session->username 	= $user->username;
-					$session->userid 	= intval( $user->id );
-					$session->usertype 	= $user->usertype;
-					$session->gid 		= intval( $user->gid );
-	
-					$session->store();
-	
+					//$session =& $this->_session;
+					//$session->store();
+					
 					$user->setLastVisit();
 	
 					$remember = trim( mosGetParam( $_POST, 'remember', '' ) );
@@ -345,8 +361,10 @@ class JApplication extends JObject {
 		//mosCache::cleanCache('com_content');
 		mosCache::cleanCache();
 
-		$session =& $this->_session;
-		$session->destroy();
+		//$session =& $this->_session;
+		//$session->destroy();
+		
+		JSession::destroy();
 	}
 	/**
 	* @return mosUser A user object with the information from the current session
@@ -355,9 +373,9 @@ class JApplication extends JObject {
 	function &getUser() {
 		
 		$user = new mosUser( $this->_db);
-
-		if (intval( $this->_session->userid )) {
-			$user->load($this->_session->userid);
+		
+		if (intval( JSession::get('userid') )) {
+			$user->load(JSession::get('userid'));
 			$user->params = new mosParameters($user->params);
 		} 
 

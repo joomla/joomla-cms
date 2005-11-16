@@ -27,17 +27,13 @@ $_MAMBOTS->trigger( 'onBeforeStart' );
 
 $option = strtolower( mosGetParam( $_REQUEST, 'option', 'com_admin' ) );
 
-// must start the session before we create the mainframe object
-session_name( md5( $mosConfig_live_site ) );
-session_start();
-
 if (!mosGetParam( $_SESSION, 'session_id' )) {
 	mosRedirect( 'index.php' );
 }
 
 // mainframe is an API workhorse, lots of 'core' interaction routines
 $mainframe =& new JAdministrator();
-$mainframe->initSession( 'php' );
+$mainframe->initSession( );
 
 // trigger the onStart events
 $_MAMBOTS->trigger( 'onAfterStart' );

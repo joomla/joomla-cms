@@ -31,8 +31,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Nov-2005 Rey Gigataras
+ # Fixed artf2027 : uploading images from custom component
+
 16-Nov-2005 Johan Janssens
  ^ Moved language metadata to language xml file
+ + Added new JSession class
+ ^ Implemented full session support
 
 16-Nov-2005 Emir Sakic
  # Optimized SEF query usage
