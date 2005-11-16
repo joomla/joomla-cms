@@ -2,7 +2,7 @@
 
 /**
 * @version $Id$
-* @package Joomla 
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -192,6 +192,7 @@ $version = $_VERSION->PRODUCT .' '. $_VERSION->RELEASE .'.'. $_VERSION->DEV_LEVE
 /**
 * Load the site language file (the old way - to be deprecated)
 */
+global $mosConfig_lang;
 $file = JPATH_SITE .'/language/' . $mosConfig_lang .'.php';
 if (file_exists( $file )) {
 	require_once( $file);
