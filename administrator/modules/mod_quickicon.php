@@ -23,7 +23,7 @@ if (!defined( '_JOS_QUICKICON_MODULE' )) {
 		global $mainframe;
 		$lang = $mainframe->getLanguage();
 		?>
-		<div style="float:<?php echo ($lang->rtl()) ? 'right' : 'left'; ?>;">
+		<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
 			<div class="icon">
 				<a href="<?php echo $link; ?>">
 					<?php echo mosAdminMenus::imageCheckAdmin( $image, '/images/', NULL, NULL, $text ); ?>

@@ -208,7 +208,6 @@ class mosParameters {
 */
 	function render( $name='params' ) {
 		global $mosConfig_absolute_path;
-		;
 
 		if ($this->_path) {
 			if (!is_object( $this->_xmlElem )) {
@@ -268,7 +267,6 @@ class mosParameters {
 * @return array Any array of the label, the form element and the tooltip
 */
 	function renderParam( &$param, $control_name='params' ) {
-		;
 
 		$result = array();
 

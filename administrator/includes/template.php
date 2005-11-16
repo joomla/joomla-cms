@@ -164,8 +164,8 @@ function mosShowHead_Admin() {
 		initEditor();
 	}
 	?>
-	<link type="text/css" rel="stylesheet" href="templates/<?php echo $template; ?>/css/template_css<?php echo $lang->rtl() ? '_rtl': ''; ?>.css" />
-	<link type="text/css" rel="stylesheet" href="templates/<?php echo $template; ?>/css/theme<?php echo $lang->rtl() ? '_rtl': ''; ?>.css" />
+	<link type="text/css" rel="stylesheet" href="templates/<?php echo $template; ?>/css/template_css<?php echo $lang->isRTL() ? '_rtl': ''; ?>.css" />
+	<link type="text/css" rel="stylesheet" href="templates/<?php echo $template; ?>/css/theme<?php echo $lang->isRTL() ? '_rtl': ''; ?>.css" />
 	<?php
 
 	// favourites icon

@@ -42,38 +42,30 @@ class JText
 class JLanguage extends JObject {
 	/** @var boolean If true, highlights string not found */
 	var $_debug = false;
-	/** @var string Official element name of the language */
-	var $_name=null;
-	/** @var string language locale for the locale formating */
-	var $_locale=null;
-	/** @var string iso charset of html files */
-	var $_iso=null;
-	/** @var string iso code of the languge */
-	var $_isocode=null;
-	/** @var boolean True if language is displayed right-to-left */
-	var $_rtl=null;
+	/** @var array 	Array holding the language metadata */
+	var $_metadata = null;
 	/** @var string The default language to load */
 	var $_defaultLang=null;
 	/** @var string The user language to load */
 	var $_userLang=null;
 	/** @var string Identifying string of the language */
 	var $_identifyer=null;
-
 	/** @var array Transaltions */
 	var $_strings=null;
 
 	/**
 	* Constructor activating the default information of the language
 	*/
-	function __construct( $userLang='' ) {
-		$this->_strings = array();
-
-		if( isset( $this->_locale ) ) {
-			setlocale (LC_TIME, $this->_locale);
-		}
+	function __construct( $userLang='' ) 
+	{
+		$this->_strings  = array();
+		$this->_metadata = $this->getMetadata($userLang);
 		
 		$this->_defaultLang = 'english';
-		$this->_userLang = $userLang;
+		$this->_userLang    = $userLang;
+		
+		//set locale based on the language tag
+		setlocale (LC_TIME, $this->get('tag'));
 		
 		//load common language files
 		$this->load();
@@ -157,41 +149,7 @@ class JLanguage extends JObject {
 		}
 		return '';
 	}
-	/**
-	* Loads a language file and appends the results to the existing strings
-	* @param string The name of the file
-	* @return boolean True if successful, false is failed
-	*/
-	function _load( $filename ) {
-		if (file_exists( $filename )) {
-			if ($content = file_get_contents( $filename )) {
-				if( $this->_identifyer === null ) {
-					$this->_identifyer = basename( $filename, '.ini' );
-				}
-
-				$this->_strings = array_merge( $this->_strings, mosParameters::parse( $content, false, true ) );
-				
-				if (isset( $this->_strings['__NAME'] )) {
-					$this->name( $this->_strings['__NAME'] );
-				}
-				if (isset( $this->_strings['__ISO'] )) {
-					$this->iso( $this->_strings['__ISO'] );
-				}
-				if (isset( $this->_strings['__LOCALE'] )) {
-					$this->locale( $this->_strings['__LOCALE'] );
-				}
-				if (isset( $this->_strings['__ISOCODE'] )) {
-					$this->isoCode( $this->_strings['__ISOCODE'] );
-				}
-				if (isset( $this->_strings['__RTL'] )) {
-					$this->rtl( $this->_strings['__RTL'] );
-				}
-				return true;
-			}
-		}
-		return false;
-	}
-
+	
 	/**
 	 * Loads a single langauge file
 	 * @param string The prefix
@@ -224,77 +182,100 @@ class JLanguage extends JObject {
 	}
 	
 	/**
+	* Loads a language file and appends the results to the existing strings
+	* @param string The name of the file
+	* @return boolean True if successful, false is failed
+	*/
+	function _load( $filename ) {
+		if (file_exists( $filename )) {
+			if ($content = file_get_contents( $filename )) {
+				if( $this->_identifyer === null ) {
+					$this->_identifyer = basename( $filename, '.ini' );
+				}
+
+				$this->_strings = array_merge( $this->_strings, mosParameters::parse( $content, false, true ) );
+				
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	* @param string The name of the property
+	* @param mixed  The default value
+	* @return mixed The value of the property
+	*/
+	function get($property, $default=null) {
+		if(isset($this->_metadata[$property])) {
+			return $this->_metadata[$property];
+		} 
+		return $default;
+	}
+	
+	/**
 	* Getter for Name
 	* @param string An optional value
 	* @return string Official name element of the language
 	*/
-	function name( $value=null ) {
-		return $value !== null ? $this->_name = $value : $this->_name;
+	function getName( $value=null ) {
+		return $this->_metadata['name'];
 	}
 
 	/**
-	* Getter for ISO
-	* @param string An optional value
-	* @return string ISO charset for the html files
+	* Get for the langauge tag (as defined in RFC 3066)
+	* @return string The language tag
 	*/
-	function iso( $value=null ) {
-		return $value !== null ? $this->_iso = $value : $this->_iso;
-	}
-
-	/**
-	* Getter for ISO code
-	* @param string An optional value
-	* @return string iso code of the languge
-	*/
-	function isoCode( $value=null ) {
-		return $value !== null ? $this->_isocode = $value : $this->_isocode;
-	}
-
-	/**
-	* Getter for Locale information of the language
-	* @param string An optional value
-	* @return string locale string
-	*/
-	function locale( $value=null ) {
-		return $value !== null ? $this->_locale = $value : $this->_locale;
+	function getTag( ) {
+		return $this->_metadata['tag'];
 	}
 	/**
-	* Sets/gets the RTL property
-	* @param string An optional value
-	* @return string locale string
+	* Get the RTL property
+	* @return boolean True is it an RTL language
 	*/
-	function rtl( $value=null ) {
-		return $value !== null ? $this->_rtl = $value : $this->_rtl;
+	function isRTL( $value=null ) {
+		return $this->_metadata['rtl'];
 	}
+	
 	/**
-	* Sets/gets the Debug property
-	* @param string An optional value
-	* @return string locale string
+	* Set the Debug property
 	*/
-	function debug( $value=null ) {
-		return $value !== null ? $this->_debug = $value : $this->_debug;
+	function setDebug( $debug ) {
+		$this->_debug = $debug;
 	}
-
+	
 	/**
-	 * @param int The client number
-	 * @return string	language related path or null
-	 */
-	function getLanguagePath( $language=null, $addTrailingSlash=true ) {
-		
-		$dir = JPATH_BASE. DIRECTORY_SEPARATOR. 'language' . DIRECTORY_SEPARATOR;
-		if (isset( $language )) {
-			$dir .= $language .DIRECTORY_SEPARATOR;
-		}
-		return mosFS::getNativePath( $dir, $addTrailingSlash );
+	* Get the Debug property
+	* @return boolean True is in debug mode
+	*/
+	function getDebug( ) {
+		return $this->_debug;
 	}
+	
 	/**
 	 * Determines is a key exists
 	 */
 	function hasKey( $key ) {
 		return isset( $this->_strings[strtoupper( $key )] );
 	}
+	
+	/** 
+	 * Returns a associative array holding the metadata
+	 *
+	 * @param string	The name of the language
+	 * @return array	key/value pair with the language metadata
+	 */
+	
+	function getMetadata($lang)
+	{
+		$path = JLanguage::getLanguagePath( $lang );
+		$file = $lang . '.xml';
+		
+		return JLanguage::_parseXMLLanguageFile( $path . $file);
+	}
 
-	/** Returns a list of known languages for an area
+	/** 
+	 * Returns a list of known languages for an area
 	 *
 	 * @param string	key of the area (front, admin, install)
 	 * @return array	key/value pair with the language file and real name
@@ -309,6 +290,19 @@ class JLanguage extends JObject {
 		}
 
 		return $knownLanguages;
+	}
+	
+	/**
+	 * @param int The client number
+	 * @return string	language related path or null
+	 */
+	function getLanguagePath( $language=null, $addTrailingSlash=true ) {
+		
+		$dir = JPATH_BASE. DIRECTORY_SEPARATOR. 'language' . DIRECTORY_SEPARATOR;
+		if (isset( $language )) {
+			$dir .= $language .DIRECTORY_SEPARATOR;
+		}
+		return mosFS::getNativePath( $dir, $addTrailingSlash );
 	}
 
 	/** Searches for language directories within a certain base dir
@@ -365,28 +359,42 @@ class JLanguage extends JObject {
 		$files = mosFS::listFiles( $dir, '^([A-Za-z]*)\.xml$' );
 		foreach ($files as $file) {
 			if ($content = file_get_contents( $dir . $file )) {
-				$xmlDoc =& JFactory::getXMLParser();
-				$xmlDoc->resolveErrors( true );
-				if (!$xmlDoc->loadXML( $dir . $file, false, true )) {
-					continue;
+				if($metadata = JLanguage::_parseXMLLanguageFile($dir . $file)) {
+					$lang = str_replace( '.xml', '', $file );
+					$languages[$lang] = $metadata['name'];
 				}
-				$language = &$xmlDoc->documentElement;
-
-				// Check that it's am installation file
-				if ($language->getTagName() != 'mosinstall') {
-					continue;
-				}
-
-				$lang = str_replace( '.xml', '', $file );
-				if ($language->getAttribute( 'type' ) == 'language') {
-					$nameElement =& $language->getElementsByPath( 'name', 1 );
-					$name = $nameElement->getText();
-				}
-
-				$languages[$lang] = $name;
 			}
 		}
 		return $languages;
+	}
+	
+	function _parseXMLLanguageFile( $path ) {
+		
+		$xmlDoc =& JFactory::getXMLParser();
+		$xmlDoc->resolveErrors( true );
+		if (!$xmlDoc->loadXML( $path, false, true )) {
+			return null;
+		}
+		$language = &$xmlDoc->documentElement;
+
+		// Check that it's am installation file
+		if ($language->getTagName() != 'mosinstall') {
+			return null;
+		}
+
+		$metadata = array();
+		
+		if ($language->getAttribute( 'type' ) == 'language') {
+			$node =& $language->getElementsByPath( 'metadata', 1 );
+			
+			for ($i = 0; $i < count($node->childNodes); $i++)
+			{
+				$currNode =& $node->childNodes[$i];
+				$metadata[$currNode->nodeName] = $currNode->getText();
+			}
+		}
+		
+		return $metadata;
 	}
 }
 
@@ -408,7 +416,7 @@ class JLanguageHelper {
 		// cache activation
 		$cache =& JFactory::getCache( 'JLanguage' );
 		$langs = $cache->call( 'JLanguage::getKnownLanguages');
-
+		
 		foreach ($langs as $lang=>$name) {
 			$option = array();
 

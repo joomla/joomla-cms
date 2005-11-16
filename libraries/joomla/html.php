@@ -859,7 +859,7 @@ class mosTabs {
 		}
 		
 		$lang =& $mainframe->getLanguage();
-		$css = $lang->rtl() ? 'tabpane_rtl.css' : 'tabpane.css';
+		$css = $lang->isRTL() ? 'tabpane_rtl.css' : 'tabpane.css';
 		
 		$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="screen, projection" href="'.$mosConfig_live_site.'/includes/js/tabs/'.$css.'" id="luna-tab-style-sheet" />' );		
 		$mainframe->addCustomHeadTag( '<script type="text/javascript" src="'.$mosConfig_live_site.'/includes/js/tabs/tabpane_mini.js"></script>' );		

@@ -39,7 +39,7 @@ class installationScreens {
 		$tmpl->setRoot( JPATH_INSTALLATION . '/tmpl' );
 		$tmpl->readTemplatesFromFile( 'page.html' );
 
-		if ($lang->rtl()) {
+		if ($lang->isRTL()) {
 			$tmpl->addGlobalVar( 'installcss', 'install_rtl.css' );
 		} else {
 			$tmpl->addGlobalVar( 'installcss', 'install_dark.css' );

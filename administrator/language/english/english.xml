@@ -9,6 +9,11 @@
     <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
     <description></description>
+    <metadata>
+    	<name>English</name>
+    	<tag>en_GB</tag>
+    	<rtl>0</rtl>
+    </metadata>
     <files>
         <filename>english.com_admin.ini</filename>
         <filename>english.com_banners.ini</filename>

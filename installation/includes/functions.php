@@ -81,7 +81,7 @@ function detectLanguage() {
 		foreach ($languages as $language) {
 			$LANG = new JLanguage($language['value']);
 			$LANG->load('', 2);
-			$active_lang[$LANG->isoCode()] = $language['value'];
+			$active_lang[$LANG->getTag()] = $language['value'];
 		}
 
 		$browserLang = explode( ',', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );

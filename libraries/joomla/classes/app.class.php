@@ -396,11 +396,11 @@ class JApplication extends JObject {
 		}
 		
 		$lang =& JLanguage::getInstance( $strLang );
-		$lang->debug( $this->getCfg('debug') );
+		$lang->setDebug( $this->getCfg('debug') );
 		$lang->load($option);
 
 		// make sure the locale setting is correct
-		setlocale( LC_ALL, $lang->locale() );
+		setlocale( LC_ALL, $lang->getTag() );
 		
 		$this->_lang = $strLang;
 	}

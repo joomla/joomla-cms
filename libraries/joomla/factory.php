@@ -209,21 +209,14 @@ class JFactory
 		$tmpl->addGlobalVar( 'admintemplateurl', 	$mosConfig_live_site . '/administrator/templates/'. $mainframe->getTemplate() );
 		$tmpl->addGlobalVar( 'sitename', 			$GLOBALS['mosConfig_sitename'] );
 
-		$tmpl->addGlobalVar( 'page_encoding', 		JText::iso() );
+		$tmpl->addGlobalVar( 'page_encoding', 		'UTF-8' );
 		$tmpl->addGlobalVar( 'version_copyright', 	$GLOBALS['_VERSION']->COPYRIGHT );
 		$tmpl->addGlobalVar( 'version_url', 		$GLOBALS['_VERSION']->URL );
 
 		$tmpl->addVar( 'form', 'formAction', 		$_SERVER['PHP_SELF'] );
 		$tmpl->addVar( 'form', 'formName', 			'adminForm' );
 
-		if (JText::iso()) {
-			$tmpl->addGlobalVar( 'lang_iso', 		JText::iso() );
-		} else {
-			// TODO: Try and determine the charset from the browser
-			$tmpl->addGlobalVar( 'lang_iso', 		'iso-8859-1' );
-			
-		}
-		
+		$tmpl->addGlobalVar( 'lang_iso', 		'UTF-8' );
 		$tmpl->addGlobalVar( 'lang_charset',	'charset=UTF-8' );
 
 		// tabs

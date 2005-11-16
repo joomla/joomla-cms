@@ -26,7 +26,7 @@ $lang = $mainframe->getLanguage();
 $tstart = mosProfiler::getmicrotime();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $lang->isoCode();?>" lang="<?php echo $lang->isoCode();?>" dir="<?php echo $lang->rtl() ? 'rtl' : 'ltr'; ?>">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $lang->getTag();?>" lang="<?php echo $lang->getTag();?>" dir="<?php echo $lang->isRTL() ? 'rtl' : 'ltr'; ?>">
 <head>
 <title><?php echo $mosConfig_sitename; ?> - <?php echo JText::_( 'Administration' ); ?> [Joomla]</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />

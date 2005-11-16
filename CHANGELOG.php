@@ -31,6 +31,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Nov-2005 Johan Janssens
+ ^ Moved language metadata to language xml file
 
 16-Nov-2005 Emir Sakic
  # Optimized SEF query usage
