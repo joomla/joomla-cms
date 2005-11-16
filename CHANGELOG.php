@@ -36,6 +36,7 @@ Legend:
 
 16-Nov-2005 Emir Sakic
  # Optimized SEF query usage
+ + Added ImageCheckAdmin compability for previous versions
 
 15-Nov-2005 Levis Bisson
  + Added new language terms in language files

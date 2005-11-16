@@ -2,7 +2,7 @@
 
 /**
 * @version $Id$
-* @package Joomla 
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -17,32 +17,32 @@
 * @package Joomla
 * @since 1.0
 */
-class mosHTML 
+class mosHTML
 {
 	/**
 	 * Write a <a></a> element
-	 * 
+	 *
 	 * @param string 	The relative URL to use for the href attribute
 	 * @param string	The target attribute to use
 	 * @param array		An associative array of attributes to add
 	 * @since 1.1
 	 */
-	
+
 	function Link($url, $text, $attribs = null) {
 		global $mainframe;
-		
+
 		$src = substr( $url, 0, 4 ) != 'http' ? $mainframe->getCfg('live_site') . $url : $url;
-		
+
 		if (is_array($attribs)) {
             $attribs = mosHTML::_implode_assoc('=', ' ', $attribs);
 		 }
 
 		return '<a href="'.$src.'" '.$attribs.'>'.$text.'</a>';
 	}
-	
+
 	/**
 	 * Write a <img></amg> element
-	 * 
+	 *
 	 * @param string 	The relative URL to use for the src attribute
 	 * @param string	The target attribute to use
 	 * @param array		An associative array of attributes to add
@@ -50,20 +50,20 @@ class mosHTML
 	 */
 	function Image($url, $alt, $attribs = null) {
 		global $mainframe;
-		
+
 		$src = substr( $url, 0, 4 ) != 'http' ? $mainframe->getCfg('live_site') . $url : $url;
-		
+
 		 if (is_array($attribs)) {
             $attribs = mosHTML::_implode_assoc('=', ' ', $attribs);
 		 }
 
 		return '<img src="'.$src.'" alt="'.$alt.'" '.$attribs.' />';
-		
+
 	}
-	
+
 	/**
 	 * Write a <script></script> element
-	 * 
+	 *
 	 * @param string 	The relative URL to use for the src attribute
 	 * @param string	The target attribute to use
 	 * @param array		An associative array of attributes to add
@@ -71,16 +71,16 @@ class mosHTML
 	 */
 	function Script($url, $attribs = null) {
 		global $mainframe;
-		
+
 		$src = $mainframe->getCfg('live_site') . $url;
-		
+
 		 if (is_array($attribs)) {
             $attribs = mosHTML::_implode_assoc('=', ' ', $attribs);
 		 }
 
 		return '<script type="text/javascript" src="'.$src.'" '.$attribs.'></script>';
 	}
-	
+
 	function makeOption( $value, $text='', $value_name='value', $text_name='text' ) {
 		$obj = new stdClass;
 		$obj->$value_name = $value;
@@ -129,7 +129,7 @@ class mosHTML
             $splitText = explode( " - ", $t, 2 );
             $t = $splitText[0];
             if(isset($splitText[1])){ $t .= " - ". $splitText[1]; }
-    
+
 			$extra = '';
 			$extra .= $id ? ' id="' . $arr[$i]->id . '"' : '';
 			if (is_array( $selected )) {
@@ -195,7 +195,7 @@ class mosHTML
 			mosHTML::makeOption( '09', JText::_( 'SEP' ) ),
 			mosHTML::makeOption( '10', JText::_( 'OCT' ) ),
 			mosHTML::makeOption( '11', JText::_( 'NOV' ) ),
-			mosHTML::makeOption( '12', JText::_( 'DEC' ) )			
+			mosHTML::makeOption( '12', JText::_( 'DEC' ) )
 		);
 
 		return mosHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );
@@ -510,7 +510,7 @@ class mosHTML
 
 		return $text;
 	}
-	
+
 	function _implode_assoc($inner_glue = "=", $outer_glue = "\n", $array = null, $keepOuterKey = false)
     {
         $output = array();
@@ -853,19 +853,19 @@ class mosTabs {
 	*/
 	function mosTabs( $useCookies, $xhtml=NULL ) {
 		global $mosConfig_live_site, $mainframe;
-		
+
 		if($mainframe->get( 'loadTabs')) {
 			return;
 		}
-		
+
 		$lang =& $mainframe->getLanguage();
 		$css = $lang->isRTL() ? 'tabpane_rtl.css' : 'tabpane.css';
-		
-		$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="screen, projection" href="'.$mosConfig_live_site.'/includes/js/tabs/'.$css.'" id="luna-tab-style-sheet" />' );		
-		$mainframe->addCustomHeadTag( '<script type="text/javascript" src="'.$mosConfig_live_site.'/includes/js/tabs/tabpane_mini.js"></script>' );		
+
+		$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="screen, projection" href="'.$mosConfig_live_site.'/includes/js/tabs/'.$css.'" id="luna-tab-style-sheet" />' );
+		$mainframe->addCustomHeadTag( '<script type="text/javascript" src="'.$mosConfig_live_site.'/includes/js/tabs/tabpane_mini.js"></script>' );
 
 		$this->useCookies = $useCookies;
-		
+
 		$mainframe->set( 'loadTabs', true );
 
 	}
@@ -1053,7 +1053,7 @@ class mosAdminMenus {
 // Change adds Itemid support for Link - Urls without `index.php` or `Itemid=` in their url
 		. "\n WHERE m.type != 'separator'"
 		. "\n AND NOT ("
-			. "\n ( m.type = 'url' )" 
+			. "\n ( m.type = 'url' )"
 			. "\n AND ( m.link LIKE '%index.php%' )"
 			. "\n AND ( m.link LIKE '%Itemid=%' )"
 		. "\n )"
@@ -1553,9 +1553,14 @@ class mosAdminMenus {
 			if ( file_exists( JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/images/'. $file ) ) {
 				$image = $mosConfig_live_site .'/administrator/templates/'. $cur_template .'/images/'. $file;
 			} else {
-				$image = $mosConfig_live_site. '/administrator'. $directory . $file;
+				// compability with previous versions
+				if ( substr($directory, 0, 14 )=="/administrator" ) {
+					$image = $mosConfig_live_site . $directory . $file;
+				} else {
+					$image = $mosConfig_live_site . '/administrator'. $directory . $file;
+				}
 			}
-			
+
 			// outputs actual html <img> tag
 			if ( $type ) {
 				$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" name="'. $name .'" border="0" />';
