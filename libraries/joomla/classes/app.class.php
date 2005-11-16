@@ -231,7 +231,7 @@ class JApplication extends JObject {
 		}
 		$this->_userstate =& $_SESSION['session_userstate'];
 			
-		/*$session = new mosSession( $this->_db );
+		$session = new mosSession( $this->_db );
 		$session->purge( intval( $this->getCfg( 'lifetime' ) ) );
 
 		if ($session->load( $session->hash( JSession::id() ) )) {
@@ -239,15 +239,13 @@ class JApplication extends JObject {
 			$session->update();
 		} else {
 		
-			if (!$session->insert($session->hash( JSession::id())) {
+			if (!$session->insert($session->hash( JSession::id()))) {
 				die( $session->getError() );
 			}
 			$session->persist();
 		}
 		
 		$this->_session = $session;
-		*/
-		
 		
 		JSession::setIdle($this->getCfg('lifetime')); 
 		
@@ -321,8 +319,15 @@ class JApplication extends JObject {
 					JSession::set('usertype' 	, $user->usertype);
 					JSession::set('gid' 		, intval( $user->gid ));
 	
-					//$session =& $this->_session;
-					//$session->store();
+					$session =& $this->_session;
+					
+					$session->guest 		= 0;
+					$session->username 		= $username;
+					$session->userid 		= intval( $row->id );
+					$session->usertype 		= $row->usertype;
+					$session->gid 			= intval( $row->gid );
+					
+					$session->update();
 					
 					$user->setLastVisit();
 	
@@ -361,8 +366,8 @@ class JApplication extends JObject {
 		//mosCache::cleanCache('com_content');
 		mosCache::cleanCache();
 
-		//$session =& $this->_session;
-		//$session->destroy();
+		$session =& $this->_session;
+		$session->destroy();
 		
 		JSession::destroy();
 	}

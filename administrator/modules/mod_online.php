@@ -14,7 +14,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$session_id = mosGetParam( $_SESSION, 'session_id', '' );
+$session_id = JSession::id();
 
 // Get no. of users online not including current session
 $query = "SELECT COUNT( session_id )"
