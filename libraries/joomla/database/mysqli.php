@@ -47,6 +47,16 @@ class database {
 	var $_nullDate		= '0000-00-00 00:00:00';
 	/** @var string Quote for named objects */
 	var $_nameQuote		= '`';
+	/**
+	 * @var boolean UTF-8 support 
+	 * @since    1.1
+	 */
+	var $_utf			= 0;
+	/**
+	 * @var array The fields that are to be quote
+	 * @since    1.1
+	 */
+	var $_quoted	= null;
 
 	/**
 	* Database object constructor
@@ -72,16 +82,37 @@ class database {
 			return;
 		}
 
-		//set character sets
-		mysqli_query($this->_resource, "SET CHARACTER SET utf8");
-		mysqli_query($this->_resource, "SET NAMES 'utf8'");
+		// Determine utf-8 support
+		$this->_utf = $this->hasUTF();
 
+		//Set charactersets (needed for MySQL 4.1.2+)
+		if ($this->_utf){
+			$this->setUTF();
+		}
+		
 		$this->_table_prefix = $table_prefix;
 		$this->_ticker   = 0;
 		$this->_errorNum = 0;
 		$this->_log = array();
+		$this->_quoted = array();
 	}
-	
+
+	/**
+	 * Determines UTF support
+	 */
+	function hasUTF() {
+		$verParts = explode( '.', $this->getVersion() );
+		return ($verParts[0] == 5 || ($verParts[0] == 4 && $verParts[1] == 1 && (int)$verParts[2] >= 2));
+	}
+
+	/**
+	 * Custom settings for UTF support
+	 */
+	function setUTF() {
+		//mysql_query("SET CHARACTER SET utf8",$this->_resource);
+		mysql_query( "SET NAMES 'utf8'", $this->_resource );
+	}
+
 	/**      
 	 * Returns a reference to the global Browser object, only creating it      
 	 * if it doesn't already exist.   
@@ -93,11 +124,10 @@ class database {
 	 * @param string Common prefix for all tables
 	 * @return database A database object   
 	*/
-	function &getInstance($host='localhost', $user, $pass, $db='', $table_prefix='') 
-	{
+	function &getInstance( $host='localhost', $user, $pass, $db='', $table_prefix='' ) {
 		static $instances; 
 		        
-		if (!isset($instances)) {             
+		if (!isset( $instances )) {             
 			$instances = array();         
 		}         
 		
@@ -109,13 +139,40 @@ class database {
 		
 		return $instances[$signature];
 	}
-	
+
+	/**
+	 * @param mixed Field name or array of names
+	 */
+	function addQuoted( $quoted ) {
+		if (is_string( $quoted )) {
+			$this->_quoted[] = $quoted;
+		} else {
+			$this->_quoted = array_merge( $this->_quoted, (array)$quoted );
+		}
+	}
+	/**
+	 * @return bool
+	 */
+	function isQuoted( $fieldName ) {
+		return in_array( $fieldName, $this->_quoted );
+	}
+
 	/**
 	* @param int
 	*/
 	function debug( $level ) {
 		$this->_debug = intval( $level );
 	}
+	
+	/**
+	* @return boolean True if the database version supports utf storage
+	* 				  False if backward compatibility is being used
+	* @since 1.1
+	*/
+	function getUtfSupport() {
+		return $this->_utf;
+	}
+	
 	/**
 	* @return int The error number for the most recent query
 	*/
@@ -134,13 +191,6 @@ class database {
 	*/
 	function getEscaped( $text ) {
 		return mysqli_real_escape_string( $this->_resource, $text );
-	}
-	/**
-	* Get a quoted database escaped string
-	* @return string
-	*/
-	function Quote( $text ) {
-		return '\'' . $this->getEscaped( $text ) . '\'';
 	}
 	/**
 	 * Quote an identifier name (field, table, etc)
@@ -539,7 +589,7 @@ class database {
 				continue;
 			}
 			$fields[] = $this->NameQuote( $k );;
-			$values[] = $this->Quote( $v );
+			$values[] = $this->isQuoted( $v ) ? $this->Quote( $v ) : $v;
 		}
 		$this->setQuery( sprintf( $fmtsql, implode( ",", $fields ) ,  implode( ",", $values ) ) );
 		($verbose) && print "$sql<br />\n";
@@ -555,12 +605,9 @@ class database {
 	}
 
 	/**
-	* Document::db_updateObject()
-	*
-	* { Description }
-	*
-	* @param [type] $updateNulls
-	*/
+	 * Document::db_updateObject()
+	 * @param [type] $updateNulls
+	 */
 	function updateObject( $table, &$object, $keyName, $updateNulls=true ) {
 		$fmtsql = "UPDATE $table SET %s WHERE %s";
 		$tmp = array();
@@ -576,9 +623,9 @@ class database {
 				continue;
 			}
 			if( $v == '' ) {
-				$val = "''";
+				$val = $this->isQuoted( $v ) ? $this->Quote( '' ) : 0;
 			} else {
-				$val = $this->Quote( $v );
+				$val = $this->isQuoted( $v ) ? $this->Quote( $v ) : $v;
 			}
 			$tmp[] = $this->NameQuote( $k ) . '=' . $val;
 		}
@@ -646,34 +693,112 @@ class database {
 		return $result;
 	}
 
+	// ----
+	// ADODB Compatibility Functions
+	// ----
+
 	/**
-	* Fudge method for ADOdb compatibility
+	* Get a quoted database escaped string
+	* @return string
 	*/
+	function Quote( $text ) {
+		return '\'' . $this->getEscaped( $text ) . '\'';
+	}
+	/**
+	 * @param string SQL
+	 */
+	function GetCol( $query ) {
+		$this->setQuery( $query );
+		return $this->loadResultArray();
+	}
+	/**
+	 * @param string SQL
+	 * @return object
+	 */
+	function Execute( $query ) {
+		$this->setQuery( $query );
+		$result = $this->loadRowList();
+		return new JSimpleRecordSet( $result );
+	}
+	/**
+	 * @param string SQL
+	 * @return array
+	 */
+	function GetRow( $query ) {
+		$this->setQuery( $query );
+		$result = $this->loadRowList();
+		return $result[0];
+	}
+	/**
+	 * Fudge method for ADOdb compatibility
+	 */
 	function GenID( $foo1=null, $foo2=null ) {
 		return '0';
 	}
 }
 
 /**
-* mosDBTable Abstract Class.
-* @abstract
-* @package Joomla
-* @subpackage Database
-*
-* Parent classes to all database derived objects.  Customisation will generally
-* not involve tampering with this object.
-* @package Joomla
-* @author Andrew Eddie <eddieajau@users.sourceforge.net
-*/
+ * Simple Record Set object to allow our database connector to be used with
+ * ADODB driven 3rd party libraries
+ * @package Joomla
+ * @subpackage Database
+ */
+class JSimpleRecordSet {
+	/** @var array */
+	var $data	= null;
+	/** @var int Index to current record */
+	var $pointer= null;
+	/** @var int The number of rows of data */
+	var $count	= null;
+
+	/**
+	 * Constuctor
+	 * @param array
+	 */
+	function JSimpleRecordSet( $data ) {
+		$this->data = $data;
+		$this->pointer = 0;
+		$this->count = count( $data );
+	}
+	/**
+	 * @return int
+	 */
+	function RecordCount() {
+		return $this->count;
+	}
+	/**
+	 * @return mixed A row from the data array or null
+	 */
+	function FetchRow() {
+		if ($this->pointer < $this->count) {
+			$result = $this->data[$this->pointer];
+			$this->pointer++;
+			return $result;
+		} else {
+			return null;
+		}
+	}
+}
+
+/**
+ * mosDBTable Abstract Class.
+ * @abstract
+ * @package Joomla
+ * @subpackage Database
+ * Parent classes to all database derived objects.  Customisation will generally
+ * not involve tampering with this object.
+ * @package Joomla
+ * @author Andrew Eddie <eddieajau@users.sourceforge.net
+ */
 class mosDBTable {
 	/** @var string Name of the table in the db schema relating to child class */
-	var $_tbl 		= '';
+	var $_tbl		= '';
 	/** @var string Name of the primary key field in the table */
-	var $_tbl_key 	= '';
+	var $_tbl_key	= '';
 	/** @var string Error message */
-	var $_error 	= '';
+	var $_error		= '';
 	/** @var mosDatabase Database connector */
-	var $_db 		= null;
+	var $_db		= null;
 
 	/**
 	*	Object constructor to set table and key field
@@ -683,9 +808,9 @@ class mosDBTable {
 	*	@param string $key name of the primary key field in the table
 	*/
 	function mosDBTable( $table, $key, &$db ) {
-		$this->_tbl = $table;
-		$this->_tbl_key = $key;
-		$this->_db =& $db;
+		$this->_tbl		= $table;
+		$this->_tbl_key	= $key;
+		$this->_db		=& $db;
 	}
 	/**
 	 * Filters public properties
@@ -1047,7 +1172,7 @@ class mosDBTable {
 		if ($oid !== null) {
 			$this->$k = $oid;
 		}
-		$time = date( '%Y-%m-%d H:i:s' );
+		$time = date( 'Y-m-d H:i:s' );
 		if (intval( $who )) {
 			// new way of storing editor, by id
 			$query = "UPDATE $this->_tbl"
@@ -1055,6 +1180,9 @@ class mosDBTable {
 			. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
 			;
 			$this->_db->setQuery( $query );
+
+			$this->checked_out = $who;
+			$this->checked_out_time = $time;
 		} else {
 			// old way of storing editor, by name
 			$query = "UPDATE $this->_tbl"
@@ -1062,7 +1190,12 @@ class mosDBTable {
 			. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
 			;
 			$this->_db->setQuery( $query );
+
+			$this->checked_out = 1;
+			$this->checked_out_time = $time;
+			$this->checked_out_editor = $who;
 		}
+
 		return $this->_db->query();
 	}
 
@@ -1081,6 +1214,10 @@ class mosDBTable {
 		. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
 		;
 		$this->_db->setQuery( $query );
+
+		$this->checked_out = 0;
+		$this->checked_out_time = '';
+
 		return $this->_db->query();
 	}
 
