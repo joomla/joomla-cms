@@ -12,13 +12,14 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport( 'joomla.models.model' );
 
 /**
 * Section database table class
 * @package Joomla
 * @since 1.0
 */
-class mosSection extends mosDBTable {
+class mosSection extends JModel {
 	/** @var int Primary key */
 	var $id					= null;
 	/** @var string The menu title for the Section (a short name)*/
@@ -49,12 +50,11 @@ class mosSection extends mosDBTable {
 	/**
 	* @param database A database connector object
 	*/
-	function mosSection( &$db ) {
-		$this->mosDBTable( '#__sections', 'id', $db );
+	function __construct( &$db ) {
+		parent::__construct( '#__sections', 'id', $db );
 	}
 	// overloaded check function
 	function check() {
-		;
 
 		// check for valid name
 		if (trim( $this->title ) == '') {

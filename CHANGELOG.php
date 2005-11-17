@@ -42,6 +42,7 @@ Legend:
  ^ Moved language metadata to language xml file
  + Added new JSession class
  ^ Implemented full session support
+ ^ Deprecated mosDBTable, use JModel instead
 
 16-Nov-2005 Emir Sakic
  # Optimized SEF query usage

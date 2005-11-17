@@ -12,12 +12,14 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport( 'joomla.models.model' );
+
 /**
 * Category database table class
 * @package Joomla
 * @since 1.0
 */
-class mosCategory extends mosDBTable {
+class mosCategory extends JModel {
 	/** @var int Primary key */
 	var $id					= null;
 	/** @var int */
@@ -50,12 +52,11 @@ class mosCategory extends mosDBTable {
 	/**
 	* @param database A database connector object
 	*/
-	function mosCategory( &$db ) {
-		$this->mosDBTable( '#__categories', 'id', $db );
+	function __construct( &$db ) {
+		parent::__construct( '#__categories', 'id', $db );
 	}
 	// overloaded check function
 	function check() {
-		;
 
 		// check for valid name
 		if (trim( $this->title ) == '') {

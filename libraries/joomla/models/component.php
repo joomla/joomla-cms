@@ -12,12 +12,14 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport( 'joomla.models.model' );
+
 /**
 * Component database table class
 * @package Joomla
 * @since 1.0
 */
-class mosComponent extends mosDBTable {
+class mosComponent extends JModel {
 	/** @var int Primary key */
 	var $id					= null;
 	/** @var string */
@@ -46,8 +48,8 @@ class mosComponent extends mosDBTable {
 	/**
 	* @param database A database connector object
 	*/
-	function mosComponent( &$db ) {
-		$this->mosDBTable( '#__components', 'id', $db );
+	function __construct( &$db ) {
+		parent::__construct( '#__components', 'id', $db );
 	}
 }
 ?>

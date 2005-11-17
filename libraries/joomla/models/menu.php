@@ -12,12 +12,14 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport( 'joomla.models.model' );
+
 /**
 * Menu database table class
 * @package Joomla
 * @since 1.0
 */
-class mosMenu extends mosDBTable {
+class mosMenu extends JModel {
 	/** @var int Primary key */
 	var $id					= null;
 	/** @var string */
@@ -56,8 +58,8 @@ class mosMenu extends mosDBTable {
 	/**
 	* @param database A database connector object
 	*/
-	function mosMenu( &$db ) {
-		$this->mosDBTable( '#__menu', 'id', $db );
+	function __construct( &$db ) {
+		parent::__construct( '#__menu', 'id', $db );
 	}
 }
 

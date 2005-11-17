@@ -12,12 +12,14 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport( 'joomla.models.model' );
+
 /**
 * Class mosMambot
 * @package Joomla
 * @since 1.0
 */
-class mosMambot extends mosDBTable {
+class mosMambot extends JModel {
 	/** @var int */
 	var $id					= null;
 	/** @var varchar */
@@ -43,8 +45,8 @@ class mosMambot extends mosDBTable {
 	/** @var text */
 	var $params				= null;
 
-	function mosMambot( &$db ) {
-		$this->mosDBTable( '#__mambots', 'id', $db );
+	function __construct( &$db ) {
+		parent::__construct( '#__mambots', 'id', $db );
 	}
 }
 ?>

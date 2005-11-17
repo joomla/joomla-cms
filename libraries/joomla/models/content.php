@@ -12,12 +12,14 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport( 'joomla.models.model' );
+
 /**
 * Content database table class
 * @package Joomla
 * @since 1.0
 */
-class mosContent extends mosDBTable {
+class mosContent extends JModel {
 	/** @var int Primary key */
 	var $id					= null;
 	/** @var string */
@@ -82,8 +84,8 @@ class mosContent extends mosDBTable {
 	/**
 	* @param database A database connector object
 	*/
-	function mosContent( &$db ) {
-		$this->mosDBTable( '#__content', 'id', $db );
+	function __construct( &$db ) {
+		parent::__construct( '#__content', 'id', $db );
 	}
 
 	/**

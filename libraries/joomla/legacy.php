@@ -79,8 +79,7 @@ function mosIsChmodable( $file ) {
 * Legacy function, replaced by geshi bot
 */
 function mosShowSource( $filename, $withLineNums=false ) {
-    ;
-
+    
 	ini_set('highlight.html', '000000');
 	ini_set('highlight.default', '#800000');
 	ini_set('highlight.keyword','#0000ff');
@@ -132,6 +131,20 @@ class mosMainFrame extends JApplication
 	}
 }
 
+/**
+* Legacy class, derive from JModel instead
+*/
+jimport( 'joomla.models.model' );
+class mosDBTable extends JModel
+{
+	function __construct($table, $key, &$db) {
+		parent::__construct( $table, $key, $db );
+	}
+	
+	function mosDBTable($table, $key, &$db) {
+		parent::__construct( $table, $key, $db );
+	}
+}
 
 /**
 * Legacy class, use JFactory::getCache instead

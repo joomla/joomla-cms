@@ -1787,7 +1787,7 @@ class gacl_api extends gacl {
 	}
 }
 
-class mosARO extends mosDBTable {
+class mosARO extends JModel {
 /** @var int Primary key */
 	var $aro_id=null;
 	var $section_value=null;
@@ -1796,8 +1796,8 @@ class mosARO extends mosDBTable {
 	var $name=null;
 	var $hidden=null;
 
-	function mosARO( &$db ) {
-		$this->mosDBTable( '#__core_acl_aro', 'aro_id', $db );
+	function __construct( &$db ) {
+		parent::__construct( '#__core_acl_aro', 'aro_id', $db );
 	}
 
 /**
@@ -1806,7 +1806,7 @@ class mosARO extends mosDBTable {
 
 }
 
-class mosAroGroup extends mosDBTable {
+class mosAroGroup extends JModel {
 /** @var int Primary key */
 	var $group_id=null;
 	var $parent_id=null;
@@ -1814,8 +1814,8 @@ class mosAroGroup extends mosDBTable {
 	var $lft=null;
 	var $rgt=null;
 
-	function mosAroGroup( &$db ) {
-		$this->mosDBTable( '#__core_acl_aro_groups', 'group_id', $db );
+	function __construct( &$db ) {
+		parent::__construct( '#__core_acl_aro_groups', 'group_id', $db );
 	}
 }
 

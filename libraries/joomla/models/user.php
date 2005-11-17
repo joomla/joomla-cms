@@ -12,6 +12,8 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport( 'joomla.models.model' );
+
 /**
 * Users Table Class
 *
@@ -19,7 +21,7 @@
 * @package Joomla
 * @since 1.0
 */
-class mosUser extends mosDBTable {
+class mosUser extends JModel {
 	/** @var int Unique id*/
 	var $id				= null;
 	/** @var string The users real name (or nickname)*/
@@ -50,8 +52,8 @@ class mosUser extends mosDBTable {
 	/**
 	* @param database A database connector object
 	*/
-	function mosUser( &$database ) {
-		$this->mosDBTable( '#__users', 'id', $database );
+	function __construct( &$database ) {
+		parent::__construct( '#__users', 'id', $database );
 		
 		//initialise
 		$this->id  = 0;

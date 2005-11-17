@@ -12,12 +12,14 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport( 'joomla.models.model' );
+
 /**
 * Session database table class
 * @package Joomla
 * @since 1.0
 */
-class mosSession extends mosDBTable {
+class mosSession extends JModel {
 	/** @var int Primary key */
 	var $session_id			= null;
 	/** @var string */
@@ -37,8 +39,8 @@ class mosSession extends mosDBTable {
 	 * Constructor
 	 * @param database A database connector object
 	 */
-	function mosSession( &$db ) {
-		$this->mosDBTable( '#__session', 'session_id', $db );
+	function __construct( &$db ) {
+		parent::__construct( '#__session', 'session_id', $db );
 
 		$this->guest = 1;
 		$this->username = '';

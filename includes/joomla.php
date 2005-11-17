@@ -113,7 +113,7 @@ $_VERSION = new JVersion();
 //TODO : implement editor functionality as a class
 jimport( 'joomla.editor' );
 
-
 //TODO : implement mambothandler class as singleton, add getVersion to JFactory
 jimport( 'joomla.legacy' );
+
 ?>
