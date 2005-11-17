@@ -61,6 +61,7 @@ jimport( 'joomla.files' );
 jimport( 'joomla.xml' );
 jimport( 'joomla.language' );
 
+
 /**
 * Joomla! Mainframe class
 *
@@ -74,11 +75,6 @@ class JInstallation extends JApplication {
 	* @param database A database connection object
 	*/
 	function __construct( ) {
-		
-		if (!isset( $_SESSION['session_userstate'] )) {
-			$_SESSION['session_userstate'] = array();
-		}
-		$this->_userstate =& $_SESSION['session_userstate'];
 
 		$this->_head 			= array();
 		$this->_head['title'] 	= $GLOBALS['mosConfig_sitename'];

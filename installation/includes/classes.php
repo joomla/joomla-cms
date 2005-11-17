@@ -26,9 +26,9 @@ class installationTasks {
 	function chooseLanguage() {
 
 		$native = detectLanguage();
-
+	
 		$lists = array();
-		$lists['langs'] = JLanguageHelper::buildLanguageList( 2, $native );
+		$lists['langs'] = JLanguageHelper::buildLanguageList( $native );
 
 		installationScreens::chooseLanguage( $lists );
 	}
@@ -37,7 +37,6 @@ class installationTasks {
 	 * @param patTemplate A template object
 	 */
 	function preInstall() {
-    	;
 
 		$vars = mosGetParam( $_POST, 'vars', array() );
 		$lists = array();
@@ -169,7 +168,6 @@ class installationTasks {
 	 * @return boolean True if successful
 	 */
 	function dbCollation() {
-		;
 
 		$vars = mosGetParam( $_POST, 'vars', array() );
 
@@ -239,7 +237,6 @@ class installationTasks {
 	 * @return boolean True if successful
 	 */
 	function makeDB() {
-		;
 
 		$vars = mosGetParam( $_POST, 'vars', array() );
 
