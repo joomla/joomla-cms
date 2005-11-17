@@ -33,6 +33,7 @@ Legend:
 
 17-Nov-2005 Johan Janssens
  ^ Replaced install.png with new image
+ - Reverted artf2139 : admin menu xhtml
 
 17-Nov-2005 Andrew Eddie
  + Support for determining quoted fields in a database table
@@ -42,6 +43,11 @@ Legend:
  + Added database compatibility methods for ADODB based libraries
 
 16-Nov-2005 Rey Gigataras
+ # Fixed artf2137 : editorArea xhtml
+ # Fixed artf2139 : admin menu xhtml
+ # Fixed artf2136 : Admin menubar valid xhtml
+ # Fixed artf2135 : Admin invalid xhtml
+ # Fixed artf2140 : mosMenuBar::publishList
  # Fixed artf2027 : uploading images from custom component
 
 16-Nov-2005 Johan Janssens
