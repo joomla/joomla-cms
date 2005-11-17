@@ -25,20 +25,19 @@ $_MAMBOTS->loadBotGroup( 'system' );
 // trigger the onStart events
 $_MAMBOTS->trigger( 'onBeforeStart' );
 
-$option = strtolower( mosGetParam( $_REQUEST, 'option', 'com_admin' ) );
-
-if (!mosGetParam( $_SESSION, 'session_id' )) {
-	mosRedirect( 'index.php' );
-}
-
 // mainframe is an API workhorse, lots of 'core' interaction routines
 $mainframe =& new JAdministrator();
 $mainframe->initSession( );
+
+if (is_null(JSession::get('guest')) || JSession::get('guest')) {
+	mosRedirect( 'index.php');
+}
 
 // trigger the onStart events
 $_MAMBOTS->trigger( 'onAfterStart' );
 
 // initialise some common request directives
+$option     = strtolower( mosGetParam( $_REQUEST, 'option', 'com_admin' ) );
 $task		= mosGetParam( $_REQUEST, 'task', '' );
 $act		= strtolower( mosGetParam( $_REQUEST, 'act', '' ) );
 $section	= mosGetParam( $_REQUEST, 'section', '' );

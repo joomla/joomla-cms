@@ -19,7 +19,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class HTML_Media {
 	function showMedia($dirPath,$listdir ) {
-    	;
+    	
 		?>
 		<head>
 		<style type="text/css">
