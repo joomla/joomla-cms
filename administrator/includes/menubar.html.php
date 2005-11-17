@@ -47,7 +47,7 @@ class mosMenuBar {
 	function startTable() {
 		?>
 		<table cellpadding="0" cellspacing="0" border="0" id="toolbar">
-		<tr height="60" valign="middle" align="center">
+		<tr valign="middle" align="center">
 		<?php
 	}
 
@@ -205,7 +205,7 @@ class mosMenuBar {
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'publish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 	 	<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please make a selection from the list to' ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}"">
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please make a selection from the list to' ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt; ?></a>
 		</td>

@@ -1506,12 +1506,15 @@ class mosAdminMenus {
 	*/
 	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='middle' ) {
 		global $mosConfig_absolute_path, $mosConfig_live_site, $mainframe;
+		
 		$cur_template = $mainframe->getTemplate();
 
+		$name = ( $name ? 'name="'. $name .'"' : '' );
+		
 		if ( $param ) {
 			$image = $mosConfig_live_site. $param_directory . $param;
 			if ( $type ) {
-				$image = '<img src="'. $image .'" align="'. $align .'" alt="'. $alt .'" name="'. $name .'" border="0" />';
+				$image = '<img src="'. $image .'" align="'. $align .'" alt="'. $alt .'" '. $name .' border="0" />';
 			}
 		} else if ( $param == -1 ) {
 			$image = '';
@@ -1525,7 +1528,7 @@ class mosAdminMenus {
 
 			// outputs actual html <img> tag
 			if ( $type ) {
-				$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" name="'. $name .'" border="0" />';
+				$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" '. $name .' border="0" />';
 			}
 		}
 
@@ -1539,13 +1542,16 @@ class mosAdminMenus {
 	* load the default or use no image
 	*/
 	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' ) {
-		global $mosConfig_absolute_path, $mosConfig_live_site, $mainframe;
+		global $mosConfig_live_site, $mainframe;
+		
 		$cur_template = $mainframe->getTemplate();
 
+		$name = ( $name ? 'name="'. $name .'"' : '' );
+		
 		if ( $param ) {
 			$image = $mosConfig_live_site. $param_directory . $param;
 			if ( $type ) {
-				$image = '<img src="'. $image .'" align="'. $align .'" alt="'. $alt .'" name="'. $name .'" border="0" />';
+				$image = '<img src="'. $image .'" align="'. $align .'" alt="'. $alt .'" '. $name .' border="0" />';
 			}
 		} else if ( $param == -1 ) {
 			$image = '';
@@ -1563,7 +1569,7 @@ class mosAdminMenus {
 
 			// outputs actual html <img> tag
 			if ( $type ) {
-				$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" name="'. $name .'" border="0" />';
+				$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" '. $name .' border="0" />';
 			}
 		}
 
