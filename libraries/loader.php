@@ -28,40 +28,37 @@ class JLoader
    function import( $filePath ) {
 		global  $mosConfig_absolute_path; //for backwards compilance 
 	   
-		$parts = explode('.', $filePath);
+		$parts = explode( '.', $filePath );
 		
-		$base =  dirname(__FILE__);
+		$base =  dirname( __FILE__ );
 		
-		if(array_pop($parts) == '*') 
+		if(array_pop( $parts ) == '*') 
 		{
-			$path = $base.DIRECTORY_SEPARATOR.implode( DIRECTORY_SEPARATOR, $parts);
+			$path = $base . DIRECTORY_SEPARATOR . implode( DIRECTORY_SEPARATOR, $parts );
 		
-			if(!is_dir($path)) {
+			if (!is_dir( $path )) {
 				return; //TODO : throw error
 			}
 			
-			$dir = dir($path);
-			while($file = $dir->read()) {
-				if(ereg('\.php$', $file)) {	
-					include_once $path.DIRECTORY_SEPARATOR.$file;
+			$dir = dir( $path );
+			while ($file = $dir->read()) {
+				if (ereg( '\.php$', $file )) {	
+					include_once $path . DIRECTORY_SEPARATOR . $file;
 				}
 			}
 			$dir->close();
-		} 
-		else 
-		{
-			$path = str_replace('.', DIRECTORY_SEPARATOR, $filePath); 
-			
+		} else {
+			$path = str_replace( '.', DIRECTORY_SEPARATOR, $filePath ); 
 			$found = false;
-			foreach(array('.php', '.class.php', '.lib.php') as $suffix) {
-				if(file_exists($base.DIRECTORY_SEPARATOR.$path.$suffix)) {
+			foreach (array( '.php', '.class.php', '.lib.php' ) as $suffix) {
+				if (file_exists( $base . DIRECTORY_SEPARATOR . $path . $suffix )) {
 					$found = true;
 					break;
 				}
 			}
 			
-			if($found) {
-				include_once $base.DIRECTORY_SEPARATOR.$path.$suffix;
+			if ($found) {
+				include_once $base . DIRECTORY_SEPARATOR . $path . $suffix;
 			} else {
 				return;  //TODO : throw error
 			}

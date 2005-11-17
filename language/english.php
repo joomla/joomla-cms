@@ -190,7 +190,7 @@ DEFINE('_PROMPT_CLOSE','Close Window');
 
 /** classes/html/content.php */
 DEFINE('_AUTHOR_BY', ' Contributed by');
-DEFINE('_WRITTEN_BY', ' Written by');
+//DEFINE('_WRITTEN_BY', ' Written by');
 DEFINE('_LAST_UPDATED', 'Last Updated');
 DEFINE('_BACK','[ Back ]');
 DEFINE('_LEGEND','Legend');

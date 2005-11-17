@@ -18,19 +18,50 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 jimport('joomla.classes.object');
 
 /**
-* Text handling class
-* @package Joomla
-* @subpackage Language
-* @static
-* @since 1.1
-*/
-class JText
-{
+ * Text  handling class
+ *  @package  Joomla
+ * @subpackage Language
+ * @static
+ * @since 1.1
+ */
+class JText {
 	function _($string, $jsSafe=false) {
 		global $mainframe;
 		$lang =& $mainframe->getLanguage();
 		return $lang->_($string, $jsSafe);
 	}
+
+	/**
+	 * Passes a string thru an sprintf
+	 * @param format The format string
+	 * @param mixed Mixed number of arguments for the sprintf function
+	 */
+	function sprintf( $string ) {
+		global $mainframe;
+		$lang =& $mainframe->getLanguage();
+		$args = func_get_args();
+		if (count( $args ) > 0) {
+			$args[0] = $lang->_( $args[0] );
+			return call_user_func_array( 'sprintf', $args );
+		}
+		return '';
+	}
+	/**
+	 * Passes a string thru an printf
+	 * @param format The format string
+	 * @param mixed Mixed number of arguments for the sprintf function
+	 */
+	function printf( $string ) {
+		global $mainframe;
+		$lang =& $mainframe->getLanguage();
+		$args = func_get_args();
+		if (count( $args ) > 0) {
+			$args[0] = $lang->_( $args[0] );
+			return call_user_func_array( 'printf', $args );
+		}
+		return '';
+	}
+	
 }
 
 /**
@@ -123,33 +154,6 @@ class JLanguage extends JObject {
 		return $string;
 	}
 
-	/**
-	 * Passes a string thru an sprintf
-	 * @param format The format string
-	 * @param mixed Mixed number of arguments for the sprintf function
-	 */
-	function sprintf( $string ) {
-		$args = func_get_args();
-		if (count( $args ) > 0) {
-			$args[0] = $this->_( $args[0] );
-			return call_user_func_array( 'sprintf', $args );
-		}
-		return '';
-	}
-	/**
-	 * Passes a string thru an printf
-	 * @param format The format string
-	 * @param mixed Mixed number of arguments for the sprintf function
-	 */
-	function printf( $string ) {
-		$args = func_get_args();
-		if (count( $args ) > 0) {
-			$args[0] = $this->_( $args[0] );
-			return call_user_func_array( 'printf', $args );
-		}
-		return '';
-	}
-	
 	/**
 	 * Loads a single langauge file
 	 * @param string The prefix

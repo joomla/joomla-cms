@@ -739,20 +739,19 @@ class HTML_content {
 	}
 
 	/**
-	* Writes Author name
-	*/
+	 * Writes Author name
+	 * @param object The data row
+	 * @param object Parameters
+	 */
 	function Author( $row, $params ) {
 		global $acl;
 
 		if ( ( $params->get( 'author' ) ) && ( $row->author != "" ) ) {
-			$grp = $acl->getAroGroup( $row->created_by );
-			$is_frontend_user = $acl->is_group_child_of( intval( $grp->group_id ), 'Public Frontend', 'ARO' );
-			$by = $is_frontend_user ? JText::_( 'Contributed by' ) : JText::_( 'Written by' );
 		?>
 		<tr>
 			<td width="70%"  valign="top" colspan="2">
 			<span class="small">
-			&nbsp;<?php echo $by. ' '.( $row->created_by_alias ? $row->created_by_alias : $row->author ); ?>
+			&nbsp;<?php JText::printf( 'Written by', ($row->created_by_alias ? $row->created_by_alias : $row->author) ); ?>
 			</span>
 			&nbsp;&nbsp;
 			</td>
@@ -760,7 +759,6 @@ class HTML_content {
 		<?php
 		}
 	}
-
 
 	/**
 	* Writes Create Date

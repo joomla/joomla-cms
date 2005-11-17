@@ -34,6 +34,7 @@ Legend:
 17-Nov-2005 Andrew Eddie
  + Support for determining quoted fields in a database table
  + New configuration var for database driver type
+ ^ Moved printf and sprintf from JLanguage to JText
 
 16-Nov-2005 Rey Gigataras
  # Fixed artf2027 : uploading images from custom component
