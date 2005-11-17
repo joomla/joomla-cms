@@ -365,7 +365,7 @@ class HTML_content {
 				break;
 			}
 			// needed to reduce queries used by getItemid
-			$_Itemid = $mainframe->getItemid( $rows[$i]->id, 0, 0, $ItemidCount['bs'], $ItemidCount['bc'], $ItemidCount['gbs']  );
+			$_Itemid = JApplicationHelper::getItemid( $rows[$i]->id, 0, 0, $ItemidCount['bs'], $ItemidCount['bc'], $ItemidCount['gbs']  );
 			$link = sefRelToAbs( 'index.php?option=com_content&amp;task=view&amp;id='. $rows[$i]->id .'&amp;Itemid='. $_Itemid )
 			?>
 			<li>
@@ -415,7 +415,7 @@ class HTML_content {
 			// checks if the item is a public or registered/special item
 			if ( $row->access <= $gid ) {
 				if ($task != "view") {
-					$_Itemid = $mainframe->getItemid( $row->id, 0, 0, $ItemidCount['bs'], $ItemidCount['bc'], $ItemidCount['gbs'] );
+					$_Itemid = JApplicationHelper::getItemid( $row->id, 0, 0, $ItemidCount['bs'], $ItemidCount['bc'], $ItemidCount['gbs'] );
 				}
 				$link_on = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$row->id."&amp;Itemid=".$_Itemid);
 				//if ( strlen( trim( $row->fulltext ) )) {

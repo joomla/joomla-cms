@@ -184,7 +184,7 @@ function feedFrontpage( $showFeed ) {
 
 		// url link to article
 		// & used instead of &amp; as this is converted by feed creator
-		$item_link = $mosConfig_live_site .'/index.php?option=com_content&task=view&id='. $row->id .'&Itemid='. $mainframe->getItemid( $row->id );
+		$item_link = $mosConfig_live_site .'/index.php?option=com_content&task=view&id='. $row->id .'&Itemid='. JApplicationHelper::getItemid( $row->id );
   		$item_link = sefRelToAbs( $item_link );
 
 		// removes all formating from the intro text for the description text

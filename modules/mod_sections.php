@@ -37,16 +37,16 @@ $query = "SELECT a.id AS id, a.title AS title, COUNT(b.id) as cnt"
 $database->setQuery( $query );
 $rows = $database->loadObjectList();
 
-$bs 	= $mainframe->getBlogSectionCount();
-$bc 	= $mainframe->getBlogCategoryCount();
-$gbs 	= $mainframe->getGlobalBlogSectionCount();
+$bs 	= JApplicationHelper::getBlogSectionCount();
+$bc 	= JApplicationHelper::getBlogCategoryCount();
+$gbs 	= JApplicationHelper::getGlobalBlogSectionCount();
 
 if ( $rows ) {
 	?>
 	<ul>
 	<?php
 		foreach ($rows as $row) {
-			$_Itemid 	= $mainframe->getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
+			$_Itemid 	= JApplicationHelper::getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
 			if ( $Itemid == $_Itemid ) {
 				$link 		= sefRelToAbs( "index.php?option=com_content&task=blogsection&id=". $row->id );
 			} else {

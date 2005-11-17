@@ -108,7 +108,7 @@ $_MAMBOTS->trigger( 'onAfterStart' );
 // checking if we can find the Itemid thru the content
 if ( $option == 'com_content' && $Itemid === 0 ) {
 	$id = intval( mosGetParam( $_REQUEST, 'id', 0 ) );
-	$Itemid = $mainframe->getItemid( $id );
+	$Itemid = JApplicationHelper::getItemid( $id );
 }
 
 /** do we have a valid Itemid yet?? */

@@ -835,9 +835,9 @@ function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=N
 	$i = $limitstart;
 
 	// needed to reduce queries used by getItemid
-	$ItemidCount['bs'] 		= $mainframe->getBlogSectionCount();
-	$ItemidCount['bc'] 		= $mainframe->getBlogCategoryCount();
-	$ItemidCount['gbs'] 	= $mainframe->getGlobalBlogSectionCount();
+	$ItemidCount['bs'] 		= JApplicationHelper::getBlogSectionCount();
+	$ItemidCount['bc'] 		= JApplicationHelper::getBlogCategoryCount();
+	$ItemidCount['gbs'] 	= JApplicationHelper::getGlobalBlogSectionCount();
 
 	// used to display section/catagory description text and images
 	// currently not supported in Archives
@@ -1593,7 +1593,7 @@ function emailContentSend( $uid ) {
 		return;
 	}
 
-	$_Itemid 			= $mainframe->getItemid( $uid, 0, 0  );
+	$_Itemid 			= JApplicationHelper::getItemid( $uid, 0, 0  );
 	$email 				= mosGetParam( $_POST, 'email', '' );
 	$yourname 			= mosGetParam( $_POST, 'yourname', '' );
 	$youremail 			= mosGetParam( $_POST, 'youremail', '' );

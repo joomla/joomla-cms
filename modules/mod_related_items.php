@@ -54,7 +54,7 @@ if ($option == 'com_content' && $task == 'view' && $id) {
 				<?php
 				foreach ($related as $item) {
 					if ($option="com_content" && $task="view") {
-						$Itemid = $mainframe->getItemid($item->id);
+						$Itemid = JApplicationHelper::getItemid($item->id);
 					}
 					$href = sefRelToAbs( "index.php?option=com_content&task=view&id=$item->id&Itemid=$Itemid" );
 					?>

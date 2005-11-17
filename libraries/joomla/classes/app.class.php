@@ -725,187 +725,6 @@ class JApplication extends JObject {
 		}
 	}
 
-	/**
-	* @return correct Itemid for Content Item
-	*/
-	function getItemid( $id, $typed=1, $link=1, $bs=1, $bc=1, $gbs=1 ) {
-		global $Itemid;
-
-		$_Itemid = '';
-		if ($_Itemid == '' && $typed) {
-			// Search for typed link
-			$query = "SELECT id"
-			. "\n FROM #__menu"
-			. "\n WHERE type = 'content_typed'"
-			. "\n AND published = 1"
-			. "\n AND link = 'index.php?option=com_content&task=view&id=$id'"
-			;
-			$this->_db->setQuery( $query );
-			$_Itemid = $this->_db->loadResult();
-		}
-
-		if ($_Itemid == '' && $link) {
-			// Search for item link
-			$query = "SELECT id"
-			."\n FROM #__menu"
-			."\n WHERE type = 'content_item_link'"
-			. "\n AND published = 1"
-			. "\n AND link = 'index.php?option=com_content&task=view&id=$id'"
-			;
-			$this->_db->setQuery( $query );
-			$_Itemid = $this->_db->loadResult();
-		}
-
-		if ($_Itemid == '') {
-			// Search in sections
-			$query = "SELECT m.id "
-			. "\n FROM #__content AS i"
-			. "\n LEFT JOIN #__sections AS s ON i.sectionid = s.id"
-			. "\n LEFT JOIN #__menu AS m ON m.componentid = s.id "
-			. "\n WHERE m.type = 'content_section'"
-			. "\n AND m.published = 1"
-			. "\n AND i.id = $id"
-			;
-			$this->_db->setQuery( $query );
-			$_Itemid = $this->_db->loadResult();
-		}
-
-		if ($_Itemid == '' && $bs) {
-			// Search in specific blog section
-			$query = "SELECT m.id "
-			. "\n FROM #__content AS i"
-			. "\n LEFT JOIN #__sections AS s ON i.sectionid = s.id"
-			. "\n LEFT JOIN #__menu AS m ON m.componentid = s.id "
-			. "\n WHERE m.type = 'content_blog_section'"
-			. "\n AND m.published = 1"
-			. "\n AND i.id = $id"
-			;
-			$this->_db->setQuery( $query );
-			$_Itemid = $this->_db->loadResult();
-		}
-
-		if ($_Itemid == '' && $bc) {
-			// Search in specific blog category
-			$query = "SELECT m.id "
-			. "\n FROM #__content AS i"
-			. "\n LEFT JOIN #__categories AS c ON i.catid = c.id"
-			. "\n LEFT JOIN #__menu AS m ON m.componentid = c.id "
-			. "\n WHERE m.type = 'content_blog_category'"
-			. "\n AND m.published = 1"
-			. "\n AND i.id = $id"
-			;
-			$this->_db->setQuery( $query );
-			$_Itemid = $this->_db->loadResult();
-		}
-
-		if ($_Itemid == '' && $gbs) {
-			// Search in global blog section
-			$query = "SELECT id "
-			. "\n FROM #__menu "
-			. "\n WHERE type = 'content_blog_section'"
-			. "\n AND published = 1"
-			. "\n AND componentid = 0"
-			;
-			$this->_db->setQuery( $query );
-			$_Itemid = $this->_db->loadResult();
-		}
-
-		if ($_Itemid == '') {
-			// Search in categories
-			$query = "SELECT m.id "
-			. "\n FROM #__content AS i"
-			. "\n LEFT JOIN #__categories AS cc ON i.catid = cc.id"
-			. "\n LEFT JOIN #__menu AS m ON m.componentid = cc.id "
-			. "\n WHERE m.type = 'content_category'"
-			. "\n AND m.published = 1"
-			. "\n AND i.id = $id"
-			;
-			$this->_db->setQuery( $query );
-			$_Itemid = $this->_db->loadResult();
-		}
-
-		if ( $_Itemid != '' ) {
-			return $_Itemid;
-		} else {
-			return $Itemid;
-		}
-	}
-
-	/**
-	* @return number of Published Blog Sections
-	*/
-	function getBlogSectionCount( ) {
-		$query = "SELECT COUNT( m.id )"
-		."\n FROM #__content AS i"
-		."\n LEFT JOIN #__sections AS s ON i.sectionid = s.id"
-		."\n LEFT JOIN #__menu AS m ON m.componentid = s.id "
-		."\n WHERE m.type = 'content_blog_section'"
-		."\n AND m.published = 1"
-		;
-		$this->_db->setQuery( $query );
-		$count = $this->_db->loadResult();
-		return $count;
-	}
-
-	/**
-	* @return number of Published Blog Categories
-	*/
-	function getBlogCategoryCount( ) {
-		$query = "SELECT COUNT( m.id )"
-		. "\n FROM #__content AS i"
-		. "\n LEFT JOIN #__categories AS c ON i.catid = c.id"
-		. "\n LEFT JOIN #__menu AS m ON m.componentid = c.id "
-		. "\n WHERE m.type = 'content_blog_category'"
-		. "\n AND m.published = 1"
-		;
-		$this->_db->setQuery( $query );
-		$count = $this->_db->loadResult();
-		return $count;
-	}
-
-	/**
-	* @return number of Published Global Blog Sections
-	*/
-	function getGlobalBlogSectionCount( ) {
-		$query = "SELECT COUNT( id )"
-		."\n FROM #__menu "
-		."\n WHERE type = 'content_blog_section'"
-		."\n AND published = 1"
-		."\n AND componentid = 0"
-		;
-		$this->_db->setQuery( $query );
-		$count = $this->_db->loadResult();
-		return $count;
-	}
-
-	/**
-	* @return number of Static Content
-	*/
-	function getStaticContentCount( ) {
-		$query = "SELECT COUNT( id )"
-		."\n FROM #__menu "
-		."\n WHERE type = 'content_typed'"
-		."\n AND published = 1"
-		;
-		$this->_db->setQuery( $query );
-		$count = $this->_db->loadResult();
-		return $count;
-	}
-
-	/**
-	* @return number of Content Item Links
-	*/
-	function getContentItemLinkCount( ) {
-		$query = "SELECT COUNT( id )"
-		."\n FROM #__menu "
-		."\n WHERE type = 'content_item_link'"
-		."\n AND published = 1"
-		;
-		$this->_db->setQuery( $query );
-		$count = $this->_db->loadResult();
-		return $count;
-	}
-
 	/** Is admin interface?
 	 * @return boolean
 	 * @since 1.0.2
@@ -928,6 +747,248 @@ class JApplication extends JObject {
 	 */
 	function isInstall() {
 		return ($this->_client == 2) ?  true : false;
+	}
+	
+	/**
+	* Depreacted, use JApplicationHelper::getItemid instead
+	* @since 1.1
+	*/
+	function getItemid( $id, $typed=1, $link=1, $bs=1, $bc=1, $gbs=1 ) {
+		return JApplicationHelper::getItemid( $id, $typed, $link, $bs, $bc, $gbs);
+	}
+
+	/**
+	* Depreacted, use JApplicationHelper::getBlogSectionCount instead
+	* @since 1.1
+	*/
+	function getBlogSectionCount( ) {
+		return JApplicationHelper::getBlogSectionCount( );
+	}
+
+	/**
+	* Depreacted, use JApplicationHelper::getBlogCategoryCount instead
+	* @since 1.1
+	*/
+	function getBlogCategoryCount( ) {
+		return JApplicationHelper::getBlogCategoryCount( );
+	}
+
+	/**
+	* Depreacted, use JApplicationHelper::getGlobalBlogSectionCount instead
+	* @since 1.1
+	*/
+	function getGlobalBlogSectionCount( ) {
+		return JApplicationHelper::getGlobalBlogSectionCount( );
+	}
+
+	/**
+	* Depreacted, use JApplicationHelper::getStaticContentCount instead
+	* @since 1.1
+	*/
+	function getStaticContentCount( ) {
+		return JApplicationHelper::getStaticContentCount( );
+	}
+
+	/**
+	* Depreacted, use JApplicationHelper::getContentItemLinkCount instead
+	* @since 1.1
+	*/
+	function getContentItemLinkCount( ) {
+		return JApplicationHelper::getContentItemLinkCount( );
+	}
+}
+
+class JApplicationHelper 
+{
+	/**
+	* @return correct Itemid for Content Item
+	*/
+	function getItemid( $id, $typed=1, $link=1, $bs=1, $bc=1, $gbs=1 ) {
+		global $Itemid, $database;
+
+		$_Itemid = '';
+		if ($_Itemid == '' && $typed) {
+			// Search for typed link
+			$query = "SELECT id"
+			. "\n FROM #__menu"
+			. "\n WHERE type = 'content_typed'"
+			. "\n AND published = 1"
+			. "\n AND link = 'index.php?option=com_content&task=view&id=$id'"
+			;
+			$database->setQuery( $query );
+			$_Itemid = $database->loadResult();
+		}
+
+		if ($_Itemid == '' && $link) {
+			// Search for item link
+			$query = "SELECT id"
+			."\n FROM #__menu"
+			."\n WHERE type = 'content_item_link'"
+			. "\n AND published = 1"
+			. "\n AND link = 'index.php?option=com_content&task=view&id=$id'"
+			;
+			$database->setQuery( $query );
+			$_Itemid = $database->loadResult();
+		}
+
+		if ($_Itemid == '') {
+			// Search in sections
+			$query = "SELECT m.id "
+			. "\n FROM #__content AS i"
+			. "\n LEFT JOIN #__sections AS s ON i.sectionid = s.id"
+			. "\n LEFT JOIN #__menu AS m ON m.componentid = s.id "
+			. "\n WHERE m.type = 'content_section'"
+			. "\n AND m.published = 1"
+			. "\n AND i.id = $id"
+			;
+			$database->setQuery( $query );
+			$_Itemid = $database->loadResult();
+		}
+
+		if ($_Itemid == '' && $bs) {
+			// Search in specific blog section
+			$query = "SELECT m.id "
+			. "\n FROM #__content AS i"
+			. "\n LEFT JOIN #__sections AS s ON i.sectionid = s.id"
+			. "\n LEFT JOIN #__menu AS m ON m.componentid = s.id "
+			. "\n WHERE m.type = 'content_blog_section'"
+			. "\n AND m.published = 1"
+			. "\n AND i.id = $id"
+			;
+			$database->setQuery( $query );
+			$_Itemid = $database->loadResult();
+		}
+
+		if ($_Itemid == '' && $bc) {
+			// Search in specific blog category
+			$query = "SELECT m.id "
+			. "\n FROM #__content AS i"
+			. "\n LEFT JOIN #__categories AS c ON i.catid = c.id"
+			. "\n LEFT JOIN #__menu AS m ON m.componentid = c.id "
+			. "\n WHERE m.type = 'content_blog_category'"
+			. "\n AND m.published = 1"
+			. "\n AND i.id = $id"
+			;
+			$database->setQuery( $query );
+			$_Itemid = $database->loadResult();
+		}
+
+		if ($_Itemid == '' && $gbs) {
+			// Search in global blog section
+			$query = "SELECT id "
+			. "\n FROM #__menu "
+			. "\n WHERE type = 'content_blog_section'"
+			. "\n AND published = 1"
+			. "\n AND componentid = 0"
+			;
+			$database->setQuery( $query );
+			$_Itemid = $database->loadResult();
+		}
+
+		if ($_Itemid == '') {
+			// Search in categories
+			$query = "SELECT m.id "
+			. "\n FROM #__content AS i"
+			. "\n LEFT JOIN #__categories AS cc ON i.catid = cc.id"
+			. "\n LEFT JOIN #__menu AS m ON m.componentid = cc.id "
+			. "\n WHERE m.type = 'content_category'"
+			. "\n AND m.published = 1"
+			. "\n AND i.id = $id"
+			;
+			$database->setQuery( $query );
+			$_Itemid = $database->loadResult();
+		}
+
+		if ( $_Itemid != '' ) {
+			return $_Itemid;
+		} else {
+			return $Itemid;
+		}
+	}
+
+	/**
+	* @return number of Published Blog Sections
+	*/
+	function getBlogSectionCount( ) {
+		global $database;
+		
+		$query = "SELECT COUNT( m.id )"
+		."\n FROM #__content AS i"
+		."\n LEFT JOIN #__sections AS s ON i.sectionid = s.id"
+		."\n LEFT JOIN #__menu AS m ON m.componentid = s.id "
+		."\n WHERE m.type = 'content_blog_section'"
+		."\n AND m.published = 1"
+		;
+		$database->setQuery( $query );
+		$count = $database->loadResult();
+		return $count;
+	}
+
+	/**
+	* @return number of Published Blog Categories
+	*/
+	function getBlogCategoryCount( ) {
+		global $database;
+		
+		$query = "SELECT COUNT( m.id )"
+		. "\n FROM #__content AS i"
+		. "\n LEFT JOIN #__categories AS c ON i.catid = c.id"
+		. "\n LEFT JOIN #__menu AS m ON m.componentid = c.id "
+		. "\n WHERE m.type = 'content_blog_category'"
+		. "\n AND m.published = 1"
+		;
+		$database->setQuery( $query );
+		$count = $database->loadResult();
+		return $count;
+	}
+
+	/**
+	* @return number of Published Global Blog Sections
+	*/
+	function getGlobalBlogSectionCount( ) {
+		global $database;
+		
+		$query = "SELECT COUNT( id )"
+		."\n FROM #__menu "
+		."\n WHERE type = 'content_blog_section'"
+		."\n AND published = 1"
+		."\n AND componentid = 0"
+		;
+		$database->setQuery( $query );
+		$count = $database->loadResult();
+		return $count;
+	}
+
+	/**
+	* @return number of Static Content
+	*/
+	function getStaticContentCount( ) {
+		global $database;
+		
+		$query = "SELECT COUNT( id )"
+		."\n FROM #__menu "
+		."\n WHERE type = 'content_typed'"
+		."\n AND published = 1"
+		;
+		$database->setQuery( $query );
+		$count = $database->loadResult();
+		return $count;
+	}
+
+	/**
+	* @return number of Content Item Links
+	*/
+	function getContentItemLinkCount( ) {
+		global $database;
+		
+		$query = "SELECT COUNT( id )"
+		."\n FROM #__menu "
+		."\n WHERE type = 'content_item_link'"
+		."\n AND published = 1"
+		;
+		$database->setQuery( $query );
+		$count = $database->loadResult();
+		return $count;
 	}
 }
 

@@ -31,7 +31,7 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 			break;
 			case 'content_item_link':
 			$temp = split("&task=view&id=", $mitem->link);
-			$mitem->link .= '&Itemid='. $mainframe->getItemid($temp[1]);
+			$mitem->link .= '&Itemid='. JApplicationHelper::getItemid($temp[1]);
 			break;
 			case 'url':
 			if ( eregi( 'index.php\?', $mitem->link ) ) {

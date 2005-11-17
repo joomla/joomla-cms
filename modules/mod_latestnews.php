@@ -87,9 +87,9 @@ switch ( $type ) {
 
 // needed to reduce queries used by getItemid for Content Items
 if ( ( $type == 1 ) || ( $type == 3 ) ) {
-	$bs 	= $mainframe->getBlogSectionCount();
-	$bc 	= $mainframe->getBlogCategoryCount();
-	$gbs 	= $mainframe->getGlobalBlogSectionCount();
+	$bs 	= JApplicationHelper::getBlogSectionCount();
+	$bc 	= JApplicationHelper::getBlogCategoryCount();
+	$gbs 	= JApplicationHelper::getGlobalBlogSectionCount();
 }
 
 // Output
@@ -111,7 +111,7 @@ foreach ( $rows as $row ) {
 
 		case 3:
 			if ( $row->sectionid ) {
-				$Itemid = $mainframe->getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
+				$Itemid = JApplicationHelper::getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
 			} else {
 				$query = "SELECT id"
 				. "\n FROM #__menu"
@@ -125,7 +125,7 @@ foreach ( $rows as $row ) {
 
 		case 1:
 		default:
-			$Itemid = $mainframe->getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
+			$Itemid = JApplicationHelper::getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
 			break;
 	}
 
