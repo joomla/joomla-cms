@@ -25,12 +25,12 @@ $limitstart 	= $mainframe->getUserStateFromRequest( "view{$option}", 'limitstart
 $and = '';
 // administrator check
 if ( $my->gid == 24 ) {
-	$and = "\n AND userid != '25'";
+	$and = "\n AND gid != '25'";
 }
 // manager check
 if ( $my->gid == 23 ) {
-	$and = "\n AND userid != '25'";
-	$and .= "\n AND userid != '24'";
+	$and = "\n AND gid != '25'";
+	$and .= "\n AND gid != '24'";
 }
 
 // get the total number of records

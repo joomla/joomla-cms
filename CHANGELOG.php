@@ -34,6 +34,7 @@ Legend:
 17-Nov-2005 Johan Janssens
  ^ Replaced install.png with new image
  - Reverted artf2139 : admin menu xhtml
+ # Fixed rtf2170 : logged.php does not show logged in people
 
 17-Nov-2005 Andrew Eddie
  + Support for determining quoted fields in a database table

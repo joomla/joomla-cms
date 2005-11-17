@@ -322,10 +322,10 @@ class JApplication extends JObject {
 					$session =& $this->_session;
 					
 					$session->guest 		= 0;
-					$session->username 		= $username;
-					$session->userid 		= intval( $row->id );
-					$session->usertype 		= $row->usertype;
-					$session->gid 			= intval( $row->gid );
+					$session->username 		= $user->username;
+					$session->userid 		= intval( $user->id );
+					$session->usertype 		= $user->usertype;
+					$session->gid 			= intval( $user->gid );
 					
 					$session->update();
 					
