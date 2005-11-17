@@ -1292,7 +1292,8 @@ class gacl_api extends gacl {
 
 		//while (list($id,$name) = @each($sorted_groups[$root_id])) {
 		if (isset($sorted_groups[$root_id])) {
-			$last_id = end( array_keys($sorted_groups[$root_id]));
+			$temp = array_keys( $sorted_groups[$root_id] );
+			$last_id = end( $temp );
 
 			foreach ($sorted_groups[$root_id] as $id => $name) {
 				switch ($type) {

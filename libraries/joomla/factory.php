@@ -42,7 +42,8 @@ class JFactory
 			$prefix .= 'administrator__';
 		}
 		$prefix .= $GLOBALS['option'].'__';
-		$tmpl->setTemplateCachePrefix($prefix);
+		// TODO next line not working
+		//$tmpl->setTemplateCachePrefix($prefix);
 
 
 		if ( is_array( $files ) ) {

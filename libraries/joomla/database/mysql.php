@@ -741,6 +741,16 @@ class database {
 			}
 		}
 	}
+	function SelectLimit( $query, $count, $offset=0 ) {
+		$this->setQuery( $query, $offset, $count );
+		$result = $this->loadRowList();
+		return new JSimpleRecordSet( $result );
+	}
+	function PageExecute( $sql, $nrows, $page, $inputarr=false, $secs2cache=0 ) {
+		$this->setQuery( $sql, $page*$nrows, $nrows );
+		$result = $this->loadRowList();
+		return new JSimpleRecordSet( $result );
+	} 
 	/**
 	 * @param string SQL
 	 * @return array
@@ -819,6 +829,22 @@ class JSimpleRecordSet {
 		} else {
 			return null;
 		}
+	}
+	function GetRows() {
+		return $this->data;
+	}
+	// TODO placeholder functions
+	function absolutepage() {
+		return 1;
+	}
+	function atfirstpage() {
+		return 1;
+	}
+	function atlastpage() {
+		return 1;
+	}
+	function lastpageno() {
+		return 1;
 	}
 }
 ?>
