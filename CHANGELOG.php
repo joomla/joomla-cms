@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Nov-2005 Johan Janssens
+ ^ Replaced install.png with new image
+
 17-Nov-2005 Andrew Eddie
  + Support for determining quoted fields in a database table
  + New configuration var for database driver type
