@@ -631,18 +631,22 @@ function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
  * @since 1.1
  */
 function josURL( $url, $ssl=0, $sef=1 ) {
-	global $mosConfig_live_site, $mosConfig_unsecure_site, $mosConfig_secure_site;
+	global $mainframe, $mosConfig_unsecure_site, $mosConfig_secure_site;
 
-	if ( ( $sef == 1 ) && ( function_exists('sefRelToAbs' ) ) )
-	$url = sefRelToAbs( $url );
-
-	if ( substr( $url,0,4 ) != 'http' )
-		$url = $mosConfig_live_site .'/'. $url;
+	if ( ( $sef == 1 ) && ( function_exists('sefRelToAbs' ) ) ) {
+		$url = sefRelToAbs( $url );
+	}
+	
+	if ( substr( $url,0,4 ) != 'http' ) {
+		$url = $mainframe->getCfg('live_site') .'/'. $url;
+	}
 
 	//ensure that proper secure site url is used if ssl flag set and url doesn't already include it
 	if ($ssl == 1 && strstr($url, $mosConfig_unsecure_site)) {
 		$url = str_replace( $mosConfig_unsecure_site, $mosConfig_secure_site , $url );
-	} elseif ($ssl == -1 && strstr($url, $mosConfig_secure_site)) {
+	} 
+	
+	if ($ssl == -1 && strstr($url, $mosConfig_secure_site)) {
 		$url = str_replace( $mosConfig_secure_site, $mosConfig_unsecure_site , $url );
 	}
 

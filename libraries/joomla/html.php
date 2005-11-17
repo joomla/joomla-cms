@@ -25,19 +25,20 @@ class mosHTML
 	 * @param string 	The relative URL to use for the href attribute
 	 * @param string	The target attribute to use
 	 * @param array		An associative array of attributes to add
+	 * @param integer	Set the SSL functionality
 	 * @since 1.1
 	 */
 
-	function Link($url, $text, $attribs = null) {
+	function Link($url, $text, $attribs = null, $ssl = 0) {
 		global $mainframe;
-
-		$src = substr( $url, 0, 4 ) != 'http' ? $mainframe->getCfg('live_site') . $url : $url;
+		
+		$href = josURL(ampReplace($url), $ssl, $mainframe->getCfg('sef'));
 
 		if (is_array($attribs)) {
             $attribs = mosHTML::_implode_assoc('=', ' ', $attribs);
 		 }
 
-		return '<a href="'.$src.'" '.$attribs.'>'.$text.'</a>';
+		return '<a href="'.$href.'" '.$attribs.'>'.$text.'</a>';
 	}
 
 	/**
