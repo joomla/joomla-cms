@@ -172,7 +172,7 @@ function showconfig( $option) {
 		mosHTML::makeOption( -2, JText::_( '(UTC -02:00) Mid-Atlantic' ) ),
 		mosHTML::makeOption( -1, JText::_( '(UTC -01:00) Azores, Cape Verde Islands' ) ),
 		mosHTML::makeOption( 0, JText::_( '(UTC 00:00) Western Europe Time, London, Lisbon, Casablanca' ) ),
-		mosHTML::makeOption( 1 , JText::_( '(UTC +01:00) Berlin, Brussels, Copenhagen, Madrid, Paris' ) ),
+		mosHTML::makeOption( 1 , JText::_( '(UTC +01:00) Amsterdam, Berlin, Brussels, Copenhagen, Madrid, Paris' ) ),
 		mosHTML::makeOption( 2, JText::_( '(UTC +02:00) Kaliningrad, South Africa' ) ),
 		mosHTML::makeOption( 3, JText::_( '(UTC +03:00) Baghdad, Riyadh, Moscow, St. Petersburg' ) ),
 		mosHTML::makeOption( 3.5, JText::_( '(UTC +03:30) Tehran' ) ),
