@@ -46,6 +46,9 @@ $_MAMBOTS->trigger( 'onAfterStart' );
 // get the information about the current user from the sessions table
 $my = $mainframe->getUser();
 
+$lang =& $mainframe->getLanguage();
+$lang->load(trim($option));
+
 // patch to lessen the impact on templates
 if ($option == 'search') {
 	$option = 'com_search';
@@ -65,8 +68,6 @@ if ( $do_pdf == 1 ){
 }
 
 $gid = intval( $my->gid );
-
-$cur_template = $mainframe->getTemplate();
 
 ob_start();
 if ($path = $mainframe->getPath( 'front' )) {
@@ -99,6 +100,7 @@ if (defined( '_ADMIN_OFFLINE' )) {
 	include( 'offlinebar.php' );
 }
 
+$cur_template = $mainframe->getTemplate();
 // start basic HTML
 if ( $no_html == 0 ) {
 	?>

@@ -14,7 +14,9 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-global $cur_template;
+global $mainframe;
+
+$cur_template = $mainframe->getTemplate();;
 
 // titlelength can be set in module params
 $titlelength 	= $params->get( 'title_length', 20 );

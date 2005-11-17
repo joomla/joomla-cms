@@ -35,9 +35,6 @@ $mainframe->initSession( );
 // trigger the onAfterStart events
 $_MAMBOTS->trigger( 'onAfterStart' );
 
-// gets template for page
-$cur_template = $mainframe->getTemplate();
-
 if (isset( $_POST['submit'] )) {
 	$query = "SELECT COUNT(*)"
 	. "\n FROM #__users"
@@ -63,8 +60,11 @@ if (isset( $_POST['submit'] )) {
 
 	initGzip();
 	header(' Content-Type: text/html; charset=UTF-8');
+	
+	$cur_template = $mainframe->getTemplate();
 	$path = JPATH_ADMINISTRATOR . '/templates/' . $cur_template . '/login.php';
 	require_once( $path );
+	
 	doGzip();
 }
 ?>

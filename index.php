@@ -180,13 +180,14 @@ if ($option == 'login') {
 //get user information
 $my = $mainframe->getUser();
 
+$lang =& $mainframe->getLanguage();
+$lang->load(trim($option));
+
 // set for overlib check
 $mainframe->set( 'loadOverlib', false );
 
 $gid = intval( $my->gid );
 
-// gets template for page
-$cur_template = $mainframe->getTemplate();
 /** temp fix - this feature is currently disabled */
 
 /** @global A places to store information from processing of the component */
@@ -224,6 +225,7 @@ if (defined( '_ADMIN_OFFLINE' )) {
 }
 
 // loads template file
+$cur_template = $mainframe->getTemplate();
 if ( !file_exists( 'templates/'. $cur_template .'/index.php' ) ) {
 	echo JText::_( 'TEMPLATE_WARN' ) . $cur_template;
 } else {

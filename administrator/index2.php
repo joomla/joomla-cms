@@ -32,29 +32,15 @@ $_MAMBOTS->trigger( 'onBeforeStart' );
 $mainframe =& new JAdministrator();
 $mainframe->initSession( );
 
-if (JSession::get('guest')) {
-	mosRedirect( 'index.php' );
+if (is_null(JSession::get('guest')) || JSession::get('guest')) {
+	$handle = mosGetParam( $_REQUEST, 'handle', null );
+	mosRedirect( 'index.php' . $handle);
 }
 
 // trigger the onStart events
 $_MAMBOTS->trigger( 'onAfterStart' );
 
 $_PROFILER->mark( 'onAfterStart' );
-
-/** get the information about the current user from the sessions table */
-$my = $mainframe->getUser();
-
-$handle = mosGetParam( $_REQUEST, 'handle', null );
-
-// double check (this one is used on timeouts)
-if ($my->id < 1) {
-	$mainframe->logout();
-	mosRedirect( 'index.php' . $handle );
-}
-
-// TODO: fix this patch to get gid to work properly
-//$my->gid = array_shift( $acl->get_object_groups( $acl->get_object_id( 'users', $my->id, 'ARO' ), 'ARO' ) );
-
 
 // initialise some common request directives
 $option 	= strtolower( mosGetParam( $_REQUEST, 'option', 'com_admin' ) );
@@ -70,7 +56,11 @@ if ($option == 'logout') {
 	mosRedirect( $mosConfig_live_site );
 }
 
-$cur_template = $mainframe->getTemplate();
+// get the information about the current user from the sessions table
+$my   = $mainframe->getUser();
+
+$lang =& $mainframe->getLanguage();
+$lang->load(trim($option));
 
 // set for overlib check
 $mainframe->set( 'loadOverlib', false );
@@ -101,6 +91,7 @@ header(' Content-Type: text/html; charset=UTF-8');
 // start the html output
 if ($no_html == 0) {
 	// loads template file
+	$cur_template = $mainframe->getTemplate();
 	if ( !file_exists( JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/index.php' ) ) {
 		echo JText::_( 'TEMPLATE' ) .' '. $cur_template .' '. JText::_( 'NOT FOUND' );
 	} else {

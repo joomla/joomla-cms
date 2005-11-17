@@ -60,7 +60,7 @@ class JApplication extends JObject {
 		$this->_head['custom'] 	= array();
 		$this->_client 		    = $client;
 		
-		$this->setLanguage();
+		$this->_setLanguage( );
 		$this->_setTemplate( );
 	}
 	/**
@@ -394,9 +394,9 @@ class JApplication extends JObject {
 	 * @since 1.1
 	 */
 	
-	function setLanguage($strLang = null) 
+	function _setLanguage($strLang = null) 
 	{
-		global $my, $option;
+		global $my;
 		
 		$strLang = $this->getUserState( 'lang' );
 		
@@ -420,7 +420,6 @@ class JApplication extends JObject {
 		
 		$lang =& JLanguage::getInstance( $strLang );
 		$lang->setDebug( $this->getCfg('debug') );
-		$lang->load($option);
 
 		// make sure the locale setting is correct
 		setlocale( LC_ALL, $lang->getTag() );
@@ -434,7 +433,6 @@ class JApplication extends JObject {
 	* @return JLanguage
 	* @since 1.1
 	*/
-	//TODO : implement signleton -> needs preformance improvements
 	function &getLanguage( ) {
 		return JLanguage::getInstance($this->_lang );
 	}

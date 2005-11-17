@@ -38,14 +38,6 @@ $mainframe->initSession( );
 // trigger the onStart events
 $_MAMBOTS->trigger( 'onAfterStart' );
 
-// get the information about the current user from the sessions table
-$my   = $mainframe->getUser();
-
-$lang = $mainframe->getLanguage();
-
-// TODO: fix this patch to get gid to work properly
-//$my->gid = array_shift( $acl->get_object_groups( $acl->get_object_id( 'users', $my->id, 'ARO' ), 'ARO' ) );
-
 // initialise some common request directives
 $task		= mosGetParam( $_REQUEST, 'task', '' );
 $act		= strtolower( mosGetParam( $_REQUEST, 'act', '' ) );
@@ -57,6 +49,11 @@ if ($option == 'logout') {
 	$mainframe->logout();
 	mosRedirect( $mosConfig_live_site );
 }
+
+// get the information about the current user from the sessions table
+$my   = $mainframe->getUser();
+
+$lang = $mainframe->getLanguage();
 
 $params = $database->loadResult();
 $my->params = new mosParameters( $params );

@@ -118,8 +118,10 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 	* Vertically Indented Menu
 	*/
 	function mosShowVIMenu(  &$params ) {
-		global $database, $my, $cur_template, $Itemid;
+		global $database, $mainframe, $my, $Itemid;
 		global $mosConfig_absolute_path, $mosConfig_live_site, $mosConfig_shownoauth;
+		
+		$cur_template = $mainframe->getTemplate();
 
 		/* If a user has signed in, get their user type */
 		$intUserType = 0;
@@ -281,9 +283,9 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 	* Draws a horizontal 'flat' style menu (very simple case)
 	*/
 	function mosShowHFMenu(  &$params, $style=0 ) {
-		global $database, $my, $cur_template, $Itemid;
+		global $database, $my, $Itemid;
 		global $mosConfig_absolute_path, $mosConfig_shownoauth;
-
+		
 		$and = '';
 		if ( !$mosConfig_shownoauth ) {
 			$and = "\n AND access <= $my->gid";

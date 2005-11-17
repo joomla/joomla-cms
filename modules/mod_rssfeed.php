@@ -14,7 +14,9 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-global $mosConfig_live_site, $mosConfig_absolute_path, $cur_template;
+global $mosConfig_live_site, $mosConfig_absolute_path, $mainframe;
+
+$cur_template = $mainframe->getTemplate();
 
 $text 				= $params->get( 'text' );
 $moduleclass_sfx 	= $params->get( 'moduleclass_sfx', '' );
