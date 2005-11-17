@@ -24,8 +24,10 @@ header(' Content-Type: text/html; charset=UTF-8');
 $vars = mosGetParam( $_POST, 'vars', array() );
 $mosConfig_lang = mosGetParam( $vars, 'lang', detectLanguage() );
 
+if(!$mosConfig_lang) $mosConfig_lang = "english";
+
 $lang =& $mainframe->getLanguage();
-$lang->_load( JPATH_INSTALLATION .'/language/' . $mosConfig_lang . '.ini' );
+$lang->_load( JPATH_INSTALLATION .'/language/'. $mosConfig_lang .'/'. $mosConfig_lang .'.ini' );
 
 $task = mosGetParam( $_REQUEST, 'task', '' );
 
