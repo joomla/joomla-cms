@@ -61,6 +61,9 @@ if (@$mosConfig_error_reporting === 0) {
 
 // experimenting
 
+//TODO : implement mambothandler class as singleton, add getVersion to JFactory
+jimport( 'joomla.legacy' );
+
 jimport( 'phpmailer.phpmailer');
 jimport( 'phpinputfilter.inputfilter' );
 jimport( 'joomla.database.' . $mosConfig_dbtype );
@@ -112,8 +115,5 @@ $_VERSION = new JVersion();
 
 //TODO : implement editor functionality as a class
 jimport( 'joomla.editor' );
-
-//TODO : implement mambothandler class as singleton, add getVersion to JFactory
-jimport( 'joomla.legacy' );
 
 ?>

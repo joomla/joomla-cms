@@ -17,7 +17,7 @@
 * @package Joomla
 * @since 1.0
 */
-class mosModule extends mosDBTable {
+class mosModule extends JModel {
 	/** @var int Primary key */
 	var $id					= null;
 	/** @var string */
@@ -52,8 +52,8 @@ class mosModule extends mosDBTable {
 	/**
 	* @param database A database connector object
 	*/
-	function mosModule( &$db ) {
-		$this->mosDBTable( '#__modules', 'id', $db );
+	function __construct( &$db ) {
+		parent::__construct( '#__modules', 'id', $db );
 	}
 	// overloaded check function
 	function check() {

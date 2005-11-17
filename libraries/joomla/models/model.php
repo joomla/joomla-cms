@@ -576,5 +576,5 @@ class JModel extends JObject {
 		return $xml;
 	}
 }
-?>
 
+?>

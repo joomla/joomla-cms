@@ -135,8 +135,14 @@ class mosMainFrame extends JApplication
 * Legacy class, derive from JModel instead
 */
 jimport( 'joomla.models.model' );
-class mosDBTable extends JModel
-{
+/**
+ * @package Joomla
+ * @deprecated As of version 1.1
+ */
+class mosDBTable extends JModel {
+	/**
+	 * Constructor
+	 */
 	function __construct($table, $key, &$db) {
 		parent::__construct( $table, $key, $db );
 	}
@@ -215,4 +221,5 @@ if (file_exists( $file )) {
 		require_once( $file );
 	}
 }
+
 ?>
