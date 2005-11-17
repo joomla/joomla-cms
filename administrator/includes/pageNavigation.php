@@ -66,7 +66,6 @@ class mosPageNav {
 	* @return string The html for the pages counter, eg, Results 1-10 of x
 	*/
 	function getPagesCounter() {
-		;
 
 		$html = '';
 		$from_result = $this->limitstart+1;
@@ -92,7 +91,6 @@ class mosPageNav {
 	* @return string The html links for pages, eg, previous, next, 1 2 3 ... x
 	*/
 	function getPagesLinks() {
-		;
 
 		$html 				= '';
 		$displayed_pages 	= 10;
@@ -136,7 +134,6 @@ class mosPageNav {
 	}
 
 	function getListFooter() {
-		;
 
 		$html = '<table class="adminlist"><tr><th colspan="3">';
 		$html .= $this->getPagesLinks();
@@ -161,7 +158,7 @@ class mosPageNav {
 * @return string
 */
 	function orderUpIcon( $i, $condition=true, $task='orderup', $alt='Move Up' ) {
-		;
+
         $alt = JText::_( $alt );
 
 		if (($i > 0 || ($i+$this->limitstart > 0)) && $condition) {
@@ -180,7 +177,7 @@ class mosPageNav {
 * @return string
 */
 	function orderDownIcon( $i, $n, $condition=true, $task='orderdown', $alt='Move Down' ) {
-		;
+
         $alt = JText::_( $alt );
 
 		if (($i < $n-1 || $i+$this->limitstart < $this->total-1) && $condition) {
@@ -199,7 +196,6 @@ class mosPageNav {
 	 * @return string
 	 */
 	function orderUpIcon2( $id, $order, $condition=true, $task='orderup', $alt='#' ) {
-		;
 
 		// handling of default value
 		if ($alt = '#') {
@@ -234,7 +230,6 @@ class mosPageNav {
 	 * @return string
 	 */
 	function orderDownIcon2( $id, $order, $condition=true, $task='orderdown', $alt='#' ) {
-		;
 
 		// handling of default value
 		if ($alt = '#') {

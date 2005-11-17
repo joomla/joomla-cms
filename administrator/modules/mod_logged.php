@@ -100,4 +100,4 @@ foreach ( $rows as $row ) {
 ?>
 </table>
 <?php echo $pageNav->getListFooter(); ?>
-<input type="hidden" name="option" value="" />
+<input type="hidden" name="option" value="com_admin" />
