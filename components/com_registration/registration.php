@@ -135,7 +135,7 @@ function saveRegistration( $option ) {
 
 	$row->id = 0;
 	$row->usertype = '';
-	$row->gid = $acl->get_group_id( 'Registered', 'ARO' );
+	$row->gid = $acl->get_group_id( '', 'Registered', 'ARO' );
 
 	if ($mosConfig_useractivation == '1') {
 		$row->activation = md5( mosMakePassword() );

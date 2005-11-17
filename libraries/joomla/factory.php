@@ -159,16 +159,19 @@ class JFactory
 	 * @since 1.1
 	 */
 	function &_createACL()	{
-		global $mosConfig_absolute_path;
+		global $database;
+		jimport( 'joomla.acl' );
 
-		require_once( $mosConfig_absolute_path . '/libraries/phpgacl/gacl.class.php' );
-		require_once( $mosConfig_absolute_path . '/libraries/phpgacl/gacl_api.class.php' );
-
-		$acl = new gacl_api();
+		$options = array(
+			'db'				=> &$database,
+			'db_table_prefix'	=> $database->getPrefix() . 'core_acl_',
+			'debug'				=> 0
+		);
+		$acl = new JACL( $options );
 
 		return $acl;
 	}
-	
+
 	/**
 	 * @return object
 	 * @since 1.1

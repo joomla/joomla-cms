@@ -727,9 +727,19 @@ class database {
 	 * @return object
 	 */
 	function Execute( $query ) {
+		$query = trim( $query );
 		$this->setQuery( $query );
-		$result = $this->loadRowList();
-		return new JSimpleRecordSet( $result );
+		if (eregi( '^select', $query )) {
+			$result = $this->loadRowList();
+			return new JSimpleRecordSet( $result );
+		} else {
+			$result = $this->query();
+			if ($result === false) {
+				return false;
+			} else {
+				return new JSimpleRecordSet( array() );
+			}
+		}
 	}
 	/**
 	 * @param string SQL
@@ -739,6 +749,27 @@ class database {
 		$this->setQuery( $query );
 		$result = $this->loadRowList();
 		return $result[0];
+	}
+	/**
+	 * @param string SQL
+	 * @return mixed
+	 */
+	function GetOne( $query ) {
+		$this->setQuery( $query );
+		$result = $this->loadResult();
+		return $result;
+	}
+	function BeginTrans() {
+	}
+	function RollbackTrans() {
+	}
+	function CommitTrans() {
+	}
+	function ErrorMsg() {
+		return $this->getErrorMsg();
+	}
+	function ErrorNo() {
+		return $this->getErrorNum();
 	}
 	/**
 	 * Fudge method for ADOdb compatibility

@@ -761,8 +761,8 @@ CREATE TABLE `#__core_acl_aro_groups` (
   `name` varchar(255) NOT NULL default '',
   `lft` int(11) NOT NULL default '0',
   `rgt` int(11) NOT NULL default '0',
+  `value` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`group_id`),
-  KEY `parent_id_aro_groups` (`parent_id`),
   KEY `#__gacl_parent_id_aro_groups` (`parent_id`),
   KEY `#__gacl_lft_rgt_aro_groups` (`lft`,`rgt`)
 ) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;

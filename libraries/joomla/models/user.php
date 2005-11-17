@@ -125,7 +125,6 @@ class mosUser extends JModel {
 
 	function store( $updateNulls=false ) {
 		global $acl, $migrate;
-		;
 
 		$section_value = 'users';
 
@@ -134,14 +133,16 @@ class mosUser extends JModel {
 		if( $key && !$migrate) {
 			// existing record
 			$ret = $this->_db->updateObject( $this->_tbl, $this, $this->_tbl_key, $updateNulls );
+
 			// syncronise ACL
 			// single group handled at the moment
 			// trivial to expand to multiple groups
-			$groups = $acl->get_object_groups( $section_value, $this->$k, 'ARO' );
+			$object_id = $acl->get_object_id( $section_value, $this->$k, 'ARO' );
+
+			$groups = $acl->get_object_groups( $object_id, 'ARO' );
 			$acl->del_group_object( $groups[0], $section_value, $this->$k, 'ARO' );
 			$acl->add_group_object( $this->gid, $section_value, $this->$k, 'ARO' );
 
-			$object_id = $acl->get_object_id( $section_value, $this->$k, 'ARO' );
 			$acl->edit_object( $object_id, $section_value, $this->_db->getEscaped( $this->name ), $this->$k, 0, 0, 'ARO' );
 		} else {
 			// new record
@@ -166,7 +167,7 @@ class mosUser extends JModel {
 			$this->$k = intval( $oid );
 		}
 		$aro_id = $acl->get_object_id( 'users', $this->$k, 'ARO' );
-//		$acl->del_object( $aro_id, 'ARO', true );
+		$acl->del_object( $aro_id, 'ARO', true );
 
 		$query = "DELETE FROM $this->_tbl"
 		. "\n WHERE $this->_tbl_key = '". $this->$k ."'"
@@ -276,8 +277,8 @@ class mosUser extends JModel {
 		global $acl;
 
 		// Change back in
-		//$group_id = $acl->get_group_id( $value, $name, $group_type = 'ARO');
-		$group_id = $acl->get_group_id( $name, $group_type = 'ARO');
+		$group_id = $acl->get_group_id( $value, $name, $group_type = 'ARO');
+		//$group_id = $acl->get_group_id( $name, $group_type = 'ARO');
 		$objects = $acl->get_group_objects( $group_id, 'ARO', 'RECURSE');
 
 		if (isset( $objects['users'] )) {
@@ -297,5 +298,4 @@ class mosUser extends JModel {
 		}
 	}
 }
-
 ?>

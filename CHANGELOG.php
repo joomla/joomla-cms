@@ -35,6 +35,8 @@ Legend:
  + Support for determining quoted fields in a database table
  + New configuration var for database driver type
  ^ Moved printf and sprintf from JLanguage to JText
+ ^ Upgrade phpGACL to latest version (yes!)
+ + Added database compatibility methods for ADODB based libraries
 
 16-Nov-2005 Rey Gigataras
  # Fixed artf2027 : uploading images from custom component
