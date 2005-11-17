@@ -25,8 +25,7 @@ class JLoader
     * @return void
     * @since 1.1
     */
-   function import($filePath) 
-   {	
+   function import( $filePath ) {
 		global  $mosConfig_absolute_path; //for backwards compilance 
 	   
 		$parts = explode('.', $filePath);

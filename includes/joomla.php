@@ -63,7 +63,7 @@ if (@$mosConfig_error_reporting === 0) {
 
 jimport( 'phpmailer.phpmailer');
 jimport( 'phpinputfilter.inputfilter' );
-jimport( 'joomla.database.mysql' );
+jimport( 'joomla.database.' . $mosConfig_dbtype );
 jimport( 'joomla.version' );
 jimport( 'joomla.functions' );
 jimport( 'joomla.classes' );

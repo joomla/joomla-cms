@@ -22,6 +22,7 @@
 * -------------------------------------------------------------------------
 */
 $mosConfig_offline = '0';
+$mosConfig_dbtype = 'mysql';	// Normally mysql
 $mosConfig_host = 'localhost';	// This is normally set to localhost
 $mosConfig_user = '';			// MySQL username
 $mosConfig_password = '';		// MySQL password

@@ -381,23 +381,27 @@ class HTML_config {
 			
 			<table class="adminform">
 			<tr>
+				<td width="185"><?php echo JText::_( 'Database type' ); ?>:</td>
+				<td><input class="text_area" type="text" name="config_dbtype" size="25" value="<?php echo $row->config_dbtype; ?>"/></td>
+			</tr>
+			<tr>
 				<td width="185"><?php echo JText::_( 'Hostname' ); ?>:</td>
 				<td><input class="text_area" type="text" name="config_host" size="25" value="<?php echo $row->config_host; ?>"/></td>
 			</tr>
 			<tr>
-				<td><?php echo JText::_( 'MySQL Username' ); ?>:</td>
+				<td><?php echo JText::_( 'Username' ); ?>:</td>
 				<td><input class="text_area" type="text" name="config_user" size="25" value="<?php echo $row->config_user; ?>"/></td>
 			</tr>
 			<tr>
-				<td><?php echo JText::_( 'MySQL Password' ); ?>:</td>
+				<td><?php echo JText::_( 'Password' ); ?>:</td>
 				<td><input class="text_area" type="password" name="config_password" size="25" value="<?php echo $row->config_password; ?>"/></td>
 			</tr>
 			<tr>
-				<td><?php echo JText::_( 'MySQL Database' ); ?>:</td>
+				<td><?php echo JText::_( 'Database' ); ?>:</td>
 				<td><input class="text_area" type="text" name="config_db" size="25" value="<?php echo $row->config_db; ?>"/></td>
 			</tr>
 			<tr>
-				<td><?php echo JText::_( 'MySQL Database Prefix' ); ?>:</td>
+				<td><?php echo JText::_( 'Database Prefix' ); ?>:</td>
 				<td>
 				<input class="text_area" type="text" name="config_dbprefix" size="10" value="<?php echo $row->config_dbprefix; ?>"/>
 				&nbsp;<?php

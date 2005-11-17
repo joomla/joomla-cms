@@ -57,6 +57,11 @@ class database {
 	 * @since    1.1
 	 */
 	var $_quoted	= null;
+	/**
+	 * @var bool Legacy compatibility
+	 * @since    1.1
+	 */
+	var $_hasQuoted	= null;
 
 	/**
 	* Database object constructor
@@ -95,6 +100,7 @@ class database {
 		$this->_errorNum = 0;
 		$this->_log = array();
 		$this->_quoted = array();
+		$this->_hasQuoted = false;
 	}
 
 	/**
@@ -110,7 +116,7 @@ class database {
 	 */
 	function setUTF() {
 		//mysql_query("SET CHARACTER SET utf8",$this->_resource);
-		mysql_query( "SET NAMES 'utf8'", $this->_resource );
+		mysqli_query( $this->_resource, "SET NAMES 'utf8'" );
 	}
 
 	/**      
@@ -149,12 +155,17 @@ class database {
 		} else {
 			$this->_quoted = array_merge( $this->_quoted, (array)$quoted );
 		}
+		$this->_hasQuoted = true;
 	}
 	/**
 	 * @return bool
 	 */
 	function isQuoted( $fieldName ) {
-		return in_array( $fieldName, $this->_quoted );
+		if ($this->_hasQuoted) {
+			return in_array( $fieldName, $this->_quoted );
+		} else {
+			return true;
+		}
 	}
 
 	/**

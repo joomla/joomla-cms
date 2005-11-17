@@ -51,6 +51,8 @@ class mosConfig {
 	var $config_db				= null;
 	/** @var string */
 	var $config_dbprefix		= null;
+	/** @var string */
+	var $config_dbtype			= null;
 
 // Server Settings
 	/** @var string */

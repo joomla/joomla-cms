@@ -743,7 +743,6 @@ class HTML_content {
 	*/
 	function Author( $row, $params ) {
 		global $acl;
-		;
 
 		if ( ( $params->get( 'author' ) ) && ( $row->author != "" ) ) {
 			$grp = $acl->getAroGroup( $row->created_by );

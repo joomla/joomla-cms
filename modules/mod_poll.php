@@ -18,6 +18,9 @@ if (!defined( '_JOS_POLL_MODULE' )) {
 	/** ensure that functions are declared only once */
 	define( '_JOS_POLL_MODULE', 1 );
 
+	/**
+	 * @param int The current menu item
+	 */
 	function show_poll_vote_form( $Itemid, $moduleclass_sfx ) {
 		global $database;
 
@@ -57,6 +60,11 @@ if (!defined( '_JOS_POLL_MODULE' )) {
 		}
 	}
 
+	/**
+	 * @param object Poll object
+	 * @param array
+	 * @param int The current menu item
+	 */
 	function poll_vote_form_html( &$poll, &$options, $Itemid, $moduleclass_sfx ) {
 		;
 		
