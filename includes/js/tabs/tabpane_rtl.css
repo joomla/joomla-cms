@@ -12,7 +12,7 @@
 	float: right;
 	overflow: hidden;
 	cursor: hand;
-	margin: 1px -1px 1px 2px;
+	margin: 1px 2px 1px -1px;
 	padding: 0px 0px 0px 0px;
 	border: 0;
 	z-index: 1;
@@ -23,7 +23,7 @@
 
 .dynamic-tab-pane-control .tab-row .tab span {
 	display: inline;
-	float: right;
+	float: left;
 	height: 16px;
 	padding: 2px 10px;
 	background: url(tab_l.png) top left no-repeat;
@@ -35,7 +35,7 @@
 	border-bottom-width:	0;
 	z-index: 3;
 	padding:	0px 0px 0px 0px;
-	margin: 1px -3px -3px 0px;
+	margin: 1px 0px -3px -3px;
 	top: -2px;
 	font: 11px Tahoma, Helvetica, sans-serif;
 }
@@ -67,7 +67,6 @@
 	z-index: 2;
 	position: relative;
 	top: -2px;
-	right: -3px;
 	font: 11px Tahoma, Helvetica, sans-serif;
 	color: #333;
 	

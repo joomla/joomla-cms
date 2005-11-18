@@ -31,7 +31,7 @@ $tstart = mosProfiler::getmicrotime();
 <title><?php echo $mosConfig_sitename; ?> - <?php echo JText::_( 'Administration' ); ?> [Joomla]</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <style type="text/css">
-@import url(templates/joomla_admin/css/admin_login.css);
+@import url(templates/joomla_admin/css/admin_login<?php echo $lang->isRTL() ? '_rtl' : ''; ?>.css);
 </style>
 <script language="javascript" type="text/javascript">
 	function setFocus() {
