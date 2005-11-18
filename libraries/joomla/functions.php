@@ -627,9 +627,19 @@ function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
 }
 
 /**
- * Method that sets SSL-ness of a url
+ * Method to process internal Joomla URLs
+ * 
+ * @param string $url Absolute or Relative URL to Joomla resource
+ * @param int $ssl Secure state for the processed URL
+ *    1: Make URL secure using global secure site URL
+ *    0: Leave URL in the same secure state as it was passed to the function
+ *   -1: Make URL unsecure using the global unsecure site URL
+ * @param int $sef Search engine friendly state for the processed URL
+ *    1: Make URL search engine friendly
+ *    0: Leave URL in the same sef state as it was passed to the function
  * @since 1.1
  */
+ 
 function josURL( $url, $ssl=0, $sef=1 ) {
 	global $mainframe, $mosConfig_unsecure_site, $mosConfig_secure_site;
 
