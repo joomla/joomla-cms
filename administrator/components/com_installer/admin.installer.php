@@ -265,7 +265,7 @@ function doUpdate() {
 */
 function doInstaller() {
 	global $option;
-	HTML_installer::showInstallForm( 'Install new Extension', $option, 'element', '', dirname(__FILE__) );
+	HTML_installer::showInstallForm( JText::_( 'Install new Extension' ), $option, 'element', '', dirname(__FILE__) );
 ?>
 <table class="content">
 <?php

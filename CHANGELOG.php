@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Nov-2005 Levis Bisson
+ + Added fullmenu translation for Status bar 
+
 17-Nov-2005 Johan Janssens
  ^ Replaced install.png with new image
  - Reverted artf2139 : admin menu xhtml
