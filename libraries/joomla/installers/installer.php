@@ -38,6 +38,8 @@ class mosInstaller {
 	var $i_elementdir 		= '';
 	/** @var string The name of the Joomla! element */
 	var $i_elementname 		= '';
+        /** @var boolean True if existing files can be overwritten */
+	var $allowOverwrite = false;
 	/** @var string The name of a special atttibute in a tag */
 	var $i_elementspecial 	= '';
 	/** @var object A DOMIT XML document */
@@ -50,6 +52,7 @@ class mosInstaller {
 	*/
 	function mosInstaller() {
 		$this->i_iswin = (substr(PHP_OS, 0, 3) == 'WIN');
+                $this->allowOverwrite( mosGetParam( $_POST, 'overwrite', 0 ) );
 	}
 	/**
 	* Uploads and unpacks a file
@@ -80,6 +83,21 @@ class mosInstaller {
 		}
 		return 0;
 	}	
+
+	/**
+	* Description: Creates a new template position if it doesn't exist already
+	*/
+	function createTemplatePosition($position) {
+		global $database;
+		if($position) {
+			$database->setQuery("SELECT id FROM #__template_positions WHERE position = '$position'");
+			$database->Query();
+			if(!$database->getNumRows()) {
+				$database->setQuery("INSERT INTO #__template_positions VALUES (0,'$position','')");
+				$database->Query();
+			}
+		}
+	}
 	
 	/**
 	* Downloads a package
@@ -110,8 +128,10 @@ class mosInstaller {
 		while (!feof($input_handle)) {
   			$contents = fread($input_handle, 4096);
 			if($contents == false) { $this->setError(44,'Failed reading network resource: ' . $php_errormsg); return false; }
-			$write_res = fwrite($output_handle, $contents);
-			if($write_res == false) { $this->setError(45,'Cannot write to local target: ' . $php_errormsg); return false; }
+			if($contents) { 
+				$write_res = fwrite($output_handle, $contents);
+				if($write_res == false) { $this->setError(45,'Cannot write to local target: ' . $php_errormsg); return false; }
+			}
 		}
 		fclose($output_handle);
 		fclose($input_handle);	
@@ -221,6 +241,11 @@ class mosInstaller {
 		if ($root->getTagName() != 'mosinstall') {
 			return null;
 		}
+
+                if ($root->getAttribute( 'install' ) == 'upgrade' ) {
+			$this->allowOverwrite(1);
+		}
+
 		// Set the type
 		$this->installType( $root->getAttribute( 'type' ) );
 		$this->installFilename( $p_file );
@@ -402,6 +427,8 @@ class mosInstaller {
 	*/
 	function copyFiles( $p_sourcedir, $p_destdir, $p_files, $overwrite=false ) {
 		;
+
+		$overwrite = $this->allowOverwrite();
 
 		if (is_array( $p_files ) && count( $p_files ) > 0) {
 			foreach($p_files as $_file) {

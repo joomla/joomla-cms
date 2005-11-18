@@ -80,6 +80,16 @@ class mosInstallerTemplate extends mosInstaller {
 			$this->setError( 0, $this->elementName() . '<p>' . $e->getText() . '</p>' );
 		}
 
+               // Add new positions
+	       $template_positions = &$mosinstall->getElementsByPath('install/positions', 1);
+		if (!is_null($template_positions)) {
+			$positions = $template_positions->childNodes;
+			foreach($positions as $position)
+			{
+				$this->createTemplatePosition($position);
+			}
+		}
+		
 		return $this->copySetupFile('front');
 	}
 	/**

@@ -100,6 +100,31 @@ class mosInstallerModule extends mosInstaller {
 		if ($e = &$mosinstall->getElementsByPath( 'description', 1 )) {
 			$this->setError( 0, $this->elementName() .'<p>'. $e->getText() .'</p>' );
 		}
+	
+		// Add new positions
+		$template_positions = &$mosinstall->getElementsByPath('install/positions', 1);
+		if (!is_null($template_positions)) {
+			$positions = $template_positions->childNodes;
+			foreach($positions as $position)
+			{
+				$this->createTemplatePosition($position);
+			}
+		}
+
+                // Are there any SQL queries??
+		$query_element = &$mosinstall->getElementsByPath('install/queries', 1);
+		if (!is_null($query_element)) {
+			$queries = $query_element->childNodes;
+			foreach($queries as $query)
+			{
+				$database->setQuery( $query->getText());
+				if (!$database->query())
+				{
+					$this->setError( 1, $_LANG->_( 'SQL Error' ) ." " . $database->stderr( true ) );
+					return false;
+				}
+			}
+		}
 
 		return $this->copySetupFile('front');
 	}
