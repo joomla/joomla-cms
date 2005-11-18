@@ -34,7 +34,9 @@ if (!defined( 'JPATH_DIRPEMS' )) {
 
 /**
  * A File handling class
+ * 
  * @package Joomla
+ * @static
  * @since 1.1
  */
 class JFile 
@@ -195,6 +197,13 @@ class JFile
 	}
 }
 
+/**
+ * A Folder handling class
+ * 
+ * @package Joomla
+ * @static
+ * @since 1.1
+ */
 class JFolder
 {
 	/**
@@ -396,6 +405,13 @@ class JFolder
 	}
 }
 
+/**
+ * An Archive handling class
+ * 
+ * @package Joomla
+ * @static
+ * @since 1.1
+ */
 class JArchive
 {
 	/**
@@ -430,7 +446,7 @@ class JArchive
 }
 
 /**
- * A File System utility class
+ * A Path handling class
  * @package Joomla
  * @since 1.1
  */
@@ -507,8 +523,6 @@ class JPath {
 		}
 	}
 
-	
-	
 	/**
 	 * Function to strip additional / or \ in a path name
 	 * @param string The path
