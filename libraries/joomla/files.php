@@ -507,6 +507,26 @@ class JPath {
 		} // if
 		return $ret;
 	}
+	
+	function getPermissions( $path ) {
+		$path = JPath::clean( $path );
+   		JPath::check( $path );
+ 		$mode = @decoct( @fileperms( $path ) & 0777 );
+
+		if (strlen( $mode ) < 3) {
+			return '---------';
+		}
+		$parsed_mode='';
+		for ($i = 0; $i < 3; $i++) {
+			// read
+			$parsed_mode .= ($mode{$i} & 04) ? "r" : "-";
+			// write
+			$parsed_mode .= ($mode{$i} & 02) ? "w" : "-";
+			// execute
+			$parsed_mode .= ($mode{$i} & 01) ? "x" : "-";
+		}
+		return $parsed_mode;
+	}
 
 	/**
 	 * Checks for snooping outside of the file system root
@@ -552,26 +572,6 @@ class JPath {
 		}
 
 		return $retval;
-	}
-
-	function getPermissions( $path ) {
-		$path = JPath::clean( $path );
-   		JPath::check( $path );
- 		$mode = @decoct( @fileperms( $path ) & 0777 );
-
-		if (strlen( $mode ) < 3) {
-			return '---------';
-		}
-		$parsed_mode='';
-		for ($i = 0; $i < 3; $i++) {
-			// read
-			$parsed_mode .= ($mode{$i} & 04) ? "r" : "-";
-			// write
-			$parsed_mode .= ($mode{$i} & 02) ? "w" : "-";
-			// execute
-			$parsed_mode .= ($mode{$i} & 01) ? "x" : "-";
-		}
-		return $parsed_mode;
 	}
 }
 
