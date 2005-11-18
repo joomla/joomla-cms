@@ -357,15 +357,12 @@ function saveTemplateSource( $option, $client ) {
 
 function chooseTemplateCSS( $p_tname, $option, $client ) {
 	global $mosConfig_absolute_path;
-	;
-
-	$readd = new mosFS();
 
 	if ( $client == 'admin' ) {
 		// Admin template css dir
 		$a_dir = JPATH_ADMINISTRATOR .'/templates/'. $p_tname .'/css';
 		// List .css files
-		$a_files = $readd->listFiles( $a_dir, $filter='.css', $recurse=false, $fullpath=false  );
+		$a_files = JFolder::files( $a_dir, $filter='.css', $recurse=false, $fullpath=false  );
 		$fs_dir='';
 		$fs_files='';
 
@@ -378,9 +375,9 @@ function chooseTemplateCSS( $p_tname, $option, $client ) {
 		$fs_dir = $mosConfig_absolute_path .'/templates/css';
 
 		// List template .css files
-		$f_files = $readd->listFiles( $f_dir, $filter='.css', $recurse=false, $fullpath=false  );
+		$f_files = JFolder::files( $f_dir, $filter='.css', $recurse=false, $fullpath=false  );
 		// List system .css files
-		$fs_files = $readd->listFiles( $fs_dir, $filter='.css', $recurse=false, $fullpath=false  );
+		$fs_files = JFolder::files( $fs_dir, $filter='.css', $recurse=false, $fullpath=false  );
 
     	HTML_templates::chooseCSSFiles( $p_tname, $f_dir, $fs_dir, $f_files, $fs_files, $option, $client );
 

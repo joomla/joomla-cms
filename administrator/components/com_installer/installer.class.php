@@ -304,12 +304,12 @@ class mosInstaller {
 				$newdir = dirname( $file->getText() );
 
 				if ($adminFiles){
-					if (!mosMakePath( $this->componentAdminDir(), $newdir )) {
+					if (!JFolder::create( $this->componentAdminDir().$newdir )) {
 						$this->setError( 1, JText::_( 'Failed to create directory' ) .' "'. ($this->componentAdminDir()) . $newdir .'"' );
 						return false;
 					}
 				} else {
-					if (!mosMakePath( $this->elementDir(), $newdir )) {
+					if (!JFolder::create( $this->elementDir().$newdir )) {
 						$this->setError( 1, JText::_( 'Failed to create directory' ) .' "'. ($this->elementDir()) . $newdir .'"' );
 						return false;
 					}
@@ -332,7 +332,7 @@ class mosInstaller {
 
 		if ($tagName == 'media') {
 			// media is a special tag
-			$installTo = mosPathName( $mosConfig_absolute_path . '/images/stories' );
+			$installTo = JPath::clean( $mosConfig_absolute_path . '/images/stories' );
 		} else if ($adminFiles) {
 			$installTo = $this->componentAdminDir();
 		} else {
@@ -354,8 +354,8 @@ class mosInstaller {
 
 		if (is_array( $p_files ) && count( $p_files ) > 0) {
 			foreach($p_files as $_file) {
-				$filesource	= mosPathName( mosPathName( $p_sourcedir ) . $_file, false );
-				$filedest	= mosPathName( mosPathName( $p_destdir ) . $_file, false );
+				$filesource	= JPath::clean( mosPathName( $p_sourcedir ) . $_file, false );
+				$filedest	= JPath::clean( mosPathName( $p_destdir ) . $_file, false );
 
 				if (!file_exists( $filesource )) {
 					$this->setError( 1, JText::_( 'File' ) .' '. $filesource .' '. JText::_( 'does not exist!' ) );
@@ -364,7 +364,7 @@ class mosInstaller {
 					$this->setError( 1, JText::_( 'There is already a file called' ) .' '. $filedest .' '. JText::_( 'WARNSAME' ) );
 					return false;
 				} else {
-					if( !( copy($filesource,$filedest) && mosChmod($filedest) ) ) {
+					if( !( copy($filesource,$filedest) && JPath::setPermissions($filedest) ) ) {
 						$this->setError( 1, JText::_( 'Failed to copy file' ) .': '. $filesource .' '. JText::_( 'to' ) .' '. $filedest );
 						return false;
 					}
@@ -488,7 +488,7 @@ function cleanupInstall( $userfile_name, $resultdir) {
 
 	if (file_exists( $resultdir )) {
 		deldir( $resultdir );
-		unlink( mosPathName( $mosConfig_absolute_path . '/media/' . $userfile_name, false ) );
+		unlink( JPath::clean( $mosConfig_absolute_path . '/media/' . $userfile_name, false ) );
 	}
 }
 

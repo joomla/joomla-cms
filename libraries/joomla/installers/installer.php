@@ -146,7 +146,6 @@ class mosInstaller {
 	*/
 	function extractArchive() {
 		global $mosConfig_absolute_path;
-		;
 
 		$base_Dir 		= mosPathName( $mosConfig_absolute_path . '/media' );
 
@@ -204,7 +203,6 @@ class mosInstaller {
 	* @return boolean True on success, False on error
 	*/
 	function findInstallFile() {
-		;
 
 		$found = false;
 		// Search the install dir for an xml file
@@ -283,14 +281,12 @@ class mosInstaller {
 	* Abstract install method
 	*/
 	function install() {
-		;
 		die( JText::_( 'Method "install" cannot be called by class' ) .' ' . strtolower(get_class( $this )) );
 	}
 	/**
 	* Abstract uninstall method
 	*/
 	function uninstall() {
-		;
 		die( JText::_( 'Method "uninstall" cannot be called by class' ) .' ' . strtolower(get_class( $this )) );
 	}
 	/**
@@ -305,7 +301,6 @@ class mosInstaller {
 	* @return boolean
 	*/
 	function preInstallCheck( $p_fromdir, $type ) {
-		;
 
 		if (!is_null($p_fromdir)) {
 			$this->installDir($p_fromdir);
@@ -341,7 +336,6 @@ class mosInstaller {
 	*/
 	function parseFiles( $tagName='files', $special='', $specialError='', $adminFiles=0 ) {
 		global $mosConfig_absolute_path;
-		;
 
 		// Find files to copy
 		$xmlDoc =& $this->xmlDoc();
@@ -380,12 +374,12 @@ class mosInstaller {
 				$newdir = dirname( $file->getText() );
 
 				if ($adminFiles){
-					if (!mosMakePath( $this->componentAdminDir(), $newdir )) {
+					if (!JFolder::create( $this->componentAdminDir(), $newdir )) {
 						$this->setError( 1, JText::_( 'Failed to create directory' ) .' "'. ($this->componentAdminDir()) . $newdir .'"' );
 						return false;
 					}
 				} else {
-					if (!mosMakePath( $this->elementDir(), $newdir )) {
+					if (!JFolder::create( $this->elementDir(), $newdir )) {
 						$this->setError( 1, JText::_( 'Failed to create directory' ) .' "'. ($this->elementDir()) . $newdir .'"' );
 						return false;
 					}
@@ -426,14 +420,13 @@ class mosInstaller {
 	* @return boolean True on success, False on error
 	*/
 	function copyFiles( $p_sourcedir, $p_destdir, $p_files, $overwrite=false ) {
-		;
 
 		$overwrite = $this->allowOverwrite();
 
 		if (is_array( $p_files ) && count( $p_files ) > 0) {
 			foreach($p_files as $_file) {
-				$filesource	= mosPathName( mosPathName( $p_sourcedir ) . $_file, false );
-				$filedest	= mosPathName( mosPathName( $p_destdir ) . $_file, false );
+				$filesource	= JFolder::create( JPath::clean( $p_sourcedir ) . $_file, false );
+				$filedest	= JFolder::create( JPath::clean( $p_destdir ) . $_file, false );
 
 				if (!file_exists( $filesource )) {
 					$this->setError( 1, JText::_( 'File' ) .' '. $filesource .' '. JText::_( 'does not exist!' ) );
@@ -442,7 +435,7 @@ class mosInstaller {
 					$this->setError( 1, JText::_( 'There is already a file called' ) .' '. $filedest .' '. JText::_( 'WARNSAME' ) );
 					return false;
 				} else {
-					if( !( copy($filesource,$filedest) && mosChmod($filedest) ) ) {
+					if( !( copy($filesource,$filedest) && JPath::setPermissions($filedest) ) ) {
 						$this->setError( 1, JText::_( 'Failed to copy file' ) .': '. $filesource .' '. JText::_( 'to' ) .' '. $filedest );
 						return false;
 					}
@@ -566,7 +559,7 @@ function cleanupInstall( $userfile_name, $resultdir) {
 
 	if (file_exists( $resultdir )) {
 		deldir( $resultdir );
-		unlink( mosPathName( $mosConfig_absolute_path . '/media/' . $userfile_name, false ) );
+		unlink( JPath::clean( $mosConfig_absolute_path . '/media/' . $userfile_name, false ) );
 	}
 }
 

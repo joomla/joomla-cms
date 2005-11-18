@@ -106,7 +106,7 @@ class JInstallerFactory {
 
 		$found = false;
 		// Search the install dir for an xml file
-		$files = mosFS::listFiles( $location, '\.xml$', true, true );
+		$files = JFolder::files( $location, '\.xml$', true, true );
 
 		if (count( $files ) > 0) {
 

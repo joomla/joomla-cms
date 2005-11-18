@@ -263,7 +263,7 @@ function mosBackTrace() {
 		echo '<div align="left">';
 		foreach( debug_backtrace() as $back) {
 			if (@$back['file']) {
-				echo '<br />' . str_replace( MOSFS_ROOT, '', $back['file'] ) . ':' . $back['line'];
+				echo '<br />' . str_replace( JPATH_ROOT, '', $back['file'] ) . ':' . $back['line'];
 			}
 		}
 		echo '</div>';

@@ -474,7 +474,7 @@ class JApplication extends JObject {
 				$cur_template = 'joomla_admin';
 			}
 			
-			$this->_templatePath 	= mosFS::getNativePath( JPATH_ADMINISTRATOR . '/templates/' . $cur_template );
+			$this->_templatePath 	= JPath::clean( JPATH_ADMINISTRATOR . '/templates/' . $cur_template );
 			$this->_templateURL 	= $mosConfig_live_site . 'administrator/templates/' . $cur_template;
 			
 		} else {
@@ -504,7 +504,7 @@ class JApplication extends JObject {
 				}
 			}
 			// TemplateChooser End
-			$this->_templatePath 	= mosFS::getNativePath( $mosConfig_absolute_path . '/templates/' . $cur_template );
+			$this->_templatePath 	= JPath::clean( $mosConfig_absolute_path . '/templates/' . $cur_template );
 			$this->_templateURL 	= $mosConfig_live_site . '/templates/' . $cur_template;
 		}
 
@@ -710,16 +710,16 @@ class JApplication extends JObject {
 		switch ($client) {
 			
 			case '2':
-				return mosFS::getNativePath( $mosConfig_absolute_path . '/installation', $addTrailingSlash );
+				return JPath::clean( $mosConfig_absolute_path . '/installation', $addTrailingSlash );
 				break;
 
 			case '1':
-				return mosFS::getNativePath( JPATH_ADMINISTRATOR . '', $addTrailingSlash );
+				return JPath::clean( JPATH_ADMINISTRATOR . '', $addTrailingSlash );
 				break;
 				
 			case '0':
 			default:
-				return mosFS::getNativePath( $mosConfig_absolute_path, $addTrailingSlash );
+				return JPath::clean( $mosConfig_absolute_path, $addTrailingSlash );
 				break;
 
 		}

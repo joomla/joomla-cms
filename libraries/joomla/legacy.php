@@ -16,15 +16,15 @@
 DEFINE('_ISO','charset=utf-8');
 
 /**
-* Legacy function, use mosFS::getNativePath instead
+* Legacy function, use JPath::clean instead
 * @deprecated As of version 1.1
 */
 function mosPathName($p_path, $p_addtrailingslash = true) {
-	return mosFS::getNativePath( $p_path, $p_addtrailingslash );
+	return JPath::clean( $p_path, $p_addtrailingslash );
 }
 
 /**
-* Legacy function, use mosFS::listFiles or mosFS::listFolders instead
+* Legacy function, use JFolder::files or JFolder::folders instead
 * @deprecated As of version 1.1
 */
 function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  ) {
@@ -57,27 +57,77 @@ function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  
 }
 
 /**
- * Legacy function, use mosFS::CHMOD instead
+* Legacy function, use JFolder::create
+* @deprecated As of version 1.1
+*/
+function mosMakePath($base, $path='', $mode = NULL)
+{
+	global $mosConfig_dirperms;
+
+	// convert windows paths
+	$path = str_replace( '\\', '/', $path );
+	$path = str_replace( '//', '/', $path );
+
+	// check if dir exists
+	if (file_exists( $base . $path )) return true;
+
+	// set mode
+	$origmask = NULL;
+	if (isset($mode)) {
+		$origmask = @umask(0);
+	} else {
+		if ($mosConfig_dirperms=='') {
+			// rely on umask
+			$mode = 0777;
+		} else {
+			$origmask = @umask(0);
+			$mode = octdec($mosConfig_dirperms);
+		} // if
+	} // if
+
+	$parts = explode( '/', $path );
+	$n = count( $parts );
+	$ret = true;
+	if ($n < 1) {
+		$ret = @mkdir($base, $mode);
+	} else {
+		$path = $base;
+		for ($i = 0; $i < $n; $i++) {
+			$path .= $parts[$i] . '/';
+			if (!file_exists( $path )) {
+				if (!@mkdir( $path, $mode )) {
+					$ret = false;
+					break;
+				}
+			}
+		}
+	}
+	if (isset($origmask)) @umask($origmask);
+	return $ret;
+}
+
+/**
+ * Legacy function, use JPath::setPermissions instead
  * @deprecated As of version 1.1
  */
 function mosChmod( $path ) {
-	return mosFS::CHMOD( $path );
+	return JPath::setPermissions( $path );
 }
 
 /**
- * Legacy function, use mosFS::CHMOD instead
+ * Legacy function, use JPath::setPermissions instead
  * @deprecated As of version 1.1
  */
 function mosChmodRecursive( $path, $filemode=NULL, $dirmode=NULL ) {
-	return mosFS::CHMOD( $path, $filemode, $dirmode );
+	return JPath::setPermissions( $path, $filemode, $dirmode );
 }
 
 /**
-* Legacy function, use mosFS::canCHMOD
+* Legacy function, use JPath::canCHMOD
 * @deprecated As of version 1.1
 */
 function mosIsChmodable( $file ) {
-	return mosFS::canCHMOD( $file );
+	return JPath::canCHMOD( $file );
 }
 
 /**

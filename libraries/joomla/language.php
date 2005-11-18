@@ -306,7 +306,7 @@ class JLanguage extends JObject {
 		if (isset( $language )) {
 			$dir .= $language .DIRECTORY_SEPARATOR;
 		}
-		return mosFS::getNativePath( $dir, $addTrailingSlash );
+		return JPath::clean( $dir, $addTrailingSlash );
 	}
 
 	/** Searches for language directories within a certain base dir
@@ -316,7 +316,7 @@ class JLanguage extends JObject {
 	function _parseLanguageFiles( $dir=null ) {
 		$languages = array();
 
-		 $subdirs = mosFS::listFolders( $dir );
+		 $subdirs = JFolder::folders( $dir );
 		foreach ($subdirs as $path) {
 			$langs = JLanguage::_parseXMLLanguageFiles( $dir . $path . DIRECTORY_SEPARATOR );
 			$languages = array_merge( $languages, $langs );
@@ -333,7 +333,7 @@ class JLanguage extends JObject {
 		if( $dir == null ) return null;
 
 		$languages = array();
-		$files = mosFS::listFiles( $dir, '^([_A-Za-z]*)\.ini$' );
+		$files = JFolder::files( $dir, '^([_A-Za-z]*)\.ini$' );
 		foreach ($files as $file) {
 			if ($content = file_get_contents( $dir . $file )) {
 				$langContent = mosParameters::parse( $content, false, true );
@@ -360,7 +360,7 @@ class JLanguage extends JObject {
 		}
 
 		$languages = array();
-		$files = mosFS::listFiles( $dir, '^([A-Za-z]*)\.xml$' );
+		$files = JFolder::files( $dir, '^([A-Za-z]*)\.xml$' );
 		foreach ($files as $file) {
 			if ($content = file_get_contents( $dir . $file )) {
 				if($metadata = JLanguage::_parseXMLLanguageFile($dir . $file)) {

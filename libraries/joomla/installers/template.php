@@ -32,7 +32,6 @@ class mosInstallerTemplate extends mosInstaller {
 	*/
 	function install( $p_fromdir = null ) {
 		global $mosConfig_absolute_path,$database;
-		;
 
 		if (!$this->preInstallCheck( $p_fromdir, 'template' )) {
 			return false;
@@ -59,7 +58,7 @@ class mosInstallerTemplate extends mosInstaller {
 		. '/templates/' . strtolower(str_replace(" ","_",$this->elementName())))
 		);
 
-		if (!file_exists( $this->elementDir() ) && !mosMakePath( $this->elementDir() )) {
+		if (!file_exists( $this->elementDir() ) && !JFolder::creata( $this->elementDir() )) {
 			$this->setError(1, JText::_( 'Failed to create directory' ) .' "' . $this->elementDir() . '"' );
 			return false;
 		}
@@ -100,7 +99,6 @@ class mosInstallerTemplate extends mosInstaller {
 	*/
 	function uninstall( $id, $option, $client=0 ) {
 		global $database, $mosConfig_absolute_path;
-		;
 
 		// Delete directories
 		$path = $mosConfig_absolute_path

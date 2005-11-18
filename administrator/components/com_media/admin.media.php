@@ -101,11 +101,11 @@ function create_folder($dirPath) {
 		}
 		$folder = $mosConfig_absolute_path. $base . $dirPath .'/'. $folder_name;
 		if(!is_dir($folder) && !is_file($folder)) {
-			mosMakePath($folder);
+			JFolder::create($folder);
 			$fp = fopen($folder."/index.html", "w" );
 			fwrite( $fp, "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>" );
 			fclose( $fp );
-			mosChmod($folder."/index.html");
+			JPath::setPermissions($folder."/index.html");
 			$refresh_dirs = true;
 		}
 	}
@@ -113,7 +113,6 @@ function create_folder($dirPath) {
 
 function delete_folder($listdir) {
 	global $mosConfig_absolute_path, $base;
-	;
 	
 	$delFolder = mosGetParam( $_REQUEST, 'delFolder', '' );
 
@@ -161,7 +160,6 @@ function upload(){
 
 function do_upload($file, $dest_dir) {
 	global $clearUploads;
-	;
 
 		if (file_exists($dest_dir.$file['name'])) {
 			mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], JText::_( 'Upload FAILED.File allready exists' ) );

@@ -27,7 +27,6 @@ class mosInstallerMambot extends mosInstaller {
 	*/
 	function install( $p_fromdir = null ) {
 		global $mosConfig_absolute_path, $database;
-		;
 
 		if (!$this->preInstallCheck( $p_fromdir, 'mambot' )) {
 			return false;
@@ -43,7 +42,7 @@ class mosInstallerMambot extends mosInstaller {
 		$folder = $mosinstall->getAttribute( 'group' );
 		$this->elementDir( mosPathName( $mosConfig_absolute_path . '/mambots/' . $folder ) );
 
-		if(!file_exists($this->elementDir()) && !mosMakePath($this->elementDir())) {
+		if(!file_exists($this->elementDir()) && !JFolder::create($this->elementDir())) {
 			$this->setError( 1, JText::_( 'Failed to create directory' ) .' "' . $this->elementDir() . '"' );
 			return false;
 		}
@@ -101,7 +100,6 @@ class mosInstallerMambot extends mosInstaller {
 	*/
 	function uninstall( $id, $option, $client=0 ) {
 		global $database, $mosConfig_absolute_path;
-		;
 
 		$id = intval( $id );
 		$query = "SELECT name, folder, element, iscore"

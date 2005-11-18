@@ -63,12 +63,12 @@ class mosInstallerComponent extends mosInstaller {
 			return false;
 		}
 
-		if(!file_exists($this->elementDir()) && !mosMakePath($this->elementDir())) {
+		if(!file_exists($this->elementDir()) && !JFolder::create($this->elementDir())) {
 			$this->setError( 1, JText::_( 'Failed to create directory' ) .' "' . $this->elementDir() . '"' );
 			return false;
 		}
 
-		if(!file_exists($this->componentAdminDir()) && !mosMakePath($this->componentAdminDir())) {
+		if(!file_exists($this->componentAdminDir()) && !JFolder::create($this->componentAdminDir())) {
 			$this->setError( 1, JText::_( 'Failed to create directory' ) .' "' . $this->componentAdminDir() . '"' );
 			return false;
 		}

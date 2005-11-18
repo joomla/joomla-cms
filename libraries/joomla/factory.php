@@ -231,7 +231,7 @@ class JFactory
 		$tmpl->addGlobalVar( 'lang_charset',	'charset=UTF-8' );
 
 		// tabs
-		$tpath = mosFS::getNativePath( $mainframe->getTemplatePath() . 'images/tabs' );
+		$tpath = JPath::clean( $mainframe->getTemplatePath() . 'images/tabs' );
 		if (is_dir( $tpath )) {
 			$turl = $mainframe->getTemplateURL() .'/images/tabs/';
 		} else {

@@ -43,7 +43,7 @@ class mosInstallerMambot extends mosInstaller {
 		$folder = $mosinstall->getAttribute( 'group' );
 		$this->elementDir( mosPathName( $mosConfig_absolute_path . '/mambots/' . $folder ) );
 
-		if(!file_exists($this->elementDir()) && !mosMakePath($this->elementDir())) {
+		if(!file_exists($this->elementDir()) && !JFolder::create($this->elementDir())) {
 			$this->setError( 1, JText::_( 'Failed to create directory' ) .' "' . $this->elementDir() . '"' );
 			return false;
 		}
