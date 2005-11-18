@@ -18,9 +18,6 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 function mosMainBody() {
 	// message passed via the url
 	$mosmsg = mosGetParam( $_REQUEST, 'mosmsg', '' );
-	if (!get_magic_quotes_gpc()) {
-		$mosmsg = addslashes( $mosmsg );
-	}
 
 	if ($mosmsg) {
 		echo "\n<div class=\"message\">$mosmsg</div>";
