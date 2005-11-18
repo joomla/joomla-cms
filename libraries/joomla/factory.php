@@ -60,14 +60,21 @@ class JFactory
 	 * @return object
 	 * @since 1.1
 	 */
-	function &getDBO()
+	 //TODO : Move to JApplication
+	function &getDBO($host = null, $user = null , $password = null, $db = null , $dbprefix = null,  $dbtype = null, $debug = null)
 	{
-		global $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix, $mosConfig_debug, $mosConfig_dbtype;
-		
+		$host 		= is_null($host) 	? $GLOBALS['mosConfig_host']    : $host; 
+		$user 		= is_null($user) 	? $GLOBALS['mosConfig_user'] 	: $user; 
+		$password 	= is_null($password)? $GLOBALS['mosConfig_password']: $password; 
+		$db   		= is_null($db) 		? $GLOBALS['mosConfig_db'] 		: $db; 
+		$dbprefix 	= is_null($dbprefix)? $GLOBALS['mosConfig_dbprefix']: $dbprefix; 
+		$dbtype 	= is_null($dbtype) 	? $GLOBALS['mosConfig_dbtype'] 	: $dbtype; 
+		$debug 		= is_null($debug) 	? $GLOBALS['mosConfig_debug'] 	: $debug; 
+				
 		jimport('joomla.database.database');
 		
 		/** @global $database */
-		$database =& JDatabase::getInstance( $mosConfig_dbtype, $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix );
+		$database =& JDatabase::getInstance( $dbtype, $host, $user, $password, $db, $dbprefix );
 		if ($database->getErrorNum()) {
 			$mosSystemError = $database->getErrorNum();
 			$basePath = dirname( __FILE__ );
@@ -75,7 +82,7 @@ class JFactory
 			include $basePath . '/../../offline.php';
 			exit();
 		}
-		$database->debug( $mosConfig_debug );
+		$database->debug( $debug );
 		return $database;
 	}
 	

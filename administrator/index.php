@@ -32,6 +32,8 @@ $handle = mosGetParam( $_POST, 'handle', NULL );
 $mainframe =& new JAdministrator();
 $mainframe->initSession( );
 
+$database =& JFactory::getDBO();
+
 // trigger the onAfterStart events
 $_MAMBOTS->trigger( 'onAfterStart' );
 

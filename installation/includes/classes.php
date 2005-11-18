@@ -270,15 +270,14 @@ class installationTasks {
 
 		if (!$DBcreated) {
 			
-			jimport('joomla.database.'.$DBtype);
-			$database =& new database( $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix );
+			$database =& JFactory::getDBO( $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix, $DBtype, true);
 			
 			if ($err = $database->getErrorNum()) {
 				if ($err == 3) {
 					// connection ok, need to create database
 					if (mosInstallation::createDatabase( $database, $DBname, $DButfSupport, $DBcollation )) {
 						// make the new connection to the new database
-						$database =& new database( $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix );
+						$database =&  JFactory::getDBO( $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix, $DBtype, true );
 					} else {
 						$error = $database->getErrorMsg();
 						installationScreens::error( $vars, array( JText::_( 'WARNCREATEDB' ) .' '. $DBname ), 'dbconfig', $error );
@@ -292,7 +291,7 @@ class installationTasks {
 				}
 			}
 			
-			$database =& new database( $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix );
+			$database =&  JFactory::getDBO( $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix, $DBtype, true );
 
 			if ($DBBackup) {
 				if (mosInstallation::backupDatabase( $database, $DBname, $DBPrefix, $errors )) {
@@ -693,8 +692,7 @@ class mosInstallation {
 
 		$cryptpass = md5( $adminPassword );
 
-		jimport('joomla.database.'.$DBtype);
-		$database = new database( $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix );
+		$database =&  JFactory::getDBO( $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix, $DBtype, true );
 
 		// create the admin user
 		$installdate = date( 'Y-m-d H:i:s' );
