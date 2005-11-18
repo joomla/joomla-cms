@@ -36,6 +36,7 @@ Legend:
  - Reverted artf2139 : admin menu xhtml
  # Fixed artf2170 : logged.php does not show logged in people
  # Fixed artf2175 : Admin main page vanishes when changing list length
+ + Added clone function for PHP5 backwards compatibility
 
 17-Nov-2005 Andrew Eddie
  + Support for determining quoted fields in a database table
