@@ -37,6 +37,9 @@ Legend:
  # Fixed artf2170 : logged.php does not show logged in people
  # Fixed artf2175 : Admin main page vanishes when changing list length
  + Added clone function for PHP5 backwards compatibility
+ ^ Deprecated database, use JFactory::getDBO or JDatabase::getInstance instead
+ + Added database driver support (currently only mysql and mysqli)
+ 
 
 17-Nov-2005 Andrew Eddie
  + Support for determining quoted fields in a database table

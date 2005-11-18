@@ -54,7 +54,6 @@ if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER 
 require_once( dirname(__FILE__) . '/template.php' );
 
 //Library imports
-jimport( 'joomla.database.' . $mosConfig_dbtype );
 jimport( 'phpinputfilter.inputfilter' );
 jimport( 'joomla.version' );
 jimport( 'joomla.functions' );

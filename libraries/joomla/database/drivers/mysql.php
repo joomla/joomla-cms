@@ -16,53 +16,12 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 /**
-* Database connector class
+* MySQL database driver
+* @package Joomla  
 * @subpackage Database
-* @package Joomla
 */
-class database {
-	/** @var string Internal variable to hold the query sql */
-	var $_sql			= '';
-	/** @var int Internal variable to hold the database error number */
-	var $_errorNum		= 0;
-	/** @var string Internal variable to hold the database error message */
-	var $_errorMsg		= '';
-	/** @var string Internal variable to hold the prefix used on all database tables */
-	var $_table_prefix	= '';
-	/** @var Internal variable to hold the connector resource */
-	var $_resource		= '';
-	/** @var Internal variable to hold the last query cursor */
-	var $_cursor		= null;
-	/** @var boolean Debug option */
-	var $_debug			= 0;
-	/** @var int The limit for the query */
-	var $_limit			= 0;
-	/** @var int The for offset for the limit */
-	var $_offset		= 0;
-	/** @var int A counter for the number of queries performed by the object instance */
-	var $_ticker		= 0;
-	/** @var array A log of queries */
-	var $_log			= null;
-	/** @var string The null/zero date string */
-	var $_nullDate		= '0000-00-00 00:00:00';
-	/** @var string Quote for named objects */
-	var $_nameQuote		= '`';
-	/**
-	 * @var boolean UTF-8 support 
-	 * @since    1.1
-	 */
-	var $_utf			= 0;
-	/**
-	 * @var array The fields that are to be quote
-	 * @since    1.1
-	 */
-	var $_quoted	= null;
-	/**
-	 * @var bool Legacy compatibility
-	 * @since    1.1
-	 */
-	var $_hasQuoted	= null;
-
+class JDatabaseMySQL extends JDatabase {
+	
 	/**
 	* Database object constructor
 	* @param string Database host
@@ -72,7 +31,7 @@ class database {
 	* @param string Common prefix for all tables
 	* @param boolean If true and there is an error, go offline [DEPRECATED]
 	*/
-	function database( $host='localhost', $user, $pass, $db='', $table_prefix='', $goOffline=true ) {
+	function __construct( $host='localhost', $user, $pass, $db='', $table_prefix='') {
 		// perform a number of fatality checks, then die gracefully
 		if (!function_exists( 'mysql_connect' )) {
 			$this->_errorNum = 1;
@@ -86,29 +45,8 @@ class database {
 			$this->_errorNum = 3;
 			return;
 		}
-
-		// Determine utf-8 support
-		$this->_utf = $this->hasUTF();
-
-		//Set charactersets (needed for MySQL 4.1.2+)
-		if ($this->_utf){
-			$this->setUTF();
-		}
 		
-		$this->_table_prefix = $table_prefix;
-		$this->_ticker   = 0;
-		$this->_errorNum = 0;
-		$this->_log = array();
-		$this->_quoted = array();
-		$this->_hasQuoted = false;
-	}
-
-	/**
-	 * Determines UTF support
-	 */
-	function hasUTF() {
-		$verParts = explode( '.', $this->getVersion() );
-		return ($verParts[0] == 5 || ($verParts[0] == 4 && $verParts[1] == 1 && (int)$verParts[2] >= 2));
+		parent::__construct($host, $user, $pass, $db, $table_prefix);
 	}
 
 	/**
@@ -118,84 +56,7 @@ class database {
 		//mysql_query("SET CHARACTER SET utf8",$this->_resource);
 		mysql_query( "SET NAMES 'utf8'", $this->_resource );
 	}
-
-	/**      
-	 * Returns a reference to the global Browser object, only creating it      
-	 * if it doesn't already exist.   
-	 *   
-	 * @param string Database host
-	 * @param string Database user name
-	 * @param string Database user password
-	 * @param string Database name
-	 * @param string Common prefix for all tables
-	 * @return database A database object   
-	*/
-	function &getInstance( $host='localhost', $user, $pass, $db='', $table_prefix='' ) {
-		static $instances; 
-		        
-		if (!isset( $instances )) {             
-			$instances = array();         
-		}         
-		
-		$signature = serialize(array($host, $user, $pass, $db, $table_prefix));         
-		
-		if (empty($instances[$signature])) {             
-			$instances[$signature] = new database($host, $user, $pass, $db, $table_prefix);         
-		}         
-		
-		return $instances[$signature];
-	}
-
-	/**
-	 * @param mixed Field name or array of names
-	 */
-	function addQuoted( $quoted ) {
-		if (is_string( $quoted )) {
-			$this->_quoted[] = $quoted;
-		} else {
-			$this->_quoted = array_merge( $this->_quoted, (array)$quoted );
-		}
-		$this->_hasQuoted = true;
-	}
-	/**
-	 * @return bool
-	 */
-	function isQuoted( $fieldName ) {
-		if ($this->_hasQuoted) {
-			return in_array( $fieldName, $this->_quoted );
-		} else {
-			return true;
-		}
-	}
-
-	/**
-	* @param int
-	*/
-	function debug( $level ) {
-		$this->_debug = intval( $level );
-	}
 	
-	/**
-	* @return boolean True if the database version supports utf storage
-	* 				  False if backward compatibility is being used
-	* @since 1.1
-	*/
-	function getUtfSupport() {
-		return $this->_utf;
-	}
-	
-	/**
-	* @return int The error number for the most recent query
-	*/
-	function getErrorNum() {
-		return $this->_errorNum;
-	}
-	/**
-	* @return string The error message for the most recent query
-	*/
-	function getErrorMsg() {
-		return str_replace( array( "\n", "'" ), array( '\n', "\'" ), $this->_errorMsg );
-	}
 	/**
 	* Get a database escaped string
 	* @return string
@@ -203,130 +64,7 @@ class database {
 	function getEscaped( $text ) {
 		return mysql_real_escape_string( $text );
 	}
-	/**
-	 * Quote an identifier name (field, table, etc)
-	 * @param string The name
-	 * @return string The quoted name
-	 */
-	function NameQuote( $s ) {
-		$q = $this->_nameQuote;
-		if (strlen( $q ) == 1) {
-			return $q . $s . $q;
-		} else {
-			return $q{0} . $s . $q{1};
-		}
-	}
-	/**
-	 * @return string The database prefix
-	 */
-	function getPrefix() {
-		return $this->_table_prefix;
-	}
-	/**
-	 * @return string Quoted null/zero date string
-	 */
-	function getNullDate() {
-		return $this->_nullDate;
-	}
-	/**
-	* Sets the SQL query string for later execution.
-	*
-	* This function replaces a string identifier <var>$prefix</var> with the
-	* string held is the <var>_table_prefix</var> class variable.
-	*
-	* @param string The SQL query
-	* @param string The offset to start selection
-	* @param string The number of results to return
-	* @param string The common table prefix
-	*/
-	function setQuery( $sql, $offset = 0, $limit = 0, $prefix='#__' ) {
-		$this->_sql = $this->replacePrefix( $sql, $prefix );
-		$this->_limit = intval( $limit );
-		$this->_offset = intval( $offset );
-	}
-
-	/**
-	 * This function replaces a string identifier <var>$prefix</var> with the
-	 * string held is the <var>_table_prefix</var> class variable.
-	 *
-	 * @param string The SQL query
-	 * @param string The common table prefix
-	 * @author thede, David McKinnis
-	 */
-	function replacePrefix( $sql, $prefix='#__' ) {
-		$sql = trim( $sql );
-
-		$escaped = false;
-		$quoteChar = '';
-
-		$n = strlen( $sql );
-
-		$startPos = 0;
-		$literal = '';
-		while ($startPos < $n) {
-			$ip = strpos($sql, $prefix, $startPos);
-			if ($ip === false) {
-				break;
-			}
-
-			$j = strpos( $sql, "'", $startPos );
-			$k = strpos( $sql, '"', $startPos );
-			if (($k !== FALSE) && (($k < $j) || ($j === FALSE))) {
-				$quoteChar	= '"';
-				$j			= $k;
-			} else {
-				$quoteChar	= "'";
-			}
-
-			if ($j === false) {
-				$j = $n;
-			}
-
-			$literal .= str_replace( $prefix, $this->_table_prefix, substr( $sql, $startPos, $j - $startPos ) );
-			$startPos = $j;
-
-			$j = $startPos + 1;
-
-			if ($j >= $n) {
-				break;
-			}
-
-			// quote comes first, find end of quote
-			while (TRUE) {
-				$k = strpos( $sql, $quoteChar, $j );
-				$escaped = false;
-				if ($k === false) {
-					break;
-				}
-				$l = $k - 1;
-				while ($l >= 0 && $sql{$l} == '\\') {
-					$l--;
-					$escaped = !$escaped;
-				}
-				if ($escaped) {
-					$j	= $k+1;
-					continue;
-				}
-				break;
-			}
-			if ($k === FALSE) {
-				// error in the query - no end quote; ignore it
-				break;
-			}
-			$literal .= substr( $sql, $startPos, $k - $startPos + 1 );
-			$startPos = $k+1;
-		}
-		if ($startPos < $n) {
-			$literal .= substr( $sql, $startPos, $n - $startPos );
-		}
-		return $literal;
-	}
-	/**
-	* @return string The current value of the internal SQL vairable
-	*/
-	function getQuery() {
-		return "<pre>" . htmlspecialchars( $this->_sql ) . "</pre>";
-	}
+	
 	/**
 	* Execute the query
 	* @return mixed A database resource if successful, FALSE if not.
@@ -362,6 +100,10 @@ class database {
 		return $this->_cursor;
 	}
 
+	/**
+	* Execute a batch query
+	* @return mixed A database resource if successful, FALSE if not.
+	*/
 	function query_batch( $abort_on_error=true, $p_transaction_safe = false) {
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
@@ -644,15 +386,7 @@ class database {
 		return $this->query();
 	}
 
-	/**
-	* @param boolean If TRUE, displays the last SQL statement sent to the database
-	* @return string A standised error message
-	*/
-	function stderr( $showSQL = false ) {
-		return "DB function failed with error number $this->_errorNum"
-		."<br /><font color=\"red\">$this->_errorMsg</font>"
-		.($showSQL ? "<br />SQL = <pre>$this->_sql</pre>" : '');
-	}
+	
 
 	function insertid() {
 		return mysql_insert_id( $this->_resource );
@@ -704,147 +438,8 @@ class database {
 		return $result;
 	}
 
-	// ----
-	// ADODB Compatibility Functions
-	// ----
-
-	/**
-	* Get a quoted database escaped string
-	* @return string
-	*/
-	function Quote( $text ) {
-		return '\'' . $this->getEscaped( $text ) . '\'';
-	}
-	/**
-	 * @param string SQL
-	 */
-	function GetCol( $query ) {
-		$this->setQuery( $query );
-		return $this->loadResultArray();
-	}
-	/**
-	 * @param string SQL
-	 * @return object
-	 */
-	function Execute( $query ) {
-		$query = trim( $query );
-		$this->setQuery( $query );
-		if (eregi( '^select', $query )) {
-			$result = $this->loadRowList();
-			return new JSimpleRecordSet( $result );
-		} else {
-			$result = $this->query();
-			if ($result === false) {
-				return false;
-			} else {
-				return new JSimpleRecordSet( array() );
-			}
-		}
-	}
-	function SelectLimit( $query, $count, $offset=0 ) {
-		$this->setQuery( $query, $offset, $count );
-		$result = $this->loadRowList();
-		return new JSimpleRecordSet( $result );
-	}
-	function PageExecute( $sql, $nrows, $page, $inputarr=false, $secs2cache=0 ) {
-		$this->setQuery( $sql, $page*$nrows, $nrows );
-		$result = $this->loadRowList();
-		return new JSimpleRecordSet( $result );
-	} 
-	/**
-	 * @param string SQL
-	 * @return array
-	 */
-	function GetRow( $query ) {
-		$this->setQuery( $query );
-		$result = $this->loadRowList();
-		return $result[0];
-	}
-	/**
-	 * @param string SQL
-	 * @return mixed
-	 */
-	function GetOne( $query ) {
-		$this->setQuery( $query );
-		$result = $this->loadResult();
-		return $result;
-	}
-	function BeginTrans() {
-	}
-	function RollbackTrans() {
-	}
-	function CommitTrans() {
-	}
-	function ErrorMsg() {
-		return $this->getErrorMsg();
-	}
-	function ErrorNo() {
-		return $this->getErrorNum();
-	}
-	/**
-	 * Fudge method for ADOdb compatibility
-	 */
-	function GenID( $foo1=null, $foo2=null ) {
-		return '0';
-	}
+	
 }
 
-/**
- * Simple Record Set object to allow our database connector to be used with
- * ADODB driven 3rd party libraries
- * @package Joomla
- * @subpackage Database
- */
-class JSimpleRecordSet {
-	/** @var array */
-	var $data	= null;
-	/** @var int Index to current record */
-	var $pointer= null;
-	/** @var int The number of rows of data */
-	var $count	= null;
 
-	/**
-	 * Constuctor
-	 * @param array
-	 */
-	function JSimpleRecordSet( $data ) {
-		$this->data = $data;
-		$this->pointer = 0;
-		$this->count = count( $data );
-	}
-	/**
-	 * @return int
-	 */
-	function RecordCount() {
-		return $this->count;
-	}
-	/**
-	 * @return mixed A row from the data array or null
-	 */
-	function FetchRow() {
-		if ($this->pointer < $this->count) {
-			$result = $this->data[$this->pointer];
-			$this->pointer++;
-			return $result;
-		} else {
-			return null;
-		}
-	}
-	function GetRows() {
-		return $this->data;
-	}
-	// TODO placeholder functions
-	function absolutepage() {
-		return 1;
-	}
-	function atfirstpage() {
-		return 1;
-	}
-	function atlastpage() {
-		return 1;
-	}
-	function lastpageno() {
-		return 1;
-	}
-}
 ?>

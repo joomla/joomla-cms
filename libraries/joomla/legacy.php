@@ -17,6 +17,7 @@ DEFINE('_ISO','charset=utf-8');
 
 /**
 * Legacy function, use mosFS::getNativePath instead
+* @deprecated As of version 1.1
 */
 function mosPathName($p_path, $p_addtrailingslash = true) {
 	return mosFS::getNativePath( $p_path, $p_addtrailingslash );
@@ -24,6 +25,7 @@ function mosPathName($p_path, $p_addtrailingslash = true) {
 
 /**
 * Legacy function, use mosFS::listFiles or mosFS::listFolders instead
+* @deprecated As of version 1.1
 */
 function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  ) {
 	$arr = array();
@@ -56,6 +58,7 @@ function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  
 
 /**
  * Legacy function, use mosFS::CHMOD instead
+ * @deprecated As of version 1.1
  */
 function mosChmod( $path ) {
 	return mosFS::CHMOD( $path );
@@ -63,6 +66,7 @@ function mosChmod( $path ) {
 
 /**
  * Legacy function, use mosFS::CHMOD instead
+ * @deprecated As of version 1.1
  */
 function mosChmodRecursive( $path, $filemode=NULL, $dirmode=NULL ) {
 	return mosFS::CHMOD( $path, $filemode, $dirmode );
@@ -70,6 +74,7 @@ function mosChmodRecursive( $path, $filemode=NULL, $dirmode=NULL ) {
 
 /**
 * Legacy function, use mosFS::canCHMOD
+* @deprecated As of version 1.1
 */
 function mosIsChmodable( $file ) {
 	return mosFS::canCHMOD( $file );
@@ -77,6 +82,7 @@ function mosIsChmodable( $file ) {
 
 /**
 * Legacy function, replaced by geshi bot
+* @deprecated As of version 1.1
 */
 function mosShowSource( $filename, $withLineNums=false ) {
     
@@ -109,6 +115,7 @@ function mosShowSource( $filename, $withLineNums=false ) {
 
 /**
 * Legacy function, use mosLoadModules('pathway'); instead
+* @deprecated As of version 1.1
 */
 function mosPathWay() {
 	mosLoadModules('pathway', -1);
@@ -117,6 +124,7 @@ function mosPathWay() {
 
 /**
 * Legacy class, derive from JApplication instead
+* @deprecated As of version 1.1
 */
 class mosMainFrame extends JApplication {
 	/**
@@ -132,6 +140,7 @@ class mosMainFrame extends JApplication {
 
 /**
 * Legacy class, derive from JModel instead
+* @deprecated As of version 1.1
 */
 jimport( 'joomla.models.model' );
 /**
@@ -145,14 +154,27 @@ class mosDBTable extends JModel {
 	function __construct($table, $key, &$db) {
 		parent::__construct( $table, $key, $db );
 	}
-	
-	function mosDBTable($table, $key, &$db) {
-		parent::__construct( $table, $key, $db );
+}
+
+/**
+* Legacy class, derive from JModel instead
+* @deprecated As of version 1.1
+*/
+jimport( 'joomla.database.database' );
+jimport( 'joomla.database.drivers.mysql' );
+/**
+ * @package Joomla
+ * @deprecated As of version 1.1
+ */
+class database extends JDatabaseMySQL {
+	function __construct ($host='localhost', $user, $pass, $db='', $table_prefix='', $offline = true) {
+		parent::__construct( $host, $user, $pass, $db, $table_prefix );
 	}
 }
 
 /**
 * Legacy class, use JFactory::getCache instead
+* @deprecated As of version 1.1
 */
 class mosCache {
 	/**
@@ -172,6 +194,7 @@ class mosCache {
 
 /**
 * Legacy class, use JProfiler instead
+* @deprecated As of version 1.1
 */
 class mosProfiler extends JProfiler {
 	/**
@@ -183,6 +206,7 @@ class mosProfiler extends JProfiler {
 }
 /**
 * Legacy function, use JApplication::getBrowser() instead
+* @deprecated As of version 1.1
 */
 function mosGetBrowser( $agent ) {
 	$browser = JApplication::getBrowser();
@@ -191,6 +215,7 @@ function mosGetBrowser( $agent ) {
 
 /**
 * Legacy function, use JApplication::getBrowser() instead
+* @deprecated As of version 1.1
 */
 function mosGetOS( $agent ) {
 	$browser = JApplication::getBrowser();
@@ -199,6 +224,7 @@ function mosGetOS( $agent ) {
 
 /**
 * Legacy function, use $_VERSION->getLongVersion() instead
+* @deprecated As of version 1.1
 */
 global $_VERSION;
 $version = $_VERSION->PRODUCT .' '. $_VERSION->RELEASE .'.'. $_VERSION->DEV_LEVEL .' '
@@ -209,6 +235,7 @@ $version = $_VERSION->PRODUCT .' '. $_VERSION->RELEASE .'.'. $_VERSION->DEV_LEVE
 
 /**
 * Load the site language file (the old way - to be deprecated)
+* @deprecated As of version 1.1
 */
 global $mosConfig_lang;
 $file = JPATH_SITE .'/language/' . $mosConfig_lang .'.php';

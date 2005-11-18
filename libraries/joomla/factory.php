@@ -64,10 +64,10 @@ class JFactory
 	{
 		global $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix, $mosConfig_debug, $mosConfig_dbtype;
 		
-		jimport('joomla.database.'.$mosConfig_dbtype);
+		jimport('joomla.database.database');
 		
 		/** @global $database */
-		$database =& database::getInstance( $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix );
+		$database =& JDatabase::getInstance( $mosConfig_dbtype, $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix );
 		if ($database->getErrorNum()) {
 			$mosSystemError = $database->getErrorNum();
 			$basePath = dirname( __FILE__ );
