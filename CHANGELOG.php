@@ -33,6 +33,9 @@ Legend:
 
 19-Nov-2005 Samuel Moffatt
  ^ Installer Rewrites (module and template positions)
+ 
+18-Nov-2005 Johan Janssens
+ # Fixed overlib javascript escaping
 
 18-Nov-2005 Levis Bisson
  + Added fullmenu translation for Status bar 

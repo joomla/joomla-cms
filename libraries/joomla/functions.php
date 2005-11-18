@@ -318,7 +318,6 @@ function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level
 */
 function mosGetOrderingList( $sql, $chop='30' ) {
 	global $database;
-	;
 
 	$order = array();
 	$database->setQuery( $sql );
@@ -414,10 +413,9 @@ function mosFormatDate( $date, $format="", $offset="" ){
 */
 function mosCurrentDate( $format="" ) {
 	global $mosConfig_offset;
-	;
 
 	if ($format=="") {
-		$format = $GLOBALS['_LANG']->_( 'DATE_FORMAT_LC' );
+		$format = JText::_( 'DATE_FORMAT_LC' );
 	}
 	$date = strftime( $format, time() + ($mosConfig_offset*60*60) );
 	return $date;
@@ -430,9 +428,11 @@ function mosCurrentDate( $format="" ) {
 * @returns HTML code for ToolTip
 */
 function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='#', $link=1 ) {
-	global $mosConfig_live_site;
-	;
+	global $mosConfig_live_site,  $mainframe;
 
+	$tooltip = addslashes(htmlspecialchars($tooltip));
+	$title   = addslashes(htmlspecialchars($title));
+	
 	if ( $width ) {
 		$width = ', WIDTH, \''.$width .'\'';
 	}
@@ -612,7 +612,6 @@ function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NUL
 */
 function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) {
 	global $mosConfig_live_site;
-	;
     
     // soon $mosConfig_admin_dir
     $strAdminDir = "administrator";

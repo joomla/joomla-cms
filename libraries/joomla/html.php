@@ -739,13 +739,17 @@ class mosCommonHTML {
 
 		$hover = '';
 		if ( $overlib ) {
+			
+			$text = addslashes(htmlspecialchars($row->editor));
+			
 			$date 				= mosFormatDate( $row->checked_out_time, '%A, %d %B %Y' );
 			$time				= mosFormatDate( $row->checked_out_time, '%H:%M' );
 			$checked_out_text 	= '<table>';
-			$checked_out_text 	.= '<tr><td>'. $row->editor .'</td></tr>';
+			$checked_out_text 	.= '<tr><td>'. $text .'</td></tr>';
 			$checked_out_text 	.= '<tr><td>'. $date .'</td></tr>';
 			$checked_out_text 	.= '<tr><td>'. $time .'</td></tr>';
 			$checked_out_text 	.= '</table>';
+			
 			$hover = 'onMouseOver="return overlib(\''. $checked_out_text .'\', CAPTION, \''. JText::_( 'Checked Out' ) .'\', BELOW, RIGHT);" onMouseOut="return nd();"';
 		}
 		$checked	 		= '<img src="images/checked_out.png" '. $hover .'/>';
