@@ -137,8 +137,8 @@ function showUsers( $option ) {
 	$query = "SELECT a.*, g.name AS groupname"
 	. "\n FROM #__users AS a"
 	. "\n INNER JOIN #__core_acl_aro AS aro ON aro.value = a.id"	// map user to aro
-	. "\n INNER JOIN #__core_acl_groups_aro_map AS gm ON gm.aro_id = aro.aro_id"	// map aro to group
-	. "\n INNER JOIN #__core_acl_aro_groups AS g ON g.group_id = gm.group_id";
+	. "\n INNER JOIN #__core_acl_groups_aro_map AS gm ON gm.aro_id = aro.id"	// map aro to group
+	. "\n INNER JOIN #__core_acl_aro_groups AS g ON g.id = gm.group_id";
 
 	if ($filter_logged == 1 || $filter_logged == 2) {
 		$query .= "\n INNER JOIN #__session AS s ON s.userid = a.id";
@@ -301,7 +301,7 @@ function saveUser( $option, $task ) {
 	// save usertype to usetype column
 	$query = "SELECT name"
 	. "\n FROM #__core_acl_aro_groups"
-	. "\n WHERE group_id = $row->gid"
+	. "\n WHERE id = $row->gid"
 	;
 	$database->setQuery( $query );
 	$usertype = $database->loadResult();
@@ -340,7 +340,7 @@ function saveUser( $option, $task ) {
 
 	// update the ACL
 	if ( !$isNew ) {
-		$query = "SELECT aro_id"
+		$query = "SELECT id"
 		. "\n FROM #__core_acl_aro"
 		. "\n WHERE value = '$row->id'"
 		;
@@ -388,7 +388,6 @@ function saveUser( $option, $task ) {
 	//trigger the onAfterStoreUser event
 	$results = $_MAMBOTS->trigger( 'onAfterStoreUser', array( get_object_vars( $row ), $row->id, true, null ) );
 
-
 	switch ( $task ) {
 		case 'apply':
 			$msg = JText::_( 'Successfully Saved changes to User' ) .': '. $row->name;
@@ -420,15 +419,15 @@ function removeUsers( $cid, $option ) {
 		exit;
 	}
 
-	if ( count( $cid ) ) {
-
+	if (count( $cid )) {
 		//load user bot group
 		$_MAMBOTS->loadBotGroup( 'user' );
 
 		$obj = new mosUser( $database );
 		foreach ($cid as $id) {
 			// check for a super admin ... can't delete them
-			$groups 	= $acl->get_object_groups( 'users', $id, 'ARO' );
+			$objectID 	= $acl->get_object_id( 'users', $id, 'ARO' );
+			$groups 	= $acl->get_object_groups( $objectID, 'ARO' );
 			$this_group = strtolower( $acl->get_group_name( $groups[0], 'ARO' ) );
 
 			//trigger the onBeforeDeleteUser event
