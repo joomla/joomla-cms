@@ -36,6 +36,7 @@ Legend:
 
 18-Nov-2005 Andy Miller
  # Installer issues with IE fixed
+ ^ Changed Administrator text in admin header to be text and translatable
  
 18-Nov-2005 Johan Janssens
  # Fixed overlib javascript escaping

@@ -28,12 +28,22 @@ html {
 }
 
 #joomla {
-        position: relative;
-        width: 100%;
-        background: url(../images/version_rtl.png) no-repeat;
-        background-position: bottom left;
-        margin: 0px;
-        padding: 0px;
+		height: 38px;
+		line-height: 40px;
+		position: relative;
+		width: 100%;
+		background: url(../images/joomla_logo.png) top right no-repeat;
+		margin: 0px;
+		padding: 0px;
+		text-indent: 170px;
+		font-family: Arial, Helvetica, sans-serif;
+		font-weight: normal;
+		font-size: 18px;
+		color: #ccc;
+}
+
+#version {
+	    background: url(../images/version.png) bottom left no-repeat;
 }
 
 #wrapper1 div {

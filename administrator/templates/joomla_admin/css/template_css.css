@@ -28,13 +28,24 @@ html {
 }
 
 #joomla {
-        position: relative;
-        width: 100%;
-        background: url(../images/version.png) no-repeat;
-        background-position: bottom right;
-        margin: 0px;
-        padding: 0px;
+		height: 38px;
+		line-height: 40px;
+		position: relative;
+		width: 100%;
+		background: url(../images/joomla_logo.png) top left no-repeat;
+		margin: 0px;
+		padding: 0px;
+		text-indent: 170px;
+		font-family: Arial, Helvetica, sans-serif;
+		font-weight: normal;
+		font-size: 18px;
+		color: #ccc;
 }
+
+#version {
+	    background: url(../images/version.png) bottom right no-repeat;
+}
+
 
 #wrapper1 div {
     border: 0px;

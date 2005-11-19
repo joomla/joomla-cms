@@ -28,8 +28,7 @@ $lang =& $mainframe->getLanguage();
 <div id="langdirection">
 <div id="wrapper">
 	<div id="header">
-			<div id="joomla"><img src="templates/joomla_admin/images/<?php echo ($lang->isRTL()) ? 'header_text_rtl.png' : 'header_text.png'; ?>" alt="<?php echo JText::_( 'Joomla! Logo' ); ?>" /></div>
-	</div>
+			<div id="version"><div id="joomla"><?php echo JText::_( 'Administration' ); ?></div></div>	</div>
 </div>
 <table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
 <tr>
