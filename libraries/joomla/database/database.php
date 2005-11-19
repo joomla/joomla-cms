@@ -93,10 +93,12 @@ class JDatabase extends JObject {
 
 	/**
 	 * Determines UTF support
+     * @abstract
+     * @return boolean
+     * @since 1.1
 	 */
 	function hasUTF() {
-		$verParts = explode( '.', $this->getVersion() );
-		return ($verParts[0] == 5 || ($verParts[0] == 4 && $verParts[1] == 1 && (int)$verParts[2] >= 2));
+		return false;
 	}
 
 	/**
@@ -106,14 +108,13 @@ class JDatabase extends JObject {
      * @since 1.1
 	 */
 	function setUTF() {
-		
 	}
 
 	/**      
 	 * Returns a reference to the global Browser object, only creating it      
 	 * if it doesn't already exist.   
 	 *   
-	 * @param strin  Database driver
+	 * @param string  Database driver
 	 * @param string Database host
 	 * @param string Database user name
 	 * @param string Database user password
@@ -141,7 +142,9 @@ class JDatabase extends JObject {
 	}
 
 	/**
+	 * Adds a field or array of field names to the list that are to be quoted
 	 * @param mixed Field name or array of names
+	 * @since 1.1
 	 */
 	function addQuoted( $quoted ) {
 		if (is_string( $quoted )) {
@@ -152,6 +155,8 @@ class JDatabase extends JObject {
 		$this->_hasQuoted = true;
 	}
 	/**
+	 * Checks if field name needs to be quoted
+	 * @param string The field name
 	 * @return bool
 	 */
 	function isQuoted( $fieldName ) {
@@ -163,8 +168,8 @@ class JDatabase extends JObject {
 	}
 
 	/**
-	* @param int
-	*/
+	 * @param int
+	 */
 	function debug( $level ) {
 		$this->_debug = intval( $level );
 	}
@@ -179,22 +184,22 @@ class JDatabase extends JObject {
 	}
 	
 	/**
-	* @return int The error number for the most recent query
-	*/
+	 * @return int The error number for the most recent query
+	 */
 	function getErrorNum() {
 		return $this->_errorNum;
 	}
 	/**
-	* @return string The error message for the most recent query
-	*/
+	 * @return string The error message for the most recent query
+	 */
 	function getErrorMsg() {
 		return str_replace( array( "\n", "'" ), array( '\n', "\'" ), $this->_errorMsg );
 	}
 	/**
-	* Get a database escaped string
-    * @abstract
-	* @return string
-	*/
+	 * Get a database escaped string
+     * @abstract
+	 * @return string
+	 */
 	function getEscaped( $text ) {
 		return;
 	}
@@ -224,16 +229,15 @@ class JDatabase extends JObject {
 		return $this->_nullDate;
 	}
 	/**
-	* Sets the SQL query string for later execution.
-	*
-	* This function replaces a string identifier <var>$prefix</var> with the
-	* string held is the <var>_table_prefix</var> class variable.
-	*
-	* @param string The SQL query
-	* @param string The offset to start selection
-	* @param string The number of results to return
-	* @param string The common table prefix
-	*/
+	 * Sets the SQL query string for later execution.
+	 * This function replaces a string identifier <var>$prefix</var> with the
+	 * string held is the <var>_table_prefix</var> class variable.
+	 *
+	 * @param string The SQL query
+	 * @param string The offset to start selection
+	 * @param string The number of results to return
+	 * @param string The common table prefix
+	 */
 	function setQuery( $sql, $offset = 0, $limit = 0, $prefix='#__' ) {
 		$this->_sql = $this->replacePrefix( $sql, $prefix );
 		$this->_limit = intval( $limit );
@@ -317,24 +321,22 @@ class JDatabase extends JObject {
 		return $literal;
 	}
 	/**
-	* @return string The current value of the internal SQL vairable
-	*/
+	 * @return string The current value of the internal SQL vairable
+	 */
 	function getQuery() {
 		return "<pre>" . htmlspecialchars( $this->_sql ) . "</pre>";
 	}
 	/**
-	* Execute the query
-	* 
-    * @abstract
-	* @return mixed A database resource if successful, FALSE if not.
-	*/
+	 * Execute the query
+	 * @abstract
+	 * @return mixed A database resource if successful, FALSE if not.
+	 */
 	function query() {
 		return;
 	}
 	
    /**
 	* Execute a batch query
-	* 
     * @abstract
 	* @return mixed A database resource if successful, FALSE if not.
 	*/
@@ -343,60 +345,61 @@ class JDatabase extends JObject {
 	}
 
 	/**
-	* Diagnostic function
-    * @abstract
-	*/
+	 * Diagnostic function
+     * @abstract
+	 */
 	function explain() {
 		return;
 	}
+
 	/**
-	* @return int The number of rows returned from the most recent query.
-	* @abstract
-    */
+	 * @param object Database resource
+	 * @return int The number of rows returned from the most recent query.
+	 * @abstract
+     */
 	function getNumRows( $cur=null ) {
 		return;
 	}
 
 	/**
-	* This method loads the first field of the first row returned by the query.
-	*  
-    * @abstract
-	* @return The value returned in the query or null if the query failed.
-	*/
+	 * This method loads the first field of the first row returned by the query.
+     * @abstract
+	 * @return The value returned in the query or null if the query failed.
+	 */
 	function loadResult() {
 		return;
 	}
+
 	/**
-	* Load an array of single field results into an array
-	* 
-    * @abstract
-	*/
+	 * Load an array of single field results into an array
+	 * 
+     * @abstract
+	 */
 	function loadResultArray($numinarray = 0) {
 		return;
 	}
+
 	/**
-	* Load a assoc list of database rows
-    *  
-    * @abstract
-	* @param string The field name of a primary key
-	* @return array If <var>key</var> is empty as sequential list of returned records.
-	*/
+	 * Load a assoc list of database rows
+     * @abstract
+	 * @param string The field name of a primary key
+	 * @return array If key is empty as sequential list of returned records.
+	 */
 	function loadAssocList( $key='' ) {
 		return;
 	}
 	/**
-	* This global function loads the first row of a query into an object
-	*
-	* If an object is passed to this function, the returned row is bound to the existing elements of <var>object</var>.
-	* If <var>object</var> has a value of null, then all of the returned query fields returned in the object.
-	* 
-    * @abstract
-    * @param string The SQL query
-	* @param object The address of variable
-	*/
+	 * This global function loads the first row of a query into an object
+	 * If an object is passed to this function, the returned row is bound to the
+	 * existing elements of <var>object</var>. If <var>object</var> has a value
+	 * of null, then all of the returned query fields returned in the object.
+     * @abstract
+	 * @param object The address of variable
+	 */
 	function loadObject( &$object ) {
 		return;
 	}
+
 	/**
 	* Load a list of database objects
     *
@@ -430,32 +433,32 @@ class JDatabase extends JObject {
 		return;
 	}
 	/**
-	* Document::db_insertObject()
-	*
-	* { Description }
-	*
-	* @abstract
-    * @param [type] $keyName
-	* @param [type] $verbose
-	*/
+	 * @abstract
+     * @param string The table name
+	 * @param object
+	 * @param string
+	 * @param boolean
+	 */
 	function insertObject( $table, &$object, $keyName = NULL, $verbose=false ) {
 		return;
 	}
 
 	/**
-	 * Document::db_updateObject()
-     * 
      * @abstract
-	 * @param [type] $updateNulls
+	 * @param string
+	 * @param object
+	 * @param string
+	 * @param boolean
 	 */
 	function updateObject( $table, &$object, $keyName, $updateNulls=true ) {
 		return;
 	}
 
 	/**
-	* @param boolean If TRUE, displays the last SQL statement sent to the database
-	* @return string A standised error message
-	*/
+	 * @param boolean If TRUE, displays the last SQL statement sent to the
+	 * database
+	 * @return string A standised error message
+	 */
 	function stderr( $showSQL = false ) {
 		return "DB function failed with error number $this->_errorNum"
 		."<br /><font color=\"red\">$this->_errorMsg</font>"
@@ -464,17 +467,17 @@ class JDatabase extends JObject {
 
 	/**
      * @abstract
+     * @return mixed
 	 */ 
-     
     function insertid() {
 		return;
 	}
 	
     /**
-     *@abstract
+     * @abstract
 	 */ 
 	function getVersion() {
-		return mysql_get_server_info( $this->_resource );
+		return 'Not available for this connector';
 	}
 
 	/**
@@ -513,15 +516,19 @@ class JDatabase extends JObject {
 		return '\'' . $this->getEscaped( $text ) . '\'';
 	}
 	/**
+	 * ADODB compatability function
 	 * @param string SQL
+	 * @since 1.1
 	 */
 	function GetCol( $query ) {
 		$this->setQuery( $query );
 		return $this->loadResultArray();
 	}
 	/**
+	 * ADODB compatability function
 	 * @param string SQL
 	 * @return object
+	 * @since 1.1
 	 */
 	function Execute( $query ) {
 		$query = trim( $query );
@@ -538,19 +545,29 @@ class JDatabase extends JObject {
 			}
 		}
 	}
+	/**
+	 * ADODB compatability function
+	 * @since 1.1
+	 */
 	function SelectLimit( $query, $count, $offset=0 ) {
 		$this->setQuery( $query, $offset, $count );
 		$result = $this->loadRowList();
 		return new JSimpleRecordSet( $result );
 	}
+	/**
+	 * ADODB compatability function
+	 * @since 1.1
+	 */
 	function PageExecute( $sql, $nrows, $page, $inputarr=false, $secs2cache=0 ) {
 		$this->setQuery( $sql, $page*$nrows, $nrows );
 		$result = $this->loadRowList();
 		return new JSimpleRecordSet( $result );
 	} 
 	/**
+	 * ADODB compatability function
 	 * @param string SQL
 	 * @return array
+	 * @since 1.1
 	 */
 	function GetRow( $query ) {
 		$this->setQuery( $query );
@@ -558,28 +575,51 @@ class JDatabase extends JObject {
 		return $result[0];
 	}
 	/**
+	 * ADODB compatability function
 	 * @param string SQL
 	 * @return mixed
+	 * @since 1.1
 	 */
 	function GetOne( $query ) {
 		$this->setQuery( $query );
 		$result = $this->loadResult();
 		return $result;
 	}
+	/**
+	 * ADODB compatability function
+	 * @since 1.1
+	 */
 	function BeginTrans() {
 	}
+	/**
+	 * ADODB compatability function
+	 * @since 1.1
+	 */
 	function RollbackTrans() {
 	}
+	/**
+	 * ADODB compatability function
+	 * @since 1.1
+	 */
 	function CommitTrans() {
 	}
+	/**
+	 * ADODB compatability function
+	 * @since 1.1
+	 */
 	function ErrorMsg() {
 		return $this->getErrorMsg();
 	}
+	/**
+	 * ADODB compatability function
+	 * @since 1.1
+	 */
 	function ErrorNo() {
 		return $this->getErrorNum();
 	}
 	/**
-	 * Fudge method for ADOdb compatibility
+	 * ADODB compatability function
+	 * @since 1.1
 	 */
 	function GenID( $foo1=null, $foo2=null ) {
 		return '0';
@@ -591,6 +631,7 @@ class JDatabase extends JObject {
  * ADODB driven 3rd party libraries
  * @package Joomla
  * @subpackage Database
+ * @since 1.1
  */
 class JSimpleRecordSet {
 	/** @var array */
@@ -627,19 +668,33 @@ class JSimpleRecordSet {
 			return null;
 		}
 	}
+	/**
+	 * @return array
+	 */
 	function GetRows() {
 		return $this->data;
 	}
-	// TODO placeholder functions
+	/**
+	 * TODO: No working
+	 */
 	function absolutepage() {
 		return 1;
 	}
+	/**
+	 * TODO: No working
+	 */
 	function atfirstpage() {
 		return 1;
 	}
+	/**
+	 * TODO: No working
+	 */
 	function atlastpage() {
 		return 1;
 	}
+	/**
+	 * TODO: No working
+	 */
 	function lastpageno() {
 		return 1;
 	}

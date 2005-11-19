@@ -50,10 +50,17 @@ class JDatabaseMySQLi extends JDatabase {
 	}
 
 	/**
+	 * Determines UTF support
+	 * @return boolean True - UTF is supported
+	 */
+	function hasUTF() {
+		return true;
+	}
+
+	/**
 	 * Custom settings for UTF support
 	 */
 	function setUTF() {
-		//mysql_query("SET CHARACTER SET utf8",$this->_resource);
 		mysqli_query( $this->_resource, "SET NAMES 'utf8'" );
 	}
 
