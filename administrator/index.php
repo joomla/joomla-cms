@@ -48,7 +48,7 @@ if (isset( $_POST['submit'] )) {
 	if ( $count < 1 ) {
 		mosErrorAlert( JText::_( 'errorNoAdmins' ) );
 	}
-
+	
 	if ($mainframe->login()) {
 		$mainframe->setUserState( 'lang', mosGetParam( $_REQUEST, 'lang', $mosConfig_lang ) );
 		JSession::pause();

@@ -297,7 +297,7 @@ class JFolder
 		}
 
 		// prevent snooping of the file system
-		JPath::check( $path );
+		//JPath::check( $path );
 
 		// read the source directory
 		$handle = opendir( $path );
@@ -537,7 +537,7 @@ class JPath {
 			mosBackTrace();
 			die( 'JPath::check use of relative paths not permitted' ); // don't translate
 		}
-		if (strpos( JPath::clean($path), JPath_ROOT ) !== 0) {
+		if (strpos( JPath::clean($path), JPATH_ROOT ) !== 0) {
 			mosBackTrace();
 			die( 'JPath::check snooping out of bounds @ '.$path ); // don't translate
 		}

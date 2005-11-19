@@ -60,7 +60,6 @@ class JApplication extends JObject {
 		$this->_head['custom'] 	= array();
 		$this->_client 		    = $client;
 		
-		$this->_setLanguage( );
 		$this->_setTemplate( );
 	}
 	/**
@@ -418,12 +417,6 @@ class JApplication extends JObject {
 			$mosConfig_lang = $strLang;
 		}
 		
-		$lang =& JLanguage::getInstance( $strLang );
-		$lang->setDebug( $this->getCfg('debug') );
-
-		// make sure the locale setting is correct
-		setlocale( LC_ALL, $lang->getTag() );
-		
 		$this->_lang = $strLang;
 	}
 	
@@ -434,7 +427,18 @@ class JApplication extends JObject {
 	* @since 1.1
 	*/
 	function &getLanguage( ) {
-		return JLanguage::getInstance($this->_lang );
+		
+		if(is_null($this->_lang)) {
+			$this->_setLanguage();
+		}
+		
+		$lang =& JLanguage::getInstance( $this->_lang );
+		$lang->setDebug( $this->getCfg('debug') );
+		
+		//set locale based on the language tag
+		setlocale (LC_TIME, $this->get('tag'));
+
+		return $lang;
 	}
 	
 	/**

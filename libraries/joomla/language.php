@@ -95,9 +95,6 @@ class JLanguage extends JObject {
 		$this->_defaultLang = 'english';
 		$this->_userLang    = $userLang;
 		
-		//set locale based on the language tag
-		setlocale (LC_TIME, $this->get('tag'));
-		
 		//load common language files
 		$this->load();
 	}
