@@ -21,7 +21,11 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 * @subpackage Database
 */
 class JDatabaseMySQLi extends JDatabase {
-	
+	/** @var string The null/zero date string */
+	var $_nullDate		= '0000-00-00 00:00:00';
+	/** @var string Quote for named objects */
+	var $_nameQuote		= '`';
+
 	/**
 	* Database object constructor
 	* @param string Database host

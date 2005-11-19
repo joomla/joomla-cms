@@ -46,9 +46,9 @@ class JDatabase extends JObject {
 	/** @var array A log of queries */
 	var $_log			= null;
 	/** @var string The null/zero date string */
-	var $_nullDate		= '0000-00-00 00:00:00';
+	var $_nullDate		= null;
 	/** @var string Quote for named objects */
-	var $_nameQuote		= '`';
+	var $_nameQuote		= null;
 	/**
 	 * @var boolean UTF-8 support 
 	 * @since    1.1
