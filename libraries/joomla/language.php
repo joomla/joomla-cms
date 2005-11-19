@@ -135,7 +135,7 @@ class JLanguage extends JObject {
 		$key = strtoupper( $string );
 		$key = substr( $key, 0, 1) == '_' ? substr( $key, 1 ) : $key;
 		if (isset( $this->_strings[$key] )) {
-			$string = $this->_debug ? "&bull;". $this->_strings[$key] ."&bull;" : $this->_strings[$key];
+			$string = $this->_debug ? "&#8226;". $this->_strings[$key] ."&#8226;" : $this->_strings[$key];
 		} else {
 			if( defined( $string ) ) {
 				$string = $this->_debug ? "!!". constant( $string ) ."!!" : constant( $string );
