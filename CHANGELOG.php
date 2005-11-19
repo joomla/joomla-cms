@@ -33,6 +33,9 @@ Legend:
 
 19-Nov-2005 Samuel Moffatt
  ^ Installer Rewrites (module and template positions)
+
+18-Nov-2005 Andy Miller
+ # Installer issues with IE fixed
  
 18-Nov-2005 Johan Janssens
  # Fixed overlib javascript escaping
