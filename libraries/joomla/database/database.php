@@ -133,7 +133,7 @@ class JDatabase extends JObject {
 		
 		if (empty($instances[$signature])) {     
 			jimport('joomla.database.drivers.'.$driver); 
-			$driver = JDatabase.$driver;       
+			$driver = 'JDatabase'.$driver;       
 			$instances[$signature] = new $driver($host, $user, $pass, $db, $table_prefix);         
 		}         
 		
