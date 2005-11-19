@@ -315,6 +315,11 @@ fieldset {
 	border: 1px #666 solid;
 }
 
+
+legend {
+	color: #ddd;
+}
+
 input.button {
 	border: 1px solid #333;
 	background: url(../images/dark_button_bg.png) repeat-x;

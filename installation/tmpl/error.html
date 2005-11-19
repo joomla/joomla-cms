@@ -7,34 +7,35 @@
 </mos:comment>
 
 <div id="right">
-
-	<div id="step"><mos:Translate>error</mos:Translate></div>
-
-	<div class="far-right">
-		<input type="button" class="button" value="&lt;&lt; Previous" onclick="submitForm( this.form, '{BACK}' );" />
-	</div>
-	<div class="clr"></div>
-
-	<h1><mos:Translate>An error has occurred</mos:Translate>:</h1>
-	<div class="install-text">
-		<p>
-			<mos:tmpl name="messages">
-			 {MESSAGE}
-			</mos:tmpl>
-		</p>
-	</div>
-	<mos:tmpl name="xmessages" type="simplecondition" requiredvars="xmessage">
-	<div class="install-form">
-		<div class="form-block">
-			<textarea rows="10" cols="50">{XMESSAGE}</textarea>
- 		</div>
- 	</div>
- 	</mos:tmpl>
-</div>
-
+	<div id="rightpad">
+		<div id="step"><mos:Translate>error</mos:Translate></div>
+	
+		<div class="far-right">
+			<input type="button" class="button" value="&lt;&lt; Previous" onclick="submitForm( this.form, '{BACK}' );" />
+		</div>
+		<div class="clr"></div>
+	
+		<h2><mos:Translate>An error has occurred</mos:Translate>:</h2>
+		<div class="install-text">
+			<p>
+				<mos:tmpl name="messages">
+				 {MESSAGE}
+				</mos:tmpl>
+			</p>
+		</div>
+		<mos:tmpl name="xmessages" type="simplecondition" requiredvars="xmessage">
+		<div class="install-form">
+			<div class="form-block">
+				<textarea rows="10" cols="50">{XMESSAGE}</textarea>
+	 		</div>
+	 	</div>
+	 	</mos:tmpl>
+	
 		<div class="clr"></div>
 	</div>
-
+	
+</div>
+<div class="clr"></div>
 <input type="hidden" name="vars[lang]" value="{VAR_LANG}">
 <input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}">
 <input type="hidden" name="vars[DBtype]" value="{VAR_DBTYPE}">
