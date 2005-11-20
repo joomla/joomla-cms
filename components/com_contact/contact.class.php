@@ -21,7 +21,7 @@ jimport('bitfolge.vcard');
 * @package Joomla
 * @subpackage Contact
 */
-class mosContact extends mosDBTable {
+class mosContact extends JModel {
 	/** @var int Primary key */
 	var $id 				= null;
 	/** @var string */
@@ -72,9 +72,9 @@ class mosContact extends mosDBTable {
 	/**
 	* @param database A database connector object
 	*/
-	function mosContact() {
+	function __construct() {
 		global $database;
-		$this->mosDBTable( '#__contact_details', 'id', $database );
+		parent::__construct( '#__contact_details', 'id', $database );
 	}
 
 	function check() {

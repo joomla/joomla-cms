@@ -19,7 +19,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Polls
 */
-class mosPoll extends mosDBTable {
+class mosPoll extends JModel {
 	/** @var int Primary key */
 	var $id					= null;
 	/** @var string */
@@ -38,13 +38,12 @@ class mosPoll extends mosDBTable {
 	/**
 	* @param database A database connector object
 	*/
-	function mosPoll( &$db ) {
-		$this->mosDBTable( '#__polls', 'id', $db );
+	function __construct( &$db ) {
+		parent::__construct( '#__polls', 'id', $db );
 	}
 
 	// overloaded check function
 	function check() {
-		;
 
 		// check for valid name
 		if (trim( $this->title ) == '') {

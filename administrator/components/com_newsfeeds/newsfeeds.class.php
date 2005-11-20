@@ -19,7 +19,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Newsfeeds
 */
-class mosNewsFeed extends mosDBTable {
+class mosNewsFeed extends JModel {
 /** @var int Primary key */
 	var $id					= null;
 /** @var int */
@@ -46,8 +46,8 @@ class mosNewsFeed extends mosDBTable {
 /**
 * @param database A database connector object
 */
-	function mosNewsFeed( &$db ) {
-		$this->mosDBTable( '#__newsfeeds', 'id', $db );
+	function __construct( &$db ) {
+		parent::__construct( '#__newsfeeds', 'id', $db );
 	}
 }
 ?>

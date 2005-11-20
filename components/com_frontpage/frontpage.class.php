@@ -19,7 +19,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Content
 */
-class mosFrontPage extends mosDBTable {
+class mosFrontPage extends JModel {
 	/** @var int Primary key */
 	var $content_id	= null;
 	/** @var int */
@@ -28,8 +28,8 @@ class mosFrontPage extends mosDBTable {
 	/**
 	* @param database A database connector object
 	*/
-	function mosFrontPage( &$db ) {
-		$this->mosDBTable( '#__content_frontpage', 'content_id', $db );
+	function __construct( &$db ) {
+		parent::__construct( '#__content_frontpage', 'content_id', $db );
 	}
 }
 ?>

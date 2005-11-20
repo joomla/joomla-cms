@@ -19,7 +19,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Banners
 */
-class mosBannerClient extends mosDBTable {
+class mosBannerClient extends JModel {
 	var	$cid 				= null;
 	var $name 				= '';
 	var $contact 			= '';
@@ -29,13 +29,12 @@ class mosBannerClient extends mosDBTable {
 	var $checked_out_time 	= 0;
 	var $editor				= '';
 
-	function mosBannerClient( &$_db ) {
-		$this->mosDBTable( '#__bannerclient', 'cid', $_db );
+	function __construct( &$_db ) {
+		parent::__construct( '#__bannerclient', 'cid', $_db );
 	}
 
 	function check() {
-		;
-
+	
 		// check for valid client name
 		if (trim($this->name == '')) {
 			$this->_error = JText::_( 'BNR_CLIENT_NAME' );
@@ -60,7 +59,7 @@ class mosBannerClient extends mosDBTable {
 /**
 * @package Joomla
 */
-class mosBanner extends mosDBTable {
+class mosBanner extends JModel {
 	/** @var int */
 	var $bid				= null;
 	/** @var int */
@@ -92,8 +91,8 @@ class mosBanner extends mosDBTable {
 	/** @var string */
 	var $custombannercode	= '';
 
-	function mosBanner( &$_db ) {
-		$this->mosDBTable( '#__banner', 'bid', $_db );
+	function __construct( &$_db ) {
+		parent::__construct( '#__banner', 'bid', $_db );
 		$this->set( 'date', date( 'Y-m-d G:i:s' ) );
 	}
 
@@ -107,7 +106,6 @@ class mosBanner extends mosDBTable {
 	}
 
 	function check() {
-		;
 
 		// check for valid client id
 		if (is_null($this->cid) || $this->cid == 0) {

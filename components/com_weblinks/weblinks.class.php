@@ -20,7 +20,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Weblinks
 */
-class mosWeblink extends mosDBTable {
+class mosWeblink extends JModel {
 	/** @var int Primary key */
 	var $id					= null;
 	/** @var int */
@@ -56,11 +56,10 @@ class mosWeblink extends mosDBTable {
 	* @param database A database connector object
 	*/
 	function mosWeblink( &$db ) {
-		$this->mosDBTable( '#__weblinks', 'id', $db );
+		parent::__construct( '#__weblinks', 'id', $db );
 	}
 	/** overloaded check function */
 	function check() {
-    	;
 
 		// filter malicious code
 		$ignoreList = array( 'params' );

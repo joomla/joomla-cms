@@ -19,7 +19,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Templates
 */
-class mosTemplatePosition extends mosDBTable {
+class mosTemplatePosition extends JModel {
 	var $id				= null;
 	var $position		= null;
 	var $description	= null;
@@ -27,7 +27,7 @@ class mosTemplatePosition extends mosDBTable {
 	function mosTemplatePosition() {
 		global $database;
 
-		$this->mosDBTable( '#__template_positions', 'id', $database );
+		parent::__construct( '#__template_positions', 'id', $database );
 	}
 }
 ?>

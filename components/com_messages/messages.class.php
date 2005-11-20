@@ -19,7 +19,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Messages
 */
-class mosMessage extends mosDBTable {
+class mosMessage extends JModel {
 	/** @var int Primary key */
 	var $message_id		= null;
 	/** @var int */
@@ -42,13 +42,12 @@ class mosMessage extends mosDBTable {
 	/**
 	* @param database A database connector object
 	*/
-	function mosMessage( &$db ) {
-		$this->mosDBTable( '#__messages', 'message_id', $db );
+	function __construct( &$db ) {
+		parent::__construct( '#__messages', 'message_id', $db );
 	}
 
 	function send( $from_id=null, $to_id=null, $subject=null, $message=null ) {
 		global $database;
-		;
 
 		if (is_object( $this )) {
 			$from_id 	= $from_id ? $from_id : $this->user_id_from;
