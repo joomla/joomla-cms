@@ -203,11 +203,14 @@ function botJoomlaSEFUrl( ) {
 			$_SERVER['REQUEST_URI'] 	= $REQUEST_URI;
 		}
 		// Extract to globals
-		while(list($key,$value)=each($_GET)) $GLOBALS[$key]=$value;
+		while(list($key,$value)=each($_GET)) {
+			if ($key!="GLOBALS") {
+				$GLOBALS[$key]=$value;
+			}
+		}
 		// Don't allow config vars to be passed as global
 		include( $GLOBALS['mosConfig_absolute_path'] . '/configuration.php' );
 	}
-
 }
 
 /**

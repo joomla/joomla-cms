@@ -31,20 +31,24 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+20-Nov-2005 Emir Sakic
+ # Hardened SEF against XSS injection of global variable through the _GET array
+
 19-Nov-2005 Samuel Moffatt
  ^ Installer Rewrites (module and template positions)
 
 18-Nov-2005 Andy Miller
  # Installer issues with IE fixed
  ^ Changed Administrator text in admin header to be text and translatable
- 
+
 18-Nov-2005 Johan Janssens
  # Fixed overlib javascript escaping
  ^ Deprecated mosFS class, use JPath, JFile or JFolder instead
  ^ Committed RTL language changes (contributed by David Gal)
 
 18-Nov-2005 Levis Bisson
- + Added fullmenu translation for Status bar 
+ + Added fullmenu translation for Status bar
 
 17-Nov-2005 Johan Janssens
  ^ Replaced install.png with new image
@@ -54,7 +58,7 @@ Legend:
  + Added clone function for PHP5 backwards compatibility
  ^ Deprecated database, use JFactory::getDBO or JDatabase::getInstance instead
  + Added database driver support (currently only mysql and mysqli)
- 
+
 
 17-Nov-2005 Andrew Eddie
  + Support for determining quoted fields in a database table
