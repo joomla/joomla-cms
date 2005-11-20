@@ -33,8 +33,9 @@ Legend:
 
 
 20-Nov-2005 Levis Bisson
- # Fixed Artifact artf1967 displays with an escaped apostrophe in both title and TOC.
-
+ # Fixed Artifact artf1967 : displays with an escaped apostrophe in both title and TOC.
+ # Fixed Artifact artf2194 : mod_fullmenu - 2 little mistakes 
+  
 20-Nov-2005 Emir Sakic
  # Hardened SEF against XSS injection of global variable through the _GET array
 

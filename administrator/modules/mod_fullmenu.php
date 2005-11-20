@@ -122,7 +122,7 @@ class mosFullAdminMenu {
 <?php
 	// Menu Sub-Menu
 ?>			_cmSplit,
-			[null,'<?php echo JText::_( 'Menu', true ); ?>',null,null,'Menu Management',
+			[null,'<?php echo JText::_( 'Menu', true ); ?>',null,null,'<?php echo JText::_( 'Menu Management', true ); ?>',
 <?php
 			if ($manageMenuMan) {
 ?>				['<img src="../includes/js/ThemeOffice/menus.png" />','<?php echo JText::_( 'Menu Manager', true ); ?>','index2.php?option=com_menumanager',null,'<?php echo JText::_( 'Manage menu', true ); ?>'],
@@ -234,7 +234,7 @@ class mosFullAdminMenu {
 	// Modules Sub-Menu
 		if ($installModules | $editAllModules) {
 ?>			_cmSplit,
-			[null,'<?php echo JText::_( 'Modules', true ); ?>',null,null,'<?php echo JText::_( 'QQQQ', true ); ?>Module Management',
+			[null,'<?php echo JText::_( 'Modules', true ); ?>',null,null,'<?php echo JText::_( 'Module Management', true ); ?>',
 <?php
 			if ($editAllModules) {
 ?>				['<img src="../includes/js/ThemeOffice/module.png" />', '<?php echo JText::_( 'Site Modules', true ); ?>', "index2.php?option=com_modules", null, '<?php echo JText::_( 'Manage Site modules', true ); ?>'],
