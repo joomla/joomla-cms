@@ -46,13 +46,6 @@ if (version_compare( phpversion(), '5.0' ) < 0) {
 	jimport('joomla.compat.php50x' );
 }
 
-if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
-	die( 'Fatal error.  Global variable hack attempted.' );
-}
-if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
-	die( 'Fatal error.  Post variable hack attempted.' );
-}
-
 if (@$mosConfig_error_reporting === 0) {
 	error_reporting( 0 );
 } else if (@$mosConfig_error_reporting > 0) {
