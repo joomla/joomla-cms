@@ -32,7 +32,8 @@ Legend:
 ! -> Note
 
 20-Nov-2005 Johan Janssens
- # Fixed  artf2196 : Error saving content from back-end
+ # Fixed artf2196 : Error saving content from back-end
+ # Fixed artf2207 : Remember me option -> PHP fatal
 
 20-Nov-2005 Levis Bisson
  # Fixed Artifact artf1967 : displays with an escaped apostrophe in both title and TOC.

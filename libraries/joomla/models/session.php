@@ -96,9 +96,8 @@ class mosSession extends JModel {
 	function remember( $username, $password ) {
 		
 		$lifetime = time() + 365*24*60*60;
-		setcookie( 'usercookie[username]', $user->username, $lifetime, '/' );
-		setcookie( 'usercookie[password]', $user->password, $lifetime, '/' );
-		break;
+		setcookie( 'usercookie[username]', $username, $lifetime, '/' );
+		setcookie( 'usercookie[password]', $password, $lifetime, '/' );
 	}
 
 	/**
