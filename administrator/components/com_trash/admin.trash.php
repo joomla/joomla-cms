@@ -184,7 +184,7 @@ function deleteTrash( $cid, $option ) {
 		}
 	}
 
-	$msg = $total. " ". JText::_( 'Item(s) successfully Deleted' );
+	$msg = sprintf( JText::_( 'Item(s) successfully Deleted' ), $total );
 	mosRedirect( "index2.php?option=$option&mosmsg=". $msg ."" );
 }
 
@@ -262,7 +262,7 @@ function restoreTrash( $cid, $option ) {
 		exit();
 	}
 
-	$msg = $total. " ". JText::_( 'Item(s) successfully Restored' );
+	$msg = sprintf( JText::_( 'Item(s) successfully Restored' ), $total );
 	mosRedirect( "index2.php?option=$option&mosmsg=". $msg ."" );
 }
 ?>

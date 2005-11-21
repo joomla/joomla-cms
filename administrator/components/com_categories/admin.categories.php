@@ -275,7 +275,8 @@ function editCategory( $uid=0, $section='' ) {
 
 	// fail if checked out not by 'me'
 	if ($row->checked_out && $row->checked_out <> $my->id) {
-		mosRedirect( 'index2.php?option=categories&section='. $row->section, JText::_( 'The category' ) .' '. $row->title .' '. JText::_( 'DESCBEINGEDITTED' ) );
+    	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The category' ), $row->title );
+		mosRedirect( 'index2.php?option=categories&section='. $row->section, $msg );
 	}
 
 	$lists['links']	= 0;
@@ -495,7 +496,7 @@ function saveCategory( $task ) {
 			break;
 
 		case 'apply':
-			$msg = JText::_( 'Changes to Category saved' ) .' '.$row->section;
+        	$msg = sprintf( JText::_( 'Changes to Category saved' ), $row->section );
 			mosRedirect( 'index2.php?option=com_categories&section='. $redirect .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
@@ -566,7 +567,7 @@ function removeCategories( $section, $cid ) {
 
 	if (count( $err )) {
 		$cids = implode( "\', \'", $err );
-		$msg = JText::_( 'Category(s)' ) .': '. $cids .' '. JText::_( 'WARNNOTREMOVEDRECORDS' );
+    	$msg = sprintf( JText::_( 'WARNNOTREMOVEDRECORDS' ), $cids );
 		mosRedirect( 'index2.php?option=com_categories&section='. $section .'&mosmsg='. $msg );
 	}
 
@@ -731,7 +732,7 @@ function moveCategorySave( $cid, $sectionOld ) {
 	$sectionNew = new mosSection ( $database );
 	$sectionNew->load( $sectionMove );
 
-	$msg = $total ." ". JText::_( 'Categories moved to' ) ." ". $sectionNew->name;
+	$msg = sprintf( JText::_( 'Categories moved to' ), $sectionNew->name );
 	mosRedirect( 'index2.php?option=com_categories&section='. $sectionOld .'&mosmsg='. $msg );
 }
 
@@ -843,7 +844,7 @@ function copyCategorySave( $cid, $sectionOld ) {
 	$sectionNew = new mosSection ( $database );
 	$sectionNew->load( $sectionMove );
 
-	$msg = $total .' '. JText::_( 'Categories copied to' ) .' '. $sectionNew->name;
+	$msg = sprintf( JText::_( 'Categories copied to' ), $total, $sectionNew->name );
 	mosRedirect( 'index2.php?option=com_categories&section='. $sectionOld .'&mosmsg='. $msg );
 }
 
@@ -938,7 +939,7 @@ function menuLink( $id ) {
 	$row->checkin();
 	$row->updateOrder( "menutype = '$menu'" );
 
-	$msg = $name .' ( '. $menutype .' ) '. JText::_( 'in menu' ) .': '. $menu .' '. JText::_( 'successfully created' );
+	$msg = sprintf( JText::_( 'CATSUCCESSCREATED' ), $name, $menutype, $menu );
 	mosRedirect( 'index2.php?option=com_categories&section='. $redirect .'&task=editA&hidemainmenu=1&id='. $id, $msg );
 }
 

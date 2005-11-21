@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Nov-2005 Levis Bisson
+ ^ Changed concatenated translation $msg string to sprintf()
+
 20-Nov-2005 Johan Janssens
  # Fixed artf2196 : Error saving content from back-end
  # Fixed artf2207 : Remember me option -> PHP fatal

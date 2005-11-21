@@ -390,13 +390,13 @@ function saveUser( $option, $task ) {
 
 	switch ( $task ) {
 		case 'apply':
-			$msg = JText::_( 'Successfully Saved changes to User' ) .': '. $row->name;
+        	$msg = sprintf( JText::_( 'Successfully Saved changes to User' ), $row->name );
 			mosRedirect( 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
-			$msg = JText::_( 'Successfully Saved User' ) .': '. $row->name;
+        	$msg = sprintf( JText::_( 'Successfully Saved User' ), $row->name );
 			mosRedirect( 'index2.php?option=com_users', $msg );
 			break;
 	}

@@ -227,7 +227,8 @@ if (defined( '_ADMIN_OFFLINE' )) {
 // loads template file
 $cur_template = $mainframe->getTemplate();
 if ( !file_exists( 'templates/'. $cur_template .'/index.php' ) ) {
-	echo JText::_( 'TEMPLATE_WARN' ) . $cur_template;
+	$msg = sprintf( JText::_( 'TEMPLATE_WARN' ), $cur_template );
+	echo "<font color=red><b>". $msg ."</b></font>";
 } else {
 	require_once( 'templates/'. $cur_template .'/index.php' );
 	echo "<!-- ".time()." -->";

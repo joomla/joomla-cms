@@ -190,12 +190,12 @@ function saveMambot( $option, $client, $task ) {
 
 	switch ( $task ) {
 		case 'apply':
-			$msg = JText::_( 'Successfully Saved changes to Mambot' ) .': '. $row->name;
+        	$msg = sprintf( JText::_( 'Successfully Saved changes to Mambot' ), $row->name );
 			mosRedirect( 'index2.php?option='. $option .'&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 
 		case 'save':
 		default:
-			$msg = JText::_( 'Successfully Saved Mambot' ) .': '. $row->name;
+        	$msg = sprintf( JText::_( 'Successfully Saved Mambot' ), $row->name );
 			mosRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
 			break;
 	}
@@ -219,7 +219,8 @@ function editMambot( $option, $uid, $client ) {
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
-		mosErrorAlert(JText::_( 'The module' ) ." ". $row->title ." ". JText::_( 'DESCBEINGEDITTED' ), "document.location.href='index2.php?option=$option'");
+    	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
+		mosErrorAlert( $msg, "document.location.href='index2.php?option=$option'" );
 	}
 
 	if ($client == 'admin') {

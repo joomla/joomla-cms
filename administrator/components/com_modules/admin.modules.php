@@ -225,7 +225,7 @@ function copyModule( $option, $uid, $client ) {
 		$database->query();
 	}
 
-	$msg = JText::_( 'Module Copied' ) .' ['. $row->title .']';
+	$msg = sprintf( JText::_( 'Module Copied' ), $row->title );
 	mosRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
 }
 
@@ -288,13 +288,13 @@ function saveModule( $option, $client, $task ) {
 
 	switch ( $task ) {
 		case 'apply':
-			$msg = JText::_( 'Successfully Saved changes to Module' ) .': '. $row->title;
+        	$msg = sprintf( JText::_( 'Successfully Saved changes to Module' ), $row->title );
 			mosRedirect( 'index2.php?option='. $option .'&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
-			$msg = JText::_( 'Successfully Saved Module' ) .': '. $row->title;
+        	$msg = sprintf( JText::_( 'Successfully Saved Module' ), $row->title );
 			mosRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
 			break;
 	}
@@ -315,7 +315,8 @@ function editModule( $option, $uid, $client ) {
 	$row->load( $uid );
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
-		mosErrorAlert(JText::_( 'The module' ) .' '. $row->title .' '. JText::_( 'DESCBEINGEDITTED' ), "document.location.href='index2.php?option=$option");
+    	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
+		mosErrorAlert( $msg, "document.location.href='index2.php?option=$option" );
 	}
 	
 	$row->content = htmlspecialchars( str_replace( '&amp;', '&', $row->content ) );

@@ -117,7 +117,8 @@ function uploadPackage( $option ) {
 	$resultdir = uploadFile( $userfile['tmp_name'], $userfile['name'], $msg );
 	if ($resultdir !== false) {
 		if (!$installer->upload( $userfile['name'] )) {
-			HTML_installer::showInstallMessage( $installer->getError(), JText::_( 'Upload' ) .' '. $element .' - '. JText::_( 'Upload Failed' ),
+        	$msgStr = sprintf( JText::_( 'Upload Failed' ), $element );
+			HTML_installer::showInstallMessage( $installer->getError(), $msgStr,
 				$installer->returnTo( $option, $element, $client ) );
 		}
 		$installdir = $installer->i_installdir;
@@ -125,12 +126,15 @@ function uploadPackage( $option ) {
 		$installerFactory->createClass($element);
                 $installer = $installerFactory->getClass();
 		$ret = $installer->install($installdir);
-
-		HTML_installer::showInstallMessage( $installer->getError(), JText::_( 'Upload' ) .' '. $element .' - '.($ret ? JText::_( 'Success' ) : JText::_( 'Failed' )),
+        $retStr = $ret ? JText::_( 'Success' ) : JText::_( 'Failed' );
+    	$msgStr = sprintf( JText::_( 'UPLOADSUCCESSOR' ), $element, $retStr );
+    	
+		HTML_installer::showInstallMessage( $installer->getError(), $msgStr,
 			$installer->returnTo( $option, $element, $client ) );
 		cleanupInstall( $userfile['name'], $installer->unpackDir() );
 	} else {
-		HTML_installer::showInstallMessage( $msg, JText::_( 'Upload' ) .' '. $element .' - '. JText::_( 'Upload Error' ),
+    	$msgStr = sprintf( JText::_( 'Upload Error' ), $element );
+		HTML_installer::showInstallMessage( $msg, $msgStr,
 			$installer->returnTo( $option, $element, $client ) );
 	}
 }
@@ -152,16 +156,18 @@ function installFromDirectory( $option ) {
 	$installer = new mosInstaller();
 	$installer->installDir($userfile);
 	if(!$installer->findInstallFile()) {
-		HTML_installer::showInstallMessage( "Unable to find valid XML install" . ' ' . $userfile, 
-			JText::_( 'Install' ) .' '. $element .' - '. JText::_( 'Detection Error' ),
+    	$msg = sprintf( JText::_( 'Unable to find valid XML install' ), $userfile );
+    	$msgStr = sprintf( JText::_( 'Install Detection Error' ), $element );
+		HTML_installer::showInstallMessage( $msg, $msgStr,
 			$installer->returnTo( $option, $element, $client ) );
 	}
 	
 	$element = $installerFactory->detectType($userfile.'/');
 	$installerClass = $classMap[$element];
 	if(!$installerClass) {
-		HTML_installer::showInstallMessage( "Unable to detect the type of install" . ' ' . $userfile,
-			JText::_( 'Install' ) .' '. $element .' - '. JText::_( 'Detection Error' ),
+    	$msg = sprintf( JText::_( 'Unable to detect the type of install' ), $userfile );
+    	$msgStr = sprintf( JText::_( 'Install Detection Error' ), $element );
+		HTML_installer::showInstallMessage( $msg, $msgStr,
 			$installer->returnTo( $option, $element, $client ) );
 		return;
 	}
@@ -192,11 +198,12 @@ function installFromUrl($option) {
 	}
 	$installer = $installerFactory->webInstall( $userfile );
 	$element = $installerFactory->getType();
-        $ret = $installer->msg;
-	HTML_installer::showInstallMessage( 
-		$installer->getError(), 
-		JText::_( 'Install new' ) .' '.$element.' - '.($ret ? JText::_( 'Success' ) : JText::_( 'Error' )), 
-		$installer->returnTo( $option, $element, $client ) );	
+    $ret = $installer->msg;
+    
+    $retStr = $ret ? JText::_( 'Success' ) : JText::_( 'Error' )
+	$msg = sprintf( JText::_( 'Install new element' ), $element, $retStr );
+	
+	HTML_installer::showInstallMessage(	$installer->getError(), $msg, $installer->returnTo( $option, $element, $client ) );	
 }
 
 /**
@@ -242,13 +249,13 @@ function uploadFile( $filename, $userfile_name, &$msg ) {
 					$msg = JText::_( 'WARNPERMISSIONS' );
 				}
 			} else {
-				$msg = JText::_( 'Failed to move uploaded file to' ) .'<code>/media</code>'. JText::_( 'directory.' );
+				$msg = JText::_( 'Failed to move uploaded file to' );
 			}
 		} else {
-			$msg = JText::_( 'Upload failed as' ) .'<code>/media</code>'. JText::_( 'directory is not writable.' );
+			$msg = JText::_( 'UPLOADFAILEDNOTWRITABLE' );
 		}
 	} else {
-		$msg = JText::_( 'Upload failed as' ) .'<code>/media</code>'. JText::_( 'directory does not exist.' );
+		$msg = JText::_( 'UPLOADFAILEDNOTEXIST' );
 	}
 	return false;
 }

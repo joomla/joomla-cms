@@ -31,7 +31,7 @@ class component_item_link_menu {
 
 		// fail if checked out not by 'me'
 		if ($menu->checked_out && $menu->checked_out <> $my->id) {
-			$alert = JText::_( 'The module' ) .' '. $row->title .' '. JText::_( 'DESCBEINGEDITTED' );
+        	$alert = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
 			$action = "document.location.href='index2.php?option=$option'";
 			mosErrorAlert( $alert, $action );
 		}

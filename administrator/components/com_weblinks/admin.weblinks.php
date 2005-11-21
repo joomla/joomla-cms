@@ -147,7 +147,8 @@ function editWeblink( $option, $id ) {
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
-		mosRedirect( 'index2.php?option='. $option, JText::_( 'The module' ) .' '. $row->title .' '. JText::_( 'descBeingEditted' ) );
+    	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
+		mosRedirect( 'index2.php?option='. $option, $msg );
 	}
 
 	if ($id) {

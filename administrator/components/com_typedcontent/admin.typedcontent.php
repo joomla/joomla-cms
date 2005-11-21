@@ -211,7 +211,7 @@ function edit( $uid, $option ) {
 
 		// fail if checked out not by 'me'
 		if ($row->isCheckedOut( $my->id )) {
-			$alert = JText::_( 'The module' ) .' '. $row->title .' '. JText::_( 'DESCBEINGEDITTED' );
+        	$alert = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
 			$action = "document.location.href='index2.php?option=$option'";
 			mosErrorAlert( $alert, $action );
 		}
@@ -406,7 +406,7 @@ function trash( &$cid, $option ) {
 		exit();
 	}
 
-	$msg = $total ." ". JText::_( 'Item(s) sent to the Trash' );
+	$msg = sprintf( JText::_( 'Item(s) sent to the Trash' ), $total );
 	mosRedirect( 'index2.php?option='. $option, $msg );
 }
 
@@ -448,9 +448,9 @@ function changeState( $cid=null, $state=0, $option ) {
 	}
 
 	if ( $state == "1" ) {
-		$msg = $total ." ". JText::_( 'Item(s) successfully Published' );
+    	$msg = sprintf( JText::_( 'Item(s) successfully Published' ), $total );
 	} else if ( $state == "0" ) {
-		$msg = $total ." ". JText::_( 'Item(s) successfully Unpublished' );
+    	$msg = sprintf( JText::_( 'Item(s) successfully Unpublished' ), $total );
 	}
 	mosRedirect( 'index2.php?option='. $option .'&msg='. $msg );
 }
@@ -534,7 +534,7 @@ function menuLink( $option, $id ) {
 	$row->checkin();
 	$row->updateOrder( "menutype='$row->menutype' AND parent='$row->parent'" );
 
-	$msg = $link ." ". JText::_( '(Link - Static Content) in menu' ) .": ". $menu ." ". JText::_( 'successfully created' );
+	$msg = sprintf( JText::_( '(Link - Static Content) in menu' ), $link, $menu );
 	mosRedirect( 'index2.php?option='. $option .'&task=edit&hidemainmenu=1&id='. $id, $msg );
 }
 

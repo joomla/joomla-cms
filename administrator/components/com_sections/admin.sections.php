@@ -194,7 +194,7 @@ function editSection( $uid=0, $scope='', $option ) {
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
-		$msg = JText::_( 'The section' ) .' '. $row->title .' '. JText::_( 'DESCBEINGEDITTED' );
+    	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The section' ), $row->title );
 		mosRedirect( 'index2.php?option='. $option .'&scope='. $row->scope .'&mosmsg='. $msg );
 	}
 
@@ -380,12 +380,12 @@ function removeSections( $cid, $scope, $option ) {
 
 	if (count( $err )) {
 		$cids = implode( ', ', $err );
-		$msg = JText::_( 'Sections(s)' ) .': '. $cids .' '. JText::_( 'DESCCANNOTBEREMOVED' );
+    	$msg = sprintf( JText::_( 'DESCCANNOTBEREMOVED' ), $cids );
 		mosRedirect( 'index2.php?option='. $option .'&scope='. $scope, $msg );
 	}
 
 	$names = implode( ', ', $name );
-	$msg = JText::_( 'Sections(s)' ) .': '. $names .' '. JText::_( 'successfully deleted' );
+	$msg = sprintf( JText::_( 'Sections successfully deleted' ), $names );
 	mosRedirect( 'index2.php?option='. $option .'&scope='. $scope, $msg );
 }
 
@@ -615,7 +615,7 @@ function copySectionSave( $sectionid ) {
 	$sectionOld = new mosSection ( $database );
 	$sectionOld->load( $sectionMove );
 
-	$msg = JText::_( 'Section' ) .' '. $sectionOld-> name .' '. JText::_( 'DESCCATANDITEMSCOPIED' ) .' '. $title;
+	$msg = sprintf( JText::_( 'DESCCATANDITEMSCOPIED' ), $sectionOld-> name, $title );
 	mosRedirect( 'index2.php?option=com_sections&scope=content&mosmsg='. $msg );
 }
 
@@ -693,7 +693,7 @@ function menuLink( $id ) {
 	$row->checkin();
 	$row->updateOrder( "menutype = '$menu'" );
 
-	$msg = $name .' ( '. $menutype .' ) '. JText::_( 'in menu' ) .': '. $menu .' '. JText::_( 'successfully created' );
+	$msg = sprintf( JText::_( 'menutype successfully created' ), $name, $menutype, $menu );
 	mosRedirect( 'index2.php?option=com_sections&scope=content&task=editA&hidemainmenu=1&id='. $id,  $msg );
 }
 

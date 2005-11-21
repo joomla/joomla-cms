@@ -297,7 +297,7 @@ function editBannerClient( $clientid, $option ) {
 
 	// fail if checked out not by 'me'
 	if ($row->checked_out && $row->checked_out <> $my->id) {
-		$msg = JText::_( 'The client' ) .' [ '. $row->name. ' ] '. JText::_( 'WARNEDITEDBYPERSON' );
+    	$msg = sprintf( JText::_( 'WARNEDITEDBYPERSON' ), $row->name );
 		mosRedirect( 'index2.php?option='. $option .'&task=listclients', $msg );
 	}
 
@@ -357,8 +357,7 @@ function removeBannerClients( $cid, $option ) {
 		}
 
 		if ($count != 0) {
-			mosRedirect( "index2.php?option=$option&task=listclients",
-			"Cannot delete client at this time as they have a banner still running" );
+			mosRedirect( "index2.php?option=$option&task=listclients", JText::_( 'WARNCANNOTDELCLIENTBANNER' ) );
 		} else {
 			$query="DELETE FROM #__bannerfinish"
 			. "\n WHERE cid = ". $cid[$i]

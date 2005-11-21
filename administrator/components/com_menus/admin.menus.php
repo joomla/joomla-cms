@@ -394,7 +394,7 @@ function saveMenu( $option, $task='save' ) {
 	$row->checkin();
 	$row->updateOrder( "menutype = '$row->menutype' AND parent = $row->parent" );
 
-	$msg = 'Menu item Saved';
+	$msg = JText::_( 'Menu item Saved' );
 	switch ( $task ) {
 		case 'apply':
 			mosRedirect( 'index2.php?option='. $option .'&menutype='. $row->menutype .'&task=edit&id='. $row->id . '&hidemainmenu=1' , $msg );
@@ -467,7 +467,7 @@ function TrashMenuSection( $cid=NULL ) {
 
 	$total = count( $cid );
 
-	$msg = $total ." ". JText::_( 'Item(s) sent to the Trash' );
+	$msg = sprintf( JText::_( 'Item(s) sent to the Trash' ), $total );
 	return $msg;
 }
 
@@ -643,7 +643,7 @@ function moveMenuSave( $option, $cid, $menu, $menutype ) {
 		$row->updateOrder( "menutype = '$row->menutype' AND parent = $row->parent" );
 	} // if
 
-	$msg = count($cid) ." ". JText::_( 'Menu Items moved to' ) ." ". $menu;
+	$msg = sprintf( JText::_( 'Menu Items moved to' ), count($cid), $menu );
 	mosRedirect( 'index2.php?option='. $option .'&menutype='. $menutype .'&mosmsg='. $msg );
 } // moveMenuSave
 
@@ -718,7 +718,7 @@ function copyMenuSave( $option, $cid, $menu, $menutype ) {
 		}
 		$curr->updateOrder( "menutype = '$curr->menutype' AND parent = $curr->parent" );
 	} // foreach
-	$msg = count( $cid ) ." ". JText::_( 'Menu Items Copied to' ) ." ". $menu;
+	$msg = sprintf( JText::_( 'Menu Items Copied to' ), count( $cid ), $menu );
 	mosRedirect( 'index2.php?option='. $option .'&menutype='. $menutype .'&mosmsg='. $msg );
 }
 

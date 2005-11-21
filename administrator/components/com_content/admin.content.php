@@ -413,7 +413,8 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 
 	// fail if checked out not by 'me'
 	if ($row->checked_out && $row->checked_out <> $my->id) {
-		mosRedirect( 'index2.php?option=com_content', JText::_( 'The module' ) .' '. $row->title .' '. JText::_( 'DESCBEINGEDITTED' ) );
+    	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
+		mosRedirect( 'index2.php?option=com_content', $msg );
 	}
 
 	if ($uid) {
@@ -702,13 +703,13 @@ function saveContent( $sectionid, $task ) {
 			break;
 
 		case 'apply':
-			$msg = JText::_( 'Successfully Saved changes to Item' ) .': '. $row->title;
+        	$msg = sprintf( JText::_( 'Successfully Saved changes to Item' ), $row->title );
 			mosRedirect( 'index2.php?option=com_content&sectionid='. $redirect .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
-			$msg = JText::_( 'Successfully Saved Item' ) .': '. $row->title;
+        	$msg = sprintf( JText::_( 'Successfully Saved Item' ), $row->title );
 			mosRedirect( 'index2.php?option=com_content&sectionid='. $redirect, $msg );
 
 			break;
@@ -752,28 +753,28 @@ function changeContent( $cid=null, $state=0, $option ) {
 	}
 
 	if ( $state == "-1" ) {
-		$msg = $total .' '. JText::_( 'Item(s) successfully Archived' );
+    	$msg = sprintf( JText::_( 'Item(s) successfully Archived' ), $total );
 	} else if ( $state == "1" ) {
-		$msg = $total .' '. JText::_( 'Item(s) successfully Published' );
+    	$msg = sprintf( JText::_( 'Item(s) successfully Published' ), $total );
 	} else if ( $state == "0" ) {
-		$msg = $total .' '. JText::_( 'Item(s) successfully Unpublished' );
+    	$msg = sprintf( JText::_( 'Item(s) successfully Unpublished' ), $total );
 	}
 
 	switch ( $state ) {
 		case -1:				
-			$msg = $total .' '. JText::_( 'Item(s) successfully Archived' );
+        	$msg = sprintf( JText::_( 'Item(s) successfully Archived' ), $total );
 			break;
 		
 		case 1:				
-			$msg = $total .' '. JText::_( 'Item(s) successfully Published' );
+        	$msg = sprintf( JText::_( 'Item(s) successfully Published' ), $total );
 			break;
 		
 		case 0:				
 		default:
 			if ( $task == 'unarchive' ) {
-				$msg = $total .' '. JText::_( 'Item(s) successfully Unarchived' );
+            	$msg = sprintf( JText::_( 'Item(s) successfully Unarchived' ), $total );
 			} else {
-				$msg = $total .' '. JText::_( 'Item(s) successfully Unpublished' );
+            	$msg = sprintf( JText::_( 'Item(s) successfully Unpublished' ), $total );
 			}
 			break;
 	}
@@ -859,7 +860,7 @@ function removeContent( &$cid, $sectionid, $option ) {
 		exit();
 	}
 
-	$msg = $total ." ". JText::_( 'Item(s) sent to the Trash' );
+	$msg = sprintf( JText::_( 'Item(s) sent to the Trash' ), $total );
 	$return = mosGetParam( $_POST, 'returntask', '' );
 	mosRedirect( 'index2.php?option='. $option .'&task='. $return .'&sectionid='. $sectionid, $msg );
 }
@@ -991,7 +992,7 @@ function moveSectionSave( &$cid, $sectionid, $option ) {
 		$row->updateOrder( "catid = $row->catid AND state >= 0" );
 	}
 
-	$msg = $total. ' '. JText::_( 'Item(s) successfully moved to Section' ) .': '. $section .', '. JText::_( 'Category' ) .': '. $category;
+	$msg = sprintf( JText::_( 'Item(s) successfully moved to Section' ), $total, $section, $category );
 	mosRedirect( 'index2.php?option='. $option .'&sectionid='. $sectionid .'&mosmsg='. $msg );
 }
 
@@ -1119,7 +1120,7 @@ function copyItemSave( $cid, $sectionid, $option ) {
 		$row->updateOrder( "catid='". $row->catid ."' AND state >= 0" );
 	}
 
-	$msg = $total. ' '. JText::_( 'Item(s) successfully copied to Section' ) .': '. $section .', '. JText::_( 'Category' ) .': '. $category;
+	$msg = sprintf( JText::_( 'Item(s) successfully copied to Section' ), $total, $section, $category );
 	mosRedirect( 'index2.php?option='. $option .'&sectionid='. $sectionid .'&mosmsg='. $msg );
 }
 
@@ -1206,7 +1207,7 @@ function menuLink( $redirect, $id ) {
 	$row->checkin();
 	$row->updateOrder( "menutype = '$row->menutype' AND parent = $row->parent" );
 
-	$msg = $link .' '. JText::_( '(Link - Content Item) in menu' ) .': '. $menu .' '. JText::_( 'successfully created' );
+	$msg = sprintf( JText::_( 'LINKITEMINMENUCREATED' ), $link, $menu );
 	mosRedirect( 'index2.php?option=com_content&sectionid='. $redirect .'&task=edit&hidemainmenu=1&id='. $id, $msg );
 }
 

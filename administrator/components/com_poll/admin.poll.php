@@ -102,7 +102,6 @@ function showPolls( $option ) {
 
 function editPoll( $uid=0, $option='com_poll' ) {
 	global $database, $my;
-	;
 
 	$row = new mosPoll( $database );
 	// load the row from the db table
@@ -110,7 +109,8 @@ function editPoll( $uid=0, $option='com_poll' ) {
 
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
-		mosRedirect( 'index2.php?option='. $option, JText::_( 'The poll' ) .' '. $row->title .' '. JText::_( 'DESCBEINGEDITTED' ) );
+    	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The poll' ), $row->title );
+		mosRedirect( 'index2.php?option='. $option, $msg );
 	}
 
 	$options = array();

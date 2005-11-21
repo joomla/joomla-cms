@@ -257,7 +257,7 @@ function saveMenu() {
 				exit();
 			}
 
-			$msg = JText::_( 'New Menu created' ) .' [ '. $menutype .' ]';
+        	$msg = sprintf( JText::_( 'New Menu created' ), $menutype );
 			break;
 
 		default:
@@ -536,7 +536,7 @@ function copyMenu( $option, $cid, $type ) {
 		exit();
 	}
 
-	$msg = JText::_( 'Copy of Menu' ) .' `'. $type .'` '. JText::_( 'created, consisting of' ) .' '. $total .' '. JText::_( 'items' );
+	$msg = sprintf( JText::_( 'Copy of Menu created' ), $type, $total );
 	mosRedirect( 'index2.php?option=' . $option, $msg );
 }
 

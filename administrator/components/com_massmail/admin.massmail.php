@@ -108,7 +108,7 @@ function sendMail() {
 		}
 	}
 
-	$msg = JText::_( 'E-mail sent to' ) .' '. count( $rows ) .' '. JText::_( 'users' );
+	$msg = sprintf( JText::_( 'E-mail sent to' ), count( $rows ) );
 	mosRedirect( 'index2.php?option=com_massmail', $msg );
 }
 ?>
