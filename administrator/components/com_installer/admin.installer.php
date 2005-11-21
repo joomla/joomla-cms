@@ -87,7 +87,7 @@ switch ($task) {
 * @param string The element name
 */
 function uploadPackage( $option ) {
-	;
+	
 	$installerFactory = new JInstallerFactory();
 	$installer = new mosInstaller(); // Create a blank installer until we work out what the file is!
 	// Check if file uploads are enabled
@@ -189,7 +189,7 @@ function installFromDirectory( $option ) {
 * @param string The URL
 */
 function installFromUrl($option) {
-	;
+	
 	$installerFactory = new JInstallerFactory();
 	$userfile = mosGetParam( $_REQUEST, 'userfile', '' );
 	$client = '';
@@ -200,7 +200,7 @@ function installFromUrl($option) {
 	$element = $installerFactory->getType();
     $ret = $installer->msg;
     
-    $retStr = $ret ? JText::_( 'Success' ) : JText::_( 'Error' )
+    $retStr = $ret ? JText::_( 'Success' ) : JText::_( 'Error' );
 	$msg = sprintf( JText::_( 'Install new element' ), $element, $retStr );
 	
 	HTML_installer::showInstallMessage(	$installer->getError(), $msg, $installer->returnTo( $option, $element, $client ) );	
@@ -211,7 +211,6 @@ function installFromUrl($option) {
 * @param
 */
 function removeElement( $installerClass, $option, $element, $client ) {
-	;
 
 	$cid = mosGetParam( $_REQUEST, 'cid', array(0) );
 	if (!is_array( $cid )) {
@@ -236,7 +235,6 @@ function removeElement( $installerClass, $option, $element, $client ) {
 */
 function uploadFile( $filename, $userfile_name, &$msg ) {
 	global $mosConfig_absolute_path;
-	;
 
 	$baseDir = mosPathName( $mosConfig_absolute_path . '/media' );
 
