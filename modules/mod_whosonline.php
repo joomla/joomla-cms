@@ -15,7 +15,7 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 $showmode 	= $params->get( 'showmode' );
-if(!$showmode) $showmode=0;
+if(!$showmode || $showmode =='0') $showmode=0;
 
 $content 	= '';
 
