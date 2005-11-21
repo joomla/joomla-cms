@@ -93,7 +93,7 @@ if ($no_html == 0) {
 	// loads template file
 	$cur_template = $mainframe->getTemplate();
 	if ( !file_exists( JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/index.php' ) ) {
-		echo JText::_( 'TEMPLATE' ) .' '. $cur_template .' '. JText::_( 'NOT FOUND' );
+		echo sprintf( JText::_( 'TEMPLATE NOT FOUND' ), $cur_template );
 	} else {
 		require_once( JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/index.php' );
 	}

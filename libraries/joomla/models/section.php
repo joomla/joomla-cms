@@ -57,12 +57,12 @@ class mosSection extends JModel {
 	function check() {
 
 		// check for valid name
-		if (trim( $this->title ) == '') {
-			$this->_error = JText::_( 'Your') ." ". JText::_( 'Section') ." ". JText::_( 'must contain a title.' );
+		if (trim( $this->title ) == '') {		
+			$this->_error = sprintf( JText::_( 'must contain a title' ), JText::_( 'Section') );
 			return false;
 		}
 		if (trim( $this->name ) == '') {
-			$this->_error = JText::_( 'Your') ." ". JText::_( 'Section') ." ". JText::_( 'must have a name.' );
+			$this->_error = sprintf( JText::_( 'must have a name' ), JText::_( 'Section') );
 			return false;
 		}
 		// check for existing name
@@ -75,7 +75,7 @@ class mosSection extends JModel {
 
 		$xid = intval( $this->_db->loadResult() );
 		if ($xid && $xid != intval( $this->id )) {
-			$this->_error = JText::_( 'There is a' ) ." ". JText::_( 'Section') ." ". JText::_( 'already with that name, please try again.' );
+			$this->_error = sprintf( JText::_( 'WARNNAMETRYAGAIN' ), JText::_( 'Section') );
 			return false;
 		}
 		return true;

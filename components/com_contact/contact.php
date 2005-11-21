@@ -351,7 +351,7 @@ function sendmail( $con_id, $option ) {
 	$database->setQuery( $query );
 	$contact 	= $database->loadObjectList();
 
-	$default 	= $mosConfig_sitename.' '. JText::_( 'Enquiry' );
+	$default 	= sprintf( JText::_( 'MAILENQUIRY' ), $mosConfig_sitename );
 	$email 		= mosGetParam( $_POST, 'email', '' );
 	$text 		= mosGetParam( $_POST, 'text', '' );
 	$name 		= mosGetParam( $_POST, 'name', '' );

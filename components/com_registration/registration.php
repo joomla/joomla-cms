@@ -73,12 +73,10 @@ function sendNewPass( $option ) {
 	}
 
 	$newpass = mosMakePassword();
-	$message = JText::_( 'The user account' ) ." ". $checkusername ." ". JText::_( 'NEWPASS_MSG1' ) 
-                ." ". $mosConfig_live_site ." ". JText::_( 'NEWPASS_MSG2' )
-                ." ". $newpass . JText::_( 'NEWPASS_MSG3' );
+	$message = sprintf( JText::_( 'NEWPASS_MAIL_MSG' ), $checkusername, JText::_( 'NEWPASS_MSG1' ), $mosConfig_live_site, JText::_( 'NEWPASS_MSG2' ), $newpass, JText::_( 'NEWPASS_MSG3' ) );
 
 	eval ("\$message = \"$message\";");
-	$subject = $_sitename ." :: ". JText::_( 'New password for -' ) ." ". $checkusername;
+	$subject = sprintf( JText::_( 'New password for' ), $_sitename, $checkusername );
 	eval ("\$subject = \"$subject\";");
 
 	mosMail($mosConfig_mailfrom, $mosConfig_fromname, $confirmEmail, $subject, $message);
@@ -167,7 +165,7 @@ function saveRegistration( $option ) {
 	$email 		= $row->email;
 	$username 	= $row->username;
 
-	$subject 	= sprintf ( JText::_( 'Account details for %s at %s' ), $name, $mosConfig_sitename);
+	$subject 	= sprintf ( JText::_( 'Account details for' ), $name, $mosConfig_sitename);
 	$subject 	= html_entity_decode($subject, ENT_QUOTES);
 	if ($mosConfig_useractivation=="1"){
 		$message = sprintf ( JText::_( 'SEND_MSG_ACTIVATE' ), $name, $mosConfig_sitename, $mosConfig_live_site."/index.php?option=com_registration&task=activate&activation=".$row->activation, $mosConfig_live_site, $username, $pwd);

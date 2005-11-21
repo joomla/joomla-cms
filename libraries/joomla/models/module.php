@@ -61,7 +61,7 @@ class mosModule extends JModel {
 
 		// check for valid name
 		if (trim( $this->title ) == '') {
-			$this->_error = JText::_( 'Your' ) ." ". JText::_( 'Module' ) ." ". JText::_( 'must contain a title.' );
+			$this->_error = sprintf( JText::_( 'must contain a title' ), JText::_( 'Module') );
 			return false;
 		}
 

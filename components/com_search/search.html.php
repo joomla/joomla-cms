@@ -108,7 +108,7 @@ class search_html {
 
 				// number of matches found
 				echo '<br/>';
-				$strResult = JText::_( 'Total' ) ." ". $totalRows ." ". JText::_( 'results found. Search for' ) ." <b>". $searchword ."</b> ". JText::_( 'with' );
+            	$strResult = sprintf( JText::_( 'TOTALRESULTSFOUND' ), $totalRows, $searchword );
 				eval ('echo "'. $strResult .'";');
 
 				$image = mosAdminMenus::ImageCheck( 'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );

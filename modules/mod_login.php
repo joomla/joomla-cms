@@ -47,7 +47,7 @@ if ( $my->id ) {
 	<form action="index.php" method="post" name="login">
 	<?php
 	if ( $greeting ) {
-		echo JText::_( 'Hi,' ) ." ". $name;
+		echo sprintf( JText::_( 'HINAME' ), $name );
 	}
 	?>
 	<br />

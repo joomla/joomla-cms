@@ -65,7 +65,7 @@ class mosPoll extends JModel {
 
 		$xid = intval( $this->_db->loadResult() );
 		if ( $xid && $xid != intval( $this->id ) ) {
-			$this->_error = JText::_( 'There is a' ) ." ". JText::_( 'Module') ." ". JText::_( 'already with that name, please try again.' );
+			$this->_error = sprintf( JText::_( 'WARNNAMETRYAGAIN' ), JText::_( 'Module') );
 			return false;
 		}
 

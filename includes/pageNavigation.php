@@ -70,7 +70,7 @@ class mosPageNav {
 			$to_result = $this->total;
 		}
 		if ($this->total > 0) {
-			$txt .= JText::_( 'Results' ) ." ". $from_result ." - ". $to_result ." ". JText::_( 'of' ) ." ". $this->total;
+        	$txt .= sprintf( JText::_( 'Results of' ), $from_result, $to_result, $this->total );
 		}
 		return $txt;
 	}

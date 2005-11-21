@@ -72,7 +72,7 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 	 	// adds heading or title to <site> Title
 	 	if ( $title ) {
 			$page_text = $page + 1;
-			$row->page_title = JText::_( 'Page' ) .' '. $page_text;
+			$row->page_title = sprintf( JText::_( 'Page' ), $page_text );
 			if ( !$page ) {
 				// processing for first page
 				parse_str( str_replace( '&amp;', '&', $matches[0][2] ), $args );
@@ -199,7 +199,7 @@ function createTOC( &$row, &$matches, &$page ) {
 				<tr>
 					<td>
 					<a href="'. $link .'" class="toclink">'
-					. JText::_( 'Page' ) .' '. $i .
+					. sprintf( JText::_( 'Page' ), $i ) .
 					'</a>
 					</td>
 				</tr>
@@ -210,7 +210,7 @@ function createTOC( &$row, &$matches, &$page ) {
 			<tr>
 				<td>
 				<a href="'. $link .'" class="toclink">'
-				. JText::_( 'Page' ) .' '. $i .
+				. sprintf( JText::_( 'Page' ), $i ) .
 				'</a>
 				</td>
 			</tr>

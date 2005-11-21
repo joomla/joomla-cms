@@ -280,13 +280,13 @@ class installationTasks {
 						$database =&  JFactory::getDBO( $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix, $DBtype, true );
 					} else {
 						$error = $database->getErrorMsg();
-						installationScreens::error( $vars, array( JText::_( 'WARNCREATEDB' ) .' '. $DBname ), 'dbconfig', $error );
+						installationScreens::error( $vars, array( sprintf( JText::_( 'WARNCREATEDB' ), $DBname ) ), 'dbconfig', $error );
 						return false;
 					}
 				} else {
 					// connection failed
 					//installationScreens::error( $vars, array( 'Could not connect to the database.  Connector returned', $database->getErrorNum() ), 'dbconfig', $database->getErrorMsg() );
-					installationScreens::error( $vars, array( JText::_( 'WARNNOTCONNECTDB' ) .' '. $database->getErrorNum() ), 'dbconfig', $database->getErrorMsg() );
+					installationScreens::error( $vars, array( sprintf( JText::_( 'WARNNOTCONNECTDB' ), $database->getErrorNum() ) ), 'dbconfig', $database->getErrorMsg() );
 					return false;
 				}
 			}

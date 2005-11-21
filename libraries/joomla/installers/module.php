@@ -148,7 +148,7 @@ class mosInstallerModule extends mosInstaller {
 		$database->loadObject( $row );
 
 		if ($row->iscore) {
-			HTML_installer::showInstallMessage( $row->title .' '. JText::_( 'WARNCOREMODULE' ) .'<br />'. JText::_( 'WARNCORECOMPONENT2' ), JText::_( 'Uninstall - error' ), $this->returnTo( $option, 'module', $row->client_id ? '' : 'admin' ) );
+			HTML_installer::showInstallMessage( sprintf( JText::_( 'WARNCOREMODULE' ), $row->title ) .'<br />'. JText::_( 'WARNCORECOMPONENT2' ), JText::_( 'Uninstall - error' ), $this->returnTo( $option, 'module', $row->client_id ? '' : 'admin' ) );
 			exit();
 		}
 

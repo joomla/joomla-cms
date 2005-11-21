@@ -178,7 +178,7 @@ class mosInstallerMambot extends mosInstaller {
 		}
 
 		if ($row->iscore) {
-			HTML_installer::showInstallMessage( $row->name .' '. JText::_( 'WARNCOREELEMENT' ) .'<br />'. JText::_( 'WARNCORECOMPONENT2' ),
+			HTML_installer::showInstallMessage( sprintf( JText::_( 'WARNCOREELEMENT' ), $row->name ) .'<br />'. JText::_( 'WARNCORECOMPONENT2' ),
 			JText::_( 'Uninstall - error' ), $this->returnTo( $option, 'mambot', $client ) );
 			exit();
 		}

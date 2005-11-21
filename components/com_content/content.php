@@ -1597,7 +1597,7 @@ function emailContentSend( $uid ) {
 	$email 				= mosGetParam( $_POST, 'email', '' );
 	$yourname 			= mosGetParam( $_POST, 'yourname', '' );
 	$youremail 			= mosGetParam( $_POST, 'youremail', '' );
-	$subject_default 	= JText::_( 'Item sent by' ) .' '. $yourname;
+	$subject_default 	= sprintf( JText::_( 'Item sent by' ), $yourname );
 	$subject = mosGetParam( $_POST, 'subject', $subject_default );
 
 	if ($uid < 1 || !$email || !$youremail || ( is_email( $email ) == false ) || (is_email( $youremail ) == false)) {
