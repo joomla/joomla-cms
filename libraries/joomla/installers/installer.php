@@ -429,7 +429,7 @@ class mosInstaller {
 				$filedest	= JFolder::create( JPath::clean( $p_destdir ) . $_file, false );
 
 				if (!file_exists( $filesource )) {
-					$this->setError( 1, sprintf( JText::_( 'File does not exist' ), $filesource  );
+					$this->setError( 1, sprintf( JText::_( 'File does not exist' ), $filesource  ));
 					return false;
 				} else if (file_exists( $filedest ) && !$overwrite) {
 					$this->setError( 1, sprintf( JText::_( 'WARNSAME' ), $filedest ) );
