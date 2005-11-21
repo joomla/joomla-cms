@@ -358,14 +358,17 @@ class mosInstaller {
 				$filedest	= JPath::clean( mosPathName( $p_destdir ) . $_file, false );
 
 				if (!file_exists( $filesource )) {
-					$this->setError( 1, JText::_( 'File' ) .' '. $filesource .' '. JText::_( 'does not exist!' ) );
+                	$msg = sprintf( JText::_( 'File does not exist' ), $filesource );
+					$this->setError( 1, $msg );
 					return false;
 				} else if (file_exists( $filedest ) && !$overwrite) {
-					$this->setError( 1, JText::_( 'There is already a file called' ) .' '. $filedest .' '. JText::_( 'WARNSAME' ) );
+                	$msg = sprintf( JText::_( 'WARNSAME' ), $filedest );
+					$this->setError( 1, $msg );
 					return false;
 				} else {
 					if( !( copy($filesource,$filedest) && JPath::setPermissions($filedest) ) ) {
-						$this->setError( 1, JText::_( 'Failed to copy file' ) .': '. $filesource .' '. JText::_( 'to' ) .' '. $filedest );
+                    	$msg = sprintf( JText::_( 'Failed to copy file to' ), $filesource, $filedest );
+						$this->setError( 1, $msg );
 						return false;
 					}
 				}

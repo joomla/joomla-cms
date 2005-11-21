@@ -251,7 +251,8 @@ class mosInstallerComponent extends mosInstaller {
 		}
 
 		if ($row->iscore) {
-			HTML_installer::showInstallMessage( JText::_( 'Component' ) ." ". $row->name ." ". JText::_( 'WARNCORECOMPONENT' ) ."<br />". JText::_( 'WARNCORECOMPONENT2' ), JText::_( 'Uninstall - error' ),
+        	$msg = sprintf( JText::_( 'WARNCORECOMPONENT' ), $row->name );
+			HTML_installer::showInstallMessage( $msg ."<br />". JText::_( 'WARNCORECOMPONENT2' ), JText::_( 'Uninstall - error' ),
 				$this->returnTo( $option, 'component', $client ) );
 			exit();
 		}

@@ -214,7 +214,8 @@ function editLanguageSource( $p_lname, $option) {
 
 		HTML_languages::editLanguageSource( $p_lname, $content, $option );
 	} else {
-		mosRedirect( "index2.php?option=". $option ."&mosmsg=". JText::_( 'Operation Failed: Could not open' ) ." ". $file );
+    	$msg = sprintf( JText::_( 'Operation Failed: Could not open' ), $file );
+		mosRedirect( "index2.php?option=". $option ."&mosmsg=". $msg );
 	}
 }
 

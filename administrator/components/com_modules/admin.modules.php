@@ -189,7 +189,7 @@ function copyModule( $option, $uid, $client ) {
 	$row = new mosModule( $database );
 	// load the row from the db table
 	$row->load( $uid );
-	$row->title 		= JText::_( 'Copy of' ) .' '.$row->title;
+	$row->title 		= sprintf( JText::_( 'Copy of' ), $row->title );
 	$row->id 			= 0;
 	$row->iscore 		= 0;
 	$row->published 	= 0;

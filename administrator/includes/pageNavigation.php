@@ -75,7 +75,8 @@ class mosPageNav {
 			$to_result = $this->total;
 		}
 		if ($this->total > 0) {
-			$html .= "\n". JText::_( 'Results' ) ." ". $from_result ." - ". $to_result ." ". JText::_( 'of' ) ." ". $this->total;
+        	$msg = sprintf( JText::_( 'Results of' ), $from_result, $to_result, $this->total );
+			$html .= "\n". $msg;
 		} else {
 			$html .= "\n". JText::_( 'No records found' );
 		}

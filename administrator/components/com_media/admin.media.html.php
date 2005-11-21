@@ -264,7 +264,7 @@ class HTML_Media {
 
 		$link = 'index3.php?option=com_media&task=list&listdir='. $listdir . $path;
 
-		$overlib = JText::_( 'Files' ) .' '. $num_files;
+    	$overlib = sprintf( JText::_( 'NUMFILES' ), $num_files );
 		$overlib .= '<br /><br />'. JText::_( '*Click to Open*' );
 
 		?>

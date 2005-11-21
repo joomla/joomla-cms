@@ -799,8 +799,8 @@ function copyCategorySave( $cid, $sectionOld ) {
 	foreach( $cid as $id ) {
 		$category->load( $id );
 		$category->id 		= NULL;
-		$category->title 	= JText::_( 'Copy of' ) .' '. $category->title;
-		$category->name 	= JText::_( 'Copy of' ) .' '. $category->name;
+		$category->title 	= sprintf( JText::_( 'Copy of' ), $category->title );
+		$category->name 	= sprintf( JText::_( 'Copy of' ), $category->name );
 		$category->section 	= $sectionMove;
 		if (!$category->check()) {
 			echo "<script> alert('".$category->getError()."'); window.history.go(-1); </script>\n";

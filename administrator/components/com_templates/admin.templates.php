@@ -304,7 +304,8 @@ function editTemplateSource( $p_tname, $option, $client ) {
 
 		HTML_templates::editTemplateSource( $p_tname, $content, $option, $client );
 	} else {
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, JText::_( 'Operation Failed' ) .': '. JText::_( 'Could not open' ) .' '. $file );
+    	$msg = sprintf( JText::_( 'Operation Failed Could not open' ), $file );
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
 	}
 }
 
@@ -335,7 +336,8 @@ function saveTemplateSource( $option, $client ) {
 
 	clearstatcache();
 	if ( is_writable( $file ) == false ) {
-		mosRedirect( 'index2.php?option='. $option , JText::_( 'Operation Failed' ) .': '. $file .' '. JText::_( 'is not writable.' ) );
+    	$msg = sprintf( JText::_( 'Operation Failed is not writable' ), $file );
+		mosRedirect( 'index2.php?option='. $option , $msg );
 	}
 
 	if ( $fp = fopen ($file, 'w' ) ) {
@@ -406,7 +408,8 @@ function editTemplateCSS( $p_tname, $option, $client ) {
 
 		HTML_templates::editCSSSource( $p_tname, $tp_name, $content, $option, $client );
 	} else {
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, JText::_( 'Operation Failed' ) .': '. JText::_( 'Could not open' ) .' '. $file );
+    	$msg = sprintf( JText::_( 'Operation Failed Could not open' ), $file );
+		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
 	}
 }
 

@@ -181,7 +181,10 @@ function installFromDirectory( $option ) {
 	}
 
 	$ret = $installer->install( $path );
-	HTML_installer::showInstallMessage( $installer->getError(), JText::_( 'Upload new' ) .' '.$element.' - '.($ret ? JText::_( 'Success' ) : JText::_( 'Error' )), $installer->returnTo( $option, $element, $client ) );
+	$retStr = $ret ? JText::_( 'Success' ) : JText::_( 'Error' );
+	$msg = sprintf( JText::_( 'Upload new' ), $element, $retStr );
+	
+	HTML_installer::showInstallMessage( $installer->getError(), $msg, $installer->returnTo( $option, $element, $client ) );
 }
 
 /**
