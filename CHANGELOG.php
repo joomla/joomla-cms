@@ -31,8 +31,16 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Nov-2005 Marko Schmuck
+ # Fixed artf2240 : URL encoding entire frontend?
+ # Fixed artf2222 : ampReplace in content.html.php
+ + Versioncheck for new_link parameter for mysql_connect.
+
 22-Nov-2005 Johan Janssens
  # Fixed artf2232 : Installation failure
+
+21-Nov-2005 Marko Schmuck
+ # Fixed files.php wrong default value 
 
 21-Nov-2005 Johan Janssens
  # Fixed artf2216 : Extensions Installer
