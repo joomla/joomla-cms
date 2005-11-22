@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Nov-2005 Andy Miller
+ + Added new MilkyWay template
+
 22-Nov-2005 Marko Schmuck
  # Fixed artf2240 : URL encoding entire frontend?
  # Fixed artf2222 : ampReplace in content.html.php

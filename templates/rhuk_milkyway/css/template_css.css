@@ -1,0 +1,595 @@
+/*****************************/
+/*** Core html setup stuff ***/
+/*****************************/
+
+html {
+  height: 100%;
+  margin-bottom: 1px;
+}
+
+form {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+	margin: 0px 0px 0px 0px;
+	height: 100%;
+	font-size: 76%;
+}
+
+a:link, a:visited {
+	color: #1B57B1; text-decoration: none;
+	font-weight: normal;
+}
+
+a:hover {
+	color: #00c;	text-decoration: underline;
+	font-weight: normal;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+div, p, table, td, th {
+	font-family: Tahoma,Helvetica,Arial,sans-serif;
+	line-height: 1.3em;
+	font-size: 1em;
+	color: #333;
+}
+
+/*****************************************/
+/*** Template specific layout elements ***/
+/*****************************************/
+#page_bg {
+	height: 100%; 
+	padding: 10px 0;
+	margin-bottom: 1px;
+	background: #0C3A6D;
+}
+
+div.center {
+  text-align: center;
+}
+
+div#wrapper {
+		height: 100%;
+		background: #f7f7f7 url(../images/mw_shadow_blue_l.png) 0 0 repeat-y;
+		margin-left: auto;
+		margin-right: auto;
+		min-width: 750px;
+		max-width: 1050px;
+}
+
+div#wrapper_r {
+	background: url(../images/mw_shadow_blue_r.png) 100% 0 repeat-y;
+}
+
+div#header {
+	background: url(../images/mw_header_blue_t.png) 0 0 repeat-x;
+}
+
+div#header_l {
+	background: url(../images/mw_header_blue_t_l.png) 0 0 no-repeat;
+	position: relative;
+}
+
+div#header_r {
+	height: 90px;
+	background: url(../images/mw_header_blue_t_r.png) 100% 0 no-repeat;
+	padding-left: 370px;
+	padding-right: 30px;
+	padding-top: 25px;
+	overflow: hidden;
+	text-align: left;
+}
+
+div#logo {
+	position: absolute;
+	left: 0;
+	top: 0;
+	float: left;
+	width: 298px;
+	height: 75px;
+	background: url(../images/mw_joomla_logo.png) 0 0 no-repeat;
+	margin-left: 30px;
+	margin-top: 25px;
+}
+
+div#newsflash {
+	width: auto;
+	margin-left: 350px;
+	margin-right: 30px;
+	border: 1px solid #00f;
+}
+
+div#tabarea {
+	background: #f7f7f7 url(../images/mw_header_b.png) 0 0 repeat-x;
+	margin: 0 11px;
+}
+
+div#tabarea_l {
+	background: url(../images/mw_header_l_b.png) 0 0 no-repeat;
+	padding-left: 32px;
+}
+
+div#tabarea_r {
+	height: 42px;
+	background: url(../images/mw_header_r_b.png) 100% 0 no-repeat;
+	padding-right: 1px;
+}
+
+div#footer {
+	background: #f7f7f7 url(../images/mw_footer_blue_b.png) 0 100% repeat-x;
+}
+
+div#footer_l {
+	background: url(../images/mw_footer_blue_b_l.png) 0 0 no-repeat;
+}
+
+div#footer_r {
+	background: url(../images/mw_footer_blue_b_r.png) 100% 0 no-repeat;
+	padding-top: 10px;
+	height: 47px;
+	overflow: hidden;
+}
+
+div#footer_r div {
+	text-align: center;
+	font-size: .90em;
+	color: #aaa;
+}
+
+div#footer_r a:link, div#footer_r a:visited  {
+	color: #999;
+}
+
+div#footerspacer {
+	height: 10px;
+}
+
+#pathway {
+	padding: 0px 10px 8px;
+	width: auto;
+	margin-right: 250px;
+	text-align: left;
+}
+
+#search {
+	float: right;
+	width: 160px;
+	margin-top: -20px;
+	margin-right: 10px;
+	height: 40px;
+	overflow: hidden;
+}
+
+#area {
+	padding: 0;
+}
+
+#whitebox {
+	margin: 0 21px 0px 21px;
+	background: #fff;
+	width: auto;
+}
+
+#whitebox div {
+	text-align: left;
+}
+
+#whitebox_t {
+	background: #fff url(../images/mw_content_t.png) 0 0 repeat-x;
+}
+
+#whitebox_tl {
+	background: url(../images/mw_content_t_l.png) 0 0 no-repeat;
+}
+
+#whitebox_tr {
+	height: 10px;
+	overflow: hidden;
+	background: url(../images/mw_content_t_r.png) 100% 0 no-repeat;
+}
+
+#whitebox_m {
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	width: auto;
+	padding: 1px 8px;
+}
+
+#whitebox_b {
+	margin-top: -5px;
+	background: url(../images/mw_content_b.png) 0 100% repeat-x;
+}
+
+#whitebox_bl {
+	background: url(../images/mw_content_b_l.png) 0 100% no-repeat;
+}
+
+#whitebox_br {
+	height: 13px;
+	background: url(../images/mw_content_b_r.png) 100% 100% no-repeat;
+}
+
+/* horizontal pill menu */
+table.pill {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+}
+
+td.pill_l {
+  background: url(../images/mw_menu_cap_l.png) no-repeat;
+  width:  20px;
+  height: 32px;
+  
+}
+
+td.pill_m {
+  background: url(../images/mw_menu_normal_bg.png) repeat-x;
+  padding: 0;
+  margin: 0;
+}
+
+td.pill_r {
+  background: url(../images/mw_menu_cap_r.png) no-repeat;
+  width:  19px;
+  height: 32px;
+}
+
+#pillmenu {
+  white-space: nowrap;
+  height: 32px;
+  float: left;
+}
+
+#pillmenu ul {
+  margin: 0;
+  padding: 0;
+  list-style:none;
+}
+
+#pillmenu li {
+	float: left;
+	background: url(../images/mw_menu_seperator.png) top right no-repeat;
+	margin: 0;
+	padding: 0;
+}
+
+#pillmenu a {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+	float:left;
+  display:block;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 20px;
+  color: #000;
+  text-decoration: none;
+}
+
+#pillmenu a:hover {
+  color: #00f;
+}
+
+#pillmenu a#active_menu {
+  background: url(../images/mw_menu_active_bg.png) repeat-x;
+  color: #fff;
+}
+
+#pillmenu a#active_menu:hover {
+  color: #fff;
+}
+
+#leftcolumn {
+	padding: 0;
+	margin: 0;
+	width: 20%;
+	float:left;
+}
+
+#maincolumn {
+	margin-left: 20%;
+	float: none;
+	padding-left: 15px;
+	width: auto;
+}
+
+table.nopad {
+	width: 100%;
+	border-collapse: collapse;
+	padding: 0;
+	margin: 0;
+	margin-bottom: 15px;
+}
+
+table.nopad td.middle_pad {
+	width: 20px;
+}
+
+/*****************************************/
+/*** Joomla! specific content elements ***/
+/*****************************************/
+
+span.pathway {
+  display: block;
+  margin: 0 20px;
+  height: 16px;
+  line-height: 16px;
+  overflow: hidden;
+}
+
+/* headers */
+div.componentheading {
+  padding-left: 0px;
+}
+
+h1 {
+	padding: 0;
+	font-family:Helvetica ,Arial,sans-serif;
+	font-size: 1.3em;
+	font-weight: bold;
+	vertical-align: bottom;
+	color: #666;
+	text-align: left;
+	width: 100%;	
+}
+
+h2, .contentheading {
+	padding: 0;
+	font-family: Arial, Helvetica,sans-serif;
+	font-size: 1.4em;
+	font-weight: normal;
+	vertical-align: bottom;
+	color: #333;
+	text-align: left;
+	width: 100%;
+}
+
+table.contentpaneopen h3 {
+	margin-top: 25px;
+}
+
+h4 {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333;
+}
+
+h3, .componentheading, table.moduletable th {
+  margin: 0;
+  font-weight: bold;
+  font-family: Helvetica,Arial,sans-serif;
+  font-size: 1.1em;
+  color: #135cae;
+  padding-left: 0px;
+	margin-bottom: 10px;
+	text-align: left;
+}
+
+/* small text */
+.small {
+	font-size: .90em;
+	color: #999;
+	font-weight: normal;
+	text-align: left;
+}
+
+.modifydate {
+  height: 20px;
+  vertical-align: bottom;
+	font-size: .90em;
+	color: #999;
+	font-weight: normal;
+	text-align: left;
+}
+
+.createdate {
+	height: 20px;
+	vertical-align: top;
+	font-size: .90em;
+	color: #999;
+	font-weight: normal;
+	vertical-align: top;
+	padding-bottom: 5px;
+	padding-top: 0px;
+
+}
+
+a.readon {
+	margin-top: 10px;
+	display: block;
+	float: left;
+	background: url(../images/mw_readon.png) top right no-repeat;
+	padding-right: 20px;
+	line-height: 14px;
+	height: 16px;
+}
+
+/* menu links */
+a.mainlevel:link, a.mainlevel:visited {
+	padding-left: 5px;
+}
+
+a.mainlevel:hover {
+
+}
+
+/* spacers */
+span.article_seperator {
+	height: 20px;
+}
+
+td.buttonheading {
+	
+}
+
+.clr {
+	clear: both;
+}
+
+td.greyline {
+  width: 20px;
+  background: url(../images/mw_line_grey.png) 50% 0 repeat-y;
+}
+
+div#maindivider {
+  border-top: 1px solid #ddd;
+  margin-bottom: 10px;
+  overflow: hidden;
+  height: 1px;
+}
+
+table.blog span.article_seperator {
+	display: block;
+	height: 20px;
+}
+
+/* table of contents */
+table.contenttoc {
+  margin: 5px;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+table.contenttoc td {
+  padding: 0 5px;
+}
+
+
+/* content tables */
+td.sectiontableheader {
+  background: #efefef;
+  color: #333;
+  font-weight: bold;
+  padding: 4px;
+  border-right: 1px solid #fff;
+}
+
+tr.sectiontableentry1 td, tr.sectiontableentry2 td {
+  padding: 4px;
+}
+
+td.sectiontableentry1, td.sectiontableentry2{
+  padding: 3px;
+}
+
+
+
+/* content styles */
+table.contentpaneopen, table.contentpane {
+	margin: 0;
+	padding: 0;
+	width: auto;
+}
+
+table.contentpaneopen li {
+	margin-bottom: 5px;
+}
+
+table.contentpaneopen fieldset {
+	border: 0;
+	border-top: 1px solid #ddd;
+}
+
+table.contentpaneopen h3 {
+	margin-top: 25px;
+}
+
+table.contentpaneopen h4 {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333;
+}
+
+/* module control elements */
+table.user1user2 div.moduletable {
+	margin-bottom: 0px;
+}
+
+div.moduletable, div.module {
+  margin-bottom: 25px;
+}
+
+div.module_menu h3 {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #eee;
+	margin: -23px -4px 5px -5px;
+	padding-left: 10px;
+	padding-bottom: 2px;
+}
+
+div.module_menu {
+	background: url(../images/mw_box_blue_br.png) 100% 100% no-repeat;
+	margin: 0;
+	padding: 0;
+	margin-bottom: 15px;
+}
+
+div.module_menu div {
+	background: url(../images/mw_box_blue_bl.png) 0 100% no-repeat;
+}
+
+div.module_menu div div {
+	background: url(../images/mw_box_blue_tr.png) 100% 0 no-repeat;
+}
+
+div.module_menu div div div {
+	background: url(../images/mw_box_blue_tl.png) 0 0 no-repeat;
+	padding: 10px;
+	padding-top: 30px;
+	padding-bottom: 15px;
+	width: auto;
+}
+
+div.module_menu div div div div {
+	background: none;
+	padding: 0;
+}
+
+div.module_menu ul {
+	margin: 10px 0;
+	padding-left: 20px;
+}
+
+div.module_menu ul li a:link, div.module_menu ul li a:visited {
+	font-weight: bold;
+}
+
+#leftcolumn div.module {
+	padding: 0 10px;
+}
+
+#leftcolumn div.module table {
+	width: auto;
+}
+
+/* forms */
+table.adminform textarea {
+  width: 540px;
+  height: 400px;
+  font-size: 1em;
+  color: #000099;
+}
+
+div.search input {
+	width: 145px;
+	border: 1px solid #ccc;
+	margin: 15px 0 10px 0;
+}
+
+/* thumbnails */
+div.mosimage {
+  margin: 5px;
+}
+
+div.mosimage_caption {
+  font-size: .90em;
+  color: #666;
+}

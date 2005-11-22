@@ -1,0 +1,41 @@
+/* IE ONLY CSS */
+
+div#wrapper {
+	width: expression(((document.body.clientWidth)) < 750? "750px": ((document.body.clientWidth)) > 1050? "1050px": "auto" );
+}
+
+div#header_r {
+	height: 115px;
+}
+
+div#footer_r {
+	height: 57px;
+}
+
+div#newsflash {
+	width: 100%;
+}
+
+#pathway {
+	width: 100%;
+}
+
+#whitebox {
+	width: 100%;
+}
+
+#whitebox_m {
+	width: 100%;
+}
+
+div.module_menu div div div {
+	width: 100%;
+}
+
+#maincolumn {
+	width: 100%;
+}
+
+table.contentpaneopen, table.contentpane {
+	width: 100%;
+}

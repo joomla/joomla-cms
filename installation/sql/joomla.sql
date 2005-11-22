@@ -402,8 +402,8 @@ CREATE TABLE `#__modules` (
 #
 
 INSERT INTO `#__modules` VALUES (0, 'Polls', '', 1, 'right', 0, '0000-00-00 00:00:00', 1, 'mod_poll', 0, 0, 1, '', 0, 0);
-INSERT INTO `#__modules` VALUES (0, 'User Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 1, 1, 'menutype=usermenu', 1, 0);
-INSERT INTO `#__modules` VALUES (0, 'Main Menu', '', 1, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 1, 'menutype=mainmenu', 1, 0);
+INSERT INTO `#__modules` VALUES (0, 'User Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 1, 1, 'menutype=usermenu\nmoduleclass_sfx=_menu\n', 1, 0);
+INSERT INTO `#__modules` VALUES (0, 'Main Menu', '', 1, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 1, 'menutype=mainmenu\nmoduleclass_sfx=_menu\n', 1, 0);
 INSERT INTO `#__modules` VALUES (0, 'Login Form', '', 3, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 0, 1, '', 1, 0);
 INSERT INTO `#__modules` VALUES (0, 'Syndicate', '', 4, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_rssfeed', 0, 0, 1, '', 1, 0);
 INSERT INTO `#__modules` VALUES (0, 'Latest News', '', 4, 'user1', 0, '0000-00-00 00:00:00', 1, 'mod_latestnews', 0, 0, 1, '', 1, 0);
@@ -430,7 +430,7 @@ INSERT INTO `#__modules` VALUES (0, 'Pathway','',1,'pathway',0,'0000-00-00 00:00
 INSERT INTO `#__modules` VALUES (0, 'Toolbar','',1,'toolbar',0,'0000-00-00 00:00:00',1,'mod_toolbar',0,99,1,'',1, 1);
 INSERT INTO `#__modules` VALUES (0, 'System Message','',1,'inset',0,'0000-00-00 00:00:00',1,'mod_mosmsg',0,99,1,'',1, 1);
 INSERT INTO `#__modules` VALUES (0, 'Quick Icons','',1,'icon',0,'0000-00-00 00:00:00',1,'mod_quickicon',0,99,1,'',1,1);
-INSERT INTO `#__modules` VALUES (0, 'Other Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 0, 'menutype=othermenu\nmenu_style=vert_indent\ncache=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nclass_sfx=\nmoduleclass_sfx=\nindent_image=0\nindent_image1=\nindent_image2=\nindent_image3=\nindent_image4=\nindent_image5=\nindent_image6=', 0, 0);
+INSERT INTO `#__modules` VALUES (0, 'Other Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 0, 'menutype=othermenu\nmenu_style=vert_indent\ncache=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nclass_sfx=\nmoduleclass_sfx=\nindent_image=0\nindent_image1=\nindent_image2=\nindent_image3=\nindent_image4=\nindent_image5=\nindent_image6=\nmoduleclass_sfx=_menu\n', 0, 0);
 INSERT INTO `#__modules` VALUES (0, 'Wrapper','',10,'left',0,'0000-00-00 00:00:00',0,'mod_wrapper',0,0,1,'',0, 0);
 INSERT INTO `#__modules` VALUES (0, 'Logged','',0,'cpanel',0,'0000-00-00 00:00:00',1,'mod_logged',0,99,1,'',0,1);
 INSERT INTO `#__modules` VALUES (0, 'Footer', '', 1, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 0, 1, '', 1, 0);
@@ -616,7 +616,7 @@ CREATE TABLE `#__templates_menu` (
 
 # Dumping data for table `#__templates_menu`
 
-INSERT INTO `#__templates_menu` VALUES ('rhuk_solarflare_ii', '0', '0');
+INSERT INTO `#__templates_menu` VALUES ('rhuk_milkyway', '0', '0');
 INSERT INTO `#__templates_menu` VALUES ('joomla_admin', '0', '1');
 
 # --------------------------------------------------------
