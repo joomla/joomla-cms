@@ -41,9 +41,16 @@ class JDatabaseMySQL extends JDatabase {
 			$this->_errorNum = 1;
 			return;
 		}
-		if (!($this->_resource = @mysql_connect( $host, $user, $pass, true ))) { // true forces a new connection even if the same username and password
-			$this->_errorNum = 2;
-			return;
+		if (phpversion() < '4.2.0') {
+			if (!($this->_resource = @mysql_connect( $host, $user, $pass ))) { 
+				$this->_errorNum = 2;
+				return;
+			}
+		} else {
+			if (!($this->_resource = @mysql_connect( $host, $user, $pass, true ))) { // true forces a new connection even if the same username and password
+				$this->_errorNum = 2;
+				return;
+			}
 		}
 		if ($db != '' && !mysql_select_db( $db, $this->_resource )) {
 			$this->_errorNum = 3;
