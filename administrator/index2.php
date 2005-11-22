@@ -30,6 +30,7 @@ $_MAMBOTS->trigger( 'onBeforeStart' );
 
 // mainframe is an API workhorse, lots of 'core' interaction routines
 $mainframe =& new JAdministrator();
+$mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
 
 if (is_null(JSession::get('guest')) || JSession::get('guest')) {
 	$handle = mosGetParam( $_REQUEST, 'handle', null );

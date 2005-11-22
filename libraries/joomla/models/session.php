@@ -104,6 +104,8 @@ class mosSession extends JModel {
 	 * Destroys the pesisting session
 	 */
 	function destroy() {
+		global $database;
+		
 		if ($this->userid) {
 			// update the user last visit
 			$query = "UPDATE #__users"

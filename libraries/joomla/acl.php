@@ -21,12 +21,13 @@ if ( !defined('ADODB_DIR') ) {
 	define('ADODB_DIR', dirname(__FILE__).'/adodb');
 }
 
-require_once( JPATH_SITE . '/libraries/phpgacl/gacl.class.php' );
-require_once( JPATH_SITE . '/libraries/phpgacl/gacl_api.class.php' );
+jimport('phpgacl.gacl');
+jimport('phpgacl.gacl_api');
 
 /**
-* @package Mambo
-* @subpackage phpGACL
+* @package Joomla
+* @subpackage JFrameWork
+* @since 1.1
 */
 class JACL extends gacl_api {
 	var $acl=null;

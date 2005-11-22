@@ -37,7 +37,8 @@ $no_html 	= intval( mosGetParam( $_REQUEST, 'no_html', 0 ) );
 $do_pdf 	= intval( mosGetParam( $_REQUEST, 'do_pdf', 0 ) );
 
 // mainframe is an API workhorse, lots of 'core' interaction routines
-$mainframe = new mosMainFrame( $database, $option, '.' );
+$mainframe = new JSite( );
+$mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
 
 // trigger the onAfterStart events
 $_MAMBOTS->trigger( 'onAfterStart' );

@@ -60,8 +60,7 @@ class JApplication extends JObject {
 		$this->_head['custom'] 	= array();
 		$this->_client 		    = $client;
 		
-		$this->_setSession( $this->getCfg('live_site').$client );
-		$this->_setTemplate( );
+		$this->_createTemplate( );
 	}
 	/**
 	* @param string
@@ -349,7 +348,7 @@ class JApplication extends JObject {
 	 * @since 1.1
 	 */
 	
-	function _setLanguage($strLang = null) 
+	function _createLanguage($strLang = null) 
 	{
 		global $my;
 		
@@ -385,7 +384,7 @@ class JApplication extends JObject {
 	function &getLanguage( ) {
 		
 		if(is_null($this->_lang)) {
-			$this->_setLanguage();
+			$this->_createLanguage();
 		}
 		
 		$lang =& JLanguage::getInstance( $this->_lang );
@@ -428,7 +427,7 @@ class JApplication extends JObject {
 	 * @param string	The sessions name
 	 * @param boolean 	Use cookies to store the session on the client
 	 */
-	function _setSession( $name, $useCookies = true) 
+	function _createSession( $name, $useCookies = true) 
 	{	
 		JSession::useCookies(true);
 		JSession::start(md5( $name ));
@@ -463,7 +462,7 @@ class JApplication extends JObject {
 		JSession::updateIdle();
 	}
 
-	function _setTemplate( ) {
+	function _createTemplate( ) {
 		global $Itemid, $mosConfig_live_site;
 		$mosConfig_absolute_path = $this->getCfg( 'absolute_path' );
 
