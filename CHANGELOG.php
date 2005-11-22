@@ -37,6 +37,7 @@ Legend:
 22-Nov-2005 Marko Schmuck
  # Fixed artf2240 : URL encoding entire frontend?
  # Fixed artf2222 : ampReplace in content.html.php
+ # Fixed wrong class call
  + Versioncheck for new_link parameter for mysql_connect.
 
 22-Nov-2005 Johan Janssens
