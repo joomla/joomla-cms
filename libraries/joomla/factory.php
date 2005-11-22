@@ -154,7 +154,7 @@ class JFactory
 			case 'RSS'  :
 			{
 				jimport('domit.xml_domit_rss_lite');
-				$doc = new xml_domit_rss_document();
+				$doc = new xml_domit_rss_document_lite();
 			} break;
 		}
 		 
