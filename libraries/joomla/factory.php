@@ -77,9 +77,8 @@ class JFactory
 		$database =& JDatabase::getInstance( $dbtype, $host, $user, $password, $db, $dbprefix );
 		if ($database->getErrorNum()) {
 			$mosSystemError = $database->getErrorNum();
-			$basePath = dirname( __FILE__ );
-			include $basePath . '/../../configuration.php';
-			include $basePath . '/../../offline.php';
+			include JPATH_ROOT . '/configuration.php';
+			include JPATH_ROOT . '/offline.php';
 			exit();
 		}
 		$database->debug( $debug );
