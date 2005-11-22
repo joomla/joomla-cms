@@ -116,10 +116,12 @@ function mosMakeHtmlSafe( &$mixed, $quote_style=ENT_QUOTES, $exclude_keys='' ) {
 * Needed to handle unicode conflicts due to unicode conflicts
 */
 function ampReplace( $text ) {
+	$text = str_replace( '&&', '*--*', $text );
 	$text = str_replace( '&#', '*-*', $text );
+	$text = str_replace( '&amp;', '&', $text );
 	$text = preg_replace( '|&(?![\w]+;)|', '&amp;', $text );
-    $text = str_replace( '&amp;amp;', '&amp;', $text );
 	$text = str_replace( '*-*', '&#', $text );
+	$text = str_replace( '*--*', '&&', $text );
 
 	return $text;
 }
