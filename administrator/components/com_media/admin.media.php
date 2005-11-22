@@ -29,7 +29,7 @@ if (!is_array( $cid )) {
 }
 
 $listdir = mosGetParam( $_REQUEST, 'listdir', '' );
-$dirPath = mosGetParam( $_POST, 'dirpath', '' );
+$dirPath = mosGetParam( $_POST, 'dirPath', '' );
 
 if (is_int(strpos ($listdir, "..")) && $listdir<>'') {
 	mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], JText::_( 'NO HACKING PLEASE' ) );
