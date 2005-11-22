@@ -30,7 +30,6 @@ $handle = mosGetParam( $_POST, 'handle', NULL );
 
 // mainframe is an API workhorse, lots of 'core' interaction routines
 $mainframe =& new JAdministrator();
-$mainframe->initSession( );
 
 $database =& JFactory::getDBO();
 

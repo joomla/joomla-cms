@@ -1,7 +1,7 @@
 <?php
 
 /**
-* @version $Id: object.class.php 988 2005-11-11 18:16:55Z Jinx $
+* @version $Id$
 * @package Joomla 
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -58,7 +58,7 @@ class JSession
     {
         JSession::name($name);
         if (is_null(JSession::_detectID())) {
-            JSession::id($id ? $id : uniqid(dechex(rand())));
+            JSession::id($id ? $id : md5(uniqid(dechex(rand())).$_SERVER['REMOTE_ADDR']));
         }
         session_start();
         if (!isset($_SESSION['__HTTP_Session_Info'])) {

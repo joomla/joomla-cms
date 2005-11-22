@@ -23,7 +23,6 @@ require_once ( 'includes/joomla.php' );
 if ($mosConfig_offline == 1) {
 	// mainframe is an API workhorse, lots of 'core' interaction routines
 	$mainframe = new JSite();
-	$mainframe->initSession();
 
 	// get the information about the current user from the sessions table
 	$my = $mainframe->getUser();
@@ -100,7 +99,6 @@ if ( !$Itemid ) {
 
 // mainframe is an API workhorse, lots of 'core' interaction routines
 $mainframe = new JSite( );
-$mainframe->initSession();
 
 // trigger the onAfterStart events
 $_MAMBOTS->trigger( 'onAfterStart' );

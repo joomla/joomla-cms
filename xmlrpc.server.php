@@ -21,12 +21,10 @@ require_once( 'configuration.php' );
 //}
 require_once( JPATH_SITE .'includes/joomla.php' );
 
-$mainframe = new mosMainFrame( $database, '' );
-$mainframe->initSession();
+$mainframe = new JApplication( $database, 3 );
 
 /** get the information about the current user from the sessions table */
 $my = $mainframe->getUser();
-
 
 /**
 * CUSTOM HANDLER FOR METHOD NOT FOUND

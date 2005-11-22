@@ -60,6 +60,7 @@ class JApplication extends JObject {
 		$this->_head['custom'] 	= array();
 		$this->_client 		    = $client;
 		
+		$this->_setSession( $this->getCfg('live_site').$client );
 		$this->_setTemplate( );
 	}
 	/**
@@ -208,51 +209,6 @@ class JApplication extends JObject {
 		if (is_array( $this->_userstate )) {
 			$this->_userstate[$var_name] = $var_value;
 		}
-	}
-	/**
-	 * Initialises the user session
-	 *
-	 * Old sessions are flushed based on the configuration value for the cookie
-	 * lifetime. If an existing session, then the last access time is updated.
-	 * If a new session, a session id is generated and a record is created in
-	 * the mos_sessions table.
-	 * @param boolean 
-	 */
-	function initSession( $useCookies = true) {
-		
-		global $mosConfig_live_site;
-		
-		JSession::useCookies(true);
-		JSession::start(md5( $mosConfig_live_site ));
-			
-		if (!isset( $_SESSION['session_userstate'] )) {
-			$_SESSION['session_userstate'] = array();
-		}
-		$this->_userstate =& $_SESSION['session_userstate'];
-			
-		$session = new mosSession( $this->_db );
-		$session->purge( intval( $this->getCfg( 'lifetime' ) ) );
-
-		if ($session->load( $session->hash( JSession::id() ) )) {
-			// Session cookie exists, update time in session table
-			$session->update();
-		} else {
-		
-			if (!$session->insert($session->hash( JSession::id()))) {
-				die( $session->getError() );
-			}
-			$session->persist();
-		}
-		
-		$this->_session = $session;
-		
-		JSession::setIdle($this->getCfg('lifetime')); 
-		
-		if (JSession::isIdle()) {
-			$this->logout();
-		}
-		
-		JSession::updateIdle();
 	}
 
 	/**
@@ -459,6 +415,52 @@ class JApplication extends JObject {
 		} else {
 			return null;
 		}
+	}
+	
+	/**
+	 * Setthe user session
+	 *
+	 * Old sessions are flushed based on the configuration value for the cookie
+	 * lifetime. If an existing session, then the last access time is updated.
+	 * If a new session, a session id is generated and a record is created in
+	 * the mos_sessions table.
+	 * 
+	 * @param string	The sessions name
+	 * @param boolean 	Use cookies to store the session on the client
+	 */
+	function _setSession( $name, $useCookies = true) 
+	{	
+		JSession::useCookies(true);
+		JSession::start(md5( $name ));
+			
+		if (!isset( $_SESSION['session_userstate'] )) {
+			$_SESSION['session_userstate'] = array();
+		}
+		$this->_userstate =& $_SESSION['session_userstate'];
+			
+		$session = new mosSession( $this->_db );
+		$session->purge( intval( $this->getCfg( 'lifetime' ) ) );
+
+		if ($session->load( $session->hash( JSession::id() ) )) {
+			// Session cookie exists, update time in session table
+			$session->update();
+		} else {
+		
+			if (!$session->insert($session->hash( JSession::id()))) {
+				die( $session->getError() );
+			}
+			$session->persist();
+		}
+		
+		$this->_session = $session;
+		
+		JSession::setIdle($this->getCfg('lifetime')); 
+		
+		if (JSession::isIdle()) {
+			$this->logout();
+		}
+		
+		JSession::updateIdle();
 	}
 
 	function _setTemplate( ) {

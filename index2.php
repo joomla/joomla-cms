@@ -38,7 +38,6 @@ $do_pdf 	= intval( mosGetParam( $_REQUEST, 'do_pdf', 0 ) );
 
 // mainframe is an API workhorse, lots of 'core' interaction routines
 $mainframe = new mosMainFrame( $database, $option, '.' );
-$mainframe->initSession();
 
 // trigger the onAfterStart events
 $_MAMBOTS->trigger( 'onAfterStart' );

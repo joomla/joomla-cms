@@ -141,7 +141,7 @@ class mosSession extends JModel {
 		} else {
 			$agent = $_SERVER['HTTP_USER_AGENT'];
 		}
-
+		
 		return md5( $agent . $GLOBALS['mosConfig_secret'] . $value . $_SERVER['REMOTE_ADDR'] );
 	}
 

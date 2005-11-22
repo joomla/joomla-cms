@@ -28,7 +28,6 @@ if (file_exists( JPATH_SITE . '/configuration.php')) {
 //Globals
 $GLOBALS['mosConfig_absolute_path'] = JPATH_SITE . DIRECTORY_SEPARATOR;
 $GLOBALS['mosConfig_sitename']      = 'Joomla! - Web Installer';
-//$GLOBALS['mosConfig_lang'] 			= "english";
 
 require_once( JPATH_LIBRARIES . '/loader.php' );
 
@@ -62,7 +61,6 @@ jimport( 'joomla.files' );
 jimport( 'joomla.xml' );
 jimport( 'joomla.language' );
 
-
 /**
 * Joomla! Mainframe class
 *
@@ -82,8 +80,6 @@ class JInstallation extends JApplication {
 		$this->_head['meta'] 	= array();
 		$this->_head['custom'] 	= array();
 		$this->_client 		    = 2;
-		
-		//$this->_setLanguage();
 	}
 }
 

@@ -27,7 +27,6 @@ $_MAMBOTS->trigger( 'onBeforeStart' );
 
 // mainframe is an API workhorse, lots of 'core' interaction routines
 $mainframe =& new JAdministrator();
-$mainframe->initSession( );
 
 if (is_null(JSession::get('guest')) || JSession::get('guest')) {
 	mosRedirect( 'index.php');

@@ -196,6 +196,18 @@ class mosMainFrame extends JApplication {
 	function mosMainFrame( &$db, $option, $basePath=null, $client=0 ) {
 		parent::__construct( $db, $client );
 	}
+	
+	/**
+	 * Initialises the user session
+	 *
+	 * Old sessions are flushed based on the configuration value for the cookie
+	 * lifetime. If an existing session, then the last access time is updated.
+	 * If a new session, a session id is generated and a record is created in
+	 * the mos_sessions table.
+	 */
+	function initSession( ) {
+		//do nothing, contructor handles session creation
+	}
 }
 
 /**

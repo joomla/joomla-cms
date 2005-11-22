@@ -33,6 +33,7 @@ Legend:
 
 21-Nov-2005 Johan Janssens
  # Fixed artf2216 : Extensions Installer
+ # Fixed artf2206 : Registered user only is permitted as manager in the backend
 
 21-Nov-2005 Levis Bisson
  ^ Changed concatenated translation $msg string to sprintf()
