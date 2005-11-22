@@ -67,7 +67,7 @@ class JFile
 	 * @return string The sanitised string
 	 */
 	function makeSafe( $file ) {
-		$regex = '#\.\.|[^A-Za-z0-9\.\_\- ]#';
+		$regex = '#\.\.[^A-Za-z0-9\.\_\- ]#';
 		return preg_replace( $regex, '', $file );
 	}
 	
