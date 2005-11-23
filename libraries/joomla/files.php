@@ -25,7 +25,7 @@ if (!defined( 'JPATH_ROOT' )) {
 }
 if (!defined( 'JPATH_FILEPEMS' )) {
 	/** string The default directory permissions */
-	define( 'JPATH_FILEPEMS',  !empty( $mosConfig_fileperms ) ? octdec( $mosConfig_fileperms ) : '644' );
+	define( 'JPATH_FILEPEMS',  !empty( $mosConfig_fileperms ) ? octdec( $mosConfig_fileperms ) : '0644' );
 }
 if (!defined( 'JPATH_DIRPEMS' )) {
 	/** string The default directory permissions */
