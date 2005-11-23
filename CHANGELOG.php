@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Nov-2005 Samuel moffatt
+ + Added structure of JRegistry
+
 22-Nov-2005 Andy Miller
  + Added new MilkyWay template
 
