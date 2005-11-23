@@ -50,7 +50,6 @@ switch( $task ) {
 
 function saveUpload( $_dbprefix, $uid, $option, $userfile, $userfile_name, $type, $existingImage ) {
 	global $database;
-	;
 
 	if ($uid == 0) {
 		mosNotAuth();
@@ -101,7 +100,6 @@ function saveUpload( $_dbprefix, $uid, $option, $userfile, $userfile_name, $type
 
 function userEdit( $option, $uid, $submitvalue) {
 	global $database, $mainframe;
-	global $mosConfig_absolute_path;
 
 	require_once( JPATH_ADMINISTRATOR .'/components/com_users/users.class.php' );
 
@@ -120,8 +118,7 @@ function userEdit( $option, $uid, $submitvalue) {
 }
 
 function userSave( $option, $uid) {
-	global $database, $Itemid;
-	;
+	global $database, $Itemid, $_MAMBOTS;
 
 	$user_id = intval( mosGetParam( $_POST, 'id', 0 ));
 
@@ -192,7 +189,6 @@ function userSave( $option, $uid) {
 function CheckIn( $userid, $access, $option ){
 	global $database;
 	global $mosConfig_db;
-	;
 
 	$nullDate = $database->getNullDate();
 	if (!($access->canEdit || $access->canEditOwn || $userid > 0)) {
