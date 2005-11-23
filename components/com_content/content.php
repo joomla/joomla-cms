@@ -1239,7 +1239,6 @@ function show( $row, $params, $gid, &$access, $pop, $option, $ItemidCount=NULL )
 function editItem( $uid, $gid, &$access, $sectionid=0, $task, $Itemid ){
 	global $database, $my;
 	global $mosConfig_absolute_path, $mosConfig_live_site;
-	;
 
 	$nullDate = $database->getNullDate();
 	$row = new mosContent( $database );

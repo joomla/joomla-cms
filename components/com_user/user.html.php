@@ -39,7 +39,6 @@ class HTML_user {
 
 	function userEdit( $row, $option, $submitvalue, &$params ) {
 		global $mosConfig_absolute_path;
-		;
 
 		require_once( JPATH_SITE .'/includes/HTML_toolbar.php' );
 

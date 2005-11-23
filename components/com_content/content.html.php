@@ -586,7 +586,6 @@ class HTML_content {
 	*/
 	function EditIcon( $row, $params, $access ) {
 		global $Itemid, $my, $mainframe;
-		;
 
 		if ( $params->get( 'popup' ) ) {
 			return;
@@ -630,7 +629,6 @@ class HTML_content {
 	*/
 	function PdfIcon( $row, $params, $link_on, $hide_js ) {
 		global $mosConfig_live_site;
-		;
 
 		if ( $params->get( 'pdf' ) && !$params->get( 'popup' ) && !$hide_js ) {
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
@@ -902,7 +900,6 @@ class HTML_content {
 	*/
 	function editContent( &$row, $section, &$lists, &$images, &$access, $myid, $sectionid, $task, $Itemid ) {
 		global $mosConfig_live_site,$mainframe;
-		;
 
 		mosMakeHtmlSafe( $row );
 
@@ -989,15 +986,15 @@ class HTML_content {
 		</script>
 
 		<?php
-		$docinfo = "<strong>". JText::_( 'Expiry Date' ) .":</strong> ";
+		$docinfo = "<strong>". JText::_( 'Expiry Date', true ) .":</strong> ";
 		$docinfo .= $row->publish_down."<br />";
-		$docinfo .= "<strong>". JText::_( 'Version' ) .":</strong> ";
+		$docinfo .= "<strong>". JText::_( 'Version', true ) .":</strong> ";
 		$docinfo .= $row->version."<br />";
-		$docinfo .= "<strong>". JText::_( 'Created' ) .":</strong> ";
+		$docinfo .= "<strong>". JText::_( 'Created', true ) .":</strong> ";
 		$docinfo .= $row->created."<br />";
-		$docinfo .= "<strong>". JText::_( 'Last Modified' ) .":</strong> ";
+		$docinfo .= "<strong>". JText::_( 'Last Modified', true ) .":</strong> ";
 		$docinfo .= $row->modified."<br />";
-		$docinfo .= "<strong>". JText::_( 'Hits' ) .":</strong> ";
+		$docinfo .= "<strong>". JText::_( 'Hits', true ) .":</strong> ";
 		$docinfo .= $row->hits."<br />";
 		?>
 		<form action="index.php" method="post" name="adminForm" onSubmit="javascript:setgood();">
@@ -1007,8 +1004,7 @@ class HTML_content {
 			<td class="contentheading" >
 			<?php echo $section;?> / <?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?>&nbsp;
 			<?php echo JText::_( 'Content' );?> &nbsp;&nbsp;&nbsp;
-			<a href="javascript: void(0);" onMouseOver="return overlib('<table><?php echo $docinfo; ?></table>', CAPTION, '<?php echo JText::_( 'Item Information' );?>', BELOW, RIGHT);" onMouseOut="return nd();">
-			<strong>[<?php echo JText::_( 'Info' );?>]</strong>
+			<?php echo mosToolTip('<table>'.$docinfo.'</table>', JText::_( 'Item Information', true ), '', '', '<strong>['.JText::_( 'Info', true ).']</strong>'); ?>
 			</a>
 			</td>
 		</tr>

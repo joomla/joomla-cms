@@ -431,7 +431,7 @@ function mosCurrentDate( $format="" ) {
 */
 function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='#', $link=1 ) {
 	global $mosConfig_live_site,  $mainframe;
-
+	
 	$tooltip = addslashes(htmlspecialchars($tooltip));
 	$title   = addslashes(htmlspecialchars($title));
 	
@@ -444,16 +444,14 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 	if ( !$text ) {
 		$image 	= $mosConfig_live_site . '/includes/js/ThemeOffice/'. $image;
 		$text 	= '<img src="'. $image .'" border="0" alt="tooltip"/>';
-	} else{
-		$text 	= JText::_( $text );
-    }
+	}
 	$style = 'style="text-decoration: none; color: #333;"';
 	if ( $href ) {
 		$style = '';
 	}else{ 
 		$href = '#'; 
 	}
-
+	
 	$mousover = 'return overlib(\''. $tooltip .'\''. $title .', BELOW, RIGHT'. $width .');';
 	
 	$tip = '<!--'. JText::_( 'Joomla Tooltip' ) ."--> \n";
