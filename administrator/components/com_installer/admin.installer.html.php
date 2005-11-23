@@ -38,7 +38,7 @@ class HTML_installer {
 
 			// do field validation
 			if (form.userfile.value == ""){
-				alert( "<?php echo JText::_( 'Please select a directory' ); ?>" );
+				alert( "<?php echo JText::_( 'Please select a directory', true ); ?>" );
 			} else {
 				form.submit();
 			}
@@ -49,7 +49,7 @@ class HTML_installer {
 
 			// do field validation
 			if (form.userfile.value == ""){
-				alert( "<?php echo JText::_( 'Please enter a URL' ); ?>" );
+				alert( "<?php echo JText::_( 'Please enter a URL', true ); ?>" );
 			} else {
 				form.submit();
 			}

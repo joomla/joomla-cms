@@ -121,7 +121,7 @@ class mosToolBar {
 		$image = mosAdminMenus::ImageCheck( 'publish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please make a selection from the list to' ) ." ". JText::_( 'publish' ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please make a selection from the list to', true ) ." ". JText::_( 'publish', true ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
 				<?php echo $image; ?></a>
 		</td>
 		<?php
@@ -157,7 +157,7 @@ class mosToolBar {
 		$image = mosAdminMenus::ImageCheck( 'unpublish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please make a selection from the list to' ) ." ". JText::_( 'unpublish' ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please make a selection from the list to', true ) ." ". JText::_( 'unpublish', true ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
 				<?php echo $image; ?></a>
 		</td>
 		<?php
@@ -175,7 +175,7 @@ class mosToolBar {
 		$image = mosAdminMenus::ImageCheck( 'archive_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please make a selection from the list to' ) ." ". JText::_( 'archive' ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please make a selection from the list to', true ) ." ". JText::_( 'archive', true ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
 				<?php echo $image; ?></a>
 		</td>
 		<?php
@@ -193,7 +193,7 @@ class mosToolBar {
 		$image = mosAdminMenus::ImageCheck( 'unarchive_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select a news story to' ) ." ". JText::_( 'unarchive' ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select a news story to', true ) ." ". JText::_( 'unarchive', true ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
 				<?php echo $image; ?></a>
 		</td>
 		<?php
@@ -211,7 +211,7 @@ class mosToolBar {
 		$image = mosAdminMenus::ImageCheck( 'edit_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select an item from the list to' ) ." ". JText::_( 'edit' ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select an item from the list to', true ) ." ". JText::_( 'edit', true ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
 				<?php echo $image; ?></a>
 		</td>
 		<?php
@@ -229,7 +229,7 @@ class mosToolBar {
 		$image = mosAdminMenus::ImageCheck( 'edit_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select an item from the list to' ) ." ". JText::_( 'edit' ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select an item from the list to', true ) ." ". JText::_( 'edit', true ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
 				<?php echo $image; ?></a>
 		</td>
 		<?php
@@ -247,7 +247,7 @@ class mosToolBar {
 		$image = mosAdminMenus::ImageCheck( 'css_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select an item from the list to' ) ." ". JText::_( 'edit' ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select an item from the list to', true ) ." ". JText::_( 'edit', true ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
 				<?php echo $image; ?></a>
 		</td>
 		<?php
@@ -266,7 +266,7 @@ class mosToolBar {
 		$image = mosAdminMenus::ImageCheck( 'delete_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
 		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please make a selection from the list to' ) ." ". JText::_( 'delete' ); ?>'); } else if (confirm('<?php echo JText::_( 'Are you sure you want to delete selected items.' ); ?> <?php echo $msg;?>')){ submitbutton('<?php echo $task;?>');}" >
+			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please make a selection from the list to', true ) ." ". JText::_( 'delete', true ); ?>'); } else if (confirm('<?php echo JText::_( 'Are you sure you want to delete selected items.' ); ?> <?php echo $msg;?>')){ submitbutton('<?php echo $task;?>');}" >
 				<?php echo $image; ?></a>
 		</td>
 		<?php

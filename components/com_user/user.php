@@ -64,7 +64,7 @@ function saveUpload( $_dbprefix, $uid, $option, $userfile, $userfile_name, $type
 		echo "<script> alert(\"". JText::_( 'UP_SIZE' ) ."\"); window.history.go(-1); </script>\n";
 	} else {
 		if (file_exists($base_Dir.$userfile_name)) {
-			$message= JText::_( 'UP_EXISTS' );
+			$message= JText::_( 'UP_EXISTS', true );
 			eval ("\$message = \"$message\";");
 			print "<script> alert('$message'); window.history.go(-1);</script>\n";
 		} else {
@@ -93,7 +93,7 @@ function saveUpload( $_dbprefix, $uid, $option, $userfile, $userfile_name, $type
 					echo "<script>window.close(); </script>";
 				}
 			} else {
-				echo "<script> alert(\"". JText::_( 'You may only upload a gif, or jpg image.' ) ."\"); window.history.go(-1); </script>\n";
+				echo "<script> alert(\"". JText::_( 'You may only upload a gif, or jpg image.', true ) ."\"); window.history.go(-1); </script>\n";
 			}
 		}
 	}
@@ -149,7 +149,7 @@ function userSave( $option, $uid) {
 		if(isset($_POST["verifyPass"]) && ($_POST["verifyPass"] == $_POST["password"])) {
 			$row->password = md5($_POST["password"]);
 		} else {
-			echo "<script> alert(\"". JText::_( 'Passwords do not match' ) ."\"); window.history.go(-1); </script>\n";
+			echo "<script> alert(\"". JText::_( 'Passwords do not match', true ) ."\"); window.history.go(-1); </script>\n";
 			exit();
 		}
 	} else {

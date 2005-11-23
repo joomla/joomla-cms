@@ -23,7 +23,6 @@ class HTML_contact {
 
 	function showContacts( &$rows, &$pageNav, $search, $option, &$lists ) {
 		global $my;
-		;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -162,9 +161,9 @@ class HTML_contact {
 
 			// do field validation
 			if ( form.name.value == "" ) {
-				alert( "<?php echo JText::_( 'You must provide a name.' ); ?>" );
+				alert( "<?php echo JText::_( 'You must provide a name.', true ); ?>" );
 			} else if ( form.catid.value == 0 ) {
-				alert( "<?php echo JText::_( 'Please select a Category.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please select a Category.', true ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}

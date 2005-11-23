@@ -44,9 +44,9 @@ class content_menu_html {
 
 			// do field validation
 			if (trim(form.name.value) == ""){
-				alert( "<?php echo JText::_( 'Link must have a name' ); ?>" );
+				alert( "<?php echo JText::_( 'Link must have a name', true ); ?>" );
 			} else if (trim(form.content_typed.value) == ""){
-				alert( "<?php echo JText::_( 'You must select a Content to link to' ); ?>" );
+				alert( "<?php echo JText::_( 'You must select a Content to link to', true ); ?>" );
 			} else {
 				form.link.value = "index.php?option=com_content&task=view&id=" + form.content_typed.value;
 				form.componentid.value = form.content_typed.value;

@@ -71,17 +71,17 @@ class JLDAP {
 			if ($this->use_ldapV3) {
 				if (!ldap_set_option( $this->_resource, LDAP_OPT_PROTOCOL_VERSION, 3 )) {
 					return false;
-					echo "<script> alert(\"". JText::_( 'failed to set LDAP protocol V3' ) ."\"); </script>\n";
+					echo "<script> alert(\"". JText::_( 'failed to set LDAP protocol V3', true ) ."\"); </script>\n";
 				}
 			}
 			if (!ldap_set_option( $this->_resource, LDAP_OPT_REFERRALS, intval( $this->no_referrals ))) {
 				return false;
-				echo "<script> alert(\"". JText::_( 'failed to set LDAP_OPT_REFERRALS option' ) ."\"); </script>\n";
+				echo "<script> alert(\"". JText::_( 'failed to set LDAP_OPT_REFERRALS option', true ) ."\"); </script>\n";
 			}
 			if ($this->negotiate_tls) {
 				if (!ldap_start_tls( $this->_resource )) {
 					return false;
-					echo "<script> alert(\"". JText::_( 'ldap_start_tls failed' ) ."\"); </script>\n";
+					echo "<script> alert(\"". JText::_( 'ldap_start_tls failed', true ) ."\"); </script>\n";
 				}
 			}
 			return true;

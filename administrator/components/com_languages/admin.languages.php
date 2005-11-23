@@ -188,7 +188,7 @@ function removeLanguage( $cid, $option, $client = 'admin' ) {
 	$cur_language = $mosConfig_lang;
 
 	if ($cur_language == $cid) {
-		mosErrorAlert(JText::_( 'You can not delete language in use.' ));
+		mosErrorAlert(JText::_( 'You can not delete language in use.', true ));
 	}
 
 	/*$lang_path = "../language/$cid.php";

@@ -122,9 +122,9 @@ class HTML_poll {
 			}
 			// do field validation
 			if (form.title.value == "") {
-				alert( "<?php echo JText::_( 'Poll must have a title' ); ?>" );
+				alert( "<?php echo JText::_( 'Poll must have a title', true ); ?>" );
 			} else if( isNaN( parseInt( form.lag.value ) ) ) {
-				alert( "<?php echo JText::_( 'Poll must have a non-zero lag time' ); ?>" );
+				alert( "<?php echo JText::_( 'Poll must have a non-zero lag time', true ); ?>" );
 			//} else if (form.menu.options.value == ""){
 			//	alert( "Poll must have pages." );
 			//} else if (form.adminForm.textfieldcheck.value == 0){

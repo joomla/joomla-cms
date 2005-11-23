@@ -184,9 +184,9 @@ class HTML_modules {
 			// validation
 			var form = document.adminForm;
 			if (form.name.value == "") {
-				alert( "<?php echo JText::_( 'Mambot must have a name' ); ?>" );
+				alert( "<?php echo JText::_( 'Mambot must have a name', true ); ?>" );
 			} else if (form.element.value == "") {
-				alert( "<?php echo JText::_( 'Mambot must have a filename' ); ?>" );
+				alert( "<?php echo JText::_( 'Mambot must have a filename', true ); ?>" );
 			} else {
 				submitform(pressbutton);
 			}

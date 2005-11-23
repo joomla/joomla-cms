@@ -221,7 +221,7 @@ class HTML_modules {
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
 			if ( ( pressbutton == 'save' ) && ( document.adminForm.title.value == "" ) ) {
-				alert("<?php echo JText::_( 'Module must have a title' ); ?>");
+				alert("<?php echo JText::_( 'Module must have a title', true ); ?>");
 			} else {
 				<?php 
 				if ($row->module == '') {

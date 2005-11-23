@@ -42,7 +42,7 @@ class content_blog_category_html {
 			if ( !$menu->id ) {
 				?>
 				if ( form.name.value == '' ) {
-					alert( "<?php echo JText::_( 'This Menu item must have a title' ); ?>" );
+					alert( "<?php echo JText::_( 'This Menu item must have a title', true ); ?>" );
 					return;
 				} else {
 					submitform( pressbutton );
@@ -51,7 +51,7 @@ class content_blog_category_html {
 			} else {
 				?>
 				if ( form.name.value == '' ) {
-					alert( "<?php echo JText::_( 'This Menu item must have a title' ); ?>" );
+					alert( "<?php echo JText::_( 'This Menu item must have a title', true ); ?>" );
 				} else {
 					submitform( pressbutton );
 				}

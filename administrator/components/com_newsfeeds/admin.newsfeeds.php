@@ -205,7 +205,7 @@ function publishNewsFeeds( $cid, $publish, $option ) {
 
 	if (count( $cid ) < 1) {
 		$action = $publish ? JText::_( 'publish' ) : JText::_( 'unpublish' );
-		echo "<script> alert('". JText::_( 'Select a module to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select a module to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -240,7 +240,7 @@ function removeNewsFeeds( &$cid, $option ) {
 	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 	if (count( $cid )) {

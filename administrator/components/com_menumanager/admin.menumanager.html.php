@@ -159,7 +159,7 @@ class HTML_menumanager {
 
 			if (pressbutton == 'savemenu') {
 				if ( form.menutype.value == '' ) {
-					alert( '<?php echo JText::_( 'Please enter a menu name' ); ?>' );
+					alert( '<?php echo JText::_( 'Please enter a menu name', true ); ?>' );
 					form.menutype.focus();
 					return;
 				}
@@ -167,7 +167,7 @@ class HTML_menumanager {
 				if ( $new ) {
 					?>
 					if ( form.title.value == '' ) {
-						alert( '<?php echo JText::_( 'Please enter a module name for your menu' ); ?>' );
+						alert( '<?php echo JText::_( 'Please enter a module name for your menu', true ); ?>' );
 						form.title.focus();
 						return;
 					}
@@ -358,10 +358,10 @@ class HTML_menumanager {
 		function submitbutton(pressbutton) {
 			if (pressbutton == 'copymenu') {
 				if ( document.adminForm.menu_name.value == '' ) {
-					alert( "<?php echo JText::_( 'Please enter a name for the copy of the Menu' ); ?>" );
+					alert( "<?php echo JText::_( 'Please enter a name for the copy of the Menu', true ); ?>" );
 					return;
 				} else if ( document.adminForm.module_name.value == '' ) {
-					alert( "<?php echo JText::_( 'Please enter a name for the new Module' ); ?>" );
+					alert( "<?php echo JText::_( 'Please enter a name for the new Module', true ); ?>" );
 					return;
 				} else {
 					submitform( 'copymenu' );

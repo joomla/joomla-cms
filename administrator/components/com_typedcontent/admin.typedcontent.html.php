@@ -284,10 +284,10 @@ class HTML_typedcontent {
 
 			if ( pressbutton == 'menulink' ) {
 				if ( form.menuselect.value == "" ) {
-					alert( "<?php echo JText::_( 'Please select a Menu' ); ?>" );
+					alert( "<?php echo JText::_( 'Please select a Menu', true ); ?>" );
 					return;
 				} else if ( form.link_name.value == "" ) {
-					alert( "<?php echo JText::_( 'Please enter a Name for this menu item' ); ?>" );
+					alert( "<?php echo JText::_( 'Please enter a Name for this menu item', true ); ?>" );
 					return;
 				}
 			}
@@ -303,9 +303,9 @@ class HTML_typedcontent {
 			}
 			catch(e){}
 			if (trim(form.title.value) == ""){
-				alert( "<?php echo JText::_( 'Content item must have a title' ); ?>" );
+				alert( "<?php echo JText::_( 'Content item must have a title', true ); ?>" );
 			} else if (trim(form.name.value) == ""){
-				alert( "<?php echo JText::_( 'Content item must have a name' ); ?>" );
+				alert( "<?php echo JText::_( 'Content item must have a name', true ); ?>" );
 			} else {
 				if ( form.reset_hits.checked ) {
 					form.hits.value = 0;

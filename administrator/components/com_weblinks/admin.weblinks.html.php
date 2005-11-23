@@ -165,11 +165,11 @@ class HTML_weblinks {
 
 			// do field validation
 			if (form.title.value == ""){
-				alert( "<?php echo JText::_( 'Weblink item must have a title' ); ?>" );
+				alert( "<?php echo JText::_( 'Weblink item must have a title', true ); ?>" );
 			} else if (form.catid.value == "0"){
-				alert( "<?php echo JText::_( 'You must select a category' ); ?>" );
+				alert( "<?php echo JText::_( 'You must select a category', true ); ?>" );
 			} else if (form.url.value == ""){
-				alert( "<?php echo JText::_( 'You must have a url.' ); ?>" );
+				alert( "<?php echo JText::_( 'You must have a url.', true ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}

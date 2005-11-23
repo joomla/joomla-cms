@@ -306,7 +306,7 @@ function removeMambot( &$cid, $option, $client ) {
 	;
 
 	if (count( $cid ) < 1) {
-		echo "<script> alert('". JText::_( 'Select a module to delete' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select a module to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -324,7 +324,7 @@ function publishMambot( $cid=null, $publish=1, $option, $client ) {
 
 	if (count( $cid ) < 1) {
 		$action = $publish ? JText::_( 'publish' ) : JText::_( 'unpublish' );
-		echo "<script> alert('". JText::_( 'Select a mambot to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select a mambot to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 

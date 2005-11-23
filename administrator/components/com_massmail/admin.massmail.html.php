@@ -32,11 +32,11 @@ class HTML_massmail {
 				}
 				// do field validation
 				if (form.mm_subject.value == ""){
-					alert( "<?php echo JText::_( 'Please fill in the subject' ); ?>" );
+					alert( "<?php echo JText::_( 'Please fill in the subject', true ); ?>" );
 				} else if (getSelectedValue('adminForm','mm_group') < 0){
-					alert( "<?php echo JText::_( 'Please select a group' ); ?>" );
+					alert( "<?php echo JText::_( 'Please select a group', true ); ?>" );
 				} else if (form.mm_message.value == ""){
-					alert( "<?php echo JText::_( 'Please fillin the message' ); ?>" );
+					alert( "<?php echo JText::_( 'Please fillin the message', true ); ?>" );
 				} else {
 					submitform( pressbutton );
 				}

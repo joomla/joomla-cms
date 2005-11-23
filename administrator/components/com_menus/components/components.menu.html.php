@@ -61,9 +61,9 @@ class components_menu_html {
 			}
 
 			if ( trim( form.name.value ) == "" ){
-				alert( "<?php echo JText::_( 'Item must have a name' ); ?>" );
+				alert( "<?php echo JText::_( 'Item must have a name', true ); ?>" );
 			} else if (form.componentid.value == ""){
-				alert( "<?php echo JText::_( 'Please select a Component' ); ?>" );
+				alert( "<?php echo JText::_( 'Please select a Component', true ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}

@@ -159,17 +159,17 @@ class HTML_newsfeeds {
 
 			// do field validation
 			if (form.name.value == '') {
-				alert( "<?php echo JText::_( 'Please fill in the newsfeed name.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please fill in the newsfeed name.', true ); ?>" );
 			} else if (form.catid.value == 0) {
-				alert( "<?php echo JText::_( 'Please select a Category.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please select a Category.', true ); ?>" );
 			} else if (form.link.value == '') {
-				alert( "<?php echo JText::_( 'Please fill in the newsfeed link.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please fill in the newsfeed link.', true ); ?>" );
 			} else if (getSelectedValue('adminForm','catid') < 0) {
-				alert( "<?php echo JText::_( 'Please select a category.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please select a category.', true ); ?>" );
 			} else if (form.numarticles.value == "" || form.numarticles.value == 0) {
-				alert( "<?php echo JText::_( 'VALIDARTICLESDISPLAY' ); ?>" );
+				alert( "<?php echo JText::_( 'VALIDARTICLESDISPLAY', true ); ?>" );
 			} else if (form.cache_time.value == "" || form.cache_time.value == 0) {
-				alert( "<?php echo JText::_( 'Please fill in the cache refresh time.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please fill in the cache refresh time.', true ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}

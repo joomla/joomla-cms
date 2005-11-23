@@ -394,11 +394,11 @@ class HTML_Media {
 		}
 		function deleteFolder(folder, numFiles) {
 			if(numFiles > 0) {
-				alert("<?php echo JText::_( 'There are' ); ?> "+numFiles+" <?php echo JText::_( 'files/folders in' ); ?> \""+folder+"\".\n\n<?php echo JText::_( 'Please delete all files/folder in' ); ?> \""+folder+"\" <?php echo JText::_( 'first.' ); ?>");
+				alert("<?php echo JText::_( 'There are', true ); ?> "+numFiles+" <?php echo JText::_( 'files/folders in' ); ?> \""+folder+"\".\n\n<?php echo JText::_( 'Please delete all files/folder in' ); ?> \""+folder+"\" <?php echo JText::_( 'first.' ); ?>");
 				return false;
 			}
 
-			if(confirm("<?php echo JText::_( 'Delete folder' ); ?> \""+folder+"\"?"))
+			if(confirm("<?php echo JText::_( 'Delete folder', true ); ?> \""+folder+"\"?"))
 			return true;
 
 			return false;

@@ -37,9 +37,9 @@ class newsfeed_link_menu_html {
 
 			// do field validation
 			if (trim(form.name.value) == ""){
-				alert( "<?php echo JText::_( 'Link must have a name' ); ?>" );
+				alert( "<?php echo JText::_( 'Link must have a name', true ); ?>" );
 			} else if (trim(form.newsfeed_link.value) == ""){
-				alert( "<?php echo JText::_( 'You must select a Newsfeed to link to' ); ?>" );
+				alert( "<?php echo JText::_( 'You must select a Newsfeed to link to', true ); ?>" );
 			} else {
 				form.link.value = "index.php?option=com_newsfeeds&task=view&feedid=" + form.newsfeed_link.value;
 				form.componentid.value = form.newsfeed_link.value;

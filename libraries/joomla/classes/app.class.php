@@ -229,7 +229,7 @@ class JApplication extends JObject {
 
 		if (!$username || !$passwd) {
 			// Error check if still no username or password values
-			echo "<script> alert(\"". JText::_( 'LOGIN_INCOMPLETE' ) ."\"); </script>\n";
+			echo "<script> alert(\"". JText::_( 'LOGIN_INCOMPLETE', true ) ."\"); </script>\n";
 			mosRedirect( mosGetParam( $_POST, 'return', '/' ) );
 			exit();
 		} else {
@@ -248,7 +248,7 @@ class JApplication extends JObject {
 
 					// check to see if user is blocked from logging in
 					if ($user->block == 1) {
-						echo "<script>alert(\"". JText::_( 'LOGIN_BLOCKED' ) ."\"); </script>\n";
+						echo "<script>alert(\"". JText::_( 'LOGIN_BLOCKED', true ) ."\"); </script>\n";
 						mosRedirect(mosGetParam( $_POST, 'return', '/' ));
 						exit();
 					}

@@ -155,13 +155,13 @@ class HTML_banners {
 			}
 			// do field validation
 			if (form.name.value == "") {
-				alert( "<?php echo JText::_( 'You must provide a banner name.' ); ?>" );
+				alert( "<?php echo JText::_( 'You must provide a banner name.', true ); ?>" );
 			} else if (getSelectedValue('adminForm','cid') < 1) {
-				alert( "<?php echo JText::_( 'Please select a client.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please select a client.', true ); ?>" );
 			} else if (!getSelectedValue('adminForm','imageurl')) {
-				alert( "<?php echo JText::_( 'Please select an image.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please select an image.', true ); ?>" );
 			} else if (form.clickurl.value == "") {
-				alert( "<?php echo JText::_( 'Please fill in the URL for the banner.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please fill in the URL for the banner.', true ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}
@@ -390,11 +390,11 @@ class HTML_bannerClient {
 			}
 			// do field validation
 			if (form.name.value == "") {
-				alert( "<?php echo JText::_( 'Please fill in the Client Name.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please fill in the Client Name.', true ); ?>" );
 			} else if (form.contact.value == "") {
-				alert( "<?php echo JText::_( 'Please fill in the Contact Name.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please fill in the Contact Name.', true ); ?>" );
 			} else if (form.email.value == "") {
-				alert( "<?php echo JText::_( 'Please fill in the Contact Email.' ); ?>" );
+				alert( "<?php echo JText::_( 'Please fill in the Contact Email.', true ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}

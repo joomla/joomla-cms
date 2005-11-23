@@ -336,10 +336,9 @@ function saveSection( $option, $scope, $task ) {
 */
 function removeSections( $cid, $scope, $option ) {
 	global $database;
-	;
 
 	if (count( $cid ) < 1) {
-		echo "<script> alert('". JText::_( 'Select a section to delete' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select a section to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -404,7 +403,7 @@ function publishSections( $scope, $cid=null, $publish=1, $option ) {
 
 	if ( !is_array( $cid ) || count( $cid ) < 1 ) {
 		$action = $publish ? 'publish' : 'unpublish';
-		echo "<script> alert('". JText::_( 'Select a section to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select a section to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -412,7 +411,7 @@ function publishSections( $scope, $cid=null, $publish=1, $option ) {
 	$count = count( $cid );
 	if ( $publish ) {
 		if ( !$count ){
-			echo "<script> alert('". JText::_( 'Cannot Publish an Empty Section' ) .": ". $count ."'); window.history.go(-1);</script>\n";
+			echo "<script> alert('". JText::_( 'Cannot Publish an Empty Section', true ) .": ". $count ."'); window.history.go(-1);</script>\n";
 			return;
 		}
 	}
@@ -496,7 +495,7 @@ function copySectionSelect( $option, $cid, $section ) {
 	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		echo "<script> alert('". JText::_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to move', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 

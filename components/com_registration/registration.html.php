@@ -72,21 +72,21 @@ class HTML_registration {
 
 			// do field validation
 			if (form.name.value == "") {
-				alert( "<?php echo JText::_( 'Please enter your name.' );?>" );
+				alert( "<?php echo JText::_( 'Please enter your name.', true );?>" );
 			} else if (form.username.value == "") {
-				alert( "<?php echo JText::_( 'Please enter a user name.' );?>" );
+				alert( "<?php echo JText::_( 'Please enter a user name.', true );?>" );
 			} else if (r.exec(form.username.value) || form.username.value.length < 3) {
-				alert( "<?php printf( JText::_( 'VALID_AZ09' ), JText::_( 'Username' ), 2 );?>" );
+				alert( "<?php printf( JText::_( 'VALID_AZ09', true ), JText::_( 'Username', true ), 2 );?>" );
 			} else if (form.email.value == "") {
-				alert( "<?php echo JText::_( 'Please enter a valid e-mail address.' );?>" );
+				alert( "<?php echo JText::_( 'Please enter a valid e-mail address.', true );?>" );
 			} else if (form.password.value.length < 6) {
-				alert( "<?php echo JText::_( 'REGWARN_PASS' );?>" );
+				alert( "<?php echo JText::_( 'REGWARN_PASS', true );?>" );
 			} else if (form.password2.value == "") {
-				alert( "<?php echo JText::_( 'Please verify the password.' );?>" );
+				alert( "<?php echo JText::_( 'Please verify the password.', true );?>" );
 			} else if ((form.password.value != "") && (form.password.value != form.password2.value)){
-				alert( "<?php echo JText::_( 'REGWARN_VPASS2' );?>" );
+				alert( "<?php echo JText::_( 'REGWARN_VPASS2', true );?>" );
 			} else if (r.exec(form.password.value)) {
-				alert( "<?php printf( JText::_( 'VALID_AZ09' ), JText::_( 'Password' ), 6 );?>" );
+				alert( "<?php printf( JText::_( 'VALID_AZ09', true ), JText::_( 'Password', true ), 6 );?>" );
 			} else {
 				form.submit();
 			}

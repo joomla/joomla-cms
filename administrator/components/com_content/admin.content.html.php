@@ -295,8 +295,8 @@ class HTML_content {
 		function submitbutton(pressbutton) {
 			if (pressbutton == 'remove') {
 				if (document.adminForm.boxchecked.value == 0) {
-					alert("<?php echo JText::_( 'VALIDSELECTIONLISTSENDTRASH' ); ?>");
-				} else if ( confirm("<?php echo JText::_( 'VALIDTRASHSELECTEDITEMS' ); ?>")) {
+					alert("<?php echo JText::_( 'VALIDSELECTIONLISTSENDTRASH', true ); ?>");
+				} else if ( confirm("<?php echo JText::_( 'VALIDTRASHSELECTEDITEMS', true ); ?>")) {
 					submitform('remove');
 				}
 			} else {
@@ -501,10 +501,10 @@ class HTML_content {
 
 			if ( pressbutton == 'menulink' ) {
 				if ( form.menuselect.value == "" ) {
-					alert( "<?php echo JText::_( 'Please select a Menu' ); ?>" );
+					alert( "<?php echo JText::_( 'Please select a Menu', true ); ?>" );
 					return;
 				} else if ( form.link_name.value == "" ) {
-					alert( "<?php echo JText::_( 'Please enter a Name for this menu item' ); ?>" );
+					alert( "<?php echo JText::_( 'Please enter a Name for this menu item', true ); ?>" );
 					return;
 				}
 			}
@@ -522,13 +522,13 @@ class HTML_content {
 
 			// do field validation
 			if (form.title.value == ""){
-				alert( "<?php echo JText::_( 'Content item must have a title' ); ?>" );
+				alert( "<?php echo JText::_( 'Content item must have a title', true ); ?>" );
 			} else if (form.sectionid.value == "-1"){
-				alert( "<?php echo JText::_( 'You must select a Section.' ); ?>" );
+				alert( "<?php echo JText::_( 'You must select a Section.', true ); ?>" );
 			} else if (form.catid.value == "-1"){
-				alert( "<?php echo JText::_( 'You must select a Category.' ); ?>" );
+				alert( "<?php echo JText::_( 'You must select a Category.', true ); ?>" );
  			} else if (form.catid.value == ""){
- 				alert( "<?php echo JText::_( 'You must select a Category.' ); ?>" );
+ 				alert( "<?php echo JText::_( 'You must select a Category.', true ); ?>" );
 			} else {
 				<?php getEditorContents( 'editor1', 'introtext' ) ; ?>
 				<?php getEditorContents( 'editor2', 'fulltext' ) ; ?>
@@ -1068,7 +1068,7 @@ class HTML_content {
 
 			// do field validation
 			if (!getSelectedValue( 'adminForm', 'sectcat' )) {
-				alert( "<?php echo JText::_( 'Please select something' ); ?>" );
+				alert( "<?php echo JText::_( 'Please select something', true ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}
@@ -1139,7 +1139,7 @@ class HTML_content {
 
 			// do field validation
 			if (!getSelectedValue( 'adminForm', 'sectcat' )) {
-				alert( "<?php echo JText::_( 'VALIDSELECTSECTCATCOPYITEMS' ); ?>" );
+				alert( "<?php echo JText::_( 'VALIDSELECTSECTCATCOPYITEMS', true ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}

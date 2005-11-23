@@ -41,7 +41,7 @@ class contact_category_table_menu_html {
 			if ( !$menu->id ) {
 				?>
 				if ( getSelectedValue( 'adminForm', 'componentid' ) < 1 ) {
-					alert( "<?php echo JText::_( 'You must select a category' ); ?>" );
+					alert( "<?php echo JText::_( 'You must select a category', true ); ?>" );
 					return;
 				}
 				cat = getSelectedText( 'adminForm', 'componentid' );
@@ -55,7 +55,7 @@ class contact_category_table_menu_html {
 			} else {
 				?>
 				if ( form.name.value == '' ) {
-					alert( "<?php echo JText::_( 'This Menu item must have a title' ); ?>" );
+					alert( "<?php echo JText::_( 'This Menu item must have a title', true ); ?>" );
 				} else {
 					submitform( pressbutton );
 				}

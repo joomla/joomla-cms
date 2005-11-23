@@ -37,9 +37,9 @@ class contact_item_link_menu_html {
 
 			// do field validation
 			if (trim(form.name.value) == ""){
-				alert( "<?php echo JText::_( 'Link must have a name' ); ?>" );
+				alert( "<?php echo JText::_( 'Link must have a name', true ); ?>" );
 			} else if (trim(form.contact_item_link.value) == ""){
-				alert( "<?php echo JText::_( 'You must select a Contact to link to' ); ?>" );
+				alert( "<?php echo JText::_( 'You must select a Contact to link to', true ); ?>" );
 			} else {
 				form.link.value = "index.php?option=com_contact&task=view&contact_id=" + form.contact_item_link.value;
 				form.componentid.value = form.contact_item_link.value;

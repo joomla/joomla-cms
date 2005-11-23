@@ -449,7 +449,7 @@ function removeModule( &$cid, $option, $client ) {
 	;
 
 	if (count( $cid ) < 1) {
-		echo "<script> alert('". JText::_( 'Select a module to delete' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select a module to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -475,7 +475,7 @@ function removeModule( &$cid, $option, $client ) {
 		// mod_mainmenu modules only deletable via Menu Manager
 		if ( $row->module == 'mod_mainmenu' ) {
 			if ( strstr( $row->params, 'mainmenu' ) ) {
-				echo "<script> alert('". JText::_( 'WARNMAINMENU' ) ."'); window.history.go(-1); </script>\n";
+				echo "<script> alert('". JText::_( 'WARNMAINMENU', true ) ."'); window.history.go(-1); </script>\n";
 				exit;
 			}
 		}
@@ -507,7 +507,7 @@ function removeModule( &$cid, $option, $client ) {
 
 	if (count( $err )) {
 		$cids = addslashes( implode( "', '", $err ) );
-		echo "<script>alert('". JText::_( 'Module(s)' ) .": \'". $cids ."\' ". JText::_( 'WARNMODULES' ) ."');</script>\n";
+		echo "<script>alert('". JText::_( 'Module(s)', true ) .": \'". $cids ."\' ". JText::_( 'WARNMODULES', true ) ."');</script>\n";
 	}
 
 	mosRedirect( 'index2.php?option='. $option .'&client='. $client );
@@ -524,7 +524,7 @@ function publishModule( $cid=null, $publish=1, $option, $client ) {
 
 	if (count( $cid ) < 1) {
 		$action = $publish ? 'publish' : 'unpublish';
-		echo "<script> alert('". JText::_( 'Select a module to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select a module to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 

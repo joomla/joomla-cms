@@ -163,21 +163,21 @@ class HTML_users {
 
 			// do field validation
 			if (trim(form.name.value) == "") {
-				alert( "<?php echo JText::_( 'You must provide a name.' ); ?>" );
+				alert( "<?php echo JText::_( 'You must provide a name.', true ); ?>" );
 			} else if (form.username.value == "") {
-				alert( "<?php echo JText::_( 'You must provide a user login name.' ); ?>" );
+				alert( "<?php echo JText::_( 'You must provide a user login name.', true ); ?>" );
 			} else if (r.exec(form.username.value) || form.username.value.length < 3) {
-				alert( "<?php echo JText::_( 'WARNLOGININVALID' ); ?>" );
+				alert( "<?php echo JText::_( 'WARNLOGININVALID', true ); ?>" );
 			} else if (trim(form.email.value) == "") {
-				alert( "<?php echo JText::_( 'You must provide an email address.' ); ?>" );
+				alert( "<?php echo JText::_( 'You must provide an email address.', true ); ?>" );
 			} else if (form.gid.value == "") {
-				alert( "<?php echo JText::_( 'You must assign user to a group.' ); ?>" );
+				alert( "<?php echo JText::_( 'You must assign user to a group.', true ); ?>" );
 			} else if (trim(form.password.value) != "" && form.password.value != form.password2.value){
-				alert( "<?php echo JText::_( 'Password do not match.' ); ?>" );
+				alert( "<?php echo JText::_( 'Password do not match.', true ); ?>" );
 			} else if (form.gid.value == "29") {
-				alert( "<?php echo JText::_( 'WARNSELECTPF' ); ?>" );
+				alert( "<?php echo JText::_( 'WARNSELECTPF', true ); ?>" );
 			} else if (form.gid.value == "30") {
-				alert( "<?php echo JText::_( 'WARNSELECTPB' ); ?>" );
+				alert( "<?php echo JText::_( 'WARNSELECTPB', true ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}

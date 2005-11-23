@@ -265,7 +265,7 @@ class HTML_contact {
 		<!--
 		function validate(){
 			if ( ( document.emailForm.text.value == "" ) || ( document.emailForm.email.value.search("@") == -1 ) || ( document.emailForm.email.value.search("[.*]" ) == -1 ) ) {
-				alert( "<?php echo JText::_( 'CONTACT_FORM_NC' ); ?>" );
+				alert( "<?php echo JText::_( 'CONTACT_FORM_NC', true ); ?>" );
 			} else {
 			document.emailForm.action = "<?php echo sefRelToAbs("index.php?option=com_contact&Itemid=$Itemid"); ?>"
 			document.emailForm.submit();

@@ -41,7 +41,7 @@ class content_section_menu_html {
 			if ( !$menu->id ) {
 				?>
 				if ( getSelectedValue( 'adminForm', 'componentid' ) < 1 ) {
-					alert( "<?php echo JText::_( 'You must select a Section' ); ?>" );
+					alert( "<?php echo JText::_( 'You must select a Section', true ); ?>" );
 					return;
 				}
 
@@ -54,7 +54,7 @@ class content_section_menu_html {
 			} else {
 				?>
 				if ( form.name.value == '' ) {
-					alert( "<?php echo JText::_( 'This Menu item must have a title' ); ?>" );
+					alert( "<?php echo JText::_( 'This Menu item must have a title', true ); ?>" );
 				} else {
 					submitform( pressbutton );
 				}

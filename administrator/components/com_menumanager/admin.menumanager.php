@@ -207,7 +207,7 @@ function saveMenu() {
 	// block to stop renaming of 'mainmenu' menutype
 	if ( $old_menutype == 'mainmenu' ) {
 		if ( $menutype <> 'mainmenu' ) {
-			echo "<script> alert('". JText::_( 'WARNMAINMENU' ) ."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('". JText::_( 'WARNMAINMENU', true ) ."'); window.history.go(-1); </script>\n";
 			exit;
 		}
 	}
@@ -222,7 +222,7 @@ function saveMenu() {
 	foreach ( $menus as $menu ) {
 		$params = mosParseParams( $menu );
 		if ( $params->menutype == $menutype ) {
-			echo "<script> alert('". JText::_( 'ERRORMENUNAMEEXISTS' ) ."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('". JText::_( 'ERRORMENUNAMEEXISTS', true ) ."'); window.history.go(-1); </script>\n";
 			exit;
 		}
 	}
@@ -328,7 +328,7 @@ function deleteConfirm( $option, $type ) {
 	;
 
 	if ( $type == 'mainmenu' ) {
-		echo "<script> alert('". JText::_( 'WARNDELMAINMENU' ) ."'); window.history.go(-1); </script>\n";
+		echo "<script> alert('". JText::_( 'WARNDELMAINMENU', true ) ."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
@@ -379,7 +379,7 @@ function deleteMenu( $option, $cid, $type ) {
 	;
 
 	if ( $type == 'mainmenu' ) {
-		echo "<script> alert('". JText::_( 'WARNDELMAINMENU' ) ."'); window.history.go(-1); </script>\n";
+		echo "<script> alert('". JText::_( 'WARNDELMAINMENU', true ) ."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
@@ -476,7 +476,7 @@ function copyMenu( $option, $cid, $type ) {
 	foreach ( $menus as $menu ) {
 		$params = mosParseParams( $menu );
 		if ( $params->menutype == $menu_name ) {
-			echo "<script> alert('". JText::_( 'ERRORMENUNAMEEXISTS' ) ."'); window.history.go(-1); </script>\n";
+			echo "<script> alert('". JText::_( 'ERRORMENUNAMEEXISTS', true ) ."'); window.history.go(-1); </script>\n";
 			exit;
 		}
 	}

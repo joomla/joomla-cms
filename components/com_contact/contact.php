@@ -374,7 +374,7 @@ function sendmail( $con_id, $option ) {
 	}
 	?>
 	<script>
-	alert( "<?php echo JText::_( 'Thank you for your e-mail' ); ?>" );
+	alert( "<?php echo JText::_( 'Thank you for your e-mail', true ); ?>" );
 	document.location.href='<?php echo sefRelToAbs( 'index.php?option='. $option .'&Itemid='. $Itemid ); ?>';
 	</script>
 	<?php

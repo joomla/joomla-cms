@@ -269,19 +269,19 @@ class categories_html {
 
 			if ( pressbutton == 'menulink' ) {
 				if ( form.menuselect.value == "" ) {
-					alert( "<?php echo JText::_( 'Please select a Menu' ); ?>" );
+					alert( "<?php echo JText::_( 'Please select a Menu', true ); ?>" );
 					return;
 				} else if ( form.link_type.value == "" ) {
-					alert( "<?php echo JText::_( 'Please select a menu type' ); ?>" );
+					alert( "<?php echo JText::_( 'Please select a menu type', true ); ?>" );
 					return;
 				} else if ( form.link_name.value == "" ) {
-					alert( "<?php echo JText::_( 'Please enter a Name for this menu item' ); ?>" );
+					alert( "<?php echo JText::_( 'Please enter a Name for this menu item', true ); ?>" );
 					return;
 				}
 			}
 
 			if ( form.name.value == "" ) {
-				alert("<?php echo JText::_( 'Category must have a name' ); ?>");
+				alert("<?php echo JText::_( 'Category must have a name', true ); ?>");
 			} else {
 				<?php getEditorContents( 'editor1', 'description' ) ; ?>
 				submitform(pressbutton);

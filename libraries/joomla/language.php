@@ -144,9 +144,7 @@ class JLanguage extends JObject {
 			}
 		}
 		if ($jsSafe) {
-			$string = str_replace( "\n", '\\n', $string );
-			$string = str_replace( '"', '&quot;', $string );
-			$string = str_replace( '\'', '&#39;', $string );
+			$string = addslashes($string);
 		}
 		return $string;
 	}

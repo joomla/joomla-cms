@@ -265,7 +265,7 @@ function editCategory( $uid=0, $section='' ) {
 	$database->setQuery( $query );
 	$sections = $database->loadResult();
 	if (!$sections && $type != 'other') {
-		echo "<script> alert('". JText::_( 'WARNSECTION' ) ."'); window.history.go(-1); </script>\n";
+		echo "<script> alert('". JText::_( 'WARNSECTION', true ) ."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
@@ -518,7 +518,7 @@ function removeCategories( $section, $cid ) {
 	;
 
 	if (count( $cid ) < 1) {
-		echo "<script> alert('". JText::_( 'Select a category to delete' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select a category to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 

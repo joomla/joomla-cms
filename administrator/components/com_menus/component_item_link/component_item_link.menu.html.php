@@ -37,9 +37,9 @@ class component_item_link_menu_html {
 
 			// do field validation
 			if ( trim(form.name.value) == "" ){
-				alert( "<?php echo JText::_( 'Link must have a name' ); ?>" );
+				alert( "<?php echo JText::_( 'Link must have a name', true ); ?>" );
 			} else if ( trim( form.link.value ) == "" ){
-				alert( "<?php echo JText::_( 'You must select a Component to link to' ); ?>" );
+				alert( "<?php echo JText::_( 'You must select a Component to link to', true ); ?>" );
 			} else {
 				submitform( pressbutton );
 			}

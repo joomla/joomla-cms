@@ -58,17 +58,17 @@ class HTML_user {
 
 			// do field validation
 			if (form.name.value == "") {
-				alert( "<?php echo JText::_( 'Please enter your name.' );?>" );
+				alert( "<?php echo JText::_( 'Please enter your name.', true );?>" );
 			} else if (form.username.value == "") {
-				alert( "<?php echo JText::_( 'Please enter a user name.' );?>" );
+				alert( "<?php echo JText::_( 'Please enter a user name.', true );?>" );
 			} else if (r.exec(form.username.value) || form.username.value.length < 3) {
-				alert( "<?php printf( JText::_( 'VALID_AZ09' ), JText::_( 'Username' ), 4 );?>" );
+				alert( "<?php printf( JText::_( 'VALID_AZ09', true ), JText::_( 'Username', true ), 4 );?>" );
 			} else if (form.email.value == "") {
-				alert( "<?php echo JText::_( 'Please enter a valid e-mail address.' );?>" );
+				alert( "<?php echo JText::_( 'Please enter a valid e-mail address.', true );?>" );
 			} else if ((form.password.value != "") && (form.password.value != form.verifyPass.value)){
-				alert( "<?php echo JText::_( 'REGWARN_VPASS2' );?>" );
+				alert( "<?php echo JText::_( 'REGWARN_VPASS2', true );?>" );
 			} else if (r.exec(form.password.value)) {
-				alert( "<?php printf( JText::_( 'VALID_AZ09' ), JText::_( 'Password' ), 4 );?>" );
+				alert( "<?php printf( JText::_( 'VALID_AZ09', true ), JText::_( 'Password', true ), 4 );?>" );
 			} else {
 				form.submit();
 			}

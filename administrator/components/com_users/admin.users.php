@@ -415,7 +415,7 @@ function removeUsers( $cid, $option ) {
 	global $_MAMBOTS;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
-		echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 
@@ -462,11 +462,10 @@ function removeUsers( $cid, $option ) {
 */
 function changeUserBlock( $cid=null, $block=1, $option ) {
 	global $database;
-	;
 
 	if (count( $cid ) < 1) {
 		$action = $block ? 'block' : 'unblock';
-		echo "<script> alert('". JText::_( 'Select an item to' ) ." ". $action ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select an item to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 

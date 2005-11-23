@@ -951,13 +951,13 @@ class HTML_content {
 			catch(e){}
 			// do field validation
 			if (form.title.value == "") {
-				alert ( "<?php echo JText::_( 'Content item must have a title' ); ?>" );
+				alert ( "<?php echo JText::_( 'Content item must have a title', true ); ?>" );
 			} else if (parseInt('<?php echo $row->sectionid;?>')) {
 				// for content items
 				if (getSelectedValue('adminForm','catid') < 1) {
-					alert ( "<?php echo JText::_( 'Please select a category' ); ?>" );
+					alert ( "<?php echo JText::_( 'Please select a category', true ); ?>" );
 				//} else if (form.introtext.value == "") {
-				//	alert ( "<?php echo JText::_( 'Content item must have intro text' ); ?>" );
+				//	alert ( "<?php echo JText::_( 'Content item must have intro text', true ); ?>" );
 				} else {
 					<?php
 					getEditorContents( 'editor1', 'introtext' );
@@ -966,7 +966,7 @@ class HTML_content {
 					submitform(pressbutton);
 				}
 			//} else if (form.introtext.value == "") {
-			//	alert ( "<?php echo JText::_( 'Content item must have intro text' ); ?>" );
+			//	alert ( "<?php echo JText::_( 'Content item must have intro text', true ); ?>" );
 			} else {
 				// for static content
 				<?php
@@ -982,7 +982,7 @@ class HTML_content {
 
 		function WarnUser(){
 			if (document.adminForm.goodexit.value==0) {
-				alert('<?php echo JText::_( 'WARNUSER' );?>');
+				alert('<?php echo JText::_( 'WARNUSER', true );?>');
 				window.location="<?php echo sefRelToAbs("index.php?option=com_content&task=".$task."&sectionid=".$sectionid."&id=".$row->id."&Itemid=".$Itemid); ?>";
 			}
 		}
@@ -1359,7 +1359,7 @@ class HTML_content {
 			var form = document.frontendForm;
 			// do field validation
 			if (form.email.value == "" || form.youremail.value == "") {
-				alert( "<?php echo JText::_( 'EMAIL_ERR_NOINFO' ); ?>" );
+				alert( "<?php echo JText::_( 'EMAIL_ERR_NOINFO', true ); ?>" );
 				return false;
 			}
 			return true;

@@ -1,4 +1,4 @@
-<?php
+url<?php
 
 /**
 * @version $Id$
@@ -379,12 +379,14 @@ class JBrowser extends JObject
 		$from = $to = array();         
 		
 		if ($this->isBrowser('msie') ||             
-			($this->isBrowser('mozilla') && ($this->getMajor() >= 5))) {             
+			($this->isBrowser('mozilla') && ($this->getMajor() >= 5))) { 		     
 				$from = array('%23', '%26', '%2B');             
 				$to = array(urlencode('%23'), urlencode('%26'), urlencode('%2B'));         
-		}         $from[] = '%27';         $to[] = '\%27';         
+		}         
 		
-		return str_replace($from, $to, $code);     
+		$from[] = '%27';         $to[] = '\urlencode%27';   
+	
+		return str_replace($from, $to, $code);      
 	}
 	
    /**

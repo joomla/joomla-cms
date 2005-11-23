@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Nov-2005 Johan Janssens
+ ^ Added javascript escaping to all alert and confirm output
+
 23-Nov-2005 Samuel moffatt
  + Added structure of JRegistry
 
