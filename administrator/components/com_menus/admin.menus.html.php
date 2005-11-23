@@ -23,7 +23,6 @@ class HTML_menusections {
 
 	function showMenusections( $rows, $pageNav, $search, $levellist, $menutype, $option ) {
 		global $my;
-    	;
 
 		mosCommonHTML::loadOverlib();
 		?>

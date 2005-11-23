@@ -986,15 +986,15 @@ class HTML_content {
 		</script>
 
 		<?php
-		$docinfo = "<strong>". JText::_( 'Expiry Date', true ) .":</strong> ";
+		$docinfo = "<strong>". JText::_( 'Expiry Date' ) .":</strong> ";
 		$docinfo .= $row->publish_down."<br />";
-		$docinfo .= "<strong>". JText::_( 'Version', true ) .":</strong> ";
+		$docinfo .= "<strong>". JText::_( 'Version') .":</strong> ";
 		$docinfo .= $row->version."<br />";
-		$docinfo .= "<strong>". JText::_( 'Created', true ) .":</strong> ";
+		$docinfo .= "<strong>". JText::_( 'Created') .":</strong> ";
 		$docinfo .= $row->created."<br />";
-		$docinfo .= "<strong>". JText::_( 'Last Modified', true ) .":</strong> ";
+		$docinfo .= "<strong>". JText::_( 'Last Modified' ) .":</strong> ";
 		$docinfo .= $row->modified."<br />";
-		$docinfo .= "<strong>". JText::_( 'Hits', true ) .":</strong> ";
+		$docinfo .= "<strong>". JText::_( 'Hits' ) .":</strong> ";
 		$docinfo .= $row->hits."<br />";
 		?>
 		<form action="index.php" method="post" name="adminForm" onSubmit="javascript:setgood();">
