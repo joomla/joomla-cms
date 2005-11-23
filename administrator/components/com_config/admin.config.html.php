@@ -23,7 +23,7 @@ class HTML_config {
 
 	function showconfig( &$row, &$lists, $option) {
 		global $mosConfig_absolute_path;
-		;
+	
 		$tabs = new mosTabs(1);
 		?>
 		<script type="text/javascript">

@@ -43,7 +43,6 @@ switch ( $task ) {
  */
 function showconfig( $option) {
 	global $database, $mosConfig_absolute_path, $mosConfig_editor;
-	;
 
 	$row = new mosConfig();
 	$row->bindGlobals();
@@ -53,22 +52,7 @@ function showconfig( $option) {
 	$menuitems 	= array();
 	$lists 		= array();
 
-// PRE-PROCESS SOME LISTS
-
-	// -- Languages --
-
-	if ($handle = opendir( $mosConfig_absolute_path . '/language/' )) {
-		$i=0;
-		while (false !== ($file = readdir( $handle ))) {
-			if (!strcasecmp(substr($file,-4),".php") && $file <> "." && $file <> ".." && strcasecmp(substr($file,-11),".ignore.php")) {
-				$langs[] = mosHTML::makeOption( substr($file,0,-4) );
-			}
-		}
-	}
-
-	// sort list of languages
-	sort( $langs );
-	reset( $langs );
+// PRE-PROCESS SOME LIST
 
 	// -- Editors --
 
@@ -154,7 +138,8 @@ function showconfig( $option) {
 
 // LOCALE SETTINGS
 
-	$lists['lang'] = mosHTML::selectList( $langs, 'config_lang', 'class="inputbox" size="1"', 'value', 'text', $row->config_lang );
+	$languages = JLanguageHelper::buildLanguageList( $mosConfig_lang );
+	$lists['lang'] = mosHTML::selectList( $languages, 'config_lang', 'class="inputbox" size="1"', 'value', 'text', $row->config_lang );
 
 	$timeoffset = array(
 		mosHTML::makeOption( -12, JText::_( '(UTC -12:00) International Date Line West' ) ),
@@ -299,7 +284,6 @@ function showconfig( $option) {
  */
 function saveconfig( $task ) {
 	global $database, $mosConfig_absolute_path;
-	;
 
 	$row = new mosConfig();
 	if (!$row->bind( $_POST )) {

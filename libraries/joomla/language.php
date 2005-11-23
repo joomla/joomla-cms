@@ -156,7 +156,7 @@ class JLanguage extends JObject {
 	 * @param string The prefix
 	 */
 	function load( $prefix='') {
-		$basePath = JLanguage::getLanguagePath( $this->_userLang);
+		$basePath = JLanguage::getLanguagePath( JPATH_BASE, $this->_userLang);
 		
 		$filename = empty( $prefix ) ?  $this->_userLang : $this->_userLang . '.' . $prefix ;
 		if (!file_exists( $basePath . $filename .'.ini') ) {
@@ -269,7 +269,7 @@ class JLanguage extends JObject {
 	
 	function getMetadata($lang)
 	{
-		$path = JLanguage::getLanguagePath( $lang );
+		$path = JLanguage::getLanguagePath( JPATH_BASE, $lang );
 		$file = $lang . '.xml';
 		
 		return JLanguage::_parseXMLLanguageFile( $path . $file);
@@ -281,10 +281,10 @@ class JLanguage extends JObject {
 	 * @param string	key of the area (front, admin, install)
 	 * @return array	key/value pair with the language file and real name
 	 */
-	function getKnownLanguages( ) {
+	function getKnownLanguages( $basePath = JPATH_BASE ) {
 		static $knownLanguages=null;
 	
-		$dir = JLanguage::getLanguagePath( );
+		$dir = JLanguage::getLanguagePath( $basePath );
 		
 		if( !isset( $knownLanguages ) ) {
 			$knownLanguages = JLanguage::_parseLanguageFiles( $dir );
@@ -297,11 +297,11 @@ class JLanguage extends JObject {
 	 * @param int The client number
 	 * @return string	language related path or null
 	 */
-	function getLanguagePath( $language=null, $addTrailingSlash=true ) {
+	function getLanguagePath( $basePath = JPATH_BASE, $language=null, $addTrailingSlash=true ) {
 		
-		$dir = JPATH_BASE. DIRECTORY_SEPARATOR. 'language' . DIRECTORY_SEPARATOR;
+		$dir = $basePath .DS. 'language' . DS;
 		if (isset( $language )) {
-			$dir .= $language .DIRECTORY_SEPARATOR;
+			$dir .= $language .DS;
 		}
 		return JPath::clean( $dir, $addTrailingSlash );
 	}
@@ -410,13 +410,13 @@ class JLanguageHelper {
 	 * @param string	client key for the area
 	 * @param array	An array of arrays ( text, value, selected )
 	 */
-	function buildLanguageList( $actualLanguage ) {
+	function buildLanguageList( $actualLanguage, $basePath = JPATH_BASE ) {
 
 		$list = array();
 
 		// cache activation
 		$cache =& JFactory::getCache( 'JLanguage' );
-		$langs = $cache->call( 'JLanguage::getKnownLanguages');
+		$langs = $cache->call( 'JLanguage::getKnownLanguages', $basePath);
 		
 		foreach ($langs as $lang=>$name) {
 			$option = array();
