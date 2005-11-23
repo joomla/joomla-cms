@@ -43,8 +43,17 @@ html {
 }
 
 #version {
-	    background: url(../images/version.png) bottom right no-repeat;
+		position: absolute;
+	    text-align: right;
+	    top: 0;
+		right: 10px;
+	    float: right;
+	    color: #ccc;
+	    font-size: 9px;
+	    margin-top: 24px;
+		text-transform: uppercase;
 }
+
 
 
 #wrapper1 div {

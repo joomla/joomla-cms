@@ -28,7 +28,9 @@ $lang =& $mainframe->getLanguage();
 <div id="langdirection">
 <div id="wrapper">
 	<div id="header">
-			<div id="version"><div id="joomla"><?php echo JText::_( 'Administration' ); ?></div></div>	</div>
+		<div id="joomla"><?php echo JText::_( 'Administration' ); ?></div>
+		<div id="version"><?php echo JText::_( 'Version#' ); ?></div>
+	</div>
 </div>
 <table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
 <tr>

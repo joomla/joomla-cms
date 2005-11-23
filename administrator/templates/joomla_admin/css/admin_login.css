@@ -35,7 +35,6 @@ body {
 #joomla {
 		height: 38px;
 		line-height: 40px;
-		position: relative;
 		width: 100%;
 		background: url(../images/joomla_logo.png) top left no-repeat;
 		margin: 0px;
@@ -48,7 +47,15 @@ body {
 }
 
 #version {
-	    background: url(../images/version.png) bottom right no-repeat;
+		position: absolute;
+	    text-align: right;
+	    top: 0;
+		right: 10px;
+	    float: right;
+	    color: #ccc;
+	    font-size: 9px;
+	    margin-top: 24px;
+		text-transform: uppercase;
 }
 
 

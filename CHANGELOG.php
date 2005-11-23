@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Nov-2005 Andy Miller
+ ^ Admin UI lang tweaks
+
 23-Nov-2005 Johan Janssens
  ^ Added javascript escaping to all alert and confirm output
 

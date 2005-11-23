@@ -44,7 +44,8 @@ $tstart = mosProfiler::getmicrotime();
 <body onload="setFocus();">
 <div id="wrapper">
 	<div id="header">
-			<div id="version"><div id="joomla"><?php echo JText::_( 'Administration' ); ?></div></div>
+		<div id="joomla"><?php echo JText::_( 'Administration' ); ?></div>
+		<div id="version"><?php echo JText::_( 'Version#' ); ?></div>
 	</div>
 </div>
 <div id="ctr" align="center">
