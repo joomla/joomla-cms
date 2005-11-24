@@ -580,4 +580,8 @@ function deldir( $dir ) {
 	closedir( $current_dir );
 	return rmdir( $dir );
 }
+
+function allowOverwrite( $p_allowOverwrite = null ) {
+	return $this->setVar( 'allowOverwrite', $p_allowOverwrite );
+} 
 ?>
