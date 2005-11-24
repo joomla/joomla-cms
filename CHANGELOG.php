@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+
+24-Nov-2005 Emir Sakic
+ # Fixed artf2225 : Email / Print redirects to homepage
+
 23-Nov-2005 Andy Miller
  ^ Admin UI lang tweaks
 
@@ -56,7 +60,7 @@ Legend:
  # Fixed artf2232 : Installation failure
 
 21-Nov-2005 Marko Schmuck
- # Fixed files.php wrong default value 
+ # Fixed files.php wrong default value
 
 21-Nov-2005 Johan Janssens
  # Fixed artf2216 : Extensions Installer
@@ -67,15 +71,15 @@ Legend:
  ^ Changed concatenated translation .' '. and ." ". string to sprintf()
  # Fixed Artifact artf2103 : Who's online works partly
  # Fixed Artifact artf2215 : smtp mail -> PHP fatal
- 
+
 20-Nov-2005 Johan Janssens
  # Fixed artf2196 : Error saving content from back-end
  # Fixed artf2207 : Remember me option -> PHP fatal
 
 20-Nov-2005 Levis Bisson
  # Fixed Artifact artf1967 : displays with an escaped apostrophe in both title and TOC.
- # Fixed Artifact artf2194 : mod_fullmenu - 2 little mistakes 
-  
+ # Fixed Artifact artf2194 : mod_fullmenu - 2 little mistakes
+
 20-Nov-2005 Emir Sakic
  # Hardened SEF against XSS injection of global variable through the _GET array
 

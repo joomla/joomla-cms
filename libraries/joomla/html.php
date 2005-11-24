@@ -31,7 +31,7 @@ class mosHTML
 
 	function Link($url, $text, $attribs = null, $ssl = 0) {
 		global $mainframe;
-		
+
 		$href = josURL(ampReplace($url), $ssl, $mainframe->getCfg('sef'));
 
 		if (is_array($attribs)) {
@@ -428,7 +428,7 @@ class mosHTML
 				// Print Preview button - used when viewing page
 				?>
 				<td align="right" width="100%" class="buttonheading">
-				<a href="#" onclick="javascript:window.print(); return false" title="<?php echo JText::_( 'Print' );?>">
+				<a href="javascript: void(0)" onclick="javascript:window.print(); return false" title="<?php echo JText::_( 'Print' );?>">
 				<?php echo $image;?>
 				</a>
 				</td>
@@ -437,7 +437,7 @@ class mosHTML
 				// Print Button - used in pop-up window
 				?>
 				<td align="right" width="100%" class="buttonheading">
-				<a href="#" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'Print' );?>">
+				<a href="javascript: void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'Print' );?>">
 				<?php echo $image;?>
 				</a>
 				</td>
@@ -739,9 +739,9 @@ class mosCommonHTML {
 
 		$hover = '';
 		if ( $overlib ) {
-			
+
 			$text = addslashes(htmlspecialchars($row->editor));
-			
+
 			$date 				= mosFormatDate( $row->checked_out_time, '%A, %d %B %Y' );
 			$time				= mosFormatDate( $row->checked_out_time, '%H:%M' );
 			$checked_out_text 	= '<table>';
@@ -749,7 +749,7 @@ class mosCommonHTML {
 			$checked_out_text 	.= '<tr><td>'. $date .'</td></tr>';
 			$checked_out_text 	.= '<tr><td>'. $time .'</td></tr>';
 			$checked_out_text 	.= '</table>';
-			
+
 			$hover = 'onMouseOver="return overlib(\''. $checked_out_text .'\', CAPTION, \''. JText::_( 'Checked Out' ) .'\', BELOW, RIGHT);" onMouseOut="return nd();"';
 		}
 		$checked	 		= '<img src="images/checked_out.png" '. $hover .'/>';
@@ -1511,11 +1511,11 @@ class mosAdminMenus {
 	*/
 	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='middle' ) {
 		global $mosConfig_absolute_path, $mosConfig_live_site, $mainframe;
-		
+
 		$cur_template = $mainframe->getTemplate();
 
 		$name = ( $name ? 'name="'. $name .'"' : '' );
-		
+
 		if ( $param ) {
 			$image = $mosConfig_live_site. $param_directory . $param;
 			if ( $type ) {
@@ -1548,11 +1548,11 @@ class mosAdminMenus {
 	*/
 	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' ) {
 		global $mosConfig_live_site, $mainframe;
-		
+
 		$cur_template = $mainframe->getTemplate();
 
 		$name = ( $name ? 'name="'. $name .'"' : '' );
-		
+
 		if ( $param ) {
 			$image = $mosConfig_live_site. $param_directory . $param;
 			if ( $type ) {

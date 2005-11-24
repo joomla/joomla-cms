@@ -640,7 +640,7 @@ class HTML_content {
 			}
 			?>
 			<td align="right" width="100%" class="buttonheading">
-			<a href="#" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'PDF' );?>">
+			<a href="javascript: void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'PDF' );?>">
 			<?php echo $image; ?>
 			</a>
 			</td>
@@ -666,7 +666,7 @@ class HTML_content {
 			}
 			?>
 			<td align="right" width="100%" class="buttonheading">
-			<a href="#" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'Email' );?>">
+			<a href="javascript: void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'Email' );?>">
 			<?php echo $image; ?>
 			</a>
 			</td>
@@ -870,7 +870,7 @@ class HTML_content {
 				if ( $row->prev && $row->next ) {
 					?>
 					<td width="50">&nbsp;
-	
+
 					</td>
 					<?php
 				}
@@ -907,8 +907,8 @@ class HTML_content {
 
 		$Returnid 	= intval( mosGetParam( $_REQUEST, 'Returnid', $Itemid ) );
 		$tabs 		= new mosTabs(0, 1);
-		
-		$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="all" href="includes/js/calendar/calendar-mos.css" />' );	
+
+		$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="all" href="includes/js/calendar/calendar-mos.css" />' );
 		?>
   		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<!-- import the calendar script -->
@@ -1346,7 +1346,7 @@ class HTML_content {
 	function emailForm( $uid, $title, $template='' ) {
 		global $mosConfig_sitename, $mainframe;
 		;
-		
+
 		$mainframe->setPageTitle( $mosConfig_sitename .' :: '. $title );
 		$mainframe->addCustomHeadTag( '<link rel="stylesheet" href="templates/'. $template .'/css/template_css.css" type="text/css" />' );
 		?>
@@ -1361,7 +1361,7 @@ class HTML_content {
 			return true;
 		}
 		</script>
-		
+
 		<form action="index2.php?option=com_content&amp;task=emailsend" name="frontendForm" method="post" onSubmit="return submitbutton();">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
@@ -1410,7 +1410,7 @@ class HTML_content {
 		<tr>
 			<td colspan="2">
 			<input type="submit" name="submit" class="button" value="<?php echo JText::_( 'Send email' ); ?>" />
-			&nbsp;&nbsp; 
+			&nbsp;&nbsp;
 			<input type="button" name="cancel" value="<?php echo JText::_( 'Cancel' ); ?>" class="button" onclick="window.close();" />
 			</td>
 		</tr>
@@ -1430,7 +1430,7 @@ class HTML_content {
 	function emailSent( $to, $template='' ) {
 		global $mosConfig_sitename, $mainframe;
 		;
-		
+
 		$mainframe->setPageTitle( $mosConfig_sitename );
 		$mainframe->addCustomHeadTag( '<link rel="stylesheet" href="templates/'. $template .'/css/template_css.css" type="text/css" />' );
 		?>
