@@ -138,9 +138,6 @@ function showconfig( $option) {
 
 // LOCALE SETTINGS
 
-	$languages = JLanguageHelper::buildLanguageList( $mosConfig_lang );
-	$lists['lang'] = mosHTML::selectList( $languages, 'config_lang', 'class="inputbox" size="1"', 'value', 'text', $row->config_lang );
-
 	$timeoffset = array(
 		mosHTML::makeOption( -12, JText::_( '(UTC -12:00) International Date Line West' ) ),
 		mosHTML::makeOption( -11, JText::_( '(UTC -11:00) Midway Island, Samoa' ) ),

@@ -25,30 +25,23 @@ require_once( $mainframe->getPath( 'admin_html' ) );
 
 $task 	= trim( strtolower( mosGetParam( $_REQUEST, 'task', '' ) ) );
 $cid 	= mosGetParam( $_REQUEST, 'cid', array(0) );
+$client = mosGetParam( $_REQUEST, 'client', 'site' );
 
 if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
 switch ($task) {
-	case 'new':
-		mosRedirect( 'index2.php?option=com_installer&element=language' );
+	case 'install':
+		mosRedirect( 'index2.php?option=com_installer&element=language&client='. $client );
 		break;
 
-	case 'edit_source':
-		editLanguageSource( $cid[0], $option );
-		break;
-
-	case 'save_source':
-		saveLanguageSource( $option );
-		break;
-
-	case 'remove':
-		removeLanguage( $cid[0], $option );
+	case 'uninstall':
+		removeLanguage( $cid[0], $option, $client );
 		break;
 
 	case 'publish':
-		publishLanguage( $cid[0], $option );
+		publishLanguage( $cid[0], $option, $client );
 		break;
 
 	case 'cancel':
@@ -56,205 +49,157 @@ switch ($task) {
 		break;
 
 	default:
-		viewLanguages( $option );
+		viewLanguages( $option, $client );
 		break;
 }
 
 /**
 * Compiles a list of installed languages
 */
-function viewLanguages( $option ) {
-	global $languages;
+function viewLanguages( $option, $client = 'site') {
 	global $mainframe;
-	global $mosConfig_lang, $mosConfig_absolute_path, $mosConfig_list_limit;
-	;
+	global $mosConfig_lang, $mosConfig_list_limit;
 
 	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
 	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
 
-	// get current languages
-	$cur_language = $mosConfig_lang;
-
+	$path = JLanguage::getLanguagePath(constant('JPATH_'.strtoupper($client)));
+	
 	$rows = array();
-	// Read the template dir to find templates
-	$languageBaseDir = mosPathName(mosPathName($mosConfig_absolute_path) . "language");
-
 	$rowid = 0;
+	
+	$dirs = JFolder::folders( $path );
+	foreach ($dirs as $dir) {
+		$files = JFolder::files( $path . $dir, '^([A-Za-z]*)\.xml$' );
+		foreach ($files as $file) {
+			// Read the file to see if it's a valid template XML file
+			$xmlDoc =& JFactory::getXMLParser();
+			$xmlDoc->resolveErrors( true );
+			if (!$xmlDoc->loadXML( $path . $dir . DS . $file, false, true )) {
+				continue;
+			}
 
-	$xmlFilesInDir = mosReadDirectory($languageBaseDir,'.xml$');
+			$root = &$xmlDoc->documentElement;
 
-	$dirName = $languageBaseDir;
-	foreach($xmlFilesInDir as $xmlfile) {
-		// Read the file to see if it's a valid template XML file
-		$xmlDoc =& JFactory::getXMLParser();
-		$xmlDoc->resolveErrors( true );
-		if (!$xmlDoc->loadXML( $dirName . $xmlfile, false, true )) {
-			continue;
+			if ($root->getTagName() != 'mosinstall') {
+					continue;
+			}
+			if ($root->getAttribute( "type" ) != "language") {
+				continue;
+			}
+
+			$row 			= new StdClass();
+			$row->id 		= $rowid;
+			$row->language 	= substr($file,0,-4);
+			$element 		= &$root->getElementsByPath('name', 1 );
+			$row->name 		= $element->getText();
+
+			$element		= &$root->getElementsByPath('creationDate', 1);
+			$row->creationdate = $element ? $element->getText() : 'Unknown';
+
+			$element 		= &$root->getElementsByPath('author', 1);
+			$row->author 	= $element ? $element->getText() : 'Unknown';
+
+			$element 		= &$root->getElementsByPath('copyright', 1);
+			$row->copyright = $element ? $element->getText() : '';
+
+			$element 		= &$root->getElementsByPath('authorEmail', 1);
+			$row->authorEmail = $element ? $element->getText() : '';
+
+			$element 		= &$root->getElementsByPath('authorUrl', 1);
+			$row->authorUrl = $element ? $element->getText() : '';
+
+			$element 		= &$root->getElementsByPath('version', 1);
+			$row->version 	= $element ? $element->getText() : '';
+
+			$lang = ($client == 'site') ? 'lang' : 'lang_'.$client;
+	
+			// if current than set published
+			if ( $mainframe->getCfg($lang) == $row->language) {
+				$row->published	= 1;
+			} else {
+				$row->published = 0;
+			}
+
+			$row->checked_out = 0;
+			$row->mosname = strtolower( str_replace( " ", "_", $row->name ) );
+			$rows[] = $row;
+			$rowid++;
 		}
-
-		$root = &$xmlDoc->documentElement;
-
-		if ($root->getTagName() != 'mosinstall') {
-			continue;
-		}
-		if ($root->getAttribute( "type" ) != "language") {
-			continue;
-		}
-
-		$row 			= new StdClass();
-		$row->id 		= $rowid;
-		$row->language 	= substr($xmlfile,0,-4);
-		$element 		= &$root->getElementsByPath('name', 1 );
-		$row->name 		= $element->getText();
-
-		$element		= &$root->getElementsByPath('creationDate', 1);
-		$row->creationdate = $element ? $element->getText() : 'Unknown';
-
-		$element 		= &$root->getElementsByPath('author', 1);
-		$row->author 	= $element ? $element->getText() : 'Unknown';
-
-		$element 		= &$root->getElementsByPath('copyright', 1);
-		$row->copyright = $element ? $element->getText() : '';
-
-		$element 		= &$root->getElementsByPath('authorEmail', 1);
-		$row->authorEmail = $element ? $element->getText() : '';
-
-		$element 		= &$root->getElementsByPath('authorUrl', 1);
-		$row->authorUrl = $element ? $element->getText() : '';
-
-		$element 		= &$root->getElementsByPath('version', 1);
-		$row->version 	= $element ? $element->getText() : '';
-
-		// if current than set published
-		if ($cur_language == $row->language) {
-			$row->published	= 1;
-		} else {
-			$row->published = 0;
-		}
-
-		$row->checked_out = 0;
-		$row->mosname = strtolower( str_replace( " ", "_", $row->name ) );
-		$rows[] = $row;
-		$rowid++;
 	}
+
 
 	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( count( $rows ), $limitstart, $limit );
 
 	$rows = array_slice( $rows, $pageNav->limitstart, $pageNav->limit );
 
-	HTML_languages::showLanguages( $cur_language, $rows, $pageNav, $option );
+	HTML_languages::showLanguages( $rows, $pageNav, $option, $client );
 }
 
 /**
 * Publish, or make current, the selected language
 */
-function publishLanguage( $p_lname, $option ) {
-	global $mosConfig_lang;
-	;
-
-	$config = '';
+function publishLanguage( $p_lname, $option, $client = 'site' ) 
+{	
+	/*$config = '';
+	
+	$lang = ($client == 'site') ? '\$mosConfig_lang' : '\$mosConfig_lang_'.$client;
+	echo $lang;
 
 	$fp = fopen("../configuration.php","r");
 	while(!feof($fp)){
 		$buffer = fgets($fp,4096);
-		if (strstr($buffer,"\$mosConfig_lang")){
-			$config .= "\$mosConfig_lang = \"$p_lname\";\n";
-		} else {
-			$config .= $buffer;
+		
+		switch($client) 
+		{
+			case 'site' :
+			{
+				if (strstr($buffer,"\$mosConfig_lang")){
+					$config .= "\$mosConfig_lang = \"$p_lname\";\n";
+				} else {
+					$config .= $buffer;
+				}
+			} break;
+			case 'administrator' :
+			{
+				if (strstr($buffer,"\$mosConfig_lang_administrator")){
+					$config .= "\$mosConfig_lang_administator = \"$p_lname\";\n";
+				} else {
+					$config .= $buffer;
+				}
+			} break;
 		}
+		
+		
 	}
 	fclose($fp);
 
 	if ($fp = fopen("../configuration.php","w")){
 		fputs($fp, $config, strlen($config));
 		fclose($fp);
-		mosRedirect("index2.php",JText::_( 'Configuration succesfully updated!' ) );
+		mosRedirect("index2.php?option=com_languages&client=".$client,JText::_( 'Configuration succesfully updated!' ) );
 	} else {
-		mosRedirect("index2.php",JText::_( 'ERRORCONFIGWRITEABLE' ) );
-	}
+		mosRedirect("index2.php?option=com_languages&client=".$client,JText::_( 'ERRORCONFIGWRITEABLE' ) );
+	}*/
+	
+	echo "WIP";
 
 }
 
 /**
 * Remove the selected language
 */
-function removeLanguage( $cid, $option, $client = 'admin' ) {
+function removeLanguage( $cid, $option, $client = 'site' ) {
 	global $mosConfig_lang;
-	;
 
-	$client_id = $client=='admin' ? 1 : 0;
+	$lang = ($client == 'site') ? 'lang' : 'lang_'.$client;
 
-	$cur_language = $mosConfig_lang;
-
-	if ($cur_language == $cid) {
+	if ($mainframe->getCfg($lang) == $cid) {
 		mosErrorAlert(JText::_( 'You can not delete language in use.', true ));
 	}
 
-	/*$lang_path = "../language/$cid.php";
-	$lang_ignore_path = "../language/$cid.ignore.php";
-	$xml_path = "../language/$cid.xml";
-
-	unlink($lang_path);
-	unlink($lang_ignore_path);
-	unlink($xml_path);
-	*/
-
 	mosRedirect( 'index2.php?option=com_installer&element=language&client='. $client .'&task=remove&cid[]='. $cid );
 
-}
-
-function editLanguageSource( $p_lname, $option) {
-	$file = stripslashes( "../language/$p_lname.php" );
-	;
-
-	if ($fp = fopen( $file, "r" )) {
-		$content = fread( $fp, filesize( $file ) );
-		$content = htmlspecialchars( $content );
-
-		HTML_languages::editLanguageSource( $p_lname, $content, $option );
-	} else {
-    	$msg = sprintf( JText::_( 'Operation Failed: Could not open' ), $file );
-		mosRedirect( "index2.php?option=". $option ."&mosmsg=". $msg );
-	}
-}
-
-function saveLanguageSource( $option ) {
-	;
-
-	$language = mosGetParam( $_POST, 'language', '' );
-	$filecontent = mosGetParam( $_POST, 'filecontent', '', _MOS_ALLOWHTML );
-
-	if (!$language) {
-		mosRedirect( "index2.php?option=". $option ."&mosmsg=". JText::_( 'Operation failed: No language specified.' ) );
-	}
-	if (!$filecontent) {
-		mosRedirect( "index2.php?option=". $option ."&mosmsg=". JText::_( 'Operation failed: Content empty.' ) );
-	}
-
-	$file = "../language/$language.php";
-	$enable_write = mosGetParam($_POST,'enable_write',0);
-	$oldperms = fileperms($file);
-	if ($enable_write) @chmod($file, $oldperms | 0222);
-
-	clearstatcache();
-	if (is_writable( $file ) == false) {
-		mosRedirect( "index2.php?option=". $option ."&mosmsg=". JText::_( 'Operation failed: The file is not writable.' ) );
-	}
-
-	if ($fp = fopen ($file, "w")) {
-		fputs( $fp, stripslashes( $filecontent ) );
-		fclose( $fp );
-		if ($enable_write) {
-			@chmod($file, $oldperms);
-		} else {
-			if (mosGetParam($_POST,'disable_write',0))
-				@chmod($file, $oldperms & 0777555);
-		} // if
-		mosRedirect( "index2.php?option=$option" );
-	} else {
-		if ($enable_write) @chmod($file, $oldperms);
-		mosRedirect( "index2.php?option=". $option ."&mosmsg=". JText::_( 'WARNOPENFILE' ) );
-	}
 }
 ?>

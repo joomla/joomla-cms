@@ -21,14 +21,15 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class TOOLBAR_languages {
 	function _DEFAULT() {
+		$client = mosGetParam( $_REQUEST, 'client', 'site' );
+		
 		mosMenuBar::startTable();
+		mosMenuBar::title( JText::_( 'Language Manager' ).'<small><small>[' .JText::_( $client ) .']</small></small>', 'langmanager.png', 'index2.php?option=com_languages' );
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
-		mosMenuBar::deleteList();
+		mosMenuBar::addNew('install', 'Install');
 		mosMenuBar::spacer();
-		mosMenuBar::editListX( 'edit_source' );
-		mosMenuBar::spacer();
-		mosMenuBar::addNew();
+		mosMenuBar::deleteList('', 'uninstall', 'Uninstall');
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.languages' );
 		mosMenuBar::endTable();
@@ -36,14 +37,6 @@ class TOOLBAR_languages {
 	function _NEW() {
 		mosMenuBar::startTable();
 		mosMenuBar::save();
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::endTable();
-	}
-
-	function _EDIT_SOURCE(){
-		mosMenuBar::startTable();
-		mosMenuBar::save( 'save_source' );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::endTable();

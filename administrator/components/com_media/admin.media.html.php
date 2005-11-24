@@ -165,7 +165,7 @@ class HTML_Media {
 
 	function draw_no_dir() {
 		global $BASE_DIR, $BASE_ROOT;
-    	;
+  
 		?>
 		<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
 		<tr>
@@ -204,7 +204,6 @@ class HTML_Media {
 	function show_image($img, $file, $info, $size, $listdir) {
 		global $mosConfig_live_site;
 		global $base;
-    	;
 
 		$img_file = basename($img);
 		$img_url = $mosConfig_live_site . $base . $listdir . '/' . $img_file;
@@ -253,7 +252,6 @@ class HTML_Media {
 	function show_dir( $path, $dir, $listdir ) {
 		global $mosConfig_absolute_path;
 		global $base;
-    	;
 
 		$num_files = HTML_Media::num_files( $mosConfig_absolute_path . $base . $listdir . $path );
 

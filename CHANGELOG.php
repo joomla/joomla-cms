@@ -37,6 +37,8 @@ Legend:
 23-Nov-2005 Johan Janssens
  ^ Added javascript escaping to all alert and confirm output
  # Fixed : Content Finish Publishing & not authorized
+ + Added administrator language manager
+ - Removed configuration language setting
 
 23-Nov-2005 Samuel moffatt
  + Added structure of JRegistry

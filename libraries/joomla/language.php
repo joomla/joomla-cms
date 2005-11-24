@@ -280,13 +280,9 @@ class JLanguage extends JObject {
 	 * @return array	key/value pair with the language file and real name
 	 */
 	function getKnownLanguages( $basePath = JPATH_BASE ) {
-		$knownLanguages=null;
 	
 		$dir = JLanguage::getLanguagePath( $basePath );
-		
-		if( !isset( $knownLanguages ) ) {
-			$knownLanguages = JLanguage::_parseLanguageFiles( $dir );
-		}
+		$knownLanguages = JLanguage::_parseLanguageFiles( $dir );
 
 		return $knownLanguages;
 	}
@@ -311,7 +307,7 @@ class JLanguage extends JObject {
 	function _parseLanguageFiles( $dir=null ) {
 		$languages = array();
 
-		 $subdirs = JFolder::folders( $dir );
+		$subdirs = JFolder::folders( $dir );
 		foreach ($subdirs as $path) {
 			$langs = JLanguage::_parseXMLLanguageFiles( $dir . $path . DIRECTORY_SEPARATOR );
 			$languages = array_merge( $languages, $langs );
@@ -346,7 +342,7 @@ class JLanguage extends JObject {
 
 	/** parses XML type of files for language information
 	 * @param string	directory of files
-	 * @return array	with found languages as filename => real name pairs
+	 * @return array	with found languages as filename => metadata array
 	 */
 	function _parseXMLLanguageFiles( $dir=null ) {
 			
@@ -360,7 +356,7 @@ class JLanguage extends JObject {
 			if ($content = file_get_contents( $dir . $file )) {
 				if($metadata = JLanguage::_parseXMLLanguageFile($dir . $file)) {
 					$lang = str_replace( '.xml', '', $file );
-					$languages[$lang] = $metadata['name'];
+					$languages[$lang] = $metadata;
 				}
 			}
 		}
@@ -416,10 +412,10 @@ class JLanguageHelper {
 		$cache =& JFactory::getCache( 'JLanguage' );
 		$langs = $cache->call( 'JLanguage::getKnownLanguages', $basePath);
 		
-		foreach ($langs as $lang=>$name) {
+		foreach ($langs as $lang=>$metadata) {
 			$option = array();
 
-			$option['text'] = JText::_( $name );
+			$option['text'] = JText::_( $metadata['name'] );
 			$option['value'] = $lang;
 			if( $lang == $actualLanguage ) {
 				$option['selected'] = 'selected="true"';

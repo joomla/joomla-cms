@@ -27,7 +27,6 @@ class HTML_templates {
 	*/
 	function showTemplates( &$rows, &$pageNav, $option, $client ) {
 		global $my, $mosConfig_live_site;
-		;
 
 		if ( isset( $row->authorUrl) && $row->authorUrl != '' ) {
 			$row->authorUrl = str_replace( 'http://', '', $row->authorUrl );

@@ -231,10 +231,6 @@ class HTML_config {
 			
 			<table class="adminform">
 			<tr>
-				<td width="185"><?php echo JText::_( 'Language' ); ?>:</td>
-				<td><?php echo $lists['lang']; ?></td>
-			</tr>
-			<tr>
 				<td width="185"><?php echo JText::_( 'Time Offset' ); ?>:</td>
 				<td>
 				<?php echo $lists['offset']; ?>

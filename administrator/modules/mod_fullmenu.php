@@ -76,11 +76,12 @@ class mosFullAdminMenu {
 <?php
 			if ($canConfig) {
 ?>				['<img src="../includes/js/ThemeOffice/config.png" />','<?php echo JText::_( 'Global Configuration', true ); ?>','index2.php?option=com_config&hidemainmenu=1',null,'<?php echo JText::_( 'Configuration', true ); ?>'],
-<?php
+<?php			
 			}
 			if ($manageLanguages) {
 ?>				['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Language Manager', true ); ?>',null,null,'<?php echo JText::_( 'Manage languages', true ); ?>',
-  					['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Site Languages', true ); ?>','index2.php?option=com_languages',null,'<?php echo JText::_( 'Manage Languages', true ); ?>'],
+  					['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Site Languages', true ); ?>','index2.php?option=com_languages',null,'<?php echo JText::_( 'Manage site languages', true ); ?>'],
+   					['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Administrator Languages', true ); ?>','index2.php?option=com_languages&client=administrator',null,'<?php echo JText::_( 'Manage admin languages', true ); ?>'],
    				],
 <?php
 			}
@@ -103,7 +104,6 @@ class mosFullAdminMenu {
 			if ($manageTemplates) {
 ?>				['<img src="../includes/js/ThemeOffice/template.png" />','<?php echo JText::_( 'Template Manager', true ); ?>',null,null,'<?php echo JText::_( 'Change site template', true ); ?>',
   					['<img src="../includes/js/ThemeOffice/template.png" />','<?php echo JText::_( 'Site Templates', true ); ?>','index2.php?option=com_templates',null,'<?php echo JText::_( 'Change site template', true ); ?>'],
-  					_cmSplit,
   					['<img src="../includes/js/ThemeOffice/template.png" />','<?php echo JText::_( 'Administrator Templates', true ); ?>','index2.php?option=com_templates&client=admin',null,'<?php echo JText::_( 'Change admin template', true ); ?>'],
   					_cmSplit,
   					['<img src="../includes/js/ThemeOffice/template.png" />','<?php echo JText::_( 'Module Positions', true ); ?>','index2.php?option=com_templates&task=positions',null,'<?php echo JText::_( 'Module Positions in Template', true ); ?>']

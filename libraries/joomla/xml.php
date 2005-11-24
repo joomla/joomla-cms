@@ -320,7 +320,6 @@ class mosParameters {
 	* @return string The html for the element
 	*/
 	function _form_list( $name, $value, &$node, $control_name ) {
-		;
 
 		$size = $node->getAttribute( 'size' );
 
@@ -341,8 +340,7 @@ class mosParameters {
 	* @return string The html for the element
 	*/
 	function _form_radio( $name, $value, &$node, $control_name ) {
-		;
-
+		
 		$options = array();
 		foreach ($node->childNodes as $option) {
 			$val 	= $option->getAttribute( 'value' );
@@ -361,7 +359,6 @@ class mosParameters {
 	*/
 	function _form_mos_section( $name, $value, &$node, $control_name ) {
 		global $database;
-		;
 
 		$query = "SELECT id, title"
 		. "\n FROM #__sections"
@@ -384,7 +381,6 @@ class mosParameters {
 	*/
 	function _form_mos_category( $name, $value, &$node, $control_name ) {
 		global $database;
-		;
 
 		$scope = $node->getAttribute( 'scope' );
 		if( !isset($scope) ) {
@@ -423,7 +419,6 @@ class mosParameters {
 	*/
 	function _form_mos_menu( $name, $value, &$node, $control_name ) {
 		global $database;
-		;
 
 		$menuTypes = mosAdminMenus::menutypes();
 
@@ -443,7 +438,6 @@ class mosParameters {
 	*/
 	function _form_filelist( $name, $value, &$node, $control_name ) {
 		global $mosConfig_absolute_path;
-		;
 
 		// path to images directory
 		$path 	= $mosConfig_absolute_path . $node->getAttribute( 'directory' );

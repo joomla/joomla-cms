@@ -91,7 +91,6 @@ function delete_file($listdir) {
 
 function create_folder($dirPath) {
 	global $mosConfig_absolute_path , $base;
-	;
 	
 	$folder_name = mosGetParam( $_POST, 'foldername', '' );
 

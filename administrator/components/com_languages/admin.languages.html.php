@@ -21,18 +21,11 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class HTML_languages {
 
-	function showLanguages( $cur_lang, &$rows, &$pageNav, $option ) {
+	function showLanguages( &$rows, &$pageNav, $option, $client ) {
 		global $my;
-		;
+
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminheading">
-		<tr>
-			<th class="langmanager"><?php echo JText::_( 'Language Manager' ); ?>
-			 <small><small>[ <?php echo JText::_( 'Site' ); ?> ]</small></small>
-			</th>
-		</tr>
-		</table>
 
 		<table class="adminlist">
 		<tr>
@@ -108,13 +101,14 @@ class HTML_languages {
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="hidemainmenu" value="0" />
 		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="client" value="<?php echo $client;?>" />
 		</form>
 		<?php
 	}
 
 	function editLanguageSource( $language, &$content, $option ) {
 		global $mosConfig_absolute_path;
-		;
+		
 		$language_path = $mosConfig_absolute_path . "/language/" . $language . ".php";
 		?>
 		<form action="index2.php" method="post" name="adminForm">
