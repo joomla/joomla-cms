@@ -280,7 +280,7 @@ class JLanguage extends JObject {
 	 * @return array	key/value pair with the language file and real name
 	 */
 	function getKnownLanguages( $basePath = JPATH_BASE ) {
-		static $knownLanguages=null;
+		$knownLanguages=null;
 	
 		$dir = JLanguage::getLanguagePath( $basePath );
 		
