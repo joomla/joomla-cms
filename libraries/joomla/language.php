@@ -265,8 +265,8 @@ class JLanguage extends JObject {
 	 * @return array	key/value pair with the language metadata
 	 */
 	
-	function getMetadata($lang)
-	{
+	function getMetadata($lang)	{
+		
 		$path = JLanguage::getLanguagePath( JPATH_BASE, $lang );
 		$file = $lang . '.xml';
 		
