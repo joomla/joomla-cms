@@ -124,6 +124,35 @@ class JFile
 	}
 	
 	/**
+	 * Moves a file
+	 * @param string The path to the source file
+	 * @param string The path to the destination file
+	 * @param string An optional base path to prefix to the file names
+	 * @return mixed
+	 */
+	function move( $src, $dest, $path = '' ) {
+
+		if ($path) {
+			$src = JPath::clean( $path . $src, false );
+			$dest = JPath::clean( $path . $dest, false );
+		}
+
+		JPath::check( $src );
+		JPath::check( $dest );
+
+   		if (!file_exists( $src )) {
+			return JText::_( 'Cannot find source file' );
+		}
+   		if (!is_writable( dirname( $dest ) )) {
+		       return JText::_( 'Directory unwritable' );
+   		}
+		if (!@rename( $src, $dest )) {
+			return JText::_( 'Rename failed' );
+		}
+		return true;
+	}
+	
+	/**
 	 * @param string The full file path
 	 * @param string The buffer to read into
 	 * @return boolean True on success
@@ -270,6 +299,35 @@ class JFolder
 
 		// remove the folders
 		return rmdir( $path );
+	}
+	
+	/**
+	 * Moves a folder
+	 * @param string The path to the source folder
+	 * @param string The path to the destination folder
+	 * @param string An optional base path to prefix to the file names
+	 * @return mixed
+	 */
+	function move( $src, $dest, $path = '' ) {
+
+		if ($path) {
+			$src = JPath::clean( $path . $src, false );
+			$dest = JPath::clean( $path . $dest, false );
+		}
+
+		JPath::check( $src );
+		JPath::check( $dest );
+
+   		if ( !JFolder::exists( $src )) {
+			return JText::_( 'Cannot find source file' );
+		}
+		if ( JFolder::exists( $dest )) {
+			return JText::_( 'Directory exists' );
+		}
+		if (!@rename( $src, $dest )) {
+			return JText::_( 'Rename failed' );
+		}
+		return true;
 	}
 	
 	/** Wrapper for the standard file_exists function
