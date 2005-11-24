@@ -16,7 +16,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 ?>
 
 1. Changelog
-------------
+-------------
 This is a non-exhaustive (but still near complete) changelog for
 Joomla! 1.1, including beta and release candidate versions.
 Our thanks to all those people who've contributed bug reports and
