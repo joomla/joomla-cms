@@ -72,5 +72,13 @@ class JRegistryStorageEngine {
 	function getStorageMethod() {
 		return "Null";
 	}
+
+	function store($location='') {
+		return false;
+	}
+
+	function load() {
+		return false;
+	}
 }
 

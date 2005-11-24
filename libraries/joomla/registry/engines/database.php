@@ -17,8 +17,10 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 /**
  * @package Joomla
  */
-class JRegistry {
+class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 	
+	function store($location='#__registry') {
 
+	}
 }
 
