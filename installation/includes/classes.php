@@ -227,9 +227,6 @@ class installationTasks {
 			$collations[0]['Collation'] = "latin1"; 
 		}
 		installationScreens::dbCollation( $vars, $collations);
-		
-		
-		return true;
 	}
 	
 	/**
