@@ -374,12 +374,12 @@ class mosInstaller {
 				$newdir = dirname( $file->getText() );
 
 				if ($adminFiles){
-					if (!JFolder::create( $this->componentAdminDir(), $newdir )) {
+					if (!JFolder::create( $this->componentAdminDir(). $newdir )) {
 						$this->setError( 1, JText::_( 'Failed to create directory' ) .' "'. ($this->componentAdminDir()) . $newdir .'"' );
 						return false;
 					}
 				} else {
-					if (!JFolder::create( $this->elementDir(), $newdir )) {
+					if (!JFolder::create( $this->elementDir(). $newdir )) {
 						$this->setError( 1, JText::_( 'Failed to create directory' ) .' "'. ($this->elementDir()) . $newdir .'"' );
 						return false;
 					}
@@ -425,8 +425,8 @@ class mosInstaller {
 
 		if (is_array( $p_files ) && count( $p_files ) > 0) {
 			foreach($p_files as $_file) {
-				$filesource	= JFolder::create( JPath::clean( $p_sourcedir ) . $_file, false );
-				$filedest	= JFolder::create( JPath::clean( $p_destdir ) . $_file, false );
+				$filesource	= JPath::clean( $p_sourcedir ) . $_file;
+				$filedest	= JPath::clean( $p_destdir ) . $_file;
 
 				if (!file_exists( $filesource )) {
 					$this->setError( 1, sprintf( JText::_( 'File does not exist' ), $filesource  ));
@@ -489,6 +489,10 @@ class mosInstaller {
 			$this->$name = $value;
 		}
 		return $this->$name;
+	}
+	
+	function allowOverwrite( $p_allowOverwrite = false ) {
+		return $this->setVar( 'allowOverwrite', $p_allowOverwrite );
 	}
 
 	function installFilename( $p_filename = null ) {
@@ -580,8 +584,4 @@ function deldir( $dir ) {
 	closedir( $current_dir );
 	return rmdir( $dir );
 }
-
-function allowOverwrite( $p_allowOverwrite = null ) {
-	return $this->setVar( 'allowOverwrite', $p_allowOverwrite );
-} 
 ?>
