@@ -39,7 +39,7 @@ class mosInstaller {
 	/** @var string The name of the Joomla! element */
 	var $i_elementname 		= '';
         /** @var boolean True if existing files can be overwritten */
-	var $allowOverwrite = false;
+	var $i_allowOverwrite = false;
 	/** @var string The name of a special atttibute in a tag */
 	var $i_elementspecial 	= '';
 	/** @var object A DOMIT XML document */
@@ -555,6 +555,9 @@ class mosInstaller {
 	}
 	function elementSpecial( $p_name = null )	{
 		return $this->setVar( 'i_elementspecial', $p_name );
+	}
+	function allowOverwrite( $p_overwrite = null ) {
+		return $this->setVar( 'i_allowoverwrite', $p_overwrite ) ;
 	}
 }
 
