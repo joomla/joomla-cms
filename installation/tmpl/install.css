@@ -160,6 +160,12 @@ body {
 	padding-right: 5px;
 }
 
+table.final-table {
+	width: 100% !important;
+	width: auto;
+	border: 1px solid #ff0;
+}
+
 .left {
   position: relative;
 	text-align: left;

@@ -182,6 +182,11 @@ a:hover {
 	border: 1px solid #444;
 }
 
+table.final-table {
+	width: 100% !important;
+	width: 95%;
+}
+
 .left {
   position: relative;
 	text-align: left;
