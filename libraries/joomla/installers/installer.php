@@ -556,9 +556,6 @@ class mosInstaller {
 	function elementSpecial( $p_name = null )	{
 		return $this->setVar( 'i_elementspecial', $p_name );
 	}
-	function allowOverwrite( $p_overwrite = null ) {
-		return $this->setVar( 'i_allowoverwrite', $p_overwrite ) ;
-	}
 }
 
 function cleanupInstall( $userfile_name, $resultdir) {
