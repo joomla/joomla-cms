@@ -567,7 +567,7 @@ class JPath {
 	}
 	
 	function getPermissions( $path ) {
-		$path = JPath::clean( $path );
+		$path = JPath::clean( $path, false );
    		JPath::check( $path );
  		$mode = @decoct( @fileperms( $path ) & 0777 );
 
