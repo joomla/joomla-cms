@@ -28,7 +28,7 @@ class installationTasks {
 		$native = detectLanguage();
 	
 		$lists = array();
-		$lists['langs'] = JLanguageHelper::buildLanguageList( $native );
+		$lists['langs'] = JLanguageHelper::createLanguageList( $native );
 
 		installationScreens::chooseLanguage( $lists );
 	}

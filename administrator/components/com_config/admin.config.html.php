@@ -467,7 +467,7 @@ class HTML_config {
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Help Server' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_helpurl" size="50" value="<?php echo $row->config_helpurl; ?>"/></td>
+				<td><?php echo $lists['helpsites']; ?></td>
 			</tr>
 			<tr>
 				<?php

@@ -75,7 +75,7 @@ function detectLanguage() {
 
 	$client_lang = '';
 	if ($_SERVER['HTTP_ACCEPT_LANGUAGE'] != '') {
-		$languages = JLanguageHelper::buildLanguageList( '' );
+		$languages = JLanguageHelper::createLanguageList( '' );
 		$active_lang = array();
 
 		foreach ($languages as $language) {

@@ -15,7 +15,7 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 $languages = array();
-$languages = JLanguageHelper::buildLanguageList( $mosConfig_lang );
+$languages = JLanguageHelper::createLanguageList( $mosConfig_lang );
 array_unshift( $languages, mosHTML::makeOption( '', JText::_( 'Default' ) ) );
 $lists['langs'] = mosHTML::selectList( $languages, 'lang', ' class="inputbox" id="language"', 'value', 'text', '' );
 

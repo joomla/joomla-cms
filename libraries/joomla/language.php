@@ -401,10 +401,11 @@ class JLanguage extends JObject {
 class JLanguageHelper {
 	/**
 	 * Builds a list of the system languages which can be used in a select option
-	 * @param string	client key for the area
+	 * @param string	Client key for the area
+	 * @param string	Base path to use
 	 * @param array	An array of arrays ( text, value, selected )
 	 */
-	function buildLanguageList( $actualLanguage, $basePath = JPATH_BASE ) {
+	function createLanguageList( $actualLanguage, $basePath = JPATH_BASE ) {
 
 		$list = array();
 
@@ -425,5 +426,45 @@ class JLanguageHelper {
 
 		return $list;
 	}
+	
+	/**
+	 * Builds a list of the help sites which can be used in a select option
+	 * @param string	Path to an xml file
+	 * @param string	Language tag to select (if exists)
+	 * @param array	An array of arrays ( text, value, selected )
+	 */
+	 function createHelpSiteList($pathToXml, $selected = null) 
+	 {
+       $list = array ();
+
+       $xmlDoc = JFactory :: getXMLParser();
+       $xmlDoc->resolveErrors(true);
+       $xml = file_get_contents($pathToXml);
+
+       if ($xmlDoc->parseXML($xml, false, true)) {
+           $root = & $xmlDoc->documentElement;
+		   
+
+           // Are there any languages??
+           $elmSites = & $root->getElementsByPath('sites', 1);
+		  
+           if (is_object($elmSites )) {
+			 
+               $sites = $elmSites->childNodes;
+               foreach ($sites as $site) {
+				   
+					$option = array();
+					
+					$option['text'] = $site->getText();
+					$option['value'] = $site->getAttribute('url');
+					$list[] = $option;
+				}
+			}
+ 
+       }
+
+       return $list;
+   }
+
 }
 ?>

@@ -42,7 +42,7 @@ switch ( $task ) {
  * @param string The URL option
  */
 function showconfig( $option) {
-	global $database, $mosConfig_absolute_path, $mosConfig_editor;
+	global $database, $mosConfig_absolute_path, $mosConfig_editor, $mosConfig_helpurl;
 
 	$row = new mosConfig();
 	$row->bindGlobals();
@@ -137,6 +137,10 @@ function showconfig( $option) {
 	}
 
 // LOCALE SETTINGS
+
+	$helpsites = array();
+	$helpsites = JLanguageHelper::createHelpSiteList( 'http://help.joomla.org/helpsites-11.xml', $mosConfig_helpurl);
+	$lists['helpsites'] = mosHTML::selectList( $helpsites, 'config_helpurl', ' class="inputbox" id="helpsites"', 'value', 'text', '' );
 
 	$timeoffset = array(
 		mosHTML::makeOption( -12, JText::_( '(UTC -12:00) International Date Line West' ) ),

@@ -31,6 +31,8 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Nov-2005 Johan Janssens 
+ ^ Changed help server to dropdown in config
 
 24-Nov-2005 Emir Sakic
  # Fixed artf2225 : Email / Print redirects to homepage
