@@ -37,6 +37,7 @@ Legend:
 26-Nov-2005 Johan Janssens
  ^ Changed help server to dropdown in config
  ^ Changed language prefix to eng_GB (accoording to ISO639-2 and ISO 3166)
+ # Fixed artf2285 : Installation fails
 
 24-Nov-2005 Emir Sakic
  # Fixed artf2225 : Email / Print redirects to homepage
