@@ -26,7 +26,7 @@ class installationTasks {
 	function chooseLanguage() {
 
 		$native = detectLanguage();
-	
+
 		$lists = array();
 		$lists['langs'] = JLanguageHelper::createLanguageList( $native );
 
@@ -113,6 +113,7 @@ class installationTasks {
 			'mambots/content',
 			'mambots/editors',
 			'mambots/search',
+			'mambots/system',
 			'media',
 			'modules',
 			'templates',
@@ -186,7 +187,7 @@ class installationTasks {
 		$DButfSupport	= intval( mosGetParam( $vars, 'DButfSupport', 0 ) );
 		$DBcollation	= mosGetParam( $vars, 'DBcollation', '' );
 		$DBversion		= mosGetParam( $vars, 'DBversion', '' );
-	
+
 		if($DBtype == '') {
 			installationScreens::error( $vars, JText::_( 'validType' ), 'dbconfig' );
 			return false;
@@ -199,17 +200,17 @@ class installationTasks {
 			installationScreens::error( $vars, JText::_( 'emptyDBName' ), 'dbconfig' );
 			return false;
 		}
-			
+
 		$link = @mysql_connect( $DBhostname, $DBuserName, $DBpassword, true );
-			
-				
+
+
 		if (!$link) {
 			installationScreens::error( $vars, JText::_( 'connection fail' ), 'dbconfig' );
 			return false;
 		}
 
 		$collations = array();
-		
+
 		// determine db version, utf support and available collations
 		$vars['DBversion'] = mysql_get_server_info($link);
 		$verParts = explode('.', mysql_get_server_info($link));
@@ -224,11 +225,11 @@ class installationTasks {
 		} else {
 			// backward compatibility - utf-8 data in non-utf database
 			// collation does not really have effect so default charset and collation is set
-			$collations[0]['Collation'] = "latin1"; 
+			$collations[0]['Collation'] = "latin1";
 		}
 		installationScreens::dbCollation( $vars, $collations);
 	}
-	
+
 	/**
 	 * Gets the parameters for database creation
 	 * @return boolean True if successful
@@ -251,7 +252,7 @@ class installationTasks {
 		$DButfSupport	= intval( mosGetParam( $vars, 'DButfSupport', 0 ) );
 		$DBcollation	= mosGetParam( $vars, 'DBcollation', '' );
 		$DBversion		= mosGetParam( $vars, 'DBversion', '' );
-	
+
 		if($DBtype == '') {
 			installationScreens::error( $vars, JText::_( 'validType' ), 'dbconfig' );
 			return false;
@@ -266,9 +267,9 @@ class installationTasks {
 		}
 
 		if (!$DBcreated) {
-			
+
 			$database =& JFactory::getDBO( $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix, $DBtype, true);
-			
+
 			if ($err = $database->getErrorNum()) {
 				if ($err == 3) {
 					// connection ok, need to create database
@@ -287,7 +288,7 @@ class installationTasks {
 					return false;
 				}
 			}
-			
+
 			$database =&  JFactory::getDBO( $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix, $DBtype, true );
 
 			if ($DBBackup) {
@@ -303,16 +304,16 @@ class installationTasks {
 				}
 			}
 
-			
+
 			// checks if language depend files do exist
-			
+
 			// set collation and use utf-8 compatibile script if appropriate
 			if ($DButfSupport) {
 				$dbscheme = 'joomla.sql';
 			} else {
 				$dbscheme = 'joomla_backward.sql';
 			}
-			
+
 			if (mosInstallation::populateDatabase( $database, $dbscheme, $errors, ($DButfSupport) ? $DBcollation: '' )) {
 				installationScreens::error( $vars, 'Some errors occurred populating the database.', 'dbconfig', mosInstallation::errors2string( $errors ) );
 				return false;
@@ -332,7 +333,7 @@ class installationTasks {
 	 * Finishes configuration parameters
 	 */
 	function mainConfig( $DBcreated='0' ) {
-	
+
 		$vars = mosGetParam( $_POST, 'vars', array() );
 		$vars['DBcreated'] = mosGetParam( $vars, 'DBcreated', $DBcreated );
 		$strip = get_magic_quotes_gpc();
@@ -415,7 +416,7 @@ class installationTasks {
 	}
 
 	function saveConfig() {
-		
+
 		$vars = mosGetParam( $_POST, 'vars', array() );
 
 		$vars['fileperms'] = mosInstallation::getFilePerms( $vars, 'file' );
@@ -510,7 +511,7 @@ class mosInstallation {
 	 * @param object Database connector
 	 */
 	function createDatabase( &$database, $DBname, $DButfSupport, $DBcollation ) {
-		
+
 		if ($DButfSupport){
 			$sql = "CREATE DATABASE `$DBname` CHARACTER SET `utf8` COLLATE `$DBcollation`";
 		} else {
@@ -520,11 +521,11 @@ class mosInstallation {
 		$database->setQuery( $sql );
 		$database->query();
 		$result = $database->getErrorNum();
-		
+
 		if($result != 0) {
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -534,7 +535,7 @@ class mosInstallation {
 	 * @param array An array of errors encountered
 	 */
 	function backupDatabase( &$database, $DBname, $DBPrefix, &$errors ) {
-		
+
 		$query = "SHOW TABLES FROM `$DBname`";
 		$database->setQuery( $query );
 		$errors = array();
@@ -557,7 +558,7 @@ class mosInstallation {
 				}
 			}
 		}
-		
+
 		return count( $errors );
 	}
 	/**
@@ -566,7 +567,7 @@ class mosInstallation {
 	 * @param array An array of errors encountered
 	 */
 	function deleteDatabase( &$database, $DBname, $DBPrefix, &$errors ) {
-		
+
 		$query = "SHOW TABLES FROM `$DBname`";
 		$database->setQuery( $query );
 		$errors = array();
@@ -582,7 +583,7 @@ class mosInstallation {
 				}
 			}
 		}
-		
+
 		return count( $errors );
 	}
 

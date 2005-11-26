@@ -31,7 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
-26-Nov-2005 Johan Janssens 
+26-Nov-2005 Emir Sakic
+ + Added mambots/system to chmod check array
+
+26-Nov-2005 Johan Janssens
  ^ Changed help server to dropdown in config
  ^ Changed language prefix to eng_GB (accoording to ISO639-2 and ISO 3166)
 
