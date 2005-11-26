@@ -70,7 +70,7 @@ function viewLanguages( $option, $client = 'site') {
 	
 	$dirs = JFolder::folders( $path );
 	foreach ($dirs as $dir) {
-		$files = JFolder::files( $path . $dir, '^([A-Za-z]*)\.xml$' );
+		$files = JFolder::files( $path . $dir, '^([_A-Za-z]*)\.xml$' );
 		foreach ($files as $file) {
 			// Read the file to see if it's a valid template XML file
 			$xmlDoc =& JFactory::getXMLParser();
