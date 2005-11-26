@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall version="1.1" client="administrator" type="language">
+    <name>English</name>
+    <version>1.1.0</version>
+    <creationDate>2005-10-06</creationDate>
+    <author>Joomla! Project</author>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+    <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <description></description>
+    <metadata>
+    	<name>English</name>
+    	<tag>eng_GB</tag>
+    	<rtl>0</rtl>
+    </metadata>
+    <files>
+        <filename>eng_GB.com_admin.ini</filename>
+        <filename>eng_GB.com_banners.ini</filename>
+        <filename>eng_GB.com_categories.ini</filename>
+        <filename>eng_GB.com_checkin.ini</filename>
+        <filename>eng_GB.com_config.ini</filename>
+        <filename>eng_GB.com_contact.ini</filename>
+        <filename>eng_GB.com_content.ini</filename>
+        <filename>eng_GB.com_frontpage.ini</filename>
+        <filename>eng_GB.com_installer.ini</filename>
+        <filename>eng_GB.com_languages.ini</filename>
+        <filename>eng_GB.com_login.ini</filename>
+        <filename>eng_GB.com_mambots.ini</filename>
+        <filename>eng_GB.com_massmail.ini</filename>
+        <filename>eng_GB.com_media.ini</filename>
+        <filename>eng_GB.com_menumanager.ini</filename>
+        <filename>eng_GB.com_menus.ini</filename>
+        <filename>eng_GB.com_messages.ini</filename>
+        <filename>eng_GB.com_modules.ini</filename>
+        <filename>eng_GB.com_newsfeeds.ini</filename>
+        <filename>eng_GB.com_poll.ini</filename>
+        <filename>eng_GB.com_search.ini</filename>
+        <filename>eng_GB.com_sections.ini</filename>
+        <filename>eng_GB.com_statistics.ini</filename>
+        <filename>eng_GB.com_syndicate.ini</filename>
+        <filename>eng_GB.com_templates.ini</filename>
+        <filename>eng_GB.com_trash.ini</filename>
+        <filename>eng_GB.com_typedcontent.ini</filename>
+        <filename>eng_GB.com_users.ini</filename>
+        <filename>eng_GB.com_weblinks.ini</filename>
+        <filename>eng_GB.ini</filename>
+        <filename>eng_GB.mod_components.ini</filename>
+        <filename>eng_GB.mod_footer.ini</filename>
+        <filename>eng_GB.mod_fullmenu.ini</filename>
+        <filename>eng_GB.mod_latest.ini</filename>
+        <filename>eng_GB.mod_logged.ini</filename>
+        <filename>eng_GB.mod_online.ini</filename>
+        <filename>eng_GB.mod_popular.ini</filename>
+        <filename>eng_GB.mod_quickicon.ini</filename>
+        <filename>eng_GB.mod_stats.ini</filename>
+        <filename>eng_GB.xml</filename>
+    </files>
+    <params />
+</mosinstall>
