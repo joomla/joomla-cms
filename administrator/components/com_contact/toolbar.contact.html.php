@@ -46,7 +46,7 @@ class TOOLBAR_contact {
 	function _DEFAULT() {
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Contact Manager' ), 'blank.png', 'index2.php?option=com_contact_details' );
+		mosMenuBar::title( JText::_( 'Contact Manager' ), 'blank.png' );
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();

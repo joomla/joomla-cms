@@ -26,7 +26,10 @@ class TOOLBAR_users {
 	function _EDIT() {
 		global $id;
 
+		$text = $id ? JText::_( 'Edit' ) : JText::_( 'Add' );
+		
 		mosMenuBar::startTable();
+		mosMenuBar::title( JText::_( 'User' ) .':<small>'. $text .'</small>', 'user.png' );
 		mosMenuBar::save();
 		mosMenuBar::spacer();
 		mosMenuBar::apply();
@@ -45,6 +48,7 @@ class TOOLBAR_users {
 	function _DEFAULT() {
 
 		mosMenuBar::startTable();
+		mosMenuBar::title( JText::_( 'User Manager' ), 'user.png' );
 		mosMenuBar::custom( 'logout', 'cancel.png', 'cancel_f2.png', '&nbsp;'. JText::_( 'Logout' ) );
 		mosMenuBar::spacer();
 		mosMenuBar::deleteList();

@@ -28,14 +28,12 @@ class mosMenuBar {
 	* @param string
 	* @since 1.1
 	*/
-	function title( $title, $icon='blank.png', $href='#' ) {
+	function title( $title, $icon='generic.png' ) {
 		$image = mosAdminMenus::ImageCheckAdmin( $icon, '/images/', NULL, NULL, $title, $title, 1 );
 		?>
 		<td class="title">
-			<a href="<?php echo $href; ?>">
-				<?php echo $image; ?></a>
-			<a href="<?php echo $href; ?>">
-				<?php echo $title; ?></a>
+			<?php echo $image; ?>
+			<?php echo $title; ?>
 		</td>
 		<?php
 	}

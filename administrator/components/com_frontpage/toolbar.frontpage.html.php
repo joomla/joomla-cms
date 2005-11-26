@@ -23,7 +23,7 @@ class TOOLBAR_FrontPage {
 	function _DEFAULT() {
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Frontpage Manager' ), 'frontpage.png', 'index2.php?option=com_frontpage' );
+		mosMenuBar::title( JText::_( 'Frontpage Manager' ), 'frontpage.png' );
 		mosMenuBar::archiveList();
 		mosMenuBar::spacer();
 		mosMenuBar::publishList();

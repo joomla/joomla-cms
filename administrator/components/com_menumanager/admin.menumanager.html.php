@@ -26,7 +26,6 @@ class HTML_menumanager {
 	*/
 	function show ( $option, $menus, $pageNav ) {
 		global $mosConfig_live_site;
-		;
 		?>
 		<script language="javascript" type="text/javascript">
 		function menu_listItemTask( id, task, option ) {
@@ -41,14 +40,6 @@ class HTML_menumanager {
 		</script>
 
 		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminheading">
-		<tr>
-			<th class="menus">
-			<?php echo JText::_( 'Menu Manager' ); ?>
-			</th>
-		</tr>
-		</table>
-
 		<table class="adminlist">
 		<tr>
 			<th width="20"><?php echo JText::_( 'NUM' ); ?></th>
@@ -149,7 +140,6 @@ class HTML_menumanager {
 	*/
 	function edit ( &$row, $option ) {
 		global $mosConfig_live_site;
-		;
 
 		$new = $row->menutype ? 0 : 1;
 		?>
@@ -182,14 +172,6 @@ class HTML_menumanager {
 		</script>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminheading">
-		<tr>
-			<th class="menus">
-			<?php echo JText::_( 'Menu Details' ); ?>
-			</th>
-		</tr>
-		</table>
-
 		<table class="adminform">
 		<tr height="45px;">
 			<td width="100px" >
@@ -352,7 +334,6 @@ class HTML_menumanager {
 	* Writes list of the items that have been selected for copy
 	*/
 	function showCopy( $option, $type, $items ) {
-		;
 	?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
@@ -372,15 +353,6 @@ class HTML_menumanager {
 		}
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminheading">
-		<tr>
-			<th>
-			<?php echo JText::_( 'Copy Menu' ); ?>
-			</th>
-		</tr>
-		</table>
-
-		<br />
 		<table class="adminform">
 		<tr>
 			<td width="3%"></td>

@@ -22,15 +22,11 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class HTML_users {
 
 	function showUsers( &$rows, $pageNav, $search, $option, $lists ) {
-		;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 
 		<table class="adminheading">
 		<tr>
-			<th class="user">
-			<?php echo JText::_( 'User Manager' ); ?>
-			</th>
 			<td>
 			<?php echo JText::_( 'Filter' ); ?>:
 			</td>
@@ -145,7 +141,7 @@ class HTML_users {
 	function edituser( &$row, &$contact, &$lists, $option, $uid, &$params ) {
 		global $my, $acl;
 		global $mosConfig_live_site;
-		;
+		
 		$tabs = new mosTabs( 0 );
 
 		mosCommonHTML::loadOverlib();
@@ -190,15 +186,6 @@ class HTML_users {
 		}
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
-
-		<table class="adminheading">
-		<tr>
-			<th class="user">
-			<?php echo JText::_( 'User' ); ?>: <small><?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?></small>
-			</th>
-		</tr>
-		</table>
-
 		<table width="100%">
 		<tr>
 			<td width="60%" valign="top">

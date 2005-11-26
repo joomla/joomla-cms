@@ -26,7 +26,6 @@ class HTML_trash {
 	*/
 	function showList( $option, $contents, $menus, $pageNav_content, $pageNav_menu ) {
 		global $my;
-		;
 
 		$tabs = new mosTabs(1);
 		?>
@@ -55,12 +54,6 @@ class HTML_trash {
 			}
 		}
 		</script>
-		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminheading">
-		<tr>
-			<th class="trash"><?php echo JText::_( 'Trash Manager' ); ?></th>
-		</tr>
-		</table>
 
 		<?php
 		$title = JText::_( 'Content Items' );

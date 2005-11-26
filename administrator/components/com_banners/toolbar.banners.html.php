@@ -50,7 +50,7 @@ class TOOLBAR_banners {
 	function _DEFAULT() {
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Banner Manager' ), 'blank.png', 'index2.php?option=com_banners' );
+		mosMenuBar::title( JText::_( 'Banner Manager' ), 'blank.png' );
 		mosMenuBar::media_manager( 'banners' );
 		mosMenuBar::spacer();
 		mosMenuBar::publishList();
@@ -105,7 +105,7 @@ class TOOLBAR_bannerClient {
 		;
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Banner Client Manager' ), 'blank.png', 'index2.php?option=com_banners&task=listclients' );
+		mosMenuBar::title( JText::_( 'Banner Client Manager' ), 'blank.png' );
 		mosMenuBar::deleteList( '', 'removeclients' );
 		mosMenuBar::spacer();
 		mosMenuBar::editListX( 'editclient' );

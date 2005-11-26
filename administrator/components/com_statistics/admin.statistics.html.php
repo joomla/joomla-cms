@@ -22,7 +22,6 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class HTML_statistics {
 	function show( &$browsers, &$platforms, $tldomains, $bstats, $pstats, $dstats, $sorts, $option ) {
 		global $mosConfig_live_site;
-		;
 
 		$tab = mosGetParam( $_REQUEST, 'tab', 'tab1' );
 		$width = 400;	// width of 100%
@@ -35,11 +34,6 @@ class HTML_statistics {
 		.bar_4{ background-color: #CC8500; border: 2px ridge #FFA500; }
 		.bar_5{ background-color: #5B781E; border: 2px ridge #6B8E23; }
 		</style>
-		<table class="adminheading">
-		<tr>
-			<th class="browser"><?php echo JText::_( 'Browser, OS, Domain Statistics' ); ?></th>
-		</tr>
-		</table>
 		<form action="index2.php" method="post" name="adminForm">
 		<?php
 		$title = JText::_( 'Browsers' );
@@ -188,11 +182,6 @@ class HTML_statistics {
 	function pageImpressions( &$rows, $pageNav, $option, $task ) {
 		global $mosConfig_live_site;
 		?>
-		<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminheading">
-		<tr>
-			<th width="100%" class="impressions"><?php echo JText::_( 'Page Impression Statistics' ); ?></th>
-		</tr>
-		</table>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminlist">
 		<tr>
@@ -231,17 +220,16 @@ class HTML_statistics {
 
 	function showSearches( &$rows, $pageNav, $option, $task ) {
 		global $mainframe, $mosConfig_live_site;
-		;
+		
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminheading">
 			<tr>
-				<th width="100%" class="searchtext">
-				<?php echo JText::_( 'Search Engine Text' ); ?> :
+				<td>
 				<span class="componentheading"><?php echo JText::_( 'logging is' ); ?> :
 				<?php echo $mainframe->getCfg( 'enable_log_searches' ) ? '<b><font color="green">'. JText::_( 'Enabled' ) .'</font></b>' : '<b><font color="red">'. JText::_( 'Disabled' ) .'</font></b>' ?>
 				</span>
-				</th>
+				</td>
 			</tr>
 		</table>
 		<table class="adminlist">

@@ -23,7 +23,7 @@ class TOOLBAR_config {
 	function _DEFAULT() {
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Global Configuration' ), 'config.png', 'index2.php?option=com_config&amp;hidemainmenu=1' );
+		mosMenuBar::title( JText::_( 'Global Configuration' ), 'config.png' );
 		mosMenuBar::save();
 		mosMenuBar::spacer();
 		mosMenuBar::apply();

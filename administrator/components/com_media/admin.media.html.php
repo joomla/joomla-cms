@@ -49,9 +49,6 @@ class HTML_Media {
 			<th>
 				<table class="adminheading">
 				<tr>
-					<th class="mediamanager">
-						<?php echo JText::_( 'Media Manager' ); ?>
-					</td>
 					<td>
 						<table border="0" align="right" cellpadding="0" cellspacing="4" width="600">
 						<tr>

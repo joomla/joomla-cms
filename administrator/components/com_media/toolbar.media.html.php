@@ -27,6 +27,7 @@ class TOOLBAR_media {
 	function _DEFAULT() {
 		
 		mosMenuBar::startTable();
+		mosMenuBar::title( JText::_( 'Media Manager' ), 'mediamanager.png');
 		mosMenuBar::custom('upload','upload.png','upload_f2.png',JText::_( 'Upload' ),false);
 		mosMenuBar::spacer();
 		mosMenuBar::custom('newdir','new.png','new_f2.png',JText::_( 'Create' ),false);

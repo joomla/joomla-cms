@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 require_once( $mainframe->getPath( 'toolbar_html' ) );
 
-$client = mosGetParam( $_REQUEST, 'client', '' );
+$client = mosGetParam( $_REQUEST, 'client', 'site' );
 
 switch ($task) {
 

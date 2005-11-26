@@ -23,6 +23,7 @@ class TOOLBAR_Trash {
 	function _DEFAULT() {
 
 		mosMenuBar::startTable();
+		mosMenuBar::title( JText::_( 'Trash Manager' ), 'trash.png' );
 		mosMenuBar::custom('restoreconfirm','restore.png','restore_f2.png', JText::_( 'Restore' ), true);
 		mosMenuBar::spacer();
 		mosMenuBar::custom('deleteconfirm','delete.png','delete_f2.png', JText::_( 'Delete' ), true);

@@ -23,6 +23,7 @@ class TOOLBAR_templates {
 	function _DEFAULT($client) {
 
 		mosMenuBar::startTable();
+		mosMenuBar::title( JText::_( 'Template Manager' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
 		if ($client=="admin") {
 			mosMenuBar::custom('publish', 'publish.png', 'publish_f2.png', JText::_( 'Default' ), true);
 			mosMenuBar::spacer();
@@ -43,38 +44,45 @@ class TOOLBAR_templates {
 		mosMenuBar::help( 'screen.templates' );
 		mosMenuBar::endTable();
 	}
- 	function _VIEW(){
+ 	function _VIEW($client){
+
 		mosMenuBar::startTable();
+		mosMenuBar::title( JText::_( 'Template Manager' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
 		mosMenuBar::back();
 		mosMenuBar::endTable();
 	}
 
-	function _EDIT_SOURCE(){
+	function _EDIT_SOURCE($client){
+
 		mosMenuBar::startTable();
+		mosMenuBar::title( JText::_( 'Template HTML Editor' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
 		mosMenuBar::save( 'save_source' );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::endTable();
 	}
 
-	function _CHOOSE_CSS(){
+	function _CHOOSE_CSS($client){
 		mosMenuBar::startTable();
+		mosMenuBar::title( JText::_( 'Template CSS Editor' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
 		mosMenuBar::custom( 'edit_css', 'next.png', 'next_f2.png', JText::_( 'Next' ), true );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::endTable();
 	}
 
-	function _EDIT_CSS(){
+	function _EDIT_CSS($client){
 		mosMenuBar::startTable();
+		mosMenuBar::title( JText::_( 'Template Manager' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
 		mosMenuBar::save( 'save_css' );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
 		mosMenuBar::endTable();
 	}
 
-	function _ASSIGN(){
+	function _ASSIGN($client){
 		mosMenuBar::startTable();
+		mosMenuBar::title( JText::_( 'Template Manager' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
 		mosMenuBar::save( 'save_assign', JText::_( 'Save' ) );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
@@ -85,6 +93,7 @@ class TOOLBAR_templates {
 
 	function _POSITIONS(){
 		mosMenuBar::startTable();
+		mosMenuBar::title( JText::_( 'Module Positions' ), 'templatemanager.png' );
 		mosMenuBar::save( 'save_positions' );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();

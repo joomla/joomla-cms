@@ -15,16 +15,17 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
+$client = mosGetParam( $_REQUEST, 'client', 'site' );
+
 /**
 * @package Joomla
 * @subpackage Languages
 */
 class TOOLBAR_languages {
 	function _DEFAULT() {
-		$client = mosGetParam( $_REQUEST, 'client', 'site' );
-		
+		global $client;
 		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Language Manager' ).'<small><small>[' .JText::_( $client ) .']</small></small>', 'langmanager.png', 'index2.php?option=com_languages' );
+		mosMenuBar::title( JText::_( 'Language Manager' ).'<small><small>[' .JText::_( $client ) .']</small></small>', 'langmanager.png' );
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
 		mosMenuBar::addNew('install', 'Install');
@@ -32,13 +33,6 @@ class TOOLBAR_languages {
 		mosMenuBar::deleteList('', 'uninstall', 'Uninstall');
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.languages' );
-		mosMenuBar::endTable();
-	}
-	function _NEW() {
-		mosMenuBar::startTable();
-		mosMenuBar::save();
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
 		mosMenuBar::endTable();
 	}
 }

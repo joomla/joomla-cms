@@ -55,9 +55,6 @@ class HTML_templates {
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
-			<th class="templates"><?php echo JText::_( 'Template Manager' ); ?>
-			 <small><small>[ <?php echo $client == 'admin' ? JText::_( 'Administrator' ) : JText::_( 'Site' );?> ]</small></small>
-			</th>
 			<td align="right" nowrap="true">
              <?php echo JText::_( 'Preview Template' ); ?>
 			</td>
@@ -217,14 +214,12 @@ class HTML_templates {
 	*/
 	function editTemplateSource( $template, &$content, $option, $client ) {
 		global $mosConfig_absolute_path;
-		;
 
 		$template_path = ($client == 'admin' ? JPATH_ADMINISTRATOR : $mosConfig_absolute_path) . '/templates/' . $template . '/index.php';
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
 		<tr>
-			<td width="290"><table class="adminheading"><tr><th class="templates"><?php echo JText::_( 'Template HTML Editor' ); ?></th></tr></table></td>
 			<td width="220">
 				<span class="componentheading">index.php <?php echo JText::_( 'is' ); ?>:
 				<b><?php echo is_writable($template_path) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?></b>
@@ -265,17 +260,8 @@ class HTML_templates {
 
 	function chooseCSSFiles ( $template, $t_dir='', $s_dir='', $t_files='', $s_files='', $option, $client ) {
 		global $mosConfig_absolute_path;
-		;
 	?>
 		<form action="index2.php" method="post" name="adminForm">
-		<table cellpadding="1" cellspacing="1" border="0" width="100%">
-		<tr>
-			<td width="290">
-			<table class="adminheading"><tr><th class="templates"><?php echo JText::_( 'Template CSS Editor' ); ?></th></tr></table>
-			</td>
-			<td width="220"><span class="componentheading"></span></td><td></td><td></td>
-		</tr>
-		</table>
 		<table class="adminlist">
 		<tr>
 			<th width="5%" align="left"><?php echo JText::_( 'Num' ); ?></th>
@@ -344,7 +330,6 @@ class HTML_templates {
 	*/
 	function editCSSSource( $template, $tp_name, &$content, $option, $client ) {
 		global $mosConfig_absolute_path;
-		;
 
 		if ( $client == 'admin' ) {
 			$css_path = JPATH_ADMINISTRATOR . '/administrator' . $tp_name;
@@ -357,7 +342,6 @@ class HTML_templates {
 		<form action="index2.php" method="post" name="adminForm">
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
 		<tr>
-			<td width="280"><table class="adminheading"><tr><th class="templates"><?php echo JText::_( 'Template CSS Editor' ); ?></th></tr></table></td>
 			<td width="260">
 				<span class="componentheading"><?php echo JText::_( 'template_css.css is' ); ?> :
 				<b><?php echo is_writable($css_path) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?></b>
@@ -404,7 +388,6 @@ class HTML_templates {
 	* @param string The option
 	*/
 	function assignTemplate( $template, &$menulist, $option ) {
-		;
 
 		?>
 		<form action="index2.php" method="post" name="adminForm">
@@ -436,21 +419,12 @@ class HTML_templates {
 	* @param string The option
 	*/
 	function editPositions( &$positions, $option ) {
-		;
 
 		$rows = 25;
 		$cols = 2;
 		$n = $rows * $cols;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminheading">
-		<tr>
-			<th class="templates">
-			<?php echo JText::_( 'Module Positions' ); ?>
-			</th>
-		</tr>
-		</table>
-
 		<table class="adminlist">
 		<tr>
 		<?php

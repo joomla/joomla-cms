@@ -23,7 +23,7 @@ class TOOLBAR_admin {
 	function _SYSINFO() {
 	
 		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Information' ), 'systeminfo.png', 'index2.php?option=com_admin&task=sysinfo' );
+		mosMenuBar::title( JText::_( 'Information' ), 'systeminfo.png' );
 		mosMenuBar::help( 'screen.system.info' );
 		mosMenuBar::endTable();
 	}
@@ -31,7 +31,7 @@ class TOOLBAR_admin {
 	function _CPANEL() {
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Control Panel' ), 'cpanel.png', 'index2.php' );
+		mosMenuBar::title( JText::_( 'Control Panel' ), 'cpanel.png' );
 		mosMenuBar::help( 'screen.cpanel' );
 		mosMenuBar::endTable();
 	}
@@ -39,7 +39,7 @@ class TOOLBAR_admin {
 	function _HELP() {
 		
 		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Help' ), 'help_f2.png', 'index2.php?option=com_admin&task=help' );
+		mosMenuBar::title( JText::_( 'Help' ), 'help_f2.png' );
 		mosMenuBar::spacer();
 		mosMenuBar::endTable();
 	}

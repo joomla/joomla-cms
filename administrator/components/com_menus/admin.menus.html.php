@@ -29,9 +29,6 @@ class HTML_menusections {
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
-			<th class="menus" rowspan="2" nowrap="nowrap">
-				<?php echo JText::_( 'Menu Manager' ); ?> <small><small>[ <?php echo $menutype;?> ]</small></small>
-			</th>
 			<td align="right" valign="top" nowrap="nowrap">
 				<?php echo JText::_( 'Max Levels' ); ?>
 				<?php echo $levellist;?>
@@ -195,9 +192,6 @@ class HTML_menusections {
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
-			<th class="menus">
-			<?php echo JText::_( 'New Menu Item' ); ?>
-			</th>
 			<td valign="bottom" nowrap style="color: red;">
             <?php echo JText::_( 'DESCMENUGROUP' ); ?>
 			</td>
@@ -339,16 +333,6 @@ class HTML_menusections {
 	function moveMenu( $option, $cid, $MenuList, $items, $menutype  ) {
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-		<br />
-		<table class="adminheading">
-		<tr>
-			<th>
-			<?php echo JText::_( 'Move Menu Items' ); ?>
-			</th>
-		</tr>
-		</table>
-
-		<br />
 		<table class="adminform">
 		<tr>
 			<td width="3%"></td>
@@ -399,16 +383,6 @@ class HTML_menusections {
 	function copyMenu( $option, $cid, $MenuList, $items, $menutype  ) {
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-		<br />
-		<table class="adminheading">
-		<tr>
-			<th>
-			<?php echo JText::_( 'Copy Menu Items' ); ?>
-			</th>
-		</tr>
-		</table>
-
-		<br />
 		<table class="adminform">
 		<tr>
 			<td width="3%"></td>
