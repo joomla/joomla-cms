@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <mosinstall version="1.1" client="installer" type="language">
-    <name>English</name>
+    <name>English(GB)</name>
     <version>1.1.0</version>
     <creationDate>Nov 2005</creationDate>
     <author>Joomla! Project</author>
@@ -10,7 +10,7 @@
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
     <description>English language file for web installer</description>
     <metadata>
-    	<name>English</name>
+    	<name>English(GB)</name>
     	<tag>eng_GB</tag>
     	<rtl>0</rtl>
     </metadata>
