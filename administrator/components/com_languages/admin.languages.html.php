@@ -65,7 +65,8 @@ class HTML_languages {
 				<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->language; ?>" onClick="isChecked(this.checked);" />
 				</td>
 				<td width="25%">
-				<a href="#edit" onclick="hideMainMenu();return listItemTask('cb<?php echo $i;?>','edit_source')"><?php echo $row->name;?></a></td>
+				<?php echo $row->name;?>
+				</td>
 				<td width="5%" align="center">
 				<?php
 				if ($row->published == 1) {	 ?>
@@ -105,52 +106,5 @@ class HTML_languages {
 		</form>
 		<?php
 	}
-
-	function editLanguageSource( $language, &$content, $option ) {
-		global $mosConfig_absolute_path;
-		
-		$language_path = $mosConfig_absolute_path . "/language/" . $language . ".php";
-		?>
-		<form action="index2.php" method="post" name="adminForm">
-		<table cellpadding="1" cellspacing="1" border="0" width="100%">
-		<tr>
-			<td width="270"><table class="adminheading"><tr><th class="langmanager"><?php echo JText::_( 'Language Editor' ); ?></th></tr></table></td>
-			<td width="240">
-				<span class="componentheading"><?php echo $language; ?>.php <?php echo JText::_( 'is' ); ?> :
-				<b><?php echo is_writable($language_path) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?></b>
-				</span>
-			</td>
-<?php
-			if (mosIsChmodable($language_path)) {
-				if (is_writable($language_path)) {
-?>
-			<td>
-				<input type="checkbox" id="disable_write" name="disable_write" value="1"/>
-				<label for="disable_write"><?php echo JText::_( 'Make unwriteable after saving' ); ?></label>
-			</td>
-<?php
-				} else {
-?>
-			<td>
-				<input type="checkbox" id="enable_write" name="enable_write" value="1"/>
-				<label for="enable_write"><?php echo JText::_( 'Override write protection while saving' ); ?></label>
-			</td>
-<?php
-				} // if
-			} // if
-?>
-		</tr>
-		</table>
-		<table class="adminform">
-			<tr><th><?php echo $language_path; ?></th></tr>
-			<tr><td><textarea style="width:100%" cols="110" rows="25" name="filecontent" class="inputbox"><?php echo $content; ?></textarea></td></tr>
-		</table>
-		<input type="hidden" name="language" value="<?php echo $language; ?>" />
-		<input type="hidden" name="option" value="<?php echo $option;?>" />
-		<input type="hidden" name="task" value="" />
-		</form>
-	<?php
-	}
-
 }
 ?>
