@@ -433,12 +433,11 @@ class JLanguageHelper {
            $elmSites = & $root->getElementsByPath('sites', 1);
 		  
            if (is_object($elmSites )) {
-			 
-               $sites = $elmSites->childNodes;
+			   
+               $option = array();
+			   $sites = $elmSites->childNodes;
                foreach ($sites as $site) {
 				   
-					$option = array();
-					
 					$option['text'] = $site->getText();
 					$option['value'] = $site->getAttribute('url');
 					$list[] = $option;
