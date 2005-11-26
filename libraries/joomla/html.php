@@ -925,7 +925,6 @@ class mosAdminMenus {
 	*/
 	function Ordering( &$row, $id ) {
 		global $database;
-		;
 
 		if ( $id ) {
 			$query = "SELECT ordering AS value, name AS text"

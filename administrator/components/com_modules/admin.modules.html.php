@@ -27,7 +27,6 @@ class HTML_modules {
 	*/
 	function showModules( &$rows, $myid, $client, &$pageNav, $option, &$lists, $search ) {
 		global $my;
-		;
 
 		mosCommonHTML::loadOverlib();
 		?>

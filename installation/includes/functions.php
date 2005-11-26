@@ -100,7 +100,7 @@ function detectLanguage() {
 	}
 
 	if ($client_lang=='') {
-		$client_lang = 'english';
+		$client_lang = 'eng_GB';
 	}
 
 	$lang = mosGetParam( $vars, 'lang', $client_lang );

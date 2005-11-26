@@ -92,7 +92,7 @@ class JLanguage extends JObject {
 		$this->_strings  = array();
 		$this->_metadata = $this->getMetadata($userLang);
 		
-		$this->_defaultLang = 'english';
+		$this->_defaultLang = 'eng_GB';
 		$this->_userLang    = $userLang;
 		
 		//load common language files
@@ -120,7 +120,7 @@ class JLanguage extends JObject {
 		$signature = serialize(array($userLang));         
 		
 		if (empty($instances[$signature])) {             
-			$instances[$signature] = new JLanguage($userLang);         
+			$instances[$signature] = new JLanguage($userLang);
 		}         
 		
 		return $instances[$signature];
@@ -161,25 +161,9 @@ class JLanguage extends JObject {
 			// roll back to default language
 			$filename = empty( $prefix ) ?  $this->_defaultLang  : $this->_defaultLang . '.' . $prefix  ;
 		}
-		
 		$this->_load( $basePath . $filename .'.ini' );
 	}
 
-	/**
-	 * Loads the main and component language files
-	 * @param string The option
-	 */
-	function loadAll( $option='') {
-		// load primary language file
-		$this->load( '');
-
-		// load 'option'(al) language file
-		$option = trim( $option );
-		if ($option) {
-			$this->load( $option );
-		}
-	}
-	
 	/**
 	* Loads a language file and appends the results to the existing strings
 	* @param string The name of the file
