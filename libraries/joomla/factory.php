@@ -75,12 +75,14 @@ class JFactory
 		
 		/** @global $database */
 		$database =& JDatabase::getInstance( $dbtype, $host, $user, $password, $db, $dbprefix );
-		if ($database->getErrorNum()) {
-			$mosSystemError = $database->getErrorNum();
-			include JPATH_ROOT . '/configuration.php';
-			include JPATH_ROOT . '/offline.php';
-			exit();
-		}
+		
+		//TODO : error checking needs to happen outside getDBO call
+		//if ($database->getErrorNum()) {
+		//	$mosSystemError = $database->getErrorNum();
+		//	include JPATH_ROOT . '/configuration.php';
+		//	include JPATH_ROOT . '/offline.php';
+		//	exit();
+		//}
 		$database->debug( $debug );
 		return $database;
 	}
