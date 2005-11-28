@@ -52,7 +52,6 @@ switch ($task) {
 
 function listWeblinks( $catid ) {
 	global $mainframe, $database, $my;
-	global $mosConfig_live_site;
 	global $Itemid;
 
 	/* Query to retrieve all categories that belong under the web links section and that are published. */
@@ -132,7 +131,7 @@ function listWeblinks( $catid ) {
 
 	// page image
 	$currentcat->img = '';
-	$path = $mosConfig_live_site .'/images/stories/';
+	$path = JURL_SITE .'/images/stories/';
 	if ( ( @$currentcat->image ) <> '' ) {
 		$currentcat->img = $path . $currentcat->image;
 		$currentcat->align = $currentcat->image_position;

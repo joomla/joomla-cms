@@ -35,7 +35,6 @@ switch( $task ) {
 
 function listFeeds( $option, $catid ) {
 	global $mainframe, $database, $my;
-	global $mosConfig_live_site;
 	global $Itemid;
 
 	/* Query to retrieve all categories that belong under the contacts section and that are published. */
@@ -119,7 +118,7 @@ function listFeeds( $option, $catid ) {
 
 	// page image
 	$currentcat->img = '';
-	$path = $mosConfig_live_site .'/images/stories/';
+	$path = JURL_SITE .'/images/stories/';
 	if ( ( @$currentcat->image ) <> '' ) {
 		$currentcat->img = $path . $currentcat->image;
 		$currentcat->align = $currentcat->image_position;
@@ -148,11 +147,11 @@ function listFeeds( $option, $catid ) {
 
 
 function showFeed( $option, $feedid ) {
-	global $database, $mainframe, $mosConfig_absolute_path, $Itemid;
+	global $database, $mainframe, $Itemid;
 
 	// full RSS parser used to access image information
-	$cacheDir = $mosConfig_absolute_path . '/cache/';
-	$LitePath = $mosConfig_absolute_path . '/includes/Cache/Lite.php';
+	$cacheDir = JPATH_SITE . '/cache/';
+	$LitePath = JPATH_SITE . '/includes/Cache/Lite.php';
 
 	// Adds parameter handling
 	$menu = new mosMenu( $database );

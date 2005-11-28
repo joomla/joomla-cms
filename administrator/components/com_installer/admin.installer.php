@@ -237,9 +237,7 @@ function removeElement( $installerClass, $option, $element, $client ) {
 * @param string The message to return
 */
 function uploadFile( $filename, $userfile_name, &$msg ) {
-	global $mosConfig_absolute_path;
-
-	$baseDir = mosPathName( $mosConfig_absolute_path . '/media' );
+	$baseDir = mosPathName( JPATH_SITE . '/media' );
 
 	if (file_exists( $baseDir )) {
 		if (is_writable( $baseDir )) {

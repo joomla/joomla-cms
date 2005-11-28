@@ -38,7 +38,7 @@ showInstalledModules( $option );
 * @param string The URL option
 */
 function showInstalledModules( $_option ) {
-	global $database, $mosConfig_absolute_path;
+	global $database;
 
 	$filter 		= mosGetParam( $_POST, 'filter', '' );
 	$select[] 		= mosHTML::makeOption( '', JText::_( 'All' ) );
@@ -71,7 +71,7 @@ function showInstalledModules( $_option ) {
 		if ($row->client_id == "1"){
 			$moduleBaseDir	= mosPathName( mosPathName( JPATH_ADMINISTRATOR ) . "modules" );
 		} else {
-			$moduleBaseDir	= mosPathName( mosPathName( $mosConfig_absolute_path ) . "modules" );
+			$moduleBaseDir	= mosPathName( mosPathName( JPATH_SITE ) . "modules" );
 		}
 
 		// xml file for module

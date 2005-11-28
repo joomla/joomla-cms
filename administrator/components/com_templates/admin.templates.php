@@ -101,7 +101,7 @@ switch ($task) {
 */
 function viewTemplates( $option, $client ) {
 	global $database, $mainframe;
-	global $mosConfig_absolute_path, $mosConfig_list_limit;
+	global $mosConfig_list_limit;
 
 	$limit = $mainframe->getUserStateFromRequest( 'viewlistlimit', 'limit', $mosConfig_list_limit );
 	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
@@ -109,7 +109,7 @@ function viewTemplates( $option, $client ) {
 	if ($client == 'admin') {
 		$templateBaseDir = mosPathName( JPATH_ADMINISTRATOR . '/templates' );
 	} else {
-		$templateBaseDir = mosPathName( $mosConfig_absolute_path . '/templates' );
+		$templateBaseDir = mosPathName( JPATH_SITE . '/templates' );
 	}
 
 	$rows = array();
@@ -288,12 +288,10 @@ function removeTemplate( $cid, $option, $client ) {
 }
 
 function editTemplateSource( $p_tname, $option, $client ) {
-	global $mosConfig_absolute_path;
-
 	if ( $client == 'admin' ) {
 		$file = JPATH_ADMINISTRATOR .'/templates/'. $p_tname .'/index.php';
 	} else {
-		$file = $mosConfig_absolute_path .'/templates/'. $p_tname .'/index.php';
+		$file = JPATH_SITE .'/templates/'. $p_tname .'/index.php';
 	}
 
 	if ( $fp = fopen( $file, 'r' ) ) {
@@ -309,8 +307,6 @@ function editTemplateSource( $p_tname, $option, $client ) {
 
 
 function saveTemplateSource( $option, $client ) {
-	global $mosConfig_absolute_path;
-
 	$template 		= mosGetParam( $_POST, 'template', '' );
 	$filecontent 	= mosGetParam( $_POST, 'filecontent', '', _MOS_ALLOWHTML );
 
@@ -324,7 +320,7 @@ function saveTemplateSource( $option, $client ) {
 	if ( $client == 'admin' ) {
 		$file = JPATH_ADMINISTRATOR .'/templates/'. $template .'/index.php';
 	} else {
-		$file = $mosConfig_absolute_path .'/templates/'. $template .'/index.php';
+		$file = JPATH_SITE . '/templates/' . $template . '/index.php';
 	}
 
 	$enable_write = mosGetParam($_POST,'enable_write',0);
@@ -355,8 +351,6 @@ function saveTemplateSource( $option, $client ) {
 }
 
 function chooseTemplateCSS( $p_tname, $option, $client ) {
-	global $mosConfig_absolute_path;
-
 	if ( $client == 'admin' ) {
 		// Admin template css dir
 		$a_dir = JPATH_ADMINISTRATOR .'/templates/'. $p_tname .'/css';
@@ -369,9 +363,9 @@ function chooseTemplateCSS( $p_tname, $option, $client ) {
 
 	} else {
 		// Template css dir
-		$f_dir = $mosConfig_absolute_path .'/templates/'. $p_tname .'/css';
+		$f_dir = JPATH_SITE .'/templates/'. $p_tname .'/css';
 		// System css dir
-		$fs_dir = $mosConfig_absolute_path .'/templates/css';
+		$fs_dir = JPATH_SITE .'/templates/css';
 
 		// List template .css files
 		$f_files = JFolder::files( $f_dir, $filter='.css', $recurse=false, $fullpath=false  );
@@ -384,8 +378,6 @@ function chooseTemplateCSS( $p_tname, $option, $client ) {
 }
 
 function editTemplateCSS( $p_tname, $option, $client ) {
-	global $mosConfig_absolute_path;
-
 	$template = mosGetParam( $_POST, 'template', '' );
 	$tp_name = mosGetParam( $_POST, 'tp_name', '' );
 
@@ -394,7 +386,7 @@ function editTemplateCSS( $p_tname, $option, $client ) {
 		$p_tname = $template;
 
 	} else {
-		$file = $mosConfig_absolute_path . $tp_name;
+		$file = JPATH_SITE . $tp_name;
 		$p_tname = $template;
 	}
 
@@ -411,8 +403,6 @@ function editTemplateCSS( $p_tname, $option, $client ) {
 
 
 function saveTemplateCSS( $option, $client ) {
-	global $mosConfig_absolute_path;
-
 	$template = mosGetParam( $_POST, 'template', '' );
 	$filecontent = mosGetParam( $_POST, 'filecontent', '', _MOS_ALLOWHTML );
 	$tp_fname = mosGetParam( $_POST, 'tp_fname', '' );

@@ -25,7 +25,7 @@ class mosInstallerModule extends mosInstaller {
 	* @param boolean True if installing from directory
 	*/
 	function install( $p_fromdir = null ) {
-		global $mosConfig_absolute_path, $database;
+		global $database;
 
 		if (!$this->preInstallCheck( $p_fromdir, 'module' )) {
 			return false;
@@ -47,7 +47,7 @@ class mosInstallerModule extends mosInstaller {
 		// Set some vars
 		$e = &$mosinstall->getElementsByPath( 'name', 1 );
 		$this->elementName($e->getText());
-		$this->elementDir( mosPathName( $mosConfig_absolute_path
+		$this->elementDir( mosPathName( JPATH_SITE
 			. ($client == 'admin' ? '/administrator' : '')
 			. '/modules/' )
 		);
@@ -134,7 +134,7 @@ class mosInstallerModule extends mosInstaller {
 	* @param int The client id
 	*/
 	function uninstall( $id, $option, $client=0 ) {
-		global $database, $mosConfig_absolute_path;
+		global $database;
 
 		$id = intval( $id );
 
@@ -179,9 +179,9 @@ class mosInstallerModule extends mosInstaller {
     		}
 
     		if ( !$row->client_id ) {
-    			$basepath = $mosConfig_absolute_path . '/modules/';
+    			$basepath = JPATH_SITE . '/modules/';
     		} else {
-    			$basepath = $mosConfig_absolute_path . '/administrator/modules/';
+    			$basepath = JPATH_ADMINISTRATOR . '/modules/';
     		}
 
       		$xmlfile = $basepath . $row->module . '.xml';

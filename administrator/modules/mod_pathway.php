@@ -20,7 +20,7 @@ if ($option != '') {
 	$html = '';
 
 	$html .= '<div class="pathway">';
-	$html .= '<a href="'. $mosConfig_live_site .'/administrator/index2.php">';
+	$html .= '<a href="'. JURL_SITE .'/administrator/index2.php">';
 	$html .= '<strong>' . $mosConfig_sitename . '</strong>';
 	$html .= "</a>";
 

@@ -274,8 +274,6 @@ function viewMenuItems( $menutype, $option ) {
 * Displays a selection list for menu item types
 */
 function addMenuItem( &$cid, $menutype, $option, $task ) {
-	global $mosConfig_absolute_path;
-
 	$types 	= array();
 
 	// list of directories
@@ -716,8 +714,6 @@ function copyMenuSave( $option, $cid, $menu, $menutype ) {
 }
 
 function ReadMenuXML( $type, $component=-1 ) {
-	global $mosConfig_absolute_path;
-
 	// xml file for module
 	$xmlfile = JPATH_ADMINISTRATOR .'/components/com_menus/'. $type .'/'. $type .'.xml';
 	$xmlDoc =& JFactory::getXMLParser();

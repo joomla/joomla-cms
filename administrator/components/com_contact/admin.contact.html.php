@@ -140,8 +140,6 @@ class HTML_contact {
 
 
 	function editContact( &$row, &$lists, $option, &$params ) {
-		global $mosConfig_live_site;
-
 		if ($row->image == '') {
 			$row->image = 'blank.png';
 		}
@@ -403,7 +401,7 @@ class HTML_contact {
 		</tr>
 		</table>
 
-		<script language="Javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
+		<script language="Javascript" src="<?php echo JURL_SITE;?>/includes/js/overlib_mini.js"></script>
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="task" value="" />

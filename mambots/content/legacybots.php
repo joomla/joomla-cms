@@ -25,15 +25,13 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botLegacyBots' );
 * @param int The page number
 */
 function botLegacyBots( $published, &$row, &$params, $page=0 ) {
-	global $mosConfig_absolute_path;
-
 	// check whether mambot has been unpublished
 	if ( !$published ) {
 		return true;
 	}
 
 	// process any legacy bots
-	$bots = mosReadDirectory( "$mosConfig_absolute_path/mambots", "\.php$" );
+	$bots = mosReadDirectory( JPATH_SITE . "/mambots", "\.php$" );
 	sort( $bots );
 	foreach ($bots as $bot) {
 		require "mambots/$bot";

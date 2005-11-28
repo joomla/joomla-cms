@@ -46,7 +46,7 @@ $mosmsg		= strip_tags( mosGetParam( $_REQUEST, 'mosmsg', '' ) );
 
 if ($option == 'logout') {
 	$mainframe->logout();
-	mosRedirect( $mosConfig_live_site );
+	mosRedirect( JURL_SITE );
 }
 
 // get the information about the current user from the sessions table

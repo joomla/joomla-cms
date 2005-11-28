@@ -207,8 +207,6 @@ class mosParameters {
 * @return string HTML
 */
 	function render( $name='params' ) {
-		global $mosConfig_absolute_path;
-
 		if ($this->_path) {
 			if (!is_object( $this->_xmlElem )) {
 
@@ -437,10 +435,8 @@ class mosParameters {
 	* @return string The html for the element
 	*/
 	function _form_filelist( $name, $value, &$node, $control_name ) {
-		global $mosConfig_absolute_path;
-
 		// path to images directory
-		$path 	= $mosConfig_absolute_path . $node->getAttribute( 'directory' );
+		$path 	= JPATH_SITE . $node->getAttribute( 'directory' );
 		$filter = $node->getAttribute( 'filter' );
 		$files 	= mosReadDirectory( $path, $filter );
 

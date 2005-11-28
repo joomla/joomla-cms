@@ -15,7 +15,7 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 global $database;
-global $mosConfig_live_site, $mosConfig_lang;
+global $mosConfig_lang;
 
 @include_once ('language/' . $mosConfig_lang . '.php' );
 
@@ -23,7 +23,7 @@ $adminOffline = false;
 
 if (!defined( '_INSTALL_CHECK' )) {
 	// this method is different from 1.1 because the session handling is not the same
-	session_name( md5( $mosConfig_live_site ) );
+	session_name( md5( JURL_SITE ) );
 	session_start();
 
 	if (class_exists( 'mosUser' )) {
@@ -63,8 +63,8 @@ if (!defined( '_ADMIN_OFFLINE' ) || defined( '_INSTALL_CHECK' )) {
 	<head>
 		<title><?php echo $mosConfig_sitename; ?> - Offline</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"" />
-		<link rel="stylesheet" href="<?php echo $mosConfig_live_site; ?>/templates/css/offline.css" type="text/css" />
-		<link rel="shortcut icon" href="<?php echo $mosConfig_live_site; ?>/images/favicon.ico" />
+		<link rel="stylesheet" href="<?php echo JURL_SITE; ?>/templates/css/offline.css" type="text/css" />
+		<link rel="shortcut icon" href="<?php echo JURL_SITE; ?>/images/favicon.ico" />
 	</head>
 	<body>
 
@@ -72,7 +72,7 @@ if (!defined( '_ADMIN_OFFLINE' ) || defined( '_INSTALL_CHECK' )) {
 		<table width="550" align="center" class="outline">
 		<tr>
 			<td width="60%" height="50" align="center">
-			<img src="<?php echo $mosConfig_live_site; ?>/images/joomla_logo_black.jpg" alt="Joomla! Logo" align="middle" />
+			<img src="<?php echo JURL_SITE; ?>/images/joomla_logo_black.jpg" alt="Joomla! Logo" align="middle" />
 			</td>
 		</tr>
 		<tr>

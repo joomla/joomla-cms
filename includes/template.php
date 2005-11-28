@@ -80,7 +80,7 @@ function mosCountModules( $position='left' ) {
 * @param int The style.  0=normal, 1=horiz, -1=no wrapper
 */
 function mosLoadModules( $position='left', $style=0 ) {
-	global $mosConfig_lang, $mosConfig_absolute_path;
+	global $mosConfig_lang, $mosConfig_caching;
 
 	$tp = mosGetParam( $_GET, 'tp', 0 );
 	if ($tp) {
@@ -92,7 +92,7 @@ function mosLoadModules( $position='left', $style=0 ) {
 	$style = intval( $style );
 	$cache =& JFactory::getCache( 'com_content' );
 
-	require_once( $mosConfig_absolute_path . '/includes/template.html.php' );
+	require_once( JPATH_SITE . '/includes/template.html.php' );
 
 	$allModules =& initModules();
 	if (isset( $GLOBALS['_MOS_MODULES'][$position] )) {
@@ -109,11 +109,11 @@ function mosLoadModules( $position='left', $style=0 ) {
 		$lang->load($module->module);
 
 		// check for custom language file
-		$path = $mosConfig_absolute_path . '/modules/' . $module->module . $mosConfig_lang .'.php';
+		$path = JPATH_SITE . '/modules/' . $module->module . $mosConfig_lang .'.php';
 		if (file_exists( $path )) {
 			include( $path );
 		} else {
-			$path = $mosConfig_absolute_path .'/modules/'. $module->module .'.eng.php';
+			$path = JPATH_SITE .'/modules/'. $module->module .'.eng.php';
 			if (file_exists( $path )) {
 				include( $path );
 			}
@@ -140,7 +140,7 @@ function mosLoadModules( $position='left', $style=0 ) {
 * Loads an admin module
 */
 function mosLoadModule( $name, $params=NULL ) {
-	global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
+	global $mosConfig_sitename, $mosConfig_lang;
 	global $mainframe, $database, $my, $Itemid, $acl;
 
 	$lang =& $mainframe->getLanguage();
@@ -151,7 +151,7 @@ function mosLoadModule( $name, $params=NULL ) {
 	$name = str_replace( '/', '', $name );
 	$name = str_replace( '\\', '', $name );
 
-	$path = "$mosConfig_absolute_path/modules/mod_$name.php";
+	$path = JPATH_SITE . "/modules/mod_$name.php";
 
 	if (file_exists( $path )) {
 		require $path;
@@ -163,13 +163,13 @@ function mosLoadModule( $name, $params=NULL ) {
 */
 function mosShowHead() {
 	global $database, $option, $my, $mainframe, $_VERSION;
-	global $mosConfig_MetaDesc, $mosConfig_MetaKeys, $mosConfig_live_site, $mosConfig_sef, $mosConfig_absolute_path, $mosConfig_sitename, $mosConfig_favicon;
+	global $mosConfig_MetaDesc, $mosConfig_MetaKeys, $mosConfig_sef, $mosConfig_sitename, $mosConfig_favicon;
 
 	$task = mosGetParam( $_REQUEST, 'task', '' );
 
 	if ( $my->id ) {
 		?>
-		<script language="JavaScript" src="<?php echo $mosConfig_live_site;?>/includes/js/joomla.javascript.js" type="text/javascript"></script>
+		<script language="JavaScript" src="<?php echo JURL_SITE;?>/includes/js/joomla.javascript.js" type="text/javascript"></script>
 		<?php
 	}
 
@@ -186,7 +186,7 @@ function mosShowHead() {
 	initEditor();
 
 	if ( isset($mosConfig_sef) && $mosConfig_sef ) {
-		echo "<base href=\"$mosConfig_live_site/\" />\r\n";
+		echo '<base href="'. JURL_SITE. '" />' . "\r\n";
 	}
 
 	// support for Firefox Live Bookmarks ability for site syndication
@@ -210,7 +210,7 @@ function mosShowHead() {
 	if ($live_bookmark) {
 		$show = 1;
 
-		$link_file 	= $mosConfig_live_site . '/index2.php?option=com_rss&feed='. $live_bookmark .'&no_html=1';
+		$link_file 	= JURL_SITE . '/index2.php?option=com_rss&feed='. $live_bookmark .'&no_html=1';
 
 		// xhtml check
 		$link_file = ampReplace( $link_file );
@@ -227,12 +227,12 @@ function mosShowHead() {
 	if ( !$mosConfig_favicon ) {
 		$mosConfig_favicon = 'favicon.ico';
 	}
-	$icon = $mosConfig_absolute_path .'/images/'. $mosConfig_favicon;
+	$icon = JPATH_SITE .'/images/'. $mosConfig_favicon;
 	// checks to see if file exists
 	if ( !file_exists( $icon ) ) {
-		$icon = $mosConfig_live_site .'/images/favicon.ico';
+		$icon = JURL_SITE .'/images/favicon.ico';
 	} else {
-		$icon = $mosConfig_live_site .'/images/' .$mosConfig_favicon;
+		$icon = JURL_SITE .'/images/' .$mosConfig_favicon;
 	}
 
 	// outputs link tag for page

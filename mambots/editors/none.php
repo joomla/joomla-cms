@@ -64,13 +64,13 @@ EOD;
 * @param int The number of rows for the editor area
 */
 function botNoEditorEditorArea( $name, $content, $hiddenField, $width, $height, $col, $row ) {
-	global $mosConfig_live_site, $_MAMBOTS;
+	global $_MAMBOTS;
 
 	$results = $_MAMBOTS->trigger( 'onCustomEditorButton' );
 	$buttons = array();
 	foreach ($results as $result) {
 		if ( $result[0] ) {
-			$buttons[] = '<img src="'.$mosConfig_live_site.'/mambots/editors-xtd/'.$result[0].'" onclick="insertAtCursor( document.adminForm.'.$hiddenField.', \''.$result[1].'\' )" alt="'.$result[1].'"/>';
+			$buttons[] = '<img src="'.JURL_SITE.'/mambots/editors-xtd/'.$result[0].'" onclick="insertAtCursor( document.adminForm.'.$hiddenField.', \''.$result[1].'\' )" alt="'.$result[1].'"/>';
 		}
 	}
 	$buttons = implode( "", $buttons );

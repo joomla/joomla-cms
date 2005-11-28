@@ -561,8 +561,6 @@ class mosMenuBar {
 	* @since 1.0
 	*/
 	function help( $ref, $com=false ) {
-		global $mosConfig_live_site;
-
 		$image2 	= mosAdminMenus::ImageCheckAdmin( 'help_f2.png', '/images/', NULL, NULL, 'Help', 'help', 1 );
 		$helpUrl 	= mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
 
@@ -572,7 +570,7 @@ class mosMenuBar {
 
 		if ($com) {
 	   // help file for 3PD Components
-			$url = $mosConfig_live_site . 'administrator/components/' . $GLOBALS['option'] . '/help/';
+			$url = JURL_SITE . '/administrator/components/' . $GLOBALS['option'] . '/help/';
 			if (!eregi( '\.html$', $ref )) {
 				$ref = $ref . '.html';
 			}
@@ -583,7 +581,7 @@ class mosMenuBar {
 			$url = $helpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=' . urlencode( $ref );
 		} else {
 	   // Included html help files
-			$url = $mosConfig_live_site . '/help/';
+			$url = JURL_SITE . '/help/';
 			$ref = $ref . '.html';
 			$url .= $ref;
 		}

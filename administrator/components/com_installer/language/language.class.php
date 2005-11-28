@@ -25,7 +25,7 @@ class mosInstallerLanguage extends mosInstaller {
 	* @param boolean True if installing from directory
 	*/
 	function install( $p_fromdir = null ) {
-		global $mosConfig_absolute_path,$database;
+		global $database;
 
 		if (!$this->preInstallCheck( $p_fromdir, 'language' )) {
 			return false;
@@ -37,7 +37,7 @@ class mosInstallerLanguage extends mosInstaller {
 		// Set some vars
 		$e = &$root->getElementsByPath( 'name', 1);
 		$this->elementName($e->getText());
-		$this->elementDir( mosPathName( $mosConfig_absolute_path . "/language/" ) );
+		$this->elementDir( mosPathName( JPATH_SITE . '/language/' ) );
 
 		// Find files to copy
 		if ($this->parseFiles( 'files', 'language' ) === false) {
@@ -56,11 +56,9 @@ class mosInstallerLanguage extends mosInstaller {
 	* @param int The client id
 	*/
 	function uninstall( $id, $option, $client=0 ) {
-		global $mosConfig_absolute_path;
-
 		$id = str_replace( array( '\\', '/' ), '', $id );
 
-		$basepath = $mosConfig_absolute_path . '/language/';
+		$basepath = JPATH_SITE . '/language/';
 		$xmlfile = $basepath . $id . '.xml';
 
 		// see if there is an xml install file, must be same name as element

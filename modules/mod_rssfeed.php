@@ -14,7 +14,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-global $mosConfig_live_site, $mosConfig_absolute_path, $mainframe;
+global $mainframe;
 
 $cur_template = $mainframe->getTemplate();
 
@@ -30,8 +30,8 @@ $rss10_image		= $params->get( 'rss10_image', '' );
 $rss20_image		= $params->get( 'rss20_image', '' );
 $atom_image			= $params->get( 'atom_image', '' );
 $opml_image			= $params->get( 'opml_image', '' );
-$t_path 			= $mosConfig_live_site .'/templates/'. $cur_template .'/images/';
-$d_path				= $mosConfig_live_site .'/images/M_images/';
+$t_path 			= JURL_SITE .'/templates/'. $cur_template .'/images/';
+$d_path				= JURL_SITE .'/images/M_images/';
 ?>
 
 <div class="syndicate<?php echo $moduleclass_sfx;?>">

@@ -14,7 +14,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-global $mosConfig_offset, $mosConfig_live_site, $mainframe;
+global $mosConfig_offset, $mainframe;
 
 $type 		     = intval( $params->get( 'type', 1 ) );
 $count 		     = intval( $params->get( 'count', 5 ) );

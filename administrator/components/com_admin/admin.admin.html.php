@@ -369,7 +369,6 @@ class HTML_admin_misc {
 	 * Display Help Page
 	 */
 	function help() {
-		global $mosConfig_live_site;
 		$helpurl 	= mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
 
 		if ( $helpurl == 'http://help.mamboserver.com' ) {
@@ -469,7 +468,7 @@ class HTML_admin_misc {
 				</div>
 			</td>
 			<td valign="top">
-				<iframe name="helpFrame" src="<?php echo $mosConfig_live_site . '/help/' . $page;?>" class="helpFrame" frameborder="0" /></iframe>
+				<iframe name="helpFrame" src="<?php echo JURL_SITE . '/help/' . $page;?>" class="helpFrame" frameborder="0" /></iframe>
 			</td>
 		</tr>
 		</table>
@@ -483,8 +482,6 @@ class HTML_admin_misc {
 	* Preview site
 	*/
 	function preview( $tp=0 ) {
-		global $mosConfig_live_site;
-
 		$tp = intval( $tp );
 		?>
 		<style type="text/css">
@@ -506,7 +503,7 @@ class HTML_admin_misc {
 		</tr>
 		<tr>
 			<td width="100%" valign="top" colspan="2">
-			<iframe name="previewFrame" src="<?php echo $mosConfig_live_site . '/index.php?tp=' . $tp;?>" class="previewFrame" /></iframe>
+			<iframe name="previewFrame" src="<?php echo JURL_SITE . '/index.php?tp=' . $tp;?>" class="previewFrame" /></iframe>
 			</td>
 		</tr>
 		</table>

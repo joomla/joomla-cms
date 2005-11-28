@@ -31,7 +31,7 @@ class mosInstallerTemplate extends mosInstaller {
 	* @param boolean True if installing from directory
 	*/
 	function install( $p_fromdir = null ) {
-		global $mosConfig_absolute_path,$database;
+		global $database;
 
 		if (!$this->preInstallCheck( $p_fromdir, 'template' )) {
 			return false;
@@ -53,7 +53,7 @@ class mosInstallerTemplate extends mosInstaller {
 		// Set some vars
 		$e = &$mosinstall->getElementsByPath( 'name', 1 );
 		$this->elementName($e->getText());
-		$this->elementDir( mosPathName( $mosConfig_absolute_path
+		$this->elementDir( mosPathName( JPATH_SITE
 		. ($client == 'admin' ? '/administrator' : '')
 		. '/templates/' . strtolower(str_replace(" ","_",$this->elementName())))
 		);
@@ -98,10 +98,10 @@ class mosInstallerTemplate extends mosInstaller {
 	* @param int The client id
 	*/
 	function uninstall( $id, $option, $client=0 ) {
-		global $database, $mosConfig_absolute_path;
+		global $database;
 
 		// Delete directories
-		$path = $mosConfig_absolute_path
+		$path = JPATH_SITE
 		. ($client == 'admin' ? '/administrator' : '' )
 		. '/templates/' . $id;
 

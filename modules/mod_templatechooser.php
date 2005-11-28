@@ -25,7 +25,7 @@ $preview_width 	= $params->get( 'preview_width', 140 );
 $show_preview 	= $params->get( 'show_preview', 0 );
 
 // Read files from template directory
-$template_path 	= "$mosConfig_absolute_path/templates";
+$template_path 	= JPATH_SITE . "/templates";
 $templatefolder = @dir( $template_path );
 $darray = array();
 

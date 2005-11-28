@@ -21,7 +21,7 @@ if(!defined('DS')) {
 
 if (!defined( 'JPATH_ROOT' )) {
 	/** string The root directory of the file system in native format */
-	define( 'JPATH_ROOT', JPath::clean( $mosConfig_absolute_path ) );
+	define( 'JPATH_ROOT', JPath::clean( JPATH_SITE ) );
 }
 if (!defined( 'JPATH_FILEPEMS' )) {
 	/** string The default directory permissions */

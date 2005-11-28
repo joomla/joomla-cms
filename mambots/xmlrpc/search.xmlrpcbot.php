@@ -41,7 +41,7 @@ function wsGetSearchWebServices() {
 * @param string ordering option, newest|oldest|popular|alpha|category
 */
 function wsSearchSite( $searchword, $phrase='', $order='' ) {
-	global $database, $my, $acl, $_MAMBOTS, $mosConfig_live_site;
+	global $database, $my, $acl, $_MAMBOTS;
 
 	if (!defined( '_MAMBOT_REMOTE_SEACH')) {
 		// flag that the site is being searched remotely
@@ -57,7 +57,7 @@ function wsSearchSite( $searchword, $phrase='', $order='' ) {
 
 	foreach ($results as $i=>$rows) {
 		foreach ($rows as $j=>$row) {
-			$results[$i][$j]->href = $mosConfig_live_site . '/' . $row->href;
+			$results[$i][$j]->href = JURL_SITE . '/' . $row->href;
 			$results[$i][$j]->text = mosPrepareSearchContent( $row->text );
 		}
 	}

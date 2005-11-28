@@ -23,7 +23,7 @@ if (!defined( '_MOS_MAMBO_INCLUDED' )) {
 	require( $path );
 }
 
-session_name( md5( $mosConfig_live_site ) );
+session_name( md5( JURL_SITE ) );
 session_start();
 // restore some session variables
 if (!isset( $my )) {

@@ -136,7 +136,7 @@ function showWeblinks( $option ) {
 * @param integer The unique id of the record to edit (0 if new)
 */
 function editWeblink( $option, $id ) {
-	global $database, $my, $mosConfig_absolute_path, $mosConfig_live_site;
+	global $database, $my;
 
 	$lists = array();
 

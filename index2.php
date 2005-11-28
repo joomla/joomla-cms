@@ -109,7 +109,7 @@ if ( $no_html == 0 ) {
 	<head>
 	<?php echo $mainframe->getHead(); ?>
 	<link rel="stylesheet" href="templates/<?php echo $cur_template;?>/css/template_css.css" type="text/css" />
-	<link rel="shortcut icon" href="<?php echo $mosConfig_live_site; ?>/images/favicon.ico" />
+	<link rel="shortcut icon" href="<?php echo JURL_SITE; ?>/images/favicon.ico" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="robots" content="noindex, nofollow" />
 	</head>

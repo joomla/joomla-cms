@@ -244,14 +244,12 @@ function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 * @returns HTML code for Warning
 */
 function JWarning($warning, $title='Joomla! Warning') {
-	global $mosConfig_live_site;
-
 	$title 		= JText::_( 'Joomla Warning' );
 	$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \''. $title .'\', BELOW, RIGHT);';
 
 	$tip 		= '<!--'. JText::_( 'Joomla Warning' ) ."--> \n";
 	$tip 		= '<a href="#" onmouseover="'. $mouseover .'" onmouseout="return nd();">';
-	$tip 		.= '<img src="'. $mosConfig_live_site .'/includes/js/ThemeOffice/warning.png" border="0"  alt=""/></a>';
+	$tip 		.= '<img src="'. JURL_SITE .'/includes/js/ThemeOffice/warning.png" border="0"  alt=""/></a>';
 
 	return $tip;
 }
@@ -430,7 +428,7 @@ function mosCurrentDate( $format="" ) {
 * @returns HTML code for ToolTip
 */
 function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='#', $link=1 ) {
-	global $mosConfig_live_site,  $mainframe;
+	global $mainframe;
 
 	$tooltip = addslashes(htmlspecialchars($tooltip));
 	$title   = addslashes(htmlspecialchars($title));
@@ -442,7 +440,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 		$title = ', CAPTION, \''.$title .'\'';
 	}
 	if ( !$text ) {
-		$image 	= $mosConfig_live_site . '/includes/js/ThemeOffice/'. $image;
+		$image 	= JURL_SITE . '/includes/js/ThemeOffice/'. $image;
 		$text 	= '<img src="'. $image .'" border="0" alt="tooltip"/>';
 	}
 	$style = 'style="text-decoration: none; color: #333;"';
@@ -611,14 +609,12 @@ function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NUL
 * Sends mail to admin
 */
 function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) {
-	global $mosConfig_live_site;
-
     // soon $mosConfig_admin_dir
     $strAdminDir = "administrator";
 
 	$subject = JText::_( 'User Submitted' ) ." '". $type ."'";
 
-	$message = sprintf ( JText::_( 'MAIL_MSG_ADMIN' ), $adminName, $type, $title, $author, $mosConfig_live_site, $mosConfig_live_site, $strAdminDir, $type);
+	$message = sprintf ( JText::_( 'MAIL_MSG_ADMIN' ), $adminName, $type, $title, $author, JURL_SITE, JURL_SITE, $strAdminDir, $type);
     $message .= JText::_( 'MAIL_MSG') ."\n";
 
 	eval ("\$message = \"$message\";");

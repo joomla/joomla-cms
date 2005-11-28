@@ -27,7 +27,6 @@ class content_blog_section_html {
 
 	function edit( &$menu, &$lists, &$params, $option ) {
 		/* in the HTML below, references to "section" were changed to "section" */
-		global $mosConfig_live_site;
 		?>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<script language="javascript" type="text/javascript">
@@ -161,7 +160,7 @@ class content_blog_section_html {
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
-		<script language="Javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
+		<script language="Javascript" src="<?php echo JURL_SITE;?>/includes/js/overlib_mini.js"></script>
 		<?php
 	}
 }

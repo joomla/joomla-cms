@@ -45,8 +45,8 @@ if (is_int(strpos ($listdir, "..")) && $listdir != '') {
 	mosRedirect( "index2.php?option=com_media&listdir=".$_POST['dirPath'], JText::_( 'NO HACKING PLEASE' ) );
 }
 
-define( 'COM_MEDIA_BASE', $mosConfig_absolute_path . DIRECTORY_SEPARATOR . 'images' );
-define( 'COM_MEDIA_BASEURL', $mosConfig_live_site . '/images' );
+define( 'COM_MEDIA_BASE', JPATH_SITE . DIRECTORY_SEPARATOR . 'images' );
+define( 'COM_MEDIA_BASEURL', JURL_SITE . '/images' );
 
 switch ($task) {
 
@@ -233,8 +233,6 @@ function recursive_listdir( $base ) {
 * @param string The image directory to display
 */
 function showMedia( $listdir ) {
-	global $mosConfig_live_site;
-
 	// get list of directories
 	$imgFiles 	= recursive_listdir( COM_MEDIA_BASE );
 	$images 	= array();
@@ -260,8 +258,6 @@ function showMedia( $listdir ) {
 * @param string The image directory to display
 */
 function listImages($listdir) {
-	global $mosConfig_live_site;
-
 	// get list of images
 	$d = @dir( COM_MEDIA_BASE . DIRECTORY_SEPARATOR .$listdir);
 

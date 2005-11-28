@@ -23,7 +23,6 @@ class content_typed_menu {
 
 	function edit( &$uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
-		global $mosConfig_absolute_path;
 
 		$menu = new mosMenu( $database );
 		$menu->load( $uid );

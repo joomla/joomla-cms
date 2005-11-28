@@ -21,9 +21,9 @@ $_MAMBOTS->registerFunction( 'onBeforeStart', 'botJoomlaSiteUrl' );
 *
 */
 function botJoomlaSiteUrl( ) {
-	global $mosConfig_live_site, $mosConfig_unsecure_site, $mosConfig_original_site;
+	global $mosConfig_unsecure_site, $mosConfig_original_site;
 
-	$mosConfig_original_site = $mosConfig_live_site;
+	$mosConfig_original_site = JURL_SITE;
 
 	// Testing the server information
 	if ( isset ( $_SERVER['PHP_SELF'] ) ) {
@@ -57,7 +57,7 @@ function botJoomlaSiteUrl( ) {
 		} else if ( isset( $_SERVER['SERVER_ADDR'] ) ) {
 			$siteHost = $_SERVER['SERVER_ADDR'] . $sitePort;
 		} else {
-			$siteHost = $mosConfig_live_site;
+			$siteHost = JURL_SITE;
 		}
 
 		$sitePath = dirname( $_SERVER['PHP_SELF'] );

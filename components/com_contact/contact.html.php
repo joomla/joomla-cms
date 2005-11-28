@@ -24,7 +24,7 @@ class HTML_contact {
 
 
 	function displaylist( &$categories, &$rows, $catid, $currentcat=NULL, &$params, $tabclass ) {
-		global $Itemid, $mosConfig_live_site, $hide_js;
+		global $Itemid, $hide_js;
 
 		if ( $params->get( 'page_title' ) ) {
 			?>
@@ -87,7 +87,7 @@ class HTML_contact {
 	* Display Table of items
 	*/
 	function showTable( &$params, &$rows, $catid, $tabclass ) {
-		global $mosConfig_live_site, $Itemid;
+		global $Itemid;
 		?>
 		<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
 		<?php
@@ -200,7 +200,7 @@ class HTML_contact {
 	* Display links to categories
 	*/
 	function showCategories( &$params, &$categories, $catid ) {
-		global $mosConfig_live_site, $Itemid;
+		global $Itemid;
 		?>
 		<ul>
 		<?php
@@ -251,7 +251,6 @@ class HTML_contact {
 
 
 	function viewcontact( &$contact, &$params, $count, &$list, &$menu_params ) {
-		global $mosConfig_live_site;
 		global $mainframe, $Itemid;
 
 		$template = $mainframe->getTemplate();
@@ -439,12 +438,10 @@ class HTML_contact {
 	* Writes Image
 	*/
 	function _writeImage( &$contact, &$params ) {
-		global $mosConfig_live_site;
-
 		if ( $contact->image && $params->get( 'image' ) ) {
 			?>
 			<div style="float: right;">
-			<img src="<?php echo $mosConfig_live_site;?>/images/stories/<?php echo $contact->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
+			<img src="<?php echo JURL_SITE;?>/images/stories/<?php echo $contact->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
 			</div>
 			<?php
 		}
@@ -538,7 +535,6 @@ class HTML_contact {
 	*/
 	function _writeContactContact( &$contact, &$params ) {
 		if ( ($contact->email_to && $params->get( 'email' )) || $contact->telephone  || $contact->fax ) {
-			global $mosConfig_live_site;
 			?>
 			<table width="100%" cellpadding="0" cellspacing="0" border="0">
 			<?php

@@ -25,7 +25,7 @@ class modules_html {
 	* @param int -1=show without wrapper and title, -2=xhtml style
 	*/
 	function module( &$module, &$params, $style=0 ) {
-		global $mosConfig_lang, $mosConfig_absolute_path;
+		global $mosConfig_lang;
 
 		switch ( $style ) {
 			case -3:
@@ -62,7 +62,7 @@ class modules_html {
 			// load RSS module file
 			// kept for backward compatability
 			// modules_html::modoutput_feed( $params );
-			$path = $mosConfig_absolute_path .'/modules/mod_rss.php';
+			$path = JPATH_SITE .'/modules/mod_rss.php';
 			if (file_exists( $path )) {
 				require_once( $path );
 			}

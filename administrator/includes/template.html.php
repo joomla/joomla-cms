@@ -25,7 +25,7 @@ class modules_html {
 	* @param int -1=show without wrapper and title, -2=xhtml style
 	*/
 	function module( &$module, &$params, $style=0 ) {
-		global $mosConfig_lang, $mosConfig_absolute_path;
+		global $mosConfig_lang;
 
 		switch ( $style ) {
 			case 2:
@@ -95,8 +95,6 @@ class modules_html {
 	}
 
 	function modoutput_feed( &$module, &$params ) {
-		global $mosConfig_absolute_path;
-
 		$rssurl 			= $params->get( 'rssurl', '' );
 		$rssitems 			= $params->get( 'rssitems', '' );
 		$rssdesc 			= $params->get( 'rssdesc', '' );
@@ -112,13 +110,13 @@ class modules_html {
 
 		// feed output
 		if ( $rssurl ) {
-			$cacheDir = $mosConfig_absolute_path .'/cache/';
+			$cacheDir = JPATH_SITE .'/cache/';
 			if (!is_writable( $cacheDir )) {
 				echo '<tr>';
 				echo '<td>'. JText::_( 'Please make cache directory writable.' ) .'</td>';
 				echo '</tr>';
 			} else {
-				$LitePath = $mosConfig_absolute_path .'/includes/Cache/Lite.php';
+				$LitePath = JPATH_SITE .'/includes/Cache/Lite.php';
 				$rssDoc =& JFactory::getXMLParser('RSS');
 				$rssDoc->useCacheLite(true, $LitePath, $cacheDir, 3600);
 				$rssDoc->loadRSS( $rssurl );

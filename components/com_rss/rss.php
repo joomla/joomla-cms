@@ -36,7 +36,7 @@ switch ( $task ) {
 */
 function feedFrontpage( $showFeed ) {
 	global $database, $mainframe;
-	global $mosConfig_live_site, $mosConfig_offset, $mosConfig_absolute_path;
+	global $mosConfig_offset;
 
 	$nullDate = $database->getNullDate();
 	// pull id of syndication component
@@ -58,7 +58,7 @@ function feedFrontpage( $showFeed ) {
 	$info[ 'date' ] 		= date( 'r' );
 	$info[ 'year' ] 		= date( 'Y' );
 	$info[ 'encoding' ] 	= "utf-8";
-	$info[ 'link' ] 		= htmlspecialchars( $mosConfig_live_site );
+	$info[ 'link' ] 		= htmlspecialchars( JURL_SITE );
 	$info[ 'cache' ] 		= $params->def( 'cache', 1 );
 	$info[ 'cache_time' ] 	= $params->def( 'cache_time', 3600 );
 	$info[ 'count' ]		= $params->def( 'count', 5 );
@@ -69,7 +69,7 @@ function feedFrontpage( $showFeed ) {
 	if ( $info[ 'image_file' ] == -1 ) {
 		$info[ 'image' ]	= NULL;
 	} else{
-		$info[ 'image' ]	= $mosConfig_live_site .'/images/M_images/'. $info[ 'image_file' ];
+		$info[ 'image' ]	= JURL_SITE .'/images/M_images/'. $info[ 'image_file' ];
 	}
 	$info[ 'image_alt' ] 	= $params->def( 'image_alt', 'Powered by Joomla!' );
 	$info[ 'limit_text' ] 	= $params->def( 'limit_text', 1 );
@@ -86,15 +86,15 @@ function feedFrontpage( $showFeed ) {
 	if ( !$showFeed & $info[ 'live_bookmark' ] ) {
 		if ( $info[ 'bookmark_file' ] ) {
 		// custom bookmark filename
-			$info[ 'file' ] = $mosConfig_absolute_path .'/cache/'. $info[ 'bookmark_file' ];
+			$info[ 'file' ] = JPATH_SITE .'/cache/'. $info[ 'bookmark_file' ];
 		} else {
 		// standard bookmark filename
-			$info[ 'file' ] = $mosConfig_absolute_path .'/cache/'. $info[ 'live_bookmark' ];
+			$info[ 'file' ] = JPATH_SITE .'/cache/'. $info[ 'live_bookmark' ];
 		}
 	} else {
 	// set filename for rss feeds
 		$info[ 'file' ] = strtolower( str_replace( '.', '', $info[ 'feed' ] ) );
-		$info[ 'file' ] = $mosConfig_absolute_path .'/cache/'. $info[ 'file' ] .'.xml';
+		$info[ 'file' ] = JPATH_SITE .'/cache/'. $info[ 'file' ] .'.xml';
 	}
 
 	// load feed creator class
@@ -184,7 +184,7 @@ function feedFrontpage( $showFeed ) {
 
 		// url link to article
 		// & used instead of &amp; as this is converted by feed creator
-		$item_link = $mosConfig_live_site .'/index.php?option=com_content&task=view&id='. $row->id .'&Itemid='. JApplicationHelper::getItemid( $row->id );
+		$item_link = JURL_SITE .'/index.php?option=com_content&task=view&id='. $row->id .'&Itemid='. JApplicationHelper::getItemid( $row->id );
   		$item_link = sefRelToAbs( $item_link );
 
 		// removes all formating from the intro text for the description text

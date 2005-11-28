@@ -14,14 +14,12 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-global $mosConfig_absolute_path, $mosConfig_live_site;
-
 $type 			= $params->get( 'type', 'jpg' );
 $folder 		= $params->get( 'folder' );
 $link 			= $params->get( 'link' );
 $width 			= $params->get( 'width' );
 $height 		= $params->get( 'height' );
-$abspath_folder = $mosConfig_absolute_path .'/'. $folder;
+$abspath_folder = JPATH_SITE .'/'. $folder;
 $the_array 		= array();
 $the_image 		= array();
 
@@ -62,7 +60,7 @@ if (is_dir($abspath_folder)) {
   		$height = (int) ($width/$coeff);
   	}
 
-  	$image = $mosConfig_live_site .'/'. $folder .'/'. $image_name;
+  	$image = JURL_SITE .'/'. $folder .'/'. $image_name;
 
 	if ($link) {
   		echo '<a href="'. $link .'" target="_self">';

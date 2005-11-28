@@ -19,7 +19,6 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 require_once( $mainframe->getPath( 'front_html' ) );
 
 global $database, $my;
-global $mosConfig_live_site;
 
 $return = mosGetParam( $_SERVER, 'REQUEST_URI', null );
 $return = ampReplace( $return );
@@ -33,8 +32,8 @@ $params->def( 'header_login', $menu->name );
 $params->def( 'header_logout', $menu->name );
 $params->def( 'pageclass_sfx', '' );
 $params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
-$params->def( 'login', $mosConfig_live_site );
-$params->def( 'logout', $mosConfig_live_site );
+$params->def( 'login', JURL_SITE );
+$params->def( 'logout', JURL_SITE );
 $params->def( 'login_message', 0 );
 $params->def( 'logout_message', 0 );
 $params->def( 'description_login', 1 );
@@ -50,11 +49,11 @@ $params->def( 'registration', $mainframe->getCfg( 'allowUserRegistration' ) );
 $image_login = '';
 $image_logout = '';
 if ( $params->get( 'image_login' ) <> -1 ) {
-	$image = $mosConfig_live_site .'/images/stories/'. $params->get( 'image_login' );
+	$image = JURL_SITE .'/images/stories/'. $params->get( 'image_login' );
 	$image_login = '<img src="'. $image  .'" align="'. $params->get( 'image_login_align' ) .'" hspace="10" alt="" />';
 }
 if ( $params->get( 'image_logout' ) <> -1 ) {
-	$image = $mosConfig_live_site .'/images/stories/'. $params->get( 'image_logout' );
+	$image = JURL_SITE .'/images/stories/'. $params->get( 'image_logout' );
 	$image_logout = '<img src="'. $image .'" align="'. $params->get( 'image_logout_align' ) .'" hspace="10" alt="" />';
 }
 

@@ -48,10 +48,10 @@ function lostPassForm( $option ) {
 
 function sendNewPass( $option ) {
 	global $database, $Itemid;
-	global $mosConfig_live_site, $mosConfig_sitename;
+	global $mosConfig_sitename;
 	global $mosConfig_mailfrom, $mosConfig_fromname;
 
-	$_live_site = $mosConfig_live_site;
+	$_live_site = JURL_SITE;
 	$_sitename 	= $mosConfig_sitename;
 
 	// ensure no malicous sql gets past
@@ -71,7 +71,7 @@ function sendNewPass( $option ) {
 	}
 
 	$newpass = mosMakePassword();
-	$message = sprintf( JText::_( 'NEWPASS_MAIL_MSG' ), $checkusername, JText::_( 'NEWPASS_MSG1' ), $mosConfig_live_site, JText::_( 'NEWPASS_MSG2' ), $newpass, JText::_( 'NEWPASS_MSG3' ) );
+	$message = sprintf( JText::_( 'NEWPASS_MAIL_MSG' ), $checkusername, JText::_( 'NEWPASS_MSG1' ), JURL_SITE, JText::_( 'NEWPASS_MSG2' ), $newpass, JText::_( 'NEWPASS_MSG3' ) );
 
 	eval ("\$message = \"$message\";");
 	$subject = sprintf( JText::_( 'New password for' ), $_sitename, $checkusername );
@@ -107,7 +107,7 @@ function registerForm( $option, $useractivation ) {
 
 function saveRegistration( $option ) {
 	global $database, $acl, $_MAMBOTS;
-	global $mosConfig_sitename, $mosConfig_live_site, $mosConfig_useractivation, $mosConfig_allowUserRegistration;
+	global $mosConfig_sitename, $mosConfig_useractivation, $mosConfig_allowUserRegistration;
 	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_mailfrom, $mosConfig_fromname;
 
 	if ($mosConfig_allowUserRegistration=='0') {
@@ -164,9 +164,9 @@ function saveRegistration( $option ) {
 	$subject 	= sprintf ( JText::_( 'Account details for' ), $name, $mosConfig_sitename);
 	$subject 	= html_entity_decode($subject, ENT_QUOTES);
 	if ($mosConfig_useractivation=="1"){
-		$message = sprintf ( JText::_( 'SEND_MSG_ACTIVATE' ), $name, $mosConfig_sitename, $mosConfig_live_site."/index.php?option=com_registration&task=activate&activation=".$row->activation, $mosConfig_live_site, $username, $pwd);
+		$message = sprintf ( JText::_( 'SEND_MSG_ACTIVATE' ), $name, $mosConfig_sitename, JURL_SITE."/index.php?option=com_registration&task=activate&activation=".$row->activation, JURL_SITE, $username, $pwd);
 	} else {
-		$message = sprintf ( JText::_( 'SEND_MSG' ), $name, $mosConfig_sitename, $mosConfig_live_site);
+		$message = sprintf ( JText::_( 'SEND_MSG' ), $name, $mosConfig_sitename, JURL_SITE);
 	}
 
 	$message = html_entity_decode($message, ENT_QUOTES);

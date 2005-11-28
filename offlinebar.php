@@ -18,7 +18,6 @@ require_once  ( 'includes/joomla.php' );
 @include_once ('language/'.$mosConfig_lang.'.php');
 
 global $option, $database;
-global $mosConfig_live_site;
 
 // gets template for page
 $cur_template = @$mainframe->getTemplate();
@@ -51,7 +50,7 @@ table.moswarning h2 {
 </style>
 <title><?php echo $mosConfig_sitename; ?> - Offline</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"" />
-<link rel="stylesheet" href="<?php echo $mosConfig_live_site; ?>/templates/<?php echo $cur_template;?>/css/template_css.css" type="text/css" />
+<link rel="stylesheet" href="<?php echo JURL_SITE; ?>/templates/<?php echo $cur_template;?>/css/template_css.css" type="text/css" />
 </head>
 <body style="margin: 0px; padding: 0px;">
 

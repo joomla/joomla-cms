@@ -165,8 +165,6 @@ class HTML_modules {
 	* @param object Parameters
 	*/
 	function editMambot( &$row, &$lists, &$params, $option ) {
-		global $mosConfig_live_site;
-
 		$row->nameA = '';
 		if ( $row->id ) {
 			$row->nameA = '<small><small>[ '. $row->name .' ]</small></small>';
@@ -302,7 +300,7 @@ class HTML_modules {
 		<input type="hidden" name="client" value="<?php echo $row->client_id; ?>" />
 		<input type="hidden" name="task" value="" />
 		</form>
-		<script language="Javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
+		<script language="Javascript" src="<?php echo JURL_SITE;?>/includes/js/overlib_mini.js"></script>
 		<?php
 	}
 }

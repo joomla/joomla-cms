@@ -83,7 +83,6 @@ switch ( $task ) {
 */
 function viewMambots( $option, $client ) {
 	global $database, $mainframe, $mosConfig_list_limit;
-	global $mosConfig_absolute_path;
 
 	$limit 			= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
 	$limitstart 	= $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
@@ -206,7 +205,6 @@ function saveMambot( $option, $client, $task ) {
 */
 function editMambot( $option, $uid, $client ) {
 	global $database, $my, $mainframe;
-	global $mosConfig_absolute_path;
 
 	$lists 	= array();
 	$row 	= new mosMambot($database);
@@ -256,7 +254,7 @@ function editMambot( $option, $uid, $client ) {
 		$lists['folder'] = '<input type="hidden" name="folder" value="'. $row->folder .'" />'. $row->folder;
 
 		// xml file for module
-		$xmlfile = $mosConfig_absolute_path . '/mambots/' .$row->folder . '/' . $row->element .'.xml';
+		$xmlfile = JPATH_SITE . '/mambots/' .$row->folder . '/' . $row->element .'.xml';
 		$xmlDoc =& JFactory::getXMLParser();
 		$xmlDoc->resolveErrors( true );
 		if ($xmlDoc->loadXML( $xmlfile, false, true )) {
@@ -273,10 +271,10 @@ function editMambot( $option, $uid, $client ) {
 		$row->published 	= 1;
 		$row->description 	= '';
 
-		$folders = mosReadDirectory( $mosConfig_absolute_path . '/mambots/' );
+		$folders = mosReadDirectory( JPATH_SITE . '/mambots/' );
 		$folders2 = array();
 		foreach ($folders as $folder) {
-			if (is_dir( $mosConfig_absolute_path . '/mambots/' . $folder ) && ( $folder <> 'CVS' ) ) {
+			if (is_dir( JPATH_SITE . '/mambots/' . $folder ) && ( $folder <> 'CVS' ) ) {
 				$folders2[] = mosHTML::makeOption( $folder );
 			}
 		}

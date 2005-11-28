@@ -460,8 +460,7 @@ class JApplication extends JObject {
 	}
 
 	function _createTemplate( ) {
-		global $Itemid, $mosConfig_live_site;
-		$mosConfig_absolute_path = $this->getCfg( 'absolute_path' );
+		global $Itemid;
 
 		if ($this->isAdmin()) {
 			$query = "SELECT template"
@@ -477,7 +476,7 @@ class JApplication extends JObject {
 			}
 
 			$this->_templatePath 	= JPath::clean( JPATH_ADMINISTRATOR . '/templates/' . $cur_template );
-			$this->_templateURL 	= $mosConfig_live_site . 'administrator/templates/' . $cur_template;
+			$this->_templateURL 	= JURL_SITE . '/administrator/templates/' . $cur_template;
 
 		} else {
 			$assigned = ( !empty( $Itemid ) ? " OR menuid = $Itemid" : '' );
@@ -497,7 +496,7 @@ class JApplication extends JObject {
 			$jos_change_template = mosGetParam( $_REQUEST, 'jos_change_template', $jos_user_template );
 			if ($jos_change_template) {
 				// check that template exists in case it was deleted
-				if (file_exists( $mosConfig_absolute_path .'/templates/'. $jos_change_template .'/index.php' )) {
+				if (file_exists( JPATH_SITE .'/templates/'. $jos_change_template .'/index.php' )) {
 					$lifetime = 60*10;
 					$cur_template = $jos_change_template;
 					setcookie( 'jos_user_template', "$jos_change_template", time()+$lifetime);
@@ -506,8 +505,8 @@ class JApplication extends JObject {
 				}
 			}
 			// TemplateChooser End
-			$this->_templatePath 	= JPath::clean( $mosConfig_absolute_path . '/templates/' . $cur_template );
-			$this->_templateURL 	= $mosConfig_live_site . '/templates/' . $cur_template;
+			$this->_templatePath 	= JPath::clean( JPATH_SITE . '/templates/' . $cur_template );
+			$this->_templateURL 	= JURL_SITE . '/templates/' . $cur_template;
 		}
 
 		$this->_template = $cur_template;
@@ -555,9 +554,7 @@ class JApplication extends JObject {
 	 * @since 1.1
 	 */
 	function _checkPath( $path, $checkAdmin=1 ) {
-		global $mosConfig_absolute_path;
-
-		$file = $mosConfig_absolute_path . $path;
+		$file = JPATH_SITE . $path;
 		if ($checkAdmin > -1 && file_exists( $file )) {
 			return $file;
 		} else if ($checkAdmin != 0) {
@@ -705,14 +702,12 @@ class JApplication extends JObject {
 	 * @param boolean True (default) to add traling slash
 	 */
 	function getBasePath( $addTrailingSlash=true, $client = null ) {
-		global $mosConfig_absolute_path;
-
 		$client = is_null($client) ? $this->_client : $client;
 
 		switch ($client) {
 
 			case '2':
-				return JPath::clean( $mosConfig_absolute_path . '/installation', $addTrailingSlash );
+				return JPath::clean( JPATH_SITE . '/installation', $addTrailingSlash );
 				break;
 
 			case '1':
@@ -721,7 +716,7 @@ class JApplication extends JObject {
 
 			case '0':
 			default:
-				return JPath::clean( $mosConfig_absolute_path, $addTrailingSlash );
+				return JPath::clean( JPATH_SITE, $addTrailingSlash );
 				break;
 
 		}

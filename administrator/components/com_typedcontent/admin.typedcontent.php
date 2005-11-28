@@ -196,7 +196,6 @@ function view( $option ) {
 */
 function edit( $uid, $option ) {
 	global $database, $my, $mainframe;
-	global $mosConfig_absolute_path, $mosConfig_live_site;
 
 	$nullDate = $database->getNullDate();
 	$row = new mosContent( $database );
@@ -257,8 +256,8 @@ function edit( $uid, $option ) {
 	}
 
 	// calls function to read image from directory
-	$pathA 		= $mosConfig_absolute_path .'/images/stories';
-	$pathL 		= $mosConfig_live_site .'/images/stories';
+	$pathA 		= JPATH_SITE .'/images/stories';
+	$pathL 		= JURL_SITE .'/images/stories';
 	$images 	= array();
 	$folders 	= array();
 	$folders[] 	= mosHTML::makeOption( '/' );

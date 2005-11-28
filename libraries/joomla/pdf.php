@@ -20,7 +20,7 @@ jimport('cpdf.ezpdf');
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 function dofreePDF () {
-	global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_offset;
+	global $mosConfig_sitename, $mosConfig_offset;
 	global $mainframe, $database;
 
 	include( 'includes/class.ezpdf.php' );
@@ -49,7 +49,7 @@ function dofreePDF () {
 	$pdf->addText( 250, 822, 6, $mosConfig_sitename );
 	$pdf->line( 10, 40, 578, 40 );
 	$pdf->line( 10, 818, 578, 818 );
-	$pdf->addText( 30, 34, 6, $mosConfig_live_site );
+	$pdf->addText( 30, 34, 6, JURL_SITE );
 	$pdf->addText( 250, 34, 6, JText::_( 'Powered by' ) .' Joomla!' );
 	$pdf->addText( 450, 34, 6, JText::_( 'Generated' ) .': '. date( 'j F, Y, H:i', time() + $mosConfig_offset * 60 * 60 ) );
 

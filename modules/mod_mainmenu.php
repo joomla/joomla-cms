@@ -22,7 +22,7 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 	* Utility function for writing a menu link
 	*/
 	function mosGetMenuLink( $mitem, $level=0, &$params, $open=null ) {
-		global $Itemid, $mosConfig_live_site, $mainframe;
+		global $Itemid, $mainframe;
 		$txt = '';
 
 		switch ($mitem->type) {
@@ -102,7 +102,7 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 			$menu_params = new mosParameters( $mitem->params );
 			$menu_image = $menu_params->def( 'menu_image', -1 );
 			if ( ( $menu_image <> '-1' ) && $menu_image ) {
-				$image = '<img src="'. $mosConfig_live_site .'/images/stories/'. $menu_image .'" border="0" alt="'. $mitem->name .'"/>';
+				$image = '<img src="'. JURL_SITE .'/images/stories/'. $menu_image .'" border="0" alt="'. $mitem->name .'"/>';
 				if ( $params->get( 'menu_images_align' ) ) {
 					$txt = $txt .' '. $image;
 				} else {
@@ -119,7 +119,7 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 	*/
 	function mosShowVIMenu(  &$params ) {
 		global $database, $mainframe, $my, $Itemid;
-		global $mosConfig_absolute_path, $mosConfig_live_site, $mosConfig_shownoauth;
+		global $mosConfig_shownoauth;
 
 		$cur_template = $mainframe->getTemplate();
 
@@ -181,14 +181,14 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 		switch ( $params->get( 'indent_image' ) ) {
 			case '1':
 			// Default images
-			$imgpath = $mosConfig_live_site .'/images/M_images';
+			$imgpath = JURL_SITE .'/images/M_images';
 			for ( $i = 1; $i < 7; $i++ ) {
 				$img[$i] = '<img src="'. $imgpath .'/indent'. $i .'.png" alt="" />';
 			}
 			break;
 			case '2':
 			// Use Params
-			$imgpath = $mosConfig_live_site .'/images/M_images';
+			$imgpath = JURL_SITE .'/images/M_images';
 			for ( $i = 1; $i < 7; $i++ ) {
 				if ( $params->get( 'indent_image'. $i ) == '-1' ) {
 					$img[$i] = NULL;
@@ -205,7 +205,7 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 			break;
 			default:
 			// Template
-			$imgpath = $mosConfig_live_site .'/templates/'. $cur_template .'/images';
+			$imgpath = JURL_SITE .'/templates/'. $cur_template .'/images';
 			for ( $i = 1; $i < 7; $i++ ) {
 				$img[$i] = '<img src="'. $imgpath .'/indent'. $i .'.png" alt="" />';
 			}
@@ -284,7 +284,7 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 	*/
 	function mosShowHFMenu(  &$params, $style=0 ) {
 		global $database, $my, $Itemid;
-		global $mosConfig_absolute_path, $mosConfig_shownoauth;
+		global $mosConfig_shownoauth;
 
 		$and = '';
 		if ( !$mosConfig_shownoauth ) {

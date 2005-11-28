@@ -37,7 +37,7 @@ class mosInstallerComponent extends mosInstaller {
 	* @param boolean True if installing from directory
 	*/
 	function install($p_fromdir = null) {
-		global $mosConfig_absolute_path,$database;
+		global $database;
 
 		if (!$this->preInstallCheck( $p_fromdir, 'component' )) {
 			return false;
@@ -50,7 +50,7 @@ class mosInstallerComponent extends mosInstaller {
 		// Set some vars
 		$e = &$mosinstall->getElementsByPath('name', 1);
 		$this->elementName($e->getText());
-		$this->elementDir( mosPathName( $mosConfig_absolute_path . "/components/"
+		$this->elementDir( mosPathName( JPATH_SITE . "/components/"
 			. strtolower("com_" . str_replace(" ","",$this->elementName())) . "/" )
 		);
 		$this->componentAdminDir( mosPathName( JPATH_ADMINISTRATOR . "/components/"
@@ -231,7 +231,7 @@ class mosInstallerComponent extends mosInstaller {
 	* @param int The client id
 	*/
 	function uninstall( $cid, $option, $client=0 ) {
-		global $database,$mosConfig_absolute_path;
+		global $database;
 
 		$uninstallret = '';
 
@@ -345,7 +345,7 @@ class mosInstallerComponent extends mosInstaller {
 			if (is_dir( $path )) {
 				$result |= deldir( $path );
 			}
-			$path = mosPathName( $mosConfig_absolute_path.'/components/'.$row->option );
+			$path = mosPathName( JPATH_SITE . '/components/'.$row->option );
 			if (is_dir( $path )) {
 				$result |= deldir( $path );
 			}

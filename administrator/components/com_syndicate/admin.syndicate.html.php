@@ -22,7 +22,6 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class HTML_syndicate {
 
 	function settings( $option, &$params, $id ) {
-		global $mosConfig_live_site;
 		?>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<form action="index2.php" method="post" name="adminForm">
@@ -59,7 +58,7 @@ class HTML_syndicate {
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		</form>
-		<script language="Javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
+		<script language="Javascript" src="<?php echo JURL_SITE;?>/includes/js/overlib_mini.js"></script>
 		<?php
 	}
 }

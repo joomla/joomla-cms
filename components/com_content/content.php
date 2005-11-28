@@ -792,7 +792,7 @@ function showArchiveCategory( $id=0, $gid, &$access, $pop, $option, $now ) {
 
 
 function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=NULL ) {
-	global $mainframe, $Itemid, $task, $id, $option, $database, $mosConfig_live_site;
+	global $mainframe, $Itemid, $task, $id, $option, $database;
 
 	// parameters
 	if ( $params->get( 'page_title', 1 ) && $menu) {
@@ -881,7 +881,7 @@ function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=N
 
 		// Secrion/Category Description & Image
 		if ( $menu && $menu->componentid && ( $descrip || $descrip_image ) ) {
-			$link = $mosConfig_live_site .'/images/stories/'. $description->image;
+			$link = JURL_SITE .'/images/stories/'. $description->image;
 			echo '<tr>';
 			echo '<td valign="top">';
 			if ( $descrip_image && $description->image ) {
@@ -1235,7 +1235,6 @@ function show( $row, $params, $gid, &$access, $pop, $option, $ItemidCount=NULL )
 
 function editItem( $uid, $gid, &$access, $sectionid=0, $task, $Itemid ){
 	global $database, $my;
-	global $mosConfig_absolute_path, $mosConfig_live_site;
 
 	$nullDate = $database->getNullDate();
 	$row = new mosContent( $database );
@@ -1320,8 +1319,8 @@ function editItem( $uid, $gid, &$access, $sectionid=0, $task, $Itemid ){
 
 
 	// calls function to read image from directory
-	$pathA 		= $mosConfig_absolute_path .'/images/stories';
-	$pathL 		= $mosConfig_live_site .'/images/stories';
+	$pathA 		= JPATH_SITE .'/images/stories';
+	$pathL 		= JURL_SITE .'/images/stories';
 	$images 	= array();
 	$folders 	= array();
 	$folders[] 	= mosHTML::makeOption( '/' );
@@ -1370,7 +1369,7 @@ function editItem( $uid, $gid, &$access, $sectionid=0, $task, $Itemid ){
 */
 function saveContent( &$access, $task ) {
 	global $database, $mainframe, $my;
-	global $mosConfig_absolute_path, $Itemid;
+	global $Itemid;
 
 	$nullDate = $database->getNullDate();
 	$row = new mosContent( $database );
@@ -1577,7 +1576,7 @@ function emailContentForm( $uid ) {
  */
 function emailContentSend( $uid ) {
 	global $database, $mainframe;
-	global $mosConfig_live_site, $mosConfig_sitename;
+	global $mosConfig_sitename;
 	global $mosConfig_mailfrom, $mosConfig_fromname;
 
 	$validate = mosGetParam( $_POST, mosHash( 'validate' ), 0 );
@@ -1607,7 +1606,7 @@ function emailContentSend( $uid ) {
 	$template = $database->loadResult();
 
 	// link sent in email
-	$link = sefRelToAbs( $mosConfig_live_site .'/index.php?option=com_content&task=view&id='. $uid .'&Itemid='. $_Itemid );
+	$link = sefRelToAbs( JURL_SITE .'/index.php?option=com_content&task=view&id='. $uid .'&Itemid='. $_Itemid );
 
 	// message text
 	$msg = sprintf( JText::_( 'EMAIL_MSG' ), $mosConfig_sitename, $yourname, $youremail, $link );

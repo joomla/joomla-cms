@@ -26,7 +26,6 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class weblink_category_table_menu_html {
 
 	function editCategory( &$menu, &$lists, &$params, $option ) {
-		global $mosConfig_live_site;
 		?>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<script language="javascript" type="text/javascript">
@@ -175,7 +174,7 @@ class weblink_category_table_menu_html {
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
-		<script language="Javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
+		<script language="Javascript" src="<?php echo JURL_SITE;?>/includes/js/overlib_mini.js"></script>
 		<?php
 	}
 }

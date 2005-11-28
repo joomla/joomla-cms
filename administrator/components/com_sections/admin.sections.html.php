@@ -172,8 +172,6 @@ class sections_html {
 	* @param string The html for the groups select list
 	*/
 	function edit( &$row, $option, &$lists, &$menus ) {
-		global $mosConfig_live_site;
-
 		if ( $row->name != '' ) {
 			$name = $row->name;
 		} else {
@@ -274,7 +272,7 @@ class sections_html {
 					</td>
 					<td rowspan="4" width="50%">
 					<?php
-						$path = $mosConfig_live_site . "/images/";
+						$path = JURL_SITE . "/images/";
 						if ($row->image != "blank.png") {
 							$path.= "stories/";
 						}

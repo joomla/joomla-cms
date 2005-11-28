@@ -84,8 +84,6 @@ function botMosImage( $published, &$row, &$params, $page=0 ) {
 }
 
 function processImages ( &$row, &$params, &$introCount ) {
-	global $mosConfig_absolute_path, $mosConfig_live_site;
-
 	$images 		= array();
 
 	// split on \n the images fields into an array
@@ -147,14 +145,14 @@ function processImages ( &$row, &$params, &$introCount ) {
 			// image size attibutes
 			$size = '';
 			if ( function_exists( 'getimagesize' ) ) {
-				$size 	= @getimagesize( $mosConfig_absolute_path .'/images/stories/'. $attrib[0] );
+				$size 	= @getimagesize( JPATH_SITE .'/images/stories/'. $attrib[0] );
 				if (is_array( $size )) {
 					$size = ' width="'. $size[0] .'" height="'. $size[1] .'"';
 				}
 			}
 
 			// assemble the <image> tag
-			$image = '<img src="'. $mosConfig_live_site .'/images/stories/'. $attrib[0] .'"'. $size;
+			$image = '<img src="'. JURL_SITE .'/images/stories/'. $attrib[0] .'"'. $size;
 			// no aligment variable - if caption detected
 			if ( !$attrib[4] ) {
 				$image .= $attrib[1] ? ' align="'. $attrib[1] .'"' : '';

@@ -210,7 +210,7 @@ class mosMambotHandler {
 	* @param string The group name, relates to the sub-directory in the mambots directory
 	*/
 	function loadBotGroup( $group ) {
-		global $database, $my, $mosConfig_absolute_path;
+		global $database, $my;
 		global $_MAMBOTS;
 
 		$group = trim( $group );
@@ -262,10 +262,9 @@ class mosMambotHandler {
 	 * @param string The params for the bot
 	 */
 	function loadBot( $folder, $element, $published, $params='' ) {
-		global $mosConfig_absolute_path;
 		global $_MAMBOTS;
 
-		$path = $mosConfig_absolute_path . '/mambots/' . $folder . '/' . $element . '.php';
+		$path = JPATH_SITE . '/mambots/' . $folder . '/' . $element . '.php';
 		if (file_exists( $path )) {
 			$this->_loading = count( $this->_bots );
 			$bot = new stdClass;

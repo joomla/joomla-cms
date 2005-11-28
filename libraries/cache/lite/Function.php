@@ -19,7 +19,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-require_once( $mosConfig_absolute_path . '/includes/Cache/Lite.php' );
+require_once( JPATH_SITE . '/includes/Cache/Lite.php' );
 
 class Cache_Lite_Function extends Cache_Lite
 {

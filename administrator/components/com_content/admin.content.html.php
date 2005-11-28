@@ -444,8 +444,6 @@ class HTML_content {
 	* @param string The html for the groups select list
 	*/
 	function editContent( &$row, $section, &$lists, &$sectioncategories, &$images, &$params, $option, $redirect, &$menus ) {
-		global $mosConfig_live_site;
-
 		mosMakeHtmlSafe( $row );
 
 		$create_date = null;

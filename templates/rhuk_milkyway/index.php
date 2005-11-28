@@ -16,11 +16,11 @@ if ( $my->id ) {
 mosShowHead();
 ?>
 <meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>" />
-<link href="<?php echo $mosConfig_live_site;?>/templates/<?php echo $mainframe->getTemplate(); ?>/css/template_css.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo JURL_SITE;?>/templates/<?php echo $mainframe->getTemplate(); ?>/css/template_css.css" rel="stylesheet" type="text/css" />
 <!--[if lte IE 6]>
-<link href="<?php echo $mosConfig_live_site;?>/templates/<?php echo $mainframe->getTemplate(); ?>/css/template_ie_only.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo JURL_SITE;?>/templates/<?php echo $mainframe->getTemplate(); ?>/css/template_ie_only.css" rel="stylesheet" type="text/css" />
 <![endif]-->
-<link rel="shortcut icon" href="<?php echo $mosConfig_live_site;?>/images/favicon.ico" />
+<link rel="shortcut icon" href="<?php echo JURL_SITE;?>/images/favicon.ico" />
 </head>
 <body id="page_bg">
 <a name="up" id="up"></a>

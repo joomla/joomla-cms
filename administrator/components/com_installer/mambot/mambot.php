@@ -37,7 +37,7 @@ writableCell( 'mambots/search' );
 showInstalledMambots( $option );
 
 function showInstalledMambots( $_option ) {
-	global $database, $mosConfig_absolute_path;
+	global $database;
 
 	$query = "SELECT id, name, folder, element, client_id"
 	. "\n FROM #__mambots"
@@ -48,7 +48,7 @@ function showInstalledMambots( $_option ) {
 	$rows = $database->loadObjectList();
 
 	// path to mambot directory
-	$mambotBaseDir	= mosPathName( mosPathName( $mosConfig_absolute_path ) . "mambots" );
+	$mambotBaseDir	= mosPathName( mosPathName( JPATH_SITE ) . "mambots" );
 
 	$id = 0;
 	$n = count( $rows );

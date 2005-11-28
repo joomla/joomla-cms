@@ -22,8 +22,6 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class HTML_config {
 
 	function showconfig( &$row, &$lists, $option) {
-		global $mosConfig_absolute_path;
-
 		$tabs = new mosTabs(1);
 		?>
 		<script type="text/javascript">
@@ -324,7 +322,7 @@ class HTML_config {
 				<td><?php echo JText::_( 'PDF Icon' ); ?>:</td>
 				<td><?php echo $lists['hidePdf']; ?></td>
 				<?php
-				if (!is_writable( "$mosConfig_absolute_path/media/" )) {
+				if (!is_writable( JPATH_SITE . '/media/' )) {
                     $tip = JText::_( 'TIPOPTIONMEDIA' );
 					echo "<td align=\"left\">";
 					echo mosToolTip( $tip );

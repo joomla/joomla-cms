@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Nov-2005 Andrew Eddie
+ ^ All $mosConfig_absolute_path to JPATH_SITE and $mosConfig_live_site to JURL_SITE
+
 27-Nov-2005 Johan Janssens
  # Fixed artf2317 : Installation language file
  # Fixed artf2319 : Spelling error

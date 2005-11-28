@@ -65,7 +65,7 @@ function mosCountAdminModules(  $position='left' ) {
 * @param int 0 = no style, 1 = tabbed
 */
 function mosLoadAdminModules( $position='left', $style=0 ) {
-	global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang;
+	global $mosConfig_sitename, $mosConfig_lang;
 	global $mainframe, $database, $my, $Itemid;
 
 	$tp = mosGetParam( $_GET, 'tp', 0 );
@@ -115,7 +115,6 @@ function mosLoadAdminModules( $position='left', $style=0 ) {
 * Loads an admin module
 */
 function mosLoadAdminModule( $name, $params=NULL ) {
-	global $mosConfig_live_site;
 	global $database, $acl, $my, $mainframe, $option;
 
 	$lang =& $mainframe->getLanguage();
@@ -138,7 +137,7 @@ function mosLoadAdminModule( $name, $params=NULL ) {
 */
 function mosShowHead_Admin() {
 	global $database, $option, $my, $mainframe;
-	global $mosConfig_MetaDesc, $mosConfig_MetaKeys, $mosConfig_live_site, $mosConfig_sef, $mosConfig_absolute_path, $mosConfig_sitename, $mosConfig_favicon, $mosConfig_caching;
+	global $mosConfig_MetaDesc, $mosConfig_MetaKeys, $mosConfig_sef, $mosConfig_sitename, $mosConfig_favicon, $mosConfig_caching;
 	global $_VERSION, $_MAMBOTS;
 
 	$template =  $mainframe->getTemplate();
@@ -155,9 +154,9 @@ function mosShowHead_Admin() {
 
 	if ( $my->id ) {
 		?>
-		<script type="text/javascript" src="<?php echo $mosConfig_live_site; ?>/includes/js/JSCookMenu.js"></script>
-		<script type="text/javascript" src="<?php echo $mosConfig_live_site; ?>/includes/js/joomla.javascript.js"></script>
-		<script type="text/javascript" src="<?php echo $mosConfig_live_site; ?>/administrator/includes/js/ThemeOffice/theme<?php echo $lang->isRTL() ? '_rtl': ''; ?>.js"></script>
+		<script type="text/javascript" src="<?php echo JURL_SITE; ?>/includes/js/JSCookMenu.js"></script>
+		<script type="text/javascript" src="<?php echo JURL_SITE; ?>/includes/js/joomla.javascript.js"></script>
+		<script type="text/javascript" src="<?php echo JURL_SITE; ?>/administrator/includes/js/ThemeOffice/theme<?php echo $lang->isRTL() ? '_rtl': ''; ?>.js"></script>
 		<?php
 
 		// load editor
@@ -170,13 +169,13 @@ function mosShowHead_Admin() {
 
 	// favourites icon
 	if ( $mosConfig_favicon ) {
-		$icon = $mosConfig_absolute_path . $mosConfig_favicon;
+		$icon = JPATH_SITE . $mosConfig_favicon;
 
 		// checks to see if file exists
 		if ( !file_exists( $icon ) ) {
-			$icon = $mosConfig_live_site .'/images/favicon.ico';
+			$icon = JURL_SITE .'/images/favicon.ico';
 		} else {
-			$icon = $mosConfig_live_site . $mosConfig_favicon;
+			$icon = JURL_SITE . $mosConfig_favicon;
 		}
 
 		// outputs link tag for page

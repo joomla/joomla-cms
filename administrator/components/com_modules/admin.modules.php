@@ -92,7 +92,7 @@ switch ( $task ) {
 * Compiles a list of installed or defined modules
 */
 function viewModules( $option, $client ) {
-	global $database, $my, $mainframe, $mosConfig_list_limit, $mosConfig_absolute_path;
+	global $database, $my, $mainframe, $mosConfig_list_limit;
 
 	$filter_position 	= $mainframe->getUserStateFromRequest( "filter_position{$option}{$client}", 'filter_position', 0 );
 	$filter_type	 	= $mainframe->getUserStateFromRequest( "filter_type{$option}{$client}", 'filter_type', 0 );
@@ -303,7 +303,7 @@ function saveModule( $option, $client, $task ) {
 * @param integer The unique id of the record to edit
 */
 function editModule( $option, $uid, $client ) {
-	global $database, $my, $mainframe, $mosConfig_absolute_path;
+	global $database, $my, $mainframe;
 
 	$lists 	= array();
 	$row 	= new mosModule( $database );

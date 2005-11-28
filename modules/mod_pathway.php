@@ -31,7 +31,7 @@ function pathwayMakeLink( $id, $name, $link, $parent ) {
 * @param int The db id field value of the current menu item
 */
 function showPathway( $Itemid ) {
-	global $database, $option, $task, $mainframe, $mosConfig_absolute_path, $mosConfig_live_site;
+	global $database, $option, $task, $mainframe;
 
 	// get the home page
 	$query = "SELECT id, name, link, parent, type"
@@ -255,12 +255,12 @@ function showPathway( $Itemid ) {
 	$mid = $Itemid;
 
 	$imgPath =  'templates/' . $mainframe->getTemplate() . '/images/arrow.png';
-	if (file_exists( "$mosConfig_absolute_path/$imgPath" )){
-		$img = '<img src="' . $mosConfig_live_site . '/' . $imgPath . '" border="0" alt="arrow" />';
+	if (file_exists( JPATH_SITE . "/$imgPath" )){
+		$img = '<img src="' . JURL_SITE . '/' . $imgPath . '" border="0" alt="arrow" />';
 	} else {
 		$imgPath = '/images/M_images/arrow.png';
-		if (file_exists( $mosConfig_absolute_path . $imgPath )){
-			$img = '<img src="' . $mosConfig_live_site . '/images/M_images/arrow.png" alt="arrow" />';
+		if (file_exists( JPATH_SITE . $imgPath )){
+			$img = '<img src="' . JURL_SITE . '/images/M_images/arrow.png" alt="arrow" />';
 		} else {
 			$img = '&gt;';
 		}

@@ -262,7 +262,7 @@ function editUser( $uid='0', $option='users' ) {
 
 function saveUser( $option, $task ) {
 	global $database, $my;
-	global $mosConfig_live_site, $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_sitename;
+	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_sitename;
 	global $_MAMBOTS;
 
 	$row = new mosUser( $database );
@@ -362,7 +362,7 @@ function saveUser( $option, $task ) {
 		$adminEmail = $database->loadResult();
 
 		$subject = _NEW_USER_MESSAGE_SUBJECT;
-		$message = sprintf ( _NEW_USER_MESSAGE, $row->name, $mosConfig_sitename, $mosConfig_live_site, $row->username, $pwd );
+		$message = sprintf ( _NEW_USER_MESSAGE, $row->name, $mosConfig_sitename, JURL_SITE, $row->username, $pwd );
 
 		if ($mosConfig_mailfrom != "" && $mosConfig_fromname != "") {
 			$adminName 	= $mosConfig_fromname;

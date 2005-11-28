@@ -22,7 +22,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class HTML_weblinks {
 
 	function displaylist( &$categories, &$rows, $catid, $currentcat=NULL, &$params, $tabclass ) {
-		global $Itemid, $mosConfig_live_site, $hide_js;
+		global $Itemid, $hide_js;
 
 		if ( $params->get( 'page_title' ) ) {
 			?>
@@ -85,8 +85,6 @@ class HTML_weblinks {
 	* Display Table of items
 	*/
 	function showTable( &$params, &$rows, $catid, $tabclass ) {
-		global $mosConfig_live_site;
-
 		// icon in table display
 		if ( $params->get( 'weblink_icons' ) <> -1 ) {
 			$img = mosAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $params->get( 'weblink_icons' ), NULL, 'Link', 'Link' );
@@ -194,7 +192,7 @@ class HTML_weblinks {
 	* Display links to categories
 	*/
 	function showCategories( &$params, &$categories, $catid ) {
-		global $mosConfig_live_site, $Itemid;
+		global $Itemid;
 		?>
 		<ul>
 		<?php

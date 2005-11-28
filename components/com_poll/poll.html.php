@@ -24,7 +24,6 @@ class poll_html {
 
 
 	function showResults( &$poll, &$votes, $first_vote, $last_vote, $pollist, $params ) {
-		global $mosConfig_live_site;
 		?>
 		<script type = "text/javascript">
 		<!--
@@ -104,7 +103,7 @@ class poll_html {
 
 
 	function graphit( $data_arr, $graphtitle, $first_vote, $last_vote ) {
-		global $mosConfig_live_site, $polls_maxcolors, $tabclass;
+		global $polls_maxcolors, $tabclass;
 		global $polls_barheight, $polls_graphwidth, $polls_barcolor;
 
 		$tabclass_arr = explode( ",", $tabclass );
@@ -125,7 +124,7 @@ class poll_html {
 		<table class='pollstableborder' cellspacing="0" cellpadding="0" border="0">
 		<tr>
 			<td colspan="2" class="sectiontableheader">
-			<img src="<?php echo $mosConfig_live_site; ?>/components/com_poll/images/poll.png" align="middle" border="0" width="12" height="14" alt="" />
+			<img src="<?php echo JURL_SITE; ?>/components/com_poll/images/poll.png" align="middle" border="0" width="12" height="14" alt="" />
 			<?php echo $graphtitle; ?>
 			</td>
 		</tr>
@@ -177,7 +176,7 @@ class poll_html {
 						<td width="300" >
 						<div >
 						&nbsp;
-						<img src='<?php echo $mosConfig_live_site; ?>/components/com_poll/images/blank.png' class='<?php echo $tdclass; ?>' height='<?php echo $polls_barheight; ?>' width='<?php echo $width; ?>' alt="" />
+						<img src='<?php echo JURL_SITE; ?>/components/com_poll/images/blank.png' class='<?php echo $tdclass; ?>' height='<?php echo $polls_barheight; ?>' width='<?php echo $width; ?>' alt="" />
 						</div>
 						</td>
 					</tr>

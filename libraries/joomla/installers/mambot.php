@@ -26,7 +26,7 @@ class mosInstallerMambot extends mosInstaller {
 	* @param boolean True if installing from directory
 	*/
 	function install( $p_fromdir = null ) {
-		global $mosConfig_absolute_path, $database;
+		global $database;
 
 		if (!$this->preInstallCheck( $p_fromdir, 'mambot' )) {
 			return false;
@@ -40,7 +40,7 @@ class mosInstallerMambot extends mosInstaller {
 		$this->elementName( $e->getText() );
 
 		$folder = $mosinstall->getAttribute( 'group' );
-		$this->elementDir( mosPathName( $mosConfig_absolute_path . '/mambots/' . $folder ) );
+		$this->elementDir( mosPathName( JPATH_SITE . '/mambots/' . $folder ) );
 
 		if(!file_exists($this->elementDir()) && !JFolder::create($this->elementDir())) {
 			$this->setError( 1, JText::_( 'Failed to create directory' ) .' "' . $this->elementDir() . '"' );
@@ -99,7 +99,7 @@ class mosInstallerMambot extends mosInstaller {
 	* @param int The client id
 	*/
 	function uninstall( $id, $option, $client=0 ) {
-		global $database, $mosConfig_absolute_path;
+		global $database;
 
 		$id = intval( $id );
 		$query = "SELECT name, folder, element, iscore"
@@ -127,7 +127,7 @@ class mosInstallerMambot extends mosInstaller {
 			exit();
 		}
 
-		$basepath 	= $mosConfig_absolute_path . '/mambots/' . $row->folder . '/';
+		$basepath 	= JPATH_SITE . '/mambots/' . $row->folder . '/';
 		$xmlfile 	= $basepath . $row->element . '.xml';
 
 		// see if there is an xml install file, must be same name as element

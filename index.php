@@ -16,7 +16,7 @@ define( '_VALID_MOS', 1 );
 
 define('JPATH_BASE', dirname(__FILE__) );
 
-require_once ( 'includes/defines.php');
+require_once ( 'includes/defines.php' );
 require_once ( 'includes/joomla.php' );
 
 // displays offline/maintanance page or bar
@@ -153,7 +153,7 @@ if ($option == 'login') {
 	if ($return) {
 		mosRedirect( $return );
 	} else {
-		mosRedirect( $mosConfig_live_site );
+		mosRedirect( JURL_SITE );
 	}
 
 } else if ($option == 'logout') {
@@ -173,7 +173,7 @@ if ($option == 'login') {
 	if ($return) {
 		mosRedirect( $return );
 	} else {
-		mosRedirect( $mosConfig_live_site );
+		mosRedirect( JURL_SITE );
 	}
 }
 

@@ -21,8 +21,6 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class HTML_statistics {
 	function show( &$browsers, &$platforms, $tldomains, $bstats, $pstats, $dstats, $sorts, $option ) {
-		global $mosConfig_live_site;
-
 		$tab = mosGetParam( $_REQUEST, 'tab', 'tab1' );
 		$width = 400;	// width of 100%
 		$tabs = new mosTabs(1);
@@ -60,7 +58,7 @@ class HTML_statistics {
 					&nbsp;<?php echo $b->agent; ?>&nbsp;
 				</td>
 				<td  width="<?php echo $width+10;?>">
-					<div>&nbsp;<img src="<?php echo $mosConfig_live_site; ?>/components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>"></div>
+					<div>&nbsp;<img src="<?php echo JURL_SITE; ?>/components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>"></div>
 				</td>
 				<td>
 					<?php printf( "%.2f%%", $f * 100 );?>
@@ -104,7 +102,7 @@ class HTML_statistics {
 					&nbsp;<?php echo $p->agent; ?>&nbsp;
 					</td>
 					<td  width="<?php echo $width+10;?>">
-					<div>&nbsp;<img src="<?php echo $mosConfig_live_site; ?>/components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>"></div>
+					<div>&nbsp;<img src="<?php echo JURL_SITE; ?>/components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>"></div>
 					</td>
 					<td>
 					<?php printf( "%.2f%%", $f * 100 );?>
@@ -148,7 +146,7 @@ class HTML_statistics {
 						&nbsp;<?php echo $b->agent; ?>&nbsp;
 					</td>
 					<td  width="<?php echo $width+10;?>">
-						<div>&nbsp;<img src="<?php echo $mosConfig_live_site; ?>/components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>"></div>
+						<div>&nbsp;<img src="<?php echo JURL_SITE; ?>/components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>"></div>
 					</td>
 					<td>
 						<?php printf( "%.2f%%", $f * 100 );?>
@@ -180,7 +178,6 @@ class HTML_statistics {
 	}
 
 	function pageImpressions( &$rows, $pageNav, $option, $task ) {
-		global $mosConfig_live_site;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminlist">
@@ -219,7 +216,7 @@ class HTML_statistics {
 	}
 
 	function showSearches( &$rows, $pageNav, $option, $task ) {
-		global $mainframe, $mosConfig_live_site;
+		global $mainframe;
 
 		?>
 		<form action="index2.php" method="post" name="adminForm">

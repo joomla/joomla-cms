@@ -94,7 +94,7 @@ class JFactory
 	 * @return object
 	 */
 	function &getCache($group='', $handler = 'JCache_Function'){
-		global $mosConfig_absolute_path, $mosConfig_caching, $mosConfig_cachepath, $mosConfig_cachetime;
+		global $mosConfig_caching, $mosConfig_cachepath, $mosConfig_cachetime;
 
 		jimport('joomla.cache');
 
@@ -187,9 +187,8 @@ class JFactory
 	 */
 	function &_createPatTemplate() {
 		global $mainframe;
-		global $mosConfig_absolute_path, $mosConfig_live_site;
 
-		$path = $mosConfig_absolute_path . '/libraries/pattemplate';
+		$path = JPATH_SITE . '/libraries/pattemplate';
 
 		require_once( $path .'/patTemplate.php' );
 		$tmpl = new patTemplate;
@@ -216,9 +215,9 @@ class JFactory
 		$tmpl->addGlobalVar( 'option', 				$GLOBALS['option'] );
 		$tmpl->addGlobalVar( 'self', 				$_SERVER['PHP_SELF'] );
 		$tmpl->addGlobalVar( 'itemid', 				$GLOBALS['Itemid'] );
-		$tmpl->addGlobalVar( 'siteurl', 			$mosConfig_live_site );
-		$tmpl->addGlobalVar( 'adminurl', 			$mosConfig_live_site.'/administrator' );
-		$tmpl->addGlobalVar( 'admintemplateurl', 	$mosConfig_live_site . '/administrator/templates/'. $mainframe->getTemplate() );
+		$tmpl->addGlobalVar( 'siteurl', 			JURL_SITE );
+		$tmpl->addGlobalVar( 'adminurl', 			JURL_SITE.'/administrator' );
+		$tmpl->addGlobalVar( 'admintemplateurl', 	JURL_SITE . '/administrator/templates/'. $mainframe->getTemplate() );
 		$tmpl->addGlobalVar( 'sitename', 			$GLOBALS['mosConfig_sitename'] );
 
 		$tmpl->addGlobalVar( 'page_encoding', 		'UTF-8' );
@@ -236,7 +235,7 @@ class JFactory
 		if (is_dir( $tpath )) {
 			$turl = $mainframe->getTemplateURL() .'/images/tabs/';
 		} else {
-			$turl = $mosConfig_live_site .'/includes/js/tabs/';
+			$turl = JURL_SITE .'/includes/js/tabs/';
 		}
 		$tmpl->addVar( 'includeTabs', 'taburl', $turl );
 

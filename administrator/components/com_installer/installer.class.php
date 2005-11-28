@@ -73,9 +73,7 @@ class mosInstaller {
 	* @return boolean True on success, False on error
 	*/
 	function extractArchive() {
-		global $mosConfig_absolute_path;
-
-		$base_Dir 		= mosPathName( $mosConfig_absolute_path . '/media' );
+		$base_Dir 		= mosPathName( JPATH_SITE . '/media' );
 
 		$archivename 	= $base_Dir . $this->installArchive();
 		$tmpdir 		= uniqid( 'install_' );
@@ -255,8 +253,6 @@ class mosInstaller {
 	* @return mixed Number of file or False on error
 	*/
 	function parseFiles( $tagName='files', $special='', $specialError='', $adminFiles=0 ) {
-		global $mosConfig_absolute_path;
-
 		// Find files to copy
 		$xmlDoc =& $this->xmlDoc();
 		$root =& $xmlDoc->documentElement;
@@ -322,7 +318,7 @@ class mosInstaller {
 
 		if ($tagName == 'media') {
 			// media is a special tag
-			$installTo = JPath::clean( $mosConfig_absolute_path . '/images/stories' );
+			$installTo = JPath::clean( JPATH_SITE . '/images/stories' );
 		} else if ($adminFiles) {
 			$installTo = $this->componentAdminDir();
 		} else {
@@ -475,11 +471,9 @@ class mosInstaller {
 }
 
 function cleanupInstall( $userfile_name, $resultdir) {
-	global $mosConfig_absolute_path;
-
 	if (file_exists( $resultdir )) {
 		deldir( $resultdir );
-		unlink( JPath::clean( $mosConfig_absolute_path . '/media/' . $userfile_name, false ) );
+		unlink( JPath::clean( JPATH_SITE . '/media/' . $userfile_name, false ) );
 	}
 }
 

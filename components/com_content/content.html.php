@@ -26,7 +26,7 @@ class HTML_content {
 	* Used by Content Category & Content Section
 	*/
 	function showContentList( $title, &$items, &$access, $id=0, $sectionid=NULL, $gid, &$params, &$pageNav, $other_categories, &$lists, $order ) {
-		global $Itemid, $mosConfig_live_site;
+		global $Itemid;
 
 		if ( $sectionid ) {
 			$id = $sectionid;
@@ -51,7 +51,7 @@ class HTML_content {
 			<td width="60%" valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>" colspan="2">
 			<?php
 			if ( $title->image ) {
-				$link = $mosConfig_live_site .'/images/stories/'. $title->image;
+				$link = JURL_SITE .'/images/stories/'. $title->image;
 				?>
 				<img src="<?php echo $link;?>" align="<?php echo $title->image_position;?>" hspace="6" alt="<?php echo $title->image;?>" />
 				<?php
@@ -149,7 +149,7 @@ class HTML_content {
 	* Display Table of items
 	*/
 	function showTable( &$params, &$items, &$gid, $catid, $id, &$pageNav, &$access, &$sectionid, &$lists, $order ) {
-		global $mosConfig_live_site, $Itemid;
+		global $Itemid;
 
 		$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='. $sectionid .'&amp;id='. $catid .'&amp;Itemid='. $Itemid;
 		?>
@@ -322,7 +322,7 @@ class HTML_content {
 			<tr>
 				<td colspan="4">
 				<a href="<?php echo $link; ?>">
-				<img src="<?php echo $mosConfig_live_site;?>/images/M_images/new.png" width="13" height="14" align="middle" border="0" alt="<?php echo JText::_( 'New' );?>" />
+				<img src="<?php echo JURL_SITE;?>/images/M_images/new.png" width="13" height="14" align="middle" border="0" alt="<?php echo JText::_( 'New' );?>" />
 				&nbsp;<?php echo JText::_( 'New' );?>...
 				</a>
 				</td>
@@ -386,7 +386,7 @@ class HTML_content {
 	*/
 	function show( &$row, &$params, &$access, $page=0, $option, $ItemidCount=NULL ) {
 		global $mainframe, $my, $hide_js;
-		global $mosConfig_sitename, $Itemid, $mosConfig_live_site, $task;
+		global $mosConfig_sitename, $Itemid, $task;
 		global $_MAMBOTS;
 
 		$mainframe->appendMetaTag( 'description', $row->metadesc );
@@ -450,7 +450,7 @@ class HTML_content {
 
 		if ( $params->get( 'item_title' ) || $params->get( 'pdf' )  || $params->get( 'print' ) || $params->get( 'email' ) ) {
 			// link used by print button
-			$print_link = $mosConfig_live_site. '/index2.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid .'&amp;pop=1&amp;page='. @$page;
+			$print_link = JURL_SITE. '/index2.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid .'&amp;pop=1&amp;page='. @$page;
 			?>
 			<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
 			<tr>
@@ -622,11 +622,9 @@ class HTML_content {
 	* Writes PDF icon
 	*/
 	function PdfIcon( $row, $params, $link_on, $hide_js ) {
-		global $mosConfig_live_site;
-
 		if ( $params->get( 'pdf' ) && !$params->get( 'popup' ) && !$hide_js ) {
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-			$link = $mosConfig_live_site. '/index2.php?option=com_content&amp;do_pdf=1&amp;id='. $row->id;
+			$link = JURL_SITE. '/index2.php?option=com_content&amp;do_pdf=1&amp;id='. $row->id;
 			if ( $params->get( 'icons' ) ) {
 				$image = mosAdminMenus::ImageCheck( 'pdf_button.png', '/images/M_images/', NULL, NULL, JText::_( 'PDF' ), JText::_( 'PDF' ) );
 			} else {
@@ -647,11 +645,9 @@ class HTML_content {
 	* Writes Email icon
 	*/
 	function EmailIcon( $row, $params, $hide_js ) {
-		global $mosConfig_live_site;
-
 		if ( $params->get( 'email' ) && !$params->get( 'popup' ) && !$hide_js ) {
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=400,height=250,directories=no,location=no';
-			$link = $mosConfig_live_site .'/index2.php?option=com_content&amp;task=emailform&amp;id='. $row->id;
+			$link = JURL_SITE .'/index2.php?option=com_content&amp;task=emailform&amp;id='. $row->id;
 			if ( $params->get( 'icons' ) ) {
 				$image = mosAdminMenus::ImageCheck( 'emailButton.png', '/images/M_images/', NULL, NULL, JText::_( 'Email' ), JText::_( 'Email' ) );
 			} else {
@@ -888,7 +884,7 @@ class HTML_content {
 	* @param string The html for the groups select list
 	*/
 	function editContent( &$row, $section, &$lists, &$images, &$access, $myid, $sectionid, $task, $Itemid ) {
-		global $mosConfig_live_site,$mainframe;
+		global $mainframe;
 
 		mosMakeHtmlSafe( $row );
 
@@ -901,10 +897,10 @@ class HTML_content {
 		?>
   		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<!-- import the calendar script -->
-		<script language="javascript" type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/calendar/calendar_mini.js"></script>
+		<script language="javascript" type="text/javascript" src="<?php echo JURL_SITE;?>/includes/js/calendar/calendar_mini.js"></script>
 		<!-- import the language module -->
-		<script language="javascript" type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/calendar/lang/calendar-en.js"></script>
-	  	<script language="javascript" type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
+		<script language="javascript" type="text/javascript" src="<?php echo JURL_SITE;?>/includes/js/calendar/lang/calendar-en.js"></script>
+	  	<script language="javascript" type="text/javascript" src="<?php echo JURL_SITE;?>/includes/js/overlib_mini.js"></script>
 	  	<script language="javascript" type="text/javascript">
 		onunload = WarnUser;
 		var folderimages = new Array;
@@ -1204,12 +1200,12 @@ class HTML_content {
 			</tr>
 			<tr>
 				<td>
-					<img name="view_imagefiles" src="<?php echo $mosConfig_live_site;?>/images/M_images/blank.png" width="50" alt="<?php echo JText::_( 'No Image' ); ?>" />
+					<img name="view_imagefiles" src="<?php echo JURL_SITE;?>/images/M_images/blank.png" width="50" alt="<?php echo JText::_( 'No Image' ); ?>" />
 				</td>
 				<td width="2%">
 				</td>
 				<td>
-					<img name="view_imagelist" src="<?php echo $mosConfig_live_site;?>/images/M_images/blank.png" width="50" alt="<?php echo JText::_( 'No Image' ); ?>" />
+					<img name="view_imagelist" src="<?php echo JURL_SITE;?>/images/M_images/blank.png" width="50" alt="<?php echo JText::_( 'No Image' ); ?>" />
 				</td>
 				<td>
 				</td>

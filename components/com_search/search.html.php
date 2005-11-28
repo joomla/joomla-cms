@@ -99,7 +99,7 @@ class search_html {
 
 	function display( &$rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword ) {
 		global $mosConfig_hideCreateDate;
-		global $mosConfig_live_site, $option, $Itemid;
+		global $option, $Itemid;
 
 		$c = count ($rows);
 
@@ -123,7 +123,7 @@ class search_html {
 			$searchphrase = trim( strtolower( mosGetParam( $_REQUEST, 'searchphrase', 'any' ) ) );
 			$ordering = trim( strtolower( mosGetParam( $_REQUEST, 'ordering', 'newest' ) ) );
 
-			$link = $mosConfig_live_site ."/index.php?option=$option&amp;Itemid=$Itemid&amp;searchword=$searchword&amp;searchphrase=$searchphrase&amp;ordering=$ordering";
+			$link = JURL_SITE ."/index.php?option=$option&amp;Itemid=$Itemid&amp;searchword=$searchword&amp;searchphrase=$searchphrase&amp;ordering=$ordering";
 			echo $pageNav->getLimitBox( $link );
 			echo "<br />\n";
 			echo $pageNav->writePagesCounter();
@@ -206,7 +206,7 @@ class search_html {
 	}
 
 	function conclusion( $totalRows, $searchword, $pageNav ) {
-		global $mosConfig_live_site, $option, $Itemid;
+		global $option, $Itemid;
 		?>
 		<tr>
 			<td colspan="3">
@@ -216,7 +216,7 @@ class search_html {
 				$searchphrase = trim( strtolower( mosGetParam( $_REQUEST, 'searchphrase', 'any' ) ) );
 				$ordering = trim( strtolower( mosGetParam( $_REQUEST, 'ordering', 'newest' ) ) );
 
-				$link = $mosConfig_live_site ."/index.php?option=$option&Itemid=$Itemid&searchword=$searchword&searchphrase=$searchphrase&ordering=$ordering";
+				$link = JURL_SITE ."/index.php?option=$option&Itemid=$Itemid&searchword=$searchword&searchphrase=$searchphrase&ordering=$ordering";
 
 				echo $pageNav->writePagesLinks( $link );
 					?>

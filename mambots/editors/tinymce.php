@@ -22,7 +22,7 @@ $_MAMBOTS->registerFunction( 'onEditorArea', 'botTinymceEditorEditorArea' );
 * TinyMCE WYSIWYG Editor - javascript initialisation
 */
 function botTinymceEditorInit() {
-	global $mosConfig_live_site, $database, $mosConfig_absolute_path, $mainframe;
+	global $database, $mainframe;
 
 	// load tinymce info
 	$query = "SELECT id"
@@ -86,11 +86,11 @@ function botTinymceEditorInit() {
 		$database->setQuery( $query );
 		$template = $database->loadResult();
 
-		$file			= $mosConfig_absolute_path .'/templates/'. $template .'/css/editor_content.css';
+		$file			= JPATH_SITE .'/templates/'. $template .'/css/editor_content.css';
 		if ( file_exists( $file ) ) {
-			$content_css	= 'content_css : "'. $mosConfig_live_site .'/templates/'. $template .'/css/editor_content.css", ';
+			$content_css	= 'content_css : "'. JURL_SITE .'/templates/'. $template .'/css/editor_content.css", ';
 		} else {
-			$content_css	= 'content_css : "'. $mosConfig_live_site .'/templates/'. $template .'/css/template_css.css", ';
+			$content_css	= 'content_css : "'. JURL_SITE .'/templates/'. $template .'/css/template_css.css", ';
 		}
 	} else {
 		if ( $content_css_custom ) {
@@ -120,9 +120,9 @@ function botTinymceEditorInit() {
 	}
 
 	if ( $compressed ) {
-		$load = '<script type="text/javascript" src="'. $mosConfig_live_site .'/mambots/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php"></script>';
+		$load = '<script type="text/javascript" src="'. JURL_SITE .'/mambots/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php"></script>';
 	} else {
-		$load = '<script type="text/javascript" src="'. $mosConfig_live_site .'/mambots/editors/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>';
+		$load = '<script type="text/javascript" src="'. JURL_SITE .'/mambots/editors/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>';
 	}
 
 // preview
@@ -184,7 +184,7 @@ return <<<EOD
 		theme : "$theme",
 		language : "en",
 		mode : "specific_textareas",
-		document_base_url : "$mosConfig_live_site/",
+		document_base_url : JURL_SITE.'/',
 		relative_urls : false,
 		remove_script_host : false,
 		save_callback : "TinyMCE_Save",
@@ -248,13 +248,13 @@ EOD;
 * @param int The number of rows for the editor area
 */
 function botTinymceEditorEditorArea( $name, $content, $hiddenField, $width, $height, $col, $row ) {
-	global $mosConfig_live_site, $_MAMBOTS;
+	global $_MAMBOTS;
 
 	$results = $_MAMBOTS->trigger( 'onCustomEditorButton' );
 	$buttons = array();
 	foreach ($results as $result) {
 		if ( $result[0] ) {
-			$buttons[] = '<img src="'.$mosConfig_live_site.'/mambots/editors-xtd/'.$result[0].'" onclick="tinyMCE.execCommand(\'mceInsertContent\',false,\''.$result[1].'\')" alt="'.$result[1].'"/>';
+			$buttons[] = '<img src="'.JURL_SITE.'/mambots/editors-xtd/'.$result[0].'" onclick="tinyMCE.execCommand(\'mceInsertContent\',false,\''.$result[1].'\')" alt="'.$result[1].'"/>';
 		}
 	}
 	$buttons = implode( "", $buttons );

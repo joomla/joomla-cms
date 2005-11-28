@@ -51,7 +51,6 @@ switch( $op ) {
 
 function listContacts( $option, $catid ) {
 	global $mainframe, $database, $my;
-	global $mosConfig_live_site;
 	global $Itemid;
 
 	/* Query to retrieve all categories that belong under the contacts section and that are published. */
@@ -149,7 +148,7 @@ function listContacts( $option, $catid ) {
 
 		// page image
 		$currentcat->img = '';
-		$path = $mosConfig_live_site .'/images/stories/';
+		$path = JURL_SITE .'/images/stories/';
 		if ( isset($currentcat->image) && ($currentcat->image != '') ) {
 			$currentcat->img = $path . $currentcat->image;
 			$currentcat->align = $currentcat->image_position;
@@ -339,7 +338,7 @@ function contactpage( $contact_id ) {
 
 function sendmail( $con_id, $option ) {
 	global $database, $Itemid;
-	global $mosConfig_sitename, $mosConfig_live_site, $mosConfig_mailfrom, $mosConfig_fromname;
+	global $mosConfig_sitename, $mosConfig_mailfrom, $mosConfig_fromname;
 
 	$query = "SELECT *"
 	. "\n FROM #__contact_details"
@@ -358,7 +357,7 @@ function sendmail( $con_id, $option ) {
 	if ( !$email || !$text || ( is_email( $email )==false ) ) {
 		mosErrorAlert( JText::_( 'CONTACT_FORM_NC' ) );
 	}
-	$prefix = sprintf( JText::_( 'ENQUIRY_TEXT' ), $mosConfig_live_site );
+	$prefix = sprintf( JText::_( 'ENQUIRY_TEXT' ), JURL_SITE );
 	$text 	= $prefix ."\n". $name. ' <'. $email .'>' ."\n\n". stripslashes( $text );
 
 	mosMail( $email, $name , $contact[0]->email_to, $mosConfig_fromname .': '. $subject, $text );
@@ -389,7 +388,7 @@ function is_email($email){
 
 function vCard( $id ) {
 	global $database;
-	global $mosConfig_sitename, $mosConfig_live_site;
+	global $mosConfig_sitename;
 
 	$contact	= new mosContact( $database );
 	$contact->load( $id );
@@ -428,7 +427,7 @@ function vCard( $id ) {
 	$v->setAddress( '', '', $contact->address, $contact->suburb, $contact->state, $contact->postcode, $contact->country, 'WORK;POSTAL' );
 	$v->setEmail( $contact->email_to );
 	$v->setNote( $contact->misc );
-	$v->setURL( $mosConfig_live_site, 'WORK' );
+	$v->setURL( JURL_SITE, 'WORK' );
 	$v->setTitle( $contact->con_position );
 	$v->setOrg( $mosConfig_sitename );
 

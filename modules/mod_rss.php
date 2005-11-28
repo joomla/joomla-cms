@@ -15,7 +15,7 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 
 //check if cache diretory is writable as cache files will be created for the feed
-$cacheDir = $mosConfig_absolute_path .'/cache/';
+$cacheDir = JPATH_SITE .'/cache/';
 if ( !is_writable( $cacheDir ) ) {
 	echo '<div>';
 	echo JText::_( 'Please make cache directory writable.' );
@@ -34,8 +34,8 @@ $rssitemdesc		= $params->get( 'rssitemdesc', 1 );
 $words 				= $params->def( 'word_count', 0 );
 $rsstitle			= $params->get( 'rsstitle', 1 );
 
-$cacheDir 			= $mosConfig_absolute_path .'/cache/';
-$LitePath 			= $mosConfig_absolute_path .'/includes/Cache/Lite.php';
+$cacheDir 			= JPATH_SITE .'/cache/';
+$LitePath 			= JPATH_SITE .'/includes/Cache/Lite.php';
 
 $rssDoc =& JFactory::getXMLParser('RSS');
 $rssDoc->useCacheLite(true, $LitePath, $cacheDir, 3600);

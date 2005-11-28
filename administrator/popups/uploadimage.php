@@ -15,10 +15,10 @@
 define( "_VALID_MOS", 1 );
 /** security check */
 require( "../includes/auth.php" );
-include_once ( $mosConfig_absolute_path . '/language/' . $mosConfig_lang . '.php' );
+include_once ( JPATH_SITE . '/language/' . $mosConfig_lang . '.php' );
 
 $directory		= mosGetParam( $_REQUEST, 'directory', '');
-$media_path		= $mosConfig_absolute_path .'/media/';
+$media_path		= JPATH_SITE .'/media/';
 
 $userfile2		= (isset($_FILES['userfile']['tmp_name']) ? $_FILES['userfile']['tmp_name'] : "");
 $userfile_name	= (isset($_FILES['userfile']['name']) ? $_FILES['userfile']['name'] : "");

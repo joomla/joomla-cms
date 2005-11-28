@@ -334,8 +334,6 @@ class mosHTML
 	}
 
 	function sortIcon( $base_href, $field, $state='none' ) {
-		global $mosConfig_live_site;
-
 		$alts = array(
 			'none' 	=> JText::_( 'No Sorting' ),
 			'asc' 	=> JText::_( 'Sort Ascending' ),
@@ -349,7 +347,7 @@ class mosHTML
 		}
 
 		$html = "<a href=\"$base_href&field=$field&order=$next_state\">"
-		. "<img src=\"$mosConfig_live_site/images/M_images/sort_$state.png\" width=\"12\" height=\"12\" border=\"0\" alt=\"{$alts[$next_state]}\" />"
+		. "<img src=\"".JURL_SITE."/images/M_images/sort_$state.png\" width=\"12\" height=\"12\" border=\"0\" alt=\"{$alts[$next_state]}\" />"
 		. "</a>";
 		return $html;
 	}
@@ -761,13 +759,13 @@ class mosCommonHTML {
 	* Loads all necessary files for JS Overlib tooltips
 	*/
 	function loadOverlib() {
-		global  $mosConfig_live_site, $mainframe;
+		global $mainframe;
 
 		if ( !$mainframe->get( 'loadOverlib' ) ) {
 		// check if this function is already loaded
 			?>
-			<script language="javascript" type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
-			<script language="javascript" type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_hideform_mini.js"></script>
+			<script language="javascript" type="text/javascript" src="<?php echo JURL_SITE;?>/includes/js/overlib_mini.js"></script>
+			<script language="javascript" type="text/javascript" src="<?php echo JURL_SITE;?>/includes/js/overlib_hideform_mini.js"></script>
 			<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 			<?php
 			// change state so it isnt loaded a second time
@@ -780,13 +778,12 @@ class mosCommonHTML {
 	* Loads all necessary files for JS Calendar
 	*/
 	function loadCalendar() {
-		global  $mosConfig_live_site;
 		?>
-		<link rel="stylesheet" type="text/css" media="all" href="<?php echo $mosConfig_live_site;?>/includes/js/calendar/calendar-mos.css" title="<?php echo JText::_( 'green' ); ?>" />
+		<link rel="stylesheet" type="text/css" media="all" href="<?php echo JURL_SITE;?>/includes/js/calendar/calendar-mos.css" title="<?php echo JText::_( 'green' ); ?>" />
 		<!-- import the calendar script -->
-		<script type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/calendar/calendar_mini.js"></script>
+		<script type="text/javascript" src="<?php echo JURL_SITE;?>/includes/js/calendar/calendar_mini.js"></script>
 		<!-- import the language module -->
-		<script type="text/javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/calendar/lang/calendar-en.js"></script>
+		<script type="text/javascript" src="<?php echo JURL_SITE;?>/includes/js/calendar/lang/calendar-en.js"></script>
 		<?php
 	}
 
@@ -857,7 +854,7 @@ class mosTabs {
 	* @param boolean xhtml [DEPRECATED]
 	*/
 	function mosTabs( $useCookies, $xhtml=NULL ) {
-		global $mosConfig_live_site, $mainframe;
+		global $mainframe;
 
 		if($mainframe->get( 'loadTabs')) {
 			return;
@@ -866,8 +863,8 @@ class mosTabs {
 		$lang =& $mainframe->getLanguage();
 		$css = $lang->isRTL() ? 'tabpane_rtl.css' : 'tabpane.css';
 
-		$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="screen, projection" href="'.$mosConfig_live_site.'/includes/js/tabs/'.$css.'" id="luna-tab-style-sheet" />' );
-		$mainframe->addCustomHeadTag( '<script type="text/javascript" src="'.$mosConfig_live_site.'/includes/js/tabs/tabpane_mini.js"></script>' );
+		$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="screen, projection" href="'.JURL_SITE.'/includes/js/tabs/'.$css.'" id="luna-tab-style-sheet" />' );
+		$mainframe->addCustomHeadTag( '<script type="text/javascript" src="'.JURL_SITE.'/includes/js/tabs/tabpane_mini.js"></script>' );
 
 		$this->useCookies = $useCookies;
 
@@ -1250,8 +1247,6 @@ class mosAdminMenus {
 	* build the select list to choose an image
 	*/
 	function Images( $name, &$active, $javascript=NULL, $directory=NULL ) {
-		global $mosConfig_absolute_path;
-
 		if ( !$javascript ) {
 			$javascript = "onchange=\"javascript:if (document.forms[0].image.options[selectedIndex].value!='') {document.imagelib.src='../images/stories/' + document.forms[0].image.options[selectedIndex].value} else {document.imagelib.src='../images/blank.png'}\"";
 		}
@@ -1259,7 +1254,7 @@ class mosAdminMenus {
 			$directory = '/images/stories';
 		}
 
-		$imageFiles = mosReadDirectory( $mosConfig_absolute_path . $directory );
+		$imageFiles = mosReadDirectory( JPATH_SITE . $directory );
 		$images = array(  mosHTML::makeOption( '', '- '. JText::_( 'Select Image' ) .' -' ) );
 		foreach ( $imageFiles as $file ) {
 			if ( eregi( "bmp|gif|jpg|png", $file ) ) {
@@ -1508,25 +1503,25 @@ class mosAdminMenus {
 	* load the default or use no image
 	*/
 	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='middle' ) {
-		global $mosConfig_absolute_path, $mosConfig_live_site, $mainframe;
+		global $mainframe;
 
 		$cur_template = $mainframe->getTemplate();
 
 		$name = ( $name ? 'name="'. $name .'"' : '' );
 
 		if ( $param ) {
-			$image = $mosConfig_live_site. $param_directory . $param;
+			$image = JURL_SITE. $param_directory . $param;
 			if ( $type ) {
 				$image = '<img src="'. $image .'" align="'. $align .'" alt="'. $alt .'" '. $name .' border="0" />';
 			}
 		} else if ( $param == -1 ) {
 			$image = '';
 		} else {
-			if ( file_exists( $mosConfig_absolute_path .'/templates/'. $cur_template .'/images/'. $file ) ) {
-				$image = $mosConfig_live_site .'/templates/'. $cur_template .'/images/'. $file;
+			if ( file_exists( JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file ) ) {
+				$image = JURL_SITE .'/templates/'. $cur_template .'/images/'. $file;
 			} else {
 				// outputs only path to image
-				$image = $mosConfig_live_site. $directory . $file;
+				$image = JURL_SITE. $directory . $file;
 			}
 
 			// outputs actual html <img> tag
@@ -1545,14 +1540,14 @@ class mosAdminMenus {
 	* load the default or use no image
 	*/
 	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' ) {
-		global $mosConfig_live_site, $mainframe;
+		global $mainframe;
 
 		$cur_template = $mainframe->getTemplate();
 
 		$name = ( $name ? 'name="'. $name .'"' : '' );
 
 		if ( $param ) {
-			$image = $mosConfig_live_site. $param_directory . $param;
+			$image = JURL_SITE. $param_directory . $param;
 			if ( $type ) {
 				$image = '<img src="'. $image .'" align="'. $align .'" alt="'. $alt .'" '. $name .' border="0" />';
 			}
@@ -1560,13 +1555,13 @@ class mosAdminMenus {
 			$image = '';
 		} else {
 			if ( file_exists( JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/images/'. $file ) ) {
-				$image = $mosConfig_live_site .'/administrator/templates/'. $cur_template .'/images/'. $file;
+				$image = JURL_SITE .'/administrator/templates/'. $cur_template .'/images/'. $file;
 			} else {
 				// compability with previous versions
 				if ( substr($directory, 0, 14 )=="/administrator" ) {
-					$image = $mosConfig_live_site . $directory . $file;
+					$image = JURL_SITE . $directory . $file;
 				} else {
-					$image = $mosConfig_live_site . '/administrator'. $directory . $file;
+					$image = JURL_SITE . '/administrator'. $directory . $file;
 				}
 			}
 

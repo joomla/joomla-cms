@@ -24,7 +24,7 @@ switch ( $task ) {
 }
 
 function viewSearch() {
-	global $mainframe, $mosConfig_absolute_path, $mosConfig_lang, $my;
+	global $mainframe, $mosConfig_lang, $my;
 	global $Itemid, $database, $_MAMBOTS;
 	global $mosConfig_list_limit;
 
@@ -82,7 +82,7 @@ function viewSearch() {
 	}
 
 	$search_ignore = array();
-	@include "$mosConfig_absolute_path/language/$mosConfig_lang.ignore.php";
+	@include JPATH_SITE . "/language/$mosConfig_lang.ignore.php";
 
 	$orders = array();
 	$orders[] = mosHTML::makeOption( 'newest', JText::_( 'Newest first' ) );

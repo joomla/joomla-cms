@@ -27,8 +27,6 @@ class components_menu_html {
 
 
 	function edit( &$menu, &$components, &$lists, &$params, $option ) {
-		global $mosConfig_live_site;
-
 		if ( $menu->id ) {
 			$title = '[ '. $lists['componentname'] .' ]';
 		} else {
@@ -169,7 +167,7 @@ class components_menu_html {
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
-		<script language="Javascript" src="<?php echo $mosConfig_live_site;?>/includes/js/overlib_mini.js"></script>
+		<script language="Javascript" src="<?php echo JURL_SITE;?>/includes/js/overlib_mini.js"></script>
 		<?php
 	}
 }

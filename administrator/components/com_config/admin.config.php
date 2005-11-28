@@ -42,7 +42,7 @@ switch ( $task ) {
  * @param string The URL option
  */
 function showconfig( $option) {
-	global $database, $mosConfig_absolute_path, $mosConfig_editor, $mosConfig_helpurl;
+	global $database, $mosConfig_editor, $mosConfig_helpurl;
 
 	$row = new mosConfig();
 	$row->bindGlobals();
@@ -255,7 +255,7 @@ function showconfig( $option) {
 
 	$lists['hits'] 					= mosHTML::RadioList( $show_hide_r, 'config_hits', 'class="inputbox"', $row->config_hits, 'value', 'text' );
 
-	if (is_writable( "$mosConfig_absolute_path/media/" )) {
+	if (is_writable( JPATH_SITE . '/media/' )) {
 		$lists['hidePdf'] 			= mosHTML::RadioList( $show_hide, 'config_hidePdf', 'class="inputbox"', $row->config_hidePdf, 'value', 'text' );
 	} else {
 		$lists['hidePdf'] 			= '<input type="hidden" name="config_hidePdf" value="1" /><strong>Hide</strong>';
@@ -284,7 +284,7 @@ function showconfig( $option) {
  * Save the configuration
  */
 function saveconfig( $task ) {
-	global $database, $mosConfig_absolute_path;
+	global $database;
 
 	$row = new mosConfig();
 	if (!$row->bind( $_POST )) {
@@ -299,7 +299,7 @@ function saveconfig( $task ) {
 	$config .= $row->getVarText();
 	$config .= "?>";
 
-	$fname = $mosConfig_absolute_path . '/configuration.php';
+	$fname = JPATH_CONFIG . '/configuration.php';
 
 	$enable_write 	= mosGetParam($_POST,'enable_write',0);
 	$oldperms 		= fileperms($fname);
@@ -348,7 +348,7 @@ function saveconfig( $task ) {
 			}
 
 			foreach ($mosrootfiles as $file) {
-				mosChmodRecursive( $mosConfig_absolute_path.'/'.$file, $filemode, $dirmode );
+				mosChmodRecursive( JPATH_SITE . DS . $file, $filemode, $dirmode );
 			}
 		} // if
 

@@ -365,7 +365,7 @@ function viewArchive( $sectionid, $option ) {
 */
 function editContent( $uid=0, $sectionid=0, $option ) {
 	global $database, $my, $mainframe;
-	global $mosConfig_absolute_path, $mosConfig_live_site, $mosConfig_offset;
+	global $mosConfig_offset;
 
 	$redirect = mosGetParam( $_POST, 'redirect', '' );
 	if ( !$redirect ) {
@@ -540,8 +540,8 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 	$lists['ordering'] = mosAdminMenus::SpecificOrdering( $row, $uid, $query, 1 );
 
 	// calls function to read image from directory
-	$pathA 		= $mosConfig_absolute_path .'/images/stories';
-	$pathL 		= $mosConfig_live_site .'/images/stories';
+	$pathA 		= JPATH_SITE . '/images/stories';
+	$pathL 		= JURL_SITE .'/images/stories';
 	$images 	= array();
 	$folders 	= array();
 	$folders[] 	= mosHTML::makeOption( '/' );
