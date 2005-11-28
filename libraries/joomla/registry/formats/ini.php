@@ -34,4 +34,4 @@ class JRegistryINIFormat extends JRegistryStorageFormat {
 		return 'INI';
 	}
 }
-
+?>

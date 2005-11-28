@@ -81,4 +81,4 @@ class JRegistryStorageEngine {
 		return false;
 	}
 }
-
+?>

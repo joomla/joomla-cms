@@ -23,4 +23,4 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 
 	}
 }
-
+?>

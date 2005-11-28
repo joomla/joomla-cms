@@ -95,6 +95,9 @@ class JLanguage extends JObject {
 		$this->_defaultLang = 'eng_GB';
 		$this->_userLang    = $userLang;
 		
+		//set locale based on the language tag
+		setlocale (LC_TIME, $this->get('tag'));
+		
 		//load common language files
 		$this->load();
 	}
@@ -117,13 +120,11 @@ class JLanguage extends JObject {
 			$instances = array();         
 		}         
 		
-		$signature = serialize(array($userLang));         
-		
-		if (empty($instances[$signature])) {             
-			$instances[$signature] = new JLanguage($userLang);
+		if (empty($instances[$userLang])) {             
+			$instances[$userLang] = new JLanguage($userLang);
 		}         
 		
-		return $instances[$signature];
+		return $instances[$userLang];
 	}
 
 	/**

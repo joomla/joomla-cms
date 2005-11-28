@@ -387,11 +387,8 @@ class JApplication extends JObject {
 			$this->_createLanguage();
 		}
 		
-		$lang = JLanguage::getInstance( $this->_lang );
+		$lang =& JLanguage::getInstance( $this->_lang );
 		$lang->setDebug( $this->getCfg('debug') );
-		
-		//set locale based on the language tag
-		setlocale (LC_TIME, $this->get('tag'));
 
 		return $lang;
 	}
