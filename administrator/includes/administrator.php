@@ -34,7 +34,7 @@ require_once( JPATH_SITE      . '/globals.php' );
 require_once( JPATH_SITE      . '/configuration.php' );
 require_once( JPATH_LIBRARIES . '/loader.php' );
 
-define( JURL_SITE, $mosConfig_live_site ); 
+define( 'JURL_SITE', $mosConfig_live_site ); 
 
 if (phpversion() < '4.2.0') {
 	jimport('joomla.compat.php41x' );
