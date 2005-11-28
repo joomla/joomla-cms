@@ -27,7 +27,6 @@ class HTML_typedcontent {
 	*/
 	function showContent( &$rows, &$pageNav, $option, $search, &$lists ) {
 		global $my, $acl, $database;
-		;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -242,8 +241,6 @@ class HTML_typedcontent {
 	}
 
 	function edit( &$row, &$images, &$lists, &$params, $option, &$menus ) {
-		;
-
 		//mosMakeHtmlSafe( $row );
 		$tabs = new mosTabs( 1 );
 		// used to hide "Reset Hits" when hits = 0

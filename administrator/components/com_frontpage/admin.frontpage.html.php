@@ -26,7 +26,6 @@ class HTML_content {
 	*/
 	function showList( &$rows, $search, $pageNav, $option, $lists ) {
 		global $my, $acl, $database;
-		;
 
 		mosCommonHTML::loadOverlib();
 		$nullDate = $database->getNullDate();

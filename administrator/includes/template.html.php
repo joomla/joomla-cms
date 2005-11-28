@@ -27,56 +27,56 @@ class modules_html {
 	function module( &$module, &$params, $style=0 ) {
 		global $mosConfig_lang, $mosConfig_absolute_path;
 
-		switch ( $style ) {	
+		switch ( $style ) {
 			case 2:
 			// show a naked module - no wrapper and no title
 				modules_html::modoutput_xhtml( $module, $params );
 				break;
-				
+
 			case 1:
 			// show a tabbed module - no wrapper and no title
 				modules_html::modoutput_tabs( $module, $params );
 				break;
-			
+
 			case 0:
 			default:
 				// show a naked module
 				modules_html::modoutput_naked( $module, $params );
 				break;
 		}
-		
+
 		if ( $params->get( 'rssurl' ) ) {
 			// feed output
 			modules_html::modoutput_feed( $module, $params );
 		}
 	}
-	
+
 	/*
 	* standard tabled output
 	*/
 	function modoutput_xhtml( $module, $params  ) {
-		
+
 		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
-		
+
 		?>
 		<div>
 		<?php echo $module->content; ?>
 		</div>
 		<?php
 	}
-	
+
 	/*
 	* standard tabled output
 	*/
 	function modoutput_tabs( $module, $params  ) {
-		
+
 		global $acl, $my;
-		
+
 		$tabs = new mosTabs(1);
-		
+
 		$editAllComponents 	= $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'all' );
 		// special handling for components module
-		
+
 		if ( $module->module != 'mod_components' || ( $module->module == 'mod_components' && $editAllComponents ) ) {
 				$tabs->startTab( JText::_( $module->title ), 'module' . $module->id );
 				echo $module->content;
@@ -88,10 +88,10 @@ class modules_html {
 	* show a naked module - no wrapper and no title
 	*/
 	function modoutput_naked( $module, $params  ) {
-		
+
 		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
-		
-		echo $module->content;		
+
+		echo $module->content;
 	}
 
 	function modoutput_feed( &$module, &$params ) {

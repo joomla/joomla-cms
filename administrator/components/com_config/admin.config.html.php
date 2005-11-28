@@ -23,7 +23,7 @@ class HTML_config {
 
 	function showconfig( &$row, &$lists, $option) {
 		global $mosConfig_absolute_path;
-	
+
 		$tabs = new mosTabs(1);
 		?>
 		<script type="text/javascript">
@@ -103,9 +103,9 @@ class HTML_config {
 		//-->
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
-		
+
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
-		
+
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
 		<tr>
 			<td width="270">
@@ -134,13 +134,13 @@ class HTML_config {
 			?>
 		</tr>
 		</table>
-		
+
 			<?php
 		$title = JText::_( 'Site' );
 		$tabs->startPane("configPane");
 		$tabs->startTab( $title, "site-page" );
 			?>
-			
+
 			<table class="adminform">
 			<tr>
 				<td width="185"><?php echo JText::_( 'Site Offline' ); ?>:</td>
@@ -222,13 +222,13 @@ class HTML_config {
 				</td>
 			</tr>
 			</table>
-			
+
 			<?php
 		$title = JText::_( 'Locale' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "Locale-page" );
 			?>
-			
+
 			<table class="adminform">
 			<tr>
 				<td width="185"><?php echo JText::_( 'Time Offset' ); ?>:</td>
@@ -253,13 +253,13 @@ class HTML_config {
 				</td>
 			</tr>
 			</table>
-			
+
 			<?php
 		$title = JText::_( 'Content' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "content-page" );
 			?>
-			
+
 			<table class="adminform">
 			<tr>
 				<td colspan="3"><?php echo JText::_( 'DESCCONTROLOUTPUTELEMENTS' ); ?><br /><br /></td>
@@ -374,7 +374,7 @@ class HTML_config {
 		$tabs->endTab();
 		$tabs->startTab( $title, "db-page" );
 			?>
-			
+
 			<table class="adminform">
 			<tr>
 				<td width="185"><?php echo JText::_( 'Database type' ); ?>:</td>
@@ -406,13 +406,13 @@ class HTML_config {
 				</td>
 			</tr>
 			</table>
-			
+
 			<?php
 		$title = JText::_( 'Server' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "server-page" );
 			?>
-			
+
 			<table class="adminform">
 			<tr>
 				<td width="185"><?php echo JText::_( 'Absolute Path' ); ?>:</td>
@@ -628,13 +628,13 @@ class HTML_config {
 				<td>&nbsp;</td>
 			  </tr>
 			</table>
-			
+
 			<?php
 		$title = JText::_( 'Metadata' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "metadata-page" );
 			?>
-			
+
 			<table class="adminform">
 			<tr>
 				<td width="185" valign="top"><?php echo JText::_( 'Global Site Meta Description' ); ?>:</td>
@@ -665,13 +665,13 @@ class HTML_config {
 				</td>
 			</tr>
 			</table>
-			
+
 			<?php
 		$title = JText::_( 'Mail' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "mail-page" );
 			?>
-			
+
 			<table class="adminform">
 			<tr>
 				<td width="185"><?php echo JText::_( 'Mailer' ); ?>:</td>
@@ -706,13 +706,13 @@ class HTML_config {
 				<td><input class="text_area" type="text" name="config_smtphost" size="50" value="<?php echo $row->config_smtphost; ?>"/></td>
 			</tr>
 			</table>
-			
+
 			<?php
 		$title = JText::_( 'Cache' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "cache-page" );
 			?>
-			
+
 			<table class="adminform" border="0">
 			<?php
 			if (is_writeable($row->config_cachepath)) {
@@ -747,13 +747,13 @@ class HTML_config {
 				<td>&nbsp;</td>
 			</tr>
 			</table>
-			
+
 			<?php
 		$title = JText::_( 'Statistics' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "stats-page" );
 			?>
-			
+
 			<table class="adminform">
 			<tr>
 				<td width="185"><?php echo JText::_( 'Statistics' ); ?>:</td>
@@ -775,13 +775,13 @@ class HTML_config {
 				<td>&nbsp;</td>
 			</tr>
 			</table>
-			
+
 			<?php
 		$title = JText::_( 'SEO' );
 		$tabs->endTab();
 		$tabs->startTab( $title, "seo-page" );
 			?>
-			
+
 			<table class="adminform">
 			<tr>
 				<td width="200"><strong><?php echo JText::_( 'Search Engine Optimization Settings' ); ?></strong></td>
@@ -803,7 +803,7 @@ class HTML_config {
                     mosToolTip( $tip ); ?></td>
 			</tr>
 			</table>
-			
+
 		<?php
 		$tabs->endTab();
 		$tabs->endPane();
@@ -818,7 +818,7 @@ class HTML_config {
 		<input type="hidden" name="config_multilingual_support" value="<?php echo $row->config_multilingual_support; ?>"/>
 	  	<input type="hidden" name="task" value=""/>
 		</form>
-		
+
 		<?php
 		echo mosHTML::Script('/includes/js/overlib_mini.js');
 	}

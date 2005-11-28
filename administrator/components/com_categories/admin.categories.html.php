@@ -243,8 +243,6 @@ class categories_html {
 	* @param array
 	*/
 	function edit( &$row, &$lists, $redirect, $menus ) {
-		;
-		
 		if ($row->image == '') {
 			$row->image = 'blank.png';
 		}
@@ -495,7 +493,6 @@ class categories_html {
 	* Form to select Section to move Category to
 	*/
 	function moveCategorySelect( $option, $cid, $SectionList, $items, $sectionOld, $contents, $redirect ) {
-		;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 
@@ -561,7 +558,6 @@ class categories_html {
 	* Form to select Section to copy Category to
 	*/
 	function copyCategorySelect( $option, $cid, $SectionList, $items, $sectionOld, $contents, $redirect ) {
-	;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 

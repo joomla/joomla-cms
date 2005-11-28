@@ -26,7 +26,6 @@ class mosInstallerModule extends mosInstaller {
 	*/
 	function install( $p_fromdir = null ) {
 		global $mosConfig_absolute_path, $database;
-		;
 
 		if (!$this->preInstallCheck( $p_fromdir, 'module' )) {
 			return false;
@@ -100,7 +99,7 @@ class mosInstallerModule extends mosInstaller {
 		if ($e = &$mosinstall->getElementsByPath( 'description', 1 )) {
 			$this->setError( 0, $this->elementName() .'<p>'. $e->getText() .'</p>' );
 		}
-	
+
 		// Add new positions
 		$template_positions = &$mosinstall->getElementsByPath('install/positions', 1);
 		if (!is_null($template_positions)) {
@@ -136,7 +135,6 @@ class mosInstallerModule extends mosInstaller {
 	*/
 	function uninstall( $id, $option, $client=0 ) {
 		global $database, $mosConfig_absolute_path;
-		;
 
 		$id = intval( $id );
 

@@ -61,7 +61,7 @@ class JText {
 		}
 		return '';
 	}
-	
+
 }
 
 /**
@@ -87,43 +87,43 @@ class JLanguage extends JObject {
 	/**
 	* Constructor activating the default information of the language
 	*/
-	function __construct( $userLang='' ) 
+	function __construct( $userLang='' )
 	{
 		$this->_strings  = array();
 		$this->_metadata = $this->getMetadata($userLang);
-		
+
 		$this->_defaultLang = 'eng_GB';
 		$this->_userLang    = $userLang;
-		
+
 		//set locale based on the language tag
 		setlocale (LC_TIME, $this->get('tag'));
-		
+
 		//load common language files
 		$this->load();
 	}
-	
-	/**      
-	 * Returns a reference to the global Language object, only creating it      
-	 * if it doesn't already exist.   
-	 *   
+
+	/**
+	 * Returns a reference to the global Language object, only creating it
+	 * if it doesn't already exist.
+	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $browser = &JLanguage::getInstance([$userLang);</pre>      
-	 *      
-	 * @param string $userLang  The language to use.      
-	 * @return JLanguage  The Language object.      
+	 * 		<pre>  $browser = &JLanguage::getInstance([$userLang);</pre>
+	 *
+	 * @param string $userLang  The language to use.
+	 * @return JLanguage  The Language object.
 	 */
-	function &getInstance($userLang) 
+	function &getInstance($userLang)
 	{
-		static $instances; 
-		        
-		if (!isset($instances)) {             
-			$instances = array();         
-		}         
-		
-		if (empty($instances[$userLang])) {             
+		static $instances;
+
+		if (!isset($instances)) {
+			$instances = array();
+		}
+
+		if (empty($instances[$userLang])) {
 			$instances[$userLang] = new JLanguage($userLang);
-		}         
-		
+		}
+
 		return $instances[$userLang];
 	}
 
@@ -131,7 +131,7 @@ class JLanguage extends JObject {
 	* Translator function, mimics the php gettext (alias _) function
 	*/
 	function _( $string, $jsSafe=false ) {
-		
+
 		//$key = str_replace( ' ', '_', strtoupper( trim( $string ) ) );echo '<br>'.$key;
 		$key = strtoupper( $string );
 		$key = substr( $key, 0, 1) == '_' ? substr( $key, 1 ) : $key;
@@ -156,7 +156,7 @@ class JLanguage extends JObject {
 	 */
 	function load( $prefix='') {
 		$basePath = JLanguage::getLanguagePath( JPATH_BASE, $this->_userLang);
-		
+
 		$filename = empty( $prefix ) ?  $this->_userLang : $this->_userLang . '.' . $prefix ;
 		if (!file_exists( $basePath . $filename .'.ini') ) {
 			// roll back to default language
@@ -178,7 +178,7 @@ class JLanguage extends JObject {
 				}
 
 				$this->_strings = array_merge( $this->_strings, mosParameters::parse( $content, false, true ) );
-				
+
 				return true;
 			}
 		}
@@ -193,10 +193,10 @@ class JLanguage extends JObject {
 	function get($property, $default=null) {
 		if(isset($this->_metadata[$property])) {
 			return $this->_metadata[$property];
-		} 
+		}
 		return $default;
 	}
-	
+
 	/**
 	* Getter for Name
 	* @param string An optional value
@@ -220,14 +220,14 @@ class JLanguage extends JObject {
 	function isRTL( $value=null ) {
 		return $this->_metadata['rtl'];
 	}
-	
+
 	/**
 	* Set the Debug property
 	*/
 	function setDebug( $debug ) {
 		$this->_debug = $debug;
 	}
-	
+
 	/**
 	* Get the Debug property
 	* @return boolean True is in debug mode
@@ -235,49 +235,49 @@ class JLanguage extends JObject {
 	function getDebug( ) {
 		return $this->_debug;
 	}
-	
+
 	/**
 	 * Determines is a key exists
 	 */
 	function hasKey( $key ) {
 		return isset( $this->_strings[strtoupper( $key )] );
 	}
-	
-	/** 
+
+	/**
 	 * Returns a associative array holding the metadata
 	 *
 	 * @param string	The name of the language
 	 * @return array	key/value pair with the language metadata
 	 */
-	
+
 	function getMetadata($lang)	{
-		
+
 		$path = JLanguage::getLanguagePath( JPATH_BASE, $lang );
 		$file = $lang . '.xml';
-		
+
 		return JLanguage::_parseXMLLanguageFile( $path . $file);
 	}
 
-	/** 
+	/**
 	 * Returns a list of known languages for an area
 	 *
 	 * @param string	key of the area (front, admin, install)
 	 * @return array	key/value pair with the language file and real name
 	 */
 	function getKnownLanguages( $basePath = JPATH_BASE ) {
-	
+
 		$dir = JLanguage::getLanguagePath( $basePath );
 		$knownLanguages = JLanguage::_parseLanguageFiles( $dir );
 
 		return $knownLanguages;
 	}
-	
+
 	/**
 	 * @param int The client number
 	 * @return string	language related path or null
 	 */
 	function getLanguagePath( $basePath = JPATH_BASE, $language=null, $addTrailingSlash=true ) {
-		
+
 		$dir = $basePath .DS. 'language' . DS;
 		if (isset( $language )) {
 			$dir .= $language .DS;
@@ -330,7 +330,7 @@ class JLanguage extends JObject {
 	 * @return array	with found languages as filename => metadata array
 	 */
 	function _parseXMLLanguageFiles( $dir=null ) {
-			
+
 		if ($dir == null ) {
 			return null;
 		}
@@ -347,9 +347,9 @@ class JLanguage extends JObject {
 		}
 		return $languages;
 	}
-	
+
 	function _parseXMLLanguageFile( $path ) {
-		
+
 		$xmlDoc =& JFactory::getXMLParser();
 		$xmlDoc->resolveErrors( true );
 		if (!$xmlDoc->loadXML( $path, false, true )) {
@@ -363,17 +363,17 @@ class JLanguage extends JObject {
 		}
 
 		$metadata = array();
-		
+
 		if ($language->getAttribute( 'type' ) == 'language') {
 			$node =& $language->getElementsByPath( 'metadata', 1 );
-			
+
 			for ($i = 0; $i < count($node->childNodes); $i++)
 			{
 				$currNode =& $node->childNodes[$i];
 				$metadata[$currNode->nodeName] = $currNode->getText();
 			}
 		}
-		
+
 		return $metadata;
 	}
 }
@@ -397,7 +397,7 @@ class JLanguageHelper {
 		// cache activation
 		$cache =& JFactory::getCache( 'JLanguage' );
 		$langs = $cache->call( 'JLanguage::getKnownLanguages', $basePath);
-		
+
 		foreach ($langs as $lang=>$metadata) {
 			$option = array();
 
@@ -411,14 +411,14 @@ class JLanguageHelper {
 
 		return $list;
 	}
-	
+
 	/**
 	 * Builds a list of the help sites which can be used in a select option
 	 * @param string	Path to an xml file
 	 * @param string	Language tag to select (if exists)
 	 * @param array	An array of arrays ( text, value, selected )
 	 */
-	 function createHelpSiteList($pathToXml, $selected = null) 
+	 function createHelpSiteList($pathToXml, $selected = null)
 	 {
        $list = array ();
 
@@ -428,23 +428,23 @@ class JLanguageHelper {
 
        if ($xmlDoc->parseXML($xml, false, true)) {
            $root = & $xmlDoc->documentElement;
-		   
+
 
            // Are there any languages??
            $elmSites = & $root->getElementsByPath('sites', 1);
-		  
+
            if (is_object($elmSites )) {
-			   
+
                $option = array();
 			   $sites = $elmSites->childNodes;
                foreach ($sites as $site) {
-				   
+
 					$option['text'] = $site->getText();
 					$option['value'] = $site->getAttribute('url');
 					$list[] = $option;
 				}
 			}
- 
+
        }
 
        return $list;

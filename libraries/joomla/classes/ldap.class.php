@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$ 
+* @version $Id$
 * @package Joomla
 * @subpackage LDAP Connector
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
@@ -61,8 +61,6 @@ class JLDAP {
 	 * @return boolean True if successful
 	 */
 	function connect() {
-		;
-
 		if ($this->host == '') {
 			return false;
 		}
@@ -144,7 +142,7 @@ class JLDAP {
 		} else {
 			$dn = $this->getDN();
 		}
-		
+
 		$resource = $this->_resource;
 
 		foreach ($filters as $search_filter) {
@@ -159,7 +157,7 @@ class JLDAP {
 					}
 					$attributes_array = ldap_get_attributes( $resource,  $firstentry ); // load user-specified attributes
 					// ldap returns an array of arrays, fit this into attributes result array
-					foreach($attributes_array as $ki=>$ai) {	
+					foreach($attributes_array as $ki=>$ai) {
 						if(is_array($ai)) {
 							$subcount = $ai['count'];
 							$attributes[$i][$ki] = Array();
@@ -169,7 +167,7 @@ class JLDAP {
 						} /*else {
 							//$attributes[$i][$ki]=$ai;
 						}*/
-						
+
 					}
 //					if ($this->users_dn == '') {
 					$attributes[$i]['dn'] = ldap_get_dn( $resource, $firstentry );
@@ -190,7 +188,7 @@ class JLDAP {
 	function ipToNetAddress($ip) {
 		$parts = explode('.',$ip);
 		$address = '1#';
-		
+
 		foreach($parts as $int) {
 			$tmp = dechex($int);
 			if(strlen($tmp) != 2) {

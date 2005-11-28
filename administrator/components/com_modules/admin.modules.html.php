@@ -205,9 +205,9 @@ class HTML_modules {
 	*/
 	function editModule( &$row, &$orders2, &$lists, &$params, $option ) {
 		global $mainframe;
-		
+
 		$lang =& $mainframe->getLanguage();
-		
+
 		$lang->load($row->module, $row->client_id);
 
 		$row->titleA = '';
@@ -222,7 +222,7 @@ class HTML_modules {
 			if ( ( pressbutton == 'save' ) && ( document.adminForm.title.value == "" ) ) {
 				alert("<?php echo JText::_( 'Module must have a title', true ); ?>");
 			} else {
-				<?php 
+				<?php
 				if ($row->module == '') {
 					getEditorContents( 'editor1', 'content' );
 				}
@@ -365,7 +365,7 @@ class HTML_modules {
 					</table>
 					<?php
 				}
-				?>				
+				?>
 			</td>
 			<td width="40%" >
 				<table width="100%" class="adminform">

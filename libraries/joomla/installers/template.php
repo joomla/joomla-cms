@@ -88,7 +88,7 @@ class mosInstallerTemplate extends mosInstaller {
 				$this->createTemplatePosition($position);
 			}
 		}
-		
+
 		return $this->copySetupFile('front');
 	}
 	/**

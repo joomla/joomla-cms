@@ -54,7 +54,6 @@ function listWeblinks( $catid ) {
 	global $mainframe, $database, $my;
 	global $mosConfig_live_site;
 	global $Itemid;
-	;
 
 	/* Query to retrieve all categories that belong under the web links section and that are published. */
 	$query = "SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc"
@@ -252,7 +251,6 @@ function cancelWebLink( $option ) {
 */
 function saveWeblink( $option ) {
 	global $database, $my;
-	;
 
 	if ($my->gid < 1) {
 		mosNotAuth();

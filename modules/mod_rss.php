@@ -20,7 +20,7 @@ if ( !is_writable( $cacheDir ) ) {
 	echo '<div>';
 	echo JText::_( 'Please make cache directory writable.' );
 	echo '</div>';
-	
+
 	exit;
 }
 

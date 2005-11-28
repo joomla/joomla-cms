@@ -2,7 +2,7 @@
 
 /**
 * @version $Id$
-* @package Joomla 
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -50,7 +50,7 @@ class mosSession extends JModel {
 	function insert($id) {
 
 		$this->session_id = $id;
-		
+
 		$this->time = time();
 		$ret = $this->_db->insertObject( $this->_tbl, $this );
 
@@ -94,7 +94,7 @@ class mosSession extends JModel {
 	 * @param string The user password
 	 */
 	function remember( $username, $password ) {
-		
+
 		$lifetime = time() + 365*24*60*60;
 		setcookie( 'usercookie[username]', $username, $lifetime, '/' );
 		setcookie( 'usercookie[password]', $password, $lifetime, '/' );
@@ -105,7 +105,7 @@ class mosSession extends JModel {
 	 */
 	function destroy() {
 		global $database;
-		
+
 		if ($this->userid) {
 			// update the user last visit
 			$query = "UPDATE #__users"
@@ -143,7 +143,7 @@ class mosSession extends JModel {
 		} else {
 			$agent = $_SERVER['HTTP_USER_AGENT'];
 		}
-		
+
 		return md5( $agent . $GLOBALS['mosConfig_secret'] . $value . $_SERVER['REMOTE_ADDR'] );
 	}
 

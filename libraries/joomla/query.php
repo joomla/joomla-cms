@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: joomla.xml.php 618 2005-10-24 00:21:08Z Jinx $
+ * @version $Id$
  * @package Joomla
  * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -25,7 +25,7 @@ class JQueryElement {
 	var $_elements = null;
 	/** @var string Glue piece */
 	var $_glue = null;
-	
+
 	/**
 	 * Constructor
 	 * @param string The name of the element
@@ -38,7 +38,7 @@ class JQueryElement {
 		$this->append( $elements );
 		$this->_glue = $glue;
 	}
-	
+
 	/**
 	 * Appends element parts to the internal list
 	 * @param mixed String or array

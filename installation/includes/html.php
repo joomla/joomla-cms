@@ -25,11 +25,11 @@ class installationScreens {
 	 * @return patTemplate
 	 */
 	function &createTemplate() {
-		
+
 		global $mainframe;
-		
+
 		$lang =& $mainframe->getLanguage();
-		
+
 		jimport('pattemplate.patTemplate');
 
 		$tmpl = new patTemplate;
@@ -175,7 +175,7 @@ class installationScreens {
 		} else {
 			$tmpl->addVar( 'utf_text', 'utfsupport', 'false');
 		}
-		
+
 		$tmpl->addRows( 'collation-options', $collations );
 
 		$tmpl->displayParsedTemplate( 'form' );

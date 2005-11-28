@@ -20,8 +20,8 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
  * @package Joomla
  * @since 1.1
  */
-class JFactory 
-{	
+class JFactory
+{
 	/**
 	 * Creates a patTemplate oject
 	 * @param array An array of additional template files to load
@@ -54,7 +54,7 @@ class JFactory
 
 		return $tmpl;
 	}
-	
+
 	/**
 	 * Creates a database object
 	 * @return object
@@ -63,19 +63,19 @@ class JFactory
 	 //TODO : Move to JApplication
 	function &getDBO($host = null, $user = null , $password = null, $db = null , $dbprefix = null,  $dbtype = null, $debug = null)
 	{
-		$host 		= is_null($host) 	? $GLOBALS['mosConfig_host']    : $host; 
-		$user 		= is_null($user) 	? $GLOBALS['mosConfig_user'] 	: $user; 
-		$password 	= is_null($password)? $GLOBALS['mosConfig_password']: $password; 
-		$db   		= is_null($db) 		? $GLOBALS['mosConfig_db'] 		: $db; 
-		$dbprefix 	= is_null($dbprefix)? $GLOBALS['mosConfig_dbprefix']: $dbprefix; 
-		$dbtype 	= is_null($dbtype) 	? $GLOBALS['mosConfig_dbtype'] 	: $dbtype; 
-		$debug 		= is_null($debug) 	? $GLOBALS['mosConfig_debug'] 	: $debug; 
-				
+		$host 		= is_null($host) 	? $GLOBALS['mosConfig_host']    : $host;
+		$user 		= is_null($user) 	? $GLOBALS['mosConfig_user'] 	: $user;
+		$password 	= is_null($password)? $GLOBALS['mosConfig_password']: $password;
+		$db   		= is_null($db) 		? $GLOBALS['mosConfig_db'] 		: $db;
+		$dbprefix 	= is_null($dbprefix)? $GLOBALS['mosConfig_dbprefix']: $dbprefix;
+		$dbtype 	= is_null($dbtype) 	? $GLOBALS['mosConfig_dbtype'] 	: $dbtype;
+		$debug 		= is_null($debug) 	? $GLOBALS['mosConfig_debug'] 	: $debug;
+
 		jimport('joomla.database.database');
-		
+
 		/** @global $database */
 		$database =& JDatabase::getInstance( $dbtype, $host, $user, $password, $db, $dbprefix );
-		
+
 		//TODO : error checking needs to happen outside getDBO call
 		//if ($database->getErrorNum()) {
 		//	$mosSystemError = $database->getErrorNum();
@@ -86,7 +86,7 @@ class JFactory
 		$database->debug( $debug );
 		return $database;
 	}
-	
+
 	/**
 	 * Creates a cache object
 	 * @param string The cache group name
@@ -109,7 +109,7 @@ class JFactory
 
 		return $cache;
 	}
-	
+
 	/**
 	 * Creates an access control object
 	 * @return object
@@ -119,7 +119,7 @@ class JFactory
 		$acl =& JFactory::_createACL();
 		return $acl;
 	}
-	
+
 	/**
 	 * Creates a mailer object
 	 * @return object
@@ -129,16 +129,16 @@ class JFactory
 		$mailer =& JFactory::_createMailer();
 		return $mailer;
 	}
-	
+
 	/**
 	 * Creates a XML document
 	 * @return object
 	 * @param boolean If true, include lite version
 	 * $since 1.1
 	 */
-	 
+
 	 function &getXMLParser( $type = 'DOM', $lite =  true) {
-		
+
 		$doc = null;
 		switch($type)
 		{
@@ -152,17 +152,17 @@ class JFactory
 					$doc = new DOMIT_Document();
 				}
 			} break;
-			
+
 			case 'RSS'  :
 			{
 				jimport('domit.xml_domit_rss_lite');
 				$doc = new xml_domit_rss_document_lite();
 			} break;
 		}
-		 
+
 		return $doc;
 	}
-	
+
 	/**
 	 * @return object
 	 * @since 1.1
@@ -242,7 +242,7 @@ class JFactory
 
 		return $tmpl;
 	}
-	
+
 	/**
 	 * @return object
 	 * @since 1.1
@@ -253,9 +253,9 @@ class JFactory
 		global $mosConfig_smtpauth, $mosConfig_smtpuser;
 		global $mosConfig_smtppass, $mosConfig_smtphost;
 		global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_mailer;
-	
+
 		jimport('phpmailer.phpmailer');
-		
+
 		$mail = new mosPHPMailer();
 
 		$mail->PluginDir = JPATH_LIBRARIES .'/phpmailer/';

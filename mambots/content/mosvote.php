@@ -18,7 +18,6 @@ $_MAMBOTS->registerFunction( 'onBeforeDisplayContent', 'botVoting' );
 
 function botVoting( &$row, &$params, $page=0 ) {
 	global $Itemid;
-	;
 
 	$id 	= $row->id;
 	$option = 'com_content';

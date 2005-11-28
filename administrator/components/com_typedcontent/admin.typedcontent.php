@@ -89,7 +89,6 @@ switch ( $task ) {
 */
 function view( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
-	;
 
 	$filter_authorid 	= $mainframe->getUserStateFromRequest( "filter_authorid{$option}", 'filter_authorid', 0 );
 	$order 				= $mainframe->getUserStateFromRequest( "zorder", 'zorder', 'c.ordering DESC' );
@@ -198,7 +197,6 @@ function view( $option ) {
 function edit( $uid, $option ) {
 	global $database, $my, $mainframe;
 	global $mosConfig_absolute_path, $mosConfig_live_site;
-	;
 
 	$nullDate = $database->getNullDate();
 	$row = new mosContent( $database );
@@ -299,7 +297,6 @@ function edit( $uid, $option ) {
 */
 function save( $option, $task ) {
 	global $database, $my;
-	;
 
 	$nullDate = $database->getNullDate();
 	$menu 		= mosGetParam( $_POST, 'menu', 'mainmenu' );
@@ -384,7 +381,6 @@ function save( $option, $task ) {
 */
 function trash( &$cid, $option ) {
 	global $database;
-	;
 
 	$total = count( $cid );
 	if ( $total < 1) {
@@ -420,7 +416,6 @@ function trash( &$cid, $option ) {
 */
 function changeState( $cid=null, $state=0, $option ) {
 	global $database, $my;
-	;
 
 	if (count( $cid ) < 1) {
 		$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
@@ -482,7 +477,6 @@ function changeAccess( $id, $access, $option  ) {
 */
 function resethits( $option, $id ) {
 	global $database;
-	;
 
 	$row = new mosContent($database);
 	$row->Load( $id );
@@ -509,7 +503,6 @@ function cancel( $option ) {
 
 function menuLink( $option, $id ) {
 	global $database;
-	;
 
 	$menu 	= mosGetParam( $_POST, 'menuselect', '' );
 	$link 	= mosGetParam( $_POST, 'link_name', '' );
@@ -567,7 +560,6 @@ function go2menuitem() {
 
 function saveOrder( &$cid ) {
 	global $database;
-	;
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );

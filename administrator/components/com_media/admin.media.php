@@ -81,7 +81,7 @@ switch ($task) {
 	case 'cancel':
 		mosRedirect( 'index2.php' );
 		break;
-	
+
 	default:
 		showMedia( $listdir );
 		break;

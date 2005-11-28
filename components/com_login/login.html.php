@@ -23,7 +23,6 @@ class loginHTML {
 
 	function loginpage ( &$params, $image ) {
 		global $mosConfig_lang;
-		;
 
 		$return = $params->get('login');
 		?>
@@ -130,7 +129,6 @@ class loginHTML {
 
 	function logoutpage( &$params, $image ) {
 		global $mosConfig_lang;
-		;
 
 		$return = $params->get('logout');
 		?>

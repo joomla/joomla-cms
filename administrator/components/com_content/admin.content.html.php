@@ -27,7 +27,6 @@ class HTML_content {
 	*/
 	function showContent( &$rows, $section, &$lists, $search, $pageNav, $all=NULL, $redirect ) {
 		global $my, $acl, $database;
-		;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -288,8 +287,6 @@ class HTML_content {
 	*/
 	function showArchive( &$rows, $section, &$lists, $search, $pageNav, $option, $all=NULL, $redirect ) {
 		global $my, $acl;
-		;
-
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
@@ -448,7 +445,6 @@ class HTML_content {
 	*/
 	function editContent( &$row, $section, &$lists, &$sectioncategories, &$images, &$params, $option, $redirect, &$menus ) {
 		global $mosConfig_live_site;
-		;
 
 		mosMakeHtmlSafe( $row );
 
@@ -1056,7 +1052,6 @@ class HTML_content {
 	* @param array The list of sections and categories to move to
 	*/
 	function moveSection( $cid, $sectCatList, $option, $sectionid, $items ) {
-		;
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
@@ -1127,7 +1122,6 @@ class HTML_content {
 	* Form to select Section/Category to copys item(s) to
 	*/
 	function copySection( $option, $cid, $sectCatList, $sectionid, $items  ) {
-		;
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {

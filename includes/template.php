@@ -104,7 +104,7 @@ function mosLoadModules( $position='left', $style=0 ) {
 	foreach ($modules as $module) {
 
 		global $mainframe;
-		
+
 		$lang =& $mainframe->getLanguage();
 		$lang->load($module->module);
 

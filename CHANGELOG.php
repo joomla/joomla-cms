@@ -33,7 +33,7 @@ Legend:
 
 27-Nov-2005 Johan Janssens
  # Fixed artf2317 : Installation language file
- # Fixed artf2319 : Spelling error 
+ # Fixed artf2319 : Spelling error
 
 26-Nov-2005 Emir Sakic
  + Added mambots/system to chmod check array

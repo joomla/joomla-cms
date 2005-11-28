@@ -27,7 +27,6 @@ class mosInstallerMambot extends mosInstaller {
 	*/
 	function install( $p_fromdir = null ) {
 		global $mosConfig_absolute_path, $database;
-		;
 
 		if (!$this->preInstallCheck( $p_fromdir, 'mambot' )) {
 			return false;
@@ -101,7 +100,6 @@ class mosInstallerMambot extends mosInstaller {
 	*/
 	function uninstall( $id, $option, $client=0 ) {
 		global $database, $mosConfig_absolute_path;
-		;
 
 		$id = intval( $id );
 		$query = "SELECT name, folder, element, iscore"

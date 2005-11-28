@@ -123,7 +123,6 @@ switch ( strtolower( $task ) ) {
  */
 function findKeyItem( $gid, $access, $pop, $option, $now ) {
 	global $database;
-	;
 
 	$keyref = mosGetParam( $_REQUEST, 'keyref', '' );
 	$keyref = $database->getEscaped( $keyref );
@@ -246,19 +245,19 @@ function showSection( $id, $gid, &$access, $now ) {
 		if ( !$params->get( 'empty_cat' ) ) {
 			$empty = "\n HAVING numitems > 0";
 		}
-	}	
+	}
 	if ( $params->get( 'type' ) == 'section' ) {
 		// show/hide empty categories in section
 		if ( !$params->get( 'empty_cat_section' ) ) {
 			$empty_sec = "\n HAVING numitems > 0";
 		}
 	}
-	
+
 	$access = '';
 	if ($noauth) {
 		$access = "\n AND a.access <= $gid";
 	}
-	
+
 	// Main Query
 	$query = "SELECT a.*, COUNT( b.id ) AS numitems"
 	. "\n FROM #__categories AS a"
@@ -293,7 +292,6 @@ function showSection( $id, $gid, &$access, $now ) {
 */
 function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limitstart, $now  ) {
 	global $database, $mainframe, $Itemid, $mosConfig_list_limit;
-	;
 
 	$nullDate = $database->getNullDate();
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
@@ -611,7 +609,6 @@ function showBlogCategory( $id=0, $gid, &$access, $pop, $now ) {
 function showArchiveSection( $id=NULL, $gid, &$access, $pop, $option ) {
 	global $database, $mainframe;
 	global $Itemid;
-	;
 
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
 
@@ -704,7 +701,6 @@ function showArchiveSection( $id=NULL, $gid, &$access, $pop, $option ) {
 function showArchiveCategory( $id=0, $gid, &$access, $pop, $option, $now ) {
 	global $database, $mainframe;
 	global $Itemid;
-	;
 
 	// Parameters
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
@@ -797,7 +793,6 @@ function showArchiveCategory( $id=0, $gid, &$access, $pop, $option, $now ) {
 
 function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=NULL ) {
 	global $mainframe, $Itemid, $task, $id, $option, $database, $mosConfig_live_site;
-	;
 
 	// parameters
 	if ( $params->get( 'page_title', 1 ) && $menu) {
@@ -1178,11 +1173,11 @@ function show( $row, $params, $gid, &$access, $pop, $option, $ItemidCount=NULL )
 		;
 		$database->setQuery( $query );
 		$_Itemid = $database->loadResult();
-		
+
 		if ( $_Itemid ) {
 			$_Itemid = '&amp;Itemid='. $_Itemid;
 		}
-		
+
 		$link 			= sefRelToAbs( 'index.php?option=com_content&amp;task=section&amp;id='. $row->sectionid . $_Itemid );
 		$row->section 	= '<a href="'. $link .'">'. $row->section .'</a>';
 	}
@@ -1195,11 +1190,11 @@ function show( $row, $params, $gid, &$access, $pop, $option, $ItemidCount=NULL )
 		;
 		$database->setQuery( $query );
 		$_Itemid = $database->loadResult();
-		
+
 		if ( $_Itemid ) {
 			$_Itemid = '&amp;Itemid='. $_Itemid;
 		}
-		
+
 		$link 			= sefRelToAbs( 'index.php?option=com_content&amp;task=category&amp;sectionid='. $row->sectionid .'&amp;id='. $row->catid . $_Itemid );
 		$row->category 	= '<a href="'. $link .'">'. $row->category .'</a>';
 	}
@@ -1376,7 +1371,6 @@ function editItem( $uid, $gid, &$access, $sectionid=0, $task, $Itemid ){
 function saveContent( &$access, $task ) {
 	global $database, $mainframe, $my;
 	global $mosConfig_absolute_path, $Itemid;
-	;
 
 	$nullDate = $database->getNullDate();
 	$row = new mosContent( $database );
@@ -1585,7 +1579,6 @@ function emailContentSend( $uid ) {
 	global $database, $mainframe;
 	global $mosConfig_live_site, $mosConfig_sitename;
 	global $mosConfig_mailfrom, $mosConfig_fromname;
-	;
 
 	$validate = mosGetParam( $_POST, mosHash( 'validate' ), 0 );
 	if (!$validate) {
@@ -1636,7 +1629,6 @@ function is_email( $email ){
 
 function recordVote() {
 	global $database;
-	;
 
 	$user_rating = mosGetParam( $_REQUEST, 'user_rating', 0 );
 	$url = mosGetParam( $_REQUEST, 'url', '' );

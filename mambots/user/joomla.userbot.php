@@ -29,18 +29,18 @@ $_MAMBOTS->registerFunction( 'onLogoutUser', 'botJoomlaLogoutUser' );
 */
 function botJoomlaLoginUser( $username, $password ) {
 	global $database, $mainframe;
-	
+
 	$conditions = '';
 	if($mainframe->isAdmin()) {
 		$conditions = "AND gid > 22";
-	} 
+	}
 
 	$query = "SELECT id"
 		. "\nFROM #__users"
 		. "\nWHERE username=" . $database->Quote( $username )
 		. "\n AND password=" . $database->Quote( md5( $password ) )
 		. $conditions;
-		
+
 	$database->setQuery( $query );
 
 	return $database->loadResult();

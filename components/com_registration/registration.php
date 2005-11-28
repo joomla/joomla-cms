@@ -40,7 +40,6 @@ switch( $task ) {
 
 function lostPassForm( $option ) {
 	global $mainframe;
-	;
 
 	$mainframe->SetPageTitle( JText::_( 'Lost your Password?' ) );
 
@@ -51,7 +50,6 @@ function sendNewPass( $option ) {
 	global $database, $Itemid;
 	global $mosConfig_live_site, $mosConfig_sitename;
 	global $mosConfig_mailfrom, $mosConfig_fromname;
-	;
 
 	$_live_site = $mosConfig_live_site;
 	$_sitename 	= $mosConfig_sitename;
@@ -96,7 +94,6 @@ function sendNewPass( $option ) {
 
 function registerForm( $option, $useractivation ) {
 	global $mainframe;
-	;
 
 	if (!$mainframe->getCfg( 'allowUserRegistration' )) {
 		mosNotAuth();
@@ -112,7 +109,6 @@ function saveRegistration( $option ) {
 	global $database, $acl, $_MAMBOTS;
 	global $mosConfig_sitename, $mosConfig_live_site, $mosConfig_useractivation, $mosConfig_allowUserRegistration;
 	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_mailfrom, $mosConfig_fromname;
-	;
 
 	if ($mosConfig_allowUserRegistration=='0') {
 		mosNotAuth();
@@ -227,7 +223,6 @@ function saveRegistration( $option ) {
 function activate( $option ) {
 	global $database;
 	global $mosConfig_useractivation, $mosConfig_allowUserRegistration;
-	;
 
 	if ($mosConfig_allowUserRegistration == '0' || $mosConfig_useractivation == '0') {
 		mosNotAuth();

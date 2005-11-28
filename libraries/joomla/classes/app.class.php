@@ -2,7 +2,7 @@
 
 /**
 * @version $Id$
-* @package Joomla 
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -51,7 +51,7 @@ class JApplication extends JObject {
 	* @param database A database connection object
 	*/
 	function __construct( &$db, $client=0 ) {
-		
+
 		$this->_db =& $db;
 
 		$this->_head 			= array();
@@ -59,7 +59,7 @@ class JApplication extends JObject {
 		$this->_head['meta'] 	= array();
 		$this->_head['custom'] 	= array();
 		$this->_client 		    = $client;
-		
+
 		$this->_createTemplate( );
 	}
 	/**
@@ -255,45 +255,45 @@ class JApplication extends JObject {
 					// fudge the group stuff
 					$grp 		= $acl->getAroGroup( $user->id );
 					$row->gid 	= 1;
-	
+
 					if ( $acl->is_group_child_of( $grp->name, 'Registered', 'ARO' ) || $acl->is_group_child_of( $grp->name, 'Public Backend', 'ARO' )) {
 						// fudge Authors, Editors, Publishers and Super Administrators into the Special Group
 						$user->gid = 2;
 					}
 					$user->usertype = $grp->name;
-	
+
 					// access control check
 					//if ( !$acl->acl_check( 'login', $this->_client, 'users', $user->usertype ) ) {
 					//	return false;
 					//}
-					
+
 					JSession::set('guest'		, 0);
 					JSession::set('username' 	, $user->username);
 					JSession::set('userid' 		, intval( $user->id ));
 					JSession::set('usertype' 	, $user->usertype);
 					JSession::set('gid' 		, intval( $user->gid ));
-	
+
 					$session =& $this->_session;
-					
+
 					$session->guest 		= 0;
 					$session->username 		= $user->username;
 					$session->userid 		= intval( $user->id );
 					$session->usertype 		= $user->usertype;
 					$session->gid 			= intval( $user->gid );
-					
+
 					$session->update();
-					
+
 					$user->setLastVisit();
-	
+
 					$remember = trim( mosGetParam( $_POST, 'remember', '' ) );
 					if ($remember == 'yes') {
 						$session->remember( $user->username, $user->password );
 					}
-	
+
 					$cache = JFactory::getCache();
 					$cache->cleanCache( );
 					return true;
-				} 
+				}
 			}
 			return false;
 		}
@@ -322,38 +322,38 @@ class JApplication extends JObject {
 
 		$session =& $this->_session;
 		$session->destroy();
-		
+
 		JSession::destroy();
 	}
 	/**
 	* @return mosUser A user object with the information from the current session
 	*/
-	//TODO : implement signleton 
+	//TODO : implement signleton
 	function &getUser() {
-		
+
 		$user = new mosUser( $this->_db);
-		
+
 		if (intval( JSession::get('userid') )) {
 			$user->load(JSession::get('userid'));
 			$user->params = new mosParameters($user->params);
-		} 
+		}
 
 		return $user;
 	}
-	
+
 	/**
-	 * Set language 
-	 * 
+	 * Set language
+	 *
 	 * @param string 	The language name
 	 * @since 1.1
 	 */
-	
-	function _createLanguage($strLang = null) 
+
+	function _createLanguage($strLang = null)
 	{
 		global $my;
-		
+
 		$strLang = $this->getUserState( 'lang' );
-		
+
 		if ($strLang == '' && $my && isset( $my->params )) {
 
 			// if admin && special lang?
@@ -361,20 +361,20 @@ class JApplication extends JObject {
 				$strLang = $my->params->get( 'admin_language', $strLang );
 			}
 		}
-		
+
 		// loads english language file by default
 		if ($strLang == '0' || $strLang == '') {
 			$strLang = $this->getCfg('lang');
 		}
-		
+
 		// In case of frontend modify the config value in order to keep backward compatiblitity
 		if( !$this->isAdmin() ) {
 			$mosConfig_lang = $strLang;
 		}
-		
+
 		$this->_lang = $strLang;
 	}
-	
+
 	/**
 	* Return an instance of the JLanguage class
 	*
@@ -382,17 +382,17 @@ class JApplication extends JObject {
 	* @since 1.1
 	*/
 	function &getLanguage( ) {
-		
+
 		if(is_null($this->_lang)) {
 			$this->_createLanguage();
 		}
-		
+
 		$lang =& JLanguage::getInstance( $this->_lang );
 		$lang->setDebug( $this->getCfg('debug') );
 
 		return $lang;
 	}
-	
+
 	/**
 	* @return JBrowser A browser object holding the browser information
 	*/
@@ -412,7 +412,7 @@ class JApplication extends JObject {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Setthe user session
 	 *
@@ -420,20 +420,20 @@ class JApplication extends JObject {
 	 * lifetime. If an existing session, then the last access time is updated.
 	 * If a new session, a session id is generated and a record is created in
 	 * the mos_sessions table.
-	 * 
+	 *
 	 * @param string	The sessions name
 	 * @param boolean 	Use cookies to store the session on the client
 	 */
-	function _createSession( $name, $useCookies = true) 
-	{	
+	function _createSession( $name, $useCookies = true)
+	{
 		JSession::useCookies(true);
 		JSession::start(md5( $name ));
-			
+
 		if (!isset( $_SESSION['session_userstate'] )) {
 			$_SESSION['session_userstate'] = array();
 		}
 		$this->_userstate =& $_SESSION['session_userstate'];
-			
+
 		$session = new mosSession( $this->_db );
 		$session->purge( intval( $this->getCfg( 'lifetime' ) ) );
 
@@ -441,21 +441,21 @@ class JApplication extends JObject {
 			// Session cookie exists, update time in session table
 			$session->update();
 		} else {
-		
+
 			if (!$session->insert($session->hash( JSession::id()))) {
 				die( $session->getError() );
 			}
 			$session->persist();
 		}
-		
+
 		$this->_session = $session;
-		
-		JSession::setIdle($this->getCfg('lifetime')); 
-		
+
+		JSession::setIdle($this->getCfg('lifetime'));
+
 		if (JSession::isIdle()) {
 			$this->logout();
 		}
-		
+
 		JSession::updateIdle();
 	}
 
@@ -475,13 +475,13 @@ class JApplication extends JObject {
 			if (!file_exists( $path )) {
 				$cur_template = 'joomla_admin';
 			}
-			
+
 			$this->_templatePath 	= JPath::clean( JPATH_ADMINISTRATOR . '/templates/' . $cur_template );
 			$this->_templateURL 	= $mosConfig_live_site . 'administrator/templates/' . $cur_template;
-			
+
 		} else {
 			$assigned = ( !empty( $Itemid ) ? " OR menuid = $Itemid" : '' );
-			
+
 			$query = "SELECT template"
 			. "\n FROM #__templates_menu"
 			. "\n WHERE client_id = 0"
@@ -491,7 +491,7 @@ class JApplication extends JObject {
 			;
 			$this->_db->setQuery( $query );
 			$cur_template = $this->_db->loadResult();
-			
+
 			// TemplateChooser Start
 			$jos_user_template = mosGetParam( $_COOKIE, 'jos_user_template', '' );
 			$jos_change_template = mosGetParam( $_REQUEST, 'jos_change_template', $jos_user_template );
@@ -552,7 +552,7 @@ class JApplication extends JObject {
 	 * Tries to find a file in the administrator or site areas
 	 * @param string A file name
 	 * @param int 0 to check site, 1 to check site and admin only, -1 to check admin only
-	 * @since 1.1 
+	 * @since 1.1
 	 */
 	function _checkPath( $path, $checkAdmin=1 ) {
 		global $mosConfig_absolute_path;
@@ -580,10 +580,10 @@ class JApplication extends JObject {
 		if ( !$user_option && !$check ) {
 			$user_option = $GLOBALS['option'];
 		}
-		
+
 		$result = null;
 		$name 	= substr( $user_option, 4 );
-		
+
 		if (isset( $this->_path->$varname ) ) {
 			$result = $this->_path->$varname;
 		} else {
@@ -708,9 +708,9 @@ class JApplication extends JObject {
 		global $mosConfig_absolute_path;
 
 		$client = is_null($client) ? $this->_client : $client;
-		  
+
 		switch ($client) {
-			
+
 			case '2':
 				return JPath::clean( $mosConfig_absolute_path . '/installation', $addTrailingSlash );
 				break;
@@ -718,7 +718,7 @@ class JApplication extends JObject {
 			case '1':
 				return JPath::clean( JPATH_ADMINISTRATOR . '', $addTrailingSlash );
 				break;
-				
+
 			case '0':
 			default:
 				return JPath::clean( $mosConfig_absolute_path, $addTrailingSlash );
@@ -734,7 +734,7 @@ class JApplication extends JObject {
 	function isAdmin() {
 		return ($this->_client == 1) ?  true : false;
 	}
-	
+
 	/** Is site interface?
 	 * @return boolean
 	 * @since 1.1
@@ -742,7 +742,7 @@ class JApplication extends JObject {
 	function isSite() {
 		return ($this->_client == 0) ?  true : false;
 	}
-	
+
 	/** Is admin interface?
 	 * @return boolean
 	 * @since 1.1
@@ -750,7 +750,7 @@ class JApplication extends JObject {
 	function isInstall() {
 		return ($this->_client == 2) ?  true : false;
 	}
-	
+
 	/**
 	* Depreacted, use JApplicationHelper::getItemid instead
 	* @since 1.1
@@ -800,7 +800,7 @@ class JApplication extends JObject {
 	}
 }
 
-class JApplicationHelper 
+class JApplicationHelper
 {
 	/**
 	* @return correct Itemid for Content Item
@@ -913,7 +913,7 @@ class JApplicationHelper
 	*/
 	function getBlogSectionCount( ) {
 		global $database;
-		
+
 		$query = "SELECT COUNT( m.id )"
 		."\n FROM #__content AS i"
 		."\n LEFT JOIN #__sections AS s ON i.sectionid = s.id"
@@ -931,7 +931,7 @@ class JApplicationHelper
 	*/
 	function getBlogCategoryCount( ) {
 		global $database;
-		
+
 		$query = "SELECT COUNT( m.id )"
 		. "\n FROM #__content AS i"
 		. "\n LEFT JOIN #__categories AS c ON i.catid = c.id"
@@ -949,7 +949,7 @@ class JApplicationHelper
 	*/
 	function getGlobalBlogSectionCount( ) {
 		global $database;
-		
+
 		$query = "SELECT COUNT( id )"
 		."\n FROM #__menu "
 		."\n WHERE type = 'content_blog_section'"
@@ -966,7 +966,7 @@ class JApplicationHelper
 	*/
 	function getStaticContentCount( ) {
 		global $database;
-		
+
 		$query = "SELECT COUNT( id )"
 		."\n FROM #__menu "
 		."\n WHERE type = 'content_typed'"
@@ -982,7 +982,7 @@ class JApplicationHelper
 	*/
 	function getContentItemLinkCount( ) {
 		global $database;
-		
+
 		$query = "SELECT COUNT( id )"
 		."\n FROM #__menu "
 		."\n WHERE type = 'content_item_link'"

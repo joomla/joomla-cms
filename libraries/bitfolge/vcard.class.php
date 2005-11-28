@@ -46,15 +46,15 @@ function quoted_printable_encode($input, $line_max = 76) {
 		$line 		= $lines[$j];
 		$linlen 	= strlen($line);
 		$newline 	= '';
-		
+
 		for($i = 0; $i < $linlen; $i++) {
 			$c 		= substr($line, $i, 1);
 			$dec 	= ord($c);
-			
+
 			if ( ($dec == 32) && ($i == ($linlen - 1)) ) { // convert space at eol only
 				$c = '=20';
 			} elseif ( ($dec == 61) || ($dec < 32 ) || ($dec > 126) ) { // always encode "\t", which is *not* required
-				$h2 = floor($dec/16); 
+				$h2 = floor($dec/16);
 				$h1 = floor($dec%16);
 				$c 	= $escape.$hex["$h2"] . $hex["$h1"];
 			}
@@ -69,7 +69,7 @@ function quoted_printable_encode($input, $line_max = 76) {
 			$output .= $linebreak;
 		}
 	}
-	
+
 	return trim($output);
 }
 
@@ -84,7 +84,7 @@ class vCard {
 			$key .= ';'. $type;
 		}
 		$key.= ';ENCODING=QUOTED-PRINTABLE';
-		
+
 		$this->properties[$key] = quoted_printable_encode($number);
 	}
 
@@ -115,7 +115,7 @@ class vCard {
 		if ($type!='') {
 			$key.= ";$type";
 		}
-		
+
 		$key.= ';ENCODING=QUOTED-PRINTABLE';
 		$this->properties[$key] = encode($name).';'.encode($extended).';'.encode($street).';'.encode($city).';'.encode($region).';'.encode($zip).';'.encode($country);
 
@@ -130,31 +130,31 @@ class vCard {
 			$label.= $postoffice;
 			$label.= "\r\n";
 		}
-		
+
 		if ($extended!='') {
 			$label.= $extended;
 			$label.= "\r\n";
 		}
-		
+
 		if ($street!='') {
 			$label.= $street;
 			$label.= "\r\n";
 		}
-		
+
 		if ($zip!='') {
 			$label.= $zip .' ';
 		}
-		
+
 		if ($city!='') {
 			$label.= $city;
 			$label.= "\r\n";
 		}
-		
+
 		if ($region!='') {
 			$label.= $region;
 			$label.= "\r\n";
 		}
-		
+
 		if ($country!='') {
 			$country.= $country;
 			$label.= "\r\n";
@@ -177,7 +177,7 @@ class vCard {
 		if ($type!='') {
 			$key.= ";$type";
 		}
-		
+
 		$this->properties[$key] = $url;
 	}
 
@@ -190,7 +190,7 @@ class vCard {
 		foreach($this->properties as $key => $value) {
 			$text.= "$key:$value\r\n";
 		}
-		
+
 		$text.= 'REV:'. date('Y-m-d') .'T'. date('H:i:s') .'Z';
 		$text.= "\r\n";
 		$text.= 'MAILER:PHP vCard class by Kai Blankenhorn';

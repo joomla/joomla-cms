@@ -48,7 +48,7 @@ class TOOLBAR_newsfeeds  {
 
 	function _EDIT() {
 		global $id;
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::save();
 		mosMenuBar::spacer();

@@ -82,7 +82,7 @@ class mosInstaller {
 			return $parts[count($parts)-1];
 		}
 		return 0;
-	}	
+	}
 
 	/**
 	* Description: Creates a new template position if it doesn't exist already
@@ -98,7 +98,7 @@ class mosInstaller {
 			}
 		}
 	}
-	
+
 	/**
 	* Downloads a package
 	* @param string URL of file to download
@@ -108,35 +108,35 @@ class mosInstaller {
 		global $mosConfig_absolute_path, $mainframe;
 		$php_errormsg = 'Error Unknown';
 		ini_set('track_errors',true);
-		
+
 		// Open remote server
 		$input_handle = @fopen($url, "r"); // or die("Remote server connection failed");
-		if (!$input_handle) { 
+		if (!$input_handle) {
 			$this->setError(42, 'Remote Server connection failed: ' . $php_errormsg);
-			return false; 
+			return false;
 		}
 		if(!$target) {
 			$target = $mosConfig_absolute_path . '/media/' . $this->getFilenameFromURL($url);
-		}	
+		}
 		$output_handle = fopen($target, "wb"); // or die("Local output opening failed");
-		if (!$output_handle) { 
+		if (!$output_handle) {
 			$this->setError(43, 'Local output opening failed: ' . $php_errormsg);
-			return false; 
+			return false;
 		}
 		$contents = '';
-		
+
 		while (!feof($input_handle)) {
   			$contents = fread($input_handle, 4096);
 			if($contents == false) { $this->setError(44,'Failed reading network resource: ' . $php_errormsg); return false; }
-			if($contents) { 
+			if($contents) {
 				$write_res = fwrite($output_handle, $contents);
 				if($write_res == false) { $this->setError(45,'Cannot write to local target: ' . $php_errormsg); return false; }
 			}
 		}
 		fclose($output_handle);
-		fclose($input_handle);	
+		fclose($input_handle);
 		$this->installArchive( $this->getFilenameFromURL($url) );
-		return $target;	
+		return $target;
 	}
 
 
@@ -184,9 +184,9 @@ class mosInstaller {
 				return false;
 			}
 		}
-	
+
 		$this->installDir( $extractdir );
-		
+
 		// Try to find the correct install dir. in case that the package have subdirs
 		// Save the install dir for later cleanup
 		$filesindir = mosReadDirectory( $this->installDir(), '' );
@@ -254,8 +254,6 @@ class mosInstaller {
 	* @return boolean True on success, False on error
 	*/
 	function readInstallFile() {
-		;
-
 		if ($this->installFilename() == "") {
 			$this->setError( 1, JText::_( 'No filename specified' ) );
 			return false;
@@ -490,7 +488,7 @@ class mosInstaller {
 		}
 		return $this->$name;
 	}
-	
+
 	function allowOverwrite( $p_allowOverwrite = false ) {
 		return $this->setVar( 'allowOverwrite', $p_allowOverwrite );
 	}

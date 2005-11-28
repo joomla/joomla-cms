@@ -22,7 +22,7 @@ class TOOLBAR_modules {
 	*/
 	function _EDIT() {
 		global $id;
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::save();
 		mosMenuBar::spacer();

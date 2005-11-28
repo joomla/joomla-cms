@@ -26,7 +26,6 @@ class mosInstallerModule extends mosInstaller {
 	*/
 	function install( $p_fromdir = null ) {
 		global $mosConfig_absolute_path, $database;
-		;
 
 		if (!$this->preInstallCheck( $p_fromdir, 'module' )) {
 			return false;
@@ -111,7 +110,6 @@ class mosInstallerModule extends mosInstaller {
 	*/
 	function uninstall( $id, $option, $client=0 ) {
 		global $database, $mosConfig_absolute_path, $mosConfig_absolute_path;
-		;
 
 		$id = intval( $id );
 

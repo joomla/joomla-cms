@@ -27,7 +27,6 @@ class sections_html {
 	*/
 	function show( &$rows, $scope, $myid, &$pageNav, $option ) {
 		global $my;
-  		;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -174,7 +173,6 @@ class sections_html {
 	*/
 	function edit( &$row, $option, &$lists, &$menus ) {
 		global $mosConfig_live_site;
-  		;
 
 		if ( $row->name != '' ) {
 			$name = $row->name;
@@ -427,7 +425,6 @@ class sections_html {
 	* Form to select Section to copy Category to
 	*/
 	function copySectionSelect( $option, $cid, $categories, $contents, $section ) {
-  		;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<br />

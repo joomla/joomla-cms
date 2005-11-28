@@ -186,7 +186,6 @@ function showSections( $scope, $option ) {
 */
 function editSection( $uid=0, $scope='', $option ) {
 	global $database, $my;
-	;
 
 	$row = new mosSection( $database );
 	// load the row from the db table
@@ -269,7 +268,6 @@ function editSection( $uid=0, $scope='', $option ) {
 */
 function saveSection( $option, $scope, $task ) {
 	global $database;
-	;
 
 	$menu 		= mosGetParam( $_POST, 'menu', 'mainmenu' );
 	$menuid		= mosGetParam( $_POST, 'menuid', 0 );
@@ -399,7 +397,6 @@ function removeSections( $cid, $scope, $option ) {
 */
 function publishSections( $scope, $cid=null, $publish=1, $option ) {
 	global $database, $my;
-	;
 
 	if ( !is_array( $cid ) || count( $cid ) < 1 ) {
 		$action = $publish ? 'publish' : 'unpublish';
@@ -492,7 +489,6 @@ function orderSection( $uid, $inc, $option, $scope ) {
 */
 function copySectionSelect( $option, $cid, $section ) {
 	global $database;
-	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to move', true ) ."'); window.history.go(-1);</script>\n";
@@ -526,7 +522,6 @@ function copySectionSelect( $option, $cid, $section ) {
 */
 function copySectionSave( $sectionid ) {
 	global $database;
-	;
 
 	$title 		= mosGetParam( $_REQUEST, 'title', '' );
 	$contentid 	= mosGetParam( $_REQUEST, 'content', '' );
@@ -641,7 +636,6 @@ function accessMenu( $uid, $access, $option ) {
 
 function menuLink( $id ) {
 	global $database;
-	;
 
 	$section = new mosSection( $database );
 	$section->bind( $_POST );
@@ -698,7 +692,6 @@ function menuLink( $id ) {
 
 function saveOrder( &$cid ) {
 	global $database;
-	;
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );

@@ -21,7 +21,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class TOOLBAR_admin {
 	function _SYSINFO() {
-	
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Information' ), 'systeminfo.png' );
 		mosMenuBar::help( 'screen.system.info' );
@@ -29,7 +29,7 @@ class TOOLBAR_admin {
 	}
 
 	function _CPANEL() {
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Control Panel' ), 'cpanel.png' );
 		mosMenuBar::help( 'screen.cpanel' );
@@ -37,21 +37,21 @@ class TOOLBAR_admin {
 	}
 
 	function _HELP() {
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Help' ), 'help_f2.png' );
 		mosMenuBar::spacer();
 		mosMenuBar::endTable();
 	}
-	
+
 	function _PREVIEW() {
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Preview' ) );
 		mosMenuBar::spacer();
 		mosMenuBar::endTable();
 	}
-	
+
 	function _DEFAULT() {
 		mosMenuBar::startTable();
 		mosMenuBar::spacer();

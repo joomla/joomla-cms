@@ -1,8 +1,8 @@
 <?php
 
 /**
-* @version $Id: category.php 1037 2005-11-14 17:59:40Z Jinx $
-* @package Joomla 
+* @version $Id$
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -68,7 +68,7 @@ class JModel extends JObject {
 	function getError() {
 		return $this->_error;
 	}
-	
+
 	/**
 	 * Returns an array of public properties
 	 * @return array
@@ -85,7 +85,7 @@ class JModel extends JObject {
 		}
 		return $cache;
 	}
-	
+
 	/**
 	*	binds a named array/hash to this object
 	*

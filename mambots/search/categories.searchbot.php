@@ -27,7 +27,6 @@ $_MAMBOTS->registerFunction( 'onSearch', 'botSearchCategories' );
 */
 function botSearchCategories( $text, $phrase='', $ordering='' ) {
 	global $database, $my;
-	;
 
 	// load mambot params info
 	$query = "SELECT id"
@@ -40,7 +39,7 @@ function botSearchCategories( $text, $phrase='', $ordering='' ) {
 	$mambot = new mosMambot( $database );
 	$mambot->load( $id );
 	$botParams = new mosParameters( $mambot->params );
-	
+
 	$limit = $botParams->def( 'search_limit', 50 );
 
 	$text = trim( $text );

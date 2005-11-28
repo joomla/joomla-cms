@@ -16,7 +16,6 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 function writableCell( $folder ) {
-	;
 	echo '<tr>';
 	echo '<td class="item">' . $folder . '/</td>';
 	echo '<td >';
@@ -30,7 +29,6 @@ function writableCell( $folder ) {
 class HTML_installer {
 
 	function showInstallForm( $title, $option, $element, $client = "", $p_startdir = "", $backLink="" ) {
-    	;
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton3(pressbutton) {
@@ -146,7 +144,6 @@ class HTML_installer {
 	*/
 	function showInstallMessage( $message, $title, $url ) {
 		global $PHP_SELF;
-    	;
 		?>
 		<table class="adminheading">
 		<tr>

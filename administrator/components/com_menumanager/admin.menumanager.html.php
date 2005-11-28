@@ -245,7 +245,6 @@ class HTML_menumanager {
 	* Writes list of the items that have been selected for deletion
 	*/
 	function showDelete( $option, $type, $items, $modules ) {
-		;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">

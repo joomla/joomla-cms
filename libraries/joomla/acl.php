@@ -44,7 +44,7 @@ class JACL extends gacl_api {
 		// this changes to user id in proper implementation
 		// No hierarchial inheritance so have to do that the long way
 		$this->acl = array();
-		
+
 		// backend login
 		$this->_mos_add_acl( 'login', 'administrator', 'users', 'administrator' );
 		$this->_mos_add_acl( 'login', 'administrator', 'users', 'super administrator' );
@@ -130,7 +130,7 @@ class JACL extends gacl_api {
 		$this->_mos_add_acl( 'com_syndicate', 'manage', 'users', 'super administrator' );
 		$this->_mos_add_acl( 'com_syndicate', 'manage', 'users', 'administrator' );
 		$this->_mos_add_acl( 'com_syndicate', 'manage', 'users', 'manager' );
-		
+
 		$this->_mos_add_acl( 'com_templates', 'manage', 'users', 'super administrator' );
 		//$this->_mos_add_acl( 'com_templates', 'manage', 'user', 'administrator' )
 

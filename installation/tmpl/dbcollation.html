@@ -12,18 +12,18 @@
 		<div id="step">
 			<mos:Translate>Database Collation</mos:Translate>
 		</div>
-	
+
 		<div class="far-right">
 			<input type="button" class="button" value="&lt;&lt; <mos:Translate escape="yes">Previous</mos:Translate>" onclick="submitForm( this.form, 'dbconfig' );" />
 			<input type="button" class="button" value="<mos:Translate escape="yes">Next</mos:Translate> &gt;&gt;" onclick="submitForm( this.form, 'makedb' );" />
 		</div>
-	
+
 		<div class="clr"></div>
-	
+
 		<h2>
 		<mos:Translate>Collation Selection</mos:Translate>:
 		</h2>
-	
+
 		<div class="install-text">
 			<p><mos:Translate>databaseVersion</mos:Translate> {VAR_DBVERSION}</p>
 			<mos:tmpl name="utf_text" type="condition" conditionvar="utfsupport" >

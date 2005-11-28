@@ -34,7 +34,7 @@ class mosBannerClient extends JModel {
 	}
 
 	function check() {
-	
+
 		// check for valid client name
 		if (trim($this->name == '')) {
 			$this->_error = JText::_( 'BNR_CLIENT_NAME' );

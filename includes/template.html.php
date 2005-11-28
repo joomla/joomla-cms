@@ -42,19 +42,19 @@ class modules_html {
 			// show a naked module - no wrapper and no title
 				modules_html::modoutput_naked( $module, $params );
 				break;
-			
+
 			case 1:
 			// show a naked module - no wrapper and no title
 				modules_html::modoutput_horz( $module, $params );
 				break;
-				
+
 			case 0:
 			default:
 			// standard tabled output
 				modules_html::modoutput_table( $module, $params );
 				break;
-				
-			
+
+
 		}
 
 		if ( $params->get( 'rssurl' ) ) {
@@ -62,20 +62,20 @@ class modules_html {
 			// load RSS module file
 			// kept for backward compatability
 			// modules_html::modoutput_feed( $params );
-			$path = $mosConfig_absolute_path .'/modules/mod_rss.php';	
+			$path = $mosConfig_absolute_path .'/modules/mod_rss.php';
 			if (file_exists( $path )) {
 				require_once( $path );
 			}
 		}
 	}
-	
+
 		/*
 	* standard tabled output
 	*/
 	function modoutput_table( $module, $params  ) {
-		
+
 		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
-		
+
 		?>
 		<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $moduleclass_sfx; ?>">
 		<?php
@@ -97,7 +97,7 @@ class modules_html {
 		</table>
 		<?php
 	}
-	
+
 	/*
 	* standard tabled output
 	*/
@@ -119,9 +119,9 @@ class modules_html {
 	* show a naked module - no wrapper and no title
 	*/
 	function modoutput_naked( $module, $params  ) {
-		
+
 		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
-		
+
 		echo $module->content;
 	}
 
@@ -129,9 +129,9 @@ class modules_html {
 	* xhtml (divs and font headder tags)
 	*/
 	function modoutput_xhtml( $module, $params ) {
-		
+
 		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
-		
+
 		?>
 		<div class="moduletable<?php echo $moduleclass_sfx; ?>">
 			<?php
@@ -154,9 +154,9 @@ class modules_html {
 	* allows for rounded corners
 	*/
 	function modoutput_rounded( $module, $params ) {
-		
+
 		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
-		
+
 		?>
 		<div class="module<?php echo $moduleclass_sfx; ?>">
 			<div>
@@ -166,9 +166,9 @@ class modules_html {
 						if ($module->showtitle != 0) {
 							echo "<h3>$module->title</h3>";
 						}
-						
+
 						echo $module->content;
-						
+
 						?>
 					</div>
 				</div>

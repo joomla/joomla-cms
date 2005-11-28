@@ -27,7 +27,6 @@ class weblink_category_table_menu_html {
 
 	function editCategory( &$menu, &$lists, &$params, $option ) {
 		global $mosConfig_live_site;
-		;
 		?>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<script language="javascript" type="text/javascript">

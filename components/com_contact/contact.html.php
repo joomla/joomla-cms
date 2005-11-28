@@ -25,7 +25,6 @@ class HTML_contact {
 
 	function displaylist( &$categories, &$rows, $catid, $currentcat=NULL, &$params, $tabclass ) {
 		global $Itemid, $mosConfig_live_site, $hide_js;
-		;
 
 		if ( $params->get( 'page_title' ) ) {
 			?>
@@ -89,7 +88,6 @@ class HTML_contact {
 	*/
 	function showTable( &$params, &$rows, $catid, $tabclass ) {
 		global $mosConfig_live_site, $Itemid;
-		;
 		?>
 		<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
 		<?php
@@ -255,7 +253,6 @@ class HTML_contact {
 	function viewcontact( &$contact, &$params, $count, &$list, &$menu_params ) {
 		global $mosConfig_live_site;
 		global $mainframe, $Itemid;
-		;
 
 		$template = $mainframe->getTemplate();
 		$sitename = $mainframe->getCfg( 'sitename' );
@@ -383,8 +380,6 @@ class HTML_contact {
 	* Writes Dropdown box to select contact
 	*/
 	function _writeSelectContact( &$contact, &$params, $count ) {
-		;
-
 		if ( ( $count > 1 )  && !$params->get( 'popup' ) && $params->get( 'drop_down' ) ) {
 			global $Itemid;
 			?>
@@ -407,7 +402,7 @@ class HTML_contact {
 	*/
 	function _writeContactName( &$contact, &$params, &$menu_params ) {
 		global $Itemid, $hide_js;
-		
+
 		if ( $contact->name ||  $contact->con_position ) {
 			if ( $contact->name && $params->get( 'name' ) ) {
 				?>
@@ -445,7 +440,6 @@ class HTML_contact {
 	*/
 	function _writeImage( &$contact, &$params ) {
 		global $mosConfig_live_site;
-		;
 
 		if ( $contact->image && $params->get( 'image' ) ) {
 			?>
@@ -632,8 +626,6 @@ class HTML_contact {
 	* Writes Email form
 	*/
 	function _writeVcard( &$contact, &$params ) {
-		;
-
 		if ( $params->get( 'vcard' ) ) {
 			?>
 			<tr>
@@ -653,7 +645,6 @@ class HTML_contact {
 	*/
 	function _writeEmailForm( &$contact, &$params, $sitename, &$menu_params ) {
 		global $Itemid;
-		;
 
 		if ( $contact->email_to && !$params->get( 'popup' ) && $params->get( 'email_form' ) ) {
 			?>
@@ -716,7 +707,6 @@ class HTML_contact {
 
 
 	function nocontact( &$params ) {
-		;
 		?>
 		<br />
 		<br />

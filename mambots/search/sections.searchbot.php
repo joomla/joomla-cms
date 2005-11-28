@@ -27,7 +27,6 @@ $_MAMBOTS->registerFunction( 'onSearch', 'botSearchSections' );
 */
 function botSearchSections( $text, $phrase='', $ordering='' ) {
 	global $database, $my;
-	;
 
 	// load mambot params info
 	$query = "SELECT id"
@@ -40,9 +39,9 @@ function botSearchSections( $text, $phrase='', $ordering='' ) {
 	$mambot = new mosMambot( $database );
 	$mambot->load( $id );
 	$botParams = new mosParameters( $mambot->params );
-	
+
 	$limit = $botParams->def( 'search_limit', 50 );
-	
+
 	$text = trim( $text );
 	if ($text == '') {
 		return array();
@@ -52,7 +51,7 @@ function botSearchSections( $text, $phrase='', $ordering='' ) {
 		case 'alpha':
 			$order = 'a.name ASC';
 			break;
-			
+
 		case 'category':
 		case 'popular':
 		case 'newest':
@@ -76,7 +75,7 @@ function botSearchSections( $text, $phrase='', $ordering='' ) {
 	. "\n AND ( m.type = 'content_section' OR m.type = 'content_blog_section' )"
 	. "\n ORDER BY $order"
 	;
-	$database->setQuery( $query, 0, $limit );	
+	$database->setQuery( $query, 0, $limit );
 	$rows = $database->loadObjectList();
 
 	$count = count( $rows );
@@ -90,7 +89,7 @@ function botSearchSections( $text, $phrase='', $ordering='' ) {
 			$rows[$i]->section 	= JText::_( 'Section Blog' );
 		}
 	}
-	
+
 	return $rows;
 }
 ?>

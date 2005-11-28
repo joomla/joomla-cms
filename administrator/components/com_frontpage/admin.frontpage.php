@@ -82,7 +82,6 @@ switch ($task) {
 */
 function viewFrontPage( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
-	;
 
 	$catid 				= $mainframe->getUserStateFromRequest( "catid{$option}", 'catid', 0 );
 	$filter_authorid 	= $mainframe->getUserStateFromRequest( "filter_authorid{$option}", 'filter_authorid', 0 );
@@ -186,7 +185,6 @@ function viewFrontPage( $option ) {
 */
 function changeFrontPage( $cid=null, $state=0, $option ) {
 	global $database, $my;
-	;
 
 	if (count( $cid ) < 1) {
 		$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
@@ -217,7 +215,6 @@ function changeFrontPage( $cid=null, $state=0, $option ) {
 
 function removeFrontPage( &$cid, $option ) {
 	global $database;
-	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
@@ -280,7 +277,6 @@ function accessMenu( $uid, $access ) {
 
 function saveOrder( &$cid ) {
 	global $database;
-	;
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );

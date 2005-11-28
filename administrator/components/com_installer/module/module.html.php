@@ -22,8 +22,6 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class HTML_module {
 
 	function showInstalledModules( &$rows, $option, &$xmlfile, &$lists ) {
-		;
-
 		if (count($rows)) {
 			?>
 			<form action="index2.php" method="post" name="adminForm">

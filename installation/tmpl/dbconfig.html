@@ -28,18 +28,18 @@ function validateForm( frm, task ) {
 		<div id="step">
 			<mos:Translate>Database Configuration</mos:Translate>
 		</div>
-	
+
 		<div class="far-right">
 			<input type="button" class="button" value="&lt;&lt; <mos:Translate escape="yes">Previous</mos:Translate>" onclick="submitForm( this.form, 'license' );" />
 			<input type="button" class="button" value="<mos:Translate escape="yes">Next</mos:Translate> &gt;&gt;" onclick="validateForm( this.form, 'dbcollation' );" />
 		</div>
-	
+
 		<div class="clr"></div>
-	
+
 		<h2>
 		<mos:Translate>Connection Settings</mos:Translate>:
 		</h2>
-	
+
 		<div class="install-text">
 			<mos:Translate key="tipDatabaseSteps">
 			<p>Setting up Joomla! to run on your server involves 4 simple steps...</p>
@@ -49,7 +49,7 @@ function validateForm( frm, task ) {
 			<p>Install the samples unless you are experienced want to start with a virtually empty site.</p>
 			</mos:Translate>
 		</div>
-	
+
 		<div class="install-form">
 			<div class="form-block">
 	 			<table class="content2">
@@ -80,13 +80,13 @@ function validateForm( frm, task ) {
 	  			<tr>
 	    			<td colspan="2">
 	    				<label for="vars_dbhostname">
-	
+
 							<mos:Translate>Host Name</mos:Translate>
-	
+
 						</label>
-	
+
 	    				<br/>
-	
+
 	    				<input id="vars_dbhostname" class="inputbox" type="text" name="vars[DBhostname]" value="{VAR_DBHOSTNAME}" />
 	    			</td>
 		  		    <td>
@@ -166,13 +166,13 @@ function validateForm( frm, task ) {
 		  		    <td>
 		  		    	<input id="vars_dbbackup" type="checkbox" name="vars[DBBackup]" value="1" />
 		  		    </td>
-	
+
 					<td>
 	    				<label for="vars_dbbackup">
 							<mos:Translate>Backup Old Tables</mos:Translate>
 						</label>
 					</td>
-	
+
 	    			<td>
 	    				<em>
 	    				<mos:Translate key="tipBackup">Any existing backup tables from former Joomla! installations will be replaced</mos:Translate>

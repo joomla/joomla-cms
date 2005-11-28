@@ -21,7 +21,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class TOOLBAR_FrontPage {
 	function _DEFAULT() {
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Frontpage Manager' ), 'frontpage.png' );
 		mosMenuBar::archiveList();

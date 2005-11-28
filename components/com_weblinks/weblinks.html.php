@@ -23,7 +23,6 @@ class HTML_weblinks {
 
 	function displaylist( &$categories, &$rows, $catid, $currentcat=NULL, &$params, $tabclass ) {
 		global $Itemid, $mosConfig_live_site, $hide_js;
-		;
 
 		if ( $params->get( 'page_title' ) ) {
 			?>
@@ -87,7 +86,6 @@ class HTML_weblinks {
 	*/
 	function showTable( &$params, &$rows, $catid, $tabclass ) {
 		global $mosConfig_live_site;
-		;
 
 		// icon in table display
 		if ( $params->get( 'weblink_icons' ) <> -1 ) {
@@ -132,9 +130,9 @@ class HTML_weblinks {
 
 			$link = sefRelToAbs( 'index.php?option=com_weblinks&task=view&catid='. $catid .'&id='. $row->id );
 			$link = ampReplace( $link );
-			
+
 			$menuclass = 'category'.$params->get( 'pageclass_sfx' );
-			
+
 			switch ($iparams->get( 'target' )) {
 				// cases are slightly different
 				case 1:
@@ -242,8 +240,6 @@ class HTML_weblinks {
 	* @param string The html for the categories select list
 	*/
 	function editWeblink( $option, &$row, &$lists ) {
-		;
-
 		require_once( JPATH_SITE . '/includes/HTML_toolbar.php' );
 
 		$Returnid = intval( mosGetParam( $_REQUEST, 'Returnid', 0 ) );

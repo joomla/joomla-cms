@@ -27,7 +27,6 @@ class submit_content_menu {
 	*/
 	function edit( &$uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
-		;
 
 		$menu = new mosMenu( $database );
 		$menu->load( $uid );

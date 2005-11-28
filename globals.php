@@ -11,7 +11,7 @@
 
 /**
  * Use 1 to emulate register_globals = on
- * 
+ *
  * Use 0 to emulate regsiter_globals = off
  */
 define( 'RG_EMULATION', 0 );
@@ -103,7 +103,7 @@ function registerGlobals() {
 
 if (RG_EMULATION == 0) {
 	// force register_globals = off
-	unregisterGlobals();	
+	unregisterGlobals();
 } else if (ini_get('register_globals') == 0) {
 	// php.ini has register_globals = off and emulate = on
 	registerGlobals();

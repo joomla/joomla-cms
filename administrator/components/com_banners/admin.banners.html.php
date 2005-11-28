@@ -27,7 +27,7 @@ class HTML_banners {
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-		
+
 		<table class="adminlist">
 		<tr>
 			<th width="20">
@@ -134,8 +134,6 @@ class HTML_banners {
 	}
 
 	function bannerForm( &$_row, &$lists, $_option ) {
-		;
-
 		mosMakeHtmlSafe( $_row, ENT_QUOTES, 'custombannercode' );
 		?>
 		<script language="javascript">
@@ -376,8 +374,6 @@ class HTML_bannerClient {
 	}
 
 	function bannerClientForm( &$row, $option ) {
-		;
-
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'extrainfo' );
 		?>
 		<script language="javascript">
@@ -403,7 +399,7 @@ class HTML_bannerClient {
 		</script>
 
 		<form action="index2.php" method="post" name="adminForm">
-		
+
 		<table class="adminform">
 		<tr>
 			<th colspan="2">

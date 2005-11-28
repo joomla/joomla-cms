@@ -234,7 +234,6 @@ function removePoll( $cid, $option ) {
 */
 function publishPolls( $cid=null, $publish=1, $option ) {
 	global $database, $my;
-	;
 
 	$catid = mosGetParam( $_POST, 'catid', array(0) );
 

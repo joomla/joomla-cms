@@ -162,7 +162,6 @@ function viewdeleteTrash( $cid, $mid, $option ) {
 */
 function deleteTrash( $cid, $option ) {
 	global $database;
-	;
 
 	$type = mosGetParam( $_POST, 'type', array(0) );
 
@@ -232,7 +231,6 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 */
 function restoreTrash( $cid, $option ) {
 	global $database;
-	;
 
 	$type = mosGetParam( $_POST, 'type', array(0) );
 

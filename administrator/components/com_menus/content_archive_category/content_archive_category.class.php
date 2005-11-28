@@ -26,7 +26,6 @@ class content_archive_category_menu {
 	*/
 	function editCategory( $uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
-		;
 
 		$menu = new mosMenu( $database );
 		$menu->load( $uid );

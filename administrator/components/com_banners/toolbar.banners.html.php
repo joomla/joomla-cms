@@ -25,12 +25,12 @@ class TOOLBAR_banners {
 	*/
 	function _EDIT() {
 		global $id;
-		
+
 		if ( !$id ) {
 			$id = mosGetParam( $_REQUEST, 'cid', '' );
 		}
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Banner' ) .': '. $text, 'generic.png' );
 		mosMenuBar::media_manager( 'banners' );
@@ -48,7 +48,7 @@ class TOOLBAR_banners {
 		mosMenuBar::endTable();
 	}
 	function _DEFAULT() {
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Banner Manager' ), 'blank.png' );
 		mosMenuBar::media_manager( 'banners' );
@@ -78,12 +78,12 @@ class TOOLBAR_bannerClient {
 	*/
 	function _EDIT() {
 		global $id;
-		;
+
 		if ( !$id ) {
 			$id = mosGetParam( $_REQUEST, 'cid', '' );
 		}
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Banner Client' ) .': '. $text, 'generic.png' );
 		mosMenuBar::save( 'saveclient' );
@@ -102,8 +102,6 @@ class TOOLBAR_bannerClient {
 	* Draws the default menu
 	*/
 	function _DEFAULT() {
-		;
-		
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Banner Client Manager' ), 'blank.png' );
 		mosMenuBar::deleteList( '', 'removeclients' );

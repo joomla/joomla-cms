@@ -25,12 +25,12 @@ switch ($task){
 	case 'help':
 		TOOLBAR_admin::_HELP();
 		break;
-	
+
 	case 'preview':
 	case 'preview2':
 		TOOLBAR_admin::_PREVIEW();
 		break;
-	
+
 	default:
 		if ($GLOBALS['task']) {
 			TOOLBAR_admin::_DEFAULT();

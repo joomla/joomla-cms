@@ -2,7 +2,7 @@
 
 /**
 * @version $Id$
-* @package Joomla 
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -54,7 +54,7 @@ class mosUser extends JModel {
 	*/
 	function __construct( &$database ) {
 		parent::__construct( '#__users', 'id', $database );
-		
+
 		//initialise
 		$this->id  = 0;
 		$this->gid = 0;
@@ -66,7 +66,6 @@ class mosUser extends JModel {
 	 */
 	function check() {
 		global $mosConfig_uniquemail;
-		;
 
 		// filter malicious code
 		//$this->filter();
@@ -208,8 +207,6 @@ class mosUser extends JModel {
 	 * @return boolean False if an error occurs
 	 */
 	function setLastVisit( $timeStamp=null, $id=null ) {
-		;
-
 		// check for User ID
 		if (is_null( $id )) {
 			if (isset( $this )) {

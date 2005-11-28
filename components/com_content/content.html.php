@@ -102,7 +102,6 @@ class HTML_content {
 	* Display links to categories
 	*/
 	function showCategories( &$params, &$items, $gid, &$other_categories, $catid, $id, $Itemid ) {
-		;
 		?>
 		<ul>
 		<?php
@@ -151,7 +150,6 @@ class HTML_content {
 	*/
 	function showTable( &$params, &$items, &$gid, $catid, $id, &$pageNav, &$access, &$sectionid, &$lists, $order ) {
 		global $mosConfig_live_site, $Itemid;
-		;
 
 		$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='. $sectionid .'&amp;id='. $catid .'&amp;Itemid='. $Itemid;
 		?>
@@ -347,7 +345,6 @@ class HTML_content {
 	*/
 	function showLinks( &$rows, $links, $total, $i=0, $show=1, $ItemidCount ) {
 		global $mainframe;
-		;
 
 		if ( $show ) {
 			?>
@@ -391,7 +388,6 @@ class HTML_content {
 		global $mainframe, $my, $hide_js;
 		global $mosConfig_sitename, $Itemid, $mosConfig_live_site, $task;
 		global $_MAMBOTS;
-		;
 
 		$mainframe->appendMetaTag( 'description', $row->metadesc );
 		$mainframe->appendMetaTag( 'keywords', $row->metakey );
@@ -552,8 +548,6 @@ class HTML_content {
 	* Writes Title
 	*/
 	function Title( $row, $params, $link_on, $access ) {
-		;
-
 		if ( $params->get( 'item_title' ) ) {
 			if ( $params->get( 'link_titles' ) && $link_on != '' ) {
 				?>
@@ -654,7 +648,6 @@ class HTML_content {
 	*/
 	function EmailIcon( $row, $params, $hide_js ) {
 		global $mosConfig_live_site;
-		;
 
 		if ( $params->get( 'email' ) && !$params->get( 'popup' ) && !$hide_js ) {
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=400,height=250,directories=no,location=no';
@@ -807,8 +800,6 @@ class HTML_content {
 	* Writes Modified Date
 	*/
 	function ModifiedDate( $row, $params ) {
-		;
-
 		$mod_date = null;
 		if ( intval( $row->modified ) != 0) {
 			$mod_date = mosFormatDate( $row->modified );
@@ -847,8 +838,6 @@ class HTML_content {
 	* Writes Next & Prev navigation button
 	*/
 	function Navigation( $row, $params ) {
-		;
-
 		$task = mosGetParam( $_REQUEST, 'task', '' );
 		if ( $params->get( 'item_navigation' ) && ( $task == "view" ) && !$params->get( 'popup' ) && ( $row->prev || $row->next ) ) {
 
@@ -1345,7 +1334,6 @@ class HTML_content {
 	*/
 	function emailForm( $uid, $title, $template='' ) {
 		global $mosConfig_sitename, $mainframe;
-		;
 
 		$mainframe->setPageTitle( $mosConfig_sitename .' :: '. $title );
 		$mainframe->addCustomHeadTag( '<link rel="stylesheet" href="templates/'. $template .'/css/template_css.css" type="text/css" />' );
@@ -1429,7 +1417,6 @@ class HTML_content {
 	*/
 	function emailSent( $to, $template='' ) {
 		global $mosConfig_sitename, $mainframe;
-		;
 
 		$mainframe->setPageTitle( $mosConfig_sitename );
 		$mainframe->addCustomHeadTag( '<link rel="stylesheet" href="templates/'. $template .'/css/template_css.css" type="text/css" />' );

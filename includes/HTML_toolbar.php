@@ -79,8 +79,6 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function addNew( $task='new', $alt='New' ) {
-		;
-
         $alt= JText::_( 'New' );
 		$image = mosAdminMenus::ImageCheck( 'new_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
@@ -97,8 +95,6 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function publish( $task='publish', $alt='Published' ) {
-		;
-
         $alt= JText::_( 'Published' );
 		$image = mosAdminMenus::ImageCheck( 'publish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
@@ -115,8 +111,6 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function publishList( $task='publish', $alt='Published' ) {
-		;
-
         $alt= JText::_( 'Published' );
 		$image = mosAdminMenus::ImageCheck( 'publish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
@@ -133,8 +127,6 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function unpublish( $task='unpublish', $alt='Unpublished' ) {
-		;
-
         $alt= JText::_( 'Unpublished' );
 		$image = mosAdminMenus::ImageCheck( 'unpublish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
@@ -151,8 +143,6 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function unpublishList( $task='unpublish', $alt='Unpublished' ) {
-		;
-
         $alt= JText::_( 'Unpublished' );
 		$image = mosAdminMenus::ImageCheck( 'unpublish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
@@ -169,8 +159,6 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function archiveList( $task='archive', $alt='Archived' ) {
-		;
-
         $alt= JText::_( 'Archived' );
 		$image = mosAdminMenus::ImageCheck( 'archive_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
@@ -187,8 +175,6 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function unarchiveList( $task='unarchive', $alt='Unarchive' ) {
-		;
-
         $alt= JText::_( 'Unarchive' );
 		$image = mosAdminMenus::ImageCheck( 'unarchive_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
@@ -205,8 +191,6 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function editList( $task='edit', $alt='Edit' ) {
-		;
-
         $alt= JText::_( 'Edit' );
 		$image = mosAdminMenus::ImageCheck( 'edit_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
@@ -223,8 +207,6 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function editHtml( $task='edit_source', $alt='Edit HTML' ) {
-		;
-
         $alt= JText::_( 'Edit HTML' );
 		$image = mosAdminMenus::ImageCheck( 'edit_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
@@ -241,8 +223,6 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function editCss( $task='edit_css', $alt='Edit CSS' ) {
-		;
-
         $alt= JText::_( 'Edit CSS' );
 		$image = mosAdminMenus::ImageCheck( 'css_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
@@ -260,8 +240,6 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function deleteList( $msg='', $task='remove', $alt='Delete' ) {
-		;
-
         $alt= JText::_( 'Delete' );
 		$image = mosAdminMenus::ImageCheck( 'delete_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
@@ -278,7 +256,6 @@ class mosToolBar {
 	*/
 	function preview( $popup='' ) {
 		global $database;
-		;
 
 		$sql = "SELECT template"
 		. "\n FROM #__templates_menu"
@@ -303,8 +280,6 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function save( $task='save', $alt='Save' ) {
-		;
-	
         $alt= JText::_( 'Save' );
 		$image = mosAdminMenus::ImageCheck( 'save_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
@@ -321,8 +296,6 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function apply( $task='apply', $alt='Apply' ) {
-		;
-
         $alt= JText::_( 'Apply' );
 		$image = mosAdminMenus::ImageCheck( 'apply_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
@@ -337,8 +310,6 @@ class mosToolBar {
 	* Writes a save button for a given option (NOTE this is being deprecated)
 	*/
 	function savenew() {
-		;
-
         $alt= JText::_( 'Save' );
 		$image = mosAdminMenus::ImageCheck( 'save_f2.png', '/images/', NULL, NULL, $alt, 'save', 1 );
 		?>
@@ -371,8 +342,6 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function cancel( $task='cancel', $alt='Cancel' ) {
-		;
-
         $alt= JText::_( 'Cancel' );
 		$image = mosAdminMenus::ImageCheck( 'cancel_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
 		?>
@@ -388,8 +357,6 @@ class mosToolBar {
 	* any other operation
 	*/
 	function back() {
-		;
-
         $alt= JText::_( 'back' );
 		$image = mosAdminMenus::ImageCheck( 'back_f2.png', '/images/', NULL, NULL, $alt, 'cancel', 1 );
 		?>
@@ -417,8 +384,6 @@ class mosToolBar {
 	* @param string The sub-drectory to upload the media to
 	*/
 	function media_manager( $directory = '' ) {
-		;
-
         $alt= JText::_( 'Upload Image' );
 		$image = mosAdminMenus::ImageCheck( 'upload_f2.png', '/images/', NULL, NULL, $alt, 'uploadPic', 1 );
 		?>

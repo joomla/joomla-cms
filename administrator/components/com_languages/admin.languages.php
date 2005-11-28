@@ -64,10 +64,10 @@ function viewLanguages( $option, $client = 'site') {
 	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
 
 	$path = JLanguage::getLanguagePath(constant('JPATH_'.strtoupper($client)));
-	
+
 	$rows = array();
 	$rowid = 0;
-	
+
 	$dirs = JFolder::folders( $path );
 	foreach ($dirs as $dir) {
 		$files = JFolder::files( $path . $dir, '^([_A-Za-z]*)\.xml$' );
@@ -113,7 +113,7 @@ function viewLanguages( $option, $client = 'site') {
 			$row->version 	= $element ? $element->getText() : '';
 
 			$lang = ($client == 'site') ? 'lang' : 'lang_'.$client;
-	
+
 			// if current than set published
 			if ( $mainframe->getCfg($lang) == $row->language) {
 				$row->published	= 1;
@@ -140,18 +140,18 @@ function viewLanguages( $option, $client = 'site') {
 /**
 * Publish, or make current, the selected language
 */
-function publishLanguage( $p_lname, $option, $client = 'site' ) 
-{	
+function publishLanguage( $p_lname, $option, $client = 'site' )
+{
 	$config = '';
-	
+
 	$lang = ($client == 'site') ? '\$mosConfig_lang' : '\$mosConfig_lang_'.$client;
 	echo $lang;
 
 	$fp = fopen("../configuration.php","r");
 	while(!feof($fp)){
 		$buffer = fgets($fp,4096);
-		
-		switch($client) 
+
+		switch($client)
 		{
 			case 'site' :
 			{
@@ -170,8 +170,8 @@ function publishLanguage( $p_lname, $option, $client = 'site' )
 				}
 			} break;
 		}
-		
-		
+
+
 	}
 	fclose($fp);
 

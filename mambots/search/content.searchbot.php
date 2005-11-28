@@ -28,7 +28,6 @@ $_MAMBOTS->registerFunction( 'onSearch', 'botSearchContent' );
 function botSearchContent( $text, $phrase='', $ordering='' ) {
 	global $my, $database;
 	global $mosConfig_offset;
-	;
 
 	// load mambot params info
 	$query = "SELECT id"
@@ -41,11 +40,11 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 	$mambot = new mosMambot( $database );
 	$mambot->load( $id );
 	$botParams = new mosParameters( $mambot->params );
-	
+
 	$sContent 	= $botParams->get( 'search_content', 	1 );
 	$sStatic 	= $botParams->get( 'search_static', 	1 );
-	$sArchived 	= $botParams->get( 'search_archived', 	1 );	
-	
+	$sArchived 	= $botParams->get( 'search_archived', 	1 );
+
 	$limit 		= $botParams->def( 'search_limit', 		50 );
 
 	$nullDate 	= $database->getNullDate();
@@ -67,7 +66,7 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 			$wheres2[] 	= "LOWER(a.metadesc) LIKE '%$text%'";
 			$where 		= '(' . implode( ') OR (', $wheres2 ) . ')';
 			break;
-			
+
 		case 'all':
 		case 'any':
 		default:
@@ -91,28 +90,28 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 		case 'oldest':
 			$order = 'a.created ASC';
 			break;
-			
+
 		case 'popular':
 			$order = 'a.hits DESC';
 			break;
-			
+
 		case 'alpha':
 			$order = 'a.title ASC';
 			break;
-			
+
 		case 'category':
 			$order = 'b.title ASC, a.title ASC';
 			$morder = 'a.title ASC';
 			break;
-			
+
 		case 'newest':
 			default:
 			$order = 'a.created DESC';
-			break;		
+			break;
 	}
 
 	$rows = array();
-	
+
 	// search content items
 	if ( $sContent ) {
 		$query = "SELECT a.title AS title,"
@@ -133,12 +132,12 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 		. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
 		. "\n ORDER BY $order"
 		;
-		$database->setQuery( $query, 0, $limit );	
+		$database->setQuery( $query, 0, $limit );
 		$list = $database->loadObjectList();
-		
+
 		$rows[] = $list;
 	}
-	
+
 	// search static content
 	if ( $sStatic ) {
 		$query = "SELECT a.title AS title, a.created AS created,"
@@ -156,15 +155,15 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 		. "\n ORDER BY ". ($morder ? $morder : $order)
 		;
 		$database->setQuery( $query, 0, $limit );
-		$list2 = $database->loadObjectList();		
-		
+		$list2 = $database->loadObjectList();
+
 		$rows[] = $list2;
 	}
-	
+
 	// search archived content
 	if ( $sArchived ) {
-		$searchArchived = JText::_( 'Archived' );	
-			
+		$searchArchived = JText::_( 'Archived' );
+
 		$query = "SELECT a.title AS title,"
 		. "\n a.created AS created,"
 		. "\n a.introtext AS text,"
@@ -183,26 +182,26 @@ function botSearchContent( $text, $phrase='', $ordering='' ) {
 		;
 		$database->setQuery( $query, 0, $limit );
 		$list3 = $database->loadObjectList();
-		
-		$rows[] = $list3;		
+
+		$rows[] = $list3;
 	}
-	
+
 	$count = count( $rows );
 	if ( $count > 1 ) {
 		switch ( $count ) {
 			case 2:
 			$results = array_merge( $rows[0], $rows[1] );
 			break;
-			
+
 			case 3:
-			default:		
+			default:
 			$results = array_merge( $rows[0], $rows[1], $rows[2] );
 			break;
 		}
-		
+
 		return $results;
 	} else if ( $count == 1 ) {
 		return $rows[0];
-	} 	
+	}
 }
 ?>

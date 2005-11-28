@@ -24,7 +24,7 @@ switch ($task) {
 	case 'pageimp':
 		showPageImpressions( $option, $task );
 		break;
-		
+
 	case 'resetStats':
 		resetStats ( $option, $task );
 		break;
@@ -209,9 +209,9 @@ function showSearches( $option, $task ) {
 
 function resetStats( $option, $task ) {
 		global $database, $mainfraime;
-		
+
 		$op = mosGetParam( $_REQUEST, 'op', '' );
-		
+
 		switch ($op) {
 			case 'bod':
 				// get the total number of records
@@ -229,9 +229,9 @@ function resetStats( $option, $task ) {
    						$query = "DELETE FROM #__stats_agents";
 						$msg = JText::_( 'reset statistics success' );
 						$redirecturl = 'index2.php?option=com_statistics';
-					}					
+					}
 			break;
-			
+
 			case 'pi':
 				// get the total number of records
 				$query = "SELECT COUNT( * )"
@@ -252,9 +252,9 @@ function resetStats( $option, $task ) {
 						;
 						$msg = JText::_( 'reset statistics success' );
 						$redirecturl = 'index2.php?option=com_statistics&task=pageimp';
-					}			
+					}
 			break;
-			
+
 			case 'set':
 				// get the total number of records
 				$query = "SELECT COUNT( * )"
@@ -271,13 +271,13 @@ function resetStats( $option, $task ) {
    						$query = "DELETE FROM #__core_log_searches";
 						$msg = JText::_( 'reset statistics success' );
 						$redirecturl = 'index2.php?option=com_statistics&task=searches';
-					}			
+					}
 			break;
 		}
-		
+
 		$database->setQuery( $query );
 		$database->query();
-		
+
 		mosRedirect( $redirecturl, $msg );
 }
 ?>

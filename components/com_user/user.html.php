@@ -21,7 +21,6 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class HTML_user {
 	function frontpage() {
-		;
 		?>
 		<div class="componentheading">
 			<?php echo JText::_( 'Welcome!' ); ?>
@@ -150,7 +149,6 @@ class HTML_user {
 	}
 
 	function confirmation() {
-		;
 		?>
 		<div class="componentheading">
 			<?php echo JText::_( 'Submission Success!' ); ?>

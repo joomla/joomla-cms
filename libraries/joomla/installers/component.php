@@ -38,7 +38,6 @@ class mosInstallerComponent extends mosInstaller {
 	*/
 	function install($p_fromdir = null) {
 		global $mosConfig_absolute_path,$database;
-		;
 
 		if (!$this->preInstallCheck( $p_fromdir, 'component' )) {
 			return false;
@@ -233,7 +232,6 @@ class mosInstallerComponent extends mosInstaller {
 	*/
 	function uninstall( $cid, $option, $client=0 ) {
 		global $database,$mosConfig_absolute_path;
-		;
 
 		$uninstallret = '';
 
@@ -250,7 +248,7 @@ class mosInstallerComponent extends mosInstaller {
 			exit();
 		}
 
-		if ($row->iscore) {			
+		if ($row->iscore) {
             HTML_installer::showInstallMessage( sprintf( JText::_( 'WARNCORECOMPONENT' ), $row->name ) ."<br />". JText::_( 'WARNCORECOMPONENT2' ), JText::_( 'Uninstall - error' ),
 				$this->returnTo( $option, 'component', $client ) );
 			exit();
@@ -328,7 +326,7 @@ class mosInstallerComponent extends mosInstaller {
 			if(!$found) {
                                         HTML_installer::showInstallMessage('XML File invalid or not found',JText::_( 'Uninstall - error' ),$this->returnTo( $option, 'component', $client ) );
 					exit();
-											
+
 			}
 		} else {
 			/*

@@ -1165,7 +1165,6 @@ class mosAdminMenus {
 	*/
 	function Section( &$menu, $id, $all=0 ) {
 		global $database;
-		;
 
 		$query = "SELECT s.id AS `value`, s.id AS `id`, s.title AS `text`"
 		. "\n FROM #__sections AS s"

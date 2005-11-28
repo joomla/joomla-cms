@@ -25,9 +25,9 @@ class TOOLBAR_contact {
 	*/
 	function _EDIT() {
 		global $id;
-			
+
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Contact' ) .': '. $text, 'generic.png' );
 		mosMenuBar::save();
@@ -44,7 +44,7 @@ class TOOLBAR_contact {
 	}
 
 	function _DEFAULT() {
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Contact Manager' ), 'blank.png' );
 		mosMenuBar::publishList();

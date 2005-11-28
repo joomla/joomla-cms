@@ -26,7 +26,6 @@ class HTML_mambot {
 * @param strong The URL option
 */
 	function showInstalledMambots( &$rows, $option ) {
-		;
 		?>
 		<table class="adminheading">
 		<tr>

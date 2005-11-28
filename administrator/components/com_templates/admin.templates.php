@@ -260,7 +260,6 @@ function defaultTemplate( $p_tname, $option, $client ) {
 */
 function removeTemplate( $cid, $option, $client ) {
 	global $database;
-	;
 
 	$client_id = $client=='admin' ? 1 : 0;
 
@@ -290,7 +289,6 @@ function removeTemplate( $cid, $option, $client ) {
 
 function editTemplateSource( $p_tname, $option, $client ) {
 	global $mosConfig_absolute_path;
-	;
 
 	if ( $client == 'admin' ) {
 		$file = JPATH_ADMINISTRATOR .'/templates/'. $p_tname .'/index.php';
@@ -312,7 +310,6 @@ function editTemplateSource( $p_tname, $option, $client ) {
 
 function saveTemplateSource( $option, $client ) {
 	global $mosConfig_absolute_path;
-	;
 
 	$template 		= mosGetParam( $_POST, 'template', '' );
 	$filecontent 	= mosGetParam( $_POST, 'filecontent', '', _MOS_ALLOWHTML );
@@ -388,7 +385,6 @@ function chooseTemplateCSS( $p_tname, $option, $client ) {
 
 function editTemplateCSS( $p_tname, $option, $client ) {
 	global $mosConfig_absolute_path;
-	;
 
 	$template = mosGetParam( $_POST, 'template', '' );
 	$tp_name = mosGetParam( $_POST, 'tp_name', '' );
@@ -416,7 +412,6 @@ function editTemplateCSS( $p_tname, $option, $client ) {
 
 function saveTemplateCSS( $option, $client ) {
 	global $mosConfig_absolute_path;
-	;
 
 	$template = mosGetParam( $_POST, 'template', '' );
 	$filecontent = mosGetParam( $_POST, 'filecontent', '', _MOS_ALLOWHTML );
@@ -538,7 +533,6 @@ function editPositions( $option ) {
 */
 function savePositions( $option ) {
 	global $database;
-	;
 
 	$positions 		= mosGetParam( $_POST, 'position', array() );
 	$descriptions 	= mosGetParam( $_POST, 'description', array() );

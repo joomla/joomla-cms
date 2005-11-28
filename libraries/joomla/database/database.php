@@ -50,7 +50,7 @@ class JDatabase extends JObject {
 	/** @var string Quote for named objects */
 	var $_nameQuote		= null;
 	/**
-	 * @var boolean UTF-8 support 
+	 * @var boolean UTF-8 support
 	 * @since    1.1
 	 */
 	var $_utf			= 0;
@@ -66,14 +66,14 @@ class JDatabase extends JObject {
 	var $_hasQuoted	= null;
 
 	/**
-	* Database object constructor 
+	* Database object constructor
 	* @param string Database host
 	* @param string Database user name
 	* @param string Database user password
 	* @param string Database name
 	* @param string Common prefix for all tables
 	*/
-	function __construct( $host='localhost', $user, $pass, $db='', $table_prefix='') 
+	function __construct( $host='localhost', $user, $pass, $db='', $table_prefix='')
 	{
 		// Determine utf-8 support
 		$this->_utf = $this->hasUTF();
@@ -82,7 +82,7 @@ class JDatabase extends JObject {
 		if ($this->_utf){
 			$this->setUTF();
 		}
-		
+
 		$this->_table_prefix = $table_prefix;
 		$this->_ticker   = 0;
 		$this->_errorNum = 0;
@@ -103,41 +103,41 @@ class JDatabase extends JObject {
 
 	/**
 	 * Custom settings for UTF support
-     * 
+     *
      * @abstract
      * @since 1.1
 	 */
 	function setUTF() {
 	}
 
-	/**      
-	 * Returns a reference to the global Browser object, only creating it      
-	 * if it doesn't already exist.   
-	 *   
+	/**
+	 * Returns a reference to the global Browser object, only creating it
+	 * if it doesn't already exist.
+	 *
 	 * @param string  Database driver
 	 * @param string Database host
 	 * @param string Database user name
 	 * @param string Database user password
 	 * @param string Database name
 	 * @param string Common prefix for all tables
-	 * @return database A database object   
+	 * @return database A database object
 	 * @since 1.1
 	*/
 	function &getInstance( $driver='MySQL', $host='localhost', $user, $pass, $db='', $table_prefix='' ) {
-		static $instances; 
-		        
-		if (!isset( $instances )) {             
-			$instances = array();         
-		}         
-		
-		$signature = serialize(array($driver, $host, $user, $pass, $db, $table_prefix));         
-		
-		if (empty($instances[$signature])) {     
-			jimport('joomla.database.drivers.'.$driver); 
-			$driver = 'JDatabase'.$driver;       
-			$instances[$signature] = new $driver($host, $user, $pass, $db, $table_prefix);         
-		}         
-		
+		static $instances;
+
+		if (!isset( $instances )) {
+			$instances = array();
+		}
+
+		$signature = serialize(array($driver, $host, $user, $pass, $db, $table_prefix));
+
+		if (empty($instances[$signature])) {
+			jimport('joomla.database.drivers.'.$driver);
+			$driver = 'JDatabase'.$driver;
+			$instances[$signature] = new $driver($host, $user, $pass, $db, $table_prefix);
+		}
+
 		return $instances[$signature];
 	}
 
@@ -173,7 +173,7 @@ class JDatabase extends JObject {
 	function debug( $level ) {
 		$this->_debug = intval( $level );
 	}
-	
+
 	/**
 	* @return boolean True if the database version supports utf storage
 	* 				  False if backward compatibility is being used
@@ -182,7 +182,7 @@ class JDatabase extends JObject {
 	function getUtfSupport() {
 		return $this->_utf;
 	}
-	
+
 	/**
 	 * @return int The error number for the most recent query
 	 */
@@ -334,7 +334,7 @@ class JDatabase extends JObject {
 	function query() {
 		return;
 	}
-	
+
    /**
 	* Execute a batch query
     * @abstract
@@ -372,7 +372,7 @@ class JDatabase extends JObject {
 
 	/**
 	 * Load an array of single field results into an array
-	 * 
+	 *
      * @abstract
 	 */
 	function loadResultArray($numinarray = 0) {
@@ -422,7 +422,7 @@ class JDatabase extends JObject {
 	}
 	/**
 	* Load a list of database rows (numeric column indexing)
-	* 
+	*
     * @abstract
     * @param string The field name of a primary key
 	* @return array If <var>key</var> is empty as sequential list of returned records.
@@ -468,14 +468,14 @@ class JDatabase extends JObject {
 	/**
      * @abstract
      * @return mixed
-	 */ 
+	 */
     function insertid() {
 		return;
 	}
-	
+
     /**
      * @abstract
-	 */ 
+	 */
 	function getVersion() {
 		return 'Not available for this connector';
 	}
@@ -562,7 +562,7 @@ class JDatabase extends JObject {
 		$this->setQuery( $sql, $page*$nrows, $nrows );
 		$result = $this->loadRowList();
 		return new JSimpleRecordSet( $result );
-	} 
+	}
 	/**
 	 * ADODB compatability function
 	 * @param string SQL

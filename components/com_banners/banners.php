@@ -30,7 +30,6 @@ switch($task) {
 
 function viewbanner() {
 	global $database, $mosConfig_live_site;
-	;
 
 	$query = "SELECT COUNT(*) AS numrows"
 	. "\n FROM #__banner"

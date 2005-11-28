@@ -28,7 +28,6 @@ class content_blog_category_html {
 	function edit( &$menu, &$lists, &$params, $option ) {
 		/* in the HTML below, references to "section" were changed to "category" */
 		global $mosConfig_live_site;
-		;
 		?>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<script language="javascript" type="text/javascript">

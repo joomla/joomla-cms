@@ -198,7 +198,6 @@ function editMenu( $option, $menu ) {
 */
 function saveMenu() {
 	global $database;
-	;
 
 	$menutype 		= mosGetParam( $_POST, 'menutype', '' );
 	$old_menutype 	= mosGetParam( $_POST, 'old_menutype', '' );
@@ -325,7 +324,6 @@ function saveMenu() {
 */
 function deleteConfirm( $option, $type ) {
 	global $database;
-	;
 
 	if ( $type == 'mainmenu' ) {
 		echo "<script> alert('". JText::_( 'WARNDELMAINMENU', true ) ."'); window.history.go(-1); </script>\n";
@@ -376,7 +374,6 @@ function deleteConfirm( $option, $type ) {
 */
 function deleteMenu( $option, $cid, $type ) {
 	global $database;
-	;
 
 	if ( $type == 'mainmenu' ) {
 		echo "<script> alert('". JText::_( 'WARNDELMAINMENU', true ) ."'); window.history.go(-1); </script>\n";
@@ -461,7 +458,6 @@ function copyConfirm( $option, $type ) {
 */
 function copyMenu( $option, $cid, $type ) {
 	global $database;
-	;
 
 	$menu_name 		= mosGetParam( $_POST, 'menu_name', 'New Menu' );
 	$module_name 	= mosGetParam( $_POST, 'module_name', 'New Module' );

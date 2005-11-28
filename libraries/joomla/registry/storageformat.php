@@ -56,8 +56,8 @@ class JRegistryStorageFormat {
 		$this->r_namespacestate = $namespacestate;
 	}
 
-	function getNamespaceState() { 
-		return $this->r_namespacestate; 
+	function getNamespaceState() {
+		return $this->r_namespacestate;
 	}
 
 	function setNamespace($namespace) {
@@ -67,10 +67,10 @@ class JRegistryStorageFormat {
 	function getNamespace() {
 		return $this->r_namespace;
 	}
-	
+
 	function getFormatName() {
 		return "Undefined.";
 	}
-	
+
 }
 ?>

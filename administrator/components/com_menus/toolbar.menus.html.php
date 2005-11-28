@@ -24,7 +24,7 @@ class TOOLBAR_menus {
 	* Draws the menu for a New top menu item
 	*/
 	function _NEW()	{
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title(  JText::_( 'New Menu Item' ), 'menu.png' );
 		mosMenuBar::customX( 'edit', 'next.png', 'next_f2.png', JText::_( 'Next' ), true );
@@ -39,7 +39,7 @@ class TOOLBAR_menus {
 	* Draws the menu to Move Menut Items
 	*/
 	function _MOVEMENU()	{
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Move Menu Items' ) );
 		mosMenuBar::custom( 'movemenusave', 'move.png', 'move_f2.png', JText::_( 'Move' ), false );
@@ -54,7 +54,7 @@ class TOOLBAR_menus {
 	* Draws the menu to Move Menut Items
 	*/
 	function _COPYMENU()	{
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Copy Menu Items' ) );
 		mosMenuBar::custom( 'copymenusave', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), false );
@@ -100,7 +100,7 @@ class TOOLBAR_menus {
 
 	function _DEFAULT() {
 		global $menutype;
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Menu Manager' ) .'<small><small>['.$menutype.']</small></small>', 'menu.png' );
 		mosMenuBar::publishList();

@@ -2,7 +2,7 @@
 
 /**
 * @version $Id$
-* @package Joomla 
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -19,22 +19,22 @@ define("HTTP_SESSION_CONTINUED",    2);
 
 /**
 * Class for managing HTTP sessions
-* 
+*
 * Provides access to session-state values as well as session-level
 * settings and lifetime management methods.
 * Based on the standart PHP session handling mechanism
 * it provides for you more advanced features such as
 * database container, idle and expire timeouts, etc.
-* 
-* This class has many influences from the PEAR HTTP_Session module 
+*
+* This class has many influences from the PEAR HTTP_Session module
 *
 * @author Johan Janssens <johan@joomla.be>
 * @package Joomla
 * @subpackage JFramework
 * @since 1.1
 */
- 
-class JSession 
+
+class JSession
 {
 	/**
      * Initializes session data
@@ -67,7 +67,7 @@ class JSession
             $_SESSION['__HTTP_Session_Info'] = HTTP_SESSION_CONTINUED;
         }
     }
-	
+
 	 /**
      * Writes session data and ends session
      *
@@ -90,7 +90,7 @@ class JSession
     {
         session_write_close();
     }
-	
+
 	/**
      * Frees all session variables and destroys all data
      * registered to a session
@@ -117,7 +117,7 @@ class JSession
             $GLOBALS['HTTP_Session_Container']->set();
         }
     }
-	
+
 	  /**
      * Free all session variables
      *
@@ -132,7 +132,7 @@ class JSession
         session_unset();
 		$_SESSION['__HTTP_Session_Info'] = $info;
     }
-	
+
 	 /**
      * Sets new name of a session
      *
@@ -436,7 +436,7 @@ class JSession
         }
         return $return;
     }
-	
+
     /**
      * If optional parameter is specified it indicates
      * whether the session id will automatically be appended to
@@ -501,7 +501,7 @@ class JSession
         }
         return $return;
     }
-	
+
 	 /**
      * Tries to find any session id in $_GET, $_POST or $_COOKIE
      *

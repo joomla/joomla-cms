@@ -47,7 +47,7 @@ switch ($task) {
 	case 'installfromdir':
 		installFromDirectory( $option );
 		break;
-	
+
 	case 'installfromurl':
 		installFromUrl( $option );
 		break;
@@ -87,7 +87,7 @@ switch ($task) {
 * @param string The element name
 */
 function uploadPackage( $option ) {
-	
+
 	$installerFactory = new JInstallerFactory();
 	$installer = new mosInstaller(); // Create a blank installer until we work out what the file is!
 	// Check if file uploads are enabled
@@ -128,7 +128,7 @@ function uploadPackage( $option ) {
 		$ret = $installer->install($installdir);
         $retStr = $ret ? JText::_( 'Success' ) : JText::_( 'Failed' );
     	$msgStr = sprintf( JText::_( 'UPLOADSUCCESSOR' ), $element, $retStr );
-    	
+
 		HTML_installer::showInstallMessage( $installer->getError(), $msgStr,
 			$installer->returnTo( $option, $element, $client ) );
 		cleanupInstall( $userfile['name'], $installer->unpackDir() );
@@ -161,7 +161,7 @@ function installFromDirectory( $option ) {
 		HTML_installer::showInstallMessage( $msg, $msgStr,
 			$installer->returnTo( $option, $element, $client ) );
 	}
-	
+
 	$element = $installerFactory->detectType($userfile.'/');
 	$installerClass = $classMap[$element];
 	if(!$installerClass) {
@@ -171,7 +171,7 @@ function installFromDirectory( $option ) {
 			$installer->returnTo( $option, $element, $client ) );
 		return;
 	}
-		
+
 	jimport('joomla.installers.'.$element);
 	$installer = new $installerClass();
 
@@ -183,7 +183,7 @@ function installFromDirectory( $option ) {
 	$ret = $installer->install( $path );
 	$retStr = $ret ? JText::_( 'Success' ) : JText::_( 'Error' );
 	$msg = sprintf( JText::_( 'Upload new' ), $element, $retStr );
-	
+
 	HTML_installer::showInstallMessage( $installer->getError(), $msg, $installer->returnTo( $option, $element, $client ) );
 }
 
@@ -192,7 +192,7 @@ function installFromDirectory( $option ) {
 * @param string The URL
 */
 function installFromUrl($option) {
-	
+
 	$installerFactory = new JInstallerFactory();
 	$userfile = mosGetParam( $_REQUEST, 'userfile', '' );
 	$client = '';
@@ -202,11 +202,11 @@ function installFromUrl($option) {
 	$installer = $installerFactory->webInstall( $userfile );
 	$element = $installerFactory->getType();
     $ret = $installer->msg;
-    
+
     $retStr = $ret ? JText::_( 'Success' ) : JText::_( 'Error' );
 	$msg = sprintf( JText::_( 'Install new element' ), $element, $retStr );
-	
-	HTML_installer::showInstallMessage(	$installer->getError(), $msg, $installer->returnTo( $option, $element, $client ) );	
+
+	HTML_installer::showInstallMessage(	$installer->getError(), $msg, $installer->returnTo( $option, $element, $client ) );
 }
 
 /**
@@ -292,6 +292,6 @@ writableCell( 'mambots/search' );
 
 ?>
 </table>
-<?php 
+<?php
 }
 ?>

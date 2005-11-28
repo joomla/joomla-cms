@@ -23,7 +23,6 @@ class HTML_weblinks {
 
 	function showWeblinks( $option, &$rows, &$lists, &$search, &$pageNav ) {
 		global $my;
-		;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -149,8 +148,6 @@ class HTML_weblinks {
 	* @param string The option
 	*/
 	function editWeblink( &$row, &$lists, &$params, $option ) {
-		;
-
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'description' );
 
 		mosCommonHTML::loadOverlib();

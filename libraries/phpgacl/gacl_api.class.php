@@ -3759,7 +3759,7 @@ class gacl_api extends gacl {
 	 * Deletes all data from the phpGACL tables. USE WITH CAUTION.
 	 *
 	 * @return bool Returns TRUE if successful, FALSE otherwise
-	 * 
+	 *
 	 */
     function clear_database(){
 

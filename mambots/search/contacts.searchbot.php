@@ -27,7 +27,6 @@ $_MAMBOTS->registerFunction( 'onSearch', 'botSearchContacts' );
 */
 function botSearchContacts( $text, $phrase='', $ordering='' ) {
 	global $database, $my;
-	;
 
 	// load mambot params info
 	$query = "SELECT id"
@@ -40,9 +39,9 @@ function botSearchContacts( $text, $phrase='', $ordering='' ) {
 	$mambot = new mosMambot( $database );
 	$mambot->load( $id );
 	$botParams = new mosParameters( $mambot->params );
-	
+
 	$limit = $botParams->def( 'search_limit', 50 );
-	
+
 	$text = trim( $text );
 	if ($text == '') {
 		return array();
@@ -54,11 +53,11 @@ function botSearchContacts( $text, $phrase='', $ordering='' ) {
 		case 'alpha':
 			$order = 'a.name ASC';
 			break;
-			
+
 		case 'category':
 			$order = 'b.title ASC, a.name ASC';
 			break;
-			
+
 		case 'popular':
 		case 'newest':
 		case 'oldest':
@@ -87,9 +86,9 @@ function botSearchContacts( $text, $phrase='', $ordering='' ) {
 	. "\n AND a.published = 1"
 	. "\n ORDER BY $order"
 	;
-	$database->setQuery( $query, 0, $limit );	
+	$database->setQuery( $query, 0, $limit );
 	$rows = $database->loadObjectList();
-	
+
 	return $rows;
 }
 ?>

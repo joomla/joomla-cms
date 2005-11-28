@@ -28,19 +28,19 @@ class TOOLBAR_statistics {
 		mosMenuBar::help( 'screen.stats.searches' );
 		mosMenuBar::endTable();
 	}
-	
+
 	function _PAGEIMP() {
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Page Impression Statistics' ), 'impressions.png' );
 		mosMenuBar::custom( 'resetStats', 'delete.png', 'delete_f2.png', JText::_( 'Reset' ), false );
-		mosMenuBar::endTable();		
+		mosMenuBar::endTable();
 	}
-	
+
 	function _DEFAULT() {
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Browser, OS, Domain Statistics' ), 'browser.png' );
 		mosMenuBar::custom( 'resetStats', 'delete.png', 'delete_f2.png', JText::_( 'Reset' ), false );
-		mosMenuBar::endTable();			
+		mosMenuBar::endTable();
 	}
 }
 ?>

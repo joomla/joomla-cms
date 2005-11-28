@@ -37,7 +37,7 @@ class mosMenuBar {
 		</td>
 		<?php
 	}
-	
+
 	/**
 	* Writes the start of the button bar table
 	* @since 1.0
@@ -59,7 +59,7 @@ class mosMenuBar {
 	* @since 1.0
 	*/
 	function custom( $task='', $icon='', $iconOver='', $alt='', $listSelect=true ) {
-     
+
     	$alt = JText::_( $alt );
 
 		$icon 	= ( $iconOver ? $iconOver : $icon );
@@ -70,7 +70,7 @@ class mosMenuBar {
 		} else {
 			$href = "javascript:submitbutton('$task')";
 		}
-		
+
 		if ($icon || $iconOver) {
 			?>
 			<td>
@@ -100,12 +100,12 @@ class mosMenuBar {
 	* @since 1.0
 	*/
 	function customX( $task='', $icon='', $iconOver='', $alt='', $listSelect=true ) {
-	
+
     	$alt = JText::_( $alt );
 
 		$icon 	= ( $iconOver ? $iconOver : $icon );
 		$image 	= mosAdminMenus::ImageCheckAdmin( $icon, '/images/', NULL, NULL, $alt, $task, 1 );
-		
+
 		if ($listSelect) {
 			$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('". JText::_( 'Please make a selection from the list to', true ) ." ". $alt ."');}else{hideMainMenu();submitbutton('$task')}";
 		} else {
@@ -136,7 +136,7 @@ class mosMenuBar {
 	* @since 1.0
 	*/
 	function addNew( $task='new', $alt='New' ) {
-	
+
     	$alt = JText::_( $alt );
 
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'new_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
@@ -157,7 +157,7 @@ class mosMenuBar {
 	* @since 1.0
 	*/
 	function addNewX( $task='new', $alt='New' ) {
-		
+
     	$alt = JText::_( $alt );
 
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'new_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
@@ -177,7 +177,7 @@ class mosMenuBar {
 	* @since 1.0
 	*/
 	function publish( $task='publish', $alt='Publish' ) {
-		
+
     	$alt = JText::_( $alt );
 
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'publish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
@@ -197,7 +197,7 @@ class mosMenuBar {
 	* @since 1.0
 	*/
 	function publishList( $task='publish', $alt='Publish' ) {
-		
+
     	$alt = JText::_( $alt );
 
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'publish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
@@ -257,7 +257,7 @@ class mosMenuBar {
 	* @since 1.0
 	*/
 	function unpublish( $task='unpublish', $alt='Unpublish' ) {
-	
+
     	$alt = JText::_( $alt );
 
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'unpublish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
@@ -743,9 +743,9 @@ class mosMenuBar {
 		. "\n WHERE client_id = 1"
 		. "\n AND menuid = 0"
 		;
-		$database->setQuery( $query );		
+		$database->setQuery( $query );
 		$cur_template = $database->loadResult();
-		
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'upload_f2.png', '/images/', NULL, NULL, 'Upload Image', 'uploadPic', 1 );
 		?>
 		<td>

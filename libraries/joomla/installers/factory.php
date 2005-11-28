@@ -24,14 +24,14 @@ class JInstallerFactory {
 	var $_class 	= null;		// The class
 	var $_result 	= null; 	// The last result
 	var $_type 	= null; 	// Its type e.g. component
-		
-	function &JInstallerFactory($name=null) {	
+
+	function &JInstallerFactory($name=null) {
 		if($name) {
 			return $this->createClass($name);
 		}
 		return false;
 	}
-	
+
 	function &getClass() {
 		return $this->_class;
 	}
@@ -39,7 +39,7 @@ class JInstallerFactory {
 	function getType() {
 		return $this->_type;
 	}
-	
+
 	function &createClass($name) {
 		$success = false;
 		$this->_type = $name;
@@ -86,24 +86,22 @@ class JInstallerFactory {
 	}
 
 
-	
+
 	function &webInstall($url) {
 		$processor = new mosInstaller();
 		$location = $processor->downloadPackage($url);
 		if(!$location) {
-			return $processor; 
+			return $processor;
 		}
 		mosChmod($location);
 		$processor->extractArchive();
-		$type = $this->detectType($processor->unpackDir());		
-		$this->createClass($type);	
-		//$this->_class->allowOverwrite(1);	
+		$type = $this->detectType($processor->unpackDir());
+		$this->createClass($type);
+		//$this->_class->allowOverwrite(1);
 		return $this->autoInstallGeneric('directory',$processor->unpackDir());
 	}
-	
-	function detectType( $location ) {
-		;
 
+	function detectType( $location ) {
 		$found = false;
 		// Search the install dir for an xml file
 		$files = JFolder::files( $location, '\.xml$', true, true );
@@ -118,13 +116,13 @@ class JInstallerFactory {
 					return false;
 				}
 				$root = &$xmlDoc->documentElement;
-					
+
 				if ($root->getTagName() != "mosinstall") {
 					continue;
 				}
 //				echo "<p>Looking at file $file, I consider it to be a valid installer file.</p>";
 				return $root->getAttribute( 'type' );
-				
+
 			}
 //			$this->setError( 1, JText::_( 'ERRORNOTFINDMAMBOXMLSETUPFILE' ) );
 			return false;
@@ -134,18 +132,18 @@ class JInstallerFactory {
 		}
 		return false;
 	}
-	
+
 	function &autoInstallGeneric($method=null,$data=null,$type=null) {
 		$msg = "SUCCESS";
 		if($type) {
 			$this->createClass($type);
 		}
 		$installer = $this->_class; // Class should have been set already by initializer or done manually
-		switch($method) {	
+		switch($method) {
 			case 'upload':
 				$userfile = mosGetParam( $_FILES, 'userfile', null );
 				if (!$installer->uploadArchive( $userfile )) {
-					$msg = $installer->error();					
+					$msg = $installer->error();
 				}
 				if (!$installer->extractArchive()) {
 					$msg = $installer->error();

@@ -74,7 +74,6 @@ class mosInstaller {
 	*/
 	function extractArchive() {
 		global $mosConfig_absolute_path;
-		;
 
 		$base_Dir 		= mosPathName( $mosConfig_absolute_path . '/media' );
 
@@ -133,8 +132,6 @@ class mosInstaller {
 	* @return boolean True on success, False on error
 	*/
 	function findInstallFile() {
-		;
-
 		$found = false;
 		// Search the install dir for an xml file
 		$files = mosReadDirectory( $this->installDir(), '.xml$', true, true );
@@ -180,8 +177,6 @@ class mosInstaller {
 	* @return boolean True on success, False on error
 	*/
 	function readInstallFile() {
-		;
-
 		if ($this->installFilename() == "") {
 			$this->setError( 1, JText::_( 'No filename specified' ) );
 			return false;
@@ -207,14 +202,12 @@ class mosInstaller {
 	* Abstract install method
 	*/
 	function install() {
-		;
 		die( JText::_( 'Method "install" cannot be called by class' ) .' ' . strtolower(get_class( $this )) );
 	}
 	/**
 	* Abstract uninstall method
 	*/
 	function uninstall() {
-		;
 		die( JText::_( 'Method "uninstall" cannot be called by class' ) .' ' . strtolower(get_class( $this )) );
 	}
 	/**
@@ -229,8 +222,6 @@ class mosInstaller {
 	* @return boolean
 	*/
 	function preInstallCheck( $p_fromdir, $type ) {
-		;
-
 		if (!is_null($p_fromdir)) {
 			$this->installDir($p_fromdir);
 		}
@@ -265,7 +256,6 @@ class mosInstaller {
 	*/
 	function parseFiles( $tagName='files', $special='', $specialError='', $adminFiles=0 ) {
 		global $mosConfig_absolute_path;
-		;
 
 		// Find files to copy
 		$xmlDoc =& $this->xmlDoc();
@@ -350,8 +340,6 @@ class mosInstaller {
 	* @return boolean True on success, False on error
 	*/
 	function copyFiles( $p_sourcedir, $p_destdir, $p_files, $overwrite=false ) {
-		;
-
 		if (is_array( $p_files ) && count( $p_files ) > 0) {
 			foreach($p_files as $_file) {
 				$filesource	= JPath::clean( mosPathName( $p_sourcedir ) . $_file, false );

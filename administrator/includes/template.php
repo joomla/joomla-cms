@@ -46,7 +46,7 @@ function &initModules() {
 * @param string THe template position
 */
 function mosCountAdminModules(  $position='left' ) {
-	
+
 	$tp = mosGetParam( $_GET, 'tp', 0 );
 	if ($tp) {
 		return 1;
@@ -67,7 +67,7 @@ function mosCountAdminModules(  $position='left' ) {
 function mosLoadAdminModules( $position='left', $style=0 ) {
 	global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang;
 	global $mainframe, $database, $my, $Itemid;
-	
+
 	$tp = mosGetParam( $_GET, 'tp', 0 );
 	if ($tp) {
 		echo '<div style="height:50px;background-color:#eee;margin:2px;padding:10px;border:1px solid #f00;color:#700;">';
@@ -77,7 +77,7 @@ function mosLoadAdminModules( $position='left', $style=0 ) {
 	}
 	$style = intval( $style );
 	$cache =& JFactory::getCache( 'com_content' );
-	
+
 	require_once( JPATH_ADMINISTRATOR . '/includes/template.html.php' );
 
 	$allModules =& initModules();
@@ -86,29 +86,29 @@ function mosLoadAdminModules( $position='left', $style=0 ) {
 	} else {
 		$modules = array();
 	}
-	
+
 	foreach ($modules as $module) {
-		
+
 		global $mainframe;
-		
+
 		$lang =& $mainframe->getLanguage();
 		$lang->load($module->module);
-		
+
 		$params = new mosParameters( $module->params );
-		
+
 		if(substr( $module->module, 0, 4 )  == 'mod_') {
 			ob_start();
 			mosLoadAdminModule(substr( $module->module, 4 ), $params);
 			$module->content = ob_get_contents();
 			ob_end_clean();
 		}
-			
+
 		if ($params->get('cache') == 1 && $mosConfig_caching == 1) {
 			$cache->call('modules_html::module', $module, $params, $style );
 		} else {
 			modules_html::module( $module, $params, $style );
 		}
-		
+
 	}
 }
 /**
@@ -117,7 +117,7 @@ function mosLoadAdminModules( $position='left', $style=0 ) {
 function mosLoadAdminModule( $name, $params=NULL ) {
 	global $mosConfig_live_site;
 	global $database, $acl, $my, $mainframe, $option;
-	
+
 	$lang =& $mainframe->getLanguage();
 	$lang->load('mod_'.$name);
 
@@ -125,9 +125,9 @@ function mosLoadAdminModule( $name, $params=NULL ) {
 
 	$name = str_replace( '/', '', $name );
 	$name = str_replace( '\\', '', $name );
-	
+
 	$path = JPATH_ADMINISTRATOR . '/modules/mod_' .$name. '.php';
-	
+
 	if (file_exists( $path )) {
 		require $path;
 	}
@@ -143,7 +143,7 @@ function mosShowHead_Admin() {
 
 	$template =  $mainframe->getTemplate();
 	$lang     =& $mainframe->getLanguage();
-	
+
 	$mainframe->SetPageTitle( $mosConfig_sitename .' :: '. JText::_( 'Administration' ) .'  [Joomla!]' );
 	$mainframe->appendMetaTag( 'Content-Type', 'text/html; charset=utf-8' );
 	$mainframe->appendMetaTag( 'description', $mosConfig_MetaDesc );

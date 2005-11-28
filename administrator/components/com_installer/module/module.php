@@ -39,7 +39,6 @@ showInstalledModules( $option );
 */
 function showInstalledModules( $_option ) {
 	global $database, $mosConfig_absolute_path;
-	;
 
 	$filter 		= mosGetParam( $_POST, 'filter', '' );
 	$select[] 		= mosHTML::makeOption( '', JText::_( 'All' ) );

@@ -33,7 +33,6 @@ class search_html {
 
 	function searchbox( $searchword, &$lists, $params ) {
 		global $Itemid;
-		;
 		?>
 		<form action="index.php" method="get">
 		<input type="hidden" name="option" value="com_search" />
@@ -71,7 +70,6 @@ class search_html {
 	}
 
 	function searchintro( $searchword, $params ) {
-		;
 		?>
 		<table class="searchintro<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr>
@@ -102,7 +100,6 @@ class search_html {
 	function display( &$rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword ) {
 		global $mosConfig_hideCreateDate;
 		global $mosConfig_live_site, $option, $Itemid;
-		;
 
 		$c = count ($rows);
 

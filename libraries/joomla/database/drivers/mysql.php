@@ -17,7 +17,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 /**
 * MySQL database driver
-* @package Joomla  
+* @package Joomla
 * @subpackage Database
 */
 class JDatabaseMySQL extends JDatabase {
@@ -42,7 +42,7 @@ class JDatabaseMySQL extends JDatabase {
 			return;
 		}
 		if (phpversion() < '4.2.0') {
-			if (!($this->_resource = @mysql_connect( $host, $user, $pass ))) { 
+			if (!($this->_resource = @mysql_connect( $host, $user, $pass ))) {
 				$this->_errorNum = 2;
 				return;
 			}
@@ -56,7 +56,7 @@ class JDatabaseMySQL extends JDatabase {
 			$this->_errorNum = 3;
 			return;
 		}
-		
+
 		parent::__construct($host, $user, $pass, $db, $table_prefix);
 	}
 
@@ -75,7 +75,7 @@ class JDatabaseMySQL extends JDatabase {
 		//mysql_query("SET CHARACTER SET utf8",$this->_resource);
 		mysql_query( "SET NAMES 'utf8'", $this->_resource );
 	}
-	
+
 	/**
 	* Get a database escaped string
 	* @return string
@@ -83,7 +83,7 @@ class JDatabaseMySQL extends JDatabase {
 	function getEscaped( $text ) {
 		return mysql_real_escape_string( $text );
 	}
-	
+
 	/**
 	* Execute the query
 	* @return mixed A database resource if successful, FALSE if not.
@@ -405,7 +405,7 @@ class JDatabaseMySQL extends JDatabase {
 		return $this->query();
 	}
 
-	
+
 
 	function insertid() {
 		return mysql_insert_id( $this->_resource );
@@ -457,7 +457,7 @@ class JDatabaseMySQL extends JDatabase {
 		return $result;
 	}
 
-	
+
 }
 
 

@@ -23,7 +23,6 @@ class HTML_syndicate {
 
 	function settings( $option, &$params, $id ) {
 		global $mosConfig_live_site;
-		;
 		?>
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<form action="index2.php" method="post" name="adminForm">

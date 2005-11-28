@@ -32,7 +32,6 @@ $_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosPaging' );
 */
 function botMosPaging( $published, &$row, &$params, $page=0 ) {
 	global $mainframe, $Itemid, $database;
-	;
 
  	// expression to search for
  	$regex = '/{(mospagebreak)\s*(.*?)}/i';
@@ -136,7 +135,6 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 
 function createTOC( &$row, &$matches, &$page ) {
 	global $Itemid;
-	;
 
 	$nonseflink = 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
 	$link = 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
@@ -224,7 +222,6 @@ function createTOC( &$row, &$matches, &$page ) {
 
 function createNavigation( &$row, $page, $n ) {
 	global $Itemid;
-	;
 
 	$link = 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
 

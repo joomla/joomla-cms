@@ -24,7 +24,6 @@ class HTML_newsfeed {
 
 	function displaylist( &$categories, &$rows, $catid, $currentcat=NULL, &$params, $tabclass ) {
 		global $Itemid, $mosConfig_live_site, $hide_js;
-		;
 
 		if ( $params->get( 'page_title' ) ) {
 			?>
@@ -88,7 +87,6 @@ class HTML_newsfeed {
 	*/
 	function showTable( &$params, &$rows, $catid, $tabclass ) {
 		global $mosConfig_live_site, $Itemid;
-		;
 
 		// icon in table display
 		$img = mosAdminMenus::ImageCheck( 'con_info.png', '/images/M_images/', $params->get( 'icon' ) );

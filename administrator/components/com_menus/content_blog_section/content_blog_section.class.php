@@ -27,7 +27,6 @@ class content_blog_section {
 	*/
 	function edit( $uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
-		;
 
 		$menu = new mosMenu( $database );
 		$menu->load( $uid );
@@ -96,7 +95,6 @@ class content_blog_section {
 
 	function saveMenu( $option, $task ) {
 		global $database;
-		;
 
 		$params = mosGetParam( $_POST, 'params', '' );
 		$secids	= mosGetParam( $_POST, 'secid', array() );

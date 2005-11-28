@@ -18,7 +18,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
  * @package Joomla
  */
 class JRegistryINIFormat extends JRegistryStorageFormat {
-	
+
 	function objectToString(&$data) {
 		$sdata = print_r($data);
 		return "[dummy]\noutput=$sdata";

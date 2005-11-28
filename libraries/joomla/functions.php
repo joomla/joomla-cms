@@ -2,7 +2,7 @@
 
 /**
 * @version $Id$
-* @package Joomla 
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -20,7 +20,7 @@
  * @param int An options mask: _MOS_NOTRIM prevents trim, _MOS_ALLOWHTML allows safe html, _MOS_ALLOWRAW allows raw input
  * @since 1.0
  */
- 
+
 define( "_MOS_NOTRIM"   , 0x0001 );
 define( "_MOS_ALLOWHTML", 0x0002 );
 define( "_MOS_ALLOWRAW" , 0x0004 );
@@ -248,7 +248,7 @@ function JWarning($warning, $title='Joomla! Warning') {
 
 	$title 		= JText::_( 'Joomla Warning' );
 	$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \''. $title .'\', BELOW, RIGHT);';
-	
+
 	$tip 		= '<!--'. JText::_( 'Joomla Warning' ) ."--> \n";
 	$tip 		= '<a href="#" onmouseover="'. $mouseover .'" onmouseout="return nd();">';
 	$tip 		.= '<img src="'. $mosConfig_live_site .'/includes/js/ThemeOffice/warning.png" border="0"  alt=""/></a>';
@@ -431,10 +431,10 @@ function mosCurrentDate( $format="" ) {
 */
 function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='#', $link=1 ) {
 	global $mosConfig_live_site,  $mainframe;
-	
+
 	$tooltip = addslashes(htmlspecialchars($tooltip));
 	$title   = addslashes(htmlspecialchars($title));
-	
+
 	if ( $width ) {
 		$width = ', WIDTH, \''.$width .'\'';
 	}
@@ -448,12 +448,12 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 	$style = 'style="text-decoration: none; color: #333;"';
 	if ( $href ) {
 		$style = '';
-	}else{ 
-		$href = '#'; 
+	}else{
+		$href = '#';
 	}
-	
+
 	$mousover = 'return overlib(\''. $tooltip .'\''. $title .', BELOW, RIGHT'. $width .');';
-	
+
 	$tip = '<!--'. JText::_( 'Joomla Tooltip' ) ."--> \n";
 	if ( $link ) {
 		$tip = '<a href="'. $href .'" onmouseover="'. $mousover .'" onmouseout="return nd();" '. $style .'>'. $text .'</a>';
@@ -538,7 +538,7 @@ if (!function_exists('html_entity_decode')) {
 * @return object Mail object
 */
 function mosCreateMail( $from='', $fromname='', $subject, $body ) {
-	
+
 	$mail =& JFactory::getMailer();
 
 	$mail->From 	= $from ? $from : $mail->From;
@@ -612,10 +612,10 @@ function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NUL
 */
 function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) {
 	global $mosConfig_live_site;
-    
+
     // soon $mosConfig_admin_dir
     $strAdminDir = "administrator";
-    
+
 	$subject = JText::_( 'User Submitted' ) ." '". $type ."'";
 
 	$message = sprintf ( JText::_( 'MAIL_MSG_ADMIN' ), $adminName, $type, $title, $author, $mosConfig_live_site, $mosConfig_live_site, $strAdminDir, $type);
@@ -627,7 +627,7 @@ function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
 
 /**
  * Method to process internal Joomla URLs
- * 
+ *
  * @param string $url Absolute or Relative URL to Joomla resource
  * @param int $ssl Secure state for the processed URL
  *    1: Make URL secure using global secure site URL
@@ -638,14 +638,14 @@ function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
  *    0: Leave URL in the same sef state as it was passed to the function
  * @since 1.1
  */
- 
+
 function josURL( $url, $ssl=0, $sef=1 ) {
 	global $mainframe, $mosConfig_unsecure_site, $mosConfig_secure_site;
 
 	if ( ( $sef == 1 ) && ( function_exists('sefRelToAbs' ) ) ) {
 		$url = sefRelToAbs( $url );
 	}
-	
+
 	if ( substr( $url,0,4 ) != 'http' ) {
 		$url = $mainframe->getCfg('live_site') .'/'. $url;
 	}
@@ -653,8 +653,8 @@ function josURL( $url, $ssl=0, $sef=1 ) {
 	//ensure that proper secure site url is used if ssl flag set and url doesn't already include it
 	if ($ssl == 1 && strstr($url, $mosConfig_unsecure_site)) {
 		$url = str_replace( $mosConfig_unsecure_site, $mosConfig_secure_site , $url );
-	} 
-	
+	}
+
 	if ($ssl == -1 && strstr($url, $mosConfig_secure_site)) {
 		$url = str_replace( $mosConfig_secure_site, $mosConfig_unsecure_site , $url );
 	}
@@ -676,7 +676,7 @@ function mosPrepareSearchContent( $text, $length=200, $searchword ) {
 	//$text = preg_replace( '/<a\s+.*?href="([^"]+)"[^>]*>([^<]+)<\/a>/is','\2', $text );
 	// replace line breaking tags with whitespace
 	$text = preg_replace( "'<(br[^/>]*?/|hr[^/>]*?/|/(div|h[1-6]|li|p|td))>'si", ' ', $text );
-	
+
 	return mosSmartSubstr( strip_tags( $text ), $length, $searchword );
 }
 

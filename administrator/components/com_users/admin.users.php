@@ -83,7 +83,6 @@ switch ($task) {
 
 function showUsers( $option ) {
 	global $database, $mainframe, $my, $acl, $mosConfig_list_limit;
-	;
 
 	$filter_type	= $mainframe->getUserStateFromRequest( "filter_type{$option}", 'filter_type', 0 );
 	$filter_logged	= $mainframe->getUserStateFromRequest( "filter_logged{$option}", 'filter_logged', 0 );
@@ -126,8 +125,7 @@ function showUsers( $option ) {
 		$query .= "\n INNER JOIN #__session AS s ON s.userid = a.id";
 	}
 
-	$query .= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' )
-	;
+	$query .= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
@@ -191,7 +189,6 @@ function showUsers( $option ) {
  */
 function editUser( $uid='0', $option='users' ) {
 	global $database, $my, $acl, $mainframe;
-	;
 
 	$row = new mosUser( $database );
 	// load the row from the db table
@@ -223,7 +220,7 @@ function editUser( $uid='0', $option='users' ) {
 	} else {
 		$excludeGroups = array();
 	}
-	
+
 	if ( in_array( $userGroups[0], $excludeGroups ) ) {
 		echo 'not auth';
 		mosRedirect( 'index2.php?option=com_users', JText::_('NOT_AUTH') );
@@ -490,7 +487,6 @@ function changeUserBlock( $cid=null, $block=1, $option ) {
 */
 function logoutUser( $cid=null, $option, $task ) {
 	global $database, $my;
-	;
 
 	$cids = $cid;
 	if ( is_array( $cid ) ) {
@@ -508,10 +504,10 @@ function logoutUser( $cid=null, $option, $task ) {
 
 	$msg = JText::_( 'User Sesssion ended' );
 	switch ( $task ) {
-		case 'flogout':			
+		case 'flogout':
 			mosRedirect( 'index2.php', $msg );
 			break;
-	
+
 		default:
 			mosRedirect( 'index2.php?option=com_users', $msg );
 			break;

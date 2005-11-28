@@ -25,8 +25,7 @@ class mosUserParameters extends mosParameters {
 	*/
 	function _form_editor_list( $name, $value, &$node, $control_name ) {
 		global $database, $my;
-		;
-		
+
 		if(!($my->gid >= 20) ) {
 			return JText::_('No Access');
 		}

@@ -201,7 +201,6 @@ function saveNewsFeed( $option ) {
 */
 function publishNewsFeeds( $cid, $publish, $option ) {
 	global $database, $my;
-	;
 
 	if (count( $cid ) < 1) {
 		$action = $publish ? JText::_( 'publish' ) : JText::_( 'unpublish' );
@@ -237,7 +236,6 @@ function publishNewsFeeds( $cid, $publish, $option ) {
 */
 function removeNewsFeeds( &$cid, $option ) {
 	global $database;
-	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";

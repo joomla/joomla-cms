@@ -41,7 +41,6 @@ switch ($task) {
 
 function pollAddVote( $uid ) {
 	global $database;
-	;
 
 	$redirect = 1;
 
@@ -106,7 +105,6 @@ function pollAddVote( $uid ) {
 function pollresult( $uid ) {
 	global $database, $Itemid;
 	global $mainframe;
-	;
 
 	$poll = new mosPoll( $database );
 	$poll->load( $uid );
@@ -132,7 +130,7 @@ function pollresult( $uid ) {
 			$first_vote = mosFormatDate( $dates[0]->mindate, JText::_( 'DATE_FORMAT_LC2' ) );
 			$last_vote = mosFormatDate( $dates[0]->maxdate, JText::_( 'DATE_FORMAT_LC2' ) );
 		}
-		
+
 		$query = "SELECT a.id, a.text, count( DISTINCT b.id ) AS hits, count( DISTINCT b.id )/COUNT( DISTINCT a.id )*100.0 AS percent"
 		. "\n FROM #__poll_data AS a"
 		. "\n LEFT JOIN #__poll_date AS b ON b.vote_id = a.id"
@@ -143,7 +141,7 @@ function pollresult( $uid ) {
 		;
 		$database->setQuery( $query );
 		$votes = $database->loadObjectList();
-		
+
 	}
 
 	$query = "SELECT id, title"

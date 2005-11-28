@@ -24,7 +24,6 @@ class wrapper_menu {
 
 	function edit( &$uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
-		;
 
 		$menu = new mosMenu( $database );
 		$menu->load( $uid );
@@ -70,7 +69,6 @@ class wrapper_menu {
 
 	function saveMenu( $option, $task ) {
 		global $database;
-		;
 
 		$params = mosGetParam( $_POST, 'params', '' );
 		$params[url] = mosGetParam( $_POST, 'url', '' );

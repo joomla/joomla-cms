@@ -2,7 +2,7 @@
 
 /**
 * @version $Id$
-* @package Joomla 
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -57,8 +57,6 @@ class mosModule extends JModel {
 	}
 	// overloaded check function
 	function check() {
-		;
-
 		// check for valid name
 		if (trim( $this->title ) == '') {
 			$this->_error = sprintf( JText::_( 'must contain a title' ), JText::_( 'Module') );

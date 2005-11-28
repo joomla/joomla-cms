@@ -22,14 +22,13 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 function dofreePDF () {
 	global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_offset;
 	global $mainframe, $database;
-	;
 
 	include( 'includes/class.ezpdf.php' );
 
 	$id = intval( mosGetParam( $_REQUEST, 'id', 1 ) );
 	$row = new mosContent( $database );
 	$row->load( $id );
-	
+
 	$params = new mosParameters( $row->attribs );
 	$params->def( 'author', 	!$mainframe->getCfg( 'hideAuthor' ) );
 	$params->def( 'createdate', !$mainframe->getCfg( 'hideCreateDate' ) );
@@ -107,7 +106,6 @@ function pdfCleaner( $text ) {
 
 function AuthorDateLine( &$row, &$params ) {
 	global $database;
-	;
 
 	$text = '';
 

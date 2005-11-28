@@ -80,7 +80,7 @@ jimport( 'joomla.language' );
 * @package Joomla
 */
 class JSite extends JApplication {
-	
+
 	/**
 	* Class constructor
 	* @param database A database connection object

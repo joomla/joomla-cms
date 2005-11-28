@@ -31,7 +31,7 @@ if (isset($_FILES['userfile'])) {
 	} else {
 		$base_Dir = '../../images/stories/';
 	}
-	
+
 	if (empty($userfile_name)) {
 		mosErrorAlert( JText::_( 'Please select an image to upload' ), "document.location.href='uploadimage.php'");
 	}
@@ -81,7 +81,7 @@ $css = mosGetParam($_REQUEST,"t","");
 
 <table class="adminform">
 <tr>
-	<th class="title"> 
+	<th class="title">
 		<?php echo JText::_( 'File Upload' ); ?> : <?php echo $directory; ?>
 	</th>
 </tr>

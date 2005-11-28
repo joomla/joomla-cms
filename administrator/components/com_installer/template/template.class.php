@@ -32,7 +32,7 @@ class mosInstallerTemplate extends mosInstaller {
 	*/
 	function install( $p_fromdir = null ) {
 		global $mosConfig_absolute_path,$database;
-		
+
 		if (!$this->preInstallCheck( $p_fromdir, 'template' )) {
 			return false;
 		}
@@ -87,9 +87,7 @@ class mosInstallerTemplate extends mosInstaller {
 	* @param int The client id
 	*/
 	function uninstall( $id, $option, $client=0 ) {
-
 		global $database, $mosConfig_absolute_path;
-		;
 
 		// Delete directories
 		$path = ($client == 'admin' ? JPATH_ADMINISTRATOR : $mosConfig_absolute_path )	. '/templates/' . $id;

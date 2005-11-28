@@ -130,7 +130,6 @@ function viewBanners( $option ) {
 
 function editBanner( $bannerid, $option ) {
 	global $database, $my;
-	;
 
 	$lists = array();
 
@@ -172,7 +171,6 @@ function editBanner( $bannerid, $option ) {
 
 function saveBanner( $task ) {
 	global $database;
-	;
 
 	$row = new mosBanner($database);
 
@@ -210,7 +208,6 @@ function cancelEditBanner() {
 
 function publishBanner( $cid, $publish=1 ) {
 	global $database, $my;
-	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		$action = $publish ? 'publish' : 'unpublish';

@@ -21,7 +21,6 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class HTML_messages {
 	function showMessages( &$rows, $pageNav, $search, $option ) {
-		;
 ?>
 <form action="index2.php" method="post" name="adminForm">
   <table class="adminheading">
@@ -74,8 +73,6 @@ for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 <?php }
 
 function editConfig( &$vars, $option) {
-	;
-
 	$tabs = new mosTabs(0);
 ?>
 <table class="adminheading">
@@ -124,7 +121,6 @@ $tabs->endPane();
 <?php }
 
 function viewMessage( &$row, $option ) {
-	;
 ?>
 	<table class="adminheading">
 		<tr>
@@ -163,7 +159,6 @@ function viewMessage( &$row, $option ) {
 
 function newMessage($option, $recipientslist, $subject ) {
 	global $my;
-	;
 ?>
 	<script language="javascript" type="text/javascript">
 	function submitbutton(pressbutton) {

@@ -26,7 +26,7 @@ class HTML_admin_misc {
 	*/
 	function controlPanel() {
 		global $mainframe;
-		
+
 		$path = JPATH_ADMINISTRATOR . '/templates/' . $mainframe->getTemplate() . '/cpanel.php';
 		if (file_exists( $path )) {
 			require $path;
@@ -52,11 +52,11 @@ class HTML_admin_misc {
 	}
 
 	function system_info( ) {
-		global $mosConfig_absolute_path, $database, $_VERSION;
-		
+		global $database, $_VERSION;
+
 		$width = 400;	// width of 100%
 		$tabs = new mosTabs(0);
-		
+
 		$title = JText::_( 'System Info' );
 		$tabs->startPane("sysinfo");
 		$tabs->startTab( $title, "system-page" );
@@ -257,7 +257,7 @@ class HTML_admin_misc {
 				</td>
 				<td>
 				<?php
-				$cf = file( $mosConfig_absolute_path . '/configuration.php' );
+				$cf = file( JPATH_CONFIG . '/configuration.php' );
 				foreach ($cf as $k=>$v) {
 					if (eregi( 'mosConfig_host', $v)) {
 						$cf[$k] = '$mosConfig_host = \'xxxxxx\'';
@@ -532,14 +532,13 @@ class HTML_admin_misc {
  * @param string A specific keyword on which to filter the resulting list
  */
 function getHelpTOC( $helpsearch ) {
-	global $mosConfig_absolute_path;
 	$helpurl = mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
 
-	$files = mosReadDirectory( $mosConfig_absolute_path . '/help/', '\.xml$|\.html$' );
+	$files = mosReadDirectory( JPATH_SITE . '/help/', '\.xml$|\.html$' );
 
 	$toc = array();
 	foreach ($files as $file) {
-		$buffer = file_get_contents( $mosConfig_absolute_path . '/help/' . $file );
+		$buffer = file_get_contents( JPATH_SITE . '/help/' . $file );
 		if (preg_match( '#<title>(.*?)</title>#', $buffer, $m )) {
 			$title = trim( $m[1] );
 			if ($title) {

@@ -2,7 +2,7 @@
 
 /**
 * @version $Id$
-* @package Joomla 
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -21,7 +21,7 @@
  * @abstract
  * @since 1.1
  */
- 
+
 class JObject
 {
 	/**
@@ -48,8 +48,8 @@ class JObject
 	 * Class destructor, overridden in descendant classes.
 	 */
 	function __destruct() {}
-	
-	
+
+
 	/**
 	* @param string The name of the property
 	* @param mixed The value of the property to set
@@ -66,7 +66,7 @@ class JObject
 	function get($property, $default=null) {
 		if(isset($this->$property)) {
 			return $this->$property;
-		} 
+		}
 		return $default;
 	}
 

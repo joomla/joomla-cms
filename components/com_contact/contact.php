@@ -53,7 +53,6 @@ function listContacts( $option, $catid ) {
 	global $mainframe, $database, $my;
 	global $mosConfig_live_site;
 	global $Itemid;
-	;
 
 	/* Query to retrieve all categories that belong under the contacts section and that are published. */
 	$query = "SELECT *, COUNT( a.id ) AS numlinks"
@@ -179,7 +178,6 @@ function listContacts( $option, $catid ) {
 
 function contactpage( $contact_id ) {
 	global $mainframe, $database, $my, $Itemid;
-	;
 
 	$query = "SELECT a.id AS value, CONCAT_WS( ' - ', a.name, a.con_position ) AS text, a.catid"
 	. "\n FROM #__contact_details AS a"
@@ -213,13 +211,13 @@ function contactpage( $contact_id ) {
 			return;
 		}
 		$contact = $contacts[0];
-		
+
 		$list = array();
 		foreach ( $checks as $check ) {
 			if ( $check->catid == $contact->catid ) {
 				$list[] = $check;
 			}
-		}		
+		}
 		// creates dropdown select list
 		$contact->select = mosHTML::selectList( $list, 'contact_id', 'class="inputbox" onchange="ViewCrossReference(this);"', 'value', 'text', $contact_id );
 
@@ -342,7 +340,6 @@ function contactpage( $contact_id ) {
 function sendmail( $con_id, $option ) {
 	global $database, $Itemid;
 	global $mosConfig_sitename, $mosConfig_live_site, $mosConfig_mailfrom, $mosConfig_fromname;
-	;
 
 	$query = "SELECT *"
 	. "\n FROM #__contact_details"
@@ -445,7 +442,7 @@ function vCard( $id ) {
 	header( 'Content-Disposition: attachment; filename='. $filename );
 	header( 'Content-Length: '. strlen( $output ) );
 	header( 'Connection: close' );
-	header( 'Content-Type: text/x-vCard; name='. $filename );	
+	header( 'Content-Type: text/x-vCard; name='. $filename );
 	header( 'Cache-Control: store, cache' );
 	header( 'Pragma: cache' );
 

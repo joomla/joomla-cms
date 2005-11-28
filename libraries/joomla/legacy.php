@@ -135,7 +135,7 @@ function mosIsChmodable( $file ) {
 * @deprecated As of version 1.1
 */
 function mosShowSource( $filename, $withLineNums=false ) {
-    
+
 	ini_set('highlight.html', '000000');
 	ini_set('highlight.default', '#800000');
 	ini_set('highlight.keyword','#0000ff');
@@ -186,7 +186,7 @@ class mosMainFrame extends JApplication {
 	function __construct( &$db, $option, $basePath=null, $client=0 ) {
 		parent::__construct( $db, $client );
 	}
-	
+
 	/**
 	 * Class constructor
 	 * @param database A database connection object
@@ -196,7 +196,7 @@ class mosMainFrame extends JApplication {
 	function mosMainFrame( &$db, $option, $basePath=null, $client=0 ) {
 		parent::__construct( $db, $client );
 	}
-	
+
 	/**
 	 * Initialises the user session
 	 *
@@ -226,7 +226,7 @@ class mosDBTable extends JModel {
 	function __construct($table, $key, &$db) {
 		parent::__construct( $table, $key, $db );
 	}
-	
+
 	function mosDBTable($table, $key, &$db) {
 		parent::__construct( $table, $key, $db );
 	}

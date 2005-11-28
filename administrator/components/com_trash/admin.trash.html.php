@@ -217,7 +217,6 @@ class HTML_trash {
 	* Writes list of the items that have been selected for deletion
 	*/
 	function showDelete( $option, $cid, $items, $type ) {
-		;
 	?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
@@ -283,7 +282,6 @@ class HTML_trash {
 	* Writes list of the items that have been selected for restore
 	*/
 	function showRestore( $option, $cid, $items, $type ) {
-		;
 	?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">

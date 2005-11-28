@@ -84,7 +84,6 @@ switch ( $task ) {
 function viewMambots( $option, $client ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 	global $mosConfig_absolute_path;
-	;
 
 	$limit 			= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
 	$limitstart 	= $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
@@ -155,7 +154,6 @@ function viewMambots( $option, $client ) {
 */
 function saveMambot( $option, $client, $task ) {
 	global $database;
-	;
 
 	$params = mosGetParam( $_POST, 'params', '' );
 	if (is_array( $params )) {
@@ -209,7 +207,6 @@ function saveMambot( $option, $client, $task ) {
 function editMambot( $option, $uid, $client ) {
 	global $database, $my, $mainframe;
 	global $mosConfig_absolute_path;
-	;
 
 	$lists 	= array();
 	$row 	= new mosMambot($database);
@@ -303,7 +300,6 @@ function editMambot( $option, $uid, $client ) {
 */
 function removeMambot( &$cid, $option, $client ) {
 	global $database, $my;
-	;
 
 	if (count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select a module to delete', true ) ."'); window.history.go(-1);</script>\n";
@@ -320,7 +316,6 @@ function removeMambot( &$cid, $option, $client ) {
 */
 function publishMambot( $cid=null, $publish=1, $option, $client ) {
 	global $database, $my;
-	;
 
 	if (count( $cid ) < 1) {
 		$action = $publish ? JText::_( 'publish' ) : JText::_( 'unpublish' );
@@ -419,7 +414,6 @@ function accessMenu( $uid, $access, $option, $client ) {
 
 function saveOrder( &$cid ) {
 	global $database;
-	;
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );

@@ -137,7 +137,6 @@ function showWeblinks( $option ) {
 */
 function editWeblink( $option, $id ) {
 	global $database, $my, $mosConfig_absolute_path, $mosConfig_live_site;
-	;
 
 	$lists = array();
 
@@ -224,7 +223,6 @@ function saveWeblink( $option ) {
 */
 function removeWeblinks( $cid, $option ) {
 	global $database;
-	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete' ) ."'); window.history.go(-1);</script>\n";
@@ -252,7 +250,6 @@ function removeWeblinks( $cid, $option ) {
 */
 function publishWeblinks( $cid=null, $publish=1,  $option ) {
 	global $database, $my;
-	;
 
 	$catid = mosGetParam( $_POST, 'catid', array(0) );
 

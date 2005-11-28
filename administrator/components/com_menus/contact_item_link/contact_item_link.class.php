@@ -24,7 +24,6 @@ class contact_item_link_menu {
 
 	function edit( &$uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
-		;
 
 		$menu = new mosMenu( $database );
 		$menu->load( $uid );

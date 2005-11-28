@@ -15,20 +15,20 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 <b>** Joomla! 1.1.0 Alpha Release [26-10-2005] **</b>
 
-Alpha or beta versions are versions for testing purposes or internal use only. 
+Alpha or beta versions are versions for testing purposes or internal use only.
 They are not meant to be used in for general or practical deployment.
 
 <hr/>
 
 <span class="todotitle">BROKEN</span>
 
-To be able to handle all languages correctly we are moving towards UTF-8. It's clear that 
-this transistion will go with a few roadbumps. We predict problems with upgrading from an 
+To be able to handle all languages correctly we are moving towards UTF-8. It's clear that
+this transistion will go with a few roadbumps. We predict problems with upgrading from an
 existing db, and the use of some string related PHP functions. We are aware of these issues.
 
-The reason for the alpha is to get them identified. U can help us by clearly stating problems 
-u are experiencing. For now we advice u to stay away from upgrading an existing site. 
-Upgrading problems will be handled after we identified and fixed any problems with translations 
+The reason for the alpha is to get them identified. U can help us by clearly stating problems
+u are experiencing. For now we advice u to stay away from upgrading an existing site.
+Upgrading problems will be handled after we identified and fixed any problems with translations
 and new installs.
 
 <span class="todotitle">REPORTING</span>
@@ -48,17 +48,17 @@ Tracker : <a target="_new" href="http://developer.joomla.org/sf/tracker/do/listA
 	* Backend Translated
 	* RTL language compilance
 	* UTF-8 output
-	
+
 - Systembots
 	* SSL + new josURL function
 	* SEF
 
-- Userbots 
+- Userbots
 
-- Other 
+- Other
 	* Changed CSS editor, can edit all css files now
 	* Added statistics reset functions
-	
+
 - Depreceated files
 	* /pathway.php
 	* /mainbody.php
@@ -74,7 +74,7 @@ Tracker : <a target="_new" href="http://developer.joomla.org/sf/tracker/do/listA
 - Languages
 	* Language manager and installer
 	* Installation translation
-	
+
 - Other
 	* XML-RPC server
 	* LDAP library class

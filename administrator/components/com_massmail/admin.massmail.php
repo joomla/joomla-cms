@@ -38,7 +38,6 @@ switch ($task) {
 
 function messageForm( $option ) {
 	global $acl;
-	;
 
 	$gtree = array(
 	mosHTML::makeOption( 0, '- '. JText::_( 'All User Groups' ) .' -' )
@@ -56,7 +55,6 @@ function sendMail() {
 	global $database, $my, $acl;
 	global $mosConfig_sitename;
 	global $mosConfig_mailfrom, $mosConfig_fromname;
-	;
 
 	$mode				= mosGetParam( $_POST, 'mm_mode', 0 );
 	$subject			= mosGetParam( $_POST, 'mm_subject', '' );

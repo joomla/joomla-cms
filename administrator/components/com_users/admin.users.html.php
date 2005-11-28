@@ -141,7 +141,7 @@ class HTML_users {
 	function edituser( &$row, &$contact, &$lists, $option, $uid, &$params ) {
 		global $my, $acl;
 		global $mosConfig_live_site;
-		
+
 		$tabs = new mosTabs( 0 );
 
 		mosCommonHTML::loadOverlib();

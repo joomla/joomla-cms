@@ -15,7 +15,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-class JLoader 
+class JLoader
 {
     /**
     * Loads a class from specified directories.
@@ -26,29 +26,29 @@ class JLoader
     * @since 1.1
     */
    function import( $filePath ) {
-		global  $mosConfig_absolute_path; //for backwards compilance 
-	   
+		global  $mosConfig_absolute_path; //for backwards compilance
+
 		$parts = explode( '.', $filePath );
-		
+
 		$base =  dirname( __FILE__ );
-		
-		if(array_pop( $parts ) == '*') 
+
+		if(array_pop( $parts ) == '*')
 		{
 			$path = $base . DIRECTORY_SEPARATOR . implode( DIRECTORY_SEPARATOR, $parts );
-		
+
 			if (!is_dir( $path )) {
 				return; //TODO : throw error
 			}
-			
+
 			$dir = dir( $path );
 			while ($file = $dir->read()) {
-				if (ereg( '\.php$', $file )) {	
+				if (ereg( '\.php$', $file )) {
 					include_once $path . DIRECTORY_SEPARATOR . $file;
 				}
 			}
 			$dir->close();
 		} else {
-			$path = str_replace( '.', DIRECTORY_SEPARATOR, $filePath ); 
+			$path = str_replace( '.', DIRECTORY_SEPARATOR, $filePath );
 			$found = false;
 			foreach (array( '.php', '.class.php', '.lib.php' ) as $suffix) {
 				if (file_exists( $base . DIRECTORY_SEPARATOR . $path . $suffix )) {
@@ -56,14 +56,14 @@ class JLoader
 					break;
 				}
 			}
-			
+
 			if ($found) {
 				include_once $base . DIRECTORY_SEPARATOR . $path . $suffix;
 			} else {
 				return;  //TODO : throw error
 			}
 		}
-	
+
 		return;
 	}
 

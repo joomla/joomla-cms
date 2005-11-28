@@ -114,7 +114,7 @@ if ((mosCountModules( 'user1' )) && (mosCountModules( 'user2' ))) {
 		?>
 		<div class="clr"></div>
 	</div>
-   
+
 	<div id="footer-800" >
 		<div align="center">
 			<?php mosLoadModules( 'footer', -1);?>

@@ -27,7 +27,6 @@ function viewSearch() {
 	global $mainframe, $mosConfig_absolute_path, $mosConfig_lang, $my;
 	global $Itemid, $database, $_MAMBOTS;
 	global $mosConfig_list_limit;
-	;
 
 	$restriction = 0;
 

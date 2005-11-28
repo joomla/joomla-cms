@@ -24,7 +24,7 @@ class TOOLBAR_menumanager {
 	* Draws the menu for the Menu Manager
 	*/
 	function _DEFAULT() {
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Menu Manager' ), 'menu.png' );
 		mosMenuBar::customX( 'copyconfirm', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), true );
@@ -52,7 +52,7 @@ class TOOLBAR_menumanager {
 	* Draws the menu to create a New menu
 	*/
 	function _NEWMENU()	{
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Menu Details' ), 'menu.png' );
 		mosMenuBar::custom( 'savemenu', 'save.png', 'save_f2.png', JText::_( 'Save' ), false );
@@ -67,7 +67,7 @@ class TOOLBAR_menumanager {
 	* Draws the menu to create a New menu
 	*/
 	function _COPYMENU()	{
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title(  JText::_( 'Copy Menu Items' ) );
 		mosMenuBar::custom( 'copymenu', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), false );

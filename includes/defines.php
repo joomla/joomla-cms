@@ -16,17 +16,21 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 //Global definitions
-DEFINE('DS', DIRECTORY_SEPARATOR);
+define( 'DS', DIRECTORY_SEPARATOR );
 
 //Joomla framework paht definitions
 $path = str_replace( '\\', '/', JPATH_BASE );
 $parts = explode( '/', $path );
 
 //Defines
-DEFINE('JPATH_ROOT'         , implode( '/', $parts ) );
+define( 'JPATH_ROOT'         , implode( '/', $parts ) );
 
-DEFINE('JPATH_SITE'         , JPATH_ROOT );
-DEFINE('JPATH_ADMINISTRATOR', JPATH_ROOT . DS . 'administrator' );
-DEFINE('JPATH_LIBRARIES'    , JPATH_ROOT . DS . 'libraries');
-DEFINE('JPATH_INSTALLATION' , JPATH_ROOT . DS . 'installation');
+define( 'JPATH_SITE'         , JPATH_ROOT );
+define( 'JPATH_ADMINISTRATOR', JPATH_ROOT . DS . 'administrator' );
+define( 'JPATH_LIBRARIES'    , JPATH_ROOT . DS . 'libraries' );
+define( 'JPATH_INSTALLATION' , JPATH_ROOT . DS . 'installation' );
+
+if (!defined( 'JPATH_CONFIG' )) {
+	define( 'JPATH_CONFIG' , JPATH_ROOT );
+}
 ?>

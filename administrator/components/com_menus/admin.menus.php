@@ -142,7 +142,6 @@ switch ($task) {
 */
 function viewMenuItems( $menutype, $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
-	;
 
 	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
 	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart$menutype", 'limitstart', 0 );
@@ -416,7 +415,6 @@ function saveMenu( $option, $task='save' ) {
 */
 function publishMenuSection( $cid=null, $publish=1 ) {
 	global $database;
-	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		return JText::_( 'Select an item to' ) . ($publish ? JText::_( 'publish' ) : JText::_( 'unpublish' ) );
@@ -450,7 +448,6 @@ function publishMenuSection( $cid=null, $publish=1 ) {
 */
 function TrashMenuSection( $cid=NULL ) {
 	global $database;
-	;
 
 	$state = "-2";
 	//seperate contentids
@@ -536,7 +533,6 @@ function accessMenu( $uid, $access, $option, $menutype ) {
 */
 function moveMenu( $option, $cid, $menutype ) {
 	global $database;
-	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to move', true ) ."'); window.history.go(-1);</script>\n";
@@ -606,7 +602,6 @@ function addDescendants($id, &$cid) {
 */
 function moveMenuSave( $option, $cid, $menu, $menutype ) {
 	global $database, $my;
-	;
 
 	// add all decendants to the list
 	foreach ($cid as $id) addDescendants($id, $cid);
@@ -652,7 +647,6 @@ function moveMenuSave( $option, $cid, $menu, $menutype ) {
 */
 function copyMenu( $option, $cid, $menutype ) {
 	global $database;
-	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to move', true ) ."'); window.history.go(-1);</script>\n";
@@ -684,7 +678,6 @@ function copyMenu( $option, $cid, $menutype ) {
 */
 function copyMenuSave( $option, $cid, $menu, $menutype ) {
 	global $database;
-	;
 
 	$curr = new mosMenu( $database );
 	$cidref = array();
@@ -759,7 +752,6 @@ function ReadMenuXML( $type, $component=-1 ) {
 
 function saveOrder( &$cid, $menutype ) {
 	global $database;
-	;
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );

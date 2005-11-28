@@ -28,7 +28,6 @@ class newsfeed_category_table_menu {
 	function editCategory( $uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
 		global $mosConfig_absolute_path;
-		;
 
 		$menu = new mosMenu( $database );
 		$menu->load( $uid );

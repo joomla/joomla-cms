@@ -131,7 +131,6 @@ switch ($task) {
 */
 function viewContent( $sectionid, $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
-	;
 
 	$catid 				= $mainframe->getUserStateFromRequest( "catid{$option}{$sectionid}", 'catid', 0 );
 	$filter_authorid 	= $mainframe->getUserStateFromRequest( "filter_authorid{$option}{$sectionid}", 'filter_authorid', 0 );
@@ -255,7 +254,6 @@ function viewContent( $sectionid, $option ) {
 */
 function viewArchive( $sectionid, $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
-	;
 
 	$catid 				= $mainframe->getUserStateFromRequest( "catidarc{$option}{$sectionid}", 'catid', 0 );
 	$limit 				= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
@@ -368,7 +366,6 @@ function viewArchive( $sectionid, $option ) {
 function editContent( $uid=0, $sectionid=0, $option ) {
 	global $database, $my, $mainframe;
 	global $mosConfig_absolute_path, $mosConfig_live_site, $mosConfig_offset;
-	;
 
 	$redirect = mosGetParam( $_POST, 'redirect', '' );
 	if ( !$redirect ) {
@@ -587,7 +584,6 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 */
 function saveContent( $sectionid, $task ) {
 	global $database, $my, $mainframe, $mosConfig_offset;
-	;
 
 	$menu 		= mosGetParam( $_POST, 'menu', 'mainmenu' );
 	$menuid		= mosGetParam( $_POST, 'menuid', 0 );
@@ -726,7 +722,6 @@ function saveContent( $sectionid, $task ) {
 */
 function changeContent( $cid=null, $state=0, $option ) {
 	global $database, $my;
-	;
 
 	if (count( $cid ) < 1) {
 		$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
@@ -761,15 +756,15 @@ function changeContent( $cid=null, $state=0, $option ) {
 	}
 
 	switch ( $state ) {
-		case -1:				
+		case -1:
         	$msg = sprintf( JText::_( 'Item(s) successfully Archived' ), $total );
 			break;
-		
-		case 1:				
+
+		case 1:
         	$msg = sprintf( JText::_( 'Item(s) successfully Published' ), $total );
 			break;
-		
-		case 0:				
+
+		case 0:
 		default:
 			if ( $task == 'unarchive' ) {
             	$msg = sprintf( JText::_( 'Item(s) successfully Unarchived' ), $total );
@@ -778,7 +773,7 @@ function changeContent( $cid=null, $state=0, $option ) {
 			}
 			break;
 	}
-	
+
 	$redirect 	= mosGetParam( $_POST, 'redirect', $row->sectionid );
 	$rtask 		= mosGetParam( $_POST, 'returntask', '' );
 	if ( $rtask ) {
@@ -786,7 +781,7 @@ function changeContent( $cid=null, $state=0, $option ) {
 	} else {
 		$rtask = '';
 	}
-	
+
 	mosRedirect( 'index2.php?option='. $option . $rtask .'&sectionid='. $redirect .'&mosmsg='. $msg );
 }
 
@@ -800,7 +795,6 @@ function changeContent( $cid=null, $state=0, $option ) {
 */
 function toggleFrontPage( $cid, $section, $option ) {
 	global $database, $mainframe;
-	;
 
 	if (count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to toggle' ) ."'); window.history.go(-1);</script>\n";
@@ -838,7 +832,6 @@ function toggleFrontPage( $cid, $section, $option ) {
 
 function removeContent( &$cid, $sectionid, $option ) {
 	global $database;
-	;
 
 	$total = count( $cid );
 	if ( $total < 1) {
@@ -900,7 +893,6 @@ function orderContent( $uid, $inc, $option ) {
 */
 function moveSection( $cid, $sectionid, $option ) {
 	global $database;
-	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to move', true ) ."'); window.history.go(-1);</script>\n";
@@ -937,7 +929,6 @@ function moveSection( $cid, $sectionid, $option ) {
 */
 function moveSectionSave( &$cid, $sectionid, $option ) {
 	global $database, $my;
-	;
 
 	$sectcat = mosGetParam( $_POST, 'sectcat', '' );
 	list( $newsect, $newcat ) = explode( ',', $sectcat );
@@ -1002,7 +993,6 @@ function moveSectionSave( &$cid, $sectionid, $option ) {
 **/
 function copyItem( $cid, $sectionid, $option ) {
 	global $database;
-	;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to move', true ) ."'); window.history.go(-1);</script>\n";
@@ -1041,7 +1031,6 @@ function copyItem( $cid, $sectionid, $option ) {
 **/
 function copyItemSave( $cid, $sectionid, $option ) {
 	global $database;
-	;
 
 	$sectcat = mosGetParam( $_POST, 'sectcat', '' );
 	//seperate sections and categories from selection
@@ -1130,7 +1119,6 @@ function copyItemSave( $cid, $sectionid, $option ) {
 */
 function resethits( $redirect, $id ) {
 	global $database;
-	;
 
 	$row = new mosContent($database);
 	$row->Load($id);
@@ -1149,7 +1137,6 @@ function resethits( $redirect, $id ) {
 */
 function accessMenu( $uid, $access, $option ) {
 	global $database;
-	;
 
 	$row = new mosContent( $database );
 	$row->load( $uid );
@@ -1169,7 +1156,6 @@ function accessMenu( $uid, $access, $option ) {
 
 function filterCategory( $query, $active=NULL ) {
 	global $database;
-	;
 
 	$categories[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Category' ) .' -' );
 	$database->setQuery( $query );
@@ -1182,7 +1168,6 @@ function filterCategory( $query, $active=NULL ) {
 
 function menuLink( $redirect, $id ) {
 	global $database;
-	;
 
 	$menu = mosGetParam( $_POST, 'menuselect', '' );
 	$link = mosGetParam( $_POST, 'link_name', '' );
@@ -1226,7 +1211,6 @@ function go2menuitem() {
 
 function saveOrder( &$cid ) {
 	global $database;
-	;
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );

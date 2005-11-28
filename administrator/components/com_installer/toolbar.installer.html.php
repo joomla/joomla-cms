@@ -25,7 +25,7 @@ class TOOLBAR_installer
 	}
 
 	function _DEFAULT2()	{
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::deleteList( '', 'remove', JText::_( 'Uninstall' ) );
 		mosMenuBar::spacer();

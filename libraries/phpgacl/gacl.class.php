@@ -132,7 +132,7 @@ class gacl {
 		} else {
 			require_once( ADODB_DIR .'/adodb.inc.php');
 			require_once( ADODB_DIR .'/adodb-pager.inc.php');
-	
+
 			$this->db = ADONewConnection($this->_db_type);
 			$this->db->SetFetchMode(ADODB_FETCH_NUM);
 			$this->db->PConnect($this->_db_host, $this->_db_user, $this->_db_password, $this->_db_name);
@@ -157,7 +157,7 @@ class gacl {
 				'writeControl' => FALSE,
 				'readControl' => FALSE,
 				'memoryCaching' => TRUE,
-				'automaticSerialization' => FALSE				
+				'automaticSerialization' => FALSE
 			);
 			$this->Cache_Lite = new Hashed_Cache_Lite($cache_options);
 		}
@@ -284,7 +284,7 @@ class gacl {
 	* @return array Returns as much information as possible about the ACL so other functions can trim it down and omit unwanted data.
 	*/
 	function acl_query($aco_section_value, $aco_value, $aro_section_value, $aro_value, $axo_section_value=NULL, $axo_value=NULL, $root_aro_group=NULL, $root_axo_group=NULL, $debug=NULL) {
-				
+
 		$cache_id = 'acl_query_'.$aco_section_value.'-'.$aco_value.'-'.$aro_section_value.'-'.$aro_value.'-'.$axo_section_value.'-'.$axo_value.'-'.$root_aro_group.'-'.$root_axo_group.'-'.$debug;
 
 		$retarr = $this->get_cache($cache_id);

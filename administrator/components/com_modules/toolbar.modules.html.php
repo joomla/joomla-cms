@@ -39,7 +39,7 @@ class TOOLBAR_modules {
 	*/
 	function _EDIT( $cur_template, $publish ) {
 		global $id;
-		
+
 		mosMenuBar::startTable();
 		?>
 			<td>
@@ -64,7 +64,7 @@ class TOOLBAR_modules {
 		mosMenuBar::endTable();
 	}
 	function _DEFAULT() {
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();

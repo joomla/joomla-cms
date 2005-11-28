@@ -21,7 +21,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class TOOLBAR_config {
 	function _DEFAULT() {
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Global Configuration' ), 'config.png' );
 		mosMenuBar::save();

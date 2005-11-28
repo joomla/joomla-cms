@@ -60,8 +60,6 @@ class mosPageNav {
 	* Writes the html for the pages counter, eg, Results 1-10 of x
 	*/
 	function writePagesCounter() {
-		;
-
 		$txt = '';
 		$from_result = $this->limitstart+1;
 		if ($this->limitstart + $this->limit < $this->total) {
@@ -79,8 +77,6 @@ class mosPageNav {
 	* Writes the html for the leafs counter, eg, Page 1 of x
 	*/
 	function writeLeafsCounter() {
-		;
-
 		$txt = '';
 		$page = $this->limitstart+1;
 		if ($this->total > 0) {
@@ -94,8 +90,6 @@ class mosPageNav {
 	* @param string The basic link to include in the href
 	*/
 	function writePagesLinks( $link ) {
-		;
-
 		$txt = '';
 
 		$displayed_pages = 10;

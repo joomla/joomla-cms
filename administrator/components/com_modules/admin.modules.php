@@ -93,7 +93,6 @@ switch ( $task ) {
 */
 function viewModules( $option, $client ) {
 	global $database, $my, $mainframe, $mosConfig_list_limit, $mosConfig_absolute_path;
-	;
 
 	$filter_position 	= $mainframe->getUserStateFromRequest( "filter_position{$option}{$client}", 'filter_position', 0 );
 	$filter_type	 	= $mainframe->getUserStateFromRequest( "filter_type{$option}{$client}", 'filter_type', 0 );
@@ -184,7 +183,6 @@ function viewModules( $option, $client ) {
 */
 function copyModule( $option, $uid, $client ) {
 	global $database, $my;
-	;
 
 	$row = new mosModule( $database );
 	// load the row from the db table
@@ -234,7 +232,6 @@ function copyModule( $option, $uid, $client ) {
 */
 function saveModule( $option, $client, $task ) {
 	global $database;
-	;
 
 	$params = mosGetParam( $_POST, 'params', '' );
 	if (is_array( $params )) {
@@ -307,7 +304,6 @@ function saveModule( $option, $client, $task ) {
 */
 function editModule( $option, $uid, $client ) {
 	global $database, $my, $mainframe, $mosConfig_absolute_path;
-	;
 
 	$lists 	= array();
 	$row 	= new mosModule( $database );
@@ -318,7 +314,7 @@ function editModule( $option, $uid, $client ) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
 		mosErrorAlert( $msg, "document.location.href='index2.php?option=$option" );
 	}
-	
+
 	$row->content = htmlspecialchars( str_replace( '&amp;', '&', $row->content ) );
 
 	if ( $uid ) {
@@ -446,7 +442,6 @@ function editModule( $option, $uid, $client ) {
 */
 function removeModule( &$cid, $option, $client ) {
 	global $database;
-	;
 
 	if (count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select a module to delete', true ) ."'); window.history.go(-1);</script>\n";
@@ -520,7 +515,6 @@ function removeModule( &$cid, $option, $client ) {
 */
 function publishModule( $cid=null, $publish=1, $option, $client ) {
 	global $database, $my;
-	;
 
 	if (count( $cid ) < 1) {
 		$action = $publish ? 'publish' : 'unpublish';
@@ -628,7 +622,6 @@ function accessMenu( $uid, $access, $option, $client ) {
 
 function saveOrder( &$cid, $client ) {
 	global $database;
-	;
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );

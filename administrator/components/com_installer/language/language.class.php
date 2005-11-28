@@ -57,7 +57,6 @@ class mosInstallerLanguage extends mosInstaller {
 	*/
 	function uninstall( $id, $option, $client=0 ) {
 		global $mosConfig_absolute_path;
-		;
 
 		$id = str_replace( array( '\\', '/' ), '', $id );
 

@@ -27,7 +27,6 @@ class HTML_modules {
 	*/
 	function showMambots( &$rows, $client, &$pageNav, $option, &$lists, $search ) {
 		global $my;
-    	;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -167,7 +166,6 @@ class HTML_modules {
 	*/
 	function editMambot( &$row, &$lists, &$params, $option ) {
 		global $mosConfig_live_site;
-    	;
 
 		$row->nameA = '';
 		if ( $row->id ) {

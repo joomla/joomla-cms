@@ -26,7 +26,7 @@ class mosFullAdminMenu {
 	function show( $usertype='' ) {
 		global $acl, $database, $mainframe;
 		global $mosConfig_live_site, $mosConfig_enable_stats, $mosConfig_caching;
-		
+
 		$lang =& $mainframe->getLanguage();
 
 		// cache some acl checks
@@ -76,7 +76,7 @@ class mosFullAdminMenu {
 <?php
 			if ($canConfig) {
 ?>				['<img src="../includes/js/ThemeOffice/config.png" />','<?php echo JText::_( 'Global Configuration', true ); ?>','index2.php?option=com_config&hidemainmenu=1',null,'<?php echo JText::_( 'Configuration', true ); ?>'],
-<?php			
+<?php
 			}
 			if ($manageLanguages) {
 ?>				['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Language Manager', true ); ?>',null,null,'<?php echo JText::_( 'Manage languages', true ); ?>',
@@ -314,7 +314,7 @@ class mosFullAdminMenu {
 	*/
 	function showDisabled( $usertype='' ) {
 		global $acl, $mainframe;
-		
+
 		$lang =& $mainframe->getLanguage();
 
 		$canConfig 			= $acl->acl_check( 'com_config', 'manage', 'users', $usertype );

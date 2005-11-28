@@ -21,7 +21,6 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class HTML_registration {
 	function lostPassForm($option) {
-		;
 		?>
 		<form action="index.php" method="post">
 
@@ -63,7 +62,6 @@ class HTML_registration {
 	}
 
 	function registerForm($option, $useractivation) {
-		;
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton() {

@@ -23,9 +23,9 @@ class TOOLBAR_categories {
 	*/
 	function _EDIT() {
 		global $id;
-	
+
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Category' ) .': '. $text, 'categories.png' );
 		mosMenuBar::media_manager();
@@ -49,7 +49,7 @@ class TOOLBAR_categories {
 	* @param int The published state (to display the inverse button)
 	*/
 	function _MOVE() {
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Move Category' ) );
 		mosMenuBar::save( 'movesave' );
@@ -62,7 +62,7 @@ class TOOLBAR_categories {
 	* @param int The published state (to display the inverse button)
 	*/
 	function _COPY() {
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'Copy Category' ) );
 		mosMenuBar::save( 'copysave' );

@@ -49,12 +49,12 @@ if (!defined( '_JOS_POLL_MODULE' )) {
 				. "\n AND text <> ''"
 				. "\n ORDER BY id";
 				$database->setQuery($query);
-				
+
 				if(!($options = $database->loadObjectList())) {
 					echo "MD ".$database->stderr(true);
 					return;
 				}
-				
+
 				poll_vote_form_html( $poll, $options, $Itemid, $moduleclass_sfx );
 			}
 		}
@@ -66,13 +66,11 @@ if (!defined( '_JOS_POLL_MODULE' )) {
 	 * @param int The current menu item
 	 */
 	function poll_vote_form_html( &$poll, &$options, $Itemid, $moduleclass_sfx ) {
-		;
-		
 		$tabclass_arr = array( 'sectiontableentry2', 'sectiontableentry1' );
 		$tabcnt = 0;
 		?>
 		<form name="form2" method="post" action="<?php echo sefRelToAbs("index.php?option=com_poll&amp;Itemid=$Itemid"); ?>">
-		
+
 		<table width="95%" border="0" cellspacing="0" cellpadding="1" align="center" class="poll<?php echo $moduleclass_sfx; ?>">
 		<tr>
 			<td>

@@ -656,7 +656,6 @@ function orderCategory( $uid, $inc ) {
 */
 function moveCategorySelect( $option, $cid, $sectionOld ) {
 	global $database;
-	;
 
 	$redirect = mosGetParam( $_POST, 'section', 'content' );;
 
@@ -704,7 +703,6 @@ function moveCategorySelect( $option, $cid, $sectionOld ) {
 */
 function moveCategorySave( $cid, $sectionOld ) {
 	global $database;
-	;
 
 	$sectionMove = mosGetParam( $_REQUEST, 'sectionmove', '' );
 
@@ -741,7 +739,6 @@ function moveCategorySave( $cid, $sectionOld ) {
 */
 function copyCategorySelect( $option, $cid, $sectionOld ) {
 	global $database;
-	;
 
 	$redirect = mosGetParam( $_POST, 'section', 'content' );;
 
@@ -789,7 +786,6 @@ function copyCategorySelect( $option, $cid, $sectionOld ) {
 */
 function copyCategorySave( $cid, $sectionOld ) {
 	global $database;
-	;
 
 	$sectionMove 	= mosGetParam( $_REQUEST, 'sectionmove', '' );
 	$contentid 		= mosGetParam( $_REQUEST, 'item', '' );
@@ -871,7 +867,6 @@ function accessMenu( $uid, $access, $section ) {
 
 function menuLink( $id ) {
 	global $database;
-	;
 
 	$category = new mosCategory( $database );
 	$category->bind( $_POST );
@@ -945,7 +940,6 @@ function menuLink( $id ) {
 
 function saveOrder( &$cid, $section ) {
 	global $database;
-	;
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );

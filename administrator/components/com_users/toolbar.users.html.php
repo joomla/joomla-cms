@@ -27,7 +27,7 @@ class TOOLBAR_users {
 		global $id;
 
 		$text = $id ? JText::_( 'Edit' ) : JText::_( 'Add' );
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( 'User' ) .':<small>'. $text .'</small>', 'user.png' );
 		mosMenuBar::save();

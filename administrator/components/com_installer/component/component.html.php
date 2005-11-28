@@ -25,8 +25,6 @@ class HTML_component {
 * @param string The URL option
 */
 	function showInstalledComponents( $rows, $option ) {
-		;
-
 		if (count( $rows )) {
 			?>
 			<form action="index2.php" method="post" name="adminForm">

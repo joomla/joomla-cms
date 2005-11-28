@@ -145,7 +145,6 @@ class HTML_Media {
 	}
 
 	function draw_no_results(){
-    	;
 		?>
 		<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
 		<tr>
@@ -161,7 +160,7 @@ class HTML_Media {
 
 	function draw_no_dir() {
 		global $BASE_DIR, $BASE_ROOT;
-  
+
 		?>
 		<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
 		<tr>
@@ -344,14 +343,14 @@ class HTML_Media {
 
 			$d = dir($dir);
 			while (false !== ($entry = $d->read())) {
-				
+
 				if(substr($entry,0,1) != '.') {
 					$total++;
 				}
 			}
 			$d->close();
 		}
-		
+
 		return $total - 1;
 	}
 

@@ -68,7 +68,7 @@ jimport( 'joomla.language' );
 * @package Joomla
 */
 class JInstallation extends JApplication {
-	
+
 	/**
 	* Class constructor
 	* @param database A database connection object

@@ -49,7 +49,7 @@ class JDatabaseMySQLi extends JDatabase {
 			$this->_errorNum = 3;
 			return;
 		}
-		
+
 		parent::__construct($host, $user, $pass, $db, $table_prefix);
 	}
 
@@ -75,7 +75,7 @@ class JDatabaseMySQLi extends JDatabase {
 	function getEscaped( $text ) {
 		return mysqli_real_escape_string( $this->_resource, $text );
 	}
-	
+
 	/**
 	* Execute the query
 	* @return mixed A database resource if successful, FALSE if not.

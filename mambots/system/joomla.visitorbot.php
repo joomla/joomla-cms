@@ -25,20 +25,20 @@ $_MAMBOTS->registerFunction( 'onAfterStart', 'botDetectVisitor' );
  */
 function botDetectVisitor() {
 	global $database, $mainframe;
-	
+
 	if ( mosGetParam( $_COOKIE, 'mosvisitor', 0 ) || !$mainframe->isSite() ) {
 		return;
 	}
-	
+
 	//get JBrowser object
 	$objBrowser = JApplication::getBrowser();
-	
+
 	if( $objBrowser->isRobot()) {
 		return;
 	}
-	
+
 	setcookie( 'mosvisitor', '1' );
-	
+
 	$browser  = $objBrowser->getFeature('parent');
 	$platform = $objBrowser->getPlatform();
 

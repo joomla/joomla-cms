@@ -27,7 +27,6 @@ $_MAMBOTS->registerFunction( 'onSearch', 'botSearchWeblinks' );
 */
 function botSearchWeblinks( $text, $phrase='', $ordering='' ) {
 	global $database, $my;
-	;
 
 	// load mambot params info
 	$query = "SELECT id"
@@ -40,9 +39,9 @@ function botSearchWeblinks( $text, $phrase='', $ordering='' ) {
 	$mambot = new mosMambot( $database );
 	$mambot->load( $id );
 	$botParams = new mosParameters( $mambot->params );
-	
+
 	$limit = $botParams->def( 'search_limit', 50 );
-	
+
 	$text = trim( $text );
 	if ($text == '') {
 		return array();
@@ -109,9 +108,9 @@ function botSearchWeblinks( $text, $phrase='', $ordering='' ) {
 	. "\n AND a.published = 1"
 	. "\n ORDER BY $order"
 	;
-	$database->setQuery( $query, 0, $limit );	
+	$database->setQuery( $query, 0, $limit );
 	$rows = $database->loadObjectList();
-	
+
 	return $rows;
 }
 ?>

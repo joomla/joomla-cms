@@ -19,7 +19,7 @@
 class TOOLBAR_content {
 	function _EDIT() {
 		global $id;
-	
+
 		mosMenuBar::startTable();
 		mosMenuBar::preview( 'contentwindow', true );
 		mosMenuBar::spacer();
@@ -41,7 +41,7 @@ class TOOLBAR_content {
 	}
 
 	function _ARCHIVE() {
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::unarchiveList();
 		mosMenuBar::spacer();
@@ -52,7 +52,7 @@ class TOOLBAR_content {
 	}
 
 	function _MOVE() {
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::custom( 'movesectsave', 'save.png', 'save_f2.png', JText::_( 'Save' ), false );
 		mosMenuBar::spacer();
@@ -61,7 +61,7 @@ class TOOLBAR_content {
 	}
 
 	function _COPY() {
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::custom( 'copysave', 'save.png', 'save_f2.png', JText::_( 'Save' ), false );
 		mosMenuBar::spacer();
@@ -70,7 +70,7 @@ class TOOLBAR_content {
 	}
 
 	function _DEFAULT() {
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::archiveList();
 		mosMenuBar::spacer();

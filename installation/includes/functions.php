@@ -70,7 +70,7 @@ function get_php_setting($val) {
  * Tries to detect the language
  */
 function detectLanguage() {
-	
+
 	$vars = mosGetParam( $_REQUEST, 'vars', array() );
 
 	$client_lang = '';

@@ -34,12 +34,12 @@ if (!defined( 'JPATH_DIRPEMS' )) {
 
 /**
  * A File handling class
- * 
+ *
  * @package Joomla
  * @static
  * @since 1.1
  */
-class JFile 
+class JFile
 {
 	/**
 	 * Gets the extension of a file name
@@ -60,7 +60,7 @@ class JFile
 	function stripExt( $file ) {
 		return preg_replace( '#\.[^.]*$#', '', $file );
 	}
-	
+
 	/**
 	 * Makes file name safe to use
 	 * @param string The name of the file (not full path)
@@ -70,7 +70,7 @@ class JFile
 		$regex = '#\.\.[^A-Za-z0-9\.\_\- ]#';
 		return preg_replace( $regex, '', $file );
 	}
-	
+
 	/**
 	 * Copies a file
 	 * @param string The path to the source file
@@ -101,7 +101,7 @@ class JFile
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Delete a file
 	 * @param mixed The file name or an array of file names
@@ -122,7 +122,7 @@ class JFile
 		}
 		return !$failed;
 	}
-	
+
 	/**
 	 * Moves a file
 	 * @param string The path to the source file
@@ -151,7 +151,7 @@ class JFile
 		}
 		return true;
 	}
-	
+
 	/**
 	 * @param string The full file path
 	 * @param string The buffer to read into
@@ -182,14 +182,14 @@ class JFile
 		}
 		return file_put_contents( $file, $buffer );
 	}
-	
+
 	/**
 	 * @param string The name of the php (temporary) uploaded file
 	 * @param string The name of the file to put in the temp directory
 	 * @param string The message to return
 	 */
 	function upload( $srcFile, $destFile, &$msg ) {
-	
+
 		$srcFile = JPath::clean( $srcFile, false );
 		$destFile = JPath::clean( $destFile, false );
 		JPath::check( $destFile );
@@ -215,7 +215,7 @@ class JFile
 		}
 		return false;
 	}
-	
+
 	/** Wrapper for the standard file_exists function
 	 * @param string filename relative to installation dir
 	 * @return boolean
@@ -228,7 +228,7 @@ class JFile
 
 /**
  * A Folder handling class
- * 
+ *
  * @package Joomla
  * @static
  * @since 1.1
@@ -274,8 +274,8 @@ class JFolder
 
 		return $ret;
 	}
-	
-	
+
+
 	/**
 	 * Delete a folder
 	 * @param mixed The folder name
@@ -300,7 +300,7 @@ class JFolder
 		// remove the folders
 		return rmdir( $path );
 	}
-	
+
 	/**
 	 * Moves a folder
 	 * @param string The path to the source folder
@@ -329,7 +329,7 @@ class JFolder
 		}
 		return true;
 	}
-	
+
 	/** Wrapper for the standard file_exists function
 	 * @param string filename relative to installation dir
 	 * @return boolean
@@ -338,7 +338,7 @@ class JFolder
    		$path = JPath::clean( $path, false );
 		return is_dir( $path );
 	}
-	
+
 	/**
 	* Utility function to read the files in a directory
 	* @param string The file system path
@@ -465,7 +465,7 @@ class JFolder
 
 /**
  * An Archive handling class
- * 
+ *
  * @package Joomla
  * @static
  * @since 1.1
@@ -482,7 +482,7 @@ class JArchive
 	 * @param boolean Remove for source files
 	 */
 	function create( $archive, $files, $compress='tar', $addPath='', $removePath='', $autoExt=false, $cleanUp=false ) {
-	
+
 		jimport('archive.Tar');
 
 		if (is_string( $files )) {
@@ -524,7 +524,7 @@ class JPath {
 			}
 		return false;
 	}
-	
+
 	/**
 	* Chmods files and directories recursivel to given permissions
 	* @param path The starting file or directory (no trailing slash)
@@ -565,7 +565,7 @@ class JPath {
 		} // if
 		return $ret;
 	}
-	
+
 	function getPermissions( $path ) {
 		$path = JPath::clean( $path, false );
    		JPath::check( $path );

@@ -340,7 +340,7 @@ class mosParameters {
 	* @return string The html for the element
 	*/
 	function _form_radio( $name, $value, &$node, $control_name ) {
-		
+
 		$options = array();
 		foreach ($node->childNodes as $option) {
 			$val 	= $option->getAttribute( 'value' );
@@ -513,7 +513,7 @@ class mosParameters {
 
 		return $txt;
 	}
-	
+
 	/**
 	* Returns the list of existing frontend languages (independed if used or not!)
 	* @param string The name of the form element
@@ -523,7 +523,7 @@ class mosParameters {
 	* @return string The html for the element
 	*/
 	function _form_language_list( $name, $value, &$node, $control_name) {
-		
+
 		$languages = JLanguageHelper::createLanguageList( $value, JPATH_SITE );
 		array_unshift( $languages, mosHTML::makeOption( '',  '- '. JText::_( 'Select Language' ) .' -' ) );
 

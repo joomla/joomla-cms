@@ -70,7 +70,7 @@ function botExampleAfterStoreUser($user, $isnew, $succes, $msg)
 
 	/*
 	 * convert the user parameters passed to the event to a format the
-	 * external appliction 
+	 * external appliction
 
 
 
