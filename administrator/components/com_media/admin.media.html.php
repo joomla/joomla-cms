@@ -19,7 +19,6 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 */
 class HTML_Media {
 	function showMedia($dirPath,$listdir ) {
-    	
 		?>
 		<head>
 		<style type="text/css">
@@ -200,10 +199,9 @@ class HTML_Media {
 
 	function show_image($img, $file, $info, $size, $listdir) {
 		global $mosConfig_live_site;
-		global $base;
 
 		$img_file = basename($img);
-		$img_url = $mosConfig_live_site . $base . $listdir . '/' . $img_file;
+		$img_url = COM_MEDIA_BASEURL . $listdir . '/' . $img_file;
 
 		$filesize = HTML_Media::parse_size( $size );
 
@@ -247,10 +245,7 @@ class HTML_Media {
 	}
 
 	function show_dir( $path, $dir, $listdir ) {
-		global $mosConfig_absolute_path;
-		global $base;
-
-		$num_files = HTML_Media::num_files( $mosConfig_absolute_path . $base . $listdir . $path );
+		$num_files = HTML_Media::num_files( COM_MEDIA_BASE . $listdir . $path );
 
 		// Fix for Bug [0000577]
 		if ($listdir=='/') {
@@ -284,10 +279,6 @@ class HTML_Media {
 	}
 
 	function show_doc($doc, $size, $listdir, $icon) {
-		global $mosConfig_live_site;
-		global $base;
-    	;
-
 		$size = HTML_Media::parse_size( $size );
 
 		$overlib = JText::_( 'Filesize' ) .': '. $size;
@@ -314,8 +305,6 @@ class HTML_Media {
 	}
 
 	function parse_size($size){
-    	;
-
 		if($size < 1024) {
 			return $size.' bytes';
 		} else if($size >= 1024 && $size < 1024*1024) {
@@ -355,20 +344,19 @@ class HTML_Media {
 
 			$d = dir($dir);
 			while (false !== ($entry = $d->read())) {
-
+				
 				if(substr($entry,0,1) != '.') {
 					$total++;
 				}
 			}
 			$d->close();
 		}
-
+		
 		return $total - 1;
 	}
 
 
 	function imageStyle($listdir) {
-		;
 		?>
 		<script language="javascript" type="text/javascript">
 		function updateDir(){
