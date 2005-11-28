@@ -142,7 +142,7 @@ function viewLanguages( $option, $client = 'site') {
 */
 function publishLanguage( $p_lname, $option, $client = 'site' ) 
 {	
-	/*$config = '';
+	$config = '';
 	
 	$lang = ($client == 'site') ? '\$mosConfig_lang' : '\$mosConfig_lang_'.$client;
 	echo $lang;
@@ -164,7 +164,7 @@ function publishLanguage( $p_lname, $option, $client = 'site' )
 			case 'administrator' :
 			{
 				if (strstr($buffer,"\$mosConfig_lang_administrator")){
-					$config .= "\$mosConfig_lang_administator = \"$p_lname\";\n";
+					$config .= "\$mosConfig_lang_administrator = \"$p_lname\";\n";
 				} else {
 					$config .= $buffer;
 				}
@@ -181,9 +181,7 @@ function publishLanguage( $p_lname, $option, $client = 'site' )
 		mosRedirect("index2.php?option=com_languages&client=".$client,JText::_( 'Configuration succesfully updated!' ) );
 	} else {
 		mosRedirect("index2.php?option=com_languages&client=".$client,JText::_( 'ERRORCONFIGWRITEABLE' ) );
-	}*/
-	
-	echo "WIP";
+	}
 
 }
 

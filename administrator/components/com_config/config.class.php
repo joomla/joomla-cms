@@ -22,19 +22,19 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class mosConfig {
 // Site Settings
 	/** @var int */
-	var $config_offline			= null;
+	var $config_offline				= null;
 	/** @var string */
-	var $config_offline_message	= null;
+	var $config_offline_message		= null;
 	/** @var string */
-	var $config_error_message	= null;
+	var $config_error_message		= null;
 	/** @var string */
-	var $config_sitename		= null;
+	var $config_sitename			= null;
 	/** @var string */
-	var $config_editor			='tinymce';
+	var $config_editor				='tinymce';
 	/** @var int */
-	var $config_list_limit		= 30;
+	var $config_list_limit			= 30;
 	/** @var string */
-	var $config_favicon			= null;
+	var $config_favicon				= null;
 
 // Debug
 	/** @var int */
@@ -42,79 +42,79 @@ class mosConfig {
 
 // Database Settings
 	/** @var string */
-	var $config_host			= null;
+	var $config_host				= null;
 	/** @var string */
-	var $config_user			= null;
+	var $config_user				= null;
 	/** @var string */
-	var $config_password		= null;
+	var $config_password			= null;
 	/** @var string */
-	var $config_db				= null;
+	var $config_db					= null;
 	/** @var string */
-	var $config_dbprefix		= null;
+	var $config_dbprefix			= null;
 	/** @var string */
-	var $config_dbtype			= null;
+	var $config_dbtype				= null;
 
 // Server Settings
 	/** @var string */
-	var $config_absolute_path	= null;
+	var $config_absolute_path		= null;
 	/** @var string */
-	var $config_admin_path	= null;
+	var $config_site				= null;
 	/** @var string */
-	var $config_live_site		= null;
+	var $config_secure_site			= null;
 	/** @var string */
-	var $config_admin_site		= null;
-	/** @var string */
-	var $config_secure_site	= null;
-	/** @var string */
-	var $config_secret			= null;
+	var $config_secret				= null;
 	/** @var int */
-	var $config_gzip			= 0;
+	var $config_gzip				= '0';
 	/** @var int */
-	var $config_lifetime		= null;
+	var $config_lifetime			= null;
 	/** @var int */
-	var $config_error_reporting	= 0;
+	var $config_error_reporting		= '-1';
 	/** @var string */
-	var $config_helpurl			= 'http://help.joomla.org';
+	var $config_helpurl				= 'http://help.joomla.org';
 	/** @var string */
-	var $config_fileperms		= '0644';
+	var $config_xmlrpc_server		= '0';
 	/** @var string */
-	var $config_dirperms		= '0755';
+	var $config_fileperms			= '0644';
+	/** @var string */
+	var $config_dirperms			= '0755';
 
 // Locale Settings
 	/** @var string */
-	var $config_locale			= null;
+	var $config_locale				= null;
 	/** @var string */
-	var $config_lang			= null;
+	var $config_lang				= null;
+	/** @var string */
+	var $config_lang_administrator	= null;
 	/** @var int */
-	var $config_offset			= null;
+	var $config_offset				= null;
 	/** @var int */
-	var $config_offset_user		= null;
+	var $config_offset_user			= null;
 
 // Mail Settings
 	/** @var string */
-	var $config_mailer			= null;
+	var $config_mailer				= null;
 	/** @var string */
-	var $config_mailfrom		= null;
+	var $config_mailfrom			= null;
 	/** @var string */
-	var $config_fromname		= null;
+	var $config_fromname			= null;
 	/** @var string */
-	var $config_sendmail		= '/usr/sbin/sendmail';
+	var $config_sendmail			= '/usr/sbin/sendmail';
 	/** @var string */
-	var $config_smtpauth		= 0;
+	var $config_smtpauth			= 0;
 	/** @var string */
-	var $config_smtpuser		= null;
+	var $config_smtpuser			= null;
 	/** @var string */
-	var $config_smtppass		= null;
+	var $config_smtppass			= null;
 	/** @var string */
-	var $config_smtphost		= null;
+	var $config_smtphost			= null;
 
 // Cache Settings
 	/** @var int */
-	var $config_caching			= 0;
+	var $config_caching				= 0;
 	/** @var string */
-	var $config_cachepath		= null;
+	var $config_cachepath			= null;
 	/** @var string */
-	var $config_cachetime		= null;
+	var $config_cachetime			= null;
 
 // User Settings
 	/** @var int */
@@ -128,13 +128,13 @@ class mosConfig {
 
 // Meta Settings
 	/** @var string */
-	var $config_MetaDesc		= null;
+	var $config_MetaDesc			= null;
 	/** @var string */
-	var $config_MetaKeys		= null;
+	var $config_MetaKeys			= null;
 	/** @var int */
-	var $config_MetaTitle		= null;
+	var $config_MetaTitle			= null;
 	/** @var int */
-	var $config_MetaAuthor		= null;
+	var $config_MetaAuthor			= null;
 
 // Statistics Settings
 	/** @var int */
@@ -203,7 +203,6 @@ class mosConfig {
 	 *	@return null|string	null is operation was satisfactory, otherwise returns an error
 	 */
 	function bind( $array, $ignore='' ) {
-		;
 		if (!is_array( $array )) {
 			$this->_error = strtolower(get_class( $this )).'::'. JText::_( 'bind failed.' );
 			return false;

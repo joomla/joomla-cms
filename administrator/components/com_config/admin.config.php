@@ -271,7 +271,7 @@ function showconfig( $option) {
 
 	$lists['item_navigation'] 		= mosHTML::RadioList( $show_hide_r, 'config_item_navigation', 'class="inputbox"', $row->config_item_navigation, 'value', 'text' );
 
-	$lists['ml_support'] 			= mosHTML::yesnoRadioList( 'config_ml_support', 'class="inputbox" onclick="javascript: if (document.adminForm.config_ml_support[1].checked) { alert(\''. JText::_( 'Remember to install the MambelFish component.', true ) .'\') }"', $row->config_ml_support );
+	$lists['ml_support'] 			= mosHTML::yesnoRadioList( 'config_multilanguage_support', 'class="inputbox" onclick="javascript: if (document.adminForm.config_multilanguage_support[1].checked) { alert(\''. JText::_( 'Remember to install the MambelFish component.', true ) .'\') }"', $row->config_multilanguage_support );
 
 	$lists['multipage_toc'] 		= mosHTML::RadioList( $show_hide_r, 'config_multipage_toc', 'class="inputbox"', $row->config_multipage_toc, 'value', 'text' );
 
@@ -297,7 +297,6 @@ function saveconfig( $task ) {
 
 	$config = "<?php \n";
 	$config .= $row->getVarText();
-	$config .= "setlocale (LC_TIME, \$mosConfig_locale);\n";
 	$config .= "?>";
 
 	$fname = $mosConfig_absolute_path . '/configuration.php';
