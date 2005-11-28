@@ -29,9 +29,6 @@ class HTML_weblinks {
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
-			<th>
-			<?php echo JText::_( 'Weblink Manager' ); ?>
-			</th>
 			<td>
 			<?php echo JText::_( 'Filter' ); ?>:
 			</td>
@@ -173,17 +170,6 @@ class HTML_weblinks {
 		}
 		</script>
 		<form action="index2.php" method="post" name="adminForm" id="adminForm">
-		<table class="adminheading">
-		<tr>
-			<th>
-			<?php echo JText::_( 'Weblink' ); ?>:
-			<small>
-			<?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'New' ); ?>
-			</small>
-			</th>
-		</tr>
-		</table>
-
 		<table width="100%">
 		<tr>
 			<td width="60%" valign="top">

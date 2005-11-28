@@ -28,7 +28,7 @@ function writableCell( $folder ) {
 */
 class HTML_installer {
 
-	function showInstallForm( $title, $option, $element, $client = "", $p_startdir = "", $backLink="" ) {
+	function showInstallForm( $option, $element, $client = "", $p_startdir = "", $backLink="" ) {
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton3(pressbutton) {
@@ -55,17 +55,6 @@ class HTML_installer {
 
 		</script>
 		<form enctype="multipart/form-data" action="index2.php" method="post" name="filename">
-		<table class="adminheading">
-		<tr>
-			<th class="install">
-			<?php echo $title;?>
-			</th>
-			<td align="right" nowrap="true">
-			<?php echo $backLink;?>
-			</td>
-		</tr>
-		</table>
-
 		<table class="adminform">
 		<tr>
 			<th>

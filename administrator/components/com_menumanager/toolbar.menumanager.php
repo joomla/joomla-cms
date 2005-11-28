@@ -18,11 +18,6 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 require_once( $mainframe->getPath( 'toolbar_html' ) );
 //require_once( $mainframe->getPath( 'toolbar_default' ) );
 
-$act = mosGetParam( $_REQUEST, 'act', '' );
-if ($act) {
-	$task = $act;
-}
-
 switch ($task) {
 	case 'new':
 	case 'edit':

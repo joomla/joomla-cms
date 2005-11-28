@@ -34,9 +34,6 @@ class HTML_modules {
 
 		<table class="adminheading">
 		<tr>
-			<th class="modules" rowspan="2"><?php echo JText::_( 'Module Manager' ); ?>
-			 <small><small>[ <?php echo $client == 'admin' ? JText::_( 'Administrator' ) : JText::_( 'Site' );?> ]</small></small>
-			</th>
 			<td align="right" valign="top" nowrap="nowrap">
 				<?php
 				echo $lists['position'];
@@ -203,7 +200,7 @@ class HTML_modules {
 	* @param array An array of select lists
 	* @param object Parameters
 	*/
-	function editModule( &$row, &$orders2, &$lists, &$params, $option ) {
+	function editModule( &$row, &$orders2, &$lists, &$params, $option, $client ) {
 		global $mainframe;
 
 		$lang =& $mainframe->getLanguage();
@@ -244,19 +241,6 @@ class HTML_modules {
 		?>
 		//-->
 		</script>
-		<table class="adminheading">
-		<tr>
-			<th class="modules">
-			<?php echo $lists['client_id'] ? JText::_( 'Administrator' ) : JText::_( 'Site' );?>
-			<?php echo JText::_( 'Module' ); ?>:
-			<small>
-			<?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'New' );?>
-			</small>
-			<?php echo $row->titleA; ?>
-			</th>
-		</tr>
-		</table>
-
 		<form action="index2.php" method="post" name="adminForm">
 
 		<table cellspacing="0" cellpadding="0" width="100%">
@@ -419,11 +403,7 @@ class HTML_modules {
 		<input type="hidden" name="module" value="<?php echo $row->module; ?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="client_id" value="<?php echo $lists['client_id']; ?>" />
-		<?php
-		if ( $row->client_id || $lists['client_id'] ) {
-			echo '<input type="hidden" name="client" value="admin" />';
-		}
-		?>
+		<input type="hidden" name="client" value="<?php echo $client ?>" />
 		</form>
 		<?php
 	}

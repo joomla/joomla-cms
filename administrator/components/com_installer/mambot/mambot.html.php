@@ -29,11 +29,6 @@ class HTML_mambot {
 		?>
 		<table class="adminheading">
 		<tr>
-			<th class="install">
-			<?php echo JText::_( 'Installed Mambots' ); ?>
-			</th>
-		</tr>
-		<tr>
 			<td>
 			<?php echo JText::_( 'DESCMAMBOTS' ); ?>
 			<br /><br />

@@ -22,7 +22,7 @@ if (!($acl->acl_check( 'com_modules', 'manage', 'users', $my->usertype ))) {
 
 require_once( $mainframe->getPath( 'admin_html' ) );
 
-$client 	= mosGetParam( $_REQUEST, 'client', '' );
+$client 	= mosGetParam( $_REQUEST, 'client', 'site' );
 $cid 		= mosGetParam( $_POST, 'cid', array(0) );
 $id 		= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
 $moduleid 	= mosGetParam( $_REQUEST, 'moduleid', null );
@@ -431,7 +431,7 @@ function editModule( $option, $uid, $client ) {
 	// get params definitions
 	$params = new mosParameters( $row->params, $xmlfile, 'module' );
 
-	HTML_modules::editModule( $row, $orders2, $lists, $params, $option );
+	HTML_modules::editModule( $row, $orders2, $lists, $params, $option, $client );
 }
 
 /**

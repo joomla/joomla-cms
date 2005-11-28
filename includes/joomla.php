@@ -24,8 +24,6 @@ if (!file_exists( JPATH_SITE . '/configuration.php' ) || filesize( JPATH_SITE .'
 	exit();
 }
 
-define( JURL_SITE, $mosConfig_live_site ); 
-
 //Installation sub folder check, removed for work with CVS
 /*if (file_exists( 'installation/index.php' )) {
 	define( '_INSTALL_CHECK', 1 );
@@ -37,6 +35,8 @@ define( JURL_SITE, $mosConfig_live_site );
 require_once( JPATH_SITE      . '/globals.php' );
 require_once( JPATH_SITE      . '/configuration.php' );
 require_once( JPATH_LIBRARIES . '/loader.php' );
+
+define( JURL_SITE, $mosConfig_live_site ); 
 
 if (phpversion() < '4.2.0') {
 	jimport('joomla.compat.php41x' );

@@ -28,14 +28,6 @@ class HTML_component {
 		if (count( $rows )) {
 			?>
 			<form action="index2.php" method="post" name="adminForm">
-			<table class="adminheading">
-			<tr>
-				<th class="install">
-				<?php echo JText::_( 'Installed Components' ); ?>
-				</th>
-			</tr>
-			</table>
-
 			<table class="adminlist">
 			<tr>
 				<th width="20%" class="title">

@@ -22,6 +22,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class TOOLBAR_newsfeeds  {
 	function _DEFAULT() {
 		mosMenuBar::startTable();
+		mosMenuBar::title(  JText::_( 'Newsfeed Manager' ) );
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();
@@ -37,7 +38,9 @@ class TOOLBAR_newsfeeds  {
 	}
 
 	function _NEW() {
+		
 		mosMenuBar::startTable();
+		mosMenuBar::title(  JText::_( 'Newsfeed' ).'<small>'.JText::_( 'New' ) .'</small>' );
 		mosMenuBar::save();
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
@@ -50,6 +53,7 @@ class TOOLBAR_newsfeeds  {
 		global $id;
 
 		mosMenuBar::startTable();
+		mosMenuBar::title(  JText::_( 'Newsfeed' ).'<small>'.JText::_( 'Edit' ).'</small>' );
 		mosMenuBar::save();
 		mosMenuBar::spacer();
 		if ( $id ) {

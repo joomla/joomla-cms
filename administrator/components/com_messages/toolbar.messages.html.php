@@ -23,6 +23,7 @@ class TOOLBAR_messages {
 	function _VIEW() {
 
 		mosMenuBar::startTable();
+		mosMenuBar::title(  JText::_( 'View Private Message' ), 'inbox.png' );
 		mosMenuBar::customX('reply', 'restore.png', 'restore_f2.png', JText::_( 'Reply' ), false );
 		mosMenuBar::spacer();
 		mosMenuBar::deleteList();
@@ -34,6 +35,7 @@ class TOOLBAR_messages {
 	function _EDIT() {
 
 		mosMenuBar::startTable();
+		mosMenuBar::title(  JText::_( 'New Private Message' ), 'inbox.png' );
 		mosMenuBar::save( 'save', JText::_( 'Send' ) );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
@@ -44,6 +46,7 @@ class TOOLBAR_messages {
 
 	function _CONFIG() {
 		mosMenuBar::startTable();
+		mosMenuBar::title(  JText::_( 'Private Messaging Configuration' ), 'inbox.png' );
 		mosMenuBar::save( 'saveconfig' );
 		mosMenuBar::spacer();
 		mosMenuBar::cancel( 'cancelconfig' );
@@ -54,6 +57,7 @@ class TOOLBAR_messages {
 
 	function _DEFAULT() {
 		mosMenuBar::startTable();
+		mosMenuBar::title(  JText::_( 'Private Messaging' ), 'inbox.png' );
 		mosMenuBar::deleteList();
 		mosMenuBar::spacer();
 		mosMenuBar::addNewX();

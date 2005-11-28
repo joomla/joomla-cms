@@ -27,17 +27,6 @@ class HTML_newsfeeds {
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminheading">
-		<tr>
-			<th>
-			<?php echo JText::_( 'Newsfeed Manager' ); ?>
-			</th>
-			<td align="right">
-			<?php echo $lists['category'];?>
-			</td>
-		</tr>
-		</table>
-
 		<table class="adminlist">
 		<tr>
 			<th width="20">
@@ -173,14 +162,6 @@ class HTML_newsfeeds {
 		</script>
 
 		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminheading">
-		<tr>
-			<th class="edit"><?php echo JText::_( 'Newsfeed' ); ?>:
-			<small><?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'New' );?></small> <small><small>[ <?php echo $row->name;?> ]</small></small>
-			</th>
-		</tr>
-		</table>
-
 		<table class="adminform">
 		<tr>
 			<th colspan="2">

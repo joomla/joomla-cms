@@ -16,6 +16,9 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 require_once( $mainframe->getPath( 'toolbar_html' ) );
+
+$client = mosGetParam( $_REQUEST, 'client', 'site' );
+
 switch ($task) {
 
 	case 'editA':
@@ -37,15 +40,15 @@ switch ($task) {
 			$published = $database->loadResult();
 		}
 		$cur_template = $mainframe->getTemplate();
-		TOOLBAR_modules::_EDIT( $cur_template, $published );
+		TOOLBAR_modules::_EDIT( $cur_template, $published, $client );
 		break;
 
 	case 'new':
-		TOOLBAR_modules::_NEW();
+		TOOLBAR_modules::_NEW($client);
 		break;
 
 	default:
-		TOOLBAR_modules::_DEFAULT();
+		TOOLBAR_modules::_DEFAULT($client);
 		break;
 }
 ?>

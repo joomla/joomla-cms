@@ -23,6 +23,7 @@ class TOOLBAR_syndicate {
 
 	function _DEFAULT() {
 		mosMenuBar::startTable();
+		mosMenuBar::title(   JText::_( 'Syndication Settings' ) );
 		mosMenuBar::save();
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();

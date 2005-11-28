@@ -34,9 +34,6 @@ class HTML_modules {
 
 		<table class="adminheading">
 		<tr>
-			<th class="modules" rowspan="2" nowrap="nowrap"><?php echo JText::_( 'Mambot Manager' ); ?>
-			 <small><small>[ <?php echo $client == 'admin' ? JText::_( 'Administrator' ) : JText::_( 'Site' );?> ]</small></small>
-			</th>
 			<td align="right" valign="top" nowrap="nowrap">
 				<?php echo $lists['type'];?>
 			</td>
@@ -188,17 +185,6 @@ class HTML_modules {
 			}
 		}
 		</script>
-		<table class="adminheading">
-		<tr>
-			<th class="mambots">
-			<?php echo JText::_( 'Site Mambot' ); ?>:
-			<small>
-			<?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'New' );?>
-			</small>
-			<?php echo $row->nameA; ?>
-			</th>
-		</tr>
-		</table>
 
 		<form action="index2.php" method="post" name="adminForm">
 		<table cellspacing="0" cellpadding="0" width="100%">

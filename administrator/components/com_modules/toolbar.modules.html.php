@@ -20,8 +20,9 @@ class TOOLBAR_modules {
 	/**
 	* Draws the menu for a New module
 	*/
-	function _NEW()	{
+	function _NEW($client)	{
 		mosMenuBar::startTable();
+		mosMenuBar::title( JText::_( $client ). JText::_( 'Module' ).' <small><small>[New]</small></small>', 'module.png' );
 		mosMenuBar::preview( 'modulewindow' );
 		mosMenuBar::spacer();
 		mosMenuBar::save();
@@ -37,10 +38,10 @@ class TOOLBAR_modules {
 	/**
 	* Draws the menu for Editing an existing module
 	*/
-	function _EDIT( $cur_template, $publish ) {
-		global $id;
-
+	function _EDIT( $cur_template, $publish, $client ) {
+		
 		mosMenuBar::startTable();
+		mosMenuBar::title( JText::_( $client ). JText::_( 'Module' ).' <small><small>[ Edit ]</small></small>', 'module.png' );
 		?>
 			<td>
 				<a class="toolbar" href="#" onClick="if (typeof document.adminForm.content == 'undefined') { alert('<?php echo JText::_( 'You can only preview `new` modules.', true ); ?>'); } else { var content = document.adminForm.content.value; content = content.replace('#', '');  var title = document.adminForm.title.value; title = title.replace('#', ''); window.open('popups/modulewindow.php?title=' + title + '&content=' + content + '&t=<?php echo $cur_template; ?>', 'win1', 'status=no,toolbar=no,scrollbars=auto,titlebar=no,menubar=no,resizable=yes,width=200,height=400,directories=no,location=no'); }" >
@@ -63,9 +64,10 @@ class TOOLBAR_modules {
 		mosMenuBar::help( 'screen.modules.edit' );
 		mosMenuBar::endTable();
 	}
-	function _DEFAULT() {
+	function _DEFAULT($client) {
 
 		mosMenuBar::startTable();
+		mosMenuBar::title( JText::_( 'Module Manager' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'module.png' );
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();

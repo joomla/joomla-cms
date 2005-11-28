@@ -43,14 +43,6 @@ class HTML_massmail {
 		</script>
 
 		<form action="index2.php" name="adminForm" method="post">
-		<table class="adminheading">
-		<tr>
-			<th class="massemail">
-			<?php echo JText::_( 'Mass Mail' ); ?>
-			</th>
-		</tr>
-		</table>
-
 		<table class="adminform">
 		<tr>
 			<th colspan="2">

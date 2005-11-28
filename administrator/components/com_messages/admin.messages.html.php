@@ -25,7 +25,6 @@ class HTML_messages {
 <form action="index2.php" method="post" name="adminForm">
   <table class="adminheading">
 	<tr>
-	  <th class="inbox"><?php echo JText::_( 'Private Messaging' ); ?></th>
 	  <td><?php echo JText::_( 'Search' ); ?>:</td>
 	  <td> <input type="text" name="search" value="<?php echo $search;?>" class="inputbox" onChange="document.adminForm.submit();" />
 	  </td>
@@ -74,13 +73,7 @@ for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 
 function editConfig( &$vars, $option) {
 	$tabs = new mosTabs(0);
-?>
-<table class="adminheading">
-  <tr>
-	<th class="msgconfig"><?php echo JText::_( 'Private Messaging Configuration' ); ?></th>
-  </tr>
-</table>
-<?php
+
 $title = JText::_( 'General' );
 $tabs->startPane("messages");
 $tabs->startTab( $title, "general-page" );
@@ -122,12 +115,6 @@ $tabs->endPane();
 
 function viewMessage( &$row, $option ) {
 ?>
-	<table class="adminheading">
-		<tr>
-			<th class="inbox"><?php echo JText::_( 'View Private Message' ); ?></th>
-		</tr>
-	</table>
-
 	<form action="index2.php" method="post" name="adminForm">
 	<table class="adminform">
 		<tr>
@@ -180,12 +167,6 @@ function newMessage($option, $recipientslist, $subject ) {
 		}
 	}
 	</script>
-
-	<table class="adminheading">
-		<tr>
-			<th class="inbox"><?php echo JText::_( 'New Private Message' ); ?></th>
-		</tr>
-	</table>
 
 	<form action="index2.php" method="post" name="adminForm">
 	<table class="adminform">

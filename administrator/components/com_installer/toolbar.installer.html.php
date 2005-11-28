@@ -20,13 +20,17 @@ class TOOLBAR_installer
 {
 	function _DEFAULT()	{
 		mosMenuBar::startTable();
+		mosMenuBar::title( JText::_( 'Install new Extension' ), 'install.png' );
 		mosMenuBar::help( 'screen.installer' );
 		mosMenuBar::endTable();
 	}
 
 	function _DEFAULT2()	{
+		
+		$type = mosGetParam($_REQUEST, 'element');
 
 		mosMenuBar::startTable();
+		mosMenuBar::title( JText::_( 'Installed '.$type.'s'), 'install.png' );
 		mosMenuBar::deleteList( '', 'remove', JText::_( 'Uninstall' ) );
 		mosMenuBar::spacer();
 		mosMenuBar::help( 'screen.installer2' );

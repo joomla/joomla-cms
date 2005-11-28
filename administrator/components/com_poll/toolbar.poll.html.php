@@ -25,6 +25,7 @@ class TOOLBAR_poll {
 	*/
 	function _NEW() {
 		mosMenuBar::startTable();
+		mosMenuBar::title(  JText::_( 'Poll' ).'<small>'.JText::_( 'New' ) .'</small>' );
 		mosMenuBar::save();
 		mosMenuBar::spacer();
 		mosMenuBar::cancel();
@@ -46,6 +47,7 @@ class TOOLBAR_poll {
 		$database->setQuery( $sql );
 		$cur_template = $database->loadResult();
 		mosMenuBar::startTable();
+		mosMenuBar::title(  JText::_( 'Poll' ).'<small>'.JText::_( 'Edit' ) .'</small>' );
 		$popup='pollwindow';
 		?>
 		<td><a class="toolbar" href="#" onclick="window.open('popups/<?php echo $popup;?>.php?pollid=<?php echo $pollid; ?>&t=<?php echo $cur_template; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage('preview','','images/preview_f2.png',1);"><img src="images/preview.png" alt="<?php echo JText::_( 'Preview' ); ?>" border="0" name="preview" align="middle" />&nbsp;Preview</a></td>
@@ -65,6 +67,7 @@ class TOOLBAR_poll {
 	}
 	function _DEFAULT() {
 		mosMenuBar::startTable();
+		mosMenuBar::title(  JText::_( 'Poll Manager' ) );
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();

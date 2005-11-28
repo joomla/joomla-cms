@@ -22,8 +22,11 @@ class TOOLBAR_modules {
 	*/
 	function _EDIT() {
 		global $id;
+		
+		$text = $id ? JText::_('Edit') : JText::_('New');
 
 		mosMenuBar::startTable();
+		mosMenuBar::title( JText::_( 'Site Mambot' ).' <small><small>[' .$text. ']</small></small>', 'module.png' );
 		mosMenuBar::save();
 		mosMenuBar::spacer();
 		mosMenuBar::apply();
@@ -41,6 +44,7 @@ class TOOLBAR_modules {
 
 	function _DEFAULT() {
 		mosMenuBar::startTable();
+		mosMenuBar::title( JText::_( 'Mambot Manager' ).' <small><small>[Site]</small></small>', 'module.png' );
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();
