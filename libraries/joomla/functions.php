@@ -456,7 +456,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 	if ( $link ) {
 		$tip = '<a href="'. $href .'" onmouseover="'. $mousover .'" onmouseout="return nd();" '. $style .'>'. $text .'</a>';
 	} else {
-		$tip = '<span onmouseover="" onmouseout="return nd();" '. $style .'>'. $text .'</span>';
+		$tip = '<span onmouseover="'. $mousover .'" onmouseout="return nd();" '. $style .'>'. $text .'</span>';
 	}
 
 	return $tip;
