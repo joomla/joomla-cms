@@ -32,6 +32,7 @@ if (!defined( '_JOS_POLL_MODULE' )) {
 
 		$database->setQuery( $query );
 		$polls = $database->loadObjectList();
+		
 
 		if($database->getErrorNum()) {
 			echo "MB ".$database->stderr(true);
@@ -52,7 +53,6 @@ if (!defined( '_JOS_POLL_MODULE' )) {
 					echo "MD ".$database->stderr(true);
 					return;
 				}
-
 				poll_vote_form_html( $poll, $options, $Itemid, $moduleclass_sfx );
 			}
 		}

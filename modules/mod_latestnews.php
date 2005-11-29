@@ -106,12 +106,12 @@ foreach ( $rows as $row ) {
 			. "\n AND componentid = $row->id"
 			;
 			$database->setQuery( $query );
-			$Itemid = $database->loadResult();
+			$my_itemid = $database->loadResult();
 			break;
 
 		case 3:
 			if ( $row->sectionid ) {
-				$Itemid = JApplicationHelper::getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
+				$my_itemid = JApplicationHelper::getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
 			} else {
 				$query = "SELECT id"
 				. "\n FROM #__menu"
@@ -119,24 +119,24 @@ foreach ( $rows as $row ) {
 				. "\n AND componentid = $row->id"
 				;
 				$database->setQuery( $query );
-				$Itemid = $database->loadResult();
+				$my_itemid = $database->loadResult();
 			}
 			break;
 
 		case 1:
 		default:
-			$Itemid = JApplicationHelper::getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
+			$my_itemid = JApplicationHelper::getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
 			break;
 	}
 
 	// Blank itemid checker for SEF
-	if ($Itemid == NULL) {
-		$Itemid = '';
+	if ($my_itemid == NULL) {
+		$my_itemid = '';
 	} else {
-		$Itemid = '&amp;Itemid='. $Itemid;
+		$my_itemid = '&amp;Itemid='. $my_itemid;
 	}
 
-	$link = sefRelToAbs( 'index.php?option=com_content&amp;task=view&amp;id='. $row->id . $Itemid );
+	$link = sefRelToAbs( 'index.php?option=com_content&amp;task=view&amp;id='. $row->id . $my_itemid );
 	?>
 	<li class="latestnews<?php echo $moduleclass_sfx; ?>">
 		<a href="<?php echo $link; ?>" class="latestnews<?php echo $moduleclass_sfx; ?>">
