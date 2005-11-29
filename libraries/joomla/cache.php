@@ -343,4 +343,68 @@ class JCache_Page extends JCache {
 		header( 'Etag: '.$md5 );
 	}
 }
+
+/**
+* Class to support language file caching
+* @package Joomla
+* @subpackage JFramework
+* @since 1.1
+*/
+class JCache_Language extends JCache
+{
+	/**
+	 * Constructor
+	 *
+	 * @param array $options options
+	 * @access protected
+	 */
+	function _construct($options) {
+		parent::_construct($options);
+	}
+
+	/**
+	 * Calls a cacheable method (or not if there is already a cache for it) to read a language file
+	 *
+	 * Arguments of this method are read with func_get_args. So it doesn't appear
+	 * in the function definition. Synopsis :
+	 * call('languageName', languageObject, $arg1, $arg2, ...)
+	 * (arg1, arg2... are arguments of 'functionName')
+	 *
+	 * @return mixed result of the function/method
+	 * @access public
+	 */
+	function load() {
+		$array = func_get_args();
+		$lang = $array[0];
+		unset( $array[0] );
+		$obj = $array[1];
+		unset( $array[1]);
+		return $this->loadId( $lang, $obj, $array, serialize( $array ) );
+	}
+
+	/**
+	 * Calls a cacheable method (or not if there is already a cache for it) to read a language file
+	 * and specify a specific id
+	 *
+	 * @param string Language used
+	 * @param object JLanguage object
+	 * @param array  Argument of the function
+	 * @param id	 Cache id
+	 * @return mixed result of the function/method
+	 * @access public
+	 */
+	function loadId( $lang, $obj, $arguments, $id ){
+		
+		$id = $this->generateId($id); // Generate a cache id
+
+		$data = $this->get( $id, $this->_defaultGroup, !$this->_validateCache );
+		if ($data !== false) {
+			$result = unserialize( $data );
+		} else {
+			$result = call_user_func_array( array( &$obj, '_load' ), $arguments );
+			$this->save( serialize( $result ), $id, $this->_defaultGroup );
+		}
+		return $result;
+	}
+}
 ?>
