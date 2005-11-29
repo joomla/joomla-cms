@@ -1,5 +1,6 @@
 <?php
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+$lang =& $mainframe->getLanguage();
 // needed to seperate the ISO number from the language file constant _ISO
 $iso = split( '=', _ISO );
 // xml prolog
@@ -20,6 +21,9 @@ mosShowHead();
 <!--[if lte IE 6]>
 <link href="<?php echo JURL_SITE;?>/templates/<?php echo $mainframe->getTemplate(); ?>/css/template_ie_only.css" rel="stylesheet" type="text/css" />
 <![endif]-->
+<?php if ($lang->isRTL()){ ?>
+<link href="<?php echo $mosConfig_live_site;?>/templates/<?php echo $mainframe->getTemplate(); ?>/css/template_css_rtl.css" rel="stylesheet" type="text/css" />
+<?php } ?>
 <link rel="shortcut icon" href="<?php echo JURL_SITE;?>/images/favicon.ico" />
 </head>
 <body id="page_bg">

@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+28-Nov-2005 Andy Miller
+ + Added RTL code/css to rhuk_milkyway template - Thanks David Gal
+
 28-Nov-2005 Johan Janssens
  - Rmeoved /mambots/content/legacybots.*
  + Deprecated mosMambotHandler class, use JEventHandler instead

@@ -1,0 +1,110 @@
+/*****************************/
+/*** rtl stuff             ***/
+/*****************************/
+
+html {
+  direction: rtl;
+}
+
+div#header_r {
+	text-align: right;
+	padding-left: 30px;
+}
+
+div#logo {
+	position: relative;
+	float: right;
+	margin-right: 30px;
+	margin-top: 0px;
+}
+
+p {
+	text-align: right;
+}
+td.pill_l {
+	background: url(../images/mw_menu_cap_r.png) no-repeat;
+}
+
+td.pill_r {
+	background: url(../images/mw_menu_cap_l.png) no-repeat;
+}
+
+#pathway {
+	padding: 0px 0px 8px 10px;
+	margin-right: 30px;
+	text-align: right;
+	float: right;
+}
+
+#search {
+	float: left;
+	margin-left: 10px;
+}
+
+#whitebox div {
+	text-align: right;
+}
+
+#leftcolumn {
+	float: right;
+	
+
+}
+#maincolumn {
+	margin-right: 20%;
+	padding-right: 15px;
+	width: 80%;
+}
+
+span.pathway {
+  margin: 0 0 0 20px;
+}
+
+div.componentheading {
+  padding-right: 0px;
+}
+
+
+h1 {
+	text-align: right;
+}
+
+h2, .contentheading {
+	text-align: right;
+}
+
+h3, .componentheading, table.moduletable th {
+	text-align: right;
+  padding-right: 0px;
+}
+
+.small {
+	text-align: right;
+}
+
+.modifydate {
+	text-align: right;
+}
+
+a.readon {
+	float: right;
+	background: url(../images/mw_readon.png) top left no-repeat;
+	padding-left: 20px;
+}
+
+a.mainlevel:link, a.mainlevel:visited {
+	padding-right: 5px;
+}
+
+td.sectiontableheader {
+  border-left: 1px solid #fff;
+}
+
+div.module_menu h3 {
+	margin: -23px -5px 5px -4px;
+	padding-right: 10px;
+}
+
+div.module_menu ul {
+	padding-right: 20px;
+}
