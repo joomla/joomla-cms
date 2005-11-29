@@ -14,7 +14,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$_MAMBOTS->registerFunction( 'onBeforeStart', 'botJoomlaSiteUrl' );
+$mainframe->registerEvent( 'onBeforeStart', 'botJoomlaSiteUrl' );
 
 /**
 * Converting the site URL to fit to the HTTP request

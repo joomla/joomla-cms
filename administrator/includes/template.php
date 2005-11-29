@@ -138,7 +138,7 @@ function mosLoadAdminModule( $name, $params=NULL ) {
 function mosShowHead_Admin() {
 	global $database, $option, $my, $mainframe;
 	global $mosConfig_MetaDesc, $mosConfig_MetaKeys, $mosConfig_sef, $mosConfig_sitename, $mosConfig_favicon, $mosConfig_caching;
-	global $_VERSION, $_MAMBOTS;
+	global $_VERSION;
 
 	$template =  $mainframe->getTemplate();
 	$lang     =& $mainframe->getLanguage();

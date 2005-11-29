@@ -209,6 +209,31 @@ class JApplication extends JObject {
 			$this->_userstate[$var_name] = $var_value;
 		}
 	}
+	
+	/**
+	* Registers a function to a particular event group
+	* @param string The event name
+	* @param string The function name
+	* @since 1.1
+	*/
+	
+	function registerEvent($event, $function) {
+		$eventHandler =& JEventHandler::getInstance();
+		return $eventHandler->registerFunction($event, $function);
+	}
+	
+	
+	/**
+	* Calls all functions associated with an event group
+	* @param string The event name
+	* @param array An array of arguments
+	* @return array An array of results from each function call
+	* @since 1.1
+	*/
+	function triggerEvent($event, $args=null) {
+		$eventHandler =& JEventHandler::getInstance();
+		return $eventHandler->trigger($event, $args);
+	}
 
 	/**
 	* Login validation function
@@ -219,7 +244,7 @@ class JApplication extends JObject {
 	* users details.
 	*/
 	function login( $username=null,$passwd=null ) {
-		global $database, $acl, $_MAMBOTS;
+		global $database, $acl;
 
 		if (!$username || !$passwd) {
 			$username 	= $database->getEscaped( trim( mosGetParam( $_POST, 'username', '' ) ) );
@@ -235,10 +260,10 @@ class JApplication extends JObject {
 		} else {
 
 			//load user bot group
-			$_MAMBOTS->loadBotGroup( 'user' );
+			JBotLoader::importGroup( 'user' );
 
 			//trigger the onBeforeStoreUser event
-			$results = $_MAMBOTS->trigger( 'onLoginUser', array( $username, $passwd ) );
+			$results = $this->triggerEvent( 'onLoginUser', array( $username, $passwd ) );
 
 			foreach($results as $result) {
 				if ($result > 0) {
@@ -306,16 +331,15 @@ class JApplication extends JObject {
 	* session record back to 'anonymous' parameters
 	*/
 	function logout() {
-		global $_MAMBOTS;
 
 		//load user bot group
-		$_MAMBOTS->loadBotGroup( 'user' );
+		JBotLoader::importGroup( 'user' );
 
 		//get the user
 		$user = $this->getUser();
 
 		//trigger the onLogOutUser event
-		$results = $_MAMBOTS->trigger( 'onLogoutUser', array( &$user ));
+		$results = $this->triggerEvent( 'onLogoutUser', array( &$user ));
 
 		//mosCache::cleanCache('com_content');
 		mosCache::cleanCache();
@@ -400,6 +424,7 @@ class JApplication extends JObject {
 		jimport('joomla.classes.browser');
 		return JBrowser::getInstance();
 	}
+	
 	/**
 	 * @param string The name of the variable (from configuration.php)
 	 * @return mixed The value of the configuration variable or null if not found

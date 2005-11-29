@@ -14,7 +14,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosPaging' );
+$mainframe->registerEvent( 'onPrepareContent', 'botMosPaging' );
 
 /**
 * Page break mambot

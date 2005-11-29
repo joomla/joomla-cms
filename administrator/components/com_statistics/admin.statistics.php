@@ -163,7 +163,6 @@ function showPageImpressions( $option, $task ) {
 
 function showSearches( $option, $task ) {
 	global $database, $mainframe, $mosConfig_list_limit;
-	global $_MAMBOTS;
 
 	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
 	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}{$task}limitstart", 'limitstart', 0 );
@@ -191,10 +190,10 @@ function showSearches( $option, $task ) {
 		return false;
 	}
 
-	$_MAMBOTS->loadBotGroup( 'search' );
+	JBotLoader::importGroup( 'search' );
 
 	for ($i=0, $n = count($rows); $i < $n; $i++) {
-		$results = $_MAMBOTS->trigger( 'onSearch', array( $rows[$i]->search_term ) );
+		$results = $mainframe->triggerEvent( 'onSearch', array( $rows[$i]->search_term ) );
 
 		$count = 0;
 		for ($j = 0, $n2 = count( $results ); $j < $n2; $j++) {

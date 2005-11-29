@@ -14,7 +14,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$_MAMBOTS->registerFunction( 'onPrepareContent', 'botGeshi' );
+$mainframe->registerEvent( 'onPrepareContent', 'botGeshi' );
 
 /**
 * Code Highlighting Mambot

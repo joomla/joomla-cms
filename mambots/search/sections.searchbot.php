@@ -14,7 +14,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$_MAMBOTS->registerFunction( 'onSearch', 'botSearchSections' );
+$mainframe->registerEvent( 'onSearch', 'botSearchSections' );
 
 /**
 * Sections Search method

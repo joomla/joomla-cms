@@ -263,7 +263,6 @@ function editUser( $uid='0', $option='users' ) {
 function saveUser( $option, $task ) {
 	global $database, $my;
 	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_sitename;
-	global $_MAMBOTS;
 
 	$row = new mosUser( $database );
 	if (!$row->bind( $_POST )) {
@@ -304,9 +303,6 @@ function saveUser( $option, $task ) {
 	$usertype = $database->loadResult();
 	$row->usertype = $usertype;
 
-	//load user bot group
-	$_MAMBOTS->loadBotGroup( 'user' );
-
 	// save params
 	$params = mosGetParam( $_POST, 'params', '' );
 	if (is_array( $params )) {
@@ -323,7 +319,8 @@ function saveUser( $option, $task ) {
 	}
 
 	//trigger the onBeforeStoreUser event
-	$results = $_MAMBOTS->trigger( 'onBeforeStoreUser', array( get_object_vars( $row ), $row->id ) );
+	JBotLoader::importGroup( 'user' );
+	$results = $mainframe->triggerEvent( 'onBeforeStoreUser', array( get_object_vars( $row ), $row->id ) );
 
 	if (!$row->store()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
@@ -383,7 +380,7 @@ function saveUser( $option, $task ) {
 	}
 
 	//trigger the onAfterStoreUser event
-	$results = $_MAMBOTS->trigger( 'onAfterStoreUser', array( get_object_vars( $row ), $row->id, true, null ) );
+	$results = $mainframe->triggerEvent( 'onAfterStoreUser', array( get_object_vars( $row ), $row->id, true, null ) );
 
 	switch ( $task ) {
 		case 'apply':
@@ -409,7 +406,6 @@ function cancelUser( $option ) {
 
 function removeUsers( $cid, $option ) {
 	global $database, $acl, $my;
-	global $_MAMBOTS;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
@@ -418,8 +414,7 @@ function removeUsers( $cid, $option ) {
 
 	if (count( $cid )) {
 		//load user bot group
-		$_MAMBOTS->loadBotGroup( 'user' );
-
+		
 		$obj = new mosUser( $database );
 		foreach ($cid as $id) {
 			// check for a super admin ... can't delete them
@@ -427,8 +422,9 @@ function removeUsers( $cid, $option ) {
 			$groups 	= $acl->get_object_groups( $objectID, 'ARO' );
 			$this_group = strtolower( $acl->get_group_name( $groups[0], 'ARO' ) );
 
+			JBotLoader::importGroup( 'user' );
 			//trigger the onBeforeDeleteUser event
-			$results = $_MAMBOTS->trigger( 'onBeforeDeleteUser', array( array( 'id' => $id ) ) );
+			$results = $mainframe->triggerEvent( 'onBeforeDeleteUser', array( array( 'id' => $id ) ) );
 
 			$success = false;
 			if ( $this_group == 'super administrator' ) {
@@ -444,7 +440,7 @@ function removeUsers( $cid, $option ) {
 			}
 
 			//trigger the onAfterDeleteUser event
-			$results = $_MAMBOTS->trigger( 'onAfterDeleteUser', array( array('id' => $id), $success, $msg ) );
+			$results = $mainframe->triggerEvent( 'onAfterDeleteUser', array( array('id' => $id), $success, $msg ) );
 		}
 	}
 

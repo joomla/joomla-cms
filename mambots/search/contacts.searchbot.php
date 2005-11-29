@@ -14,7 +14,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$_MAMBOTS->registerFunction( 'onSearch', 'botSearchContacts' );
+$mainframe->registerEvent( 'onSearch', 'botSearchContacts' );
 
 /**
 * Contacts Search method

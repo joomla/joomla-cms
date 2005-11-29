@@ -15,10 +15,10 @@
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 
 //Login User event
-$_MAMBOTS->registerFunction( 'onLoginUser', 'botJoomlaLoginUser' );
+$mainframe->registerEvent( 'onLoginUser', 'botJoomlaLoginUser' );
 
 //Logout User event
-$_MAMBOTS->registerFunction( 'onLogoutUser', 'botJoomlaLogoutUser' );
+$mainframe->registerEvent( 'onLogoutUser', 'botJoomlaLogoutUser' );
 
 /**
 * Joomla user login method

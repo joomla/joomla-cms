@@ -25,7 +25,7 @@ switch ( $task ) {
 
 function viewSearch() {
 	global $mainframe, $mosConfig_lang, $my;
-	global $Itemid, $database, $_MAMBOTS;
+	global $Itemid, $database;
 	global $mosConfig_list_limit;
 
 	$restriction = 0;
@@ -145,8 +145,8 @@ function viewSearch() {
 		$phrase 	= mosGetParam( $_REQUEST, 'searchphrase', '' );
 		$ordering 	= mosGetParam( $_REQUEST, 'ordering', '' );
 
-		$_MAMBOTS->loadBotGroup( 'search' );
-		$results 	= $_MAMBOTS->trigger( 'onSearch', array( $searchword, $phrase, $ordering ) );
+		JBotLoader::importGroup( 'search' );
+		$results 	= $mainframe->triggerEvent( 'onSearch', array( $searchword, $phrase, $ordering ) );
 		$totalRows 	= 0;
 
 		$rows = array();

@@ -19,14 +19,16 @@ define('JPATH_BASE', dirname(__FILE__) );
 require_once ( 'includes/defines.php');
 require_once(  'includes/administrator.php' );
 
+// create the mainframe object
+$mainframe =& new JAdministrator();
+
 // load system bot group
-$_MAMBOTS->loadBotGroup( 'system' );
+JBotLoader::importGroup( 'system' );
 
 // trigger the onStart events
-$_MAMBOTS->trigger( 'onBeforeStart' );
+$mainframe->trigger( 'onBeforeStart' );
 
-// mainframe is an API workhorse, lots of 'core' interaction routines
-$mainframe =& new JAdministrator();
+// create the session
 $mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
 
 if (is_null(JSession::get('guest')) || JSession::get('guest')) {
@@ -34,7 +36,7 @@ if (is_null(JSession::get('guest')) || JSession::get('guest')) {
 }
 
 // trigger the onStart events
-$_MAMBOTS->trigger( 'onAfterStart' );
+$mainframe->trigger( 'onAfterStart' );
 
 // initialise some common request directives
 $option     = strtolower( mosGetParam( $_REQUEST, 'option', 'com_admin' ) );

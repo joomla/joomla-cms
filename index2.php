@@ -24,11 +24,14 @@ if ($mosConfig_offline == 1) {
 	require( 'offline.php' );
 }
 
+// create the mainframe object
+$mainframe =& new JSite();
+
 // load system bot group
-$_MAMBOTS->loadBotGroup( 'system' );
+JBotLoader::importGroup( 'system' );
 
 // trigger the onStart events
-$_MAMBOTS->trigger( 'onBeforeStart' );
+$mainframe->triggerEvent( 'onBeforeStart' );
 
 // retrieve some expected url (or form) arguments
 $option 	= strtolower( mosGetParam( $_REQUEST, 'option' ) );
@@ -36,12 +39,11 @@ $Itemid 	= strtolower( mosGetParam( $_REQUEST, 'Itemid',0 ) );
 $no_html 	= intval( mosGetParam( $_REQUEST, 'no_html', 0 ) );
 $do_pdf 	= intval( mosGetParam( $_REQUEST, 'do_pdf', 0 ) );
 
-// mainframe is an API workhorse, lots of 'core' interaction routines
-$mainframe = new JSite( );
+// create the session
 $mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
 
 // trigger the onAfterStart events
-$_MAMBOTS->trigger( 'onAfterStart' );
+$mainframe->triggerEvent( 'onAfterStart' );
 
 // get the information about the current user from the sessions table
 $my = $mainframe->getUser();

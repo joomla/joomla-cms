@@ -14,7 +14,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosSef' );
+$mainframe->registerEvent( 'onPrepareContent', 'botMosSef' );
 
 /**
 * Converting internal relative links to SEF URLs

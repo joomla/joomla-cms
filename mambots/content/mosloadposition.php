@@ -14,7 +14,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosLoadPosition' );
+$mainframe->registerEvent( 'onPrepareContent', 'botMosLoadPosition' );
 
 /**
 * Mambot that loads module positions within content

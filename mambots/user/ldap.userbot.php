@@ -18,10 +18,10 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
 jimport('joomla.classes.ldap');
 
 //Login User event
-$_MAMBOTS->registerFunction( 'onLoginUser', 'botLdapLoginUser' );
+$mainframe->registerEvent( 'onLoginUser', 'botLdapLoginUser' );
 
 //Logout User event
-$_MAMBOTS->registerFunction( 'onLogoutUser', 'botLdapLogoutUser' );
+$mainframe->registerEvent( 'onLogoutUser', 'botLdapLogoutUser' );
 
 /**
 * LDAP user authenication method

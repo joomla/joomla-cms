@@ -118,7 +118,7 @@ function userEdit( $option, $uid, $submitvalue) {
 }
 
 function userSave( $option, $uid) {
-	global $database, $Itemid, $_MAMBOTS;
+	global $database, $Itemid;
 
 	$user_id = intval( mosGetParam( $_POST, 'id', 0 ));
 
@@ -137,10 +137,6 @@ function userSave( $option, $uid) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-
-	//load user bot group
-	$_MAMBOTS->loadBotGroup( 'user' );
-
 
 	if(isset($_POST["password"]) && $_POST["password"] != "") {
 		if(isset($_POST["verifyPass"]) && ($_POST["verifyPass"] == $_POST["password"])) {
@@ -170,7 +166,8 @@ function userSave( $option, $uid) {
 	}
 
 	//trigger the onBeforeStoreUser event
-	$results = $_MAMBOTS->trigger( 'onBeforeStoreUser', array(get_object_vars($row), false));
+	JBotLoader::importGroup( 'user' );
+	$results = $mainframe->triggerEvent( 'onBeforeStoreUser', array(get_object_vars($row), false));
 
 	unset($row->orig_password); // prevent DB error!!
 
@@ -180,7 +177,7 @@ function userSave( $option, $uid) {
 	}
 
 	//trigger the onAfterStoreUser event
-	$results = $_MAMBOTS->trigger( 'onAfterStoreUser', array(get_object_vars($row), false, true, null ));
+	$results = $mainframe->trigger( 'onAfterStoreUser', array(get_object_vars($row), false, true, null ));
 
 	$link = $_SERVER['HTTP_REFERER'];
 	mosRedirect( $link, JText::_( 'Your settings have been saved.' ) );

@@ -15,7 +15,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$_MAMBOTS->registerFunction( 'onGetWebServices', 'wsGetSearchWebServices' );
+$mainframe->registerEvent( 'onGetWebServices', 'wsGetSearchWebServices' );
 
 /**
 * @return array An array of associative arrays defining the available methods
@@ -41,7 +41,7 @@ function wsGetSearchWebServices() {
 * @param string ordering option, newest|oldest|popular|alpha|category
 */
 function wsSearchSite( $searchword, $phrase='', $order='' ) {
-	global $database, $my, $acl, $_MAMBOTS;
+	global $mainframe, $database, $my, $acl;
 
 	if (!defined( '_MAMBOT_REMOTE_SEACH')) {
 		// flag that the site is being searched remotely
@@ -52,8 +52,8 @@ function wsSearchSite( $searchword, $phrase='', $order='' ) {
 	$phrase = '';
 	$ordering = '';
 
-	$_MAMBOTS->loadBotGroup( 'search' );
-	$results = $_MAMBOTS->trigger( 'onSearch', array( $searchword, $phrase, $ordering ) );
+	JBotLoader::importGroup( 'search' );
+	$results = $mainframe->triggerEvent( 'onSearch', array( $searchword, $phrase, $ordering ) );
 
 	foreach ($results as $i=>$rows) {
 		foreach ($rows as $j=>$row) {

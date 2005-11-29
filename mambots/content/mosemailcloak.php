@@ -14,7 +14,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosEmailCloak' );
+$mainframe->registerEvent( 'onPrepareContent', 'botMosEmailCloak' );
 
 /**
 * Mambot that Cloaks all emails in content from spambots via javascript

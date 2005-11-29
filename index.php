@@ -19,10 +19,12 @@ define('JPATH_BASE', dirname(__FILE__) );
 require_once ( 'includes/defines.php' );
 require_once ( 'includes/joomla.php' );
 
+// create the mainframe object
+$mainframe =& new JSite();
+
 // displays offline/maintanance page or bar
 if ($mosConfig_offline == 1) {
 	// mainframe is an API workhorse, lots of 'core' interaction routines
-	$mainframe = new JSite();
 	$mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
 
 	// get the information about the current user from the sessions table
@@ -48,10 +50,10 @@ if ($mosConfig_offline == 1) {
 }
 
 // load system bot group
-$_MAMBOTS->loadBotGroup( 'system' );
+JBotLoader::importGroup( 'system' );
 
 // trigger the onStart events
-$_MAMBOTS->trigger( 'onBeforeStart' );
+$mainframe->triggerEvent( 'onBeforeStart' );
 
 // retrieve some expected url (or form) arguments
 $option = trim( strtolower( mosGetParam( $_REQUEST, 'option' ) ) );
@@ -98,12 +100,10 @@ if ( !$Itemid ) {
 	$Itemid = 99999999;
 }
 
-// mainframe is an API workhorse, lots of 'core' interaction routines
-$mainframe = new JSite( );
 $mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
 
 // trigger the onAfterStart events
-$_MAMBOTS->trigger( 'onAfterStart' );
+$mainframe->triggerEvent( 'onAfterStart' );
 
 // checking if we can find the Itemid thru the content
 if ( $option == 'com_content' && $Itemid === 0 ) {

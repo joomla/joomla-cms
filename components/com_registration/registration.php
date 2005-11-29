@@ -106,7 +106,7 @@ function registerForm( $option, $useractivation ) {
 }
 
 function saveRegistration( $option ) {
-	global $database, $acl, $_MAMBOTS;
+	global $database, $acl;
 	global $mosConfig_sitename, $mosConfig_useractivation, $mosConfig_allowUserRegistration;
 	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_mailfrom, $mosConfig_fromname;
 
@@ -123,9 +123,6 @@ function saveRegistration( $option ) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-
-	//load user bot group
-	$_MAMBOTS->loadBotGroup( 'user' );
 
 	$row->id = 0;
 	$row->usertype = '';
@@ -146,7 +143,8 @@ function saveRegistration( $option ) {
 	$row->registerDate 	= date('Y-m-d H:i:s');
 
 	//trigger the onBeforeStoreUser event
-	$results = $_MAMBOTS->trigger( 'onBeforeStoreUser', array( get_object_vars( $row ), true ) );
+	JBotLoader::importGroup( 'user' );
+	$results = $mainframe->triggerEvent( 'onBeforeStoreUser', array( get_object_vars( $row )) );
 
 	if (!$row->store()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
@@ -154,8 +152,8 @@ function saveRegistration( $option ) {
 	}
 	$row->checkin();
 
-		//trigger the onAfterStoreUser event
-		$results = $_MAMBOTS->trigger( 'onAfterStoreUser', array( get_object_vars( $row ), true, true, null ) );
+	//trigger the onAfterStoreUser event
+	$results = $mainframe->triggerEvent( 'onAfterStoreUser', array( get_object_vars( $row ), true, true, null ) );
 
 	$name 		= $row->name;
 	$email 		= $row->email;

@@ -14,7 +14,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$_MAMBOTS->registerFunction( 'onPrepareContent', 'botMosCode' );
+$mainframe->registerEvent( 'onPrepareContent', 'botMosCode' );
 
 /**
 * Code Highlighting Mambot

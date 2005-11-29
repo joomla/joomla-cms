@@ -22,12 +22,12 @@ defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.'
  */
 
  //Store User events
-$_MAMBOTS->registerFunction( 'onBeforeStoreUser', 'botExampleBeforeStoreUser' );
-$_MAMBOTS->registerFunction( 'onAfterStoreUser' , 'botExampleAfterStoreUser'  );
+$mainframe->registerEvent( 'onBeforeStoreUser', 'botExampleBeforeStoreUser' );
+$mainframe->registerEvent( 'onAfterStoreUser' , 'botExampleAfterStoreUser'  );
 
 //Delete User events
-$_MAMBOTS->registerFunction( 'onBeforeDeleteUser', 'botExampleBeforeDeleteUser' );
-$_MAMBOTS->registerFunction( 'onAfterDeleteUser' , 'botExampleAfterDeleteUser'  );
+$mainframe->registerEvent( 'onBeforeDeleteUser', 'botExampleBeforeDeleteUser' );
+$mainframe->registerEvent( 'onAfterDeleteUser' , 'botExampleAfterDeleteUser'  );
 
 /*
  * User session events
@@ -37,10 +37,10 @@ $_MAMBOTS->registerFunction( 'onAfterDeleteUser' , 'botExampleAfterDeleteUser'  
  */
 
  //Login User event
-$_MAMBOTS->registerFunction( 'onLoginUser', 'botMamboLoginUser' );
+$mainframe->registerEvent( 'onLoginUser', 'botMamboLoginUser' );
 
 //Logout User event
-$_MAMBOTS->registerFunction( 'onLogoutUser', 'botMamboLogoutUser' );
+$mainframe->registerEvent( 'onLogoutUser', 'botMamboLogoutUser' );
 
 /**
 * Example store user method
@@ -71,14 +71,6 @@ function botExampleAfterStoreUser($user, $isnew, $succes, $msg)
 	/*
 	 * convert the user parameters passed to the event to a format the
 	 * external appliction
-
-
-
-
-
-
-
-nds
 	 */
 
 	$args = array();

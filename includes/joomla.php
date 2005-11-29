@@ -73,7 +73,8 @@ jimport( 'joomla.factory' );
 jimport( 'joomla.files' );
 jimport( 'joomla.xml' );
 jimport( 'joomla.language' );
-
+jimport( 'joomla.events' );
+jimport( 'joomla.editor' );
 
 /**
 * Joomla! Mainframe class
@@ -100,16 +101,8 @@ $database =& JFactory::getDBO();
 /** @global $acl */
 $acl =& JFactory::getACL();
 
-/** @global $_MAMBOTS */
-$_MAMBOTS = new mosMambotHandler();
-
 /** @global $_VERSION */
 $_VERSION = new JVersion();
-
-//TODO : implement mambothandler class as singleton, add getBotHandler to JFactory
-
-//TODO : implement editor functionality as a class
-jimport( 'joomla.editor' );
 
 jimport( 'joomla.legacy' );
 ?>

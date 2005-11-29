@@ -14,7 +14,7 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$_MAMBOTS->registerFunction( 'onBeforeDisplayContent', 'botVoting' );
+$mainframe->registerEvent( 'onBeforeDisplayContent', 'botVoting' );
 
 function botVoting( &$row, &$params, $page=0 ) {
 	global $Itemid;

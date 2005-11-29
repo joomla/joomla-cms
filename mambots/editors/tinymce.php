@@ -14,9 +14,9 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$_MAMBOTS->registerFunction( 'onInitEditor', 'botTinymceEditorInit' );
-$_MAMBOTS->registerFunction( 'onGetEditorContents', 'botTinymceEditorGetContents' );
-$_MAMBOTS->registerFunction( 'onEditorArea', 'botTinymceEditorEditorArea' );
+$mainframe->registerEvent( 'onInitEditor', 'botTinymceEditorInit' );
+$mainframe->registerEvent( 'onGetEditorContents', 'botTinymceEditorGetContents' );
+$mainframe->registerEvent( 'onEditorArea', 'botTinymceEditorEditorArea' );
 
 /**
 * TinyMCE WYSIWYG Editor - javascript initialisation
@@ -184,7 +184,7 @@ return <<<EOD
 		theme : "$theme",
 		language : "en",
 		mode : "specific_textareas",
-		document_base_url : JURL_SITE.'/',
+		document_base_url : "$mosConfig_live_site/",
 		relative_urls : false,
 		remove_script_host : false,
 		save_callback : "TinyMCE_Save",
@@ -248,9 +248,9 @@ EOD;
 * @param int The number of rows for the editor area
 */
 function botTinymceEditorEditorArea( $name, $content, $hiddenField, $width, $height, $col, $row ) {
-	global $_MAMBOTS;
+	global $mainframe;
 
-	$results = $_MAMBOTS->trigger( 'onCustomEditorButton' );
+	$results = $mainframe->triggerEvent( 'onCustomEditorButton' );
 	$buttons = array();
 	foreach ($results as $result) {
 		if ( $result[0] ) {

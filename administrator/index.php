@@ -19,23 +19,26 @@ define('JPATH_BASE', dirname(__FILE__) );
 require_once ( 'includes/defines.php');
 require_once(  'includes/administrator.php' );
 
-// load system bot group
-$_MAMBOTS->loadBotGroup( 'system' );
-
-// trigger the onStart events
-$_MAMBOTS->trigger( 'onBeforeStart' );
-
 $option = mosGetParam( $_REQUEST, 'option', NULL );
 $handle = mosGetParam( $_POST, 'handle', NULL );
 
-// mainframe is an API workhorse, lots of 'core' interaction routines
+// create the mainframe object
 $mainframe =& new JAdministrator();
+
+// load system bot group
+JBotLoader::importGroup( 'system' );
+
+// trigger the onStart events
+$mainframe->triggerEvent( 'onBeforeStart' );
+
+//create the session
 $mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
 
+//get the database object
 $database =& JFactory::getDBO();
 
 // trigger the onAfterStart events
-$_MAMBOTS->trigger( 'onAfterStart' );
+$mainframe->triggerEvent( 'onAfterStart' );
 
 if (isset( $_POST['submit'] )) {
 	$query = "SELECT COUNT(*)"

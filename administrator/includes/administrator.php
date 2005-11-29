@@ -69,6 +69,8 @@ jimport( 'joomla.factory' );
 jimport( 'joomla.files' );
 jimport( 'joomla.xml' );
 jimport( 'joomla.language' );
+jimport( 'joomla.events' );
+jimport( 'joomla.editor' );
 
 /**
 * Joomla! Mainframe class
@@ -94,20 +96,12 @@ $database =& JFactory::getDBO();
 /** @global $acl */
 $acl =& JFactory::getACL();
 
-/** @global $_MAMBOTS */
-$_MAMBOTS = new mosMambotHandler();
-
 /** @global $_VERSION */
 $_VERSION = new JVersion();
 
 // page generation speed calculator
 $_PROFILER = new JProfiler( 'Core' );
 
-//TODO : implement mambothandler class as singleton, add getBotHandler to JFactory
-
-//TODO : implement editor functionality as a class
-jimport( 'joomla.editor' );
-
-//TODO : implement mambothandler class as singleton, add getVersion to JFactory
 jimport( 'joomla.legacy' );
+
 ?>

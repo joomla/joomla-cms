@@ -15,28 +15,13 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 if (!defined( '_MOS_EDITOR_INCLUDED' )) {
-	global $mosConfig_editor;
-	global $my, $_MAMBOTS;
-
-	if ($mosConfig_editor == '') {
-		$mosConfig_editor = 'none';
-	}
-
-	// Per User Editor selection
-	$editor = $mosConfig_editor;
-	if(isset($my)) {
-		$params = new mosParameters( $my->params );
-		$editor = $params->get( 'editor', $mosConfig_editor );
-	}
-
-	$_MAMBOTS->loadBot( 'editors', $editor, 1 );
-	$_MAMBOTS->loadBotGroup( 'editors-xtd' );
+	
 
 	function initEditor() {
-		global $mainframe, $_MAMBOTS;
-
+		global $mainframe;
+		
 		if ($mainframe->get( 'loadEditor' )) {
-			$results = $_MAMBOTS->trigger( 'onInitEditor' );
+			$results = $mainframe->triggerEvent( 'onInitEditor' );
 			foreach ($results as $result) {
 				if (trim($result)) {
 				   echo $result;
@@ -44,12 +29,38 @@ if (!defined( '_MOS_EDITOR_INCLUDED' )) {
 			}
 		}
 	}
-	function getEditorContents( $editorArea, $hiddenField ) {
-		global $mainframe, $_MAMBOTS;
+	
+	function _loadEditor()
+	{
+		global $mainframe, $mosConfig_editor, $my;
+		
+		if($mainframe->get( 'loadEditor' )) {
+			return;
+		}
 
+		if ($mosConfig_editor == '') {
+			$mosConfig_editor = 'none';
+		}
+
+		// Per User Editor selection
+		$editor = $mosConfig_editor;
+		
+		if(isset($my)) {
+			$params = new mosParameters( $my->params );
+			$editor = $params->get( 'editor', $mosConfig_editor );
+		}
+
+		JBotLoader::import( 'editors', $editor, 1 );
+		JBotLoader::importGroup( 'editors-xtd' );
+		
 		$mainframe->set( 'loadEditor', true );
+	}
+	function getEditorContents( $editorArea, $hiddenField ) {
+		global $mainframe;
+		
+		_loadEditor();
 
-		$results = $_MAMBOTS->trigger( 'onGetEditorContents', array( $editorArea, $hiddenField ) );
+		$results = $mainframe->triggerEvent( 'onGetEditorContents', array( $editorArea, $hiddenField ) );
 		foreach ($results as $result) {
 			if (trim($result)) {
 				echo $result;
@@ -58,17 +69,18 @@ if (!defined( '_MOS_EDITOR_INCLUDED' )) {
 	}
 	// just present a textarea
 	function editorArea( $name, $content, $hiddenField, $width, $height, $col, $row ) {
-		global $mainframe, $_MAMBOTS, $my;
+		global $mainframe, $my;
 
-		$mainframe->set( 'loadEditor', true );
+		_loadEditor();
 
-		$results = $_MAMBOTS->trigger( 'onEditorArea', array( $name, $content, $hiddenField, $width, $height, $col, $row ) );
+		$results = $mainframe->triggerEvent( 'onEditorArea', array( $name, $content, $hiddenField, $width, $height, $col, $row ) );
 		foreach ($results as $result) {
 			if (trim($result)) {
 				echo $result;
 			}
 		}
 	}
+
 	define( '_MOS_EDITOR_INCLUDED', 1 );
 }
 ?>

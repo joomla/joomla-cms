@@ -14,9 +14,9 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
-$_MAMBOTS->registerFunction( 'onInitEditor', 'botNoEditorInit' );
-$_MAMBOTS->registerFunction( 'onGetEditorContents', 'botNoEditorGetContents' );
-$_MAMBOTS->registerFunction( 'onEditorArea', 'botNoEditorEditorArea' );
+$mainframe->registerEvent( 'onInitEditor', 'botNoEditorInit' );
+$mainframe->registerEvent( 'onGetEditorContents', 'botNoEditorGetContents' );
+$mainframe->registerEvent( 'onEditorArea', 'botNoEditorEditorArea' );
 
 /**
 * No WYSIWYG Editor - javascript initialisation
@@ -64,9 +64,9 @@ EOD;
 * @param int The number of rows for the editor area
 */
 function botNoEditorEditorArea( $name, $content, $hiddenField, $width, $height, $col, $row ) {
-	global $_MAMBOTS;
+	global $mainframe;
 
-	$results = $_MAMBOTS->trigger( 'onCustomEditorButton' );
+	$results = $mainframe->triggerEvent( 'onCustomEditorButton' );
 	$buttons = array();
 	foreach ($results as $result) {
 		if ( $result[0] ) {

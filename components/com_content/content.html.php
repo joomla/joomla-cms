@@ -387,7 +387,6 @@ class HTML_content {
 	function show( &$row, &$params, &$access, $page=0, $option, $ItemidCount=NULL ) {
 		global $mainframe, $my, $hide_js;
 		global $mosConfig_sitename, $Itemid, $task;
-		global $_MAMBOTS;
 
 		$mainframe->appendMetaTag( 'description', $row->metadesc );
 		$mainframe->appendMetaTag( 'keywords', $row->metakey );
@@ -398,8 +397,8 @@ class HTML_content {
 		$link_text 	= '';
 
 		// process the new bots
-		$_MAMBOTS->loadBotGroup( 'content' );
-		$results = $_MAMBOTS->trigger( 'onPrepareContent', array( &$row, &$params, $page ), true );
+		JBotLoader::importGroup( 'content' );
+		$results = $mainframe->triggerEvent( 'onPrepareContent', array( &$row, &$params, $page ));
 
 		// adds mospagebreak heading or title to <site> Title
 		if ( isset($row->page_title) ) {
@@ -486,11 +485,11 @@ class HTML_content {
   		}
 
 		if ( !$params->get( 'intro_only' ) ) {
-			$results = $_MAMBOTS->trigger( 'onAfterDisplayTitle', array( &$row, &$params, $page ) );
+			$results = $mainframe->triggerEvent( 'onAfterDisplayTitle', array( &$row, &$params, $page ) );
 			echo trim( implode( "\n", $results ) );
 		}
 
-		$results = $_MAMBOTS->trigger( 'onBeforeDisplayContent', array( &$row, &$params, $page ) );
+		$results = $mainframe->triggerEvent( 'onBeforeDisplayContent', array( &$row, &$params, $page ) );
 		echo trim( implode( "\n", $results ) );
 		?>
 
@@ -530,7 +529,7 @@ class HTML_content {
 		</table>
 		<span class="article_seperator">&nbsp;</span>
 		<?php
-		$results = $_MAMBOTS->trigger( 'onAfterDisplayContent', array( &$row, &$params, $page ) );
+		$results = $mainframe->triggerEvent( 'onAfterDisplayContent', array( &$row, &$params, $page ) );
 		echo trim( implode( "\n", $results ) );
 
 		// displays the next & previous buttons
