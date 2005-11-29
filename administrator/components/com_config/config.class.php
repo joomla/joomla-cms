@@ -58,7 +58,7 @@ class mosConfig {
 	/** @var string */
 	var $config_absolute_path		= null;
 	/** @var string */
-	var $config_site				= null;
+	var $config_live_site			= null;
 	/** @var string */
 	var $config_secure_site			= null;
 	/** @var string */
