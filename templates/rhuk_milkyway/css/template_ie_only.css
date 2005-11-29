@@ -4,20 +4,39 @@ div#wrapper {
 	width: expression(((document.body.clientWidth)) < 750? "750px": ((document.body.clientWidth)) > 1050? "1050px": "auto" );
 }
 
+
+div#wrapper_r {
+
+}
+
+#footer {
+	width: 100%;
+}
+
+
 div#header_r {
 	height: 115px;
 }
 
 div#footer_r {
+	width: 100%;
 	height: 57px;
+}
+
+div#header_l {
+	width: 100%;
+	}
+	
+div#footer_l {
+	width: 100%;
 }
 
 div#newsflash {
 	width: 100%;
 }
 
-#pathway {
-	width: 100%;
+div#pathway {
+
 }
 
 #whitebox {
@@ -39,3 +58,9 @@ div.module_menu div div div {
 table.contentpaneopen, table.contentpane {
 	width: 100%;
 }
+
+#tabarea {
+	width: 100%;
+}
+
+

@@ -9,24 +9,45 @@ html {
 div#header_r {
 	text-align: right;
 	padding-left: 30px;
+	padding-right: 370px;
 }
 
 div#logo {
-	position: relative;
+	position: absolute;
+	left: auto;
+	right: 0;
+	top: 0;
 	float: right;
+	background: url(../images/mw_joomla_logo.png) 0 0 no-repeat;
 	margin-right: 30px;
-	margin-top: 0px;
 }
 
 p {
 	text-align: right;
 }
+
+table.pill {
+	width: auto;
+}
+
 td.pill_l {
 	background: url(../images/mw_menu_cap_r.png) no-repeat;
 }
 
 td.pill_r {
 	background: url(../images/mw_menu_cap_l.png) no-repeat;
+}
+
+#pillmenu {
+	float: none;
+}
+
+#pillmenu li {
+	float: left;
+}
+
+#pillmenu a {
+	float: none;
 }
 
 #pathway {
@@ -38,7 +59,7 @@ td.pill_r {
 
 #search {
 	float: left;
-	margin-left: 10px;
+	margin-left: 20px;
 }
 
 #whitebox div {
@@ -52,8 +73,9 @@ td.pill_r {
 }
 #maincolumn {
 	margin-right: 20%;
+	margin-left: 0%;
+	padding-left: 0;
 	padding-right: 15px;
-	width: 80%;
 }
 
 span.pathway {

@@ -109,6 +109,7 @@ div#newsflash {
 div#tabarea {
 	background: #f7f7f7 url(../images/mw_header_b.png) 0 0 repeat-x;
 	margin: 0 11px;
+
 }
 
 div#tabarea_l {
@@ -234,6 +235,7 @@ td.pill_m {
   background: url(../images/mw_menu_normal_bg.png) repeat-x;
   padding: 0;
   margin: 0;
+  width: auto;
 }
 
 td.pill_r {

@@ -22,7 +22,7 @@ mosShowHead();
 <link href="<?php echo JURL_SITE;?>/templates/<?php echo $mainframe->getTemplate(); ?>/css/template_ie_only.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 <?php if ($lang->isRTL()){ ?>
-<link href="<?php echo $mosConfig_live_site;?>/templates/<?php echo $mainframe->getTemplate(); ?>/css/template_css_rtl.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo JURL_SITE;?>/templates/<?php echo $mainframe->getTemplate(); ?>/css/template_css_rtl.css" rel="stylesheet" type="text/css" />
 <?php } ?>
 <link rel="shortcut icon" href="<?php echo JURL_SITE;?>/images/favicon.ico" />
 </head>
@@ -44,17 +44,17 @@ mosShowHead();
 				<div id="tabarea_l">
 					<div id="tabarea_r">
 						<div id="tabmenu">
-		  	    	<table cellpadding="0" cellspacing="0" class="pill">
-    				    <tr>
-    				      <td class="pill_l">&nbsp;</td>
-    				      <td class="pill_m">
-    				        <div id="pillmenu">
-    				          <?php mosLoadModules('user3', -1); ?>
-    				        </div>
-    				      </td>
-    				      <td class="pill_r">&nbsp;</td>
-    				    </tr>
-    				  </table>
+			  	    	<table cellpadding="0" cellspacing="0" class="pill">
+	    				    <tr>
+	    				      <td class="pill_l">&nbsp;</td>
+	    				      <td class="pill_m">
+	    				        <div id="pillmenu">
+	    				          <?php mosLoadModules('user3', -1); ?>
+	    				        </div>
+	    				      </td>
+	    				      <td class="pill_r">&nbsp;</td>
+	    				    </tr>
+	    				  </table>
 						</div>
 					</div>
 				</div>
