@@ -61,7 +61,7 @@ class JEventHandler extends JObject {
 	* @param string The function name
 	*/
 	function registerFunction( $event, $function ) {
-		$this->_events[$event][] = array( $function, $this->_loading );
+		$this->_events[$event][] = array( $function );
 	}
 	
 	/**
