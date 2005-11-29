@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+29-Nov-2004 Johan Janssens
+ # Fixed artf2361 : Fatal error: Call to a member function triggerEvent()
+
 28-Nov-2005 Andy Miller
  + Added RTL code/css to rhuk_milkyway template - Thanks David Gal
 

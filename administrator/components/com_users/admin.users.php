@@ -261,7 +261,7 @@ function editUser( $uid='0', $option='users' ) {
 }
 
 function saveUser( $option, $task ) {
-	global $database, $my;
+	global $database, $my, $mainframe;
 	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_sitename;
 
 	$row = new mosUser( $database );
