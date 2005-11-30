@@ -43,11 +43,13 @@ function botJoomlaSEFUrl( ) {
 		$mod_rewrite_off = $botParams->get( 'mode', 0 );
 
 		$url_array = explode('/', $_SERVER['REQUEST_URI']);
-		/**
-		* Content
-		* http://www.domain.com/$option/$task/$sectionid/$id/$Itemid/$limit/$limitstart
-		*/
+
 		if (in_array('content', $url_array)) {
+
+			/**
+			* Content
+			* http://www.domain.com/$option/$task/$sectionid/$id/$Itemid/$limit/$limitstart
+			*/
 
 			$uri 				= explode('content/', $_SERVER['REQUEST_URI']);
 			$option 			= 'com_content';
@@ -177,13 +179,13 @@ function botJoomlaSEFUrl( ) {
 			$_SERVER['QUERY_STRING'] 	= $QUERY_STRING;
 			$REQUEST_URI 				= $uri[0].'index.php?'.$QUERY_STRING;
 			$_SERVER['REQUEST_URI'] 	= $REQUEST_URI;
-		}
 
-		/*
-		Components
-		http://www.domain.com/component/$name,$value
-		*/
-		if (in_array('component', $url_array)) {
+		} else if (in_array('component', $url_array)) {
+
+			/*
+			Components
+			http://www.domain.com/component/$name,$value
+			*/
 
 			$uri = explode('component/', $_SERVER['REQUEST_URI']);
 			$uri_array = explode('/', $uri[1]);
@@ -201,15 +203,26 @@ function botJoomlaSEFUrl( ) {
 			$_SERVER['QUERY_STRING'] 	= $QUERY_STRING;
 			$REQUEST_URI 				= $uri[0].'index.php?'.$QUERY_STRING;
 			$_SERVER['REQUEST_URI'] 	= $REQUEST_URI;
-		}
-		// Extract to globals
-		while(list($key,$value)=each($_GET)) {
-			if ($key!="GLOBALS") {
-				$GLOBALS[$key]=$value;
+
+			// Extract to globals
+			while(list($key,$value)=each($_GET)) {
+				if ($key!="GLOBALS") {
+					$GLOBALS[$key]=$value;
+				}
 			}
+			// Don't allow config vars to be passed as global
+			include( $GLOBALS['mosConfig_absolute_path'] . '/configuration.php' );
+
+		} else {
+
+			/*
+			Unknown content
+			http://www.domain.com/unknown
+			*/
+			header("HTTP/1.0 404 Not Found");
+
 		}
-		// Don't allow config vars to be passed as global
-		include( $GLOBALS['mosConfig_absolute_path'] . '/configuration.php' );
+
 	}
 }
 
