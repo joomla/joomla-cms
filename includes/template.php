@@ -16,8 +16,14 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 * Displays the capture output of the main element
 */
 function mosMainBody() {
+	global $mainframe;
+	
 	// message passed via the url
 	$mosmsg = mosGetParam( $_REQUEST, 'mosmsg', '' );
+	
+	if($mainframe->getCfg('offline')) {
+		echo "\n<div class=\"offline\">".JText::_('Site is offline')."</div>";
+	}
 
 	if ($mosmsg) {
 		echo "\n<div class=\"message\">$mosmsg</div>";
