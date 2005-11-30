@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: index.php 1244 2005-11-29 02:39:31Z Jinx $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -22,38 +22,27 @@ require_once ( 'includes/joomla.php' );
 // create the mainframe object
 $mainframe =& new JSite();
 
-// displays offline/maintanance page or bar
-if ($mosConfig_offline == 1) {
-	// mainframe is an API workhorse, lots of 'core' interaction routines
-	$mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
-
-	// get the information about the current user from the sessions table
-	$my = $mainframe->getUser();
-
-	// get gid
-	$query = '
-	SELECT gid
-	FROM #__users
-	WHERE id = '. intval( $my->id );
-	;
-	$database->setQuery( $query );
-	$userstate = $database->loadResult();
-
-	// if superadministrator, administrator or manager show offline message bar + site
-	if ( $userstate == '25' || $userstate == '24' || $userstate == '23') {
-		include( 'offlinebar.php' );
-	}
-	else {
-		include( 'offline.php' );
-		exit();
-	}
-}
-
 // load system bot group
 JBotLoader::importGroup( 'system' );
 
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );
+
+// create the session
+$mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
+
+// get the information about the current user from the sessions table
+$my = $mainframe->getUser();
+
+// displays offline/maintanance page or bar
+if ($mosConfig_offline == 1) {
+	// if superadministrator, administrator or manager show offline message bar + site
+	if ( $my->gid < '23') {
+		header(' Content-Type: text/htm; charset=UTF-8');
+		require_once( 'templates/_system/offline.php' );
+		exit();
+	}
+}
 
 // retrieve some expected url (or form) arguments
 $option = trim( strtolower( mosGetParam( $_REQUEST, 'option' ) ) );
@@ -99,8 +88,6 @@ if ( !$Itemid ) {
 // when no Itemid give a default value
 	$Itemid = 99999999;
 }
-
-$mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
 
 // trigger the onAfterStart events
 $mainframe->triggerEvent( 'onAfterStart' );
@@ -218,11 +205,6 @@ header( 'Cache-Control: no-store, no-cache, must-revalidate' );
 header( 'Cache-Control: post-check=0, pre-check=0', false );
 header( 'Pragma: no-cache' );
 header(' Content-Type: text/html; charset=utf-8');
-
-// display the offline alert if an admin is logged in
-if (defined( '_ADMIN_OFFLINE' )) {
-	include( 'offlinebar.php' );
-}
 
 // loads template file
 $cur_template = $mainframe->getTemplate();

@@ -36,6 +36,10 @@ Legend:
 
 29-Nov-2004 Johan Janssens
  # Fixed artf2361 : Fatal error: Call to a member function triggerEvent()
+ ^ Moved offline.php to templates/_system
+ ^ Moved template/css to template/_system/css
+ - Removed offlinebar.php
+ ! Cleanedup index.php and index2.php
 
 28-Nov-2005 Andy Miller
  + Added RTL code/css to rhuk_milkyway template - Thanks David Gal

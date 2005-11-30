@@ -25,6 +25,9 @@ $handle = mosGetParam( $_POST, 'handle', NULL );
 // create the mainframe object
 $mainframe =& new JAdministrator();
 
+//get the database object
+$database =& JFactory::getDBO();
+
 // load system bot group
 JBotLoader::importGroup( 'system' );
 
@@ -34,24 +37,10 @@ $mainframe->triggerEvent( 'onBeforeStart' );
 //create the session
 $mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
 
-//get the database object
-$database =& JFactory::getDBO();
-
 // trigger the onAfterStart events
 $mainframe->triggerEvent( 'onAfterStart' );
 
 if (isset( $_POST['submit'] )) {
-	$query = "SELECT COUNT(*)"
-	. "\n FROM #__users"
-	. "\n WHERE gid = 25"
-	;
-	$database->setQuery( $query );
-	$count = intval( $database->loadResult() );
-
-	if ( $count < 1 ) {
-		mosErrorAlert( JText::_( 'errorNoAdmins' ) );
-	}
-
 	if ($mainframe->login()) {
 		$mainframe->setUserState( 'lang', mosGetParam( $_REQUEST, 'lang', $mosConfig_lang ) );
 		JSession::pause();

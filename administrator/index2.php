@@ -46,7 +46,6 @@ $_PROFILER->mark( 'onAfterStart' );
 // initialise some common request directives
 $option 	= strtolower( mosGetParam( $_REQUEST, 'option', 'com_admin' ) );
 $task 		= mosGetParam( $_REQUEST, 'task', '' );
-$act 		= strtolower( mosGetParam( $_REQUEST, 'act', '' ) );
 $section 	= mosGetParam( $_REQUEST, 'section', '' );
 $no_html 	= strtolower( mosGetParam( $_REQUEST, 'no_html', 0 ) );
 $id         = intval( mosGetParam( $_REQUEST, 'id' ) );

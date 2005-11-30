@@ -23,8 +23,6 @@ function dofreePDF () {
 	global $mosConfig_sitename, $mosConfig_offset;
 	global $mainframe, $database;
 
-	include( 'includes/class.ezpdf.php' );
-
 	$id = intval( mosGetParam( $_REQUEST, 'id', 1 ) );
 	$row = new mosContent( $database );
 	$row->load( $id );

@@ -26,7 +26,7 @@ $mainframe =& new JAdministrator();
 JBotLoader::importGroup( 'system' );
 
 // trigger the onStart events
-$mainframe->trigger( 'onBeforeStart' );
+$mainframe->triggerEvent( 'onBeforeStart' );
 
 // create the session
 $mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
@@ -36,12 +36,11 @@ if (is_null(JSession::get('guest')) || JSession::get('guest')) {
 }
 
 // trigger the onStart events
-$mainframe->trigger( 'onAfterStart' );
+$mainframe->triggerEvent( 'onAfterStart' );
 
 // initialise some common request directives
 $option     = strtolower( mosGetParam( $_REQUEST, 'option', 'com_admin' ) );
 $task		= mosGetParam( $_REQUEST, 'task', '' );
-$act		= strtolower( mosGetParam( $_REQUEST, 'act', '' ) );
 $section	= mosGetParam( $_REQUEST, 'section', '' );
 $no_html	= strtolower( mosGetParam( $_REQUEST, 'no_html', '' ) );
 $mosmsg		= strip_tags( mosGetParam( $_REQUEST, 'mosmsg', '' ) );

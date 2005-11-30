@@ -72,7 +72,7 @@ class modules_html {
 		/*
 	* standard tabled output
 	*/
-	function modoutput_table( $module, $params  ) {
+	function modoutput_table( $module, &$params  ) {
 
 		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
 
@@ -101,7 +101,7 @@ class modules_html {
 	/*
 	* standard tabled output
 	*/
-	function modoutput_horz( $module, $params  ) {
+	function modoutput_horz( $module, &$params  ) {
 		?>
 		<table cellspacing="1" cellpadding="0" border="0" width="100%">
 		<tr>
@@ -118,7 +118,7 @@ class modules_html {
 	/*
 	* show a naked module - no wrapper and no title
 	*/
-	function modoutput_naked( $module, $params  ) {
+	function modoutput_naked( $module, &$params  ) {
 
 		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
 
@@ -128,7 +128,7 @@ class modules_html {
 	/*
 	* xhtml (divs and font headder tags)
 	*/
-	function modoutput_xhtml( $module, $params ) {
+	function modoutput_xhtml( $module, &$params ) {
 
 		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
 
@@ -153,7 +153,7 @@ class modules_html {
 	/*
 	* allows for rounded corners
 	*/
-	function modoutput_rounded( $module, $params ) {
+	function modoutput_rounded( $module, &$params ) {
 
 		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
 

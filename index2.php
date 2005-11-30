@@ -19,11 +19,6 @@ define('JPATH_BASE', dirname(__FILE__) );
 require_once ( 'includes/defines.php');
 require_once ( 'includes/joomla.php' );
 
-// displays offline/maintanance page or bar
-if ($mosConfig_offline == 1) {
-	require( 'offline.php' );
-}
-
 // create the mainframe object
 $mainframe =& new JSite();
 
@@ -33,20 +28,31 @@ JBotLoader::importGroup( 'system' );
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );
 
+// create session
+$mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
+
+// get the information about the current user from the sessions table
+$my = $mainframe->getUser();
+
+// displays offline/maintanance page or bar
+if ($mosConfig_offline == 1) {	
+	// if superadministrator, administrator or manager show offline message bar + site
+	if ( $my->gid < '23') {
+		header(' Content-Type: text/htm; charset=UTF-8');
+		require_once( 'templates/_system/offline.php' );
+		exit();
+	}
+}
+
 // retrieve some expected url (or form) arguments
 $option 	= strtolower( mosGetParam( $_REQUEST, 'option' ) );
 $Itemid 	= strtolower( mosGetParam( $_REQUEST, 'Itemid',0 ) );
 $no_html 	= intval( mosGetParam( $_REQUEST, 'no_html', 0 ) );
 $do_pdf 	= intval( mosGetParam( $_REQUEST, 'do_pdf', 0 ) );
 
-// create the session
-$mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
 
 // trigger the onAfterStart events
 $mainframe->triggerEvent( 'onAfterStart' );
-
-// get the information about the current user from the sessions table
-$my = $mainframe->getUser();
 
 $lang =& $mainframe->getLanguage();
 $lang->load(trim($option));
@@ -97,37 +103,15 @@ header( 'Cache-Control: post-check=0, pre-check=0', false );
 header( 'Pragma: no-cache' );
 header(' Content-Type: text/htm; charset=UTF-8');
 
-// display the offline alert if an admin is logged in
-if (defined( '_ADMIN_OFFLINE' )) {
-	include( 'offlinebar.php' );
+// loads template file
+$template = $mainframe->getTemplate();
+if ( !file_exists( 'templates/'. $template .'/index2.php' ) ) {
+	require_once( 'templates/_system/index2.php' );
+} else {
+	require_once( 'templates/'. $template .'/index2.php' );	
 }
 
-$cur_template = $mainframe->getTemplate();
-// start basic HTML
-if ( $no_html == 0 ) {
-	$customIndex2 = 'templates/'. $cur_template .'/index2.php';
-	if (file_exists( $customIndex2 )) {
-		require( $customIndex2 );
-	} else {
-	?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<?php echo $mainframe->getHead(); ?>
-		<link rel="stylesheet" href="templates/<?php echo $cur_template;?>/css/template_css.css" type="text/css" />
-		<link rel="shortcut icon" href="<?php echo JURL_SITE; ?>/images/favicon.ico" />
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta name="robots" content="noindex, nofollow" />
-	</head>
-	<body class="contentpane">
-		<?php mosMainBody(); ?>
-	</body>
-</html>
-<?php
-	}
-} else {
-	mosMainBody();
-}
+echo "<!-- ".time()." -->";
 doGzip();
 ?>
 

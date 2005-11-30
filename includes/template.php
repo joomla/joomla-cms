@@ -80,8 +80,8 @@ function mosCountModules( $position='left' ) {
 * @param int The style.  0=normal, 1=horiz, -1=no wrapper
 */
 function mosLoadModules( $position='left', $style=0 ) {
-	global $mosConfig_lang, $mosConfig_caching;
-
+	global $mosConfig_lang, $mosConfig_caching, $Itemid;
+	
 	$tp = mosGetParam( $_GET, 'tp', 0 );
 	if ($tp) {
 		echo '<div style="height:50px;background-color:#eee;margin:2px;padding:10px;border:1px solid #f00;color:#700;">';
@@ -109,15 +109,16 @@ function mosLoadModules( $position='left', $style=0 ) {
 		$lang->load($module->module);
 
 		// check for custom language file
-		$path = JPATH_SITE . '/modules/' . $module->module . $mosConfig_lang .'.php';
+		//TODO: out-commented for beta phase, to be removed if no problems are reported
+		/*$path = JPATH_SITE . '/modules/' . $module->module . $mosConfig_lang .'.php';
 		if (file_exists( $path )) {
-			include( $path );
+			//include( $path );
 		} else {
 			$path = JPATH_SITE .'/modules/'. $module->module .'.eng.php';
 			if (file_exists( $path )) {
 				include( $path );
 			}
-		}
+		}*/
 
 		$params = new mosParameters( $module->params );
 
@@ -139,10 +140,10 @@ function mosLoadModules( $position='left', $style=0 ) {
 /**
 * Loads an admin module
 */
-function mosLoadModule( $name, $params=NULL ) {
+function mosLoadModule( $name, &$params ) {
 	global $mosConfig_sitename, $mosConfig_lang;
 	global $mainframe, $database, $my, $Itemid, $acl;
-
+	
 	$lang =& $mainframe->getLanguage();
 	$lang->load('mod_'.$name);
 
