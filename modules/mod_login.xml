@@ -18,14 +18,6 @@
 		<param name="posttext" type="textarea" cols="20" rows="5" label="Post-text" description="PARAMPOSTTEXT" />
 		<param name="login" type="text" default="" label="Login Redirection URL" description="PARAMLOGINREDIRECTURL" />
 		<param name="logout" type="text" default="" label="Logout Redirection URL" description="PARAMLOGOUTREDIRECTURL" />
-		<param name="login_message" type="radio" default="0" label="Login Message" description="PARAMLOGINMESSAGE">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="logout_message" type="radio" default="0" label="Logout Message" description="PARAMLOGOUTMESSAGE">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
 		<param name="greeting" type="radio" default="1" label="Greeting" description="Show/Hide the simple greeting text">
 			<option value="0">No</option>
 			<option value="1">Yes</option>

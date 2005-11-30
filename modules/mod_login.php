@@ -20,8 +20,6 @@ $return = mosGetParam( $_SERVER, 'QUERY_STRING', null );
 $return = str_replace( '&', '&amp;', $return );
 
 $registration_enabled 	= $mainframe->getCfg( 'allowUserRegistration' );
-$message_login 			= $params->def( 'login_message', 0 );
-$message_logout 		= $params->def( 'logout_message', 0 );
 $pretext 				= $params->get( 'pretext' );
 $posttext 				= $params->get( 'posttext' );
 $login 					= $params->def( 'login', $return );
@@ -56,9 +54,7 @@ if ( $my->id ) {
 	</div>
 
 	<input type="hidden" name="option" value="logout" />
-	<input type="hidden" name="lang" value="<?php echo $mosConfig_lang; ?>" />
 	<input type="hidden" name="return" value="<?php echo sefRelToAbs( 'index.php?'.$logout ); ?>" />
-	<input type="hidden" name="message" value="<?php echo $message_logout; ?>" />
 	</form>
 	<?php
 } else {
@@ -118,9 +114,7 @@ if ( $my->id ) {
 	?>
 
 	<input type="hidden" name="op2" value="login" />
-	<input type="hidden" name="lang" value="<?php echo $mosConfig_lang; ?>" />
 	<input type="hidden" name="return" value="<?php echo sefRelToAbs( 'index.php?'.$login ); ?>" />
-	<input type="hidden" name="message" value="<?php echo $message_login; ?>" />
 	</form>
 	<?php
 }

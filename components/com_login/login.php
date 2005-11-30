@@ -31,8 +31,6 @@ $params->def( 'pageclass_sfx', '' );
 $params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
 $params->def( 'login', 'index.php' );
 $params->def( 'logout', 'index.php' );
-$params->def( 'login_message', 0 );
-$params->def( 'logout_message', 0 );
 $params->def( 'description_login', 1 );
 $params->def( 'description_logout', 1 );
 $params->def( 'description_login_text', JText::_( 'LOGIN_DESCRIPTION' ) );

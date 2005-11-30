@@ -36,22 +36,10 @@ $option = trim( strtolower( mosGetParam( $_REQUEST, 'option' ) ) );
 
 // frontend login & logout controls
 $return = mosGetParam( $_REQUEST, 'return', NULL );
-$message = mosGetParam( $_POST, 'message', 0 );
 if ($option == 'login') {
 	if (!$mainframe->login()) {
 		$mainframe->logout();
 		mosErrorAlert( JText::_( 'LOGIN_INCORRECT' ) );
-	}
-
-	// JS Popup message
-	if ( $message ) {
-		?>
-		<script language="javascript" type="text/javascript">
-		<!--//
-		alert( "<?php echo JText::_( 'LOGIN_SUCCESS' ); ?>" );
-		//-->
-		</script>
-		<?php
 	}
 
 	if ($return) {
@@ -59,20 +47,10 @@ if ($option == 'login') {
 	} else {
 		mosRedirect( 'index.php' );
 	}
+} 
 
-} else if ($option == 'logout') {
+if ($option == 'logout') {
 	$mainframe->logout();
-
-	// JS Popup message
-	if ( $message ) {
-		?>
-		<script language="javascript" type="text/javascript">
-		<!--//
-		alert( "<?php echo JText::_( 'LOGOUT_SUCCESS' ); ?>" );
-		//-->
-		</script>
-		<?php
-	}
 
 	if ($return) {
 		mosRedirect( $return );

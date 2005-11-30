@@ -121,8 +121,6 @@ class loginHTML {
 
 		<input type="hidden" name="option" value="login" />
 		<input type="hidden" name="return" value="<?php echo sefRelToAbs( $return ); ?>" />
-		<input type="hidden" name="lang" value="<?php echo $mosConfig_lang; ?>" />
-		<input type="hidden" name="message" value="<?php echo $params->get( 'login_message' ); ?>" />
 		</form>
 		<?php
   	}
@@ -174,8 +172,6 @@ class loginHTML {
 
 		<input type="hidden" name="option" value="logout" />
 		<input type="hidden" name="return" value="<?php echo sefRelToAbs( $return ); ?>" />
-		<input type="hidden" name="lang" value="<?php echo $mosConfig_lang; ?>" />
-		<input type="hidden" name="message" value="<?php echo $params->get( 'logout_message' ); ?>" />
 		</form>
 	<?php
 	}

@@ -38,11 +38,26 @@ $my = $mainframe->getUser();
 $option 	= strtolower( mosGetParam( $_REQUEST, 'option' ) );
 
 if ($option == 'login') {
-	$mainframe->login();
-	mosRedirect('index.php');
-} else if ($option == 'logout') {
+	if (!$mainframe->login()) {
+		$mainframe->logout();
+		mosErrorAlert( JText::_( 'LOGIN_INCORRECT' ) );
+	}
+
+	if ($return) {
+		mosRedirect( $return );
+	} else {
+		mosRedirect( 'index.php' );
+	}
+} 
+
+if ($option == 'logout') {
 	$mainframe->logout();
-	mosRedirect( 'index.php' );
+
+	if ($return) {
+		mosRedirect( $return );
+	} else {
+		mosRedirect( 'index.php' );
+	}
 }
 
 // displays offline/maintanance page or bar
