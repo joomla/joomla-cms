@@ -105,21 +105,26 @@ if (defined( '_ADMIN_OFFLINE' )) {
 $cur_template = $mainframe->getTemplate();
 // start basic HTML
 if ( $no_html == 0 ) {
+	$customIndex2 = 'templates/'. $cur_template .'/index2.php';
+	if (file_exists( $customIndex2 )) {
+		require( $customIndex2 );
+	} else {
 	?>
-	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-	<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-	<?php echo $mainframe->getHead(); ?>
-	<link rel="stylesheet" href="templates/<?php echo $cur_template;?>/css/template_css.css" type="text/css" />
-	<link rel="shortcut icon" href="<?php echo JURL_SITE; ?>/images/favicon.ico" />
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="robots" content="noindex, nofollow" />
+		<?php echo $mainframe->getHead(); ?>
+		<link rel="stylesheet" href="templates/<?php echo $cur_template;?>/css/template_css.css" type="text/css" />
+		<link rel="shortcut icon" href="<?php echo JURL_SITE; ?>/images/favicon.ico" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="robots" content="noindex, nofollow" />
 	</head>
 	<body class="contentpane">
-	<?php mosMainBody(); ?>
+		<?php mosMainBody(); ?>
 	</body>
-	</html>
-	<?php
+</html>
+<?php
+	}
 } else {
 	mosMainBody();
 }

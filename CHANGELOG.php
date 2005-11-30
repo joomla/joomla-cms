@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Nov-2005 Andrew Eddie
+ # Site templates allowed to have custom index2.php (fixes problems where custom code is required in index2)
+
 29-Nov-2004 Johan Janssens
  # Fixed artf2361 : Fatal error: Call to a member function triggerEvent()
 
