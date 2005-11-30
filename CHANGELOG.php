@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+30-Nov-2005 Emir Sakic
+ + Added 404 handling for missing content and components
+
 30-Nov-2005 Johan Janssens
  # Fixed artf2369 : $mosConfig_lang & $mosConfig_lang_administrator pb
  + Added 'Site if offline' message to mosMainBody

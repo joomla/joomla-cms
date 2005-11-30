@@ -35,7 +35,7 @@ $mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client 
 $my = $mainframe->getUser();
 
 // displays offline/maintanance page or bar
-if ($mosConfig_offline == 1) {	
+if ($mosConfig_offline == 1) {
 	// if superadministrator, administrator or manager show offline message bar + site
 	if ( $my->gid < '23') {
 		header(' Content-Type: text/htm; charset=UTF-8');
@@ -87,6 +87,7 @@ if ($path = $mainframe->getPath( 'front' )) {
 		mosNotAuth();
 	}
 } else {
+	header("HTTP/1.0 404 Not Found");
 	echo JText::_( 'NOT_EXIST' );
 }
 $_MOS_OPTION['buffer'] = ob_get_contents();
@@ -108,7 +109,7 @@ $template = $mainframe->getTemplate();
 if ( !file_exists( 'templates/'. $template .'/index2.php' ) ) {
 	require_once( 'templates/_system/index2.php' );
 } else {
-	require_once( 'templates/'. $template .'/index2.php' );	
+	require_once( 'templates/'. $template .'/index2.php' );
 }
 
 echo "<!-- ".time()." -->";

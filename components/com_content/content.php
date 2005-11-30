@@ -109,7 +109,9 @@ switch ( strtolower( $task ) ) {
 		break;
 
 	default:
-		$cache->call('showBlogSection', 0, $gid, $access, $pop, $now );
+		//$cache->call('showBlogSection', 0, $gid, $access, $pop, $now );
+		header("HTTP/1.0 404 Not Found");
+		echo JText::_( 'NOT_EXIST' );
 		break;
 }
 
