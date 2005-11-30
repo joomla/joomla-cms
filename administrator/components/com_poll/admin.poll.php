@@ -60,6 +60,10 @@ switch( $task ) {
 	case 'cancel':
 		cancelPoll( $option );
 		break;
+	
+	case 'preview':
+		previewPoll($option);
+		break;
 
 	default:
 		showPolls( $option );
@@ -269,5 +273,29 @@ function cancelPoll( $option ) {
 	$row->bind( $_POST );
 	$row->checkin();
 	mosRedirect( 'index2.php?option='. $option );
+}
+
+function previewPoll($option) {
+	global $database;
+	
+	$pollid = mosGetParam( $_REQUEST, 'pollid', 0 );
+	$css = mosGetParam( $_REQUEST, 't', '' );
+
+	$query = "SELECT title"
+		. "\n FROM #__polls"
+		. "\n WHERE id = $pollid"
+	;
+	$database->setQuery( $query );
+	$title = $database->loadResult();
+
+	$query = "SELECT text"
+		. "\n FROM #__poll_data"
+		. "\n WHERE pollid = $pollid"
+		. "\n ORDER BY id"
+	;
+	$database->setQuery( $query );
+	$options = $database->loadResultArray();
+
+	HTML_poll::previewPoll($title, $options);
 }
 ?>

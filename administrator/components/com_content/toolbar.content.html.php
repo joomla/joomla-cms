@@ -21,7 +21,7 @@ class TOOLBAR_content {
 		global $id;
 
 		mosMenuBar::startTable();
-		mosMenuBar::preview( 'contentwindow', true );
+		mosMenuBar::preview( 'index3.php?option=com_content&id='.$id, true );
 		mosMenuBar::spacer();
 		mosMenuBar::media_manager();
 		mosMenuBar::spacer();

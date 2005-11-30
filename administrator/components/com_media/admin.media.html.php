@@ -453,5 +453,129 @@ class HTML_Media {
 		</style>
 		<?php
 	}
+	
+	function popupUpload( $basePath ) {
+		global $mosConfig_absolute_path;
+
+		$imgFiles 	= JFolder::folders( $basePath, '.', true, true );
+		$folders 	= array();
+		$folders[] 	= mosHTML::makeOption( '/' );
+
+		$len = strlen( $basePath );
+		foreach ( $imgFiles as $file ) {
+			$folders[] = mosHTML::makeOption( str_replace( '\\', '/', substr( $file, $len ) ) );
+		}
+
+		if ( is_array( $folders ) ) {
+			sort( $folders );
+		}
+		// create folder selectlist
+		$dirPath = mosHTML::selectList( $folders, 'dirPath', 'class="inputbox" size="1" ', 'value', 'text', '.' );
+		?>
+		<form method="post" action="index2.php" enctype="multipart/form-data" name="adminForm">
+
+		<table id="toolbar">
+		<tr>
+			<td>
+			<?php echo mosAdminMenus::ImageCheck( 'mediamanager.png', '/administrator/images/', NULL, NULL, JText::_( 'Upload a File' ), 'upload' ); ?>
+			</td>
+			<td class="title">
+			<?php echo JText::_( 'Upload a File' ); ?>
+			</td>
+		</tr>
+		</table>
+
+		<table class="adminform">
+		<tr>
+			<td colspan="2">
+			<?php echo  JText::_( 'Select File' ); ?>&nbsp;&nbsp;&nbsp;
+			[ <?php echo  JText::_( 'Max size' ); ?> = <?php echo ini_get( 'post_max_size' );?> ]
+			<br/>
+			<input class="inputbox" name="upload" type="file" size="70" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			<?php echo  JText::_( 'Destination Sub-folder' ); ?>: <?php echo $dirPath; ?>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<input class="button" type="button" value="<?php echo  JText::_( 'Upload' ); ?>" name="fileupload" onclick="javascript:submitbutton('upload')" />
+			</td>
+			<td>
+			<div align="right">
+			<input class="button" type="button" value="<?php echo  JText::_( 'Close' ); ?>" onclick="javascript:window.close();" align="right" />
+			</div>
+			</td>
+		</tr>
+		</table>
+
+		<input type="hidden" name="option" value="com_media" />
+		<input type="hidden" name="task" value="" />
+		</form>
+		<?php
+	}
+
+	function popupDirectory( $basePath ) {
+
+		$imgFiles 	= mosFS::listFolders( $basePath, '.', true, true );
+		$folders 	= array();
+		$folders[] 	= mosHTML::makeOption( '/' );
+
+		$len = strlen( $basePath );
+		foreach ( $imgFiles as $file ) {
+			$folders[] = mosHTML::makeOption( str_replace( '\\', '/', substr( $file, $len ) ) );
+		}
+
+		if ( is_array( $folders ) ) {
+			sort( $folders );
+		}
+		// create folder selectlist
+		$dirPath = mosHTML::selectList( $folders, 'dirPath', 'class="inputbox" size="1"', 'value', 'text', '.' );
+		?>
+		<form action="index2.php" name="adminForm" method="post">
+
+		<table id="toolbar">
+		<tr>
+			<td>
+			<?php echo mosAdminMenus::ImageCheck( 'module.png', '/administrator/images/', NULL, NULL, $_LANG->_( 'Upload a File' ), 'upload' ); ?>
+			</td>
+			<td class="title">
+			<?php echo  JText::_( 'Create a Directory' ); ?>
+			</td>
+		</tr>
+		</table>
+
+		<table class="adminform">
+		<tr>
+			<td colspan="2">
+			<?php echo JText::_( 'Directory Name' ); ?>
+			<br/>
+			<input class="inputbox" name="foldername" type="text" size="60" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			<?php echo JText::_( 'Parent Directory' ); ?>: <?php echo $dirPath; ?>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<input class="button" type="button" value="<?php echo JText::_( 'Create' ); ?>" onclick="javascript:submitbutton('newdir')" />
+			</td>
+			<td>
+			<div align="right">
+			<input class="button" type="button" value="<?php echo JText::_( 'Close' ); ?>" onclick="javascript:window.close();" align="right" />
+			</div>
+			</td>
+		</tr>
+		</table>
+
+		<input type="hidden" name="option" value="com_media" />
+		<input type="hidden" name="task" value="" />
+		</form>
+		<?php
+	}
 }
 ?>

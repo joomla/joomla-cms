@@ -407,6 +407,38 @@ class HTML_modules {
 		</form>
 		<?php
 	}
+	
+	function previewModule()
+	{
+		?>
+		<script>
+		var content = window.opener.document.adminForm.content.value;
+		var title = window.opener.document.adminForm.title.value;
 
+		content = content.replace('#', '');
+		title = title.replace('#', '');
+		content = content.replace('src=images', 'src=../../images');
+		content = content.replace('src=images', 'src=../../images');
+		title = title.replace('src=images', 'src=../../images');
+		content = content.replace('src=images', 'src=../../images');
+		title = title.replace('src=\"images', 'src=\"../../images');
+		content = content.replace('src=\"images', 'src=\"../../images');
+		title = title.replace('src=\"images', 'src=\"../../images');
+		content = content.replace('src=\"images', 'src=\"../../images');
+		</script>
+
+		<table align="center" width="160" cellspacing="2" cellpadding="2" border="0" height="100%">
+		<tr>
+			<td class="moduleheading"><script>document.write(title);</script></td>
+		</tr>
+		<tr>
+			<td valign="top" height="90%"><script>document.write(content);</script></td>
+		</tr>
+		<tr>
+			<td align="center"><a href="#" onClick="window.close()"><?php echo JText::_( 'Close' ); ?></a></td>
+		</tr>
+		</table>
+		<?php
+	}
 }
 ?>

@@ -197,6 +197,34 @@ class HTML_poll {
 		</form>
 		<?php
 	}
-
+	
+	function previewPoll($title, $options)
+	{
+		?>
+		<form>
+		<table align="center" width="90%" cellspacing="2" cellpadding="2" border="0" >
+		<tr>
+			<td class="moduleheading" colspan="2"><?php echo $title; ?></td>
+		</tr>
+		<?php foreach ($options as $text)
+		{
+			if ($text <> "")
+			{?>
+			<tr>
+				<td valign="top" height="30"><input type="radio" name="poll" value="<?php echo $text; ?>"></td>
+				<td class="poll" width="100%" valign="top"><?php echo $text; ?></td>
+			</tr>
+			<?php }
+		} ?>
+		<tr>
+			<td valign="middle" height="50" colspan="2" align="center"><input type="button" name="submit" value="<?php echo JText::_( 'Vote' ); ?>">&nbsp;&nbsp;<input type="button" name="result" value="<?php echo JText::_( 'Results' ); ?>"></td>
+		</tr>
+		<tr>
+			<td align="center" colspan="2"><a href="#" onClick="window.close()"><?php echo JText::_( 'Close' ); ?></a></td>
+		</tr>
+		</table>
+		</form>
+		<?php
+	}
 }
 ?>

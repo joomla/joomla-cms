@@ -526,14 +526,11 @@ class mosMenuBar {
 	* @param string The name of the popup file (excluding the file extension)
 	* @since 1.0
 	*/
-	function preview( $popup='', $updateEditors=false ) {
+	function preview( $url='', $updateEditors=false ) {
 		global $database;
 
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'preview_f2.png', '/images/', NULL, NULL, 'Preview', 'preview', 1 );
 
-		$sql = "SELECT template FROM #__templates_menu WHERE client_id='0' AND menuid='0'";
-		$database->setQuery( $sql );
-		$cur_template = $database->loadResult();
 		?>
 		<td>
 			<script language="javascript">
@@ -544,7 +541,7 @@ class mosMenuBar {
 					getEditorContents( 'editor2', 'fulltext' );
 				}
 				?>
-				window.open('popups/<?php echo $popup;?>.php?t=<?php echo $cur_template; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');
+				window.open('<? echo $url."&task=preview"; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');
 			}
 			</script>
 		 	<a class="toolbar" href="#" onclick="popup();">
@@ -736,18 +733,10 @@ class mosMenuBar {
 
     	$alt = JText::_( $alt );
 
-		$query = "SELECT template"
-		. "\n FROM #__templates_menu"
-		. "\n WHERE client_id = 1"
-		. "\n AND menuid = 0"
-		;
-		$database->setQuery( $query );
-		$cur_template = $database->loadResult();
-
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'upload_f2.png', '/images/', NULL, NULL, 'Upload Image', 'uploadPic', 1 );
 		?>
 		<td>
-			<a class="toolbar" href="#" onclick="popupWindow('popups/uploadimage.php?directory=<?php echo $directory; ?>&t=<?php echo $cur_template; ?>','win1',250,100,'no');">
+			<a class="toolbar" href="#" onclick="popupWindow('index3.php?option=com_media&task=popupUpload&directory=<?php echo $directory; ?>','win1',250,100,'no');">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt;?></a>
 		</td>

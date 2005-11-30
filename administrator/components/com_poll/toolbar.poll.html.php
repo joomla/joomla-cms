@@ -39,19 +39,9 @@ class TOOLBAR_poll {
 	function _EDIT( $pollid, $cur_template ) {
 		global $database, $id;
 
-		$sql = "SELECT template"
-		. "\n FROM #__templates_menu"
-		. "\n WHERE client_id = 0"
-		. "\n AND menuid = 0"
-		;
-		$database->setQuery( $sql );
-		$cur_template = $database->loadResult();
 		mosMenuBar::startTable();
 		mosMenuBar::title(  JText::_( 'Poll' ).'<small>'.JText::_( 'Edit' ) .'</small>' );
-		$popup='pollwindow';
-		?>
-		<td><a class="toolbar" href="#" onclick="window.open('popups/<?php echo $popup;?>.php?pollid=<?php echo $pollid; ?>&t=<?php echo $cur_template; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage('preview','','images/preview_f2.png',1);"><img src="images/preview.png" alt="<?php echo JText::_( 'Preview' ); ?>" border="0" name="preview" align="middle" />&nbsp;Preview</a></td>
-		<?php
+		mosMenuBar::Preview('index3.php?option=com_poll&pollid='.$pollid);
 		mosMenuBar::spacer();
 		mosMenuBar::save();
 		mosMenuBar::spacer();

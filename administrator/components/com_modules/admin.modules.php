@@ -82,6 +82,10 @@ switch ( $task ) {
 	case 'saveorder':
 		saveOrder( $cid, $client );
 		break;
+		
+	case 'preview' :
+		previewModule($id, $client);
+		break;
 
 	default:
 		viewModules( $option, $client );
@@ -658,4 +662,9 @@ function saveOrder( &$cid, $client ) {
 	$msg 	= JText::_( 'New ordering saved' );
 	mosRedirect( 'index2.php?option=com_modules&client='. $client, $msg );
 } // saveOrder
+
+function previewModule($id, $client)
+{
+	HTML_modules::previewModule( );
+}
 ?>

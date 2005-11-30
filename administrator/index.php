@@ -50,15 +50,14 @@ if (isset( $_POST['submit'] )) {
 	} else {
 		mosErrorAlert( JText::_( 'validUserPassAccess' ), "document.location.href='index.php'" );
 	}
-} else {
+} 
 
-	initGzip();
-	header(' Content-Type: text/html; charset=UTF-8');
+initGzip();
+header(' Content-Type: text/html; charset=UTF-8');
 
-	$cur_template = $mainframe->getTemplate();
-	$path = JPATH_ADMINISTRATOR . '/templates/' . $cur_template . '/login.php';
-	require_once( $path );
+$template = $mainframe->getTemplate();
+$path = JPATH_ADMINISTRATOR . '/templates/' . $template . '/login.php';
+require_once( $path );
 
-	doGzip();
-}
+doGzip();
 ?>

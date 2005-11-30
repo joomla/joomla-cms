@@ -1182,5 +1182,50 @@ class HTML_content {
 		</form>
 		<?php
 	}
+	
+	function previewContent()
+	{
+		?>
+		<script>
+		var form = window.opener.document.adminForm
+		var title = form.title.value;
+
+		var alltext = form.introtext.value;
+		if (form.fulltext) {
+			alltext += form.fulltext.value;
+		}
+
+		// do the images
+		var temp = new Array();
+		for (var i=0, n=form.imagelist.options.length; i < n; i++) {
+			value = form.imagelist.options[i].value;
+			parts = value.split( '|' );
+
+			temp[i] = '<img src="images/stories/' + parts[0] + '" align="' + parts[1] + '" border="' + parts[3] + '" alt="' + parts[2] + '" hspace="6" />';
+		}
+
+		var temp2 = alltext.split( '{mosimage}' );
+
+		var alltext = temp2[0];
+
+		for (var i=0, n=temp2.length-1; i < n; i++) {
+			alltext += temp[i] + temp2[i+1];
+		}
+		</script>
+
+		<table align="center" width="90%" cellspacing="2" cellpadding="2" border="0">
+			<tr>
+				<td class="contentheading" colspan="2"><script>document.write(title);</script></td>
+			</tr>
+		<tr>
+			<script>document.write("<td valign=\"top\" height=\"90%\" colspan=\"2\">" + alltext + "</td>");</script>
+		</tr>
+		<tr>
+			<td align="right"><a href="#" onClick="window.close()"><?php echo JText::_( 'Close' ); ?></a></td>
+			<td ><a href="javascript:;" onClick="window.print(); return false"><?php echo JText::_( 'Print' ); ?></a></td>
+		</tr>
+		</table>
+		<?php
+	}
 }
 ?>

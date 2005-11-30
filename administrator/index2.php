@@ -91,11 +91,11 @@ header(' Content-Type: text/html; charset=UTF-8');
 // start the html output
 if ($no_html == 0) {
 	// loads template file
-	$cur_template = $mainframe->getTemplate();
-	if ( !file_exists( JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/index.php' ) ) {
-		echo sprintf( JText::_( 'TEMPLATE NOT FOUND' ), $cur_template );
+	$template = $mainframe->getTemplate();
+	if ( !file_exists( JPATH_ADMINISTRATOR .'/templates/'. $template .'/index.php' ) ) {
+		echo sprintf( JText::_( 'TEMPLATE NOT FOUND' ), $template );
 	} else {
-		require_once( JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/index.php' );
+		require_once( JPATH_ADMINISTRATOR .'/templates/'. $template .'/index.php' );
 	}
 } else {
 	mosMainBody_Admin();

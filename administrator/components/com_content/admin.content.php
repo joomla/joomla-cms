@@ -119,6 +119,10 @@ switch ($task) {
 	case 'saveorder':
 		saveOrder( $cid );
 		break;
+	
+	case 'preview' :
+		previewContent($id, $option);
+		break;
 
 	default:
 		viewContent( $sectionid, $option );
@@ -1257,4 +1261,9 @@ function saveOrder( &$cid ) {
 			break;
 	} // switch
 } // saveOrder
+
+function previewContent($id, $option)
+{
+	HTML_content::previewContent( );
+}
 ?>

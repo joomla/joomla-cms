@@ -31,15 +31,13 @@ Legend:
 - -> Removed
 ! -> Note
 
-30-Nov-2005 Andrew Eddie
- # Site templates allowed to have custom index2.php (fixes problems where custom code is required in index2)
-
 29-Nov-2004 Johan Janssens
  # Fixed artf2361 : Fatal error: Call to a member function triggerEvent()
  ^ Moved offline.php to templates/_system
  ^ Moved template/css to template/_system/css
  - Removed offlinebar.php
  ! Cleanedup index.php and index2.php
+ - Removed administrator/popups, moved functionality into respective components
 
 28-Nov-2005 Andy Miller
  + Added RTL code/css to rhuk_milkyway template - Thanks David Gal

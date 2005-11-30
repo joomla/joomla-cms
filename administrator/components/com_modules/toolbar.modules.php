@@ -25,22 +25,21 @@ switch ($task) {
 	case 'edit':
 		$cid = mosGetParam( $_POST, 'cid', 0 );
 		if ( !is_array( $cid ) ){
-			$mid = mosGetParam( $_POST, 'id', 0 );;
+			$mid = mosGetParam( $_REQUEST, 'id', 0 );;
 		} else {
 			$mid = $cid[0];
 		}
-
+	
 		$published = 0;
 		if ( $mid ) {
-			$query = "SELECT published"
+			$query = "SELECT published, module"
 			. "\n FROM #__modules"
 			. "\n WHERE id = $mid"
 			;
 			$database->setQuery( $query );
-			$published = $database->loadResult();
+			$array = $database->loadAssocList();
 		}
-		$cur_template = $mainframe->getTemplate();
-		TOOLBAR_modules::_EDIT( $cur_template, $published, $client );
+		TOOLBAR_modules::_EDIT( $array[0]['published'],$array[0]['module'], $client );
 		break;
 
 	case 'new':
