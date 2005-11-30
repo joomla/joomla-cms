@@ -809,11 +809,12 @@ class HTML_config {
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>"/>
 		<input type="hidden" name="config_admin_path" value="<?php echo $row->config_admin_path; ?>"/>
-		<input type="hidden" name="config_admin_site" value="<?php echo $row->config_admin_site; ?>"/>
 		<input type="hidden" name="config_absolute_path" value="<?php echo $row->config_absolute_path; ?>"/>
 		<input type="hidden" name="config_live_site" value="<?php echo $row->config_live_site; ?>"/>
 		<input type="hidden" name="config_secret" value="<?php echo $row->config_secret; ?>"/>
 		<input type="hidden" name="config_multilingual_support" value="<?php echo $row->config_multilingual_support; ?>"/>
+	  	<input type="hidden" name="config_lang" value="<?php echo $row->config_lang; ?>"/>
+	  	<input type="hidden" name="config_lang_administrator" value="<?php echo $row->config_lang_administrator; ?>"/>				
 	  	<input type="hidden" name="task" value=""/>
 		</form>
 

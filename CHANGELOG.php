@@ -31,7 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
-29-Nov-2004 Johan Janssens
+30-Nov-2005 Johan Janssens
+ # Fixed artf2369 : $mosConfig_lang & $mosConfig_lang_administrator pb
+
+29-Nov-2005 Johan Janssens
  # Fixed artf2361 : Fatal error: Call to a member function triggerEvent()
  ^ Moved offline.php to templates/_system
  ^ Moved template/css to template/_system/css
