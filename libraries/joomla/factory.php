@@ -80,7 +80,7 @@ class JFactory
 		//if ($database->getErrorNum()) {
 		//	$mosSystemError = $database->getErrorNum();
 		//	include JPATH_ROOT . '/configuration.php';
-		//	include JPATH_ROOT . '/offline.php';
+		//	include JPATH_ROOT . '/error.php';
 		//	exit();
 		//}
 		$database->debug( $debug );

@@ -1,0 +1,26 @@
+/**
+ * CSS Document for offline page
+ * @version $Id$
+ * @package Joomla
+ * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * Joomla! is free software and parts of it may contain or be derived from the
+ * GNU General Public License or other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
+
+.outline {
+  border: 1px solid #cccccc;
+  background: #ffffff;
+  padding: 2px;
+}
+
+body {
+	margin: 15px;
+	height: 100%;
+	padding: 0px;
+	font-family: Arial, Helvetica, Sans Serif;
+	font-size: 11px;
+	color: #333333;
+	background: #ffffff;
+}

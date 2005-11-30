@@ -55,7 +55,6 @@ if ( $my->id ) {
 		<input type="submit" name="Submit" class="button" value="<?php echo JText::_( 'BUTTON_LOGOUT'); ?>" />
 	</div>
 
-	<input type="hidden" name="op2" value="logout" />
 	<input type="hidden" name="option" value="logout" />
 	<input type="hidden" name="lang" value="<?php echo $mosConfig_lang; ?>" />
 	<input type="hidden" name="return" value="<?php echo sefRelToAbs( 'index.php?'.$logout ); ?>" />

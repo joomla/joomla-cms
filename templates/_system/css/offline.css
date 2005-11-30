@@ -8,6 +8,29 @@
  * GNU General Public License or other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
  */
+ 
+body {
+	margin: 0; padding: 0;
+	font-family: Arial, Helvetica, Sans Serif; font-size: 78%;
+	color: #333333;
+	text-align: center;
+}
+
+img  { border: 0 none; }
+
+/* -- id styles ------------------------------------- */
+
+#frame {
+	margin: 20px auto;
+	width: 400px;
+	padding: 20px;
+}
+
+#frame form {
+	text-align: left;
+}
+
+/* -- class styles ---------------------------------- */
 
 .outline {
   border: 1px solid #cccccc;
@@ -15,12 +38,28 @@
   padding: 2px;
 }
 
-body {
-	margin: 15px;
-	height: 100%;
-	padding: 0px;
-	font-family: Arial, Helvetica, Sans Serif;
-	font-size: 11px;
-	color: #333333;
-	background: #ffffff;
-}
+/* -- form styles ----------------------------------- */
+
+form    { margin: auto; }
+form p  { margin: 0; padding: 0; }
+form fieldset { border: 0 none; margin: 0em; padding: 0.2em;}
+label         { display: block; float: left; }
+input 		  { padding: 1px; }
+input.button  { width: auto; height: 1.8em; cursor: pointer; }
+
+label   { margin: 5px 0px 2px 0px; width: 10em;}
+form p  { padding: 0.2em 0 0.2em 0; }
+form br  { display: none; }
+input    { border: 1px solid #0E67A1; }
+input.button 		 { background-color: white; }
+input.button:hover { border-color:  #FC902E; }
+fieldset.button    { border-top: 1px dotted #0E67A1; }
+
+input:hover     { border-color: #FC902E;}
+input:focus     { border-color: #5CA424; background-color: #CEEFBA;}
+
+#frmlogin	      { margin: 0 10px 0 10px;  }
+#frmlogin fieldset.button { text-align: right; }
+
+
+

@@ -31,11 +31,61 @@ $mainframe->triggerEvent( 'onBeforeStart' );
 // create the session
 $mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
 
+// retrieve some expected url (or form) arguments
+$option = trim( strtolower( mosGetParam( $_REQUEST, 'option' ) ) );
+
+// frontend login & logout controls
+$return = mosGetParam( $_REQUEST, 'return', NULL );
+$message = mosGetParam( $_POST, 'message', 0 );
+if ($option == 'login') {
+	if (!$mainframe->login()) {
+		$mainframe->logout();
+		mosErrorAlert( JText::_( 'LOGIN_INCORRECT' ) );
+	}
+
+	// JS Popup message
+	if ( $message ) {
+		?>
+		<script language="javascript" type="text/javascript">
+		<!--//
+		alert( "<?php echo JText::_( 'LOGIN_SUCCESS' ); ?>" );
+		//-->
+		</script>
+		<?php
+	}
+
+	if ($return) {
+		mosRedirect( $return );
+	} else {
+		mosRedirect( 'index.php' );
+	}
+
+} else if ($option == 'logout') {
+	$mainframe->logout();
+
+	// JS Popup message
+	if ( $message ) {
+		?>
+		<script language="javascript" type="text/javascript">
+		<!--//
+		alert( "<?php echo JText::_( 'LOGOUT_SUCCESS' ); ?>" );
+		//-->
+		</script>
+		<?php
+	}
+
+	if ($return) {
+		mosRedirect( $return );
+	} else {
+		mosRedirect( 'index.php' );
+	}
+}
+
 // get the information about the current user from the sessions table
 $my = $mainframe->getUser();
 
-// displays offline/maintanance page or bar
-if ($mosConfig_offline == 1) {
+// displays offline page
+if ($mainframe->getCfg('offline')) {
 	// if superadministrator, administrator or manager show offline message bar + site
 	if ( $my->gid < '23') {
 		header(' Content-Type: text/htm; charset=UTF-8');
@@ -44,8 +94,6 @@ if ($mosConfig_offline == 1) {
 	}
 }
 
-// retrieve some expected url (or form) arguments
-$option = trim( strtolower( mosGetParam( $_REQUEST, 'option' ) ) );
 $Itemid = intval( mosGetParam( $_REQUEST, 'Itemid', null ) );
 
 if ($option == '') {
@@ -117,56 +165,6 @@ if ($option == 'search') {
 	$option = 'com_search';
 }
 
-// frontend login & logout controls
-$return = mosGetParam( $_REQUEST, 'return', NULL );
-$message = mosGetParam( $_POST, 'message', 0 );
-if ($option == 'login') {
-	if (!$mainframe->login()) {
-		$mainframe->logout();
-		mosErrorAlert( JText::_( 'LOGIN_INCORRECT' ) );
-	}
-
-	// JS Popup message
-	if ( $message ) {
-		?>
-		<script language="javascript" type="text/javascript">
-		<!--//
-		alert( "<?php echo JText::_( 'LOGIN_SUCCESS' ); ?>" );
-		//-->
-		</script>
-		<?php
-	}
-
-	if ($return) {
-		mosRedirect( $return );
-	} else {
-		mosRedirect( JURL_SITE );
-	}
-
-} else if ($option == 'logout') {
-	$mainframe->logout();
-
-	// JS Popup message
-	if ( $message ) {
-		?>
-		<script language="javascript" type="text/javascript">
-		<!--//
-		alert( "<?php echo JText::_( 'LOGOUT_SUCCESS' ); ?>" );
-		//-->
-		</script>
-		<?php
-	}
-
-	if ($return) {
-		mosRedirect( $return );
-	} else {
-		mosRedirect( JURL_SITE );
-	}
-}
-
-//get user information
-$my = $mainframe->getUser();
-
 $lang =& $mainframe->getLanguage();
 $lang->load(trim($option));
 
@@ -174,8 +172,6 @@ $lang->load(trim($option));
 $mainframe->set( 'loadOverlib', false );
 
 $gid = intval( $my->gid );
-
-/** temp fix - this feature is currently disabled */
 
 /** @global A places to store information from processing of the component */
 $_MOS_OPTION = array();

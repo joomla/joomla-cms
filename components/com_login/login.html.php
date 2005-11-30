@@ -119,7 +119,7 @@ class loginHTML {
 		mosHTML::BackButton ( $params );
 		?>
 
-		<input type="hidden" name="op2" value="login" />
+		<input type="hidden" name="option" value="login" />
 		<input type="hidden" name="return" value="<?php echo sefRelToAbs( $return ); ?>" />
 		<input type="hidden" name="lang" value="<?php echo $mosConfig_lang; ?>" />
 		<input type="hidden" name="message" value="<?php echo $params->get( 'login_message' ); ?>" />
@@ -172,7 +172,7 @@ class loginHTML {
 		mosHTML::BackButton ( $params );
 		?>
 
-		<input type="hidden" name="op2" value="logout" />
+		<input type="hidden" name="option" value="logout" />
 		<input type="hidden" name="return" value="<?php echo sefRelToAbs( $return ); ?>" />
 		<input type="hidden" name="lang" value="<?php echo $mosConfig_lang; ?>" />
 		<input type="hidden" name="message" value="<?php echo $params->get( 'logout_message' ); ?>" />

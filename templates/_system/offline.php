@@ -14,6 +14,9 @@
 // no direct access
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
+$lang =& $mainframe->getLanguage();
+$lang->load('mod_login');
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -24,54 +27,45 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 	<link rel="shortcut icon" href="<?php echo JURL_SITE; ?>/images/favicon.ico" />
 </head>
 <body>
-	<p>&nbsp;</p>
-	<table width="550" align="center" class="outline">
-	<tr>
-		<td width="60%" height="50" align="center">
+	<div id="frame" class="outline">
 		<img src="<?php echo JURL_SITE; ?>/images/joomla_logo_black.jpg" alt="Joomla! Logo" align="middle" />	
-		</td>
-	</tr>
-	<tr>
-		<td align="center">
-			<h1>
-				<?php echo $mosConfig_sitename; ?>
-			</h1>
-		</td>
-	</tr>
+		<h1>
+			<?php echo $mosConfig_sitename; ?>
+		</h1>
 	<?php
-	if ( $mosConfig_offline == 1 ) {
-		?>
-		<tr>
-			<td width="39%" align="center">
-				<h2>
-					<?php echo $mosConfig_offline_message; ?>
-				</h2>
-			</td>
-		</tr>
-		<?php
-	} else if (@$mosSystemError) {
-		?>
-		<tr>
-			<td width="39%" align="center">
-				<h2>
-					<?php echo $mosConfig_error_message; ?>
-				</h2>
-				<?php echo $mosSystemError; ?>
-			</td>
-		</tr>
-		<?php
+	if ( $mainframe->getCfg( 'offline' ) ) { ?>
+		<p>
+			<?php echo $mosConfig_offline_message; ?>
+		</p>
+	<?php
 	} else {
-		?>
-		<tr>
-			<td width="39%" align="center">
-			<h2>
-				<?php echo JText::_( 'WARNINSTALL' ); ?>
-			</h2>
-			</td>
-		</tr>
-		<?php
+	?>
+		<p>
+			<?php echo JText::_( 'WARNINSTALL' ); ?>
+		</p>
+	<?php
 	}
 	?>
-	</table>
+	<form action="index.php" method="post" name="login" id="frmlogin">
+	<fieldset class="input">
+		<p>
+			<label for="username"><?php echo  JText::_( 'Username' ); ?></label><br />
+			<input name="username" id="username" type="text" class="inputbox" alt="username" size="18" />
+		</p>
+		<p>
+			<label for="passwd"><?php echo JText::_( 'Password' ); ?></label><br />
+			<input type="password" name="passwd" class="inputbox" size="18" alt="password" />
+		</p>
+		<p>
+			<label for="remember"><?php echo JText::_( 'Remember me' ); ?></label>
+			<input type="checkbox" name="remember" class="inputbox" value="yes" alt="Remember Me" />
+		</p>
+	</fieldset>
+	<fieldset class="button">
+		<input type="hidden" name="option" value="login" />
+		<input type="submit" name="Submit" class="button" value="<?php echo JText::_( 'BUTTON_LOGIN'); ?>" />
+	</fieldset>
+	</form>
+	</div>
 </body>
 </html>

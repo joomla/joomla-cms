@@ -34,8 +34,19 @@ $mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client 
 // get the information about the current user from the sessions table
 $my = $mainframe->getUser();
 
+// retrieve some expected url (or form) arguments
+$option 	= strtolower( mosGetParam( $_REQUEST, 'option' ) );
+
+if ($option == 'login') {
+	$mainframe->login();
+	mosRedirect('index.php');
+} else if ($option == 'logout') {
+	$mainframe->logout();
+	mosRedirect( 'index.php' );
+}
+
 // displays offline/maintanance page or bar
-if ($mosConfig_offline == 1) {
+if ($mainframe->getCfg('offline')) {	
 	// if superadministrator, administrator or manager show offline message bar + site
 	if ( $my->gid < '23') {
 		header(' Content-Type: text/htm; charset=UTF-8');
@@ -44,8 +55,6 @@ if ($mosConfig_offline == 1) {
 	}
 }
 
-// retrieve some expected url (or form) arguments
-$option 	= strtolower( mosGetParam( $_REQUEST, 'option' ) );
 $Itemid 	= strtolower( mosGetParam( $_REQUEST, 'Itemid',0 ) );
 $no_html 	= intval( mosGetParam( $_REQUEST, 'no_html', 0 ) );
 $do_pdf 	= intval( mosGetParam( $_REQUEST, 'do_pdf', 0 ) );
@@ -60,14 +69,6 @@ $lang->load(trim($option));
 // patch to lessen the impact on templates
 if ($option == 'search') {
 	$option = 'com_search';
-}
-
-if ($option == 'login') {
-	$mainframe->login();
-	mosRedirect('index.php');
-} else if ($option == 'logout') {
-	$mainframe->logout();
-	mosRedirect( 'index.php' );
 }
 
 if ( $do_pdf == 1 ){

@@ -37,6 +37,8 @@ Legend:
 30-Nov-2005 Johan Janssens
  # Fixed artf2369 : $mosConfig_lang & $mosConfig_lang_administrator pb
  + Added 'Site if offline' message to mosMainBody
+ + Added error.php system template
+ + Added login box to offline system template
 
 29-Nov-2005 Johan Janssens
  # Fixed artf2361 : Fatal error: Call to a member function triggerEvent()

@@ -20,9 +20,6 @@ require_once( $mainframe->getPath( 'front_html' ) );
 
 global $database, $my;
 
-$return = mosGetParam( $_SERVER, 'REQUEST_URI', null );
-$return = ampReplace( $return );
-
 $menu = new mosMenu( $database );
 $menu->load( $Itemid );
 $params = new mosParameters( $menu->params );
@@ -32,8 +29,8 @@ $params->def( 'header_login', $menu->name );
 $params->def( 'header_logout', $menu->name );
 $params->def( 'pageclass_sfx', '' );
 $params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
-$params->def( 'login', JURL_SITE );
-$params->def( 'logout', JURL_SITE );
+$params->def( 'login', 'index.php' );
+$params->def( 'logout', 'index.php' );
 $params->def( 'login_message', 0 );
 $params->def( 'logout_message', 0 );
 $params->def( 'description_login', 1 );
