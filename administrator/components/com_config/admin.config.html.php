@@ -209,16 +209,6 @@ class HTML_config {
 					echo mosToolTip( $tip );
 				?></td>
 			</tr>
-			<tr>
-				<td><?php echo JText::_( 'Favourites Site Icon' ); ?>:</td>
-				<td>
-				<input class="text_area" type="text" name="config_favicon" size="20" value="<?php echo $row->config_favicon; ?>"/>
-				<?php
-				$tip = JText::_( 'TIPBLANKORFOUND' );
-				echo mosToolTip( $tip, 'Favourite Icon' );
-				?>
-				</td>
-			</tr>
 			</table>
 
 			<?php

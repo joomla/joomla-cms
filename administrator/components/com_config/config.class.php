@@ -33,8 +33,6 @@ class mosConfig {
 	var $config_editor				='tinymce';
 	/** @var int */
 	var $config_list_limit			= 30;
-	/** @var string */
-	var $config_favicon				= null;
 
 // Debug
 	/** @var int */

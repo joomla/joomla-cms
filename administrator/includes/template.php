@@ -108,7 +108,6 @@ function mosLoadAdminModules( $position='left', $style=0 ) {
 		} else {
 			modules_html::module( $module, $params, $style );
 		}
-
 	}
 }
 /**
@@ -164,20 +163,20 @@ function mosShowHead_Admin() {
 	
 	// load editor
 	initEditor();
-
-	// favourites icon
-	if ( $mosConfig_favicon ) {
-		$icon = JPATH_SITE . $mosConfig_favicon;
-
-		// checks to see if file exists
-		if ( !file_exists( $icon ) ) {
-			$icon = JURL_SITE .'/images/favicon.ico';
-		} else {
-			$icon = JURL_SITE . $mosConfig_favicon;
+	
+	$dirs = array( 
+		'/templates/'.$template.'/',
+		'/',
+	);	
+	
+	foreach ($dirs as $dir ) {
+		$icon =   $dir . 'favicon.ico';
+		
+		if(file_exists( JPATH_ADMINISTRATOR . $icon )) {
+			$page->addFavicon(JURL_SITE . '/administrator'. $icon);
+			break;
 		}
 	}
-	
-	$page->addFavicon($icon);
 	
 	echo $page->renderHead();
 }

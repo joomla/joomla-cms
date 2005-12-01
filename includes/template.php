@@ -221,19 +221,19 @@ function mosShowHead() {
 		}
 	}
 
-	// favourites icon
-	if ( !$mosConfig_favicon ) {
-		$mosConfig_favicon = 'favicon.ico';
+	$dirs = array( 
+		'/templates/'.$template.'/',
+		'/',
+	);	
+	
+	foreach ($dirs as $dir ) {
+		$icon =   $dir . 'favicon.ico';
+		
+		if(file_exists( JPATH_SITE . $icon )) {
+			$page->addFavicon(JURL_SITE . '/administrator'. $icon);
+			break;
+		}
 	}
-	$icon = JPATH_SITE .'/images/'. $mosConfig_favicon;
-	// checks to see if file exists
-	if ( !file_exists( $icon ) ) {
-		$icon = JURL_SITE .'/images/favicon.ico';
-	} else {
-		$icon = JURL_SITE .'/images/' .$mosConfig_favicon;
-	}
-
-	$page->addFavicon($icon);
 	
 	echo $page->renderHead();
 
