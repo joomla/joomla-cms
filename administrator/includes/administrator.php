@@ -82,19 +82,12 @@ class JAdministrator extends JApplication {
 
 	/**
 	* Class constructor
-	* @param database A database connection object
+	* @param integer A client id
 	*/
 	function __construct() {
-		$database =& JFactory::getDBO();
-		parent::__construct($database, 1);
+		parent::__construct(1);
 	}
 }
-
-/** @global $database */
-$database =& JFactory::getDBO();
-
-/** @global $acl */
-$acl =& JFactory::getACL();
 
 /** @global $_VERSION */
 $_VERSION = new JVersion();

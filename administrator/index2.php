@@ -30,6 +30,12 @@ $_PROFILER->mark( 'onBeforeStart' );
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );
 
+//get the database object
+$database =& $mainframe->getDBO();
+
+//get the acl object (for backwards compatibility)
+$acl =& JFactory::getACL();
+
 // create the session
 $mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
 

@@ -56,38 +56,6 @@ class JFactory
 	}
 
 	/**
-	 * Creates a database object
-	 * @return object
-	 * @since 1.1
-	 */
-	 //TODO : Move to JApplication
-	function &getDBO($host = null, $user = null , $password = null, $db = null , $dbprefix = null,  $dbtype = null, $debug = null)
-	{
-		$host 		= is_null($host) 	? $GLOBALS['mosConfig_host']    : $host;
-		$user 		= is_null($user) 	? $GLOBALS['mosConfig_user'] 	: $user;
-		$password 	= is_null($password)? $GLOBALS['mosConfig_password']: $password;
-		$db   		= is_null($db) 		? $GLOBALS['mosConfig_db'] 		: $db;
-		$dbprefix 	= is_null($dbprefix)? $GLOBALS['mosConfig_dbprefix']: $dbprefix;
-		$dbtype 	= is_null($dbtype) 	? $GLOBALS['mosConfig_dbtype'] 	: $dbtype;
-		$debug 		= is_null($debug) 	? $GLOBALS['mosConfig_debug'] 	: $debug;
-
-		jimport('joomla.database.database');
-
-		/** @global $database */
-		$database =& JDatabase::getInstance( $dbtype, $host, $user, $password, $db, $dbprefix );
-
-		//TODO : error checking needs to happen outside getDBO call
-		//if ($database->getErrorNum()) {
-		//	$mosSystemError = $database->getErrorNum();
-		//	include JPATH_ROOT . '/configuration.php';
-		//	include JPATH_ROOT . '/error.php';
-		//	exit();
-		//}
-		$database->debug( $debug );
-		return $database;
-	}
-
-	/**
 	 * Creates a cache object
 	 * @param string The cache group name
 	 * @param string The cache class name

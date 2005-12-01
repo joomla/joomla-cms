@@ -166,7 +166,10 @@ class JBotLoader
 	}
 	
 	function _load() {
-		global $database, $my;
+		global $mainframe;
+		
+		$db =& $mainframe->getDBO();
+		$my =& $mainframe->getUser();
 
 		if (is_object( $my )) {
 			$gid = $my->gid;
@@ -181,9 +184,9 @@ class JBotLoader
 			. "\n ORDER BY ordering"
 			;
 			
-		$database->setQuery( $query );
+		$db->setQuery( $query );
 
-		if (!($bots = $database->loadObjectList())) {
+		if (!($bots = $db->loadObjectList())) {
 			//echo "Error loading Mambots: " . $database->getErrorMsg();
 			return false;
 		}

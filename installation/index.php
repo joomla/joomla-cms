@@ -17,6 +17,9 @@ define('JPATH_BASE', dirname(__FILE__) );
 require_once ( 'includes/defines.php');
 require_once( 'includes/installation.php' );
 
+// create the mainframe object
+$mainframe =& new JInstallation();
+
 header( 'Cache-Control: no-cache, must-revalidate');	// HTTP/1.1
 header( 'Pragma: no-cache');							// HTTP/1.0
 header(' Content-Type: text/html; charset=UTF-8');

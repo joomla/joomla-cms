@@ -25,14 +25,17 @@ $handle = mosGetParam( $_POST, 'handle', NULL );
 // create the mainframe object
 $mainframe =& new JAdministrator();
 
-//get the database object
-$database =& JFactory::getDBO();
-
 // load system bot group
 JBotLoader::importGroup( 'system' );
 
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );
+
+//get the database object
+$database =& $mainframe->getDBO();
+
+//get the acl object (for backwards compatibility)
+$acl =& JFactory::getACL();
 
 //create the session
 $mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );

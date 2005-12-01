@@ -71,19 +71,12 @@ class JInstallation extends JApplication {
 
 	/**
 	* Class constructor
-	* @param database A database connection object
+	* @param integer A client id
 	*/
 	function __construct( ) {
-
-		$this->_head 			= array();
-		$this->_head['title'] 	= $GLOBALS['mosConfig_sitename'];
-		$this->_head['meta'] 	= array();
-		$this->_head['custom'] 	= array();
-		$this->_client 		    = 2;
+		parent::__construct(3);
 	}
 }
-
-$mainframe =& new JInstallation();
 
 /** @global $_VERSION */
 $_VERSION = new JVersion();

@@ -25,8 +25,7 @@ jimport( 'joomla.classes.object' );
 */
 
 class JApplication extends JObject {
-	/** @var database Internal database class pointer */
-	var $_db				= null;
+	
 	/** @var object An object of configuration variables */
 	var $_config			= null;
 	/** @var object An object of path variables */
@@ -48,9 +47,7 @@ class JApplication extends JObject {
 	* Class constructor
 	* @param database A database connection object
 	*/
-	function __construct( &$db, $client=0 ) {
-
-		$this->_db =& $db;
+	function __construct( $client=0 ) {
 
 		$this->_client 		    = $client;
 
@@ -266,7 +263,7 @@ class JApplication extends JObject {
 	//TODO : implement signleton
 	function &getUser() {
 
-		$user = new mosUser( $this->_db);
+		$user = new mosUser( $this->getDBO());
 
 		if (intval( JSession::get('userid') )) {
 			$user->load(JSession::get('userid'));
@@ -274,6 +271,24 @@ class JApplication extends JObject {
 		}
 
 		return $user;
+	}
+	
+	/**
+	* Return an instance of the JLanguage class
+	*
+	* @return JLanguage
+	* @since 1.1
+	*/
+	function &getLanguage( ) {
+
+		if(is_null($this->_lang)) {
+			$this->_createLanguage();
+		}
+
+		$lang =& JLanguage::getInstance( $this->_lang );
+		$lang->setDebug( $this->getCfg('debug') );
+
+		return $lang;
 	}
 
 	/**
@@ -309,24 +324,39 @@ class JApplication extends JObject {
 
 		$this->_lang = $strLang;
 	}
-
+	
 	/**
-	* Return an instance of the JLanguage class
-	*
-	* @return JLanguage
-	* @since 1.1
-	*/
-	function &getLanguage( ) {
+	 * Creates a database object
+	 * @return object
+	 * @since 1.1
+	 */
+	function &getDBO($host = null, $user = null , $password = null, $db = null , $dbprefix = null,  $dbtype = null, $debug = null)
+	{
+		$host 		= is_null($host) 	? $this->getCfg('host')    : $host;
+		$user 		= is_null($user) 	? $this->getCfg('user')    : $user;
+		$password 	= is_null($password)? $this->getCfg('password'): $password;
+		$db   		= is_null($db) 		? $this->getCfg('db') 	   : $db;
+		$dbprefix 	= is_null($dbprefix)? $this->getCfg('dbprefix'): $dbprefix;
+		$dbtype 	= is_null($dbtype) 	? $this->getCfg('dbtype')  : $dbtype;
+		$debug 		= is_null($debug) 	? $this->getCfg('debug')   : $debug;
 
-		if(is_null($this->_lang)) {
-			$this->_createLanguage();
-		}
+		jimport('joomla.database.database');
 
-		$lang =& JLanguage::getInstance( $this->_lang );
-		$lang->setDebug( $this->getCfg('debug') );
+		/** @global $database */
+		$database =& JDatabase::getInstance( $dbtype, $host, $user, $password, $db, $dbprefix );
 
-		return $lang;
+		//TODO : error checking needs to happen outside getDBO call
+		//if ($database->getErrorNum()) {
+		//	$mosSystemError = $database->getErrorNum();
+		//	include JPATH_ROOT . '/configuration.php';
+		//	include JPATH_ROOT . '/error.php';
+		//	exit();
+		//}
+		$database->debug( $debug );
+		return $database;
 	}
+
+	
 
 	/**
 	* @return JBrowser A browser object holding the browser information
@@ -370,7 +400,7 @@ class JApplication extends JObject {
 		}
 		$this->_userstate =& $_SESSION['session_userstate'];
 
-		$session = new mosSession( $this->_db );
+		$session = new mosSession( $this->getDBO() );
 		$session->purge( intval( $this->getCfg( 'lifetime' ) ) );
 
 		if ($session->load( $session->hash( JSession::id() ) )) {
@@ -397,6 +427,8 @@ class JApplication extends JObject {
 
 	function _createTemplate( ) {
 		global $Itemid;
+		
+		$db = $this->getDBO();
 
 		if ($this->isAdmin()) {
 			$query = "SELECT template"
@@ -404,8 +436,8 @@ class JApplication extends JObject {
 			. "\n WHERE client_id = 1"
 			. "\n AND menuid = 0"
 			;
-			$this->_db->setQuery( $query );
-			$cur_template = $this->_db->loadResult();
+			$db->setQuery( $query );
+			$cur_template = $db->loadResult();
 			$path = JPATH_ADMINISTRATOR ."/templates/$cur_template/index.php";
 			if (!file_exists( $path )) {
 				$cur_template = 'joomla_admin';
@@ -424,8 +456,8 @@ class JApplication extends JObject {
 			. "\n ORDER BY menuid DESC"
 			. "\n LIMIT 1"
 			;
-			$this->_db->setQuery( $query );
-			$cur_template = $this->_db->loadResult();
+			$db->setQuery( $query );
+			$cur_template = $db->loadResult();
 
 			// TemplateChooser Start
 			$jos_user_template = mosGetParam( $_COOKIE, 'jos_user_template', '' );
