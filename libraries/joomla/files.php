@@ -154,17 +154,30 @@ class JFile
 
 	/**
 	 * @param string The full file path
-	 * @param string The buffer to read into
-	 * @return boolean True on success
+	 * $param boolean Use include path
+	 * @return mixed Returns data or false when failed
 	 */
-	function read( $file, &$buffer ) {
-		JPath::check( $file );
-
-		if (file_exists( $file )) {
-			$buffer = file_get_contents( $file );
-			return true;
+	function read( $filename, $incpath = false ) {
+		
+		//JPath::check( $file );
+		
+		if (false === $fh = fopen($filename, 'rb', $incpath)) {
+			//trigger_error('JFile::read failed to open stream: No such file or directory', E_USER_WARNING);
+			return false;
 		}
-		return false;
+
+		clearstatcache();
+		if ($fsize = @filesize($filename)) {
+			$data = fread($fh, $fsize);
+		} else {
+			$data = '';
+			while (!feof($fh)) {
+				$data .= fread($fh, 8192);
+			}
+		}
+
+		fclose($fh);
+		return $data;
 	}
 
 	/**

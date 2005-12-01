@@ -447,26 +447,32 @@ class JLanguageHelper {
 
 		$xmlDoc = JFactory :: getXMLParser();
 		$xmlDoc->resolveErrors(true);
-		$xml = file_get_contents($pathToXml);
+		$xml = JFile::read($pathToXml);
+		
+		if(!$xml) {
+			$option['text'] = 'English (GB) help.joomla.org';
+			$option['value'] = 'http://help.joomla.org';
+			$list[] = $option;
+		} else {
 
-		if ($xmlDoc->parseXML($xml, false, true)) {
-			$root = & $xmlDoc->documentElement;
+			if($xmlDoc->parseXML($xml, false, true)) {
+				$root = & $xmlDoc->documentElement;
 
-			// Are there any languages??
-			$elmSites = & $root->getElementsByPath('sites', 1);
+				// Are there any languages??
+				$elmSites = & $root->getElementsByPath('sites', 1);
 
-			if (is_object($elmSites)) {
+				if (is_object($elmSites)) {
 
-				$option = array ();
-				$sites = $elmSites->childNodes;
-				foreach ($sites as $site) {
+					$option = array ();
+					$sites = $elmSites->childNodes;
+					foreach ($sites as $site) {
 
-					$option['text'] = $site->getText();
-					$option['value'] = $site->getAttribute('url');
-					$list[] = $option;
+						$option['text'] = $site->getText();
+						$option['value'] = $site->getAttribute('url');
+						$list[] = $option;
+					}
 				}
 			}
-
 		}
 
 		return $list;
