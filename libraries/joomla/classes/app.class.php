@@ -37,8 +37,6 @@ class JApplication extends JObject {
 	var $_template			= null;
 	/** @var array An array to hold global user state within a session */
 	var $_userstate			= null;
-	/** @var array An array of page meta information */
-	var $_head				= null;
 	/** @var string Custom html string to append to the pathway */
 	var $_custom_pathway	= null;
 	/** @var boolean True if in the admin client */
@@ -54,111 +52,11 @@ class JApplication extends JObject {
 
 		$this->_db =& $db;
 
-		$this->_head 			= array();
-		$this->_head['title'] 	= $GLOBALS['mosConfig_sitename'];
-		$this->_head['meta'] 	= array();
-		$this->_head['custom'] 	= array();
 		$this->_client 		    = $client;
 
 		$this->_createTemplate( );
 	}
-	/**
-	* @param string
-	*/
-	function setPageTitle( $title=null ) {
-		if (@$GLOBALS['mosConfig_pagetitles']) {
-			$title = trim( htmlspecialchars( $title ) );
-			$this->_head['title'] = $title ? $GLOBALS['mosConfig_sitename'] . ' - '. $title : $GLOBALS['mosConfig_sitename'];
-		}
-	}
-	/**
-	* @param string The value of the name attibute
-	* @param string The value of the content attibute
-	* @param string Text to display before the tag
-	* @param string Text to display after the tag
-	*/
-	function addMetaTag( $name, $content, $prepend='', $append='' ) {
-		$name = trim( htmlspecialchars( $name ) );
-		$content = trim( htmlspecialchars( $content ) );
-		$prepend = trim( $prepend );
-		$append = trim( $append );
-		$this->_head['meta'][] = array( $name, $content, $prepend, $append );
-	}
-	/**
-	* @param string The value of the name attibute
-	* @param string The value of the content attibute to append to the existing
-	* Tags ordered in with Site Keywords and Description first
-	*/
-	function appendMetaTag( $name, $content ) {
-		$name = trim( htmlspecialchars( $name ) );
-		$n = count( $this->_head['meta'] );
-		for ($i = 0; $i < $n; $i++) {
-			if ($this->_head['meta'][$i][0] == $name) {
-				$content = trim( htmlspecialchars( $content ) );
-				if ( $content ) {
-					if ( !$this->_head['meta'][$i][1] ) {
-						$this->_head['meta'][$i][1] = $content ;
-					} else {
-						//$this->_head['meta'][$i][1] = $content .', '. $this->_head['meta'][$i][1];
-						$this->_head['meta'][$i][1] = $this->_head['meta'][$i][1]  .', '.  $content;
-					}
-				}
-				return;
-			}
-		}
-		$this->addMetaTag( $name , $content );
-	}
-
-	/**
-	* @param string The value of the name attibute
-	* @param string The value of the content attibute to append to the existing
-	*/
-	function prependMetaTag( $name, $content ) {
-		$name = trim( htmlspecialchars( $name ) );
-		$n = count( $this->_head['meta'] );
-		for ($i = 0; $i < $n; $i++) {
-			if ($this->_head['meta'][$i][0] == $name) {
-				$content = trim( htmlspecialchars( $content ) );
-				$this->_head['meta'][$i][1] = $content . $this->_head['meta'][$i][1];
-				return;
-			}
-		}
-		$this->addMetaTag( $name, $content );
-	}
-	/**
-	 * Adds a custom html string to the head block
-	 * @param string The html to add to the head
-	 */
-	function addCustomHeadTag( $html ) {
-		$this->_head['custom'][] = trim( $html );
-	}
-	/**
-	* @return string
-	*/
-	function getHead() {
-		$head = array();
-		$head[] = '<title>' . $this->_head['title'] . '</title>';
-		foreach ($this->_head['meta'] as $meta) {
-			if ($meta[2]) {
-				$head[] = $meta[2];
-			}
-			$head[] = '<meta name="' . $meta[0] . '" content="' . $meta[1] . '" />';
-			if ($meta[3]) {
-				$head[] = $meta[3];
-			}
-		}
-		foreach ($this->_head['custom'] as $html) {
-			$head[] = $html;
-		}
-		return implode( "\n", $head ) . "\n";
-	}
-	/**
-	* @return string
-	*/
-	function getPageTitle() {
-		return $this->_head['title'];
-	}
-
+		
 	/**
 	* @return string
 	*/
@@ -169,7 +67,7 @@ class JApplication extends JObject {
 	function appendPathWay( $html ) {
 	$this->_custom_pathway[] = $html;
   }
-
+  
   /**
 	* Gets the value of a user state variable
 	* @param string The name of the variable
@@ -349,6 +247,19 @@ class JApplication extends JObject {
 
 		JSession::destroy();
 	}
+	
+	function &getPage() {
+		
+		$attributes = array (
+            'charset'  => 'utf-8',
+           	'lineend'  => 'unix',
+            'tab'  => '  ',
+          	'language' => 'eng_GB'
+		);
+		jimport('joomla.classes.page');
+		return JPage::getInstance($attributes);
+	}
+	
 	/**
 	* @return mosUser A user object with the information from the current session
 	*/
@@ -563,14 +474,6 @@ class JApplication extends JObject {
 		return $this->_templateURL;
 	}
 
-	/**
-	 * Gets the client id
-	 * @param mixed A client identifier
-	 * @since 1.1
-	 */
-	function getClient( ) {
-		return $this->_client;
-	}
 
 	/**
 	 * Tries to find a file in the administrator or site areas
@@ -746,6 +649,15 @@ class JApplication extends JObject {
 
 		}
 	}
+	
+	/**
+	 * Gets the client id
+	 * @param mixed A client identifier
+	 * @since 1.1
+	 */
+	function getClient( ) {
+		return $this->_client;
+	}
 
 	/** Is admin interface?
 	 * @return boolean
@@ -770,7 +682,71 @@ class JApplication extends JObject {
 	function isInstall() {
 		return ($this->_client == 2) ?  true : false;
 	}
+	
+	/**
+	 * Depreceated functions
+	 */
+	 /**
+	* Depreacted, use JPage->renderHead instead
+	* @since 1.1
+	*/
+	 function getHead() {
+		$page=& $this->getPage();
+		return $page->renderHead();
+	 }
+	 
+	/**
+	* Depreacted, use JPage->setMetadata instead
+	* @since 1.1
+	*/
+	function addMetaTag( $name, $content, $prepend='', $append='' ) {
+		$page=& $this->getPage();
+		$page->setMetadata($name, $content);
+	}
+	
+	/**
+	* Depreacted, use JPage->setMetadata instead
+	* @since 1.1
+	*/
+	function appendMetaTag( $name, $content ) {
+		$this->addMetaTag($name, $content);
+	}
 
+	/**
+	* Depreacted, use JPage->setMetadata instead
+	* @since 1.1
+	*/
+	function prependMetaTag( $name, $content ) {
+		$this->addMetaTag($name, $content);
+	}
+	 
+	/**
+	* Depreacted, use JPage->setTitle instead
+	* @since 1.1
+	*/
+	function setPageTitle( $title=null ) {
+		$page=& $this->getPage();
+		$page->setTitle($title);
+	}
+	
+	/**
+	* Depreacted, use JPage->getTitle instead
+	* @since 1.1
+	*/
+	function getPageTitle() {
+		$page=& $this->getPage();
+		return $page->getTitle();
+	}
+	
+	/**
+	* Depreacted, use JPage->addCustomTag instead
+	* @since 1.1
+	*/
+	function addCustomHeadTag( $html ) {
+		$page=& $this->getPage();
+		return $page->addCustomTag($html);
+	}
+	
 	/**
 	* Depreacted, use JApplicationHelper::getItemid instead
 	* @since 1.1

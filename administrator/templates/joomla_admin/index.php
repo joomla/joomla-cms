@@ -24,7 +24,7 @@ $lang =& $mainframe->getLanguage();
 <head>
 <?php mosShowHead_Admin(); ?>
 </head>
-<body onload="MM_preloadImages('images/help_f2.png','images/archive_f2.png','images/back_f2.png','images/cancel_f2.png','images/delete_f2.png','images/edit_f2.png','images/new_f2.png','images/preview_f2.png','images/publish_f2.png','images/save_f2.png','images/unarchive_f2.png','images/unpublish_f2.png','images/upload_f2.png')">
+<body>
 <div id="langdirection">
 <div id="wrapper">
 	<div id="header">

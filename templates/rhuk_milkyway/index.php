@@ -9,14 +9,7 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-
-<?php
-if ( $my->id ) {
-	initEditor();
-}
-mosShowHead();
-?>
-<meta http-equiv="Content-Type" content="text/html; <?php echo _ISO; ?>" />
+<?php mosShowHead();?>
 <link href="<?php echo JURL_SITE;?>/templates/<?php echo $mainframe->getTemplate(); ?>/css/template_css.css" rel="stylesheet" type="text/css" />
 <!--[if lte IE 6]>
 <link href="<?php echo JURL_SITE;?>/templates/<?php echo $mainframe->getTemplate(); ?>/css/template_ie_only.css" rel="stylesheet" type="text/css" />
@@ -24,7 +17,6 @@ mosShowHead();
 <?php if ($lang->isRTL()){ ?>
 <link href="<?php echo JURL_SITE;?>/templates/<?php echo $mainframe->getTemplate(); ?>/css/template_css_rtl.css" rel="stylesheet" type="text/css" />
 <?php } ?>
-<link rel="shortcut icon" href="<?php echo JURL_SITE;?>/images/favicon.ico" />
 </head>
 <body id="page_bg">
 <a name="up" id="up"></a>

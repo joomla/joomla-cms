@@ -169,31 +169,24 @@ function mosLoadModule( $name, &$params ) {
 * Assembles head tags
 */
 function mosShowHead() {
-	global $database, $option, $my, $mainframe, $_VERSION;
-	global $mosConfig_MetaDesc, $mosConfig_MetaKeys, $mosConfig_sef, $mosConfig_sitename, $mosConfig_favicon;
+	global $database, $my, $mainframe, $_VERSION;
+	global $mosConfig_favicon;
 
-	$task = mosGetParam( $_REQUEST, 'task', '' );
+	$page =& $mainframe->getPage();
 
-	if ( $my->id ) {
-		?>
-		<script language="JavaScript" src="<?php echo JURL_SITE;?>/includes/js/joomla.javascript.js" type="text/javascript"></script>
-		<?php
+	$page->setMetaContentType();
+	$page->setMetaData( 'description', $mainframe->getCfg('MetaDesc' ));
+	$page->setMetaData( 'keywords', $mainframe->getCfg('MetaKeys' ));
+
+	$page->setMetaData( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
+	$page->setMetaData( 'robots', 'index, follow' );
+	
+	if ( $mainframe->getCfg('sef') ) {
+		$page->addCustomTag( '<base href="'. JURL_SITE. '" />' );
 	}
-
-	$mainframe->appendMetaTag( 'Content-Type', 'text/html; charset=utf-8' );
-	$mainframe->appendMetaTag( 'description', $mosConfig_MetaDesc );
-	$mainframe->appendMetaTag( 'keywords', $mosConfig_MetaKeys );
-
-	$mainframe->addMetaTag( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
-	$mainframe->addMetaTag( 'robots', 'index, follow' );
-
-	echo $mainframe->getHead();
-
-	//load editor
-	initEditor();
-
-	if ( isset($mosConfig_sef) && $mosConfig_sef ) {
-		echo '<base href="'. JURL_SITE. '" />' . "\r\n";
+	
+	if ( $my->id ) {
+		$page->addScript( JURL_SITE.'/includes/js/joomla.javascript.js');
 	}
 
 	// support for Firefox Live Bookmarks ability for site syndication
@@ -224,9 +217,7 @@ function mosShowHead() {
 
 		// outputs link tag for page
 		if ($show) {
-			?>
-			<link rel="alternate" type="application/rss+xml" title="<?php echo $mosConfig_sitename; ?>" href="<?php echo $link_file; ?>" />
-			<?php
+			$page->addHeadLink( $link_file, 'alternate', array('type' => 'application/rss+xml'));
 		}
 	}
 
@@ -242,9 +233,11 @@ function mosShowHead() {
 		$icon = JURL_SITE .'/images/' .$mosConfig_favicon;
 	}
 
-	// outputs link tag for page
-	?>
-	<link rel="shortcut icon" href="<?php echo $icon;?>" />
-	<?php
+	$page->addFavicon($icon);
+	
+	echo $page->renderHead();
+
+	//load editor
+	initEditor();
 }
 ?>

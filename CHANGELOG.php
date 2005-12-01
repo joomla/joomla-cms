@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Dec-2005 Johan Janssens
+ + Added new JPage class for flexible page head handling
+
 30-Nov-2005 Emir Sakic
  + Added 404 handling for missing content and components
  + Added 404 handling to SEF for unknown files

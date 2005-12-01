@@ -125,7 +125,7 @@ foreach ($rows as $row) {
 
 		case 1:
 		default:
-			$my_itemid = $mainframe->getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
+			$my_itemid = JApplicationHelper::getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
 			break;
 	}
 

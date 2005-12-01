@@ -136,36 +136,34 @@ function mosLoadAdminModule( $name, $params=NULL ) {
 * Assembles head tags
 */
 function mosShowHead_Admin() {
-	global $database, $option, $my, $mainframe;
-	global $mosConfig_MetaDesc, $mosConfig_MetaKeys, $mosConfig_sef, $mosConfig_sitename, $mosConfig_favicon, $mosConfig_caching;
-	global $_VERSION;
+	global $database, $my, $mainframe, $_VERSION;
+	global $mosConfig_favicon;
+	
+	$page =& $mainframe->getPage();
 
 	$template =  $mainframe->getTemplate();
 	$lang     =& $mainframe->getLanguage();
 
-	$mainframe->SetPageTitle( $mosConfig_sitename .' :: '. JText::_( 'Administration' ) .'  [Joomla!]' );
-	$mainframe->appendMetaTag( 'Content-Type', 'text/html; charset=utf-8' );
-	$mainframe->appendMetaTag( 'description', $mosConfig_MetaDesc );
-	$mainframe->appendMetaTag( 'keywords', $mosConfig_MetaKeys );
-	$mainframe->addMetaTag( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
-	$mainframe->addMetaTag( 'robots', 'noindex, nofollow' );
+	$page->setMetaContentType();
+	$page->setTitle( $mosConfig_sitename .' :: '. JText::_( 'Administration' ) .'  [Joomla!]' );
+	$page->setMetaData( 'description', $mosConfig_MetaDesc );
+	$page->setMetaData( 'keywords', $mosConfig_MetaKeys );
+	$page->setMetaData( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
+	$page->setMetaData( 'robots', 'noindex, nofollow' );
 
-	echo $mainframe->getHead();
-
+	$suffix = ($lang->isRTL()) ? '_rtl': '';
+	
+	$page->addStyleSheet('templates/'.$template.'/css/template_css'.$suffix.'.css');
+	$page->addStyleSheet('templates/'.$template.'/css/theme'.$suffix.'.css');
+		
 	if ( $my->id ) {
-		?>
-		<script type="text/javascript" src="<?php echo JURL_SITE; ?>/includes/js/JSCookMenu.js"></script>
-		<script type="text/javascript" src="<?php echo JURL_SITE; ?>/includes/js/joomla.javascript.js"></script>
-		<script type="text/javascript" src="<?php echo JURL_SITE; ?>/administrator/includes/js/ThemeOffice/theme<?php echo $lang->isRTL() ? '_rtl': ''; ?>.js"></script>
-		<?php
-
-		// load editor
-		initEditor();
+		$page->addScript( JURL_SITE.'/includes/js/JSCookMenu.js');
+		$page->addScript( JURL_SITE.'/includes/js/joomla.javascript.js');
+		$page->addScript( JURL_SITE.'/administrator/includes/js/ThemeOffice/theme'.$suffix.'.js');
 	}
-	?>
-	<link type="text/css" rel="stylesheet" href="templates/<?php echo $template; ?>/css/template_css<?php echo $lang->isRTL() ? '_rtl': ''; ?>.css" />
-	<link type="text/css" rel="stylesheet" href="templates/<?php echo $template; ?>/css/theme<?php echo $lang->isRTL() ? '_rtl': ''; ?>.css" />
-	<?php
+	
+	// load editor
+	initEditor();
 
 	// favourites icon
 	if ( $mosConfig_favicon ) {
@@ -177,11 +175,10 @@ function mosShowHead_Admin() {
 		} else {
 			$icon = JURL_SITE . $mosConfig_favicon;
 		}
-
-		// outputs link tag for page
-		?>
-		<link rel="shortcut icon" href="<?php echo $icon;?>" />
-		<?php
 	}
+	
+	$page->addFavicon($icon);
+	
+	echo $page->renderHead();
 }
 ?>
