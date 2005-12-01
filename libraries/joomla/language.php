@@ -265,15 +265,21 @@ class JLanguage extends JObject {
 	 * Returns a associative array holding the metadata
 	 *
 	 * @param string	The name of the language
-	 * @return array	key/value pair with the language metadata
+	 * @return mixed	If $lang exists return key/value pair with the language metadata,
+	 *  				otherwise return NULL
 	 */
 
 	function getMetadata($lang) {
 
 		$path = JLanguage :: getLanguagePath(JPATH_BASE, $lang);
 		$file = $lang.'.xml';
-
-		return JLanguage :: _parseXMLLanguageFile($path.$file);
+		
+		$result = null;
+		if(JFile::exists($path.$file)) {
+			$rssult = JLanguage :: _parseXMLLanguageFile($path.$file);
+		}
+		
+		return $result;
 	}
 
 	/**
