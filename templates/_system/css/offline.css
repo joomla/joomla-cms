@@ -53,10 +53,8 @@ form br  { display: none; }
 input    { border: 1px solid #0E67A1; }
 input.button 		 { background-color: white; }
 input.button:hover { border-color:  #FC902E; }
-fieldset.button    { border-top: 1px dotted #0E67A1; }
 
-input:hover     { border-color: #FC902E;}
-input:focus     { border-color: #5CA424; background-color: #CEEFBA;}
+
 
 #frmlogin	      { margin: 0 10px 0 10px;  }
 #frmlogin fieldset.button { text-align: right; }

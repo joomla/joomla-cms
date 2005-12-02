@@ -319,6 +319,16 @@ table.nopad td.middle_pad {
 /*** Joomla! specific content elements ***/
 /*****************************************/
 
+div.offline {
+	background: #fffebb;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-size: 1.2em;
+	padding: 5px;
+}
+
 span.pathway {
   display: block;
   margin: 0 20px;

@@ -59,12 +59,10 @@ $lang->load('mod_login');
 		<p>
 			<label for="remember"><?php echo JText::_( 'Remember me' ); ?></label>
 			<input type="checkbox" name="remember" class="inputbox" value="yes" alt="Remember Me" />
+			<input type="submit" name="Submit" class="button" value="<?php echo JText::_( 'BUTTON_LOGIN'); ?>" />
 		</p>
 	</fieldset>
-	<fieldset class="button">
-		<input type="hidden" name="option" value="login" />
-		<input type="submit" name="Submit" class="button" value="<?php echo JText::_( 'BUTTON_LOGIN'); ?>" />
-	</fieldset>
+	<input type="hidden" name="option" value="login" />
 	</form>
 	</div>
 </body>
