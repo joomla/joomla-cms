@@ -34,6 +34,7 @@ class mosMenuBar {
 		<td class="title">
 			<?php echo $image; ?>
 			<?php echo $title; ?>
+			something
 		</td>
 		<?php
 	}

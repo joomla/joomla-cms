@@ -179,8 +179,8 @@ INPUT, TEXTAREA, SELECT {
 }
 table.menubar {
 	width: 100%;
+	
 }
-
 td {
 	font-size: 11px;
 }
@@ -424,16 +424,12 @@ form {
 	border-bottom: 1px solid #cccccc;
 
 }
-.menudottedline {
+td.menudottedline {
 	border-bottom: 1px solid #cccccc;
 	border-top: 1px solid #ffffff;
 	background-color: #F1F3F5;
-}
-
-.menudottedline td {
 	padding-right: 10px;
 }
-
 .pathway {
 	margin-left: 15px;
 }

@@ -423,16 +423,12 @@ form {
 	border-bottom: 1px solid #cccccc;
 
 }
-.menudottedline {
+td.menudottedline {
 	border-bottom: 1px solid #cccccc;
 	border-top: 1px solid #ffffff;
 	background-color: #F1F3F5;
-}
-
-.menudottedline td {
 	padding-left: 10px;
 }
-
 .pathway {
 	margin-right: 15px;
 }
