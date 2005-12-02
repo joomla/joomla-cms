@@ -56,7 +56,7 @@ if (isset( $_POST['submit'] )) {
 } 
 
 initGzip();
-header(' Content-Type: text/html; charset=UTF-8');
+header( 'Content-Type: text/html; charset=UTF-8');
 
 $template = $mainframe->getTemplate();
 $path = JPATH_ADMINISTRATOR . '/templates/' . $template . '/login.php';

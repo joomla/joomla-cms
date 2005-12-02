@@ -72,7 +72,7 @@ $my = $mainframe->getUser();
 if ($mainframe->getCfg('offline')) {
 	// if superadministrator, administrator or manager show offline message bar + site
 	if ( $my->gid < '23') {
-		header(' Content-Type: text/htm; charset=UTF-8');
+		header( 'Content-Type: text/html; charset=UTF-8');
 		require_once( 'templates/_system/offline.php' );
 		exit();
 	}
@@ -185,7 +185,7 @@ header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
 header( 'Cache-Control: no-store, no-cache, must-revalidate' );
 header( 'Cache-Control: post-check=0, pre-check=0', false );
 header( 'Pragma: no-cache' );
-header(' Content-Type: text/html; charset=utf-8');
+header( 'Content-Type: text/html; charset=UTF-8');
 
 // loads template file
 $cur_template = $mainframe->getTemplate();

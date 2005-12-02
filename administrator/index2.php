@@ -92,7 +92,7 @@ $_PROFILER->mark( 'onBeforeOutput' );
 
 initGzip();
 
-header(' Content-Type: text/html; charset=UTF-8');
+header( 'Content-Type: text/html; charset=UTF-8');
 
 // start the html output
 if ($no_html == 0) {
