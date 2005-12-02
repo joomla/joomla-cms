@@ -39,7 +39,7 @@ class TOOLBAR_admin {
 	function _HELP() {
 
 		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Help' ), 'help_f2.png' );
+		mosMenuBar::title( JText::_( 'Help' ), 'help_header.png' );
 		mosMenuBar::spacer();
 		mosMenuBar::endTable();
 	}

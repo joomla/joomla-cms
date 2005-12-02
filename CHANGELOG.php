@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+02-Dec-2005 Andy Miller
+ # Fixed Admin header layout issues
+
 02-Dec-2005 Johan Janssens
  # Fixed artf2399 : Please add administrator/language to CHMOD
 

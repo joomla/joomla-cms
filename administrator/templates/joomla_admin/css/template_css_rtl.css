@@ -84,8 +84,7 @@ a:active {
 }
 
 table#toolbar {
-	float: left;
-	margin-left: 10px;
+	width: 100%;
 }
 
 table#toolbar a.toolbar {
@@ -429,6 +428,11 @@ form {
 	border-top: 1px solid #ffffff;
 	background-color: #F1F3F5;
 }
+
+.menudottedline td {
+	padding-left: 10px;
+}
+
 .pathway {
 	margin-right: 15px;
 }

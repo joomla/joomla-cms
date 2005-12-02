@@ -86,7 +86,7 @@ a:active {
 }
 
 table#toolbar {
-	margin-right: 10px;
+	width: 100%;
 }
 
 table#toolbar a.toolbar {
@@ -179,8 +179,8 @@ INPUT, TEXTAREA, SELECT {
 }
 table.menubar {
 	width: 100%;
-	
 }
+
 td {
 	font-size: 11px;
 }
@@ -429,6 +429,11 @@ form {
 	border-top: 1px solid #ffffff;
 	background-color: #F1F3F5;
 }
+
+.menudottedline td {
+	padding-right: 10px;
+}
+
 .pathway {
 	margin-left: 15px;
 }
