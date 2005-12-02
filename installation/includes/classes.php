@@ -268,14 +268,14 @@ class installationTasks {
 
 		if (!$DBcreated) {
 
-			$database =& JDatabase::getInstance( $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix, $DBtype, true);
+			$database =& JDatabase::getInstance( $DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
 			if ($err = $database->getErrorNum()) {
 				if ($err == 3) {
 					// connection ok, need to create database
 					if (mosInstallation::createDatabase( $database, $DBname, $DButfSupport, $DBcollation )) {
 						// make the new connection to the new database
-						$database =&  JDatabase::getInstance( $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix, $DBtype, true );
+						$database =&  JDatabase::getInstance( $DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix );
 					} else {
 						$error = $database->getErrorMsg();
 						installationScreens::error( $vars, array( sprintf( JText::_( 'WARNCREATEDB' ), $DBname ) ), 'dbconfig', $error );
@@ -289,7 +289,7 @@ class installationTasks {
 				}
 			}
 
-			$database =&  JDatabase::getInstance( $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix, $DBtype, true );
+			$database =&  JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix );
 
 			if ($DBBackup) {
 				if (mosInstallation::backupDatabase( $database, $DBname, $DBPrefix, $errors )) {
@@ -690,7 +690,7 @@ class mosInstallation {
 
 		$cryptpass = md5( $adminPassword );
 
-		$database =&  JDatabase::getInstance( $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix, $DBtype, true );
+		$database =&  JDatabase::getInstance( $DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix );
 
 		// create the admin user
 		$installdate = date( 'Y-m-d H:i:s' );
