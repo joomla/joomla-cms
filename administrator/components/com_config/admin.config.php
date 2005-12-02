@@ -137,9 +137,10 @@ function showconfig( $option) {
 	}
 
 // LOCALE SETTINGS
+	jimport('joomla.help');
 
 	$helpsites = array();
-	$helpsites = JLanguageHelper::createHelpSiteList( 'http://help.joomla.org/helpsites-11.xml', $mosConfig_helpurl);
+	$helpsites = JHelp::createSiteList( 'http://help.joomla.org/helpsites-11.xml', $mosConfig_helpurl);
 	$lists['helpsites'] = mosHTML::selectList( $helpsites, 'config_helpurl', ' class="inputbox" id="helpsites"', 'value', 'text', '' );
 
 	$timeoffset = array(

@@ -559,29 +559,10 @@ class mosMenuBar {
 	*/
 	function help( $ref, $com=false ) {
 		$image2 	= mosAdminMenus::ImageCheckAdmin( 'help_f2.png', '/images/', NULL, NULL, 'Help', 'help', 1 );
-		$helpUrl 	= mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
-
-		if ( $helpUrl == 'http://help.mamboserver.com' ) {
-			$helpUrl = 'http://help.joomla.org';
-		}
-
-		if ($com) {
-	   // help file for 3PD Components
-			$url = JURL_SITE . '/administrator/components/' . $GLOBALS['option'] . '/help/';
-			if (!eregi( '\.html$', $ref )) {
-				$ref = $ref . '.html';
-			}
-			$url .= $ref;
-		} else if ( $helpUrl ) {
-	   // Online help site as defined in GC
-			$ref .= $GLOBALS['_VERSION']->getHelpVersion();
-			$url = $helpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=' . urlencode( $ref );
-		} else {
-	   // Included html help files
-			$url = JURL_SITE . '/help/';
-			$ref = $ref . '.html';
-			$url .= $ref;
-		}
+		
+		jimport('joomla.help');
+		$url = JHelp::createURL($ref, $com);
+		
 		?>
 		<td>
 			<a class="toolbar" href="#" onclick="window.open('<?php echo $url;?>', 'mambo_help_win', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');">

@@ -435,48 +435,5 @@ class JLanguageHelper {
 
 		return $list;
 	}
-
-	/**
-	 * Builds a list of the help sites which can be used in a select option
-	 * @param string	Path to an xml file
-	 * @param string	Language tag to select (if exists)
-	 * @param array	An array of arrays ( text, value, selected )
-	 */
-	function createHelpSiteList($pathToXml, $selected = null) {
-		$list = array ();
-
-		$xmlDoc = JFactory :: getXMLParser();
-		$xmlDoc->resolveErrors(true);
-		$xml = JFile::read($pathToXml);
-		
-		if(!$xml) {
-			$option['text'] = 'English (GB) help.joomla.org';
-			$option['value'] = 'http://help.joomla.org';
-			$list[] = $option;
-		} else {
-
-			if($xmlDoc->parseXML($xml, false, true)) {
-				$root = & $xmlDoc->documentElement;
-
-				// Are there any languages??
-				$elmSites = & $root->getElementsByPath('sites', 1);
-
-				if (is_object($elmSites)) {
-
-					$option = array ();
-					$sites = $elmSites->childNodes;
-					foreach ($sites as $site) {
-
-						$option['text'] = $site->getText();
-						$option['value'] = $site->getAttribute('url');
-						$list[] = $option;
-					}
-				}
-			}
-		}
-
-		return $list;
-	}
-
 }
 ?>

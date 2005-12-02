@@ -36,6 +36,8 @@ Legend:
 
 02-Dec-2005 Johan Janssens
  # Fixed artf2399 : Please add administrator/language to CHMOD
+ ^ Moved help files to administrator directory
+ + Added JHelp class for easy handling of the help system
 
 01-Dec-2005 Johan Janssens
  + Added new JPage class for flexible page head handling
