@@ -276,18 +276,18 @@ function doInstaller() {
 <table class="content">
 <?php
 writableCell( 'media' );
-writableCell( 'images/stories' );
-writableCell( 'administrator/components' );
 writableCell( 'components' );
-writableCell( 'administrator/modules' );
 writableCell( 'modules' );
-writableCell( 'administrator/templates' );
 writableCell( 'templates' );
 writableCell( 'language' );
 writableCell( 'mambots' );
 writableCell( 'mambots/content' );
 writableCell( 'mambots/search' );
-
+writableCell( 'images/stories' );
+writableCell( 'administrator/components' );
+writableCell( 'administrator/modules' );
+writableCell( 'administrator/language' );
+writableCell( 'administrator/templates' );
 ?>
 </table>
 <?php
