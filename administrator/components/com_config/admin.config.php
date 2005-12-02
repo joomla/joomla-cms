@@ -266,7 +266,7 @@ function showconfig( $option) {
 
 	$lists['hideEmail'] 			= mosHTML::RadioList( $show_hide, 'config_hideEmail', 'class="inputbox"', $row->config_hideEmail, 'value', 'text' );
 
-	$lists['icons'] 				= mosHTML::RadioList( $show_hide_r, 'config_icons', 'class="inputbox"', $row->config_icons, 'value', 'text' );
+	$lists['icons'] 				= mosHTML::yesnoRadioList( 'config_icons', 'class="inputbox"', $row->config_icons, 'icons', 'text' );
 
 	$lists['back_button'] 			= mosHTML::RadioList( $show_hide_r, 'config_back_button', 'class="inputbox"', $row->config_back_button, 'value', 'text' );
 
