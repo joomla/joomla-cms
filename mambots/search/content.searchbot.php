@@ -15,19 +15,37 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 $mainframe->registerEvent( 'onSearch', 'botSearchContent' );
+$mainframe->registerEvent( 'onSearchAreas', 'botSearchContentAreas' );
+
+$GLOBALS['_SEARCH_CONTENT_AREAS'] = array(
+	'content' => 'Content'
+);
 
 /**
-* Content Search method
-*
-* The sql must return the following fields that are used in a common display
-* routine: href, title, section, created, text, browsernav
-* @param string Target search string
-* @param string mathcing option, exact|any|all
-* @param string ordering option, newest|oldest|popular|alpha|category
-*/
-function botSearchContent( $text, $phrase='', $ordering='' ) {
+ * @return array An array of search areas
+ */
+function &botSearchContentAreas() {
+	return $GLOBALS['_SEARCH_CONTENT_AREAS'];
+}
+
+/**
+ * Content Search method
+ * The sql must return the following fields that are used in a common display
+ * routine: href, title, section, created, text, browsernav
+ * @param string Target search string
+ * @param string mathcing option, exact|any|all
+ * @param string ordering option, newest|oldest|popular|alpha|category
+ * @param mixed An array if the search it to be restricted to areas, null if search all
+ */
+function botSearchContent( $text, $phrase='', $ordering='', $areas=null ) {
 	global $my, $database;
 	global $mosConfig_offset;
+
+	if ( is_array( $areas ) ) {
+		if ( !array_intersect( $areas, array_keys( $GLOBALS['_SEARCH_CONTENT_AREAS'] ) ) ) {
+			return array();
+		}
+	}
 
 	// load mambot params info
 	$query = "SELECT id"

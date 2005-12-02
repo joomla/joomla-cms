@@ -30,9 +30,21 @@ class search_html {
 			<?php
 		}
 	}
-
-	function searchbox( $searchword, &$lists, $params ) {
+/**
+	 * @param string
+	 * @param array
+	 * @param object
+	 * @param array Array of the selected areas
+	 */
+	function searchbox( $searchword, &$lists, $params, &$areas ) {
 		global $Itemid;
+		
+		$showAreas = mosGetParam( $lists, 'areas', array() );
+		$allAreas = array();
+		foreach ($showAreas as $area) {
+			$allAreas = array_merge( $allAreas, $area );
+		}
+		
 		?>
 		<form action="index.php" method="get">
 		<input type="hidden" name="option" value="com_search" />
@@ -65,6 +77,19 @@ class search_html {
 				</td>
 			</tr>
 		</table>
+	<?php
+		if ($params->get( 'search_areas' )) {
+		?>
+		<?php echo JText::_( 'Search Only' );?>:
+	<?php
+			$hasAreas = is_array( $areas );
+			foreach ($allAreas as $val => $txt) {
+				$checked = $hasAreas && in_array( $val, $areas ) ? 'checked="true"' : '';
+	?>
+			<input type="checkbox" name="areas[]" value="<?php echo $val;?>" <?php echo $checked;?>/>&nbsp;<?php echo $txt;?>
+	<?php
+			}
+		} ?>
 		</form>
 		<?php
 	}

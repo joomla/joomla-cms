@@ -15,6 +15,18 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 $mainframe->registerEvent( 'onSearch', 'botSearchWeblinks' );
+$mainframe->registerEvent( 'onSearchAreas', 'botSearchWeblinksAreas' );
+
+$GLOBALS['_SEARCH_WEBLINKS_AREAS'] = array(
+	'weblinks' => 'Weblinks'
+);
+
+/**
+ * @return array An array of search areas
+ */
+function &botSearchWeblinksAreas() {
+	return $GLOBALS['_SEARCH_WEBLINKS_AREAS'];
+}
 
 /**
 * Weblink Search method
@@ -24,10 +36,17 @@ $mainframe->registerEvent( 'onSearch', 'botSearchWeblinks' );
 * @param string Target search string
 * @param string mathcing option, exact|any|all
 * @param string ordering option, newest|oldest|popular|alpha|category
-*/
-function botSearchWeblinks( $text, $phrase='', $ordering='' ) {
+ * @param mixed An array if the search it to be restricted to areas, null if search all
+ */
+function botSearchWeblinks( $text, $phrase='', $ordering='', $areas=null ) {
 	global $database, $my;
 
+	if ( is_array( $areas ) ) {
+		if ( !array_intersect( $areas, array_keys( $GLOBALS['_SEARCH_WEBLINKS_AREAS'] ) ) ) {
+			return array();
+		}
+	}
+	
 	// load mambot params info
 	$query = "SELECT id"
 	. "\n FROM #__mambots"

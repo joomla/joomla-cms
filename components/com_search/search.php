@@ -114,8 +114,12 @@ function viewSearch() {
 
 	$lists['searchphrase']= mosHTML::radioList( $searchphrases, 'searchphrase', '', $searchphrase );
 
+	JBotLoader::importGroup( 'search' );
+	$lists['areas'] = $mainframe->triggerEvent( 'onSearchAreas' );
+	$areas 	= mosGetParam( $_REQUEST, 'areas', null );
+
 	// html output
-	search_html::searchbox( htmlspecialchars( stripslashes( $searchword ) ), $lists, $params );
+	search_html::searchbox( htmlspecialchars( stripslashes( $searchword ) ), $lists, $params, $areas );
 
 	if (!$searchword) {
 		if ( count( $_POST ) ) {
@@ -145,8 +149,7 @@ function viewSearch() {
 		$phrase 	= mosGetParam( $_REQUEST, 'searchphrase', '' );
 		$ordering 	= mosGetParam( $_REQUEST, 'ordering', '' );
 
-		JBotLoader::importGroup( 'search' );
-		$results 	= $mainframe->triggerEvent( 'onSearch', array( $searchword, $phrase, $ordering ) );
+		$results 	= $mainframe->triggerEvent( 'onSearch', array( $searchword, $phrase, $ordering, $areas ) );
 		$totalRows 	= 0;
 
 		$rows = array();

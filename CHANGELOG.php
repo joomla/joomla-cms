@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+03-Dec-2005 Andrew Eddie
+ + Search by areas
+
 02-Dec-2005 Andy Miller
  # Fixed Admin header layout issues
 
