@@ -18,11 +18,8 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
  * @package Joomla
  */
 class JRegistryStorageEngine {
-
 	// Holds the class used to convert objects
 	var $r_storageformat 		= null;
-	// Holds the registry object
-	var $r_registryobject 		= null;
 	// Storage Identifier
 	var $r_storageidentifier   	= '';
 	// Default Namespace

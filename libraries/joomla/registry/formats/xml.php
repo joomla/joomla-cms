@@ -17,8 +17,23 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 /**
  * @package Joomla
  */
-class JRegistry {
-
+class JRegistryXMLFormat {
+	// Load the Default XML Configuration from the database
+	function stringToObject(&$Configuration, $namespace) {				
+		// Parse Configuration
+		$success = $Configuration->parseXML($Configuration_xml, true);	
+		if(!$success) {
+			$success = $Configuration->parseXML("<?xml version=\"1.0\" ?><mosconfig></mosconfig>",true); // Should work 100% of the time!
+			if(!success) {
+				// This should never ever occur. If it does, theres a serious error.
+				die("The impossible just occured!");
+			}
+		}
+	}	
+	
+	function objectToString(&$target) {
+	
+	}
 
 }
 ?>

@@ -20,14 +20,39 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 class JRegistryINIFormat extends JRegistryStorageFormat {
 
 	function objectToString(&$data) {
-		$sdata = print_r($data);
-		return "[dummy]\noutput=$sdata";
+		$retval = '';
+		foreach(get_object_vars($data) as $namespace=>$groups) {
+			if(!$r_namespacestate && $namespace != $r_namespace) {
+				break;
+			}
+			foreach(get_object_vars($groups) as $key=>$item) {
+				if(is_object($item)) {
+					if($r_namespacestate) {					
+						$retval .= "[$namespace.$key]\n";
+					} else {
+						$retval .= "[$key]\n";
+					}
+					foreach(get_object_vars($item) as $subkey=>$value) {
+						$retval .= "$subkey=$value\n";
+					}
+				} else {
+					$retval .= "$key=$data\n";
+				}
+			}
+		return $retval;	
 	}
 
 	function &stringToObject($data) {
-		$dummy = new stdClass();
-		$dummy->name = 'Dummy!';
-		return $dummy;
+		$Configuration = new mosParameters($data);
+		$configobject = $Configuration->parse($data, true);
+		if($this->r_namespacestate) {
+			$tmp = new stdClass();
+			foreach(get_object_vars($item) as $namespace=>$values)) {
+				$parts = explode('.',$namespace);
+				$configobject->$parts[0]->$parts[1] = $values;
+			}
+		}
+		return $configobject;		
 	}
 
 	function getFormatName() {

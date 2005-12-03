@@ -18,7 +18,53 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
  * @package Joomla
  */
 class JRegistry {
-	// Object
+	// Object!
+	// Holds the class used to read/write data
+	var $r_storageengine		= null;
+	// Holds the registry object
+	var $r_registryobject 		= null;
+	
+	function JRegistry($format, $engine) {
+		
+	}
+	
+	// Get the configuration setting
+	function getValue($regpath,$uid=0) {
+		global $my;
+		if($uid == 0) {
+			$uid = $my->id;
+		}
+		$parts = explode('.',$regpath);
+		if(count($parts) > 2) {
+			return(JRegistry::getConfig($parts[0],$parts[1],$parts[2],$uid));
+		}
+	}
+	
+	function getDefaultValue($regpath) {
+		$parts = explode('.',$regpath);
+		if(count($parts) > 2) {
+			return(JRegistry::getDefaultConfig($parts[0],$parts[1],$parts[2]));
+		}
+	}
+	
+	function setValue($regpath,$value,$uid=0) {
+		$parts = explode('.',$regpath);
+		if(count($parts) > 2) {		
+			return(JRegistryData::setConfig($parts[0],$parts[1],$parts[2],$value));
+		}
+	}
+	
+	// Set the configuration setting	
+	function setDefaultValue($regpath,$value) {
+		$parts = explode('.',$regpath);
+		if(count($parts) > 2) {		
+			return(JRegistry::setDefaultConfig($parts[0],$parts[1],$parts[2],$value));
+		}
+	}
+		
+	
+		
+	
 
 }
 
