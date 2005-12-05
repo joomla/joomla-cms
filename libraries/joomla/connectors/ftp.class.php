@@ -720,7 +720,7 @@ class JFTP extends JObject {
 			return false;
 		}
 
-		return $data;
+		return preg_split("/[".CRLF."]+/", $data, -1, PREG_SPLIT_NO_EMPTY);
 	}
 
 	/**
