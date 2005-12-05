@@ -19,8 +19,8 @@ jimport('joomla.classes.object');
 
 /**
  * Layout class, provides an easy interface to parse and display a layout file
- * 
- * The class is closely coupled with the patTemplate placeholder function.   
+ *
+ * The class is closely coupled with the patTemplate placeholder function.
  *
  * @author Johan Janssens <johan@joomla.be>
  * @package Joomla
@@ -32,28 +32,28 @@ class JLayout extends JObject
 {
 	/**
      * Array of placholders
-     * 
+     *
      * @var       array
      * @access    private
      */
 	var $_placeholders = array();
-	
+
 	/**
      * Array of published modules
-     * 
+     *
      * @var       array
      * @access    private
      */
 	var $_modules      = array();
-	
+
 	/**
      * The patTemplate object
-     * 
+     *
      * @var       object
      * @access    private
      */
 	var $_tmpl		   = null;
-	
+
 	/**
 	 * Create a layout instance (Constructor).
 	 */
@@ -62,17 +62,17 @@ class JLayout extends JObject
 		$this->_placeholders['module']		= array();
 		$this->_placeholders['modules']		= array();
 		$this->_placeholders['components']	= array();
-		
+
 		$this->_modules =& $this->_loadModules();
 	}
-	
+
 	/**
 	 * Returns a reference to the global JLayout object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
 	 * 		<pre>  $layout = &JLayout::getInstance();</pre>
-	 * 
+	 *
 	 * @access public
 	 * @return JLayout  The Layout object.
 	 */
@@ -83,52 +83,52 @@ class JLayout extends JObject
 		if (!isset($instances)) {
 			$instances = array();
 		}
-		
+
 		if (empty($instances[0])) {
 			$instances[0] = new JLayout();
 		}
 
 		return $instances[0];
 	}
-	
+
 	/**
 	 *  Set a component
-	 *  
+	 *
 	 * @access public
 	 * @param string $name	The name of the component
-	 */	
+	 */
 	function setComponent($name) {
 		$this->_placeholders['components'][] = $name;
 	}
-	
+
 	/**
 	 *  Set a module by name
-	 *  
-	 * @access public 
+	 *
+	 * @access public
 	 * @param string 	$name	The name of the module
 	 * @param array  	$params	An associative array of attributes to add
 	 */
-	function setModule($name, $params = array()) 
-	{	
+	function setModule($name, $params = array())
+	{
 		$module =& $this->getModule($name);
-		
+
 		foreach($params as $param => $value) {
 			$module->$param = $value;
 		}
 		$this->_placeholders['module'][] = $name;
 	}
-	
+
 	/**
 	 * Set modules by position
-	 *  
-	 * @access public 
+	 *
+	 * @access public
 	 * @param string 	$name	The position of the modules
 	 * @param array  	$params	An associative array of attributes to add
 	 */
-	function setModules($position, $params = array()) 
-	{		
+	function setModules($position, $params = array())
+	{
 		$modules =& $this->getModules($position);
-		
+
 		$total = count($modules);
 		for($i = 0; $i < $total; $i++) {
 			foreach($params as $param => $value) {
@@ -137,18 +137,18 @@ class JLayout extends JObject
 		}
 		$this->_placeholders['modules'][] = $position;
 	}
-	
+
 	/**
 	 * Get module by name
-	 *  
-	 * @access public 
+	 *
+	 * @access public
 	 * @param string 	$name	The name of the module
 	 * @return object	The Module object
 	 */
 	function &getModule($name) {
-		
+
 		$result = null;
-		
+
 		$total = count($this->_modules);
 		for($i = 0; $i < $total; $i++) {
 			if($this->_modules[$i]->name == $name) {
@@ -156,54 +156,54 @@ class JLayout extends JObject
 				break;
 			}
 		}
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * Get modules by position
-	 *  
-	 * @access public 
+	 *
+	 * @access public
 	 * @param string 	$position	The position of the module
 	 * @return array	An array of module objects
 	 */
-	function &getModules($position) 
+	function &getModules($position)
 	{
 		$result = array();
-		
+
 		$total = count($this->_modules);
 		for($i = 0; $i < $total; $i++) {
 			if($this->_modules[$i]->position == $position) {
 				$result[] =& $this->_modules[$i];
 			}
 		}
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * Executes a component script and returns the results as a string.
-	 *  
-	 * @access public 
+	 *
+	 * @access public
 	 * @param string 	$name		The name of the component to render
 	 * @param string 	$message	A message to prepend
 	 * @return string	The output of the script
 	 */
-	function fetchComponent($name, $msg = '') 
+	function fetchComponent($name, $msg = '')
 	{
 		global $mainframe, $my, $acl, $database;
 		global $Itemid, $task, $option;
 		global $mosConfig_offset;
-		
+
 		$gid = $my->gid;
-		
+
 		$content = '';
 		ob_start();
-		
+
 		if (!empty($msg)) {
 			echo "\n<div class=\"message\">$msg</div>";
 		}
-		
+
 		if ($path = $mainframe->getPath( 'front', $name )) {
 			$task 	= mosGetParam( $_REQUEST, 'task', '' );
 			$ret 	= mosMenuCheck( $Itemid, $name, $task, $my->gid );
@@ -215,18 +215,18 @@ class JLayout extends JObject
 		}
 		$contents = ob_get_contents();
 		ob_end_clean();
-		
+
 		return $contents;
 	}
-	
+
 	/**
 	 * Executes multiple modules scripts and returns the results as a string.
-	 *  
-	 * @access public 
+	 *
+	 * @access public
 	 * @param string 	$name	The position of the modules to render
 	 * @return string	The output of the scripts
 	 */
-	function fetchModules($position) 
+	function fetchModules($position)
 	{
 		$contents = '';
 		foreach ($this->getModules($position) as $module)  {
@@ -234,11 +234,11 @@ class JLayout extends JObject
 		}
 		return $contents;
 	}
-	
+
 	/**
 	 * Executes a single module script and returns the results as a string.
-	 *  
-	 * @access public 
+	 *
+	 * @access public
 	 * @param  mixed 	$name	The name of the module to render or a module object
 	 * @return string	The output of the script
 	 */
@@ -246,31 +246,31 @@ class JLayout extends JObject
 	{
 		global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
 		global $mainframe, $database, $my, $Itemid;
-		
+
 		$contents = '';
-		
+
 		if(!is_object($module)) {
 			$module = $this->getModule($module);
 		}
-		
+
 		//get module parameters
 		$params = new mosParameters( $module->params );
-		
+
 		//get module path
 		$path = JPATH_SITE . '/modules/'.$module->module.'.php';
-		
+
 		//load the module
-		if (!$module->user && file_exists( $path )) 
+		if (!$module->user && file_exists( $path ))
 		{
 			$lang =& $mainframe->getLanguage();
 			$lang->load($module->module);
-			
+
 			ob_start();
 			require $path;
 			$module->content = ob_get_contents();
-			ob_end_clean();	 
-		}	
-		
+			ob_end_clean();
+		}
+
 		ob_start();
 			if ($params->get('cache') == 1 && $mainframe->getCfg('caching') == 1) {
 				$cache =& JFactory::getCache( 'com_content' );
@@ -279,18 +279,18 @@ class JLayout extends JObject
 				modules_html::module( $module, $params, $module->style );
 			}
 		$contents = ob_get_contents();
-		ob_end_clean();	
-		
+		ob_end_clean();
+
 		return $contents;
 	}
-	
+
 	/**
 	 * Renders the page head and returns the results as a string.
-	 *  
-	 * @access public 
+	 *
+	 * @access public
 	 * @return string	The document head
 	 */
-	function fetchHead() 
+	function fetchHead()
 	{
 		global $database, $my, $mainframe, $_VERSION;
 
@@ -302,11 +302,11 @@ class JLayout extends JObject
 
 		$page->setMetaData( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
 		$page->setMetaData( 'robots', 'index, follow' );
-	
+
 		if ( $mainframe->getCfg('sef') ) {
 			$page->addCustomTag( '<base href="'. JURL_SITE. '" />' );
 		}
-	
+
 		if ( $my->id ) {
 			$page->addScript( JURL_SITE.'/includes/js/joomla.javascript.js');
 		}
@@ -343,36 +343,36 @@ class JLayout extends JObject
 			}
 		}
 
-		$dirs = array( 
-			'/templates/'.$template.'/',
+		$dirs = array(
+			'/templates/'.@$template.'/',
 			'/',
-		);	
-	
+		);
+
 		foreach ($dirs as $dir ) {
 			$icon =   $dir . 'favicon.ico';
-		
+
 			if(file_exists( JPATH_SITE . $icon )) {
 				$page->addFavicon(JURL_SITE . '/administrator'. $icon);
 				break;
 			}
 		}
-	
+
 		ob_start();
 		echo $page->renderHead();
 
 		//load editor
 		initEditor();
-		
+
 		$contents = ob_get_contents();
 		ob_end_clean();
-		
+
 		return $contents;
 	}
-	
+
 	/**
 	 * Parse a file and create an internal patTemplate object
-	 *  
-	 * @access public 
+	 *
+	 * @access public
 	 * @param string 	$directory	The directory to look for the file
 	 * @param string 	$filename	The actual filename
 	 */
@@ -380,56 +380,56 @@ class JLayout extends JObject
 	{
 		if ( !file_exists( 'templates'.DS.$directory.DS.$filename) ) {
 			$directory = '_system';
-		} 
-		
+		}
+
 		$this->_tmpl =& $this->_loadTemplate($directory, $filename);
-	} 
-	
+	}
+
 	/**
 	 * Execute and display a layout script.
-	 *  
-	 * @access public 
-	 * @param string 	$name	The name of the template 
+	 *
+	 * @access public
+	 * @param string 	$name	The name of the template
 	 */
-	function display($name) 
+	function display($name)
 	{
 		$msg = mosGetParam( $_REQUEST, 'mosmsg', '' );
-		
-		foreach($this->_placeholders['components'] as $component) 
+
+		foreach($this->_placeholders['components'] as $component)
 		{
 			$html = $this->fetchComponent($component, $msg);
 			$this->_tmpl->addGlobalVar('component_'.$component, $html);
 		}
-		
-		foreach($this->_placeholders['modules'] as $module) 
+
+		foreach($this->_placeholders['modules'] as $module)
 		{
 			$html = $this->fetchModules($module);
 			$this->_tmpl->addGlobalVar('modules_'.$module, $html);
 		}
-		
-		foreach($this->_placeholders['module'] as $module) 
+
+		foreach($this->_placeholders['module'] as $module)
 		{
 			$html = $this->fetchModule($module);
 			$this->_tmpl->addGlobalVar('module_'.$module, $html);
 		}
-		
+
 		$html = $this->fetchHead();
 		$this->_tmpl->addGlobalVar('head', $html);
-		
-		$this->_tmpl->displayParsedTemplate( $filename );
+
+		$this->_tmpl->displayParsedTemplate( $name );
 	}
-		
+
 	/**
 	 * Load published modules
-	 * 
+	 *
 	 * @access private
-	 * @return array		
+	 * @return array
 	 */
 	function &_loadModules() {
 		global $database, $my, $Itemid;
 
 		$modules = array();
-			
+
 		$query = "SELECT id, title, module, position, content, showtitle, params"
 			. "\n FROM #__modules AS m, #__modules_menu AS mm"
 			. "\n WHERE m.published = 1"
@@ -441,7 +441,7 @@ class JLayout extends JObject
 
 		$database->setQuery( $query );
 		$modules = $database->loadObjectList();
-		
+
 		$total = count($modules);
 		for($i = 0; $i < $total; $i++) {
 			//determine if this is a user module
@@ -449,37 +449,37 @@ class JLayout extends JObject
 			$modules[$i]->user = substr( $file, 0, 4 )  == 'mod_' ?  0 : 1;
 			$modules[$i]->name = substr( $file, 4 );
 		}
-		
+
 		return $modules;
 	}
-	
+
 	/**
 	 * Create a patTemplate object
-	 * 
+	 *
 	 * @param string 	$directory	The directory to look for the file
-	 * @param string 	$filename	The actual filename 
+	 * @param string 	$filename	The actual filename
 	 * @return patTemplate
 	 */
 	function &_loadTemplate($directory, $file) {
-		
+
 		global $mainframe, $my, $acl, $database;
 		global $Itemid, $task;
-		
+
 		$tmpl = null;
 		if ( file_exists( 'templates'.DS.$directory.DS.$file ) ) {
-		
+
 			jimport('pattemplate.patTemplate');
 
 			$tmpl = new patTemplate;
 			$tmpl->setNamespace( 'jos' );
-		
+
 			ob_start();
 			?><jos:tmpl name="<?php echo $file ?>" autoclear="yes"><?php
 				require_once( 'templates'.DS.$directory.DS.$file );
 			?></jos:tmpl><?php
 			$contents = ob_get_contents();
 			ob_end_clean();
-			
+
 			$tmpl->readTemplatesFromInput( $contents, 'String' );
 		}
 
@@ -489,7 +489,7 @@ class JLayout extends JObject
 
 /**
  * Get the number of modules loaded for a particular template position
- * 
+ *
  * @param 	string 	The mdoule position
  * @return 	integer The number of modules loaded for that position
  */
@@ -500,12 +500,12 @@ function mosCountModules( $position='left' ) {
 }
 
 /**
- * Insert a component placeholder (uses the option request parameter) 
+ * Insert a component placeholder (uses the option request parameter)
  */
-function mosMainBody() 
-{	
+function mosMainBody()
+{
 	global $option;
-	
+
 	?>
 	<jos:placeholder type="component" name="<?php echo $option ?>"/>
 	<?php
@@ -513,8 +513,8 @@ function mosMainBody()
 /**
  * Insert a component placeholder
  */
-function mosLoadComponent( $name ) 
-{	
+function mosLoadComponent( $name )
+{
 	?>
 	<jos:placeholder type="component" name="<?php echo $name ?>" />
 	<?php
@@ -522,12 +522,12 @@ function mosLoadComponent( $name )
 
 /**
  * Insert a modules placholder
- * 
+ *
  * @param string 	The position of the modules
  * @param integer 	The style.  0=normal, 1=horiz, -1=no wrapper
  */
-function mosLoadModules( $position='left', $style=0 ) 
-{	
+function mosLoadModules( $position='left', $style=0 )
+{
 	?>
 	<jos:placeholder type="modules" position="<?php echo $position ?>" style="<?php echo $style ?>"/>
 	<?php
@@ -535,12 +535,12 @@ function mosLoadModules( $position='left', $style=0 )
 
 /**
  * Insert a module placholder
- * 
+ *
  * @param string 	The name of the module
  * @param integer 	The style.  0=normal, 1=horiz, -1=no wrapper
  */
-function mosLoadModule( $name, $style=-1 ) 
-{	
+function mosLoadModule( $name, $style=-1 )
+{
 	?>
 	<jos:placeholder type="module" name="<?php echo $name ?>" style="<?php echo $style ?>" />
 	<?php
@@ -549,8 +549,8 @@ function mosLoadModule( $name, $style=-1 )
 /**
 * Insert a head placeholder
 */
-function mosShowHead() 
-{	
+function mosShowHead()
+{
 	?>
 	<jos:placeholder type="head" />
 	<?php
