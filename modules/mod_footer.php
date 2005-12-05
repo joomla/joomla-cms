@@ -33,6 +33,10 @@ if ( strpos( $line1, '%sitename%' ) ) {
 else {
 	$lineone = $line1;
 }
-echo $lineone;
-echo JText::_( 'FOOTER_LINE2' );
 ?>
+<div>
+<?php echo $lineone; ?>
+</div>
+<div>
+<?php echo JText::_( 'FOOTER_LINE2' ); ?>
+</div>
