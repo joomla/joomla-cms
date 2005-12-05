@@ -34,7 +34,6 @@ class mosMenuBar {
 		<td class="title">
 			<?php echo $image; ?>
 			<?php echo $title; ?>
-			something
 		</td>
 		<?php
 	}
@@ -560,10 +559,10 @@ class mosMenuBar {
 	*/
 	function help( $ref, $com=false ) {
 		$image2 	= mosAdminMenus::ImageCheckAdmin( 'help_f2.png', '/images/', NULL, NULL, 'Help', 'help', 1 );
-		
+
 		jimport('joomla.help');
 		$url = JHelp::createURL($ref, $com);
-		
+
 		?>
 		<td>
 			<a class="toolbar" href="#" onclick="window.open('<?php echo $url;?>', 'mambo_help_win', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');">

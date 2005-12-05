@@ -85,10 +85,6 @@ a:active {
 	text-decoration : underline;
 }
 
-table#toolbar {
-	width: 100%;
-}
-
 table#toolbar a.toolbar {
 	color : #808080;
 	text-decoration : none;
