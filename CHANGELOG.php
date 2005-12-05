@@ -34,6 +34,7 @@ Legend:
 05-Dec-2005 Johan Janssens
  ^ Moved ldap class to connectors directory
  - Removed locale setting from configuration
+ + Added new JFTP connector class (uses PHP streams) - Contributed by Louis Landry
 
 03-Dec-2005 Andrew Eddie
  + Search by areas

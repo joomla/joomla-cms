@@ -2,7 +2,6 @@
 /**
 * @version $Id$
 * @package Joomla
-* @subpackage LDAP Connector
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software and parts of it may contain or be derived from the
@@ -12,6 +11,13 @@
 
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 
+/**
+ * LDAP client class
+ * @author Samuel Moffat
+ * @package Joomla
+ * @subpackage JFramework
+ * @since 1.1
+ */
 class JLDAP {
 	/** @var string */
 	var $host = null;
