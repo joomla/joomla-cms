@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Dec-2005 Johan Janssens
+ ^ Moved ldap class to connectors directory
+
 03-Dec-2005 Andrew Eddie
  + Search by areas
 

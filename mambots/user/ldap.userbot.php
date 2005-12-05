@@ -15,7 +15,7 @@
 /** ensure this file is being included by a parent file */
 defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
 
-jimport('joomla.classes.ldap');
+jimport('joomla.connectors.ldap');
 
 //Login User event
 $mainframe->registerEvent( 'onLoginUser', 'botLdapLoginUser' );
