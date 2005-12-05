@@ -234,12 +234,6 @@ class HTML_config {
 				<input class="text_area" type="text" name="config_offset" size="15" value="<?php echo $row->config_offset; ?>" disabled="true"/>
 				</td>
 			</tr>
-			<tr>
-				<td width="185"><?php echo JText::_( 'Country Locale' ); ?>:</td>
-				<td>
-				<input class="text_area" type="text" name="config_locale" size="15" value="<?php echo $row->config_locale; ?>"/>
-				</td>
-			</tr>
 			</table>
 
 			<?php

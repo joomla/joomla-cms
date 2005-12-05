@@ -78,8 +78,6 @@ class mosConfig {
 
 // Locale Settings
 	/** @var string */
-	var $config_locale				= null;
-	/** @var string */
 	var $config_lang				= null;
 	/** @var string */
 	var $config_lang_administrator	= null;

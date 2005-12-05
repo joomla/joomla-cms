@@ -33,7 +33,6 @@ class JDatabaseMySQLi extends JDatabase {
 	* @param string Database user password
 	* @param string Database name
 	* @param string Common prefix for all tables
-	* @param boolean If true and there is an error, go offline [DEPRECATED]
 	*/
 	function __construct( $host='localhost', $user, $pass, $db='', $table_prefix='') {
 		// perform a number of fatality checks, then die gracefully

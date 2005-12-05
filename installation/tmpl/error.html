@@ -11,7 +11,7 @@
 		<div id="step"><mos:Translate>error</mos:Translate></div>
 
 		<div class="far-right">
-			<input type="button" class="button" value="&lt;&lt; Previous" onclick="submitForm( this.form, '{BACK}' );" />
+			<input type="button" class="button" value="&lt;&lt; <mos:Translate escape="yes">Previous</mos:Translate>" onclick="submitForm( this.form, '{BACK}' );" />
 		</div>
 		<div class="clr"></div>
 
@@ -19,7 +19,7 @@
 		<div class="install-text">
 			<p>
 				<mos:tmpl name="messages">
-				 {MESSAGE}
+				<mos:Translate>{MESSAGE}</mos:Translate>
 				</mos:tmpl>
 			</p>
 		</div>
