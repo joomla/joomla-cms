@@ -145,7 +145,7 @@ function mosShowHead_Admin() {
 	$page->setMetaContentType();
 	$page->setTitle( $GLOBALS['mosConfig_sitename'] .' :: '. JText::_( 'Administration' ) .'  [Joomla!]' );
 	$page->setMetaData( 'description', $GLOBALS['mosConfig_MetaDesc'] );
-	$page->setMetaData( 'keywords', $GLOBALS['mosConfig_MetaKeys'} );
+	$page->setMetaData( 'keywords', $GLOBALS['mosConfig_MetaKeys'] );
 	$page->setMetaData( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
 	$page->setMetaData( 'robots', 'noindex, nofollow' );
 
