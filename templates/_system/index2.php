@@ -22,7 +22,7 @@ if ( $no_html == 0 ) {
 	<html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 	<?php echo $mainframe->getHead(); ?>
-	<link rel="stylesheet" href="<?php echo JURL_SITE;?>/templates/<?php echo $template;?>/css/template_css.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo JURL_SITE;?>/templates/<?php echo $cur_template;?>/css/template_css.css" type="text/css" />
 	<link rel="shortcut icon" href="<?php echo JURL_SITE; ?>/images/favicon.ico" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="robots" content="noindex, nofollow" />

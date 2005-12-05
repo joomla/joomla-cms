@@ -16,8 +16,9 @@ define( '_VALID_MOS', 1 );
 
 define('JPATH_BASE', dirname(__FILE__) );
 
-require_once ( 'includes/defines.php' );
-require_once ( 'includes/joomla.php' );
+require_once ( 'includes/defines.php'  );
+require_once ( 'includes/joomla.php'   );
+require_once ( 'includes/template.php' );
 
 // create the mainframe object
 $mainframe =& new JSite();
@@ -67,16 +68,6 @@ if ($option == 'logout') {
 
 // get the information about the current user from the sessions table
 $my = $mainframe->getUser();
-
-// displays offline page
-if ($mainframe->getCfg('offline')) {
-	// if superadministrator, administrator or manager show offline message bar + site
-	if ( $my->gid < '23') {
-		header( 'Content-Type: text/html; charset=UTF-8');
-		require_once( 'templates/_system/offline.php' );
-		exit();
-	}
-}
 
 $Itemid = intval( mosGetParam( $_REQUEST, 'Itemid', null ) );
 
@@ -149,34 +140,18 @@ if ($option == 'search') {
 	$option = 'com_search';
 }
 
-$lang =& $mainframe->getLanguage();
-$lang->load(trim($option));
-
 // set for overlib check
 $mainframe->set( 'loadOverlib', false );
 
-$gid = intval( $my->gid );
+$cur_template = $mainframe->getTemplate();
+$file     = 'index.php';
 
-/** @global A places to store information from processing of the component */
-$_MOS_OPTION = array();
+if ($mainframe->getCfg('offline') && $my->gid < '23' ) {
+	$file = 'offline.php';
+} 
 
-ob_start();
-if ($path = $mainframe->getPath( 'front' )) {
-	$task 	= mosGetParam( $_REQUEST, 'task', '' );
-	$ret 	= mosMenuCheck( $Itemid, $option, $task, $gid );
-	if ($ret) {
-		require_once( $path );
-	} else {
-		mosNotAuth();
-	}
-} else {
-	header("HTTP/1.0 404 Not Found");
-	echo JText::_( 'NOT_EXIST' );
-}
-$_MOS_OPTION['buffer'] = ob_get_contents();
-ob_end_clean();
-
-require_once( 'includes/template.php' );
+$layout = new JLayout();
+$layout->parse($cur_template, $file);
 
 initGzip();
 
@@ -187,18 +162,10 @@ header( 'Cache-Control: post-check=0, pre-check=0', false );
 header( 'Pragma: no-cache' );
 header( 'Content-Type: text/html; charset=UTF-8');
 
-// loads template file
-$cur_template = $mainframe->getTemplate();
-if ( !file_exists( 'templates/'. $cur_template .'/index.php' ) ) {
-	$msg = sprintf( JText::_( 'TEMPLATE_WARN' ), $cur_template );
-	echo "<font color=red><b>". $msg ."</b></font>";
-} else {
-	require_once( 'templates/'. $cur_template .'/index.php' );
-	echo "<!-- ".time()." -->";
-}
+$layout->display( $file );
 
 // displays queries performed for page
-if ($mosConfig_debug) {
+if ($mainframe->getCfg('debug')) {
 	echo $database->_ticker . ' queries executed';
 	echo '<pre>';
  	foreach ($database->_log as $k=>$sql) {

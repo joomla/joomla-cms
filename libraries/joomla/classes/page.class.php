@@ -29,16 +29,16 @@ class JPage extends JObject
 {
 	/**
      * Tab string
+     * 
      * @var       string
-     * @since     1.7
      * @access    private
      */
     var $_tab = "\11";
 
     /**
      * Contains the line end string
+     * 
      * @var       string
-     * @since     1.7
      * @access    private
      */
     var $_lineEnd = "\12";

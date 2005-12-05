@@ -1118,7 +1118,6 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 
 function show( $row, $params, $gid, &$access, $pop, $option, $ItemidCount=NULL ) {
 	global $database, $mainframe;
-	global $cache;
 
 	$noauth = !$mainframe->getCfg( 'shownoauth' );
 
@@ -1231,7 +1230,7 @@ function show( $row, $params, $gid, &$access, $pop, $option, $ItemidCount=NULL )
 		$obj->hit( $row->id );
 	}
 
-	$cache->call( 'HTML_content::show', $row, $params, $access, $page, $option, $ItemidCount );
+	HTML_content::show($row, $params, $access, $page, $option, $ItemidCount );
 }
 
 

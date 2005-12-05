@@ -16,8 +16,9 @@ define( '_VALID_MOS', 1 );
 
 define('JPATH_BASE', dirname(__FILE__) );
 
-require_once ( 'includes/defines.php');
-require_once ( 'includes/joomla.php' );
+require_once ( 'includes/defines.php'  );
+require_once ( 'includes/joomla.php'   );
+require_once ( 'includes/template.php' );
 
 // create the mainframe object
 $mainframe =& new JSite();
@@ -66,20 +67,9 @@ if ($option == 'logout') {
 	}
 }
 
-// displays offline/maintanance page or bar
-if ($mainframe->getCfg('offline')) {	
-	// if superadministrator, administrator or manager show offline message bar + site
-	if ( $my->gid < '23') {
-		header(' Content-Type: text/htm; charset=UTF-8');
-		require_once( 'templates/_system/offline.php' );
-		exit();
-	}
-}
-
 $Itemid 	= strtolower( mosGetParam( $_REQUEST, 'Itemid',0 ) );
 $no_html 	= intval( mosGetParam( $_REQUEST, 'no_html', 0 ) );
 $do_pdf 	= intval( mosGetParam( $_REQUEST, 'do_pdf', 0 ) );
-
 
 // trigger the onAfterStart events
 $mainframe->triggerEvent( 'onAfterStart' );
@@ -97,25 +87,17 @@ if ( $do_pdf == 1 ){
 	exit();
 }
 
-$gid = intval( $my->gid );
+// loads template file
+$cur_template = $mainframe->getTemplate();
+$file     = 'index2.php';
 
-ob_start();
-if ($path = $mainframe->getPath( 'front' )) {
-	$task 	= mosGetParam( $_REQUEST, 'task', '' );
-	$ret 	= mosMenuCheck( $Itemid, $option, $task, $gid );
-	if ($ret) {
-		require_once( $path );
-	} else {
-		mosNotAuth();
-	}
-} else {
-	header("HTTP/1.0 404 Not Found");
-	echo JText::_( 'NOT_EXIST' );
+// displays offline/maintanance page or bar
+if ($mainframe->getCfg('offline') && $my->gid < '23') {	
+	$file = 'offline.php';
 }
-$_MOS_OPTION['buffer'] = ob_get_contents();
-ob_end_clean();
 
-require_once( 'includes/template.php' );
+$layout = new JLayout();
+$layout->parse($cur_template, $file);
 
 initGzip();
 
@@ -126,15 +108,8 @@ header( 'Cache-Control: post-check=0, pre-check=0', false );
 header( 'Pragma: no-cache' );
 header( 'Content-Type: text/html; charset=UTF-8');
 
-// loads template file
-$template = $mainframe->getTemplate();
-if ( !file_exists( 'templates/'. $template .'/index2.php' ) ) {
-	require_once( 'templates/_system/index2.php' );
-} else {
-	require_once( 'templates/'. $template .'/index2.php' );
-}
+$layout->display( $file );
 
-echo "<!-- ".time()." -->";
 doGzip();
 ?>
 

@@ -53,8 +53,6 @@ class modules_html {
 			// standard tabled output
 				modules_html::modoutput_table( $module, $params );
 				break;
-
-
 		}
 
 		if ( $params->get( 'rssurl' ) ) {
@@ -69,7 +67,7 @@ class modules_html {
 		}
 	}
 
-		/*
+	/*
 	* standard tabled output
 	*/
 	function modoutput_table( $module, &$params  ) {

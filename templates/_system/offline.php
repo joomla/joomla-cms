@@ -21,7 +21,7 @@ $lang->load('mod_login');
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title><?php echo $mosConfig_sitename; ?> - Offline</title>
+	<title><?php echo $mainframe->getCfg('sitename'); ?> - Offline</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"" />
 	<link rel="stylesheet" href="<?php echo JURL_SITE; ?>/templates/_system/css/offline.css" type="text/css" />
 	<link rel="shortcut icon" href="<?php echo JURL_SITE; ?>/images/favicon.ico" />
@@ -30,12 +30,12 @@ $lang->load('mod_login');
 	<div id="frame" class="outline">
 		<img src="<?php echo JURL_SITE; ?>/images/joomla_logo_black.jpg" alt="Joomla! Logo" align="middle" />	
 		<h1>
-			<?php echo $mosConfig_sitename; ?>
+			<?php echo $mainframe->getCfg('sitename'); ?>
 		</h1>
 	<?php
 	if ( $mainframe->getCfg( 'offline' ) ) { ?>
 		<p>
-			<?php echo $mosConfig_offline_message; ?>
+			<?php echo $mainframe->getCfg('offline_message'); ?>
 		</p>
 	<?php
 	} else {

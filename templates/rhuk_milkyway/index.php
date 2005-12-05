@@ -52,7 +52,7 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 				</div>
 			</div>
 			<div id="search"><?php mosLoadModules('user4', -1); ?></div>
-			<div id="pathway"><?php mosPathWay(); ?></div>
+			<div id="pathway"><?php mosLoadModule('pathway'); ?></div>
 			<div class="clr"></div>
 			<div id="whitebox">
 				<div id="whitebox_t">
@@ -116,12 +116,12 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 		<div id="footer">
 			<div id="footer_l">
 				<div id="footer_r">
-					<?php include_once( $GLOBALS['mosConfig_absolute_path'] . '/includes/footer.php' ); ?>
+					<?php mosLoadModules( 'footer', -1);?>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<?php mosLoadModules( 'debug', -1 );?>
+<?php mosLoadModules( 'debug', -1 ); ?>
 </body>
 </html>

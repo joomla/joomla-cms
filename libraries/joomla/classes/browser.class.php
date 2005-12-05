@@ -133,6 +133,7 @@ class JBrowser extends JObject
 	 * This method must be invoked as:
 	 * 		<pre>  $browser = &JBrowser::getInstance([$userAgent[, $accept]]);</pre>
 	 *
+	 * @access public
 	 * @param string $userAgent  The browser string to parse.
 	 * @param string $accept     The HTTP_ACCEPT settings to use.
 	 * @return JBrowser  The Browser object.
