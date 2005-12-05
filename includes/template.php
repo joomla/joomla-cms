@@ -151,7 +151,7 @@ class JLayout extends JObject
 		
 		$total = count($this->_modules);
 		for($i = 0; $i < $total; $i++) {
-			if($this->_modules[$i]->module == $name) {
+			if($this->_modules[$i]->name == $name) {
 				$result =& $this->_modules[$i];
 				break;
 			}
@@ -539,7 +539,7 @@ function mosLoadModules( $position='left', $style=0 )
  * @param string 	The name of the module
  * @param integer 	The style.  0=normal, 1=horiz, -1=no wrapper
  */
-function mosLoadModule( $name, $style=0 ) 
+function mosLoadModule( $name, $style=-1 ) 
 {	
 	?>
 	<jos:placeholder type="module" name="<?php echo $name ?>" style="<?php echo $style ?>" />
