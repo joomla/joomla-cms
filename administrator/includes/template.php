@@ -136,48 +136,47 @@ function mosLoadAdminModule( $name, $params=NULL ) {
 */
 function mosShowHead_Admin() {
 	global $database, $my, $mainframe, $_VERSION;
-	global $mosConfig_favicon;
-	
+
 	$page =& $mainframe->getPage();
 
 	$template =  $mainframe->getTemplate();
 	$lang     =& $mainframe->getLanguage();
 
 	$page->setMetaContentType();
-	$page->setTitle( $mosConfig_sitename .' :: '. JText::_( 'Administration' ) .'  [Joomla!]' );
-	$page->setMetaData( 'description', $mosConfig_MetaDesc );
-	$page->setMetaData( 'keywords', $mosConfig_MetaKeys );
+	$page->setTitle( $GLOBALS['mosConfig_sitename'] .' :: '. JText::_( 'Administration' ) .'  [Joomla!]' );
+	$page->setMetaData( 'description', $GLOBALS['mosConfig_MetaDesc'] );
+	$page->setMetaData( 'keywords', $GLOBALS['mosConfig_MetaKeys'} );
 	$page->setMetaData( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
 	$page->setMetaData( 'robots', 'noindex, nofollow' );
 
 	$suffix = ($lang->isRTL()) ? '_rtl': '';
-	
+
 	$page->addStyleSheet('templates/'.$template.'/css/template_css'.$suffix.'.css');
 	$page->addStyleSheet('templates/'.$template.'/css/theme'.$suffix.'.css');
-		
+
 	if ( $my->id ) {
 		$page->addScript( JURL_SITE.'/includes/js/JSCookMenu.js');
 		$page->addScript( JURL_SITE.'/includes/js/joomla.javascript.js');
 		$page->addScript( JURL_SITE.'/administrator/includes/js/ThemeOffice/theme'.$suffix.'.js');
 	}
-	
+
 	// load editor
 	initEditor();
-	
-	$dirs = array( 
+
+	$dirs = array(
 		'/templates/'.$template.'/',
 		'/',
-	);	
-	
+	);
+
 	foreach ($dirs as $dir ) {
 		$icon =   $dir . 'favicon.ico';
-		
+
 		if(file_exists( JPATH_ADMINISTRATOR . $icon )) {
 			$page->addFavicon(JURL_SITE . '/administrator'. $icon);
 			break;
 		}
 	}
-	
+
 	echo $page->renderHead();
 }
 ?>
