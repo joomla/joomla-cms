@@ -1,45 +1,45 @@
-<mos:comment>
+<jos:comment>
 @version $Id$
 @package Joomla
 @subpackage Installation
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-</mos:comment>
+</jos:comment>
 
 
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-			<mos:Translate>Database Collation</mos:Translate>
+			<jos:translate>Database Collation</jos:translate>
 		</div>
 
 		<div class="far-right">
-			<input type="button" class="button" value="&lt;&lt; <mos:Translate escape="yes">Previous</mos:Translate>" onclick="submitForm( this.form, 'dbconfig' );" />
-			<input type="button" class="button" value="<mos:Translate escape="yes">Next</mos:Translate> &gt;&gt;" onclick="submitForm( this.form, 'makedb' );" />
+			<input type="button" class="button" value="&lt;&lt; <jos:translate escape="yes">Previous</jos:translate>" onclick="submitForm( this.form, 'dbconfig' );" />
+			<input type="button" class="button" value="<jos:translate escape="yes">Next</jos:translate> &gt;&gt;" onclick="submitForm( this.form, 'makedb' );" />
 		</div>
 
 		<div class="clr"></div>
 
 		<h2>
-		<mos:Translate>Collation Selection</mos:Translate>:
+		<jos:translate>Collation Selection</jos:translate>:
 		</h2>
 
 		<div class="install-text">
-			<p><mos:Translate>databaseVersion</mos:Translate> {VAR_DBVERSION}</p>
-			<mos:tmpl name="utf_text" type="condition" conditionvar="utfsupport" >
-				<mos:sub condition="true">
-					<mos:Translate key="tipCollationUtf">
+			<p><jos:translate>databaseVersion</jos:translate> {VAR_DBVERSION}</p>
+			<jos:tmpl name="utf_text" type="condition" conditionvar="utfsupport" >
+				<jos:sub condition="true">
+					<jos:translate key="tipCollationUtf">
 					<p>This version of MySQL includes UTF-8 support which is the required encoding.</p>
 					<p>Choose a collation from the list. If none appears for your language, that is because the default collation <em>utf8_general_ci</em> is suitable.</p>
-					</mos:Translate>
-				</mos:sub>
-					<mos:sub condition="false">
-					<mos:Translate key="tipCollationNonUtf">
+					</jos:translate>
+				</jos:sub>
+					<jos:sub condition="false">
+					<jos:translate key="tipCollationNonUtf">
 					<p>This version of MySQL does not have UTF-8 support which is the required encoding.</p>
 					<p>It is recommended that you upgrade your database to a version newer than 4.1.2. If this is not possible, Joomla! will store utf-8 encoded content in your existing database in a backward compatibility mode. Collation selection is not possible in this mode and a default collation will be used.</p>
-					</mos:Translate>
-				</mos:sub>
-			</mos:tmpl>
+					</jos:translate>
+				</jos:sub>
+			</jos:tmpl>
 		</div>
 		<div class="install-form">
 			<div class="form-block">
@@ -52,13 +52,13 @@
 	  			<tr>
 	    			<td colspan="2">
 	    				<label for="vars_dbtype">
-	    					<mos:Translate>Available collations</mos:Translate>
+	    					<jos:translate>Available collations</jos:translate>
 	    				</label>
 	    				<br/>
 	 					<select id="vars_dbcollation" name="vars[DBcollation]" class="inputbox" size="1">
-						<mos:tmpl name="collation-options">
+						<jos:tmpl name="collation-options">
 							<option>{COLLATION}</option>
-						</mos:tmpl>
+						</jos:tmpl>
 						</select>
 			   		</td>
 		  		    <td>&nbsp;
@@ -83,4 +83,6 @@
 <input type="hidden" name="vars[DBname]" value="{VAR_DBNAME}">
 <input type="hidden" name="vars[DBversion]" value="{VAR_DBVERSION}">
 <input type="hidden" name="vars[DButfSupport]" value="{VAR_DBUTFSUPPORT}">
+<input type="hidden" name="vars[DBSample]" value="{VAR_DBSAMPLE}">
+<input type="hidden" name="vars[DBBackup]" value="{VAR_DBBACKUP}">
 <input type="hidden" name="task" value="" />

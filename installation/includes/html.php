@@ -33,7 +33,7 @@ class installationScreens {
 		jimport('pattemplate.patTemplate');
 
 		$tmpl = new patTemplate;
-		$tmpl->setNamespace( 'mos' );
+		$tmpl->setNamespace( 'jos' );
 
 		// load the wrapper and common templates
 		$tmpl->setRoot( JPATH_INSTALLATION . '/tmpl' );

@@ -1,10 +1,10 @@
-<mos:comment>
+<jos:comment>
 @version $Id: mainconfig.html 137 2005-09-12 10:21:17Z eddieajau $
 @package Joomla
 @subpackage Installation
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-</mos:comment>
+</jos:comment>
 
 <script language="JavaScript" type="text/javascript">
 	function validateForm( frm, task ) {
@@ -13,11 +13,11 @@
 		var adminPassword = getElementByName( frm , 'vars[adminPassword]' );
 
 		if (siteName.value == '') {
-			alert( '<mos:Translate key="warnSiteName" escape="yes">Please enter a site name</mos:Translate>' );
+			alert( '<jos:translate key="warnSiteName" escape="yes">Please enter a site name</jos:translate>' );
 		} else if (adminEmail.value == '') {
-			alert( '<mos:Translate key="warnEmailAddress" escape="yes">Please enter a valid email address</mos:Translate>' );
+			alert( '<jos:translate key="warnEmailAddress" escape="yes">Please enter a valid email address</jos:translate>' );
 		} else if (adminPassword.value == '') {
-			alert( '<mos:Translate key="warnAdminPassword" escape="yes">Please enter a valid admin password</mos:Translate>' );
+			alert( '<jos:translate key="warnAdminPassword" escape="yes">Please enter a valid admin password</jos:translate>' );
 		} else {
 			submitForm( frm, task );
 		}
@@ -27,24 +27,24 @@
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-			<mos:Translate>Main Configuration</mos:Translate>
+			<jos:translate>Main Configuration</jos:translate>
 		</div>
 
 		<div class="far-right">
-			<input type="button" class="button" value="<mos:Translate escape="yes">Next</mos:Translate> &gt;&gt;" onclick="validateForm( this.form, 'saveconfig' );" />
+			<input type="button" class="button" value="<jos:translate escape="yes">Next</jos:translate> &gt;&gt;" onclick="validateForm( this.form, 'saveconfig' );" />
 		</div>
 		<div class="clr"></div>
 
-		<h2><mos:Translate>Site Name</mos:Translate>:</h2>
+		<h2><jos:translate>Site Name</jos:translate>:</h2>
 		<div class="install-text">
-			<mos:Translate key="enterSiteName">Enter the name of your Joomla! site.</mos:Translate>
+			<jos:translate key="enterSiteName">Enter the name of your Joomla! site.</jos:translate>
 		</div>
 		<div class="install-form">
 			<div class="form-block">
 	  				<table class="content2">
 	  			   <tr>
 	  				  <td width="100">
-	  				  	<mos:Translate>Site name</mos:Translate>
+	  				  	<jos:translate>Site name</jos:translate>
 	  				  </td>
 	  				  <td align="center">
 	  				  	<input class="inputbox" type="text" name="vars[siteName]" size="30" value="{VAR_SITENAME}" />
@@ -56,9 +56,9 @@
 
 
 	    <div class="clr"></div>
-		<h2><mos:Translate key="confTitle">Confirm the site URL, path, admin e-mail and file/directory chmods</mos:Translate></h2>
+		<h2><jos:translate key="confTitle">Confirm the site URL, path, admin e-mail and file/directory chmods</jos:translate></h2>
 		<div class="install-text">
-			<mos:Translate key="tipConfSteps">
+			<jos:translate key="tipConfSteps">
 			<p>If URL and Path looks correct then please do not change.
 		   If you are not sure then please contact your ISP or administrator. Usually
 		   the values displayed will work for your site.<br/>
@@ -70,14 +70,14 @@
 			the Joomla! addon-installers and by the media manager. If you are unsure
 			what flags shall be set, leave the default settings at the moment.
 			You can still change these flags later in the site global configuration.</p>
-			</mos:Translate>
+			</jos:translate>
 		</div>
 		<div class="install-form">
 			<div class="form-block">
 				<table class="content2">
 			   <tr>
 				  <td width="100">
-				  	<mos:Translate>Site URL</mos:Translate>
+				  	<jos:translate>Site URL</jos:translate>
 				  </td>
 				  <td align="center">
 				  	<input class="inputbox" type="text" name="vars[siteUrl]" value="{VAR_SITEURL}" size="30"/>
@@ -85,7 +85,7 @@
 				</tr>
 			   <tr>
 				  <td>
-				  	<mos:Translate>Site Path</mos:Translate>
+				  	<jos:translate>Site Path</jos:translate>
 				  </td>
 					<td align="center">
 						<input class="inputbox" type="text" name="vars[sitePath]" value="{VAR_SITEPATH}" size="30"/>
@@ -93,7 +93,7 @@
 				</tr>
 				<tr>
 				  <td>
-				  	<mos:Translate>Your E-mail</mos:Translate>
+				  	<jos:translate>Your E-mail</jos:translate>
 				  </td>
 				  <td align="center">
 				  	<input class="inputbox" type="text" name="vars[adminEmail]" value="" size="30" />
@@ -101,7 +101,7 @@
 				</tr>
 				<tr>
 				  <td>
-				  	<mos:Translate>Admin password</mos:Translate>
+				  	<jos:translate>Admin password</jos:translate>
 				  </td>
 				  <td align="center">
 				  	<input class="inputbox" type="text" name="vars[adminPassword]" value="{VAR_ADMINPASSWORD}" size="30"/>
@@ -111,7 +111,7 @@
 				  <td colspan="2">
 						<fieldset>
 							<legend>
-								<mos:Translate>File Permissions</mos:Translate>
+								<jos:translate>File Permissions</jos:translate>
 							</legend>
 
 							<table cellpadding="1" cellspacing="1" border="0">
@@ -121,7 +121,7 @@
 								</td>
 								<td>
 									<label for="filePermsMode0">
-										<mos:Translate key="noChmodFiles">Don't CHMOD files (use server defaults)</mos:Translate>
+										<jos:translate key="noChmodFiles">Don't CHMOD files (use server defaults)</jos:translate>
 									</label>
 								</td>
 							</tr>
@@ -132,7 +132,7 @@
 
 								<td>
 									<label for="filePermsMode1">
-										<mos:Translate>CHMOD files to</mos:Translate>:
+										<jos:translate>CHMOD files to</jos:translate>:
 									</label>
 								</td>
 							</tr>
@@ -144,14 +144,14 @@
 							  <table cellpadding="1" cellspacing="0" border="0">
 							  <tr>
 								 <td>
-								 	<mos:Translate>User</mos:Translate>:
+								 	<jos:translate>User</jos:translate>:
 								 </td>
 								 <td>
 								 	<input type="checkbox" id="filePermsUserRead" name="vars[filePermsUserRead]" value="1"{VAR_PERM_FUR} />
 								 </td>
 								 <td>
 								 	<label for="filePermsUserRead">
-								 		<mos:Translate>read</mos:Translate>
+								 		<jos:translate>read</jos:translate>
 								 	</label>
 								 </td>
 								 <td>
@@ -159,7 +159,7 @@
 								 </td>
 								 <td>
 								 	<label for="filePermsUserWrite">
-								 		<mos:Translate>write</mos:Translate>
+								 		<jos:translate>write</jos:translate>
 								 	</label>
 								 </td>
 								 <td>
@@ -167,20 +167,20 @@
 								 </td>
 								 <td width="100%">
 								 	<label for="filePermsUserExecute">
-								 		<mos:Translate>execute</mos:Translate>
+								 		<jos:translate>execute</jos:translate>
 								 	</label>
 								 </td>
 							  </tr>
 							  <tr>
 								 <td>
-								 	<mos:Translate>Group</mos:Translate>:
+								 	<jos:translate>Group</jos:translate>:
 								 </td>
 								 <td>
 								 	<input type="checkbox" id="filePermsGroupRead" name="vars[filePermsGroupRead]" value="1"{VAR_PERM_FGR} />
 								 </td>
 								 <td>
 								 	<label for="filePermsGroupRead">
-								 		<mos:Translate>read</mos:Translate>
+								 		<jos:translate>read</jos:translate>
 								 	</label>
 								 </td>
 								 <td>
@@ -188,7 +188,7 @@
 								 </td>
 								 <td>
 								 	<label for="filePermsGroupWrite">
-								 		<mos:Translate>write</mos:Translate>
+								 		<jos:translate>write</jos:translate>
 								 	</label>
 								 </td>
 								 <td>
@@ -196,20 +196,20 @@
 								 </td>
 								 <td width="100%">
 								 	<label for="filePermsGroupExecute">
-								 		<mos:Translate>execute</mos:Translate>
+								 		<jos:translate>execute</jos:translate>
 								 	</label>
 								 </td>
 							  </tr>
 							  <tr>
 								 <td>
-								 	<mos:Translate>World</mos:Translate>:
+								 	<jos:translate>World</jos:translate>:
 								 </td>
 								 <td>
 								 	<input type="checkbox" id="filePermsWorldRead" name="vars[filePermsWorldRead]" value="1"{VAR_PERM_FWR} />
 								 </td>
 								 <td>
 								 	<label for="filePermsWorldRead">
-								 		<mos:Translate>read</mos:Translate>
+								 		<jos:translate>read</jos:translate>
 								 	</label>
 							    	</td>
 								 <td>
@@ -217,7 +217,7 @@
 								 </td>
 								 <td>
 								 	<label for="filePermsWorldWrite">
-								 		<mos:Translate>write</mos:Translate>
+								 		<jos:translate>write</jos:translate>
 								 	</label>
 								 </td>
 								 <td>
@@ -225,7 +225,7 @@
 								 </td>
 								 <td width="100%">
 								 	<label for="filePermsWorldExecute">
-								 		<mos:Translate>execute</mos:Translate>
+								 		<jos:translate>execute</jos:translate>
 								 	</label>
 								 </td>
 							  </tr>
@@ -241,7 +241,7 @@
 				  <td colspan="2">
 						<fieldset>
 							<legend>
-								<mos:Translate>Directory Permissions</mos:Translate>
+								<jos:translate>Directory Permissions</jos:translate>
 							</legend>
 
 							<table cellpadding="1" cellspacing="1" border="0">
@@ -251,7 +251,7 @@
 								</td>
 								<td>
 									<label for="dirPermsMode0">
-										<mos:Translate key="noChmodDirs">Don't CHMOD directories (use server defaults)</mos:Translate>
+										<jos:translate key="noChmodDirs">Don't CHMOD directories (use server defaults)</jos:translate>
 									</label>
 								</td>
 							</tr>
@@ -261,7 +261,7 @@
 							</td>
 								<td>
 									<label for="dirPermsMode1">
-										<mos:Translate>CHMOD directories to</mos:Translate>:
+										<jos:translate>CHMOD directories to</jos:translate>:
 									</label>
 								</td>
 							</tr>
@@ -273,14 +273,14 @@
 							  <table cellpadding="1" cellspacing="0" border="0">
 							  <tr>
 								 <td>
-								 	<mos:Translate>User</mos:Translate>:
+								 	<jos:translate>User</jos:translate>:
 								 </td>
 								 <td>
 								 	<input type="checkbox" id="dirPermsUserRead" name="vars[dirPermsUserRead]" value="1"{VAR_PERM_DUR} />
 								 </td>
 								 <td>
 								 	<label for="dirPermsUserRead">
-								 		<mos:Translate>read</mos:Translate>
+								 		<jos:translate>read</jos:translate>
 								 	</label>
 								 </td>
 								 <td>
@@ -288,7 +288,7 @@
 								 </td>
 								 <td>
 								 	<label for="dirPermsUserWrite">
-								 		<mos:Translate>write</mos:Translate>
+								 		<jos:translate>write</jos:translate>
 								 	</label>
 								 </td>
 								 <td>
@@ -296,20 +296,20 @@
 								 </td>
 								 <td width="100%">
 								 	<label for="dirPermsUserSearch">
-								 		<mos:Translate>search</mos:Translate>
+								 		<jos:translate>search</jos:translate>
 								 	</label>
 								 </td>
 							  </tr>
 							  <tr>
 								 <td>
-								 	<mos:Translate>Group</mos:Translate>:
+								 	<jos:translate>Group</jos:translate>:
 								 </td>
 								 <td>
 								 	<input type="checkbox" id="dirPermsGroupRead" name="vars[dirPermsGroupRead]" value="1"{VAR_PERM_DGR} />
 								 </td>
 								 <td>
 								 	<label for="dirPermsGroupRead">
-								 		<mos:Translate>read</mos:Translate>
+								 		<jos:translate>read</jos:translate>
 								 	</label>
 								 </td>
 								 <td>
@@ -317,7 +317,7 @@
 								 </td>
 								 <td>
 								 	<label for="dirPermsGroupWrite">
-								 		<mos:Translate>write</mos:Translate>
+								 		<jos:translate>write</jos:translate>
 								 	</label>
 								 </td>
 								 <td>
@@ -325,20 +325,20 @@
 								 </td>
 								 <td width="100%">
 								 	<label for="dirPermsGroupSearch">
-								 		<mos:Translate>search</mos:Translate>
+								 		<jos:translate>search</jos:translate>
 								 	</label>
 								 </td>
 							  </tr>
 							  <tr>
 								 <td>
-								 	<mos:Translate>World</mos:Translate>:
+								 	<jos:translate>World</jos:translate>:
 								 </td>
 								 <td>
 								 	<input type="checkbox" id="dirPermsWorldRead" name="vars[dirPermsWorldRead]" value="1"{VAR_PERM_DWR} />
 								 </td>
 								 <td>
 								 	<label for="dirPermsWorldRead">
-								 		<mos:Translate>read</mos:Translate>
+								 		<jos:translate>read</jos:translate>
 								 	</label>
 								 </td>
 								 <td>
@@ -346,14 +346,14 @@
 							    	</td>
 								 <td>
 								 	<label for="dirPermsWorldWrite">
-								 		<mos:Translate>write</mos:Translate>
+								 		<jos:translate>write</jos:translate>
 								 	</label></td>
 								 <td>
 								 	<input type="checkbox" id="dirPermsWorldSearch" name="vars[dirPermsWorldSearch]" value="1"{VAR_PERM_DWE} />
 								 </td>
 								 <td width="100%">
 								 	<label for="dirPermsWorldSearch">
-								 		<mos:Translate>search</mos:Translate>
+								 		<jos:translate>search</jos:translate>
 								 	</label>
 								 </td>
 							  </tr>

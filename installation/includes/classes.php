@@ -151,7 +151,7 @@ class installationTasks {
 			'mysql',
 			'mysqli',
 		);
-		$db = mosInstallation::detectDB();
+		$db = JInstallationHelper::detectDB();
 		foreach ($files as $file) {
 			$option = array();
 			$option['text'] = $file;
@@ -273,8 +273,9 @@ class installationTasks {
 			if ($err = $database->getErrorNum()) {
 				if ($err == 3) {
 					// connection ok, need to create database
-					if (mosInstallation::createDatabase( $database, $DBname, $DButfSupport, $DBcollation )) {
+					if (JInstallation::createDatabase( $database, $DBname, $DButfSupport, $DBcollation )) {
 						// make the new connection to the new database
+						$database = NULL;
 						$database =&  JDatabase::getInstance( $DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix );
 					} else {
 						$error = $database->getErrorMsg();
@@ -292,14 +293,14 @@ class installationTasks {
 			$database =&  JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix );
 
 			if ($DBBackup) {
-				if (mosInstallation::backupDatabase( $database, $DBname, $DBPrefix, $errors )) {
-					installationScreens::error( $vars, JText::_( 'WARNBACKINGUPDB' ), 'dbconfig', mosInstallation::errors2string( $errors ) );
+				if (JInstallation::backupDatabase( $database, $DBname, $DBPrefix, $errors )) {
+					installationScreens::error( $vars, JText::_('WARNBACKINGUPDB'), 'dbconfig', JInstallation::errors2string( $errors ) );
 					return false;
 				}
 			}
 			if ($DBDel) {
-				if (mosInstallation::deleteDatabase( $database, $DBname, $DBPrefix, $errors )) {
-					installationScreens::error( $vars, 'Some errors occurred deleting the database.', 'dbconfig', mosInstallation::errors2string( $errors ) );
+				if (JInstallation::deleteDatabase( $database, $DBname, $DBPrefix, $errors )) {
+					installationScreens::error( $vars, JText::_('WARNDELETEDB'), 'dbconfig', JInstallation::errors2string( $errors ) );
 					return false;
 				}
 			}
@@ -314,14 +315,14 @@ class installationTasks {
 				$dbscheme = 'joomla_backward.sql';
 			}
 
-			if (mosInstallation::populateDatabase( $database, $dbscheme, $errors, ($DButfSupport) ? $DBcollation: '' )) {
-				installationScreens::error( $vars, 'Some errors occurred populating the database.', 'dbconfig', mosInstallation::errors2string( $errors ) );
+			if (JInstallation::populateDatabase( $database, $dbscheme, $errors, ($DButfSupport) ? $DBcollation: '' )) {
+				installationScreens::error( $vars, JText::_('WARNPOPULATINGDB'), 'dbconfig', JInstallation::errors2string( $errors ) );
 				return false;
 			}
 
 			if ($DBSample) {
 				$dbsample = 'sample_data.sql';
-				mosInstallation::populateDatabase( $database, $dbsample, $errors);
+				JInstallation::populateDatabase( $database, $dbsample, $errors);
 				return true;
 			}
 		}
@@ -419,8 +420,8 @@ class installationTasks {
 
 		$vars = mosGetParam( $_POST, 'vars', array() );
 
-		$vars['fileperms'] = mosInstallation::getFilePerms( $vars, 'file' );
-		$vars['dirperms'] = mosInstallation::getFilePerms( $vars, 'dir' );
+		$vars['fileperms'] = JInstallation::getFilePerms( $vars, 'file' );
+		$vars['dirperms'] = JInstallation::getFilePerms( $vars, 'dir' );
 
 		$strip = get_magic_quotes_gpc();
 		if (!$strip) {
@@ -438,7 +439,7 @@ class installationTasks {
 				break;
 		}
 
-		mosInstallation::createAdminUser( $vars );
+		JInstallation::createAdminUser( $vars );
 
 		$tmpl =& installationScreens::createTemplate();
 		$tmpl->readTemplatesFromFile( 'configuration.html' );
@@ -477,7 +478,7 @@ class installationTasks {
 * @package Joomla
 * @subpackage Installation
 */
-class mosInstallation {
+class JInstallationHelper {
 	/**
 	 * @return string A guess at the db required
 	 */
@@ -592,7 +593,7 @@ class mosInstallation {
 	 */
 	function populateDatabase( &$database, $sqlfile, &$errors, $collation = '' ) {
 		$buffer 	= file_get_contents( 'sql/' . $sqlfile );
-		$queries 	= mosInstallation::splitSql( $buffer, $collation );
+		$queries 	= JInstallationHelper::splitSql( $buffer, $collation );
 
 		foreach ($queries as $query) {
 			$query = trim( $query );

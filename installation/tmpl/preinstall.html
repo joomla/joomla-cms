@@ -1,57 +1,57 @@
-<mos:comment>
+<jos:comment>
 @version $Id: preinstall.html 137 2005-09-12 10:21:17Z eddieajau $
 @package Joomla
 @subpackage Installation
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-</mos:comment>
+</jos:comment>
 
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-			<mos:Translate>Pre-Installation check</mos:Translate>
+			<jos:translate>Pre-Installation check</jos:translate>
 		</div>
 
 		<div class="far-right">
-			<input type="button" class="button" value="&lt;&lt; <mos:Translate escape="yes">Previous</mos:Translate>" onclick="submitForm( this.form, 'lang' );" />
-			<input type="button" class="button" value="<mos:Translate escape="yes">Next</mos:Translate> &gt;&gt;" onclick="submitForm( this.form, 'license' );" />
+			<input type="button" class="button" value="&lt;&lt; <jos:translate escape="yes">Previous</jos:translate>" onclick="submitForm( this.form, 'lang' );" />
+			<input type="button" class="button" value="<jos:translate escape="yes">Next</jos:translate> &gt;&gt;" onclick="submitForm( this.form, 'license' );" />
 			<br/>
 			<br/>
-			<input type="button" class="button" value="<mos:Translate escape="yes">Check Again</mos:Translate>" onclick="submitForm( this.form, 'preinstall' );" />
+			<input type="button" class="button" value="<jos:translate escape="yes">Check Again</jos:translate>" onclick="submitForm( this.form, 'preinstall' );" />
 		</div>
 
 		<div class="clr"></div>
 
 		<h2>
-		<mos:Translate key="preTitle">Pre-installation check for</mos:Translate> {VERSION}:
+		<jos:translate key="preTitle">Pre-installation check for</jos:translate> {VERSION}:
 		</h2>
 
 		<div class="install-text">
-			<mos:Translate key="tipPreinstall">If any of these items are highlighted
+			<jos:translate key="tipPreinstall">If any of these items are highlighted
 			in red then please take actions to correct them. Failure to do so
 			could lead to your Joomla! installation not functioning
-			correctly.</mos:Translate>
+			correctly.</jos:translate>
 			<div class="ctr"></div>
 		</div>
 
 		<div class="install-form">
 			<div class="form-block">
 				<table class="content">
-				<mos:tmpl name="php-options">
+				<jos:tmpl name="php-options">
 				<tr>
 					<td class="item" valign="top">
-						<mos:Translate>{LABEL}</mos:Translate>
+						<jos:translate>{LABEL}</jos:translate>
 					</td>
 					<td align="left" valign="top">
 						<span class="{STATE}">
-						<mos:var name="statetext" copyFrom="state" modifier="Translate" />
+						<jos:var name="statetext" copyFrom="state" modifier="translate" />
 						</span>
 						<span class="small">
 						{NOTICE}&nbsp;
 						</span>
 					</td>
 				</tr>
-				</mos:tmpl>
+				</jos:tmpl>
 				<tr>
 					<td valign="top" class="item">
 					</td>
@@ -64,14 +64,14 @@
 
 
 		<h2>
-		<mos:Translate>Recommended settings</mos:Translate>:
+		<jos:translate>Recommended settings</jos:translate>:
 		</h2>
 
 		<div class="install-text">
-			<mos:Translate key="tipRecomSettings">These settings are recommended for PHP in order to ensure full
+			<jos:translate key="tipRecomSettings">These settings are recommended for PHP in order to ensure full
 			compatibility with Joomla.
 			<br />
-			However, Joomla! will still operate if your settings do not quite match the recommended.</mos:Translate>
+			However, Joomla! will still operate if your settings do not quite match the recommended.</jos:translate>
 			<div class="ctr"></div>
 		</div>
 
@@ -80,30 +80,30 @@
 				<table class="content">
 				<tr>
 					<td class="toggle">
-						<mos:Translate>Directive</mos:Translate>
+						<jos:translate>Directive</jos:translate>
 					</td>
 					<td class="toggle">
-						<mos:Translate>Recommended</mos:Translate>
+						<jos:translate>Recommended</jos:translate>
 					</td>
 					<td class="toggle">
-						<mos:Translate>Actual</mos:Translate>
+						<jos:translate>Actual</jos:translate>
 					</td>
 				</tr>
-				<mos:tmpl name="php-settings">
+				<jos:tmpl name="php-settings">
 				<tr>
 					<td class="item">
 						{LABEL}:
 					</td>
 					<td class="toggle">
-						<mos:var name="setting" modifier="Translate" />
+						<jos:var name="setting" modifier="translate" />
 					</td>
 					<td>
 						<span class="{STATE}">
-						<mos:var name="actual" modifier="Translate" />
+						<jos:var name="actual" modifier="translate" />
 						</span>
 					<td>
 				</tr>
-				</mos:tmpl>
+				</jos:tmpl>
 				</table>
 			</div>
 		</div>
@@ -112,15 +112,15 @@
 
 
 		<h2>
-		<mos:Translate>Directory and File Permissions</mos:Translate>:
+		<jos:translate>Directory and File Permissions</jos:translate>:
 		</h2>
 
 		<div class="install-text">
-			<mos:Translate key="tipPerms">In order for Joomla! to function
+			<jos:translate key="tipPerms">In order for Joomla! to function
 			correctly it needs to be able to access or write to certain files
 			or directories. If you see "Unwriteable" you need to change the
 			permissions on the file or directory to allow Joomla
-			to write to it.</mos:Translate>
+			to write to it.</jos:translate>
 			<div class="clr">&nbsp;&nbsp;</div>
 			<div class="ctr"></div>
 		</div>
@@ -128,18 +128,18 @@
 		<div class="install-form">
 			<div class="form-block">
 				<table class="content">
-				<mos:tmpl name="folder-perms">
+				<jos:tmpl name="folder-perms">
 					<tr>
 						<td class="item">
 						{LABEL}
 						</td>
 						<td align="left">
 							<span class="{STATE}">
-							<mos:var name="statetext" copyFrom="state" modifier="Translate" />
+							<jos:var name="statetext" copyFrom="state" modifier="Translate" />
 							</span>
 						</td>
 					</tr>
-				</mos:tmpl>
+				</jos:tmpl>
 				</table>
 			</div>
 

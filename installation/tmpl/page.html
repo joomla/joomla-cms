@@ -1,11 +1,11 @@
-<mos:comment>
+<jos:comment>
 @version $Id: page.html 137 2005-09-12 10:21:17Z eddieajau $
 @package Joomla
 @subpackage Installation
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-</mos:comment>
-<mos:tmpl name="form" autoclear="yes"><?xml version="1.0" encoding="iso-8859-1" ?>
+</jos:comment>
+<jos:tmpl name="form" autoclear="yes"><?xml version="1.0" encoding="iso-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{INSTALLDIR}">
 <head>
@@ -23,40 +23,40 @@
 
 		<div id="ctr" align="center">
 			<div class="install">
-				<mos:tmpl name="stepbar">
+				<jos:tmpl name="stepbar">
 					<div id="stepbar">
 						<div id="steppad">
-							<h1><mos:Translate>Installation</mos:Translate></h1>
+							<h1><jos:translate>Installation</jos:translate></h1>
 							<div class="step-{STEP_LANG}">
-								1 - <mos:Translate>Language</mos:Translate>
+								1 - <jos:translate>Language</jos:translate>
 							</div>
 							<div class="step-{STEP_PREINSTALL}">
-								2 - <mos:Translate>Pre-Installation check</mos:Translate>
+								2 - <jos:translate>Pre-Installation check</jos:translate>
 							</div>
 							<div class="step-{STEP_LICENSE}">
-								3 - <mos:Translate>License</mos:Translate>
+								3 - <jos:translate>License</jos:translate>
 							</div>
 							<div class="step-{STEP_DBCONFIG}">
-								4 - <mos:Translate>Database</mos:Translate>
+								4 - <jos:translate>Database</jos:translate>
 							</div>
 							<div class="step-{STEP_DBCOLLATION}">
-								5 - <mos:Translate>Collation</mos:Translate>
+								5 - <jos:translate>Collation</jos:translate>
 							</div>
 							<div class="step-{STEP_MAINCONFIG}">
-								6 - <mos:Translate>Configuration</mos:Translate>
+								6 - <jos:translate>Configuration</jos:translate>
 							</div>
 							<div class="step-{STEP_FINISH}">
-								7 - <mos:Translate>Finish</mos:Translate>
+								7 - <jos:translate>Finish</jos:translate>
 							</div>
 						</div>
 					</div>
-				</mos:tmpl>
+				</jos:tmpl>
 
 				<form action="index.php" method="post" name="adminForm">
-					<mos:tmpl name="body" src="dynamic" autoload="off" parse="on" varscope="form" />
+					<jos:tmpl name="body" src="dynamic" autoload="off" parse="on" varscope="form" />
 				</form>
 				<div class="footer">
-					<a href="http://www.joomla.org" target="_blank">Joomla!</a> <mos:Translate key="isFreeSoftware">is Free Software released under the GNU/GPL License.</mos:Translate>
+					<a href="http://www.joomla.org" target="_blank">Joomla!</a> <jos:translate key="isFreeSoftware">is Free Software released under the GNU/GPL License.</jos:translate>
 				</div>
 			</div>
 
@@ -64,4 +64,4 @@
 
 </body>
 </html>
-</mos:tmpl>
+</jos:tmpl>

@@ -1,10 +1,10 @@
-<mos:comment>
+<jos:comment>
 @version $Id: language.html 137 2005-09-12 10:21:17Z eddieajau $
 @package Joomla
 @subpackage Installation
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-</mos:comment>
+</jos:comment>
 
 <script language="JavaScript" type="text/javascript">
 	function validateForm( frm, task ) {
@@ -15,15 +15,15 @@
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-				<mos:Translate>Choose Language</mos:Translate>
+				<jos:translate>Choose Language</jos:translate>
 		</div>
 
 		<div class="far-right">
-			<input type="button" class="button" value="<mos:Translate escape="yes">Next</mos:Translate> &gt;&gt;" onclick="validateForm( this.form, 'preinstall' );" />
+			<input type="button" class="button" value="<jos:translate escape="yes">Next</jos:translate> &gt;&gt;" onclick="validateForm( this.form, 'preinstall' );" />
 		</div>
 		<div class="clr"></div>
 
-		<h2><mos:Translate>Select Language</mos:Translate></h2>
+		<h2><jos:translate>Select Language</jos:translate></h2>
 
 		<div class="install-text">
 			&nbsp;
@@ -33,9 +33,9 @@
 		<div class="install-form">
 			<div class="form-block">
 				<select name="vars[lang]" class="inputbox" size="10">
-				<mos:tmpl name="lang-options">
+				<jos:tmpl name="lang-options">
 					<option value="{VALUE}" {SELECTED}>{TEXT}</option>
-				</mos:tmpl>
+				</jos:tmpl>
 				</select>
 			</div>
 		</div>

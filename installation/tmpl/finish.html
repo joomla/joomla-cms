@@ -1,39 +1,39 @@
-<mos:comment>
+<jos:comment>
 @version $Id$
 @package Joomla
 @subpackage Installation
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-</mos:comment>
+</jos:comment>
 
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-		<mos:Translate>Finish</mos:Translate>
+		<jos:translate>Finish</jos:translate>
 		</div>
 
 		<div class="far-right">
-			<input type="button" class="button" value="<mos:Translate escape="yes">Site</mos:Translate>" onclick="window.location.href='{VAR_SITEURL}/';" />
-			<input type="button" class="button" value="<mos:Translate escape="yes">Admin</mos:Translate>" onclick="window.location.href='{VAR_ADMINURL}/';" />
+			<input type="button" class="button" value="<jos:translate escape="yes">Site</jos:translate>" onclick="window.location.href='{VAR_SITEURL}/';" />
+			<input type="button" class="button" value="<jos:translate escape="yes">Admin</jos:translate>" onclick="window.location.href='{VAR_ADMINURL}/';" />
 		</div>
 
 		<div class="clr"></div>
 
 	    <h2>
-	    <mos:Translate key="congratulations">Congratulations! Joomla! is installed.</mos:Translate>
+	    <jos:translate key="congratulations">Congratulations! Joomla! is installed.</jos:translate>
 	    </h2>
 
 	    <div class="install-text">
-	    	<mos:Translate key="finishButtons">
+	    	<jos:translate key="finishButtons">
 		   <p>
 		   Click the "Site" button to start Joomla! site or "Admin" to take you to administrator login.
 		   </p>
-		   </mos:Translate>
-	       <mos:Translate key="languageinfo">
+		   </jos:translate>
+	       <jos:translate key="languageinfo">
 		   <p>
 		   On the Joomla! help page for languages you will find an easy step by step help to install your own languagepack in Joomla!<br/>You will find a list there with links to the available languagepacks.<br/>Click the button on the right to open the helpsite in a new window.
 		   </p>
-		   </mos:Translate>
+		   </jos:translate>
 	    </div>
 
 	    <div class="install-form">
@@ -41,24 +41,24 @@
 			  <table class="final-table">
 			  <tr>
 			  	<td class="error" align="center">
-			  		<mos:Translate key="removeInstallation">PLEASE REMEMBER TO COMPLETELY REMOVE THE INSTALLATION DIRECTORY</mos:Translate>
+			  		<jos:translate key="removeInstallation">PLEASE REMEMBER TO COMPLETELY REMOVE THE INSTALLATION DIRECTORY</jos:translate>
 			  	</td>
 			  </tr>
 			  <tr>
 			  	<td align="center">
 			  		<h3>
-			  		<mos:Translate>Administration Login Details</mos:Translate>
+			  		<jos:translate>Administration Login Details</jos:translate>
 			  		</h3>
 			  	</td>
 			  </tr>
 			  <tr>
 			  	<td align="center" class="notice">
-			  		<mos:Translate>Username</mos:Translate> : admin
+			  		<jos:translate>Username</jos:translate> : admin
 			  	</td>
 			  </tr>
 			  <tr>
 			  	<td align="center" class="notice">
-			  		<mos:Translate>Password</mos:Translate> : {VAR_ADMINPASSWORD}
+			  		<jos:translate>Password</jos:translate> : {VAR_ADMINPASSWORD}
 			  	</td>
 			  </tr>
 			  <tr>
@@ -71,9 +71,9 @@
 							<div class="icon">
 								<a href="http://help.joomla.org" target="_blank">
 								<br />
-								<b><mos:Translate key="languagebuttonlineone">Joomla! in your own language?</mos:Translate></b>
+								<b><jos:translate key="languagebuttonlineone">Joomla! in your own language?</jos:translate></b>
 								<br />
-								<mos:Translate key="languagebuttonlinetwo">Visit the Joomla! help site for more information and downloads.</mos:Translate>
+								<jos:translate key="languagebuttonlinetwo">Visit the Joomla! help site for more information and downloads.</jos:translate>
 								<br /><br />
 								</a></td>
 							</div>
@@ -84,15 +84,15 @@
 			  <tr>
 			  	<td>&nbsp;</td>
 			  </tr>
-			  <mos:tmpl name="configuration-error" type="simplecondition" requiredvars="buffer">
+			  <jos:tmpl name="configuration-error" type="simplecondition" requiredvars="buffer">
 			  <tr>
 				 <td class="small">
-					<mos:Translate key="confProblem">
+					<jos:translate key="confProblem">
 					Your configuration file or directory is not writeable,
 					or there was a problem creating the configuration file. You'll have to
 					upload the following code by hand. Click in the textarea to highlight
 					all of the code.
-					</mos:Translate>
+					</jos:translate>
 				 </td>
 			  </tr>
 			  <tr>
@@ -101,7 +101,7 @@
 					<textarea rows="5" cols="60" name="configcode" onclick="javascript:this.form.configcode.focus();this.form.configcode.select();" >{BUFFER}</textarea>
 				 </td>
 			  </tr>
-				</mos:tmpl>
+				</jos:tmpl>
 			</table>
 		   </div>
 	    </div>

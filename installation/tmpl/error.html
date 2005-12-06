@@ -1,35 +1,35 @@
-<mos:comment>
+<jos:comment>
 @version $Id$
 @package Joomla
 @subpackage Installation
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-</mos:comment>
+</jos:comment>
 
 <div id="right">
 	<div id="rightpad">
-		<div id="step"><mos:Translate>error</mos:Translate></div>
+		<div id="step"><jos:translate>error</jos:translate></div>
 
 		<div class="far-right">
-			<input type="button" class="button" value="&lt;&lt; <mos:Translate escape="yes">Previous</mos:Translate>" onclick="submitForm( this.form, '{BACK}' );" />
+			<input type="button" class="button" value="&lt;&lt; <jos:translate escape="yes">Previous</jos:translate>" onclick="submitForm( this.form, '{BACK}' );" />
 		</div>
 		<div class="clr"></div>
 
-		<h2><mos:Translate>An error has occurred</mos:Translate>:</h2>
+		<h2><jos:translate>An error has occurred</jos:translate>:</h2>
 		<div class="install-text">
 			<p>
-				<mos:tmpl name="messages">
-				<mos:Translate>{MESSAGE}</mos:Translate>
-				</mos:tmpl>
+				<jos:tmpl name="messages">
+				{MESSAGE}
+				</jos:tmpl>
 			</p>
 		</div>
-		<mos:tmpl name="xmessages" type="simplecondition" requiredvars="xmessage">
+		<jos:tmpl name="xmessages" type="simplecondition" requiredvars="xmessage">
 		<div class="install-form">
 			<div class="form-block">
 				<textarea rows="10" cols="50">{XMESSAGE}</textarea>
 	 		</div>
 	 	</div>
-	 	</mos:tmpl>
+	 	</jos:tmpl>
 
 		<div class="clr"></div>
 	</div>
