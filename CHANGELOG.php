@@ -39,6 +39,8 @@ Legend:
  ! Translation: We will split the joomla.sql into a table and initial data file before final release
  + German Installer translations
  # fixed little issues within the installer
+ # fixed artf2398: Parameter Text Area field name
+ ! already fixed : artf2434: Typo in database.php checkout function line 1050
 
 06-Dec-2005 Johan Janssens
  # Fixed artf2418 : Banners Client Manager Next Page Issue: Joomla 1.04

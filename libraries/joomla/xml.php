@@ -477,7 +477,7 @@ class mosParameters {
  		// convert <br /> tags so they are not visible when editing
  		$value 	= str_replace( '<br />', "\n", $value );
 
- 		return '<textarea name="params['. $name .']" cols="'. $cols .'" rows="'. $rows .'" class="text_area">'. $value .'</textarea>';
+ 		return '<textarea name="' .$control_name. '['. $name .']" cols="'. $cols .'" rows="'. $rows .'" class="text_area">'. $value .'</textarea>';
 	}
 
 	/**
