@@ -276,7 +276,7 @@ class JLanguage extends JObject {
 		
 		$result = null;
 		if(JFile::exists($path.$file)) {
-			$rssult = JLanguage :: _parseXMLLanguageFile($path.$file);
+			$result = JLanguage :: _parseXMLLanguageFile($path.$file);
 		}
 		
 		return $result;
