@@ -273,7 +273,7 @@ class installationTasks {
 			if ($err = $database->getErrorNum()) {
 				if ($err == 3) {
 					// connection ok, need to create database
-					if (JInstallation::createDatabase( $database, $DBname, $DButfSupport, $DBcollation )) {
+					if (JInstallationHelper::createDatabase( $database, $DBname, $DButfSupport, $DBcollation )) {
 						// make the new connection to the new database
 						$database = NULL;
 						$database =&  JDatabase::getInstance( $DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix );
@@ -293,14 +293,14 @@ class installationTasks {
 			$database =&  JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix );
 
 			if ($DBBackup) {
-				if (JInstallation::backupDatabase( $database, $DBname, $DBPrefix, $errors )) {
-					installationScreens::error( $vars, JText::_('WARNBACKINGUPDB'), 'dbconfig', JInstallation::errors2string( $errors ) );
+				if (JInstallationHelper::backupDatabase( $database, $DBname, $DBPrefix, $errors )) {
+					installationScreens::error( $vars, JText::_('WARNBACKINGUPDB'), 'dbconfig', JInstallationHelper::errors2string( $errors ) );
 					return false;
 				}
 			}
 			if ($DBDel) {
-				if (JInstallation::deleteDatabase( $database, $DBname, $DBPrefix, $errors )) {
-					installationScreens::error( $vars, JText::_('WARNDELETEDB'), 'dbconfig', JInstallation::errors2string( $errors ) );
+				if (JInstallationHelper::deleteDatabase( $database, $DBname, $DBPrefix, $errors )) {
+					installationScreens::error( $vars, JText::_('WARNDELETEDB'), 'dbconfig', JInstallationHelper::errors2string( $errors ) );
 					return false;
 				}
 			}
@@ -315,14 +315,14 @@ class installationTasks {
 				$dbscheme = 'joomla_backward.sql';
 			}
 
-			if (JInstallation::populateDatabase( $database, $dbscheme, $errors, ($DButfSupport) ? $DBcollation: '' )) {
-				installationScreens::error( $vars, JText::_('WARNPOPULATINGDB'), 'dbconfig', JInstallation::errors2string( $errors ) );
+			if (JInstallationHelper::populateDatabase( $database, $dbscheme, $errors, ($DButfSupport) ? $DBcollation: '' )) {
+				installationScreens::error( $vars, JText::_('WARNPOPULATINGDB'), 'dbconfig', JInstallationHelper::errors2string( $errors ) );
 				return false;
 			}
 
 			if ($DBSample) {
 				$dbsample = 'sample_data.sql';
-				JInstallation::populateDatabase( $database, $dbsample, $errors);
+				JInstallationHelper::populateDatabase( $database, $dbsample, $errors);
 				return true;
 			}
 		}
@@ -420,8 +420,8 @@ class installationTasks {
 
 		$vars = mosGetParam( $_POST, 'vars', array() );
 
-		$vars['fileperms'] = JInstallation::getFilePerms( $vars, 'file' );
-		$vars['dirperms'] = JInstallation::getFilePerms( $vars, 'dir' );
+		$vars['fileperms'] = JInstallationHelper::getFilePerms( $vars, 'file' );
+		$vars['dirperms'] = JInstallationHelper::getFilePerms( $vars, 'dir' );
 
 		$strip = get_magic_quotes_gpc();
 		if (!$strip) {
@@ -439,7 +439,7 @@ class installationTasks {
 				break;
 		}
 
-		JInstallation::createAdminUser( $vars );
+		JInstallationHelper::createAdminUser( $vars );
 
 		$tmpl =& installationScreens::createTemplate();
 		$tmpl->readTemplatesFromFile( 'configuration.html' );
