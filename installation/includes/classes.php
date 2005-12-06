@@ -238,6 +238,7 @@ class installationTasks {
 
 		$vars = mosGetParam( $_POST, 'vars', array() );
 
+		$lang = mosGetParam( $vars, 'lang', 'eng_GB' );
 		$DBcreated = mosGetParam( $vars, 'DBcreated', '0' );
 
 		$DBtype			= mosGetParam( $vars, 'DBtype', 'mysql' );
@@ -305,9 +306,6 @@ class installationTasks {
 				}
 			}
 
-
-			// checks if language depend files do exist
-
 			// set collation and use utf-8 compatibile script if appropriate
 			if ($DButfSupport) {
 				$dbscheme = 'joomla.sql';
@@ -315,6 +313,11 @@ class installationTasks {
 				$dbscheme = 'joomla_backward.sql';
 			}
 
+			// Checks for language depended files
+			if( JFile::exists( 'sql' .DS.$lang .DS.$dbscheme  )) {
+				$dbscheme = $lang .DS. $dbscheme;
+			}
+			
 			if (JInstallationHelper::populateDatabase( $database, $dbscheme, $errors, ($DButfSupport) ? $DBcollation: '' )) {
 				installationScreens::error( $vars, JText::_('WARNPOPULATINGDB'), 'dbconfig', JInstallationHelper::errors2string( $errors ) );
 				return false;
@@ -322,8 +325,11 @@ class installationTasks {
 
 			if ($DBSample) {
 				$dbsample = 'sample_data.sql';
+				// Checks for language depended files
+				if( JFile::exists( 'sql' .DS.$lang .DS.$dbsample  )) {
+					$dbsample = $lang .DS. $dbsample;
+				}
 				JInstallationHelper::populateDatabase( $database, $dbsample, $errors);
-				return true;
 			}
 		}
 

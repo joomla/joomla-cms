@@ -31,12 +31,20 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Dec-2005 Alex Kempkens
+ ^ Installer to detect languages in correct folders
+ ^ Added capability for the installer to install language dependend sql scripts
+ ! Translation: Please provide your adapted sql scripts in a separated directiory
+                with the same name as the language files for the installer
+ ! Translation: We will split the joomla.sql into a table and initial data file before final release
+ + German Installer translations
+ # fixed little issues within the installer
+
 06-Dec-2005 Johan Janssens
  # Fixed artf2418 : Banners Client Manager Next Page Issue: Joomla 1.04
  # Fixed artf2378 : mosCommonHTML::CheckedOutProcessing not checking if the current user 
                     has checked out the document
  + Added transparent support for FTP to file handling classes - Contributed by Louis Landry
- 
 
 05-Dec-2005 Johan Janssens
  ^ Moved ldap class to connectors directory
