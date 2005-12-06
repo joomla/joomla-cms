@@ -155,7 +155,7 @@ function publishLanguage( $p_lname, $option, $client = 'site' )
 		{
 			case 'site' :
 			{
-				if (strstr($buffer,"\$mosConfig_lang")){
+				if (strstr($buffer,"\$mosConfig_lang") && !strstr($buffer,"\$mosConfig_lang_administrator")){
 					$config .= "\$mosConfig_lang = \"$p_lname\";\n";
 				} else {
 					$config .= $buffer;

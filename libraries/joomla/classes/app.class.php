@@ -306,15 +306,21 @@ class JApplication extends JObject {
 
 		if ($strLang == '' && $my && isset( $my->params )) {
 
-			// if admin && special lang?
+			// get user's prefered language
 			if( $this->isAdmin() ) {
 				$strLang = $my->params->get( 'admin_language', $strLang );
+			} else {
+				$strLang = $my->params->get( 'language', $strLang );
 			}
 		}
 
-		// loads english language file by default
+		// if no user preference load the default language file
 		if ($strLang == '0' || $strLang == '') {
-			$strLang = $this->getCfg('lang');
+			if( $this->isAdmin() ) {
+				$strLang = $this->getCfg('lang_administrator');
+			} else {
+				$strLang = $this->getCfg('lang');
+			}
 		}
 
 		// In case of frontend modify the config value in order to keep backward compatiblitity
