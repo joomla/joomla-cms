@@ -366,7 +366,7 @@ class HTML_bannerClient {
 		</table>
 		<?php echo $pageNav->getListFooter(); ?>
 		<input type="hidden" name="option" value="<?php echo $option; ?>">
-		<input type="hidden" name="task" value="">
+		<input type="hidden" name="task" value="listclients">
 		<input type="hidden" name="boxchecked" value="0">
 		<input type="hidden" name="hidemainmenu" value="0">
 		</form>

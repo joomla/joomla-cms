@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Dec-2005 Johan Janssens
+ # Fixed artf2418 : Banners Client Manager Next Page Issue: Joomla 1.04
+
 05-Dec-2005 Johan Janssens
  ^ Moved ldap class to connectors directory
  - Removed locale setting from configuration
