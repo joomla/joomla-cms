@@ -33,7 +33,10 @@ Legend:
 
 06-Dec-2005 Johan Janssens
  # Fixed artf2418 : Banners Client Manager Next Page Issue: Joomla 1.04
+ # Fixed artf2378 : mosCommonHTML::CheckedOutProcessing not checking if the current user 
+                    has checked out the document
  + Added transparent support for FTP to file handling classes - Contributed by Louis Landry
+ 
 
 05-Dec-2005 Johan Janssens
  ^ Moved ldap class to connectors directory
