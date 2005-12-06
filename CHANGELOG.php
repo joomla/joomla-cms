@@ -33,6 +33,7 @@ Legend:
 
 06-Dec-2005 Johan Janssens
  # Fixed artf2418 : Banners Client Manager Next Page Issue: Joomla 1.04
+ + Added transparent support for FTP to file handling classes - Contributed by Louis Landry
 
 05-Dec-2005 Johan Janssens
  ^ Moved ldap class to connectors directory
