@@ -37,8 +37,8 @@ $cache =& JFactory::getCache( 'com_content' );
 
 // loads function for frontpage component
 if ( $option == 'com_frontpage' ) {
-	//frontpage( $gid, $access, $pop, $now );
-	$cache->call( 'frontpage', $gid, $access, $pop, $now );
+	frontpage( $gid, $access, $pop, $now );
+	//$cache->call( 'frontpage', $gid, $access, $pop, $now );
 	return;
 }
 
