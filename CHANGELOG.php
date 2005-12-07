@@ -43,6 +43,8 @@ Legend:
  # Fixed artf2464 : Contacts Component image path error
  # Fixed artf2404 : Contact detail html bug
  ^ Replaced install.png with transparent image - contributed by joomlashack
+ # Fixed artf2245 : RSS not showing enclosure tags
+ # Fixed artf2247 : RSS newsfeed on Frontend missing link
 
 06-Dec-2005 Alex Kempkens
  ^ Installer to detect languages in correct folders

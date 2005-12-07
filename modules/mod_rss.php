@@ -112,40 +112,63 @@ for ( $i = 0; $i < $totalChannels; $i++ ) {
 			for ($j = 0; $j < $totalItems; $j++) {
 				$currItem =& $currChannel->getItem($j);
 				// item title
+				
+				// START fix for RSS enclosure tag url not showing
+				if ($currItem->getLink()) {
 				?>
-				<li class="newsfeed<?php echo $moduleclass_sfx; ?>">
-					<strong>
-					<a href="<?php echo ampReplace( $currItem->getLink() ); ?>" target="_blank">
-                        <?php echo str_replace('&apos;', "'", html_entity_decode( $currItem->getTitle() ) ); ?></a>
-					</strong>
-					<?php
-					// item description
-					if ( $rssitemdesc ) {
-						// item description
-						$text = html_entity_decode( $currItem->getDescription() );
-                        $text = str_replace('&apos;', "'", $text);
+					<a href="<?php echo $currItem->getLink(); ?>" target="_child">
+					<?php echo $currItem->getTitle(); ?>
+					</a>
+				<?php
+				} else if ($currItem->getEnclosure()) {
+					$enclosure = $currItem->getEnclosure();
+					$eUrl	= $enclosure->getUrl();
+				?>
+					<a href="<?php echo $eUrl; ?>" target="_child">
+					<?php echo $currItem->getTitle(); ?>
+					</a>
+				<?php
+				}  else if (($currItem->getEnclosure()) && ($currItem->getLink())) {
+					$enclosure = $currItem->getEnclosure();
+					$eUrl	= $enclosure->getUrl();
+				?>
+					<a href="<?php $currItem->getLink(); ?>" target="_child">
+					<?php echo $currItem->getTitle(); ?>
+					</a><br>
+					Link: <a href="<?php echo $eUrl; ?>" target="_child">
+					<?php echo $eUrl; ?>
+					</a>
+				<?php
+				}
+				// END fix for RSS enclosure tag url not showing
 
-						// word limit check
-						if ( $words ) {
-							$texts = explode( ' ', $text );
-							$count = count( $texts );
-							if ( $count > $words ) {
-								$text = '';
-								for( $i=0; $i < $words; $i++ ) {
-									$text .= ' '. $texts[$i];
-								}
-								$text .= '...';
+				// item description
+				if ( $rssitemdesc ) {
+					// item description
+					$text = html_entity_decode( $currItem->getDescription() );
+                    $text = str_replace('&apos;', "'", $text);
+
+					// word limit check
+					if ( $words ) {
+						$texts = explode( ' ', $text );
+						$count = count( $texts );
+						if ( $count > $words ) {
+							$text = '';
+							for( $i=0; $i < $words; $i++ ) {
+								$text .= ' '. $texts[$i];
 							}
+							$text .= '...';
 						}
-						?>
-						<div>
-							<?php echo $text; ?>
-						</div>
-						<?php
 					}
 					?>
-				</li>
-				<?php
+					<div>
+						<?php echo $text; ?>
+					</div>
+					<?php
+				}
+				?>
+			</li>
+			<?php
 			}
 			?>
 			</ul>
