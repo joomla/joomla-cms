@@ -15,11 +15,11 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 if (!defined( '_MOS_EDITOR_INCLUDED' )) {
-	
+
 
 	function initEditor() {
 		global $mainframe;
-		
+
 		if ($mainframe->get( 'loadEditor' )) {
 			$results = $mainframe->triggerEvent( 'onInitEditor' );
 			foreach ($results as $result) {
@@ -29,11 +29,11 @@ if (!defined( '_MOS_EDITOR_INCLUDED' )) {
 			}
 		}
 	}
-	
+
 	function _loadEditor()
 	{
 		global $mainframe, $mosConfig_editor, $my;
-		
+
 		if($mainframe->get( 'loadEditor' )) {
 			return;
 		}
@@ -44,7 +44,7 @@ if (!defined( '_MOS_EDITOR_INCLUDED' )) {
 
 		// Per User Editor selection
 		$editor = $mosConfig_editor;
-		
+
 		if(isset($my)) {
 			$params = new mosParameters( $my->params );
 			$editor = $params->get( 'editor', $mosConfig_editor );
@@ -52,12 +52,12 @@ if (!defined( '_MOS_EDITOR_INCLUDED' )) {
 
 		JBotLoader::import( 'editors', $editor, 1 );
 		JBotLoader::importGroup( 'editors-xtd' );
-		
+
 		$mainframe->set( 'loadEditor', true );
 	}
 	function getEditorContents( $editorArea, $hiddenField ) {
 		global $mainframe;
-		
+
 		_loadEditor();
 
 		$results = $mainframe->triggerEvent( 'onGetEditorContents', array( $editorArea, $hiddenField ) );

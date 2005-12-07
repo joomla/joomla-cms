@@ -24,7 +24,7 @@ jimport('joomla.classes.object');
  * @static
  * @since 1.1
  */
-class JText 
+class JText
 {
 	function _($string, $jsSafe = false) {
 		global $mainframe;
@@ -71,7 +71,7 @@ class JText
 * @subpackage Language
 * @since 1.1
 */
-class JLanguage extends JObject 
+class JLanguage extends JObject
 {
 	/** @var boolean If true, highlights string not found */
 	var $_debug 	= false;
@@ -100,7 +100,7 @@ class JLanguage extends JObject
 		}
 
 		$this->_metadata = $this->getMetadata($this->_userLang);
-		
+
 		//set locale based on the language tag
 		setlocale(LC_TIME, $this->getLocale());
 
@@ -160,7 +160,7 @@ class JLanguage extends JObject
 	 * @param string The prefix
 	 */
 	function load( $prefix='') {
-		
+
 		if ($this->_userLang) {
 			$basePath = JLanguage::getLanguagePath( JPATH_BASE, $this->_userLang);
 		} else {
@@ -178,7 +178,7 @@ class JLanguage extends JObject
 		//NOTE : Caching is slower
 		//$loadCache = JFactory::getCache($langGroup, 'JCache_Language');
 		//$newStrings = $loadCache->load(substr($langGroup, 4), $this, $basePath . $filename .'.ini');
-		
+
 		$newStrings = $this->_load( $basePath . $filename .'.ini' );
 
 		if (is_array($newStrings)) {
@@ -233,24 +233,24 @@ class JLanguage extends JObject
 	function getTag() {
 		return $this->_metadata['tag'];
 	}
-	
+
 	/**
 	* Get locale property
 	* @return string The locale property
 	*/
 	function getLocale() {
 		$locales = explode(',', $this->_metadata['locale']);
-		
+
 		for($i = 0; $i < count($locales); $i++ ) {
 			$locale = $locales[$i];
 			$locale = trim($locale);
 			$locale = "'$locale'";
 			$locales[$i] = $locale;
 		}
-		
+
 		return implode(',', $locales);
 	}
-	
+
 	/**
 	* Get the RTL property
 	* @return boolean True is it an RTL language
@@ -293,12 +293,12 @@ class JLanguage extends JObject
 
 		$path = JLanguage::getLanguagePath(JPATH_BASE, $lang);
 		$file = $lang.'.xml';
-		
+
 		$result = null;
 		if(JFile::exists($path.$file)) {
 			$result = JLanguage::_parseXMLLanguageFile($path.$file);
 		}
-	
+
 		return $result;
 	}
 
@@ -417,7 +417,7 @@ class JLanguage extends JObject
 				$metadata[$currNode->nodeName] = $currNode->getText();
 			}
 		}
-		
+
 		return $metadata;
 	}
 }

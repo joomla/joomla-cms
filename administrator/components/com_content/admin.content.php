@@ -119,7 +119,7 @@ switch ($task) {
 	case 'saveorder':
 		saveOrder( $cid );
 		break;
-	
+
 	case 'preview' :
 		previewContent($id, $option);
 		break;

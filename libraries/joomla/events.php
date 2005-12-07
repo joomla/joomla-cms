@@ -30,7 +30,7 @@ class JEventHandler extends JObject {
 	function __construct() {
 		$this->_events = array();
 	}
-	
+
 	/**
 	 * Returns a reference to the global Language object, only creating it
 	 * if it doesn't already exist.
@@ -54,7 +54,7 @@ class JEventHandler extends JObject {
 
 		return $instances[0];
 	}
-	
+
 	/**
 	* Registers a function to a particular event group
 	* @param string The event name
@@ -63,7 +63,7 @@ class JEventHandler extends JObject {
 	function registerFunction( $event, $function ) {
 		$this->_events[$event][] = array( $function );
 	}
-	
+
 	/**
 	* @param string The group name
 	* @param string The list name
@@ -127,22 +127,22 @@ class JEventHandler extends JObject {
 * @since 1.1
 */
 class JBotLoader
-{	
+{
 	/**
 	* Loads all the bot files for a particular group
 	* @param string The group name, relates to the sub-directory in the mambots directory
 	*/
-	function importGroup( $group ) 
+	function importGroup( $group )
 	{
 		static $bots;
 
 		if (!isset($bots)) {
 			$bots = JBotLoader::_load();
 		}
-		
+
 		$n = count( $bots);
 		for ($i = 0; $i < $n; $i++) {
-			if($bots[$i]->folder == $group) { 
+			if($bots[$i]->folder == $group) {
 				JBotLoader::import( $bots[$i]->folder, $bots[$i]->element, $bots[$i]->published, $bots[$i]->params );
 			}
 		}
@@ -155,19 +155,19 @@ class JBotLoader
 	 * @param int Published state
 	 * @param string The params for the bot
 	 */
-	function import( $folder, $element, $published, $params='' ) 
+	function import( $folder, $element, $published, $params='' )
 	{
 		global $_MAMBOTS, $mainframe; //needed for backwards compatibility
-		
+
 		$path = JPATH_SITE . '/mambots/' . $folder . '/' . $element . '.php';
 		if (file_exists( $path )) {
 			require_once( $path );
 		}
 	}
-	
+
 	function _load() {
 		global $mainframe;
-		
+
 		$db =& $mainframe->getDBO();
 		$my =& $mainframe->getUser();
 
@@ -183,14 +183,14 @@ class JBotLoader
 			. "\n AND access <= $gid"
 			. "\n ORDER BY ordering"
 			;
-			
+
 		$db->setQuery( $query );
 
 		if (!($bots = $db->loadObjectList())) {
 			//echo "Error loading Mambots: " . $database->getErrorMsg();
 			return false;
 		}
-			
+
 		return $bots;
 	}
 

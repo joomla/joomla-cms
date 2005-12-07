@@ -458,7 +458,7 @@ class mosMambotHandler extends JEventHandler {
 	function __construct() {
 		parent::__construct();
 	}
-	
+
 	/**
 	* Loads all the bot files for a particular group
 	* @param string The group name, relates to the sub-directory in the mambots directory

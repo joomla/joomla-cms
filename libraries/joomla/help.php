@@ -22,16 +22,16 @@ defined('_VALID_MOS') or die('Restricted access');
 * @since 1.1
 */
 class JHelp {
-	
+
 	/**
 	* Create an URL for a giving help file reference
 	* @param string The name of the popup file (excluding the file extension for an xml file)
 	* @param boolean Use the help file in the component directory
 	*/
-	function createURL($ref, $com=false) 
-	{	
+	function createURL($ref, $com=false)
+	{
 		global $mainframe, $_VERSION, $option;
-		
+
 		$helpUrl 	= $mainframe->getCfg('helpurl');
 
 		if ($com) {
@@ -51,24 +51,24 @@ class JHelp {
 			$ref = $ref . '.html';
 			$url .= $ref;
 		}
-		
+
 		return $url;
 	}
-	
+
 	/**
 	 * Builds a list of the help sites which can be used in a select option
 	 * @param string	Path to an xml file
 	 * @param string	Language tag to select (if exists)
 	 * @param array	An array of arrays ( text, value, selected )
 	 */
-	function createSiteList($pathToXml, $selected = null) 
+	function createSiteList($pathToXml, $selected = null)
 	{
 		$list = array ();
 
 		$xmlDoc = JFactory :: getXMLParser();
 		$xmlDoc->resolveErrors(true);
 		$xml = JFile::read($pathToXml);
-		
+
 		if(!$xml) {
 			$option['text'] = 'English (GB) help.joomla.org';
 			$option['value'] = 'http://help.joomla.org';

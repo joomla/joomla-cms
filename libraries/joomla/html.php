@@ -1421,6 +1421,7 @@ class mosAdminMenus {
 		$database->setQuery( $query );
 		$menus = $database->loadObjectList();
 		$total = count( $menus );
+		$menuselect = array();
 		for( $i = 0; $i < $total; $i++ ) {
 			$params = mosParseParams( $menus[$i]->params );
 			$menuselect[$i]->value 	= $params->menutype;

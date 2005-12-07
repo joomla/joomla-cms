@@ -81,7 +81,7 @@ switch ($task) {
 	case 'cancel':
 		mosRedirect( 'index2.php' );
 		break;
-		
+
 	// popup directory creation interface for use by components
 	case 'popupDirectory':
 		HTML_Media::popupDirectory( COM_MEDIA_BASEURL );

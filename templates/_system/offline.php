@@ -28,7 +28,7 @@ $lang->load('mod_login');
 </head>
 <body>
 	<div id="frame" class="outline">
-		<img src="<?php echo JURL_SITE; ?>/images/joomla_logo_black.jpg" alt="Joomla! Logo" align="middle" />	
+		<img src="<?php echo JURL_SITE; ?>/images/joomla_logo_black.jpg" alt="Joomla! Logo" align="middle" />
 		<h1>
 			<?php echo $mainframe->getCfg('sitename'); ?>
 		</h1>

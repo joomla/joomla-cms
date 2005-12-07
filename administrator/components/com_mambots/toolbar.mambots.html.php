@@ -22,7 +22,7 @@ class TOOLBAR_modules {
 	*/
 	function _EDIT() {
 		global $id;
-		
+
 		$text = $id ? JText::_('Edit') : JText::_('New');
 
 		mosMenuBar::startTable();

@@ -54,7 +54,7 @@ if ($option == 'login') {
 	} else {
 		mosRedirect( 'index.php' );
 	}
-} 
+}
 
 if ($option == 'logout') {
 	$mainframe->logout();
@@ -148,7 +148,7 @@ $file     = 'index.php';
 
 if ($mainframe->getCfg('offline') && $my->gid < '23' ) {
 	$file = 'offline.php';
-} 
+}
 
 $layout = new JLayout();
 $layout->parse($cur_template, $file);

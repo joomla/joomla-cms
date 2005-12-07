@@ -38,13 +38,13 @@ class search_html {
 	 */
 	function searchbox( $searchword, &$lists, $params, &$areas ) {
 		global $Itemid;
-		
+
 		$showAreas = mosGetParam( $lists, 'areas', array() );
 		$allAreas = array();
 		foreach ($showAreas as $area) {
 			$allAreas = array_merge( $allAreas, $area );
 		}
-		
+
 		?>
 		<form action="index.php" method="get">
 		<input type="hidden" name="option" value="com_search" />

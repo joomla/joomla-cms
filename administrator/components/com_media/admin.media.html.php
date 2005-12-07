@@ -453,7 +453,7 @@ class HTML_Media {
 		</style>
 		<?php
 	}
-	
+
 	function popupUpload( $basePath ) {
 		global $mosConfig_absolute_path;
 

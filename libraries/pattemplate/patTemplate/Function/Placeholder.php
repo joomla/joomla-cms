@@ -33,14 +33,14 @@ class patTemplate_Function_Placeholder extends patTemplate_Function
 		global $layout;
 		$type = strtolower( $params['type'] );
 		unset($params['type']);
-		
+
         switch ($type) {
 
         	case 'component' :
-			{	
+			{
 				$name = $params['name'];
 				unset($params['name']);
-				
+
 				$layout->setComponent($name, $params);
 				return '{COMPONENT_'.strtoupper($name).'}';
 			} break;
@@ -49,16 +49,16 @@ class patTemplate_Function_Placeholder extends patTemplate_Function
 			{
 				$position = $params['position'];
 				unset($params['position']);
-				
+
 				$layout->setModules($position, $params);
 				return '{MODULES_'.strtoupper($position).'}';
 			} break;
-			
+
 			case 'module' :
 			{
 				$name = $params['name'];
 				unset($params['name']);
-				
+
 				$layout->setModule($name, $params);
 				return '{MODULE_'.strtoupper($name).'}';
 			} break;

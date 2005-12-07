@@ -30,7 +30,7 @@ function &botSearchCategoryAreas() {
 
 /**
  * Categories Search method
- * 
+ *
  * The sql must return the following fields that are
  * used in a common display routine: href, title, section, created, text,
  * browsernav

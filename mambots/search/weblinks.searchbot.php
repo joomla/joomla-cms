@@ -46,7 +46,7 @@ function botSearchWeblinks( $text, $phrase='', $ordering='', $areas=null ) {
 			return array();
 		}
 	}
-	
+
 	// load mambot params info
 	$query = "SELECT id"
 	. "\n FROM #__mambots"

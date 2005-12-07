@@ -53,7 +53,7 @@ if (isset( $_POST['submit'] )) {
 	} else {
 		mosErrorAlert( JText::_( 'validUserPassAccess' ), "document.location.href='index.php'" );
 	}
-} 
+}
 
 initGzip();
 header( 'Content-Type: text/html; charset=UTF-8');

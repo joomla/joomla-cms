@@ -414,9 +414,9 @@ function removeUsers( $cid, $option ) {
 
 	if (count( $cid )) {
 		//load user bot group
-		
+
 		JBotLoader::importGroup( 'user' );
-		
+
 		$obj = new mosUser( $database );
 		foreach ($cid as $id) {
 			// check for a super admin ... can't delete them
@@ -424,7 +424,7 @@ function removeUsers( $cid, $option ) {
 			$groups 	= $acl->get_object_groups( $objectID, 'ARO' );
 			$this_group = strtolower( $acl->get_group_name( $groups[0], 'ARO' ) );
 
-			
+
 			//trigger the onBeforeDeleteUser event
 			$results = $mainframe->triggerEvent( 'onBeforeDeleteUser', array( array( 'id' => $id ) ) );
 

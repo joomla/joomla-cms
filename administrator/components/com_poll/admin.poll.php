@@ -60,7 +60,7 @@ switch( $task ) {
 	case 'cancel':
 		cancelPoll( $option );
 		break;
-	
+
 	case 'preview':
 		previewPoll($option);
 		break;
@@ -273,7 +273,7 @@ function cancelPoll( $option ) {
 
 function previewPoll($option) {
 	global $database;
-	
+
 	$pollid = mosGetParam( $_REQUEST, 'pollid', 0 );
 	$css = mosGetParam( $_REQUEST, 't', '' );
 

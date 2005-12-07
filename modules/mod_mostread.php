@@ -135,7 +135,7 @@ foreach ($rows as $row) {
 	} else {
 		$my_itemid = '&amp;Itemid='.$my_itemid;
 	}
-	
+
  	$link = sefRelToAbs( 'index.php?option=com_content&amp;task=view&amp;id='. $row->id . $my_itemid );
  	?>
  	<li class="latestnews<?php echo $moduleclass_sfx; ?>">

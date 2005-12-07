@@ -106,7 +106,7 @@ class MambovCard extends vCard {
 		}
 		$key.= ';ENCODING=QUOTED-PRINTABLE';
 
-		$return = encode( $postoffice ); 
+		$return = encode( $postoffice );
 		$return .= $separator . encode( $extended );
 		$return .= $separator . encode( $street );
 		$return .= $separator . encode( $city );

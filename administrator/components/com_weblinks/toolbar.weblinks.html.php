@@ -23,8 +23,8 @@ class TOOLBAR_weblinks {
 	function _EDIT() {
 		global $id;
 
-		$text = $id ? JText::_( 'Edit' ) : JText::_( 'New' );	
-		
+		$text = $id ? JText::_( 'Edit' ) : JText::_( 'New' );
+
 		mosMenuBar::startTable();
 		mosMenuBar::title(   JText::_( 'Weblink' ). '<small>'. $text .'</small>' );
 		mosMenuBar::save();

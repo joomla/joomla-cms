@@ -19,9 +19,9 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
  */
 class JRegistryXMLFormat {
 	// Load the Default XML Configuration from the database
-	function stringToObject(&$Configuration, $namespace) {				
+	function stringToObject(&$Configuration, $namespace) {
 		// Parse Configuration
-		$success = $Configuration->parseXML($Configuration_xml, true);	
+		$success = $Configuration->parseXML($Configuration_xml, true);
 		if(!$success) {
 			$success = $Configuration->parseXML("<?xml version=\"1.0\" ?><mosconfig></mosconfig>",true); // Should work 100% of the time!
 			if(!success) {
@@ -29,10 +29,10 @@ class JRegistryXMLFormat {
 				die("The impossible just occured!");
 			}
 		}
-	}	
-	
+	}
+
 	function objectToString(&$target) {
-	
+
 	}
 
 }

@@ -37,7 +37,7 @@ Legend:
  ^ Upgraded TinyMCE Compressor [1.0.4]
  ^ Upgraded TinyMCE [2.0.1]
  + Added locale metadata to language xml file (used in setLocale function)
- 
+
 06-Dec-2005 Alex Kempkens
  ^ Installer to detect languages in correct folders
  ^ Added capability for the installer to install language dependend sample data
@@ -47,7 +47,7 @@ Legend:
 
 06-Dec-2005 Johan Janssens
  # Fixed artf2418 : Banners Client Manager Next Page Issue: Joomla 1.04
- # Fixed artf2378 : mosCommonHTML::CheckedOutProcessing not checking if the current user 
+ # Fixed artf2378 : mosCommonHTML::CheckedOutProcessing not checking if the current user
                     has checked out the document
  # Fixed artf1948 : Pagination problem still exists
  # Fixed artf2457 : VCard bug IS a bug
@@ -72,7 +72,7 @@ Legend:
 
 01-Dec-2005 Johan Janssens
  + Added new JPage class for flexible page head handling
- - Removed favicon configuration setting, system looks in template folder or root 
+ - Removed favicon configuration setting, system looks in template folder or root
    folder for a favicon.ico file
 
 30-Nov-2005 Emir Sakic

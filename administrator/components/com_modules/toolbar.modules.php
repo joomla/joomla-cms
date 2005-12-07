@@ -29,7 +29,7 @@ switch ($task) {
 		} else {
 			$mid = $cid[0];
 		}
-	
+
 		$published = 0;
 		if ( $mid ) {
 			$query = "SELECT published, module"

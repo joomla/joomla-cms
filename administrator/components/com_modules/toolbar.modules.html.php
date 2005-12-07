@@ -40,13 +40,13 @@ class TOOLBAR_modules {
 	*/
 	function _EDIT( $publish, $module = '', $client ) {
 		global $id;
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title( JText::_( $client ). JText::_( 'Module' ).' <small><small>[ Edit ]</small></small>', 'module.png' );
-		
+
 		if($module == '') {
 			mosMenuBar::Preview('index3.php?option=com_modules&client='.$client.'&pollid='.$id);
-		}	
+		}
 		mosMenuBar::spacer();
 		mosMenuBar::save();
 		mosMenuBar::spacer();

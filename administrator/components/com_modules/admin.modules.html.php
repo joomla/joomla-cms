@@ -407,7 +407,7 @@ class HTML_modules {
 		</form>
 		<?php
 	}
-	
+
 	function previewModule()
 	{
 		?>

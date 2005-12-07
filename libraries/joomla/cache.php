@@ -394,7 +394,7 @@ class JCache_Language extends JCache
 	 * @access public
 	 */
 	function loadId( $lang, $obj, $arguments, $id ){
-		
+
 		$id = $this->generateId($id); // Generate a cache id
 
 		$data = $this->get( $id, $this->_defaultGroup, !$this->_validateCache );

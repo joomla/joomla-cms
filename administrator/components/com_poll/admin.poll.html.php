@@ -197,7 +197,7 @@ class HTML_poll {
 		</form>
 		<?php
 	}
-	
+
 	function previewPoll($title, $options)
 	{
 		?>

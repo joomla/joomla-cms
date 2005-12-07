@@ -35,49 +35,49 @@ class JFTP extends JObject {
 
 	/**
 	 * Server connection resource
-	 * 
+	 *
 	 * @access private
 	 */
 	var $_conn = null;
 
 	/**
 	 * Data port connection resource
-	 * 
+	 *
 	 * @access private
 	 */
 	var $_dataconn = null;
 
 	/**
 	 * Passive connection information
-	 * 
+	 *
 	 * @access private
 	 */
 	var $_pasv = null;
 
 	/**
-	 * Response Message 
-	 * 
+	 * Response Message
+	 *
 	 * @access private
 	 */
 	var $_response = null;
 
 	/**
-	 * Error Message 
-	 * 
+	 * Error Message
+	 *
 	 * @access private
 	 */
 	var $_error = null;
 
 	/**
 	 * Transfer Type
-	 * 
+	 *
 	 * @access private
 	 */
 	var $_type = null;
 
 	/**
-	 * Array to hold ascii format file extensions 
-	 * 
+	 * Array to hold ascii format file extensions
+	 *
 	 * @access private
 	 */
 	var $_autoAscii = array ("asp", "bat", "c", "cpp", "csv", "h", "htm", "html", "shtml", "ini", "log", "php", "php3", "pl", "perl", "sh", "sql", "txt", "xhtml", "xml");
@@ -128,7 +128,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Set client options
-	 * 
+	 *
 	 * @access public
 	 * @param array $options Associative array of options to set
 	 * @return boolean True if successful
@@ -144,7 +144,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Method to connect to a FTP server
-	 * 
+	 *
 	 * @access public
 	 * @param string $host Host to connect to [Default: localhost]
 	 * @param string $port Port to connect on [Default: port 21]
@@ -174,7 +174,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Method to login to a server once connected
-	 * 
+	 *
 	 * @access public
 	 * @param string $user Username to login to the server
 	 * @param string $pass Password to login to the server
@@ -199,7 +199,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Method to quit and close the connection
-	 * 
+	 *
 	 * @access public
 	 * @return boolean True if successful
 	 */
@@ -214,7 +214,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Method to retrieve the current working directory on the FTP server
-	 * 
+	 *
 	 * @access public
 	 * @return string Current working directory
 	 */
@@ -238,7 +238,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Method to change the current working directory on the FTP server
-	 * 
+	 *
 	 * @access public
 	 * @param string $path Path to change into on the server
 	 * @return boolean True if successful
@@ -259,9 +259,9 @@ class JFTP extends JObject {
 
 	/**
 	 * Method to reinitialize the server, ie. need to login again
-	 * 
+	 *
 	 * NOTE: This command not available on all servers
-	 * 
+	 *
 	 * @access public
 	 * @return boolean True if successful
 	 */
@@ -278,7 +278,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Method to rename a file/folder on the FTP server
-	 * 
+	 *
 	 * @access public
 	 * @param string $from Path to change file/folder from
 	 * @param string $to Path to change file/folder to
@@ -292,7 +292,7 @@ class JFTP extends JObject {
 			return false;
 		}
 
-		// Send rename to command to the server		
+		// Send rename to command to the server
 		if (!$this->_putCmd('RNTO '.$to, 250)) {
 			$this->_logError('FTP Rename: Unable to rename '.$from.' to '.$to);
 			return false;
@@ -303,7 +303,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Method to change mode for a path on the FTP server
-	 * 
+	 *
 	 * @access public
 	 * @param string $path Path to change mode on
 	 * @param string $mode Octal value to change mode to
@@ -326,7 +326,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Method to delete a path [file/folder] on the FTP server
-	 * 
+	 *
 	 * @access public
 	 * @param string $path Path to delete
 	 * @return boolean True if successful
@@ -345,7 +345,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Method to create a directory on the FTP server
-	 * 
+	 *
 	 * @access public
 	 * @param string $path Directory to create
 	 * @return boolean True if successful
@@ -363,7 +363,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Method to restart data transfer at a given byte
-	 * 
+	 *
 	 * @access public
 	 * @param int $point Byte to restart transfer at
 	 * @return boolean True if successful
@@ -381,7 +381,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Method to create an empty file on the FTP server
-	 * 
+	 *
 	 * @access public
 	 * @param string $path Path local file to store on the FTP server
 	 * @return boolean True if successful
@@ -413,7 +413,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Method to read a file from the FTP server's contents into a buffer
-	 * 
+	 *
 	 * @access public
 	 * @param string $remote Path to remote file to read on the FTP server
 	 * @param string $buffer Buffer variable to read file contents into
@@ -459,7 +459,7 @@ class JFTP extends JObject {
 
 		// Read data from data port connection and add to the buffer
 		while (!feof($this->_dataconn)) {
-			$buffer .= fread($this->_dataconn, 4096);	
+			$buffer .= fread($this->_dataconn, 4096);
 		}
 
 		// Close the data port connection
@@ -475,7 +475,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Method to get a file from the FTP server and save it to a local file
-	 * 
+	 *
 	 * @access public
 	 * @param string $local Path to local file to save remote file as
 	 * @param string $remote Path to remote file to get on the FTP server
@@ -505,7 +505,7 @@ class JFTP extends JObject {
 
 		$this->_mode($mode);
 		$this->restart(0);
-		
+
 		// Check to see if the local file can be opened for writing
 		$fp = fopen($local, "w");
 		if (!$fp) {
@@ -529,7 +529,7 @@ class JFTP extends JObject {
 		// Read data from data port connection and add to the buffer
 		while (!feof($this->_dataconn)) {
 			$buffer = fread($this->_dataconn, 4096);
-			$ret = fwrite($fp, $buffer, 4096);	
+			$ret = fwrite($fp, $buffer, 4096);
 		}
 
 		// Close the data port connection and file pointer
@@ -546,7 +546,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Method to store a file to the FTP server
-	 * 
+	 *
 	 * @access public
 	 * @param string $local Path to local file to store on the FTP server
 	 * @param string $remote FTP path to file to create
@@ -636,7 +636,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Method to write a string to the FTP server
-	 * 
+	 *
 	 * @access public
 	 * @param string $remote FTP path to file to write to
 	 * @param string $buffer Contents to write to the FTP server
@@ -685,7 +685,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Method to list the contents of a directory on the FTP server
-	 * 
+	 *
 	 * @access public
 	 * @param string $path Path local file to store on the FTP server
 	 * @param boolean $search Recursively search subdirectories
@@ -725,7 +725,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Send command to the FTP server and validate an expected response code
-	 * 
+	 *
 	 * @access private
 	 * @param string $cmd Command to send to the FTP server
 	 * @param mixed $expected Integer response code or array of integer response codes
@@ -749,7 +749,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Verify the response code from the server and log response if flag is set
-	 * 
+	 *
 	 * @access private
 	 * @param mixed $expected Integer response code or array of integer response codes
 	 * @return boolean True if response code from the server is expected
@@ -785,7 +785,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Set server to passive mode and open a data port connection
-	 * 
+	 *
 	 * @access private
 	 * @return boolean True if successful
 	 */
@@ -835,7 +835,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Set transfer mode
-	 * 
+	 *
 	 * @access private
 	 * @param int $mode Integer representation of data transfer mode [1:Binary|0:Ascii]
 	 *  Defined constants can also be used [FTP_BINARY|FTP_ASCII]
@@ -858,7 +858,7 @@ class JFTP extends JObject {
 
 	/**
 	 * Log the error message
-	 * 
+	 *
 	 * @access private
 	 * @param string $msg Error message to add to the queue
 	 * @return boolean True if successful

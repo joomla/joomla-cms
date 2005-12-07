@@ -38,7 +38,7 @@ class TOOLBAR_newsfeeds  {
 	}
 
 	function _NEW() {
-		
+
 		mosMenuBar::startTable();
 		mosMenuBar::title(  JText::_( 'Newsfeed' ).'<small>'.JText::_( 'New' ) .'</small>' );
 		mosMenuBar::save();

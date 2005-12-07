@@ -402,7 +402,7 @@ class JFolder {
 	* @return boolean True if successful
 	*/
 	function create($path = '', $mode = JPATH_DIRPEMS) {
-		
+
 		JPath :: check($path);
 		$path = JPath :: clean($path, false, true);
 
@@ -618,7 +618,7 @@ class JFolder {
 		asort($arr);
 		return $arr;
 	}
-	
+
 	/**
 	* Utility function to read the folders in a directory
 	* @param string The file system path

@@ -58,7 +58,7 @@ if ($option == 'login') {
 	} else {
 		mosRedirect( 'index.php' );
 	}
-} 
+}
 
 if ($option == 'logout') {
 	$mainframe->logout();
@@ -95,7 +95,7 @@ $cur_template = $mainframe->getTemplate();
 $file     = 'index2.php';
 
 // displays offline/maintanance page or bar
-if ($mainframe->getCfg('offline') && $my->gid < '23') {	
+if ($mainframe->getCfg('offline') && $my->gid < '23') {
 	$file = 'offline.php';
 }
 

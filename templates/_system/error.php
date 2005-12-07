@@ -28,7 +28,7 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 	<table width="550" align="center" class="outline">
 	<tr>
 		<td width="60%" height="50" align="center">
-		<img src="<?php echo JURL_SITE; ?>/images/joomla_logo_black.jpg" alt="Joomla! Logo" align="middle" />	
+		<img src="<?php echo JURL_SITE; ?>/images/joomla_logo_black.jpg" alt="Joomla! Logo" align="middle" />
 		</td>
 	</tr>
 	<tr>

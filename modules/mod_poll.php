@@ -32,7 +32,7 @@ if (!defined( '_JOS_POLL_MODULE' )) {
 
 		$database->setQuery( $query );
 		$polls = $database->loadObjectList();
-		
+
 
 		if($database->getErrorNum()) {
 			echo "MB ".$database->stderr(true);

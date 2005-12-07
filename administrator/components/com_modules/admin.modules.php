@@ -82,7 +82,7 @@ switch ( $task ) {
 	case 'saveorder':
 		saveOrder( $cid, $client );
 		break;
-		
+
 	case 'preview' :
 		previewModule($id, $client);
 		break;

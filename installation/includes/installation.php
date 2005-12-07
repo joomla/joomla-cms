@@ -35,7 +35,7 @@ $url = $_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'];
 $url = str_replace( 'installation/', '', $url );
 $url = str_replace( '/index.php', '', $url );
 
-define( 'JURL_SITE', $url); 
+define( 'JURL_SITE', $url);
 
 
 if (phpversion() < '4.2.0') {

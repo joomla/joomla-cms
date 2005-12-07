@@ -53,7 +53,7 @@ class JPathway extends JObject {
 
 	/**
 	 * Set the pathway separator for the pathway object.
-	 * 
+	 *
 	 * @access public
 	 * @param string $custom Custom xhtml complient string to separate the items of the pathway
 	 * @return boolean True on success
@@ -61,7 +61,7 @@ class JPathway extends JObject {
 	 */
 	function setSeparator($custom = null) {
 		global $mainframe;
-		
+
 		/**
 		 * If a custom separator has not been provided we try to load a template
 		 * specific one first, and if that is not present we load the default separator
@@ -95,7 +95,7 @@ class JPathway extends JObject {
 
 	/**
 	 * Get the pathway string in XHTML format for output to the page
-	 * 
+	 *
 	 * @access public
 	 * @param boolean $showHome True if the home item should be shown [Default: true]
 	 * @param boolean $showComponent True if the component item should be shown [Default: true]
@@ -103,7 +103,7 @@ class JPathway extends JObject {
 	 * @since 1.1
 	 */
 	function toXHTML($showHome = true, $showComponent = true) {
-		
+
 		// Set the default separator if not set
 		if (!isset($this->_separator)) {
 			$this->setSeparator();
@@ -160,7 +160,7 @@ class JPathway extends JObject {
 
 	/**
 	 * Create and return an array of the pathway names.  Useful for things like SEF URLs
-	 * 
+	 *
 	 * @access public
 	 * @return array Array of names of pathway items
 	 * @since 1.1
@@ -182,7 +182,7 @@ class JPathway extends JObject {
 
 	/**
 	 * Create and add an item to the pathway.
-	 * 
+	 *
 	 * @access public
 	 * @param string $name
 	 * @param string $link
@@ -198,13 +198,13 @@ class JPathway extends JObject {
 			$ret = true;
 			$this->_count++;
 		}
-		
+
 		return $ret;
 	}
 
 	/**
 	 * Set item name.
-	 * 
+	 *
 	 * @access public
 	 * @param integer $id
 	 * @param string $name
@@ -220,13 +220,13 @@ class JPathway extends JObject {
 			$this->_pathway[$id]->name = $name;
 			$ret = true;
 		}
-		
+
 		return $ret;
 	}
 
 	/**
 	 * Create and return an XTML compliant link from a pathway item.
-	 * 
+	 *
 	 * @access private
 	 * @param string $id Pathway array offset of item to make a link for
 	 * @return string Pathway item link
@@ -249,7 +249,7 @@ class JPathway extends JObject {
 
 	/**
 	 * Create and return a new pathway object.
-	 * 
+	 *
 	 * @access private
 	 * @param string $name Name of the item
 	 * @param string $link Link to the item

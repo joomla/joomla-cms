@@ -26,7 +26,7 @@ class TOOLBAR_installer
 	}
 
 	function _DEFAULT2()	{
-		
+
 		$type = mosGetParam($_REQUEST, 'element');
 
 		mosMenuBar::startTable();

@@ -1182,7 +1182,7 @@ class HTML_content {
 		</form>
 		<?php
 	}
-	
+
 	function previewContent()
 	{
 		?>

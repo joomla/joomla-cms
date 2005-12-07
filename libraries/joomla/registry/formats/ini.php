@@ -27,7 +27,7 @@ class JRegistryINIFormat extends JRegistryStorageFormat {
 			}
 			foreach(get_object_vars($groups) as $key=>$item) {
 				if(is_object($item)) {
-					if($r_namespacestate) {					
+					if($r_namespacestate) {
 						$retval .= "[$namespace.$key]\n";
 					} else {
 						$retval .= "[$key]\n";
@@ -39,7 +39,8 @@ class JRegistryINIFormat extends JRegistryStorageFormat {
 					$retval .= "$key=$data\n";
 				}
 			}
-		return $retval;	
+		}
+		return $retval;
 	}
 
 	function &stringToObject($data) {
@@ -47,12 +48,12 @@ class JRegistryINIFormat extends JRegistryStorageFormat {
 		$configobject = $Configuration->parse($data, true);
 		if($this->r_namespacestate) {
 			$tmp = new stdClass();
-			foreach(get_object_vars($item) as $namespace=>$values)) {
+			foreach (get_object_vars($item) as $namespace=>$values) {
 				$parts = explode('.',$namespace);
 				$configobject->$parts[0]->$parts[1] = $values;
 			}
 		}
-		return $configobject;		
+		return $configobject;
 	}
 
 	function getFormatName() {

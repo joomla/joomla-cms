@@ -25,7 +25,7 @@ jimport( 'joomla.classes.object' );
 */
 
 class JApplication extends JObject {
-	
+
 	/** @var object An object of configuration variables */
 	var $_config			= null;
 	/** @var object An object of path variables */
@@ -57,10 +57,10 @@ class JApplication extends JObject {
 		$this->_createTemplate( );
 		$this->_createPathWay( );
 	}
-		
+
 	/**
 	 * Return a reference to the application pathway object
-	 * 
+	 *
 	 * @access public
 	 * @return object Application JPathway object
 	 * @since 1.1
@@ -71,7 +71,7 @@ class JApplication extends JObject {
 
 	/**
 	 * Create and add an item to the application pathway.
-	 * 
+	 *
 	 * @access public
 	 * @param string $name
 	 * @param string $link
@@ -79,33 +79,33 @@ class JApplication extends JObject {
 	 * @since 1.1
 	 */
 	function appendPathWay( $name, $link = null ) {
-		
+
 		/*
 		 * To provide backward compatability if no second parameter is set
-		 * set it to null 
-		 */ 
+		 * set it to null
+		 */
 		if ($link == null) {
 			$link = '';
 		}
-		
+
 		// Add item to the pathway object
 		if ($this->_pathway->addItem($name, $link)) {
 			return true;
 		}
-		
+
 		return false;
   }
-  
+
  	/**
  	 * Return an array of JPathway item names in order
  	 * Useful for things like SEF URLs moving forward perhaps
- 	 * 
+ 	 *
  	 * Note: Until the link parameter of the appendPathWay() method is made
  	 * 	mandatory using this method to get SEF URL information could be trouble
- 	 * 	because older components might be passing HTML into the name parameter of 
+ 	 * 	because older components might be passing HTML into the name parameter of
  	 * 	appendPathWay() as the older version only took one parameter of HTML to add
  	 * 	to the _custom_pathway array
- 	 * 
+ 	 *
  	 * @access public
  	 * @return array Pathway names
  	 * @since 1.1
@@ -116,7 +116,7 @@ class JApplication extends JObject {
 
  	/**
 	 * Set the display name for the active component
-	 * 
+	 *
 	 * @access public
 	 * @param string $name Text to set component name to in pathway
 	 * @return boolean True on success
@@ -129,7 +129,7 @@ class JApplication extends JObject {
  	/**
  	 * DEPRECATED
  	 * Use: getPathWayNames() method instead
- 	 * 
+ 	 *
  	 * @access public
  	 * @deprecated 1.0
  	 * @return array Pathway names
@@ -140,15 +140,15 @@ class JApplication extends JObject {
 
  	/**
 	 * Create a JPathway object and set the home/component items of the pathway
-	 * 
+	 *
 	 * @access private
 	 * @return boolean True if successful
 	 * @since 1.1
 	 */
 	function _createPathWay() {
-		
+
 		jimport( 'joomla.classes.pathway' );
-		
+
 		// Create a JPathway object
 		$this->_pathway = new JPathway();
 
@@ -168,7 +168,7 @@ class JApplication extends JObject {
 			} else {
 				$comName = $this->_option;
 			}
-			
+
 			$this->appendPathWay( $comName, 'index.php?option='.$this->_option);
 		}
 
@@ -214,20 +214,20 @@ class JApplication extends JObject {
 			$this->_userstate[$var_name] = $var_value;
 		}
 	}
-	
+
 	/**
 	* Registers a function to a particular event group
 	* @param string The event name
 	* @param string The function name
 	* @since 1.1
 	*/
-	
+
 	function registerEvent($event, $function) {
 		$eventHandler =& JEventHandler::getInstance();
 		return $eventHandler->registerFunction($event, $function);
 	}
-	
-	
+
+
 	/**
 	* Calls all functions associated with an event group
 	* @param string The event name
@@ -354,21 +354,21 @@ class JApplication extends JObject {
 
 		JSession::destroy();
 	}
-	
+
 	/**
 	 * Return the application option string [main component]
-	 * 
+	 *
 	 * @access public
 	 * @return string Option
 	 * @since 1.1
 	 */
 	function getOption() {
-		
+
 		return $this->_option;
 	}
-	
+
 	function &getPage() {
-		
+
 		$attributes = array (
             'charset'  => 'utf-8',
            	'lineend'  => 'unix',
@@ -378,7 +378,7 @@ class JApplication extends JObject {
 		jimport('joomla.classes.page');
 		return JPage::getInstance($attributes);
 	}
-	
+
 	/**
 	* @return mosUser A user object with the information from the current session
 	*/
@@ -394,7 +394,7 @@ class JApplication extends JObject {
 
 		return $user;
 	}
-	
+
 	/**
 	* Return an instance of the JLanguage class
 	*
@@ -452,7 +452,7 @@ class JApplication extends JObject {
 
 		$this->_lang = $strLang;
 	}
-	
+
 	/**
 	 * Creates a database object
 	 * @return object
@@ -484,7 +484,7 @@ class JApplication extends JObject {
 		return $database;
 	}
 
-	
+
 
 	/**
 	* @return JBrowser A browser object holding the browser information
@@ -493,7 +493,7 @@ class JApplication extends JObject {
 		jimport('joomla.classes.browser');
 		return JBrowser::getInstance();
 	}
-	
+
 	/**
 	 * @param string The name of the variable (from configuration.php)
 	 * @return mixed The value of the configuration variable or null if not found
@@ -555,7 +555,7 @@ class JApplication extends JObject {
 
 	function _createTemplate( ) {
 		global $Itemid;
-		
+
 		$db = $this->getDBO();
 
 		if ($this->isAdmin()) {
@@ -808,7 +808,7 @@ class JApplication extends JObject {
 
 		}
 	}
-	
+
 	/**
 	 * Gets the client id
 	 * @param mixed A client identifier
@@ -841,7 +841,7 @@ class JApplication extends JObject {
 	function isInstall() {
 		return ($this->_client == 2) ?  true : false;
 	}
-	
+
 	/**
 	 * Depreceated functions
 	 */
@@ -853,7 +853,7 @@ class JApplication extends JObject {
 		$page=& $this->getPage();
 		return $page->renderHead();
 	 }
-	 
+
 	/**
 	* Depreacted, use JPage->setMetadata instead
 	* @since 1.1
@@ -862,7 +862,7 @@ class JApplication extends JObject {
 		$page=& $this->getPage();
 		$page->setMetadata($name, $content);
 	}
-	
+
 	/**
 	* Depreacted, use JPage->setMetadata instead
 	* @since 1.1
@@ -878,7 +878,7 @@ class JApplication extends JObject {
 	function prependMetaTag( $name, $content ) {
 		$this->addMetaTag($name, $content);
 	}
-	 
+
 	/**
 	* Depreacted, use JPage->setTitle instead
 	* @since 1.1
@@ -887,7 +887,7 @@ class JApplication extends JObject {
 		$page=& $this->getPage();
 		$page->setTitle($title);
 	}
-	
+
 	/**
 	* Depreacted, use JPage->getTitle instead
 	* @since 1.1
@@ -896,7 +896,7 @@ class JApplication extends JObject {
 		$page=& $this->getPage();
 		return $page->getTitle();
 	}
-	
+
 	/**
 	* Depreacted, use JPage->addCustomTag instead
 	* @since 1.1
@@ -905,7 +905,7 @@ class JApplication extends JObject {
 		$page=& $this->getPage();
 		return $page->addCustomTag($html);
 	}
-	
+
 	/**
 	* Depreacted, use JApplicationHelper::getItemid instead
 	* @since 1.1
