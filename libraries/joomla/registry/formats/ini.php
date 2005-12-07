@@ -22,8 +22,12 @@ class JRegistryINIFormat extends JRegistryStorageFormat {
 	function objectToString(&$data) {
 		$retval = '';
 		foreach(get_object_vars($data) as $namespace=>$groups) {
-			if(!$r_namespacestate && $namespace != $r_namespace) {
-				break;
+			if(!$this->r_namespacestate) {
+				if($namespace != $this->r_namespacestate) {
+					echo($this->r_namespace);
+					echo "Breaking because namespace doesn't match, $namespace " . $this->r_namespacestate . " " . $this->r_namespace;
+					break;
+				}
 			}
 			foreach(get_object_vars($groups) as $key=>$item) {
 				if(is_object($item)) {
@@ -40,20 +44,34 @@ class JRegistryINIFormat extends JRegistryStorageFormat {
 				}
 			}
 		}
-		return $retval;
+		return $retval;	
 	}
 
-	function &stringToObject($data) {
+	function &stringToObject($data,$namespace_override='') {
+		
 		$Configuration = new mosParameters($data);
 		$configobject = $Configuration->parse($data, true);
-		if($this->r_namespacestate) {
-			$tmp = new stdClass();
-			foreach (get_object_vars($item) as $namespace=>$values) {
+		if($configObject = new stdClass()) {
+			die("Blank configuration!");
+		}
+		$tmpnamespace = $this->r_namespace;
+		if($namespace_override) {
+			$tmpnamespace = $namespace_override;
+		}
+		$tmp = new stdClass();
+		if(!$this->r_namespacestate) {
+			foreach(get_object_vars($configobject) as $namespace=>$values) {
 				$parts = explode('.',$namespace);
 				$configobject->$parts[0]->$parts[1] = $values;
 			}
-		}
-		return $configobject;
+		} else {
+
+			$tmp->$tmpnamespace = new stdClass();
+			foreach(get_object_vars($configobject) as $namespace=>$values) {
+				$tmp->$tmpnamespace->$namespace = $values;
+			}
+		}	
+		return $tmp;
 	}
 
 	function getFormatName() {

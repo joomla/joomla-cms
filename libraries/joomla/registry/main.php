@@ -17,6 +17,11 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 /**
  * @package Joomla
  */
+ 
+// Grab the support libraries
+jimport('joomla.registry.storageengine');
+jimport('joomla.registry.storageformat');
+
 class JRegistry {
 	// Object!
 	// Holds the class used to read/write data
@@ -24,8 +29,8 @@ class JRegistry {
 	// Holds the registry object
 	var $r_registryobject 		= null;
 
-	function JRegistry($format, $engine) {
-
+	function JRegistry($engine) {
+		$this->r_storageengine = $engine;
 	}
 
 	// Get the configuration setting
@@ -36,21 +41,21 @@ class JRegistry {
 		}
 		$parts = explode('.',$regpath);
 		if(count($parts) > 2) {
-			return(JRegistry::getConfig($parts[0],$parts[1],$parts[2],$uid));
+			return($this->r_storageengine->getConfig($parts[0],$parts[1],$parts[2],$uid));
 		}
 	}
 
 	function getDefaultValue($regpath) {
 		$parts = explode('.',$regpath);
 		if(count($parts) > 2) {
-			return(JRegistry::getDefaultConfig($parts[0],$parts[1],$parts[2]));
+			return($this->r_storageengine->getDefaultConfig($parts[0],$parts[1],$parts[2]));
 		}
 	}
 
 	function setValue($regpath,$value,$uid=0) {
 		$parts = explode('.',$regpath);
 		if(count($parts) > 2) {
-			return(JRegistryData::setConfig($parts[0],$parts[1],$parts[2],$value));
+			return($this->r_storageengine->setConfig($parts[0],$parts[1],$parts[2],$value));
 		}
 	}
 
@@ -58,13 +63,9 @@ class JRegistry {
 	function setDefaultValue($regpath,$value) {
 		$parts = explode('.',$regpath);
 		if(count($parts) > 2) {
-			return(JRegistry::setDefaultConfig($parts[0],$parts[1],$parts[2],$value));
+			return($this->r_storageengine->setDefaultConfig($parts[0],$parts[1],$parts[2],$value));
 		}
 	}
-
-
-
-
 
 }
 

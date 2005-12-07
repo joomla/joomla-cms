@@ -59,7 +59,7 @@ class HTML_component {
 				?>
 				<tr class="<?php echo "row$rc"; ?>">
 					<td>
-					<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);">
+					<input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);">
 					<span class="bold">
 					<?php echo $row->name; ?>
 					</span>

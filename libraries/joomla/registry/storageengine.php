@@ -24,9 +24,13 @@ class JRegistryStorageEngine {
 	var $r_storageidentifier   	= '';
 	// Default Namespace
 	var $r_defaultnamespace		= '';
+	// Configuration Cache
+	var $r_configuration	= null;
 
-	function JRegistryStorageEngine($format) {
+	function JRegistryStorageEngine($format,$namespace,$identifier='') {
 		$this->setStorageFormat($format);
+		$this->r_defaultnamespace = $namespace;
+		$this->r_storageidentifier = $identifier;
 
 	}
 
@@ -60,10 +64,6 @@ class JRegistryStorageEngine {
 
 	function &getStorageFormat() {
 		return $this->r_storageformat;
-	}
-
-	function &setStorageFormat(&$format) {
-		$this->r_storageformat = $format;
 	}
 
 	function getStorageMethod() {
