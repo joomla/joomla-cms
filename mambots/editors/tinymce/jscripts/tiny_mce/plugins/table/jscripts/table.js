@@ -1,6 +1,8 @@
-var action;
+var action, orgTableWidth, orgTableHeight;
 
 function insertTable() {
+	tinyMCEPopup.restoreSelection();
+
 	var formObj = document.forms[0];
 	var inst = tinyMCE.selectedInstance;
 	var cols = 2, rows = 2, border = 0, cellpadding = -1, cellspacing = -1, align, width, height, className;
@@ -67,7 +69,7 @@ function insertTable() {
 		if (bordercolor != "") {
 			elm.style.borderColor = bordercolor;
 			elm.style.borderStyle = elm.style.borderStyle == "" ? "solid" : elm.style.borderStyle;
-			elm.style.borderWidth = elm.style.borderWidth == "" ? "1px" : elm.style.borderWidth;
+			elm.style.borderWidth = border == "" ? "1px" : border;
 		} else
 			elm.style.borderColor = '';
 
@@ -82,6 +84,11 @@ function insertTable() {
 		tinyMCE.handleVisualAid(inst.getBody(), true, inst.visualAid, inst);
 		tinyMCE.triggerNodeChange();
 		inst.execCommand('mceEndUndoLevel');
+
+		// Repaint if dimensions changed
+		if (formObj.width.value != orgTableWidth || formObj.height.value != orgTableHeight)
+			inst.repaint();
+
 		tinyMCEPopup.close();
 		return true;
 	}
@@ -194,6 +201,9 @@ function init() {
 		dir = tinyMCE.getAttrib(tinyMCE.tableElm, 'dir');
 		lang = tinyMCE.getAttrib(tinyMCE.tableElm, 'lang');
 		background = getStyle(elm, 'background', 'backgroundImage').replace(new RegExp("url\\('?([^']*)'?\\)", 'gi'), "$1");
+
+		orgTableWidth = width;
+		orgTableHeight = height;
 
 		action = "update";
 	}

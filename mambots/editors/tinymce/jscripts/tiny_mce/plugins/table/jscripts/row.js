@@ -43,6 +43,8 @@ function init() {
 }
 
 function updateAction() {
+	tinyMCEPopup.restoreSelection();
+
 	var inst = tinyMCE.selectedInstance;
 	var trElm = tinyMCE.getParentElement(inst.getFocusElement(), "tr");
 	var tableElm = tinyMCE.getParentElement(inst.getFocusElement(), "table");

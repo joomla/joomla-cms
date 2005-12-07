@@ -1,7 +1,7 @@
 /**
  * $RCSfile: tiny_mce_popup.js,v $
- * $Revision: 1.18 $
- * $Date: 2005/10/29 19:13:20 $
+ * $Revision: 1.21 $
+ * $Date: 2005/11/27 18:11:16 $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004, Moxiecode Systems AB, All rights reserved.
@@ -15,8 +15,14 @@ function TinyMCEPopup() {
 TinyMCEPopup.prototype.init = function() {
 	var win = window.opener ? window.opener : window.dialogArguments;
 
-	if (!win)
-		win = top;
+	if (!win) {
+		// Try parent
+		win = parent.parent;
+
+		// Try top
+		if (typeof(win.tinyMCE) == "undefined")
+			win = top;
+	}
 
 	window.opener = win;
 	this.windowOpener = win;
@@ -32,7 +38,7 @@ TinyMCEPopup.prototype.init = function() {
 	}
 
 	this.isWindow = tinyMCE.getWindowArg('mce_inside_iframe', false) == false;
-	this.storeSelection = tinyMCE.isMSIE && !this.isWindow && tinyMCE.getWindowArg('mce_store_selection', true);
+	this.storeSelection = (tinyMCE.isMSIE && !tinyMCE.isOpera) && !this.isWindow && tinyMCE.getWindowArg('mce_store_selection', true);
 
 	if (this.isWindow)
 		window.focus();
@@ -194,15 +200,19 @@ TinyMCEPopup.prototype.getWindowArg = function(name, default_value) {
 	return tinyMCE.getWindowArg(name, default_value);
 };
 
-TinyMCEPopup.prototype.execCommand = function(command, user_interface, value) {
-	var inst = tinyMCE.selectedInstance;
-
-	// Restore selection
+TinyMCEPopup.prototype.restoreSelection = function() {
 	if (this.storeSelection) {
+		var inst = tinyMCE.selectedInstance;
+
 		inst.getWin().focus();
 		inst.execCommand('mceRestoreSelection');
 	}
+};
 
+TinyMCEPopup.prototype.execCommand = function(command, user_interface, value) {
+	var inst = tinyMCE.selectedInstance;
+
+	this.restoreSelection();
 	inst.execCommand(command, user_interface, value);
 
 	// Store selection

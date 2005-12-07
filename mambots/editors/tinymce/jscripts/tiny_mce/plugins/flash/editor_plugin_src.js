@@ -1,5 +1,5 @@
 /* Import plugin specific language pack */
-tinyMCE.importPluginLanguagePack('flash', 'en,de,sv,zh_cn,cs,fa,fr_ca,fr,pl,pt_br,nl,da,he,no,hu,ru,ru_KOI8-R,ru_UTF-8,es,cy,is');
+tinyMCE.importPluginLanguagePack('flash', 'en,de,sv,zh_cn,cs,fa,fr_ca,fr,pl,pt_br,nl,da,he,nb,hu,ru,ru_KOI8-R,ru_UTF-8,nn,es,cy,is,zh_tw,zh_tw_utf8,sk,pt_br');
 
 function TinyMCE_flash_getInfo() {
 	return {
@@ -96,7 +96,10 @@ function TinyMCE_flash_execCommand(editor_id, element, command, user_interface, 
 
 				// Get rest of Flash items
 				swffile = tinyMCE.getAttrib(focusElm, 'alt');
-				swffile = eval(tinyMCE.settings['urlconverter_callback'] + "(swffile, null, true);");
+
+				if (tinyMCE.getParam('convert_urls'))
+					swffile = eval(tinyMCE.settings['urlconverter_callback'] + "(swffile, null, true);");
+
 				swfwidth = tinyMCE.getAttrib(focusElm, 'width');
 				swfheight = tinyMCE.getAttrib(focusElm, 'height');
 				action = "update";
@@ -113,14 +116,19 @@ function TinyMCE_flash_execCommand(editor_id, element, command, user_interface, 
 function TinyMCE_flash_cleanup(type, content) {
 	switch (type) {
 		case "insert_to_editor_dom":
-			var imgs = content.getElementsByTagName("img");
-			for (var i=0; i<imgs.length; i++) {
-				if (tinyMCE.getAttrib(imgs[i], "class") == "mceItemFlash") {
-					var src = tinyMCE.getAttrib(imgs[i], "alt");
+			// Force relative/absolute
+			if (tinyMCE.getParam('convert_urls')) {
+				var imgs = content.getElementsByTagName("img");
+				for (var i=0; i<imgs.length; i++) {
+					if (tinyMCE.getAttrib(imgs[i], "class") == "mceItemFlash") {
+						var src = tinyMCE.getAttrib(imgs[i], "alt");
 
-					src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], src);
+						if (tinyMCE.getParam('convert_urls'))
+							src = eval(tinyMCE.settings['urlconverter_callback'] + "(src, null, true);");
 
-					imgs[i].setAttribute('alt', src);
+						imgs[i].setAttribute('alt', src);
+						imgs[i].setAttribute('title', src);
+					}
 				}
 			}
 			break;
@@ -131,9 +139,11 @@ function TinyMCE_flash_cleanup(type, content) {
 				if (tinyMCE.getAttrib(imgs[i], "class") == "mceItemFlash") {
 					var src = tinyMCE.getAttrib(imgs[i], "alt");
 
-					src = eval(tinyMCE.settings['urlconverter_callback'] + "(src, null, true);");
+					if (tinyMCE.getParam('convert_urls'))
+						src = eval(tinyMCE.settings['urlconverter_callback'] + "(src, null, true);");
 
 					imgs[i].setAttribute('alt', src);
+					imgs[i].setAttribute('title', src);
 				}
 			}
 			break;
@@ -178,6 +188,31 @@ function TinyMCE_flash_cleanup(type, content) {
 
 				startPos++;
 			}
+
+			// Parse all embed tags and replace them with images from the embed data
+			var index = 0;
+			while ((startPos = content.indexOf('<embed', startPos)) != -1) {
+				if (index >= embedList.length)
+					break;
+
+				var attribs = embedList[index];
+
+				// Find end of embed
+				endPos = content.indexOf('>', startPos);
+				endPos += 9;
+
+				// Insert image
+				var contentAfter = content.substring(endPos);
+				content = content.substring(0, startPos);
+				content += '<img width="' + attribs["width"] + '" height="' + attribs["height"] + '"';
+				content += ' src="' + (tinyMCE.getParam("theme_href") + '/images/spacer.gif') + '" title="' + attribs["src"] + '"';
+				content += ' alt="' + attribs["src"] + '" class="mceItemFlash" />' + content.substring(endPos);
+				content += contentAfter;
+				index++;
+
+				startPos++;
+			}
+
 			break;
 
 		case "get_from_editor":

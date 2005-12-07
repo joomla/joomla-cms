@@ -96,7 +96,7 @@ function insertFlash() {
 		height = 100;
 
 	html += ''
-		+ '<img src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '" '
+		+ '<img src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '" mce_src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '" '
 		+ 'width="' + width + '" height="' + height + '" '
 		+ 'border="0" alt="' + file + '" title="' + file + '" class="mceItemFlash" />';
 

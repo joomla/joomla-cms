@@ -48,6 +48,8 @@ Legend:
                     has checked out the document
  # Fixed artf1948 : Pagination problem still exists
  + Added transparent support for FTP to file handling classes - Contributed by Louis Landry
+ ^ Upgraded TinyMCE Compressor [1.0.4]
+ ^ Upgraded TinyMCE [2.0.1]
 
 05-Dec-2005 Johan Janssens
  ^ Moved ldap class to connectors directory

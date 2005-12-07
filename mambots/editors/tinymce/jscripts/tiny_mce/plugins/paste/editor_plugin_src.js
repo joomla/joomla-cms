@@ -1,5 +1,5 @@
 /* Import plugin specific language pack */ 
-tinyMCE.importPluginLanguagePack('paste', 'en,sv,cs,zh_cn,fr_ca,da,he,no,de,hu,ru,ru_KOI8-R,ru_UTF-8,fi,es,cy,is,pl'); 
+tinyMCE.importPluginLanguagePack('paste', 'en,sv,cs,zh_cn,fr_ca,da,he,nb,de,hu,ru,ru_KOI8-R,ru_UTF-8,nn,fi,es,cy,is,pl,nl,fr,pt_br');
 
 function TinyMCE_paste_getInfo() {
 	return {
@@ -105,7 +105,11 @@ function TinyMCE_paste__insertText(content, bLinebreaks) {
 	if (content && content.length > 0) {
 		if (bLinebreaks) { 
 			// Special paragraph treatment 
-			if (tinyMCE.getParam("paste_create_paragraphs", true)) { 
+			if (tinyMCE.getParam("paste_create_paragraphs", true)) {
+				var rl = tinyMCE.getParam("paste_replace_list", '\u2122,<sup>TM</sup>,\u2026,...,\u201c|\u201d,",\u2019,\',\u2013|\u2014|\u2015|\u2212,-').split(',');
+				for (var i=0; i<rl.length; i+=2)
+					content = content.replace(new RegExp(rl[i], 'gi'), rl[i+1]);
+
 				content = tinyMCE.regexpReplace(content, "\r\n\r\n", "</p><p>", "gi"); 
 				content = tinyMCE.regexpReplace(content, "\r\r", "</p><p>", "gi"); 
 				content = tinyMCE.regexpReplace(content, "\n\n", "</p><p>", "gi"); 
@@ -142,9 +146,11 @@ function TinyMCE_paste__insertText(content, bLinebreaks) {
 				} 
 			} 
 
-			content = tinyMCE.regexpReplace(content, "\r\n", "<br />", "gi"); 
-			content = tinyMCE.regexpReplace(content, "\r", "<br />", "gi"); 
-			content = tinyMCE.regexpReplace(content, "\n", "<br />", "gi"); 
+			if (tinyMCE.getParam("paste_create_linebreaks", true)) {
+				content = tinyMCE.regexpReplace(content, "\r\n", "<br />", "gi"); 
+				content = tinyMCE.regexpReplace(content, "\r", "<br />", "gi"); 
+				content = tinyMCE.regexpReplace(content, "\n", "<br />", "gi"); 
+			}
 		} 
 	
 		tinyMCE.execCommand("mceInsertRawHTML", false, content); 
@@ -156,6 +162,10 @@ function TinyMCE_paste__insertWordContent(content) {
 		// Cleanup Word content
 		var bull = String.fromCharCode(8226);
 		var middot = String.fromCharCode(183);
+
+		var rl = tinyMCE.getParam("paste_replace_list", '\u2122,<sup>TM</sup>,\u2026,...,\u201c|\u201d,",\u2019,\',\u2013|\u2014|\u2015|\u2212,-').split(',');
+		for (var i=0; i<rl.length; i+=2)
+			content = content.replace(new RegExp(rl[i], 'gi'), rl[i+1]);
 
 		if (tinyMCE.getParam("paste_convert_headers_to_strong", false)) {
 			content = content.replace(new RegExp('<p class=MsoHeading.*?>(.*?)<\/p>', 'gi'), '<p><b>$1</b></p>');

@@ -1,7 +1,7 @@
 /**
  * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.3 $
- * $Date: 2005/10/18 13:59:43 $
+ * $Revision: 1.4 $
+ * $Date: 2005/11/27 18:06:45 $
  *
  * Moxiecode DHTML Windows script.
  *
@@ -25,7 +25,7 @@ TinyMCE.prototype.orgOpenWindow = TinyMCE.prototype.openWindow;
 
 TinyMCE.prototype.openWindow = function(template, args) {
 	// Does the caller support inline
-	if (args['inline'] != "yes") {
+	if (args['inline'] != "yes" || tinyMCE.isOpera || tinyMCE.getParam("plugins").indexOf('inlinepopups') == -1) {
 		mcWindows.selectedWindow = null;
 		args['mce_inside_iframe'] = false;
 		this.orgOpenWindow(template, args);

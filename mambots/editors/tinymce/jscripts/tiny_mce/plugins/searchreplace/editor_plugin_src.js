@@ -1,5 +1,5 @@
 /* Import theme	specific language pack */
-tinyMCE.importPluginLanguagePack('searchreplace', 'en,sv,zh_cn,fa,fr_ca,fr,de,pl,pt_br,cs,nl,da,he,no,hu,ru,ru_KOI8-R,ru_UTF-8,fi,cy,es,is');
+tinyMCE.importPluginLanguagePack('searchreplace', 'en,sv,zh_cn,fa,fr_ca,fr,de,pl,pt_br,cs,nl,da,he,nb,hu,ru,ru_KOI8-R,ru_UTF-8,nn,fi,cy,es,is,zh_tw,zh_tw_utf8,sk');
 
 function TinyMCE_searchreplace_getInfo() {
 	return {

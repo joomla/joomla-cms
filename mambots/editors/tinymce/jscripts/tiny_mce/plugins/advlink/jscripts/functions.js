@@ -64,12 +64,16 @@ function init() {
 	if (action == "update") {
 		var href = tinyMCE.getAttrib(elm, 'href');
 
-		// Fix for drag-drop/copy paste bug in Mozilla
-		mceRealHref = tinyMCE.getAttrib(elm, 'mce_real_href');
-		if (mceRealHref != "")
+		href = convertURL(href, elm, true);
+
+		// Use mce_href if found
+		var mceRealHref = tinyMCE.getAttrib(elm, 'mce_href');
+		if (mceRealHref != "") {
 			href = mceRealHref;
 
-		href = convertURL(href, elm, true);
+			if (tinyMCE.getParam('convert_urls'))
+				href = convertURL(href, elm, true);
+		}
 
 		var onclick = tinyMCE.cleanupEventStr(tinyMCE.getAttrib(elm, 'onclick'));
 
@@ -151,9 +155,13 @@ function parseWindowOpen(onclick) {
 		setPopupControlsDisabled(false);
 
 		var onClickWindowOptions = parseOptions(onClickData['options']);
+		var url = onClickData['url'];
+
+		if (tinyMCE.getParam('convert_urls'))
+			url = convertURL(url, null, true);
 
 		formObj.popupname.value = onClickData['target'];
-		formObj.popupurl.value = onClickData['url'];
+		formObj.popupurl.value = url;
 		formObj.popupwidth.value = getOption(onClickWindowOptions, 'width');
 		formObj.popupheight.value = getOption(onClickWindowOptions, 'height');
 
@@ -173,6 +181,8 @@ function parseWindowOpen(onclick) {
 		formObj.popuptoolbar.checked = getOption(onClickWindowOptions, 'toolbar') == "yes";
 		formObj.popupstatus.checked = getOption(onClickWindowOptions, 'status') == "yes";
 		formObj.popupdependent.checked = getOption(onClickWindowOptions, 'dependent') == "yes";
+
+		buildOnClick();
 	}
 }
 
@@ -285,8 +295,12 @@ function buildOnClick() {
 	}
 
 	var onclick = "window.open('";
+	var url = formObj.popupurl.value;
 
-	onclick += formObj.popupurl.value + "','";
+	if (tinyMCE.getParam('convert_urls'))
+		url = convertURL(url, null, true);
+
+	onclick += url + "','";
 	onclick += formObj.popupname.value + "','";
 
 	if (formObj.popuplocation.checked)
@@ -359,9 +373,6 @@ function setAttrib(elm, attrib, value) {
 
 		if (attrib == "style")
 			attrib = "style.cssText";
-
-		if (attrib == "href")
-			elm.setAttribute("mce_real_href", value);
 
 		if (attrib.substring(0, 2) == 'on')
 			value = 'return true;' + value;
@@ -452,9 +463,8 @@ function setAllAttribs(elm) {
 	if (href.charAt(0) == '#')
 		href = tinyMCE.settings['document_base_url'] + href;
 
-	href = convertURL(href, elm);
-
-	setAttrib(elm, 'href', href);
+	setAttrib(elm, 'href', convertURL(href, elm));
+	setAttrib(elm, 'mce_href', href);
 	setAttrib(elm, 'title');
 	setAttrib(elm, 'target', target == '_self' ? '' : target);
 	setAttrib(elm, 'id');

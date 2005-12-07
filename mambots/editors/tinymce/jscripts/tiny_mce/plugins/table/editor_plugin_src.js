@@ -1,5 +1,5 @@
 /* Import plugin specific language pack */
-tinyMCE.importPluginLanguagePack('table', 'en,ar,cs,da,de,el,es,fi,fr_ca,hu,it,ja,ko,nl,no,pl,pt,sv,tw,zh_cn,fr,de,he,no,ru,ru_KOI8-R,ru_UTF-8,cy,is');
+tinyMCE.importPluginLanguagePack('table', 'en,ar,cs,da,de,el,es,fi,fr_ca,hu,it,ja,ko,nl,nb,pl,pt,pt_br,sv,tw,zh_cn,fr,de,he,nb,ru,ru_KOI8-R,ru_UTF-8,nn,cy,is,zh_tw,zh_tw_utf8,sk');
 
 function TinyMCE_table_getInfo() {
 	return {
@@ -14,15 +14,7 @@ function TinyMCE_table_getInfo() {
 function TinyMCE_table_initInstance(inst) {
 	if (tinyMCE.isGecko) {
 		var doc = inst.getDoc();
-
 		tinyMCE.addEvent(doc, "mouseup", TinyMCE_table_mouseDownHandler);
-
-		try {
-			// For future FF versions
-			doc.execCommand('enableInlineTableEditing', false, false);
-		} catch (e) {
-			// Ignore
-		}
 	}
 
 	inst.tableRowClipboard = null;
@@ -262,7 +254,6 @@ function TinyMCE_table_doExecCommand(editor_id, element, command, user_interface
 	}
 
 	function nextElm(node, names) {
-
         var namesAr = names.split(',');
 
 		while ((node = node.nextSibling) != null) {
@@ -644,7 +635,7 @@ function TinyMCE_table_doExecCommand(editor_id, element, command, user_interface
 								var sd = getColRowSpan(tdElm);
 
 								if (sd['colspan'] == 1) {
-									var newTD = doc.createElement("td");
+									var newTD = doc.createElement(tdElm.nodeName);
 
 									newTD.innerHTML = "&nbsp;";
 									newTD.rowSpan = tdElm.rowSpan;
@@ -671,12 +662,12 @@ function TinyMCE_table_doExecCommand(editor_id, element, command, user_interface
 								var sd = getColRowSpan(tdElm);
 
 								if (sd['colspan'] == 1) {
-									var newTD = doc.createElement("td");
+									var newTD = doc.createElement(tdElm.nodeName);
 
 									newTD.innerHTML = "&nbsp;";
 									newTD.rowSpan = tdElm.rowSpan;
 
-									var nextTD = nextElm(tdElm, "TD");
+									var nextTD = nextElm(tdElm, "TD,TH");
 									if (nextTD == null)
 										tdElm.parentNode.appendChild(newTD);
 									else
@@ -744,7 +735,7 @@ function TinyMCE_table_doExecCommand(editor_id, element, command, user_interface
 
 							newTD.innerHTML = "&nbsp;";
 
-							trElm.insertBefore(newTD, nextElm(tdElm, "TD"));
+							trElm.insertBefore(newTD, nextElm(tdElm, "TD,TH"));
 
 							if (rowspan > 1)
 								addRows(newTD, trElm, rowspan);

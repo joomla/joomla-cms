@@ -1,5 +1,5 @@
 /* Import plugin specific language pack */
-tinyMCE.importPluginLanguagePack('autosave', 'en,sv,cs,he,no,hu,de,da,ru,ru_KOI8-R,ru_UTF-8,fi,cy,es,is,pl');
+tinyMCE.importPluginLanguagePack('autosave', 'en,sv,cs,he,nb,hu,de,da,ru,ru_KOI8-R,ru_UTF-8,nn,fi,cy,es,is,pl,pt_br');
 
 function TinyMCE_autosave_getInfo() {
 	return {

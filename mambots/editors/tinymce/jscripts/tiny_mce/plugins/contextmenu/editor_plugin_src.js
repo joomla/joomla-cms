@@ -1,5 +1,5 @@
 /* Import plugin specific language pack */
-//tinyMCE.importPluginLanguagePack('contextmenu', 'en,zh_cn,cs,fa,fr_ca,fr,de,no');
+//tinyMCE.importPluginLanguagePack('contextmenu', 'en,zh_cn,cs,fa,fr_ca,fr,de,nb');
 if (!tinyMCE.settings['contextmenu_skip_plugin_css'])
 	tinyMCE.loadCSS(tinyMCE.baseURL + "/plugins/contextmenu/css/contextmenu.css");
 
@@ -121,10 +121,10 @@ function TinyMCE_contextmenu_showContextMenu(e, inst) {
 						contextMenu.addItem(tinyMCE.baseURL + "/themes/" + theme + "/images/paste.gif", "$lang_table_paste_row_before_desc", "mceTablePasteRowBefore", "", inst.tableRowClipboard == null);
 						contextMenu.addItem(tinyMCE.baseURL + "/themes/" + theme + "/images/paste.gif", "$lang_table_paste_row_after_desc", "mceTablePasteRowAfter", "", inst.tableRowClipboard == null);
 
-/*						contextMenu.addItem(tinyMCE.baseURL + "/themes/" + theme + "/images/left.gif", "$lang_justifyleft_desc", "JustifyLeft", "", false);
-						contextMenu.addItem(tinyMCE.baseURL + "/themes/" + theme + "/images/center.gif", "$lang_justifycenter_desc", "JustifyCenter", "", false);
-						contextMenu.addItem(tinyMCE.baseURL + "/themes/" + theme + "/images/right.gif", "$lang_justifyright_desc", "JustifyRight", "", false);
-						contextMenu.addItem(tinyMCE.baseURL + "/themes/" + theme + "/images/full.gif", "$lang_justifyfull_desc", "JustifyFull", "", false);*/
+/*						contextMenu.addItem(tinyMCE.baseURL + "/themes/" + theme + "/images/justifyleft.gif", "$lang_justifyleft_desc", "JustifyLeft", "", false);
+						contextMenu.addItem(tinyMCE.baseURL + "/themes/" + theme + "/images/justifycenter.gif", "$lang_justifycenter_desc", "JustifyCenter", "", false);
+						contextMenu.addItem(tinyMCE.baseURL + "/themes/" + theme + "/images/justifyright.gif", "$lang_justifyright_desc", "JustifyRight", "", false);
+						contextMenu.addItem(tinyMCE.baseURL + "/themes/" + theme + "/images/justifyfull.gif", "$lang_justifyfull_desc", "JustifyFull", "", false);*/
 						contextMenu.addSeparator();
 						contextMenu.addItem(tinyMCE.baseURL + "/plugins/table/images/table.gif", "$lang_table_desc", "mceInsertTable", "insert");
 						contextMenu.addItem(tinyMCE.baseURL + "/plugins/table/images/table.gif", "$lang_table_props_desc", "mceInsertTable");

@@ -1,77 +1,82 @@
 <?php
-	/**
-	 * $RCSfile: tiny_mce_gzip.php,v $
-	 * $Revision: $
-	 * $Date: $
-	 *
-	 * @version 1.02
-	 * @author Moxiecode
-	 * @copyright Copyright © 2005, Moxiecode Systems AB, All rights reserved.
-	 *
-	 * This file compresses the TinyMCE JavaScript using GZip and
-	 * enables the browser to do two requests instead of one for each .js file.
-	 * Notice: This script defaults the button_tile_map option to true for extra performance.
-	 *
-	 * Todo:
-	 *  - Add local file cache for the GZip:ed version.
-	 */
+/**
+ * $RCSfile: tiny_mce_gzip.php,v $
+ * $Revision: $
+ * $Date: $
+ *
+ * @version 1.03
+ * @author Moxiecode
+ * @copyright Copyright © 2005, Moxiecode Systems AB, All rights reserved.
+ *
+ * This file compresses the TinyMCE JavaScript using GZip and
+ * enables the browser to do two requests instead of one for each .js file.
+ * Notice: This script defaults the button_tile_map option to true for extra performance.
+ *
+ * Todo:
+ *  - Add local file cache for the GZip:ed version.
+ */
 
-	// General options
-	$suffix = "";							// Set to "_src" to use source version
-	$expiresOffset = 3600 * 24 * 10;		// 10 days util client cache expires
+// General options
+$suffix = "";							// Set to "_src" to use source version
+$expiresOffset = 3600 * 24 * 10;		// 10 days util client cache expires
 
-	// Get data to load
-	$theme = isset($_REQUEST['theme']) ? $_REQUEST['theme'] : "";
-	$language = isset($_REQUEST['language']) ? $_REQUEST['language'] : "";
-	$plugins = isset($_REQUEST['plugins']) ? $_REQUEST['plugins'] : "";
-	$lang = isset($_REQUEST['lang']) ? $_REQUEST['lang'] : "en";
-	$index = isset($_REQUEST['index']) ? $_REQUEST['index'] : -1;
+// Get data to load
+$theme = isset($_GET['theme']) ? $_GET['theme'] : "";
+$language = isset($_GET['language']) ? $_GET['language'] : "";
+$plugins = isset($_GET['plugins']) ? $_GET['plugins'] : "";
+$lang = isset($_GET['lang']) ? $_GET['lang'] : "en";
+$index = isset($_GET['index']) ? $_GET['index'] : -1;
 
-	// Only gzip the contents if clients and server support it
+// Only gzip the contents if clients and server support it
+if (isset($_SERVER['HTTP_ACCEPT_ENCODING']))
 	$encodings = explode(',', strtolower($_SERVER['HTTP_ACCEPT_ENCODING']));
-	if (in_array('gzip', $encodings) && function_exists('ob_gzhandler'))
-		ob_start("ob_gzhandler");
+else
+	$encodings = array();
 
-	// Output rest of headers
-	header("Content-type: text/javascript; charset: UTF-8");
-	// header("Cache-Control: must-revalidate");
-	header("Vary: Accept-Encoding"); // Handle proxies
-	header("Expires: " . gmdate("D, d M Y H:i:s", time() + $expiresOffset) . " GMT");
+// Check for gzip header or northon internet securities
+if ((in_array('gzip', $encodings) || isset($_SERVER['---------------'])) && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression'))
+	ob_start("ob_gzhandler");
 
-	if ($index > -1) {
-		// Write main script and patch some things
-		if ($index == 0) {
-			echo file_get_contents(realpath("tiny_mce" . $suffix . ".js"));
-			echo 'TinyMCE.prototype.loadScript = function() {};';
-		}
+// Output rest of headers
+header("Content-type: text/javascript; charset: UTF-8");
+// header("Cache-Control: must-revalidate");
+header("Vary: Accept-Encoding"); // Handle proxies
+header("Expires: " . gmdate("D, d M Y H:i:s", time() + $expiresOffset) . " GMT");
 
-		// Do init based on index
-		echo "tinyMCE.init(tinyMCECompressed.configs[" . $index . "]);";
-
-		// Load theme, language pack and theme language packs
-		if ($theme) {
-			echo file_get_contents(realpath("themes/" . $theme . "/editor_template" . $suffix . ".js"));
-			echo file_get_contents(realpath("themes/" . $theme . "/langs/" . $lang . ".js"));
-		}
-
-		if ($language)
-			echo file_get_contents(realpath("langs/" . $language . ".js"));
-
-		// Load all plugins and their language packs
-		$plugins = explode(",", $plugins);
-		foreach ($plugins as $plugin) {
-			$pluginFile = realpath("plugins/" . $plugin . "/editor_plugin" . $suffix . ".js");
-			$languageFile = realpath("plugins/" . $plugin . "/langs/" . $lang . ".js");
-
-			if ($pluginFile)
-				echo file_get_contents($pluginFile);
-
-			if ($languageFile)
-				echo file_get_contents($languageFile);
-		}
-
-		die;
+if ($index > -1) {
+	// Write main script and patch some things
+	if ($index == 0) {
+		echo file_get_contents(realpath("tiny_mce" . $suffix . ".js"));
+		echo 'TinyMCE.prototype.loadScript = function() {};';
 	}
+
+	// Do init based on index
+	echo "tinyMCE.init(tinyMCECompressed.configs[" . $index . "]);";
+
+	// Load theme, language pack and theme language packs
+	if ($theme) {
+		echo file_get_contents(realpath("themes/" . $theme . "/editor_template" . $suffix . ".js"));
+		echo file_get_contents(realpath("themes/" . $theme . "/langs/" . $lang . ".js"));
+	}
+
+	if ($language)
+		echo file_get_contents(realpath("langs/" . $language . ".js"));
+
+	// Load all plugins and their language packs
+	$plugins = explode(",", $plugins);
+	foreach ($plugins as $plugin) {
+		$pluginFile = realpath("plugins/" . $plugin . "/editor_plugin" . $suffix . ".js");
+		$languageFile = realpath("plugins/" . $plugin . "/langs/" . $lang . ".js");
+
+		if ($pluginFile)
+			echo file_get_contents($pluginFile);
+
+		if ($languageFile)
+			echo file_get_contents($languageFile);
+	}
+
+	die;
+}
 ?>
 
 function TinyMCECompressed() {

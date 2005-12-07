@@ -1,6 +1,7 @@
 /* Functions for the advimage plugin popup */
 
 var preloadImg = null;
+var orgImageWidth, orgImageHeight;
 
 function preinit() {
 	// Initialize
@@ -31,6 +32,9 @@ function getImageSrc(str) {
 		var src = str.substring(pos + 10);
 
 		src = src.substring(0, src.indexOf('\''));
+
+		if (tinyMCE.getParam('convert_urls'))
+			src = convertURL(src, null, true);
 
 		return src;
 	}
@@ -108,29 +112,38 @@ function init() {
 		var onmouseoversrc = getImageSrc(tinyMCE.cleanupEventStr(tinyMCE.getAttrib(elm, 'onmouseover')));
 		var onmouseoutsrc = getImageSrc(tinyMCE.cleanupEventStr(tinyMCE.getAttrib(elm, 'onmouseout')));
 
-		// Fix for drag-drop/copy paste bug in Mozilla
-		mceRealSrc = tinyMCE.getAttrib(elm, 'mce_real_src');
-		if (mceRealSrc != "")
-			src = mceRealSrc;
-
 		src = convertURL(src, elm, true);
 
-		if (onmouseoversrc != "")
+		// Use mce_src if found
+		var mceRealSrc = tinyMCE.getAttrib(elm, 'mce_src');
+		if (mceRealSrc != "") {
+			src = mceRealSrc;
+
+			if (tinyMCE.getParam('convert_urls'))
+				src = convertURL(src, elm, true);
+		}
+
+		if (onmouseoversrc != "" && tinyMCE.getParam('convert_urls'))
 			onmouseoversrc = convertURL(onmouseoversrc, elm, true);
 
-		if (onmouseoutsrc != "")
+		if (onmouseoutsrc != "" && tinyMCE.getParam('convert_urls'))
 			onmouseoutsrc = convertURL(onmouseoutsrc, elm, true);
 
 		// Setup form data
 		var style = tinyMCE.parseStyle(tinyMCE.getAttrib(elm, "style"));
+
+		// Store away old size
+		orgImageWidth = trimSize(getStyle(elm, 'width'))
+		orgImageHeight = trimSize(getStyle(elm, 'height'));
+
 		formObj.src.value    = src;
 		formObj.alt.value    = tinyMCE.getAttrib(elm, 'alt');
 		formObj.title.value  = tinyMCE.getAttrib(elm, 'title');
 		formObj.border.value = trimSize(getStyle(elm, 'border', 'borderWidth'));
 		formObj.vspace.value = tinyMCE.getAttrib(elm, 'vspace');
 		formObj.hspace.value = tinyMCE.getAttrib(elm, 'hspace');
-		formObj.width.value  = trimSize(getStyle(elm, 'width'));
-		formObj.height.value = trimSize(getStyle(elm, 'height'));
+		formObj.width.value  = orgImageWidth;
+		formObj.height.value = orgImageHeight;
 		formObj.onmouseoversrc.value = onmouseoversrc;
 		formObj.onmouseoutsrc.value  = onmouseoutsrc;
 		formObj.id.value  = tinyMCE.getAttrib(elm, 'id');
@@ -154,7 +167,7 @@ function init() {
 		selectByValue(formObj, 'imagelistout', onmouseoutsrc);
 
 		updateStyle();
-		showPreviewImage(src);
+		showPreviewImage(src, true);
 		changeAppearance();
 
 		window.focus();
@@ -273,9 +286,6 @@ function insertAction() {
 			return;
 	}
 
-	// Fix output URLs
-	src = convertURL(src, tinyMCE.imgElement);
-
 	if (onmouseoversrc && onmouseoversrc != "")
 		onmouseoversrc = "this.src='" + convertURL(onmouseoversrc, tinyMCE.imgElement) + "';";
 
@@ -283,8 +293,8 @@ function insertAction() {
 		onmouseoutsrc = "this.src='" + convertURL(onmouseoutsrc, tinyMCE.imgElement) + "';";
 
 	if (elm != null && elm.nodeName == "IMG") {
-		setAttrib(elm, 'src', src);
-		setAttrib(elm, 'mce_real_src', src);
+		setAttrib(elm, 'src', convertURL(src, tinyMCE.imgElement));
+		setAttrib(elm, 'mce_src', src);
 		setAttrib(elm, 'alt');
 		setAttrib(elm, 'title');
 		setAttrib(elm, 'border');
@@ -305,13 +315,18 @@ function insertAction() {
 
 		//tinyMCEPopup.execCommand("mceRepaint");
 
+		// Repaint if dimensions changed
+		if (formObj.width.value != orgImageWidth || formObj.height.value != orgImageHeight)
+			inst.repaint();
+
 		// Refresh in old MSIE
 		if (tinyMCE.isMSIE5)
 			elm.outerHTML = elm.outerHTML;
 	} else {
 		var html = "<img";
 
-		html += makeAttrib('src', src);
+		html += makeAttrib('src', convertURL(src, tinyMCE.imgElement));
+		html += makeAttrib('mce_src', src);
 		html += makeAttrib('alt');
 		html += makeAttrib('title');
 		html += makeAttrib('border');
@@ -413,6 +428,9 @@ function changeHeight() {
 		return;
 	}
 
+	if (formObj.width.value == "" || formObj.height.value == "")
+		return;
+
 	var temp = (formObj.width.value / preloadImg.width) * preloadImg.height;
 	formObj.height.value = temp.toFixed(0);
 	updateStyle();
@@ -426,6 +444,9 @@ function changeWidth() {
 		return;
 	}
 
+	if (formObj.width.value == "" || formObj.height.value == "")
+		return;
+
 	var temp = (formObj.height.value / preloadImg.height) * preloadImg.width;
 	formObj.width.value = temp.toFixed(0);
 	updateStyle();
@@ -438,14 +459,19 @@ function onSelectMainImage(target_form_element, name, value) {
 	formObj.title.value = name;
 
 	resetImageData();
-	showPreviewImage(formObj.elements[target_form_element].value);
+	showPreviewImage(formObj.elements[target_form_element].value, false);
 }
 
-function showPreviewImage(src) {
+function showPreviewImage(src, start) {
+	var formObj = document.forms[0];
+
 	selectByValue(document.forms[0], 'imagelistsrc', src);
 
 	var elm = document.getElementById('prev');
 	var src = src == "" ? src : tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], src);
+
+	if (!start && tinyMCE.getParam("advimage_update_dimensions_onchange", true))
+		resetImageData();
 
 	if (src == "")
 		elm.innerHTML = "";
