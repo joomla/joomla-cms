@@ -421,39 +421,47 @@ class DOMIT_ChildNodes_Interface extends DOMIT_Node {
 		}
 		else {
 			if (!($this->hasChildNodes())) {
-				$this->childNodes[0] =& $child;
-				$this->firstChild =& $child;
+			$this->childNodes[0] =& $child;
+			$this->firstChild =& $child;
+		}
+		else {
+			//remove $child if it already exists
+			$index = $this->getChildNodeIndex($this->childNodes, $child);
+
+			if ($index != -1) {
+				$this->removeChild($child);
 			}
-			else {
-				//remove $child if it already exists
-				$index = $this->getChildNodeIndex($this->childNodes, $child);
 
-				if ($index != -1) {
-					$this->removeChild($child);
-				}
+			//append child
+			$numNodes = $this->childCount;
+			//BB: was bug auto-created wrong childnodes[-1]: added IF
+			if ($numNodes>0) $prevSibling =& $this->childNodes[($numNodes - 1)];	
 
-				//append child
-				$numNodes = $this->childCount;
-				$prevSibling =& $this->childNodes[($numNodes - 1)];
+			$this->childNodes[$numNodes] =& $child;
 
-				$this->childNodes[$numNodes] =& $child;
-
-				//set next and previous relationships
+			//set next and previous relationships
+			//BB: added this line and the else part to finish correcting bug
+			if (isset($prevSibling)) {						
 				$child->previousSibling =& $prevSibling;
 				$prevSibling->nextSibling =& $child;
+			} else {
+				unset($child->previousSibling);
+				$child->previousSibling = null;
+				$this->firstChild =& $child;
 			}
-
-			$this->lastChild =& $child;
-			$child->parentNode =& $this;
-
-			unset($child->nextSibling);
-			$child->nextSibling = null;
-
-			$child->setOwnerDocument($this);
-			$this->childCount++;
 		}
 
+		$this->lastChild =& $child;
+		$child->parentNode =& $this;
+
+		unset($child->nextSibling);
+		$child->nextSibling = null;
+
+		$child->setOwnerDocument($this);
+		$this->childCount++;
+
 		return $child;
+
 	} //appendChild
 
 	/**

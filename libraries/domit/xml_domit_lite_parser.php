@@ -316,6 +316,11 @@ class DOMIT_Lite_ChildNodes_Interface extends DOMIT_Lite_Node {
 	* @param Object The node to be appended
 	* @return Object The appended node
 	*/
+	/**
+	* Appends a node to the childNodes list of the current node
+	* @param Object The node to be appended
+	* @return Object The appended node
+	*/
 	function &appendChild(&$child) {
 		if (!($this->hasChildNodes())) {
 			$this->childNodes[0] =& $child;
@@ -331,13 +336,21 @@ class DOMIT_Lite_ChildNodes_Interface extends DOMIT_Lite_Node {
 
 			//append child
 			$numNodes = $this->childCount;
-			$prevSibling =& $this->childNodes[($numNodes - 1)];
+			//BB: was bug auto-created wrong childnodes[-1]: added IF
+			if ($numNodes>0) $prevSibling =& $this->childNodes[($numNodes - 1)];	
 
 			$this->childNodes[$numNodes] =& $child;
 
 			//set next and previous relationships
-			$child->previousSibling =& $prevSibling;
-			$prevSibling->nextSibling =& $child;
+			//BB: added this line and the else part to finish correcting bug
+			if (isset($prevSibling)) {						
+				$child->previousSibling =& $prevSibling;
+				$prevSibling->nextSibling =& $child;
+			} else {
+				unset($child->previousSibling);
+				$child->previousSibling = null;
+				$this->firstChild =& $child;
+			}
 		}
 
 		$this->lastChild =& $child;

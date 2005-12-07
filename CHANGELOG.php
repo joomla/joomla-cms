@@ -46,6 +46,7 @@ Legend:
  # Fixed artf2245 : RSS not showing enclosure tags
  # Fixed artf2247 : RSS newsfeed on Frontend missing link
  # Fixed artf2326 : Newsflash Module does not show readmore button
+ # Fixed bug in Domit lite parser
 
 06-Dec-2005 Alex Kempkens
  ^ Installer to detect languages in correct folders
