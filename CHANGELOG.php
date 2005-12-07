@@ -48,6 +48,7 @@ Legend:
  # Fixed artf2326 : Newsflash Module does not show readmore button
  # Fixed bug in Domit lite parser
  # Fixed mosMail() is missing "ReplyTo:" field to avoid anti-spam rules (SPF)
+ # Fixed Small typo in mosBindArrayToObject
 
 06-Dec-2005 Alex Kempkens
  ^ Installer to detect languages in correct folders
