@@ -295,7 +295,7 @@ function saveSection( $option, $scope, $task ) {
 	}
 
 	if (!$row->store()) {
-		echo "<script> alert('".$row->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 	$row->checkin();
