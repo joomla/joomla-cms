@@ -42,6 +42,7 @@ Legend:
  # Fixed artf2342 : getBlogCategoryCount
  # Fixed artf2464 : Contacts Component image path error
  # Fixed artf2404 : Contact detail html bug
+ ^ Replaced install.png with transparent image - contributed by joomlashack
 
 06-Dec-2005 Alex Kempkens
  ^ Installer to detect languages in correct folders
