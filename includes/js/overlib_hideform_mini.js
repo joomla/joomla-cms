@@ -28,6 +28,6 @@ o=o.offsetParent}
 x+=o['offset'+t]
 return x}
 if(!(olNs4||olOp||olIe55||navigator.userAgent.indexOf('Netscape6')!=-1)){var MMStr=olMouseMove.toString();var strRe=/(if\s*\(o3_allowmove\s*==\s*1.*\)\s*)/;var f=MMStr.match(strRe);
-if(f){var ls=MMStr.search(strRe);ls+=f[1].length;var le=MMStr.substring(ls).search(/[;|}]\n/);MMStr=MMStr.substring(0,ls)+' {runHook("placeLayer",FREPLACE);if(olHideForm)hideSelectBox();'+MMStr.substring(ls+(le!=-1?le+3:0))+'}';document.writeln('<script type="text/javascript">\n<!--\n'+MMStr+'\n//-->\n</'+'script>');}
+if(f){var ls=MMStr.search(strRe);ls+=f[1].length;var le=MMStr.substring(ls).search(/[;|}]\n/);MMStr=MMStr.substring(0,ls)+' {runHook("placeLayer",FREPLACE);if(olHideForm)hideSelectBox();'+MMStr.substring(ls+(le!=-1?le+3:0));document.writeln('<script type="text/javascript">\n<!--\n'+MMStr+'\n//-->\n</'+'script>');}
 f=capExtent.onmousemove.toString().match(/function[ ]+(\w*)\(/);if(f&&f[1]!='anonymous')capExtent.onmousemove=olMouseMove;}
 registerHook("createPopup",generatePopUp,FAFTER);registerHook("hideObject",showSelectBox,FAFTER);olHideForm=1;}
