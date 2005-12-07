@@ -1280,7 +1280,7 @@ function show( $row, $params, $gid, &$access, $pop, $option, $ItemidCount=NULL )
 	$page = intval( mosGetParam( $_REQUEST, 'limitstart', 0 ) );
 
 	// record the hit
-	if ( !$params->get( 'intro_only' ) ) {
+	if ( !$params->get( 'intro_only' ) && ($page == 0)) {
 		$obj = new mosContent( $database );
 		$obj->hit( $row->id );
 	}

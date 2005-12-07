@@ -38,6 +38,7 @@ Legend:
  ^ Upgraded TinyMCE [2.0.1]
  + Added locale metadata to language xml file (used in setLocale function)
  # Fixed artf2323 : overlib_hideform_mini.js parse error
+ # Fixed artf2248 : Incorrect hits count on multipage articles
 
 06-Dec-2005 Alex Kempkens
  ^ Installer to detect languages in correct folders
