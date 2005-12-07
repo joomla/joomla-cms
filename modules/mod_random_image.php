@@ -62,10 +62,6 @@ if (is_dir($abspath_folder)) {
 
   	$image = JURL_SITE .'/'. $folder .'/'. $image_name;
 
-	if ($link) {
-  		echo '<a href="'. $link .'" target="_self">';
-  	}
-
 	}
   	?>
  	<div align="center">
