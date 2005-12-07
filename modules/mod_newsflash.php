@@ -73,6 +73,7 @@ switch ($style) {
 			$row->load( $id );
 			$row->text = $row->introtext;
 			$row->groups = '';
+			$row->readmore = (trim( $row->fulltext ) != '');
 			echo '<td>';
 			HTML_content::show( $row, $params, $access, 0, 'com_content' );
 			echo '</td>';
@@ -85,6 +86,7 @@ switch ($style) {
 			$row->load( $id );
 			$row->text = $row->introtext;
 			$row->groups = '';
+			$row->readmore = (trim( $row->fulltext ) != '');
 
 			HTML_content::show( $row, $params, $access, 0, 'com_content' );
 		}
@@ -101,6 +103,7 @@ switch ($style) {
 		$row->load( $flashnum );
 		$row->text = $row->introtext;
 		$row->groups = '';
+		$row->readmore = (trim( $row->fulltext ) != '');
 
 		HTML_content::show( $row, $params, $access, 0, 'com_content' );
 		break;

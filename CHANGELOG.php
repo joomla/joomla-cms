@@ -45,6 +45,7 @@ Legend:
  ^ Replaced install.png with transparent image - contributed by joomlashack
  # Fixed artf2245 : RSS not showing enclosure tags
  # Fixed artf2247 : RSS newsfeed on Frontend missing link
+ # Fixed artf2326 : Newsflash Module does not show readmore button
 
 06-Dec-2005 Alex Kempkens
  ^ Installer to detect languages in correct folders
