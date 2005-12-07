@@ -305,11 +305,11 @@ function contactpage( $contact_id ) {
 				break;
 			default:
 			// icons
-				$image1 = mosAdminMenus::ImageCheck( 'con_address.png', '/images/M_images/', $params->get( 'icon_address' ), NULL, JText::_( 'Address' ) .": ", JText::_( 'Address' ) .": " );
-				$image2 = mosAdminMenus::ImageCheck( 'emailButton.png', '/images/M_images/', $params->get( 'icon_email' ), NULL, JText::_( 'Email' ) .": ", JText::_( 'Email' ) .": " );
-				$image3 = mosAdminMenus::ImageCheck( 'con_tel.png', '/images/M_images/', $params->get( 'icon_telephone' ), NULL, JText::_( 'Telephone' ) .": ", JText::_( 'Telephone' ) .": " );
-				$image4 = mosAdminMenus::ImageCheck( 'con_fax.png', '/images/M_images/', $params->get( 'icon_fax' ), NULL, JText::_( 'Fax' ) .": ", JText::_( 'Fax' ) .": " );
-				$image5 = mosAdminMenus::ImageCheck( 'con_info.png', '/images/M_images/', $params->get( 'icon_misc' ), NULL, JText::_( 'Information' ) .": ", JText::_( 'Information' ) .": " );
+				$image1 = mosAdminMenus::ImageCheck( 'con_address.png', '/images/M_images/', $params->get( 'icon_address' ), '/images/M_images/', JText::_( 'Address' ) .": ", JText::_( 'Address' ) .": " );
+				$image2 = mosAdminMenus::ImageCheck( 'emailButton.png', '/images/M_images/', $params->get( 'icon_email' ), '/images/M_images/', JText::_( 'Email' ) .": ", JText::_( 'Email' ) .": " );
+				$image3 = mosAdminMenus::ImageCheck( 'con_tel.png', '/images/M_images/', $params->get( 'icon_telephone' ), '/images/M_images/', JText::_( 'Telephone' ) .": ", JText::_( 'Telephone' ) .": " );
+				$image4 = mosAdminMenus::ImageCheck( 'con_fax.png', '/images/M_images/', $params->get( 'icon_fax' ), '/images/M_images/', JText::_( 'Fax' ) .": ", JText::_( 'Fax' ) .": " );
+				$image5 = mosAdminMenus::ImageCheck( 'con_info.png', '/images/M_images/', $params->get( 'icon_misc' ), '/images/M_images/', JText::_( 'Information' ) .": ", JText::_( 'Information' ) .": " );
 				$params->set( 'marker_address', $image1 );
 				$params->set( 'marker_email', $image2 );
 				$params->set( 'marker_telephone', $image3 );

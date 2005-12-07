@@ -40,6 +40,7 @@ Legend:
  # Fixed artf2323 : overlib_hideform_mini.js parse error
  # Fixed artf2248 : Incorrect hits count on multipage articles
  # Fixed artf2342 : getBlogCategoryCount
+ # Fixed artf2464 : Contacts Component image path error
 
 06-Dec-2005 Alex Kempkens
  ^ Installer to detect languages in correct folders
