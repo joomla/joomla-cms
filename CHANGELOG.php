@@ -49,6 +49,7 @@ Legend:
  # Fixed artf2378 : mosCommonHTML::CheckedOutProcessing not checking if the current user 
                     has checked out the document
  # Fixed artf1948 : Pagination problem still exists
+ # Fixed artf2457 : VCard bug IS a bug
 
 05-Dec-2005 Johan Janssens
  ^ Moved ldap class to connectors directory
