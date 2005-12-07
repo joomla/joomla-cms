@@ -308,16 +308,11 @@ class installationTasks {
 
 			// set collation and use utf-8 compatibile script if appropriate
 			if ($DButfSupport) {
-				$dbscheme = 'joomla.sql';
+				$dbscheme = 'sql'.DS.'joomla.sql';
 			} else {
-				$dbscheme = 'joomla_backward.sql';
+				$dbscheme = 'sql'.DS.'joomla_backward.sql';
 			}
 
-			// Checks for language depended files
-			if( JFile::exists( 'sql' .DS.$lang .DS.$dbscheme  )) {
-				$dbscheme = 'sql' .DS.$lang .DS.$dbscheme;
-			}
-			
 			if (JInstallationHelper::populateDatabase( $database, $dbscheme, $errors, ($DButfSupport) ? $DBcollation: '' )) {
 				installationScreens::error( $vars, JText::_('WARNPOPULATINGDB'), 'dbconfig', JInstallationHelper::errors2string( $errors ) );
 				return false;
