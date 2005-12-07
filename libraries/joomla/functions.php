@@ -559,7 +559,7 @@ function mosCreateMail( $from='', $fromname='', $subject, $body ) {
 * @param string/array BCC e-mail address(es)
 * @param string/array Attachment file name(s)
 */
-function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL ) {
+function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL ) {
 	global $mosConfig_debug;
 	$mail = mosCreateMail( $from, $fromname, $subject, $body );
 
@@ -593,6 +593,18 @@ function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NUL
 		else
 			$mail->AddAttachment($attachment);
 	} // if
+	//Important for being able to use mosMail without spoofing...
+	 if ($replyto) {												
+        if ( is_array($replyto) ) {
+        	reset($replytoname);
+            foreach ($replyto as $to) {
+            	$toname = ((list($key, $value) = each($replytoname)) ? $value : "");
+            	$mail->AddReplyTo($to, $toname);
+            }
+        } else
+            $mail->AddReplyTo($replyto, $replytoname);
+    }
+	
 	$mailssend = $mail->Send();
 
 	if( $mosConfig_debug ) {
