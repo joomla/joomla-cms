@@ -343,6 +343,7 @@ class HTML_contact {
 				</tr>
 				</table>
 			</td>
+			<td>&nbsp;</td>
 		</tr>
 		<?php
 		// displays Email Form
