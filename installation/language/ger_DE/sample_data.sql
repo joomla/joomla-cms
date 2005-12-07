@@ -1,4 +1,4 @@
-# $Id: sample_data.sql 675 2005-10-26 18:51:45Z Saka $
+# $Id$
 
 #
 # Dumping data for table `#__banner`

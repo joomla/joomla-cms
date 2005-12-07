@@ -13,8 +13,7 @@
     	<name>Deutsch (DE)</name>
     	<tag>deu_DE</tag>
     	<rtl>0</rtl>
-    	<locale>de_DE</locale>
-    	<iso_code>de</iso_code>
+    	<locale>de_DE@euro, de_DE, de, ge, deu, german, germany</locale>
     </metadata>
     <files>
         <filename>ger_DE.ini</filename>

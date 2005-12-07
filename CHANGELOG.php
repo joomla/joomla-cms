@@ -31,25 +31,24 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Dec-2005 Johan Janssens
+ + Added transparent support for FTP to file handling classes - Contributed by Louis Landry
+ ^ Upgraded TinyMCE Compressor [1.0.4]
+ ^ Upgraded TinyMCE [2.0.1]
+ + Added locale metadata to language xml file (used in setLocale function)
+
 06-Dec-2005 Alex Kempkens
  ^ Installer to detect languages in correct folders
- ^ Added capability for the installer to install language dependend sql scripts
- ! Translation: Please provide your adapted sql scripts in a separated directiory
-                with the same name as the language files for the installer
- ! Translation: We will split the joomla.sql into a table and initial data file before final release
+ ^ Added capability for the installer to install language dependend sample data
  + German Installer translations
  # fixed little issues within the installer
  # fixed artf2398: Parameter Text Area field name
- ! already fixed : artf2434: Typo in database.php checkout function line 1050
 
 06-Dec-2005 Johan Janssens
  # Fixed artf2418 : Banners Client Manager Next Page Issue: Joomla 1.04
  # Fixed artf2378 : mosCommonHTML::CheckedOutProcessing not checking if the current user 
                     has checked out the document
  # Fixed artf1948 : Pagination problem still exists
- + Added transparent support for FTP to file handling classes - Contributed by Louis Landry
- ^ Upgraded TinyMCE Compressor [1.0.4]
- ^ Upgraded TinyMCE [2.0.1]
 
 05-Dec-2005 Johan Janssens
  ^ Moved ldap class to connectors directory

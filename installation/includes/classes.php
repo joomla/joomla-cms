@@ -315,7 +315,7 @@ class installationTasks {
 
 			// Checks for language depended files
 			if( JFile::exists( 'sql' .DS.$lang .DS.$dbscheme  )) {
-				$dbscheme = $lang .DS. $dbscheme;
+				$dbscheme = 'sql' .DS.$lang .DS.$dbscheme;
 			}
 			
 			if (JInstallationHelper::populateDatabase( $database, $dbscheme, $errors, ($DButfSupport) ? $DBcollation: '' )) {
@@ -324,10 +324,10 @@ class installationTasks {
 			}
 
 			if ($DBSample) {
-				$dbsample = 'sample_data.sql';
+				$dbsample = 'language/eng_GB/sample_data.sql';
 				// Checks for language depended files
-				if( JFile::exists( 'sql' .DS.$lang .DS.$dbsample  )) {
-					$dbsample = $lang .DS. $dbsample;
+				if( JFile::exists( 'language'.DS.$lang .DS.'sample_data.sql'  )) {
+					$dbsample = 'language'.DS.$lang .DS.'sample_data.sql';
 				}
 				JInstallationHelper::populateDatabase( $database, $dbsample, $errors);
 			}
@@ -598,7 +598,7 @@ class JInstallationHelper {
 	 *
 	 */
 	function populateDatabase( &$database, $sqlfile, &$errors, $collation = '' ) {
-		$buffer 	= file_get_contents( 'sql/' . $sqlfile );
+		$buffer 	= file_get_contents( $sqlfile );
 		$queries 	= JInstallationHelper::splitSql( $buffer, $collation );
 
 		foreach ($queries as $query) {

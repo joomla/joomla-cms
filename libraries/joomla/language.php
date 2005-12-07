@@ -24,7 +24,8 @@ jimport('joomla.classes.object');
  * @static
  * @since 1.1
  */
-class JText {
+class JText 
+{
 	function _($string, $jsSafe = false) {
 		global $mainframe;
 		$lang = & $mainframe->getLanguage();
@@ -70,17 +71,18 @@ class JText {
 * @subpackage Language
 * @since 1.1
 */
-class JLanguage extends JObject {
+class JLanguage extends JObject 
+{
 	/** @var boolean If true, highlights string not found */
-	var $_debug = false;
+	var $_debug 	= false;
 	/** @var array 	Array holding the language metadata */
-	var $_metadata = null;
+	var $_metadata 	= null;
+	/** @var string Identifying string of the language */
+	var $_identifyer = null;
 	/** @var string The default language to load */
 	var $_defaultLang = null;
 	/** @var string The user language to load */
 	var $_userLang = null;
-	/** @var string Identifying string of the language */
-	var $_identifyer = null;
 	/** @var array Transaltions */
 	var $_strings = null;
 
@@ -98,9 +100,9 @@ class JLanguage extends JObject {
 		}
 
 		$this->_metadata = $this->getMetadata($this->_userLang);
-
+		
 		//set locale based on the language tag
-		setlocale(LC_TIME, $this->get('tag'));
+		setlocale(LC_TIME, $this->getLocale());
 
 		//load common language files
 		$this->load();
@@ -231,6 +233,24 @@ class JLanguage extends JObject {
 	function getTag() {
 		return $this->_metadata['tag'];
 	}
+	
+	/**
+	* Get locale property
+	* @return string The locale property
+	*/
+	function getLocale() {
+		$locales = explode(',', $this->_metadata['locale']);
+		
+		for($i = 0; $i < count($locales); $i++ ) {
+			$locale = $locales[$i];
+			$locale = trim($locale);
+			$locale = "'$locale'";
+			$locales[$i] = $locale;
+		}
+		
+		return implode(',', $locales);
+	}
+	
 	/**
 	* Get the RTL property
 	* @return boolean True is it an RTL language
@@ -271,14 +291,14 @@ class JLanguage extends JObject {
 
 	function getMetadata($lang) {
 
-		$path = JLanguage :: getLanguagePath(JPATH_BASE, $lang);
+		$path = JLanguage::getLanguagePath(JPATH_BASE, $lang);
 		$file = $lang.'.xml';
 		
 		$result = null;
 		if(JFile::exists($path.$file)) {
-			$result = JLanguage :: _parseXMLLanguageFile($path.$file);
+			$result = JLanguage::_parseXMLLanguageFile($path.$file);
 		}
-		
+	
 		return $result;
 	}
 
@@ -397,7 +417,7 @@ class JLanguage extends JObject {
 				$metadata[$currNode->nodeName] = $currNode->getText();
 			}
 		}
-
+		
 		return $metadata;
 	}
 }
