@@ -29,14 +29,14 @@ $mosmsg		= strip_tags( mosGetParam( $_REQUEST, 'mosmsg', '' ) );
 // create the mainframe object
 $mainframe =& new JAdministrator($option);
 
+//get the database object
+$database =& $mainframe->getDBO();
+
 // load system bot group
 JBotLoader::importGroup( 'system' );
 
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );
-
-//get the database object
-$database =& $mainframe->getDBO();
 
 //get the acl object (for backwards compatibility)
 $acl =& JFactory::getACL();
