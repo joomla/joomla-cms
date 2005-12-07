@@ -32,11 +32,12 @@ Legend:
 ! -> Note
 
 07-Dec-2005 Johan Janssens
+ + Added new JPathWay class for flexible pathway handling - Contributed by Louis Landry
  + Added transparent support for FTP to file handling classes - Contributed by Louis Landry
  ^ Upgraded TinyMCE Compressor [1.0.4]
  ^ Upgraded TinyMCE [2.0.1]
  + Added locale metadata to language xml file (used in setLocale function)
-
+ 
 06-Dec-2005 Alex Kempkens
  ^ Installer to detect languages in correct folders
  ^ Added capability for the installer to install language dependend sample data

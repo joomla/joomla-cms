@@ -23,7 +23,7 @@ $option = mosGetParam( $_REQUEST, 'option', NULL );
 $handle = mosGetParam( $_POST, 'handle', NULL );
 
 // create the mainframe object
-$mainframe =& new JAdministrator();
+$mainframe =& new JAdministrator($option);
 
 // load system bot group
 JBotLoader::importGroup( 'system' );

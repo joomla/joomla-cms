@@ -20,6 +20,8 @@ require_once( $mainframe->getPath( 'front_html' ) );
 
 global $database, $my;
 
+$mainframe->setPathWayComponentName('Login');
+
 $menu = new mosMenu( $database );
 $menu->load( $Itemid );
 $params = new mosParameters( $menu->params );

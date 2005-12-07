@@ -88,8 +88,8 @@ class JSite extends JApplication {
 	* Class constructor
 	* @param integer A client id
 	*/
-	function __construct() {
-		parent::__construct(0);
+	function __construct($option) {
+		parent::__construct($option, 0);
 	}
 }
 

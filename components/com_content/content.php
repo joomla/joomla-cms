@@ -278,6 +278,12 @@ function showSection( $id, $gid, &$access, $now ) {
 
 	// Dynamic Page Title
 	$mainframe->SetPageTitle( $menu->name );
+	
+	/*
+	 * Handle Pathway
+	 */
+	// Section
+	$mainframe->appendPathWay( $section->title, '');
 
 	$null = null;
 	HTML_content::showContentList( $section, $null, $access, $id, $null,  $gid, $params, $null, $categories, $null, $null );
@@ -489,6 +495,17 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limi
 
 	// Dynamic Page Title
 	$mainframe->SetPageTitle( $pagetitle );
+	
+	/*
+	 * Handle Pathway
+	 */
+	// Section
+	$section = new mosSection($database);
+	$section->load($category->section);
+	
+	$mainframe->appendPathWay( $section->title, sefRelToAbs( 'index.php?option=com_content&amp;task=section&amp;id='. $category->section .'&amp;Itemid='.$menu->id ));
+	// Category
+	$mainframe->appendPathWay( $category->title, '');
 
 	HTML_content::showContentList( $category, $items, $access, $id, $sectionid, $gid, $params, $pageNav, $other_categories, $lists, $selected );
 } // showCategory
@@ -548,7 +565,10 @@ function showBlogSection( $id=0, $gid, &$access, $pop, $now=NULL ) {
 	if ($menu) {
 		$mainframe->setPageTitle( $menu->name );
 	}
-
+	
+	// Append Blog to pathway
+	$mainframe->appendPathWay( 'Blog', '');
+	
 	BlogOutput( $rows, $params, $gid, $access, $pop, $menu );
 }
 
@@ -605,6 +625,9 @@ function showBlogCategory( $id=0, $gid, &$access, $pop, $now ) {
 	// Dynamic Page Title
 	$mainframe->SetPageTitle( $menu->name );
 
+	// Append Blog to pathway
+	$mainframe->appendPathWay( 'Blog', '');
+	
 	BlogOutput( $rows, $params, $gid, $access, $pop, $menu );
 }
 
@@ -685,6 +708,9 @@ function showArchiveSection( $id=NULL, $gid, &$access, $pop, $option ) {
 	// Dynamic Page Title
 	$mainframe->SetPageTitle( $menu->name );
 
+	// Append Archives to pathway
+	$mainframe->appendPathWay( 'Archives', '');
+	
 	if ( !$archives ) {
 		// if no archives for category, hides search and outputs empty message
 		echo '<br /><div align="center">'. JText::_( 'CATEGORY_ARCHIVE_EMPTY' ) .'</div>';
@@ -773,6 +799,9 @@ function showArchiveCategory( $id=0, $gid, &$access, $pop, $option, $now ) {
 	// Page Title
 	$mainframe->SetPageTitle( $menu->name );
 
+	// Append Archives to pathway
+	$mainframe->appendPathWay( 'Archives', '');
+	
 	if ( !$archives ) {
 		// if no archives for category, hides search and outputs empty message
 		echo '<br /><div align="center">'. JText::_( 'CATEGORY_ARCHIVE_EMPTY' ) .'</div>';
@@ -1107,6 +1136,32 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 		if ($mosConfig_MetaAuthor=='1') {
 			$mainframe->addMetaTag( 'author' , $row->author );
 		}
+		
+		/*
+		 * Handle Pathway
+		 */
+		 
+		// We need the Itemid because we haven't eliminated it
+		$query = 	"SELECT a.id"
+		. "\n FROM #__menu AS a"
+		. "\n WHERE a.componentid = ". $row->sectionid;
+		$database->setQuery( $query );
+		$_Itemid = $database->loadResult();
+		
+		if (!empty($_Itemid)) {
+			// Section
+			if (!empty($row->section)) {
+				$mainframe->appendPathWay( $row->section, sefRelToAbs( 'index.php?option=com_content&amp;task=section&amp;id='. $row->sectionid .'&amp;Itemid='.$_Itemid ));
+			}
+			// Category
+			if (!empty($row->section)) {
+				$mainframe->appendPathWay( $row->category, sefRelToAbs( 'index.php?option=com_content&amp;task=category&amp;sectionid='. $row->sectionid .'&amp;id='. $row->catid .'&amp;Itemid='.$_Itemid ));
+			}
+		}
+		// Item
+		$mainframe->appendPathWay( $row->title, '');
+		
+		
 
 		show( $row, $params, $gid, $access, $pop, $option );
 	} else {

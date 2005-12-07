@@ -19,8 +19,16 @@ define('JPATH_BASE', dirname(__FILE__) );
 require_once ( 'includes/defines.php');
 require_once ( 'includes/administrator.php' );
 
+// initialise some common request directives
+$option 	= strtolower( mosGetParam( $_REQUEST, 'option', 'com_admin' ) );
+$task 		= mosGetParam( $_REQUEST, 'task', '' );
+$section 	= mosGetParam( $_REQUEST, 'section', '' );
+$no_html 	= strtolower( mosGetParam( $_REQUEST, 'no_html', 0 ) );
+$id         = intval( mosGetParam( $_REQUEST, 'id' ) );
+$cid		= mosGetParam( $_POST, 'cid', null );
+
 // create the mainframe object
-$mainframe =& new JAdministrator();
+$mainframe =& new JAdministrator($option);
 
 // load system bot group
 JBotLoader::importGroup( 'system' );
@@ -48,14 +56,6 @@ if (is_null(JSession::get('guest')) || JSession::get('guest')) {
 $mainframe->triggerEvent( 'onAfterStart' );
 
 $_PROFILER->mark( 'onAfterStart' );
-
-// initialise some common request directives
-$option 	= strtolower( mosGetParam( $_REQUEST, 'option', 'com_admin' ) );
-$task 		= mosGetParam( $_REQUEST, 'task', '' );
-$section 	= mosGetParam( $_REQUEST, 'section', '' );
-$no_html 	= strtolower( mosGetParam( $_REQUEST, 'no_html', 0 ) );
-$id         = intval( mosGetParam( $_REQUEST, 'id' ) );
-$cid		= mosGetParam( $_POST, 'cid', null );
 
 if ($option == 'logout') {
 	$mainframe->logout();

@@ -36,10 +36,12 @@ class JApplication extends JObject {
 	var $_template			= null;
 	/** @var array An array to hold global user state within a session */
 	var $_userstate			= null;
-	/** @var string Custom html string to append to the pathway */
-	var $_custom_pathway	= null;
+	/** @var object A JPathway object */
+	var $_pathway			= null;
 	/** @var boolean True if in the admin client */
 	var $_client 			= null;
+	/** @var string Name of the current component */
+	var $_option 			= null;
 	/** @var string A string holding the current active language */
 	var $_lang 			    = null;
 
@@ -47,28 +49,136 @@ class JApplication extends JObject {
 	* Class constructor
 	* @param database A database connection object
 	*/
-	function __construct( $client=0 ) {
+	function __construct( $option, $client=0 ) {
 
 		$this->_client 		    = $client;
+		$this->_option			= $option;
 
 		$this->_createTemplate( );
+		$this->_createPathWay( );
 	}
 		
 	/**
-	* @return string
-	*/
-	function getCustomPathWay() {
-		return $this->_custom_pathway;
+	 * Return a reference to the application pathway object
+	 * 
+	 * @access public
+	 * @return object Application JPathway object
+	 * @since 1.1
+	 */
+	function & getPathWay() {
+		return $this->_pathway;
 	}
 
-	function appendPathWay( $html ) {
-	$this->_custom_pathway[] = $html;
+	/**
+	 * Create and add an item to the application pathway.
+	 * 
+	 * @access public
+	 * @param string $name
+	 * @param string $link
+	 * @return boolean True on success
+	 * @since 1.1
+	 */
+	function appendPathWay( $name, $link = null ) {
+		
+		/*
+		 * To provide backward compatability if no second parameter is set
+		 * set it to null 
+		 */ 
+		if ($link == null) {
+			$link = '';
+		}
+		
+		// Add item to the pathway object
+		if ($this->_pathway->addItem($name, $link)) {
+			return true;
+		}
+		
+		return false;
   }
   
-  /**
-	* Gets the value of a user state variable
-	* @param string The name of the variable
-	*/
+ 	/**
+ 	 * Return an array of JPathway item names in order
+ 	 * Useful for things like SEF URLs moving forward perhaps
+ 	 * 
+ 	 * Note: Until the link parameter of the appendPathWay() method is made
+ 	 * 	mandatory using this method to get SEF URL information could be trouble
+ 	 * 	because older components might be passing HTML into the name parameter of 
+ 	 * 	appendPathWay() as the older version only took one parameter of HTML to add
+ 	 * 	to the _custom_pathway array
+ 	 * 
+ 	 * @access public
+ 	 * @return array Pathway names
+ 	 * @since 1.1
+ 	 */
+	function getPathWayNames() {
+		return $this->_pathway->getNamePathway();
+	}
+
+ 	/**
+	 * Set the display name for the active component
+	 * 
+	 * @access public
+	 * @param string $name Text to set component name to in pathway
+	 * @return boolean True on success
+	 * @since 1.1
+	 */
+	function setPathWayComponentName($name) {
+		return $this->_pathway->setItemName(1, $name);
+	}
+
+ 	/**
+ 	 * DEPRECATED
+ 	 * Use: getPathWayNames() method instead
+ 	 * 
+ 	 * @access public
+ 	 * @deprecated 1.0
+ 	 * @return array Pathway names
+ 	 */
+	function getCustomPathWay() {
+		return $this->_pathway->getNamePathway();
+	}
+
+ 	/**
+	 * Create a JPathway object and set the home/component items of the pathway
+	 * 
+	 * @access private
+	 * @return boolean True if successful
+	 * @since 1.1
+	 */
+	function _createPathWay() {
+		
+		jimport( 'joomla.classes.pathway' );
+		
+		// Create a JPathway object
+		$this->_pathway = new JPathway();
+
+		// If not on the frontpage, add the component item to the pathway
+		if (($this->_option == 'com_frontpage') || ($this->_option == '')) {
+
+			// Add the home item to the pathway only and it is not linked
+			$this->appendPathWay( 'Home', '' );
+		} else {
+
+			// Add the home item to the pathway
+			$this->appendPathWay( 'Home', 'index.php' );
+
+			// Get the actual component name
+			if (substr($this->_option, 0, 4) == 'com_') {
+				$comName = substr($this->_option, 4);
+			} else {
+				$comName = $this->_option;
+			}
+			
+			$this->appendPathWay( $comName, 'index.php?option='.$this->_option);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Gets the value of a user state variable
+	 * @param string The name of the variable
+	 */
 	function getUserState( $var_name ) {
 		if (is_array( $this->_userstate )) {
 			return mosGetParam( $this->_userstate, $var_name, null );
@@ -243,6 +353,18 @@ class JApplication extends JObject {
 		$session->destroy();
 
 		JSession::destroy();
+	}
+	
+	/**
+	 * Return the application option string [main component]
+	 * 
+	 * @access public
+	 * @return string Option
+	 * @since 1.1
+	 */
+	function getOption() {
+		
+		return $this->_option;
 	}
 	
 	function &getPage() {
@@ -511,7 +633,6 @@ class JApplication extends JObject {
 	function getTemplateURL() {
 		return $this->_templateURL;
 	}
-
 
 	/**
 	 * Tries to find a file in the administrator or site areas

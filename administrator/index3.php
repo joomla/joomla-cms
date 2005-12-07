@@ -19,8 +19,15 @@ define('JPATH_BASE', dirname(__FILE__) );
 require_once ( 'includes/defines.php');
 require_once(  'includes/administrator.php' );
 
+// initialise some common request directives
+$option     = strtolower( mosGetParam( $_REQUEST, 'option', 'com_admin' ) );
+$task		= mosGetParam( $_REQUEST, 'task', '' );
+$section	= mosGetParam( $_REQUEST, 'section', '' );
+$no_html	= strtolower( mosGetParam( $_REQUEST, 'no_html', '' ) );
+$mosmsg		= strip_tags( mosGetParam( $_REQUEST, 'mosmsg', '' ) );
+
 // create the mainframe object
-$mainframe =& new JAdministrator();
+$mainframe =& new JAdministrator($option);
 
 // load system bot group
 JBotLoader::importGroup( 'system' );

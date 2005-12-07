@@ -20,8 +20,11 @@ require_once ( 'includes/defines.php'  );
 require_once ( 'includes/joomla.php'   );
 require_once ( 'includes/template.php' );
 
+// retrieve some expected url (or form) arguments
+$option = strtolower( mosGetParam( $_REQUEST, 'option' ) );
+
 // create the mainframe object
-$mainframe =& new JSite();
+$mainframe =& new JSite($option);
 
 // load system bot group
 JBotLoader::importGroup( 'system' );

@@ -20,8 +20,11 @@ require_once ( 'includes/defines.php'  );
 require_once ( 'includes/joomla.php'   );
 require_once ( 'includes/template.php' );
 
+// retrieve some expected url (or form) arguments
+$option = trim( strtolower( mosGetParam( $_REQUEST, 'option' ) ) );
+
 // create the mainframe object
-$mainframe =& new JSite();
+$mainframe =& new JSite($option);
 
 //get the database object (for backwards compatibility)
 $database =& $mainframe->getDBO();
@@ -37,9 +40,6 @@ $acl =& JFactory::getACL();
 
 // create the session
 $mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
-
-// retrieve some expected url (or form) arguments
-$option = trim( strtolower( mosGetParam( $_REQUEST, 'option' ) ) );
 
 // frontend login & logout controls
 $return = mosGetParam( $_REQUEST, 'return', NULL );

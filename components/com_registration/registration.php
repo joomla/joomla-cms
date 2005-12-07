@@ -16,6 +16,8 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 require_once( $mainframe->getPath( 'front_html' ) );
 
+$mainframe->setPathWayComponentName('Registration');
+
 switch( $task ) {
 	case 'lostPassword':
 		lostPassForm( $option );

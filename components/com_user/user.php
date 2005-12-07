@@ -22,6 +22,8 @@ $access->canEditOwn = $acl->acl_check( 'action', 'edit', 'users', $my->usertype,
 
 require_once ( $mainframe->getPath( 'front_html' ) );
 
+$mainframe->setPathWayComponentName('User');
+
 switch( $task ) {
 	case 'saveUpload':
 		saveUpload( $mosConfig_dbprefix, $uid, $option, $userfile, $userfile_name, $type, $existingImage );
