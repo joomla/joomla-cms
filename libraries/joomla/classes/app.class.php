@@ -1069,12 +1069,10 @@ class JApplicationHelper
 	function getBlogSectionCount( ) {
 		global $database;
 
-		$query = "SELECT COUNT( m.id )"
-		."\n FROM #__content AS i"
-		."\n LEFT JOIN #__sections AS s ON i.sectionid = s.id"
-		."\n LEFT JOIN #__menu AS m ON m.componentid = s.id "
-		."\n WHERE m.type = 'content_blog_section'"
-		."\n AND m.published = 1"
+		$query = "SELECT COUNT( id )"
+		."\n FROM #__menu "
+		."\n WHERE type = 'content_blog_section'"
+		."\n AND published = 1"
 		;
 		$database->setQuery( $query );
 		$count = $database->loadResult();
@@ -1087,12 +1085,10 @@ class JApplicationHelper
 	function getBlogCategoryCount( ) {
 		global $database;
 
-		$query = "SELECT COUNT( m.id )"
-		. "\n FROM #__content AS i"
-		. "\n LEFT JOIN #__categories AS c ON i.catid = c.id"
-		. "\n LEFT JOIN #__menu AS m ON m.componentid = c.id "
-		. "\n WHERE m.type = 'content_blog_category'"
-		. "\n AND m.published = 1"
+		$query = "SELECT COUNT( id )"
+		."\n FROM #__menu "
+		. "\n WHERE type = 'content_blog_category'"
+		. "\n AND published = 1"
 		;
 		$database->setQuery( $query );
 		$count = $database->loadResult();

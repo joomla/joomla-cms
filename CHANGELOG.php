@@ -39,6 +39,7 @@ Legend:
  + Added locale metadata to language xml file (used in setLocale function)
  # Fixed artf2323 : overlib_hideform_mini.js parse error
  # Fixed artf2248 : Incorrect hits count on multipage articles
+ # Fixed artf2342 : getBlogCategoryCount
 
 06-Dec-2005 Alex Kempkens
  ^ Installer to detect languages in correct folders
