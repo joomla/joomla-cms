@@ -175,10 +175,6 @@ function savePoll( $option ) {
 	$options = mosGetParam( $_POST, 'polloption', array() );
 
 	foreach ($options as $i=>$text) {
-		// 'slash' the options
-		if (!get_magic_quotes_gpc()) {
-			$text = addslashes( $text );
-		}
 
 		if ($isNew) {
 			$query = "INSERT INTO #__poll_data"

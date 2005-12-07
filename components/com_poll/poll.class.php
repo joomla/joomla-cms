@@ -69,11 +69,6 @@ class mosPoll extends JModel {
 			return false;
 		}
 
-		// sanitise some data
-		if ( !get_magic_quotes_gpc() ) {
-			$this->title = addslashes( $this->title );
-		}
-
 		return true;
 	}
 

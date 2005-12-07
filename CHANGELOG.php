@@ -51,6 +51,7 @@ Legend:
  # Fixed artf1948 : Pagination problem still exists
  # Fixed artf2457 : VCard bug IS a bug
  # Fixed artf2453 : Random Image Module
+ # Fixed artf2251 : Poll title error
 
 05-Dec-2005 Johan Janssens
  ^ Moved ldap class to connectors directory
