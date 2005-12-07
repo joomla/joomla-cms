@@ -81,7 +81,10 @@ class JInstallation extends JApplication {
 	* @param integer A client id
 	*/
 	function __construct( ) {
-		parent::__construct(3);
+
+		$this->_client 		    = 3;
+
+		$this->_createTemplate( );
 	}
 }
 
