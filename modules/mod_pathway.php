@@ -23,7 +23,19 @@ $viewComponent = true;
 if ($mainframe->getOption() == 'com_content') {
 	$viewComponent = false;
 }
+
 // Print pathway in XHTML format
 echo $pathway->toXHTML(true, $viewComponent);
 
+/*
+ * Jinx, this is the patT version
+
+//$pathway->addItem( 'Test1', '' );
+//$pathway->addItem( 'Test2', 'dfdf' );
+
+$tmpl = &JFactory::getPatTemplate( array( 'pathway.html' ) );
+$tmpl->addVar( 'pathway-items', 'separator', $pathway->_separator );  // $pathway->getSeparator() would be good
+$tmpl->addObject( 'pathway-items', $pathway->_pathway ); // $pathway->getPathway() would be good here
+$tmpl->displayParsedTemplate( 'pathway' );
+*/
 ?>

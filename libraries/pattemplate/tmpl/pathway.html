@@ -1,0 +1,30 @@
+<jos:comment>
+@version $Id: page.html 85 2005-09-15 23:12:03Z eddieajau $
+@package Joomla
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+Joomla! is free software. This version may have been modified pursuant
+to the GNU General Public License, and as distributed it includes or
+is derivative of works licensed under the GNU General Public License or
+other free or open source software licenses.
+See COPYRIGHT.php for copyright notices and details.
+</jos:comment>
+
+<jos:tmpl name="pathway">
+	<span class="pathway">
+	<jos:tmpl name="pathway-items" autoclear="true" addsystemvars="integer">
+		<jos:tmpl type="simplecondition" requiredvars="pathway-items.pat_is_first=0" varscope="pathway-items">
+			{SEPARATOR}
+		</jos:tmpl>
+		<jos:tmpl type="condition" conditionvar="link" varscope="pathway-items">
+			<jos:sub condition="__empty">
+				{NAME}
+			</jos:sub>
+			<jos:sub condition="__default">
+				<a href="{LINK}">
+					{NAME}</a>
+			</jos:sub>
+		</jos:tmpl>
+	</jos:tmpl>
+	</span>
+</jos:tmpl>
