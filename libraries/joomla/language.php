@@ -102,8 +102,10 @@ class JLanguage extends JObject
 		$this->_metadata = $this->getMetadata($this->_userLang);
 
 		//set locale based on the language tag
-		setlocale(LC_TIME, $this->getLocale());
-
+		//TODO : add function to display locale setting in configuration
+		$locale = setlocale(LC_TIME, $this->getLocale());
+		//echo $locale;
+		
 		//load common language files
 		$this->load();
 	}
@@ -240,11 +242,11 @@ class JLanguage extends JObject
 		for($i = 0; $i < count($locales); $i++ ) {
 			$locale = $locales[$i];
 			$locale = trim($locale);
-			$locale = "'$locale'";
 			$locales[$i] = $locale;
 		}
 
-		return implode(',', $locales);
+		//return implode(',', $locales);
+		return $locales;
 	}
 
 	/**
