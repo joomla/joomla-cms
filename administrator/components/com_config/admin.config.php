@@ -300,7 +300,7 @@ function saveconfig( $task ) {
 	$config .= $row->getVarText();
 	$config .= "?>";
 
-	$fname = JPATH_CONFIG . '/configuration.php';
+	$fname = JPATH_CONFIGURATION . '/configuration.php';
 
 	$enable_write 	= mosGetParam($_POST,'enable_write',0);
 	$oldperms 		= fileperms($fname);

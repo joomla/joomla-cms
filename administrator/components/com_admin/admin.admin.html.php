@@ -257,7 +257,7 @@ class HTML_admin_misc {
 				</td>
 				<td>
 				<?php
-				$cf = file( JPATH_CONFIG . '/configuration.php' );
+				$cf = file( JPATH_CONFIGURATION . '/configuration.php' );
 				foreach ($cf as $k=>$v) {
 					if (eregi( 'mosConfig_host', $v)) {
 						$cf[$k] = '$mosConfig_host = \'xxxxxx\'';

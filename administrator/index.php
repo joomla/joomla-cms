@@ -38,7 +38,7 @@ $mainframe->triggerEvent( 'onBeforeStart' );
 $acl =& JFactory::getACL();
 
 //create the session
-$mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
+$mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->_client );
 
 // trigger the onAfterStart events
 $mainframe->triggerEvent( 'onAfterStart' );

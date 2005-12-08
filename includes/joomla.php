@@ -63,7 +63,6 @@ jimport( 'phpinputfilter.inputfilter' );
 jimport( 'joomla.database.' . $mosConfig_dbtype );
 jimport( 'joomla.version' );
 jimport( 'joomla.functions' );
-jimport( 'joomla.classes' );
 jimport( 'joomla.classes.app');
 jimport( 'joomla.classes.profiler');
 jimport( 'joomla.classes.session' );

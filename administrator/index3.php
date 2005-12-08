@@ -42,7 +42,7 @@ $mainframe->triggerEvent( 'onBeforeStart' );
 $acl =& JFactory::getACL();
 
 // create the session
-$mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
+$mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->_client );
 
 if (is_null(JSession::get('guest')) || JSession::get('guest')) {
 	mosRedirect( 'index.php');

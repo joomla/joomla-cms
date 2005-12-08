@@ -39,7 +39,7 @@ $mainframe->triggerEvent( 'onBeforeStart' );
 $acl =& JFactory::getACL();
 
 // create the session
-$mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
+$mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->_client );
 
 // frontend login & logout controls
 $return = mosGetParam( $_REQUEST, 'return', NULL );

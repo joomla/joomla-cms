@@ -39,7 +39,7 @@ $mainframe->triggerEvent( 'onBeforeStart' );
 $acl =& JFactory::getACL();
 
 // create session
-$mainframe->_createSession( $mainframe->getCfg('live_site').$mainframe->_client );
+$mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->_client );
 
 // get the information about the current user from the sessions table
 $my = $mainframe->getUser();

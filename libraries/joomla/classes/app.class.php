@@ -274,6 +274,16 @@ class JApplication extends JObject {
 	}
 	
 	/**
+	 * Set the user session
+	 *
+	 * @access public
+	 * @param string	The sessions name
+	 */
+	function setSession($name) {
+		$this->_createSession($name);
+	}
+	
+	/**
 	 * Return a reference to the JPathway object
 	 *
 	 * @access public
@@ -467,12 +477,12 @@ class JApplication extends JObject {
 	}
 
 	/**
-	 * Set the user session
+	 * Create the user session
 	 *
 	 * Old sessions are flushed based on the configuration value for the cookie
 	 * lifetime. If an existing session, then the last access time is updated.
 	 * If a new session, a session id is generated and a record is created in
-	 * the mos_sessions table.
+	 * the #__sessions table.
 	 *
 	 * @access private
 	 * @param string	The sessions name

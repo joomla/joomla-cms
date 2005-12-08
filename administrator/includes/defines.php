@@ -27,11 +27,8 @@ array_pop( $parts );
 define( 'JPATH_ROOT'         , implode( '/', $parts ) );
 
 define( 'JPATH_SITE'         , JPATH_ROOT );
+define( 'JPATH_CONFIGURATION', JPATH_ROOT );
 define( 'JPATH_ADMINISTRATOR', JPATH_ROOT . DS . 'administrator' );
 define( 'JPATH_LIBRARIES'    , JPATH_ROOT . DS . 'libraries' );
 define( 'JPATH_INSTALLATION' , JPATH_ROOT . DS . 'installation' );
-
-if (!defined( 'JPATH_CONFIG' )) {
-	define( 'JPATH_CONFIG' , JPATH_ROOT );
-}
 ?>
