@@ -16,7 +16,9 @@ jimport( 'joomla.classes.object' );
 
 /**
 * Base class for a Joomla! application
-* Provide many supporting API functions
+* 
+* Acts as a Factory class for application specific objects and
+* provides many supporting API functions.
 *
 * @package Joomla
 * @subpackage JFramework
@@ -47,7 +49,9 @@ class JApplication extends JObject {
 
 	/**
 	* Class constructor
-	* @param database A database connection object
+	* 
+	* @param string 	The URL option passed in
+	* @param integer	A client identifier
 	*/
 	function __construct( $option, $client=0 ) {
 
@@ -59,124 +63,8 @@ class JApplication extends JObject {
 	}
 
 	/**
-	 * Return a reference to the application pathway object
-	 *
-	 * @access public
-	 * @return object Application JPathway object
-	 * @since 1.1
-	 */
-	function & getPathWay() {
-		return $this->_pathway;
-	}
-
-	/**
-	 * Create and add an item to the application pathway.
-	 *
-	 * @access public
-	 * @param string $name
-	 * @param string $link
-	 * @return boolean True on success
-	 * @since 1.1
-	 */
-	function appendPathWay( $name, $link = null ) {
-
-		/*
-		 * To provide backward compatability if no second parameter is set
-		 * set it to null
-		 */
-		if ($link == null) {
-			$link = '';
-		}
-
-		// Add item to the pathway object
-		if ($this->_pathway->addItem($name, $link)) {
-			return true;
-		}
-
-		return false;
-  }
-
- 	/**
- 	 * Return an array of JPathway item names in order
- 	 * Useful for things like SEF URLs moving forward perhaps
- 	 *
- 	 * Note: Until the link parameter of the appendPathWay() method is made
- 	 * 	mandatory using this method to get SEF URL information could be trouble
- 	 * 	because older components might be passing HTML into the name parameter of
- 	 * 	appendPathWay() as the older version only took one parameter of HTML to add
- 	 * 	to the _custom_pathway array
- 	 *
- 	 * @access public
- 	 * @return array Pathway names
- 	 * @since 1.1
- 	 */
-	function getPathWayNames() {
-		return $this->_pathway->getNamePathway();
-	}
-
- 	/**
-	 * Set the display name for the active component
-	 *
-	 * @access public
-	 * @param string $name Text to set component name to in pathway
-	 * @return boolean True on success
-	 * @since 1.1
-	 */
-	function setPathWayComponentName($name) {
-		return $this->_pathway->setItemName(1, $name);
-	}
-
- 	/**
- 	 * DEPRECATED
- 	 * Use: getPathWayNames() method instead
- 	 *
- 	 * @access public
- 	 * @deprecated 1.0
- 	 * @return array Pathway names
- 	 */
-	function getCustomPathWay() {
-		return $this->_pathway->getNamePathway();
-	}
-
- 	/**
-	 * Create a JPathway object and set the home/component items of the pathway
-	 *
-	 * @access private
-	 * @return boolean True if successful
-	 * @since 1.1
-	 */
-	function _createPathWay() {
-
-		jimport( 'joomla.classes.pathway' );
-
-		// Create a JPathway object
-		$this->_pathway = new JPathway();
-
-		// If not on the frontpage, add the component item to the pathway
-		if (($this->_option == 'com_frontpage') || ($this->_option == '')) {
-
-			// Add the home item to the pathway only and it is not linked
-			$this->appendPathWay( 'Home', '' );
-		} else {
-
-			// Add the home item to the pathway
-			$this->appendPathWay( 'Home', 'index.php' );
-
-			// Get the actual component name
-			if (substr($this->_option, 0, 4) == 'com_') {
-				$comName = substr($this->_option, 4);
-			} else {
-				$comName = $this->_option;
-			}
-
-			$this->appendPathWay( $comName, 'index.php?option='.$this->_option);
-		}
-
-		return true;
-	}
-
-	/**
 	 * Gets the value of a user state variable
+	 * 
 	 * @param string The name of the variable
 	 */
 	function getUserState( $var_name ) {
@@ -188,6 +76,7 @@ class JApplication extends JObject {
 	}
 	/**
 	* Gets the value of a user state variable
+	* 
 	* @param string The name of the user state variable
 	* @param string The name of the variable passed in a request
 	* @param string The default value for the variable if not found
@@ -206,6 +95,7 @@ class JApplication extends JObject {
 	}
 	/**
 	* Sets the value of a user state variable
+	* 
 	* @param string The name of the variable
 	* @param string The value of the variable
 	*/
@@ -217,6 +107,7 @@ class JApplication extends JObject {
 
 	/**
 	* Registers a function to a particular event group
+	* 
 	* @param string The event name
 	* @param string The function name
 	* @since 1.1
@@ -230,6 +121,7 @@ class JApplication extends JObject {
 
 	/**
 	* Calls all functions associated with an event group
+	* 
 	* @param string The event name
 	* @param array An array of arguments
 	* @return array An array of results from each function call
@@ -241,7 +133,7 @@ class JApplication extends JObject {
 	}
 
 	/**
-	* Login validation function
+	* Login authentication function
 	*
 	* Username and encoded password are passed the the onLoginUser event who
 	* is responsible for the user validation.
@@ -330,7 +222,7 @@ class JApplication extends JObject {
 	}
 
 	/**
-	* User logout
+	* Logout authentication function
 	*
 	* Passed the current user information to the onLogoutUser event and reverts the current
 	* session record back to 'anonymous' parameters
@@ -363,10 +255,41 @@ class JApplication extends JObject {
 	 * @since 1.1
 	 */
 	function getOption() {
-
 		return $this->_option;
 	}
+	
+	/**
+	 * Get a configuration variable
+	 * 
+	 * @param string 	The name of the variable (from configuration.php)
+	 * @return mixed 	The value of the configuration variable or null if not found
+	 */
+	function getCfg( $varname ) {
+		$varname = 'mosConfig_' . $varname;
+		if (isset( $GLOBALS[$varname] )) {
+			return $GLOBALS[$varname];
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Return a reference to the JPathway object
+	 *
+	 * @access public
+	 * @return jpathway 	JPathway object
+	 * @since 1.1
+	 */
+	function &getPathWay() {
+		return $this->_pathway;
+	}
 
+	/**
+	 * Return a reference to the JPage object
+	 * 
+	 * @access public
+	 * @since 1.1
+	 */
 	function &getPage() {
 
 		$attributes = array (
@@ -378,10 +301,62 @@ class JApplication extends JObject {
 		jimport('joomla.classes.page');
 		return JPage::getInstance($attributes);
 	}
+	
+	/**
+	 * Return a reference to a JDatabase instance
+	 * 
+	 * @access public
+	 * @param string $host 		Database host
+	 * @param string $user 		Database user name
+	 * @param string $password 	Database user password
+	 * @param string $db  		Database name
+	 * @param string $dbprefix	Common prefix for all tables
+	 * @param string $dbtype	Database type
+	 * @param string $debug		True if database needs to be set in debug mode
+	 * @return jdatabase A JDatabase object
+	 * @since 1.1
+	 */
+	function &getDBO($host = null, $user = null , $password = null, $db = null , $dbprefix = null,  $dbtype = null, $debug = null)
+	{
+		$host 		= is_null($host) 	? $this->getCfg('host')    : $host;
+		$user 		= is_null($user) 	? $this->getCfg('user')    : $user;
+		$password 	= is_null($password)? $this->getCfg('password'): $password;
+		$db   		= is_null($db) 		? $this->getCfg('db') 	   : $db;
+		$dbprefix 	= is_null($dbprefix)? $this->getCfg('dbprefix'): $dbprefix;
+		$dbtype 	= is_null($dbtype) 	? $this->getCfg('dbtype')  : $dbtype;
+		$debug 		= is_null($debug) 	? $this->getCfg('debug')   : $debug;
+
+		jimport('joomla.database.database');
+
+		/** @global $database */
+		$database =& JDatabase::getInstance( $dbtype, $host, $user, $password, $db, $dbprefix );
+
+		//TODO : error checking needs to happen outside getDBO call
+		//if ($database->getErrorNum()) {
+		//	$mosSystemError = $database->getErrorNum();
+		//	include JPATH_ROOT . '/configuration.php';
+		//	include JPATH_ROOT . '/error.php';
+		//	exit();
+		//}
+		$database->debug( $debug );
+		return $database;
+	}
 
 	/**
-	* @return mosUser A user object with the information from the current session
-	*/
+	 * Return a reference to the JBrowser object
+	 * 
+	 * @return jbrowser A JBrowser object holding the browser information
+	 */
+	function &getBrowser(){
+		jimport('joomla.classes.browser');
+		return JBrowser::getInstance();
+	}
+
+	/**
+	 * Returns a reference to the JUser object
+	 * 
+	 * @return mosUser A user object with the information from the current session
+	 */
 	//TODO : implement signleton
 	function &getUser() {
 
@@ -396,9 +371,9 @@ class JApplication extends JObject {
 	}
 
 	/**
-	* Return an instance of the JLanguage class
+	* Return a reference to the JLanguage object
 	*
-	* @return JLanguage
+	* @return jlanguage 	A JLanguage object 
 	* @since 1.1
 	*/
 	function &getLanguage( ) {
@@ -414,8 +389,9 @@ class JApplication extends JObject {
 	}
 
 	/**
-	 * Set language
+	 * Create the language
 	 *
+	 * @access private
 	 * @param string 	The language name
 	 * @since 1.1
 	 */
@@ -452,69 +428,53 @@ class JApplication extends JObject {
 
 		$this->_lang = $strLang;
 	}
-
+	
 	/**
-	 * Creates a database object
-	 * @return object
+	 * Create a JPathway object and set the home/component items of the pathway
+	 *
+	 * @access private
+	 * @return boolean True if successful
 	 * @since 1.1
 	 */
-	function &getDBO($host = null, $user = null , $password = null, $db = null , $dbprefix = null,  $dbtype = null, $debug = null)
-	{
-		$host 		= is_null($host) 	? $this->getCfg('host')    : $host;
-		$user 		= is_null($user) 	? $this->getCfg('user')    : $user;
-		$password 	= is_null($password)? $this->getCfg('password'): $password;
-		$db   		= is_null($db) 		? $this->getCfg('db') 	   : $db;
-		$dbprefix 	= is_null($dbprefix)? $this->getCfg('dbprefix'): $dbprefix;
-		$dbtype 	= is_null($dbtype) 	? $this->getCfg('dbtype')  : $dbtype;
-		$debug 		= is_null($debug) 	? $this->getCfg('debug')   : $debug;
+	function _createPathWay() {
 
-		jimport('joomla.database.database');
+		jimport( 'joomla.classes.pathway' );
 
-		/** @global $database */
-		$database =& JDatabase::getInstance( $dbtype, $host, $user, $password, $db, $dbprefix );
+		// Create a JPathway object
+		$this->_pathway = new JPathway();
 
-		//TODO : error checking needs to happen outside getDBO call
-		//if ($database->getErrorNum()) {
-		//	$mosSystemError = $database->getErrorNum();
-		//	include JPATH_ROOT . '/configuration.php';
-		//	include JPATH_ROOT . '/error.php';
-		//	exit();
-		//}
-		$database->debug( $debug );
-		return $database;
-	}
+		// If not on the frontpage, add the component item to the pathway
+		if (($this->_option == 'com_frontpage') || ($this->_option == '')) {
 
-
-
-	/**
-	* @return JBrowser A browser object holding the browser information
-	*/
-	function &getBrowser(){
-		jimport('joomla.classes.browser');
-		return JBrowser::getInstance();
-	}
-
-	/**
-	 * @param string The name of the variable (from configuration.php)
-	 * @return mixed The value of the configuration variable or null if not found
-	 */
-	function getCfg( $varname ) {
-		$varname = 'mosConfig_' . $varname;
-		if (isset( $GLOBALS[$varname] )) {
-			return $GLOBALS[$varname];
+			// Add the home item to the pathway only and it is not linked
+			$this->_pathway->addItem( 'Home', '' );
 		} else {
-			return null;
+
+			// Add the home item to the pathway
+			$this->_pathway->addItem( 'Home', 'index.php' );
+
+			// Get the actual component name
+			if (substr($this->_option, 0, 4) == 'com_') {
+				$comName = substr($this->_option, 4);
+			} else {
+				$comName = $this->_option;
+			}
+
+			$this->_pathway->addItem( $comName, 'index.php?option='.$this->_option);
 		}
+
+		return true;
 	}
 
 	/**
-	 * Setthe user session
+	 * Set the user session
 	 *
 	 * Old sessions are flushed based on the configuration value for the cookie
 	 * lifetime. If an existing session, then the last access time is updated.
 	 * If a new session, a session id is generated and a record is created in
 	 * the mos_sessions table.
 	 *
+	 * @access private
 	 * @param string	The sessions name
 	 * @param boolean 	Use cookies to store the session on the client
 	 */
@@ -845,6 +805,37 @@ class JApplication extends JObject {
 	/**
 	 * Depreceated functions
 	 */
+	 
+	 /**
+	 * Depreceated, use JPathway->getPathWayNames() method instead
+	 * @since 1.1
+	 */
+	function appendPathWay( $name, $link = null ) {
+
+		/*
+		 * To provide backward compatability if no second parameter is set
+		 * set it to null
+		 */
+		if ($link == null) {
+			$link = '';
+		}
+
+		// Add item to the pathway object
+		if ($this->_pathway->addItem($name, $link)) {
+			return true;
+		}
+
+		return false;
+  }
+	 
+	 /**
+ 	 * Depreceated, use JPathway->getPathWayNames() method instead
+ 	 * @since 1.1
+ 	 */
+	function getCustomPathWay() {
+		return $this->_pathway->getNamePathway();
+	}
+	 
 	 /**
 	* Depreacted, use JPage->renderHead instead
 	* @since 1.1
