@@ -17,15 +17,14 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 $mainframe->registerEvent( 'onSearch', 'botSearchCategories' );
 $mainframe->registerEvent( 'onSearchAreas', 'botSearchCategoryAreas' );
 
-$GLOBALS['_SEARCH_CATEGORY_AREAS'] = array(
-	'categories' => 'Categories'
-);
-
 /**
-* @return array An array of search areas
-*/
+ * @return array An array of search areas
+ */
 function &botSearchCategoryAreas() {
-	return $GLOBALS['_SEARCH_CATEGORY_AREAS'];
+	static $areas = array(
+		'categories' => 'Categories'
+	);
+	return $areas;
 }
 
 /**
@@ -37,13 +36,13 @@ function &botSearchCategoryAreas() {
  * @param string Target search string
  * @param string mathcing option, exact|any|all
  * @param string ordering option, newest|oldest|popular|alpha|category
- * @param mixed An array if the search it to be restricted to areas, null if search all
+ * @param mixed An array if restricted to areas, null if search all
  */
 function botSearchCategories( $text, $phrase='', $ordering='', $areas=null ) {
 	global $database, $my;
 
-	if ( is_array( $areas ) ) {
-		if ( !array_intersect( $areas, array_keys( $GLOBALS['_SEARCH_CATEGORY_AREAS'] ) ) ) {
+	if (is_array( $areas )) {
+		if (!array_intersect( $areas, array_keys( botSearchCategoryAreas() ) )) {
 			return array();
 		}
 	}

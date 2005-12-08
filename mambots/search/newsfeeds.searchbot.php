@@ -15,6 +15,17 @@
 defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 $mainframe->registerEvent( 'onSearch', 'botSearchNewsfeedslinks' );
+$mainframe->registerEvent( 'onSearchAreas', 'botSearchNewfeedAreas' );
+
+/**
+ * @return array An array of search areas
+ */
+function &botSearchNewfeedAreas() {
+	static $areas = array(
+		'newsfeeds' => 'Newsfeeds'
+	);
+	return $areas;
+}
 
 /**
 * Contacts Search method
@@ -24,9 +35,16 @@ $mainframe->registerEvent( 'onSearch', 'botSearchNewsfeedslinks' );
 * @param string Target search string
 * @param string mathcing option, exact|any|all
 * @param string ordering option, newest|oldest|popular|alpha|category
+ * @param mixed An array if the search it to be restricted to areas, null if search all
 */
-function botSearchNewsfeedslinks( $text, $phrase='', $ordering='' ) {
+function botSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null ) {
 	global $database, $my;
+
+	if (is_array( $areas )) {
+		if (!array_intersect( $areas, array_keys( botSearchCategoryAreas() ) )) {
+			return array();
+		}
+	}
 
 	// load mambot params info
 	$query = "SELECT id"

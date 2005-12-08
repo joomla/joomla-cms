@@ -17,15 +17,14 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 $mainframe->registerEvent( 'onSearch', 'botSearchContent' );
 $mainframe->registerEvent( 'onSearchAreas', 'botSearchContentAreas' );
 
-$GLOBALS['_SEARCH_CONTENT_AREAS'] = array(
-	'content' => 'Content'
-);
-
 /**
  * @return array An array of search areas
  */
 function &botSearchContentAreas() {
-	return $GLOBALS['_SEARCH_CONTENT_AREAS'];
+	static $areas = array(
+		'content' => 'Content'
+	);
+	return $areas;
 }
 
 /**
@@ -41,8 +40,8 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null ) {
 	global $my, $database;
 	global $mosConfig_offset;
 
-	if ( is_array( $areas ) ) {
-		if ( !array_intersect( $areas, array_keys( $GLOBALS['_SEARCH_CONTENT_AREAS'] ) ) ) {
+	if (is_array( $areas )) {
+		if (!array_intersect( $areas, array_keys( botSearchContentAreas() ) )) {
 			return array();
 		}
 	}

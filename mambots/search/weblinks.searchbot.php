@@ -17,15 +17,14 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 $mainframe->registerEvent( 'onSearch', 'botSearchWeblinks' );
 $mainframe->registerEvent( 'onSearchAreas', 'botSearchWeblinksAreas' );
 
-$GLOBALS['_SEARCH_WEBLINKS_AREAS'] = array(
-	'weblinks' => 'Weblinks'
-);
-
 /**
  * @return array An array of search areas
  */
 function &botSearchWeblinksAreas() {
-	return $GLOBALS['_SEARCH_WEBLINKS_AREAS'];
+	static $areas = array(
+		'weblinks' => 'Weblinks'
+	);
+	return $areas;
 }
 
 /**
@@ -41,8 +40,8 @@ function &botSearchWeblinksAreas() {
 function botSearchWeblinks( $text, $phrase='', $ordering='', $areas=null ) {
 	global $database, $my;
 
-	if ( is_array( $areas ) ) {
-		if ( !array_intersect( $areas, array_keys( $GLOBALS['_SEARCH_WEBLINKS_AREAS'] ) ) ) {
+	if (is_array( $areas )) {
+		if (!array_intersect( $areas, array_keys( botSearchWeblinksAreas() ) )) {
 			return array();
 		}
 	}
