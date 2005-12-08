@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: joomla.xml.php 618 2005-10-24 00:21:08Z Jinx $
+ * @version $Id$
  * @package Joomla
  * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -116,8 +116,9 @@ class JTree {
 	 * @param int The number of items to have in the returned array
 	 * @return array
 	 */
-	function process( $limitstart=0, $limit=0 ) {
-		$list = $this->_recurse();
+	function toArray( $type=0, $limitstart=0, $limit=0 ) {
+		$this->setIndentType( $type );
+		$list = $this->_toArray();
 
 		if ($limitstart > 0 && $limit > 0) {
 			$list = array_slice( $list, $limitstart, $limit );
@@ -129,7 +130,7 @@ class JTree {
 	/**
 	 * @return array
 	 */
-	function _recurse( $id=0, $indent='', $list=array(), $level=0 ) {
+	function _toArray( $id=0, $indent='', $list=array(), $level=0 ) {
 		$idName = $this->idName;
 		$parentName = $this->parentName;
 		$textName = $this->textName;
@@ -148,7 +149,7 @@ class JTree {
 				$list[$id]->treename = $indent . $text;
 				$list[$id]->treelevel = $level;
 				$list[$id]->children = count( @$this->_children[$id] );
-				$list = $this->_recurse( $id, $indent . $this->_spacer, $list, $level+1 );
+				$list = $this->_toArray( $id, $indent . $this->_spacer, $list, $level+1 );
 			}
 		}
 		return $list;
@@ -184,7 +185,7 @@ class JTree {
 				$tmpl->clearTemplate( 'tree-item' );
 				$tmpl->addObject( 'tree-item', $v );
 				$html .= $tmpl->getParsedTemplate( 'tree-item' );
-				$html .= $this->_render( $tmpl, $id, $level+1 );
+				$html .= $this->_toUL( $tmpl, $id, $level+1 );
 			}
 			$html .= $tmpl->getParsedTemplate( 'tree-close' );
 		}
