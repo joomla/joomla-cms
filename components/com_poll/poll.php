@@ -18,7 +18,8 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 require_once( $mainframe->getPath( 'front_html' ) );
 require_once( $mainframe->getPath( 'class' ) );
 
-$mainframe->setPathWayComponentName('Polls');
+$pathway = $mainframe->getPathway();
+$pathway->setItemName(1, 'Polls');
 
 $tabclass 			= 'sectiontableentry2,sectiontableentry1';
 $polls_graphwidth 	= 200;

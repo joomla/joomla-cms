@@ -20,7 +20,9 @@ require_once( $mainframe->getPath( 'front_html' ) );
 require_once( $mainframe->getPath( 'class' ) );
 
 $mainframe->setPageTitle( _CONTACT_TITLE );
-$mainframe->setPathWayComponentName('Contact');
+
+$pathway = $mainframe->getPathway();
+$pathway->setItemName(1, 'Contact');
 
 //Load Vars
 $op			= mosGetParam( $_REQUEST, 'op' );

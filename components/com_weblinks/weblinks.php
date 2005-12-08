@@ -18,9 +18,11 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 /** load the html drawing class */
 require_once( $mainframe->getPath( 'front_html' ) );
 require_once( $mainframe->getPath( 'class' ) );
-$mainframe->setPageTitle( JText::_( 'Web Links' ) );
-$mainframe->setPathWayComponentName('Web Links');
 
+$mainframe->setPageTitle( JText::_( 'Web Links' ) );
+
+$pathway = $mainframe->getPathway();
+$pathway->setItemName(1, 'Web Links');
 
 $id 	= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
 $catid 	= intval( mosGetParam( $_REQUEST, 'catid', 0 ) );

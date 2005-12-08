@@ -17,7 +17,8 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 require_once( $mainframe->getPath( 'front_html' ) );
 
-$mainframe->setPathWayComponentName('Search');
+$pathway = $mainframe->getPathway();
+$pathway->setItemName(1, 'Search');
 
 switch ( $task ) {
 	default:

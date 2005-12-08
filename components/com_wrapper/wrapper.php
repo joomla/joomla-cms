@@ -18,7 +18,8 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 /** load the html drawing class */
 require_once( $mainframe->getPath( 'front_html' ) );
 
-$mainframe->setPathWayComponentName('Wrapper');
+$pathway = $mainframe->getPathway();
+$pathway->setItemName(1, 'Wrapper');
 
 showWrap( $option );
 
