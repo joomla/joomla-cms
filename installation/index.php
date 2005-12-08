@@ -51,8 +51,12 @@ switch ($task) {
 
 	case 'makedb':
 		if (installationTasks::makeDB()) {
-			installationTasks::mainConfig( 1 );
+			installationTasks::ftpConfig( 1 );
 		}
+		break;
+
+	case 'ftpconfig':
+		installationTasks::ftpConfig();
 		break;
 
 	case 'mainconfig':

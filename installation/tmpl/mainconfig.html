@@ -56,7 +56,7 @@
 
 
 	    <div class="clr"></div>
-		<h2><jos:translate key="confTitle">Confirm the site URL, path, admin e-mail and file/directory chmods</jos:translate></h2>
+		<h2><jos:translate key="confTitle">Confirm the site URL, path, admin e-mail and FTP root path</jos:translate></h2>
 		<div class="install-text">
 			<jos:translate key="tipConfSteps">
 			<p>If URL and Path looks correct then please do not change.
@@ -66,10 +66,9 @@
 		   Enter your e-mail address, this will be the e-mail address of the site
 		   SuperAdministrator.<br />
 		   <br/>
-			The permission settings will be used while installing Joomla! itself, by
-			the Joomla! addon-installers and by the media manager. If you are unsure
-			what flags shall be set, leave the default settings at the moment.
-			You can still change these flags later in the site global configuration.</p>
+			The Joomla! installer has attempted to automatically locate the root path for 
+			the given FTP account.  Make sure this is the correct path before you continue 
+			the installation process.</p>
 			</jos:translate>
 		</div>
 		<div class="install-form">
@@ -107,262 +106,18 @@
 				  	<input class="inputbox" type="text" name="vars[adminPassword]" value="{VAR_ADMINPASSWORD}" size="30"/>
 				  </td>
 			  </tr>
-			  <tr>
+				<tr>
 				  <td colspan="2">
-						<fieldset>
-							<legend>
-								<jos:translate>File Permissions</jos:translate>
-							</legend>
-
-							<table cellpadding="1" cellspacing="1" border="0">
-				 		<tr>
-								<td>
-									<input type="radio" id="filePermsMode0" name="vars[filePermsMode]" value="0" onclick="changeFilePermsMode(0)" />
-								</td>
-								<td>
-									<label for="filePermsMode0">
-										<jos:translate key="noChmodFiles">Don't CHMOD files (use server defaults)</jos:translate>
-									</label>
-								</td>
-							</tr>
-							<tr>
-							<td>
-								<input type="radio" id="filePermsMode1" name="vars[filePermsMode]" value="1" onclick="changeFilePermsMode(1)" />
-							</td>
-
-								<td>
-									<label for="filePermsMode1">
-										<jos:translate>CHMOD files to</jos:translate>:
-									</label>
-								</td>
-							</tr>
-							<tr id="filePermsFlags">
-								<td>
-									&nbsp;
-								</td>
-								<td>
-							  <table cellpadding="1" cellspacing="0" border="0">
-							  <tr>
-								 <td>
-								 	<jos:translate>User</jos:translate>:
-								 </td>
-								 <td>
-								 	<input type="checkbox" id="filePermsUserRead" name="vars[filePermsUserRead]" value="1"{VAR_PERM_FUR} />
-								 </td>
-								 <td>
-								 	<label for="filePermsUserRead">
-								 		<jos:translate>read</jos:translate>
-								 	</label>
-								 </td>
-								 <td>
-								 	<input type="checkbox" id="filePermsUserWrite" name="vars[filePermsUserWrite]" value="1"{VAR_PERM_FUW} />
-								 </td>
-								 <td>
-								 	<label for="filePermsUserWrite">
-								 		<jos:translate>write</jos:translate>
-								 	</label>
-								 </td>
-								 <td>
-								 	<input type="checkbox" id="filePermsUserExecute" name="vars[filePermsUserExecute]" value="1"{VAR_PERM_FUE} />
-								 </td>
-								 <td width="100%">
-								 	<label for="filePermsUserExecute">
-								 		<jos:translate>execute</jos:translate>
-								 	</label>
-								 </td>
-							  </tr>
-							  <tr>
-								 <td>
-								 	<jos:translate>Group</jos:translate>:
-								 </td>
-								 <td>
-								 	<input type="checkbox" id="filePermsGroupRead" name="vars[filePermsGroupRead]" value="1"{VAR_PERM_FGR} />
-								 </td>
-								 <td>
-								 	<label for="filePermsGroupRead">
-								 		<jos:translate>read</jos:translate>
-								 	</label>
-								 </td>
-								 <td>
-								 	<input type="checkbox" id="filePermsGroupWrite" name="vars[filePermsGroupWrite]" value="1"{VAR_PERM_FGW} />
-								 </td>
-								 <td>
-								 	<label for="filePermsGroupWrite">
-								 		<jos:translate>write</jos:translate>
-								 	</label>
-								 </td>
-								 <td>
-								 	<input type="checkbox" id="filePermsGroupExecute" name="vars[filePermsGroupExecute]" value="1"{VAR_PERM_FGE} />
-								 </td>
-								 <td width="100%">
-								 	<label for="filePermsGroupExecute">
-								 		<jos:translate>execute</jos:translate>
-								 	</label>
-								 </td>
-							  </tr>
-							  <tr>
-								 <td>
-								 	<jos:translate>World</jos:translate>:
-								 </td>
-								 <td>
-								 	<input type="checkbox" id="filePermsWorldRead" name="vars[filePermsWorldRead]" value="1"{VAR_PERM_FWR} />
-								 </td>
-								 <td>
-								 	<label for="filePermsWorldRead">
-								 		<jos:translate>read</jos:translate>
-								 	</label>
-							    	</td>
-								 <td>
-								 	<input type="checkbox" id="filePermsWorldWrite" name="vars[filePermsWorldWrite]" value="1"{VAR_PERM_FWW} />
-								 </td>
-								 <td>
-								 	<label for="filePermsWorldWrite">
-								 		<jos:translate>write</jos:translate>
-								 	</label>
-								 </td>
-								 <td>
-								 	<input type="checkbox" id="filePermsWorldExecute" name="vars[filePermsWorldExecute]" value="1"{VAR_PERM_FWE} />
-								 </td>
-								 <td width="100%">
-								 	<label for="filePermsWorldExecute">
-								 		<jos:translate>execute</jos:translate>
-								 	</label>
-								 </td>
-							  </tr>
-							  </table>
-								</td>
-							</tr>
-							</table>
-						</fieldset>
-				 </td>
+				    &nbsp;
+				  </td>
 			  </tr>
-
-			  <tr>
-				  <td colspan="2">
-						<fieldset>
-							<legend>
-								<jos:translate>Directory Permissions</jos:translate>
-							</legend>
-
-							<table cellpadding="1" cellspacing="1" border="0">
-				 		<tr>
-								<td>
-									<input type="radio" id="dirPermsMode0" name="vars[dirPermsMode]" value="0" onclick="changeDirPermsMode(0)" />
-								</td>
-								<td>
-									<label for="dirPermsMode0">
-										<jos:translate key="noChmodDirs">Don't CHMOD directories (use server defaults)</jos:translate>
-									</label>
-								</td>
-							</tr>
-							<tr>
-							<td>
-								<input type="radio" id="dirPermsMode1" name="vars[dirPermsMode]" value="1" onclick="changeDirPermsMode(1)" />
-							</td>
-								<td>
-									<label for="dirPermsMode1">
-										<jos:translate>CHMOD directories to</jos:translate>:
-									</label>
-								</td>
-							</tr>
-							<tr id="dirPermsFlags">
-								<td>
-									&nbsp;
-								</td>
-								<td>
-							  <table cellpadding="1" cellspacing="0" border="0">
-							  <tr>
-								 <td>
-								 	<jos:translate>User</jos:translate>:
-								 </td>
-								 <td>
-								 	<input type="checkbox" id="dirPermsUserRead" name="vars[dirPermsUserRead]" value="1"{VAR_PERM_DUR} />
-								 </td>
-								 <td>
-								 	<label for="dirPermsUserRead">
-								 		<jos:translate>read</jos:translate>
-								 	</label>
-								 </td>
-								 <td>
-								 	<input type="checkbox" id="dirPermsUserWrite" name="vars[dirPermsUserWrite]" value="1"{VAR_PERM_DUW} />
-								 </td>
-								 <td>
-								 	<label for="dirPermsUserWrite">
-								 		<jos:translate>write</jos:translate>
-								 	</label>
-								 </td>
-								 <td>
-								 	<input type="checkbox" id="dirPermsUserSearch" name="vars[dirPermsUserSearch]" value="1"{VAR_PERM_DUE} />
-								 </td>
-								 <td width="100%">
-								 	<label for="dirPermsUserSearch">
-								 		<jos:translate>search</jos:translate>
-								 	</label>
-								 </td>
-							  </tr>
-							  <tr>
-								 <td>
-								 	<jos:translate>Group</jos:translate>:
-								 </td>
-								 <td>
-								 	<input type="checkbox" id="dirPermsGroupRead" name="vars[dirPermsGroupRead]" value="1"{VAR_PERM_DGR} />
-								 </td>
-								 <td>
-								 	<label for="dirPermsGroupRead">
-								 		<jos:translate>read</jos:translate>
-								 	</label>
-								 </td>
-								 <td>
-								 	<input type="checkbox" id="dirPermsGroupWrite" name="vars[dirPermsGroupWrite]" value="1"{VAR_PERM_DGW} />
-								 </td>
-								 <td>
-								 	<label for="dirPermsGroupWrite">
-								 		<jos:translate>write</jos:translate>
-								 	</label>
-								 </td>
-								 <td>
-								 	<input type="checkbox" id="dirPermsGroupSearch" name="vars[dirPermsGroupSearch]" value="1"{VAR_PERM_DGE} />
-								 </td>
-								 <td width="100%">
-								 	<label for="dirPermsGroupSearch">
-								 		<jos:translate>search</jos:translate>
-								 	</label>
-								 </td>
-							  </tr>
-							  <tr>
-								 <td>
-								 	<jos:translate>World</jos:translate>:
-								 </td>
-								 <td>
-								 	<input type="checkbox" id="dirPermsWorldRead" name="vars[dirPermsWorldRead]" value="1"{VAR_PERM_DWR} />
-								 </td>
-								 <td>
-								 	<label for="dirPermsWorldRead">
-								 		<jos:translate>read</jos:translate>
-								 	</label>
-								 </td>
-								 <td>
-								 	<input type="checkbox" id="dirPermsWorldWrite" name="vars[dirPermsWorldWrite]" value="1"{VAR_PERM_DWW} />
-							    	</td>
-								 <td>
-								 	<label for="dirPermsWorldWrite">
-								 		<jos:translate>write</jos:translate>
-								 	</label></td>
-								 <td>
-								 	<input type="checkbox" id="dirPermsWorldSearch" name="vars[dirPermsWorldSearch]" value="1"{VAR_PERM_DWE} />
-								 </td>
-								 <td width="100%">
-								 	<label for="dirPermsWorldSearch">
-								 		<jos:translate>search</jos:translate>
-								 	</label>
-								 </td>
-							  </tr>
-							  </table>
-								</td>
-							</tr>
-							</table>
-						</fieldset>
-				 </td>
+				<tr>
+				  <td>
+				  	<jos:translate>FTP Root Path</jos:translate>
+				  </td>
+				  <td align="center">
+				  	<input class="inputbox" type="text" name="vars[ftpRoot]" value="{VAR_FTPROOT}" size="30"/>
+				  </td>
 			  </tr>
 				</table>
 			</div>
@@ -373,12 +128,6 @@
 <div class="clr"></div>
 
 
-<script type="text/javascript">
-	changeFilePermsMode( {FILEMODE} );
-	changeDirPermsMode( {DIRMODE} );
-</script>
-
-
 <input type="hidden" name="vars[lang]" value="{VAR_LANG}" />
 <input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}" />
 <input type="hidden" name="vars[DBtype]" value="{VAR_DBTYPE}" />
@@ -387,5 +136,7 @@
 <input type="hidden" name="vars[DBpassword]" value="{VAR_DBPASSWORD}" />
 <input type="hidden" name="vars[DBname]" value="{VAR_DBNAME}" />
 <input type="hidden" name="vars[DBprefix]" value="{VAR_DBPREFIX}" />
+<input type="hidden" name="vars[ftpUser]" value="{VAR_FTPUSER}" />
+<input type="hidden" name="vars[ftpPassword]" value="{VAR_FTPPASSWORD}" />
 
 <input type="hidden" name="task" value="" />

@@ -376,12 +376,30 @@ class installationTasks {
 	}
 
 	/**
-	 * Finishes configuration parameters
+	 * Gets ftp configuration parameters
 	 */
-	function mainConfig( $DBcreated='0' ) {
+	function ftpConfig( $DBcreated='0' ) {
 
 		$vars = mosGetParam( $_POST, 'vars', array() );
 		$vars['DBcreated'] = mosGetParam( $vars, 'DBcreated', $DBcreated );
+		$strip = get_magic_quotes_gpc();
+
+		if (!isset( $vars['ftpUser'] )) {
+			$vars['ftpUser'] = 'FTP Username';
+		}
+		if (!isset( $vars['ftpPassword'] )) {
+			$vars['ftpPassword'] = 'FTP Password';
+		}
+
+		installationScreens::ftpConfig( $vars );
+	}
+
+	/**
+	 * Finishes configuration parameters
+	 */
+	function mainConfig() {
+
+		$vars = mosGetParam( $_POST, 'vars', array() );
 		$strip = get_magic_quotes_gpc();
 
 		if (!isset( $vars['siteUrl'] )) {
@@ -400,62 +418,9 @@ class installationTasks {
 		}
 		$vars['adminPassword'] = mosMakePassword( 8 );
 
-		// CHMOD stuff
-		$flags = 0664;
-		if ($flags & 0400) {
-			$vars['perm_fur'] = ' checked="checked"';
-		}
-		if ($flags & 0200) {
-			$vars['perm_fuw'] = ' checked="checked"';
-		}
-		if ($flags & 0100) {
-			$vars['perm_fue'] = ' checked="checked"';
-		}
-		if ($flags & 040) {
-			$vars['perm_fgr'] = ' checked="checked"';
-		}
-		if ($flags & 020) {
-			$vars['perm_fgw'] = ' checked="checked"';
-		}
-		if ($flags & 010) {
-			$vars['perm_fge'] = ' checked="checked"';
-		}
-		if ($flags & 04) {
-			$vars['perm_fwr'] = ' checked="checked"';
-		}
-		if ($flags & 02) {
-			$vars['perm_fww'] = ' checked="checked"';
-		}
-		if ($flags & 01) {
-			$vars['perm_fwe'] = ' checked="checked"';
-		}
-		$flags = 0775;
-		if ($flags & 0400) {
-			$vars['perm_dur'] = ' checked="checked"';
-		}
-		if ($flags & 0200) {
-			$vars['perm_duw'] = ' checked="checked"';
-		}
-		if ($flags & 0100) {
-			$vars['perm_due'] = ' checked="checked"';
-		}
-		if ($flags & 040) {
-			$vars['perm_dgr'] = ' checked="checked"';
-		}
-		if ($flags & 020) {
-			$vars['perm_dgw'] = ' checked="checked"';
-		}
-		if ($flags & 010) {
-			$vars['perm_dge'] = ' checked="checked"';
-		}
-		if ($flags & 04) {
-			$vars['perm_dwr'] = ' checked="checked"';
-		}
-		if ($flags & 02) {
-			$vars['perm_dww'] = ' checked="checked"';
-		}
-		if ($flags & 01) {
-			$vars['perm_dwe'] = ' checked="checked"';
+		// FTP stuff
+		if (!isset( $vars['ftpRoot'] )) {
+			$vars['ftpRoot'] = JInstallationHelper::findFtpRoot($vars['ftpUser'], $vars['ftpPassword']);
 		}
 
 		installationScreens::mainConfig( $vars );
@@ -464,9 +429,6 @@ class installationTasks {
 	function saveConfig() {
 
 		$vars = mosGetParam( $_POST, 'vars', array() );
-
-		$vars['fileperms'] = JInstallationHelper::getFilePerms( $vars, 'file' );
-		$vars['dirperms'] = JInstallationHelper::getFilePerms( $vars, 'dir' );
 
 		$strip = get_magic_quotes_gpc();
 		if (!$strip) {
@@ -764,6 +726,41 @@ class JInstallationHelper {
 			echo $database->getErrorMsg();
 			return;
 		}
+	}
+
+	/**
+	 * Find the ftp filesystem root for a given user/pass pair
+	 * 
+	 * @static
+	 * @param string $user Username of the ftp user to determine root for
+	 * @param string $pass Password of the ftp user to determine root for
+	 * @return string Filesystem root for given FTP user
+	 * @since 1.1
+	 */
+	function findFtpRoot($user, $pass) {
+		jimport('joomla.connectors.ftp');
+		$ftp = & JFTP :: getInstance();
+		$ftp->connect('localhost');
+		if (!$ftp->login($user, $pass)) {
+			//TODO: Throw an error
+		}
+
+		$ftpList = $ftp->listDir();
+		$parts = explode(DS, JPATH_SITE);
+		$i = 1;
+		$numParts = count($parts);
+		$ftpPath = $parts[0];
+		$thePath = JPATH_SITE;
+
+		for ($i=1; $i < $numParts; $i++) {
+			if (in_array($parts[$i], $ftpList)) {
+				
+				$thePath = $ftpPath;
+			}
+			$ftpPath .= DS.$parts[$i];
+		}
+
+		return $thePath;
 	}
 }
 

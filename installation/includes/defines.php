@@ -18,12 +18,12 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 //Global definitions
 DEFINE('DS', DIRECTORY_SEPARATOR);
 
-//Joomla framework paht definitions
+//Joomla framework path definitions
 $path = str_replace( '\\', '/', JPATH_BASE );
 $parts = explode( '/', $path );
 array_pop( $parts );
 
-DEFINE('JPATH_ROOT'         , implode( '/', $parts ) );
+DEFINE('JPATH_ROOT'         , implode( DS, $parts ) );
 
 DEFINE('JPATH_SITE'         , JPATH_ROOT );
 DEFINE('JPATH_ADMINISTRATOR', JPATH_ROOT . DS . 'administrator' );

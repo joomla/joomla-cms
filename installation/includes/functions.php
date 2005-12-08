@@ -21,6 +21,7 @@ $steps = array(
 	'license' => 'off',
 	'dbconfig' => 'off',
 	'dbcollation' => 'off',
+	'ftpconfig' => 'off',
 	'mainconfig' => 'off',
 	'finish' => 'off'
 );
@@ -122,5 +123,4 @@ function mosBackTrace() {
 		echo '</div>';
 	}
 }
-
 ?>

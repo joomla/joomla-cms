@@ -31,7 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
-08-Dec-2005 Johan Janssens
+09-Dec-2005 Johan Janssens
+ + Added support for FTP to the installation - Contributed by Louis Landry
+
+08-Dec-2005 Andrew Eddie
  + Added patTemplate version of pathway code
 
 08-Dec-2005 Johan Janssens

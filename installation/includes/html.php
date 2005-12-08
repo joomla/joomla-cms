@@ -185,6 +185,24 @@ class installationScreens {
 	 * The index page
 	 * @param array An array of lists
 	 */
+	function ftpConfig( &$vars ) {
+		global $steps;
+
+		$tmpl =& installationScreens::createTemplate();
+		$tmpl->setAttribute( 'body', 'src', 'ftpconfig.html' );
+
+		$steps['ftpconfig'] = 'on';
+
+		$tmpl->addVars( 'stepbar', $steps, 'step_' );
+		$tmpl->addVars( 'body', 	$vars, 'var_' );
+
+		$tmpl->displayParsedTemplate( 'form' );
+	}
+
+	/**
+	 * The index page
+	 * @param array An array of lists
+	 */
 	function mainConfig( &$vars ) {
 		global $steps;
 
@@ -195,9 +213,6 @@ class installationScreens {
 
 		$tmpl->addVars( 'stepbar', $steps, 'step_' );
 		$tmpl->addVars( 'body', 	$vars, 'var_' );
-
-		$tmpl->addVar( 'body', 'filemode', 	'0' );
-		$tmpl->addVar( 'body', 'dirmode', 	'0' );
 
 		$tmpl->displayParsedTemplate( 'form' );
 	}

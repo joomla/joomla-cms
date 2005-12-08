@@ -867,5 +867,16 @@ class JPath {
 		return $retval;
 	}
 
+	/**
+	 * Method to determine if script owns the path
+	 * 
+	 * @static
+	 * @param string $path Path to check ownership
+	 * @return boolean True if the php script owns the path passed
+	 * @since 1.1
+	 */
+	function isOwner($path) {
+		return (posix_getuid() == fileowner($path));
+	}
 }
 ?>
