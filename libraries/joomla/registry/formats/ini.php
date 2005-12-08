@@ -51,9 +51,10 @@ class JRegistryINIFormat extends JRegistryStorageFormat {
 		
 		$Configuration = new mosParameters($data);
 		$configobject = $Configuration->parse($data, true);
-		if($configObject = new stdClass()) {
+/*		if($configObject = new stdClass()) {
 			die("Blank configuration!");
-		}
+		}*/
+		
 		$tmpnamespace = $this->r_namespace;
 		if($namespace_override) {
 			$tmpnamespace = $namespace_override;

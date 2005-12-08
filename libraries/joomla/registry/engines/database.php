@@ -117,7 +117,7 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 	}
 
 	// Load the user's Configuration from the database
-	function loadUserConfiguration($currentid, &$config, $namespace) {
+	function loadUserConfiguration($currentid, $namespace) {
 		global $database;
 		if(!$currentid) { return false; }
 		// Pull configuration out of the database
@@ -141,20 +141,23 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		if(!JRegistryDatabaseEngine::configExists($namespace)) {
 			return null;
 		}
-
-		// Parse
-		JRegistryDatabaseEngine::loadUserConfiguration($currentid, $Configuration, $namespace);
-		$userConfiguration = $r_storageformat->stringToObject($Configuration);
-		//$r_storageengine->load
-
-		if(array_key_exists($group, get_object_vars($userConfiguration))) {
-			if(array_key_exists($name, get_object_vars($userConfiguration->$group))) {
-				$setting = $userConfiguration->$group->$name;
+		
+		
+		$this->r_storageformat->r_namespacestate = true;						
+		$data = JRegistryDatabaseEngine::loadUserConfiguration($currentid, $namespace);
+		$userConfiguration = $this->r_storageformat->stringToObject($data,$namespace);
+		if(array_key_exists($namespace, get_object_vars($userConfiguration))) {				
+			if(array_key_exists($group, get_object_vars($userConfiguration->$namespace))) {
+				if(array_key_exists($name, get_object_vars($userConfiguration->$namespace->$group))) {
+					$setting = $userConfiguration->$namespace->$group->$name;
+				} else {
+					$setting = JRegistryDatabaseEngine::getDefaultConfig($namespace, $group,$name);
+				}
 			} else {
-				$setting = JRegistryDatabaseEngine::getDefaultConfig($namespace, $component,$name);
+				$setting = JRegistryDatabaseEngine::getDefaultConfig($namespace, $group,$name);
 			}
 		} else {
-			$setting = JRegistryDatabaseEngine::getDefaultConfig($namespace, $component,$name);
+			$setting = JRegistryDatabaseEngine::getDefaultConfig($namespace, $group,$name);
 		}
 
 		return $setting;
@@ -162,11 +165,20 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 	
 	function getDefaultConfig($namespace, $group, $name) {
 		global $my, $database;
-		return 'Hi';
+		$this->r_storageformat->r_namespacestate = true;						
+		$data = JRegistryDatabaseEngine::loadDefaultConfiguration($namespace);
+		$userConfiguration = $this->r_storageformat->stringToObject($data,$namespace);
+		if(!isset($userConfiguration->$namespace)) {
+			return false;
+		}
+		if(!isset($userConfiguration->$namespace->$group)) {
+			return false;
+		}
+		return $userConfiguration->$namespace->$group->$name;
 	}
 
 	// Set the configuration setting
-	function setConfig($namespace, $component,$name,$value) {
+	function setConfig($namespace, $group,$name,$value) {
 		global $my, $database;
 		$currentid = $my->id;
 		if($currentid == 0) {
@@ -175,22 +187,21 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		}
 		$newConfigSet = false;
 
-		// Parse Configuration
-		JRegistry::loadUserConfiguration($currentid, $userConfiguration, $namespace,true);
+		$this->r_storageformat->r_namespacestate = true;						
+		$data = JRegistryDatabaseEngine::loadUserConfiguration($currentid, $namespace);
+		$userConfiguration = $this->r_storageformat->stringToObject($data,$namespace);
 
-		if(isset($userConfiguration->$component)) {
-			if(isset($userConfiguration->$component->$name)) {
-				$userConfiguration->$component->$name = $value;
-			} else {
-				$userConfiguration->$component->$name = $value;
-			}
-		} else {
-			$userConfiguration->$component = new stdClass();
-			$userConfiguration->$component->$name = $value;
+		if(!isset($userConfiguration->$namespace)) {
+			$userConfiguration->$namespace = new stdClass();
 		}
-		JRegistry::testUserConfig($namespace);
-		$iniFile = JRegistry::objectToINI($userConfiguration);
-		$query = "UPDATE #__registry SET data = '$iniFile' WHERE user_id = $currentid AND namespace = '$namespace'";
+		if(!isset($userConfiguration->$namespace->$group)) {
+			$userConfiguration->$namespace->$group = new stdClass();
+		}
+		$userConfiguration->$namespace->$group->$name = $value;
+
+		JRegistryDatabaseEngine::testUserConfig($namespace);
+		$iniFile = $this->r_storageformat->objectToString($userConfiguration);
+		$query = "UPDATE #__registry SET datafield = '$iniFile' WHERE uid = $currentid AND namespace = '$namespace'";
 		$database->setQuery($query);
 		$database->Query();
 		$newConfigSet = true;
@@ -206,11 +217,7 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		$this->r_storageformat->r_namespacestate = true;						
 		$data = JRegistryDatabaseEngine::loadDefaultConfiguration($namespace);
 		$userConfiguration = $this->r_storageformat->stringToObject($data,$namespace);
-		echo "<pre>Configuration:\n";
-		print_r($userConfiguration);
-		echo '</pre><br>for:<br><pre>';
-		print_r($data);
-		echo '</pre><hr>';
+
 		if(!isset($userConfiguration->$namespace)) {
 			$userConfiguration->$namespace = new stdClass();
 		}
@@ -222,14 +229,10 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		JRegistryDatabaseEngine::testDefaultConfig($namespace);
 		$iniFile = $this->r_storageformat->objectToString($userConfiguration);
 
-		echo "<pre>INI:\n";
-		echo $iniFile;
-		echo '</pre><hr>';
-
-		
+	
 		$query = "UPDATE #__registry SET datafield = '$iniFile' WHERE uid = 0 AND namespace = '$namespace'";
 		$database->setQuery($query);
-		$database->Query() or die($database->getErrorMsg());
+		$database->Query();
 		$newConfigSet = true;
 		return $newConfigSet;
 	}
