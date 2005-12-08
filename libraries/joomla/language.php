@@ -161,16 +161,12 @@ class JLanguage extends JObject
 	 */
 	function load( $prefix='') {
 
-		if ($this->_userLang) {
-			$basePath = JLanguage::getLanguagePath( JPATH_BASE, $this->_userLang);
-		} else {
-			$basePath = JLanguage::getLanguagePath( JPATH_BASE, $this->_defaultLang);
-		}
-
+		$basePath = JLanguage::getLanguagePath( JPATH_BASE, $this->_userLang);
 		$filename = empty( $prefix ) ?  $this->_userLang : $this->_userLang . '.' . $prefix ;
 		$langGroup = 'Lang'.$this->_userLang;
 		if (!file_exists( $basePath . $filename .'.ini') ) {
 			// roll back to default language
+			$basePath = JLanguage::getLanguagePath( JPATH_BASE, $this->_defaultLang);
 			$filename = empty( $prefix ) ?  $this->_defaultLang  : $this->_defaultLang . '.' . $prefix  ;
 			$langGroup = 'Lang'.$this->_defaultLang;
 		}
