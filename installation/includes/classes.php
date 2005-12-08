@@ -59,6 +59,12 @@ class installationTasks {
 			'label' => '- '. JText::_( 'MySQL support' ),
 			'state' => function_exists( 'mysql_connect' ) ? 'Yes' : 'No'
 		);
+		$mb = extension_loaded('mbstring');
+		$phpOptions[] = array(
+			'label' => '- '. JText::_( 'MB string support (utf-8)' ),
+			'state' => $mb ? 'Yes' : 'No',
+			'notice' => $mb ? '' : JText::_( 'NOTICENOMBSTRINGSUPPORT' )
+		);
 		$sp = '';
 		$phpOptions[] = array(
 			'label' => JText::_( 'Session path set' ),
@@ -77,6 +83,7 @@ class installationTasks {
 		);
 		$lists['phpOptions'] =& $phpOptions;
 
+		
 		$phpRecommended = array(
 			array( JText::_( 'Safe Mode' ), 'safe_mode', 'OFF' ),
 			array( JText::_( 'Display Errors' ), 'display_errors', 'ON' ),
@@ -85,7 +92,7 @@ class installationTasks {
 			array( JText::_( 'Magic Quotes Runtime' ), 'magic_quotes_runtime', 'OFF' ),
 			array( JText::_( 'Register Globals' ), 'register_globals', 'OFF' ),
 			array( JText::_( 'Output Buffering' ), 'output_buffering', 'OFF' ),
-			array( JText::_( 'Session auto start' ), 'session.auto_start', 'OFF' )
+			array( JText::_( 'Session auto start' ), 'session.auto_start', 'OFF' ),
 		);
 
 		foreach ($phpRecommended as $setting) {
@@ -96,6 +103,43 @@ class installationTasks {
 				'state' => get_php_setting( $setting[1] ) == $setting[2] ? 'Yes' : 'No'
 			);
 		}
+		// mbstring settings
+		$lists['phpSettings'][] = array(
+			'label' => 'MB language',
+			'setting' => 'Neutral',
+			'actual' => ini_get('mbstring.language'),
+			'state' => strtolower(ini_get('mbstring.language')) == 'neutral'  ? 'Yes' : 'No'
+		);
+		$lists['phpSettings'][] = array(
+			'label' => 'MB internal encoding',
+			'setting' => 'UTF-8',
+			'actual' => ini_get('mbstring.internal_encoding'),
+			'state' => strtoupper(ini_get('mbstring.internal_encoding')) == 'UTF-8'  ? 'Yes' : 'No'
+		);
+		$lists['phpSettings'][] = array(
+			'label' => 'MB encoding transl.',
+			'setting' => 'On',
+			'actual' => get_php_setting('mbstring.encoding_translation'),
+			'state' => get_php_setting('mbstring.encoding_translation') == 'ON'  ? 'Yes' : 'No'
+		);
+		$lists['phpSettings'][] = array(
+			'label' => 'MB http input',
+			'setting' => 'UTF-8',
+			'actual' => ini_get('mbstring.http_input'),
+			'state' => strtoupper(ini_get('mbstring.http_input')) == 'UTF-8'  ? 'Yes' : 'No'
+		);
+		$lists['phpSettings'][] = array(
+			'label' => 'MB http output',
+			'setting' => 'UTF-8',
+			'actual' => ini_get('mbstring.http_output'),
+			'state' => strtoupper(ini_get('mbstring.http_output')) == 'UTF-8'  ? 'Yes' : 'No'
+		);
+		$lists['phpSettings'][] = array(
+			'label' => 'MB function overload',
+			'setting' => '7',
+			'actual' => ini_get('mbstring.func_overload'),
+			'state' => ini_get('mbstring.func_overload') == '7'  ? 'Yes' : 'No'
+		);
 
 		$folders = array(
 			'administrator/backups',

@@ -48,6 +48,8 @@ if (version_compare( phpversion(), '5.0' ) < 0) {
 	jimport('joomla.compat.php50x' );
 }
 
+jimport('joomla.compat.phpmbstring');
+
 if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
 	die( 'Fatal error.  Global variable hack attempted.' );
 }

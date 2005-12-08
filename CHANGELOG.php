@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Dec-2005 Johan Janssens
+ + Added mbstring checks to installation - contributed by David Gal
+ ^ Changed .htaccess file to ensure correct utf-8 support through mbstring
+
 07-Dec-2005 Johan Janssens
  + Added new JPathWay class for flexible pathway handling - Contributed by Louis Landry
  + Added transparent support for FTP to file handling classes - Contributed by Louis Landry

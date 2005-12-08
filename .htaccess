@@ -1,0 +1,40 @@
+##
+# @version $Id$
+# @package Joomla
+# @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+# @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+# Joomla! is Free Software
+##
+
+# Options +FollowSymLinks
+
+#
+#  mod_rewrite in use
+#
+
+# RewriteEngine On
+
+#  Uncomment following line if your webserver's URL 
+#  is not directly related to physical file paths.
+#  Update YourJoomlaDirectory (just / for root)
+
+# RewriteBase /YourJoomlaDirectory
+
+#
+#  Rules
+#
+
+# RewriteCond %{REQUEST_FILENAME} !\.(jpg|jpeg|gif|png|css|js|pl|txt)$
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteRule ^(.*) index.php
+
+#
+# php mb string settings to ensure correct utf-8 support
+#
+php_value mbstring.language Neutral
+php_value mbstring.internal_encoding UTF-8
+php_value mbstring.encoding_translation 1
+php_value mbstring.http_input UTF-8
+php_value mbstring.http_output UTF-8
+php_value mbstring.func_overload 7
