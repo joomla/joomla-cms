@@ -176,13 +176,16 @@ if ( $searchreplace ) {
 	$buttons3 	= implode( ',', $buttons3 );
 	$plugins 	= implode( ',', $plugins );
 	$elements 	= implode( ',', $elements );
+	
+	$lang = $mainframe->getLanguage();
+	$lang = substr($lang->getTag(), 0, 2);
 
 return <<<EOD
 	$load
 	<script type="text/javascript">
 	tinyMCE.init({
 		theme : "$theme",
-		language : "en",
+		language : "$lang",
 		mode : "specific_textareas",
 		document_base_url : "$mosConfig_live_site/",
 		relative_urls : false,
