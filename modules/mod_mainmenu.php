@@ -52,7 +52,9 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 			$id = '';
 		} else if ( $current_itemid == $mitem->id ) {
 			$id = 'id="active_menu'. $params->get( 'class_sfx' ) .'"';
-		} else if( $params->get( 'activate_parent' ) && isset( $open ) && in_array( $mitem->id, $open ) )  {
+		} else if ( $params->get( 'activate_parent' ) && isset( $open ) && in_array( $mitem->id, $open ) )  {
+			$id = 'id="active_menu'. $params->get( 'class_sfx' ) .'"';
+		} else if ( $mitem->type=='url' && ItemidContained($mitem->link, $current_itemid) )  {
 			$id = 'id="active_menu'. $params->get( 'class_sfx' ) .'"';
 		} else {
 			$id = '';
@@ -329,6 +331,28 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 			}
 		}
 	}
+
+	/**
+	* Search for Itemid in link
+	*/
+	function ItemidContained ($link, $Itemid) {
+		$link = str_replace( '&amp;', '&', $link );
+		$temp = split("&", $link);
+		$linkItemid = "";
+		foreach ($temp as $value) {
+			$temp2 = split("=", $value);
+			if ($temp2[0]=="Itemid") {
+				$linkItemid = $temp2[1];
+				break;
+			}
+		}
+		if ($linkItemid!="" && $linkItemid==$Itemid) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }
 $params->def( 'menutype', 'mainmenu' );
 $params->def( 'class_sfx', '' );

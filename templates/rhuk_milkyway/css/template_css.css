@@ -432,6 +432,14 @@ a.mainlevel:hover {
 
 }
 
+a.mainlevel#active_menu {
+	font-weight: bold;
+}
+
+a.mainlevel-nav#active_menu-nav {
+	color: red;
+}
+
 /* spacers */
 span.article_seperator {
 	height: 20px;
