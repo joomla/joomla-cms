@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Dec-2005 Samuel Moffatt
+ ^ Disabled php_value in htaccess file, caused 500 Internal Server Errors
+ + JRegistry Core Complete (INI Format and Database Storage Engines)
+
 09-Dec-2005 Emir Sakic
  # Fixed artf2324 : SEF for components assumes option is always first part of query
  # Fixed artf1955 : Search results bug
