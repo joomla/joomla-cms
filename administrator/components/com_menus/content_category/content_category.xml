@@ -9,7 +9,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.0.0</version>
-	<description>Shows a Table view of Content items for a particular Category</description>
+	<description>DESCTABLEVIEWCONTENT</description>
 	<params>
 		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 		<param name="page_title" type="radio" default="1" label="Page Title" description="Show/Hide the pages Title">
