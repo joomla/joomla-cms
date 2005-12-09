@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: tree.php 881 2005-11-05 06:03:09Z Jinx $
+ * @version $Id$
  * @package Joomla
  * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -12,59 +12,85 @@
  */
 
 /**
- * @package Joomla
+ * Joomla! Registry Storage Format Abstract Class
+ * The Format takes objects and turns them into a string representation for storage
+ * It also does the reverse and turns it into an object 
+ * @package Joomla 
+ * @since 1.1
  */
 class JRegistryStorageFormat {
-	/**
-	 * Parent Class for Storage Format
-	 * The Format takes objects and turns them into a string representation for storage
-	 * It also does the reverse and turns it into an object
-	 */
-
 	// Determines if a namespace should be included in the output/input
 	var $r_namespacestate 	= true;
 	// The namespace
 	var $r_namespace 	= '';
 
+	/**
+	 * Constructor
+	 * @param string default namespace
+	 * @param boolean set the namespace output option
+	 */
 	function JRegistryStorageFormat($namespace='',$namespacestate=true) {
 		$this->setNamespace($namespace);
 		$this->setNamespaceState($namespacestate);
 	}
 
 	/**
-	 * @description
+	 * Converts an object to a string for storage
 	 * @param object The object representation of the data
 	 * @returns string The string representation of the data
+	 * @abstract 
 	 */
 	function objectToString(&$data) {
 		return false;
 	}
 
 	/**
-	 * @description Converts a String to an Object
+	 * Converts a String to an Object
 	 * @param string The string representation of the data
 	 * @returns object The object representation of the data
+	 * @abstract
 	 */
 	function &stringToObject($data) {
 		return false;
 	}
 
+	/**
+	 * Set the namespace state
+	 * @param boolean new namespace state
+	 */
 	function setNamespaceState($namespace_state) {
 		$this->r_namespacestate = $namespacestate;
 	}
 
+	/**
+	 * Get the namespace state
+	 * @return boolean current namespace state
+	 */
 	function getNamespaceState() {
 		return $this->r_namespacestate;
 	}
 
+	/**
+	 * Set the default namespace
+	 * @param string new default namespace
+	 */
 	function setNamespace($namespace) {
 		$this->r_namespace = $namespace;
 	}
 
+	/**
+	 * Get the default namespace
+	 * @return string the current default namespace
+	 */
 	function getNamespace() {
 		return $this->r_namespace;
 	}
 
+	/**
+	 * Get the friendly name of this format
+	 * @return string friendly name
+	 * @abstract
+	 */
 	function getFormatName() {
 		return "Undefined.";
 	}

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: tree.php 881 2005-11-05 06:03:09Z Jinx $
+ * @version $Id$
  * @package Joomla
  * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -19,18 +19,31 @@
 jimport('joomla.registry.storageengine');
 jimport('joomla.registry.storageformat');
 
+/**
+ * The Joomla! Registry class
+ * @package Joomla
+ * @since 1.1
+ */
 class JRegistry {
-	// Object!
 	// Holds the class used to read/write data
 	var $r_storageengine		= null;
 	// Holds the registry object
 	var $r_registryobject 		= null;
 
+	/**
+	 * Constructor
+	 * @param object Storage Engine to use
+	 */
 	function JRegistry($engine) {
 		$this->r_storageengine = $engine;
 	}
 
-	// Get the configuration setting
+	/**
+	 * Get the configuration setting (will fall back to default)
+	 * @param string Registry path (e.g. joomla.content.showauthor)
+	 * @param int    User Id
+	 * @return mixed Value of entry
+	 */
 	function getValue($regpath,$uid=0) {
 		global $my;
 		if($uid == 0) {
@@ -42,6 +55,11 @@ class JRegistry {
 		}
 	}
 
+	/**
+	 * Get the default configuration setting
+	 * @param string Registry path (e.g. joomla.content.showauthor)	 
+	 * @return mixed Value of entry
+	 */
 	function getDefaultValue($regpath) {
 		$parts = explode('.',$regpath);
 		if(count($parts) > 2) {
@@ -49,6 +67,12 @@ class JRegistry {
 		}
 	}
 
+	/**
+	 * Set the user configuration setting
+	 * @param string Registry Path (e.g. joomla.content.showauthor)	 
+	 * @param mixed  Value of entry
+	 * @param int    User id
+	 */
 	function setValue($regpath,$value,$uid=0) {
 		$parts = explode('.',$regpath);
 		if(count($parts) > 2) {
@@ -56,7 +80,11 @@ class JRegistry {
 		}
 	}
 
-	// Set the configuration setting
+	/**
+	 * Set the configuration setting
+	 * @param string Registry Path (e.g. joomla.content.showauthor)	 
+	 * @param mixed  Value of entry	
+	 */
 	function setDefaultValue($regpath,$value) {
 		$parts = explode('.',$regpath);
 		if(count($parts) > 2) {

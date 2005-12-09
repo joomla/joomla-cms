@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: tree.php 881 2005-11-05 06:03:09Z Jinx $
+ * @version $Id$
  * @package Joomla
  * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -12,10 +12,17 @@
  */
 
 /**
+ * INI Format for JRegistry
  * @package Joomla
+ * @since 1.1
  */
 class JRegistryINIFormat extends JRegistryStorageFormat {
 
+	/**
+	 * Converts an object into an INI formatted string
+	 * @param object  Data Source Object
+	 * @return string INI Formatted String
+	 */
 	function objectToString(&$data) {
 		$retval = '';
 		foreach(get_object_vars($data) as $namespace=>$groups) {
@@ -44,13 +51,15 @@ class JRegistryINIFormat extends JRegistryStorageFormat {
 		return $retval;	
 	}
 
+	/**
+	 * Converts an INI formatted string into an object
+	 * @param string  INI Formatted String
+	 * @return string Data Object
+	 */
 	function &stringToObject($data,$namespace_override='') {
 		
 		$Configuration = new mosParameters($data);
 		$configobject = $Configuration->parse($data, true);
-/*		if($configObject = new stdClass()) {
-			die("Blank configuration!");
-		}*/
 		
 		$tmpnamespace = $this->r_namespace;
 		if($namespace_override) {
@@ -72,6 +81,10 @@ class JRegistryINIFormat extends JRegistryStorageFormat {
 		return $tmp;
 	}
 
+	/**
+	 * Friendly name of this format (INI)
+	 * @return string friendly name
+	 */
 	function getFormatName() {
 		return 'INI';
 	}

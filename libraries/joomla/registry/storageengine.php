@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: tree.php 881 2005-11-05 06:03:09Z Jinx $
+ * @version $Id$
  * @package Joomla
  * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -13,7 +13,10 @@
 
 
 /**
+ * Joomla! Registry Storage Engine Abstract Class
+ * Storage Engines are responsible for handling basic I/O operations (reading and writing a string)
  * @package Joomla
+ * @since 1.1
  */
 class JRegistryStorageEngine {
 	// Holds the class used to convert objects
@@ -25,6 +28,12 @@ class JRegistryStorageEngine {
 	// Configuration Cache
 	var $r_configuration	= null;
 
+	/**
+	 * Constructor
+	 * @param object The format
+	 * @param string Default Namespace
+	 * @param string Storage Identifier
+	 */
 	function JRegistryStorageEngine($format,$namespace,$identifier='') {
 		$this->setStorageFormat($format);
 		$this->r_defaultnamespace = $namespace;
@@ -32,48 +41,92 @@ class JRegistryStorageEngine {
 
 	}
 
+	/**
+	 * Sets the default configuration (uid = 0);
+	 * @param string namespace of setting (e.g. joomla)
+	 * @param string group of setting (e.g. content)
+	 * @param string name of setting (e.g. showauthor)
+	 * @param mixed setting value
+	 * @abstract
+	 */
 	function setDefaultConfig($namespace,$group,$name,$value) {
 		return false;
 	}
 
+	/**
+	 * Returns the default configuration (uid = 0);
+	 * @param string namespace of setting (e.g. joomla)
+	 * @param string group of setting (e.g. content)
+	 * @param string name of setting (e.g. showauthor)
+	 * @return mixed setting value
+	 * @abstract
+	 */
 	function getDefaultConfig($namespace,$group,$name) {
 		return false;
 	}
 
+	/**
+	 * Sets a users configuration
+	 * @param string namespace of setting (e.g. joomla)
+	 * @param string group of setting (e.g. content)
+	 * @param string name of setting (e.g. showauthor)
+	 * @param mixed  setting value
+	 * @param int	 user id
+	 */	 
 	function setConfig($namespace,$group,$name,$value,$id) {
 		return false;
 	}
 
+	/**
+	 * Gets a users configuration
+	 * @param string namespace of setting (e.g. joomla)
+	 * @param string group of setting (e.g. content)
+	 * @param string name of setting (e.g. showauthor)
+	 * @param int	 user id
+	 */
 	function getConfig($namespace,$group,$name,$id) {
 		return false;
 	}
 
+	/**
+	 * Sets the default namespace, useful for some storage engines
+	 * @param string default namespace
+	 */
 	function setDefaultNamespace($namespace) {
 		$this->r_defaultnamespace = $namespace;
 	}
 
+	/**
+	 * Gets the default namespace
+	 * @return string default namespace
+	 */
 	function getDefaultNamespace($namespace) {
 		return $this->r_defaultnamespace;
 	}
 
+	/**
+	 * Set the Storage format object
+	 * @param object The storage format
+	 */
 	function setStorageFormat(&$format) {
 		$this->r_storageformat = $format;
 	}
 
+	/**
+	 * Get the Storage Format object
+	 * @return object The current storage format
+	 */
 	function &getStorageFormat() {
 		return $this->r_storageformat;
 	}
 
+	/**
+	 * Get the friendly name of the storage engine
+	 * @return string friendly name
+	 * @abstract
+	 */
 	function getStorageMethod() {
 		return "Null";
-	}
-
-	function store($location='') {
-		return false;
-	}
-
-	function load() {
-		return false;
 	}
 }
 ?>

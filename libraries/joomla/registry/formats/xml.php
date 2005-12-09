@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: tree.php 881 2005-11-05 06:03:09Z Jinx $
+ * @version $Id$
  * @package Joomla
  * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

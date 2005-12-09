@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: tree.php 881 2005-11-05 06:03:09Z Jinx $
+ * @version $Id$
  * @package Joomla
  * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -12,17 +12,30 @@
  */
 
 /**
+ * Database Storage Engine for JRegistry
  * @package Joomla
+ * @since 1.1
  */
 class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 
+	/**
+	 * Constructor
+	 * @param object Storage Format
+	 * @param string default namespace
+	 * @param string storage identifier
+	 */
 	function JRegistryDatabaseEngine($format,$namespace, $identifier='#__registry') {
 		$this->r_storageformat = $format;
 		$this->r_defaultnamespace = $namespace;
 		$this->r_storageidentifier = $identifier;		
 	}
 
-	// Reset an existing config (e.g. delete)
+	/**
+	 * Reset an existing config (e.g. delete)
+	 * @param string namespace to delete
+	 * @param int    user id to delete
+	 * @return boolean
+	 */
 	function resetConfig($namespace,$currentid) {
 		global $database, $my;
 		if(!$currentid) { return false; }
@@ -32,7 +45,12 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		return true;
 	}
 
-	// Create an empty config
+	/** 
+	 * Create an empty config (mirrors resetConfig)
+	 * @param string namespace to create
+	 * @param int    user id to create
+	 * @return boolean
+	 */
 	function createEmptyConfig($namespace,$currentid) {
 		global $database;
 		JRegistryDatabaseEngine::resetConfig($namespace,$currentid);
@@ -45,6 +63,11 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		return true;
 	}
 
+	/**
+	 * Test to see if a configuration exists for a namespace
+	 * @param string namespace to test
+	 * @return boolean
+	 */
 	function configExists($namespace) {
 		global $database;
 		$query = "SELECT * FROM #__registry WHERE namespace = '$namespace'";
@@ -56,7 +79,11 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		return true;
 	}
 
-	// Test Current Details
+	/**
+	 * Test Current Details (create if missing, user specific)
+	 * @param string namespace
+	 * @param int    user id
+	 */
 	function testUserConfig($namespace,$currentid=0) {
 		global $database, $my;
 		if(!$currentid) {
@@ -74,8 +101,12 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 			}
 		}
 	}
-
-	// Test Current Details
+	
+	/**
+	 * Test Current Details (create if missing, default)
+	 * @param string namespace
+	 * @param int    user id
+	 */
 	function testDefaultConfig($namespace) {
 		global $database;
 		$query = "SELECT datafield FROM #__registry WHERE uid = 0 AND namespace = '$namespace'";
@@ -89,8 +120,8 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		}
 	}
 
-	// Load the Default Configuration from the database
-	/*
+	/**
+	 * Load the Default Configuration from the database
 	 * @param string namespace override
 	 * @returns string configuration 'file'
 	 */
@@ -113,7 +144,11 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		return $resultant[0];
 	}
 
-	// Load the user's Configuration from the database
+	/**
+	 * Load the user's Configuration from the database
+	 * @param int Current User ID
+	 * @param string namespace
+	 */
 	function loadUserConfiguration($currentid, $namespace) {
 		global $database;
 		if(!$currentid) { return false; }
@@ -126,6 +161,14 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		return $resultant[0];
 	}
 
+	/**
+	 * Get Configuration
+	 * @param string namespace
+	 * @param string group
+	 * @param string name
+	 * @param int    user id
+	 * @return mixed value
+	 */
 	function getConfig($namespace, $group,$name,$currentid=0) {
 		global $my,$database;
 		$settingInUserConfig = false;
@@ -160,6 +203,13 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		return $setting;
 	}	
 	
+	/**
+	 * Get Default Configuration
+	 * @param string namespace
+	 * @param string group
+	 * @param string name	 
+	 * @return mixed value
+	 */
 	function getDefaultConfig($namespace, $group, $name) {
 		global $my, $database;
 		$this->r_storageformat->r_namespacestate = true;						
@@ -174,13 +224,23 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		return $userConfiguration->$namespace->$group->$name;
 	}
 
-	// Set the configuration setting
-	function setConfig($namespace, $group,$name,$value) {
+	/**
+	 * Set the configuration setting
+	 * @param string namespace
+	 * @param string group
+	 * @param string name	 
+	 * @param mixed  value
+	 * @param int    user id	 
+	 */	
+	function setConfig($namespace, $group,$name,$value,$currentid=0) {
 		global $my, $database;
-		$currentid = $my->id;
-		if($currentid == 0) {
+		
+		if($currentid == 0 && $my->id == 0) {
 			// Bail out
 			return false;
+		}
+		if($currentid == 0) {
+			$currentid = $my->id;
 		}
 		$newConfigSet = false;
 
@@ -205,7 +265,13 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		return $newConfigSet;
 	}
 
-	// Set the default configuration setting (for adminland)
+	/**
+	 * Set the default configuration setting (for adminland)
+	 * @param string namespace
+	 * @param string group
+	 * @param string name
+	 * @param mixed  value
+	 */
 	function setDefaultConfig($namespace, $group,$name,$value) {
 		global $database;
 		$currentid = 0;
