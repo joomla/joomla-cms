@@ -38,6 +38,7 @@ Legend:
 
 09-Dec-2005 Johan Janssens
  + Added support for FTP to the installation - Contributed by Louis Landry
+ # Fixed artf2495 : Cant save user details from FE.
 
 08-Dec-2005 Andrew Eddie
  + Added patTemplate version of pathway code

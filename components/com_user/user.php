@@ -121,7 +121,7 @@ function userEdit( $option, $uid, $submitvalue) {
 }
 
 function userSave( $option, $uid) {
-	global $database, $Itemid;
+	global $mainframe, $database, $Itemid;
 
 	$user_id = intval( mosGetParam( $_POST, 'id', 0 ));
 
@@ -180,7 +180,7 @@ function userSave( $option, $uid) {
 	}
 
 	//trigger the onAfterStoreUser event
-	$results = $mainframe->trigger( 'onAfterStoreUser', array(get_object_vars($row), false, true, null ));
+	$results = $mainframe->triggerEvent( 'onAfterStoreUser', array(get_object_vars($row), false, true, null ));
 
 	$link = $_SERVER['HTTP_REFERER'];
 	mosRedirect( $link, JText::_( 'Your settings have been saved.' ) );
