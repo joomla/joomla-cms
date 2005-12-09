@@ -31,9 +31,6 @@
  * @package phpGACL
  */
 
-// no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
-
 /*
  * Path to ADODB.
  */

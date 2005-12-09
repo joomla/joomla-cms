@@ -13,7 +13,7 @@
 * */
 
 // no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 // ensure user has access to this function
 if ( !$acl->acl_check( 'com_installer', $element, 'users', $my->usertype ) ) {

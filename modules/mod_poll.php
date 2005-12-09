@@ -12,7 +12,7 @@
 */
 
 // no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 if (!defined( '_JOS_POLL_MODULE' )) {
 	/** ensure that functions are declared only once */

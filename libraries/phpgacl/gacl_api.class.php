@@ -30,9 +30,6 @@
  *
  */
 
-// no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
-
 /*
  *
  * For examples, see example.php or the Administration interface,

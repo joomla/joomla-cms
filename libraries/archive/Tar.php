@@ -18,9 +18,6 @@
 //
 // $Id$
 
-// no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
-
 jimport('pear.PEAR');
 
 define ('ARCHIVE_TAR_ATT_SEPARATOR', 90001);

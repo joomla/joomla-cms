@@ -12,7 +12,7 @@
 */
 
 // no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
 
 1. Changelog
@@ -31,7 +31,7 @@ Legend:
 - -> Removed
 ! -> Note
 
-11-Dec-2005 Samuel Moffatt
+10-Dec-2005 Samuel Moffatt
  ^ Disabled php_value in htaccess file, caused 500 Internal Server Errors
  + JRegistry Core Complete (INI Format and Database Storage Engines)
 
@@ -45,6 +45,7 @@ Legend:
  # Fixed artf2495 : Cant save user details from FE.
  + Added FTP settings to configuration
  + Added Debugging and Logging settings to configuration
+ ^ Deprecated _VALID_MOS, used _JEXEC instead
 
 08-Dec-2005 Andrew Eddie
  + Added patTemplate version of pathway code

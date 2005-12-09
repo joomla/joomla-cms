@@ -12,7 +12,7 @@
 */
 
 // no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 if (!defined( '_MOS_MAINMENU_MODULE' )) {
 	/** ensure that functions are declared only once */

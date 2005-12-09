@@ -4,8 +4,6 @@
 * @package Joomla
 */
 
-// no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // $Id$
 //
@@ -22,9 +20,6 @@ defined( '_VALID_MOS' ) or die( 'Restricted access' );
 //	date and time of the compressed file
 //
 //	Official ZIP file format: http://www.pkware.com/appnote.txt
-
-// ensure this file is being included by a parent file
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 class zipfile {
 	var $datasec = array();

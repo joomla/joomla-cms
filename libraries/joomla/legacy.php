@@ -16,6 +16,12 @@
 DEFINE('_ISO','charset=utf-8');
 
 /**
+* Legacy constant, use _JEXEC instead
+* @deprecated As of version 1.1
+*/
+define( '__VALID_MOS', 1 );
+
+/**
 * Legacy function, use JPath::clean instead
 * @deprecated As of version 1.1
 */

@@ -12,7 +12,7 @@
 */
 
 // no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
 
 Joomla! derives from copyrighted works licensed under the GNU General

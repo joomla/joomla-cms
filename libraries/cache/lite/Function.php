@@ -16,9 +16,6 @@
 * @author Fabien MARTY <fab@php.net>
 */
 
-// no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
-
 require_once( JPATH_SITE . '/includes/Cache/Lite.php' );
 
 class Cache_Lite_Function extends Cache_Lite

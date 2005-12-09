@@ -12,7 +12,7 @@
 */
 
 // no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $showmode 	= $params->get( 'showmode' );
 if(!$showmode || $showmode =='0') $showmode=0;

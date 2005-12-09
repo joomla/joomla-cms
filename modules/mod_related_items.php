@@ -12,7 +12,7 @@
 */
 
 // no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $option = mosGetParam( $_REQUEST, 'option' );
 $task 	= mosGetParam( $_REQUEST, 'task' );

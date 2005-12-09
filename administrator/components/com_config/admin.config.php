@@ -13,7 +13,7 @@
 */
 
 // no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 if (!$acl->acl_check( 'com_config', 'manage', 'users', $my->usertype )) {
 	mosRedirect( 'index2.php?', JText::_('ALERTNOTAUTH') );

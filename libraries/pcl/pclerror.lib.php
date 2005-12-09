@@ -4,8 +4,6 @@
 * @package Joomla
 */
 
-// no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 // --------------------------------------------------------------------------------
 // PhpConcept Library (PCL) Error 1.0

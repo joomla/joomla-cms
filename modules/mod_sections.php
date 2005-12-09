@@ -13,7 +13,7 @@
 global $mosConfig_offset;
 
 /// no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $count 	= intval( $params->get( 'count', 20 ) );
 $access = !$mainframe->getCfg( 'shownoauth' );

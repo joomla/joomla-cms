@@ -12,7 +12,7 @@
 */
 
 /** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
+defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
 //check if cache diretory is writable as cache files will be created for the feed
 $cacheDir = JPATH_SITE .'/cache/';

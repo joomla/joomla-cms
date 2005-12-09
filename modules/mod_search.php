@@ -12,7 +12,7 @@
 */
 
 // no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $button			 = $params->get( 'button', '' );
 $button_pos		 = $params->get( 'button_pos', 'left' );

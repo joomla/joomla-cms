@@ -12,7 +12,7 @@
 */
 
 // no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 global $mosConfig_offset, $mosConfig_caching, $mosConfig_enable_stats;
 global $mosConfig_gzip;

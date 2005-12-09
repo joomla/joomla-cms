@@ -12,7 +12,7 @@
 */
 
 // no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 define( '_MOS_MAMBO_INCLUDED', 1 );
 
 @set_magic_quotes_runtime( 0 );

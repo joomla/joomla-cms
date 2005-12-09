@@ -9,7 +9,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
 <span class="todotitle">STATUS</span>
 

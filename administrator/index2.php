@@ -12,7 +12,7 @@
 */
 
 // Set flag that this is a parent file
-define( '_VALID_MOS', 1 );
+define( '_JEXEC', 1 );
 
 define('JPATH_BASE', dirname(__FILE__) );
 

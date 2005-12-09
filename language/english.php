@@ -11,9 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
-
 /** common */
 DEFINE('_LANGUAGE','en');
 DEFINE('_NOT_AUTH','You are not authorized to view this resource.');

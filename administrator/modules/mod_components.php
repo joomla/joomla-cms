@@ -12,7 +12,7 @@
 */
 
 // no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 // cache some acl checks
 $canConfig = $acl->acl_check( 'com_config', 'manage', 'users', $my->usertype );
