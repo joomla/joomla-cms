@@ -594,7 +594,7 @@ function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NUL
 			$mail->AddAttachment($attachment);
 	} // if
 	//Important for being able to use mosMail without spoofing...
-	 if ($replyto) {												
+	 if ($replyto) {
         if ( is_array($replyto) ) {
         	reset($replytoname);
             foreach ($replyto as $to) {
@@ -604,7 +604,7 @@ function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NUL
         } else
             $mail->AddReplyTo($replyto, $replytoname);
     }
-	
+
 	$mailssend = $mail->Send();
 
 	if( $mosConfig_debug ) {
@@ -699,7 +699,7 @@ function mosSmartSubstr($text, $length=200, $searchword) {
   $wordpos = strpos(strtolower($text), strtolower($searchword));
   $halfside = intval($wordpos - $length/2 - strlen($searchword));
   if ($wordpos && $halfside > 0) {
-	  return '...' . substr($text, $halfside, $length);
+	return '...' . substr($text, $halfside, $length) . '...';
   } else {
 	return substr( $text, 0, $length);
   }
