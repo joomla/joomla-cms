@@ -160,9 +160,6 @@ function mosShowHead_Admin() {
 		$page->addScript( JURL_SITE.'/administrator/includes/js/ThemeOffice/theme'.$suffix.'.js');
 	}
 
-	// load editor
-	initEditor();
-
 	$dirs = array(
 		'/templates/'.$template.'/',
 		'/',
@@ -178,5 +175,8 @@ function mosShowHead_Admin() {
 	}
 
 	echo $page->renderHead();
+	
+	// load editor
+	initEditor();
 }
 ?>
