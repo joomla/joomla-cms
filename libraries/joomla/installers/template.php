@@ -12,14 +12,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
-
-// ensure user has access to this function
-if (!$acl->acl_check( 'com_templates', 'manage', 'users', $GLOBALS['my']->usertype )) {
-	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
-}
-
 /**
 * Template installer
 * @package Joomla

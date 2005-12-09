@@ -3,9 +3,6 @@
  * PHP 4.2.x Compatibility functions
  */
 
-// no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
-
 /**
  * Replace file_get_contents()
  *

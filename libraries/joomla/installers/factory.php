@@ -12,10 +12,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-/** ensure this file is being included by a parent file */
-defined( '_VALID_MOS' ) or die( 'Direct Access to this location is not allowed.' );
-
-
 // Load the base line installer class
 jimport('joomla.installers.installer');
 

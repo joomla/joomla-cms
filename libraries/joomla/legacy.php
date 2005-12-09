@@ -479,6 +479,18 @@ class mosMambotHandler extends JEventHandler {
 }
 
 /**
+ * Legacy class, removed
+ * @deprecated As of version 1.1
+ */
+class mosEmpty {
+	function def( $key, $value='' ) {
+		return 1;
+	}
+	function get( $key, $default='' ) {
+		return 1;
+	}
+}
+/**
  * Legacy global
  * 	use JApplicaiton->registerEvent and JApplication->triggerEvent for event handling
  *  use JBotLoader::importBot and JBotLoader::import to load bot code
@@ -502,6 +514,14 @@ function mosGetBrowser( $agent ) {
 function mosGetOS( $agent ) {
 	$browser = JApplication::getBrowser();
 	return $browser->getPlatform();
+}
+
+/**
+* Legacy function, use mosParameters::parse()
+* @deprecated As of version 1.1
+*/
+function mosParseParams( $txt ) {
+	return mosParameters::parse( $txt );
 }
 
 /**

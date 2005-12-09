@@ -1423,7 +1423,7 @@ class mosAdminMenus {
 		$total = count( $menus );
 		$menuselect = array();
 		for( $i = 0; $i < $total; $i++ ) {
-			$params = mosParseParams( $menus[$i]->params );
+			$params = mosParameters::parse( $menus[$i]->params );
 			$menuselect[$i]->value 	= $params->menutype;
 			$menuselect[$i]->text 	= $params->menutype;
 		}
@@ -1598,7 +1598,7 @@ class mosAdminMenus {
 		foreach ( $modMenus as $modMenu ) {
 			$check = 1;
 			mosMakeHtmlSafe( $modMenu) ;
-			$modParams 	= mosParseParams( $modMenu->params );
+			$modParams 	= mosParameters::parse( $modMenu->params );
 			$menuType 	= @$modParams->menutype;
 			if (!$menuType) {
 				$menuType = 'mainmenu';

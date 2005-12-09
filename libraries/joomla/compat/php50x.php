@@ -3,9 +3,6 @@
  * PHP 5.0.x Compatibility functions
  */
 
-// no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
-
 if (!defined('FILE_USE_INCLUDE_PATH')) {
 	define('FILE_USE_INCLUDE_PATH', 1);
 }

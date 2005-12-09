@@ -11,9 +11,6 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-// ensure this file is being included by a parent file
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
-
 /**
  * Class JQueryElement
  * @package Joomla

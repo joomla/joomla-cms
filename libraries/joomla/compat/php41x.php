@@ -3,9 +3,6 @@
  * PHP 4.1.x Compatibility functions
  */
 
-// no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
-
 if (!function_exists( 'array_change_key_case' )) {
 	if (!defined('CASE_LOWER')) {
 		define('CASE_LOWER', 0);

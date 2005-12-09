@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: offline.php 1037 2005-11-14 17:59:40Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -10,9 +10,6 @@
 * other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
-
-// no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 /*
  * Path to ADODB.

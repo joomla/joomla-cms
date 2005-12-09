@@ -14,9 +14,6 @@
 
 jimport( 'joomla.classes.object' );
 
-// no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
-
 /**
 * Database connector class
 * @subpackage Database

@@ -16,9 +16,6 @@
 
 jimport('cpdf.ezpdf');
 
-// no direct access
-defined( '_VALID_MOS' ) or die( 'Restricted access' );
-
 function dofreePDF () {
 	global $mosConfig_sitename, $mosConfig_offset;
 	global $mainframe, $database;
