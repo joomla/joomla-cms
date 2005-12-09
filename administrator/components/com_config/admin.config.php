@@ -114,8 +114,11 @@ function showconfig( $option) {
 
 // DEBUG
 
-	$lists['debug'] = mosHTML::yesnoRadioList( 'config_debug', 'class="inputbox"', $row->config_debug );
-
+	$lists['debug']    = mosHTML::yesnoRadioList( 'config_debug', 'class="inputbox"', $row->config_debug );
+	$lists['debug_db'] = mosHTML::yesnoRadioList( 'config_debug_db', 'class="inputbox"', $row->config_debug_db );
+	$lists['log']      = mosHTML::yesnoRadioList( 'config_log', 'class="inputbox"', $row->config_log );
+	$lists['log_db']   = mosHTML::yesnoRadioList( 'config_log_db', 'class="inputbox"', $row->config_log_db );
+	
 // DATABASE SETTINGS
 
 
@@ -129,6 +132,8 @@ function showconfig( $option) {
 		mosHTML::makeOption( E_ERROR|E_WARNING|E_PARSE, JText::_( 'Simple' ) ),
 		mosHTML::makeOption( E_ALL , JText::_( 'Maximum' ) )
 	);
+	
+	$lists['xmlrpc_server'] = mosHTML::yesnoRadioList( 'config_xmlrpc_server', 'class="inputbox"', $row->config_xmlrpc_server );
 
 	$lists['error_reporting'] = mosHTML::selectList( $errors, 'config_error_reporting', 'class="inputbox" size="1"', 'value', 'text', $row->config_error_reporting );
 
@@ -141,6 +146,7 @@ function showconfig( $option) {
 
 	$helpsites = array();
 	$helpsites = JHelp::createSiteList( 'http://help.joomla.org/helpsites-11.xml', $mosConfig_helpurl);
+	array_unshift( $helpsites, mosHTML::makeOption( '', JText::_('local'))) ;
 	$lists['helpsites'] = mosHTML::selectList( $helpsites, 'config_helpurl', ' class="inputbox" id="helpsites"', 'value', 'text', $mosConfig_helpurl);
 
 	$timeoffset = array(
@@ -319,39 +325,6 @@ function saveconfig( $task ) {
 		} // if
 
 		$msg = JText::_( 'The Configuration Details have been updated' );
-
-		// apply file and directory permissions if requested by user
-		$applyFilePerms = mosGetParam($_POST,'applyFilePerms',0) && $row->config_fileperms!='';
-		$applyDirPerms = mosGetParam($_POST,'applyDirPerms',0) && $row->config_dirperms!='';
-		if ($applyFilePerms || $applyDirPerms) {
-			$mosrootfiles = array(
-				'administrator',
-				'cache',
-				'components',
-				'images',
-				'language',
-				'mambots',
-				'media',
-				'modules',
-				'templates',
-				'configuration.php'
-			);
-			$filemode = NULL;
-
-			if ( $applyFilePerms ) {
-				$filemode = octdec( $row->config_fileperms );
-			}
-
-			$dirmode = NULL;
-
-			if ( $applyDirPerms ) {
-				$dirmode = octdec( $row->config_dirperms );
-			}
-
-			foreach ($mosrootfiles as $file) {
-				mosChmodRecursive( JPATH_SITE . DS . $file, $filemode, $dirmode );
-			}
-		} // if
 
 		switch ( $task ) {
 			case 'apply':

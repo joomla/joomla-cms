@@ -43,6 +43,8 @@ Legend:
 09-Dec-2005 Johan Janssens
  + Added support for FTP to the installation - Contributed by Louis Landry
  # Fixed artf2495 : Cant save user details from FE.
+ + Added FTP settings to configuration
+ + Added Debugging and Logging settings to configuration
 
 08-Dec-2005 Andrew Eddie
  + Added patTemplate version of pathway code

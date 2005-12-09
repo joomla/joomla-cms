@@ -36,7 +36,13 @@ class mosConfig {
 
 // Debug
 	/** @var int */
-	var $config_debug=0;
+	var $config_debug				=0;
+	/** @var int */
+	var $config_debug_db			=0;
+	/** @var int */
+	var $config_log					=0;
+	/** @var int */
+	var $config_log_db				=0;
 
 // Database Settings
 	/** @var string */
@@ -75,6 +81,12 @@ class mosConfig {
 	var $config_fileperms			= '0644';
 	/** @var string */
 	var $config_dirperms			= '0755';
+	/** @var string */
+	var $config_ftp_user 			= null;
+	/** @var string */
+	var $config_ftp_pass 			= null;
+	/** @var string */
+	var $config_ftp_path 			= null;
 
 // Locale Settings
 	/** @var string */

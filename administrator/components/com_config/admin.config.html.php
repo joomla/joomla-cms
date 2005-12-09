@@ -24,82 +24,6 @@ class HTML_config {
 	function showconfig( &$row, &$lists, $option) {
 		$tabs = new mosTabs(1);
 		?>
-		<script type="text/javascript">
-		<!--
-			function saveFilePerms()
-			{
-				var f = document.adminForm;
-				if (f.filePermsMode0.checked)
-					f.config_fileperms.value = '';
-				else {
-					var perms = 0;
-					if (f.filePermsUserRead.checked) perms += 400;
-					if (f.filePermsUserWrite.checked) perms += 200;
-					if (f.filePermsUserExecute.checked) perms += 100;
-					if (f.filePermsGroupRead.checked) perms += 40;
-					if (f.filePermsGroupWrite.checked) perms += 20;
-					if (f.filePermsGroupExecute.checked) perms += 10;
-					if (f.filePermsWorldRead.checked) perms += 4;
-					if (f.filePermsWorldWrite.checked) perms += 2;
-					if (f.filePermsWorldExecute.checked) perms += 1;
-					f.config_fileperms.value = '0'+''+perms;
-				}
-			}
-			function changeFilePermsMode(mode)
-			{
-				if(document.getElementById) {
-					switch (mode) {
-						case 0:
-							document.getElementById('filePermsValue').style.display = 'none';
-							document.getElementById('filePermsTooltip').style.display = '';
-							document.getElementById('filePermsFlags').style.display = 'none';
-							break;
-						default:
-							document.getElementById('filePermsValue').style.display = '';
-							document.getElementById('filePermsTooltip').style.display = 'none';
-							document.getElementById('filePermsFlags').style.display = '';
-					} // switch
-				} // if
-				saveFilePerms();
-			}
-			function saveDirPerms()
-			{
-				var f = document.adminForm;
-				if (f.dirPermsMode0.checked)
-					f.config_dirperms.value = '';
-				else {
-					var perms = 0;
-					if (f.dirPermsUserRead.checked) perms += 400;
-					if (f.dirPermsUserWrite.checked) perms += 200;
-					if (f.dirPermsUserSearch.checked) perms += 100;
-					if (f.dirPermsGroupRead.checked) perms += 40;
-					if (f.dirPermsGroupWrite.checked) perms += 20;
-					if (f.dirPermsGroupSearch.checked) perms += 10;
-					if (f.dirPermsWorldRead.checked) perms += 4;
-					if (f.dirPermsWorldWrite.checked) perms += 2;
-					if (f.dirPermsWorldSearch.checked) perms += 1;
-					f.config_dirperms.value = '0'+''+perms;
-				}
-			}
-			function changeDirPermsMode(mode)
-			{
-				if(document.getElementById) {
-					switch (mode) {
-						case 0:
-							document.getElementById('dirPermsValue').style.display = 'none';
-							document.getElementById('dirPermsTooltip').style.display = '';
-							document.getElementById('dirPermsFlags').style.display = 'none';
-							break;
-						default:
-							document.getElementById('dirPermsValue').style.display = '';
-							document.getElementById('dirPermsTooltip').style.display = 'none';
-							document.getElementById('dirPermsFlags').style.display = '';
-					} // switch
-				} // if
-				saveDirPerms();
-			}
-		//-->
-		</script>
 		<form action="index2.php" method="post" name="adminForm">
 
 		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
@@ -112,7 +36,7 @@ class HTML_config {
 				</span>
 			</td>
 			<?php
-			if (mosIsChmodable('../configuration.php')) {
+			if (JPath::canCHMOD('../configuration.php')) {
 				if (is_writable('../configuration.php')) {
 					?>
 					<td>
@@ -163,12 +87,59 @@ class HTML_config {
 				<td><input class="text_area" type="text" name="config_sitename" size="50" value="<?php echo $row->config_sitename; ?>"/></td>
 			</tr>
 			<tr>
-				<td><?php echo JText::_( 'Show UnAuthorized Links' ); ?>:</td>
-				<td><?php echo $lists['shownoauth']; ?><?php
-					$tip = JText::_( 'TIPLINKS' );
+				<td><?php echo JText::_( 'Default WYSIWYG Editor' ); ?>:</td>
+				<td><?php echo $lists['editor']; ?></td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_( 'List Length' ); ?>:</td>
+				<td><?php echo $lists['list_limit']; ?><?php
+					$tip = JText::_( 'TIPSETSDEFAULTLENGTHLISTS' );
+					echo mosToolTip( $tip );
+				?>
+				</td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_( 'Help Server' ); ?>:</td>
+				<td><?php echo $lists['helpsites']; ?></td>
+			</tr>
+			</table>
+			
+					<?php
+		$title = JText::_( 'Debug' );
+		$tabs->endTab();
+		$tabs->startTab( $title, "Debug-page" );
+			?>
+			<table class="adminform">
+			<tr>
+				<td><?php echo JText::_( 'Enable Debuging' ); ?>:</td>
+				<td><?php echo $lists['debug']; ?><?php
+					$tip = JText::_( 'TIPDEBUGGINGINFO' );
 					echo mosToolTip( $tip );
 				?></td>
 			</tr>
+			<tr>
+				<td><?php echo JText::_( 'Debug Database' ); ?>:</td>
+				<td><?php echo $lists['debug_db']; ?></td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_( 'Enable Logging' ); ?>:</td>
+				<td><?php echo $lists['log']; ?><?php
+					$tip = JText::_( 'TIPLOGGINGINFO' );
+					echo mosToolTip( $tip );
+				?></td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_( 'Log Database' ); ?>:</td>
+				<td><?php echo $lists['log_db']; ?></td>
+			</tr>
+			</table>
+		
+				<?php
+		$title = JText::_( 'Users' );
+		$tabs->endTab();
+		$tabs->startTab( $title, "Users-page" );
+			?>
+			<table class="adminform">
 			<tr>
 				<td><?php echo JText::_( 'Allow User Registration' ); ?>:</td>
 				<td><?php echo $lists['allowUserRegistration']; ?><?php
@@ -192,47 +163,104 @@ class HTML_config {
 				?></td>
 			</tr>
 			<tr>
-				<td><?php echo JText::_( 'Debug Site' ); ?>:</td>
-				<td><?php echo $lists['debug']; ?><?php
-					$tip = JText::_( 'TIPIFYESINFO' );
-					echo mosToolTip( $tip );
-				?></td>
-			</tr>
-			<tr>
-				<td><?php echo JText::_( 'Default WYSIWYG Editor' ); ?>:</td>
-				<td><?php echo $lists['editor']; ?></td>
-			</tr>
-			<tr>
-				<td><?php echo JText::_( 'List Length' ); ?>:</td>
-				<td><?php echo $lists['list_limit']; ?><?php
-					$tip = JText::_( 'TIPSETSDEFAULTLENGTHLISTS' );
+				<td><?php echo JText::_( 'Show UnAuthorized Links' ); ?>:</td>
+				<td><?php echo $lists['shownoauth']; ?><?php
+					$tip = JText::_( 'TIPLINKS' );
 					echo mosToolTip( $tip );
 				?></td>
 			</tr>
 			</table>
-
-			<?php
-		$title = JText::_( 'Locale' );
+			
+				<?php
+		$title = JText::_( 'Metadata' );
 		$tabs->endTab();
-		$tabs->startTab( $title, "Locale-page" );
+		$tabs->startTab( $title, "metadata-page" );
 			?>
 
 			<table class="adminform">
 			<tr>
-				<td width="185"><?php echo JText::_( 'Time Offset' ); ?>:</td>
-				<td>
-				<?php echo $lists['offset']; ?>
-				<?php
-				$tip = JText::_( 'Current date/time configured to display' ) .': '. mosCurrentDate( JText::_( '_DATE_FORMAT_LC2' ) );
-				echo mosToolTip( $tip );
-				?>
-				</td>
+				<td width="185" valign="top"><?php echo JText::_( 'Global Site Meta Description' ); ?>:</td>
+				<td><textarea class="text_area" cols="50" rows="3" style="width:500px; height:50px" name="config_MetaDesc"><?php echo htmlspecialchars($row->config_MetaDesc, ENT_QUOTES); ?></textarea></td>
 			</tr>
 			<tr>
-				<td width="185"><?php echo JText::_( 'Server Offset' ); ?>:</td>
+				<td valign="top"><?php echo JText::_( 'Global Site Meta Keywords' ); ?>:</td>
+				<td><textarea class="text_area" cols="50" rows="3" style="width:500px; height:50px" name="config_MetaKeys"><?php echo htmlspecialchars($row->config_MetaKeys, ENT_QUOTES); ?></textarea></td>
+			</tr>
+			<tr>
+				<td valign="top"><?php echo JText::_( 'Show Title Meta Tag' ); ?>:</td>
 				<td>
-				<input class="text_area" type="text" name="config_offset" size="15" value="<?php echo $row->config_offset; ?>" disabled="true"/>
+				<?php echo $lists['MetaTitle']; ?>
+				&nbsp;&nbsp;&nbsp;
+				<?php
+                    $tip = JText::_( 'TIPSHOWTITLEMETATAGITEMS' );
+                    echo mosToolTip( $tip ); ?>
 				</td>
+			  	</tr>
+			<tr>
+				<td valign="top"><?php echo JText::_( 'Show Author Meta Tag' ); ?>:</td>
+				<td>
+				<?php echo $lists['MetaAuthor']; ?>
+				&nbsp;&nbsp;&nbsp;
+				<?php
+                    $tip = JText::_( 'TIPSHOWAUTHORMETATAGITEMS' );
+                    echo mosToolTip( $tip ); ?>
+				</td>
+			</tr>
+			</table>
+			
+				<?php
+		$title = JText::_( 'Statistics' );
+		$tabs->endTab();
+		$tabs->startTab( $title, "stats-page" );
+			?>
+
+			<table class="adminform">
+			<tr>
+				<td width="185"><?php echo JText::_( 'Statistics' ); ?>:</td>
+				<td width="100"><?php echo $lists['enable_stats']; ?></td>
+				<td><?php
+                    $tip = JText::_( 'TIPENABLEDISABLESTATS' );
+                    echo mostooltip( $tip ); ?></td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_( 'Log Content Hits by Date' ); ?>:</td>
+				<td><?php echo $lists['log_items']; ?></td>
+				<td><span class="error"><?php
+                    $warn = JText::_( 'TIPLARGEAMOUNTSOFDATA' );
+                    echo JWarning( $warn ); ?></span></td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_( 'Log Search Strings' ); ?>:</td>
+				<td><?php echo $lists['log_searches']; ?></td>
+				<td>&nbsp;</td>
+			</tr>
+			</table>			
+			
+			<?php
+		$title = JText::_( 'SEO' );
+		$tabs->endTab();
+		$tabs->startTab( $title, "seo-page" );
+			?>
+
+			<table class="adminform">
+			<tr>
+				<td width="200"><strong><?php echo JText::_( 'Search Engine Optimization Settings' ); ?></strong></td>
+				<td width="100">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_( 'Search Engine Friendly URLs' ); ?>:</td>
+				<td><?php echo $lists['sef']; ?>&nbsp;</td>
+				<td><span class="error"><?php
+                $tip = JText::_( 'WARNAPACHEONLY' );
+                echo JWarning( $tip ); ?></span></td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_( 'Dynamic Page Titles' ); ?>:</td>
+				<td><?php echo $lists['pagetitles']; ?></td>
+				<td><?php echo
+                    $tip = JText::_( 'TIPDYNAMICALLYCHANGESPAGETITLE' );
+                    mosToolTip( $tip ); ?></td>
 			</tr>
 			</table>
 
@@ -351,43 +379,6 @@ class HTML_config {
 				<td>&nbsp;</td>
 			</tr>
 			</table>
-			<?php
-		$title = JText::_( 'Database' );
-		$tabs->endTab();
-		$tabs->startTab( $title, "db-page" );
-			?>
-
-			<table class="adminform">
-			<tr>
-				<td width="185"><?php echo JText::_( 'Database type' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_dbtype" size="25" value="<?php echo $row->config_dbtype; ?>"/></td>
-			</tr>
-			<tr>
-				<td width="185"><?php echo JText::_( 'Hostname' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_host" size="25" value="<?php echo $row->config_host; ?>"/></td>
-			</tr>
-			<tr>
-				<td><?php echo JText::_( 'Username' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_user" size="25" value="<?php echo $row->config_user; ?>"/></td>
-			</tr>
-			<tr>
-				<td><?php echo JText::_( 'Password' ); ?>:</td>
-				<td><input class="text_area" type="password" name="config_password" size="25" value="<?php echo $row->config_password; ?>"/></td>
-			</tr>
-			<tr>
-				<td><?php echo JText::_( 'Database' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_db" size="25" value="<?php echo $row->config_db; ?>"/></td>
-			</tr>
-			<tr>
-				<td><?php echo JText::_( 'Database Prefix' ); ?>:</td>
-				<td>
-				<input class="text_area" type="text" name="config_dbprefix" size="10" value="<?php echo $row->config_dbprefix; ?>"/>
-				&nbsp;<?php
-                $warn = JText::_( 'WARNDONOTCHANGEDATABASETABLESPREFIX' );
-                echo JWarning( $warn ); ?>
-				</td>
-			</tr>
-			</table>
 
 			<?php
 		$title = JText::_( 'Server' );
@@ -448,202 +439,57 @@ class HTML_config {
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
-				<td><?php echo JText::_( 'Help Server' ); ?>:</td>
-				<td><?php echo $lists['helpsites']; ?></td>
+				<td><?php echo JText::_( 'Enable XML-PRC' ); ?>:</td>
+				<td><?php echo $lists['xmlrpc_server']; ?></td>
 			</tr>
 			<tr>
-				<?php
-				$mode = 0;
-				$flags = 0644;
-				if ($row->config_fileperms!='') {
-					$mode = 1;
-					$flags = octdec($row->config_fileperms);
-				} // if
-				?>
-				<td valign="top"><?php echo JText::_( 'File Creation' ); ?>:</td>
-				<td>
-					<fieldset><legend><?php echo JText::_( 'File Permissions' ); ?></legend>
-						<table cellpadding="1" cellspacing="1" border="0">
-							<tr>
-								<td><input type="radio" id="filePermsMode0" name="filePermsMode" value="0" onclick="changeFilePermsMode(0)"<?php if (!$mode) echo ' checked="checked"'; ?>/></td>
-								<td><label for="filePermsMode0"><?php echo JText::_( 'DESCDONTCHMODNEWFILES' ); ?></label></td>
-							</tr>
-							<tr>
-								<td><input type="radio" id="filePermsMode1" name="filePermsMode" value="1" onclick="changeFilePermsMode(1)"<?php if ($mode) echo ' checked="checked"'; ?>/></td>
-								<td>
-									<label for="filePermsMode1"><?php echo JText::_( 'CHMOD new files' ); ?></label>
-									<span id="filePermsValue"<?php if (!$mode) echo ' style="display:none"'; ?>>
-									<?php echo JText::_( 'to' ); ?>:	<input class="text_area" type="text" readonly="readonly" name="config_fileperms" size="4" value="<?php echo $row->config_fileperms; ?>"/>
-									</span>
-									<span id="filePermsTooltip"<?php if ($mode) echo ' style="display:none"'; ?>>
-									&nbsp;<?php
-                                    $tip = JText::_( 'TIPPERMISSIONFLAGSFILES' );
-                                    echo mosToolTip( $tip ); ?>
-									</span>
-								</td>
-							</tr>
-							<tr id="filePermsFlags"<?php if (!$mode) echo ' style="display:none"'; ?>>
-								<td>&nbsp;</td>
-								<td>
-									<table cellpadding="0" cellspacing="1" border="0">
-										<tr>
-											<td style="padding:0px"><?php echo JText::_( 'User' ); ?>:</td>
-											<td style="padding:0px"><input type="checkbox" id="filePermsUserRead" name="filePermsUserRead" value="1" onclick="saveFilePerms()"<?php if ($flags & 0400) echo ' checked="checked"'; ?>/></td>
-											<td style="padding:0px"><label for="filePermsUserRead"><?php echo JText::_( 'read' ); ?></label></td>
-											<td style="padding:0px"><input type="checkbox" id="filePermsUserWrite" name="filePermsUserWrite" value="1" onclick="saveFilePerms()"<?php if ($flags & 0200) echo ' checked="checked"'; ?>/></td>
-											<td style="padding:0px"><label for="filePermsUserWrite"><?php echo JText::_( 'write' ); ?></label></td>
-											<td style="padding:0px"><input type="checkbox" id="filePermsUserExecute" name="filePermsUserExecute" value="1" onclick="saveFilePerms()"<?php if ($flags & 0100) echo ' checked="checked"'; ?>/></td>
-											<td style="padding:0px" colspan="3"><label for="filePermsUserExecute"><?php echo JText::_( 'execute' ); ?></label></td>
-										</tr>
-										<tr>
-											<td style="padding:0px"><?php echo JText::_( 'Group' ); ?>:</td>
-											<td style="padding:0px"><input type="checkbox" id="filePermsGroupRead" name="filePermsGroupRead" value="1" onclick="saveFilePerms()"<?php if ($flags & 040) echo ' checked="checked"'; ?>/></td>
-											<td style="padding:0px"><label for="filePermsGroupRead"><?php echo JText::_( 'read' ); ?></label></td>
-											<td style="padding:0px"><input type="checkbox" id="filePermsGroupWrite" name="filePermsGroupWrite" value="1" onclick="saveFilePerms()"<?php if ($flags & 020) echo ' checked="checked"'; ?>/></td>
-											<td style="padding:0px"><label for="filePermsGroupWrite"><?php echo JText::_( 'write' ); ?></label></td>
-											<td style="padding:0px"><input type="checkbox" id="filePermsGroupExecute" name="filePermsGroupExecute" value="1" onclick="saveFilePerms()"<?php if ($flags & 010) echo ' checked="checked"'; ?>/></td>
-											<td style="padding:0px" width="70"><label for="filePermsGroupExecute"><?php echo JText::_( 'execute' ); ?></label></td>
-											<td><input type="checkbox" id="applyFilePerms" name="applyFilePerms" value="1"/></td>
-											<td nowrap="nowrap">
-												<label for="applyFilePerms">
-													<?php echo JText::_( 'Apply to existing files' ); ?>
-													&nbsp;<?php
-													$warn = JText::_( 'WARNWILLAPPLYPERMISSIONFLAGSTO' );
-													echo JWarning( $warn );?>
-												</label>
-											</td>
-										</tr>
-										<tr>
-											<td style="padding:0px"><?php echo JText::_( 'World' ); ?>:</td>
-											<td style="padding:0px"><input type="checkbox" id="filePermsWorldRead" name="filePermsWorldRead" value="1" onclick="saveFilePerms()"<?php if ($flags & 04) echo ' checked="checked"'; ?>/></td>
-											<td style="padding:0px"><label for="filePermsWorldRead"><?php echo JText::_( 'read' ); ?></label></td>
-											<td style="padding:0px"><input type="checkbox" id="filePermsWorldWrite" name="filePermsWorldWrite" value="1" onclick="saveFilePerms()"<?php if ($flags & 02) echo ' checked="checked"'; ?>/></td>
-											<td style="padding:0px"><label for="filePermsWorldWrite"><?php echo JText::_( 'write' ); ?></label></td>
-											<td style="padding:0px"><input type="checkbox" id="filePermsWorldExecute" name="filePermsWorldExecute" value="1" onclick="saveFilePerms()"<?php if ($flags & 01) echo ' checked="checked"'; ?>/></td>
-											<td style="padding:0px" colspan="4"><label for="filePermsWorldExecute"><?php echo JText::_( 'execute' ); ?></label></td>
-										</tr>
-									</table>
-								</td>
-							</tr>
-						</table>
-					</fieldset>
-				</td>
-				<td>&nbsp;</td>
+				<td><?php echo JText::_( 'FTP Path' ); ?>:</td>
+				<td><input class="text_area" type="text" name="config_ftp_path" size="50" value="<?php echo $row->config_ftp_path; ?>"/></td>
 			</tr>
 			<tr>
-				<?php
-				$mode = 0;
-				$flags = 0755;
-				if ($row->config_dirperms!='') {
-					$mode = 1;
-					$flags = octdec($row->config_dirperms);
-				} // if
-				?>
-				<td valign="top"><?php echo JText::_( 'Directory Creation' ); ?>:</td>
-				<td>
-					<fieldset><legend><?php echo JText::_( 'Directory Permissions' ); ?></legend>
-						<table cellpadding="1" cellspacing="1" border="0">
-							<tr>
-								<td><input type="radio" id="dirPermsMode0" name="dirPermsMode" value="0" onclick="changeDirPermsMode(0)"<?php if (!$mode) echo ' checked="checked"'; ?>/></td>
-								<td><label for="dirPermsMode0"><?php echo JText::_( 'DESCDONTCHMODNEWDIR' ); ?></label></td>
-							</tr>
-							<tr>
-								<td><input type="radio" id="dirPermsMode1" name="dirPermsMode" value="1" onclick="changeDirPermsMode(1)"<?php if ($mode) echo ' checked="checked"'; ?>/></td>
-								<td>
-									<label for="dirPermsMode1"><?php echo JText::_( 'CHMOD new directories' ); ?></label>
-									<span id="dirPermsValue"<?php if (!$mode) echo ' style="display:none"'; ?>>
-									<?php echo JText::_( 'to' ); ?>: <input class="text_area" type="text" readonly="readonly" name="config_dirperms" size="4" value="<?php echo $row->config_dirperms; ?>"/>
-									</span>
-									<span id="dirPermsTooltip"<?php if ($mode) echo ' style="display:none"'; ?>>
-									&nbsp;<?php
-                                    $tip = JText::_( 'TIPPERMISSIONFLAGSDIR' );
-                                    echo mosToolTip( $tip ); ?>
-									</span>
-								</td>
-							</tr>
-							<tr id="dirPermsFlags"<?php if (!$mode) echo ' style="display:none"'; ?>>
-								<td>&nbsp;</td>
-								<td>
-									<table cellpadding="1" cellspacing="0" border="0">
-										<tr>
-											<td style="padding:0px"><?php echo JText::_( 'User' ); ?>:</td>
-											<td style="padding:0px"><input type="checkbox" id="dirPermsUserRead" name="dirPermsUserRead" value="1" onclick="saveDirPerms()"<?php if ($flags & 0400) echo ' checked="checked"'; ?>/></td>
-											<td style="padding:0px"><label for="dirPermsUserRead"><?php echo JText::_( 'read' ); ?></label></td>
-											<td style="padding:0px"><input type="checkbox" id="dirPermsUserWrite" name="dirPermsUserWrite" value="1" onclick="saveDirPerms()"<?php if ($flags & 0200) echo ' checked="checked"'; ?>/></td>
-											<td style="padding:0px"><label for="dirPermsUserWrite"><?php echo JText::_( 'write' ); ?></label></td>
-											<td style="padding:0px"><input type="checkbox" id="dirPermsUserSearch" name="dirPermsUserSearch" value="1" onclick="saveDirPerms()"<?php if ($flags & 0100) echo ' checked="checked"'; ?>/></td>
-											<td style="padding:0px" colspan="3"><label for="dirPermsUserSearch"><?php echo JText::_( 'search' ); ?></label></td>
-										</tr>
-										<tr>
-											<td style="padding:0px"><?php echo JText::_( 'Group' ); ?>:</td>
-											<td style="padding:0px"><input type="checkbox" id="dirPermsGroupRead" name="dirPermsGroupRead" value="1" onclick="saveDirPerms()"<?php if ($flags & 040) echo ' checked="checked"'; ?>/></td>
-											<td style="padding:0px"><label for="dirPermsGroupRead"><?php echo JText::_( 'read' ); ?></label></td>
-											<td style="padding:0px"><input type="checkbox" id="dirPermsGroupWrite" name="dirPermsGroupWrite" value="1" onclick="saveDirPerms()"<?php if ($flags & 020) echo ' checked="checked"'; ?>/></td>
-											<td style="padding:0px"><label for="dirPermsGroupWrite"><?php echo JText::_( 'write' ); ?></label></td>
-											<td style="padding:0px"><input type="checkbox" id="dirPermsGroupSearch" name="dirPermsGroupSearch" value="1" onclick="saveDirPerms()"<?php if ($flags & 010) echo ' checked="checked"'; ?>/></td>
-											<td style="padding:0px" width="70"><label for="dirPermsGroupSearch"><?php echo JText::_( 'search' ); ?></label></td>
-											<td><input type="checkbox" id="applyDirPerms" name="applyDirPerms" value="1"/></td>
-											<td nowrap="nowrap">
-												<label for="applyDirPerms">
-													<?php echo JText::_( 'Apply to existing directories' ); ?>
-													&nbsp;<?php
-													$tip = JText::_( 'WARNCHECK' );
-													echo JWarning( $tip );?>
-												</label>
-											</td>
-										</tr>
-										<tr>
-											<td style="padding:0px"><?php echo JText::_( 'World' ); ?>:</td>
-											<td style="padding:0px"><input type="checkbox" id="dirPermsWorldRead" name="dirPermsWorldRead" value="1" onclick="saveDirPerms()"<?php if ($flags & 04) echo ' checked="checked"'; ?>/></td>
-											<td style="padding:0px"><label for="dirPermsWorldRead"><?php echo JText::_( 'read' ); ?></label></td>
-											<td style="padding:0px"><input type="checkbox" id="dirPermsWorldWrite" name="dirPermsWorldWrite" value="1" onclick="saveDirPerms()"<?php if ($flags & 02) echo ' checked="checked"'; ?>/></td>
-											<td style="padding:0px"><label for="dirPermsWorldWrite"><?php echo JText::_( 'write' ); ?></label></td>
-											<td style="padding:0px"><input type="checkbox" id="dirPermsWorldSearch" name="dirPermsWorldSearch" value="1" onclick="saveDirPerms()"<?php if ($flags & 01) echo ' checked="checked"'; ?>/></td>
-											<td style="padding:0px" colspan="3"><label for="dirPermsWorldSearch"><?php echo JText::_( 'search' ); ?></label></td>
-										</tr>
-									</table>
-								</td>
-							</tr>
-						</table>
-					</fieldset>
-				</td>
-				<td>&nbsp;</td>
-			  </tr>
+				<td><?php echo JText::_( 'FTP Username' ); ?>:</td>
+				<td><input class="text_area" type="text" name="config_ftp_user" size="25" value="<?php echo $row->config_ftp_user; ?>"/></td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_( 'FTP Password' ); ?>:</td>
+				<td><input class="text_area" type="password" name="config_ftp_pass" size="25" value="<?php echo $row->config_ftp_pass; ?>"/></td>
+			</tr>
 			</table>
-
-			<?php
-		$title = JText::_( 'Metadata' );
+			
+				<?php
+		$title = JText::_( 'Database' );
 		$tabs->endTab();
-		$tabs->startTab( $title, "metadata-page" );
+		$tabs->startTab( $title, "db-page" );
 			?>
 
 			<table class="adminform">
 			<tr>
-				<td width="185" valign="top"><?php echo JText::_( 'Global Site Meta Description' ); ?>:</td>
-				<td><textarea class="text_area" cols="50" rows="3" style="width:500px; height:50px" name="config_MetaDesc"><?php echo htmlspecialchars($row->config_MetaDesc, ENT_QUOTES); ?></textarea></td>
+				<td width="185"><?php echo JText::_( 'Database type' ); ?>:</td>
+				<td><input class="text_area" type="text" name="config_dbtype" size="25" value="<?php echo $row->config_dbtype; ?>"/></td>
 			</tr>
 			<tr>
-				<td valign="top"><?php echo JText::_( 'Global Site Meta Keywords' ); ?>:</td>
-				<td><textarea class="text_area" cols="50" rows="3" style="width:500px; height:50px" name="config_MetaKeys"><?php echo htmlspecialchars($row->config_MetaKeys, ENT_QUOTES); ?></textarea></td>
+				<td width="185"><?php echo JText::_( 'Hostname' ); ?>:</td>
+				<td><input class="text_area" type="text" name="config_host" size="25" value="<?php echo $row->config_host; ?>"/></td>
 			</tr>
 			<tr>
-				<td valign="top"><?php echo JText::_( 'Show Title Meta Tag' ); ?>:</td>
-				<td>
-				<?php echo $lists['MetaTitle']; ?>
-				&nbsp;&nbsp;&nbsp;
-				<?php
-                    $tip = JText::_( 'TIPSHOWTITLEMETATAGITEMS' );
-                    echo mosToolTip( $tip ); ?>
-				</td>
-			  	</tr>
+				<td><?php echo JText::_( 'Username' ); ?>:</td>
+				<td><input class="text_area" type="text" name="config_user" size="25" value="<?php echo $row->config_user; ?>"/></td>
+			</tr>
 			<tr>
-				<td valign="top"><?php echo JText::_( 'Show Author Meta Tag' ); ?>:</td>
+				<td><?php echo JText::_( 'Password' ); ?>:</td>
+				<td><input class="text_area" type="password" name="config_password" size="25" value="<?php echo $row->config_password; ?>"/></td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_( 'Database' ); ?>:</td>
+				<td><input class="text_area" type="text" name="config_db" size="25" value="<?php echo $row->config_db; ?>"/></td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_( 'Database Prefix' ); ?>:</td>
 				<td>
-				<?php echo $lists['MetaAuthor']; ?>
-				&nbsp;&nbsp;&nbsp;
-				<?php
-                    $tip = JText::_( 'TIPSHOWAUTHORMETATAGITEMS' );
-                    echo mosToolTip( $tip ); ?>
+				<input class="text_area" type="text" name="config_dbprefix" size="10" value="<?php echo $row->config_dbprefix; ?>"/>
+				&nbsp;<?php
+                $warn = JText::_( 'WARNDONOTCHANGEDATABASETABLESPREFIX' );
+                echo JWarning( $warn ); ?>
 				</td>
 			</tr>
 			</table>
@@ -688,6 +534,31 @@ class HTML_config {
 				<td><input class="text_area" type="text" name="config_smtphost" size="50" value="<?php echo $row->config_smtphost; ?>"/></td>
 			</tr>
 			</table>
+			
+			<?php
+		$title = JText::_( 'Locale' );
+		$tabs->endTab();
+		$tabs->startTab( $title, "Locale-page" );
+			?>
+
+			<table class="adminform">
+			<tr>
+				<td width="185"><?php echo JText::_( 'Time Offset' ); ?>:</td>
+				<td>
+				<?php echo $lists['offset']; ?>
+				<?php
+				$tip = JText::_( 'Current date/time configured to display' ) .': '. mosCurrentDate( JText::_( '_DATE_FORMAT_LC2' ) );
+				echo mosToolTip( $tip );
+				?>
+				</td>
+			</tr>
+			<tr>
+				<td width="185"><?php echo JText::_( 'Server Offset' ); ?>:</td>
+				<td>
+				<input class="text_area" type="text" name="config_offset" size="15" value="<?php echo $row->config_offset; ?>" disabled="true"/>
+				</td>
+			</tr>
+			</table>
 
 			<?php
 		$title = JText::_( 'Cache' );
@@ -727,62 +598,6 @@ class HTML_config {
 				<td><?php echo JText::_( 'Cache Time' ); ?>:</td>
 				<td><input class="text_area" type="text" name="config_cachetime" size="5" value="<?php echo $row->config_cachetime; ?>"/> <?php echo JText::_( 'seconds' ); ?></td>
 				<td>&nbsp;</td>
-			</tr>
-			</table>
-
-			<?php
-		$title = JText::_( 'Statistics' );
-		$tabs->endTab();
-		$tabs->startTab( $title, "stats-page" );
-			?>
-
-			<table class="adminform">
-			<tr>
-				<td width="185"><?php echo JText::_( 'Statistics' ); ?>:</td>
-				<td width="100"><?php echo $lists['enable_stats']; ?></td>
-				<td><?php
-                    $tip = JText::_( 'TIPENABLEDISABLESTATS' );
-                    echo mostooltip( $tip ); ?></td>
-			</tr>
-			<tr>
-				<td><?php echo JText::_( 'Log Content Hits by Date' ); ?>:</td>
-				<td><?php echo $lists['log_items']; ?></td>
-				<td><span class="error"><?php
-                    $warn = JText::_( 'TIPLARGEAMOUNTSOFDATA' );
-                    echo JWarning( $warn ); ?></span></td>
-			</tr>
-			<tr>
-				<td><?php echo JText::_( 'Log Search Strings' ); ?>:</td>
-				<td><?php echo $lists['log_searches']; ?></td>
-				<td>&nbsp;</td>
-			</tr>
-			</table>
-
-			<?php
-		$title = JText::_( 'SEO' );
-		$tabs->endTab();
-		$tabs->startTab( $title, "seo-page" );
-			?>
-
-			<table class="adminform">
-			<tr>
-				<td width="200"><strong><?php echo JText::_( 'Search Engine Optimization Settings' ); ?></strong></td>
-				<td width="100">&nbsp;</td>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td><?php echo JText::_( 'Search Engine Friendly URLs' ); ?>:</td>
-				<td><?php echo $lists['sef']; ?>&nbsp;</td>
-				<td><span class="error"><?php
-                $tip = JText::_( 'WARNAPACHEONLY' );
-                echo JWarning( $tip ); ?></span></td>
-			</tr>
-			<tr>
-				<td><?php echo JText::_( 'Dynamic Page Titles' ); ?>:</td>
-				<td><?php echo $lists['pagetitles']; ?></td>
-				<td><?php echo
-                    $tip = JText::_( 'TIPDYNAMICALLYCHANGESPAGETITLE' );
-                    mosToolTip( $tip ); ?></td>
 			</tr>
 			</table>
 
