@@ -196,7 +196,7 @@ function botJoomlaSEFUrl( ) {
 				if (isset($temp[0]) && $temp[0]!='' && isset($temp[1]) && $temp[1]!='') {
 					$_GET[$temp[0]] 	= $temp[1];
 					$_REQUEST[$temp[0]] = $temp[1];
-					$QUERY_STRING .= $temp[0]=='option' ? "$temp[0]=$temp[1]" : "&$temp[0]=$temp[1]";
+					$QUERY_STRING .= $QUERY_STRING=='' ? "$temp[0]=$temp[1]" : "&$temp[0]=$temp[1]";
 				}
 			}
 

@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+09-Dec-2005 Emir Sakic
+ # Fixed artf2324 : SEF for components assumes option is always first part of query
+
 09-Dec-2005 Johan Janssens
  + Added support for FTP to the installation - Contributed by Louis Landry
 
