@@ -35,7 +35,7 @@ class JRegistryINIFormat extends JRegistryStorageFormat {
 			}
 			foreach(get_object_vars($groups) as $key=>$item) {
 				if(is_object($item)) {
-					if($r_namespacestate) {
+					if($this->r_namespacestate) {
 						$retval .= "[$namespace.$key]\n";
 					} else {
 						$retval .= "[$key]\n";

@@ -78,10 +78,19 @@ class JFTP extends JObject {
 	/**
 	 * Array to hold ascii format file extensions
 	 *
+	 * @final
 	 * @access private
 	 */
 	var $_autoAscii = array ("asp", "bat", "c", "cpp", "csv", "h", "htm", "html", "shtml", "ini", "log", "php", "php3", "pl", "perl", "sh", "sql", "txt", "xhtml", "xml");
 
+	/**
+	 * Array to hold native line ending characters
+	 *
+	 * @final
+	 * @access private
+	 */
+	var $_lineEndings = array ('UNIX' => "\n", 'MAC' => "\r", 'WIN' => "\r\n");
+	
 	function __construct($options) {
 
 		// If default transfer type is no set, set it to autoascii detect

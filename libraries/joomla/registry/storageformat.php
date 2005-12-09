@@ -59,7 +59,7 @@ class JRegistryStorageFormat {
 	 * @param boolean new namespace state
 	 */
 	function setNamespaceState($namespace_state) {
-		$this->r_namespacestate = $namespacestate;
+		$this->r_namespacestate = $namespace_state;
 	}
 
 	/**

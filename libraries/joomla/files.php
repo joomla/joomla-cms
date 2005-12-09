@@ -12,7 +12,9 @@
  */
 
 /** boolean True if a Windows based host */
-define('JPATH_ISWIN', (substr(PHP_OS, 0, 3) == 'WIN'));
+define('JPATH_ISWIN', (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'));
+/** boolean True if a Mac based host */
+define('JPATH_ISMAC', (strtoupper(substr(PHP_OS, 0, 3)) === 'MAC'));
 
 if (!defined('DS')) {
 	/** string Shortcut for the DIRECTORY_SEPERATOR define */
@@ -23,14 +25,22 @@ if (!defined('JPATH_ROOT')) {
 	/** string The root directory of the file system in native format */
 	define('JPATH_ROOT', JPath :: clean(JPATH_SITE));
 }
-if (!defined('JPATH_FILEPEMS')) {
-	/** string The default directory permissions */
-	define('JPATH_FILEPEMS', !empty ($mosConfig_fileperms) ? octdec($mosConfig_fileperms) : '0644');
+
+if (!defined('JFTP_ROOT')) {
+	/** string The FTP Root Path */
+	define('JFTP_ROOT', $mainframe->getCfg('ftp_root'));
 }
-if (!defined('JPATH_DIRPEMS')) {
-	/** string The default directory permissions */
-	define('JPATH_DIRPEMS', !empty ($mosConfig_dirperms) ? octdec($mosConfig_dirperms) : '0777');
+
+if (!defined('JFTP_USER')) {
+	/** string The FTP Root Path */
+	define('JFTP_USER', $mainframe->getCfg('ftp_user'));
 }
+
+if (!defined('JFTP_PASS')) {
+	/** string The FTP Root Path */
+	define('JFTP_PASS', $mainframe->getCfg('ftp_pass'));
+}
+
 
 /**
  * A File handling class
@@ -118,8 +128,8 @@ class JFile {
 			$ftp->login(JFTP_USER, JFTP_PASS);
 
 			//Translate path for the FTP account
-			$baseDir = dirname(JPath :: clean(str_replace(JPATH_SITE, JPATH_FTPROOT, $dest)));
-			$destFile = basename(JPath :: clean(str_replace(JPATH_SITE, JPATH_FTPROOT, $dest), false));
+			$baseDir = dirname(JPath :: clean(str_replace(JPATH_SITE, JFTP_ROOT, $dest)));
+			$destFile = basename(JPath :: clean(str_replace(JPATH_SITE, JFTP_ROOT, $dest), false));
 
 			$ftp->chdir($baseDir);
 
@@ -167,7 +177,7 @@ class JFile {
 			JPath :: check($file);
 
 			if ($ftpFlag == true || !is_writable($file)) {
-				$failed |= $ftp->delete(JPath :: clean(str_replace(JPATH_SITE, JPATH_FTPROOT, $file)));
+				$failed |= $ftp->delete(JPath :: clean(str_replace(JPATH_SITE, JFTP_ROOT, $file)));
 			} else {
 				$failed |= !unlink($file);
 			}
@@ -220,8 +230,8 @@ class JFile {
 			$ftp->login(JFTP_USER, JFTP_PASS);
 
 			//Translate path for the FTP account
-			$src = JPath :: clean(str_replace(JPATH_SITE, JPATH_FTPROOT, $src), false);
-			$dest = JPath :: clean(str_replace(JPATH_SITE, JPATH_FTPROOT, $dest), false);
+			$src = JPath :: clean(str_replace(JPATH_SITE, JFTP_ROOT, $src), false);
+			$dest = JPath :: clean(str_replace(JPATH_SITE, JFTP_ROOT, $dest), false);
 
 			// Use FTP rename to simulate move
 			if (!$ftp->rename($src, $dest)) {
@@ -297,7 +307,7 @@ class JFile {
 			$ftp->login(JFTP_USER, JFTP_PASS);
 
 			//Translate path for the FTP account
-			$file = JPath :: clean(str_replace(JPATH_SITE, JPATH_FTPROOT, $file), false);
+			$file = JPath :: clean(str_replace(JPATH_SITE, JFTP_ROOT, $file), false);
 
 			// Use FTP write buffer to file
 			if (!$ftp->write($file, $buffer)) {
@@ -351,7 +361,7 @@ class JFile {
 			$ftp->login(JFTP_USER, JFTP_PASS);
 
 			//Translate path for the FTP account
-			$destFile = JPath :: clean(str_replace(JPATH_SITE, JPATH_FTPROOT, $destFile), false);
+			$destFile = JPath :: clean(str_replace(JPATH_SITE, JFTP_ROOT, $destFile), false);
 
 			if ($ftp->store($srcFile, $destFile)) {
 //				if (JPath :: setPermissions($destFile)) {
@@ -420,7 +430,7 @@ class JFolder {
 			$ftp->login(JFTP_USER, JFTP_PASS);
 
 			// Translate path to FTP path
-			$path = str_replace(JPATH_SITE, JPATH_FTPROOT, $path);
+			$path = str_replace(JPATH_SITE, JFTP_ROOT, $path);
 
 			$parts = explode(DS, $path);
 			$n = count($parts);
@@ -431,7 +441,7 @@ class JFolder {
 				$path = $parts[0];
 				for ($i = 1; $i < $n; $i ++) {
 					$path .= DS.$parts[$i];
-					if (!file_exists(JPath :: clean(str_replace(JPATH_FTPROOT, JPATH_SITE, $path)))) {
+					if (!file_exists(JPath :: clean(str_replace(JFTP_ROOT, JPATH_SITE, $path)))) {
 						if (!$ftp->mkdir(JPath :: clean($path))) {
 							$ret = false;
 							break;
@@ -497,7 +507,7 @@ class JFolder {
 			$ftp->login(JFTP_USER, JFTP_PASS);
 
 			// Translate Path
-			$path = JPath :: clean(str_replace(JPATH_SITE, JPATH_FTPROOT, $path));
+			$path = JPath :: clean(str_replace(JPATH_SITE, JFTP_ROOT, $path));
 			$ret = $ftp->delete($path);
 			$ftp->quit();
 		} else {
@@ -544,8 +554,8 @@ class JFolder {
 			$ftp->login(JFTP_USER, JFTP_PASS);
 
 			//Translate path for the FTP account
-			$src = JPath :: clean(str_replace(JPATH_SITE, JPATH_FTPROOT, $src), false);
-			$dest = JPath :: clean(str_replace(JPATH_SITE, JPATH_FTPROOT, $dest), false);
+			$src = JPath :: clean(str_replace(JPATH_SITE, JFTP_ROOT, $src), false);
+			$dest = JPath :: clean(str_replace(JPATH_SITE, JFTP_ROOT, $dest), false);
 
 			// Use FTP rename to simulate move
 			if (!$ftp->rename($src, $dest)) {
