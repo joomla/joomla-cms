@@ -85,7 +85,7 @@ INSERT INTO `#__menu` VALUES (16, 'usermenu', 'Logout', 'index.php?option=com_lo
 INSERT INTO `#__menu` VALUES (17, 'topmenu', 'Home', 'index.php', 'url', 1, 0, 0, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
 INSERT INTO `#__menu` VALUES (18, 'topmenu', 'Contact Us', 'index.php?option=com_contact&Itemid=3', 'url', 1, 0, 0, 0, 2, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
 INSERT INTO `#__menu` VALUES (19, 'topmenu', 'News', 'index.php?option=com_content&task=section&id=1&Itemid=2', 'url', 1, 0, 0, 0, 3, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
-INSERT INTO `#__menu` VALUES (20, 'topmenu', 'Links', 'index.php?option=com_weblinks&Itemid=22', 'url', 1, 0, 0, 0, 4, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'menu_image=-1');
+INSERT INTO `#__menu` VALUES (20, 'topmenu', 'Links', 'index.php?option=com_weblinks&Itemid=23', 'url', 1, 0, 0, 0, 4, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'menu_image=-1');
 INSERT INTO `#__menu` VALUES (25, 'mainmenu', 'FAQs', 'index.php?option=com_content&task=category&sectionid=3&id=7', 'content_category', 1, 0, 7, 0, 9, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'menu_image=-1\npage_title=1\npageclass_sfx=\nback_button=\norderby=\ndate_format=\ndate=\nauthor=\ntitle=1\nhits=\nheadings=1\nnavigation=1\norder_select=1\ndisplay=1\ndisplay_num=50\nfilter=1\nfilter_type=title\nother_cat=1\nempty_cat=0\ncat_items=1\ncat_description=1');
 
 #
