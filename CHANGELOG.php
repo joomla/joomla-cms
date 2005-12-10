@@ -31,6 +31,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Dec-2005 Samuel Moffatt
+ + Added JRegistry File Storage Engine
+ * Added missing no direct access statements for JRegistry
+ ^ XML Storage Format now working for JRegistry
+
 10-Dec-2005 Emir Sakic
  # Fixed artf2517 : "Cancel" the editing of content after "apply" not possible
 

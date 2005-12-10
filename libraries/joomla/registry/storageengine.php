@@ -10,6 +10,9 @@
  * other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
  */
+ 
+// no direct access
+defined( '_VALID_MOS' ) or die( 'Restricted access' );
 
 
 /**
@@ -75,7 +78,7 @@ class JRegistryStorageEngine {
 	 * @param int	 user id
 	 * @abstract
 	 */	 
-	function setConfig( $namespace, $group, $name, $value, $id ) {
+	function setConfig( $namespace, $group, $name, $value, $id=0 ) {
 		return false;
 	}
 
@@ -87,7 +90,7 @@ class JRegistryStorageEngine {
 	 * @param int	 user id
 	 * @abstract
 	 */
-	function getConfig( $namespace, $group, $name, $id ) {
+	function getConfig( $namespace, $group, $name, $id=0 ) {
 		return false;
 	}
 

@@ -11,6 +11,10 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
+// no direct access
+defined( '_VALID_MOS' ) or die( 'Restricted access' );
+ 
+ 
 /**
  * Joomla! Registry Storage Format Abstract Class
  * The Format takes objects and turns them into a string representation for storage

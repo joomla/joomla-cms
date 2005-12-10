@@ -11,9 +11,9 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-/**
- * @package Joomla
- */
+// no direct access
+defined( '_VALID_MOS' ) or die( 'Restricted access' );
+
  
 // Grab the support libraries
 jimport('joomla.registry.storageengine');
@@ -92,5 +92,20 @@ class JRegistry {
 		}
 	}
 
+	/**
+	 * Set the storage engine
+	 * @param object The new storage engine
+	 */	
+	function setStorageEngine( &$engine ) {
+		$this->r_storageengine = $engine;
+	}
+	
+	/**
+	 * Get the storage engine
+	 * @return object The current storage engine
+	 */
+	function &getStorageEngine() {
+		return $this->r_storageengine;	
+	}
 }
 
