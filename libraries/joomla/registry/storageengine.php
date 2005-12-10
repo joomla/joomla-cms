@@ -17,15 +17,16 @@
  * Storage Engines are responsible for handling basic I/O operations (reading and writing a string)
  * @package Joomla
  * @since 1.1
+ * @abstract
  */
 class JRegistryStorageEngine {
-	// Holds the class used to convert objects
+	/** @var object Holds the class used to convert objects */
 	var $r_storageformat 		= null;
-	// Storage Identifier
+	/** @var string Storage Identifier, roughly equivalent to 'filename' */
 	var $r_storageidentifier   	= '';
-	// Default Namespace
+	/** @var string Default Namespace */
 	var $r_defaultnamespace		= '';
-	// Configuration Cache
+	/** @var object Configuration Cache */
 	var $r_configuration	= null;
 
 	/**
@@ -34,8 +35,8 @@ class JRegistryStorageEngine {
 	 * @param string Default Namespace
 	 * @param string Storage Identifier
 	 */
-	function JRegistryStorageEngine($format,$namespace,$identifier='') {
-		$this->setStorageFormat($format);
+	function JRegistryStorageEngine( $format, $namespace, $identifier='' ) {
+		$this->setStorageFormat( $format);
 		$this->r_defaultnamespace = $namespace;
 		$this->r_storageidentifier = $identifier;
 
@@ -49,7 +50,7 @@ class JRegistryStorageEngine {
 	 * @param mixed setting value
 	 * @abstract
 	 */
-	function setDefaultConfig($namespace,$group,$name,$value) {
+	function setDefaultConfig( $namespace, $group, $name, $value ) {
 		return false;
 	}
 
@@ -61,7 +62,7 @@ class JRegistryStorageEngine {
 	 * @return mixed setting value
 	 * @abstract
 	 */
-	function getDefaultConfig($namespace,$group,$name) {
+	function getDefaultConfig( $namespace, $group, $name ) {
 		return false;
 	}
 
@@ -72,8 +73,9 @@ class JRegistryStorageEngine {
 	 * @param string name of setting (e.g. showauthor)
 	 * @param mixed  setting value
 	 * @param int	 user id
+	 * @abstract
 	 */	 
-	function setConfig($namespace,$group,$name,$value,$id) {
+	function setConfig( $namespace, $group, $name, $value, $id ) {
 		return false;
 	}
 
@@ -83,8 +85,9 @@ class JRegistryStorageEngine {
 	 * @param string group of setting (e.g. content)
 	 * @param string name of setting (e.g. showauthor)
 	 * @param int	 user id
+	 * @abstract
 	 */
-	function getConfig($namespace,$group,$name,$id) {
+	function getConfig( $namespace, $group, $name, $id ) {
 		return false;
 	}
 
@@ -92,7 +95,7 @@ class JRegistryStorageEngine {
 	 * Sets the default namespace, useful for some storage engines
 	 * @param string default namespace
 	 */
-	function setDefaultNamespace($namespace) {
+	function setDefaultNamespace( $namespace ) {
 		$this->r_defaultnamespace = $namespace;
 	}
 
@@ -100,7 +103,7 @@ class JRegistryStorageEngine {
 	 * Gets the default namespace
 	 * @return string default namespace
 	 */
-	function getDefaultNamespace($namespace) {
+	function getDefaultNamespace( $namespace ) {
 		return $this->r_defaultnamespace;
 	}
 
@@ -108,7 +111,7 @@ class JRegistryStorageEngine {
 	 * Set the Storage format object
 	 * @param object The storage format
 	 */
-	function setStorageFormat(&$format) {
+	function setStorageFormat( &$format ) {
 		$this->r_storageformat = $format;
 	}
 

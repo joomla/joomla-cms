@@ -23,28 +23,24 @@ class JRegistryINIFormat extends JRegistryStorageFormat {
 	 * @param object  Data Source Object
 	 * @return string INI Formatted String
 	 */
-	function objectToString(&$data) {
+	function objectToString( &$data ) {
 		$retval = '';
-		foreach(get_object_vars($data) as $namespace=>$groups) {
-			if(!$this->r_namespacestate) {
-				if($namespace != $this->r_namespacestate) {
-					echo($this->r_namespace);
-					echo "Breaking because namespace doesn't match, $namespace " . $this->r_namespacestate . " " . $this->r_namespace;
+		foreach (get_object_vars( $data ) as $namespace=>$groups) {
+			if (!$this->r_namespacestate) {
+				if ($namespace != $this->r_namespace) {
+					//echo $this->r_namespace;
+					//echo "Breaking because namespace doesn't match, $namespace " . $this->r_namespacestate . " " . $this->r_namespace;
 					break;
 				}
 			}
-			foreach(get_object_vars($groups) as $key=>$item) {
-				if(is_object($item)) {
-					if($this->r_namespacestate) {
-						$retval .= "[$namespace.$key]\n";
-					} else {
-						$retval .= "[$key]\n";
-					}
-					foreach(get_object_vars($item) as $subkey=>$value) {
-						$retval .= "$subkey=$value\n";
-					}
+			foreach (get_object_vars( $groups ) as $key=>$item) {
+				if (!$this->r_namespacestate) {
+					$retval .= "[$namespace.$key]\n";
 				} else {
-					$retval .= "$key=$data\n";
+					$retval .= "[$key]\n";
+				}
+				foreach (get_object_vars( $item ) as $subkey=>$value) {
+					$retval .= "$subkey=$value\n";
 				}
 			}
 		}
@@ -56,25 +52,25 @@ class JRegistryINIFormat extends JRegistryStorageFormat {
 	 * @param string  INI Formatted String
 	 * @return string Data Object
 	 */
-	function &stringToObject($data,$namespace_override='') {
+	function &stringToObject( $data, $namespace_override='' ) {
 		
-		$Configuration = new mosParameters($data);
-		$configobject = $Configuration->parse($data, true);
+		$Configuration = new mosParameters( $data );
+		$configobject = $Configuration->parse( $data, true );
 		
 		$tmpnamespace = $this->r_namespace;
-		if($namespace_override) {
+		if ($namespace_override) {
 			$tmpnamespace = $namespace_override;
 		}
 		$tmp = new stdClass();
-		if(!$this->r_namespacestate) {
-			foreach(get_object_vars($configobject) as $namespace=>$values) {
-				$parts = explode('.',$namespace);
+		if (!$this->r_namespacestate) {
+			foreach (get_object_vars( $configobject ) as $namespace=>$values) {
+				$parts = explode( '.', $namespace );
 				$configobject->$parts[0]->$parts[1] = $values;
 			}
 		} else {
 
 			$tmp->$tmpnamespace = new stdClass();
-			foreach(get_object_vars($configobject) as $namespace=>$values) {
+			foreach (get_object_vars( $configobject ) as $namespace=>$values) {
 				$tmp->$tmpnamespace->$namespace = $values;
 			}
 		}	

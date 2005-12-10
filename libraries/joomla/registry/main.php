@@ -25,16 +25,16 @@ jimport('joomla.registry.storageformat');
  * @since 1.1
  */
 class JRegistry {
-	// Holds the class used to read/write data
+	/** @var object Holds the class used to read/write data */
 	var $r_storageengine		= null;
-	// Holds the registry object
+	/** @var object Holds the registry object */
 	var $r_registryobject 		= null;
 
 	/**
 	 * Constructor
 	 * @param object Storage Engine to use
 	 */
-	function JRegistry($engine) {
+	function JRegistry( &$engine ) {
 		$this->r_storageengine = $engine;
 	}
 
@@ -44,14 +44,14 @@ class JRegistry {
 	 * @param int    User Id
 	 * @return mixed Value of entry
 	 */
-	function getValue($regpath,$uid=0) {
+	function getValue( $regpath, $uid=0 ) {
 		global $my;
-		if($uid == 0) {
+		if ($uid == 0) {
 			$uid = $my->id;
 		}
-		$parts = explode('.',$regpath);
-		if(count($parts) > 2) {
-			return($this->r_storageengine->getConfig($parts[0],$parts[1],$parts[2],$uid));
+		$parts = explode( '.', $regpath );
+		if (count( $parts ) > 2) {
+			return $this->r_storageengine->getConfig( $parts[0], $parts[1], $parts[2], $uid );
 		}
 	}
 
@@ -60,10 +60,10 @@ class JRegistry {
 	 * @param string Registry path (e.g. joomla.content.showauthor)	 
 	 * @return mixed Value of entry
 	 */
-	function getDefaultValue($regpath) {
-		$parts = explode('.',$regpath);
-		if(count($parts) > 2) {
-			return($this->r_storageengine->getDefaultConfig($parts[0],$parts[1],$parts[2]));
+	function getDefaultValue( $regpath ) {
+		$parts = explode( '.', $regpath );
+		if (count( $parts ) > 2) {
+			return $this->r_storageengine->getDefaultConfig( $parts[0], $parts[1], $parts[2] );
 		}
 	}
 
@@ -73,10 +73,10 @@ class JRegistry {
 	 * @param mixed  Value of entry
 	 * @param int    User id
 	 */
-	function setValue($regpath,$value,$uid=0) {
-		$parts = explode('.',$regpath);
-		if(count($parts) > 2) {
-			return($this->r_storageengine->setConfig($parts[0],$parts[1],$parts[2],$value));
+	function setValue( $regpath, $value, $uid=0 ) {
+		$parts = explode( '.', $regpath );
+		if(count( $parts ) > 2) {
+			return $this->r_storageengine->setConfig( $parts[0], $parts[1], $parts[2], $value );
 		}
 	}
 
@@ -85,10 +85,10 @@ class JRegistry {
 	 * @param string Registry Path (e.g. joomla.content.showauthor)	 
 	 * @param mixed  Value of entry	
 	 */
-	function setDefaultValue($regpath,$value) {
-		$parts = explode('.',$regpath);
-		if(count($parts) > 2) {
-			return($this->r_storageengine->setDefaultConfig($parts[0],$parts[1],$parts[2],$value));
+	function setDefaultValue( $regpath, $value ) {
+		$parts = explode( '.', $regpath );
+		if(count( $parts ) > 2) {
+			return $this->r_storageengine->setDefaultConfig( $parts[0], $parts[1], $parts[2], $value );
 		}
 	}
 

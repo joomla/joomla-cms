@@ -17,11 +17,12 @@
  * It also does the reverse and turns it into an object 
  * @package Joomla 
  * @since 1.1
+ * @abstract
  */
 class JRegistryStorageFormat {
-	// Determines if a namespace should be included in the output/input
+	/** @var boolean Determines if a namespace should be included in the output/input */
 	var $r_namespacestate 	= true;
-	// The namespace
+	/** @var boolean The default namespace */
 	var $r_namespace 	= '';
 
 	/**
@@ -29,9 +30,9 @@ class JRegistryStorageFormat {
 	 * @param string default namespace
 	 * @param boolean set the namespace output option
 	 */
-	function JRegistryStorageFormat($namespace='',$namespacestate=true) {
-		$this->setNamespace($namespace);
-		$this->setNamespaceState($namespacestate);
+	function JRegistryStorageFormat( $namespace='', $namespacestate=true ) {
+		$this->setNamespace( $namespace );
+		$this->setNamespaceState( $namespacestate );
 	}
 
 	/**
@@ -40,7 +41,7 @@ class JRegistryStorageFormat {
 	 * @returns string The string representation of the data
 	 * @abstract 
 	 */
-	function objectToString(&$data) {
+	function objectToString( &$data ) {
 		return false;
 	}
 
@@ -50,7 +51,7 @@ class JRegistryStorageFormat {
 	 * @returns object The object representation of the data
 	 * @abstract
 	 */
-	function &stringToObject($data) {
+	function &stringToObject( $data ) {
 		return false;
 	}
 
@@ -58,7 +59,7 @@ class JRegistryStorageFormat {
 	 * Set the namespace state
 	 * @param boolean new namespace state
 	 */
-	function setNamespaceState($namespace_state) {
+	function setNamespaceState( $namespace_state ) {
 		$this->r_namespacestate = $namespace_state;
 	}
 
@@ -74,7 +75,7 @@ class JRegistryStorageFormat {
 	 * Set the default namespace
 	 * @param string new default namespace
 	 */
-	function setNamespace($namespace) {
+	function setNamespace( $namespace ) {
 		$this->r_namespace = $namespace;
 	}
 

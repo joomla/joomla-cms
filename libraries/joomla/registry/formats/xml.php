@@ -12,25 +12,53 @@
  */
 
 /**
+ * XML Format for JRegistry
  * @package Joomla
+ * @since 1.1
  */
-class JRegistryXMLFormat {
+class JRegistryXMLFormat extends JRegistryStorageFormat {
 	// Load the Default XML Configuration from the database
-	function stringToObject(&$Configuration, $namespace) {
+	function &stringToObject( $data, $namespace='' ) {
 		// Parse Configuration
-		$success = $Configuration->parseXML($Configuration_xml, true);
-		if(!$success) {
-			$success = $Configuration->parseXML("<?xml version=\"1.0\" ?><mosconfig></mosconfig>",true); // Should work 100% of the time!
-			if(!success) {
+		$Configuration = new mosParameters( $data );		
+		$success = $Configuration->parseXML( $data, true );
+		return ($success);
+		if (!$success) {
+			$success = $Configuration->parseXML( "", true ); // Should work 100% of the time!
+			if (!success) {
 				// This should never ever occur. If it does, theres a serious error.
-				die("The impossible just occured!");
+				die( "The impossible just occured!" );
 			}
 		}
 	}
 
-	function objectToString(&$target) {
-
+	function objectToString( &$data ) {
+		$retval = "<?xml version=\"1.0\" ?>\n<config>\n";
+		foreach (get_object_vars( $data ) as $namespace=>$groups) {						
+			if (!$this->r_namespacestate) {
+				if ($namespace != $this->r_namespace) {
+					//echo $this->r_namespace;
+					//echo "Breaking because namespace doesn't match, $namespace " . $this->r_namespacestate . " " . $this->r_namespace;
+					break;
+				}
+			}
+			$retval .= "<namespace value=\"$namespace\">\n";
+			foreach (get_object_vars( $groups ) as $key=>$item) {				
+				$retval .= "\t<group value=\"$key\">\n";
+				foreach (get_object_vars( $item ) as $subkey=>$value) {
+					$retval .= "\t\t<entry name=\"$subkey\">$value</entry>\n";
+				}
+				$retval .= "\t</group>\n";
+			}
+			$retval .= "</namespace>\n";
+		}
+		$retval .= '</config>';	
+		return $retval;		
 	}
+	
+	function getFormatName() {
+		return 'XML';
+	}	
 
 }
 ?>
