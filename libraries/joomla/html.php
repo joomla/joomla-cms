@@ -1237,7 +1237,7 @@ class mosAdminMenus {
 		$component = 'Component';
 		foreach ( $rows as $row ) {
 			if ( $row->value == $menu->componentid ) {
-				$component = $row->text;
+				$component = JText::_( $row->text );
 			}
 		}
 
