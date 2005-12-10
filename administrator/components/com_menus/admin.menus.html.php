@@ -146,7 +146,7 @@ class HTML_menusections {
 				<td>
 					<span class="editlinktip">
 						<?php
-						echo mosToolTip( $row->descrip, '', 280, 'tooltip.png', $row->type, $row->edit );
+						echo mosToolTip( JText::_( $row->descrip ), '', 280, 'tooltip.png', JText::_( $row->type ), $row->edit );
 						?>
 					</span>
 				</td>
