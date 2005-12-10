@@ -220,7 +220,7 @@ class HTML_config {
 				<td width="100"><?php echo $lists['enable_stats']; ?></td>
 				<td><?php
                     $tip = JText::_( 'TIPENABLEDISABLESTATS' );
-                    echo mostooltip( $tip ); ?></td>
+                    echo mosToolTip( $tip ); ?></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Log Content Hits by Date' ); ?>:</td>
