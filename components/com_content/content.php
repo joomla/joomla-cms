@@ -1588,7 +1588,7 @@ function cancelContent( &$access ) {
 	$parts 		= parse_url( $referer );
 	parse_str( $parts['query'], $query );
 
-	if ( $task == 'edit' ) {
+	if ( $task == 'edit' || $task == 'cancel' ) {
 		$Itemid  = mosGetParam( $_POST, 'Returnid', '' );
 		$referer = 'index.php?option=com_content&task=view&id='. $row->id.'&Itemid='. $Itemid;
 	}

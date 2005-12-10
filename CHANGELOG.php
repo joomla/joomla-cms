@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+10-Dec-2005 Emir Sakic
+ # Fixed artf2517 : "Cancel" the editing of content after "apply" not possible
+
 10-Dec-2005 Samuel Moffatt
  ^ Disabled php_value in htaccess file, caused 500 Internal Server Errors
  + JRegistry Core Complete (INI Format and Database Storage Engines)
