@@ -144,6 +144,7 @@ class mosHTML
 			} else {
 				$extra .= ( $k == $selected ? ' selected="selected"' : '' );
 			}
+			if($tag_name == 'access') $t = JText::_( $t );
 			$html .= '<option value="'. $k .'" '. $extra .'>' . $t . '</option>';
 		}
 		$html .= '</select>';
@@ -1209,7 +1210,7 @@ class mosAdminMenus {
 			// existing component, just show name
 			foreach ( $rows as $row ) {
 				if ( $row->value == $menu->componentid ) {
-					$component = $row->text;
+					$component = JText::_( $row->text );
 				}
 			}
 			$component .= '<input type="hidden" name="componentid" value="'. $menu->componentid .'" />';
@@ -1272,16 +1273,15 @@ class mosAdminMenus {
 	function SpecificOrdering( &$row, $id, $query, $neworder=0 ) {
 		global $database;
 
-		if ( $neworder ) {
-			$text = JText::_( 'descNewItemsFirst' );
-		} else {
-			$text = JText::_( 'descNewItemsLast' );
-		}
-
 		if ( $id ) {
 			$order = mosGetOrderingList( $query );
 			$ordering = mosHTML::selectList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
+    		if ( $neworder ) {
+    			$text = JText::_( 'descNewItemsFirst' );
+    		} else {
+    			$text = JText::_( 'descNewItemsLast' );
+    		}
 			$ordering = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. $text;
 		}
 		return $ordering;

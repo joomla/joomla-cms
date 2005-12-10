@@ -243,11 +243,11 @@ function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 * @param string Box title
 * @returns HTML code for Warning
 */
-function JWarning($warning, $title='Joomla! Warning') {
+function JWarning($warning, $title='Joomla Warning') {
 	$title 		= JText::_( 'Joomla Warning' );
 	$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \''. $title .'\', BELOW, RIGHT);';
 
-	$tip 		= '<!--'. JText::_( 'Joomla Warning' ) ."--> \n";
+	$tip 		= '<!--'. $title .'--> \n';
 	$tip 		= '<a href="#" onmouseover="'. $mouseover .'" onmouseout="return nd();">';
 	$tip 		.= '<img src="'. JURL_SITE .'/includes/js/ThemeOffice/warning.png" border="0"  alt=""/></a>';
 
@@ -441,7 +441,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 	}
 	if ( !$text ) {
 		$image 	= JURL_SITE . '/includes/js/ThemeOffice/'. $image;
-		$text 	= '<img src="'. $image .'" border="0" alt="tooltip"/>';
+		$text 	= '<img src="'. $image .'" border="0" alt="'. JText::_( 'Tooltip' ) .'"/>';
 	}
 	$style = 'style="text-decoration: none; color: #333;"';
 	if ( $href ) {
@@ -452,7 +452,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 
 	$mousover = 'return overlib(\''. $tooltip .'\''. $title .', BELOW, RIGHT'. $width .');';
 
-	$tip = '<!--'. JText::_( 'Joomla Tooltip' ) ."--> \n";
+	$tip = '<!--'. JText::_( 'Tooltip' ) .'--> \n';
 	if ( $link ) {
 		$tip = '<a href="'. $href .'" onmouseover="'. $mousover .'" onmouseout="return nd();" '. $style .'>'. $text .'</a>';
 	} else {

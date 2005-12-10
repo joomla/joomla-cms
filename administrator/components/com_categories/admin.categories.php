@@ -382,6 +382,7 @@ function editCategory( $uid=0, $section='' ) {
 			$temp->load( $row->section );
 			$section_name = $temp->name;
 		}
+		if(!$section_name) $section_name = JText::_( 'N/A' );
 		$lists['section'] = '<input type="hidden" name="section" value="'. $row->section .'" />'. $section_name;
 	}
 

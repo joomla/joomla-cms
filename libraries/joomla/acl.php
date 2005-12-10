@@ -345,12 +345,12 @@ class JACL extends gacl_api {
 			} else {
 				$twist = "-&nbsp;";
 			}
-
+            $groupName = JText::_( $tree[$i]->name );
 			//$list[$i] = $tree[$i]->level.$shim.$twist.$tree[$i]->name;
 			if ($html) {
-				$list[$i] = mosHTML::makeOption( $tree[$i]->id, $shim.$twist.$tree[$i]->name );
+				$list[$i] = mosHTML::makeOption( $tree[$i]->id, $shim.$twist.$groupName );
 			} else {
-				$list[$i] = array( 'value'=>$tree[$i]->id, 'text'=>$shim.$twist.$tree[$i]->name );
+				$list[$i] = array( 'value'=>$tree[$i]->id, 'text'=>$shim.$twist.$groupName );
 			}
 			if ($tree[$i]->level < @$tree[$i-1]->level) {
 				$indents[$tree[$i]->level+1] = '.&nbsp;';
