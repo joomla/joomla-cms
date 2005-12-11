@@ -87,7 +87,7 @@ class mosContact extends JModel {
 * @package Joomla
 * class needed to extend vcard class and to correct minor errors
 */
-class MambovCard extends vCard {
+class JvCard extends vCard {
 
 	// needed to fix bug in vcard class
 	function setName( $family='', $first='', $additional='', $prefix='', $suffix='' ) {

@@ -146,12 +146,22 @@ function listWeblinks( $catid ) {
 		}
 	}
 
-	// page header
+	// page header and settings
 	$currentcat->header = '';
 	if ( @$currentcat->name <> '' ) {
 		$currentcat->header = $currentcat->name;
+
+		// Set page title per category
+		$mainframe->setPageTitle( $menu->name. ' - ' .$currentcat->header );
+
+		// Add pathway item per category
+		$pathway = $mainframe->getPathway();
+		$pathway->addItem($currentcat->header, '');
 	} else {
 		$currentcat->header = $params->get( 'header' );
+		
+		// Set page title
+		$mainframe->SetPageTitle( $menu->name );
 	}
 
 	// used to show table rows in alternating colours

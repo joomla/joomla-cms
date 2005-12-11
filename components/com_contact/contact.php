@@ -330,6 +330,14 @@ function contactpage( $contact_id ) {
 		$menu_params->def( 'header', $menu->name );
 		$menu_params->def( 'pageclass_sfx', '' );
 
+		// Set page title per contact name
+		$mainframe->setPageTitle( _CONTACT_TITLE. ' - ' .$contact->name );
+
+		// Add pathway item per contact name
+		$pathway = $mainframe->getPathway();
+		$pathway->addItem($contact->name, '');
+
+
 		HTML_contact::viewcontact( $contact, $params, $count, $list, $menu_params );
 	} else {
 		$params = new mosParameters( '' );
@@ -422,7 +430,7 @@ function vCard( $id ) {
 	}
 	$middlename	= trim( $middlename );
 
-	$v 	= new MambovCard();
+	$v 	= new JvCard();
 
 	$v->setPhoneNumber( $contact->telephone, 'PREF;WORK;VOICE' );
 	$v->setPhoneNumber( $contact->fax, 'WORK;FAX' );

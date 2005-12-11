@@ -86,7 +86,7 @@ class mosConfig {
 	/** @var string */
 	var $config_ftp_pass 			= null;
 	/** @var string */
-	var $config_ftp_path 			= null;
+	var $config_ftp_root 			= null;
 
 // Locale Settings
 	/** @var string */

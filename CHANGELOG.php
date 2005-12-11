@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Dec-2005 Johan Janssens
+ ^ Fixed smaller file system problems - contributed by Louis Landry
+
 11-Dec-2005 Levis Bisson
  # fixed Parameters translation from xml files
  # fixed Menu Manager Type & Tooltip translation

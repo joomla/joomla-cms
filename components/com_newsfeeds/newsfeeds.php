@@ -132,18 +132,27 @@ function listFeeds( $option, $catid ) {
 		}
 	}
 
-	// page header
+	// page header and settings
 	$currentcat->header = '';
 	if ( @$currentcat->name <> '' ) {
 		$currentcat->header = $currentcat->name;
+
+		// Set page title per category
+		$mainframe->setPageTitle( $menu->name. ' - ' .$currentcat->header );
+
+		// Add pathway item per category
+		$pathway = $mainframe->getPathway();
+		$pathway->addItem($currentcat->header, '');
 	} else {
 		$currentcat->header = $params->get( 'header' );
+		
+		// Set page title
+		$mainframe->SetPageTitle( $menu->name );
 	}
 
 	// used to show table rows in alternating colours
 	$tabclass = array( 'sectiontableentry1', 'sectiontableentry2' );
 
-	$mainframe->SetPageTitle( $menu->name );
 
 	HTML_newsfeed::displaylist( $categories, $rows, $catid, $currentcat, $params, $tabclass );
 }
@@ -189,7 +198,19 @@ function showFeed( $option, $feedid ) {
 	$database->setQuery( $query );
 	$newsfeeds = $database->loadObjectList();
 
-	$mainframe->SetPageTitle($menu->name);
+
+	if (count($newsfeeds) == 1) {
+		
+		// Set page title per category
+		$mainframe->setPageTitle( $menu->name. ' - ' .$newsfeeds[0]->name );
+	
+		// Add pathway item per category
+		$pathway = $mainframe->getPathway();
+		$pathway->addItem($newsfeeds[0]->name, '');
+	} else {
+
+		$mainframe->SetPageTitle($menu->name);
+	}
 
 	HTML_newsfeed::showNewsfeeds( $newsfeeds, $LitePath, $cacheDir, $params );
 }
