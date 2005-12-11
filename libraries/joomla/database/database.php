@@ -469,6 +469,13 @@ class JDatabase extends JObject {
     function insertid() {
 		return;
 	}
+	/**
+	 * @abstract
+     * @return string Collation in use
+	 */
+	function getCollation() {
+		return;
+	}
 
     /**
      * @abstract

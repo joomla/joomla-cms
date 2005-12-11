@@ -410,7 +410,17 @@ class JDatabaseMySQL extends JDatabase {
 	function getVersion() {
 		return mysql_get_server_info( $this->_resource );
 	}
-
+	/**
+	 * Assumes database collation in use by sampling one text field in one table
+	 * @return string Collation in use
+	 */
+	function getCollation (){
+		$this->setQuery("SHOW FULL COLUMNS FROM #__content");
+		$this->query();
+		$array = $this->loadAssocList();
+		return $array['4']['Collation'];
+	}
+	
 	/**
 	 * @return array A list of all the tables in the database
 	 */

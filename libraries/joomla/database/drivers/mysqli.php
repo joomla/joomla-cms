@@ -397,6 +397,17 @@ class JDatabaseMySQLi extends JDatabase {
 		return mysqli_insert_id( $this->_resource );
 	}
 
+	/**
+	 * Assumes database collation in use by sampling one text field in one table
+	 * @return string Collation in use
+	 */
+	function getCollation (){
+		$this->setQuery("SHOW FULL COLUMNS FROM #__content");
+		$this->query();
+		$array = $this->loadAssocList();
+		return $array['4']['Collation'];
+	}
+
 	function getVersion() {
 		return mysqli_get_server_info( $this->_resource );
 	}

@@ -33,6 +33,7 @@ Legend:
 
 12-Dec-2005 Johan Janssens
  ^ Fixed smaller file system problems - contributed by Louis Landry
+ + Added mbstring and dbcollaction information to system info - contributed by David Gal
 
 11-Dec-2005 Levis Bisson
  # fixed Parameters translation from xml files
