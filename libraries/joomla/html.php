@@ -109,8 +109,13 @@ class mosHTML
 	*/
 	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag='' ) {
 		reset( $arr );
-
-		$id = $tag_name;
+        
+        //temporary condition for translation
+        if($tag_name == 'component') {
+            $tag_name = 'componentid';
+            $flag = 1;
+		}
+        $id = $tag_name;
 		if ( $idtag ) {
 			$id = $idtag;
 		}
@@ -144,7 +149,7 @@ class mosHTML
 			} else {
 				$extra .= ( $k == $selected ? ' selected="selected"' : '' );
 			}
-			if($tag_name == 'access') $t = JText::_( $t );
+			if( $tag_name == 'access' || isset($flag) ) $t = JText::_( $t );
 			$html .= '<option value="'. $k .'" '. $extra .'>' . $t . '</option>';
 		}
 		$html .= '</select>';
@@ -1215,7 +1220,7 @@ class mosAdminMenus {
 			}
 			$component .= '<input type="hidden" name="componentid" value="'. $menu->componentid .'" />';
 		} else {
-			$component = mosHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text' );
+			$component = mosHTML::selectList( $rows, 'component', 'class="inputbox" size="10"', 'value', 'text' );
 		}
 		return $component;
 	}
