@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: template.class.php 819 2005-11-02 12:21:40Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @subpackage Installer

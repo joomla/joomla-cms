@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: component.class.php 842 2005-11-03 05:55:02Z pasamio $
+* @version $Id$
 * @package Joomla
 * @subpackage Installer
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

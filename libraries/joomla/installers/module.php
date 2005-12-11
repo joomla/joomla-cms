@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: module.class.php 387 2005-10-08 06:38:29Z Levis $
+* @version $Id$
 * @package Joomla
 * @subpackage Installer
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

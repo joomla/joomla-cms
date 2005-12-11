@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mambot.class.php 582 2005-10-22 22:15:07Z eddieajau $
+* @version $Id$
 * @package Joomla
 * @subpackage Installer
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
