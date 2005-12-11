@@ -314,8 +314,7 @@ class HTML_menusections {
 			<td style="height: 30px;">
 				<span class="editlinktip" style="cursor: pointer;">
 						<?php
-						$optionName = JText::_( $row->name );
-						echo mosToolTip( JText::_( $row->descrip ), $optionName, 250, '', $optionName, $link, 1 );
+						echo mosToolTip( $row->descrip, $row->name, 250, '', $row->name, $link, 1 );
 						?>
 				</span>
 			</td>
