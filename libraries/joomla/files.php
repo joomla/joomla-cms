@@ -852,7 +852,7 @@ class JPath {
 	* @param dirmode Integer value to chmod directories. NULL = dont chmod directories.
 	* @return TRUE=all succeeded FALSE=one or more chmods failed
 	*/
-	function setPermissions($path, $filemode = JPATH_FILEPEMS, $dirmode = JPATH_DIRPEMS) {
+	function setPermissions($path, $filemode = '0644', $dirmode = '0755') {
 
 		$ret = TRUE;
 		if (is_dir($path)) {
@@ -866,7 +866,7 @@ class JPath {
 						}
 					} else {
 						if (isset ($filemode)) {
-							if (!@ chmod($fullpath, $filemode)) {
+							if (!@ chmod($fullpath, octdec($filemode))) {
 								$ret = FALSE;
 							}
 						}
@@ -875,12 +875,12 @@ class JPath {
 			} // while
 			closedir($dh);
 			if (isset ($dirmode))
-				if (!@ chmod($path, $dirmode)) {
+				if (!@ chmod($path, octdec($dirmode))) {
 					$ret = FALSE;
 				}
 		} else {
 			if (isset ($filemode))
-				$ret = @ chmod($path, $filemode);
+				$ret = @ chmod($path, octdec($filemode));
 		} // if
 		return $ret;
 	}
