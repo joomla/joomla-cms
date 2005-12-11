@@ -31,6 +31,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Dec-2005 Levis Bisson
+ # fixed Parameters translation from xml files
+ # fixed Menu Manager Type & Tooltip translation
+ + Added User Group translation
+ + Added Access Level translation
+ + Added Component Name translation
+
 11-Dec-2005 Samuel Moffatt
  + Added JRegistry File Storage Engine
  * Added missing no direct access statements for JRegistry

@@ -437,12 +437,15 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 		$width = ', WIDTH, \''.$width .'\'';
 	}
 	if ( $title ) {
-		$title = ', CAPTION, \''.$title .'\'';
+		$title = ', CAPTION, \''. JText::_( $title ) .'\'';
 	}
 	if ( !$text ) {
 		$image 	= JURL_SITE . '/includes/js/ThemeOffice/'. $image;
 		$text 	= '<img src="'. $image .'" border="0" alt="'. JText::_( 'Tooltip' ) .'"/>';
 	}
+    else{
+		$text 	= JText::_( $text );
+    }
 	$style = 'style="text-decoration: none; color: #333;"';
 	if ( $href ) {
 		$style = '';
@@ -450,7 +453,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 		$href = '#';
 	}
 
-	$mousover = 'return overlib(\''. $tooltip .'\''. $title .', BELOW, RIGHT'. $width .');';
+	$mousover = 'return overlib(\''. JText::_( $tooltip ) .'\''. $title .', BELOW, RIGHT'. $width .');';
 
 	$tip = '<!--'. JText::_( 'Tooltip' ) .'--> \n';
 	if ( $link ) {
