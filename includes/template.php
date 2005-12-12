@@ -208,6 +208,9 @@ class JLayout extends JObject
 			$task 	= mosGetParam( $_REQUEST, 'task', '' );
 			$ret 	= mosMenuCheck( $Itemid, $name, $task, $my->gid );
 			if ($ret) {
+				//load common language files
+				$lang =& $mainframe->getLanguage();
+				$lang->load($option);
 				require_once( $path );
 			} else {
 				mosNotAuth();
