@@ -439,7 +439,7 @@ class JInstallationHelper {
 		if ($DButfSupport) {
 			$sql = "CREATE DATABASE `$DBname` CHARACTER SET `utf8` COLLATE `$DBcollation`";
 		} else {
-			$sql = "CREATE DATABASE `$DBname` CHARACTER SET `$DBcollation`";
+			$sql = "CREATE DATABASE `$DBname`";
 		}
 
 		$database->setQuery($sql);
