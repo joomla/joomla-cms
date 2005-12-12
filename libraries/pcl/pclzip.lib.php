@@ -4308,7 +4308,11 @@ if (($v_result = $this->privDirCheck($p_parent_dir)) != 1)
 
 // ----- Create the directory
 //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "Create directory '$p_dir'");
-if (!@mkdir($p_dir, 0777))
+/*
+ * MODIFIED FOR JOOMLA
+ * @since 1.1 December 12, 2005
+ */
+if (!JFolder::create($p_dir, 0777))
 {
   // ----- Error log
   PclZip::privErrorLog(PCLZIP_ERR_DIR_CREATE_FAIL, "Unable to create directory '$p_dir'");

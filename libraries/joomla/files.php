@@ -107,7 +107,7 @@ class JFile {
 		/*
 		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory 
 		 * is not writable we need to use FTP
-		 */ 
+		 */
 		if ((file_exists($dest) && !is_writable($dest)) || (!file_exists($dest) && !is_writable(dirname($dest)))) {
 			$ftpFlag = true;
 		}
@@ -229,7 +229,7 @@ class JFile {
 		/*
 		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory 
 		 * is not writable we need to use FTP
-		 */ 
+		 */
 		if ((file_exists($dest) && !is_writable($dest)) || (!file_exists($dest) && !is_writable(dirname($dest)))) {
 			$ftpFlag = true;
 		}
@@ -317,7 +317,7 @@ class JFile {
 		/*
 		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory 
 		 * is not writable we need to use FTP
-		 */ 
+		 */
 		if ((file_exists($file) && !is_writable($file)) || (!file_exists($file) && !is_writable(dirname($file)))) {
 			$ftpFlag = true;
 		}
@@ -379,7 +379,7 @@ class JFile {
 		/*
 		 * If the destination file exists but isn't writable OR if the file doesn't exist and the parent directory 
 		 * is not writable we need to use FTP
-		 */ 
+		 */
 		if ((file_exists($destFile) && !is_writable($destFile)) || (!file_exists($destFile) && !is_writable(dirname($destFile)))) {
 			$ftpFlag = true;
 		}
@@ -453,7 +453,7 @@ class JFolder {
 	 * @return boolean True if successful
 	 * @since 1.1
 	 */
-	function create($path = '', $mode = JPATH_DIRPEMS) {
+	function create($path = '', $mode = '0755') {
 		global $mainframe;
 
 		// Initialize variables
@@ -480,41 +480,83 @@ class JFolder {
 			jimport('joomla.connectors.ftp');
 			$ftp = & JFTP :: getInstance('localhost');
 			$ftp->login($ftpUser, $ftpPass);
+			$ret = true;
 
 			// Translate path to FTP path
 			$path = JPath :: clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
 
 			if (!$ftp->mkdir($path)) {
 				$ret = false;
-			} else {
-				$ret = true;
 			}
-			
+			if (!$ftp->chmod($path, $mode)) {
+				$ret = false;
+			}
+
 			$ftp->quit();
 		} else {
-			// Do it the regular way
-			// set mode
+			// First set umask and mode
 			$origmask = @ umask(0);
 			$mode = octdec($mode);
 
-			$parts = explode(DS, $path);
-			$n = count($parts);
-			$ret = true;
-			if ($n < 1) {
-				$ret = false;
-			} else {
-				$path = $parts[0];
-				for ($i = 1; $i < $n; $i ++) {
-					$path .= '/'.$parts[$i];
-					if (!file_exists($path)) {
-						if (!mkdir($path, $mode)) {
-							$ret = false;
-							break;
-						}
+			// We need to get and explode the open_basedir paths
+			$obd = ini_get('open_basedir');
+			
+			// If open_basedir is et we need to get the open_basedir that the path is in
+			if ($obd != null) {
+				if (JPATH_ISWIN) {
+					$obdSeparator = ";";
+				} else {
+					$obdSeparator = ":";
+				}
+				// Create the array of open_basedir paths
+				$obdArray = explode($obdSeparator, $obd);
+				$inOBD = false;
+				// Iterate through open_basedir paths looking for a match
+				foreach ($obdArray as $test) {
+					if (!(strpos($path, $test) === false)) {
+						$obdpath = $test;
+						$inOBD = true;
+						break;
 					}
 				}
+				
+				if ($inOBD == false) {
+					// Return false for JFolder::create because the path to be created is not in open_basedir
+					return false;
+				}
 			}
+
+			// Just to make sure
+			$inOBD = true;
+			
+			do {
+				$dir = $path;
+
+				while (!@ mkdir($dir, $mode)) {
+					$dir = dirname($dir);
+
+					if ($obd != null) {
+						if (strpos($dir, $obdpath) === false) {
+							$inOBD = false;
+							break 2;
+						}
+					}
+					if ($dir == '/' || is_dir($dir))
+						break;
+				}
+			}
+			while ($dir != $path);
+
+			// Reset umask
 			@ umask($origmask);
+			
+			// If there is no open_basedir restriction this should always be true
+			if ($inOBD == false) {
+				// Return false for JFolder::create -- could not create path without violating open_basedir restrictions
+				$ret = false;
+			} else {
+				$ret = true;
+			}
 		}
 
 		return $ret;
@@ -612,7 +654,7 @@ class JFolder {
 		/*
 		 * If the destination file exists but isn't writable OR if the file doesn't exist and the parent directory 
 		 * is not writable we need to use FTP
-		 */ 
+		 */
 		if ((file_exists($dest) && !is_writable($dest)) || (!file_exists($dest) && !is_writable(dirname($dest)))) {
 			$ftpFlag = true;
 		}
@@ -857,7 +899,7 @@ class JPath {
 
 		// Initialize return value
 		$ret = true;
-		
+
 		if (is_dir($path)) {
 			$dh = opendir($path);
 			while ($file = readdir($dh)) {

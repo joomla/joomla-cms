@@ -98,7 +98,6 @@ class JFTP extends JObject {
 		if (!isset ($options['type'])) {
 			$options['type'] = FTP_AUTOASCII;
 		}
-
 		$this->setOptions($options);
 	}
 
@@ -146,10 +145,9 @@ class JFTP extends JObject {
 	 */
 	function setOptions($options) {
 
-		if (isset ($option['type'])) {
+		if (isset ($options['type'])) {
 			$this->_type = $options['type'];
 		}
-
 		return true;
 	}
 
@@ -437,8 +435,8 @@ class JFTP extends JObject {
 
 		// Determine file type and set transfer mode
 		if ($this->_type == FTP_AUTOASCII) {
-			preg_match("/\..+/", $remote, $matches);
-			$ext = strtolower(substr($matches[0], 1));
+			$dot = strrpos($remote, '.') + 1;
+			$ext = substr($remote, $dot);
 
 			if (in_array($ext, $this->_autoAscii)) {
 				$mode = FTP_ASCII;
@@ -499,8 +497,8 @@ class JFTP extends JObject {
 
 		// Determine file type and set transfer mode
 		if ($this->_type == FTP_AUTOASCII) {
-			preg_match("/\..+/", $remote, $matches);
-			$ext = strtolower(substr($matches[0], 1));
+			$dot = strrpos($remote, '.') + 1;
+			$ext = substr($remote, $dot);
 
 			if (in_array($ext, $this->_autoAscii)) {
 				$mode = FTP_ASCII;
@@ -569,10 +567,16 @@ class JFTP extends JObject {
 		$matches = array (null);
 		$mode = null;
 
+		// If remote file not given, use the filename of the local file in the current
+		// working directory
+		if ($remote == null) {
+			$remote = basename($local);
+		}
+
 		// Determine file type and set transfer mode
 		if ($this->_type == FTP_AUTOASCII) {
-			preg_match("/\..+/", $local, $matches);
-			$ext = strtolower(substr($matches[0], 1));
+			$dot = strrpos($remote, '.') + 1;
+			$ext = substr($remote, $dot);
 
 			if (in_array($ext, $this->_autoAscii)) {
 				$mode = FTP_ASCII;
@@ -589,15 +593,9 @@ class JFTP extends JObject {
 		$this->_mode($mode);
 		$this->restart(0);
 
-		// If remote file not given, use the filename of the local file in the current
-		// working directory
-		if ($remote == null) {
-			$remote = basename($local);
-		}
-
 		// Check to see if the local file exists and open for reading if so
 		if (@ file_exists($local)) {
-			$fp = fopen($local, "r");
+			$fp = fopen($local, "rb");
 			if (!$fp) {
 				$this->_logError('FTP Store: Couldn\'t read: '.$local);
 				return false;

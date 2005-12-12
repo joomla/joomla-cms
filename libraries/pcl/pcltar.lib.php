@@ -3465,7 +3465,11 @@ if (!defined("PCL_TAR"))
 
 	// ----- Create the directory
 	TrFctMessage(__FILE__, __LINE__, 3, "Create directory '$p_dir'");
-	if (!@mkdir($p_dir, 0777))
+	/*
+	 * MODIFIED FOR JOOMLA
+	 * @since 1.1 December 12, 2005
+	 */
+	if (!JFolder::create($p_dir, 0777))
 	{
 	  // ----- Error log
 	  PclErrorLog(-8, "Unable to create directory '$p_dir'");

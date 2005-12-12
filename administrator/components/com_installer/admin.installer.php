@@ -21,7 +21,7 @@ require_once( $mainframe->getPath( 'admin_html' ) );
 
 $element 	= mosGetParam( $_REQUEST, 'element', '' );
 $client 	= mosGetParam( $_REQUEST, 'client', '' );
-$path 		= JPATH_ADMINISTRATOR . "/components/com_installer/$element/$element.php";
+$path 		= JPATH_ADMINISTRATOR . DS."components".DS."com_installer".DS."$element".DS."$element.php";
 
 jimport('joomla.installers.factory');
 
@@ -65,7 +65,7 @@ switch ($task) {
 	default:
 		if (array_key_exists ( $element, $classMap ) ){
 			require_once( $mainframe->getPath( 'installer_class', $element ) );
-			$path = JPATH_ADMINISTRATOR . "/components/com_installer/$element/$element.php";
+			$path = JPATH_ADMINISTRATOR . DS ."components".DS."com_installer".DS."$element".DS."$element.php";
 
 			if (file_exists( $path )) {
 				require $path;
@@ -237,26 +237,28 @@ function removeElement( $installerClass, $option, $element, $client ) {
 * @param string The message to return
 */
 function uploadFile( $filename, $userfile_name, &$msg ) {
-	$baseDir = mosPathName( JPATH_SITE . '/media' );
+	$baseDir = mosPathName( JPATH_SITE . DS .'media' );
 
-	if (file_exists( $baseDir )) {
-		if (is_writable( $baseDir )) {
-			if (move_uploaded_file( $filename, $baseDir . $userfile_name )) {
-				if (mosChmod( $baseDir . $userfile_name )) {
-					return true;
-				} else {
-					$msg = JText::_( 'WARNPERMISSIONS' );
-				}
-			} else {
-				$msg = JText::_( 'Failed to move uploaded file to' );
-			}
-		} else {
-			$msg = JText::_( 'UPLOADFAILEDNOTWRITABLE' );
-		}
-	} else {
-		$msg = JText::_( 'UPLOADFAILEDNOTEXIST' );
-	}
-	return false;
+	return JFile::upload($filename, $baseDir . $userfile_name, &$msg );
+	
+//	if (file_exists( $baseDir )) {
+//		if (is_writable( $baseDir )) {
+//			if (move_uploaded_file( $filename, $baseDir . $userfile_name )) {
+//				if (mosChmod( $baseDir . $userfile_name )) {
+//					return true;
+//				} else {
+//					$msg = JText::_( 'WARNPERMISSIONS' );
+//				}
+//			} else {
+//				$msg = JText::_( 'Failed to move uploaded file to' );
+//			}
+//		} else {
+//			$msg = JText::_( 'UPLOADFAILEDNOTWRITABLE' );
+//		}
+//	} else {
+//		$msg = JText::_( 'UPLOADFAILEDNOTEXIST' );
+//	}
+//	return false;
 }
 
 /**
