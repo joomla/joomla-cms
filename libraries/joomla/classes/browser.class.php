@@ -366,30 +366,6 @@ class JBrowser extends JObject
 			getenv('SSL_PROTOCOL_VERSION'));
 	}
 
-	/**
-	 * Escape characters in javascript code if the browser requires it.
-	 * %23, %26, and %2B (for IE) and %27 need to be escaped or else
-	 * jscript will interpret it as a single quote, pound sign, or
-	 * ampersand and refuse to work.
-	 *
-	 * @param string $code  The JS code to escape.
-	 * @return string  The escaped code.
-	 */
-	function escapeJSCode($code)
-	{
-		$from = $to = array();
-
-		if ($this->isBrowser('msie') ||
-			($this->isBrowser('mozilla') && ($this->getMajor() >= 5))) {
-				$from = array('%23', '%26', '%2B');
-				$to = array(urlencode('%23'), urlencode('%26'), urlencode('%2B'));
-		}
-
-		$from[] = '%27';         $to[] = '\urlencode%27';
-
-		return str_replace($from, $to, $code);
-	}
-
    /**
 	* @param string The name of the property
 	* @param mixed The value of the property to set
