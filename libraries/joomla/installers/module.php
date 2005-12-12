@@ -46,8 +46,8 @@ class mosInstallerModule extends mosInstaller {
 		$e = &$mosinstall->getElementsByPath( 'name', 1 );
 		$this->elementName($e->getText());
 		$this->elementDir( mosPathName( JPATH_SITE
-			. ($client == 'admin' ? '/administrator' : '')
-			. '/modules/' )
+			. ($client == 'admin' ? DS.'administrator' : '')
+			. DS.'modules'.DS )
 		);
 
 		if ($this->parseFiles( 'files', 'module', JText::_( 'No file is marked as module file' ) ) === false) {
@@ -177,9 +177,9 @@ class mosInstallerModule extends mosInstaller {
     		}
 
     		if ( !$row->client_id ) {
-    			$basepath = JPATH_SITE . '/modules/';
+    			$basepath = JPATH_SITE . DS .'modules'. DS;
     		} else {
-    			$basepath = JPATH_ADMINISTRATOR . '/modules/';
+    			$basepath = JPATH_ADMINISTRATOR . DS .'modules'. DS;
     		}
 
       		$xmlfile = $basepath . $row->module . '.xml';
@@ -203,7 +203,7 @@ class mosInstallerModule extends mosInstaller {
     							$subpath = $parts['dirname'];
     							if ($subpath <> '' && $subpath <> '.' && $subpath <> '..') {
     								echo '<br />'. JText::_( 'Deleting' ) .': '. $basepath . $subpath;
-    								$result = deldir(mosPathName( $basepath . $subpath . '/' ));
+    								$result = deldir(mosPathName( $basepath . $subpath . DS ));
     							} else {
     								echo '<br />'. JText::_( 'Deleting' ) .': '. $basepath . $filename;
     								$result = unlink( mosPathName ($basepath . $filename, false));

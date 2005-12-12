@@ -18,8 +18,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 error_reporting( E_ALL );
 @set_magic_quotes_runtime( 0 );
 
-if (file_exists( JPATH_SITE . '/configuration.php')) {
-	if(filesize( JPATH_SITE . '/configuration.php' ) > 10) {
+if (file_exists( JPATH_SITE . DS. 'configuration.php')) {
+	if(filesize( JPATH_SITE . DS. 'configuration.php' ) > 10) {
 		header( 'Location: ../index.php' );
 		exit();
 	}
@@ -29,7 +29,7 @@ if (file_exists( JPATH_SITE . '/configuration.php')) {
 $GLOBALS['mosConfig_absolute_path'] = JPATH_SITE . DIRECTORY_SEPARATOR;
 $GLOBALS['mosConfig_sitename']      = 'Joomla! - Web Installer';
 
-require_once( JPATH_LIBRARIES . '/loader.php' );
+require_once( JPATH_LIBRARIES . DS .'loader.php' );
 
 $url = $_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'];
 $url = str_replace( 'installation/', '', $url );
@@ -56,9 +56,9 @@ if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER 
 }
 
 //File includes
-require_once( dirname(__FILE__). '/functions.php' );
-require_once( dirname(__FILE__). '/classes.php' );
-require_once( dirname(__FILE__). '/html.php' );
+require_once( dirname(__FILE__). DS.'functions.php' );
+require_once( dirname(__FILE__). DS.'classes.php' );
+require_once( dirname(__FILE__). DS.'html.php' );
 
 //Library imports
 jimport( 'joomla.version' );

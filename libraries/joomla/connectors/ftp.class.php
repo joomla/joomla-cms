@@ -26,6 +26,7 @@ if (!defined("FTP_ASCII")) {
 
 /**
  * FTP client class
+ * 
  * @author Louis Landry  <louis@webimagery.net>
  * @package Joomla
  * @subpackage JFramework
@@ -81,7 +82,7 @@ class JFTP extends JObject {
 	 * @final
 	 * @access private
 	 */
-	var $_autoAscii = array ("asp", "bat", "c", "cpp", "csv", "h", "htm", "html", "shtml", "ini", "log", "php", "php3", "pl", "perl", "sh", "sql", "txt", "xhtml", "xml");
+	var $_autoAscii = array ("asp", "bat", "c", "cpp", "csv", "h", "htm", "html", "shtml", "ini", "inc", "log", "php", "php3", "pl", "perl", "sh", "sql", "txt", "xhtml", "xml");
 
 	/**
 	 * Array to hold native line ending characters
@@ -129,6 +130,7 @@ class JFTP extends JObject {
 			$instances[$host]->connect($host);
 		} else {
 			// If instance already exists, set options for this use
+			$instances[$host]->connect($host);
 			$instances[$host]->setOptions($options);
 		}
 
@@ -711,7 +713,7 @@ class JFTP extends JObject {
 			return false;
 		}
 
-		if (!$this->_putCmd('LIST '.FTP_AUTOASCII. ($recurse ? 'R' : ''). ($path == '' ? '' : ' '.$path), array (150, 125))) {
+		if (!$this->_putCmd('NLST '.$path, array (150, 125))) {
 			$this->_logError('FTP ListDir: Response not successful');
 			@ fclose($this->_dataconn);
 			return false;

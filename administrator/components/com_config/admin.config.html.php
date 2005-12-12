@@ -443,8 +443,8 @@ class HTML_config {
 				<td><?php echo $lists['xmlrpc_server']; ?></td>
 			</tr>
 			<tr>
-				<td><?php echo JText::_( 'FTP Path' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_ftp_path" size="50" value="<?php echo $row->config_ftp_path; ?>"/></td>
+				<td><?php echo JText::_( 'FTP Root' ); ?>:</td>
+				<td><input class="text_area" type="text" name="config_ftp_root" size="50" value="<?php echo $row->config_ftp_root; ?>"/></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'FTP Username' ); ?>:</td>

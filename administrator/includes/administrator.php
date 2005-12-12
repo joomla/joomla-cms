@@ -16,23 +16,23 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 @set_magic_quotes_runtime( 0 );
 
-if (!file_exists( JPATH_SITE . '/configuration.php' )) {
+if (!file_exists( JPATH_SITE . DS .'configuration.php' )) {
 	header( 'Location: ../installation/index.php' );
 	exit();
 }
 
 //TODO : Fix offline message
 //Installation sub folder check, removed for work with SVN
-//if (file_exists( JPATH_INSTALLATION .'/index.php' )) {
+//if (file_exists( JPATH_INSTALLATION . DS .'index.php' )) {
 //	define( '_INSTALL_CHECK', 1 );
-//	include (JPATH_SITE .'/offline.php');
+//	include (JPATH_SITE . DS .'offline.php');
 //	exit();
 //}
 
 //File includes
-require_once( JPATH_SITE      . '/globals.php' );
-require_once( JPATH_SITE      . '/configuration.php' );
-require_once( JPATH_LIBRARIES . '/loader.php' );
+require_once( JPATH_SITE      . DS .'globals.php' );
+require_once( JPATH_SITE      . DS .'configuration.php' );
+require_once( JPATH_LIBRARIES . DS .'loader.php' );
 
 define( 'JURL_SITE', $mosConfig_live_site );
 
@@ -53,7 +53,7 @@ if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER 
 	die( 'Fatal error.  Post variable hack attempted.' );
 }
 
-require_once( dirname(__FILE__) . '/template.php' );
+require_once( dirname(__FILE__) . DS .'template.php' );
 
 //Library imports
 jimport( 'phpinputfilter.inputfilter' );

@@ -35,7 +35,7 @@ class mosInstallerLanguage extends mosInstaller {
 		// Set some vars
 		$e = &$root->getElementsByPath( 'name', 1);
 		$this->elementName($e->getText());
-		$this->elementDir( mosPathName( JPATH_SITE . "/language/" ) );
+		$this->elementDir( mosPathName( JPATH_SITE . DS ."language". DS ) );
 
 		// Find files to copy
 		if ($this->parseFiles( 'files', 'language' ) === false) {
@@ -56,7 +56,7 @@ class mosInstallerLanguage extends mosInstaller {
 	function uninstall( $id, $option, $client=0 ) {
 		$id = str_replace( array( '\\', '/' ), '', $id );
 
-		$basepath = JPATH_SITE . '/language/';
+		$basepath = JPATH_SITE . DS .'language'. DS;
 		$xmlfile = $basepath . $id . '.xml';
 
 		// see if there is an xml install file, must be same name as element

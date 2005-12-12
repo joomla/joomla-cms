@@ -16,8 +16,8 @@ define( '_JEXEC', 1 );
 
 define('JPATH_BASE', dirname(__FILE__) );
 
-require_once ( 'includes/defines.php');
-require_once(  'includes/administrator.php' );
+require_once ( 'includes'. DIRECTORY_SEPARATOR .'defines.php');
+require_once(  'includes'. DIRECTORY_SEPARATOR .'administrator.php' );
 
 $option = mosGetParam( $_REQUEST, 'option', NULL );
 $handle = mosGetParam( $_POST, 'handle', NULL );

@@ -38,7 +38,7 @@ class mosInstallerMambot extends mosInstaller {
 		$this->elementName( $e->getText() );
 
 		$folder = $mosinstall->getAttribute( 'group' );
-		$this->elementDir( mosPathName( JPATH_SITE . '/mambots/' . $folder ) );
+		$this->elementDir( mosPathName( JPATH_SITE . DS .'mambots'. DS . $folder ) );
 
 		if(!file_exists($this->elementDir()) && !JFolder::create($this->elementDir())) {
 			$this->setError( 1, JText::_( 'Failed to create directory' ) .' "' . $this->elementDir() . '"' );
@@ -125,7 +125,7 @@ class mosInstallerMambot extends mosInstaller {
 			exit();
 		}
 
-		$basepath 	= JPATH_SITE . '/mambots/' . $row->folder . '/';
+		$basepath 	= JPATH_SITE . DS .'mambots'. DS . $row->folder . DS;
 		$xmlfile 	= $basepath . $row->element . '.xml';
 
 		// see if there is an xml install file, must be same name as element
@@ -147,7 +147,7 @@ class mosInstallerMambot extends mosInstaller {
 							$subpath = $parts['dirname'];
 							if ($subpath <> '' && $subpath <> '.' && $subpath <> '..') {
 								echo '<br />'. JText::_( 'Deleting' ) .': '. $basepath . $subpath;
-								$result = deldir(mosPathName( $basepath . $subpath . '/' ));
+								$result = deldir(mosPathName( $basepath . $subpath . DS ));
 							} else {
 								echo '<br />'. JText::_( 'Deleting' ) .': '. $basepath . $filename;
 								$result = unlink( mosPathName ($basepath . $filename, false));

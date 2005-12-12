@@ -46,8 +46,8 @@ class mosInstallerTemplate extends mosInstaller {
 		$e = &$mosinstall->getElementsByPath( 'name', 1 );
 		$this->elementName($e->getText());
 		$this->elementDir( mosPathName( JPATH_SITE
-		. ($client == 'admin' ? '/administrator' : '')
-		. '/templates/' . strtolower(str_replace(" ","_",$this->elementName())))
+		. ($client == 'admin' ? DS.'administrator' : '')
+		. DS.'templates'.DS . strtolower(str_replace(" ","_",$this->elementName())))
 		);
 
 		if (!file_exists( $this->elementDir() ) && !JFolder::creata( $this->elementDir() )) {
@@ -94,8 +94,8 @@ class mosInstallerTemplate extends mosInstaller {
 
 		// Delete directories
 		$path = JPATH_SITE
-		. ($client == 'admin' ? '/administrator' : '' )
-		. '/templates/' . $id;
+		. ($client == 'admin' ? DS .'administrator' : '' )
+		. DS .'templates'. DS . $id;
 
 		$id = str_replace( '..', '', $id );
 		if (trim( $id )) {

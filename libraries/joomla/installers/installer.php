@@ -115,7 +115,7 @@ class mosInstaller {
 			return false;
 		}
 		if(!$target) {
-			$target = JPATH_SITE . '/media/' . $this->getFilenameFromURL($url);
+			$target = JPATH_SITE . DS .'media'. DS . $this->getFilenameFromURL($url);
 		}
 		$output_handle = fopen($target, "wb"); // or die("Local output opening failed");
 		if (!$output_handle) {
@@ -144,7 +144,7 @@ class mosInstaller {
 	* @return boolean True on success, False on error
 	*/
 	function extractArchive() {
-		$base_Dir 		= mosPathName( JPATH_SITE . '/media' );
+		$base_Dir 		= mosPathName( JPATH_SITE . DS .'media' );
 
 		$archivename 	= $base_Dir . $this->installArchive();
 		$tmpdir 		= uniqid( 'install_' );
@@ -395,7 +395,7 @@ class mosInstaller {
 
 		if ($tagName == 'media') {
 			// media is a special tag
-			$installTo = mosPathName( JPATH_SITE . '/images/stories' );
+			$installTo = mosPathName( JPATH_SITE . DS .'images'.DS.'stories' );
 		} else if ($adminFiles) {
 			$installTo = $this->componentAdminDir();
 		} else {
@@ -428,7 +428,7 @@ class mosInstaller {
 					$this->setError( 1, sprintf( JText::_( 'WARNSAME' ), $filedest ) );
 					return false;
 				} else {
-					if( !( copy($filesource,$filedest) && JPath::setPermissions($filedest) ) ) {
+					if( !( JFile::copy($filesource,$filedest) ) ) {
 						$this->setError( 1, sprintf( JText::_( 'Failed to copy file to' ), $filesource, $filedest ) );
 						return false;
 					}
@@ -554,7 +554,7 @@ class mosInstaller {
 function cleanupInstall( $userfile_name, $resultdir) {
 	if (file_exists( $resultdir )) {
 		deldir( $resultdir );
-		unlink( JPath::clean( JPATH_SITE . '/media/' . $userfile_name, false ) );
+		unlink( JPath::clean( JPATH_SITE . DS .'media'. DS . $userfile_name, false ) );
 	}
 }
 

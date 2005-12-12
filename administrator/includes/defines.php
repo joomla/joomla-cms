@@ -24,7 +24,7 @@ $parts = explode( '/', $path );
 array_pop( $parts );
 
 //Defines
-define( 'JPATH_ROOT'         , implode( '/', $parts ) );
+define( 'JPATH_ROOT'         , implode( DS, $parts ) );
 
 define( 'JPATH_SITE'         , JPATH_ROOT );
 define( 'JPATH_CONFIGURATION', JPATH_ROOT );

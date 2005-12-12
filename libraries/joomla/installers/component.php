@@ -47,10 +47,10 @@ class mosInstallerComponent extends mosInstaller {
 		// Set some vars
 		$e = &$mosinstall->getElementsByPath('name', 1);
 		$this->elementName($e->getText());
-		$this->elementDir( mosPathName( JPATH_SITE . "/components/"
-			. strtolower("com_" . str_replace(" ","",$this->elementName())) . "/" )
+		$this->elementDir( mosPathName( JPATH_SITE . DS ."components". DS
+			. strtolower("com_" . str_replace(" ","",$this->elementName())) . DS )
 		);
-		$this->componentAdminDir( mosPathName( JPATH_SITE . "/administrator/components/"
+		$this->componentAdminDir( mosPathName( JPATH_SITE . DS."administrator".DS."components".DS
 			. strtolower( "com_" . str_replace( " ","",$this->elementName() ) ) )
 		);
 
@@ -185,8 +185,8 @@ class mosInstallerComponent extends mosInstaller {
 		$this->setError( 0, $desc );
 
 		if ($this->hasInstallfile()) {
-			if (is_file($this->componentAdminDir() . '/' . $this->installFile())) {
-				require_once($this->componentAdminDir() . "/" . $this->installFile());
+			if (is_file($this->componentAdminDir() . DS . $this->installFile())) {
+				require_once($this->componentAdminDir() . DS . $this->installFile());
 				$ret = com_install();
 				if ($ret != '') {
 					$this->setError( 0, $desc . $ret );
@@ -273,25 +273,25 @@ class mosInstallerComponent extends mosInstaller {
 		}
 
 		// Try to find the uninstall file
-		$filesindir = mosReadDirectory( JPATH_AMINISTRATOR . '/components/'.$row->option, 'uninstall' );
+		$filesindir = mosReadDirectory( JPATH_AMINISTRATOR . DS .'components'. DS .$row->option, 'uninstall' );
 		if (count( $filesindir ) > 0) {
 			$uninstall_file = $filesindir[0];
-			if(file_exists(JPATH_ADMINISTRATOR.'/components/'.$row->option .'/'.$uninstall_file))
+			if(file_exists(JPATH_ADMINISTRATOR.DS.'components'.DS.$row->option . DS .$uninstall_file))
 			{
-				require_once(JPATH_ADMINISTRATOR.'/components/'.$row->option .'/'.$uninstall_file );
+				require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.$row->option .DS.$uninstall_file );
 				$uninstallret = com_uninstall();
 			}
 		}
 
 		// Try to find the XML file
-		$filesindir = mosReadDirectory( mosPathName( JPATH_ADMINISTRATOR.'/components/'.$row->option ), '.xml$');
+		$filesindir = mosReadDirectory( mosPathName( JPATH_ADMINISTRATOR.DS.'components'.DS.$row->option ), '.xml$');
 		if (count($filesindir) > 0) {
 			$ismosinstall = false;
 			$found = 0;
 			foreach ($filesindir as $file) {
 				$xmlDoc =& JFactory::getXMLParser();
 				$xmlDoc->resolveErrors( true );
-				if (!$xmlDoc->loadXML( JPATH_ADMINISTRATOR."/components/".$row->option . "/" . $file, false, true )) {
+				if (!$xmlDoc->loadXML( JPATH_ADMINISTRATOR.DS."components".DS.$row->option . DS . $file, false, true )) {
 					return false;
 				}
 				$root = &$xmlDoc->documentElement;
@@ -337,11 +337,11 @@ class mosInstallerComponent extends mosInstaller {
 
 		if (trim( $row->option )) {
 			$result = 0;
-			$path = mosPathName( JPATH_ADMINISTRATOR.'/components/' . $row->option );
+			$path = mosPathName( JPATH_ADMINISTRATOR.DS.'components'. DS . $row->option );
 			if (is_dir( $path )) {
 				$result |= deldir( $path );
 			}
-			$path = mosPathName( JPATH_SITE.'/components/'.$row->option );
+			$path = mosPathName( JPATH_SITE.DS.'components'.DS.$row->option );
 			if (is_dir( $path )) {
 				$result |= deldir( $path );
 			}

@@ -100,20 +100,20 @@ class JFile {
 
 		//Check src path
 		if (!is_readable($src)) {
-			return JText :: _('Cannot find source file');
+			//TODO: Handle an error JText :: _('Cannot find source file')
+			return false;
 		}
 
-		//Check dest path and create if doesn't exist
-		if (!is_writable($dest)) {
-			if (!file_exists(dirname($dest))) {
-				JFolder :: create(dirname($dest));
-			}
-			// Since the path isn't writable by the webserver we will try via FTP
+		/*
+		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory 
+		 * is not writable we need to use FTP
+		 */ 
+		if ((file_exists($dest) && !is_writable($dest)) || (!file_exists($dest) && !is_writable(dirname($dest)))) {
 			$ftpFlag = true;
 		}
 
 		// Check for safe mode
-		if (ini_set('safe_mode')) {
+		if (ini_get('safe_mode')) {
 			$ftpFlag = true;
 		}
 
@@ -123,18 +123,25 @@ class JFile {
 			$ftp = & JFTP :: getInstance('localhost');
 			$ftp->login($ftpUser, $ftpPass);
 
+			// If the parent folder doesn't exist we must create it
+			if (!file_exists(dirname($dest))) {
+				JFolder :: create(dirname($dest));
+			}
+
 			//Translate the destination path for the FTP account
 			$dest = JPath :: clean(str_replace(JPATH_SITE, $ftpRoot, $dest), false);
 
 			if (!$ftp->store($src, $dest)) {
-				return JText :: _('Copy failed');
+				// TODO: Handle error JText :: _('Copy failed')
+				return false;
 			}
 			$ftp->quit();
 
 			$ret = true;
 		} else {
 			if (!@ copy($src, $dest)) {
-				return JText :: _('Copy failed');
+				// TODO: Handle error JText :: _('Copy failed')
+				return false;
 			}
 			$ret = true;
 		}
@@ -164,7 +171,7 @@ class JFile {
 		}
 
 		// Check for safe mode
-		if (ini_set('safe_mode')) {
+		if (ini_get('safe_mode')) {
 			$ftpFlag = true;
 		}
 
@@ -219,17 +226,16 @@ class JFile {
 			return JText :: _('Cannot find source file');
 		}
 
-		//Check dest path and create if doesn't exist
-		if (!is_writable($dest)) {
-			if (!file_exists(dirname($dest))) {
-				JFolder :: create(dirname($dest));
-			}
-			// Since the path isn't writable by the webserver we will try via FTP
+		/*
+		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory 
+		 * is not writable we need to use FTP
+		 */ 
+		if ((file_exists($dest) && !is_writable($dest)) || (!file_exists($dest) && !is_writable(dirname($dest)))) {
 			$ftpFlag = true;
 		}
 
 		// Check for safe mode
-		if (ini_set('safe_mode')) {
+		if (ini_get('safe_mode')) {
 			$ftpFlag = true;
 		}
 
@@ -308,17 +314,16 @@ class JFile {
 
 		JPath :: check($file);
 
-		//Check dest path and create if doesn't exist
-		if (!is_writable($file)) {
-			if (!file_exists(dirname($file))) {
-				JFolder :: create(dirname($file));
-			}
-			// Since the path isn't writable by the webserver we will try via FTP
+		/*
+		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory 
+		 * is not writable we need to use FTP
+		 */ 
+		if ((file_exists($file) && !is_writable($file)) || (!file_exists($file) && !is_writable(dirname($file)))) {
 			$ftpFlag = true;
 		}
 
 		// Check for safe mode
-		if (ini_set('safe_mode')) {
+		if (ini_get('safe_mode')) {
 			$ftpFlag = true;
 		}
 
@@ -327,6 +332,11 @@ class JFile {
 			jimport('joomla.connectors.ftp');
 			$ftp = & JFTP :: getInstance('localhost');
 			$ftp->login($ftpUser, $ftpPass);
+
+			// If the destination directory doesn't exist we need to create it
+			if (!file_exists(dirname($file))) {
+				JFolder :: create(dirname($file));
+			}
 
 			//Translate path for the FTP account
 			$file = JPath :: clean(str_replace(JPATH_SITE, $ftpRoot, $file), false);
@@ -366,17 +376,16 @@ class JFile {
 
 		$baseDir = dirname($destFile);
 
-		//Check dest path and create if doesn't exist
-		if (!is_writable($destFile)) {
-			if (!file_exists($baseDir)) {
-				JFolder :: create(dirname($destFile));
-			}
-			// Since the path isn't writable by the webserver we will try via FTP
+		/*
+		 * If the destination file exists but isn't writable OR if the file doesn't exist and the parent directory 
+		 * is not writable we need to use FTP
+		 */ 
+		if ((file_exists($destFile) && !is_writable($destFile)) || (!file_exists($destFile) && !is_writable(dirname($destFile)))) {
 			$ftpFlag = true;
 		}
 
 		// Check for safe mode
-		if (ini_set('safe_mode')) {
+		if (ini_get('safe_mode')) {
 			$ftpFlag = true;
 		}
 
@@ -386,6 +395,10 @@ class JFile {
 			$ftp = & JFTP :: getInstance('localhost');
 			$ftp->login($ftpUser, $ftpPass);
 
+			// If the destination directory doesn't exist we need to create it
+			if (!file_exists($baseDir)) {
+				JFolder :: create($baseDir);
+			}
 			//Translate path for the FTP account
 			$destFile = JPath :: clean(str_replace(JPATH_SITE, $ftpRoot, $destFile), false);
 
@@ -458,10 +471,9 @@ class JFolder {
 		}
 
 		// Check for safe mode
-		if (ini_set('safe_mode')) {
+		if (ini_get('safe_mode')) {
 			$ftpFlag = true;
 		}
-
 		// Check for safe mode
 		if ($ftpFlag == true) {
 			// Do it the safe mode way
@@ -470,25 +482,14 @@ class JFolder {
 			$ftp->login($ftpUser, $ftpPass);
 
 			// Translate path to FTP path
-			$path = JPath :: clean(str_replace(JPATH_SITE, $ftpRoot, $path));
+			$path = JPath :: clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
 
-			$parts = explode(DS, $path);
-			$n = count($parts);
-			$ret = true;
-			if ($n < 1) {
+			if (!$ftp->mkdir($path)) {
 				$ret = false;
 			} else {
-				$path = $parts[0];
-				for ($i = 1; $i < $n; $i ++) {
-					$path .= DS.$parts[$i];
-					if (!file_exists(JPath :: clean(str_replace($ftpRoot, JPATH_SITE, $path)))) {
-						if (!$ftp->mkdir(JPath :: clean($path))) {
-							$ret = false;
-							break;
-						}
-					}
-				}
+				$ret = true;
 			}
+			
 			$ftp->quit();
 		} else {
 			// Do it the regular way
@@ -548,14 +549,13 @@ class JFolder {
 			JFolder :: delete($folder);
 		}
 
-		// Make sure the path to be deleted is writable
+		// Make sure the path to be deleted is writable or use FTP
 		if (!is_writable($path)) {
-			// Since the path isn't writable by the webserver we will try via FTP
 			$ftpFlag = true;
 		}
 
 		// Check for safe mode
-		if (ini_set('safe_mode')) {
+		if (ini_get('safe_mode')) {
 			$ftpFlag = true;
 		}
 
@@ -609,17 +609,16 @@ class JFolder {
 			return JText :: _('Directory exists');
 		}
 
-		//Check dest path and create if doesn't exist
-		if (!is_writable($dest)) {
-			if (!file_exists(dirname($dest))) {
-				JFolder :: create(dirname($dest));
-			}
-			// Since the path isn't writable by the webserver we will try via FTP
+		/*
+		 * If the destination file exists but isn't writable OR if the file doesn't exist and the parent directory 
+		 * is not writable we need to use FTP
+		 */ 
+		if ((file_exists($dest) && !is_writable($dest)) || (!file_exists($dest) && !is_writable(dirname($dest)))) {
 			$ftpFlag = true;
 		}
 
 		// Check for safe mode
-		if (ini_set('safe_mode')) {
+		if (ini_get('safe_mode')) {
 			$ftpFlag = true;
 		}
 
@@ -846,37 +845,41 @@ class JPath {
 	}
 
 	/**
-	* Chmods files and directories recursivly to given permissions
-	* @param path The starting file or directory (no trailing slash)
-	* @param filemode Integer value to chmod files. NULL = dont chmod files.
-	* @param dirmode Integer value to chmod directories. NULL = dont chmod directories.
-	* @return TRUE=all succeeded FALSE=one or more chmods failed
-	*/
-	function setPermissions($path, $filemode = '0644', $dirmode = '0755') {
+	 * Chmods files and directories recursivly to given permissions
+	 * 
+	 * @param string $path Root path to begin changing mode [without trailing slash]
+	 * @param string $filemode Octal representation of the value to change file mode to [null = no change]
+	 * @param string $foldermode Octal representation of the value to change folder mode to [null = no change]
+	 * @return boolean True if successful [one fail means the whole operation failed]
+	 * @since 1.1
+	 */
+	function setPermissions($path, $filemode = '0644', $foldermode = '0755') {
 
-		$ret = TRUE;
+		// Initialize return value
+		$ret = true;
+		
 		if (is_dir($path)) {
 			$dh = opendir($path);
 			while ($file = readdir($dh)) {
 				if ($file != '.' && $file != '..') {
 					$fullpath = $path.'/'.$file;
 					if (is_dir($fullpath)) {
-						if (!JPath :: setPermissions($fullpath, $filemode, $dirmode)) {
-							$ret = FALSE;
+						if (!JPath :: setPermissions($fullpath, $filemode, $foldermode)) {
+							$ret = false;
 						}
 					} else {
 						if (isset ($filemode)) {
 							if (!@ chmod($fullpath, octdec($filemode))) {
-								$ret = FALSE;
+								$ret = false;
 							}
 						}
 					} // if
 				} // if
 			} // while
 			closedir($dh);
-			if (isset ($dirmode))
-				if (!@ chmod($path, octdec($dirmode))) {
-					$ret = FALSE;
+			if (isset ($foldermode))
+				if (!@ chmod($path, octdec($foldermode))) {
+					$ret = false;
 				}
 		} else {
 			if (isset ($filemode))

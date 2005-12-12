@@ -764,11 +764,11 @@ class JApplication extends JObject {
 		switch ($client) {
 
 			case '2':
-				return JPath::clean( JPATH_SITE . '/installation', $addTrailingSlash );
+				return JPath::clean( JPATH_SITE . DS.'installation', $addTrailingSlash );
 				break;
 
 			case '1':
-				return JPath::clean( JPATH_ADMINISTRATOR . '', $addTrailingSlash );
+				return JPath::clean( JPATH_ADMINISTRATOR, $addTrailingSlash );
 				break;
 
 			case '0':

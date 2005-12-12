@@ -179,6 +179,9 @@ class installationTasks {
 	 */
 	function makeDB() {
 
+		// Initialize variables
+		$errors = null;
+		
 		$vars = mosGetParam($_POST, 'vars', array ());
 
 		$lang = mosGetParam($vars, 'lang', 'eng_GB');
@@ -360,7 +363,20 @@ class installationTasks {
 			$canWrite = is_writable(JPATH_SITE);
 		}
 
-		if (ini_get('safe_mode') == true) {
+		/*
+		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory 
+		 * is not writable we need to use FTP
+		 */ 
+		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path)))) {
+			$ftpFlag = true;
+		}
+
+		// Check for safe mode
+		if (ini_get('safe_mode')) {
+			$ftpFlag = true;
+		}
+
+		if ($ftpFlag == true) {
 
 			// Connect the FTP client
 			jimport('joomla.connectors.ftp');
@@ -460,6 +476,10 @@ class JInstallationHelper {
 	 */
 	function backupDatabase(& $database, $DBname, $DBPrefix, & $errors) {
 
+		// Initialize backup prefix variable
+		// TODO: Should this be user-defined?
+		$BUPrefix = 'bak_';
+		
 		$query = "SHOW TABLES FROM `$DBname`";
 		$database->setQuery($query);
 		$errors = array ();
@@ -661,7 +681,8 @@ class JInstallationHelper {
 			$ftpPath .= DS.$parts[$i];
 		}
 
-		return str_replace($thePath, '', JPATH_SITE);
+		$thePath = str_replace($thePath, '', JPATH_SITE);
+		return ($thePath == '') ? DS : $thePath.DS;
 	}
 }
 ?>
