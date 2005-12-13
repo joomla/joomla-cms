@@ -45,7 +45,7 @@ class mosInstallerModule extends mosInstaller {
 		// Set some vars
 		$e = &$mosinstall->getElementsByPath( 'name', 1 );
 		$this->elementName($e->getText());
-		$this->elementDir( mosPathName( JPATH_SITE
+		$this->elementDir( JPath::clean( JPATH_SITE
 			. ($client == 'admin' ? DS.'administrator' : '')
 			. DS.'modules'.DS )
 		);
@@ -203,10 +203,10 @@ class mosInstallerModule extends mosInstaller {
     							$subpath = $parts['dirname'];
     							if ($subpath <> '' && $subpath <> '.' && $subpath <> '..') {
     								echo '<br />'. JText::_( 'Deleting' ) .': '. $basepath . $subpath;
-    								$result = deldir(mosPathName( $basepath . $subpath . DS ));
+    								$result = JFolder::delete(JPath::clean( $basepath . $subpath . DS ));
     							} else {
     								echo '<br />'. JText::_( 'Deleting' ) .': '. $basepath . $filename;
-    								$result = unlink( mosPathName ($basepath . $filename, false));
+    								$result = JFile::delete(JPath::clean($basepath . $filename, false));
     							}
     							echo intval( $result );
     						}
@@ -214,7 +214,7 @@ class mosInstallerModule extends mosInstaller {
 
     					// remove XML file from front
     					echo JText::_( 'Deleting XML File' ) .": ". $xmlfile;
-    					@unlink(  mosPathName ($xmlfile, false ) );
+    					JFile::delete(  JPath::clean($xmlfile, false ) );
     					return true;
     				}
     			}

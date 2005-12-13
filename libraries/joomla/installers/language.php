@@ -35,7 +35,7 @@ class mosInstallerLanguage extends mosInstaller {
 		// Set some vars
 		$e = &$root->getElementsByPath( 'name', 1);
 		$this->elementName($e->getText());
-		$this->elementDir( mosPathName( JPATH_SITE . DS ."language". DS ) );
+		$this->elementDir( JPath::clean( JPATH_SITE . DS ."language". DS ) );
 
 		// Find files to copy
 		if ($this->parseFiles( 'files', 'language' ) === false) {
@@ -77,7 +77,7 @@ class mosInstallerLanguage extends mosInstaller {
 						echo $filename;
 						if (file_exists( $basepath . $filename )) {
 							echo '<br />'. JText::_( 'Deleting' ) .': '. $basepath . $filename;
-							$result = unlink( $basepath . $filename );
+							$result = JFile::delete( $basepath . $filename );
 						}
 						echo intval( $result );
 					}
@@ -89,7 +89,7 @@ class mosInstallerLanguage extends mosInstaller {
 		}
 
 		// remove XML file from front
-		@unlink( $xmlfile );
+		JFile::delete( $xmlfile );
 
 		return true;
 	}

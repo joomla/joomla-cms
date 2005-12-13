@@ -321,8 +321,8 @@ class mosInstallerComponent extends mosInstaller {
 				break;
 			}
 			if(!$found) {
-                                        HTML_installer::showInstallMessage('XML File invalid or not found',JText::_( 'Uninstall - error' ),$this->returnTo( $option, 'component', $client ) );
-					exit();
+				HTML_installer::showInstallMessage('XML File invalid or not found',JText::_( 'Uninstall - error' ),$this->returnTo( $option, 'component', $client ) );
+				exit();
 
 			}
 		} else {
@@ -337,13 +337,13 @@ class mosInstallerComponent extends mosInstaller {
 
 		if (trim( $row->option )) {
 			$result = 0;
-			$path = mosPathName( JPATH_ADMINISTRATOR.DS.'components'. DS . $row->option );
+			$path = JPath::clean( JPATH_ADMINISTRATOR.DS.'components'. DS . $row->option, true );
 			if (is_dir( $path )) {
-				$result |= deldir( $path );
+				$result |= JFolder::delete( $path );
 			}
-			$path = mosPathName( JPATH_SITE.DS.'components'.DS.$row->option );
+			$path = JPath::clean( JPATH_SITE.DS.'components'.DS.$row->option, true );
 			if (is_dir( $path )) {
-				$result |= deldir( $path );
+				$result |= JFolder::delete( $path );
 			}
 			return $result;
 		} else {

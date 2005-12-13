@@ -45,12 +45,12 @@ class mosInstallerTemplate extends mosInstaller {
 		// Set some vars
 		$e = &$mosinstall->getElementsByPath( 'name', 1 );
 		$this->elementName($e->getText());
-		$this->elementDir( mosPathName( JPATH_SITE
+		$this->elementDir( JPath::clean( JPATH_SITE
 		. ($client == 'admin' ? DS.'administrator' : '')
 		. DS.'templates'.DS . strtolower(str_replace(" ","_",$this->elementName())))
 		);
 
-		if (!file_exists( $this->elementDir() ) && !JFolder::creata( $this->elementDir() )) {
+		if (!file_exists( $this->elementDir() ) && !JFolder::create( $this->elementDir() )) {
 			$this->setError(1, JText::_( 'Failed to create directory' ) .' "' . $this->elementDir() . '"' );
 			return false;
 		}
@@ -100,7 +100,7 @@ class mosInstallerTemplate extends mosInstaller {
 		$id = str_replace( '..', '', $id );
 		if (trim( $id )) {
 			if (is_dir( $path )) {
-				return deldir( mosPathName( $path ) );
+				return JFolder::delete( JPath::clean( $path ) );
 			} else {
 				HTML_installer::showInstallMessage( JText::_( 'Directory does not exist, cannot remove files' ), JText::_( 'Uninstall - error' ),
 					$this->returnTo( $option, 'template', $client ) );

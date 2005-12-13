@@ -23,7 +23,6 @@ if (!defined("FTP_ASCII")) {
 	define("FTP_ASCII", 0);
 }
 
-
 /**
  * FTP client class
  * 
@@ -38,6 +37,7 @@ class JFTP extends JObject {
 	 * Server connection resource
 	 *
 	 * @access private
+	 * @var socket resource
 	 */
 	var $_conn = null;
 
@@ -45,6 +45,7 @@ class JFTP extends JObject {
 	 * Data port connection resource
 	 *
 	 * @access private
+	 * @var socket resource
 	 */
 	var $_dataconn = null;
 
@@ -52,6 +53,7 @@ class JFTP extends JObject {
 	 * Passive connection information
 	 *
 	 * @access private
+	 * @var array
 	 */
 	var $_pasv = null;
 
@@ -59,6 +61,7 @@ class JFTP extends JObject {
 	 * Response Message
 	 *
 	 * @access private
+	 * @var string
 	 */
 	var $_response = null;
 
@@ -66,6 +69,7 @@ class JFTP extends JObject {
 	 * Error Message
 	 *
 	 * @access private
+	 * @var string
 	 */
 	var $_error = null;
 
@@ -73,14 +77,24 @@ class JFTP extends JObject {
 	 * Transfer Type
 	 *
 	 * @access private
+	 * @var int
 	 */
 	var $_type = null;
+
+	/**
+	 * Native OS Type
+	 *
+	 * @access private
+	 * @var string
+	 */
+	var $_OS = null;
 
 	/**
 	 * Array to hold ascii format file extensions
 	 *
 	 * @final
 	 * @access private
+	 * @var array
 	 */
 	var $_autoAscii = array ("asp", "bat", "c", "cpp", "csv", "h", "htm", "html", "shtml", "ini", "inc", "log", "php", "php3", "pl", "perl", "sh", "sql", "txt", "xhtml", "xml");
 
@@ -89,9 +103,10 @@ class JFTP extends JObject {
 	 *
 	 * @final
 	 * @access private
+	 * @var array
 	 */
 	var $_lineEndings = array ('UNIX' => "\n", 'MAC' => "\r", 'WIN' => "\r\n");
-	
+
 	function __construct($options) {
 
 		// If default transfer type is no set, set it to autoascii detect
@@ -99,6 +114,16 @@ class JFTP extends JObject {
 			$options['type'] = FTP_AUTOASCII;
 		}
 		$this->setOptions($options);
+		
+		if (JPATH_ISWIN) {
+			$this->_OS = 'WIN';
+		} elseif (JPATH_ISMAC) {
+			$this->_OS = 'MAC';
+		} else {
+			$this->_OS = 'UNIX';
+		}
+
+		
 	}
 
 	function __destruct() {
@@ -161,7 +186,7 @@ class JFTP extends JObject {
 	 */
 	function connect($host = 'localhost', $port = 21) {
 
-		//Initialize variables
+		// Initialize variables
 		$errno = null;
 		$err = null;
 
@@ -243,6 +268,37 @@ class JFTP extends JObject {
 
 		// Return the cleaned path
 		return preg_replace("/\"/", "", $match[0]);
+	}
+
+	/**
+	 * Method to system string from the FTP server
+	 *
+	 * @access public
+	 * @return string System identifier string
+	 */
+	function syst() {
+
+		// Initialize variables
+		$match = array (null);
+
+		// Send print working directory command and verify success
+		if (!$this->_putCmd('SYST', 215)) {
+			$this->_logError('FTP SYST: Unable to retrieve system string');
+			return false;
+		}
+
+		// Match the system string to an OS
+		if (!(strpos('MAC', strtoupper($this->_response)) === false)) {
+			$ret = 'MAC';
+		}
+		elseif (!(strpos('WIN', strtoupper($this->_response)) === false)) {
+			$ret = 'WIN';
+		} else {
+			$ret = 'UNIX';
+		}
+
+		// Return the os type
+		return $ret;
 	}
 
 	/**
@@ -430,9 +486,6 @@ class JFTP extends JObject {
 	 */
 	function read($remote, & $buffer) {
 
-		// Initialize variables
-		$matches = array (null);
-
 		// Determine file type and set transfer mode
 		if ($this->_type == FTP_AUTOASCII) {
 			$dot = strrpos($remote, '.') + 1;
@@ -452,7 +505,6 @@ class JFTP extends JObject {
 
 		$this->_mode($mode);
 		$this->restart(0);
-
 
 		// Start passive mode
 		if (!$this->_passive()) {
@@ -474,6 +526,11 @@ class JFTP extends JObject {
 		// Close the data port connection
 		fclose($this->_dataconn);
 
+		// Let's try to cleanup some line endings if it is ascii
+		if ($mode == FTP_ASCII) {
+			$buffer = preg_replace("/".CRLF."/", $this->_lineEndings[$this->_OS], $buffer);
+		}
+		
 		if (!$this->_verifyResponse(226)) {
 			$this->_logError('FTP Write: Unable to store data at: '.$remote);
 			return false;
@@ -491,9 +548,6 @@ class JFTP extends JObject {
 	 * @return boolean True if successful
 	 */
 	function get($local, $remote) {
-
-		// Initialize variables
-		$matches = array (null);
 
 		// Determine file type and set transfer mode
 		if ($this->_type == FTP_AUTOASCII) {
@@ -521,7 +575,6 @@ class JFTP extends JObject {
 			$this->_logError('FTP Get: Couldn\'t write to: '.$local);
 			return false;
 		}
-
 
 		// Start passive mode
 		if (!$this->_passive()) {
@@ -562,10 +615,6 @@ class JFTP extends JObject {
 	 * @return boolean True if successful
 	 */
 	function store($local, $remote = null) {
-
-		// Initialize variables
-		$matches = array (null);
-		$mode = null;
 
 		// If remote file not given, use the filename of the local file in the current
 		// working directory
@@ -654,9 +703,9 @@ class JFTP extends JObject {
 	 */
 	function write($remote, $buffer, $mode = FTP_ASCII) {
 
+		// First we need to set the transfer mode
 		$this->_mode($mode);
 		$this->restart(0);
-
 
 		// Start passive mode
 		if (!$this->_passive()) {
@@ -693,14 +742,13 @@ class JFTP extends JObject {
 	}
 
 	/**
-	 * Method to list the contents of a directory on the FTP server
+	 * Method to list the file/folder names of the contents of a directory on the FTP server
 	 *
 	 * @access public
 	 * @param string $path Path local file to store on the FTP server
-	 * @param boolean $search Recursively search subdirectories
 	 * @return string Directory listing
 	 */
-	function listDir($path = '', $recurse = false) {
+	function nameList($path = '') {
 
 		// Initialize variables
 		$data = null;
@@ -730,6 +778,148 @@ class JFTP extends JObject {
 		}
 
 		return preg_split("/[".CRLF."]+/", $data, -1, PREG_SPLIT_NO_EMPTY);
+	}
+
+	/**
+	 * Method to list the contents of a directory on the FTP server
+	 *
+	 * @access public
+	 * @param string $path Path local file to store on the FTP server
+	 * @param boolean $search Recursively search subdirectories
+	 * @param string $type Return type [raw|all|folders|files]
+	 * @return string Directory listing
+	 */
+	function listDir($path = '', $type = 'all') {
+
+		// Initialize variables
+		$data = null;
+		$regs = null;
+		// TODO: Deal with recurse -- nightmare
+		// For now we will just set it to false
+		$recurse = false;
+
+		// Determine system type for directory listing parsing
+		$osType = $this->syst();
+
+		// Start passive mode
+		if (!$this->_passive()) {
+			$this->_logError('FTP ListDir: Unable to use passive mode');
+			return false;
+		}
+
+		if (!$this->_putCmd(($recurse == true) ? 'LIST -R ' : 'LIST '.$path, array (150, 125))) {
+			$this->_logError('FTP ListDir: Response not successful');
+			@ fclose($this->_dataconn);
+			return false;
+		}
+
+		// Read in the file listing.
+		while (!feof($this->_dataconn)) {
+			$data .= fread($this->_dataconn, 4096);
+		}
+		fclose($this->_dataconn);
+
+		// Everything go okay?
+		if (!$this->_verifyResponse(226)) {
+			$this->_logError('FTP ListDir: Unable to list directory contents of: '.$path);
+			return false;
+		}
+
+		$contents = explode(CRLF, $data);
+
+		/*
+		 * Here is where it is going to get dirty....
+		 */
+		if ($osType == 'UNIX') {
+			foreach ($contents as $file) {
+				if (ereg("([-dl][rwxstST-]+).* ([0-9]*) ([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)", $file, $regs)) {
+					$fType = (int) strpos("-dl", $regs[1] { 0 });
+					//$tmp_array['line'] = $regs[0];
+					$tmp_array['type'] = $fType;
+					$tmp_array['rights'] = $regs[1];
+					//$tmp_array['number'] = $regs[2];
+					$tmp_array['user'] = $regs[3];
+					$tmp_array['group'] = $regs[4];
+					$tmp_array['size'] = $regs[5];
+					$tmp_array['date'] = date("m-d", strtotime($regs[6]));
+					$tmp_array['time'] = $regs[7];
+					$tmp_array['name'] = $regs[9];
+				}
+				// If we just want files, do not add a folder
+				if ($type == 'files' && $tmp_array['type'] == 1) {
+					continue;
+				}
+				// If we just want folders, do not add a file
+				if ($type == 'folders' && $tmp_array['type'] == 0) {
+					continue;
+				}
+				$dir_list[] = $tmp_array;
+			}
+		}
+		elseif ($osType == 'MAC') {
+			foreach ($contents as $file) {
+				if (ereg("([-dl][rwxstST-]+).* ?([0-9 ]* )?([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)", $file, $regs)) {
+					$fType = (int) strpos("-dl", $regs[1] { 0 });
+					//$tmp_array['line'] = $regs[0];
+					$tmp_array['type'] = $fType;
+					$tmp_array['rights'] = $regs[1];
+					//$tmp_array['number'] = $regs[2];
+					$tmp_array['user'] = $regs[3];
+					$tmp_array['group'] = $regs[4];
+					$tmp_array['size'] = $regs[5];
+					$tmp_array['date'] = date("m-d", strtotime($regs[6]));
+					$tmp_array['time'] = $regs[7];
+					$tmp_array['name'] = $regs[9];
+				}
+				// If we just want files, do not add a folder
+				if ($type == 'files' && $tmp_array['type'] == 1) {
+					continue;
+				}
+				// If we just want folders, do not add a file
+				if ($type == 'folders' && $tmp_array['type'] == 0) {
+					continue;
+				}
+				$dir_list[] = $tmp_array;
+			}
+		} else {
+			foreach ($contents as $file) {
+				if (ereg("([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)", $file, $regs)) {
+					// Four digit year fix
+					if ($regs[3] < 70) {
+						$regs[3] += 2000;
+					} else {
+						$regs[3] += 1900;
+					}
+					// File Type
+					if ($regs[7] == "<DIR>") {
+						$fType = 1;
+					} else {
+						$fType = 0;
+					}
+					$tmp_array['type'] = $fType;
+					$tmp_array['size'] = $regs[7];
+					$tmp_array['date'] = date("m-d", strtotime($regs[1].' '.$regs[2]));
+					$tmp_array['time'] = $regs[4].':'.$regs[5];
+					$tmp_array['name'] = $regs[8];
+				}
+				// If we just want files, do not add a folder
+				if ($type == 'files' && $tmp_array['type'] == 1) {
+					continue;
+				}
+				// If we just want folders, do not add a file
+				if ($type == 'folders' && $tmp_array['type'] == 0) {
+					continue;
+				}
+				$dir_list[] = $tmp_array;
+			}
+		}
+
+		// One last check, do we want parsed output or raw output???
+		if ($type == 'raw') {
+			return $data;
+		} else {
+			return $dir_list;
+		}
 	}
 
 	/**

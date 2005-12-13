@@ -89,7 +89,7 @@ class JInstallerFactory {
 		if(!$location) {
 			return $processor;
 		}
-		mosChmod($location);
+		JPath::setPermissions($location);
 		$processor->extractArchive();
 		$type = $this->detectType($processor->unpackDir());
 		$this->createClass($type);

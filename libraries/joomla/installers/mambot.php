@@ -38,7 +38,7 @@ class mosInstallerMambot extends mosInstaller {
 		$this->elementName( $e->getText() );
 
 		$folder = $mosinstall->getAttribute( 'group' );
-		$this->elementDir( mosPathName( JPATH_SITE . DS .'mambots'. DS . $folder ) );
+		$this->elementDir( JPath::clean( JPATH_SITE . DS .'mambots'. DS . $folder ) );
 
 		if(!file_exists($this->elementDir()) && !JFolder::create($this->elementDir())) {
 			$this->setError( 1, JText::_( 'Failed to create directory' ) .' "' . $this->elementDir() . '"' );
@@ -147,10 +147,10 @@ class mosInstallerMambot extends mosInstaller {
 							$subpath = $parts['dirname'];
 							if ($subpath <> '' && $subpath <> '.' && $subpath <> '..') {
 								echo '<br />'. JText::_( 'Deleting' ) .': '. $basepath . $subpath;
-								$result = deldir(mosPathName( $basepath . $subpath . DS ));
+								$result = JFolder::delete(JPath::clean( $basepath . $subpath . DS ));
 							} else {
 								echo '<br />'. JText::_( 'Deleting' ) .': '. $basepath . $filename;
-								$result = unlink( mosPathName ($basepath . $filename, false));
+								$result = JFile::delete( JPath::clean($basepath . $filename, false));
 							}
 							echo intval( $result );
 						}
@@ -158,7 +158,7 @@ class mosInstallerMambot extends mosInstaller {
 
 					// remove XML file from front
 					echo JText::_( 'Deleting XML File' ) .": ". $xmlfile;
-					@unlink(  mosPathName ($xmlfile, false ) );
+					JFile::delete( JPath::clean($xmlfile, false ) );
 
 					// define folders that should not be removed
 					$sysFolders = array(
@@ -168,7 +168,7 @@ class mosInstallerMambot extends mosInstaller {
 					if (!in_array( $row->folder, $sysFolders )) {
 						// delete the non-system folders if empty
 						if (count( mosReadDirectory( $basepath ) ) < 1) {
-							deldir( $basepath );
+							JFolder::delete( $basepath );
 						}
 					}
 				}

@@ -34,30 +34,14 @@ function mosPathName($p_path, $p_addtrailingslash = true) {
 * @deprecated As of version 1.1
 */
 function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  ) {
-	$arr = array();
-	if (!@is_dir( $path )) {
-		return $arr;
-	}
-	$handle = opendir( $path );
+	$arr = array(null);
 
-	while ($file = readdir($handle)) {
-		$dir = mosPathName( $path.'/'.$file, false );
-		$isDir = is_dir( $dir );
-		if (($file <> ".") && ($file <> "..")) {
-			if (preg_match( "/$filter/", $file )) {
-				if ($fullpath) {
-					$arr[] = trim( mosPathName( $path.'/'.$file, false ) );
-				} else {
-					$arr[] = trim( $file );
-				}
-			}
-			if ($recurse && $isDir) {
-				$arr2 = mosReadDirectory( $dir, $filter, $recurse, $fullpath );
-				$arr = array_merge( $arr, $arr2 );
-			}
-		}
-	}
-	closedir($handle);
+	// Get the files and folders
+	$files = JFolder::files($path, $filter, $recurse, $fullpath);
+	$folders = JFolder::folders($path, $filter, $recurse, $fullpath);
+	// Merge files and folders into one array
+	$arr = array_merge($files, $folders);
+	// Sort them all
 	asort($arr);
 	return $arr;
 }
@@ -66,50 +50,8 @@ function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  
 * Legacy function, use JFolder::create
 * @deprecated As of version 1.1
 */
-function mosMakePath($base, $path='', $mode = NULL)
-{
-	global $mosConfig_dirperms;
-
-	// convert windows paths
-	$path = str_replace( '\\', '/', $path );
-	$path = str_replace( '//', '/', $path );
-
-	// check if dir exists
-	if (file_exists( $base . $path )) return true;
-
-	// set mode
-	$origmask = NULL;
-	if (isset($mode)) {
-		$origmask = @umask(0);
-	} else {
-		if ($mosConfig_dirperms=='') {
-			// rely on umask
-			$mode = 0777;
-		} else {
-			$origmask = @umask(0);
-			$mode = octdec($mosConfig_dirperms);
-		} // if
-	} // if
-
-	$parts = explode( '/', $path );
-	$n = count( $parts );
-	$ret = true;
-	if ($n < 1) {
-		$ret = @mkdir($base, $mode);
-	} else {
-		$path = $base;
-		for ($i = 0; $i < $n; $i++) {
-			$path .= $parts[$i] . '/';
-			if (!file_exists( $path )) {
-				if (!@mkdir( $path, $mode )) {
-					$ret = false;
-					break;
-				}
-			}
-		}
-	}
-	if (isset($origmask)) @umask($origmask);
-	return $ret;
+function mosMakePath($base, $path='', $mode = NULL) {
+	return JFolder::create($base.$path, $mode);
 }
 
 /**
@@ -133,7 +75,7 @@ function mosChmodRecursive( $path, $filemode=NULL, $dirmode=NULL ) {
 * @deprecated As of version 1.1
 */
 function mosIsChmodable( $file ) {
-	return JPath::canCHMOD( $file );
+	return JPath::canChmod( $file );
 }
 
 /**

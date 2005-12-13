@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Dec-2005 Johan Janssens
+ ^ Implemented JFile and JFolder classes in the installers - contributed by Louis Landry 
+
 12-Dec-2005 Johan Janssens
  ^ Fixed smaller file system problems - contributed by Louis Landry
  + Added mbstring and dbcollaction information to system info - contributed by David Gal

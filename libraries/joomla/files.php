@@ -275,23 +275,62 @@ class JFile {
 	 * @since 1.1
 	 */
 	function read($filename, $incpath = false) {
+		global $mainframe;
 
-		if (false === $fh = fopen($filename, 'rb', $incpath)) {
-			//trigger_error('JFile::read failed to open stream: No such file or directory', E_USER_WARNING);
-			return false;
+		// Initialize variables
+		$ftpFlag = false;
+		$ftpUser = $mainframe->getCfg('ftp_user');
+		$ftpPass = $mainframe->getCfg('ftp_pass');
+		$ftpRoot = $mainframe->getCfg('ftp_root');
+		$data = null;
+
+		/*
+		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory 
+		 * is not writable we need to use FTP
+		 */
+		if (!is_readable($filename)) {
+			$ftpFlag = true;
 		}
 
-		clearstatcache();
-		if ($fsize = @ filesize($filename)) {
-			$data = fread($fh, $fsize);
-		} else {
-			$data = '';
-			while (!feof($fh)) {
-				$data .= fread($fh, 8192);
+		// Check for safe mode
+		if (ini_get('safe_mode')) {
+			$ftpFlag = true;
+		}
+
+		if ($ftpFlag == true) {
+			// Connect the FTP client
+			jimport('joomla.connectors.ftp');
+			$ftp = & JFTP :: getInstance('localhost');
+			$ftp->login($ftpUser, $ftpPass);
+
+			//Translate path for the FTP account
+			$file = JPath :: clean(str_replace(JPATH_SITE, $ftpRoot, $filename), false);
+
+			// Use FTP write buffer to file
+			if (!$ftp->read($file, $data)) {
+				$ret = false;
 			}
-		}
 
-		fclose($fh);
+			$ret = true;
+		} else {
+
+			if (false === $fh = fopen($filename, 'rb', $incpath)) {
+				//trigger_error('JFile::read failed to open stream: No such file or directory', E_USER_WARNING);
+				return false;
+			}
+	
+			clearstatcache();
+			if ($fsize = @ filesize($filename)) {
+				$data = fread($fh, $fsize);
+			} else {
+				$data = '';
+				while (!feof($fh)) {
+					$data .= fread($fh, 8192);
+				}
+			}
+	
+			fclose($fh);
+		}
 		return $data;
 	}
 
@@ -704,91 +743,209 @@ class JFolder {
 	}
 
 	/**
-	* Utility function to read the files in a directory
-	* @param string The file system path
-	* @param string A filter for the names
-	* @param boolean Recurse search into sub-directories
-	* @param boolean True if to prepend the full path to the file name
-	* @return array
-	*/
+	 * Utility function to read the files in a folder
+	 * 
+	 * @param string $path The path of the folder to read
+	 * @param string $filter A filter for file names
+	 * @param boolean $recurse True to recursively search into sub-folders
+	 * @param boolean $fullpath True to return the full path to the file
+	 * @return array Files in the given folder
+	 * @since 1.1
+	 */
 	function files($path, $filter = '.', $recurse = false, $fullpath = false) {
+		global $mainframe;
+
+		// Initialize variables
+		$ftpFlag = false;
+		$ftpUser = $mainframe->getCfg('ftp_user');
+		$ftpPass = $mainframe->getCfg('ftp_pass');
+		$ftpRoot = $mainframe->getCfg('ftp_root');
+
 		$arr = array ();
 		$path = JPath :: clean($path, false);
 		if (!is_dir($path)) {
 			return $arr;
 		}
 
-		// prevent snooping of the file system
-		//JPath::check( $path );
+		/*
+		 * If the directory exists but isn't readable we need to use FTP
+		 */
+		if (!is_readable($path)) {
+			$ftpFlag = true;
+		}
 
-		// read the source directory
-		$handle = opendir($path);
-		$path .= DS;
-		while ($file = readdir($handle)) {
-			$dir = $path.$file;
-			$isDir = is_dir($dir);
-			if ($file <> '.' && $file <> '..') {
-				if ($isDir) {
-					if ($recurse) {
-						$arr2 = JFolder :: files($dir, $filter, $recurse, $fullpath);
-						$arr = array_merge($arr, $arr2);
-					}
+		// Check for safe mode
+		if (ini_get('safe_mode')) {
+			$ftpFlag = true;
+		}
+
+		if ($ftpFlag == true) {
+			// Connect the FTP client
+			jimport('joomla.connectors.ftp');
+			$ftp = & JFTP :: getInstance('localhost');
+			$ftp->login($ftpUser, $ftpPass);
+
+			//Translate path for the FTP account
+			$ftpPath = JPath :: clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
+
+			// Use FTP get the file listing
+			if (!($list = $ftp->listDir($ftpPath, 'files'))) {
+				return JText :: _('File Listing failed');
+			}
+			$ftp->quit();
+
+			$path .= DS;
+			foreach ($list as $file) {
+				if ($file['type'] == 1) {
+					$isDir = true;
 				} else {
-					if (preg_match("/$filter/", $file)) {
-						if ($fullpath) {
-							$arr[] = $path.$file;
-						} else {
-							$arr[] = $file;
+					$isDir = false;
+				}
+				if ($file['name'] <> '.' && $file['name'] <> '..') {
+					if ($isDir) {
+						if ($recurse) {
+							$arr2 = JFolder :: files($path.$file['name'], $filter, $recurse, $fullpath);
+							$arr = array_merge($arr, $arr2);
+						}
+					} else {
+						if (preg_match("/$filter/", $file['name'])) {
+							if ($fullpath) {
+								$arr[] = $path.$file['name'];
+							} else {
+								$arr[] = $file['name'];
+							}
 						}
 					}
 				}
 			}
+		} else {
+			// read the source directory
+			$handle = opendir($path);
+			$path .= DS;
+			while ($file = readdir($handle)) {
+				$dir = $path.$file;
+				$isDir = is_dir($dir);
+				if ($file <> '.' && $file <> '..') {
+					if ($isDir) {
+						if ($recurse) {
+							$arr2 = JFolder :: files($dir, $filter, $recurse, $fullpath);
+							$arr = array_merge($arr, $arr2);
+						}
+					} else {
+						if (preg_match("/$filter/", $file)) {
+							if ($fullpath) {
+								$arr[] = $path.$file;
+							} else {
+								$arr[] = $file;
+							}
+						}
+					}
+				}
+			}
+			closedir($handle);
 		}
-		closedir($handle);
 		asort($arr);
 		return $arr;
 	}
 
 	/**
-	* Utility function to read the folders in a directory
-	* @param string The file system path
-	* @param string A filter for the names
-	* @param boolean Recurse search into sub-directories
-	* @param boolean True if to prepend the full path to the file name
-	* @return array
-	*/
+	 * Utility function to read the folders in a folder
+	 * 
+	 * @param string $path The path of the folder to read
+	 * @param string $filter A filter for folder names
+	 * @param boolean $recurse True to recursively search into sub-folders
+	 * @param boolean $fullpath True to return the full path to the folders
+	 * @return array Folders in the given folder
+	 * @since 1.1
+	 */
 	function folders($path, $filter = '.', $recurse = false, $fullpath = false) {
+		global $mainframe;
+
+		// Initialize variables
+		$ftpFlag = false;
+		$ftpUser = $mainframe->getCfg('ftp_user');
+		$ftpPass = $mainframe->getCfg('ftp_pass');
+		$ftpRoot = $mainframe->getCfg('ftp_root');
+
 		$arr = array ();
 		$path = JPath :: clean($path, false);
 		if (!is_dir($path)) {
 			return $arr;
 		}
 
-		// prevent snooping of the file system
-		//mosFS::check( $path );
+		/*
+		 * If the directory exists but isn't readable we need to use FTP
+		 */
+		if (!is_readable($path)) {
+			$ftpFlag = true;
+		}
 
-		// read the source directory
-		$handle = opendir($path);
-		$path .= DS;
-		while ($file = readdir($handle)) {
-			$dir = $path.$file;
-			$isDir = is_dir($dir);
-			if (($file <> '.') && ($file <> '..') && $isDir) {
-				// removes SVN directores from list
-				if (preg_match("/$filter/", $file) && !(preg_match("/.SVN/", $file))) {
-					if ($fullpath) {
-						$arr[] = $dir;
-					} else {
-						$arr[] = $file;
+		// Check for safe mode
+		if (ini_get('safe_mode')) {
+			$ftpFlag = true;
+		}
+
+		if ($ftpFlag == true) {
+			// Connect the FTP client
+			jimport('joomla.connectors.ftp');
+			$ftp = & JFTP :: getInstance('localhost');
+			$ftp->login($ftpUser, $ftpPass);
+
+			//Translate path for the FTP account
+			$ftpPath = JPath :: clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
+
+			// Use FTP get the file listing
+			if (!($list = $ftp->listDir($ftpPath, 'files'))) {
+				return JText :: _('File Listing failed');
+			}
+			$ftp->quit();
+
+			$path .= DS;
+			foreach ($list as $file) {
+				if ($file['type'] == 1) {
+					$isDir = true;
+				} else {
+					$isDir = false;
+				}
+				if (($file['name'] <> '.') && ($file['name'] <> '..') && $isDir) {
+					// removes SVN directores from list
+					if (preg_match("/$filter/", $file['name']) && !(preg_match("/\.svn/", $file['name']))) {
+						if ($fullpath) {
+							$arr[] = $path.$file['name'];
+						} else {
+							$arr[] = $file['name'];
+						}
+					}
+					if ($recurse) {
+						$arr2 = JFolder :: folders($path.$file['name'], $filter, $recurse, $fullpath);
+						$arr = array_merge($arr, $arr2);
 					}
 				}
-				if ($recurse) {
-					$arr2 = JFolder :: folders($dir, $filter, $recurse, $fullpath);
-					$arr = array_merge($arr, $arr2);
+			}
+		} else {
+			// read the source directory
+			$handle = opendir($path);
+			$path .= DS;
+			while ($file = readdir($handle)) {
+				$dir = $path.$file;
+				$isDir = is_dir($dir);
+				if (($file <> '.') && ($file <> '..') && $isDir) {
+					// removes SVN directores from list
+					if (preg_match("/$filter/", $file) && !(preg_match("/\.svn/", $file))) {
+						if ($fullpath) {
+							$arr[] = $dir;
+						} else {
+							$arr[] = $file;
+						}
+					}
+					if ($recurse) {
+						$arr2 = JFolder :: folders($dir, $filter, $recurse, $fullpath);
+						$arr = array_merge($arr, $arr2);
+					}
 				}
 			}
+			closedir($handle);
 		}
-		closedir($handle);
 		asort($arr);
 		return $arr;
 	}
@@ -811,7 +968,7 @@ class JFolder {
 			for ($i = 0, $n = count($folders); $i < $n; $i ++) {
 				$id = ++ $GLOBALS['_JFolder_folder_tree_index'];
 				$name = $folders[$i];
-				$fullName = JPath :: clean($path.'/'.$name, false);
+				$fullName = JPath :: clean($path.DS.$name, false);
 				$dirs[] = array ('id' => $id, 'parent' => $parent, 'name' => $name, 'fullname' => $fullName, 'relname' => str_replace(JPATH_ROOT, '', $fullName));
 				$dirs2 = JFolder :: listFolderTree($fullName, $filter, $maxLevel, $level +1, $id);
 				$dirs = array_merge($dirs, $dirs2);

@@ -143,13 +143,13 @@ class mosInstaller {
 	* @return boolean True on success, False on error
 	*/
 	function extractArchive() {
-		$base_Dir 		= mosPathName( JPATH_SITE . DS .'media' );
+		$base_Dir 		= JPath::clean( JPATH_SITE . DS .'media' );
 
 		$archivename 	= $base_Dir . $this->installArchive();
 		$tmpdir 		= uniqid( 'install_' );
 
-		$extractdir 	= mosPathName( $base_Dir . $tmpdir );
-		$archivename 	= mosPathName( $archivename, false );
+		$extractdir 	= JPath::clean( $base_Dir . $tmpdir );
+		$archivename 	= JPath::clean( $archivename, false );
 
 		$this->unpackDir( $extractdir );
 		if (eregi( '.zip$', $archivename )) {
@@ -189,7 +189,7 @@ class mosInstaller {
 
 		if (count( $filesindir ) == 1) {
 			if (is_dir( $extractdir . $filesindir[0] )) {
-				$this->installDir( mosPathName( $extractdir . $filesindir[0] ) );
+				$this->installDir( JPath::clean( $extractdir . $filesindir[0] ) );
 			}
 		}
 		return true;
@@ -202,7 +202,7 @@ class mosInstaller {
 
 		$found = false;
 		// Search the install dir for an xml file
-		$files = mosReadDirectory( $this->installDir(), '.xml$', true, true );
+		$files = JFolder::files( $this->installDir(), '.xml$', true, true );
 
 		if (count( $files ) > 0) {
 			foreach ($files as $file) {
@@ -550,13 +550,27 @@ class mosInstaller {
 	}
 }
 
+/**
+ * Clean up temporary uploaded package and unpacked element
+ * 
+ * @param string $userfile_name Path to the uploaded package file
+ * @param string $resultdir Path to the unpacked element
+ * @return boolean True on success
+ */
 function cleanupInstall( $userfile_name, $resultdir) {
 	if (file_exists( $resultdir )) {
-		deldir( $resultdir );
-		unlink( JPath::clean( JPATH_SITE . DS .'media'. DS . $userfile_name, false ) );
-	}
+		JFolder::delete( $resultdir );
+		JFile::delete( JPath::clean( JPATH_SITE . DS .'media'. DS . $userfile_name, false ) );
+		return true;
+	} 
 }
 
+/**
+ * Delete a directory recursively
+ * Use JFolder::delete($path)
+ * 
+ * @deprecated As of version 1.1
+ */
 function deldir( $dir ) {
 	$current_dir = opendir( $dir );
 	$old_umask = umask(0);
