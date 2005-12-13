@@ -129,7 +129,7 @@ function showCategories( $section, $option ) {
 		. "\n WHERE id = $section";
 		$database->setQuery( $query );
 		$section_name = $database->loadResult();
-		$section_name = 'Content: '. $section_name;
+		$section_name = sprintf( JText::_( 'Content:' ), JText::_( $section_name ) );
 		$where 	= "\n WHERE c.section = '$section'";
 		$type 	= 'content';
 	} else if (strpos( $section, 'com_' ) === 0) {
@@ -145,9 +145,9 @@ function showCategories( $section, $option ) {
 		$type 	= 'other';
 		// special handling for contact component
 		if ( $section == 'com_contact_details' ) {
-			$section_name 	= 'Contact';
+			$section_name 	= JText::_( 'Contact' );
 		}
-		$section_name = 'Component: '. $section_name;
+		$section_name = sprintf( JText::_( 'Component:' ), $section_name );
 	} else {
 		$table 	= $section;
 		$where 	= "\n WHERE c.section = '$section'";
@@ -170,7 +170,7 @@ function showCategories( $section, $option ) {
 		//$where = "\n WHERE s1.catid = c.id";
 		$where 			= "\n WHERE c.section NOT LIKE '%com_%'";
 		$order 			= "\n ORDER BY c.section, c.ordering, c.name";
-		$section_name 	= 'All Content';
+		$section_name 	= JText::_( 'All Content:' );
 		// get the total number of records
 		$query = "SELECT COUNT(*)"
 		. "\n FROM #__categories"

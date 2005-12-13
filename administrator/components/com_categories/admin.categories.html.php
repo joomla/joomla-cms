@@ -292,7 +292,7 @@ class categories_html {
 		<tr>
 			<td>
 				<small><small>
-				[ <?php echo $component; ?>: <?php echo $row->name; ?> ]
+				[ <?php echo JText::_( $component ); ?>: <?php echo $row->name; ?> ]
 				</small></small>
 			</td>
 		</tr>
