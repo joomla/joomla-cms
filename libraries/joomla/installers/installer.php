@@ -103,7 +103,6 @@ class mosInstaller {
 	* @param string Download target
 	*/
 	function downloadPackage($url,$target=false) {
-		global $mainframe;
 
 		$php_errormsg = 'Error Unknown';
 		ini_set('track_errors',true);
