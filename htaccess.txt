@@ -12,7 +12,7 @@
 #  mod_rewrite in use
 #
 
-# RewriteEngine On
+RewriteEngine On
 
 #  Uncomment following line if your webserver's URL 
 #  is not directly related to physical file paths.
@@ -24,10 +24,10 @@
 #  Rules
 #
 
-# RewriteCond %{REQUEST_FILENAME} !\.(jpg|jpeg|gif|png|css|js|pl|txt)$
-# RewriteCond %{REQUEST_FILENAME} !-f
-# RewriteCond %{REQUEST_FILENAME} !-d
-# RewriteRule ^(.*) index.php
+RewriteCond %{REQUEST_FILENAME} !\.(jpg|jpeg|gif|png|css|js|pl|txt)$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*) index.php
 
 #
 # php mb string settings to ensure correct utf-8 support
