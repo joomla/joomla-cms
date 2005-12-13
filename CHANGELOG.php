@@ -34,6 +34,8 @@ Legend:
 13-Dec-2005 Johan Janssens
  ^ Implemented JFile and JFolder classes in the installers - contributed by Louis Landry 
  + Added new JError class for easy error management
+ ^ Feature request artf1063 : Safemode patch for Joomla
+ ^ Feature request artf1507 : FTP installer
 
 12-Dec-2005 Johan Janssens
  ^ Fixed smaller file system problems - contributed by Louis Landry
