@@ -57,8 +57,10 @@ require_once( dirname(__FILE__) . DS .'template.php' );
 
 //Library imports
 jimport( 'phpinputfilter.inputfilter' );
+
 jimport( 'joomla.version' );
 jimport( 'joomla.functions' );
+jimport( 'joomla.classes.error');
 jimport( 'joomla.classes.app');
 jimport( 'joomla.classes.profiler' );
 jimport( 'joomla.classes.session' );

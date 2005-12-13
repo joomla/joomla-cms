@@ -341,13 +341,9 @@ class JApplication extends JObject {
 		/** @global $database */
 		$database =& JDatabase::getInstance( $dbtype, $host, $user, $password, $db, $dbprefix );
 
-		//TODO : error checking needs to happen outside getDBO call
-		//if ($database->getErrorNum()) {
-		//	$mosSystemError = $database->getErrorNum();
-		//	include JPATH_ROOT . '/configuration.php';
-		//	include JPATH_ROOT . '/error.php';
-		//	exit();
-		//}
+		if ($database->getErrorNum()) {
+			JError::raiseError('joomla.library:'.$database->getErrorNum(), 'JApplication::getDBO: Could not connect to database' );
+		}
 		$database->debug( $debug );
 		return $database;
 	}
