@@ -28,7 +28,7 @@ jimport('joomla.classes.object');
  * @since 1.1
  */
 
-class JLayout extends JObject
+class JDocument extends JObject
 {
 	/**
      * Array of placholders
@@ -67,14 +67,14 @@ class JLayout extends JObject
 	}
 
 	/**
-	 * Returns a reference to the global JLayout object, only creating it
+	 * Returns a reference to the global JDocument object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $layout = &JLayout::getInstance();</pre>
+	 * 		<pre>  $layout = &JDocument::getInstance();</pre>
 	 *
 	 * @access public
-	 * @return JLayout  The Layout object.
+	 * @return JDocument  The Layout object.
 	 */
 	function &getInstance()
 	{
@@ -85,7 +85,7 @@ class JLayout extends JObject
 		}
 
 		if (empty($instances[0])) {
-			$instances[0] = new JLayout();
+			$instances[0] = new JDocument();
 		}
 
 		return $instances[0];
@@ -189,7 +189,7 @@ class JLayout extends JObject
 	 * @param string 	$message	A message to prepend
 	 * @return string	The output of the script
 	 */
-	function fetchComponent($name, $msg = '')
+	function renderComponent($name, $msg = '')
 	{
 		global $mainframe, $my, $acl, $database;
 		global $Itemid, $task, $option;
@@ -229,11 +229,11 @@ class JLayout extends JObject
 	 * @param string 	$name	The position of the modules to render
 	 * @return string	The output of the scripts
 	 */
-	function fetchModules($position)
+	function renderModules($position)
 	{
 		$contents = '';
 		foreach ($this->getModules($position) as $module)  {
-			$contents .= $this->fetchModule($module);
+			$contents .= $this->renderModule($module);
 		}
 		return $contents;
 	}
@@ -245,7 +245,7 @@ class JLayout extends JObject
 	 * @param  mixed 	$name	The name of the module to render or a module object
 	 * @return string	The output of the script
 	 */
-	function fetchModule($module)
+	function renderModule($module)
 	{
 		global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
 		global $mainframe, $database, $my, $Itemid;
@@ -293,7 +293,7 @@ class JLayout extends JObject
 	 * @access public
 	 * @return string	The document head
 	 */
-	function fetchHead()
+	function renderHead()
 	{
 		global $database, $my, $mainframe, $_VERSION;
 
@@ -400,23 +400,23 @@ class JLayout extends JObject
 
 		foreach($this->_placeholders['components'] as $component)
 		{
-			$html = $this->fetchComponent($component, $msg);
+			$html = $this->renderComponent($component, $msg);
 			$this->_tmpl->addGlobalVar('component_'.$component, $html);
 		}
 
 		foreach($this->_placeholders['modules'] as $module)
 		{
-			$html = $this->fetchModules($module);
+			$html = $this->renderModules($module);
 			$this->_tmpl->addGlobalVar('modules_'.$module, $html);
 		}
 
 		foreach($this->_placeholders['module'] as $module)
 		{
-			$html = $this->fetchModule($module);
+			$html = $this->renderModule($module);
 			$this->_tmpl->addGlobalVar('module_'.$module, $html);
 		}
 
-		$html = $this->fetchHead();
+		$html = $this->renderHead();
 		$this->_tmpl->addGlobalVar('head', $html);
 
 		$this->_tmpl->displayParsedTemplate( $name );

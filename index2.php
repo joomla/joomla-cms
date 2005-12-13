@@ -99,7 +99,7 @@ if ($mainframe->getCfg('offline') && $my->gid < '23') {
 	$file = 'offline.php';
 }
 
-$layout = new JLayout();
+$layout = new JDocument();
 $layout->parse($cur_template, $file);
 
 initGzip();
