@@ -28,7 +28,7 @@
 		</param>
 		<param name="header" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="other_cat_section" type="radio" default="1" label="Category List - Section" description="PARAMOTHERCATEGSECT">
+		<param name="other_cat_section" type="radio" default="1" label="Category List - Section" description="PARAMOTHERCATSECTION">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>

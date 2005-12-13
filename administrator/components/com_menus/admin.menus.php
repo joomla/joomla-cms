@@ -229,24 +229,24 @@ function viewMenuItems( $menutype, $option ) {
 
 			case 'newsfeed_link':
 				$edit = 'index2.php?option=com_newsfeeds&task=edit&hidemainmenu=1A&id=' . $mitem->componentid;
-				$list[$i]->descrip 	= JText::_( 'Edit this Newsfeed' );
+				$list[$i]->descrip 	= 'Edit this Newsfeed';
 				$mitem->link .= '&Itemid='. $mitem->id;
 				break;
 
 			case 'contact_item_link':
 				$edit = 'index2.php?option=com_contact&task=editA&hidemainmenu=1&id=' . $mitem->componentid;
-				$list[$i]->descrip 	= JText::_( 'Edit this Contact' );
+				$list[$i]->descrip 	= 'Edit this Contact';
 				$mitem->link .= '&Itemid='. $mitem->id;
 				break;
 
 			case 'content_item_link':
 				$edit = 'index2.php?option=com_content&task=edit&hidemainmenu=1&id=' . $mitem->componentid;
-				$list[$i]->descrip 	= JText::_( 'Edit this Content' );
+				$list[$i]->descrip 	= 'Edit this Content';
 				break;
 
 			case 'content_typed':
 				$edit = 'index2.php?option=com_typedcontent&task=edit&hidemainmenu=1&id='. $mitem->componentid;
-				$list[$i]->descrip 	= JText::_( 'Edit this Static Content' );
+				$list[$i]->descrip 	= 'Edit this Static Content';
 				break;
 
 			default:

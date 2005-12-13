@@ -35,7 +35,7 @@
 			<option value="order">Ordering</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="other_cat_section" type="radio" default="1" label="Category List - Section" description="PARAMOTHERCATSEC">
+		<param name="other_cat_section" type="radio" default="1" label="Category List - Section" description="PARAMOTHERCATSECTION">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>

@@ -88,7 +88,7 @@
 		<param name="filter_type" type="list" default="title" label="Filter Field" description="Which field shall the filter apply to">
 			<option value="title">Title</option>
 			<option value="author">Author</option>
-			<option value="hits">His</option>
+			<option value="hits">Hits</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="other_cat" type="radio" default="1" label="Other Categories" description="Show/Hide the listing of other Categories">

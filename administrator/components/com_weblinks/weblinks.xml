@@ -37,7 +37,7 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="item_description" type="radio" default="1" label="Link Descriptions" description="PARAMITEMDESCRIPTION">
+		<param name="item_description" type="radio" default="1" label="Link Descriptions" description="PARAMITEMDESC">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>

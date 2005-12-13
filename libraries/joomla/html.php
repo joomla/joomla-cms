@@ -107,14 +107,9 @@ class mosHTML
 	* @param mixed The key that is selected
 	* @returns string HTML for the select list
 	*/
-	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag='' ) {
+	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag='', $flag='' ) {
 		reset( $arr );
         
-        //temporary condition for translation
-        if($tag_name == 'component') {
-            $tag_name = 'componentid';
-            $flag = 1;
-		}
         $id = $tag_name;
 		if ( $idtag ) {
 			$id = $idtag;
@@ -149,7 +144,9 @@ class mosHTML
 			} else {
 				$extra .= ( $k == $selected ? ' selected="selected"' : '' );
 			}
-			if( $tag_name == 'access' || isset($flag) ) $t = JText::_( $t );
+			//if flag translate text
+			if($flag) $t = JText::_( $t );
+			
 			$html .= '<option value="'. $k .'" '. $extra .'>' . $t . '</option>';
 		}
 		$html .= '</select>';
@@ -957,7 +954,7 @@ class mosAdminMenus {
 		;
 		$database->setQuery( $query );
 		$groups = $database->loadObjectList();
-		$access = mosHTML::selectList( $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ) );
+		$access = mosHTML::selectList( $groups, 'access', 'class="inputbox" size="3"', 'value', 'text', intval( $row->access ), '', 1 );
 
 		return $access;
 	}
@@ -1220,7 +1217,7 @@ class mosAdminMenus {
 			}
 			$component .= '<input type="hidden" name="componentid" value="'. $menu->componentid .'" />';
 		} else {
-			$component = mosHTML::selectList( $rows, 'component', 'class="inputbox" size="10"', 'value', 'text' );
+			$component = mosHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', NULL, '', 1 );
 		}
 		return $component;
 	}
