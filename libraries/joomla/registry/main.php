@@ -107,5 +107,21 @@ class JRegistry {
 	function &getStorageEngine() {
 		return $this->r_storageengine;	
 	}
+	
+	/**
+	 * Set storage format
+	 * @param object The new storage format
+	 */
+	function setStorageFormat( &$format ) {
+		$this->r_storageengine->setStorageFormat( $format );
+	}
+	
+	/**
+	 * Get the storage format
+	 * @return object The current storage format
+	 */
+	function &getStorageFormat() {
+		return $this->r_storageengine->getStorageFormat();
+	}
 }
 
