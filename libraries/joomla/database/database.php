@@ -130,7 +130,7 @@ class JDatabase extends JObject {
 		$signature = serialize(array($driver, $host, $user, $pass, $db, $table_prefix));
 
 		if (empty($instances[$signature])) {
-			jimport('joomla.database.drivers.'.$driver);
+			jimport('joomla.database.adapters.'.$driver);
 			$driver = 'JDatabase'.$driver;
 			$instances[$signature] = new $driver($host, $user, $pass, $db, $table_prefix);
 		}

@@ -185,7 +185,7 @@ class mosDBTable extends JModel {
 * @deprecated As of version 1.1
 */
 jimport( 'joomla.database.database' );
-jimport( 'joomla.database.drivers.mysql' );
+jimport( 'joomla.database.adapters.mysql' );
 /**
  * @package Joomla
  * @deprecated As of version 1.1
