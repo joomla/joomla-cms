@@ -24,9 +24,7 @@ $parts = explode( '/', $path );
 array_pop( $parts );
 
 DEFINE('JPATH_ROOT'         , implode( DS, $parts ) );
-
-DEFINE('JPATH_SITE'         , JPATH_ROOT );
-DEFINE('JPATH_ADMINISTRATOR', JPATH_ROOT . DS . 'administrator' );
-DEFINE('JPATH_LIBRARIES'    , JPATH_ROOT . DS . 'libraries');
-DEFINE('JPATH_INSTALLATION' , JPATH_ROOT . DS . 'installation');
+define('JPATH_SITE'			, JPATH_ROOT );
+define('JPATH_CONFIGURATION', JPATH_ROOT );
+define( 'JPATH_LIBRARIES'   , JPATH_ROOT . DS . 'libraries' );
 ?>

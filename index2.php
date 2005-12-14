@@ -99,8 +99,8 @@ if ($mainframe->getCfg('offline') && $my->gid < '23') {
 	$file = 'offline.php';
 }
 
-$layout = new JDocument();
-$layout->parse($cur_template, $file);
+$document = new JDocument();
+$document->parse($cur_template, $file);
 
 initGzip();
 
@@ -111,7 +111,7 @@ header( 'Cache-Control: post-check=0, pre-check=0', false );
 header( 'Pragma: no-cache' );
 header( 'Content-Type: text/html; charset=UTF-8');
 
-$layout->display( $file );
+$document->display( $file );
 
 doGzip();
 ?>

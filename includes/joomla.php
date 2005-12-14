@@ -54,14 +54,10 @@ if (@$mosConfig_error_reporting === 0) {
 	error_reporting( $mosConfig_error_reporting );
 }
 
-// experimenting
-
-//TODO : implement mambothandler class as singleton, add getVersion to JFactory
-
+//Library imports
 jimport( 'phpmailer.phpmailer');
 jimport( 'phpinputfilter.inputfilter' );
 
-jimport( 'joomla.database.' . $mosConfig_dbtype );
 jimport( 'joomla.version' );
 jimport( 'joomla.functions' );
 jimport( 'joomla.classes.error');

@@ -30,13 +30,13 @@ class installationScreens {
 
 		$lang =& $mainframe->getLanguage();
 
-		jimport('pattemplate.patTemplate');
+		jimport('joomla.template.template');
 
-		$tmpl = new patTemplate;
+		$tmpl = new JTemplate;
 		$tmpl->setNamespace( 'jos' );
 
 		// load the wrapper and common templates
-		$tmpl->setRoot( JPATH_INSTALLATION . '/tmpl' );
+		$tmpl->setRoot( JPATH_BASE . '/tmpl' );
 		$tmpl->readTemplatesFromFile( 'page.html' );
 
 		if ($lang->isRTL()) {

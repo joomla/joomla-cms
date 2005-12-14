@@ -30,7 +30,8 @@ class patTemplate_Function_Placeholder extends patTemplate_Function
 	*/
 	function call( $params, $content )
 	{
-		global $layout;
+		global $document;
+		
 		$type = strtolower( $params['type'] );
 		unset($params['type']);
 
@@ -41,7 +42,7 @@ class patTemplate_Function_Placeholder extends patTemplate_Function
 				$name = $params['name'];
 				unset($params['name']);
 
-				$layout->setComponent($name, $params);
+				$document->setComponent($name, $params);
 				return '{COMPONENT_'.strtoupper($name).'}';
 			} break;
 
@@ -50,7 +51,7 @@ class patTemplate_Function_Placeholder extends patTemplate_Function
 				$position = $params['position'];
 				unset($params['position']);
 
-				$layout->setModules($position, $params);
+				$document->setModules($position, $params);
 				return '{MODULES_'.strtoupper($position).'}';
 			} break;
 
@@ -59,7 +60,7 @@ class patTemplate_Function_Placeholder extends patTemplate_Function
 				$name = $params['name'];
 				unset($params['name']);
 
-				$layout->setModule($name, $params);
+				$document->setModule($name, $params);
 				return '{MODULE_'.strtoupper($name).'}';
 			} break;
 

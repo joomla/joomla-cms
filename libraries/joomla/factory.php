@@ -14,46 +14,59 @@
 
 /**
  * The Joomla! Factory class
+ * 
+ * @static
  * @package Joomla
  * @since 1.1
  */
 class JFactory
 {
 	/**
-	 * Creates a patTemplate oject
+	 * Returns a reference to the global JTemplate object, only creating it
+	 * if it doesn't already exist.
+	 * 
+	 * @access public
 	 * @param array An array of additional template files to load
 	 * @param boolean True to use caching
 	 * @return object
 	 * @since 1.1
 	 */
-	function &getPatTemplate( $files=null ) {
+	function &getTemplate( $files=null ) {
 		global $mainframe;
+		
+		static $instances;
 
-		// For some reason on PHP4 the singleton does not clone deep enough
-		// The Reader object is not behaving itself and causing problems
-		$tmpl =& JFactory::_createPatTemplate();
+		if (!isset($instances)) {
+			$instances = array();
+		}
 
+		if (empty($instances[0])) {
+			$instances[0] = JFactory::_createTemplate();
+		}
+		
 		//set template cache prefix
 		$prefix = '';
 		if($mainframe->isAdmin()) {
 			$prefix .= 'administrator__';
 		}
 		$prefix .= $GLOBALS['option'].'__';
-		// TODO next line not working
-		//$tmpl->setTemplateCachePrefix($prefix);
 
+		$instances[0]->setTemplateCachePrefix($prefix);
 
 		if ( is_array( $files ) ) {
 			foreach ( $files as $file ) {
-				$tmpl->readTemplatesFromInput( $file );
+				$instances[0]->readTemplatesFromInput( $file );
 			}
 		}
 
-		return $tmpl;
+		return $instances[0];
+
 	}
 
 	/**
 	 * Creates a cache object
+	 * 
+	 * @access public
 	 * @param string The cache group name
 	 * @param string The cache class name
 	 * @return object
@@ -76,30 +89,55 @@ class JFactory
 	}
 
 	/**
-	 * Creates an access control object
+	 * Returns a reference to the global JACL object, only creating it
+	 * if it doesn't already exist.
+	 * 
+	 * @access public
 	 * @return object
-	 * $since 1.1
 	 */
 	function &getACL( ) {
-		$acl =& JFactory::_createACL();
-		return $acl;
+		
+		static $instances;
+
+		if (!isset($instances)) {
+			$instances = array();
+		}
+
+		if (empty($instances[0])) {
+			$instances[0] = JFactory::_createACL();
+		}
+		
+		return $instances[0];
 	}
 
 	/**
-	 * Creates a mailer object
+	 * Returns a reference to the global Mailer object, only creating it
+	 * if it doesn't already exist
+	 * 
+	 * @access public
 	 * @return object
-	 * $since 1.1
 	 */
 	function &getMailer( ) {
-		$mailer =& JFactory::_createMailer();
-		return $mailer;
+		
+		static $instances;
+
+		if (!isset($instances)) {
+			$instances = array();
+		}
+
+		if (empty($instances[0])) {
+			$instances[0] = JFactory::_createMailer();
+		}
+		
+		return $instances[0];
 	}
 
 	/**
 	 * Creates a XML document
+	 * 
+	 * @access public
 	 * @return object
 	 * @param boolean If true, include lite version
-	 * $since 1.1
 	 */
 
 	 function &getXMLParser( $type = 'DOM', $lite =  true) {
@@ -129,34 +167,43 @@ class JFactory
 	}
 
 	/**
+	 * Create an ACL object
+	 * 
+	 * @access private
 	 * @return object
 	 * @since 1.1
 	 */
-	function &_createACL()	{
-		global $database;
+	function &_createACL()	
+	{
+		global $mainframe;
+		
 		jimport( 'joomla.acl' );
+		
+		$database =&  $mainframe->getDBO();
 
 		$options = array(
 			'db'				=> &$database,
 			'db_table_prefix'	=> $database->getPrefix() . 'core_acl_',
 			'debug'				=> 0
 		);
-		$acl = new JACL( $options );
+		$acl =& new JACL( $options );
 
 		return $acl;
 	}
 
 	/**
+	 * Create a template object
+	 * 
+	 * @access private
 	 * @return object
 	 * @since 1.1
 	 */
-	function &_createPatTemplate() {
+	function &_createTemplate() 
+	{
 		global $mainframe;
 
-		$path = JPATH_SITE . '/libraries/pattemplate';
-
-		require_once( $path .'/patTemplate.php' );
-		$tmpl = new patTemplate;
+		jimport('joomla.template.template');
+		$tmpl = new JTemplate;
 
 		//TODO : add config var
 		if ($GLOBALS['mosConfig_tmpl_caching']) {
@@ -173,7 +220,6 @@ class JFactory
 		$tmpl->setNamespace( 'jos' );
 
 		// load the wrapper and common templates
-		$tmpl->setRoot( $path .'/tmpl' );
 		$tmpl->readTemplatesFromInput( 'page.html' );
 		$tmpl->applyInputFilter('ShortModifiers');
 
@@ -208,6 +254,9 @@ class JFactory
 	}
 
 	/**
+	 * Create a mailer object
+	 * 
+	 * @access private
 	 * @return object
 	 * @since 1.1
 	 */
