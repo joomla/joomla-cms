@@ -424,6 +424,16 @@ class mosMambotHandler extends JEventDispatcher {
 	function loadBot( $folder, $element, $published, $params='' ) {
 		return JPluginHelper::import($folder, $element, $published, $params='' );
 	}
+	
+	/**
+	* Registers a function to a particular event group
+	* 
+	* @param string The event name
+	* @param string The function name
+	*/
+	function registerEvent( $event, $function ) {
+		$this->attach(array( $event => $function ));
+	}
 }
 
 /**

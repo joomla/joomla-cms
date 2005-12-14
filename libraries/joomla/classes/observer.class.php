@@ -76,10 +76,10 @@ class JObservable extends JObject
 	 * @access public
 	 * @return void
 	 */
-	function notify($namespace = '_unknow') 
+	function notify() 
 	{
 		// Iterate through the _observers array
-		foreach ($this->_observers[$namespace] as $observer) {
+		foreach ($this->_observers as $observer) {
 			$observer->update();
 		}
 	}
@@ -91,8 +91,8 @@ class JObservable extends JObject
 	 * @param object $observer An observer object to attach
 	 * @return void
 	 */
-	function attach( $observer, $namespace = '_unknow') {
-		$this->_observers[$namespace][] = $observer;
+	function attach( $observer) {
+		$this->_observers[] = $observer;
 	}
 	
 	/**

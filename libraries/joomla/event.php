@@ -110,8 +110,8 @@ class JEventDispatcher extends JObservable
 	* @param string The event name
 	* @param string The function name
 	*/
-	function registerFunction( $event, $function ) {
-		$this->attach(array( $function ), $event);
+	function register( $event, $handler ) {
+		$this->attach(array( 'event' => $event, 'handler' => $handler ));
 	}
 
 	/**
@@ -124,8 +124,6 @@ class JEventDispatcher extends JObservable
 	*/
 	function trigger( $event, $args=null, $doUnpublished=false ) 
 	{
-		$result = array();
-
 		if ($args === null) {
 			$args = array();
 		}
@@ -133,13 +131,18 @@ class JEventDispatcher extends JObservable
 			// prepend the published argument
 			array_unshift( $args, null );
 		}
-		if (isset( $this->_observers[$event] )) {
-			foreach ($this->_observers[$event] as $func) {
-				if (function_exists( $func[0] )) {
-					$result[] = call_user_func_array( $func[0], $args );
+	
+		$result = array();
+			
+		foreach ($this->_observers as $observer) {
+			if($observer['event'] == $event) {
+				if (function_exists( $observer['handler'] )) {
+					
+					$result[] = call_user_func_array( $observer['handler'], $args );
 				}
 			}
 		}
+
 		return $result;
 	}
 	/**
@@ -154,13 +157,14 @@ class JEventDispatcher extends JObservable
 		$args =& func_get_args();
 		array_shift( $args );
 
-		if (isset( $this->_observers[$event] )) {
-			foreach ($this->_observers[$event] as $func) {
-				if (function_exists( $func[0] )) {
-						return call_user_func_array( $func[0], $args );
+		foreach ($this->_observers as $observer) {
+			if($observer['event'] == $event) {
+				if (function_exists( $observer['handler'] )) {
+					$result[] = call_user_func_array( $observer['handler'], $args );
 				}
 			}
 		}
+		
 		return null;
 	}
 }

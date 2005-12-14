@@ -119,21 +119,21 @@ class JApplication extends JObject {
 	}
 
 	/**
-	* Registers a function to a particular event group
+	* Registers a handler to a particular event group
 	* 
 	* @param string The event name
-	* @param string The function name
+	* @param mixed The handler, a function or an instance of a event object
 	* @since 1.1
 	*/
 
-	function registerEvent($event, $function) {
-		$eventHandler =& JEventDispatcher::getInstance();
-		return $eventHandler->registerFunction($event, $function);
+	function registerEvent($event, $handler) {
+		$dispatcher =& JEventDispatcher::getInstance();
+		return $dispatcher->register($event, $handler);
 	}
 
 
 	/**
-	* Calls all functions associated with an event group
+	* Calls all handlers associated with an event group
 	* 
 	* @param string The event name
 	* @param array An array of arguments
@@ -141,8 +141,8 @@ class JApplication extends JObject {
 	* @since 1.1
 	*/
 	function triggerEvent($event, $args=null) {
-		$eventHandler =& JEventDispatcher::getInstance();
-		return $eventHandler->trigger($event, $args);
+		$dispatcher =& JEventDispatcher::getInstance();
+		return $dispatcher->trigger($event, $args);
 	}
 
 	/**
