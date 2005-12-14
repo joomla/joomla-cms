@@ -296,6 +296,11 @@ class JFile {
 		if (ini_get('safe_mode')) {
 			$ftpFlag = true;
 		}
+		
+		// Now check for http protocol
+		if (substr($filename, 0, 7) == 'http://') {
+			$ftpFlag = false;
+		}
 
 		if ($ftpFlag == true) {
 			// Connect the FTP client
