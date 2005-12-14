@@ -46,7 +46,9 @@ class JApplication extends JObject {
 	var $_option 			= null;
 	/** @var string A string holding the current active language */
 	var $_lang 			    = null;
-
+	/** @var object database JRegistry object */
+	var $_registry			= null;
+	
 	/**
 	* Class constructor
 	* 
@@ -60,6 +62,7 @@ class JApplication extends JObject {
 
 		$this->_createTemplate( );
 		$this->_createPathWay( );
+		$this->_createRegistry( );
 	}
 
 	/**
@@ -74,6 +77,16 @@ class JApplication extends JObject {
 			return null;
 		}
 	}
+
+	/**
+	 * Get the Registry
+	 *
+	 * @return object Registry object
+	 */
+	function &getRegistry() { 
+		return $this->_registry;
+	}
+
 	/**
 	* Gets the value of a user state variable
 	* 
@@ -470,6 +483,22 @@ class JApplication extends JObject {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Create the default registry
+	 *
+	 * @access private
+	 */
+	function _createRegistry() {
+		jimport( 'joomla.registry.main' ); 			// Base registry
+		jimport( 'joomla.registry.engines.database' );		// Database Storage Engine
+		jimport( 'joomla.registry.formats.ini' );		// INI Storage Engine
+
+		$ns = 'joomla';						// Default Namespace
+		$format = new JRegistryINIFormat( $ns );		// Create the INI format
+		$engine = new JRegistryDatabaseEngine( $format, $ns );	// Create the Database engine
+		$this->_registry = new JRegistry( $engine );		// Build the whole shebang!
 	}
 
 	/**

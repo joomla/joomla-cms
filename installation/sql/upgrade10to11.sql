@@ -39,3 +39,14 @@ ALTER TABLE `jos_core_acl_aro_groups` ADD COLUMN `value` varchar(255) NOT NULL d
 UPDATE `jos_core_acl_aro_groups` SET value=name;
 ALTER TABLE `jos_core_acl_aro_groups` ADD UNIQUE `value_aro_groups`(`value`);
 ALTER TABLE `jos_core_acl_aro_groups` DROP PRIMARY KEY, ADD PRIMARY KEY(`id`, `value`);
+
+# PASAMIO: 15-Dec-2005
+# Table structure for table `#__registry`
+#
+CREATE TABLE `#__registry` (
+  `id` int(11) NOT NULL auto_increment,
+  `namespace` varchar(50) default NULL,
+  `uid` int(11) NOT NULL default '0',
+  `datafield` longtext,
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;

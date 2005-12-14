@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Dec-2005 Samuel Moffatt
+ + Added Registry Table
+ + Fixed up a few registry issues
+
 13-Dec-2005 Johan Janssens
  ^ Implemented JFile and JFolder classes in the installers - contributed by Louis Landry 
  + Added new JError class for easy error management

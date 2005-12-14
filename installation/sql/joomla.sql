@@ -808,3 +808,15 @@ CREATE TABLE `#__core_acl_aro_sections` (
 ) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
 
 INSERT INTO `#__core_acl_aro_sections` VALUES (10,'users',1,'Users',0);
+
+#
+# Table structure for table `#__registry`
+#
+CREATE TABLE `#__registry` (
+  `id` int(11) NOT NULL auto_increment,
+  `namespace` varchar(50) default NULL,
+  `uid` int(11) NOT NULL default '0',
+  `datafield` longtext,
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+	  
