@@ -319,7 +319,7 @@ function saveUser( $option, $task ) {
 	}
 
 	//trigger the onBeforeStoreUser event
-	JBotLoader::importGroup( 'user' );
+	JPluginHelper::importGroup( 'user' );
 	$results = $mainframe->triggerEvent( 'onBeforeStoreUser', array( get_object_vars( $row ), $row->id ) );
 
 	if (!$row->store()) {
@@ -415,7 +415,7 @@ function removeUsers( $cid, $option ) {
 	if (count( $cid )) {
 		//load user bot group
 
-		JBotLoader::importGroup( 'user' );
+		JPluginHelper::importGroup( 'user' );
 
 		$obj = new mosUser( $database );
 		foreach ($cid as $id) {

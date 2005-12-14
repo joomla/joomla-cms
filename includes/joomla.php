@@ -70,7 +70,8 @@ jimport( 'joomla.factory' );
 jimport( 'joomla.files' );
 jimport( 'joomla.xml' );
 jimport( 'joomla.language' );
-jimport( 'joomla.events' );
+jimport( 'joomla.event' );
+jimport( 'joomla.plugin' );
 jimport( 'joomla.editor' );
 
 /**

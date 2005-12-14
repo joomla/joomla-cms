@@ -127,7 +127,7 @@ class JApplication extends JObject {
 	*/
 
 	function registerEvent($event, $function) {
-		$eventHandler =& JEventHandler::getInstance();
+		$eventHandler =& JEventDispatcher::getInstance();
 		return $eventHandler->registerFunction($event, $function);
 	}
 
@@ -141,7 +141,7 @@ class JApplication extends JObject {
 	* @since 1.1
 	*/
 	function triggerEvent($event, $args=null) {
-		$eventHandler =& JEventHandler::getInstance();
+		$eventHandler =& JEventDispatcher::getInstance();
 		return $eventHandler->trigger($event, $args);
 	}
 
@@ -169,8 +169,8 @@ class JApplication extends JObject {
 			exit();
 		} else {
 
-			//load user bot group
-			JBotLoader::importGroup( 'user' );
+			//load user plugin group
+			JPluginHelper::importGroup( 'user' );
 
 			//trigger the onBeforeStoreUser event
 			$results = $this->triggerEvent( 'onLoginUser', array( $username, $passwd ) );
@@ -242,8 +242,8 @@ class JApplication extends JObject {
 	*/
 	function logout() {
 
-		//load user bot group
-		JBotLoader::importGroup( 'user' );
+		//load user plugin group
+		JPluginHelper::importGroup( 'user' );
 
 		//get the user
 		$user = $this->getUser();

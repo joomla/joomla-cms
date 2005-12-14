@@ -32,8 +32,8 @@ $mainframe =& new JAdministrator($option);
 //get the database object
 $database =& $mainframe->getDBO();
 
-// load system bot group
-JBotLoader::importGroup( 'system' );
+// load system plugin group
+JPluginHelper::importGroup( 'system' );
 
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );

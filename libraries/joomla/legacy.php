@@ -399,10 +399,10 @@ class mosAbstractTasker {
 }
 
 /**
- * Legacy class, will be replaced by full MVC implementation in 1.2
+ * Legacy class, use JEventDispatcher instead
  * @deprecated As of version 1.1
  */
-class mosMambotHandler extends JEventHandler {
+class mosMambotHandler extends JEventDispatcher {
 	function __construct() {
 		parent::__construct();
 	}
@@ -412,7 +412,7 @@ class mosMambotHandler extends JEventHandler {
 	* @param string The group name, relates to the sub-directory in the mambots directory
 	*/
 	function loadBotGroup( $group ) {
-		return JBotLoader::importGroup($group);
+		return JPluginHelper::importGroup($group);
 	}
 	/**
 	 * Loads the bot file
@@ -422,7 +422,7 @@ class mosMambotHandler extends JEventHandler {
 	 * @param string The params for the bot
 	 */
 	function loadBot( $folder, $element, $published, $params='' ) {
-		return JBotLoader::import($folder, $element, $published, $params='' );
+		return JPluginHelper::import($folder, $element, $published, $params='' );
 	}
 }
 

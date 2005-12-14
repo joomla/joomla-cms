@@ -33,8 +33,8 @@ $mainframe =& new JAdministrator($option);
 //get the database object
 $database =& $mainframe->getDBO();
 
-// load system bot group
-JBotLoader::importGroup( 'system' );
+// load system plugin group
+JPluginHelper::importGroup( 'system' );
 
 $_PROFILER->mark( 'onBeforeStart' );
 

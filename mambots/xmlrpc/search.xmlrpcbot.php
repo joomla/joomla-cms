@@ -52,7 +52,7 @@ function wsSearchSite( $searchword, $phrase='', $order='' ) {
 	$phrase = '';
 	$ordering = '';
 
-	JBotLoader::importGroup( 'search' );
+	JPluginHelper::importGroup( 'search' );
 	$results = $mainframe->triggerEvent( 'onSearch', array( $searchword, $phrase, $ordering ) );
 
 	foreach ($results as $i=>$rows) {

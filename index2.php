@@ -30,7 +30,7 @@ $mainframe =& new JSite($option);
 $database =& $mainframe->getDBO();
 
 // load system bot group
-JBotLoader::importGroup( 'system' );
+JPluginHelper::importGroup( 'system' );
 
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );

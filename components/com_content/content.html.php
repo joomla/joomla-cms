@@ -396,8 +396,8 @@ class HTML_content {
 		$link_on 	= '';
 		$link_text 	= '';
 
-		// process the new bots
-		JBotLoader::importGroup( 'content' );
+		// process the new plugins
+		JPluginHelper::importGroup( 'content' );
 		$results = $mainframe->triggerEvent( 'onPrepareContent', array( &$row, &$params, $page ));
 
 		// adds mospagebreak heading or title to <site> Title

@@ -190,7 +190,7 @@ function showSearches( $option, $task ) {
 		return false;
 	}
 
-	JBotLoader::importGroup( 'search' );
+	JPluginHelper::importGroup( 'search' );
 
 	for ($i=0, $n = count($rows); $i < $n; $i++) {
 		$results = $mainframe->triggerEvent( 'onSearch', array( $rows[$i]->search_term ) );

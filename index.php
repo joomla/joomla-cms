@@ -29,8 +29,8 @@ $mainframe =& new JSite($option);
 //get the database object (for backwards compatibility)
 $database =& $mainframe->getDBO();
 
-// load system bot group
-JBotLoader::importGroup( 'system' );
+// load system plugin group
+JPluginHelper::importGroup( 'system' );
 
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );

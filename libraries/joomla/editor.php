@@ -48,8 +48,8 @@ if (!defined( '_MOS_EDITOR_INCLUDED' )) {
 			$editor = $params->get( 'editor', $mosConfig_editor );
 		}
 
-		JBotLoader::import( 'editors', $editor, 1 );
-		JBotLoader::importGroup( 'editors-xtd' );
+		JPluginHelper::import( 'editors', $editor, 1 );
+		JPluginHelper::importGroup( 'editors-xtd' );
 
 		$mainframe->set( 'loadEditor', true );
 	}

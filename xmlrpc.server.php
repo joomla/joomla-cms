@@ -48,7 +48,7 @@ $xmlrpcServer = new dom_xmlrpc_server();
 $xmlrpcServer->setMethodNotFoundHandler( 'domXmlRpcFault' );
 
 // load all available remote calls
-JBotLoader::importGroup( 'xmlrpc' );
+JPluginHelper::importGroup( 'xmlrpc' );
 $allCalls = $mainframe->triggerEvent( 'onGetWebServices' );
 
 // add all calls to the connector object

@@ -169,7 +169,7 @@ function userSave( $option, $uid) {
 	}
 
 	//trigger the onBeforeStoreUser event
-	JBotLoader::importGroup( 'user' );
+	JPluginHelper::importGroup( 'user' );
 	$results = $mainframe->triggerEvent( 'onBeforeStoreUser', array(get_object_vars($row), false));
 
 	unset($row->orig_password); // prevent DB error!!
