@@ -31,7 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
-15-Dec-2005 Samuel Moffatt
+14-Dec-2005 Johan Janssens
+ ^ Reworked caching system, moved handlers to seperate files.
+
+14-Dec-2005 Samuel Moffatt
  + Added Registry Table
  + Fixed up a few registry issues
 

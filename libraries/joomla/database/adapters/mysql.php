@@ -14,6 +14,7 @@
 
 /**
 * MySQL database driver
+* 
 * @package Joomla
 * @subpackage Database
 */

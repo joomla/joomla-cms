@@ -71,10 +71,10 @@ class JFactory
 	 * @param string The cache class name
 	 * @return object
 	 */
-	function &getCache($group='', $handler = 'JCache_Function'){
+	function &getCache($group='', $handler = 'function'){
 		global $mosConfig_caching, $mosConfig_cachepath, $mosConfig_cachetime;
 
-		jimport('joomla.cache');
+		jimport('joomla.cache.cache');
 
 		$options = array(
 			'cacheDir' 		=> $mosConfig_cachepath . '/',
@@ -83,7 +83,7 @@ class JFactory
 			'lifeTime' 		=> $mosConfig_cachetime,
 			'fileNameProtection' => false
 		);
-		$cache = new $handler( $options );
+		$cache =& JCache::getInstance( $handler, $options );
 
 		return $cache;
 	}

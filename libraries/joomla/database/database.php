@@ -16,6 +16,7 @@ jimport( 'joomla.classes.object' );
 
 /**
 * Database connector class
+* 
 * @subpackage Database
 * @package Joomla
 */
