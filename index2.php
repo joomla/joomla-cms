@@ -115,4 +115,3 @@ $document->display( $file );
 
 doGzip();
 ?>
-
