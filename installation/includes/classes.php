@@ -321,9 +321,9 @@ class installationTasks {
 		$vars['adminPassword'] = mosMakePassword(8);
 
 		// FTP stuff
-		if (!isset ($vars['ftpRoot'])) {
-			$vars['ftpRoot'] = JInstallationHelper :: findFtpRoot($vars['ftpUser'], $vars['ftpPassword']);
-		}
+		//if (!isset ($vars['ftpRoot'])) {
+		//	$vars['ftpRoot'] = JInstallationHelper :: findFtpRoot($vars['ftpUser'], $vars['ftpPassword']);
+		//}
 
 		installationScreens :: mainConfig($vars);
 	}

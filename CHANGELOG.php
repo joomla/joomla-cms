@@ -33,6 +33,8 @@ Legend:
 
 14-Dec-2005 Johan Janssens
  ^ Reworked caching system, moved handlers to seperate files.
+ + Added new PHPUTF8 library
+ + Added new JString class to handle mbstrings - contributed by David Gal
 
 14-Dec-2005 Samuel Moffatt
  + Added Registry Table

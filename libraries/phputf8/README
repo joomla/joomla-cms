@@ -1,0 +1,15 @@
+STATUS
+
+Right now not officially released. Use at your own risk etc.
+
+READING
+
+http://www.phpwact.org/php/i18n/charsets
+http://www.phpwact.org/php/i18n/utf-8
+
+LICENSING / PERMISSIONS FROM OTHER AUTHORS
+
+Andreas Gohr (author of Dokuwuki: http://splitbrain.org / http://wiki.splitbrain.org) has given permission
+for functions he wrote to be released here and under the terms of the LGPL license.
+
+Permission from Henri Sivonen (http://hsivonen.iki.fi/php-utf8/) is still pending.
