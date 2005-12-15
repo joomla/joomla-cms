@@ -111,7 +111,7 @@ class HTML_config {
 			?>
 			<table class="adminform">
 			<tr>
-				<td><?php echo JText::_( 'Enable Debuging' ); ?>:</td>
+				<td><?php echo JText::_( 'Enable Debugging' ); ?>:</td>
 				<td><?php echo $lists['debug']; ?><?php
 					$tip = JText::_( 'TIPDEBUGGINGINFO' );
 					echo mosToolTip( $tip );
