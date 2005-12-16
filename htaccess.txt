@@ -28,14 +28,3 @@ RewriteCond %{REQUEST_FILENAME} !\.(jpg|jpeg|gif|png|css|js|pl|txt)$
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*) index.php
-
-#
-# php mb string settings to ensure correct utf-8 support
-#
-
-#php_value mbstring.language Neutral
-#php_value mbstring.internal_encoding UTF-8
-#php_value mbstring.encoding_translation 1
-#php_value mbstring.http_input UTF-8
-#php_value mbstring.http_output UTF-8
-#php_value mbstring.func_overload 7
