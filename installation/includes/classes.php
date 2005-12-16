@@ -663,7 +663,7 @@ class JInstallationHelper {
 	 * @since 1.1
 	 */
 	function findFtpRoot($user, $pass) {
-		jimport('joomla.connectors.ftp');
+		jimport('joomla.connector.ftp');
 		$ftp = & JFTP :: getInstance();
 		$ftp->connect('localhost');
 		if (!$ftp->login($user, $pass)) {
