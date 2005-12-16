@@ -324,7 +324,7 @@ class installationTasks {
 		$vars['adminPassword'] = mosMakePassword(8);
 
 		// FTP stuff
-		if (!isset ($vars['ftpRoot'])) {
+		if (isset ($vars['ftpEnable']) && $vars['ftpEnable']) {
 			$vars['ftpRoot'] = JInstallationHelper :: findFtpRoot($vars['ftpUser'], $vars['ftpPassword']);
 		}
 
@@ -369,7 +369,8 @@ class installationTasks {
 		/*
 		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory 
 		 * is not writable we need to use FTP
-		 */ 
+		 */
+		 $ftpFlag = false; 
 		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path)))) {
 			$ftpFlag = true;
 		}
