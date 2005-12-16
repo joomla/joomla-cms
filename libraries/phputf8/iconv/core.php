@@ -14,9 +14,9 @@ function utf8_strpos($str, $search, $offset = FALSE){
 
 //--------------------------------------------------------------------
 /**
-* Wrapper around iconv_strpos
+* Wrapper around iconv_strrpos
 */
-function utf8_strpos($str, $search, $offset = FALSE){
+function utf8_strrpos($str, $search, $offset = FALSE){
     if ( $offset === FALSE ) {
         return iconv_strrpos($str, $search);
     } else {

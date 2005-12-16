@@ -42,7 +42,7 @@ if ( extension_loaded('mbstring')) {
 * than the native implementation
 */
 if ( function_exists('iconv_strlen') ) {
-    if ( iconv_get_encoding() != 'UTF-8' ) {
+     if ( iconv_get_encoding('internal_encoding') != 'UTF-8' ) {
         trigger_error('iconv internal encoding is not set to UTF-8',E_USER_ERROR);
     }
     require_once $UTF8_DIR . '/iconv/utf8_strlen.php';
