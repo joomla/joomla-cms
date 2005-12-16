@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Dec-2005
+ ^ Applied new rtl background for installer - Contributed by David Gal
+
 16-Dec-2005 Johan Janssens
  + Imeplented authentication framework - Contributed by Louis Landry
  + Implemented observer design pattern - Contributed by Louis Landry
