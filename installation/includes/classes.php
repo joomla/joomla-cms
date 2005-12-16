@@ -286,11 +286,14 @@ class installationTasks {
 		$vars['DBcreated'] = mosGetParam($vars, 'DBcreated', $DBcreated);
 		$strip = get_magic_quotes_gpc();
 
+		if (!isset ($vars['ftpEnable'])) {
+			$vars['ftpEnable'] = '1';
+		}
 		if (!isset ($vars['ftpUser'])) {
-			$vars['ftpUser'] = 'FTP Username';
+			$vars['ftpUser'] = 'username';
 		}
 		if (!isset ($vars['ftpPassword'])) {
-			$vars['ftpPassword'] = 'FTP Password';
+			$vars['ftpPassword'] = 'password';
 		}
 
 		installationScreens :: ftpConfig($vars);
@@ -321,9 +324,9 @@ class installationTasks {
 		$vars['adminPassword'] = mosMakePassword(8);
 
 		// FTP stuff
-		//if (!isset ($vars['ftpRoot'])) {
-		//	$vars['ftpRoot'] = JInstallationHelper :: findFtpRoot($vars['ftpUser'], $vars['ftpPassword']);
-		//}
+		if (!isset ($vars['ftpRoot'])) {
+			$vars['ftpRoot'] = JInstallationHelper :: findFtpRoot($vars['ftpUser'], $vars['ftpPassword']);
+		}
 
 		installationScreens :: mainConfig($vars);
 	}
