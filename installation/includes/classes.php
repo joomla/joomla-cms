@@ -383,7 +383,7 @@ class installationTasks {
 		if ($ftpFlag == true) {
 
 			// Connect the FTP client
-			jimport('joomla.connectors.ftp');
+			jimport('joomla.connector.ftp');
 			$ftp = & JFTP :: getInstance('localhost');
 			$ftp->login($vars['ftpUser'], $vars['ftpPassword']);
 

@@ -125,7 +125,7 @@ class JFile {
 
 		if ($ftpFlag == true) {
 			// Connect the FTP client
-			jimport('joomla.connectors.ftp');
+			jimport('joomla.connector.ftp');
 			$ftp = & JFTP :: getInstance('localhost');
 			$ftp->login($ftpUser, $ftpPass);
 
@@ -187,7 +187,7 @@ class JFile {
 		}
 
 		// Connect the FTP client
-		jimport('joomla.connectors.ftp');
+		jimport('joomla.connector.ftp');
 		$ftp = & JFTP :: getInstance('localhost');
 		$ftp->login($ftpUser, $ftpPass);
 
@@ -257,7 +257,7 @@ class JFile {
 
 		if ($ftpFlag == true) {
 			// Connect the FTP client
-			jimport('joomla.connectors.ftp');
+			jimport('joomla.connector.ftp');
 			$ftp = & JFTP :: getInstance('localhost');
 			$ftp->login($ftpUser, $ftpPass);
 
@@ -325,7 +325,7 @@ class JFile {
 
 		if ($ftpFlag == true) {
 			// Connect the FTP client
-			jimport('joomla.connectors.ftp');
+			jimport('joomla.connector.ftp');
 			$ftp = & JFTP :: getInstance('localhost');
 			$ftp->login($ftpUser, $ftpPass);
 
@@ -399,7 +399,7 @@ class JFile {
 
 		if ($ftpFlag == true) {
 			// Connect the FTP client
-			jimport('joomla.connectors.ftp');
+			jimport('joomla.connector.ftp');
 			$ftp = & JFTP :: getInstance('localhost');
 			$ftp->login($ftpUser, $ftpPass);
 
@@ -466,7 +466,7 @@ class JFile {
 
 		if ($ftpFlag == true) {
 			// Connect the FTP client
-			jimport('joomla.connectors.ftp');
+			jimport('joomla.connector.ftp');
 			$ftp = & JFTP :: getInstance('localhost');
 			$ftp->login($ftpUser, $ftpPass);
 
@@ -558,7 +558,7 @@ class JFolder {
 		// Check for safe mode
 		if ($ftpFlag == true) {
 			// Do it the safe mode way
-			jimport('joomla.connectors.ftp');
+			jimport('joomla.connector.ftp');
 			$ftp = & JFTP :: getInstance('localhost');
 			$ftp->login($ftpUser, $ftpPass);
 			$ret = true;
@@ -689,7 +689,7 @@ class JFolder {
 
 		if ($ftpFlag == true) {
 			// Do it the FTP way
-			jimport('joomla.connectors.ftp');
+			jimport('joomla.connector.ftp');
 			$ftp = & JFTP :: getInstance('localhost');
 			$ftp->login($ftpUser, $ftpPass);
 
@@ -757,7 +757,7 @@ class JFolder {
 
 		if ($ftpFlag == true) {
 			// Connect the FTP client
-			jimport('joomla.connectors.ftp');
+			jimport('joomla.connector.ftp');
 			$ftp = & JFTP :: getInstance('localhost');
 			$ftp->login($ftpUser, $ftpPass);
 
@@ -838,7 +838,7 @@ class JFolder {
 
 		if ($ftpFlag == true) {
 			// Connect the FTP client
-			jimport('joomla.connectors.ftp');
+			jimport('joomla.connector.ftp');
 			$ftp = & JFTP :: getInstance('localhost');
 			$ftp->login($ftpUser, $ftpPass);
 
@@ -949,7 +949,7 @@ class JFolder {
 
 		if ($ftpFlag == true) {
 			// Connect the FTP client
-			jimport('joomla.connectors.ftp');
+			jimport('joomla.connector.ftp');
 			$ftp = & JFTP :: getInstance('localhost');
 			$ftp->login($ftpUser, $ftpPass);
 

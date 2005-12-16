@@ -15,7 +15,7 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
-jimport('joomla.connectors.ldap');
+jimport('joomla.connector.ldap');
 
 //Login User event
 $mainframe->registerEvent( 'onLoginUser', 'botLdapLoginUser' );

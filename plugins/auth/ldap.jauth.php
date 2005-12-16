@@ -13,7 +13,7 @@
 */
 
 jimport('joomla.classes.observer');
-jimport('joomla.connectors.ldap');
+jimport('joomla.connector.ldap');
 
 /**
  * LDAP JAuth Plugin
