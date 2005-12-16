@@ -169,68 +169,14 @@ class JApplication extends JObject {
 			exit();
 		} else {
 
-			//load user plugin group
-			JPluginHelper::importGroup( 'user' );
-
-			//trigger the onBeforeStoreUser event
-			$results = $this->triggerEvent( 'onLoginUser', array( $username, $passwd ) );
-
-			foreach($results as $result) {
-				if ($result > 0) {
-
-					$user = new mosUser( $database );
-					$user->load( intval( $result ) );
-
-					// check to see if user is blocked from logging in
-					if ($user->block == 1) {
-						echo "<script>alert(\"". JText::_( 'LOGIN_BLOCKED', true ) ."\"); </script>\n";
-						mosRedirect(mosGetParam( $_POST, 'return', '/' ));
-						exit();
-					}
-					// fudge the group stuff
-					$grp 		= $acl->getAroGroup( $user->id );
-					$row->gid 	= 1;
-
-					if ( $acl->is_group_child_of( $grp->name, 'Registered', 'ARO' ) || $acl->is_group_child_of( $grp->name, 'Public Backend', 'ARO' )) {
-						// fudge Authors, Editors, Publishers and Super Administrators into the Special Group
-						$user->gid = 2;
-					}
-					$user->usertype = $grp->name;
-
-					// access control check
-					//if ( !$acl->acl_check( 'login', $this->_client, 'users', $user->usertype ) ) {
-					//	return false;
-					//}
-
-					JSession::set('guest'		, 0);
-					JSession::set('username' 	, $user->username);
-					JSession::set('userid' 		, intval( $user->id ));
-					JSession::set('usertype' 	, $user->usertype);
-					JSession::set('gid' 		, intval( $user->gid ));
-
-					$session =& $this->_session;
-
-					$session->guest 		= 0;
-					$session->username 		= $user->username;
-					$session->userid 		= intval( $user->id );
-					$session->usertype 		= $user->usertype;
-					$session->gid 			= intval( $user->gid );
-
-					$session->update();
-
-					$user->setLastVisit();
-
-					$remember = trim( mosGetParam( $_POST, 'remember', '' ) );
-					if ($remember == 'yes') {
-						$session->remember( $user->username, $user->password );
-					}
-
-					$cache = JFactory::getCache();
-					$cache->cleanCache( );
-					return true;
-				}
-			}
-			return false;
+			// Build the credentials array
+			$credentials['username'] = $username;
+			$credentials['password'] = $passwd;
+			
+			// Get the global JAuth object
+			$auth = &JAuth::getInstance();
+			
+			return $auth->login($credentials);
 		}
 	}
 
@@ -242,22 +188,9 @@ class JApplication extends JObject {
 	*/
 	function logout() {
 
-		//load user plugin group
-		JPluginHelper::importGroup( 'user' );
-
-		//get the user
-		$user = $this->getUser();
-
-		//trigger the onLogOutUser event
-		$results = $this->triggerEvent( 'onLogoutUser', array( &$user ));
-
-		//mosCache::cleanCache('com_content');
-		mosCache::cleanCache();
-
-		$session =& $this->_session;
-		$session->destroy();
-
-		JSession::destroy();
+		$auth = &JAuth::getInstance();
+		
+		return $auth->logout();
 	}
 
 	/**
@@ -456,7 +389,8 @@ class JApplication extends JObject {
 	 * @since 1.1
 	 */
 	function _createPathWay() {
-
+		global $ItemID;
+		
 		jimport( 'joomla.classes.pathway' );
 
 		// Create a JPathway object
@@ -469,6 +403,9 @@ class JApplication extends JObject {
 			$this->_pathway->addItem( 'Home', '' );
 		} else {
 
+			// Initialize variables
+			$IIDstring = null;
+
 			// Add the home item to the pathway
 			$this->_pathway->addItem( 'Home', 'index.php' );
 
@@ -478,8 +415,12 @@ class JApplication extends JObject {
 			} else {
 				$comName = $this->_option;
 			}
-
-			$this->_pathway->addItem( $comName, 'index.php?option='.$this->_option);
+			// Handle the ItemID
+			if ($ItemID) {
+				$IIDstring = '&Itemid='.$ItemID;
+			}
+			
+			$this->_pathway->addItem( $comName, 'index.php?option='.$this->_option.$IIDstring);
 		}
 
 		return true;

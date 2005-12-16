@@ -16,18 +16,32 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
-* @package Joomla
-* @subpackage Weblinks
-*/
+ * HTML View class for the WebLinkController class
+ * 
+ * @static 
+ * @package Joomla
+ * @subpackage Weblinks
+ * @since 1.0
+ */
 class HTML_weblinks {
 
-	function displaylist( &$categories, &$rows, $catid, $currentcat=NULL, &$params, $tabclass ) {
+	/**
+	 * Displays a web link category
+	 * 
+	 * @param array $categories An array of categories to display
+	 * @param array $rows An array of weblinks to display
+	 * @param int $catid Category id of the current category
+	 * @param object $category Category model of the current category
+	 * @param object $params Parameters object for the current category
+	 * @param array $tabclass Two element array of the two CSS classes used for alternating rows in a table
+	 */
+	function showCategory( &$categories, &$rows, $catid, &$category, &$params, $tabclass ) {
 		global $Itemid, $hide_js;
 
 		if ( $params->get( 'page_title' ) ) {
 			?>
 			<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
-			<?php echo $currentcat->header; ?>
+			<?php echo $category->name; ?>
 			</div>
 			<?php
 		}
@@ -39,12 +53,10 @@ class HTML_weblinks {
 			<td width="60%" valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>" colspan="2">
 			<?php
 			// show image
-			if ( $currentcat->img ) {
-				?>
-				<img src="<?php echo $currentcat->img; ?>" align="<?php echo $currentcat->align; ?>" hspace="6" alt="<?php echo JText::_( 'Web Links' ); ?>" />
-				<?php
+			if ( $category->imgTag ) {
+				echo $category->imgTag;
 			}
-			echo $currentcat->descrip;
+			echo $category->description;
 			?>
 			</td>
 		</tr>
@@ -82,8 +94,14 @@ class HTML_weblinks {
 	}
 
 	/**
-	* Display Table of items
-	*/
+	 * Helper function to display a table of web link items
+	 * 
+	 * @param object $params Parameters object
+	 * @param array $rows Array of web link objects to show
+	 * @param int $catid Category id of the web link category to show
+	 * @param array $tabclass Two element array with the CSS classnames of the alternating table rows
+	 * @since 1.0
+	 */
 	function showTable( &$params, &$rows, $catid, $tabclass ) {
 		// icon in table display
 		if ( $params->get( 'weblink_icons' ) <> -1 ) {
@@ -189,8 +207,13 @@ class HTML_weblinks {
 	}
 
 	/**
-	* Display links to categories
-	*/
+	 * Helper function to display a list of categories
+	 * 
+	 * @param object $params Parameters object for the current category
+	 * @param array $categories Array of categories to display
+	 * @param int $catid Category id of current category
+	 * @since 1.0
+	 */
 	function showCategories( &$params, &$categories, $catid ) {
 		global $Itemid;
 		?>
@@ -230,14 +253,19 @@ class HTML_weblinks {
 	}
 
 	/**
-	* Writes the edit form for new and existing record (FRONTEND)
-	*
-	* A new record is defined when <var>$row</var> is passed with the <var>id</var>
-	* property set to 0.
-	* @param mosWeblink The weblink object
-	* @param string The html for the categories select list
-	*/
-	function editWeblink( $option, &$row, &$lists ) {
+	 * Displays the edit form for new and existing web links (FRONTEND)
+	 *
+	 * A new record is defined when <var>$row</var> is passed with the <var>id</var>
+	 * property set to 0.
+	 * 
+	 * @param object $row The JWeblinkModel object to edit
+	 * @param string $categories The html for the categories select list
+	 * @since 1.0
+	 */
+	function editWeblink( &$row, &$categories ) {
+		global $mainframe;
+		
+		$option = $mainframe->getOption();
 		require_once( JPATH_SITE . '/includes/HTML_toolbar.php' );
 
 		$Returnid = intval( mosGetParam( $_REQUEST, 'Returnid', 0 ) );
@@ -295,7 +323,7 @@ class HTML_weblinks {
 			<?php echo JText::_( 'Section' ); ?>:
 			</td>
 			<td>
-			<?php echo $lists['catid']; ?>
+			<?php echo $categories['catid']; ?>
 			</td>
 		</tr>
 		<tr>

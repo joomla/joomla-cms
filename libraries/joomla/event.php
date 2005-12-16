@@ -40,13 +40,7 @@ class JEvent extends JObserver {
 	 */
 	function __construct(& $subject) 
 	{
-		parent::__construct();
-		
-		// Set the subject to observe
-		$this->_subject = & $subject;
-		
-		// Register the observer ($this) so we can be notified
-		$this->_subject->attach($this);
+		parent::__construct($subject);
 	}
 
 
@@ -105,10 +99,12 @@ class JEventDispatcher extends JObservable
 	}
 
 	/**
-	* Registers a function to a particular event group
+	* Registers a function to the event dispatcher
 	* 
+	* @access public
 	* @param string The event name
 	* @param string The function name
+	* @since 1.1
 	*/
 	function register( $event, $handler ) {
 		$this->attach(array( 'event' => $event, 'handler' => $handler ));
@@ -117,10 +113,12 @@ class JEventDispatcher extends JObservable
 	/**
 	* Calls all functions associated with an event group
 	* 
+	* @access public
 	* @param string The event name
 	* @param array An array of arguments
 	* @param boolean True is unpublished bots are to be processed [DEPRECEATED]
 	* @return array An array of results from each function call
+	* @since 1.1
 	*/
 	function trigger( $event, $args=null, $doUnpublished=false ) 
 	{
@@ -135,11 +133,18 @@ class JEventDispatcher extends JObservable
 		$result = array();
 			
 		foreach ($this->_observers as $observer) {
-			if($observer['event'] == $event) {
+			if (is_array($observer) && $observer['event'] == $event) {
+				// We are handling a function or JBot
 				if (function_exists( $observer['handler'] )) {
-					
 					$result[] = call_user_func_array( $observer['handler'], $args );
+				} else {
+					JError :: raiseWarning( 'SOME_ERROR_CODE', 'JEventDispatcher::dispatch: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
 				}
+			} elseif (is_object($observer)) {
+				$args['event'] = $event;
+				$result[] = $observer->update($args);
+			} else {
+				// Continue
 			}
 		}
 
@@ -158,14 +163,60 @@ class JEventDispatcher extends JObservable
 		array_shift( $args );
 
 		foreach ($this->_observers as $observer) {
-			if($observer['event'] == $event) {
+
+			if (is_array($observer) && $observer['event'] == $event) {
+				// We are handling a function or JBot
 				if (function_exists( $observer['handler'] )) {
 					$result[] = call_user_func_array( $observer['handler'], $args );
+				} else {
+					JError :: raiseWarning( 'SOME_ERROR_CODE', 'JEventDispatcher::dispatch: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
 				}
+			} elseif (is_object($observer)) {
+				$args['event'] = $event;
+				$result[] = $observer->update($args);
+			} else {
+				// Continue
 			}
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * This method fires the given event and passes all aditional arguements to the 
+	 * event handler.  It handles both JBot functions and JPlugin objects that are 
+	 * registered to the event.
+	 * 
+	 * @access public
+	 * @param string $event The event to fire on all observers
+	 * @return array An array of return values from the observers
+	 * @since 1.1
+	 */
+	function dispatch( $event ) {
+
+		$args =& func_get_args();
+		array_shift( $args );
+
+		$result = array();
+			
+		foreach ($this->_observers as $observer) {
+
+			if (is_array($observer) && $observer['event'] == $event) {
+				// We are handling a function or JBot
+				if (function_exists( $observer['handler'] )) {
+					$result[] = call_user_func_array( $observer['handler'], $args );
+				} else {
+					JError :: raiseWarning( 'SOME_ERROR_CODE', 'JEventDispatcher::dispatch: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
+				}
+			} elseif (is_object($observer)) {
+				$args['event'] = $event;
+				$result[] = $observer->update($args);
+			} else {
+				// Continue
+			}
+		}
+
+		return $result;
 	}
 }
 ?>

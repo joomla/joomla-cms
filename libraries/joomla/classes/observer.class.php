@@ -25,9 +25,22 @@ jimport('joomla.classes.object');
 class JObserver extends JObject {
 	
 	/**
+	 * Event object to observe
+	 * 
+	 * @access private
+	 * @var object
+	 */
+	var $_subject = null;
+
+	/**
 	 * Constructor
 	 */
-	function __construct() {
+	function __construct(& $subject) {
+		// Register the observer ($this) so we can be notified
+		$subject->attach($this);
+
+		// Set the subject to observe
+		$this->_subject = & $subject;
 	}
 
 	/**
@@ -35,10 +48,10 @@ class JObserver extends JObject {
 	 * 
 	 * @abstract Implement in child classes
 	 * @access public
-	 * @return void
+	 * @return mixed
 	 */
 	function update() {
-		JError::raiseError('9', 'JObserver::update: Method not implemented', 'This method should be implemented in a child class');
+		return JError::raiseError('9', 'JObserver::update: Method not implemented', 'This method should be implemented in a child class');
 	}
 }
 
@@ -52,8 +65,8 @@ class JObserver extends JObject {
  * @since 1.1
  */
  
-class JObservable extends JObject 
-{
+class JObservable extends JObject {
+
 	/**
 	 * An array of Observer objects to notify
 	 * 
@@ -61,6 +74,14 @@ class JObservable extends JObject
 	 * @var array
 	 */
 	var $_observers = array();
+
+	/**
+	 * The state of the observable object
+	 * 
+	 * @access private
+	 * @var mixed
+	 */
+	var $_state = null;
 
 	
 	/**
@@ -71,17 +92,29 @@ class JObservable extends JObject
 	}
 
 	/**
-	 * Update each attached observer object
+	 * Get the state of the JObservable object
 	 * 
 	 * @access public
-	 * @return void
+	 * @return mixed The state of the object
+	 * @since 1.1
 	 */
-	function notify() 
-	{
+	function getState() {
+		return $this->_state;
+	}
+	
+	/**
+	 * Update each attached observer object and return an array of their return values
+	 * 
+	 * @access public
+	 * @return array Array of return values from the observers
+	 * @since 1.1
+	 */
+	function notify() {
 		// Iterate through the _observers array
 		foreach ($this->_observers as $observer) {
-			$observer->update();
+			$return[] = $observer->update();
 		}
+		return $return;
 	}
 
 	/**
@@ -90,6 +123,7 @@ class JObservable extends JObject
 	 * @access public
 	 * @param object $observer An observer object to attach
 	 * @return void
+	 * @since 1.1
 	 */
 	function attach( $observer) {
 		$this->_observers[] = $observer;
@@ -100,10 +134,18 @@ class JObservable extends JObject
 	 * 
 	 * @access public
 	 * @param object $observer An observer object to detach
-	 * @return void
+	 * @return boolean True if the observer object was detached
+	 * @since 1.1
 	 */
 	function detach( $observer) {
-		//TODO :: create detach method
+		// Initialize variables
+		$retval = false;
+		
+		if ($k = array_search($observer, $this->_observers)) {
+			unset($this->_observers[$k]);
+			$retval = true;
+		}
+		return $retval;
 	}
 }
 ?>

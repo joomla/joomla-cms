@@ -21,30 +21,25 @@
  * @subpackage JFramework
  * @since 1.1
  */
-class JAuth extends JObservable {
-
-	/**
-	 * Responses from the observer objects observing this object
-	 * 
-	 * @access private
-	 * @var array
-	 */
-	var $_response = array();
+class JAuth extends JObject {
 
 	/**
 	 * Constructor
 	 */
 	function __construct() {
 		
-		//TODO: Here is where we will load all the necessary observers
+		// Get the global event dispatcher to load the plugins
+		$dispatcher = &JEventDispatcher :: getInstance();
+		
+		//TODO: Here is where we will load all the necessary plugins into an array
 		$plugins[] = 'Joomla'; // JAuth_Joomla.php
 		
 		foreach ($plugins as $plugin) {
-			$isLoaded |= JAuthHelper::loadPlugin($plugin, $this);
+			$isLoaded |= JAuthHelper::loadPlugin($plugin, $dispatcher);
 		}
-		
+
 		if (!$isLoaded) {
-			JError :: raiseWarning('SOME_ERROR_CODE', 'JAuth::__constructor: Could not load :'.$plugin.' Authentication library.');
+			JError :: raiseWarning('SOME_ERROR_CODE', 'JAuth::__constructor: Could not load authentication libraries.', $plugins);
 		}
 	}
 
@@ -69,16 +64,22 @@ class JAuth extends JObservable {
 	function login($credentials) {
 		global $mainframe;
 
+		// Get the global event dispatcher object
+		$dispatcher = &JEventDispatcher :: getInstance();
+		
+		// Get the global database connector object
+		$db = $mainframe->getDBO();
+		
 		// This is less than stellar, the login details should be passed to the login method
 		// or an error should be returned
-		if (!$credentials['username'] || !$credentials['password']) {
-			$credentials['username'] = $database->getEscaped(trim(mosGetParam($_POST, 'username', '')));
-			$credentials['password'] = $database->getEscaped(trim(mosGetParam($_POST, 'passwd', '')));
+		if (empty($credentials['username']) || empty($credentials['password'])) {
+			$credentials['username'] = $db->getEscaped(trim(mosGetParam($_POST, 'username', '')));
+			$credentials['password'] = $db->getEscaped(trim(mosGetParam($_POST, 'passwd', '')));
 			$bypost = 1;
 		}
 		
 		// In particular... this error :)
-		if (!$credentials['username'] || !$credentials['password']) {
+		if (empty($credentials['username']) || empty($credentials['password'])) {
 			// Error check if still no username or password values
 			echo "<script> alert(\"".JText :: _('LOGIN_INCOMPLETE', true)."\"); </script>\n";
 			mosRedirect(mosGetParam($_POST, 'return', '/'));
@@ -86,20 +87,13 @@ class JAuth extends JObservable {
 		} else {
 
 			$authenticated = $this->authenticate($credentials);
-			
+
 			if ($authenticated !== false) {
 				// Credentials authenticated
 				
-				// Set the onLogin event
-				$this->setEvent('onLogin');
-				
-				// Notify the observer objects of the event
-				if ($this->notifyObservers($credentials)) {
-					$results = $this->_response;
-				}
-		
-				// Clean up the response field for the next event
-				$this->_response = array();
+
+				// OK, the credentials are authenticated.  Lets fire the onLogin event
+				$results = $dispatcher->dispatch( 'onLogin', $credentials);
 				
 				/*
 				 * If any of the authentication plugins did not successfully complete the login
@@ -111,7 +105,7 @@ class JAuth extends JObservable {
 
 
 					// Create a new user model and load the authenticated userid
-					$user = new mosUser($mainframe->getDBO());
+					$user = new mosUser($db);
 					$user->load(intval($authenticated));
 	
 					// If the user is blocked, redirect with an error
@@ -186,7 +180,6 @@ class JAuth extends JObservable {
 	 * logout routines.
 	 *
 	 * @access public
-	 * @param array $credentials  The credentials to authenticate.
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
@@ -196,6 +189,9 @@ class JAuth extends JObservable {
 		// Initialize variables
 		$retval = false;
 
+		// Get the global event dispatcher object
+		$dispatcher = &JEventDispatcher :: getInstance();
+		
 		// Get a user object from the JApplication
 		$user = $mainframe->getUser();
 		
@@ -203,16 +199,8 @@ class JAuth extends JObservable {
 		$credentials['username'] = $user->username;
 		$credentials['password'] = $user->password;
 
-		// Set the auth event
-		$this->setEvent('onLogout');
-		
-		// Notify the observer objects of the event
-		if ($this->notifyObservers($credentials)) {
-			$results = $this->_response;
-		}
-
-		// Clean up the response field for the next event
-		$this->_response = array();
+		// OK, the credentials are built. Lets fire the onLogout event
+		$results = $dispatcher->dispatch( 'onLogout', $credentials);
 		
 		/*
 		 * If any of the authentication plugins did not successfully complete the logout
@@ -253,17 +241,12 @@ class JAuth extends JObservable {
 		// Initialize variables
 		$auth = false;
 
-		// Set the auth event
-		$this->setEvent('auth');
+		// Get the global event dispatcher object
+		$dispatcher = &JEventDispatcher :: getInstance();
 		
-		// Notify the observer objects of the event
-		if ($this->notifyObservers($credentials)) {
-			$results = $this->_response;
-		}
+		// Time to authenticate the credentials.  Lets fire the auth event
+		$results = $dispatcher->dispatch( 'auth', $credentials);
 
-		// Clean up the response field for the next event
-		$this->_response = array();
-		
 		/*
 		 * If any of the authentication plugins did not authenticate the credentials
 		 * then the whole method fails.  Any errors raised should be done in the plugin
@@ -273,7 +256,6 @@ class JAuth extends JObservable {
 		if (!in_array(false, $results)) {
 
 // TODO: Perhaps we should check that all returned userids are the same?
-
 			/*
 			 * Since none of authentication plugins failed get the userid of the
 			 * authenticated user
@@ -283,36 +265,6 @@ class JAuth extends JObservable {
 		return $auth;
 	}
 	
-	/**
-	 * Update each registered observer object
-	 * Overloaded to pass $credentials array
-	 * 
-	 * @access public
-	 * @param array $credentials The authentication credentials
-	 * @return boolean True on success
-	 * @since 1.1
-	 */
-	function notifyObservers(& $credentials) {
-		// Iterate through the _observers array
-		foreach ($this->_observers as $observer) {
-			$observer->update($credentials);
-		}
-		return true;
-	}
-
-
-	/**
-	 * Method for an observer to callback and add its response to the JAuth object
-	 * 
-	 * @access public
-	 * @param boolean True if routine was successful
-	 * @return void
-	 * @since 1.1
-	 */
-	function addObserverResponse($response) {
-		$this->_response[] = $response;		
-	}
-
 	/**
 	 * Returns a reference to a global authentication object, only creating it
 	 * if it doesn't already exist.
@@ -374,7 +326,7 @@ class JAuthHelper {
 		/* 
 		 * Get the salt to use.
 		 */
-		$salt = JAuth :: getSalt($encryption, $salt, $plaintext);
+		$salt = JAuthHelper :: getSalt($encryption, $salt, $plaintext);
 
 		/* 
 		 * Encrypt the password.
@@ -408,7 +360,7 @@ class JAuthHelper {
 			case 'aprmd5' :
 				$length = strlen($plaintext);
 				$context = $plaintext.'$apr1$'.$salt;
-				$binary = JAuth :: _bin(md5($plaintext.$salt.$plaintext));
+				$binary = JAuthHelper :: _bin(md5($plaintext.$salt.$plaintext));
 
 				for ($i = $length; $i > 0; $i -= 16) {
 					$context .= substr($binary, 0, ($i > 16 ? 16 : $i));
@@ -417,7 +369,7 @@ class JAuthHelper {
 					$context .= ($i & 1) ? chr(0) : $plaintext[0];
 				}
 
-				$binary = JAuth :: _bin(md5($context));
+				$binary = JAuthHelper :: _bin(md5($context));
 
 				for ($i = 0; $i < 1000; $i ++) {
 					$new = ($i & 1) ? $plaintext : substr($binary, 0, 16);
@@ -428,7 +380,7 @@ class JAuthHelper {
 						$new .= $plaintext;
 					}
 					$new .= ($i & 1) ? substr($binary, 0, 16) : $plaintext;
-					$binary = JAuth :: _bin(md5($new));
+					$binary = JAuthHelper :: _bin(md5($new));
 				}
 
 				$p = array ();
@@ -438,10 +390,10 @@ class JAuthHelper {
 					if ($j == 16) {
 						$j = 5;
 					}
-					$p[] = JAuth :: _toAPRMD5((ord($binary[$i]) << 16) | (ord($binary[$k]) << 8) | (ord($binary[$j])), 5);
+					$p[] = JAuthHelper :: _toAPRMD5((ord($binary[$i]) << 16) | (ord($binary[$k]) << 8) | (ord($binary[$j])), 5);
 				}
 
-				return '$apr1$'.$salt.'$'.implode('', $p).JAuth :: _toAPRMD5(ord($binary[11]), 3);
+				return '$apr1$'.$salt.'$'.implode('', $p).JAuthHelper :: _toAPRMD5(ord($binary[11]), 3);
 
 			case 'md5-hex' :
 			default :
@@ -563,7 +515,7 @@ class JAuthHelper {
 		 * If the session 'guest' variable is zero and the session 'userid' variable 
 		 * is set, we would assume that a valid user is logged in
 		 */
-		if (JSession :: get('guest') == 0 && !empty (JSession :: get('userid'))) {
+		if (JSession :: get('guest') == 0 && !JSession :: get('userid') != null) {
 			$ret = true;
 		}
 		
@@ -651,10 +603,10 @@ class JAuthHelper {
 	}
 
 	/**
-	 * Returns a reference to a global authentication plugin object, only creating it
-	 * if it doesn't already exist.
+	 * Static method to load an auth plugin and attach it to the JEventDispatcher 
+	 * object.
 	 *
-	 * This method must be invoked as:
+	 * This method should be invoked as:
 	 * 		<pre>  $isLoaded = JAuthHelper::loadPlugin($plugin, $subject);</pre>
 	 *
 	 * @static
@@ -672,15 +624,15 @@ class JAuthHelper {
 
 		if (empty ($instances[$plugin])) {
 			// Build the path to the needed authentication plugin
-			$path = JPATH_SITE;
-			if (include_once (JPATH_SITE.'plugins'.DS.'auth'.DS.$plugin.'.jauth.php') === false) {
-				JError :: raiseError('3', 'JAuthHelper::loadPlugin: Could not load :'.$plugin.' Authentication library.', 'Attempted path to plugin: '.JPATH_SITE.'plugins'.DS.'auth'.DS.$plugin.'.php');
-			}
+			$path = JPATH_SITE.DS.'plugins'.DS.'auth'.DS.$plugin.'.jauth.php';
+			
+			// Require plugin file
+			require_once($path);
+			
 			// Build authentication plugin classname
 			$name = 'JAuth_'.$plugin;
 			$instances[$plugin] = new $name ($subject);
 		}
-
 		return is_object($instances[$plugin]);
 	}
 

@@ -13,87 +13,141 @@
 */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 /**
-* Category database table class
+* JWeblink Model class
+* 
 * @package Joomla
 * @subpackage Weblinks
+* @since 1.0
 */
-class mosWeblink extends JModel {
-	/** @var int Primary key */
-	var $id					= null;
-	/** @var int */
-	var $catid				= null;
-	/** @var int */
-	var $sid				= null;
-	/** @var string */
-	var $title				= null;
-	/** @var string */
-	var $url				= null;
-	/** @var string */
-	var $description		= null;
-	/** @var datetime */
-	var $date				= null;
-	/** @var int */
-	var $hits				= null;
-	/** @var int */
-	var $published			= null;
-	/** @var boolean */
-	var $checked_out		= null;
-	/** @var time */
-	var $checked_out_time	= null;
-	/** @var int */
-	var $ordering			= null;
-	/** @var int */
-	var $archived			= null;
-	/** @var int */
-	var $approved			= null;
-	/** @var string */
-	var $params				= null;
+class JWeblinkModel extends JModel {
+	/**
+	 * Primary Key
+	 * 
+	 * @var int
+	 */
+	var $id = null;
+	
+	/**
+	 * @var int
+	 */
+	var $catid = null;
+	
+	/** 
+	 * @var int
+	 */
+	var $sid = null;
+	
+	/** 
+	 * @var string
+	 */
+	var $title = null;
+	
+	/** 
+	 * @var string
+	 */
+	var $url = null;
+	
+	/** 
+	 * @var string
+	 */
+	var $description = null;
+	
+	/** 
+	 * @var datetime
+	 */
+	var $date = null;
+	
+	/** 
+	 * @var int
+	 */
+	var $hits = null;
+	
+	/** 
+	 * @var int
+	 */
+	var $published = null;
+	
+	/** 
+	 * @var boolean
+	 */
+	var $checked_out = null;
+	
+	/** 
+	 * @var time
+	 */
+	var $checked_out_time = null;
+	
+	/** 
+	 * @var int
+	 */
+	var $ordering = null;
+	
+	/** 
+	 * @var int
+	 */
+	var $archived = null;
+	
+	/** 
+	 * @var int
+	 */
+	var $approved = null;
+	
+	/** 
+	 * @var string
+	 */
+	var $params = null;
 
 	/**
-	* @param database A database connector object
-	*/
-	function mosWeblink( &$db ) {
-		parent::__construct( '#__weblinks', 'id', $db );
+	 * Constructor
+	 * 
+	 * @param object Database connector object
+	 * @since 1.0
+	 */
+	function JWeblinkModel(& $db) {
+		parent :: __construct('#__weblinks', 'id', $db);
 	}
-	/** overloaded check function */
+	
+	/**
+	 * Overloaded check method to ensure data integrity
+	 * 
+	 * @access public
+	 * @return boolean True on success
+	 * @since 1.0
+	 */
 	function check() {
 
-		// filter malicious code
-		$ignoreList = array( 'params' );
-		$this->filter( $ignoreList );
+		// Filter malicious code
+		$ignoreList = array ('params');
+		$this->filter($ignoreList);
 
-		// specific filters
+		// Create specific filters
 		$iFilter = new InputFilter();
 
-		if ($iFilter->badAttributeValue( array( 'href', $this->url ))) {
-			$this->_error = JText::_( 'Please provide a valid URL' );
+		if ($iFilter->badAttributeValue(array ('href', $this->url))) {
+			$this->_error = JText :: _('Please provide a valid URL');
 			return false;
 		}
 
 		/** check for valid name */
-		if (trim( $this->title ) == '') {
-			$this->_error = JText::_( 'Your Weblink must contain a title.' );
+		if (trim($this->title) == '') {
+			$this->_error = JText :: _('Your Weblink must contain a title.');
 			return false;
 		}
 
-		if ( !( eregi( 'http://', $this->url ) || ( eregi( 'https://',$this->url ) )  || ( eregi( 'ftp://',$this->url ) ) ) ) {
+		if (!(eregi('http://', $this->url) || (eregi('https://', $this->url)) || (eregi('ftp://', $this->url)))) {
 			$this->url = 'http://'.$this->url;
 		}
 
 		/** check for existing name */
-		$query = "SELECT id"
-		. "\n FROM #__weblinks "
-		. "\n WHERE title = '$this->title'"
-		. "\n AND catid = $this->catid"
-		;
-		$this->_db->setQuery( $query );
+		$query = "SELECT id"."\n FROM #__weblinks "."\n WHERE title = '$this->title'"."\n AND catid = $this->catid";
+		$this->_db->setQuery($query);
 
-		$xid = intval( $this->_db->loadResult() );
-		if ($xid && $xid != intval( $this->id )) {
-			$this->_error = sprintf( JText::_( 'WARNNAMETRYAGAIN' ), JText::_( 'Web Link') );
+		$xid = intval($this->_db->loadResult());
+		if ($xid && $xid != intval($this->id)) {
+			$this->_error = sprintf(JText :: _('WARNNAMETRYAGAIN'), JText :: _('Web Link'));
 			return false;
 		}
 		return true;

@@ -88,6 +88,7 @@ class JFile {
 		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
 
+
 		// Prepend a base path if it exists
 		if ($path) {
 			$src = JPath :: clean($path.$src, false);
@@ -115,6 +116,11 @@ class JFile {
 		// Check for safe mode
 		if (ini_get('safe_mode')) {
 			$ftpFlag = true;
+		}
+
+		// Do NOT use ftp if it is not enabled
+		if ($mainframe->getCfg('ftp_enable') != 1) {
+			$ftpFlag = false;
 		}
 
 		if ($ftpFlag == true) {
@@ -173,6 +179,11 @@ class JFile {
 		// Check for safe mode
 		if (ini_get('safe_mode')) {
 			$ftpFlag = true;
+		}
+
+		// Do NOT use ftp if it is not enabled
+		if ($mainframe->getCfg('ftp_enable') != 1) {
+			$ftpFlag = false;
 		}
 
 		// Connect the FTP client
@@ -239,6 +250,11 @@ class JFile {
 			$ftpFlag = true;
 		}
 
+		// Do NOT use ftp if it is not enabled
+		if ($mainframe->getCfg('ftp_enable') != 1) {
+			$ftpFlag = false;
+		}
+
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connectors.ftp');
@@ -299,6 +315,11 @@ class JFile {
 		
 		// Now check for http protocol
 		if (substr($filename, 0, 7) == 'http://') {
+			$ftpFlag = false;
+		}
+
+		// Do NOT use ftp if it is not enabled
+		if ($mainframe->getCfg('ftp_enable') != 1) {
 			$ftpFlag = false;
 		}
 
@@ -371,6 +392,11 @@ class JFile {
 			$ftpFlag = true;
 		}
 
+		// Do NOT use ftp if it is not enabled
+		if ($mainframe->getCfg('ftp_enable') != 1) {
+			$ftpFlag = false;
+		}
+
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connectors.ftp');
@@ -431,6 +457,11 @@ class JFile {
 		// Check for safe mode
 		if (ini_get('safe_mode')) {
 			$ftpFlag = true;
+		}
+
+		// Do NOT use ftp if it is not enabled
+		if ($mainframe->getCfg('ftp_enable') != 1) {
+			$ftpFlag = false;
 		}
 
 		if ($ftpFlag == true) {
@@ -518,6 +549,12 @@ class JFolder {
 		if (ini_get('safe_mode')) {
 			$ftpFlag = true;
 		}
+
+		// Do NOT use ftp if it is not enabled
+		if ($mainframe->getCfg('ftp_enable') != 1) {
+			$ftpFlag = false;
+		}
+
 		// Check for safe mode
 		if ($ftpFlag == true) {
 			// Do it the safe mode way
@@ -645,6 +682,11 @@ class JFolder {
 			$ftpFlag = true;
 		}
 
+		// Do NOT use ftp if it is not enabled
+		if ($mainframe->getCfg('ftp_enable') != 1) {
+			$ftpFlag = false;
+		}
+
 		if ($ftpFlag == true) {
 			// Do it the FTP way
 			jimport('joomla.connectors.ftp');
@@ -706,6 +748,11 @@ class JFolder {
 		// Check for safe mode
 		if (ini_get('safe_mode')) {
 			$ftpFlag = true;
+		}
+
+		// Do NOT use ftp if it is not enabled
+		if ($mainframe->getCfg('ftp_enable') != 1) {
+			$ftpFlag = false;
 		}
 
 		if ($ftpFlag == true) {
@@ -782,6 +829,11 @@ class JFolder {
 		// Check for safe mode
 		if (ini_get('safe_mode')) {
 			$ftpFlag = true;
+		}
+
+		// Do NOT use ftp if it is not enabled
+		if ($mainframe->getCfg('ftp_enable') != 1) {
+			$ftpFlag = false;
 		}
 
 		if ($ftpFlag == true) {
@@ -890,6 +942,11 @@ class JFolder {
 			$ftpFlag = true;
 		}
 
+		// Do NOT use ftp if it is not enabled
+		if ($mainframe->getCfg('ftp_enable') != 1) {
+			$ftpFlag = false;
+		}
+
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connectors.ftp');
@@ -900,7 +957,7 @@ class JFolder {
 			$ftpPath = JPath :: clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
 
 			// Use FTP get the file listing
-			if (!($list = $ftp->listDir($ftpPath, 'files'))) {
+			if (!($list = $ftp->listDir($ftpPath, 'folders'))) {
 				return JText :: _('File Listing failed');
 			}
 			$ftp->quit();

@@ -31,10 +31,17 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Dec-2005 Johan Janssens
+ + Imeplented authentication framework - Contributed by Louis Landry
+ + Implemented observer design pattern - Contributed by Louis Landry
+ + Implemented new plugin architecture - Contributed by Louis Landry
+ ^ Refactored JEventHandler to JEventDispatcher extending from JObservable
+ + Added installation setting for disbaling FTP settings
+
 14-Dec-2005 Johan Janssens
  ^ Reworked caching system, moved handlers to seperate files.
- + Added new PHPUTF8 library
- + Added new JString class to handle mbstrings - contributed by David Gal
+ + Added PHPUTF8 library
+ + Added JString class to handle mbstrings - contributed by David Gal
 
 14-Dec-2005 Samuel Moffatt
  + Added Registry Table
@@ -42,8 +49,8 @@ Legend:
 
 13-Dec-2005 Johan Janssens
  ^ Implemented JFile and JFolder classes in the installers - contributed by Louis Landry 
- + Added new JError class for easy error management
- + Added new JTemplate class, extends patTemplate class
+ + Added JError class for easy error management
+ + Added JTemplate class, extends patTemplate class
  ^ Feature request artf1063 : Safemode patch for Joomla
  ^ Feature request artf1507 : FTP installer
 
@@ -92,7 +99,7 @@ Legend:
  + Added support for different languages to the TinyMCE bot
 
 07-Dec-2005 Johan Janssens
- + Added new JPathWay class for flexible pathway handling - Contributed by Louis Landry
+ + Added JPathWay class for flexible pathway handling - Contributed by Louis Landry
  + Added transparent support for FTP to file handling classes - Contributed by Louis Landry
  ^ Upgraded TinyMCE Compressor [1.0.4]
  ^ Upgraded TinyMCE [2.0.1]
@@ -129,7 +136,7 @@ Legend:
 05-Dec-2005 Johan Janssens
  ^ Moved ldap class to connectors directory
  - Removed locale setting from configuration
- + Added new JFTP connector class (uses PHP streams) - Contributed by Louis Landry
+ + Added JFTP connector class (uses PHP streams) - Contributed by Louis Landry
 
 03-Dec-2005 Andrew Eddie
  + Search by areas
@@ -143,7 +150,7 @@ Legend:
  + Added JHelp class for easy handling of the help system
 
 01-Dec-2005 Johan Janssens
- + Added new JPage class for flexible page head handling
+ + Added JPage class for flexible page head handling
  - Removed favicon configuration setting, system looks in template folder or root
    folder for a favicon.ico file
 

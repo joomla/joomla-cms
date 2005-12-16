@@ -39,6 +39,49 @@ class JRegistry {
 	}
 
 	/**
+	 * Returns a reference to the global JRegistry object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * This method must be invoked as:
+	 * 		<pre>  $registry = &JRegistry::getInstance($engine);</pre>
+	 *
+	 * @static
+	 * @param string $engine The storage engine to use
+	 * @param string $format The storage format to use
+	 * @param string $namespace Registry namespace [Optional: defaults to 'joomla']
+	 * @return object  The JRegistry object.
+	 * @since 1.1
+	 */
+	function & getInstance($engine, $format, $namespace='joomla', $identifier='', $namespaceState=true) {
+		static $instances;
+
+		if (!isset ($instances)) {
+			$instances = array ();
+		}
+		
+		$id = md5($engine.$format.$namespace.$identifier);
+		
+		if (empty ($instances[$id])) {
+			
+			// First load the engine and format
+			jimport('joomla.registry.storageengine.'.$engine);
+			jimport('joomla.registry.storageformat.'.$format);
+			
+			// Next instantiate the format
+			$name = 'JRegistry'.$format.'Format';
+			$r_format =& new $name($namespace, $namespaceState);
+			
+			// Next instantiate the engine
+			$name = 'JRegistry'.$engine.'Engine';
+			$r_engine =& new $name($r_format, $namespace, $identifier);
+			
+			$instances[$id] =& new JRegistry($r_engine);
+		}
+
+		return $instances[$id];
+	}
+
+	/**
 	 * Get the configuration setting (will fall back to default)
 	 * @param string Registry path (e.g. joomla.content.showauthor)
 	 * @param int    User Id
