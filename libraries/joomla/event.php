@@ -14,58 +14,13 @@
 jimport('joomla.classes.observer');
 
 /**
- * Event handling class
- *
- * @abstract
- * @author Louis Landry <louis@webimagery.net>
+ * Event dispatcher class
+ * 
  * @package Joomla
  * @subpackage JFramework
- * @since 1.1
+ * @since 1.0
  */
-class JEvent extends JObserver {
-	
-	/**
-	 * Event object to observe
-	 * 
-	 * @access private
-	 * @var object
-	 */
-	var $_subject = null;
-
-	/**
-	 * Constructor
-	 * 
-	 * @param object $subject The object to observe
-	 * @since 1.1
-	 */
-	function __construct(& $subject) 
-	{
-		parent::__construct($subject);
-	}
-
-
-	/**
-	 * Method to update the state of event objects
-	 * 
-	 * @abstract Implement in child classes
-	 * @access public
-	 * @return void
-	 * @since 1.1
-	 */
-	function update() {
-		JError::raiseError('9', 'JEvent::update: Method not implemented', 'This method should be implemented in a child class');
-	}
-}
- 
- /**
-* Event dispatcher class
-* 
-* @package Joomla
-* @subpackage JFramework
-* @since 1.0
-*/
-class JEventDispatcher extends JObservable
-{
+class JEventDispatcher extends JObservable {
 	/**
 	* Constructor
 	*/

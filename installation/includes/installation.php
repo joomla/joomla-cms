@@ -66,7 +66,7 @@ jimport( 'joomla.classes.error');
 jimport( 'joomla.classes.app');
 jimport( 'joomla.factory' );
 jimport( 'joomla.files' );
-jimport( 'joomla.xml' );
+jimport( 'joomla.params' );
 jimport( 'joomla.language' );
 
 /**

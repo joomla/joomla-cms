@@ -24,10 +24,12 @@ class mosFullAdminMenu {
 	* @param string The current user type
 	*/
 	function show( $usertype='' ) {
-		global $acl, $database, $mainframe;
+		global $mainframe;
 		global $mosConfig_enable_stats, $mosConfig_caching;
 
 		$lang =& $mainframe->getLanguage();
+		$acl =& JFactory :: getACL();
+		$database =& $mainframe->getDBO();
 
 		// cache some acl checks
 		$canCheckin			= $acl->acl_check( 'com_checkin', 'manage', 'users', $usertype );
@@ -39,8 +41,8 @@ class mosFullAdminMenu {
 		$manageLanguages 	= $acl->acl_check( 'com_languages', 'manage', 'users', $usertype );
 		$installModules 	= $acl->acl_check( 'com_installer', 'module', 'users', $usertype );
 		$editAllModules 	= $acl->acl_check( 'com_modules', 'manage', 'users', $usertype );
-		$installMambots 	= $acl->acl_check( 'com_installer', 'mambot', 'users', $usertype );
-		$editAllMambots 	= $acl->acl_check( 'com_mambots', 'manage', 'users', $usertype );
+		$installPlugins 	= $acl->acl_check( 'com_installer', 'mambot', 'users', $usertype );
+		$editAllPlugins 	= $acl->acl_check( 'com_mambots', 'manage', 'users', $usertype );
 		$installComponents 	= $acl->acl_check( 'com_installer', 'component', 'users', $usertype );
 		$editAllComponents 	= $acl->acl_check( 'com_components', 'manage', 'users', $usertype );
 		$canMassMail 		= $acl->acl_check( 'com_massmail', 'manage', 'users', $usertype );
@@ -245,13 +247,13 @@ class mosFullAdminMenu {
 <?php
 		} // if ($installModules | $editAllModules)
 	} // if $installComponents
-	// Mambots Sub-Menu
-	if ($installMambots | $editAllMambots) {
+	// Plugins Sub-Menu
+	if ($installPlugins | $editAllPlugins) {
 ?>			_cmSplit,
-			[null,'<?php echo JText::_( 'Mambots', true ); ?>',null,null,'<?php echo JText::_( 'Mambot Management', true ); ?>',
+			[null,'<?php echo JText::_( 'Plugins', true ); ?>',null,null,'<?php echo JText::_( 'Plugin Management', true ); ?>',
 <?php
-		if ($editAllMambots) {
-?>				['<img src="../includes/js/ThemeOffice/module.png" />', '<?php echo JText::_( 'Site Mambots', true ); ?>', "index2.php?option=com_mambots", null, '<?php echo JText::_( 'Manage Site Mambots', true ); ?>'],
+		if ($editAllPlugins) {
+?>				['<img src="../includes/js/ThemeOffice/module.png" />', '<?php echo JText::_( 'Site Plugins', true ); ?>', "index2.php?option=com_mambots", null, '<?php echo JText::_( 'Manage Site Plugins', true ); ?>'],
 <?php
 		}
 ?>			],
@@ -267,7 +269,7 @@ class mosFullAdminMenu {
 				_cmSplit,
 				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Components', true ); ?>','index2.php?option=com_installer&element=component',null,'<?php echo JText::_( 'Uninstall Components', true ); ?>'],
 				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Modules', true ); ?>', 'index2.php?option=com_installer&element=module', null, '<?php echo JText::_( 'Uninstall Modules', true ); ?>'],
-				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Mambots', true ); ?>', 'index2.php?option=com_installer&element=mambot', null, '<?php echo JText::_( 'Uninstall Mambots', true ); ?>'],
+				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Plugins', true ); ?>', 'index2.php?option=com_installer&element=mambot', null, '<?php echo JText::_( 'Uninstall Plugins', true ); ?>'],
 			],
 <?php
 	}
@@ -313,9 +315,10 @@ class mosFullAdminMenu {
 	* @param string The current user type
 	*/
 	function showDisabled( $usertype='' ) {
-		global $acl, $mainframe;
+		global $mainframe;
 
 		$lang =& $mainframe->getLanguage();
+		$acl  =& JFactory :: getACL();
 
 		$canConfig 			= $acl->acl_check( 'com_config', 'manage', 'users', $usertype );
 		$installModules 	= $acl->acl_check( 'com_install', 'module', 'users', $usertype );
@@ -434,6 +437,8 @@ class mosFullAdminMenu {
 $cache =& JFactory::getCache( 'mos_fullmenu' );
 
 $hide = mosGetParam( $_REQUEST, 'hidemainmenu', 0 );
+
+$my = $mainframe->getUser();
 
 if ( $hide ) {
 	mosFullAdminMenu::showDisabled( $my->usertype );

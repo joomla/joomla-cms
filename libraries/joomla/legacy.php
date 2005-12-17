@@ -230,6 +230,26 @@ class mosProfiler extends JProfiler {
 }
 
 /**
+ * Legacy class, use JParameters instead
+ * @deprecated As of version 1.1
+ */
+class mosParameters extends JParameters {
+
+	/**
+	* @param string The raw parms text
+	* @param string Path to the xml setup file
+	* @param string The type of setup file
+	*/
+	function __construct($text, $path = '', $type = 'component') {
+		$this->_params = $this->parse($text);
+		$this->_raw = $text;
+		$this->_path = $path;
+		$this->_type = $type;
+	}
+
+}
+
+/**
  * Legacy class, will be replaced by full MVC implementation in 1.2
  * @deprecated As of version 1.1
  */

@@ -12,7 +12,59 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.classes.object' );
+jimport( 'joomla.classes.observer' );
+
+/**
+ * JPlugin Class
+ *
+ * @author Louis Landry <louis@webimagery.net>
+ * @package Joomla
+ * @subpackage JFramework
+ * @since 1.1
+ */
+class JPlugin extends JObserver {
+
+	/**
+	 * Constructor
+	 * 
+	 * For php4 compatability we must not use the __constructor as a constructor for plugins
+	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
+	 * This causes problems with cross-referencing necessary for the observer design pattern.
+	 * 
+	 * @param object $subject The object to observe
+	 * @since 1.1
+	 */
+	function JPlugin(& $subject) {
+		parent::__construct($subject);
+	}
+
+	/**
+	 * Method to trigger events based upon the JAuth object
+	 * 
+	 * @access public
+	 * @param array Arguments
+	 * @return mixed Routine return value
+	 * @since 1.1
+	 */
+	function update(& $args) {
+		/*
+		 * First lets get the event from the argument array.  Next we will unset the 
+		 * event argument as it has no bearing on the method to handle the event.
+		 */
+		$event = $args['event'];
+		unset($args['event']);
+		
+		/*
+		 * If the method to handle an event exists, call it and return its return
+		 * value.  If it does not exist, return a boolean true.
+		 */ 
+		if (method_exists($this, $event)) {
+			return call_user_func_array(array($this, $event), $args);
+		} else {
+			return true;
+		}
+	}
+}
 
 /**
 * Plugin helper class

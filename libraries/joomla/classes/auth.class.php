@@ -25,6 +25,8 @@ class JAuth extends JObject {
 
 	/**
 	 * Constructor
+	 * 
+	 * @access protected
 	 */
 	function __construct() {
 		
@@ -61,7 +63,8 @@ class JAuth extends JObject {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function login($credentials) {
+	function login($credentials) 
+	{
 		global $mainframe;
 
 		// Get the global event dispatcher object
@@ -183,7 +186,8 @@ class JAuth extends JObject {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function logout() {
+	function logout() 
+	{
 		global $mainframe;
 		
 		// Initialize variables
@@ -236,8 +240,8 @@ class JAuth extends JObject {
 	 * @return mixed Integer userid for valid user if credentials are valid or boolean false if they are not
 	 * @since 1.1
 	 */
-	function authenticate($credentials) {
-
+	function authenticate($credentials) 
+	{
 		// Initialize variables
 		$auth = false;
 
@@ -255,7 +259,7 @@ class JAuth extends JObject {
 		 */
 		if (!in_array(false, $results)) {
 
-// TODO: Perhaps we should check that all returned userids are the same?
+			// TODO: Perhaps we should check that all returned userids are the same?
 			/*
 			 * Since none of authentication plugins failed get the userid of the
 			 * authenticated user
@@ -273,10 +277,12 @@ class JAuth extends JObject {
 	 * 		<pre>  $auth = &JAuth::getInstance();</pre>
 	 *
 	 * @static
+	 * @access public
 	 * @return object The global JAuth object
 	 * @since 1.1
 	 */
-	function & getInstance() {
+	function & getInstance() 
+	{
 		static $instances;
 
 		if (!isset ($instances)) {
@@ -309,6 +315,7 @@ class JAuthHelper {
 	/**
 	 * Formats a password using the current encryption.
 	 *
+	 * @access public
 	 * @param string $plaintext The plaintext password to encrypt.
 	 * @param string $salt  The salt to use to encrypt the password. []
 	 *                               If not present, a new salt will be
@@ -321,8 +328,8 @@ class JAuthHelper {
 	 *
 	 * @return string  The encrypted password.
 	 */
-	function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false) {
-
+	function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false) 
+	{
 		/* 
 		 * Get the salt to use.
 		 */
@@ -407,6 +414,7 @@ class JAuthHelper {
 	 * of an existing password, or for encryption types that use the plaintext
 	 * in the generation of the salt.
 	 *
+	 * @access public
 	 * @param string $encryption  The kind of pasword encryption to use.
 	 *                            Defaults to md5-hex.
 	 * @param string $seed        The seed to get the salt from (probably a
@@ -417,10 +425,10 @@ class JAuthHelper {
 	 *
 	 * @return string  The generated or extracted salt.
 	 */
-	function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '') {
-
-			// Encrypt the password.
-	switch ($encryption) {
+	function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '') 
+	{
+		// Encrypt the password.
+		switch ($encryption) {
 			case 'crypt' :
 			case 'crypt-des' :
 				if ($seed) {
@@ -481,11 +489,12 @@ class JAuthHelper {
 	/**
 	 * Generate a random password
 	 * 
+	 * @access public
 	 * @return string Random Password
 	 * @since 1.1
 	 */
-	function genRandomPassword() {
-
+	function genRandomPassword() 
+	{
 		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		$len = strlen($salt);
 		$makepass = '';
@@ -500,12 +509,13 @@ class JAuthHelper {
 
 	/**
 	 * Is there an authenticated user in the current session
-	 *
+	 * 
+	 * @access public
 	 * @return boolean True of authenticated user exists.
 	 * @since 1.1
 	 */
-	function isAuthenticated() {
-
+	function isAuthenticated() 
+	{
 		// Initialize variables
 		$ret = false;
 
@@ -546,6 +556,7 @@ class JAuthHelper {
 	 * Performs check on session to see if IP Address has changed since the
 	 * last access.
 	 *
+	 * @access private
 	 * @return boolean  True if IP Address is the same as the last access.
 	 * @since 1.1
 	 */
@@ -557,6 +568,7 @@ class JAuthHelper {
 	 * Performs check on session to see if user agent has changed since
 	 * the last access.
 	 *
+	 * @access private
 	 * @return boolean  True if browser user agent is the same as the last access.
 	 * @since 1.1
 	 */
@@ -567,6 +579,7 @@ class JAuthHelper {
 	/**
 	 * Converts to allowed 64 characters for APRMD5 passwords.
 	 *
+	 * @access private
 	 * @param string  $value
 	 * @param integer $count
 	 * @return string  $value converted to the 64 MD5 characters.
@@ -588,6 +601,7 @@ class JAuthHelper {
 	/**
 	 * Converts hexadecimal string to binary data.
 	 *
+	 * @access private
 	 * @param string $hex  Hex data.
 	 * @return string  Binary data.
 	 * @since 1.1
@@ -609,13 +623,15 @@ class JAuthHelper {
 	 * This method should be invoked as:
 	 * 		<pre>  $isLoaded = JAuthHelper::loadPlugin($plugin, $subject);</pre>
 	 *
+	 * @access public
 	 * @static
 	 * @param string $plugin The authentication plugin to use.
 	 * @param object $subject Observable object for the plugin to observe
 	 * @return boolean True if plugin is loaded
 	 * @since 1.1
 	 */
-	function loadPlugin($plugin, & $subject) {
+	function loadPlugin($plugin, & $subject) 
+	{
 		static $instances;
 
 		if (!isset ($instances)) {
@@ -624,17 +640,16 @@ class JAuthHelper {
 
 		if (empty ($instances[$plugin])) {
 			// Build the path to the needed authentication plugin
-			$path = JPATH_SITE.DS.'plugins'.DS.'auth'.DS.$plugin.'.jauth.php';
+			$path = JPATH_SITE.DS.'plugins'.DS.'auth'.DS.$plugin.'.php';
 			
 			// Require plugin file
 			require_once($path);
 			
 			// Build authentication plugin classname
-			$name = 'JAuth_'.$plugin;
+			$name = 'JAuth'.$plugin;
 			$instances[$plugin] = new $name ($subject);
 		}
 		return is_object($instances[$plugin]);
 	}
-
 }
 ?>

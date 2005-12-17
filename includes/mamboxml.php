@@ -1,3 +1,3 @@
 <?php // compatibility
-require_once( JPATH_SITE . '/libraries/joomla/xml.php' );
+require_once( JPATH_SITE . '/libraries/joomla/params.php' );
 ?>

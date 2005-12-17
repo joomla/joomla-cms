@@ -12,7 +12,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.classes.observer');
+jimport('joomla.plugin');
 
 
 /**
@@ -23,7 +23,7 @@ jimport('joomla.classes.observer');
  * @subpackage JFramework
  * @since 1.1
  */
-class JAuth_Example extends JObserver {
+class JAuthExample extends JPlugin {
 
 	/**
 	 * Constructor
@@ -35,41 +35,10 @@ class JAuth_Example extends JObserver {
 	 * @param object $subject The object to observe
 	 * @since 1.1
 	 */
-	function JAuth_Example(& $subject) {
+	function JAuthExample(& $subject) {
 		parent::__construct($subject);
 	}
 
-	/**
-	 * Method to trigger events based upon the JAuth object
-	 * 
-	 * @access public
-	 * @param array Authentication credentials
-	 * @return mixed Routine return value
-	 * @since 1.1
-	 */
-	function update(& $args) {
-		switch ($args['event']) {
-			case 'auth' :
-				// We send the first argument (credentials) routines
-				$retval = $this->auth($args[0]);
-				break;
-
-			case 'onLogin' :
-				$retval = $this->login($args[0]);
-				break;
-
-			case 'onLogout' :
-				$retval = $this->logout($args[0]);
-				break;
-
-			default :
-				// If the method is not implemented always return true
-				$retval = true;
-				break;
-		}
-		return $retval;
-	}
-	
 	/**
 	 * This method should handle any authentication and report back to the subject
 	 * 
