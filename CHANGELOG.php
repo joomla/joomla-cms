@@ -34,7 +34,7 @@ Legend:
 17-Dec-2005 Johan Janssens
  + Added JPlugin class for easy handling of plugins - contributed by Louis Landry
 
-16-Dec-2005
+16-Dec-2005 Andy Miller
  ^ Applied new rtl background for installer - Contributed by David Gal
 
 16-Dec-2005 Johan Janssens
