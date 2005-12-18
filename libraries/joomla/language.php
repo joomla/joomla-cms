@@ -216,7 +216,7 @@ class JLanguage extends JObject
 				if( $this->_identifyer === null ) {
 					$this->_identifyer = basename( $filename, '.ini' );
 				}
-				return mosParameters::parse( $content, false, true );
+				return JParameters::parse( $content, false, true );
 			}
 		}
 
