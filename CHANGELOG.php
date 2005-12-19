@@ -33,6 +33,7 @@ Legend:
 
 19-Dec-2005 Johan Janssens
  ^ Refined mbstring installation checks - contributed by David Gal
+ # Fixed artf2655 : factory.php - xml_domit_lite_parser.php
 
 17-Dec-2005 Johan Janssens
  + Added JPlugin class for easy handling of plugins - contributed by Louis Landry

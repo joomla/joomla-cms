@@ -149,17 +149,17 @@ class JFactory
 			{
 				if($lite) {
 					jimport('domit.xml_domit_lite_include');
-					$doc = new DOMIT_Lite_Document();
+					$doc =& new DOMIT_Lite_Document();
 				} else {
 					jimport('domit.xml_domit_include');
-					$doc = new DOMIT_Document();
+					$doc =& new DOMIT_Document();
 				}
 			} break;
 
 			case 'RSS'  :
 			{
 				jimport('domit.xml_domit_rss_lite');
-				$doc = new xml_domit_rss_document_lite();
+				$doc =& new xml_domit_rss_document_lite();
 			} break;
 		}
 
