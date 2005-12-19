@@ -34,7 +34,7 @@ class JAuth extends JObject {
 		$dispatcher = &JEventDispatcher :: getInstance();
 		
 		//TODO: Here is where we will load all the necessary plugins into an array
-		$plugins[] = 'Joomla'; // JAuth_Joomla.php
+		$plugins[] = 'joomla'; // JAuth_Joomla.php
 		
 		foreach ($plugins as $plugin) {
 			$isLoaded |= JAuthHelper::loadPlugin($plugin, $dispatcher);
