@@ -53,6 +53,8 @@ if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER 
 	die( 'Fatal error.  Post variable hack attempted.' );
 }
 
+jimport('joomla.compat.phputf8env');
+
 require_once( dirname(__FILE__) . DS .'template.php' );
 
 //Library imports
@@ -65,6 +67,7 @@ jimport( 'joomla.classes.app');
 jimport( 'joomla.classes.auth');
 jimport( 'joomla.classes.profiler' );
 jimport( 'joomla.classes.session' );
+jimport( 'joomla.classes.string' );
 jimport( 'joomla.registry.main');
 jimport( 'joomla.models.*' );
 jimport( 'joomla.html' );

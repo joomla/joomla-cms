@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Dec-2005 Johan Janssens
+ ^ Refined mbstring installation checks - contributed by David Gal
+
 17-Dec-2005 Johan Janssens
  + Added JPlugin class for easy handling of plugins - contributed by Louis Landry
 

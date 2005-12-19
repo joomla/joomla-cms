@@ -53,7 +53,7 @@ class HTML_admin_misc {
 
 	function system_info( ) {
 		global $database, $_VERSION;
-
+				
 		$width = 400;	// width of 100%
 		$tabs = new mosTabs(0);
 
@@ -251,55 +251,12 @@ class HTML_admin_misc {
 					</tr>
 					<tr>
 						<td>
-							<?php echo JText::_( 'mbstring.language' ); ?>:
+							<?php echo JText::_( 'Iconv available' ); ?>:
 						</td>
 						<td>
-							<?php echo ini_get('mbstring.language'); ?>
+							<?php echo function_exists('iconv') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
 						</td>
 					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'mbstring.internal_encoding' ); ?>:
-						</td>
-						<td>
-							<?php echo ini_get('mbstring.internal_encoding'); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'mbstring.encoding_translation' ); ?>:
-						</td>
-						<td>
-							<?php echo HTML_admin_misc::get_php_setting('mbstring.encoding_translation'); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'mbstring.http_input' ); ?>:
-						</td>
-						<td>
-							<?php echo ini_get('mbstring.http_input'); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'mbstring.http_output' ); ?>:
-						</td>
-						<td>
-							<?php echo ini_get('mbstring.http_output'); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'mbstring.func_overload' ); ?>:
-						</td>
-						<td>
-							<?php echo ini_get('mbstring.func_overload'); ?>
-						</td>
-					</tr>
-					
-					
-					
 					
 					<?php
 					$query = "SELECT name FROM #__mambots"

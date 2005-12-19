@@ -45,8 +45,12 @@ class installationTasks {
 		$phpOptions[] = array ('label' => '- '.JText :: _('zlib compression support'), 'state' => extension_loaded('zlib') ? 'Yes' : 'No');
 		$phpOptions[] = array ('label' => '- '.JText :: _('XML support'), 'state' => extension_loaded('xml') ? 'Yes' : 'No', 'statetext' => extension_loaded('xml') ? 'Yes' : 'No');
 		$phpOptions[] = array ('label' => '- '.JText :: _('MySQL support'), 'state' => function_exists('mysql_connect') ? 'Yes' : 'No');
-		$mb = extension_loaded('mbstring');
-		$phpOptions[] = array ('label' => '- '.JText :: _('MB string support (utf-8)'), 'state' => $mb ? 'Yes' : 'No', 'notice' => $mb ? '' : JText :: _('NOTICENOMBSTRINGSUPPORT'));
+		if(extension_loaded('mbstring')) {
+			$mbDefLang = strtolower(ini_get('mbstring.language')) == "neutral";
+			$phpOptions[] = array ('label' => JText :: _('MB language is default'), 'state' => $mbDefLang ? 'Yes' : 'No', 'notice' => $mbDefLang ? '' : JText :: _('NOTICEMBLANGNOTDEFAULT'));
+			$mbOvl = ini_get('mbstring.func_overload') != 0;
+			$phpOptions[] = array ('label' => JText :: _('MB string overload off'), 'state' => !$mbOvl ? 'Yes' : 'No', 'notice' => $mbOvl ? JText :: _('NOTICEMBSTRINGOVERLOAD') : '');
+		}
 		$sp = '';
 		$phpOptions[] = array ('label' => JText :: _('Session path set'), 'state' => ($sp = ini_get('session.save_path')) ? 'Yes' : 'No');
 		$phpOptions[] = array ('label' => JText :: _('Session path writeable'), 'state' => is_writable($sp) ? 'Yes' : 'No');
@@ -59,13 +63,6 @@ class installationTasks {
 		foreach ($phpRecommended as $setting) {
 			$lists['phpSettings'][] = array ('label' => $setting[0], 'setting' => $setting[2], 'actual' => get_php_setting($setting[1]), 'state' => get_php_setting($setting[1]) == $setting[2] ? 'Yes' : 'No');
 		}
-		// mbstring settings
-		$lists['phpSettings'][] = array ('label' => 'MB language', 'setting' => 'Neutral', 'actual' => ini_get('mbstring.language'), 'state' => strtolower(ini_get('mbstring.language')) == 'neutral' ? 'Yes' : 'No');
-		$lists['phpSettings'][] = array ('label' => 'MB internal encoding', 'setting' => 'UTF-8', 'actual' => ini_get('mbstring.internal_encoding'), 'state' => strtoupper(ini_get('mbstring.internal_encoding')) == 'UTF-8' ? 'Yes' : 'No');
-		$lists['phpSettings'][] = array ('label' => 'MB encoding transl.', 'setting' => 'On', 'actual' => get_php_setting('mbstring.encoding_translation'), 'state' => get_php_setting('mbstring.encoding_translation') == 'ON' ? 'Yes' : 'No');
-		$lists['phpSettings'][] = array ('label' => 'MB http input', 'setting' => 'UTF-8', 'actual' => ini_get('mbstring.http_input'), 'state' => strtoupper(ini_get('mbstring.http_input')) == 'UTF-8' ? 'Yes' : 'No');
-		$lists['phpSettings'][] = array ('label' => 'MB http output', 'setting' => 'UTF-8', 'actual' => ini_get('mbstring.http_output'), 'state' => strtoupper(ini_get('mbstring.http_output')) == 'UTF-8' ? 'Yes' : 'No');
-		$lists['phpSettings'][] = array ('label' => 'MB function overload', 'setting' => '7', 'actual' => ini_get('mbstring.func_overload'), 'state' => ini_get('mbstring.func_overload') == '7' ? 'Yes' : 'No');
 
 		$folders = array ('administrator/backups', 'administrator/components', 'administrator/language', 'administrator/modules', 'administrator/templates', 'cache', 'components', 'images', 'images/banners', 'images/stories', 'language', 'mambots', 'mambots/content', 'mambots/editors', 'mambots/search', 'mambots/system', 'media', 'modules', 'templates',);
 		foreach ($folders as $folder) {

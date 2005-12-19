@@ -54,6 +54,8 @@ if (@$mosConfig_error_reporting === 0) {
 	error_reporting( $mosConfig_error_reporting );
 }
 
+jimport('joomla.compat.phputf8env');
+
 //Library imports
 jimport( 'phpmailer.phpmailer');
 jimport( 'phpinputfilter.inputfilter' );
@@ -65,6 +67,7 @@ jimport( 'joomla.classes.app');
 jimport( 'joomla.classes.auth');
 jimport( 'joomla.classes.profiler');
 jimport( 'joomla.classes.session' );
+jimport( 'joomla.classes.string' );
 jimport( 'joomla.models.*' );
 jimport( 'joomla.html' );
 jimport( 'joomla.factory' );
