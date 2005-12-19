@@ -33,6 +33,9 @@ Legend:
 
 19-Dec-2005 Johan Janssens
  ^ Refined mbstring installation checks - contributed by David Gal
+ ^ Renamed Pathway to Breadcrumbs - contributed by Louis Landry
+ ^ Minor fixes in FTP library that should solve response code problems experienced on 
+   some mac ftp servers - contributed by Louis Landry
  # Fixed artf2655 : factory.php - xml_domit_lite_parser.php
 
 17-Dec-2005 Johan Janssens

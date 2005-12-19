@@ -87,7 +87,11 @@ switch ($task) {
 * @param string The element name
 */
 function uploadPackage( $option ) {
-
+	//global $mainframe;
+	
+	//$client = $mainframe->getClient();
+	//$element = mosGetParam( $_REQUEST, 'element', '' );
+	
 	$installerFactory = new JInstallerFactory();
 	$installer = new mosInstaller(); // Create a blank installer until we work out what the file is!
 	// Check if file uploads are enabled
@@ -148,6 +152,7 @@ function installFromDirectory( $option ) {
 
 	$client = '';
 	$userfile = mosGetParam( $_REQUEST, 'userfile', '' );
+	//$element = mosGetParam( $_REQUEST, 'element', '' );
 
 	if (!$userfile) {
 		mosRedirect( "index2.php?option=$option&element=$element", JText::_( 'Please select a directory' ) );
@@ -239,7 +244,7 @@ function removeElement( $installerClass, $option, $element, $client ) {
 function uploadFile( $filename, $userfile_name, &$msg ) {
 	$baseDir = mosPathName( JPATH_SITE . DS .'media' );
 
-	return JFile::upload($filename, $baseDir . $userfile_name, &$msg );
+	return JFile::upload($filename, $baseDir . $userfile_name, $msg );
 	
 //	if (file_exists( $baseDir )) {
 //		if (is_writable( $baseDir )) {

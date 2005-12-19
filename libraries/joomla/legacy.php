@@ -112,11 +112,11 @@ function mosShowSource( $filename, $withLineNums=false ) {
 }
 
 /**
-* Legacy function, use mosLoadModules('pathway'); instead
+* Legacy function, use mosLoadModules('breadcrumbs); instead
 * @deprecated As of version 1.1
 */
 function mosPathWay() {
-	mosLoadModules('pathway', -1);
+	mosLoadModules('breadcrumbs', -1);
 }
 
 

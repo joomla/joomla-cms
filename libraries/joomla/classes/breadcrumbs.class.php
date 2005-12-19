@@ -12,29 +12,29 @@
 */
 
 /**
- * JPathway class
+ * JBreadCrumbs class
  *
  * @author Louis Landry <louis@webimagery.net>
  * @package Joomla
  * @subpackage JFramework
  * @since 1.1
  */
-class JPathway extends JObject {
+class JBreadCrumbs extends JObject {
 
 	/**
-	 * Array to hold the pathway item objects
+	 * Array to hold the breadcrumbs item objects
 	 * @access private
 	 */
-	var $_pathway = null;
+	var $_breadcrumbs = null;
 
 	/**
-	 * String to hold the pathway item separator
+	 * String to hold the breadcrumbs item separator
 	 * @access private
 	 */
 	var $_separator = null;
 
 	/**
-	 * Integer number of items in the pathway
+	 * Integer number of items in the breadcrumbs
 	 * @access private
 	 */
 	var $_count = 0;
@@ -52,10 +52,10 @@ class JPathway extends JObject {
 	}
 
 	/**
-	 * Set the pathway separator for the pathway object.
+	 * Set the breadcrumbs separator for the breadcrumbs object.
 	 *
 	 * @access public
-	 * @param string $custom Custom xhtml complient string to separate the items of the pathway
+	 * @param string $custom Custom xhtml complient string to separate the items of the breadcrumbs
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
@@ -94,12 +94,12 @@ class JPathway extends JObject {
 	}
 
 	/**
-	 * Get the pathway string in XHTML format for output to the page
+	 * Get the breadcrumbs string in XHTML format for output to the page
 	 *
 	 * @access public
 	 * @param boolean $showHome True if the home item should be shown [Default: true]
 	 * @param boolean $showComponent True if the component item should be shown [Default: true]
-	 * @return string XHTML Compliant pathway string
+	 * @return string XHTML Compliant breadcrumbs string
 	 * @since 1.1
 	 */
 	function toXHTML($showHome = true, $showComponent = true) {
@@ -112,9 +112,9 @@ class JPathway extends JObject {
 		/*
 		 * Initialize variables
 		 */
-		$pathway = '<span class="pathway">';
+		$breadcrumbs = '<span class="pathway">';
 		$i = null;
-		$numItems = count($this->_pathway);
+		$numItems = count($this->_breadcrumbs);
 
 		for ($i = 0; $i < $numItems; $i ++) {
 
@@ -124,64 +124,107 @@ class JPathway extends JObject {
 			if ($i > 1) {
 				// Add the link if it exists
 				if (trim($link) != '') {
-					$pathway .= $link;
-					// If not the last item in the pathway add the separator
+					$breadcrumbs .= $link;
+					// If not the last item in the breadcrumbs add the separator
 					if ($i < $numItems - 1) {
-						$pathway .= ' ' .$this->_separator. ' ';
+						$breadcrumbs .= ' ' .$this->_separator. ' ';
 					}
 				}
 			} elseif ($i == 1 && $showComponent == true) {
 				// Add the component link if it exists and show component flag is set
 				if (trim($link) != '') {
-					$pathway .= $link;
-					// If not the last item in the pathway add the separator
+					$breadcrumbs .= $link;
+					// If not the last item in the breadcrumbs add the separator
 					if ($i < $numItems - 1) {
-						$pathway .= ' ' .$this->_separator. ' ';
+						$breadcrumbs .= ' ' .$this->_separator. ' ';
 					}
 				}
 			} elseif ($i == 0 && $showHome == true) {
 				// Add home link if it exists and show home flag is set
 				if (trim($link) != '') {
-					$pathway .= $link;
-					// If not the last item in the pathway add the separator
+					$breadcrumbs .= $link;
+					// If not the last item in the breadcrumbs add the separator
 					if ($i < $numItems - 1) {
-						$pathway .= ' ' .$this->_separator. ' ';
+						$breadcrumbs .= ' ' .$this->_separator. ' ';
 					}
 				}
 			}
 		}
 
-		// Close the pathway span
-		$pathway .= '</span>';
+		// Close the breadcrumbs span
+		$breadcrumbs .= '</span>';
 
-		return $pathway;
+		return $breadcrumbs;
 
 	}
 
 	/**
-	 * Create and return an array of the pathway names.  Useful for things like SEF URLs
+	 * Return the JBreadCrumbs item separator string
 	 *
 	 * @access public
-	 * @return array Array of names of pathway items
+	 * @return string JBreadCrumbs item separator
 	 * @since 1.1
 	 */
-	function getNamePathway() {
+	function getSeparator() {
+		return $this->_separator;
+	}
+
+	/**
+	 * Return the JBreadCrumbs items array
+	 *
+	 * @access public
+	 * @param boolean $showHome True to show the home element of the JBreadCrumbs array
+	 * @param boolean $showComponent True to show the component element of the JBreadCrumbs array
+	 * @return array Array of breadcrumbs items
+	 * @since 1.1
+	 */
+	function getBreadCrumbs($showHome = true, $showComponent = true) {
+
+		$bc = $this->_breadcrumbs;
+
+		if ($showComponent == false) {
+			unset($bc[1]);
+		}
+		if ($showHome == false) {
+			unset($bc[0]);
+		}
+		
+		return $bc;
+	}
+
+	/**
+	 * Create and return an array of the breadcrumbs names.  Useful for things like SEF URLs
+	 *
+	 * @access public
+	 * @param boolean $showHome True to show the home element of the JBreadCrumbs array
+	 * @param boolean $showComponent True to show the component element of the JBreadCrumbs array
+	 * @return array Array of names of breadcrumbs items
+	 * @since 1.1
+	 */
+	function getNameBreadCrumbs($showHome = true, $showComponent = true) {
 
 		/*
 		 * Initialize variables
 		 */
 		$names = array (null);
 
-		// Build the names array using just the names of each pathway item
-		foreach ($this->_pathway as $item) {
+		// Build the names array using just the names of each breadcrumbs item
+		foreach ($this->_breadcrumbs as $item) {
 			$names[] = $item->name;
+		}
+
+		if ($showComponent == false) {
+			unset($names[1]);
+		}
+		if ($showHome == false) {
+			unset($names[0]);
 		}
 
 		return $names;
 	}
 
 	/**
-	 * Create and add an item to the pathway.
+	 * Create and add an item to the breadcrumbs.
 	 *
 	 * @access public
 	 * @param string $name
@@ -194,7 +237,7 @@ class JPathway extends JObject {
 		// Initalize variables
 		$ret = false;
 
-		if ($this->_pathway[] = $this->_makeItem($name, $link)) {
+		if ($this->_breadcrumbs[] = $this->_makeItem($name, $link)) {
 			$ret = true;
 			$this->_count++;
 		}
@@ -216,8 +259,8 @@ class JPathway extends JObject {
 		// Initalize variables
 		$ret = false;
 
-		if (isset($this->_pathway[$id])) {
-			$this->_pathway[$id]->name = $name;
+		if (isset($this->_breadcrumbs[$id])) {
+			$this->_breadcrumbs[$id]->name = $name;
 			$ret = true;
 		}
 
@@ -225,17 +268,17 @@ class JPathway extends JObject {
 	}
 
 	/**
-	 * Create and return an XTML compliant link from a pathway item.
+	 * Create and return an XTML compliant link from a breadcrumbs item.
 	 *
 	 * @access private
-	 * @param string $id Pathway array offset of item to make a link for
-	 * @return string Pathway item link
+	 * @param string $id Breadcrumbs array offset of item to make a link for
+	 * @return string Breadcrumbs item link
 	 * @since 1.1
 	 */
 	function _makeLink($id) {
 
-		// Get a reference to the current working pathway item
-		$item = & $this->_pathway[$id];
+		// Get a reference to the current working breadcrumbs item
+		$item = & $this->_breadcrumbs[$id];
 
 		// If a link is present create an html link, if not just use the name
 		if (empty($item->link) || $this->_count == $id + 1 ) {
@@ -248,12 +291,12 @@ class JPathway extends JObject {
 	}
 
 	/**
-	 * Create and return a new pathway object.
+	 * Create and return a new breadcrumbs object.
 	 *
 	 * @access private
 	 * @param string $name Name of the item
 	 * @param string $link Link to the item
-	 * @return object Pathway item object
+	 * @return object Breadcrumbs item object
 	 * @since 1.1
 	 */
 	function _makeItem($name, $link) {

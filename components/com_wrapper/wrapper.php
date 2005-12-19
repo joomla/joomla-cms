@@ -18,8 +18,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /** load the html drawing class */
 require_once( $mainframe->getPath( 'front_html' ) );
 
-$pathway = $mainframe->getPathway();
-$pathway->setItemName(1, 'Wrapper');
 
 showWrap( $option );
 
@@ -63,6 +61,10 @@ function showWrap( $option ) {
 	}
 
 	$mainframe->SetPageTitle($menu->name);
+	
+	// Set the breadcrumbs 
+	$breadcrumbs =& $mainframe->getBreadCrumbs();
+	$breadcrumbs->setItemName(1, $menu->name);
 
 	HTML_wrapper::displayWrap( $row, $params, $menu );
 }

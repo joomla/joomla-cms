@@ -24,11 +24,11 @@ require_once ($mainframe->getPath('class'));
 // First thing we want to do is set the page title
 $mainframe->setPageTitle(JText :: _('Web Links'));
 
-// Next, let's get the pathway object so that we can manipulate it
-$pathway = & $mainframe->getPathway();
+// Next, let's get the breadcrumbs object so that we can manipulate it
+$breadcrumbs =& $mainframe->getBreadCrumbs();
 
-// Now that we have the pathway object, let's set the component name in the pathway
-$pathway->setItemName(1, JText :: _('Web Links'));
+// Now that we have the breadcrumb object, let's set the component name in the pathway
+$breadcrumbs->setItemName(1, JText :: _('Web Links'));
 
 // Get some common variables from the $_REQUEST global
 $id = intval(mosGetParam($_REQUEST, 'id', 0));
@@ -91,7 +91,7 @@ class WebLinkController {
 		// Get some objects from the JApplication
 		$db = & $mainframe->getDBO();
 		$my = & $mainframe->getUser();
-		$pathway = & $mainframe->getPathway();
+		$breadcrumbs = & $mainframe->getBreadCrumbs();
 
 		/* 
 		 * Query to retrieve all categories that belong under the web links section 
@@ -200,7 +200,7 @@ class WebLinkController {
 		// Use the static HTML library to build the image tag
 		$category->imgTag = mosHTML :: Image('/images/stories/'.$category->image, JText :: _('Web Links'), $imgAttribs);
 
-		// Handle page header, page title, and pathway
+		// Handle page header, page title, and breadcrumbs
 		if (empty ($category->name)) {
 			/*
 			 * We do not have a name set for the category, so we should get the default
@@ -218,8 +218,8 @@ class WebLinkController {
 			// Set page title based on category name
 			$mainframe->setPageTitle($menu->name.' - '.$category->name);
 
-			// Add pathway item based on category name
-			$pathway->addItem($category->name, '');
+			// Add breadcrumbs item based on category name
+			$breadcrumbs->addItem($category->name, '');
 		}
 
 		// used to show table rows in alternating colours
@@ -267,7 +267,7 @@ class WebLinkController {
 		// Get some objects from the JApplication
 		$db = & $mainframe->getDBO();
 		$my = & $mainframe->getUser();
-		$pathway = & $mainframe->getPathway();
+		$breadcrumbs = & $mainframe->getBreadCrumbs();
 
 		// Make sure you are logged in
 		if ($my->gid < 1) {
@@ -296,8 +296,8 @@ class WebLinkController {
 			// Set page title
 			$mainframe->setPageTitle( JText :: _('Web Links').' - '.JText::_( 'Edit' ));
 
-			// Add pathway item
-			$pathway->addItem(JText::_( 'Edit' ), '');
+			// Add breadcrumbs item
+			$breadcrumbs->addItem(JText::_( 'Edit' ), '');
 		} else {
 			/*
 			 * The web link does not already exist so we are creating a new one.  Here
@@ -312,7 +312,7 @@ class WebLinkController {
 			$mainframe->setPageTitle( JText :: _('Web Links').' - '.JText::_( 'New' ));
 
 			// Add pathway item
-			$pathway->addItem(JText::_( 'New' ), '');
+			$breadcrumbs->addItem(JText::_( 'New' ), '');
 		}
 
 		/*

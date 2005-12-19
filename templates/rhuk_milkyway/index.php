@@ -52,7 +52,7 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 				</div>
 			</div>
 			<div id="search"><?php mosLoadModules('user4', -1); ?></div>
-			<div id="pathway"><?php mosLoadModule('pathway'); ?></div>
+			<div id="pathway"><?php mosLoadModule('breadcrumbs'); ?></div>
 			<div class="clr"></div>
 			<div id="whitebox">
 				<div id="whitebox_t">

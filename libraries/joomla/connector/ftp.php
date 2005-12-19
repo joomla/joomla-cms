@@ -222,6 +222,7 @@ class JFTP extends JObject {
 
 		// Send the username
 		if (!$this->_putCmd('USER '.$user, 331)) {
+die($this->_response);
 			JError::raiseError('33', 'JFTP::login: Bad Username.', 'Server response:'.$this->_response.' [Expected: 331] Username sent:'.$user );
 			return false;
 		}
@@ -959,15 +960,18 @@ class JFTP extends JObject {
 	 */
 	function _verifyResponse($expected) {
 
+		// Initialize variables
+		$parts = null;
+		
 		// Wait for a response from the server, but timeout in 5 seconds
 		$time = time();
 		do {
 			$this->_response = fgets($this->_conn, 1024);
-		} while (substr($this->_response, 3, 1) != ' ' && time() - $time < 5);
+		} while (!preg_match("/^([0-9]{3})(-(.*".CRLF.")+\\1)? [^".CRLF."]+".CRLF."$/", $this->_response, $parts));
 
 		// Separate the code from the message
-		$responseCode = substr($this->_response, 0, 3);
-		$responseMsg = substr($this->_response, 4);
+		$responseCode = $parts[1];
+		$responseMsg = $parts[0];
 
 		// Did the server respond with the code we wanted?
 		if (is_array($expected)) {

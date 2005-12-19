@@ -280,10 +280,11 @@ function showSection( $id, $gid, &$access, $now ) {
 	$mainframe->SetPageTitle( $menu->name );
 
 	/*
-	 * Handle Pathway
+	 * Handle BreadCrumbs
 	 */
 	// Section
-	$mainframe->appendPathWay( $section->title, '');
+	$breadcrumbs =& $mainframe->getBreadCrumbs();
+	$breadcrumbs->addItem( $section->title, '');
 
 	$null = null;
 	HTML_content::showContentList( $section, $null, $access, $id, $null,  $gid, $params, $null, $categories, $null, $null );
@@ -497,15 +498,16 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limi
 	$mainframe->SetPageTitle( $pagetitle );
 
 	/*
-	 * Handle Pathway
+	 * Handle BreadCrumbs
 	 */
 	// Section
 	$section = new mosSection($database);
 	$section->load($category->section);
 
-	$mainframe->appendPathWay( $section->title, sefRelToAbs( 'index.php?option=com_content&amp;task=section&amp;id='. $category->section .'&amp;Itemid='.$menu->id ));
+	$breadcrumbs =& $mainframe->getBreadCrumbs();
+	$breadcrumbs->addItem( $section->title, sefRelToAbs( 'index.php?option=com_content&amp;task=section&amp;id='. $category->section .'&amp;Itemid='.$menu->id ));
 	// Category
-	$mainframe->appendPathWay( $category->title, '');
+	$breadcrumbs->addItem( $category->title, '');
 
 	HTML_content::showContentList( $category, $items, $access, $id, $sectionid, $gid, $params, $pageNav, $other_categories, $lists, $selected );
 } // showCategory
@@ -566,8 +568,14 @@ function showBlogSection( $id=0, $gid, &$access, $pop, $now=NULL ) {
 		$mainframe->setPageTitle( $menu->name );
 	}
 
-	// Append Blog to pathway
-	$mainframe->appendPathWay( 'Blog', '');
+	// Append Blog to BreadCrumbs
+	$breadcrumbs =& $mainframe->getBreadCrumbs();
+	
+	if ($id == 0) {
+		$breadcrumbs->addItem( 'Blog' , '');
+	} else {
+		$breadcrumbs->addItem( $rows[0]->section, '');
+	}
 
 	BlogOutput( $rows, $params, $gid, $access, $pop, $menu );
 }
@@ -625,8 +633,14 @@ function showBlogCategory( $id=0, $gid, &$access, $pop, $now ) {
 	// Dynamic Page Title
 	$mainframe->SetPageTitle( $menu->name );
 
-	// Append Blog to pathway
-	$mainframe->appendPathWay( 'Blog', '');
+	// Append Blog to BreadCrumbs
+	$breadcrumbs =& $mainframe->getBreadCrumbs();
+
+	if ($id == 0) {
+		$breadcrumbs->addItem( 'Blog' , '');
+	} else {
+		$breadcrumbs->addItem( $rows[0]->section, '');
+	}
 
 	BlogOutput( $rows, $params, $gid, $access, $pop, $menu );
 }
@@ -708,8 +722,9 @@ function showArchiveSection( $id=NULL, $gid, &$access, $pop, $option ) {
 	// Dynamic Page Title
 	$mainframe->SetPageTitle( $menu->name );
 
-	// Append Archives to pathway
-	$mainframe->appendPathWay( 'Archives', '');
+	// Append Archives to BreadCrumbs
+	$breadcrumbs =& $mainframe->getBreadCrumbs();
+	$breadcrumbs->addItem( 'Archives', '');
 
 	if ( !$archives ) {
 		// if no archives for category, hides search and outputs empty message
@@ -799,8 +814,9 @@ function showArchiveCategory( $id=0, $gid, &$access, $pop, $option, $now ) {
 	// Page Title
 	$mainframe->SetPageTitle( $menu->name );
 
-	// Append Archives to pathway
-	$mainframe->appendPathWay( 'Archives', '');
+	// Append Archives to BreadCrumbs
+	$breadcrumbs =& $mainframe->getBreadCrumbs();
+	$breadcrumbs->addItem( 'Archives', '');
 
 	if ( !$archives ) {
 		// if no archives for category, hides search and outputs empty message
@@ -1138,9 +1154,10 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 		}
 
 		/*
-		 * Handle Pathway
+		 * Handle BreadCrumbs
 		 */
-
+		 $breadcrumbs =& $mainframe->getBreadCrumbs();
+		 
 		// We need the Itemid because we haven't eliminated it
 		$query = 	"SELECT a.id"
 		. "\n FROM #__menu AS a"
@@ -1151,15 +1168,15 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 		if (!empty($_Itemid)) {
 			// Section
 			if (!empty($row->section)) {
-				$mainframe->appendPathWay( $row->section, sefRelToAbs( 'index.php?option=com_content&amp;task=section&amp;id='. $row->sectionid .'&amp;Itemid='.$_Itemid ));
+				$breadcrumbs->addItem( $row->section, sefRelToAbs( 'index.php?option=com_content&amp;task=section&amp;id='. $row->sectionid .'&amp;Itemid='.$_Itemid ));
 			}
 			// Category
 			if (!empty($row->section)) {
-				$mainframe->appendPathWay( $row->category, sefRelToAbs( 'index.php?option=com_content&amp;task=category&amp;sectionid='. $row->sectionid .'&amp;id='. $row->catid .'&amp;Itemid='.$_Itemid ));
+				$breadcrumbs->addItem( $row->category, sefRelToAbs( 'index.php?option=com_content&amp;task=category&amp;sectionid='. $row->sectionid .'&amp;id='. $row->catid .'&amp;Itemid='.$_Itemid ));
 			}
 		}
 		// Item
-		$mainframe->appendPathWay( $row->title, '');
+		$breadcrumbs->addItem( $row->title, '');
 
 
 

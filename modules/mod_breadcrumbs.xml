@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <mosinstall type="module" version="1.0.0">
-	<name>Pathway Module</name>
+	<name>Breadcrumbs Module</name>
 	<author>Joomla! Project</author>
-	<creationDate>October 2005</creationDate>
+	<creationDate>December 2005</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.0.0</version>
-	<description>This module displays the pathway</description>
+	<description>This module displays the breadcrumbs</description>
 	<files>
-		<filename module="mod_pathway">mod_pathway.php</filename>
+		<filename module="mod_breadcrumbs">mod_breadcrumbs.php</filename>
 	</files>
 	<params/>
 </mosinstall>

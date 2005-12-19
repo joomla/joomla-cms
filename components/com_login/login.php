@@ -20,8 +20,8 @@ require_once( $mainframe->getPath( 'front_html' ) );
 
 global $database, $my;
 
-$pathway = $mainframe->getPathway();
-$pathway->setItemName(1, 'Login');
+$breadcrumbs =& $mainframe->getBreadCrumbs();
+$breadcrumbs->setItemName(1, 'Login');
 
 $menu = new mosMenu( $database );
 $menu->load( $Itemid );

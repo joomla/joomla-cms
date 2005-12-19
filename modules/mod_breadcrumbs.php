@@ -14,28 +14,21 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// Get the pathway object from the application
-$pathway = $mainframe->getPathWay();
+// Get the JBreadCrumbs object from the application
+$breadcrumbs =& $mainframe->getBreadCrumbs();
+
+// Set the default separator
+$breadcrumbs->setSeparator();
 
 $viewComponent = true;
 
-// Don't show content component in the pathway when viewing content
+// Don't show content component in the breadcrumbs when viewing content
 if ($mainframe->getOption() == 'com_content') {
 	$viewComponent = false;
 }
 
-// Print pathway in XHTML format
-echo $pathway->toXHTML(true, $viewComponent);
-
-/*
- * Jinx, this is the patT version
-
-//$pathway->addItem( 'Test1', '' );
-//$pathway->addItem( 'Test2', 'dfdf' );
-
-$tmpl = &JFactory::getPatTemplate( array( 'pathway.html' ) );
-$tmpl->addVar( 'pathway-items', 'separator', $pathway->_separator );  // $pathway->getSeparator() would be good
-$tmpl->addObject( 'pathway-items', $pathway->_pathway ); // $pathway->getPathway() would be good here
-$tmpl->displayParsedTemplate( 'pathway' );
-*/
+$tmpl = &JFactory::getTemplate( array( 'breadcrumbs.html' ) );
+$tmpl->addVar( 'breadcrumbs-items', 'separator', $breadcrumbs->getSeparator() );
+$tmpl->addObject( 'breadcrumbs-items', $breadcrumbs->getBreadCrumbs(true, $viewComponent) );
+$tmpl->displayParsedTemplate( 'breadcrumbs' );
 ?>

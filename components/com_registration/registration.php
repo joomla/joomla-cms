@@ -16,8 +16,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( $mainframe->getPath( 'front_html' ) );
 
-$pathway = $mainframe->getPathway();
-$pathway->setItemName(1, 'Registration');
+$breadcrumbs =& $mainframe->getBreadCrumbs();
+$breadcrumbs->setItemName(1, 'Registration');
 
 switch( $task ) {
 	case 'lostPassword':
@@ -46,6 +46,8 @@ function lostPassForm( $option ) {
 
 	$mainframe->SetPageTitle( JText::_( 'Lost your Password?' ) );
 
+	$breadcrumbs =& $mainframe->getBreadCrumbs();
+	$breadcrumbs->addItem( JText::_( 'Lost your Password?' ));
 	HTML_registration::lostPassForm($option);
 }
 
@@ -104,6 +106,9 @@ function registerForm( $option, $useractivation ) {
 	}
 
   	$mainframe->SetPageTitle( JText::_( 'Registration' ) );
+  	
+  	$breadcrumbs =& $mainframe->getBreadCrumbs();
+  	$breadcrumbs->setItem( JText::_( 'Registration' ));
 
 	HTML_registration::registerForm($option, $useractivation);
 }

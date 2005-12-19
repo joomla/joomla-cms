@@ -146,7 +146,7 @@ if ( mosCountModules( 'right' ) and ( empty( $_REQUEST['task'] ) || $_REQUEST['t
 								<tr>
 									<td colspan="<?php echo $colspan; ?>">
 										<div id="pathway_text">
-											<?php mosLoadModules ( 'pathway', -1 ); ?>
+											<?php mosPathWay(); ?>
 										</div>
 									</td>
 								</tr>

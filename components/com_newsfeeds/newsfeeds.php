@@ -19,8 +19,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 // load the html drawing class
 require_once( $mainframe->getPath( 'front_html' ) );
 
-$pathway = $mainframe->getPathway();
-$pathway->setItemName(1, 'News Feeds');
+$breadcrumbs =& $mainframe->getBreadCrumbs();
+$breadcrumbs->setItemName(1, 'News Feeds');
 
 $feedid = intval( mosGetParam( $_REQUEST ,'feedid', 0 ) );
 $catid 	= intval( mosGetParam( $_REQUEST ,'catid', 0 ) );
@@ -140,9 +140,9 @@ function listFeeds( $option, $catid ) {
 		// Set page title per category
 		$mainframe->setPageTitle( $menu->name. ' - ' .$currentcat->header );
 
-		// Add pathway item per category
-		$pathway = $mainframe->getPathway();
-		$pathway->addItem($currentcat->header, '');
+		// Add breadcrumb item per category
+		$breadcrumbs =& $mainframe->getBreadCrumbs();
+		$breadcrumbs->addItem($currentcat->header, '');
 	} else {
 		$currentcat->header = $params->get( 'header' );
 		
@@ -204,9 +204,9 @@ function showFeed( $option, $feedid ) {
 		// Set page title per category
 		$mainframe->setPageTitle( $menu->name. ' - ' .$newsfeeds[0]->name );
 	
-		// Add pathway item per category
-		$pathway = $mainframe->getPathway();
-		$pathway->addItem($newsfeeds[0]->name, '');
+		// Add breadcrumb item per category
+		$breadcrumbs =& $mainframe->getBreadCrumbs();
+		$breadcrumbs->addItem($newsfeeds[0]->name, '');
 	} else {
 
 		$mainframe->SetPageTitle($menu->name);

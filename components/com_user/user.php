@@ -22,8 +22,8 @@ $access->canEditOwn = $acl->acl_check( 'action', 'edit', 'users', $my->usertype,
 
 require_once ( $mainframe->getPath( 'front_html' ) );
 
-$pathway = $mainframe->getPathway();
-$pathway->setItemName(1, 'User');
+$breadcrumbs =& $mainframe->getBreadCrumbs();
+$breadcrumbs->setItemName(1, 'User');
 
 switch( $task ) {
 	case 'saveUpload':
