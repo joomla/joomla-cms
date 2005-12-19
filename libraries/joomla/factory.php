@@ -206,7 +206,7 @@ class JFactory
 		$tmpl = new JTemplate;
 
 		//TODO : add config var
-		if ($GLOBALS['mosConfig_tmpl_caching']) {
+		/*if ($GLOBALS['mosConfig_tmpl_caching']) {
 
 			$info = array(
 				'cacheFolder' 	=> $GLOBALS['mosConfig_cachepath'].'/pattemplate',
@@ -215,7 +215,7 @@ class JFactory
 				'filemode' 		=> 0755
 			);
 		 	$tmpl->useTemplateCache( 'File', $info );
-		}
+		}*/
 
 		$tmpl->setNamespace( 'jos' );
 

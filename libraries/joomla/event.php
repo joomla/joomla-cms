@@ -149,7 +149,7 @@ class JEventDispatcher extends JObservable {
 	 */
 	function dispatch( $event ) {
 
-		$args =& func_get_args();
+		$args = func_get_args();
 		array_shift( $args );
 
 		$result = array();

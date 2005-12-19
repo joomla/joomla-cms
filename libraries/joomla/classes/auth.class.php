@@ -36,6 +36,7 @@ class JAuth extends JObject {
 		//TODO: Here is where we will load all the necessary plugins into an array
 		$plugins[] = 'joomla'; // JAuth_Joomla.php
 		
+		$isLoaded = 0;
 		foreach ($plugins as $plugin) {
 			$isLoaded |= JAuthHelper::loadPlugin($plugin, $dispatcher);
 		}
