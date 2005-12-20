@@ -39,6 +39,7 @@ Legend:
  # Fixed artf2664 : errors in php_text_cache.php + functions.php
  # Fixed artf2606 : JApplication::getBasePath interface changed from Joomla 1.0.4
  ^ Reworked installer to use an adapter pattern
+ # Fixed artf2389 : gzip compression not operational
 
 19-Dec-2005 Johan Janssens
  ^ Refined mbstring installation checks - contributed by David Gal

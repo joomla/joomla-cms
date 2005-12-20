@@ -745,10 +745,10 @@ function initGzip() {
 				  strpos($useragent,'Gecko')	  !== false
 				)
 			) {
-			if ( extension_loaded('zlib') ) {
+			if ( extension_loaded('zlib') && !ini_get('zlib.output_compression')) {
 				// You cannot specify additional output handlers if
 				// zlib.output_compression is activated here
-				ob_start( );
+				ob_start("ob_gzhandler" );
 				return;
 			}
 		} else if ( $phpver > '4.0' ) {
