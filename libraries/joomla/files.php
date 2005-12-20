@@ -528,7 +528,8 @@ class JFolder {
 	 * @return boolean True if successful
 	 * @since 1.1
 	 */
-	function create($path = '', $mode = '0755') {
+	function create($path = '', $mode = '0755')
+	{
 		global $mainframe;
 
 		// Initialize variables
@@ -650,7 +651,8 @@ class JFolder {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function delete($path) {
+	function delete($path) 
+	{
 		global $mainframe;
 
 		// Initialize variables
@@ -713,7 +715,8 @@ class JFolder {
 	 * @return mixed Error message on false or boolean True on success
 	 * @since 1.1
 	 */
-	function move($src, $dest, $path = '') {
+	function move($src, $dest, $path = '') 
+	{
 		global $mainframe;
 
 		// Initialize variables
@@ -804,7 +807,8 @@ class JFolder {
 	 * @return array Files in the given folder
 	 * @since 1.1
 	 */
-	function files($path, $filter = '.', $recurse = false, $fullpath = false) {
+	function files($path, $filter = '.', $recurse = false, $fullpath = false) 
+	{
 		global $mainframe;
 
 		// Initialize variables
@@ -915,7 +919,8 @@ class JFolder {
 	 * @return array Folders in the given folder
 	 * @since 1.1
 	 */
-	function folders($path, $filter = '.', $recurse = false, $fullpath = false) {
+	function folders($path, $filter = '.', $recurse = false, $fullpath = false) 
+	{
 		global $mainframe;
 
 		// Initialize variables
@@ -1015,7 +1020,8 @@ class JFolder {
 	/**
 	 * Lists folder in format suitable for tree display
 	 */
-	function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0) {
+	function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0) 
+	{
 		$dirs = array ();
 		if ($level == 0) {
 			$GLOBALS['_JFolder_folder_tree_index'] = 0;

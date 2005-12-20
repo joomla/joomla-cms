@@ -48,7 +48,7 @@ function showInstalledMambots( $_option ) {
 	$rows = $database->loadObjectList();
 
 	// path to mambot directory
-	$mambotBaseDir	= mosPathName( mosPathName( JPATH_SITE ) . "mambots" );
+	$mambotBaseDir	= JPath::clean( JPath::clean( JPATH_SITE ) . "mambots" );
 
 	$id = 0;
 	$n = count( $rows );

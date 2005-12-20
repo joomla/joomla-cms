@@ -60,9 +60,10 @@ class JCache extends Cache_Lite
 	}
 	
 	/**
-	 * Returns a reference to the global Browser object, only creating it
+	 * Returns a reference to the global Cache object, only creating it
 	 * if it doesn't already exist.
 	 *
+	 * @param handler $handler The cache handler to instantiate
 	 * @param array $options options
 	 * @return database A database object
 	 * @since 1.1

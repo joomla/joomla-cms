@@ -15,15 +15,12 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-// XML library
+jimport('joomla.installer.installer');
+
 require_once( $mainframe->getPath( 'admin_html' ) );
-//require_once( $mainframe->getPath( 'class' ) );
 
 $element 	= mosGetParam( $_REQUEST, 'element', '' );
 $client 	= mosGetParam( $_REQUEST, 'client', '' );
-$path 		= JPATH_ADMINISTRATOR . DS."components".DS."com_installer".DS."$element".DS."$element.php";
-
-jimport('joomla.installers.factory');
 
 // ensure user has access to this function
 if (!$acl->acl_check( 'com_installer', 'installer', 'users', $my->usertype ) ) {
@@ -59,9 +56,7 @@ switch ($task) {
 	case 'installer':
 		doInstaller();
 		break;
-	case 'updater':
-		doUpdate();
-		break;
+
 	default:
 		if (array_key_exists ( $element, $classMap ) ){
 			require_once( $mainframe->getPath( 'installer_class', $element ) );
@@ -86,14 +81,15 @@ switch ($task) {
 * @param string The URL option
 * @param string The element name
 */
-function uploadPackage( $option ) {
+function uploadPackage( $option ) 
+{
 	//global $mainframe;
 	
 	//$client = $mainframe->getClient();
 	//$element = mosGetParam( $_REQUEST, 'element', '' );
+		
+	$installer = new JInstaller(); // Create a blank installer until we work out what the file is!
 	
-	$installerFactory = new JInstallerFactory();
-	$installer = new mosInstaller(); // Create a blank installer until we work out what the file is!
 	// Check if file uploads are enabled
 	if (!(bool)ini_get('file_uploads')) {
 		HTML_installer::showInstallMessage( JText::_( 'WARNINSTALLFILE' ),
@@ -118,24 +114,30 @@ function uploadPackage( $option ) {
 	$userfile_name = $userfile['name'];
 	$client = '';
 	$msg = '';
+	
 	$resultdir = uploadFile( $userfile['tmp_name'], $userfile['name'], $msg );
-	if ($resultdir !== false) {
+	
+	if ($resultdir !== false) 
+	{
 		if (!$installer->upload( $userfile['name'] )) {
         	$msgStr = sprintf( JText::_( 'Upload Failed' ), $element );
 			HTML_installer::showInstallMessage( $installer->getError(), $msgStr,
 				$installer->returnTo( $option, $element, $client ) );
 		}
+		
 		$installdir = $installer->i_installdir;
-		$element = $installerFactory->detectType($installer->unpackDir());
-		$installerFactory->createClass($element);
-                $installer = $installerFactory->getClass();
+		$element    = JInstallerHelper::detectType($installer->unpackDir());
+		
+        $installer = JInstaller::getInstance($element);
+		
 		$ret = $installer->install($installdir);
-        $retStr = $ret ? JText::_( 'Success' ) : JText::_( 'Failed' );
+        
+		$retStr = $ret ? JText::_( 'Success' ) : JText::_( 'Failed' );
     	$msgStr = sprintf( JText::_( 'UPLOADSUCCESSOR' ), $element, $retStr );
 
 		HTML_installer::showInstallMessage( $installer->getError(), $msgStr,
-			$installer->returnTo( $option, $element, $client ) );
-		cleanupInstall( $userfile['name'], $installer->unpackDir() );
+		$installer->returnTo( $option, $element, $client ) );
+		JInstallerHelper::cleanupInstall( $userfile['name'], $installer->unpackDir() );
 	} else {
     	$msgStr = sprintf( JText::_( 'Upload Error' ), $element );
 		HTML_installer::showInstallMessage( $msg, $msgStr,
@@ -147,7 +149,8 @@ function uploadPackage( $option ) {
 * Install a template from a directory
 * @param string The URL option
 */
-function installFromDirectory( $option ) {
+function installFromDirectory( $option ) 
+{
 	global $classMap;
 
 	$client = '';
@@ -157,30 +160,31 @@ function installFromDirectory( $option ) {
 	if (!$userfile) {
 		mosRedirect( "index2.php?option=$option&element=$element", JText::_( 'Please select a directory' ) );
 	}
-	$installerFactory = new JInstallerFactory();
-	$installer = new mosInstaller();
+	
+	$installer = new JInstaller();
 	$installer->installDir($userfile);
+	
 	if(!$installer->findInstallFile()) {
     	$msg = sprintf( JText::_( 'Unable to find valid XML install' ), $userfile );
     	$msgStr = sprintf( JText::_( 'Install Detection Error' ), $element );
 		HTML_installer::showInstallMessage( $msg, $msgStr,
-			$installer->returnTo( $option, $element, $client ) );
+		$installer->returnTo( $option, $element, $client ) );
 	}
 
-	$element = $installerFactory->detectType($userfile.'/');
+	$element = JInstallerHelper::detectType($userfile.'/');
 	$installerClass = $classMap[$element];
+	
 	if(!$installerClass) {
     	$msg = sprintf( JText::_( 'Unable to detect the type of install' ), $userfile );
     	$msgStr = sprintf( JText::_( 'Install Detection Error' ), $element );
 		HTML_installer::showInstallMessage( $msg, $msgStr,
-			$installer->returnTo( $option, $element, $client ) );
+		$installer->returnTo( $option, $element, $client ) );
 		return;
 	}
 
-	jimport('joomla.installers.'.$element);
-	$installer = new $installerClass();
+	$installer = JInstaller::getInstance($element);
 
-	$path = mosPathName( $userfile );
+	$path = JPath::clean( $userfile );
 	if (!is_dir( $path )) {
 		$path = dirname( $path );
 	}
@@ -196,30 +200,43 @@ function installFromDirectory( $option ) {
 * Install an element from a URL
 * @param string The URL
 */
-function installFromUrl($option) {
-
-	$installerFactory = new JInstallerFactory();
+function installFromUrl($option) 
+{
 	$userfile = mosGetParam( $_REQUEST, 'userfile', '' );
 	$client = '';
+	
 	if(!$userfile) {
 		mosRedirect( "index2.php?option=$option", JText::_( 'Please enter a URL' ) );
 	}
-	$installer = $installerFactory->webInstall( $userfile );
-	$element = $installerFactory->getType();
+	
+	$installer = new JInstaller();
+	$location = $installer->downloadPackage($url);
+	
+	if(!$location) {
+		return $processor;
+	}
+	
+	JPath::setPermissions($location);
+	
+	$installer->extractArchive();
+	
+	$type = JInstallerHelper::detectType($installer->unpackDir());
+	
+	$installer = autoInstallGeneric('directory',$installer->unpackDir(), $type);
     $ret = $installer->msg;
 
     $retStr = $ret ? JText::_( 'Success' ) : JText::_( 'Error' );
-	$msg = sprintf( JText::_( 'Install new element' ), $element, $retStr );
+	$msg = sprintf( JText::_( 'Install new element' ), $type, $retStr );
 
-	HTML_installer::showInstallMessage(	$installer->getError(), $msg, $installer->returnTo( $option, $element, $client ) );
+	HTML_installer::showInstallMessage(	$installer->getError(), $msg, $installer->returnTo( $option, $type, $client ) );
 }
 
 /**
 *
 * @param
 */
-function removeElement( $installerClass, $option, $element, $client ) {
-
+function removeElement( $installerClass, $option, $element, $client ) 
+{
 	$cid = mosGetParam( $_REQUEST, 'cid', array(0) );
 	if (!is_array( $cid )) {
 		$cid = array(0);
@@ -241,8 +258,9 @@ function removeElement( $installerClass, $option, $element, $client ) {
 * @param string The name of the file to put in the temp directory
 * @param string The message to return
 */
-function uploadFile( $filename, $userfile_name, &$msg ) {
-	$baseDir = mosPathName( JPATH_SITE . DS .'media' );
+function uploadFile( $filename, $userfile_name, &$msg ) 
+{
+	$baseDir = JPath::clean( JPATH_SITE . DS .'media' );
 
 	return JFile::upload($filename, $baseDir . $userfile_name, $msg );
 	
@@ -266,17 +284,52 @@ function uploadFile( $filename, $userfile_name, &$msg ) {
 //	return false;
 }
 
-/**
-* Temporary Updater
-*/
-function doUpdate() {
-	?>Updater not written yet, but this is where it would go if it was!<?php
-}
+function &autoInstallGeneric($method=null,$data=null,$type=null) 
+{
+	$msg = "SUCCESS";
+
+	$installer = JInstaller::getInstance($type);
+		
+	switch($method) 
+	{
+		case 'upload':
+			$userfile = mosGetParam( $_FILES, 'userfile', null );
+			if (!$installer->uploadArchive( $userfile )) {
+				$msg = $installer->error();
+			}
+			if (!$installer->extractArchive()) {
+				$msg = $installer->error();
+			}
+			break;
+		default:
+			$extractdir = $data;
+			$installer->installDir( $extractdir );
+            // Try to find the correct install dir. in case that the package have subdirs
+          	// Save the install dir for later cleanup
+			$filesindir = mosReadDirectory( $installer->installDir(), '' );
+
+			if (count( $filesindir ) == 1) {
+				if (is_dir( $extractdir . $filesindir[0] )) {
+					$installer->installDir( JPath::clean( $extractdir . $filesindir[0] ) );
+				}
+			}
+			break;
+		}
+            
+		if (!$installer->install()) {
+			//	$installer->cleanupInstall();
+			$msg = $installer->error();
+        }
+		
+		$installer->msg = $msg;
+		return $installer;
+	}
 
 /**
 * Unified intaller
 */
-function doInstaller() {
+function doInstaller() 
+{
 	global $option;
 	HTML_installer::showInstallForm( $option, 'element', '', dirname(__FILE__) );
 ?>

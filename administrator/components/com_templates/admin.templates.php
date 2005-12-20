@@ -107,9 +107,9 @@ function viewTemplates( $option, $client ) {
 	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
 
 	if ($client == 'admin') {
-		$templateBaseDir = mosPathName( JPATH_ADMINISTRATOR . '/templates' );
+		$templateBaseDir = JPath::clean( JPATH_ADMINISTRATOR . '/templates' );
 	} else {
-		$templateBaseDir = mosPathName( JPATH_SITE . '/templates' );
+		$templateBaseDir = JPath::clean( JPATH_SITE . '/templates' );
 	}
 
 	$rows = array();
@@ -138,7 +138,7 @@ function viewTemplates( $option, $client ) {
 	$rowid = 0;
 	// Check that the directory contains an xml file
 	foreach($templateDirs as $templateDir) {
-		$dirName = mosPathName($templateBaseDir . $templateDir);
+		$dirName = JPath::clean($templateBaseDir . $templateDir);
 		$xmlFilesInDir = mosReadDirectory($dirName,'.xml$');
 
 		foreach($xmlFilesInDir as $xmlfile) {

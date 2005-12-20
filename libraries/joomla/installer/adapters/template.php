@@ -3,7 +3,6 @@
 * @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
-* @subpackage Installer
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -14,15 +13,27 @@
 
 /**
 * Template installer
+* 
 * @package Joomla
 * @subpackage Installer
 */
-class mosInstallerTemplate extends mosInstaller {
+class JInstallerTemplate extends JInstaller 
+{
+ 	/**
+	 * Constructor
+	 *
+	 * @access protected
+	 */
+	function __construct() {
+		parent::__construct();
+	}
+	
 	/**
 	* Custom install method
 	* @param boolean True if installing from directory
 	*/
-	function install( $p_fromdir = null ) {
+	function install( $p_fromdir = null ) 
+	{
 		global $database;
 
 		if (!$this->preInstallCheck( $p_fromdir, 'template' )) {
@@ -85,11 +96,13 @@ class mosInstallerTemplate extends mosInstaller {
 	}
 	/**
 	* Custom install method
+	* 
 	* @param int The id of the module
 	* @param string The URL option
 	* @param int The client id
 	*/
-	function uninstall( $id, $option, $client=0 ) {
+	function uninstall( $id, $option, $client=0 ) 
+	{
 		global $database;
 
 		// Delete directories

@@ -2,7 +2,6 @@
 /**
 * @version $Id$
 * @package Joomla
-* @subpackage Installer
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -14,17 +13,28 @@
 
 /**
 * Component installer
+* 
 * @package Joomla
 * @subpackage Installer
 */
-class mosInstallerComponent extends mosInstaller {
+class JInstallerComponent extends JInstaller 
+{
 	var $i_componentadmindir 	= '';
 	var $i_hasinstallfile 		= false;
 	var $i_installfile 			= '';
+	
+	/**
+	 * Constructor
+	 *
+	 * @access protected
+	 */
+	function __construct() {
+		parent::__construct();
+	}
 
 	function componentAdminDir($p_dirname = null) {
 		if(!is_null($p_dirname)) {
-			$this->i_componentadmindir = mosPathName($p_dirname);
+			$this->i_componentadmindir = JPath::clean($p_dirname);
 		}
 		return $this->i_componentadmindir;
 	}
@@ -47,10 +57,10 @@ class mosInstallerComponent extends mosInstaller {
 		// Set some vars
 		$e = &$mosinstall->getElementsByPath('name', 1);
 		$this->elementName($e->getText());
-		$this->elementDir( mosPathName( JPATH_SITE . DS ."components". DS
+		$this->elementDir( JPath::clean( JPATH_SITE . DS ."components". DS
 			. strtolower("com_" . str_replace(" ","",$this->elementName())) . DS )
 		);
-		$this->componentAdminDir( mosPathName( JPATH_SITE . DS."administrator".DS."components".DS
+		$this->componentAdminDir( JPath::clean( JPATH_SITE . DS."administrator".DS."components".DS
 			. strtolower( "com_" . str_replace( " ","",$this->elementName() ) ) )
 		);
 
@@ -284,7 +294,7 @@ class mosInstallerComponent extends mosInstaller {
 		}
 
 		// Try to find the XML file
-		$filesindir = mosReadDirectory( mosPathName( JPATH_ADMINISTRATOR.DS.'components'.DS.$row->option ), '.xml$');
+		$filesindir = mosReadDirectory( JPath::clean( JPATH_ADMINISTRATOR.DS.'components'.DS.$row->option ), '.xml$');
 		if (count($filesindir) > 0) {
 			$ismosinstall = false;
 			$found = 0;

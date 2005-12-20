@@ -1,8 +1,7 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: installer.php 1478 2005-12-20 02:36:15Z Jinx $
 * @package Joomla
-* @subpackage Installer
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -12,15 +11,17 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport( 'joomla.classes.object' );
 
 /**
 * Installer class
+* 
 * @package Joomla
 * @subpackage Installer
 * @abstract
 */
-class mosInstaller {
-	// name of the XML file with installation information
+class JInstaller extends JObject 
+{
 	var $i_installfilename	= "";
 	var $i_installarchive	= "";
 	var $i_installdir		= '';
@@ -30,7 +31,7 @@ class mosInstaller {
 	var $i_installtype		= '';
 	var $i_unpackdir		= '';
 	var $i_docleanup		= true;
-	var $msg			= '';
+	var $msg				= '';
 
 	/** @var string The directory where the element is to be installed */
 	var $i_elementdir 		= '';
@@ -48,17 +49,48 @@ class mosInstaller {
 	/**
 	* Constructor
 	*/
-	function mosInstaller() {
+	function __construct() 
+	{
 		$this->i_iswin = (substr(PHP_OS, 0, 3) == 'WIN');
-                $this->allowOverwrite( mosGetParam( $_POST, 'overwrite', 0 ) );
+        $this->allowOverwrite( mosGetParam( $_POST, 'overwrite', 0 ) );
 	}
+	
+	/**
+	 * Returns a reference to the global Installer object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @param type $type The installer type to instantiate
+	 * @return database A database object
+	 * @since 1.1
+	*/
+	function &getInstance( $type=null) 
+	{
+		static $instances;
+
+		if (!isset( $instances )) {
+			$instances = array();
+		}
+
+		$signature = serialize(array($type));
+
+		if (empty($instances[$signature])) {
+			jimport('joomla.installer.adapters.'.$type);
+			$adapter = 'JInstaller'.$type;
+			$instances[$signature] = new $adapter();
+		}
+
+		return $instances[$signature];
+	}
+	
 	/**
 	* Uploads and unpacks a file
+	* 
 	* @param string The uploaded package filename or install directory
 	* @param boolean True if the file is an archive file
 	* @return boolean True on success, False on error
 	*/
-	function upload($p_filename = null, $p_unpack = true) {
+	function upload($p_filename = null, $p_unpack = true) 
+	{
 		$this->i_iswin = (substr(PHP_OS, 0, 3) == 'WIN');
 		$this->installArchive( $p_filename );
 
@@ -74,7 +106,8 @@ class mosInstaller {
 	/**
 	* Description: Gets a file name out of a url
 	*/
-	function getFilenameFromURL($url) {
+	function getFilenameFromURL($url) 
+	{
 		if(is_string($url)) {
 			$parts = split('/', $url);
 			return $parts[count($parts)-1];
@@ -85,7 +118,8 @@ class mosInstaller {
 	/**
 	* Description: Creates a new template position if it doesn't exist already
 	*/
-	function createTemplatePosition($position) {
+	function createTemplatePosition($position) 
+	{
 		global $database;
 		if($position) {
 			$database->setQuery("SELECT id FROM #__template_positions WHERE position = '$position'");
@@ -99,11 +133,12 @@ class mosInstaller {
 
 	/**
 	* Downloads a package
+	* 
 	* @param string URL of file to download
 	* @param string Download target
 	*/
-	function downloadPackage($url,$target=false) {
-
+	function downloadPackage($url,$target=false) 
+	{
 		$php_errormsg = 'Error Unknown';
 		ini_set('track_errors',true);
 
@@ -140,9 +175,11 @@ class mosInstaller {
 
 	/**
 	* Extracts the package archive file
+	* 
 	* @return boolean True on success, False on error
 	*/
-	function extractArchive() {
+	function extractArchive() 
+	{
 		$base_Dir 		= JPath::clean( JPATH_SITE . DS .'media' );
 
 		$archivename 	= $base_Dir . $this->installArchive();
@@ -194,12 +231,14 @@ class mosInstaller {
 		}
 		return true;
 	}
+	
 	/**
 	* Tries to find the package XML file
+	* 
 	* @return boolean True on success, False on error
 	*/
-	function findInstallFile() {
-
+	function findInstallFile() 
+	{
 		$found = false;
 		// Search the install dir for an xml file
 		$files = JFolder::files( $this->installDir(), '.xml$', true, true );
@@ -219,11 +258,13 @@ class mosInstaller {
 			return false;
 		}
 	}
+	
 	/**
 	* @param string A file path
 	* @return object A DOMIT XML document, or null if the file failed to parse
 	*/
-	function isPackageFile( $p_file ) {
+	function isPackageFile( $p_file ) 
+	{
 		$xmlDoc =& JFactory::getXMLParser();
 		$xmlDoc->resolveErrors( true );
 
@@ -245,11 +286,14 @@ class mosInstaller {
 		$this->installFilename( $p_file );
 		return $xmlDoc;
 	}
+	
 	/**
 	* Loads and parses the XML setup file
+	* 
 	* @return boolean True on success, False on error
 	*/
-	function readInstallFile() {
+	function readInstallFile() 
+	{
 		if ($this->installFilename() == "") {
 			$this->setError( 1, JText::_( 'No filename specified' ) );
 			return false;
@@ -271,31 +315,35 @@ class mosInstaller {
 		$this->installType( $root->getAttribute( 'type' ) );
 		return true;
 	}
+	
 	/**
 	* Abstract install method
 	*/
 	function install() {
 		die( JText::_( 'Method "install" cannot be called by class' ) .' ' . strtolower(get_class( $this )) );
 	}
+	
 	/**
 	* Abstract uninstall method
 	*/
 	function uninstall() {
 		die( JText::_( 'Method "uninstall" cannot be called by class' ) .' ' . strtolower(get_class( $this )) );
 	}
+	
 	/**
 	* return to method
 	*/
 	function returnTo( $option, $element ) {
 		return "index2.php?option=$option&element=$element";
 	}
+	
 	/**
 	* @param string Install from directory
 	* @param string The install type
 	* @return boolean
 	*/
-	function preInstallCheck( $p_fromdir, $type ) {
-
+	function preInstallCheck( $p_fromdir, $type ) 
+	{
 		if (!is_null($p_fromdir)) {
 			$this->installDir($p_fromdir);
 		}
@@ -321,6 +369,7 @@ class mosInstaller {
 
 		return true;
 	}
+	
 	/**
 	* @param string The tag name to parse
 	* @param string An attribute to search for in a filename element
@@ -328,7 +377,8 @@ class mosInstaller {
 	* @param boolean True for Administrator components
 	* @return mixed Number of file or False on error
 	*/
-	function parseFiles( $tagName='files', $special='', $specialError='', $adminFiles=0 ) {
+	function parseFiles( $tagName='files', $special='', $specialError='', $adminFiles=0 ) 
+	{
 		// Find files to copy
 		$xmlDoc =& $this->xmlDoc();
 		$root =& $xmlDoc->documentElement;
@@ -350,12 +400,12 @@ class mosInstaller {
 		}
 
 		if ($folder = $files_element->getAttribute( 'folder' )) {
-			$temp = mosPathName( $this->unpackDir() . $folder );
+			$temp = JPath::clean( $this->unpackDir() . $folder );
 			if ($temp == $this->installDir()) {
 				// this must be only an admin component
 				$installFrom = $this->installDir();
 			} else {
-				$installFrom = mosPathName( $this->installDir() . $folder );
+				$installFrom = JPath::clean( $this->installDir() . $folder );
 			}
 		} else {
 			$installFrom = $this->installDir();
@@ -394,7 +444,7 @@ class mosInstaller {
 
 		if ($tagName == 'media') {
 			// media is a special tag
-			$installTo = mosPathName( JPATH_SITE . DS .'images'.DS.'stories' );
+			$installTo = JPath::clean( JPATH_SITE . DS .'images'.DS.'stories' );
 		} else if ($adminFiles) {
 			$installTo = $this->componentAdminDir();
 		} else {
@@ -404,6 +454,7 @@ class mosInstaller {
 
 		return $result;
 	}
+	
 	/**
 	* @param string Source directory
 	* @param string Destination directory
@@ -411,8 +462,8 @@ class mosInstaller {
 	* @param boolean True is existing files can be replaced
 	* @return boolean True on success, False on error
 	*/
-	function copyFiles( $p_sourcedir, $p_destdir, $p_files, $overwrite=false ) {
-
+	function copyFiles( $p_sourcedir, $p_destdir, $p_files, $overwrite=false ) 
+	{
 		$overwrite = $this->allowOverwrite();
 
 		if (is_array( $p_files ) && count( $p_files ) > 0) {
@@ -438,12 +489,15 @@ class mosInstaller {
 		}
 		return count( $p_files );
 	}
+	
 	/**
 	* Copies the XML setup file to the element Admin directory
+	* 
 	* Used by Components/Modules/Mambot Installer Installer
 	* @return boolean True on success, False on error
 	*/
-	function copySetupFile( $where='admin' ) {
+	function copySetupFile( $where='admin' ) 
+	{
 		if ($where == 'admin') {
 			return $this->copyFiles( $this->installDir(), $this->componentAdminDir(), array( basename( $this->installFilename() ) ), true );
 		} else if ($where == 'front') {
@@ -459,6 +513,7 @@ class mosInstaller {
 		$this->errno( $p_errno );
 		$this->error( $p_error );
 	}
+	
 	/**
 	* @param boolean True to display both number and message
 	* @param string The error message
@@ -471,6 +526,7 @@ class mosInstaller {
 			return $this->error();
 		}
 	}
+	
 	/**
 	* @param string The name of the property to set/get
 	* @param mixed The value of the property to set
@@ -487,7 +543,8 @@ class mosInstaller {
 		return $this->setVar( 'allowOverwrite', $p_allowOverwrite );
 	}
 
-	function installFilename( $p_filename = null ) {
+	function installFilename( $p_filename = null ) 
+	{
 		if(!is_null($p_filename)) {
 			if($this->isWindows()) {
 				$this->i_installfilename = str_replace('/','\\',$p_filename);
@@ -550,42 +607,57 @@ class mosInstaller {
 	}
 }
 
-/**
- * Clean up temporary uploaded package and unpacked element
- * 
- * @param string $userfile_name Path to the uploaded package file
- * @param string $resultdir Path to the unpacked element
- * @return boolean True on success
- */
-function cleanupInstall( $userfile_name, $resultdir) {
-	if (file_exists( $resultdir )) {
-		JFolder::delete( $resultdir );
-		JFile::delete( JPath::clean( JPATH_SITE . DS .'media'. DS . $userfile_name, false ) );
-		return true;
-	} 
+class JInstallerHelper
+{
+	function detectType( $location ) 
+	{
+		$found = false;
+		// Search the install dir for an xml file
+		$files = JFolder::files( $location, '\.xml$', true, true );
+
+		if (count( $files ) > 0) {
+
+			foreach ($files as $file) {
+				$xmlDoc =& JFactory::getXMLParser();
+				$xmlDoc->resolveErrors( true );
+
+				if (!$xmlDoc->loadXML( $file, false, true )) {
+					return false;
+				}
+				$root = &$xmlDoc->documentElement;
+
+				if ($root->getTagName() != "mosinstall") {
+					continue;
+				}
+//				echo "<p>Looking at file $file, I consider it to be a valid installer file.</p>";
+				return $root->getAttribute( 'type' );
+
+			}
+//			$this->setError( 1, JText::_( 'ERRORNOTFINDMAMBOXMLSETUPFILE' ) );
+			return false;
+		} else {
+//			$this->setError( 1, JText::_( 'ERRORNOTFINDXMLSETUPFILE' ) );
+			return false;
+		}
+		return false;
+	}
+	
+	/**
+	 * Clean up temporary uploaded package and unpacked element
+ 	* 
+ 	* @param string $userfile_name Path to the uploaded package file
+ 	* @param string $resultdir Path to the unpacked element
+ 	* @return boolean True on success
+ 	*/
+	function cleanupInstall( $userfile_name, $resultdir) 
+	{
+		if (file_exists( $resultdir )) {
+			JFolder::delete( $resultdir );
+			JFile::delete( JPath::clean( JPATH_SITE . DS .'media'. DS . $userfile_name, false ) );
+			return true;
+		}	 	
+	}
 }
 
-/**
- * Delete a directory recursively
- * Use JFolder::delete($path)
- * 
- * @deprecated As of version 1.1
- */
-function deldir( $dir ) {
-	$current_dir = opendir( $dir );
-	$old_umask = umask(0);
-	while ($entryname = readdir( $current_dir )) {
-		if ($entryname != '.' and $entryname != '..') {
-			if (is_dir( $dir . $entryname )) {
-				deldir( mosPathName( $dir . $entryname ) );
-			} else {
-                @chmod($dir . $entryname, 0777);
-				unlink( $dir . $entryname );
-			}
-		}
-	}
-	umask($old_umask);
-	closedir( $current_dir );
-	return rmdir( $dir );
-}
+
 ?>

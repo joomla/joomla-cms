@@ -47,6 +47,28 @@ function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  
 }
 
 /**
+ * Legacy function, use JFolder::delete($path)
+ * @deprecated As of version 1.1
+ */
+function deldir( $dir ) {
+	$current_dir = opendir( $dir );
+	$old_umask = umask(0);
+	while ($entryname = readdir( $current_dir )) {
+		if ($entryname != '.' and $entryname != '..') {
+			if (is_dir( $dir . $entryname )) {
+				deldir( mosPathName( $dir . $entryname ) );
+			} else {
+                @chmod($dir . $entryname, 0777);
+				unlink( $dir . $entryname );
+			}
+		}
+	}
+	umask($old_umask);
+	closedir( $current_dir );
+	return rmdir( $dir );
+}
+
+/**
 * Legacy function, use JFolder::create
 * @deprecated As of version 1.1
 */

@@ -69,9 +69,9 @@ function showInstalledModules( $_option ) {
 
 		// path to module directory
 		if ($row->client_id == "1"){
-			$moduleBaseDir	= mosPathName( mosPathName( JPATH_ADMINISTRATOR ) . "modules" );
+			$moduleBaseDir	= JPath::clean( JPath::clean( JPATH_ADMINISTRATOR ) . "modules" );
 		} else {
-			$moduleBaseDir	= mosPathName( mosPathName( JPATH_SITE ) . "modules" );
+			$moduleBaseDir	= JPath::clean( JPath::clean( JPATH_SITE ) . "modules" );
 		}
 
 		// xml file for module

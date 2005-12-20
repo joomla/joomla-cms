@@ -2,7 +2,6 @@
 /**
 * @version $Id$
 * @package Joomla
-* @subpackage Installer
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -14,15 +13,27 @@
 
 /**
 * Language installer
+* 
 * @package Joomla
 * @subpackage Installer
 */
-class mosInstallerLanguage extends mosInstaller {
+class JInstallerLanguage extends JInstaller 
+{
+	/**
+	 * Constructor
+	 *
+	 * @access protected
+	 */
+	function __construct() {
+		parent::__construct();
+	}
+	
 	/**
 	* Custom install method
 	* @param boolean True if installing from directory
 	*/
-	function install( $p_fromdir = null ) {
+	function install( $p_fromdir = null ) 
+	{
 		global $database;
 
 		if (!$this->preInstallCheck( $p_fromdir, 'language' )) {
@@ -53,7 +64,8 @@ class mosInstallerLanguage extends mosInstaller {
 	* @param string The URL option
 	* @param int The client id
 	*/
-	function uninstall( $id, $option, $client=0 ) {
+	function uninstall( $id, $option, $client=0 ) 
+	{
 		$id = str_replace( array( '\\', '/' ), '', $id );
 
 		$basepath = JPATH_SITE . DS .'language'. DS;

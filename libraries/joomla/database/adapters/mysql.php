@@ -18,7 +18,8 @@
 * @package Joomla
 * @subpackage Database
 */
-class JDatabaseMySQL extends JDatabase {
+class JDatabaseMySQL extends JDatabase 
+{
 	/** @var string The null/zero date string */
 	var $_nullDate		= '0000-00-00 00:00:00';
 	/** @var string Quote for named objects */

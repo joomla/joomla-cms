@@ -109,7 +109,7 @@ class JDatabase extends JObject {
 	}
 
 	/**
-	 * Returns a reference to the global Browser object, only creating it
+	 * Returns a reference to the global Database object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @param string  Database driver
@@ -634,11 +634,13 @@ class JDatabase extends JObject {
 /**
  * Simple Record Set object to allow our database connector to be used with
  * ADODB driven 3rd party libraries
+ * 
  * @package Joomla
  * @subpackage Database
  * @since 1.1
  */
-class JSimpleRecordSet {
+class JSimpleRecordSet 
+{
 	/** @var array */
 	var $data	= null;
 	/** @var int Index to current record */

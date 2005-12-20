@@ -22,7 +22,7 @@ if ( !$acl->acl_check( 'com_installer', $element, 'users', $my->usertype ) ) {
 
 $client 	= mosGetParam( $_REQUEST, 'client', '' );
 $userfile 	= mosGetParam( $_REQUEST, 'userfile', dirname( __FILE__ ) );
-$userfile 	= mosPathName( $userfile );
+$userfile 	= JPath::clean( $userfile );
 
 HTML_installer::showInstallForm( JText::_( 'Install new Template' ) .'<small><small>[ ' . ($client == 'admin' ? JText::_( 'Administrator' ) : JText::_( 'Site' ) ) .' ]</small></small>',
 	$option, 'template', $client, $userfile,

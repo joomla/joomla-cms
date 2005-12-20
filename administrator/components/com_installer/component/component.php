@@ -52,7 +52,7 @@ function showInstalledComponents( $option ) {
 	$rows = $database->loadObjectList();
 
 	// Read the component dir to find components
-	$componentBaseDir	= mosPathName( JPATH_ADMINISTRATOR . '/components' );
+	$componentBaseDir	= JPath::clean( JPATH_ADMINISTRATOR . '/components' );
 	$componentDirs 		= mosReadDirectory( $componentBaseDir );
 
 	$n = count( $rows );
