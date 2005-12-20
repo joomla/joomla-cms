@@ -33,6 +33,8 @@ Legend:
 
 20-Dec-2005 Levis Bisson
  ^ Changed the translation text Mambots to Plugins
+ # Reworked the "load" language function for Modules and Mambots translation
+ # Fixed path for site or admin modules in the backend
  
 20-Dec-2005 Johan Janssens
  # Fixed artf2664 : errors in php_text_cache.php + functions.php

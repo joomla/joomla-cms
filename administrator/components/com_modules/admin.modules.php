@@ -420,7 +420,11 @@ function editModule( $option, $uid, $client ) {
 	$row->description = '';
 
     $lang =& $mainframe->getLanguage();    
-    $lang->load( trim($row->module), JPATH_SITE );
+	if ( $client != 'admin' ) {
+        $lang->load( trim($row->module), JPATH_SITE );
+	} else {
+        $lang->load( trim($row->module) );
+	}
 	
 	// xml file for module
 	$xmlfile = $mainframe->getPath( $path, $row->module );
