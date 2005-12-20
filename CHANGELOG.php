@@ -47,6 +47,7 @@ Legend:
  # Fixed artf1410 : 'Special' access menu locks out 'public' menu's articles "read more" content
  # Fixed artf2595 : Deleted "mass mail" item menu in component menu
  # Fixed artf2518 : mod_latestnews problem
+ # Fixed artf2665 : Most Read module generates incorrect class for <li> statement
 
 19-Dec-2005 Johan Janssens
  ^ Refined mbstring installation checks - contributed by David Gal
