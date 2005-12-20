@@ -719,31 +719,6 @@ class JApplication extends JObject {
 		return $result;
 	}
 
-	/**
-	 * Gets the base path for the client
-	 * @param mixed A client identifier
-	 * @param boolean True (default) to add traling slash
-	 */
-	function getBasePath( $addTrailingSlash=true, $client = null ) {
-		$client = is_null($client) ? $this->_client : $client;
-
-		switch ($client) {
-
-			case '2':
-				return JPath::clean( JPATH_SITE . DS.'installation', $addTrailingSlash );
-				break;
-
-			case '1':
-				return JPath::clean( JPATH_ADMINISTRATOR, $addTrailingSlash );
-				break;
-
-			case '0':
-			default:
-				return JPath::clean( JPATH_SITE, $addTrailingSlash );
-				break;
-
-		}
-	}
 
 	/**
 	 * Gets the client id

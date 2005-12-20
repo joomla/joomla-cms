@@ -33,6 +33,7 @@ Legend:
 
 20-Dec-2005 Johan Janssens
  # Fixed artf2664 : errors in php_text_cache.php + functions.php
+ # Fixed artf2606 : JApplication::getBasePath interface changed from Joomla 1.0.4
 
 19-Dec-2005 Johan Janssens
  ^ Refined mbstring installation checks - contributed by David Gal

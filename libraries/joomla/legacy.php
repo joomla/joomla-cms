@@ -156,6 +156,36 @@ class mosMainFrame extends JApplication {
 	function initSession( ) {
 		//do nothing, contructor handles session creation
 	}
+	
+	/**
+	 * Gets the base path for the client
+	 * @param mixed A client identifier
+	 * @param boolean True (default) to add traling slash
+	 */
+	function getBasePath( $client=0, $addTrailingSlash=true ) {
+		global $mosConfig_absolute_path;
+
+		switch ($client) {
+			case '0':
+			case 'site':
+			case 'front':
+			default:
+				return mosPathName( $mosConfig_absolute_path, $addTrailingSlash );
+				break;
+
+			case '2':
+			case 'installation':
+				return mosPathName( $mosConfig_absolute_path . '/installation', $addTrailingSlash );
+				break;
+
+			case '1':
+			case 'admin':
+			case 'administrator':
+				return mosPathName( $mosConfig_absolute_path . '/administrator', $addTrailingSlash );
+				break;
+
+		}
+	}
 }
 
 /**
