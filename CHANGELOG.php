@@ -44,6 +44,7 @@ Legend:
  # Fixed artf2534 : Template chooser no lonnger able to manage SEF urls / XHTML validation
  # Fixed artf2676 : Tiny Mce and entity encoding
  # Fixed artf1410 : 'Special' access menu locks out 'public' menu's articles "read more" content
+ # Fixed artf2595 : Deleted "mass mail" item menu in component menu
 
 19-Dec-2005 Johan Janssens
  ^ Refined mbstring installation checks - contributed by David Gal

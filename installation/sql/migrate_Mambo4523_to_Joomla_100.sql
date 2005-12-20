@@ -2,6 +2,8 @@
 
 # Converts Mambo 4.5.2.3 to Joomla! 1.0
 
+INSERT INTO `mos_components` VALUES (0, 'Mass Mail', '', 0, 0, 'option=com_massmail', 'Send Mass Mail', 'com_massmail', 7, 'js/ThemeOffice/mass_email.png', 0, '');
+
 DELETE FROM `mos_modules` WHERE `title` = 'Mamboforge' AND `position` = 'cpanel';
 
 UPDATE `mos_templates_menu` SET `template` = 'joomla_admin' WHERE `template` = 'mambo_admin_blue' AND `client_id` = '1' LIMIT 1;
