@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Dec-2005 Johan Janssens
+ # Fixed artf2664 : errors in php_text_cache.php + functions.php
+
 19-Dec-2005 Johan Janssens
  ^ Refined mbstring installation checks - contributed by David Gal
  ^ Renamed Pathway to Breadcrumbs - contributed by Louis Landry
