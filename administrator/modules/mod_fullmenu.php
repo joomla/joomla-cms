@@ -383,7 +383,7 @@ class mosFullAdminMenu {
 			if ( $installMambots | $editAllMambots) {
 				?>
 				_cmSplit,
-				[null,'<?php echo JText::_( 'Mambots', true ); ?>',null,null,'<?php echo $text; ?>'
+				[null,'<?php echo JText::_( 'Plugins', true ); ?>',null,null,'<?php echo $text; ?>'
 				],
 				<?php
 			} // if ( $installMambots | $editAllMambots)
