@@ -203,10 +203,6 @@ class HTML_modules {
 	function editModule( &$row, &$orders2, &$lists, &$params, $option, $client ) {
 		global $mainframe;
 
-		$lang =& $mainframe->getLanguage();
-
-		$lang->load($row->module, $row->client_id);
-
 		$row->titleA = '';
 		if ( $row->id ) {
 			$row->titleA = '<small><small>[ '. $row->title .' ]</small></small>';
@@ -322,7 +318,7 @@ class HTML_modules {
 					<?php echo JText::_( 'Description' ); ?>:
 					</td>
 					<td>
-					<?php echo $row->description; ?>
+					<?php echo JText::_($row->description); ?>
 					</td>
 				</tr>
 				</table>

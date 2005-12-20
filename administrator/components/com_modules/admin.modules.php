@@ -343,7 +343,6 @@ function editModule( $option, $uid, $client ) {
 		$where 				= 'client_id = 0';
 		$lists['client_id'] = 0;
 		$path				= 'mod0_xml';
-        $sitePath           = 1;  //for frontend language file
 	}
 	$query = "SELECT position, ordering, showtitle, title"
 	. "\n FROM #__modules"
@@ -421,7 +420,8 @@ function editModule( $option, $uid, $client ) {
 	$row->description = '';
 
     $lang =& $mainframe->getLanguage();    
-    $lang->load( trim($row->module), $sitePath );
+    $lang->load( trim($row->module), JPATH_SITE );
+	
 	// xml file for module
 	$xmlfile = $mainframe->getPath( $path, $row->module );
 	$xmlDoc =& JFactory::getXMLParser();

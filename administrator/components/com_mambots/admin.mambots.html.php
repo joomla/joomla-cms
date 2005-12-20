@@ -253,7 +253,7 @@ class HTML_modules {
 					<?php echo JText::_( 'Description' ); ?>:
 					</td>
 					<td>
-					<?php echo $row->description; ?>
+					<?php echo JText::_( $row->description ); ?>
 					</td>
 				</tr>
 				</table>

@@ -32,7 +32,6 @@ Legend:
 ! -> Note
 
 20-Dec-2005 Levis Bisson
- ^ Reworked the load language function for modules and plugins translation
  ^ Changed the translation text Mambots to Plugins
  
 20-Dec-2005 Johan Janssens

@@ -174,25 +174,25 @@ class JLanguage extends JObject
 	 * Loads a single langauge file and appends the results to the existing strings
 	 * 
 	 * @access public
-	 * @param string 	$prefix The prefix
+	 * @param string 	$prefix 	The prefix
+	 * @param string 	$basePath  	The basepath to use
 	 * $return boolean	True, if the file has succesfully loaded.
 	 */
-	function load( $prefix = '', $sitePath = NULL ) {
-
-        $pathBase = !$sitePath ? JPATH_BASE : JPATH_SITE;
-        $basePath = JLanguage::getLanguagePath( $pathBase, $this->_lang);
+	function load( $prefix = '', $basePath = JPATH_BASE ) 
+	{
+        $path = JLanguage::getLanguagePath( $basePath, $this->_lang);
 
 		$filename = empty( $prefix ) ?  $this->_lang : $this->_lang . '.' . $prefix ;
 		
 		$result = false;
-		if (file_exists( $basePath . $filename .'.ini') ) {
+		if (file_exists( $path . $filename .'.ini') ) {
 			
 			//NOTE : Caching is slower
 			//$langGroup = 'Lang'.$this->_lang;
 			//$loadCache = JFactory::getCache($langGroup, 'JCache_Language');
 			//$newStrings = $loadCache->load(substr($langGroup, 4), $this, $basePath . $filename .'.ini');
 
-			$newStrings = $this->_load( $basePath . $filename .'.ini' );
+			$newStrings = $this->_load( $path . $filename .'.ini' );
 
 			if (is_array($newStrings)) {
 				$this->_strings = array_merge( $this->_strings, $newStrings);
