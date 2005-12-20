@@ -172,10 +172,13 @@ function showCategories( $section, $option ) {
 		$order 			= "\n ORDER BY c.section, c.ordering, c.name";
 		$section_name 	= JText::_( 'All Content:' );
 		// get the total number of records
+		// get the total number of records
 		$query = "SELECT COUNT(*)"
 		. "\n FROM #__categories"
-		. "\n INNER JOIN #__sections AS s ON s.id = section"
-		;
+		. "\n INNER JOIN #__sections AS s ON s.id = section";
+		if ( $sectionid > 0 ) {
+			$query .= "\n WHERE section = '$sectionid'";
+		}
 		$database->setQuery( $query );
 		$total = $database->loadResult();
 		$type 			= 'content';
