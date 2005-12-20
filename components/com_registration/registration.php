@@ -94,7 +94,7 @@ function sendNewPass( $option ) {
 		die("SQL error" . $database->stderr(true));
 	}
 
-	mosRedirect( "index.php?Itemid=$Itemid&mosmsg=". JText::_( 'New User Password created and sent!' ) );
+	mosRedirect( "index.php?option=com_registration&mosmsg=". JText::_( 'New User Password created and sent!' ) );
 }
 
 function registerForm( $option, $useractivation ) {
