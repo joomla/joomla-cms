@@ -253,7 +253,9 @@ function editMambot( $option, $uid, $client ) {
 		}
 		$lists['folder'] = '<input type="hidden" name="folder" value="'. $row->folder .'" />'. $row->folder;
 
-		// xml file for module
+        $lang =& $mainframe->getLanguage();
+        $lang->load( trim('bot_'. $row->element), 1 );
+		// xml file for plugins
 		$xmlfile = JPATH_SITE . '/mambots/' .$row->folder . '/' . $row->element .'.xml';
 		$xmlDoc =& JFactory::getXMLParser();
 		$xmlDoc->resolveErrors( true );

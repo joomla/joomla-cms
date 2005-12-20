@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Dec-2005 Levis Bisson
+ ^ Reworked the load language function for modules and plugins translation
+ ^ Changed the translation text Mambots to Plugins
+ 
 20-Dec-2005 Johan Janssens
  # Fixed artf2664 : errors in php_text_cache.php + functions.php
  # Fixed artf2606 : JApplication::getBasePath interface changed from Joomla 1.0.4

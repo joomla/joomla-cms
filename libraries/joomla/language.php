@@ -177,9 +177,11 @@ class JLanguage extends JObject
 	 * @param string 	$prefix The prefix
 	 * $return boolean	True, if the file has succesfully loaded.
 	 */
-	function load( $prefix = '') {
+	function load( $prefix = '', $sitePath = NULL ) {
 
-		$basePath = JLanguage::getLanguagePath( JPATH_BASE, $this->_lang);
+        $pathBase = !$sitePath ? JPATH_BASE : JPATH_SITE;
+        $basePath = JLanguage::getLanguagePath( $pathBase, $this->_lang);
+
 		$filename = empty( $prefix ) ?  $this->_lang : $this->_lang . '.' . $prefix ;
 		
 		$result = false;
