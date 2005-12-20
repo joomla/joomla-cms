@@ -410,7 +410,8 @@ class HTML_content {
 			// checks if the item is a public or registered/special item
 			if ( $row->access <= $gid ) {
 				if ($task != "view") {
-					$_Itemid = JApplicationHelper::getItemid( $row->id, 0, 0, $ItemidCount['bs'], $ItemidCount['bc'], $ItemidCount['gbs'] );
+					//Fixed artifact 1410
+					//$_Itemid = JApplicationHelper::getItemid( $row->id, 0, 0, $ItemidCount['bs'], $ItemidCount['bc'], $ItemidCount['gbs'] );
 				}
 				$link_on = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$row->id."&amp;Itemid=".$_Itemid);
 				//if ( strlen( trim( $row->fulltext ) )) {

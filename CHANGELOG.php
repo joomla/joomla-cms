@@ -43,6 +43,7 @@ Legend:
  # Fixed artf1712 : Search Mambots return duplicate results
  # Fixed artf2534 : Template chooser no lonnger able to manage SEF urls / XHTML validation
  # Fixed artf2676 : Tiny Mce and entity encoding
+ # Fixed artf1410 : 'Special' access menu locks out 'public' menu's articles "read more" content
 
 19-Dec-2005 Johan Janssens
  ^ Refined mbstring installation checks - contributed by David Gal
