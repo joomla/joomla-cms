@@ -41,6 +41,7 @@ Legend:
  # Fixed artf2389 : gzip compression not operational
  # Fixed artf2599 : loosing Itemid afet submitting "ask for new password"
  # Fixed artf1712 : Search Mambots return duplicate results
+ # Fixed artf2534 : Template chooser no lonnger able to manage SEF urls / XHTML validation
 
 19-Dec-2005 Johan Janssens
  ^ Refined mbstring installation checks - contributed by David Gal

@@ -75,7 +75,7 @@ if ($show_preview) {
 <?php
 }
 ?>
-<form action="<?php echo $_SERVER['REQUEST_URI'];?>" name='templateform' method="post">
+<form action="index.php" name="templateform" method="post">
 	<?php
 	echo mosHTML::selectList( $darray, 'jos_change_template', "id=\"mod_templatechooser_jos_change_template\" class=\"button\" onchange=\"$onchange\"",'value', 'text', $cur_template );
 	?>
