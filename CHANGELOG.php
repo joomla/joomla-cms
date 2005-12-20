@@ -31,10 +31,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Dec-2005 Emir Sakic
+ # Fixed artf2432 : Apostrophe in paths isn't escaped properly
+
 20-Dec-2005 Levis Bisson
  ^ Changed the translation text Mambots to Plugins
  # Fixed path for site or admin modules in the backend
- 
+
 20-Dec-2005 Johan Janssens
  # Fixed artf2664 : errors in php_text_cache.php + functions.php
  # Fixed artf2606 : JApplication::getBasePath interface changed from Joomla 1.0.4
@@ -42,7 +45,7 @@ Legend:
  # Fixed artf2389 : gzip compression not operational
  # Fixed artf2599 : loosing Itemid afet submitting "ask for new password"
  # Fixed artf1712 : Search Mambots return duplicate results
- # Fixed artf2534 : Template chooser no lonnger able to manage SEF urls / XHTML validation
+ # Fixed artf2534 : Template chooser no longer able to manage SEF urls / XHTML validation
  # Fixed artf2676 : Tiny Mce and entity encoding
  # Fixed artf1410 : 'Special' access menu locks out 'public' menu's articles "read more" content
  # Fixed artf2595 : Deleted "mass mail" item menu in component menu
@@ -52,7 +55,7 @@ Legend:
 19-Dec-2005 Johan Janssens
  ^ Refined mbstring installation checks - contributed by David Gal
  ^ Renamed Pathway to Breadcrumbs - contributed by Louis Landry
- ^ Minor fixes in FTP library that should solve response code problems experienced on 
+ ^ Minor fixes in FTP library that should solve response code problems experienced on
    some mac ftp servers - contributed by Louis Landry
  # Fixed artf2655 : factory.php - xml_domit_lite_parser.php
 
@@ -79,7 +82,7 @@ Legend:
  + Fixed up a few registry issues
 
 13-Dec-2005 Johan Janssens
- ^ Implemented JFile and JFolder classes in the installers - contributed by Louis Landry 
+ ^ Implemented JFile and JFolder classes in the installers - contributed by Louis Landry
  + Added JError class for easy error management
  + Added JTemplate class, extends patTemplate class
  ^ Feature request artf1063 : Safemode patch for Joomla
@@ -633,7 +636,7 @@ see source code and the LICENSE file
 19-Dec-2005 Johan Janssens
  ^ Refined mbstring installation checks - contributed by David Gal
  ^ Renamed Pathway to Breadcrumbs - contributed by Louis Landry
- ^ Minor fixes in FTP library that should solve response code problems experienced on 
+ ^ Minor fixes in FTP library that should solve response code problems experienced on
    some mac ftp servers - contributed by Louis Landry
  # Fixed artf2655 : factory.php - xml_domit_lite_parser.php
 
@@ -660,7 +663,7 @@ see source code and the LICENSE file
  + Fixed up a few registry issues
 
 13-Dec-2005 Johan Janssens
- ^ Implemented JFile and JFolder classes in the installers - contributed by Louis Landry 
+ ^ Implemented JFile and JFolder classes in the installers - contributed by Louis Landry
  + Added JError class for easy error management
  + Added JTemplate class, extends patTemplate class
  ^ Feature request artf1063 : Safemode patch for Joomla
