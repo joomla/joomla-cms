@@ -186,6 +186,7 @@ return <<<EOD
 	tinyMCE.init({
 		theme : "$theme",
 		language : "$lang",
+		entity_encoding : "raw",
 		mode : "specific_textareas",
 		document_base_url : "$mosConfig_live_site/",
 		relative_urls : false,
