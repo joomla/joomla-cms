@@ -15,7 +15,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.installer.component');
+jimport('joomla.installer.adapters.component');
 
 /**
  * Legacy class, use JInstallerComponent instead

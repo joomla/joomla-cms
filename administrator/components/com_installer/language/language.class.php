@@ -15,7 +15,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.installer.language');
+jimport('joomla.installer.adapters.language');
 
 /**
  * Legacy class, use JInstallerLanguage instead

@@ -2,8 +2,8 @@
 /**
 * @version $Id$
 * @package Joomla
-* @subpackage Installer
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+* @subpackage Installer
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or
@@ -15,13 +15,13 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.installer.adapters.mambot');
+jimport('joomla.installer.adapters.template');
 
 /**
- * Legacy class, use JInstallerMambot instead
+ * Legacy class, use JInstallerTemplate instead
  * @deprecated As of version 1.1
  */
-class mosInstallerMambot extends JInstallerMambot
+class mosInstallerTemplate extends JInstallerTemplate
 {
 	function __construct() {
 		parent::__construct();
