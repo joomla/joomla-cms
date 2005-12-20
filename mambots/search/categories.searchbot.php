@@ -97,6 +97,7 @@ function botSearchCategories( $text, $phrase='', $ordering='', $areas=null ) {
 	. "\n AND a.access <= $my->gid"
 	. "\n AND ( m.type = 'content_section' OR m.type = 'content_blog_section'"
 	. "\n OR m.type = 'content_category' OR m.type = 'content_blog_category')"
+	. "\n GROUP BY a.id"
 	. "\n ORDER BY $order"
 	;
 	$database->setQuery( $query, 0, $limit );

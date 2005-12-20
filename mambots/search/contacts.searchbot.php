@@ -101,6 +101,7 @@ function botSearchContacts( $text, $phrase='', $ordering='', $areas=null ) {
 	. "\n OR a.telephone LIKE '%$text%'"
 	. "\n OR a.fax LIKE '%$text%' )"
 	. "\n AND a.published = 1"
+	. "\n GROUP BY a.id"
 	. "\n ORDER BY $order"
 	;
 	$database->setQuery( $query, 0, $limit );

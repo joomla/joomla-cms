@@ -147,6 +147,7 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null ) {
 		. "\n AND b.published = '1'"
 		. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )"
 		. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
+		. "\n GROUP BY a.id"
 		. "\n ORDER BY $order"
 		;
 		$database->setQuery( $query, 0, $limit );
