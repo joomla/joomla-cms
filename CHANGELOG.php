@@ -52,6 +52,7 @@ Legend:
  # Fixed artf2518 : mod_latestnews problem
  # Fixed artf2665 : Most Read module generates incorrect class for <li> statement
  # Fixed artf2666 : Pagination Error in Category Manager
+ # Fixed artf2407 : parameter type=mos_category show only "- Select Content Category -"
 
 19-Dec-2005 Johan Janssens
  ^ Refined mbstring installation checks - contributed by David Gal

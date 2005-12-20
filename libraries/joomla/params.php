@@ -17,8 +17,8 @@
 * 
 * @package Joomla
 */
-class JParameters extends JObject {
-	
+class JParameters extends JObject 
+{	
 	/** @var object */
 	var $_params = null;
 	/** @var string The raw params string */
@@ -371,7 +371,7 @@ class JParameters extends JObject {
 		$query = "SELECT id, title"."\n FROM #__sections"."\n WHERE published = 1"."\n AND scope = 'content'"."\n ORDER BY title";
 		$database->setQuery($query);
 		$options = $database->loadObjectList();
-		array_unshift($options, mosHTML :: makeOption('0', '- '.JText :: _('Select Content Section').' -', 'id', 'title'));
+		array_unshift($options, mosHTML :: makeOption('0', '- '.JText :: _('Select Section').' -', 'id', 'title'));
 
 		return mosHTML :: selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'title', $value);
 	}
@@ -399,7 +399,7 @@ class JParameters extends JObject {
 		}
 		$database->setQuery($query);
 		$options = $database->loadObjectList();
-		array_unshift($options, mosHTML :: makeOption('0', '- '.JText :: _('Select Content Category').' -', 'id', 'title'));
+		array_unshift($options, mosHTML :: makeOption('0', '- '.JText :: _('Select Category').' -', 'id', 'title'));
 
 		return mosHTML :: selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'title', $value);
 	}
