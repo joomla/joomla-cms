@@ -30,7 +30,7 @@ class HTML_mambot {
 		<table class="adminheading">
 		<tr>
 			<td>
-			<?php echo JText::_( 'DESCMAMBOTS' ); ?>
+			<?php echo JText::_( 'DESCPLUGINS' ); ?>
 			<br /><br />
 			</td>
 		</tr>
@@ -41,7 +41,7 @@ class HTML_mambot {
 			<table class="adminlist">
 			<tr>
 				<th width="20%" class="title">
-				<?php echo JText::_( 'Mambot' ); ?>
+				<?php echo JText::_( 'Plugin' ); ?>
 				</th>
 				<th width="10%" class="title">
 				<?php echo JText::_( 'Type' ); ?>

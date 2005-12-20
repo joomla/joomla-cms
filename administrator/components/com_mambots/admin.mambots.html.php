@@ -55,7 +55,7 @@ class HTML_modules {
 			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 			</th>
 			<th class="title">
-			<?php echo JText::_( 'Mambot Name' ); ?>
+			<?php echo JText::_( 'Plugin Name' ); ?>
 			</th>
 			<th nowrap="nowrap" width="10%">
 	  		<?php echo JText::_( 'Published' ); ?>
@@ -177,9 +177,9 @@ class HTML_modules {
 			// validation
 			var form = document.adminForm;
 			if (form.name.value == "") {
-				alert( "<?php echo JText::_( 'Mambot must have a name', true ); ?>" );
+				alert( "<?php echo JText::_( 'Plugin must have a name', true ); ?>" );
 			} else if (form.element.value == "") {
-				alert( "<?php echo JText::_( 'Mambot must have a filename', true ); ?>" );
+				alert( "<?php echo JText::_( 'Plugin must have a filename', true ); ?>" );
 			} else {
 				submitform(pressbutton);
 			}
@@ -193,7 +193,7 @@ class HTML_modules {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					<?php echo JText::_( 'Mambot Details' ); ?>
+					<?php echo JText::_( 'Plugin Details' ); ?>
 					</th>
 				<tr>
 				<tr>
@@ -214,7 +214,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top" >
-					<?php echo JText::_( 'Mambot file' ); ?>:
+					<?php echo JText::_( 'Plugin file' ); ?>:
 					</td>
 					<td>
 					<input class="text_area" type="text" name="element" size="35" value="<?php echo $row->element; ?>" />.php
@@ -222,7 +222,7 @@ class HTML_modules {
 				</tr>
 				<tr>
 					<td valign="top" >
-					<?php echo JText::_( 'Mambot Order' ); ?>:
+					<?php echo JText::_( 'Plugin Order' ); ?>:
 					</td>
 					<td>
 					<?php echo $lists['ordering']; ?>

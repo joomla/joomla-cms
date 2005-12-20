@@ -187,12 +187,12 @@ function saveMambot( $option, $client, $task ) {
 
 	switch ( $task ) {
 		case 'apply':
-        	$msg = sprintf( JText::_( 'Successfully Saved changes to Mambot' ), $row->name );
+        	$msg = sprintf( JText::_( 'Successfully Saved changes to Plugin' ), $row->name );
 			mosRedirect( 'index2.php?option='. $option .'&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 
 		case 'save':
 		default:
-        	$msg = sprintf( JText::_( 'Successfully Saved Mambot' ), $row->name );
+        	$msg = sprintf( JText::_( 'Successfully Saved Plugin' ), $row->name );
 			mosRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
 			break;
 	}
@@ -249,7 +249,7 @@ function editMambot( $option, $uid, $client ) {
 			$order = mosGetOrderingList( $query );
 			$lists['ordering'] = mosHTML::selectList( $order, 'ordering', 'class="inputbox" size="1"', 'value', 'text', intval( $row->ordering ) );
 		} else {
-			$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'This mambot cannot be reordered' );
+			$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'This plugin cannot be reordered' );
 		}
 		$lists['folder'] = '<input type="hidden" name="folder" value="'. $row->folder .'" />'. $row->folder;
 
@@ -317,7 +317,7 @@ function publishMambot( $cid=null, $publish=1, $option, $client ) {
 
 	if (count( $cid ) < 1) {
 		$action = $publish ? JText::_( 'publish' ) : JText::_( 'unpublish' );
-		echo "<script> alert('". JText::_( 'Select a mambot to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
+		echo "<script> alert('". JText::_( 'Select a plugin to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
 

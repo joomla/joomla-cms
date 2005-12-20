@@ -22,7 +22,7 @@ if ( !$acl->acl_check( 'com_installer', $element, 'users', $my->usertype ) ) {
 
 require_once( $mainframe->getPath( 'installer_html', 'mambot' ) );
 ?><!--<?php
-HTML_installer::showInstallForm( JText::_( 'Install new Mambots' ), $option, 'mambot', '', dirname(__FILE__) );
+HTML_installer::showInstallForm( JText::_( 'Install new Plugins' ), $option, 'mambot', '', dirname(__FILE__) );
 ?>
 <table class="content">
 <?php

@@ -26,7 +26,7 @@ class TOOLBAR_modules {
 		$text = $id ? JText::_('Edit') : JText::_('New');
 
 		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Site Mambot' ) .' <small><small>[' .$text. ']</small></small>', 'module.png' );
+		mosMenuBar::title( JText::_( 'Site Plugin' ) .' <small><small>[' .$text. ']</small></small>', 'module.png' );
 		mosMenuBar::save();
 		mosMenuBar::spacer();
 		mosMenuBar::apply();
@@ -44,7 +44,7 @@ class TOOLBAR_modules {
 
 	function _DEFAULT() {
 		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Mambot Manager' ) .' <small><small>['. JText::_( 'Site' ) .']</small></small>', 'module.png' );
+		mosMenuBar::title( JText::_( 'Plugin Manager' ) .' <small><small>['. JText::_( 'Site' ) .']</small></small>', 'module.png' );
 		mosMenuBar::publishList();
 		mosMenuBar::spacer();
 		mosMenuBar::unpublishList();
