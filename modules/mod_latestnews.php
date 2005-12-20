@@ -41,23 +41,27 @@ switch ( $type ) {
 		. "\n ORDER BY a.created DESC"
 		. "\n LIMIT $count"
 		;
-		$database->setQuery( $query );
-		$rows = $database->loadObjectList();
 		break;
 
 	case 3:
 	//Both
-		$query = "SELECT a.id, a.title, a.sectionid"
+		$query = "SELECT a.id, a.title, a.sectionid, a.catid"
 		. "\n FROM #__content AS a"
+		. "\n LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id"
+		. "\n INNER JOIN #__categories AS cc ON cc.id = a.catid"
+		. "\n INNER JOIN #__sections AS s ON s.id = a.sectionid"
 		. "\n WHERE ( a.state = 1 AND a.checked_out = 0 )"
 		. "\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )"
 		. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
 		. ( $access ? "\n AND a.access <= '$my->gid'" : '' )
+		. ( $catid ? "\n AND ( a.catid IN ( $catid ) )" : '' )
+		. ( $secid ? "\n AND ( a.sectionid IN ( $secid ) )" : '' )
+		. ( $show_front == '0' ? "\n AND f.content_id IS NULL" : '' )
+		. "\n AND s.published = 1"
+		. "\n AND cc.published = 1"
 		. "\n ORDER BY a.created DESC"
 		. "\n LIMIT $count"
 		;
-		$database->setQuery( $query );
-		$rows = $database->loadObjectList();
 		break;
 
 	case 1:
@@ -80,10 +84,11 @@ switch ( $type ) {
 		. "\n ORDER BY a.created DESC"
 		. "\n LIMIT $count"
 		;
-		$database->setQuery( $query );
-		$rows = $database->loadObjectList();
 		break;
 }
+
+$database->setQuery( $query );
+$rows = $database->loadObjectList();
 
 // needed to reduce queries used by getItemid for Content Items
 if ( ( $type == 1 ) || ( $type == 3 ) ) {
