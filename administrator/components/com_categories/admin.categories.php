@@ -500,7 +500,7 @@ function saveCategory( $task ) {
 			break;
 
 		case 'apply':
-        	$msg = sprintf( JText::_( 'Changes to Category saved' ), $row->section );
+        	$msg = JText::_( 'Changes to Category saved' );
 			mosRedirect( 'index2.php?option=com_categories&section='. $redirect .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
