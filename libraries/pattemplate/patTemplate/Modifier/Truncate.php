@@ -70,10 +70,10 @@ class patTemplate_Modifier_Truncate extends patTemplate_Modifier
 			$suffix = '';
 		}
 
-		$initial_len = JString::strlen($value);
-		$value = JString::substr($value, $params['start'], $params['length']);
+		$initial_len = strlen($value);
+		$value = substr($value, $params['start'], $params['length']);
 
-		if ($initial_len <= JString::strlen($value)) {
+		if ($initial_len <= strlen($value)) {
 			$suffix = '';
 		}
 

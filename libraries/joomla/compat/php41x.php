@@ -17,9 +17,9 @@ if (!function_exists( 'array_change_key_case' )) {
 		$array = array();
 		foreach ($input as $k=>$v) {
 			if ($case) {
-				$array[JString::strtoupper( $k )] = $v;
+				$array[strtoupper( $k )] = $v;
 			} else {
-				$array[JString::strtolower( $k )] = $v;
+				$array[strtolower( $k )] = $v;
 			}
 		}
 		return $array;

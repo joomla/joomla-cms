@@ -114,7 +114,7 @@ class SAXY_Parser_Base {
 	* @return string The found character
 	*/
 	function getCharFromEnd($text, $index) {
-		$len = JString::strlen($text);
+		$len = strlen($text);
 		$char = $text{($len - 1 - $index)};
 
 		return $char;
@@ -130,7 +130,7 @@ class SAXY_Parser_Base {
 		$attrArray = array();
 		$maybeEntity = false;
 
-		$total = JString::strlen($attrText);
+		$total = strlen($attrText);
 		$keyDump = '';
 		$valueDump = '';
 		$currentState = SAXY_STATE_ATTR_NONE;
@@ -138,7 +138,7 @@ class SAXY_Parser_Base {
 
 		for ($i = 0; $i < $total; $i++) {
 //			$currentChar = $attrText{$i};
-			$currentChar = JString::substr($attrText, $i, 1);
+			$currentChar = substr($attrText, $i, 1);
 
 			if ($currentState == SAXY_STATE_ATTR_NONE) {
 				if (trim($currentChar != '')) {

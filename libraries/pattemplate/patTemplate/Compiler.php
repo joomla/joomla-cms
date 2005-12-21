@@ -103,7 +103,7 @@ class patTemplate_Compiler extends patTemplate
 	*/
 	function compileTemplate( $template )
 	{
-		$name	=	JString::strtolower( $template );
+		$name	=	strtolower( $template );
 
 		if( !isset( $this->_templates[$template] ) )
 		{
@@ -411,7 +411,7 @@ class patTemplate_Compiler extends patTemplate
 		if( is_null( $name ) )
 			$name = $this->_root;
 
-		$name	=	JString::strtolower( $name );
+		$name	=	strtolower( $name );
 
 		if( !is_callable( 'compiledTemplate', $name ) )
 		{

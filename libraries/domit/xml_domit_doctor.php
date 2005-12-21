@@ -51,11 +51,11 @@ class domit_doctor {
 	* @return string The repaired xml text
 	*/
 	function evaluateCharacter($xmlText, $illegalChar, $startIndex) {
-		$total = JString::strlen($xmlText);
+		$total = strlen($xmlText);
 		$searchingForCDATASection = false;
 
 		for ($i = $startIndex; $i < $total; $i++) {
-			$currChar = JString::substr($xmlText, $i, 1);
+			$currChar = substr($xmlText, $i, 1);
 
 			if (!$searchingForCDATASection) {
 				switch ($currChar) {
@@ -78,7 +78,7 @@ class domit_doctor {
 				switch ($currChar) {
 					case '<':
 					case '>':
-						return (JString::substr_replace($xmlText, '&amp;',
+						return (substr_replace($xmlText, '&amp;',
 										($startIndex - 1) , 1));
 						break;
 					case "]":

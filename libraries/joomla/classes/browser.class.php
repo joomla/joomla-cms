@@ -255,7 +255,7 @@ class JBrowser extends JObject
 	function getHTTPProtocol()
 	{
 		if (isset($_SERVER['SERVER_PROTOCOL'])) {
-			if (($pos = JString::strrpos($_SERVER['SERVER_PROTOCOL'], '/'))) {
+			if (($pos = strrpos($_SERVER['SERVER_PROTOCOL'], '/'))) {
 				return substr($_SERVER['SERVER_PROTOCOL'], $pos + 1);
 			}
 		}

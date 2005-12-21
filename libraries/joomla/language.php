@@ -152,9 +152,9 @@ class JLanguage extends JObject
 	*/
 	function _($string, $jsSafe = false) {
 
-		//$key = str_replace( ' ', '_', JString::strtoupper( trim( $string ) ) );echo '<br>'.$key;
-		$key = JString::strtoupper($string);
-		$key = JString::substr($key, 0, 1) == '_' ? JString::substr($key, 1) : $key;
+		//$key = str_replace( ' ', '_', strtoupper( trim( $string ) ) );echo '<br>'.$key;
+		$key = strtoupper($string);
+		$key = substr($key, 0, 1) == '_' ? substr($key, 1) : $key;
 		if (isset ($this->_strings[$key])) {
 			$string = $this->_debug ? "&bull;".$this->_strings[$key]."&bull;" : $this->_strings[$key];
 		} else {
@@ -317,7 +317,7 @@ class JLanguage extends JObject
 	 * @return boolean True, if the key exists
 	 */
 	function hasKey($key) {
-		return isset ($this->_strings[JString::strtoupper($key)]);
+		return isset ($this->_strings[strtoupper($key)]);
 	}
 
 	/**

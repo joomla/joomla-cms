@@ -190,11 +190,11 @@ class SAXY_Parser extends SAXY_Parser_Base {
 		//strip prolog
 		$xmlText = trim($xmlText);
 		$startChar = -1;
-		$total = JString::strlen($xmlText);
+		$total = strlen($xmlText);
 
 		for ($i = 0; $i < $total; $i++) {
 //			$currentChar = $xmlText{$i};
-			$currentChar = JString::substr($xmlText, $i, 1);
+			$currentChar = substr($xmlText, $i, 1);
 
 			switch ($this->state) {
 				case SAXY_STATE_PROLOG_NONE:
@@ -214,7 +214,7 @@ class SAXY_Parser extends SAXY_Parser_Base {
 							$this->charContainer = '';
 							$startChar  = $i;
 							$this->state = SAXY_STATE_PARSING;
-							return (JString::substr($xmlText, $startChar));
+							return (substr($xmlText, $startChar));
 						}
 					}
 
@@ -319,17 +319,17 @@ class SAXY_Parser extends SAXY_Parser_Base {
 	*/
 	function parse ($xmlText) {
 		$xmlText = $this->preprocessXML($xmlText);
-		$total = JString::strlen($xmlText);
+		$total = strlen($xmlText);
 
 		for ($i = 0; $i < $total; $i++) {
 //			$currentChar = $xmlText{$i};
-			$currentChar = JString::substr($xmlText, $i, 1);
+			$currentChar = substr($xmlText, $i, 1);
 
 			switch ($this->state) {
 				case SAXY_STATE_PARSING:
 					switch ($currentChar) {
 						case '<':
-							if (JString::substr($this->charContainer, 0, SAXY_CDATA_LEN) == SAXY_SEARCH_CDATA) {
+							if (substr($this->charContainer, 0, SAXY_CDATA_LEN) == SAXY_SEARCH_CDATA) {
 								$this->charContainer .= $currentChar;
 							}
 							else {
@@ -350,7 +350,7 @@ class SAXY_Parser extends SAXY_Parser_Base {
 							break;
 
 						case '>':
-							if ((JString::substr($this->charContainer, 0, SAXY_CDATA_LEN) == SAXY_SEARCH_CDATA) &&
+							if ((substr($this->charContainer, 0, SAXY_CDATA_LEN) == SAXY_SEARCH_CDATA) &&
 								!(($this->getCharFromEnd($this->charContainer, 0) == ']') &&
 								($this->getCharFromEnd($this->charContainer, 1) == ']'))) {
 								$this->charContainer .= $currentChar;
@@ -371,8 +371,8 @@ class SAXY_Parser extends SAXY_Parser_Base {
 					switch ($currentChar) {
 						case '>':
 							if (($xmlText{($i - 1)} == '-') && ($xmlText{($i - 2)} == '-')) {
-								$this->fireCommentEvent(JString::substr($this->charContainer, 0,
-													(JString::strlen($this->charContainer) - 2)));
+								$this->fireCommentEvent(substr($this->charContainer, 0,
+													(strlen($this->charContainer) - 2)));
 								$this->charContainer = '';
 								$this->state = SAXY_STATE_PARSING;
 							}
@@ -403,21 +403,21 @@ class SAXY_Parser extends SAXY_Parser_Base {
 
 		switch ($firstChar) {
 			case '/':
-				$tagName = JString::substr($tagText, 1);
+				$tagName = substr($tagText, 1);
 				$this->_fireEndElementEvent($tagName);
 				break;
 
 			case '!':
-				$upperCaseTagText = JString::strtoupper($tagText);
+				$upperCaseTagText = strtoupper($tagText);
 
 				if (strpos($upperCaseTagText, SAXY_SEARCH_CDATA) !== false) { //CDATA Section
-					$total = JString::strlen($tagText);
+					$total = strlen($tagText);
 					$openBraceCount = 0;
 					$textNodeText = '';
 
 					for ($i = 0; $i < $total; $i++) {
 //						$currentChar = $tagText{$i};
-						$currentChar = JString::substr($tagText, $i, 1);
+						$currentChar = substr($tagText, $i, 1);
 
 						if (($currentChar == ']') && ($tagText{($i + 1)} == ']')) {
 							break;
@@ -456,17 +456,17 @@ class SAXY_Parser extends SAXY_Parser_Base {
 
 			default:
 				if ((strpos($tagText, '"') !== false) || (strpos($tagText, "'") !== false)) {
-					$total = JString::strlen($tagText);
+					$total = strlen($tagText);
 					$tagName = '';
 
 					for ($i = 0; $i < $total; $i++) {
 //						$currentChar = $tagText{$i};
-						$currentChar = JString::substr($tagText, $i, 1);
+						$currentChar = substr($tagText, $i, 1);
 
 						if (($currentChar == ' ') || ($currentChar == "\t") ||
 							($currentChar == "\n") || ($currentChar == "\r") ||
 							($currentChar == "\x0B")) {
-							$myAttributes = $this->parseAttributes(JString::substr($tagText, $i));
+							$myAttributes = $this->parseAttributes(substr($tagText, $i));
 							break;
 						}
 						else {
@@ -474,7 +474,7 @@ class SAXY_Parser extends SAXY_Parser_Base {
 						}
 					}
 
-					if (JString::strrpos($tagText, '/') == (JString::strlen($tagText) - 1)) { //check $tagText, but send $tagName
+					if (strrpos($tagText, '/') == (strlen($tagText) - 1)) { //check $tagText, but send $tagName
 						$this->_fireStartElementEvent($tagName, $myAttributes);
 						$this->_fireEndElementEvent($tagName);
 					}
@@ -484,7 +484,7 @@ class SAXY_Parser extends SAXY_Parser_Base {
 				}
 				else {
 					if (strpos($tagText, '/') !== false) {
-						$tagText = trim(JString::substr($tagText, 0, (strrchr($tagText, '/') - 1)));
+						$tagText = trim(substr($tagText, 0, (strrchr($tagText, '/') - 1)));
 						$this->_fireStartElementEvent($tagText, $myAttributes);
 						$this->_fireEndElementEvent($tagText);
 					}
@@ -544,16 +544,16 @@ class SAXY_Parser extends SAXY_Parser_Base {
 	    $stackLen = count($this->defaultNamespaceStack);
 	    $defaultNamespace = $this->defaultNamespaceStack[($stackLen - 1)];
 
-	    $colonIndex = JString::strpos($tagName, ':');
+	    $colonIndex = strpos($tagName, ':');
 
 	    if ($colonIndex !== false) {
-			$prefix = JString::substr($tagName, 0, $colonIndex);
+			$prefix = substr($tagName, 0, $colonIndex);
 
 			if ($prefix != 'xml') {
-	        	$tagName = $this->getNamespaceURI($prefix) . JString::substr($tagName, $colonIndex);
+	        	$tagName = $this->getNamespaceURI($prefix) . substr($tagName, $colonIndex);
 			}
 			else {
-				$tagName = SAXY_XML_NAMESPACE . JString::substr($tagName, $colonIndex);
+				$tagName = SAXY_XML_NAMESPACE . substr($tagName, $colonIndex);
 			}
 	    }
 	    else if ($defaultNamespace != '') {
@@ -687,18 +687,18 @@ class SAXY_Parser extends SAXY_Parser_Base {
 	*/
 	function parseProcessingInstruction($data) {
 		$endTarget = 0;
-		$total = JString::strlen($data);
+		$total = strlen($data);
 
 		for ($x = 2; $x < $total; $x++) {
 //			if (trim($data{$x}) == '') {
-			if (trim(JString::substr($data, $x, 1)) == '') {
+			if (trim(substr($data, $x, 1)) == '') {
 				$endTarget = $x;
 				break;
 			}
 		}
 
-		$target = JString::substr($data, 1, ($endTarget - 1));
-		$data = JString::substr($data, ($endTarget + 1), ($total - $endTarget - 2));
+		$target = substr($data, 1, ($endTarget - 1));
+		$data = substr($data, ($endTarget + 1), ($total - $endTarget - 2));
 
 		if ($this->processingInstructionHandler != null) {
 			$this->fireProcessingInstructionEvent($target, $data);

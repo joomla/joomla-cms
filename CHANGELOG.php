@@ -33,7 +33,6 @@ Legend:
 
 21-Dec-2005 Johan Janssens
  + Added JTemplate Zlib outputfilter for transparent gzip compression
- + Implemented JString functions in libraries - contributed by David Gal
 
 21-Dec-2005 Andy Miller
  + Added editor_content.css for MilkyWay template

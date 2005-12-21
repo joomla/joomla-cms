@@ -57,18 +57,18 @@ class SAXY_Lite_Parser extends SAXY_Parser_Base {
 	function preprocessXML($xmlText) {
 		//strip prolog
 		$xmlText = trim($xmlText);
-		$total = JString::strlen($xmlText);
+		$total = strlen($xmlText);
 
 		for ($i = 0; $i < $total; $i++) {
 //			if ($xmlText{$i} == '<') {
-			if (JString::substr($xmlText, $i, 1) == '<') {
+			if (substr($xmlText, $i, 1) == '<') {
 				switch ($xmlText{($i + 1)}) {
 					case '?':
 					case '!':
 						break;
 					default:
 						$this->state = SAXY_STATE_PARSING;
-						return (JString::substr($xmlText, $i));
+						return (substr($xmlText, $i));
 				}
 			}
 		}
@@ -81,18 +81,18 @@ class SAXY_Lite_Parser extends SAXY_Parser_Base {
 	*/
 	function parse ($xmlText) {
 		$xmlText = $this->preprocessXML($xmlText);
-		$total = JString::strlen($xmlText);
+		$total = strlen($xmlText);
 
 		for ($i = 0; $i < $total; $i++) {
 //			$currentChar = $xmlText{$i};
-			$currentChar = JString::substr($xmlText, $i, 1);
+			$currentChar = substr($xmlText, $i, 1);
 
 			switch ($this->state) {
 				case SAXY_STATE_PARSING:
 
 					switch ($currentChar) {
 						case '<':
-							if (JString::substr($this->charContainer, 0, SAXY_CDATA_LEN) == SAXY_SEARCH_CDATA) {
+							if (substr($this->charContainer, 0, SAXY_CDATA_LEN) == SAXY_SEARCH_CDATA) {
 								$this->charContainer .= $currentChar;
 							}
 							else {
@@ -102,7 +102,7 @@ class SAXY_Lite_Parser extends SAXY_Parser_Base {
 							break;
 
 						case '>':
-							if ((JString::substr($this->charContainer, 0, SAXY_CDATA_LEN) == SAXY_SEARCH_CDATA) &&
+							if ((substr($this->charContainer, 0, SAXY_CDATA_LEN) == SAXY_SEARCH_CDATA) &&
 								!(($this->getCharFromEnd($this->charContainer, 0) == ']') &&
 								($this->getCharFromEnd($this->charContainer, 1) == ']'))) {
 								$this->charContainer .= $currentChar;
@@ -135,21 +135,21 @@ class SAXY_Lite_Parser extends SAXY_Parser_Base {
 
 		switch ($firstChar) {
 			case '/':
-				$tagName = JString::substr($tagText, 1);
+				$tagName = substr($tagText, 1);
 				$this->fireEndElementEvent($tagName);
 				break;
 
 			case '!':
-				$upperCaseTagText = JString::strtoupper($tagText);
+				$upperCaseTagText = strtoupper($tagText);
 
 				if (strpos($upperCaseTagText, SAXY_SEARCH_CDATA) !== false) { //CDATA Section
-					$total = JString::strlen($tagText);
+					$total = strlen($tagText);
 					$openBraceCount = 0;
 					$textNodeText = '';
 
 					for ($i = 0; $i < $total; $i++) {
 //						$currentChar = $tagText{$i};
-						$currentChar = JString::substr($tagText, $i, 1);
+						$currentChar = substr($tagText, $i, 1);
 
 						if (($currentChar == ']') && ($tagText{($i + 1)} == ']')) {
 							break;
@@ -172,7 +172,7 @@ class SAXY_Lite_Parser extends SAXY_Parser_Base {
 				else if (strpos($upperCaseTagText, SAXY_SEARCH_NOTATION) !== false) { //NOTATION node, discard
 					return;
 				}
-				else if (JString::substr($tagText, 0, 2) == '!-') { //comment node, discard
+				else if (substr($tagText, 0, 2) == '!-') { //comment node, discard
 					return;
 				}
 
@@ -184,17 +184,17 @@ class SAXY_Lite_Parser extends SAXY_Parser_Base {
 
 			default:
 				if ((strpos($tagText, '"') !== false) || (strpos($tagText, "'") !== false)) {
-					$total = JString::strlen($tagText);
+					$total = strlen($tagText);
 					$tagName = '';
 
 					for ($i = 0; $i < $total; $i++) {
 //						$currentChar = $tagText{$i};
-						$currentChar = JString::substr($tagText, $i, 1);
+						$currentChar = substr($tagText, $i, 1);
 
 						if (($currentChar == ' ') || ($currentChar == "\t") ||
 							($currentChar == "\n") || ($currentChar == "\r") ||
 							($currentChar == "\x0B")) {
-							$myAttributes = $this->parseAttributes(JString::substr($tagText, $i));
+							$myAttributes = $this->parseAttributes(substr($tagText, $i));
 							break;
 						}
 						else {
@@ -202,7 +202,7 @@ class SAXY_Lite_Parser extends SAXY_Parser_Base {
 						}
 					}
 
-					if (JString::strrpos($tagText, '/') == (JString::strlen($tagText) - 1)) { //check $tagText, but send $tagName
+					if (strrpos($tagText, '/') == (strlen($tagText) - 1)) { //check $tagText, but send $tagName
 						$this->fireStartElementEvent($tagName, $myAttributes);
 						$this->fireEndElementEvent($tagName);
 					}
@@ -212,7 +212,7 @@ class SAXY_Lite_Parser extends SAXY_Parser_Base {
 				}
 				else {
 					if (strpos($tagText, '/') !== false) {
-						$tagText = trim(JString::substr($tagText, 0, (strrchr($tagText, '/') - 1)));
+						$tagText = trim(substr($tagText, 0, (strrchr($tagText, '/') - 1)));
 						$this->fireStartElementEvent($tagText, $myAttributes);
 						$this->fireEndElementEvent($tagText);
 					}

@@ -174,7 +174,7 @@ class DOMIT_GetElementsByPath {
 				break;
 		}
 
-		$this->arPathSegments = explode(GET_ELEMENTS_BY_PATH_SEPARATOR, JString::substr($pattern, $lastIndex));
+		$this->arPathSegments = explode(GET_ELEMENTS_BY_PATH_SEPARATOR, substr($pattern, $lastIndex));
 	} //splitPattern
 
 	/**
@@ -232,18 +232,18 @@ class DOMIT_GetElementsByAttributePath {
 	* @param int The index of the current path segment
 	*/
 	function &parsePattern(&$node, $pattern, $nodeIndex = 0) {
-		$beginSquareBrackets = JString::strpos($pattern, '[');
+		$beginSquareBrackets = strpos($pattern, '[');
 
 		if ($beginSquareBrackets != 0) {
-			$path = JString::substr($pattern, 0, $beginSquareBrackets);
+			$path = substr($pattern, 0, $beginSquareBrackets);
 
-			$attrPattern = JString::substr($pattern, (JString::strpos($pattern, '@') + 1));
-			$attrPattern = JString::substr($attrPattern, 0, JString::strpos($attrPattern, ')'));
+			$attrPattern = substr($pattern, (strpos($pattern, '@') + 1));
+			$attrPattern = substr($attrPattern, 0, strpos($attrPattern, ')'));
 
-			$commaIndex = JString::strpos($attrPattern, ',');
-			$key = trim(JString::substr($attrPattern, 0, $commaIndex));
-			$value = trim(JString::substr($attrPattern, ($commaIndex + 1)));
-			$value = JString::substr($value, 1, (JString::strlen($value) - 2));
+			$commaIndex = strpos($attrPattern, ',');
+			$key = trim(substr($attrPattern, 0, $commaIndex));
+			$value = trim(substr($attrPattern, ($commaIndex + 1)));
+			$value = substr($value, 1, (strlen($value) - 2));
 
 			$gebp = new DOMIT_GetElementsByPath();
 			$myResponse =& $gebp->parsePattern($node, $path);

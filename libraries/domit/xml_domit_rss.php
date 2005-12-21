@@ -120,7 +120,7 @@ class xml_domit_rss_document extends xml_domit_rss_base_document {
 
 		for ($i = 0; $i < $total; $i++) {
 			$currNode =& $this->node->documentElement->childNodes[$i];
-			$tagName = JString::strtolower($currNode->nodeName);
+			$tagName = strtolower($currNode->nodeName);
 
 			switch ($tagName) {
 				case DOMIT_RSS_ELEMENT_ITEM:
@@ -230,7 +230,7 @@ class xml_domit_rss_channel extends xml_domit_rss_elementindexer {
 
 		for ($i = 0; $i < $total; $i++) {
 			$currNode =& $this->node->childNodes[$i];
-			$tagName = JString::strtolower($currNode->nodeName);
+			$tagName = strtolower($currNode->nodeName);
 
 			switch($tagName) {
 				case DOMIT_RSS_ELEMENT_ITEM:
@@ -516,7 +516,7 @@ class xml_domit_rss_item extends xml_domit_rss_elementindexer {
 
 		for($i = 0; $i < $total; $i++) {
 			$currNode =& $this->node->childNodes[$i];
-			$tagName = JString::strtolower($currNode->nodeName);
+			$tagName = strtolower($currNode->nodeName);
 
 		    switch ($tagName) {
 		        case DOMIT_RSS_ELEMENT_CATEGORY:
@@ -715,7 +715,7 @@ class xml_domit_rss_image extends xml_domit_rss_elementindexer {
 
 		for($i = 0; $i < $total; $i++) {
 			$currNode =& $this->node->childNodes[$i];
-			$tagName = JString::strtolower($currNode->nodeName);
+			$tagName = strtolower($currNode->nodeName);
 
 		    switch ($tagName) {
                 case DOMIT_RSS_ELEMENT_TITLE:
@@ -826,7 +826,7 @@ class xml_domit_rss_textinput extends xml_domit_rss_elementindexer {
 
 		for($i = 0; $i < $total; $i++) {
 			$currNode =& $this->node->childNodes[$i];
-			$tagName = JString::strtolower($currNode->nodeName);
+			$tagName = strtolower($currNode->nodeName);
 
 		    switch ($tagName) {
                 case DOMIT_RSS_ELEMENT_TITLE:

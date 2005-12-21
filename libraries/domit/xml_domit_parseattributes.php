@@ -32,7 +32,7 @@ function parseAttributes($attrText, $convertEntities = true, $definedEntities = 
 	$attrArray = array();
 	$maybeEntity = false;
 
-	$total = JString::strlen($attrText);
+	$total = strlen($attrText);
 	$keyDump = '';
 	$valueDump = '';
 	$currentState = DOMIT_ATTRIBUTEPARSER_STATE_ATTR_NONE;
@@ -42,7 +42,7 @@ function parseAttributes($attrText, $convertEntities = true, $definedEntities = 
 
 	for ($i = 0; $i < $total; $i++) {
 //		$currentChar = $attrText{$i};
-		$currentChar = JString::substr($attrText, $i, 1);
+		$currentChar = substr($attrText, $i, 1);
 
 		if ($currentState == DOMIT_ATTRIBUTEPARSER_STATE_ATTR_NONE) {
 			if (trim($currentChar != '')) {

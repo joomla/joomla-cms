@@ -49,7 +49,7 @@ class xml_domit_rss_document_lite extends xml_domit_rss_base_document {
 
 		for ($i = 0; $i < $total; $i++) {
 			$currNode =& $this->node->documentElement->childNodes[$i];
-			$tagName = JString::strtolower($currNode->nodeName);
+			$tagName = strtolower($currNode->nodeName);
 
 			switch ($tagName) {
 				case DOMIT_RSS_ELEMENT_ITEM:
@@ -117,7 +117,7 @@ class xml_domit_rss_channel_lite extends xml_domit_rss_elementindexer {
 
 		for ($i = 0; $i < $total; $i++) {
 			$currNode =& $this->node->childNodes[$i];
-			$tagName = JString::strtolower($currNode->nodeName);
+			$tagName = strtolower($currNode->nodeName);
 
 			switch ($tagName) {
 				case DOMIT_RSS_ELEMENT_ITEM:
@@ -204,7 +204,7 @@ class xml_domit_rss_item_lite extends xml_domit_rss_elementindexer {
 
 		for($i = 0; $i < $total; $i++) {
 			$currNode =& $this->node->childNodes[$i];
-			$tagName = JString::strtolower($currNode->nodeName);
+			$tagName = strtolower($currNode->nodeName);
 
 			switch ($tagName) {
 				case DOMIT_RSS_ELEMENT_TITLE:

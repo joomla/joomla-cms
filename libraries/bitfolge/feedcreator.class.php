@@ -549,29 +549,29 @@ class FeedCreator extends HtmlDescribable {
 	 * @return string	the truncated string
 	 */
 	function iTrunc($string, $length) {
-		if (JString::strlen($string)<=$length) {
+		if (strlen($string)<=$length) {
 			return $string;
 		}
 
-		$pos = JString::strrpos($string,".");
+		$pos = strrpos($string,".");
 		if ($pos>=$length-4) {
-			$string = JString::substr($string,0,$length-4);
-			$pos = JString::strrpos($string,".");
+			$string = substr($string,0,$length-4);
+			$pos = strrpos($string,".");
 		}
 		if ($pos>=$length*0.4) {
-			return JString::substr($string,0,$pos+1)." ...";
+			return substr($string,0,$pos+1)." ...";
 		}
 
-		$pos = JString::strrpos($string," ");
+		$pos = strrpos($string," ");
 		if ($pos>=$length-4) {
-			$string = JString::substr($string,0,$length-4);
-			$pos = JString::strrpos($string," ");
+			$string = substr($string,0,$length-4);
+			$pos = strrpos($string," ");
 		}
 		if ($pos>=$length*0.4) {
-			return JString::substr($string,0,$pos)." ...";
+			return substr($string,0,$pos)." ...";
 		}
 
-		return JString::substr($string,0,$length-4)." ...";
+		return substr($string,0,$length-4)." ...";
 
 	}
 
@@ -736,10 +736,10 @@ class FeedDate {
 		if (preg_match("~(?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun),\\s+)?(\\d{1,2})\\s+([a-zA-Z]{3})\\s+(\\d{4})\\s+(\\d{2}):(\\d{2}):(\\d{2})\\s+(.*)~",$dateString,$matches)) {
 			$months = Array("Jan"=>1,"Feb"=>2,"Mar"=>3,"Apr"=>4,"May"=>5,"Jun"=>6,"Jul"=>7,"Aug"=>8,"Sep"=>9,"Oct"=>10,"Nov"=>11,"Dec"=>12);
 			$this->unix = mktime($matches[4],$matches[5],$matches[6],$months[$matches[2]],$matches[1],$matches[3]);
-			if (JString::substr($matches[7],0,1)=='+' OR JString::substr($matches[7],0,1)=='-') {
-				$tzOffset = (JString::substr($matches[7],0,3) * 60 + JString::substr($matches[7],-2)) * 60;
+			if (substr($matches[7],0,1)=='+' OR substr($matches[7],0,1)=='-') {
+				$tzOffset = (substr($matches[7],0,3) * 60 + substr($matches[7],-2)) * 60;
 			} else {
-				if (JString::strlen($matches[7])==1) {
+				if (strlen($matches[7])==1) {
 					$oneHour = 3600;
 					$ord = ord($matches[7]);
 					if ($ord < ord("M")) {
@@ -1191,10 +1191,10 @@ class MBOXCreator extends FeedCreator {
 		$output = "";
 		while( list(, $line) = each($lines) ) {
 			//$line = rtrim($line); // remove trailing white space -> no =20\r\n necessary
-			$linlen = JString::strlen($line);
+			$linlen = strlen($line);
 			$newline = "";
 			for($i = 0; $i < $linlen; $i++) {
-				$c = JString::substr($line, $i, 1);
+				$c = substr($line, $i, 1);
 				$dec = ord($c);
 				if ( ($dec == 32) && ($i == ($linlen - 1)) ) { // convert space at eol only
 					$c = "=20";
@@ -1202,7 +1202,7 @@ class MBOXCreator extends FeedCreator {
 					$h2 = floor($dec/16); $h1 = floor($dec%16);
 					$c = $escape.$hex["$h2"].$hex["$h1"];
 				}
-				if ( (JString::strlen($newline) + JString::strlen($c)) >= $line_max ) { // CRLF is not counted
+				if ( (strlen($newline) + strlen($c)) >= $line_max ) { // CRLF is not counted
 					$output .= $newline.$escape.$eol; // soft line break; " =\r\n" is okay
 					$newline = "";
 				}

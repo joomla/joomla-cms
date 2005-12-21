@@ -32,8 +32,8 @@ class InputFilter {
 	  */
 	function inputFilter($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1) {
 		// make sure user defined arrays are in lowercase
-		for ($i = 0; $i < count($tagsArray); $i++) $tagsArray[$i] = JString::strtolower($tagsArray[$i]);
-		for ($i = 0; $i < count($attrArray); $i++) $attrArray[$i] = JString::strtolower($attrArray[$i]);
+		for ($i = 0; $i < count($tagsArray); $i++) $tagsArray[$i] = strtolower($tagsArray[$i]);
+		for ($i = 0; $i < count($attrArray); $i++) $attrArray[$i] = strtolower($attrArray[$i]);
 		// assign to member vars
 		$this->tagsArray = (array) $tagsArray;
 		$this->attrArray = (array) $attrArray;
@@ -90,77 +90,77 @@ class InputFilter {
 		$preTag = NULL;
 		$postTag = $source;
 		// find initial tag's position
-		$tagOpen_start = JString::strpos($source, '<');
+		$tagOpen_start = strpos($source, '<');
 		// interate through string until no tags left
 		while($tagOpen_start !== FALSE) {
 			// process tag interatively
-			$preTag .= JString::substr($postTag, 0, $tagOpen_start);
-			$postTag = JString::substr($postTag, $tagOpen_start);
-			$fromTagOpen = JString::substr($postTag, 1);
+			$preTag .= substr($postTag, 0, $tagOpen_start);
+			$postTag = substr($postTag, $tagOpen_start);
+			$fromTagOpen = substr($postTag, 1);
 			// end of tag
-			$tagOpen_end = JString::strpos($fromTagOpen, '>');
+			$tagOpen_end = strpos($fromTagOpen, '>');
 			if ($tagOpen_end === false) break;
 			// next start of tag (for nested tag assessment)
-			$tagOpen_nested = JString::strpos($fromTagOpen, '<');
+			$tagOpen_nested = strpos($fromTagOpen, '<');
 			if (($tagOpen_nested !== false) && ($tagOpen_nested < $tagOpen_end)) {
-				$preTag .= JString::substr($postTag, 0, ($tagOpen_nested+1));
-				$postTag = JString::substr($postTag, ($tagOpen_nested+1));
-				$tagOpen_start = JString::strpos($postTag, '<');
+				$preTag .= substr($postTag, 0, ($tagOpen_nested+1));
+				$postTag = substr($postTag, ($tagOpen_nested+1));
+				$tagOpen_start = strpos($postTag, '<');
 				continue;
 			}
-			$tagOpen_nested = (JString::strpos($fromTagOpen, '<') + $tagOpen_start + 1);
-			$currentTag = JString::substr($fromTagOpen, 0, $tagOpen_end);
-			$tagLength = JString::strlen($currentTag);
+			$tagOpen_nested = (strpos($fromTagOpen, '<') + $tagOpen_start + 1);
+			$currentTag = substr($fromTagOpen, 0, $tagOpen_end);
+			$tagLength = strlen($currentTag);
 			if (!$tagOpen_end) {
 				$preTag .= $postTag;
-				$tagOpen_start = JString::strpos($postTag, '<');
+				$tagOpen_start = strpos($postTag, '<');
 			}
 			// iterate through tag finding attribute pairs - setup
 			$tagLeft = $currentTag;
 			$attrSet = array();
-			$currentSpace = JString::strpos($tagLeft, ' ');
+			$currentSpace = strpos($tagLeft, ' ');
 			// is end tag
-			if (JString::substr($currentTag, 0, 1) == "/") {
+			if (substr($currentTag, 0, 1) == "/") {
 				$isCloseTag = TRUE;
 				list($tagName) = explode(' ', $currentTag);
-				$tagName = JString::substr($tagName, 1);
+				$tagName = substr($tagName, 1);
 			// is start tag
 			} else {
 				$isCloseTag = FALSE;
 				list($tagName) = explode(' ', $currentTag);
 			}
 			// excludes all "non-regular" tagnames OR no tagname OR remove if xssauto is on and tag is blacklisted
-			if ((!preg_match("/^[a-z][a-z0-9]*$/i",$tagName)) || (!$tagName) || ((in_array(JString::strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto))) {
-				$postTag = JString::substr($postTag, ($tagLength + 2));
-				$tagOpen_start = JString::strpos($postTag, '<');
+			if ((!preg_match("/^[a-z][a-z0-9]*$/i",$tagName)) || (!$tagName) || ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto))) {
+				$postTag = substr($postTag, ($tagLength + 2));
+				$tagOpen_start = strpos($postTag, '<');
 				// don't append this tag
 				continue;
 			}
 			// this while is needed to support attribute values with spaces in!
 			while ($currentSpace !== FALSE) {
-				$fromSpace = JString::substr($tagLeft, ($currentSpace+1));
-				$nextSpace = JString::strpos($fromSpace, ' ');
-				$openQuotes = JString::strpos($fromSpace, '"');
-				$closeQuotes = JString::strpos(JString::substr($fromSpace, ($openQuotes+1)), '"') + $openQuotes + 1;
+				$fromSpace = substr($tagLeft, ($currentSpace+1));
+				$nextSpace = strpos($fromSpace, ' ');
+				$openQuotes = strpos($fromSpace, '"');
+				$closeQuotes = strpos(substr($fromSpace, ($openQuotes+1)), '"') + $openQuotes + 1;
 				// another equals exists
 				if (strpos($fromSpace, '=') !== FALSE) {
 					// opening and closing quotes exists
-					if (($openQuotes !== FALSE) && (strpos(JString::substr($fromSpace, ($openQuotes+1)), '"') !== FALSE))
-						$attr = JString::substr($fromSpace, 0, ($closeQuotes+1));
+					if (($openQuotes !== FALSE) && (strpos(substr($fromSpace, ($openQuotes+1)), '"') !== FALSE))
+						$attr = substr($fromSpace, 0, ($closeQuotes+1));
 					// one or neither exist
-					else $attr = JString::substr($fromSpace, 0, $nextSpace);
+					else $attr = substr($fromSpace, 0, $nextSpace);
 				// no more equals exist
-				} else $attr = JString::substr($fromSpace, 0, $nextSpace);
+				} else $attr = substr($fromSpace, 0, $nextSpace);
 				// last attr pair
 				if (!$attr) $attr = $fromSpace;
 				// add to attribute pairs array
 				$attrSet[] = $attr;
 				// next inc
-				$tagLeft = JString::substr($fromSpace, JString::strlen($attr));
-				$currentSpace = JString::strpos($tagLeft, ' ');
+				$tagLeft = substr($fromSpace, strlen($attr));
+				$currentSpace = strpos($tagLeft, ' ');
 			}
 			// appears in array specified by user
-			$tagFound = in_array(JString::strtolower($tagName), $this->tagsArray);
+			$tagFound = in_array(strtolower($tagName), $this->tagsArray);
 			// remove this tag on condition
 			if ((!$tagFound && $this->tagsMethod) || ($tagFound && !$this->tagsMethod)) {
 				// reconstruct tag with allowed attributes
@@ -176,8 +176,8 @@ class InputFilter {
 				} else $preTag .= '</' . $tagName . '>';
 			}
 			// find next tag's start
-			$postTag = JString::substr($postTag, ($tagLength + 2));
-			$tagOpen_start = JString::strpos($postTag, '<');
+			$postTag = substr($postTag, ($tagLength + 2));
+			$tagOpen_start = strpos($postTag, '<');
 		}
 		// append any code after end of tags
 		$preTag .= $postTag;
@@ -200,7 +200,7 @@ class InputFilter {
 			$attrSubSet = explode('=', trim($attrSet[$i]),2);
 			list($attrSubSet[0]) = explode(' ', $attrSubSet[0]);
 			// removes all "non-regular" attr names AND also attr blacklisted
-			if ((!eregi("^[a-z]*$",$attrSubSet[0])) || (($this->xssAuto) && ((in_array(JString::strtolower($attrSubSet[0]), $this->attrBlacklist)) || (JString::substr($attrSubSet[0], 0, 2) == 'on'))))
+			if ((!eregi("^[a-z]*$",$attrSubSet[0])) || (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist)) || (substr($attrSubSet[0], 0, 2) == 'on'))))
 				continue;
 			// xss attr value filtering
 			if ($attrSubSet[1]) {
@@ -211,8 +211,8 @@ class InputFilter {
 				// strip double quotes
 				$attrSubSet[1] = str_replace('"', '', $attrSubSet[1]);
 				// [requested feature] convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr value)
-				if ((JString::substr($attrSubSet[1], 0, 1) == "'") && (JString::substr($attrSubSet[1], (JString::strlen($attrSubSet[1]) - 1), 1) == "'"))
-					$attrSubSet[1] = JString::substr($attrSubSet[1], 1, (JString::strlen($attrSubSet[1]) - 2));
+				if ((substr($attrSubSet[1], 0, 1) == "'") && (substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'"))
+					$attrSubSet[1] = substr($attrSubSet[1], 1, (strlen($attrSubSet[1]) - 2));
 				// strip slashes
 				$attrSubSet[1] = stripslashes($attrSubSet[1]);
 			}
@@ -221,7 +221,7 @@ class InputFilter {
 				continue;
 
 			// if matches user defined array
-			$attrFound = in_array(JString::strtolower($attrSubSet[0]), $this->attrArray);
+			$attrFound = in_array(strtolower($attrSubSet[0]), $this->attrArray);
 			// keep this attr on condition
 			if ((!$attrFound && $this->attrMethod) || ($attrFound && !$this->attrMethod)) {
 				// attr has value
@@ -241,8 +241,8 @@ class InputFilter {
 	 * @return Boolean True if bad code is detected
 	 */
 	function badAttributeValue( $attrSubSet ) {
-		$attrSubSet[0] = JString::strtolower( $attrSubSet[0] );
-		$attrSubSet[1] = JString::strtolower( $attrSubSet[1] );
+		$attrSubSet[0] = strtolower( $attrSubSet[0] );
+		$attrSubSet[1] = strtolower( $attrSubSet[1] );
 		return (
 			((strpos($attrSubSet[1], 'expression') !== false) && ($attrSubSet[0]) == 'style') ||
 			(strpos($attrSubSet[1], 'javascript:') !== false) ||

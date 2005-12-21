@@ -1323,11 +1323,11 @@ class DOMIT_Document extends DOMIT_ChildNodes_Interface {
 		$node = new DOMIT_Attr($qualifiedName);
 		$node->namespaceURI = $namespaceURI;
 
-		$colonIndex = JString::strpos($qualifiedName, ":");
+		$colonIndex = strpos($qualifiedName, ":");
 
 		if ($colonIndex !== false) {
-	    	$node->prefix = JString::substr($qualifiedName, 0, $colonIndex);
-	    	$node->localName = JString::substr($qualifiedName, ($colonIndex + 1));
+	    	$node->prefix = substr($qualifiedName, 0, $colonIndex);
+	    	$node->localName = substr($qualifiedName, ($colonIndex + 1));
 		}
 		else {
 			$node->prefix = '';
@@ -1358,11 +1358,11 @@ class DOMIT_Document extends DOMIT_ChildNodes_Interface {
 	function &createElementNS($namespaceURI, $qualifiedName) {
 	    $node = new DOMIT_Element($qualifiedName);
 
-	    $colonIndex = JString::strpos($qualifiedName, ":");
+	    $colonIndex = strpos($qualifiedName, ":");
 
 		if ($colonIndex !== false) {
-	    	$node->prefix = JString::substr($qualifiedName, 0, $colonIndex);
-	    	$node->localName = JString::substr($qualifiedName, ($colonIndex + 1));
+	    	$node->prefix = substr($qualifiedName, 0, $colonIndex);
+	    	$node->localName = substr($qualifiedName, ($colonIndex + 1));
 		}
 		else {
 			$node->prefix = '';
@@ -2226,10 +2226,10 @@ class DOMIT_Element extends DOMIT_ChildNodes_Interface {
 	*/
 	function setAttributeNS($namespaceURI, $qualifiedName, $value) {
 	    //get localName
-	    $colonIndex = JString::strpos($qualifiedName, ":");
+	    $colonIndex = strpos($qualifiedName, ":");
 
 		if ($colonIndex !== false) {
-	    	$localName = JString::substr($qualifiedName, ($colonIndex + 1));
+	    	$localName = substr($qualifiedName, ($colonIndex + 1));
 		}
 		else {
 			$localName = $qualifiedName;
@@ -2240,7 +2240,7 @@ class DOMIT_Element extends DOMIT_ChildNodes_Interface {
 		if ($returnNode == null) {
 			//create this manually in case element has no ownerDocument to reference
 			$newAttr = new DOMIT_Attr($qualifiedName);
-	    	$newAttr->prefix = JString::substr($qualifiedName, 0, $colonIndex);
+	    	$newAttr->prefix = substr($qualifiedName, 0, $colonIndex);
 	    	$newAttr->localName = $localName;
 	    	$newAttr->namespaceURI = $namespaceURI;
 
@@ -2527,7 +2527,7 @@ class DOMIT_CharacterData extends DOMIT_Node {
 	* @return int The length of the text in the current node
 	*/
 	function getLength() {
-		return JString::strlen($this->nodeValue);
+		return strlen($this->nodeValue);
 	} //getLength
 
 	/**
@@ -2547,7 +2547,7 @@ class DOMIT_CharacterData extends DOMIT_Node {
 		}
 		else {
 			$data = $this->getData();
-			return JString::substr($data, $offset, $count);
+			return substr($data, $offset, $count);
 		}
 	} //substringData
 
@@ -2575,8 +2575,8 @@ class DOMIT_CharacterData extends DOMIT_Node {
 		}
 		else {
 			$data = $this->getData();
-			$pre = JString::substr($data, 0, $offset);
-			$post = JString::substr($data, $offset);
+			$pre = substr($data, 0, $offset);
+			$post = substr($data, $offset);
 
 			$this->setData(($pre . $arg . $post));
 		}
@@ -2598,8 +2598,8 @@ class DOMIT_CharacterData extends DOMIT_Node {
 		}
 		else {
 			$data = $this->getData();
-			$pre = JString::substr($data, 0, $offset);
-			$post = JString::substr($data, ($offset + $count));
+			$pre = substr($data, 0, $offset);
+			$post = substr($data, ($offset + $count));
 
 			$this->setData(($pre . $post));
 		}
@@ -2622,8 +2622,8 @@ class DOMIT_CharacterData extends DOMIT_Node {
 		}
 		else {
 			$data = $this->getData();
-			$pre = JString::substr($data, 0, $offset);
-			$post = JString::substr($data, ($offset + $count));
+			$pre = substr($data, 0, $offset);
+			$post = substr($data, ($offset + $count));
 
 			$this->setData(($pre . $arg . $post));
 		}
@@ -2681,8 +2681,8 @@ class DOMIT_TextNode extends DOMIT_CharacterData {
 		}
 		else {
 			$data = $this->getData();
-			$pre = JString::substr($data, 0, $offset);
-			$post = JString::substr($data, $offset);
+			$pre = substr($data, 0, $offset);
+			$post = substr($data, $offset);
 
 			$this->setText($pre);
 
@@ -3523,12 +3523,12 @@ class DOMIT_Parser {
 	* @param string The current data
 	*/
 	function defaultDataElement(&$parser, $data) {
-		if ((JString::strlen($data) > 2)  && ($this->parseItem == '')){
-			$pre = JString::strtoupper(JString::substr($data, 0, 3));
+		if ((strlen($data) > 2)  && ($this->parseItem == '')){
+			$pre = strtoupper(substr($data, 0, 3));
 
 			switch ($pre) {
 				case '<?X': //xml declaration
-					$this->processingInstructionElement($parser, 'xml', JString::substr($data, 6, (JString::strlen($data) - 6 - 2)));
+					$this->processingInstructionElement($parser, 'xml', substr($data, 6, (strlen($data) - 6 - 2)));
 					break;
 				case '<!E': //dtd entity
 					$this->xmlDoc->doctype .= "\n   " . $data;
@@ -3539,7 +3539,7 @@ class DOMIT_Parser {
 					}
 					break;
 				case '<!-': //comment
-					$currentNode =& $this->commentElement($this, JString::substr($data, 4, (JString::strlen($data) - 7)));
+					$currentNode =& $this->commentElement($this, substr($data, 4, (strlen($data) - 7)));
 					break;
 				case '<!D': //doctype
 					$this->parseItem = 'doctype';
@@ -3579,7 +3579,7 @@ class DOMIT_Parser {
 					if ($data == ']') {
 						$this->parseItem = 'doctype';
 					}
-					else if ($data{(JString::strlen($data) - 1)} == '>') {
+					else if ($data{(strlen($data) - 1)} == '>') {
 						$this->parseContainer .= "\n   ";
 					}
 					break;
@@ -3593,10 +3593,10 @@ class DOMIT_Parser {
 	* @param string The current data
 	*/
 	function doctypeElement(&$parser, $data) {
-		$start = JString::strpos($data, '<!DOCTYPE');
-		$name = trim(JString::substr($data, $start));
-		$end = JString::strpos($name, ' ');
-		$name = JString::substr($name, 0, $end);
+		$start = strpos($data, '<!DOCTYPE');
+		$name = trim(substr($data, $start));
+		$end = strpos($name, ' ');
+		$name = substr($name, 0, $end);
 
 		$currentNode = new DOMIT_DocumentType($name, $data);
 		$currentNode->ownerDocument =& $this->xmlDoc;

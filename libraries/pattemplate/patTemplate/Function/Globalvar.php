@@ -77,7 +77,7 @@ class patTemplate_Function_Globalvar extends patTemplate_Function
 		}
 
 		if( $params['hidden'] != 'yes' )
-			return $this->_tmpl->getOption('startTag').JString::strtoupper($params['name']).$this->_tmpl->getOption('endTag');
+			return $this->_tmpl->getOption('startTag').strtoupper($params['name']).$this->_tmpl->getOption('endTag');
 
 		return '';
 	}

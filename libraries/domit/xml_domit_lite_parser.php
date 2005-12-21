@@ -1860,8 +1860,8 @@ class DOMIT_Lite_Parser {
 	* @param string The current data
 	*/
 	function defaultDataElement(&$parser, $data) {
-		if (JString::strlen($data) > 2){
-			$pre = JString::strtoupper(JString::substr($data, 0, 3));
+		if (strlen($data) > 2){
+			$pre = strtoupper(substr($data, 0, 3));
 
 			switch ($pre) {
 				case '<![': //cdata section coming

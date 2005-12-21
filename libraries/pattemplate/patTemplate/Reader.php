@@ -286,7 +286,7 @@ class patTemplate_Reader extends patTemplate_Module
 	*/
 	function addFunctionAlias($alias, $function)
 	{
-		$this->_funcAliases[JString::strtolower($alias)] = $function;
+		$this->_funcAliases[strtolower($alias)] = $function;
 	}
 
    /**
@@ -347,7 +347,7 @@ class patTemplate_Reader extends patTemplate_Module
 		if (is_array($patNamespace)) {
 			$patNamespace = array_map('strtolower', $patNamespace);
 		} else {
-			$patNamespace = array(JString::strtolower( $patNamespace ));
+			$patNamespace = array(strtolower( $patNamespace ));
 		}
 
 		/**
@@ -371,10 +371,10 @@ class patTemplate_Reader extends patTemplate_Module
 		while( $i < $cnt ) {
 			$fullTag	= $tokens[$i++];
 			$closing	= $tokens[$i++];
-			$namespace	= JString::strtolower( $tokens[$i++] );
-			$tagname	= JString::strtolower( $tokens[$i++] );
+			$namespace	= strtolower( $tokens[$i++] );
+			$tagname	= strtolower( $tokens[$i++] );
 			$attString	= $tokens[$i++];
-			$empty		= JString::substr( $attString, -1 );
+			$empty		= substr( $attString, -1 );
 			$data		= $tokens[$i++];
 
 			/**
@@ -403,7 +403,7 @@ class patTemplate_Reader extends patTemplate_Module
 			 * Is empty or opening tag!
 			 */
 			if( $empty === '/' ) {
-				$attString	=	JString::substr( $attString, 0, -1 );
+				$attString	=	substr( $attString, 0, -1 );
 			}
 
 			$attributes	=	$this->_parseAttributes( $attString );
@@ -466,7 +466,7 @@ class patTemplate_Reader extends patTemplate_Module
 		$match = array();
 		preg_match_all('/([a-zA-Z_0-9]+)="((?:\\\.|[^"\\\])*)"/U', $string, $match);
 		for ($i = 0; $i < count($match[1]); $i++) {
-			$attributes[JString::strtolower( $match[1][$i] )] = strtr( (string)$match[2][$i], $entities );
+			$attributes[strtolower( $match[1][$i] )] = strtr( (string)$match[2][$i], $entities );
 		}
 		return	$attributes;
 	}
@@ -536,16 +536,16 @@ class patTemplate_Reader extends patTemplate_Module
 			 * any other tag
 			 */
 			default:
-				if (isset($this->_funcAliases[JString::strtolower($name)])) {
-					$name = $this->_funcAliases[JString::strtolower($name)];
+				if (isset($this->_funcAliases[strtolower($name)])) {
+					$name = $this->_funcAliases[strtolower($name)];
 				}
-				$name = JString::ucfirst( $name );
+				$name = ucfirst( $name );
 
 				if( !$this->_tmpl->moduleExists( 'Function', $name ) ) {
 
 					if (isset($this->_options['defaultFunction']) && !empty($this->_options['defaultFunction'])) {
 						$attributes['_originalTag'] = $name;
-						$name = JString::ucfirst($this->_options['defaultFunction']);
+						$name = ucfirst($this->_options['defaultFunction']);
 					} else {
 						return patErrorManager::raiseError(
 															PATTEMPLATE_READER_ERROR_UNKNOWN_TAG,
@@ -640,7 +640,7 @@ class patTemplate_Reader extends patTemplate_Module
 			 * custom function
 			 */
 			default:
-				$name = JString::ucfirst( $tmpl['function'] );
+				$name = ucfirst( $tmpl['function'] );
 
 				if( !isset( $this->_functions[$name] ) ) {
 					$this->_functions[$name] = $this->_tmpl->loadModule( 'Function', $name );
@@ -722,8 +722,8 @@ class patTemplate_Reader extends patTemplate_Module
 		 */
 		if( !empty( $this->_tmplStack ) )
 		{
-			$this->_addToParentTag( 'dependencies', JString::strtolower( $tmpl['src'] ) );
-			$this->_characterData( sprintf( "%sTMPL:%s%s", $this->_startTag, JString::strtoupper( $tmpl['src'] ), $this->_endTag ) );
+			$this->_addToParentTag( 'dependencies', strtolower( $tmpl['src'] ) );
+			$this->_characterData( sprintf( "%sTMPL:%s%s", $this->_startTag, strtoupper( $tmpl['src'] ), $this->_endTag ) );
 		}
 
 		return true;
@@ -744,7 +744,7 @@ class patTemplate_Reader extends patTemplate_Module
 		if (!isset( $attributes['name'] )) {
 			$name	=	$this->_buildTemplateName();
 		} else {
-			$name	=	JString::strtolower( $attributes['name'] );
+			$name	=	strtolower( $attributes['name'] );
 			unset( $attributes['name'] );
 		}
 
@@ -908,11 +908,11 @@ class patTemplate_Reader extends patTemplate_Module
 														$this->_createErrorMessage( "Attribute 'conditionvar' missing for $templatename" )
 														);
 				}
-				$attributes['conditionvar']	=	JString::strtoupper( $attributes['conditionvar'] );
+				$attributes['conditionvar']	=	strtoupper( $attributes['conditionvar'] );
 
 				if( strstr( $attributes['conditionvar'], '.' ) ) {
 					list( $attributes['conditiontmpl'], $attributes['conditionvar'] ) = explode( '.', $attributes['conditionvar'] );
-					$attributes['conditiontmpl'] = JString::strtolower( $attributes['conditiontmpl'] );
+					$attributes['conditiontmpl'] = strtolower( $attributes['conditiontmpl'] );
 				}
 
 				$attributes['autoclear']	=	'yes';
@@ -936,22 +936,22 @@ class patTemplate_Reader extends patTemplate_Module
 				$attributes['requiredvars']   = array();
 				foreach( $tmp as $var ) {
 
-					$pos = JString::strpos( $var, '=' );
+					$pos = strpos( $var, '=' );
 					if ($pos !== false) {
-						$val = trim(JString::substr( $var, $pos+1 ));
-						$var = trim(JString::substr( $var, 0, $pos ));
+						$val = trim(substr( $var, $pos+1 ));
+						$var = trim(substr( $var, 0, $pos ));
 					} else {
 						$val = null;
 					}
-					$var = JString::strtoupper($var);
-					$pos = JString::strpos( $var, '.' );
+					$var = strtoupper($var);
+					$pos = strpos( $var, '.' );
 
 					if ($pos === false) {
 						array_push( $attributes['requiredvars'], array( $templatename, $var, $val ) );
 					} else {
 						array_push( $attributes['requiredvars'], array(
-																		JString::strtolower( JString::substr( $var, 0, $pos ) ),
-																		JString::substr( $var, $pos+1 ),
+																		strtolower( substr( $var, 0, $pos ) ),
+																		substr( $var, $pos+1 ),
 																		$val
 																	)
 								);
@@ -1013,7 +1013,7 @@ class patTemplate_Reader extends patTemplate_Module
 	*/
 	function _buildTemplateName()
 	{
-		return JString::strtolower( uniqid( 'tmpl' ) );
+		return strtolower( uniqid( 'tmpl' ) );
 	}
 
    /**
@@ -1076,10 +1076,10 @@ class patTemplate_Reader extends patTemplate_Module
 				}
 
 				if( $tmpl['attributes']['placeholder'] !== '__none' ) {
-					$this->_characterData( $this->_startTag.(JString::strtoupper( $tmpl['attributes']['placeholder'] ) ).$this->_endTag );
+					$this->_characterData( $this->_startTag.(strtoupper( $tmpl['attributes']['placeholder'] ) ).$this->_endTag );
 				}
 			} else {
-				$this->_characterData( sprintf( "%sTMPL:%s%s", $this->_startTag, JString::strtoupper( $name ), $this->_endTag ) );
+				$this->_characterData( sprintf( "%sTMPL:%s%s", $this->_startTag, strtoupper( $name ), $this->_endTag ) );
 			}
 		 }
 
@@ -1213,7 +1213,7 @@ class patTemplate_Reader extends patTemplate_Module
 		/**
 		 * get name
 		 */
-		$name	=	JString::strtoupper( $attributes['name'] );
+		$name	=	strtoupper( $attributes['name'] );
 		unset( $attributes['name'] );
 		$specs['name']	=	$name;
 
@@ -1232,7 +1232,7 @@ class patTemplate_Reader extends patTemplate_Module
 		 * add it to template, if it's not hidden
 		 */
 		if (!isset( $attributes['hidden'] ) || $attributes['hidden'] == 'no') {
-			$this->_characterData( $this->_startTag . JString::strtoupper( $name ) . $this->_endTag );
+			$this->_characterData( $this->_startTag . strtoupper( $name ) . $this->_endTag );
 		}
 
 		if( isset( $attributes['hidden'] ) ) {
@@ -1243,11 +1243,11 @@ class patTemplate_Reader extends patTemplate_Module
 		 * copy value from any other variable
 		 */
 		if (isset( $attributes['copyfrom'] )) {
-			$specs['copyfrom'] = JString::strtoupper( $attributes['copyfrom'] );
+			$specs['copyfrom'] = strtoupper( $attributes['copyfrom'] );
 
 			if (strstr( $specs['copyfrom'], '.' )) {
 				$specs['copyfrom']	= explode( '.', $specs['copyfrom'] );
-				$specs['copyfrom'][0] = JString::strtolower( $specs['copyfrom'][0] );
+				$specs['copyfrom'][0] = strtolower( $specs['copyfrom'][0] );
 			}
 
 			unset( $attributes['copyfrom'] );

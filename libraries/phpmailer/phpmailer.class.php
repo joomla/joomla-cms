@@ -658,8 +658,8 @@ class mosPHPMailer
 		$soft_break = ($qp_mode) ? sprintf(" =%s", $this->LE) : $this->LE;
 
 		$message = $this->FixEOL($message);
-		if (JString::substr($message, -1) == $this->LE)
-			$message = JString::substr($message, 0, -1);
+		if (substr($message, -1) == $this->LE)
+			$message = substr($message, 0, -1);
 
 		$line = explode($this->LE, $message);
 		$message = "";
@@ -670,20 +670,20 @@ class mosPHPMailer
 		  for ($e = 0; $e<count($line_part); $e++)
 		  {
 			  $word = $line_part[$e];
-			  if ($qp_mode and (JString::strlen($word) > $length))
+			  if ($qp_mode and (strlen($word) > $length))
 			  {
-				$space_left = $length - JString::strlen($buf) - 1;
+				$space_left = $length - strlen($buf) - 1;
 				if ($e != 0)
 				{
 					if ($space_left > 20)
 					{
 						$len = $space_left;
-						if (JString::substr($word, $len - 1, 1) == "=")
+						if (substr($word, $len - 1, 1) == "=")
 						  $len--;
-						elseif (JString::substr($word, $len - 2, 1) == "=")
+						elseif (substr($word, $len - 2, 1) == "=")
 						  $len -= 2;
-						$part = JString::substr($word, 0, $len);
-						$word = JString::substr($word, $len);
+						$part = substr($word, 0, $len);
+						$word = substr($word, $len);
 						$buf .= " " . $part;
 						$message .= $buf . sprintf("=%s", $this->LE);
 					}
@@ -693,17 +693,17 @@ class mosPHPMailer
 					}
 					$buf = "";
 				}
-				while (JString::strlen($word) > 0)
+				while (strlen($word) > 0)
 				{
 					$len = $length;
-					if (JString::substr($word, $len - 1, 1) == "=")
+					if (substr($word, $len - 1, 1) == "=")
 						$len--;
-					elseif (JString::substr($word, $len - 2, 1) == "=")
+					elseif (substr($word, $len - 2, 1) == "=")
 						$len -= 2;
-					$part = JString::substr($word, 0, $len);
-					$word = JString::substr($word, $len);
+					$part = substr($word, 0, $len);
+					$word = substr($word, $len);
 
-					if (JString::strlen($word) > 0)
+					if (strlen($word) > 0)
 						$message .= $part . sprintf("=%s", $this->LE);
 					else
 						$buf = $part;
@@ -714,7 +714,7 @@ class mosPHPMailer
 				$buf_o = $buf;
 				$buf .= ($e == 0) ? $word : (" " . $word);
 
-				if (JString::strlen($buf) > $length and $buf_o != "")
+				if (strlen($buf) > $length and $buf_o != "")
 				{
 					$message .= $buf_o . $soft_break;
 					$buf = $word;
@@ -948,15 +948,15 @@ class mosPHPMailer
 	 * @return void
 	 */
 	function SetMessageType() {
-		if(count($this->attachment) < 1 && JString::strlen($this->AltBody) < 1)
+		if(count($this->attachment) < 1 && strlen($this->AltBody) < 1)
 			$this->message_type = "plain";
 		else
 		{
 			if(count($this->attachment) > 0)
 				$this->message_type = "attachments";
-			if(JString::strlen($this->AltBody) > 0 && count($this->attachment) < 1)
+			if(strlen($this->AltBody) > 0 && count($this->attachment) < 1)
 				$this->message_type = "alt";
-			if(JString::strlen($this->AltBody) > 0 && count($this->attachment) > 0)
+			if(strlen($this->AltBody) > 0 && count($this->attachment) > 0)
 				$this->message_type = "alt_attachments";
 		}
 	}
@@ -1113,7 +1113,7 @@ class mosPHPMailer
 		  case "7bit":
 		  case "8bit":
 			  $encoded = $this->FixEOL($str);
-			  if (JString::substr($encoded, -(JString::strlen($this->LE))) != $this->LE)
+			  if (substr($encoded, -(strlen($this->LE))) != $this->LE)
 				$encoded .= $this->LE;
 			  break;
 		  case "binary":
@@ -1189,7 +1189,7 @@ class mosPHPMailer
 	 */
 	function EncodeQP ($str) {
 		$encoded = $this->FixEOL($str);
-		if (JString::substr($encoded, -(JString::strlen($this->LE))) != $this->LE)
+		if (substr($encoded, -(strlen($this->LE))) != $this->LE)
 			$encoded .= $this->LE;
 
 		// Replace every high ascii, control and = characters
