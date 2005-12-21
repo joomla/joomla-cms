@@ -27,7 +27,7 @@
             <option value="0">No</option>
             <option value="1">Yes</option>
         </param>
-        <param name="base_dn" type="text" size="20" default="" label="Base DN" description="The base DN of your LDAP server, e.g o=mydomain.com" />
+        <param name="base_dn" type="text" size="20" default="" label="Base DN" description="The base DN of your LDAP server" />
         <param name="@spacer" type="spacer" default="" label="" description="" />
         <param name="connect" type="text" size="20" default="" label="Connect string" description="PARAMCONNECTSTRING" />
         <param name="password" type="text" size="20" default="" label="Connect password" description="" />
