@@ -256,18 +256,18 @@ class JDatabase extends JObject {
 		$escaped = false;
 		$quoteChar = '';
 
-		$n = strlen( $sql );
+		$n = JString::strlen( $sql );
 
 		$startPos = 0;
 		$literal = '';
 		while ($startPos < $n) {
-			$ip = strpos($sql, $prefix, $startPos);
+			$ip = JString::strpos($sql, $prefix, $startPos);
 			if ($ip === false) {
 				break;
 			}
 
-			$j = strpos( $sql, "'", $startPos );
-			$k = strpos( $sql, '"', $startPos );
+			$j = JString::strpos( $sql, "'", $startPos );
+			$k = JString::strpos( $sql, '"', $startPos );
 			if (($k !== FALSE) && (($k < $j) || ($j === FALSE))) {
 				$quoteChar	= '"';
 				$j			= $k;
@@ -279,7 +279,7 @@ class JDatabase extends JObject {
 				$j = $n;
 			}
 
-			$literal .= str_replace( $prefix, $this->_table_prefix, substr( $sql, $startPos, $j - $startPos ) );
+			$literal .= str_replace( $prefix, $this->_table_prefix, JString::substr( $sql, $startPos, $j - $startPos ) );
 			$startPos = $j;
 
 			$j = $startPos + 1;
@@ -290,7 +290,7 @@ class JDatabase extends JObject {
 
 			// quote comes first, find end of quote
 			while (TRUE) {
-				$k = strpos( $sql, $quoteChar, $j );
+				$k = JString::strpos( $sql, $quoteChar, $j );
 				$escaped = false;
 				if ($k === false) {
 					break;
@@ -310,11 +310,11 @@ class JDatabase extends JObject {
 				// error in the query - no end quote; ignore it
 				break;
 			}
-			$literal .= substr( $sql, $startPos, $k - $startPos + 1 );
+			$literal .= JString::substr( $sql, $startPos, $k - $startPos + 1 );
 			$startPos = $k+1;
 		}
 		if ($startPos < $n) {
-			$literal .= substr( $sql, $startPos, $n - $startPos );
+			$literal .= JString::substr( $sql, $startPos, $n - $startPos );
 		}
 		return $literal;
 	}

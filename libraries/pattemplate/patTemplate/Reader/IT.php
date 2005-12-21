@@ -73,7 +73,7 @@ class patTemplate_Reader_IT extends patTemplate_Reader
 		/**
 		 *start parsing
 		 */
-		$patNamespace	=	strtolower( $this->_tmpl->getNamespace() );
+		$patNamespace	=	JString::strtolower( $this->_tmpl->getNamespace() );
 
 		$regexp	=	'/(<!-- (BEGIN|END) ([a-zA-Z]+) -->)/m';
 

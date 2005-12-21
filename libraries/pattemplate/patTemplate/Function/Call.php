@@ -82,7 +82,7 @@ class patTemplate_Function_Call extends patTemplate_Function
 
 		if (!$this->_tmpl->exists( $tmpl )) {
 
-			$tmpl = strtolower($tmpl);
+			$tmpl = JString::strtolower($tmpl);
 
 			// try some autoloading magic
 			$componentLocation  = $this->_tmpl->getOption('componentFolder');

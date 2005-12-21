@@ -58,7 +58,7 @@ class JInstallerTemplate extends JInstaller
 		$this->elementName($e->getText());
 		$this->elementDir( JPath::clean( JPATH_SITE
 		. ($client == 'admin' ? DS.'administrator' : '')
-		. DS.'templates'.DS . strtolower(str_replace(" ","_",$this->elementName())))
+		. DS.'templates'.DS . JString::strtolower(str_replace(" ","_",$this->elementName())))
 		);
 
 		if (!file_exists( $this->elementDir() ) && !JFolder::create( $this->elementDir() )) {

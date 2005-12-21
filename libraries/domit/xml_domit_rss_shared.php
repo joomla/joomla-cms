@@ -113,7 +113,7 @@ class xml_domit_rss_base {
 	* @return boolean True if the named element has a single child text node
 	*/
 	function isSimpleRSSElement($elementName) {
-	    $elementName = strtolower($elementName);
+	    $elementName = JString::strtolower($elementName);
 
 		if (isset($this->DOMIT_RSS_indexer[$elementName])) {
 	    	return (get_class($this->getElement($elementName)) == 'xml_domit_rss_simpleelement');
@@ -240,7 +240,7 @@ class xml_domit_rss_elementindexer extends xml_domit_rss_base {
 	* @param Object A DOMIT! node representing the custom element
 	*/
 	function addIndexedElement(&$node) {
-	    $tagName = strtolower($node->nodeName);
+	    $tagName = JString::strtolower($node->nodeName);
 
 	    if (isset($this->DOMIT_RSS_indexer[$tagName])) {
 	        if (strtolower(get_class($this->DOMIT_RSS_indexer[$tagName])) == 'domit_element') {
@@ -265,7 +265,7 @@ class xml_domit_rss_elementindexer extends xml_domit_rss_base {
 	* @return boolean True if a collection of elements exists
 	*/
 	function isCollection($elementName) {
-	    $elementName = strtolower($elementName);
+	    $elementName = JString::strtolower($elementName);
 
 		if (isset($this->DOMIT_RSS_indexer[$elementName])) {
 			return (get_class($this->DOMIT_RSS_indexer[$elementName]) == 'xml_domit_rss_collection');
@@ -281,7 +281,7 @@ class xml_domit_rss_elementindexer extends xml_domit_rss_base {
 	* @return boolean True if the requested element is a DOMIT! node
 	*/
 	function isNode($elementName) {
-	    $elementName = strtolower($elementName);
+	    $elementName = JString::strtolower($elementName);
 
 		if (isset($this->DOMIT_RSS_indexer[$elementName])) {
 			return (strtolower(get_class($this->DOMIT_RSS_indexer[$elementName])) == 'domit_element');
@@ -314,7 +314,7 @@ class xml_domit_rss_elementindexer extends xml_domit_rss_base {
 	* @return boolean True if an element with the specified name exists
 	*/
 	function hasElement($elementName) {
-		return isset($this->DOMIT_RSS_indexer[strtolower($elementName)]);
+		return isset($this->DOMIT_RSS_indexer[JString::strtolower($elementName)]);
 	} //hasElement
 
 	/**
@@ -323,7 +323,7 @@ class xml_domit_rss_elementindexer extends xml_domit_rss_base {
 	* @return mixed A reference to an element with the specified name, or the text of the element if it is a text node
 	*/
 	function &getElement($elementName) {
-		$elementName = strtolower($elementName);
+		$elementName = JString::strtolower($elementName);
 
 		if (isset($this->DOMIT_RSS_indexer[$elementName])) {
 			return $this->DOMIT_RSS_indexer[$elementName];
@@ -371,7 +371,7 @@ class xml_domit_rss_elementindexer extends xml_domit_rss_base {
 	* @return string The element text, or an empty string
 	*/
 	function getElementText($elementName) {
-		$elementName = strtolower($elementName);
+		$elementName = JString::strtolower($elementName);
 	    return $this->_getElementText($elementName, $this->DOMIT_RSS_indexer);
 	} //getElementText
 

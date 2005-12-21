@@ -58,10 +58,10 @@ class JInstallerComponent extends JInstaller
 		$e = &$mosinstall->getElementsByPath('name', 1);
 		$this->elementName($e->getText());
 		$this->elementDir( JPath::clean( JPATH_SITE . DS ."components". DS
-			. strtolower("com_" . str_replace(" ","",$this->elementName())) . DS )
+			. JString::strtolower("com_" . str_replace(" ","",$this->elementName())) . DS )
 		);
 		$this->componentAdminDir( JPath::clean( JPATH_SITE . DS."administrator".DS."components".DS
-			. strtolower( "com_" . str_replace( " ","",$this->elementName() ) ) )
+			. JString::strtolower( "com_" . str_replace( " ","",$this->elementName() ) ) )
 		);
 
 		if (file_exists($this->elementDir())) {
@@ -132,7 +132,7 @@ class JInstallerComponent extends JInstaller
 		if(!is_null($adminmenu_element))
 		{
 			$adminsubmenu_element	= &$mosinstall->getElementsByPath('administration/submenu',1);
-			$com_name				= strtolower("com_" . str_replace(" ","",$this->elementName()));
+			$com_name				= JString::strtolower("com_" . str_replace(" ","",$this->elementName()));
 			$com_admin_menuname		= $adminmenu_element->getText();
 
 			if(!is_null($adminsubmenu_element))

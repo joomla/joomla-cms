@@ -81,7 +81,7 @@ class mosUser extends JModel {
 			return false;
 		}
 
-		if (eregi( "[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", $this->username) || strlen( $this->username ) < 3) {
+		if (eregi( "[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", $this->username) || JString::strlen( $this->username ) < 3) {
 			$this->_error = sprintf( JText::_( 'VALID_AZ09' ), JText::_( 'Username' ), 2 );
 			return false;
 		}

@@ -440,28 +440,28 @@ class php_http_client_generic extends php_http_request {
 	* @return string The decoded data
 	*/
 	function decodeChunkedData($data) {
-		$chunkStart = $chunkEnd = strpos($data, CRLF) + 2;
-		$chunkLengthInHex = substr($data, 0, $chunkEnd);
+		$chunkStart = $chunkEnd = JString::strpos($data, CRLF) + 2;
+		$chunkLengthInHex = JString::substr($data, 0, $chunkEnd);
 		$chunkLength = hexdec(trim($chunkLengthInHex));
 
 		$decodedData = '';
 
 		while ($chunkLength > 0) {
-			$chunkEnd = strpos($data, CRLF, ($chunkStart + $chunkLength));
+			$chunkEnd = JString::strpos($data, CRLF, ($chunkStart + $chunkLength));
 
 			if (!$chunkEnd) {
 				//if the trailing CRLF is missing, return all the remaining data
-				$decodedData .= substr($data, $chunkStart);
+				$decodedData .= JString::substr($data, $chunkStart);
 				break;
 			}
 
-			$decodedData .= substr($data, $chunkStart, ($chunkEnd - $chunkStart));
+			$decodedData .= JString::substr($data, $chunkStart, ($chunkEnd - $chunkStart));
 			$chunkStart = $chunkEnd + 2;
-			$chunkEnd = strpos($data, CRLF, $chunkStart) + 2;
+			$chunkEnd = JString::strpos($data, CRLF, $chunkStart) + 2;
 
 			if (!$chunkEnd) break;
 
-			$chunkLengthInHex = substr($data, $chunkStart, ($chunkEnd - $chunkStart));
+			$chunkLengthInHex = JString::substr($data, $chunkStart, ($chunkEnd - $chunkStart));
 			$chunkLength = hexdec(trim($chunkLengthInHex));
 			$chunkStart = $chunkEnd;
 		}
@@ -748,11 +748,11 @@ class php_http_response {
 	* Converts a header string into a key value pair and sets header
 	*/
 	function setUnformattedHeader($headerString) {
-		$colonIndex = strpos($headerString, ':');
+		$colonIndex = JString::strpos($headerString, ':');
 
 		if ($colonIndex !== false) {
-			$key = trim(substr($headerString, 0, $colonIndex));
-			$value = trim(substr($headerString, ($colonIndex + 1)));
+			$key = trim(JString::substr($headerString, 0, $colonIndex));
+			$value = trim(JString::substr($headerString, ($colonIndex + 1)));
 			$this->headers->setHeader($key, $value, true);
 		}
 	} //setUnformattedHeader

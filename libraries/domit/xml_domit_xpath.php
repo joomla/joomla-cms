@@ -152,16 +152,17 @@ class DOMIT_XPath {
 	* Generates a new globalNodeContainer of matches
 	*/
 	function processPatternSegment() {
-		$total = strlen($this->currentSegment);
+		$total = JString::strlen($this->currentSegment);
 		$this->charContainer = '';
 		$this->localNodeContainer = array();
 
 		for ($i = 0; $i < $total; $i++) {
-			$this->currChar = $this->currentSegment{$i};
-
+//			$this->currChar = $this->currentSegment{$i};
+			$this->currChar = JString::substr($this->currentSegment, $i, 1);
+			
 			switch ($this->currChar) {
 				case '@':
-					$this->selectAttribute(substr($this->currentSegment, ($this->currChar + 1)));
+					$this->selectAttribute(JString::substr($this->currentSegment, ($this->currChar + 1)));
 					$this->updateNodeContainers();
 					return;
 					//break;
@@ -195,7 +196,7 @@ class DOMIT_XPath {
 
 				case '[':
 					$this->parsePredicate($this->charContainer,
-									substr($this->currentSegment, ($i + 1)));
+									JString::substr($this->currentSegment, ($i + 1)));
 					return;
 					//break;
 
@@ -232,8 +233,8 @@ class DOMIT_XPath {
 		$total = count($arPredicates);
 
 		$lastIndex = $total - 1;
-		$arPredicates[$lastIndex] = substr($arPredicates[$lastIndex],
-										0, (strlen($arPredicates[$lastIndex]) - 1));
+		$arPredicates[$lastIndex] = JString::substr($arPredicates[$lastIndex],
+										0, (JString::strlen($arPredicates[$lastIndex]) - 1));
 
 		for ($i = 0; $i < $total; $i++) {
 			$isRecursive = ($this->searchType == DOMIT_XPATH_SEARCH_VARIABLE) ? true : false;
@@ -272,10 +273,10 @@ class DOMIT_XPath {
 		$phpExpression = $predicate;
 		$currChar = '';
 		$charContainer = '';
-		$totalChars = strlen($predicate);
+		$totalChars = JString::strlen($predicate);
 
 		for ($i = 0; $i < $totalChars; $i++) {
-			$currChar = substr($predicate, $i, 1);
+			$currChar = JString::substr($predicate, $i, 1);
 
 			switch ($currChar) {
 				case '(':
@@ -361,27 +362,27 @@ class DOMIT_XPath {
 			}
 			else {
 				if (strpos($expression, '>=') !== false) {
-					$signPos = strpos($expression, '>=');
-					$elementName = trim(substr($expression, 0, $signPos));
-					$elementValue = trim(substr($expression, ($signPos + 2)));
+					$signPos = JString::strpos($expression, '>=');
+					$elementName = trim(JString::substr($expression, 0, $signPos));
+					$elementValue = trim(JString::substr($expression, ($signPos + 2)));
 
 					$expression = '$' . "this->hasNamedChildElementGreaterThanOrEqualToValue(" .
 									'$' . "contextNode, '" . $elementName . "', " .
 									$elementValue . ')';
 				}
 				else if (strpos($expression, '<=') !== false) {
-					$signPos = strpos($expression, '>=');
-					$elementName = trim(substr($expression, 0, $signPos));
-					$elementValue = trim(substr($expression, ($signPos + 2)));
+					$signPos = JString::strpos($expression, '>=');
+					$elementName = trim(JString::substr($expression, 0, $signPos));
+					$elementValue = trim(JString::substr($expression, ($signPos + 2)));
 
 					$expression = '$' . "this->hasNamedChildElementLessThanOrEqualToValue(" .
 									'$' . "contextNode, '" . $elementName . "', " .
 									$elementValue . ')';
 				}
 				else if (strpos($expression, '!=') !== false) {
-					$signPos = strpos($expression, '>=');
-					$elementName = trim(substr($expression, 0, $signPos));
-					$elementValue = trim(substr($expression, ($signPos + 2)));
+					$signPos = JString::strpos($expression, '>=');
+					$elementName = trim(JString::substr($expression, 0, $signPos));
+					$elementValue = trim(JString::substr($expression, ($signPos + 2)));
 
 					$expression = '$' . "this->hasNamedChildElementNotEqualToValue(" .
 									'$' . "contextNode, '" . $elementName . "', " .

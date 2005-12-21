@@ -473,7 +473,7 @@ class patTemplate
 	*/
 	function setAttribute( $template, $attribute, $value )
 	{
-		$template	=	strtolower( $template );
+		$template	=	JString::strtolower( $template );
 		if( !isset( $this->_templates[$template] ) )
 		{
 			return	patErrorManager::raiseWarning(
@@ -482,7 +482,7 @@ class patTemplate
 												);
 		}
 
-		$attribute	=	strtolower( $attribute );
+		$attribute	=	JString::strtolower( $attribute );
 		$this->_templates[$template]['attributes'][$attribute]	=	$value;
 		return true;
 	}
@@ -505,7 +505,7 @@ class patTemplate
 			return patErrorManager::raiseError( PATTEMPLATE_ERROR_EXPECTED_ARRAY, 'patTemplate::setAttributes: Expected array as second parameter, '.gettype( $attributes ).' given' );
 		}
 
-		$template	=	strtolower( $template );
+		$template	=	JString::strtolower( $template );
 		$attributes	=	array_change_key_case( $attributes );
 		if( !isset( $this->_templates[$template] ) )
 		{
@@ -528,7 +528,7 @@ class patTemplate
 	*/
 	function getAttributes( $template )
 	{
-		$template	=	strtolower( $template );
+		$template	=	JString::strtolower( $template );
 		if( !isset( $this->_templates[$template] ) )
 		{
 			return	patErrorManager::raiseWarning(
@@ -552,8 +552,8 @@ class patTemplate
 	*/
 	function getAttribute( $template, $attribute )
 	{
-		$template	=	strtolower( $template );
-		$attribute	=	strtolower( $attribute );
+		$template	=	JString::strtolower( $template );
+		$attribute	=	JString::strtolower( $attribute );
 		if( !isset( $this->_templates[$template] ) )
 		{
 			return	patErrorManager::raiseWarning(
@@ -576,8 +576,8 @@ class patTemplate
 	*/
 	function clearAttribute( $template, $attribute )
 	{
-		$template	=	strtolower( $template );
-		$attribute	=	strtolower( $attribute );
+		$template	=	JString::strtolower( $template );
+		$attribute	=	JString::strtolower( $attribute );
 
 		if( !isset( $this->_templates[$template] ) )
 		{
@@ -601,7 +601,7 @@ class patTemplate
 	*/
 	function prepareTemplate( $name )
 	{
-		$name	=	strtolower( $name );
+		$name	=	JString::strtolower( $name );
 		if( !isset( $this->_vars[$name] ) )
 		{
 			$this->_vars[$name]	=	array(
@@ -624,8 +624,8 @@ class patTemplate
 	*/
 	function addVar( $template, $varname, $value )
 	{
-		$template = strtolower( $template );
-		$varname  = strtoupper( $varname );
+		$template = JString::strtolower( $template );
+		$varname  = JString::strtoupper( $varname );
 
 		if( !is_array( $value ) ) {
 			$this->_vars[$template]['scalar'][$varname] = $value;
@@ -653,8 +653,8 @@ class patTemplate
 	*/
 	function getVar( $template, $varname )
 	{
-		$template	=	strtolower( $template );
-		$varname	=	strtoupper( $varname );
+		$template	=	JString::strtolower( $template );
+		$varname	=	JString::strtoupper( $varname );
 
 		if( isset( $this->_vars[$template]['scalar'][$varname] ) )
 			return $this->_vars[$template]['scalar'][$varname];
@@ -684,8 +684,8 @@ class patTemplate
 	*/
 	function clearVar( $template, $varname )
 	{
-		$template	=	strtolower( $template );
-		$varname	=	strtoupper( $varname );
+		$template	=	JString::strtolower( $template );
+		$varname	=	JString::strtoupper( $varname );
 
 		if (isset( $this->_vars[$template]['scalar'][$varname] )) {
 			unset ($this->_vars[$template]['scalar'][$varname]);
@@ -719,8 +719,8 @@ class patTemplate
 	*/
 	function addVars( $template, $variables, $prefix = '' )
 	{
-		$template	=	strtolower( $template );
-		$prefix		=	strtoupper( $prefix );
+		$template	=	JString::strtolower( $template );
+		$prefix		=	JString::strtoupper( $prefix );
 		$variables	=	array_change_key_case( $variables, CASE_UPPER );
 
 		foreach ($variables as $varname => $value) {
@@ -756,7 +756,7 @@ class patTemplate
 	*/
 	function clearVars( $template )
 	{
-		$template = strtolower($template);
+		$template = JString::strtolower($template);
 		$this->_vars[$template] = array(
 										 'scalar' => array(),
 										 'rows'   => array()
@@ -779,8 +779,8 @@ class patTemplate
 	*/
 	function addRows( $template, $rows, $prefix = '' )
 	{
-		$template	=	strtolower( $template );
-		$prefix		=	strtoupper( $prefix );
+		$template	=	JString::strtolower( $template );
+		$prefix		=	JString::strtoupper( $prefix );
 
 		$cnt		=	count( $rows );
 		for( $i = 0; $i < $cnt; $i++ )
@@ -863,7 +863,7 @@ class patTemplate
 	*/
 	function addGlobalVar( $varname, $value )
 	{
-		$this->_globals[strtoupper( $varname )]	=	( string )$value;
+		$this->_globals[JString::strtoupper( $varname )]	=	( string )$value;
 		return	true;
 	}
 
@@ -877,7 +877,7 @@ class patTemplate
 	*/
 	function clearGlobalVar( $varname )
 	{
-		$varname = strtoupper( $varname );
+		$varname = JString::strtoupper( $varname );
 		if (!isset($this->_globals[$varname])) {
 			return false;
 		}
@@ -914,7 +914,7 @@ class patTemplate
 	function addGlobalVars( $variables, $prefix = '' )
 	{
 		$variables	=	array_change_key_case( $variables, CASE_UPPER );
-		$prefix		=	strtoupper( $prefix );
+		$prefix		=	JString::strtoupper( $prefix );
 		foreach( $variables as $varname => $value )
 		{
 			$this->_globals[$prefix.$varname]	=	( string )$value;
@@ -943,7 +943,7 @@ class patTemplate
 	*/
 	function exists( $name )
 	{
-		return	in_array( strtolower( $name ), $this->_templateList );
+		return	in_array( JString::strtolower( $name ), $this->_templateList );
 	}
 
    /**
@@ -997,7 +997,7 @@ class patTemplate
 			return true;
 		}
 
-		$template = strtolower($template);
+		$template = JString::strtolower($template);
 		if (!$this->exists($template)) {
 			return patErrorManager::raiseWarning(PATTEMPLATE_WARNING_NO_TEMPLATE, 'The selected template does not exist');
 		}
@@ -1067,7 +1067,7 @@ class patTemplate
 		}
 
 		if (!is_null($parseInto)) {
-			$parseInto	=	strtolower( $parseInto );
+			$parseInto	=	JString::strtolower( $parseInto );
 		}
 
 		$templates = false;
@@ -1290,7 +1290,7 @@ class patTemplate
 			$options = $this->_options;
 
 		if( !is_null( $parseInto ) )
-			$parseInto	=	strtolower( $parseInto );
+			$parseInto	=	JString::strtolower( $parseInto );
 
 		$reader	= &$this->loadModule( 'Reader', $reader );
 		if( patErrorManager::isError( $reader ) )
@@ -1323,7 +1323,7 @@ class patTemplate
 	*/
 	function  loadTemplate( $template )
 	{
-		$template = strtolower( $template );
+		$template = JString::strtolower( $template );
 		if( !isset( $this->_templates[$template] ) )
 		{
 			return	patErrorManager::raiseWarning(
@@ -1479,7 +1479,7 @@ class patTemplate
 	*/
 	function parseTemplate( $template, $mode = 'w' )
 	{
-		$template = strtolower($template);
+		$template = JString::strtolower($template);
 
 		if (!isset($this->_templates[$template])) {
 			return	patErrorManager::raiseWarning(
@@ -1555,13 +1555,13 @@ class patTemplate
 
 		$start = 0;
 		if (isset($this->_templates[$template]['attributes']['limit'])) {
-			$p = strpos( $this->_templates[$template]['attributes']['limit'], ',' );
+			$p = JString::strpos( $this->_templates[$template]['attributes']['limit'], ',' );
 			if ($p === false) {
 				$this->_templates[$template]['loop'] = min( $this->_templates[$template]['loop'], $this->_templates[$template]['attributes']['limit'] );
 				$start = 0;
 			} else {
-				$start = substr( $this->_templates[$template]['attributes']['limit'], 0, $p );
-				$end   = substr( $this->_templates[$template]['attributes']['limit'], $p+1 )+$start;
+				$start = JString::substr( $this->_templates[$template]['attributes']['limit'], 0, $p );
+				$end   = JString::substr( $this->_templates[$template]['attributes']['limit'], $p+1 )+$start;
 
 				$this->_templates[$template]['loop'] = min( $this->_templates[$template]['loop'], $end );
 			}
@@ -1819,7 +1819,7 @@ class patTemplate
 				continue;
 			}
 
-			$mod = &$this->loadModule( 'Modifier', ucfirst( $modifier['mod'] ) );
+			$mod = &$this->loadModule( 'Modifier', JString::ucfirst( $modifier['mod'] ) );
 			$vars[$varname] = $mod->modify( $vars[$varname], $modifier['params'] );
 		}
 
@@ -1831,7 +1831,7 @@ class patTemplate
 				$type = 'php';
 			} else {
 				$type = 'custom';
-				$defaultModifier = &$this->loadModule('Modifier', ucfirst($defaultModifier));
+				$defaultModifier = &$this->loadModule('Modifier', JString::ucfirst($defaultModifier));
 			}
 
 
@@ -1865,7 +1865,6 @@ class patTemplate
 				return patErrorManager::raiseError(PATTEMPLATE_ERROR_RECURSION, 'You have an error in your template "' . $template . '", which leads to recursion');
 			}
 			$this->parseTemplate($depTemplate);
-			$var	= $this->_startTag.'TMPL:'.strtoupper( $depTemplate) .$this->_endTag;
 			$this->_templates[$template]['work'] = str_replace( $var, $this->_templates[$depTemplate]['result'], $this->_templates[$template]['work'] );
 		}
 		return true;

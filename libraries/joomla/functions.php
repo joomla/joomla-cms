@@ -333,8 +333,8 @@ function mosGetOrderingList( $sql, $chop='30' ) {
 	$order[] = mosHTML::makeOption( 0, '0 '. JText::_( 'first' ) );
 	for ($i=0, $n=count( $orders ); $i < $n; $i++) {
 
-		if (strlen($orders[$i]->text) > $chop) {
-			$text = substr($orders[$i]->text,0,$chop)."...";
+		if (JString::strlen($orders[$i]->text) > $chop) {
+			$text = JString::substr($orders[$i]->text,0,$chop)."...";
 		} else {
 			$text = $orders[$i]->text;
 		}
@@ -699,12 +699,12 @@ function mosPrepareSearchContent( $text, $length=200, $searchword ) {
 * @return string
 */
 function mosSmartSubstr($text, $length=200, $searchword) {
-  $wordpos = strpos(strtolower($text), strtolower($searchword));
-  $halfside = intval($wordpos - $length/2 - strlen($searchword));
+  $wordpos = JString::strpos(JString::strtolower($text), JString::strtolower($searchword));
+  $halfside = intval($wordpos - $length/2 - JString::strlen($searchword));
   if ($wordpos && $halfside > 0) {
-	return '...' . substr($text, $halfside, $length) . '...';
+	return '...' . JString::substr($text, $halfside, $length) . '...';
   } else {
-	return substr( $text, 0, $length);
+	return JString::substr( $text, 0, $length);
   }
 }
 

@@ -761,7 +761,7 @@ class PEAR_Error
             $msg = $this->getMessage();
             if (is_null($options) || is_int($options)) {
                 $format = "%s";
-                if (substr($msg, -1) != "\n") {
+                if (JString::substr($msg, -1) != "\n") {
                     $msg .= "\n";
                 }
             } else {

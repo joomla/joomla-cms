@@ -43,7 +43,7 @@ class patTemplate_Function_Placeholder extends patTemplate_Function
 				unset($params['name']);
 
 				$document->setComponent($name, $params);
-				return '{COMPONENT_'.strtoupper($name).'}';
+				return '{COMPONENT_'.JString::strtoupper($name).'}';
 			} break;
 
         	case 'modules' :
@@ -52,7 +52,7 @@ class patTemplate_Function_Placeholder extends patTemplate_Function
 				unset($params['position']);
 
 				$document->setModules($position, $params);
-				return '{MODULES_'.strtoupper($position).'}';
+				return '{MODULES_'.JString::strtoupper($position).'}';
 			} break;
 
 			case 'module' :
@@ -61,7 +61,7 @@ class patTemplate_Function_Placeholder extends patTemplate_Function
 				unset($params['name']);
 
 				$document->setModule($name, $params);
-				return '{MODULE_'.strtoupper($name).'}';
+				return '{MODULE_'.JString::strtoupper($name).'}';
 			} break;
 
 	       	case 'head':

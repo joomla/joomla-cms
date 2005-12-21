@@ -315,7 +315,7 @@ class SMTP
 		# does not contain a space then it _should_ be a header
 		# and we can process all lines before a blank "" line as
 		# headers.
-		$field = substr($lines[0],0,strpos($lines[0],":"));
+		$field = JString::substr($lines[0],0,JString::strpos($lines[0],":"));
 		$in_headers = false;
 		if(!empty($field) && !strstr($field," ")) {
 			$in_headers = true;
@@ -330,16 +330,16 @@ class SMTP
 			}
 			# ok we need to break this line up into several
 			# smaller lines
-			while(strlen($line) > $max_line_length) {
-				$pos = strrpos(substr($line,0,$max_line_length)," ");
+			while(JString::strlen($line) > $max_line_length) {
+				$pos = JString::strrpos(JString::substr($line,0,$max_line_length)," ");
 
 				# Patch to fix DOS attack
 				if(!$pos) {
 					$pos = $max_line_length - 1;
 				}
 
-				$lines_out[] = substr($line,0,$pos);
-				$line = substr($line,$pos + 1);
+				$lines_out[] = JString::substr($line,0,$pos);
+				$line = JString::substr($line,$pos + 1);
 				# if we are processing headers we need to
 				# add a LWSP-char to the front of the new line
 				# rfc 822 on long msg headers
@@ -353,7 +353,7 @@ class SMTP
 			while(list(,$line_out) = @each($lines_out)) {
 				if(strlen($line_out) > 0)
 				{
-					if(substr($line_out, 0, 1) == ".") {
+					if(JString::substr($line_out, 0, 1) == ".") {
 						$line_out = "." . $line_out;
 					}
 				}
