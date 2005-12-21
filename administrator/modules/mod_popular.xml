@@ -8,7 +8,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.0.0</version>
-	<description>This module shows a list of the popular published Items that are still current (some may have expired even though they are the most recent). Items that are displayed on the Front Page Component are not included in the list.</description>
+	<description>DESCPOPULARITEMS</description>
 	<files>
 		<filename module="mod_popular">mod_popular.php</filename>
 	</files>

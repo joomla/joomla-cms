@@ -13,9 +13,9 @@
 		<filename module="mod_whosonline">mod_whosonline.php</filename>
 	</files>
 	<params>
-	  <param name="showmode" type="radio" default="0" label="Display" description="Select what shall be shown">
-		<option value="0"># of Guests/Members&lt;br&gt;</option>
-		<option value="1">Member Names&lt;br&gt;</option>
+	  <param name="showmode" type="list" default="0" label="Display" description="Select what shall be shown">
+		<option value="0">Number of Guests/Members</option>
+		<option value="1">Member Names</option>
 		<option value="2">Both</option>
 	  </param>
 	  <param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />

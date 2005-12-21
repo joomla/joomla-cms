@@ -8,7 +8,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.0.0</version>
-	<description>This module displays a Username and Password login form. It also displays a link to retrieve a forgotten password. If user registration is enabled, (refer to the Configuration settings), then another link will be shown to invite users to self-register.</description>
+	<description>DESCLOGINFORM</description>
 	<files>
 		<filename module="mod_login">mod_login.php</filename>
 	</files>

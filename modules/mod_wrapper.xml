@@ -17,7 +17,7 @@
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="url" type="text" size="30" default="" label="Url" description="Url to site/file you wish to display within the Iframe" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="scrolling" type="radio" default="auto" label="Scroll Bars" description="Show/Hide Horizontal & Vertical scroll bars.">
+		<param name="scrolling" type="radio" default="auto" label="Scroll Bars" description="Show/Hide Horizontal and Vertical scroll bars.">
 			<option value="no">No</option>
 			<option value="yes">Yes</option>
 			<option value="auto">Auto</option>
