@@ -51,7 +51,7 @@ $tstart = mosProfiler::getmicrotime();
 <div id="ctr" align="center">
 	<div class="login">
 		<div class="login-form">
-			<img src="templates/joomla_admin/images/login.gif" alt="<?php echo JText::_( 'Login' ); ?>" />
+			<h1><?php echo JText::_( 'Login' ); ?></h1>
 			<form action="index.php" method="post" name="loginForm" id="loginForm">
 			<div class="form-block">
 				<?php if ($handle) {

@@ -15,14 +15,18 @@ body {
 	width: 100%;
 	margin-top: 20px;
 	line-height: 18px;
-	background: #C64934;
+	background: #6d9d2e;
 	text-align: center;
 	color: #fff;
 	font-size: 11px;
 }
 
+.footer a:link, .footer a:visited {
+	color: #fff;
+}
+
 .footer a:hover {
-	color: #ccc;
+	color: #fff;
 }
 
 body, div, p, td, span {
@@ -35,7 +39,7 @@ a:link, a:visited {
 }
 
 a:hover {
-	color: #C64934;
+	color: #6d9d2e;
 }
 
 .logo {
@@ -133,10 +137,10 @@ a:hover {
 .install h2 {
 	font-size: 12px;
 	font-weight: bold;
- 	color: #c64934;
+ 	color: #6d9d2e;
 	padding: 10px 10px 4px 0px;
  	text-align: left;
-	border-bottom: 1px solid #c64934;
+	border-bottom: 1px solid #6d9d2e;
 	margin-bottom: 10px;
 
 }
@@ -181,7 +185,6 @@ a:hover {
 	padding: 5px;
 	border: 1px solid #444;
 }
-
 
 table.final-table {
 	width: 100% !important;
@@ -246,20 +249,20 @@ table.content2 td {
 }
 
 .Yes {
-	color: #5aa426;
+	color: #70acdb;
 	font-weight: bold;
 }
 .No {
-	color: #e52626;
+	color: #d96557;
 	font-weight: bold;
 }
 
 .Writeable {
-	color: #5aa426;
+	color: #70acdb;
 	font-weight: bold;
 }
 .Unwriteable {
-	color: #e52626;
+	color: #d96557;
 	font-weight: bold;
 }
 
@@ -278,7 +281,7 @@ table.content2 td {
 }
 
 .error {
-	color : #C64934;
+	color : #88d225;
 	font-size : 12px;
 	font-weight : bold;
 	padding-top: 10px;
@@ -343,7 +346,7 @@ input.button {
 	width: 210px;
 	text-align: center;  
 	vertical-align: middle;
-	color : #C64934;
+	color : #88d225;
 	font-size : 12px;	
 }
 
@@ -353,15 +356,15 @@ input.button {
 	width: 210px; 
 	vertical-align: middle; 
 	text-decoration : none;
-	border: 1px solid #C64934;
+	border: 1px solid #6d9d2e;
 	background: #222;
 }
 
-#cpanel div.icon a:link    {  color : #C64934;  }
+#cpanel div.icon a:link    {  color : #88d225;  }
 #cpanel div.icon a:hover   { 
-	color : #C64934; 
+	color : #88d225; 
 	background-color: #000;  
-	border: 1px solid #C64934;
+	border: 1px solid #6d9d2e;
 }
-#cpanel div.icon a:active  {  color : #C64934;  }
-#cpanel div.icon a:visited {  color : #C64934;  }
+#cpanel div.icon a:active  {  color : #88d225;  }
+#cpanel div.icon a:visited {  color : #88d225;  }

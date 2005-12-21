@@ -50,7 +50,7 @@
 
 .ThemeOfficeMainItemHover,.ThemeOfficeMainItemActive
 {
-	background-color:	#f1e8e6;
+	background-color:	#e7eddf;
 }
 
 .ThemeOfficeMenuItem
@@ -60,7 +60,7 @@
 
 .ThemeOfficeMenuItemHover,.ThemeOfficeMenuItemActive
 {
-	background-color:	#f1e8e6;
+	background-color:	#e7eddf;
 }
 
 
@@ -75,8 +75,8 @@
 td.ThemeOfficeMainItemHover,td.ThemeOfficeMainItemActive
 {
 	padding:	0px;
-	border-right:	1px solid #c24733;
-	border-left:	1px solid #c24733;
+	border-right:	1px solid #6d9d2e;
+	border-left:	1px solid #6d9d2e;
 }
 
 .ThemeOfficeMainFolderLeft,.ThemeOfficeMainItemLeft,
@@ -95,9 +95,9 @@ td.ThemeOfficeMainFolderLeft,td.ThemeOfficeMainItemLeft
 	padding-left:	0px;
 	padding-right:	2px;
 
-	border-top:	1px solid #c24733;
-	border-bottom:	1px solid #c24733;
-	border-left:	1px solid #c24733;
+	border-top:	1px solid #6d9d2e;
+	border-bottom:	1px solid #6d9d2e;
+	border-left:	1px solid #6d9d2e;
 
 	background-color:	inherit;
 }
@@ -109,8 +109,8 @@ td.ThemeOfficeMainFolderText,td.ThemeOfficeMainItemText
 	padding-left:	5px;
 	padding-right:	5px;
 
-	border-top:	1px solid #c24733;
-	border-bottom:	1px solid #c24733;
+	border-top:	1px solid #6d9d2e;
+	border-bottom:	1px solid #6d9d2e;
 
 	background-color:	inherit;
 	white-space:	nowrap;
@@ -123,9 +123,9 @@ td.ThemeOfficeMainFolderRight,td.ThemeOfficeMainItemRight
 	padding-left:	0px;
 	padding-right:	0px;
 
-	border-top:	1px solid #c24733;
-	border-bottom:	1px solid #c24733;
-	border-right:	1px solid #c24733;
+	border-top:	1px solid #6d9d2e;
+	border-bottom:	1px solid #6d9d2e;
+	border-right:	1px solid #6d9d2e;
 
 	background-color:	inherit;
 }
@@ -177,9 +177,9 @@ tr.ThemeOfficeMainItem td.ThemeOfficeMainFolderRight
 	padding-left:	1px;
 	padding-right:	3px;
 
-	border-top:	1px solid #c24733;
-	border-bottom:	1px solid #c24733;
-	border-left:	1px solid #c24733;
+	border-top:	1px solid #6d9d2e;
+	border-bottom:	1px solid #6d9d2e;
+	border-left:	1px solid #6d9d2e;
 
 	background-color:	inherit;
 	white-space:	nowrap;
@@ -192,8 +192,8 @@ tr.ThemeOfficeMainItem td.ThemeOfficeMainFolderRight
 	padding-left:	5px;
 	padding-right:	5px;
 
-	border-top:	1px solid #c24733;
-	border-bottom:	1px solid #c24733;
+	border-top:	1px solid #6d9d2e;
+	border-bottom:	1px solid #6d9d2e;
 
 	background-color:	inherit;
 	white-space:	nowrap;
@@ -206,9 +206,9 @@ tr.ThemeOfficeMainItem td.ThemeOfficeMainFolderRight
 	padding-left:	0px;
 	padding-right:	0px;
 
-	border-top:	1px solid #c24733;
-	border-bottom:	1px solid #c24733;
-	border-right:	1px solid #c24733;
+	border-top:	1px solid #6d9d2e;
+	border-bottom:	1px solid #6d9d2e;
+	border-right:	1px solid #6d9d2e;
 
 	background-color:	inherit;
 	white-space:	nowrap;

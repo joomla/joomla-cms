@@ -28,7 +28,7 @@ body {
 #header {
         background-color: #FFF;
         background-position: right top;
-        border-bottom: 4px solid #C64934;
+        border-bottom: 4px solid #6d9d2e;
         background: url(../images/header_bg.png);
 }
 
@@ -90,14 +90,10 @@ form {
 }
 	
 .login h1 {
-	background: url(../images/login_header.png) no-repeat;
-	background-position: left top;
-	color: #333;
-	margin: 0px;
-	height: 50px;
-	padding: 15px 4px 0 50px;
- 	text-align: left;
-	font-size: 1.5em;
+	color: #6d9d2e;
+	font-size: 2.2em;
+	margin: 5px 0;
+	font-family: Helvetica, Arial, sans-serif;
 }
 
 .login p {

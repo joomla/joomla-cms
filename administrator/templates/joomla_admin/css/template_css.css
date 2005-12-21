@@ -23,7 +23,7 @@ html {
 #header {
         background-color: #FFF;
         background-position: right top;
-        border-bottom: 4px solid #C64934;
+        border-bottom: 4px solid #6d9d2e;
         background: url(../images/header_bg.png);
 }
 
@@ -73,7 +73,7 @@ BODY {
 	font-size: 12px;
 }
 a {
-	color: #C64934;
+	color: #6d9d2e;
 	text-decoration: none;
 }
 a:hover {
@@ -94,16 +94,16 @@ table#toolbar a.toolbar {
 	padding: 2px 1px 2px 1px;
 }
 table#toolbar a.toolbar:hover {
-	color : #C64934;
-	border: 1px solid #c24733;
-	background-color: #f1e8e6;
+	color : #333;
+	border: 1px solid #6d9d2e;
+	background-color: #e7eddf;
 	padding: 3px 0px 1px 2px;
 }
 table#toolbar a.toolbar:active {
 	color : #FF9900;
 }
 table#toolbar td.title {
-	color: #C64934;
+	color: #6d9d2e;
 	font-size : 18px;
 	font-weight: bold;
 	text-align: left;
@@ -189,7 +189,7 @@ table.adminheading {
 	border: 0px;
 	width: 100%;
 	border-collapse: collapse;
-	color: #C64934;
+	color: #6d9d2e;
 	font-size : 18px;
 	font-weight: bold;
 	text-align: left;
@@ -296,7 +296,7 @@ table.adminlist th {
 	margin: 0px;
 	padding: 6px 4px 2px 4px;
 	height: 25px;
-	background: url(../images/background.jpg);
+	background: url(../images/background.png);
 	background-repeat: repeat;
 	font-size: 11px;
 	color: #000;
@@ -306,7 +306,7 @@ table.adminlist th.title {
 }
 
 table.adminlist th a:link, table.adminlist th a:visited {
-	color: #c64934;
+	color: #6d9d2e;
 	text-decoration: none;
 }
 
@@ -361,7 +361,7 @@ table.adminform th {
 	padding-right: 4px;
 	text-align: left;
 	height: 25px;
-	background: url(../images/background.jpg);
+	background: url(../images/background.png);
 	color: #000;
 	background-repeat: repeat;
 }
@@ -480,8 +480,8 @@ div.main {
 #cpanel div.icon a:link    {  color : #808080;  }
 #cpanel div.icon a:hover   { 
 	color : #333; 
-	background-color: #f1e8e6;  
-	border: 1px solid #c24733;
+	border: 1px solid #6d9d2e;
+	background-color: #e7eddf;
 	padding: 3px 4px 0px 6px; 
 }
 #cpanel div.icon a:active  {  color : #808080;  }
