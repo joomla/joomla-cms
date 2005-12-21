@@ -32,19 +32,8 @@ function mosCountModules( $position='left' ) {
  */
 function mosMainBody()
 {
-	global $option;
-
 	?>
-	<jos:placeholder type="component" name="<?php echo $option ?>"/>
-	<?php
-}
-/**
- * Insert a component placeholder
- */
-function mosLoadComponent( $name )
-{
-	?>
-	<jos:placeholder type="component" name="<?php echo $name ?>" />
+	<jtmpl:placeholder type="component" />
 	<?php
 }
 
@@ -57,7 +46,7 @@ function mosLoadComponent( $name )
 function mosLoadModules( $position='left', $style=0 )
 {
 	?>
-	<jos:placeholder type="modules" position="<?php echo $position ?>" style="<?php echo $style ?>"/>
+	<jtmpl:placeholder type="modules" position="<?php echo $position ?>" style="<?php echo $style ?>"/>
 	<?php
 }
 
@@ -70,7 +59,7 @@ function mosLoadModules( $position='left', $style=0 )
 function mosLoadModule( $name, $style=-1 )
 {
 	?>
-	<jos:placeholder type="module" name="<?php echo $name ?>" style="<?php echo $style ?>" />
+	<jtmpl:placeholder type="module" name="<?php echo $name ?>" style="<?php echo $style ?>" />
 	<?php
 }
 
@@ -80,7 +69,7 @@ function mosLoadModule( $name, $style=-1 )
 function mosShowHead()
 {
 	?>
-	<jos:placeholder type="head" />
+	<jtmpl:placeholder type="head" />
 	<?php
 }
 ?>

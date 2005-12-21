@@ -45,6 +45,7 @@ class JTemplate extends patTemplate
 		//add module directories
 		$this->addModuleDir('Function', dirname(__FILE__). DS. 'functions');
 		$this->addModuleDir('Modifier', dirname(__FILE__). DS. 'modifiers');
+		$this->addModuleDir('OutputFilter', dirname(__FILE__). DS. 'filters');
 		
 		//set root template directory
 		$this->setRoot( dirname(__FILE__). DS. 'tmpl' );

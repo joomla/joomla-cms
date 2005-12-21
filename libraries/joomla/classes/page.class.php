@@ -50,6 +50,14 @@ class JPage extends JObject
      * @access  private
      */
     var $_charset = 'utf-8';
+	
+	/**
+     * Contains the base url
+     *
+     * @var     string
+     * @access  private
+     */
+    var $_base = '';
 
     /**
      * Contains the page language setting
@@ -158,6 +166,10 @@ class JPage extends JObject
 
         if (isset($attributes['charset'])) {
             $this->setCharset($attributes['charset']);
+        }
+		
+		 if (isset($attributes['base'])) {
+            $this->setBase($attributes['base']);
         }
 
         if (isset($attributes['language'])) {
@@ -296,6 +308,29 @@ class JPage extends JObject
 	{
 		$this->_custom[] = trim( $html );
 	}
+	
+	 /**
+     * Sets the document base tag
+     *
+     * @param   string   $url  The url used in the base tag
+     * @access  public
+     * @return  void
+     */
+    function setBase($url)
+	{
+        $this->_base = $url;
+    }
+	
+	/**
+     * Returns the document base url
+     *
+     * @access public
+     * @return string
+     */
+    function getBase()
+	{
+        return $this->_base;
+    }
 
 	 /**
      * Sets the document charset
@@ -523,7 +558,8 @@ class JPage extends JObject
 
 		$tagEnd = ' />';
 
-		$strHtml = $tab . '<title>' . $this->getTitle() . '</title>' . $lnEnd;
+		$strHtml  = $tab . '<title>' . $this->getTitle() . '</title>' . $lnEnd;
+		$strHtml .= $tab . '<base href=' . $this->getBase() . ' />' . $lnEnd;
 
         // Generate META tags
         foreach ($this->_metaTags as $type => $tag) {

@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Dec-2005 Johan Janssens
+ + Added JTemplate Zlib outputfilter for transparent gzip compression
+
 21-Dec-2005 Andy Miller
  + Added editor_content.css for MilkyWay template
  + changed admin acccent color from red to green to differentiate 1.0 and 1.1

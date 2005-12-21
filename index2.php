@@ -102,8 +102,6 @@ if ($mainframe->getCfg('offline') && $my->gid < '23') {
 $document = new JDocument();
 $document->parse($cur_template, $file);
 
-initGzip();
-
 header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
 header( 'Cache-Control: no-store, no-cache, must-revalidate' );
@@ -111,7 +109,5 @@ header( 'Cache-Control: post-check=0, pre-check=0', false );
 header( 'Pragma: no-cache' );
 header( 'Content-Type: text/html; charset=UTF-8');
 
-$document->display( $file );
-
-doGzip();
+$document->display( $file, $mainframe->getCfg('gzip') );
 ?>

@@ -150,12 +150,9 @@ if ($mainframe->getCfg('offline') && $my->gid < '23' ) {
 	$file = 'offline.php';
 }
 
-
 jimport('joomla.document.document');
 $document = new JDocument();
 $document->parse($cur_template, $file);
-
-initGzip();
 
 header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
@@ -164,7 +161,7 @@ header( 'Cache-Control: post-check=0, pre-check=0', false );
 header( 'Pragma: no-cache' );
 header( 'Content-Type: text/html; charset=UTF-8');
 
-$document->display( $file );
+$document->display( $file, $mainframe->getCfg('gzip') );
 
 // displays queries performed for page
 if ($mainframe->getCfg('debug')) {
@@ -174,6 +171,4 @@ if ($mainframe->getCfg('debug')) {
  		echo $k+1 . "\n" . $sql . '<hr />';
 	}
 }
-
-doGzip();
 ?>

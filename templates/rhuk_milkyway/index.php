@@ -9,13 +9,13 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<?php mosShowHead();?>
-<link href="<?php echo JURL_SITE;?>/templates/<?php echo $mainframe->getTemplate(); ?>/css/template_css.css" rel="stylesheet" type="text/css" />
+<jtmpl:placeholder type="head" />
+<link href="templates/{TEMPLATE}/css/template_css.css" rel="stylesheet" type="text/css" />
 <!--[if lte IE 6]>
-<link href="<?php echo JURL_SITE;?>/templates/<?php echo $mainframe->getTemplate(); ?>/css/template_ie_only.css" rel="stylesheet" type="text/css" />
+<link href="templates/{TEMPLATE}/css/template_ie_only.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 <?php if ($lang->isRTL()){ ?>
-<link href="<?php echo JURL_SITE;?>/templates/<?php echo $mainframe->getTemplate(); ?>/css/template_css_rtl.css" rel="stylesheet" type="text/css" />
+<link href="templates/{TEMPLATE}/css/template_css_rtl.css" rel="stylesheet" type="text/css" />
 <?php } ?>
 </head>
 <body id="page_bg">
@@ -28,7 +28,7 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 				<div id="header_l">
 					<div id="header_r">
 						<div id="logo"></div>
-						<?php mosLoadModules('top', -1); ?>
+						<jtmpl:placeholder type="modules" position="top" style="-1" />
 					</div>
 				</div>
 			</div>
@@ -41,7 +41,7 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 	    				      <td class="pill_l">&nbsp;</td>
 	    				      <td class="pill_m">
 	    				        <div id="pillmenu">
-	    				          <?php mosLoadModules('user3', -1); ?>
+	    				        	<jtmpl:placeholder type="modules" position="user3" style="-1" />
 	    				        </div>
 	    				      </td>
 	    				      <td class="pill_r">&nbsp;</td>
@@ -51,8 +51,12 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 					</div>
 				</div>
 			</div>
-			<div id="search"><?php mosLoadModules('user4', -1); ?></div>
-			<div id="pathway"><?php mosLoadModule('breadcrumbs'); ?></div>
+			<div id="search">
+				<jtmpl:placeholder type="modules" position="user4" style="-1" />
+			</div>
+			<div id="pathway">
+				<jtmpl:placeholder type="module" name="breadcrumbs" style="-1" />
+			</div>
 			<div class="clr"></div>
 			<div id="whitebox">
 				<div id="whitebox_t">
@@ -63,7 +67,7 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 				<div id="whitebox_m">
 					<div id="area">
 						<div id="leftcolumn">
-							<?php mosLoadModules('left', -3); ?>
+							<jtmpl:placeholder type="modules" position="left" style="-3" />
 						</div>
 						<div id="maincolumn">
 							<?php if(mosCountModules('user1') || mosCountModules('user2')) { ?>
@@ -71,7 +75,7 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 								<tr valign="top">
 									<?php if(mosCountModules('user1')) { ?>
 									<td>
-										<?php mosLoadModules('user1', -2); ?>
+										<jtmpl:placeholder type="modules" position="user1" style="-2" />
 									</td>
 									<?php } ?>
 									<?php if(mosCountModules('user1') && mosCountModules('user2')) { ?>
@@ -89,12 +93,12 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 							<table class="nopad">
 								<tr valign="top">
 									<td>
-										<?php mosMainBody(); ?>
+										<jtmpl:placeholder type="component" />
 									</td>
 									<?php if(mosCountModules('right') && $_REQUEST['task'] != 'edit' ) { ?>
 									<td class="greyline">&nbsp;</td>
 									<td width="170">
-										<?php mosLoadModules('right', -2); ?>
+										<jtmpl:placeholder type="modules" position="right" style="-2"/>
 									</td>
 									<?php } ?>
 								</tr>
@@ -116,12 +120,12 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 		<div id="footer">
 			<div id="footer_l">
 				<div id="footer_r">
-					<?php mosLoadModules( 'footer', -1);?>
+					<jtmpl:placeholder type="modules" position="footer" style="-1" />
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<?php mosLoadModules( 'debug', -1 ); ?>
+<jtmpl:placeholder type="modules" position="debug" style="-1"/>
 </body>
 </html>

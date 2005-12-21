@@ -302,12 +302,10 @@ class JDocument extends JObject
 		$page->setMetaData( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
 		$page->setMetaData( 'robots', 'index, follow' );
 
-		if ( $mainframe->getCfg('sef') ) {
-			$page->addCustomTag( '<base href="'. JURL_SITE. '" />' );
-		}
+		$page->setBase( JURL_SITE.'/index.php' );
 
 		if ( $my->id ) {
-			$page->addScript( JURL_SITE.'/includes/js/joomla.javascript.js');
+			$page->addScript( 'includes/js/joomla.javascript.js');
 		}
 
 		// support for Firefox Live Bookmarks ability for site syndication
@@ -331,7 +329,7 @@ class JDocument extends JObject
 		if ($live_bookmark) {
 			$show = 1;
 
-			$link_file 	= JURL_SITE . '/index2.php?option=com_rss&feed='. $live_bookmark .'&no_html=1';
+			$link_file 	= 'index2.php?option=com_rss&feed='. $live_bookmark .'&no_html=1';
 
 			// xhtml check
 			$link_file = ampReplace( $link_file );
@@ -343,15 +341,15 @@ class JDocument extends JObject
 		}
 
 		$dirs = array(
-			'/templates/'.@$template.'/',
+			'templates/'.$mainframe->getTemplate().'/',
 			'/',
 		);
 
 		foreach ($dirs as $dir ) {
 			$icon =   $dir . 'favicon.ico';
 
-			if(file_exists( JPATH_SITE . $icon )) {
-				$page->addFavicon(JURL_SITE . '/administrator'. $icon);
+			if(file_exists( JPATH_SITE .'/'. $icon )) {
+				$page->addFavicon( $dir. $icon);
 				break;
 			}
 		}
@@ -390,7 +388,7 @@ class JDocument extends JObject
 	 * @access public
 	 * @param string 	$name	The name of the template
 	 */
-	function display($name)
+	function display($name, $compress = true)
 	{
 		$msg = mosGetParam( $_REQUEST, 'mosmsg', '' );
 
@@ -414,6 +412,11 @@ class JDocument extends JObject
 
 		$html = $this->renderHead();
 		$this->_tmpl->addGlobalVar('head', $html);
+		
+		//load output filter if requested
+		if($compress) {
+			$tmpl->applyOutputFilter('Zlib');
+		}
 
 		$this->_tmpl->displayParsedTemplate( $name );
 	}
@@ -470,12 +473,14 @@ class JDocument extends JObject
 			jimport('joomla.template.template');
 
 			$tmpl = new JTemplate;
-			$tmpl->setNamespace( 'jos' );
+			$tmpl->setNamespace( 'jtmpl' );
+			
+			$tmpl->addGlobalVar( 'template', $mainframe->getTemplate());
 
 			ob_start();
-			?><jos:tmpl name="<?php echo $file ?>" autoclear="yes"><?php
+			?><jtmpl:tmpl name="<?php echo $file ?>" autoclear="yes"><?php
 				require_once( 'templates'.DS.$directory.DS.$file );
-			?></jos:tmpl><?php
+			?></jtmpl:tmpl><?php
 			$contents = ob_get_contents();
 			ob_end_clean();
 
