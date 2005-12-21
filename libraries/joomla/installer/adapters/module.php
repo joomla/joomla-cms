@@ -11,229 +11,383 @@
 * See COPYRIGHT.php for copyright notices and details.
 * */
 
-
 /**
-* Module installer
-* 
-* @package Joomla
-*/
-class JInstallerModule extends JInstaller 
-{
+ * Module installer
+ * 
+ * @package Joomla
+ * @subpackage Installer
+ * @since 1.1
+ */
+class JInstallerModule extends JInstaller {
+
 	/**
 	 * Constructor
 	 *
 	 * @access protected
 	 */
 	function __construct() {
-		parent::__construct();
+		parent :: __construct();
 	}
-	
-	
-	/**
-	* Custom install method
-	* @param boolean True if installing from directory
-	*/
-	function install( $p_fromdir = null ) 
-	{
-		global $database;
 
-		if (!$this->preInstallCheck( $p_fromdir, 'module' )) {
+	/**
+	 * Custom install method
+	 * 
+	 * @access public
+	 * @param string $p_fromdir Directory from which to install the module
+	 * @return boolean True on success
+	 * @since 1.1
+	 */
+	function install($p_fromdir) {
+		global $mainframe;
+
+		// Get the database connector object
+		$db = & $mainframe->getDBO();
+
+		/*
+		 * First lets set the installation directory, find and check the installation file and verify
+		 * that it is the proper installation type
+		 */
+		if (!$this->preInstallCheck($p_fromdir, 'module')) {
 			return false;
 		}
 
-		$xmlDoc 	= $this->xmlDoc();
-		$mosinstall =& $xmlDoc->documentElement;
+		$xmlDoc = $this->xmlDoc();
+		$jinstall = & $xmlDoc->documentElement;
 
-		$client = '';
-		if ($mosinstall->getAttribute( 'client' )) {
-			$validClients = array( 'administrator' );
-			if (!in_array( $mosinstall->getAttribute( 'client' ), $validClients )) {
-				$this->setError( 1, JText::_( 'Unknown client type' ) .' ['.$mosinstall->getAttribute( 'client' ).']' );
+		/*
+		 * Get the client value
+		 */
+		$client = null;
+		if ($jinstall->getAttribute('client')) {
+			$validClients = array ('administrator');
+			if (!in_array($jinstall->getAttribute('client'), $validClients)) {
+				$this->setError(1, JText :: _('Unknown client type').' ['.$jinstall->getAttribute('client').']');
 				return false;
 			}
 			$client = 'admin';
 		}
 
-		// Set some vars
-		$e = &$mosinstall->getElementsByPath( 'name', 1 );
+		// Set some necessary variables
+		$e = & $jinstall->getElementsByPath('name', 1);
 		$this->elementName($e->getText());
-		$this->elementDir( JPath::clean( JPATH_SITE
-			. ($client == 'admin' ? DS.'administrator' : '')
-			. DS.'modules'.DS )
-		);
+		$this->elementDir(JPath :: clean(JPATH_SITE. ($client == 'admin' ? DS.'administrator' : '').DS.'modules'.DS));
 
-		if ($this->parseFiles( 'files', 'module', JText::_( 'No file is marked as module file' ) ) === false) {
-			return false;
-		}
-		$this->parseFiles( 'images' );
-
-		$client_id = intval( $client == 'admin' );
-		// Insert in module in DB
-		$query = "SELECT id FROM #__modules"
-		. "\n WHERE module = '". $this->elementSpecial() ."'"
-		. "\n AND client_id = $client_id"
-		;
-		$database->setQuery( $query );
-		if (!$database->query()) {
-			$this->setError( 1, JText::_( 'SQL error' ) .': ' . $database->stderr( true ) );
+		/*
+		 * Copy all the necessary files
+		 */
+		if ($this->parseFiles('files', 'module', JText :: _('No file is marked as module file')) === false) {
 			return false;
 		}
 
-		$id = $database->loadResult();
+		/*
+		 * Copy all the images and languages as well
+		 */
+		$this->parseFiles('images');
+		//$this->parseFiles( 'languages' );
+
+		$client_id = intval($client == 'admin');
+
+		/*
+		 * Check to see if a module by the same name is already installed
+		 */
+		$query = 	"SELECT `id` " .
+					"\nFROM `#__modules` " .
+					"\nWHERE module = '".$this->elementSpecial()."' " .
+					"\nAND client_id = $client_id";
+
+		$db->setQuery($query);
+		if (!$db->query()) {
+			$this->setError(1, JText :: _('SQL error').': '.$database->stderr(true));
+
+			// Install failed, roll back changes
+			$this->_rollback();
+			return false;
+		}
+
+		$id = $db->loadResult();
 
 		if (!$id) {
-			$row = new mosModule( $database );
-			$row->title 		= $this->elementName();
-			$row->ordering 		= 99;
-			$row->position 		= 'left';
-			$row->showtitle 	= 1;
-			$row->iscore 		= 0;
-			$row->access 		= $client == 'admin' ? 99 : 0;
-			$row->client_id 	= $client_id;
-			$row->module 		= $this->elementSpecial();
+			$row = new mosModule($db);
+			$row->title = $this->elementName();
+			$row->ordering = 99;
+			$row->position = 'left';
+			$row->showtitle = 1;
+			$row->iscore = 0;
+			$row->access = $client == 'admin' ? 99 : 0;
+			$row->client_id = $client_id;
+			$row->module = $this->elementSpecial();
 
 			$row->store();
 
-			$query = "INSERT INTO #__modules_menu"
-			. "\n VALUES ( $row->id, 0 )"
-			;
-			$database->setQuery( $query );
-			if(!$database->query()) {
-				$this->setError( 1, JText::_( 'SQL error' ) .': '. $database->stderr( true ) );
+			/*
+			 * Since we have created a module item, we add it to the installation step stack
+			 * so that if we have to rollback the changes we can undo it.
+			 */
+			$step = array ('type' => 'module', 'id' => $row->_db->insertid());
+			$this->i_stepstack[] = $step;
+
+			$query = "INSERT INTO `#__modules_menu` "."\nVALUES ( $row->id, 0 )";
+
+			$db->setQuery($query);
+			if (!$db->query()) {
+				$this->setError(1, JText :: _('SQL error').': '.$database->stderr(true));
+
+				// Install failed, roll back changes
+				$this->_rollback();
 				return false;
 			}
+
+			/*
+			 * Since we have created a menu item, we add it to the installation step stack
+			 * so that if we have to rollback the changes we can undo it.
+			 */
+			$step = array ('type' => 'menu', 'id' => $row->id);
+			$this->i_stepstack[] = $step;
+
 		} else {
-			$this->setError( 1, JText::_( 'Module' ) .' "'. $this->elementName() .'" '. JText::_( 'already exists!' ) );
+			$this->setError(1, JText :: _('Module').' "'.$this->elementName().'" '.JText :: _('already exists!'));
+
+			// Install failed, roll back changes
+			$this->_rollback();
 			return false;
 		}
-		if ($e = &$mosinstall->getElementsByPath( 'description', 1 )) {
-			$this->setError( 0, $this->elementName() .'<p>'. $e->getText() .'</p>' );
+
+		/*
+		 * Next, lets set the description for the module
+		 */
+		if ($e = & $jinstall->getElementsByPath('description', 1)) {
+			$this->setError(0, $this->elementName().'<p>'.$e->getText().'</p>');
 		}
 
-		// Add new positions
-		$template_positions = &$mosinstall->getElementsByPath('install/positions', 1);
+		/*
+		 * Now, lets create the necessary module positions
+		 */
+		$template_positions = & $jinstall->getElementsByPath('install/positions', 1);
 		if (!is_null($template_positions)) {
 			$positions = $template_positions->childNodes;
-			foreach($positions as $position)
-			{
+			foreach ($positions as $position) {
 				$this->createTemplatePosition($position);
 			}
 		}
 
-                // Are there any SQL queries??
-		$query_element = &$mosinstall->getElementsByPath('install/queries', 1);
+		/*
+		 * Now lets check and see if we have any database queries, if so lets run them.
+		 */
+		$query_element = & $jinstall->getElementsByPath('install/queries', 1);
 		if (!is_null($query_element)) {
 			$queries = $query_element->childNodes;
-			foreach($queries as $query)
-			{
-				$database->setQuery( $query->getText());
-				if (!$database->query())
-				{
-					$this->setError( 1, $_LANG->_( 'SQL Error' ) ." " . $database->stderr( true ) );
+			foreach ($queries as $query) {
+				$db->setQuery($query->getText());
+				if (!$db->query()) {
+					$this->setError(1, JText :: _('SQL Error')." ".$db->stderr(true));
+
+					// Install failed, roll back changes
+					$this->_rollback();
 					return false;
 				}
 			}
 		}
 
-		return $this->copySetupFile('front');
+		/*
+		 * Lastly, we will copy the setup file to its appropriate place.
+		 */
+		if (!$this->copySetupFile('front')) {
+			$this->setError(1, JText :: _('Could not copy setup file'));
+
+			// Install failed, rollback changes
+			$this->_rollback();
+			return false;
+		}
+		return true;
 	}
+
 	/**
-	* Custom install method
-	* @param int The id of the module
-	* @param string The URL option
-	* @param int The client id
-	*/
-	function uninstall( $id, $option, $client=0 ) 
-	{
-		global $database;
+	 * Custom uninstall method
+	 * 
+	 * @access public
+	 * @param int $cid The id of the module to uninstall
+	 * @param string $option The URL option
+	 * @param int $client The client id
+	 * @return mixed Return value for uninstall method in component uninstall file
+	 * @since 1.1
+	 */
+	function uninstall($id, $option, $client = 0) {
+		global $mainframe;
 
-		$id = intval( $id );
+		// Initialize variables
+		$id = intval($id);
 
-		$query = "SELECT module, iscore, client_id"
-		. "\n FROM #__modules WHERE id = $id"
-		;
-		$database->setQuery( $query );
-		$row = null;
-		$database->loadObject( $row );
+		// Get database connector object
+		$db = & $mainframe->getDBO();
 
+		// Load the module we want to uninstall
+		$row = new mosModule($db);
+		$row->load($id);
+
+		/*
+		 * Is the module a core module?  If so we can't uninstall it.
+		 */
 		if ($row->iscore) {
-			HTML_installer::showInstallMessage( sprintf( JText::_( 'WARNCOREMODULE' ), $row->title ) .'<br />'. JText::_( 'WARNCORECOMPONENT2' ), JText::_( 'Uninstall - error' ), $this->returnTo( $option, 'module', $row->client_id ? '' : 'admin' ) );
-			exit();
+			HTML_installer :: showInstallMessage(sprintf(JText :: _('WARNCOREMODULE'), $row->title).'<br />'.JText :: _('WARNCORECOMPONENT2'), JText :: _('Uninstall - error'), $this->returnTo($option, 'module', $row->client_id ? '' : 'admin'));
+			exit ();
 		}
 
-		$query = "SELECT id"
-		. "\n FROM #__modules"
-		. "\n WHERE module = '". $row->module ."' AND client_id = '". $row->client_id ."'"
-		;
-		$database->setQuery( $query );
-		$modules = $database->loadResultArray();
+		/*
+		 * This stuff seems as if it is unnecesary.... why can't we just delete the module with the 
+		 * id that we chose to delete?
+		 * 
+				$query = "SELECT `id` " .
+						"\nFROM `#__modules` " .
+						"\nWHERE module = '". $row->module ."' " .
+						"\nAND client_id = '". $row->client_id ."'";
+						
+				$db->setQuery( $query );
+				$modules = $db->loadResultArray();
+		
+				if (count( $modules )) {
+		            $modID = implode( ',', $modules );
+		
+					$query = "DELETE " .
+							"\nFROM #__modules_menu " .
+							"\nWHERE moduleid IN ('". $modID ."')";
+							
+					$db->setQuery( $query );
+					if (!$db->query()) {
+						$msg = $db->stderr;
+						die( $msg );
+					}
+		
+		    		$query = "DELETE " .
+		    				"\nFROM #__modules " .
+		    				"\nWHERE module = '". $row->module ."' " .
+							"\nAND client_id = '". $row->client_id ."'";
+							
+		    		$db->setQuery( $query );
+		    		if (!$db->query()) {
+		    			$msg = $db->stderr;
+		    			die( $msg );
+		    		}
+		*
+		*
+		*/
 
-		if (count( $modules )) {
-            $modID = implode( ',', $modules );
+		/*
+		 * Use the client id to determine which module path to use for the xml install file
+		 */
+		if (!$row->client_id) {
+			$basepath = JPATH_SITE.DS.'modules'.DS;
+		} else {
+			$basepath = JPATH_ADMINISTRATOR.DS.'modules'.DS;
+		}
 
-			$query = "DELETE FROM #__modules_menu"
-			. "\n WHERE moduleid IN ('". $modID ."')"
-			;
-			$database->setQuery( $query );
-			if (!$database->query()) {
-				$msg = $database->stderr;
-				die( $msg );
+		// Get the path to the xml install file
+		$xmlfile = $basepath.$row->module.'.xml';
+
+		/*
+		 * Now we will no longer need the module object, so lets delete it
+		 */
+		$row->delete($row->id);
+
+		/*
+		 * Now is time to process the xml install file stuff...
+		 */
+		if (file_exists($xmlfile)) {
+			$this->i_xmldoc = & JFactory :: getXMLParser();
+			$this->i_xmldoc->resolveErrors(true);
+
+			if ($this->i_xmldoc->loadXML($xmlfile, false, true)) {
+				$jinstall = & $this->i_xmldoc->documentElement;
+
+				// Lets remove the installed files
+				$files_element = & $jinstall->getElementsByPath('files', 1);
+				if (!is_null($files_element)) {
+					$files = $files_element->childNodes;
+					foreach ($files as $file) {
+
+						$filename = $file->getText();
+						if (file_exists($basepath.$filename)) {
+
+							$subpath = dirname($filename);
+							if ($subpath <> '' && $subpath <> '.' && $subpath <> '..') {
+								echo '<br />'.JText :: _('Deleting').': '.$basepath.$subpath;
+								$result = JFolder :: delete($basepath.$subpath.DS);
+							} else {
+								echo '<br />'.JText :: _('Deleting').': '.$basepath.$filename;
+								$result = JFile :: delete($basepath.$filename, false);
+							}
+							echo intval($result);
+						}
+					}
+
+					// remove XML file from front
+					echo JText :: _('Deleting XML File').": ".$xmlfile;
+					JFile :: delete(JPath :: clean($xmlfile, false));
+					return true;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Roll back the installation
+	 * 
+	 * @access private
+	 * @return boolean True on success
+	 * @since 1.1
+	 */
+	function _rollback() {
+		global $mainframe;
+
+		// Initialize variables
+		$retval = false;
+		$step = array_pop($this->i_stepstack);
+
+		// Get database connector object
+		$db = & $mainframe->getDBO();
+
+		while ($step != null) {
+
+			switch ($step['type']) {
+				case 'file':
+					// remove the file
+					JFile::delete($step['path']);
+					break;
+				
+				case 'folder' :
+					// remove the folder
+					JFolder :: delete($step['path']);
+					break;
+
+				case 'module' :
+					// remove the module item
+					$com = new mosModule($db);
+					$com->delete($step['id']);
+					break;
+
+				case 'menu' :
+					// remove the module menu item
+					$query = 	"DELETE " .
+								"\nFROM `#__modules_menu` " .
+								"\nWHERE moduleid='".$step['id']."'";
+								
+					$db->setQuery( $query );
+					$db->query();
+					break;
+
+				case 'query' :
+					// placeholder in case this is necessary in the future
+					break;
+
+				default :
+					// do nothing
+					break;
 			}
 
-    		$query = "DELETE FROM #__modules"
-    		. "\n WHERE module = '". $row->module ."' AND client_id = '". $row->client_id ."'"
-    		;
-    		$database->setQuery( $query );
-    		if (!$database->query()) {
-    			$msg = $database->stderr;
-    			die( $msg );
-    		}
-
-    		if ( !$row->client_id ) {
-    			$basepath = JPATH_SITE . DS .'modules'. DS;
-    		} else {
-    			$basepath = JPATH_ADMINISTRATOR . DS .'modules'. DS;
-    		}
-
-      		$xmlfile = $basepath . $row->module . '.xml';
-
-    			// see if there is an xml install file, must be same name as element
-    		if (file_exists( $xmlfile )) {
-    			$this->i_xmldoc =& JFactory::getXMLParser();
-    			$this->i_xmldoc->resolveErrors( true );
-
-    			if ($this->i_xmldoc->loadXML( $xmlfile, false, true )) {
-    				$mosinstall =& $this->i_xmldoc->documentElement;
-    				// get the files element
-    				$files_element =& $mosinstall->getElementsByPath( 'files', 1 );
-    				if (!is_null( $files_element )) {
-    					$files = $files_element->childNodes;
-    					foreach ($files as $file) {
-    						// delete the files
-    						$filename = $file->getText();
-    						if (file_exists( $basepath . $filename )) {
-    							$parts = pathinfo( $filename );
-    							$subpath = $parts['dirname'];
-    							if ($subpath <> '' && $subpath <> '.' && $subpath <> '..') {
-    								echo '<br />'. JText::_( 'Deleting' ) .': '. $basepath . $subpath;
-    								$result = JFolder::delete(JPath::clean( $basepath . $subpath . DS ));
-    							} else {
-    								echo '<br />'. JText::_( 'Deleting' ) .': '. $basepath . $filename;
-    								$result = JFile::delete(JPath::clean($basepath . $filename, false));
-    							}
-    							echo intval( $result );
-    						}
-    					}
-
-    					// remove XML file from front
-    					echo JText::_( 'Deleting XML File' ) .": ". $xmlfile;
-    					JFile::delete(  JPath::clean($xmlfile, false ) );
-    					return true;
-    				}
-    			}
-    		}
+			// Get the next step
+			$step = array_pop($this->i_stepstack);
 		}
 
+		return $retval;
 	}
 }
 ?>

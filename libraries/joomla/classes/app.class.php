@@ -48,6 +48,8 @@ class JApplication extends JObject {
 	var $_lang 			    = null;
 	/** @var object database JRegistry object */
 	var $_registry			= null;
+	/** @var object user object */
+	var $_user			= null;
 	
 	/**
 	* Class constructor
@@ -309,17 +311,22 @@ class JApplication extends JObject {
 	 * 
 	 * @return mosUser A user object with the information from the current session
 	 */
-	//TODO : implement signleton
 	function &getUser() {
 
-		$user = new mosUser( $this->getDBO());
-
-		if (intval( JSession::get('userid') )) {
-			$user->load(JSession::get('userid'));
-			$user->params = new mosParameters($user->params);
+		// Check to see if the user object exists
+		if (!is_object($this->_user)) {
+			// If it doesn't exist, create a new user object
+			$this->_user =& new mosUser( $this->getDBO());
 		}
 
-		return $user;
+		// If there is a userid in the session, load the user object with the logged in user
+		if (intval( JSession::get('userid')) && $this->_user->id < 1) {
+
+			$this->_user->load(JSession::get('userid'));
+			$this->_user->params = new JParameters($this->_user->params);
+		}
+		
+		return $this->_user;
 	}
 
 	/**

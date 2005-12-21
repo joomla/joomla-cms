@@ -36,7 +36,7 @@ class patTemplate_Function_Sef extends patTemplate_Function
 		}
 		*/
 
-		return sefRelToAbs( $content );;
+		return sefRelToAbs( $content );
 	}
 }
 ?>

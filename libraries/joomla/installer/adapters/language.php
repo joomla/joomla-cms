@@ -29,43 +29,88 @@ class JInstallerLanguage extends JInstaller
 	}
 	
 	/**
-	* Custom install method
-	* @param boolean True if installing from directory
-	*/
-	function install( $p_fromdir = null ) 
-	{
-		global $database;
+	 * Custom install method
+	 * 
+	 * @access public
+	 * @param string $p_fromdir Directory from which to install the language
+	 * @return boolean True on success
+	 * @since 1.1
+	 */
+	function install( $p_fromdir ) {
+		global $mainframe;
 
+		// Get database connector object
+		$db =& $mainframe->getDBO();
+		
+		/*
+		 * First lets set the installation directory, find and check the installation file and verify
+		 * that it is the proper installation type
+		 */
 		if (!$this->preInstallCheck( $p_fromdir, 'language' )) {
 			return false;
 		}
 
 		$xmlDoc = $this->xmlDoc();
-		$root 	= &$xmlDoc->documentElement;
+		$jinstall = &$xmlDoc->documentElement;
 
-		// Set some vars
-		$e = &$root->getElementsByPath( 'name', 1);
+		// Set some necessary variables
+		$client = $jinstall->getAttribute( 'client' );
+		$e = &$jinstall->getElementsByPath( 'name', 1);
 		$this->elementName($e->getText());
-		$this->elementDir( JPath::clean( JPATH_SITE . DS ."language". DS ) );
+		$e = &$jinstall->getElementsByPath( 'metadata/tag', 1);
+		$folder = $e->getText();
+		if ($client == 'administrator') {
+			$this->elementDir( JPath::clean( JPATH_ADMINISTRATOR . DS ."language". DS .$folder ) );
+		} else {
+			$this->elementDir( JPath::clean( JPATH_SITE . DS ."language". DS .$folder ) );
+		}
 
-		// Find files to copy
+		/*
+		 * If the language directory does not exist, lets create it
+		 */
+		if (!file_exists($this->elementDir()) && !JFolder :: create($this->elementDir())) {
+			$this->setError(1, JText :: _('Failed to create directory').' "'.$this->elementDir().'"');
+			return false;
+		}
+
+		/*
+		 * Copy all the necessary files
+		 */
 		if ($this->parseFiles( 'files', 'language' ) === false) {
 			return false;
 		}
-		if ($e = &$root->getElementsByPath( 'description', 1 )) {
+		
+		/*
+		 * Next, lets set the description for the language
+		 */
+		if ($e = &$jinstall->getElementsByPath( 'description', 1 )) {
 			$this->setError( 0, $this->elementName() . '<p>' . $e->getText() . '</p>' );
 		}
 
-		return $this->copySetupFile('front');
+		/*
+		 * Lastly, we will copy the setup file to its appropriate place.
+		 */
+		 if (!$this->copySetupFile()) {
+		 	$this->setError( 1, JText::_( 'Could not copy setup file' ));
+		 	
+		 	// Install failed, rollback changes
+		 	$this->_rollback();
+		 	return false;
+		 }
+		return true;
 	}
+
 	/**
-	* Custom install method
-	* @param int The id of the module
-	* @param string The URL option
-	* @param int The client id
-	*/
-	function uninstall( $id, $option, $client=0 ) 
-	{
+	 * Custom uninstall method
+	 * 
+	 * @access public
+	 * @param int $cid The id of the language to uninstall
+	 * @param string $option The URL option
+	 * @param int $client The client id
+	 * @return boolean True on success
+	 * @since 1.1
+	 */
+	function uninstall( $id, $option, $client=0 ) {
 		$id = str_replace( array( '\\', '/' ), '', $id );
 
 		$basepath = JPATH_SITE . DS .'language'. DS;
@@ -77,9 +122,18 @@ class JInstallerLanguage extends JInstaller
 			$this->i_xmldoc->resolveErrors( true );
 
 			if ($this->i_xmldoc->loadXML( $xmlfile, false, true )) {
-				$mosinstall =& $this->i_xmldoc->documentElement;
-				// get the files element
-				$files_element =& $mosinstall->getElementsByPath( 'files', 1 );
+				$jinstall =& $this->i_xmldoc->documentElement;
+				
+				/*
+				 * Get the metadata tag which also seves as the language subdirectory
+				 */
+				$folder =& $jinstall->getElementsByPath( 'metadata/tag', 1);
+				$basepath = $basepath . $folder->getText() . DS;
+				
+				/*
+				 * Get the files element
+				 */
+				$files_element =& $jinstall->getElementsByPath( 'files', 1 );
 
 				if (!is_null( $files_element )) {
 					$files = $files_element->childNodes;
@@ -105,12 +159,65 @@ class JInstallerLanguage extends JInstaller
 
 		return true;
 	}
+
 	/**
-	* return to method
-	*/
+	 * Overridden returnTo method
+	 * 
+	 * @access public
+	 * @param string $option
+	 * @param string $element
+	 * @param int $client
+	 * @return string URL to return to
+	 * @since 1.1
+	 */
 	function returnTo( $option, $element, $client ) {
 		return "index2.php?option=com_languages";
 	}
 
+	/**
+	 * Roll back the installation
+	 * 
+	 * @access private
+	 * @return boolean True on success
+	 * @since 1.1
+	 */
+	function _rollback() {
+		global $mainframe;
+
+		// Initialize variables
+		$retval = false;
+		$step = array_pop($this->i_stepstack);
+
+		// Get database connector object
+		$db = & $mainframe->getDBO();
+
+		while ($step != null) {
+
+			switch ($step['type']) {
+				case 'file':
+					// remove the file
+					JFile::delete($step['path']);
+					break;
+				
+				case 'folder' :
+					// remove the folder
+					JFolder :: delete($step['path']);
+					break;
+
+				case 'query' :
+					// placeholder in case this is necessary in the future
+					break;
+
+				default :
+					// do nothing
+					break;
+			}
+
+			// Get the next step
+			$step = array_pop($this->i_stepstack);
+		}
+
+		return $retval;
+	}
 }
 ?>

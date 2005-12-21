@@ -661,13 +661,12 @@ class JInstallationHelper {
 	 */
 	function findFtpRoot($user, $pass) {
 		jimport('joomla.connector.ftp');
-		$ftp = & JFTP :: getInstance();
-		$ftp->connect('localhost');
+		$ftp = & JFTP :: getInstance('localhost');
 		if (!$ftp->login($user, $pass)) {
-			//TODO: Throw an error
+			JError::raiseError('SOME_ERROR_CODE', 'JInstallationHelper::findFtpRoot: Unable to login');
 		}
 
-		$ftpList = $ftp->listDir();
+		$ftpList = $ftp->nameList();
 		$parts = explode(DS, JPATH_SITE);
 		$i = 1;
 		$numParts = count($parts);

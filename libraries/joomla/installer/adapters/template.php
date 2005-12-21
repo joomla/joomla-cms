@@ -12,123 +12,207 @@
 */
 
 /**
-* Template installer
-* 
-* @package Joomla
-* @subpackage Installer
-*/
-class JInstallerTemplate extends JInstaller 
-{
- 	/**
+ * Template installer
+ * 
+ * @package Joomla
+ * @subpackage Installer
+ * @since 1.1
+ */
+class JInstallerTemplate extends JInstaller {
+
+	/**
 	 * Constructor
 	 *
 	 * @access protected
 	 */
 	function __construct() {
-		parent::__construct();
+		parent :: __construct();
 	}
-	
-	/**
-	* Custom install method
-	* @param boolean True if installing from directory
-	*/
-	function install( $p_fromdir = null ) 
-	{
-		global $database;
 
-		if (!$this->preInstallCheck( $p_fromdir, 'template' )) {
+	/**
+	 * Custom install method
+	 * 
+	 * @access public
+	 * @param string $p_fromdir Directory from which to install the template
+	 * @return boolean True on success
+	 * @since 1.1
+	 */
+	function install($p_fromdir) {
+		global $mainframe;
+
+		// Get the database connector object
+		$db = & $mainframe->getDBO();
+
+		/*
+		 * First lets set the installation directory, find and check the installation file and verify
+		 * that it is the proper installation type
+		 */
+		if (!$this->preInstallCheck($p_fromdir, 'template')) {
 			return false;
 		}
 
-		$xmlDoc 	=& $this->xmlDoc();
-		$mosinstall =& $xmlDoc->documentElement;
+		$xmlDoc = & $this->xmlDoc();
+		$jinstall = & $xmlDoc->documentElement;
 
-		$client = '';
-		if ($mosinstall->getAttribute( 'client' )) {
-			$validClients = array( 'administrator' );
-			if (!in_array( $mosinstall->getAttribute( 'client' ), $validClients )) {
-				$this->setError( 1, JText::_( 'Unknown client type' ) .' ['.$mosinstall->getAttribute( 'client' ).']' );
+		/*
+		 * Get the client value
+		 */
+		$client = null;
+		if ($jinstall->getAttribute('client')) {
+			$validClients = array ('administrator');
+			if (!in_array($jinstall->getAttribute('client'), $validClients)) {
+				$this->setError(1, JText :: _('Unknown client type').' ['.$jinstall->getAttribute('client').']');
 				return false;
 			}
 			$client = 'admin';
 		}
 
-		// Set some vars
-		$e = &$mosinstall->getElementsByPath( 'name', 1 );
+		// Set some necessary variables
+		$e = & $jinstall->getElementsByPath('name', 1);
 		$this->elementName($e->getText());
-		$this->elementDir( JPath::clean( JPATH_SITE
-		. ($client == 'admin' ? DS.'administrator' : '')
-		. DS.'templates'.DS . strtolower(str_replace(" ","_",$this->elementName())))
-		);
+		$this->elementDir(JPath :: clean(JPATH_SITE. ($client == 'admin' ? DS.'administrator' : '').DS.'templates'.DS.strtolower(str_replace(" ", "_", $this->elementName()))));
 
-		if (!file_exists( $this->elementDir() ) && !JFolder::create( $this->elementDir() )) {
-			$this->setError(1, JText::_( 'Failed to create directory' ) .' "' . $this->elementDir() . '"' );
+		/*
+		 * If the template directory does not exists, lets create it
+		 */
+		if (!file_exists($this->elementDir()) && !JFolder :: create($this->elementDir())) {
+			$this->setError(1, JText :: _('Failed to create directory').' "'.$this->elementDir().'"');
 			return false;
-		}
-
-		if ($this->parseFiles( 'files' ) === false) {
-			return false;
-		}
-		if ($this->parseFiles( 'images' ) === false) {
-			return false;
-		}
-		if ($this->parseFiles( 'css' ) === false) {
-			return false;
-		}
-		if ($this->parseFiles( 'media' ) === false) {
-			return false;
-		}
-		if ($e = &$mosinstall->getElementsByPath( 'description', 1 )) {
-			$this->setError( 0, $this->elementName() . '<p>' . $e->getText() . '</p>' );
 		}
 
-               // Add new positions
-	       $template_positions = &$mosinstall->getElementsByPath('install/positions', 1);
+		/*
+		 * Copy all necessary files
+		 */
+		if ($this->parseFiles('files') === false) {
+			return false;
+		}
+		if ($this->parseFiles('images') === false) {
+			return false;
+		}
+		if ($this->parseFiles('css') === false) {
+			return false;
+		}
+		if ($this->parseFiles('media') === false) {
+			return false;
+		}
+		
+		/*
+		 * Get the template description
+		 */
+		if ($e = & $jinstall->getElementsByPath('description', 1)) {
+			$this->setError(0, $this->elementName().'<p>'.$e->getText().'</p>');
+		}
+
+		/*
+		 * Now, lets create the necessary module positions
+		 */
+		$template_positions = & $jinstall->getElementsByPath('install/positions', 1);
 		if (!is_null($template_positions)) {
 			$positions = $template_positions->childNodes;
-			foreach($positions as $position)
-			{
+			foreach ($positions as $position) {
 				$this->createTemplatePosition($position);
 			}
 		}
 
-		return $this->copySetupFile('front');
+		/*
+		 * Lastly, we will copy the setup file to its appropriate place.
+		 */
+		 if (!$this->copySetupFile('front')) {
+		 	$this->setError( 1, JText::_( 'Could not copy setup file' ));
+		 	return false;
+		 }
+		return true;
 	}
+
+
 	/**
-	* Custom install method
-	* 
-	* @param int The id of the module
-	* @param string The URL option
-	* @param int The client id
-	*/
-	function uninstall( $id, $option, $client=0 ) 
-	{
-		global $database;
+	 * Custom uninstall method
+	 * 
+	 * @access public
+	 * @param int $id The id of the template to uninstall
+	 * @param string $option The URL option
+	 * @param int $client The client id
+	 * @return boolean True on success
+	 * @since 1.1
+	 */
+	function uninstall($id, $option, $client = 0) {
+		global $mainframe;
 
-		// Delete directories
-		$path = JPATH_SITE
-		. ($client == 'admin' ? DS .'administrator' : '' )
-		. DS .'templates'. DS . $id;
+		/*
+		 * Build the template path
+		 */
+		$path = JPATH_SITE. ($client == 'admin' ? DS.'administrator' : '').DS.'templates'.DS.$id;
 
-		$id = str_replace( '..', '', $id );
-		if (trim( $id )) {
-			if (is_dir( $path )) {
-				return JFolder::delete( JPath::clean( $path ) );
+		/*
+		 * Delete the template directory
+		 */
+		$id = str_replace('..', '', $id);
+		if (trim($id)) {
+			if (JFolder::exists($path)) {
+				return JFolder :: delete(JPath :: clean($path));
 			} else {
-				HTML_installer::showInstallMessage( JText::_( 'Directory does not exist, cannot remove files' ), JText::_( 'Uninstall - error' ),
-					$this->returnTo( $option, 'template', $client ) );
+				HTML_installer :: showInstallMessage(JText :: _('Directory does not exist, cannot remove files'), JText :: _('Uninstall - error'), $this->returnTo($option, 'template', $client));
 			}
 		} else {
-			HTML_installer::showInstallMessage( JText::_( 'Template id is empty, cannot remove files' ), JText::_( 'Uninstall - error' ),
-				$this->returnTo( $option, 'template', $client ) );
-			exit();
+			HTML_installer :: showInstallMessage(JText :: _('Template id is empty, cannot remove files'), JText :: _('Uninstall - error'), $this->returnTo($option, 'template', $client));
+			exit ();
 		}
 	}
+	
 	/**
-	* return to method
-	*/
-	function returnTo( $option, $element, $client ) {
+	 * Overridden returnTo method
+	 * 
+	 * @access public
+	 * @param string $option
+	 * @param string $element
+	 * @param int $client
+	 * @return string URL to return to
+	 * @since 1.1
+	 */
+	function returnTo($option, $element, $client) {
 		return "index2.php?option=com_templates&client=$client";
+	}
+
+	/**
+	 * Roll back the installation
+	 * 
+	 * @access private
+	 * @return boolean True on success
+	 * @since 1.1
+	 */
+	function _rollback() {
+		global $mainframe;
+
+		// Initialize variables
+		$retval = false;
+		$step = array_pop($this->i_stepstack);
+
+		// Get database connector object
+		$db = & $mainframe->getDBO();
+
+		while ($step != null) {
+
+			switch ($step['type']) {
+				case 'file':
+					// remove the file
+					JFile::delete($step['path']);
+					break;
+				
+				case 'folder' :
+					// remove the folder
+					JFolder :: delete($step['path']);
+					break;
+
+				default :
+					// do nothing
+					break;
+			}
+
+			// Get the next step
+			$step = array_pop($this->i_stepstack);
+		}
+
+		return $retval;
 	}
 }
 ?>

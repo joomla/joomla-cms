@@ -430,7 +430,7 @@ class JFile {
 	 * @param string The name of the file to put in the temp directory
 	 * @param string The message to return
 	 */
-	function upload($srcFile, $destFile, & $msg) {
+	function upload($srcFile, $destFile) {
 		global $mainframe;
 
 		// Initialize variables

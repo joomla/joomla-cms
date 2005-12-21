@@ -29,12 +29,26 @@ class JAuth extends JObject {
 	 * @access protected
 	 */
 	function __construct() {
+		global $mainframe;
+		
+		// Get the global database connector object
+		$db =& $mainframe->getDBO();
 		
 		// Get the global event dispatcher to load the plugins
-		$dispatcher = &JEventDispatcher :: getInstance();
+		$dispatcher =& JEventDispatcher :: getInstance();
 		
-		//TODO: Here is where we will load all the necessary plugins into an array
-		$plugins[] = 'joomla'; // JAuth_Joomla.php
+		/*
+		 * Grab all of the plugins of type 'user''
+		 */
+		 $query = 	"SELECT `element` " .
+		 			"\nFROM `#__plugins` " .
+		 			"\nWHERE `folder`='auth' " .
+		 			"\nAND `published`='1'";
+		 $db->setQuery($query);
+		 //$plugins = $db->loadResultArray();
+		 		
+		//TODO: Change folder auth to user
+		$plugins[] = 'joomla'; // joomla.php
 		
 		$isLoaded = 0;
 		foreach ($plugins as $plugin) {
@@ -52,13 +66,13 @@ class JAuth extends JObject {
 	 * Username and Password are sent as credentials (along with other possibilities) 
 	 * to each observer (JAuthPlugin) for user validation.  Successful validation will 
 	 * update the current session with the user details
-	 * 
+	 * <pre>
 	 * Credentials Array
 	 * 	['username']
 	 * 	['password']
 	 * 	['userid']	*optional
 	 * 	['realm']	*optional
-	 * 
+	 * </pre>
 	 * @access public
 	 * @param array $credentials Array of credentials to authenticate
 	 * @return boolean True on success
