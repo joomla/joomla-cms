@@ -179,13 +179,13 @@ function savePoll( $option ) {
 		if ($isNew) {
 			$query = "INSERT INTO #__poll_data"
 			. "\n ( pollid, text )"
-			. "\n VALUES ( $row->id, '$text' )"
+			. "\n VALUES ( $row->id, " . $database->Quote( $text ) . " )"
 			;
 			$database->setQuery( $query );
 			$database->query();
 		} else {
 			$query = "UPDATE #__poll_data"
-			. "\n SET text = '$text'"
+			. "\n SET text = " . $database->Quote( $text )
 			. "\n WHERE id = $i"
 			. "\n AND pollid = $row->id"
 			;
