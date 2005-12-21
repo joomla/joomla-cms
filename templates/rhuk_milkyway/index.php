@@ -91,7 +91,7 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 									<td>
 										<?php mosMainBody(); ?>
 									</td>
-									<?php if(mosCountModules('right')) { ?>
+									<?php if(mosCountModules('right') && $_REQUEST['task'] != 'edit' ) { ?>
 									<td class="greyline">&nbsp;</td>
 									<td width="170">
 										<?php mosLoadModules('right', -2); ?>

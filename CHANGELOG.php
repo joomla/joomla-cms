@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Dec-2005 Andy Miller
+ + Added editor_content.css for MilkyWay template
+
 21-Dec-2005 Levis Bisson
  + Added and wrapped tinymce language module file for parameters in the backend
 

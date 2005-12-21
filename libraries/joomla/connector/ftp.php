@@ -229,6 +229,7 @@ die($this->_response);
 
 		// Send the password
 		if (!$this->_putCmd('PASS '.$pass, 230)) {
+			die($this->_response);
 			JError::raiseError('34', 'JFTP::login: Bad Password.', 'Server response:'.$this->_response.' [Expected: 230] Password sent:'.$pass );
 			return false;
 		}
