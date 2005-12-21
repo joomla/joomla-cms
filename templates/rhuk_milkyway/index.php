@@ -83,7 +83,7 @@ echo '<?xml version="1.0" encoding="'. $iso[1] .'"?' .'>';
 									<?php } ?>
 									<?php if(mosCountModules('user2')) { ?>
 									<td>
-										<?php mosLoadModules('user2', -2); ?>
+										<jtmpl:placeholder type="modules" position="user2" style="-2" />
 									</td>
 									<?php } ?>
 								</tr>
