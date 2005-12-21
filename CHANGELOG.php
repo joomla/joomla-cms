@@ -31,11 +31,15 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Dec-2005 Levis Bisson
+ + Added and wrapped tinymce language module file for parameters in the backend
+
 20-Dec-2005 Emir Sakic
  # Fixed artf2432 : Apostrophe in paths isn't escaped properly
 
 20-Dec-2005 Levis Bisson
  ^ Changed the translation text Mambots to Plugins
+ # Reworked "load language function" for translating Modules and Plugins
  # Fixed path for site or admin modules in the backend
 
 20-Dec-2005 Johan Janssens

@@ -8,18 +8,18 @@
 	<authorUrl>tinymce.moxiecode.com/</authorUrl>
 	<copyright>Moxiecode Systems AB</copyright>
 	<license>LGPL</license>
-	<description>TinyMCE is a platform independent web based Javascript HTML WYSIWYG editor control.</description>
+	<description></description>
 	<params>
 		<param name="theme" type="list" default="advanced" label="Functionality" description="Select functionality">
 			<option value="simple">Simple</option>
 			<option value="advanced">Advanced</option>
 		</param>
  		<param name="@spacer" type="spacer" default="" label="" description="" />
- 		<param name="cleanup" type="radio" default="1" label="Code Cleanup" description="By default TinyMCE will celan your code of certain html elements, like script and center tags, for security and XHTML compliance.  We recommend you do no deactivate this funcitonality">
+ 		<param name="cleanup" type="radio" default="1" label="Code Cleanup" description="PARAMCODECLEANUP">
  			<option value="0">Off</option>
  			<option value="1">On</option>
  		</param>
- 		<param name="compressed" type="radio" default="0" label="Compressed Version" description="Tiny can be run in compressed mode, leading to slightly faster load speeds.  However, this mode does not always work, especially in IE, so default this is off.  Be careful when enabling this to ensure it works on your system">
+ 		<param name="compressed" type="radio" default="0" label="Compressed Version" description="PARAMCOMPRESSEDVERSION">
  			<option value="0">Off</option>
  			<option value="1">On</option>
  		</param>
@@ -33,7 +33,7 @@
  			<option value="0">No</option>
  			<option value="1">Yes</option>
  		</param>
- 		<param name="content_css_custom" type="text" default="" label="Custom CSS Classes" description="You can specify the loading of a custom CSS file - simply enter the FULL path to the css file you want loaded"/>
+ 		<param name="content_css_custom" type="text" default="" label="Custom CSS Classes" description="PARAMCSSCLASSES"/>
   		<param name="newlines" type="list" default="0" label="Newlines" description="Newlines will be made into the selected option">
  			<option value="1">BR Elements</option>
  			<option value="0">P Elements</option>
@@ -44,15 +44,15 @@
  			<option value="bottom">Bottom</option>
  		</param>
  		<param name="@spacer" type="spacer" default="" label="" description="" />
- 		<param name="smilies" type="radio" default="1" label="Smilies" description="Show/Hide the Smilies buttons. Only works in `Advanced` mode">
+ 		<param name="smilies" type="radio" default="1" label="Smilies" description="PARAMSMILIES">
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
- 		<param name="table" type="radio" default="1" label="Table" description="Show/Hide the Table control buttons. Only works in `Advanced` mode">
+ 		<param name="table" type="radio" default="1" label="Table" description="PARAMTABLE">
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
- 		<param name="flash" type="radio" default="1" label="Flash" description="Show/Hide the Flash button. Only works in `Advanced` mode">
+ 		<param name="flash" type="radio" default="1" label="Flash" description="PARAMFLASH">
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
@@ -61,28 +61,28 @@
  			<option value="1">Show</option>
  		</param>
  		<param name="@spacer" type="spacer" default="" label="" description="" />
- 		<param name="fullscreen" type="radio" default="1" label="Fullscreen" description="Show/Hide the Fullscreen button. Only works in `Advanced` mode">
+ 		<param name="fullscreen" type="radio" default="1" label="Fullscreen" description="PARAMFULLSCREEN">
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
- 		<param name="html_height" type="text" default="550" label="HTML Height" description="Height of HTML mode pop-up window. Only works in `Advanced` mode"/>
- 		<param name="html_width" type="text" default="750" label="HTML Width" description="Width of HTML mode pop-up window. Only works in `Advanced` mode"/>
- 		<param name="preview" type="radio" default="1" label="Preview" description="Show/Hide the Preview buttons. Only works in `Advanced` mode">
+ 		<param name="html_height" type="text" default="550" label="HTML Height" description="PARAMHTMLHEIGHT"/>
+ 		<param name="html_width" type="text" default="750" label="HTML Width" description="PARAMHTMLWIDTH"/>
+ 		<param name="preview" type="radio" default="1" label="Preview" description="PARAMPREVIEW">
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
- 		<param name="preview_height" type="text" default="550" label="Preview Height" description="Height of Preview mode pop-up window. Only works in `Advanced` mode"/>
- 		<param name="preview_width" type="text" default="750" label="Preview Width" description="Width of Preview mode pop-up window. Only works in `Advanced` mode"/>
- 		<param name="searchreplace" type="radio" default="1" label="Search &amp; Replace" description="Show/Hide the Search &amp; Replace button. Only works in `Advanced` mode">
+ 		<param name="preview_height" type="text" default="550" label="Preview Height" description="PARAMPREVIEWHEIGHT"/>
+ 		<param name="preview_width" type="text" default="750" label="Preview Width" description="PARAMPREVIEWWIDTH"/>
+ 		<param name="searchreplace" type="radio" default="1" label="Search and Replace" description="PARAMSEARCHREPLACE">
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
- 		<param name="insertdate" type="radio" default="1" label="Insert Date" description="Show/Hide the Insert Date button. Only works in `Advanced` mode">
+ 		<param name="insertdate" type="radio" default="1" label="Insert Date" description="PARAMINSERTDATE">
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
   		<param name="format_date" type="text" default="%Y-%m-%d" label="Date format" description="Format of inserted Date. Only works in `Advanced` mode"/>
-		<param name="inserttime" type="radio" default="1" label="Insert Time" description="Show/Hide the Insert Time button. Only works in `Advanced` mode">
+		<param name="inserttime" type="radio" default="1" label="Insert Time" description="PARAMINSERTTIME">
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
