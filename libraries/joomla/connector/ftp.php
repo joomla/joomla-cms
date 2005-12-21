@@ -222,14 +222,12 @@ class JFTP extends JObject {
 
 		// Send the username
 		if (!$this->_putCmd('USER '.$user, 331)) {
-die($this->_response);
 			JError::raiseError('33', 'JFTP::login: Bad Username.', 'Server response:'.$this->_response.' [Expected: 331] Username sent:'.$user );
 			return false;
 		}
 
 		// Send the password
 		if (!$this->_putCmd('PASS '.$pass, 230)) {
-			die($this->_response);
 			JError::raiseError('34', 'JFTP::login: Bad Password.', 'Server response:'.$this->_response.' [Expected: 230] Password sent:'.$pass );
 			return false;
 		}
