@@ -27,8 +27,13 @@ if ($mainframe->getOption() == 'com_content') {
 	$viewComponent = false;
 }
 
-$tmpl = &JFactory::getTemplate( array( 'breadcrumbs.html' ) );
-$tmpl->addVar( 'breadcrumbs-items', 'separator', $breadcrumbs->getSeparator() );
-$tmpl->addObject( 'breadcrumbs-items', $breadcrumbs->getBreadCrumbs(true, $viewComponent) );
-$tmpl->displayParsedTemplate( 'breadcrumbs' );
+//$tmpl =& JTemplate::getInstance(); 
+//$tmpl->parse('breadcrumbs.html' );
+
+//$tmpl->addVar   ( 'breadcrumbs-items', 'separator', $breadcrumbs->getSeparator() );
+//$tmpl->addObject( 'breadcrumbs-items', $breadcrumbs->getBreadCrumbs(true, $viewComponent) );
+
+//$tmpl->display( 'breadcrumbs' );
+
+echo $breadcrumbs->toXHTML();
 ?>

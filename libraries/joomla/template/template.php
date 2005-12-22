@@ -36,11 +36,14 @@ class JTemplate extends patTemplate
 	* The type influences the tags you are using in your templates.
 	*
 	* @access	public
-	* @param	string	type (either html or tex)
+	* @param	string	$type (either html or tex)
 	*/
 	function JTemplate($type = 'html') 
 	{
 		parent::patTemplate($type);
+		
+		//set the namespace
+		$this->setNamespace( 'jtmpl' );
 		
 		//add module directories
 		$this->addModuleDir('Function', dirname(__FILE__). DS. 'functions');
@@ -49,6 +52,52 @@ class JTemplate extends patTemplate
 		
 		//set root template directory
 		$this->setRoot( dirname(__FILE__). DS. 'tmpl' );
+	}
+	
+	/**
+	 * Returns a reference to a global Template object, only creating it
+	 * if it doesn't already exist.
+	 *
+	* @param	string	$type (either html or tex)
+	* @return jtemplate A template object
+	* @since 1.1
+	*/
+	function &getInstance( $type = 'html' ) {
+		static $instances;
+
+		if (!isset( $instances )) {
+			$instances = array();
+		}
+
+		$signature = serialize(array($type));
+
+		if (empty($instances[$signature])) {
+			$instances[$signature] = new JTemplate($type);
+		}
+
+		return $instances[$signature];
+	}
+	
+	/**
+	 * Parse a file
+	 *
+	 * @access public
+	 * @param string 	$file	The filename
+	 */
+	function parse( $file )
+	{
+		$this->readTemplatesFromInput( $file );
+	}
+	
+	/**
+	 * Execute and display a the template
+	 *
+	 * @access public
+	 * @param string 	$name	The name of the template
+	 */
+	function display( $name )
+	{
+		$this->displayParsedTemplate( $name );
 	}
 	
 	/**

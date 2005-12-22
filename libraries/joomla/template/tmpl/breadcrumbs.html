@@ -1,4 +1,4 @@
-<jos:comment>
+<jtmpl:comment>
 @version $Id: page.html 85 2005-09-15 23:12:03Z eddieajau $
 @package Joomla
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
@@ -8,23 +8,23 @@ to the GNU General Public License, and as distributed it includes or
 is derivative of works licensed under the GNU General Public License or
 other free or open source software licenses.
 See COPYRIGHT.php for copyright notices and details.
-</jos:comment>
+</jtmpl:comment>
 
-<jos:tmpl name="breadcrumbs">
+<jtmpl:tmpl name="breadcrumbs">
 	<span class="pathway breadcrumbs">
-	<jos:tmpl name="breadcrumbs-items" autoclear="true" addsystemvars="integer">
-		<jos:tmpl type="simplecondition" requiredvars="breadcrumbs-items.pat_is_first=0" varscope="breadcrumbs-items">
+	<jtmpl:tmpl name="breadcrumbs-items" autoclear="true" addsystemvars="integer">
+		<jtmpl:tmpl type="simplecondition" requiredvars="breadcrumbs-items.pat_is_first=0" varscope="breadcrumbs-items">
 			{SEPARATOR}
-		</jos:tmpl>
-		<jos:tmpl type="condition" conditionvar="link" varscope="breadcrumbs-items">
-			<jos:sub condition="__empty">
+		</jtmpl:tmpl>
+		<jtmpl:tmpl type="condition" conditionvar="link" varscope="breadcrumbs-items">
+			<jtmpl:sub condition="__empty">
 				{NAME}
-			</jos:sub>
-			<jos:sub condition="__default">
+			</jtmpl:sub>
+			<jtmpl:sub condition="__default">
 				<a href="{LINK}">
 					{NAME}</a>
-			</jos:sub>
-		</jos:tmpl>
-	</jos:tmpl>
+			</jtmpl:sub>
+		</jtmpl:tmpl>
+	</jtmpl:tmpl>
 	</span>
-</jos:tmpl>
+</jtmpl:tmpl>

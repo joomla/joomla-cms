@@ -472,8 +472,7 @@ class JDocument extends JObject
 
 			jimport('joomla.template.template');
 
-			$tmpl = new JTemplate;
-			$tmpl->setNamespace( 'jtmpl' );
+			$tmpl =& JTemplate::getInstance();
 			
 			$tmpl->addGlobalVar( 'template', $mainframe->getTemplate());
 
