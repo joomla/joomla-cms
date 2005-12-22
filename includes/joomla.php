@@ -63,7 +63,6 @@ jimport( 'phpinputfilter.inputfilter' );
 jimport( 'joomla.version' );
 jimport( 'joomla.functions' );
 jimport( 'joomla.system.error');
-jimport( 'joomla.system.app');
 jimport( 'joomla.system.auth');
 jimport( 'joomla.system.profiler');
 jimport( 'joomla.system.session' );
@@ -77,6 +76,7 @@ jimport( 'joomla.language' );
 jimport( 'joomla.event' );
 jimport( 'joomla.plugin' );
 jimport( 'joomla.editor' );
+jimport( 'joomla.application');
 
 /**
 * Joomla! Mainframe class

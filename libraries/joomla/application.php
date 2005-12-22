@@ -1,7 +1,7 @@
 <?php
 
 /**
-* @version $Id$
+* @version $Id: app.php 1534 2005-12-22 01:38:31Z Jinx $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
