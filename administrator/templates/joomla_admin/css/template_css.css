@@ -73,7 +73,7 @@ BODY {
 	font-size: 12px;
 }
 a {
-	color: #6d9d2e;
+	color: #4a780e;
 	text-decoration: none;
 }
 a:hover {
@@ -103,7 +103,7 @@ table#toolbar a.toolbar:active {
 	color : #FF9900;
 }
 table#toolbar td.title {
-	color: #6d9d2e;
+	color: #4a780e;
 	font-size : 18px;
 	font-weight: bold;
 	text-align: left;
@@ -189,7 +189,7 @@ table.adminheading {
 	border: 0px;
 	width: 100%;
 	border-collapse: collapse;
-	color: #6d9d2e;
+	color: #4a780e;
 	font-size : 18px;
 	font-weight: bold;
 	text-align: left;
@@ -306,7 +306,7 @@ table.adminlist th.title {
 }
 
 table.adminlist th a:link, table.adminlist th a:visited {
-	color: #6d9d2e;
+	color: #4a780e;
 	text-decoration: none;
 }
 
