@@ -102,6 +102,6 @@ $_VERSION = new JVersion();
 // page generation speed calculator
 $_PROFILER = new JProfiler( 'Core' );
 
-jimport( 'joomla.legacy' );
+jimport( 'joomla.legacy.*' );
 
 ?>

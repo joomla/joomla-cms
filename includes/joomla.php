@@ -98,5 +98,5 @@ class JSite extends JApplication {
 /** @global $_VERSION */
 $_VERSION = new JVersion();
 
-jimport( 'joomla.legacy' );
+jimport( 'joomla.legacy.*' );
 ?>
