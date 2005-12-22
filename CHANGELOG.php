@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Dec-2005 Andy Miller
+ ^ Changed multi col content to display vertical like a newspaper
+ + Added padding and seperator styles to multi col layout
+
 21-Dec-2005 Johan Janssens
  + Added JTemplate Zlib outputfilter for transparent gzip compression
  + Added JPluginModel and JInstallerPlugin classes - contributed by Louis Landry

@@ -528,7 +528,7 @@ class HTML_content {
 		HTML_content::ReadMore( $params, $link_on, $link_text );
 		?>
 		</table>
-		<span class="article_seperator">&nbsp;</span>
+		<span class="article_seperator"></span>
 		<?php
 		$results = $mainframe->triggerEvent( 'onAfterDisplayContent', array( &$row, &$params, $page ) );
 		echo trim( implode( "\n", $results ) );

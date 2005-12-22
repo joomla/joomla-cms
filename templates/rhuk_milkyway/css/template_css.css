@@ -442,8 +442,18 @@ a.mainlevel-nav#active_menu-nav {
 
 /* spacers */
 span.article_seperator {
+	display: block;
 	height: 20px;
 }
+
+.article_column {
+	padding-right: 5px;
+}
+
+.column_seperator {
+	border-left: 1px dashed #e0e0e0;
+	padding-left: 10px;
+} 
 
 td.buttonheading {
 	

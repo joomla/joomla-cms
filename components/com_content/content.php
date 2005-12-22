@@ -916,8 +916,8 @@ function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=N
 
 	// checks to see if there are there any items to display
 	if ( $total ) {
-		$col_with = 100 / $columns;			// width of each column
-		$width = 'width="'. $col_with .'%"';
+		$col_width = 100 / $columns;			// width of each column
+		$width = 'width="'. intval($col_width) .'%"';
 
 		if ( $archive ) {
 			// Search Success message
@@ -960,50 +960,76 @@ function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=N
 			echo '</tr>';
 		}
 
+		
+// use newspaper style vertical layout rather than horizontal table 		
 		if ( $intro && ( $i < $total ) ) {
 			echo '<tr>';
 			echo '<td valign="top">';
 			echo '<table width="100%"  cellpadding="0" cellspacing="0">';
-			// intro story output
-			for ( $z = 0; $z < $intro; $z++ ) {
-				if ( $i >= $total ) {
-					// stops loop if total number of items is less than the number set to display as intro + leading
-					break;
+			
+			$indexcount = 0;
+			for ( $z = 0; $z < $columns; $z++ ) {
+				if ($z > 0) $divider = " column_seperator";
+				echo "<td valign=\"top\"" . $width . "class=\"article_column" . $divider . "\">\n";
+				for ($y = 0; $y < $intro/$columns; $y++) {
+					if ($indexcount < $intro)
+						//echo $rows[$indexcount++] . "\n";
+						show( $rows[$indexcount++], $params, $gid, $access, $pop, $option, $ItemidCount );
 				}
-
-				if ( !( $z % $columns ) || $columns == 1 ) {
-					echo '<tr>';
-				}
-
-				echo '<td valign="top" '. $width .'>';
-
-				// outputs either intro or only a link
-				if ( $z < $intro ) {
-					show( $rows[$i], $params, $gid, $access, $pop, $option, $ItemidCount );
-				} else {
-					echo '</td>';
-					echo '</tr>';
-					break;
-				}
-
-				echo '</td>';
-
-				if ( !( ( $z + 1 ) % $columns ) || $columns == 1 ) {
-					echo '</tr>';
-				}
-
-				$i++;
-			}
-
-			// this is required to output a final closing </tr> tag when the number of items does not fully
-			// fill the last row of output - a blank column is left
-			if ( $intro % $columns ) {
-				echo '</tr>';
-			}
-
+				echo "</td>\n";
+				
+			}			
 			echo '</table>';
 			echo '</td>';
 			echo '</tr>';
+			
+// TODO: remove this below 	
+		
+//			echo '<tr>';
+//			echo '<td valign="top">';
+//			echo '<table width="100%"  cellpadding="0" cellspacing="0">';
+//			// intro story output
+//			for ( $z = 0; $z < $intro; $z++ ) {
+//				if ( $i >= $total ) {
+//					// stops loop if total number of items is less than the number set to display as intro + leading
+//					break;
+//				}
+//
+//				if ( !( $z % $columns ) || $columns == 1 ) {
+//					echo '<tr>';
+//				}
+//
+//				echo '<td valign="top" '. $width .' class="column_seperator">';
+//
+//				// outputs either intro or only a link
+//				if ( $z < $intro ) {
+//					show( $rows[$i], $params, $gid, $access, $pop, $option, $ItemidCount );
+//				} else {
+//					echo '</td>';
+//					echo '</tr>';
+//					break;
+//				}
+//
+//				echo '</td>';
+//
+//				if ( !( ( $z + 1 ) % $columns ) || $columns == 1 ) {
+//					echo '</tr>';
+//				}
+//
+//				$i++;
+//			}
+//
+//			// this is required to output a final closing </tr> tag when the number of items does not fully
+//			// fill the last row of output - a blank column is left
+//			if ( $intro % $columns ) {
+//				echo '</tr>';
+//			}
+//
+//			echo '</table>';
+//			echo '</td>';
+//			echo '</tr>';
+
+// NOTE: End remove
 		}
 
 		// Links output
