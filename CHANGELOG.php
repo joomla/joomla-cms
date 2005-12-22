@@ -35,15 +35,15 @@ Legend:
  ^ Implemented adapter pattern for JDocument class
  + Added JDocumentHTML class
  ^ Deprecated mosParamaters, use JParameters instead
- ^ Deprecated mosCategory, use JCategory instead
- ^ Deprecated mosComponent, use JComponent instead
- ^ Deprecated mosContent, use JContent instead
- ^ Deprecated mosMambot, use JMambot instead
- ^ Deprecated mosMenu, use JMenu instead
- ^ Deprecated mosModule, use JModule instead
- ^ Deprecated mosSection, use JSection instead
- ^ Deprecated mosSession, use JSession instead
- ^ Deprecated mosUser, use JUser instead
+ ^ Deprecated mosCategory, use JCategoryModel instead
+ ^ Deprecated mosComponent, use JComponentModel instead
+ ^ Deprecated mosContent, use JContentModel instead
+ ^ Deprecated mosMambot, use JMambotModel instead
+ ^ Deprecated mosMenu, use JMenuModel instead
+ ^ Deprecated mosModule, use JModuleModel instead
+ ^ Deprecated mosSection, use JSectionModel instead
+ ^ Deprecated mosSession, use JSessionModel instead
+ ^ Deprecated mosUser, use JUserModel instead
 
 22-Dec-2005 Andy Miller
  ^ Changed multi column content to display vertical like a newspaper
