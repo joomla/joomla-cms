@@ -966,7 +966,7 @@ class JFTP extends JObject {
 		$time = time();
 		do {
 			$this->_response = fgets($this->_conn, 1024);
-		} while (!preg_match("/^([0-9]{3})(-(.*".CRLF.")+\\1)? [^".CRLF."]+".CRLF."$/", $this->_response, $parts));
+		} while (!preg_match("/^([0-9]{3})(-(.*".CRLF.")+\\1)? [^".CRLF."]+".CRLF."$/", $this->_response, $parts) && time() - $time < 5);
 
 		// Separate the code from the message
 		$responseCode = $parts[1];
@@ -998,7 +998,8 @@ class JFTP extends JObject {
 	function _passive() {
 
 		//Initialize variables
-		$match = array (null);
+		$match = array();
+		$parts = array();
 		$errno = null;
 		$err = null;
 
@@ -1010,19 +1011,25 @@ class JFTP extends JObject {
 
 		// Request a passive connection - this means, we'll talk to you, you don't talk to us.
 		@ fwrite($this->_conn, "PASV\r\n");
+		// Wait for a response from the server, but timeout in 5 seconds
 		$time = time();
-		do $response = fgets($this->_conn, 1024);
-		while (substr($response, 3, 1) != ' ' && time() - $time < 5);
+		do {
+			$this->_response = fgets($this->_conn, 1024);
+		} while (!preg_match("/^([0-9]{3})(-(.*".CRLF.")+\\1)? [^".CRLF."]+".CRLF."$/", $this->_response, $parts) && time() - $time < 5);
+
+		// Separate the code from the message
+		$responseCode = $parts[1];
+		$responseMsg = $parts[0];
 
 		// If it's not 227, we weren't given an IP and port, which means it failed.
-		if (substr($response, 0, 4) != '227 ') {
-			JError::raiseError('36', 'JFTP::_passive: Unable to obtain IP and port for data transfer', 'Server response:'.$response );
+		if ($responseCode != '227') {
+			JError::raiseError('36', 'JFTP::_passive: Unable to obtain IP and port for data transfer', 'Server response:'.$responseMsg );
 			return false;
 		}
 
 		// Snatch the IP and port information, or die horribly trying...
-		if (preg_match('~\((\d+),\s*(\d+),\s*(\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))\)~', $response, $match) == 0) {
-			JError::raiseError('36', 'JFTP::_passive: IP and port for data transfer not valid', 'Server response:'.$response );
+		if (preg_match('~\((\d+),\s*(\d+),\s*(\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))\)~', $responseMsg, $match) == 0) {
+			JError::raiseError('36', 'JFTP::_passive: IP and port for data transfer not valid', 'Server response:'.$responseMsg );
 			return false;
 		}
 
