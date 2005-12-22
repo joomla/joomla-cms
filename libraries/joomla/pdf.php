@@ -24,7 +24,7 @@ function dofreePDF () {
 	$row = new mosContent( $database );
 	$row->load( $id );
 
-	$params = new mosParameters( $row->attribs );
+	$params = new JParameters( $row->attribs );
 	$params->def( 'author', 	!$mainframe->getCfg( 'hideAuthor' ) );
 	$params->def( 'createdate', !$mainframe->getCfg( 'hideCreateDate' ) );
 	$params->def( 'modifydate', !$mainframe->getCfg( 'hideModifyDate' ) );

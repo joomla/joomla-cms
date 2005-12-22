@@ -151,11 +151,11 @@ function mosGetOS( $agent ) {
 }
 
 /**
-* Legacy function, use mosParameters::parse()
+* Legacy function, use JParameters::parse()
 * @deprecated As of version 1.1
 */
 function mosParseParams( $txt ) {
-	return mosParameters::parse( $txt );
+	return JParameters::parse( $txt );
 }
 
 /**

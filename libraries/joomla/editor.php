@@ -41,7 +41,7 @@ if (!defined('_MOS_EDITOR_INCLUDED')) {
 		$editor = $mosConfig_editor;
 
 		if (isset ($my)) {
-			$params = new mosParameters($my->params);
+			$params = new JParameters($my->params);
 			$editor = $params->get('editor', $mosConfig_editor);
 		}
 
@@ -217,7 +217,7 @@ class JEditor extends JObservable {
 		 */
 		$my =& $mainframe->getUser();
 		if (isset ($my)) {
-			$params = new mosParameters($my->params);
+			$params = new JParameters($my->params);
 			$editor = $params->get('editor', $editor);
 		}
 

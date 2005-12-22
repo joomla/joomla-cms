@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Dec-2005 Johan Janssens
+ ^ Implemented adapter pattern for JDocument class
+ + Added JDocumentHTML class
+
 22-Dec-2005 Andy Miller
  ^ Changed multi col content to display vertical like a newspaper
  + Added padding and seperator styles to multi col layout

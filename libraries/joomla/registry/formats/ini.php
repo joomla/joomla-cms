@@ -57,7 +57,7 @@ class JRegistryINIFormat extends JRegistryStorageFormat {
 	 */
 	function &stringToObject( $data, $namespace_override='' ) {
 		
-		$Configuration = new mosParameters( $data );
+		$Configuration = new JParameters( $data );
 		$configobject = $Configuration->parse( $data, true );
 		
 		$tmpnamespace = $this->r_namespace;

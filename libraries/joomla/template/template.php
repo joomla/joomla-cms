@@ -93,10 +93,15 @@ class JTemplate extends patTemplate
 	 * Execute and display a the template
 	 *
 	 * @access public
-	 * @param string 	$name	The name of the template
+	 * @param string 	$name		The name of the template
+	 * @param boolean 	$compress	If true, compress the output using Zlib compression
 	 */
-	function display( $name )
+	function display( $name, $compress = false )
 	{
+		if($compress) {
+			$tmpl->applyOutputFilter('Zlib');
+		}
+		
 		$this->displayParsedTemplate( $name );
 	}
 	

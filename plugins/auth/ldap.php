@@ -69,7 +69,7 @@ class JAuthLdap extends JPlugin {
 					"\nAND folder = 'user'";
 		$db->setQuery($query);
 		$params = $db->loadResult();
-		$mambotParams = & new mosParameters($params);
+		$mambotParams = & new JParameters($params);
 
 		$ldap = new JLDAP($mambotParams);
 		//print_r($ldap);

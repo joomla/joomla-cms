@@ -33,7 +33,7 @@ function mosCountModules( $position='left' ) {
 function mosMainBody()
 {
 	?>
-	<jtmpl:placeholder type="component" />
+	<jdoc:placeholder type="component" />
 	<?php
 }
 
@@ -46,7 +46,7 @@ function mosMainBody()
 function mosLoadModules( $position='left', $style=0 )
 {
 	?>
-	<jtmpl:placeholder type="modules" position="<?php echo $position ?>" style="<?php echo $style ?>"/>
+	<jdoc:placeholder type="modules" position="<?php echo $position ?>" style="<?php echo $style ?>"/>
 	<?php
 }
 
@@ -59,7 +59,7 @@ function mosLoadModules( $position='left', $style=0 )
 function mosLoadModule( $name, $style=-1 )
 {
 	?>
-	<jtmpl:placeholder type="module" name="<?php echo $name ?>" style="<?php echo $style ?>" />
+	<jdoc:placeholder type="module" name="<?php echo $name ?>" style="<?php echo $style ?>" />
 	<?php
 }
 
@@ -69,7 +69,7 @@ function mosLoadModule( $name, $style=-1 )
 function mosShowHead()
 {
 	?>
-	<jtmpl:placeholder type="head" />
+	<jdoc:placeholder type="head" />
 	<?php
 }
 ?>

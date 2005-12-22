@@ -8,13 +8,13 @@ echo '<?xml version="1.0" encoding="utf-8"?' .'>';
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<jtmpl:placeholder type="head" />
-<link href="templates/{TEMPLATE}/css/template_css.css" rel="stylesheet" type="text/css" />
+<jdoc:placeholder type="head" />
+<link href="templates/{TEMPLATE}/css/template.css" rel="stylesheet" type="text/css" />
 <!--[if lte IE 6]>
-<link href="templates/{TEMPLATE}/css/template_ie_only.css" rel="stylesheet" type="text/css" />
+<link href="templates/{TEMPLATE}/css/ieonly.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 <?php if ($lang->isRTL()){ ?>
-<link href="templates/{TEMPLATE}/css/template_css_rtl.css" rel="stylesheet" type="text/css" />
+<link href="templates/{TEMPLATE}/css/template_rtl.css" rel="stylesheet" type="text/css" />
 <?php } ?>
 </head>
 <body id="page_bg">
@@ -27,7 +27,7 @@ echo '<?xml version="1.0" encoding="utf-8"?' .'>';
 				<div id="header_l">
 					<div id="header_r">
 						<div id="logo"></div>
-						<jtmpl:placeholder type="modules" position="top" style="-1" />
+						<jdoc:placeholder type="modules" position="top" style="-1" />
 					</div>
 				</div>
 			</div>
@@ -40,7 +40,7 @@ echo '<?xml version="1.0" encoding="utf-8"?' .'>';
 	    				      <td class="pill_l">&nbsp;</td>
 	    				      <td class="pill_m">
 	    				        <div id="pillmenu">
-	    				        	<jtmpl:placeholder type="modules" position="user3" style="-1" />
+	    				        	<jdoc:placeholder type="modules" position="user3" style="-1" />
 	    				        </div>
 	    				      </td>
 	    				      <td class="pill_r">&nbsp;</td>
@@ -51,10 +51,10 @@ echo '<?xml version="1.0" encoding="utf-8"?' .'>';
 				</div>
 			</div>
 			<div id="search">
-				<jtmpl:placeholder type="modules" position="user4" style="-1" />
+				<jdoc:placeholder type="modules" position="user4" style="-1" />
 			</div>
 			<div id="pathway">
-				<jtmpl:placeholder type="module" name="breadcrumbs" style="-1" />
+				<jdoc:placeholder type="module" name="breadcrumbs" style="-1" />
 			</div>
 			<div class="clr"></div>
 			<div id="whitebox">
@@ -66,7 +66,7 @@ echo '<?xml version="1.0" encoding="utf-8"?' .'>';
 				<div id="whitebox_m">
 					<div id="area">
 						<div id="leftcolumn">
-							<jtmpl:placeholder type="modules" position="left" style="-3" />
+							<jdoc:placeholder type="modules" position="left" style="-3" />
 						</div>
 						<div id="maincolumn">
 							<?php if(mosCountModules('user1') || mosCountModules('user2')) { ?>
@@ -74,7 +74,7 @@ echo '<?xml version="1.0" encoding="utf-8"?' .'>';
 								<tr valign="top">
 									<?php if(mosCountModules('user1')) { ?>
 									<td>
-										<jtmpl:placeholder type="modules" position="user1" style="-2" />
+										<jdoc:placeholder type="modules" position="user1" style="-2" />
 									</td>
 									<?php } ?>
 									<?php if(mosCountModules('user1') && mosCountModules('user2')) { ?>
@@ -82,7 +82,7 @@ echo '<?xml version="1.0" encoding="utf-8"?' .'>';
 									<?php } ?>
 									<?php if(mosCountModules('user2')) { ?>
 									<td>
-										<jtmpl:placeholder type="modules" position="user2" style="-2" />
+										<jdoc:placeholder type="modules" position="user2" style="-2" />
 									</td>
 									<?php } ?>
 								</tr>
@@ -92,12 +92,12 @@ echo '<?xml version="1.0" encoding="utf-8"?' .'>';
 							<table class="nopad">
 								<tr valign="top">
 									<td>
-										<jtmpl:placeholder type="component" />
+										<jdoc:placeholder type="component" />
 									</td>
 									<?php if(mosCountModules('right') && $_REQUEST['task'] != 'edit' ) { ?>
 									<td class="greyline">&nbsp;</td>
 									<td width="170">
-										<jtmpl:placeholder type="modules" position="right" style="-2"/>
+										<jdoc:placeholder type="modules" position="right" style="-2"/>
 									</td>
 									<?php } ?>
 								</tr>
@@ -119,12 +119,12 @@ echo '<?xml version="1.0" encoding="utf-8"?' .'>';
 		<div id="footer">
 			<div id="footer_l">
 				<div id="footer_r">
-					<jtmpl:placeholder type="modules" position="footer" style="-1" />
+					<jdoc:placeholder type="modules" position="footer" style="-1" />
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<jtmpl:placeholder type="modules" position="debug" style="-1"/>
+<jdoc:placeholder type="modules" position="debug" style="-1"/>
 </body>
 </html>
