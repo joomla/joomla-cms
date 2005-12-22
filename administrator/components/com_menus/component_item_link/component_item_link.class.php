@@ -25,7 +25,7 @@ class component_item_link_menu {
 	function edit( &$uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
 
-		$menu = new mosMenu( $database );
+		$menu = new JMenuModel( $database );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
@@ -86,7 +86,7 @@ class component_item_link_menu {
 		$lists['link'] 		= mosAdminMenus::Link( $menu, $uid, 1 );
 
 		// get params definitions
-		$params = new mosParameters( $menu->params, $mainframe->getPath( 'menu_xml', $menu->type ), 'menu' );
+		$params = new JParameters( $menu->params, $mainframe->getPath( 'menu_xml', $menu->type ), 'menu' );
 
 		component_item_link_menu_html::edit( $menu, $lists, $params, $option );
 	}

@@ -22,40 +22,40 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class TOOLBAR_admin {
 	function _SYSINFO() {
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Information' ), 'systeminfo.png' );
-		mosMenuBar::help( 'screen.system.info' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Information' ), 'systeminfo.png' );
+		JMenuBar::help( 'screen.system.info' );
+		JMenuBar::endTable();
 	}
 
 	function _CPANEL() {
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Control Panel' ), 'cpanel.png' );
-		mosMenuBar::help( 'screen.cpanel' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Control Panel' ), 'cpanel.png' );
+		JMenuBar::help( 'screen.cpanel' );
+		JMenuBar::endTable();
 	}
 
 	function _HELP() {
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Help' ), 'help_header.png' );
-		mosMenuBar::spacer();
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Help' ), 'help_header.png' );
+		JMenuBar::spacer();
+		JMenuBar::endTable();
 	}
 
 	function _PREVIEW() {
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Preview' ) );
-		mosMenuBar::spacer();
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Preview' ) );
+		JMenuBar::spacer();
+		JMenuBar::endTable();
 	}
 
 	function _DEFAULT() {
-		mosMenuBar::startTable();
-		mosMenuBar::spacer();
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::spacer();
+		JMenuBar::endTable();
 	}
 }
 ?>

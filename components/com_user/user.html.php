@@ -43,7 +43,7 @@ class HTML_user {
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton( pressbutton ) {
-			var form = document.mosUserForm;
+			var form = document.JUserModelForm;
 			var r = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", "i");
 
 			if (pressbutton == 'cancel') {
@@ -70,7 +70,7 @@ class HTML_user {
 			}
 		}
 		</script>
-		<form action="index.php" method="post" name="mosUserForm">
+		<form action="index.php" method="post" name="JUserModelForm">
 		<div class="componentheading">
 			<?php echo JText::_( 'Edit Your Details' ); ?>
 		</div>

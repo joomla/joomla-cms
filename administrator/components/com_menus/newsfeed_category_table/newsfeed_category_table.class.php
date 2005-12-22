@@ -28,7 +28,7 @@ class newsfeed_category_table_menu {
 	function editCategory( $uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
 
-		$menu = new mosMenu( $database );
+		$menu = new JMenuModel( $database );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
@@ -74,7 +74,7 @@ class newsfeed_category_table_menu {
 		$lists['link'] 		= mosAdminMenus::Link( $menu, $uid );
 
 		// get params definitions
-		$params = new mosParameters( $menu->params, $mainframe->getPath( 'menu_xml', $menu->type ), 'menu' );
+		$params = new JParameters( $menu->params, $mainframe->getPath( 'menu_xml', $menu->type ), 'menu' );
 
 		newsfeed_category_table_menu_html::editCategory( $menu, $lists, $params, $option );
 	}

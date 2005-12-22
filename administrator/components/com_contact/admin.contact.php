@@ -179,7 +179,7 @@ function editContact( $id, $option ) {
 
 	// get params definitions
 	$file = JPATH_ADMINISTRATOR .'/components/com_contact/contact_items.xml';
-	$params = new mosParameters( $row->params, $file, 'component' );
+	$params = new JParameters( $row->params, $file, 'component' );
 
 	HTML_contact::editcontact( $row, $lists, $option, $params );
 }

@@ -22,16 +22,16 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class TOOLBAR_config {
 	function _DEFAULT() {
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Global Configuration' ), 'config.png' );
-		mosMenuBar::save();
-		mosMenuBar::spacer();
-		mosMenuBar::apply();
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.config' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Global Configuration' ), 'config.png' );
+		JMenuBar::save();
+		JMenuBar::spacer();
+		JMenuBar::apply();
+		JMenuBar::spacer();
+		JMenuBar::cancel();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.config' );
+		JMenuBar::endTable();
 	}
 }
 ?>

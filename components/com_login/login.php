@@ -23,9 +23,9 @@ global $database, $my;
 $breadcrumbs =& $mainframe->getBreadCrumbs();
 $breadcrumbs->setItemName(1, 'Login');
 
-$menu = new mosMenu( $database );
+$menu = new JMenuModel( $database );
 $menu->load( $Itemid );
-$params = new mosParameters( $menu->params );
+$params = new JParameters( $menu->params );
 
 $params->def( 'page_title', 1 );
 $params->def( 'header_login', $menu->name );

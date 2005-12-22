@@ -110,12 +110,12 @@ function userEdit( $option, $uid, $submitvalue) {
 		mosNotAuth();
 		return;
 	}
-	$row = new mosUser( $database );
+	$row = new JUserModel( $database );
 	$row->load( $uid );
 	$row->orig_password = $row->password;
 
 	$file 	= $mainframe->getPath( 'com_xml', 'com_users' );
-	$params =& new mosUserParameters( $row->params, $file, 'component' );
+	$params =& new JUserParameters( $row->params, $file, 'component' );
 
 	HTML_user::userEdit( $row, $option, $submitvalue, $params );
 }
@@ -130,7 +130,7 @@ function userSave( $option, $uid) {
 		mosNotAuth();
 		return;
 	}
-	$row = new mosUser( $database );
+	$row = new JUserModel( $database );
 	$row->load( $user_id );
 	$row->orig_password = $row->password;
 

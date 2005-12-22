@@ -28,7 +28,7 @@ class content_blog_section {
 	function edit( $uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
 
-		$menu = new mosMenu( $database );
+		$menu = new JMenuModel( $database );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
@@ -41,7 +41,7 @@ class content_blog_section {
 		if ($uid) {
 			$menu->checkout( $my->id );
 			// get previously selected Categories
-			$params = new mosParameters( $menu->params );
+			$params = new JParameters( $menu->params );
 			$secids = $params->def( 'sectionid', '' );
 			if ( $secids ) {
 				$query = "SELECT s.id AS `value`, s.id AS `id`, s.title AS `text`"
@@ -88,7 +88,7 @@ class content_blog_section {
 		$lists['link'] 		= mosAdminMenus::Link( $menu, $uid );
 
 		// get params definitions
-		$params = new mosParameters( $menu->params, $mainframe->getPath( 'menu_xml', $menu->type ), 'menu' );
+		$params = new JParameters( $menu->params, $mainframe->getPath( 'menu_xml', $menu->type ), 'menu' );
 
 		content_blog_section_html::edit( $menu, $lists, $params, $option );
 	}
@@ -106,10 +106,10 @@ class content_blog_section {
 			foreach ($params as $k=>$v) {
 				$txt[] = "$k=$v";
 			}
-			$_POST['params'] = mosParameters::textareaHandling( $txt );
+			$_POST['params'] = JParameters::textareaHandling( $txt );
 		}
 
-		$row = new mosMenu( $database );
+		$row = new JMenuModel( $database );
 
 		if (!$row->bind( $_POST )) {
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";

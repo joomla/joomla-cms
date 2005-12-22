@@ -28,37 +28,37 @@ class TOOLBAR_users {
 
 		$text = $id ? JText::_( 'Edit' ) : JText::_( 'Add' );
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'User' ) .':<small>'. $text .'</small>', 'user.png' );
-		mosMenuBar::save();
-		mosMenuBar::spacer();
-		mosMenuBar::apply();
-		mosMenuBar::spacer();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'User' ) .':<small>'. $text .'</small>', 'user.png' );
+		JMenuBar::save();
+		JMenuBar::spacer();
+		JMenuBar::apply();
+		JMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
+			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
-			mosMenuBar::cancel();
+			JMenuBar::cancel();
 		}
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.users.edit' );
-		mosMenuBar::endTable();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.users.edit' );
+		JMenuBar::endTable();
 	}
 
 	function _DEFAULT() {
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'User Manager' ), 'user.png' );
-		mosMenuBar::custom( 'logout', 'cancel.png', 'cancel_f2.png', '&nbsp;'. JText::_( 'Logout' ) );
-		mosMenuBar::spacer();
-		mosMenuBar::deleteList();
-		mosMenuBar::spacer();
-		mosMenuBar::editListX();
-		mosMenuBar::spacer();
-		mosMenuBar::addNewX();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.users' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'User Manager' ), 'user.png' );
+		JMenuBar::custom( 'logout', 'cancel.png', 'cancel_f2.png', '&nbsp;'. JText::_( 'Logout' ) );
+		JMenuBar::spacer();
+		JMenuBar::deleteList();
+		JMenuBar::spacer();
+		JMenuBar::editListX();
+		JMenuBar::spacer();
+		JMenuBar::addNewX();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.users' );
+		JMenuBar::endTable();
 	}
 }
 ?>

@@ -28,7 +28,7 @@ class separator_menu {
 	function edit( $uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
 
-		$menu = new mosMenu( $database );
+		$menu = new JMenuModel( $database );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
@@ -66,7 +66,7 @@ class separator_menu {
 		$lists['published'] 	= mosAdminMenus::Published( $menu );
 
 		// get params definitions
-		$params = new mosParameters( $menu->params, $mainframe->getPath( 'menu_xml', $menu->type ), 'menu' );
+		$params = new JParameters( $menu->params, $mainframe->getPath( 'menu_xml', $menu->type ), 'menu' );
 
 		separator_menu_html::edit( $menu, $lists, $params, $option );
 	}

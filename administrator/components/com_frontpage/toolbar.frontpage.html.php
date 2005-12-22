@@ -22,18 +22,18 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class TOOLBAR_FrontPage {
 	function _DEFAULT() {
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Frontpage Manager' ), 'frontpage.png' );
-		mosMenuBar::archiveList();
-		mosMenuBar::spacer();
-		mosMenuBar::publishList();
-		mosMenuBar::spacer();
-		mosMenuBar::unpublishList();
-		mosMenuBar::spacer();
-		mosMenuBar::custom('remove','delete.png','delete_f2.png',JText::_( 'Remove' ), true);
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.frontpage' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Frontpage Manager' ), 'frontpage.png' );
+		JMenuBar::archiveList();
+		JMenuBar::spacer();
+		JMenuBar::publishList();
+		JMenuBar::spacer();
+		JMenuBar::unpublishList();
+		JMenuBar::spacer();
+		JMenuBar::custom('remove','delete.png','delete_f2.png',JText::_( 'Remove' ), true);
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.frontpage' );
+		JMenuBar::endTable();
 	}
 }
 ?>

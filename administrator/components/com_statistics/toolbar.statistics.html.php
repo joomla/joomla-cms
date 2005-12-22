@@ -21,26 +21,26 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class TOOLBAR_statistics {
 	function _SEARCHES() {
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Search Engine Text' ), 'searchtext.png' );
-		mosMenuBar::custom( 'resetStats', 'delete.png', 'delete_f2.png', JText::_( 'Reset' ), false );
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.stats.searches' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Search Engine Text' ), 'searchtext.png' );
+		JMenuBar::custom( 'resetStats', 'delete.png', 'delete_f2.png', JText::_( 'Reset' ), false );
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.stats.searches' );
+		JMenuBar::endTable();
 	}
 
 	function _PAGEIMP() {
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Page Impression Statistics' ), 'impressions.png' );
-		mosMenuBar::custom( 'resetStats', 'delete.png', 'delete_f2.png', JText::_( 'Reset' ), false );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Page Impression Statistics' ), 'impressions.png' );
+		JMenuBar::custom( 'resetStats', 'delete.png', 'delete_f2.png', JText::_( 'Reset' ), false );
+		JMenuBar::endTable();
 	}
 
 	function _DEFAULT() {
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Browser, OS, Domain Statistics' ), 'browser.png' );
-		mosMenuBar::custom( 'resetStats', 'delete.png', 'delete_f2.png', JText::_( 'Reset' ), false );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Browser, OS, Domain Statistics' ), 'browser.png' );
+		JMenuBar::custom( 'resetStats', 'delete.png', 'delete_f2.png', JText::_( 'Reset' ), false );
+		JMenuBar::endTable();
 	}
 }
 ?>

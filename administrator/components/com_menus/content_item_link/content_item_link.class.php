@@ -25,7 +25,7 @@ class content_item_link_menu {
 	function edit( &$uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
 
-		$menu = new mosMenu( $database );
+		$menu = new JMenuModel( $database );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
@@ -144,7 +144,7 @@ class content_item_link_menu {
 		$lists['link'] 			= mosAdminMenus::Link( $menu, $uid );
 
 		// get params definitions
-		$params = new mosParameters( $menu->params, $mainframe->getPath( 'menu_xml', $menu->type ), 'menu' );
+		$params = new JParameters( $menu->params, $mainframe->getPath( 'menu_xml', $menu->type ), 'menu' );
 
 		content_item_link_menu_html::edit( $menu, $lists, $params, $option, $contents );
 	}
@@ -152,7 +152,7 @@ class content_item_link_menu {
 	function redirect( $id ) {
 		global $database;
 
-		$menu = new mosMenu( $database );
+		$menu = new JMenuModel( $database );
 		$menu->bind( $_POST );
 		$menuid = mosGetParam( $_POST, 'menuid', 0 );
 		if ( $menuid ) {

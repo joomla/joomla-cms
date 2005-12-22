@@ -25,7 +25,7 @@ class wrapper_menu {
 	function edit( &$uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
 
-		$menu = new mosMenu( $database );
+		$menu = new JMenuModel( $database );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
@@ -58,7 +58,7 @@ class wrapper_menu {
 		$lists['link'] 		= mosAdminMenus::Link( $menu, $uid );
 
 		// get params definitions
-		$params = new mosParameters( $menu->params, $mainframe->getPath( 'menu_xml', $menu->type ), 'menu' );
+		$params = new JParameters( $menu->params, $mainframe->getPath( 'menu_xml', $menu->type ), 'menu' );
 		if ( $uid ) {
 			$menu->url = $params->def( 'url', '' );
 		}
@@ -78,10 +78,10 @@ class wrapper_menu {
 			foreach ($params as $k=>$v) {
 				$txt[] = "$k=$v";
 			}
- 			$_POST['params'] = mosParameters::textareaHandling( $txt );
+ 			$_POST['params'] = JParameters::textareaHandling( $txt );
 		}
 
-		$row = new mosMenu( $database );
+		$row = new JMenuModel( $database );
 
 		if (!$row->bind( $_POST )) {
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";

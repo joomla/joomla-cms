@@ -32,7 +32,7 @@ class JApplication extends JObject {
 	var $_config			= null;
 	/** @var object An object of path variables */
 	var $_path				= null;
-	/** @var mosSession The current session */
+	/** @var JSessionModel The current session */
 	var $_session			= null;
 	/** @var string The current template */
 	var $_template			= null;
@@ -309,14 +309,14 @@ class JApplication extends JObject {
 	/**
 	 * Returns a reference to the JUser object
 	 * 
-	 * @return mosUser A user object with the information from the current session
+	 * @return JUserModel A user object with the information from the current session
 	 */
 	function &getUser() {
 
 		// Check to see if the user object exists
 		if (!is_object($this->_user)) {
 			// If it doesn't exist, create a new user object
-			$this->_user =& new mosUser( $this->getDBO());
+			$this->_user =& new JUserModel( $this->getDBO());
 		}
 
 		// If there is a userid in the session, load the user object with the logged in user
@@ -471,7 +471,7 @@ class JApplication extends JObject {
 		}
 		$this->_userstate =& $_SESSION['session_userstate'];
 
-		$session = new mosSession( $this->getDBO() );
+		$session = new JSessionModel( $this->getDBO() );
 		$session->purge( intval( $this->getCfg( 'lifetime' ) ) );
 
 		if ($session->load( $session->hash( JSession::id() ) )) {

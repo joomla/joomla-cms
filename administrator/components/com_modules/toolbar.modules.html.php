@@ -21,18 +21,18 @@ class TOOLBAR_modules {
 	* Draws the menu for a New module
 	*/
 	function _NEW($client)	{
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( $client ). JText::_( 'Module' ).' <small><small>[New]</small></small>', 'module.png' );
-		mosMenuBar::preview( 'modulewindow' );
-		mosMenuBar::spacer();
-		mosMenuBar::save();
-		mosMenuBar::spacer();
-		mosMenuBar::apply();
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.modules.new' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( $client ). JText::_( 'Module' ).' <small><small>[New]</small></small>', 'module.png' );
+		JMenuBar::preview( 'modulewindow' );
+		JMenuBar::spacer();
+		JMenuBar::save();
+		JMenuBar::spacer();
+		JMenuBar::apply();
+		JMenuBar::spacer();
+		JMenuBar::cancel();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.modules.new' );
+		JMenuBar::endTable();
 	}
 
 	/**
@@ -41,45 +41,45 @@ class TOOLBAR_modules {
 	function _EDIT( $publish, $module = '', $client ) {
 		global $id;
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( $client ). JText::_( 'Module' ).' <small><small>[ Edit ]</small></small>', 'module.png' );
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( $client ). JText::_( 'Module' ).' <small><small>[ Edit ]</small></small>', 'module.png' );
 
 		if($module == '') {
-			mosMenuBar::Preview('index3.php?option=com_modules&client='.$client.'&pollid='.$id);
+			JMenuBar::Preview('index3.php?option=com_modules&client='.$client.'&pollid='.$id);
 		}
-		mosMenuBar::spacer();
-		mosMenuBar::save();
-		mosMenuBar::spacer();
-		mosMenuBar::apply();
-		mosMenuBar::spacer();
+		JMenuBar::spacer();
+		JMenuBar::save();
+		JMenuBar::spacer();
+		JMenuBar::apply();
+		JMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
+			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
-			mosMenuBar::cancel();
+			JMenuBar::cancel();
 		}
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.modules.edit' );
-		mosMenuBar::endTable();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.modules.edit' );
+		JMenuBar::endTable();
 	}
 	function _DEFAULT($client) {
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Module Manager' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'module.png' );
-		mosMenuBar::publishList();
-		mosMenuBar::spacer();
-		mosMenuBar::unpublishList();
-		mosMenuBar::spacer();
-		mosMenuBar::custom( 'copy', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), true );
-		mosMenuBar::spacer();
-		mosMenuBar::deleteList();
-		mosMenuBar::spacer();
-		mosMenuBar::editListX();
-		mosMenuBar::spacer();
-		mosMenuBar::addNewX();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.modules' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Module Manager' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'module.png' );
+		JMenuBar::publishList();
+		JMenuBar::spacer();
+		JMenuBar::unpublishList();
+		JMenuBar::spacer();
+		JMenuBar::custom( 'copy', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), true );
+		JMenuBar::spacer();
+		JMenuBar::deleteList();
+		JMenuBar::spacer();
+		JMenuBar::editListX();
+		JMenuBar::spacer();
+		JMenuBar::addNewX();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.modules' );
+		JMenuBar::endTable();
 	}
 }
 ?>

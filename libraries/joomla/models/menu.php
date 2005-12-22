@@ -16,10 +16,12 @@ jimport( 'joomla.models.model' );
 
 /**
 * Menu database table class
+* 
 * @package Joomla
+* @subpackage JFramework
 * @since 1.0
 */
-class mosMenu extends JModel {
+class JMenuModel extends JModel {
 	/** @var int Primary key */
 	var $id					= null;
 	/** @var string */

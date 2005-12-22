@@ -28,7 +28,7 @@ class content_blog_category {
 	function edit( &$uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
 
-		$menu = new mosMenu( $database );
+		$menu = new JMenuModel( $database );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
@@ -41,7 +41,7 @@ class content_blog_category {
 		if ($uid) {
 			$menu->checkout( $my->id );
 			// get previously selected Categories
-			$params = new mosParameters( $menu->params );
+			$params = new JParameters( $menu->params );
 			$catids = $params->def( 'categoryid', '' );
 			if ( $catids ) {
 				$query = "SELECT c.id AS `value`, c.section AS `id`, CONCAT_WS( ' / ', s.title, c.title) AS `text`"
@@ -90,7 +90,7 @@ class content_blog_category {
 		$lists['link'] 		= mosAdminMenus::Link( $menu, $uid );
 
 		// get params definitions
-		$params = new mosParameters( $menu->params, $mainframe->getPath( 'menu_xml', $menu->type ), 'menu' );
+		$params = new JParameters( $menu->params, $mainframe->getPath( 'menu_xml', $menu->type ), 'menu' );
 
 		/* chipjack: passing $sectCatList (categories) instead of $slist (sections) */
 		content_blog_category_html::edit( $menu, $lists, $params, $option );
@@ -109,10 +109,10 @@ class content_blog_category {
 			foreach ($params as $k=>$v) {
 				$txt[] = "$k=$v";
 			}
-			$_POST['params'] = mosParameters::textareaHandling( $txt );
+			$_POST['params'] = JParameters::textareaHandling( $txt );
 		}
 
-		$row = new mosMenu( $database );
+		$row = new JMenuModel( $database );
 
 		if (!$row->bind( $_POST )) {
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";

@@ -190,7 +190,7 @@ function showUsers( $option ) {
 function editUser( $uid='0', $option='users' ) {
 	global $database, $my, $acl, $mainframe;
 
-	$row = new mosUser( $database );
+	$row = new JUserModel( $database );
 	// load the row from the db table
 	$row->load( $uid );
 
@@ -255,7 +255,7 @@ function editUser( $uid='0', $option='users' ) {
 	$lists['sendEmail'] = mosHTML::yesnoRadioList( 'sendEmail', 'class="inputbox" size="1"', $row->sendEmail );
 
 	$file 	= $mainframe->getPath( 'com_xml', 'com_users' );
-	$params =& new mosUserParameters( $row->params, $file, 'component' );
+	$params =& new JUserParameters( $row->params, $file, 'component' );
 
 	HTML_users::edituser( $row, $contact, $lists, $option, $uid, $params );
 }
@@ -264,7 +264,7 @@ function saveUser( $option, $task ) {
 	global $database, $my, $mainframe;
 	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_sitename;
 
-	$row = new mosUser( $database );
+	$row = new JUserModel( $database );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -417,7 +417,7 @@ function removeUsers( $cid, $option ) {
 
 		JPluginHelper::importGroup( 'user' );
 
-		$obj = new mosUser( $database );
+		$obj = new JUserModel( $database );
 		foreach ($cid as $id) {
 			// check for a super admin ... can't delete them
 			$objectID 	= $acl->get_object_id( 'users', $id, 'ARO' );

@@ -22,28 +22,28 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class TOOLBAR_Trash {
 	function _DEFAULT() {
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Trash Manager' ), 'trash.png' );
-		mosMenuBar::custom('restoreconfirm','restore.png','restore_f2.png', JText::_( 'Restore' ), true);
-		mosMenuBar::spacer();
-		mosMenuBar::custom('deleteconfirm','delete.png','delete_f2.png', JText::_( 'Delete' ), true);
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.trashmanager' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Trash Manager' ), 'trash.png' );
+		JMenuBar::custom('restoreconfirm','restore.png','restore_f2.png', JText::_( 'Restore' ), true);
+		JMenuBar::spacer();
+		JMenuBar::custom('deleteconfirm','delete.png','delete_f2.png', JText::_( 'Delete' ), true);
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.trashmanager' );
+		JMenuBar::endTable();
 	}
 
 	function _DELETE() {
-		mosMenuBar::startTable();
-		mosMenuBar::cancel();
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::cancel();
+		JMenuBar::endTable();
 	}
 
 	function _SETTINGS() {
-		mosMenuBar::startTable();
-		mosMenuBar::back();
-		mosMenuBar::spacer();
-		mosMenuBar::save();
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::back();
+		JMenuBar::spacer();
+		JMenuBar::save();
+		JMenuBar::endTable();
 	}
 
 }

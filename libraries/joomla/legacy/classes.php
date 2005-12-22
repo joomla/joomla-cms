@@ -103,6 +103,159 @@ class mosDBTable extends JModel {
 }
 
 /**
+ * @package Joomla, use JCategoryModel instead
+ * @deprecated As of version 1.1
+ */
+class mosCategory extends JCategoryModel {
+	/**
+	 * Constructor
+	 */
+	function __construct( &$db) {
+		parent::__construct( $db );
+	}
+
+	function mosCategory($table, $key, &$db) {
+		parent::__construct( $db );
+	}
+}
+
+/**
+ * @package Joomla, use JComponentModel instead
+ * @deprecated As of version 1.1
+ */
+class mosComponent extends JComponentModel {
+	/**
+	 * Constructor
+	 */
+	function __construct(&$db) {
+		parent::__construct( $db );
+	}
+
+	function mosComponent( &$db) {
+		parent::__construct( $db );
+	}
+}
+
+/**
+ * @package Joomla, use JCategoryModel instead
+ * @deprecated As of version 1.1
+ */
+class mosContent extends JContentModel {
+	/**
+	 * Constructor
+	 */
+	function __construct( &$db ) {
+		parent::__construct( $db );
+	}
+
+	function mosComponent( &$db ) {
+		parent::__construct($db );
+	}
+}
+
+/**
+ * @package Joomla, use JMambotModel instead
+ * @deprecated As of version 1.1
+ */
+class mosMambot extends JMambotModel {
+	/**
+	 * Constructor
+	 */
+	function __construct(&$db) {
+		parent::__construct( $db );
+	}
+
+	function mosMambot(&$db) {
+		parent::__construct( $db );
+	}
+}
+
+/**
+ * @package Joomla, use JMenuModel instead
+ * @deprecated As of version 1.1
+ */
+class mosMenu extends JMenuModel {
+	/**
+	 * Constructor
+	 */
+	function __construct(&$db) {
+		parent::__construct( $db );
+	}
+
+	function mosMenu(&$db) {
+		parent::__construct( $db );
+	}
+}
+
+/**
+ * @package Joomla, use JMenuModel instead
+ * @deprecated As of version 1.1
+ */
+class mosModule extends JModuleModel {
+	/**
+	 * Constructor
+	 */
+	function __construct(&$db) {
+		parent::__construct( '#__modules', 'id', $db );
+	}
+
+	function mosModule(&$db) {
+		parent::__construct( '#__modules', 'id', $db );
+	}
+}
+
+/**
+ * @package Joomla, use JSectionModel instead
+ * @deprecated As of version 1.1
+ */
+class mosSection extends JSectionModel {
+	/**
+	 * Constructor
+	 */
+	function __construct(&$db) {
+		parent::__construct( '#__sections', 'id', $db );
+	}
+
+	function mosSection(&$db) {
+		parent::__construct( '#__sections', 'id', $db );
+	}
+}
+
+/**
+ * @package Joomla, use JMenuModel instead
+ * @deprecated As of version 1.1
+ */
+class mosSession extends JSessionModel {
+	/**
+	 * Constructor
+	 */
+	function __construct(&$db) {
+		parent::__construct( '#__session', 'session_id', $db );
+	}
+
+	function mosSession(&$db) {
+		parent::__construct( '#__session', 'session_id', $db );
+	}
+}
+
+/**
+ * @package Joomla, use JUserModel instead
+ * @deprecated As of version 1.1
+ */
+class mosUser extends JUserModel {
+	/**
+	 * Constructor
+	 */
+	function __construct(&$db) {
+		parent::__construct( '#__users', 'id', $db );
+	}
+
+	function mosUser(&$db) {
+		parent::__construct( '#__users', 'id', $db);
+	}
+}
+
+/**
 * Legacy class, derive from JModel instead
 * @deprecated As of version 1.1
 */
@@ -390,6 +543,7 @@ class mosEmpty {
 		return 1;
 	}
 }
+
 /**
  * Legacy global
  * 	use JApplicaiton->registerEvent and JApplication->triggerEvent for event handling

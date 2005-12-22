@@ -28,37 +28,37 @@ class TOOLBAR_contact {
 
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Contact' ) .': '. $text, 'generic.png' );
-		mosMenuBar::save();
-		mosMenuBar::spacer();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Contact' ) .': '. $text, 'generic.png' );
+		JMenuBar::save();
+		JMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
+			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
-			mosMenuBar::cancel();
+			JMenuBar::cancel();
 		}
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.contactmanager.edit' );
-		mosMenuBar::endTable();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.contactmanager.edit' );
+		JMenuBar::endTable();
 	}
 
 	function _DEFAULT() {
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Contact Manager' ), 'blank.png' );
-		mosMenuBar::publishList();
-		mosMenuBar::spacer();
-		mosMenuBar::unpublishList();
-		mosMenuBar::spacer();
-		mosMenuBar::deleteList();
-		mosMenuBar::spacer();
-		mosMenuBar::editListX();
-		mosMenuBar::spacer();
-		mosMenuBar::addNewX();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.contactmanager' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Contact Manager' ), 'blank.png' );
+		JMenuBar::publishList();
+		JMenuBar::spacer();
+		JMenuBar::unpublishList();
+		JMenuBar::spacer();
+		JMenuBar::deleteList();
+		JMenuBar::spacer();
+		JMenuBar::editListX();
+		JMenuBar::spacer();
+		JMenuBar::addNewX();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.contactmanager' );
+		JMenuBar::endTable();
 	}
 }
 ?>

@@ -35,7 +35,7 @@ function botLdapLoginUser( $username, $password ) {
 	$query = "SELECT params FROM #__mambots WHERE element = 'ldap.userbot' AND folder = 'user'";
 	$database->setQuery( $query );
 	$params = $database->loadResult();
-	$mambotParams =& new mosParameters( $params );
+	$mambotParams =& new JParameters( $params );
 
 	$ldap = new JLDAP( $mambotParams );
 	//print_r($ldap);

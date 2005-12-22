@@ -15,7 +15,7 @@
 /**
  * @package Joomla
  */
-class mosUserParameters extends mosParameters {
+class JUserParameters extends JParameters {
 	/**
 	* @param string The name of the form element
 	* @param string The value of the element

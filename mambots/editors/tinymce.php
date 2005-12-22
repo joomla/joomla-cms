@@ -32,9 +32,9 @@ function botTinymceEditorInit() {
 	;
 	$database->setQuery( $query );
 	$id = $database->loadResult();
-	$mambot = new mosMambot( $database );
+	$mambot = new JMambotModel( $database );
 	$mambot->load( $id );
-	$params = new mosParameters( $mambot->params );
+	$params = new JParameters( $mambot->params );
 
 	$theme = $params->get( 'theme', 'advanced' );
 	// handling for former default option

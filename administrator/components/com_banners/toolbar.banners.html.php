@@ -31,41 +31,41 @@ class TOOLBAR_banners {
 		}
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Banner' ) .': '. $text, 'generic.png' );
-		mosMenuBar::media_manager( 'banners' );
-		mosMenuBar::spacer();
-		mosMenuBar::save();
-		mosMenuBar::spacer();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Banner' ) .': '. $text, 'generic.png' );
+		JMenuBar::media_manager( 'banners' );
+		JMenuBar::spacer();
+		JMenuBar::save();
+		JMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
+			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
-			mosMenuBar::cancel();
+			JMenuBar::cancel();
 		}
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.banners.edit' );
-		mosMenuBar::endTable();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.banners.edit' );
+		JMenuBar::endTable();
 	}
 	function _DEFAULT() {
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Banner Manager' ), 'blank.png' );
-		mosMenuBar::media_manager( 'banners' );
-		mosMenuBar::spacer();
-		mosMenuBar::publishList();
-		mosMenuBar::spacer();
-		mosMenuBar::unpublishList();
-		mosMenuBar::spacer();
-		mosMenuBar::deleteList();
-		mosMenuBar::spacer();
-		mosMenuBar::editListX();
-		mosMenuBar::spacer();
-		mosMenuBar::addNewX();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.banners' );
-		mosMenuBar::spacer();
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Banner Manager' ), 'blank.png' );
+		JMenuBar::media_manager( 'banners' );
+		JMenuBar::spacer();
+		JMenuBar::publishList();
+		JMenuBar::spacer();
+		JMenuBar::unpublishList();
+		JMenuBar::spacer();
+		JMenuBar::deleteList();
+		JMenuBar::spacer();
+		JMenuBar::editListX();
+		JMenuBar::spacer();
+		JMenuBar::addNewX();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.banners' );
+		JMenuBar::spacer();
+		JMenuBar::endTable();
 	}
 }
 
@@ -84,34 +84,34 @@ class TOOLBAR_bannerClient {
 		}
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Banner Client' ) .': '. $text, 'generic.png' );
-		mosMenuBar::save( 'saveclient' );
-		mosMenuBar::spacer();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Banner Client' ) .': '. $text, 'generic.png' );
+		JMenuBar::save( 'saveclient' );
+		JMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancelclient', JText::_( 'Close' ) );
+			JMenuBar::cancel( 'cancelclient', JText::_( 'Close' ) );
 		} else {
-			mosMenuBar::cancel( 'cancelclient' );
+			JMenuBar::cancel( 'cancelclient' );
 		}
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.banners.client.edit' );
-		mosMenuBar::endTable();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.banners.client.edit' );
+		JMenuBar::endTable();
 	}
 	/**
 	* Draws the default menu
 	*/
 	function _DEFAULT() {
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Banner Client Manager' ), 'blank.png' );
-		mosMenuBar::deleteList( '', 'removeclients' );
-		mosMenuBar::spacer();
-		mosMenuBar::editListX( 'editclient' );
-		mosMenuBar::spacer();
-		mosMenuBar::addNewX( 'newclient' );
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.banners.client' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Banner Client Manager' ), 'blank.png' );
+		JMenuBar::deleteList( '', 'removeclients' );
+		JMenuBar::spacer();
+		JMenuBar::editListX( 'editclient' );
+		JMenuBar::spacer();
+		JMenuBar::addNewX( 'newclient' );
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.banners.client' );
+		JMenuBar::endTable();
 	}
 }
 ?>

@@ -35,9 +35,9 @@ function botMosEmailCloak( $published, &$row, &$params, $page=0 ) {
 	;
 	$database->setQuery( $query );
  	$id 		= $database->loadResult();
- 	$mambot 	= new mosMambot( $database );
+ 	$mambot 	= new JMambotModel( $database );
   	$mambot->load( $id );
- 	$botParams 	= new mosParameters( $mambot->params );
+ 	$botParams 	= new JParameters( $mambot->params );
  	$mode		= $botParams->def( 'mode', 1 );
 
  	$search 	= "([[:alnum:]_\.\-]+)(\@[[:alnum:]\.\-]+\.+)([[:alnum:]\.\-]+)";

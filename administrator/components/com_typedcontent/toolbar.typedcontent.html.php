@@ -18,35 +18,35 @@
 */
 class TOOLBAR_typedcontent {
 	function _EDIT( ) {
-		mosMenuBar::startTable();
-		mosMenuBar::preview( 'contentwindow', true );
-		mosMenuBar::spacer();
-		mosMenuBar::media_manager();
-		mosMenuBar::spacer();
-		mosMenuBar::save();
-		mosMenuBar::spacer();
-		mosMenuBar::apply();
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.staticcontent.edit' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::preview( 'contentwindow', true );
+		JMenuBar::spacer();
+		JMenuBar::media_manager();
+		JMenuBar::spacer();
+		JMenuBar::save();
+		JMenuBar::spacer();
+		JMenuBar::apply();
+		JMenuBar::spacer();
+		JMenuBar::cancel();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.staticcontent.edit' );
+		JMenuBar::endTable();
 	}
 
 	function _DEFAULT() {
-		mosMenuBar::startTable();
-		mosMenuBar::publishList();
-		mosMenuBar::spacer();
-		mosMenuBar::unpublishList();
-		mosMenuBar::spacer();
-		mosMenuBar::trash();
-		mosMenuBar::spacer();
-		mosMenuBar::editListX( 'editA' );
-		mosMenuBar::spacer();
-		mosMenuBar::addNewX();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.staticcontent' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::publishList();
+		JMenuBar::spacer();
+		JMenuBar::unpublishList();
+		JMenuBar::spacer();
+		JMenuBar::trash();
+		JMenuBar::spacer();
+		JMenuBar::editListX( 'editA' );
+		JMenuBar::spacer();
+		JMenuBar::addNewX();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.staticcontent' );
+		JMenuBar::endTable();
 	}
 }
 ?>

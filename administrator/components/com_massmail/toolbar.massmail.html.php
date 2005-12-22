@@ -25,14 +25,14 @@ class TOOLBAR_massmail {
 	*/
 	function _DEFAULT() {
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Mass Mail' ), 'massemail.png' );
-		mosMenuBar::custom('send','publish.png','publish_f2.png',JText::_( 'Send Mail' ),false);
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.users.massmail' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Mass Mail' ), 'massemail.png' );
+		JMenuBar::custom('send','publish.png','publish_f2.png',JText::_( 'Send Mail' ),false);
+		JMenuBar::spacer();
+		JMenuBar::cancel();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.users.massmail' );
+		JMenuBar::endTable();
 	}
 }
 ?>

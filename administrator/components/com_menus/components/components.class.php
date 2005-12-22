@@ -27,10 +27,10 @@ class components_menu {
 	function edit( $uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
 
-		$menu = new mosMenu( $database );
+		$menu = new JMenuModel( $database );
 		$menu->load( $uid );
 
-		$row = new mosComponent( $database );
+		$row = new JComponentModel( $database );
 		// load the row from the db table
 		$row->load( $menu->componentid );
 
@@ -79,7 +79,7 @@ class components_menu {
 		$lists['link'] 		= mosAdminMenus::Link( $menu, $uid );
 
 		// get params definitions
-		$params = new mosParameters( $menu->params, $mainframe->getPath( 'com_xml', $row->option ), 'component' );
+		$params = new JParameters( $menu->params, $mainframe->getPath( 'com_xml', $row->option ), 'component' );
 
 		components_menu_html::edit( $menu, $components, $lists, $params, $option );
 	}

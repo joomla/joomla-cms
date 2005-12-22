@@ -19,30 +19,30 @@
 class TOOLBAR_installer
 {
 	function _DEFAULT()	{
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Install new Extension' ), 'install.png' );
-		mosMenuBar::help( 'screen.installer' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Install new Extension' ), 'install.png' );
+		JMenuBar::help( 'screen.installer' );
+		JMenuBar::endTable();
 	}
 
 	function _DEFAULT2()	{
 
 		$type = mosGetParam($_REQUEST, 'element');
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Installed '.$type.'s'), 'install.png' );
-		mosMenuBar::deleteList( '', 'remove', JText::_( 'Uninstall' ) );
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.installer2' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Installed '.$type.'s'), 'install.png' );
+		JMenuBar::deleteList( '', 'remove', JText::_( 'Uninstall' ) );
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.installer2' );
+		JMenuBar::endTable();
 	}
 
 	function _NEW()	{
-		mosMenuBar::startTable();
-		mosMenuBar::save();
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::save();
+		JMenuBar::spacer();
+		JMenuBar::cancel();
+		JMenuBar::endTable();
 	}
 }
 ?>

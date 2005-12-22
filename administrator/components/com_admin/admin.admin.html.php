@@ -385,7 +385,7 @@ class HTML_admin_misc {
 		;
 		$database->setQuery( $query );
 		$row = $database->loadResult();
-		$params = new mosParameters( $row );
+		$params = new JParameters( $row );
 
 		mosLoadAdminModule( 'components', $params );
 	}

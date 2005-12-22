@@ -24,14 +24,14 @@ class TOOLBAR_poll {
 	* Draws the menu for a New category
 	*/
 	function _NEW() {
-		mosMenuBar::startTable();
-		mosMenuBar::title(  JText::_( 'Poll' ).'<small>'.JText::_( 'New' ) .'</small>' );
-		mosMenuBar::save();
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.polls.edit' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title(  JText::_( 'Poll' ).'<small>'.JText::_( 'New' ) .'</small>' );
+		JMenuBar::save();
+		JMenuBar::spacer();
+		JMenuBar::cancel();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.polls.edit' );
+		JMenuBar::endTable();
 	}
 	/**
 	* Draws the menu for Editing an existing category
@@ -39,37 +39,37 @@ class TOOLBAR_poll {
 	function _EDIT( $pollid, $cur_template ) {
 		global $database, $id;
 
-		mosMenuBar::startTable();
-		mosMenuBar::title(  JText::_( 'Poll' ).'<small>'.JText::_( 'Edit' ) .'</small>' );
-		mosMenuBar::Preview('index3.php?option=com_poll&pollid='.$pollid);
-		mosMenuBar::spacer();
-		mosMenuBar::save();
-		mosMenuBar::spacer();
+		JMenuBar::startTable();
+		JMenuBar::title(  JText::_( 'Poll' ).'<small>'.JText::_( 'Edit' ) .'</small>' );
+		JMenuBar::Preview('index3.php?option=com_poll&pollid='.$pollid);
+		JMenuBar::spacer();
+		JMenuBar::save();
+		JMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
+			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
-			mosMenuBar::cancel();
+			JMenuBar::cancel();
 		}
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.polls.edit' );
-		mosMenuBar::endTable();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.polls.edit' );
+		JMenuBar::endTable();
 	}
 	function _DEFAULT() {
-		mosMenuBar::startTable();
-		mosMenuBar::title(  JText::_( 'Poll Manager' ) );
-		mosMenuBar::publishList();
-		mosMenuBar::spacer();
-		mosMenuBar::unpublishList();
-		mosMenuBar::spacer();
-		mosMenuBar::deleteList();
-		mosMenuBar::spacer();
-		mosMenuBar::editListX();
-		mosMenuBar::spacer();
-		mosMenuBar::addNewX();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.polls' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title(  JText::_( 'Poll Manager' ) );
+		JMenuBar::publishList();
+		JMenuBar::spacer();
+		JMenuBar::unpublishList();
+		JMenuBar::spacer();
+		JMenuBar::deleteList();
+		JMenuBar::spacer();
+		JMenuBar::editListX();
+		JMenuBar::spacer();
+		JMenuBar::addNewX();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.polls' );
+		JMenuBar::endTable();
 	}
 }
 ?>

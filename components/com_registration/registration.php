@@ -123,7 +123,7 @@ function saveRegistration( $option ) {
 		return;
 	}
 
-	$row = new mosUser( $database );
+	$row = new JUserModel( $database );
 
 	mosMakeHtmlSafe($row);
 

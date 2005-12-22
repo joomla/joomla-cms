@@ -48,9 +48,9 @@ function feedFrontpage( $showFeed ) {
 	$id = $database->loadResult();
 
 	// load syndication parameters
-	$component = new mosComponent( $database );
+	$component = new JComponentModel( $database );
 	$component->load( $id );
-	$params = new mosParameters( $component->params );
+	$params = new JParameters( $component->params );
 
 	$now 	= date( 'Y-m-d H:i:s', time() + $mosConfig_offset * 60 * 60 );
 

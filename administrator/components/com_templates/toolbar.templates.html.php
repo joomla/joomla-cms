@@ -22,84 +22,84 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class TOOLBAR_templates {
 	function _DEFAULT($client) {
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Template Manager' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Template Manager' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
 		if ($client=="admin") {
-			mosMenuBar::custom('publish', 'publish.png', 'publish_f2.png', JText::_( 'Default' ), true);
-			mosMenuBar::spacer();
+			JMenuBar::custom('publish', 'publish.png', 'publish_f2.png', JText::_( 'Default' ), true);
+			JMenuBar::spacer();
 		} else {
-			mosMenuBar::makeDefault();
-			mosMenuBar::spacer();
-			mosMenuBar::assign();
-			mosMenuBar::spacer();
+			JMenuBar::makeDefault();
+			JMenuBar::spacer();
+			JMenuBar::assign();
+			JMenuBar::spacer();
 		}
-		mosMenuBar::deleteList();
-		mosMenuBar::spacer();
-		mosMenuBar::editHtmlX( 'edit_source' );
-		mosMenuBar::spacer();
-		mosMenuBar::editCssX( 'choose_css' );
-		mosMenuBar::spacer();
-		mosMenuBar::addNew();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.templates' );
-		mosMenuBar::endTable();
+		JMenuBar::deleteList();
+		JMenuBar::spacer();
+		JMenuBar::editHtmlX( 'edit_source' );
+		JMenuBar::spacer();
+		JMenuBar::editCssX( 'choose_css' );
+		JMenuBar::spacer();
+		JMenuBar::addNew();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.templates' );
+		JMenuBar::endTable();
 	}
  	function _VIEW($client){
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Template Manager' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
-		mosMenuBar::back();
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Template Manager' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
+		JMenuBar::back();
+		JMenuBar::endTable();
 	}
 
 	function _EDIT_SOURCE($client){
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Template HTML Editor' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
-		mosMenuBar::save( 'save_source' );
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Template HTML Editor' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
+		JMenuBar::save( 'save_source' );
+		JMenuBar::spacer();
+		JMenuBar::cancel();
+		JMenuBar::endTable();
 	}
 
 	function _CHOOSE_CSS($client){
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Template CSS Editor' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
-		mosMenuBar::custom( 'edit_css', 'next.png', 'next_f2.png', JText::_( 'Next' ), true );
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Template CSS Editor' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
+		JMenuBar::custom( 'edit_css', 'next.png', 'next_f2.png', JText::_( 'Next' ), true );
+		JMenuBar::spacer();
+		JMenuBar::cancel();
+		JMenuBar::endTable();
 	}
 
 	function _EDIT_CSS($client){
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Template Manager' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
-		mosMenuBar::save( 'save_css' );
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Template Manager' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
+		JMenuBar::save( 'save_css' );
+		JMenuBar::spacer();
+		JMenuBar::cancel();
+		JMenuBar::endTable();
 	}
 
 	function _ASSIGN($client){
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Template Manager' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
-		mosMenuBar::save( 'save_assign', JText::_( 'Save' ) );
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.templates.assign' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Template Manager' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
+		JMenuBar::save( 'save_assign', JText::_( 'Save' ) );
+		JMenuBar::spacer();
+		JMenuBar::cancel();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.templates.assign' );
+		JMenuBar::endTable();
 	}
 
 	function _POSITIONS(){
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Module Positions' ), 'templatemanager.png' );
-		mosMenuBar::save( 'save_positions' );
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.templates.modules' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Module Positions' ), 'templatemanager.png' );
+		JMenuBar::save( 'save_positions' );
+		JMenuBar::spacer();
+		JMenuBar::cancel();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.templates.modules' );
+		JMenuBar::endTable();
 	}
 }
 ?>

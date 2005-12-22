@@ -26,23 +26,23 @@ class TOOLBAR_categories {
 
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Category' ) .': '. $text, 'categories.png' );
-		mosMenuBar::media_manager();
-		mosMenuBar::spacer();
-		mosMenuBar::save();
-		mosMenuBar::spacer();
-		mosMenuBar::apply();
-		mosMenuBar::spacer();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Category' ) .': '. $text, 'categories.png' );
+		JMenuBar::media_manager();
+		JMenuBar::spacer();
+		JMenuBar::save();
+		JMenuBar::spacer();
+		JMenuBar::apply();
+		JMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
+			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
-			mosMenuBar::cancel();
+			JMenuBar::cancel();
 		}
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.categories.edit' );
-		mosMenuBar::endTable();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.categories.edit' );
+		JMenuBar::endTable();
 	}
 	/**
 	* Draws the menu for Moving existing categories
@@ -50,12 +50,12 @@ class TOOLBAR_categories {
 	*/
 	function _MOVE() {
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Move Category' ) );
-		mosMenuBar::save( 'movesave' );
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Move Category' ) );
+		JMenuBar::save( 'movesave' );
+		JMenuBar::spacer();
+		JMenuBar::cancel();
+		JMenuBar::endTable();
 	}
 	/**
 	* Draws the menu for Copying existing categories
@@ -63,12 +63,12 @@ class TOOLBAR_categories {
 	*/
 	function _COPY() {
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Copy Category' ) );
-		mosMenuBar::save( 'copysave' );
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Copy Category' ) );
+		JMenuBar::save( 'copysave' );
+		JMenuBar::spacer();
+		JMenuBar::cancel();
+		JMenuBar::endTable();
 	}
 	/**
 	* Draws the menu for Editing an existing category
@@ -77,26 +77,26 @@ class TOOLBAR_categories {
 
 		$section = mosGetParam( $_REQUEST, 'section', '' );
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Category Manager' ), 'categories.png' );
-		mosMenuBar::publishList();
-		mosMenuBar::spacer();
-		mosMenuBar::unpublishList();
-		mosMenuBar::spacer();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Category Manager' ), 'categories.png' );
+		JMenuBar::publishList();
+		JMenuBar::spacer();
+		JMenuBar::unpublishList();
+		JMenuBar::spacer();
 		if ( $section == 'content' || ( $section > 0 ) ) {
-			mosMenuBar::customX( 'moveselect', 'move.png', 'move_f2.png', JText::_( 'Move' ), true );
-			mosMenuBar::spacer();
-			mosMenuBar::customX( 'copyselect', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), true );
-			mosMenuBar::spacer();
+			JMenuBar::customX( 'moveselect', 'move.png', 'move_f2.png', JText::_( 'Move' ), true );
+			JMenuBar::spacer();
+			JMenuBar::customX( 'copyselect', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), true );
+			JMenuBar::spacer();
 		}
-		mosMenuBar::deleteList();
-		mosMenuBar::spacer();
-		mosMenuBar::editListX();
-		mosMenuBar::spacer();
-		mosMenuBar::addNewX();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.categories' );
-		mosMenuBar::endTable();
+		JMenuBar::deleteList();
+		JMenuBar::spacer();
+		JMenuBar::editListX();
+		JMenuBar::spacer();
+		JMenuBar::addNewX();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.categories' );
+		JMenuBar::endTable();
 	}
 }
 ?>

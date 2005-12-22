@@ -94,7 +94,7 @@ function mosLoadAdminModules( $position='left', $style=0 ) {
 		$lang =& $mainframe->getLanguage();
 		$lang->load($module->module);
 
-		$params = new mosParameters( $module->params );
+		$params = new JParameters( $module->params );
 
 		if(substr( $module->module, 0, 4 )  == 'mod_') {
 			ob_start();

@@ -165,7 +165,7 @@ class sections_html {
 	* A new record is defined when <var>$row</var> is passed with the <var>id</var>
 	* property set to 0.  Note that the <var>section</var> property <b>must</b> be defined
 	* even for a new record.
-	* @param mosCategory The category object
+	* @param JCategoryModel The category object
 	* @param string The html for the image list select list
 	* @param string The html for the image position select list
 	* @param string The html for the ordering list

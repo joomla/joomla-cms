@@ -79,9 +79,9 @@ function listFeeds( $option, $catid ) {
 	}
 
 	// Parameters
-	$menu = new mosMenu( $database );
+	$menu = new JMenuModel( $database );
 	$menu->load( $Itemid );
-	$params = new mosParameters( $menu->params );
+	$params = new JParameters( $menu->params );
 
 	$params->def( 'page_title', 1 );
 	$params->def( 'header', $menu->name );
@@ -166,9 +166,9 @@ function showFeed( $option, $feedid ) {
 	$LitePath = JPATH_SITE . '/includes/Cache/Lite.php';
 
 	// Adds parameter handling
-	$menu = new mosMenu( $database );
+	$menu = new JMenuModel( $database );
 	$menu->load( $Itemid );
-	$params = new mosParameters( $menu->params );
+	$params = new JParameters( $menu->params );
 	$params->def( 'page_title', 1 );
 	$params->def( 'header', $menu->name );
 	$params->def( 'pageclass_sfx', '' );

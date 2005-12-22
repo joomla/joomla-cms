@@ -161,10 +161,10 @@ function saveMambot( $option, $client, $task ) {
 			$txt[] = "$k=$v";
 		}
 
- 		$_POST['params'] = mosParameters::textareaHandling( $txt );
+ 		$_POST['params'] = JParameters::textareaHandling( $txt );
 	}
 
-	$row = new mosMambot( $database );
+	$row = new JMambbotModel( $database );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -207,7 +207,7 @@ function editMambot( $option, $uid, $client ) {
 	global $database, $my, $mainframe;
 
 	$lists 	= array();
-	$row 	= new mosMambot($database);
+	$row 	= new JMambotModel($database);
 
 	// load the row from the db table
 	$row->load( $uid );
@@ -288,7 +288,7 @@ function editMambot( $option, $uid, $client ) {
 	$lists['published'] = mosHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
 
 	// get params definitions
-	$params = new mosParameters( $row->params, $mainframe->getPath( 'bot_xml', $row->folder.'/'.$row->element ), 'mambot' );
+	$params = new JParameters( $row->params, $mainframe->getPath( 'bot_xml', $row->folder.'/'.$row->element ), 'mambot' );
 
 	HTML_modules::editMambot( $row, $lists, $params, $option );
 }
@@ -337,7 +337,7 @@ function publishMambot( $cid=null, $publish=1, $option, $client ) {
 	}
 
 	if (count( $cid ) == 1) {
-		$row = new mosMambot( $database );
+		$row = new JMambotModel( $database );
 		$row->checkin( $cid[0] );
 	}
 
@@ -350,7 +350,7 @@ function publishMambot( $cid=null, $publish=1, $option, $client ) {
 function cancelMambot( $option, $client ) {
 	global $database;
 
-	$row = new mosMambot( $database );
+	$row = new JMambotModel( $database );
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -371,7 +371,7 @@ function orderMambot( $uid, $inc, $option, $client ) {
 	} else {
 		$where = "client_id = 0";
 	}
-	$row = new mosMambot( $database );
+	$row = new JMambotModel( $database );
 	$row->load( $uid );
 	$row->move( $inc, "folder='$row->folder' AND ordering > -10000 AND ordering < 10000 AND ($where)"  );
 
@@ -399,7 +399,7 @@ function accessMenu( $uid, $access, $option, $client ) {
 			break;
 	}
 
-	$row = new mosMambot( $database );
+	$row = new JMambotModel( $database );
 	$row->load( $uid );
 	$row->access = $access;
 
@@ -418,7 +418,7 @@ function saveOrder( &$cid ) {
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
-	$row 		= new mosMambot( $database );
+	$row 		= new JMambotModel( $database );
 	$conditions = array();
 
 	// update ordering values

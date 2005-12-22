@@ -169,10 +169,10 @@ function pollresult( $uid ) {
 	$pollist .= '</select>';
 
 	// Adds parameter handling
-	$menu = new mosMenu( $database );
+	$menu = new JMenuModel( $database );
 	$menu->load( $Itemid );
 
-	$params = new mosParameters( $menu->params );
+	$params = new JParameters( $menu->params );
 	$params->def( 'page_title', 1 );
 	$params->def( 'pageclass_sfx', '' );
 	$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );

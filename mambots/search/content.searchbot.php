@@ -54,9 +54,9 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null ) {
 	;
 	$database->setQuery( $query );
 	$id 	= $database->loadResult();
-	$mambot = new mosMambot( $database );
+	$mambot = new JMambotModel( $database );
 	$mambot->load( $id );
-	$botParams = new mosParameters( $mambot->params );
+	$botParams = new JParameters( $mambot->params );
 
 	$sContent 	= $botParams->get( 'search_content', 	1 );
 	$sStatic 	= $botParams->get( 'search_static', 	1 );

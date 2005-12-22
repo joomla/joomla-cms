@@ -15,11 +15,13 @@
 jimport( 'joomla.models.model' );
 
 /**
-* Class mosMambot
+* Class JMambotModel
+* 
 * @package Joomla
+* @subpackage JFramework
 * @since 1.0
 */
-class mosMambot extends JModel {
+class JMambotModel extends JModel {
 	/** @var int */
 	var $id					= null;
 	/** @var varchar */

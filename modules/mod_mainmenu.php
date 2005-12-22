@@ -63,7 +63,7 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 		$mitem->link = ampReplace( $mitem->link );
 
 		$menu_params = new stdClass();
-		$menu_params = & new mosParameters( $mitem->params );
+		$menu_params = & new JParameters( $mitem->params );
 		$menu_secure = $menu_params->def( 'secure', 0 );
 
 
@@ -101,7 +101,7 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 
 		if ( $params->get( 'menu_images' ) ) {
 			$menu_params = new stdClass();
-			$menu_params = new mosParameters( $mitem->params );
+			$menu_params = new JParameters( $mitem->params );
 			$menu_image = $menu_params->def( 'menu_image', -1 );
 			if ( ( $menu_image <> '-1' ) && $menu_image ) {
 				$image = '<img src="'. JURL_SITE .'/images/stories/'. $menu_image .'" border="0" alt="'. $mitem->name .'"/>';

@@ -25,36 +25,36 @@ class TOOLBAR_weblinks {
 
 		$text = $id ? JText::_( 'Edit' ) : JText::_( 'New' );
 
-		mosMenuBar::startTable();
-		mosMenuBar::title(   JText::_( 'Weblink' ). '<small>'. $text .'</small>' );
-		mosMenuBar::save();
-		mosMenuBar::spacer();
+		JMenuBar::startTable();
+		JMenuBar::title(   JText::_( 'Weblink' ). '<small>'. $text .'</small>' );
+		JMenuBar::save();
+		JMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
+			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
-			mosMenuBar::cancel();
+			JMenuBar::cancel();
 		}
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.weblink.edit' );
-		mosMenuBar::endTable();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.weblink.edit' );
+		JMenuBar::endTable();
 	}
 	function _DEFAULT() {
-		mosMenuBar::startTable();
-		mosMenuBar::title(   JText::_( 'Weblink Manager' ) );
-		mosMenuBar::spacer();
-		mosMenuBar::publishList();
-		mosMenuBar::spacer();
-		mosMenuBar::unpublishList();
-		mosMenuBar::spacer();
-		mosMenuBar::editListX();
-		mosMenuBar::spacer();
-		mosMenuBar::deleteList();
-		mosMenuBar::spacer();
-		mosMenuBar::addNewX();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.weblink' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title(   JText::_( 'Weblink Manager' ) );
+		JMenuBar::spacer();
+		JMenuBar::publishList();
+		JMenuBar::spacer();
+		JMenuBar::unpublishList();
+		JMenuBar::spacer();
+		JMenuBar::editListX();
+		JMenuBar::spacer();
+		JMenuBar::deleteList();
+		JMenuBar::spacer();
+		JMenuBar::addNewX();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.weblink' );
+		JMenuBar::endTable();
 	}
 }
 ?>

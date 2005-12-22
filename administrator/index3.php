@@ -69,7 +69,7 @@ $my   = $mainframe->getUser();
 $lang = $mainframe->getLanguage();
 
 $params = $database->loadResult();
-$my->params = new mosParameters( $params );
+$my->params = new JParameters( $params );
 
 $session_id = mosGetParam( $_SESSION, 'session_id', '' );
 $logintime 	= mosGetParam( $_SESSION, 'session_logintime', '' );

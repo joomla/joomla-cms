@@ -272,7 +272,7 @@ function editCategory( $uid=0, $section='' ) {
 		exit();
 	}
 
-	$row = new mosCategory( $database );
+	$row = new JCategoryModel( $database );
 	// load the row from the db table
 	$row->load( $uid );
 
@@ -381,7 +381,7 @@ function editCategory( $uid=0, $section='' ) {
 		if ( $type == 'other' ) {
 			$section_name = JText::_( 'N/A' );
 		} else {
-			$temp = new mosSection( $database );
+			$temp = new JSectionModel( $database );
 			$temp->load( $row->section );
 			$section_name = $temp->name;
 		}
@@ -442,7 +442,7 @@ function saveCategory( $task ) {
 	$redirect 	= mosGetParam( $_POST, 'redirect', '' );
 	$oldtitle 	= mosGetParam( $_POST, 'oldtitle', null );
 
-	$row = new mosCategory( $database );
+	$row = new JCategoryModel( $database );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -617,7 +617,7 @@ function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 ) 
 	}
 
 	if (count( $cid ) == 1) {
-		$row = new mosCategory( $database );
+		$row = new JCategoryModel( $database );
 		$row->checkin( $cid[0] );
 	}
 
@@ -634,7 +634,7 @@ function cancelCategory() {
 
 	$redirect = mosGetParam( $_POST, 'redirect', '' );
 
-	$row = new mosCategory( $database );
+	$row = new JCategoryModel( $database );
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -648,7 +648,7 @@ function cancelCategory() {
 function orderCategory( $uid, $inc ) {
 	global $database;
 
-	$row = new mosCategory( $database );
+	$row = new JCategoryModel( $database );
 	$row->load( $uid );
 	$row->move( $inc, "section = '$row->section'" );
 
@@ -731,7 +731,7 @@ function moveCategorySave( $cid, $sectionOld ) {
 		echo "<script> alert('". $database->getErrorMsg() ."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	$sectionNew = new mosSection ( $database );
+	$sectionNew = new JSectionModel ( $database );
 	$sectionNew->load( $sectionMove );
 
 	$msg = sprintf( JText::_( 'Categories moved to' ), $sectionNew->name );
@@ -795,7 +795,7 @@ function copyCategorySave( $cid, $sectionOld ) {
 	$contentid 		= mosGetParam( $_REQUEST, 'item', '' );
 	$total 			= count( $contentid  );
 
-	$category = new mosCategory ( $database );
+	$category = new JCategoryModel ( $database );
 	foreach( $cid as $id ) {
 		$category->load( $id );
 		$category->id 		= NULL;
@@ -818,7 +818,7 @@ function copyCategorySave( $cid, $sectionOld ) {
 		$newcatids[]["new"] = $category->id;
 	}
 
-	$content = new mosContent ( $database );
+	$content = new JContentModel ( $database );
 	foreach( $contentid as $id) {
 		$content->load( $id );
 		$content->id 		= NULL;
@@ -841,7 +841,7 @@ function copyCategorySave( $cid, $sectionOld ) {
 		$content->checkin();
 	}
 
-	$sectionNew = new mosSection ( $database );
+	$sectionNew = new JSectionModel ( $database );
 	$sectionNew->load( $sectionMove );
 
 	$msg = sprintf( JText::_( 'Categories copied to' ), $total, $sectionNew->name );
@@ -855,7 +855,7 @@ function copyCategorySave( $cid, $sectionOld ) {
 function accessMenu( $uid, $access, $section ) {
 	global $database;
 
-	$row = new mosCategory( $database );
+	$row = new JCategoryModel( $database );
 	$row->load( $uid );
 	$row->access = $access;
 
@@ -872,7 +872,7 @@ function accessMenu( $uid, $access, $section ) {
 function menuLink( $id ) {
 	global $database;
 
-	$category = new mosCategory( $database );
+	$category = new JCategoryModel( $database );
 	$category->bind( $_POST );
 	$category->checkin();
 
@@ -914,7 +914,7 @@ function menuLink( $id ) {
 			break;
 	}
 
-	$row 				= new mosMenu( $database );
+	$row 				= new JMenuModel( $database );
 	$row->menutype 		= $menu;
 	$row->name 			= $name;
 	$row->type 			= $type;
@@ -947,7 +947,7 @@ function saveOrder( &$cid, $section ) {
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
-	$row		= new mosCategory( $database );
+	$row		= new JCategoryModel( $database );
 	$conditions = array();
 
 	// update ordering values

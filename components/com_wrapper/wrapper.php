@@ -24,9 +24,9 @@ showWrap( $option );
 function showWrap( $option ) {
 	global $database, $Itemid, $mainframe;
 
-	$menu = new mosMenu( $database );
+	$menu = new JMenuModel( $database );
 	$menu->load( $Itemid );
-	$params = new mosParameters( $menu->params );
+	$params = new JParameters( $menu->params );
 	$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
 	$params->def( 'scrolling', 'auto' );
 	$params->def( 'page_title', '1' );

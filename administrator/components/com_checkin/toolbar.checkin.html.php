@@ -25,10 +25,10 @@ class TOOLBAR_checkin {
 	*/
 	function _DEFAULT() {
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Global Check-in' ), 'checkin.png' );
-		mosMenuBar::help( 'screen.checkin' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Global Check-in' ), 'checkin.png' );
+		JMenuBar::help( 'screen.checkin' );
+		JMenuBar::endTable();
 	}
 }
 ?>

@@ -501,7 +501,7 @@ class JModel extends JObject {
 	* @returns TRUE if completely successful, FALSE if partially or not succesful.
 	*/
 	function save( $source, $order_filter ) {
-		if (!$this->bind( $_POST )) {
+		if (!$this->bind( $source )) {
 			return false;
 		}
 		if (!$this->check()) {

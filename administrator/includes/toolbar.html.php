@@ -19,14 +19,14 @@ class MENU_Default {
 	* Draws a default set of menu icons
 	*/
 	function MENU_Default() {
-		mosMenuBar::startTable();
-		mosMenuBar::publishList();
-		mosMenuBar::unpublishList();
-		mosMenuBar::addNew();
-		mosMenuBar::editList();
-		mosMenuBar::deleteList();
-		mosMenuBar::spacer();
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::publishList();
+		JMenuBar::unpublishList();
+		JMenuBar::addNew();
+		JMenuBar::editList();
+		JMenuBar::deleteList();
+		JMenuBar::spacer();
+		JMenuBar::endTable();
 	}
 }
 ?>

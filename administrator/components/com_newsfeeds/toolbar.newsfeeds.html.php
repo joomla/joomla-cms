@@ -21,50 +21,50 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class TOOLBAR_newsfeeds  {
 	function _DEFAULT() {
-		mosMenuBar::startTable();
-		mosMenuBar::title(  JText::_( 'Newsfeed Manager' ) );
-		mosMenuBar::publishList();
-		mosMenuBar::spacer();
-		mosMenuBar::unpublishList();
-		mosMenuBar::spacer();
-		mosMenuBar::deleteList();
-		mosMenuBar::spacer();
-		mosMenuBar::editListX();
-		mosMenuBar::spacer();
-		mosMenuBar::addNewX();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.newsfeeds' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title(  JText::_( 'Newsfeed Manager' ) );
+		JMenuBar::publishList();
+		JMenuBar::spacer();
+		JMenuBar::unpublishList();
+		JMenuBar::spacer();
+		JMenuBar::deleteList();
+		JMenuBar::spacer();
+		JMenuBar::editListX();
+		JMenuBar::spacer();
+		JMenuBar::addNewX();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.newsfeeds' );
+		JMenuBar::endTable();
 	}
 
 	function _NEW() {
 
-		mosMenuBar::startTable();
-		mosMenuBar::title(  JText::_( 'Newsfeed' ).'<small>'.JText::_( 'New' ) .'</small>' );
-		mosMenuBar::save();
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.newsfeeds.edit' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title(  JText::_( 'Newsfeed' ).'<small>'.JText::_( 'New' ) .'</small>' );
+		JMenuBar::save();
+		JMenuBar::spacer();
+		JMenuBar::cancel();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.newsfeeds.edit' );
+		JMenuBar::endTable();
 	}
 
 	function _EDIT() {
 		global $id;
 
-		mosMenuBar::startTable();
-		mosMenuBar::title(  JText::_( 'Newsfeed' ).'<small>'.JText::_( 'Edit' ).'</small>' );
-		mosMenuBar::save();
-		mosMenuBar::spacer();
+		JMenuBar::startTable();
+		JMenuBar::title(  JText::_( 'Newsfeed' ).'<small>'.JText::_( 'Edit' ).'</small>' );
+		JMenuBar::save();
+		JMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
-			mosMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
+			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
-			mosMenuBar::cancel();
+			JMenuBar::cancel();
 		}
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.newsfeeds.edit' );
-		mosMenuBar::endTable();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.newsfeeds.edit' );
+		JMenuBar::endTable();
 	}
 }
 ?>

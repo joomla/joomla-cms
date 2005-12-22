@@ -80,9 +80,9 @@ function listContacts( $option, $catid ) {
 		$currentcat = NULL;
 
 		// Parameters
-		$menu = new mosMenu( $database );
+		$menu = new JMenuModel( $database );
 		$menu->load( $Itemid );
-		$params = new mosParameters( $menu->params );
+		$params = new JParameters( $menu->params );
 
 		$params->def( 'page_title', 1 );
 		$params->def( 'header', $menu->name );
@@ -224,7 +224,7 @@ function contactpage( $contact_id ) {
 		$contact->select = mosHTML::selectList( $list, 'contact_id', 'class="inputbox" onchange="ViewCrossReference(this);"', 'value', 'text', $contact_id );
 
 		// Adds parameter handling
-		$params = new mosParameters( $contact->params );
+		$params = new JParameters( $contact->params );
 
 		$params->set( 'page_title', 0 );
 		$params->def( 'pageclass_sfx', '' );
@@ -322,9 +322,9 @@ function contactpage( $contact_id ) {
 		}
 
 		// params from menu item
-		$menu = new mosMenu( $database );
+		$menu = new JMenuModel( $database );
 		$menu->load( $Itemid );
-		$menu_params = new mosParameters( $menu->params );
+		$menu_params = new JParameters( $menu->params );
 
 		$menu_params->def( 'page_title', 1 );
 		$menu_params->def( 'header', $menu->name );
@@ -340,7 +340,7 @@ function contactpage( $contact_id ) {
 
 		HTML_contact::viewcontact( $contact, $params, $count, $list, $menu_params );
 	} else {
-		$params = new mosParameters( '' );
+		$params = new JParameters( '' );
 		$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
 		HTML_contact::nocontact( $params );
 	}

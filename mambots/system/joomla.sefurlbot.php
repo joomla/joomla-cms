@@ -36,9 +36,9 @@ function botJoomlaSEFUrl( ) {
 			;
 		$database->setQuery( $query );
 		$id 	= $database->loadResult();
-		$mambot = new mosMambot( $database );
+		$mambot = new JMambotModel( $database );
 		$mambot->load( $id );
-		$botParams = new mosParameters( $mambot->params );
+		$botParams = new JParameters( $mambot->params );
 
 		$mod_rewrite_off = $botParams->get( 'mode', 0 );
 

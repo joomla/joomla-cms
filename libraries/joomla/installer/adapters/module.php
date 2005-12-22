@@ -107,7 +107,7 @@ class JInstallerModule extends JInstaller {
 		$id = $db->loadResult();
 
 		if (!$id) {
-			$row = new mosModule($db);
+			$row = new JModuleModel($db);
 			$row->title = $this->elementName();
 			$row->ordering = 99;
 			$row->position = 'left';
@@ -221,7 +221,7 @@ class JInstallerModule extends JInstaller {
 		$db = & $mainframe->getDBO();
 
 		// Load the module we want to uninstall
-		$row = new mosModule($db);
+		$row = new JModuleModel($db);
 		$row->load($id);
 
 		/*
@@ -360,7 +360,7 @@ class JInstallerModule extends JInstaller {
 
 				case 'module' :
 					// remove the module item
-					$com = new mosModule($db);
+					$com = new JModuleModel($db);
 					$com->delete($step['id']);
 					break;
 

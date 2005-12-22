@@ -68,7 +68,7 @@ class JInstallerMambot extends JInstaller {
 		$id = $database->loadResult();
 
 		if (!$id) {
-			$row = new mosMambot($database);
+			$row = new JMambotModel($database);
 			$row->name = $this->elementName();
 			$row->ordering = 0;
 			$row->folder = $folder;
@@ -218,7 +218,7 @@ class JInstallerMambot extends JInstaller {
 
 				case 'mambot' :
 					// remove the mambot item
-					$m = new mosMambot($db);
+					$m = new JMambotModel($db);
 					$m->delete($step['id']);
 					break;
 

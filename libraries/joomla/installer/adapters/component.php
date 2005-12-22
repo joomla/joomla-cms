@@ -213,7 +213,7 @@ class JInstallerComponent extends JInstaller
 				// Lets build the submenus
 				$submenuordering = 0;
 				foreach($com_admin_submenus as $admin_submenu) {
-					$com = new mosComponent( $db );
+					$com = new JComponentModel( $db );
 					$com->name		= $admin_submenu->getText();
 					$com->link		= '';
 					$com->menuid	= 0;
@@ -328,7 +328,7 @@ class JInstallerComponent extends JInstaller
 		 * First order of business will be to load the component object model from the database.
 		 * This should give us the necessary information to proceed.
 		 */
-		$row = new mosComponent($db);
+		$row = new JComponentModel($db);
 		$row->load($cid);
 
 		/*
@@ -496,7 +496,7 @@ class JInstallerComponent extends JInstaller
 				
 				case 'menu':
 					// remove the menu item
-					$com = new mosComponent( $db );
+					$com = new JComponentModel( $db );
 					$com->delete($step['id']);
 					break;
 				

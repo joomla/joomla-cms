@@ -126,7 +126,7 @@ class JAuth extends JObject {
 
 
 					// Create a new user model and load the authenticated userid
-					$user = new mosUser($db);
+					$user = new JUserModel($db);
 					$user->load(intval($authenticated));
 	
 					// If the user is blocked, redirect with an error

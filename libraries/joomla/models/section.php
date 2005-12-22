@@ -16,10 +16,12 @@ jimport( 'joomla.models.model' );
 
 /**
 * Section database table class
+* 
 * @package Joomla
+* @subpackage JFramework
 * @since 1.0
 */
-class mosSection extends JModel {
+class JSectionModel extends JModel {
 	/** @var int Primary key */
 	var $id					= null;
 	/** @var string The menu title for the Section (a short name)*/

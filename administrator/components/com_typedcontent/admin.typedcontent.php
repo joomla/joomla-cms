@@ -198,7 +198,7 @@ function edit( $uid, $option ) {
 	global $database, $my, $mainframe;
 
 	$nullDate = $database->getNullDate();
-	$row = new mosContent( $database );
+	$row = new JContentModel( $database );
 
 	$lists = array();
 
@@ -286,7 +286,7 @@ function edit( $uid, $option ) {
 	$lists['_caption_position'] = mosHTML::selectList( $pos, '_caption_position', 'class="inputbox" size="1"', 'value', 'text' );
 
 	// get params definitions
-	$params = new mosParameters( $row->attribs, $mainframe->getPath( 'com_xml', 'com_typedcontent' ), 'component' );
+	$params = new JParameters( $row->attribs, $mainframe->getPath( 'com_xml', 'com_typedcontent' ), 'component' );
 
 	HTML_typedcontent::edit( $row, $images, $lists, $params, $option, $menus );
 }
@@ -301,7 +301,7 @@ function save( $option, $task ) {
 	$menu 		= mosGetParam( $_POST, 'menu', 'mainmenu' );
 	$menuid		= mosGetParam( $_POST, 'menuid', 0 );
 
-	$row = new mosContent( $database );
+	$row = new JContentModel( $database );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -437,7 +437,7 @@ function changeState( $cid=null, $state=0, $option ) {
 	}
 
 	if (count( $cid ) == 1) {
-		$row = new mosContent( $database );
+		$row = new JContentModel( $database );
 		$row->checkin( $cid[0] );
 	}
 
@@ -456,7 +456,7 @@ function changeState( $cid=null, $state=0, $option ) {
 function changeAccess( $id, $access, $option  ) {
 	global $database;
 
-	$row = new mosContent( $database );
+	$row = new JContentModel( $database );
 	$row->load( $id );
 	$row->access = $access;
 
@@ -477,7 +477,7 @@ function changeAccess( $id, $access, $option  ) {
 function resethits( $option, $id ) {
 	global $database;
 
-	$row = new mosContent($database);
+	$row = new JContentModel($database);
 	$row->Load( $id );
 	$row->hits = "0";
 	$row->store();
@@ -494,7 +494,7 @@ function resethits( $option, $id ) {
 function cancel( $option ) {
 	global $database;
 
-	$row = new mosContent( $database );
+	$row = new JContentModel( $database );
 	$row->bind( $_POST );
 	$row->checkin();
 	mosRedirect( 'index2.php?option='. $option );
@@ -506,7 +506,7 @@ function menuLink( $option, $id ) {
 	$menu 	= mosGetParam( $_POST, 'menuselect', '' );
 	$link 	= mosGetParam( $_POST, 'link_name', '' );
 
-	$row 				= new mosMenu( $database );
+	$row 				= new JMenuModel( $database );
 	$row->menutype 		= $menu;
 	$row->name 			= $link;
 	$row->type 			= 'content_typed';
@@ -534,7 +534,7 @@ function go2menu() {
 	global $database;
 
 	// checkin content
-	$row = new mosContent( $database );
+	$row = new JContentModel( $database );
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -547,7 +547,7 @@ function go2menuitem() {
 	global $database;
 
 	// checkin content
-	$row = new mosContent( $database );
+	$row = new JContentModel( $database );
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -562,7 +562,7 @@ function saveOrder( &$cid ) {
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
-	$row 		= new mosContent( $database );
+	$row 		= new JContentModel( $database );
 	$conditions = array();
 
 	// update ordering values

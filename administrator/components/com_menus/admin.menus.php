@@ -41,7 +41,7 @@ switch ($task) {
 
 	case 'edit':
 		$cid[0]	= ( $id ? $id : $cid[0] );
-		$menu = new mosMenu( $database );
+		$menu = new JMenuModel( $database );
 		if ( $cid[0] ) {
 			$menu->load( $cid[0]  );
 		} else {
@@ -368,10 +368,10 @@ function saveMenu( $option, $task='save' ) {
 		foreach ($params as $k=>$v) {
 			$txt[] = "$k=$v";
 		}
-		$_POST['params'] = mosParameters::textareaHandling( $txt );
+		$_POST['params'] = JParameters::textareaHandling( $txt );
 	}
 
-	$row = new mosMenu( $database );
+	$row = new JMenuModel( $database );
 
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
@@ -418,7 +418,7 @@ function publishMenuSection( $cid=null, $publish=1 ) {
 		return JText::_( 'Select an item to' ) . ($publish ? JText::_( 'publish' ) : JText::_( 'unpublish' ) );
 	}
 
-	$menu = new mosMenu( $database );
+	$menu = new JMenuModel( $database );
 	foreach ($cid as $id) {
 		$menu->load( $id );
 		$menu->published = $publish;
@@ -472,7 +472,7 @@ function TrashMenuSection( $cid=NULL ) {
 function cancelMenu( $option ) {
 	global $database;
 
-	$menu = new mosMenu( $database );
+	$menu = new JMenuModel( $database );
 	$menu->bind( $_POST );
 	$menuid = mosGetParam( $_POST, 'menuid', 0 );
 	if ( $menuid ) {
@@ -482,7 +482,7 @@ function cancelMenu( $option ) {
 /*
 	if ( $menu->type == 'content_typed' ) {
 		$contentid = mosGetParam( $_POST, 'id', 0 );
-		$content = new mosContent( $database );
+		$content = new JContentModel( $database );
 		$content->load( $contentid );
 		$content->checkin();
 	}
@@ -497,7 +497,7 @@ function cancelMenu( $option ) {
 function orderMenu( $uid, $inc, $option ) {
 	global $database;
 
-	$row = new mosMenu( $database );
+	$row = new JMenuModel( $database );
 	$row->load( $uid );
 	$row->move( $inc, "menutype = '$row->menutype' AND parent = $row->parent" );
 
@@ -512,7 +512,7 @@ function orderMenu( $uid, $inc, $option ) {
 function accessMenu( $uid, $access, $option, $menutype ) {
 	global $database;
 
-	$menu = new mosMenu( $database );
+	$menu = new JMenuModel( $database );
 	$menu->load( $uid );
 	$menu->access = $access;
 
@@ -604,7 +604,7 @@ function moveMenuSave( $option, $cid, $menu, $menutype ) {
 	// add all decendants to the list
 	foreach ($cid as $id) addDescendants($id, $cid);
 
-	$row = new mosMenu( $database );
+	$row = new JMenuModel( $database );
 	$ordering = 1000000;
 	$firstroot = 0;
 	foreach ($cid as $id) {
@@ -677,7 +677,7 @@ function copyMenu( $option, $cid, $menutype ) {
 function copyMenuSave( $option, $cid, $menu, $menutype ) {
 	global $database;
 
-	$curr = new mosMenu( $database );
+	$curr = new JMenuModel( $database );
 	$cidref = array();
 	foreach( $cid as $id ) {
 		$curr->load( $id );
@@ -751,7 +751,7 @@ function saveOrder( &$cid, $menutype ) {
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
-	$row		= new mosMenu( $database );
+	$row		= new JMenuModel( $database );
 	$conditions = array();
 
 	// update ordering values

@@ -53,11 +53,11 @@ function showSyndicate( $option ) {
 	$id = $database->loadResult();
 
 	// load the row from the db table
-	$row = new mosComponent( $database );
+	$row = new JComponentModel( $database );
 	$row->load( $id );
 
 	// get params definitions
-	$params = new mosParameters( $row->params, $mainframe->getPath( 'com_xml', $row->option ), 'component' );
+	$params = new JParameters( $row->params, $mainframe->getPath( 'com_xml', $row->option ), 'component' );
 
 	HTML_syndicate::settings( $option, $params, $id );
 }
@@ -75,11 +75,11 @@ function saveSyndicate( $option ) {
 		foreach ($params as $k=>$v) {
 			$txt[] = "$k=$v";
 		}
-		$_POST['params'] = mosParameters::textareaHandling( $txt );
+		$_POST['params'] = JParameters::textareaHandling( $txt );
 	}
 
 	$id = mosGetParam( $_POST, 'id', '17' );
-	$row = new mosComponent( $database );
+	$row = new JComponentModel( $database );
 	$row->load( $id );
 
 	if (!$row->bind( $_POST )) {

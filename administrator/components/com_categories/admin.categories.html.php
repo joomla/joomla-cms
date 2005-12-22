@@ -238,7 +238,7 @@ class categories_html {
 
 	/**
 	* Writes the edit form for new and existing categories
-	* @param mosCategory The category object
+	* @param JCategoryModel The category object
 	* @param string
 	* @param array
 	*/

@@ -19,9 +19,10 @@ jimport( 'joomla.models.model' );
 *
 * Provides access to the jos_user table
 * @package Joomla
+* @subpackage JFramework
 * @since 1.0
 */
-class mosUser extends JModel {
+class JUserModel extends JModel {
 	/** @var int Unique id*/
 	var $id				= null;
 	/** @var string The users real name (or nickname)*/

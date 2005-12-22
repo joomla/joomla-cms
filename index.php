@@ -89,7 +89,7 @@ if ($option == '') {
 		;
 		$database->setQuery( $query );
 	}
-	$menu = new mosMenu( $database );
+	$menu = new JMenuModel( $database );
 	if ($database->loadObject( $menu )) {
 		$Itemid = $menu->id;
 	}
@@ -151,7 +151,7 @@ if ($mainframe->getCfg('offline') && $my->gid < '23' ) {
 }
 
 jimport('joomla.document.document');
-$document = JDocument::getInstance('html');
+$document =& JDocument::getInstance('html');
 $document->parse($cur_template, $file);
 
 header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );

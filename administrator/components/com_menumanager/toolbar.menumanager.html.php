@@ -25,27 +25,27 @@ class TOOLBAR_menumanager {
 	*/
 	function _DEFAULT() {
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Menu Manager' ), 'menu.png' );
-		mosMenuBar::customX( 'copyconfirm', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), true );
-		mosMenuBar::spacer();
-		mosMenuBar::customX( 'deleteconfirm', 'delete.png', 'delete_f2.png', JText::_( 'Delete' ), true );
-		mosMenuBar::spacer();
-		mosMenuBar::editListX();
-		mosMenuBar::spacer();
-		mosMenuBar::addNewX();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.menumanager' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Menu Manager' ), 'menu.png' );
+		JMenuBar::customX( 'copyconfirm', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), true );
+		JMenuBar::spacer();
+		JMenuBar::customX( 'deleteconfirm', 'delete.png', 'delete_f2.png', JText::_( 'Delete' ), true );
+		JMenuBar::spacer();
+		JMenuBar::editListX();
+		JMenuBar::spacer();
+		JMenuBar::addNewX();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.menumanager' );
+		JMenuBar::endTable();
 	}
 
 	/**
 	* Draws the menu to delete a menu
 	*/
 	function _DELETE() {
-		mosMenuBar::startTable();
-		mosMenuBar::cancel( );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::cancel( );
+		JMenuBar::endTable();
 	}
 
 	/**
@@ -53,14 +53,14 @@ class TOOLBAR_menumanager {
 	*/
 	function _NEWMENU()	{
 
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Menu Details' ), 'menu.png' );
-		mosMenuBar::custom( 'savemenu', 'save.png', 'save_f2.png', JText::_( 'Save' ), false );
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.menumanager.new' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Menu Details' ), 'menu.png' );
+		JMenuBar::custom( 'savemenu', 'save.png', 'save_f2.png', JText::_( 'Save' ), false );
+		JMenuBar::spacer();
+		JMenuBar::cancel();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.menumanager.new' );
+		JMenuBar::endTable();
 	}
 
 	/**
@@ -68,14 +68,14 @@ class TOOLBAR_menumanager {
 	*/
 	function _COPYMENU()	{
 
-		mosMenuBar::startTable();
-		mosMenuBar::title(  JText::_( 'Copy Menu Items' ) );
-		mosMenuBar::custom( 'copymenu', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), false );
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.menumanager.copy' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title(  JText::_( 'Copy Menu Items' ) );
+		JMenuBar::custom( 'copymenu', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), false );
+		JMenuBar::spacer();
+		JMenuBar::cancel();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.menumanager.copy' );
+		JMenuBar::endTable();
 	}
 
 }

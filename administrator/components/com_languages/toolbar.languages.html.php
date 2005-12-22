@@ -24,16 +24,16 @@ $client = mosGetParam( $_REQUEST, 'client', 'site' );
 class TOOLBAR_languages {
 	function _DEFAULT() {
 		global $client;
-		mosMenuBar::startTable();
-		mosMenuBar::title( JText::_( 'Language Manager' ).'<small><small>[' .JText::_( $client ) .']</small></small>', 'langmanager.png' );
-		mosMenuBar::publishList();
-		mosMenuBar::spacer();
-		mosMenuBar::addNew('install', 'Install');
-		mosMenuBar::spacer();
-		mosMenuBar::deleteList('', 'uninstall', 'Uninstall');
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.languages' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Language Manager' ).'<small><small>[' .JText::_( $client ) .']</small></small>', 'langmanager.png' );
+		JMenuBar::publishList();
+		JMenuBar::spacer();
+		JMenuBar::addNew('install', 'Install');
+		JMenuBar::spacer();
+		JMenuBar::deleteList('', 'uninstall', 'Uninstall');
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.languages' );
+		JMenuBar::endTable();
 	}
 }
 ?>

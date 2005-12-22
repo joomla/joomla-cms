@@ -142,7 +142,7 @@ class HTML_weblinks {
 
 		$k = 0;
 		foreach ($rows as $row) {
-			$iparams = new mosParameters( $row->params );
+			$iparams = new JParameters( $row->params );
 
 			$link = sefRelToAbs( 'index.php?option=com_weblinks&task=view&catid='. $catid .'&id='. $row->id );
 			$link = ampReplace( $link );

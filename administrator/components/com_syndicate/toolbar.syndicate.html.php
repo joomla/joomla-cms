@@ -22,14 +22,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class TOOLBAR_syndicate {
 
 	function _DEFAULT() {
-		mosMenuBar::startTable();
-		mosMenuBar::title(   JText::_( 'Syndication Settings' ) );
-		mosMenuBar::save();
-		mosMenuBar::spacer();
-		mosMenuBar::cancel();
-		mosMenuBar::spacer();
-		mosMenuBar::help( 'screen.syndicate' );
-		mosMenuBar::endTable();
+		JMenuBar::startTable();
+		JMenuBar::title(   JText::_( 'Syndication Settings' ) );
+		JMenuBar::save();
+		JMenuBar::spacer();
+		JMenuBar::cancel();
+		JMenuBar::spacer();
+		JMenuBar::help( 'screen.syndicate' );
+		JMenuBar::endTable();
 	}
 }
 ?>

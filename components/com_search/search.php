@@ -51,15 +51,15 @@ function viewSearch() {
 
 	// Adds parameter handling
 	if( $Itemid > 0 ) {
-		$menu = new mosMenu( $database );
+		$menu = new JMenuModel( $database );
 		$menu->load( $Itemid );
-		$params = new mosParameters( $menu->params );
+		$params = new JParameters( $menu->params );
 		$params->def( 'page_title', 1 );
 		$params->def( 'pageclass_sfx', '' );
 		$params->def( 'header', $menu->name, JText::_( 'Search' ) );
 		$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
 	} else {
-		$params = new mosParameters('');
+		$params = new JParameters('');
 		$params->def( 'page_title', 1 );
 		$params->def( 'pageclass_sfx', '' );
 		$params->def( 'header', JText::_( 'Search' ) );

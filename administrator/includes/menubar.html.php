@@ -13,11 +13,11 @@
 
 /**
 * Utility class for the button bar
+* 
 * @package Joomla
 */
-class mosMenuBar {
-
-
+class JMenuBar 
+{
 	/**
 	* Title cell
 	* For the title and toolbar to be rendered correctly,
@@ -751,5 +751,14 @@ class mosMenuBar {
 		</table>
 		<?php
 	}
+}
+
+/**
+ * Legacy class, use JMenuBar instead
+ * @deprecated As of version 1.1
+ */
+class mosMenuBar extends JMenuBar
+{
+	
 }
 ?>

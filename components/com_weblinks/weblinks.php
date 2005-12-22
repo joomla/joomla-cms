@@ -132,7 +132,7 @@ class WebLinkController {
 			/*
 			 * Let's load a category model for the current category
 			 */
-			$category = & new mosCategory($db);
+			$category = & new JCategoryModel($db);
 
 			if (!$category->load($catid)) {
 				JError :: raiseError('SOME_ERROR_CODE', 'WebLinkController::showCategory: Unable to load the category', 'Category ID: '.$catid);
@@ -141,9 +141,9 @@ class WebLinkController {
 		}
 
 		// Load Parameters
-		$menu = new mosMenu($db);
+		$menu = new JMenuModel($db);
 		$menu->load($Itemid);
-		$params = new mosParameters($menu->params);
+		$params = new JParameters($menu->params);
 		$params->def('page_title', 1);
 		$params->def('header', $menu->name);
 		$params->def('pageclass_sfx', '');

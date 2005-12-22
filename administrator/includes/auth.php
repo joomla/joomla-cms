@@ -27,7 +27,7 @@ session_name( md5( JURL_SITE ) );
 session_start();
 // restore some session variables
 if (!isset( $my )) {
-	$my = new mosUser( $database );
+	$my = new JUserModel( $database );
 }
 
 $my->id 		= mosGetParam( $_SESSION, 'session_user_id', '' );
