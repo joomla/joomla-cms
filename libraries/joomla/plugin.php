@@ -12,7 +12,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.classes.observer' );
+jimport( 'joomla.system.observer' );
 
 /**
  * JPlugin Class

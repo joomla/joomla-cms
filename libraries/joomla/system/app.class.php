@@ -12,7 +12,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.classes.object' );
+jimport( 'joomla.system.object' );
 
 /**
 * Base class for a Joomla! application
@@ -256,7 +256,7 @@ class JApplication extends JObject {
             'tab'  => '  ',
           	'language' => 'eng_GB'
 		);
-		jimport('joomla.classes.page');
+		jimport('joomla.system.page');
 		return JPage::getInstance($attributes);
 	}
 	
@@ -302,7 +302,7 @@ class JApplication extends JObject {
 	 * @return jbrowser A JBrowser object holding the browser information
 	 */
 	function &getBrowser(){
-		jimport('joomla.classes.browser');
+		jimport('joomla.system.browser');
 		return JBrowser::getInstance();
 	}
 
@@ -398,7 +398,7 @@ class JApplication extends JObject {
 	function _createBreadCrumbs() {
 		global $ItemID;
 		
-		jimport( 'joomla.classes.breadcrumbs' );
+		jimport( 'joomla.system.breadcrumbs' );
 
 		// Create a JBreadCrumbs object
 		$this->_breadcrumbs = new JBreadCrumbs();

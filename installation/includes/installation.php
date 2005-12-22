@@ -64,8 +64,8 @@ require_once( dirname(__FILE__). DS.'html.php' );
 
 //Library imports
 jimport( 'joomla.version' );
-jimport( 'joomla.classes.error');
-jimport( 'joomla.classes.app');
+jimport( 'joomla.system.error');
+jimport( 'joomla.system.app');
 jimport( 'joomla.factory' );
 jimport( 'joomla.files' );
 jimport( 'joomla.params' );

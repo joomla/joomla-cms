@@ -11,6 +11,8 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport( 'joomla.system.object' );
+
 /**
  * Authorization class, provides an interface for the Joomla authentication
  * system
@@ -21,6 +23,7 @@
  * @subpackage JFramework
  * @since 1.1
  */
+  
 class JAuth extends JObject {
 
 	/**

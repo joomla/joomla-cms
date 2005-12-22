@@ -12,6 +12,8 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport('joomla.system.object');
+
 /**
  * Browser class, provides capability information about the current web client.
  *
@@ -26,8 +28,6 @@
  * @subpackage JFramework
  * @since 1.1
  */
-
-jimport('joomla.classes.object');
 
 class JBrowser extends JObject
 {

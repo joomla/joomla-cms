@@ -11,7 +11,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.classes.object');
+jimport('joomla.system.object');
 
 /**
  * Document class, provides an easy interface to parse and display a document

@@ -12,7 +12,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.classes.object' );
+jimport( 'joomla.system.object' );
 
 /**
 * Database connector class

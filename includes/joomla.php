@@ -62,12 +62,12 @@ jimport( 'phpinputfilter.inputfilter' );
 
 jimport( 'joomla.version' );
 jimport( 'joomla.functions' );
-jimport( 'joomla.classes.error');
-jimport( 'joomla.classes.app');
-jimport( 'joomla.classes.auth');
-jimport( 'joomla.classes.profiler');
-jimport( 'joomla.classes.session' );
-jimport( 'joomla.classes.string' );
+jimport( 'joomla.system.error');
+jimport( 'joomla.system.app');
+jimport( 'joomla.system.auth');
+jimport( 'joomla.system.profiler');
+jimport( 'joomla.system.session' );
+jimport( 'joomla.system.string' );
 jimport( 'joomla.models.*' );
 jimport( 'joomla.html' );
 jimport( 'joomla.factory' );
