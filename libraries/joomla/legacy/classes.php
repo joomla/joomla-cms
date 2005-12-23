@@ -196,11 +196,11 @@ class mosModule extends JModuleModel {
 	 * Constructor
 	 */
 	function __construct(&$db) {
-		parent::__construct( '#__modules', 'id', $db );
+		parent::__construct( $db );
 	}
 
 	function mosModule(&$db) {
-		parent::__construct( '#__modules', 'id', $db );
+		parent::__construct( $db );
 	}
 }
 
@@ -213,11 +213,11 @@ class mosSection extends JSectionModel {
 	 * Constructor
 	 */
 	function __construct(&$db) {
-		parent::__construct( '#__sections', 'id', $db );
+		parent::__construct( $db );
 	}
 
 	function mosSection(&$db) {
-		parent::__construct( '#__sections', 'id', $db );
+		parent::__construct( $db );
 	}
 }
 
@@ -230,11 +230,11 @@ class mosSession extends JSessionModel {
 	 * Constructor
 	 */
 	function __construct(&$db) {
-		parent::__construct( '#__session', 'session_id', $db );
+		parent::__construct(  $db );
 	}
 
 	function mosSession(&$db) {
-		parent::__construct( '#__session', 'session_id', $db );
+		parent::__construct( $db );
 	}
 }
 
@@ -247,11 +247,11 @@ class mosUser extends JUserModel {
 	 * Constructor
 	 */
 	function __construct(&$db) {
-		parent::__construct( '#__users', 'id', $db );
+		parent::__construct( $db );
 	}
 
 	function mosUser(&$db) {
-		parent::__construct( '#__users', 'id', $db);
+		parent::__construct( $db);
 	}
 }
 
