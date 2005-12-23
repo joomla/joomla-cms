@@ -137,7 +137,7 @@ function mosLoadAdminModule( $name, $params=NULL ) {
 function mosShowHead_Admin() {
 	global $database, $my, $mainframe, $_VERSION;
 
-	$page =& $mainframe->getPage();
+	$page =& $mainframe->getDocument();
 
 	$template =  $mainframe->getTemplate();
 	$lang     =& $mainframe->getLanguage();
@@ -148,6 +148,7 @@ function mosShowHead_Admin() {
 	$page->setMetaData( 'keywords', $GLOBALS['mosConfig_MetaKeys'] );
 	$page->setMetaData( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
 	$page->setMetaData( 'robots', 'noindex, nofollow' );
+	$page->setBase( JURL_ADMINISTRATOR.'/index.php' );
 
 	$suffix = ($lang->isRTL()) ? '_rtl': '';
 
@@ -174,7 +175,7 @@ function mosShowHead_Admin() {
 		}
 	}
 
-	echo $page->renderHead();
+	echo $page->fetchHead();
 	
 	// load editor
 	initEditor();

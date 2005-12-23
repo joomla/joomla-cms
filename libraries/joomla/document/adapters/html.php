@@ -11,10 +11,8 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.system.object');
-
 /**
- * Document class, provides an easy interface to parse and display a document
+ * DocumentHTML class, provides an easy interface to parse and display an html document
  *
  * The class is closely coupled with the JTemplate placeholder function.
  *
@@ -41,6 +39,38 @@ class JDocumentHTML extends JDocument
      * @access    private
      */
 	var $_modules      = array();
+	
+	/**
+     * Contains the base url
+     *
+     * @var     string
+     * @access  private
+     */
+    var $_base = '';
+	
+	/**
+     * Array of meta tags
+     *
+     * @var     array
+     * @access  private
+     */
+    var $_metaTags = array( 'standard' => array ( 'Generator' => 'Joomla! 1.1' ) );
+	
+	 /**
+     * Array of Header <link> tags
+     *
+     * @var     array
+     * @access  private
+     */
+    var $_links = array();
+	
+	/**
+     * Array of custom tags
+     *
+     * @var     string
+     * @access  private
+     */
+    var $_custom = array();
 
 
 	/**
@@ -48,16 +78,208 @@ class JDocumentHTML extends JDocument
 	 * 
 	 * @access protected
 	 */
-	function __construct()
+	function __construct($attributes = array())
 	{
-		parent::__construct();
+		parent::__construct($attributes = array());
+		
+		global $database, $my, $mainframe, $_VERSION;
+		
+		if (isset($attributes['base'])) {
+            $this->setBase($attributes['base']);
+        }
+		
+		//set mime type
+		$this->_mime = 'text/html';
 		
 		$this->_placeholders['module']		= array();
 		$this->_placeholders['modules']		= array();
 		$this->_placeholders['components']	= array();
 
 		$this->_modules =& $this->_loadModules();
+		
+		$this->setMetaContentType();
+		$this->setMetaData( 'description', $mainframe->getCfg('MetaDesc' ));
+		$this->setMetaData( 'keywords', $mainframe->getCfg('MetaKeys' ));
+
+		$this->setMetaData( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
+		$this->setMetaData( 'robots', 'index, follow' );
+
+		$this->setBase( JURL_SITE.'/index.php' );
+
+		if ( $my->id ) {
+			$this->addScript( 'includes/js/joomla.javascript.js');
+		}
+
+		// support for Firefox Live Bookmarks ability for site syndication
+		$query = "SELECT a.id"
+		. "\n FROM #__components AS a"
+		. "\n WHERE a.name = 'Syndicate'"
+		;
+		$database->setQuery( $query );
+		$id = $database->loadResult();
+
+		// load the row from the db table
+		$row = new mosComponent( $database );
+		$row->load( $id );
+
+		// get params definitions
+		$params = new JParameters( $row->params, $mainframe->getPath( 'com_xml', $row->option ), 'component' );
+
+		$live_bookmark = $params->get( 'live_bookmark', 0 );
+
+		// support for Live Bookmarks ability for site syndication
+		if ($live_bookmark) {
+			$show = 1;
+
+			$link_file 	= 'index2.php?option=com_rss&feed='. $live_bookmark .'&no_html=1';
+
+			// xhtml check
+			$link_file = ampReplace( $link_file );
+
+			// outputs link tag for page
+			if ($show) {
+				$this->addHeadLink( $link_file, 'alternate', array('type' => 'application/rss+xml'));
+			}
+		}
+
+		$dirs = array(
+			'templates/'.$mainframe->getTemplate().'/',
+			'/',
+		);
+
+		foreach ($dirs as $dir ) {
+			$icon =   $dir . 'favicon.ico';
+
+			if(file_exists( JPATH_SITE .'/'. $icon )) {
+				$this->addFavicon( $dir. $icon);
+				break;
+			}
+		}
 	}
+	
+	 /**
+     * Adds <link> tags to the head of the document
+     *
+     * <p>$relType defaults to 'rel' as it is the most common relation type used.
+     * ('rev' refers to reverse relation, 'rel' indicates normal, forward relation.)
+     * Typical tag: <link href="index.php" rel="Start"></p>
+     *
+     * @access   public
+     * @param    string  $href       The link that is being related.
+     * @param    string  $relation   Relation of link.
+     * @param    string  $relType    Relation type attribute.  Either rel or rev (default: 'rel').
+     * @param    array   $attributes Associative array of remaining attributes.
+     * @return   void
+     */
+    function addHeadLink($href, $relation, $relType = 'rel', $attributes = array())
+	{
+        $attribs = mosHTML::_implode_assoc('=', ' ', $attribs);
+        $generatedTag = "<link href=\"$href\" $relType=\"$relation\"" . $attribs;
+        $this->_links[] = $generatedTag;
+    }
+	
+	 /**
+     * Adds a shortcut icon (favicon)
+     *
+     * <p>This adds a link to the icon shown in the favorites list or on
+     * the left of the url in the address bar. Some browsers display
+     * it on the tab, as well.</p>
+     *
+     * @param     string  $href        The link that is being related.
+     * @param     string  $type        File type
+     * @param     string  $relation    Relation of link
+     * @access    public
+     */
+    function addFavicon($href, $type = 'image/x-icon', $relation = 'shortcut icon')
+	{
+        $this->_links[] = "<link href=\"$href\" rel=\"$relation\" type=\"$type\"";
+    }
+	
+	/**
+	 * Adds a custom html string to the head block
+	 *
+	 * @param string The html to add to the head
+	 * @access   public
+	 * @return   void
+	 */
+
+	function addCustomTag( $html )
+	{
+		$this->_custom[] = trim( $html );
+	}
+	
+	 /**
+     * Sets the document base tag
+     *
+     * @param   string   $url  The url used in the base tag
+     * @access  public
+     * @return  void
+     */
+    function setBase($url)
+	{
+        $this->_base = $url;
+    }
+	
+	/**
+     * Returns the document base url
+     *
+     * @access public
+     * @return string
+     */
+    function getBase()
+	{
+        return $this->_base;
+    }
+	
+	 /**
+     * Sets or alters a meta tag.
+     *
+     * @param string  $name           Value of name or http-equiv tag
+     * @param string  $content        Value of the content tag
+     * @param bool    $http_equiv     META type "http-equiv" defaults to null
+     * @return void
+     * @access public
+     */
+    function setMetaData($name, $content, $http_equiv = false)
+    {
+        if ($content == '') {
+            $this->unsetMetaData($name, $http_equiv);
+        } else {
+            if ($http_equiv == true) {
+                $this->_metaTags['http-equiv'][$name] = $content;
+            } else {
+                $this->_metaTags['standard'][$name] = $content;
+            }
+        }
+    }
+
+	 /**
+     * Unsets a meta tag.
+     *
+     * @param string  $name           Value of name or http-equiv tag
+     * @param bool    $http_equiv     META type "http-equiv" defaults to null
+     * @return void
+     * @access public
+     */
+    function unsetMetaData($name, $http_equiv = false)
+    {
+        if ($http_equiv == true) {
+            unset($this->_metaTags['http-equiv'][$name]);
+        } else {
+            unset($this->_metaTags['standard'][$name]);
+        }
+    }
+
+	 /**
+     * Sets an http-equiv Content-Type meta tag
+     *
+     * @access   public
+     * @return   void
+     */
+    function setMetaContentType()
+    {
+        $this->setMetaData('Content-Type', $this->_mime . '; charset=' . $this->_charset , true );
+    }
 
 	/**
 	 *  Set a component
@@ -150,14 +372,14 @@ class JDocumentHTML extends JDocument
 	}
 
 	/**
-	 * Executes a component script and returns the results as a string.
+	 * Executes a component script and returns the results as a string
 	 *
 	 * @access public
 	 * @param string 	$name		The name of the component to render
 	 * @param string 	$message	A message to prepend
 	 * @return string	The output of the script
 	 */
-	function renderComponent($name, $msg = '')
+	function fetchComponent($name, $msg = '')
 	{
 		global $mainframe, $my, $acl, $database;
 		global $Itemid, $task, $option;
@@ -191,29 +413,29 @@ class JDocumentHTML extends JDocument
 	}
 
 	/**
-	 * Executes multiple modules scripts and returns the results as a string.
+	 * Executes multiple modules scripts and returns the results as a string
 	 *
 	 * @access public
 	 * @param string 	$name	The position of the modules to render
 	 * @return string	The output of the scripts
 	 */
-	function renderModules($position)
+	function fetchModules($position)
 	{
 		$contents = '';
 		foreach ($this->getModules($position) as $module)  {
-			$contents .= $this->renderModule($module);
+			$contents .= $this->fetchModule($module);
 		}
 		return $contents;
 	}
 
 	/**
-	 * Executes a single module script and returns the results as a string.
+	 * Executes a single module script and returns the results as a string
 	 *
 	 * @access public
 	 * @param  mixed 	$name	The name of the module to render or a module object
 	 * @return string	The output of the script
 	 */
-	function renderModule($module)
+	function fetchModule($module)
 	{
 		global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
 		global $mainframe, $database, $my, $Itemid;
@@ -254,90 +476,117 @@ class JDocumentHTML extends JDocument
 
 		return $contents;
 	}
+ 
+	 /**
+     * Generates the head html and return the results as a string
+     *
+     * @return string
+     * @access private
+     */
+    function fetchHead()
+    {
+        // get line endings
+        $lnEnd = $this->_getLineEnd();
+        $tab = $this->_getTab();
 
-	/**
-	 * Renders the page head and returns the results as a string.
-	 *
-	 * @access public
-	 * @return string	The document head
-	 */
-	function renderHead()
-	{
-		global $database, $my, $mainframe, $_VERSION;
+		$tagEnd = ' />';
+	
+		$strHtml  = $tab . '<title>' . $this->getTitle() . '</title>' . $lnEnd;
+		$strHtml .= $tab . '<base href=' . $this->getBase() . ' />' . $lnEnd;
 
-		$page =& $mainframe->getPage();
+        // Generate META tags
+        foreach ($this->_metaTags as $type => $tag) {
+            foreach ($tag as $name => $content) {
+                if ($type == 'http-equiv') {
+                    $strHtml .= $tab . "<meta http-equiv=\"$name\" content=\"$content\"" . $tagEnd . $lnEnd;
+                } elseif ($type == 'standard') {
+                    $strHtml .= $tab . "<meta name=\"$name\" content=\"$content\"" . $tagEnd . $lnEnd;
+                }
+            }
+        }
 
-		$page->setMetaContentType();
-		$page->setMetaData( 'description', $mainframe->getCfg('MetaDesc' ));
-		$page->setMetaData( 'keywords', $mainframe->getCfg('MetaKeys' ));
+        // Generate link declarations
+        foreach ($this->_links as $link) {
+            $strHtml .= $tab . $link . $tagEnd . $lnEnd;
+        }
 
-		$page->setMetaData( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
-		$page->setMetaData( 'robots', 'index, follow' );
+        // Generate stylesheet links
+        foreach ($this->_styleSheets as $strSrc => $strAttr ) {
+            $strHtml .= $tab . "<link rel=\"stylesheet\" href=\"$strSrc\" type=\"".$strAttr['mime'].'"';
+            if (!is_null($strAttr['media'])){
+                $strHtml .= ' media="'.$strAttr['media'].'"';
+            }
+            $strHtml .= $tagEnd . $lnEnd;
+        }
 
-		$page->setBase( JURL_SITE.'/index.php' );
+        // Generate stylesheet declarations
+        foreach ($this->_style as $styledecl) {
+            foreach ($styledecl as $type => $content) {
+                $strHtml .= $tab . '<style type="' . $type . '">' . $lnEnd;
 
-		if ( $my->id ) {
-			$page->addScript( 'includes/js/joomla.javascript.js');
+                // This is for full XHTML support.
+                if ($this->_mime == 'text/html' ) {
+                    $strHtml .= $tab . $tab . '<!--' . $lnEnd;
+                } else {
+                    $strHtml .= $tab . $tab . '<![CDATA[' . $lnEnd;
+                }
+
+				$strHtml .= $content . $lnEnd;
+
+                // See above note
+                if ($this->_mime == 'text/html' ) {
+                    $strHtml .= $tab . $tab . '-->' . $lnEnd;
+                } else {
+                    $strHtml .= $tab . $tab . ']]>' . $lnEnd;
+                }
+                $strHtml .= $tab . '</style>' . $lnEnd;
+            }
+        }
+
+        // Generate script file links
+        foreach ($this->_scripts as $strSrc => $strType) {
+            $strHtml .= $tab . "<script type=\"$strType\" src=\"$strSrc\"></script>" . $lnEnd;
+        }
+
+        // Generate script declarations
+        foreach ($this->_script as $script) {
+            foreach ($script as $type => $content) {
+                $strHtml .= $tab . '<script type="' . $type . '">' . $lnEnd;
+
+                // This is for full XHTML support.
+                if ($this->_mime == 'text/html' ) {
+                    $strHtml .= $tab . $tab . '// <!--' . $lnEnd;
+                } else {
+                    $strHtml .= $tab . $tab . '<![CDATA[' . $lnEnd;
+                }
+
+				$strHtml .= $content . $lnEnd;
+
+                // See above note
+                if ($this->_mime == 'text/html' ) {
+                    $strHtml .= $tab . $tab . '// -->' . $lnEnd;
+                } else {
+                    $strHtml .= $tab . $tab . '// ]]>' . $lnEnd;
+                }
+                $strHtml .= $tab . '</script>' . $lnEnd;
+            }
+        }
+
+		foreach($this->_custom as $custom) {
+			$strHtml .= $tab . $custom .$lnEnd;
 		}
-
-		// support for Firefox Live Bookmarks ability for site syndication
-		$query = "SELECT a.id"
-		. "\n FROM #__components AS a"
-		. "\n WHERE a.name = 'Syndicate'"
-		;
-		$database->setQuery( $query );
-		$id = $database->loadResult();
-
-		// load the row from the db table
-		$row = new mosComponent( $database );
-		$row->load( $id );
-
-		// get params definitions
-		$params = new JParameters( $row->params, $mainframe->getPath( 'com_xml', $row->option ), 'component' );
-
-		$live_bookmark = $params->get( 'live_bookmark', 0 );
-
-		// support for Live Bookmarks ability for site syndication
-		if ($live_bookmark) {
-			$show = 1;
-
-			$link_file 	= 'index2.php?option=com_rss&feed='. $live_bookmark .'&no_html=1';
-
-			// xhtml check
-			$link_file = ampReplace( $link_file );
-
-			// outputs link tag for page
-			if ($show) {
-				$page->addHeadLink( $link_file, 'alternate', array('type' => 'application/rss+xml'));
-			}
-		}
-
-		$dirs = array(
-			'templates/'.$mainframe->getTemplate().'/',
-			'/',
-		);
-
-		foreach ($dirs as $dir ) {
-			$icon =   $dir . 'favicon.ico';
-
-			if(file_exists( JPATH_SITE .'/'. $icon )) {
-				$page->addFavicon( $dir. $icon);
-				break;
-			}
-		}
-
+		
 		ob_start();
-		echo $page->renderHead();
-
+		
 		//load editor
 		initEditor();
 
 		$contents = ob_get_contents();
 		ob_end_clean();
 
-		return $contents;
-	}
-
+        return $contents.$strHtml;
+    }
+	
 	/**
 	 * Parse a file and create an internal patTemplate object
 	 *
@@ -363,29 +612,32 @@ class JDocumentHTML extends JDocument
 	function display($name, $compress = true)
 	{
 		$msg = mosGetParam( $_REQUEST, 'mosmsg', '' );
-
+		
 		foreach($this->_placeholders['components'] as $component)
 		{
-			$html = $this->renderComponent($component, $msg);
+			$html = $this->fetchComponent($component, $msg);
 			$this->_tmpl->addGlobalVar('component_'.$component, $html);
 		}
 
 		foreach($this->_placeholders['modules'] as $module)
 		{
-			$html = $this->renderModules($module);
+			$html = $this->fetchModules($module);
 			$this->_tmpl->addGlobalVar('modules_'.$module, $html);
 		}
 
 		foreach($this->_placeholders['module'] as $module)
 		{
-			$html = $this->renderModule($module);
+			$html = $this->fetchModule($module);
 			$this->_tmpl->addGlobalVar('module_'.$module, $html);
 		}
 
-		$html = $this->renderHead();
+		$html = $this->fetchHead();
 		$this->_tmpl->addGlobalVar('head', $html);
 		
-		$this->_tmpl->displayParsedTemplate( $name );
+		// Set mime type and character encoding
+        header('Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
+		
+		$this->_tmpl->display( $name, $compress );
 	}
 
 	/**

@@ -243,12 +243,12 @@ class JApplication extends JObject {
 	}
 
 	/**
-	 * Return a reference to the JPage object
+	 * Return a reference to the JDocument object
 	 * 
 	 * @access public
 	 * @since 1.1
 	 */
-	function &getPage() {
+	function &getDocument() {
 
 		$attributes = array (
             'charset'  => 'utf-8',
@@ -256,8 +256,8 @@ class JApplication extends JObject {
             'tab'  => '  ',
           	'language' => 'eng_GB'
 		);
-		jimport('joomla.system.page');
-		return JPage::getInstance($attributes);
+		jimport('joomla.document.document');
+		return JDocument::getInstance('html', $attributes);
 	}
 	
 	/**
@@ -311,8 +311,8 @@ class JApplication extends JObject {
 	 * 
 	 * @return JUserModel A user object with the information from the current session
 	 */
-	function &getUser() {
-
+	function &getUser() 
+	{
 		// Check to see if the user object exists
 		if (!is_object($this->_user)) {
 			// If it doesn't exist, create a new user object
@@ -335,8 +335,8 @@ class JApplication extends JObject {
 	* @return jlanguage 	A JLanguage object 
 	* @since 1.1
 	*/
-	function &getLanguage( ) {
-
+	function &getLanguage( ) 
+	{
 		if(is_null($this->_lang)) {
 			$this->_createLanguage();
 		}
@@ -395,7 +395,8 @@ class JApplication extends JObject {
 	 * @return boolean True if successful
 	 * @since 1.1
 	 */
-	function _createBreadCrumbs() {
+	function _createBreadCrumbs() 
+	{
 		global $ItemID;
 		
 		jimport( 'joomla.system.breadcrumbs' );
@@ -496,7 +497,8 @@ class JApplication extends JObject {
 		JSession::updateIdle();
 	}
 
-	function _createTemplate( ) {
+	function _createTemplate( ) 
+	{
 		global $Itemid;
 
 		$db = $this->getDBO();
@@ -795,25 +797,25 @@ class JApplication extends JObject {
 	}
 	 
 	 /**
-	* Depreacted, use JPage->renderHead instead
+	* Depreacted, use JDocument->renderHead instead
 	* @since 1.1
 	*/
 	 function getHead() {
-		$page=& $this->getPage();
-		return $page->renderHead();
+		$document=& $this->getDocument();
+		return $document->fetchHead();
 	 }
 
 	/**
-	* Depreacted, use JPage->setMetadata instead
+	* Depreacted, use JDocument->setMetadata instead
 	* @since 1.1
 	*/
 	function addMetaTag( $name, $content, $prepend='', $append='' ) {
-		$page=& $this->getPage();
-		$page->setMetadata($name, $content);
+		$document=& $this->getDocument();
+		$document->setMetadata($name, $content);
 	}
 
 	/**
-	* Depreacted, use JPage->setMetadata instead
+	* Depreacted, use JDocument->setMetadata instead
 	* @since 1.1
 	*/
 	function appendMetaTag( $name, $content ) {
@@ -821,7 +823,7 @@ class JApplication extends JObject {
 	}
 
 	/**
-	* Depreacted, use JPage->setMetadata instead
+	* Depreacted, use JDocument->setMetadata instead
 	* @since 1.1
 	*/
 	function prependMetaTag( $name, $content ) {
@@ -829,30 +831,30 @@ class JApplication extends JObject {
 	}
 
 	/**
-	* Depreacted, use JPage->setTitle instead
+	* Depreacted, use JDocument->setTitle instead
 	* @since 1.1
 	*/
 	function setPageTitle( $title=null ) {
-		$page=& $this->getPage();
-		$page->setTitle($title);
+		$document=& $this->getDocument();
+		$document->setTitle($title);
 	}
 
 	/**
-	* Depreacted, use JPage->getTitle instead
+	* Depreacted, use JDocument->getTitle instead
 	* @since 1.1
 	*/
 	function getPageTitle() {
-		$page=& $this->getPage();
-		return $page->getTitle();
+		$document=& $this->getDocument();
+		return $document->getTitle();
 	}
 
 	/**
-	* Depreacted, use JPage->addCustomTag instead
+	* Depreacted, use JDocument->addCustomTag instead
 	* @since 1.1
 	*/
 	function addCustomHeadTag( $html ) {
-		$page=& $this->getPage();
-		return $page->addCustomTag($html);
+		$document=& $this->getDocument();
+		return $document->addCustomTag($html);
 	}
 
 	/**

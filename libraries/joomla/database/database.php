@@ -19,8 +19,11 @@ jimport( 'joomla.system.object' );
 * 
 * @subpackage Database
 * @package Joomla
+* @abstract
+* @since 1.0
 */
-class JDatabase extends JObject {
+class JDatabase extends JObject 
+{
 	/** @var string Internal variable to hold the query sql */
 	var $_sql			= '';
 	/** @var int Internal variable to hold the database error number */
