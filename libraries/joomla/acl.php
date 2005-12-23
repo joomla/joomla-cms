@@ -345,7 +345,7 @@ class JACL extends gacl_api {
 			} else {
 				$twist = "-&nbsp;";
 			}
-            $groupName = JText::_( $tree[$i]->name );
+			$groupName = JText::_( $tree[$i]->name );
 			//$list[$i] = $tree[$i]->level.$shim.$twist.$tree[$i]->name;
 			if ($html) {
 				$list[$i] = mosHTML::makeOption( $tree[$i]->id, $shim.$twist.$groupName );
@@ -438,13 +438,13 @@ class JACL extends gacl_api {
 			case 'RECURSE':
 				$query .= '
 				LEFT JOIN 	'. $table .' g2 ON g1.lft > g2.lft AND g1.lft < g2.rgt
-				WHERE		g1.group_id='. $group_id;
+				WHERE		g1.id='. $group_id;
 				break;
 			case 'RECURSE_INCL':
 				// inclusive resurse
 				$query .= '
 				LEFT JOIN 	'. $table .' g2 ON g1.lft >= g2.lft AND g1.lft <= g2.rgt
-				WHERE		g1.group_id='. $group_id;
+				WHERE		g1.id='. $group_id;
 				break;
 			default:
 				$query .= '
