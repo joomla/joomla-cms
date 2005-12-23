@@ -12,23 +12,23 @@
 
 define( '_JEXEC', 1 );
 
-define('JPATH_BASE', dirname(__FILE__) );
+define( 'JPATH_BASE', dirname( __FILE__ ) );
 
-require_once ( 'includes/defines.php');
+require_once( 'includes/defines.php' );
 require_once( 'includes/installation.php' );
 
 // create the mainframe object
 $mainframe =& new JInstallation();
 
-header( 'Cache-Control: no-cache, must-revalidate');	// HTTP/1.1
-header( 'Pragma: no-cache');							// HTTP/1.0
-header(' Content-Type: text/html; charset=UTF-8');
+header( 'Cache-Control: no-cache, must-revalidate' );	// HTTP/1.1
+header( 'Pragma: no-cache' );							// HTTP/1.0
+header(' Content-Type: text/html; charset=UTF-8' );
 
-$vars = mosGetParam( $_POST, 'vars', array() );
+$vars = (array) mosGetParam( $_POST, 'vars' );
 $mosConfig_lang = mosGetParam( $vars, 'lang', 'eng_GB' );
 
 $lang =& $mainframe->getLanguage();
-$lang->_load( JPATH_BASE .'/language/' . $mosConfig_lang . '/' . $mosConfig_lang .'.ini' );
+$lang->_load( JPATH_BASE . '/language/' . $mosConfig_lang . '/' . $mosConfig_lang .'.ini' );
 
 $task = mosGetParam( $_REQUEST, 'task', '' );
 

@@ -16,15 +16,15 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 //Global definitions
-DEFINE('DS', DIRECTORY_SEPARATOR);
+define( 'DS', DIRECTORY_SEPARATOR );
 
 //Joomla framework path definitions
-$path = str_replace( '\\\\', '/', JPATH_BASE );
+$path = str_replace( '\\', '/', JPATH_BASE );
 $parts = explode( '/', $path );
 array_pop( $parts );
 
-DEFINE('JPATH_ROOT'         , implode( DS, $parts ) );
-define('JPATH_SITE'			, JPATH_ROOT );
-define('JPATH_CONFIGURATION', JPATH_ROOT );
-define('JPATH_LIBRARIES'	, JPATH_ROOT . DS . 'libraries' );
+define( 'JPATH_ROOT',			implode( DS, $parts ) );
+define( 'JPATH_SITE',			JPATH_ROOT );
+define( 'JPATH_CONFIGURATION',	JPATH_ROOT );
+define( 'JPATH_LIBRARIES',		JPATH_ROOT . DS . 'libraries' );
 ?>

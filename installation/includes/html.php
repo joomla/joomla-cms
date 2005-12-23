@@ -22,9 +22,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class installationScreens {
 	/**
 	 * Static method to create the template object
+	 * @param string The name of the body html file
 	 * @return patTemplate
 	 */
-	function &createTemplate() {
+	function &createTemplate( $bodyHtml = null ) {
 
 		global $mainframe;
 
@@ -36,7 +37,7 @@ class installationScreens {
 		$tmpl->setNamespace( 'jos' );
 
 		// load the wrapper and common templates
-		$tmpl->setRoot( JPATH_BASE . '/tmpl' );
+		$tmpl->setRoot( JPATH_BASE . DS . 'tmpl' );
 		$tmpl->readTemplatesFromFile( 'page.html' );
 
 		if ($lang->isRTL()) {
@@ -45,6 +46,10 @@ class installationScreens {
 		} else {
 			$tmpl->addGlobalVar( 'installcss', 'install_dark.css' );
 			$tmpl->addGlobalVar( 'installdir', 'ltr' );
+		}
+
+		if ($bodyHtml) {
+			$tmpl->setAttribute( 'body', 'src', $bodyHtml );
 		}
 
 		return $tmpl;
@@ -60,8 +65,7 @@ class installationScreens {
 	function error( &$vars, $msg, $back, $xmsg='' ) {
 		global $steps;
 
-		$tmpl =& installationScreens::createTemplate();
-		$tmpl->setAttribute( 'body', 'src', 'error.html' );
+		$tmpl =& installationScreens::createTemplate( 'error.html' );
 
 		$tmpl->addVars( 'stepbar', $steps, 		'step_' );
 		$tmpl->addVar( 'messages', 'message', 	$msg );
@@ -83,8 +87,7 @@ class installationScreens {
 	function chooseLanguage( &$lists ) {
 		global $steps;
 
-		$tmpl =& installationScreens::createTemplate();
-		$tmpl->setAttribute( 'body', 'src', 'language.html' );
+		$tmpl =& installationScreens::createTemplate( 'language.html' );
 
 		$steps['lang'] = 'on';
 
@@ -101,8 +104,7 @@ class installationScreens {
 	function preInstall( $vars, &$lists ) {
 		global $steps, $_VERSION;
 
-		$tmpl =& installationScreens::createTemplate();
-		$tmpl->setAttribute( 'body', 'src', 'preinstall.html' );
+		$tmpl =& installationScreens::createTemplate( 'preinstall.html' );
 
 		$steps['preinstall'] = 'on';
 
@@ -124,8 +126,7 @@ class installationScreens {
 	function license( &$vars ) {
 		global $steps;
 
-		$tmpl =& installationScreens::createTemplate();
-		$tmpl->setAttribute( 'body', 'src', 'license.html' );
+		$tmpl =& installationScreens::createTemplate( 'license.html' );
 
 		$steps['license'] = 'on';
 
@@ -142,8 +143,7 @@ class installationScreens {
 	function dbConfig( &$vars, &$lists ) {
 		global $steps;
 
-		$tmpl =& installationScreens::createTemplate();
-		$tmpl->setAttribute( 'body', 'src', 'dbconfig.html' );
+		$tmpl =& installationScreens::createTemplate( 'dbconfig.html' );
 
 		$steps['dbconfig'] = 'on';
 
@@ -162,8 +162,7 @@ class installationScreens {
 	function dbCollation( &$vars, &$collations ) {
 		global $steps;
 
-		$tmpl =& installationScreens::createTemplate();
-		$tmpl->setAttribute( 'body', 'src', 'dbcollation.html' );
+		$tmpl =& installationScreens::createTemplate( 'dbcollation.html' );
 
 		$steps['dbcollation'] = 'on';
 
@@ -188,8 +187,7 @@ class installationScreens {
 	function ftpConfig( &$vars ) {
 		global $steps;
 
-		$tmpl =& installationScreens::createTemplate();
-		$tmpl->setAttribute( 'body', 'src', 'ftpconfig.html' );
+		$tmpl =& installationScreens::createTemplate( 'ftpconfig.html' );
 
 		$steps['ftpconfig'] = 'on';
 
@@ -206,8 +204,7 @@ class installationScreens {
 	function mainConfig( &$vars ) {
 		global $steps;
 
-		$tmpl =& installationScreens::createTemplate();
-		$tmpl->setAttribute( 'body', 'src', 'mainconfig.html' );
+		$tmpl =& installationScreens::createTemplate( 'mainconfig.html' );
 
 		$steps['mainconfig'] = 'on';
 
@@ -225,8 +222,7 @@ class installationScreens {
 	function finish( &$vars, $buffer ) {
 		global $steps;
 
-		$tmpl =& installationScreens::createTemplate();
-		$tmpl->setAttribute( 'body', 'src', 'finish.html' );
+		$tmpl =& installationScreens::createTemplate( 'finish.html' );
 
 		$steps['finish'] = 'on';
 

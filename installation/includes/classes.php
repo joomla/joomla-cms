@@ -38,38 +38,138 @@ class installationTasks {
 	 */
 	function preInstall() {
 
-		$vars = mosGetParam($_POST, 'vars', array ());
+		$vars = (array) mosGetParam( $_POST, 'vars' );
 		$lists = array ();
 
-		$phpOptions[] = array ('label' => JText :: _('PHP version').' >= 4.1.0', 'state' => phpversion() < '4.1' ? 'No' : 'Yes');
-		$phpOptions[] = array ('label' => '- '.JText :: _('zlib compression support'), 'state' => extension_loaded('zlib') ? 'Yes' : 'No');
-		$phpOptions[] = array ('label' => '- '.JText :: _('XML support'), 'state' => extension_loaded('xml') ? 'Yes' : 'No', 'statetext' => extension_loaded('xml') ? 'Yes' : 'No');
-		$phpOptions[] = array ('label' => '- '.JText :: _('MySQL support'), 'state' => function_exists('mysql_connect') ? 'Yes' : 'No');
-		if(extension_loaded('mbstring')) {
-			$mbDefLang = strtolower(ini_get('mbstring.language')) == "neutral";
-			$phpOptions[] = array ('label' => JText :: _('MB language is default'), 'state' => $mbDefLang ? 'Yes' : 'No', 'notice' => $mbDefLang ? '' : JText :: _('NOTICEMBLANGNOTDEFAULT'));
+		$phpOptions[] = array (
+			'label' => JText :: _('PHP version').' >= 4.1.0',
+			'state' => phpversion() < '4.1' ? 'No' : 'Yes'
+		);
+		$phpOptions[] = array (
+			'label' => '- '.JText :: _('zlib compression support'),
+			'state' => extension_loaded('zlib') ? 'Yes' : 'No'
+		);
+		$phpOptions[] = array (
+			'label' => '- '.JText :: _('XML support'),
+			'state' => extension_loaded('xml') ? 'Yes' : 'No',
+			'statetext' => extension_loaded('xml') ? 'Yes' : 'No'
+		);
+		$phpOptions[] = array (
+			'label' => '- '.JText :: _('MySQL support'),
+			'state' => function_exists('mysql_connect') ? 'Yes' : 'No'
+		);
+		if (extension_loaded( 'mbstring' )) {
+			$mbDefLang = strtolower( ini_get( 'mbstring.language' ) ) == 'neutral';
+			$phpOptions[] = array (
+				'label' => JText :: _( 'MB language is default' ),
+				'state' => $mbDefLang ? 'Yes' : 'No',
+				'notice' => $mbDefLang ? '' : JText :: _( 'NOTICEMBLANGNOTDEFAULT' )
+			);
 			$mbOvl = ini_get('mbstring.func_overload') != 0;
-			$phpOptions[] = array ('label' => JText :: _('MB string overload off'), 'state' => !$mbOvl ? 'Yes' : 'No', 'notice' => $mbOvl ? JText :: _('NOTICEMBSTRINGOVERLOAD') : '');
+			$phpOptions[] = array (
+				'label' => JText :: _('MB string overload off'),
+				'state' => !$mbOvl ? 'Yes' : 'No',
+				'notice' => $mbOvl ? JText :: _('NOTICEMBSTRINGOVERLOAD') : ''
+			);
 		}
 		$sp = '';
-		$phpOptions[] = array ('label' => JText :: _('Session path set'), 'state' => ($sp = ini_get('session.save_path')) ? 'Yes' : 'No');
-		$phpOptions[] = array ('label' => JText :: _('Session path writeable'), 'state' => is_writable($sp) ? 'Yes' : 'No');
+		$phpOptions[] = array (
+			'label' => JText :: _('Session path set'),
+			'state' => ($sp = ini_get('session.save_path')) ? 'Yes' : 'No'
+		);
+		$phpOptions[] = array (
+			'label' => JText :: _('Session path writeable'),
+			'state' => is_writable($sp) ? 'Yes' : 'No'
+		);
 		$cW = (@ file_exists('../configuration.php') && @ is_writable('../configuration.php')) || is_writable('..');
-		$phpOptions[] = array ('label' => 'configuration.php '.JText :: _('writeable'), 'state' => $cW ? 'Yes' : 'No', 'notice' => $cW ? '' : JText :: _('NOTICEYOUCANSTILLINSTALL'));
+		$phpOptions[] = array (
+			'label' => 'configuration.php '.JText :: _('writeable'),
+			'state' => $cW ? 'Yes' : 'No',
+			'notice' => $cW ? '' : JText :: _('NOTICEYOUCANSTILLINSTALL')
+		);
 		$lists['phpOptions'] = & $phpOptions;
 
-		$phpRecommended = array (array (JText :: _('Safe Mode'), 'safe_mode', 'OFF'), array (JText :: _('Display Errors'), 'display_errors', 'ON'), array (JText :: _('File Uploads'), 'file_uploads', 'ON'), array (JText :: _('Magic Quotes GPC'), 'magic_quotes_gpc', 'ON'), array (JText :: _('Magic Quotes Runtime'), 'magic_quotes_runtime', 'OFF'), array (JText :: _('Register Globals'), 'register_globals', 'OFF'), array (JText :: _('Output Buffering'), 'output_buffering', 'OFF'), array (JText :: _('Session auto start'), 'session.auto_start', 'OFF'),);
+		$phpRecommended = array (
+			array (
+				JText :: _('Safe Mode'),
+				'safe_mode',
+				'OFF'
+			),
+			array (
+				JText :: _('Display Errors'),
+				'display_errors',
+				'ON'
+			),
+			array (
+				JText :: _('File Uploads'),
+				'file_uploads',
+				'ON'
+			),
+			array (
+				JText :: _('Magic Quotes GPC'),
+				'magic_quotes_gpc',
+				'ON'
+			),
+			array (
+				JText :: _('Magic Quotes Runtime'),
+				'magic_quotes_runtime',
+				'OFF'
+			),
+			array (
+				JText :: _('Register Globals'),
+				'register_globals',
+				'OFF'
+			),
+			array (
+				JText :: _('Output Buffering'),
+				'output_buffering',
+				'OFF'
+			),
+			array (
+				JText :: _('Session auto start'),
+				'session.auto_start',
+				'OFF'
+			),
+		);
 
 		foreach ($phpRecommended as $setting) {
-			$lists['phpSettings'][] = array ('label' => $setting[0], 'setting' => $setting[2], 'actual' => get_php_setting($setting[1]), 'state' => get_php_setting($setting[1]) == $setting[2] ? 'Yes' : 'No');
+			$lists['phpSettings'][] = array (
+				'label' => $setting[0],
+				'setting' => $setting[2],
+				'actual' => get_php_setting( $setting[1] ), 
+				'state' => get_php_setting($setting[1]) == $setting[2] ? 'Yes' : 'No'
+			);
 		}
 
-		$folders = array ('administrator/backups', 'administrator/components', 'administrator/language', 'administrator/modules', 'administrator/templates', 'cache', 'components', 'images', 'images/banners', 'images/stories', 'language', 'mambots', 'mambots/content', 'mambots/editors', 'mambots/search', 'mambots/system', 'media', 'modules', 'templates',);
+		$folders = array (
+			'administrator/backups',
+			'administrator/components',
+			'administrator/language',
+			'administrator/modules',
+			'administrator/templates',
+			'cache',
+			'components',
+			'images',
+			'images/banners',
+			'images/stories',
+			'language',
+			'mambots',
+			'mambots/content',
+			'mambots/editors',
+			'mambots/search',
+			'mambots/system',
+			'media',
+			'modules',
+			'templates',
+		);
 		foreach ($folders as $folder) {
-			$lists['folderPerms'][] = array ('label' => $folder, 'state' => is_writeable(JPATH_SITE.'/'.$folder) ? 'Writeable' : 'Unwriteable');
+			$lists['folderPerms'][] = array (
+				'label' => $folder,
+				'state' => is_writeable( JPATH_SITE . DS . $folder ) ? 'Writeable' : 'Unwriteable'
+			);
 		}
 
-		installationScreens :: preInstall($vars, $lists);
+		installationScreens :: preInstall( $vars, $lists );
 	}
 
 	/**
@@ -142,32 +242,33 @@ class installationTasks {
 			return false;
 		}
 
-		$link = @ mysql_connect($DBhostname, $DBuserName, $DBpassword, true);
+		$database = & JDatabase :: getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword );
 
-		if (!$link) {
-			installationScreens :: error($vars, JText :: _('connection fail'), 'dbconfig');
-			return false;
+		if ($err = $database->getErrorNum()) {
+			if ($err != 3) {
+				// connection failed
+				//installationScreens::error( $vars, array( 'Could not connect to the database.  Connector returned', $database->getErrorNum() ), 'dbconfig', $database->getErrorMsg() );
+				installationScreens :: error($vars, array (sprintf(JText :: _('WARNNOTCONNECTDB'), $database->getErrorNum())), 'dbconfig', $database->getErrorMsg());
+				return false;
+			}
 		}
 
-		$collations = array ();
+		$collations = array();
 
 		// determine db version, utf support and available collations
-		$vars['DBversion'] = mysql_get_server_info($link);
-		$verParts = explode('.', mysql_get_server_info($link));
+		$vars['DBversion'] = $database->getVersion();
+		$verParts = explode( '.', $vars['DBversion'] );
 		$vars['DButfSupport'] = ($verParts[0] == 5 || ($verParts[0] == 4 && $verParts[1] == 1 && (int) $verParts[2] >= 2));
 		if ($vars['DButfSupport']) {
-			$result = mysql_query("SHOW COLLATION LIKE 'utf8%'", $link);
-			$i = 0;
-			for ($i = 0; $i < mysql_num_rows($result); $i ++) {
-				$row = mysql_fetch_array($result);
-				$collations[] = $row;
-			}
+			$query = "SHOW COLLATION LIKE 'utf8%'";
+			$database->setQuery( $query );
+			$collations = $database->loadAssocList();
 		} else {
 			// backward compatibility - utf-8 data in non-utf database
 			// collation does not really have effect so default charset and collation is set
-			$collations[0]['Collation'] = "latin1";
+			$collations[0]['Collation'] = 'latin1';
 		}
-		installationScreens :: dbCollation($vars, $collations);
+		installationScreens :: dbCollation( $vars, $collations );
 	}
 
 	/**

@@ -404,8 +404,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @return string Collation in use
 	 */
 	function getCollation (){
-		$this->setQuery("SHOW FULL COLUMNS FROM #__content");
-		$this->query();
+		$this->setQuery( 'SHOW FULL COLUMNS FROM #__content' );
 		$array = $this->loadAssocList();
 		return $array['4']['Collation'];
 	}

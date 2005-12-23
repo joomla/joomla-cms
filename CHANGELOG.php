@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Dec-2005 Andrew Eddie
+ # Fixed mysqli support for collation
+
 22-Dec-2005 Johan Janssens
  ^ Implemented adapter pattern for JDocument class
  + Added JDocumentHTML class

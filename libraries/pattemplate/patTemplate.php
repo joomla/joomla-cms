@@ -1865,6 +1865,7 @@ class patTemplate
 				return patErrorManager::raiseError(PATTEMPLATE_ERROR_RECURSION, 'You have an error in your template "' . $template . '", which leads to recursion');
 			}
 			$this->parseTemplate($depTemplate);
+			$var	= $this->_startTag.'TMPL:'.strtoupper( $depTemplate) .$this->_endTag;
 			$this->_templates[$template]['work'] = str_replace( $var, $this->_templates[$depTemplate]['result'], $this->_templates[$template]['work'] );
 		}
 		return true;

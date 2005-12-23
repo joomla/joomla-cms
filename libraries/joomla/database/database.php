@@ -143,6 +143,23 @@ class JDatabase extends JObject
 	}
 
 	/**
+	 * Returns an array of public properties
+	 * @return array
+	 */
+	function getPublicProperties() {
+		static $cache = null;
+		if (is_null( $cache )) {
+			$cache = array();
+			foreach (get_class_vars( get_class( $this ) ) as $key=>$val) {
+				if (substr( $key, 0, 1 ) != '_') {
+					$cache[] = $key;
+				}
+			}
+		}
+		return $cache;
+	}
+
+	/**
 	 * Adds a field or array of field names to the list that are to be quoted
 	 * @param mixed Field name or array of names
 	 * @since 1.1

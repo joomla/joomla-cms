@@ -366,7 +366,7 @@ class JDatabaseMySQL extends JDatabase
 		if (!$this->query()) {
 			return false;
 		}
-		$id = mysql_insert_id( $this->_resource );
+		$id = $this->insertid();
 		($verbose) && print "id=[$id]<br />\n";
 		if ($keyName && $id) {
 			$object->$keyName = $id;
@@ -417,8 +417,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @return string Collation in use
 	 */
 	function getCollation (){
-		$this->setQuery("SHOW FULL COLUMNS FROM #__content");
-		$this->query();
+		$this->setQuery( 'SHOW FULL COLUMNS FROM #__content' );
 		$array = $this->loadAssocList();
 		return $array['4']['Collation'];
 	}
