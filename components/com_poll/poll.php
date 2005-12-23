@@ -179,7 +179,7 @@ function pollresult( $uid ) {
 	$params->def( 'header', $menu->name );
 
 	$mainframe->SetPageTitle($poll->title);
-	
+
 	$breadcrumbs =& $mainframe->getBreadCrumbs();
 	$breadcrumbs->addItem($poll->title, '');
 

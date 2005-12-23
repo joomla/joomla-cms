@@ -29,7 +29,7 @@ if ( extension_loaded('mbstring')) {
     if ( ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING ) {
         trigger_error('String functions are overloaded by mbstring',E_USER_ERROR);
     }
-    
+
     if ( mb_internal_encoding() != 'UTF-8' ) {
         trigger_error('mbstring internal encoding is not set to UTF-8',E_USER_ERROR);
     }

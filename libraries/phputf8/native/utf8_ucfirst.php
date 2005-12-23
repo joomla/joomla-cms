@@ -18,14 +18,14 @@
 * @subpackage strings
 */
 function utf8_ucfirst($str){
-    
+
     preg_match('/^(\w{1})(.*)$/us', $str, $matches);
-    
+
     if ( isset($matches[1]) && isset($matches[2]) ) {
         return utf8_strtoupper($matches[1]).$matches[2];
     } else {
         return $str;
     }
-    
+
 }
 

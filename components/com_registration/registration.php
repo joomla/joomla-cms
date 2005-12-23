@@ -106,7 +106,7 @@ function registerForm( $option, $useractivation ) {
 	}
 
   	$mainframe->SetPageTitle( JText::_( 'Registration' ) );
-  	
+
   	$breadcrumbs =& $mainframe->getBreadCrumbs();
   	$breadcrumbs->setItem( JText::_( 'Registration' ));
 

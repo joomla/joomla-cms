@@ -16,7 +16,7 @@ jimport( 'joomla.models.model' );
 
 /**
 * Class JMambotModel
-* 
+*
 * @package Joomla
 * @subpackage JFramework
 * @since 1.0

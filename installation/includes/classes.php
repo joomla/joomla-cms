@@ -136,7 +136,7 @@ class installationTasks {
 			$lists['phpSettings'][] = array (
 				'label' => $setting[0],
 				'setting' => $setting[2],
-				'actual' => get_php_setting( $setting[1] ), 
+				'actual' => get_php_setting( $setting[1] ),
 				'state' => get_php_setting($setting[1]) == $setting[2] ? 'Yes' : 'No'
 			);
 		}
@@ -279,7 +279,7 @@ class installationTasks {
 
 		// Initialize variables
 		$errors = null;
-		
+
 		$vars = mosGetParam($_POST, 'vars', array ());
 
 		$lang = mosGetParam($vars, 'lang', 'eng_GB');
@@ -465,10 +465,10 @@ class installationTasks {
 		}
 
 		/*
-		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory 
+		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
 		 * is not writable we need to use FTP
 		 */
-		 $ftpFlag = false; 
+		 $ftpFlag = false;
 		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path)))) {
 			$ftpFlag = true;
 		}
@@ -581,7 +581,7 @@ class JInstallationHelper {
 		// Initialize backup prefix variable
 		// TODO: Should this be user-defined?
 		$BUPrefix = 'bak_';
-		
+
 		$query = "SHOW TABLES FROM `$DBname`";
 		$database->setQuery($query);
 		$errors = array ();
@@ -753,7 +753,7 @@ class JInstallationHelper {
 
 	/**
 	 * Find the ftp filesystem root for a given user/pass pair
-	 * 
+	 *
 	 * @static
 	 * @param string $user Username of the ftp user to determine root for
 	 * @param string $pass Password of the ftp user to determine root for

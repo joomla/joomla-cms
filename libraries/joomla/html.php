@@ -109,7 +109,7 @@ class mosHTML
 	*/
 	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag='', $flag='' ) {
 		reset( $arr );
-        
+
         $id = $tag_name;
 		if ( $idtag ) {
 			$id = $idtag;
@@ -146,7 +146,7 @@ class mosHTML
 			}
 			//if flag translate text
 			if($flag) $t = JText::_( $t );
-			
+
 			$html .= '<option value="'. $k .'" '. $extra .'>' . $t . '</option>';
 		}
 		$html .= '</select>';

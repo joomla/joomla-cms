@@ -118,7 +118,7 @@ function showconfig( $option) {
 	$lists['debug_db'] = mosHTML::yesnoRadioList( 'config_debug_db', 'class="inputbox"', $row->config_debug_db );
 	$lists['log']      = mosHTML::yesnoRadioList( 'config_log', 'class="inputbox"', $row->config_log );
 	$lists['log_db']   = mosHTML::yesnoRadioList( 'config_log_db', 'class="inputbox"', $row->config_log_db );
-	
+
 // DATABASE SETTINGS
 
 
@@ -132,7 +132,7 @@ function showconfig( $option) {
 		mosHTML::makeOption( E_ERROR|E_WARNING|E_PARSE, JText::_( 'Simple' ) ),
 		mosHTML::makeOption( E_ALL , JText::_( 'Maximum' ) )
 	);
-	
+
 	$lists['xmlrpc_server'] = mosHTML::yesnoRadioList( 'config_xmlrpc_server', 'class="inputbox"', $row->config_xmlrpc_server );
 
 	$lists['error_reporting'] = mosHTML::selectList( $errors, 'config_error_reporting', 'class="inputbox" size="1"', 'value', 'text', $row->config_error_reporting );

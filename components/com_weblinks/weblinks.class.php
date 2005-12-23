@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
 * JWeblink Model class
-* 
+*
 * @package Joomla
 * @subpackage Weblinks
 * @since 1.0
@@ -25,94 +25,94 @@ defined('_JEXEC') or die('Restricted access');
 class JWeblinkModel extends JModel {
 	/**
 	 * Primary Key
-	 * 
+	 *
 	 * @var int
 	 */
 	var $id = null;
-	
+
 	/**
 	 * @var int
 	 */
 	var $catid = null;
-	
-	/** 
+
+	/**
 	 * @var int
 	 */
 	var $sid = null;
-	
-	/** 
+
+	/**
 	 * @var string
 	 */
 	var $title = null;
-	
-	/** 
+
+	/**
 	 * @var string
 	 */
 	var $url = null;
-	
-	/** 
+
+	/**
 	 * @var string
 	 */
 	var $description = null;
-	
-	/** 
+
+	/**
 	 * @var datetime
 	 */
 	var $date = null;
-	
-	/** 
+
+	/**
 	 * @var int
 	 */
 	var $hits = null;
-	
-	/** 
+
+	/**
 	 * @var int
 	 */
 	var $published = null;
-	
-	/** 
+
+	/**
 	 * @var boolean
 	 */
 	var $checked_out = null;
-	
-	/** 
+
+	/**
 	 * @var time
 	 */
 	var $checked_out_time = null;
-	
-	/** 
+
+	/**
 	 * @var int
 	 */
 	var $ordering = null;
-	
-	/** 
+
+	/**
 	 * @var int
 	 */
 	var $archived = null;
-	
-	/** 
+
+	/**
 	 * @var int
 	 */
 	var $approved = null;
-	
-	/** 
+
+	/**
 	 * @var string
 	 */
 	var $params = null;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param object Database connector object
 	 * @since 1.0
 	 */
 	function JWeblinkModel(& $db) {
 		parent :: __construct('#__weblinks', 'id', $db);
 	}
-	
+
 	/**
 	 * Overloaded check method to ensure data integrity
-	 * 
+	 *
 	 * @access public
 	 * @return boolean True on success
 	 * @since 1.0

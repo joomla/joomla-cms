@@ -50,7 +50,7 @@ class JDocument extends JObject
      * @access  private
      */
     var $_charset = 'utf-8';
-	
+
     /**
      * Contains the page language setting
      *
@@ -133,7 +133,7 @@ class JDocument extends JObject
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @access protected
 	 */
 	function __construct($attributes = array())
@@ -145,7 +145,7 @@ class JDocument extends JObject
         if (isset($attributes['charset'])) {
             $this->setCharset($attributes['charset']);
         }
-		
+
         if (isset($attributes['language'])) {
             $this->setLang($attributes['language']);
         }
@@ -184,7 +184,7 @@ class JDocument extends JObject
 
 		return $instances[$signature];
 	}
-	
+
 	 /**
      * Adds a linked script to the page
      *
@@ -385,7 +385,7 @@ class JDocument extends JObject
     {
         return $this->_tab;
     }
-	
+
 	/**
 	 * Parse a file and create an internal patTemplate object
 	 *
@@ -409,13 +409,13 @@ class JDocument extends JObject
 	{
 		$this->_replaceHead();
 		$this->_replaceBody();
-		
+
 		// Set mime type and character encoding
         header('Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
-		
+
 		$this->_tmpl->display( $name, $compress );
 	}
-	
+
 	/**
      * Replace the head placeholder
      *
@@ -424,10 +424,10 @@ class JDocument extends JObject
      * @return string
      */
     function fetchHead() {
-		
+
 		return '';
     }
-	
+
 	/**
      * Replace the body placeholder
      *
@@ -436,22 +436,22 @@ class JDocument extends JObject
      * @return string
      */
     function fetchBody() {
-		
+
 		return '';
     }
 
 	/**
 	 * Create a patTemplate object
 	 *
-	 * @param string 	$template	The name of the template 
+	 * @param string 	$template	The name of the template
 	 * @param string 	$filename	The actual filename
 	 * @return patTemplate
 	 */
-	function &_load($template, $filename) 
+	function &_load($template, $filename)
 	{
 		global $mainframe, $my, $acl, $database;
 		global $Itemid, $task;
-		
+
 		$tmpl = null;
 		if ( file_exists( 'templates'.DS.$directory.DS.$file ) ) {
 
@@ -459,7 +459,7 @@ class JDocument extends JObject
 
 			$tmpl =& JTemplate::getInstance();
 			$tmpl->setNamespace( 'jdoc' );
-			
+
 			$tmpl->addGlobalVar( 'template', $template);
 
 			ob_start();

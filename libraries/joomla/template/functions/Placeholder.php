@@ -31,7 +31,7 @@ class patTemplate_Function_Placeholder extends patTemplate_Function
 	function call( $params, $content )
 	{
 		global $document;
-		
+
 		$type = strtolower( $params['type'] );
 		unset($params['type']);
 

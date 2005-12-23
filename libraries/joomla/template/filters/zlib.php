@@ -45,33 +45,33 @@ class patTemplate_OutputFilter_Zlib extends patTemplate_OutputFilter
 	function apply( $data )
 	{
 		$encoding = $this->_clientEncoding();
-		
-        if (!$encoding) 
+
+        if (!$encoding)
 			return $data;
-	
+
 		if (!extension_loaded('zlib') || ini_get('zlib.output_compression')) {
 			return $data;
         }
-		
-		if (headers_sent()) 
+
+		if (headers_sent())
 			return $data;
-			
-        if (connection_status() !== 0) 
+
+        if (connection_status() !== 0)
 			return $data;
-     
-        
+
+
         $level = 4; //ideal level
-		
+
 		$size = strlen($data);
         $crc  = crc32($data);
-        
-        $gzdata = "\x1f\x8b\x08\x00\x00\x00\x00\x00"; 
+
+        $gzdata = "\x1f\x8b\x08\x00\x00\x00\x00\x00";
 		$gzdata .= gzcompress($data, $level);
-        
-		$gzdata  = substr($gzdata, 0, strlen($gzdata) - 4); 
+
+		$gzdata  = substr($gzdata, 0, strlen($gzdata) - 4);
         $gzdata .= pack("V",$crc) . pack("V", $size);
- 
-         
+
+
 		Header('Content-Encoding: ' . $encoding);
         Header('Content-Length: ' . strlen($gzdata));
         Header('X-Content-Encoded-By: patTemplate');
@@ -92,15 +92,15 @@ class patTemplate_OutputFilter_Zlib extends patTemplate_OutputFilter
 		}
 
 		$encoding = false;
-		
+
 		if (false !== strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) {
 			$encoding = 'gzip';
 		}
-		
+
 		if (false !== strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'x-gzip')) {
 			$encoding = 'x-gzip';
         }
-		
+
 		return $encoding;
 	}
 }

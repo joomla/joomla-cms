@@ -27,11 +27,11 @@ class JAuthLdap extends JPlugin {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * For php4 compatability we must not use the __constructor as a constructor for plugins
 	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 * 
+	 *
 	 * @param object $subject The object to observe
 	 * @since 1.1
 	 */
@@ -41,7 +41,7 @@ class JAuthLdap extends JPlugin {
 
 	/**
 	 * This method should handle any authentication and report back to the subject
-	 * 
+	 *
 	 * @access public
 	 * @param array Authentication credentials
 	 * @return mixed Integer userid or boolean false
@@ -57,7 +57,7 @@ class JAuthLdap extends JPlugin {
 		// Get a database connector
 		$db = $mainframe->getDBO();
 
-		// If we are in the admin panel, make sure we have access to it 
+		// If we are in the admin panel, make sure we have access to it
 		if ($mainframe->isAdmin()) {
 			$conditions = "AND gid > 22";
 		}

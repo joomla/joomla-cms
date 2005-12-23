@@ -13,11 +13,11 @@
 
 /**
 * Language installer
-* 
+*
 * @package Joomla
 * @subpackage Installer
 */
-class JInstallerLanguage extends JInstaller 
+class JInstallerLanguage extends JInstaller
 {
 	/**
 	 * Constructor
@@ -27,10 +27,10 @@ class JInstallerLanguage extends JInstaller
 	function __construct() {
 		parent::__construct();
 	}
-	
+
 	/**
 	 * Custom install method
-	 * 
+	 *
 	 * @access public
 	 * @param string $p_fromdir Directory from which to install the language
 	 * @return boolean True on success
@@ -41,7 +41,7 @@ class JInstallerLanguage extends JInstaller
 
 		// Get database connector object
 		$db =& $mainframe->getDBO();
-		
+
 		/*
 		 * First lets set the installation directory, find and check the installation file and verify
 		 * that it is the proper installation type
@@ -79,7 +79,7 @@ class JInstallerLanguage extends JInstaller
 		if ($this->parseFiles( 'files', 'language' ) === false) {
 			return false;
 		}
-		
+
 		/*
 		 * Next, lets set the description for the language
 		 */
@@ -92,7 +92,7 @@ class JInstallerLanguage extends JInstaller
 		 */
 		 if (!$this->copySetupFile()) {
 		 	$this->setError( 1, JText::_( 'Could not copy setup file' ));
-		 	
+
 		 	// Install failed, rollback changes
 		 	$this->_rollback();
 		 	return false;
@@ -102,7 +102,7 @@ class JInstallerLanguage extends JInstaller
 
 	/**
 	 * Custom uninstall method
-	 * 
+	 *
 	 * @access public
 	 * @param int $cid The id of the language to uninstall
 	 * @param string $option The URL option
@@ -123,13 +123,13 @@ class JInstallerLanguage extends JInstaller
 
 			if ($this->i_xmldoc->loadXML( $xmlfile, false, true )) {
 				$jinstall =& $this->i_xmldoc->documentElement;
-				
+
 				/*
 				 * Get the metadata tag which also seves as the language subdirectory
 				 */
 				$folder =& $jinstall->getElementsByPath( 'metadata/tag', 1);
 				$basepath = $basepath . $folder->getText() . DS;
-				
+
 				/*
 				 * Get the files element
 				 */
@@ -162,7 +162,7 @@ class JInstallerLanguage extends JInstaller
 
 	/**
 	 * Overridden returnTo method
-	 * 
+	 *
 	 * @access public
 	 * @param string $option
 	 * @param string $element
@@ -176,7 +176,7 @@ class JInstallerLanguage extends JInstaller
 
 	/**
 	 * Roll back the installation
-	 * 
+	 *
 	 * @access private
 	 * @return boolean True on success
 	 * @since 1.1
@@ -198,7 +198,7 @@ class JInstallerLanguage extends JInstaller
 					// remove the file
 					JFile::delete($step['path']);
 					break;
-				
+
 				case 'folder' :
 					// remove the folder
 					JFolder :: delete($step['path']);

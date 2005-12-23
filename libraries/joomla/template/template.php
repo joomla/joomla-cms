@@ -38,22 +38,22 @@ class JTemplate extends patTemplate
 	* @access	public
 	* @param	string	$type (either html or tex)
 	*/
-	function JTemplate($type = 'html') 
+	function JTemplate($type = 'html')
 	{
 		parent::patTemplate($type);
-		
+
 		//set the namespace
 		$this->setNamespace( 'jtmpl' );
-		
+
 		//add module directories
 		$this->addModuleDir('Function', dirname(__FILE__). DS. 'functions');
 		$this->addModuleDir('Modifier', dirname(__FILE__). DS. 'modifiers');
 		$this->addModuleDir('OutputFilter', dirname(__FILE__). DS. 'filters');
-		
+
 		//set root template directory
 		$this->setRoot( dirname(__FILE__). DS. 'tmpl' );
 	}
-	
+
 	/**
 	 * Returns a reference to a global Template object, only creating it
 	 * if it doesn't already exist.
@@ -77,7 +77,7 @@ class JTemplate extends patTemplate
 
 		return $instances[$signature];
 	}
-	
+
 	/**
 	 * Parse a file
 	 *
@@ -88,7 +88,7 @@ class JTemplate extends patTemplate
 	{
 		$this->readTemplatesFromInput( $file );
 	}
-	
+
 	/**
 	 * Execute and display a the template
 	 *
@@ -101,10 +101,10 @@ class JTemplate extends patTemplate
 		if($compress) {
 			$tmpl->applyOutputFilter('Zlib');
 		}
-		
+
 		$this->displayParsedTemplate( $name );
 	}
-	
+
 	/**
 	 * Set the prefix of the template cache
 	 *

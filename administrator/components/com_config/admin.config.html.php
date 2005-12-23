@@ -103,7 +103,7 @@ class HTML_config {
 				<td><?php echo $lists['helpsites']; ?></td>
 			</tr>
 			</table>
-			
+
 					<?php
 		$title = JText::_( 'Debug' );
 		$tabs->endTab();
@@ -133,7 +133,7 @@ class HTML_config {
 				<td><?php echo $lists['log_db']; ?></td>
 			</tr>
 			</table>
-		
+
 				<?php
 		$title = JText::_( 'Users' );
 		$tabs->endTab();
@@ -170,7 +170,7 @@ class HTML_config {
 				?></td>
 			</tr>
 			</table>
-			
+
 				<?php
 		$title = JText::_( 'Metadata' );
 		$tabs->endTab();
@@ -207,7 +207,7 @@ class HTML_config {
 				</td>
 			</tr>
 			</table>
-			
+
 				<?php
 		$title = JText::_( 'Statistics' );
 		$tabs->endTab();
@@ -234,8 +234,8 @@ class HTML_config {
 				<td><?php echo $lists['log_searches']; ?></td>
 				<td>&nbsp;</td>
 			</tr>
-			</table>			
-			
+			</table>
+
 			<?php
 		$title = JText::_( 'SEO' );
 		$tabs->endTab();
@@ -455,7 +455,7 @@ class HTML_config {
 				<td><input class="text_area" type="password" name="config_ftp_pass" size="25" value="<?php echo $row->config_ftp_pass; ?>"/></td>
 			</tr>
 			</table>
-			
+
 				<?php
 		$title = JText::_( 'Database' );
 		$tabs->endTab();
@@ -534,7 +534,7 @@ class HTML_config {
 				<td><input class="text_area" type="text" name="config_smtphost" size="50" value="<?php echo $row->config_smtphost; ?>"/></td>
 			</tr>
 			</table>
-			
+
 			<?php
 		$title = JText::_( 'Locale' );
 		$tabs->endTab();

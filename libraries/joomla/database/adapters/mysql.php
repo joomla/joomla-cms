@@ -14,11 +14,11 @@
 
 /**
 * MySQL database driver
-* 
+*
 * @package Joomla
 * @subpackage Database
 */
-class JDatabaseMySQL extends JDatabase 
+class JDatabaseMySQL extends JDatabase
 {
 	/** @var string The null/zero date string */
 	var $_nullDate		= '0000-00-00 00:00:00';
@@ -421,7 +421,7 @@ class JDatabaseMySQL extends JDatabase
 		$array = $this->loadAssocList();
 		return $array['4']['Collation'];
 	}
-	
+
 	/**
 	 * @return array A list of all the tables in the database
 	 */

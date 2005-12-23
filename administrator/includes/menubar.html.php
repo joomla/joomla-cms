@@ -13,10 +13,10 @@
 
 /**
 * Utility class for the button bar
-* 
+*
 * @package Joomla
 */
-class JMenuBar 
+class JMenuBar
 {
 	/**
 	* Title cell
@@ -759,6 +759,6 @@ class JMenuBar
  */
 class mosMenuBar extends JMenuBar
 {
-	
+
 }
 ?>

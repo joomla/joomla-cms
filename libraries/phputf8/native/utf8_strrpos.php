@@ -20,11 +20,11 @@
 * @subpackage strings
 */
 function utf8_strrpos($str, $needle, $offset = NULL) {
-    
+
     if ( is_null($offset) ) {
-    
+
         $ar = explode($needle, $str);
-        
+
         if ( count($ar) > 1 ) {
             // Pop off the end of the string where the last match was made
             array_pop($ar);
@@ -32,21 +32,21 @@ function utf8_strrpos($str, $needle, $offset = NULL) {
             return utf8_strlen($str);
         }
         return FALSE;
-        
+
     } else {
-        
+
         if ( !is_int($offset) ) {
             trigger_error('utf8_strrpos: Offset must be an integer',E_USER_ERROR);
             return FALSE;
         }
-        
+
         $str = utf8_substr($str, $offset);
-        
+
         if ( FALSE !== ( $pos = utf8_strrpos($str, $needle) ) ) {
             return $pos + $offset;
         }
-        
+
         return FALSE;
     }
-    
+
 }

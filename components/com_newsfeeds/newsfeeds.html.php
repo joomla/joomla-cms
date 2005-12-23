@@ -312,7 +312,7 @@ class HTML_newsfeed {
 					<?php
 					for ( $j = 0; $j < $totalItems; $j++ ) {
 						$currItem =& $currChannel->getItem($j);
-						
+
 						// START fix for RSS enclosure tag url not showing
 						if ($currItem->getLink()) {
 						?>
@@ -341,7 +341,7 @@ class HTML_newsfeed {
 						<?php
 						}
 						// END fix for RSS enclosure tag url not showing
-						
+
 						// item description
 						if ( $params->get( 'item_descr' ) ) {
 							$text   = $currItem->getDescription();

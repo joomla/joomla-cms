@@ -19,9 +19,9 @@
 * @subpackage strings
 */
 function utf8_substr($str, $offset, $length = NULL) {
-    
+
     if ( $offset >= 0 && $length >= 0 ) {
-    
+
         if ( $length === NULL ) {
             $length = '*';
         } else {
@@ -31,24 +31,24 @@ function utf8_substr($str, $offset, $length = NULL) {
             }
             $length = '{'.$length.'}';
         }
-        
+
         if ( !preg_match('/^[0-9]+$/', $offset) ) {
             trigger_error('E_USER_ERROR', 'utf8_substr: Offset must be an integer');
             return FALSE;
         }
-        
+
         $pattern = '/^.{'.$offset.'}(.'.$length.')/us';
-        
+
         preg_match($pattern, $str, $matches);
-        
+
         if ( isset($matches[1]) ) {
             return $matches[1];
         }
-        
+
         return FALSE;
-    
+
     } else {
-        
+
         // Handle negatives using different, slower technique
         // From: http://www.php.net/manual/en/function.substr.php#44838
         preg_match_all('/./u', $str, $ar);

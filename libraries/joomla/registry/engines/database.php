@@ -13,8 +13,8 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
- 
- 
+
+
 /**
  * Database Storage Engine for JRegistry
  * @package Joomla
@@ -31,7 +31,7 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 	function JRegistryDatabaseEngine( $format, $namespace, $identifier='#__registry' ) {
 		$this->r_storageformat = $format;
 		$this->r_defaultnamespace = $namespace;
-		$this->r_storageidentifier = $identifier;		
+		$this->r_storageidentifier = $identifier;
 	}
 
 	/**
@@ -49,7 +49,7 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		return true;
 	}
 
-	/** 
+	/**
 	 * Create an empty config (mirrors resetConfig)
 	 * @param string namespace to create
 	 * @param int    user id to create
@@ -95,7 +95,7 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		if ($currentid != 0) {
 			$query = "SELECT datafield FROM #__registry WHERE uid = $currentid AND namespace = '$namespace'";
 			$database->setQuery( $query );
-			$database->Query();			
+			$database->Query();
 			$resultant = $database->loadRow();
 			if ($resultant[0] == "") {
 				JRegistryDatabaseEngine::resetConfig( $namespace, $currentid );
@@ -103,7 +103,7 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 			}
 		}
 	}
-	
+
 	/**
 	 * Test Current Details (create if missing, default)
 	 * @param string namespace
@@ -113,7 +113,7 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		global $database;
 		$query = "SELECT datafield FROM #__registry WHERE uid = 0 AND namespace = '$namespace'";
 		$database->setQuery( $query );
-		$database->Query();		
+		$database->Query();
 		$resultant = $database->loadRow();
 		if ($resultant[0] == "") {
 			JRegistryDatabaseEngine::resetConfig( $namespace, 0 );
@@ -182,12 +182,12 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		if (!JRegistryDatabaseEngine::configExists( $namespace )) {
 			return null;
 		}
-		
-		
-		$this->r_storageformat->r_namespacestate = true;						
+
+
+		$this->r_storageformat->r_namespacestate = true;
 		$data = JRegistryDatabaseEngine::loadUserConfiguration( $currentid, $namespace );
 		$userConfiguration = $this->r_storageformat->stringToObject( $data, $namespace );
-		if (array_key_exists( $namespace, get_object_vars( $userConfiguration ) )) {				
+		if (array_key_exists( $namespace, get_object_vars( $userConfiguration ) )) {
 			if (array_key_exists( $group, get_object_vars( $userConfiguration->$namespace ) )) {
 				if (array_key_exists( $name, get_object_vars( $userConfiguration->$namespace->$group ) )) {
 					$setting = $userConfiguration->$namespace->$group->$name;
@@ -202,18 +202,18 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		}
 
 		return $setting;
-	}	
-	
+	}
+
 	/**
 	 * Get Default Configuration
 	 * @param string namespace
 	 * @param string group
-	 * @param string name	 
+	 * @param string name
 	 * @return mixed value
 	 */
 	function getDefaultConfig( $namespace, $group, $name ) {
 		global $my, $database;
-		$this->r_storageformat->r_namespacestate = true;						
+		$this->r_storageformat->r_namespacestate = true;
 		$data = JRegistryDatabaseEngine::loadDefaultConfiguration( $namespace );
 		$userConfiguration = $this->r_storageformat->stringToObject( $data, $namespace );
 		if (!isset( $userConfiguration->$namespace )) {
@@ -229,13 +229,13 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 	 * Set the configuration setting
 	 * @param string namespace
 	 * @param string group
-	 * @param string name	 
+	 * @param string name
 	 * @param mixed  value
-	 * @param int    user id	 
-	 */	
+	 * @param int    user id
+	 */
 	function setConfig( $namespace, $group, $name, $value, $currentid=0 ) {
 		global $my, $database;
-		
+
 		if ($currentid == 0 && $my->id == 0) {
 			// Bail out
 			return false;
@@ -245,7 +245,7 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		}
 		$newConfigSet = false;
 
-		$this->r_storageformat->r_namespacestate = true;						
+		$this->r_storageformat->r_namespacestate = true;
 		$data = JRegistryDatabaseEngine::loadUserConfiguration( $currentid, $namespace );
 		$userConfiguration = $this->r_storageformat->stringToObject( $data, $namespace );
 
@@ -279,7 +279,7 @@ class JRegistryDatabaseEngine extends JRegistryStorageEngine {
 		$currentid = 0;
 		$newConfigSet = false;
 
-		$this->r_storageformat->r_namespacestate = true;						
+		$this->r_storageformat->r_namespacestate = true;
 		$data = JRegistryDatabaseEngine::loadDefaultConfiguration( $namespace );
 		$userConfiguration = $this->r_storageformat->stringToObject( $data, $namespace );
 

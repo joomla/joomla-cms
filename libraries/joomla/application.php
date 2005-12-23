@@ -16,7 +16,7 @@ jimport( 'joomla.system.object' );
 
 /**
 * Base class for a Joomla! application
-* 
+*
 * Acts as a Factory class for application specific objects and
 * provides many supporting API functions.
 *
@@ -50,10 +50,10 @@ class JApplication extends JObject {
 	var $_registry			= null;
 	/** @var object user object */
 	var $_user			= null;
-	
+
 	/**
 	* Class constructor
-	* 
+	*
 	* @param string 	The URL option passed in
 	* @param integer	A client identifier
 	*/
@@ -69,7 +69,7 @@ class JApplication extends JObject {
 
 	/**
 	 * Gets the value of a user state variable
-	 * 
+	 *
 	 * @param string The name of the variable
 	 */
 	function getUserState( $var_name ) {
@@ -85,13 +85,13 @@ class JApplication extends JObject {
 	 *
 	 * @return object Registry object
 	 */
-	function &getRegistry() { 
+	function &getRegistry() {
 		return $this->_registry;
 	}
 
 	/**
 	* Gets the value of a user state variable
-	* 
+	*
 	* @param string The name of the user state variable
 	* @param string The name of the variable passed in a request
 	* @param string The default value for the variable if not found
@@ -110,7 +110,7 @@ class JApplication extends JObject {
 	}
 	/**
 	* Sets the value of a user state variable
-	* 
+	*
 	* @param string The name of the variable
 	* @param string The value of the variable
 	*/
@@ -122,7 +122,7 @@ class JApplication extends JObject {
 
 	/**
 	* Registers a handler to a particular event group
-	* 
+	*
 	* @param string The event name
 	* @param mixed The handler, a function or an instance of a event object
 	* @since 1.1
@@ -136,7 +136,7 @@ class JApplication extends JObject {
 
 	/**
 	* Calls all handlers associated with an event group
-	* 
+	*
 	* @param string The event name
 	* @param array An array of arguments
 	* @return array An array of results from each function call
@@ -174,10 +174,10 @@ class JApplication extends JObject {
 			// Build the credentials array
 			$credentials['username'] = $username;
 			$credentials['password'] = $passwd;
-			
+
 			// Get the global JAuth object
 			$auth = &JAuth::getInstance();
-			
+
 			return $auth->login($credentials);
 		}
 	}
@@ -191,7 +191,7 @@ class JApplication extends JObject {
 	function logout() {
 
 		$auth = &JAuth::getInstance();
-		
+
 		return $auth->logout();
 	}
 
@@ -205,10 +205,10 @@ class JApplication extends JObject {
 	function getOption() {
 		return $this->_option;
 	}
-	
+
 	/**
 	 * Get a configuration variable
-	 * 
+	 *
 	 * @param string 	The name of the variable (from configuration.php)
 	 * @return mixed 	The value of the configuration variable or null if not found
 	 */
@@ -220,7 +220,7 @@ class JApplication extends JObject {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Set the user session
 	 *
@@ -230,7 +230,7 @@ class JApplication extends JObject {
 	function setSession($name) {
 		$this->_createSession($name);
 	}
-	
+
 	/**
 	 * Return a reference to the JBreadCrumbs object
 	 *
@@ -244,7 +244,7 @@ class JApplication extends JObject {
 
 	/**
 	 * Return a reference to the JDocument object
-	 * 
+	 *
 	 * @access public
 	 * @since 1.1
 	 */
@@ -259,10 +259,10 @@ class JApplication extends JObject {
 		jimport('joomla.document.document');
 		return JDocument::getInstance('html', $attributes);
 	}
-	
+
 	/**
 	 * Return a reference to a JDatabase instance
-	 * 
+	 *
 	 * @access public
 	 * @param string $host 		Database host
 	 * @param string $user 		Database user name
@@ -298,7 +298,7 @@ class JApplication extends JObject {
 
 	/**
 	 * Return a reference to the JBrowser object
-	 * 
+	 *
 	 * @return jbrowser A JBrowser object holding the browser information
 	 */
 	function &getBrowser(){
@@ -308,10 +308,10 @@ class JApplication extends JObject {
 
 	/**
 	 * Returns a reference to the JUser object
-	 * 
+	 *
 	 * @return JUserModel A user object with the information from the current session
 	 */
-	function &getUser() 
+	function &getUser()
 	{
 		// Check to see if the user object exists
 		if (!is_object($this->_user)) {
@@ -325,17 +325,17 @@ class JApplication extends JObject {
 			$this->_user->load(JSession::get('userid'));
 			$this->_user->params = new JParameters($this->_user->params);
 		}
-		
+
 		return $this->_user;
 	}
 
 	/**
 	* Return a reference to the JLanguage object
 	*
-	* @return jlanguage 	A JLanguage object 
+	* @return jlanguage 	A JLanguage object
 	* @since 1.1
 	*/
-	function &getLanguage( ) 
+	function &getLanguage( )
 	{
 		if(is_null($this->_lang)) {
 			$this->_createLanguage();
@@ -387,7 +387,7 @@ class JApplication extends JObject {
 
 		$this->_lang = $strLang;
 	}
-	
+
 	/**
 	 * Create a JBreadCrumbs object and set the home/component items of the breadcrumbs
 	 *
@@ -395,15 +395,15 @@ class JApplication extends JObject {
 	 * @return boolean True if successful
 	 * @since 1.1
 	 */
-	function _createBreadCrumbs() 
+	function _createBreadCrumbs()
 	{
 		global $ItemID;
-		
+
 		jimport( 'joomla.system.breadcrumbs' );
 
 		// Create a JBreadCrumbs object
 		$this->_breadcrumbs = new JBreadCrumbs();
-		
+
 		// If not on the frontpage, add the component item to the breadcrumbs
 		if (($this->_option == 'com_frontpage') || ($this->_option == '')) {
 
@@ -427,7 +427,7 @@ class JApplication extends JObject {
 			if ($ItemID) {
 				$IIDstring = '&Itemid='.$ItemID;
 			}
-			
+
 			$this->_breadcrumbs->addItem( $comName, 'index.php?option='.$this->_option.$IIDstring);
 		}
 
@@ -497,7 +497,7 @@ class JApplication extends JObject {
 		JSession::updateIdle();
 	}
 
-	function _createTemplate( ) 
+	function _createTemplate( )
 	{
 		global $Itemid;
 
@@ -765,7 +765,7 @@ class JApplication extends JObject {
 	/**
 	 * Depreceated functions
 	 */
-	 
+
 	 /**
 	 * Depreceated, use JBreadCrumbs->getBreadCrumbNames() method instead
 	 * @since 1.1
@@ -787,7 +787,7 @@ class JApplication extends JObject {
 
 		return false;
   }
-	 
+
 	 /**
  	 * Depreceated, use JBreadCrumbs->getBreadCrumbNames() method instead
  	 * @since 1.1
@@ -795,7 +795,7 @@ class JApplication extends JObject {
 	function getCustomPathWay() {
 		return $this->_breadcrumbs->getNameBreadCrumb();
 	}
-	 
+
 	 /**
 	* Depreacted, use JDocument->renderHead instead
 	* @since 1.1

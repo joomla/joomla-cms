@@ -23,23 +23,23 @@ jimport( 'joomla.system.object' );
  * @subpackage JFramework
  * @since 1.1
  */
-  
+
 class JAuth extends JObject {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @access protected
 	 */
 	function __construct() {
 		global $mainframe;
-		
+
 		// Get the global database connector object
 		$db =& $mainframe->getDBO();
-		
+
 		// Get the global event dispatcher to load the plugins
 		$dispatcher =& JEventDispatcher :: getInstance();
-		
+
 		/*
 		 * Grab all of the plugins of type 'user''
 		 */
@@ -49,10 +49,10 @@ class JAuth extends JObject {
 		 			"\nAND `published`='1'";
 		 $db->setQuery($query);
 		 //$plugins = $db->loadResultArray();
-		 		
+
 		//TODO: Change folder auth to user
 		$plugins[] = 'joomla'; // joomla.php
-		
+
 		$isLoaded = 0;
 		foreach ($plugins as $plugin) {
 			$isLoaded |= JAuthHelper::loadPlugin($plugin, $dispatcher);
@@ -65,9 +65,9 @@ class JAuth extends JObject {
 
 	/**
 	 * JAuth Login Method
-	 * 
-	 * Username and Password are sent as credentials (along with other possibilities) 
-	 * to each observer (JAuthPlugin) for user validation.  Successful validation will 
+	 *
+	 * Username and Password are sent as credentials (along with other possibilities)
+	 * to each observer (JAuthPlugin) for user validation.  Successful validation will
 	 * update the current session with the user details
 	 * <pre>
 	 * Credentials Array
@@ -81,16 +81,16 @@ class JAuth extends JObject {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function login($credentials) 
+	function login($credentials)
 	{
 		global $mainframe;
 
 		// Get the global event dispatcher object
 		$dispatcher = &JEventDispatcher :: getInstance();
-		
+
 		// Get the global database connector object
 		$db = $mainframe->getDBO();
-		
+
 		// This is less than stellar, the login details should be passed to the login method
 		// or an error should be returned
 		if (empty($credentials['username']) || empty($credentials['password'])) {
@@ -98,7 +98,7 @@ class JAuth extends JObject {
 			$credentials['password'] = $db->getEscaped(trim(mosGetParam($_POST, 'passwd', '')));
 			$bypost = 1;
 		}
-		
+
 		// In particular... this error :)
 		if (empty($credentials['username']) || empty($credentials['password'])) {
 			// Error check if still no username or password values
@@ -111,15 +111,15 @@ class JAuth extends JObject {
 
 			if ($authenticated !== false) {
 				// Credentials authenticated
-				
+
 
 				// OK, the credentials are authenticated.  Lets fire the onLogin event
 				$results = $dispatcher->dispatch( 'onLogin', $credentials);
-				
+
 				/*
 				 * If any of the authentication plugins did not successfully complete the login
-				 * routine then the whole method fails.  Any errors raised should be done in 
-				 * the plugin as this provides the ability to provide much more information 
+				 * routine then the whole method fails.  Any errors raised should be done in
+				 * the plugin as this provides the ability to provide much more information
 				 * about why the routine may have failed.
 				 */
 				if (!in_array(false, $results)) {
@@ -128,64 +128,64 @@ class JAuth extends JObject {
 					// Create a new user model and load the authenticated userid
 					$user = new JUserModel($db);
 					$user->load(intval($authenticated));
-	
+
 					// If the user is blocked, redirect with an error
 					if ($user->block == 1) {
 						echo "<script>alert(\"".JText :: _('LOGIN_BLOCKED', true)."\"); </script>\n";
 						mosRedirect(mosGetParam($_POST, 'return', '/'));
 						exit ();
 					}
-					
+
 					// Fudge the ACL stuff for now...
 					// TODO: Implement ACL :)
 					$acl = &JFactory :: getACL();
 					$grp = $acl->getAroGroup($user->id);
 					$row->gid = 1;
-	
+
 					if ($acl->is_group_child_of($grp->name, 'Registered', 'ARO') || $acl->is_group_child_of($grp->name, 'Public Backend', 'ARO')) {
 						// fudge Authors, Editors, Publishers and Super Administrators into the Special Group
 						$user->gid = 2;
 					}
 					$user->usertype = $grp->name;
-	
+
 					// access control check
 					//if ( !$acl->acl_check( 'login', $this->_client, 'users', $user->usertype ) ) {
 					//	return false;
 					//}
-	
+
 					// Register the needed session variables
 					JSession :: set('guest', 0);
 					JSession :: set('username', $user->username);
 					JSession :: set('userid', intval($user->id));
 					JSession :: set('usertype', $user->usertype);
 					JSession :: set('gid', intval($user->gid));
-	
+
 					// Register session variables to prevent spoofing
 					JSession :: set('JAuth_RemoteAddr', $_SERVER['REMOTE_ADDR']);
 					JSession :: set('JAuth_UserAgent', $_SERVER['HTTP_USER_AGENT']);
-	
+
 					// TODO: JRegistry will make this unnecessary
 					// Get the session object
 					$session = & $mainframe->_session;
-	
+
 					$session->guest = 0;
 					$session->username = $user->username;
 					$session->userid = intval($user->id);
 					$session->usertype = $user->usertype;
 					$session->gid = intval($user->gid);
-	
+
 					$session->update();
-	
+
 					// Hit the user last visit field
 					$user->setLastVisit();
-	
+
 					// TODO: If we aren't going to use the database session we need to fix this
 					// Set remember me option
 					$remember = trim(mosGetParam($_POST, 'remember', ''));
 					if ($remember == 'yes') {
 						$session->remember($user->username, $user->password);
 					}
-	
+
 					// Clean the cache for this user
 					$cache = JFactory :: getCache();
 					$cache->cleanCache();
@@ -197,37 +197,37 @@ class JAuth extends JObject {
 	}
 
 	/**
-	 * Logs a user out by asking all obvserving objects to run their respective 
+	 * Logs a user out by asking all obvserving objects to run their respective
 	 * logout routines.
 	 *
 	 * @access public
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function logout() 
+	function logout()
 	{
 		global $mainframe;
-		
+
 		// Initialize variables
 		$retval = false;
 
 		// Get the global event dispatcher object
 		$dispatcher = &JEventDispatcher :: getInstance();
-		
+
 		// Get a user object from the JApplication
 		$user = $mainframe->getUser();
-		
+
 		// Build the credentials array
 		$credentials['username'] = $user->username;
 		$credentials['password'] = $user->password;
 
 		// OK, the credentials are built. Lets fire the onLogout event
 		$results = $dispatcher->dispatch( 'onLogout', $credentials);
-		
+
 		/*
 		 * If any of the authentication plugins did not successfully complete the logout
-		 * routine then the whole method fails.  Any errors raised should be done in 
-		 * the plugin as this provides the ability to provide much more information 
+		 * routine then the whole method fails.  Any errors raised should be done in
+		 * the plugin as this provides the ability to provide much more information
 		 * about why the routine may have failed.
 		 */
 		if (!in_array(false, $results)) {
@@ -235,22 +235,22 @@ class JAuth extends JObject {
 			// Clean the cache for this user
 			$cache = JFactory :: getCache();
 			$cache->cleanCache();
-	
+
 			// TODO: JRegistry will make this unnecessary
 			// Get the session object
 			$session =& $mainframe->_session;
 			$session->destroy();
-	
+
 			// Destroy the session for this user
 			JSession::destroy();
-			
+
 			$retval = true;
 		}
 		return $retval;
 	}
 
 	/**
-	 * Finds out if a set of login credentials are valid by asking all obvserving 
+	 * Finds out if a set of login credentials are valid by asking all obvserving
 	 * objects to run their respective authentication routines.
 	 *
 	 * @access public
@@ -258,14 +258,14 @@ class JAuth extends JObject {
 	 * @return mixed Integer userid for valid user if credentials are valid or boolean false if they are not
 	 * @since 1.1
 	 */
-	function authenticate($credentials) 
+	function authenticate($credentials)
 	{
 		// Initialize variables
 		$auth = false;
 
 		// Get the global event dispatcher object
 		$dispatcher = &JEventDispatcher :: getInstance();
-		
+
 		// Time to authenticate the credentials.  Lets fire the auth event
 		$results = $dispatcher->dispatch( 'auth', $credentials);
 
@@ -281,12 +281,12 @@ class JAuth extends JObject {
 			/*
 			 * Since none of authentication plugins failed get the userid of the
 			 * authenticated user
-			 */ 
+			 */
 			$auth = $results[0];
 		}
 		return $auth;
 	}
-	
+
 	/**
 	 * Returns a reference to a global authentication object, only creating it
 	 * if it doesn't already exist.
@@ -299,7 +299,7 @@ class JAuth extends JObject {
 	 * @return object The global JAuth object
 	 * @since 1.1
 	 */
-	function & getInstance() 
+	function & getInstance()
 	{
 		static $instances;
 
@@ -346,14 +346,14 @@ class JAuthHelper {
 	 *
 	 * @return string  The encrypted password.
 	 */
-	function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false) 
+	function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
 	{
-		/* 
+		/*
 		 * Get the salt to use.
 		 */
 		$salt = JAuthHelper :: getSalt($encryption, $salt, $plaintext);
 
-		/* 
+		/*
 		 * Encrypt the password.
 		 */
 		switch ($encryption) {
@@ -443,7 +443,7 @@ class JAuthHelper {
 	 *
 	 * @return string  The generated or extracted salt.
 	 */
-	function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '') 
+	function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '')
 	{
 		// Encrypt the password.
 		switch ($encryption) {
@@ -506,12 +506,12 @@ class JAuthHelper {
 
 	/**
 	 * Generate a random password
-	 * 
+	 *
 	 * @access public
 	 * @return string Random Password
 	 * @since 1.1
 	 */
-	function genRandomPassword() 
+	function genRandomPassword()
 	{
 		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		$len = strlen($salt);
@@ -527,12 +527,12 @@ class JAuthHelper {
 
 	/**
 	 * Is there an authenticated user in the current session
-	 * 
+	 *
 	 * @access public
 	 * @return boolean True of authenticated user exists.
 	 * @since 1.1
 	 */
-	function isAuthenticated() 
+	function isAuthenticated()
 	{
 		// Initialize variables
 		$ret = false;
@@ -540,17 +540,17 @@ class JAuthHelper {
 		// TODO: Check logic on this... i assume this will work for an authentication check
 
 		/*
-		 * If the session 'guest' variable is zero and the session 'userid' variable 
+		 * If the session 'guest' variable is zero and the session 'userid' variable
 		 * is set, we would assume that a valid user is logged in
 		 */
 		if (JSession :: get('guest') == 0 && !JSession :: get('userid') != null) {
 			$ret = true;
 		}
-		
+
 		/*
-		 * This ensures that the IP of the client does not change from page request to 
+		 * This ensures that the IP of the client does not change from page request to
 		 * page request while the user is authenticated.
-		 * 
+		 *
 		 * Useful to protect against spoofing
 		 */
 		if (!JAuthHelper::_checkRemoteAddr()) {
@@ -558,9 +558,9 @@ class JAuthHelper {
 		}
 
 		/*
-		 * This ensures that the User Agent string of the client does not change from page request to 
+		 * This ensures that the User Agent string of the client does not change from page request to
 		 * page request while the user is authenticated.
-		 * 
+		 *
 		 * Useful to protect against spoofing
 		 */
 		if (!JAuthHelper::_checkUserAgent()) {
@@ -635,7 +635,7 @@ class JAuthHelper {
 	}
 
 	/**
-	 * Static method to load an auth plugin and attach it to the JEventDispatcher 
+	 * Static method to load an auth plugin and attach it to the JEventDispatcher
 	 * object.
 	 *
 	 * This method should be invoked as:
@@ -648,7 +648,7 @@ class JAuthHelper {
 	 * @return boolean True if plugin is loaded
 	 * @since 1.1
 	 */
-	function loadPlugin($plugin, & $subject) 
+	function loadPlugin($plugin, & $subject)
 	{
 		static $instances;
 
@@ -659,10 +659,10 @@ class JAuthHelper {
 		if (empty ($instances[$plugin])) {
 			// Build the path to the needed authentication plugin
 			$path = JPATH_SITE.DS.'plugins'.DS.'auth'.DS.$plugin.'.php';
-			
+
 			// Require plugin file
 			require_once($path);
-			
+
 			// Build authentication plugin classname
 			$name = 'JAuth'.$plugin;
 			$instances[$plugin] = new $name ($subject);

@@ -14,7 +14,7 @@
 
 /**
  * The Joomla! Factory class
- * 
+ *
  * @static
  * @package Joomla
  * @since 1.1
@@ -24,7 +24,7 @@ class JFactory
 	/**
 	 * Returns a reference to the global JTemplate object, only creating it
 	 * if it doesn't already exist.
-	 * 
+	 *
 	 * @access public
 	 * @param array An array of additional template files to load
 	 * @param boolean True to use caching
@@ -33,7 +33,7 @@ class JFactory
 	 */
 	function &getTemplate( $files=null ) {
 		global $mainframe;
-		
+
 		static $instances;
 
 		if (!isset($instances)) {
@@ -43,7 +43,7 @@ class JFactory
 		if (empty($instances[0])) {
 			$instances[0] = JFactory::_createTemplate();
 		}
-		
+
 		//set template cache prefix
 		$prefix = '';
 		if($mainframe->isAdmin()) {
@@ -65,7 +65,7 @@ class JFactory
 
 	/**
 	 * Creates a cache object
-	 * 
+	 *
 	 * @access public
 	 * @param string The cache group name
 	 * @param string The cache class name
@@ -91,12 +91,12 @@ class JFactory
 	/**
 	 * Returns a reference to the global JACL object, only creating it
 	 * if it doesn't already exist.
-	 * 
+	 *
 	 * @access public
 	 * @return object
 	 */
 	function &getACL( ) {
-		
+
 		static $instances;
 
 		if (!isset($instances)) {
@@ -106,19 +106,19 @@ class JFactory
 		if (empty($instances[0])) {
 			$instances[0] = JFactory::_createACL();
 		}
-		
+
 		return $instances[0];
 	}
 
 	/**
 	 * Returns a reference to the global Mailer object, only creating it
 	 * if it doesn't already exist
-	 * 
+	 *
 	 * @access public
 	 * @return object
 	 */
 	function &getMailer( ) {
-		
+
 		static $instances;
 
 		if (!isset($instances)) {
@@ -128,13 +128,13 @@ class JFactory
 		if (empty($instances[0])) {
 			$instances[0] = JFactory::_createMailer();
 		}
-		
+
 		return $instances[0];
 	}
 
 	/**
 	 * Creates a XML document
-	 * 
+	 *
 	 * @access public
 	 * @return object
 	 * @param boolean If true, include lite version
@@ -168,17 +168,17 @@ class JFactory
 
 	/**
 	 * Create an ACL object
-	 * 
+	 *
 	 * @access private
 	 * @return object
 	 * @since 1.1
 	 */
-	function &_createACL()	
+	function &_createACL()
 	{
 		global $mainframe;
-		
+
 		jimport( 'joomla.acl' );
-		
+
 		$database =&  $mainframe->getDBO();
 
 		$options = array(
@@ -193,12 +193,12 @@ class JFactory
 
 	/**
 	 * Create a template object
-	 * 
+	 *
 	 * @access private
 	 * @return object
 	 * @since 1.1
 	 */
-	function &_createTemplate() 
+	function &_createTemplate()
 	{
 		global $mainframe;
 
@@ -255,7 +255,7 @@ class JFactory
 
 	/**
 	 * Create a mailer object
-	 * 
+	 *
 	 * @access private
 	 * @return object
 	 * @since 1.1

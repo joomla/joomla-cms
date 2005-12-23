@@ -16,12 +16,12 @@ jimport( 'joomla.models.model' );
 
 /**
 * Category database table class
-* 
+*
 * @package Joomla
 * @subpackage JFramework
 * @since 1.0
 */
-class JCategoryModel extends JModel 
+class JCategoryModel extends JModel
 {
 	/** @var int Primary key */
 	var $id					= null;
@@ -58,7 +58,7 @@ class JCategoryModel extends JModel
 	function __construct( &$db ) {
 		parent::__construct( '#__categories', 'id', $db );
 	}
-	
+
 	// overloaded check function
 	function check() {
 

@@ -61,7 +61,7 @@ class JBreadCrumbs extends JObject {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function setSeparator($custom = null) 
+	function setSeparator($custom = null)
 	{
 		global $mainframe;
 
@@ -105,7 +105,7 @@ class JBreadCrumbs extends JObject {
 	 * @return string XHTML Compliant breadcrumbs string
 	 * @since 1.1
 	 */
-	function toXHTML($showHome = true, $showComponent = true) 
+	function toXHTML($showHome = true, $showComponent = true)
 	{
 		// Set the default separator if not set
 		if (!isset($this->_separator)) {
@@ -181,7 +181,7 @@ class JBreadCrumbs extends JObject {
 	 * @return array Array of breadcrumbs items
 	 * @since 1.1
 	 */
-	function getBreadCrumbs($showHome = true, $showComponent = true) 
+	function getBreadCrumbs($showHome = true, $showComponent = true)
 	{
 		$bc = $this->_breadcrumbs;
 
@@ -191,7 +191,7 @@ class JBreadCrumbs extends JObject {
 		if ($showHome == false) {
 			unset($bc[0]);
 		}
-		
+
 		return $bc;
 	}
 
@@ -204,7 +204,7 @@ class JBreadCrumbs extends JObject {
 	 * @return array Array of names of breadcrumbs items
 	 * @since 1.1
 	 */
-	function getNameBreadCrumbs($showHome = true, $showComponent = true) 
+	function getNameBreadCrumbs($showHome = true, $showComponent = true)
 	{
 		/*
 		 * Initialize variables
@@ -235,7 +235,7 @@ class JBreadCrumbs extends JObject {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function addItem($name, $link) 
+	function addItem($name, $link)
 	{
 		// Initalize variables
 		$ret = false;
@@ -257,7 +257,7 @@ class JBreadCrumbs extends JObject {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function setItemName($id, $name) 
+	function setItemName($id, $name)
 	{
 		// Initalize variables
 		$ret = false;
@@ -278,7 +278,7 @@ class JBreadCrumbs extends JObject {
 	 * @return string Breadcrumbs item link
 	 * @since 1.1
 	 */
-	function _makeLink($id) 
+	function _makeLink($id)
 	{
 		// Get a reference to the current working breadcrumbs item
 		$item = & $this->_breadcrumbs[$id];
@@ -302,7 +302,7 @@ class JBreadCrumbs extends JObject {
 	 * @return object Breadcrumbs item object
 	 * @since 1.1
 	 */
-	function _makeItem($name, $link) 
+	function _makeItem($name, $link)
 	{
 		$item = new stdClass();
 		$item->name = ampReplace(html_entity_decode($name));

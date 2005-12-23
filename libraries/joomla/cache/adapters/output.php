@@ -13,12 +13,12 @@
 
 /**
 * Class to support output caching
-* 
+*
 * @package Joomla
 * @subpackage JFramework
 * @since 1.1
 */
-class JCacheOutput extends JCache 
+class JCacheOutput extends JCache
 {
 	/**
 	 * Constructor
@@ -38,7 +38,7 @@ class JCacheOutput extends JCache
 	 * @param string $group name of the cache group
 	 * @return boolean true if the cache is hit (false else)
 	 */
-	function start( $id, $group = 'default') 
+	function start( $id, $group = 'default')
 	{
 		$data = $this->get($id, $group, !$this->_validateCache);
 		if ($data !== false) {
@@ -56,7 +56,7 @@ class JCacheOutput extends JCache
 	 *
 	 * @access public
 	 */
-	function end() 
+	function end()
 	{
 		$data = ob_get_contents();
 		ob_end_clean();

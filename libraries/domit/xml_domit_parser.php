@@ -427,7 +427,7 @@ class DOMIT_ChildNodes_Interface extends DOMIT_Node {
 			else {
 				//remove $child if it already exists
 				$index = $this->getChildNodeIndex($this->childNodes, $child);
-	
+
 				if ($index != -1) {
 					$this->removeChild($child);
 				}
@@ -438,9 +438,9 @@ class DOMIT_ChildNodes_Interface extends DOMIT_Node {
 				if ($numNodes > 0) {
 					$prevSibling =& $this->childNodes[($numNodes - 1)];
 				}
-	
+
 				$this->childNodes[$numNodes] =& $child;
-	
+
 				//set next and previous relationships
 				//BB: added this line and the else part to finish correcting bug
 				if (isset( $prevSibling )) {

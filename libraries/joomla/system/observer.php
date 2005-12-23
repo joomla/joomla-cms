@@ -23,10 +23,10 @@ jimport('joomla.system.object');
  * @since 1.1
  */
 class JObserver extends JObject {
-	
+
 	/**
 	 * Event object to observe
-	 * 
+	 *
 	 * @access private
 	 * @var object
 	 */
@@ -45,7 +45,7 @@ class JObserver extends JObject {
 
 	/**
 	 * Method to update the state of observable objects
-	 * 
+	 *
 	 * @abstract Implement in child classes
 	 * @access public
 	 * @return mixed
@@ -64,12 +64,12 @@ class JObserver extends JObject {
  * @subpackage JFramework
  * @since 1.1
  */
- 
+
 class JObservable extends JObject {
 
 	/**
 	 * An array of Observer objects to notify
-	 * 
+	 *
 	 * @access private
 	 * @var array
 	 */
@@ -77,13 +77,13 @@ class JObservable extends JObject {
 
 	/**
 	 * The state of the observable object
-	 * 
+	 *
 	 * @access private
 	 * @var mixed
 	 */
 	var $_state = null;
 
-	
+
 	/**
 	 * Constructor
 	 */
@@ -93,7 +93,7 @@ class JObservable extends JObject {
 
 	/**
 	 * Get the state of the JObservable object
-	 * 
+	 *
 	 * @access public
 	 * @return mixed The state of the object
 	 * @since 1.1
@@ -101,10 +101,10 @@ class JObservable extends JObject {
 	function getState() {
 		return $this->_state;
 	}
-	
+
 	/**
 	 * Update each attached observer object and return an array of their return values
-	 * 
+	 *
 	 * @access public
 	 * @return array Array of return values from the observers
 	 * @since 1.1
@@ -119,7 +119,7 @@ class JObservable extends JObject {
 
 	/**
 	 * Attach an observer object
-	 * 
+	 *
 	 * @access public
 	 * @param object $observer An observer object to attach
 	 * @return void
@@ -128,10 +128,10 @@ class JObservable extends JObject {
 	function attach( $observer) {
 		$this->_observers[] = $observer;
 	}
-	
+
 	/**
 	 * Detach an observer object
-	 * 
+	 *
 	 * @access public
 	 * @param object $observer An observer object to detach
 	 * @return boolean True if the observer object was detached
@@ -140,7 +140,7 @@ class JObservable extends JObject {
 	function detach( $observer) {
 		// Initialize variables
 		$retval = false;
-		
+
 		if ($k = array_search($observer, $this->_observers)) {
 			unset($this->_observers[$k]);
 			$retval = true;

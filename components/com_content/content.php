@@ -570,7 +570,7 @@ function showBlogSection( $id=0, $gid, &$access, $pop, $now=NULL ) {
 
 	// Append Blog to BreadCrumbs
 	$breadcrumbs =& $mainframe->getBreadCrumbs();
-	
+
 	if ($id == 0) {
 		$breadcrumbs->addItem( 'Blog' , '');
 	} else {
@@ -960,13 +960,13 @@ function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=N
 			echo '</tr>';
 		}
 
-		
-// use newspaper style vertical layout rather than horizontal table 		
+
+// use newspaper style vertical layout rather than horizontal table
 		if ( $intro && ( $i < $total ) ) {
 			echo '<tr>';
 			echo '<td valign="top">';
 			echo '<table width="100%"  cellpadding="0" cellspacing="0">';
-			
+
 			$indexcount = 0;
 			for ( $z = 0; $z < $columns; $z++ ) {
 				if ($z > 0) $divider = " column_seperator";
@@ -977,14 +977,14 @@ function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=N
 						show( $rows[$indexcount++], $params, $gid, $access, $pop, $option, $ItemidCount );
 				}
 				echo "</td>\n";
-				
-			}			
+
+			}
 			echo '</table>';
 			echo '</td>';
 			echo '</tr>';
-			
-// TODO: remove this below 	
-		
+
+// TODO: remove this below
+
 //			echo '<tr>';
 //			echo '<td valign="top">';
 //			echo '<table width="100%"  cellpadding="0" cellspacing="0">';
@@ -1183,7 +1183,7 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 		 * Handle BreadCrumbs
 		 */
 		 $breadcrumbs =& $mainframe->getBreadCrumbs();
-		 
+
 		// We need the Itemid because we haven't eliminated it
 		$query = 	"SELECT a.id"
 		. "\n FROM #__menu AS a"

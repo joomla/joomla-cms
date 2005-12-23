@@ -13,7 +13,7 @@
 
 /**
 * Mambot installer
-* 
+*
 * @package Joomla
 * @subpackage Installer
 */
@@ -97,7 +97,7 @@ class JInstallerMambot extends JInstaller {
 	}
 	/**
 	* Custom install method
-	* 
+	*
 	* @param int The id of the module
 	* @param string The URL option
 	* @param int The client id
@@ -188,7 +188,7 @@ class JInstallerMambot extends JInstaller {
 
 	/**
 	 * Roll back the installation
-	 * 
+	 *
 	 * @access private
 	 * @return boolean True on success
 	 * @since 1.1
@@ -210,7 +210,7 @@ class JInstallerMambot extends JInstaller {
 					// remove the file
 					JFile::delete($step['path']);
 					break;
-				
+
 				case 'folder' :
 					// remove the folder
 					JFolder :: delete($step['path']);

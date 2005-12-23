@@ -25,11 +25,11 @@ class JText
 {
 	/**
 	 * Translates a string into the current language
-	 * 
+	 *
 	 * @access public
 	 * @param string $string The string to translate
 	 * @param boolean	$jsSafe		Make the result javascript safe
-	 * 
+	 *
 	 */
 	function _($string, $jsSafe = false) {
 		global $mainframe;
@@ -39,7 +39,7 @@ class JText
 
 	/**
 	 * Passes a string thru an sprintf
-	 * 
+	 *
 	 * @access public
 	 * @param format The format string
 	 * @param mixed Mixed number of arguments for the sprintf function
@@ -56,7 +56,7 @@ class JText
 	}
 	/**
 	 * Passes a string thru an printf
-	 * 
+	 *
 	 * @access public
 	 * @param format The format string
 	 * @param mixed Mixed number of arguments for the sprintf function
@@ -95,25 +95,25 @@ class JLanguage extends JObject
 
 	/**
 	* Constructor activating the default information of the language
-	* 
+	*
 	* @access protected
 	*/
 	function __construct($lang = null) {
 		$this->_strings = array ();
-		
+
 		if ($lang == null) {
 			$lang = 'eng_GB';
-		}  
-		
+		}
+
 		$this->_lang= $lang;
-		
+
 		$this->_metadata = $this->getMetadata($this->_lang);
 
 		//set locale based on the language tag
 		//TODO : add function to display locale setting in configuration
 		$locale = setlocale(LC_TIME, $this->getLocale());
 		//echo $locale;
-		
+
 		$this->load();
 	}
 
@@ -144,11 +144,11 @@ class JLanguage extends JObject
 
 	/**
 	* Translator function, mimics the php gettext (alias _) function
-	* 
+	*
 	* @access public
 	* @param string		$string 	The string to translate
 	* @param boolean	$jsSafe		Make the result javascript safe
-	* @return string	The translation of the string 
+	* @return string	The translation of the string
 	*/
 	function _($string, $jsSafe = false) {
 
@@ -172,21 +172,21 @@ class JLanguage extends JObject
 
 	/**
 	 * Loads a single langauge file and appends the results to the existing strings
-	 * 
+	 *
 	 * @access public
 	 * @param string 	$prefix 	The prefix
 	 * @param string 	$basePath  	The basepath to use
 	 * $return boolean	True, if the file has succesfully loaded.
 	 */
-	function load( $prefix = '', $basePath = JPATH_BASE ) 
+	function load( $prefix = '', $basePath = JPATH_BASE )
 	{
         $path = JLanguage::getLanguagePath( $basePath, $this->_lang);
 
 		$filename = empty( $prefix ) ?  $this->_lang : $this->_lang . '.' . $prefix ;
-		
+
 		$result = false;
 		if (file_exists( $path . $filename .'.ini') ) {
-			
+
 			//NOTE : Caching is slower
 			//$langGroup = 'Lang'.$this->_lang;
 			//$loadCache = JFactory::getCache($langGroup, 'JCache_Language');
@@ -197,17 +197,17 @@ class JLanguage extends JObject
 			if (is_array($newStrings)) {
 				$this->_strings = array_merge( $this->_strings, $newStrings);
 			}
-			
+
 			$result = true;
 		}
-		
+
 		return $result;
 
 	}
 
 	/**
 	* Loads a language file and returns the parsed values
-	* 
+	*
 	* @access private
 	* @param string The name of the file
 	* @return mixed Array of parsed values if successful, boolean False if failed
@@ -227,7 +227,7 @@ class JLanguage extends JObject
 
 	/**
 	 * Get a matadata language property
-	 *  
+	 *
 	 * @access public
 	 * @param string $property	The name of the property
 	 * @param mixed  $default	The default value
@@ -242,7 +242,7 @@ class JLanguage extends JObject
 
 	/**
 	* Getter for Name
-	* 
+	*
 	* @access public
 	* @param string  $value 	An optional value
 	* @return string Official name element of the language
@@ -253,7 +253,7 @@ class JLanguage extends JObject
 
 	/**
 	* Get for the langauge tag (as defined in RFC 3066)
-	* 
+	*
 	* @access public
 	* @return string The language tag
 	*/
@@ -263,7 +263,7 @@ class JLanguage extends JObject
 
 	/**
 	* Get locale property
-	* 
+	*
 	* @access public
 	* @return string The locale property
 	*/
@@ -282,7 +282,7 @@ class JLanguage extends JObject
 
 	/**
 	* Get the RTL property
-	* 
+	*
 	* @access public
 	* @return boolean True is it an RTL language
 	*/
@@ -292,7 +292,7 @@ class JLanguage extends JObject
 
 	/**
 	* Set the Debug property
-	* 
+	*
 	* @access public
 	*/
 	function setDebug($debug) {
@@ -301,7 +301,7 @@ class JLanguage extends JObject
 
 	/**
 	* Get the Debug property
-	* 
+	*
 	* @access public
 	* @return boolean True is in debug mode
 	*/
@@ -311,7 +311,7 @@ class JLanguage extends JObject
 
 	/**
 	 * Determines is a key exists
-	 * 
+	 *
 	 * @access public
 	 * @param key $key	The key to check
 	 * @return boolean True, if the key exists
@@ -359,7 +359,7 @@ class JLanguage extends JObject
 
 	/**
 	 * Get the path to a language
-	 * 
+	 *
 	 * @access public
 	 * @param string $basePath  The basepath to use
 	 * @param string $language	The language tag
@@ -376,7 +376,7 @@ class JLanguage extends JObject
 	}
 
 	/** Searches for language directories within a certain base dir
-	 * 
+	 *
 	 * @access public
 	 * @param string 	$dir 	directory of files
 	 * @return array	Array holding the found languages as filename => real name pairs
@@ -394,7 +394,7 @@ class JLanguage extends JObject
 	}
 
 	/** parses INI type of files for language information
-	 * 
+	 *
 	 * @access public
 	 * @param string	$dir 	Directory of files
 	 * @return array	Array holding the found languages as filename => real name pairs
@@ -421,7 +421,7 @@ class JLanguage extends JObject
 	}
 
 	/** Parses XML files for language information
-	 * 
+	 *
 	 * @access public
 	 * @param string	$dir	 Directory of files
 	 * @return array	Array holding the found languages as filename => metadata array
@@ -446,7 +446,7 @@ class JLanguage extends JObject
 	}
 
 	/** Parse XML file for language information
-	 * 
+	 *
 	 * @access public
 	 * @param string	$path	 Path to the xml files
 	 * @return array	Array holding the found metadat as a key => value pair
@@ -488,7 +488,7 @@ class JLanguage extends JObject
 class JLanguageHelper {
 	/**
 	 * Builds a list of the system languages which can be used in a select option
-	 * 
+	 *
 	 * @access public
 	 * @param string	Client key for the area
 	 * @param string	Base path to use

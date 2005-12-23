@@ -15,11 +15,11 @@ jimport( 'joomla.system.object' );
 
 /**
 * Parameters handler
-* 
+*
 * @package Joomla
 */
-class JParameters extends JObject 
-{	
+class JParameters extends JObject
+{
 	/** @var object */
 	var $_params = null;
 	/** @var string The raw params string */
@@ -30,7 +30,7 @@ class JParameters extends JObject
 	var $_type = null;
 	/** @var object The xml params element */
 	var $_xmlElem = null;
-	
+
 	/**
 	 * Constructor
 	 * @param string The raw parms text
@@ -69,7 +69,7 @@ class JParameters extends JObject
 		$this->_params-> $key = $value;
 		return $value;
 	}
-	
+
 	/**
 	 * Sets a default value if not alreay assigned
 	 * @param string The name of the param
@@ -79,7 +79,7 @@ class JParameters extends JObject
 	function def($key, $value = '') {
 		return $this->set($key, $this->get($key, $value));
 	}
-	
+
 	/**
 	 * @param string The name of the param
 	 * @param mixed The default value if not found
@@ -92,7 +92,7 @@ class JParameters extends JObject
 			return $default;
 		}
 	}
-	
+
 	/**
 	 * Parse an .ini string, based on phpDocumentor phpDocumentor_parse_ini_file function
 	 * @param mixed The ini string or array of lines
@@ -208,7 +208,7 @@ class JParameters extends JObject
 		}
 		return $obj;
 	}
-	
+
 	/**
 	 * @param string The name of the control, or the default text area if a setup file is not found
 	 * @return string HTML
@@ -265,7 +265,7 @@ class JParameters extends JObject
 			return "<textarea name=\"".$name."\" cols=\"40\" rows=\"10\" class=\"text_area\">".$this->_raw."</textarea>";
 		}
 	}
-	
+
 	/**
 	 * @param object A param tag node
 	 * @param string The control name
@@ -305,7 +305,7 @@ class JParameters extends JObject
 
 		return $result;
 	}
-	
+
 	/**
 	 * @param string The name of the form element
 	 * @param string The value of the element
@@ -318,7 +318,7 @@ class JParameters extends JObject
 
 		return '<input type="text" name="'.$control_name.'['.$name.']" value="'.$value.'" class="text_area" size="'.$size.'"/>';
 	}
-	
+
 	/**
 	 * @param string The name of the form element
 	 * @param string The value of the element
@@ -339,7 +339,7 @@ class JParameters extends JObject
 
 		return mosHTML :: selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value);
 	}
-	
+
 	/**
 	 * @param string The name of the form element
 	 * @param string The value of the element
@@ -358,7 +358,7 @@ class JParameters extends JObject
 
 		return mosHTML :: radioList($options, ''.$control_name.'['.$name.']', '', $value);
 	}
-	
+
 	/**
 	 * @param string The name of the form element
 	 * @param string The value of the element
@@ -376,7 +376,7 @@ class JParameters extends JObject
 
 		return mosHTML :: selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'title', $value);
 	}
-	
+
 	/**
 	 * @param string The name of the form element
 	 * @param string The value of the element
@@ -404,7 +404,7 @@ class JParameters extends JObject
 
 		return mosHTML :: selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'title', $value);
 	}
-	
+
 	/**
 	 * @param string The name of the form element
 	 * @param string The value of the element
@@ -424,7 +424,7 @@ class JParameters extends JObject
 
 		return mosHTML :: selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value);
 	}
-	
+
 	/**
 	 * @param string The name of the form element
 	 * @param string The value of the element
@@ -451,7 +451,7 @@ class JParameters extends JObject
 
 		return mosHTML :: selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
 	}
-	
+
 	/**
 	 * @param string The name of the form element
 	 * @param string The value of the element
@@ -463,7 +463,7 @@ class JParameters extends JObject
 		$node->setAttribute('filter', '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$');
 		return $this->_form_filelist($name, $value, $node, $control_name);
 	}
-	
+
 	/**
 	 * @param string The name of the form element
 	 * @param string The value of the element
@@ -525,7 +525,7 @@ class JParameters extends JObject
 
 		return mosHTML :: selectList($languages, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
 	}
-	
+
 	/**
 	 * Returns the list of existing admin languages
 	 * @param string The name of the form element

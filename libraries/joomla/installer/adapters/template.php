@@ -13,7 +13,7 @@
 
 /**
  * Template installer
- * 
+ *
  * @package Joomla
  * @subpackage Installer
  * @since 1.1
@@ -31,7 +31,7 @@ class JInstallerTemplate extends JInstaller {
 
 	/**
 	 * Custom install method
-	 * 
+	 *
 	 * @access public
 	 * @param string $p_fromdir Directory from which to install the template
 	 * @return boolean True on success
@@ -95,7 +95,7 @@ class JInstallerTemplate extends JInstaller {
 		if ($this->parseFiles('media') === false) {
 			return false;
 		}
-		
+
 		/*
 		 * Get the template description
 		 */
@@ -127,7 +127,7 @@ class JInstallerTemplate extends JInstaller {
 
 	/**
 	 * Custom uninstall method
-	 * 
+	 *
 	 * @access public
 	 * @param int $id The id of the template to uninstall
 	 * @param string $option The URL option
@@ -158,10 +158,10 @@ class JInstallerTemplate extends JInstaller {
 			exit ();
 		}
 	}
-	
+
 	/**
 	 * Overridden returnTo method
-	 * 
+	 *
 	 * @access public
 	 * @param string $option
 	 * @param string $element
@@ -175,7 +175,7 @@ class JInstallerTemplate extends JInstaller {
 
 	/**
 	 * Roll back the installation
-	 * 
+	 *
 	 * @access private
 	 * @return boolean True on success
 	 * @since 1.1
@@ -197,7 +197,7 @@ class JInstallerTemplate extends JInstaller {
 					// remove the file
 					JFile::delete($step['path']);
 					break;
-				
+
 				case 'folder' :
 					// remove the folder
 					JFolder :: delete($step['path']);

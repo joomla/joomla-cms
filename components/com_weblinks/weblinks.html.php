@@ -17,8 +17,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
  * HTML View class for the WebLinkController class
- * 
- * @static 
+ *
+ * @static
  * @package Joomla
  * @subpackage Weblinks
  * @since 1.0
@@ -27,7 +27,7 @@ class HTML_weblinks {
 
 	/**
 	 * Displays a web link category
-	 * 
+	 *
 	 * @param array $categories An array of categories to display
 	 * @param array $rows An array of weblinks to display
 	 * @param int $catid Category id of the current category
@@ -95,7 +95,7 @@ class HTML_weblinks {
 
 	/**
 	 * Helper function to display a table of web link items
-	 * 
+	 *
 	 * @param object $params Parameters object
 	 * @param array $rows Array of web link objects to show
 	 * @param int $catid Category id of the web link category to show
@@ -208,7 +208,7 @@ class HTML_weblinks {
 
 	/**
 	 * Helper function to display a list of categories
-	 * 
+	 *
 	 * @param object $params Parameters object for the current category
 	 * @param array $categories Array of categories to display
 	 * @param int $catid Category id of current category
@@ -257,14 +257,14 @@ class HTML_weblinks {
 	 *
 	 * A new record is defined when <var>$row</var> is passed with the <var>id</var>
 	 * property set to 0.
-	 * 
+	 *
 	 * @param object $row The JWeblinkModel object to edit
 	 * @param string $categories The html for the categories select list
 	 * @since 1.0
 	 */
 	function editWeblink( &$row, &$categories ) {
 		global $mainframe;
-		
+
 		$option = $mainframe->getOption();
 		require_once( JPATH_SITE . '/includes/HTML_toolbar.php' );
 

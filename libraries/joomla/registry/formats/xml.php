@@ -13,11 +13,11 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
- 
- 
+
+
 // XML Support Library
 jimport('domit.xml_domit_include');
- 
+
 /**
  * XML Format for JRegistry
  * @package Joomla
@@ -28,67 +28,67 @@ class JRegistryXMLFormat extends JRegistryStorageFormat {
 	// Load the Default XML Configuration from the database
 	function &stringToObject( $data, $namespace='' ) {
 		// Parse Configuration
-		$Configuration =& new DOMIT_Document();		
+		$Configuration =& new DOMIT_Document();
 		$success = $Configuration->parseXML( $data, true );
 		if (!$success) {
 			return false;
 		}
 
-		// Check that the top level node is correct				
+		// Check that the top level node is correct
 		if ($Configuration->documentElement->nodeName != 'config') {
 // 			// Should only happen if tampering occurs with the file.
 			return false;
 		}
-		
+
 		// Check to see if child nodes exist or if empty config
 		if (!$Configuration->documentElement->hasChildNodes()) {
 			return false;
 		}
-		
+
 		// Create a temporary object
 		$tmpConfig = new stdClass();
-		
+
 		$namespaces =& $Configuration->documentElement->childNodes;
 		$namespaceCount =& $Configuration->documentElement->childCount;
-		
-		
+
+
 		// Go through each 'namespace'
 		for ($i = 0; $i < $namespaceCount; $i++) {
-			// Check to see if its a namespace with children				
-			if ($namespaces[$i]->nodeName == "namespace" && $namespaces[$i]->hasChildNodes() && ($currentNamespace = $namespaces[$i]->getAttribute( "name" )) != '') {				
+			// Check to see if its a namespace with children
+			if ($namespaces[$i]->nodeName == "namespace" && $namespaces[$i]->hasChildNodes() && ($currentNamespace = $namespaces[$i]->getAttribute( "name" )) != '') {
 				$tmpConfig->$currentNamespace = new stdClass();
 				$groupCount =& $namespaces[$i]->childCount;
 				$groups =& $namespaces[$i]->childNodes;
 				for ($k = 0; $k < $groupCount; $k++) {
-					if ($groups[$k]->nodeName == "group" && $groups[$k]->hasChildNodes() && ($currentGroup = $groups[$k]->getAttribute( "name" )) != '') {						
-						$tmpConfig->$currentNamespace->$currentGroup = new stdClass();					
+					if ($groups[$k]->nodeName == "group" && $groups[$k]->hasChildNodes() && ($currentGroup = $groups[$k]->getAttribute( "name" )) != '') {
+						$tmpConfig->$currentNamespace->$currentGroup = new stdClass();
 						$entryCount =& $groups[$k]->childCount . "\n";
-						$entries =& $groups[$k]->childNodes . "\n";						
-						
+						$entries =& $groups[$k]->childNodes . "\n";
+
 						for ($j = 0; $j < $entryCount; $j++) {
 							if ($entries[$j]->nodeName == "entry" && ($currentName = $entries[$j]->getAttribute( "name" )) != '') {
-								$tmpConfig->$currentNamespace->$currentGroup->$currentName = $entries[$j]->getText();							
+								$tmpConfig->$currentNamespace->$currentGroup->$currentName = $entries[$j]->getText();
 							}
-						} 
+						}
 					}
 				}
 			}
 		}
 		return $tmpConfig;
-		
+
 
 	}
 
 	function objectToString( &$data ) {
 		$retval = "<?xml version=\"1.0\" ?>\n<config>\n";
-		foreach (get_object_vars( $data ) as $namespace=>$groups) {						
+		foreach (get_object_vars( $data ) as $namespace=>$groups) {
 			if (!$this->r_namespacestate) {
 				if ($namespace != $this->r_namespace) {
 					break;
 				}
 			}
 			$retval .= "<namespace name=\"$namespace\">\n";
-			foreach (get_object_vars( $groups ) as $key=>$item) {				
+			foreach (get_object_vars( $groups ) as $key=>$item) {
 				$retval .= "\t<group name=\"$key\">\n";
 				foreach (get_object_vars( $item ) as $subkey=>$value) {
 					$retval .= "\t\t<entry name=\"$subkey\">$value</entry>\n";
@@ -97,13 +97,13 @@ class JRegistryXMLFormat extends JRegistryStorageFormat {
 			}
 			$retval .= "</namespace>\n";
 		}
-		$retval .= '</config>';	
-		return $retval;		
+		$retval .= '</config>';
+		return $retval;
 	}
-	
+
 	function getFormatName() {
 		return 'XML';
-	}	
+	}
 
 }
 ?>

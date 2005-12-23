@@ -13,13 +13,13 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
- 
- 
+
+
 /**
  * Joomla! Registry Storage Format Abstract Class
  * The Format takes objects and turns them into a string representation for storage
- * It also does the reverse and turns it into an object 
- * @package Joomla 
+ * It also does the reverse and turns it into an object
+ * @package Joomla
  * @since 1.1
  * @abstract
  */
@@ -43,7 +43,7 @@ class JRegistryStorageFormat {
 	 * Converts an object to a string for storage
 	 * @param object The object representation of the data
 	 * @returns string The string representation of the data
-	 * @abstract 
+	 * @abstract
 	 */
 	function objectToString( &$data ) {
 		return false;

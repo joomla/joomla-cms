@@ -15,13 +15,13 @@ jimport('cache.Lite');
 
 /**
 * Abstract class for caching handlers
-* 
+*
 * @package Joomla
 * @subpackage JFramework
 * @abstract
 * @since 1.1
 */
-class JCache extends Cache_Lite 
+class JCache extends Cache_Lite
 {
 	 var $_defaultGroup  = 'JCache';
 	 var $_validateCache = false;
@@ -58,7 +58,7 @@ class JCache extends Cache_Lite
 		}
 		$this->Cache_Lite($options);
 	}
-	
+
 	/**
 	 * Returns a reference to the global Cache object, only creating it
 	 * if it doesn't already exist.

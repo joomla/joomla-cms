@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
- 
+
 // Grab the support libraries
 jimport('joomla.registry.storageengine');
 jimport('joomla.registry.storageformat');
@@ -58,23 +58,23 @@ class JRegistry {
 		if (!isset ($instances)) {
 			$instances = array ();
 		}
-		
+
 		$id = md5($engine.$format.$namespace.$identifier);
-		
+
 		if (empty ($instances[$id])) {
-			
+
 			// First load the engine and format
 			jimport('joomla.registry.storageengine.'.$engine);
 			jimport('joomla.registry.storageformat.'.$format);
-			
+
 			// Next instantiate the format
 			$name = 'JRegistry'.$format.'Format';
 			$r_format =& new $name($namespace, $namespaceState);
-			
+
 			// Next instantiate the engine
 			$name = 'JRegistry'.$engine.'Engine';
 			$r_engine =& new $name($r_format, $namespace, $identifier);
-			
+
 			$instances[$id] =& new JRegistry($r_engine);
 		}
 
@@ -100,7 +100,7 @@ class JRegistry {
 
 	/**
 	 * Get the default configuration setting
-	 * @param string Registry path (e.g. joomla.content.showauthor)	 
+	 * @param string Registry path (e.g. joomla.content.showauthor)
 	 * @return mixed Value of entry
 	 */
 	function getDefaultValue( $regpath ) {
@@ -112,7 +112,7 @@ class JRegistry {
 
 	/**
 	 * Set the user configuration setting
-	 * @param string Registry Path (e.g. joomla.content.showauthor)	 
+	 * @param string Registry Path (e.g. joomla.content.showauthor)
 	 * @param mixed  Value of entry
 	 * @param int    User id
 	 */
@@ -125,8 +125,8 @@ class JRegistry {
 
 	/**
 	 * Set the configuration setting
-	 * @param string Registry Path (e.g. joomla.content.showauthor)	 
-	 * @param mixed  Value of entry	
+	 * @param string Registry Path (e.g. joomla.content.showauthor)
+	 * @param mixed  Value of entry
 	 */
 	function setDefaultValue( $regpath, $value ) {
 		$parts = explode( '.', $regpath );
@@ -138,19 +138,19 @@ class JRegistry {
 	/**
 	 * Set the storage engine
 	 * @param object The new storage engine
-	 */	
+	 */
 	function setStorageEngine( &$engine ) {
 		$this->r_storageengine = $engine;
 	}
-	
+
 	/**
 	 * Get the storage engine
 	 * @return object The current storage engine
 	 */
 	function &getStorageEngine() {
-		return $this->r_storageengine;	
+		return $this->r_storageengine;
 	}
-	
+
 	/**
 	 * Set storage format
 	 * @param object The new storage format
@@ -158,7 +158,7 @@ class JRegistry {
 	function setStorageFormat( &$format ) {
 		$this->r_storageengine->setStorageFormat( $format );
 	}
-	
+
 	/**
 	 * Get the storage format
 	 * @return object The current storage format

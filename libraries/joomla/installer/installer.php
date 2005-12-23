@@ -15,12 +15,12 @@ jimport( 'joomla.system.object' );
 
 /**
 * Installer class
-* 
+*
 * @package Joomla
 * @subpackage Installer
 * @abstract
 */
-class JInstaller extends JObject 
+class JInstaller extends JObject
 {
 	var $i_installfilename	= "";
 	var $i_installarchive	= "";
@@ -32,37 +32,37 @@ class JInstaller extends JObject
 	var $i_docleanup		= true;
 	var $msg				= '';
 
-	/** 
+	/**
 	 * The directory where the element is to be installed
-	 * 
+	 *
 	 * @var string
 	 */
 	var $i_elementdir 		= '';
-	
-	/** 
+
+	/**
 	 * The name of the Joomla! element
-	 * 
+	 *
 	 * @var string
 	 */
 	var $i_elementname 		= '';
-	
-	/** 
+
+	/**
 	 * True if existing files can be overwritten
-	 * 
+	 *
 	 * @var boolean
 	 */
 	var $i_allowOverwrite = false;
-	
-	/** 
+
+	/**
 	 * The name of a special atttibute in a tag
-	 * 
+	 *
 	 * @var string
 	 */
 	var $i_elementspecial 	= '';
-	
-	/** 
+
+	/**
 	 * A DOMIT XML document
-	 * 
+	 *
 	 * @var object
 	 */
 	var $i_xmldoc			= null;
@@ -76,7 +76,7 @@ class JInstaller extends JObject
 	function __construct() {
         $this->allowOverwrite( mosGetParam( $_POST, 'overwrite', 0 ) );
 	}
-	
+
 	/**
 	 * Returns a reference to the global Installer object, only creating it
 	 * if it doesn't already exist.
@@ -102,10 +102,10 @@ class JInstaller extends JObject
 
 		return $instances[$signature];
 	}
-	
+
 	/**
 	* Uploads and unpacks a file
-	* 
+	*
 	* @param string The uploaded package filename or install directory
 	* @param boolean True if the file is an archive file
 	* @return boolean True on success, False on error
@@ -127,7 +127,7 @@ class JInstaller extends JObject
 	/**
 	* Description: Gets a file name out of a url
 	*/
-	function getFilenameFromURL($url) 
+	function getFilenameFromURL($url)
 	{
 		if(is_string($url)) {
 			$parts = split('/', $url);
@@ -139,7 +139,7 @@ class JInstaller extends JObject
 	/**
 	* Description: Creates a new template position if it doesn't exist already
 	*/
-	function createTemplatePosition($position) 
+	function createTemplatePosition($position)
 	{
 		global $database;
 		if($position) {
@@ -154,11 +154,11 @@ class JInstaller extends JObject
 
 	/**
 	* Downloads a package
-	* 
+	*
 	* @param string URL of file to download
 	* @param string Download target
 	*/
-	function downloadPackage($url,$target=false) 
+	function downloadPackage($url,$target=false)
 	{
 		$php_errormsg = 'Error Unknown';
 		ini_set('track_errors',true);
@@ -196,11 +196,11 @@ class JInstaller extends JObject
 
 	/**
 	* Extracts the package archive file
-	* 
+	*
 	* @return boolean True on success, False on error
 	*/
 	function extractArchive() {
-		
+
 		// Initialize variables
 		$base_Dir 		= JPath::clean( JPATH_SITE . DS .'media' );
 
@@ -229,7 +229,7 @@ class JInstaller extends JObject
 				$this->setError( 1, JText::_( 'Unrecoverable error' ) .' "'.$zipfile->errorName(true).'"' );
 				return false;
 			}
-			
+
 			// Free up PCLZIP memory
 			unset($zipfile);
 		} else {
@@ -260,13 +260,13 @@ class JInstaller extends JObject
 		}
 		return true;
 	}
-	
+
 	/**
 	* Tries to find the package XML file
-	* 
+	*
 	* @return boolean True on success, False on error
 	*/
-	function findInstallFile() 
+	function findInstallFile()
 	{
 		$found = false;
 		// Search the install dir for an xml file
@@ -287,12 +287,12 @@ class JInstaller extends JObject
 			return false;
 		}
 	}
-	
+
 	/**
 	* @param string A file path
 	* @return object A DOMIT XML document, or null if the file failed to parse
 	*/
-	function isPackageFile( $p_file ) 
+	function isPackageFile( $p_file )
 	{
 		$xmlDoc =& JFactory::getXMLParser();
 		$xmlDoc->resolveErrors( true );
@@ -303,7 +303,7 @@ class JInstaller extends JObject
 		$root = &$xmlDoc->documentElement;
 
 		/*
-		 * Check for mosinstall tag for backward compatability, but we are really 
+		 * Check for mosinstall tag for backward compatability, but we are really
 		 * looking for jinstall
 		 */
 		if ($root->getTagName() != 'mosinstall' && $root->getTagName() != 'jinstall') {
@@ -319,13 +319,13 @@ class JInstaller extends JObject
 		$this->installFilename( $p_file );
 		return $xmlDoc;
 	}
-	
+
 	/**
 	* Loads and parses the XML setup file
-	* 
+	*
 	* @return boolean True on success, False on error
 	*/
-	function readInstallFile() 
+	function readInstallFile()
 	{
 		if ($this->installFilename() == "") {
 			$this->setError( 1, JText::_( 'No filename specified' ) );
@@ -351,39 +351,39 @@ class JInstaller extends JObject
 		$this->installType( $root->getAttribute( 'type' ) );
 		return true;
 	}
-	
+
 	/**
 	* Abstract install method
 	*/
 	function install() {
 		die( JText::_( 'Method "install" cannot be called by class' ) .' ' . strtolower(get_class( $this )) );
 	}
-	
+
 	/**
 	* Abstract uninstall method
 	*/
 	function uninstall() {
 		die( JText::_( 'Method "uninstall" cannot be called by class' ) .' ' . strtolower(get_class( $this )) );
 	}
-	
+
 	/**
 	* return to method
 	*/
 	function returnTo( $option, $element ) {
 		return "index2.php?option=$option&element=$element";
 	}
-	
+
 	/**
-	 * Prepare for installation: this method sets the installation directory, finds 
+	 * Prepare for installation: this method sets the installation directory, finds
 	 * and checks the installation file and verifies the installation type
-	 * 
+	 *
 	 * @access public
 	 * @param string Install from directory
 	 * @param string The install type
 	 * @return boolean True on success
 	 * @since 1.0
 	 */
-	function preInstallCheck( $p_fromdir, $type ) 
+	function preInstallCheck( $p_fromdir, $type )
 	{
 		if (!is_null($p_fromdir)) {
 			$this->installDir($p_fromdir);
@@ -410,11 +410,11 @@ class JInstaller extends JObject
 
 		return true;
 	}
-	
+
 	/**
 	 * Method to parse through a files element of the installation file and take appropriate
 	 * action.
-	 * 
+	 *
 	 * @access public
 	 * @param string The tag name to parse
 	 * @param string An attribute to search for in a filename element
@@ -423,7 +423,7 @@ class JInstaller extends JObject
 	 * @return mixed Number of file or False on error
 	 * @since 1.0
 	 */
-	function parseFiles( $tagName='files', $special='', $specialError='', $adminFiles=0 ) 
+	function parseFiles( $tagName='files', $special='', $specialError='', $adminFiles=0 )
 	{
 		// Find files to copy
 		$xmlDoc =& $this->xmlDoc();
@@ -473,13 +473,13 @@ class JInstaller extends JObject
 					}
 				}
 			}
-			
+
 			/*
 			 * If the file is a language, we must handle it differently.  Language files
 			 * go in a subdirectory based on the language code, ie.
-			 *  
+			 *
 			 * 		<language tag="en_US">en_US.mycomponent.ini</language>
-			 * 
+			 *
 			 * would go in the en_US subdirectory of the languages directory.
 			 */
 			if ($file->getTagName() == 'language' && $file->getAttribute('tag') != '') {
@@ -520,10 +520,10 @@ class JInstaller extends JObject
 
 		return $result;
 	}
-	
+
 	/**
 	 * Copy files from source directory to the target directory
-	 * 
+	 *
 	 * @param string Source directory
 	 * @param string Destination directory
 	 * @param array array with filenames
@@ -562,14 +562,14 @@ class JInstaller extends JObject
 		}
 		return count( $p_files );
 	}
-	
+
 	/**
 	 * Copies the XML setup file to the element Admin directory
-	 * 
+	 *
 	 * Used by Components/Modules/Mambot Installer Installer
 	 * @return boolean True on success, False on error
 	 */
-	function copySetupFile( $where='admin' ) 
+	function copySetupFile( $where='admin' )
 	{
 		if ($where == 'admin') {
 			return $this->copyFiles( $this->installDir(), $this->componentAdminDir(), array( basename( $this->installFilename() ) ), true );
@@ -580,7 +580,7 @@ class JInstaller extends JObject
 
 	/**
 	 * Sets the error number and message for the installer
-	 * 
+	 *
 	 * @param int The error number
 	 * @param string The error message
 	 */
@@ -588,10 +588,10 @@ class JInstaller extends JObject
 		$this->errno( $p_errno );
 		$this->error( $p_error );
 	}
-	
+
 	/**
 	 * Gets the error message for the installer
-	 * 
+	 *
 	 * @param boolean True to display both number and message
 	 * @param string The error message
 	 * @return string
@@ -603,7 +603,7 @@ class JInstaller extends JObject
 			return $this->error();
 		}
 	}
-	
+
 	/**
 	 * @param string The name of the property to set/get
 	 * @param mixed The value of the property to set
@@ -620,7 +620,7 @@ class JInstaller extends JObject
 		return $this->setVar( 'allowOverwrite', $p_allowOverwrite );
 	}
 
-	function installFilename( $p_filename = null ) 
+	function installFilename( $p_filename = null )
 	{
 		if(!is_null($p_filename)) {
 			$this->i_installfilename = JPath::clean($p_filename);
@@ -678,7 +678,7 @@ class JInstaller extends JObject
 
 /**
  * Installer helper class
- * 
+ *
  * @static
  * @package Joomla
  * @subpackage Installer
@@ -687,18 +687,18 @@ class JInstaller extends JObject
 class JInstallerHelper {
 
 	/**
-	 * Search for a valid XML Joomla install file within the given path and get the 
+	 * Search for a valid XML Joomla install file within the given path and get the
 	 * installation type from the install file.
-	 * 
+	 *
 	 * @param string $path Path to search in
 	 * @return mixed Install Type or boolean False if no install file is found
 	 * @since 1.1
 	 */
 	function detectType( $path ) {
-		
+
 		// Initialize variables
 		$found = false;
-		
+
 		// Search the install dir for an xml file
 		$files = JFolder::files( $path, '\.xml$', true, true );
 
@@ -721,7 +721,7 @@ class JInstallerHelper {
 //				echo "<p>Looking at file $file, I consider it to be a valid installer file.</p>";
 				$type = $root->getAttribute( 'type' );
 				// Free up memory from DOMIT parser
-				unset($xmlDoc); 
+				unset($xmlDoc);
 				return $type;
 
 			}
@@ -734,22 +734,22 @@ class JInstallerHelper {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Clean up temporary uploaded package and unpacked element
- 	 * 
+ 	 *
  	 * @param string $userfile_name Path to the uploaded package file
  	 * @param string $resultdir Path to the unpacked element
  	 * @return boolean True on success
  	 * @since 1.1
  	 */
 	function cleanupInstall( $userfile_name, $resultdir) {
-		
+
 		if (file_exists( $resultdir )) {
 			JFolder::delete( $resultdir );
 			JFile::delete( JPath::clean( JPATH_SITE . DS .'media'. DS . $userfile_name, false ) );
 			return true;
-		}	 	
+		}
 	}
 }
 ?>

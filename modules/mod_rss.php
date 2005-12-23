@@ -112,7 +112,7 @@ for ( $i = 0; $i < $totalChannels; $i++ ) {
 			for ($j = 0; $j < $totalItems; $j++) {
 				$currItem =& $currChannel->getItem($j);
 				// item title
-				
+
 				// START fix for RSS enclosure tag url not showing
 				if ($currItem->getLink()) {
 				?>

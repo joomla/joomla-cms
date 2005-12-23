@@ -13,12 +13,12 @@
 
 /**
 * Class to support page caching
-* 
+*
 * @package Joomla
 * @subpackage JFramework
 * @since 1.1
 */
-class JCachePage extends JCache 
+class JCachePage extends JCache
 {
 	/**
 	 * Constructor
@@ -48,7 +48,7 @@ class JCachePage extends JCache
 	 * @param string $group name of the cache group
 	 * @return boolean true if the cache is hit (false else)
 	 */
-	function start( $id, $group = 'default' ) 
+	function start( $id, $group = 'default' )
 	{
 		if ( !headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH']) ){
 			$etag = stripslashes( $_SERVER['HTTP_IF_NONE_MATCH'] );

@@ -337,13 +337,13 @@ class DOMIT_Lite_ChildNodes_Interface extends DOMIT_Lite_Node {
 			//append child
 			$numNodes = $this->childCount;
 			//BB: was bug auto-created wrong childnodes[-1]: added IF
-			if ($numNodes>0) $prevSibling =& $this->childNodes[($numNodes - 1)];	
+			if ($numNodes>0) $prevSibling =& $this->childNodes[($numNodes - 1)];
 
 			$this->childNodes[$numNodes] =& $child;
 
 			//set next and previous relationships
 			//BB: added this line and the else part to finish correcting bug
-			if (isset($prevSibling)) {						
+			if (isset($prevSibling)) {
 				$child->previousSibling =& $prevSibling;
 				$prevSibling->nextSibling =& $child;
 			} else {

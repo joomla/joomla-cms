@@ -13,13 +13,13 @@
 
 /**
  * Plugin installer
- * 
+ *
  * @package Joomla
  * @subpackage Installer
  * @since 1.1
  */
 class JInstallerPlugin extends JInstaller {
-	
+
 	/**
 	 * Constructor
 	 *
@@ -31,7 +31,7 @@ class JInstallerPlugin extends JInstaller {
 
 	/**
 	 * Custom install method
-	 * 
+	 *
 	 * @access public
 	 * @param string $p_fromdir Directory from which to install the plugin
 	 * @return boolean True on success
@@ -42,7 +42,7 @@ class JInstallerPlugin extends JInstaller {
 
 		// Get database connector object
 		$db =& $mainframe->getDBO();
-		
+
 		/*
 		 * First lets set the installation directory, find and check the installation file and verify
 		 * that it is the proper installation type
@@ -82,13 +82,13 @@ class JInstallerPlugin extends JInstaller {
 		$query = 	"SELECT `id` " .
 					"\nFROM `#__plugins` " .
 					"\nWHERE element = '".$this->elementName()."'";
-					
+
 		$db->setQuery($query);
 		if (!$db->query()) {
 			$this->setError(1, JText :: _('SQL error').': '.$db->stderr(true));
 			return false;
 		}
-		
+
 		// If value is loaded then a plugin with the same name DOES exist
 		$id = $db->loadResult();
 
@@ -108,7 +108,7 @@ class JInstallerPlugin extends JInstaller {
 
 			if (!$row->store()) {
 				$this->setError(1, JText :: _('SQL error').': '.$row->getError());
-				
+
 				// Install failed, rollback any changes
 				$this->_rollback();
 				return false;
@@ -123,12 +123,12 @@ class JInstallerPlugin extends JInstaller {
 
 		} else {
 			$this->setError(1, JText :: _('Plugin').' "'.$this->elementName().'" '.JText :: _('already exists!'));
-			
+
 			// Install failed, rollback any changes
 			$this->_rollback();
 			return false;
 		}
-		
+
 		/*
 		 * Next, lets set the description for the plugin
 		 */
@@ -151,7 +151,7 @@ class JInstallerPlugin extends JInstaller {
 
 	/**
 	 * Custom uninstall method
-	 * 
+	 *
 	 * @access public
 	 * @param int $cid The id of the plugin to uninstall
 	 * @param string $option The URL option
@@ -161,12 +161,12 @@ class JInstallerPlugin extends JInstaller {
 	 */
 	function uninstall($id, $option, $client = 0) {
 		global $mainframe;
-		
+
 		// Get database connector object
 		$db =& $mainframe->getDBO();
 
 		$id = intval($id);
-		
+
 		// Load the plugin we want to uninstall
 		$row = new JPluginModel($db);
 		$row->load($id);
@@ -265,7 +265,7 @@ class JInstallerPlugin extends JInstaller {
 
 	/**
 	 * Roll back the installation
-	 * 
+	 *
 	 * @access private
 	 * @return boolean True on success
 	 * @since 1.1
@@ -287,7 +287,7 @@ class JInstallerPlugin extends JInstaller {
 					// remove the file
 					JFile::delete($step['path']);
 					break;
-				
+
 				case 'folder' :
 					// remove the folder
 					JFolder :: delete($step['path']);

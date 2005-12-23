@@ -176,7 +176,7 @@ function mosShowHead_Admin() {
 	}
 
 	echo $page->fetchHead();
-	
+
 	// load editor
 	initEditor();
 }

@@ -53,7 +53,7 @@ class HTML_admin_misc {
 
 	function system_info( ) {
 		global $database, $_VERSION;
-				
+
 		$width = 400;	// width of 100%
 		$tabs = new mosTabs(0);
 
@@ -257,7 +257,7 @@ class HTML_admin_misc {
 							<?php echo function_exists('iconv') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
 						</td>
 					</tr>
-					
+
 					<?php
 					$query = "SELECT name FROM #__mambots"
 					. "\nWHERE folder='editors' AND published='1'"

@@ -255,7 +255,7 @@ function editMambot( $option, $uid, $client ) {
 
         $lang =& $mainframe->getLanguage();
         $lang->load( trim('bot_'. $row->element), JPATH_SITE );
-		
+
 		// xml file for plugins
 		$xmlfile = JPATH_SITE . '/mambots/' .$row->folder . '/' . $row->element .'.xml';
 		$xmlDoc =& JFactory::getXMLParser();

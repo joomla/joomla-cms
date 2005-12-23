@@ -81,7 +81,7 @@ if (!defined('_MOS_EDITOR_INCLUDED')) {
 
 /**
  * JEditor class to handle WYSIWYG editors
- * 
+ *
  * @author Louis Landry <louis@webimagery.net>
  * @package Joomla
  * @subpackage Editors
@@ -124,15 +124,15 @@ class JEditor extends JObservable {
 
 	/**
 	 * Initialize the editor
-	 * 
+	 *
 	 */
 	function initEditor() {
 		global $mainframe;
 
 		if ($mainframe->get('loadEditor')) {
-			
+
 			$args['event'] = 'onInitEditor';
-			
+
 			$results[] = $this->_editor->update($args);
 			foreach ($results as $result) {
 				if (trim($result)) {
@@ -145,14 +145,14 @@ class JEditor extends JObservable {
 
 	/**
 	 * Get the editor contents
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	function getEditorContents($editorArea, $hiddenField) {
 		global $mainframe;
 
 		$this->_loadEditor();
-		
+
 		$args[] = $editorArea;
 		$args[] = $hiddenField;
 		$args['event'] = 'onGetEditorContents';
@@ -168,8 +168,8 @@ class JEditor extends JObservable {
 
 	/**
 	 * Present a text area
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	function getEditor($name, $content, $hiddenField, $width, $height, $col, $row) {
 		global $mainframe, $my;
@@ -195,9 +195,9 @@ class JEditor extends JObservable {
 
 	/**
 	 * Load the editor
-	 * 
+	 *
 	 * @access private
-	 * @since 1.1 
+	 * @since 1.1
 	 */
 	function _loadEditor() {
 		global $mainframe;
@@ -230,7 +230,7 @@ class JEditor extends JObservable {
 		// Build editor plugin classname
 		$name = 'JEditor_'.$editor;
 		$this->_editor = new $name ($this);
-		
+
 		JPluginHelper :: importGroup('editors-xtd');
 
 		$mainframe->set('loadEditor', true);

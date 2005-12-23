@@ -13,7 +13,7 @@
 
 /**
 * Class to support function caching
-* 
+*
 * @package Joomla
 * @subpackage JFramework
 * @since 1.1
@@ -41,7 +41,7 @@ class JCacheFunction extends JCache
 	 * @access public
 	 * @return mixed result of the function/method
 	 */
-	function call() 
+	function call()
 	{
 		$array = func_get_args();
 		$function = $array[0];
@@ -64,14 +64,14 @@ class JCacheFunction extends JCache
 		$id = $this->generateId($id); // Generate a cache id
 
 		$data = $this->get( $id, $this->_defaultGroup, !$this->_validateCache );
-		
-		if ($data !== false) 
+
+		if ($data !== false)
 		{
 			$array = unserialize( $data );
 			$output = $array['output'];
 			$result = $array['result'];
-		} 
-		else 
+		}
+		else
 		{
 			ob_start();
 			ob_implicit_flush( false );
@@ -97,7 +97,7 @@ class JCacheFunction extends JCache
 			$array['result'] = $result;
 			$this->save( serialize( $array ), $id, $this->_defaultGroup );
 		}
-		
+
 		echo $output;
 		return $result;
 	}

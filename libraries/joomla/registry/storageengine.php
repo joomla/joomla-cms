@@ -10,7 +10,7 @@
  * other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
  */
- 
+
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
@@ -77,7 +77,7 @@ class JRegistryStorageEngine {
 	 * @param mixed  setting value
 	 * @param int	 user id
 	 * @abstract
-	 */	 
+	 */
 	function setConfig( $namespace, $group, $name, $value, $id=0 ) {
 		return false;
 	}

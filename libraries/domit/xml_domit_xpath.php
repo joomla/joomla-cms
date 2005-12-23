@@ -159,7 +159,7 @@ class DOMIT_XPath {
 		for ($i = 0; $i < $total; $i++) {
 //			$this->currChar = $this->currentSegment{$i};
 			$this->currChar = substr($this->currentSegment, $i, 1);
-			
+
 			switch ($this->currChar) {
 				case '@':
 					$this->selectAttribute(substr($this->currentSegment, ($this->currChar + 1)));

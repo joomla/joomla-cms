@@ -16,7 +16,7 @@ jimport( 'joomla.models.model' );
 
 /**
 * Component database table class
-* 
+*
 * @package Joomla
 * @subpackage JFramework
 * @since 1.0

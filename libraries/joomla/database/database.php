@@ -16,13 +16,13 @@ jimport( 'joomla.system.object' );
 
 /**
 * Database connector class
-* 
+*
 * @subpackage Database
 * @package Joomla
 * @abstract
 * @since 1.0
 */
-class JDatabase extends JObject 
+class JDatabase extends JObject
 {
 	/** @var string Internal variable to hold the query sql */
 	var $_sql			= '';
@@ -654,12 +654,12 @@ class JDatabase extends JObject
 /**
  * Simple Record Set object to allow our database connector to be used with
  * ADODB driven 3rd party libraries
- * 
+ *
  * @package Joomla
  * @subpackage Database
  * @since 1.1
  */
-class JSimpleRecordSet 
+class JSimpleRecordSet
 {
 	/** @var array */
 	var $data	= null;

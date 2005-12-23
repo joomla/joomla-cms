@@ -37,7 +37,7 @@ $task = mosGetParam($_REQUEST, 'task', '');
 
 /*
  * This is our main control structure for the component
- * 
+ *
  * Each view is determined by the $task variable
  */
 switch ($task) {
@@ -48,7 +48,7 @@ switch ($task) {
 	case 'edit' :
 		/*
 		 * Disabled until ACL system is implemented.  When enabled the $id variable
-		 * will be passed instead of a 0  
+		 * will be passed instead of a 0
 		 */
 		WebLinkController :: editWebLink(0);
 		break;
@@ -71,7 +71,7 @@ switch ($task) {
 }
 /**
  * Static class to hold controller functions for the Weblink component
- * 
+ *
  * @static
  * @package Joomla
  * @subpackage Weblinks
@@ -81,7 +81,7 @@ class WebLinkController {
 
 	/**
 	 * Show a web link category
-	 * 
+	 *
 	 * @param int $catid Web Link category id
 	 * @since 1.0
 	 */
@@ -93,9 +93,9 @@ class WebLinkController {
 		$my = & $mainframe->getUser();
 		$breadcrumbs = & $mainframe->getBreadCrumbs();
 
-		/* 
-		 * Query to retrieve all categories that belong under the web links section 
-		 * and that are published. 
+		/*
+		 * Query to retrieve all categories that belong under the web links section
+		 * and that are published.
 		 */
 		$query = 	"SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc".
 					"\n LEFT JOIN #__weblinks AS a ON a.catid = cc.id".
@@ -106,7 +106,7 @@ class WebLinkController {
 					"\n AND cc.access <= $my->gid".
 					"\n GROUP BY cc.id".
 					"\n ORDER BY cc.ordering";
-		
+
 		$db->setQuery($query);
 		$categories = $db->loadObjectList();
 
@@ -230,7 +230,7 @@ class WebLinkController {
 
 	/**
 	 * Log the hit and redirect to the link
-	 * 
+	 *
 	 * @param int $id Web Link id
 	 * @param int $catid Web Link category id
 	 * @since 1.0
@@ -247,7 +247,7 @@ class WebLinkController {
 		// Record the hit
 		$weblink->hit();
 
-		// Redirect to url	
+		// Redirect to url
 		mosRedirect($weblink->url);
 
 		// Fallback if redirect fails
@@ -257,7 +257,7 @@ class WebLinkController {
 
 	/**
 	 * Edit a web link record
-	 * 
+	 *
 	 * @param int $id Web Link id to edit
 	 * @since 1.0
 	 */
@@ -275,7 +275,7 @@ class WebLinkController {
 			return;
 		}
 
-		// Create and load a weblink model 
+		// Create and load a weblink model
 		$row = new JWebLinkModel($db);
 		$row->load($id);
 
@@ -287,8 +287,8 @@ class WebLinkController {
 		// Edit or Create?
 		if ($id) {
 			/*
-			 * The web link already exists so we are editing it.  Here we want to 
-			 * manipulate the pathway and pagetitle to indicate this, plus we want 
+			 * The web link already exists so we are editing it.  Here we want to
+			 * manipulate the pathway and pagetitle to indicate this, plus we want
 			 * to check the web link out so no one can edit it while we are editing it
 			 */
 			$row->checkout($my->id);
@@ -301,7 +301,7 @@ class WebLinkController {
 		} else {
 			/*
 			 * The web link does not already exist so we are creating a new one.  Here
-			 * we want to manipulate the pathway and pagetitle to indicate this.  Also, 
+			 * we want to manipulate the pathway and pagetitle to indicate this.  Also,
 			 * we need to initialize some values.
 			 */
 			$row->published = 0;
@@ -338,7 +338,7 @@ class WebLinkController {
 
 	/**
 	 * Cancel the editing of a web link
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	function cancelWebLink() {
@@ -369,7 +369,7 @@ class WebLinkController {
 
 	/**
 	 * Saves the record on an edit form submit
-	 * 
+	 *
 	 * @since 1.0
 	 */
 	function saveWeblink() {
@@ -394,7 +394,7 @@ class WebLinkController {
 			exit ();
 		}
 
-		// Is the web link a new one?		
+		// Is the web link a new one?
 		$isNew = $row->id < 1;
 
 		// Create the timestamp for the date
@@ -427,13 +427,13 @@ class WebLinkController {
 					echo $database->stderr( true );
 					return;
 				}
-			
+
 				$adminRows = $database->loadObjectList();
 				foreach( $adminRows as $adminRow) {
 					mosSendAdminMail($adminRow->name, $adminRow->email, "", "Weblink", $row->title, $my->username );
 				}
 		*/
-		
+
 		$msg = $isNew ? JText :: _('THANK_SUB') : '';
 		mosRedirect('index.php', $msg);
 	}

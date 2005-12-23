@@ -15,9 +15,9 @@ jimport('pattemplate.patErrorManager');
 
 /**
  * Error Handling Class
- * 
+ *
  * This class is an proxy of the patError class
- * 
+ *
  * @static
  * @package Joomla
  * @subpackage JFramework
@@ -85,7 +85,7 @@ class JError extends patErrorManager {
 	function &raiseNotice( $code, $msg, $info = null ) {
 		return JError::raise( E_NOTICE, $code, $msg, $info );
 	}
-	
+
 	/**
 	* creates a new patError object given the specified information.
 	*
@@ -131,7 +131,7 @@ class JError extends patErrorManager {
 		$function	=	'handleError' . ucfirst( $handling['mode'] );
 		return JError::$function( $error, $handling );
     }
-	
+
    /**
 	* handleError: Echo
 	* display error message

@@ -27,7 +27,7 @@ if ($mainframe->getOption() == 'com_content') {
 	$viewComponent = false;
 }
 
-//$tmpl =& JTemplate::getInstance(); 
+//$tmpl =& JTemplate::getInstance();
 //$tmpl->parse('breadcrumbs.html' );
 
 //$tmpl->addVar   ( 'breadcrumbs-items', 'separator', $breadcrumbs->getSeparator() );

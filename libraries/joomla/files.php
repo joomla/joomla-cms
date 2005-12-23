@@ -37,7 +37,7 @@ class JFile {
 
 	/**
 	 * Gets the extension of a file name
-	 * 
+	 *
 	 * @param string $file The file name
 	 * @return string The file extension
 	 * @since 1.1
@@ -49,7 +49,7 @@ class JFile {
 
 	/**
 	 * Strips the last extension off a file name
-	 * 
+	 *
 	 * @param string $file The file name
 	 * @return string The file name without the extension
 	 * @since 1.1
@@ -60,7 +60,7 @@ class JFile {
 
 	/**
 	 * Makes file name safe to use
-	 * 
+	 *
 	 * @param string $file The name of the file [not full path]
 	 * @return string The sanitised string
 	 * @since 1.1
@@ -72,7 +72,7 @@ class JFile {
 
 	/**
 	 * Copies a file
-	 * 
+	 *
 	 * @param string $src The path to the source file
 	 * @param string $dest The path to the destination file
 	 * @param string $path An optional base path to prefix to the file names
@@ -106,7 +106,7 @@ class JFile {
 		}
 
 		/*
-		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory 
+		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
 		 * is not writable we need to use FTP
 		 */
 		if ((file_exists($dest) && !is_writable($dest)) || (!file_exists($dest) && !is_writable(dirname($dest)))) {
@@ -156,7 +156,7 @@ class JFile {
 
 	/**
 	 * Delete a file or array of files
-	 * 
+	 *
 	 * @param mixed $file The file name or an array of file names
 	 * @return boolean  True on success
 	 * @since 1.1
@@ -208,7 +208,7 @@ class JFile {
 
 	/**
 	 * Moves a file
-	 * 
+	 *
 	 * @param string $src The path to the source file
 	 * @param string $dest The path to the destination file
 	 * @param string $path An optional base path to prefix to the file names
@@ -238,7 +238,7 @@ class JFile {
 		}
 
 		/*
-		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory 
+		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
 		 * is not writable we need to use FTP
 		 */
 		if ((file_exists($dest) && !is_writable($dest)) || (!file_exists($dest) && !is_writable(dirname($dest)))) {
@@ -284,7 +284,7 @@ class JFile {
 
 	/**
 	 * Read the contents of a file
-	 * 
+	 *
 	 * @param string $filename The full file path
 	 * @param boolean $incpath Use include path
 	 * @return mixed Returns file contents or boolean False if failed
@@ -301,7 +301,7 @@ class JFile {
 		$data = null;
 
 		/*
-		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory 
+		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
 		 * is not writable we need to use FTP
 		 */
 		if (!is_readable($filename)) {
@@ -312,7 +312,7 @@ class JFile {
 		if (ini_get('safe_mode')) {
 			$ftpFlag = true;
 		}
-		
+
 		// Now check for http protocol
 		if (substr($filename, 0, 7) == 'http://') {
 			$ftpFlag = false;
@@ -344,7 +344,7 @@ class JFile {
 				//trigger_error('JFile::read failed to open stream: No such file or directory', E_USER_WARNING);
 				return false;
 			}
-	
+
 			clearstatcache();
 			if ($fsize = @ filesize($filename)) {
 				$data = fread($fh, $fsize);
@@ -354,7 +354,7 @@ class JFile {
 					$data .= fread($fh, 8192);
 				}
 			}
-	
+
 			fclose($fh);
 		}
 		return $data;
@@ -362,7 +362,7 @@ class JFile {
 
 	/**
 	 * Write contents to a file
-	 * 
+	 *
 	 * @param string $file The full file path
 	 * @param string $buffer The buffer to write
 	 * @return boolean True on success
@@ -380,7 +380,7 @@ class JFile {
 		JPath :: check($file);
 
 		/*
-		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory 
+		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
 		 * is not writable we need to use FTP
 		 */
 		if ((file_exists($file) && !is_writable($file)) || (!file_exists($file) && !is_writable(dirname($file)))) {
@@ -447,7 +447,7 @@ class JFile {
 		$baseDir = dirname($destFile);
 
 		/*
-		 * If the destination file exists but isn't writable OR if the file doesn't exist and the parent directory 
+		 * If the destination file exists but isn't writable OR if the file doesn't exist and the parent directory
 		 * is not writable we need to use FTP
 		 */
 		if ((file_exists($destFile) && !is_writable($destFile)) || (!file_exists($destFile) && !is_writable(dirname($destFile)))) {
@@ -500,7 +500,7 @@ class JFile {
 
 	/**
 	 * Wrapper for the standard file_exists function
-	 * 
+	 *
 	 * @param string $file File path
 	 * @return boolean True if path is a file
 	 * @since 1.1
@@ -522,7 +522,7 @@ class JFolder {
 
 	/**
 	 * Create a folder -- and all necessary parent folders
-	 * 
+	 *
 	 * @param string $path A path to create from the base path
 	 * @param int $mode Directory permissions to set for folders created
 	 * @return boolean True if successful
@@ -582,7 +582,7 @@ class JFolder {
 
 			// We need to get and explode the open_basedir paths
 			$obd = ini_get('open_basedir');
-			
+
 			// If open_basedir is et we need to get the open_basedir that the path is in
 			if ($obd != null) {
 				if (JPATH_ISWIN) {
@@ -601,7 +601,7 @@ class JFolder {
 						break;
 					}
 				}
-				
+
 				if ($inOBD == false) {
 					// Return false for JFolder::create because the path to be created is not in open_basedir
 					return false;
@@ -610,7 +610,7 @@ class JFolder {
 
 			// Just to make sure
 			$inOBD = true;
-			
+
 			do {
 				$dir = $path;
 
@@ -631,7 +631,7 @@ class JFolder {
 
 			// Reset umask
 			@ umask($origmask);
-			
+
 			// If there is no open_basedir restriction this should always be true
 			if ($inOBD == false) {
 				// Return false for JFolder::create -- could not create path without violating open_basedir restrictions
@@ -646,12 +646,12 @@ class JFolder {
 
 	/**
 	 * Delete a folder
-	 * 
+	 *
 	 * @param string $path The path to the folder to delete
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function delete($path) 
+	function delete($path)
 	{
 		global $mainframe;
 
@@ -708,14 +708,14 @@ class JFolder {
 
 	/**
 	 * Moves a folder
-	 * 
+	 *
 	 * @param string $src The path to the source folder
 	 * @param string $dest The path to the destination folder
 	 * @param string $path An optional base path to prefix to the file names
 	 * @return mixed Error message on false or boolean True on success
 	 * @since 1.1
 	 */
-	function move($src, $dest, $path = '') 
+	function move($src, $dest, $path = '')
 	{
 		global $mainframe;
 
@@ -741,7 +741,7 @@ class JFolder {
 		}
 
 		/*
-		 * If the destination file exists but isn't writable OR if the file doesn't exist and the parent directory 
+		 * If the destination file exists but isn't writable OR if the file doesn't exist and the parent directory
 		 * is not writable we need to use FTP
 		 */
 		if ((file_exists($dest) && !is_writable($dest)) || (!file_exists($dest) && !is_writable(dirname($dest)))) {
@@ -785,9 +785,9 @@ class JFolder {
 		return $ret;
 	}
 
-	/** 
+	/**
 	 * Wrapper for the standard file_exists function
-	 * 
+	 *
 	 * @param string $path Folder name relative to installation dir
 	 * @return boolean True if path is a folder
 	 * @since 1.1
@@ -799,7 +799,7 @@ class JFolder {
 
 	/**
 	 * Utility function to read the files in a folder
-	 * 
+	 *
 	 * @param string $path The path of the folder to read
 	 * @param string $filter A filter for file names
 	 * @param boolean $recurse True to recursively search into sub-folders
@@ -807,7 +807,7 @@ class JFolder {
 	 * @return array Files in the given folder
 	 * @since 1.1
 	 */
-	function files($path, $filter = '.', $recurse = false, $fullpath = false) 
+	function files($path, $filter = '.', $recurse = false, $fullpath = false)
 	{
 		global $mainframe;
 
@@ -911,7 +911,7 @@ class JFolder {
 
 	/**
 	 * Utility function to read the folders in a folder
-	 * 
+	 *
 	 * @param string $path The path of the folder to read
 	 * @param string $filter A filter for folder names
 	 * @param boolean $recurse True to recursively search into sub-folders
@@ -919,7 +919,7 @@ class JFolder {
 	 * @return array Folders in the given folder
 	 * @since 1.1
 	 */
-	function folders($path, $filter = '.', $recurse = false, $fullpath = false) 
+	function folders($path, $filter = '.', $recurse = false, $fullpath = false)
 	{
 		global $mainframe;
 
@@ -1020,7 +1020,7 @@ class JFolder {
 	/**
 	 * Lists folder in format suitable for tree display
 	 */
-	function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0) 
+	function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0)
 	{
 		$dirs = array ();
 		if ($level == 0) {
@@ -1096,7 +1096,7 @@ class JPath {
 
 	/**
 	 * Checks if a path's permissions can be changed
-	 * 
+	 *
 	 * @param string $path Path to check
 	 * @return boolean True if path can have mode changed
 	 * @since 1.1
@@ -1113,7 +1113,7 @@ class JPath {
 
 	/**
 	 * Chmods files and directories recursivly to given permissions
-	 * 
+	 *
 	 * @param string $path Root path to begin changing mode [without trailing slash]
 	 * @param string $filemode Octal representation of the value to change file mode to [null = no change]
 	 * @param string $foldermode Octal representation of the value to change folder mode to [null = no change]
@@ -1157,7 +1157,7 @@ class JPath {
 
 	/**
 	 * Get the permissions of the file/folder at a give path
-	 * 
+	 *
 	 * @param string $path The path of a file/folder
 	 * @return string Filesystem permissions
 	 * @since 1.1
@@ -1190,7 +1190,7 @@ class JPath {
 
 	/**
 	 * Checks for snooping outside of the file system root
-	 * 
+	 *
 	 * @param string $path A file system path to check
 	 * @since 1.1
 	 */
@@ -1207,7 +1207,7 @@ class JPath {
 
 	/**
 	 * Function to strip additional / or \ in a path name
-	 * 
+	 *
 	 * @param string $p_path The path to clean
 	 * @param boolean $p_addtrailingslash True if the function shoul add a trailing slash
 	 * @return string The cleaned path
@@ -1241,7 +1241,7 @@ class JPath {
 
 	/**
 	 * Method to determine if script owns the path
-	 * 
+	 *
 	 * @static
 	 * @param string $path Path to check ownership
 	 * @return boolean True if the php script owns the path passed

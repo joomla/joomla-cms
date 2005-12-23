@@ -15,7 +15,7 @@ jimport('joomla.models.model');
 
 /**
  * Class JPluginModel
- * 
+ *
  * @package Joomla
  * @subpackage JFramework
  * @since 1.1
@@ -23,85 +23,85 @@ jimport('joomla.models.model');
 class JPluginModel extends JModel {
 
 	/**
-	 * Primary Key 
-	 * 
+	 * Primary Key
+	 *
 	 *  @var int
 	 */
 	var $id = null;
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @var varchar
 	 */
 	var $name = null;
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @var varchar
 	 */
 	var $element = null;
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @var varchar
 	 */
 	var $folder = null;
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @var tinyint unsigned
 	 */
 	var $access = null;
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @var int
 	 */
 	var $ordering = null;
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @var tinyint
 	 */
 	var $published = null;
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @var tinyint
 	 */
 	var $iscore = null;
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @var tinyint
 	 */
 	var $client_id = null;
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @var int unsigned
 	 */
 	var $checked_out = null;
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @var datetime
 	 */
 	var $checked_out_time = null;
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @var text
 	 */
 	var $params = null;

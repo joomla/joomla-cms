@@ -39,7 +39,7 @@ jimport( 'joomla.system.object' );
 
 /**
  * FTP client class
- * 
+ *
  * @author Louis Landry  <louis@webimagery.net>
  * @package Joomla
  * @subpackage JFramework
@@ -120,7 +120,7 @@ class JFTP extends JObject {
 			$options['type'] = FTP_AUTOASCII;
 		}
 		$this->setOptions($options);
-		
+
 		if (JPATH_ISWIN) {
 			$this->_OS = 'WIN';
 		} elseif (JPATH_ISMAC) {
@@ -129,7 +129,7 @@ class JFTP extends JObject {
 			$this->_OS = 'UNIX';
 		}
 
-		
+
 	}
 
 	function __destruct() {
@@ -536,7 +536,7 @@ class JFTP extends JObject {
 		if ($mode == FTP_ASCII) {
 			$buffer = preg_replace("/".CRLF."/", $this->_lineEndings[$this->_OS], $buffer);
 		}
-		
+
 		if (!$this->_verifyResponse(226)) {
 			JError::raiseError('37', 'JFTP::read: Transfer Failed.', 'Server response:'.$this->_response.' [Expected: 226] Path sent:'.$remote );
 			return false;
@@ -963,7 +963,7 @@ class JFTP extends JObject {
 
 		// Initialize variables
 		$parts = null;
-		
+
 		// Wait for a response from the server, but timeout in 5 seconds
 		$time = time();
 		do {

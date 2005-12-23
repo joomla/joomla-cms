@@ -176,7 +176,7 @@ if ( $searchreplace ) {
 	$buttons3 	= implode( ',', $buttons3 );
 	$plugins 	= implode( ',', $plugins );
 	$elements 	= implode( ',', $elements );
-	
+
 	$lang = $mainframe->getLanguage();
 	$lang = substr($lang->getTag(), 0, 2);
 

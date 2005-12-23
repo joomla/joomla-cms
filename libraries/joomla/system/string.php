@@ -1,7 +1,7 @@
 <?php
 
 /**
-* @version $Id: string.php 
+* @version $Id: string.php
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -19,7 +19,7 @@ jimport('phputf8.utf8');
  * String handling class for utf-8 data
  * Wraps the phputf8 library
  * All functions assume the validity of utf-8 strings. If in doubt use TODO
- * 
+ *
  * @author David Gal <david@joomla.co.il>
  * @package  Joomla
  * @subpackage Language
@@ -29,8 +29,8 @@ class JString
 {
 	/**
 	 * UTF-8 aware alternative to strpos
-	 * Find position of first occurrence of a string 
-	 * 
+	 * Find position of first occurrence of a string
+	 *
 	 * @static
 	 * @access public
 	 * @param $str - string String being examined
@@ -49,8 +49,8 @@ class JString
 
 	/**
 	 * UTF-8 aware alternative to strrpos
-	 * Finds position of last occurrence of a string 
-	 * 
+	 * Finds position of last occurrence of a string
+	 *
 	 * @static
 	 * @access public
 	 * @param $str - string String being examined
@@ -65,7 +65,7 @@ class JString
 	/**
 	 * UTF-8 aware alternative to substr
 	 * Return part of a string given character offset (and optionally length)
-	 * 
+	 *
 	 * @static
 	 * @access public
 	 * @param string
@@ -80,7 +80,7 @@ class JString
 	    } else {
 	        return utf8_substr($str, $offset, $length);
 	    }
-	}	 
+	}
 
 	/**
 	 * UTF-8 aware alternative to strtlower
@@ -89,7 +89,7 @@ class JString
 	 * such as Latin, Greek, Cyrillic, Armenian and archaic Georgian - it does
 	 * not exist in the Chinese alphabet, for example. See Unicode Standard
 	 * Annex #21: Case Mappings
-	 * 
+	 *
 	 * @access public
 	 * @param string
 	 * @return mixed either string in lowercase or FALSE is UTF-8 invalid
@@ -98,7 +98,7 @@ class JString
 	function strtolower($str){
 	    return utf8_strtolower($str);
 	}
-	
+
 	/**
 	 * UTF-8 aware alternative to strtoupper
 	 * Make a string uppercase
@@ -106,7 +106,7 @@ class JString
 	 * such as Latin, Greek, Cyrillic, Armenian and archaic Georgian - it does
 	 * not exist in the Chinese alphabet, for example. See Unicode Standard
 	 * Annex #21: Case Mappings
-	 * 
+	 *
 	 * @access public
 	 * @param string
 	 * @return mixed either string in uppercase or FALSE is UTF-8 invalid
@@ -118,8 +118,8 @@ class JString
 
 	/**
 	 * UTF-8 aware alternative to strlen
-	 * Returns the number of characters in the string (NOT THE NUMBER OF BYTES), 
-	 * 
+	 * Returns the number of characters in the string (NOT THE NUMBER OF BYTES),
+	 *
 	 * @access public
 	 * @param string UTF-8 string
 	 * @return int number of UTF-8 characters in string
@@ -132,7 +132,7 @@ class JString
 	/**
 	 * UTF-8 aware alternative to str_ireplace
 	 * Case-insensitive version of str_replace
-	 * 
+	 *
 	 * @static
 	 * @access public
 	 * @param string string to search
@@ -153,7 +153,7 @@ class JString
 	/**
 	 * UTF-8 aware alternative to str_split
 	 * Convert a string to an array
-	 * 
+	 *
 	 * @static
 	 * @access public
 	 * @param string UTF-8 encoded
@@ -169,7 +169,7 @@ class JString
 	/**
 	 * UTF-8 aware alternative to strcasecmp
 	 * A case insensivite string comparison
-	 * 
+	 *
 	 * @static
 	 * @access public
 	 * @param string string 1 to compare
@@ -181,11 +181,11 @@ class JString
 		jimport('phputf8.native.utf8_strcasecmp');
 		return utf8_strcasecmp($str1, $str2);
 	}
-	
+
 	/**
 	 * UTF-8 aware alternative to strcspn
 	 * Find length of initial segment not matching mask
-	 * 
+	 *
 	 * @static
 	 * @access public
 	 * @param string
@@ -205,13 +205,13 @@ class JString
 	    	return utf8_strcspn($str, $mask, $start, $length);
 	    }
 	}
-	
+
 	/**
 	 * UTF-8 aware alternative to stristr
-	 * Returns all of haystack from the first occurrence of needle to the end. 
+	 * Returns all of haystack from the first occurrence of needle to the end.
 	 * needle and haystack are examined in a case-insensitive manner
 	 * Find first occurrence of a string using case insensitive comparison
-	 * 
+	 *
 	 * @static
 	 * @access public
 	 * @param string the haystack
@@ -223,11 +223,11 @@ class JString
 		jimport('phputf8.native.utf8_stristr');
 		return utf8_stristr($str, $search);
 	}
-	
+
 	/**
 	 * UTF-8 aware alternative to strrev
 	 * Reverse a string
-	 * 
+	 *
 	 * @static
 	 * @access public
 	 * @param string String to be reversed
@@ -238,11 +238,11 @@ class JString
 		jimport('phputf8.native.utf8_strrev');
 		return utf8_strrev($str);
 	}
-	
+
 	/**
 	 * UTF-8 aware alternative to strspn
 	 * Find length of initial segment matching mask
-	 * 
+	 *
 	 * @static
 	 * @access public
 	 * @param string the haystack
@@ -265,7 +265,7 @@ class JString
 	/**
 	 * UTF-8 aware substr_replace
 	 * Replace text within a portion of a string
-	 * 
+	 *
 	 * @static
 	 * @access public
 	 * @param string the haystack
@@ -282,14 +282,14 @@ class JString
 	    	return utf8_substr_replace($str, $repl, $start, $length);
 	    }
 	}
-	    
+
 	/**
 	 * UTF-8 aware replacement for ltrim()
 	 * Strip whitespace (or other characters) from the beginning of a string
 	 * Note: you only need to use this if you are supplying the charlist
 	 * optional arg and it contains UTF-8 characters. Otherwise ltrim will
 	 * work normally on a UTF-8 string
-	 * 
+	 *
 	 * @static
 	 * @access public
 	 * @param string the string to be trimmed
@@ -308,11 +308,11 @@ class JString
 
 	/**
 	 * UTF-8 aware replacement for rtrim()
-	 * Strip whitespace (or other characters) from the end of a string 
+	 * Strip whitespace (or other characters) from the end of a string
 	 * Note: you only need to use this if you are supplying the charlist
 	 * optional arg and it contains UTF-8 characters. Otherwise rtrim will
 	 * work normally on a UTF-8 string
-	 * 
+	 *
 	 * @static
 	 * @access public
 	 * @param string the string to be trimmed
@@ -335,7 +335,7 @@ class JString
 	 * Note: you only need to use this if you are supplying the charlist
 	 * optional arg and it contains UTF-8 characters. Otherwise trim will
 	 * work normally on a UTF-8 string
-	 * 
+	 *
 	 * @static
 	 * @access public
 	 * @param string the string to be trimmed
@@ -355,7 +355,7 @@ class JString
 	/**
 	 * UTF-8 aware alternative to ucfirst
 	 * Make a string's first character uppercase
-	 * 
+	 *
 	 * @static
 	 * @access public
 	 * @param string
@@ -370,7 +370,7 @@ class JString
 	/**
 	 * UTF-8 aware alternative to ucwords
 	 * Uppercase the first character of each word in a string
-	 * 
+	 *
 	 * @static
 	 * @access public
 	 * @param string
@@ -381,6 +381,6 @@ class JString
 		jimport('phputf8.native.utf8_ucwords');
 		return utf8_ucwords($str);
 	}
-	
+
 }
 ?>

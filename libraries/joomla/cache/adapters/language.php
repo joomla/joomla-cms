@@ -14,7 +14,7 @@
 
 /**
 * Class to support language file caching
-* 
+*
 * @package Joomla
 * @subpackage JFramework
 * @since 1.1
@@ -42,15 +42,15 @@ class JCacheLanguage extends JCache
 	 * @return mixed result of the function/method
 	 * @access public
 	 */
-	function load() 
+	function load()
 	{
 		$array = func_get_args();
-		
+
 		$lang = $array[0];
 		unset( $array[0] );
 		$obj = $array[1];
 		unset( $array[1]);
-		
+
 		return $this->loadId( $lang, $obj, $array, serialize( $array ) );
 	}
 

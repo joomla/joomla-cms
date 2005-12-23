@@ -13,7 +13,7 @@
 
 /**
  * Module installer
- * 
+ *
  * @package Joomla
  * @subpackage Installer
  * @since 1.1
@@ -31,7 +31,7 @@ class JInstallerModule extends JInstaller {
 
 	/**
 	 * Custom install method
-	 * 
+	 *
 	 * @access public
 	 * @param string $p_fromdir Directory from which to install the module
 	 * @return boolean True on success
@@ -203,7 +203,7 @@ class JInstallerModule extends JInstaller {
 
 	/**
 	 * Custom uninstall method
-	 * 
+	 *
 	 * @access public
 	 * @param int $cid The id of the module to uninstall
 	 * @param string $option The URL option
@@ -233,35 +233,35 @@ class JInstallerModule extends JInstaller {
 		}
 
 		/*
-		 * This stuff seems as if it is unnecesary.... why can't we just delete the module with the 
+		 * This stuff seems as if it is unnecesary.... why can't we just delete the module with the
 		 * id that we chose to delete?
-		 * 
+		 *
 				$query = "SELECT `id` " .
 						"\nFROM `#__modules` " .
 						"\nWHERE module = '". $row->module ."' " .
 						"\nAND client_id = '". $row->client_id ."'";
-						
+
 				$db->setQuery( $query );
 				$modules = $db->loadResultArray();
-		
+
 				if (count( $modules )) {
 		            $modID = implode( ',', $modules );
-		
+
 					$query = "DELETE " .
 							"\nFROM #__modules_menu " .
 							"\nWHERE moduleid IN ('". $modID ."')";
-							
+
 					$db->setQuery( $query );
 					if (!$db->query()) {
 						$msg = $db->stderr;
 						die( $msg );
 					}
-		
+
 		    		$query = "DELETE " .
 		    				"\nFROM #__modules " .
 		    				"\nWHERE module = '". $row->module ."' " .
 							"\nAND client_id = '". $row->client_id ."'";
-							
+
 		    		$db->setQuery( $query );
 		    		if (!$db->query()) {
 		    			$msg = $db->stderr;
@@ -330,7 +330,7 @@ class JInstallerModule extends JInstaller {
 
 	/**
 	 * Roll back the installation
-	 * 
+	 *
 	 * @access private
 	 * @return boolean True on success
 	 * @since 1.1
@@ -352,7 +352,7 @@ class JInstallerModule extends JInstaller {
 					// remove the file
 					JFile::delete($step['path']);
 					break;
-				
+
 				case 'folder' :
 					// remove the folder
 					JFolder :: delete($step['path']);
@@ -369,7 +369,7 @@ class JInstallerModule extends JInstaller {
 					$query = 	"DELETE " .
 								"\nFROM `#__modules_menu` " .
 								"\nWHERE moduleid='".$step['id']."'";
-								
+
 					$db->setQuery( $query );
 					$db->query();
 					break;

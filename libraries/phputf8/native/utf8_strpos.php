@@ -20,29 +20,29 @@
 * @subpackage strings
 */
 function utf8_strpos($str, $needle, $offset = NULL) {
-    
+
     if ( is_null($offset) ) {
-    
+
         $ar = explode($needle, $str);
         if ( count($ar) > 1 ) {
             return utf8_strlen($ar[0]);
         }
         return FALSE;
-        
+
     } else {
-        
+
         if ( !is_int($offset) ) {
             trigger_error('utf8_strpos: Offset must be an integer',E_USER_ERROR);
             return FALSE;
         }
-        
+
         $str = utf8_substr($str, $offset);
-        
+
         if ( FALSE !== ( $pos = utf8_strpos($str, $needle) ) ) {
             return $pos + $offset;
         }
-        
+
         return FALSE;
     }
-    
+
 }

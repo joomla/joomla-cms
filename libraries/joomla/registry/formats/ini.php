@@ -13,7 +13,7 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
- 
+
 /**
  * INI Format for JRegistry
  * @package Joomla
@@ -47,7 +47,7 @@ class JRegistryINIFormat extends JRegistryStorageFormat {
 				}
 			}
 		}
-		return $retval;	
+		return $retval;
 	}
 
 	/**
@@ -56,10 +56,10 @@ class JRegistryINIFormat extends JRegistryStorageFormat {
 	 * @return string Data Object
 	 */
 	function &stringToObject( $data, $namespace_override='' ) {
-		
+
 		$Configuration = new JParameters( $data );
 		$configobject = $Configuration->parse( $data, true );
-		
+
 		$tmpnamespace = $this->r_namespace;
 		if ($namespace_override) {
 			$tmpnamespace = $namespace_override;
@@ -76,7 +76,7 @@ class JRegistryINIFormat extends JRegistryStorageFormat {
 			foreach (get_object_vars( $configobject ) as $namespace=>$values) {
 				$tmp->$tmpnamespace->$namespace = $values;
 			}
-		}	
+		}
 		return $tmp;
 	}
 

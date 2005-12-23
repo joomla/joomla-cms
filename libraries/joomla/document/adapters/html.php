@@ -39,7 +39,7 @@ class JDocumentHTML extends JDocument
      * @access    private
      */
 	var $_modules      = array();
-	
+
 	/**
      * Contains the base url
      *
@@ -47,7 +47,7 @@ class JDocumentHTML extends JDocument
      * @access  private
      */
     var $_base = '';
-	
+
 	/**
      * Array of meta tags
      *
@@ -55,7 +55,7 @@ class JDocumentHTML extends JDocument
      * @access  private
      */
     var $_metaTags = array( 'standard' => array ( 'Generator' => 'Joomla! 1.1' ) );
-	
+
 	 /**
      * Array of Header <link> tags
      *
@@ -63,7 +63,7 @@ class JDocumentHTML extends JDocument
      * @access  private
      */
     var $_links = array();
-	
+
 	/**
      * Array of custom tags
      *
@@ -75,28 +75,28 @@ class JDocumentHTML extends JDocument
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @access protected
 	 */
 	function __construct($attributes = array())
 	{
 		parent::__construct($attributes = array());
-		
+
 		global $database, $my, $mainframe, $_VERSION;
-		
+
 		if (isset($attributes['base'])) {
             $this->setBase($attributes['base']);
         }
-		
+
 		//set mime type
 		$this->_mime = 'text/html';
-		
+
 		$this->_placeholders['module']		= array();
 		$this->_placeholders['modules']		= array();
 		$this->_placeholders['components']	= array();
 
 		$this->_modules =& $this->_loadModules();
-		
+
 		$this->setMetaContentType();
 		$this->setMetaData( 'description', $mainframe->getCfg('MetaDesc' ));
 		$this->setMetaData( 'keywords', $mainframe->getCfg('MetaKeys' ));
@@ -156,7 +156,7 @@ class JDocumentHTML extends JDocument
 			}
 		}
 	}
-	
+
 	 /**
      * Adds <link> tags to the head of the document
      *
@@ -177,7 +177,7 @@ class JDocumentHTML extends JDocument
         $generatedTag = "<link href=\"$href\" $relType=\"$relation\"" . $attribs;
         $this->_links[] = $generatedTag;
     }
-	
+
 	 /**
      * Adds a shortcut icon (favicon)
      *
@@ -194,7 +194,7 @@ class JDocumentHTML extends JDocument
 	{
         $this->_links[] = "<link href=\"$href\" rel=\"$relation\" type=\"$type\"";
     }
-	
+
 	/**
 	 * Adds a custom html string to the head block
 	 *
@@ -207,7 +207,7 @@ class JDocumentHTML extends JDocument
 	{
 		$this->_custom[] = trim( $html );
 	}
-	
+
 	 /**
      * Sets the document base tag
      *
@@ -219,7 +219,7 @@ class JDocumentHTML extends JDocument
 	{
         $this->_base = $url;
     }
-	
+
 	/**
      * Returns the document base url
      *
@@ -230,7 +230,7 @@ class JDocumentHTML extends JDocument
 	{
         return $this->_base;
     }
-	
+
 	 /**
      * Sets or alters a meta tag.
      *
@@ -476,7 +476,7 @@ class JDocumentHTML extends JDocument
 
 		return $contents;
 	}
- 
+
 	 /**
      * Generates the head html and return the results as a string
      *
@@ -490,7 +490,7 @@ class JDocumentHTML extends JDocument
         $tab = $this->_getTab();
 
 		$tagEnd = ' />';
-	
+
 		$strHtml  = $tab . '<title>' . $this->getTitle() . '</title>' . $lnEnd;
 		$strHtml .= $tab . '<base href=' . $this->getBase() . ' />' . $lnEnd;
 
@@ -575,9 +575,9 @@ class JDocumentHTML extends JDocument
 		foreach($this->_custom as $custom) {
 			$strHtml .= $tab . $custom .$lnEnd;
 		}
-		
+
 		ob_start();
-		
+
 		//load editor
 		initEditor();
 
@@ -586,7 +586,7 @@ class JDocumentHTML extends JDocument
 
         return $contents.$strHtml;
     }
-	
+
 	/**
 	 * Parse a file and create an internal patTemplate object
 	 *
@@ -612,7 +612,7 @@ class JDocumentHTML extends JDocument
 	function display($name, $compress = true)
 	{
 		$msg = mosGetParam( $_REQUEST, 'mosmsg', '' );
-		
+
 		foreach($this->_placeholders['components'] as $component)
 		{
 			$html = $this->fetchComponent($component, $msg);
@@ -633,10 +633,10 @@ class JDocumentHTML extends JDocument
 
 		$html = $this->fetchHead();
 		$this->_tmpl->addGlobalVar('head', $html);
-		
+
 		// Set mime type and character encoding
         header('Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
-		
+
 		$this->_tmpl->display( $name, $compress );
 	}
 

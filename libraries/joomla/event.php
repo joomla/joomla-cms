@@ -15,7 +15,7 @@ jimport('joomla.system.observer');
 
 /**
  * Event dispatcher class
- * 
+ *
  * @package Joomla
  * @subpackage JFramework
  * @since 1.0
@@ -55,7 +55,7 @@ class JEventDispatcher extends JObservable {
 
 	/**
 	* Registers a function to the event dispatcher
-	* 
+	*
 	* @access public
 	* @param string The event name
 	* @param string The function name
@@ -67,7 +67,7 @@ class JEventDispatcher extends JObservable {
 
 	/**
 	* Calls all functions associated with an event group
-	* 
+	*
 	* @access public
 	* @param string The event name
 	* @param array An array of arguments
@@ -75,7 +75,7 @@ class JEventDispatcher extends JObservable {
 	* @return array An array of results from each function call
 	* @since 1.1
 	*/
-	function trigger( $event, $args=null, $doUnpublished=false ) 
+	function trigger( $event, $args=null, $doUnpublished=false )
 	{
 		if ($args === null) {
 			$args = array();
@@ -84,9 +84,9 @@ class JEventDispatcher extends JObservable {
 			// prepend the published argument
 			array_unshift( $args, null );
 		}
-	
+
 		$result = array();
-			
+
 		foreach ($this->_observers as $observer) {
 			if (is_array($observer) && $observer['event'] == $event) {
 				// We are handling a function or JBot
@@ -108,7 +108,7 @@ class JEventDispatcher extends JObservable {
 	/**
 	* Same as trigger but only returns the first event and
 	* allows for a variable argument list
-	* 
+	*
 	* @param string The event name
 	* @return array The result of the first function call
 	*/
@@ -133,15 +133,15 @@ class JEventDispatcher extends JObservable {
 				// Continue
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
-	 * This method fires the given event and passes all aditional arguements to the 
-	 * event handler.  It handles both JBot functions and JPlugin objects that are 
+	 * This method fires the given event and passes all aditional arguements to the
+	 * event handler.  It handles both JBot functions and JPlugin objects that are
 	 * registered to the event.
-	 * 
+	 *
 	 * @access public
 	 * @param string $event The event to fire on all observers
 	 * @return array An array of return values from the observers
@@ -153,7 +153,7 @@ class JEventDispatcher extends JObservable {
 		array_shift( $args );
 
 		$result = array();
-			
+
 		foreach ($this->_observers as $observer) {
 
 			if (is_array($observer) && $observer['event'] == $event) {

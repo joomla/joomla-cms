@@ -145,7 +145,7 @@ function listFeeds( $option, $catid ) {
 		$breadcrumbs->addItem($currentcat->header, '');
 	} else {
 		$currentcat->header = $params->get( 'header' );
-		
+
 		// Set page title
 		$mainframe->SetPageTitle( $menu->name );
 	}
@@ -200,10 +200,10 @@ function showFeed( $option, $feedid ) {
 
 
 	if (count($newsfeeds) == 1) {
-		
+
 		// Set page title per category
 		$mainframe->setPageTitle( $menu->name. ' - ' .$newsfeeds[0]->name );
-	
+
 		// Add breadcrumb item per category
 		$breadcrumbs =& $mainframe->getBreadCrumbs();
 		$breadcrumbs->addItem($newsfeeds[0]->name, '');
