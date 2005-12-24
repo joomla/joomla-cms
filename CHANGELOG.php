@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Dec-2005 Emir Sakic
+ # Fixed a bug with 404 header being returned for homepage when SEF activated
+
 23-Dec-2005 Andrew Eddie
  # Fixed mysqli support for collation
 

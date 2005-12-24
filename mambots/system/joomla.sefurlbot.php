@@ -219,7 +219,16 @@ function botJoomlaSEFUrl( ) {
 			Unknown content
 			http://www.domain.com/unknown
 			*/
-			header("HTTP/1.0 404 Not Found");
+			$jdir = str_replace ('index.php', '', $_SERVER['PHP_SELF']);
+			$juri = str_replace ($jdir, '', $_SERVER['REQUEST_URI']);
+
+			if ($juri != "" &&
+				!eregi("index\.php", $_SERVER['REQUEST_URI']) &&
+				!eregi("index2\.php", $_SERVER['REQUEST_URI']) &&
+				!eregi("/\?", $_SERVER['REQUEST_URI'])
+				) {
+				header("HTTP/1.0 404 Not Found");
+			}
 
 		}
 
