@@ -292,7 +292,7 @@ class HTML_contact {
 		<?php
 		// For the pop window opened for print preview
 		if ( $params->get( 'popup' ) ) {
-			$mainframe->setPageTitle( $sitename .' :: '. $contact->name );
+			$mainframe->setPageTitle( $sitename .' - '. $contact->name );
 			$mainframe->addCustomHeadTag( '<link rel="stylesheet" href="templates/'. $template .'/css/template_css.css" type="text/css" />' );
 		}
 		if ( $menu_params->get( 'page_title' ) ) {

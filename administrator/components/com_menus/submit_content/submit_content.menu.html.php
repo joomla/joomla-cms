@@ -66,7 +66,7 @@ class submit_content_menu_html {
 		<table class="adminheading">
 		<tr>
 			<th>
-			<?php echo $menu->id ? 'Edit' : 'Add';?> <?php echo JText::_( 'Menu Item :: Submit - Content' ); ?>
+			<?php echo $menu->id ? 'Edit' : 'Add';?> <?php echo JText::_( 'Menu Item: Submit - Content' ); ?>
 			</th>
 		</tr>
 		</table>

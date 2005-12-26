@@ -72,7 +72,7 @@ class components_menu_html {
 		<table class="adminheading">
 		<tr>
 			<th>
-			<?php echo $menu->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?> <?php echo JText::_( 'Menu Item :: Component' ); ?> <small><small><?php echo $title; ?></small></small>
+			<?php echo $menu->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?> <?php echo JText::_( 'Menu Item: Component' ); ?> <small><small><?php echo $title; ?></small></small>
 			</th>
 		</tr>
 		</table>

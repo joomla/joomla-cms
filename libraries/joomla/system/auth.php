@@ -37,7 +37,7 @@ class JAuth extends JObject {
 		$db =& $mainframe->getDBO();
 
 		// Get the global event dispatcher to load the plugins
-		$dispatcher =& JEventDispatcher :: getInstance();
+		$dispatcher =& JEventDispatcher::getInstance();
 
 		/*
 		 * Grab all of the plugins of type 'user''
@@ -58,7 +58,7 @@ class JAuth extends JObject {
 		}
 
 		if (!$isLoaded) {
-			JError :: raiseWarning('SOME_ERROR_CODE', 'JAuth::__constructor: Could not load authentication libraries.', $plugins);
+			JError::raiseWarning('SOME_ERROR_CODE', 'JAuth::__constructor: Could not load authentication libraries.', $plugins);
 		}
 	}
 
@@ -85,7 +85,7 @@ class JAuth extends JObject {
 		global $mainframe;
 
 		// Get the global event dispatcher object
-		$dispatcher = &JEventDispatcher :: getInstance();
+		$dispatcher = &JEventDispatcher::getInstance();
 
 		// Get the global database connector object
 		$db = $mainframe->getDBO();
@@ -101,7 +101,7 @@ class JAuth extends JObject {
 		// In particular... this error :)
 		if (empty($credentials['username']) || empty($credentials['password'])) {
 			// Error check if still no username or password values
-			echo "<script> alert(\"".JText :: _('LOGIN_INCOMPLETE', true)."\"); </script>\n";
+			echo "<script> alert(\"".JText::_('LOGIN_INCOMPLETE', true)."\"); </script>\n";
 			mosRedirect(mosGetParam($_POST, 'return', '/'));
 			exit ();
 		} else {
@@ -130,14 +130,14 @@ class JAuth extends JObject {
 
 					// If the user is blocked, redirect with an error
 					if ($user->block == 1) {
-						echo "<script>alert(\"".JText :: _('LOGIN_BLOCKED', true)."\"); </script>\n";
+						echo "<script>alert(\"".JText::_('LOGIN_BLOCKED', true)."\"); </script>\n";
 						mosRedirect(mosGetParam($_POST, 'return', '/'));
 						exit ();
 					}
 
 					// Fudge the ACL stuff for now...
 					// TODO: Implement ACL :)
-					$acl = &JFactory :: getACL();
+					$acl = &JFactory::getACL();
 					$grp = $acl->getAroGroup($user->id);
 					$row->gid = 1;
 
@@ -153,15 +153,15 @@ class JAuth extends JObject {
 					//}
 
 					// Register the needed session variables
-					JSession :: set('guest', 0);
-					JSession :: set('username', $user->username);
-					JSession :: set('userid', intval($user->id));
-					JSession :: set('usertype', $user->usertype);
-					JSession :: set('gid', intval($user->gid));
+					JSession::set('guest', 0);
+					JSession::set('username', $user->username);
+					JSession::set('userid', intval($user->id));
+					JSession::set('usertype', $user->usertype);
+					JSession::set('gid', intval($user->gid));
 
 					// Register session variables to prevent spoofing
-					JSession :: set('JAuth_RemoteAddr', $_SERVER['REMOTE_ADDR']);
-					JSession :: set('JAuth_UserAgent', $_SERVER['HTTP_USER_AGENT']);
+					JSession::set('JAuth_RemoteAddr', $_SERVER['REMOTE_ADDR']);
+					JSession::set('JAuth_UserAgent', $_SERVER['HTTP_USER_AGENT']);
 
 					// TODO: JRegistry will make this unnecessary
 					// Get the session object
@@ -186,7 +186,7 @@ class JAuth extends JObject {
 					}
 
 					// Clean the cache for this user
-					$cache = JFactory :: getCache();
+					$cache = JFactory::getCache();
 					$cache->cleanCache();
 					return true;
 				}
@@ -211,7 +211,7 @@ class JAuth extends JObject {
 		$retval = false;
 
 		// Get the global event dispatcher object
-		$dispatcher = &JEventDispatcher :: getInstance();
+		$dispatcher = &JEventDispatcher::getInstance();
 
 		// Get a user object from the JApplication
 		$user = $mainframe->getUser();
@@ -232,7 +232,7 @@ class JAuth extends JObject {
 		if (!in_array(false, $results)) {
 
 			// Clean the cache for this user
-			$cache = JFactory :: getCache();
+			$cache = JFactory::getCache();
 			$cache->cleanCache();
 
 			// TODO: JRegistry will make this unnecessary
@@ -263,7 +263,7 @@ class JAuth extends JObject {
 		$auth = false;
 
 		// Get the global event dispatcher object
-		$dispatcher = &JEventDispatcher :: getInstance();
+		$dispatcher = &JEventDispatcher::getInstance();
 
 		// Time to authenticate the credentials.  Lets fire the auth event
 		$results = $dispatcher->dispatch( 'auth', $credentials);
@@ -349,7 +349,7 @@ class JAuthHelper {
 		/*
 		 * Get the salt to use.
 		 */
-		$salt = JAuthHelper :: getSalt($encryption, $salt, $plaintext);
+		$salt = JAuthHelper::getSalt($encryption, $salt, $plaintext);
 
 		/*
 		 * Encrypt the password.
@@ -383,7 +383,7 @@ class JAuthHelper {
 			case 'aprmd5' :
 				$length = strlen($plaintext);
 				$context = $plaintext.'$apr1$'.$salt;
-				$binary = JAuthHelper :: _bin(md5($plaintext.$salt.$plaintext));
+				$binary = JAuthHelper::_bin(md5($plaintext.$salt.$plaintext));
 
 				for ($i = $length; $i > 0; $i -= 16) {
 					$context .= substr($binary, 0, ($i > 16 ? 16 : $i));
@@ -392,7 +392,7 @@ class JAuthHelper {
 					$context .= ($i & 1) ? chr(0) : $plaintext[0];
 				}
 
-				$binary = JAuthHelper :: _bin(md5($context));
+				$binary = JAuthHelper::_bin(md5($context));
 
 				for ($i = 0; $i < 1000; $i ++) {
 					$new = ($i & 1) ? $plaintext : substr($binary, 0, 16);
@@ -403,7 +403,7 @@ class JAuthHelper {
 						$new .= $plaintext;
 					}
 					$new .= ($i & 1) ? substr($binary, 0, 16) : $plaintext;
-					$binary = JAuthHelper :: _bin(md5($new));
+					$binary = JAuthHelper::_bin(md5($new));
 				}
 
 				$p = array ();
@@ -413,10 +413,10 @@ class JAuthHelper {
 					if ($j == 16) {
 						$j = 5;
 					}
-					$p[] = JAuthHelper :: _toAPRMD5((ord($binary[$i]) << 16) | (ord($binary[$k]) << 8) | (ord($binary[$j])), 5);
+					$p[] = JAuthHelper::_toAPRMD5((ord($binary[$i]) << 16) | (ord($binary[$k]) << 8) | (ord($binary[$j])), 5);
 				}
 
-				return '$apr1$'.$salt.'$'.implode('', $p).JAuthHelper :: _toAPRMD5(ord($binary[11]), 3);
+				return '$apr1$'.$salt.'$'.implode('', $p).JAuthHelper::_toAPRMD5(ord($binary[11]), 3);
 
 			case 'md5-hex' :
 			default :
@@ -541,7 +541,7 @@ class JAuthHelper {
 		 * If the session 'guest' variable is zero and the session 'userid' variable
 		 * is set, we would assume that a valid user is logged in
 		 */
-		if (JSession :: get('guest') == 0 && !JSession :: get('userid') != null) {
+		if (JSession::get('guest') == 0 && !JSession::get('userid') != null) {
 			$ret = true;
 		}
 
@@ -577,7 +577,7 @@ class JAuthHelper {
 	 * @since 1.1
 	 */
 	function _checkRemoteAddr() {
-		return (JSession :: get('JAuth_RemoteAddr') == $_SERVER['REMOTE_ADDR']);
+		return (JSession::get('JAuth_RemoteAddr') == $_SERVER['REMOTE_ADDR']);
 	}
 
 	/**
@@ -589,7 +589,7 @@ class JAuthHelper {
 	 * @since 1.1
 	 */
 	function _checkUserAgent() {
-		return (JSession :: get('JAuth_UserAgent') == $_SERVER['HTTP_USER_AGENT']);
+		return (JSession::get('JAuth_UserAgent') == $_SERVER['HTTP_USER_AGENT']);
 	}
 
 	/**

@@ -68,7 +68,7 @@ class content_archive_category_menu_html {
 		<table class="adminheading">
 		<tr>
 			<th>
-			<?php echo $menu->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?> <?php echo JText::_( 'Menu Item :: Blog - Content Category Archive' ); ?>
+			<?php echo $menu->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?> <?php echo JText::_( 'Menu Item: Blog - Content Category Archive' ); ?>
 			</th>
 		</tr>
 		</table>

@@ -93,7 +93,7 @@ class JEventDispatcher extends JObservable {
 				if (function_exists( $observer['handler'] )) {
 					$result[] = call_user_func_array( $observer['handler'], $args );
 				} else {
-					JError :: raiseWarning( 'SOME_ERROR_CODE', 'JEventDispatcher::dispatch: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
+					JError::raiseWarning( 'SOME_ERROR_CODE', 'JEventDispatcher::dispatch: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
 				}
 			} elseif (is_object($observer)) {
 				$args['event'] = $event;
@@ -124,7 +124,7 @@ class JEventDispatcher extends JObservable {
 				if (function_exists( $observer['handler'] )) {
 					$result[] = call_user_func_array( $observer['handler'], $args );
 				} else {
-					JError :: raiseWarning( 'SOME_ERROR_CODE', 'JEventDispatcher::dispatch: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
+					JError::raiseWarning( 'SOME_ERROR_CODE', 'JEventDispatcher::dispatch: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
 				}
 			} elseif (is_object($observer)) {
 				$args['event'] = $event;
@@ -161,7 +161,7 @@ class JEventDispatcher extends JObservable {
 				if (function_exists( $observer['handler'] )) {
 					$result[] = call_user_func_array( $observer['handler'], $args );
 				} else {
-					JError :: raiseWarning( 'SOME_ERROR_CODE', 'JEventDispatcher::dispatch: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
+					JError::raiseWarning( 'SOME_ERROR_CODE', 'JEventDispatcher::dispatch: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
 				}
 			} elseif (is_object($observer)) {
 				$args['event'] = $event;

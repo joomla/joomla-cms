@@ -107,7 +107,7 @@ class JWeblinkModel extends JModel {
 	 * @since 1.0
 	 */
 	function JWeblinkModel(& $db) {
-		parent :: __construct('#__weblinks', 'id', $db);
+		parent::__construct('#__weblinks', 'id', $db);
 	}
 
 	/**
@@ -127,13 +127,13 @@ class JWeblinkModel extends JModel {
 		$iFilter = new InputFilter();
 
 		if ($iFilter->badAttributeValue(array ('href', $this->url))) {
-			$this->_error = JText :: _('Please provide a valid URL');
+			$this->_error = JText::_('Please provide a valid URL');
 			return false;
 		}
 
 		/** check for valid name */
 		if (trim($this->title) == '') {
-			$this->_error = JText :: _('Your Weblink must contain a title.');
+			$this->_error = JText::_('Your Weblink must contain a title.');
 			return false;
 		}
 
@@ -147,7 +147,7 @@ class JWeblinkModel extends JModel {
 
 		$xid = intval($this->_db->loadResult());
 		if ($xid && $xid != intval($this->id)) {
-			$this->_error = sprintf(JText :: _('WARNNAMETRYAGAIN'), JText :: _('Web Link'));
+			$this->_error = sprintf(JText::_('WARNNAMETRYAGAIN'), JText::_('Web Link'));
 			return false;
 		}
 		return true;

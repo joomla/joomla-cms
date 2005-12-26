@@ -26,7 +26,7 @@ class JInstallerModule extends JInstaller {
 	 * @access protected
 	 */
 	function __construct() {
-		parent :: __construct();
+		parent::__construct();
 	}
 
 	/**
@@ -61,7 +61,7 @@ class JInstallerModule extends JInstaller {
 		if ($jinstall->getAttribute('client')) {
 			$validClients = array ('administrator');
 			if (!in_array($jinstall->getAttribute('client'), $validClients)) {
-				$this->setError(1, JText :: _('Unknown client type').' ['.$jinstall->getAttribute('client').']');
+				$this->setError(1, JText::_('Unknown client type').' ['.$jinstall->getAttribute('client').']');
 				return false;
 			}
 			$client = 'admin';
@@ -70,12 +70,12 @@ class JInstallerModule extends JInstaller {
 		// Set some necessary variables
 		$e = & $jinstall->getElementsByPath('name', 1);
 		$this->elementName($e->getText());
-		$this->elementDir(JPath :: clean(JPATH_SITE. ($client == 'admin' ? DS.'administrator' : '').DS.'modules'.DS));
+		$this->elementDir(JPath::clean(JPATH_SITE. ($client == 'admin' ? DS.'administrator' : '').DS.'modules'.DS));
 
 		/*
 		 * Copy all the necessary files
 		 */
-		if ($this->parseFiles('files', 'module', JText :: _('No file is marked as module file')) === false) {
+		if ($this->parseFiles('files', 'module', JText::_('No file is marked as module file')) === false) {
 			return false;
 		}
 
@@ -97,7 +97,7 @@ class JInstallerModule extends JInstaller {
 
 		$db->setQuery($query);
 		if (!$db->query()) {
-			$this->setError(1, JText :: _('SQL error').': '.$database->stderr(true));
+			$this->setError(1, JText::_('SQL error').': '.$database->stderr(true));
 
 			// Install failed, roll back changes
 			$this->_rollback();
@@ -130,7 +130,7 @@ class JInstallerModule extends JInstaller {
 
 			$db->setQuery($query);
 			if (!$db->query()) {
-				$this->setError(1, JText :: _('SQL error').': '.$database->stderr(true));
+				$this->setError(1, JText::_('SQL error').': '.$database->stderr(true));
 
 				// Install failed, roll back changes
 				$this->_rollback();
@@ -145,7 +145,7 @@ class JInstallerModule extends JInstaller {
 			$this->i_stepstack[] = $step;
 
 		} else {
-			$this->setError(1, JText :: _('Module').' "'.$this->elementName().'" '.JText :: _('already exists!'));
+			$this->setError(1, JText::_('Module').' "'.$this->elementName().'" '.JText::_('already exists!'));
 
 			// Install failed, roll back changes
 			$this->_rollback();
@@ -179,7 +179,7 @@ class JInstallerModule extends JInstaller {
 			foreach ($queries as $query) {
 				$db->setQuery($query->getText());
 				if (!$db->query()) {
-					$this->setError(1, JText :: _('SQL Error')." ".$db->stderr(true));
+					$this->setError(1, JText::_('SQL Error')." ".$db->stderr(true));
 
 					// Install failed, roll back changes
 					$this->_rollback();
@@ -192,7 +192,7 @@ class JInstallerModule extends JInstaller {
 		 * Lastly, we will copy the setup file to its appropriate place.
 		 */
 		if (!$this->copySetupFile('front')) {
-			$this->setError(1, JText :: _('Could not copy setup file'));
+			$this->setError(1, JText::_('Could not copy setup file'));
 
 			// Install failed, rollback changes
 			$this->_rollback();
@@ -228,7 +228,7 @@ class JInstallerModule extends JInstaller {
 		 * Is the module a core module?  If so we can't uninstall it.
 		 */
 		if ($row->iscore) {
-			HTML_installer :: showInstallMessage(sprintf(JText :: _('WARNCOREMODULE'), $row->title).'<br />'.JText :: _('WARNCORECOMPONENT2'), JText :: _('Uninstall - error'), $this->returnTo($option, 'module', $row->client_id ? '' : 'admin'));
+			HTML_installer::showInstallMessage(sprintf(JText::_('WARNCOREMODULE'), $row->title).'<br />'.JText::_('WARNCORECOMPONENT2'), JText::_('Uninstall - error'), $this->returnTo($option, 'module', $row->client_id ? '' : 'admin'));
 			exit ();
 		}
 
@@ -292,7 +292,7 @@ class JInstallerModule extends JInstaller {
 		 * Now is time to process the xml install file stuff...
 		 */
 		if (file_exists($xmlfile)) {
-			$this->i_xmldoc = & JFactory :: getXMLParser();
+			$this->i_xmldoc = & JFactory::getXMLParser();
 			$this->i_xmldoc->resolveErrors(true);
 
 			if ($this->i_xmldoc->loadXML($xmlfile, false, true)) {
@@ -309,19 +309,19 @@ class JInstallerModule extends JInstaller {
 
 							$subpath = dirname($filename);
 							if ($subpath <> '' && $subpath <> '.' && $subpath <> '..') {
-								echo '<br />'.JText :: _('Deleting').': '.$basepath.$subpath;
-								$result = JFolder :: delete($basepath.$subpath.DS);
+								echo '<br />'.JText::_('Deleting').': '.$basepath.$subpath;
+								$result = JFolder::delete($basepath.$subpath.DS);
 							} else {
-								echo '<br />'.JText :: _('Deleting').': '.$basepath.$filename;
-								$result = JFile :: delete($basepath.$filename, false);
+								echo '<br />'.JText::_('Deleting').': '.$basepath.$filename;
+								$result = JFile::delete($basepath.$filename, false);
 							}
 							echo intval($result);
 						}
 					}
 
 					// remove XML file from front
-					echo JText :: _('Deleting XML File').": ".$xmlfile;
-					JFile :: delete(JPath :: clean($xmlfile, false));
+					echo JText::_('Deleting XML File').": ".$xmlfile;
+					JFile::delete(JPath::clean($xmlfile, false));
 					return true;
 				}
 			}
@@ -355,7 +355,7 @@ class JInstallerModule extends JInstaller {
 
 				case 'folder' :
 					// remove the folder
-					JFolder :: delete($step['path']);
+					JFolder::delete($step['path']);
 					break;
 
 				case 'module' :

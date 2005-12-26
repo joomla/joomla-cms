@@ -66,7 +66,7 @@ class newsfeed_category_table_menu_html {
 		<table class="adminheading">
 		<tr>
 			<th>
-			<?php echo $menu->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?> <?php echo JText::_( 'Menu Item :: Table - Newsfeed Category' ); ?>
+			<?php echo $menu->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?> <?php echo JText::_( 'Menu Item: Table - Newsfeed Category' ); ?>
 			</th>
 		</tr>
 		</table>

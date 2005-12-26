@@ -351,8 +351,8 @@ class JLanguage extends JObject
 	 */
 	function getKnownLanguages($basePath = JPATH_BASE) {
 
-		$dir = JLanguage :: getLanguagePath($basePath);
-		$knownLanguages = JLanguage :: _parseLanguageFiles($dir);
+		$dir = JLanguage::getLanguagePath($basePath);
+		$knownLanguages = JLanguage::_parseLanguageFiles($dir);
 
 		return $knownLanguages;
 	}
@@ -372,7 +372,7 @@ class JLanguage extends JObject
 		if (isset ($language)) {
 			$dir .= $language.DS;
 		}
-		return JPath :: clean($dir, $addTrailingSlash);
+		return JPath::clean($dir, $addTrailingSlash);
 	}
 
 	/** Searches for language directories within a certain base dir
@@ -384,9 +384,9 @@ class JLanguage extends JObject
 	function _parseLanguageFiles($dir = null) {
 		$languages = array ();
 
-		$subdirs = JFolder :: folders($dir);
+		$subdirs = JFolder::folders($dir);
 		foreach ($subdirs as $path) {
-			$langs = JLanguage :: _parseXMLLanguageFiles($dir.$path.DIRECTORY_SEPARATOR);
+			$langs = JLanguage::_parseXMLLanguageFiles($dir.$path.DIRECTORY_SEPARATOR);
 			$languages = array_merge($languages, $langs);
 		}
 
@@ -404,10 +404,10 @@ class JLanguage extends JObject
 			return null;
 
 		$languages = array ();
-		$files = JFolder :: files($dir, '^([_A-Za-z]*)\.ini$');
+		$files = JFolder::files($dir, '^([_A-Za-z]*)\.ini$');
 		foreach ($files as $file) {
 			if ($content = file_get_contents($dir.$file)) {
-				$langContent = JParameters :: parse($content, false, true);
+				$langContent = JParameters::parse($content, false, true);
 				$lang = str_replace('.ini', '', $file);
 				$name = $lang;
 				if (isset ($langContent['__NAME'])) {
@@ -433,10 +433,10 @@ class JLanguage extends JObject
 		}
 
 		$languages = array ();
-		$files = JFolder :: files($dir, '^([_A-Za-z]*)\.xml$');
+		$files = JFolder::files($dir, '^([_A-Za-z]*)\.xml$');
 		foreach ($files as $file) {
 			if ($content = file_get_contents($dir.$file)) {
-				if ($metadata = JLanguage :: _parseXMLLanguageFile($dir.$file)) {
+				if ($metadata = JLanguage::_parseXMLLanguageFile($dir.$file)) {
 					$lang = str_replace('.xml', '', $file);
 					$languages[$lang] = $metadata;
 				}
@@ -453,7 +453,7 @@ class JLanguage extends JObject
 	 */
 	function _parseXMLLanguageFile($path) {
 
-		$xmlDoc = & JFactory :: getXMLParser();
+		$xmlDoc = & JFactory::getXMLParser();
 		$xmlDoc->resolveErrors(true);
 		if (!$xmlDoc->loadXML($path, false, true)) {
 			return null;
@@ -499,7 +499,7 @@ class JLanguageHelper {
 		$list = array ();
 
 		// cache activation
-		$cache = & JFactory :: getCache('JLanguage');
+		$cache = & JFactory::getCache('JLanguage');
 		$langs = $cache->call('JLanguage::getKnownLanguages', $basePath);
 
 		foreach ($langs as $lang => $metadata) {

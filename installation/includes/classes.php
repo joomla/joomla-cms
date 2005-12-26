@@ -28,9 +28,9 @@ class installationTasks {
 		$native = detectLanguage();
 
 		$lists = array ();
-		$lists['langs'] = JLanguageHelper :: createLanguageList($native);
+		$lists['langs'] = JLanguageHelper::createLanguageList($native);
 
-		installationScreens :: chooseLanguage($lists);
+		installationScreens::chooseLanguage($lists);
 	}
 
 	/**
@@ -42,91 +42,91 @@ class installationTasks {
 		$lists = array ();
 
 		$phpOptions[] = array (
-			'label' => JText :: _('PHP version').' >= 4.1.0',
+			'label' => JText::_('PHP version').' >= 4.1.0',
 			'state' => phpversion() < '4.1' ? 'No' : 'Yes'
 		);
 		$phpOptions[] = array (
-			'label' => '- '.JText :: _('zlib compression support'),
+			'label' => '- '.JText::_('zlib compression support'),
 			'state' => extension_loaded('zlib') ? 'Yes' : 'No'
 		);
 		$phpOptions[] = array (
-			'label' => '- '.JText :: _('XML support'),
+			'label' => '- '.JText::_('XML support'),
 			'state' => extension_loaded('xml') ? 'Yes' : 'No',
 			'statetext' => extension_loaded('xml') ? 'Yes' : 'No'
 		);
 		$phpOptions[] = array (
-			'label' => '- '.JText :: _('MySQL support'),
+			'label' => '- '.JText::_('MySQL support'),
 			'state' => function_exists('mysql_connect') ? 'Yes' : 'No'
 		);
 		if (extension_loaded( 'mbstring' )) {
 			$mbDefLang = strtolower( ini_get( 'mbstring.language' ) ) == 'neutral';
 			$phpOptions[] = array (
-				'label' => JText :: _( 'MB language is default' ),
+				'label' => JText::_( 'MB language is default' ),
 				'state' => $mbDefLang ? 'Yes' : 'No',
-				'notice' => $mbDefLang ? '' : JText :: _( 'NOTICEMBLANGNOTDEFAULT' )
+				'notice' => $mbDefLang ? '' : JText::_( 'NOTICEMBLANGNOTDEFAULT' )
 			);
 			$mbOvl = ini_get('mbstring.func_overload') != 0;
 			$phpOptions[] = array (
-				'label' => JText :: _('MB string overload off'),
+				'label' => JText::_('MB string overload off'),
 				'state' => !$mbOvl ? 'Yes' : 'No',
-				'notice' => $mbOvl ? JText :: _('NOTICEMBSTRINGOVERLOAD') : ''
+				'notice' => $mbOvl ? JText::_('NOTICEMBSTRINGOVERLOAD') : ''
 			);
 		}
 		$sp = '';
 		$phpOptions[] = array (
-			'label' => JText :: _('Session path set'),
+			'label' => JText::_('Session path set'),
 			'state' => ($sp = ini_get('session.save_path')) ? 'Yes' : 'No'
 		);
 		$phpOptions[] = array (
-			'label' => JText :: _('Session path writeable'),
+			'label' => JText::_('Session path writeable'),
 			'state' => is_writable($sp) ? 'Yes' : 'No'
 		);
 		$cW = (@ file_exists('../configuration.php') && @ is_writable('../configuration.php')) || is_writable('..');
 		$phpOptions[] = array (
-			'label' => 'configuration.php '.JText :: _('writeable'),
+			'label' => 'configuration.php '.JText::_('writeable'),
 			'state' => $cW ? 'Yes' : 'No',
-			'notice' => $cW ? '' : JText :: _('NOTICEYOUCANSTILLINSTALL')
+			'notice' => $cW ? '' : JText::_('NOTICEYOUCANSTILLINSTALL')
 		);
 		$lists['phpOptions'] = & $phpOptions;
 
 		$phpRecommended = array (
 			array (
-				JText :: _('Safe Mode'),
+				JText::_('Safe Mode'),
 				'safe_mode',
 				'OFF'
 			),
 			array (
-				JText :: _('Display Errors'),
+				JText::_('Display Errors'),
 				'display_errors',
 				'ON'
 			),
 			array (
-				JText :: _('File Uploads'),
+				JText::_('File Uploads'),
 				'file_uploads',
 				'ON'
 			),
 			array (
-				JText :: _('Magic Quotes GPC'),
+				JText::_('Magic Quotes GPC'),
 				'magic_quotes_gpc',
 				'ON'
 			),
 			array (
-				JText :: _('Magic Quotes Runtime'),
+				JText::_('Magic Quotes Runtime'),
 				'magic_quotes_runtime',
 				'OFF'
 			),
 			array (
-				JText :: _('Register Globals'),
+				JText::_('Register Globals'),
 				'register_globals',
 				'OFF'
 			),
 			array (
-				JText :: _('Output Buffering'),
+				JText::_('Output Buffering'),
 				'output_buffering',
 				'OFF'
 			),
 			array (
-				JText :: _('Session auto start'),
+				JText::_('Session auto start'),
 				'session.auto_start',
 				'OFF'
 			),
@@ -169,7 +169,7 @@ class installationTasks {
 			);
 		}
 
-		installationScreens :: preInstall( $vars, $lists );
+		installationScreens::preInstall( $vars, $lists );
 	}
 
 	/**
@@ -177,7 +177,7 @@ class installationTasks {
 	 */
 	function license() {
 		$vars = mosGetParam($_POST, 'vars', array ());
-		installationScreens :: license($vars);
+		installationScreens::license($vars);
 	}
 
 	/**
@@ -192,7 +192,7 @@ class installationTasks {
 
 		$lists = array ();
 		$files = array ('mysql', 'mysqli',);
-		$db = JInstallationHelper :: detectDB();
+		$db = JInstallationHelper::detectDB();
 		foreach ($files as $file) {
 			$option = array ();
 			$option['text'] = $file;
@@ -202,7 +202,7 @@ class installationTasks {
 			$lists['dbTypes'][] = $option;
 		}
 
-		installationScreens :: dbConfig($vars, $lists);
+		installationScreens::dbConfig($vars, $lists);
 	}
 
 	/**
@@ -230,25 +230,25 @@ class installationTasks {
 		$DBversion = mosGetParam($vars, 'DBversion', '');
 
 		if ($DBtype == '') {
-			installationScreens :: error($vars, JText :: _('validType'), 'dbconfig');
+			installationScreens::error($vars, JText::_('validType'), 'dbconfig');
 			return false;
 		}
 		if (!$DBhostname || !$DBuserName || !$DBname) {
-			installationScreens :: error($vars, JText :: _('validDBDetails'), 'dbconfig');
+			installationScreens::error($vars, JText::_('validDBDetails'), 'dbconfig');
 			return false;
 		}
 		if ($DBname == '') {
-			installationScreens :: error($vars, JText :: _('emptyDBName'), 'dbconfig');
+			installationScreens::error($vars, JText::_('emptyDBName'), 'dbconfig');
 			return false;
 		}
 
-		$database = & JDatabase :: getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword );
+		$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword );
 
 		if ($err = $database->getErrorNum()) {
 			if ($err != 3) {
 				// connection failed
 				//installationScreens::error( $vars, array( 'Could not connect to the database.  Connector returned', $database->getErrorNum() ), 'dbconfig', $database->getErrorMsg() );
-				installationScreens :: error($vars, array (sprintf(JText :: _('WARNNOTCONNECTDB'), $database->getErrorNum())), 'dbconfig', $database->getErrorMsg());
+				installationScreens::error($vars, array (sprintf(JText::_('WARNNOTCONNECTDB'), $database->getErrorNum())), 'dbconfig', $database->getErrorMsg());
 				return false;
 			}
 		}
@@ -268,7 +268,7 @@ class installationTasks {
 			// collation does not really have effect so default charset and collation is set
 			$collations[0]['Collation'] = 'latin1';
 		}
-		installationScreens :: dbCollation( $vars, $collations );
+		installationScreens::dbCollation( $vars, $collations );
 	}
 
 	/**
@@ -299,53 +299,53 @@ class installationTasks {
 		$DBversion = mosGetParam($vars, 'DBversion', '');
 
 		if ($DBtype == '') {
-			installationScreens :: error($vars, JText :: _('validType'), 'dbconfig');
+			installationScreens::error($vars, JText::_('validType'), 'dbconfig');
 			return false;
 		}
 		if (!$DBhostname || !$DBuserName || !$DBname) {
-			installationScreens :: error($vars, JText :: _('validDBDetails'), 'dbconfig');
+			installationScreens::error($vars, JText::_('validDBDetails'), 'dbconfig');
 			return false;
 		}
 		if ($DBname == '') {
-			installationScreens :: error($vars, JText :: _('emptyDBName'), 'dbconfig');
+			installationScreens::error($vars, JText::_('emptyDBName'), 'dbconfig');
 			return false;
 		}
 
 		if (!$DBcreated) {
 
-			$database = & JDatabase :: getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+			$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
 			if ($err = $database->getErrorNum()) {
 				if ($err == 3) {
 					// connection ok, need to create database
-					if (JInstallationHelper :: createDatabase($database, $DBname, $DButfSupport, $DBcollation)) {
+					if (JInstallationHelper::createDatabase($database, $DBname, $DButfSupport, $DBcollation)) {
 						// make the new connection to the new database
 						$database = NULL;
-						$database = & JDatabase :: getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+						$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 					} else {
 						$error = $database->getErrorMsg();
-						installationScreens :: error($vars, array (sprintf(JText :: _('WARNCREATEDB'), $DBname)), 'dbconfig', $error);
+						installationScreens::error($vars, array (sprintf(JText::_('WARNCREATEDB'), $DBname)), 'dbconfig', $error);
 						return false;
 					}
 				} else {
 					// connection failed
 					//installationScreens::error( $vars, array( 'Could not connect to the database.  Connector returned', $database->getErrorNum() ), 'dbconfig', $database->getErrorMsg() );
-					installationScreens :: error($vars, array (sprintf(JText :: _('WARNNOTCONNECTDB'), $database->getErrorNum())), 'dbconfig', $database->getErrorMsg());
+					installationScreens::error($vars, array (sprintf(JText::_('WARNNOTCONNECTDB'), $database->getErrorNum())), 'dbconfig', $database->getErrorMsg());
 					return false;
 				}
 			}
 
-			$database = & JDatabase :: getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+			$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
 			if ($DBBackup) {
-				if (JInstallationHelper :: backupDatabase($database, $DBname, $DBPrefix, $errors)) {
-					installationScreens :: error($vars, JText :: _('WARNBACKINGUPDB'), 'dbconfig', JInstallationHelper :: errors2string($errors));
+				if (JInstallationHelper::backupDatabase($database, $DBname, $DBPrefix, $errors)) {
+					installationScreens::error($vars, JText::_('WARNBACKINGUPDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 					return false;
 				}
 			}
 			if ($DBDel) {
-				if (JInstallationHelper :: deleteDatabase($database, $DBname, $DBPrefix, $errors)) {
-					installationScreens :: error($vars, JText :: _('WARNDELETEDB'), 'dbconfig', JInstallationHelper :: errors2string($errors));
+				if (JInstallationHelper::deleteDatabase($database, $DBname, $DBPrefix, $errors)) {
+					installationScreens::error($vars, JText::_('WARNDELETEDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 					return false;
 				}
 			}
@@ -357,18 +357,18 @@ class installationTasks {
 				$dbscheme = 'sql'.DS.'joomla_backward.sql';
 			}
 
-			if (JInstallationHelper :: populateDatabase($database, $dbscheme, $errors, ($DButfSupport) ? $DBcollation : '')) {
-				installationScreens :: error($vars, JText :: _('WARNPOPULATINGDB'), 'dbconfig', JInstallationHelper :: errors2string($errors));
+			if (JInstallationHelper::populateDatabase($database, $dbscheme, $errors, ($DButfSupport) ? $DBcollation : '')) {
+				installationScreens::error($vars, JText::_('WARNPOPULATINGDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 				return false;
 			}
 
 			if ($DBSample) {
 				$dbsample = 'language/eng_GB/sample_data.sql';
 				// Checks for language depended files
-				if (JFile :: exists('language'.DS.$lang.DS.'sample_data.sql')) {
+				if (JFile::exists('language'.DS.$lang.DS.'sample_data.sql')) {
 					$dbsample = 'language'.DS.$lang.DS.'sample_data.sql';
 				}
-				JInstallationHelper :: populateDatabase($database, $dbsample, $errors);
+				JInstallationHelper::populateDatabase($database, $dbsample, $errors);
 			}
 		}
 
@@ -394,7 +394,7 @@ class installationTasks {
 			$vars['ftpPassword'] = 'password';
 		}
 
-		installationScreens :: ftpConfig($vars);
+		installationScreens::ftpConfig($vars);
 	}
 
 	/**
@@ -423,10 +423,10 @@ class installationTasks {
 
 		// FTP stuff
 		if (isset ($vars['ftpEnable']) && $vars['ftpEnable']) {
-			$vars['ftpRoot'] = JInstallationHelper :: findFtpRoot($vars['ftpUser'], $vars['ftpPassword']);
+			$vars['ftpRoot'] = JInstallationHelper::findFtpRoot($vars['ftpUser'], $vars['ftpPassword']);
 		}
 
-		installationScreens :: mainConfig($vars);
+		installationScreens::mainConfig($vars);
 	}
 
 	function saveConfig() {
@@ -449,9 +449,9 @@ class installationTasks {
 				break;
 		}
 
-		JInstallationHelper :: createAdminUser($vars);
+		JInstallationHelper::createAdminUser($vars);
 
-		$tmpl = & installationScreens :: createTemplate();
+		$tmpl = & installationScreens::createTemplate();
 		$tmpl->readTemplatesFromFile('configuration.html');
 		$tmpl->addVars('configuration', $vars, 'var_');
 
@@ -482,11 +482,11 @@ class installationTasks {
 
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP :: getInstance('localhost');
+			$ftp = & JFTP::getInstance('localhost');
 			$ftp->login($vars['ftpUser'], $vars['ftpPassword']);
 
 			//Translate path for the FTP account
-			$file = JPath :: clean(str_replace(JPATH_SITE, $vars['ftpRoot'], $path), false);
+			$file = JPath::clean(str_replace(JPATH_SITE, $vars['ftpRoot'], $path), false);
 
 			// Use FTP write buffer to file
 			if (!$ftp->write($file, $buffer)) {
@@ -515,7 +515,7 @@ class installationTasks {
 
 		$vars['adminUrl'] = $vars['siteUrl'].'/administrator';
 
-		installationScreens :: finish($vars, $buffer);
+		installationScreens::finish($vars, $buffer);
 	}
 }
 
@@ -638,7 +638,7 @@ class JInstallationHelper {
 	 */
 	function populateDatabase(& $database, $sqlfile, & $errors, $collation = '') {
 		$buffer = file_get_contents($sqlfile);
-		$queries = JInstallationHelper :: splitSql($buffer, $collation);
+		$queries = JInstallationHelper::splitSql($buffer, $collation);
 
 		foreach ($queries as $query) {
 			$query = trim($query);
@@ -723,7 +723,7 @@ class JInstallationHelper {
 
 		$cryptpass = md5($adminPassword);
 
-		$database = & JDatabase :: getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
+		$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
 		// create the admin user
 		$installdate = date('Y-m-d H:i:s');
@@ -762,7 +762,7 @@ class JInstallationHelper {
 	 */
 	function findFtpRoot($user, $pass) {
 		jimport('joomla.connector.ftp');
-		$ftp = & JFTP :: getInstance('localhost');
+		$ftp = & JFTP::getInstance('localhost');
 		if (!$ftp->login($user, $pass)) {
 			JError::raiseError('SOME_ERROR_CODE', 'JInstallationHelper::findFtpRoot: Unable to login');
 		}

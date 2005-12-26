@@ -63,7 +63,7 @@ class JHelp {
 	{
 		$list = array ();
 
-		$xmlDoc = JFactory :: getXMLParser();
+		$xmlDoc = JFactory::getXMLParser();
 		$xmlDoc->resolveErrors(true);
 		$xml = JFile::read($pathToXml);
 

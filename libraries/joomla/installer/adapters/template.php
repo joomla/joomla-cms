@@ -26,7 +26,7 @@ class JInstallerTemplate extends JInstaller {
 	 * @access protected
 	 */
 	function __construct() {
-		parent :: __construct();
+		parent::__construct();
 	}
 
 	/**
@@ -61,7 +61,7 @@ class JInstallerTemplate extends JInstaller {
 		if ($jinstall->getAttribute('client')) {
 			$validClients = array ('administrator');
 			if (!in_array($jinstall->getAttribute('client'), $validClients)) {
-				$this->setError(1, JText :: _('Unknown client type').' ['.$jinstall->getAttribute('client').']');
+				$this->setError(1, JText::_('Unknown client type').' ['.$jinstall->getAttribute('client').']');
 				return false;
 			}
 			$client = 'admin';
@@ -70,13 +70,13 @@ class JInstallerTemplate extends JInstaller {
 		// Set some necessary variables
 		$e = & $jinstall->getElementsByPath('name', 1);
 		$this->elementName($e->getText());
-		$this->elementDir(JPath :: clean(JPATH_SITE. ($client == 'admin' ? DS.'administrator' : '').DS.'templates'.DS.strtolower(str_replace(" ", "_", $this->elementName()))));
+		$this->elementDir(JPath::clean(JPATH_SITE. ($client == 'admin' ? DS.'administrator' : '').DS.'templates'.DS.strtolower(str_replace(" ", "_", $this->elementName()))));
 
 		/*
 		 * If the template directory does not exists, lets create it
 		 */
-		if (!file_exists($this->elementDir()) && !JFolder :: create($this->elementDir())) {
-			$this->setError(1, JText :: _('Failed to create directory').' "'.$this->elementDir().'"');
+		if (!file_exists($this->elementDir()) && !JFolder::create($this->elementDir())) {
+			$this->setError(1, JText::_('Failed to create directory').' "'.$this->elementDir().'"');
 			return false;
 		}
 
@@ -149,12 +149,12 @@ class JInstallerTemplate extends JInstaller {
 		$id = str_replace('..', '', $id);
 		if (trim($id)) {
 			if (JFolder::exists($path)) {
-				return JFolder :: delete(JPath :: clean($path));
+				return JFolder::delete(JPath::clean($path));
 			} else {
-				HTML_installer :: showInstallMessage(JText :: _('Directory does not exist, cannot remove files'), JText :: _('Uninstall - error'), $this->returnTo($option, 'template', $client));
+				HTML_installer::showInstallMessage(JText::_('Directory does not exist, cannot remove files'), JText::_('Uninstall - error'), $this->returnTo($option, 'template', $client));
 			}
 		} else {
-			HTML_installer :: showInstallMessage(JText :: _('Template id is empty, cannot remove files'), JText :: _('Uninstall - error'), $this->returnTo($option, 'template', $client));
+			HTML_installer::showInstallMessage(JText::_('Template id is empty, cannot remove files'), JText::_('Uninstall - error'), $this->returnTo($option, 'template', $client));
 			exit ();
 		}
 	}
@@ -200,7 +200,7 @@ class JInstallerTemplate extends JInstaller {
 
 				case 'folder' :
 					// remove the folder
-					JFolder :: delete($step['path']);
+					JFolder::delete($step['path']);
 					break;
 
 				default :

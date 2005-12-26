@@ -430,7 +430,7 @@ class HTML_content {
 
 		// for pop-up page
 		if ( $params->get( 'popup' ) && $no_html == 0) {
-			$mainframe->setPageTitle( $mosConfig_sitename .' :: '. $row->title );
+			$mainframe->setPageTitle( $mosConfig_sitename .' - '. $row->title );
 		}
 
 		// determines links to next and prev content items within category
@@ -1089,7 +1089,7 @@ class HTML_content {
 			<table class="adminform">
 			<tr>
 				<td colspan="4">
-				<?php echo JText::_( 'Sub-folder' ); ?> :: <?php echo $lists['folders'];?>
+				<?php echo JText::_( 'Sub-folder' ); ?> - <?php echo $lists['folders'];?>
 				</td>
 			</tr>
 			<tr>
@@ -1330,7 +1330,7 @@ class HTML_content {
 	function emailForm( $uid, $title, $template='' ) {
 		global $mosConfig_sitename, $mainframe;
 
-		$mainframe->setPageTitle( $mosConfig_sitename .' :: '. $title );
+		$mainframe->setPageTitle( $mosConfig_sitename .' - '. $title );
 		$mainframe->addCustomHeadTag( '<link rel="stylesheet" href="templates/'. $template .'/css/template_css.css" type="text/css" />' );
 		?>
 		<script language="javascript" type="text/javascript">

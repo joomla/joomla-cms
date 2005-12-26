@@ -26,7 +26,7 @@ class JInstallerPlugin extends JInstaller {
 	 * @access protected
 	 */
 	function __construct() {
-		parent :: __construct();
+		parent::__construct();
 	}
 
 	/**
@@ -58,21 +58,21 @@ class JInstallerPlugin extends JInstaller {
 		$e = & $jinstall->getElementsByPath('name', 1);
 		$this->elementName($e->getText());
 		$folder = $jinstall->getAttribute('group');
-		$this->elementDir(JPath :: clean(JPATH_SITE.DS.'plugins'.DS.$folder));
+		$this->elementDir(JPath::clean(JPATH_SITE.DS.'plugins'.DS.$folder));
 
 
 		/*
 		 * If the plugin directory does not exist, lets create it
 		 */
-		if (!file_exists($this->elementDir()) && !JFolder :: create($this->elementDir())) {
-			$this->setError(1, JText :: _('Failed to create directory').' "'.$this->elementDir().'"');
+		if (!file_exists($this->elementDir()) && !JFolder::create($this->elementDir())) {
+			$this->setError(1, JText::_('Failed to create directory').' "'.$this->elementDir().'"');
 			return false;
 		}
 
 		/*
 		 * Copy all the necessary files
 		 */
-		if ($this->parseFiles('files', 'plugin', JText :: _('No file is marked as mambot file')) === false) {
+		if ($this->parseFiles('files', 'plugin', JText::_('No file is marked as mambot file')) === false) {
 			return false;
 		}
 
@@ -85,7 +85,7 @@ class JInstallerPlugin extends JInstaller {
 
 		$db->setQuery($query);
 		if (!$db->query()) {
-			$this->setError(1, JText :: _('SQL error').': '.$db->stderr(true));
+			$this->setError(1, JText::_('SQL error').': '.$db->stderr(true));
 			return false;
 		}
 
@@ -107,7 +107,7 @@ class JInstallerPlugin extends JInstaller {
 			}
 
 			if (!$row->store()) {
-				$this->setError(1, JText :: _('SQL error').': '.$row->getError());
+				$this->setError(1, JText::_('SQL error').': '.$row->getError());
 
 				// Install failed, rollback any changes
 				$this->_rollback();
@@ -122,7 +122,7 @@ class JInstallerPlugin extends JInstaller {
 			$this->i_stepstack[] = $step;
 
 		} else {
-			$this->setError(1, JText :: _('Plugin').' "'.$this->elementName().'" '.JText :: _('already exists!'));
+			$this->setError(1, JText::_('Plugin').' "'.$this->elementName().'" '.JText::_('already exists!'));
 
 			// Install failed, rollback any changes
 			$this->_rollback();
@@ -140,7 +140,7 @@ class JInstallerPlugin extends JInstaller {
 		 * Lastly, we will copy the setup file to its appropriate place.
 		 */
 		if (!$this->copySetupFile('front')) {
-			$this->setError(1, JText :: _('Could not copy setup file'));
+			$this->setError(1, JText::_('Could not copy setup file'));
 
 			// Install failed, rollback changes
 			$this->_rollback();
@@ -175,12 +175,12 @@ class JInstallerPlugin extends JInstaller {
 		 * Is the module a core plugin?  If so we can't uninstall it.
 		 */
 		if ($row->iscore) {
-			HTML_installer :: showInstallMessage(sprintf(JText :: _('WARNCOREELEMENT'), $row->name).'<br />'.JText :: _('WARNCORECOMPONENT2'), JText :: _('Uninstall - error'), $this->returnTo($option, 'plugin', $client));
+			HTML_installer::showInstallMessage(sprintf(JText::_('WARNCOREELEMENT'), $row->name).'<br />'.JText::_('WARNCORECOMPONENT2'), JText::_('Uninstall - error'), $this->returnTo($option, 'plugin', $client));
 			exit ();
 		}
 
 		if ($row->id == null) {
-			HTML_installer :: showInstallMessage('Invalid object id', JText :: _('Uninstall - error'), $this->returnTo($option, 'plugin', $client));
+			HTML_installer::showInstallMessage('Invalid object id', JText::_('Uninstall - error'), $this->returnTo($option, 'plugin', $client));
 			exit ();
 		}
 
@@ -188,7 +188,7 @@ class JInstallerPlugin extends JInstaller {
 		 * Get the plugin folder so we can properly build the plugin path
 		 */
 		if (trim($row->folder) == '') {
-			HTML_installer :: showInstallMessage(JText :: _('Folder field empty, cannot remove files'), JText :: _('Uninstall - error'), $this->returnTo($option, 'plugin', $client));
+			HTML_installer::showInstallMessage(JText::_('Folder field empty, cannot remove files'), JText::_('Uninstall - error'), $this->returnTo($option, 'plugin', $client));
 			exit ();
 		}
 
@@ -213,7 +213,7 @@ class JInstallerPlugin extends JInstaller {
 		 * Now is time to process the xml install file stuff...
 		 */
 		if (file_exists($xmlfile)) {
-			$this->i_xmldoc = & JFactory :: getXMLParser();
+			$this->i_xmldoc = & JFactory::getXMLParser();
 			$this->i_xmldoc->resolveErrors(true);
 
 			if ($this->i_xmldoc->loadXML($xmlfile, false, true)) {
@@ -230,11 +230,11 @@ class JInstallerPlugin extends JInstaller {
 
 							$subpath = dirname($filename);
 							if ($subpath != '' && $subpath != '.' && $subpath != '..') {
-								echo '<br />'.JText :: _('Deleting').': '.$basepath.$subpath;
-								$result = JFolder :: delete(JPath :: clean($basepath.$subpath.DS));
+								echo '<br />'.JText::_('Deleting').': '.$basepath.$subpath;
+								$result = JFolder::delete(JPath::clean($basepath.$subpath.DS));
 							} else {
-								echo '<br />'.JText :: _('Deleting').': '.$basepath.$filename;
-								$result = JFile :: delete(JPath :: clean($basepath.$filename, false));
+								echo '<br />'.JText::_('Deleting').': '.$basepath.$filename;
+								$result = JFile::delete(JPath::clean($basepath.$filename, false));
 							}
 							echo intval($result);
 						}
@@ -243,8 +243,8 @@ class JInstallerPlugin extends JInstaller {
 					/*
 					 * Now lets remove the installation file
 					 */
-					echo JText :: _('Deleting XML File').": ".$xmlfile;
-					JFile :: delete(JPath :: clean($xmlfile, false));
+					echo JText::_('Deleting XML File').": ".$xmlfile;
+					JFile::delete(JPath::clean($xmlfile, false));
 
 					/*
 					 * Remove plugin folder if empty and not a system folder
@@ -254,7 +254,7 @@ class JInstallerPlugin extends JInstaller {
 						// If folder is no empty, lets delete it
 						$list = array_merge(JFolder::files($basepath), JFolder::folders($basepath));
 						if (count($list) < 1) {
-							JFolder :: delete($basepath);
+							JFolder::delete($basepath);
 						}
 					}
 				}
@@ -290,7 +290,7 @@ class JInstallerPlugin extends JInstaller {
 
 				case 'folder' :
 					// remove the folder
-					JFolder :: delete($step['path']);
+					JFolder::delete($step['path']);
 					break;
 
 				case 'plugin' :

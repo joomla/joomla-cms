@@ -68,8 +68,8 @@ class JInstallerLanguage extends JInstaller
 		/*
 		 * If the language directory does not exist, lets create it
 		 */
-		if (!file_exists($this->elementDir()) && !JFolder :: create($this->elementDir())) {
-			$this->setError(1, JText :: _('Failed to create directory').' "'.$this->elementDir().'"');
+		if (!file_exists($this->elementDir()) && !JFolder::create($this->elementDir())) {
+			$this->setError(1, JText::_('Failed to create directory').' "'.$this->elementDir().'"');
 			return false;
 		}
 
@@ -201,7 +201,7 @@ class JInstallerLanguage extends JInstaller
 
 				case 'folder' :
 					// remove the folder
-					JFolder :: delete($step['path']);
+					JFolder::delete($step['path']);
 					break;
 
 				case 'query' :

@@ -74,7 +74,7 @@ class JBreadCrumbs extends JObject {
 			$tSepPath = 'templates/'.$mainframe->getTemplate().'/images/arrow.png';
 
 			// Check to see if the template specific separator exists and if so, set it
-			if (JFile :: exists(JPATH_SITE."/$tSepPath")) {
+			if (JFile::exists(JPATH_SITE."/$tSepPath")) {
 				$this->_separator = '<img src="'.JURL_SITE.'/'.$tSepPath.'" border="0" alt="arrow" />';
 			} else {
 
@@ -82,7 +82,7 @@ class JBreadCrumbs extends JObject {
 				$dSepPath = '/images/M_images/arrow.png';
 
 				// Check to make sure the default separator exists
-				if (JFile :: exists(JPATH_SITE.$dSepPath)) {
+				if (JFile::exists(JPATH_SITE.$dSepPath)) {
 					$this->_separator = '<img src="'.JURL_SITE.'/images/M_images/arrow.png" alt="arrow" />';
 				} else {
 					// The default separator does not exist either ... just use a bracket

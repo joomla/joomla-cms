@@ -28,7 +28,7 @@ class mosFullAdminMenu {
 		global $mosConfig_enable_stats, $mosConfig_caching;
 
 		$lang =& $mainframe->getLanguage();
-		$acl =& JFactory :: getACL();
+		$acl =& JFactory::getACL();
 		$database =& $mainframe->getDBO();
 
 		// cache some acl checks
@@ -318,7 +318,7 @@ class mosFullAdminMenu {
 		global $mainframe;
 
 		$lang =& $mainframe->getLanguage();
-		$acl  =& JFactory :: getACL();
+		$acl  =& JFactory::getACL();
 
 		$canConfig 			= $acl->acl_check( 'com_config', 'manage', 'users', $usertype );
 		$installModules 	= $acl->acl_check( 'com_install', 'module', 'users', $usertype );

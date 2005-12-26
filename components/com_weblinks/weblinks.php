@@ -22,13 +22,13 @@ require_once ($mainframe->getPath('front_html'));
 require_once ($mainframe->getPath('class'));
 
 // First thing we want to do is set the page title
-$mainframe->setPageTitle(JText :: _('Web Links'));
+$mainframe->setPageTitle(JText::_('Web Links'));
 
 // Next, let's get the breadcrumbs object so that we can manipulate it
 $breadcrumbs =& $mainframe->getBreadCrumbs();
 
 // Now that we have the breadcrumb object, let's set the component name in the pathway
-$breadcrumbs->setItemName(1, JText :: _('Web Links'));
+$breadcrumbs->setItemName(1, JText::_('Web Links'));
 
 // Get some common variables from the $_REQUEST global
 $id = intval(mosGetParam($_REQUEST, 'id', 0));
@@ -42,7 +42,7 @@ $task = mosGetParam($_REQUEST, 'task', '');
  */
 switch ($task) {
 	case 'new' :
-		WebLinkController :: editWebLink(0);
+		WebLinkController::editWebLink(0);
 		break;
 
 	case 'edit' :
@@ -50,23 +50,23 @@ switch ($task) {
 		 * Disabled until ACL system is implemented.  When enabled the $id variable
 		 * will be passed instead of a 0
 		 */
-		WebLinkController :: editWebLink(0);
+		WebLinkController::editWebLink(0);
 		break;
 
 	case 'save' :
-		WebLinkController :: saveWebLink();
+		WebLinkController::saveWebLink();
 		break;
 
 	case 'cancel' :
-		WebLinkController :: cancelWebLink();
+		WebLinkController::cancelWebLink();
 		break;
 
 	case 'view' :
-		WebLinkController :: showItem($id, $catid);
+		WebLinkController::showItem($id, $catid);
 		break;
 
 	default :
-		WebLinkController :: showCategory($catid);
+		WebLinkController::showCategory($catid);
 		break;
 }
 /**
@@ -135,7 +135,7 @@ class WebLinkController {
 			$category = & new JCategoryModel($db);
 
 			if (!$category->load($catid)) {
-				JError :: raiseError('SOME_ERROR_CODE', 'WebLinkController::showCategory: Unable to load the category', 'Category ID: '.$catid);
+				JError::raiseError('SOME_ERROR_CODE', 'WebLinkController::showCategory: Unable to load the category', 'Category ID: '.$catid);
 			}
 
 		}
@@ -153,7 +153,7 @@ class WebLinkController {
 		$params->def('other_cat_section', 1);
 		$params->def('other_cat', 1);
 		$params->def('description', 1);
-		$params->def('description_text', JText :: _('WEBLINKS_DESC'));
+		$params->def('description_text', JText::_('WEBLINKS_DESC'));
 		$params->def('image', '-1');
 		$params->def('weblink_icons', '');
 		$params->def('image_align', 'right');
@@ -198,7 +198,7 @@ class WebLinkController {
 		$imgAttribs['hspace'] = '6';
 
 		// Use the static HTML library to build the image tag
-		$category->imgTag = mosHTML :: Image('/images/stories/'.$category->image, JText :: _('Web Links'), $imgAttribs);
+		$category->imgTag = mosHTML::Image('/images/stories/'.$category->image, JText::_('Web Links'), $imgAttribs);
 
 		// Handle page header, page title, and breadcrumbs
 		if (empty ($category->name)) {
@@ -225,7 +225,7 @@ class WebLinkController {
 		// used to show table rows in alternating colours
 		$tabclass = array ('sectiontableentry1', 'sectiontableentry2');
 
-		HTML_weblinks :: showCategory($categories, $rows, $catid, $category, $params, $tabclass);
+		HTML_weblinks::showCategory($categories, $rows, $catid, $category, $params, $tabclass);
 	}
 
 	/**
@@ -251,7 +251,7 @@ class WebLinkController {
 		mosRedirect($weblink->url);
 
 		// Fallback if redirect fails
-		WebLinkController :: showCategory($catid);
+		WebLinkController::showCategory($catid);
 
 	}
 
@@ -294,7 +294,7 @@ class WebLinkController {
 			$row->checkout($my->id);
 
 			// Set page title
-			$mainframe->setPageTitle( JText :: _('Web Links').' - '.JText::_( 'Edit' ));
+			$mainframe->setPageTitle( JText::_('Web Links').' - '.JText::_( 'Edit' ));
 
 			// Add breadcrumbs item
 			$breadcrumbs->addItem(JText::_( 'Edit' ), '');
@@ -309,7 +309,7 @@ class WebLinkController {
 			$row->ordering = 0;
 
 			// Set page title
-			$mainframe->setPageTitle( JText :: _('Web Links').' - '.JText::_( 'New' ));
+			$mainframe->setPageTitle( JText::_('Web Links').' - '.JText::_( 'New' ));
 
 			// Add pathway item
 			$breadcrumbs->addItem(JText::_( 'New' ), '');
@@ -331,9 +331,9 @@ class WebLinkController {
 		*/
 
 		// build list of categories
-		$lists['catid'] = mosAdminMenus :: ComponentCategory('catid', $mainframe->getOption(), intval($row->catid));
+		$lists['catid'] = mosAdminMenus::ComponentCategory('catid', $mainframe->getOption(), intval($row->catid));
 
-		HTML_weblinks :: editWeblink($row, $lists);
+		HTML_weblinks::editWeblink($row, $lists);
 	}
 
 	/**
@@ -434,7 +434,7 @@ class WebLinkController {
 				}
 		*/
 
-		$msg = $isNew ? JText :: _('THANK_SUB') : '';
+		$msg = $isNew ? JText::_('THANK_SUB') : '';
 		mosRedirect('index.php', $msg);
 	}
 }

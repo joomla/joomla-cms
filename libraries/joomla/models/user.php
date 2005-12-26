@@ -177,7 +177,7 @@ class JUserModel extends JModel {
 		if ($this->_db->query()) {
 			// cleanup related data
 
-			// :: private messaging
+			// private messaging
 			$query = "DELETE FROM #__messages_cfg"
 			. "\n WHERE user_id = ". $this->$k .""
 			;

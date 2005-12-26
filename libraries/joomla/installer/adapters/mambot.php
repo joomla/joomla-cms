@@ -24,7 +24,7 @@ class JInstallerMambot extends JInstaller {
 	 * @access protected
 	 */
 	function __construct() {
-		parent :: __construct();
+		parent::__construct();
 	}
 
 	/**
@@ -46,14 +46,14 @@ class JInstallerMambot extends JInstaller {
 		$this->elementName($e->getText());
 
 		$folder = $mosinstall->getAttribute('group');
-		$this->elementDir(JPath :: clean(JPATH_SITE.DS.'mambots'.DS.$folder));
+		$this->elementDir(JPath::clean(JPATH_SITE.DS.'mambots'.DS.$folder));
 
-		if (!file_exists($this->elementDir()) && !JFolder :: create($this->elementDir())) {
-			$this->setError(1, JText :: _('Failed to create directory').' "'.$this->elementDir().'"');
+		if (!file_exists($this->elementDir()) && !JFolder::create($this->elementDir())) {
+			$this->setError(1, JText::_('Failed to create directory').' "'.$this->elementDir().'"');
 			return false;
 		}
 
-		if ($this->parseFiles('files', 'mambot', JText :: _('No file is marked as mambot file')) === false) {
+		if ($this->parseFiles('files', 'mambot', JText::_('No file is marked as mambot file')) === false) {
 			return false;
 		}
 
@@ -61,7 +61,7 @@ class JInstallerMambot extends JInstaller {
 		$query = "SELECT id"."\n FROM #__mambots"."\n WHERE element = '".$this->elementName()."'";
 		$database->setQuery($query);
 		if (!$database->query()) {
-			$this->setError(1, JText :: _('SQL error').': '.$database->stderr(true));
+			$this->setError(1, JText::_('SQL error').': '.$database->stderr(true));
 			return false;
 		}
 
@@ -82,11 +82,11 @@ class JInstallerMambot extends JInstaller {
 			}
 
 			if (!$row->store()) {
-				$this->setError(1, JText :: _('SQL error').': '.$row->getError());
+				$this->setError(1, JText::_('SQL error').': '.$row->getError());
 				return false;
 			}
 		} else {
-			$this->setError(1, JText :: _('Mambot').' "'.$this->elementName().'" '.JText :: _('already exists!'));
+			$this->setError(1, JText::_('Mambot').' "'.$this->elementName().'" '.JText::_('already exists!'));
 			return false;
 		}
 		if ($e = & $mosinstall->getElementsByPath('description', 1)) {
@@ -112,16 +112,16 @@ class JInstallerMambot extends JInstaller {
 		$row = null;
 		$database->loadObject($row);
 		if ($database->getErrorNum()) {
-			HTML_installer :: showInstallMessage($database->stderr(), JText :: _('Uninstall - error'), $this->returnTo($option, 'mambot', $client));
+			HTML_installer::showInstallMessage($database->stderr(), JText::_('Uninstall - error'), $this->returnTo($option, 'mambot', $client));
 			exit ();
 		}
 		if ($row == null) {
-			HTML_installer :: showInstallMessage('Invalid object id', JText :: _('Uninstall - error'), $this->returnTo($option, 'mambot', $client));
+			HTML_installer::showInstallMessage('Invalid object id', JText::_('Uninstall - error'), $this->returnTo($option, 'mambot', $client));
 			exit ();
 		}
 
 		if (trim($row->folder) == '') {
-			HTML_installer :: showInstallMessage(JText :: _('Folder field empty, cannot remove files'), JText :: _('Uninstall - error'), $this->returnTo($option, 'mambot', $client));
+			HTML_installer::showInstallMessage(JText::_('Folder field empty, cannot remove files'), JText::_('Uninstall - error'), $this->returnTo($option, 'mambot', $client));
 			exit ();
 		}
 
@@ -130,7 +130,7 @@ class JInstallerMambot extends JInstaller {
 
 		// see if there is an xml install file, must be same name as element
 		if (file_exists($xmlfile)) {
-			$this->i_xmldoc = & JFactory :: getXMLParser();
+			$this->i_xmldoc = & JFactory::getXMLParser();
 			$this->i_xmldoc->resolveErrors(true);
 
 			if ($this->i_xmldoc->loadXML($xmlfile, false, true)) {
@@ -146,26 +146,26 @@ class JInstallerMambot extends JInstaller {
 							$parts = pathinfo($filename);
 							$subpath = $parts['dirname'];
 							if ($subpath <> '' && $subpath <> '.' && $subpath <> '..') {
-								echo '<br />'.JText :: _('Deleting').': '.$basepath.$subpath;
-								$result = JFolder :: delete(JPath :: clean($basepath.$subpath.DS));
+								echo '<br />'.JText::_('Deleting').': '.$basepath.$subpath;
+								$result = JFolder::delete(JPath::clean($basepath.$subpath.DS));
 							} else {
-								echo '<br />'.JText :: _('Deleting').': '.$basepath.$filename;
-								$result = JFile :: delete(JPath :: clean($basepath.$filename, false));
+								echo '<br />'.JText::_('Deleting').': '.$basepath.$filename;
+								$result = JFile::delete(JPath::clean($basepath.$filename, false));
 							}
 							echo intval($result);
 						}
 					}
 
 					// remove XML file from front
-					echo JText :: _('Deleting XML File').": ".$xmlfile;
-					JFile :: delete(JPath :: clean($xmlfile, false));
+					echo JText::_('Deleting XML File').": ".$xmlfile;
+					JFile::delete(JPath::clean($xmlfile, false));
 
 					// define folders that should not be removed
 					$sysFolders = array ('content', 'search');
 					if (!in_array($row->folder, $sysFolders)) {
 						// delete the non-system folders if empty
 						if (count(mosReadDirectory($basepath)) < 1) {
-							JFolder :: delete($basepath);
+							JFolder::delete($basepath);
 						}
 					}
 				}
@@ -173,7 +173,7 @@ class JInstallerMambot extends JInstaller {
 		}
 
 		if ($row->iscore) {
-			HTML_installer :: showInstallMessage(sprintf(JText :: _('WARNCOREELEMENT'), $row->name).'<br />'.JText :: _('WARNCORECOMPONENT2'), JText :: _('Uninstall - error'), $this->returnTo($option, 'mambot', $client));
+			HTML_installer::showInstallMessage(sprintf(JText::_('WARNCOREELEMENT'), $row->name).'<br />'.JText::_('WARNCORECOMPONENT2'), JText::_('Uninstall - error'), $this->returnTo($option, 'mambot', $client));
 			exit ();
 		}
 
@@ -213,7 +213,7 @@ class JInstallerMambot extends JInstaller {
 
 				case 'folder' :
 					// remove the folder
-					JFolder :: delete($step['path']);
+					JFolder::delete($step['path']);
 					break;
 
 				case 'mambot' :

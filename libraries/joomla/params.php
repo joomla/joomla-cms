@@ -217,7 +217,7 @@ class JParameters extends JObject
 		if ($this->_path) {
 			if (!is_object($this->_xmlElem)) {
 
-				$xmlDoc = & JFactory :: getXMLParser();
+				$xmlDoc = & JFactory::getXMLParser();
 				$xmlDoc->resolveErrors(true);
 				if ($xmlDoc->loadXML($this->_path, false, true)) {
 					$root = & $xmlDoc->documentElement;
@@ -258,7 +258,7 @@ class JParameters extends JObject
 			$html[] = '</table>';
 
 			if (count($element->childNodes) < 1) {
-				$html[] = "<tr><td colspan=\"2\"><i>".JText :: _('There are no Parameters for this item')."</i></td></tr>";
+				$html[] = "<tr><td colspan=\"2\"><i>".JText::_('There are no Parameters for this item')."</i></td></tr>";
 			}
 			return implode("\n", $html);
 		} else {
@@ -293,7 +293,7 @@ class JParameters extends JObject
 		if (in_array('_form_'.$type, $this->_methods)) {
 			$result[1] = call_user_func(array (& $this, '_form_'.$type), $name, $value, $param, $control_name);
 		} else {
-			$result[1] = JText :: _('Handler not defined for type').' = '.$type;
+			$result[1] = JText::_('Handler not defined for type').' = '.$type;
 		}
 
 		if ($description) {
@@ -334,10 +334,10 @@ class JParameters extends JObject
 		foreach ($node->childNodes as $option) {
 			$val = $option->getAttribute('value');
 			$text = $option->gettext();
-			$options[] = mosHTML :: makeOption($val, JText :: _($text));
+			$options[] = mosHTML::makeOption($val, JText::_($text));
 		}
 
-		return mosHTML :: selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value);
+		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value);
 	}
 
 	/**
@@ -353,10 +353,10 @@ class JParameters extends JObject
 		foreach ($node->childNodes as $option) {
 			$val = $option->getAttribute('value');
 			$text = $option->gettext();
-			$options[] = mosHTML :: makeOption($val, JText :: _($text));
+			$options[] = mosHTML::makeOption($val, JText::_($text));
 		}
 
-		return mosHTML :: radioList($options, ''.$control_name.'['.$name.']', '', $value);
+		return mosHTML::radioList($options, ''.$control_name.'['.$name.']', '', $value);
 	}
 
 	/**
@@ -372,9 +372,9 @@ class JParameters extends JObject
 		$query = "SELECT id, title"."\n FROM #__sections"."\n WHERE published = 1"."\n AND scope = 'content'"."\n ORDER BY title";
 		$database->setQuery($query);
 		$options = $database->loadObjectList();
-		array_unshift($options, mosHTML :: makeOption('0', '- '.JText :: _('Select Section').' -', 'id', 'title'));
+		array_unshift($options, mosHTML::makeOption('0', '- '.JText::_('Select Section').' -', 'id', 'title'));
 
-		return mosHTML :: selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'title', $value);
+		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'title', $value);
 	}
 
 	/**
@@ -400,9 +400,9 @@ class JParameters extends JObject
 		}
 		$database->setQuery($query);
 		$options = $database->loadObjectList();
-		array_unshift($options, mosHTML :: makeOption('0', '- '.JText :: _('Select Category').' -', 'id', 'title'));
+		array_unshift($options, mosHTML::makeOption('0', '- '.JText::_('Select Category').' -', 'id', 'title'));
 
-		return mosHTML :: selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'title', $value);
+		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'title', $value);
 	}
 
 	/**
@@ -415,14 +415,14 @@ class JParameters extends JObject
 	function _form_mos_menu($name, $value, & $node, $control_name) {
 		global $database;
 
-		$menuTypes = mosAdminMenus :: menutypes();
+		$menuTypes = mosAdminMenus::menutypes();
 
 		foreach ($menuTypes as $menutype) {
-			$options[] = mosHTML :: makeOption($menutype, $menutype);
+			$options[] = mosHTML::makeOption($menutype, $menutype);
 		}
-		array_unshift($options, mosHTML :: makeOption('', '- '.JText :: _('Select Menu').' -'));
+		array_unshift($options, mosHTML::makeOption('', '- '.JText::_('Select Menu').' -'));
 
-		return mosHTML :: selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value);
+		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value);
 	}
 
 	/**
@@ -440,16 +440,16 @@ class JParameters extends JObject
 
 		$options = array ();
 		foreach ($files as $file) {
-			$options[] = mosHTML :: makeOption($file, $file);
+			$options[] = mosHTML::makeOption($file, $file);
 		}
 		if (!$node->getAttribute('hide_none')) {
-			array_unshift($options, mosHTML :: makeOption('-1', '- '.JText :: _('Do not use an image').' -'));
+			array_unshift($options, mosHTML::makeOption('-1', '- '.JText::_('Do not use an image').' -'));
 		}
 		if (!$node->getAttribute('hide_default')) {
-			array_unshift($options, mosHTML :: makeOption('', '- '.JText :: _('Use Default image').' -'));
+			array_unshift($options, mosHTML::makeOption('', '- '.JText::_('Use Default image').' -'));
 		}
 
-		return mosHTML :: selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
+		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
 	}
 
 	/**
@@ -520,10 +520,10 @@ class JParameters extends JObject
 	 */
 	function _form_language_list($name, $value, & $node, $control_name) {
 
-		$languages = JLanguageHelper :: createLanguageList($value, JPATH_SITE);
-		array_unshift($languages, mosHTML :: makeOption('', '- '.JText :: _('Select Language').' -'));
+		$languages = JLanguageHelper::createLanguageList($value, JPATH_SITE);
+		array_unshift($languages, mosHTML::makeOption('', '- '.JText::_('Select Language').' -'));
 
-		return mosHTML :: selectList($languages, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
+		return mosHTML::selectList($languages, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
 	}
 
 	/**
@@ -536,10 +536,10 @@ class JParameters extends JObject
 	 */
 	function _form_admin_language_list($name, $value, & $node, $control_name) {
 
-		$languages = JLanguageHelper :: createLanguageList($value, JPATH_ADMINISTRATOR);
-		array_unshift($languages, mosHTML :: makeOption('0', '- '.JText :: _('Select Language').' -'));
+		$languages = JLanguageHelper::createLanguageList($value, JPATH_ADMINISTRATOR);
+		array_unshift($languages, mosHTML::makeOption('0', '- '.JText::_('Select Language').' -'));
 
-		return mosHTML :: selectList($languages, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
+		return mosHTML::selectList($languages, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
 	}
 }
 ?>

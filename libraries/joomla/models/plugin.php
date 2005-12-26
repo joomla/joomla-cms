@@ -107,7 +107,7 @@ class JPluginModel extends JModel {
 	var $params = null;
 
 	function __construct(& $db) {
-		parent :: __construct('#__plugins', 'id', $db);
+		parent::__construct('#__plugins', 'id', $db);
 	}
 }
 ?>

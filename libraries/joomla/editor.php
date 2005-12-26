@@ -54,7 +54,7 @@ if (!defined('_MOS_EDITOR_INCLUDED')) {
 			$editor = $params->get('editor', $mosConfig_editor);
 		}
 
-		JPluginHelper :: import('editors', $editor, 1);
+		JPluginHelper::import('editors', $editor, 1);
 
 		$mainframe->set('loadEditor', true);
 	}
@@ -248,7 +248,7 @@ class JEditor extends JObservable {
 		$name = 'JEditor_'.$editor;
 		$this->_editor = new $name ($this);
 
-		JPluginHelper :: importGroup('editors-xtd');
+		JPluginHelper::importGroup('editors-xtd');
 
 		$mainframe->set('loadEditor', true);
 	}

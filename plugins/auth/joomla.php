@@ -36,7 +36,7 @@ class JAuthJoomla extends JPlugin {
 	 * @since 1.1
 	 */
 	function JAuthJoomla(& $subject) {
-		parent :: __construct($subject);
+		parent::__construct($subject);
 	}
 
 	/**
@@ -65,7 +65,7 @@ class JAuthJoomla extends JPlugin {
 		$query = "SELECT `id`"
 			. "\nFROM `#__users`"
 			. "\nWHERE username=" . $db->Quote( $credentials['username'] )
-			. "\n AND password=" . $db->Quote( JAuthHelper :: getCryptedPassword( $credentials['password'] ) )
+			. "\n AND password=" . $db->Quote( JAuthHelper::getCryptedPassword( $credentials['password'] ) )
 			. $conditions;
 
 		$db->setQuery( $query );

@@ -143,7 +143,7 @@ function mosShowHead_Admin() {
 	$lang     =& $mainframe->getLanguage();
 
 	$page->setMetaContentType();
-	$page->setTitle( $GLOBALS['mosConfig_sitename'] .' :: '. JText::_( 'Administration' ) .'  [Joomla!]' );
+	$page->setTitle( $GLOBALS['mosConfig_sitename'] .' - '. JText::_( 'Administration' ) .'  [Joomla!]' );
 	$page->setMetaData( 'description', $GLOBALS['mosConfig_MetaDesc'] );
 	$page->setMetaData( 'keywords', $GLOBALS['mosConfig_MetaKeys'] );
 	$page->setMetaData( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);

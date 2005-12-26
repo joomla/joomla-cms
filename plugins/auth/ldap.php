@@ -36,7 +36,7 @@ class JAuthLdap extends JPlugin {
 	 * @since 1.1
 	 */
 	function JAuthLdap(& $subject) {
-		parent :: __construct($subject);
+		parent::__construct($subject);
 	}
 
 	/**
