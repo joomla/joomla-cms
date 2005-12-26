@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Dec-2005 Samuel Moffatt
+ + Added French language to installer (from JM)
+
 24-Dec-2005 Emir Sakic
  # Fixed a bug with 404 header being returned for homepage when SEF activated
  # Fixed a bug with all items on frontpage returning Itemid=1 (duplicate content)
