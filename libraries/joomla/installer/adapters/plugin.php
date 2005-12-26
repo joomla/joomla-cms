@@ -1,7 +1,7 @@
 <?php
 /**
  * @version $Id: mambot.php 1479 2005-12-20 03:47:14Z Jinx $
- * @package Joomla
+ * @package JoomlaFramework
  * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
@@ -14,7 +14,7 @@
 /**
  * Plugin installer
  *
- * @package Joomla
+ * @package JoomlaFramework
  * @subpackage Installer
  * @since 1.1
  */

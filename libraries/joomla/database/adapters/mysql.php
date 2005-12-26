@@ -1,7 +1,7 @@
 <?php
 /**
 * @version $Id$
-* @package Joomla
+* @package JoomlaFramework
 * @subpackage Database
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -15,8 +15,8 @@
 /**
 * MySQL database driver
 *
-* @package Joomla
-* @subpackage Database
+ * @package JoomlaFramework
+ * @subpackage Database
 */
 class JDatabaseMySQL extends JDatabase
 {

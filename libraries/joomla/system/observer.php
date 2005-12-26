@@ -1,7 +1,7 @@
 <?php
 /**
 * @version $Id: $
-* @package Joomla
+* @package JoomlaFramework
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -18,8 +18,7 @@ jimport('joomla.system.object');
  *
  * @abstract
  * @author Louis Landry <louis@webimagery.net>
- * @package Joomla
- * @subpackage JFramework
+ * @package JoomlaFramework
  * @since 1.1
  */
 class JObserver extends JObject {

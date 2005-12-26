@@ -1,7 +1,7 @@
 <?php
 /**
 * @version $Id: installer.php 1478 2005-12-20 02:36:15Z Jinx $
-* @package Joomla
+* @package JoomlaFramework
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -16,7 +16,7 @@ jimport( 'joomla.system.object' );
 /**
 * Installer class
 *
-* @package Joomla
+* @package JoomlaFramework
 * @subpackage Installer
 * @abstract
 */
@@ -680,7 +680,7 @@ class JInstaller extends JObject
  * Installer helper class
  *
  * @static
- * @package Joomla
+ * @package JoomlaFramework
  * @subpackage Installer
  * @since 1.1
  */

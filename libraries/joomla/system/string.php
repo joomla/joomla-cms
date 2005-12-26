@@ -21,8 +21,7 @@ jimport('phputf8.utf8');
  * All functions assume the validity of utf-8 strings. If in doubt use TODO
  *
  * @author David Gal <david@joomla.co.il>
- * @package  Joomla
- * @subpackage Language
+ * @package JoomlaFramework
  * @since 1.1
  */
 class JString

@@ -530,6 +530,9 @@ class mosHTML
     }
 }
 
+/**
+ * @package  Joomla
+ */
 class mosCommonHTML {
 
 	function ContentLegend( ) {
