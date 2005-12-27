@@ -47,6 +47,8 @@ if (version_compare( phpversion(), '5.0' ) < 0) {
 	jimport('joomla.compat.php50x' );
 }
 
+jimport('joomla.compat.phputf8env' );
+
 if (@$mosConfig_error_reporting === 0) {
 	error_reporting( 0 );
 } else if (@$mosConfig_error_reporting > 0) {
