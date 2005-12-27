@@ -428,7 +428,6 @@ INSERT INTO `#__modules` VALUES (0, 'Online Users','',2,'header',0,'0000-00-00 0
 INSERT INTO `#__modules` VALUES (0, 'Full Menu','',1,'top',0,'0000-00-00 00:00:00',1,'mod_fullmenu',0,23,1,'',1, 1);
 INSERT INTO `#__modules` VALUES (0, 'Pathway','',1,'pathway',0,'0000-00-00 00:00:00',1,'mod_pathway',0,23,1,'',1, 1);
 INSERT INTO `#__modules` VALUES (0, 'Toolbar','',1,'toolbar',0,'0000-00-00 00:00:00',1,'mod_toolbar',0,23,1,'',1, 1);
-INSERT INTO `#__modules` VALUES (0, 'System Message','',1,'inset',0,'0000-00-00 00:00:00',1,'mod_mosmsg',0,23,1,'',1, 1);
 INSERT INTO `#__modules` VALUES (0, 'Quick Icons','',1,'icon',0,'0000-00-00 00:00:00',1,'mod_quickicon',0,23,1,'',1,1);
 INSERT INTO `#__modules` VALUES (0, 'Other Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 0, 'menutype=othermenu\nmenu_style=vert_indent\ncache=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nclass_sfx=\nmoduleclass_sfx=\nindent_image=0\nindent_image1=\nindent_image2=\nindent_image3=\nindent_image4=\nindent_image5=\nindent_image6=\nmoduleclass_sfx=_menu\n', 0, 0);
 INSERT INTO `#__modules` VALUES (0, 'Wrapper','',10,'left',0,'0000-00-00 00:00:00',0,'mod_wrapper',0,0,1,'',0, 0);

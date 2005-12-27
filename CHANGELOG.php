@@ -35,6 +35,7 @@ Legend:
  # Fixed artf2742 : Backend generates just plain text output in IE or Opera
  # Fixed artf2739 : mambot edit-save error
  # Fixed artf2729 : Same content displayed twice on FrontPage
+ - Removed administrator mod_msg module
 
 26-Dec-2005 Samuel Moffatt
  + Added French language to installer (from JM)

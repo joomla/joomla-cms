@@ -64,10 +64,6 @@ $lang =& $mainframe->getLanguage();
 	</td>
 </tr>
 </table>
-
-<br />
-<?php mosLoadAdminModule( 'mosmsg' );?>
-
 <div class="centermain">
 	<div class="main">
 		<?php mosMainBody_Admin(); ?>

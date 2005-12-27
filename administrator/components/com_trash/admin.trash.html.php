@@ -54,7 +54,7 @@ class HTML_trash {
 			}
 		}
 		</script>
-
+		<form action="index2.php" method="post" name="adminForm">
 		<?php
 		$title = JText::_( 'Content Items' );
 		$tabs->startPane("content-pane");

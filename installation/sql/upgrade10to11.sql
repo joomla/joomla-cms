@@ -25,6 +25,9 @@ INSERT INTO `jos_modules_menu` VALUES (1002,0);
 
 UPDATE `jos_modules` SET `access` = '23' WHERE `client_id` = 1;
 
+#Mambot Removals 
+DELETE FROM `jos_modules` WHERE `module` = 'mod_mosmsg' 
+
 # Expand content title lengths
 ALTER TABLE `jos_content` CHANGE `title` `title` varchar(255) NOT NULL default '';
 ALTER TABLE `jos_content` CHANGE `title_alias` `title_alias` varchar(255) NOT NULL default '';
