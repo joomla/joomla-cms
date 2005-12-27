@@ -1097,8 +1097,8 @@ class mosAdminMenus {
 					}
 					$text = $mitems_a->menutype." | ".$list_a->treename;
 					$list_temp[] = mosHTML::makeOption( $list_a->id, $text );
-					if ( strlen($text) > $text_count) {
-						$text_count = strlen($text);
+					if ( JString::strlen($text) > $text_count) {
+						$text_count = JString::strlen($text);
 					}
 				}
 			}
