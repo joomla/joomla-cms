@@ -164,7 +164,7 @@ function saveMambot( $option, $client, $task ) {
  		$_POST['params'] = JParameters::textareaHandling( $txt );
 	}
 
-	$row = new JMambbotModel( $database );
+	$row = new JMambotModel( $database );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();

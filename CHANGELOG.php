@@ -31,6 +31,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+27-Dec-2005 Johan Janssens 
+ # Fixed artf2742 : Backend generates just plain text output in IE or Opera
+ # Fixed artf2739 : mambot edit-save error
+ # Fixed artf2729 : Same content displayed twice on FrontPage
+
 26-Dec-2005 Samuel Moffatt
  + Added French language to installer (from JM)
 

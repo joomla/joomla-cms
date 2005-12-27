@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: installation.php 1547 2005-12-23 08:43:51Z eddieajau $
 * @package Joomla
 * @subpackage Installation
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
@@ -48,8 +48,6 @@ if (version_compare( phpversion(), '5.0' ) < 0) {
 	jimport('joomla.compat.php50x' );
 }
 
-jimport('joomla.compat.phputf8env');
-
 if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
 	die( 'Fatal error.  Global variable hack attempted.' );
 }
@@ -67,33 +65,10 @@ require_once( JPATH_INCLUDES . DS . 'html.php' );
 //Library imports
 jimport( 'joomla.version' );
 jimport( 'joomla.system.error');
+jimport( 'joomla.system.string' );
 jimport( 'joomla.factory' );
 jimport( 'joomla.files' );
 jimport( 'joomla.params' );
 jimport( 'joomla.language' );
 jimport( 'joomla.application');
-
-/**
-* Joomla! Mainframe class
-*
-* Provide many supporting API functions
-* @package Joomla
-*/
-class JInstallation extends JApplication {
-
-	/**
-	* Class constructor
-	* @param integer A client id
-	*/
-	function __construct( ) {
-
-		$this->_client 		    = 3;
-
-		$this->_createTemplate( );
-	}
-}
-
-/** @global $_VERSION */
-$_VERSION = new JVersion();
-
 ?>

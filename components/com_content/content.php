@@ -974,7 +974,7 @@ function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=N
 				for ($y = 0; $y < $intro/$columns; $y++) {
 					if ($indexcount < $intro)
 						//echo $rows[$indexcount++] . "\n";
-						show( $rows[$indexcount++], $params, $gid, $access, $pop, $option, $ItemidCount );
+						show( $rows[++$indexcount], $params, $gid, $access, $pop, $option, $ItemidCount );
 				}
 				echo "</td>\n";
 

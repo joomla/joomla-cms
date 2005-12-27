@@ -18,9 +18,12 @@ INSERT INTO `jos_modules` VALUES (1000, 'Footer', '', 1, 'footer', 0, '0000-00-0
 INSERT INTO `jos_modules` VALUES (1001, 'Footer', '', 0, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 0, 1, '', 1, 1);
 INSERT INTO `jos_modules` VALUES (0, 'Newsfeed', '', 11, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_rss', 0, 0, 1, '', 1, 0);
 INSERT INTO `jos_modules` VALUES (1002, 'Breadcrumbs', '', 1, 'breadcrumbs', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 0, 1, '', 1, 0);
+
 INSERT INTO `jos_modules_menu` VALUES (1000,0);
 INSERT INTO `jos_modules_menu` VALUES (1001,0);
 INSERT INTO `jos_modules_menu` VALUES (1002,0);
+
+UPDATE `jos_modules` SET `access` = '23' WHERE `client_id` = 1;
 
 # Expand content title lengths
 ALTER TABLE `jos_content` CHANGE `title` `title` varchar(255) NOT NULL default '';
@@ -39,14 +42,3 @@ ALTER TABLE `jos_core_acl_aro_groups` ADD COLUMN `value` varchar(255) NOT NULL d
 UPDATE `jos_core_acl_aro_groups` SET value=name;
 ALTER TABLE `jos_core_acl_aro_groups` ADD UNIQUE `value_aro_groups`(`value`);
 ALTER TABLE `jos_core_acl_aro_groups` DROP PRIMARY KEY, ADD PRIMARY KEY(`id`, `value`);
-
-# PASAMIO: 15-Dec-2005
-# Table structure for table `#__registry`
-#
-CREATE TABLE `#__registry` (
-  `id` int(11) NOT NULL auto_increment,
-  `namespace` varchar(50) default NULL,
-  `uid` int(11) NOT NULL default '0',
-  `datafield` longtext,
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM;

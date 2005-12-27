@@ -15,7 +15,7 @@ define( '_JEXEC', 1 );
 define( 'JPATH_BASE', dirname( __FILE__ ) );
 
 require_once( 'includes/defines.php' );
-require_once( 'includes/installation.php' );
+require_once( 'includes/application.php' );
 
 // create the mainframe object
 $mainframe =& new JInstallation();
