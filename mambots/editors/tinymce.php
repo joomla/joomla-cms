@@ -22,7 +22,7 @@ $mainframe->registerEvent( 'onEditorArea', 'botTinymceEditorEditorArea' );
 * TinyMCE WYSIWYG Editor - javascript initialisation
 */
 function botTinymceEditorInit() {
-	global $database, $mainframe;
+	global $database, $mainframe, $mosConfig_live_site;
 
 	// load tinymce info
 	$query = "SELECT id"

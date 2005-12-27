@@ -16,14 +16,14 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
- * HTML View class for the WebLinkController class
+ * HTML View class for the WebLinks class
  *
  * @static
  * @package Joomla
  * @subpackage Weblinks
  * @since 1.0
  */
-class HTML_weblinks {
+class WeblinksView {
 
 	/**
 	 * Displays a web link category
@@ -53,7 +53,7 @@ class HTML_weblinks {
 			<td width="60%" valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>" colspan="2">
 			<?php
 			// show image
-			if ( $category->imgTag ) {
+			if ( isset($category->imgTag) ) {
 				echo $category->imgTag;
 			}
 			echo $category->description;
@@ -64,7 +64,7 @@ class HTML_weblinks {
 			<td>
 			<?php
 			if ( count( $rows ) ) {
-				HTML_weblinks::showTable( $params, $rows, $catid, $tabclass );
+				WeblinksView::showTable( $params, $rows, $catid, $tabclass );
 			}
 			?>
 			</td>
@@ -79,9 +79,9 @@ class HTML_weblinks {
 			<?php
 			// Displays listing of Categories
 			if ( ( $params->get( 'type' ) == 'category' ) && $params->get( 'other_cat' ) ) {
-				HTML_weblinks::showCategories( $params, $categories, $catid );
+				WeblinksView::showCategories( $params, $categories, $catid );
 			} else if ( ( $params->get( 'type' ) == 'section' ) && $params->get( 'other_cat_section' ) ) {
-				HTML_weblinks::showCategories( $params, $categories, $catid );
+				WeblinksView::showCategories( $params, $categories, $catid );
 			}
 			?>
 			</td>

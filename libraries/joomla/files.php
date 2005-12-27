@@ -1195,11 +1195,11 @@ class JPath {
 	 * @since 1.1
 	 */
 	function check($path) {
-		if (strpos($path, '..') !== false) {
+		if (strpos($path, '..') != false) {
 			mosBackTrace();
 			die('JPath::check use of relative paths not permitted'); // don't translate
 		}
-		if (strpos(JPath::clean($path), JPath::clean(JPATH_ROOT)) !== 0) {
+		if (strpos(JPath::clean($path), JPath::clean(JPATH_ROOT)) != 0) {
 			mosBackTrace();
 			die('JPath::check snooping out of bounds @ '.$path); // don't translate
 		}

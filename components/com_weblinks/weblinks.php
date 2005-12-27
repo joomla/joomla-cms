@@ -31,9 +31,9 @@ $breadcrumbs =& $mainframe->getBreadCrumbs();
 $breadcrumbs->setItemName(1, JText::_('Web Links'));
 
 // Get some common variables from the $_REQUEST global
-$id = intval(mosGetParam($_REQUEST, 'id', 0));
+$id    = intval(mosGetParam($_REQUEST, 'id', 0));
 $catid = intval(mosGetParam($_REQUEST, 'catid', 0));
-$task = mosGetParam($_REQUEST, 'task', '');
+$task  = mosGetParam($_REQUEST, 'task', '');
 
 /*
  * This is our main control structure for the component
@@ -42,7 +42,7 @@ $task = mosGetParam($_REQUEST, 'task', '');
  */
 switch ($task) {
 	case 'new' :
-		WebLinkController::editWebLink(0);
+		WeblinksController::editWebLink(0);
 		break;
 
 	case 'edit' :
@@ -50,23 +50,23 @@ switch ($task) {
 		 * Disabled until ACL system is implemented.  When enabled the $id variable
 		 * will be passed instead of a 0
 		 */
-		WebLinkController::editWebLink(0);
+		WeblinksController::editWebLink(0);
 		break;
 
 	case 'save' :
-		WebLinkController::saveWebLink();
+		WeblinksController::saveWebLink();
 		break;
 
 	case 'cancel' :
-		WebLinkController::cancelWebLink();
+		WeblinksController::cancelWebLink();
 		break;
 
 	case 'view' :
-		WebLinkController::showItem($id, $catid);
+		WeblinksController::showItem($id, $catid);
 		break;
 
 	default :
-		WebLinkController::showCategory($catid);
+		WeblinksController::showCategory($catid);
 		break;
 }
 /**
@@ -77,7 +77,7 @@ switch ($task) {
  * @subpackage Weblinks
  * @since 1.1
  */
-class WebLinkController {
+class WeblinksController {
 
 	/**
 	 * Show a web link category
@@ -135,7 +135,7 @@ class WebLinkController {
 			$category = & new JCategoryModel($db);
 
 			if (!$category->load($catid)) {
-				JError::raiseError('SOME_ERROR_CODE', 'WebLinkController::showCategory: Unable to load the category', 'Category ID: '.$catid);
+				JError::raiseError('SOME_ERROR_CODE', 'WeblinksController::showCategory: Unable to load the category', 'Category ID: '.$catid);
 			}
 
 		}
@@ -143,6 +143,7 @@ class WebLinkController {
 		// Load Parameters
 		$menu = new JMenuModel($db);
 		$menu->load($Itemid);
+		
 		$params = new JParameters($menu->params);
 		$params->def('page_title', 1);
 		$params->def('header', $menu->name);
@@ -181,6 +182,13 @@ class WebLinkController {
 				if ($params->get('image') != -1) {
 					$category->image = 'images/stories/'.$params->get('image');
 					$category->image_position = $params->get('image_align');
+					
+					// Define image tag attributes
+					$imgAttribs['align'] = $category->image_position;
+					$imgAttribs['hspace'] = '6';
+					
+					// Use the static HTML library to build the image tag
+					$category->imgTag = mosHTML::Image($category->image, JText::_('Web Links'), $imgAttribs);
 				}
 			}
 		} else {
@@ -192,13 +200,6 @@ class WebLinkController {
 			// Handle the type
 			$params->set('type', 'category');
 		}
-
-		// Define image tag attributes
-		$imgAttribs['align'] = $category->image_position;
-		$imgAttribs['hspace'] = '6';
-
-		// Use the static HTML library to build the image tag
-		$category->imgTag = mosHTML::Image('/images/stories/'.$category->image, JText::_('Web Links'), $imgAttribs);
 
 		// Handle page header, page title, and breadcrumbs
 		if (empty ($category->name)) {
@@ -225,7 +226,7 @@ class WebLinkController {
 		// used to show table rows in alternating colours
 		$tabclass = array ('sectiontableentry1', 'sectiontableentry2');
 
-		HTML_weblinks::showCategory($categories, $rows, $catid, $category, $params, $tabclass);
+		WeblinksView::showCategory($categories, $rows, $catid, $category, $params, $tabclass);
 	}
 
 	/**
@@ -251,7 +252,7 @@ class WebLinkController {
 		mosRedirect($weblink->url);
 
 		// Fallback if redirect fails
-		WebLinkController::showCategory($catid);
+		WeblinksController::showCategory($catid);
 
 	}
 
@@ -333,7 +334,7 @@ class WebLinkController {
 		// build list of categories
 		$lists['catid'] = mosAdminMenus::ComponentCategory('catid', $mainframe->getOption(), intval($row->catid));
 
-		HTML_weblinks::editWeblink($row, $lists);
+		WeblinksView::editWeblink($row, $lists);
 	}
 
 	/**

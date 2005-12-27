@@ -116,7 +116,7 @@ class mosCategory extends JCategoryModel {
 		parent::__construct( $db );
 	}
 
-	function mosCategory($table, $key, &$db) {
+	function mosCategory(&$db) {
 		parent::__construct( $db );
 	}
 }

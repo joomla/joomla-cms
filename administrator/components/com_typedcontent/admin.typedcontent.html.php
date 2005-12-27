@@ -270,8 +270,8 @@ class HTML_typedcontent {
 				return;
 			}
 
-			if ( pressbutton ==' resethits' ) {
-				if (confirm('<?php echo JText::_( 'WARNWANTRESETHITSTOZERO' ); ?>')){
+			if ( pressbutton == 'resethits' ) {
+				if (confirm('<?php echo JText::_( 'WARNWANTRESETHITSTOZERO', true ); ?>')){
 					submitform( pressbutton );
 					return;
 				} else {
