@@ -30,7 +30,7 @@ class patTemplate_Function_Placeholder extends patTemplate_Function
 	*/
 	function call( $params, $content )
 	{
-		global $document;
+		global $document, $option;
 
 		$type = strtolower( $params['type'] );
 		unset($params['type']);
@@ -39,11 +39,8 @@ class patTemplate_Function_Placeholder extends patTemplate_Function
 
         	case 'component' :
 			{
-				$name = $params['name'];
-				unset($params['name']);
-
-				$document->setComponent($name, $params);
-				return '{COMPONENT_'.strtoupper($name).'}';
+				$document->setComponent($option, $params);
+				return '{COMPONENT_'.strtoupper($option).'}';
 			} break;
 
         	case 'modules' :

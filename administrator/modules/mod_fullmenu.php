@@ -16,19 +16,22 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
 * Full DHTML Admnistrator Menus
+* 
 * @package Joomla
 */
-class mosFullAdminMenu {
+class mosFullAdminMenu 
+{
 	/**
 	* Show the menu
 	* @param string The current user type
 	*/
-	function show( $usertype='' ) {
+	function show( $usertype='' ) 
+	{
 		global $mainframe;
 		global $mosConfig_enable_stats, $mosConfig_caching;
 
-		$lang =& $mainframe->getLanguage();
-		$acl =& JFactory::getACL();
+		$lang 	  =& $mainframe->getLanguage();
+		$acl 	  =& JFactory::getACL();
 		$database =& $mainframe->getDBO();
 
 		// cache some acl checks
@@ -312,9 +315,11 @@ class mosFullAdminMenu {
 
 	/**
 	* Show an disbaled version of the menu, used in edit pages
+	* 
 	* @param string The current user type
 	*/
-	function showDisabled( $usertype='' ) {
+	function showDisabled( $usertype='' ) 
+	{
 		global $mainframe;
 
 		$lang =& $mainframe->getLanguage();
@@ -436,13 +441,17 @@ class mosFullAdminMenu {
 }
 $cache =& JFactory::getCache( 'mos_fullmenu' );
 
+$doc   =& $mainframe->getDocument();
+$doc->addScript( '../includes/js/JSCookMenu.js');
+$doc->addScript( 'includes/js/ThemeOffice/theme.js');
+
 $hide = mosGetParam( $_REQUEST, 'hidemainmenu', 0 );
 
-$my = $mainframe->getUser();
+$user = $mainframe->getUser();
 
 if ( $hide ) {
-	mosFullAdminMenu::showDisabled( $my->usertype );
+	mosFullAdminMenu::showDisabled( $user->usertype );
 } else {
-	mosFullAdminMenu::show( $my->usertype );
+	mosFullAdminMenu::show( $user->usertype );
 }
 ?>

@@ -24,15 +24,13 @@ class HTML_admin_misc {
 	/**
 	* Control panel
 	*/
-	function controlPanel() {
+	function controlPanel() 
+	{
 		global $mainframe;
-
-		$path = JPATH_ADMINISTRATOR . '/templates/' . $mainframe->getTemplate() . '/cpanel.php';
+	
+		$path = JPATH_BASE . '/templates/' . $mainframe->getTemplate() . '/cpanel.php';
 		if (file_exists( $path )) {
-			require $path;
-		} else {
-			echo '<br />';
-			mosLoadAdminModules( 'cpanel', 1 );
+			require_once $path;
 		}
 	}
 

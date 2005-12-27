@@ -16,8 +16,9 @@ define( '_JEXEC', 1 );
 
 define('JPATH_BASE', dirname(__FILE__) );
 
-require_once ( 'includes/defines.php');
-require_once ( 'includes/administrator.php' );
+require_once ( 'includes/defines.php'     );
+require_once ( 'includes/application.php' );
+require_once ( 'includes/template.php'    );
 
 // initialise some common request directives
 $option 	= strtolower( mosGetParam( $_REQUEST, 'option', 'com_admin' ) );
@@ -41,8 +42,6 @@ $_PROFILER->mark( 'onBeforeStart' );
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );
 
-
-
 //get the acl object (for backwards compatibility)
 $acl =& JFactory::getACL();
 
@@ -50,8 +49,7 @@ $acl =& JFactory::getACL();
 $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->_client );
 
 if (is_null(JSession::get('guest')) || JSession::get('guest')) {
-	$handle = mosGetParam( $_REQUEST, 'handle', null );
-	mosRedirect( 'index.php' . $handle);
+	mosRedirect( 'index.php');
 }
 
 // trigger the onStart events
@@ -67,51 +65,38 @@ if ($option == 'logout') {
 // get the information about the current user from the sessions table
 $my   = $mainframe->getUser();
 
-$lang =& $mainframe->getLanguage();
-$lang->load(trim($option));
-
 // set for overlib check
 $mainframe->set( 'loadOverlib', false );
 
 $_PROFILER->mark( 'onBeforeBuffer' );
 
-ob_start();
-if ($path = $mainframe->getPath( 'admin' )) {
-		require_once ( $path );
-} else {
-	?>
-	<img src="images/joomla_logo_black.jpg" border="0" alt="<?php echo 'Joomla! Logo'; ?>" />
-	<br />
-	<?php
-}
-
-$_MOS_OPTION['buffer'] = ob_get_contents();
-ob_end_clean();
-
 $_PROFILER->mark( 'onAfterBuffer' );
 
 $_PROFILER->mark( 'onBeforeOutput' );
 
-initGzip();
-
-header( 'Content-Type: text/html; charset=UTF-8');
-
-// start the html output
-if ($no_html == 0) {
-	// loads template file
-	$template = $mainframe->getTemplate();
-	if ( !file_exists( JPATH_ADMINISTRATOR .'/templates/'. $template .'/index.php' ) ) {
-		echo sprintf( JText::_( 'TEMPLATE NOT FOUND' ), $template );
-	} else {
-		require_once( JPATH_ADMINISTRATOR .'/templates/'. $template .'/index.php' );
-	}
-} else {
-	mosMainBody_Admin();
+//render raw component output
+if($no_html == 1) {
+	$path = $mainframe->getPath( 'admin', $option);
+	
+	//load common language files
+	$lang =& $mainframe->getLanguage();
+	$lang->load($option);
+	require_once( $path );	
+	exit();	
 }
 
-$_PROFILER->mark( 'onAfterOutput' );
+// loads template file
+$cur_template = $mainframe->getTemplate();
+$file     = 'index.php';
 
-doGzip();
+$document =& $mainframe->getDocument();
+$document->parse($cur_template, $file);
+
+initDocument($document);
+
+$document->display( $file, $mainframe->getCfg('gzip') );
+
+$_PROFILER->mark( 'onAfterOutput' );
 
 if ($mainframe->getCfg('debug')) {
 	echo $_PROFILER->report();

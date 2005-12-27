@@ -16,9 +16,9 @@ define( '_JEXEC', 1 );
 
 define('JPATH_BASE', dirname(__FILE__) );
 
-require_once ( 'includes/defines.php'  );
-require_once ( 'includes/joomla.php'   );
-require_once ( 'includes/template.php' );
+require_once ( 'includes/defines.php'     );
+require_once ( 'includes/application.php' );
+require_once ( 'includes/template.php'    );
 
 // retrieve some expected url (or form) arguments
 $option = strtolower( mosGetParam( $_REQUEST, 'option' ) );
@@ -44,9 +44,8 @@ $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->_client );
 // get the information about the current user from the sessions table
 $my = $mainframe->getUser();
 
-// retrieve some expected url (or form) arguments
-$option 	= strtolower( mosGetParam( $_REQUEST, 'option' ) );
-
+// frontend login & logout controls
+$return = mosGetParam( $_REQUEST, 'return', NULL );
 if ($option == 'login') {
 	if (!$mainframe->login()) {
 		$mainframe->logout();
@@ -70,6 +69,9 @@ if ($option == 'logout') {
 	}
 }
 
+// get the information about the current user from the sessions table
+$my = $mainframe->getUser();
+
 $Itemid 	= strtolower( mosGetParam( $_REQUEST, 'Itemid',0 ) );
 $no_html 	= intval( mosGetParam( $_REQUEST, 'no_html', 0 ) );
 $do_pdf 	= intval( mosGetParam( $_REQUEST, 'do_pdf', 0 ) );
@@ -85,9 +87,22 @@ if ($option == 'search') {
 	$option = 'com_search';
 }
 
+//render as pdf
 if ( $do_pdf == 1 ){
 	jimport('joomla.pdf');
 	exit();
+}
+
+//render raw component output
+if($no_html == 1) {
+	$path = $mainframe->getPath( 'front', $option );
+	$task 	= mosGetParam( $_REQUEST, 'task', '' );
+	
+	//load common language files
+	$lang =& $mainframe->getLanguage();
+	$lang->load($option);
+	require_once( $path );	
+	exit();	
 }
 
 // loads template file
@@ -108,5 +123,6 @@ header( 'Cache-Control: no-store, no-cache, must-revalidate' );
 header( 'Cache-Control: post-check=0, pre-check=0', false );
 header( 'Pragma: no-cache' );
 
+initDocument($document);
 $document->display( $file, $mainframe->getCfg('gzip') );
 ?>

@@ -73,6 +73,5 @@ switch ($task) {
 	default:
 		HTML_admin_misc::controlPanel();
 		break;
-
 }
 ?>

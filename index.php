@@ -16,9 +16,9 @@ define( '_JEXEC', 1 );
 
 define('JPATH_BASE', dirname(__FILE__) );
 
-require_once ( 'includes/defines.php'  );
-require_once ( 'includes/joomla.php'   );
-require_once ( 'includes/template.php' );
+require_once ( 'includes/defines.php'     );
+require_once ( 'includes/application.php' );
+require_once ( 'includes/template.php'  );
 
 // retrieve some expected url (or form) arguments
 $option = trim( strtolower( mosGetParam( $_REQUEST, 'option' ) ) );
@@ -159,6 +159,7 @@ header( 'Cache-Control: no-store, no-cache, must-revalidate' );
 header( 'Cache-Control: post-check=0, pre-check=0', false );
 header( 'Pragma: no-cache' );
 
+initDocument($document);
 $document->display( $file, $mainframe->getCfg('gzip') );
 
 // displays queries performed for page

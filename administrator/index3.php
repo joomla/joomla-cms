@@ -16,8 +16,9 @@ define( '_JEXEC', 1 );
 
 define('JPATH_BASE', dirname(__FILE__) );
 
-require_once ( 'includes/defines.php');
-require_once(  'includes/administrator.php' );
+require_once ( 'includes/defines.php'     );
+require_once(  'includes/application.php' );
+require_once ( 'includes/template.php'    );
 
 // initialise some common request directives
 $option     = strtolower( mosGetParam( $_REQUEST, 'option', 'com_admin' ) );

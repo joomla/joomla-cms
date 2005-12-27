@@ -20,7 +20,9 @@ if ( !$acl->acl_check( 'com_installer', $element, 'users', $my->usertype ) ) {
 	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
-require_once( $mainframe->getPath( 'installer_html', 'module' ) );
+require_once( dirname(__FILE__) .'/module.class.php' );
+require_once( dirname(__FILE__) .'/module.html.php' );
+
 ?><!--<?php
 HTML_installer::showInstallForm( JText::_( 'Install new Modules' ), $option, 'module', '', dirname(__FILE__) );
 ?>

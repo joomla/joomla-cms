@@ -14,11 +14,16 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+global $document;
+
+$document->setModules('icon'  , array('style' => 0));
+$document->setModules('cpanel', array('style' => 1));
+
 ?>
 <table class="adminform">
 <tr>
 	<td width="55%" valign="top">
-	   <?php mosLoadAdminModules( 'icon', 0 ); ?>
+	   <?php echo $document->fetchModules('icon'); ?>
 	</td>
 	<td width="45%" valign="top">
 		<div style="width=100%;">
@@ -27,7 +32,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			$tabs = new mosTabs(1);
 			$tabs->startPane( 'modules-cpanel' );
 			?>
-			<?php mosLoadAdminModules( 'cpanel', 1 ); ?>
+			<?php echo $document->fetchModules('cpanel'); ?>
 			<?php
 			$tabs->endPane();
 			?>

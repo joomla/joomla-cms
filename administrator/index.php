@@ -16,8 +16,9 @@ define( '_JEXEC', 1 );
 
 define('JPATH_BASE', dirname(__FILE__) );
 
-require_once ( 'includes'. DIRECTORY_SEPARATOR .'defines.php');
-require_once(  'includes'. DIRECTORY_SEPARATOR .'administrator.php' );
+require_once ( 'includes/defines.php'     );
+require_once ( 'includes/application.php' );
+require_once ( 'includes/template.php'    );
 
 $option = mosGetParam( $_REQUEST, 'option', NULL );
 $handle = mosGetParam( $_POST, 'handle', NULL );
@@ -43,24 +44,24 @@ $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->_client );
 // trigger the onAfterStart events
 $mainframe->triggerEvent( 'onAfterStart' );
 
-if (isset( $_POST['submit'] )) {
-	if ($mainframe->login()) {
-		$mainframe->setUserState( 'lang', mosGetParam( $_REQUEST, 'lang', $mosConfig_lang ) );
-		JSession::pause();
-		/** cannot using mosredirect as this stuffs up the cookie in IIS */
-		$handle = isset($handle) ? ('?handle=' . $handle) : '';
-		mosErrorAlert( '', "document.location.href='index2.php" . $handle . "'", 2 );
-	} else {
-		mosErrorAlert( JText::_( 'validUserPassAccess' ), "document.location.href='index.php'" );
+if ($option == 'login') {
+	if (!$mainframe->login()) {
+		$mainframe->logout();
+		mosErrorAlert( JText::_( 'LOGIN_INCORRECT' ) );
 	}
+	
+	$mainframe->setUserState( 'lang', mosGetParam( $_REQUEST, 'lang', $mosConfig_lang ) );
+	JSession::pause();
+
+	mosRedirect( 'index2.php' );
 }
 
-initGzip();
-header( 'Content-Type: text/html; charset=UTF-8');
+$cur_template = $mainframe->getTemplate();
 
-$template = $mainframe->getTemplate();
-$path = JPATH_ADMINISTRATOR . '/templates/' . $template . '/login.php';
-require_once( $path );
+$document =& $mainframe->getDocument();
+$document->parse($cur_template, 'login.php');
 
-doGzip();
+initDocument($document);
+
+$document->display( 'login.php', $mainframe->getCfg('gzip') );
 ?>

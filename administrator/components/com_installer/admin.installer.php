@@ -58,9 +58,9 @@ switch ($task) {
 		break;
 
 	default:
-		if (array_key_exists ( $element, $classMap ) ){
-			require_once( $mainframe->getPath( 'installer_class', $element ) );
-			$path = JPATH_ADMINISTRATOR . DS ."components".DS."com_installer".DS."$element".DS."$element.php";
+		if (array_key_exists ( $element, $classMap ) )
+		{
+			$path = dirname(__FILE__). DS .$element.DS.$element.'.php';
 
 			if (file_exists( $path )) {
 				require $path;

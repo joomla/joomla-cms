@@ -21,14 +21,15 @@ require_once( JPATH_BASE . '/includes/template.html.php' );
  * @param 	string 	The mdoule position
  * @return 	integer The number of modules loaded for that position
  */
-function mosCountModules( $position='left' ) {
-
-	$document = JDocument::getInstance();
+function mosCountModules( $position='left' ) 
+{
+	global $mainframe;
+	$document =& $mainframe->getDocument();
 	return count($document->getModules($position));
 }
 
 /**
- * Insert a component placeholder (uses the option request parameter)
+ * Insert a component placeholder
  */
 function mosMainBody()
 {
@@ -71,5 +72,78 @@ function mosShowHead()
 	?>
 	<jdoc:placeholder type="head" />
 	<?php
+}
+
+/**
+ * Initialise the document  
+ *  
+ * @param object $doc The document instance to initialise
+ */
+function initDocument(&$doc) 
+{		
+	global $mainframe;
+	
+	$user    = $mainframe->getUser();
+	$db      = $mainframe->getDBO();
+	$version = new JVersion();
+			
+	$doc->setMetaContentType();
+	
+	$doc->setMetaData( 'description', $mainframe->getCfg('MetaDesc' ));
+	$doc->setMetaData( 'keywords', $mainframe->getCfg('MetaKeys' ));
+	$doc->setMetaData( 'Generator', $version->PRODUCT . " - " . $version->COPYRIGHT);
+	$doc->setMetaData( 'robots', 'index, follow' );
+	
+	$doc->setBase( JURL_SITE.'/index.php' );
+
+	if ( $user->id ) {
+		$doc->addScript( 'includes/js/joomla.javascript.js');
+	}
+
+	// support for Firefox Live Bookmarks ability for site syndication
+	$query = "SELECT a.id"
+	. "\n FROM #__components AS a"
+	. "\n WHERE a.name = 'Syndicate'"
+	;
+	$db->setQuery( $query );
+	$id = $db->loadResult();
+
+	// load the row from the db table
+	$row = new mosComponent( $db );
+	$row->load( $id );
+
+	// get params definitions
+	$params = new JParameters( $row->params, $mainframe->getPath( 'com_xml', $row->option ), 'component' );
+
+	$live_bookmark = $params->get( 'live_bookmark', 0 );
+
+	// support for Live Bookmarks ability for site syndication
+	if ($live_bookmark) {
+		$show = 1;
+
+		$link_file 	= 'index2.php?option=com_rss&feed='. $live_bookmark .'&no_html=1';
+
+		// xhtml check
+		$link_file = ampReplace( $link_file );
+
+		// outputs link tag for page
+		if ($show) {
+			$doc->addHeadLink( $link_file, 'alternate', array('type' => 'application/rss+xml'));
+		}
+	}
+	
+	$dirs = array(
+		'templates/'.$mainframe->getTemplate().'/',
+		'/',
+	);
+		
+	foreach ($dirs as $dir ) {
+		$icon =   $dir . 'favicon.ico';
+
+		if(file_exists( JPATH_SITE .'/'. $icon )) {
+			$doc->addFavicon( $icon);
+			break;
+		}
+	}
 }
 ?>

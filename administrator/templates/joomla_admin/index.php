@@ -22,7 +22,14 @@ $lang =& $mainframe->getLanguage();
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $lang->getTag();?>" lang="<?php echo $lang->getTag();?>" dir="<?php echo $lang->isRTL() ? 'rtl' : 'ltr'; ?>">
 <head>
-<?php mosShowHead_Admin(); ?>
+<jdoc:placeholder type="head" />
+
+<link href="templates/{TEMPLATE}/css/template.css" rel="stylesheet" type="text/css" />
+<link href="templates/{TEMPLATE}/css/theme.css" rel="stylesheet" type="text/css" />
+<?php if ($lang->isRTL()){ ?>
+<link href="templates/{TEMPLATE}/css/template_rtl.css" rel="stylesheet" type="text/css" />
+<link href="templates/{TEMPLATE}/css/theme_rtl.css" rel="stylesheet" type="text/css" />
+<?php } ?>
 </head>
 <body>
 <div id="langdirection">

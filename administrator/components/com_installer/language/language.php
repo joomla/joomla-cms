@@ -20,6 +20,8 @@ if ( !$acl->acl_check( 'com_installer', $element, 'users', $my->usertype ) ) {
 	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
+require_once( dirname(__FILE__) .'/language.class.php' );
+
 $backlink = '<a href="index2.php?option=com_languages">'. JText::_( 'Back to Language Manager' ) .'</a>';
 HTML_installer::showInstallForm( JText::_( 'Install new Language - Site' ), $option, 'language', '', dirname(__FILE__), $backlink );
 ?>

@@ -20,7 +20,9 @@ if ( !$acl->acl_check( 'com_installer', $element, 'users', $my->usertype ) ) {
 	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
-require_once( $mainframe->getPath( 'installer_html', 'mambot' ) );
+require_once( dirname(__FILE__) .'/mambot.class.php' );
+require_once( dirname(__FILE__) .'/mambot.html.php' );
+
 ?><!--<?php
 HTML_installer::showInstallForm( JText::_( 'Install new Plugins' ), $option, 'mambot', '', dirname(__FILE__) );
 ?>

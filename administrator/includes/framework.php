@@ -53,13 +53,11 @@ if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER 
 	die( 'Fatal error.  Post variable hack attempted.' );
 }
 
-jimport('joomla.compat.phputf8env');
-
-require_once( dirname(__FILE__) . DS .'template.php' );
-
-//Library imports
+//Third party library imports
 jimport( 'phpinputfilter.inputfilter' );
 
+//Joomla library imports
+jimport( 'joomla.compat.phputf8env');
 jimport( 'joomla.version' );
 jimport( 'joomla.functions' );
 jimport( 'joomla.system.error');
@@ -78,30 +76,5 @@ jimport( 'joomla.event' );
 jimport( 'joomla.plugin' );
 jimport( 'joomla.editor' );
 jimport( 'joomla.application');
-
-/**
-* Joomla! Mainframe class
-*
-* Provide many supporting API functions
-* @package Joomla
-*/
-class JAdministrator extends JApplication {
-
-	/**
-	* Class constructor
-	* @param integer A client id
-	*/
-	function __construct($option) {
-		parent::__construct($option, 1);
-	}
-}
-
-/** @global $_VERSION */
-$_VERSION = new JVersion();
-
-// page generation speed calculator
-$_PROFILER = new JProfiler( 'Core' );
-
 jimport( 'joomla.legacy.*' );
-
 ?>

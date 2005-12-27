@@ -28,10 +28,9 @@ $tstart = mosProfiler::getmicrotime();
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $lang->getTag();?>" lang="<?php echo $lang->getTag();?>" dir="<?php echo $lang->isRTL() ? 'rtl' : 'ltr'; ?>">
 <head>
-<title><?php echo $mosConfig_sitename; ?> - <?php echo JText::_( 'Administration' ); ?> [Joomla]</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<jdoc:placeholder type="head" />
 <style type="text/css">
-@import url(templates/joomla_admin/css/admin_login<?php echo $lang->isRTL() ? '_rtl' : ''; ?>.css);
+@import url(templates/joomla_admin/css/login<?php echo $lang->isRTL() ? '_rtl' : ''; ?>.css);
 </style>
 <script language="javascript" type="text/javascript">
 	function setFocus() {
@@ -83,6 +82,7 @@ $tstart = mosProfiler::getmicrotime();
 				</div>
 				<div class="flushstart" >
 					<input type="submit" name="submit" class="button" value="<?php echo JText::_( 'Login' ); ?>" />
+					<input type="hidden" name="option" value="login" />
 				</div>
 			</div>
 			</form>

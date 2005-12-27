@@ -20,6 +20,8 @@ if ( !$acl->acl_check( 'com_installer', $element, 'users', $my->usertype ) ) {
 	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
+require_once( dirname(__FILE__) .'/template.class.php' );
+
 $client 	= mosGetParam( $_REQUEST, 'client', '' );
 $userfile 	= mosGetParam( $_REQUEST, 'userfile', dirname( __FILE__ ) );
 $userfile 	= JPath::clean( $userfile );

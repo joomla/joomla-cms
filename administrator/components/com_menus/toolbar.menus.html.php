@@ -99,7 +99,7 @@ class TOOLBAR_menus {
 	}
 
 	function _DEFAULT() {
-		global $menutype;
+		$menutype 	= mosGetParam( $_REQUEST, 'menutype', 'mainmenu' );
 
 		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Menu Manager' ) .'<small><small>['.$menutype.']</small></small>', 'menu.png' );

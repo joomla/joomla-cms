@@ -80,9 +80,7 @@ class JDocumentHTML extends JDocument
 	 */
 	function __construct($attributes = array())
 	{
-		parent::__construct($attributes = array());
-
-		global $database, $my, $mainframe, $_VERSION;
+		parent::__construct($attributes);
 
 		if (isset($attributes['base'])) {
             $this->setBase($attributes['base']);
@@ -96,65 +94,6 @@ class JDocumentHTML extends JDocument
 		$this->_placeholders['components']	= array();
 
 		$this->_modules =& $this->_loadModules();
-
-		$this->setMetaContentType();
-		$this->setMetaData( 'description', $mainframe->getCfg('MetaDesc' ));
-		$this->setMetaData( 'keywords', $mainframe->getCfg('MetaKeys' ));
-
-		$this->setMetaData( 'Generator', $_VERSION->PRODUCT . " - " . $_VERSION->COPYRIGHT);
-		$this->setMetaData( 'robots', 'index, follow' );
-
-		$this->setBase( JURL_SITE.'/index.php' );
-
-		if ( $my->id ) {
-			$this->addScript( 'includes/js/joomla.javascript.js');
-		}
-
-		// support for Firefox Live Bookmarks ability for site syndication
-		$query = "SELECT a.id"
-		. "\n FROM #__components AS a"
-		. "\n WHERE a.name = 'Syndicate'"
-		;
-		$database->setQuery( $query );
-		$id = $database->loadResult();
-
-		// load the row from the db table
-		$row = new mosComponent( $database );
-		$row->load( $id );
-
-		// get params definitions
-		$params = new JParameters( $row->params, $mainframe->getPath( 'com_xml', $row->option ), 'component' );
-
-		$live_bookmark = $params->get( 'live_bookmark', 0 );
-
-		// support for Live Bookmarks ability for site syndication
-		if ($live_bookmark) {
-			$show = 1;
-
-			$link_file 	= 'index2.php?option=com_rss&feed='. $live_bookmark .'&no_html=1';
-
-			// xhtml check
-			$link_file = ampReplace( $link_file );
-
-			// outputs link tag for page
-			if ($show) {
-				$this->addHeadLink( $link_file, 'alternate', array('type' => 'application/rss+xml'));
-			}
-		}
-
-		$dirs = array(
-			'templates/'.$mainframe->getTemplate().'/',
-			'/',
-		);
-
-		foreach ($dirs as $dir ) {
-			$icon =   $dir . 'favicon.ico';
-
-			if(file_exists( JPATH_SITE .'/'. $icon )) {
-				$this->addFavicon( $dir. $icon);
-				break;
-			}
-		}
 	}
 
 	 /**
@@ -335,8 +274,8 @@ class JDocumentHTML extends JDocument
 	 * @param string 	$name	The name of the module
 	 * @return object	The Module object
 	 */
-	function &getModule($name) {
-
+	function &getModule($name) 
+	{
 		$result = null;
 
 		$total = count($this->_modules);
@@ -386,6 +325,18 @@ class JDocumentHTML extends JDocument
 		global $mosConfig_offset;
 
 		$gid = $my->gid;
+		
+		$file = substr( $name, 4 );
+		$path = JPATH_BASE.DS.'components'.DS.$name;
+		
+		if(JFile::exists($path.DS.$file.'.php')) {
+			$path = $path.DS.$file.'.php';
+		} else {
+			$path = $path.DS.'admin.'.$file.'.php';
+		}
+		
+		$task 	= mosGetParam( $_REQUEST, 'task', '' );
+		$ret 	= mosMenuCheck( $Itemid, $name, $task, $my->gid );
 
 		$content = '';
 		ob_start();
@@ -393,19 +344,16 @@ class JDocumentHTML extends JDocument
 		if (!empty($msg)) {
 			echo "\n<div class=\"message\">$msg</div>";
 		}
-
-		if ($path = $mainframe->getPath( 'front', $name )) {
-			$task 	= mosGetParam( $_REQUEST, 'task', '' );
-			$ret 	= mosMenuCheck( $Itemid, $name, $task, $my->gid );
-			if ($ret) {
-				//load common language files
-				$lang =& $mainframe->getLanguage();
-				$lang->load($option);
-				require_once( $path );
-			} else {
-				mosNotAuth();
-			}
+		
+		if ($ret) {
+			//load common language files
+			$lang =& $mainframe->getLanguage();
+			$lang->load($name);
+			require_once $path;
+		} else {
+			mosNotAuth();
 		}
+		
 		$contents = ob_get_contents();
 		ob_end_clean();
 
@@ -438,19 +386,19 @@ class JDocumentHTML extends JDocument
 	function fetchModule($module)
 	{
 		global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
-		global $mainframe, $database, $my, $Itemid;
+		global $mainframe, $database, $my, $Itemid, $acl, $task;
 
 		$contents = '';
 
 		if(!is_object($module)) {
 			$module = $this->getModule($module);
 		}
-
+		
 		//get module parameters
 		$params = new JParameters( $module->params );
 
 		//get module path
-		$path = JPATH_SITE . '/modules/'.$module->module.'.php';
+		$path = JPATH_BASE . '/modules/'.$module->module.'.php';
 
 		//load the module
 		if (!$module->user && file_exists( $path ))
@@ -479,9 +427,9 @@ class JDocumentHTML extends JDocument
 
 	 /**
      * Generates the head html and return the results as a string
-     *
+     * 
+     * @access public
      * @return string
-     * @access private
      */
     function fetchHead()
     {
@@ -599,7 +547,7 @@ class JDocumentHTML extends JDocument
 		if ( !file_exists( 'templates'.DS.$template.DS.$filename) ) {
 			$template = '_system';
 		}
-
+		
 		$this->_tmpl =& $this->_load($template, $filename);
 	}
 
@@ -646,23 +594,29 @@ class JDocumentHTML extends JDocument
 	 * @access private
 	 * @return array
 	 */
-	function &_loadModules() {
-		global $database, $my, $Itemid;
-
+	function &_loadModules() 
+	{
+		global $mainframe, $Itemid;
+				
+		$user =& $mainframe->getUser();
+		$db   =& $mainframe->getDBO();
+		
 		$modules = array();
+		
+		$wheremenu = isset($Itemid)? "\n AND ( mm.menuid = '". $Itemid ."' OR mm.menuid = 0 )" : "";
 
 		$query = "SELECT id, title, module, position, content, showtitle, params"
-			. "\n FROM #__modules AS m, #__modules_menu AS mm"
+			. "\n FROM #__modules AS m"
+			. "\n LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id"
 			. "\n WHERE m.published = 1"
-			. "\n AND m.access <= '". $my->gid ."'"
-			. "\n AND m.client_id != 1"
-			. "\n AND mm.moduleid = m.id"
-			. "\n AND ( mm.menuid = '". $Itemid ."' OR mm.menuid = 0 )"
+			. "\n AND m.access <= '". $user->gid ."'"
+			. "\n AND m.client_id = '". $mainframe->getClient() ."'"
+			. $wheremenu
 			. "\n ORDER BY position, ordering";
 
-		$database->setQuery( $query );
-		$modules = $database->loadObjectList();
-
+		$db->setQuery( $query );
+		$modules = $db->loadObjectList();
+			
 		$total = count($modules);
 		for($i = 0; $i < $total; $i++) {
 			//determine if this is a user module

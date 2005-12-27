@@ -30,8 +30,6 @@ class JApplication extends JObject {
 
 	/** @var object An object of configuration variables */
 	var $_config			= null;
-	/** @var object An object of path variables */
-	var $_path				= null;
 	/** @var JSessionModel The current session */
 	var $_session			= null;
 	/** @var string The current template */
@@ -248,8 +246,8 @@ class JApplication extends JObject {
 	 * @access public
 	 * @since 1.1
 	 */
-	function &getDocument() {
-
+	function &getDocument() 
+	{
 		$attributes = array (
             'charset'  => 'utf-8',
            	'lineend'  => 'unix',
@@ -301,7 +299,8 @@ class JApplication extends JObject {
 	 *
 	 * @return jbrowser A JBrowser object holding the browser information
 	 */
-	function &getBrowser(){
+	function &getBrowser()
+	{
 		jimport('joomla.system.browser');
 		return JBrowser::getInstance();
 	}
@@ -598,14 +597,18 @@ class JApplication extends JObject {
 
 		return null;
 	}
+	
 	/**
-	* Returns a stored path variable
+	* Get a path 
+	* 
+	* @access public
 	* @return string
-	*
 	*/
-	function getPath( $varname, $user_option=null ) {
+	function getPath( $varname, $user_option=null ) 
+	{
 		// check needed for handling of custom/new module xml file loading
 		$check = ( ( $varname == 'mod0_xml' ) || ( $varname == 'mod1_xml' ) );
+		
 		if ( !$user_option && !$check ) {
 			$user_option = $GLOBALS['option'];
 		}
@@ -613,116 +616,82 @@ class JApplication extends JObject {
 		$result = null;
 		$name 	= substr( $user_option, 4 );
 
-		if (isset( $this->_path->$varname ) ) {
-			$result = $this->_path->$varname;
-		} else {
-			switch ($varname) {
-				case 'front':
-					$result = $this->_checkPath( '/components/'. $user_option .'/'. $name .'.php', 0 );
-					break;
+		switch ($varname) {
+			case 'front':
+				$result = $this->_checkPath( '/components/'. $user_option .'/'. $name .'.php', 0 );
+				break;
 
-				case 'html':
-				case 'front_html':
-					if ( !( $result = $this->_checkPath( '/templates/'. $this->_template .'/components/'. $name .'.html.php', 0 ) ) ) {
-						$result = $this->_checkPath( '/components/'. $user_option .'/'. $name .'.html.php', 0 );
-					}
-					break;
+			case 'html':
+			case 'front_html':
+				if ( !( $result = $this->_checkPath( '/templates/'. $this->_template .'/components/'. $name .'.html.php', 0 ) ) ) {
+					$result = $this->_checkPath( '/components/'. $user_option .'/'. $name .'.html.php', 0 );
+				}
+				break;
 
-				case 'toolbar':
-					$result = $this->_checkPath( '/components/'. $user_option .'/toolbar.'. $name .'.php', -1 );
-					break;
+			case 'toolbar':
+				$result = $this->_checkPath( '/components/'. $user_option .'/toolbar.'. $name .'.php', -1 );
+				break;
 
-				case 'toolbar_html':
-					$result = $this->_checkPath( '/components/'. $user_option .'/toolbar.'. $name .'.html.php', -1 );
-					break;
+			case 'toolbar_html':
+				$result = $this->_checkPath( '/components/'. $user_option .'/toolbar.'. $name .'.html.php', -1 );
+				break;
 
-				case 'toolbar_default':
-				case 'toolbar_front':
-					$result = $this->_checkPath( '/includes/HTML_toolbar.php', 0 );
-					break;
+			case 'toolbar_default':
+			case 'toolbar_front':
+				$result = $this->_checkPath( '/includes/HTML_toolbar.php', 0 );
+				break;
+			
+			case 'admin':
+				$path 	= '/components/'. $user_option .'/admin.'. $name .'.php';
+				$result = $this->_checkPath( $path, -1 );
+				break;
 
-				case 'admin':
-					$path 	= '/components/'. $user_option .'/admin.'. $name .'.php';
-					$result = $this->_checkPath( $path, -1 );
-					break;
+			case 'admin_html':
+				$path	= '/components/'. $user_option .'/admin.'. $name .'.html.php';
+				$result = $this->_checkPath( $path, -1 );
+				break;
 
-				case 'admin_html':
-					$path	= '/components/'. $user_option .'/admin.'. $name .'.html.php';
-					$result = $this->_checkPath( $path, -1 );
-					break;
+			case 'class':
+				if ( !( $result = $this->_checkPath( '/components/'. $user_option .'/'. $name .'.class.php' ) ) ) {
+					$result = $this->_checkPath( '/includes/'. $name .'.php' );
+				}
+				break;
 
-				case 'class':
-					if ( !( $result = $this->_checkPath( '/components/'. $user_option .'/'. $name .'.class.php' ) ) ) {
-						$result = $this->_checkPath( '/includes/'. $name .'.php' );
-					}
-					break;
+			case 'com_xml':
+				$path 	= '/components/'. $user_option .'/'. $name .'.xml';
+				$result = $this->_checkPath( $path, 1 );
+				break;
 
-				case 'com_xml':
-					$path 	= '/components/'. $user_option .'/'. $name .'.xml';
-					$result = $this->_checkPath( $path, 1 );
-					break;
+			case 'mod0_xml':
+				// Site modules
+				if ( $user_option == '' ) {
+					$path = '/modules/custom.xml';
+				} else {
+					$path = '/modules/'. $user_option .'.xml';
+				}
+				$result = $this->_checkPath( $path, 0 );
+				break;
 
-				case 'mod0_xml':
-					// Site modules
-					if ( $user_option == '' ) {
-						$path = '/modules/custom.xml';
-					} else {
-						$path = '/modules/'. $user_option .'.xml';
-					}
-					$result = $this->_checkPath( $path, 0 );
-					break;
+			case 'mod1_xml':
+				// admin modules
+				if ($user_option == '') {
+					$path = '/modules/custom.xml';
+				} else {
+					$path = '/modules/'. $user_option .'.xml';
+				}
+				$result = $this->_checkPath( $path, -1 );
+				break;
 
-				case 'mod1_xml':
-					// admin modules
-					if ($user_option == '') {
-						$path = '/modules/custom.xml';
-					} else {
-						$path = '/modules/'. $user_option .'.xml';
-					}
-					$result = $this->_checkPath( $path, -1 );
-					break;
+			case 'bot_xml':
+				// Site mambots
+				$path 	= '/mambots/'. $user_option .'.xml';
+				$result = $this->_checkPath( $path, 0 );
+				break;
 
-				case 'bot_xml':
-					// Site mambots
-					$path 	= '/mambots/'. $user_option .'.xml';
-					$result = $this->_checkPath( $path, 0 );
-					break;
-
-				case 'menu_xml':
-					$path 	= '/components/com_menus/'. $user_option .'/'. $user_option .'.xml';
-					$result = $this->_checkPath( $path, -1 );
-					break;
-
-				case 'commonmenu_xml':
-					$path 	= '/components/com_menus/menu.common.xml';
-					$result = $this->_checkPath( $path, -1 );
-					break;
-
-				case 'blogmenu_xml':
-					$path 	= '/components/com_menus/menu.content.blog.xml';
-					$result = $this->_checkPath( $path, -1 );
-					break;
-
-				case 'tablemenu_xml':
-					$path 	= '/components/com_menus/menu.content.table.xml';
-					$result = $this->_checkPath( $path, -1 );
-					break;
-
-				case 'installer_html':
-					$path 	= '/components/com_installer/'. $user_option .'/'. $user_option .'.html.php';
-					$result = $this->_checkPath( $path, -1 );
-					break;
-
-				case 'installer_class':
-					$path 	= '/components/com_installer/'. $user_option .'/'. $user_option .'.class.php';
-					$result = $this->_checkPath( $path, -1 );
-					break;
-
-				case 'admin_functions':
-					$path 	= '/components/'. $user_option .'/'. $name .'.functions.php';
-					$result = $this->_checkPath( $path, -1 );
-					break;
-			}
+			case 'menu_xml':
+				$path 	= '/components/com_menus/'. $user_option .'/'. $user_option .'.xml';
+				$result = $this->_checkPath( $path, -1 );
+				break;
 		}
 
 		return $result;

@@ -2,7 +2,6 @@
 /**
 * @version $Id$
 * @package Joomla
-* @subpackage Languages
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -15,26 +14,37 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$client = mosGetParam( $_REQUEST, 'client', 'site' );
+require_once( 'includes/framework.php' );
 
 /**
+* Joomla! Application class
+*
+* Provide many supporting API functions
+* 
 * @package Joomla
-* @subpackage Languages
+* @final
 */
-class TOOLBAR_languages {
-	function _DEFAULT() {
-		$client = mosGetParam( $_REQUEST, 'client');
-		
-		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'Language Manager' ).'<small><small>[' .JText::_( $client ) .']</small></small>', 'langmanager.png' );
-		JMenuBar::publishList();
-		JMenuBar::spacer();
-		JMenuBar::addNew('install', 'Install');
-		JMenuBar::spacer();
-		JMenuBar::deleteList('', 'uninstall', 'Uninstall');
-		JMenuBar::spacer();
-		JMenuBar::help( 'screen.languages' );
-		JMenuBar::endTable();
+class JAdministrator extends JApplication {
+
+	/**
+	* Class constructor
+	* 
+	* @access protected
+	* @param integer A client id
+	*/
+	function __construct($option) {
+		parent::__construct($option, 1);
 	}
 }
+
+/** 
+ * @global $_VERSION 
+ */
+$_VERSION = new JVersion();
+
+/** 
+ * @global $_PROFILER
+ */
+$_PROFILER = new JProfiler( 'Core' );
+
 ?>

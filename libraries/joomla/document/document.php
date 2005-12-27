@@ -169,11 +169,13 @@ class JDocument extends JObject
 	function &getInstance($type = 'html', $attributes = array())
 	{
 		static $instances;
+		
+		//echo var_dump($instances);
 
 		if (!isset( $instances )) {
 			$instances = array();
 		}
-
+		
 		$signature = serialize(array($type, $attributes));
 
 		if (empty($instances[$signature])) {
@@ -291,12 +293,12 @@ class JDocument extends JObject
     function setTitle($title)
     {
         global $mainframe;
-
+		
 		if($mainframe->getCfg('pagetitles'))
 		{
 			$title = trim( htmlspecialchars( $title ));
 			$site  = $mainframe->getCfg('sitename');
-
+			
 			$this->_title  = $title ? $site . ' - '. $title : $site;
 		}
     }
@@ -441,11 +443,11 @@ class JDocument extends JObject
     }
 
 	/**
-	 * Create a patTemplate object
+	 * Create a Template object
 	 *
 	 * @param string 	$template	The name of the template
 	 * @param string 	$filename	The actual filename
-	 * @return patTemplate
+	 * @return jtemplate
 	 */
 	function &_load($template, $filename)
 	{
@@ -454,7 +456,6 @@ class JDocument extends JObject
 
 		$tmpl = null;
 		if ( file_exists( 'templates'.DS.$directory.DS.$file ) ) {
-
 			jimport('joomla.template.template');
 
 			$tmpl =& JTemplate::getInstance();
