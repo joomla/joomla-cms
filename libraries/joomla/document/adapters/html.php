@@ -224,9 +224,10 @@ class JDocumentHTML extends JDocument
 	 *  Set a component
 	 *
 	 * @access public
-	 * @param string $name	The name of the component
+	 * @param string $name		The name of the component
+	 * @param array  $params	An associative array of attributes to add
 	 */
-	function setComponent($name) {
+	function setComponent($name, $params = array()) {
 		$this->_placeholders['components'][] = $name;
 	}
 

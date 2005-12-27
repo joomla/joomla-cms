@@ -426,7 +426,6 @@ class JDocument extends JObject
      * @return string
      */
     function fetchHead() {
-
 		return '';
     }
 
@@ -438,7 +437,6 @@ class JDocument extends JObject
      * @return string
      */
     function fetchBody() {
-
 		return '';
     }
 
@@ -452,7 +450,7 @@ class JDocument extends JObject
 	function &_load($template, $filename)
 	{
 		global $mainframe, $my, $acl, $database;
-		global $Itemid, $task;
+		global $Itemid, $task, $option;
 
 		$tmpl = null;
 		if ( file_exists( 'templates'.DS.$directory.DS.$file ) ) {
@@ -469,7 +467,7 @@ class JDocument extends JObject
 			?></jdoc:tmpl><?php
 			$contents = ob_get_contents();
 			ob_end_clean();
-
+			
 			$tmpl->readTemplatesFromInput( $contents, 'String' );
 		}
 

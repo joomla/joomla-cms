@@ -14,7 +14,7 @@
  *
  * Use 0 to emulate regsiter_globals = off
  */
-define( 'RG_EMULATION', 0 );
+define( 'RG_EMULATION', 1 );
 
 /**
  * Adds an array to the GLOBALS array and checks that the GLOBALS variable is

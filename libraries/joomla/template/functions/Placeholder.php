@@ -31,7 +31,7 @@ class patTemplate_Function_Placeholder extends patTemplate_Function
 	function call( $params, $content )
 	{
 		global $document, $option;
-
+		
 		$type = strtolower( $params['type'] );
 		unset($params['type']);
 
@@ -39,8 +39,11 @@ class patTemplate_Function_Placeholder extends patTemplate_Function
 
         	case 'component' :
 			{
-				$document->setComponent($option, $params);
-				return '{COMPONENT_'.strtoupper($option).'}';
+				$name = mosGetParam($params, 'name', $option);
+				unset($params['name']);
+				
+				$document->setComponent($name, $params);
+				return '{COMPONENT_'.strtoupper($name).'}';
 			} break;
 
         	case 'modules' :
