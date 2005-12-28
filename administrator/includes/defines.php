@@ -19,8 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 define('DS', DIRECTORY_SEPARATOR);
 
 //Joomla framework path definitions
-$path = str_replace( '\\', '/', JPATH_BASE );
-$parts = explode( '/', $path );
+$parts = explode( DS, JPATH_BASE );
 array_pop( $parts );
 
 //Defines

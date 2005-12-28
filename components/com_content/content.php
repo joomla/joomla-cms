@@ -968,6 +968,7 @@ function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=N
 			echo '<table width="100%"  cellpadding="0" cellspacing="0">';
 
 			$indexcount = 0;
+			$divider    = '';
 			for ( $z = 0; $z < $columns; $z++ ) {
 				if ($z > 0) $divider = " column_seperator";
 				echo "<td valign=\"top\"" . $width . "class=\"article_column" . $divider . "\">\n";
@@ -1037,7 +1038,7 @@ function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=N
 			echo '<tr>';
 			echo '<td valign="top">';
 			echo '<div class="blog_more'. $params->get( 'pageclass_sfx' ) .'">';
-			HTML_content::showLinks( $rows, $links, $total, $i, 1, $ItemidCount );
+			HTML_content::showLinks( $rows, $links, $total, ++$indexcount, 1, $ItemidCount );
 			echo '</div>';
 			echo '</td>';
 			echo '</tr>';

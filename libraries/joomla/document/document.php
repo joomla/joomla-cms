@@ -453,7 +453,7 @@ class JDocument extends JObject
 		global $Itemid, $task, $option;
 
 		$tmpl = null;
-		if ( file_exists( 'templates'.DS.$directory.DS.$file ) ) {
+		if ( file_exists( 'templates'.DS.$template.DS.$filename ) ) {
 			jimport('joomla.template.template');
 
 			$tmpl =& JTemplate::getInstance();

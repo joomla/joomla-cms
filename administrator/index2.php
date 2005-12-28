@@ -92,7 +92,7 @@ $file     = 'index.php';
 $document =& $mainframe->getDocument();
 $document->parse($cur_template, $file);
 
-initDocument($document);
+initDocument($document); //initialise the document
 
 $document->display( $file, $mainframe->getCfg('gzip') );
 

@@ -237,4 +237,5 @@ class JError extends patErrorManager {
 		return $error;
     }
 }
+
 ?>

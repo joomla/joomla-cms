@@ -12,6 +12,10 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+if(!defined('DS')) {
+	define( 'DS', DIRECTORY_SEPARATOR );
+}
+
 class JLoader
 {
     /**
@@ -31,7 +35,7 @@ class JLoader
 
 		if(array_pop( $parts ) == '*')
 		{
-			$path = $base . DIRECTORY_SEPARATOR . implode( DIRECTORY_SEPARATOR, $parts );
+			$path = $base . DS . implode( DS, $parts );
 
 			if (!is_dir( $path )) {
 				return; //TODO : throw error
@@ -40,22 +44,22 @@ class JLoader
 			$dir = dir( $path );
 			while ($file = $dir->read()) {
 				if (ereg( '\.php$', $file )) {
-					include_once $path . DIRECTORY_SEPARATOR . $file;
+					include_once $path . DS . $file;
 				}
 			}
 			$dir->close();
 		} else {
-			$path = str_replace( '.', DIRECTORY_SEPARATOR, $filePath );
+			$path = str_replace( '.', DS, $filePath );
 			$found = false;
 			foreach (array( '.php', '.class.php', '.lib.php' ) as $suffix) {
-				if (file_exists( $base . DIRECTORY_SEPARATOR . $path . $suffix )) {
+				if (file_exists( $base . DS . $path . $suffix )) {
 					$found = true;
 					break;
 				}
 			}
 
 			if ($found) {
-				include_once $base . DIRECTORY_SEPARATOR . $path . $suffix;
+				include_once $base . DS . $path . $suffix;
 			} else {
 				return;  //TODO : throw error
 			}

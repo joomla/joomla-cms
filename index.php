@@ -71,7 +71,8 @@ $my = $mainframe->getUser();
 
 $Itemid = intval( mosGetParam( $_REQUEST, 'Itemid', null ) );
 
-if ($option == '') {
+if ($option == '') 
+{
 	if ($Itemid) {
 		$query = "SELECT id, link"
 		. "\n FROM #__menu"
@@ -107,6 +108,7 @@ if ($option == '') {
 		}
 	}
 }
+
 if ( !$Itemid ) {
 // when no Itemid give a default value
 	$Itemid = 99999999;
@@ -159,7 +161,7 @@ header( 'Cache-Control: no-store, no-cache, must-revalidate' );
 header( 'Cache-Control: post-check=0, pre-check=0', false );
 header( 'Pragma: no-cache' );
 
-initDocument($document);
+initDocument($document); //initialise the document
 $document->display( $file, $mainframe->getCfg('gzip') );
 
 // displays queries performed for page

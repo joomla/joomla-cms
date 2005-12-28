@@ -19,11 +19,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 define( 'DS', DIRECTORY_SEPARATOR );
 
 //Joomla framework paht definitions
-$path = str_replace( '\\', '/', JPATH_BASE );
-$parts = explode( '/', $path );
+$parts = explode( DS, JPATH_BASE );
 
 //Defines
-define( 'JPATH_ROOT'         , implode( '/', $parts ) );
+define( 'JPATH_ROOT'         , implode( DS, $parts ) );
 
 define( 'JPATH_SITE'         , JPATH_ROOT );
 define( 'JPATH_CONFIGURATION', JPATH_ROOT );

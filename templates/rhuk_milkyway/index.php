@@ -94,7 +94,7 @@ echo '<?xml version="1.0" encoding="utf-8"?' .'>';
 									<td>
 										<jdoc:placeholder type="component" />
 									</td>
-									<?php if(mosCountModules('right') && $_REQUEST['task'] != 'edit' ) { ?>
+									<?php if(mosCountModules('right') && $task != 'edit' ) { ?>
 									<td class="greyline">&nbsp;</td>
 									<td width="170">
 										<jdoc:placeholder type="modules" position="right" style="-2"/>

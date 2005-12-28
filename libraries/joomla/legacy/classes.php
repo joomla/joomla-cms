@@ -531,7 +531,7 @@ class mosMambotHandler extends JEventDispatcher {
 	* @param string The event name
 	* @param string The function name
 	*/
-	function registerEvent( $event, $function ) {
+	function registerFunction( $event, $function ) {
 		$this->attach(array( $event => $function ));
 	}
 }
@@ -549,13 +549,5 @@ class mosEmpty {
 		return 1;
 	}
 }
-
-/**
- * Legacy global
- * 	use JApplicaiton->registerEvent and JApplication->triggerEvent for event handling
- *  use JPlugingHelper::importGroup and JPluginHelper::import to load bot code
- *  @deprecated As of version 1.1
- */
-$_MAMBOTS = new mosMambotHandler();
 
 ?>

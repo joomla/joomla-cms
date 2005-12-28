@@ -44,8 +44,10 @@ $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->_client );
 // trigger the onAfterStart events
 $mainframe->triggerEvent( 'onAfterStart' );
 
-if ($option == 'login') {
-	if (!$mainframe->login()) {
+if ($option == 'login') 
+{
+	if (!$mainframe->login()) 
+	{
 		$mainframe->logout();
 		mosErrorAlert( JText::_( 'LOGIN_INCORRECT' ) );
 	}
@@ -61,7 +63,7 @@ $cur_template = $mainframe->getTemplate();
 $document =& $mainframe->getDocument();
 $document->parse($cur_template, 'login.php');
 
-initDocument($document);
+initDocument($document); //initialise the document
 
 $document->display( 'login.php', $mainframe->getCfg('gzip') );
 ?>

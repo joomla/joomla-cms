@@ -105,7 +105,7 @@ class JPluginHelper
 	function import( $folder, $element, $published, $params='' )
 	{
 		global $_MAMBOTS, $mainframe; //needed for backwards compatibility
-
+		
 		$path = JPATH_SITE . '/mambots/' . $folder . '/' . $element . '.php';
 		if (file_exists( $path )) {
 			require_once( $path );
