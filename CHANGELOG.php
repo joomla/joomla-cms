@@ -15,7 +15,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
 
-1. Changelog
+1. Changelog 
 -------------
 This is a non-exhaustive (but still near complete) changelog for
 Joomla! 1.1, including beta and release candidate versions.
