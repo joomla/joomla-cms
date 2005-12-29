@@ -34,7 +34,7 @@ class HTML_banners {
             	<?php echo JText::_( 'Num' ); ?>
 			</th>
 			<th width="20">
-				<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
+				<input type="checkbox" name="toggle" value="" ="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th nowrap class="title">
 				<?php echo JText::_( 'Banner Name' ); ?>
@@ -101,7 +101,7 @@ class HTML_banners {
 					?>
 				</td>
 				<td align="center">
-					<a href="javascript: void(0);" onClick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
+					<a href="javascript: void(0);" ="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
 					<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" />
 					</a>
 				</td>
@@ -136,7 +136,7 @@ class HTML_banners {
 	function bannerForm( &$_row, &$lists, $_option ) {
 		mosMakeHtmlSafe( $_row, ENT_QUOTES, 'custombannercode' );
 		?>
-		<script language="javascript">
+		<script language="javascript" type="text/javascript">
 		<!--
 		function changeDisplayImage() {
 			if (document.adminForm.imageurl.value !='') {
@@ -196,7 +196,7 @@ class HTML_banners {
 			</td>
 			<?php
 			if ($_row->imptotal == 0) {
-				$unlimited = 'checked';
+				$unlimited = 'checked="checked"';
 				$_row->imptotal = '';
 			} else {
 				$unlimited = '';
@@ -205,7 +205,7 @@ class HTML_banners {
 			<td>
 				<input class="inputbox" type="text" name="imptotal" size="12" maxlength="11" value="<?php echo $_row->imptotal;?>" />
 				&nbsp;&nbsp;&nbsp;&nbsp;
-				<?php echo JText::_( 'Unlimited' ); ?> <input type="checkbox" name="unlimited" <?php echo $unlimited;?>>
+				<?php echo JText::_( 'Unlimited' ); ?> <input type="checkbox" name="unlimited" <?php echo $unlimited;?> />
 			</td>
 		</tr>
 		<tr>
@@ -231,7 +231,7 @@ class HTML_banners {
 			<td colspan="2">
 				<?php echo $_row->clicks;?>
 				&nbsp;&nbsp;&nbsp;&nbsp;
-				<input name="reset_hits" type="button" class="button" value="<?php echo JText::_( 'Reset Clicks' ); ?>" onClick="submitbutton('resethits');" />
+				<input name="reset_hits" type="button" class="button" value="<?php echo JText::_( 'Reset Clicks' ); ?>" ="submitbutton('resethits');" />
 			</td>
 		</tr>
 		<tr>
@@ -311,7 +311,7 @@ class HTML_bannerClient {
            		<?php echo JText::_( 'Num' ); ?>
 			</th>
 			<th width="20">
-				<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
+				<input type="checkbox" name="toggle" value="" ="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th nowrap class="title">
 				<?php echo JText::_( 'Client Name' ); ?>
@@ -378,7 +378,7 @@ class HTML_bannerClient {
 	function bannerClientForm( &$row, $option ) {
 		mosMakeHtmlSafe( $row, ENT_QUOTES, 'extrainfo' );
 		?>
-		<script language="javascript">
+		<script language="javascript" type="text/javascript">
 		<!--
 		function submitbutton(pressbutton) {
 			var form = document.adminForm;
