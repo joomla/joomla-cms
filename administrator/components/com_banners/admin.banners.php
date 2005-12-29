@@ -175,14 +175,18 @@ function saveBanner( $task ) {
 	$row = new mosBanner($database);
 
 	$msg = JText::_( 'Saved Banner info' );
-	if ( $task == 'resethits' ) {
-		$row->clicks = 0;
-		$msg = JText::_( 'Reset Banner clicks' );
-	}
+	
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
+	
+	// Resets clicks when `Reset Clicks` button is used instead of `Save` button
+	if ( $task == 'resethits' ) {
+		$row->clicks = 0;
+		$msg = 'Reset Banner clicks';
+	}
+	
 	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();

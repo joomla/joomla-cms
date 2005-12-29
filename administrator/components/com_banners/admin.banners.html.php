@@ -31,28 +31,28 @@ class HTML_banners {
 		<table class="adminlist">
 		<tr>
 			<th width="20">
-            <?php echo JText::_( 'Num' ); ?>
+            	<?php echo JText::_( 'Num' ); ?>
 			</th>
 			<th width="20">
-			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
+				<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th nowrap class="title">
-			<?php echo JText::_( 'Banner Name' ); ?>
+				<?php echo JText::_( 'Banner Name' ); ?>
 			</th>
 			<th width="10%" nowrap>
-			<?php echo JText::_( 'Published' ); ?>
+				<?php echo JText::_( 'Published' ); ?>
 			</th>
 			<th width="11%" nowrap>
-			<?php echo JText::_( 'Impressions Made' ); ?>
+				<?php echo JText::_( 'Impressions Made' ); ?>
 			</th>
 			<th width="11%" nowrap>
-			<?php echo JText::_( 'Impressions Left' ); ?>
+				<?php echo JText::_( 'Impressions Left' ); ?>
 			</th>
 			<th width="8%">
-			<?php echo JText::_( 'Clicks' ); ?>
+				<?php echo JText::_( 'Clicks' ); ?>
 			</th>
 			<th width="8%" nowrap>
-			<?php echo JText::_( '% Clicks' ); ?>
+				<?php echo JText::_( '% Clicks' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -82,40 +82,40 @@ class HTML_banners {
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td align="center">
-				<?php echo $pageNav->rowNumber( $i ); ?>
+					<?php echo $pageNav->rowNumber( $i ); ?>
 				</td>
 				<td align="center">
-				<?php echo $checked; ?>
+					<?php echo $checked; ?>
 				</td>
 				<td>
-				<?php
-				if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-					echo $row->name;
-				} else {
-					?>
-					<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Banner' ); ?>">
-					<?php echo $row->name; ?>
-					</a>
 					<?php
-				}
-				?>
+					if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+						echo $row->name;
+					} else {
+						?>
+						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Banner' ); ?>">
+						<?php echo $row->name; ?>
+						</a>
+						<?php
+					}
+					?>
 				</td>
 				<td align="center">
-				<a href="javascript: void(0);" onClick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
-				<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" />
-				</a>
+					<a href="javascript: void(0);" onClick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
+					<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" />
+					</a>
 				</td>
 				<td align="center">
-				<?php echo $row->impmade;?>
+					<?php echo $row->impmade;?>
 				</td>
 				<td align="center">
-				<?php echo $impleft;?>
+					<?php echo $impleft;?>
 				</td>
 				<td align="center">
-				<?php echo $row->clicks;?>
+					<?php echo $row->clicks;?>
 				</td>
 				<td align="center">
-				<?php echo $percentClicks;?>
+					<?php echo $percentClicks;?>
 				</td>
 			</tr>
 			<?php
@@ -125,10 +125,10 @@ class HTML_banners {
 		</table>
 		<?php echo $pageNav->getListFooter(); ?>
 
-		<input type="hidden" name="option" value="<?php echo $option; ?>">
-		<input type="hidden" name="task" value="">
-		<input type="hidden" name="boxchecked" value="0">
-		<input type="hidden" name="hidemainmenu" value="0">
+		<input type="hidden" name="option" value="<?php echo $option; ?>" />
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
 		<?php
 	}
@@ -171,28 +171,28 @@ class HTML_banners {
 		<table class="adminform">
 		<tr>
 			<th colspan="2">
-			<?php echo JText::_( 'Details' ); ?>
+				<?php echo JText::_( 'Details' ); ?>
 			</th>
 		</tr>
 		<tr>
 			<td width="20%">
-			<?php echo JText::_( 'Banner Name' ); ?>:
+				<?php echo JText::_( 'Banner Name' ); ?>:
 			</td>
 			<td width="80%">
-			<input class="inputbox" type="text" name="name" value="<?php echo $_row->name;?>">
+				<input class="inputbox" type="text" name="name" value="<?php echo $_row->name;?>" />
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<?php echo JText::_( 'Client Name' ); ?>:
+				<?php echo JText::_( 'Client Name' ); ?>:
 			</td>
 			<td >
-			<?php echo $lists['cid']; ?>
+				<?php echo $lists['cid']; ?>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<?php echo JText::_( 'Impressions Purchased' ); ?>:
+				<?php echo JText::_( 'Impressions Purchased' ); ?>:
 			</td>
 			<?php
 			if ($_row->imptotal == 0) {
@@ -203,43 +203,43 @@ class HTML_banners {
 			}
 			?>
 			<td>
-			<input class="inputbox" type="text" name="imptotal" size="12" maxlength="11" value="<?php echo $_row->imptotal;?>">
-			&nbsp;&nbsp;&nbsp;&nbsp;
-			<?php echo JText::_( 'Unlimited' ); ?> <input type="checkbox" name="unlimited" <?php echo $unlimited;?>>
+				<input class="inputbox" type="text" name="imptotal" size="12" maxlength="11" value="<?php echo $_row->imptotal;?>" />
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<?php echo JText::_( 'Unlimited' ); ?> <input type="checkbox" name="unlimited" <?php echo $unlimited;?>>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<?php echo JText::_( 'Show Banner' ); ?>:
+				<?php echo JText::_( 'Show Banner' ); ?>:
 			</td>
 			<td>
-			<?php echo $lists['showBanner']; ?>
+				<?php echo $lists['showBanner']; ?>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<?php echo JText::_( 'Click URL' ); ?>:
+				<?php echo JText::_( 'Click URL' ); ?>:
 			</td>
 			<td>
-			<input class="inputbox" type="text" name="clickurl" size="100" maxlength="200" value="<?php echo $_row->clickurl;?>">
+				<input class="inputbox" type="text" name="clickurl" size="100" maxlength="200" value="<?php echo $_row->clickurl;?>" />
 			</td>
 		</tr>
 		<tr >
 			<td valign="top" align="right">
-			<?php echo JText::_( 'Clicks' ); ?>
+				<?php echo JText::_( 'Clicks' ); ?>
  			</td>
 			<td colspan="2">
-			<?php echo $_row->clicks;?>
-			&nbsp;&nbsp;&nbsp;&nbsp;
-			<input name="reset_hits" type="button" class="button" value="<?php echo JText::_( 'Reset Clicks' ); ?>" onClick="submitbutton('resethits');">
+				<?php echo $_row->clicks;?>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<input name="reset_hits" type="button" class="button" value="<?php echo JText::_( 'Reset Clicks' ); ?>" onClick="submitbutton('resethits');" />
 			</td>
 		</tr>
 		<tr>
 			<td valign="top">
-			<?php echo JText::_( 'Custom banner code' ); ?>:
+				<?php echo JText::_( 'Custom banner code' ); ?>:
 			</td>
 			<td>
-			<textarea class="inputbox" cols="70" rows="5" name="custombannercode"><?php echo $_row->custombannercode;?></textarea>
+				<textarea class="inputbox" cols="70" rows="5" name="custombannercode"><?php echo $_row->custombannercode;?></textarea>
 			</td>
 		</tr>
 		<tr>
@@ -248,32 +248,32 @@ class HTML_banners {
 		</tr>
 		<tr>
 			<td valign="top">
-			<?php echo JText::_( 'Banner Image Selector' ); ?>:
+				<?php echo JText::_( 'Banner Image Selector' ); ?>:
 			</td>
 			<td >
-			<?php echo $lists['imageurl']; ?>
+				<?php echo $lists['imageurl']; ?>
 			</td>
 		</tr>
 		<tr>
 			<td valign="top">
-			<?php echo JText::_( 'Banner Image' ); ?>:
+				<?php echo JText::_( 'Banner Image' ); ?>:
 			</td>
 			<td valign="top">
-			<?php
-			if (eregi("swf", $_row->imageurl)) {
-				?>
-				<img src="images/blank.png" name="imagelib">
 				<?php
-			} elseif (eregi("gif|jpg|png", $_row->imageurl)) {
+				if (eregi("swf", $_row->imageurl)) {
+					?>
+					<img src="images/blank.png" name="imagelib">
+					<?php
+				} elseif (eregi("gif|jpg|png", $_row->imageurl)) {
+					?>
+					<img src="../images/banners/<?php echo $_row->imageurl; ?>" name="imagelib" />
+					<?php
+				} else {
+					?>
+					<img src="images/blank.png" name="imagelib" />
+					<?php
+				}
 				?>
-				<img src="../images/banners/<?php echo $_row->imageurl; ?>" name="imagelib">
-				<?php
-			} else {
-				?>
-				<img src="images/blank.png" name="imagelib">
-				<?php
-			}
-			?>
 			</td>
 		</tr>
 		<tr>
@@ -282,10 +282,11 @@ class HTML_banners {
 		</tr>
 		</table>
 
-		<input type="hidden" name="option" value="<?php echo $_option; ?>">
-		<input type="hidden" name="bid" value="<?php echo $_row->bid; ?>">
-		<input type="hidden" name="task" value="">
-		<input type="hidden" name="impmade" value="<?php echo $_row->impmade; ?>">
+		<input type="hidden" name="option" value="<?php echo $_option; ?>" />
+		<input type="hidden" name="bid" value="<?php echo $_row->bid; ?>" />
+		<input type="hidden" name="clicks" value="<?php echo $_row->clicks; ?>" />
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="impmade" value="<?php echo $_row->impmade; ?>" />
 		</form>
 		<?php
 	}
@@ -307,19 +308,19 @@ class HTML_bannerClient {
 		<table class="adminlist">
 		<tr>
 			<th width="20">
-            <?php echo JText::_( 'Num' ); ?>
+           		<?php echo JText::_( 'Num' ); ?>
 			</th>
 			<th width="20">
-			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
+				<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th nowrap class="title">
-			<?php echo JText::_( 'Client Name' ); ?>
+				<?php echo JText::_( 'Client Name' ); ?>
 			</th>
 			<th nowrap class="title">
-			<?php echo JText::_( 'Contact' ); ?>
+				<?php echo JText::_( 'Contact' ); ?>
 			</th>
 			<th align="center" nowrap>
-			<?php echo JText::_( 'No. of Active Banners' ); ?>
+				<?php echo JText::_( 'No. of Active Banners' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -334,29 +335,29 @@ class HTML_bannerClient {
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td width="20" align="center">
-				<?php echo $pageNav->rowNumber( $i ); ?>
+					<?php echo $pageNav->rowNumber( $i ); ?>
 				</td>
 				<td width="20">
-				<?php echo $checked; ?>
+					<?php echo $checked; ?>
 				</td>
 				<td width="40%">
-				<?php
-				if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-					echo $row->name;
-				} else {
-					?>
-					<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Banner Client' ); ?>">
-					<?php echo $row->name; ?>
-					</a>
 					<?php
-				}
-				?>
+					if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+						echo $row->name;
+					} else {
+						?>
+						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Banner Client' ); ?>">
+						<?php echo $row->name; ?>
+						</a>
+						<?php
+					}
+					?>
 				</td>
 				<td width="40%">
-				<?php echo $row->contact;?>
+					<?php echo $row->contact;?>
 				</td>
 				<td width="20%" align="center">
-				<?php echo $row->bid;?>
+					<?php echo $row->bid;?>
 				</td>
 			</tr>
 			<?php
@@ -365,10 +366,11 @@ class HTML_bannerClient {
 		?>
 		</table>
 		<?php echo $pageNav->getListFooter(); ?>
-		<input type="hidden" name="option" value="<?php echo $option; ?>">
-		<input type="hidden" name="task" value="listclients">
-		<input type="hidden" name="boxchecked" value="0">
-		<input type="hidden" name="hidemainmenu" value="0">
+		
+		<input type="hidden" name="option" value="<?php echo $option; ?>" />
+		<input type="hidden" name="task" value="listclients" />
+		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
 		<?php
 	}
@@ -403,15 +405,15 @@ class HTML_bannerClient {
 		<table class="adminform">
 		<tr>
 			<th colspan="2">
-			<?php echo JText::_( 'Details' ); ?>
+				<?php echo JText::_( 'Details' ); ?>
 			</th>
 		</tr>
 		<tr>
 			<td width="10%">
-			<?php echo JText::_( 'Client Name' ); ?>:
+				<?php echo JText::_( 'Client Name' ); ?>:
 			</td>
 			<td>
-			<input class="inputbox" type="text" name="name" size="30" maxlength="60" valign="top" value="<?php echo $row->name; ?>">
+				<input class="inputbox" type="text" name="name" size="30" maxlength="60" valign="top" value="<?php echo $row->name; ?>" />
 			</td>
 		</tr>
 		<tr>
@@ -419,23 +421,23 @@ class HTML_bannerClient {
 			<?php echo JText::_( 'Contact Name' ); ?>:
 			</td>
 			<td>
-			<input class="inputbox" type="text" name="contact" size="30" maxlength="60" value="<?php echo $row->contact; ?>">
+				<input class="inputbox" type="text" name="contact" size="30" maxlength="60" value="<?php echo $row->contact; ?>" />
 			</td>
 		</tr>
 		<tr>
 			<td width="10%">
-			<?php echo JText::_( 'Contact Email' ); ?>:
+				<?php echo JText::_( 'Contact Email' ); ?>:
 			</td>
 			<td>
-			<input class="inputbox" type="text" name="email" size="30" maxlength="60" value="<?php echo $row->email; ?>">
+				<input class="inputbox" type="text" name="email" size="30" maxlength="60" value="<?php echo $row->email; ?>" />
 			</td>
 		</tr>
 		<tr>
 			<td valign="top">
-			<?php echo JText::_( 'Extra Info' ); ?>:
+				<?php echo JText::_( 'Extra Info' ); ?>:
 			</td>
 			<td>
-			<textarea class="inputbox" name="extrainfo" cols="60" rows="10"><?php echo str_replace('&','&amp;',$row->extrainfo);?></textarea>
+				<textarea class="inputbox" name="extrainfo" cols="60" rows="10"><?php echo str_replace('&','&amp;',$row->extrainfo);?></textarea>
 			</td>
 		</tr>
 		<tr>
@@ -444,9 +446,9 @@ class HTML_bannerClient {
 		</tr>
 		</table>
 
-		<input type="hidden" name="option" value="<?php echo $option; ?>">
-		<input type="hidden" name="cid" value="<?php echo $row->cid; ?>">
-		<input type="hidden" name="task" value="">
+		<input type="hidden" name="option" value="<?php echo $option; ?>" />
+		<input type="hidden" name="cid" value="<?php echo $row->cid; ?>" />
+		<input type="hidden" name="task" value="" />
 		</form>
 		<?php
 	}
