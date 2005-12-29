@@ -980,34 +980,39 @@ class mosAdminMenus {
 
 		// establish the hierarchy of the menu
 		$children = array();
+		
 		// first pass - collect children
 		foreach ( $mitems as $v ) {
-			$pt = $v->parent;
-			$list = @$children[$pt] ? $children[$pt] : array();
+			$pt 	= $v->parent;
+			$list 	= @$children[$pt] ? $children[$pt] : array();
 			array_push( $list, $v );
 			$children[$pt] = $list;
 		}
+		
 		// second pass - get an indent list of the items
 		$list = mosTreeRecurse( 0, '', array(), $children, 9999, 0, 0 );
 
 		// assemble menu items to the array
-		$mitems = array();
-		$mitems[] = mosHTML::makeOption( '0', JText::_( 'Top' ) );
-		$this_treename = '';
+		$mitems 	= array();
+		$mitems[] 	= mosHTML::makeOption( '0', JText::_( 'Top' ) );
+		
+		$this_treename = '';		
 		foreach ( $list as $item ) {
 			if ( $this_treename ) {
-				if ( $item->id != $row->id && strpos( $item->treename, $this_treename ) === false) {
+				if ( $item->id != $row->id && strpos( $item->treename, $this_treename ) === false && ( $item->parent != $row->id ) ) {
 					$mitems[] = mosHTML::makeOption( $item->id, $item->treename );
 				}
 			} else {
-				if ( $item->id != $row->id ) {
+				if ( ( $item->id != $row->id ) && ( $item->parent != $row->id ) ) {
 					$mitems[] = mosHTML::makeOption( $item->id, $item->treename );
 				} else {
 					$this_treename = "$item->treename/";
 				}
 			}
 		}
+		
 		$parent = mosHTML::selectList( $mitems, 'parent', 'class="inputbox" size="1"', 'value', 'text', $row->parent );
+		
 		return $parent;
 	}
 
