@@ -159,6 +159,16 @@ function mosParseParams( $txt ) {
 }
 
 /**
+* Legacy function, removed
+* @deprecated As of version 1.1
+*/
+function mosLoadComponent( $name ) {
+	// set up some global variables for use by the frontend component
+	global $mainframe, $database;
+	include( $mainframe->getCfg( 'absolute_path' )."/components/com_$name/$name.php" );
+}
+
+/**
 * Legacy function, handled by JTemplate Zlib outputfilter
 * @deprecated As of version 1.1
 */

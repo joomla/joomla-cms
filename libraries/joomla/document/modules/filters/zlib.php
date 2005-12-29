@@ -1,6 +1,6 @@
 <?PHP
 /**
-* @version $Id$
+* @version $Id: zlib.php 1548 2005-12-23 09:07:11Z eddieajau $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -33,7 +33,7 @@ class patTemplate_OutputFilter_Zlib extends patTemplate_OutputFilter
 	* @abstract
 	* @var	string
 	*/
-	var	$_name	=	'Zlib';
+	var	$_name	=	'zlib';
 
    /**
 	* compress the data

@@ -26,7 +26,22 @@ jimport('pattemplate.patTemplate');
 class JTemplate extends patTemplate
 {
 	/**
-	* Create a new JTemplate instance.
+	 * A hack to support __construct() on PHP 4
+	 * Hint: descendant classes have no PHP4 class_name() constructors,
+	 * so this constructor gets called first and calls the top-layer __construct()
+	 * which (if present) should call parent::__construct()
+	 *
+	 * @return Object
+	 */
+	function JTemplate()
+	{
+		$args = func_get_args();
+		register_shutdown_function(array(&$this, '__destruct'));
+		call_user_func_array(array(&$this, '__construct'), $args);
+	}
+	
+	/**
+	* Class constructor
 	*
 	* The constructor accepts the type of the templates as sole parameter.
 	* You may choose one of:
@@ -35,24 +50,30 @@ class JTemplate extends patTemplate
 	*
 	* The type influences the tags you are using in your templates.
 	*
-	* @access	public
+	* @access	protected
 	* @param	string	$type (either html or tex)
 	*/
-	function JTemplate($type = 'html')
+	function __construct($type = 'html') 
 	{
 		parent::patTemplate($type);
-
+		
 		//set the namespace
 		$this->setNamespace( 'jtmpl' );
 
 		//add module directories
-		$this->addModuleDir('Function', dirname(__FILE__). DS. 'functions');
-		$this->addModuleDir('Modifier', dirname(__FILE__). DS. 'modifiers');
-		$this->addModuleDir('OutputFilter', dirname(__FILE__). DS. 'filters');
+		$this->addModuleDir('Function',		dirname(__FILE__). DS. 'modules'. DS .'functions');
+		$this->addModuleDir('Modifier', 	dirname(__FILE__). DS. 'modules'. DS .'modifiers');
 
 		//set root template directory
 		$this->setRoot( dirname(__FILE__). DS. 'tmpl' );
 	}
+	
+	/**
+	 * Class destructor
+	 * 
+	 * @access	protected
+	 */
+	function __destruct() {}
 
 	/**
 	 * Returns a reference to a global Template object, only creating it
@@ -94,14 +115,9 @@ class JTemplate extends patTemplate
 	 *
 	 * @access public
 	 * @param string 	$name		The name of the template
-	 * @param boolean 	$compress	If true, compress the output using Zlib compression
 	 */
-	function display( $name, $compress = false )
+	function display( $name )
 	{
-		if($compress) {
-			$tmpl->applyOutputFilter('Zlib');
-		}
-
 		$this->displayParsedTemplate( $name );
 	}
 

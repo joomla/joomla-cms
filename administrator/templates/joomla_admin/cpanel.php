@@ -16,8 +16,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 global $document;
 
-$document->setModules('icon'  , array('style' => 0));
-$document->setModules('cpanel', array('style' => 1));
+$document->addPlaceholder('modules', array('name' => 'icon', 'style' => 0));
+$document->addPlaceholder('modules', array('name' => 'cpanel', 'style' => 1));
 
 ?>
 <table class="adminform">

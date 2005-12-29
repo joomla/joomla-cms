@@ -40,14 +40,17 @@ class JObject
 
 	/**
 	 * Class constructor, overridden in descendant classes.
+	 * 
+	 * @access	protected
 	 */
 	function __construct() {}
 
 	/**
 	 * Class destructor, overridden in descendant classes.
+	 * 
+	 * @access	protected
 	 */
 	function __destruct() {}
-
 
 	/**
 	* @param string The name of the property

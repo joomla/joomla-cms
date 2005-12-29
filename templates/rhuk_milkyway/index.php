@@ -27,7 +27,7 @@ echo '<?xml version="1.0" encoding="utf-8"?' .'>';
 				<div id="header_l">
 					<div id="header_r">
 						<div id="logo"></div>
-						<jdoc:placeholder type="modules" position="top" style="-1" />
+						<jdoc:placeholder type="modules" name="top" style="-1" />
 					</div>
 				</div>
 			</div>
@@ -40,7 +40,7 @@ echo '<?xml version="1.0" encoding="utf-8"?' .'>';
 	    				      <td class="pill_l">&nbsp;</td>
 	    				      <td class="pill_m">
 	    				        <div id="pillmenu">
-	    				        	<jdoc:placeholder type="modules" position="user3" style="-1" />
+	    				        	<jdoc:placeholder type="modules" name="user3" style="-1" />
 	    				        </div>
 	    				      </td>
 	    				      <td class="pill_r">&nbsp;</td>
@@ -51,7 +51,7 @@ echo '<?xml version="1.0" encoding="utf-8"?' .'>';
 				</div>
 			</div>
 			<div id="search">
-				<jdoc:placeholder type="modules" position="user4" style="-1" />
+				<jdoc:placeholder type="modules" name="user4" style="-1" />
 			</div>
 			<div id="pathway">
 				<jdoc:placeholder type="module" name="breadcrumbs" style="-1" />
@@ -66,7 +66,7 @@ echo '<?xml version="1.0" encoding="utf-8"?' .'>';
 				<div id="whitebox_m">
 					<div id="area">
 						<div id="leftcolumn">
-							<jdoc:placeholder type="modules" position="left" style="-3" />
+							<jdoc:placeholder type="modules" name="left" style="-3" />
 						</div>
 						<div id="maincolumn">
 							<?php if(mosCountModules('user1') || mosCountModules('user2')) { ?>
@@ -74,7 +74,7 @@ echo '<?xml version="1.0" encoding="utf-8"?' .'>';
 								<tr valign="top">
 									<?php if(mosCountModules('user1')) { ?>
 									<td>
-										<jdoc:placeholder type="modules" position="user1" style="-2" />
+										<jdoc:placeholder type="modules" name="user1" style="-2" />
 									</td>
 									<?php } ?>
 									<?php if(mosCountModules('user1') && mosCountModules('user2')) { ?>
@@ -82,7 +82,7 @@ echo '<?xml version="1.0" encoding="utf-8"?' .'>';
 									<?php } ?>
 									<?php if(mosCountModules('user2')) { ?>
 									<td>
-										<jdoc:placeholder type="modules" position="user2" style="-2" />
+										<jdoc:placeholder type="modules" name="user2" style="-2" />
 									</td>
 									<?php } ?>
 								</tr>
@@ -97,7 +97,7 @@ echo '<?xml version="1.0" encoding="utf-8"?' .'>';
 									<?php if(mosCountModules('right') && $task != 'edit' ) { ?>
 									<td class="greyline">&nbsp;</td>
 									<td width="170">
-										<jdoc:placeholder type="modules" position="right" style="-2"/>
+										<jdoc:placeholder type="modules" name="right" style="-2"/>
 									</td>
 									<?php } ?>
 								</tr>
@@ -119,12 +119,12 @@ echo '<?xml version="1.0" encoding="utf-8"?' .'>';
 		<div id="footer">
 			<div id="footer_l">
 				<div id="footer_r">
-					<jdoc:placeholder type="modules" position="footer" style="-1" />
+					<jdoc:placeholder type="modules" name="footer" style="-1" />
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<jdoc:placeholder type="modules" position="debug" style="-1"/>
+<jdoc:placeholder type="modules" name="debug" style="-1"/>
 </body>
 </html>

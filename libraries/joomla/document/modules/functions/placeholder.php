@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: Placeholder.php 1563 2005-12-27 20:09:40Z Jinx $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -18,7 +18,7 @@ class patTemplate_Function_Placeholder extends patTemplate_Function
 	* @access	private
 	* @var		string
 	*/
-	var $_name	=	'Placeholder';
+	var $_name	=	'placeholder';
 
    /**
 	* call the function
@@ -30,46 +30,13 @@ class patTemplate_Function_Placeholder extends patTemplate_Function
 	*/
 	function call( $params, $content )
 	{
-		global $document, $option;
+		global $document;
 		
 		$type = strtolower( $params['type'] );
 		unset($params['type']);
-
-        switch ($type) {
-
-        	case 'component' :
-			{
-				$name = mosGetParam($params, 'name', $option);
-				unset($params['name']);
 				
-				$document->setComponent($name, $params);
-				return '{COMPONENT_'.strtoupper($name).'}';
-			} break;
-
-        	case 'modules' :
-			{
-				$position = $params['position'];
-				unset($params['position']);
-
-				$document->setModules($position, $params);
-				return '{MODULES_'.strtoupper($position).'}';
-			} break;
-
-			case 'module' :
-			{
-				$name = $params['name'];
-				unset($params['name']);
-
-				$document->setModule($name, $params);
-				return '{MODULE_'.strtoupper($name).'}';
-			} break;
-
-	       	case 'head':
-				return '{HEAD}';
-        		break;
-		}
-
-		return false;
+		$result = $document->addPlaceholder($type, $params);
+		return $result;
 	}
 }
 ?>

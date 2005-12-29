@@ -49,7 +49,7 @@ function mosMainBody_Admin()
 function mosLoadAdminModules( $position='left', $style=0 ) 
 {
 	?>
-	<jdoc:placeholder type="modules" position="<?php echo $position ?>" style="<?php echo $style ?>"/>
+	<jdoc:placeholder type="modules" name="<?php echo $position ?>" style="<?php echo $style ?>"/>
 	<?php
 }
 

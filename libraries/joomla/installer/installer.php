@@ -72,6 +72,8 @@ class JInstaller extends JObject
 
 	/**
 	* Constructor
+	* 
+	* @access protected
 	*/
 	function __construct() {
         $this->allowOverwrite( mosGetParam( $_POST, 'overwrite', 0 ) );

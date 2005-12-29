@@ -33,23 +33,8 @@ function mosCountModules( $position='left' )
  */
 function mosMainBody()
 {
-	global $option;
-	echo $option;
-	
 	?>
-	<jdoc:placeholder type="component" name="<?php echo $option ?>" />
-	<?php
-}
-
-/**
- * Insert a component placeholder
- * 
- * @param string 	The name of the component
- */
-function mosLoadComponent( $name ) 
-{
-	?>
-	<jdoc:placeholder type="component" name="<?php echo 'com_'.$name ?>" />
+	<jdoc:placeholder type="component" />
 	<?php
 }
 
@@ -62,7 +47,7 @@ function mosLoadComponent( $name )
 function mosLoadModules( $position='left', $style=0 )
 {
 	?>
-	<jdoc:placeholder type="modules" position="<?php echo $position ?>" style="<?php echo $style ?>"/>
+	<jdoc:placeholder type="modules" name="<?php echo $position ?>" style="<?php echo $style ?>"/>
 	<?php
 }
 

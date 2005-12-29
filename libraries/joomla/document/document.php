@@ -11,21 +11,20 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.system.object');
+jimport('joomla.template.template');
 
 /**
  * Document class, provides an easy interface to parse and display a document
- *
- * The class is closely coupled with the JTemplate placeholder function.
  *
  * @author Johan Janssens <johan@joomla.be>
  * @package Joomla
  * @subpackage JFramework
  * @abstract
  * @since 1.1
+ * @see patTemplate
  */
 
-class JDocument extends JObject
+class JDocument extends JTemplate
 {
 	/**
      * Tab string
@@ -123,21 +122,19 @@ class JDocument extends JObject
      */
     var $_title = '';
 
-	/**
-     * The patTemplate object
-     *
-     * @var       object
-     * @access    private
-     */
-	var $_tmpl		   = null;
 
 	/**
-	 * Constructor
-	 *
-	 * @access protected
-	 */
-	function __construct($attributes = array())
+	* Class constructor
+	* 
+	* @access protected
+	* @param  string	$type (either html or tex)
+	* @param	array	$attributes Associative array of attributes
+	* @see JDocument
+	*/
+	function __construct($type, $attributes = array())
 	{
+		parent::__construct($type);
+		
 		if (isset($attributes['lineend'])) {
             $this->setLineEnd($attributes['lineend']);
         }
@@ -153,6 +150,14 @@ class JDocument extends JObject
         if (isset($attributes['tab'])) {
             $this->setTab($attributes['tab']);
         }
+		
+		//set the namespace
+		$this->setNamespace( 'jdoc' );
+		
+		//add module directories
+		$this->addModuleDir('Function',		dirname(__FILE__). DS. 'modules'. DS .'functions');
+		$this->addModuleDir('OutputFilter', dirname(__FILE__). DS. 'modules'. DS .'filters'  );
+		
 	}
 
 	/**
@@ -170,8 +175,6 @@ class JDocument extends JObject
 	{
 		static $instances;
 		
-		//echo var_dump($instances);
-
 		if (!isset( $instances )) {
 			$instances = array();
 		}
@@ -181,7 +184,7 @@ class JDocument extends JObject
 		if (empty($instances[$signature])) {
 			jimport('joomla.document.adapters.'.$type);
 			$adapter = 'JDocument'.$type;
-			$instances[$signature] = new $adapter($attributes);
+			$instances[$signature] = new $adapter($type, $attributes);
 		}
 
 		return $instances[$signature];
@@ -397,7 +400,8 @@ class JDocument extends JObject
 	 */
 	function parse($directory, $filename = 'index.php')
 	{
-		$this->_tmpl =& $this->_load($directory, $filename);
+		$contents = $this->_load($directory, $filename);
+		$this->readTemplatesFromInput( $contents, 'String' );
 	}
 
 	/**
@@ -409,13 +413,14 @@ class JDocument extends JObject
 	 */
 	function display($name, $compress = true)
 	{
-		$this->_replaceHead();
-		$this->_replaceBody();
-
+		if($compress) {
+			$this->applyOutputFilter('Zlib');
+		}
+		
 		// Set mime type and character encoding
         header('Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
 
-		$this->_tmpl->display( $name, $compress );
+		parent::display( $name );
 	}
 
 	/**
@@ -441,25 +446,21 @@ class JDocument extends JObject
     }
 
 	/**
-	 * Create a Template object
+	 * Load a template file
 	 *
 	 * @param string 	$template	The name of the template
 	 * @param string 	$filename	The actual filename
-	 * @return jtemplate
+	 * @return string The contents of the template 
 	 */
-	function &_load($template, $filename)
+	function _load($template, $filename)
 	{
 		global $mainframe, $my, $acl, $database;
 		global $Itemid, $task, $option;
 
-		$tmpl = null;
+		$contents = '';
 		if ( file_exists( 'templates'.DS.$template.DS.$filename ) ) {
-			jimport('joomla.template.template');
-
-			$tmpl =& JTemplate::getInstance();
-			$tmpl->setNamespace( 'jdoc' );
-
-			$tmpl->addGlobalVar( 'template', $template);
+			
+			$this->addGlobalVar( 'template', $template);
 
 			ob_start();
 			?><jdoc:tmpl name="<?php echo $filename ?>" autoclear="yes"><?php
@@ -467,11 +468,9 @@ class JDocument extends JObject
 			?></jdoc:tmpl><?php
 			$contents = ob_get_contents();
 			ob_end_clean();
-			
-			$tmpl->readTemplatesFromInput( $contents, 'String' );
 		}
-
-		return $tmpl;
+		
+		return $contents;
 	}
 }
 ?>

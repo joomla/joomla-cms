@@ -14,8 +14,6 @@
 /**
  * DocumentHTML class, provides an easy interface to parse and display an html document
  *
- * The class is closely coupled with the JTemplate placeholder function.
- *
  * @author Johan Janssens <johan@joomla.be>
  * @package Joomla
  * @subpackage JFramework
@@ -30,7 +28,7 @@ class JDocumentHTML extends JDocument
      * @var       array
      * @access    private
      */
-	var $_placeholders = array();
+	var $_jdoc_placeholders = array();
 
 	/**
      * Array of published modules
@@ -38,7 +36,7 @@ class JDocumentHTML extends JDocument
      * @var       array
      * @access    private
      */
-	var $_modules      = array();
+	var $_jdoc_modules      = array();
 
 	/**
      * Contains the base url
@@ -71,12 +69,13 @@ class JDocumentHTML extends JDocument
      * @access  private
      */
     var $_custom = array();
-
-
+	
 	/**
-	 * Constructor
+	 * Class constructore
 	 *
 	 * @access protected
+	 * @param	string	$type 		(either html or tex)
+	 * @param	array	$attributes Associative array of attributes
 	 */
 	function __construct($attributes = array())
 	{
@@ -89,11 +88,11 @@ class JDocumentHTML extends JDocument
 		//set mime type
 		$this->_mime = 'text/html';
 
-		$this->_placeholders['module']		= array();
-		$this->_placeholders['modules']		= array();
-		$this->_placeholders['components']	= array();
+		$this->_jdoc_placeholders['module']		= array();
+		$this->_jdoc_placeholders['modules']	= array();
+		$this->_jdoc_placeholders['components']	= array();
 
-		$this->_modules =& $this->_loadModules();
+		$this->_jdoc_modules =& $this->_loadModules();
 	}
 
 	 /**
@@ -219,16 +218,33 @@ class JDocumentHTML extends JDocument
     {
         $this->setMetaData('Content-Type', $this->_mime . '; charset=' . $this->_charset , true );
     }
+	
+	function addPlaceholder($type, $params = array())
+	{
+		$result = null;
+		
+		$function = '_add'.ucwords($type);
+		$name     = isset($params['name']) ? $params['name'] : null;
+
+		if(method_exists($this, $function)) {
+			unset( $params['name']);
+			call_user_func(array(&$this, $function), $name, $params);
+		}
+		
+		return '{'.strtoupper($type).'_'.strtoupper($name).'}';
+	}
 
 	/**
-	 *  Set a component
+	 *  Set the component
 	 *
 	 * @access public
 	 * @param string $name		The name of the component
 	 * @param array  $params	An associative array of attributes to add
 	 */
-	function setComponent($name, $params = array()) {
-		$this->_placeholders['components'][] = $name;
+	function _addComponent($name, $params = array()) 
+	{
+		global $mainframe;
+		$this->_jdoc_placeholders['components'][] = $mainframe->getOption();
 	}
 
 	/**
@@ -238,14 +254,14 @@ class JDocumentHTML extends JDocument
 	 * @param string 	$name	The name of the module
 	 * @param array  	$params	An associative array of attributes to add
 	 */
-	function setModule($name, $params = array())
+	function _addModule($name, $params = array())
 	{
 		$module =& $this->getModule($name);
 
 		foreach($params as $param => $value) {
 			$module->$param = $value;
 		}
-		$this->_placeholders['module'][] = $name;
+		$this->_jdoc_placeholders['module'][] = $name;
 	}
 
 	/**
@@ -255,17 +271,17 @@ class JDocumentHTML extends JDocument
 	 * @param string 	$name	The position of the modules
 	 * @param array  	$params	An associative array of attributes to add
 	 */
-	function setModules($position, $params = array())
+	function _addModules($position, $params = array())
 	{
 		$modules =& $this->getModules($position);
-
+		
 		$total = count($modules);
 		for($i = 0; $i < $total; $i++) {
 			foreach($params as $param => $value) {
 				$modules[$i]->$param = $value;
 			}
 		}
-		$this->_placeholders['modules'][] = $position;
+		$this->_jdoc_placeholders['modules'][] = $position;
 	}
 
 	/**
@@ -279,10 +295,10 @@ class JDocumentHTML extends JDocument
 	{
 		$result = null;
 
-		$total = count($this->_modules);
+		$total = count($this->_jdoc_modules);
 		for($i = 0; $i < $total; $i++) {
-			if($this->_modules[$i]->name == $name) {
-				$result =& $this->_modules[$i];
+			if($this->_jdoc_modules[$i]->name == $name) {
+				$result =& $this->_jdoc_modules[$i];
 				break;
 			}
 		}
@@ -301,10 +317,10 @@ class JDocumentHTML extends JDocument
 	{
 		$result = array();
 
-		$total = count($this->_modules);
+		$total = count($this->_jdoc_modules);
 		for($i = 0; $i < $total; $i++) {
-			if($this->_modules[$i]->position == $position) {
-				$result[] =& $this->_modules[$i];
+			if($this->_jdoc_modules[$i]->position == $position) {
+				$result[] =& $this->_jdoc_modules[$i];
 			}
 		}
 
@@ -549,44 +565,42 @@ class JDocumentHTML extends JDocument
 			$template = '_system';
 		}
 		
-		$this->_tmpl =& $this->_load($template, $filename);
+		parent::parse($template, $filename);
 	}
 
 	/**
 	 * Execute and display a layout script.
 	 *
 	 * @access public
-	 * @param string 	$name	The name of the template
+	 * @param string 	$name		The name of the template
+	 * @param boolean 	$compress	If true, compress the output using Zlib compression
 	 */
 	function display($name, $compress = true)
 	{
 		$msg = mosGetParam( $_REQUEST, 'mosmsg', '' );
 
-		foreach($this->_placeholders['components'] as $component)
+		foreach($this->_jdoc_placeholders['components'] as $component)
 		{
 			$html = $this->fetchComponent($component, $msg);
-			$this->_tmpl->addGlobalVar('component_'.$component, $html);
+			$this->addGlobalVar('component_', $html);
 		}
 
-		foreach($this->_placeholders['modules'] as $module)
+		foreach($this->_jdoc_placeholders['modules'] as $module)
 		{
 			$html = $this->fetchModules($module);
-			$this->_tmpl->addGlobalVar('modules_'.$module, $html);
+			$this->addGlobalVar('modules_'.$module, $html);
 		}
 
-		foreach($this->_placeholders['module'] as $module)
+		foreach($this->_jdoc_placeholders['module'] as $module)
 		{
 			$html = $this->fetchModule($module);
-			$this->_tmpl->addGlobalVar('module_'.$module, $html);
+			$this->addGlobalVar('module_'.$module, $html);
 		}
 
 		$html = $this->fetchHead();
-		$this->_tmpl->addGlobalVar('head', $html);
+		$this->addGlobalVar('head_', $html);
 
-		// Set mime type and character encoding
-        header('Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
-
-		$this->_tmpl->display( $name, $compress );
+		parent::display( $name, $compress );
 	}
 
 	/**
