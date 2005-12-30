@@ -12,7 +12,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.compat.phputf8env');
+jimport('joomla.common.compat.phputf8env');
 jimport('phputf8.utf8');
 
 /**

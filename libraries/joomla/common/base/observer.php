@@ -11,8 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.system.object');
-
 /**
  * Abstract observer class to implement the observer design pattern
  *

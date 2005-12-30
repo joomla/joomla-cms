@@ -560,7 +560,7 @@ class JMenuBar
 	function help( $ref, $com=false ) {
 		$image2 	= mosAdminMenus::ImageCheckAdmin( 'help_f2.png', '/images/', NULL, NULL, 'Help', 'help', 1 );
 
-		jimport('joomla.help');
+		jimport('joomla.i18n.help');
 		$url = JHelp::createURL($ref, $com);
 
 		?>

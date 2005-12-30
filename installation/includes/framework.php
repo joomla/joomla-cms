@@ -37,19 +37,6 @@ $url = str_replace( '/index.php', '', $url );
 
 define( 'JURL_SITE', $url);
 
-
-if (phpversion() < '4.2.0') {
-	jimport('joomla.compat.php41x' );
-}
-if (phpversion() < '4.3.0') {
-	jimport('joomla.compat.php42x' );
-}
-if (version_compare( phpversion(), '5.0' ) < 0) {
-	jimport('joomla.compat.php50x' );
-}
-
-jimport('joomla.compat.phputf8env' );
-
 if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
 	die( 'Fatal error.  Global variable hack attempted.' );
 }
@@ -65,12 +52,13 @@ require_once( JPATH_INCLUDES . DS . 'classes.php' );
 require_once( JPATH_INCLUDES . DS . 'html.php' );
 
 //Library imports
+jimport( 'joomla.common.compat.compat' );
 jimport( 'joomla.version' );
 jimport( 'joomla.system.error');
-jimport( 'joomla.system.string' );
 jimport( 'joomla.factory' );
 jimport( 'joomla.files' );
 jimport( 'joomla.params' );
-jimport( 'joomla.language' );
+jimport( 'joomla.i18n.language' );
+jimport( 'joomla.i18n.string' );
 jimport( 'joomla.application');
 ?>

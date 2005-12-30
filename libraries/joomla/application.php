@@ -12,8 +12,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.system.object' );
-
 /**
 * Base class for a Joomla! application
 *
@@ -303,7 +301,7 @@ class JApplication extends JObject {
 	 */
 	function &getBrowser()
 	{
-		jimport('joomla.system.browser');
+		jimport('joomla.application.environment.browser');
 		return JBrowser::getInstance();
 	}
 

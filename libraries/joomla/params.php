@@ -11,8 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.system.object' );
-
 /**
 * Parameters handler
 *

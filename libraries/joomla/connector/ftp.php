@@ -35,8 +35,6 @@ if (!defined("FTP_ASCII")) {
 	define("FTP_ASCII", 0);
 }
 
-jimport( 'joomla.system.object' );
-
 /**
  * FTP client class
  *

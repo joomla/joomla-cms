@@ -37,16 +37,14 @@ require_once( JPATH_LIBRARIES . DS .'loader.php' );
 define( 'JURL_SITE', $mosConfig_live_site );
 
 if (phpversion() < '4.2.0') {
-	jimport('joomla.compat.php41x' );
+	jimport('joomla.common.compat.php41x' );
 }
 if (phpversion() < '4.3.0') {
-	jimport('joomla.compat.php42x' );
+	jimport('joomla.common.compat.php42x' );
 }
 if (version_compare( phpversion(), '5.0' ) < 0) {
-	jimport('joomla.compat.php50x' );
+	jimport('joomla.common.compat.php50x' );
 }
-
-jimport('joomla.compat.phputf8env' );
 
 if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
 	die( 'Fatal error.  Global variable hack attempted.' );
@@ -59,24 +57,28 @@ if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER 
 jimport( 'phpinputfilter.inputfilter' );
 
 //Joomla library imports
-jimport( 'joomla.compat.phputf8env');
+jimport( 'joomla.common.compat.compat' );
+jimport( 'joomla.common.base.*' );
+
 jimport( 'joomla.version' );
 jimport( 'joomla.functions' );
 jimport( 'joomla.system.error');
 jimport( 'joomla.system.auth');
 jimport( 'joomla.system.profiler' );
-jimport( 'joomla.system.session' );
-jimport( 'joomla.system.string' );
+jimport( 'joomla.application.environment.session' );
 jimport( 'joomla.registry.main');
 jimport( 'joomla.models.*' );
 jimport( 'joomla.html' );
 jimport( 'joomla.factory' );
 jimport( 'joomla.files' );
 jimport( 'joomla.params' );
-jimport( 'joomla.language' );
+jimport( 'joomla.i18n.language' );
+jimport( 'joomla.i18n.string' );
 jimport( 'joomla.event' );
 jimport( 'joomla.plugin' );
 jimport( 'joomla.editor' );
 jimport( 'joomla.application');
-jimport( 'joomla.legacy.*' );
+
+jimport( 'joomla.common.legacy.*' );
+
 ?>

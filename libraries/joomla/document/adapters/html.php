@@ -513,7 +513,7 @@ class JDocumentHTML extends JDocument
 	 * @param boolean 	$compress	If true, compress the output using Zlib compression
 	 */
 	function display($template, $compress = true)
-	{s
+	{
 		foreach($this->_renderers as $type => $names) 
 		{
 			foreach($names as $name) 

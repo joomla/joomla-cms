@@ -12,8 +12,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.system.object');
-
 /**
  * Text  handling class
  *  @package  Joomla

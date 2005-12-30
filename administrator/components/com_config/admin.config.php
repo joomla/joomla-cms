@@ -142,7 +142,7 @@ function showconfig( $option) {
 	}
 
 // LOCALE SETTINGS
-	jimport('joomla.help');
+	jimport('joomla.i18n.help');
 
 	$helpsites = array();
 	$helpsites = JHelp::createSiteList( 'http://help.joomla.org/helpsites-11.xml', $mosConfig_helpurl);
