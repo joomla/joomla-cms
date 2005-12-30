@@ -33,6 +33,8 @@ Legend:
 
 30-Dec-2005 Johan Janssens
  + Added JURI and JRequest classes - contributed by Louis Landry
+ + Implemented AJAX functionality in the installation to 
+   improve usability - contributed by Louis Landry
 
 27-Dec-2005 Johan Janssens 
  # Fixed artf2742 : Backend generates just plain text output in IE or Opera

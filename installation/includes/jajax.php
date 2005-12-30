@@ -32,7 +32,8 @@ define( 'JPATH_LIBRARIES',		JPATH_ROOT . DS . 'libraries' );
 // Require the library loader
 require_once( JPATH_LIBRARIES . DS .'loader.php' );
 
-jimport( 'joomla.system.string' );
+jimport( 'joomla.common.base.object' );
+jimport( 'joomla.i18n.string' );
 
 /*
  * Check to see if the form was sent via the ajform library
