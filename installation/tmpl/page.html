@@ -5,6 +5,7 @@
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 </jos:comment>
+
 <jos:tmpl name="form" autoclear="yes"><?xml version="1.0" encoding="iso-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{INSTALLDIR}">
@@ -17,6 +18,7 @@
 		<link rel="stylesheet" href="tmpl/{INSTALLCSS}" type="text/css" />
 		<script language="JavaScript" type="text/javascript" src="tmpl/install.js"></script>
 		<script language="JavaScript" type="text/javascript" src="tmpl/google_autofill_fix.js"></script>
+		<script language="JavaScript" type="text/javascript" src="tmpl/ajform.js"></script>
 	</head>
 	<body>
 		<div class="logo">
@@ -43,17 +45,14 @@
 								<div class="step-{STEP_DBCONFIG}">
 									4 - <jos:translate>Database</jos:translate>
 								</div>
-								<div class="step-{STEP_DBCOLLATION}">
-									5 - <jos:translate>Collation</jos:translate>
-								</div>
 								<div class="step-{STEP_FTPCONFIG}">
-									6 - <jos:translate>FTP Configuration</jos:translate>
+									5 - <jos:translate>FTP Configuration</jos:translate>
 								</div>
 								<div class="step-{STEP_MAINCONFIG}">
-									7 - <jos:translate>Configuration</jos:translate>
+									6 - <jos:translate>Configuration</jos:translate>
 								</div>
 								<div class="step-{STEP_FINISH}">
-									8 - <jos:translate>Finish</jos:translate>
+									7 - <jos:translate>Finish</jos:translate>
 								</div>
 							</div>
 						</div>

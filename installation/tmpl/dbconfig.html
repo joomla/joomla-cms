@@ -5,23 +5,7 @@
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 </jos:comment>
-
-<script language="JavaScript" type="text/javascript">
-function validateForm( frm, task ) {
-	var DBtype = getElementByName( frm, 'vars[DBtype]' );
-	var DBhostname = getElementByName( frm, 'vars[DBhostname]' );
-
-	if ( DBtype.selectedIndex == 0 ) {
-		alert( '<jos:translate key="validType" escape="yes">Please select the database type</jos:translate>' );
-		return;
-	} else if (DBhostname.value == '') {
-		alert( '<jos:translate key="validHost" escape="yes">Please enter the host name</jos:translate>' );
-		return;
-	} else {
-		submitForm( frm, task );
-	}
-}
-</script>
+<script language="JavaScript" type="text/javascript" src="tmpl/dbconfig.js"></script>
 
 <div id="right">
 	<div id="rightpad">
@@ -31,7 +15,7 @@ function validateForm( frm, task ) {
 
 		<div class="far-right">
 			<input type="button" class="button" value="&lt;&lt; <jos:translate escape="yes">Previous</jos:translate>" onclick="submitForm( this.form, 'license' );" />
-			<input type="button" class="button" value="<jos:translate escape="yes">Next</jos:translate> &gt;&gt;" onclick="validateForm( this.form, 'dbcollation' );" />
+			<input type="button" class="button" value="<jos:translate escape="yes">Next</jos:translate> &gt;&gt;" onclick="validateForm( this.form, 'makedb' );" />
 		</div>
 
 		<div class="clr"></div>
@@ -194,6 +178,20 @@ function validateForm( frm, task ) {
 		  		    	</em>
 		  		    </td>
 		  		</tr>
+		  		<tr>
+		  		    <td colspan="2" valign="top">
+	    				<label for="vars_dbcollation">
+		  		    		<jos:translate>Available collations</jos:translate>
+						</label>
+		  		    	<br/>
+		  		    	<span id="theCollation"><input type="button" id="findbutton" class="button" value="Get Collations" onclick="JProcess();" /></span>
+		  		    </td>
+		  		    <td>
+		  		    	<em>
+		  		    	<span id="collationMessage">Once you have filled in the database information, click the Get Collations button to get the available collation options from the database</span>
+		  		    	</em>
+		  		    </td>
+				</tr>
 	  			</table>
 			</div>
 		</div>
@@ -205,3 +203,12 @@ function validateForm( frm, task ) {
 <input type="hidden" name="vars[lang]" value="{VAR_LANG}" />
 <input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}" />
 <input type="hidden" name="task" value="" />
+</form>
+<form action="includes/jajax.php" id='mainForm' onsubmit="ajform:getReturnData();">
+	<input type="hidden" id="theType" name="type" value="" />
+	<input type="hidden" id="theHost" name="host" value="" />
+	<input type="hidden" id="theUser" name="user" value="" />
+	<input type="hidden" id="thePass" name="pass" value="" />
+	<input type="hidden" name="task" value="dbcollate" />
+</form>
+

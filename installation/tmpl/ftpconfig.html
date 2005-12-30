@@ -5,21 +5,7 @@
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 </jos:comment>
-
-<script language="JavaScript" type="text/javascript">
-	function validateForm( frm, task ) {
-		var ftpUser = getElementByName( frm, 'vars[ftpUser]' );
-		var ftpPassword = getElementByName( frm , 'vars[ftpPassword]' );
-
-		if (ftpUser.value == '') {
-			alert( '<jos:translate key="warnFtpUser" escape="yes">Please enter an FTP username</jos:translate>' );
-		} else if (ftpPassword.value == '') {
-			alert( '<jos:translate key="warnFtpPassword" escape="yes">Please enter an FTP password</jos:translate>' );
-		} else {
-			submitForm( frm, task );
-		}
-	}
-</script>
+<script language="JavaScript" type="text/javascript" src="tmpl/ftpconfig.js"></script>
 
 <div id="right">
 	<div id="rightpad">
@@ -32,17 +18,21 @@
 		</div>
 		<div class="clr"></div>
 
-		<h2><jos:translate key="ftpConfTitle">Default FTP settings</jos:translate></h2>
+		<h2>
+			<jos:translate key="ftpConfTitle">Default FTP settings</jos:translate>
+		</h2>
 		<div class="install-text">
 			<jos:translate key="tipFtpConfSteps">
 			<p>Due to filesystem permission restrictions and PHP Safe Mode restrictions.
 			For all users to utilize the Joomla! installers an FTP layer exists to handle
-			filesystem manipulation.<br/>
-		   <br/>
-		   Enter an FTP username and password with access to the Joomla! root directory,
-		   this will be the FTP account that handles all filesystem operations when Joomla!
-		   requires FTP access to complete a task.<br />
-		   <br/>
+			filesystem manipulation.
+			<br />
+			<br />
+			Enter an FTP username and password with access to the Joomla! root directory,
+			this will be the FTP account that handles all filesystem operations when Joomla!
+			requires FTP access to complete a task.
+			<br />
+			<br/>
 			For security reasons, it is best if a separate FTP user account is created with
 			access only to the Joomla! installation.</p>
 			</jos:translate>
@@ -50,52 +40,63 @@
 		<div class="install-form">
 			<div class="form-block">
 				<table class="content2">
-			   <tr>
-				  <td width="100">
-				  	<input class="inputbox" type="checkbox" name="vars[ftpEnable]" value="1" accesskey="e" checked />
-				  </td>
-			     <td align="left">
-				  	<label for="vars[ftpEnable]"><jos:translate>Enable FTP filesystem layer</jos:translate></label>
-				 </td>
-				</tr>
+					<tr>
+						<td width="100">
+							<input class="inputbox" type="checkbox" id="ftpenable" name="vars[ftpEnable]" value="1" accesskey="e" onChange="formState()" checked />
+						</td>
+						<td align="left">
+							<label for="vars[ftpEnable]">
+								<jos:translate>Enable FTP filesystem layer</jos:translate>
+							</label>
+							
+							<input type="hidden" id="ftpuser" name="vars[ftpUser]" value="" />
+							<input type="hidden" id="ftppass" name="vars[ftpPassword]" value="" />
+							<input type="hidden" name="vars[lang]" value="{VAR_LANG}" />
+							<input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}" />
+							<input type="hidden" name="vars[DBtype]" value="{VAR_DBTYPE}" />
+							<input type="hidden" name="vars[DBhostname]" value="{VAR_DBHOSTNAME}" />
+							<input type="hidden" name="vars[DBuserName]" value="{VAR_DBUSERNAME}" />
+							<input type="hidden" name="vars[DBpassword]" value="{VAR_DBPASSWORD}" />
+							<input type="hidden" name="vars[DBname]" value="{VAR_DBNAME}" />
+							<input type="hidden" name="vars[DBprefix]" value="{VAR_DBPREFIX}" />
+							<input type="hidden" name="task" value="" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<jos:translate>FTP Root Path</jos:translate>
+						</td>
+						<td align="center">
+							<input class="inputbox" id="ftproot" type="text" name="vars[ftpRoot]" value="{VAR_FTPROOT}" size="30"/>
+						</td>
+					</tr>
 				</table>
-
 				<br />
 				<br />
-
+			</form>
+			<form action="includes/jajax.php" id='mainForm' onsubmit="ajform:getReturnData();">
 				<table class="content2">
-			   <tr>
-				  <td width="100">
-				  	<jos:translate>FTP user</jos:translate>
-				  </td>
-				  <td align="center">
-				  	<input class="inputbox" type="text" name="vars[ftpUser]" value="{VAR_FTPUSER}" size="30"/>
-				  </td>
-				</tr>
-				<tr>
-				  <td>
-				  	<jos:translate>FTP password</jos:translate>
-				  </td>
-				  <td align="center">
-				  	<input class="inputbox" type="text" name="vars[ftpPassword]" value="{VAR_FTPPASSWORD}" size="30"/>
-				  </td>
-			  </tr>
+					<tr>
+						<td width="100">
+							<jos:translate>FTP user</jos:translate>
+						</td>
+						<td align="center">
+							<input class="inputbox" type="text" id="userinput" name="user" value="{VAR_FTPUSER}" size="30"/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<jos:translate>FTP password</jos:translate>
+						</td>
+						<td align="center">
+							<input class="inputbox" type="text" id="passinput" name="pass" value="{VAR_FTPPASSWORD}" size="30"/>
+						</td>
+					</tr>
 				</table>
+				<input type="hidden" name="task" value="ftproot" />
+				<input type="button" id="findbutton" class="button" value="Autofind FTP Path" onclick="JProcess( this.form );" />
 			</div>
 		</div>
 	</div>
 </div>
-
 <div class="clr"></div>
-
-
-<input type="hidden" name="vars[lang]" value="{VAR_LANG}" />
-<input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}" />
-<input type="hidden" name="vars[DBtype]" value="{VAR_DBTYPE}" />
-<input type="hidden" name="vars[DBhostname]" value="{VAR_DBHOSTNAME}" />
-<input type="hidden" name="vars[DBuserName]" value="{VAR_DBUSERNAME}" />
-<input type="hidden" name="vars[DBpassword]" value="{VAR_DBPASSWORD}" />
-<input type="hidden" name="vars[DBname]" value="{VAR_DBNAME}" />
-<input type="hidden" name="vars[DBprefix]" value="{VAR_DBPREFIX}" />
-
-<input type="hidden" name="task" value="" />

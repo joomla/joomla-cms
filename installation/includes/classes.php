@@ -388,10 +388,10 @@ class installationTasks {
 			$vars['ftpEnable'] = '1';
 		}
 		if (!isset ($vars['ftpUser'])) {
-			$vars['ftpUser'] = 'username';
+			$vars['ftpUser'] = '';
 		}
 		if (!isset ($vars['ftpPassword'])) {
-			$vars['ftpPassword'] = 'password';
+			$vars['ftpPassword'] = '';
 		}
 
 		installationScreens::ftpConfig($vars);
