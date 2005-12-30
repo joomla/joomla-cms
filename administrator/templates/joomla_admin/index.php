@@ -14,8 +14,6 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$tstart = JProfiler::getmicrotime();
-
 $lang =& $mainframe->getLanguage();
 
 ?>
@@ -42,11 +40,11 @@ $lang =& $mainframe->getLanguage();
 <table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td class="menubackgr" style="padding-left:5px;">
-		<?php mosLoadAdminModule( 'fullmenu' );?>
+		<jdoc:placeholder type="module" name="fullmenu" />
 	</td>
 	<td class="menubackgr" align="right">
 		<div id="wrapper1">
-			<?php mosLoadAdminModules( 'header', 2 );?>
+			<jdoc:placeholder type="modules" name="header" style="2" />
 		</div>
 	</td>
 	<td class="menubackgr" align="right" style="padding-right:5px;">
@@ -60,13 +58,13 @@ $lang =& $mainframe->getLanguage();
 <table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td class="menudottedline" align="right">
-		<?php mosLoadAdminModule( 'toolbar' );?>
+		<jdoc:placeholder type="modules" name="toolbar" />
 	</td>
 </tr>
 </table>
 <div class="centermain">
 	<div class="main">
-		<?php mosMainBody_Admin(); ?>
+		<jdoc:placeholder type="component" />
 	</div>
 </div>
 
@@ -74,21 +72,12 @@ $lang =& $mainframe->getLanguage();
 	<table width="99%" border="0">
 	<tr>
 		<td align="center">
-			<?php mosLoadAdminModules( 'footer', -1 );?>
-			<?php
-			if ( $mosConfig_debug ) {
-				echo '<div class="smallgrey">';
-				$tend = JProfiler::getmicrotime();
-				$totaltime = ($tend - $tstart);
-				printf ( JText::_( 'Page was generated in' ) ." %f ". JText::_( 'seconds' ), $totaltime);
-				echo '</div>';
-			}
-			?>
+			<jdoc:placeholder type="modules" name="footer" />
 		</td>
 	</tr>
 	</table>
 </div>
-<?php mosLoadAdminModules( 'debug' );?>
+<jdoc:placeholder type="modules" name="debug" />
 </div>
 </body>
 </html>

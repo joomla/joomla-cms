@@ -22,7 +22,7 @@ class modules_html {
 	/**
 	* @param object
 	* @param object
-	* @param int -1=show without wrapper and title, -2=xhtml style
+	* @param int 0=show without wrapper and title, 1=tabbed style, 2=xhtml style
 	*/
 	function module( &$module, &$params, $style=0 ) {
 		global $mosConfig_lang;

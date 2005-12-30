@@ -532,7 +532,7 @@ class mosMambotHandler extends JEventDispatcher {
 	* @param string The function name
 	*/
 	function registerFunction( $event, $function ) {
-		$this->attach(array( $event => $function ));
+		$this->register($event, $function );
 	}
 }
 

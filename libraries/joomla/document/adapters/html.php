@@ -23,14 +23,6 @@
 class JDocumentHTML extends JDocument
 {
 	/**
-     * Array of placholders
-     *
-     * @var       array
-     * @access    private
-     */
-	var $_jdoc_placeholders = array();
-
-	/**
      * Array of published modules
      *
      * @var       array
@@ -87,10 +79,13 @@ class JDocumentHTML extends JDocument
 
 		//set mime type
 		$this->_mime = 'text/html';
-
-		$this->_jdoc_placeholders['module']		= array();
-		$this->_jdoc_placeholders['modules']	= array();
-		$this->_jdoc_placeholders['components']	= array();
+		
+		//define renderer sequence
+		$this->_renderers = array('component' => array(), 
+		                          'modules'   => array(), 
+		                          'module'    => array(), 
+		                          'head'      => array()
+							);
 
 		$this->_jdoc_modules =& $this->_loadModules();
 	}
@@ -219,71 +214,6 @@ class JDocumentHTML extends JDocument
         $this->setMetaData('Content-Type', $this->_mime . '; charset=' . $this->_charset , true );
     }
 	
-	function addPlaceholder($type, $params = array())
-	{
-		$result = null;
-		
-		$function = '_add'.ucwords($type);
-		$name     = isset($params['name']) ? $params['name'] : null;
-
-		if(method_exists($this, $function)) {
-			unset( $params['name']);
-			call_user_func(array(&$this, $function), $name, $params);
-		}
-		
-		return '{'.strtoupper($type).'_'.strtoupper($name).'}';
-	}
-
-	/**
-	 *  Set the component
-	 *
-	 * @access public
-	 * @param string $name		The name of the component
-	 * @param array  $params	An associative array of attributes to add
-	 */
-	function _addComponent($name, $params = array()) 
-	{
-		global $mainframe;
-		$this->_jdoc_placeholders['components'][] = $mainframe->getOption();
-	}
-
-	/**
-	 *  Set a module by name
-	 *
-	 * @access public
-	 * @param string 	$name	The name of the module
-	 * @param array  	$params	An associative array of attributes to add
-	 */
-	function _addModule($name, $params = array())
-	{
-		$module =& $this->getModule($name);
-
-		foreach($params as $param => $value) {
-			$module->$param = $value;
-		}
-		$this->_jdoc_placeholders['module'][] = $name;
-	}
-
-	/**
-	 * Set modules by position
-	 *
-	 * @access public
-	 * @param string 	$name	The position of the modules
-	 * @param array  	$params	An associative array of attributes to add
-	 */
-	function _addModules($position, $params = array())
-	{
-		$modules =& $this->getModules($position);
-		
-		$total = count($modules);
-		for($i = 0; $i < $total; $i++) {
-			foreach($params as $param => $value) {
-				$modules[$i]->$param = $value;
-			}
-		}
-		$this->_jdoc_placeholders['modules'][] = $position;
-	}
-
 	/**
 	 * Get module by name
 	 *
@@ -335,7 +265,7 @@ class JDocumentHTML extends JDocument
 	 * @param string 	$message	A message to prepend
 	 * @return string	The output of the script
 	 */
-	function fetchComponent($name, $msg = '')
+	function fetchComponent($name)
 	{
 		global $mainframe, $my, $acl, $database;
 		global $Itemid, $task, $option;
@@ -343,6 +273,8 @@ class JDocumentHTML extends JDocument
 
 		$gid = $my->gid;
 		
+		$name = !isset($name) ? $option : $name;
+			
 		$file = substr( $name, 4 );
 		$path = JPATH_BASE.DS.'components'.DS.$name;
 		
@@ -358,6 +290,7 @@ class JDocumentHTML extends JDocument
 		$content = '';
 		ob_start();
 
+		$msg = mosGetParam( $_REQUEST, 'mosmsg', '' );
 		if (!empty($msg)) {
 			echo "\n<div class=\"message\">$msg</div>";
 		}
@@ -382,13 +315,14 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @access public
 	 * @param string 	$name	The position of the modules to render
+	 * @param  string 	$style	The style to be used for the module, if not present the default style is used
 	 * @return string	The output of the scripts
 	 */
-	function fetchModules($position)
+	function fetchModules($name, $style = null)
 	{
 		$contents = '';
-		foreach ($this->getModules($position) as $module)  {
-			$contents .= $this->fetchModule($module);
+		foreach ($this->getModules($name) as $module)  {
+			$contents .= $this->fetchModule($module, $style);
 		}
 		return $contents;
 	}
@@ -398,9 +332,10 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @access public
 	 * @param  mixed 	$name	The name of the module to render or a module object
+	 * @param  string 	$style	The style to be used for the module, if not present the default style is used
 	 * @return string	The output of the script
 	 */
-	function fetchModule($module)
+	function fetchModule($module, $style = null)
 	{
 		global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
 		global $mainframe, $database, $my, $Itemid, $acl, $task;
@@ -413,6 +348,8 @@ class JDocumentHTML extends JDocument
 		
 		//get module parameters
 		$params = new JParameters( $module->params );
+		$style  = isset($style) ? $style : $module->style;
+		
 
 		//get module path
 		$path = JPATH_BASE . '/modules/'.$module->module.'.php';
@@ -432,9 +369,9 @@ class JDocumentHTML extends JDocument
 		ob_start();
 			if ($params->get('cache') == 1 && $mainframe->getCfg('caching') == 1) {
 				$cache =& JFactory::getCache( 'com_content' );
-				$cache->call('modules_html::module', $module, $params, $module->style );
+				$cache->call('modules_html::module', $module, $params, $style );
 			} else {
-				modules_html::module( $module, $params, $module->style );
+				modules_html::module( $module, $params, $style);
 			}
 		$contents = ob_get_contents();
 		ob_end_clean();
@@ -572,35 +509,22 @@ class JDocumentHTML extends JDocument
 	 * Execute and display a layout script.
 	 *
 	 * @access public
-	 * @param string 	$name		The name of the template
+	 * @param string 	$template	The name of the template
 	 * @param boolean 	$compress	If true, compress the output using Zlib compression
 	 */
-	function display($name, $compress = true)
-	{
-		$msg = mosGetParam( $_REQUEST, 'mosmsg', '' );
-
-		foreach($this->_jdoc_placeholders['components'] as $component)
+	function display($template, $compress = true)
+	{s
+		foreach($this->_renderers as $type => $names) 
 		{
-			$html = $this->fetchComponent($component, $msg);
-			$this->addGlobalVar('component_', $html);
+			foreach($names as $name) 
+			{
+				$function = 'fetch'.$type;
+				$html = $this->$function($name);
+				$this->addGlobalVar($type.'_'.$name, $html);
+			}
 		}
 
-		foreach($this->_jdoc_placeholders['modules'] as $module)
-		{
-			$html = $this->fetchModules($module);
-			$this->addGlobalVar('modules_'.$module, $html);
-		}
-
-		foreach($this->_jdoc_placeholders['module'] as $module)
-		{
-			$html = $this->fetchModule($module);
-			$this->addGlobalVar('module_'.$module, $html);
-		}
-
-		$html = $this->fetchHead();
-		$this->addGlobalVar('head_', $html);
-
-		parent::display( $name, $compress );
+		parent::display( $template, $compress );
 	}
 
 	/**
@@ -641,6 +565,59 @@ class JDocumentHTML extends JDocument
 		}
 
 		return $modules;
+	}
+	
+	/**
+	 * Module callback function
+	 * 
+	 * @access protected
+	 * @param string $module 	The name of the module 
+	 * @param array	 $params	Array of module parameters
+	 * @return string	The result to be inserted in the template
+	 */
+	function _moduleCallback($module, $params = array())
+	{
+		if($module != 'placeholder' && !isset($$params['type'])) {
+			return false;
+		}
+		
+		$type = isset($params['type']) ? strtolower( $params['type'] ) : null;
+		unset($params['type']);
+		
+		$name = isset($params['name']) ? strtolower( $params['name'] ) : null;
+		unset($params['name']);
+		
+		switch($type) 
+		{
+			case 'modules'  		:
+			{
+				$modules =& $this->getModules($name);
+		
+				$total = count($modules);
+				for($i = 0; $i < $total; $i++) {
+					foreach($params as $param => $value) {
+						$modules[$i]->$param = $value;
+					}
+				}
+				
+				$this->_addRenderer($type, $name);
+				
+			} break;
+			case 'module' 		:
+			{
+				$module =& $this->getModule($name);
+
+				foreach($params as $param => $value) {
+					$module->$param = $value;
+				}
+				
+				$this->_addRenderer($type, $name);
+			} break;
+		
+			default : $this->_addRenderer($type, $name);
+		}
+		
+		return '{'.strtoupper($type).'_'.strtoupper($name).'}';
 	}
 }
 ?>

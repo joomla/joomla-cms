@@ -43,7 +43,7 @@ function mosMainBody_Admin()
  * Insert a modules placholder
  *
  * @param string 	The position of the modules
- * @param integer 	The style.  0=normal, 1=horiz, -1=no wrapper
+ * @param integer 	The style.  0=no wrapper, 1=tabbed, 2=xhtml
  */
  
 function mosLoadAdminModules( $position='left', $style=0 ) 
@@ -57,9 +57,9 @@ function mosLoadAdminModules( $position='left', $style=0 )
  * Insert a module placholder
  *
  * @param string 	The name of the module
- * @param integer 	The style.  0=normal, 1=horiz, -1=no wrapper
+ * @param integer 	The style.  0=no wrapper, 1=tabbed, 2=xhtml
  */
-function mosLoadAdminModule( $name, $style=-1 ) 
+function mosLoadAdminModule( $name, $style=0 ) 
 {
 	?>
 	<jdoc:placeholder type="module" name="<?php echo $name ?>" style="<?php echo $style ?>" />

@@ -19,7 +19,16 @@ class patTemplate_Function_Placeholder extends patTemplate_Function
 	* @var		string
 	*/
 	var $_name	=	'placeholder';
+	
+	/**
+	* reference to the JDocument object that instantiated the module
+	*
+	* @access	protected
+	* @var	object
+	*/
+	var	$_tmpl;
 
+  
    /**
 	* call the function
 	*
@@ -30,13 +39,30 @@ class patTemplate_Function_Placeholder extends patTemplate_Function
 	*/
 	function call( $params, $content )
 	{
-		global $document;
+		$result = null;
+		if( method_exists( $this->_tmpl, '_moduleCallback' ) )
+		{
+			$result = $this->_tmpl->_moduleCallback($this->_name, $params);
+		}
 		
-		$type = strtolower( $params['type'] );
-		unset($params['type']);
-				
-		$result = $document->addPlaceholder($type, $params);
 		return $result;
+		
+		//$type = strtolower( $params['type'] );
+		//unset($params['type']);
+				
+		//$result = $document->addPlaceholder($type, $params);
+		//return $result;
+	}
+	
+	 /**
+	* set a reference to the JDocument object that instantiated the function
+	*
+	* @access	public
+	* @param	object		JDocument object
+	*/
+	function setTemplateReference( &$tmpl )
+	{
+		$this->_tmpl = &$tmpl;
 	}
 }
 ?>

@@ -107,7 +107,7 @@ if($no_html == 1) {
 
 // loads template file
 $cur_template = $mainframe->getTemplate();
-$file     = 'index2.php';
+$file     = 'component.php';
 
 // displays offline/maintanance page or bar
 if ($mainframe->getCfg('offline') && $my->gid < '23') {

@@ -121,6 +121,14 @@ class JDocument extends JTemplate
      * @access  private
      */
     var $_title = '';
+	
+	/**
+     * Array of renderers
+     *
+     * @var       array
+     * @access    private
+     */
+	var $_renderers = array();
 
 
 	/**
@@ -460,7 +468,7 @@ class JDocument extends JTemplate
 		$contents = '';
 		if ( file_exists( 'templates'.DS.$template.DS.$filename ) ) {
 			
-			$this->addGlobalVar( 'template', $template);
+			$this->addGlobalVar( 'template', $mainframe->getTemplate());
 
 			ob_start();
 			?><jdoc:tmpl name="<?php echo $filename ?>" autoclear="yes"><?php
@@ -471,6 +479,32 @@ class JDocument extends JTemplate
 		}
 		
 		return $contents;
+	}
+	
+	/**
+	 * Adds a renderer to be called 
+	 *
+	 * @param string 	$type	The renderer type
+	 * @param string 	$name	The renderer name
+	 * @return string The contents of the template 
+	 */
+	function _addRenderer($type, $name)
+	{
+		$this->_renderers[$type][] = $name;
+	}
+	
+	/**
+	 * Module callback function
+	 * 
+	 * @abstract
+	 * @access protected
+	 * @param string $module 	The name of the module 
+	 * @param array	 $params	Array of module parameters
+	 * @return string	The result to be inserted in the template
+	 */
+	function _moduleCallback($module, $params = array())
+	{
+		return '';
 	}
 }
 ?>

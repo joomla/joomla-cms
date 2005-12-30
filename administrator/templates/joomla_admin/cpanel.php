@@ -16,9 +16,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 global $document;
 
-$document->addPlaceholder('modules', array('name' => 'icon', 'style' => 0));
-$document->addPlaceholder('modules', array('name' => 'cpanel', 'style' => 1));
-
 ?>
 <table class="adminform">
 <tr>
@@ -32,7 +29,7 @@ $document->addPlaceholder('modules', array('name' => 'cpanel', 'style' => 1));
 			$tabs = new mosTabs(1);
 			$tabs->startPane( 'modules-cpanel' );
 			?>
-			<?php echo $document->fetchModules('cpanel'); ?>
+			<?php echo $document->fetchModules('cpanel',1); ?>
 			<?php
 			$tabs->endPane();
 			?>
