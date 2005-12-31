@@ -29,9 +29,10 @@ function utf8_strrpos($str, $search, $offset = FALSE){
 * Wrapper around iconv_substr
 */
 function utf8_substr($str, $offset, $length = FALSE){
-    if ( $length === FALSE ) {
+    
+	if ( $length === FALSE ) {
         return iconv_substr($str, $offset);
     } else {
-        return iconv_substr($str, $offset, $length);
+       return iconv_substr($str, $offset, $length);
     }
 }

@@ -14,6 +14,8 @@
 /** ensure this file is being included by a parent file */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+global $mosConfig_lang;
+
 $languages = array();
 $languages = JLanguageHelper::createLanguageList( $mosConfig_lang );
 array_unshift( $languages, mosHTML::makeOption( '', JText::_( 'Default' ) ) );

@@ -412,7 +412,7 @@ class JDocument extends JTemplate
 	function execRenderer($type, $name, $params = array()) 
 	{
 		jimport('joomla.document.modules.renderer');
-		$module =& $this->loadModule( 'Renderer', $type);
+		$module =& $this->loadModule( 'Renderer', ucfirst($type));
 		return $module->render($name, $params);
 	}
 
@@ -489,7 +489,7 @@ class JDocument extends JTemplate
 	function _load($template, $filename)
 	{
 		global $mainframe, $my, $acl, $database;
-		global $Itemid, $task, $option;
+		global $Itemid, $task, $option, $_VERSION;
 
 		$contents = '';
 		if ( file_exists( 'templates'.DS.$template.DS.$filename ) ) {

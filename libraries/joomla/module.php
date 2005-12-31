@@ -108,8 +108,9 @@ class JModuleHelper
 		for($i = 0; $i < $total; $i++) {
 			//determine if this is a user module
 			$file = $modules[$i]->module;
-			$modules[$i]->user = substr( $file, 0, 4 )  == 'mod_' ?  0 : 1;
-			$modules[$i]->name = substr( $file, 4 );
+			$modules[$i]->user  = substr( $file, 0, 4 )  == 'mod_' ?  0 : 1;
+			$modules[$i]->name  = substr( $file, 4 );
+			$modules[$i]->style = null;
 		}
 		
 		return $modules;

@@ -1401,6 +1401,7 @@ class patTemplate
 			foreach( $dirs as $dir )
 			{
 				$moduleFile	= sprintf( "%s/%s.php", $dir, str_replace( '_', '/', $moduleName ) );
+				
 				if (@include_once $moduleFile) {
 					$found = true;
 					break;

@@ -32,10 +32,10 @@ define( '_VALID_MOS', 1 );
 define( '_MOS_MAMBO_INCLUDED', 1 );
 
 /**
-* Legacy global, use $_VERSION->getLongVersion() instead
+* Legacy global, use JVersion->getLongVersion() instead
 * @deprecated As of version 1.1
 */
-global $_VERSION;
+$_VERSION = new JVersion();
 $version = $_VERSION->PRODUCT .' '. $_VERSION->RELEASE .'.'. $_VERSION->DEV_LEVEL .' '
 . $_VERSION->DEV_STATUS
 .' [ '.$_VERSION->CODENAME .' ] '. $_VERSION->RELDATE .' '
