@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 // load the html drawing class
 require_once( $mainframe->getPath( 'front_html' ) );
 
-$breadcrumbs =& $mainframe->getBreadCrumbs();
+$breadcrumbs =& $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, 'News Feeds');
 
 $feedid = intval( mosGetParam( $_REQUEST ,'feedid', 0 ) );
@@ -141,7 +141,7 @@ function listFeeds( $option, $catid ) {
 		$mainframe->setPageTitle( $menu->name. ' - ' .$currentcat->header );
 
 		// Add breadcrumb item per category
-		$breadcrumbs =& $mainframe->getBreadCrumbs();
+		$breadcrumbs =& $mainframe->getPathWay();
 		$breadcrumbs->addItem($currentcat->header, '');
 	} else {
 		$currentcat->header = $params->get( 'header' );
@@ -205,7 +205,7 @@ function showFeed( $option, $feedid ) {
 		$mainframe->setPageTitle( $menu->name. ' - ' .$newsfeeds[0]->name );
 
 		// Add breadcrumb item per category
-		$breadcrumbs =& $mainframe->getBreadCrumbs();
+		$breadcrumbs =& $mainframe->getPathWay();
 		$breadcrumbs->addItem($newsfeeds[0]->name, '');
 	} else {
 

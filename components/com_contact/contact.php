@@ -21,7 +21,7 @@ require_once( $mainframe->getPath( 'class' ) );
 
 $mainframe->setPageTitle( _CONTACT_TITLE );
 
-$breadcrumbs =& $mainframe->getBreadCrumbs();
+$breadcrumbs =& $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, 'Contact');
 
 //Load Vars
@@ -334,7 +334,7 @@ function contactpage( $contact_id ) {
 		$mainframe->setPageTitle( _CONTACT_TITLE. ' - ' .$contact->name );
 
 		// Add breadcrumbs item per contact name
-		$breadcrumbs =& $mainframe->getBreadCrumbs();
+		$breadcrumbs =& $mainframe->getPathWay();
 		$breadcrumbs->addItem($contact->name, '');
 
 

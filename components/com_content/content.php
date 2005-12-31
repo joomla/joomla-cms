@@ -283,7 +283,7 @@ function showSection( $id, $gid, &$access, $now ) {
 	 * Handle BreadCrumbs
 	 */
 	// Section
-	$breadcrumbs =& $mainframe->getBreadCrumbs();
+	$breadcrumbs =& $mainframe->getPathWay();
 	$breadcrumbs->addItem( $section->title, '');
 
 	$null = null;
@@ -504,7 +504,7 @@ function showCategory( $id, $gid, &$access, $sectionid, $limit, $selected, $limi
 	$section = new mosSection($database);
 	$section->load($category->section);
 
-	$breadcrumbs =& $mainframe->getBreadCrumbs();
+	$breadcrumbs =& $mainframe->getPathWay();
 	$breadcrumbs->addItem( $section->title, sefRelToAbs( 'index.php?option=com_content&amp;task=section&amp;id='. $category->section .'&amp;Itemid='.$menu->id ));
 	// Category
 	$breadcrumbs->addItem( $category->title, '');
@@ -569,7 +569,7 @@ function showBlogSection( $id=0, $gid, &$access, $pop, $now=NULL ) {
 	}
 
 	// Append Blog to BreadCrumbs
-	$breadcrumbs =& $mainframe->getBreadCrumbs();
+	$breadcrumbs =& $mainframe->getPathWay();
 
 	if ($id == 0) {
 		$breadcrumbs->addItem( 'Blog' , '');
@@ -634,7 +634,7 @@ function showBlogCategory( $id=0, $gid, &$access, $pop, $now ) {
 	$mainframe->SetPageTitle( $menu->name );
 
 	// Append Blog to BreadCrumbs
-	$breadcrumbs =& $mainframe->getBreadCrumbs();
+	$breadcrumbs =& $mainframe->getPathWay();
 
 	if ($id == 0) {
 		$breadcrumbs->addItem( 'Blog' , '');
@@ -723,7 +723,7 @@ function showArchiveSection( $id=NULL, $gid, &$access, $pop, $option ) {
 	$mainframe->SetPageTitle( $menu->name );
 
 	// Append Archives to BreadCrumbs
-	$breadcrumbs =& $mainframe->getBreadCrumbs();
+	$breadcrumbs =& $mainframe->getPathWay();
 	$breadcrumbs->addItem( 'Archives', '');
 
 	if ( !$archives ) {
@@ -815,7 +815,7 @@ function showArchiveCategory( $id=0, $gid, &$access, $pop, $option, $now ) {
 	$mainframe->SetPageTitle( $menu->name );
 
 	// Append Archives to BreadCrumbs
-	$breadcrumbs =& $mainframe->getBreadCrumbs();
+	$breadcrumbs =& $mainframe->getPathWay();
 	$breadcrumbs->addItem( 'Archives', '');
 
 	if ( !$archives ) {
@@ -1183,7 +1183,7 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 		/*
 		 * Handle BreadCrumbs
 		 */
-		 $breadcrumbs =& $mainframe->getBreadCrumbs();
+		 $breadcrumbs =& $mainframe->getPathWay();
 
 		// We need the Itemid because we haven't eliminated it
 		$query = 	"SELECT a.id"

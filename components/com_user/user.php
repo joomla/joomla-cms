@@ -22,7 +22,7 @@ $access->canEditOwn = $acl->acl_check( 'action', 'edit', 'users', $my->usertype,
 
 require_once ( $mainframe->getPath( 'front_html' ) );
 
-$breadcrumbs =& $mainframe->getBreadCrumbs();
+$breadcrumbs =& $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, 'User');
 
 switch( $task ) {

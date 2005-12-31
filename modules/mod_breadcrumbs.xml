@@ -12,5 +12,10 @@
 	<files>
 		<filename module="mod_breadcrumbs">mod_breadcrumbs.php</filename>
 	</files>
-	<params/>
+	<params>
+		<param name="showHome" type="radio" default="1" label="Show Home" description="Show/Hide the home element in the pathway">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+	</params>
 </mosinstall>

@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( $mainframe->getPath( 'front_html' ) );
 
-$breadcrumbs =& $mainframe->getBreadCrumbs();
+$breadcrumbs =& $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, 'Search');
 
 switch ( $task ) {

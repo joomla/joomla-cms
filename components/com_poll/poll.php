@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( $mainframe->getPath( 'front_html' ) );
 require_once( $mainframe->getPath( 'class' ) );
 
-$breadcrumbs =& $mainframe->getBreadCrumbs();
+$breadcrumbs =& $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, 'Polls');
 
 $tabclass 			= 'sectiontableentry2,sectiontableentry1';
@@ -180,7 +180,7 @@ function pollresult( $uid ) {
 
 	$mainframe->SetPageTitle($poll->title);
 
-	$breadcrumbs =& $mainframe->getBreadCrumbs();
+	$breadcrumbs =& $mainframe->getPathWay();
 	$breadcrumbs->addItem($poll->title, '');
 
 	poll_html::showResults( $poll, $votes, $first_vote, $last_vote, $pollist, $params );

@@ -63,7 +63,7 @@ function showWrap( $option ) {
 	$mainframe->SetPageTitle($menu->name);
 
 	// Set the breadcrumbs
-	$breadcrumbs =& $mainframe->getBreadCrumbs();
+	$breadcrumbs =& $mainframe->getPathWay();
 	$breadcrumbs->setItemName(1, $menu->name);
 
 	HTML_wrapper::displayWrap( $row, $params, $menu );

@@ -34,8 +34,8 @@ class JApplication extends JObject {
 	var $_template			= null;
 	/** @var array An array to hold global user state within a session */
 	var $_userstate			= null;
-	/** @var object A JBreadCrumbs object */
-	var $_breadcrumbs		= null;
+	/** @var object A JPathWay object */
+	var $_pathway			= null;
 	/** @var boolean True if in the admin client */
 	var $_client 			= null;
 	/** @var string Name of the current component */
@@ -59,7 +59,7 @@ class JApplication extends JObject {
 		$this->_option			= $option;
 
 		$this->_createTemplate( );
-		$this->_createBreadCrumbs( );
+		$this->_createPathWay( );
 		$this->_createRegistry( );
 	}
 
@@ -230,14 +230,14 @@ class JApplication extends JObject {
 	}
 
 	/**
-	 * Return a reference to the JBreadCrumbs object
+	 * Return a reference to the JPathWay object
 	 *
 	 * @access public
-	 * @return jbreadcrumbs 	JBreadCrumbs object
+	 * @return jpathway 	JPathWay object
 	 * @since 1.1
 	 */
-	function &getBreadCrumbs() {
-		return $this->_breadcrumbs;
+	function &getPathWay() {
+		return $this->_pathway;
 	}
 
 	/**
@@ -388,33 +388,36 @@ class JApplication extends JObject {
 	}
 
 	/**
-	 * Create a JBreadCrumbs object and set the home/component items of the breadcrumbs
+	 * Create a JPathWay object and set the home/component items of the pathway
 	 *
 	 * @access private
 	 * @return boolean True if successful
 	 * @since 1.1
 	 */
-	function _createBreadCrumbs()
+	function _createPathWay()
 	{
 		global $ItemID;
-
+		/*
+		 * TODO: Get itemid from JRequest class
+		 */
+		
 		jimport( 'joomla.system.breadcrumbs' );
 
-		// Create a JBreadCrumbs object
-		$this->_breadcrumbs = new JBreadCrumbs();
+		// Create a JPathWay object
+		$this->_pathway = new JPathWay();
 
-		// If not on the frontpage, add the component item to the breadcrumbs
+		// If not on the frontpage, add the component item to the pathway
 		if (($this->_option == 'com_frontpage') || ($this->_option == '')) {
 
-			// Add the home item to the breadcrumbs only and it is not linked
-			$this->_breadcrumbs->addItem( 'Home', '' );
+			// Add the home item to the pathway only and it is not linked
+			$this->_pathway->addItem( 'Home', '' );
 		} else {
 
 			// Initialize variables
 			$IIDstring = null;
 
-			// Add the home item to the breadcrumbs
-			$this->_breadcrumbs->addItem( 'Home', 'index.php' );
+			// Add the home item to the pathway
+			$this->_pathway->addItem( 'Home', 'index.php' );
 
 			// Get the actual component name
 			if (substr($this->_option, 0, 4) == 'com_') {
@@ -427,7 +430,7 @@ class JApplication extends JObject {
 				$IIDstring = '&Itemid='.$ItemID;
 			}
 
-			$this->_breadcrumbs->addItem( $comName, 'index.php?option='.$this->_option.$IIDstring);
+			$this->_pathway->addItem( $comName, 'index.php?option='.$this->_option.$IIDstring);
 		}
 
 		return true;
@@ -736,7 +739,7 @@ class JApplication extends JObject {
 	 */
 
 	 /**
-	 * Depreceated, use JBreadCrumbs->getBreadCrumbNames() method instead
+	 * Depreceated, use JPathWay->addItem() method instead
 	 * @since 1.1
 	 */
 	function appendPathWay( $name, $link = null ) {
@@ -750,7 +753,7 @@ class JApplication extends JObject {
 		}
 
 		// Add item to the pathway object
-		if ($this->_breadcrumbs->addItem($name, $link)) {
+		if ($this->_pathway->addItem($name, $link)) {
 			return true;
 		}
 
@@ -758,11 +761,11 @@ class JApplication extends JObject {
   }
 
 	 /**
- 	 * Depreceated, use JBreadCrumbs->getBreadCrumbNames() method instead
+ 	 * Depreceated, use JPathWay->getNamePathWay() method instead
  	 * @since 1.1
  	 */
 	function getCustomPathWay() {
-		return $this->_breadcrumbs->getNameBreadCrumb();
+		return $this->_pathway->getNamePathWay();
 	}
 
 	 /**

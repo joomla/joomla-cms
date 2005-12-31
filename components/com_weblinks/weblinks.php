@@ -25,7 +25,7 @@ require_once ($mainframe->getPath('class'));
 $mainframe->setPageTitle(JText::_('Web Links'));
 
 // Next, let's get the breadcrumbs object so that we can manipulate it
-$breadcrumbs =& $mainframe->getBreadCrumbs();
+$breadcrumbs =& $mainframe->getPathWay();
 
 // Now that we have the breadcrumb object, let's set the component name in the pathway
 $breadcrumbs->setItemName(1, JText::_('Web Links'));
@@ -91,7 +91,7 @@ class WeblinksController {
 		// Get some objects from the JApplication
 		$db = & $mainframe->getDBO();
 		$my = & $mainframe->getUser();
-		$breadcrumbs = & $mainframe->getBreadCrumbs();
+		$breadcrumbs = & $mainframe->getPathWay();
 
 		/*
 		 * Query to retrieve all categories that belong under the web links section
@@ -268,7 +268,7 @@ class WeblinksController {
 		// Get some objects from the JApplication
 		$db = & $mainframe->getDBO();
 		$my = & $mainframe->getUser();
-		$breadcrumbs = & $mainframe->getBreadCrumbs();
+		$breadcrumbs = & $mainframe->getPathWay();
 
 		// Make sure you are logged in
 		if ($my->gid < 1) {

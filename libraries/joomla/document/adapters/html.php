@@ -340,6 +340,8 @@ class JDocumentHTML extends JDocument
 		global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
 		global $mainframe, $database, $my, $Itemid, $acl, $task;
 
+		//echo $module;
+		
 		$contents = '';
 
 		if(!is_object($module)) {
@@ -563,7 +565,7 @@ class JDocumentHTML extends JDocument
 			$modules[$i]->user = substr( $file, 0, 4 )  == 'mod_' ?  0 : 1;
 			$modules[$i]->name = substr( $file, 4 );
 		}
-
+		
 		return $modules;
 	}
 	

@@ -20,7 +20,7 @@ require_once( $mainframe->getPath( 'front_html' ) );
 
 global $database, $my;
 
-$breadcrumbs =& $mainframe->getBreadCrumbs();
+$breadcrumbs =& $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, 'Login');
 
 $menu = new JMenuModel( $database );

@@ -381,5 +381,26 @@ class JString
 		return utf8_ucwords($str);
 	}
 
+	/**
+	 * Transcode a string.
+	 *
+	 * @static
+	 * @param string $source The string to transcode.
+	 * @param string $from_encoding The source encoding.
+	 * @param string $to_encoding The target encoding.
+	 * @return string Transcoded string
+	 * @since 1.1
+	 */
+	function transcode($source, $from_encoding, $to_encoding) {
+
+		if (is_string($source)) {
+			/*
+			 * "//TRANSLIT" is appendd to the $to_encoding to ensure that when iconv comes
+			 * across a character that cannot be represented in the target charset, it can
+			 * be approximated through one or several similarly looking characters.
+			 */
+			return iconv($from_encoding, $to_encoding.'//TRANSLIT', $source);
+		}
+	}
 }
 ?>
