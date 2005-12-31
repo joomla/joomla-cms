@@ -1,5 +1,4 @@
 <?php
-
 /**
 * @version $Id$
 * @package Joomla
@@ -130,9 +129,6 @@ class JFTP extends JObject {
 
 	}
 
-	function __destruct() {
-	}
-
 	/**
 	 * Returns a reference to the global FTP connector object, only creating it
 	 * if it doesn't already exist.
@@ -144,7 +140,7 @@ class JFTP extends JObject {
 	 * @return JFTP  The FTP Client object.
 	 * @since 1.1
 	 */
-	function & getInstance($host = 'localhost', $options = null) {
+	function & getInstance($host = '127.0.0.1', $options = null) {
 		static $instances;
 
 		if (!isset ($instances)) {
@@ -184,29 +180,35 @@ class JFTP extends JObject {
 	 * Method to connect to a FTP server
 	 *
 	 * @access public
-	 * @param string $host Host to connect to [Default: localhost]
+	 * @param string $host Host to connect to [Default: 127.0.0.1]
 	 * @param string $port Port to connect on [Default: port 21]
 	 * @return boolean True if successful
 	 */
-	function connect($host = 'localhost', $port = 21) {
-
+	function connect($host = '127.0.0.1', $port = 21) {
+		
 		// Initialize variables
 		$errno = null;
 		$err = null;
 
-		// Connect to the FTP server.
-		$this->_conn = @ fsockopen($host, $port, $errno, $err, 5);
-		if (!$this->_conn) {
-			JError::raiseError('30', 'JFTP::connect: Could not connect to host:'.$host.' on port:'.$port.'.', 'Socket error number:'.$errno.' and error message:'.$err );
-			return false;
-		}
+		/*
+		 * If not already connected, connect
+		 */
+		if (!is_resource($this->_conn)) {
 
-		// Check for welcome response code
-		if (!$this->_verifyResponse(220)) {
-			JError::raiseError('35', 'JFTP::connect: Bad response.', 'Server response:'.$this->_response.' [Expected: 220]' );
-			return false;
+			// Connect to the FTP server.
+			$this->_conn = @ fsockopen($host, $port, $errno, $err, 5);
+			if (!$this->_conn) {
+				JError::raiseError('30', 'JFTP::connect: Could not connect to host:'.$host.' on port:'.$port.'.', 'Socket error number:'.$errno.' and error message:'.$err );
+				return false;
+			}
+	
+			// Check for welcome response code
+			if (!$this->_verifyResponse(220)) {
+				JError::raiseError('35', 'JFTP::connect: Bad response.', 'Server response:'.$this->_response.' [Expected: 220]' );
+				return false;
+			}
 		}
-
+		
 		return true;
 	}
 
@@ -752,10 +754,17 @@ class JFTP extends JObject {
 	 * @param string $path Path local file to store on the FTP server
 	 * @return string Directory listing
 	 */
-	function nameList($path = '') {
+	function nameList($path = null) {
 
 		// Initialize variables
 		$data = null;
+
+		/*
+		 * If a path exists, prepend a space
+		 */
+		if ($path != null) {
+			$path = ' ' . $path;	
+		}
 
 		// Start passive mode
 		if (!$this->_passive()) {
@@ -763,7 +772,7 @@ class JFTP extends JObject {
 			return false;
 		}
 
-		if (!$this->_putCmd('NLST '.$path, array (150, 125))) {
+		if (!$this->_putCmd('NLST'.$path, array (150, 125))) {
 			JError::raiseError('35', 'JFTP::nameList: Bad response.', 'Server response:'.$this->_response.' [Expected: 150 or 125] Path sent:'.$path );
 			@ fclose($this->_dataconn);
 			return false;
@@ -789,11 +798,11 @@ class JFTP extends JObject {
 	 *
 	 * @access public
 	 * @param string $path Path local file to store on the FTP server
-	 * @param boolean $search Recursively search subdirectories
 	 * @param string $type Return type [raw|all|folders|files]
+	 * @param boolean $search Recursively search subdirectories
 	 * @return string Directory listing
 	 */
-	function listDir($path = '', $type = 'all') {
+	function listDir($path = null, $type = 'all') {
 
 		// Initialize variables
 		$data = null;
@@ -802,6 +811,13 @@ class JFTP extends JObject {
 		// For now we will just set it to false
 		$recurse = false;
 
+		/*
+		 * If a path exists, prepend a space
+		 */
+		if ($path != null) {
+			$path = ' ' . $path;	
+		}
+		
 		// Determine system type for directory listing parsing
 		$osType = $this->syst();
 
@@ -811,7 +827,7 @@ class JFTP extends JObject {
 			return false;
 		}
 
-		if (!$this->_putCmd(($recurse == true) ? 'LIST -R ' : 'LIST '.$path, array (150, 125))) {
+		if (!$this->_putCmd(($recurse == true) ? 'LIST -R' : 'LIST'.$path, array (150, 125))) {
 			JError::raiseError('35', 'JFTP::listDir: Bad response.', 'Server response:'.$this->_response.' [Expected: 150 or 125] Path sent:'.$path );
 			@ fclose($this->_dataconn);
 			return false;
@@ -965,7 +981,7 @@ class JFTP extends JObject {
 		// Wait for a response from the server, but timeout in 5 seconds
 		$time = time();
 		do {
-			$this->_response = fgets($this->_conn, 1024);
+			$this->_response = fgets($this->_conn, 4096);
 		} while (!preg_match("/^([0-9]{3})(-(.*".CRLF.")+\\1)? [^".CRLF."]+".CRLF."$/", $this->_response, $parts) && time() - $time < 5);
 
 		// Separate the code from the message
@@ -1014,7 +1030,7 @@ class JFTP extends JObject {
 		// Wait for a response from the server, but timeout in 5 seconds
 		$time = time();
 		do {
-			$this->_response = fgets($this->_conn, 1024);
+			$this->_response = fgets($this->_conn, 4096);
 		} while (!preg_match("/^([0-9]{3})(-(.*".CRLF.")+\\1)? [^".CRLF."]+".CRLF."$/", $this->_response, $parts) && time() - $time < 5);
 
 		// Separate the code from the message
@@ -1037,7 +1053,7 @@ class JFTP extends JObject {
 		$this->_pasv = array ('ip' => $match[1].'.'.$match[2].'.'.$match[3].'.'.$match[4], 'port' => $match[5] * 256 + $match[6]);
 
 		// Connect, assuming we've got a connection.
-		$this->_dataconn = @ fsockopen($this->_pasv['ip'], $this->_pasv['port'], $errno, $err, 5);
+		$this->_dataconn =  @fsockopen($this->_pasv['ip'], $this->_pasv['port'], $errno, $err, 5);
 		if (!$this->_dataconn) {
 			JError::raiseError('30', 'JFTP::_passive: Could not connect to host:'.$this->_pasv['ip'].' on port:'.$this->_pasv['port'].'.  Socket error number:'.$errno.' and error message:'.$err );
 			return false;
