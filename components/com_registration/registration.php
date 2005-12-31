@@ -108,7 +108,7 @@ function registerForm( $option, $useractivation ) {
   	$mainframe->SetPageTitle( JText::_( 'Registration' ) );
 
   	$breadcrumbs =& $mainframe->getPathWay();
-  	$breadcrumbs->setItem( JText::_( 'Registration' ));
+  	$breadcrumbs->setItemName( JText::_( 'Registration' ));
 
 	HTML_registration::registerForm($option, $useractivation);
 }

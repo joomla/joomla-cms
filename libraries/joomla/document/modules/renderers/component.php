@@ -40,7 +40,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 	function render( $component, $params = array() )
 	{
 		global $mainframe, $my, $acl, $database;
-		global $Itemid, $task, $option;
+		global $Itemid, $task, $option, $id;
 		global $mosConfig_offset;
 
 		$gid = $my->gid;

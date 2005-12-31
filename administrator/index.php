@@ -21,7 +21,6 @@ require_once ( 'includes/application.php' );
 require_once ( 'includes/template.php'    );
 
 $option = mosGetParam( $_REQUEST, 'option', NULL );
-$handle = mosGetParam( $_POST, 'handle', NULL );
 
 // create the mainframe object
 $mainframe =& new JAdministrator($option);
