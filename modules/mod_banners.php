@@ -14,13 +14,14 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+// clientids must be an integer
 $clientids = $params->get( 'banner_cids', '' );
 
 $where 	= '';
 $banner = null;
 
-if( $clientids <> '' ) {
-	$where = "\n AND cid IN ('". $clientids ."')";
+if ( $clientids <> '' ) {
+	$where = "\n AND cid IN ( $clientids )";
 }
 
 $query = "SELECT COUNT(*) AS numrows"
@@ -41,7 +42,7 @@ if ($numrows > 1) {
 	$bannum = mt_rand( 0, $numrows );
 }
 
-if($numrows){
+if ($numrows){
     $query = "SELECT *"
     . "\n FROM #__banner WHERE showBanner=1 "
     . $where
@@ -49,7 +50,8 @@ if($numrows){
     $database->setQuery( $query );
     if ($database->loadObject( $banner )) {
 
-    	$query = "UPDATE #__banner SET impmade = impmade + 1"
+    	$query = "UPDATE #__banner"
+    	. "\n SET impmade = impmade + 1"
     	. "\n WHERE bid = $banner->bid"
     	;
     	$database->setQuery( $query );
@@ -96,8 +98,7 @@ if($numrows){
     } else {
     	echo "&nbsp;";
     }
-}else {
+} else {
 	echo "&nbsp;";
 }
-
 ?>
