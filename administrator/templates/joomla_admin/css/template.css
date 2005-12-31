@@ -146,11 +146,11 @@ a.pagenav:active {
         font-size: 11px;
 }
 .text_area {
-        border : 1px solid ccc;
+        border : 1px solid #ccc;
         z-index: -3;
-        font-size: 11px
+        font-size: 11px;
 }
-INPUT, TEXTAREA, SELECT {
+input, textarea, select {
 	z-index : -3;
 	font-size: 11px;
 }
@@ -387,7 +387,7 @@ form {
 	border: 1px solid #cccccc;
 	width: 14%;
 	text-align: center;
-	cursor: hand;
+	cursor: pointer;
 	font-weight: bold;
 	color: #FFFFFF;
 }
@@ -397,7 +397,7 @@ form {
 	border: 1px solid #cccccc;
 	width: 14%;
 	text-align: center;
-	cursor: hand;
+	cursor: pointer;
 	font-weight: normal;
 }
 .tabpadding {
