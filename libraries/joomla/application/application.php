@@ -401,7 +401,7 @@ class JApplication extends JObject {
 		 * TODO: Get itemid from JRequest class
 		 */
 		
-		jimport( 'joomla.system.breadcrumbs' );
+		jimport( 'joomla.pathway' );
 
 		// Create a JPathWay object
 		$this->_pathway = new JPathWay();

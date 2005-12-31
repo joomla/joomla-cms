@@ -15,21 +15,12 @@
  * DocumentHTML class, provides an easy interface to parse and display an html document
  *
  * @author Johan Janssens <johan@joomla.be>
- * @package Joomla
- * @subpackage JFramework
+ * @subpackage JDocument
  * @since 1.1
  */
 
 class JDocumentHTML extends JDocument
 {
-	/**
-     * Array of published modules
-     *
-     * @var       array
-     * @access    private
-     */
-	var $_jdoc_modules      = array();
-
 	/**
      * Contains the base url
      *
@@ -86,8 +77,6 @@ class JDocumentHTML extends JDocument
 		                          'module'    => array(), 
 		                          'head'      => array()
 							);
-
-		$this->_jdoc_modules =& $this->_loadModules();
 	}
 
 	 /**
@@ -214,173 +203,6 @@ class JDocumentHTML extends JDocument
         $this->setMetaData('Content-Type', $this->_mime . '; charset=' . $this->_charset , true );
     }
 	
-	/**
-	 * Get module by name
-	 *
-	 * @access public
-	 * @param string 	$name	The name of the module
-	 * @return object	The Module object
-	 */
-	function &getModule($name) 
-	{
-		$result = null;
-
-		$total = count($this->_jdoc_modules);
-		for($i = 0; $i < $total; $i++) {
-			if($this->_jdoc_modules[$i]->name == $name) {
-				$result =& $this->_jdoc_modules[$i];
-				break;
-			}
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Get modules by position
-	 *
-	 * @access public
-	 * @param string 	$position	The position of the module
-	 * @return array	An array of module objects
-	 */
-	function &getModules($position)
-	{
-		$result = array();
-
-		$total = count($this->_jdoc_modules);
-		for($i = 0; $i < $total; $i++) {
-			if($this->_jdoc_modules[$i]->position == $position) {
-				$result[] =& $this->_jdoc_modules[$i];
-			}
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Executes a component script and returns the results as a string
-	 *
-	 * @access public
-	 * @param string 	$name		The name of the component to render
-	 * @param string 	$message	A message to prepend
-	 * @return string	The output of the script
-	 */
-	function fetchComponent($name)
-	{
-		global $mainframe, $my, $acl, $database;
-		global $Itemid, $task, $option;
-		global $mosConfig_offset;
-
-		$gid = $my->gid;
-		
-		$name = !isset($name) ? $option : $name;
-			
-		$file = substr( $name, 4 );
-		$path = JPATH_BASE.DS.'components'.DS.$name;
-		
-		if(JFile::exists($path.DS.$file.'.php')) {
-			$path = $path.DS.$file.'.php';
-		} else {
-			$path = $path.DS.'admin.'.$file.'.php';
-		}
-		
-		$task 	= mosGetParam( $_REQUEST, 'task', '' );
-		$ret 	= mosMenuCheck( $Itemid, $name, $task, $my->gid );
-
-		$content = '';
-		ob_start();
-
-		$msg = mosGetParam( $_REQUEST, 'mosmsg', '' );
-		if (!empty($msg)) {
-			echo "\n<div class=\"message\">$msg</div>";
-		}
-		
-		if ($ret) {
-			//load common language files
-			$lang =& $mainframe->getLanguage();
-			$lang->load($name);
-			require_once $path;
-		} else {
-			mosNotAuth();
-		}
-		
-		$contents = ob_get_contents();
-		ob_end_clean();
-
-		return $contents;
-	}
-
-	/**
-	 * Executes multiple modules scripts and returns the results as a string
-	 *
-	 * @access public
-	 * @param string 	$name	The position of the modules to render
-	 * @param  string 	$style	The style to be used for the module, if not present the default style is used
-	 * @return string	The output of the scripts
-	 */
-	function fetchModules($name, $style = null)
-	{
-		$contents = '';
-		foreach ($this->getModules($name) as $module)  {
-			$contents .= $this->fetchModule($module, $style);
-		}
-		return $contents;
-	}
-
-	/**
-	 * Executes a single module script and returns the results as a string
-	 *
-	 * @access public
-	 * @param  mixed 	$name	The name of the module to render or a module object
-	 * @param  string 	$style	The style to be used for the module, if not present the default style is used
-	 * @return string	The output of the script
-	 */
-	function fetchModule($module, $style = null)
-	{
-		global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
-		global $mainframe, $database, $my, $Itemid, $acl, $task;
-
-		//echo $module;
-		
-		$contents = '';
-
-		if(!is_object($module)) {
-			$module = $this->getModule($module);
-		}
-		
-		//get module parameters
-		$params = new JParameters( $module->params );
-		$style  = isset($style) ? $style : $module->style;
-		
-
-		//get module path
-		$path = JPATH_BASE . '/modules/'.$module->module.'.php';
-
-		//load the module
-		if (!$module->user && file_exists( $path ))
-		{
-			$lang =& $mainframe->getLanguage();
-			$lang->load($module->module);
-
-			ob_start();
-			require $path;
-			$module->content = ob_get_contents();
-			ob_end_clean();
-		}
-
-		ob_start();
-			if ($params->get('cache') == 1 && $mainframe->getCfg('caching') == 1) {
-				$cache =& JFactory::getCache( 'com_content' );
-				$cache->call('modules_html::module', $module, $params, $style );
-			} else {
-				modules_html::module( $module, $params, $style);
-			}
-		$contents = ob_get_contents();
-		ob_end_clean();
-
-		return $contents;
-	}
-
 	 /**
      * Generates the head html and return the results as a string
      * 
@@ -480,19 +302,11 @@ class JDocumentHTML extends JDocument
 			$strHtml .= $tab . $custom .$lnEnd;
 		}
 
-		ob_start();
-
-		//load editor
-		initEditor();
-
-		$contents = ob_get_contents();
-		ob_end_clean();
-
-        return $contents.$strHtml;
+        return $strHtml;
     }
 
 	/**
-	 * Parse a file and create an internal patTemplate object
+	 * Parse a document template
 	 *
 	 * @access public
 	 * @param string 	$template	The template to look for the file
@@ -505,121 +319,6 @@ class JDocumentHTML extends JDocument
 		}
 		
 		parent::parse($template, $filename);
-	}
-
-	/**
-	 * Execute and display a layout script.
-	 *
-	 * @access public
-	 * @param string 	$template	The name of the template
-	 * @param boolean 	$compress	If true, compress the output using Zlib compression
-	 */
-	function display($template, $compress = true)
-	{
-		foreach($this->_renderers as $type => $names) 
-		{
-			foreach($names as $name) 
-			{
-				$function = 'fetch'.$type;
-				$html = $this->$function($name);
-				$this->addGlobalVar($type.'_'.$name, $html);
-			}
-		}
-
-		parent::display( $template, $compress );
-	}
-
-	/**
-	 * Load published modules
-	 *
-	 * @access private
-	 * @return array
-	 */
-	function &_loadModules() 
-	{
-		global $mainframe, $Itemid;
-				
-		$user =& $mainframe->getUser();
-		$db   =& $mainframe->getDBO();
-		
-		$modules = array();
-		
-		$wheremenu = isset($Itemid)? "\n AND ( mm.menuid = '". $Itemid ."' OR mm.menuid = 0 )" : "";
-
-		$query = "SELECT id, title, module, position, content, showtitle, params"
-			. "\n FROM #__modules AS m"
-			. "\n LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id"
-			. "\n WHERE m.published = 1"
-			. "\n AND m.access <= '". $user->gid ."'"
-			. "\n AND m.client_id = '". $mainframe->getClient() ."'"
-			. $wheremenu
-			. "\n ORDER BY position, ordering";
-
-		$db->setQuery( $query );
-		$modules = $db->loadObjectList();
-			
-		$total = count($modules);
-		for($i = 0; $i < $total; $i++) {
-			//determine if this is a user module
-			$file = $modules[$i]->module;
-			$modules[$i]->user = substr( $file, 0, 4 )  == 'mod_' ?  0 : 1;
-			$modules[$i]->name = substr( $file, 4 );
-		}
-		
-		return $modules;
-	}
-	
-	/**
-	 * Module callback function
-	 * 
-	 * @access protected
-	 * @param string $module 	The name of the module 
-	 * @param array	 $params	Array of module parameters
-	 * @return string	The result to be inserted in the template
-	 */
-	function _moduleCallback($module, $params = array())
-	{
-		if($module != 'placeholder' && !isset($$params['type'])) {
-			return false;
-		}
-		
-		$type = isset($params['type']) ? strtolower( $params['type'] ) : null;
-		unset($params['type']);
-		
-		$name = isset($params['name']) ? strtolower( $params['name'] ) : null;
-		unset($params['name']);
-		
-		switch($type) 
-		{
-			case 'modules'  		:
-			{
-				$modules =& $this->getModules($name);
-		
-				$total = count($modules);
-				for($i = 0; $i < $total; $i++) {
-					foreach($params as $param => $value) {
-						$modules[$i]->$param = $value;
-					}
-				}
-				
-				$this->_addRenderer($type, $name);
-				
-			} break;
-			case 'module' 		:
-			{
-				$module =& $this->getModule($name);
-
-				foreach($params as $param => $value) {
-					$module->$param = $value;
-				}
-				
-				$this->_addRenderer($type, $name);
-			} break;
-		
-			default : $this->_addRenderer($type, $name);
-		}
-		
-		return '{'.strtoupper($type).'_'.strtoupper($name).'}';
 	}
 }
 ?>

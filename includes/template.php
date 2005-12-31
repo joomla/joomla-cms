@@ -23,9 +23,7 @@ require_once( JPATH_BASE . '/includes/template.html.php' );
  */
 function mosCountModules( $position='left' ) 
 {
-	global $mainframe;
-	$document =& $mainframe->getDocument();
-	return count($document->getModules($position));
+	return count(JModuleHelper::getModules($position));
 }
 
 /**

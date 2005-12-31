@@ -20,7 +20,7 @@ global $document;
 <table class="adminform">
 <tr>
 	<td width="55%" valign="top">
-	   <?php echo $document->fetchModules('icon'); ?>
+	   <?php echo $document->execRenderer('modules','icon'); ?>
 	</td>
 	<td width="45%" valign="top">
 		<div style="width=100%;">
@@ -29,7 +29,7 @@ global $document;
 			$tabs = new mosTabs(1);
 			$tabs->startPane( 'modules-cpanel' );
 			?>
-			<?php echo $document->fetchModules('cpanel',1); ?>
+			<?php echo $document->execRenderer('modules', 'cpanel', array('style' => 1)); ?>
 			<?php
 			$tabs->endPane();
 			?>

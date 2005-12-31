@@ -12,13 +12,13 @@
 */
 
 jimport('joomla.template.template');
+jimport('joomla.module');
 
 /**
  * Document class, provides an easy interface to parse and display a document
  *
  * @author Johan Janssens <johan@joomla.be>
- * @package Joomla
- * @subpackage JFramework
+ * @subpackage JDocument
  * @abstract
  * @since 1.1
  * @see patTemplate
@@ -163,8 +163,9 @@ class JDocument extends JTemplate
 		$this->setNamespace( 'jdoc' );
 		
 		//add module directories
-		$this->addModuleDir('Function',		dirname(__FILE__). DS. 'modules'. DS .'functions');
+		$this->addModuleDir('Function'    ,	dirname(__FILE__). DS. 'modules'. DS .'functions');
 		$this->addModuleDir('OutputFilter', dirname(__FILE__). DS. 'modules'. DS .'filters'  );
+		$this->addModuleDir('Renderer'    , dirname(__FILE__). DS. 'modules'. DS .'renderers');
 		
 	}
 
@@ -398,6 +399,22 @@ class JDocument extends JTemplate
     {
         return $this->_tab;
     }
+	
+	/**
+	 * Execute a renderer
+	 *
+	 * @access public
+	 * @param string 	$type	The type of renderer
+	 * @param string 	$name	The name of the element to render
+	 * @param array 	$params	Associative array of values
+	 * @return 	The output of the renderer
+	 */
+	function execRenderer($type, $name, $params = array()) 
+	{
+		jimport('joomla.document.modules.renderer');
+		$module =& $this->loadModule( 'Renderer', $type);
+		return $module->render($name, $params);
+	}
 
 	/**
 	 * Parse a file and create an internal patTemplate object
@@ -411,16 +428,25 @@ class JDocument extends JTemplate
 		$contents = $this->_load($directory, $filename);
 		$this->readTemplatesFromInput( $contents, 'String' );
 	}
-
+	
 	/**
-	 * Outputs the content to the browser.
+	 * Outputs the template to the browser.
 	 *
 	 * @access public
-	 * @param string 	$name		The name of the template
+	 * @param string 	$template	The name of the template
 	 * @param boolean 	$compress	If true, compress the output using Zlib compression
 	 */
-	function display($name, $compress = true)
+	function display($template, $compress = true)
 	{
+		foreach($this->_renderers as $type => $names) 
+		{
+			foreach($names as $name) 
+			{
+				$html = $this->execRenderer($type, $name);
+				$this->addGlobalVar($type.'_'.$name, $html);
+			}
+		}
+
 		if($compress) {
 			$this->applyOutputFilter('Zlib');
 		}
@@ -432,7 +458,7 @@ class JDocument extends JTemplate
 	}
 
 	/**
-     * Replace the head placeholder
+     * Return the document head
      *
      * @abstract
      * @access public
@@ -443,7 +469,7 @@ class JDocument extends JTemplate
     }
 
 	/**
-     * Replace the body placeholder
+     * Return the document body
      *
      * @abstract
      * @access public

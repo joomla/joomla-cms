@@ -11,6 +11,14 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+/**
+* Placeholder function
+*
+* @author Johan Janssens <johan@joomla.be>
+* @subpackage JDocument
+* @since 1.1
+*/
+
 class patTemplate_Function_Placeholder extends patTemplate_Function
 {
    /**
@@ -39,19 +47,47 @@ class patTemplate_Function_Placeholder extends patTemplate_Function
 	*/
 	function call( $params, $content )
 	{
-		$result = null;
-		if( method_exists( $this->_tmpl, '_moduleCallback' ) )
-		{
-			$result = $this->_tmpl->_moduleCallback($this->_name, $params);
+		if(!isset($params['type'])) {
+			return false;
 		}
 		
-		return $result;
+		$type = isset($params['type']) ? strtolower( $params['type'] ) : null;
+		unset($params['type']);
 		
-		//$type = strtolower( $params['type'] );
-		//unset($params['type']);
+		$name = isset($params['name']) ? strtolower( $params['name'] ) : null;
+		unset($params['name']);
+		
+		switch($type) 
+		{
+			case 'modules'  		:
+			{
+				$modules =& JModuleHelper::getModules($name);
+		
+				$total = count($modules);
+				for($i = 0; $i < $total; $i++) {
+					foreach($params as $param => $value) {
+						$modules[$i]->$param = $value;
+					}
+				}
 				
-		//$result = $document->addPlaceholder($type, $params);
-		//return $result;
+				$this->_tmpl->_addRenderer($type, $name);
+				
+			} break;
+			case 'module' 		:
+			{
+				$module =& JModuleHelper::getModule($name);
+
+				foreach($params as $param => $value) {
+					$module->$param = $value;
+				}
+				
+				$this->_tmpl->_addRenderer($type, $name);
+			} break;
+		
+			default : $this->_tmpl->_addRenderer($type, $name);
+		}
+		
+		return '{'.strtoupper($type).'_'.strtoupper($name).'}';
 	}
 	
 	 /**

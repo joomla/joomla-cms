@@ -17,9 +17,9 @@
  * Checks the accept encoding of the browser and
  * compresses the data before sending it to the client.
  *
- * @package		Joomla
- * @subpackage	JFramework
  * @author		Johan Janssens <johan@joomla.be>
+ * @subpackage	JDocument
+ * @since 1.1
  */
 class patTemplate_OutputFilter_Zlib extends patTemplate_OutputFilter
 {

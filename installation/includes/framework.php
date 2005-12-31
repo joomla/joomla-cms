@@ -61,5 +61,5 @@ jimport( 'joomla.files' );
 jimport( 'joomla.params' );
 jimport( 'joomla.i18n.language' );
 jimport( 'joomla.i18n.string' );
-jimport( 'joomla.application');
+jimport( 'joomla.application.application');
 ?>

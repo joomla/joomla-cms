@@ -68,7 +68,8 @@ class JPlugin extends JObserver {
 
 /**
 * Plugin helper class
-*
+* 
+* @author Johan Janssens <johan@joomla.be>
 * @package Joomla
 * @subpackage JFramework
 * @since 1.1
