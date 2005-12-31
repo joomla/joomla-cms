@@ -59,7 +59,10 @@ class JPathWay extends JObject {
 			unset($pw[0]);
 		}
 
-		return $pw;
+		/*
+		 * Use array_values to reset the array keys numerically
+		 */
+		return array_values($pw);
 	}
 
 	/**
@@ -90,7 +93,10 @@ class JPathWay extends JObject {
 			unset($names[0]);
 		}
 
-		return $names;
+		/*
+		 * Use array_values to reset the array keys numerically
+		 */
+		return array_values($names);
 	}
 
 	/**

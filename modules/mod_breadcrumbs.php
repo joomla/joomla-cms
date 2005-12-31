@@ -39,8 +39,8 @@ if ($mainframe->getOption() == 'com_content') {
 }
 
 // Get the PathWay object from the application
-$pathway =& $mainframe->getPathWay($showHome, $showComponent);
-
+$pathway =& $mainframe->getPathWay();
+$crumbs = $pathway->getPathWay($showHome, $showComponent);
 
 /*
  * This is the JTemplate method of displaying the BreadCrumbs for maximum flexibility
@@ -49,14 +49,14 @@ $pathway =& $mainframe->getPathWay($showHome, $showComponent);
 //$tmpl->parse( 'breadcrumbs.html' );
 
 //$tmpl->addVar   ( 'breadcrumbs-items', 'separator', $separator );
-//$tmpl->addObject( 'breadcrumbs-items', $breadcrumbs );
+//$tmpl->addObject( 'breadcrumbs-items', $crumbs );
 
 //$tmpl->display( 'breadcrumbs' );
 
 /*
  * This is the standard way of displaying the BreadCrumbs
  */
-echo showBreadCrumbs($pathway, $separator);
+echo showBreadCrumbs($crumbs, $separator);
 
 
 
@@ -68,7 +68,7 @@ echo showBreadCrumbs($pathway, $separator);
  * @return string XHTML Compliant breadcrumbs string
  * @since 1.1
  */
-function showBreadCrumbs( $items, $separator ) {
+function showBreadCrumbs( &$items, $separator ) {
 
 	/*
 	 * Initialize variables

@@ -1206,7 +1206,6 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 		$breadcrumbs->addItem( $row->title, '');
 
 
-
 		show( $row, $params, $gid, $access, $pop, $option );
 	} else {
 		mosNotAuth();
@@ -1619,6 +1618,11 @@ function saveContent( &$access, $task ) {
 function cancelContent( &$access ) {
 	global $database, $my, $task;
 
+	/*
+	 * Initialize variables
+	 */
+	$query = null;
+	
 	$row = new mosContent( $database );
 	$row->bind( $_POST );
 

@@ -44,7 +44,7 @@ Legend:
  - Removed administrator mod_msg module
 
 26-Dec-2005 Samuel Moffatt
- + Added French language to installer (from JM)
+ + Added French language to installer
 
 24-Dec-2005 Emir Sakic
  # Fixed a bug with 404 header being returned for homepage when SEF activated
