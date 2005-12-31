@@ -35,6 +35,7 @@ Legend:
  + Added JURI and JRequest classes - contributed by Louis Landry
  + Implemented AJAX functionality in the installation to 
    improve usability - contributed by Louis Landry
+ - Removed administrator/mod_pathway
 
 27-Dec-2005 Johan Janssens 
  # Fixed artf2742 : Backend generates just plain text output in IE or Opera

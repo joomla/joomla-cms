@@ -426,7 +426,6 @@ INSERT INTO `#__modules` VALUES (0, 'Menu Stats','',5,'cpanel',0,'0000-00-00 00:
 INSERT INTO `#__modules` VALUES (0, 'Unread Messages','',1,'header',0,'0000-00-00 00:00:00',1,'mod_unread',0,23,1,'',1, 1);
 INSERT INTO `#__modules` VALUES (0, 'Online Users','',2,'header',0,'0000-00-00 00:00:00',1,'mod_online',0,23,1,'',1, 1);
 INSERT INTO `#__modules` VALUES (0, 'Full Menu','',1,'top',0,'0000-00-00 00:00:00',1,'mod_fullmenu',0,23,1,'',1, 1);
-INSERT INTO `#__modules` VALUES (0, 'Pathway','',1,'pathway',0,'0000-00-00 00:00:00',1,'mod_pathway',0,23,1,'',1, 1);
 INSERT INTO `#__modules` VALUES (0, 'Toolbar','',1,'toolbar',0,'0000-00-00 00:00:00',1,'mod_toolbar',0,23,1,'',1, 1);
 INSERT INTO `#__modules` VALUES (0, 'Quick Icons','',1,'icon',0,'0000-00-00 00:00:00',1,'mod_quickicon',0,23,1,'',1,1);
 INSERT INTO `#__modules` VALUES (0, 'Other Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_mainmenu', 0, 0, 0, 'menutype=othermenu\nmenu_style=vert_indent\ncache=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nclass_sfx=\nmoduleclass_sfx=\nindent_image=0\nindent_image1=\nindent_image2=\nindent_image3=\nindent_image4=\nindent_image5=\nindent_image6=\nmoduleclass_sfx=_menu\n', 0, 0);
@@ -474,10 +473,10 @@ INSERT INTO `#__modules_menu` VALUES (13,0);
 INSERT INTO `#__modules_menu` VALUES (15,0);
 INSERT INTO `#__modules_menu` VALUES (17,0);
 INSERT INTO `#__modules_menu` VALUES (18,0);
-INSERT INTO `#__modules_menu` VALUES (30,0);
+INSERT INTO `#__modules_menu` VALUES (29,0);
+INSERT INTO `#__modules_menu` VALUES (32,0);
 INSERT INTO `#__modules_menu` VALUES (33,0);
 INSERT INTO `#__modules_menu` VALUES (34,0);
-INSERT INTO `#__modules_menu` VALUES (35,0);
 
 # --------------------------------------------------------
 
