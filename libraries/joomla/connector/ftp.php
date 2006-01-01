@@ -9,6 +9,8 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport( 'joomla.common.base.object' );
+
 /** Error Codes:
  *  - 30 : Unable to connect to host
  *  - 31 : Not connected

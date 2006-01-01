@@ -11,6 +11,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport( 'joomla.common.base.object' );
 
 /**
  * Authorization class, provides an interface for the Joomla authentication

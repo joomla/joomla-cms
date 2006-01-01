@@ -11,7 +11,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.system.observer');
+jimport('joomla.common.base.observer');
 
 /**
  * Event dispatcher class

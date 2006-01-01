@@ -12,6 +12,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport( 'joomla.common.base.object' );
 
 /**
  * JModel Abstract Class.

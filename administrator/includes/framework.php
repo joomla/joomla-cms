@@ -58,7 +58,6 @@ jimport( 'phpinputfilter.inputfilter' );
 
 //Joomla library imports
 jimport( 'joomla.common.compat.compat' );
-jimport( 'joomla.common.base.*' );
 
 jimport( 'joomla.version' );
 jimport( 'joomla.functions' );
