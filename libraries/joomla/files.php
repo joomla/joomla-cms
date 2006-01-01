@@ -126,7 +126,7 @@ class JFile {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('localhost');
+			$ftp = & JFTP::getInstance('127.0.0.1');
 			$ftp->login($ftpUser, $ftpPass);
 
 			// If the parent folder doesn't exist we must create it
@@ -188,7 +188,7 @@ class JFile {
 
 		// Connect the FTP client
 		jimport('joomla.connector.ftp');
-		$ftp = & JFTP::getInstance('localhost');
+		$ftp = & JFTP::getInstance('127.0.0.1');
 		$ftp->login($ftpUser, $ftpPass);
 
 		$failed = 0;
@@ -258,7 +258,7 @@ class JFile {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('localhost');
+			$ftp = & JFTP::getInstance('127.0.0.1');
 			$ftp->login($ftpUser, $ftpPass);
 
 			//Translate path for the FTP account
@@ -326,7 +326,7 @@ class JFile {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('localhost');
+			$ftp = & JFTP::getInstance('127.0.0.1');
 			$ftp->login($ftpUser, $ftpPass);
 
 			//Translate path for the FTP account
@@ -400,7 +400,7 @@ class JFile {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('localhost');
+			$ftp = & JFTP::getInstance('127.0.0.1');
 			$ftp->login($ftpUser, $ftpPass);
 
 			// If the destination directory doesn't exist we need to create it
@@ -467,7 +467,7 @@ class JFile {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('localhost');
+			$ftp = & JFTP::getInstance('127.0.0.1');
 			$ftp->login($ftpUser, $ftpPass);
 
 			// If the destination directory doesn't exist we need to create it
@@ -560,7 +560,7 @@ class JFolder {
 		if ($ftpFlag == true) {
 			// Do it the safe mode way
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('localhost');
+			$ftp = & JFTP::getInstance('127.0.0.1');
 			$ftp->login($ftpUser, $ftpPass);
 			$ret = true;
 
@@ -692,7 +692,7 @@ class JFolder {
 		if ($ftpFlag == true) {
 			// Do it the FTP way
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('localhost');
+			$ftp = & JFTP::getInstance('127.0.0.1');
 			$ftp->login($ftpUser, $ftpPass);
 
 			// Translate Path
@@ -761,7 +761,7 @@ class JFolder {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('localhost');
+			$ftp = & JFTP::getInstance('127.0.0.1');
 			$ftp->login($ftpUser, $ftpPass);
 
 			//Translate path for the FTP account
@@ -843,7 +843,7 @@ class JFolder {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('localhost');
+			$ftp = & JFTP::getInstance('127.0.0.1');
 			$ftp->login($ftpUser, $ftpPass);
 
 			//Translate path for the FTP account
@@ -955,7 +955,7 @@ class JFolder {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('localhost');
+			$ftp = & JFTP::getInstance('127.0.0.1');
 			$ftp->login($ftpUser, $ftpPass);
 
 			//Translate path for the FTP account

@@ -401,7 +401,7 @@ class HTML_contact {
 		</tr>
 		</table>
 
-		<script language="Javascript" src="<?php echo JURL_SITE;?>/includes/js/overlib_mini.js"></script>
+		<script language="Javascript" src="../includes/js/overlib_mini.js"></script>
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="task" value="" />

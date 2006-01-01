@@ -114,7 +114,7 @@ function registerForm( $option, $useractivation ) {
 }
 
 function saveRegistration( $option ) {
-	global $database, $acl;
+	global $database, $acl, $mainframe;
 	global $mosConfig_sitename, $mosConfig_useractivation, $mosConfig_allowUserRegistration;
 	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_mailfrom, $mosConfig_fromname;
 

@@ -38,6 +38,54 @@ function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  
 }
 
 /**
+* Legacy function, use JFactory::getMailer() instead
+* @deprecated As of version 1.1
+*/
+function mosCreateMail( $from='', $fromname='', $subject, $body ) {
+
+	$mail =& JFactory::getMailer();
+
+	$mail->From 	= $from ? $from : $mail->From;
+	$mail->FromName = $fromname ? $fromname : $mail->FromName;
+	$mail->Subject 	= $subject;
+	$mail->Body 	= $body;
+
+	return $mail;
+}
+
+/**
+* Legacy function, use jMail instead
+* @deprecated As of version 1.1
+*/
+function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL ) {
+	jMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL );
+}
+
+/**
+* Legacy function, use jSendAdminMail instead
+* @deprecated As of version 1.1
+*/
+function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) {
+	jSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author );
+}
+
+/**
+* Legacy function, use JAuthHelper::genRandomPassword() instead
+* @deprecated As of version 1.1
+*/
+function mosMakePassword() {
+	return JAuthHelper::genRandomPassword();
+}
+
+/**
+* Legacy function, use jRedirect instead
+* @deprecated As of version 1.1
+*/
+function mosRedirect( $url, $msg='' ) {
+	jRedirect( $url, $msg='' );
+}
+
+/**
  * Legacy function, use JFolder::delete($path)
  * @deprecated As of version 1.1
  */

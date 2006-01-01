@@ -66,18 +66,21 @@ class JRequest {
 		$type = strtoupper($type);
 		$result = null;
 
-		if ($hash === 'METHOD')
+		if ($hash === 'METHOD') {
 			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
-		else
+		} else {
 			if ($hash == 'DEFAULT') {
-				if (isset ($_GET[$name]))
+				if (isset ($_GET[$name])) {
 					$result = $_GET[$name];
-				else
-					if (isset ($_POST[$name]))
+				} else {
+					if (isset ($_POST[$name])) {
 						$result = $_POST[$name];
-					else
-						if (isset ($_FILES[$name]))
+					} else {
+						if (isset ($_FILES[$name])) {
 							$result = $_FILES[$name];
+						}
+					}
+				}
 			} else {
 				switch ($hash) {
 					case 'GET' :
@@ -94,6 +97,7 @@ class JRequest {
 						break;
 				}
 			}
+		}
 
 		/*
 		 * Clean the variable given using the given filter mask

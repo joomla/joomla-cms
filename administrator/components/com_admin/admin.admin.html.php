@@ -491,7 +491,7 @@ class HTML_admin_misc {
 				</div>
 			</td>
 			<td valign="top">
-				<iframe name="helpFrame" src="<?php echo JURL_SITE . '/help/' . $page;?>" class="helpFrame" frameborder="0" /></iframe>
+				<iframe name="helpFrame" src="<?php echo 'help/eng_GB/' . $page;?>" class="helpFrame" frameborder="0" /></iframe>
 			</td>
 		</tr>
 		</table>

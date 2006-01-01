@@ -175,18 +175,19 @@ function mosObjectToArray($p_obj) {
 }
 
 /**
-* Utility function redirect the browser location to another url
-*
-* Can optionally provide a message.
-* @param string The file system path
-* @param string A filter for the names
-* @since 1.0
-*/
-function mosRedirect( $url, $msg='' ) {
-
+ * Utility function redirect the browser location to another url
+ *
+ * Can optionally provide a message.
+ * @param string $url The URL to redirect to
+ * @param string $msg A message to display on redirect
+ * @since 1.0
+ */
+function jRedirect( $url, $msg='' ) {
    global $mainframe;
 
-    // specific filters
+    /*
+     * Instantiate an input filter and process the URL and message
+     */
 	$iFilter = new InputFilter();
 	$url = $iFilter->process( $url );
 	if (!empty($msg)) {
@@ -194,9 +195,12 @@ function mosRedirect( $url, $msg='' ) {
 	}
 
 	if ($iFilter->badAttributeValue( array( 'href', $url ))) {
-		$url = $GLOBALS['mosConfig_live_site'];
+		$url = JURL_SITE;
 	}
 
+	/*
+	 * If the message exits, prepare it (url encoding)
+	 */
 	if (trim( $msg )) {
 	 	if (strpos( $url, '?' )) {
 			$url .= '&mosmsg=' . urlencode( $msg );
@@ -205,6 +209,10 @@ function mosRedirect( $url, $msg='' ) {
 		}
 	}
 
+	/*
+	 * If the headers have been sent, then we cannot send an additional location header
+	 * so we will output a javascript redirect statement.
+	 */
 	if (headers_sent()) {
 		echo "<script>document.location.href='$url';</script>\n";
 	} else {
@@ -490,20 +498,6 @@ function mosHash( $seed ) {
 	return md5( $GLOBALS['mosConfig_secret'] . md5( $seed ) );
 }
 
-/**
-* Random password generator
-* @return password
-*/
-function mosMakePassword() {
-	$salt 		= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-	$len 		= strlen($salt);
-	$makepass	= '';
-	mt_srand(10000000*(double)microtime());
-	for ($i = 0; $i < 8; $i++)
-	$makepass .= $salt[mt_rand(0,$len - 1)];
-	return $makepass;
-}
-
 if (!function_exists('html_entity_decode')) {
 	/**
 	* html_entity_decode function for backward compatability in PHP
@@ -531,15 +525,28 @@ if (!function_exists('html_entity_decode')) {
 }
 
 /**
-* Function to create a mail object for futher use (uses phpMailer)
-* @param string From e-mail address
-* @param string From name
-* @param string E-mail subject
-* @param string Message body
-* @return object Mail object
-*/
-function mosCreateMail( $from='', $fromname='', $subject, $body ) {
+ * Mail function (uses phpMailer)
+ * 
+ * @param string $from From e-mail address
+ * @param string $fromname From name
+ * @param mixed $recipient Recipient e-mail address(es)
+ * @param string $subject E-mail subject
+ * @param string $body Message body
+ * @param boolean $mode false = plain text, true = HTML
+ * @param mixed $cc CC e-mail address(es)
+ * @param mixed $bcc BCC e-mail address(es)
+ * @param mixed $attachment Attachment file name(s)
+ * @param mixed $replyto Reply to email address(es)
+ * @param mixed $replytoname Reply to name(s)
+ * @return boolean True on success
+ * @since 1.1
+ */
+function jMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null ) {
+	global $mainframe;
 
+	/*
+	 * Get a mailer object instance
+	 */
 	$mail =& JFactory::getMailer();
 
 	$mail->From 	= $from ? $from : $mail->From;
@@ -547,30 +554,16 @@ function mosCreateMail( $from='', $fromname='', $subject, $body ) {
 	$mail->Subject 	= $subject;
 	$mail->Body 	= $body;
 
-	return $mail;
-}
-
-/**
-* Mail function (uses phpMailer)
-* @param string From e-mail address
-* @param string From name
-* @param string/array Recipient e-mail address(es)
-* @param string E-mail subject
-* @param string Message body
-* @param boolean false = plain text, true = HTML
-* @param string/array CC e-mail address(es)
-* @param string/array BCC e-mail address(es)
-* @param string/array Attachment file name(s)
-*/
-function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL ) {
-	global $mosConfig_debug;
-	$mail = mosCreateMail( $from, $fromname, $subject, $body );
-
-	// activate HTML formatted emails
+	/*
+	 * Are we sending the email as HTML?
+	 */
 	if ( $mode ) {
 		$mail->IsHTML(true);
 	}
 
+	/*
+	 * If the recipient is an aray, add each recipient... otherwise just add the one
+	 */
 	if( is_array($recipient) ) {
 		foreach ($recipient as $to) {
 			$mail->AddAddress($to);
@@ -578,53 +571,94 @@ function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NUL
 	} else {
 		$mail->AddAddress($recipient);
 	}
+	
+	/*
+	 * Handle CC the same as recipient if it is set
+	 */
 	if (isset($cc)) {
-		if( is_array($cc) )
-			foreach ($cc as $to) $mail->AddCC($to);
-		else
+		if( is_array($cc) ) {
+			foreach ($cc as $to) {
+				$mail->AddCC($to);
+			}
+		} else {
 			$mail->AddCC($cc);
+		}
 	}
+	
+	/*
+	 * Handle BCC the same as CC
+	 */
 	if (isset($bcc)) {
-		if( is_array($bcc) )
-			foreach ($bcc as $to) $mail->AddBCC($to);
-		else
+		if( is_array($bcc) ) {
+			foreach ($bcc as $to) {
+				$mail->AddBCC($to);
+			}
+		} else {
 			$mail->AddBCC($bcc);
+		}
 	}
+	
+	/*
+	 * Add any file attachments we might have to send
+	 */
 	if ($attachment) {
-		if ( is_array($attachment) )
-			foreach ($attachment as $fname) $mail->AddAttachment($fname);
-		else
+		if ( is_array($attachment) ) {
+			foreach ($attachment as $fname) {
+				$mail->AddAttachment($fname);
+			}
+		} else {
 			$mail->AddAttachment($attachment);
-	} // if
-	//Important for being able to use mosMail without spoofing...
-	 if ($replyto) {
-        if ( is_array($replyto) ) {
-        	reset($replytoname);
-            foreach ($replyto as $to) {
-            	$toname = ((list($key, $value) = each($replytoname)) ? $value : "");
-            	$mail->AddReplyTo($to, $toname);
-            }
-        } else
-            $mail->AddReplyTo($replyto, $replytoname);
-    }
+		}
+	}
+	
+	/*
+	 * Take care of reply email addresses
+	 */
+	if ($replyto) {
+		if ( is_array($replyto) ) {
+			reset($replytoname);
+			foreach ($replyto as $to) {
+				$toname = ((list($key, $value) = each($replytoname)) ? $value : "");
+				$mail->AddReplyTo($to, $toname);
+			}
+		} else {
+		$mail->AddReplyTo($replyto, $replytoname);
+		}
+	}
 
+	// Send the email
 	$mailssend = $mail->Send();
 
-	if( $mosConfig_debug ) {
+	/*
+	 * Set debug information
+	 * TODO: Common debug template perhaps?
+	 */
+	if( $mainframe->getCfg( 'debug' ) ) {
 		//$mosDebug->message( "Mails send: $mailssend");
 	}
 	if( $mail->error_count > 0 ) {
 		//$mosDebug->message( "The mail message $fromname <$from> about $subject to $recipient <b>failed</b><br /><pre>$body</pre>", false );
 		//$mosDebug->message( "Mailer Error: " . $mail->ErrorInfo . "" );
 	}
+
 	return $mailssend;
 }
 
 /**
-* Sends mail to admin
-*/
-function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) {
-    // soon $mosConfig_admin_dir
+ * Sends mail to administrator for approval of a user submission
+ * 
+ * @param string $adminName Name of administrator
+ * @param string $adminEmail Email address of administrator
+ * @param string $email [NOT USED TODO: Deprecate?]
+ * @param string $type Type of item to approve
+ * @param string $title Title of item to approve
+ * @param string $author Author of item to approve
+ * @return boolean True on success
+ * @since 1.1
+ */
+function jSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) {
+	global $mainframe;
+
     $strAdminDir = "administrator";
 
 	$subject = JText::_( 'User Submitted' ) ." '". $type ."'";
@@ -633,7 +667,8 @@ function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
     $message .= JText::_( 'MAIL_MSG') ."\n";
 
 	eval ("\$message = \"$message\";");
-	mosMail($mosConfig_mailfrom, $mosConfig_fromname, $adminEmail, $subject, $message);
+	
+	return jMail($mainframe->getCfg( 'mailfrom' ), $mainframe->getCfg( 'fromname' ), $adminEmail, $subject, $message);
 }
 
 /**
@@ -649,7 +684,6 @@ function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
  *    0: Leave URL in the same sef state as it was passed to the function
  * @since 1.1
  */
-
 function josURL( $url, $ssl=0, $sef=1 ) {
 	global $mainframe, $mosConfig_unsecure_site, $mosConfig_secure_site;
 
