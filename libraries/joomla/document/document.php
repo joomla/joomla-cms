@@ -305,15 +305,7 @@ class JDocument extends JTemplate
      */
     function setTitle($title)
     {
-        global $mainframe;
-		
-		if($mainframe->getCfg('pagetitles'))
-		{
-			$title = trim( htmlspecialchars( $title ));
-			$site  = $mainframe->getCfg('sitename');
-			
-			$this->_title  = $title ? $site . ' - '. $title : $site;
-		}
+		$this->_title = $title;
     }
 
 	/**
@@ -413,7 +405,17 @@ class JDocument extends JTemplate
 	function execRenderer($type, $name, $params = array()) 
 	{
 		jimport('joomla.document.modules.renderer');
+		
+		if(!$this->moduleExists('Renderer', $type)) {
+			return false;
+		}
+		
 		$module =& $this->loadModule( 'Renderer', ucfirst($type));
+		
+		if( patErrorManager::isError( $module ) ) {
+			return false;
+		}
+		
 		return $module->render($name, $params);
 	}
 
@@ -443,8 +445,9 @@ class JDocument extends JTemplate
 		{
 			foreach($names as $name) 
 			{
-				$html = $this->execRenderer($type, $name);
-				$this->addGlobalVar($type.'_'.$name, $html);
+				if($html = $this->execRenderer($type, $name)) {
+					$this->addGlobalVar($type.'_'.$name, $html);
+				}
 			}
 		}
 
@@ -495,7 +498,8 @@ class JDocument extends JTemplate
 		$contents = '';
 		if ( file_exists( 'templates'.DS.$template.DS.$filename ) ) {
 			
-			$this->addGlobalVar( 'template', $mainframe->getTemplate());
+			$var = isset($mainframe) ?  $mainframe->getTemplate() : '_system';
+			$this->addGlobalVar( 'template', $var);
 
 			ob_start();
 			?><jdoc:tmpl name="<?php echo $filename ?>" autoclear="yes"><?php

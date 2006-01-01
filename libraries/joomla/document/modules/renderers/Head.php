@@ -38,12 +38,16 @@ class patTemplate_Renderer_Head extends patTemplate_Renderer
 	 */
 	function render( $head = null, $params = array() )
 	{
+		global $mainframe;
+		
 		ob_start();
 		
 		echo $this->_tmpl->fetchHead();
 
-		//load editor
-		initEditor();
+		//TODO : Rework and load editor using editor class
+		if(isset($mainframe)) {
+			initEditor();
+		}
 
 		$contents = ob_get_contents();
 		ob_end_clean();

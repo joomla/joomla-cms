@@ -92,7 +92,7 @@ function initDocument(&$doc)
 			
 	$doc->setMetaContentType();
 		
-	$doc->setTitle( JText::_( 'Administration' ) .'  [Joomla!]' );
+	$doc->setTitle( $mainframe->getCfg('sitename' ). '-' .JText::_( 'Administration' ) .'  [Joomla!]' );
 	
 	$doc->setMetaData( 'description', $mainframe->getCfg('MetaDesc' ));
 	$doc->setMetaData( 'keywords', $mainframe->getCfg('MetaKeys' ));

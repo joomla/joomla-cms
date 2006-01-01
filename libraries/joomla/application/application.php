@@ -805,24 +805,6 @@ class JApplication extends JObject {
 	}
 
 	/**
-	* Depreacted, use JDocument->setTitle instead
-	* @since 1.1
-	*/
-	function setPageTitle( $title=null ) {
-		$document=& $this->getDocument();
-		$document->setTitle($title);
-	}
-
-	/**
-	* Depreacted, use JDocument->getTitle instead
-	* @since 1.1
-	*/
-	function getPageTitle() {
-		$document=& $this->getDocument();
-		return $document->getTitle();
-	}
-
-	/**
 	* Depreacted, use JDocument->addCustomTag instead
 	* @since 1.1
 	*/

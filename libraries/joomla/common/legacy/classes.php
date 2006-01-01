@@ -79,6 +79,24 @@ class mosMainFrame extends JApplication {
 
 		}
 	}
+	
+	/**
+	* Depreacted, use JDocument->setTitle instead or override in your application class
+	* @since 1.1
+	*/
+	function setPageTitle( $title=null ) {
+		$document=& $this->getDocument();
+		$document->setTitle($title);
+	}
+
+	/**
+	* Depreacted, use JDocument->getTitle instead or override in your application class
+	* @since 1.1
+	*/
+	function getPageTitle() {
+		$document=& $this->getDocument();
+		return $document->getTitle();
+	}
 }
 
 /**

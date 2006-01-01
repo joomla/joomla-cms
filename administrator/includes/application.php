@@ -35,6 +35,30 @@ class JAdministrator extends JApplication {
 	function __construct($option) {
 		parent::__construct($option, 1);
 	}
+	
+	/**
+	* Set Page Title
+	* 
+	* @param string $title The title for the page
+	* @since 1.1
+	*/
+	function setPageTitle( $title=null ) 
+	{
+		$document=& $this->getDocument();
+		$document->setTitle($title);
+	}
+
+	/**
+	* Get Page title
+	* 
+	* @return string The page title
+	* @since 1.1
+	*/
+	function getPageTitle() 
+	{
+		$document=& $this->getDocument();
+		return $document->getTitle();
+	}
 }
 
 /** 

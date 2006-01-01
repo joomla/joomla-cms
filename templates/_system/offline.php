@@ -23,7 +23,7 @@ $lang->load('mod_login');
 <head>
 	<title><?php echo $mainframe->getCfg('sitename'); ?> - Offline</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"" />
-	<link rel="stylesheet" href="<?php echo JURL_SITE; ?>/templates/_system/css/offline.css" type="text/css" />
+	<link rel="stylesheet" href="templates/{TEMPLATE}/css/template_css.css" type="text/css" />
 	<link rel="shortcut icon" href="<?php echo JURL_SITE; ?>/images/favicon.ico" />
 </head>
 <body>

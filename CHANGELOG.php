@@ -31,6 +31,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+01-Jan-2006 Johan Janssens
+ + Added error templates for custom debug output
+ 
+-------------------- Happy New Year Everyone ! ------------------------
+
 30-Dec-2005 Johan Janssens
  + Added JURI and JRequest classes - contributed by Louis Landry
  + Implemented AJAX functionality in the installation - contributed by Louis Landry
