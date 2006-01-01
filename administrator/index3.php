@@ -52,13 +52,6 @@ if (is_null(JSession::get('guest')) || JSession::get('guest')) {
 // trigger the onStart events
 $mainframe->triggerEvent( 'onAfterStart' );
 
-// initialise some common request directives
-$option     = strtolower( mosGetParam( $_REQUEST, 'option', 'com_admin' ) );
-$task		= mosGetParam( $_REQUEST, 'task', '' );
-$section	= mosGetParam( $_REQUEST, 'section', '' );
-$no_html	= strtolower( mosGetParam( $_REQUEST, 'no_html', '' ) );
-$mosmsg		= strip_tags( mosGetParam( $_REQUEST, 'mosmsg', '' ) );
-
 if ($option == 'logout') {
 	$mainframe->logout();
 	mosRedirect( JURL_SITE );
@@ -72,59 +65,30 @@ $lang = $mainframe->getLanguage();
 $params = $database->loadResult();
 $my->params = new JParameters( $params );
 
-$session_id = mosGetParam( $_SESSION, 'session_id', '' );
-$logintime 	= mosGetParam( $_SESSION, 'session_logintime', '' );
-
-// start the html output
-if ($no_html) {
-	if ($path = $mainframe->getPath( 'admin' )) {
-		require $path;
-	}
-	exit;
+//render raw component output
+if($no_html == 1) {
+	$path = $mainframe->getPath( 'admin', $option );
+	
+	//load common language files
+	$lang =& $mainframe->getLanguage();
+	$lang->load($option);
+	require_once( $path );	
+	exit();	
 }
 
-initGzip();
-header( 'Content-Type: text/html; charset=UTF-8');
+// loads template file
+$cur_template = $mainframe->getTemplate();
+$file     = 'component.php';
 
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title><?php echo $mosConfig_sitename; ?> - Administration [Joomla]</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"" />
-<link rel="stylesheet" href="templates/<?php echo $mainframe->getTemplate(); ?>/css/template_css.css" type="text/css">
-<link rel="stylesheet" href="templates/<?php echo $mainframe->getTemplate(); ?>/css/<?php echo ($lang->isRTL()) ? 'theme_rtl.css' : 'theme.css' ?>" type="text/css">
-<script language="JavaScript" src="../includes/js/JSCookMenu_mini.js" type="text/javascript"></script>
-<script language="JavaScript" src="includes/js/ThemeOffice/<?php echo ($lang->isRTL()) ? 'theme_rtl.js' : 'theme.js' ?>" type="text/javascript"></script>
-<script language="JavaScript" src="../includes/js/joomla.javascript.js" type="text/javascript"></script>
+$document =& $mainframe->getDocument();
+$document->parse($cur_template, $file);
 
-<?php
-$mainframe->set( 'loadEditor', true );
-initEditor();
-?>
-</head>
-<body>
+header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
+header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
+header( 'Cache-Control: no-store, no-cache, must-revalidate' );
+header( 'Cache-Control: post-check=0, pre-check=0', false );
+header( 'Pragma: no-cache' );
 
-<?php
-if ($mosmsg) {
-	if (!get_magic_quotes_gpc()) {
-		$mosmsg = addslashes( $mosmsg );
-	}
-	echo "\n<script language=\"javascript\" type=\"text/javascript\">alert('$mosmsg');</script>";
-}
-
-// Show list of items to edit or delete or create new
-if ($path = $mainframe->getPath( 'admin' )) {
-	require $path;
-} else {
-	?>
-	<img src="images/joomla_logo_black.jpg" border="0" alt="Joomla! Logo" />
-	<br />
-	<?php
-}
-?>
-</body>
-</html>
-<?php
-doGzip();
+initDocument($document);
+$document->display( $file, $mainframe->getCfg('gzip') );
 ?>

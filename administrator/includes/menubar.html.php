@@ -544,7 +544,7 @@ class JMenuBar
 				window.open('<? echo $url."&task=preview"; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');
 			}
 			</script>
-		 	<a class="toolbar" href="#" onclick="popup();">
+		 	<a class="toolbar" onclick="popup();">
 				<?php echo $image2; ?>
 				<br /><?php echo JText::_( 'Preview' ); ?></a>
 		</td>
