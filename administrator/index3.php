@@ -78,7 +78,7 @@ if($no_html == 1) {
 
 // loads template file
 $cur_template = $mainframe->getTemplate();
-$file     = 'component.php';
+$file     = 'component.html';
 
 $document =& $mainframe->getDocument();
 $document->parse($cur_template, $file);

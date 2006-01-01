@@ -102,7 +102,7 @@ class JEventDispatcher extends JObservable {
 				// Continue
 			}
 		}
-
+		
 		return $result;
 	}
 	/**

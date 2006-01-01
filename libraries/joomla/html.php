@@ -861,16 +861,18 @@ class mosTabs {
 	*/
 	function mosTabs( $useCookies, $xhtml=NULL ) {
 		global $mainframe;
-
+		
 		if($mainframe->get( 'loadTabs')) {
 			return;
 		}
+		
+		$document =& $mainframe->getDocument();
 
 		$lang =& $mainframe->getLanguage();
 		$css = $lang->isRTL() ? 'tabpane_rtl.css' : 'tabpane.css';
 
-		$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="screen, projection" href="'.JURL_SITE.'/includes/js/tabs/'.$css.'" id="luna-tab-style-sheet" />' );
-		$mainframe->addCustomHeadTag( '<script type="text/javascript" src="'.JURL_SITE.'/includes/js/tabs/tabpane_mini.js"></script>' );
+		$document->addStyleSheet( JURL_SITE. '/includes/js/tabs/'.$css,  'text/css', null, array('id' => 'luna-tab-style-sheet' ));
+		$document->addScript( JURL_SITE. '/includes/js/tabs/tabpane_mini.js' );
 
 		$this->useCookies = $useCookies;
 

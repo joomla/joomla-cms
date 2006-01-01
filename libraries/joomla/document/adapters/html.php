@@ -242,6 +242,9 @@ class JDocumentHTML extends JDocument
             if (!is_null($strAttr['media'])){
                 $strHtml .= ' media="'.$strAttr['media'].'"';
             }
+			
+			$strHtml .= mosHTML::_implode_assoc('=', ' ', $strAttr['attribs']);
+			
             $strHtml .= $tagEnd . $lnEnd;
         }
 

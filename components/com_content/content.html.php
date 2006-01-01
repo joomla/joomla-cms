@@ -884,6 +884,8 @@ class HTML_content {
 	*/
 	function editContent( &$row, $section, &$lists, &$images, &$access, $myid, $sectionid, $task, $Itemid ) {
 		global $mainframe;
+		
+		$document =& $mainframe->getDocument();
 
 		mosMakeHtmlSafe( $row );
 
@@ -892,14 +894,13 @@ class HTML_content {
 		$Returnid 	= intval( mosGetParam( $_REQUEST, 'Returnid', $Itemid ) );
 		$tabs 		= new mosTabs(0, 1);
 
-		$mainframe->addCustomHeadTag( '<link rel="stylesheet" type="text/css" media="all" href="includes/js/calendar/calendar-mos.css" />' );
+		$document->addStyleSheet( 'includes/js/calendar/calendar-mos.css' );
+		$document->addScript('includes/js/calendar/calendar_mini.js');
+		$document->addScript('includes/js/calendar/lang/calendar-en.js');
+		$document->addScript('includes/js/overlib_mini.js');
+		
 		?>
   		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
-		<!-- import the calendar script -->
-		<script language="javascript" type="text/javascript" src="<?php echo JURL_SITE;?>/includes/js/calendar/calendar_mini.js"></script>
-		<!-- import the language module -->
-		<script language="javascript" type="text/javascript" src="<?php echo JURL_SITE;?>/includes/js/calendar/lang/calendar-en.js"></script>
-	  	<script language="javascript" type="text/javascript" src="<?php echo JURL_SITE;?>/includes/js/overlib_mini.js"></script>
 	  	<script language="javascript" type="text/javascript">
 		onunload = WarnUser;
 		var folderimages = new Array;

@@ -232,10 +232,11 @@ class JDocument extends JTemplate
      * @param    string  $media  Media type that this stylesheet applies to
      * @access   public
      */
-    function addStyleSheet($url, $type = 'text/css', $media = null)
+    function addStyleSheet($url, $type = 'text/css', $media = null, $attribs = array())
     {
-        $this->_styleSheets[$url]['mime']  = $type;
-        $this->_styleSheets[$url]['media'] = $media;
+        $this->_styleSheets[$url]['mime']    = $type;
+        $this->_styleSheets[$url]['media']   = $media;
+		$this->_styleSheets[$url]['attribs'] = $attribs;
     }
 
 	 /**
