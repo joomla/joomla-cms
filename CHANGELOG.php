@@ -33,6 +33,7 @@ Legend:
 
 01-Jan-2006 Johan Janssens
  + Added error templates for custom debug output
+ # Fixed artf2807 : Missing file - Legacy plugins
  
 -------------------- Happy New Year Everyone ! ------------------------
 
