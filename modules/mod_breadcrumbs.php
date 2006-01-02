@@ -73,7 +73,7 @@ function showBreadCrumbs( &$items, $separator ) {
 	/*
 	 * Initialize variables
 	 */
-	$breadcrumbs = '<span class="pathway">';
+	$breadcrumbs = '<span class="breadcrumbs pathway">';
 	$i = null;
 	$numItems = count($items);
 
