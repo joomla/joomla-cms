@@ -42,13 +42,16 @@ function getReturnData( data , statusCode , statusMessage) {
 
 			var tc = document.getElementById("theCollation");
 			var cm = document.getElementById("collationMessage");
+			var utf = document.getElementById("utfsupport");
 			
 			var split = data.indexOf("\n");
 
 			if (data.substr(0, split) == "true") {
 				cm.innerHTML = '<jos:translate key="tipCollationUtf" escape="yes"><p>This version of MySQL includes UTF-8 support which is the required encoding.</p><p>Choose a collation from the list. If none appears for your language, that is because the default collation <em>utf8_general_ci</em> is suitable.</p></jos:translate>';
+				utf.value = 1;
 			} else {
 				cm.innerHTML = '<jos:translate key="tipCollationNonUtf" escape="yes"><p>This version of MySQL does not have UTF-8 support which is the required encoding.</p><p>It is recommended that you upgrade your database to a version newer than 4.1.2. If this is not possible, Joomla! will store utf-8 encoded content in your existing database in a backward compatibility mode. Collation selection is not possible in this mode and a default collation will be used.</p></jos:translate>';
+				utf.value = 0;
 			}
 	
 			tc.innerHTML = data.substr(split + 1);
