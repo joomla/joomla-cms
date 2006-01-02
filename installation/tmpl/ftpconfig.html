@@ -6,7 +6,7 @@
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 </jos:comment>
 <script language="JavaScript" type="text/javascript" src="tmpl/ftpconfig.js"></script>
-
+  
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
@@ -42,6 +42,16 @@
 				<table class="content2">
 					<tr>
 						<td width="100">
+							<input class="inputbox" type="checkbox" id="advanced" name="vars[advanced]" value="1" accesskey="a" onChange="toggleAdvanced(this)" />
+						</td>
+						<td align="left">
+							<label for="vars[advanced]">
+								<jos:translate>Advanced Mode</jos:translate>
+							</label>
+						</td>
+					</tr>
+					<tr>
+						<td width="100">
 							<input class="inputbox" type="checkbox" id="ftpenable" name="vars[ftpEnable]" value="1" accesskey="e" onChange="formState()" checked />
 						</td>
 						<td align="left">
@@ -49,6 +59,7 @@
 								<jos:translate>Enable FTP filesystem layer</jos:translate>
 							</label>
 							
+							<input type="hidden" id="ftphost" name="vars[ftpHost]" value="" />
 							<input type="hidden" id="ftpuser" name="vars[ftpUser]" value="" />
 							<input type="hidden" id="ftppass" name="vars[ftpPassword]" value="" />
 							<input type="hidden" name="vars[lang]" value="{VAR_LANG}" />
@@ -62,7 +73,7 @@
 							<input type="hidden" name="task" value="" />
 						</td>
 					</tr>
-					<tr>
+					<tr id="rootPath" class="hidden">
 						<td>
 							<jos:translate>FTP Root Path</jos:translate>
 						</td>
@@ -76,6 +87,14 @@
 			</form>
 			<form action="includes/jajax.php" id='mainForm' onsubmit="ajform:getReturnData();">
 				<table class="content2">
+					<tr id="host" class="hidden">
+						<td width="100">
+							<jos:translate>FTP host</jos:translate>
+						</td>
+						<td align="center">
+							<input class="inputbox" type="text" id="hostinput" name="host" value="{VAR_FTPHOST}" size="30"/>
+						</td>
+					</tr>
 					<tr>
 						<td width="100">
 							<jos:translate>FTP user</jos:translate>

@@ -368,3 +368,7 @@ input.button {
 }
 #cpanel div.icon a:active  {  color : #88d225;  }
 #cpanel div.icon a:visited {  color : #88d225;  }
+
+.hidden {
+	display: none;
+}

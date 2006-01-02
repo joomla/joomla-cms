@@ -116,7 +116,7 @@ class JAJAXHandler {
 		$txt = '<select id="vars_dbcollation" name="vars[DBcollation]" class="inputbox" size="1">';
 		
 		foreach ($collations as $collation) {
-			$txt .= '<option>'.$collation["Collation"].'</option>';
+			$txt .= '<option value="'.$collation["Collation"].'">'.$collation["Collation"].'</option>';
 		}
 		$txt .=	'</select>';
 		

@@ -84,6 +84,7 @@ class JFile {
 
 		// Initialize variables
 		$ftpFlag = false;
+		$ftpHost = $mainframe->getCfg('ftp_host');
 		$ftpUser = $mainframe->getCfg('ftp_user');
 		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
@@ -126,7 +127,7 @@ class JFile {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('127.0.0.1');
+			$ftp = & JFTP::getInstance($ftpHost);
 			$ftp->login($ftpUser, $ftpPass);
 
 			// If the parent folder doesn't exist we must create it
@@ -166,6 +167,7 @@ class JFile {
 
 		// Initialize variables
 		$ftpFlag = false;
+		$ftpHost = $mainframe->getCfg('ftp_host');
 		$ftpUser = $mainframe->getCfg('ftp_user');
 		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
@@ -188,7 +190,7 @@ class JFile {
 
 		// Connect the FTP client
 		jimport('joomla.connector.ftp');
-		$ftp = & JFTP::getInstance('127.0.0.1');
+		$ftp = & JFTP::getInstance($ftpHost);
 		$ftp->login($ftpUser, $ftpPass);
 
 		$failed = 0;
@@ -220,6 +222,7 @@ class JFile {
 
 		// Initialize variables
 		$ftpFlag = false;
+		$ftpHost = $mainframe->getCfg('ftp_host');
 		$ftpUser = $mainframe->getCfg('ftp_user');
 		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
@@ -258,7 +261,7 @@ class JFile {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('127.0.0.1');
+			$ftp = & JFTP::getInstance($ftpHost);
 			$ftp->login($ftpUser, $ftpPass);
 
 			//Translate path for the FTP account
@@ -295,6 +298,7 @@ class JFile {
 
 		// Initialize variables
 		$ftpFlag = false;
+		$ftpHost = $mainframe->getCfg('ftp_host');
 		$ftpUser = $mainframe->getCfg('ftp_user');
 		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
@@ -326,7 +330,7 @@ class JFile {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('127.0.0.1');
+			$ftp = & JFTP::getInstance($ftpHost);
 			$ftp->login($ftpUser, $ftpPass);
 
 			//Translate path for the FTP account
@@ -373,6 +377,7 @@ class JFile {
 
 		// Initialize variables
 		$ftpFlag = false;
+		$ftpHost = $mainframe->getCfg('ftp_host');
 		$ftpUser = $mainframe->getCfg('ftp_user');
 		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
@@ -400,7 +405,7 @@ class JFile {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('127.0.0.1');
+			$ftp = & JFTP::getInstance($ftpHost);
 			$ftp->login($ftpUser, $ftpPass);
 
 			// If the destination directory doesn't exist we need to create it
@@ -435,6 +440,7 @@ class JFile {
 
 		// Initialize variables
 		$ftpFlag = false;
+		$ftpHost = $mainframe->getCfg('ftp_host');
 		$ftpUser = $mainframe->getCfg('ftp_user');
 		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
@@ -467,7 +473,7 @@ class JFile {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('127.0.0.1');
+			$ftp = & JFTP::getInstance($ftpHost);
 			$ftp->login($ftpUser, $ftpPass);
 
 			// If the destination directory doesn't exist we need to create it
@@ -534,6 +540,7 @@ class JFolder {
 
 		// Initialize variables
 		$ftpFlag = false;
+		$ftpHost = $mainframe->getCfg('ftp_host');
 		$ftpUser = $mainframe->getCfg('ftp_user');
 		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
@@ -560,7 +567,7 @@ class JFolder {
 		if ($ftpFlag == true) {
 			// Do it the safe mode way
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('127.0.0.1');
+			$ftp = & JFTP::getInstance($ftpHost);
 			$ftp->login($ftpUser, $ftpPass);
 			$ret = true;
 
@@ -657,6 +664,7 @@ class JFolder {
 
 		// Initialize variables
 		$ftpFlag = false;
+		$ftpHost = $mainframe->getCfg('ftp_host');
 		$ftpUser = $mainframe->getCfg('ftp_user');
 		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
@@ -692,7 +700,7 @@ class JFolder {
 		if ($ftpFlag == true) {
 			// Do it the FTP way
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('127.0.0.1');
+			$ftp = & JFTP::getInstance($ftpHost);
 			$ftp->login($ftpUser, $ftpPass);
 
 			// Translate Path
@@ -721,6 +729,7 @@ class JFolder {
 
 		// Initialize variables
 		$ftpFlag = false;
+		$ftpHost = $mainframe->getCfg('ftp_host');
 		$ftpUser = $mainframe->getCfg('ftp_user');
 		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
@@ -761,7 +770,7 @@ class JFolder {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('127.0.0.1');
+			$ftp = & JFTP::getInstance($ftpHost);
 			$ftp->login($ftpUser, $ftpPass);
 
 			//Translate path for the FTP account
@@ -813,6 +822,7 @@ class JFolder {
 
 		// Initialize variables
 		$ftpFlag = false;
+		$ftpHost = $mainframe->getCfg('ftp_host');
 		$ftpUser = $mainframe->getCfg('ftp_user');
 		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
@@ -843,7 +853,7 @@ class JFolder {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('127.0.0.1');
+			$ftp = & JFTP::getInstance($ftpHost);
 			$ftp->login($ftpUser, $ftpPass);
 
 			//Translate path for the FTP account
@@ -925,6 +935,7 @@ class JFolder {
 
 		// Initialize variables
 		$ftpFlag = false;
+		$ftpHost = $mainframe->getCfg('ftp_host');
 		$ftpUser = $mainframe->getCfg('ftp_user');
 		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
@@ -955,7 +966,7 @@ class JFolder {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('127.0.0.1');
+			$ftp = & JFTP::getInstance($ftpHost);
 			$ftp->login($ftpUser, $ftpPass);
 
 			//Translate path for the FTP account

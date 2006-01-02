@@ -387,6 +387,9 @@ class installationTasks {
 		if (!isset ($vars['ftpEnable'])) {
 			$vars['ftpEnable'] = '1';
 		}
+		if (!isset ($vars['ftpHost'])) {
+			$vars['ftpHost'] = '127.0.0.1';
+		}
 		if (!isset ($vars['ftpUser'])) {
 			$vars['ftpUser'] = '';
 		}
@@ -760,9 +763,9 @@ class JInstallationHelper {
 	 * @return string Filesystem root for given FTP user
 	 * @since 1.1
 	 */
-	function findFtpRoot($user, $pass) {
+	function findFtpRoot($user, $pass, $host='127.0.0.1') {
 		jimport('joomla.connector.ftp');
-		$ftp = & JFTP::getInstance('127.0.0.1');
+		$ftp = & JFTP::getInstance($host);
 		if (!$ftp->login($user, $pass)) {
 			JError::raiseError('SOME_ERROR_CODE', 'JInstallationHelper::findFtpRoot: Unable to login');
 		}

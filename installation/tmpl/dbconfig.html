@@ -42,6 +42,20 @@
 	    			<td></td>
 	    			<td></td>
 				</tr>
+				<tr>
+					<td colspan="2">
+						<label for="vars[advanced]">
+							<jos:translate>Advanced Mode</jos:translate>
+						</label>
+						<br/>
+						<input class="inputbox" type="checkbox" id="advanced" name="vars[advanced]" value="1" accesskey="a" onChange="toggleAdvanced(this)" />
+					</td>
+					<td>
+		  		    	<em>
+		  		    	<jos:translate key="tipAdvanced">Check to enter advanced mode.</jos:translate>
+		  		    	</em>
+					</td>
+				</tr>
 	  			<tr>
 	    			<td colspan="2">
 	    				<label for="vars_dbtype">
@@ -51,7 +65,7 @@
 	 					<select id="vars_dbtype" name="vars[DBtype]" class="inputbox" size="1">
 						<option value=""><jos:translate>Select Type</jos:translate></option>
 						<jos:tmpl name="dbtype-options">
-							<option {SELECTED}>{TEXT}</option>
+							<option value="{TEXT}" {SELECTED}>{TEXT}</option>
 						</jos:tmpl>
 						</select>
 			   		</td>
@@ -107,6 +121,20 @@
 		  		    	</em>
 		  		    </td>
 				</tr>
+		  		<tr>
+		  		    <td colspan="2" valign="top">
+	    				<label for="vars_dbcollation">
+		  		    		<jos:translate>Available collations</jos:translate>
+						</label>
+		  		    	<br/>
+		  		    	<span id="theCollation"><input type="button" id="findbutton" class="button" value="Get Collations" onclick="JProcess();" /></span>
+		  		    </td>
+		  		    <td>
+		  		    	<em>
+		  		    	<span id="collationMessage">Once you have filled in the database information, click the Get Collations button to get the available collation options from the database</span>
+		  		    	</em>
+		  		    </td>
+				</tr>
 	  			<tr>
 	    			<td colspan="2">
 	    				<label for="vars_dbname">
@@ -135,7 +163,7 @@
 		  		    	</em>
 		  		    </td>
 				</tr>
-	  			<tr>
+	  			<tr id="dbtabledel" class="hidden">
 		  		    <td>
 		  		    	<input id="vars_dbdel" type="checkbox" name="vars[DBDel]" value="1" />
 		  		    </td>
@@ -146,9 +174,9 @@
 					</td>
 	    			<td></td>
 		  		</tr>
-	  			<tr>
+	  			<tr id="dbtablebu" class="hidden">
 		  		    <td>
-		  		    	<input id="vars_dbbackup" type="checkbox" name="vars[DBBackup]" value="1" />
+		  		    	<input id="vars_dbbackup" type="checkbox" name="vars[DBBackup]" value="1"  checked="checked"/>
 		  		    </td>
 
 					<td>
@@ -163,7 +191,7 @@
 	    				</em>
 	    			</td>
 		  		</tr>
-	  			<tr>
+	  			<tr id="dbtablesmpl" class="hidden">
 		  		    <td>
 		  		    	<input id="vars_dbsample" type="checkbox" name="vars[DBSample]" value="1" checked="checked"/>
 		  		    </td>
@@ -178,20 +206,6 @@
 		  		    	</em>
 		  		    </td>
 		  		</tr>
-		  		<tr>
-		  		    <td colspan="2" valign="top">
-	    				<label for="vars_dbcollation">
-		  		    		<jos:translate>Available collations</jos:translate>
-						</label>
-		  		    	<br/>
-		  		    	<span id="theCollation"><input type="button" id="findbutton" class="button" value="Get Collations" onclick="JProcess();" /></span>
-		  		    </td>
-		  		    <td>
-		  		    	<em>
-		  		    	<span id="collationMessage">Once you have filled in the database information, click the Get Collations button to get the available collation options from the database</span>
-		  		    	</em>
-		  		    </td>
-				</tr>
 	  			</table>
 			</div>
 		</div>

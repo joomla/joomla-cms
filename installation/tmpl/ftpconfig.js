@@ -29,15 +29,24 @@ function getReturnData( data , statusCode , statusMessage) {
 	}
 	//AJFORM succeeded.
 	else {
-		ftpRoot = document.getElementById("ftproot");
-		ftpUser = document.getElementById("ftpuser");
-		ftpPass = document.getElementById("ftppass");
-		userIn = document.getElementById("userinput");
-		passIn = document.getElementById("passinput");
-		ftpRoot.value = data;
-		ftpUser.value = userIn.value;
-		ftpPass.value = passIn.value;
-		//alert( "The Data:\n" + data );
+		if (data.indexOf("jos-Error") > 0) {
+			alert(data.replace(/(<([^>]+)>)/ig,""));
+		} else {
+			ftpRoot = document.getElementById("ftproot");
+			ftpHost = document.getElementById("ftphost");
+			ftpUser = document.getElementById("ftpuser");
+			ftpPass = document.getElementById("ftppass");
+			hostIn = document.getElementById("hostinput");
+			userIn = document.getElementById("userinput");
+			passIn = document.getElementById("passinput");
+			rootBlock = document.getElementById("rootPath");
+			ftpRoot.value = data;
+			ftpHost.value = hostIn.value;
+			ftpUser.value = userIn.value;
+			ftpPass.value = passIn.value;
+			
+			rootBlock.style.display = 'table-row';
+		}
 	}
 }
 	
@@ -58,6 +67,17 @@ function goForm(whichForm) {
 	var thisForm = document.getElementById( whichForm );
 	// thisForm.submit() will not work using AJFORM. Instead, you need to use the following:
 	thisForm.ajform_submit();
+}
+
+function toggleAdvanced(box) {
+
+	host = document.getElementById("host");
+
+	if (box.checked == false) {
+		host.style.display = 'none';
+	} else {
+		host.style.display = 'table-row';
+	}
 }
 
 /**
