@@ -406,7 +406,7 @@ class JDocument extends JTemplate
 	{
 		jimport('joomla.document.modules.renderer');
 		
-		if(!$this->moduleExists('Renderer', $type)) {
+		if(!$this->moduleExists('Renderer', ucfirst($type))) {
 			return false;
 		}
 		
