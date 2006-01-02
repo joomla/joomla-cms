@@ -69,7 +69,7 @@ class JAJAXHandler {
 	 * Method to get the path from the FTP root to the Joomla root directory
 	 */
 	function ftproot() {
-		jimport( 'joomla.system.error' );
+		jimport( 'joomla.error' );
 		require_once(JPATH_BASE.DS."classes.php");
 		echo JInstallationHelper::findFtpRoot($_GET['user'], $_GET['pass']);
 	}

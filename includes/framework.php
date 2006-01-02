@@ -52,9 +52,9 @@ jimport( 'joomla.common.compat.compat' );
 
 jimport( 'joomla.version' );
 jimport( 'joomla.functions' );
-jimport( 'joomla.system.error');
-jimport( 'joomla.system.auth');
-jimport( 'joomla.system.profiler');
+jimport( 'joomla.error');
+jimport( 'joomla.auth');
+jimport( 'joomla.profiler');
 jimport( 'joomla.application.environment.session' );
 jimport( 'joomla.models.*' );
 jimport( 'joomla.html' );
