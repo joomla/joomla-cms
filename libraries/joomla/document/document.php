@@ -12,7 +12,7 @@
 */
 
 jimport('joomla.template.template');
-jimport('joomla.module');
+jimport('joomla.application.extensions.module');
 
 /**
  * Document class, provides an easy interface to parse and display a document

@@ -74,7 +74,7 @@ jimport( 'joomla.params' );
 jimport( 'joomla.i18n.language' );
 jimport( 'joomla.i18n.string' );
 jimport( 'joomla.event' );
-jimport( 'joomla.plugin' );
+jimport( 'joomla.application.extensions.plugin' );
 jimport( 'joomla.editor' );
 jimport( 'joomla.application.application');
 

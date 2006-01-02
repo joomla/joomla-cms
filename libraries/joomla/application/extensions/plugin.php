@@ -1,7 +1,7 @@
 <?php
 
 /**
-* @version $Id$
+* @version $Id: plugin.php 1603 2006-01-01 17:26:54Z Jinx $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

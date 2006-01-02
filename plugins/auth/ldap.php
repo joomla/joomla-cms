@@ -12,7 +12,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.plugin');
+jimport('joomla.application.extensions.plugin');
 jimport('joomla.connector.ldap');
 
 /**
