@@ -71,18 +71,20 @@ class JAJAXHandler {
 	function ftproot() {
 		jimport( 'joomla.error' );
 		require_once(JPATH_BASE.DS."classes.php");
-		echo JInstallationHelper::findFtpRoot($_GET['user'], $_GET['pass']);
+		echo JInstallationHelper::findFtpRoot($_GET['user'], $_GET['pass'], $_GET['host']);
 	}
 
 	/**
 	 * Method to get the database collations
 	 */
 	function dbcollate() {
-		
+
+		jimport( 'joomla.system.error' );
+		jimport( 'joomla.database.database' );
+
 		/*
 		 * Get a database connection instance
 		 */		
-		jimport( 'joomla.database.database' );
 		$database = & JDatabase :: getInstance($_GET['type'], $_GET['host'], $_GET['user'], $_GET['pass'] );
 
 		if ($err = $database->getErrorNum()) {
