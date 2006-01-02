@@ -28,8 +28,6 @@ $now = date( 'Y-m-d H:i:s', time()+$mosConfig_offset*60*60 );
 
 $catid 				= intval( $params->get( 'catid' ) );
 $style 				= $params->get( 'style' );
-$image 				= $params->get( 'image' );
-$readmore 			= $params->get( 'readmore' );
 $items 				= intval( $params->get( 'items' ) );
 $moduleclass_sfx    = $params->get( 'moduleclass_sfx' );
 $link_titles		= $params->get( 'link_titles', $mosConfig_link_titles );
@@ -73,28 +71,24 @@ switch ($style) {
 		echo '<tr>';
 		foreach ($rows as $id) {
 			$row->load( $id );
-			$row->text = $row->introtext;
-			$row->groups = '';
-			$row->readmore = (trim( $row->fulltext ) != '');
 			
 			echo '<td>';
-			HTML_content::show( $row, $params, $access, 0, 'com_content' );
+			
+			output_newsflash( $row, $params, $access );
+			
 			echo '</td>';
-		}
+			}
 		echo '</tr></table>';
 		break;
-
+	
 	case 'vert':
 		foreach ($rows as $id) {
 			$row->load( $id );
-			$row->text = $row->introtext;
-			$row->groups = '';
-			$row->readmore = (trim( $row->fulltext ) != '');
-
-			HTML_content::show( $row, $params, $access, 0, 'com_content' );
-		}
+			
+			output_newsflash( $row, $params, $access );
+			}
 		break;
-
+	
 	case 'flash':
 	default:
 		if ($numrows > 0) {
@@ -104,11 +98,23 @@ switch ($style) {
 			$flashnum = 0;
 		}
 		$row->load( $flashnum );
-		$row->text = $row->introtext;
-		$row->groups = '';
-		$row->readmore = (trim( $row->fulltext ) != '');
-	
-		HTML_content::show( $row, $params, $access, 0, 'com_content' );
+
+		output_newsflash( $row, $params, $access );
 		break;
+}
+
+function output_newsflash( &$row, &$params, &$access ) {	
+	global $mainframe;
+	
+	$row->text 		= $row->introtext;
+	$row->groups 	= '';
+	$row->readmore 	= (trim( $row->fulltext ) != '');
+	
+	$bs 			= $mainframe->getBlogSectionCount();
+	$bc 			= $mainframe->getBlogCategoryCount();
+	$gbs 			= $mainframe->getGlobalBlogSectionCount();
+	$ItemidCount 	= $mainframe->getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
+	
+	HTML_content::show( $row, $params, $access, 0, 'com_content', $ItemidCount );
 }
 ?>
