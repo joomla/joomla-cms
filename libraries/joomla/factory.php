@@ -269,7 +269,7 @@ class JFactory
 
 		jimport('phpmailer.phpmailer');
 
-		$mail = new mosPHPMailer();
+		$mail = new PHPMailer();
 
 		$mail->PluginDir = JPATH_LIBRARIES .'/phpmailer/';
 		$mail->SetLanguage( 'en', JPATH_LIBRARIES . '/includes/phpmailer/language/' );

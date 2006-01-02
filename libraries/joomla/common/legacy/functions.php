@@ -1,5 +1,4 @@
 <?php
-
 /**
 * @version $Id: legacy.php 1525 2005-12-21 21:08:29Z Jinx $
 * @package Joomla
@@ -54,19 +53,19 @@ function mosCreateMail( $from='', $fromname='', $subject, $body ) {
 }
 
 /**
-* Legacy function, use jMail instead
+* Legacy function, use josMail instead
 * @deprecated As of version 1.1
 */
 function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL ) {
-	jMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL );
+	josMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL );
 }
 
 /**
-* Legacy function, use jSendAdminMail instead
+* Legacy function, use josSendAdminMail instead
 * @deprecated As of version 1.1
 */
 function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) {
-	jSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author );
+	josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author );
 }
 
 /**
@@ -78,11 +77,11 @@ function mosMakePassword() {
 }
 
 /**
-* Legacy function, use jRedirect instead
+* Legacy function, use josRedirect instead
 * @deprecated As of version 1.1
 */
 function mosRedirect( $url, $msg='' ) {
-	jRedirect( $url, $msg='' );
+	josRedirect( $url, $msg='' );
 }
 
 /**

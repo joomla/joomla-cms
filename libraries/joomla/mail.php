@@ -11,7 +11,7 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-jimport( 'phpmailer.phpmailer' );
+jimport('phpmailer.phpmailer');
 
 /**
  * E-Mail Class.  Provides a common interface to send e-mail from the Joomla! Framework
@@ -22,7 +22,6 @@ jimport( 'phpmailer.phpmailer' );
  */
 class JMail extends PHPMailer {
 
-
 	/**
 	 * Constructor
 	 * 
@@ -30,30 +29,30 @@ class JMail extends PHPMailer {
 	 */
 	function JMail() {
 		global $mainframe;
-		
-		$this->PluginDir = JPATH_LIBRARIES .DS .'phpmailer'. DS;
-		$this->SetLanguage( 'en', JPATH_LIBRARIES . DS .'includes'.DS.'phpmailer'.DS.'language'.DS );
+
+		$this->PluginDir = JPATH_LIBRARIES.DS.'phpmailer'.DS;
+		$this->SetLanguage('en', JPATH_LIBRARIES.DS.'includes'.DS.'phpmailer'.DS.'language'.DS);
 		$this->CharSet = "utf-8";
-		
+
 		/*
 		 * Set the default mail sender address and name
 		 */
-		$this->setSender( array($mainframe->getCfg('mailfrom'), $mainframe->getCfg('fromname')) );
+		$this->setSender(array ($mainframe->getCfg('mailfrom'), $mainframe->getCfg('fromname')));
 
 		/*
 		 * Default mailer is to use PHP's mail function
 		 */
 		switch ($mainframe->getCfg('mailer')) {
-			case 'smtp':
+			case 'smtp' :
 				$this->useSMTP();
 				break;
-			case 'sendmail':
-				$this->useSendmail();			
+			case 'sendmail' :
+				$this->useSendmail();
 				break;
-			default:
+			default :
 				$this->IsMail();
 				break;
-		}		
+		}
 	}
 
 	/**
@@ -85,7 +84,7 @@ class JMail extends PHPMailer {
 
 		return $instances[$id];
 	}
-	
+
 	/**
 	 * Set the E-Mail sender
 	 * 
@@ -97,7 +96,7 @@ class JMail extends PHPMailer {
 	 * @return void
 	 * @since 1.1
 	 */
-	function setSender( $from ) {
+	function setSender($from) {
 
 		/*
 		 * First offset is the e-mail address
@@ -115,9 +114,9 @@ class JMail extends PHPMailer {
 	 * @return void
 	 * @since 1.1
 	 */
-	function setSubject( $subject ) {
+	function setSubject($subject) {
 
-		$this->Subject 	= $subject;
+		$this->Subject = $subject;
 	}
 
 	/**
@@ -128,7 +127,7 @@ class JMail extends PHPMailer {
 	 * @return void
 	 * @since 1.1
 	 */
-	function setBody( $content ) {
+	function setBody($content) {
 
 		/*
 		 * Filter the Body
@@ -145,12 +144,12 @@ class JMail extends PHPMailer {
 	 * @return void
 	 * @since 1.1
 	 */
-	function addRecipient( $recipient ) {
+	function addRecipient($recipient) {
 
 		/*
 		 * If the recipient is an aray, add each recipient... otherwise just add the one
 		 */
-		if( is_array($recipient) ) {
+		if (is_array($recipient)) {
 			foreach ($recipient as $to) {
 				$this->AddAddress($to);
 			}
@@ -167,18 +166,18 @@ class JMail extends PHPMailer {
 	 * @return void
 	 * @since 1.1
 	 */
-	function addCC( $cc ) {
+	function addCC($cc) {
 
 		/*
 		 * If the carbon copy recipient is an aray, add each recipient... otherwise just add the one
 		 */
-		if (isset($cc)) {
-			if( is_array($cc) ) {
+		if (isset ($cc)) {
+			if (is_array($cc)) {
 				foreach ($cc as $to) {
-					parent::AddCC($to);
+					parent :: AddCC($to);
 				}
 			} else {
-				parent::AddCC($cc);
+				parent :: AddCC($cc);
 			}
 		}
 	}
@@ -191,18 +190,18 @@ class JMail extends PHPMailer {
 	 * @return void
 	 * @since 1.1
 	 */
-	function addBCC( $bcc ) {
+	function addBCC($bcc) {
 
 		/*
 		 * If the blind carbon copy recipient is an aray, add each recipient... otherwise just add the one
 		 */
-		if (isset($bcc)) {
-			if( is_array($bcc) ) {
+		if (isset ($bcc)) {
+			if (is_array($bcc)) {
 				foreach ($bcc as $to) {
-					parent::AddBCC($to);
+					parent :: AddBCC($to);
 				}
 			} else {
-				parent::AddBCC($bcc);
+				parent :: AddBCC($bcc);
 			}
 		}
 	}
@@ -215,18 +214,18 @@ class JMail extends PHPMailer {
 	 * @return void
 	 * @since 1.1
 	 */
-	function addAttachment( $attachment ) {
+	function addAttachment($attachment) {
 
 		/*
 		 * If the file attachments is an aray, add each file... otherwise just add the one
 		 */
-		if (isset($attachment)) {
-			if( is_array($attachment) ) {
+		if (isset ($attachment)) {
+			if (is_array($attachment)) {
 				foreach ($attachment as $file) {
-					parent::AddAttachment($file);
+					parent :: AddAttachment($file);
 				}
 			} else {
-				parent::AddAttachment($attachment);
+				parent :: AddAttachment($attachment);
 			}
 		}
 	}
@@ -242,17 +241,17 @@ class JMail extends PHPMailer {
 	 * @return void
 	 * @since 1.1
 	 */
-	function addReplyTo( $replyto ) {
+	function addReplyTo($replyto) {
 
 		/*
 		 * Take care of reply email addresses
 		 */
-		if ( is_array($replyto[0]) ) {
+		if (is_array($replyto[0])) {
 			foreach ($replyto as $to) {
-				parent::AddReplyTo($to[0], $to[1]);
+				parent :: AddReplyTo($to[0], $to[1]);
 			}
 		} else {
-			parent::AddReplyTo($replyto[0], $replyto[1]);
+			parent :: AddReplyTo($replyto[0], $replyto[1]);
 		}
 	}
 
@@ -264,20 +263,20 @@ class JMail extends PHPMailer {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function useSendmail( $sendmail = null ) {
+	function useSendmail($sendmail = null) {
 		global $mainframe;
-		
-		$this->Sendmail = (empty($sendmail)) ? $mainframe->getCfg('sendmail') : $sendmail;
 
-		if (!empty($this->Sendmail)) {
+		$this->Sendmail = (empty ($sendmail)) ? $mainframe->getCfg('sendmail') : $sendmail;
+
+		if (!empty ($this->Sendmail)) {
 			$this->IsSendmail();
 			return true;
 		} else {
 			$this->IsMail();
 			return false;
-		}		
+		}
 	}
-	
+
 	/**
 	 * Use SMTP for sending the e-mail
 	 * 
@@ -289,28 +288,29 @@ class JMail extends PHPMailer {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function useSMTP( $auth = null, $host = null, $user = null, $pass = null ) {
+	function useSMTP($auth = null, $host = null, $user = null, $pass = null) {
 		global $mainframe;
-				
-		$this->SMTPAuth = (empty($auth)) ? $mainframe->getCfg('smtpauth') : $auth;
-		$this->Host = (empty($host)) ? $mainframe->getCfg('smtphost') : $host;
-		$this->Username = (empty($user)) ? $mainframe->getCfg('smtpuser') : $user;
-		$this->Password = (empty($pass)) ? $mainframe->getCfg('smtppass') : $pass;
-		
-		if (!empty($this->SMTPAuth) && !empty($this->Host) && !empty($this->Username) && !empty($this->Password)) {
+
+		$this->SMTPAuth = (empty ($auth)) ? $mainframe->getCfg('smtpauth') : $auth;
+		$this->Host = (empty ($host)) ? $mainframe->getCfg('smtphost') : $host;
+		$this->Username = (empty ($user)) ? $mainframe->getCfg('smtpuser') : $user;
+		$this->Password = (empty ($pass)) ? $mainframe->getCfg('smtppass') : $pass;
+
+		if (!empty ($this->SMTPAuth) && !empty ($this->Host) && !empty ($this->Username) && !empty ($this->Password)) {
 			$this->IsSMTP();
 			return true;
 		} else {
 			$this->IsMail();
 			return false;
-		}		
+		}
 	}
 }
 
-
 /**
  * E-Mail helper class, provides static methods to perform various tasks relevant
- * to the Joomla e-mail routines
+ * to the Joomla e-mail routines.
+ * 
+ * TODO: Test these methods as the regex work is first run and not tested thoroughly
  *
  * @author Louis Landry <louis@webimagery.net>
  * @static
@@ -319,5 +319,48 @@ class JMail extends PHPMailer {
  */
 class JMailHelper {
 
+	/**
+	 * This method cleans any injected headers from the E-Mail body
+	 * 
+	 * @static
+	 * @param string $body E-Mail body string
+	 * @return string Cleaned E-Mail body string
+	 * @since 1.1
+	 */
+	function cleanBody(& $body) {
+		/*
+		 * Strip all E-Mail headers from the body
+		 */
+		return preg_replace("/((From:|To:|Cc:|Bcc:|Subject:|Content-type:) ([\S]+))/", "", $body);
+	}
+
+	/**
+	 * This method cleans any injected headers from the subject string.
+	 * 
+	 * @static
+	 * @param string $subject E-Mail subject string
+	 * @return string Cleaned E-Mail subject string
+	 * @since 1.1
+	 */
+	function cleanSubject($subject) {
+		
+		return preg_replace("/((From:|To:|Cc:|Bcc:|Content-type:) ([\S]+))/", "", $subject);
+	}
+
+	/**
+	 * This method verifies that an e-mail address does not have any extra headers
+	 * injected into it.  Tests one e-mail address.
+	 * 
+	 * @static
+	 * @param string $address E-Mail address
+	 * @return mixed E-Mail address string or boolean false if injected headers are present
+	 * @since 1.1
+	 */
+	function cleanAddress($address) {
+		if (preg_match("[\s;,]", $address)) {
+			return false;
+		}
+		return $address;
+	}
 }
 ?>

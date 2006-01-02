@@ -182,7 +182,7 @@ function mosObjectToArray($p_obj) {
  * @param string $msg A message to display on redirect
  * @since 1.0
  */
-function jRedirect( $url, $msg='' ) {
+function josRedirect( $url, $msg='' ) {
    global $mainframe;
 
     /*
@@ -541,18 +541,17 @@ if (!function_exists('html_entity_decode')) {
  * @return boolean True on success
  * @since 1.1
  */
-function jMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null ) {
+function josMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null ) {
 	global $mainframe;
 
 	/*
-	 * Get a mailer object instance
+	 * Get a JMail instance
 	 */
-	$mail =& JFactory::getMailer();
+	$mail =& JMail::getInstance();
 
-	$mail->From 	= $from ? $from : $mail->From;
-	$mail->FromName = $fromname ? $fromname : $mail->FromName;
-	$mail->Subject 	= $subject;
-	$mail->Body 	= $body;
+	$mail->setSender(array($from, $fromname));
+	$mail->setSubject($subject);
+	$mail->setBody($body);
 
 	/*
 	 * Are we sending the email as HTML?
@@ -561,73 +560,23 @@ function jMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null,
 		$mail->IsHTML(true);
 	}
 
-	/*
-	 * If the recipient is an aray, add each recipient... otherwise just add the one
-	 */
-	if( is_array($recipient) ) {
-		foreach ($recipient as $to) {
-			$mail->AddAddress($to);
-		}
-	} else {
-		$mail->AddAddress($recipient);
-	}
-	
-	/*
-	 * Handle CC the same as recipient if it is set
-	 */
-	if (isset($cc)) {
-		if( is_array($cc) ) {
-			foreach ($cc as $to) {
-				$mail->AddCC($to);
-			}
-		} else {
-			$mail->AddCC($cc);
-		}
-	}
-	
-	/*
-	 * Handle BCC the same as CC
-	 */
-	if (isset($bcc)) {
-		if( is_array($bcc) ) {
-			foreach ($bcc as $to) {
-				$mail->AddBCC($to);
-			}
-		} else {
-			$mail->AddBCC($bcc);
-		}
-	}
-	
-	/*
-	 * Add any file attachments we might have to send
-	 */
-	if ($attachment) {
-		if ( is_array($attachment) ) {
-			foreach ($attachment as $fname) {
-				$mail->AddAttachment($fname);
-			}
-		} else {
-			$mail->AddAttachment($attachment);
-		}
-	}
-	
+	$mail->addRecipient($recipient);
+	$mail->addCC($cc);
+	$mail->addBCC($bcc);
+	$mail->addAttachment($attachment);
+
 	/*
 	 * Take care of reply email addresses
 	 */
-	if ($replyto) {
-		if ( is_array($replyto) ) {
-			reset($replytoname);
-			foreach ($replyto as $to) {
-				$toname = ((list($key, $value) = each($replytoname)) ? $value : "");
-				$mail->AddReplyTo($to, $toname);
-			}
-		} else {
-		$mail->AddReplyTo($replyto, $replytoname);
-		}
+	$numReplyTo = count($replyto);
+	for ($i=0;$i < $numReplyTo; $i++) {
+		$mail->addReplyTo(array($replyto[$i], $replytoname[$i]));
 	}
 
-	// Send the email
-	$mailssend = $mail->Send();
+	/*
+	 * Send the email
+	 */
+	$sent = $mail->Send();
 
 	/*
 	 * Set debug information
@@ -641,7 +590,7 @@ function jMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null,
 		//$mosDebug->message( "Mailer Error: " . $mail->ErrorInfo . "" );
 	}
 
-	return $mailssend;
+	return $sent;
 }
 
 /**
@@ -656,7 +605,7 @@ function jMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null,
  * @return boolean True on success
  * @since 1.1
  */
-function jSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) {
+function josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) {
 	global $mainframe;
 
     $strAdminDir = "administrator";
