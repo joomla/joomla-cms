@@ -16,7 +16,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( $mainframe->getPath( 'front_html', 'com_content') );
 
-global $my, $mosConfig_shownoauth, $mosConfig_offset, $acl;
+global $my, $mosConfig_shownoauth, $mosConfig_offset, $mosConfig_link_titles, $acl;
 
 // Disable edit ability icon
 $access = new stdClass();
@@ -32,11 +32,13 @@ $image 				= $params->get( 'image' );
 $readmore 			= $params->get( 'readmore' );
 $items 				= intval( $params->get( 'items' ) );
 $moduleclass_sfx    = $params->get( 'moduleclass_sfx' );
+$link_titles		= $params->get( 'link_titles', $mosConfig_link_titles );
 
 $params->set( 'intro_only', 1 );
 $params->set( 'hide_author', 1 );
 $params->set( 'hide_createdate', 0 );
 $params->set( 'hide_modifydate', 1 );
+$params->set( 'link_titles', $link_titles );
 
 if ( $items ) {
 	$limit = "LIMIT $items";
@@ -74,6 +76,7 @@ switch ($style) {
 			$row->text = $row->introtext;
 			$row->groups = '';
 			$row->readmore = (trim( $row->fulltext ) != '');
+			
 			echo '<td>';
 			HTML_content::show( $row, $params, $access, 0, 'com_content' );
 			echo '</td>';
@@ -93,7 +96,7 @@ switch ($style) {
 		break;
 
 	case 'flash':
-		default:
+	default:
 		if ($numrows > 0) {
 			srand ((double) microtime() * 1000000);
 			$flashnum = $rows[rand( 0, $numrows-1 )];
@@ -104,7 +107,7 @@ switch ($style) {
 		$row->text = $row->introtext;
 		$row->groups = '';
 		$row->readmore = (trim( $row->fulltext ) != '');
-
+	
 		HTML_content::show( $row, $params, $access, 0, 'com_content' );
 		break;
 }
