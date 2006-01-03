@@ -15,16 +15,18 @@
 jimport( 'joomla.common.base.object' );
 
 /**
- * JModel Abstract Class.
+ * Abstract Model class
+ * 
+ * Parent classes to all models.  Customisation will generally not involve tampering with this object.
+ * 
+ * @author Andrew Eddie <eddieajau@users.sourceforge.net>
  * @abstract
- * @package Joomla
- * @subpackage Database
- * Parent classes to all models.  Customisation will generally
- * not involve tampering with this object.
- * @author Andrew Eddie <eddieajau@users.sourceforge.net
- * @since 1.1
+ * @package 	Joomla.Framework
+ * @subpackage 	Model
+ * @since 1.0
  */
-class JModel extends JObject {
+class JModel extends JObject 
+{
 	/** @var string Name of the table in the db schema relating to child class */
 	var $_tbl		= '';
 	/** @var string Name of the primary key field in the table */

@@ -15,12 +15,12 @@
 jimport( 'joomla.models.model' );
 
 /**
-* Section database table class
-*
-* @package Joomla
-* @subpackage JFramework
-* @since 1.0
-*/
+ * Section model
+ *
+ * @package 	Joomla.Framework
+ * @subpackage 	Model
+ * @since 1.0
+ */
 class JSectionModel extends JModel {
 	/** @var int Primary key */
 	var $id					= null;

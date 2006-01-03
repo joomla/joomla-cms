@@ -1,7 +1,7 @@
 <?php
 /**
 * @version $Id: legacy.php 1525 2005-12-21 21:08:29Z Jinx $
-* @package JoomlaLegacy
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -13,19 +13,21 @@
 
 /**
  * PHP 4.2.x Compatibility functions
+ *
+ * @package Joomla.Framework
+ * @subpackage Compatibility
+ * @since 1.0
  */
 
 /**
  * Replace file_get_contents()
  *
- * @category	PHP
- * @package	 PHP_Compat
  * @link		http://php.net/function.file_get_contents
- * @author	  Aidan Lister <aidan@php.net>
- * @version	 $Revision: 47 $
+ * @author	  	Aidan Lister <aidan@php.net>
+ * @version	 	$Revision: 47 $
  * @internal	resource_context is not supported
  * @since		PHP 5
- * @require	 PHP 4.0.1 (trigger_error)
+ * @require	 	PHP 4.0.1 (trigger_error)
  */
 if (!function_exists('file_get_contents')) {
 	function file_get_contents($filename, $incpath = false, $resource_context = null)
@@ -61,14 +63,12 @@ if (!defined('FILE_APPEND')) {
 /**
  * Replace file_put_contents()
  *
- * @category	PHP
- * @package	 PHP_Compat
  * @link		http://php.net/function.file_put_contents
- * @author	  Aidan Lister <aidan@php.net>
- * @version	 $Revision: 47 $
+ * @author	  	Aidan Lister <aidan@php.net>
+ * @version	 	$Revision: 47 $
  * @internal	resource_context is not supported
  * @since		PHP 5
- * @require	 PHP 4.0.1 (trigger_error)
+ * @require	 	PHP 4.0.1 (trigger_error)
  */
 if (!function_exists('file_put_contents')) {
 	function file_put_contents($filename, $content, $flags = null, $resource_context = null)

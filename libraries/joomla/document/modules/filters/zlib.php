@@ -12,13 +12,14 @@
 */
 
 /**
- * JTemplate Zlib output filter
+ * JDocument Zlib output filter
  *
  * Checks the accept encoding of the browser and
  * compresses the data before sending it to the client.
  *
  * @author		Johan Janssens <johan@joomla.be>
- * @subpackage	JDocument
+ * @package 	Joomla.Framework
+ * @subpackage 	Document
  * @since 1.1
  */
 class patTemplate_OutputFilter_Zlib extends patTemplate_OutputFilter

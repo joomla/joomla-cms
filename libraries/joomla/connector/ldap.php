@@ -11,12 +11,14 @@
 
 /**
  * LDAP client class
+ * 
  * @author Samuel Moffat
- * @package Joomla
- * @subpackage JFramework
+ * @package Joomla.Framework
+ * @subpackage Connector
  * @since 1.1
  */
-class JLDAP {
+class JLDAP 
+{
 	/** @var string Hostname of LDAP server
 	    @access public */
 	var $host = null;

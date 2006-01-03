@@ -20,7 +20,9 @@ jimport('domit.xml_domit_include');
 
 /**
  * XML Format for JRegistry
- * @package Joomla
+ * 
+ * @package 	Joomla.Framework
+ * @subpackage 	Registry
  * @since 1.1
  */
 class JRegistryXMLFormat extends JRegistryStorageFormat {

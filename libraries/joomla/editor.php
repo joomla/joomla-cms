@@ -1,8 +1,7 @@
 <?php
 /**
 * @version $Id$
-* @package JoomlaFramework
-* @subpackage Editors
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -15,8 +14,7 @@
 if (!defined('_MOS_EDITOR_INCLUDED')) {
 
 	/**
-	 * @package JoomlaFramework
-	 * @subpackage Editor
+	 * @package Joomla.Framework
 	 */
 	function initEditor() {
 		global $mainframe;
@@ -32,8 +30,7 @@ if (!defined('_MOS_EDITOR_INCLUDED')) {
 	}
 
 	/**
-	 * @package JoomlaFramework
-	 * @subpackage Editor
+	 * @package Joomla.Framework
 	 */
 	function _loadEditor() {
 			global $mainframe, $mosConfig_editor, $my;
@@ -60,8 +57,7 @@ if (!defined('_MOS_EDITOR_INCLUDED')) {
 	}
 
 	/**
-	 * @package JoomlaFramework
-	 * @subpackage Editor
+	 * @package Joomla.Framework
 	 */
 	function getEditorContents($editorArea, $hiddenField) {
 		global $mainframe;
@@ -77,8 +73,7 @@ if (!defined('_MOS_EDITOR_INCLUDED')) {
 	}
 	/**
 	 * Just present a textarea
-	 * @package JoomlaFramework
-	 * @subpackage Editor
+	 * @package Joomla.Framework
 	 */
 	function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) {
 		global $mainframe, $my;
@@ -100,8 +95,7 @@ if (!defined('_MOS_EDITOR_INCLUDED')) {
  * JEditor class to handle WYSIWYG editors
  *
  * @author Louis Landry <louis@webimagery.net>
- * @package JoomlaFramework
- * @subpackage Editors
+ * @package Joomla.Framework
  * @since 1.1
  */
 class JEditor extends JObservable {

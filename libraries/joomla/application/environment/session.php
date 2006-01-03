@@ -2,7 +2,7 @@
 
 /**
 * @version $Id$
-* @package JoomlaFramework
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -29,7 +29,8 @@ define("HTTP_SESSION_CONTINUED",    2);
 * This class has many influences from the PEAR HTTP_Session module
 *
 * @author Johan Janssens <johan@joomla.be>
-* @package JoomlaFramework
+* @package Joomla.Framework
+* @subpackage Application
 * @since 1.1
 */
 

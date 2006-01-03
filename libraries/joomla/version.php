@@ -13,9 +13,12 @@
 
 /**
  * Version information
- * @package Joomla
+ * 
+ * @package Joomla.Framework
+ * @since 1.0
  */
-class JVersion {
+class JVersion 
+{
 	/** @var string Product */
 	var $PRODUCT 	= 'Joomla!';
 	/** @var int Main Release Level */

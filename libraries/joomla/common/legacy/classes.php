@@ -2,7 +2,7 @@
 
 /**
 * @version $Id: legacy.php 1525 2005-12-21 21:08:29Z Jinx $
-* @package JoomlaLegacy
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -14,8 +14,10 @@
 
 /**
 * Legacy class, derive from JApplication instead
+* 
 * @deprecated As of version 1.1
-* @package JoomlaLegacy
+* @package Joomla.Legacy
+* @subpackage 1.1
 */
 class mosMainFrame extends JApplication {
 	/**
@@ -101,14 +103,13 @@ class mosMainFrame extends JApplication {
 
 /**
 * Legacy class, derive from JModel instead
+* 
 * @deprecated As of version 1.1
-* @package JoomlaLegacy
+* @package Joomla.Legacy
+* @subpackage 1.1
 */
 jimport( 'joomla.models.model' );
-/**
- * @package Joomla
- * @deprecated As of version 1.1
- */
+
 class mosDBTable extends JModel {
 	/**
 	 * Constructor
@@ -123,8 +124,11 @@ class mosDBTable extends JModel {
 }
 
 /**
- * @package JoomlaLegacy
- * @deprecated As of version 1.1, use JCategoryModel instead
+ * Legacy class, use JCategoryModel instead
+ * 
+ * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
  */
 class mosCategory extends JCategoryModel {
 	/**
@@ -140,9 +144,11 @@ class mosCategory extends JCategoryModel {
 }
 
 /**
- * @package JoomlaLegacy
- * @package Joomla, use JComponentModel instead
+ * Legacy class, use JComponentModel instead
+ * 
  * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
  */
 class mosComponent extends JComponentModel {
 	/**
@@ -158,8 +164,11 @@ class mosComponent extends JComponentModel {
 }
 
 /**
- * @package JoomlaLegacy
- * @deprecated As of version 1.1, use JCategoryModel instead
+ * Legacy class, use JContentModel instead
+ * 
+ * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
  */
 class mosContent extends JContentModel {
 	/**
@@ -175,8 +184,11 @@ class mosContent extends JContentModel {
 }
 
 /**
- * @package JoomlaLegacy
- * @deprecated As of version 1.1, use JMambotModel instead
+ * Legacy class, use JMambotModel instead
+ * 
+ * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
  */
 class mosMambot extends JMambotModel {
 	/**
@@ -192,8 +204,11 @@ class mosMambot extends JMambotModel {
 }
 
 /**
- * @package JoomlaLegacy
- * @deprecated As of version 1.1, use JMenuModel instead
+ * Legacy class, use JMenuModel instead
+ * 
+ * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
  */
 class mosMenu extends JMenuModel {
 	/**
@@ -209,8 +224,11 @@ class mosMenu extends JMenuModel {
 }
 
 /**
- * @package JoomlaLegacy
- * @deprecated As of version 1.1, use JMenuModel instead
+ * Legacy class, use JModuleModel instead
+ * 
+ * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
  */
 class mosModule extends JModuleModel {
 	/**
@@ -226,8 +244,11 @@ class mosModule extends JModuleModel {
 }
 
 /**
- * @package JoomlaLegacy
- * @deprecated As of version 1.1, use JSectionModel instead
+ * Legacy class, use JSectionModel instead
+ * 
+ * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
  */
 class mosSection extends JSectionModel {
 	/**
@@ -243,8 +264,11 @@ class mosSection extends JSectionModel {
 }
 
 /**
- * @package JoomlaLegacy
- * @deprecated As of version 1.1, use JMenuModel instead
+ * Legacy class, use JSessionModel instead
+ * 
+ * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
  */
 class mosSession extends JSessionModel {
 	/**
@@ -260,8 +284,11 @@ class mosSession extends JSessionModel {
 }
 
 /**
- * @package JoomlaLegacy
- * @deprecated As of version 1.1, use JUserModel instead
+ * Legacy class, use JUserModel instead
+ * 
+ * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
  */
 class mosUser extends JUserModel {
 	/**
@@ -280,8 +307,11 @@ jimport( 'joomla.database.database' );
 jimport( 'joomla.database.adapters.mysql' );
 
 /**
- * @package JoomlaLegacy
+ * Legacy class, use JDatabase
+ * 
  * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
  */
 class database extends JDatabaseMySQL {
 	function __construct ($host='localhost', $user, $pass, $db='', $table_prefix='', $offline = true) {
@@ -289,10 +319,12 @@ class database extends JDatabaseMySQL {
 	}
 }
 
-/**
+ /**
  * Legacy class, use JFactory::getCache instead
- * @package JoomlaLegacy
+ * 
  * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
  */
 class mosCache {
 	/**
@@ -310,11 +342,14 @@ class mosCache {
 	}
 }
 
-/**
+ /**
  * Legacy class, use JProfiler instead
- * @package JoomlaLegacy
- * @deprecated  As of version 1.1
+ * 
+ * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
  */
+ 
 class mosProfiler extends JProfiler {
 	/**
 	* @return object A function cache object
@@ -324,10 +359,12 @@ class mosProfiler extends JProfiler {
 	}
 }
 
-/**
+ /**
  * Legacy class, use JParameters instead
- * @package JoomlaLegacy
+ * 
  * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
  */
 class mosParameters extends JParameters {
 
@@ -345,10 +382,13 @@ class mosParameters extends JParameters {
 
 }
 
+
 /**
  * Legacy class, will be replaced by full MVC implementation in 1.2
- * @package JoomlaLegacy
+ * 
  * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
  */
 class mosAbstractTasker {
 	/** @var array An array of the class methods to call for a task */
@@ -517,8 +557,10 @@ class mosAbstractTasker {
 
 /**
  * Legacy class, use JEventDispatcher instead
- * @package JoomlaLegacy
+ * 
  * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
  */
 class mosMambotHandler extends JEventDispatcher {
 	function __construct() {
@@ -556,8 +598,10 @@ class mosMambotHandler extends JEventDispatcher {
 
 /**
  * Legacy class, removed
- * @package JoomlaLegacy
+ * 
  * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
  */
 class mosEmpty {
 	function def( $key, $value='' ) {

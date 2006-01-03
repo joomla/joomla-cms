@@ -12,12 +12,13 @@
 */
 
 /**
-* Modules Renderer
-*
-* @author Johan Janssens <johan@joomla.be>
-* @subpackage JDocument
-* @since 1.1
-*/
+ * JDocument Modules renderer
+ *
+ * @author 		Johan Janssens <johan@joomla.be>
+ * @package 	Joomla.Framework
+ * @subpackage 	Document
+ * @since 1.1
+ */
 
 class patTemplate_Renderer_Modules extends patTemplate_Renderer
 {

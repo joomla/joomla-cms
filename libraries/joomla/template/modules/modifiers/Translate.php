@@ -1,20 +1,21 @@
 <?PHP
 /**
- * patTemplate modfifier Translate
- *
- * $Id: Translate.php 154 2005-09-18 02:03:25Z eddieajau $
- *
- * @package		patTemplate
- * @subpackage	Modifiers
- * @author		Andrew Eddie <eddie.andrew@gmail.com>
- */
+* patTemplate modfifier for Search Engine Friendly URL's
+* @version $Id: SEF.php 47 2005-09-15 02:55:27Z rhuk $
+* @package Joomla
+* @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+* Joomla! is free software and parts of it may contain or be derived from the
+* GNU General Public License or other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
 
 /**
- * Implements the Joomla translation function on a var
+ * JTemplate SEF modifier
  *
- * @package		patTemplate
- * @subpackage	Modifiers
- * @author		Andrew Eddie <eddie.andrew@gmail.com>
+ * @package 	Joomla.Framework
+ * @subpackage 	Template
+ * @since 1.1
  */
 class patTemplate_Modifier_Translate extends patTemplate_Modifier
 {

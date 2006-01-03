@@ -2,7 +2,7 @@
 
 /**
 * @version $Id$
-* @package JoomlaFramework
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -24,8 +24,8 @@ jimport( 'joomla.common.base.object' );
  * version 3 of Horde.
  *
  * @author Johan Janssens <johan@joomla.be>
- * @package JoomlaFramework
- * @subpackage System
+ * @package Joomla.Framework
+ * @subpackage Application
  * @since 1.1
  */
 

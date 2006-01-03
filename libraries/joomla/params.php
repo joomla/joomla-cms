@@ -14,10 +14,11 @@
 jimport( 'joomla.common.base.object' );
 
 /**
-* Parameters handler
-*
-* @package Joomla
-*/
+ * Parameters handler
+ *
+ * @package 	Joomla.Framework
+ * @since 1.0
+ */
 class JParameters extends JObject
 {
 	/** @var object */

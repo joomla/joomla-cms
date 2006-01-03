@@ -17,11 +17,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
  * Joomla! Registry Storage Format Abstract Class
+ * 
  * The Format takes objects and turns them into a string representation for storage
  * It also does the reverse and turns it into an object
- * @package Joomla
- * @since 1.1
+ * 
+ * @package 	Joomla.Framework
+ * @subpackage 	Registry
  * @abstract
+ * @since 1.1
  */
 class JRegistryStorageFormat {
 	/** @var boolean Determines if a namespace should be included in the output/input */

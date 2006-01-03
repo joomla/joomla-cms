@@ -14,10 +14,10 @@
 jimport('joomla.models.model');
 
 /**
- * Class JPluginModel
+ * Plugin model
  *
- * @package Joomla
- * @subpackage JFramework
+ * @package 	Joomla.Framework
+ * @subpackage 	Model
  * @since 1.1
  */
 class JPluginModel extends JModel {

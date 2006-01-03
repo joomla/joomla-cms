@@ -1,7 +1,7 @@
 <?php
 /**
 * @version $Id$
-* @package JoomlaFramework
+* @package Joomla
 * @subpackage Database
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -13,11 +13,12 @@
 */
 
 /**
-* MySQL database driver
-*
- * @package JoomlaFramework
+ * MySQL database driver
+ *
+ * @package Joomla.Framework
  * @subpackage Database
-*/
+ * @since 1.0
+ */
 class JDatabaseMySQL extends JDatabase
 {
 	/** @var string The null/zero date string */

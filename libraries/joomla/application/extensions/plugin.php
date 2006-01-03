@@ -17,8 +17,8 @@ jimport( 'joomla.common.base.observer' );
  * JPlugin Class
  *
  * @author Louis Landry <louis@webimagery.net>
- * @package Joomla
- * @subpackage JFramework
+ * @package Joomla.Framework
+ * @subpackage Application
  * @since 1.1
  */
 class JPlugin extends JObserver {
@@ -69,8 +69,8 @@ class JPlugin extends JObserver {
 * Plugin helper class
 * 
 * @author Johan Janssens <johan@joomla.be>
-* @package Joomla
-* @subpackage JFramework
+* @package Joomla.Framework
+* @subpackage Application
 * @since 1.1
 */
 class JPluginHelper

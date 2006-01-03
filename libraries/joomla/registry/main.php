@@ -21,7 +21,9 @@ jimport('joomla.registry.storageformat');
 
 /**
  * The Joomla! Registry class
- * @package Joomla
+ * 
+ * @package 	Joomla.Framework
+ * @subpackage 	Registry
  * @since 1.1
  */
 class JRegistry {

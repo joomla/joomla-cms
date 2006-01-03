@@ -15,7 +15,8 @@
  * DocumentHTML class, provides an easy interface to parse and display an html document
  *
  * @author Johan Janssens <johan@joomla.be>
- * @subpackage JDocument
+ * @package Joomla.Framework
+ * @subpackage Document
  * @since 1.1
  */
 

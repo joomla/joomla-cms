@@ -1,8 +1,7 @@
 <?php
 /**
 * @version $Id: app.php 1534 2005-12-22 01:38:31Z Jinx $
-* @package JoomlaFramework
-* @subpackage Application
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -20,7 +19,7 @@ jimport( 'joomla.common.base.object' );
 * Acts as a Factory class for application specific objects and
 * provides many supporting API functions.
 *
-* @package JoomlaFramework
+* @package Joomla.Framework
 * @subpackage Application
 * @abstract
 * @since 1.1
@@ -863,7 +862,7 @@ class JApplication extends JObject {
 }
 
 /**
- * @package JoomlaFramework
+ * @package Joomla.Framework
  * @subpackage Application
  */
 class JApplicationHelper

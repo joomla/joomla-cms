@@ -29,7 +29,8 @@ if (!defined('JPATH_ROOT')) {
 /**
  * A File handling class
  *
- * @package Joomla
+ * @package 	Joomla.Framework
+ * @subpackage 	FileSystem
  * @static
  * @since 1.1
  */
@@ -520,7 +521,8 @@ class JFile {
 /**
  * A Folder handling class
  *
- * @package Joomla
+ * @package 	Joomla.Framework
+ * @subpackage 	FileSystem
  * @static
  * @since 1.1
  */
@@ -1061,7 +1063,8 @@ class JFolder {
 /**
  * An Archive handling class
  *
- * @package Joomla
+ * @package 	Joomla.Framework
+ * @subpackage 	FileSystem
  * @static
  * @since 1.1
  */
@@ -1099,7 +1102,9 @@ class JArchive {
 
 /**
  * A Path handling class
- * @package Joomla
+ * 
+ * @package 	Joomla.Framework
+ * @subpackage 	FileSystem
  * @static
  * @since 1.1
  */

@@ -13,10 +13,11 @@
 */
 
 /**
-* Utility class for all HTML drawing classes
-* @package Joomla
-* @since 1.0
-*/
+ * Utility class for all HTML drawing classes
+ * 
+ * @package 	Joomla.Framework
+ * @since 1.0
+ */
 class mosHTML
 {
 	/**
@@ -531,7 +532,8 @@ class mosHTML
 }
 
 /**
- * @package  Joomla
+ * @package 	Joomla.Framework
+ * @since 1.0
  */
 class mosCommonHTML {
 
@@ -844,10 +846,11 @@ class mosCommonHTML {
 }
 
 /**
-* Tab Creation handler
-* @package Joomla
-* @author Phil Taylor
-* @since 1.0
+ * Tab Creation handler
+ * 
+ * @author 		Phil Taylor
+ * @package 	Joomla.Framework
+ * @since 1.0
 */
 class mosTabs {
 	/** @var int Use cookies */
@@ -920,10 +923,11 @@ class mosTabs {
 }
 
 /**
-* Common HTML Output Files
-* @package Joomla
-* @since 1.0
-*/
+ * Common HTML Output Files
+ * 
+ * @package 	Joomla.Framework
+ * @since 1.0
+ */
 class mosAdminMenus {
 	/**
 	* build the select list for Menu Ordering

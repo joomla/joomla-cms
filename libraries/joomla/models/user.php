@@ -15,13 +15,13 @@
 jimport( 'joomla.models.model' );
 
 /**
-* Users Table Class
-*
-* Provides access to the jos_user table
-* @package Joomla
-* @subpackage JFramework
-* @since 1.0
-*/
+ * Users model
+ *
+ * Provides access to the jos_user table
+ * @package 	Joomla.Framework
+ * @subpackage 	Model
+ * @since 1.0
+ */
 class JUserModel extends JModel {
 	/** @var int Unique id*/
 	var $id				= null;

@@ -1,7 +1,7 @@
 <?php
 /**
 * @version $Id$
-* @package JoomlaFramework
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -18,8 +18,8 @@ jimport('pattemplate.patErrorManager');
  *
  * This class is an proxy of the patError class
  *
+ * @package 	Joomla.Framework
  * @static
- * @package JoomlaFramework
  * @since 1.1
  */
 class JError extends patErrorManager {
@@ -241,7 +241,7 @@ class JError extends patErrorManager {
 /**
  * custom JError handler for the callback error handling mode
  *
- * @subpackage	JError
+ * @package 	Joomla.Framework
  * @since 1.1
  */
 class JDebugHandler

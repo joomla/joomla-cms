@@ -1,7 +1,7 @@
 <?php
 /**
 * @version $Id: legacy.php 1525 2005-12-21 21:08:29Z Jinx $
-* @package JoomlaLegacy
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -13,7 +13,12 @@
 
 /**
  * PHP 4.1.x Compatibility functions
+ *
+ * @package Joomla.Framework
+ * @subpackage Compatibility
+ * @since 1.0
  */
+
 
 if (!function_exists( 'array_change_key_case' )) {
 	if (!defined('CASE_LOWER')) {

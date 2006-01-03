@@ -1,7 +1,7 @@
 <?php
 /**
 * @version $Id$
-* @package JoomlaFramework
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -14,12 +14,11 @@
 jimport( 'joomla.common.base.object' );
 
 /**
- * Authorization class, provides an interface for the Joomla authentication
- * system
+ * Authorization class, provides an interface for the Joomla authentication system
  *
- * @author Louis Landry <louis@webimagery.net>
+ * @author 		Louis Landry <louis@webimagery.net>
+ * @package 	Joomla.Framework
  * @static
- * @package JoomlaFramework
  * @since 1.1
  */
 
@@ -321,9 +320,9 @@ class JAuth extends JObject {
  *
  * This module has influences and some method logic from the Horde Auth package
  *
- * @author Louis Landry <louis@webimagery.net>
+ * @author 		Louis Landry <louis@webimagery.net>
+ * @package 	Joomla.Framework
  * @static
- * @package JoomlaFramework
  * @since 1.1
  */
 class JAuthHelper {

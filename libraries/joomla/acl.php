@@ -1,8 +1,7 @@
 <?php
 /**
 * @version $Id$
-* @package JoomlaFramework
-* @subpackage ACL
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -23,10 +22,9 @@ jimport('phpgacl.gacl');
 jimport('phpgacl.gacl_api');
 
 /**
-* @package JoomlaFramework
-* @subpackage ACL
-* @since 1.1
-*/
+ * @package 	Joomla.Framework
+ * @since 1.1
+ */
 class JACL extends gacl_api {
 	var $acl=null;
 	var $acl_count=0;
@@ -463,8 +461,7 @@ class JACL extends gacl_api {
 }
 
 /**
- * @package JoomlaFramework
- * @subpackage ACL
+ * @package 	Joomla.Framework
  */
 class mosARO extends JModel {
 /** @var int Primary key */
@@ -481,8 +478,7 @@ class mosARO extends JModel {
 }
 
 /**
- * @package JoomlaFramework
- * @subpackage ACL
+ * @package 	Joomla.Framework
  */
  class mosAroGroup extends JModel {
 /** @var int Primary key */

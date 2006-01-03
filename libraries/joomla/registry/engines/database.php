@@ -17,7 +17,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
  * Database Storage Engine for JRegistry
- * @package Joomla
+ * 
+ * @package 	Joomla.Framework
+ * @subpackage 	Registry
  * @since 1.1
  */
 class JRegistryDatabaseEngine extends JRegistryStorageEngine {

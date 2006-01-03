@@ -13,12 +13,12 @@
 */
 
 /**
-* Module database table class
-*
-* @package Joomla
-* @subpackage JFramework
-* @since 1.0
-*/
+ * Module model
+ *
+ * @package 	Joomla.Framework
+ * @subpackage 	Model
+ * @since 1.0
+ */
 class JModuleModel extends JModel {
 	/** @var int Primary key */
 	var $id					= null;

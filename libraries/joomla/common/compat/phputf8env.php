@@ -1,7 +1,7 @@
 <?php
 /**
 * @version $Id: legacy.php 1525 2005-12-21 21:08:29Z Jinx $
-* @package JoomlaLegacy
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -12,7 +12,11 @@
 */
 
 /**
- * PHP mbstring and iconv local configuration
+ *  PHP mbstring and iconv local configuration
+ *
+ * @package Joomla.Framework
+ * @subpackage Compatibility
+ * @since 1.1
  */
 // check if mbstring extension is loaded and attempt to load it if not present except for windows
 if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('mbstring.so')))) {

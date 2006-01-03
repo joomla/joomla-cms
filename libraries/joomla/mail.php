@@ -1,7 +1,7 @@
 <?php
 /**
  * @version $Id$
- * @package JoomlaFramework
+ * @package Joomla
  * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant
@@ -16,8 +16,8 @@ jimport('phpmailer.phpmailer');
 /**
  * E-Mail Class.  Provides a common interface to send e-mail from the Joomla! Framework
  *
- * @author Louis Landry <louis@webimagery.net>
- * @package JoomlaFramework
+ * @author		Louis Landry <louis@webimagery.net>
+ * @package 	Joomla.Framework
  * @since 1.1
  */
 class JMail extends PHPMailer {
@@ -312,9 +312,9 @@ class JMail extends PHPMailer {
  * 
  * TODO: Test these methods as the regex work is first run and not tested thoroughly
  *
- * @author Louis Landry <louis@webimagery.net>
+ * @author 		Louis Landry <louis@webimagery.net>
+ * @package 	Joomla.Framework
  * @static
- * @package JoomlaFramework
  * @since 1.1
  */
 class JMailHelper {

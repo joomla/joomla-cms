@@ -15,8 +15,8 @@
 /**
 * Class to support language file caching
 *
-* @package Joomla
-* @subpackage JFramework
+* @package Joomla.Framework
+* @subpackage Cache
 * @since 1.1
 */
 class JCacheLanguage extends JCache

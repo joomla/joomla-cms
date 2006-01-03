@@ -16,9 +16,9 @@ jimport('pattemplate.patTemplate');
 /**
  * Template class, provides an easy interface to parse and display a template file
  *
- * @author Johan Janssens <johan@joomla.be>
- * @package Joomla
- * @subpackage JFramework
+ * @author 		Johan Janssens <johan@joomla.be>
+ * @package 	Joomla.Framework
+ * @subpackage 	Template
  * @since 1.1
  * @see patTemplate
  */

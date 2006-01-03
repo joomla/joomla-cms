@@ -16,7 +16,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
  * INI Format for JRegistry
- * @package Joomla
+ * 
+ * @package 	Joomla.Framework
+ * @subpackage 	Registry
  * @since 1.1
  */
 class JRegistryINIFormat extends JRegistryStorageFormat {

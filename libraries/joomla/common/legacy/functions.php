@@ -13,7 +13,10 @@
 
 /**
 * Legacy function, use JPath::clean instead
+* 
 * @deprecated As of version 1.1
+* @package Joomla.Legacy
+* @subpackage 1.1
 */
 function mosPathName($p_path, $p_addtrailingslash = true) {
 	return JPath::clean( $p_path, $p_addtrailingslash );
@@ -21,7 +24,10 @@ function mosPathName($p_path, $p_addtrailingslash = true) {
 
 /**
 * Legacy function, use JFolder::files or JFolder::folders instead
+* 
 * @deprecated As of version 1.1
+* @package Joomla.Legacy
+* @subpackage 1.1
 */
 function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  ) {
 	$arr = array(null);
@@ -38,7 +44,10 @@ function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  
 
 /**
 * Legacy function, use JFactory::getMailer() instead
+* 
 * @deprecated As of version 1.1
+* @package Joomla.Legacy
+* @subpackage 1.1
 */
 function mosCreateMail( $from='', $fromname='', $subject, $body ) {
 
@@ -54,7 +63,10 @@ function mosCreateMail( $from='', $fromname='', $subject, $body ) {
 
 /**
 * Legacy function, use josMail instead
+* 
 * @deprecated As of version 1.1
+* @package Joomla.Legacy
+* @subpackage 1.1
 */
 function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL ) {
 	josMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL );
@@ -62,7 +74,10 @@ function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NUL
 
 /**
 * Legacy function, use josSendAdminMail instead
+* 
 * @deprecated As of version 1.1
+* @package Joomla.Legacy
+* @subpackage 1.1
 */
 function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) {
 	josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author );
@@ -70,7 +85,10 @@ function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
 
 /**
 * Legacy function, use JAuthHelper::genRandomPassword() instead
+* 
 * @deprecated As of version 1.1
+* @package Joomla.Legacy
+* @subpackage 1.1
 */
 function mosMakePassword() {
 	return JAuthHelper::genRandomPassword();
@@ -78,7 +96,10 @@ function mosMakePassword() {
 
 /**
 * Legacy function, use josRedirect instead
+* 
 * @deprecated As of version 1.1
+* @package Joomla.Legacy
+* @subpackage 1.1
 */
 function mosRedirect( $url, $msg='' ) {
 	josRedirect( $url, $msg='' );
@@ -86,7 +107,10 @@ function mosRedirect( $url, $msg='' ) {
 
 /**
  * Legacy function, use JFolder::delete($path)
+ * 
  * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
  */
 function deldir( $dir ) {
 	$current_dir = opendir( $dir );
@@ -108,7 +132,10 @@ function deldir( $dir ) {
 
 /**
 * Legacy function, use JFolder::create
+* 
 * @deprecated As of version 1.1
+* @package Joomla.Legacy
+* @subpackage 1.1
 */
 function mosMakePath($base, $path='', $mode = NULL) {
 	return JFolder::create($base.$path, $mode);
@@ -116,7 +143,10 @@ function mosMakePath($base, $path='', $mode = NULL) {
 
 /**
  * Legacy function, use JPath::setPermissions instead
+ * 
  * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
  */
 function mosChmod( $path ) {
 	return JPath::setPermissions( $path );
@@ -124,7 +154,10 @@ function mosChmod( $path ) {
 
 /**
  * Legacy function, use JPath::setPermissions instead
+ * 
  * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
  */
 function mosChmodRecursive( $path, $filemode=NULL, $dirmode=NULL ) {
 	return JPath::setPermissions( $path, $filemode, $dirmode );
@@ -132,7 +165,10 @@ function mosChmodRecursive( $path, $filemode=NULL, $dirmode=NULL ) {
 
 /**
 * Legacy function, use JPath::canCHMOD
+* 
 * @deprecated As of version 1.1
+* @package Joomla.Legacy
+* @subpackage 1.1
 */
 function mosIsChmodable( $file ) {
 	return JPath::canChmod( $file );
@@ -140,7 +176,10 @@ function mosIsChmodable( $file ) {
 
 /**
 * Legacy function, replaced by geshi bot
+* 
 * @deprecated As of version 1.1
+* @package Joomla.Legacy
+* @subpackage 1.1
 */
 function mosShowSource( $filename, $withLineNums=false ) {
 
@@ -173,7 +212,10 @@ function mosShowSource( $filename, $withLineNums=false ) {
 
 /**
 * Legacy function, use mosLoadModule('breadcrumbs); instead
+* 
 * @deprecated As of version 1.1
+* @package Joomla.Legacy
+* @subpackage 1.1
 */
 function mosPathWay() {
 	mosLoadModule('breadcrumb', -1);
@@ -181,7 +223,10 @@ function mosPathWay() {
 
 /**
 * Legacy function, use JApplication::getBrowser() instead
+* 
 * @deprecated As of version 1.1
+* @package Joomla.Legacy
+* @subpackage 1.1
 */
 function mosGetBrowser( $agent ) {
 	$browser = JApplication::getBrowser();
@@ -190,7 +235,10 @@ function mosGetBrowser( $agent ) {
 
 /**
 * Legacy function, use JApplication::getBrowser() instead
+* 
 * @deprecated As of version 1.1
+* @package Joomla.Legacy
+* @subpackage 1.1
 */
 function mosGetOS( $agent ) {
 	$browser = JApplication::getBrowser();
@@ -199,7 +247,10 @@ function mosGetOS( $agent ) {
 
 /**
 * Legacy function, use JParameters::parse()
+* 
 * @deprecated As of version 1.1
+* @package Joomla.Legacy
+* @subpackage 1.1
 */
 function mosParseParams( $txt ) {
 	return JParameters::parse( $txt );
@@ -207,7 +258,10 @@ function mosParseParams( $txt ) {
 
 /**
 * Legacy function, removed
+* 
 * @deprecated As of version 1.1
+* @package Joomla.Legacy
+* @subpackage 1.1
 */
 function mosLoadComponent( $name ) {
 	// set up some global variables for use by the frontend component
@@ -216,8 +270,11 @@ function mosLoadComponent( $name ) {
 }
 
 /**
-* Legacy function, handled by JTemplate Zlib outputfilter
+* Legacy function, handled by JDocument Zlib outputfilter
+* 
 * @deprecated As of version 1.1
+* @package Joomla.Legacy
+* @subpackage 1.1
 */
 function initGzip() {
 	global $mosConfig_gzip, $do_gzip_compress;
@@ -255,8 +312,11 @@ function initGzip() {
 }
 
 /**
-* Legacy function, handled by JTemplate Zlib outputfilter
+* Legacy function, handled by JDocument Zlib outputfilter
+* 
 * @deprecated As of version 1.1
+* @package Joomla.Legacy
+* @subpackage 1.1
 */
 function doGzip() {
 	global $do_gzip_compress;

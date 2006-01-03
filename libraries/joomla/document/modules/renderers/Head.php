@@ -12,12 +12,13 @@
 */
 
 /**
-* Document head Renderer
-*
-* @author Johan Janssens <johan@joomla.be>
-* @subpackage JDocument
-* @since 1.1
-*/
+ * JDocument head renderer
+ *
+ * @author 		Johan Janssens <johan@joomla.be>
+ * @package 	Joomla.Framework
+ * @subpackage 	Document
+ * @since 1.1
+ */
 
 class patTemplate_Renderer_Head extends patTemplate_Renderer
 {

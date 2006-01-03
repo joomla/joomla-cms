@@ -16,8 +16,9 @@ jimport( 'joomla.common.base.object' );
 
 /**
  * Text  handling class
- *  @package  Joomla
- * @subpackage Language
+ * 
+ * @package 	Joomla.Framework
+ * @subpackage 	I18N
  * @static
  * @since 1.1
  */
@@ -76,8 +77,9 @@ class JText
 
 /**
 * Languages/translation handler class
-* @package Joomla
-* @subpackage Language
+* 
+* @package 		Joomla.Framework
+* @subpackage 	I18N
 * @since 1.1
 */
 class JLanguage extends JObject
@@ -481,8 +483,8 @@ class JLanguage extends JObject
 }
 
 /**
- * @package Joomla
- * @subpackage Language
+ * @package 	Joomla.Framework
+ * @subpackage 	I18N
  * @since 1.1
  */
 class JLanguageHelper {

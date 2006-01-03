@@ -15,12 +15,12 @@
 jimport( 'joomla.models.model' );
 
 /**
-* Session database table class
-*
-* @package Joomla
-* @subpackage JFramework
-* @since 1.0
-*/
+ * Session model
+ *
+ * @package 	Joomla.Framework
+ * @subpackage 	Model
+ * @since 1.0
+ */
 class JSessionModel extends JModel {
 	/** @var int Primary key */
 	var $session_id			= null;

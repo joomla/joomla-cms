@@ -2,7 +2,7 @@
 
 /**
 * @version $Id$
-* @package JoomlaFramework
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -16,7 +16,7 @@
  * Object class, allowing __construct and __destruct in PHP4.
  *
  * @author Johan Janssens <johan@joomla.be>
- * @package JoomlaFramework
+ * @package Joomla.Framework
  * @abstract
  * @since 1.1
  */

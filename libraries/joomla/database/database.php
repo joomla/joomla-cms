@@ -1,7 +1,7 @@
 <?php
 /**
 * @version $Id$
-* @package JoomlaFramework
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -16,7 +16,7 @@ jimport( 'joomla.common.base.object' );
 /**
  * Database connector class
  *
- * @package JoomlaFramework
+ * @package Joomla.Framework
  * @subpackage Database
  * @abstract
  * @since 1.0
@@ -654,7 +654,7 @@ class JDatabase extends JObject
  * Simple Record Set object to allow our database connector to be used with
  * ADODB driven 3rd party libraries
  *
- * @package JoomlaFramework
+ * @package Joomla.Framework
  * @subpackage Database
  * @since 1.1
  */

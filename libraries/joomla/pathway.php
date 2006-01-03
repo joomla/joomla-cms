@@ -1,7 +1,7 @@
 <?php
 /**
 * @version $Id: breadcrumbs.php 1592 2005-12-31 01:10:14Z Jinx $
-* @package JoomlaFramework
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -17,7 +17,7 @@ jimport( 'joomla.common.base.object' );
  * JPathWay class
  *
  * @author Louis Landry <louis@webimagery.net>
- * @package JoomlaFramework
+ * @package 	Joomla.Framework
  * @since 1.1
  */
 class JPathWay extends JObject {

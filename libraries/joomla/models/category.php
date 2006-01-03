@@ -15,12 +15,12 @@
 jimport( 'joomla.models.model' );
 
 /**
-* Category database table class
-*
-* @package Joomla
-* @subpackage JFramework
-* @since 1.0
-*/
+ * Category model
+ *
+ * @package 	Joomla.Framework
+ * @subpackage 	Model
+ * @since 1.0
+ */
 class JCategoryModel extends JModel
 {
 	/** @var int Primary key */

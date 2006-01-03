@@ -15,12 +15,12 @@
 jimport( 'joomla.models.model' );
 
 /**
-* Content database table class
-*
-* @package Joomla
-* @subpackage JFramework
-* @since 1.0
-*/
+ * Content model
+ *
+ * @package 	Joomla.Framework
+ * @subpackage 	Model
+ * @since 1.0
+ */
 class JContentModel extends JModel {
 	/** @var int Primary key */
 	var $id					= null;

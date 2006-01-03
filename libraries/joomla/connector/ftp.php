@@ -40,8 +40,8 @@ if (!defined("FTP_ASCII")) {
  * FTP client class
  *
  * @author Louis Landry  <louis@webimagery.net>
- * @package Joomla
- * @subpackage JFramework
+ * @package Joomla.Framework
+ * @subpackage Connector
  * @since 1.1
  */
 class JFTP extends JObject {

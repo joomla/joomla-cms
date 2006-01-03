@@ -1,7 +1,7 @@
 <?php
 /**
 * @version $Id: legacy.php 1525 2005-12-21 21:08:29Z Jinx $
-* @package JoomlaLegacy
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -10,9 +10,13 @@
 * other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
 */
-
-/**
+ 
+ /**
  * PHP 5.0.x Compatibility functions
+ *
+ * @package Joomla.Framework
+ * @subpackage Compatibility
+ * @since 1.1
  */
 
 if (!defined('FILE_USE_INCLUDE_PATH')) {
@@ -26,14 +30,12 @@ if (!defined('FILE_APPEND')) {
 /**
  * Replace file_put_contents()
  *
- * @category	PHP
- * @package	 PHP_Compat
  * @link		http://php.net/function.file_put_contents
- * @author	  Aidan Lister <aidan@php.net>
- * @version	 $Revision: 47 $
+ * @author	  	Aidan Lister <aidan@php.net>
+ * @version	 	$Revision: 47 $
  * @internal	resource_context is not supported
- * @since	   PHP 5
- * @require	 PHP 4.0.1 (trigger_error)
+ * @since	   	PHP 5
+ * @require	 	PHP 4.0.1 (trigger_error)
  */
 if (!function_exists('file_put_contents')) {
 	function file_put_contents($filename, $content, $flags = null, $resource_context = null)

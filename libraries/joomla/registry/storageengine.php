@@ -17,10 +17,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
  * Joomla! Registry Storage Engine Abstract Class
+ * 
  * Storage Engines are responsible for handling basic I/O operations (reading and writing a string)
- * @package Joomla
- * @since 1.1
+ * 
+ * @package 	Joomla.Framework
+ * @subpackage 	Registry
  * @abstract
+ * @since 1.1
+ 
  */
 class JRegistryStorageEngine {
 	/** @var object Holds the class used to convert objects */

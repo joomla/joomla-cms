@@ -11,6 +11,14 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+/**
+ * JTemplate SEF function
+ *
+ * @package 	Joomla.Framework
+ * @subpackage 	Template
+ * @since 1.1
+ */
+
 class patTemplate_Function_Sef extends patTemplate_Function
 {
    /**

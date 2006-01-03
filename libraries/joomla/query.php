@@ -13,7 +13,9 @@
 
 /**
  * Class JQueryElement
- * @package Joomla
+ * 
+ * @package 	Joomla.Framework
+ * @since 1.1
  */
 class JQueryElement {
 	/** @var string The name of the element */
@@ -59,7 +61,9 @@ class JQueryElement {
 
 /**
  * Class QueryBuilder
- * @package Joomla
+ * 
+ * @package 	Joomla.Framework
+ * @since 1.1
  */
 class JQuery {
 	/** @var string The query type */

@@ -15,12 +15,12 @@
 jimport( 'joomla.models.model' );
 
 /**
-* Class JMambotModel
-*
-* @package Joomla
-* @subpackage JFramework
-* @since 1.0
-*/
+ * Mambot model
+ *
+ * @package 	Joomla.Framework
+ * @subpackage 	Model
+ * @since 1.0
+ */
 class JMambotModel extends JModel {
 	/** @var int */
 	var $id					= null;

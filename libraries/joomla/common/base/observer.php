@@ -1,7 +1,7 @@
 <?php
 /**
 * @version $Id: $
-* @package JoomlaFramework
+* @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -16,9 +16,9 @@ jimport( 'joomla.common.base.object' );
 /**
  * Abstract observer class to implement the observer design pattern
  *
- * @abstract
  * @author Louis Landry <louis@webimagery.net>
- * @package JoomlaFramework
+ * @package Joomla.Framework
+ * @abstract
  * @since 1.1
  */
 class JObserver extends JObject {
@@ -57,10 +57,9 @@ class JObserver extends JObject {
 /**
  * Abstract observable class to implement the observer design pattern
  *
- * @abstract
  * @author Louis Landry <louis@webimagery.net>
- * @package Joomla
- * @subpackage JFramework
+ * @package Joomla.Framework
+ * @abstract
  * @since 1.1
  */
 
