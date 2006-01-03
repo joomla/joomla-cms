@@ -1,7 +1,7 @@
 <?php
 /**
 * @version $Id: legacy.php 1525 2005-12-21 21:08:29Z Jinx $
-* @package Joomla
+* @package Joomla.Legacy
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -16,7 +16,6 @@
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 function mosPathName($p_path, $p_addtrailingslash = true) {
 	return JPath::clean( $p_path, $p_addtrailingslash );
@@ -27,7 +26,6 @@ function mosPathName($p_path, $p_addtrailingslash = true) {
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  ) {
 	$arr = array(null);
@@ -47,7 +45,6 @@ function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 function mosCreateMail( $from='', $fromname='', $subject, $body ) {
 
@@ -66,7 +63,6 @@ function mosCreateMail( $from='', $fromname='', $subject, $body ) {
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL ) {
 	josMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL );
@@ -77,7 +73,6 @@ function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NUL
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) {
 	josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author );
@@ -88,7 +83,6 @@ function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 function mosMakePassword() {
 	return JAuthHelper::genRandomPassword();
@@ -99,7 +93,6 @@ function mosMakePassword() {
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 function mosRedirect( $url, $msg='' ) {
 	josRedirect( $url, $msg='' );
@@ -110,7 +103,6 @@ function mosRedirect( $url, $msg='' ) {
  * 
  * @deprecated As of version 1.1
  * @package Joomla.Legacy
- * @subpackage 1.1
  */
 function deldir( $dir ) {
 	$current_dir = opendir( $dir );
@@ -135,7 +127,6 @@ function deldir( $dir ) {
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 function mosMakePath($base, $path='', $mode = NULL) {
 	return JFolder::create($base.$path, $mode);
@@ -146,7 +137,6 @@ function mosMakePath($base, $path='', $mode = NULL) {
  * 
  * @deprecated As of version 1.1
  * @package Joomla.Legacy
- * @subpackage 1.1
  */
 function mosChmod( $path ) {
 	return JPath::setPermissions( $path );
@@ -157,7 +147,6 @@ function mosChmod( $path ) {
  * 
  * @deprecated As of version 1.1
  * @package Joomla.Legacy
- * @subpackage 1.1
  */
 function mosChmodRecursive( $path, $filemode=NULL, $dirmode=NULL ) {
 	return JPath::setPermissions( $path, $filemode, $dirmode );
@@ -168,7 +157,6 @@ function mosChmodRecursive( $path, $filemode=NULL, $dirmode=NULL ) {
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 function mosIsChmodable( $file ) {
 	return JPath::canChmod( $file );
@@ -179,7 +167,6 @@ function mosIsChmodable( $file ) {
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 function mosShowSource( $filename, $withLineNums=false ) {
 
@@ -215,7 +202,6 @@ function mosShowSource( $filename, $withLineNums=false ) {
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 function mosPathWay() {
 	mosLoadModule('breadcrumb', -1);
@@ -226,7 +212,6 @@ function mosPathWay() {
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 function mosGetBrowser( $agent ) {
 	$browser = JApplication::getBrowser();
@@ -238,7 +223,6 @@ function mosGetBrowser( $agent ) {
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 function mosGetOS( $agent ) {
 	$browser = JApplication::getBrowser();
@@ -250,7 +234,6 @@ function mosGetOS( $agent ) {
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 function mosParseParams( $txt ) {
 	return JParameters::parse( $txt );
@@ -261,7 +244,6 @@ function mosParseParams( $txt ) {
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 function mosLoadComponent( $name ) {
 	// set up some global variables for use by the frontend component
@@ -274,7 +256,6 @@ function mosLoadComponent( $name ) {
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 function initGzip() {
 	global $mosConfig_gzip, $do_gzip_compress;
@@ -316,7 +297,6 @@ function initGzip() {
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 function doGzip() {
 	global $do_gzip_compress;

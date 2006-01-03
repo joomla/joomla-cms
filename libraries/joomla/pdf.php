@@ -1,7 +1,7 @@
 <?php
 /**
 * @version $Id$
-* @package Joomla
+* @package Joomla.Framework
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -9,12 +9,20 @@
 * is derivative of works licensed under the GNU General Public License or
 * other free or open source software licenses.
 * See COPYRIGHT.php for copyright notices and details.
-* Created by Phil Taylor me@phil-taylor.com
-* Support file to display PDF Text Only using class from - http://www.ros.co.nz/pdf/readme.pdf
-* HTMLDoc is available from: http://www.easysw.com/htmldoc and needs installing on the server for better HTML to PDF conversion
 **/
 
 jimport('cpdf.ezpdf');
+
+/**
+ * PDF Creator
+ * 
+ * Support file to display PDF Text Only using class from - http://www.ros.co.nz/pdf/readme.pdf
+ * HTMLDoc is available from: http://www.easysw.com/htmldoc and needs installing on the server for better HTML to PDF conversion
+ * 
+ * @author Phil Taylor <me@phil-taylor.com>
+ * @package Joomla.Framework
+ * @since 1.0
+ */
 
 function dofreePDF () {
 	global $mosConfig_sitename, $mosConfig_offset;

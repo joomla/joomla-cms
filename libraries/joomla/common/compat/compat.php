@@ -12,7 +12,7 @@
 */
 
 /**
- * Description
+ * Load compatibility files
  *
  * @package Joomla.Framework
  * @subpackage Compatibility

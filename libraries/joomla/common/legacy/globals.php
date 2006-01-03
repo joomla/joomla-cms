@@ -2,7 +2,7 @@
 
 /**
 * @version $Id$
-* @package Joomla
+* @package Joomla.Legacy
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -17,7 +17,6 @@
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 
 DEFINE('_ISO','charset=utf-8');
@@ -27,7 +26,6 @@ DEFINE('_ISO','charset=utf-8');
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 define( '_VALID_MOS', 1 );
 
@@ -36,7 +34,6 @@ define( '_VALID_MOS', 1 );
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 define( '_MOS_MAMBO_INCLUDED', 1 );
 
@@ -46,7 +43,6 @@ define( '_MOS_MAMBO_INCLUDED', 1 );
 * @name $_VERSION
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 $_VERSION = new JVersion();
 $version = $_VERSION->PRODUCT .' '. $_VERSION->RELEASE .'.'. $_VERSION->DEV_LEVEL .' '
@@ -59,7 +55,6 @@ $version = $_VERSION->PRODUCT .' '. $_VERSION->RELEASE .'.'. $_VERSION->DEV_LEVE
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
-* @subpackage 1.1
 */
 global $mosConfig_lang;
 $file = JPATH_SITE .'/language/' . $mosConfig_lang .'.php';

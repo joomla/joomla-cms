@@ -73,6 +73,7 @@ if (!defined('_MOS_EDITOR_INCLUDED')) {
 	}
 	/**
 	 * Just present a textarea
+	 * 
 	 * @package Joomla.Framework
 	 */
 	function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) {

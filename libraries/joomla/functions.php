@@ -2,7 +2,7 @@
 
 /**
 * @version $Id$
-* @package Joomla
+* @package Joomla.Framework
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -14,6 +14,8 @@
 
 /**
  * Utility function to return a value from a named array or a specified default
+ * 
+ * @package Joomla.Framework
  * @param array A named array
  * @param string The key to search for
  * @param mixed The default value to give if no key found
@@ -63,6 +65,8 @@ function mosGetParam( &$arr, $name, $def=null, $mask=0 ) {
 
 /**
  * Strip slashes from strings or arrays of strings
+ * 
+ * @package Joomla.Framework
  * @param mixed The input string or array
  * @return mixed String or array stripped of slashes
  * @since 1.0
@@ -89,10 +93,13 @@ function mosStripslashes( &$value ) {
 *
 * Object parameters that are non-string, array, object or start with underscore
 * will be converted
+* 
+* @package Joomla.Framework
 * @param object An object to be parsed
 * @param int The optional quote style for the htmlspecialchars function
 * @param string|array An optional single field name or array of field names not
 *					 to be parsed (eg, for a textarea)
+* @since 1.0
 */
 function mosMakeHtmlSafe( &$mixed, $quote_style=ENT_QUOTES, $exclude_keys='' ) {
 	if (is_object( $mixed )) {
@@ -114,6 +121,9 @@ function mosMakeHtmlSafe( &$mixed, $quote_style=ENT_QUOTES, $exclude_keys='' ) {
 * Replaces &amp; with & for xhtml compliance
 *
 * Needed to handle unicode conflicts due to unicode conflicts
+* 
+* @package Joomla.Framework
+* @since 1.0
 */
 function ampReplace( $text ) {
 	$text = str_replace( '&&', '*--*', $text );
@@ -129,6 +139,8 @@ function ampReplace( $text ) {
 /**
 * Copy the named array content into the object as properties
 * only existing properties of object are filled. when undefined in hash, properties wont be deleted
+* 
+* @package Joomla.Framework
 * @param array the input array
 * @param obj byref the object to fill of any class
 * @param string
@@ -177,6 +189,7 @@ function mosObjectToArray($p_obj) {
 /**
  * Utility function redirect the browser location to another url
  *
+ * @package Joomla.Framework
  * Can optionally provide a message.
  * @param string $url The URL to redirect to
  * @param string $msg A message to display on redirect
@@ -247,9 +260,12 @@ function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 
 /**
 * Utility function to provide Warning Icons
+* 
+* @package Joomla.Framework
 * @param string Warning text
 * @param string Box title
 * @returns HTML code for Warning
+* @since 1.1
 */
 function JWarning($warning, $title='Joomla Warning') {
 	$title 		= JText::_( 'Joomla Warning' );
@@ -264,6 +280,8 @@ function JWarning($warning, $title='Joomla Warning') {
 
 /**
  * Format a backtrace error
+ * 
+ * @package Joomla.Framework
  * @since 1.1
  */
 function mosBackTrace() {
@@ -282,6 +300,9 @@ function mosBackTrace() {
 * Displays a not authorised message
 *
 * If the user is not logged in then an addition message is displayed.
+* 
+* @package Joomla.Framework
+* @since 1.0
 */
 function mosNotAuth() {
 	global $my;
@@ -321,9 +342,11 @@ function mosTreeRecurse( $id, $indent, $list, &$children, $maxlevel=9999, $level
 }
 
 /**
-* @param string SQL with ordering As value and 'name field' AS text
-* @param integer The length of the truncated headline
-*/
+ * @package Joomla.Framework
+ * @param string SQL with ordering As value and 'name field' AS text
+ * @param integer The length of the truncated headline
+ * @since 1.0
+ */
 function mosGetOrderingList( $sql, $chop='30' ) {
 	global $database;
 
@@ -356,11 +379,14 @@ function mosGetOrderingList( $sql, $chop='30' ) {
 
 /**
 * Checks whether a menu option is within the users access level
+* 
+* @package Joomla.Framework
 * @param int Item id number
 * @param string The menu option
 * @param int The users group ID number
 * @param database A database connector object
 * @return boolean True if the visitor's group at least equal to the menu access
+* @since 1.0
 */
 function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 	global $database;
@@ -392,10 +418,13 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 
 /**
 * Returns formated date according to current local and adds time offset
+* 
+* @package Joomla.Framework
 * @param string date in datetime format
 * @param string format optional format for strftime
 * @param offset time offset if different than global one
 * @returns formated date
+* @since 1.0
 */
 function mosFormatDate( $date, $format="", $offset="" ){
 	global $mosConfig_offset, $mainframe;
@@ -416,8 +445,11 @@ function mosFormatDate( $date, $format="", $offset="" ){
 
 /**
 * Returns current date according to current local and time offset
+* 
+* @package Joomla.Framework
 * @param string format optional format for strftime
 * @returns current date
+* @since 1.0
 */
 function mosCurrentDate( $format="" ) {
 	global $mosConfig_offset;
@@ -431,9 +463,12 @@ function mosCurrentDate( $format="" ) {
 
 /**
 * Utility function to provide ToolTips
+* 
+* @package Joomla.Framework
 * @param string ToolTip text
 * @param string Box title
 * @returns HTML code for ToolTip
+* @since 1.0
 */
 function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='#', $link=1 ) {
 	global $mainframe;
@@ -491,8 +526,11 @@ function mosExpandID( $ID ) {
 
 /**
  * Provides a secure hash based on a seed
+ * 
+ * @package Joomla.Framework
  * @param string Seed string
  * @return string
+ * @since 1.0
  */
 function mosHash( $seed ) {
 	return md5( $GLOBALS['mosConfig_secret'] . md5( $seed ) );
@@ -527,6 +565,7 @@ if (!function_exists('html_entity_decode')) {
 /**
  * Mail function (uses phpMailer)
  * 
+ * @package Joomla.Framework
  * @param string $from From e-mail address
  * @param string $fromname From name
  * @param mixed $recipient Recipient e-mail address(es)
@@ -596,6 +635,7 @@ function josMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=nul
 /**
  * Sends mail to administrator for approval of a user submission
  * 
+ * @package Joomla.Framework
  * @param string $adminName Name of administrator
  * @param string $adminEmail Email address of administrator
  * @param string $email [NOT USED TODO: Deprecate?]
@@ -623,6 +663,7 @@ function josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
 /**
  * Method to process internal Joomla URLs
  *
+ * @package Joomla.Framework
  * @param string $url Absolute or Relative URL to Joomla resource
  * @param int $ssl Secure state for the processed URL
  *    1: Make URL secure using global secure site URL
@@ -658,10 +699,13 @@ function josURL( $url, $ssl=0, $sef=1 ) {
 
 /**
 * Prepares results from search for display
+* 
+* @package Joomla.Framework
 * @param string The source string
 * @param int Number of chars to trim
 * @param string The searchword to select around
 * @return string
+* @since 1.1
 */
 function mosPrepareSearchContent( $text, $length=200, $searchword ) {
 	// strips tags won't remove the actual jscript
@@ -676,10 +720,13 @@ function mosPrepareSearchContent( $text, $length=200, $searchword ) {
 
 /**
 * returns substring of characters around a searchword
+* 
+* @package Joomla.Framework
 * @param string The source string
 * @param int Number of chars to return
 * @param string The searchword to select around
 * @return string
+* @since 1.0
 */
 function mosSmartSubstr($text, $length=200, $searchword) {
   $wordpos = JString::strpos(JString::strtolower($text), JString::strtolower($searchword));
@@ -693,9 +740,12 @@ function mosSmartSubstr($text, $length=200, $searchword) {
 
 /**
  * Function to convert array to integer values
+ * 
+ * @package Joomla.Framework
  * @param array
  * @param int A default value to assign if $array is not an array
  * @return array
+ * @since 1.0
  */
 function mosArrayToInts( &$array, $default=null ) {
 	if (is_array( $array )) {
@@ -714,6 +764,9 @@ function mosArrayToInts( &$array, $default=null ) {
 
 /**
 * Sorts an Array of objects
+* 
+* @package Joomla.Framework
+* @since 1.0
 */
 function SortArrayObjects_cmp( &$a, &$b ) {
 	global $csort_cmp;
@@ -731,7 +784,10 @@ function SortArrayObjects_cmp( &$a, &$b ) {
 
 /**
 * Sorts an Array of objects
-* sort_direction [1 = Ascending] [-1 = Descending]
+* 
+* @package Joomla.Framework
+* @param integer 	$sort_direction [1 = Ascending] [-1 = Descending]
+* @since 1.0
 */
 function SortArrayObjects( &$a, $k, $sort_direction=1 ) {
 	global $csort_cmp;

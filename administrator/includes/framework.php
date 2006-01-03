@@ -69,7 +69,7 @@ jimport( 'joomla.registry.main');
 jimport( 'joomla.models.*' );
 jimport( 'joomla.html' );
 jimport( 'joomla.factory' );
-jimport( 'joomla.files' );
+jimport( 'joomla.filesystem.*' );
 jimport( 'joomla.params' );
 jimport( 'joomla.i18n.language' );
 jimport( 'joomla.i18n.string' );

@@ -57,7 +57,7 @@ jimport( 'joomla.common.compat.compat' );
 jimport( 'joomla.version' );
 jimport( 'joomla.error');
 jimport( 'joomla.factory' );
-jimport( 'joomla.files' );
+jimport( 'joomla.filesystem.*' );
 jimport( 'joomla.params' );
 jimport( 'joomla.i18n.language' );
 jimport( 'joomla.i18n.string' );
