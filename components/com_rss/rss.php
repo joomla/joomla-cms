@@ -162,10 +162,12 @@ function feedFrontpage( $showFeed ) {
 	$and 		= '';
 
 	// query of frontpage content items
-	$query = "SELECT a.*, u.name AS author, u.usertype, UNIX_TIMESTAMP( a.created ) AS created_ts"
+	$query = "SELECT a.*, u.name AS author, u.usertype, UNIX_TIMESTAMP( a.created ) AS created_ts, cat.title AS cat_title, sec.title AS section_title"
 	. "\n FROM #__content AS a"
 	. $join
 	. "\n LEFT JOIN #__users AS u ON u.id = a.created_by"
+	. "\n LEFT JOIN #__categories AS cat ON cat.id = a.catid"
+	. "\n LEFT JOIN #__sections AS sec ON sec.id = a.sectionid"
 	. "\n WHERE a.state = 1"
 	. $and
 	. "\n AND a.access = 0"
@@ -184,8 +186,8 @@ function feedFrontpage( $showFeed ) {
 
 		// url link to article
 		// & used instead of &amp; as this is converted by feed creator
-		$item_link = JURL_SITE .'/index.php?option=com_content&task=view&id='. $row->id .'&Itemid='. JApplicationHelper::getItemid( $row->id );
-  		$item_link = sefRelToAbs( $item_link );
+		$item_link = 'index.php?option=com_content&task=view&id='. $row->id .'&Itemid='. $mainframe->getItemid( $row->id );
+		$item_link = sefRelToAbs( $item_link );
 
 		// removes all formating from the intro text for the description text
 		$item_description = $row->introtext;
@@ -218,6 +220,7 @@ function feedFrontpage( $showFeed ) {
 		$item->description 	= $item_description;
 		$item->source 		= $info[ 'link' ];
 		$item->date			= date( 'r', $row->created_ts );
+		$item->category     = $row->section_title . ' - ' . $row->cat_title;
 
 		// loads item info into rss array
 		$rss->addItem( $item );
