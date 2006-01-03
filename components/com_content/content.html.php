@@ -155,50 +155,55 @@ class HTML_content {
 		?>
 		<form action="<?php echo sefRelToAbs($link); ?>" method="post" name="adminForm">
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-		<tr>
-			<td colspan="4">
-				<table>
-				<tr>
-					<?php
-					if ( $params->get( 'filter' ) ) {
-						?>
-						<td align="right" width="100%" nowrap="nowrap">
-						<?php
-						echo JText::_( 'Filter' ) .'&nbsp;';
-						?>
-						<input type="text" name="filter" value="<?php echo $lists['filter'];?>" class="inputbox" onchange="document.adminForm.submit();" />
-						</td>
-						<?php
-					}
-
-					if ( $params->get( 'order_select' ) ) {
-						?>
-						<td align="right" width="100%" nowrap="nowrap">
-						<?php
-						echo '&nbsp;&nbsp;&nbsp;'. JText::_( 'Order' ) .'&nbsp;';
-						echo $lists['order'];
-						?>
-						</td>
-						<?php
-					}
-
-					if ( $params->get( 'display' ) ) {
-						?>
-						<td align="right" width="100%" nowrap="nowrap">
-						<?php
-						echo '&nbsp;&nbsp;&nbsp;'. JText::_( 'Display Num' ) .'&nbsp;';
-						$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='. $sectionid .'&amp;id='. $catid .'&amp;Itemid='. $Itemid;
-						echo $pageNav->getLimitBox( $link );
-						?>
-						</td>
-						<?php
-					}
-					?>
-				</tr>
-				</table>
-			</td>
-		</tr>
 		<?php
+		if ( $params->get( 'filter' ) || $params->get( 'order_select' ) || $params->get( 'display' ) ) {
+			?>
+			<tr>
+				<td colspan="4">
+					<table>
+					<tr>
+						<?php
+						if ( $params->get( 'filter' ) ) {
+							?>
+							<td align="right" width="100%" nowrap="nowrap">
+							<?php
+							echo JText::_( 'Filter' ) .'&nbsp;';
+							?>
+							<input type="text" name="filter" value="<?php echo $lists['filter'];?>" class="inputbox" onchange="document.adminForm.submit();" />
+							</td>
+							<?php
+						}
+	
+						if ( $params->get( 'order_select' ) ) {
+							?>
+							<td align="right" width="100%" nowrap="nowrap">
+							<?php
+							echo '&nbsp;&nbsp;&nbsp;'. JText::_( 'Order' ) .'&nbsp;';
+							echo $lists['order'];
+							?>
+							</td>
+							<?php
+						}
+	
+						if ( $params->get( 'display' ) ) {
+							?>
+							<td align="right" width="100%" nowrap="nowrap">
+							<?php
+							echo '&nbsp;&nbsp;&nbsp;'. JText::_( 'Display Num' ) .'&nbsp;';
+							$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='. $sectionid .'&amp;id='. $catid .'&amp;Itemid='. $Itemid;
+							echo $pageNav->getLimitBox( $link );
+							?>
+							</td>
+							<?php
+						}
+						?>
+					</tr>
+					</table>
+				</td>
+			</tr>
+			<?php
+		}
+		
 		if ( $params->get( 'headings' ) ) {
 			?>
 			<tr>
