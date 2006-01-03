@@ -17,36 +17,49 @@
  * @since 1.1
  */
 class JLDAP {
-	/** @var string */
+	/** @var string Hostname of LDAP server
+	    @access public */
 	var $host = null;
-	/** @var int */
+	/** @var int Port of LDAP server
+	    @access public */
 	var $port = null;
-	/** @var string */
+	/** @var string Base DN (e.g. o=MyDir) 
+	    @access public */
 	var $base_dn = null;
-	/** @var string */
+	/** @var string User DN (e.g. cn=Users,o=MyDir) 
+	    @access public */
 	var $users_dn = null;
-	/** @var string */
+	/** @var string Search String 
+	    @access public */
 	var $search_string = null;
-	/** @var boolean */
+	/** @var boolean Use LDAP Version 3
+	    @access public */
 	var $use_ldapV3 = null;
-	/** @var boolean */
+	/** @var boolean No referrals (server transfers)
+	    @access public */
 	var $no_referrals = null;
-	/** @var boolean */
+	/** @var boolean Negotiate TLS (encrypted communications) 
+	    @access public */
 	var $negotiate_tls = null;
 
-	/** @var string */
+	/** @var string Username to connect to server
+	    @access public */
 	var $username = null;
-	/** @var string */
+	/** @var string Password to connect to server
+	    @access public */
 	var $password = null;
 
-	/** @var mixed */
+	/** @var mixed LDAP Resource Identifier
+	    @access private */
 	var $_resource =  null;
-	/** @var string */
+	/** @var string Current DN 
+	    @access private */
 	var $_dn = null;
 
 	/**
 	 * Constructor
 	 * @param object An object of configuration variables
+	 * @access public
 	 */
 	function JLDAP( $configObj=null ) {
 		if (is_object( $configObj )) {
@@ -62,7 +75,9 @@ class JLDAP {
 	}
 
 	/**
+	 * Connect to server
 	 * @return boolean True if successful
+	 * @access public
 	 */
 	function connect() {
 		if ($this->host == '') {
@@ -94,6 +109,7 @@ class JLDAP {
 
 	/**
 	 * Close the connection
+	 * @access public
 	 */
 	function close() {
 		@ldap_close( $this->_resource );
@@ -102,6 +118,7 @@ class JLDAP {
 	/**
 	 * Sets the DN with some template replacements
 	 * @param string The username
+	 * @access public
 	 */
 	function setDN( $username ) {
 		if ($this->users_dn == '') {
@@ -113,6 +130,7 @@ class JLDAP {
 
 	/**
 	 * @return string The current dn
+	 * @access public
 	 */
 	function getDN() {
 		return $this->_dn;
@@ -122,6 +140,8 @@ class JLDAP {
 	 * Binds to the LDAP directory
 	 * @param string The username
 	 * @param string The password
+	 * @return boolean Result
+	 * @access public
 	 */
 	function bind( $username=null, $password=null ) {
 		if (is_null( $username )) {
@@ -138,6 +158,10 @@ class JLDAP {
 
 	/**
 	 * Perform an LDAP search
+	 * @param array Search Filters (array of strings)
+	 * @param string DN Override
+	 * @return array Multidimensional array of results
+	 * @access public
 	 */
 	function search( $filters, $dnoverride=null ) {
 		$attributes = array();
@@ -168,26 +192,20 @@ class JLDAP {
 							for($k = 0; $k < $subcount; $k++) {
 								$attributes[$i][$ki][$k] = $ai[$k];
 							}
-						} /*else {
-							//$attributes[$i][$ki]=$ai;
-						}*/
-
+						} 
 					}
-//					if ($this->users_dn == '') {
 					$attributes[$i]['dn'] = ldap_get_dn( $resource, $firstentry );
-//					} else {
-//						$attributes[$i]['dn'] = $dn;
-//					}
-				} //*/
+				} 
 			}
 		}
 		return $attributes;
 	}
 
 	/**
-	 * Converts a dot notation IP address to net address
-	 * @param string
-	 * @return string
+	 * Converts a dot notation IP address to net address (e.g. for Netware, etc)
+	 * @param string IP Address (e.g. xxx.xxx.xxx.xxx)
+	 * @return string Net address
+	 * @access public
 	 */
 	function ipToNetAddress($ip) {
 		$parts = explode('.',$ip);
