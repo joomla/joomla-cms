@@ -181,23 +181,24 @@ function do_upload($file, $dest_dir) {
 		$format = substr( $file['name'], -3 );
 
 		$allowable = array (
-			'xcf',
-			'odg',
-			'gif',
-			'jpg',
-			'epg',
-			'png',
 			'bmp',
-			'doc',
-			'txt',
-			'xls',
 			'csv',
+			'doc',
+			'epg',
+			'gif',
+			'ico',
+			'jpg',
+			'odg',
+			'odp',
+			'ods',
+			'odt',
+			'pdf',
+			'png',
 			'ppt',
 			'swf',
-			'pdf',
-			'odt',
-			'ods',
-			'odp'
+			'txt',
+			'xcf',
+			'xls'
 		);
 
         $noMatch = 0;
