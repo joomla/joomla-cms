@@ -350,7 +350,55 @@ function contactpage( $contact_id ) {
 function sendmail( $con_id, $option ) {
 	global $database, $Itemid;
 	global $mosConfig_sitename, $mosConfig_mailfrom, $mosConfig_fromname;
-
+	
+	$validate = mosGetParam( $_POST, mosHash( 'validate' ), 0 );
+	if (!$validate) {
+		// probably a spoofing attack
+		echo _NOT_AUTH;
+		return;
+	}
+	
+	// First, make sure the form was posted from a browser.
+	// For basic web-forms, we don't care about anything
+	// other than requests from a browser:   
+	if (!isset( $_SERVER['HTTP_USER_AGENT'] )) {
+		header( "HTTP/1.0 403 Forbidden" );
+		die( _NOT_AUTH );
+		exit;
+	}
+	
+	// Make sure the form was indeed POST'ed:
+	//  (requires your html form to use: action="post")
+	if (!$_SERVER['REQUEST_METHOD'] == 'POST' ) {
+		header("HTTP/1.0 403 Forbidden");
+		die( _NOT_AUTH );
+		exit;   
+	}
+	
+	// Attempt to defend against header injections:
+	$badStrings = array(
+	'Content-Type:',
+	'MIME-Version:',
+	'Content-Transfer-Encoding:',
+	'bcc:',
+	'cc:'
+	);
+	
+	// Loop through each POST'ed value and test if it contains
+	// one of the $badStrings:
+	foreach ($_POST as $k => $v){
+		foreach ($badStrings as $v2) {
+			if (strpos( $v, $v2 ) !== false) {
+				header( "HTTP/1.0 403 Forbidden" );
+				die( _NOT_AUTH );
+			}
+		}
+	}   
+	
+	// Made it past spammer test, free up some memory
+	// and continue rest of script:   
+	unset($k, $v, $v2, $badStrings);
+	
 	$query = "SELECT *"
 	. "\n FROM #__contact_details"
 	. "\n WHERE id = $con_id"
