@@ -18,6 +18,8 @@ $option = mosGetParam( $_REQUEST, 'option' );
 $task 	= mosGetParam( $_REQUEST, 'task' );
 $id 	= intval( mosGetParam( $_REQUEST, 'id', null ) );
 
+$now 	= date( 'Y-m-d H:i:s', time() + $mosConfig_offset * 60 * 60 );
+
 if ($option == 'com_content' && $task == 'view' && $id) {
 	// select the meta keywords from the item
 	$query = "SELECT metakey"
@@ -46,6 +48,8 @@ if ($option == 'com_content' && $task == 'view' && $id) {
 			. "\n AND state = 1"
 			. "\n AND access <= $my->gid"
 			. "\n AND ( metakey LIKE '%" . implode( "%' OR metakey LIKE '%", $likes ) ."%' )"
+			. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )"
+			. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
 			;
 			$database->setQuery( $query );
 			if ( $related = $database->loadObjectList() ) {
