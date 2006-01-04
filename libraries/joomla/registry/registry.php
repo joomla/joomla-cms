@@ -100,15 +100,15 @@ class JRegistry extends JObject {
 	 * @return mixed Value of entry or boolean false
 	 */
 	function getValue($regpath) {
-
+		
 		// Explode the registry path into an array
 		$nodes = explode('.', $regpath);
-
+		
 		// Get the namespace
 		$namespace = array_shift($nodes);
 		
 		if (!isset($this->_registry[$namespace])) {
-			return false;	
+			return null;	
 		}
 		
 		$ns = & $this->_registry[$namespace]['data'];
@@ -116,6 +116,10 @@ class JRegistry extends JObject {
 
 		for ($i = 0; $i < $pathNodes; $i ++) {
 			$ns =& $ns->$nodes[$i];
+		}
+		
+		if(!isset($ns->$nodes[$i])) {
+			return null;
 		}
 		
 		return $ns->$nodes[$i++];

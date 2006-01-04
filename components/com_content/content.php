@@ -966,12 +966,14 @@ function BlogOutput ( &$rows, &$params, $gid, &$access, $pop, &$menu, $archive=N
 			echo '<tr>';
 			echo '<td valign="top">';
 			echo '<table width="100%"  cellpadding="0" cellspacing="0">';
-
+			echo '<tr>';
+			echo '<td>';
+			
 			$indexcount = 0;
 			$divider    = '';
 			for ( $z = 0; $z < $columns; $z++ ) {
 				if ($z > 0) $divider = " column_seperator";
-				echo "<td valign=\"top\"" . $width . "class=\"article_column" . $divider . "\">\n";
+				echo "<td valign=\"top\"" . $width . " class=\"article_column" . $divider . "\">\n";
 				for ($y = 0; $y < $intro/$columns; $y++) {
 					if ($indexcount < $intro)
 						//echo $rows[$indexcount++] . "\n";

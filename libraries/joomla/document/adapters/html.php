@@ -219,7 +219,7 @@ class JDocumentHTML extends JDocument
 		$tagEnd = ' />';
 
 		$strHtml  = $tab . '<title>' . $this->getTitle() . '</title>' . $lnEnd;
-		$strHtml .= $tab . '<base href=' . $this->getBase() . ' />' . $lnEnd;
+		$strHtml .= $tab . '<base href="' . $this->getBase() . '" />' . $lnEnd;
 
         // Generate META tags
         foreach ($this->_metaTags as $type => $tag) {
