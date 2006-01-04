@@ -1,5 +1,4 @@
 <?php
-
 /**
 * @version $Id$
 * @package Joomla.Framework
@@ -12,21 +11,20 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+define( "_MOS_NOTRIM"   , 0x0001 );
+define( "_MOS_ALLOWHTML", 0x0002 );
+define( "_MOS_ALLOWRAW" , 0x0004 );
+
 /**
  * Utility function to return a value from a named array or a specified default
- * 
  * @package Joomla.Framework
  * @param array A named array
  * @param string The key to search for
  * @param mixed The default value to give if no key found
  * @param int An options mask: _MOS_NOTRIM prevents trim, _MOS_ALLOWHTML allows safe html, _MOS_ALLOWRAW allows raw input
  * @since 1.0
+ * @tutorial Joomla.Framework/mosgetparam.proc
  */
-
-define( "_MOS_NOTRIM"   , 0x0001 );
-define( "_MOS_ALLOWHTML", 0x0002 );
-define( "_MOS_ALLOWRAW" , 0x0004 );
-
 function mosGetParam( &$arr, $name, $def=null, $mask=0 ) {
 	static $noHtmlFilter = null;
 	static $safeHtmlFilter = null;

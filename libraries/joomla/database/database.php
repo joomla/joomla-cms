@@ -185,7 +185,8 @@ class JDatabase extends JObject
 	}
 
 	/**
-	 * @param int
+	 * Sets the debug level on or off
+	 * @param int 0 = off, 1 = on
 	 */
 	function debug( $level ) {
 		$this->_debug = intval( $level );

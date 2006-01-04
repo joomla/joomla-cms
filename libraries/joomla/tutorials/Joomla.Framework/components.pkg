@@ -1,0 +1,26 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>Building Components</refname>
+  <refpurpose>Learn how to build components</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <authorgroup>
+   <author>
+    Andrew Eddie
+    <authorblurb>
+     {@link mailto:developer@osm.org}
+    </authorblurb>
+   </author>
+  </authorgroup>
+ </refsynopsisdiv>
+ <refsect1 id="">
+  <title>Building Components</title>
+  <para>Components are easy to make</para>
+ </refsect1>
+ <refsect1 id="">
+  <title>Another docbook refsect</title>
+  <para>
+   Here's some text
+  </para>
+ </refsect1>
+</refentry>

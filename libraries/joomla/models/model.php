@@ -1,8 +1,7 @@
 <?php
-
 /**
 * @version $Id$
-* @package Joomla
+* @package Joomla.Framework
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -24,6 +23,7 @@ jimport( 'joomla.common.base.object' );
  * @package 	Joomla.Framework
  * @subpackage 	Model
  * @since 1.0
+ * @tutorial Joomla.Framework/jmodel.cls
  */
 class JModel extends JObject 
 {
