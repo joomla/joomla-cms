@@ -1268,4 +1268,3 @@ see source code and the LICENSE file
 ---------------------------
 This application is opensource software released under the GPL.  Please
 see source code and the LICENSE file
->>>>>>> .r1501
