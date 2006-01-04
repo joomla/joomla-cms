@@ -84,7 +84,7 @@ function JProcess() {
 		alert( '<jos:translate key="validPass" escape="yes">Please enter a database password</jos:translate>' );
 		return;
 	} else {
-		ajtype.value = type.value;
+		ajtype.value = type.options[type.selectedIndex].value;
 		ajhost.value = host.value;
 		ajuser.value = user.value;
 		ajpass.value = pass.value;
