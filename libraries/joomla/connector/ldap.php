@@ -12,9 +12,9 @@
 /**
  * LDAP client class
  * 
- * @author Samuel Moffat
- * @package Joomla.Framework
- * @subpackage Connector
+ * @author 		Samuel Moffatt <pasamio@gmail.com>
+ * @package 	Joomla.Framework
+ * @subpackage 	Connector
  * @since 1.1
  */
 class JLDAP 

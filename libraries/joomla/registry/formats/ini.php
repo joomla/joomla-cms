@@ -10,84 +10,64 @@
  * other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
  */
-
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
+ 
 /**
- * INI Format for JRegistry
+ * INI format handler for JRegistry
  * 
+ * @author 		Samuel Moffatt <pasamio@gmail.com>
  * @package 	Joomla.Framework
  * @subpackage 	Registry
  * @since 1.1
  */
-class JRegistryINIFormat extends JRegistryStorageFormat {
+class JRegistryFormatINI extends JRegistryFormat {
 
 	/**
 	 * Converts an object into an INI formatted string
-	 * @param object  Data Source Object
+	 * 	-	Unfortunately, there is no way to have ini values nested further than two
+	 * 		levels deep.  Therefore we will only go through the first two levels of 
+	 * 		the object.
+	 * 
+	 * @access public
+	 * @param object $object Data Source Object
 	 * @return string INI Formatted String
 	 */
-	function objectToString( &$data ) {
+	function objectToString( &$object ) {
+		
+		// Initialize variables
 		$retval = '';
-		foreach (get_object_vars( $data ) as $namespace=>$groups) {
-			if (!$this->r_namespacestate) {
-				if ($namespace != $this->r_namespace) {
-					//echo $this->r_namespace;
-					//echo "Breaking because namespace doesn't match, $namespace " . $this->r_namespacestate . " " . $this->r_namespace;
-					break;
+		$prepend = '';
+
+		// First handle groups (or first level key/value pairs)
+		foreach (get_object_vars( $object ) as $key => $level1) {
+
+			if (is_object($level1)) {
+				// This field is an object, so we treat it as a section
+				$retval .= "[$key]\n";
+				foreach (get_object_vars( $level1 ) as $key => $level2) {
+					if (!is_object($level2) && !is_array($level2)) {
+						$retval .= "$key=$level2\n";
+					}
 				}
-			}
-			foreach (get_object_vars( $groups ) as $key=>$item) {
-				if (!$this->r_namespacestate) {
-					$retval .= "[$namespace.$key]\n";
-				} else {
-					$retval .= "[$key]\n";
-				}
-				foreach (get_object_vars( $item ) as $subkey=>$value) {
-					$retval .= "$subkey=$value\n";
-				}
+				$retval .= "\n";
+			} else {
+				$prepend .= "$key=$level1\n";
 			}
 		}
-		return $retval;
+		return $prepend."\n".$retval;	
 	}
 
 	/**
 	 * Converts an INI formatted string into an object
+	 * 
+	 * @access public
 	 * @param string  INI Formatted String
-	 * @return string Data Object
+	 * @return object Data Object
 	 */
-	function &stringToObject( $data, $namespace_override='' ) {
-
-		$Configuration = new JParameters( $data );
-		$configobject = $Configuration->parse( $data, true );
-
-		$tmpnamespace = $this->r_namespace;
-		if ($namespace_override) {
-			$tmpnamespace = $namespace_override;
-		}
-		$tmp = new stdClass();
-		if (!$this->r_namespacestate) {
-			foreach (get_object_vars( $configobject ) as $namespace=>$values) {
-				$parts = explode( '.', $namespace );
-				$configobject->$parts[0]->$parts[1] = $values;
-			}
-		} else {
-
-			$tmp->$tmpnamespace = new stdClass();
-			foreach (get_object_vars( $configobject ) as $namespace=>$values) {
-				$tmp->$tmpnamespace->$namespace = $values;
-			}
-		}
-		return $tmp;
-	}
-
-	/**
-	 * Friendly name of this format (INI)
-	 * @return string friendly name
-	 */
-	function getFormatName() {
-		return 'INI';
+	function &stringToObject( $data ) {
+		// Use the JParameters class to parse the INI filr		
+		$ini =& new JParameters( $data );
+		
+		return $ini->parse( $data, true );
 	}
 }
 ?>

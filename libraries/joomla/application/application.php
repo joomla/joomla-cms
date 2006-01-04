@@ -33,8 +33,6 @@ class JApplication extends JObject {
 	var $_session			= null;
 	/** @var string The current template */
 	var $_template			= null;
-	/** @var array An array to hold global user state within a session */
-	var $_userstate			= null;
 	/** @var object A JPathWay object */
 	var $_pathway			= null;
 	/** @var boolean True if in the admin client */
@@ -59,62 +57,49 @@ class JApplication extends JObject {
 		$this->_client 		    = $client;
 		$this->_option			= $option;
 
+		$this->_createRegistry( );
 		$this->_createTemplate( );
 		$this->_createPathWay( );
-		$this->_createRegistry( );
+		
 	}
 
 	/**
 	 * Gets the value of a user state variable
 	 *
+	 * @access public
 	 * @param string The name of the variable
+	 * @return The user state
 	 */
-	function getUserState( $var_name ) {
-		if (is_array( $this->_userstate )) {
-			return mosGetParam( $this->_userstate, $var_name, null );
-		} else {
-			return null;
-		}
+	function getUserState( $name ) {
+		return $this->_registry->getValue('user.'.$name);
 	}
 
-	/**
-	 * Get the Registry
-	 *
-	 * @return object Registry object
-	 */
-	function &getRegistry() {
-		return $this->_registry;
-	}
-
-	/**
-	* Gets the value of a user state variable
-	*
-	* @param string The name of the user state variable
-	* @param string The name of the variable passed in a request
-	* @param string The default value for the variable if not found
-	*/
-	function getUserStateFromRequest( $var_name, $req_name, $var_default=null ) {
-		if (is_array( $this->_userstate )) {
-			if (isset( $_REQUEST[$req_name] )) {
-				$this->setUserState( $var_name, $_REQUEST[$req_name] );
-			} else if (!isset( $this->_userstate[$var_name] )) {
-				$this->setUserState( $var_name, $var_default );
-			}
-			return $this->_userstate[$var_name];
-		} else {
-			return null;
-		}
-	}
 	/**
 	* Sets the value of a user state variable
 	*
+	* @access public
 	* @param string The name of the variable
 	* @param string The value of the variable
+	* @return The previous state if exists
 	*/
-	function setUserState( $var_name, $var_value ) {
-		if (is_array( $this->_userstate )) {
-			$this->_userstate[$var_name] = $var_value;
-		}
+	function setUserState( $name, $value ) {
+		return $this->_registry->setValue( 'user.'.$name, $value );
+	}
+	
+	/**
+	* Gets the value of a user state variable
+	*
+	* @access public
+	* @param string The name of the user state variable
+	* @param string The name of the variable passed in a request
+	* @param string The default value for the variable if not found
+	* @return The request user state
+	*/
+	function getUserStateFromRequest( $name, $request, $default=null ) {
+		
+		$value = isset( $_REQUEST[$request] ) ? $_REQUEST[$request] : $default;
+		$this->setUserState( $name, $value );
+		return $value;
 	}
 
 	/**
@@ -212,12 +197,7 @@ class JApplication extends JObject {
 	 * @return mixed 	The value of the configuration variable or null if not found
 	 */
 	function getCfg( $varname ) {
-		$varname = 'mosConfig_' . $varname;
-		if (isset( $GLOBALS[$varname] )) {
-			return $GLOBALS[$varname];
-		} else {
-			return null;
-		}
+		return $this->_registry->getValue('JConfig.'.$varname);
 	}
 
 	/**
@@ -443,14 +423,21 @@ class JApplication extends JObject {
 	 * @access private
 	 */
 	function _createRegistry() {
-		jimport( 'joomla.registry.main' ); 			// Base registry
-		jimport( 'joomla.registry.engines.database' );		// Database Storage Engine
-		jimport( 'joomla.registry.formats.ini' );		// INI Storage Engine
-
-		$ns = 'joomla';						// Default Namespace
-		$format = new JRegistryINIFormat( $ns );		// Create the INI format
-		$engine = new JRegistryDatabaseEngine( $format, $ns );	// Create the Database engine
-		$this->_registry = new JRegistry( $engine );		// Build the whole shebang!
+		
+		jimport( 'joomla.registry.registry' );
+		
+		// Create the registry with a default namespace of JConfig which is read only
+		$this->_registry =& new JRegistry( 'JConfig', true );
+		// Create the user registry namespace
+		$this->_registry->makeNameSpace( 'user' );
+		
+		// Build the config section
+		foreach ($GLOBALS as $k => $v) {
+			if(substr($k, 0, 10) == 'mosConfig_') {
+				$k = substr($k, 10);
+				$this->_registry->_registry['JConfig']['data']->$k = $v;	
+			}
+		}
 	}
 
 	/**

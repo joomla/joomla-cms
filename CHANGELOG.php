@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Jan-2006 Johan Janssens
+ - Removed JRegistry storage engines
+ ^ Simplified JRegistry interface
+
 03-Jan-2006 Andy Miller
  ^ Updated copyright information for iCandy Junior icons
 
