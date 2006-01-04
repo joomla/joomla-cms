@@ -31,7 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
-02-Ja-2006 Johan Janssens
+03-Jan-2006 Andy Miller
+ ^ Updated copyright information for iCandy Junior icons
+
+02-Jan-2006 Johan Janssens
  ^ Deprecated mosPHPMailer, use JMail instead
 
 01-Jan-2006 Johan Janssens

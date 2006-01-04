@@ -122,6 +122,6 @@ License:	GNU Lesser General Public License (LGPL)
 
 FOOOD Icons (Administrator Toolbar)
 ----
-Copyright:	2004 FOOOD's Icons
-License:	http://www.foood.net/joomla.htm
+Copyright:	2004 iCandy Junior Icons
+License:	http://www.iconaholic.com/help/joomla.html
 Notes:		Please note these icons are NOT OPEN SOURCE but used with permission
