@@ -19,9 +19,12 @@ jimport('joomla.common.base.observer');
  * @package 	Joomla.Framework
  * @since 1.0
  */
-class JEventDispatcher extends JObservable {
+class JEventDispatcher extends JObservable 
+{
 	/**
 	* Constructor
+	* 
+	* @access protected
 	*/
 	function __construct() {
 		parent::__construct();
@@ -34,6 +37,7 @@ class JEventDispatcher extends JObservable {
 	 * This method must be invoked as:
 	 * 		<pre>  $dispatcher = &JEventDispatcher::getInstance();</pre>
 	 *
+	 * @access public
 	 * @return JEventDispatcher  The EventDispatcher object.
 	 * @since 1.1
 	 */
@@ -86,28 +90,34 @@ class JEventDispatcher extends JObservable {
 
 		$result = array();
 
-		foreach ($this->_observers as $observer) {
-			if (is_array($observer) && $observer['event'] == $event) {
-				// We are handling a function or JBot
+		foreach ($this->_observers as $observer) 
+		{
+			if (is_array($observer) && $observer['event'] == $event) 
+			{
+				// We are handling a function or a depreceated mambot
 				if (function_exists( $observer['handler'] )) {
 					$result[] = call_user_func_array( $observer['handler'], $args );
 				} else {
 					JError::raiseWarning( 'SOME_ERROR_CODE', 'JEventDispatcher::dispatch: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
 				}
-			} elseif (is_object($observer)) {
-				$args['event'] = $event;
-				$result[] = $observer->update($args);
-			} else {
-				// Continue
-			}
+			} 
+			else
+			{
+				// We are handling an observer object
+				if (is_object($observer)) {
+					$args['event'] = $event;
+					$result[] = $observer->update($args);
+				}
+			} 
 		}
-		
+	
 		return $result;
 	}
 	/**
 	* Same as trigger but only returns the first event and
 	* allows for a variable argument list
 	*
+	* @access public
 	* @param string The event name
 	* @return array The result of the first function call
 	*/

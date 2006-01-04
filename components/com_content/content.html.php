@@ -494,8 +494,8 @@ class HTML_content {
 			echo trim( implode( "\n", $results ) );
 		}
 
-		$results = $mainframe->triggerEvent( 'onBeforeDisplayContent', array( &$row, &$params, $page ) );
-		echo trim( implode( "\n", $results ) );
+		$onBeforeDisplayContent = $mainframe->triggerEvent( 'onBeforeDisplayContent', array( &$row, &$params, $page ) );
+		echo trim( implode( "\n", $onBeforeDisplayContent ) );
 		?>
 
 		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
@@ -534,8 +534,8 @@ class HTML_content {
 		</table>
 		<span class="article_seperator"></span>
 		<?php
-		$results = $mainframe->triggerEvent( 'onAfterDisplayContent', array( &$row, &$params, $page ) );
-		echo trim( implode( "\n", $results ) );
+		$onAfterDisplayContent = $mainframe->triggerEvent( 'onAfterDisplayContent', array( &$row, &$params, $page ) );
+		echo trim( implode( "\n", $onAfterDisplayContent ) );
 
 		// displays the next & previous buttons
 		HTML_content::Navigation ( $row, $params );
