@@ -72,7 +72,7 @@ if ($option == 'logout') {
 // get the information about the current user from the sessions table
 $my = $mainframe->getUser();
 
-$Itemid 	= strtolower( mosGetParam( $_REQUEST, 'Itemid',0 ) );
+$Itemid 	= intval( mosGetParam( $_REQUEST, 'Itemid', 0 ) );
 $no_html 	= intval( mosGetParam( $_REQUEST, 'no_html', 0 ) );
 $do_pdf 	= intval( mosGetParam( $_REQUEST, 'do_pdf', 0 ) );
 
