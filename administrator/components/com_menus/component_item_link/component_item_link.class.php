@@ -86,7 +86,7 @@ class component_item_link_menu {
 		$lists['link'] 		= mosAdminMenus::Link( $menu, $uid, 1 );
 
 		// get params definitions
-		$params = new JParameters( $menu->params, $mainframe->getPath( 'menu_xml', $menu->type ), 'menu' );
+		$params = new JParameters( $menu->params, JApplicationHelper::getPath( 'menu_xml', $menu->type ), 'menu' );
 
 		component_item_link_menu_html::edit( $menu, $lists, $params, $option );
 	}

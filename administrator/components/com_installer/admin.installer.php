@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.installer.installer');
 
-require_once( $mainframe->getPath( 'admin_html' ) );
+require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 $element 	= mosGetParam( $_REQUEST, 'element', '' );
 $client 	= mosGetParam( $_REQUEST, 'client', '' );

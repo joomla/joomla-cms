@@ -20,7 +20,7 @@ if (!$acl->acl_check( 'com_syndicate', 'manage', 'users', $my->usertype )) {
 	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
-require_once( $mainframe->getPath( 'admin_html' ) );
+require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 
 switch ($task) {
@@ -57,7 +57,7 @@ function showSyndicate( $option ) {
 	$row->load( $id );
 
 	// get params definitions
-	$params = new JParameters( $row->params, $mainframe->getPath( 'com_xml', $row->option ), 'component' );
+	$params = new JParameters( $row->params, JApplicationHelper::getPath( 'com_xml', $row->option ), 'component' );
 
 	HTML_syndicate::settings( $option, $params, $id );
 }

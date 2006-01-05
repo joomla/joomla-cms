@@ -15,7 +15,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( $mainframe->getPath( 'admin_html' ) );
+require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 $id 		= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
 $type 		= mosGetParam( $_REQUEST, 'type', false );

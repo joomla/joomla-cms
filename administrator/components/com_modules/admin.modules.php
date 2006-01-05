@@ -20,7 +20,7 @@ if (!($acl->acl_check( 'com_modules', 'manage', 'users', $my->usertype ))) {
 	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
-require_once( $mainframe->getPath( 'admin_html' ) );
+require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 $client 	= mosGetParam( $_REQUEST, 'client', 'site' );
 $cid 		= mosGetParam( $_POST, 'cid', array(0) );
@@ -427,7 +427,7 @@ function editModule( $option, $uid, $client ) {
 	}
 
 	// xml file for module
-	$xmlfile = $mainframe->getPath( $path, $row->module );
+	$xmlfile = JApplicationHelper::getPath( $path, $row->module );
 	$xmlDoc =& JFactory::getXMLParser();
 	$xmlDoc->resolveErrors( true );
 	if ($xmlDoc->loadXML( $xmlfile, false, true )) {

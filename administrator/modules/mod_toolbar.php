@@ -16,7 +16,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( JPATH_ADMINISTRATOR .'/includes/menubar.html.php' );
 
-if ($path = $mainframe->getPath( 'toolbar' )) {
+if ($path = JApplicationHelper::getPath( 'toolbar' )) {
 	include_once( $path );
 }
 ?>

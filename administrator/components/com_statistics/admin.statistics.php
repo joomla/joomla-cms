@@ -14,7 +14,7 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
-require_once( $mainframe->getPath( 'admin_html' ) );
+require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 switch ($task) {
 	case 'searches':

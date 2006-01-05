@@ -20,8 +20,8 @@ if (!$acl->acl_check( 'com_media', 'manage', 'users', $my->usertype )) {
 	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
-require_once( $mainframe->getPath( 'admin_html' ) );
-//require_once( $mainframe->getPath( 'class' ) );
+require_once( JApplicationHelper::getPath( 'admin_html' ) );
+//require_once( JApplicationHelper::getPath( 'class' ) );
 
 /**
  * Makes file name safe to use

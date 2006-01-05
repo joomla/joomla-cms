@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( $mainframe->getPath( 'front_html', 'com_content') );
+require_once( JApplicationHelper::getPath( 'front_html', 'com_content') );
 
 global $my, $mosConfig_shownoauth, $mosConfig_offset, $mosConfig_link_titles, $acl;
 

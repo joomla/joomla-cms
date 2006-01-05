@@ -18,8 +18,8 @@ defined('_JEXEC') or die('Restricted access');
 /*
  * Load the html output class and the model class
  */
-require_once ($mainframe->getPath('front_html'));
-require_once ($mainframe->getPath('class'));
+require_once (JApplicationHelper::getPath('front_html'));
+require_once (JApplicationHelper::getPath('class'));
 
 // First thing we want to do is set the page title
 $mainframe->setPageTitle(JText::_('Web Links'));

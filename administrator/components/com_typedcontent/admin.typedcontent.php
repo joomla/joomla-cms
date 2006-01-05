@@ -15,7 +15,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( $mainframe->getPath( 'admin_html' ) );
+require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 $id 	= mosGetParam( $_REQUEST, 'id', '' );
 $cid 	= mosGetParam( $_POST, 'cid', array(0) );
@@ -286,7 +286,7 @@ function edit( $uid, $option ) {
 	$lists['_caption_position'] = mosHTML::selectList( $pos, '_caption_position', 'class="inputbox" size="1"', 'value', 'text' );
 
 	// get params definitions
-	$params = new JParameters( $row->attribs, $mainframe->getPath( 'com_xml', 'com_typedcontent' ), 'component' );
+	$params = new JParameters( $row->attribs, JApplicationHelper::getPath( 'com_xml', 'com_typedcontent' ), 'component' );
 
 	HTML_typedcontent::edit( $row, $images, $lists, $params, $option, $menus );
 }

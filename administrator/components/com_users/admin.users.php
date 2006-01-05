@@ -19,8 +19,8 @@ if (!$acl->acl_check( 'com_users', 'manage', 'users', $my->usertype )) {
 	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
-require_once( $mainframe->getPath( 'admin_html' ) );
-require_once( $mainframe->getPath( 'class' ) );
+require_once( JApplicationHelper::getPath( 'admin_html' ) );
+require_once( JApplicationHelper::getPath( 'class' ) );
 
 $task 	= mosGetParam( $_REQUEST, 'task' );
 $cid 	= mosGetParam( $_REQUEST, 'cid', array( 0 ) );
@@ -254,7 +254,7 @@ function editUser( $uid='0', $option='users' ) {
 	// build the html select list
 	$lists['sendEmail'] = mosHTML::yesnoRadioList( 'sendEmail', 'class="inputbox" size="1"', $row->sendEmail );
 
-	$file 	= $mainframe->getPath( 'com_xml', 'com_users' );
+	$file 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
 	$params =& new JUserParameters( $row->params, $file, 'component' );
 
 	HTML_users::edituser( $row, $contact, $lists, $option, $uid, $params );

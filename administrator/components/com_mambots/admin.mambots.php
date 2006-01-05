@@ -20,7 +20,7 @@ if (!$acl->acl_check( 'com_mambots', 'manage', 'users', $my->usertype )) {
 		mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
-require_once( $mainframe->getPath( 'admin_html' ) );
+require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 $client = mosGetParam( $_REQUEST, 'client', '' );
 $cid 	= mosGetParam( $_POST, 'cid', array(0) );
@@ -288,7 +288,7 @@ function editMambot( $option, $uid, $client ) {
 	$lists['published'] = mosHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
 
 	// get params definitions
-	$params = new JParameters( $row->params, $mainframe->getPath( 'bot_xml', $row->folder.'/'.$row->element ), 'mambot' );
+	$params = new JParameters( $row->params, JApplicationHelper::getPath( 'bot_xml', $row->folder.'/'.$row->element ), 'mambot' );
 
 	HTML_modules::editMambot( $row, $lists, $params, $option );
 }

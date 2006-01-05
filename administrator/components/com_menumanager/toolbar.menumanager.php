@@ -15,8 +15,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( $mainframe->getPath( 'toolbar_html' ) );
-//require_once( $mainframe->getPath( 'toolbar_default' ) );
+require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
+//require_once( JApplicationHelper::getPath( 'toolbar_default' ) );
 
 switch ($task) {
 	case 'new':

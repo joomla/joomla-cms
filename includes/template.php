@@ -111,7 +111,7 @@ function initDocument(&$doc)
 	$row->load( $id );
 
 	// get params definitions
-	$params = new JParameters( $row->params, $mainframe->getPath( 'com_xml', $row->option ), 'component' );
+	$params = new JParameters( $row->params, JApplicationHelper::getPath( 'com_xml', $row->option ), 'component' );
 
 	$live_bookmark = $params->get( 'live_bookmark', 0 );
 

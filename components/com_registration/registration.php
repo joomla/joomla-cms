@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( $mainframe->getPath( 'front_html' ) );
+require_once( JApplicationHelper::getPath( 'front_html' ) );
 
 $breadcrumbs =& $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, 'Registration');

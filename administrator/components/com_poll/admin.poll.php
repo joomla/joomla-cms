@@ -20,8 +20,8 @@ if (!$acl->acl_check( 'com_poll', 'manage', 'users', $my->usertype )) {
 	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
-require_once( $mainframe->getPath( 'admin_html' ) );
-require_once( $mainframe->getPath( 'class' ) );
+require_once( JApplicationHelper::getPath( 'admin_html' ) );
+require_once( JApplicationHelper::getPath( 'class' ) );
 
 $cid 	= mosGetParam( $_REQUEST, 'cid', array(0) );
 if (!is_array( $cid )) {

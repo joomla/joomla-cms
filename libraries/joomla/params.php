@@ -34,11 +34,14 @@ class JParameters extends JObject
 
 	/**
 	 * Constructor
+	 * 
+	 * @access protected
 	 * @param string The raw parms text
 	 * @param string Path to the xml setup file
 	 * @var string The type of setup file
 	 */
-	function __construct($text, $path = '', $type = 'component') {
+	function __construct($text, $path = '', $type = 'component') 
+	{
 		$this->_params = $this->parse($text);
 		$this->_raw = $text;
 		$this->_path = $path;
@@ -47,6 +50,7 @@ class JParameters extends JObject
 
 	/**
 	 * Returns the params array
+	 * 
 	 * @return object
 	 */
 	function toObject() {
@@ -55,6 +59,7 @@ class JParameters extends JObject
 
 	/**
 	 * Returns a named array of the parameters
+	 * 
 	 * @return object
 	 */
 	function toArray() {
@@ -62,6 +67,9 @@ class JParameters extends JObject
 	}
 
 	/**
+	 * Set a value
+	 * 
+	 * @access public
 	 * @param string The name of the param
 	 * @param string The value of the parameter
 	 * @return string The set value
@@ -73,6 +81,8 @@ class JParameters extends JObject
 
 	/**
 	 * Sets a default value if not alreay assigned
+	 * 
+	 * @access public
 	 * @param string The name of the param
 	 * @param string The value of the parameter
 	 * @return string The set value
@@ -82,11 +92,15 @@ class JParameters extends JObject
 	}
 
 	/**
+	 * Get a value
+	 * 
+	 * @access public
 	 * @param string The name of the param
 	 * @param mixed The default value if not found
 	 * @return string
 	 */
-	function get($key, $default = '') {
+	function get($key, $default = '') 
+	{
 		if (isset ($this->_params-> $key)) {
 			return $this->_params-> $key === '' ? $default : $this->_params-> $key;
 		} else {
@@ -96,11 +110,14 @@ class JParameters extends JObject
 
 	/**
 	 * Parse an .ini string, based on phpDocumentor phpDocumentor_parse_ini_file function
+	 * 
+	 * @access public
 	 * @param mixed The ini string or array of lines
 	 * @param boolean add an associative index for each section [in brackets]
 	 * @return object
 	 */
-	function parse($txt, $process_sections = false, $asArray = false) {
+	function parse($txt, $process_sections = false, $asArray = false) 
+	{
 		if (is_string($txt)) {
 			$lines = explode("\n", $txt);
 		} else
@@ -215,7 +232,8 @@ class JParameters extends JObject
 	 * @param string The name of the control, or the default text area if a setup file is not found
 	 * @return string HTML
 	 */
-	function render($name = 'params') {
+	function render($name = 'params') 
+	{
 		if ($this->_path) {
 			if (!is_object($this->_xmlElem)) {
 

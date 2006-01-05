@@ -15,8 +15,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( $mainframe->getPath( 'front_html' ) );
-require_once( $mainframe->getPath( 'class' ) );
+require_once( JApplicationHelper::getPath( 'front_html' ) );
+require_once( JApplicationHelper::getPath( 'class' ) );
 
 $breadcrumbs =& $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, 'Polls');

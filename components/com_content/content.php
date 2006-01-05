@@ -15,7 +15,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( $mainframe->getPath( 'front_html', 'com_content' ) );
+require_once( JApplicationHelper::getPath( 'front_html', 'com_content' ) );
 
 $id			= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
 $sectionid 	= intval( mosGetParam( $_REQUEST, 'sectionid', 0 ) );
@@ -1524,7 +1524,7 @@ function saveContent( &$access, $task ) {
 	}
 
 	// manage frontpage items
-	require_once( $mainframe->getPath( 'class', 'com_frontpage' ) );
+	require_once( JApplicationHelper::getPath( 'class', 'com_frontpage' ) );
 	$fp = new mosFrontPage( $database );
 
 	if ( mosGetParam( $_REQUEST, 'frontpage', 0 ) ) {

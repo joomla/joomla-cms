@@ -95,7 +95,7 @@ if ( $do_pdf == 1 ){
 
 //render raw component output
 if($no_html == 1) {
-	$path = $mainframe->getPath( 'front', $option );
+	$path = JApplicationHelper::getPath( 'front', $option );
 	$task 	= mosGetParam( $_REQUEST, 'task', '' );
 	
 	//load common language files

@@ -20,7 +20,7 @@ $access = new stdClass();
 $access->canEdit = $acl->acl_check( 'action', 'edit', 'users', $my->usertype, 'content', 'all' );
 $access->canEditOwn = $acl->acl_check( 'action', 'edit', 'users', $my->usertype, 'content', 'own' );
 
-require_once ( $mainframe->getPath( 'front_html' ) );
+require_once ( JApplicationHelper::getPath( 'front_html' ) );
 
 $breadcrumbs =& $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, 'User');
@@ -114,7 +114,7 @@ function userEdit( $option, $uid, $submitvalue) {
 	$row->load( $uid );
 	$row->orig_password = $row->password;
 
-	$file 	= $mainframe->getPath( 'com_xml', 'com_users' );
+	$file 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
 	$params =& new JUserParameters( $row->params, $file, 'component' );
 
 	HTML_user::userEdit( $row, $option, $submitvalue, $params );

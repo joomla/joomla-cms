@@ -16,7 +16,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 // load the html drawing class
-require_once( $mainframe->getPath( 'front_html' ) );
+require_once( JApplicationHelper::getPath( 'front_html' ) );
 
 global $database, $my;
 

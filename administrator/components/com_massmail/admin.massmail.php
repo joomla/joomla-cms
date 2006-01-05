@@ -20,7 +20,7 @@ if (!$acl->acl_check( 'com_massmail', 'manage', 'users', $my->usertype )) {
 	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
-require_once( $mainframe->getPath( 'admin_html' ) );
+require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 switch ($task) {
 	case 'send':

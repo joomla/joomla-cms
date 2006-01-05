@@ -15,7 +15,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( $mainframe->getPath( 'admin_html' ) );
+require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 $sectionid 	= mosGetParam( $_REQUEST, 'sectionid', 0 );
 $id 		= mosGetParam( $_REQUEST, 'id', '' );
@@ -577,7 +577,7 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 
 
 	// get params definitions
-	$params = new JParameters( $row->attribs, $mainframe->getPath( 'com_xml', 'com_content' ), 'component' );
+	$params = new JParameters( $row->attribs, JApplicationHelper::getPath( 'com_xml', 'com_content' ), 'component' );
 
 	HTML_content::editContent( $row, $contentSection, $lists, $sectioncategories, $images, $params, $option, $redirect, $menus );
 }
@@ -654,7 +654,7 @@ function saveContent( $sectionid, $task ) {
 	}
 
 	// manage frontpage items
-	require_once( $mainframe->getPath( 'class', 'com_frontpage' ) );
+	require_once( JApplicationHelper::getPath( 'class', 'com_frontpage' ) );
 	$fp = new mosFrontPage( $database );
 
 	if (mosGetParam( $_REQUEST, 'frontpage', 0 )) {
@@ -806,7 +806,7 @@ function toggleFrontPage( $cid, $section, $option ) {
 	}
 
 	$msg = '';
-	require_once( $mainframe->getPath( 'class', 'com_frontpage' ) );
+	require_once( JApplicationHelper::getPath( 'class', 'com_frontpage' ) );
 
 	$fp = new mosFrontPage( $database );
 	foreach ($cid as $id) {

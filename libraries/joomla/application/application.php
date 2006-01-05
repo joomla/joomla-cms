@@ -175,7 +175,6 @@ class JApplication extends JObject {
 	function logout() {
 
 		$auth = &JAuth::getInstance();
-
 		return $auth->logout();
 	}
 
@@ -570,126 +569,6 @@ class JApplication extends JObject {
 	}
 
 	/**
-	 * Tries to find a file in the administrator or site areas
-	 * @param string A file name
-	 * @param int 0 to check site, 1 to check site and admin only, -1 to check admin only
-	 * @since 1.1
-	 */
-	function _checkPath( $path, $checkAdmin=1 ) {
-		$file = JPATH_SITE . $path;
-		if ($checkAdmin > -1 && file_exists( $file )) {
-			return $file;
-		} else if ($checkAdmin != 0) {
-			$file = JPATH_ADMINISTRATOR . $path;
-			if (file_exists( $file )) {
-				return $file;
-			}
-		}
-
-		return null;
-	}
-	
-	/**
-	* Get a path 
-	* 
-	* @access public
-	* @return string
-	*/
-	function getPath( $varname, $user_option=null ) 
-	{
-		// check needed for handling of custom/new module xml file loading
-		$check = ( ( $varname == 'mod0_xml' ) || ( $varname == 'mod1_xml' ) );
-		
-		if ( !$user_option && !$check ) {
-			$user_option = $GLOBALS['option'];
-		}
-
-		$result = null;
-		$name 	= substr( $user_option, 4 );
-
-		switch ($varname) {
-			case 'front':
-				$result = $this->_checkPath( '/components/'. $user_option .'/'. $name .'.php', 0 );
-				break;
-
-			case 'html':
-			case 'front_html':
-				if ( !( $result = $this->_checkPath( '/templates/'. $this->_template .'/components/'. $name .'.html.php', 0 ) ) ) {
-					$result = $this->_checkPath( '/components/'. $user_option .'/'. $name .'.html.php', 0 );
-				}
-				break;
-
-			case 'toolbar':
-				$result = $this->_checkPath( '/components/'. $user_option .'/toolbar.'. $name .'.php', -1 );
-				break;
-
-			case 'toolbar_html':
-				$result = $this->_checkPath( '/components/'. $user_option .'/toolbar.'. $name .'.html.php', -1 );
-				break;
-
-			case 'toolbar_default':
-			case 'toolbar_front':
-				$result = $this->_checkPath( '/includes/HTML_toolbar.php', 0 );
-				break;
-			
-			case 'admin':
-				$path 	= '/components/'. $user_option .'/admin.'. $name .'.php';
-				$result = $this->_checkPath( $path, -1 );
-				break;
-
-			case 'admin_html':
-				$path	= '/components/'. $user_option .'/admin.'. $name .'.html.php';
-				$result = $this->_checkPath( $path, -1 );
-				break;
-
-			case 'class':
-				if ( !( $result = $this->_checkPath( '/components/'. $user_option .'/'. $name .'.class.php' ) ) ) {
-					$result = $this->_checkPath( '/includes/'. $name .'.php' );
-				}
-				break;
-
-			case 'com_xml':
-				$path 	= '/components/'. $user_option .'/'. $name .'.xml';
-				$result = $this->_checkPath( $path, 1 );
-				break;
-
-			case 'mod0_xml':
-				// Site modules
-				if ( $user_option == '' ) {
-					$path = '/modules/custom.xml';
-				} else {
-					$path = '/modules/'. $user_option .'.xml';
-				}
-				$result = $this->_checkPath( $path, 0 );
-				break;
-
-			case 'mod1_xml':
-				// admin modules
-				if ($user_option == '') {
-					$path = '/modules/custom.xml';
-				} else {
-					$path = '/modules/'. $user_option .'.xml';
-				}
-				$result = $this->_checkPath( $path, -1 );
-				break;
-
-			case 'bot_xml':
-				// Site mambots
-				$path 	= '/mambots/'. $user_option .'.xml';
-				$result = $this->_checkPath( $path, 0 );
-				break;
-
-			case 'menu_xml':
-				$path 	= '/components/com_menus/'. $user_option .'/'. $user_option .'.xml';
-				$result = $this->_checkPath( $path, -1 );
-				break;
-		}
-
-		return $result;
-	}
-
-
-	/**
 	 * Gets the client id
 	 * @param mixed A client identifier
 	 * @since 1.1
@@ -846,17 +725,33 @@ class JApplication extends JObject {
 	function getContentItemLinkCount( ) {
 		return JApplicationHelper::getContentItemLinkCount( );
 	}
+	
+	/**
+	* Depreacted, use JApplicationHelper::getPath instead
+	* @since 1.1
+	*/
+	function getPath($varname, $user_option=null) {
+		return JApplicationHelper::getPath ($varname, $user_option);
+	}
 }
 
 /**
+ * Application helper functions
+ * 
+ * @static
  * @package Joomla.Framework
  * @subpackage Application
+ * @since 1.1
  */
 class JApplicationHelper
 {
 	/**
-	* @return correct Itemid for Content Item
-	*/
+	 * Get the itemid for a content item
+	 * 
+	 * @access public
+	 * @return integer
+	 * @since 1.0
+	 */
 	function getItemid( $id, $typed=1, $link=1, $bs=1, $bc=1, $gbs=1 ) {
 		global $Itemid, $database;
 
@@ -961,8 +856,12 @@ class JApplicationHelper
 	}
 
 	/**
-	* @return number of Published Blog Sections
-	*/
+	 * Get the total number of published blog sections
+	 * 
+	 * @access public 
+	 * @return integer
+	 * @since 1.0
+	 */
 	function getBlogSectionCount( ) {
 		global $database;
 
@@ -977,8 +876,12 @@ class JApplicationHelper
 	}
 
 	/**
-	* @return number of Published Blog Categories
-	*/
+	 * Get the total number of published blog categories
+	 * 
+	 * @access public
+	 * @return integer
+	 * @since 1.0
+	 */
 	function getBlogCategoryCount( ) {
 		global $database;
 
@@ -993,8 +896,12 @@ class JApplicationHelper
 	}
 
 	/**
-	* @return number of Published Global Blog Sections
-	*/
+	 * Get the total number of published blog sections
+	 * 
+	 * @access public
+	 * @return integer
+	 * @since 1.0
+	 */
 	function getGlobalBlogSectionCount( ) {
 		global $database;
 
@@ -1010,8 +917,12 @@ class JApplicationHelper
 	}
 
 	/**
-	* @return number of Static Content
-	*/
+	 * Get the total number of published static content items
+	 * 
+	 * @access public
+	 * @return integer
+	 * @since 1.0 
+	 */
 	function getStaticContentCount( ) {
 		global $database;
 
@@ -1026,8 +937,12 @@ class JApplicationHelper
 	}
 
 	/**
-	* @return number of Content Item Links
-	*/
+	 * Get the total number of published content items
+	 * 
+	 * @access public
+	 * @return integer
+	 * @since 1.0
+	 */
 	function getContentItemLinkCount( ) {
 		global $database;
 
@@ -1039,6 +954,131 @@ class JApplicationHelper
 		$database->setQuery( $query );
 		$count = $database->loadResult();
 		return $count;
+	}
+	
+	/**
+	* Get a path 
+	* 
+	* @access public
+	* @param string $varname
+	* @param string $user_option
+	* @return string The requested path
+	* @since 1.0
+	*/
+	function getPath( $varname, $user_option=null ) 
+	{
+		// check needed for handling of custom/new module xml file loading
+		$check = ( ( $varname == 'mod0_xml' ) || ( $varname == 'mod1_xml' ) );
+		
+		if ( !$user_option && !$check ) {
+			$user_option = $GLOBALS['option'];
+		}
+
+		$result = null;
+		$name 	= substr( $user_option, 4 );
+
+		switch ($varname) {
+			case 'front':
+				$result = JApplicationHelper::_checkPath( '/components/'. $user_option .'/'. $name .'.php', 0 );
+				break;
+
+			case 'html':
+			case 'front_html':
+				if ( !( $result = JApplicationHelper::_checkPath( '/templates/'. $this->_template .'/components/'. $name .'.html.php', 0 ) ) ) {
+					$result = JApplicationHelper::_checkPath( '/components/'. $user_option .'/'. $name .'.html.php', 0 );
+				}
+				break;
+
+			case 'toolbar':
+				$result = JApplicationHelper::_checkPath( '/components/'. $user_option .'/toolbar.'. $name .'.php', -1 );
+				break;
+
+			case 'toolbar_html':
+				$result = JApplicationHelper::_checkPath( '/components/'. $user_option .'/toolbar.'. $name .'.html.php', -1 );
+				break;
+
+			case 'toolbar_default':
+			case 'toolbar_front':
+				$result = JApplicationHelper::_checkPath( '/includes/HTML_toolbar.php', 0 );
+				break;
+			
+			case 'admin':
+				$path 	= '/components/'. $user_option .'/admin.'. $name .'.php';
+				$result = JApplicationHelper::_checkPath( $path, -1 );
+				break;
+
+			case 'admin_html':
+				$path	= '/components/'. $user_option .'/admin.'. $name .'.html.php';
+				$result = JApplicationHelper::_checkPath( $path, -1 );
+				break;
+
+			case 'class':
+				if ( !( $result = JApplicationHelper::_checkPath( '/components/'. $user_option .'/'. $name .'.class.php' ) ) ) {
+					$result = JApplicationHelper::_checkPath( '/includes/'. $name .'.php' );
+				}
+				break;
+
+			case 'com_xml':
+				$path 	= '/components/'. $user_option .'/'. $name .'.xml';
+				$result = JApplicationHelper::_checkPath( $path, 1 );
+				break;
+
+			case 'mod0_xml':
+				// Site modules
+				if ( $user_option == '' ) {
+					$path = '/modules/custom.xml';
+				} else {
+					$path = '/modules/'. $user_option .'.xml';
+				}
+				$result = JApplicationHelper::_checkPath( $path, 0 );
+				break;
+
+			case 'mod1_xml':
+				// admin modules
+				if ($user_option == '') {
+					$path = '/modules/custom.xml';
+				} else {
+					$path = '/modules/'. $user_option .'.xml';
+				}
+				$result = JApplicationHelper::checkPath( $path, -1 );
+				break;
+
+			case 'bot_xml':
+				// Site mambots
+				$path 	= '/mambots/'. $user_option .'.xml';
+				$result = JApplicationHelper::checkPath( $path, 0 );
+				break;
+
+			case 'menu_xml':
+				$path 	= '/components/com_menus/'. $user_option .'/'. $user_option .'.xml';
+				$result = JApplicationHelper::checkPath( $path, -1 );
+				break;
+		}
+
+		return $result;
+	}
+	
+	/**
+	 * Tries to find a file in the administrator or site areas
+	 * 
+	 * @access private
+	 * @param string 	$parth			A file name
+	 * @param integer 	$checkAdmin		0 to check site, 1 to check site and admin only, -1 to check admin only
+	 * @since 1.1
+	 */
+	function _checkPath( $path, $checkAdmin=1 ) 
+	{
+		$file = JPATH_SITE . $path;
+		if ($checkAdmin > -1 && file_exists( $file )) {
+			return $file;
+		} else if ($checkAdmin != 0) {
+			$file = JPATH_ADMINISTRATOR . $path;
+			if (file_exists( $file )) {
+				return $file;
+			}
+		}
+
+		return null;
 	}
 }
 

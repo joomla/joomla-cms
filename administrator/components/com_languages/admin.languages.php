@@ -21,7 +21,7 @@ if (!$acl->acl_check( 'com_languages', 'manage', 'users', $my->usertype )) {
 }
 
 
-require_once( $mainframe->getPath( 'admin_html' ) );
+require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 $task 	= trim( strtolower( mosGetParam( $_REQUEST, 'task', '' ) ) );
 $cid 	= mosGetParam( $_REQUEST, 'cid', array(0) );

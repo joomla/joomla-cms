@@ -112,7 +112,7 @@ function viewbanner() {
 function clickbanner( $bid ) {
 	global $database, $mainframe;
 
-	require_once( $mainframe->getPath( 'class' ) );
+	require_once( JApplicationHelper::getPath( 'class' ) );
 
 	$row = new mosBanner($database);
 	$row->load($bid);

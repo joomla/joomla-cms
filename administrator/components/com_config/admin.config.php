@@ -19,8 +19,8 @@ if (!$acl->acl_check( 'com_config', 'manage', 'users', $my->usertype )) {
 	mosRedirect( 'index2.php?', JText::_('ALERTNOTAUTH') );
 }
 
-require_once( $mainframe->getPath( 'class' ) );
-require_once( $mainframe->getPath( 'admin_html' ) );
+require_once( JApplicationHelper::getPath( 'class' ) );
+require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 switch ( $task ) {
 	case 'apply':

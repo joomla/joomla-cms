@@ -20,7 +20,7 @@ if (!$acl->acl_check( 'com_templates', 'manage', 'users', $GLOBALS['my']->userty
 	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
-require_once( $mainframe->getPath( 'admin_html' ) );
+require_once( JApplicationHelper::getPath( 'admin_html' ) );
 require_once( JPATH_ADMINISTRATOR .'/components/com_templates/admin.templates.class.php' );
 
 $cid 	= mosGetParam( $_REQUEST, 'cid', array(0) );

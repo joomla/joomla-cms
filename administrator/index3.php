@@ -67,7 +67,7 @@ $my->params = new JParameters( $params );
 
 //render raw component output
 if($no_html == 1) {
-	$path = $mainframe->getPath( 'admin', $option );
+	$path = JApplicationHelper::getPath( 'admin', $option );
 	
 	//load common language files
 	$lang =& $mainframe->getLanguage();
