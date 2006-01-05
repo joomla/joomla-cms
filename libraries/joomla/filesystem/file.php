@@ -184,19 +184,23 @@ class JFile {
 		$ftp = & JFTP::getInstance($ftpHost);
 		$ftp->login($ftpUser, $ftpPass);
 
-		$failed = 0;
+		$retval = true;
 		foreach ($files as $file) {
 			$file = JPath::clean($file, false);
 			JPath::check($file);
 
 			if ($ftpFlag == true || !is_writable($file)) {
-				$failed |= $ftp->delete(JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $file)));
+				$fail = $ftp->delete(JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $file)));
 			} else {
-				$failed |= !unlink($file);
+				$fail = !unlink($file);
+			}
+			
+			if (!$fail) {
+				$retval = $fail;
 			}
 		}
 		$ftp->quit();
-		return !$failed;
+		return $retval;
 	}
 
 	/**

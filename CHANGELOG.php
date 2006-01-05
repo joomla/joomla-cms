@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Jan-2006 Johan Janssens
+ + Refactored administrator/com_installer - contributed by Louis Landry
+
 04-Jan-2006 Johan Janssens
  - Removed JRegistry storage engines
  ^ Simplified JRegistry interface

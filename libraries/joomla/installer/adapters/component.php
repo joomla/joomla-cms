@@ -18,34 +18,20 @@
  * @subpackage 	Installer
  * @since 1.1
  */
-class JInstallerComponent extends JInstaller
-{
-	var $i_componentadmindir 	= '';
-	var $i_hasinstallfile 		= false;
-	var $i_installfile 			= '';
+class JInstallerComponent extends JInstaller {
 
 	/**
-	 * Constructor
-	 *
-	 * @access protected
-	 */
-	function __construct() {
-		parent::__construct();
-	}
-
-	/**
-	 * Custom install method
+	 * Custom install method for components
 	 *
 	 * @access public
 	 * @param string $p_fromdir Directory from which to install the component
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.0
 	 */
 	function install($p_fromdir) {
-		global $mainframe;
 
 		// Get database connector object
-		$db =& $mainframe->getDBO();
+		$db =& $this->_db;
 
 		/*
 		 * First lets set the installation directory, find and check the installation file and verify
@@ -55,34 +41,35 @@ class JInstallerComponent extends JInstaller
 			return false;
 		}
 
-		// aje moved down to here. ??  seemed to be some referencing problems
-		$xmlDoc 	= $this->xmlDoc();
-		$jinstall = &$xmlDoc->documentElement;
+		// Get the root node of the XML document
+		$root =& $this->i_xmldoc->documentElement;
 
-		// Set some necessary variables
-		$e = &$jinstall->getElementsByPath('name', 1);
-		$this->elementName($e->getText());
-		$this->elementDir( JPath::clean( JPATH_SITE . DS ."components". DS
-			. strtolower("com_" . str_replace(" ","",$this->elementName())) . DS )
-		);
-		$this->componentAdminDir( JPath::clean( JPATH_SITE . DS."administrator".DS."components".DS
-			. strtolower( "com_" . str_replace( " ","",$this->elementName() ) ) )
-		);
+		/*
+		 * Set the component name
+		 */
+		$e = &$root->getElementsByPath('name', 1);
+		$this->i_extensionName = $e->getText();
+
+		/*
+		 * Set the installation target paths
+		 */
+		$this->i_extensionDir = JPath::clean(JPATH_SITE . DS . "components" . DS . strtolower("com_".str_replace(" ", "", $this->i_extensionName)) .DS);
+		$this->i_extensionAdminDir = JPath::clean(JPATH_ADMINISTRATOR . DS . "components" . DS . strtolower("com_".str_replace(" ", "", $this->i_extensionName)) .DS);
 
 		/*
 		 * If the component directory already exists, then we will assume that the component is already
 		 * installed or another component is using that directory.
 		 */
-		if (file_exists($this->elementDir())) {
-			$this->setError( 1, JText::_( 'Another component is already using directory' ) .': "' . $this->elementDir() . '"' );
+		if (file_exists($this->i_extensionDir)) {
+			JError::raiseWarning( 1, 'JInstallerComponent::install: ' . JText::_( 'Another component is already using directory' ) .': "' . $this->i_extensionDir . '"');
 			return false;
 		}
 
 		/*
 		 * If the component directory does not exists, lets create it
 		 */
-		if(!file_exists($this->elementDir()) && !JFolder::create($this->elementDir())) {
-			$this->setError( 1, JText::_( 'Failed to create directory' ) .' "' . $this->elementDir() . '"' );
+		if(!file_exists($this->i_extensionDir) && !JFolder::create($this->i_extensionDir)) {
+			JError::raiseWarning( 1, 'JInstallerComponent::install: ' . JText::_( 'Failed to create directory' ) .': "' . $this->i_extensionDir . '"');
 			return false;
 		}
 
@@ -90,14 +77,13 @@ class JInstallerComponent extends JInstaller
 		 * Since we created the component directory and will want to remove it if we have to roll back
 		 * the installation, lets add it to the installation step stack
 		 */
-		$step = array('type' => 'folder', 'path' => $this->elementDir());
-		$this->i_stepstack[] = $step;
+		$this->i_stepStack[] = array('type' => 'folder', 'path' => $this->i_extensionDir);
 
 		/*
 		 * If the component admin directory does not exist, lets create it as well
 		 */
-		if(!file_exists($this->componentAdminDir()) && !JFolder::create($this->componentAdminDir())) {
-			$this->setError( 1, JText::_( 'Failed to create directory' ) .' "' . $this->componentAdminDir() . '"' );
+		if(!file_exists($this->i_extensionAdminDir) && !JFolder::create($this->i_extensionAdminDir)) {
+			JError::raiseWarning( 1, 'JInstallerComponent::install: ' . JText::_( 'Failed to create directory' ) .': "' . $this->i_extensionAdminDir . '"');
 
 			// Install failed, rollback any changes
 			$this->_rollback();
@@ -108,69 +94,70 @@ class JInstallerComponent extends JInstaller
 		 * Since we created the component admin directory and we will want to remove it if we have to roll
 		 * back the installation, lets add it to the installation step stack
 		 */
-		$step = array('type' => 'folder', 'path' => $this->componentAdminDir());
-		$this->i_stepstack[] = $step;
+		$this->i_stepStack[] = array('type' => 'folder', 'path' => $this->i_extensionAdminDir);
 
 		// Find files to copy
-		if ($this->parseFiles( 'files' ) === false) {
+		if ($this->_parseFiles( 'files' ) === false) {
 
 			// Install failed, rollback any changes
 			$this->_rollback();
 			return false;
 		}
-		$this->parseFiles( 'images' );
-		$this->parseFiles( 'languages' );
-		$this->parseFiles( 'administration/languages' );
-		$this->parseFiles( 'administration/files','','',1 );
-		$this->parseFiles( 'administration/images','','',1 );
+		if ($this->_parseFiles( 'administration/files','','',1 ) === false) {
+			
+			// Install failed, rollback any changes
+			$this->_rollback();
+			return false;
+		}
 
 		/*
-		 * Now lets check and see if we have any database queries, if so lets run them.
+		 * Parse optional files tags
 		 */
-		$query_element = &$jinstall->getElementsByPath('install/queries', 1);
-		if (!is_null($query_element)) {
-			$queries = $query_element->childNodes;
-			foreach($queries as $query) {
+		$this->_parseFiles( 'images' );
+		$this->_parseFiles( 'administration/images','','',1 );
+		$this->_parseFiles( 'media' );
+		$this->_parseFiles( 'languages' );
+		$this->_parseFiles( 'administration/languages' );
 
-				$db->setQuery( $query->getText());
-				if (!$db->query()) {
-					$this->setError( 1, JText::_( 'SQL Error' ) ." " . $db->stderr( true ) );
+		/*
+		 * Let's run the install queries for the component
+		 */		
+		if ($this->_parseQueries( 'install/queries' ) === false) {
+			JError::raiseWarning( 1, 'JInstallerComponent::install: ' . JText::_( 'SQL Error' ) ." " . $db->stderr( true ));
 
-					// Install failed, rollback changes
-					$this->_rollback();
-					return false;
-				}
-			}
+			// Install failed, rollback changes
+			$this->_rollback();
+			return false;
 		}
 
 		/*
 		 * If there is an install file, lets copy it.
 		 */
-		$installfile_elemet = &$jinstall->getElementsByPath('installfile', 1);
-		if (!is_null($installfile_elemet)) {
+		$installScriptElement =& $root->getElementsByPath('installfile', 1);
+		if (!is_null($installScriptElement)) {
 			// Make sure it hasn't already been copied (this would be an error in the xml install file)
-			if (!file_exists($this->componentAdminDir().$installfile_elemet->getText())) {
-				if(!$this->copyFiles($this->installDir(), $this->componentAdminDir(), array($installfile_elemet->getText())))  			{
-					$this->setError( 1, JText::_( 'Could not copy PHP install file.' ) );
+			if (!file_exists($this->i_extensionAdminDir.$installScriptElement->getText())) {
+				if(!$this->_copyFiles($this->i_installDir, $this->i_extensionAdminDir, array($installScriptElement->getText()))) {
+					JError::raiseWarning( 1, 'JInstallerComponent::install: ' . JText::_( 'Could not copy PHP install file.' ));
 
 					// Install failed, rollback changes
 					$this->_rollback();
 					return false;
 				}
 			}
-			$this->hasInstallfile(true);
-			$this->installFile($installfile_elemet->getText());
+			$this->i_hasInstallScript = true;
+			$this->i_installScript = $installScriptElement->getText();
 		}
 
 		/*
-		 * If there is an uninstall file, lets copy it too.
+		 * If there is an uninstall file, lets copy it.
 		 */
-		$uninstallfile_elemet = &$jinstall->getElementsByPath('uninstallfile',1);
-		if(!is_null($uninstallfile_elemet)) {
+		$uninstallScriptElement =& $root->getElementsByPath('uninstallfile', 1);
+		if (!is_null($uninstallScriptElement)) {
 			// Make sure it hasn't already been copied (this would be an error in the xml install file)
-			if (!file_exists($this->componentAdminDir().$uninstallfile_elemet->getText())) {
-				if(!$this->copyFiles($this->installDir(), $this->componentAdminDir(), array($uninstallfile_elemet->getText()))) {
-					$this->setError( 1, JText::_( 'Could not copy PHP uninstall file.' ) );
+			if (!file_exists($this->i_extensionAdminDir.$uninstallScriptElement->getText())) {
+				if(!$this->_copyFiles($this->i_installDir, $this->i_extensionAdminDir, array($uninstallScriptElement->getText()))) {
+					JError::raiseWarning( 1, 'JInstallerComponent::install: ' . JText::_( 'Could not copy PHP uninstall file.' ));
 
 					// Install failed, rollback changes
 					$this->_rollback();
@@ -182,19 +169,30 @@ class JInstallerComponent extends JInstaller
 		/*
 		 * Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
 		 */
-		$adminmenu_element = &$jinstall->getElementsByPath('administration/menu',1);
-		if(!is_null($adminmenu_element)) {
+		$adminMenuElement =& $root->getElementsByPath('administration/menu',1);
+		if(!is_null($adminMenuElement)) {
 
 			// Initialize some variables
-			$adminsubmenu_element	= &$jinstall->getElementsByPath('administration/submenu',1);
-			$com_name				= strtolower("com_" . str_replace(" ","",$this->elementName()));
-			$com_admin_menuname		= $adminmenu_element->getText();
+			$adminSubmenuElement	=& $root->getElementsByPath('administration/submenu',1);
+			$comName				= strtolower("com_" . str_replace(" ","",$this->i_extensionName));
+			$comAdminMenuName		= $adminMenuElement->getText();
+			$comImg 				= "js/ThemeOffice/component.png";
+			
+			/*
+			 * Handle custom menu image
+			 */
+			if ($adminMenuElement->hasAttribute( 'img' )) {
+				$comImg = $adminMenuElement->getAttribute( 'img' );	
+			}
+			
+			/*
+			 * Do we have submenus?
+			 */
+			if(!is_null($adminSubmenuElement)) {
 
-			if(!is_null($adminsubmenu_element)) {
-
-				// Lets create the component root menu
-				$com_admin_menu_id	= $this->createParentMenu($com_admin_menuname,$com_name);
-				if($com_admin_menu_id === false) {
+				// Lets create the component root menu item
+				$comAdminMenuId	= $this->_createParentMenu($comAdminMenuName, $comName, $comImg);
+				if($comAdminMenuId === false) {
 
 					// Install failed, rollback changes
 					$this->_rollback();
@@ -205,42 +203,58 @@ class JInstallerComponent extends JInstaller
 				 * Since we have created a menu item, we add it to the installation step stack
 				 * so that if we have to rollback the changes we can undo it.
 				 */
-				$step = array('type' => 'menu', 'id' => $com_admin_menu_id);
-				$this->i_stepstack[] = $step;
+				$this->i_stepStack[] = array('type' => 'menu', 'id' => $comAdminMenuId);
 
 				// Get the submenus array
-				$com_admin_submenus = $adminsubmenu_element->childNodes;
+				$comAdminSubMenus = $adminSubmenuElement->childNodes;
 
-				// Lets build the submenus
-				$submenuordering = 0;
-				foreach($com_admin_submenus as $admin_submenu) {
+				// SubMenu Ordering value
+				$subMenuOrdering = 0;
+				
+				/*
+				 * Lets build the submenus
+				 */
+				foreach($comAdminSubMenus as $adminSubMenu) {
 					$com = new JComponentModel( $db );
-					$com->name		= $admin_submenu->getText();
+					$com->name		= $adminSubMenu->getText();
 					$com->link		= '';
 					$com->menuid	= 0;
-					$com->parent	= $com_admin_menu_id;
+					$com->parent	= $comAdminMenuId;
 					$com->iscore	= 0;
+					$com->admin_menu_alt = $adminSubMenu->getText();
+					$com->option = $comName;
+					$com->ordering = $subMenuOrdering++;
 
-					if ( $admin_submenu->getAttribute("act")) {
-						$com->admin_menu_link = "option=$com_name&act=" . $admin_submenu->getAttribute("act");
+					/*
+					 * Set the sub menu link
+					 */
+					if ( $adminSubMenu->getAttribute("act")) {
+						$com->admin_menu_link = "option=$comName&act=" . $adminSubMenu->getAttribute("act");
 					}
-					else if ($admin_submenu->getAttribute("task")) {
-						$com->admin_menu_link = "option=$com_name&task=" . $admin_submenu->getAttribute("task");
+					else if ($adminSubMenu->getAttribute("task")) {
+						$com->admin_menu_link = "option=$comName&task=" . $adminSubMenu->getAttribute("task");
 					}
-					else if ($admin_submenu->getAttribute("link")) {
-						$com->admin_menu_link = $admin_submenu->getAttribute("link");
+					else if ($adminSubMenu->getAttribute("link")) {
+						$com->admin_menu_link = $adminSubMenu->getAttribute("link");
 					}
 					else {
-						$com->admin_menu_link = "option=$com_name";
+						$com->admin_menu_link = "option=$comName";
 					}
 
-					$com->admin_menu_alt = $admin_submenu->getText();
-					$com->option = $com_name;
-					$com->ordering = $submenuordering++;
-					$com->admin_menu_img = "js/ThemeOffice/component.png";
+					/*
+					 * Set the sub menu image
+					 */
+					if ( $adminSubMenu->getAttribute("img")) {
+						$com->admin_menu_img = $adminSubMenu->getAttribute("img");
+					} else {
+						$com->admin_menu_img = "js/ThemeOffice/component.png";
+					}
 
+					/*
+					 * Store the sub menu
+					 */
 					if (!$com->store()) {
-						$this->setError( 1, $db->stderr( true ) );
+						JError::raiseWarning( 1, 'JInstallerComponent::install: ' . JText::_( 'SQL Error' ) ." " . $db->stderr( true ));
 
 						// Install failed, rollback changes
 						$this->_rollback();
@@ -251,43 +265,52 @@ class JInstallerComponent extends JInstaller
 					 * Since we have created a menu item, we add it to the installation step stack
 					 * so that if we have to rollback the changes we can undo it.
 					 */
-					$step = array('type' => 'menu', 'id' => $com->_db->insertid());
-					$this->i_stepstack[] = $step;
+					$this->i_stepStack[] = array('type' => 'menu', 'id' => $com->_db->insertid());
 				}
 			} else {
 
 				// No submenus, just create the component root menu item
-				$menuid = $this->createParentMenu($com_admin_menuname,$com_name);
+				$menuid = $this->_createParentMenu($comAdminMenuName, $comName, $comImg);
+				if($menuid === false) {
+
+					// Install failed, rollback changes
+					$this->_rollback();
+					return false;
+				}
 
 				/*
 				 * Since we have created a menu item, we add it to the installation step stack
 				 * so that if we have to rollback the changes we can undo it.
 				 */
-				$step = array('type' => 'menu', 'id' => $menuid);
-				$this->i_stepstack[] = $step;
+				$this->i_stepStack[] = array('type' => 'menu', 'id' => $menuid);
 			}
 		}
 
-		// Initialize variables
-		$desc= null;
 		/*
 		 * Get the component description
 		 */
-		if ($e = &$jinstall->getElementsByPath( 'description', 1 )) {
-			$desc = $this->elementName() . '<p>' . $e->getText() . '</p>';
+		$e =& $root->getElementsByPath( 'description', 1 );
+		if (!is_null($e)) {
+			$this->i_description = $this->i_extensionName.'<p>'.$e->getText().'</p>';
+		} else {
+			$this->i_description = $this->i_extensionName;
 		}
-		$this->setError( 0, $desc );
 
 		/*
-		 * If we have an install file, lets include it, execute the custom install method, and
-		 * append the return value from the custom install method to the installation message.
+		 * If we have an install script, lets include it, execute the custom
+		 * install method, and append the return value from the custom install
+		 * method to the installation message.
 		 */
-		if ($this->hasInstallfile()) {
-			if (is_file($this->componentAdminDir() . DS . $this->installFile())) {
-				require_once($this->componentAdminDir() . DS . $this->installFile());
+		if ($this->i_hasInstallScript) {
+			if (is_file($this->i_extensionAdminDir . DS . $this->i_installScript)) {
+				ob_start();
+				ob_implicit_flush( false );
+				require_once($this->i_extensionAdminDir . DS . $this->i_installScript);
 				$ret = com_install();
+				$ret .= ob_get_contents();
+				ob_end_clean();
 				if ($ret != '') {
-					$this->setError( 0, $desc . $ret );
+					$this->i_message = $ret;
 				}
 			}
 		}
@@ -295,8 +318,8 @@ class JInstallerComponent extends JInstaller
 		/*
 		 * Lastly, we will copy the setup file to its appropriate place.
 		 */
-		 if (!$this->copySetupFile()) {
-		 	$this->setError( 1, JText::_( 'Could not copy setup file' ));
+		 if (!$this->_copyInstallFile()) {
+			JError::raiseWarning( 1, 'JInstallerComponent::install: ' . JText::_( 'Could not copy setup file' ));
 
 		 	// Install failed, rollback changes
 		 	$this->_rollback();
@@ -306,232 +329,181 @@ class JInstallerComponent extends JInstaller
 	}
 
 	/**
-	 * Custom uninstall method
+	 * Custom uninstall method for components
 	 *
 	 * @access public
 	 * @param int $cid The id of the component to uninstall
 	 * @param string $option The URL option
 	 * @param int $client The client id
 	 * @return mixed Return value for uninstall method in component uninstall file
-	 * @since 1.1
+	 * @since 1.0
 	 */
-	function uninstall( $cid, $option, $client=0 ) {
-		global $mainframe;
+	function uninstall( $id, $client = null ) {
 
 		// Initialize variables
-		$uninstallret = false;
 		$row = null;
+		$retval = true;
 
 		// Get database connector object
-		$db = & $mainframe->getDBO();
+		$db = & $this->_db;
 
 		/*
 		 * First order of business will be to load the component object model from the database.
 		 * This should give us the necessary information to proceed.
 		 */
 		$row = new JComponentModel($db);
-		$row->load($cid);
+		$row->load($id);
 
 		/*
 		 * Is the component we are trying to uninstall a core one?
 		 * Because that is not a good idea...
 		 */
 		if ($row->iscore) {
-            HTML_installer::showInstallMessage( sprintf( JText::_( 'WARNCORECOMPONENT' ), $row->name ) ."<br />". JText::_( 'WARNCORECOMPONENT2' ), JText::_( 'Uninstall - error' ),
-				$this->returnTo( $option, 'component', $client ) );
-			exit();
+            JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerComponent::uninstall: '. sprintf( JText::_( 'WARNCORECOMPONENT' ), $row->name ) ."<br />". JText::_( 'WARNCORECOMPONENT2' ));
+			return false;
 		}
 
 		/*
-		 * Next, lets delete the submenus for the component.
+		 * Get the admin and site paths for the component
 		 */
-		$sql = 	"DELETE " .
-				"\nFROM #__components " .
-				"\nWHERE parent = $row->id";
-
-		$db->setQuery($sql);
-
-		if (!$db->query()) {
-			HTML_installer::showInstallMessage($db->stderr(true),JText::_( 'Uninstall - error' ),
-			$this->returnTo( $option, 'component', $client ) );
-			exit();
-		}
+		$this->i_extensionAdminDir = JPath::clean(JPATH_ADMINISTRATOR . DS .'components'. DS .$row->option);
+		$this->i_extensionDir = JPath::clean(JPATH_SITE . DS .'components'. DS .$row->option);
 
 		/*
-		 * Now lets try to find the uninstall file and execute the uninstall function if it exists.
-		 *  -	Read the files in the installation directory and look for the one with "uninstall" in
-		 * 		name.
+		 * Find and load the XML install file for the component
 		 */
-		$uninstallfiles = JFolder::files( JPATH_AMINISTRATOR . DS .'components'. DS .$row->option, 'uninstall' );
-		if (count( $uninstallfiles ) > 0) {
-			$uninstall_file = $uninstallfiles[0];
-			if(JFile::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.$row->option . DS .$uninstall_file)) {
-				require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.$row->option .DS.$uninstall_file );
+		$this->i_installDir = $this->i_extensionAdminDir;
+		if(!$this->_findInstallFile()) {
+			JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerComponent::uninstall: XML File invalid or not found');
+			return false;
+		}
+
+		// Get the root node of the xml document
+		$root = &$this->i_xmldoc->documentElement;
+
+		/*
+		 * Now lets load the uninstall file if there is one and execute the uninstall 
+		 * function if it exists.
+		 */
+		$uninstallfileElement = &$root->getElementsByPath('uninstallfile',1);
+		if(!is_null($uninstallfileElement)) {
+
+			/*
+			 * Element exists, does the file exist?
+			 */
+			if (!file_exists($this->i_extensionAdminDir.$uninstallfileElement->getText())) {
+				require_once($this->i_extensionAdminDir.$uninstallfileElement->getText());
 				$uninstallret = com_uninstall();
 			}
 		}
 
 		/*
-		 * Now we need to find the XML installation file.  It has all the queries we need for uninstalling
-		 * the component. If we find it, run the uninstall queries.
-		 */
-		$installfiles = JFolder::files( JPATH_ADMINISTRATOR.DS.'components'.DS.$row->option, '.xml$');
-		if (count($installfiles) > 0) {
-
-			// Initialize variables
-			$found = false;
-
-			// Check each xml file found to see if it is an installation file
-			foreach ($installfiles as $file) {
-				$xmlDoc =& JFactory::getXMLParser();
-				$xmlDoc->resolveErrors( true );
-				if (!$xmlDoc->loadXML( JPATH_ADMINISTRATOR.DS."components".DS.$row->option . DS . $file, false, true )) {
-					return false;
-				}
-				$root = &$xmlDoc->documentElement;
-
-				if ($root->getTagName() != 'mosinstall' && $root->getTagName() != 'jinstall') {
-					// Free up DOMIT parser memory
-					unset($xmlDoc);
-					continue;
-				}
-				$found = true;
-
-				// Ahh, we found the installation file, lets run the uninstall queries.
-				$query_element = &$root->getElementsbyPath( 'uninstall/queries', 1 );
-				if(!is_null($query_element)) {
-
-					$queries = $query_element->childNodes;
-					foreach($queries as $query)	{
-
-						$db->setQuery( $query->getText());
-						if (!$db->query()) {
-							HTML_installer::showInstallMessage($db->stderr(true),JText::_( 'Uninstall - error' ),
-								$this->returnTo( $option, 'component', $client ) );
-							exit();
-						}
-					}
-				}
-				break;
-			}
-			// Didn't find the installation file...
-			if(!$found) {
-				HTML_installer::showInstallMessage('XML File invalid or not found',JText::_( 'Uninstall - error' ),
-					$this->returnTo( $option, 'component', $client ) );
-				exit();
-			}
-		// Couldn't find ANY xml files...
-		} else {
-			/*
-			 * HTML_installer::showInstallMessage( 'Could not find XML Setup file in '.JPATH_ADMINISTRATOR.'/components/'.$row->option,
-			 * 	'Uninstall -  error', $option, 'component' );
-			 * exit();
-			 */
+		 * Let's run the uninstall queries for the component
+		 */		
+		if ($this->_parseQueries( 'uninstall/queries' ) === false) {
+			JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerComponent::uninstall: ' . $db->stder(true));
+			$retval = false;
 		}
 
 		/*
-		 * Now we need to delete the installation directories.  This is the final step in uninstalling
-		 * the component.
+		 * Let's remove language files and media in the JROOT/images/ folder that are
+		 * associated with the component we are uninstalling
+		 */
+		$this->_removeFiles( 'media' );
+		$this->_removeFiles( 'languages' );
+		$this->_removeFiles( 'administration/languages' );
+		
+		/*
+		 * Now we need to delete the installation directories.  This is the final step 
+		 * in uninstalling the component.
 		 */
 		if (trim( $row->option )) {
 
-			// Initialize variables
-			$result = false;
-
-			// Delete the component admin directory
-			$path = JPath::clean( JPATH_ADMINISTRATOR.DS.'components'. DS . $row->option, true );
-			if (is_dir( $path )) {
-				$result |= JFolder::delete( $path );
+			// Delete the component site directory
+			if (is_dir( $this->i_extensionDir )) {
+				if(!JFolder::delete( $this->i_extensionDir )) {
+					JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerComponent::uninstall: ' . JText::_( 'Unable to remove the component site directory'));
+					$retval = false;
+				}
 			}
 
-			// Delete the component site directory
-			$path = JPath::clean( JPATH_SITE.DS.'components'.DS.$row->option, true );
-			if (is_dir( $path )) {
-				$result |= JFolder::delete( $path );
+			// Delete the component admin directory
+			if (is_dir( $this->i_extensionAdminDir )) {
+				if(!JFolder::delete( $this->i_extensionAdminDir )) {
+					JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerComponent::uninstall: ' . JText::_( 'Unable to remove the component admin directory'));
+					$retval = false;
+				}
 			}
 
 			/*
+			 * Next, lets delete the submenus for the component.
+			 */
+			$sql = 	"DELETE " .
+					"\nFROM #__components " .
+					"\nWHERE parent = '".$row->id."'";
+	
+			$db->setQuery($sql);
+			if (!$db->query()) {
+				JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerComponent::uninstall: ' . $db->stder(true));
+				$retval = false;
+			}
+	
+			/*
 			 * Lastly, we will delete the component object
 			 */
-			 $row->delete($row->id);
+			 if (!$row->delete($row->id)) {
+			 	JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerComponent::uninstall: ' . JText::_( 'Unable to delete the component from the database' ));
+				$retval = false;
+			 }
 
-			return $result;
+			return $retval;
 		} else {
 			// No component option defined... cannot delete what we don't know about
-			HTML_installer::showInstallMessage( 'Option field empty, cannot remove files', JText::_( 'Uninstall - error' ), $option,'component');
-			exit();
+			JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerComponent::uninstall: Option field empty, cannot remove files');
+			return false;
 		}
-
-		return $uninstallret;
 	}
 
 	/**
-	 * Roll back the component installation
+	 * Custom rollback method
+	 * 	- Roll back the component menu item
 	 *
 	 * @access private
+	 * @param array $arg Installation step to rollback
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function _rollback() {
-		global $mainframe;
-
-		// Initialize variables
-		$retval = false;
-		$step = array_pop($this->i_stepstack);
+	function _rollback_menu($arg) {
 
 		// Get database connector object
-		$db =& $mainframe->getDBO();
+		$db =& $this->_db;
 
-		while ($step != null) {
+		/*
+		 * Remove the entry from the #__components table
+		 */
+		$query = 	"DELETE " .
+					"\nFROM `#__components` " .
+					"\nWHERE id='".$arg['id']."'";
 
-			switch ($step['type']) {
-				case 'file':
-					// remove the file
-					JFile::delete($step['path']);
-					break;
-
-				case 'folder':
-					// remove the folder
-					JFolder::delete($step['path']);
-					break;
-
-				case 'menu':
-					// remove the menu item
-					$com = new JComponentModel( $db );
-					$com->delete($step['id']);
-					break;
-
-				case 'query':
-					// placeholder in case this is necessary in the future
-					break;
-
-				default:
-					// do nothing
-					break;
-			}
-
-			// Get the next step
-			$step = array_pop($this->i_stepstack);
-		}
-
-		return $retval;
+		$db->setQuery( $query );
+		
+		return ($db->query() !== false);
 	}
 
 	/**
 	 * Method to create a menu entry for a component
 	 *
 	 * @access private
-	 * @param string $_menuname
-	 * @param string $_comname
-	 * @param string $_image
+	 * @param string $_menuname Menu name
+	 * @param string $_comname Component name
+	 * @param string $_image Image file
 	 * @return int Id of the created menu entry
-	 * @since 1.1
+	 * @since 1.0
 	 */
-	function createParentMenu($_menuname,$_comname, $_image = "js/ThemeOffice/component.png") {
-		global $mainframe;
+	function _createParentMenu($_menuname,$_comname, $_image = "js/ThemeOffice/component.png") {
 
 		// Get database connector object
-		$db =& $mainframe->getDBO();
+		$db =& $this->_db;
 
 		$db_name			= $_menuname;
 		$db_link			= "option=$_comname";
@@ -555,21 +527,6 @@ class JInstallerComponent extends JInstaller
 		}
 		$menuid = $db->insertid();
 		return $menuid;
-	}
-
-	/**
-	 * Get the component admin directory (Set it if path parameter is not null)
-	 *
-	 * @access private
-	 * @param string $p_dirname Path name for the component admin directory [Optional]
-	 * @return string The path of the component admin directory
-	 * @since 1.1
-	 */
-	function componentAdminDir($p_dirname = null) {
-		if(!is_null($p_dirname)) {
-			$this->i_componentadmindir = JPath::clean($p_dirname);
-		}
-		return $this->i_componentadmindir;
 	}
 }
 ?>

@@ -21,15 +21,6 @@
 class JInstallerTemplate extends JInstaller {
 
 	/**
-	 * Constructor
-	 *
-	 * @access protected
-	 */
-	function __construct() {
-		parent::__construct();
-	}
-
-	/**
 	 * Custom install method
 	 *
 	 * @access public
@@ -38,10 +29,6 @@ class JInstallerTemplate extends JInstaller {
 	 * @since 1.1
 	 */
 	function install($p_fromdir) {
-		global $mainframe;
-
-		// Get the database connector object
-		$db = & $mainframe->getDBO();
 
 		/*
 		 * First lets set the installation directory, find and check the installation file and verify
@@ -51,74 +38,127 @@ class JInstallerTemplate extends JInstaller {
 			return false;
 		}
 
-		$xmlDoc = & $this->xmlDoc();
-		$jinstall = & $xmlDoc->documentElement;
+		// Get the root node of the XML document
+		$root =& $this->i_xmldoc->documentElement;
 
 		/*
-		 * Get the client value
+		 * Get the client application target
 		 */
-		$client = null;
-		if ($jinstall->getAttribute('client')) {
-			$validClients = array ('administrator');
-			if (!in_array($jinstall->getAttribute('client'), $validClients)) {
-				$this->setError(1, JText::_('Unknown client type').' ['.$jinstall->getAttribute('client').']');
+		if ($client = $root->getAttribute('client')) {
+
+			// Attempt to map the client to a base path
+			$clientVals = $this->_mapClient($client);
+			if ($clientVals === false) {
+				JError::raiseWarning( 1, 'JInstallerTemplate::install: ' . JText::_('Unknown client type').' ['.$client.']');
 				return false;
 			}
-			$client = 'admin';
+			$basePath = $clientVals['path'];
+			$clientId = $clientVals['id'];
+		} else {
+			/*
+			 * No client attribute was found so we assume the site as the client
+			 */
+			$client = 'site';
+			$basePath = JPATH_SITE;
+			$clientId = 0;	
 		}
 
-		// Set some necessary variables
-		$e = & $jinstall->getElementsByPath('name', 1);
-		$this->elementName($e->getText());
-		$this->elementDir(JPath::clean(JPATH_SITE. ($client == 'admin' ? DS.'administrator' : '').DS.'templates'.DS.strtolower(str_replace(" ", "_", $this->elementName()))));
+		/*
+		 * Set the template name
+		 */
+		$e = & $root->getElementsByPath('name', 1);
+		$this->i_extensionName = $e->getText();
+		
+		/*
+		 * Set the template installation directory
+		 */
+		$this->i_extensionDir = JPath :: clean($basePath.DS.'templates'.DS.strtolower(str_replace(" ", "_", $this->i_extensionName)));
 
 		/*
 		 * If the template directory does not exists, lets create it
 		 */
-		if (!file_exists($this->elementDir()) && !JFolder::create($this->elementDir())) {
-			$this->setError(1, JText::_('Failed to create directory').' "'.$this->elementDir().'"');
+		if (!file_exists($this->extensionDir) && !JFolder::create($this->extensionDir)) {
+			JError::raiseWarning( 1, 'JInstallerTemplate::install: ' . JText::_('Failed to create directory').' "'.$this->extensionDir.'"');
 			return false;
 		}
 
 		/*
+		 * Since we created the template directory and will want to remove it if we have to roll back
+		 * the installation, lets add it to the installation step stack
+		 */
+		$this->i_stepStack[] = array('type' => 'folder', 'path' => $this->i_extensionDir);
+
+		/*
 		 * Copy all necessary files
 		 */
-		if ($this->parseFiles('files') === false) {
+		if ($this->_parseFiles('files') === false) {
+			JError::raiseWarning( 1, 'JInstallerTemplate::install: ' . JText::_('Failed to create directory').' "'.$this->extensionDir.'"');
+
+			// Install failed, rollback any changes
+			$this->_rollback();
 			return false;
 		}
-		if ($this->parseFiles('images') === false) {
+		if ($this->_parseFiles('images') === false) {
+			JError::raiseWarning( 1, 'JInstallerTemplate::install: ' . JText::_('Failed to create directory').' "'.$this->extensionDir.'"');
+
+			// Install failed, rollback any changes
+			$this->_rollback();
 			return false;
 		}
-		if ($this->parseFiles('css') === false) {
+		if ($this->_parseFiles('css') === false) {
+			JError::raiseWarning( 1, 'JInstallerTemplate::install: ' . JText::_('Failed to create directory').' "'.$this->extensionDir.'"');
+
+			// Install failed, rollback any changes
+			$this->_rollback();
 			return false;
 		}
-		if ($this->parseFiles('media') === false) {
+		if ($this->_parseFiles('media') === false) {
+			JError::raiseWarning( 1, 'JInstallerTemplate::install: ' . JText::_('Failed to create directory').' "'.$this->extensionDir.'"');
+
+			// Install failed, rollback any changes
+			$this->_rollback();
 			return false;
 		}
 
 		/*
 		 * Get the template description
 		 */
-		if ($e = & $jinstall->getElementsByPath('description', 1)) {
-			$this->setError(0, $this->elementName().'<p>'.$e->getText().'</p>');
+		$e =& $root->getElementsByPath( 'description', 1 );
+		if (!is_null($e)) {
+			$this->i_description = $this->i_extensionName.'<p>'.$e->getText().'</p>';
+		} else {
+			$this->i_description = $this->i_extensionName;
 		}
 
 		/*
-		 * Now, lets create the necessary module positions
+		 * Now, lets create the necessary template positions
 		 */
-		$template_positions = & $jinstall->getElementsByPath('install/positions', 1);
-		if (!is_null($template_positions)) {
-			$positions = $template_positions->childNodes;
+		$templatePositions = & $root->getElementsByPath('install/positions', 1);
+		if (!is_null($templatePositions)) {
+			$positions = $templatePositions->childNodes;
 			foreach ($positions as $position) {
-				$this->createTemplatePosition($position);
+				
+				$id = $this->_createTemplatePosition($position->getText());
+
+				if ($id) {
+					/*
+					 * Since we have created a template positions item, we add it to the installation step stack
+					 * so that if we have to rollback the changes we can undo it.
+					 */
+					$step = 
+					$this->i_stepStack[] = array ('type' => 'position', 'id' => $id);
+				}
 			}
 		}
 
 		/*
 		 * Lastly, we will copy the setup file to its appropriate place.
 		 */
-		 if (!$this->copySetupFile('front')) {
-		 	$this->setError( 1, JText::_( 'Could not copy setup file' ));
+		 if (!$this->_copyInstallFile(0)) {
+			JError::raiseWarning( 1, 'JInstallerTemplate::install: ' . JText::_( 'Could not copy setup file' ));
+
+		 	// Install failed, rollback changes
+		 	$this->_rollback();
 		 	return false;
 		 }
 		return true;
@@ -130,89 +170,127 @@ class JInstallerTemplate extends JInstaller {
 	 *
 	 * @access public
 	 * @param int $id The id of the template to uninstall
-	 * @param string $option The URL option
 	 * @param int $client The client id
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function uninstall($id, $option, $client = 0) {
-		global $mainframe;
+	function uninstall($id, $client) {
+
+		// Initialize variables
+		$retval = true;
+		
+		/*
+		 * For a template the id will be the template name which represents the 
+		 * subfolder of the templates folder that the template resides in.
+		 */
+		$id = trim( $id );
+		if (!$id) {
+			JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerTemplate::uninstall: ' . JText::_('Template id is empty, cannot uninstall files') );
+			return false;
+		}
+		
+		/*
+		 * Set the template path
+		 */
+		$clientVals = $this->_mapClient($client);
+		if ($clientVals === false) {
+			JError::raiseWarning( 1, 'JInstallerModule::install: ' . JText::_('Unknown client type').' ['.$root->getAttribute('client').']');
+			return false;
+		}
+		$path = JPath :: clean($clientVals['path'] . DS . 'templates' . DS . $id);
 
 		/*
-		 * Build the template path
-		 */
-		$path = JPATH_SITE. ($client == 'admin' ? DS.'administrator' : '').DS.'templates'.DS.$id;
+		 * Set some internal paths for smooth operation :)
+		 */		
+		$this->i_installDir = $path;
+		$this->i_extensionDir = $path;
 
+		/*
+		 * See if there is an xml install file
+		 */
+		if (!$this->_findInstallFile()) {
+			JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerTemplate::uninstall: ' . JText::_( 'Could not find xml install file' ) );
+			return false;
+		}
+		
+		/*
+		 * Remove any files added to the Joomla images/ folder
+		 */
+		if ($this->_removeFiles('media') === false) {
+			JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerTemplate::uninstall: ' . JText::_('Unable to remove media files') );
+			$retval = false;
+		}
+		
 		/*
 		 * Delete the template directory
 		 */
-		$id = str_replace('..', '', $id);
-		if (trim($id)) {
-			if (JFolder::exists($path)) {
-				return JFolder::delete(JPath::clean($path));
-			} else {
-				HTML_installer::showInstallMessage(JText::_('Directory does not exist, cannot remove files'), JText::_('Uninstall - error'), $this->returnTo($option, 'template', $client));
-			}
+		if (JFolder::exists($path)) {
+			$retval = JFolder::delete(JPath::clean($path));
 		} else {
-			HTML_installer::showInstallMessage(JText::_('Template id is empty, cannot remove files'), JText::_('Uninstall - error'), $this->returnTo($option, 'template', $client));
-			exit ();
-		}
-	}
-
-	/**
-	 * Overridden returnTo method
-	 *
-	 * @access public
-	 * @param string $option
-	 * @param string $element
-	 * @param int $client
-	 * @return string URL to return to
-	 * @since 1.1
-	 */
-	function returnTo($option, $element, $client) {
-		return "index2.php?option=com_templates&client=$client";
-	}
-
-	/**
-	 * Roll back the installation
-	 *
-	 * @access private
-	 * @return boolean True on success
-	 * @since 1.1
-	 */
-	function _rollback() {
-		global $mainframe;
-
-		// Initialize variables
-		$retval = false;
-		$step = array_pop($this->i_stepstack);
-
-		// Get database connector object
-		$db = & $mainframe->getDBO();
-
-		while ($step != null) {
-
-			switch ($step['type']) {
-				case 'file':
-					// remove the file
-					JFile::delete($step['path']);
-					break;
-
-				case 'folder' :
-					// remove the folder
-					JFolder::delete($step['path']);
-					break;
-
-				default :
-					// do nothing
-					break;
-			}
-
-			// Get the next step
-			$step = array_pop($this->i_stepstack);
+			JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerTemplate::uninstall: ' . JText::_('Directory does not exist, cannot remove files') );
+			$retval = false;
 		}
 
 		return $retval;
+	}
+
+	/**
+	 * Creates a new template position if it doesn't exist already
+	 * 
+	 * @access private
+	 * @param string $position Template position to create
+	 * @return mixed Template position id (int) if a position was inserted or boolean false otherwise
+	 * @since 1.1
+	 */
+	function _createTemplatePosition($position) {
+
+		/*
+		 * Get the global database connector object
+		 */
+		$db = $this->_db;
+
+		// Initialize variable
+		$retval = false;
+
+		if ($position) {
+			$db->setQuery(	"SELECT id " .
+							"\nFROM #__template_positions " .
+							"\nWHERE position = '$position'");
+			$db->Query();
+			if (!$db->getNumRows()) {
+				$db->setQuery("INSERT INTO #__template_positions "."\nVALUES (0,'$position','')");
+				if ($db->Query() !== false) {
+					$retval = $db->insertid();	
+				}
+			}
+		}
+		return $retval;
+	}
+
+	/**
+	 * Custom rollback method
+	 * 	- Roll back the template position item
+	 *
+	 * @access private
+	 * @param array $arg Installation step to rollback
+	 * @return boolean True on success
+	 * @since 1.1
+	 */
+	function _rollback_position($arg) {
+
+		// Get database connector object
+		$db =& $this->_db;
+
+		/*
+		 * Remove the entry from the #__template_positions table
+		 */
+		$query = 	"DELETE " .
+					"\nFROM `#__template_positions` " .
+					"\nWHERE id='".$arg['id']."'";
+
+		$db->setQuery( $query );
+		
+		return ($db->query() !== false);
 	}
 }
 ?>

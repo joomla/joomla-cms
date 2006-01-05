@@ -19,224 +19,281 @@
  * @since 1.1
  */
 class JInstallerMambot extends JInstaller {
+
 	/**
-	 * Constructor
+	 * Custom install method
 	 *
-	 * @access protected
+	 * @access public
+	 * @param string $p_fromdir Directory from which to install the mambot
+	 * @return boolean True on success
+	 * @since 1.1
 	 */
-	function __construct() {
-		parent::__construct();
-	}
+	function install($p_fromdir) {
 
-	/**
-	* Custom install method
-	* @param boolean True if installing from directory
-	*/
-	function install($p_fromdir = null) {
-		global $database;
+		// Get database connector object
+		$db =& $this->_db;
 
-		if (!$this->preInstallCheck($p_fromdir, 'mambot')) {
+		/*
+		 * First lets set the installation directory, find and check the installation file and verify
+		 * that it is the proper installation type
+		 */
+		if (!$this->preInstallCheck( $p_fromdir, 'mambot' )) {
 			return false;
 		}
 
-		$xmlDoc = $this->xmlDoc();
-		$mosinstall = & $xmlDoc->documentElement;
+		// Get the root node of the XML document
+		$root =& $this->i_xmldoc->documentElement;
 
-		// Set some vars
-		$e = & $mosinstall->getElementsByPath('name', 1);
-		$this->elementName($e->getText());
+		/*
+		 * Set the component name
+		 */
+		$e = &$root->getElementsByPath('name', 1);
+		$this->i_extensionName = $e->getText();
 
-		$folder = $mosinstall->getAttribute('group');
-		$this->elementDir(JPath::clean(JPATH_SITE.DS.'mambots'.DS.$folder));
+		/*
+		 * Set the mambot path
+		 */
+		$folder =& $root->getAttribute('group');
+		$this->i_extensionDir = JPath::clean(JPATH_SITE.DS.'mambots'.DS.$folder);
 
-		if (!file_exists($this->elementDir()) && !JFolder::create($this->elementDir())) {
-			$this->setError(1, JText::_('Failed to create directory').' "'.$this->elementDir().'"');
+		/*
+		 * If the mambot directory does not exist, lets create it
+		 */
+		if (!file_exists($this->extensionDir) && !JFolder::create($this->extensionDir)) {
+			JError::raiseWarning( 1, 'JInstallerMambot::install: ' . JText::_('Failed to create directory').' "'.$this->extensionDir.'"');
 			return false;
 		}
 
-		if ($this->parseFiles('files', 'mambot', JText::_('No file is marked as mambot file')) === false) {
+		/*
+		 * Copy all the necessary files
+		 */
+		if ($this->_parseFiles('files', 'mambot', JText::_('No file is marked as module file')) === false) {
+			JError::raiseWarning( 1, 'JInstallerMambot::install: ' . JText::_('Failed to copy files to').' "'.$this->i_extensionDir.'"');
+
+			// Install failed, roll back changes
+			$this->_rollback();
 			return false;
 		}
 
-		// Insert mambot in DB
-		$query = "SELECT id"."\n FROM #__mambots"."\n WHERE element = '".$this->elementName()."'";
-		$database->setQuery($query);
-		if (!$database->query()) {
-			$this->setError(1, JText::_('SQL error').': '.$database->stderr(true));
+		/*
+		 * Copy extra files
+		 */
+		$this->_parseFiles( 'media' );
+		$this->_parseFiles( 'languages' );
+		$this->_parseFiles( 'administration/languages' );
+
+		/*
+		 * Check to make sure a mambot by the same name is not already installed
+		 */
+		$query = 	"SELECT `id` " .
+					"\nFROM `#__mambots` " .
+					"\nWHERE element = '".$this->i_extensionName."'";
+
+		$db->setQuery($query);
+		if (!$db->query()) {
+			JError::raiseWarning( 1, 'JInstallerMambot::install: ' . JText::_('SQL error').': '.$db->stderr(true));
 			return false;
 		}
 
-		$id = $database->loadResult();
+		// If value is loaded then a mambot with the same name DOES exist
+		$id = $db->loadResult();
 
 		if (!$id) {
-			$row = new JMambotModel($database);
-			$row->name = $this->elementName();
+			$row = new JMambotModel($db);
+			$row->name = $this->i_extensionName;
 			$row->ordering = 0;
 			$row->folder = $folder;
 			$row->iscore = 0;
 			$row->access = 0;
 			$row->client_id = 0;
-			$row->element = $this->elementSpecial();
+			$row->element = $this->i_extensionSpecial;
 
 			if ($folder == 'editors') {
 				$row->published = 1;
 			}
 
 			if (!$row->store()) {
-				$this->setError(1, JText::_('SQL error').': '.$row->getError());
+			JError::raiseWarning( 1, 'JInstallerMambot::install: ' . JText::_('SQL error').': '.$db->stderr(true));
+
+				// Install failed, rollback any changes
+				$this->_rollback();
 				return false;
 			}
+
+			/*
+			 * Since we have created a mambot item, we add it to the installation step stack
+			 * so that if we have to rollback the changes we can undo it.
+			 */
+			$this->i_stepStack[] = array ('type' => 'mambot', 'id' => $row->_db->insertid());
+
 		} else {
-			$this->setError(1, JText::_('Mambot').' "'.$this->elementName().'" '.JText::_('already exists!'));
+			JError::raiseWarning( 1, 'JInstallerMambot::install: ' . JText::_('Mambot').' "'.$this->i_extensionName.'" '.JText::_('already exists!'));
+
+			// Install failed, rollback any changes
+			$this->_rollback();
 			return false;
 		}
-		if ($e = & $mosinstall->getElementsByPath('description', 1)) {
-			$this->setError(0, $this->elementName().'<p>'.$e->getText().'</p>');
+
+		/*
+		 * Get the mambot description
+		 */
+		$e =& $root->getElementsByPath( 'description', 1 );
+		if (!is_null($e)) {
+			$this->i_description = $this->i_extensionName.'<p>'.$e->getText().'</p>';
+		} else {
+			$this->i_description = $this->i_extensionName;
 		}
 
-		return $this->copySetupFile('front');
+		/*
+		 * Lastly, we will copy the setup file to its appropriate place.
+		 */
+		 if (!$this->_copyInstallFile(0)) {
+			JError::raiseWarning( 1, 'JInstallerMambot::install: ' . JText::_( 'Could not copy setup file' ));
+
+		 	// Install failed, rollback changes
+		 	$this->_rollback();
+		 	return false;
+		 }
+		return true;
 	}
+
 	/**
-	* Custom install method
-	*
-	* @param int The id of the module
-	* @param string The URL option
-	* @param int The client id
-	*/
-	function uninstall($id, $option, $client = 0) {
-		global $database;
+	 * Custom uninstall method
+	 *
+	 * @access public
+	 * @param int $id The id of the mambot to uninstall
+	 * @param int $client The client id
+	 * @return boolean True on success
+	 * @since 1.1
+	 */
+	function uninstall($id, $client = 0) {
 
-		$id = intval($id);
-		$query = "SELECT name, folder, element, iscore"."\n FROM #__mambots"."\n WHERE id = $id";
-		$database->setQuery($query);
-
+		// Initialize variables
 		$row = null;
-		$database->loadObject($row);
-		if ($database->getErrorNum()) {
-			HTML_installer::showInstallMessage($database->stderr(), JText::_('Uninstall - error'), $this->returnTo($option, 'mambot', $client));
-			exit ();
-		}
-		if ($row == null) {
-			HTML_installer::showInstallMessage('Invalid object id', JText::_('Uninstall - error'), $this->returnTo($option, 'mambot', $client));
-			exit ();
+		$retval = true;
+
+		// Get database connector object
+		$db = & $this->_db;
+
+		/*
+		 * First order of business will be to load the mambot object model from the database.
+		 * This should give us the necessary information to proceed.
+		 */
+		$row = new JMambotModel($db);
+		$row->load($id);
+
+		/*
+		 * Is the component we are trying to uninstall a core one?
+		 * Because that is not a good idea...
+		 */
+		if ($row->iscore) {
+            JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerMambot::uninstall: '. sprintf( JText::_( 'WARNCORECOMPONENT' ), $row->name ) ."<br />". JText::_( 'WARNCORECOMPONENT2' ));
+			return false;
 		}
 
+		/*
+		 * Get the mambot folder so we can properly build the mambot path
+		 */
 		if (trim($row->folder) == '') {
-			HTML_installer::showInstallMessage(JText::_('Folder field empty, cannot remove files'), JText::_('Uninstall - error'), $this->returnTo($option, 'mambot', $client));
-			exit ();
+            JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerMambot::uninstall: '. JText::_('Folder field empty, cannot remove files'));
+			return false;
 		}
 
-		$basepath = JPATH_SITE.DS.'mambots'.DS.$row->folder.DS;
+		/*
+		 * Use the client id to determine which mambot path to use for the xml install file
+		 */
+		if (!$row->client_id) {
+			$basepath = JPATH_SITE.DS.'mambots'.DS.$row->folder.DS;
+		} else {
+			$basepath = JPATH_ADMINISTRATOR.DS.'mambots'.DS.$row->folder.DS;
+		}
+		$this->i_extensionDir = $basepath;
 		$xmlfile = $basepath.$row->element.'.xml';
+		$folder = $row->folder;
 
-		// see if there is an xml install file, must be same name as element
+		/*
+		 * Now we will no longer need the mambot object, so lets delete it
+		 */
+		$row->delete($row->id);
+		unset($row);
+		
+		/*
+		 * Now is time to process the xml install file stuff...
+		 */
 		if (file_exists($xmlfile)) {
 			$this->i_xmldoc = & JFactory::getXMLParser();
 			$this->i_xmldoc->resolveErrors(true);
 
 			if ($this->i_xmldoc->loadXML($xmlfile, false, true)) {
-				$mosinstall = & $this->i_xmldoc->documentElement;
-				// get the files element
-				$files_element = & $mosinstall->getElementsByPath('files', 1);
-				if (!is_null($files_element)) {
-					$files = $files_element->childNodes;
-					foreach ($files as $file) {
-						// delete the files
-						$filename = $file->getText();
-						if (file_exists($basepath.$filename)) {
-							$parts = pathinfo($filename);
-							$subpath = $parts['dirname'];
-							if ($subpath <> '' && $subpath <> '.' && $subpath <> '..') {
-								echo '<br />'.JText::_('Deleting').': '.$basepath.$subpath;
-								$result = JFolder::delete(JPath::clean($basepath.$subpath.DS));
-							} else {
-								echo '<br />'.JText::_('Deleting').': '.$basepath.$filename;
-								$result = JFile::delete(JPath::clean($basepath.$filename, false));
-							}
-							echo intval($result);
-						}
-					}
 
-					// remove XML file from front
-					echo JText::_('Deleting XML File').": ".$xmlfile;
-					JFile::delete(JPath::clean($xmlfile, false));
-
-					// define folders that should not be removed
-					$sysFolders = array ('content', 'search');
-					if (!in_array($row->folder, $sysFolders)) {
-						// delete the non-system folders if empty
-						if (count(mosReadDirectory($basepath)) < 1) {
-							JFolder::delete($basepath);
-						}
-					}
+				/*
+				 * Let's remove the files for the mambot
+				 */		
+				if ($this->_removeFiles( 'files' ) === false) {
+					JError::raiseWarning( 1, 'JInstallerMambot::uninstall: '.JText::_( 'Unable to remove all files' ));
+					$retval = false;
 				}
+
+				/*
+				 * Remove other files
+				 */
+				$this->_removeFiles('images');
+				$this->_removeFiles( 'media' );
+				$this->_removeFiles( 'languages' );
+				$this->_removeFiles( 'administration/languages' );
+
+				/*
+				 * Let's run the uninstall queries for the module
+				 */		
+				if ($this->_parseQueries( 'uninstall/queries' ) === false) {
+					JError::raiseWarning( 1, 'JInstallerMambot::uninstall: '.$db->stderr(true));
+					$retval = false;
+				}
+
+			} else {
+				JError::raiseWarning( 1, 'JInstallerMambot::uninstall: '.JText::_( 'Could not load XML file' ) .' '. $xmlfile);
+				$retval = false;
 			}
+		} else {
+			JError::raiseWarning( 1, 'JInstallerMambot::uninstall: '.JText::_( 'File does not exist' ) .' '. $xmlfile);
+			$retval = false;
 		}
 
-		if ($row->iscore) {
-			HTML_installer::showInstallMessage(sprintf(JText::_('WARNCOREELEMENT'), $row->name).'<br />'.JText::_('WARNCORECOMPONENT2'), JText::_('Uninstall - error'), $this->returnTo($option, 'mambot', $client));
-			exit ();
+		/*
+		 * If the folder is empty, let's delete it
+		 */
+		$files = JFolder::files($this->i_extensionDir);
+		if (!count($files)) {
+			JFolder::delete($this->i_extensionDir);
 		}
-
-		$query = "DELETE FROM #__mambots"."\n WHERE id = $id";
-		$database->setQuery($query);
-		if (!$database->query()) {
-			$msg = $database->stderr;
-			die($msg);
-		}
-		return true;
+		
+		return $retval;
 	}
 
 	/**
-	 * Roll back the installation
+	 * Custom rollback method
+	 * 	- Roll back the mambot item
 	 *
 	 * @access private
+	 * @param array $arg Installation step to rollback
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function _rollback() {
-		global $mainframe;
-
-		// Initialize variables
-		$retval = false;
-		$step = array_pop($this->i_stepstack);
+	function _rollback_mambot($arg) {
 
 		// Get database connector object
-		$db = & $mainframe->getDBO();
+		$db =& $this->_db;
 
-		while ($step != null) {
+		/*
+		 * Remove the entry from the #__mambot table
+		 */
+		$query = 	"DELETE " .
+					"\nFROM `#__mambot` " .
+					"\nWHERE id='".$arg['id']."'";
 
-			switch ($step['type']) {
-				case 'file':
-					// remove the file
-					JFile::delete($step['path']);
-					break;
-
-				case 'folder' :
-					// remove the folder
-					JFolder::delete($step['path']);
-					break;
-
-				case 'mambot' :
-					// remove the mambot item
-					$m = new JMambotModel($db);
-					$m->delete($step['id']);
-					break;
-
-				case 'query' :
-					// placeholder in case this is necessary in the future
-					break;
-
-				default :
-					// do nothing
-					break;
-			}
-
-			// Get the next step
-			$step = array_pop($this->i_stepstack);
-		}
-
-		return $retval;
+		$db->setQuery( $query );
+		
+		return ($db->query() !== false);
 	}
 }
 ?>

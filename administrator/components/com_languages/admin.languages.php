@@ -33,7 +33,7 @@ if (!is_array( $cid )) {
 
 switch ($task) {
 	case 'install':
-		mosRedirect( 'index2.php?option=com_installer&element=language&client='. $client );
+		josRedirect( 'index2.php?option=com_installer&task=installer&client='. $client );
 		break;
 
 	case 'uninstall':
@@ -178,9 +178,9 @@ function publishLanguage( $p_lname, $option, $client = 'site' )
 	if ($fp = fopen("../configuration.php","w")){
 		fputs($fp, $config, strlen($config));
 		fclose($fp);
-		mosRedirect("index2.php?option=com_languages&client=".$client,JText::_( 'Configuration succesfully updated!' ) );
+		josRedirect("index2.php?option=com_languages&client=".$client,JText::_( 'Configuration succesfully updated!' ) );
 	} else {
-		mosRedirect("index2.php?option=com_languages&client=".$client,JText::_( 'ERRORCONFIGWRITEABLE' ) );
+		josRedirect("index2.php?option=com_languages&client=".$client,JText::_( 'ERRORCONFIGWRITEABLE' ) );
 	}
 
 }
@@ -189,7 +189,7 @@ function publishLanguage( $p_lname, $option, $client = 'site' )
 * Remove the selected language
 */
 function removeLanguage( $cid, $option, $client = 'site' ) {
-	global $mosConfig_lang;
+	global $mainframe;
 
 	$lang = ($client == 'site') ? 'lang' : 'lang_'.$client;
 
@@ -197,7 +197,7 @@ function removeLanguage( $cid, $option, $client = 'site' ) {
 		mosErrorAlert(JText::_( 'You can not delete language in use.', true ));
 	}
 
-	mosRedirect( 'index2.php?option=com_installer&element=language&client='. $client .'&task=remove&cid[]='. $cid );
+	josRedirect( 'index2.php?option=com_installer&type=language&client='. $client .'&task=remove&eid[]='. $cid );
 
 }
 ?>

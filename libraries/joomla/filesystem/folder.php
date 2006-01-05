@@ -172,9 +172,11 @@ class JFolder {
 		$path = JPath::clean($path, false);
 		JPath::check($path);
 
-		// Remove all the files in folder
+		// Remove all the files in folder if they exist
 		$files = JFolder::files($path, '.', false, true);
-		JFile::delete($files);
+		if (count($files)) {
+			JFile::delete($files);
+		}
 
 		// Remove sub-folders of folder
 		$folders = JFolder::folders($path, '.', false, true);
@@ -328,7 +330,7 @@ class JFolder {
 		$ftpRoot = $mainframe->getCfg('ftp_root');
 
 		$arr = array ();
-		$path = JPath::clean($path, false);
+		$path = JPath::clean($path);
 		if (!is_dir($path)) {
 			return $arr;
 		}
@@ -392,11 +394,10 @@ class JFolder {
 		} else {
 			// read the source directory
 			$handle = opendir($path);
-			$path .= DS;
 			while ($file = readdir($handle)) {
 				$dir = $path.$file;
 				$isDir = is_dir($dir);
-				if ($file <> '.' && $file <> '..') {
+				if ($file != '.' && $file != '..') {
 					if ($isDir) {
 						if ($recurse) {
 							$arr2 = JFolder::files($dir, $filter, $recurse, $fullpath);
@@ -503,11 +504,10 @@ class JFolder {
 		} else {
 			// read the source directory
 			$handle = opendir($path);
-			$path .= DS;
 			while ($file = readdir($handle)) {
 				$dir = $path.$file;
 				$isDir = is_dir($dir);
-				if (($file <> '.') && ($file <> '..') && $isDir) {
+				if (($file != '.') && ($file != '..') && $isDir) {
 					// removes SVN directores from list
 					if (preg_match("/$filter/", $file) && !(preg_match("/\.svn/", $file))) {
 						if ($fullpath) {

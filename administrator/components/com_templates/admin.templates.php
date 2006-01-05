@@ -32,7 +32,7 @@ if (!is_array( $cid )) {
 
 switch ($task) {
 	case 'new':
-		mosRedirect ( 'index2.php?option=com_installer&element=template&client='. $client );
+		josRedirect ( 'index2.php?option=com_installer&task=installer&client='. $client );
 		break;
 
 	case 'edit_source':
@@ -284,7 +284,7 @@ function removeTemplate( $cid, $option, $client ) {
 	$database->setQuery( $query );
 	$database->query();
 
-	mosRedirect( 'index2.php?option=com_installer&element=template&client='. $client .'&task=remove&cid[]='. $cid );
+	josRedirect( 'index2.php?option=com_installer&type=template&client='. $client .'&task=remove&eid[]='. $cid );
 }
 
 function editTemplateSource( $p_tname, $option, $client ) {
