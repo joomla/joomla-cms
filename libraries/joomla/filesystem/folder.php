@@ -40,13 +40,10 @@ class JFolder {
 
 		// Initialize variables
 		$ftpFlag = false;
-		$ftpHost = $mainframe->getCfg('ftp_host');
-		$ftpUser = $mainframe->getCfg('ftp_user');
-		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
 
 		JPath::check($path);
-		$path = JPath::clean($path, false, true);
+		$path = JPath::clean($path, false);
 
 		// Check if dir already exists
 		if (JFolder::exists($path)) {
@@ -65,10 +62,10 @@ class JFolder {
 
 		// Check for safe mode
 		if ($ftpFlag == true) {
-			// Do it the safe mode way
+			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($ftpHost);
-			$ftp->login($ftpUser, $ftpPass);
+			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
+			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
 			$ret = true;
 
 			// Translate path to FTP path
@@ -164,13 +161,21 @@ class JFolder {
 
 		// Initialize variables
 		$ftpFlag = false;
-		$ftpHost = $mainframe->getCfg('ftp_host');
-		$ftpUser = $mainframe->getCfg('ftp_user');
-		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
 
-		$path = JPath::clean($path, false);
+		/*
+		 * Make sure that the path given is a valid Joomla path
+		 */
+		$path = JPath::clean($path);
 		JPath::check($path);
+
+		/*
+		 * Make sure that the path given to delete is in fact a folder
+		 */
+		if (!is_dir($path)) {
+			JError::raiseWarning(21, 'JFolder::delete: Path is not a folder: '.$path);
+			return false;
+		}
 
 		// Remove all the files in folder if they exist
 		$files = JFolder::files($path, '.', false, true);
@@ -200,10 +205,10 @@ class JFolder {
 		}
 
 		if ($ftpFlag == true) {
-			// Do it the FTP way
+			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($ftpHost);
-			$ftp->login($ftpUser, $ftpPass);
+			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
+			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
 
 			// Translate Path
 			$path = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path));
@@ -231,9 +236,6 @@ class JFolder {
 
 		// Initialize variables
 		$ftpFlag = false;
-		$ftpHost = $mainframe->getCfg('ftp_host');
-		$ftpUser = $mainframe->getCfg('ftp_user');
-		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
 
 		if ($path) {
@@ -272,8 +274,8 @@ class JFolder {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($ftpHost);
-			$ftp->login($ftpUser, $ftpPass);
+			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
+			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
 
 			//Translate path for the FTP account
 			$src = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $src), false);
@@ -324,15 +326,21 @@ class JFolder {
 
 		// Initialize variables
 		$ftpFlag = false;
-		$ftpHost = $mainframe->getCfg('ftp_host');
-		$ftpUser = $mainframe->getCfg('ftp_user');
-		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
-
 		$arr = array ();
+
+		/*
+		 * Make sure that the path given is a valid Joomla path
+		 */
 		$path = JPath::clean($path);
+		JPath::check($path);
+
+		/*
+		 * Make sure that the path given to delete is in fact a folder
+		 */
 		if (!is_dir($path)) {
-			return $arr;
+			JError::raiseWarning(21, 'JFolder::files: Path is not a folder: '.$path);
+			return false;
 		}
 
 		/*
@@ -355,8 +363,8 @@ class JFolder {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($ftpHost);
-			$ftp->login($ftpUser, $ftpPass);
+			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
+			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
 
 			//Translate path for the FTP account
 			$ftpPath = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
@@ -436,15 +444,21 @@ class JFolder {
 
 		// Initialize variables
 		$ftpFlag = false;
-		$ftpHost = $mainframe->getCfg('ftp_host');
-		$ftpUser = $mainframe->getCfg('ftp_user');
-		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
-
 		$arr = array ();
-		$path = JPath::clean($path, false);
+
+		/*
+		 * Make sure that the path given is a valid Joomla path
+		 */
+		$path = JPath::clean($path);
+		JPath::check($path);
+
+		/*
+		 * Make sure that the path given to delete is in fact a folder
+		 */
 		if (!is_dir($path)) {
-			return $arr;
+			JError::raiseWarning(21, 'JFolder::folder: Path is not a folder: '.$path);
+			return false;
 		}
 
 		/*
@@ -467,8 +481,8 @@ class JFolder {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($ftpHost);
-			$ftp->login($ftpUser, $ftpPass);
+			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
+			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
 
 			//Translate path for the FTP account
 			$ftpPath = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);

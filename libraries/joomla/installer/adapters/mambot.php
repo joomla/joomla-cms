@@ -59,9 +59,18 @@ class JInstallerMambot extends JInstaller {
 		/*
 		 * If the mambot directory does not exist, lets create it
 		 */
-		if (!file_exists($this->extensionDir) && !JFolder::create($this->extensionDir)) {
+		if (!file_exists($this->extensionDir) && !$created = JFolder::create($this->extensionDir)) {
 			JError::raiseWarning( 1, 'JInstallerMambot::install: ' . JText::_('Failed to create directory').' "'.$this->extensionDir.'"');
 			return false;
+		}
+
+		/*
+		 * If we created the mambot directory and will want to remove it if we
+		 * have to roll back the installation, lets add it to the installation
+		 * step stack
+		 */
+		if ($created) {
+			$this->i_stepStack[] = array('type' => 'folder', 'path' => $this->i_extensionDir);
 		}
 
 		/*
@@ -107,7 +116,8 @@ class JInstallerMambot extends JInstaller {
 			$row->access = 0;
 			$row->client_id = 0;
 			$row->element = $this->i_extensionSpecial;
-
+			$row->params = $this->_getParams();
+			
 			if ($folder == 'editors') {
 				$row->published = 1;
 			}
@@ -154,6 +164,7 @@ class JInstallerMambot extends JInstaller {
 		 	$this->_rollback();
 		 	return false;
 		 }
+		
 		return true;
 	}
 
@@ -288,7 +299,7 @@ class JInstallerMambot extends JInstaller {
 		 * Remove the entry from the #__mambot table
 		 */
 		$query = 	"DELETE " .
-					"\nFROM `#__mambot` " .
+					"\nFROM `#__mambots` " .
 					"\nWHERE id='".$arg['id']."'";
 
 		$db->setQuery( $query );

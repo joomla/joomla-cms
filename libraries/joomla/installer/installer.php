@@ -419,7 +419,7 @@ class JInstaller extends JObject {
 		/*
 		 * Get the array of file nodes to process
 		 */
-		$files = $filesElement->childNodes;
+		$files = & $filesElement->childNodes;
 		if (count($files) == 0) {
 			/*
 			 * No files to process
@@ -571,7 +571,7 @@ class JInstaller extends JObject {
 		/*
 		 * Get the array of query nodes to process
 		 */
-		$queries = $queriesElement->childNodes;
+		$queries = & $queriesElement->childNodes;
 		if (count($queries) == 0) {
 			/*
 			 * No queries to process
@@ -591,6 +591,63 @@ class JInstaller extends JObject {
 		}
 
 		return count($queries);
+	}
+
+	/**
+	 * Method to parse the parameters of an extension, build the INI
+	 * string for it's default parameters, and return the INI string.
+	 *
+	 * @access private
+	 * @return string INI string of parameter values
+	 * @since 1.1
+	 */
+	function _getParams() {
+
+		/*
+		 * Get the install document root element
+		 */
+		$root = & $this->i_xmldoc->documentElement;
+
+		/*
+		 * Get the element of the tag names
+		 */
+		$paramsElement = & $root->getElementsByPath('params', 1);
+		if (is_null($paramsElement) || !$paramsElement->hasChildNodes()) {
+			/*
+			 * Either the tag does not exist or has no children therefore we return
+			 * zero params processed.
+			 */
+			return null;
+		}
+
+		/*
+		 * Get the array of parameter nodes to process
+		 */
+		$params = & $paramsElement->childNodes;
+		if (count($params) == 0) {
+			/*
+			 * No params to process
+			 */
+			return null;
+		}
+
+		/*
+		 * Process each parameter in the $params array.
+		 */
+		$ini = null;
+		foreach ($params as $param) {
+			if (!$name = $param->getAttribute('name')) {
+				continue;
+			}
+			
+			if (!$value = $param->getAttribute('default')) {
+				continue;
+			}
+			
+			$ini .= $name."=".$value."\n";
+		}
+
+		return $ini;
 	}
 
 	/**
@@ -822,12 +879,11 @@ class JInstaller extends JObject {
 	 * @since 1.1
 	 */
 	function _rollback() {
-print_r($this->i_stepStack);
-die("ROLLBACK");
+
 		/*
 		 * Initialize variables
 		 */
-		$retval = false;
+		$retval = true;
 		$step = array_pop($this->i_stepStack);
 
 		// Get database connector object
@@ -838,12 +894,12 @@ die("ROLLBACK");
 			switch ($step['type']) {
 				case 'file' :
 					// remove the file
-					$retval |= !JFile :: delete($step['path']);
+					$stepval = JFile :: delete($step['path']);
 					break;
 
 				case 'folder' :
 					// remove the folder
-					$retval |= !JFolder :: delete($step['path']);
+					$stepval = JFolder :: delete($step['path']);
 					break;
 
 				case 'query' :
@@ -860,13 +916,21 @@ die("ROLLBACK");
 					 * Custom rollback method handler
 					 */
 					if (method_exists($this, $method)) {
-						$retval |= !$this-> $method ($step);
+						$stepval = $this-> $method ($step);
 					} else {
 						// do nothing	
 					}
 					break;
 			}
-
+			
+			/*
+			 * Only set the return value if it is false
+			 */
+			if ($stepval === false) {
+				$retval = false;
+			}
+			
+			print_r($step);
 			// Get the next step and continue
 			$step = array_pop($this->i_stepStack);
 		}
@@ -1033,6 +1097,12 @@ class JInstallerHelper {
 			// Free up PCLTAR memory
 			unset ($archive);
 		}
+		
+		/*
+		 * Lets set the extraction directory in the result array so we can
+		 * cleanup everything properly later on.
+		 */
+		$retval['extractdir'] = $extractdir;
 
 		/*
 		 * Try to find the correct install directory.  In case the package is inside a
@@ -1050,8 +1120,8 @@ class JInstallerHelper {
 		}
 
 		/*
-		 * We have found the install directory so lets set it and then move on to detecting
-		 * the extension type.
+		 * We have found the install directory so lets set it and then move on
+		 * to detecting the extension type.
 		 */
 		$retval['dir'] = $extractdir;
 		

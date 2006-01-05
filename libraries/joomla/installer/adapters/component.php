@@ -68,7 +68,7 @@ class JInstallerComponent extends JInstaller {
 		/*
 		 * If the component directory does not exists, lets create it
 		 */
-		if(!file_exists($this->i_extensionDir) && !JFolder::create($this->i_extensionDir)) {
+		if(!file_exists($this->i_extensionDir) && !$created = JFolder::create($this->i_extensionDir)) {
 			JError::raiseWarning( 1, 'JInstallerComponent::install: ' . JText::_( 'Failed to create directory' ) .': "' . $this->i_extensionDir . '"');
 			return false;
 		}
@@ -77,12 +77,14 @@ class JInstallerComponent extends JInstaller {
 		 * Since we created the component directory and will want to remove it if we have to roll back
 		 * the installation, lets add it to the installation step stack
 		 */
-		$this->i_stepStack[] = array('type' => 'folder', 'path' => $this->i_extensionDir);
+		if ($created) {
+			$this->i_stepStack[] = array('type' => 'folder', 'path' => $this->i_extensionDir);
+		}
 
 		/*
 		 * If the component admin directory does not exist, lets create it as well
 		 */
-		if(!file_exists($this->i_extensionAdminDir) && !JFolder::create($this->i_extensionAdminDir)) {
+		if(!file_exists($this->i_extensionAdminDir) && !$created = JFolder::create($this->i_extensionAdminDir)) {
 			JError::raiseWarning( 1, 'JInstallerComponent::install: ' . JText::_( 'Failed to create directory' ) .': "' . $this->i_extensionAdminDir . '"');
 
 			// Install failed, rollback any changes
@@ -94,7 +96,9 @@ class JInstallerComponent extends JInstaller {
 		 * Since we created the component admin directory and we will want to remove it if we have to roll
 		 * back the installation, lets add it to the installation step stack
 		 */
-		$this->i_stepStack[] = array('type' => 'folder', 'path' => $this->i_extensionAdminDir);
+		if ($created) {
+			$this->i_stepStack[] = array('type' => 'folder', 'path' => $this->i_extensionAdminDir);
+		}
 
 		// Find files to copy
 		if ($this->_parseFiles( 'files' ) === false) {
@@ -392,8 +396,13 @@ class JInstallerComponent extends JInstaller {
 			 * Element exists, does the file exist?
 			 */
 			if (!file_exists($this->i_extensionAdminDir.$uninstallfileElement->getText())) {
+				ob_start();
+				ob_implicit_flush( false );
 				require_once($this->i_extensionAdminDir.$uninstallfileElement->getText());
-				$uninstallret = com_uninstall();
+				$ret = com_uninstall();
+				$ret .= ob_get_contents();
+				ob_end_clean();
+				$this->i_message = $ret;
 			}
 		}
 
@@ -516,13 +525,14 @@ class JInstallerComponent extends JInstaller {
 		$db_admin_menu_img	= $_image;
 		$db_iscore			= 0;
 		$db_params			= '';
+		$db_params			= $this->_getParams();
 
 		$query = "INSERT INTO #__components"
-		. "\n VALUES( '', '$db_name', '$db_link', $db_menuid, $db_parent, '$db_admin_menu_link', '$db_admin_menu_alt', '$db_option', $db_ordering, '$db_admin_menu_img', $db_iscore, '' )";
+		. "\n VALUES( '', '$db_name', '$db_link', $db_menuid, $db_parent, '$db_admin_menu_link', '$db_admin_menu_alt', '$db_option', $db_ordering, '$db_admin_menu_img', $db_iscore, '$db_params' )";
 		$db->setQuery( $query );
 		if(!$db->query())
 		{
-			$this->setError( 1, $db->stderr( true ) );
+			JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerComponent::_createParentMenu: ' . $db->stder(true));
 			return false;
 		}
 		$menuid = $db->insertid();

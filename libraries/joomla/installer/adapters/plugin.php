@@ -59,9 +59,18 @@ class JInstallerPlugin extends JInstaller {
 		/*
 		 * If the plugin directory does not exist, lets create it
 		 */
-		if (!file_exists($this->extensionDir) && !JFolder::create($this->extensionDir)) {
+		if (!file_exists($this->extensionDir) && !$created = JFolder::create($this->extensionDir)) {
 			JError::raiseWarning( 1, 'JInstallerPlugin::install: ' . JText::_('Failed to create directory').' "'.$this->extensionDir.'"');
 			return false;
+		}
+
+		/*
+		 * If we created the plugin directory and will want to remove it if we
+		 * have to roll back the installation, lets add it to the installation
+		 * step stack
+		 */
+		if ($created) {
+			$this->i_stepStack[] = array('type' => 'folder', 'path' => $this->i_extensionDir);
 		}
 
 		/*
@@ -107,6 +116,7 @@ class JInstallerPlugin extends JInstaller {
 			$row->access = 0;
 			$row->client_id = 0;
 			$row->element = $this->i_extensionSpecial;
+			$row->params = $this->_getParams();
 
 			if ($folder == 'editors') {
 				$row->published = 1;

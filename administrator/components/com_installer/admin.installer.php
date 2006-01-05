@@ -116,10 +116,10 @@ class JInstallerTasks {
 			/*
 			 * There was an error in installing the package
 			 */
-			$msg = sprintf(JText :: _('Install new extension'), $package['type'], JText::_('Error'));
+			$msg = sprintf(JText :: _('Extension installation error'), $package['type'], JText::_('Error'));
 			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
 			// Cleanup the install files
-			JInstallerHelper :: cleanupInstall($baseDir.$userfile['name'], $package['dir']);
+			JInstallerHelper :: cleanupInstall($baseDir.$userfile['name'], $package['extractdir']);
 		} else {
 			/*
 			 * Package installed sucessfully
@@ -127,7 +127,7 @@ class JInstallerTasks {
 			$msg = sprintf(JText :: _('Install new extension'), $package['type'], JText::_('Success'));
 			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
 			// Cleanup the install files
-			JInstallerHelper :: cleanupInstall($baseDir.$userfile['name'], $package['dir']);
+			JInstallerHelper :: cleanupInstall($baseDir.$userfile['name'], $package['extractdir']);
 		}
 	}
 
@@ -262,7 +262,7 @@ class JInstallerTasks {
 			$msg = sprintf(JText :: _('Install new extension'), $package['type'], JText::_('Error'));
 			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
 			// Cleanup the install files
-			JInstallerHelper :: cleanupInstall($p_file, $package['dir']);
+			JInstallerHelper :: cleanupInstall($p_file, $package['extractdir']);
 		} else {
 			/*
 			 * Package installed sucessfully
@@ -270,7 +270,7 @@ class JInstallerTasks {
 			$msg = sprintf(JText :: _('Install new extension'), $package['type'], JText::_('Success'));
 			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
 			// Cleanup the install files
-			JInstallerHelper :: cleanupInstall($p_file, $package['dir']);
+			JInstallerHelper :: cleanupInstall($p_file, $package['extractdir']);
 		}
 	}
 

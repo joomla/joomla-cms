@@ -134,6 +134,7 @@ class JInstallerModule extends JInstaller {
 			$row->access = $clientId == 1 ? 23 : 0;
 			$row->client_id = $clientId;
 			$row->module = $this->i_extensionSpecial;
+			$row->params = $this->_getParams();
 
 			if (!$row->store()) {
 				JError::raiseWarning( 1, 'JInstallerModule::install: '.$db->stderr(true));

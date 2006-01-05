@@ -83,16 +83,19 @@ class JInstallerLanguage extends JInstaller {
 		/*
 		 * If the language directory does not exist, lets create it
 		 */
-		if (!file_exists($this->i_extensionDir) && !JFolder::create($this->i_extensionDir)) {
+		if (!file_exists($this->i_extensionDir) && !$created = JFolder::create($this->i_extensionDir)) {
 			JError::raiseWarning( 1, 'JInstallerLanguage::install: ' . JText::_('Failed to create directory').' "'.$this->i_extensionDir.'"');
 			return false;
 		}
 
 		/*
-		 * Since we created the language directory and will want to remove it if we have to roll back
-		 * the installation, lets add it to the installation step stack
+		 * If we created the language directory and will want to remove it if we
+		 * have to roll back the installation, lets add it to the installation
+		 * step stack
 		 */
-		$this->i_stepStack[] = array('type' => 'folder', 'path' => $this->i_extensionDir);
+		if ($created) {
+			$this->i_stepStack[] = array('type' => 'folder', 'path' => $this->i_extensionDir);
+		}
 
 		/*
 		 * Copy all the necessary files

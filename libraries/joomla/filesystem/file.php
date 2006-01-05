@@ -75,9 +75,6 @@ class JFile {
 
 		// Initialize variables
 		$ftpFlag = false;
-		$ftpHost = $mainframe->getCfg('ftp_host');
-		$ftpUser = $mainframe->getCfg('ftp_user');
-		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
 
 
@@ -93,7 +90,7 @@ class JFile {
 
 		//Check src path
 		if (!is_readable($src)) {
-			//TODO: Handle an error JText::_('Cannot find source file')
+			JError::raiseWarning( 21, 'JFile::copy: '. JText::_('Cannot find or read file: '.$src));
 			return false;
 		}
 
@@ -118,8 +115,8 @@ class JFile {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($ftpHost);
-			$ftp->login($ftpUser, $ftpPass);
+			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
+			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
 
 			// If the parent folder doesn't exist we must create it
 			if (!file_exists(dirname($dest))) {
@@ -158,9 +155,6 @@ class JFile {
 
 		// Initialize variables
 		$ftpFlag = false;
-		$ftpHost = $mainframe->getCfg('ftp_host');
-		$ftpUser = $mainframe->getCfg('ftp_user');
-		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
 
 		if (is_array($file)) {
@@ -181,8 +175,8 @@ class JFile {
 
 		// Connect the FTP client
 		jimport('joomla.connector.ftp');
-		$ftp = & JFTP::getInstance($ftpHost);
-		$ftp->login($ftpUser, $ftpPass);
+		$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
+		$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
 
 		$retval = true;
 		foreach ($files as $file) {
@@ -217,9 +211,6 @@ class JFile {
 
 		// Initialize variables
 		$ftpFlag = false;
-		$ftpHost = $mainframe->getCfg('ftp_host');
-		$ftpUser = $mainframe->getCfg('ftp_user');
-		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
 
 		if ($path) {
@@ -256,8 +247,8 @@ class JFile {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($ftpHost);
-			$ftp->login($ftpUser, $ftpPass);
+			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
+			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
 
 			//Translate path for the FTP account
 			$src = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $src), false);
@@ -293,9 +284,6 @@ class JFile {
 
 		// Initialize variables
 		$ftpFlag = false;
-		$ftpHost = $mainframe->getCfg('ftp_host');
-		$ftpUser = $mainframe->getCfg('ftp_user');
-		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
 		$data = null;
 
@@ -325,8 +313,8 @@ class JFile {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($ftpHost);
-			$ftp->login($ftpUser, $ftpPass);
+			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
+			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
 
 			//Translate path for the FTP account
 			$file = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $filename), false);
@@ -372,9 +360,6 @@ class JFile {
 
 		// Initialize variables
 		$ftpFlag = false;
-		$ftpHost = $mainframe->getCfg('ftp_host');
-		$ftpUser = $mainframe->getCfg('ftp_user');
-		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
 
 		JPath::check($file);
@@ -400,8 +385,8 @@ class JFile {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($ftpHost);
-			$ftp->login($ftpUser, $ftpPass);
+			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
+			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
 
 			// If the destination directory doesn't exist we need to create it
 			if (!file_exists(dirname($file))) {
@@ -435,9 +420,6 @@ class JFile {
 
 		// Initialize variables
 		$ftpFlag = false;
-		$ftpHost = $mainframe->getCfg('ftp_host');
-		$ftpUser = $mainframe->getCfg('ftp_user');
-		$ftpPass = $mainframe->getCfg('ftp_pass');
 		$ftpRoot = $mainframe->getCfg('ftp_root');
 		$ret = false;
 
@@ -468,8 +450,8 @@ class JFile {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($ftpHost);
-			$ftp->login($ftpUser, $ftpPass);
+			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
+			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
 
 			// If the destination directory doesn't exist we need to create it
 			if (!file_exists($baseDir)) {

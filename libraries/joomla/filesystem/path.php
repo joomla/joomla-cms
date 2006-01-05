@@ -139,11 +139,11 @@ class JPath {
 	function check($path) {
 		if (strpos($path, '..') != false) {
 			mosBackTrace();
-			die('JPath::check use of relative paths not permitted'); // don't translate
+			JError::raiseError( 20, 'JPath::check use of relative paths not permitted'); // don't translate
 		}
 		if (strpos(JPath::clean($path), JPath::clean(JPATH_ROOT)) != 0) {
 			mosBackTrace();
-			die('JPath::check snooping out of bounds @ '.$path); // don't translate
+			JError::raiseError( 20, 'JPath::check snooping out of bounds @ '.$path); // don't translate
 		}
 	}
 

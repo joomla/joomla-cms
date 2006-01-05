@@ -307,7 +307,7 @@ function removeMambot( &$cid, $option, $client ) {
 		exit;
 	}
 
-	mosRedirect( 'index2.php?option=com_installer&element=mambot&client='. $client .'&task=remove&cid[]='. $cid[0] );
+	josRedirect( 'index2.php?option=com_installer&type=mambot&client='. $client .'&task=remove&eid[]='. $cid[0] );
 }
 
 /**
