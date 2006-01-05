@@ -12,6 +12,7 @@
 */
 
 jimport( 'joomla.common.base.object' );
+jimport( 'joomla.database.recordset' );
 
 /**
  * Database connector class
