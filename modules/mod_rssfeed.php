@@ -16,27 +16,26 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 global $mainframe;
 
-$cur_template = $mainframe->getTemplate();
+$text 				= $params->get( 'text', 			'');
+$moduleclass_sfx 	= $params->get( 'moduleclass_sfx', 	'' );
+$rss091  			= $params->get( 'rss091', 			1 );
+$rss10  			= $params->get( 'rss10', 			1 );
+$rss20  			= $params->get( 'rss20', 			1 );
+$atom  				= $params->get( 'atom', 			1 );
+$opml  				= $params->get( 'opml', 			1 );
+$rss091_image		= $params->get( 'rss091_image', 	'' );
+$rss10_image		= $params->get( 'rss10_image', 		'' );
+$rss20_image		= $params->get( 'rss20_image', 		'' );
+$atom_image			= $params->get( 'atom_image', 		'' );
+$opml_image			= $params->get( 'opml_image', 		'' );
 
-$text 				= $params->get( 'text' );
-$moduleclass_sfx 	= $params->get( 'moduleclass_sfx', '' );
-$rss091  			= $params->get( 'rss091', 1 );
-$rss10  			= $params->get( 'rss10', 1 );
-$rss20  			= $params->get( 'rss20', 1 );
-$atom  				= $params->get( 'atom', 1 );
-$opml  				= $params->get( 'opml', 1 );
-$rss091_image		= $params->get( 'rss091_image', '' );
-$rss10_image		= $params->get( 'rss10_image', '' );
-$rss20_image		= $params->get( 'rss20_image', '' );
-$atom_image			= $params->get( 'atom_image', '' );
-$opml_image			= $params->get( 'opml_image', '' );
+$cur_template 		= $mainframe->getTemplate();
 $t_path 			= JURL_SITE .'/templates/'. $cur_template .'/images/';
 $d_path				= JURL_SITE .'/images/M_images/';
 ?>
-
 <div class="syndicate<?php echo $moduleclass_sfx;?>">
 	<?php
-	// rss091 link
+	// text
 	if ( $text ) {
 		?>
 		<div align="center" class="syndicate_text<?php echo $moduleclass_sfx;?>">
@@ -44,70 +43,47 @@ $d_path				= JURL_SITE .'/images/M_images/';
 		</div>
 		<?php
 	}
-	?>
 
-	<?php
 	// rss091 link
 	if ( $rss091 ) {
-		$img = mosAdminMenus::ImageCheck( 'rss091.gif', '/images/M_images/', $rss091_image, '/images/M_images/', 'RSS_091' );
-		?>
-		<div align="center">
-			<a href="index2.php?option=com_rss&amp;feed=RSS0.91&amp;no_html=1">
-				<?php echo $img ?></a>
-		</div>
-		<?php
+		$link = 'index.php?option=com_rss&amp;feed=RSS0.91&amp;no_html=1';
+		output_rssfeed( $link, 'rss091.gif', $rss091_image, 'RSS 0.91' );
 	}
-	?>
 
-	<?php
 	// rss10 link
 	if ( $rss10 ) {
-		$img = mosAdminMenus::ImageCheck( 'rss10.gif', '/images/M_images/', $rss10_image, '/images/M_images/', 'RSS 1.0', 'RSS_10' );
-		?>
-		<div align="center">
-			<a href="index2.php?option=com_rss&amp;feed=RSS1.0&amp;no_html=1">
-				<?php echo $img ?></a>
-		</div>
-		<?php
+		$link = 'index.php?option=com_rss&amp;feed=RSS1.0&amp;no_html=1';
+		output_rssfeed( $link, 'rss10.gif', $rss10_image, 'RSS 1.0' );
 	}
-	?>
-
-	<?php
+	
 	// rss20 link
 	if ( $rss20 ) {
-		$img = mosAdminMenus::ImageCheck( 'rss20.gif', '/images/M_images/', $rss20_image, '/images/M_images/', 'RSS 2.0', 'RSS_20' );
-		?>
-		<div align="center">
-		<a href="index2.php?option=com_rss&amp;feed=RSS2.0&amp;no_html=1">
-			<?php echo $img ?></a>
-		</div>
-		<?php
+		$link = 'index.php?option=com_rss&amp;feed=RSS2.0&amp;no_html=1';
+		output_rssfeed( $link, 'rss20.gif', $rss20_image, 'RSS 2.0' );
 	}
-	?>
 
-	<?php
 	// atom link
 	if ( $atom ) {
-		$img = mosAdminMenus::ImageCheck( 'atom03.gif', '/images/M_images/', $atom_image, '/images/M_images/', 'ATOM 0.3', 'ATOM_03' );
-		?>
-		<div align="center">
-		<a href="index2.php?option=com_rss&amp;feed=ATOM0.3&amp;no_html=1">
-			<?php echo $img ?></a>
-		</div>
-		<?php
+		$link = 'index.php?option=com_rss&amp;feed=ATOM0.3&amp;no_html=1';
+		output_rssfeed( $link, 'atom03.gif', $atom_image, 'ATOM 0.3' );
 	}
-	?>
-
-	<?php
+	
 	// opml link
 	if ( $opml ) {
-		$img = mosAdminMenus::ImageCheck( 'opml.png', '/images/M_images/', $opml_image, '/images/M_images/', 'OPML', 'OPML' );
-		?>
-		<div align="center">
-		<a href="index2.php?option=com_rss&amp;feed=OPML&amp;no_html=1">
-			<?php echo $img ?></a>
-		</div>
-		<?php
+		$link = 'index.php?option=com_rss&amp;feed=OPML&amp;no_html=1';
+		output_rssfeed( $link, 'opml.png', $opml_image, 'OPML' );
 	}
 	?>
 </div>
+
+<?php
+function output_rssfeed( $link, $img_default, $img_file, $img_alt ) {	
+	$img = mosAdminMenus::ImageCheck( $img_default, '/images/M_images/', $img_file, '/images/M_images/', $img_alt, $img_alt );
+	?>
+	<div align="center">
+		<a href="<?php echo sefRelToAbs( $link ); ?>">
+			<?php echo $img ?></a>
+	</div>
+	<?php
+}
+?>
