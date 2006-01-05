@@ -1040,18 +1040,18 @@ class JApplicationHelper
 				} else {
 					$path = '/modules/'. $user_option .'.xml';
 				}
-				$result = JApplicationHelper::checkPath( $path, -1 );
+				$result = JApplicationHelper::_checkPath( $path, -1 );
 				break;
 
 			case 'bot_xml':
 				// Site mambots
 				$path 	= '/mambots/'. $user_option .'.xml';
-				$result = JApplicationHelper::checkPath( $path, 0 );
+				$result = JApplicationHelper::_checkPath( $path, 0 );
 				break;
 
 			case 'menu_xml':
 				$path 	= '/components/com_menus/'. $user_option .'/'. $user_option .'.xml';
-				$result = JApplicationHelper::checkPath( $path, -1 );
+				$result = JApplicationHelper::_checkPath( $path, -1 );
 				break;
 		}
 
