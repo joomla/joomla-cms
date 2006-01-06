@@ -28,17 +28,9 @@ function botMosEmailCloak( $published, &$row, &$params, $page=0 ) {
 	}
 
 	// load plugin params info
-	$query = "SELECT id"
-	. "\n FROM #__plugins"
-	. "\n WHERE element = 'mosemailcloak'"
-	. "\n AND folder = 'content'"
-	;
-	$database->setQuery( $query );
- 	$id 		= $database->loadResult();
- 	$plugin 	= & JModel::getInstance('plugin', $database); 
-  	$plugin->load( $id );
- 	$botParams 	= new JParameters( $plugin->params );
- 	$mode		= $botParams->def( 'mode', 1 );
+ 	$plugin =& JPluginHelper::getPlugin('content', 'mosloadposition'); 
+ 	$pluginParams = new JParameters( $plugin->params );
+ 	$mode		= $pluginParams->def( 'mode', 1 );
 
  	$search 	= "([[:alnum:]_\.\-]+)(\@[[:alnum:]\.\-]+\.+)([[:alnum:]\.\-]+)";
  	$search_text 	= "([[:alnum:][:space:][:punct:]][^<>]+)";

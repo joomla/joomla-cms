@@ -39,19 +39,10 @@ function botMosLoadPosition( $published, &$row, &$params, $page=0 ) {
 
  	// plugin only processes if there are any instances of the plugin in the text
  	if ( $count ) {
-		// load plugin params info
-		$query = "SELECT id"
-		. "\n FROM #__plugins"
-		. "\n WHERE element = 'mosloadposition'"
-		. "\n AND folder = 'content'"
-		;
-		$database->setQuery( $query );
-	 	$id 	= $database->loadResult();
-	 	$plugin =& JModel::getInstance('plugin', $database); 
-	  	$plugin->load( $id );
-	 	$botParams = new JParameters( $plugin->params );
+	 	$plugin =& JPluginHelper::getPlugin('content', 'mosloadposition'); 
+	 	$pluginParams = new JParameters( $plugin->params );
 
-	 	$style	= $botParams->def( 'style', -2 );
+	 	$style	= $pluginParams->def( 'style', -2 );
 
  		processPositions( $row, $matches, $count, $regex, $style );
 	}

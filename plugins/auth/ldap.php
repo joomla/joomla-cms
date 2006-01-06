@@ -63,13 +63,8 @@ class JAuthLdap extends JPlugin {
 		}
 
 		// load plugin parameters
-		$query = 	"SELECT `params` " .
-					"\nFROM `#__plugins` " .
-					"\nWHERE element = 'ldap.userbot' " .
-					"\nAND folder = 'user'";
-		$db->setQuery($query);
-		$params = $db->loadResult();
-		$pluginParams = & new JParameters($params);
+	 	$plugin =& JPluginHelper::getPlugin('auth', 'ldap'); 
+	 	$pluginParams = new JParameters( $plugin->params );
 
 		$ldap = new JLDAP($pluginParams);
 		//print_r($ldap);

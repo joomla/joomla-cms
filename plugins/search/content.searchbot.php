@@ -47,22 +47,14 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null ) {
 	}
 
 	// load plugin params info
-	$query = "SELECT id"
-	. "\n FROM #__plugins"
-	. "\n WHERE element = 'categories.searchbot'"
-	. "\n AND folder = 'search'"
-	;
-	$database->setQuery( $query );
-	$id 	= $database->loadResult();
-	$plugin =& JModel::getInstance('plugin', $database); 
-	$plugin->load( $id );
-	$botParams = new JParameters( $plugin->params );
+ 	$plugin =& JPluginHelper::getPlugin('search', 'content.searchbot'); 
+ 	$pluginParams = new JParameters( $plugin->params );
 
-	$sContent 	= $botParams->get( 'search_content', 	1 );
-	$sStatic 	= $botParams->get( 'search_static', 	1 );
-	$sArchived 	= $botParams->get( 'search_archived', 	1 );
+	$sContent 	= $pluginParams->get( 'search_content', 	1 );
+	$sStatic 	= $pluginParams->get( 'search_static', 		1 );
+	$sArchived 	= $pluginParams->get( 'search_archived', 	1 );
 
-	$limit 		= $botParams->def( 'search_limit', 		50 );
+	$limit 		= $pluginParams->def( 'search_limit', 		50 );
 
 	$nullDate 	= $database->getNullDate();
 	$now 		= date( 'Y-m-d H:i:s', time()+$mosConfig_offset*60*60 );

@@ -48,18 +48,10 @@ function botSearchCategories( $text, $phrase='', $ordering='', $areas=null ) {
 	}
 
 	// load plugin params info
-	$query = "SELECT id"
-	. "\n FROM #__plugins"
-	. "\n WHERE element = 'categories.searchbot'"
-	. "\n AND folder = 'search'"
-	;
-	$database->setQuery( $query );
-	$id 	= $database->loadResult();
-	$plugin =& JModel::getInstance('plugin', $database); 
-	$plugin->load( $id );
-	$botParams = new JParameters( $plugin->params );
+ 	$plugin =& JPluginHelper::getPlugin('search', 'categories.searchbot'); 
+ 	$pluginParams = new JParameters( $plugin->params );
 
-	$limit = $botParams->def( 'search_limit', 50 );
+	$limit = $pluginParams->def( 'search_limit', 50 );
 
 	$text = trim( $text );
 	if ( $text == '' ) {

@@ -48,26 +48,18 @@ function botMosImage( $published, &$row, &$params, $page=0 ) {
  	// plugin only processes if there are any instances of the plugin in the text
  	if ( $count ) {
 		// load plugin params info
-		$query = "SELECT id"
-		. "\n FROM #__plugins"
-		. "\n WHERE element = 'mosimage'"
-		. "\n AND folder = 'content'"
-		;
-		$database->setQuery( $query );
-	 	$id 	= $database->loadResult();
-	 	$plugin =& JModel::getInstance('plugin', $database); 
-	  	$plugin->load( $id );
-	 	$botParams = new JParameters( $plugin->params );
+	 	$plugin =& JPluginHelper::getPlugin('content', 'mosimage'); 
+	 	$pluginParams = new JParameters( $plugin->params );
 
-	 	$botParams->def( 'padding' );
-	 	$botParams->def( 'margin' );
-	 	$botParams->def( 'link', 0 );
+	 	$pluginParams->def( 'padding' );
+	 	$pluginParams->def( 'margin' );
+	 	$pluginParams->def( 'link', 0 );
 
-		$images 	= processImages( $row, $botParams, $introCount );
+		$images 	= processImages( $row, $pluginParams, $introCount );
 
 		// store some vars in globals to access from the replacer
 		$GLOBALS['botMosImageCount'] 	= 0;
-		$GLOBALS['botMosImageParams'] 	=& $botParams;
+		$GLOBALS['botMosImageParams'] 	=& $pluginParams;
 		$GLOBALS['botMosImageArray'] 	=& $images;
 		//$GLOBALS['botMosImageArray'] 	=& $combine;
 

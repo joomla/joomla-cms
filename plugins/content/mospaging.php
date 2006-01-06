@@ -55,18 +55,10 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 	// we have found at least one plugin, therefore at least 2 pages
 	if ($n > 1) {
 		// load plugin params info
-		$query = "SELECT id"
-		. "\n FROM #__plugins"
-		. "\n WHERE element = 'mospaging'"
-		. "\n AND folder = 'content'"
-		;
-		$database->setQuery( $query );
-	 	$id 	= $database->loadResult();
-	 	$plugin =& JModel::getInstance('plugin', $database); 
-	  	$plugin->load( $id );
-	 	$botParams = new JParameters( $plugin->params );
+	 	$plugin =& JPluginHelper::getPlugin('content', 'mospaging'); 
+	 	$pluginParams = new JParameters( $plugin->params );
 
-	 	$title	= $botParams->def( 'title', 1 );
+	 	$title	= $pluginParams->def( 'title', 1 );
 
 	 	// adds heading or title to <site> Title
 	 	if ( $title ) {

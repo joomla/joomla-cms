@@ -28,19 +28,10 @@ function botJoomlaSEFUrl( ) {
 	if ($GLOBALS['mosConfig_sef']) {
 
 		// load plugin params info
-		$query = "SELECT id"
-			. "\n FROM #__plugins"
-			. "\n WHERE element = 'joomla.sefurlbot'"
-			. "\n AND folder = 'system'"
-			. "\n AND published = '1'"
-			;
-		$database->setQuery( $query );
-		$id 	= $database->loadResult();
-		$plugin =& JModel::getInstance('plugin', $database); 
-		$plugin->load( $id );
-		$botParams = new JParameters( $plugin->params );
+	 	$plugin =& JPluginHelper::getPlugin('system', 'joomla.sefurlbot'); 
+	 	$pluginParams = new JParameters( $plugin->params );
 
-		$mod_rewrite_off = $botParams->get( 'mode', 0 );
+		$mod_rewrite_off = $pluginParams->get( 'mode', 0 );
 
 		$url_array = explode('/', $_SERVER['REQUEST_URI']);
 

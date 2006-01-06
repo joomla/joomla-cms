@@ -76,21 +76,44 @@ class JPlugin extends JObserver {
 class JPluginHelper
 {
 	/**
+	 * Get plugin by folder and element
+	 *
+	 * @access public
+	 * @param string 	$folder	The folder of the plugin
+	 * @param string 	$name	The element of the plugin
+	 * @return object	The Plugin object
+	 */
+	function &getPlugin($folder, $name) 
+	{
+		$result = null;
+		
+		$plugins =& JPluginHelper::_load();
+
+		$total = count($plugins);
+		for($i = 0; $i < $total; $i++) {
+			if($plugins[$i]->element == $name && $plugins[$i]->folder == $folder) {
+				JPluginHelper::import( $plugins[$i]->folder, $plugins[$i]->element, $plugins[$i]->published, $plugins[$i]->params );
+				$result =& $plugins[$i];
+				break;
+			}
+		}
+
+		return $result;
+	}
+
+	/**
 	* Loads all the bot files for a particular group
 	* @param string The group name, relates to the sub-directory in the plugins directory
 	*/
 	function importGroup( $group )
 	{
-		static $bots;
 
-		if (!isset($bots)) {
-			$bots = JPluginHelper::_load();
-		}
+		$plugins =& JPluginHelper::_load();
 
-		$n = count( $bots);
+		$n = count( $plugins );
 		for ($i = 0; $i < $n; $i++) {
-			if($bots[$i]->folder == $group) {
-				JPluginHelper::import( $bots[$i]->folder, $bots[$i]->element, $bots[$i]->published, $bots[$i]->params );
+			if($plugins[$i]->folder == $group) {
+				JPluginHelper::import( $plugins[$i]->folder, $plugins[$i]->element, $plugins[$i]->published, $plugins[$i]->params );
 			}
 		}
 		return true;
@@ -115,6 +138,12 @@ class JPluginHelper
 	function _load() {
 		global $mainframe;
 
+		static $plugins;
+
+		if (isset($plugins)) {
+			return $plugins;
+		}
+
 		$db =& $mainframe->getDBO();
 		$my =& $mainframe->getUser();
 
@@ -133,12 +162,12 @@ class JPluginHelper
 
 		$db->setQuery( $query );
 
-		if (!($bots = $db->loadObjectList())) {
-			//echo "Error loading Plugins: " . $database->getErrorMsg();
+		if (!($plugins = $db->loadObjectList())) {
+			JError::raiseWarning( 'SOME_ERROR_CODE', "Error loading Plugins: " . $database->getErrorMsg());
 			return false;
 		}
 
-		return $bots;
+		return $plugins;
 	}
 
 }
