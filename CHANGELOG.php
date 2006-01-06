@@ -38,6 +38,8 @@ Legend:
 06-Jan-2006 Louis Landry
  ^ Mambots refactored to Plugins
  ^ Interaction with editors is now controlled by JEditor
+ # Fixed artf2926 : SVN 1669 file not renamed
+
 
 05-Jan-2006 Johan Janssens
  + Refactored administrator/com_installer - contributed by Louis Landry
