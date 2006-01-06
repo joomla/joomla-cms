@@ -39,17 +39,14 @@ class JAuth extends JObject {
 		$dispatcher =& JEventDispatcher::getInstance();
 
 		/*
-		 * Grab all of the plugins of type 'user''
+		 * Grab all of the plugins of type 'auth'
 		 */
 		 $query = 	"SELECT `element` " .
 		 			"\nFROM `#__plugins` " .
 		 			"\nWHERE `folder`='auth' " .
 		 			"\nAND `published`='1'";
 		 $db->setQuery($query);
-		 //$plugins = $db->loadResultArray();
-
-		//TODO: Change folder auth to user
-		$plugins[] = 'joomla'; // joomla.php
+		 $plugins = $db->loadResultArray();
 
 		$isLoaded = 0;
 		foreach ($plugins as $plugin) {

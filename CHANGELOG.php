@@ -39,6 +39,7 @@ Legend:
  ^ Mambots refactored to Plugins
  ^ Interaction with editors is now controlled by JEditor
  # Fixed artf2926 : SVN 1669 file not renamed
+ ^ Implemented auth plugins for user authentication
 
 
 05-Jan-2006 Johan Janssens
