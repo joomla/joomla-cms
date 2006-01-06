@@ -333,8 +333,12 @@ class installationTasks {
 					installationScreens::error($vars, array (sprintf(JText::_('WARNNOTCONNECTDB'), $database->getErrorNum())), 'dbconfig', $database->getErrorMsg());
 					return false;
 				}
+			} else {
+				// pre-existing database - need to set character set to utf8
+				// will only affect MySQL 4.1.2 and up
+				JInstallationHelper::setDBCharset($database, $DBname, $DBcollation);
 			}
-
+			
 			$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
 			if ($DBBackup) {
@@ -554,6 +558,10 @@ class JInstallationHelper {
 	/**
 	 * Creates a new database
 	 * @param object Database connector
+	 * @param string Database name
+	 * @param boolean utf-8 support
+	 * @param string Selected collation
+	 * @return boolean success
 	 */
 	function createDatabase(& $database, $DBname, $DButfSupport, $DBcollation) {
 
@@ -574,6 +582,28 @@ class JInstallationHelper {
 		return true;
 	}
 
+	/**
+	 * Sets character set of the database to utf-8 with selected collation
+	 * Used in instances of pre-existing database
+	 * @param object Database object
+	 * @param string Database name
+	 * @param string Selected collation
+	 * @return boolean success
+	 */
+	function setDBCharset(& $database, $DBname, $DBcollation) {
+		
+		if ($database->hasUTF()){
+			$sql = "ALTER DATABASE `$DBname` CHARACTER SET `utf8` COLLATE `$DBcollation`";
+			$database->setQuery($sql);
+			$database->query();
+			$result = $database->getErrorNum();	
+			if ($result != 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	/**
 	 * Backs up existing tables
 	 * @param object Database connector
