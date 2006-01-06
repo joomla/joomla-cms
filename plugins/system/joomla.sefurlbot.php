@@ -71,8 +71,8 @@ function botJoomlaSEFUrl( ) {
 				}
 			}
 
-			// $option/$task/$sectionid/$id/$Itemid/$limit/$limitstart
 			if (isset($url_array[$pos+6]) && $url_array[$pos+6]!='') {
+			// $option/$task/$sectionid/$id/$Itemid/$limit/$limitstart
 				$task 					= $url_array[$pos+1];
 				$sectionid				= $url_array[$pos+2];
 				$id 					= $url_array[$pos+3];
@@ -95,8 +95,29 @@ function botJoomlaSEFUrl( ) {
 				$_REQUEST['limitstart'] = $limitstart;
 
 				$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&id=$id&Itemid=$Itemid&limit=$limit&limitstart=$limitstart";
-				// $option/$task/$id/$Itemid/$limit/$limitstart
+			} else if (isset($url_array[$pos+5]) && $url_array[$pos+5]!='' && ( in_array('archivecategory', $url_array) || in_array('archivesection', $url_array) )) {
+			// $option/$task/$id/$Itemid/$limit/$limitstart
+					$task 					= $url_array[$pos+1];
+					$Itemid 				= $url_array[$pos+2];
+					$year 					= $url_array[$pos+3];
+					$month 					= $url_array[$pos+4];
+					$module 				= $url_array[$pos+5];
+					
+					// pass data onto global variables
+					$_GET['task'] 			= $task;
+					$_REQUEST['task'] 		= $task;
+					$_GET['Itemid'] 		= $Itemid;
+					$_REQUEST['Itemid'] 	= $Itemid;
+					$_GET['year'] 			= $year;
+					$_REQUEST['year'] 		= $year;
+					$_GET['month'] 			= $month;
+					$_REQUEST['month'] 		= $month;
+					$_GET['module'] 		= $module;
+					$_REQUEST['module']		= $module;
+					
+					$QUERY_STRING = "option=com_content&task=$task&Itemid=$Itemid&year=$year&month=$month&module=$module";
 			} else if (isset($url_array[$pos+5]) && $url_array[$pos+5]!='') {
+			// $option/$task/$id/$Itemid/$limit/$limitstart
 				$task 					= $url_array[$pos+1];
 				$id 					= $url_array[$pos+2];
 				$Itemid 				= $url_array[$pos+3];
@@ -116,8 +137,8 @@ function botJoomlaSEFUrl( ) {
 				$_REQUEST['limitstart'] = $limitstart;
 
 				$QUERY_STRING = "option=com_content&task=$task&id=$id&Itemid=$Itemid&limit=$limit&limitstart=$limitstart";
-				// $option/$task/$sectionid/$id/$Itemid
 			} else if (!(isset($url_array[$pos+5]) && $url_array[$pos+5]!='') && isset($url_array[$pos+4]) && $url_array[$pos+4]!='') {
+			// $option/$task/$sectionid/$id/$Itemid
 				$task 					= $url_array[$pos+1];
 				$sectionid 				= $url_array[$pos+2];
 				$id 					= $url_array[$pos+3];
@@ -134,8 +155,8 @@ function botJoomlaSEFUrl( ) {
 				$_REQUEST['Itemid'] 	= $Itemid;
 
 				$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&id=$id&Itemid=$Itemid";
-				// $option/$task/$id/$Itemid
 			} else if (!(isset($url_array[$pos+4]) && $url_array[$pos+4]!='') && (isset($url_array[$pos+3]) && $url_array[$pos+3]!='')) {
+			// $option/$task/$id/$Itemid
 				$task 					= $url_array[$pos+1];
 				$id 					= $url_array[$pos+2];
 				$Itemid 				= $url_array[$pos+3];
@@ -149,8 +170,8 @@ function botJoomlaSEFUrl( ) {
 				$_REQUEST['Itemid'] 	= $Itemid;
 
 				$QUERY_STRING = "option=com_content&task=$task&id=$id&Itemid=$Itemid";
-				// $option/$task/$id
 			} else if (!(isset($url_array[$pos+3]) && $url_array[$pos+3]!='') && (isset($url_array[$pos+2]) && $url_array[$pos+2]!='')) {
+			// $option/$task/$id
 				$task 					= $url_array[$pos+1];
 				$id 					= $url_array[$pos+2];
 
@@ -161,8 +182,8 @@ function botJoomlaSEFUrl( ) {
 				$_REQUEST['id'] 		= $id;
 
 				$QUERY_STRING = "option=com_content&task=$task&id=$id";
-				// $option/$task
 			} else if (!(isset($url_array[$pos+2]) && $url_array[$pos+2]!='') && (isset($url_array[$pos+1]) && $url_array[$pos+1]!='')) {
+			// $option/$task
 				$task = $url_array[$pos+1];
 
 				// pass data onto global variables
@@ -312,6 +333,25 @@ function sefRelToAbs( $string ) {
 
 				$sefstring .= 'lang,'.$temp[0].'/';
 			}
+			if (eregi('&year=',$string)) {
+				$temp = split('&year=', $string);
+				$temp = split('&', $temp[1]);
+				
+				$sefstring .= $temp[0].'/';
+			}
+			if (eregi('&month=',$string)) {
+				$temp = split('&month=', $string);
+				$temp = split('&', $temp[1]);
+				
+				$sefstring .= $temp[0].'/';
+			}
+			if (eregi('&module=',$string)) {
+				$temp = split('&module=', $string);
+				$temp = split('&', $temp[1]);
+				
+				$sefstring .= $temp[0].'/';
+			}
+			
 			$string = $sefstring;
 		} else if (eregi('option=com_',$string) && !eregi('task=new',$string) && !eregi('task=edit',$string)) {
 			/*
