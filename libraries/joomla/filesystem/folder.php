@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @version $Id$
  * @package Joomla
@@ -42,11 +43,11 @@ class JFolder {
 		$ftpFlag = false;
 		$ftpRoot = $mainframe->getCfg('ftp_root');
 
-		JPath::check($path);
-		$path = JPath::clean($path, false);
+		JPath :: check($path);
+		$path = JPath :: clean($path, false);
 
 		// Check if dir already exists
-		if (JFolder::exists($path)) {
+		if (JFolder :: exists($path)) {
 			return true;
 		}
 
@@ -64,12 +65,12 @@ class JFolder {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
-			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
+			$ftp = & JFTP :: getInstance($mainframe->getCfg('ftp_host'));
+			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
 			$ret = true;
 
 			// Translate path to FTP path
-			$path = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
+			$path = JPath :: clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
 
 			if (!$ftp->mkdir($path)) {
 				$ret = false;
@@ -166,27 +167,27 @@ class JFolder {
 		/*
 		 * Make sure that the path given is a valid Joomla path
 		 */
-		$path = JPath::clean($path);
-		JPath::check($path);
+		$path = JPath :: clean($path);
+		JPath :: check($path);
 
 		/*
 		 * Make sure that the path given to delete is in fact a folder
 		 */
 		if (!is_dir($path)) {
-			JError::raiseWarning(21, 'JFolder::delete: Path is not a folder: '.$path);
+			JError :: raiseWarning(21, 'JFolder::delete: Path is not a folder: '.$path);
 			return false;
 		}
 
 		// Remove all the files in folder if they exist
-		$files = JFolder::files($path, '.', false, true);
+		$files = JFolder :: files($path, '.', false, true);
 		if (count($files)) {
-			JFile::delete($files);
+			JFile :: delete($files);
 		}
 
 		// Remove sub-folders of folder
-		$folders = JFolder::folders($path, '.', false, true);
+		$folders = JFolder :: folders($path, '.', false, true);
 		foreach ($folders as $folder) {
-			JFolder::delete($folder);
+			JFolder :: delete($folder);
 		}
 
 		// Make sure the path to be deleted is writable or use FTP
@@ -207,11 +208,11 @@ class JFolder {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
-			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
+			$ftp = & JFTP :: getInstance($mainframe->getCfg('ftp_host'));
+			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
 
 			// Translate Path
-			$path = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path));
+			$path = JPath :: clean(str_replace(JPATH_SITE, $ftpRoot, $path));
 			$ret = $ftp->delete($path);
 			$ftp->quit();
 		} else {
@@ -239,18 +240,18 @@ class JFolder {
 		$ftpRoot = $mainframe->getCfg('ftp_root');
 
 		if ($path) {
-			$src = JPath::clean($path.$src, false);
-			$dest = JPath::clean($path.$dest, false);
+			$src = JPath :: clean($path.$src, false);
+			$dest = JPath :: clean($path.$dest, false);
 		}
 
-		JPath::check($src);
-		JPath::check($dest);
+		JPath :: check($src);
+		JPath :: check($dest);
 
-		if (!JFolder::exists($src) && !is_writable($src)) {
-			return JText::_('Cannot find source file');
+		if (!JFolder :: exists($src) && !is_writable($src)) {
+			return JText :: _('Cannot find source file');
 		}
-		if (JFolder::exists($dest)) {
-			return JText::_('Directory exists');
+		if (JFolder :: exists($dest)) {
+			return JText :: _('Directory exists');
 		}
 
 		/*
@@ -274,16 +275,16 @@ class JFolder {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
-			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
+			$ftp = & JFTP :: getInstance($mainframe->getCfg('ftp_host'));
+			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
 
 			//Translate path for the FTP account
-			$src = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $src), false);
-			$dest = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $dest), false);
+			$src = JPath :: clean(str_replace(JPATH_SITE, $ftpRoot, $src), false);
+			$dest = JPath :: clean(str_replace(JPATH_SITE, $ftpRoot, $dest), false);
 
 			// Use FTP rename to simulate move
 			if (!$ftp->rename($src, $dest)) {
-				return JText::_('Rename failed');
+				return JText :: _('Rename failed');
 			}
 
 			$ftp->quit();
@@ -291,7 +292,7 @@ class JFolder {
 			$ret = true;
 		} else {
 			if (!@ rename($src, $dest)) {
-				return JText::_('Rename failed');
+				return JText :: _('Rename failed');
 			}
 			$ret = true;
 		}
@@ -305,8 +306,9 @@ class JFolder {
 	 * @return boolean True if path is a folder
 	 * @since 1.1
 	 */
-	function exists($path) {
-		$path = JPath::clean($path, false);
+	function exists($path)
+	{
+		$path = JPath :: clean($path, false);
 		return is_dir($path);
 	}
 
@@ -332,14 +334,14 @@ class JFolder {
 		/*
 		 * Make sure that the path given is a valid Joomla path
 		 */
-		$path = JPath::clean($path);
-		JPath::check($path);
+		$path = JPath :: clean($path);
+		JPath :: check($path);
 
 		/*
 		 * Make sure that the path given to delete is in fact a folder
 		 */
 		if (!is_dir($path)) {
-			JError::raiseWarning(21, 'JFolder::files: Path is not a folder: '.$path);
+			JError :: raiseWarning(21, 'JFolder::files: Path is not a folder: '.$path);
 			return false;
 		}
 
@@ -363,15 +365,15 @@ class JFolder {
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
-			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
+			$ftp = & JFTP :: getInstance($mainframe->getCfg('ftp_host'));
+			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
 
 			//Translate path for the FTP account
-			$ftpPath = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
+			$ftpPath = JPath :: clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
 
 			// Use FTP get the file listing
 			if (!($list = $ftp->listDir($ftpPath, 'files'))) {
-				return JText::_('File Listing failed');
+				return JText :: _('File Listing failed');
 			}
 			$ftp->quit();
 
@@ -385,7 +387,7 @@ class JFolder {
 				if ($file['name'] <> '.' && $file['name'] <> '..') {
 					if ($isDir) {
 						if ($recurse) {
-							$arr2 = JFolder::files($path.$file['name'], $filter, $recurse, $fullpath);
+							$arr2 = JFolder :: files($path.$file['name'], $filter, $recurse, $fullpath);
 							$arr = array_merge($arr, $arr2);
 						}
 					} else {
@@ -408,7 +410,7 @@ class JFolder {
 				if ($file != '.' && $file != '..') {
 					if ($isDir) {
 						if ($recurse) {
-							$arr2 = JFolder::files($dir, $filter, $recurse, $fullpath);
+							$arr2 = JFolder :: files($dir, $filter, $recurse, $fullpath);
 							$arr = array_merge($arr, $arr2);
 						}
 					} else {
@@ -444,63 +446,64 @@ class JFolder {
 
 		// Initialize variables
 		$ftpFlag = false;
-		$ftpRoot = $mainframe->getCfg('ftp_root');
 		$arr = array ();
+		$ftpRoot = $mainframe->getCfg('ftp_root');
 
 		/*
 		 * Make sure that the path given is a valid Joomla path
 		 */
-		$path = JPath::clean($path);
-		JPath::check($path);
+		$path = JPath :: clean($path);
+		JPath :: check($path);
 
 		/*
 		 * Make sure that the path given to delete is in fact a folder
 		 */
 		if (!is_dir($path)) {
-			JError::raiseWarning(21, 'JFolder::folder: Path is not a folder: '.$path);
+			JError :: raiseWarning(21, 'JFolder::folder: Path is not a folder: '.$path);
 			return false;
 		}
 
 		/*
-		 * If the directory exists but isn't readable we need to use FTP
+		 * If the directory isn't readable or safe mode is on we need to use FTP
 		 */
-		if (!is_readable($path)) {
+		if (!is_readable($path) || ini_get('safe_mode')) {
 			$ftpFlag = true;
 		}
 
-		// Check for safe mode
-		if (ini_get('safe_mode')) {
-			$ftpFlag = true;
-		}
-
-		// Do NOT use ftp if it is not enabled
+		/*
+		 * Obviously if the FTP layer is not enabled, don't use it
+		 */
 		if ($mainframe->getCfg('ftp_enable') != 1) {
 			$ftpFlag = false;
 		}
 
+		/*
+		 * Do we use FTP?
+		 */
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
-			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
+			$ftp = & JFTP :: getInstance($mainframe->getCfg('ftp_host'));
+			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
 
 			//Translate path for the FTP account
-			$ftpPath = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
+			$ftpPath = JPath :: clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
 
 			// Use FTP get the file listing
 			if (!($list = $ftp->listDir($ftpPath, 'folders'))) {
-				return JText::_('File Listing failed');
+				// Warning will be thrown by the FTP connector
+				return false;
 			}
+			// Close the FTP connection
 			$ftp->quit();
 
-			$path .= DS;
 			foreach ($list as $file) {
 				if ($file['type'] == 1) {
 					$isDir = true;
 				} else {
 					$isDir = false;
 				}
-				if (($file['name'] <> '.') && ($file['name'] <> '..') && $isDir) {
+				if (($file['name'] != '.') && ($file['name'] != '..') && $isDir) {
 					// removes SVN directores from list
 					if (preg_match("/$filter/", $file['name']) && !(preg_match("/\.svn/", $file['name']))) {
 						if ($fullpath) {
@@ -510,7 +513,7 @@ class JFolder {
 						}
 					}
 					if ($recurse) {
-						$arr2 = JFolder::folders($path.$file['name'], $filter, $recurse, $fullpath);
+						$arr2 = JFolder :: folders($path.$file['name'], $filter, $recurse, $fullpath);
 						$arr = array_merge($arr, $arr2);
 					}
 				}
@@ -531,7 +534,7 @@ class JFolder {
 						}
 					}
 					if ($recurse) {
-						$arr2 = JFolder::folders($dir, $filter, $recurse, $fullpath);
+						$arr2 = JFolder :: folders($dir, $filter, $recurse, $fullpath);
 						$arr = array_merge($arr, $arr2);
 					}
 				}
@@ -541,7 +544,7 @@ class JFolder {
 		asort($arr);
 		return $arr;
 	}
-
+	
 	/**
 	 * Lists folder in format suitable for tree display
 	 */
@@ -553,17 +556,17 @@ class JFolder {
 		}
 
 		if ($level < $maxLevel) {
-			JPath::check($path);
+			JPath :: check($path);
 
-			$folders = JFolder::folders($path, $filter);
+			$folders = JFolder :: folders($path, $filter);
 
 			// first path, index foldernames
 			for ($i = 0, $n = count($folders); $i < $n; $i ++) {
 				$id = ++ $GLOBALS['_JFolder_folder_tree_index'];
 				$name = $folders[$i];
-				$fullName = JPath::clean($path.DS.$name, false);
+				$fullName = JPath :: clean($path.DS.$name, false);
 				$dirs[] = array ('id' => $id, 'parent' => $parent, 'name' => $name, 'fullname' => $fullName, 'relname' => str_replace(JPATH_ROOT, '', $fullName));
-				$dirs2 = JFolder::listFolderTree($fullName, $filter, $maxLevel, $level +1, $id);
+				$dirs2 = JFolder :: listFolderTree($fullName, $filter, $maxLevel, $level +1, $id);
 				$dirs = array_merge($dirs, $dirs2);
 			}
 		}

@@ -67,7 +67,7 @@ class JFile {
 	 * @param string $src The path to the source file
 	 * @param string $dest The path to the destination file
 	 * @param string $path An optional base path to prefix to the file names
-	 * @return mixed Error message on false or boolean True on success
+	 * @return boolean True on success
 	 * @since 1.1
 	 */
 	function copy($src, $dest, $path = null) {
@@ -95,8 +95,8 @@ class JFile {
 		}
 
 		/*
-		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
-		 * is not writable we need to use FTP
+		 * If the file exists but isn't writable OR if the file doesn't exist
+		 * and the parent directory is not writable we need to use FTP
 		 */
 		if ((file_exists($dest) && !is_writable($dest)) || (!file_exists($dest) && !is_writable(dirname($dest)))) {
 			$ftpFlag = true;
@@ -127,7 +127,7 @@ class JFile {
 			$dest = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $dest), false);
 
 			if (!$ftp->store($src, $dest)) {
-				// TODO: Handle error JText::_('Copy failed')
+				// FTP connector throws an error
 				return false;
 			}
 			$ftp->quit();
@@ -135,7 +135,7 @@ class JFile {
 			$ret = true;
 		} else {
 			if (!@ copy($src, $dest)) {
-				// TODO: Handle error JText::_('Copy failed')
+				JError::raiseWarning( 21, JText::_('Copy failed'));
 				return false;
 			}
 			$ret = true;
@@ -171,12 +171,12 @@ class JFile {
 		// Do NOT use ftp if it is not enabled
 		if ($mainframe->getCfg('ftp_enable') != 1) {
 			$ftpFlag = false;
+		} else {
+			// Connect the FTP client
+			jimport('joomla.connector.ftp');
+			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
+			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
 		}
-
-		// Connect the FTP client
-		jimport('joomla.connector.ftp');
-		$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
-		$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
 
 		$retval = true;
 		foreach ($files as $file) {
@@ -184,13 +184,13 @@ class JFile {
 			JPath::check($file);
 
 			if ($ftpFlag == true || !is_writable($file)) {
-				$fail = $ftp->delete(JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $file)));
+				$fail = !$ftp->delete(JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $file)));
 			} else {
 				$fail = !unlink($file);
 			}
 			
-			if (!$fail) {
-				$retval = $fail;
+			if ($fail) {
+				$retval = false;
 			}
 		}
 		$ftp->quit();
@@ -203,7 +203,7 @@ class JFile {
 	 * @param string $src The path to the source file
 	 * @param string $dest The path to the destination file
 	 * @param string $path An optional base path to prefix to the file names
-	 * @return mixed Error message on false or boolean True on success
+	 * @return boolean True on success
 	 * @since 1.1
 	 */
 	function move($src, $dest, $path = '') {
@@ -227,8 +227,8 @@ class JFile {
 		}
 
 		/*
-		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
-		 * is not writable we need to use FTP
+		 * If the file exists but isn't writable OR if the file doesn't exist
+		 * and the parent directory is not writable we need to use FTP
 		 */
 		if ((file_exists($dest) && !is_writable($dest)) || (!file_exists($dest) && !is_writable(dirname($dest)))) {
 			$ftpFlag = true;
@@ -256,19 +256,18 @@ class JFile {
 
 			// Use FTP rename to simulate move
 			if (!$ftp->rename($src, $dest)) {
-				return JText::_('Rename failed');
+				JError::raiseWarning( 21, JText::_('Rename failed'));
+				return false; 
 			}
-
 			$ftp->quit();
 
-			$ret = true;
 		} else {
 			if (!@ rename($src, $dest)) {
-				return JText::_('Rename failed');
+				JError::raiseWarning( 21, JText::_('Rename failed'));
+				return false; 
 			}
-			$ret = true;
 		}
-		return $ret;
+		return true;
 	}
 
 	/**
@@ -328,7 +327,7 @@ class JFile {
 		} else {
 
 			if (false === $fh = fopen($filename, 'rb', $incpath)) {
-				//trigger_error('JFile::read failed to open stream: No such file or directory', E_USER_WARNING);
+				JError::raiseWarning( 21, 'JFile::read: '. JText::_( 'Unable to open file ').$filename);
 				return false;
 			}
 
@@ -365,8 +364,8 @@ class JFile {
 		JPath::check($file);
 
 		/*
-		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
-		 * is not writable we need to use FTP
+		 * If the file exists but isn't writable OR if the file doesn't exist
+		 * and the parent directory is not writable we need to use FTP
 		 */
 		if ((file_exists($file) && !is_writable($file)) || (!file_exists($file) && !is_writable(dirname($file)))) {
 			$ftpFlag = true;
@@ -411,11 +410,15 @@ class JFile {
 	}
 
 	/**
-	 * @param string The name of the php (temporary) uploaded file
-	 * @param string The name of the file to put in the temp directory
-	 * @param string The message to return
+	 * Moves and uploaded file to a destination folder
+	 * 
+	 * @param string $src The name of the php (temporary) uploaded file
+	 * @param string $dest The path (including filename) to move the uploaded
+	 * file to
+	 * @return boolean True on success
+	 * @since 1.1
 	 */
-	function upload($srcFile, $destFile) {
+	function upload($src, $dest) {
 		global $mainframe;
 
 		// Initialize variables
@@ -423,26 +426,41 @@ class JFile {
 		$ftpRoot = $mainframe->getCfg('ftp_root');
 		$ret = false;
 
-		$srcFile = JPath::clean($srcFile, false);
-		$destFile = JPath::clean($destFile, false);
-		JPath::check($destFile);
-
-		$baseDir = dirname($destFile);
+		/*
+		 * Prepare the source and destination paths as well as verify that the
+		 * detination path is in the Joomla Root
+		 */
+		$src = JPath::clean($src, false);
+		$dest = JPath::clean($dest, false);
+		JPath::check($dest);
 
 		/*
-		 * If the destination file exists but isn't writable OR if the file doesn't exist and the parent directory
-		 * is not writable we need to use FTP
+		 * If the destination directory does not exist, we need to create it.
 		 */
-		if ((file_exists($destFile) && !is_writable($destFile)) || (!file_exists($destFile) && !is_writable(dirname($destFile)))) {
+		$baseDir = dirname($dest);
+		if (!file_exists($baseDir)) {
+			JFolder::create($baseDir);
+		}
+
+		/*
+		 * If the destination file exists but isn't writable OR if the file
+		 * doesn't exist and the parent directory is not writable we need to use
+		 * FTP
+		 */
+		if ((file_exists($dest) && !is_writable($dest)) || (!file_exists($dest) && !is_writable(dirname($dest)))) {
 			$ftpFlag = true;
 		}
 
-		// Check for safe mode
+		/*
+		 * Oh, and use ftp if we are in safe mode...
+		 */
 		if (ini_get('safe_mode')) {
 			$ftpFlag = true;
 		}
 
-		// Do NOT use ftp if it is not enabled
+		/*
+		 * But, not if it is not enabled...
+		 */
 		if ($mainframe->getCfg('ftp_enable') != 1) {
 			$ftpFlag = false;
 		}
@@ -453,29 +471,28 @@ class JFile {
 			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
 			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
 
-			// If the destination directory doesn't exist we need to create it
-			if (!file_exists($baseDir)) {
-				JFolder::create($baseDir);
-			}
 			//Translate path for the FTP account
-			$destFile = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $destFile), false);
+			$dest = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $dest), false);
 
-			if ($ftp->store($srcFile, $destFile)) {
+			/*
+			 * Copy the file to the destination directory
+			 */
+			if ($ftp->store($src, $dest)) {
 				$ret = true;
 			} else {
-				$msg = JText::_('WARNFS_ERR02');
+				JError::raiseWarning( 21, JText::_('WARNFS_ERR02'));
 			}
 			$ftp->quit();
 
 		} else {
-			if (move_uploaded_file($srcFile, $destFile)) {
-				if (JPath::setPermissions($destFile)) {
+			if (move_uploaded_file($src, $dest)) {
+				if (JPath::setPermissions($dest)) {
 					$ret = true;
 				} else {
-					$msg = JText::_('WARNFS_ERR01');
+					JError::raiseWarning( 21, JText::_('WARNFS_ERR01'));
 				}
 			} else {
-				$msg = JText::_('WARNFS_ERR02');
+				JError::raiseWarning( 21, JText::_('WARNFS_ERR02'));
 			}
 		}
 		return $ret;
