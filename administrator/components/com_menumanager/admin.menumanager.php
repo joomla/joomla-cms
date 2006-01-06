@@ -180,7 +180,7 @@ function editMenu( $option, $menu ) {
 	if( $menu ) {
 		$row->menutype 	= $menu;
 	} else {
-		$row = new JModuleModel( $database );
+		$row =& JModel::getInstance('module', $database );
 		// setting default values
 		$row->menutype 	= '';
 		$row->iscore 	= 0;
@@ -229,7 +229,7 @@ function saveMenu() {
 	switch ( $new ) {
 		case 1:
 		// create a new module for the new menu
-			$row = new JModuleModel( $database );
+			$row =& JModel::getInstance('module', $database );
 			$row->bind( $_POST );
 
 			$row->params = 'menutype='. $menutype;
@@ -270,7 +270,7 @@ function saveMenu() {
 			$modules = $database->loadResultArray();
 
 			foreach ( $modules as $module ) {
-				$row = new JModuleModel( $database );
+				$row =& JModel::getInstance('module', $database );
 				$row->load( $module );
 
 				$save = 0;
@@ -349,7 +349,7 @@ function deleteConfirm( $option, $type ) {
 	$mods = $database->loadResultArray();
 
 	foreach ( $mods as $module ) {
-		$row = new JModuleModel( $database );
+		$row =& JModel::getInstance('module', $database );
 		$row->load( $module );
 
 		$params = mosParseParams( $row->params );
@@ -423,7 +423,7 @@ function deleteMenu( $option, $cid, $type ) {
 		}
 
 		// reorder modules after deletion
-		$mod = new JModuleModel( $database );
+		$mod =& JModel::getInstance('module', $database );
 		$mod->ordering = 0;
 		$mod->updateOrder( "position='left'" );
 		$mod->updateOrder( "position='right'" );
@@ -480,8 +480,8 @@ function copyMenu( $option, $cid, $type ) {
 	// copy the menu items
 	$mids 		= mosGetParam( $_POST, 'mids', '' );
 	$total 		= count( $mids );
-	$copy 		= new JMenuModel( $database );
-	$original 	= new JMenuModel( $database );
+	$copy 		=& JModel::getInstance('menu', $database );
+	$original 	=& JModel::getInstance('menu', $database );
 	sort( $mids );
 	$a_ids 		= array();
 
@@ -504,7 +504,7 @@ function copyMenu( $option, $cid, $type ) {
 	}
 
 	// create the module copy
-	$row = new JModuleModel( $database );
+	$row =& JModel::getInstance('module', $database );
 	$row->load( 0 );
 	$row->title 	= $module_name;
 	$row->iscore 	= 0;

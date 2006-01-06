@@ -12,8 +12,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.models.model' );
-
 /**
  * Users model
  *
@@ -22,7 +20,8 @@ jimport( 'joomla.models.model' );
  * @subpackage 	Model
  * @since 1.0
  */
-class JUserModel extends JModel {
+class JModelUser extends JModel 
+{
 	/** @var int Unique id*/
 	var $id				= null;
 	/** @var string The users real name (or nickname)*/
@@ -65,7 +64,8 @@ class JUserModel extends JModel {
 	 * Validation and filtering
 	 * @return boolean True is satisfactory
 	 */
-	function check() {
+	function check() 
+	{
 		global $mosConfig_uniquemail;
 
 		// filter malicious code
@@ -123,7 +123,8 @@ class JUserModel extends JModel {
 		return true;
 	}
 
-	function store( $updateNulls=false ) {
+	function store( $updateNulls=false ) 
+	{
 		global $acl, $migrate;
 
 		$section_value = 'users';
@@ -159,7 +160,8 @@ class JUserModel extends JModel {
 		}
 	}
 
-	function delete( $oid=null ) {
+	function delete( $oid=null ) 
+	{
 		global $acl;
 
 		$k = $this->_tbl_key;
@@ -207,7 +209,8 @@ class JUserModel extends JModel {
 	 * @param int The timestamp, defaults to 'now'
 	 * @return boolean False if an error occurs
 	 */
-	function setLastVisit( $timeStamp=null, $id=null ) {
+	function setLastVisit( $timeStamp=null, $id=null ) 
+	{
 		// check for User ID
 		if (is_null( $id )) {
 			if (isset( $this )) {
@@ -246,22 +249,24 @@ class JUserModel extends JModel {
 	 * @param string The username to search on
 	 * @return int Number of matching rows (either 0 or 1)
 	 */
-        function userExists($username) {
-                global $database;
-                $database->setQuery("SELECT username FROM #__users WHERE username = '$username' LIMIT 1");
-                $database->Query();
-                return $database->getNumRows();
-        }
+	function userExists($username) 
+	{
+		global $database;
+		$database->setQuery("SELECT username FROM #__users WHERE username = '$username' LIMIT 1");
+		$database->Query();
+		return $database->getNumRows();
+	}
 
 	/**
 	 * Returns a complete user list
 	 * @return array
 	 */
-        function getUserList() {
-                global $database;
-                $database->setQuery("SELECT username FROM #__users");
-                return $database->loadAssocList();
-        }
+	function getUserList() 
+	{
+		global $database;
+		$database->setQuery("SELECT username FROM #__users");
+		return $database->loadAssocList();
+	}
 
 	/**
 	 * Gets the users from a group
@@ -270,8 +275,9 @@ class JUserModel extends JModel {
 	 * @param string If RECURSE, will drill into child groups
 	 * @param string Ordering for the list
 	 * @return array
-	 */
-	function getUserListFromGroup( $value, $name, $recurse='NO_RECURSE', $order='name' ) {
+	 */	
+	function getUserListFromGroup( $value, $name, $recurse='NO_RECURSE', $order='name' ) 
+	{
 		global $acl;
 
 		// Change back in

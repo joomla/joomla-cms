@@ -27,10 +27,10 @@ class components_menu {
 	function edit( $uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
 
-		$menu = new JMenuModel( $database );
+		$menu =& JModel::getInstance('menu', $database );
 		$menu->load( $uid );
 
-		$row = new JComponentModel( $database );
+		$row =& JModel::getInstance('component', $database );
 		// load the row from the db table
 		$row->load( $menu->componentid );
 

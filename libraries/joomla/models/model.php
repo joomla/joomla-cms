@@ -27,29 +27,71 @@ jimport( 'joomla.common.base.object' );
  */
 class JModel extends JObject 
 {
-	/** @var string Name of the table in the db schema relating to child class */
+	/** 
+	 * Name of the table in the db schema relating to child class
+	 * 
+	 * @var string  
+	 * @access protected
+	 */
 	var $_tbl		= '';
-	/** @var string Name of the primary key field in the table */
+	
+	/** 
+	 * Name of the primary key field in the table
+	 * 
+	 * @var string
+	 * @access protected  
+	 */
 	var $_tbl_key	= '';
-	/** @var string Error message */
+	
+	/** 
+	 * Error message
+	 * 
+	 * @var string  
+	 * @access protected
+	 */
 	var $_error		= '';
-	/** @var mosDatabase Database connector */
+	
+	/** 
+	 * Database connector
+	 * 
+	 * @var JDatabase 
+	 * @access protected
+	 */
 	var $_db		= null;
 
 	/**
-	*	Object constructor to set table and key field
+	* Object constructor to set table and key field
 	*
-	*	Can be overloaded/supplemented by the child class
-	*	@param string $table name of the table in the db schema relating to child class
-	*	@param string $key name of the primary key field in the table
+	* Can be overloaded/supplemented by the child class
+	*
+	* @access protected  
+	* @param string $table name of the table in the db schema relating to child class
+	* @param string $key name of the primary key field in the table
 	*/
-	function __construct( $table, $key, &$db ) {
+	function __construct( $table, $key, &$db ) 
+	{
 		$this->_tbl		= $table;
 		$this->_tbl_key	= $key;
 		$this->_db		=& $db;
 	}
+	
+	/**
+	 * Returns a reference to the a Model object, always creating it
+	 *
+	 * @param type $type The model type to instantiate
+	 * @return database A database object
+	 * @since 1.1
+	*/
+	function &getInstance( $type, &$db ) 
+	{
+		jimport('joomla.models.adapters.'.$type);
+		$adapter = 'JModel'.$type;
+		return new $adapter($db);
+	}
+	
 	/**
 	 * Filters public properties
+	 * 
 	 * @access protected
 	 * @param array List of fields to ignore
 	 */
@@ -65,7 +107,9 @@ class JModel extends JObject
 		}
 	}
 	/**
-	 *	@return string Returns the error message
+	 * Returns the error message
+	 *
+	 * @return string
 	 */
 	function getError() {
 		return $this->_error;
@@ -73,6 +117,7 @@ class JModel extends JObject
 
 	/**
 	 * Returns an array of public properties
+	 * 
 	 * @return array
 	 */
 	function getPublicProperties() {
@@ -89,13 +134,16 @@ class JModel extends JObject
 	}
 
 	/**
-	*	binds a named array/hash to this object
+	* Binds a named array/hash to this object
 	*
-	*	can be overloaded/supplemented by the child class
-	*	@param array $hash named array
-	*	@return null|string	null is operation was satisfactory, otherwise returns an error
+	* can be overloaded/supplemented by the child class
+	*
+	* @acces public  
+	* @param array $hash named array
+	* @return null|string	null is operation was satisfactory, otherwise returns an error
 	*/
-	function bind( $array, $ignore="" ) {
+	function bind( $array, $ignore="" ) 
+	{
 		if (!is_array( $array )) {
 			$this->_error = strtolower(get_class( $this ))."::bind failed.";
 			return false;
@@ -105,11 +153,14 @@ class JModel extends JObject
 	}
 
 	/**
-	*	binds an array/hash to this object
-	*	@param int $oid optional argument, if not specifed then the value of current key is used
-	*	@return any result from the database operation
+	* Binds an array/hash to this object
+	*
+	* @access public	
+	* @param int $oid optional argument, if not specifed then the value of current key is used
+	* @return any result from the database operation
 	*/
-	function load( $oid=null ) {
+	function load( $oid=null ) 
+	{
 		$k = $this->_tbl_key;
 		if ($oid !== null) {
 			$this->$k = $oid;
@@ -123,10 +174,12 @@ class JModel extends JObject
 	}
 
 	/**
-	*	generic check method
+	* Generic check method
 	*
-	*	can be overloaded/supplemented by the child class
-	*	@return boolean True if the object is ok
+	* Can be overloaded/supplemented by the child class
+	* 
+	* @access public  
+	* @return boolean True if the object is ok
 	*/
 	function check() {
 		return true;
@@ -136,10 +189,13 @@ class JModel extends JObject
 	* Inserts a new row if id is zero or updates an existing row in the database table
 	*
 	* Can be overloaded/supplemented by the child class
+	* 
+	* @access public
 	* @param boolean If false, null object variables are not updated
 	* @return null|string null if successful otherwise returns and error message
 	*/
-	function store( $updateNulls=false ) {
+	function store( $updateNulls=false ) 
+	{
 		$k = $this->_tbl_key;
 		global $migrate;
 		if( $this->$k && !$migrate) {
@@ -154,9 +210,16 @@ class JModel extends JObject
 			return true;
 		}
 	}
+	
 	/**
-	*/
-	function move( $dirn, $where='' ) {
+	 * Description
+	 * 
+	 * @access public
+	 * @param 
+	 * @param
+	 */
+	function move( $dirn, $where='' ) 
+	{
 		$k = $this->_tbl_key;
 
 		$sql = "SELECT $this->_tbl_key, ordering FROM $this->_tbl";
@@ -226,9 +289,12 @@ class JModel extends JObject
 	}
 	/**
 	* Compacts the ordering sequence of the selected records
+	* 
+	* @access public
 	* @param string Additional where query to limit ordering to a particular subset of records
 	*/
-	function updateOrder( $where='' ) {
+	function updateOrder( $where='' ) 
+	{
 		$k = $this->_tbl_key;
 
 		if (!array_key_exists( 'ordering', get_class_vars( strtolower(get_class( $this )) ) )) {
@@ -300,15 +366,18 @@ class JModel extends JObject
 		return true;
 	}
 	/**
-	*	Generic check for whether dependancies exist for this object in the db schema
+	* Generic check for whether dependancies exist for this object in the db schema
 	*
-	*	can be overloaded/supplemented by the child class
-	*	@param string $msg Error message returned
-	*	@param int Optional key index
-	*	@param array Optional array to compiles standard joins: format [label=>'Label',name=>'table name',idfield=>'field',joinfield=>'field']
-	*	@return true|false
+	* can be overloaded/supplemented by the child class
+	*
+	* @access public
+	* @param string $msg Error message returned
+	* @param int Optional key index
+	* @param array Optional array to compiles standard joins: format [label=>'Label',name=>'table name',idfield=>'field',joinfield=>'field']
+	* @return true|false
 	*/
-	function canDelete( $oid=null, $joins=null ) {
+	function canDelete( $oid=null, $joins=null ) 
+	{
 		$k = $this->_tbl_key;
 		if ($oid) {
 			$this->$k = intval( $oid );
@@ -353,12 +422,15 @@ class JModel extends JObject
 	}
 
 	/**
-	*	Default delete method
+	* Default delete method
 	*
-	*	can be overloaded/supplemented by the child class
-	*	@return true if successful otherwise returns and error message
+	* can be overloaded/supplemented by the child class
+	* 
+	* @access public
+	* @return true if successful otherwise returns and error message
 	*/
-	function delete( $oid=null ) {
+	function delete( $oid=null ) 
+	{
 		//if (!$this->canDelete( $msg )) {
 		//	return $msg;
 		//}
@@ -381,7 +453,15 @@ class JModel extends JObject
 		}
 	}
 
-	function checkout( $who, $oid=null ) {
+	/**
+	 * Description
+	 * 
+	 * @access public
+	 * @param 
+	 * @param
+	 */
+	function checkout( $who, $oid=null ) 
+	{
 		if (!array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) )) {
 			$this->_error = "WARNING: ".strtolower(get_class( $this ))." does not support checkouts.";
 			return false;
@@ -417,6 +497,13 @@ class JModel extends JObject
 		return $this->_db->query();
 	}
 
+	/**
+	 * Description
+	 * 
+	 * @access public
+	 * @param 
+	 * @param
+	 */
 	function checkin( $oid=null ) {
 		if (!array_key_exists( 'checked_out', get_class_vars( strtolower(get_class( $this )) ) )) {
 			$this->_error = "WARNING: ".strtolower(get_class( $this ))." does not support checkin.";
@@ -439,7 +526,15 @@ class JModel extends JObject
 		return $this->_db->query();
 	}
 
-	function hit( $oid=null ) {
+	/**
+	 * Description
+	 * 
+	 * @access public
+	 * @param 
+	 * @param
+	 */
+	function hit( $oid=null ) 
+	{
 		global $mosConfig_enable_log_items;
 
 		$k = $this->_tbl_key;
@@ -485,6 +580,8 @@ class JModel extends JObject
 
 	/**
 	 * Tests if item is checked out
+	 * 
+	 * @access public
 	 * @param int A user id
 	 * @return boolean
 	 */
@@ -498,11 +595,14 @@ class JModel extends JObject
 
 	/**
 	* Generic save function
+	* 
+	* @access public
 	* @param array Source array for binding to class vars
 	* @param string Filter for the order updating
 	* @returns TRUE if completely successful, FALSE if partially or not succesful.
 	*/
-	function save( $source, $order_filter ) {
+	function save( $source, $order_filter ) 
+	{
 		if (!$this->bind( $source )) {
 			return false;
 		}
@@ -523,11 +623,14 @@ class JModel extends JObject
 
 	/**
 	* Generic Publish/Unpublish function
+	* 
+	* @access public
 	* @param array An array of id numbers
 	* @param integer 0 if unpublishing, 1 if publishing
 	* @param integer The id of the user performnig the operation
 	*/
-	function publish_array( $cid=null, $publish=1, $myid=0 ) {
+	function publish_array( $cid=null, $publish=1, $myid=0 ) 
+	{
 		if (!is_array( $cid ) || count( $cid ) < 1) {
 			$this->_error = "No items selected.";
 			return false;
@@ -555,6 +658,8 @@ class JModel extends JObject
 
 	/**
 	* Export item list to xml
+	* 
+	* @access public
 	* @param boolean Map foreign keys to text values
 	*/
 	function toXML( $mapKeysToText=false ) {

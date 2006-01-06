@@ -12,72 +12,73 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.models.model' );
-
 /**
- * Module model
+ * Section model
  *
  * @package 	Joomla.Framework
  * @subpackage 	Model
  * @since 1.0
  */
-class JModuleModel extends JModel {
+class JModelSection extends JModel 
+{
 	/** @var int Primary key */
 	var $id					= null;
-	/** @var string */
+	/** @var string The menu title for the Section (a short name)*/
 	var $title				= null;
+	/** @var string The full name for the Section*/
+	var $name				= null;
 	/** @var string */
-	var $showtitle			= null;
-	/** @var int */
-	var $content			= null;
-	/** @var int */
-	var $ordering			= null;
+	var $image				= null;
 	/** @var string */
-	var $position			= null;
+	var $scope				= null;
+	/** @var int */
+	var $image_position		= null;
+	/** @var string */
+	var $description		= null;
+	/** @var boolean */
+	var $published			= null;
 	/** @var boolean */
 	var $checked_out		= null;
 	/** @var time */
 	var $checked_out_time	= null;
-	/** @var boolean */
-	var $published			= null;
-	/** @var string */
-	var $module				= null;
 	/** @var int */
-	var $numnews			= null;
+	var $ordering			= null;
 	/** @var int */
 	var $access				= null;
 	/** @var string */
 	var $params				= null;
-	/** @var string */
-	var $iscore				= null;
-	/** @var string */
-	var $client_id			= null;
 
 	/**
 	* @param database A database connector object
 	*/
 	function __construct( &$db ) {
-		parent::__construct( '#__modules', 'id', $db );
+		parent::__construct( '#__sections', 'id', $db );
 	}
 	// overloaded check function
-	function check() {
+	function check() 
+	{
 		// check for valid name
 		if (trim( $this->title ) == '') {
-			$this->_error = sprintf( JText::_( 'must contain a title' ), JText::_( 'Module') );
+			$this->_error = sprintf( JText::_( 'must contain a title' ), JText::_( 'Section') );
 			return false;
 		}
+		if (trim( $this->name ) == '') {
+			$this->_error = sprintf( JText::_( 'must have a name' ), JText::_( 'Section') );
+			return false;
+		}
+		// check for existing name
+		$query = "SELECT id"
+		. "\n FROM #__sections "
+		. "\n WHERE name = '$this->name'"
+		. "\n AND scope = '$this->scope'"
+		;
+		$this->_db->setQuery( $query );
 
-		// limitation has been removed
-		// check for existing title
-		//$this->_db->setQuery( "SELECT id FROM #__modules"
-		//. "\nWHERE title='$this->title'"
-		//);
-		// check for module of same name
-		//$xid = intval( $this->_db->loadResult() );
-		//if ($xid && $xid != intval( $this->id )) {
-		//	$this->_error = "There is a module already with that name, please try again.";
-		//	return false;
-		//}
+		$xid = intval( $this->_db->loadResult() );
+		if ($xid && $xid != intval( $this->id )) {
+			$this->_error = sprintf( JText::_( 'WARNNAMETRYAGAIN' ), JText::_( 'Section') );
+			return false;
+		}
 		return true;
 	}
 }

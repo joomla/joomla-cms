@@ -25,11 +25,11 @@ jimport( 'joomla.common.base.object' );
 * @since 1.1
 */
 
-class JApplication extends JObject {
-
+class JApplication extends JObject 
+{
 	/** @var object An object of configuration variables */
 	var $_config			= null;
-	/** @var JSessionModel The current session */
+	/** @var JModelSession The current session */
 	var $_session			= null;
 	/** @var string The current template */
 	var $_template			= null;
@@ -52,15 +52,14 @@ class JApplication extends JObject {
 	* @param string 	The URL option passed in
 	* @param integer	A client identifier
 	*/
-	function __construct( $option, $client=0 ) {
-
+	function __construct( $option, $client=0 ) 
+	{
 		$this->_client 		    = $client;
 		$this->_option			= $option;
 
 		$this->_createRegistry( );
 		$this->_createTemplate( );
-		$this->_createPathWay( );
-		
+		$this->_createPathWay( );	
 	}
 
 	/**
@@ -95,8 +94,8 @@ class JApplication extends JObject {
 	* @param string The default value for the variable if not found
 	* @return The request user state
 	*/
-	function getUserStateFromRequest( $name, $request, $default=null ) {
-		
+	function getUserStateFromRequest( $name, $request, $default=null ) 
+	{	
 		$value = isset( $_REQUEST[$request] ) ? $_REQUEST[$request] : $default;
 		$this->setUserState( $name, $value );
 		return $value;
@@ -139,7 +138,8 @@ class JApplication extends JObject {
 	* A successful validation updates the current session record with the
 	* users details.
 	*/
-	function login( $username=null,$passwd=null ) {
+	function login( $username=null,$passwd=null ) 
+	{
 		global $database, $acl;
 
 		if (!$username || !$passwd) {
@@ -288,14 +288,14 @@ class JApplication extends JObject {
 	/**
 	 * Returns a reference to the JUser object
 	 *
-	 * @return JUserModel A user object with the information from the current session
+	 * @return JModelUser A user object with the information from the current session
 	 */
 	function &getUser()
 	{
 		// Check to see if the user object exists
 		if (!is_object($this->_user)) {
 			// If it doesn't exist, create a new user object
-			$this->_user =& new JUserModel( $this->getDBO());
+			$this->_user =& JModel::getInstance('user', $this->getDBO());
 		}
 
 		// If there is a userid in the session, load the user object with the logged in user
@@ -461,7 +461,7 @@ class JApplication extends JObject {
 		}
 		$this->_userstate =& $_SESSION['session_userstate'];
 
-		$session = new JSessionModel( $this->getDBO() );
+		$session = & JModel::getInstance('session', $this->getDBO() );
 		$session->purge( intval( $this->getCfg( 'lifetime' ) ) );
 
 		if ($session->load( $session->hash( JSession::id() ) )) {

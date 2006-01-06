@@ -28,7 +28,7 @@ class newsfeed_category_table_menu {
 	function editCategory( $uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
 
-		$menu = new JMenuModel( $database );
+		$menu =& JModel::getInstance('menu', $database );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'

@@ -12,8 +12,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.models.model' );
-
 /**
  * Category model
  *
@@ -21,7 +19,7 @@ jimport( 'joomla.models.model' );
  * @subpackage 	Model
  * @since 1.0
  */
-class JCategoryModel extends JModel
+class JModelCategory extends JModel
 {
 	/** @var int Primary key */
 	var $id					= null;
@@ -60,8 +58,8 @@ class JCategoryModel extends JModel
 	}
 
 	// overloaded check function
-	function check() {
-
+	function check() 
+	{
 		// check for valid name
 		if (trim( $this->title ) == '') {
 			$this->_error = sprintf( JText::_( 'must contain a title' ), JText::_( 'Category') );

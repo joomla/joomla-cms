@@ -80,7 +80,7 @@ function listContacts( $option, $catid ) {
 		$currentcat = NULL;
 
 		// Parameters
-		$menu = new JMenuModel( $database );
+		$menu =& JModel::getInstance('menu', $database );
 		$menu->load( $Itemid );
 		$params = new JParameters( $menu->params );
 
@@ -322,7 +322,7 @@ function contactpage( $contact_id ) {
 		}
 
 		// params from menu item
-		$menu = new JMenuModel( $database );
+		$menu =& JModel::getInstance('menu', $database );
 		$menu->load( $Itemid );
 		$menu_params = new JParameters( $menu->params );
 

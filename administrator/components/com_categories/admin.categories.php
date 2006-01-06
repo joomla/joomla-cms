@@ -253,9 +253,9 @@ function showCategories( $section, $option ) {
 * @param integer The unique id of the category to edit (0 if new)
 * @param string The name of the current user
 */
-function editCategory( $uid=0, $section='' ) {
+function editCategory( $uid=0, $section='' ) 
+{
 	global $database, $my;
-	;
 
 	$type 		= mosGetParam( $_REQUEST, 'type', '' );
 	$redirect 	= mosGetParam( $_REQUEST, 'section', 'content' );
@@ -272,7 +272,7 @@ function editCategory( $uid=0, $section='' ) {
 		exit();
 	}
 
-	$row = new JCategoryModel( $database );
+	$row =& JModel::getInstance('category', $database );
 	// load the row from the db table
 	$row->load( $uid );
 
@@ -381,7 +381,7 @@ function editCategory( $uid=0, $section='' ) {
 		if ( $type == 'other' ) {
 			$section_name = JText::_( 'N/A' );
 		} else {
-			$temp = new JSectionModel( $database );
+			$temp =& JModel::getInstance('section', $database );
 			$temp->load( $row->section );
 			$section_name = $temp->name;
 		}
@@ -433,16 +433,16 @@ function editCategory( $uid=0, $section='' ) {
 * Saves the catefory after an edit form submit
 * @param string The name of the category section
 */
-function saveCategory( $task ) {
+function saveCategory( $task ) 
+{
 	global $database;
-	;
 
 	$menu 		= mosGetParam( $_POST, 'menu', 'mainmenu' );
 	$menuid		= mosGetParam( $_POST, 'menuid', 0 );
 	$redirect 	= mosGetParam( $_POST, 'redirect', '' );
 	$oldtitle 	= mosGetParam( $_POST, 'oldtitle', null );
 
-	$row = new JCategoryModel( $database );
+	$row = JModel::getInstance('category', $database );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -617,7 +617,7 @@ function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 ) 
 	}
 
 	if (count( $cid ) == 1) {
-		$row = new JCategoryModel( $database );
+		$row =& JModel::getInstance('category', $database );
 		$row->checkin( $cid[0] );
 	}
 
@@ -629,12 +629,13 @@ function publishCategories( $section, $categoryid=null, $cid=null, $publish=1 ) 
 * @param string The name of the category section
 * @param integer A unique category id
 */
-function cancelCategory() {
+function cancelCategory() 
+{
 	global $database;
 
 	$redirect = mosGetParam( $_POST, 'redirect', '' );
 
-	$row = new JCategoryModel( $database );
+	$row =& JModel::getInstance('category', $database );
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -648,7 +649,7 @@ function cancelCategory() {
 function orderCategory( $uid, $inc ) {
 	global $database;
 
-	$row = new JCategoryModel( $database );
+	$row =& JModel::getInstance('category', $database );
 	$row->load( $uid );
 	$row->move( $inc, "section = '$row->section'" );
 
@@ -731,7 +732,7 @@ function moveCategorySave( $cid, $sectionOld ) {
 		echo "<script> alert('". $database->getErrorMsg() ."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-	$sectionNew = new JSectionModel ( $database );
+	$sectionNew =& JModel::getInstance('section', $database );
 	$sectionNew->load( $sectionMove );
 
 	$msg = sprintf( JText::_( 'Categories moved to' ), $sectionNew->name );
@@ -795,7 +796,8 @@ function copyCategorySave( $cid, $sectionOld ) {
 	$contentid 		= mosGetParam( $_REQUEST, 'item', '' );
 	$total 			= count( $contentid  );
 
-	$category = new JCategoryModel ( $database );
+	$category =& JModel::getInstance('category', $database );
+	
 	foreach( $cid as $id ) {
 		$category->load( $id );
 		$category->id 		= NULL;
@@ -818,7 +820,7 @@ function copyCategorySave( $cid, $sectionOld ) {
 		$newcatids[]["new"] = $category->id;
 	}
 
-	$content = new JContentModel ( $database );
+	$content =& JModel::getInstance('content', $database );
 	foreach( $contentid as $id) {
 		$content->load( $id );
 		$content->id 		= NULL;
@@ -841,7 +843,7 @@ function copyCategorySave( $cid, $sectionOld ) {
 		$content->checkin();
 	}
 
-	$sectionNew = new JSectionModel ( $database );
+	$sectionNew =& JModel::getInstance('section', $database );
 	$sectionNew->load( $sectionMove );
 
 	$msg = sprintf( JText::_( 'Categories copied to' ), $total, $sectionNew->name );
@@ -855,7 +857,7 @@ function copyCategorySave( $cid, $sectionOld ) {
 function accessMenu( $uid, $access, $section ) {
 	global $database;
 
-	$row = new JCategoryModel( $database );
+	$row =& JModel::getInstance('category', $database );
 	$row->load( $uid );
 	$row->access = $access;
 
@@ -872,7 +874,7 @@ function accessMenu( $uid, $access, $section ) {
 function menuLink( $id ) {
 	global $database;
 
-	$category = new JCategoryModel( $database );
+	$category =& JModel::getInstance('category', $database );
 	$category->bind( $_POST );
 	$category->checkin();
 
@@ -914,7 +916,7 @@ function menuLink( $id ) {
 			break;
 	}
 
-	$row 				= new JMenuModel( $database );
+	$row 				=& JModel::getInstance('menu', $database );
 	$row->menutype 		= $menu;
 	$row->name 			= $name;
 	$row->type 			= $type;
@@ -947,7 +949,7 @@ function saveOrder( &$cid, $section ) {
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
-	$row		= new JCategoryModel( $database );
+	$row		=& JModel::getInstance('category', $database );
 	$conditions = array();
 
 	// update ordering values

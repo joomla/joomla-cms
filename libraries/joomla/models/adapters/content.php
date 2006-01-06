@@ -12,8 +12,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.models.model' );
-
 /**
  * Content model
  *
@@ -21,7 +19,8 @@ jimport( 'joomla.models.model' );
  * @subpackage 	Model
  * @since 1.0
  */
-class JContentModel extends JModel {
+class JModelContent extends JModel 
+{
 	/** @var int Primary key */
 	var $id					= null;
 	/** @var string */
@@ -93,7 +92,8 @@ class JContentModel extends JModel {
 	/**
 	 * Validation and filtering
 	 */
-	function check() {
+	function check() 
+	{
 		// filter malicious code
 		$ignoreList = array( 'introtext', 'fulltext' );
 		$this->filter( $ignoreList );
@@ -118,7 +118,8 @@ class JContentModel extends JModel {
 	* Converts record to XML
 	* @param boolean Map foreign keys to text values
 	*/
-	function toXML( $mapKeysToText=false ) {
+	function toXML( $mapKeysToText=false ) 
+	{
 		global $database;
 
 		if ($mapKeysToText) {

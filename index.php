@@ -90,7 +90,7 @@ if ($option == '')
 		;
 		$database->setQuery( $query );
 	}
-	$menu = new JMenuModel( $database );
+	$menu =& JModel::getInstance('menu', $database );
 	if ($database->loadObject( $menu )) {
 		$Itemid = $menu->id;
 	}

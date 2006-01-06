@@ -56,7 +56,7 @@ jimport( 'joomla.error');
 jimport( 'joomla.auth');
 jimport( 'joomla.profiler');
 jimport( 'joomla.application.environment.session' );
-jimport( 'joomla.models.*' );
+jimport( 'joomla.models.model' );
 jimport( 'joomla.html' );
 jimport( 'joomla.factory' );
 jimport( 'joomla.filesystem.*' );

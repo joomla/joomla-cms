@@ -191,7 +191,7 @@ class HTML_modules {
 	*
 	* A new record is defined when <var>$row</var> is passed with the <var>id</var>
 	* property set to 0.
-	* @param JCategoryModel The category object
+	* @param JModelCategory The category object
 	* @param array <p>The modules of the left side.  The array elements are in the form
 	* <var>$leftorder[<i>order</i>] = <i>label</i></var>
 	* where <i>order</i> is the module order from the db table and <i>label</i> is a

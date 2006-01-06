@@ -79,7 +79,7 @@ function listFeeds( $option, $catid ) {
 	}
 
 	// Parameters
-	$menu = new JMenuModel( $database );
+	$menu =& JModel::getInstance('menu', $database );
 	$menu->load( $Itemid );
 	$params = new JParameters( $menu->params );
 
@@ -166,7 +166,7 @@ function showFeed( $option, $feedid ) {
 	$LitePath = JPATH_SITE . '/includes/Cache/Lite.php';
 
 	// Adds parameter handling
-	$menu = new JMenuModel( $database );
+	$menu =& JModel::getInstance('menu', $database );
 	$menu->load( $Itemid );
 	$params = new JParameters( $menu->params );
 	$params->def( 'page_title', 1 );

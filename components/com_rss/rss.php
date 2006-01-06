@@ -48,7 +48,7 @@ function feedFrontpage( $showFeed ) {
 	$id = $database->loadResult();
 
 	// load syndication parameters
-	$component = new JComponentModel( $database );
+	$component =& JModel::getInstance('component', $database );
 	$component->load( $id );
 	$params = new JParameters( $component->params );
 

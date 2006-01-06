@@ -110,7 +110,7 @@ function userEdit( $option, $uid, $submitvalue) {
 		mosNotAuth();
 		return;
 	}
-	$row = new JUserModel( $database );
+	$row =& JModel::getInstance('user', $database );
 	$row->load( $uid );
 	$row->orig_password = $row->password;
 
@@ -130,7 +130,7 @@ function userSave( $option, $uid) {
 		mosNotAuth();
 		return;
 	}
-	$row = new JUserModel( $database );
+	$row =& JModel::getInstance('user', $database );
 	$row->load( $user_id );
 	$row->orig_password = $row->password;
 

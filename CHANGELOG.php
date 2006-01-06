@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Jan-2006 Johan Janssens
+ ^ Implemented adpater pattern in JModel class
+
 06-Jan-2006 Louis Landry
  ^ Mambots refactored to Plugins
  ^ Interaction with editors is now controlled by JEditor

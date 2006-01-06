@@ -116,7 +116,7 @@ function AuthorDateLine( &$row, &$params ) {
 		// Display Author name
 
 		//Find Author Name
-		$users_rows = new JUserModel( $database );
+		$users_rows =& JModel::getInstance('user', $database );
 		$users_rows->load( $row->created_by );
 		$row->author 	= $users_rows->name;
 		$row->usertype 	= $users_rows->usertype;

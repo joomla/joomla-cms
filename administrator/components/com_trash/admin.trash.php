@@ -168,7 +168,7 @@ function deleteTrash( $cid, $option ) {
 	$total = count( $cid );
 
 	if ( $type == 'content' ) {
-		$obj = new JContentModel( $database );
+		$obj =& JModel::getInstance('content', $database );
 		$fp = new mosFrontPage( $database );
 		foreach ( $cid as $id ) {
 			$id = intval( $id );
@@ -176,7 +176,7 @@ function deleteTrash( $cid, $option ) {
 			$fp->delete( $id );
 		}
 	} else if ( $type == "menu" ) {
-		$obj = new JMenuModel( $database );
+		$obj =& JModel::getInstance('menu', $database );
 		foreach ( $cid as $id ) {
 			$id = intval( $id );
 			$obj->delete( $id );

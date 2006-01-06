@@ -114,7 +114,7 @@ class JInstallerPlugin extends JInstaller {
 		$id = $db->loadResult();
 
 		if (!$id) {
-			$row = new JPluginModel($db);
+			$row =& JModel::getInstance('plugin', $db );
 			$row->name = $this->i_extensionName;
 			$row->ordering = 0;
 			$row->folder = $folder;
@@ -195,7 +195,7 @@ class JInstallerPlugin extends JInstaller {
 		 * First order of business will be to load the plugin object model from the database.
 		 * This should give us the necessary information to proceed.
 		 */
-		$row = new JPluginModel($db);
+		$row =& JModel::getInstance('plugin', $db );
 		$row->load($id);
 
 		/*

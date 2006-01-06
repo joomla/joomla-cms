@@ -206,7 +206,7 @@ function changeFrontPage( $cid=null, $state=0, $option ) {
 	}
 
 	if (count( $cid ) == 1) {
-		$row = new JContentModel( $database );
+		$row =& JModel::getInstance('content', $database );
 		$row->checkin( $cid[0] );
 	}
 
@@ -226,7 +226,7 @@ function removeFrontPage( &$cid, $option ) {
 			echo "<script> alert('".$fp->getError()."'); </script>\n";
 			exit();
 		}
-		$obj = new JContentModel( $database );
+		$obj =& JModel::getInstance('content', $database );
 		$obj->load( $id );
 		$obj->mask = 0;
 		if (!$obj->store()) {
@@ -261,7 +261,7 @@ function orderFrontPage( $uid, $inc, $option ) {
 function accessMenu( $uid, $access ) {
 	global $database;
 
-	$row = new JContentModel( $database );
+	$row =& JModel::getInstance('content', $database );
 	$row->load( $uid );
 	$row->access = $access;
 

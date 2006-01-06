@@ -12,8 +12,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.models.model' );
-
 /**
  * Menu model
  *
@@ -21,7 +19,8 @@ jimport( 'joomla.models.model' );
  * @subpackage 	Model
  * @since 1.0
  */
-class JMenuModel extends JModel {
+class JModelMenu extends JModel 
+{
 	/** @var int Primary key */
 	var $id					= null;
 	/** @var string */

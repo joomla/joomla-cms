@@ -132,7 +132,7 @@ class WeblinksController {
 			/*
 			 * Let's load a category model for the current category
 			 */
-			$category = & new JCategoryModel($db);
+			$category =& JModel::getInstance('category', $db );
 
 			if (!$category->load($catid)) {
 				JError::raiseError('SOME_ERROR_CODE', 'WeblinksController::showCategory: Unable to load the category', 'Category ID: '.$catid);
@@ -141,7 +141,7 @@ class WeblinksController {
 		}
 
 		// Load Parameters
-		$menu = new JMenuModel($db);
+		$menu =& JModel::getInstance('menu', $db );
 		$menu->load($Itemid);
 		
 		$params = new JParameters($menu->params);

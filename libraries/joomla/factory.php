@@ -31,7 +31,8 @@ class JFactory
 	 * @return object
 	 * @since 1.1
 	 */
-	function &getTemplate( $files=null ) {
+	function &getTemplate( $files=null ) 
+	{
 		global $mainframe;
 
 		static $instances;
@@ -71,7 +72,8 @@ class JFactory
 	 * @param string The cache class name
 	 * @return object
 	 */
-	function &getCache($group='', $handler = 'function'){
+	function &getCache($group='', $handler = 'function')
+	{
 		global $mosConfig_caching, $mosConfig_cachepath, $mosConfig_cachetime;
 
 		jimport('joomla.cache.cache');
@@ -95,8 +97,8 @@ class JFactory
 	 * @access public
 	 * @return object
 	 */
-	function &getACL( ) {
-
+	function &getACL( ) 
+	{
 		static $instances;
 
 		if (!isset($instances)) {
@@ -117,8 +119,8 @@ class JFactory
 	 * @access public
 	 * @return object
 	 */
-	function &getMailer( ) {
-
+	function &getMailer( ) 
+	{
 		static $instances;
 
 		if (!isset($instances)) {
@@ -140,9 +142,10 @@ class JFactory
 	 * @param boolean If true, include lite version
 	 */
 
-	 function &getXMLParser( $type = 'DOM', $lite =  true) {
-
+	 function &getXMLParser( $type = 'DOM', $lite =  true) 
+	 {
 		$doc = null;
+		
 		switch($type)
 		{
 			case 'DOM'  :

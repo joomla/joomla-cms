@@ -25,7 +25,7 @@ class component_item_link_menu {
 	function edit( &$uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
 
-		$menu = new JMenuModel( $database );
+		$menu =& JModel::getInstance('menu', $database );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'

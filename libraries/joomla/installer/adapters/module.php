@@ -125,7 +125,7 @@ class JInstallerModule extends JInstaller {
 			$this->_rollback();
 			return false;
 		} else {
-			$row = new JModuleModel($db);
+			$row =& JModel::getInstance('module', $db );
 			$row->title = $this->i_extensionName;
 			$row->ordering = 99;
 			$row->position = 'left';
@@ -251,7 +251,7 @@ print_r($this);
 		 * First order of business will be to load the module object model from the database.
 		 * This should give us the necessary information to proceed.
 		 */
-		$row = new JModuleModel($db);
+		$row =& JModel::getInstance('module', $db );
 		$row->load($id);
 
 		/*

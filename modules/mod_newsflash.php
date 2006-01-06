@@ -63,7 +63,7 @@ $database->setQuery( $query );
 $rows = $database->loadResultArray();
 $numrows = count( $rows );
 
-$row = new JContentModel( $database );
+$row =& JModel::getInstance('content', $database );
 
 switch ($style) {
 	case 'horiz':

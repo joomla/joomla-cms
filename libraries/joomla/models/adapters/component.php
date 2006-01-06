@@ -12,8 +12,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.models.model' );
-
 /**
  * Component model
  *
@@ -21,7 +19,8 @@ jimport( 'joomla.models.model' );
  * @subpackage 	Model
  * @since 1.0
  */
-class JComponentModel extends JModel {
+class JModelComponent extends JModel 
+{
 	/** @var int Primary key */
 	var $id					= null;
 	/** @var string */

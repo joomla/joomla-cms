@@ -169,7 +169,7 @@ function pollresult( $uid ) {
 	$pollist .= '</select>';
 
 	// Adds parameter handling
-	$menu = new JMenuModel( $database );
+	$menu =& JModel::getInstance('menu', $database );
 	$menu->load( $Itemid );
 
 	$params = new JParameters( $menu->params );

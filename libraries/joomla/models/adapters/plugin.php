@@ -11,8 +11,6 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-jimport('joomla.models.model');
-
 /**
  * Plugin model
  *
@@ -20,8 +18,8 @@ jimport('joomla.models.model');
  * @subpackage 	Model
  * @since 1.1
  */
-class JPluginModel extends JModel {
-
+class JModelPlugin extends JModel 
+{
 	/**
 	 * Primary Key
 	 *

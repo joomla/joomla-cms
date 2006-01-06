@@ -198,7 +198,7 @@ function edit( $uid, $option ) {
 	global $database, $my, $mainframe;
 
 	$nullDate = $database->getNullDate();
-	$row = new JContentModel( $database );
+	$row =& JModel::getInstance('content', $database );
 
 	$lists = array();
 
@@ -301,7 +301,7 @@ function save( $option, $task ) {
 	$menu 		= mosGetParam( $_POST, 'menu', 'mainmenu' );
 	$menuid		= mosGetParam( $_POST, 'menuid', 0 );
 
-	$row = new JContentModel( $database );
+	$row =& JModel::getInstance('content', $database );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -437,7 +437,7 @@ function changeState( $cid=null, $state=0, $option ) {
 	}
 
 	if (count( $cid ) == 1) {
-		$row = new JContentModel( $database );
+		$row =& JModel::getInstance('content', $database );
 		$row->checkin( $cid[0] );
 	}
 
@@ -456,7 +456,7 @@ function changeState( $cid=null, $state=0, $option ) {
 function changeAccess( $id, $access, $option  ) {
 	global $database;
 
-	$row = new JContentModel( $database );
+	$row =& JModel::getInstance('content', $database );
 	$row->load( $id );
 	$row->access = $access;
 
@@ -477,7 +477,7 @@ function changeAccess( $id, $access, $option  ) {
 function resethits( $option, $id ) {
 	global $database;
 
-	$row = new JContentModel($database);
+	$row =& JModel::getInstance('content', $database );
 	$row->Load( $id );
 	$row->hits = "0";
 	$row->store();
@@ -494,7 +494,7 @@ function resethits( $option, $id ) {
 function cancel( $option ) {
 	global $database;
 
-	$row = new JContentModel( $database );
+	$row =& JModel::getInstance('content', $database );
 	$row->bind( $_POST );
 	$row->checkin();
 	mosRedirect( 'index2.php?option='. $option );
@@ -506,7 +506,7 @@ function menuLink( $option, $id ) {
 	$menu 	= mosGetParam( $_POST, 'menuselect', '' );
 	$link 	= mosGetParam( $_POST, 'link_name', '' );
 
-	$row 				= new JMenuModel( $database );
+	$row 				=v
 	$row->menutype 		= $menu;
 	$row->name 			= $link;
 	$row->type 			= 'content_typed';
@@ -534,7 +534,7 @@ function go2menu() {
 	global $database;
 
 	// checkin content
-	$row = new JContentModel( $database );
+	$row =& JModel::getInstance('content', $database );
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -547,7 +547,7 @@ function go2menuitem() {
 	global $database;
 
 	// checkin content
-	$row = new JContentModel( $database );
+	$row =& JModel::getInstance('content', $database );
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -562,7 +562,7 @@ function saveOrder( &$cid ) {
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
-	$row 		= new JContentModel( $database );
+	$row 		=& JModel::getInstance('content', $database );
 	$conditions = array();
 
 	// update ordering values

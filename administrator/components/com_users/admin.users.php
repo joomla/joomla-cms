@@ -190,7 +190,7 @@ function showUsers( $option ) {
 function editUser( $uid='0', $option='users' ) {
 	global $database, $my, $acl, $mainframe;
 
-	$row = new JUserModel( $database );
+	$row =& JModel::getInstance('user', $database );
 	// load the row from the db table
 	$row->load( $uid );
 
@@ -264,7 +264,7 @@ function saveUser( $option, $task ) {
 	global $database, $my, $mainframe;
 	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_sitename;
 
-	$row = new JUserModel( $database );
+	$row =& JModel::getInstance('user', $database );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -417,7 +417,7 @@ function removeUsers( $cid, $option ) {
 
 		JPluginHelper::importGroup( 'user' );
 
-		$obj = new JUserModel( $database );
+		$obj =& JModel::getInstance('user', $database );
 		foreach ($cid as $id) {
 			// check for a super admin ... can't delete them
 			$objectID 	= $acl->get_object_id( 'users', $id, 'ARO' );

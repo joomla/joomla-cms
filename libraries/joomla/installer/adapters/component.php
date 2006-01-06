@@ -219,7 +219,7 @@ class JInstallerComponent extends JInstaller {
 				 * Lets build the submenus
 				 */
 				foreach($comAdminSubMenus as $adminSubMenu) {
-					$com = new JComponentModel( $db );
+					$com =& JModel::getInstance('component', $db );
 					$com->name		= $adminSubMenu->getText();
 					$com->link		= '';
 					$com->menuid	= 0;
@@ -355,7 +355,7 @@ class JInstallerComponent extends JInstaller {
 		 * First order of business will be to load the component object model from the database.
 		 * This should give us the necessary information to proceed.
 		 */
-		$row = new JComponentModel($db);
+		$row =& JModel::getInstance('component', $db );
 		$row->load($id);
 
 		/*

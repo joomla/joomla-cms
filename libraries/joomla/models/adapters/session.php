@@ -12,8 +12,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.models.model' );
-
 /**
  * Session model
  *
@@ -21,7 +19,8 @@ jimport( 'joomla.models.model' );
  * @subpackage 	Model
  * @since 1.0
  */
-class JSessionModel extends JModel {
+class JModelSession extends JModel 
+{
 	/** @var int Primary key */
 	var $session_id			= null;
 	/** @var string */
@@ -41,7 +40,8 @@ class JSessionModel extends JModel {
 	 * Constructor
 	 * @param database A database connector object
 	 */
-	function __construct( &$db ) {
+	function __construct( &$db ) 
+	{
 		parent::__construct( '#__session', 'session_id', $db );
 
 		$this->guest = 1;
@@ -49,8 +49,8 @@ class JSessionModel extends JModel {
 		$this->gid = 0;
 	}
 
-	function insert($id) {
-
+	function insert($id) 
+	{
 		$this->session_id = $id;
 
 		$this->time = time();
@@ -64,8 +64,8 @@ class JSessionModel extends JModel {
 		}
 	}
 
-	function update( $updateNulls=false ) {
-
+	function update( $updateNulls=false ) 
+	{
 		$this->time = time();
 		$ret = $this->_db->updateObject( $this->_tbl, $this, 'session_id', $updateNulls );
 
@@ -80,7 +80,8 @@ class JSessionModel extends JModel {
 	/**
 	 * Set the information to allow a session to persist
 	 */
-	function persist() {
+	function persist() 
+	{
 		global $mainframe;
 
 		$usercookie = mosGetParam( $_COOKIE, 'usercookie', null );
@@ -95,8 +96,8 @@ class JSessionModel extends JModel {
 	 * @param string The username
 	 * @param string The user password
 	 */
-	function remember( $username, $password ) {
-
+	function remember( $username, $password ) 
+	{
 		$lifetime = time() + 365*24*60*60;
 		setcookie( 'usercookie[username]', $username, $lifetime, '/' );
 		setcookie( 'usercookie[password]', $password, $lifetime, '/' );
@@ -105,7 +106,8 @@ class JSessionModel extends JModel {
 	/**
 	 * Destroys the pesisting session
 	 */
-	function destroy() {
+	function destroy() 
+	{
 		global $database;
 
 		if ($this->userid) {
@@ -139,7 +141,8 @@ class JSessionModel extends JModel {
 	/**
 	 * Encodes a session id
 	 */
-	function hash( $value ) {
+	function hash( $value ) 
+	{
 		if (phpversion() <= '4.2.1') {
 			$agent = getenv( 'HTTP_USER_AGENT' );
 		} else {
@@ -154,7 +157,8 @@ class JSessionModel extends JModel {
 	* @param int Session age in seconds
 	* @return mixed Resource on success, null on fail
 	*/
-	function purge( $age=1800 ) {
+	function purge( $age=1800 ) 
+	{
 		$past = time() - $age;
 		$query = "DELETE FROM $this->_tbl"
 		. "\n WHERE ( time < $past )"

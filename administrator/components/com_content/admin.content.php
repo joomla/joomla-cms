@@ -174,7 +174,7 @@ function viewContent( $sectionid, $option ) {
 		$order 		= "\n ORDER BY cc.ordering, cc.title, c.ordering";
 		$all 		= NULL;
 		$filter 	= "\n WHERE cc.section = '$sectionid'";
-		$section 	= new JSectionModel( $database );
+		$section 	=& JModel::getInstance('section', $database );
 		$section->load( $sectionid );
 	}
 
@@ -341,7 +341,7 @@ function viewArchive( $sectionid, $option ) {
 	$javascript = 'onchange="document.adminForm.submit();"';
 	$lists['sectionid']		= mosAdminMenus::SelectSection( 'filter_sectionid', $filter_sectionid, $javascript );
 
-	$section = new JSectionModel( $database );
+	$section =& JModel::getInstance('section', $database );
 	$section->load( $sectionid );
 
 	// get list of Authors for dropdown filter
@@ -377,7 +377,7 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 	}
 
 	// load the row from the db table
-	$row = new JContentModel( $database );
+	$row =& JModel::getInstance('content', $database );
 	$row->load( $uid );
 
 	if ($uid) {
@@ -465,7 +465,7 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 		}
 		if ( @$_POST['catid'] ) {
 			$row->catid 	= $_POST['catid'];
-			$category = new JCategoryModel( $database );
+			$category =& JModel::getInstance('category', $database );
 			$category->load( $_POST['catid'] );
 			$sectionid = $category->section;
 		} else {
@@ -592,7 +592,7 @@ function saveContent( $sectionid, $task ) {
 	$menu 		= mosGetParam( $_POST, 'menu', 'mainmenu' );
 	$menuid		= mosGetParam( $_POST, 'menuid', 0 );
 
-	$row = new JContentModel( $database );
+	$row =& JModel::getInstance('content', $database );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -747,7 +747,7 @@ function changeContent( $cid=null, $state=0, $option ) {
 	}
 
 	if (count( $cid ) == 1) {
-		$row = new JContentModel( $database );
+		$row =& JModel::getInstance('content', $database );
 		$row->checkin( $cid[0] );
 	}
 
@@ -868,7 +868,7 @@ function removeContent( &$cid, $sectionid, $option ) {
 function cancelContent( ) {
 	global $database;
 
-	$row = new JContentModel( $database );
+	$row =& JModel::getInstance('content', $database );
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -883,7 +883,7 @@ function cancelContent( ) {
 function orderContent( $uid, $inc, $option ) {
 	global $database;
 
-	$row = new JContentModel( $database );
+	$row =& JModel::getInstance('content', $database );
 	$row->load( $uid );
 	$row->move( $inc, "catid = $row->catid AND state >= 0" );
 
@@ -960,7 +960,7 @@ function moveSectionSave( &$cid, $sectionid, $option ) {
 	$total = count( $cid );
 	$cids = implode( ',', $cid );
 
-	$row = new JContentModel( $database );
+	$row =& JModel::getInstance('content', $database );
 	// update old orders - put existing items in last place
 	foreach ($cid as $id) {
 		$row->load( intval( $id ) );
@@ -1063,7 +1063,7 @@ function copyItemSave( $cid, $sectionid, $option ) {
 
 	$total = count( $cid );
 	for ( $i = 0; $i < $total; $i++ ) {
-		$row = new JContentModel( $database );
+		$row =& JModel::getInstance('content', $database );
 
 		// main query
 		$query = "SELECT a.*"
@@ -1124,7 +1124,7 @@ function copyItemSave( $cid, $sectionid, $option ) {
 function resethits( $redirect, $id ) {
 	global $database;
 
-	$row = new JContentModel($database);
+	$row =& JModel::getInstance('content', $database );
 	$row->Load($id);
 	$row->hits = 0;
 	$row->store();
@@ -1142,7 +1142,7 @@ function resethits( $redirect, $id ) {
 function accessMenu( $uid, $access, $option ) {
 	global $database;
 
-	$row = new JContentModel( $database );
+	$row =& JModel::getInstance('content', $database );
 	$row->load( $uid );
 	$row->access = $access;
 
@@ -1176,7 +1176,7 @@ function menuLink( $redirect, $id ) {
 	$menu = mosGetParam( $_POST, 'menuselect', '' );
 	$link = mosGetParam( $_POST, 'link_name', '' );
 
-	$row = new JMenuModel( $database );
+	$row =& JModel::getInstance('menu', $database );
 	$row->menutype 		= $menu;
 	$row->name 			= $link;
 	$row->type 			= 'content_item_link';
@@ -1220,7 +1220,7 @@ function saveOrder( &$cid ) {
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
 	$redirect 	= mosGetParam( $_POST, 'redirect', 0 );
 	$rettask	= mosGetParam( $_POST, 'returntask', '' );
-	$row 		= new JContentModel( $database );
+	$row 		=& JModel::getInstance('content', $database );
 	$conditions = array();
 
 	// update ordering values

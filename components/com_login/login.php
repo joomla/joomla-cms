@@ -23,7 +23,7 @@ global $database, $my;
 $breadcrumbs =& $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, 'Login');
 
-$menu = new JMenuModel( $database );
+$menu =& JModel::getInstance('menu', $database );
 $menu->load( $Itemid );
 $params = new JParameters( $menu->params );
 

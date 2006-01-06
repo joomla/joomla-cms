@@ -188,7 +188,7 @@ function viewModules( $option, $client ) {
 function copyModule( $option, $uid, $client ) {
 	global $database, $my;
 
-	$row = new JModuleModel( $database );
+	$row =& JModel::getInstance('module', $database );
 	// load the row from the db table
 	$row->load( $uid );
 	$row->title 		= sprintf( JText::_( 'Copy of' ), $row->title );
@@ -246,7 +246,7 @@ function saveModule( $option, $client, $task ) {
 		$_POST['params'] = JParameters::textareaHandling( $txt );
 	}
 
-	$row = new JModuleModel( $database );
+	$row =& JModel::getInstance('module', $database );
 	if (!$row->bind( $_POST, 'selections' )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -310,7 +310,7 @@ function editModule( $option, $uid, $client ) {
 	global $database, $my, $mainframe;
 
 	$lists 	= array();
-	$row 	= new JModuleModel( $database );
+	$row 	=& JModel::getInstance('module', $database );
 	// load the row from the db table
 	$row->load( $uid );
 	// fail if checked out not by 'me'
@@ -324,7 +324,7 @@ function editModule( $option, $uid, $client ) {
 	if ( $uid ) {
 		$row->checkout( $my->id );
 	}
-	// if a new record we must still prime the JModuleModel object with a default
+	// if a new record we must still prime the JModelModel object with a default
 	// position and the order; also add an extra item to the order list to
 	// place the 'new' record in last position if desired
 	if ($uid == 0) {
@@ -505,7 +505,7 @@ function removeModule( &$cid, $option, $client ) {
 			echo "<script> alert('".$database->getErrorMsg()."');</script>\n";
 			exit;
 		}
-		$mod = new JModuleModel( $database );
+		$mod =& JModel::getInstance('module', $database );
 		$mod->ordering = 0;
 		$mod->updateOrder( "position='left'" );
 		$mod->updateOrder( "position='right'" );
@@ -547,7 +547,7 @@ function publishModule( $cid=null, $publish=1, $option, $client ) {
 	}
 
 	if (count( $cid ) == 1) {
-		$row = new JModuleModel( $database );
+		$row =& JModel::getInstance('module', $database );
 		$row->checkin( $cid[0] );
 	}
 
@@ -560,7 +560,7 @@ function publishModule( $cid=null, $publish=1, $option, $client ) {
 function cancelModule( $option, $client ) {
 	global $database;
 
-	$row = new JModuleModel( $database );
+	$row =& JModel::getInstance('module', $database );
 	// ignore array elements
 	$row->bind( $_POST, 'selections params' );
 	$row->checkin();
@@ -578,7 +578,7 @@ function orderModule( $uid, $inc, $option ) {
 
 	$client = mosGetParam( $_POST, 'client', '' );
 
-	$row = new JModuleModel( $database );
+	$row =& JModel::getInstance('module', $database );
 	$row->load( $uid );
 	if ($client == 'admin') {
 		$where = "client_id = 1";
@@ -617,7 +617,7 @@ function accessMenu( $uid, $access, $option, $client ) {
 			break;
 	}
 
-	$row = new JModuleModel( $database );
+	$row =& JModel::getInstance('module', $database );
 	$row->load( $uid );
 	$row->access = $access;
 
@@ -636,7 +636,7 @@ function saveOrder( &$cid, $client ) {
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
-	$row 		= new JModuleModel( $database );
+	$row 		=& JModel::getInstance('module', $database );
 	$conditions = array();
 
 	// update ordering values

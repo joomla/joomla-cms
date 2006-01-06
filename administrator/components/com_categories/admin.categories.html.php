@@ -238,7 +238,7 @@ class categories_html {
 
 	/**
 	* Writes the edit form for new and existing categories
-	* @param JCategoryModel The category object
+	* @param JModelCategory The category object
 	* @param string
 	* @param array
 	*/

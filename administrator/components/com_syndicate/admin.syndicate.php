@@ -53,7 +53,7 @@ function showSyndicate( $option ) {
 	$id = $database->loadResult();
 
 	// load the row from the db table
-	$row = new JComponentModel( $database );
+	$row =& JModel::getInstance('component', $database );
 	$row->load( $id );
 
 	// get params definitions
@@ -79,7 +79,7 @@ function saveSyndicate( $option ) {
 	}
 
 	$id = mosGetParam( $_POST, 'id', '17' );
-	$row = new JComponentModel( $database );
+	$row =& JModel::getInstance('component', $database );
 	$row->load( $id );
 
 	if (!$row->bind( $_POST )) {

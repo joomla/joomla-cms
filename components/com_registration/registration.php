@@ -123,7 +123,7 @@ function saveRegistration( $option ) {
 		return;
 	}
 
-	$row = new JUserModel( $database );
+	$row =& JModel::getInstance('user', $database );
 
 	mosMakeHtmlSafe($row);
 

@@ -187,7 +187,7 @@ function showSections( $scope, $option ) {
 function editSection( $uid=0, $scope='', $option ) {
 	global $database, $my;
 
-	$row = new JSectionModel( $database );
+	$row =& JModel::getInstance('section', $database );
 	// load the row from the db table
 	$row->load( $uid );
 
@@ -273,7 +273,7 @@ function saveSection( $option, $scope, $task ) {
 	$menuid		= mosGetParam( $_POST, 'menuid', 0 );
 	$oldtitle 	= mosGetParam( $_POST, 'oldtitle', null );
 
-	$row = new JSectionModel( $database );
+	$row =& JModel::getInstance('section', $database );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); document.location.href='index2.php?option=$option&scope=$scope&task=new'; </script>\n";
 		exit();
@@ -425,7 +425,7 @@ function publishSections( $scope, $cid=null, $publish=1, $option ) {
 	}
 
 	if ( $count == 1 ) {
-		$row = new JSectionModel( $database );
+		$row =& JModel::getInstance('section', $database );
 		$row->checkin( $cid[0] );
 	}
 
@@ -462,7 +462,7 @@ function publishSections( $scope, $cid=null, $publish=1, $option ) {
 */
 function cancelSection( $option, $scope ) {
 	global $database;
-	$row = new JSectionModel( $database );
+	$row =& JModel::getInstance('section', $database );
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -476,7 +476,7 @@ function cancelSection( $option, $scope ) {
 function orderSection( $uid, $inc, $option, $scope ) {
 	global $database;
 
-	$row = new JSectionModel( $database );
+	$row =& JModel::getInstance('section', $database );
 	$row->load( $uid );
 	$row->move( $inc, "scope = '$row->scope'" );
 
@@ -528,7 +528,7 @@ function copySectionSave( $sectionid ) {
 	$categoryid = mosGetParam( $_REQUEST, 'category', '' );
 
 	// copy section
-	$section = new JSectionModel ( $database );
+	$section =& JModel::getInstance('section', $database );
 	foreach( $sectionid as $id ) {
 		$section->load( $id );
 		$section->id 	= NULL;
@@ -553,7 +553,7 @@ function copySectionSave( $sectionid ) {
 	$sectionMove = $section->id;
 
 	// copy categories
-	$category = new JCategoryModel ( $database );
+	$category =& JModel::getInstance('category', $database );
 	foreach( $categoryid as $id ) {
 		$category->load( $id );
 		$category->id = NULL;
@@ -580,7 +580,7 @@ function copySectionSave( $sectionid ) {
 		$newcatids[]["new"] = $category->id;
 	}
 
-	$content = new JContentModel ( $database );
+	$content =& JModel::getInstance('content', $database );
 	foreach( $contentid as $id) {
 		$content->load( $id );
 		$content->id = NULL;
@@ -606,7 +606,7 @@ function copySectionSave( $sectionid ) {
 		}
 		$content->checkin();
 	}
-	$sectionOld = new JSectionModel ( $database );
+	$sectionOld =& JModel::getInstance('section', $database );
 	$sectionOld->load( $sectionMove );
 
 	$msg = sprintf( JText::_( 'DESCCATANDITEMSCOPIED' ), $sectionOld-> name, $title );
@@ -620,7 +620,7 @@ function copySectionSave( $sectionid ) {
 function accessMenu( $uid, $access, $option ) {
 	global $database;
 
-	$row = new JSectionModel( $database );
+	$row =& JModel::getInstance('section', $database );
 	$row->load( $uid );
 	$row->access = $access;
 
@@ -637,7 +637,7 @@ function accessMenu( $uid, $access, $option ) {
 function menuLink( $id ) {
 	global $database;
 
-	$section = new JSectionModel( $database );
+	$section =& JModel::getInstance('section', $database );
 	$section->bind( $_POST );
 	$section->checkin();
 
@@ -662,7 +662,7 @@ function menuLink( $id ) {
 			break;
 	}
 
-	$row 				= new JMenuModel( $database );
+	$row 				=& JModel::getInstance('menu', $database );
 	$row->menutype 		= $menu;
 	$row->name 			= $name;
 	$row->type 			= $type;
@@ -695,7 +695,7 @@ function saveOrder( &$cid ) {
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
-	$row 		= new JSectionModel( $database );
+	$row 		=& JModel::getInstance('section', $database );
 	$conditions = array();
 
 	// update ordering values

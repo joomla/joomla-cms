@@ -884,7 +884,7 @@ class HTML_content {
 	*
 	* A new record is defined when <var>$row</var> is passed with the <var>id</var>
 	* property set to 0.
-	* @param JContentModel The category object
+	* @param JModelContent The category object
 	* @param string The html for the groups select list
 	*/
 	function editContent( &$row, $section, &$lists, &$images, &$access, $myid, $sectionid, $task, $Itemid ) {

@@ -12,6 +12,10 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport( 'joomla.database.database' );
+jimport( 'joomla.database.adapters.mysql' );
+jimport( 'joomla.models.adapters.*' );
+
 /**
 * Legacy class, derive from JApplication instead
 * 
@@ -124,13 +128,13 @@ class mosDBTable extends JModel {
 }
 
 /**
- * Legacy class, use JCategoryModel instead
+ * Legacy class, use JModelCategory instead
  * 
  * @deprecated As of version 1.1
  * @package Joomla.Legacy
  * @subpackage 1.1
  */
-class mosCategory extends JCategoryModel {
+class mosCategory extends JModelCategory {
 	/**
 	 * Constructor
 	 */
@@ -144,13 +148,13 @@ class mosCategory extends JCategoryModel {
 }
 
 /**
- * Legacy class, use JComponentModel instead
+ * Legacy class, use JModelComponent instead
  * 
  * @deprecated As of version 1.1
  * @package Joomla.Legacy
  * @subpackage 1.1
  */
-class mosComponent extends JComponentModel {
+class mosComponent extends JModelComponent {
 	/**
 	 * Constructor
 	 */
@@ -164,13 +168,13 @@ class mosComponent extends JComponentModel {
 }
 
 /**
- * Legacy class, use JContentModel instead
+ * Legacy class, use JModelContent instead
  * 
  * @deprecated As of version 1.1
  * @package Joomla.Legacy
  * @subpackage 1.1
  */
-class mosContent extends JContentModel {
+class mosContent extends JModelContent {
 	/**
 	 * Constructor
 	 */
@@ -183,14 +187,8 @@ class mosContent extends JContentModel {
 	}
 }
 
-/**
- * Legacy class, use JPluginModel instead
- * 
- * @deprecated As of version 1.1
- * @package Joomla.Legacy
- * @subpackage 1.1
- */
-class mosMambot extends JPluginModel {
+
+class mosMambot extends JModelPlugin {
 	/**
 	 * Constructor
 	 */
@@ -204,13 +202,13 @@ class mosMambot extends JPluginModel {
 }
 
 /**
- * Legacy class, use JMenuModel instead
+ * Legacy class, use JModelMenu instead
  * 
  * @deprecated As of version 1.1
  * @package Joomla.Legacy
  * @subpackage 1.1
  */
-class mosMenu extends JMenuModel {
+class mosMenu extends JModelMenu {
 	/**
 	 * Constructor
 	 */
@@ -224,13 +222,13 @@ class mosMenu extends JMenuModel {
 }
 
 /**
- * Legacy class, use JModuleModel instead
+ * Legacy class, use JModelModule instead
  * 
  * @deprecated As of version 1.1
  * @package Joomla.Legacy
  * @subpackage 1.1
  */
-class mosModule extends JModuleModel {
+class mosModule extends JModelModule {
 	/**
 	 * Constructor
 	 */
@@ -244,13 +242,13 @@ class mosModule extends JModuleModel {
 }
 
 /**
- * Legacy class, use JSectionModel instead
+ * Legacy class, use JModelSection instead
  * 
  * @deprecated As of version 1.1
  * @package Joomla.Legacy
  * @subpackage 1.1
  */
-class mosSection extends JSectionModel {
+class mosSection extends JModelSection {
 	/**
 	 * Constructor
 	 */
@@ -264,13 +262,13 @@ class mosSection extends JSectionModel {
 }
 
 /**
- * Legacy class, use JSessionModel instead
+ * Legacy class, use JModelSession instead
  * 
  * @deprecated As of version 1.1
  * @package Joomla.Legacy
  * @subpackage 1.1
  */
-class mosSession extends JSessionModel {
+class mosSession extends JModelSession {
 	/**
 	 * Constructor
 	 */
@@ -284,13 +282,13 @@ class mosSession extends JSessionModel {
 }
 
 /**
- * Legacy class, use JUserModel instead
+ * Legacy class, use JModelUser instead
  * 
  * @deprecated As of version 1.1
  * @package Joomla.Legacy
  * @subpackage 1.1
  */
-class mosUser extends JUserModel {
+class mosUser extends JModelUser {
 	/**
 	 * Constructor
 	 */
@@ -302,9 +300,6 @@ class mosUser extends JUserModel {
 		parent::__construct( $db);
 	}
 }
-
-jimport( 'joomla.database.database' );
-jimport( 'joomla.database.adapters.mysql' );
 
 /**
  * Legacy class, use JDatabase

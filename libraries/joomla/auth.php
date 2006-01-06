@@ -124,7 +124,7 @@ class JAuth extends JObject {
 
 
 					// Create a new user model and load the authenticated userid
-					$user = new JUserModel($db);
+					$user =& JModel::getInstance('user', $db );
 					$user->load(intval($authenticated));
 
 					// If the user is blocked, redirect with an error
