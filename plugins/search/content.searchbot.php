@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: content.searchbot.php 1541 2005-12-22 21:22:26Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -54,7 +54,7 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null ) {
 	;
 	$database->setQuery( $query );
 	$id 	= $database->loadResult();
-	$plugin = new JPluginModel( $database );
+	$plugin =& JModel::getInstance('plugin', $database); 
 	$plugin->load( $id );
 	$botParams = new JParameters( $plugin->params );
 

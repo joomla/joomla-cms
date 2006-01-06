@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: joomla.sefurlbot.php 1 2005-10-23 23:12:03Z saka $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -36,7 +36,7 @@ function botJoomlaSEFUrl( ) {
 			;
 		$database->setQuery( $query );
 		$id 	= $database->loadResult();
-		$plugin = new JPluginModel( $database );
+		$plugin =& JModel::getInstance('plugin', $database); 
 		$plugin->load( $id );
 		$botParams = new JParameters( $plugin->params );
 

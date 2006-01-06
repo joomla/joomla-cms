@@ -62,7 +62,7 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 		;
 		$database->setQuery( $query );
 	 	$id 	= $database->loadResult();
-	 	$plugin = new JPluginModel( $database );
+	 	$plugin =& JModel::getInstance('plugin', $database); 
 	  	$plugin->load( $id );
 	 	$botParams = new JParameters( $plugin->params );
 
