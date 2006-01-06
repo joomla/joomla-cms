@@ -1,0 +1,92 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>{$lang_insert_link_title}</title>
+	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
+	<script language="javascript" type="text/javascript" src="jscripts/link.js"></script>
+	<base target="_self" />
+</head>
+<body onload="tinyMCEPopup.executeOnLoad('init();');" style="display: none">
+<form onsubmit="insertLink();return false;">
+  <table border="0" cellpadding="0" cellspacing="0" width="100">
+    <tr>
+      <td align="center" valign="middle"><table border="0" cellpadding="4" cellspacing="0">
+          <tr>
+            <td colspan="2" class="title" nowrap="nowrap">{$lang_insert_link_title}</td>
+          </tr>
+          <tr>
+            <td nowrap="nowrap">{$lang_insert_link_url}:</td>
+            <td>              <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td><input name="href" type="text" id="href" value="" style="width: 200px"></td>
+                  <td id="hrefbrowsercontainer">&nbsp;</td>
+                </tr>
+              </table></td>
+          </tr>
+		  <!-- Link list -->
+		  <script language="javascript">
+			if (typeof(tinyMCELinkList) != "undefined" && tinyMCELinkList.length > 0) {
+				var html = "";
+
+				html += '<tr><td>{$lang_link_list}:</td>';
+				html += '<td><select name="link_list" style="width: 200px" onchange="this.form.href.value=this.options[this.selectedIndex].value;">';
+				html += '<option value="">---</option>';
+
+				for (var i=0; i<tinyMCELinkList.length; i++)
+					html += '<option value="' + tinyMCELinkList[i][1] + '">' + tinyMCELinkList[i][0] + '</option>';
+
+				html += '</select></td></tr>';
+
+				document.write(html);
+			}
+		  </script>
+		  <!-- /Link list -->
+          <tr>
+            <td nowrap="nowrap">{$lang_insert_link_target}:</td>
+            <td><select name="target" style="width: 200px">
+                <option value="_self">{$lang_insert_link_target_same}</option>
+                <option value="_blank">{$lang_insert_link_target_blank}</option>
+				<script language="javascript">
+					var html = "";
+					var targets = tinyMCE.getParam('theme_advanced_link_targets', '').split(';');
+
+					for (var i=0; i<targets.length; i++) {
+						var key, value;
+
+						if (targets[i] == "")
+							continue;
+
+						key = targets[i].split('=')[0];
+						value = targets[i].split('=')[1];
+
+						html += '<option value="' + value + '">' + key + '</option>';
+					}
+
+					document.write(html);
+				</script>
+            </select></td>
+          </tr>
+          <tr>
+            <td nowrap="nowrap">{$lang_theme_insert_link_titlefield}:</td>
+            <td><input name="linktitle" type="text" id="linktitle" value="" style="width: 200px"></td>
+          </tr>
+          <tr id="styleSelectRow">
+            <td>{$lang_class_name}:</td>
+            <td>
+			 <select id="styleSelect" name="styleSelect">
+                <option value="" selected>{$lang_theme_style_select}</option>
+             </select></td>
+            <td align="right">&nbsp;</td>
+            <td align="right">&nbsp;</td>
+          </tr>
+          <tr>
+            <td><input type="button" id="insert" name="insert" value="{$lang_insert}" onclick="insertLink();">
+            </td>
+            <td align="right"><input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();"></td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<?xml version="1.0" ?>
+<install version="1.1" type="plugin" group="editors">
+	<name>TinyMCE</name>
+	<version>2.0 RC2</version>
+	<creationDate>2005</creationDate>
+	<author>Moxiecode Systems AB</author>
+	<authorEmail>N/A</authorEmail>
+	<authorUrl>tinymce.moxiecode.com/</authorUrl>
+	<copyright>Moxiecode Systems AB</copyright>
+	<license>LGPL</license>
+	<description></description>
+	<params>
+		<param name="theme" type="list" default="advanced" label="Functionality" description="Select functionality">
+			<option value="simple">Simple</option>
+			<option value="advanced">Advanced</option>
+		</param>
+ 		<param name="@spacer" type="spacer" default="" label="" description="" />
+ 		<param name="cleanup" type="radio" default="1" label="Code Cleanup" description="PARAMCODECLEANUP">
+ 			<option value="0">Off</option>
+ 			<option value="1">On</option>
+ 		</param>
+ 		<param name="compressed" type="radio" default="0" label="Compressed Version" description="PARAMCOMPRESSEDVERSION">
+ 			<option value="0">Off</option>
+ 			<option value="1">On</option>
+ 		</param>
+ 		<param name="@spacer" type="spacer" default="" label="" description="" />
+ 		<param name="text_direction" type="list" default="ltr" label="Text Direction" description="Ability to change text direction">
+ 			<option value="ltr">Left to Right</option>
+ 			<option value="rtl">Right to Left</option>
+ 		</param>
+ 		<param name="invalid_elements" type="text" default="applet" label="Prohibited Elements" description="Elements that will be cleaned from the text"/>
+ 		<param name="content_css" type="radio" default="1" label="Template CSS classes" description="Load CSS classes from template_css.css">
+ 			<option value="0">No</option>
+ 			<option value="1">Yes</option>
+ 		</param>
+ 		<param name="content_css_custom" type="text" default="" label="Custom CSS Classes" description="PARAMCSSCLASSES"/>
+  		<param name="newlines" type="list" default="0" label="Newlines" description="Newlines will be made into the selected option">
+ 			<option value="1">BR Elements</option>
+ 			<option value="0">P Elements</option>
+ 		</param>
+ 		<param name="@spacer" type="spacer" default="" label="" description="" />
+ 		<param name="toolbar" type="list" default="top" label="Toolbar" description="Position of the toolbar">
+ 			<option value="top">Top</option>
+ 			<option value="bottom">Bottom</option>
+ 		</param>
+ 		<param name="@spacer" type="spacer" default="" label="" description="" />
+ 		<param name="smilies" type="radio" default="1" label="Smilies" description="PARAMSMILIES">
+ 			<option value="0">Hide</option>
+ 			<option value="1">Show</option>
+ 		</param>
+ 		<param name="table" type="radio" default="1" label="Table" description="PARAMTABLE">
+ 			<option value="0">Hide</option>
+ 			<option value="1">Show</option>
+ 		</param>
+ 		<param name="flash" type="radio" default="1" label="Flash" description="PARAMFLASH">
+ 			<option value="0">Hide</option>
+ 			<option value="1">Show</option>
+ 		</param>
+ 		<param name="hr" type="radio" default="1" label="Horizontal Rule" description="Show/Hide the Horizontal Rule button">
+ 			<option value="0">Hide</option>
+ 			<option value="1">Show</option>
+ 		</param>
+ 		<param name="@spacer" type="spacer" default="" label="" description="" />
+ 		<param name="fullscreen" type="radio" default="1" label="Fullscreen" description="PARAMFULLSCREEN">
+ 			<option value="0">Hide</option>
+ 			<option value="1">Show</option>
+ 		</param>
+ 		<param name="html_height" type="text" default="550" label="HTML Height" description="PARAMHTMLHEIGHT"/>
+ 		<param name="html_width" type="text" default="750" label="HTML Width" description="PARAMHTMLWIDTH"/>
+ 		<param name="preview" type="radio" default="1" label="Preview" description="PARAMPREVIEW">
+ 			<option value="0">Hide</option>
+ 			<option value="1">Show</option>
+ 		</param>
+ 		<param name="preview_height" type="text" default="550" label="Preview Height" description="PARAMPREVIEWHEIGHT"/>
+ 		<param name="preview_width" type="text" default="750" label="Preview Width" description="PARAMPREVIEWWIDTH"/>
+ 		<param name="searchreplace" type="radio" default="1" label="Search and Replace" description="PARAMSEARCHREPLACE">
+ 			<option value="0">Hide</option>
+ 			<option value="1">Show</option>
+ 		</param>
+ 		<param name="insertdate" type="radio" default="1" label="Insert Date" description="PARAMINSERTDATE">
+ 			<option value="0">Hide</option>
+ 			<option value="1">Show</option>
+ 		</param>
+  		<param name="format_date" type="text" default="%Y-%m-%d" label="Date format" description="Format of inserted Date. Only works in `Advanced` mode"/>
+		<param name="inserttime" type="radio" default="1" label="Insert Time" description="PARAMINSERTTIME">
+ 			<option value="0">Hide</option>
+ 			<option value="1">Show</option>
+ 		</param>
+  		<param name="format_time" type="text" default="%H:%M:%S" label="Time format" description="Format of inserted Time. Only works in `Advanced` mode"/>
+   	</params>
+</install>

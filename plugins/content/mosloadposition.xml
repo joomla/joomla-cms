@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<install version="1.1" type="plugin" group="content">
+	<name>mosloadposition</name>
+	<author>Joomla! Project</author>
+	<creationDate>November 2005</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.1</version>
+	<description>DESCMOSLOADPOSITION</description>
+	<files>
+		<filename plugin="mosloadposition">mosloadposition.php</filename>
+	</files>
+	<params>
+		<param name="style" type="list" default="0" label="Style" description="Code that will wrap modules">
+			<option value="0">Wrapped by Table - Column</option>
+			<option value="1">Wrapped by Table - Horizontal</option>
+			<option value="-2">Wrapped by Divs</option>
+			<option value="-3">Wrapped by Multiple Divs</option>
+			<option value="-1">No wrapping - raw output</option>
+		</param>
+	</params>
+</install>

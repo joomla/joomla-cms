@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<install version="1.1" type="plugin" group="content">
+	<name>GeSHi</name>
+	<author>Joomla! Project</author>
+	<creationDate>November 2005</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorUrl>qbnz.com/highlighter</authorUrl>
+	<version>1.1</version>
+	<description>DESCGESHI</description>
+	<files>
+		<filename plugin="geshi">geshi.php</filename>
+	</files>
+	<params/>
+</install>

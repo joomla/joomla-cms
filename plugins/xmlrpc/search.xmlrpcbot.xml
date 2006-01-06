@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<install version="1.1" type="plugin" group="xmlrpc">
+	<name>Search XML-RPC Bot</name>
+	<author>Joomla! Project</author>
+	<creationDate>November 2005</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.1</version>
+	<description>Search a site through XML-RPC</description>
+	<files>
+		<filename plugin="search.xmlrpcbot">search.xmlrpcbot.php</filename>
+	</files>
+	<params/>
+</install>

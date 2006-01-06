@@ -62,16 +62,16 @@ class JAuthLdap extends JPlugin {
 			$conditions = "AND gid > 22";
 		}
 
-		// load mambot parameters
+		// load plugin parameters
 		$query = 	"SELECT `params` " .
-					"\nFROM `#__mambots` " .
+					"\nFROM `#__plugins` " .
 					"\nWHERE element = 'ldap.userbot' " .
 					"\nAND folder = 'user'";
 		$db->setQuery($query);
 		$params = $db->loadResult();
-		$mambotParams = & new JParameters($params);
+		$pluginParams = & new JParameters($params);
 
-		$ldap = new JLDAP($mambotParams);
+		$ldap = new JLDAP($pluginParams);
 		//print_r($ldap);
 		if (!$ldap->connect()) {
 			return false;

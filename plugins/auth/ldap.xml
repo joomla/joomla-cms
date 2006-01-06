@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<install version="1.1" type="plugin"  group="auth">
+    <name>LDAP Authentication Plugin</name>
+    <author>Joomla! Project</author>
+	<creationDate>November 2005</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.1</version>
+    <description>Handles user authentication against an LDAP server</description>
+    <files>
+        <filename plugin="ldap">ldap.php</filename>
+    </files>
+    <params>
+        <param name="host" type="text" size="20" default="" label="Host" description="For example, openldap.mycompany.org" />
+        <param name="post" type="text" size="20" default="389" label="Port" description="Default port is 389" />
+        <param name="use_ldapV3" type="radio" default="0" label="LDAP V3" description="PARAMLDAPV3">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="negotiate_tls" type="radio" default="0" label="Negociate TLS" description="PARAMNEGOCIATETLS">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="no_referrals" type="radio" default="0" label="Don`t follow referrals" description="PARAMNOFOLLOW">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="base_dn" type="text" size="20" default="" label="Base DN" description="The base DN of your LDAP server" />
+        <param name="@spacer" type="spacer" default="" label="" description="" />
+        <param name="connect" type="text" size="20" default="" label="Connect string" description="PARAMCONNECTSTRING" />
+        <param name="password" type="text" size="20" default="" label="Connect password" description="" />
+        <param name="search_string" type="text" size="20" default="" label="Search string" description="PARAMSEARCHSTRING" />
+        <param name="users_dn" type="text" size="20" default="" label="Users DN" description="PARAMUSERSDN" />
+    </params>
+</install>
