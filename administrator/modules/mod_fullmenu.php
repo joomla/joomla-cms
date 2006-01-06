@@ -44,8 +44,8 @@ class mosFullAdminMenu
 		$manageLanguages 	= $acl->acl_check( 'com_languages', 'manage', 'users', $usertype );
 		$installModules 	= $acl->acl_check( 'com_installer', 'module', 'users', $usertype );
 		$editAllModules 	= $acl->acl_check( 'com_modules', 'manage', 'users', $usertype );
-		$installPlugins 	= $acl->acl_check( 'com_installer', 'mambot', 'users', $usertype );
-		$editAllPlugins 	= $acl->acl_check( 'com_mambots', 'manage', 'users', $usertype );
+		$installPlugins 	= $acl->acl_check( 'com_installer', 'plugin', 'users', $usertype );
+		$editAllPlugins 	= $acl->acl_check( 'com_plugins', 'manage', 'users', $usertype );
 		$installComponents 	= $acl->acl_check( 'com_installer', 'component', 'users', $usertype );
 		$editAllComponents 	= $acl->acl_check( 'com_components', 'manage', 'users', $usertype );
 		$canMassMail 		= $acl->acl_check( 'com_massmail', 'manage', 'users', $usertype );
@@ -85,7 +85,7 @@ class mosFullAdminMenu
 			}
 			if ($manageLanguages) {
 ?>				['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Language Manager', true ); ?>',null,null,'<?php echo JText::_( 'Manage languages', true ); ?>',
-  					['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Site Languages', true ); ?>','index2.php?option=com_languages',null,'<?php echo JText::_( 'Manage site languages', true ); ?>'],
+  					['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Site Languages', true ); ?>','index2.php?option=com_languages&client=site',null,'<?php echo JText::_( 'Manage site languages', true ); ?>'],
    					['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Administrator Languages', true ); ?>','index2.php?option=com_languages&client=administrator',null,'<?php echo JText::_( 'Manage admin languages', true ); ?>'],
    				],
 <?php
@@ -256,7 +256,7 @@ class mosFullAdminMenu
 			[null,'<?php echo JText::_( 'Plugins', true ); ?>',null,null,'<?php echo JText::_( 'Plugin Management', true ); ?>',
 <?php
 		if ($editAllPlugins) {
-?>				['<img src="../includes/js/ThemeOffice/module.png" />', '<?php echo JText::_( 'Site Plugins', true ); ?>', "index2.php?option=com_mambots", null, '<?php echo JText::_( 'Manage Site Plugins', true ); ?>'],
+?>				['<img src="../includes/js/ThemeOffice/module.png" />', '<?php echo JText::_( 'Site Plugins', true ); ?>', "index2.php?option=com_plugins", null, '<?php echo JText::_( 'Manage Site Plugins', true ); ?>'],
 <?php
 		}
 ?>			],
@@ -270,9 +270,9 @@ class mosFullAdminMenu
 			[null,'<?php echo JText::_( 'Extensions', true ); ?>',null,null,'<?php echo JText::_( 'Element List', true ); ?>',
 				['<img src="../includes/js/ThemeOffice/install.png" />','<?php echo JText::_( 'Installer', true ); ?>','index2.php?option=com_installer&task=installer&client=admin',null,'<?php echo JText::_( 'Install Extensions', true ); ?>'],
 				_cmSplit,
-				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Components', true ); ?>','index2.php?option=com_installer&element=component',null,'<?php echo JText::_( 'Uninstall Components', true ); ?>'],
-				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Modules', true ); ?>', 'index2.php?option=com_installer&element=module', null, '<?php echo JText::_( 'Uninstall Modules', true ); ?>'],
-				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Plugins', true ); ?>', 'index2.php?option=com_installer&element=mambot', null, '<?php echo JText::_( 'Uninstall Plugins', true ); ?>'],
+				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Components', true ); ?>','index2.php?option=com_installer&extension=component',null,'<?php echo JText::_( 'Uninstall Components', true ); ?>'],
+				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Modules', true ); ?>', 'index2.php?option=com_installer&extension=module', null, '<?php echo JText::_( 'Uninstall Modules', true ); ?>'],
+				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Plugins', true ); ?>', 'index2.php?option=com_installer&extension=plugin', null, '<?php echo JText::_( 'Uninstall Plugins', true ); ?>'],
 			],
 <?php
 	}
@@ -328,8 +328,8 @@ class mosFullAdminMenu
 		$canConfig 			= $acl->acl_check( 'com_config', 'manage', 'users', $usertype );
 		$installModules 	= $acl->acl_check( 'com_install', 'module', 'users', $usertype );
 		$editAllModules 	= $acl->acl_check( 'com_modules', 'manage', 'users', $usertype );
-		$installMambots 	= $acl->acl_check( 'com_install', 'mambot', 'users', $usertype );
-		$editAllMambots 	= $acl->acl_check( 'com_mambots', 'manage', 'users', $usertype );
+		$installPlugins 	= $acl->acl_check( 'com_install', 'plugin', 'users', $usertype );
+		$editAllPlugins 	= $acl->acl_check( 'com_plugins', 'manage', 'users', $usertype );
 		$installComponents 	= $acl->acl_check( 'com_install', 'component', 'users', $usertype );
 		$editAllComponents 	= $acl->acl_check( 'com_components', 'manage', 'users', $usertype );
 		$canMassMail 		= $acl->acl_check( 'com_massmail', 'manage', 'users', $usertype );
@@ -384,14 +384,14 @@ class mosFullAdminMenu
 			} // if ( $installModules | $editAllModules)
 			?>
 		<?php
-	/* Mambots Sub-Menu */
-			if ( $installMambots | $editAllMambots) {
+	/* Plugins Sub-Menu */
+			if ( $installPlugins | $editAllPlugins) {
 				?>
 				_cmSplit,
 				[null,'<?php echo JText::_( 'Plugins', true ); ?>',null,null,'<?php echo $text; ?>'
 				],
 				<?php
-			} // if ( $installMambots | $editAllMambots)
+			} // if ( $installPlugins | $editAllPlugins)
 			?>
 
 

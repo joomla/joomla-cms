@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: mambot.php 1479 2005-12-20 03:47:14Z Jinx $
+ * @version $Id: plugin.php 1479 2005-12-20 03:47:14Z Jinx $
  * @package Joomla
  * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -51,6 +51,12 @@ class JInstallerPlugin extends JInstaller {
 		$this->i_extensionName = $e->getText();
 
 		/*
+		 * Backward Compatability
+		 * @TODO Deprecate in 1.2
+		 */
+		$specialTag = &$root->getAttribute('type');
+
+		/*
 		 * Set the plugin path
 		 */
 		$folder =& $root->getAttribute('group');
@@ -70,13 +76,13 @@ class JInstallerPlugin extends JInstaller {
 		 * step stack
 		 */
 		if ($created) {
-			$this->i_stepStack[] = array('type' => 'folder', 'path' => $this->i_extensionDir);
+			//$this->i_stepStack[] = array('type' => 'folder', 'path' => $this->i_extensionDir);
 		}
 
 		/*
 		 * Copy all the necessary files
 		 */
-		if ($this->_parseFiles('files', 'plugin', JText::_('No file is marked as module file')) === false) {
+		if ($this->_parseFiles('files', $specialTag, JText::_('No file is marked as module file')) === false) {
 			JError::raiseWarning( 1, 'JInstallerPlugin::install: ' . JText::_('Failed to copy files to').' "'.$this->i_extensionDir.'"');
 
 			// Install failed, roll back changes

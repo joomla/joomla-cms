@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="module" version="1.0.0">
+<install type="module" version="1.0.0">
 	<name>Banner</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2004</creationDate>
@@ -16,4 +16,4 @@
 		<param name="banner_cids" type="text" default="" label="Banner client" description="Reference to banner client id. Enter separated by" />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</params>
-</mosinstall>
+</install>

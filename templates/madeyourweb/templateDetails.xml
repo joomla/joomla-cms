@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="template">
+<install type="template">
 	<name>madeyourweb</name>
 	<creationDate>15 09 2005</creationDate>
 	<author>Marc Hinse</author>
@@ -51,4 +51,4 @@
 		<filename>css/template_css.css</filename>
 		<filename>css/css_color_green.css</filename>
 	</css>
-</mosinstall>
+</install>

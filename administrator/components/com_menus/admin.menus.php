@@ -722,7 +722,7 @@ function ReadMenuXML( $type, $component=-1 ) {
 	if ($xmlDoc->loadXML( $xmlfile, false, true )) {
 		$root = &$xmlDoc->documentElement;
 
-		if ( $root->getTagName() == 'mosinstall' && ( $root->getAttribute( 'type' ) == 'component' || $root->getAttribute( 'type' ) == 'menu' ) ) {
+		if ( ($root->getTagName() == 'mosinstall' || $root->getTagName() == 'install')&& ( $root->getAttribute( 'type' ) == 'component' || $root->getAttribute( 'type' ) == 'menu' ) ) {
 			// Menu Type Name
 			$element 	= &$root->getElementsByPath( 'name', 1 );
 			$name 		= $element ? trim( $element->getText() ) : '';

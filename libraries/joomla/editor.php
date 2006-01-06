@@ -14,79 +14,46 @@
 if (!defined('_MOS_EDITOR_INCLUDED')) {
 
 	/**
-	 * @package Joomla.Framework
-	 */
+	* Legacy function, use JEditor::init instead
+	* 
+	* @deprecated As of version 1.1
+	* @package Joomla.Legacy
+	*/
 	function initEditor() {
-		global $mainframe;
-
-		if ($mainframe->get('loadEditor')) {
-			$results = $mainframe->triggerEvent('onInitEditor');
-			foreach ($results as $result) {
-				if (trim($result)) {
-					echo $result;
-				}
-			}
-		}
+		$editor =& JEditor::getInstance();
+		echo $editor->init();
 	}
 
 	/**
-	 * @package Joomla.Framework
-	 */
+	* Legacy function, use JEditor instead
+	* 
+	* @deprecated As of version 1.1
+	* @package Joomla.Legacy
+	*/
 	function _loadEditor() {
-			global $mainframe, $mosConfig_editor, $my;
-
-		if ($mainframe->get('loadEditor')) {
-			return;
-		}
-
-		if ($mosConfig_editor == '') {
-			$mosConfig_editor = 'none';
-		}
-
-		// Per User Editor selection
-		$editor = $mosConfig_editor;
-
-		if (isset ($my)) {
-			$params = new JParameters($my->params);
-			$editor = $params->get('editor', $mosConfig_editor);
-		}
-
-		JPluginHelper::import('editors', $editor, 1);
-
-		$mainframe->set('loadEditor', true);
+		$editor =& JEditor::getInstance();
 	}
 
 	/**
-	 * @package Joomla.Framework
-	 */
+	* Legacy function, use JEditor::getEditorContents instead
+	* 
+	* @deprecated As of version 1.1
+	* @package Joomla.Legacy
+	*/
 	function getEditorContents($editorArea, $hiddenField) {
-		global $mainframe;
-
-		_loadEditor();
-
-		$results = $mainframe->triggerEvent('onGetEditorContents', array ($editorArea, $hiddenField));
-		foreach ($results as $result) {
-			if (trim($result)) {
-				echo $result;
-			}
-		}
+		$editor =& JEditor::getInstance();
+		echo $editor->getEditorContents();
 	}
+
 	/**
-	 * Just present a textarea
-	 * 
-	 * @package Joomla.Framework
-	 */
+	* Legacy function, use JEditor::getEditor instead
+	* 
+	* @deprecated As of version 1.1
+	* @package Joomla.Legacy
+	*/
 	function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) {
-		global $mainframe, $my;
-
-		_loadEditor();
-
-		$results = $mainframe->triggerEvent('onEditorArea', array ($name, $content, $hiddenField, $width, $height, $col, $row));
-		foreach ($results as $result) {
-			if (trim($result)) {
-				echo $result;
-			}
-		}
+		$editor =& JEditor::getInstance();
+		echo $editor->getEditor();
 	}
 
 	define('_MOS_EDITOR_INCLUDED', 1);
@@ -106,7 +73,9 @@ class JEditor extends JObservable {
 	 */
 	var $_editor = null;
 
-	function __construct() {
+	function __construct()
+	{
+		$this->_loadEditor();
 	}
 
 	/**
@@ -138,7 +107,7 @@ class JEditor extends JObservable {
 	 * Initialize the editor
 	 *
 	 */
-	function initEditor() {
+	function init() {
 		global $mainframe;
 
 		if ($mainframe->get('loadEditor')) {

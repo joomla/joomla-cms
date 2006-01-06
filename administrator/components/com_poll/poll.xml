@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="component" version="1.0.0">
+<install type="component" version="1.0.0">
 	<name>Newsfeeds</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
@@ -18,4 +18,4 @@
 		</param>	
 		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
 	</params>
-</mosinstall>
+</install>

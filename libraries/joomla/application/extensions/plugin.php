@@ -77,7 +77,7 @@ class JPluginHelper
 {
 	/**
 	* Loads all the bot files for a particular group
-	* @param string The group name, relates to the sub-directory in the mambots directory
+	* @param string The group name, relates to the sub-directory in the plugins directory
 	*/
 	function importGroup( $group )
 	{
@@ -106,7 +106,7 @@ class JPluginHelper
 	{
 		global $_MAMBOTS, $mainframe; //needed for backwards compatibility
 		
-		$path = JPATH_SITE . '/mambots/' . $folder . '/' . $element . '.php';
+		$path = JPATH_SITE . DS .'plugins'. DS . $folder . DS . $element . '.php';
 		if (file_exists( $path )) {
 			require_once( $path );
 		}
@@ -125,7 +125,7 @@ class JPluginHelper
 		}
 
 		$query = "SELECT folder, element, published, params"
-			. "\n FROM #__mambots"
+			. "\n FROM #__plugins"
 			. "\n WHERE published >= 1"
 			. "\n AND access <= $gid"
 			. "\n ORDER BY ordering"
@@ -134,7 +134,7 @@ class JPluginHelper
 		$db->setQuery( $query );
 
 		if (!($bots = $db->loadObjectList())) {
-			//echo "Error loading Mambots: " . $database->getErrorMsg();
+			//echo "Error loading Plugins: " . $database->getErrorMsg();
 			return false;
 		}
 

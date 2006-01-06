@@ -217,7 +217,8 @@ class HTML_modules {
 			} else {
 				<?php
 				if ($row->module == '') {
-					getEditorContents( 'editor1', 'content' );
+					$editor =& JEditor::getInstance();
+					echo $editor->getEditorContents( 'editor1', 'content' );
 				}
 				?>
 				submitform(pressbutton);
@@ -382,7 +383,8 @@ class HTML_modules {
 							<td>
 							<?php
 							// parameters : areaname, content, hidden field, width, height, rows, cols
-							editorArea( 'editor1',  $row->content , 'content', '800', '400', '110', '40' ) ; ?>
+							$editor =& JEditor::getInstance();
+							echo $editor->getEditor( 'editor1',  $row->content , 'content', '800', '400', '110', '40' ) ; ?>
 							</td>
 						</tr>
 						</table>

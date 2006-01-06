@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="menu" version="1.0.0">
+<install type="menu" version="1.0.0">
 	<name>Link - Url</name>
 	<group>Link</group>
 	<author>Joomla! Project</author>
@@ -13,4 +13,4 @@
 	<params>
 		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="PARAMMENUIMAGE" />
 	</params>
-</mosinstall>
+</install>

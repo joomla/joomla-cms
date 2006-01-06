@@ -433,7 +433,7 @@ function editModule( $option, $uid, $client ) {
 	if ($xmlDoc->loadXML( $xmlfile, false, true )) {
 		$root = &$xmlDoc->documentElement;
 
-		if ($root->getTagName() == 'mosinstall' && $root->getAttribute( 'type' ) == 'module' ) {
+		if (($root->getTagName() == 'mosinstall' || $root->getTagName() == 'install') && $root->getAttribute( 'type' ) == 'module' ) {
 			$element = &$root->getElementsByPath( 'description', 1 );
 			$row->description = $element ? trim( $element->getText() ) : '';
 		}

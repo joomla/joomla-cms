@@ -14,7 +14,7 @@
 // Do not allow direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.plugin' );
+jimport( 'joomla.application.extensions.plugin' );
 
 /**
  * TinyMCE WYSIWYG Editor Plugin
@@ -32,7 +32,7 @@ class JEditor_tinymce extends JPlugin {
 	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
 	 * This causes problems with cross-referencing necessary for the observer design pattern.
 	 * 
-	 * @param object $$subject The object to observe
+	 * @param object $subject The object to observe
 	 * @since 1.1
 	 */
 	function JEditor_tinymce(& $subject) {
@@ -60,7 +60,7 @@ class JEditor_tinymce extends JPlugin {
 		
 		$database->setQuery( $query );
 		$id = $database->loadResult();
-		$plugin = new JBotModel( $database );
+		$plugin = new JPluginModel( $database );
 		$plugin->load( $id );
 		$params = new JParameters( $plugin->params );
 	
@@ -279,7 +279,7 @@ class JEditor_tinymce extends JPlugin {
 	 * @param int The number of columns for the editor area
 	 * @param int The number of rows for the editor area
 	 */
-	function onEditorArea( $name, $content, $hiddenField, $width, $height, $row, $col ) {
+	function onEditorArea( $name, $content, $hiddenField, $width, $height, $col, $row ) {
 		global $mainframe;
 	
 		$dispatcher =& JEventDispatcher::getInstance();

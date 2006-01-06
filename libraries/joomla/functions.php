@@ -673,7 +673,10 @@ function josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
  * @since 1.1
  */
 function josURL( $url, $ssl=0, $sef=1 ) {
-	global $mainframe, $mosConfig_unsecure_site, $mosConfig_secure_site;
+	global $mainframe;
+
+	$unsecure 	= $mainframe->getCfg('unsecure_site');
+	$secure 	= $mainframe->getCfg('secure_site');
 
 	if ( ( $sef == 1 ) && ( function_exists('sefRelToAbs' ) ) ) {
 		$url = sefRelToAbs( $url );
@@ -684,12 +687,12 @@ function josURL( $url, $ssl=0, $sef=1 ) {
 	}
 
 	//ensure that proper secure site url is used if ssl flag set and url doesn't already include it
-	if ($ssl == 1 && strstr($url, $mosConfig_unsecure_site)) {
-		$url = str_replace( $mosConfig_unsecure_site, $mosConfig_secure_site , $url );
+	if ($ssl == 1 && strstr($url, $unsecure)) {
+		$url = str_replace( $unsecure, $secure , $url );
 	}
 
-	if ($ssl == -1 && strstr($url, $mosConfig_secure_site)) {
-		$url = str_replace( $mosConfig_secure_site, $mosConfig_unsecure_site , $url );
+	if ($ssl == -1 && strstr($url, $secure)) {
+		$url = str_replace( $secure, $unsecure , $url );
 	}
 
 	return $url;

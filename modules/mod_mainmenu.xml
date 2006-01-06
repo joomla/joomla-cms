@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="module" version="1.0.0">
+<install type="module" version="1.0.0">
 	<name>Main Menu</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
@@ -59,4 +59,4 @@
 		<param name="spacer" type="text" default="" size="5" label="Spacer" description="Spacer for Horizontal menu" />
 		<param name="end_spacer" type="text" default="" size="5" label="End Spacer" description="End Spacer for Horizontal menu" />
 	</params>
-</mosinstall>
+</install>

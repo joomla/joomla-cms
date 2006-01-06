@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="module">
+<install type="module">
 	<name>Items Stats</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
@@ -13,4 +13,4 @@
 		<filename module="mod_stats">mod_stats.php</filename>
 	</files>
 	<params/>
-</mosinstall>
+</install>

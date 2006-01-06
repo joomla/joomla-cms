@@ -524,8 +524,10 @@ class HTML_content {
  			} else if (form.catid.value == ""){
  				alert( "<?php echo JText::_( 'You must select a Category.', true ); ?>" );
 			} else {
-				<?php getEditorContents( 'editor1', 'introtext' ) ; ?>
-				<?php getEditorContents( 'editor2', 'fulltext' ) ; ?>
+				<?php 
+				$editor =& JEditor::getInstance();
+				echo $editor->getEditorContents( 'editor1', 'introtext' );
+				echo $editor->getEditorContents( 'editor2', 'fulltext' ); ?>
 				submitform( pressbutton );
 			}
 		}
@@ -600,7 +602,8 @@ class HTML_content {
 					<?php echo JText::_( 'Intro Text: (required)' ); ?>
 					<br /><?php
 					// parameters : areaname, content, hidden field, width, height, rows, cols
-					editorArea( 'editor1',  $row->introtext , 'introtext', '100%;', '350', '75', '20' ) ; ?>
+					$editor =& JEditor::getInstance();
+					echo $editor->getEditor( 'editor1',  $row->introtext , 'introtext', '100%;', '350', '75', '20' ) ; ?>
 					</td>
 				</tr>
 				<tr>
@@ -608,7 +611,8 @@ class HTML_content {
 					<?php echo JText::_( 'Main Text: (optional)' ); ?>
 					<br /><?php
 					// parameters : areaname, content, hidden field, width, height, rows, cols
-					editorArea( 'editor2',  $row->fulltext , 'fulltext', '100%;', '400', '75', '30' ) ; ?>
+					$editor =& JEditor::getInstance();
+					echo $editor->getEditor( 'editor2',  $row->fulltext , 'fulltext', '100%;', '400', '75', '30' ) ; ?>
 					</td>
 				</tr>
 				</table>

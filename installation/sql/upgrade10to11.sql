@@ -45,3 +45,7 @@ ALTER TABLE `jos_core_acl_aro_groups` ADD COLUMN `value` varchar(255) NOT NULL d
 UPDATE `jos_core_acl_aro_groups` SET value=name;
 ALTER TABLE `jos_core_acl_aro_groups` ADD UNIQUE `value_aro_groups`(`value`);
 ALTER TABLE `jos_core_acl_aro_groups` DROP PRIMARY KEY, ADD PRIMARY KEY(`id`, `value`);
+
+# LBL: 05-Jan-2006
+# Mambot refactor to Plugin
+RENAME TABLE `jos_mambots TO `jos_plugins`;

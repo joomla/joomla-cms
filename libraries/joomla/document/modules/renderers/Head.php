@@ -45,9 +45,9 @@ class patTemplate_Renderer_Head extends patTemplate_Renderer
 		
 		echo $this->_tmpl->fetchHead();
 
-		//TODO : Rework and load editor using editor class
 		if(isset($mainframe)) {
-			initEditor();
+			$editor =& JEditor::getInstance();
+			echo $editor->init();
 		}
 
 		$contents = ob_get_contents();

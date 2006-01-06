@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="template" version="1.0.0">
+<install type="template" version="1.0.0">
 	<name>rhuk_solarflare_ii</name>
 	<creationDate>10/20/05</creationDate>
 	<author>rhuk</author>
@@ -31,4 +31,4 @@
 	<css>
 		<filename>css/template_css.css</filename>
 	</css>
-</mosinstall>
+</install>

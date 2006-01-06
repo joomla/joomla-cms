@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="menu" version="1.0.0">
+<install type="menu" version="1.0.0">
 	<name>Link - Component Item</name>
 	<group>Component|Link</group>
 	<author>Joomla! Project</author>
@@ -18,4 +18,4 @@
 			<option value="1">On</option>
 		</param>
 	</params>
-</mosinstall>
+</install>

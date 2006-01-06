@@ -86,7 +86,7 @@ DEFINE('_TEMPLATE_WARN','<font color=\"red\"><b>Template File Not Found! Looking
 DEFINE('_NO_PARAMS','There are no Parameters for this item');
 DEFINE('_HANDLER','Handler not defined for type');
 
-/** mambots */
+/** plugins */
 DEFINE('_TOC_JUMPTO','Article Index');
 
 /**  content */

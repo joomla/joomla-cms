@@ -58,7 +58,7 @@ function showconfig( $option) {
 
 	// compile list of the editors
 	$query = "SELECT element AS value, name AS text"
-	. "\n FROM #__mambots"
+	. "\n FROM #__plugins"
 	. "\n WHERE folder = 'editors'"
 	. "\n AND published = 1"
 	. "\n ORDER BY ordering, name"

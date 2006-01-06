@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="module" version="1.0.0">
+<install type="module" version="1.0.0">
 	<name>Random Image</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
@@ -20,4 +20,4 @@
 		<param name="height" type="text" default="" label="Height (px)" description="PARAMHEIGHTPX" />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</params>
-</mosinstall>
+</install>

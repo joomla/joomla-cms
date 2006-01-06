@@ -150,6 +150,15 @@ class JInstaller extends JObject {
 	function & getInstance( &$db, $type = null) {
 		static $instances;
 
+		/*
+		 * @TODO Deprecate this in 1.2
+		 * Checking for mambot install files
+		 */
+		if ($type == 'mambot')
+		{
+			$type = 'plugin';
+		}
+
 		if (!isset ($instances)) {
 			$instances = array ();
 		}
@@ -191,6 +200,15 @@ class JInstaller extends JObject {
 		if (!$this->_readInstallFile()) {
 			JError::raiseWarning( 1, 'JInstaller::install: ' . JText :: _('Installation file not found').':<br />'.$this->i_installDir);
 			return false;
+		}
+
+		/*
+		 * Backward Compatability
+		 * @TODO Deprecate in 1.2
+		 */
+		if ($this->i_installType == 'mambot' && $type == 'plugin')
+		{
+			$type = 'mambot';
 		}
 
 		if ($this->i_installType != $type) {

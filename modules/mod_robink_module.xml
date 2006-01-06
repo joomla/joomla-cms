@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<install type="module" version="4.5.2">
+	<name>RobInk_module</name>
+	<author>robin</author>
+	<creationDate>12/20/2005</creationDate>
+	<copyright>Copyright 2005 - robin</copyright>
+	<license>gnu/gpl</license>
+	<authorEmail>muilwijk.r@tiscali.nl</authorEmail>
+	<authorUrl>www.robink.nl</authorUrl>
+	<version>1.0</version>
+	<description>Thank you for Installing robin's RobInk_module Component...<br/>
+If you have any questions, please contact robin at <a href="mailto:muilwijk.r@tiscali.nl">muilwijk.r@tiscali.nl</a><br/>
+<br/>
+<a href="www.robink.nl">www.robink.nl</a></description>
+	<files>
+		<filename module="mod_robink_module">mod_robink_module.php</filename>
+	</files>
+	<params>
+	</params>
+</install>

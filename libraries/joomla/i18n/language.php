@@ -463,7 +463,7 @@ class JLanguage extends JObject
 		$language = & $xmlDoc->documentElement;
 
 		// Check that it's am installation file
-		if ($language->getTagName() != 'mosinstall') {
+		if ($language->getTagName() != 'mosinstall' && $language->getTagName() != 'install') {
 			return null;
 		}
 

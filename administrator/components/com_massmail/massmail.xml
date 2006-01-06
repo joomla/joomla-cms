@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="component" version="4.5.1">
+<install type="component" version="4.5.1">
 	<name>Mass Mail</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2005</creationDate>
@@ -10,4 +10,4 @@
 	<version>1.1.x</version>
 	<description>DESCMASSMAIL</description>
 	<params/>
-</mosinstall>
+</install>

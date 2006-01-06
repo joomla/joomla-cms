@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="module" version="1.0.0">
+<install type="module" version="1.0.0">
 	<name>Sections</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
@@ -16,4 +16,4 @@
 		<param name="count" type="text" default="5" label="Count" description="The number of items to display (default is 5)" />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</params>
-</mosinstall>
+</install>

@@ -1320,7 +1320,7 @@ function show( $row, $params, $gid, &$access, $pop, $option, $ItemidCount=NULL )
 		$row->text = $row->fulltext;
 	}
 
-	// deal with the {mospagebreak} mambots
+	// deal with the {mospagebreak} plugins
 	// only permitted in the full text area
 	$page = intval( mosGetParam( $_REQUEST, 'limitstart', 0 ) );
 

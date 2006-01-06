@@ -979,56 +979,56 @@ class JApplicationHelper
 
 		switch ($varname) {
 			case 'front':
-				$result = JApplicationHelper::_checkPath( '/components/'. $user_option .'/'. $name .'.php', 0 );
+				$result = JApplicationHelper::_checkPath( DS.'components'.DS. $user_option .DS. $name .'.php', 0 );
 				break;
 
 			case 'html':
 			case 'front_html':
-				if ( !( $result = JApplicationHelper::_checkPath( '/templates/'. $this->_template .'/components/'. $name .'.html.php', 0 ) ) ) {
-					$result = JApplicationHelper::_checkPath( '/components/'. $user_option .'/'. $name .'.html.php', 0 );
+				if ( !( $result = JApplicationHelper::_checkPath( DS.'templates'.DS. $this->_template .DS.'components'.DS. $name .'.html.php', 0 ) ) ) {
+					$result = JApplicationHelper::_checkPath( DS.'components'.DS. $user_option .DS. $name .'.html.php', 0 );
 				}
 				break;
 
 			case 'toolbar':
-				$result = JApplicationHelper::_checkPath( '/components/'. $user_option .'/toolbar.'. $name .'.php', -1 );
+				$result = JApplicationHelper::_checkPath( DS.'components'.DS. $user_option .DS.'toolbar.'. $name .'.php', -1 );
 				break;
 
 			case 'toolbar_html':
-				$result = JApplicationHelper::_checkPath( '/components/'. $user_option .'/toolbar.'. $name .'.html.php', -1 );
+				$result = JApplicationHelper::_checkPath( DS.'components'.DS. $user_option .DS.'toolbar.'. $name .'.html.php', -1 );
 				break;
 
 			case 'toolbar_default':
 			case 'toolbar_front':
-				$result = JApplicationHelper::_checkPath( '/includes/HTML_toolbar.php', 0 );
+				$result = JApplicationHelper::_checkPath( DS.'includes'.DS.'HTML_toolbar.php', 0 );
 				break;
 			
 			case 'admin':
-				$path 	= '/components/'. $user_option .'/admin.'. $name .'.php';
+				$path 	= DS.'components'.DS. $user_option .DS.'admin.'. $name .'.php';
 				$result = JApplicationHelper::_checkPath( $path, -1 );
 				break;
 
 			case 'admin_html':
-				$path	= '/components/'. $user_option .'/admin.'. $name .'.html.php';
+				$path	= DS.'components'.DS. $user_option .DS.'admin.'. $name .'.html.php';
 				$result = JApplicationHelper::_checkPath( $path, -1 );
 				break;
 
 			case 'class':
-				if ( !( $result = JApplicationHelper::_checkPath( '/components/'. $user_option .'/'. $name .'.class.php' ) ) ) {
-					$result = JApplicationHelper::_checkPath( '/includes/'. $name .'.php' );
+				if ( !( $result = JApplicationHelper::_checkPath( DS.'components'.DS. $user_option .DS. $name .'.class.php' ) ) ) {
+					$result = JApplicationHelper::_checkPath( DS.'includes'.DS. $name .'.php' );
 				}
 				break;
 
 			case 'com_xml':
-				$path 	= '/components/'. $user_option .'/'. $name .'.xml';
+				$path 	= DS.'components'.DS. $user_option .DS. $name .'.xml';
 				$result = JApplicationHelper::_checkPath( $path, 1 );
 				break;
 
 			case 'mod0_xml':
 				// Site modules
 				if ( $user_option == '' ) {
-					$path = '/modules/custom.xml';
+					$path = DS.'modules'.DS.'custom.xml';
 				} else {
-					$path = '/modules/'. $user_option .'.xml';
+					$path = DS.'modules'.DS. $user_option .'.xml';
 				}
 				$result = JApplicationHelper::_checkPath( $path, 0 );
 				break;
@@ -1036,21 +1036,21 @@ class JApplicationHelper
 			case 'mod1_xml':
 				// admin modules
 				if ($user_option == '') {
-					$path = '/modules/custom.xml';
+					$path = DS.'modules'.DS.'custom.xml';
 				} else {
-					$path = '/modules/'. $user_option .'.xml';
+					$path = DS.'modules'.DS. $user_option .'.xml';
 				}
 				$result = JApplicationHelper::_checkPath( $path, -1 );
 				break;
 
 			case 'bot_xml':
-				// Site mambots
-				$path 	= '/mambots/'. $user_option .'.xml';
+				// Site plugins
+				$path 	= DS.'plugins'.DS. $user_option .'.xml';
 				$result = JApplicationHelper::_checkPath( $path, 0 );
 				break;
 
 			case 'menu_xml':
-				$path 	= '/components/com_menus/'. $user_option .'/'. $user_option .'.xml';
+				$path 	= DS.'components'.DS.'com_menus'.DS. $user_option .DS. $user_option .'.xml';
 				$result = JApplicationHelper::_checkPath( $path, -1 );
 				break;
 		}

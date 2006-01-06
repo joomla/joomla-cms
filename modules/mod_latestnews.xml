@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="module" version="1.0.0">
+<install type="module" version="1.0.0">
 	<name>Latest News</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
@@ -34,4 +34,4 @@
 		<param name="catid" type="text" default="" label="Category ID" description="PARAMCATEGORYID" />
 		<param name="secid" type="text" default="" label="Section ID" description="PARAMSECTIONID" />
 	</params>
-</mosinstall>
+</install>

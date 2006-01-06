@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="module" version="1.0.0">
+<install type="module" version="1.0.0">
 	<name>Template Chooser</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
@@ -22,4 +22,4 @@
 		<param name="preview_height" type="text" default="90" label="Height" description="This is the height of the preview image (default 90)" />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</params>
-</mosinstall>
+</install>

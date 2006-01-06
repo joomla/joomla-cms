@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="menu" version="1.0.0">
+<install type="menu" version="1.0.0">
 	<name>Table - Contact Category</name>
 	<group>Component</group>
 	<author>Joomla! Project</author>
@@ -63,4 +63,4 @@
 			<option value="1">Show</option>
 		</param>
 	</params>
-</mosinstall>
+</install>

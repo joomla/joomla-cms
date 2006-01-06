@@ -281,7 +281,9 @@ class categories_html {
 			if ( form.name.value == "" ) {
 				alert("<?php echo JText::_( 'Category must have a name', true ); ?>");
 			} else {
-				<?php getEditorContents( 'editor1', 'description' ) ; ?>
+				<?php 
+				$editor =& JEditor::getInstance();
+				echo $editor->getEditorContents( 'editor1', 'description' ) ; ?>
 				submitform(pressbutton);
 			}
 		}
@@ -388,7 +390,8 @@ class categories_html {
 					<td colspan="2">
 					<?php
 					// parameters : areaname, content, hidden field, width, height, rows, cols
-					editorArea( 'editor1',  $row->description , 'description', '100%;', '300', '60', '20' ) ; ?>
+					$editor =& JEditor::getInstance();
+					echo $editor->getEditor( 'editor1',  $row->description , 'description', '100%;', '300', '60', '20' ) ; ?>
 					</td>
 				</tr>
 				</table>

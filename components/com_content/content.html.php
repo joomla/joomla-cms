@@ -947,8 +947,9 @@ class HTML_content {
 				//	alert ( "<?php echo JText::_( 'Content item must have intro text', true ); ?>" );
 				} else {
 					<?php
-					getEditorContents( 'editor1', 'introtext' );
-					getEditorContents( 'editor2', 'fulltext' );
+					$editor =& JEditor::getInstance();
+					echo $editor->getEditorContents( 'editor1', 'introtext' );
+					echo $editor->getEditorContents( 'editor2', 'fulltext' );
 					?>
 					submitform(pressbutton);
 				}
@@ -957,7 +958,8 @@ class HTML_content {
 			} else {
 				// for static content
 				<?php
-				getEditorContents( 'editor1', 'introtext' ) ;
+				$editor =& JEditor::getInstance();
+				echo $editor->getEditorContents( 'editor1', 'introtext' ) ;
 				?>
 				submitform(pressbutton);
 			}
@@ -1053,7 +1055,8 @@ class HTML_content {
 			<td>
 			<?php
 			// parameters : areaname, content, hidden field, width, height, rows, cols
-			editorArea( 'editor1',  $row->introtext , 'introtext', '600', '400', '70', '15' ) ;
+			$editor =& JEditor::getInstance();
+			echo $editor->getEditor( 'editor1',  $row->introtext , 'introtext', '600', '400', '70', '15' ) ;
 			?>
 			</td>
 		</tr>
@@ -1069,7 +1072,8 @@ class HTML_content {
 				<td>
 				<?php
 				// parameters : areaname, content, hidden field, width, height, rows, cols
-				editorArea( 'editor2',  $row->fulltext , 'fulltext', '600', '400', '70', '15' ) ;
+				$editor =& JEditor::getInstance();
+				echo $editor->getEditor( 'editor2',  $row->fulltext , 'fulltext', '600', '400', '70', '15' ) ;
 				?>
 				</td>
 			</tr>

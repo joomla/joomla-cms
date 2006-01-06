@@ -114,7 +114,7 @@ function viewTemplates( $option, $client ) {
 
 	$rows = array();
 	// Read the template dir to find templates
-	$templateDirs		= mosReadDirectory($templateBaseDir);
+	$templateDirs		= JFolder::folders($templateBaseDir);
 
 	$id = intval( $client == 'admin' );
 
@@ -139,7 +139,7 @@ function viewTemplates( $option, $client ) {
 	// Check that the directory contains an xml file
 	foreach($templateDirs as $templateDir) {
 		$dirName = JPath::clean($templateBaseDir . $templateDir);
-		$xmlFilesInDir = mosReadDirectory($dirName,'.xml$');
+		$xmlFilesInDir = JFolder::files($dirName,'.xml$');
 
 		foreach($xmlFilesInDir as $xmlfile) {
 			// Read the file to see if it's a valid template XML file
@@ -151,7 +151,7 @@ function viewTemplates( $option, $client ) {
 
 			$root = &$xmlDoc->documentElement;
 
-			if ($root->getTagName() != 'mosinstall') {
+			if ($root->getTagName() != 'mosinstall' && $root->getTagName() != 'install') {
 				continue;
 			}
 			if ($root->getAttribute( 'type' ) != 'template') {

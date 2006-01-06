@@ -257,7 +257,7 @@ class HTML_admin_misc {
 					</tr>
 
 					<?php
-					$query = "SELECT name FROM #__mambots"
+					$query = "SELECT name FROM #__plugins"
 					. "\nWHERE folder='editors' AND published='1'"
 					. "\nLIMIT 1";
 					$database->setQuery( $query );
@@ -352,14 +352,14 @@ class HTML_admin_misc {
 					mosHTML::writableCell( 'images/banners' );
 					mosHTML::writableCell( 'images/stories' );
 					mosHTML::writableCell( 'language' );
-					mosHTML::writableCell( 'mambots' );
-					mosHTML::writableCell( 'mambots/content' );
-					mosHTML::writableCell( 'mambots/editors' );
-					mosHTML::writableCell( 'mambots/editors-xtd' );
-					mosHTML::writableCell( 'mambots/search' );
-					mosHTML::writableCell( 'mambots/system' );
-					mosHTML::writableCell( 'mambots/user' );
-					mosHTML::writableCell( 'mambots/xmlrpc' );
+					mosHTML::writableCell( 'plugins' );
+					mosHTML::writableCell( 'plugins/content' );
+					mosHTML::writableCell( 'plugins/editors' );
+					mosHTML::writableCell( 'plugins/editors-xtd' );
+					mosHTML::writableCell( 'plugins/search' );
+					mosHTML::writableCell( 'plugins/system' );
+					mosHTML::writableCell( 'plugins/user' );
+					mosHTML::writableCell( 'plugins/xmlrpc' );
 					mosHTML::writableCell( 'media' );
 					mosHTML::writableCell( 'modules' );
 					mosHTML::writableCell( 'templates' );

@@ -84,7 +84,7 @@ class JInstallerExtensionTasks {
 					continue;
 				}
 
-				if ($root->getAttribute("type") != "plugin") {
+				if ($root->getAttribute("type") != "plugin" && $root->getAttribute("type") != "mambot") {
 					// Free up xml parser memory and return null
 					unset ($xmlDoc);
 					continue;

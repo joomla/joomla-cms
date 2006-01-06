@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="component" version="4.5.2">
+<install type="component" version="4.5.2">
 	<name>Users</name>
 	<author>Joomla! Project</author>
 	<creationDate>Oct 2005</creationDate>
@@ -14,4 +14,4 @@
 		<param name="language" type="language_list" default="" label="Front-end Language" description="paramLanguage" />
 		<param name="editor" type="editor_list" default="" label="User Editor" description="WYSYWYG Editor for this User" />
 	</params>
-</mosinstall>
+</install>

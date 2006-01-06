@@ -81,7 +81,7 @@ function viewLanguages( $option, $client = 'site') {
 
 			$root = &$xmlDoc->documentElement;
 
-			if ($root->getTagName() != 'mosinstall') {
+			if ($root->getTagName() != 'mosinstall' && $root->getTagName() != 'install') {
 					continue;
 			}
 			if ($root->getAttribute( "type" ) != "language") {

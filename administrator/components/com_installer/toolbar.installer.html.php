@@ -20,14 +20,14 @@ class TOOLBAR_installer
 {
 	function _DEFAULT()	{
 		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'Install new Extension' ), 'install.png' );
+		JMenuBar::title( JText::_( 'Install New Extension' ), 'install.png' );
 		JMenuBar::help( 'screen.installer' );
 		JMenuBar::endTable();
 	}
 
 	function _DEFAULT2()	{
 
-		$type = mosGetParam($_REQUEST, 'element');
+		$type = mosGetParam($_REQUEST, 'extension');
 
 		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Installed '.$type.'s'), 'install.png' );

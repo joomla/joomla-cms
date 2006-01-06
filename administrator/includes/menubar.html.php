@@ -537,8 +537,9 @@ class JMenuBar
 			function popup() {
 				<?php
 				if ($updateEditors) {
-					getEditorContents( 'editor1', 'introtext' );
-					getEditorContents( 'editor2', 'fulltext' );
+					$editor =& JEditor::getInstance();
+					echo $editor->getEditorContents( 'editor1', 'introtext' );
+					echo $editor->getEditorContents( 'editor2', 'fulltext' );
 				}
 				?>
 				window.open('<? echo $url."&task=preview"; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');

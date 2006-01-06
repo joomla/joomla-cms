@@ -19,7 +19,7 @@ jimport('joomla.installer.installer');
 
 require_once ($mainframe->getPath('admin_html'));
 
-$extension 	= mosGetParam($_REQUEST, 'element', '');
+$extension 	= mosGetParam($_REQUEST, 'extension', '');
 $client 	= mosGetParam($_REQUEST, 'client', '');
 
 // ensure user has access to this function
@@ -357,7 +357,7 @@ class JInstallerTasks {
 		/*
 		 * Initialize variables
 		 */
-		$extension = mosGetParam($_REQUEST, 'element', '');
+		$extension = mosGetParam($_REQUEST, 'extension', '');
 		
 		if ($extension != '') {
 			JInstallerExtensionTasks::showInstalled();

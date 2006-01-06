@@ -1,8 +1,8 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: toolbar.plugins.php 1656 2006-01-05 01:28:33Z Jinx $
 * @package Joomla
-* @subpackage Installer
+* @subpackage Plugins
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
 * Joomla! is free software. This version may have been modified pursuant
@@ -15,20 +15,17 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( $mainframe->getPath( 'toolbar_html' ) );
+require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
+switch ($task) {
 
-switch ($task){
 	case 'new':
-		TOOLBAR_installer::_NEW();
+	case 'edit':
+	case 'editA':
+		TOOLBAR_modules::_EDIT();
 		break;
 
 	default:
-		$extension = mosGetParam( $_REQUEST, 'extension', '' );
-		if ($extension == 'component' || $extension == 'module' || $extension == 'plugin') {
-			TOOLBAR_installer::_DEFAULT2();
-		} else {
-			TOOLBAR_installer::_DEFAULT();
-		}
+		TOOLBAR_modules::_DEFAULT();
 		break;
 }
 ?>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="component" version="1.0.0">
+<install type="component" version="1.0.0">
 	<name>Weblinks</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
@@ -64,4 +64,4 @@
 		</param>
 		<param name="weblink_icons" type="imagelist" directory="/images/M_images" default="" label="Icon" description="PARAMLINKICONS" />
 	</params>
-</mosinstall>
+</install>

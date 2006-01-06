@@ -184,13 +184,13 @@ class mosContent extends JContentModel {
 }
 
 /**
- * Legacy class, use JMambotModel instead
+ * Legacy class, use JPluginModel instead
  * 
  * @deprecated As of version 1.1
  * @package Joomla.Legacy
  * @subpackage 1.1
  */
-class mosMambot extends JMambotModel {
+class mosMambot extends JPluginModel {
 	/**
 	 * Constructor
 	 */
@@ -569,7 +569,7 @@ class mosMambotHandler extends JEventDispatcher {
 
 	/**
 	* Loads all the bot files for a particular group
-	* @param string The group name, relates to the sub-directory in the mambots directory
+	* @param string The group name, relates to the sub-directory in the plugins directory
 	*/
 	function loadBotGroup( $group ) {
 		return JPluginHelper::importGroup($group);

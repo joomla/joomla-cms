@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="component" version="1.0.0">
+<install type="component" version="1.0.0">
 	<name>Search</name>
 	<author>Joomla! Project</author>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
@@ -31,4 +31,4 @@
 		</param>
 		<param name="header" type="text" size="30" default="" label="Page Title" description="PARAMPAGETITLE"/>
 	</params>
-</mosinstall>
+</install>

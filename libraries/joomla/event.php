@@ -94,7 +94,7 @@ class JEventDispatcher extends JObservable
 		{
 			if (is_array($observer) && $observer['event'] == $event) 
 			{
-				// We are handling a function or a depreceated mambot
+				// We are handling a function or a deprecated plugin
 				if (function_exists( $observer['handler'] )) {
 					$result[] = call_user_func_array( $observer['handler'], $args );
 				} else {

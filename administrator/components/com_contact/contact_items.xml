@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="component" version="1.0.0">
+<install type="component" version="1.0.0">
 	<name>Contact Items</name>
 	<author>Joomla! Project</author>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
@@ -105,4 +105,4 @@
 		<param name="icon_fax" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Fax Icon" description="Icon for the Fax info" />
 		<param name="icon_misc" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Misc Icon" description="Icon for the Misc info" />
 	</params>
-</mosinstall>
+</install>

@@ -59,9 +59,9 @@ class JInstallerScreens {
 				$txt .= JInstallerScreens :: writableCell('modules');
 				$txt .= JInstallerScreens :: writableCell('templates');
 				$txt .= JInstallerScreens :: writableCell('language');
-				$txt .= JInstallerScreens :: writableCell('mambots');
-				$txt .= JInstallerScreens :: writableCell('mambots/content');
-				$txt .= JInstallerScreens :: writableCell('mambots/search');
+				$txt .= JInstallerScreens :: writableCell('plugins');
+				$txt .= JInstallerScreens :: writableCell('plugins/content');
+				$txt .= JInstallerScreens :: writableCell('plugins/search');
 				$txt .= JInstallerScreens :: writableCell('images/stories');
 				$txt .= JInstallerScreens :: writableCell('administrator/components');
 				$txt .= JInstallerScreens :: writableCell('administrator/modules');

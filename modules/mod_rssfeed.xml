@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="module" version="1.0.0">
+<install type="module" version="1.0.0">
 	<name>Syndicate</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
@@ -45,4 +45,4 @@
 		<param name="atom_image" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Atom Image" description="Choose the image to be used" />
 		<param name="opml_image" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="OPML Image" description="Choose the image to be used" />
 	</params>
-</mosinstall>
+</install>

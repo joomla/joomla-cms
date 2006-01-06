@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<mosinstall type="menu" version="1.0.0">
+<install type="menu" version="1.0.0">
 	<name>Link - Newsfeed</name>
 	<group>Component|Link</group>
 	<author>Joomla! Project</author>
@@ -43,4 +43,4 @@
 		</param>
 		<param name="word_count" type="text" size="6" default="0" label="Word Count" description="PARAMWORDCOUNT" />
 	</params>
-</mosinstall>
+</install>

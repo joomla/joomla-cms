@@ -90,16 +90,16 @@ class JACL extends gacl_api {
 		$this->_mos_add_acl( 'com_installer', 'module', 'users', 'administrator' );
 		$this->_mos_add_acl( 'com_installer', 'module', 'users', 'super administrator' );
 
-		$this->_mos_add_acl( 'com_installer', 'mambot', 'users', 'administrator' );
-		$this->_mos_add_acl( 'com_installer', 'mambot', 'users', 'super administrator' );
+		$this->_mos_add_acl( 'com_installer', 'plugin', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_installer', 'plugin', 'users', 'super administrator' );
 
 		$this->_mos_add_acl( 'com_installer', 'template', 'users', 'super administrator' );
 		$this->_mos_add_acl( 'com_installer', 'template', 'users', 'administrator' );
 
 		$this->_mos_add_acl( 'com_languages', 'manage', 'users', 'super administrator' );
 
-		$this->_mos_add_acl( 'com_mambots', 'manage', 'users', 'super administrator' );
-		$this->_mos_add_acl( 'com_mambots', 'manage', 'users', 'administrator' );
+		$this->_mos_add_acl( 'com_plugins', 'manage', 'users', 'super administrator' );
+		$this->_mos_add_acl( 'com_plugins', 'manage', 'users', 'administrator' );
 		// uncomment following to allow managers to edit modules
 		//array( 'administration', 'edit', 'users', 'manager', 'modules', 'all' );
 

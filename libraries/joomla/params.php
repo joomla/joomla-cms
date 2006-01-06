@@ -243,7 +243,7 @@ class JParameters extends JObject
 					$root = & $xmlDoc->documentElement;
 
 					$tagName = $root->getTagName();
-					$isParamsFile = ($tagName == 'mosinstall' || $tagName == 'mosparams');
+					$isParamsFile = ($tagName == 'install' || $tagName == 'params' || $tagName == 'mosinstall' || $tagName == 'mosparams');
 					if ($isParamsFile && $root->getAttribute('type') == $this->_type) {
 						if ($params = & $root->getElementsByPath('params', 1)) {
 							$this->_xmlElem = & $params;

@@ -308,7 +308,9 @@ class HTML_typedcontent {
 					form.hits.value = 0;
 				} else {
 				}
-				<?php getEditorContents( 'editor1', 'introtext' ) ; ?>
+				<?php 
+				$editor =& JEditor::getInstance();
+				echo $editor->getEditorContents( 'editor1', 'introtext' ) ; ?>
 				submitform( pressbutton );
 			}
 		}
@@ -357,7 +359,8 @@ class HTML_typedcontent {
 					<?php echo JText::_( 'Text: (required)' ); ?><br />
 					<?php
 					// parameters : areaname, content, hidden field, width, height, rows, cols
-					editorArea( 'editor1',  $row->introtext, 'introtext', '100%;', '500', '75', '50' );
+					$editor =& JEditor::getInstance();
+					echo $editor->getEditor( 'editor1',  $row->introtext, 'introtext', '100%;', '500', '75', '50' );
 					?>
 					</td>
 				</tr>
