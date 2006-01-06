@@ -16,7 +16,6 @@
 			<filename>templateDetails.xml</filename>
 			<filename>template_thumbnail.png</filename>
 			<filename>images/arrow.png</filename>
-			<filename>images/emailButton.png</filename>
 			<filename>images/indent1.png</filename>
 			<filename>images/indent2.png</filename>
 			<filename>images/indent3.png</filename>
@@ -53,8 +52,6 @@
 			<filename>images/mw_readon.png</filename>
 			<filename>images/mw_shadow_blue_l.png</filename>
 			<filename>images/mw_shadow_blue_r.png</filename>
-			<filename>images/pdf_button.png</filename>
-			<filename>images/printButton.png</filename>
 			<filename>images/spacer.png</filename>
 			<filename>css/index.html</filename>
 			<filename>css/template_css.css</filename>
