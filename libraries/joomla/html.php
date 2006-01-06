@@ -430,7 +430,7 @@ class mosHTML
 				// Print Preview button - used when viewing page
 				?>
 				<td align="right" width="100%" class="buttonheading">
-				<a href="javascript: void(0)" onclick="javascript:window.print(); return false" title="<?php echo JText::_( 'Print' );?>">
+				<a href="javascript:void(0)" onclick="javascript:window.print(); return false" title="<?php echo JText::_( 'Print' );?>">
 				<?php echo $image;?>
 				</a>
 				</td>
@@ -439,7 +439,7 @@ class mosHTML
 				// Print Button - used in pop-up window
 				?>
 				<td align="right" width="100%" class="buttonheading">
-				<a href="javascript: void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'Print' );?>">
+				<a href="javascript:void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'Print' );?>">
 				<?php echo $image;?>
 				</a>
 				</td>

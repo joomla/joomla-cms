@@ -47,38 +47,38 @@ $d_path				= JURL_SITE .'/images/M_images/';
 	// rss091 link
 	if ( $rss091 ) {
 		$link = 'index.php?option=com_rss&amp;feed=RSS0.91&amp;no_html=1';
-		output_rssfeed( $link, 'rss091.gif', $rss091_image, 'RSS 0.91' );
+		output_rssfeed( $link, 'rss091.gif', $rss091_image, 'RSS 0.91', 'RSS091' );
 	}
 
 	// rss10 link
 	if ( $rss10 ) {
 		$link = 'index.php?option=com_rss&amp;feed=RSS1.0&amp;no_html=1';
-		output_rssfeed( $link, 'rss10.gif', $rss10_image, 'RSS 1.0' );
+		output_rssfeed( $link, 'rss10.gif', $rss10_image, 'RSS 1.0', 'RSS10' );
 	}
 	
 	// rss20 link
 	if ( $rss20 ) {
 		$link = 'index.php?option=com_rss&amp;feed=RSS2.0&amp;no_html=1';
-		output_rssfeed( $link, 'rss20.gif', $rss20_image, 'RSS 2.0' );
+		output_rssfeed( $link, 'rss20.gif', $rss20_image, 'RSS 2.0', 'RSS20' );
 	}
 
 	// atom link
 	if ( $atom ) {
 		$link = 'index.php?option=com_rss&amp;feed=ATOM0.3&amp;no_html=1';
-		output_rssfeed( $link, 'atom03.gif', $atom_image, 'ATOM 0.3' );
+		output_rssfeed( $link, 'atom03.gif', $atom_image, 'ATOM 0.3', 'ATOM03' );
 	}
 	
 	// opml link
 	if ( $opml ) {
 		$link = 'index.php?option=com_rss&amp;feed=OPML&amp;no_html=1';
-		output_rssfeed( $link, 'opml.png', $opml_image, 'OPML' );
+		output_rssfeed( $link, 'opml.png', $opml_image, 'OPML', 'OPML'  );
 	}
 	?>
 </div>
 
 <?php
-function output_rssfeed( $link, $img_default, $img_file, $img_alt ) {	
-	$img = mosAdminMenus::ImageCheck( $img_default, '/images/M_images/', $img_file, '/images/M_images/', $img_alt, $img_alt );
+function output_rssfeed( $link, $img_default, $img_file, $img_alt, $img_name ) {	
+	$img = mosAdminMenus::ImageCheck( $img_default, '/images/M_images/', $img_file, '/images/M_images/', $img_alt, $img_name );
 	?>
 	<div align="center">
 		<a href="<?php echo sefRelToAbs( $link ); ?>">

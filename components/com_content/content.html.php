@@ -532,7 +532,7 @@ class HTML_content {
 		HTML_content::ReadMore( $params, $link_on, $link_text );
 		?>
 		</table>
-		<span class="article_seperator"></span>
+		<span class="article_seperator">&nbsp;</span>
 		<?php
 		$onAfterDisplayContent = $mainframe->triggerEvent( 'onAfterDisplayContent', array( &$row, &$params, $page ) );
 		echo trim( implode( "\n", $onAfterDisplayContent ) );
@@ -636,7 +636,7 @@ class HTML_content {
 			}
 			?>
 			<td align="right" width="100%" class="buttonheading">
-			<a href="javascript: void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'PDF' );?>">
+			<a href="javascript:void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'PDF' );?>">
 			<?php echo $image; ?>
 			</a>
 			</td>
@@ -659,7 +659,7 @@ class HTML_content {
 			}
 			?>
 			<td align="right" width="100%" class="buttonheading">
-			<a href="javascript: void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'Email' );?>">
+			<a href="javascript:void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'Email' );?>">
 			<?php echo $image; ?>
 			</a>
 			</td>
