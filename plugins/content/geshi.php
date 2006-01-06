@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: geshi.php 1402 2005-12-09 17:16:01Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -43,11 +43,13 @@ function botGeshi( $published, &$row, &$params, $page=0 ) {
 * @param array An array of matches (see preg_match_all)
 * @return string
 */
-function botGeshi_replacer( &$matches ) {
+function botGeshi_replacer( &$matches ) 
+{
 	$params =& $GLOBALS['_MAMBOT_GESHI_PARAMS'];
-	include_once( dirname( __FILE__ ) . '/geshi/geshi.php' );
-
+	
+	jiimpor('geshi.geshi');
 	jimport('domit.xml_saxy_shared');
+	
 	$args = SAXY_Parser_Base::parseAttributes( $matches[1] );
 	$text = $matches[2];
 

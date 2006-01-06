@@ -4,10 +4,10 @@
  * --------
  * Author: Nigel McNie (oracle.shinoda@gmail.com)
  * Copyright: (c) 2004 Nigel McNie (http://qbnz.com/highlighter/)
- * Release Version: 1.0.3
- * CVS Revision Version: $Revision: 47 $
+ * Release Version: 1.0.7.5
+ * CVS Revision Version: $Revision: 1.6 $
  * Date Started: 2004/06/20
- * Last Modified: $Date: 2005-09-05 17:53:16 -0500 (Mon, 05 Sep 2005) $
+ * Last Modified: $Date: 2005/10/22 07:52:59 $
  *
  * PHP language file for GeSHi.
  *
@@ -32,7 +32,7 @@
  *
  *************************************************************************************
  *
- *	 This file is part of GeSHi.
+ *     This file is part of GeSHi.
  *
  *   GeSHi is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -60,8 +60,9 @@ $language_data = array (
 	'KEYWORDS' => array(
 		1 => array(
 			'include', 'require', 'include_once', 'require_once',
-			'for', 'foreach', 'as', 'if', 'elseif', 'else', 'while', 'do', 'endwhile', 'endif', 'switch', 'case', 'endswitch',
-			'return', 'break'
+			'for', 'foreach', 'as', 'if', 'elseif', 'else', 'while', 'do', 'endwhile',
+            'endif', 'switch', 'case', 'endswitch',
+			'return', 'break', 'continue'
 			),
 		2 => array(
 			'null', '__LINE__', '__FILE__',
@@ -254,7 +255,8 @@ $language_data = array (
 			'apache_setenv','apache_response_headers','apache_request_headers','apache_note','apache_lookup_uri','apache_get_version',
 			'apache_child_terminate','aggregation_info','aggregate_properties_by_regexp','aggregate_properties_by_list','aggregate_properties','aggregate_methods_by_regexp',
 			'aggregate_methods_by_list','aggregate_methods','aggregate','addslashes','addcslashes','acosh',
-			'acos','abs','_','echo', 'print', 'global', 'static', 'exit', 'array', 'empty', 'eval', 'isset', 'unset', 'die'
+			'acos','abs','_','echo', 'print', 'global', 'static', 'exit', 'array', 'empty',
+            'eval', 'isset', 'unset', 'die', 'list'
 			)
 		),
 	'SYMBOLS' => array(

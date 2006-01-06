@@ -4,10 +4,10 @@
  * -------
  * Author: Nigel McNie (oracle.shinoda@gmail.com)
  * Copyright: (c) 2004 Nigel McNie (http://qbnz.com/highlighter/)
- * Release Version: 1.0.3
- * CVS Revision Version: $Revision: 47 $
+ * Release Version: 1.0.7.5
+ * CVS Revision Version: $Revision: 1.7 $
  * Date Started: 2004/06/18
- * Last Modified: $Date: 2005-09-05 17:53:16 -0500 (Mon, 05 Sep 2005) $
+ * Last Modified: $Date: 2005/10/22 07:52:59 $
  *
  * CSS language file for GeSHi.
  *
@@ -31,7 +31,7 @@
  *
  *************************************************************************************
  *
- *	 This file is part of GeSHi.
+ *     This file is part of GeSHi.
  *
  *   GeSHi is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -67,12 +67,12 @@ $language_data = array (
 			'border-right-style', 'border-right-width', 'border-top-color',
 			'border-top-style', 'border-top-width','border-bottom', 'border-collapse',
 			'border-left', 'border-width', 'border-color', 'border-spacing',
-			'border-style', 'border-top', 'border',  'bottom', 'caption-side',
+			'border-style', 'border-top', 'border',  'caption-side',
 			'clear', 'clip', 'color', 'content', 'counter-increment', 'counter-reset',
 			'cue-after', 'cue-before', 'cue', 'cursor', 'direction', 'display',
 			'elevation', 'empty-cells', 'float', 'font-family', 'font-size',
 			'font-size-adjust', 'font-stretch', 'font-style', 'font-variant',
-			'font-weight', 'font', 'height', 'left', 'letter-spacing', 'line-height',
+			'font-weight', 'font', 'height', 'letter-spacing', 'line-height',
 			'list-style', 'list-style-image', 'list-style-position', 'list-style-type',
 			'margin-bottom', 'margin-left', 'margin-right', 'margin-top', 'margin',
 			'marker-offset', 'marks', 'max-height', 'max-width', 'min-height',
@@ -85,12 +85,13 @@ $language_data = array (
 			'speak', 'speech-rate', 'stress', 'table-layout', 'text-align', 'text-decoration',
 			'text-indent', 'text-shadow', 'text-transform', 'top', 'unicode-bidi',
 			'vertical-align', 'visibility', 'voice-family', 'volume', 'white-space', 'widows',
-			'width', 'word-spacing', 'z-index'
+			'width', 'word-spacing', 'z-index', 'bottom', 'left'
 			),
 		2 => array(
 			'above', 'absolute', 'always', 'armenian', 'aural', 'auto', 'avoid',
 			'baseline', 'behind', 'below', 'bidi-override', 'blink', 'block', 'bold', 'bolder', 'both',
-			'capitalize', 'center-left', 'center-right', 'center', 'circle', 'cjk-ideographic', 'close-quote', 'collapse', 'condensed', 'continuous', 'crop', 'crosshair', 'cross', 'cursive',
+			'capitalize', 'center-left', 'center-right', 'center', 'circle', 'cjk-ideographic', 
+            'close-quote', 'collapse', 'condensed', 'continuous', 'crop', 'crosshair', 'cross', 'cursive',
 			'dashed', 'decimal-leading-zero', 'decimal', 'default', 'digits', 'disc', 'dotted', 'double',
 			'e-resize', 'embed', 'extra-condensed', 'extra-expanded', 'expanded',
 			'fantasy', 'far-left', 'far-right', 'faster', 'fast', 'fixed', 'fuchsia',

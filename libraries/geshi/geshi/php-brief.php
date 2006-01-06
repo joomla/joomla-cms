@@ -4,10 +4,10 @@
  * -------------
  * Author: Nigel McNie (oracle.shinoda@gmail.com)
  * Copyright: (c) 2004 Nigel McNie (http://qbnz.com/highlighter/)
- * Release Version: 1.0.3
- * CVS Revision Version: $Revision: 47 $
+ * Release Version: 1.0.7.5
+ * CVS Revision Version: $Revision: 1.5 $
  * Date Started: 2004/06/02
- * Last Modified: $Date: 2005-09-05 17:53:16 -0500 (Mon, 05 Sep 2005) $
+ * Last Modified: $Date: 2005/10/22 07:52:59 $
  *
  * PHP language file for GeSHi (brief version).
  *
@@ -29,7 +29,7 @@
  *
  *************************************************************************************
  *
- *	 This file is part of GeSHi.
+ *     This file is part of GeSHi.
  *
  *   GeSHi is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by

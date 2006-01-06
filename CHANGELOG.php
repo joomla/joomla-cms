@@ -33,6 +33,7 @@ Legend:
 
 06-Jan-2006 Johan Janssens
  ^ Implemented adpater pattern in JModel class
+ ^ Updated geshi to version 1.0.7.5, moved to the libraries
 
 06-Jan-2006 Louis Landry
  ^ Mambots refactored to Plugins
