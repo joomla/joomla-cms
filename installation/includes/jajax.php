@@ -69,7 +69,7 @@ class JAJAXHandler {
 	 * Method to get the path from the FTP root to the Joomla root directory
 	 */
 	function ftproot() {
-		jimport( 'joomla.error' );
+		jimport( 'joomla.system.error' );
 		require_once(JPATH_BASE.DS."classes.php");
 		echo JInstallationHelper::findFtpRoot($_GET['user'], $_GET['pass'], $_GET['host']);
 	}
@@ -81,6 +81,26 @@ class JAJAXHandler {
 
 		jimport( 'joomla.system.error' );
 		jimport( 'joomla.database.database' );
+
+		if (empty($_GET['type'])) {
+			JError::raiseError( 1, 'JInstallation::dbcollate: Missing DB Type');
+			return false;
+		}
+
+		if (empty($_GET['host'])) {
+			JError::raiseError( 1, 'JInstallation::dbcollate: Missing DB Host');
+			return false;
+		}
+
+		if (empty($_GET['user'])) {
+			JError::raiseError( 1, 'JInstallation::dbcollate: Missing DB Username');
+			return false;
+		}
+
+		if (empty($_GET['pass'])) {
+			JError::raiseError( 1, 'JInstallation::dbcollate: Missing DB Password');
+			return false;
+		}
 
 		/*
 		 * Get a database connection instance
