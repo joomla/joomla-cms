@@ -26,7 +26,8 @@ class JLoader
     * @return void
     * @since 1.1
     */
-   function import( $filePath ) {
+   function import( $filePath ) 
+   {
 		global  $mosConfig_absolute_path; //for backwards compilance
 
 		$parts = explode( '.', $filePath );
@@ -44,7 +45,7 @@ class JLoader
 			$dir = dir( $path );
 			while ($file = $dir->read()) {
 				if (ereg( '\.php$', $file )) {
-					include_once $path . DS . $file;
+					JLoader::_requireOnce($path . DS . $file);
 				}
 			}
 			$dir->close();
@@ -59,7 +60,7 @@ class JLoader
 			}
 
 			if ($found) {
-				include_once $base . DS . $path . $suffix;
+				JLoader::_requireOnce($base . DS . $path . $suffix);
 			} else {
 				return;  //TODO : throw error
 			}
@@ -70,25 +71,52 @@ class JLoader
 
    /**
     * A common object factory.
-    *     * Assumes that the class constructor takes only one parameter, an
-    * associative array of construction options.
-    *     * Attempts to load the class automatically.
+    * 
+    * Assumes that the class constructor takes only one parameter, an associative array of 
+    * construction options. Attempts to load the class automatically.
     *
+    * @access public
     * @param string $class The class name to instantiate.
     * @param array $options An associative array of options (default null).
     * @return object An object instance.
     */
-   function &factory($class, $options = null) {
+   function &factory($class, $options = null) 
+   {
        JLoader::import($class);
        $obj = new $class($options);
        return $obj;
    }
+   
+   /**
+    * Custom require_once function to improve preformance
+    * 
+    * @access private
+    * @param string $file The path to the file to include
+    * @since 1.1
+    * @see require_once
+    * 
+    */
+   function _requireOnce( $file ) 
+   {
+		static $paths;
+		
+		if (!isset($paths)) {
+			$paths = array();
+		} 
+		
+	   if(!isset($paths[$file])) {
+            include($file);
+            $paths[$file] = true;
+       }
+   } 
 }
 
 /**
  * Intelligent file importer
- * @param string A dot syntax path
- * @param boolean True to use require_once, false to use require
+ * 
+ * @access public
+ * @param string $$path A dot syntax path
+ * @since 1.1
  */
 function jimport( $path ) {
 	JLoader::import($path);
