@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mospaging.php 1541 2005-12-22 21:22:26Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -74,7 +74,7 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 			$row->page_title = sprintf( JText::_( 'Page' ), $page_text );
 			if ( !$page ) {
 				// processing for first page
-				parse_str( str_replace( '&amp;', '&', $matches[0][2] ), $args );
+				parse_str( html_entity_decode( $matches[0][2] ), $args );
 
 				if ( @$args['heading'] ) {
 					$row->page_title = $args['heading'];
@@ -82,7 +82,7 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 					$row->page_title = '';
 				}
 			} else if ( $matches[$page-1][2] ) {
-				parse_str(  str_replace( '&amp;', '&', $matches[$page-1][2] ), $args );
+				parse_str( html_entity_decode( $matches[$page-1][2] ), $args );
 
 				if ( @$args['title'] ) {
 					$row->page_title = stripslashes( $args['title'] );
@@ -143,7 +143,7 @@ function createTOC( &$row, &$matches, &$page ) {
 	$heading = $row->title;
 	// allows customization of first page title by checking for `heading` attribute in first bot
 	if ( @$matches[0][2] ) {
-		parse_str( str_replace( '&amp;', '&', $matches[0][2] ), $args );
+		parse_str( html_entity_decode( $matches[0][2] ), $args );
 
 		if ( @$args['heading'] ) {
 			$heading = $args['heading'];
@@ -180,7 +180,7 @@ function createTOC( &$row, &$matches, &$page ) {
 		$link = sefRelToAbs( $link );
 
 		if ( @$bot[2] ) {
-			parse_str( str_replace( '&amp;', '&', $bot[2] ), $args2 );
+			parse_str( html_entity_decode( $bot[2] ), $args2 );
 
 			if ( @$args2['title'] ) {
 				$row->toc .= '
