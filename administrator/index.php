@@ -16,9 +16,9 @@ define( '_JEXEC', 1 );
 
 define('JPATH_BASE', dirname(__FILE__) );
 
-require_once ( 'includes/defines.php'     );
-require_once ( 'includes/application.php' );
-require_once ( 'includes/template.php'    );
+require_once ( JPATH_BASE .'/includes/defines.php'     );
+require_once ( JPATH_BASE .'/includes/application.php' );
+require_once ( JPATH_BASE .'/includes/template.php'    );
 
 $option = mosGetParam( $_REQUEST, 'option', NULL );
 
