@@ -81,5 +81,5 @@ $_VERSION = new JVersion();
  *  use JPlugingHelper::importGroup and JPluginHelper::import to load bot code
  *  @deprecated As of version 1.1
  */
-$_MAMBOTS = new mosPluginHandler();
+$_MAMBOTS = new mosMambotHandler();
 ?>
