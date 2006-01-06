@@ -82,6 +82,10 @@ class mosConfig {
 	/** @var string */
 	var $config_dirperms			= '0755';
 	/** @var string */
+	var $config_ftp_enable 			= null;
+	/** @var string */
+	var $config_ftp_host 			= null;
+	/** @var string */
 	var $config_ftp_user 			= null;
 	/** @var string */
 	var $config_ftp_pass 			= null;

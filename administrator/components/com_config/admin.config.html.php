@@ -443,8 +443,12 @@ class HTML_config {
 				<td><?php echo $lists['xmlrpc_server']; ?></td>
 			</tr>
 			<tr>
-				<td><?php echo JText::_( 'FTP Root' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_ftp_root" size="50" value="<?php echo $row->config_ftp_root; ?>"/></td>
+				<td><?php echo JText::_( 'Enable FTP' ); ?>:</td>
+				<td><?php echo $lists['enable_ftp']; ?></td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_( 'FTP Host' ); ?>:</td>
+				<td><input class="text_area" type="text" name="config_ftp_host" size="25" value="<?php echo $row->config_ftp_host; ?>"/></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'FTP Username' ); ?>:</td>
@@ -453,6 +457,10 @@ class HTML_config {
 			<tr>
 				<td><?php echo JText::_( 'FTP Password' ); ?>:</td>
 				<td><input class="text_area" type="password" name="config_ftp_pass" size="25" value="<?php echo $row->config_ftp_pass; ?>"/></td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_( 'FTP Root' ); ?>:</td>
+				<td><input class="text_area" type="text" name="config_ftp_root" size="50" value="<?php echo $row->config_ftp_root; ?>"/></td>
 			</tr>
 			</table>
 

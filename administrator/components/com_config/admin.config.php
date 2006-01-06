@@ -137,6 +137,8 @@ function showconfig( $option) {
 
 	$lists['error_reporting'] = mosHTML::selectList( $errors, 'config_error_reporting', 'class="inputbox" size="1"', 'value', 'text', $row->config_error_reporting );
 
+	$lists['enable_ftp'] = mosHTML::yesnoRadioList( 'config_ftp_enable', 'class="inputbox"', $row->config_ftp_enable );
+
 	if ( !$row->config_secure_site ) {
 			$row->config_secure_site = str_replace( 'http://', 'https://', $row->config_live_site );
 	}
