@@ -506,7 +506,7 @@ function menuLink( $option, $id ) {
 	$menu 	= mosGetParam( $_POST, 'menuselect', '' );
 	$link 	= mosGetParam( $_POST, 'link_name', '' );
 
-	$row 				=v
+	$row 				=& JModel::getInstance( 'menu', $database );
 	$row->menutype 		= $menu;
 	$row->name 			= $link;
 	$row->type 			= 'content_typed';
