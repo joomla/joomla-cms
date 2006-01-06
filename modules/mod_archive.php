@@ -34,7 +34,7 @@ foreach ( $rows as $row ) {
 	$created_month 	= mosFormatDate ( $row->created, "%m" );
 	$month_name 	= mosFormatDate ( $row->created, "%B" );
 	$created_year 	= mosFormatDate ( $row->created, "%Y" );
-	$link			= sefRelToAbs( 'index.php?option=com_content&amp;task=archivecategory&amp;Itemid='. $Itemid .'&amp;year='. $created_year .'&amp;month='. $created_month .'&amp;module=1' );
+	$link			= sefRelToAbs( 'index.php?option=com_content&amp;task=archivecategory&amp;year='. $created_year .'&amp;month='. $created_month .'&amp;module=1' );
 	$text			= $month_name .', '. $created_year;
 	?>
 	<li>

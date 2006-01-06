@@ -95,27 +95,6 @@ function botJoomlaSEFUrl( ) {
 				$_REQUEST['limitstart'] = $limitstart;
 
 				$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&id=$id&Itemid=$Itemid&limit=$limit&limitstart=$limitstart";
-			} else if (isset($url_array[$pos+5]) && $url_array[$pos+5]!='' && ( in_array('archivecategory', $url_array) || in_array('archivesection', $url_array) )) {
-			// $option/$task/$id/$Itemid/$limit/$limitstart
-					$task 					= $url_array[$pos+1];
-					$Itemid 				= $url_array[$pos+2];
-					$year 					= $url_array[$pos+3];
-					$month 					= $url_array[$pos+4];
-					$module 				= $url_array[$pos+5];
-					
-					// pass data onto global variables
-					$_GET['task'] 			= $task;
-					$_REQUEST['task'] 		= $task;
-					$_GET['Itemid'] 		= $Itemid;
-					$_REQUEST['Itemid'] 	= $Itemid;
-					$_GET['year'] 			= $year;
-					$_REQUEST['year'] 		= $year;
-					$_GET['month'] 			= $month;
-					$_REQUEST['month'] 		= $month;
-					$_GET['module'] 		= $module;
-					$_REQUEST['module']		= $module;
-					
-					$QUERY_STRING = "option=com_content&task=$task&Itemid=$Itemid&year=$year&month=$month&module=$module";
 			} else if (isset($url_array[$pos+5]) && $url_array[$pos+5]!='') {
 			// $option/$task/$id/$Itemid/$limit/$limitstart
 				$task 					= $url_array[$pos+1];
@@ -137,6 +116,24 @@ function botJoomlaSEFUrl( ) {
 				$_REQUEST['limitstart'] = $limitstart;
 
 				$QUERY_STRING = "option=com_content&task=$task&id=$id&Itemid=$Itemid&limit=$limit&limitstart=$limitstart";
+		} else if (isset($url_array[$pos+4]) && $url_array[$pos+4]!='' && ( in_array('archivecategory', $url_array) || in_array('archivesection', $url_array) )) {
+					// $option/$task/$Itemid/$year/$month/$module
+					$task 					= $url_array[$pos+1];
+					$year 					= $url_array[$pos+2];
+					$month 					= $url_array[$pos+3];
+					$module 				= $url_array[$pos+4];
+					
+					// pass data onto global variables
+					$_GET['task'] 			= $task;
+					$_REQUEST['task'] 		= $task;
+					$_GET['year'] 			= $year;
+					$_REQUEST['year'] 		= $year;
+					$_GET['month'] 			= $month;
+					$_REQUEST['month'] 		= $month;
+					$_GET['module'] 		= $module;
+					$_REQUEST['module']		= $module;
+					
+					$QUERY_STRING = "option=com_content&task=$task&year=$year&month=$month&module=$module";
 			} else if (!(isset($url_array[$pos+5]) && $url_array[$pos+5]!='') && isset($url_array[$pos+4]) && $url_array[$pos+4]!='') {
 			// $option/$task/$sectionid/$id/$Itemid
 				$task 					= $url_array[$pos+1];
