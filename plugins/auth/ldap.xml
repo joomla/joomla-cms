@@ -14,7 +14,7 @@
     </files>
     <params>
         <param name="host" type="text" size="20" default="" label="Host" description="For example, openldap.mycompany.org" />
-        <param name="post" type="text" size="20" default="389" label="Port" description="Default port is 389" />
+        <param name="port" type="text" size="20" default="389" label="Port" description="Default port is 389" />
         <param name="use_ldapV3" type="radio" default="0" label="LDAP V3" description="PARAMLDAPV3">
             <option value="0">No</option>
             <option value="1">Yes</option>

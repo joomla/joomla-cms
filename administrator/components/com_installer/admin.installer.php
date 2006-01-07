@@ -39,7 +39,7 @@ if ($extension != '') {
 }
 
 
-class JInstallerTasks {
+class JInstallerController {
 
 	/**
 	 * @param string The class name for the installer
@@ -317,6 +317,7 @@ class JInstallerTasks {
 		 * TODO: If it isn't an array do we want to set an error and fail?  
 		 */
 		if (!is_array($eid)) {
+die();
 			$eid = array (0);
 		}
 
@@ -329,10 +330,15 @@ class JInstallerTasks {
 		 * Uninstall the chosen extensinos
 		 */
 		foreach ($eid as $id) {
-			$result |= !$installer->uninstall($id, $client);
+			$result = !$installer->uninstall($id, $client);
+			
+			// Build an array of extensions that failed to uninstall
+			if (!$result) {
+				$failed[] = $id;
+			}
 		}
 
-		if (!$result) {
+		if (count($failed)) {
 			/*
 			 * There was an error in uninstalling the package
 			 */
@@ -373,20 +379,20 @@ $task = strtolower(mosGetParam($_REQUEST, 'task', 'installer'));
 switch ($task) {
 
 	case 'uploadpackage':
-		JInstallerTasks :: uploadpackage();
+		JInstallerController :: uploadpackage();
 		break;
 	case 'installfromdirectory':
-		JInstallerTasks :: installFromDirectory();
+		JInstallerController :: installFromDirectory();
 		break;
 	case 'installfromurl':
-		JInstallerTasks :: installFromUrl();
+		JInstallerController :: installFromUrl();
 		break;
 	case 'remove':
 	case 'removeextension':
-		JInstallerTasks :: removeextension();
+		JInstallerController :: removeextension();
 		break;
 	default:
-		JInstallerTasks :: installer();
+		JInstallerController :: installer();
 		break;
 }	
 ?>

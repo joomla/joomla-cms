@@ -169,13 +169,13 @@ class JFile {
 		}
 
 		// Do NOT use ftp if it is not enabled
-		if ($mainframe->getCfg('ftp_enable') != 1) {
-			$ftpFlag = false;
-		} else {
+		if ($mainframe->getCfg('ftp_enable') == 1) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
 			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
 			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
+		} else {
+			$ftpFlag = false;
 		}
 
 		$retval = true;
@@ -183,7 +183,7 @@ class JFile {
 			$file = JPath::clean($file, false);
 			JPath::check($file);
 
-			if ($ftpFlag == true || !is_writable($file)) {
+			if (($ftpFlag == true && !is_writable($file)) || $ftpFlag == true) {
 				$fail = !$ftp->delete(JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $file)));
 			} else {
 				$fail = !unlink($file);
