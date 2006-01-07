@@ -174,7 +174,9 @@ class JFile {
 			jimport('joomla.connector.ftp');
 			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'));
 			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
+			$enabled = true;
 		} else {
+			$enabled = false;
 			$ftpFlag = false;
 		}
 
@@ -183,7 +185,7 @@ class JFile {
 			$file = JPath::clean($file, false);
 			JPath::check($file);
 
-			if (($ftpFlag == true && !is_writable($file)) || $ftpFlag == true) {
+			if (($enabled == true && !is_writable($file)) || $ftpFlag == true) {
 				$fail = !$ftp->delete(JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $file)));
 			} else {
 				$fail = !unlink($file);
@@ -193,7 +195,10 @@ class JFile {
 				$retval = false;
 			}
 		}
-		$ftp->quit();
+
+		if ($enabled) {
+			$ftp->quit();
+		}
 		return $retval;
 	}
 
