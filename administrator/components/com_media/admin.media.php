@@ -89,7 +89,7 @@ switch ($task) {
 
 	// popup upload interface for use by components
 	case 'popupUpload':
-		HTML_Media::popupUpload( COM_MEDIA_BASEURL );
+		HTML_Media::popupUpload( COM_MEDIA_BASE );
 		break;
 
 	default:

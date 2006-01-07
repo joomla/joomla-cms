@@ -388,7 +388,7 @@ class mosToolBar {
 		$image = mosAdminMenus::ImageCheck( 'upload_f2.png', '/images/', NULL, NULL, $alt, 'uploadPic', 1 );
 		?>
 		<td>
-			<a class="toolbar" href="#" onclick="popupWindow('popups/uploadimage.php?directory=<?php echo $directory; ?>','win1',250,100,'no');">
+			<a class="toolbar" onclick="popupWindow('popups/uploadimage.php?directory=<?php echo $directory; ?>','win1',250,100,'no');">
 				<?php echo $image; ?></a>
 		</td>
 		<?php

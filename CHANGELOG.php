@@ -34,6 +34,7 @@ Legend:
 07-Jan-2006 Louis Landry
  + Added JPagination class
  ^ Deprecated mosPageNav class, use JPagination instead
+ # artf2917 : Rev#1665 -- Forced log-out on clicking "Upload" in content
 
 06-Jan-2006 Johan Janssens
  ^ Implemented adpater pattern in JModel class

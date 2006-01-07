@@ -718,7 +718,7 @@ class JMenuBar
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'upload_f2.png', '/images/', NULL, NULL, 'Upload Image', 'uploadPic', 1 );
 		?>
 		<td>
-			<a class="toolbar" href="#" onclick="popupWindow('index3.php?option=com_media&amp;task=popupUpload&amp;directory=<?php echo $directory; ?>','win1',250,100,'no');">
+			<a class="toolbar" onclick="popupWindow('index3.php?option=com_media&amp;task=popupUpload&amp;directory=<?php echo $directory; ?>','win1',250,100,'no');">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt;?></a>
 		</td>
