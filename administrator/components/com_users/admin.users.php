@@ -405,7 +405,7 @@ function cancelUser( $option ) {
 }
 
 function removeUsers( $cid, $option ) {
-	global $database, $acl, $my;
+	global $mainframe, $database, $acl, $my;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
