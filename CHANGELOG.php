@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+07-Jan-2006 Louis Landry
+ + Added JPagination class
+ ^ Deprecated mosPageNav class, use JPagination instead
+
 06-Jan-2006 Johan Janssens
  ^ Implemented adpater pattern in JModel class
  ^ Updated geshi to version 1.0.7.5, moved to the libraries
