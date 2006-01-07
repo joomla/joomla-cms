@@ -24,9 +24,11 @@ function botMosImage( $published, &$row, &$params, $page=0 ) {
  	// expression to search for
 	$regex = '/{mosimage\s*.*?}/i';
 
+	$plugin =& JPluginHelper::getPlugin('content', 'mosimage'); 
+
 	// check whether mosimage has been disabled for page
 	// check whether plugin has been unpublished
-	if (!$published || !$params->get( 'image' )) {
+	if (!$plugin->published || !$params->get( 'image' )) {
 		$row->text = preg_replace( $regex, '', $row->text );
 		return true;
 	}
@@ -48,7 +50,6 @@ function botMosImage( $published, &$row, &$params, $page=0 ) {
  	// plugin only processes if there are any instances of the plugin in the text
  	if ( $count ) {
 		// load plugin params info
-	 	$plugin =& JPluginHelper::getPlugin('content', 'mosimage'); 
 	 	$pluginParams = new JParameters( $plugin->params );
 
 	 	$pluginParams->def( 'padding' );

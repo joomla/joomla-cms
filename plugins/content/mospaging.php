@@ -36,8 +36,11 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
  	// expression to search for
  	$regex = '/{(mospagebreak)\s*(.*?)}/i';
 
+	// Get Plugin info
+ 	$plugin =& JPluginHelper::getPlugin('content', 'mospaging'); 
+
 	// check whether plugin has been unpublished
- 	if (!$published || $params->get( 'intro_only' )|| $params->get( 'popup' )) {
+ 	if (!$plugin->published || $params->get( 'intro_only' )|| $params->get( 'popup' )) {
 		$row->text = preg_replace( $regex, '', $row->text );
 		return;
 	}
@@ -54,10 +57,9 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 
 	// we have found at least one plugin, therefore at least 2 pages
 	if ($n > 1) {
-		// load plugin params info
-	 	$plugin =& JPluginHelper::getPlugin('content', 'mospaging'); 
-	 	$pluginParams = new JParameters( $plugin->params );
 
+		// Get plugin parameters
+	 	$pluginParams = new JParameters( $plugin->params );
 	 	$title	= $pluginParams->def( 'title', 1 );
 
 	 	// adds heading or title to <site> Title

@@ -22,11 +22,14 @@ $mainframe->registerEvent( 'onPrepareContent', 'botMosLoadPosition' );
 function botMosLoadPosition( $published, &$row, &$params, $page=0 ) {
 	global $database;
 
+	// Get plugin info
+	$plugin =& JPluginHelper::getPlugin('content', 'mosloadposition'); 
+
  	// expression to search for
  	$regex = '/{mosloadposition\s*.*?}/i';
 
 	// check whether plugin has been unpublished
-	if ( !$published ) {
+	if ( !$plugin->published ) {
 		$row->text = preg_replace( $regex, '', $row->text );
 		return true;
 	}
@@ -39,7 +42,7 @@ function botMosLoadPosition( $published, &$row, &$params, $page=0 ) {
 
  	// plugin only processes if there are any instances of the plugin in the text
  	if ( $count ) {
-	 	$plugin =& JPluginHelper::getPlugin('content', 'mosloadposition'); 
+		// Get plugin parameters
 	 	$pluginParams = new JParameters( $plugin->params );
 
 	 	$style	= $pluginParams->def( 'style', -2 );

@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: moscode.php 1402 2005-12-09 17:16:01Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -26,8 +26,11 @@ function botMosCode( $published, &$row, &$params, $page=0 ) {
 	// define the regular expression for the bot
 	$regex = "#{moscode}(.*?){/moscode}#s";
 
+	// Get Plugin info
+ 	$plugin =& JPluginHelper::getPlugin('content', 'moscode'); 
+
 	// check whether plugin has been unpublished
-	if (!$published) {
+	if (!$plugin->published) {
 		$row->text = preg_replace( $regex, '', $row->text );
 		return;
 	}

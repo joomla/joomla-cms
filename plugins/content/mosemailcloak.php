@@ -22,13 +22,14 @@ $mainframe->registerEvent( 'onPrepareContent', 'botMosEmailCloak' );
 function botMosEmailCloak( $published, &$row, &$params, $page=0 ) {
 	global $database;
 
+ 	$plugin =& JPluginHelper::getPlugin('content', 'mosemailcloak'); 
+
 	// check whether plugin has been unpublished
-	if ( !$published ) {
+	if ( !$plugin->published ) {
 		return true;
 	}
 
 	// load plugin params info
- 	$plugin =& JPluginHelper::getPlugin('content', 'mosloadposition'); 
  	$pluginParams = new JParameters( $plugin->params );
  	$mode		= $pluginParams->def( 'mode', 1 );
 

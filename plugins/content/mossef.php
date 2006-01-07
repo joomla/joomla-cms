@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mossef.php 1402 2005-12-09 17:16:01Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -24,8 +24,10 @@ $mainframe->registerEvent( 'onPrepareContent', 'botMosSef' );
 */
 function botMosSef( $published, &$row, &$params, $page=0 ) {
 
+	$plugin =& JPluginHelper::getPlugin('content', 'mossef'); 
+
 	// check whether plugin has been unpublished
-	if ( !$published ) {
+	if ( !$plugin->published ) {
 		return true;
 	}
 
