@@ -12,83 +12,84 @@
 */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-$showmode 	= $params->get( 'showmode' );
-if(!$showmode || $showmode =='0') $showmode=0;
+$showmode = $params->get('showmode');
+if (!$showmode || $showmode == '0')
+	$showmode = 0;
 
-$content 	= '';
+$content = '';
 
-if ($showmode==0 || $showmode==2) {
-	$query = "SELECT COUNT( session_id ) AS guest_online"
-	. "\n FROM #__session"
-	. "\n WHERE guest = 1"
-	. "\n AND ( usertype is NULL OR usertype = '' )";
-	$database->setQuery( $query );
+if ($showmode == 0 || $showmode == 2) {
+	$query = "SELECT COUNT( session_id ) AS guest_online" .
+			"\n FROM #__session" .
+			"\n WHERE guest = 1" .
+			"\n AND ( usertype is NULL OR usertype = '' )";
+	$database->setQuery($query);
 	$guest_array = $database->loadResult();
 
-	$query = "SELECT COUNT( DISTINCT( username ) ) AS user_online"
-	. "\n FROM #__session"
-	. "\n WHERE guest = 0"
-	;
-	$database->setQuery( $query );
+	$query = "SELECT COUNT( DISTINCT( username ) ) AS user_online" .
+			"\n FROM #__session" .
+			"\n WHERE guest = 0";
+	$database->setQuery($query);
 	$user_array = $database->loadResult();
 
-	if ($guest_array<>0 && $user_array==0) {
-		if ($guest_array==1) {
-        	$content = sprintf( JText::_( 'We have guest online' ), $guest_array );
+	if ($guest_array <> 0 && $user_array == 0) {
+		if ($guest_array == 1) {
+			$content = sprintf(JText :: _('We have guest online'), $guest_array);
 			eval ("\$content = \"$content\";");
 		} else {
-        	$content = sprintf( JText::_( 'We have guests online' ), $guest_array );
+			$content = sprintf(JText :: _('We have guests online'), $guest_array);
 			eval ("\$content = \"$content\";");
 		}
 	}
 
-	if ($guest_array==0 && $user_array<>0) {
-		if ($user_array==1) {
-        	$content = sprintf( JText::_( 'We have member online' ), $user_array );
+	if ($guest_array == 0 && $user_array <> 0) {
+		if ($user_array == 1) {
+			$content = sprintf(JText :: _('We have member online'), $user_array);
 			eval ("\$content = \"$content\";");
 		} else {
-        	$content = sprintf( JText::_( 'We have members online' ), $user_array );
+			$content = sprintf(JText :: _('We have members online'), $user_array);
 			eval ("\$content = \"$content\";");
 		}
 	}
 
-	if ($guest_array<>0 && $user_array<>0) {
-		if ($guest_array==1) {
-        	$content = sprintf( JText::_( 'We have guest and' ), $guest_array );
+	if ($guest_array <> 0 && $user_array <> 0) {
+		if ($guest_array == 1) {
+			$content = sprintf(JText :: _('We have guest and'), $guest_array);
 			eval ("\$content = \"$content\";");
 		} else {
-        	$content = sprintf( JText::_( 'We have guests and' ), $guest_array );
+			$content = sprintf(JText :: _('We have guests and'), $guest_array);
 			eval ("\$content = \"$content\";");
 		}
 
-		if ($user_array==1) {
-        	$content = sprintf( JText::_( 'member online' ), $user_array );
+		if ($user_array == 1) {
+			$content .= sprintf(JText :: _('member online'), $user_array);
 			eval ("\$content = \"$content\";");
 		} else {
-        	$content = sprintf( JText::_( 'members online' ), $user_array );
+			$content .= sprintf(JText :: _('members online'), $user_array);
 			eval ("\$content = \"$content\";");
 		}
 
 	}
+	echo $content;
+	$content = '';
 }
 
-if ($showmode==1 || $showmode==2) {
-	$query = "SELECT DISTINCT a.username"
-	."\n FROM #__session AS a"
-	."\n WHERE a.guest = 0"
-	;
+if ($showmode == 1 || $showmode == 2) {
+	$query = "SELECT DISTINCT a.username" .
+			"\n FROM #__session AS a" .
+			"\n WHERE a.guest = 0";
 	$database->setQuery($query);
 	$rows = $database->loadObjectList();
-	foreach($rows as $row) {
+	foreach ($rows as $row) {
 		$content .= "<ul>\n";
-		$content .= "<li><strong>" . $row->username . "</strong></li>\n";
+		$content .= "<li><strong>".$row->username."</strong></li>\n";
 		$content .= "</ul>\n";
 	}
 
-	if ( !$content ) {
-		echo JText::_( 'No Users Online' ) ."\n";
+	if (!$content) {
+		echo JText :: _('No Users Online')."\n";
 	} else {
 		echo $content;
 	}
