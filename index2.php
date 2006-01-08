@@ -35,6 +35,12 @@ JPluginHelper::importGroup( 'system' );
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );
 
+// SEF Fix
+if ($mainframe->getCfg('sef')) {
+	$option = $_REQUEST['option'];
+	$mainframe->_option = $option;
+}
+
 //get the acl object (for backwards compatibility)
 $acl =& JFactory::getACL();
 
