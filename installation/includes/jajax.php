@@ -97,11 +97,6 @@ class JAJAXHandler {
 			return false;
 		}
 
-		if (empty($_GET['pass'])) {
-			JError::raiseError( 1, 'JInstallation::dbcollate: Missing DB Password');
-			return false;
-		}
-
 		/*
 		 * Get a database connection instance
 		 */		

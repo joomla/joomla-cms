@@ -81,9 +81,6 @@ function JProcess() {
 	} else if (user.value == '') {
 		alert( '<jos:translate key="validUser" escape="yes">Please enter a database username</jos:translate>' );
 		return;
-	} else if (pass.value == '') {
-		alert( '<jos:translate key="validPass" escape="yes">Please enter a database password</jos:translate>' );
-		return;
 	} else {
 		ajtype.value = type.options[type.selectedIndex].value;
 		ajhost.value = host.value;
