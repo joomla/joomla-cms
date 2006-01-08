@@ -1012,6 +1012,11 @@ class JApplicationHelper
 				$result = JApplicationHelper::_checkPath( $path, -1 );
 				break;
 
+			case 'admin_functions':
+				$path	= DS.'components'.DS. $user_option .DS. $name .'.functions.php';
+				$result = JApplicationHelper::_checkPath( $path, -1 );
+				break;
+
 			case 'class':
 				if ( !( $result = JApplicationHelper::_checkPath( DS.'components'.DS. $user_option .DS. $name .'.class.php' ) ) ) {
 					$result = JApplicationHelper::_checkPath( DS.'includes'.DS. $name .'.php' );
