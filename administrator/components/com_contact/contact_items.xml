@@ -70,7 +70,7 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="vcard" type="radio" default="1" label="VCard" description="Show/Hide VCard">
+		<param name="vcard" type="radio" default="0" label="VCard" description="Show/Hide VCard">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>

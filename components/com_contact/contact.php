@@ -255,7 +255,7 @@ function contactpage( $contact_id ) {
 		$params->def( 'icon_fax', '' );
 		$params->def( 'icon_misc', '' );
 		$params->def( 'drop_down', '0' );
-		$params->def( 'vcard', '1' );
+		$params->def( 'vcard', '0' );
 
 
 		if ( $contact->email_to && $params->get( 'email' )) {
@@ -451,59 +451,68 @@ function vCard( $id ) {
 
 	$contact	= new mosContact( $database );
 	$contact->load( $id );
-	$name 	= explode( ' ', $contact->name );
-	$count 	= count( $name );
-
-	// handles conversion of name entry into firstname, surname, middlename distinction
-	$surname	= '';
-	$middlename	= '';
-
-	switch( $count ) {
-		case 1:
-			$firstname		= $name[0];
-			break;
-
-		case 2:
-			$firstname 		= $name[0];
-			$surname		= $name[1];
-			break;
-
-		default:
-			$firstname 		= $name[0];
-			$surname		= $name[$count-1];
-			for ( $i = 1; $i < $count - 1 ; $i++ ) {
-				$middlename	.= $name[$i] .' ';
-			}
-			break;
+	$params = new mosParameters( $contact->params );
+	
+	$show = $params->get( 'vcard', 0 );	
+	if ( $show ) {	
+	// check to see if VCard option hsa been activated
+		$name 	= explode( ' ', $contact->name );
+		$count 	= count( $name );
+	
+		// handles conversion of name entry into firstname, surname, middlename distinction
+		$surname	= '';
+		$middlename	= '';
+	
+		switch( $count ) {
+			case 1:
+				$firstname		= $name[0];
+				break;
+	
+			case 2:
+				$firstname 		= $name[0];
+				$surname		= $name[1];
+				break;
+	
+			default:
+				$firstname 		= $name[0];
+				$surname		= $name[$count-1];
+				for ( $i = 1; $i < $count - 1 ; $i++ ) {
+					$middlename	.= $name[$i] .' ';
+				}
+				break;
+		}
+		$middlename	= trim( $middlename );
+	
+		$v 	= new JvCard();
+	
+		$v->setPhoneNumber( $contact->telephone, 'PREF;WORK;VOICE' );
+		$v->setPhoneNumber( $contact->fax, 'WORK;FAX' );
+		$v->setName( $surname, $firstname, $middlename, '' );
+		$v->setAddress( '', '', $contact->address, $contact->suburb, $contact->state, $contact->postcode, $contact->country, 'WORK;POSTAL' );
+		$v->setEmail( $contact->email_to );
+		$v->setNote( $contact->misc );
+		$v->setURL( JURL_SITE, 'WORK' );
+		$v->setTitle( $contact->con_position );
+		$v->setOrg( $mosConfig_sitename );
+	
+		$filename	= str_replace( ' ', '_', $contact->name );
+		$v->setFilename( $filename );
+	
+		$output 	= $v->getVCard( $mosConfig_sitename );
+		$filename 	= $v->getFileName();
+	
+		// header info for page
+		header( 'Content-Disposition: attachment; filename='. $filename );
+		header( 'Content-Length: '. strlen( $output ) );
+		header( 'Connection: close' );
+		header( 'Content-Type: text/x-vCard; name='. $filename );
+		header( 'Cache-Control: store, cache' );
+		header( 'Pragma: cache' );
+	
+		print $output;
+	} else {
+		mosNotAuth();  
+		return;
 	}
-	$middlename	= trim( $middlename );
-
-	$v 	= new JvCard();
-
-	$v->setPhoneNumber( $contact->telephone, 'PREF;WORK;VOICE' );
-	$v->setPhoneNumber( $contact->fax, 'WORK;FAX' );
-	$v->setName( $surname, $firstname, $middlename, '' );
-	$v->setAddress( '', '', $contact->address, $contact->suburb, $contact->state, $contact->postcode, $contact->country, 'WORK;POSTAL' );
-	$v->setEmail( $contact->email_to );
-	$v->setNote( $contact->misc );
-	$v->setURL( JURL_SITE, 'WORK' );
-	$v->setTitle( $contact->con_position );
-	$v->setOrg( $mosConfig_sitename );
-
-	$filename	= str_replace( ' ', '_', $contact->name );
-	$v->setFilename( $filename );
-
-	$output 	= $v->getVCard( $mosConfig_sitename );
-	$filename 	= $v->getFileName();
-
-	// header info for page
-	header( 'Content-Disposition: attachment; filename='. $filename );
-	header( 'Content-Length: '. strlen( $output ) );
-	header( 'Connection: close' );
-	header( 'Content-Type: text/x-vCard; name='. $filename );
-	header( 'Cache-Control: store, cache' );
-	header( 'Pragma: cache' );
-
-	print $output;
 }
 ?>
