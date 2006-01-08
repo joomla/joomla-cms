@@ -212,7 +212,7 @@ class JInstallerScreens_component {
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="option" value="com_installer" />
-		<input type="hidden" name="type" value="component" />
+		<input type="hidden" name="extension" value="component" />
 		</form>
 		<?php
 

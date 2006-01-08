@@ -24,7 +24,7 @@ switch ($task){
 
 	default:
 		$extension = mosGetParam( $_REQUEST, 'extension', '' );
-		if ($extension == 'component' || $extension == 'module' || $extension == 'plugin') {
+		if ($extension == 'component' || $extension == 'module' || $extension == 'plugin' || $extension == 'language' || $extension == 'template') {
 			TOOLBAR_installer::_DEFAULT2();
 		} else {
 			TOOLBAR_installer::_DEFAULT();

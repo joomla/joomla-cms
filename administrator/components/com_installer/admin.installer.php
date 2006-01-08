@@ -294,7 +294,7 @@ class JInstallerController {
 		 * Initialize variables
 		 */
 		$eid = mosGetParam($_REQUEST, 'eid', array (0));
-		$extension = mosGetParam($_REQUEST, 'type', '');
+		$extension = mosGetParam($_REQUEST, 'extension', '');
 		$result = false;
 
 		/*
@@ -317,7 +317,6 @@ class JInstallerController {
 		 * TODO: If it isn't an array do we want to set an error and fail?  
 		 */
 		if (!is_array($eid)) {
-die();
 			$eid = array (0);
 		}
 
@@ -344,12 +343,14 @@ die();
 			 */
 			$msg = sprintf(JText :: _('Uninstall extension'), $extension, JText::_('Error'));
 			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
+			JInstallerExtensionTasks::showInstalled();
 		} else {
 			/*
 			 * Package uninstalled sucessfully
 			 */
 			$msg = sprintf(JText :: _('Uninstall extension'), $extension, JText::_('Success'));
 			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
+			JInstallerExtensionTasks::showInstalled();
 		}
 	}
 

@@ -35,6 +35,7 @@ Legend:
  ^ Refactor and general code cleanup of Media Manager
  # artf2941: Image Upload and Media Manager issues
  # artf2017: popups/uploadimage.php not using directory
+ + Added Template and Language extension handlers in installer menu
   
 07-Jan-2006 Louis Landry
  + Added JPagination class

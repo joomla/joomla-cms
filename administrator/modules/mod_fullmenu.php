@@ -273,6 +273,8 @@ class mosFullAdminMenu
 				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Components', true ); ?>','index2.php?option=com_installer&extension=component',null,'<?php echo JText::_( 'Uninstall Components', true ); ?>'],
 				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Modules', true ); ?>', 'index2.php?option=com_installer&extension=module', null, '<?php echo JText::_( 'Uninstall Modules', true ); ?>'],
 				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Plugins', true ); ?>', 'index2.php?option=com_installer&extension=plugin', null, '<?php echo JText::_( 'Uninstall Plugins', true ); ?>'],
+				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Languages', true ); ?>', 'index2.php?option=com_installer&extension=language', null, '<?php echo JText::_( 'Uninstall Languages', true ); ?>'],
+				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Templates', true ); ?>', 'index2.php?option=com_installer&extension=template', null, '<?php echo JText::_( 'Uninstall Templates', true ); ?>'],
 			],
 <?php
 	}
