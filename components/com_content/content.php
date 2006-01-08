@@ -1145,34 +1145,52 @@ function showItem( $uid, $gid, &$access, $pop, $option, $now ) {
 		} else {
 			$params->set( 'item_navigation', $mainframe->getCfg( 'item_navigation' ) );
 		}
+		
 		// loads the links for Next & Previous Button
 		if ( $params->get( 'item_navigation' ) ) {
+			// Paramters for menu item as determined by controlling Itemid
+			$menu = new mosMenu( $database );
+			$menu->load( $Itemid );
+			$mparams = new mosParameters( $menu->params );
+			
+			// the following is needed as different menu items types utilise a different param to control ordering
+			// for Blogs the `orderby_sec` param is the order controlling param
+			// for Table and List views it is the `orderby` param
+			$mparams_list = $mparams->toArray();
+			if ( array_key_exists( 'orderby_sec', $mparams_list ) ) {
+				$order_method = $mparams->get( 'orderby_sec', '' );
+			} else {
+				$order_method = $mparams->get( 'orderby', '' );
+			}
+			$orderby = _orderby_sec( $order_method );			
+			
+			// array of content items in same category corretly ordered
 			$query = "SELECT a.id"
 			. "\n FROM #__content AS a"
 			. "\n WHERE a.catid = $row->catid"
 			. "\n AND a.state = $row->state"
-			. "\n AND ordering < $row->ordering"
 			. ($access->canEdit ? '' : "\n AND a.access <= $gid" )
 			. $xwhere
-			. "\n ORDER BY a.ordering DESC"
-			. "\n LIMIT 1"
+			. "\n ORDER BY $orderby"
 			;
 			$database->setQuery( $query );
-			$row->prev = $database->loadResult();
-
-			$query = "SELECT a.id"
-			. "\n FROM #__content AS a"
-			. "\n WHERE a.catid = $row->catid"
-			. "\n AND a.state = $row->state"
-			. "\n AND ordering > $row->ordering"
-			. ($access->canEdit ? '' : "\n AND a.access <= $gid" )
-			. $xwhere
-			. "\n ORDER BY a.ordering"
-			. "\n LIMIT 1"
-			;
-			$database->setQuery( $query );
-			$row->next = $database->loadResult();
+			$list = $database->loadResultArray();
+			
+			// location of current content item in array list
+			$location = array_search( $uid, $list );
+			
+			$row->prev = '';
+			$row->next = '';
+			if ( $location - 1 >= 0 ) {
+				// the previous content item cannot be in the array position -1
+				$row->prev = $list[$location - 1]; 
+			}
+			if ( ( $location + 1 ) < count( $list ) ) {
+				// the next content item cannot be in an array position greater than the number of array postions
+				$row->next = $list[$location + 1];
+			}
 		}
+		
 		// page title
 		$mainframe->setPageTitle( $row->title );
 		if ($mosConfig_MetaTitle=='1') {
