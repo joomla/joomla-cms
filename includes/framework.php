@@ -33,7 +33,7 @@ if (!file_exists( JPATH_SITE . '/configuration.php' ) || filesize( JPATH_SITE .'
 //File includes
 require_once( JPATH_SITE      	  . DS . 'globals.php' );
 require_once( JPATH_CONFIGURATION . DS . 'configuration.php' );
-require_once( JPATH_LIBRARIES 	. DS . 'loader.php' );
+require_once( JPATH_LIBRARIES 	  . DS . 'loader.php' );
 
 define( 'JURL_SITE', $mosConfig_live_site );
 

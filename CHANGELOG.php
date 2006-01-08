@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Jan-2005 Johan Janssens
+ * SECURITY : Fixed Security Vulnerability in TinyMCE Compressor
+
 08-Jan-2006 Louis Landry
  ^ Refactor and general code cleanup of Media Manager
  # artf2941: Image Upload and Media Manager issues
@@ -53,7 +56,6 @@ Legend:
  ^ Interaction with editors is now controlled by JEditor
  # Fixed artf2926 : SVN 1669 file not renamed
  ^ Implemented auth plugins for user authentication
-
 
 05-Jan-2006 Johan Janssens
  + Refactored administrator/com_installer - contributed by Louis Landry

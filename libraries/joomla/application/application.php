@@ -27,24 +27,77 @@ jimport( 'joomla.common.base.object' );
 
 class JApplication extends JObject 
 {
-	/** @var object An object of configuration variables */
-	var $_config			= null;
-	/** @var JModelSession The current session */
-	var $_session			= null;
-	/** @var string The current template */
-	var $_template			= null;
-	/** @var object A JPathWay object */
-	var $_pathway			= null;
-	/** @var boolean True if in the admin client */
-	var $_client 			= null;
-	/** @var string Name of the current component */
-	var $_option 			= null;
-	/** @var string A string holding the current active language */
-	var $_lang 			    = null;
-	/** @var object database JRegistry object */
-	var $_registry			= null;
-	/** @var object user object */
-	var $_user			= null;
+	/** 
+	 * An object of configuration variables
+	 * 
+	 * @var object  
+	 * @access protected
+	 */
+	var $_config = null;
+	
+	/** 
+	 * The current session
+	 * 
+	 * @var JModelSession  
+	 * @access protected
+	 */
+	var $_session = null;
+	
+	/** 
+	 * The current template
+	 * 
+	 * @var string  
+	 * @access protected
+	 */
+	var $_template	= '';
+	
+	/** 
+	 * The pathway store
+	 * 
+	 * @var object  JPathWay object
+	 * @access protected
+	 */
+	var $_pathway = null;
+	
+	/** 
+	 * The client identifier
+	 * 
+	 * @var integer
+	 * @access protected
+	 */
+	var $_client = null;
+	
+	/** 
+	 * Name of the current component
+	 * 
+	 * @var string  
+	 * @access protected
+	 */
+	var $_option = '';
+	
+	/** 
+	 * A string holding the active language
+	 * 
+	 * @var string  
+	 * @access protected
+	 */
+	var $_lang  = '';
+	
+	/** 
+	 * Application persistent store
+	 * 
+	 * @var object  JRegistry object
+	 * @access protected
+	 */
+	var $_registry = null;
+	
+	/** 
+	 * The active user object
+	 * 
+	 * @var object JModelUser 
+	 * @access protected
+	 */
+	var $_user = null;
 
 	/**
 	* Class constructor
@@ -172,8 +225,8 @@ class JApplication extends JObject
 	* Passed the current user information to the onLogoutUser event and reverts the current
 	* session record back to 'anonymous' parameters
 	*/
-	function logout() {
-
+	function logout() 
+	{
 		$auth = &JAuth::getInstance();
 		return $auth->logout();
 	}
@@ -208,7 +261,7 @@ class JApplication extends JObject
 	function setSession($name) {
 		$this->_createSession($name);
 	}
-
+	
 	/**
 	 * Return a reference to the JPathWay object
 	 *
@@ -421,8 +474,8 @@ class JApplication extends JObject
 	 *
 	 * @access private
 	 */
-	function _createRegistry() {
-		
+	function _createRegistry() 
+	{	
 		jimport( 'joomla.registry.registry' );
 		
 		// Create the registry with a default namespace of JConfig which is read only
