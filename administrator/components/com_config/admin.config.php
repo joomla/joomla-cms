@@ -112,6 +112,12 @@ function showconfig( $option) {
 
 	$lists['list_limit'] = mosHTML::selectList( $listLimit, 'config_list_limit', 'class="inputbox" size="1"', 'value', 'text', ( $row->config_list_limit ? $row->config_list_limit : 50 ) );
 
+	jimport('joomla.i18n.help');
+	$helpsites = array();
+	$helpsites = JHelp::createSiteList( 'http://help.joomla.org/helpsites-11.xml', $row->config_helpurl);
+	array_unshift( $helpsites, mosHTML::makeOption( '', JText::_('local'))) ;
+	$lists['helpsites'] = mosHTML::selectList( $helpsites, 'config_helpurl', ' class="inputbox" id="helpsites"', 'value', 'text', $row->config_helpurl);
+
 // DEBUG
 
 	$lists['debug']    = mosHTML::yesnoRadioList( 'config_debug', 'class="inputbox"', $row->config_debug );
@@ -144,12 +150,6 @@ function showconfig( $option) {
 	}
 
 // LOCALE SETTINGS
-	jimport('joomla.i18n.help');
-
-	$helpsites = array();
-	$helpsites = JHelp::createSiteList( 'http://help.joomla.org/helpsites-11.xml', $mosConfig_helpurl);
-	array_unshift( $helpsites, mosHTML::makeOption( '', JText::_('local'))) ;
-	$lists['helpsites'] = mosHTML::selectList( $helpsites, 'config_helpurl', ' class="inputbox" id="helpsites"', 'value', 'text', $mosConfig_helpurl);
 
 	$timeoffset = array(
 		mosHTML::makeOption( -12, JText::_( '(UTC -12:00) International Date Line West' ) ),

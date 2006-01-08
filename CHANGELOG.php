@@ -36,6 +36,7 @@ Legend:
  # artf2941: Image Upload and Media Manager issues
  # artf2017: popups/uploadimage.php not using directory
  + Added Template and Language extension handlers in installer menu
+ # artf2424 : Help Server Select list default problem
   
 07-Jan-2006 Louis Landry
  + Added JPagination class
