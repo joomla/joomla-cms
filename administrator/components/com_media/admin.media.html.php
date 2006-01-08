@@ -14,17 +14,24 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
-* @package Joomla
-* @subpackage Massmail
-*/
-class HTML_Media {
+ * Media Manager Views 
+ * 
+ * @static
+ * @package Joomla
+ * @subpackage Media
+ * @since 1.1
+ */
+class JMediaViews {
+	
+	/**
+	 * Method to show the standard Media Manager view
+	 * 
+	 * @param string $dirPath The current path select box
+	 * @param string $listdir The current working directory
+	 * @since 1.0
+	 */
 	function showMedia($dirPath,$listdir ) {
 		?>
-		<head>
-		<style type="text/css">
-
-		</style>
-		</head>
 		<script language="javascript" type="text/javascript">
 		function dirup(){
 			var urlquery=frames['imgManager'].location.search.substring(1);
@@ -131,34 +138,72 @@ class HTML_Media {
 		<?php
 	}
 
+	/**
+	 * Method to show the media list (in the iframe)
+	 * 
+	 * @param string $listFolder The current working folder
+	 * @param array $folders Array of folders in the current working folder
+	 * @param array $docs Array of documents in the current working folder
+	 * @param array $images Array of images in the current working folder
+	 * @since 1.1
+	 */
+	function listMedia($listFolder, $folders, $docs, $images)
+	{
+		JMediaViews :: imageStyle($listFolder);
 
-	//Built in function of dirname is faulty
-	//It assumes that the directory nane can not contain a . (period)
-	function dir_name($dir){
-		$lastSlash = intval(strrpos($dir, '/'));
-		if($lastSlash == strlen($dir)-1){
-			return substr($dir, 0, $lastSlash);
-		}
-		else {
-			return dirname($dir);
+		if (count($images) > 0 || count($folders) > 0 || count($docs) > 0) {
+			//now sort the folders and images by name.
+			ksort($images);
+			ksort($folders);
+			ksort($docs);
+
+			JMediaViews :: drawTableHeader();
+
+			/*
+			 * Handle the folders
+			 */
+			if (count($folders)) {
+				foreach ($folders as $folder => $folderName) {
+					JMediaViews :: showDir('/'.$folderName, $folder, $listFolder);
+				}
+			}
+
+			/*
+			 * Handle the documents
+			 */
+			if (count($docs)) {
+				foreach ($docs as $doc => $docDetails) {
+					$iconfile = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS.JFile::getExt($doc)."_16.png";
+					if (file_exists($iconfile)) {
+						$icon = "components/com_media/images/".JFile::getExt($doc)."_16.png";
+					} else {
+						$icon = "components/com_media/images/con_info.png";
+					}
+					JMediaViews :: showDoc($doc, $docDetails['size'], $listFolder, $icon);
+				}	
+			}
+
+			/*
+			 * Handle the images
+			 */
+			if (count($images)) {
+				foreach ($images as $image => $imageDetails) {
+					JMediaViews :: showImage($imageDetails['file'], $image, $imageDetails['imgInfo'], $imageDetails['size'], $listFolder);
+				}	
+			}
+
+			JMediaViews :: drawTableFooter();
+		} else {
+			JMediaViews :: drawNoResults();
 		}
 	}
 
-	function draw_no_results(){
-		?>
-		<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
-		<tr>
-			<td>
-				<div align="center" style="font-size:large;font-weight:bold;color:#CCCCCC;font-family: Helvetica, sans-serif;">
-					<?php echo JText::_( 'No Images Found' ); ?>
-				</div>
-			</td>
-		</tr>
-		</table>
-		<?php
-	}
-
-	function draw_no_dir() {
+	/**
+	 * Method to display an error message if the working directory is not valid
+	 * 
+	 * since 1.1
+	 */
+	function listError() {
 		global $BASE_DIR, $BASE_ROOT;
 
 		?>
@@ -174,8 +219,21 @@ class HTML_Media {
 		<?php
 	}
 
+	function drawNoResults(){
+		?>
+		<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+		<tr>
+			<td>
+				<div align="center" style="font-size:large;font-weight:bold;color:#CCCCCC;font-family: Helvetica, sans-serif;">
+					<?php echo JText::_( 'No Images Found' ); ?>
+				</div>
+			</td>
+		</tr>
+		</table>
+		<?php
+	}
 
-	function draw_table_header() {
+	function drawTableHeader() {
 		mosCommonHTML::loadOverlib();
 		?>
 		<script language="javascript" type="text/javascript">
@@ -190,20 +248,20 @@ class HTML_Media {
 		<?php
 	}
 
-	function draw_table_footer() {
+	function drawTableFooter() {
 		?>
 		</div>
 		<?php
 	}
 
-	function show_image($img, $file, $info, $size, $listdir) {
+	function showImage($img, $file, $info, $size, $listdir) {
 		$img_file = basename($img);
 		$img_url = COM_MEDIA_BASEURL . $listdir . '/' . $img_file;
 
-		$filesize = HTML_Media::parse_size( $size );
+		$filesize = JMediaViews::parseSize( $size );
 
 		if ( ( $info[0] > 70 ) || ( $info[0] > 70 ) ) {
-			$img_dimensions = HTML_Media::imageResize($info[0], $info[1], 80);
+			$img_dimensions = JMediaViews::imageResize($info[0], $info[1], 80);
 		} else {
 			$img_dimensions = 'width="'. $info[0] .'" height="'. $info[1] .'"';
 		}
@@ -241,8 +299,8 @@ class HTML_Media {
 		<?php
 	}
 
-	function show_dir( $path, $dir, $listdir ) {
-		$num_files = HTML_Media::num_files( COM_MEDIA_BASE . $listdir . $path );
+	function showDir( $path, $dir, $listdir ) {
+		$numFiles = JMediaViews::numFiles( COM_MEDIA_BASE . $listdir . $path );
 
 		// Fix for Bug [0000577]
 		if ($listdir=='/') {
@@ -251,7 +309,7 @@ class HTML_Media {
 
 		$link = 'index3.php?option=com_media&task=list&listdir='. $listdir . $path;
 
-    	$overlib = sprintf( JText::_( 'NUMFILES' ), $num_files );
+    	$overlib = sprintf( JText::_( 'NUMFILES' ), $numFiles );
 		$overlib .= '<br /><br />'. JText::_( '*Click to Open*' );
 
 		?>
@@ -267,7 +325,7 @@ class HTML_Media {
 					<?php echo $dir; ?>
 				</small>
 				<div class="buttonOut">
-					<a href="index2.php?option=com_media&task=deletefolder&delFolder=<?php echo $path; ?>&listdir=<?php echo $listdir; ?>" target="_top" onClick="return deleteFolder('<?php echo $dir; ?>', <?php echo $num_files; ?>);">
+					<a href="index2.php?option=com_media&task=deletefolder&delFolder=<?php echo $path; ?>&listdir=<?php echo $listdir; ?>" target="_top" onClick="return deleteFolder('<?php echo $dir; ?>', <?php echo $numFiles; ?>);">
 						<img src="components/com_media/images/edit_trash.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Delete' ); ?>"></a>
 				</div>
 			</div>
@@ -275,9 +333,9 @@ class HTML_Media {
 		<?php
 	}
 
-	function show_doc($doc, $size, $listdir, $icon) {
-		$size = HTML_Media::parse_size( $size );
-
+	function showDoc($doc, $size, $listdir, $icon) {
+		$size = JMediaViews::parseSize( $size );
+		$base = "/images/";
 		$overlib = JText::_( 'Filesize' ) .': '. $size;
 		$overlib .= '<br /><br />'. JText::_( '*Click for Url*' );
 		?>
@@ -301,7 +359,7 @@ class HTML_Media {
 		<?php
 	}
 
-	function parse_size($size){
+	function parseSize($size){
 		if($size < 1024) {
 			return $size.' bytes';
 		} else if($size >= 1024 && $size < 1024*1024) {
@@ -334,7 +392,7 @@ class HTML_Media {
 
 	}
 
-	function num_files($dir) {
+	function numFiles($dir) {
 		$total = 0;
 
 		if(is_dir($dir)) {
@@ -472,7 +530,7 @@ class HTML_Media {
 		// create folder selectlist
 		$dirPath = mosHTML::selectList( $folders, 'dirPath', 'class="inputbox" size="1" ', 'value', 'text', '.' );
 		?>
-		<form method="post" action="index2.php" enctype="multipart/form-data" name="adminForm">
+		<form method="post" action="index3.php" enctype="multipart/form-data" name="adminForm">
 
 		<table id="toolbar">
 		<tr>
@@ -512,7 +570,7 @@ class HTML_Media {
 		</table>
 
 		<input type="hidden" name="option" value="com_media" />
-		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="task" value="popupUpload" />
 		</form>
 		<?php
 	}

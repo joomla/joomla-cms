@@ -384,7 +384,7 @@ class JFolder {
 				} else {
 					$isDir = false;
 				}
-				if ($file['name'] <> '.' && $file['name'] <> '..') {
+				if ($file['name'] != '.' && $file['name'] != '..' && $file['name'] != '.svn') {
 					if ($isDir) {
 						if ($recurse) {
 							$arr2 = JFolder :: files($path.$file['name'], $filter, $recurse, $fullpath);
@@ -407,7 +407,7 @@ class JFolder {
 			while ($file = readdir($handle)) {
 				$dir = $path.$file;
 				$isDir = is_dir($dir);
-				if ($file != '.' && $file != '..') {
+				if ($file != '.' && $file != '..' && $file != '.svn') {
 					if ($isDir) {
 						if ($recurse) {
 							$arr2 = JFolder :: files($dir, $filter, $recurse, $fullpath);
@@ -503,9 +503,9 @@ class JFolder {
 				} else {
 					$isDir = false;
 				}
-				if (($file['name'] != '.') && ($file['name'] != '..') && $isDir) {
+				if (($file['name'] != '.') && ($file['name'] != '..') && ($file['name'] != '.svn') && $isDir) {
 					// removes SVN directores from list
-					if (preg_match("/$filter/", $file['name']) && !(preg_match("/\.svn/", $file['name']))) {
+					if (preg_match("/$filter/", $file['name'])) {
 						if ($fullpath) {
 							$arr[] = $path.$file['name'];
 						} else {
@@ -524,9 +524,9 @@ class JFolder {
 			while ($file = readdir($handle)) {
 				$dir = $path.$file;
 				$isDir = is_dir($dir);
-				if (($file != '.') && ($file != '..') && $isDir) {
+				if (($file != '.') && ($file != '..') && ($file != '.svn') && $isDir) {
 					// removes SVN directores from list
-					if (preg_match("/$filter/", $file) && !(preg_match("/\.svn/", $file))) {
+					if (preg_match("/$filter/", $file)) {
 						if ($fullpath) {
 							$arr[] = $dir;
 						} else {

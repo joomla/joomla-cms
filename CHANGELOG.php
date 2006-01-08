@@ -31,6 +31,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Jan-2006 Louis Landry
+ ^ Refactor and general code cleanup of Media Manager
+ # artf2941: Image Upload and Media Manager issues
+ # artf2017: popups/uploadimage.php not using directory
+  
 07-Jan-2006 Louis Landry
  + Added JPagination class
  ^ Deprecated mosPageNav class, use JPagination instead
