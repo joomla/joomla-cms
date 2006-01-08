@@ -248,12 +248,13 @@ class WeblinksController {
 		// Record the hit
 		$weblink->hit();
 
-		// Redirect to url
-		mosRedirect($weblink->url);
-
-		// Fallback if redirect fails
-		WeblinksController::showCategory($catid);
-
+		if ( $weblink->url ) {
+			// redirects to url if matching id found
+			mosRedirect($weblink->url);
+		} else {		
+			// redirects to weblink category page if no matching id found
+			WeblinksController::showCategory($catid);
+		}
 	}
 
 	/**
