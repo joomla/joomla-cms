@@ -28,7 +28,9 @@ $GLOBALS['HTTP_Exception_errorHandler'] = null;
 /**
 * @global int Error mode; specifies whether to die on error or simply return
 */
-$GLOBALS['HTTP_Exception_mode'] = HTTP_ONERROR_RETURN;
+//$GLOBALS['HTTP_Exception_mode'] = HTTP_ONERROR_RETURN;
+// fixes bug identified here: sarahk.pcpropertymanager.com/blog/using-domit-rss/225/
+$GLOBALS['HTTP_Exception_mode'] = 1;
 /**
 * @global string Log file for errors
 */

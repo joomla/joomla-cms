@@ -912,7 +912,9 @@ $GLOBALS['DOMIT_RSS_Exception_errorHandler'] = null;
 /**
 * @global int Error mode; specifies whether to die on error or simply return
 */
-$GLOBALS['DOMIT_RSS_Exception_mode'] = DOMIT_RSS_ONERROR_RETURN;
+//$GLOBALS['DOMIT_RSS_Exception_mode'] = DOMIT_RSS_ONERROR_RETURN;
+// fixes bug identified here: sarahk.pcpropertymanager.com/blog/using-domit-rss/225/
+$GLOBALS['DOMIT_RSS_Exception_mode'] = 1;
 /**
 * @global string Log file for errors
 */
