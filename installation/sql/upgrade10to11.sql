@@ -48,4 +48,4 @@ ALTER TABLE `jos_core_acl_aro_groups` DROP PRIMARY KEY, ADD PRIMARY KEY(`id`, `v
 
 # LBL: 05-Jan-2006
 # Mambot refactor to Plugin
-RENAME TABLE `jos_mambots TO `jos_plugins`;
+RENAME TABLE `jos_mambots` TO `jos_plugins`;
