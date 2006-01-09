@@ -14,7 +14,8 @@
 
 jimport( 'joomla.database.database' );
 jimport( 'joomla.database.adapters.mysql' );
-jimport( 'joomla.models.adapters.*' );
+jimport( 'joomla.model.model' );
+jimport( 'joomla.model.adapters.*' );
 
 /**
 * Legacy class, derive from JApplication instead
@@ -112,7 +113,6 @@ class mosMainFrame extends JApplication {
 * @package Joomla.Legacy
 * @subpackage 1.1
 */
-jimport( 'joomla.models.model' );
 
 class mosDBTable extends JModel {
 	/**

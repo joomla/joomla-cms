@@ -31,8 +31,8 @@ Legend:
 - -> Removed
 ! -> Note
 
-08-Jan-2005 Johan Janssens
- * SECURITY : Fixed Security Vulnerability in TinyMCE Compressor
+09-Jan-2006 Johan Janssens
+ ^ Upgraded TinyMCE Compressor [1.06]
 
 08-Jan-2006 Louis Landry
  ^ Refactor and general code cleanup of Media Manager
@@ -43,7 +43,6 @@ Legend:
  # artf2424 : Help Server Select list default problem
  # artf2948 : 1700: SEF broken
 
-  
 07-Jan-2006 Louis Landry
  + Added JPagination class
  ^ Deprecated mosPageNav class, use JPagination instead
@@ -139,20 +138,8 @@ Legend:
  # Fixed path for site or admin modules in the backend
 
 20-Dec-2005 Johan Janssens
- # Fixed artf2664 : errors in php_text_cache.php + functions.php
  # Fixed artf2606 : JApplication::getBasePath interface changed from Joomla 1.0.4
  ^ Reworked installer to use an adapter pattern
- # Fixed artf2389 : gzip compression not operational
- # Fixed artf2599 : loosing Itemid afet submitting "ask for new password"
- # Fixed artf1712 : Search Mambots return duplicate results
- # Fixed artf2534 : Template chooser no longer able to manage SEF urls / XHTML validation
- # Fixed artf2676 : Tiny Mce and entity encoding
- # Fixed artf1410 : 'Special' access menu locks out 'public' menu's articles "read more" content
- # Fixed artf2595 : Deleted "mass mail" item menu in component menu
- # Fixed artf2518 : mod_latestnews problem
- # Fixed artf2665 : Most Read module generates incorrect class for <li> statement
- # Fixed artf2666 : Pagination Error in Category Manager
- # Fixed artf2407 : parameter type=mos_category show only "- Select Content Category -"
 
 19-Dec-2005 Johan Janssens
  ^ Refined mbstring installation checks - contributed by David Gal
@@ -240,34 +227,13 @@ Legend:
  ^ Upgraded TinyMCE Compressor [1.0.4]
  ^ Upgraded TinyMCE [2.0.1]
  + Added locale metadata to language xml file (used in setLocale function)
- # Fixed artf2323 : overlib_hideform_mini.js parse error
- # Fixed artf2248 : Incorrect hits count on multipage articles
- # Fixed artf2342 : getBlogCategoryCount
- # Fixed artf2464 : Contacts Component image path error
- # Fixed artf2404 : Contact detail html bug
  ^ Replaced install.png with transparent image - contributed by joomlashack
- # Fixed artf2245 : RSS not showing enclosure tags
- # Fixed artf2247 : RSS newsfeed on Frontend missing link
- # Fixed artf2326 : Newsflash Module does not show readmore button
- # Fixed bug in Domit lite parser
- # Fixed mosMail() is missing "ReplyTo:" field to avoid anti-spam rules (SPF)
- # Fixed Small typo in mosBindArrayToObject
 
 06-Dec-2005 Alex Kempkens
  ^ Installer to detect languages in correct folders
  ^ Added capability for the installer to install language dependend sample data
  + German Installer translations
  # fixed little issues within the installer
- # fixed artf2398: Parameter Text Area field name
-
-06-Dec-2005 Johan Janssens
- # Fixed artf2418 : Banners Client Manager Next Page Issue: Joomla 1.04
- # Fixed artf2378 : mosCommonHTML::CheckedOutProcessing not checking if the current user
-                    has checked out the document
- # Fixed artf1948 : Pagination problem still exists
- # Fixed artf2457 : VCard bug IS a bug
- # Fixed artf2453 : Random Image Module
- # Fixed artf2251 : Poll title error
 
 05-Dec-2005 Johan Janssens
  ^ Moved ldap class to connectors directory
@@ -281,7 +247,6 @@ Legend:
  # Fixed Admin header layout issues
 
 02-Dec-2005 Johan Janssens
- # Fixed artf2399 : Please add administrator/language to CHMOD
  ^ Moved help files to administrator directory
  + Added JHelp class for easy handling of the help system
 
@@ -416,15 +381,7 @@ Legend:
  + New configuration var for database driver type
  ^ Moved printf and sprintf from JLanguage to JText
  ^ Upgrade phpGACL to latest version (yes!)
- + Added database compatibility methods for ADODB based libraries
-
-16-Nov-2005 Rey Gigataras
- # Fixed artf2137 : editorArea xhtml
- # Fixed artf2139 : admin menu xhtml
- # Fixed artf2136 : Admin menubar valid xhtml
- # Fixed artf2135 : Admin invalid xhtml
- # Fixed artf2140 : mosMenuBar::publishList
- # Fixed artf2027 : uploading images from custom component
+ + Added database compatibility methods for ADODB based librarie
 
 16-Nov-2005 Johan Janssens
  ^ Moved language metadata to language xml file
@@ -469,15 +426,6 @@ Legend:
  ^ Reverted use of mosConfig_admin_site back to mosConfig_live_site
  ^ Moved includes/domit to libraries/domit
  + Added a JFactory::getXMLParser method to get xml and rss document parsers
-
-13-Nov-2005 Rey Gigataras
- # PERFORMANCE: Fixed artf1993 : Inefficient queries in com_content
- # Fixed artf2021 : artf1791 : Failed Login results in redirect to referring page
- # Fixed artf2021 : appendMetaTag() prepends instead of appends
- # Fixed artf1981 : incorrect url's at next/previous links at content items
- # Fixed artf2079 : SQL error in category manager thru contact manager
- # Fixed artf1586 : .htaccess - RewriteEngine problem
- # Fixed artf1976 : Check for custom icon in mod_quickicon.php
 
 13-Nov-2005 Arno Zijlstra
  + Added languagepack info text and button/link to the joomla help site to the finish installation screen
@@ -548,10 +496,6 @@ Legend:
 07-Nov-2005 Arno Zijlstra
  # Fixed template css manager
 
-07-Nov-2005 Johan Janssens
- # Fixed artf1648 : tinyMCE BR and P elements
- # Fixed artf1700 : TinyMCE doesn't support relative URL's for images
-
 06-Nov-2005 Rey Gigataras
  + Added `Pathway` module, templates now no longer call function directly
  + Added param to `Content SearchBot` allowing you determine whether to search `Content Items`, `Static Content` and `Archived Content`
@@ -593,23 +537,6 @@ Legend:
 31-Oct-2005 Johan Janssens
  # Fixed : artf1883 : DESCMENUGROUP twice in english.com_menus.ini
  # Fixed : artf1891 : When trying to register a new user get Fatal error.
-
-31-Oct-2005 Rey Gigataras
- # Fixed artf1666 : Notice: on component installation
- # Fixed artf1573 : Manage Banners | Error in Field Name
- # Fixed artf1597 : Small bug in loadAssocList function in database.php
- # Fixed artf1832 : Logout problem
- # Fixed artf1769 : Undefined index: 2 in includes/joomla.php on line 2721
- # Fixed artf1749 : Email-to-friend is NOT actually from friend
- # Fixed artf1591 : page is expired at installation
- # Fixed artf1851 : 1.0.2 copy content has error
- # Fixed artf1569 : Display of mouseover in IE gives a problem with a dropdown-box
- # Fixed artf1869 : Poll produces MySQL-Error when accessed via Component Link
- # Fixed artf1694 : 1.0.3 undefined indexes filter_sectionid and catid on "Add New Content"
- # Fixed artf1834 : English Localisation
- # Fixed artf1771 : Wrong mosmsg
- # Fixed artf1792 : "Receive Submission Emails" label is misleading
- # Fixed artf1770 : Undefined index: HTTP_USER_AGENT
 
 30-Oct-2005 Rey Gigataras
  ^ Upgraded TinyMCE Compressor [1.02]
