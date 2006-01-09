@@ -48,13 +48,21 @@ switch ($task) {
 		break;
 }
 
+/**
+ * Contact Component Controller 
+ * 
+ * @static
+ * @package Joomla
+ * @subpackage Contact
+ * @since 1.1
+ */
 class JContactController {
 
 	/**
 	 * Build the data for a contact category document
 	 * 
 	 * @static
-	 * @since 1.1
+	 * @since 1.0
 	 */
 	function listContacts() {
 		global $mainframe, $Itemid;
@@ -202,7 +210,7 @@ class JContactController {
 	 * Build the data for an individual contact document
 	 * 
 	 * @static
-	 * @since 1.1
+	 * @since 1.0
 	 */
 	function contactPage() {
 		global $mainframe, $Itemid;
@@ -394,6 +402,12 @@ class JContactController {
 		}
 	}
 
+	/**
+	 * Method to send an email to a contact
+	 * 
+	 * @static
+	 * @since 1.0
+	 */
 	function sendmail() {
 		global $mainframe, $Itemid;
 
@@ -506,6 +520,12 @@ class JContactController {
 		}
 	}
 
+	/**
+	 * Method to output a vCard
+	 * 
+	 * @static
+	 * @since 1.0
+	 */
 	function vCard() {
 		global $mainframe;
 

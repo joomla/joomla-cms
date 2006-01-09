@@ -17,12 +17,21 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
 /**
-* @package Joomla
-* @subpackage Contact
-*/
+ * Contact Component HTML View Class 
+ * 
+ * @static
+ * @package Joomla
+ * @subpackage Contact
+ * @since 1.1
+ */
 class JContactView {
 
-
+	/**
+	 * Method to output a contacts or contact categories view
+	 * 
+	 * @static
+	 * @since 1.0
+	 */
 	function displaylist( &$categories, &$rows, &$current, $catid, &$params ) {
 		global $Itemid, $hide_js;
 
@@ -86,6 +95,12 @@ class JContactView {
 		mosHTML::BackButton ( $params, $hide_js );
 	}
 
+	/**
+	 * Method to output a single contact view
+	 * 
+	 * @static
+	 * @since 1.0
+	 */
 	function viewContact( &$contact, &$params, $count, &$list, &$menu_params ) {
 		global $mainframe, $Itemid;
 
@@ -195,6 +210,12 @@ class JContactView {
 		mosHTML::BackButton ( $params, $hide_js );
 	}
 
+	/**
+	 * Method to output an error condition where there was no contact view
+	 * 
+	 * @static
+	 * @since 1.0
+	 */
 	function noContact( &$params ) {
 		?>
 		<br />
@@ -208,8 +229,11 @@ class JContactView {
 	}
 
 	/**
-	* Display Table of items
-	*/
+	 * Method to output a contact rows view
+	 * 
+	 * @static
+	 * @since 1.0
+	 */
 	function showTable( &$params, &$rows, $catid, $tabclass ) {
 		global $Itemid;
 		?>
@@ -321,8 +345,11 @@ class JContactView {
 	}
 
 	/**
-	* Display links to categories
-	*/
+	 * Method to output a contact categories view
+	 * 
+	 * @static
+	 * @since 1.0
+	 */
 	function showCategories( &$params, &$categories, $catid ) {
 		global $Itemid;
 		?>
@@ -373,6 +400,12 @@ class JContactView {
 		<?php
 	}
 
+	/**
+	 * Method to output an email sent view
+	 * 
+	 * @static
+	 * @since 1.0
+	 */
 	function emailSent() {
 		global $Itemid;
 		$option = JRequest::getVar('option');
@@ -384,6 +417,12 @@ class JContactView {
 		<?php
 	}
 
+	/**
+	 * Method to output an email sending error view
+	 * 
+	 * @static
+	 * @since 1.0
+	 */
 	function emailError() {
 		global $Itemid;
 		$option = JRequest::getVar('option');
