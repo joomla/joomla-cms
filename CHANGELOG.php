@@ -38,15 +38,17 @@ Legend:
  ^ Refactor and general code cleanup of Media Manager
  ^ Removed $option coupling in JApplication
  + Added Template and Language extension handlers in installer menu
- # artf2941: Image Upload and Media Manager issues
- # artf2017: popups/uploadimage.php not using directory
- # artf2424 : Help Server Select list default problem
- # artf2948 : 1700: SEF broken
+ # Fixed artf2941: Image Upload and Media Manager issues
+ # Fixed artf2424 : Help Server Select list default problem
+ # Fixed artf2948 : 1700: SEF broken
+ # Fixed artf1747 : No clean-up in event of component installation failure
+ ^ Feature request artf1728 : upload component from server
+ ^ Feature request artf2017 : popups/uploadimage.php not using directory
 
 07-Jan-2006 Louis Landry
  + Added JPagination class
  ^ Deprecated mosPageNav class, use JPagination instead
- # artf2917 : Rev#1665 -- Forced log-out on clicking "Upload" in content
+ # Fixed artf2917 : Rev#1665 -- Forced log-out on clicking "Upload" in content
 
 06-Jan-2006 Johan Janssens
  ^ Implemented adpater pattern in JModel class
@@ -337,8 +339,8 @@ Legend:
 21-Nov-2005 Levis Bisson
  ^ Changed concatenated translation $msg string to sprintf()
  ^ Changed concatenated translation .' '. and ." ". string to sprintf()
- # Fixed Artifact artf2103 : Who's online works partly
- # Fixed Artifact artf2215 : smtp mail -> PHP fatal
+ # Fixed artf2103 : Who's online works partly
+ # Fixed artf2215 : smtp mail -> PHP fatal
 
 20-Nov-2005 Johan Janssens
  # Fixed artf2196 : Error saving content from back-end
