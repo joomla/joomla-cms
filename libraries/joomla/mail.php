@@ -367,5 +367,17 @@ class JMailHelper
 		}
 		return $address;
 	}
+
+
+	function isEmailAddress($email) {
+		$rBool = false;
+
+		if (preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $email)) {
+			$rBool = true;
+		}
+		return $rBool;
+	}
+
+	
 }
 ?>

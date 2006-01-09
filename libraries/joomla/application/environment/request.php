@@ -70,7 +70,7 @@ class JRequest {
 		if ($hash === 'METHOD') {
 			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
 		} else {
-			if ($hash == 'DEFAULT') {
+			if ($hash == 'DEFAULT' || $hash == '') {
 				if (isset ($_GET[$name])) {
 					$result = $_GET[$name];
 				} else {

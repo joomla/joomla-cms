@@ -20,16 +20,19 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Contact
 */
-class HTML_contact {
+class JContactView {
 
 
-	function displaylist( &$categories, &$rows, $catid, $currentcat=NULL, &$params, $tabclass ) {
+	function displaylist( &$categories, &$rows, &$current, $catid, &$params ) {
 		global $Itemid, $hide_js;
+
+		// used to show table rows in alternating colours
+		$tabclass = array ('sectiontableentry1', 'sectiontableentry2');
 
 		if ( $params->get( 'page_title' ) ) {
 			?>
 			<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
-				<?php echo $currentcat->header; ?>
+				<?php echo $current->header; ?>
 			</div>
 			<?php
 		}
@@ -41,12 +44,12 @@ class HTML_contact {
 			<td width="60%" valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>" colspan="2">
 			<?php
 			// show image
-			if ( $currentcat->img ) {
+			if ( $current->cimage ) {
 				?>
-				<img src="<?php echo $currentcat->img; ?>" align="<?php echo $currentcat->align; ?>" hspace="6" alt="<?php echo JText::_( 'Web Links' ); ?>" />
+				<img src="<?php echo $current->cimage; ?>" align="<?php echo $current->cimage_position; ?>" hspace="6" alt="<?php echo JText::_( 'Web Links' ); ?>" />
 				<?php
 			}
-			echo $currentcat->descrip;
+			echo $current->cdescription;
 			?>
 			</td>
 		</tr>
@@ -54,7 +57,7 @@ class HTML_contact {
 			<td>
 			<?php
 			if ( count( $rows ) ) {
-				HTML_contact::showTable( $params, $rows, $catid, $tabclass );
+				JContactView::showTable( $params, $rows, $catid, $tabclass );
 			}
 			?>
 			</td>
@@ -69,9 +72,9 @@ class HTML_contact {
 			<?php
 			// Displays listing of Categories
 			if ( ( $params->get( 'type' ) == 'category' ) && $params->get( 'other_cat' ) ) {
-				HTML_contact::showCategories( $params, $categories, $catid );
+				JContactView::showCategories( $params, $categories, $catid );
 			} else if ( ( $params->get( 'type' ) == 'section' ) && $params->get( 'other_cat_section' ) ) {
-				HTML_contact::showCategories( $params, $categories, $catid );
+				JContactView::showCategories( $params, $categories, $catid );
 			}
 			?>
 			</td>
@@ -81,6 +84,127 @@ class HTML_contact {
 		<?php
 		// displays back button
 		mosHTML::BackButton ( $params, $hide_js );
+	}
+
+	function viewContact( &$contact, &$params, $count, &$list, &$menu_params ) {
+		global $mainframe, $Itemid;
+
+		$template = $mainframe->getTemplate();
+		$sitename = $mainframe->getCfg( 'sitename' );
+		$hide_js = mosGetParam($_REQUEST,'hide_js', 0 );
+		?>
+		<script language="JavaScript" type="text/javascript">
+		<!--
+		function validate(){
+			if ( ( document.emailForm.text.value == "" ) || ( document.emailForm.email.value.search("@") == -1 ) || ( document.emailForm.email.value.search("[.*]" ) == -1 ) ) {
+				alert( "<?php echo JText::_( 'CONTACT_FORM_NC', true ); ?>" );
+			} else {
+			document.emailForm.action = "<?php echo sefRelToAbs("index.php?option=com_contact&Itemid=$Itemid"); ?>"
+			document.emailForm.submit();
+			}
+		}
+		//-->
+		</script>
+		<script type="text/javascript">
+		<!--
+		function ViewCrossReference( selSelectObject ){
+			var links = new Array();
+			<?php
+			foreach ($list as $item) {
+				echo "\n\t\t\tlinks[".$item->value."]='"
+					. sefRelToAbs( 'index.php?option=com_contact&task=view&contact_id='. $item->value .'&Itemid='. $Itemid )
+					. "';";
+			}
+			?>
+
+			var sel = selSelectObject.options[selSelectObject.selectedIndex].value
+			if (sel != "") {
+				location.href = links[sel];
+			}
+		}
+		//-->
+		</script>
+		<?php
+		// For the pop window opened for print preview
+		if ( $params->get( 'popup' ) ) {
+			$mainframe->setPageTitle( $sitename .' - '. $contact->name );
+			$mainframe->addCustomHeadTag( '<link rel="stylesheet" href="templates/'. $template .'/css/template_css.css" type="text/css" />' );
+		}
+		if ( $menu_params->get( 'page_title' ) ) {
+			?>
+			<div class="componentheading<?php echo $menu_params->get( 'pageclass_sfx' ); ?>">
+				<?php echo $menu_params->get( 'header' ); ?>
+			</div>
+			<?php
+		}
+		?>
+
+		<table width="100%" cellpadding="0" cellspacing="0" border="0" class="contentpane<?php echo $menu_params->get( 'pageclass_sfx' ); ?>">
+		<?php
+		// displays Page Title
+		JContactView::_writePageTitle( $params, $menu_params );
+
+		// displays Contact Select box
+		JContactView::_writeSelectContact( $contact, $params, $count );
+
+		// displays Name & Positione
+		JContactView::_writeContactName( $contact, $params, $menu_params );
+		?>
+		<tr>
+			<td>
+				<table border="0" width="100%">
+				<tr>
+					<td></td>
+					<td rowspan="2" align="right" valign="top">
+					<?php
+					// displays Image
+					JContactView::_writeImage( $contact, $params );
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<?php
+					// displays Address
+					JContactView::_writeContactAddress( $contact, $params );
+
+					// displays Email & Telephone
+					JContactView::_writeContactContact( $contact, $params );
+
+					// displays Misc Info
+					JContactView::_writeContactMisc( $contact, $params );
+					?>
+					</td>
+				</tr>
+				</table>
+			</td>
+			<td>&nbsp;</td>
+		</tr>
+		<?php
+		// displays Email Form
+		JContactView::_writeVcard( $contact, $params );
+		// displays Email Form
+		JContactView::_writeEmailForm( $contact, $params, $sitename, $menu_params );
+		?>
+		</table>
+		<?php
+		// display Close button in pop-up window
+		mosHTML::CloseButton ( $params, $hide_js );
+
+		// displays back button
+		mosHTML::BackButton ( $params, $hide_js );
+	}
+
+	function noContact( &$params ) {
+		?>
+		<br />
+		<br />
+			<?php echo JText::_( 'There are no Contact Details listed.' );?>
+		<br />
+		<br />
+		<?php
+		// displays back button
+		mosHTML::BackButton ( $params );
 	}
 
 	/**
@@ -249,126 +373,36 @@ class HTML_contact {
 		<?php
 	}
 
-
-	function viewcontact( &$contact, &$params, $count, &$list, &$menu_params ) {
-		global $mainframe, $Itemid;
-
-		$template = $mainframe->getTemplate();
-		$sitename = $mainframe->getCfg( 'sitename' );
-		$hide_js = mosGetParam($_REQUEST,'hide_js', 0 );
+	function emailSent() {
+		global $Itemid;
+		$option = JRequest::getVar('option');
 		?>
-		<script language="JavaScript" type="text/javascript">
-		<!--
-		function validate(){
-			if ( ( document.emailForm.text.value == "" ) || ( document.emailForm.email.value.search("@") == -1 ) || ( document.emailForm.email.value.search("[.*]" ) == -1 ) ) {
-				alert( "<?php echo JText::_( 'CONTACT_FORM_NC', true ); ?>" );
-			} else {
-			document.emailForm.action = "<?php echo sefRelToAbs("index.php?option=com_contact&Itemid=$Itemid"); ?>"
-			document.emailForm.submit();
-			}
-		}
-		//-->
-		</script>
-		<script type="text/javascript">
-		<!--
-		function ViewCrossReference( selSelectObject ){
-			var links = new Array();
-			<?php
-			$n = count( $list );
-			for ($i = 0; $i < $n; $i++) {
-				echo "\nlinks[".$list[$i]->value."]='"
-					. sefRelToAbs( 'index.php?option=com_contact&task=view&contact_id='. $list[$i]->value .'&Itemid='. $Itemid )
-					. "';";
-			}
-			?>
-
-			var sel = selSelectObject.options[selSelectObject.selectedIndex].value
-			if (sel != "") {
-				location.href = links[sel];
-			}
-		}
-		//-->
+		<script>
+		alert( "<?php echo JText::_( 'Thank you for your e-mail', true ); ?>" );
+		document.location.href='<?php echo sefRelToAbs( 'index.php?option='. $option .'&Itemid='. $Itemid ); ?>';
 		</script>
 		<?php
-		// For the pop window opened for print preview
-		if ( $params->get( 'popup' ) ) {
-			$mainframe->setPageTitle( $sitename .' - '. $contact->name );
-			$mainframe->addCustomHeadTag( '<link rel="stylesheet" href="templates/'. $template .'/css/template_css.css" type="text/css" />' );
-		}
-		if ( $menu_params->get( 'page_title' ) ) {
-			?>
-			<div class="componentheading<?php echo $menu_params->get( 'pageclass_sfx' ); ?>">
-				<?php echo $menu_params->get( 'header' ); ?>
-			</div>
-			<?php
-		}
-		?>
-
-		<table width="100%" cellpadding="0" cellspacing="0" border="0" class="contentpane<?php echo $menu_params->get( 'pageclass_sfx' ); ?>">
-		<?php
-		// displays Page Title
-		HTML_contact::_writePageTitle( $params, $menu_params );
-
-		// displays Contact Select box
-		HTML_contact::_writeSelectContact( $contact, $params, $count );
-
-		// displays Name & Positione
-		HTML_contact::_writeContactName( $contact, $params, $menu_params );
-		?>
-		<tr>
-			<td>
-				<table border="0" width="100%">
-				<tr>
-					<td></td>
-					<td rowspan="2" align="right" valign="top">
-					<?php
-					// displays Image
-					HTML_contact::_writeImage( $contact, $params );
-					?>
-					</td>
-				</tr>
-				<tr>
-					<td>
-					<?php
-					// displays Address
-					HTML_contact::_writeContactAddress( $contact, $params );
-
-					// displays Email & Telephone
-					HTML_contact::_writeContactContact( $contact, $params );
-
-					// displays Misc Info
-					HTML_contact::_writeContactMisc( $contact, $params );
-					?>
-					</td>
-				</tr>
-				</table>
-			</td>
-			<td>&nbsp;</td>
-		</tr>
-		<?php
-		// displays Email Form
-		HTML_contact::_writeVcard( $contact, $params );
-		// displays Email Form
-		HTML_contact::_writeEmailForm( $contact, $params, $sitename, $menu_params );
-		?>
-		</table>
-		<?php
-		// display Close button in pop-up window
-		mosHTML::CloseButton ( $params, $hide_js );
-
-		// displays back button
-		mosHTML::BackButton ( $params, $hide_js );
 	}
 
+	function emailError() {
+		global $Itemid;
+		$option = JRequest::getVar('option');
+		?>
+		<script>
+		alert( "<?php echo JText :: _('CONTACT_FORM_NC', true); ?>" );
+		document.location.href='<?php echo sefRelToAbs( 'index.php?option='. $option .'&Itemid='. $Itemid ); ?>';
+		</script>
+		<?php
+	}
 
 	/**
 	* Writes Page Title
 	*/
-	function _writePageTitle( &$params, &$menu_params ) {
+	function _writePageTitle( &$params, &$menuParams ) {
 		if ( $params->get( 'page_title' )  && !$params->get( 'popup' ) ) {
 			?>
 			<tr>
-				<td class="componentheading<?php echo $menu_params->get( 'pageclass_sfx' ); ?>" colspan="2">
+				<td class="componentheading<?php echo $menuParams->get( 'pageclass_sfx' ); ?>" colspan="2">
 					<?php echo $params->get( 'header' ); ?>
 				</td>
 			</tr>
@@ -693,26 +727,13 @@ class HTML_contact {
 				<input type="hidden" name="option" value="com_contact" />
 				<input type="hidden" name="con_id" value="<?php echo $contact->id; ?>" />
 				<input type="hidden" name="sitename" value="<?php echo $sitename; ?>" />
-				<input type="hidden" name="op" value="sendmail" />
+				<input type="hidden" name="task" value="sendmail" />
 				</form>
 				<br />
 				</td>
 			</tr>
 			<?php
 		}
-	}
-
-
-	function nocontact( &$params ) {
-		?>
-		<br />
-		<br />
-			<?php echo JText::_( 'There are no Contact Details listed.' );?>
-		<br />
-		<br />
-		<?php
-		// displays back button
-		mosHTML::BackButton ( $params );
 	}
 }
 ?>

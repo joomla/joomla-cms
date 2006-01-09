@@ -429,7 +429,7 @@ class JApplication extends JObject
 		/*
 		 * Get some request variables
 		 */
-		$ItemID = JRequest::getVar('ItemID');
+		$ItemID = JRequest::getVar('Itemid');
 		$option = JRequest::getVar('option');
 		
 		// Create a JPathWay object

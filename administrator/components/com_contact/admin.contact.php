@@ -140,7 +140,7 @@ function showContacts( $option ) {
 function editContact( $id, $option ) {
 	global $database, $my;
 
-	$row = new mosContact( $database );
+	$row = new JContactModel( $database );
 	// load the row from the db table
 	$row->load( $id );
 
@@ -191,7 +191,7 @@ function editContact( $id, $option ) {
 function saveContact( $option ) {
 	global $database;
 
-	$row = new mosContact( $database );
+	$row = new JContactModel( $database );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -284,7 +284,7 @@ function changeContact( $cid=null, $state=0, $option ) {
 	}
 
 	if (count( $cid ) == 1) {
-		$row = new mosContact( $database );
+		$row = new JContactModel( $database );
 		$row->checkin( intval( $cid[0] ) );
 	}
 
@@ -298,7 +298,7 @@ function changeContact( $cid=null, $state=0, $option ) {
 function orderContacts( $uid, $inc, $option ) {
 	global $database;
 
-	$row = new mosContact( $database );
+	$row = new JContactModel( $database );
 	$row->load( $uid );
 	$row->move( $inc, "published >= 0" );
 
@@ -311,7 +311,7 @@ function orderContacts( $uid, $inc, $option ) {
 function cancelContact() {
 	global $database;
 
-	$row = new mosContact( $database );
+	$row = new JContactModel( $database );
 	$row->bind( $_POST );
 	$row->checkin();
 	mosRedirect('index2.php?option=com_contact');
