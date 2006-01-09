@@ -20,10 +20,8 @@ require_once ( JPATH_BASE .'/includes/defines.php'     );
 require_once ( JPATH_BASE .'/includes/application.php' );
 require_once ( JPATH_BASE .'/includes/template.php'    );
 
-$option = mosGetParam( $_REQUEST, 'option', NULL );
-
 // create the mainframe object
-$mainframe =& new JAdministrator($option);
+$mainframe =& new JAdministrator();
 
 //get the database object
 $database =& $mainframe->getDBO();
@@ -33,6 +31,10 @@ JPluginHelper::importGroup( 'system' );
 
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );
+
+// Get the global option variable and create the pathway
+$option = strtolower( JRequest::getVar( 'option' ) );
+$mainframe->_createPathWay( );	
 
 //get the acl object (for backwards compatibility)
 $acl =& JFactory::getACL();

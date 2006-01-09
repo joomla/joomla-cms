@@ -32,8 +32,8 @@ class JSite extends JApplication {
 	* @access protected
 	* @param integer A client id
 	*/
-	function __construct($option) {
-		parent::__construct($option, 0);
+	function __construct() {
+		parent::__construct(0);
 	}
 	
 	/**

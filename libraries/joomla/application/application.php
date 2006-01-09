@@ -68,14 +68,6 @@ class JApplication extends JObject
 	var $_client = null;
 	
 	/** 
-	 * Name of the current component
-	 * 
-	 * @var string  
-	 * @access protected
-	 */
-	var $_option = '';
-	
-	/** 
 	 * A string holding the active language
 	 * 
 	 * @var string  
@@ -105,14 +97,12 @@ class JApplication extends JObject
 	* @param string 	The URL option passed in
 	* @param integer	A client identifier
 	*/
-	function __construct( $option, $client=0 ) 
+	function __construct($client=0 ) 
 	{
 		$this->_client 		    = $client;
-		$this->_option			= $option;
 
 		$this->_createRegistry( );
 		$this->_createTemplate( );
-		$this->_createPathWay( );	
 	}
 
 	/**
@@ -239,7 +229,7 @@ class JApplication extends JObject
 	 * @since 1.1
 	 */
 	function getOption() {
-		return $this->_option;
+		return JRequest::getVar('option');
 	}
 
 	/**
@@ -429,18 +419,24 @@ class JApplication extends JObject
 	 */
 	function _createPathWay()
 	{
-		global $ItemID;
-		/*
-		 * TODO: Get itemid from JRequest class
-		 */
-		
-		jimport( 'joomla.pathway' );
+		//global $ItemID;
 
+		/*
+		 * Load the pathway object
+		 */
+		jimport( 'joomla.pathway' );
+		
+		/*
+		 * Get some request variables
+		 */
+		$ItemID = JRequest::getVar('ItemID');
+		$option = JRequest::getVar('option');
+		
 		// Create a JPathWay object
 		$this->_pathway = new JPathWay();
 
 		// If not on the frontpage, add the component item to the pathway
-		if (($this->_option == 'com_frontpage') || ($this->_option == '')) {
+		if (($option == 'com_frontpage') || ($option == '')) {
 
 			// Add the home item to the pathway only and it is not linked
 			$this->_pathway->addItem( 'Home', '' );
@@ -453,17 +449,17 @@ class JApplication extends JObject
 			$this->_pathway->addItem( 'Home', 'index.php' );
 
 			// Get the actual component name
-			if (substr($this->_option, 0, 4) == 'com_') {
-				$comName = substr($this->_option, 4);
+			if (substr($option, 0, 4) == 'com_') {
+				$comName = substr($option, 4);
 			} else {
-				$comName = $this->_option;
+				$comName = $option;
 			}
 			// Handle the ItemID
 			if ($ItemID) {
 				$IIDstring = '&Itemid='.$ItemID;
 			}
 
-			$this->_pathway->addItem( $comName, 'index.php?option='.$this->_option.$IIDstring);
+			$this->_pathway->addItem( $comName, 'index.php?option='.$option.$IIDstring);
 		}
 
 		return true;

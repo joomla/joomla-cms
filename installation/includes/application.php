@@ -29,11 +29,10 @@ class JInstallation extends JApplication {
 
 	/**
 	* Class constructor
-	* @param integer A client id
 	*/
 	function __construct( ) {
 
-		$this->_option			= 3;
+		$this->_client = 2;
 
 		$this->_createRegistry( );
 		$this->_createTemplate( );

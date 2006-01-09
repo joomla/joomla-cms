@@ -54,6 +54,7 @@ class JRequest {
 	 *
 	 * @static
 	 * @param string $name Variable name
+	 * @param string $default Default value if the variable does not exist
 	 * @param string $hash Where the var should come from (POST, GET, FILES, METHOD)
 	 * @param string $type Return type for the variable (INT, FLOAT, STRING, BOOLEAN, ARRAY)
 	 * @param int $mask Filter mask for the variable
@@ -61,7 +62,7 @@ class JRequest {
 	 * @since 1.1
 	 */
 
-	function getVar($name, $hash = 'default', $type = 'string', $mask = 0) {
+	function getVar($name, $default = null, $hash = 'default', $type = 'string', $mask = 0) {
 		$hash = strtoupper($hash);
 		$type = strtoupper($type);
 		$result = null;
@@ -104,6 +105,13 @@ class JRequest {
 		 */
 		$result = JRequest :: cleanVar($result, $mask);
 
+		/*
+		 * Handle default case
+		 */
+		if ( empty($result) && $default != null) {
+			$result = $default;
+		}
+		
 		if ($result != null) {
 			/*
 			 * Handle the type constraint

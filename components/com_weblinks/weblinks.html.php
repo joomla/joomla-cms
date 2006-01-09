@@ -265,7 +265,7 @@ class WeblinksView {
 	function editWeblink( &$row, &$categories ) {
 		global $mainframe;
 
-		$option = $mainframe->getOption();
+		$option = JRequest::getVar('option');
 		require_once( JPATH_SITE . '/includes/HTML_toolbar.php' );
 
 		$Returnid = intval( mosGetParam( $_REQUEST, 'Returnid', 0 ) );

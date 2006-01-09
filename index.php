@@ -20,11 +20,8 @@ require_once ( JPATH_BASE .'/includes/defines.php'     );
 require_once ( JPATH_BASE .'/includes/application.php' );
 require_once ( JPATH_BASE .'/includes/template.php'  );
 
-// retrieve some expected url (or form) arguments
-$option = trim( strtolower( mosGetParam( $_REQUEST, 'option' ) ) );
-
 // create the mainframe object
-$mainframe =& new JSite($option);
+$mainframe =& new JSite();
 
 //get the database object (for backwards compatibility)
 $database =& $mainframe->getDBO();
@@ -35,11 +32,9 @@ JPluginHelper::importGroup( 'system' );
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );
 
-// SEF Fix
-if ($mainframe->getCfg('sef')) {
-	$option = $_REQUEST['option'];
-	$mainframe->_option = $option;
-}
+// Get the global option variable and create the pathway
+$option = strtolower( JRequest::getVar( 'option' ) );
+$mainframe->_createPathWay( );	
 
 //get the acl object (for backwards compatibility)
 $acl =& JFactory::getACL();

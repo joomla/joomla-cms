@@ -34,7 +34,7 @@ if ($params->get( 'showHome' ) == false) {
 /*
  * Do not show the content component item in the BreadCrumbs list
  */
-if ($mainframe->getOption() == 'com_content') {
+if (JRequest::getVar('option') == 'com_content') {
 	$showComponent = false;
 }
 

@@ -333,7 +333,7 @@ class WeblinksController {
 		*/
 
 		// build list of categories
-		$lists['catid'] = mosAdminMenus::ComponentCategory('catid', $mainframe->getOption(), intval($row->catid));
+		$lists['catid'] = mosAdminMenus::ComponentCategory('catid', JRequest::getVar('option'), intval($row->catid));
 
 		WeblinksView::editWeblink($row, $lists);
 	}

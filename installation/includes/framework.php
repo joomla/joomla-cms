@@ -62,4 +62,7 @@ jimport( 'joomla.params' );
 jimport( 'joomla.i18n.language' );
 jimport( 'joomla.i18n.string' );
 jimport( 'joomla.application.application');
+jimport( 'joomla.application.environment.request' );
+jimport( 'joomla.application.environment.session' );
+
 ?>

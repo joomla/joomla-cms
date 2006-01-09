@@ -21,7 +21,6 @@ require_once ( JPATH_BASE .'/includes/application.php' );
 require_once ( JPATH_BASE .'/includes/template.php'    );
 
 // initialise some common request directives
-$option 	= strtolower( mosGetParam( $_REQUEST, 'option', 'com_admin' ) );
 $task 		= mosGetParam( $_REQUEST, 'task', '' );
 $section 	= mosGetParam( $_REQUEST, 'section', '' );
 $no_html 	= strtolower( mosGetParam( $_REQUEST, 'no_html', 0 ) );
@@ -29,7 +28,7 @@ $id         = intval( mosGetParam( $_REQUEST, 'id' ) );
 $cid		= mosGetParam( $_POST, 'cid', null );
 
 // create the mainframe object
-$mainframe =& new JAdministrator($option);
+$mainframe =& new JAdministrator();
 
 //get the database object
 $database =& $mainframe->getDBO();
@@ -41,6 +40,10 @@ $_PROFILER->mark( 'onBeforeStart' );
 
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );
+
+// Get the global option variable and create the pathway
+$option = strtolower( JRequest::getVar( 'option', 'com_admin' ) );
+$mainframe->_createPathWay( );	
 
 //get the acl object (for backwards compatibility)
 $acl =& JFactory::getACL();
