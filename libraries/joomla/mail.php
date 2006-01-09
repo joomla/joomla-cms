@@ -20,14 +20,16 @@ jimport('phpmailer.phpmailer');
  * @package 	Joomla.Framework
  * @since 1.1
  */
-class JMail extends PHPMailer {
+class JMail extends PHPMailer 
+{
 
 	/**
 	 * Constructor
 	 * 
 	 * @param
 	 */
-	function JMail() {
+	function JMail() 
+	{
 		global $mainframe;
 
 		$this->PluginDir = JPATH_LIBRARIES.DS.'phpmailer'.DS;
@@ -71,7 +73,8 @@ class JMail extends PHPMailer {
 	 * @return object The global JMail object
 	 * @since 1.1
 	 */
-	function & getInstance($id = 'Joomla') {
+	function & getInstance($id = 'Joomla') 
+	{
 		static $instances;
 
 		if (!isset ($instances)) {
@@ -79,7 +82,7 @@ class JMail extends PHPMailer {
 		}
 
 		if (empty ($instances[$id])) {
-			$instances[$id] = new JAuth();
+			$instances[$id] = new JMail();
 		}
 
 		return $instances[$id];
@@ -96,8 +99,8 @@ class JMail extends PHPMailer {
 	 * @return void
 	 * @since 1.1
 	 */
-	function setSender($from) {
-
+	function setSender($from) 
+	{
 		/*
 		 * First offset is the e-mail address
 		 * Second offset is the name
@@ -115,7 +118,6 @@ class JMail extends PHPMailer {
 	 * @since 1.1
 	 */
 	function setSubject($subject) {
-
 		$this->Subject = $subject;
 	}
 
@@ -127,8 +129,8 @@ class JMail extends PHPMailer {
 	 * @return void
 	 * @since 1.1
 	 */
-	function setBody($content) {
-
+	function setBody($content) 
+	{
 		/*
 		 * Filter the Body
 		 * TODO: Check for XSS
@@ -144,8 +146,8 @@ class JMail extends PHPMailer {
 	 * @return void
 	 * @since 1.1
 	 */
-	function addRecipient($recipient) {
-
+	function addRecipient($recipient) 
+	{
 		/*
 		 * If the recipient is an aray, add each recipient... otherwise just add the one
 		 */
@@ -166,8 +168,8 @@ class JMail extends PHPMailer {
 	 * @return void
 	 * @since 1.1
 	 */
-	function addCC($cc) {
-
+	function addCC($cc) 
+	{
 		/*
 		 * If the carbon copy recipient is an aray, add each recipient... otherwise just add the one
 		 */
@@ -190,8 +192,8 @@ class JMail extends PHPMailer {
 	 * @return void
 	 * @since 1.1
 	 */
-	function addBCC($bcc) {
-
+	function addBCC($bcc) 
+	{
 		/*
 		 * If the blind carbon copy recipient is an aray, add each recipient... otherwise just add the one
 		 */
@@ -214,8 +216,8 @@ class JMail extends PHPMailer {
 	 * @return void
 	 * @since 1.1
 	 */
-	function addAttachment($attachment) {
-
+	function addAttachment($attachment) 
+	{
 		/*
 		 * If the file attachments is an aray, add each file... otherwise just add the one
 		 */
@@ -241,8 +243,8 @@ class JMail extends PHPMailer {
 	 * @return void
 	 * @since 1.1
 	 */
-	function addReplyTo($replyto) {
-
+	function addReplyTo($replyto) 
+	{
 		/*
 		 * Take care of reply email addresses
 		 */
@@ -263,7 +265,8 @@ class JMail extends PHPMailer {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function useSendmail($sendmail = null) {
+	function useSendmail($sendmail = null) 
+	{
 		global $mainframe;
 
 		$this->Sendmail = (empty ($sendmail)) ? $mainframe->getCfg('sendmail') : $sendmail;
@@ -288,7 +291,8 @@ class JMail extends PHPMailer {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function useSMTP($auth = null, $host = null, $user = null, $pass = null) {
+	function useSMTP($auth = null, $host = null, $user = null, $pass = null) 
+	{
 		global $mainframe;
 
 		$this->SMTPAuth = (empty ($auth)) ? $mainframe->getCfg('smtpauth') : $auth;
@@ -317,8 +321,8 @@ class JMail extends PHPMailer {
  * @static
  * @since 1.1
  */
-class JMailHelper {
-
+class JMailHelper 
+{
 	/**
 	 * This method cleans any injected headers from the E-Mail body
 	 * 
@@ -327,7 +331,8 @@ class JMailHelper {
 	 * @return string Cleaned E-Mail body string
 	 * @since 1.1
 	 */
-	function cleanBody(& $body) {
+	function cleanBody(& $body) 
+	{
 		/*
 		 * Strip all E-Mail headers from the body
 		 */
@@ -343,7 +348,6 @@ class JMailHelper {
 	 * @since 1.1
 	 */
 	function cleanSubject($subject) {
-		
 		return preg_replace("/((From:|To:|Cc:|Bcc:|Content-type:) ([\S]+))/", "", $subject);
 	}
 
@@ -356,7 +360,8 @@ class JMailHelper {
 	 * @return mixed E-Mail address string or boolean false if injected headers are present
 	 * @since 1.1
 	 */
-	function cleanAddress($address) {
+	function cleanAddress($address) 
+	{
 		if (preg_match("[\s;,]", $address)) {
 			return false;
 		}
