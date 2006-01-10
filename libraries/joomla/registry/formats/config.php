@@ -28,19 +28,20 @@ class JRegistryFormatConfig extends JRegistryFormat {
 	 * @access public
 	 * @param object $object Data Source Object
 	 * @return string Config class formatted string
+	 * @since 1.1
 	 */
 	function objectToString( &$object ) {
 		
 		// Build the object variables string
 		foreach (get_object_vars( $object ) as $k => $v) {
 			if ($k == "_name") {
-				$name = "J".$v."Config";
+				$name = $v;
 			} else {
 				$vars .= "\tvar $". $k . " = " . $v . ";\n";
 			}
 		}
 
-		$str = "<?php\nclass $name extends JRegistry {\n";
+		$str = "<?php\nclass $name {\n";
 		$str .= $vars;
 		$str .= "}\n?>";
 
@@ -48,13 +49,13 @@ class JRegistryFormatConfig extends JRegistryFormat {
 	}
 
 	/**
-	 * Converts an INI formatted string into an object
+	 * Placeholder method
 	 * 
 	 * @access public
-	 * @param string  INI Formatted String
-	 * @return object Data Object
+	 * @return boolean True
+	 * @since 1.1
 	 */
-	function &stringToObject( &$data ) {
+	function &stringToObject() {
 		return true;
 	}
 }

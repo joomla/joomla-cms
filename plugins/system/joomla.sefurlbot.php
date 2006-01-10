@@ -219,8 +219,6 @@ function botJoomlaSEFUrl( ) {
 					$GLOBALS[$key]=$value;
 				}
 			}
-			// Don't allow config vars to be passed as global
-			include( $GLOBALS['mosConfig_absolute_path'] . '/configuration.php' );
 
 		} else {
 

@@ -97,11 +97,11 @@ class JApplication extends JObject
 	* @param string 	The URL option passed in
 	* @param integer	A client identifier
 	*/
-	function __construct($client=0 ) 
+	function __construct( &$config, $client=0 ) 
 	{
 		$this->_client 		    = $client;
 
-		$this->_createRegistry( );
+		$this->_createRegistry($config);
 		$this->_createTemplate( );
 	}
 
@@ -470,7 +470,7 @@ class JApplication extends JObject
 	 *
 	 * @access private
 	 */
-	function _createRegistry() 
+	function _createRegistry(&$config) 
 	{	
 		jimport( 'joomla.registry.registry' );
 		
@@ -480,12 +480,7 @@ class JApplication extends JObject
 		$this->_registry->makeNameSpace( 'user' );
 		
 		// Build the config section
-		foreach ($GLOBALS as $k => $v) {
-			if(substr($k, 0, 10) == 'mosConfig_') {
-				$k = substr($k, 10);
-				$this->_registry->_registry['JConfig']['data']->$k = $v;	
-			}
-		}
+		$this->_registry->loadObjectVars($config);
 	}
 
 	/**

@@ -178,26 +178,26 @@ class JRegistry extends JObject {
 	 * namespace.  This is used for config registry types
 	 * 
 	 * @access public
+	 * @param object stdClass object with configuration vars as public vars
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function loadVars() {
+	function loadObjectVars(&$object) {
 
 		/*
 		 * Here we just load the public variables into the registry's default
 		 * namespace.
 		 */
-		foreach (get_object_vars($this) as $k => $v) {
+		foreach (get_object_vars($object) as $k => $v) {
 			if (substr($k, 0,1) != '_') {
 				$this->_registry[$this->_defaultNameSpace]['data']->$k = $v;
-				unset($this->$k);
 			}
 		}
 		
 		/*
 		 * Set the config file name
 		 */
-		$this->_registry[$this->_defaultNameSpace]['data']->_name = $this->_defaultNameSpace;
+		$this->_registry[$this->_defaultNameSpace]['data']->_name = get_class($object);
 		return true;
 	}
 

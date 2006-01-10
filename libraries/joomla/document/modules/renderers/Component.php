@@ -44,7 +44,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 		global $Itemid, $task, $option, $id;
 		
 		//For backwards compatibuility includes configuration globals
-		require(JPATH_CONFIGURATION . DS .'configuration.php');
+		//require(JPATH_CONFIGURATION . DS .'configuration.php');
 
 		$gid = $my->gid;
 		

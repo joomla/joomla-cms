@@ -35,12 +35,15 @@ require_once( JPATH_SITE      	  . DS . 'globals.php' );
 require_once( JPATH_CONFIGURATION . DS . 'configuration.php' );
 require_once( JPATH_LIBRARIES 	  . DS . 'loader.php' );
 
-define( 'JURL_SITE', $mosConfig_live_site );
+// Create the JConfig object
+$CONFIG = new JConfig();
 
-if (@$mosConfig_error_reporting === 0) {
+define( 'JURL_SITE', $CONFIG->live_site );
+
+if (@$CONFIG->error_reporting === 0) {
 	error_reporting( 0 );
-} else if (@$mosConfig_error_reporting > 0) {
-	error_reporting( $mosConfig_error_reporting );
+} else if (@$CONFIG->error_reporting > 0) {
+	error_reporting( $CONFIG->error_reporting );
 }
 
 //Third party library imports
