@@ -199,6 +199,9 @@ class JEditor_tinymce extends JPlugin {
 			$plugins[]	= 'fullscreen';
 			$buttons3[]	= 'fullscreen';
 		}
+		// rtl/ltr buttons
+		$plugins[] = 'directionality';
+		$buttons2[] = 'ltr,rtl';
 	
 		$buttons2 	= implode( ',', $buttons2 );
 		$buttons3 	= implode( ',', $buttons3 );
