@@ -32,7 +32,7 @@ class mosMainFrame extends JApplication {
 	 * @param string The path of the mos directory [DEPRECATED]
 	 */
 	function __construct( &$db, $option, $basePath=null, $client=0 ) {
-		parent::__construct( $option, $client );
+		parent::__construct( $client );
 	}
 
 	/**
@@ -42,7 +42,7 @@ class mosMainFrame extends JApplication {
 	 * @param string The path of the mos directory [DEPRECATED]
 	 */
 	function mosMainFrame( &$db, $option, $basePath=null, $client=0 ) {
-		parent::__construct( $option, $client );
+		parent::__construct( $client );
 	}
 
 	/**

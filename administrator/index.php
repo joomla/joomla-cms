@@ -21,7 +21,10 @@ require_once ( JPATH_BASE .'/includes/application.php' );
 require_once ( JPATH_BASE .'/includes/template.php'    );
 
 // create the mainframe object
-$mainframe =& new JAdministrator($CONFIG);
+$mainframe =& new JAdministrator();
+
+// set the configuration
+$mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 
 //get the database object
 $database =& $mainframe->getDBO();

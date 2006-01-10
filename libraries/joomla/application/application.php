@@ -28,14 +28,6 @@ jimport( 'joomla.common.base.object' );
 class JApplication extends JObject 
 {
 	/** 
-	 * An object of configuration variables
-	 * 
-	 * @var object  
-	 * @access protected
-	 */
-	var $_config = null;
-	
-	/** 
 	 * The current session
 	 * 
 	 * @var JModelSession  
@@ -97,50 +89,69 @@ class JApplication extends JObject
 	* @param string 	The URL option passed in
 	* @param integer	A client identifier
 	*/
-	function __construct( &$config, $client=0 ) 
+	function __construct( $client=0 ) 
 	{
 		$this->_client 		    = $client;
-
-		$this->_createRegistry($config);
-		$this->_createTemplate( );
 	}
-
-	/**
-	 * Gets the value of a user state variable
+	
+	 /**
+	 * Gets a configuration value
 	 *
 	 * @access public
-	 * @param string The name of the variable
+	 * @param string 	$varname 	The name of the value to get
 	 * @return The user state
 	 */
-	function getUserState( $name ) {
-		return $this->_registry->getValue('user.'.$name);
+	function getCfg( $varname ) {
+		return $this->_registry->getValue('config.'.$varname);
+	}
+	
+	/**
+	 * Gets a user state
+	 *
+	 * @access public
+	 * @param string 	$key 	The path of the state
+	 * @return The user state
+	 */
+	function getUserState( $key ) 
+	{	
+		$registry =& JSession::get('registry');
+		if(!is_null($registry)) {
+			return $registry->getValue($key);
+		}
+		return false;
 	}
 
 	/**
 	* Sets the value of a user state variable
 	*
 	* @access public
-	* @param string The name of the variable
-	* @param string The value of the variable
-	* @return The previous state if exists
+	* @param string $key 	The path of the state
+	* @param string $value 	The value of the variable
+	* @return mixed The previous state if exist
 	*/
-	function setUserState( $name, $value ) {
-		return $this->_registry->setValue( 'user.'.$name, $value );
+	function setUserState( $key, $value ) 
+	{
+		$registry =& JSession::get('registry');
+		if(!is_null($registry)) {
+			return $registry->setValue($key, $value);
+		}
+		
+		return false;
 	}
-	
+
 	/**
 	* Gets the value of a user state variable
 	*
 	* @access public
-	* @param string The name of the user state variable
+	* @param string The key of the user state variable
 	* @param string The name of the variable passed in a request
 	* @param string The default value for the variable if not found
 	* @return The request user state
 	*/
-	function getUserStateFromRequest( $name, $request, $default=null ) 
+	function getUserStateFromRequest( $key, $request, $default=null ) 
 	{	
 		$value = isset( $_REQUEST[$request] ) ? $_REQUEST[$request] : $default;
-		$this->setUserState( $name, $value );
+		$this->setUserState( $key, $value );
 		return $value;
 	}
 
@@ -233,16 +244,6 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Get a configuration variable
-	 *
-	 * @param string 	The name of the variable (from configuration.php)
-	 * @return mixed 	The value of the configuration variable or null if not found
-	 */
-	function getCfg( $varname ) {
-		return $this->_registry->getValue('JConfig.'.$varname);
-	}
-
-	/**
 	 * Set the user session
 	 *
 	 * @access public
@@ -250,6 +251,17 @@ class JApplication extends JObject
 	 */
 	function setSession($name) {
 		$this->_createSession($name);
+	}
+	
+	/**
+	 * Set the configuration
+	 *
+	 * @access public
+	 * @param string	The path to the configuration file
+	 * @param string	The type of the configuration file
+	 */
+	function setConfiguration($file, $type = 'config') {
+		$this->_createConfiguration($file, $type);
 	}
 	
 	/**
@@ -261,6 +273,17 @@ class JApplication extends JObject
 	 */
 	function &getPathWay() {
 		return $this->_pathway;
+	}
+	
+	/**
+	 * Gets the name of the current template
+	 * 
+	 * @return string
+	 */
+	function getTemplate() 
+	{
+		$this->_template = '_system';
+		return $this->_template;
 	}
 
 	/**
@@ -466,20 +489,23 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Create the default registry
+	 * Create the configuration registry
 	 *
 	 * @access private
+	 * @param string $file 	The path to the configuration file
+	 * @param string $type	The format type
 	 */
-	function _createRegistry(&$config) 
+	function _createConfiguration($file, $type = 'config') 
 	{	
 		jimport( 'joomla.registry.registry' );
 		
-		// Create the registry with a default namespace of JConfig which is read only
-		$this->_registry =& new JRegistry( 'JConfig', true );
-		// Create the user registry namespace
-		$this->_registry->makeNameSpace( 'user' );
+		require_once( $file );
 		
-		// Build the config section
+		// Create the JConfig object
+		$config = new JConfig();
+		
+		// Create the registry with a default namespace of config which is read only
+		$this->_registry =& new JRegistry( 'config', true );
 		$this->_registry->loadObjectVars($config);
 	}
 
@@ -499,13 +525,10 @@ class JApplication extends JObject
 	{
 		JSession::useCookies(true);
 		JSession::start(md5( $name ));
+		
+		JSession::get('registry', new JRegistry('application'));
 
-		if (!isset( $_SESSION['session_userstate'] )) {
-			$_SESSION['session_userstate'] = array();
-		}
-		$this->_userstate =& $_SESSION['session_userstate'];
-
-		$session = & JModel::getInstance('session', $this->getDBO() );
+		$session = & JModel::getInstance('session', $this->getDBO());
 		$session->purge( intval( $this->getCfg( 'lifetime' ) ) );
 
 		if ($session->load( $session->hash( JSession::id() ) )) {
@@ -528,88 +551,6 @@ class JApplication extends JObject
 		}
 
 		JSession::updateIdle();
-	}
-
-	function _createTemplate( )
-	{
-		global $Itemid;
-
-		$db = $this->getDBO();
-
-		if ($this->isAdmin()) {
-			$query = "SELECT template"
-			. "\n FROM #__templates_menu"
-			. "\n WHERE client_id = 1"
-			. "\n AND menuid = 0"
-			;
-			$db->setQuery( $query );
-			$cur_template = $db->loadResult();
-			$path = JPATH_ADMINISTRATOR ."/templates/$cur_template/index.php";
-			if (!file_exists( $path )) {
-				$cur_template = 'joomla_admin';
-			}
-
-			$this->_templatePath 	= JPath::clean( JPATH_ADMINISTRATOR . '/templates/' . $cur_template );
-			$this->_templateURL 	= JURL_SITE . '/administrator/templates/' . $cur_template;
-
-		} else {
-			$assigned = ( !empty( $Itemid ) ? " OR menuid = $Itemid" : '' );
-
-			$query = "SELECT template"
-			. "\n FROM #__templates_menu"
-			. "\n WHERE client_id = 0"
-			. "\n AND ( menuid = 0 $assigned )"
-			. "\n ORDER BY menuid DESC"
-			. "\n LIMIT 1"
-			;
-			$db->setQuery( $query );
-			$cur_template = $db->loadResult();
-
-			// TemplateChooser Start
-			$jos_user_template = mosGetParam( $_COOKIE, 'jos_user_template', '' );
-			$jos_change_template = mosGetParam( $_REQUEST, 'jos_change_template', $jos_user_template );
-			if ($jos_change_template) {
-				// check that template exists in case it was deleted
-				if (file_exists( JPATH_SITE .'/templates/'. $jos_change_template .'/index.php' )) {
-					$lifetime = 60*10;
-					$cur_template = $jos_change_template;
-					setcookie( 'jos_user_template', "$jos_change_template", time()+$lifetime);
-				} else {
-					setcookie( 'jos_user_template', '', time()-3600 );
-				}
-			}
-			// TemplateChooser End
-			$this->_templatePath 	= JPath::clean( JPATH_SITE . '/templates/' . $cur_template );
-			$this->_templateURL 	= JURL_SITE . '/templates/' . $cur_template;
-		}
-
-		$this->_template = $cur_template;
-	}
-
-	/**
-	 * Gets the name of the current template
-	 * @return string
-	 */
-	function getTemplate() {
-		return $this->_template;
-	}
-
-	/**
-	 * Get the path to the current template
-	 * @return string
-	 * @since 1.1
-	 */
-	function getTemplatePath() {
-		return $this->_templatePath;
-	}
-
-	/**
-	 * Get the path to the current template
-	 * @return string
-	 * @since 1.1
-	 */
-	function getTemplateURL() {
-		return $this->_templateURL;
 	}
 
 	/**
@@ -648,6 +589,7 @@ class JApplication extends JObject
 	/**
 	 * Depreceated functions
 	 */
+	 
 
 	 /**
 	 * Depreceated, use JPathWay->addItem() method instead

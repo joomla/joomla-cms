@@ -32,8 +32,8 @@ class JAdministrator extends JApplication {
 	* @access protected
 	* @param integer A client id
 	*/
-	function __construct(&$config) {
-		parent::__construct($config, 1);
+	function __construct() {
+		parent::__construct(1);
 	}
 	
 	/**
@@ -58,6 +58,33 @@ class JAdministrator extends JApplication {
 	{
 		$document=& $this->getDocument();
 		return $document->getTitle();
+	}
+	
+	/**
+	* Get the template
+	* 
+	* @return string The template name
+	* @since 1.0
+	*/
+	function getTemplate()
+	{
+		$db = $this->getDBO();
+
+		$query = "SELECT template"
+			. "\n FROM #__templates_menu"
+			. "\n WHERE client_id = 1"
+			. "\n AND menuid = 0"
+			;
+		$db->setQuery( $query );
+		$template = $db->loadResult();
+		$path = JPATH_ADMINISTRATOR ."/templates/$template/index.php";
+		
+		if (!file_exists( $path )) {
+			$cur_template = 'joomla_admin';
+		}
+
+		$this->_template = $template;
+		return $this->_template;
 	}
 }
 

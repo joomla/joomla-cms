@@ -28,7 +28,10 @@ $id         = intval( mosGetParam( $_REQUEST, 'id' ) );
 $cid		= mosGetParam( $_POST, 'cid', null );
 
 // create the mainframe object
-$mainframe =& new JAdministrator($CONFIG);
+$mainframe =& new JAdministrator();
+
+// set the configuration
+$mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 
 //get the database object
 $database =& $mainframe->getDBO();

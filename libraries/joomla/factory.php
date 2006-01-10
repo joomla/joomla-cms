@@ -245,9 +245,9 @@ class JFactory
 		$tmpl->addGlobalVar( 'lang_charset',	'charset=UTF-8' );
 
 		// tabs
-		$tpath = JPath::clean( $mainframe->getTemplatePath() . 'images/tabs' );
+		$tpath = JPath::clean( JPATH_BASE . '/templates/images/tabs' );
 		if (is_dir( $tpath )) {
-			$turl = $mainframe->getTemplateURL() .'/images/tabs/';
+			$turl = 'templates/'.$mainframe->getTemplate() .'/images/tabs/';
 		} else {
 			$turl = JURL_SITE .'/includes/js/tabs/';
 		}

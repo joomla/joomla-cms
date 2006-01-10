@@ -27,7 +27,10 @@ $no_html	= strtolower( mosGetParam( $_REQUEST, 'no_html', '' ) );
 $mosmsg		= strip_tags( mosGetParam( $_REQUEST, 'mosmsg', '' ) );
 
 // create the mainframe object
-$mainframe =& new JAdministrator($CONFIG);
+$mainframe =& new JAdministrator();
+
+// set the configuration
+$mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 
 //get the database object
 $database =& $mainframe->getDBO();

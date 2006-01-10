@@ -32,8 +32,8 @@ class JSite extends JApplication {
 	* @access protected
 	* @param integer A client id
 	*/
-	function __construct(&$config) {
-		parent::__construct($config, 0);
+	function __construct() {
+		parent::__construct(0);
 	}
 	
 	/**
@@ -66,6 +66,49 @@ class JSite extends JApplication {
 	{
 		$document=& $this->getDocument();
 		return $document->getTitle();
+	}
+	
+	/**
+	* Get the template
+	* 
+	* @return string The template name
+	* @since 1.0
+	*/
+	function getTemplate()
+	{
+		global $Itemid;
+
+		$db = $this->getDBO();
+
+		$assigned = ( !empty( $Itemid ) ? " OR menuid = $Itemid" : '' );
+
+		$query = "SELECT template"
+			. "\n FROM #__templates_menu"
+			. "\n WHERE client_id = 0"
+			. "\n AND ( menuid = 0 $assigned )"
+			. "\n ORDER BY menuid DESC"
+			. "\n LIMIT 1"
+			;
+		$db->setQuery( $query );
+		$template = $db->loadResult();
+
+		// TemplateChooser Start
+		$jos_user_template   = mosGetParam( $_COOKIE, 'jos_user_template', '' );
+		$jos_change_template = mosGetParam( $_REQUEST, 'jos_change_template', $jos_user_template );
+		
+		if ($jos_change_template) {
+			// check that template exists in case it was deleted
+			if (file_exists( JPATH_SITE .'/templates/'. $jos_change_template .'/index.php' )) {
+				$lifetime = 60*10;
+				$template = $jos_change_template;
+				setcookie( 'jos_user_template', "$jos_change_template", time() + $lifetime);
+			} else {
+				setcookie( 'jos_user_template', '', time()-3600 );
+			}
+		}
+
+		$this->_template = $template;
+		return $this->_template;
 	}
 }
 

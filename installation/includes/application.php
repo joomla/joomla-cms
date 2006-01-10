@@ -34,7 +34,6 @@ class JInstallation extends JApplication {
 
 		$this->_client = 2;
 
-		$this->_createRegistry( );
 		$this->_createTemplate( );
 	}
 }

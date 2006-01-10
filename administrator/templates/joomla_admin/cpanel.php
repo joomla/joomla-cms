@@ -63,7 +63,7 @@ span.todotitle {
 <h2>TESTER NOTES</h2>
 <pre class="todo">
 	<?php
-	readfile( $GLOBALS['mosConfig_absolute_path'].'/TODO.php' );
+	readfile( JPATH_SITE .'/TODO.php' );
 	?>
 </pre>
 </div>
