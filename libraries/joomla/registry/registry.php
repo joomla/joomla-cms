@@ -190,6 +190,7 @@ class JRegistry extends JObject {
 		foreach (get_object_vars($this) as $k => $v) {
 			if (substr($k, 0,1) != '_') {
 				$this->_registry[$this->_defaultNameSpace]['data']->$k = $v;
+				unset($this->$k);
 			}
 		}
 		
