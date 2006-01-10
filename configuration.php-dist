@@ -17,83 +17,87 @@
 *
 * Now edit this file and configure the parameters for your site and
 * database.
-* -------------------------------------------------------------------------
-* Database configuration section
-* -------------------------------------------------------------------------
 */
-$mosConfig_offline = '0';
-$mosConfig_dbtype = 'mysql';	// Normally mysql
-$mosConfig_host = 'localhost';	// This is normally set to localhost
-$mosConfig_user = '';			// MySQL username
-$mosConfig_password = '';		// MySQL password
-$mosConfig_db = '';				// MySQL database name
-$mosConfig_dbprefix = 'jos_';	// Do not change unless you need to!
-/**
-* -------------------------------------------------------------------------
-* Site specific configuration
-* -------------------------------------------------------------------------
-*/
-$mosConfig_lang = 'english';				// Site language
-$mosConfig_absolute_path = '/path/to/joomla/install';	// No trailing slash
-$mosConfig_admin_path = $mosConfig_absolute_path . '/administrator';	// No trailing slash
-$mosConfig_live_site = 'http://your_joomla_site.com';	// No trailing slash
-$mosConfig_secure_site = 'http://your_secure_site.com'; // No trailing slash
-$mosConfig_admin_site = 'http://your_secure_site.com/administrator'; // No trailing slash
-$mosConfig_sitename = 'Joomla';				// Name of Joomla site
-$mosConfig_shownoauth = '1';				// Display links & categories users don't have access to
-$mosConfig_useractivation = '1';			// Send new registration passwords via e-mail
-$mosConfig_uniquemail = '1';				// Require unique email adress for each user
-$mosConfig_offline_message = 'This site is down for maintenance.<br /> Please check back again soon.';
-$mosConfig_lifetime = '900'; 				// Session time
-$mosConfig_MetaDesc = 'Joomla - the dynamic portal engine and content management system';
-$mosConfig_MetaKeys = 'joomla';
-$mosConfig_MetaTitle = '1';
-$mosConfig_MetaAuthor = '1';
-$mosConfig_debug = '0';
-$mosConfig_locale = 'en_GB';
-$mosConfig_offset = '0';				// Server Local Time
-$mosConfig_offset_user = '0';			// User Local Time
-$mosConfig_hideAuthor = '0';
-$mosConfig_hideCreateDate = '0';
-$mosConfig_hideModifyDate = '0';
-$mosConfig_hidePdf = '0';
-$mosConfig_hidePrint = '0';
-$mosConfig_hideEmail = '0';
-$mosConfig_enable_log_items = '0';
-$mosConfig_enable_log_searches = '0';
-$mosConfig_enable_stats = '0';
-$mosConfig_sef = '0';
-$mosConfig_vote = '0';
-$mosConfig_gzip = '0';
-$mosConfig_multipage_toc = '0';
-$mosConfig_allowUserRegistration = '1';
-$mosConfig_error_reporting = -1;
-$mosConfig_error_message = 'This site is temporarily unavailable.<br />Please contact your System Administrator.';
-$mosConfig_link_titles = '0';
-$mosConfig_list_limit = '30';
-$mosConfig_caching = '0';
-$mosConfig_cachepath = '/path/to/joomla/install/cache';
-$mosConfig_cachetime = '900';
-$mosConfig_mailer = 'mail';
-$mosConfig_mailfrom = '';
-$mosConfig_fromname = '';
-$mosConfig_sendmail = '/usr/sbin/sendmail';
-$mosConfig_smtpauth = '0';
-$mosConfig_smtpuser = '';
-$mosConfig_smtppass = '';
-$mosConfig_smtphost = 'localhost';
-$mosConfig_back_button = '1';
-$mosConfig_item_navigation = '1';
-$mosConfig_secret = 'FBVtggIk5lAzEU9H'; //Change this to something more secure
-$mosConfig_pagetitles = '1';
-$mosConfig_readmore = '1';
-$mosConfig_hits = '1';
-$mosConfig_icons = '1';
-$mosConfig_favicon = 'favicon.ico';
-$mosConfig_fileperms = '';
-$mosConfig_dirperms = '';
-$mosConfig_helpurl = 'http://help.joomla.org';
-$mosConfig_multilingual_content='0';
-$mosConfig_editor = 'tinymce';
-setlocale (LC_TIME, $mosConfig_locale);			// Country locale
+class JConfig {
+	/**
+	* -------------------------------------------------------------------------
+	* Database configuration section
+	* -------------------------------------------------------------------------
+	*/
+	var $offline = '0';
+	var $dbtype = 'mysql';	// Normally mysql
+	var $host = 'localhost';	// This is normally set to localhost
+	var $user = '';			// MySQL username
+	var $password = '';		// MySQL password
+	var $db = '';				// MySQL database name
+	var $dbprefix = 'jos_';	// Do not change unless you need to!
+	/**
+	* -------------------------------------------------------------------------
+	* Site specific configuration
+	* -------------------------------------------------------------------------
+	*/
+	var $lang = 'english';				// Site language
+	var $absolute_path = '/path/to/joomla/install';	// No trailing slash
+	var $admin_path = var $absolute_path . '/administrator';	// No trailing slash
+	var $live_site = 'http://your_joomla_site.com';	// No trailing slash
+	var $secure_site = 'http://your_secure_site.com'; // No trailing slash
+	var $admin_site = 'http://your_secure_site.com/administrator'; // No trailing slash
+	var $sitename = 'Joomla';				// Name of Joomla site
+	var $shownoauth = '1';				// Display links & categories users don't have access to
+	var $useractivation = '1';			// Send new registration passwords via e-mail
+	var $uniquemail = '1';				// Require unique email adress for each user
+	var $offline_message = 'This site is down for maintenance.<br /> Please check back again soon.';
+	var $lifetime = '900'; 				// Session time
+	var $MetaDesc = 'Joomla - the dynamic portal engine and content management system';
+	var $MetaKeys = 'joomla';
+	var $MetaTitle = '1';
+	var $MetaAuthor = '1';
+	var $debug = '0';
+	var $locale = 'en_GB';
+	var $offset = '0';				// Server Local Time
+	var $offset_user = '0';			// User Local Time
+	var $hideAuthor = '0';
+	var $hideCreateDate = '0';
+	var $hideModifyDate = '0';
+	var $hidePdf = '0';
+	var $hidePrint = '0';
+	var $hideEmail = '0';
+	var $enable_log_items = '0';
+	var $enable_log_searches = '0';
+	var $enable_stats = '0';
+	var $sef = '0';
+	var $vote = '0';
+	var $gzip = '0';
+	var $multipage_toc = '0';
+	var $allowUserRegistration = '1';
+	var $error_reporting = -1;
+	var $error_message = 'This site is temporarily unavailable.<br />Please contact your System Administrator.';
+	var $link_titles = '0';
+	var $list_limit = '30';
+	var $caching = '0';
+	var $cachepath = '/path/to/joomla/install/cache';
+	var $cachetime = '900';
+	var $mailer = 'mail';
+	var $mailfrom = '';
+	var $fromname = '';
+	var $sendmail = '/usr/sbin/sendmail';
+	var $smtpauth = '0';
+	var $smtpuser = '';
+	var $smtppass = '';
+	var $smtphost = 'localhost';
+	var $back_button = '1';
+	var $item_navigation = '1';
+	var $secret = 'FBVtggIk5lAzEU9H'; //Change this to something more secure
+	var $pagetitles = '1';
+	var $readmore = '1';
+	var $hits = '1';
+	var $icons = '1';
+	var $favicon = 'favicon.ico';
+	var $fileperms = '';
+	var $dirperms = '';
+	var $helpurl = 'http://help.joomla.org';
+	var $multilingual_content='0';
+	var $editor = 'tinymce';
+	var $locale = '';
+}
 ?>
