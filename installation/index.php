@@ -20,15 +20,24 @@ require_once( JPATH_BASE .'/includes/application.php' );
 // create the mainframe object
 $mainframe =& new JInstallation();
 
+// create the session
+$mainframe->setSession('installation');
+
+// get the vars array from the request and add it to the session
+$vars = (array) mosGetParam( $_POST, 'vars' );
+$mainframe->setUserState('application.vars', $vars);
+
+// get the language from the request and add it to the session
+$configLang = mosGetParam( $vars, 'lang', 'eng_GB' );
+$mainframe->setUserState('application.lang', $configLang);
+
+// load the language
+$lang =& $mainframe->getLanguage();
+$lang->_load( JPATH_BASE . '/language/' . $configLang . '/' . $configLang .'.ini' );
+
 header( 'Cache-Control: no-cache, must-revalidate' );	// HTTP/1.1
 header( 'Pragma: no-cache' );							// HTTP/1.0
 header(' Content-Type: text/html; charset=UTF-8' );
-
-$vars = (array) mosGetParam( $_POST, 'vars' );
-$mosConfig_lang = mosGetParam( $vars, 'lang', 'eng_GB' );
-
-$lang =& $mainframe->getLanguage();
-$lang->_load( JPATH_BASE . '/language/' . $mosConfig_lang . '/' . $mosConfig_lang .'.ini' );
 
 $task = mosGetParam( $_REQUEST, 'task', '' );
 

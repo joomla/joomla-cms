@@ -65,7 +65,7 @@ class JApplication extends JObject
 	 * @var string  
 	 * @access protected
 	 */
-	var $_lang  = '';
+	var $_lang  = null;
 	
 	/** 
 	 * Application persistent store
@@ -149,8 +149,11 @@ class JApplication extends JObject
 	*/
 	function getUserStateFromRequest( $key, $request, $default=null ) 
 	{	
-		$value = isset( $_REQUEST[$request] ) ? $_REQUEST[$request] : $default;
-		$this->setUserState( 'application.'.$key, $value );
+		if (!$value = $this->getUserState( 'application.'.$key ))
+		{
+			$value = isset( $_REQUEST[$request] ) ? $_REQUEST[$request] : $default;
+			$this->setUserState( 'application.'.$key, $value );
+		}
 		return $value;
 	}
 
@@ -403,7 +406,7 @@ class JApplication extends JObject
 	{
 		global $my;
 
-		$strLang = $this->getUserState( 'lang' );
+		$strLang = $this->getUserState( 'application.lang' );
 
 		if ($strLang == '' && $my && isset( $my->params )) {
 

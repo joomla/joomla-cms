@@ -7,76 +7,76 @@
 </jos:comment>
 
 <jos:tmpl name="configuration"><?php
-JConfig {
+class JConfig {
 /* Site Settings */
-var $mosConfig_offline = '0';
-var $mosConfig_offline_message = 'This site is down for maintenance.<br /> Please check back again soon.';
-var $mosConfig_error_message = 'This site is temporarily unavailable.<br /> Please notify the System Administrator';
-var $mosConfig_sitename = '{VAR_SITENAME}';
-var $mosConfig_editor = 'tinymce';
-var $mosConfig_list_limit = '20';
+var $offline = '0';
+var $offline_message = 'This site is down for maintenance.<br /> Please check back again soon.';
+var $error_message = 'This site is temporarily unavailable.<br /> Please notify the System Administrator';
+var $sitename = '{VAR_SITENAME}';
+var $editor = 'tinymce';
+var $list_limit = '20';
 /* Debug Settings */
-var $mosConfig_debug = '0';
-var $mosConfig_debug_db = '0';
-var $mosConfig_log = '0';
-var $mosConfig_log_db = '0';
+var $debug = '0';
+var $debug_db = '0';
+var $log = '0';
+var $log_db = '0';
 /* Database Settings */
-var $mosConfig_dbtype = '{VAR_DBTYPE}';
-var $mosConfig_host = '{VAR_DBHOSTNAME}';
-var $mosConfig_user = '{VAR_DBUSERNAME}';
-var $mosConfig_password = '{VAR_DBPASSWORD}';
-var $mosConfig_db = '{VAR_DBNAME}';
-var $mosConfig_dbprefix = '{VAR_DBPREFIX}';
+var $dbtype = '{VAR_DBTYPE}';
+var $host = '{VAR_DBHOSTNAME}';
+var $user = '{VAR_DBUSERNAME}';
+var $password = '{VAR_DBPASSWORD}';
+var $db = '{VAR_DBNAME}';
+var $dbprefix = '{VAR_DBPREFIX}';
 /* Server Settings */
-var $mosConfig_absolute_path = '{VAR_SITEPATH}';
-var $mosConfig_live_site = '{VAR_SITEURL}';
-var $mosConfig_secure_site = '';
-var $mosConfig_secret = '{VAR_SECRET}';
-var $mosConfig_gzip = '0';
-var $mosConfig_lifetime = '900';
-var $mosConfig_error_reporting = '-1';
-var $mosConfig_helpurl = 'http://help.joomla.org';
-var $mosConfig_xmlrpc_server = '0';
-var $mosConfig_ftp_host = '{VAR_FTPHOST}';
-var $mosConfig_ftp_user = '{VAR_FTPUSER}';
-var $mosConfig_ftp_pass = '{VAR_FTPPASSWORD}';
-var $mosConfig_ftp_root = '{VAR_FTPROOT}';
-var $mosConfig_ftp_enable = '{VAR_FTPENABLE}';
+var $absolute_path = '{VAR_SITEPATH}';
+var $live_site = '{VAR_SITEURL}';
+var $secure_site = '';
+var $secret = '{VAR_SECRET}';
+var $gzip = '0';
+var $lifetime = '900';
+var $error_reporting = '-1';
+var $helpurl = 'http://help.joomla.org';
+var $xmlrpc_server = '0';
+var $ftp_host = '{VAR_FTPHOST}';
+var $ftp_user = '{VAR_FTPUSER}';
+var $ftp_pass = '{VAR_FTPPASSWORD}';
+var $ftp_root = '{VAR_FTPROOT}';
+var $ftp_enable = '{VAR_FTPENABLE}';
 /* Locale Settings */
-var $mosConfig_lang = '{VAR_LANG}';
-var $mosConfig_lang_administrator = '{VAR_LANG}';
-var $mosConfig_offset = '0';
-var $mosConfig_offset_user = '0';
+var $lang = '{VAR_LANG}';
+var $lang_administrator = '{VAR_LANG}';
+var $offset = '0';
+var $offset_user = '0';
 /* Mail Settings */
-var $mosConfig_mailer = 'mail';
-var $mosConfig_mailfrom = '{VAR_ADMINEMAIL}';
-var $mosConfig_fromname = '{VAR_SITENAME}';
-var $mosConfig_sendmail = '/usr/sbin/sendmail';
-var $mosConfig_smtpauth = '0';
-var $mosConfig_smtpuser = '';
-var $mosConfig_smtppass = '';
-var $mosConfig_smtphost = 'localhost';
+var $mailer = 'mail';
+var $mailfrom = '{VAR_ADMINEMAIL}';
+var $fromname = '{VAR_SITENAME}';
+var $sendmail = '/usr/sbin/sendmail';
+var $smtpauth = '0';
+var $smtpuser = '';
+var $smtppass = '';
+var $smtphost = 'localhost';
 /* Cache Settings */
-var $mosConfig_caching = '0';
-var $mosConfig_cachepath = '{VAR_SITEPATH}/cache';
-var $mosConfig_cachetime = '900';
+var $caching = '0';
+var $cachepath = '{VAR_SITEPATH}/cache';
+var $cachetime = '900';
 /* User Settings */
-var $mosConfig_allowUserRegistration = '1';
-var $mosConfig_useractivation = '1';
-var $mosConfig_uniquemail = '1';
-var $mosConfig_shownoauth = '0';
+var $allowUserRegistration = '1';
+var $useractivation = '1';
+var $uniquemail = '1';
+var $shownoauth = '0';
 /* Meta Settings */
-var $mosConfig_MetaDesc = 'Joomla! - the dynamic portal engine and content management system';
-var $mosConfig_MetaKeys = 'joomla, Joomla';
-var $mosConfig_MetaTitle = '1';
-var $mosConfig_MetaAuthor = '1';
+var $MetaDesc = 'Joomla! - the dynamic portal engine and content management system';
+var $MetaKeys = 'joomla, Joomla';
+var $MetaTitle = '1';
+var $MetaAuthor = '1';
 /* Statistics Settings */
-var $mosConfig_enable_stats = '0';
-var $mosConfig_enable_log_items = '0';
-var $mosConfig_enable_log_searches = '0';
+var $enable_stats = '0';
+var $enable_log_items = '0';
+var $enable_log_searches = '0';
 /* SEO Settings */
-var $mosConfig_sef = '0';
-var $mosConfig_pagetitles = '1';
+var $sef = '0';
+var $pagetitles = '1';
 /* Content Settings */
 var $link_titles = '0';
 var $readmore = '1';

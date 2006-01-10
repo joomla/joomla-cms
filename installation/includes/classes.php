@@ -313,6 +313,7 @@ class installationTasks {
 
 		if (!$DBcreated) {
 
+			jimport('joomla.database.database');
 			$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
 			if ($err = $database->getErrorNum()) {
@@ -755,7 +756,8 @@ class JInstallationHelper {
 		$adminEmail = mosGetParam($vars, 'adminEmail', '');
 
 		$cryptpass = md5($adminPassword);
-
+		
+		jimport('joomla.database.database');
 		$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
 		// create the admin user

@@ -143,13 +143,15 @@ class JModelSession extends JModel
 	 */
 	function hash( $value ) 
 	{
+		global $mainframe;
+		
 		if (phpversion() <= '4.2.1') {
 			$agent = getenv( 'HTTP_USER_AGENT' );
 		} else {
 			$agent = $_SERVER['HTTP_USER_AGENT'];
 		}
 
-		return md5( $agent . $GLOBALS['mosConfig_secret'] . $value . $_SERVER['REMOTE_ADDR'] );
+		return md5( $agent . $mainframe->getCfg('secret') . $value . $_SERVER['REMOTE_ADDR'] );
 	}
 
 	/**

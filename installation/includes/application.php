@@ -34,7 +34,43 @@ class JInstallation extends JApplication {
 
 		$this->_client = 2;
 
-		$this->_createTemplate( );
+		$this->_createConfiguration();
+	}
+
+	/**
+	 * Create the configuration registry
+	 *
+	 * @access private
+	 */
+	function _createConfiguration() 
+	{	
+		jimport( 'joomla.registry.registry' );
+		
+		// Create the registry with a default namespace of config which is read only
+		$this->_registry =& new JRegistry( 'config' );
+	}
+
+	/**
+	 * Create the user session
+	 *
+	 * @access private
+	 * @param string	The sessions name
+	 * @param boolean 	Use cookies to store the session on the client
+	 */
+	function _createSession( $name, $useCookies = true)
+	{
+		JSession::useCookies(true);
+		JSession::start(md5( $name ));
+		
+		JSession::get('registry', new JRegistry('application'));
+
+		JSession::setIdle(900);
+
+		if (JSession::isIdle()) {
+			JSession::destroy();
+		}
+
+		JSession::updateIdle();
 	}
 }
 
