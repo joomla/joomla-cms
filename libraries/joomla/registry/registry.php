@@ -17,6 +17,7 @@ jimport( 'joomla.regsitry.format' );
 /**
  * JRegistry class
  * 
+ * @author Louis Landry <louis@webimagery.net>
  * @package 	Joomla.Framework
  * @subpackage 	Registry
  * @since 1.1
@@ -62,6 +63,7 @@ class JRegistry extends JObject {
 	 * @param string $namespace The default namespace for the registry object [optional]
 	 * @param boolean $readOnly Is he default namespace read only? [optional: default is false]
 	 * @return object  The JRegistry object.
+	 * @since 1.1
 	 */
 	function & getInstance($id, $namespace = 'joomla', $readOnly = false) {
 		static $instances;
@@ -84,6 +86,7 @@ class JRegistry extends JObject {
 	 * @param string $namespace Name of the namespace to create
 	 * @param boolean $readOnly Is the namespace read only?
 	 * @return boolean True on success
+	 * @since 1.1
 	 */
 	function makeNameSpace($namespace, $readOnly = false) {
 		
@@ -132,6 +135,7 @@ class JRegistry extends JObject {
 	 * @param string Registry Path (e.g. joomla.content.showauthor)	 
 	 * @param mixed Value of entry
 	 * @return mixed Value of old value or boolean false if operation failed
+	 * @since 1.1
 	 */
 	function setValue($regpath, $value) {
 
@@ -170,6 +174,33 @@ class JRegistry extends JObject {
 	}
 
 	/**
+	 * Load the public variables of the JRegistry object into the default
+	 * namespace.  This is used for config registry types
+	 * 
+	 * @access public
+	 * @return boolean True on success
+	 * @since 1.1
+	 */
+	function loadVars() {
+
+		/*
+		 * Here we just load the public variables into the registry's default
+		 * namespace.
+		 */
+		foreach (get_object_vars($this) as $k => $v) {
+			if (substr($k, 0,1) != '_') {
+				$this->_registry[$this->_defaultNameSpace]['data']->$k = $v;
+			}
+		}
+		
+		/*
+		 * Set the config file name
+		 */
+		$this->_registry[$this->_defaultNameSpace]['data']->_name = $this->_defaultNameSpace;
+		return true;
+	}
+
+	/**
 	 * Load the contents of a file into the registry
 	 * 
 	 * @access public
@@ -178,6 +209,7 @@ class JRegistry extends JObject {
 	 * @param string $namespace Namespace to load the INI string into [optional]
 	 * @param boolean $readOnly Should the namespace be read only after loading? [optional: default is false]
 	 * @return boolean True on success
+	 * @since 1.1
 	 */
 	function loadFile($file, $format = 'INI', $namespace = null, $readOnly = false) {
 		// Load a file into the given namespace [or default namespace if not given]	
@@ -219,6 +251,7 @@ class JRegistry extends JObject {
 	 * @param string $namespace Namespace to load the INI string into [optional]
 	 * @param boolean $readOnly Should the namespace be read only after loading? [optional: default is false]
 	 * @return boolean True on success
+	 * @since 1.1
 	 */
 	function loadXML($data, $namespace = null, $readOnly = false) {
 		// Load a string into the given namespace [or default namespace if not given]	
@@ -256,6 +289,7 @@ class JRegistry extends JObject {
 	 * @param string $namespace Namespace to load the INI string into [optional]
 	 * @param boolean $readOnly Should the namespace be read only after loading? [optional: default is false]
 	 * @return boolean True on success
+	 * @since 1.1
 	 */
 	function loadINI($data, $namespace = null, $readOnly = false) {
 		// Load a string into the given namespace [or default namespace if not given]
@@ -292,6 +326,7 @@ class JRegistry extends JObject {
 	 * @param string $format Format to return the string in
 	 * @param string $namespace Namespace to return [optional: null returns the default namespace]
 	 * @return string Namespace in string format
+	 * @since 1.1
 	 */
 	function getNameSpaceString($format = 'INI', $namespace = null) {
 		// Return a namespace in a given format

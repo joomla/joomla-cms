@@ -33,6 +33,7 @@ Legend:
 
 09-Jan-2006 Louis Landry
  ^ Refactor and general code cleanup of frontend Contact component
+ + Added Config registry format
 
 09-Jan-2006 Johan Janssens
  ^ Upgraded TinyMCE Compressor [1.06]
