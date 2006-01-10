@@ -16,7 +16,7 @@ define( "_JEXEC", 1 );
 
 require_once( 'configuration.php' );
 
-//if (!$mosConfig_xmlrpc_server) {
+//if (!$mainframe->getCfg('xmlrpc_server')) {
 //	die( 'XML-RPC server not enabled.' );
 //}
 require_once( JPATH_SITE .'includes/joomla.php' );

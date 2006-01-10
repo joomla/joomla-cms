@@ -167,7 +167,7 @@ class JRegistry extends JObject {
 		}
 		
 		// Get the old value if exists so we can return it
-		$retval =& $ns->$nodes[$i];
+		@$retval =& $ns->$nodes[$i];
 		$ns->$nodes[$i] =& $value;
 		
 		return $retval;
@@ -330,6 +330,8 @@ class JRegistry extends JObject {
 	 * @since 1.1
 	 */
 	function getNameSpaceString($format = 'INI', $namespace = null) {
+		
+		jimport('joomla.registry.format');
 		// Return a namespace in a given format
 		$handler =& JRegistryFormat::getInstance($format);
 

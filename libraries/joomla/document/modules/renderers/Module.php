@@ -39,6 +39,13 @@ class patTemplate_Renderer_Module extends patTemplate_Renderer
 	 */
 	function render( $module, $params = array() )
 	{
+		//For backwards compatibility extract the config vars as globals
+		$CONFIG = new JConfig();
+		foreach (get_object_vars($CONFIG) as $k => $v) {
+			$name = 'mosConfig_'.$k;
+			$$name = $v;			
+		}
+
 		global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
 		global $mainframe, $database, $my, $Itemid, $acl, $task, $option;
 

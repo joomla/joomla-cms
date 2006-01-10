@@ -28,11 +28,12 @@ if (!is_array($cid)) {
 	$cid = array (0);
 }
 
-$listdir = mosGetParam($_REQUEST, 'listdir', '');
-$dirPath = mosGetParam($_POST, 'dirPath', '');
+$task	 = JRequest::getVar( 'task', '');
+$listdir = JRequest::getVar( 'listdir', '');
+$dirPath = JRequest::getVar( 'dirPath', '');
 
 if (is_int(strpos($listdir, "..")) && $listdir != '') {
-	josRedirect("index2.php?option=com_media&listdir=".$_POST['dirPath'], JText :: _('NO HACKING PLEASE'));
+	josRedirect("index2.php?option=com_media&listdir=".$listDir, JText :: _('NO HACKING PLEASE'));
 }
 
 define('COM_MEDIA_BASE', JPATH_SITE.DS.'images');
@@ -203,13 +204,15 @@ class JMediaController {
 	function upload() {
 		global $clearUploads;
 
-		if (isset ($_FILES['upload']) && is_array($_FILES['upload']) && isset ($_POST['dirPath'])) {
-			$dirPathPost = $_POST['dirPath'];
+		$file 		= JRequest::getVar( 'upload', '', 'file' );
+		$dirPath 	= JRequest::getVar( 'dirPath', '' );
+		
+		if (isset ($file) && is_array($file) && isset ($dirPath)) {
+			$dirPathPost = $dirPath;
 			$destDir = COM_MEDIA_BASE.$dirPathPost.DS;
-			$file = $_FILES['upload'];
 
 			if (file_exists($destDir.$file['name'])) {
-				josRedirect("index3.php?option=com_mediatask=popupUpload&&listdir=".$_POST['dirPath'], JText :: _('Upload FAILED.File allready exists'));
+				josRedirect("index3.php?option=com_media&task=popupUpload&listdir=".$dirPath, JText :: _('Upload FAILED.File allready exists'));
 			}
 
 			$format = JFile :: getExt($file['name']);
@@ -222,13 +225,13 @@ class JMediaController {
 			}
 
 			if (!$noMatch) {
-				josRedirect("index3.php?option=com_media&task=popupUpload&listdir=".$_POST['dirPath'], JText :: _('This file type is not supported'));
+				josRedirect("index3.php?option=com_media&task=popupUpload&listdir=".$dirPath, JText :: _('This file type is not supported'));
 			}
 
 			if (!JFile :: upload($file['tmp_name'], $destDir.strtolower($file['name']))) {
-				josRedirect("index3.php?option=com_media&task=popupUpload&listdir=".$_POST['dirPath'], JText :: _('Upload FAILED'));
+				josRedirect("index3.php?option=com_media&task=popupUpload&listdir=".$dirPath, JText :: _('Upload FAILED'));
 			} else {
-				josRedirect("index3.php?option=com_media&task=popupUpload&listdir=".$_POST['dirPath'], JText :: _('Upload complete'));
+				josRedirect("index3.php?option=com_media&task=popupUpload&listdir=".$dirPath, JText :: _('Upload complete'));
 			}
 
 			$clearUploads = true;

@@ -12,18 +12,18 @@
  */
  
 /**
- * Config class format handler for JRegistry
+ * PHP class format handler for JRegistry
  * 
  * @author 		Louis Landry <louis@webimagery.net>
  * @package 	Joomla.Framework
  * @subpackage 	Registry
  * @since 1.1
  */
-class JRegistryFormatConfig extends JRegistryFormat {
+class JRegistryFormatPHP extends JRegistryFormat {
 
 	/**
-	 * Converts an object into config class string.
-	 * 	-	 NOTE: Only one depth level is supported.
+	 * Converts an object into a php class string.
+	 * 	- NOTE: Only one depth level is supported.
 	 * 
 	 * @access public
 	 * @param object $object Data Source Object
@@ -37,7 +37,7 @@ class JRegistryFormatConfig extends JRegistryFormat {
 			if ($k == "_name") {
 				$name = $v;
 			} else {
-				$vars .= "\tvar $". $k . " = " . $v . ";\n";
+				$vars .= "\tvar $". $k . " = '" . addslashes($v) . "';\n";
 			}
 		}
 

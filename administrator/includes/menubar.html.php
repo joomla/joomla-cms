@@ -711,10 +711,7 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function media_manager( $directory='', $alt='Upload' ) {
-		global $database;
-
     	$alt = JText::_( $alt );
-
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'upload_f2.png', '/images/', NULL, NULL, 'Upload Image', 'uploadPic', 1 );
 		?>
 		<td>

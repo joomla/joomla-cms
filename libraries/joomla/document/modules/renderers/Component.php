@@ -43,9 +43,14 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 		global $mainframe, $my, $acl, $database;
 		global $Itemid, $task, $option, $id;
 		
-		//For backwards compatibuility includes configuration globals
-		//require(JPATH_CONFIGURATION . DS .'configuration.php');
-
+		//For backwards compatibility extract the config vars as globals
+		$CONFIG = new JConfig();
+		foreach (get_object_vars($CONFIG) as $k => $v) {
+			$name = 'mosConfig_'.$k;
+			$$name = $v;			
+		}
+		unset($CONFIG);
+		
 		$gid = $my->gid;
 		
 		$component = !isset($component) ? $option : $component;

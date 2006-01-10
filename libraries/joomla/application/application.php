@@ -135,7 +135,6 @@ class JApplication extends JObject
 		if(!is_null($registry)) {
 			return $registry->setValue($key, $value);
 		}
-		
 		return false;
 	}
 
@@ -151,7 +150,7 @@ class JApplication extends JObject
 	function getUserStateFromRequest( $key, $request, $default=null ) 
 	{	
 		$value = isset( $_REQUEST[$request] ) ? $_REQUEST[$request] : $default;
-		$this->setUserState( $key, $value );
+		$this->setUserState( 'application.'.$key, $value );
 		return $value;
 	}
 
@@ -495,7 +494,7 @@ class JApplication extends JObject
 	 * @param string $file 	The path to the configuration file
 	 * @param string $type	The format type
 	 */
-	function _createConfiguration($file, $type = 'config') 
+	function _createConfiguration($file, $type = 'PHP') 
 	{	
 		jimport( 'joomla.registry.registry' );
 		
@@ -503,7 +502,7 @@ class JApplication extends JObject
 		
 		// Create the JConfig object
 		$config = new JConfig();
-		
+
 		// Create the registry with a default namespace of config which is read only
 		$this->_registry =& new JRegistry( 'config', true );
 		$this->_registry->loadObjectVars($config);

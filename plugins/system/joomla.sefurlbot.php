@@ -21,11 +21,15 @@ $mainframe->registerEvent( 'onBeforeStart', 'botJoomlaSEFUrl' );
 *
 */
 function botJoomlaSEFUrl( ) {
-	global $task, $sectionid, $id, $Itemid, $limit, $limitstart, $database, $mod_rewrite_off;
+	global $mainframe, $task, $sectionid, $id, $Itemid, $limit, $limitstart, $database, $mod_rewrite_off;
 
-	$mod_rewrite_off = 0;
+	/*
+	 * Initialize some variables
+	 */
+	$mod_rewrite_off 	= 0;
+	$SEF 				= $mainframe->getCfg('sef'); 
 
-	if ($GLOBALS['mosConfig_sef']) {
+	if ($SEF) {
 
 		// load plugin params info
 	 	$plugin =& JPluginHelper::getPlugin('system', 'joomla.sefurlbot'); 
@@ -243,20 +247,28 @@ function botJoomlaSEFUrl( ) {
 }
 
 /**
- * 3 states for SSL
+ * Function to convert an internal Joomla URL to an absolute Search Engine
+ * Friendly URL.
  *
- * -1 = Off, use non-SSL URL
- *  0 = Ignore, and use whatever site is using
- *  1 = On, use SSL URL
+ * @param string $string The internal URL
+ * @return string The absolute search engine friendly URL
+ * @since 1.0
  */
 function sefRelToAbs( $string ) {
-	global $iso_client_lang, $mod_rewrite_off;
+	global $mainframe, $iso_client_lang, $mod_rewrite_off;
 
-	if( isset($GLOBALS['mosConfig_multilingual_support']) && $GLOBALS['mosConfig_multilingual_support'] && $string!='index.php' && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),'index.php') && !eregi('lang=', $string) ) {
+	/*
+	 * Initialize some variables
+	 */
+	$SEF 					= $mainframe->getCfg('sef');
+	$MultilingualSupport 	= $mainframe->getCfg('multilingual_support');
+	$LiveSite 				= $mainframe->getCfg('live_site');
+	
+	if( isset($MultilingualSupport) && ($MultilingualSupport) && $string!='index.php' && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),'index.php') && !eregi('lang=', $string) ) {
 		$string .= "&lang=$iso_client_lang";
 	}
 
-	if ( $GLOBALS['mosConfig_sef'] && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),'index.php')) {
+	if ( $SEF && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),'index.php')) {
 		// Replace all &amp; with &
 		$string = str_replace( '&amp;', '&', $string );
 
@@ -355,9 +367,9 @@ function sefRelToAbs( $string ) {
 		}
 
 		if ( $mod_rewrite_off ) {
-			return $GLOBALS['mosConfig_live_site'] . '/index.php/' . $string;
+			return $LiveSite . '/index.php/' . $string;
 		} else {
-			return $GLOBALS['mosConfig_live_site'] . '/' . $string;
+			return $LiveSite . '/' . $string;
 		}
 
 	} else {

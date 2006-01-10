@@ -19,9 +19,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Config
 */
-class HTML_config {
+class JConfigView {
 
-	function showconfig( &$row, &$lists, $option) {
+	function showConfig( &$row, &$lists, $option) {
 		$tabs = new mosTabs(1);
 		?>
 		<form action="index2.php" method="post" name="adminForm">
@@ -70,21 +70,21 @@ class HTML_config {
 			</tr>
 			<tr>
 				<td valign="top"><?php echo JText::_( 'Offline Message' ); ?>:</td>
-				<td><textarea class="text_area" cols="60" rows="2" style="width:500px; height:40px" name="config_offline_message"><?php echo htmlspecialchars( stripslashes( $row->config_offline_message ), ENT_QUOTES); ?></textarea><?php
+				<td><textarea class="text_area" cols="60" rows="2" style="width:500px; height:40px" name="offline_message"><?php echo htmlspecialchars( stripslashes( $row->offline_message ), ENT_QUOTES); ?></textarea><?php
 					$tip = JText::_( 'TIPIFYOURSITEISOFFLINE' );
 					echo mosToolTip( $tip );
 				?></td>
 			</tr>
 			<tr>
 				<td valign="top"><?php echo JText::_( 'System Error Message' ); ?>:</td>
-				<td><textarea class="text_area" cols="60" rows="2" style="width:500px; height:40px" name="config_error_message"><?php echo htmlspecialchars( stripslashes( $row->config_error_message ), ENT_QUOTES); ?></textarea><?php
+				<td><textarea class="text_area" cols="60" rows="2" style="width:500px; height:40px" name="error_message"><?php echo htmlspecialchars( stripslashes( $row->error_message ), ENT_QUOTES); ?></textarea><?php
 					$tip = JText::_( 'TIPCOULDNOTCONNECTDB' );
 					echo mosToolTip( $tip );
 				?></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Site Name' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_sitename" size="50" value="<?php echo $row->config_sitename; ?>"/></td>
+				<td><input class="text_area" type="text" name="sitename" size="50" value="<?php echo $row->sitename; ?>"/></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Default WYSIWYG Editor' ); ?>:</td>
@@ -180,11 +180,11 @@ class HTML_config {
 			<table class="adminform">
 			<tr>
 				<td width="185" valign="top"><?php echo JText::_( 'Global Site Meta Description' ); ?>:</td>
-				<td><textarea class="text_area" cols="50" rows="3" style="width:500px; height:50px" name="config_MetaDesc"><?php echo htmlspecialchars($row->config_MetaDesc, ENT_QUOTES); ?></textarea></td>
+				<td><textarea class="text_area" cols="50" rows="3" style="width:500px; height:50px" name="MetaDesc"><?php echo htmlspecialchars($row->MetaDesc, ENT_QUOTES); ?></textarea></td>
 			</tr>
 			<tr>
 				<td valign="top"><?php echo JText::_( 'Global Site Meta Keywords' ); ?>:</td>
-				<td><textarea class="text_area" cols="50" rows="3" style="width:500px; height:50px" name="config_MetaKeys"><?php echo htmlspecialchars($row->config_MetaKeys, ENT_QUOTES); ?></textarea></td>
+				<td><textarea class="text_area" cols="50" rows="3" style="width:500px; height:50px" name="MetaKeys"><?php echo htmlspecialchars($row->MetaKeys, ENT_QUOTES); ?></textarea></td>
 			</tr>
 			<tr>
 				<td valign="top"><?php echo JText::_( 'Show Title Meta Tag' ); ?>:</td>
@@ -389,18 +389,18 @@ class HTML_config {
 			<table class="adminform">
 			<tr>
 				<td width="185"><?php echo JText::_( 'Absolute Path' ); ?>:</td>
-				<td width="450"><strong><?php echo $row->config_absolute_path; ?></strong></td>
+				<td width="450"><strong><?php echo $row->absolute_path; ?></strong></td>
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Live Site' ); ?>:</td>
-				<td><strong><?php echo $row->config_live_site; ?></strong></td>
+				<td><strong><?php echo $row->live_site; ?></strong></td>
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Secure Site' ); ?>:</td>
 				<td>
-				<input class="text_area" type="text" name="config_secure_site" size="50" value="<?php echo $row->config_secure_site; ?>"/>
+				<input class="text_area" type="text" name="secure_site" size="50" value="<?php echo $row->secure_site; ?>"/>
 				<?php
                     $tip = JText::_( 'TIPSECURESITE' );
                     echo mosToolTip( $tip ); ?>
@@ -409,7 +409,7 @@ class HTML_config {
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Secret Word' ); ?>:</td>
-				<td><strong><?php echo $row->config_secret; ?></strong></td>
+				<td><strong><?php echo $row->secret; ?></strong></td>
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
@@ -425,7 +425,7 @@ class HTML_config {
 			<tr>
 				<td><?php echo JText::_( 'Login Session Lifetime' ); ?>:</td>
 				<td>
-				<input class="text_area" type="text" name="config_lifetime" size="10" value="<?php echo $row->config_lifetime; ?>"/>
+				<input class="text_area" type="text" name="lifetime" size="10" value="<?php echo $row->lifetime; ?>"/>
 				&nbsp;<?php echo JText::_('seconds'); ?>&nbsp;
 				<?php
                     $tip = JText::_( 'TIPAUTOLOGOUTTIMEOF' );
@@ -448,19 +448,19 @@ class HTML_config {
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'FTP Host' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_ftp_host" size="25" value="<?php echo $row->config_ftp_host; ?>"/></td>
+				<td><input class="text_area" type="text" name="ftp_host" size="25" value="<?php echo $row->ftp_host; ?>"/></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'FTP Username' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_ftp_user" size="25" value="<?php echo $row->config_ftp_user; ?>"/></td>
+				<td><input class="text_area" type="text" name="ftp_user" size="25" value="<?php echo $row->ftp_user; ?>"/></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'FTP Password' ); ?>:</td>
-				<td><input class="text_area" type="password" name="config_ftp_pass" size="25" value="<?php echo $row->config_ftp_pass; ?>"/></td>
+				<td><input class="text_area" type="password" name="ftp_pass" size="25" value="<?php echo $row->ftp_pass; ?>"/></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'FTP Root' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_ftp_root" size="50" value="<?php echo $row->config_ftp_root; ?>"/></td>
+				<td><input class="text_area" type="text" name="ftp_root" size="50" value="<?php echo $row->ftp_root; ?>"/></td>
 			</tr>
 			</table>
 
@@ -473,28 +473,28 @@ class HTML_config {
 			<table class="adminform">
 			<tr>
 				<td width="185"><?php echo JText::_( 'Database type' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_dbtype" size="25" value="<?php echo $row->config_dbtype; ?>"/></td>
+				<td><input class="text_area" type="text" name="dbtype" size="25" value="<?php echo $row->dbtype; ?>"/></td>
 			</tr>
 			<tr>
 				<td width="185"><?php echo JText::_( 'Hostname' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_host" size="25" value="<?php echo $row->config_host; ?>"/></td>
+				<td><input class="text_area" type="text" name="host" size="25" value="<?php echo $row->host; ?>"/></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Username' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_user" size="25" value="<?php echo $row->config_user; ?>"/></td>
+				<td><input class="text_area" type="text" name="user" size="25" value="<?php echo $row->user; ?>"/></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Password' ); ?>:</td>
-				<td><input class="text_area" type="password" name="config_password" size="25" value="<?php echo $row->config_password; ?>"/></td>
+				<td><input class="text_area" type="password" name="password" size="25" value="<?php echo $row->password; ?>"/></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Database' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_db" size="25" value="<?php echo $row->config_db; ?>"/></td>
+				<td><input class="text_area" type="text" name="db" size="25" value="<?php echo $row->db; ?>"/></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Database Prefix' ); ?>:</td>
 				<td>
-				<input class="text_area" type="text" name="config_dbprefix" size="10" value="<?php echo $row->config_dbprefix; ?>"/>
+				<input class="text_area" type="text" name="dbprefix" size="10" value="<?php echo $row->dbprefix; ?>"/>
 				&nbsp;<?php
                 $warn = JText::_( 'WARNDONOTCHANGEDATABASETABLESPREFIX' );
                 echo JWarning( $warn ); ?>
@@ -515,15 +515,15 @@ class HTML_config {
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Mail From' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_mailfrom" size="50" value="<?php echo $row->config_mailfrom; ?>"/></td>
+				<td><input class="text_area" type="text" name="mailfrom" size="50" value="<?php echo $row->mailfrom; ?>"/></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'From Name' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_fromname" size="50" value="<?php echo $row->config_fromname; ?>"/></td>
+				<td><input class="text_area" type="text" name="fromname" size="50" value="<?php echo $row->fromname; ?>"/></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Sendmail Path' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_sendmail" size="50" value="<?php echo $row->config_sendmail; ?>"/></td>
+				<td><input class="text_area" type="text" name="sendmail" size="50" value="<?php echo $row->sendmail; ?>"/></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'SMTP Auth' ); ?>:</td>
@@ -531,15 +531,15 @@ class HTML_config {
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'SMTP User' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_smtpuser" size="50" value="<?php echo $row->config_smtpuser; ?>"/></td>
+				<td><input class="text_area" type="text" name="smtpuser" size="50" value="<?php echo $row->smtpuser; ?>"/></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'SMTP Pass' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_smtppass" size="50" value="<?php echo $row->config_smtppass; ?>"/></td>
+				<td><input class="text_area" type="text" name="smtppass" size="50" value="<?php echo $row->smtppass; ?>"/></td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'SMTP Host' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_smtphost" size="50" value="<?php echo $row->config_smtphost; ?>"/></td>
+				<td><input class="text_area" type="text" name="smtphost" size="50" value="<?php echo $row->smtphost; ?>"/></td>
 			</tr>
 			</table>
 
@@ -563,7 +563,7 @@ class HTML_config {
 			<tr>
 				<td width="185"><?php echo JText::_( 'Server Offset' ); ?>:</td>
 				<td>
-				<input class="text_area" type="text" name="config_offset" size="15" value="<?php echo $row->config_offset; ?>" disabled="true"/>
+				<input class="text_area" type="text" name="offset" size="15" value="<?php echo $row->offset; ?>" disabled="true"/>
 				</td>
 			</tr>
 			</table>
@@ -576,7 +576,7 @@ class HTML_config {
 
 			<table class="adminform" border="0">
 			<?php
-			if (is_writeable($row->config_cachepath)) {
+			if (is_writeable($row->cachepath)) {
 				?>
 				<tr>
 					<td width="185"><?php echo JText::_( 'Caching' ); ?>:</td>
@@ -589,9 +589,9 @@ class HTML_config {
 			<tr>
 				<td><?php echo JText::_( 'Cache Folder' ); ?>:</td>
 				<td>
-				<input class="text_area" type="text" name="config_cachepath" size="50" value="<?php echo $row->config_cachepath; ?>"/>
+				<input class="text_area" type="text" name="cachepath" size="50" value="<?php echo $row->cachepath; ?>"/>
 				<?php
-				if (is_writeable($row->config_cachepath)) {
+				if (is_writeable($row->cachepath)) {
                     $tip = JText::_( 'TIPDIRWRITEABLE' );
 					echo mosToolTip( $tip );
 				} else {
@@ -604,7 +604,7 @@ class HTML_config {
 			</tr>
 			<tr>
 				<td><?php echo JText::_( 'Cache Time' ); ?>:</td>
-				<td><input class="text_area" type="text" name="config_cachetime" size="5" value="<?php echo $row->config_cachetime; ?>"/> <?php echo JText::_( 'seconds' ); ?></td>
+				<td><input class="text_area" type="text" name="cachetime" size="5" value="<?php echo $row->cachetime; ?>"/> <?php echo JText::_( 'seconds' ); ?></td>
 				<td>&nbsp;</td>
 			</tr>
 			</table>
@@ -615,13 +615,13 @@ class HTML_config {
 		?>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>"/>
-		<input type="hidden" name="config_admin_path" value="<?php echo $row->config_admin_path; ?>"/>
-		<input type="hidden" name="config_absolute_path" value="<?php echo $row->config_absolute_path; ?>"/>
-		<input type="hidden" name="config_live_site" value="<?php echo $row->config_live_site; ?>"/>
-		<input type="hidden" name="config_secret" value="<?php echo $row->config_secret; ?>"/>
-		<input type="hidden" name="config_multilingual_support" value="<?php echo $row->config_multilingual_support; ?>"/>
-	  	<input type="hidden" name="config_lang" value="<?php echo $row->config_lang; ?>"/>
-	  	<input type="hidden" name="config_lang_administrator" value="<?php echo $row->config_lang_administrator; ?>"/>
+		<input type="hidden" name="admin_path" value="<?php echo $row->admin_path; ?>"/>
+		<input type="hidden" name="absolute_path" value="<?php echo $row->absolute_path; ?>"/>
+		<input type="hidden" name="live_site" value="<?php echo $row->live_site; ?>"/>
+		<input type="hidden" name="secret" value="<?php echo $row->secret; ?>"/>
+		<input type="hidden" name="multilingual_support" value="<?php echo $row->multilingual_support; ?>"/>
+	  	<input type="hidden" name="lang" value="<?php echo $row->lang; ?>"/>
+	  	<input type="hidden" name="lang_administrator" value="<?php echo $row->lang_administrator; ?>"/>
 	  	<input type="hidden" name="task" value=""/>
 		</form>
 
