@@ -442,10 +442,15 @@ class mosFullAdminMenu
 	}
 }
 $cache =& JFactory::getCache( 'mos_fullmenu' );
+$lang =& $mainframe->getLanguage();
 
 $doc   =& $mainframe->getDocument();
 $doc->addScript( '../includes/js/JSCookMenu.js');
-$doc->addScript( 'includes/js/ThemeOffice/theme.js');
+if ( $lang->isRTL() ) {
+	$doc->addScript( 'includes/js/ThemeOffice/theme_rtl.js');
+} else {
+	$doc->addScript( 'includes/js/ThemeOffice/theme.js');
+}
 
 $hide = mosGetParam( $_REQUEST, 'hidemainmenu', 0 );
 

@@ -23,14 +23,14 @@ $lang =& $mainframe->getLanguage();
 <jdoc:placeholder type="head" />
 
 <link href="templates/{TEMPLATE}/css/template.css" rel="stylesheet" type="text/css" />
-<link href="templates/{TEMPLATE}/css/theme.css" rel="stylesheet" type="text/css" />
 <?php if ($lang->isRTL()){ ?>
 <link href="templates/{TEMPLATE}/css/template_rtl.css" rel="stylesheet" type="text/css" />
 <link href="templates/{TEMPLATE}/css/theme_rtl.css" rel="stylesheet" type="text/css" />
+<?php } else { ?>
+<link href="templates/{TEMPLATE}/css/theme.css" rel="stylesheet" type="text/css" />
 <?php } ?>
 </head>
 <body>
-<div id="langdirection">
 <div id="wrapper">
 	<div id="header">
 		<div id="joomla"><?php echo JText::_( 'Administration' ); ?></div>
@@ -39,15 +39,15 @@ $lang =& $mainframe->getLanguage();
 </div>
 <table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td class="menubackgr" style="padding-left:5px;">
+	<td class="menubackgr" style="padding-<?php echo $lang->isRTL() ? 'right' : 'left'; ?>:5px;">
 		<jdoc:placeholder type="module" name="fullmenu" />
 	</td>
-	<td class="menubackgr" align="right">
+	<td class="menubackgr" align="<?php echo $lang->isRTL() ? 'left' : 'right'; ?>">
 		<div id="wrapper1">
 			<jdoc:placeholder type="modules" name="header" style="2" />
 		</div>
 	</td>
-	<td class="menubackgr" align="right" style="padding-right:5px;">
+	<td class="menubackgr" align="<?php echo $lang->isRTL() ? 'left' : 'right'; ?>" style="padding-<?php echo $lang->isRTL() ? 'left' : 'right'; ?>:5px;">
 		<a href="index2.php?option=logout" style="color: #333333; font-weight: bold">
 			<?php echo JText::_( 'Logout' ); ?></a>
 		<strong><?php echo $my->username;?></strong>
@@ -57,7 +57,7 @@ $lang =& $mainframe->getLanguage();
 
 <table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
 <tr>
-	<td class="menudottedline" align="right">
+	<td class="menudottedline" align="<?php echo $lang->isRTL() ? 'left' : 'right'; ?>">
 		<jdoc:placeholder type="modules" name="toolbar" />
 	</td>
 </tr>
@@ -78,6 +78,5 @@ $lang =& $mainframe->getLanguage();
 	</table>
 </div>
 <jdoc:placeholder type="modules" name="debug" />
-</div>
 </body>
 </html>
