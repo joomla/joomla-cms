@@ -331,7 +331,7 @@ function saveUser( $option, $task ) {
 
 	// updates the current users param settings
 	if ( $my->id == $row->id ) {
-		session_start();
+		//session_start();
 		$_SESSION['session_user_params']= $row->params;
 		session_write_close();
 	}
