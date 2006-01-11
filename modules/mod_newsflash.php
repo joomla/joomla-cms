@@ -115,6 +115,6 @@ function output_newsflash( &$row, &$params, &$access ) {
 	$gbs 			= $mainframe->getGlobalBlogSectionCount();
 	$ItemidCount 	= $mainframe->getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
 	
-	HTML_content::show( $row, $params, $access, 0, 'com_content', $ItemidCount );
+	JContentView::show( $row, $params, $access, 0, 'com_content', $ItemidCount );
 }
 ?>
