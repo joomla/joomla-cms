@@ -19,18 +19,18 @@ defined('_JEXEC') or die('Restricted access');
 require_once (JApplicationHelper :: getPath('front_html'));
 require_once (JApplicationHelper :: getPath('class'));
 
+// Set the base page title
 $mainframe->setPageTitle(JText :: _('Contact'));
 
+// Set the component level breadcrumbs name
 $breadcrumbs = & $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, JText :: _('Contact'));
 
-//Load Vars
-$op = JRequest :: getVar('op');
-$task = JRequest :: getVar('task');
-$con_id = JRequest :: getVar('con_id', 0, '', 'int');
-$contact_id = JRequest :: getVar('contact_id', 0, '', 'int');
+// Get the task variable
+$task = JRequest :: getVar( 'task' );
 
-switch ($task) {
+switch ($task)
+{
 	case 'view' :
 		JContactController :: contactPage();
 		break;
@@ -40,7 +40,7 @@ switch ($task) {
 		break;
 
 	case 'sendmail' :
-		JContactController :: sendmail($con_id, $option);
+		JContactController :: sendmail();
 		break;
 
 	default :
@@ -56,7 +56,8 @@ switch ($task) {
  * @subpackage Contact
  * @since 1.1
  */
-class JContactController {
+class JContactController
+{
 
 	/**
 	 * Build the data for a contact category document
@@ -64,36 +65,42 @@ class JContactController {
 	 * @static
 	 * @since 1.0
 	 */
-	function listContacts() {
+	function listContacts()
+	{
 		global $mainframe, $Itemid;
 
 		/*
 		 * Initialize some variables
 		 */
-		$db = & $mainframe->getDBO();
-		$my = & $mainframe->getUser();
+		$db 	= & $mainframe->getDBO();
+		$my 	= & $mainframe->getUser();
 		$option = JRequest :: getVar('option');
-		$catid = JRequest :: getVar('catid', 0, '', 'int');
+		$catid 	= JRequest :: getVar('catid', 0, '', 'int');
 
-		/* Query to retrieve all categories that belong under the contacts section and that are published. */
-		$query = "SELECT *, COUNT( a.id ) AS numlinks" .
-					"\n FROM #__categories AS cc" .
-					"\n LEFT JOIN #__contact_details AS a ON a.catid = cc.id" .
-					"\n WHERE a.published = 1" .
-					"\n AND cc.section = 'com_contact_details'" .
-					"\n AND cc.published = 1" .
-					"\n AND a.access <= $my->gid" .
-					"\n AND cc.access <= $my->gid" .
-					"\n GROUP BY cc.id" .
-					"\n ORDER BY cc.ordering";
+		/*
+		 * Query to retrieve all categories that belong under the contacts
+		 * section and that are published.
+		 */
+		$query = "SELECT *, COUNT( a.id ) AS numlinks, a.id as cid" .
+				"\n FROM #__categories AS cc" .
+				"\n LEFT JOIN #__contact_details AS a ON a.catid = cc.id" .
+				"\n WHERE a.published = 1" .
+				"\n AND cc.section = 'com_contact_details'" .
+				"\n AND cc.published = 1" .
+				"\n AND a.access <= $my->gid" .
+				"\n AND cc.access <= $my->gid" .
+				"\n GROUP BY cc.id" .
+				"\n ORDER BY cc.ordering";
 		$db->setQuery($query);
 		$categories = $db->loadObjectList();
 
 		$count = count($categories);
-		if (($count < 2) && (@ $categories[0]->numlinks == 1)) {
+		if (($count < 2) && (@ $categories[0]->numlinks == 1))
+		{
 			// if only one record exists loads that record, instead of displying category list
-			JContactController :: contactPage(0);
-		} else {
+			JContactController :: contactPage($categories[0]->cid);
+		} else
+		{
 			$rows = array ();
 			$current = new stdClass();
 
@@ -123,34 +130,39 @@ class JContactController {
 			$params->def('fax', '1');
 			$params->def('telephone', '1');
 
-			if ($catid == 0) {
+			if ($catid == 0)
+			{
 				$catid = $params->get('catid', 0);
 			}
 
-			if ($catid) {
+			if ($catid)
+			{
 				$params->set('type', 'category');
-			} else {
+			} else
+			{
 				$params->set('type', 'section');
 			}
 
 			/*
 			 * If a category id is set, lets get its information
 			 */
-			if ($catid) {
+			if ($catid)
+			{
 				$query = "SELECT cd.*, cc.name AS cname, cc.description AS cdescription, cc.image AS cimage, cc.image_position AS cimage_position" .
-							"\n FROM #__contact_details AS cd" .
-							"\n INNER JOIN #__categories AS cc on cd.catid = cc.id" .
-							"\n WHERE cd.catid = $catid" .
-							"\n AND cc.published = 1" .
-							"\n AND cd.published = 1" .
-							"\n AND cc.access <= $my->gid" .
-							"\n AND cd.access <= $my->gid" .
-							"\n ORDER BY cd.ordering";
+						"\n FROM #__contact_details AS cd" .
+						"\n INNER JOIN #__categories AS cc on cd.catid = cc.id" .
+						"\n WHERE cd.catid = $catid" .
+						"\n AND cc.published = 1" .
+						"\n AND cd.published = 1" .
+						"\n AND cc.access <= $my->gid" .
+						"\n AND cd.access <= $my->gid" .
+						"\n ORDER BY cd.ordering";
 				$db->setQuery($query);
 				$rows = $db->loadObjectList();
 
 				// Quick trick to use one query for two things
-				if (count($rows)) {
+				if (count($rows))
+				{
 					$current = & $rows[0];
 				}
 			}
@@ -158,8 +170,10 @@ class JContactController {
 			/*
 			 * Lets get a description on the current category
 			 */
-			if (empty ($current->cdescription)) {
-				if ($params->get('description')) {
+			if (empty ($current->cdescription))
+			{
+				if ($params->get('description'))
+				{
 					$current->cdescription = $params->get('description_text');
 				}
 			}
@@ -167,38 +181,45 @@ class JContactController {
 			/*
 			 * Lets get a description on the current category
 			 */
-			$path = JURL_SITE.'/images/stories/';
-			if (empty ($current->cimage)) {
-				if ($params->get('image') != -1) {
+			$path = $mainframe->getCfg('live_site').'/images/stories/';
+			if (empty ($current->cimage))
+			{
+				if ($params->get('image') != -1)
+				{
 					$current->cimage = $path.$params->get('image');
 					$current->cimage_position = $params->get('image_align');
 				}
-			} else {
+			} else
+			{
 				$current->cimage = $path.$current->cimage;
 			}
 
 			/*
 			 * Time to set the page header
 			 */
-			if (empty($current->cname)) {
+			if (empty ($current->cname))
+			{
 				$current->header = $params->get('header');
-			} else {
+			} else
+			{
 				$current->header = $params->get('header').' - '.$current->cname;
 			}
 
 			/*
 			 * Lets set the page title
 			 */
-			$document= & $mainframe->getDocument();
-			if (!empty($current->cname)) {
-				$document->setTitle(JText::_('Contact').' - '.$current->cname);
+			$document = & $mainframe->getDocument();
+			if (!empty ($current->cname))
+			{
+				$document->setTitle(JText :: _('Contact').' - '.$current->cname);
 			}
 
 			/*
 			 * Lets add the category breadcrumbs item
 			 */
 			$breadcrumbs = & $mainframe->getPathWay();
-			if (!empty($current->cname)) {
+			if (!empty ($current->cname))
+			{
 				$breadcrumbs->addItem($current->cname, "");
 			}
 
@@ -212,21 +233,22 @@ class JContactController {
 	 * @static
 	 * @since 1.0
 	 */
-	function contactPage() {
+	function contactPage($cid = 0)
+	{
 		global $mainframe, $Itemid;
 
 		/*
 		 * Initialize some variables
 		 */
-		$db =& $mainframe->getDBO();
-		$my =& $mainframe->getUser();
-		$contactId = JRequest :: getVar('contact_id', 0, '', 'int');
-		$contact = null;
+		$db 		= & $mainframe->getDBO();
+		$my 		= & $mainframe->getUser();
+		$contactId 	= JRequest :: getVar('contact_id', $cid, '', 'int');
+		$contact 	= null;
 
 		/*
 		 * Get the parameters for this particular menu item
 		 */
-		$menu = & JModel :: getInstance('menu', $db);
+		$menu 		= & JModel :: getInstance('menu', $db);
 		$menu->load($Itemid);
 		$menuParams = new JParameters($menu->params);
 
@@ -241,30 +263,31 @@ class JContactController {
 		 * Ok, now lets get the information on the particular contact id
 		 */
 		$query = "SELECT a.*, cc.title as catname" .
-					"\n FROM #__contact_details AS a" .
-					"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
-					"\n WHERE a.published = 1" .
-					"\n AND a.id = $contactId" .
-					"\n AND a.access <= $my->gid";
+				"\n FROM #__contact_details AS a" .
+				"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
+				"\n WHERE a.published = 1" .
+				"\n AND a.id = $contactId" .
+				"\n AND a.access <= $my->gid";
 		$db->SetQuery($query);
 		$db->loadObject($contact);
 
-		if (is_object($contact)) {
-
+		if (is_object($contact))
+		{
 			/*
 			 * If the drop_down parameter is true, then we need to build a
 			 * dropdown select list of contacts in the given category
 			 */
-			if ($menuParams->get('drop_down')) {
+			if ($menuParams->get('drop_down'))
+			{
 				$query = "SELECT a.id AS value, CONCAT_WS( ' - ', a.name, a.con_position ) AS text, a.catid" .
-							"\n FROM #__contact_details AS a" .
-							"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
-							"\n WHERE a.catid = $contact->catid" .
-							"\n AND a.published = 1" .
-							"\n AND cc.published = 1" .
-							"\n AND a.access <= $my->gid" .
-							"\n AND cc.access <= $my->gid" .
-							"\n ORDER BY a.default_con DESC, a.ordering ASC";
+						"\n FROM #__contact_details AS a" .
+						"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
+						"\n WHERE a.catid = $contact->catid" .
+						"\n AND a.published = 1" .
+						"\n AND cc.published = 1" .
+						"\n AND a.access <= $my->gid" .
+						"\n AND cc.access <= $my->gid" .
+						"\n ORDER BY a.default_con DESC, a.ordering ASC";
 				$db->setQuery($query);
 				$list = $db->loadObjectList();
 				$contact->select = mosHTML :: selectList($list, 'contact_id', 'class="inputbox" onchange="ViewCrossReference(this);"', 'value', 'text', $contactId);
@@ -304,7 +327,8 @@ class JContactController {
 			$params->def('drop_down', '0');
 			$params->def('vcard', '0');
 
-			if ($contact->email_to && $params->get('email')) {
+			if ($contact->email_to && $params->get('email'))
+			{
 				// email cloacking
 				$contact->email = mosHTML :: emailCloaking($contact->email_to);
 			}
@@ -312,8 +336,9 @@ class JContactController {
 			/*
 			 * If the popup var is set, make some parameter changes
 			 */
-			$pop = JRequest::getVar('pop', 0, '', 'int');
-			if ($pop) {
+			$pop = JRequest :: getVar('pop', 0, '', 'int');
+			if ($pop)
+			{
 				$params->set('popup', 1);
 				$params->set('back_button', 0);
 			}
@@ -321,9 +346,11 @@ class JContactController {
 			/*
 			 * If e-mail description is set, lets prepare it for display
 			 */
-			if ($params->get('email_description')) {
+			if ($params->get('email_description'))
+			{
 				$params->set('email_description', $params->get('email_description_text'));
-			} else {
+			} else
+			{
 				$params->set('email_description', '');
 			}
 
@@ -332,17 +359,19 @@ class JContactController {
 			 * the display method for address does not get called in the view
 			 * class
 			 */
-			if ( !empty($contact->address)|| !empty($contact->suburb)|| !empty($contact->state) || !empty($contact->country) || !empty($contact->postcode)) {
+			if (!empty ($contact->address) || !empty ($contact->suburb) || !empty ($contact->state) || !empty ($contact->country) || !empty ($contact->postcode))
+			{
 				$params->set('address_check', 1);
-			} else {
+			} else
+			{
 				$params->set('address_check', 0);
 			}
-				
 
 			/*
 			 * Time to manage the display mode for contact detail groups
 			 */
-			switch ($params->get('contact_icons')) {
+			switch ($params->get('contact_icons'))
+			{
 				case 1 :
 					// text
 					$params->set('marker_address', JText :: _('Address').": ");
@@ -380,8 +409,8 @@ class JContactController {
 			/*
 			 * Set the document page title
 			 */
-			$document= & $mainframe->getDocument();
-			$document->setTitle(JText::_('Contact').' - '.$contact->name);
+			$document = & $mainframe->getDocument();
+			$document->setTitle(JText :: _('Contact').' - '.$contact->name);
 
 			/*
 			 * Add the breadcrumbs items
@@ -389,13 +418,15 @@ class JContactController {
 			 * 	- Contact item always
 			 */
 			$breadcrumbs = & $mainframe->getPathWay();
-			if (!$menuParams->get('hideCatCrumbs')) {
+			if (!$menuParams->get('hideCatCrumbs'))
+			{
 				$breadcrumbs->addItem($contact->catname, "index.php?option=com_contact&catid=$contact->catid&Itemid=$Itemid");
 			}
 			$breadcrumbs->addItem($contact->name, '');
 
 			JContactView :: viewContact($contact, $params, count($list), $list, $menuParams);
-		} else {
+		} else
+		{
 			$params = new JParameters('');
 			$params->def('back_button', $mainframe->getCfg('back_button'));
 			JContactView :: noContact($params);
@@ -408,31 +439,33 @@ class JContactController {
 	 * @static
 	 * @since 1.0
 	 */
-	function sendmail() {
+	function sendmail()
+	{
 		global $mainframe, $Itemid;
 
 		/*
 		 * Initialize some variables
 		 */
-		$db =& $mainframe->getDBO();
-		$SiteName 	= $mainframe->getCfg('sitename');
-		$MailFrom 	= $mainframe->getCfg('mailfrom');
-		$FromName 	= $mainframe->getCfg('fromname');
-		$option 	= JRequest::getVar( 'option' );
-		$contactId 	= JRequest::getVar('con_id');
-		$validate	= JRequest::getVar( mosHash('validate'), 0, 'post');
-		$default 	= sprintf(JText :: _('MAILENQUIRY'), $SiteName);
-		$email		= JRequest::getVar('email', '', 'post');
-		$text 		= JRequest::getVar('text', '', 'post');
-		$name 		= JRequest::getVar('name', '', 'post');
-		$subject 	= JRequest::getVar('subject', $default, 'post');
-		$emailCopy 	= JRequest::getVar('email_copy', 0, 'post');
+		$db = & $mainframe->getDBO();
+		$SiteName = $mainframe->getCfg('sitename');
+		$MailFrom = $mainframe->getCfg('mailfrom');
+		$FromName = $mainframe->getCfg('fromname');
+		$option = JRequest :: getVar('option');
+		$contactId = JRequest :: getVar('con_id');
+		$validate = JRequest :: getVar(mosHash('validate'), 0, 'post');
+		$default = sprintf(JText :: _('MAILENQUIRY'), $SiteName);
+		$email = JRequest :: getVar('email', '', 'post');
+		$text = JRequest :: getVar('text', '', 'post');
+		$name = JRequest :: getVar('name', '', 'post');
+		$subject = JRequest :: getVar('subject', $default, 'post');
+		$emailCopy = JRequest :: getVar('email_copy', 0, 'post');
 
 		/*
 		 * This obviously won't catch all attempts, but it does not hurt to make
 		 * sure the request came from a client with a user agent string.
 		 */
-		if (!isset ($_SERVER['HTTP_USER_AGENT'])) {
+		if (!isset ($_SERVER['HTTP_USER_AGENT']))
+		{
 			header("HTTP/1.0 403 Forbidden");
 			die(_NOT_AUTH);
 			exit;
@@ -442,41 +475,45 @@ class JContactController {
 		 * This obviously won't catch all attempts either, but we ought to check
 		 * to make sure that the request was posted as well.
 		 */
-		if (!$_SERVER['REQUEST_METHOD'] == 'POST') {
+		if (!$_SERVER['REQUEST_METHOD'] == 'POST')
+		{
 			header("HTTP/1.0 403 Forbidden");
 			die(_NOT_AUTH);
 			exit;
 		}
 
 		// An array of e-mail headers we do not want to allow as input
-		$headers = array (	'Content-Type:', 
-							'MIME-Version:', 
-							'Content-Transfer-Encoding:', 
-							'bcc:', 
-							'cc:');
+		$headers = array ('Content-Type:',
+						  'MIME-Version:',
+						  'Content-Transfer-Encoding:',
+						  'bcc:',
+						  'cc:');
 
 		// An array of the input fields to scan for injected headers
-		$fields = array (	'email',	
-							'text', 
-							'name',
-							'subject',
-							'email_copy');
+		$fields = array ('email',
+						 'text',
+						 'name',
+						 'subject',
+						 'email_copy');
 
 		/*
 		 * Here is the meat and potatoes of the header injection test.  We
 		 * iterate over the array of form input and check for header strings.
 		 * If we fine one, send an unauthorized header and die.
 		 */
-		foreach ($fields as $field) {
-			foreach ($headers as $header) {
-				if (strpos($_POST[$field], $header) !== false) {
+		foreach ($fields as $field)
+		{
+			foreach ($headers as $header)
+			{
+				if (strpos($_POST[$field], $header) !== false)
+				{
 					header("HTTP/1.0 403 Forbidden");
 					die(_NOT_AUTH);
 					exit;
 				}
 			}
 		}
-		
+
 		/*
 		 * Now that we have passed the header injection tests lets free up the
 		 * used memory and continue.
@@ -494,23 +531,26 @@ class JContactController {
 		 * error and return false.
 		 */
 		jimport('joomla.mail');
-		if (!$email || !$text || (JMailHelper::isEmailAddress($email) == false)) {
+		if (!$email || !$text || (JMailHelper :: isEmailAddress($email) == false))
+		{
 			JContactView :: emailError();
-		} else {
-		
+		} else
+		{
+
 			/*
 			 * Prepare email body
 			 */
 			$prefix = sprintf(JText :: _('ENQUIRY_TEXT'), JURL_SITE);
 			$text = $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($text);
-	
+
 			// Send mail
 			josMail($email, $name, $contact->email_to, $FromName.': '.$subject, $text);
-	
+
 			/*
 			 * If we are supposed to copy the admin, do so.
 			 */
-			if ($emailCopy) {
+			if ($emailCopy)
+			{
 				$copyText = sprintf(JText :: _('Copy of:'), $contact->name, $SiteName);
 				$copyText .= "\r\n\r\n".$text;
 				$copySubject = JText :: _('Copy of:')." ".$subject;
@@ -526,33 +566,35 @@ class JContactController {
 	 * @static
 	 * @since 1.0
 	 */
-	function vCard() {
+	function vCard()
+	{
 		global $mainframe;
 
 		/*
 		 * Initialize some variables
 		 */
-		$db =& $mainframe->getDBO();
+		$db = & $mainframe->getDBO();
 		$SiteName = $mainframe->getCfg('sitename');
 		$contactId = JRequest :: getVar('contact_id', 0, '', 'int');
-		
+
 		/*
 		 * Get a JContact model object and load the selected contact details
 		 */
 		$contact = new JContactModel($db);
 		$contact->load($contactId);
-		
+
 		/*
 		 * Get the contact detail parameters
-		 */		
+		 */
 		$params = new JParameters($contact->params);
 		$show = $params->get('vcard', 0);
 
 		/*
 		 * Should we show the vcard?
 		 */
-		if ($show) {
-			
+		if ($show)
+		{
+
 			/*
 			 * We need to parse the contact name field and build the name
 			 * information for the vcard.
@@ -560,12 +602,13 @@ class JContactController {
 			$firstname = null;
 			$middlename = null;
 			$surname = null;
-			
+
 			// How many parts do we have?
 			$parts = explode(' ', $contact->name);
 			$count = count($parts);
 
-			switch ($count) {
+			switch ($count)
+			{
 				case 1 :
 					// only a first name
 					$firstname = $parts[0];
@@ -581,7 +624,8 @@ class JContactController {
 					// we have full name info
 					$firstname = $parts[0];
 					$surname = $parts[$count -1];
-					for ($i = 1; $i < $count -1; $i ++) {
+					for ($i = 1; $i < $count -1; $i ++)
+					{
 						$middlename .= $parts[$i].' ';
 					}
 					break;
@@ -589,7 +633,6 @@ class JContactController {
 			// quick cleanup for the middlename value
 			$middlename = trim($middlename);
 
-			
 			/*
 			 * Create a new vcard object and populate the fields
 			 */
@@ -620,8 +663,9 @@ class JContactController {
 			header('Pragma: cache');
 
 			print $output;
-		} else {
-			JError::raiseWarning( 'SOME_ERROR_CODE', 'JContactController::vCard: '. JText::_('NOTAUTH'));
+		} else
+		{
+			JError :: raiseWarning('SOME_ERROR_CODE', 'JContactController::vCard: '.JText :: _('NOTAUTH'));
 			return false;
 		}
 	}
