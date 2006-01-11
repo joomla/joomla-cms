@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Jan-2006 Louis Landry
+ + Added template parameters
+
 09-Jan-2006 Louis Landry
  ^ Refactor and general code cleanup of frontend Contact component
  ^ Implemented PHP class for global configuration values

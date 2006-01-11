@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Templates
 */
-class HTML_templates {
+class JTemplatesView {
 	/**
 	* @param array An array of data objects
 	* @param object A page navigation object
@@ -41,7 +41,7 @@ class HTML_templates {
 			name = name.replace(pattern,'_');
 			name = name.toLowerCase();
 			if (document.adminForm.doPreview.checked) {
-				var src = '<?php echo  ($client == 'admin' ? JURL_SITE.'/administrator' : JURL_SITE );?>/templates/'+name+'/template_thumbnail.png';
+				var src = '<?php echo  ($client == 'administration' ? JURL_SITE.'/administrator' : JURL_SITE );?>/templates/'+name+'/template_thumbnail.png';
 				var html=name;
 				html = '<br /><img border="1" src="'+src+'" name="imagelib" alt="<?php echo JText::_( 'No preview available' ); ?>" width="206" height="145" />';
 				return overlib(html, CAPTION, name)
@@ -71,7 +71,7 @@ class HTML_templates {
 			<?php echo JText::_( 'Name' ); ?>
 			</th>
 			<?php
-			if ( $client == 'admin' ) {
+			if ( $client == 'administration' ) {
 				?>
 				<th width="10%">
 				<?php echo JText::_( 'Default' ); ?>
@@ -129,7 +129,7 @@ class HTML_templates {
 				</a>
 				</td>
 				<?php
-				if ( $client == 'admin' ) {
+				if ( $client == 'administration' ) {
 					?>
 					<td align="center">
 					<?php
@@ -212,8 +212,23 @@ class HTML_templates {
 	* @param string Source code
 	* @param string The option
 	*/
+	function editTemplateParams( $template, &$params, $option, $client ) {
+		$template_path = ($client == 'administration' ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/' . $template . '/index.php';
+		?>
+		<form action="index2.php" method="post" name="adminForm">
+		<?php
+		echo $params->render();
+		?>
+		<input type="hidden" name="template" value="<?php echo $template; ?>" />
+		<input type="hidden" name="option" value="<?php echo $option;?>" />
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="client" value="<?php echo $client;?>" />
+		</form>
+		<?php
+	}
+
 	function editTemplateSource( $template, &$content, $option, $client ) {
-		$template_path = ($client == 'admin' ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/' . $template . '/index.php';
+		$template_path = ($client == 'administration' ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/' . $template . '/index.php';
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
@@ -283,7 +298,7 @@ class HTML_templates {
 		<?php
 		$k = 1 - $k; }
 
-		if ( $client != 'admin' ) {
+		if ( $client != 'administration' ) {
 		?>
 		<tr>
 			<th width="5%" align="left"><?php echo JText::_( 'Num' ); ?></th>
@@ -326,7 +341,7 @@ class HTML_templates {
 	* @param string The option
 	*/
 	function editCSSSource( $template, $tp_name, &$content, $option, $client ) {
-		if ( $client == 'admin' ) {
+		if ( $client == 'administration' ) {
 			$css_path = JPATH_ADMINISTRATOR . '/administrator' . $tp_name;
 		} else {
 			$css_path = JPATH_SITE . $tp_name;

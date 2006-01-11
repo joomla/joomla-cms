@@ -33,13 +33,13 @@ class TOOLBAR_templates {
 			JMenuBar::assign();
 			JMenuBar::spacer();
 		}
-		JMenuBar::deleteList();
+		JMenuBar::editListX( 'edit_params', 'Params' );
 		JMenuBar::spacer();
 		JMenuBar::editHtmlX( 'edit_source' );
 		JMenuBar::spacer();
 		JMenuBar::editCssX( 'choose_css' );
 		JMenuBar::spacer();
-		JMenuBar::addNew();
+		//JMenuBar::addNew();
 		JMenuBar::spacer();
 		JMenuBar::help( 'screen.templates' );
 		JMenuBar::endTable();
@@ -57,6 +57,16 @@ class TOOLBAR_templates {
 		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Template HTML Editor' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
 		JMenuBar::save( 'save_source' );
+		JMenuBar::spacer();
+		JMenuBar::cancel();
+		JMenuBar::endTable();
+	}
+
+	function _EDIT_PARAMS($client){
+
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Template Parameters Editor' ).' <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
+		JMenuBar::save( 'save_params' );
 		JMenuBar::spacer();
 		JMenuBar::cancel();
 		JMenuBar::endTable();

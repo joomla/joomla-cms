@@ -109,7 +109,7 @@ class mosFullAdminMenu
 			if ($manageTemplates) {
 ?>				['<img src="../includes/js/ThemeOffice/template.png" />','<?php echo JText::_( 'Template Manager', true ); ?>',null,null,'<?php echo JText::_( 'Change site template', true ); ?>',
   					['<img src="../includes/js/ThemeOffice/template.png" />','<?php echo JText::_( 'Site Templates', true ); ?>','index2.php?option=com_templates',null,'<?php echo JText::_( 'Change site template', true ); ?>'],
-  					['<img src="../includes/js/ThemeOffice/template.png" />','<?php echo JText::_( 'Administrator Templates', true ); ?>','index2.php?option=com_templates&client=admin',null,'<?php echo JText::_( 'Change admin template', true ); ?>'],
+  					['<img src="../includes/js/ThemeOffice/template.png" />','<?php echo JText::_( 'Administrator Templates', true ); ?>','index2.php?option=com_templates&client=administration',null,'<?php echo JText::_( 'Change admin template', true ); ?>'],
   					_cmSplit,
   					['<img src="../includes/js/ThemeOffice/template.png" />','<?php echo JText::_( 'Module Positions', true ); ?>','index2.php?option=com_templates&task=positions',null,'<?php echo JText::_( 'Module Positions in Template', true ); ?>']
   				],

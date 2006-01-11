@@ -29,6 +29,10 @@ switch ($task) {
 		TOOLBAR_templates::_EDIT_SOURCE($client);
 		break;
 
+	case 'edit_params':
+		TOOLBAR_templates::_EDIT_PARAMS($client);
+		break;
+
 	case 'choose_css':
 		TOOLBAR_templates::_CHOOSE_CSS($client);
 		break;

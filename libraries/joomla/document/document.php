@@ -431,6 +431,16 @@ class JDocument extends JTemplate
 	{
 		$contents = $this->_load($directory, $filename);
 		$this->readTemplatesFromInput( $contents, 'String' );
+		
+		/*
+		 * Parse the template INI file if it exists for parameters and insert
+		 * them into the template.
+		 */
+		if ( file_exists( 'templates'.DS.$directory.DS.'params.ini' ) ) {
+			$content = JFile :: read('templates'.DS.$directory.DS.'params.ini');
+			$params = new JParameters($content);
+			$this->addVars( $filename, $params->toArray(), 'param_');
+		}
 	}
 	
 	/**

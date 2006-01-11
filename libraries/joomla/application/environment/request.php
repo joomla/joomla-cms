@@ -14,9 +14,9 @@
 /**
  * Set the available masks for cleaning variables
  */
-define("_J_NOTRIM", 0x0001);
-define("_J_ALLOWHTML", 0x0002);
-define("_J_ALLOWRAW", 0x0004);
+define("_J_NOTRIM", 1);
+define("_J_ALLOWHTML", 2);
+define("_J_ALLOWRAW", 4);
 
 /**
  * JRequest Class
@@ -34,7 +34,8 @@ define("_J_ALLOWRAW", 0x0004);
  * @subpackage Application
  * @since 1.1
  */
-class JRequest {
+class JRequest
+{
 
 	/**
 	 * Fetches and returns a given variable.
@@ -62,28 +63,39 @@ class JRequest {
 	 * @since 1.1
 	 */
 
-	function getVar($name, $default = null, $hash = 'default', $type = 'string', $mask = 0) {
+	function getVar($name, $default = null, $hash = 'default', $type = 'string', $mask = 0)
+	{
 		$hash = strtoupper($hash);
 		$type = strtoupper($type);
 		$result = null;
 
-		if ($hash === 'METHOD') {
+		if ($hash === 'METHOD')
+		{
 			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
-		} else {
-			if ($hash == 'DEFAULT' || $hash == '') {
-				if (isset ($_GET[$name])) {
+		} else
+		{
+			if ($hash == 'DEFAULT' || $hash == '')
+			{
+				if (isset ($_GET[$name]))
+				{
 					$result = $_GET[$name];
-				} else {
-					if (isset ($_POST[$name])) {
+				} else
+				{
+					if (isset ($_POST[$name]))
+					{
 						$result = $_POST[$name];
-					} else {
-						if (isset ($_FILES[$name])) {
+					} else
+					{
+						if (isset ($_FILES[$name]))
+						{
 							$result = $_FILES[$name];
 						}
 					}
 				}
-			} else {
-				switch ($hash) {
+			} else
+			{
+				switch ($hash)
+				{
 					case 'GET' :
 						if (isset ($_GET[$name]))
 							$result = $_GET[$name];
@@ -103,20 +115,23 @@ class JRequest {
 		/*
 		 * Clean the variable given using the given filter mask
 		 */
-		$result = JRequest :: cleanVar($result, $mask);
+//		$result = JRequest :: cleanVar($result, $mask);
 
 		/*
 		 * Handle default case
 		 */
-		if ( empty($result) && $default != null) {
-			$result = $default;
+		if ((empty($result)) && (!empty($default)))
+		{
+			return $default;
 		}
-		
-		if ($result != null) {
+
+		if ($result != null)
+		{
 			/*
 			 * Handle the type constraint
 			 */
-			switch ($type) {
+			switch ($type)
+			{
 				case 'INT' :
 				case 'INTEGER' :
 					$result = (int) $result;
@@ -130,7 +145,8 @@ class JRequest {
 					$result = (bool) $result;
 					break;
 				case 'ARRAY' :
-					if (!is_array($result)) {
+					if (!is_array($result))
+					{
 						$result = null;
 					}
 					break;
@@ -156,7 +172,8 @@ class JRequest {
 	 * @return mixed The cleaned variable
 	 * @since 1.1
 	 */
-	function cleanVar(& $var, $mask = 0) {
+	function cleanVar(& $var, $mask = 0)
+	{
 		/*
 		 * Static input filters for specific settings
 		 */
@@ -167,33 +184,40 @@ class JRequest {
 		$return = null;
 
 		// Ensure the variable to clean is a string
-		if (is_string($var)) {
+		if (is_string($var))
+		{
 			/*
 			 * If the no trim flag is not set, trim the variable
 			 */
-			if (!($mask & _J_NOTRIM)) {
+			if (!($mask & 1))
+			{
 				$var = trim($var);
 			}
 			/*
 			 * If the allow raw flag is set, do not modify the variable
 			 */
-			if ($mask & _J_ALLOWRAW) {
+			if ($mask & 2)
+			{
 				// do nothing
 				$return = $var;
 				/*
 				 * If the allow html flag is set, apply a safe html filter to the variable
 				 */
 			} else
-				if ($mask & _J_ALLOWHTML) {
-					if (is_null($safeHtmlFilter)) {
+				if ($mask & 4)
+				{
+					if (is_null($safeHtmlFilter))
+					{
 						$safeHtmlFilter = new InputFilter(null, null, 1, 1);
 					}
 					$return = $safeHtmlFilter->process($var);
 					/*
 					 * Since no allow flags were set, we will apply the most strict filter to the variable
 					 */
-				} else {
-					if (is_null($noHtmlFilter)) {
+				} else
+				{
+					if (is_null($noHtmlFilter))
+					{
 						$noHtmlFilter = new InputFilter(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */
 						);
 					}
@@ -202,22 +226,26 @@ class JRequest {
 			/*
 			 * Handle magic quotes compatability
 			 */
-			if (!get_magic_quotes_gpc()) {
+			if (!get_magic_quotes_gpc())
+			{
 				$return = addslashes($return);
 			}
 			/*
 			 * If the variable to clean is an array, recursively iterate through it
 			 */
 		}
-		elseif (is_array($var)) {
-			for ($i = 0; $i < count($var); $i ++) {
+		elseif (is_array($var))
+		{
+			for ($i = 0; $i < count($var); $i ++)
+			{
 				$var[$i] = JRequest :: cleanVar($var[$i], $mask);
 			}
 			$return = $var;
 			/*
 			 * If the variable is neither an array or string just return the raw value
 			 */
-		} else {
+		} else
+		{
 			$return = $var;
 		}
 		return $return;

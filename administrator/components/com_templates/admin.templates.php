@@ -1,548 +1,629 @@
 <?php
 /**
-* @version $Id$
-* @package Joomla
-* @subpackage Templates
-* @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
-* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version $Id$
+ * @package Joomla
+ * @subpackage Templates
+ * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
+ */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 // ensure user has access to this function
-if (!$acl->acl_check( 'com_templates', 'manage', 'users', $GLOBALS['my']->usertype )) {
-	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+if (!$acl->acl_check('com_templates', 'manage', 'users', $GLOBALS['my']->usertype)) {
+	josRedirect('index2.php', JText :: _('ALERTNOTAUTH'));
 }
 
-require_once( JApplicationHelper::getPath( 'admin_html' ) );
-require_once( JPATH_ADMINISTRATOR .'/components/com_templates/admin.templates.class.php' );
+require_once (JApplicationHelper :: getPath('admin_html'));
+require_once (JPATH_ADMINISTRATOR.'/components/com_templates/admin.templates.class.php');
 
-$cid 	= mosGetParam( $_REQUEST, 'cid', array(0) );
-$client = mosGetParam( $_REQUEST, 'client', '' );
+$option	= JRequest :: getVar('option', '');
+$task	= JRequest :: getVar('task', '');
+$client = JRequest :: getVar('client', '');
 
-if (!is_array( $cid )) {
-	$cid = array(0);
+$cid = JRequest :: getVar('cid', array (0), '', 'array');
+if (!is_array($cid)) {
+	$cid = array (0);
 }
 
 switch ($task) {
-	case 'new':
-		josRedirect ( 'index2.php?option=com_installer&task=installer&client='. $client );
+	case 'new' :
+		// Removing the install option from the template manager
+		//josRedirect ( 'index2.php?option=com_installer&task=installer&client='. $client );
 		break;
 
-	case 'edit_source':
-		editTemplateSource( $cid[0], $option, $client );
+	case 'edit_params' :
+		JTemplatesController :: editTemplateParams($cid[0]);
 		break;
 
-	case 'save_source':
-		saveTemplateSource( $option, $client );
+	case 'save_params' :
+		JTemplatesController :: saveTemplateParams();
 		break;
 
-	case 'choose_css':
-		chooseTemplateCSS( $cid[0], $option, $client );
+	case 'edit_source' :
+		JTemplatesController :: editTemplateSource($cid[0]);
 		break;
 
-	case 'edit_css':
-		editTemplateCSS( $cid[0], $option, $client );
+	case 'save_source' :
+		JTemplatesController :: saveTemplateSource();
 		break;
 
-	case 'save_css':
-		saveTemplateCSS( $option, $client );
+	case 'choose_css' :
+		JTemplatesController :: chooseTemplateCSS($cid[0]);
 		break;
 
-	case 'remove':
-		removeTemplate( $cid[0], $option, $client );
+	case 'edit_css' :
+		JTemplatesController :: editTemplateCSS($cid[0]);
 		break;
 
-	case 'publish':
-		defaultTemplate( $cid[0], $option, $client );
+	case 'save_css' :
+		JTemplatesController :: saveTemplateCSS($cid[0]);
 		break;
 
-	case 'default':
-		defaultTemplate( $cid[0], $option, $client );
+	case 'remove' :
+		// Remove from template manager
+		//removeTemplate( $cid[0], $client );
 		break;
 
-	case 'assign':
-		assignTemplate( $cid[0], $option, $client );
+	case 'publish' :
+		JTemplatesController :: defaultTemplate($cid[0]);
 		break;
 
-	case 'save_assign':
-		saveTemplateAssign( $option, $client );
+	case 'default' :
+		JTemplatesController :: defaultTemplate($cid[0]);
 		break;
 
-	case 'cancel':
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client );
+	case 'assign' :
+		JTemplatesController :: assignTemplate($cid[0]);
 		break;
 
-	case 'positions':
-		editPositions( $option );
+	case 'save_assign' :
+		JTemplatesController :: saveTemplateAssign();
 		break;
 
-	case 'save_positions':
-		savePositions( $option );
+	case 'cancel' :
+		josRedirect('index2.php?option='.$option.'&client='.$client);
 		break;
 
-	default:
-		viewTemplates( $option, $client );
+	case 'positions' :
+		JTemplatesController :: editPositions();
+		break;
+
+	case 'save_positions' :
+		JTemplatesController :: savePositions();
+		break;
+
+	default :
+		JTemplatesController :: viewTemplates();
 		break;
 }
 
+class JTemplatesController {
 
-/**
-* Compiles a list of installed, version 4.5+ templates
-*
-* Based on xml files found.  If no xml file found the template
-* is ignored
-*/
-function viewTemplates( $option, $client ) {
-	global $database, $mainframe;
-	global $mosConfig_list_limit;
+	/**
+	* Compiles a list of installed, version 4.5+ templates
+	*
+	* Based on xml files found.  If no xml file found the template
+	* is ignored
+	*/
+	function viewTemplates() {
+		global $mainframe;
 
-	$limit = $mainframe->getUserStateFromRequest( 'limit', 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+		/*
+		 * Initialize some variables
+		 */
+		$db 	= & $mainframe->getDBO();
+		$option = JRequest::getVar( 'option', '' );
+		$client = JRequest::getVar( 'client', 'site' );
+		$rows	= array();
+		$i = 0;
 
-	if ($client == 'admin') {
-		$templateBaseDir = JPath::clean( JPATH_ADMINISTRATOR . '/templates' );
-	} else {
-		$templateBaseDir = JPath::clean( JPATH_SITE . '/templates' );
-	}
+		// Initialize the pagination variables
+		$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+		$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
-	$rows = array();
-	// Read the template dir to find templates
-	$templateDirs		= JFolder::folders($templateBaseDir);
-
-	$id = intval( $client == 'admin' );
-
-	if ($client=='admin') {
-		$query = "SELECT template"
-		. "\n FROM #__templates_menu"
-		. "\n WHERE client_id = 1"
-		. "\n AND menuid = 0"
-		;
-		$database->setQuery( $query );
-	} else {
-		$query = "SELECT template"
-		. "\n FROM #__templates_menu"
-		. "\n WHERE client_id = 0"
-		. "\n AND menuid = 0"
-		;
-		$database->setQuery( $query );
-	}
-	$cur_template = $database->loadResult();
-
-	$rowid = 0;
-	// Check that the directory contains an xml file
-	foreach($templateDirs as $templateDir) {
-		$dirName = JPath::clean($templateBaseDir . $templateDir);
-		$xmlFilesInDir = JFolder::files($dirName,'.xml$');
-
-		foreach($xmlFilesInDir as $xmlfile) {
-			// Read the file to see if it's a valid template XML file
-			$xmlDoc =& JFactory::getXMLParser();
-			$xmlDoc->resolveErrors( true );
-			if (!$xmlDoc->loadXML( $dirName . $xmlfile, false, true )) {
-				continue;
-			}
-
-			$root = &$xmlDoc->documentElement;
-
-			if ($root->getTagName() != 'mosinstall' && $root->getTagName() != 'install') {
-				continue;
-			}
-			if ($root->getAttribute( 'type' ) != 'template') {
-				continue;
-			}
-
-			$row = new StdClass();
-			$row->id 		= $rowid;
-			$row->directory = $templateDir;
-			$element 		= &$root->getElementsByPath('name', 1 );
-			$row->name 		= $element->getText();
-
-			$element 		= &$root->getElementsByPath('creationDate', 1);
-			$row->creationdate = $element ? $element->getText() : 'Unknown';
-
-			$element 		= &$root->getElementsByPath('author', 1);
-			$row->author 	= $element ? $element->getText() : 'Unknown';
-
-			$element 		= &$root->getElementsByPath('copyright', 1);
-			$row->copyright = $element ? $element->getText() : '';
-
-			$element 		= &$root->getElementsByPath('authorEmail', 1);
-			$row->authorEmail = $element ? $element->getText() : '';
-
-			$element 		= &$root->getElementsByPath('authorUrl', 1);
-			$row->authorUrl = $element ? $element->getText() : '';
-
-			$element 		= &$root->getElementsByPath('version', 1);
-			$row->version 	= $element ? $element->getText() : '';
-
-			// Get info from db
-			if ($cur_template == $templateDir) {
-				$row->published	= 1;
-			} else {
-				$row->published = 0;
-			}
-
-			$row->checked_out = 0;
-			$row->mosname = strtolower( str_replace( ' ', '_', $row->name ) );
-
-			// check if template is assigned
-			$query = "SELECT COUNT(*)"
-			. "\n FROM #__templates_menu"
-			. "\n WHERE client_id = 0"
-			. "\n AND template = '$row->directory'"
-			. "\n AND menuid <> 0"
-			;
-			$database->setQuery( $query );
-			$row->assigned = $database->loadResult() ? 1 : 0;
-
-			$rows[] = $row;
-			$rowid++;
-		}
-	}
-
-	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
-	$pageNav = new mosPageNav( count( $rows ), $limitstart, $limit );
-
-	$rows = array_slice( $rows, $pageNav->limitstart, $pageNav->limit );
-
-	HTML_templates::showTemplates( $rows, $pageNav, $option, $client );
-}
-
-
-/**
-* Publish, or make current, the selected template
-*/
-function defaultTemplate( $p_tname, $option, $client ) {
-	global $database;
-
-	if ($client=='admin') {
-		$query = "DELETE FROM #__templates_menu"
-		. "\n WHERE client_id = 1"
-		. "\n AND menuid = 0"
-		;
-		$database->setQuery( $query );
-		$database->query();
-
-		$query = "INSERT INTO #__templates_menu"
-		. "\n SET client_id = 1, template = '$p_tname', menuid = 0"
-		;
-		$database->setQuery( $query );
-		$database->query();
-	} else {
-		$query = "DELETE FROM #__templates_menu"
-		. "\n WHERE client_id = 0"
-		. "\n AND menuid = 0"
-		;
-		$database->setQuery( $query );
-		$database->query();
-
-		$query = "INSERT INTO #__templates_menu"
-		. "\n SET client_id = 0, template = '$p_tname', menuid = 0"
-		;
-		$database->setQuery( $query );
-		$database->query();
-
-		$_SESSION['cur_template'] = $p_tname;
-	}
-
-	mosRedirect('index2.php?option='. $option .'&client='. $client);
-}
-
-/**
-* Remove the selected template
-*/
-function removeTemplate( $cid, $option, $client ) {
-	global $database;
-
-	$client_id = $client=='admin' ? 1 : 0;
-
-	$query = "SELECT template"
-	. "\n FROM #__templates_menu"
-	. "\n WHERE client_id = $client_id"
-	. "\n AND menuid = 0"
-	;
-	$database->setQuery( $query );
-	$cur_template = $database->loadResult();
-
-	if ($cur_template == $cid) {
-		mosErrorAlert( JText::_( 'You can not delete template in use.' ));
-	}
-
-	// Un-assign
-	$query = "DELETE FROM #__templates_menu"
-	. "\n WHERE template = '$cid'"
-	. "\n AND client_id = $client_id"
-	. "\n AND menuid <> 0"
-	;
-	$database->setQuery( $query );
-	$database->query();
-
-	josRedirect( 'index2.php?option=com_installer&type=template&client='. $client .'&task=remove&eid[]='. $cid );
-}
-
-function editTemplateSource( $p_tname, $option, $client ) {
-	if ( $client == 'admin' ) {
-		$file = JPATH_ADMINISTRATOR .'/templates/'. $p_tname .'/index.php';
-	} else {
-		$file = JPATH_SITE .'/templates/'. $p_tname .'/index.php';
-	}
-
-	if ( $fp = fopen( $file, 'r' ) ) {
-		$content = fread( $fp, filesize( $file ) );
-		$content = htmlspecialchars( $content );
-
-		HTML_templates::editTemplateSource( $p_tname, $content, $option, $client );
-	} else {
-    	$msg = sprintf( JText::_( 'Operation Failed Could not open' ), $file );
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
-	}
-}
-
-
-function saveTemplateSource( $option, $client ) {
-	$template 		= mosGetParam( $_POST, 'template', '' );
-	$filecontent 	= mosGetParam( $_POST, 'filecontent', '', _MOS_ALLOWHTML );
-
-	if ( !$template ) {
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, JText::_( 'Operation Failed' ) .': '. JText::_( 'No template specified.' ) );
-	}
-	if ( !$filecontent ) {
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, JText::_( 'Operation Failed' ) .': '. JText::_( 'Content empty.' ) );
-	}
-
-	if ( $client == 'admin' ) {
-		$file = JPATH_ADMINISTRATOR .'/templates/'. $template .'/index.php';
-	} else {
-		$file = JPATH_SITE . '/templates/' . $template . '/index.php';
-	}
-
-	$enable_write = mosGetParam($_POST,'enable_write',0);
-	$oldperms = fileperms($file);
-	if ($enable_write) @chmod($file, $oldperms | 0222);
-
-	clearstatcache();
-	if ( is_writable( $file ) == false ) {
-    	$msg = sprintf( JText::_( 'Operation Failed is not writable' ), $file );
-		mosRedirect( 'index2.php?option='. $option , $msg );
-	}
-
-	if ( $fp = fopen ($file, 'w' ) ) {
-		fputs( $fp, stripslashes( $filecontent ), strlen( $filecontent ) );
-		fclose( $fp );
-		if ($enable_write) {
-			@chmod($file, $oldperms);
+		if ($client == 'administration') {
+			$templateBaseDir = JPath :: clean(JPATH_ADMINISTRATOR.DS.'templates');
 		} else {
-			if (mosGetParam($_POST,'disable_write',0))
-				@chmod($file, $oldperms & 0777555);
-		} // if
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client );
-	} else {
-		if ($enable_write) @chmod($file, $oldperms);
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, JText::_( 'Operation Failed' ) .': '. JText::_( 'Failed to open file for writing.' ) );
-	}
+			$templateBaseDir = JPath :: clean(JPATH_SITE.DS.'templates');
+		}
 
-}
+		// Read the template folder to find templates
+		$templateDirs = JFolder :: folders($templateBaseDir);
 
-function chooseTemplateCSS( $p_tname, $option, $client ) {
-	if ( $client == 'admin' ) {
-		// Admin template css dir
-		$a_dir = JPATH_ADMINISTRATOR .'/templates/'. $p_tname .'/css';
-		// List .css files
-		$a_files = JFolder::files( $a_dir, $filter='.css', $recurse=false, $fullpath=false  );
-		$fs_dir='';
-		$fs_files='';
+		$id = intval($client == 'administration');
 
-		HTML_templates::chooseCSSFiles( $p_tname, $a_dir, $fs_dir, $a_files, $fs_files, $option, $client );
-
-	} else {
-		// Template css dir
-		$f_dir = JPATH_SITE .'/templates/'. $p_tname .'/css';
-		// System css dir
-		$fs_dir = JPATH_SITE .'/templates/css';
-
-		// List template .css files
-		$f_files = JFolder::files( $f_dir, $filter='.css', $recurse=false, $fullpath=false  );
-		// List system .css files
-		$fs_files = JFolder::files( $fs_dir, $filter='.css', $recurse=false, $fullpath=false  );
-
-    	HTML_templates::chooseCSSFiles( $p_tname, $f_dir, $fs_dir, $f_files, $fs_files, $option, $client );
-
-	}
-}
-
-function editTemplateCSS( $p_tname, $option, $client ) {
-	$template = mosGetParam( $_POST, 'template', '' );
-	$tp_name = mosGetParam( $_POST, 'tp_name', '' );
-
-	if ( $client == 'admin' ) {
-		$file = JPATH_ADMINISTRATOR  . $tp_name;
-		$p_tname = $template;
-
-	} else {
-		$file = JPATH_SITE . $tp_name;
-		$p_tname = $template;
-	}
-
-	if ($fp = fopen( $file, 'r' )) {
-		$content = fread( $fp, filesize( $file ) );
-		$content = htmlspecialchars( $content );
-
-		HTML_templates::editCSSSource( $p_tname, $tp_name, $content, $option, $client );
-	} else {
-    	$msg = sprintf( JText::_( 'Operation Failed Could not open' ), $file );
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
-	}
-}
-
-
-function saveTemplateCSS( $option, $client ) {
-	$template = mosGetParam( $_POST, 'template', '' );
-	$filecontent = mosGetParam( $_POST, 'filecontent', '', _MOS_ALLOWHTML );
-	$tp_fname = mosGetParam( $_POST, 'tp_fname', '' );
-
-	if ( !$template ) {
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, JText::_( 'Operation Failed' ) .': '. JText::_( 'No template specified.' ) );
-	}
-
-	if ( !$filecontent ) {
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, JText::_( 'Operation Failed' ) .': '. JText::_( 'Content empty.' ) );
-	}
-
-		$file = $tp_fname;
-
-	$enable_write = mosGetParam($_POST,'enable_write',0);
-	$oldperms = fileperms($file);
-	if ($enable_write) @chmod($file, $oldperms | 0222);
-
-	clearstatcache();
-	if ( is_writable( $file ) == false ) {
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, JText::_( 'Operation Failed' ) .': '. JText::_( 'The file is not writable.' ) );
-	}
-
-	if ($fp = fopen ($file, 'w')) {
-		fputs( $fp, stripslashes( $filecontent ) );
-		fclose( $fp );
-		if ($enable_write) {
-			@chmod($file, $oldperms);
+		if ($client == 'administration') {
+			$query = "SELECT template".
+						"\n FROM #__templates_menu".
+						"\n WHERE client_id = 1".
+						"\n AND menuid = 0";
+			$db->setQuery($query);
 		} else {
-			if (mosGetParam($_POST,'disable_write',0))
-				@chmod($file, $oldperms & 0777555);
-		} // if
-		mosRedirect( 'index2.php?option='. $option.'&client='. $client );
-	} else {
-		if ($enable_write) @chmod($file, $oldperms);
-		mosRedirect( 'index2.php?option='. $option .'&client='. $client, JText::_( 'Operation Failed' ) .': '. JText::_( 'Failed to open file for writing.' ) );
-	}
+			$query = "SELECT template".
+						"\n FROM #__templates_menu".
+						"\n WHERE client_id = 0".
+						"\n AND menuid = 0";
+			$db->setQuery($query);
+		}
+		$curTemplate = $db->loadResult();
 
-}
+		// Check that the directory contains an xml file
+		foreach ($templateDirs as $templateDir) {
+			$dirName = JPath :: clean($templateBaseDir.$templateDir);
+			$xmlFilesInDir = JFolder :: files($dirName, '.xml$');
 
+			foreach ($xmlFilesInDir as $xmlfile) {
+				// Read the file to see if it's a valid template XML file
+				$xmlDoc = & JFactory :: getXMLParser();
+				$xmlDoc->resolveErrors(true);
+				if (!$xmlDoc->loadXML($dirName.$xmlfile, false, true)) {
+					continue;
+				}
 
-function assignTemplate( $p_tname, $option, $client ) {
-	global $database;
+				$root = & $xmlDoc->documentElement;
 
-	// get selected pages for $menulist
-	if ( $p_tname ) {
+				if ($root->getTagName() != 'mosinstall' && $root->getTagName() != 'install') {
+					continue;
+				}
+				if ($root->getAttribute('type') != 'template') {
+					continue;
+				}
 
-		$query = "SELECT menuid AS value"
-		. "\n FROM #__templates_menu"
-		. "\n WHERE client_id = 0"
-		. "\n AND template = '$p_tname'"
-		;
-		$database->setQuery( $query );
-		$lookup = $database->loadObjectList();
-	}
+				$row = new StdClass();
+				$row->id = $i;
+				$row->directory = $templateDir;
+				$element = & $root->getElementsByPath('name', 1);
+				$row->name = $element->getText();
 
-	// build the html select list
-	$menulist = mosAdminMenus::MenuLinks( $lookup, 0, 1 );
+				$element = & $root->getElementsByPath('creationDate', 1);
+				$row->creationdate = $element ? $element->getText() : 'Unknown';
 
-	HTML_templates::assignTemplate( $p_tname, $menulist, $option, $client );
-}
+				$element = & $root->getElementsByPath('author', 1);
+				$row->author = $element ? $element->getText() : 'Unknown';
 
+				$element = & $root->getElementsByPath('copyright', 1);
+				$row->copyright = $element ? $element->getText() : '';
 
-function saveTemplateAssign( $option, $client ) {
-	global $database;
+				$element = & $root->getElementsByPath('authorEmail', 1);
+				$row->authorEmail = $element ? $element->getText() : '';
 
-	$menus 		= mosGetParam( $_POST, 'selections', array() );
-	$template 	= mosGetParam( $_POST, 'template', '' );
+				$element = & $root->getElementsByPath('authorUrl', 1);
+				$row->authorUrl = $element ? $element->getText() : '';
 
-	$query = "DELETE FROM #__templates_menu"
-	. "\n WHERE client_id = 0"
-	. "\n AND template = '$template'"
-	. "\n AND menuid <> 0"
-	;
-	$database->setQuery( $query );
-	$database->query();
+				$element = & $root->getElementsByPath('version', 1);
+				$row->version = $element ? $element->getText() : '';
 
-	if ( !in_array( '', $menus ) ) {
-		foreach ( $menus as $menuid ){
-			// If 'None' is not in array
-			if ( $menuid <> -999 ) {
-				// check if there is already a template assigned to this menu item
-				$query = "DELETE FROM #__templates_menu"
-				. "\n WHERE client_id = 0"
-				. "\n AND menuid = $menuid"
-				;
-				$database->setQuery( $query );
-				$database->query();
+				// Get info from db
+				if ($curTemplate == $templateDir) {
+					$row->published = 1;
+				} else {
+					$row->published = 0;
+				}
 
-				$query = "INSERT INTO #__templates_menu"
-				. "\n SET client_id = 0, template = '$template', menuid = $menuid"
-				;
-				$database->setQuery( $query );
-				$database->query();
+				$row->checked_out = 0;
+				$row->mosname = strtolower(str_replace(' ', '_', $row->name));
+
+				// check if template is assigned
+				$query = "SELECT COUNT(*)".
+							"\n FROM #__templates_menu".
+							"\n WHERE client_id = 0".
+							"\n AND template = '$row->directory'".
+							"\n AND menuid <> 0";
+				$db->setQuery($query);
+				$row->assigned = $db->loadResult() ? 1 : 0;
+
+				$rows[] = $row;
+				$i ++;
 			}
 		}
+
+		jimport('joomla.pagination');
+		$page = new JPagination(count($rows), $limitstart, $limit);
+
+		$rows = array_slice($rows, $page->limitstart, $page->limit);
+
+		JTemplatesView :: showTemplates($rows, $page, $option, $client);
 	}
 
-	mosRedirect( 'index2.php?option='. $option .'&client='. $client );
-}
+	/**
+	* Publish, or make current, the selected template
+	*/
+	function defaultTemplate($p_tname) {
+		global $mainframe;
 
+		/*
+		 * Initialize some variables
+		 */
+		$db 	= & $mainframe->getDBO();
+		$option = JRequest::getVar( 'option', '' );
+		$client = JRequest::getVar( 'client', '' );
+		
+		if ($client == 'administration') {
+			$clientID = 1;
+		} else {
+			$clientID = 0;
+		}
 
-/**
-*/
-function editPositions( $option ) {
-	global $database;
+		$query = "DELETE FROM #__templates_menu".
+					"\n WHERE client_id = $clientID". 
+					"\n AND menuid = 0";
+		$db->setQuery($query);
+		$db->query();
 
-	$query = "SELECT *"
-	. "\n FROM #__template_positions"
-	;
-	$database->setQuery( $query );
-	$positions = $database->loadObjectList();
+		$query = "INSERT INTO #__templates_menu".
+					"\n SET client_id = $clientID, template = '$p_tname', menuid = 0";
+		$db->setQuery($query);
+		$db->query();
 
-	HTML_templates::editPositions( $positions, $option );
-}
+//			$_SESSION['cur_template'] = $p_tname;
 
-/**
-*/
-function savePositions( $option ) {
-	global $database;
+		josRedirect('index2.php?option='.$option.'&client='.$client);
+	}
 
-	$positions 		= mosGetParam( $_POST, 'position', array() );
-	$descriptions 	= mosGetParam( $_POST, 'description', array() );
+	/**
+	* Remove the selected template
+	*/
+	function removeTemplate($cid) {
+		global $mainframe;
 
-	$query = "DELETE FROM #__template_positions";
-	$database->setQuery( $query );
-	$database->query();
+		/*
+		 * Initialize some variables
+		 */
+		$db 	= & $mainframe->getDBO();
+		$option = JRequest::getVar( 'option', '' );
+		$client = JRequest::getVar( 'client', '' );
 
-	foreach ($positions as $id=>$position) {
-		$position = trim( $database->getEscaped( $position ) );
-		$description = mosGetParam( $descriptions, $id, '' );
-		if ($position != '') {
-			$id = intval( $id );
-			$query = "INSERT INTO #__template_positions"
-			. "\n VALUES ( $id, '$position', '$description' )"
-			;
-			$database->setQuery( $query );
-			$database->query();
+		$client_id = $client == 'administration' ? 1 : 0;
+
+		$query = "SELECT template".
+					"\n FROM #__templates_menu".
+					"\n WHERE client_id = $client_id".
+					"\n AND menuid = 0";
+		$db->setQuery($query);
+		$cur_template = $db->loadResult();
+
+		if ($cur_template == $cid) {
+			mosErrorAlert(JText :: _('You can not delete template in use.'));
+		}
+
+		// Un-assign
+		$query = "DELETE FROM #__templates_menu".
+					"\n WHERE template = '$cid'".
+					"\n AND client_id = $client_id".
+					"\n AND menuid <> 0";
+		$db->setQuery($query);
+		$db->query();
+
+		josRedirect('index2.php?option=com_installer&type=template&client='.$client.'&task=remove&eid[]='.$cid);
+	}
+
+	function editTemplateParams($p_tname) {
+		/*
+		 * Initialize some variables
+		 */
+		$option = JRequest::getVar( 'option', '' );
+		$client = JRequest::getVar( 'client', '' );
+
+		if ($client == 'administration') {
+			$ini = JPATH_ADMINISTRATOR.DS.'templates'.DS.$p_tname.DS.'params.ini';
+			$xml = JPATH_ADMINISTRATOR.DS.'templates'.DS.$p_tname.DS.'templateDetails.xml';
+		} else {
+			$ini = JPATH_SITE.DS.'templates'.DS.$p_tname.DS.'params.ini';
+			$xml = JPATH_SITE.DS.'templates'.DS.$p_tname.DS.'templateDetails.xml';
+		}
+
+		// Read the ini file
+		if (JFile :: exists($ini)) {
+			$content = JFile :: read($ini);
+		} else {
+			$content = null;
+		}
+		
+		$params = new JParameters($content, $xml, 'template');
+
+		JTemplatesView :: editTemplateParams($p_tname, $params, $option, $client);
+	}
+
+	function saveTemplateParams() {
+		/*
+		 * Initialize some variables
+		 */
+		$option 		= JRequest::getVar( 'option', '' );
+		$client 		= JRequest::getVar( 'client', '' );
+		$template 		= JRequest::getVar( 'template', '' );
+		$params 		= JRequest::getVar( 'params', array(), '', 'array' );
+
+		if (!$template) {
+			josRedirect('index2.php?option='.$option.'&client='.$client, JText :: _('Operation Failed').': '.JText :: _('No template specified.'));
+		}
+
+		if ($client == 'administration') {
+			$file = JPATH_ADMINISTRATOR.DS.'templates'.DS.$template.DS.'params.ini';
+		} else {
+			$file = JPATH_SITE.DS.'templates'.DS.$template.DS.'params.ini';
+		}
+
+		if (is_array( $params )) {
+			$txt = null;
+			foreach ($params as $k=>$v) {
+				$txt .= "$k=$v\n";
+			}
+		} else {
+			josRedirect('index2.php?option='.$option.'&client='.$client, JText :: _('No Parameters To Save'));
+		}
+
+		if (JFile::write($file, $txt)) {
+			josRedirect('index2.php?option='.$option.'&client='.$client);
+		} else {
+			josRedirect('index2.php?option='.$option.'&client='.$client, JText :: _('Operation Failed').': '.JText :: _('Failed to open file for writing.'));
 		}
 	}
-	mosRedirect( 'index2.php?option='. $option .'&task=positions', JText::_( 'Positions saved' ) );
+
+	function editTemplateSource($p_tname) {
+		/*
+		 * Initialize some variables
+		 */
+		$option = JRequest::getVar( 'option', '' );
+		$client = JRequest::getVar( 'client', '' );
+
+		if ($client == 'administration') {
+			$file = JPATH_ADMINISTRATOR.DS.'templates'.DS.$p_tname.DS.'index.php';
+		} else {
+			$file = JPATH_SITE.DS.'templates'.DS.$p_tname.DS.'index.php';
+		}
+
+		// Read the source file
+		$content = JFile :: read($file);
+		if ($content !== false) {
+			$content = htmlspecialchars($content);
+
+			JTemplatesView :: editTemplateSource($p_tname, $content, $option, $client);
+		} else {
+			$msg = sprintf(JText :: _('Operation Failed Could not open'), $file);
+			josRedirect('index2.php?option='.$option.'&client='.$client, $msg);
+		}
+	}
+
+	function saveTemplateSource() {
+		/*
+		 * Initialize some variables
+		 */
+		$option 		= JRequest::getVar( 'option', '' );
+		$client 		= JRequest::getVar( 'client', '' );
+		$template 		= JRequest::getVar( 'template', '' );
+		$enableWrite 	= JRequest::getVar( 'enable_write', 0, '', 'int' );
+		$filecontent 	= JRequest::getVar( 'filecontent', '', '', '', _J_ALLOWHTML);
+
+		if (!$template) {
+			josRedirect('index2.php?option='.$option.'&client='.$client, JText :: _('Operation Failed').': '.JText :: _('No template specified.'));
+		}
+		if (!$filecontent) {
+			josRedirect('index2.php?option='.$option.'&client='.$client, JText :: _('Operation Failed').': '.JText :: _('Content empty.'));
+		}
+
+		if ($client == 'administration') {
+			$file = JPATH_ADMINISTRATOR.DS.'templates'.DS.$template.DS.'index.php';
+		} else {
+			$file = JPATH_SITE.DS.'templates'.DS.$template.DS.'index.php';
+		}
+
+		if (JFile::write($file, $filecontent)) {
+			josRedirect('index2.php?option='.$option.'&client='.$client);
+		} else {
+			josRedirect('index2.php?option='.$option.'&client='.$client, JText :: _('Operation Failed').': '.JText :: _('Failed to open file for writing.'));
+		}
+	}
+
+	function chooseTemplateCSS($p_tname) {
+		/*
+		 * Initialize some variables
+		 */
+		$option = JRequest::getVar( 'option', '' );
+		$client = JRequest::getVar( 'client', '' );
+
+		if ($client == 'administration') {
+			// Admin template css dir
+			$a_dir = JPATH_ADMINISTRATOR.DS.'templates'.DS.$p_tname.DS.'css';
+			// List .css files
+			$a_files = JFolder :: files($a_dir, $filter = '\.css$', $recurse = false, $fullpath = false);
+			$fs_dir = null;
+			$fs_files = null;
+
+			JTemplatesView :: chooseCSSFiles($p_tname, $a_dir, $fs_dir, $a_files, $fs_files, $option, $client);
+
+		} else {
+			// Template css dir
+			$f_dir = JPATH_SITE.DS.'templates'.DS.$p_tname.DS.'css';
+			// System css dir
+			$fs_dir = JPATH_SITE.DS.'templates'.DS.'_system'.DS.'css';
+
+			// List template .css files
+			$f_files = JFolder :: files($f_dir, $filter = '\.css$', $recurse = false, $fullpath = false);
+			// List system .css files
+			$fs_files = JFolder :: files($fs_dir, $filter = '\.css$', $recurse = false, $fullpath = false);
+
+			JTemplatesView :: chooseCSSFiles($p_tname, $f_dir, $fs_dir, $f_files, $fs_files, $option, $client);
+
+		}
+	}
+
+	function editTemplateCSS($p_tname) {
+		/*
+		 * Initialize some variables
+		 */
+		$option 	= JRequest::getVar( 'option', '' );
+		$client 	= JRequest::getVar( 'client', '' );
+		$template 	= JRequest::getVar( 'template', '' );
+		$tp_name 	= JRequest::getVar( 'tp_name', '' );
+
+		if ($client == 'administration') {
+			$file = JPATH_ADMINISTRATOR.$tp_name;
+			$p_tname = $template;
+
+		} else {
+			$file = JPATH_SITE.$tp_name;
+			$p_tname = $template;
+		}
+
+		$content = JFile::read($file);
+		if ($content !== false) {
+			$content = htmlspecialchars($content);
+
+			JTemplatesView :: editCSSSource($p_tname, $tp_name, $content, $option, $client);
+		} else {
+			$msg = sprintf(JText :: _('Operation Failed Could not open'), $file);
+			josRedirect('index2.php?option='.$option.'&client='.$client, $msg);
+		}
+	}
+
+	function saveTemplateCSS($option, $client) {
+		/*
+		 * Initialize some variables
+		 */
+		$option 		= JRequest::getVar( 'option', '' );
+		$client 		= JRequest::getVar( 'client', '' );
+		$template 		= JRequest::getVar( 'template', '' );
+		$tp_fname 		= JRequest::getVar( 'tp_fname', '' );
+		$filecontent 	= JRequest::getVar( 'filecontent', '', '', '', _J_ALLOWHTML);
+
+		if (!$template) {
+			josRedirect('index2.php?option='.$option.'&client='.$client, JText :: _('Operation Failed').': '.JText :: _('No template specified.'));
+		}
+
+		if (!$filecontent) {
+			josRedirect('index2.php?option='.$option.'&client='.$client, JText :: _('Operation Failed').': '.JText :: _('Content empty.'));
+		}
+
+		if (JFile::write($tp_fname, $filecontent)) {
+			josRedirect('index2.php?option='.$option.'&client='.$client);
+		} else {
+			josRedirect('index2.php?option='.$option.'&client='.$client, JText :: _('Operation Failed').': '.JText :: _('Failed to open file for writing.'));
+		}
+	}
+
+	function assignTemplate($p_tname) {
+		global $mainframe;
+
+		/*
+		 * Initialize some variables
+		 */
+		$db 	= & $mainframe->getDBO();
+		$option = JRequest::getVar( 'option', '' );
+		$client = JRequest::getVar( 'client', '' );
+
+		// get selected pages for $menulist
+		if ($p_tname) {
+			$query = 	"SELECT menuid AS value".
+						"\n FROM #__templates_menu".
+						"\n WHERE client_id = 0". 
+						"\n AND template = '$p_tname'";
+			$db->setQuery($query);
+			$lookup = $db->loadObjectList();
+		}
+
+		// build the html select list
+		$menulist = mosAdminMenus :: MenuLinks($lookup, 0, 1);
+
+		JTemplatesView :: assignTemplate($p_tname, $menulist, $option, $client);
+	}
+
+	function saveTemplateAssign() {
+		global $mainframe;
+
+		/*
+		 * Initialize some variables
+		 */
+		$db 		= & $mainframe->getDBO();
+		$option 	= JRequest::getVar( 'option', '' );
+		$client 	= JRequest::getVar( 'client', '' );
+		$menus 		= JRequest::getVar( 'selections', array(), 'post', 'array' );
+		$template 	= JRequest::getVar( 'template', '' );
+
+		$query = 	"DELETE FROM #__templates_menu".	
+					"\n WHERE client_id = 0".
+					"\n AND template = '$template'".
+					"\n AND menuid <> 0";
+		$db->setQuery($query);
+		$db->query();
+
+		if (!in_array('', $menus)) {
+			foreach ($menus as $menuid) {
+				// If 'None' is not in array
+				if ($menuid != -999) {
+					// check if there is already a template assigned to this menu item
+					$query = 	"DELETE FROM #__templates_menu".
+								"\n WHERE client_id = 0".
+								"\n AND menuid = $menuid";
+					$db->setQuery($query);
+					$db->query();
+
+					$query = 	"INSERT INTO #__templates_menu".
+								"\n SET client_id = 0, template = '$template', menuid = $menuid";
+					$db->setQuery($query);
+					$db->query();
+				}
+			}
+		}
+
+		josRedirect('index2.php?option='.$option.'&client='.$client);
+	}
+
+	/**
+	*/
+	function editPositions() {
+		global $mainframe;
+
+		/*
+		 * Initialize some variables
+		 */
+		$db 		= & $mainframe->getDBO();
+		$option 	= JRequest::getVar( 'option', '' );
+		$client 	= JRequest::getVar( 'client', '' );
+
+		$query = 	"SELECT *".
+					"\n FROM #__template_positions";
+		$db->setQuery($query);
+		$positions = $db->loadObjectList();
+
+		JTemplatesView :: editPositions($positions, $option);
+	}
+
+	/**
+	*/
+	function savePositions() {
+		global $mainframe;
+
+		/*
+		 * Initialize some variables
+		 */
+		$db 			= & $mainframe->getDBO();
+		$option 		= JRequest::getVar( 'option', '' );
+		$positions 		= JRequest::getVar( 'position', array(), 'post', 'array' );
+		$descriptions 	= JRequest::getVar( 'description', array(), 'post', 'array' );
+
+		$query = "DELETE FROM #__template_positions";
+		$db->setQuery($query);
+		$db->query();
+
+		foreach ($positions as $id => $position) {
+			$position = trim($db->getEscaped($position));
+			$description = $descriptions[$id];
+			if ($position != '') {
+				$id = intval($id);
+				$query = 	"INSERT INTO #__template_positions".
+							"\n VALUES ( $id, '$position', '$description' )";
+				$db->setQuery($query);
+				$db->query();
+			}
+		}
+		josRedirect('index2.php?option='.$option.'&task=positions', JText :: _('Positions saved'));
+	}
 }
 ?>

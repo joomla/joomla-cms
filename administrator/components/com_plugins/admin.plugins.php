@@ -22,7 +22,8 @@ if (!$acl->acl_check( 'com_plugins', 'manage', 'users', $my->usertype )) {
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
-$client = mosGetParam( $_REQUEST, 'client', '' );
+$option = JRequest::getVar( 'option', '' );
+$client = mosGetParam( $_REQUEST, 'client', 'site' );
 $cid 	= mosGetParam( $_POST, 'cid', array(0) );
 $id 	= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
 if (!is_array( $cid )) {
