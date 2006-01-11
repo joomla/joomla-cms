@@ -549,8 +549,11 @@ class JContactController
 			/*
 			 * If we are supposed to copy the admin, do so.
 			 */
-			if ($emailCopy)
-			{
+			// parameter check
+			$params = new mosParameters( $contact->params );		
+			$emailcopyCheck = $params->get( 'email_copy', 0 );
+			
+			if ( $emailCopy && $emailcopyCheck ) {
 				$copyText = sprintf(JText :: _('Copy of:'), $contact->name, $SiteName);
 				$copyText .= "\r\n\r\n".$text;
 				$copySubject = JText :: _('Copy of:')." ".$subject;
