@@ -84,10 +84,10 @@ switch ( $task ) {
 function viewPlugins( $option, $client ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$limit 			= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart 	= $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
-	$filter_type	= $mainframe->getUserStateFromRequest( "filter_type{$option}{$client}", 'filter_type', 1 );
-	$search 		= $mainframe->getUserStateFromRequest( "search{$option}{$client}", 'search', '' );
+	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+	$filter_type	= $mainframe->getUserStateFromRequest( "$option.$client.filter_type", 'filter_type', 1 );
+	$search 		= $mainframe->getUserStateFromRequest( "$option.$client.search", 'search', '' );
 	$search 		= $database->getEscaped( trim( strtolower( $search ) ) );
 
 	if ($client == 'admin') {

@@ -97,11 +97,12 @@ switch ($task) {
 		break;
 }
 
-function viewBanners( $option ) {
-	global $database, $mainframe, $mosConfig_list_limit;
+function viewBanners( $option ) 
+{
+	global $database, $mainframe;
 
-	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "viewban{$option}limitstart", 'limitstart', 0 );
+	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+	$limitstart = $mainframe->getUserStateFromRequest( "$option.viewbanners.limitstart", 'limitstart', 0 );
 
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
@@ -266,8 +267,8 @@ function removeBanner( $cid ) {
 function viewBannerClients( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$limit = $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "viewcli{$option}limitstart", 'limitstart', 0 );
+	$limit = $mainframe->getUserStateFromRequest( "default.limit", 'limit', $mosConfig_list_limit );
+	$limitstart = $mainframe->getUserStateFromRequest( "com_banners.viewbannerclient.limitstart", 'limitstart', 0 );
 
 	// get the total number of records
 	$query = "SELECT COUNT(*)"

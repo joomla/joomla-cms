@@ -110,12 +110,13 @@ switch ($task) {
 * Compiles a list of categories for a section
 * @param string The name of the category section
 */
-function showCategories( $section, $option ) {
-	global $database, $mainframe, $mosConfig_list_limit;
+function showCategories( $section, $option ) 
+{
+	global $database, $mainframe;
 
-	$sectionid 		= $mainframe->getUserStateFromRequest( "sectionid{$option}{$section}", 'sectionid', 0 );
-	$limit 			= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart 	= $mainframe->getUserStateFromRequest( "view{$section}limitstart", 'limitstart', 0 );
+	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+	$sectionid 		= $mainframe->getUserStateFromRequest( "$option.$section.sectionid", 'sectionid', 0 );
+	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.$section.view.limitstart", 'limitstart', 0 );
 
 	$section_name 	= '';
 	$content_add 	= '';

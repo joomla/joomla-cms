@@ -95,14 +95,15 @@ switch ( $task ) {
 /**
 * Compiles a list of installed or defined modules
 */
-function viewModules( $option, $client ) {
-	global $database, $my, $mainframe, $mosConfig_list_limit;
+function viewModules( $option, $client ) 
+{
+	global $database, $my, $mainframe;
 
-	$filter_position 	= $mainframe->getUserStateFromRequest( "filter_position{$option}{$client}", 'filter_position', 0 );
-	$filter_type	 	= $mainframe->getUserStateFromRequest( "filter_type{$option}{$client}", 'filter_type', 0 );
-	$limit 				= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
-	$search 			= $mainframe->getUserStateFromRequest( "search{$option}{$client}", 'search', '' );
+	$filter_position 	= $mainframe->getUserStateFromRequest( "$option.$client.filter_position", 'filter_position', 0 );
+	$filter_type	 	= $mainframe->getUserStateFromRequest( "$option.$client.filter_type", 'filter_type', 0 );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.$client.search", 'search', '' );
 	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 
 	if ($client == 'admin') {

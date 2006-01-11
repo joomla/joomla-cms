@@ -105,11 +105,12 @@ switch ($task) {
 * @param string The name of the category section
 * @param string The name of the current user
 */
-function showSections( $scope, $option ) {
-	global $database, $my, $mainframe, $mosConfig_list_limit;
+function showSections( $scope, $option ) 
+{
+	global $database, $my, $mainframe;
 
-	$limit = $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
+	$limit = $mainframe->getUserStateFromRequest( "limit", 'limit', $mosConfig_list_limit );
+	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
 	// get the total number of records
 	$query = "SELECT COUNT(*)"

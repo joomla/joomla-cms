@@ -83,13 +83,13 @@ switch ($task) {
 function viewFrontPage( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$catid 				= $mainframe->getUserStateFromRequest( "catid{$option}", 'catid', 0 );
-	$filter_authorid 	= $mainframe->getUserStateFromRequest( "filter_authorid{$option}", 'filter_authorid', 0 );
-	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "filter_sectionid{$option}", 'filter_sectionid', 0 );
+	$catid 				= $mainframe->getUserStateFromRequest( "$option.catid", 'catid', 0 );
+	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.filter_authorid", 'filter_authorid', 0 );
+	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "$option.filter_sectionid", 'filter_sectionid', 0 );
 
-	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
-	$search 	= $mainframe->getUserStateFromRequest( "search{$option}", 'search', '' );
+	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+	$search 	= $mainframe->getUserStateFromRequest( "$option.search", 'search', '' );
 	$search 	= $database->getEscaped( trim( strtolower( $search ) ) );
 
 	$where = array(

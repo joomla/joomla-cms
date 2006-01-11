@@ -30,7 +30,8 @@ class JInstallerExtensionTasks {
 	/**
 	* @param string The URL option
 	*/
-	function showInstalled() {
+	function showInstalled() 
+	{
 		global $mainframe;
 		
 		$client		= mosGetParam( $_REQUEST, 'client', 'site');
@@ -45,8 +46,8 @@ class JInstallerExtensionTasks {
 			$client = $filter;	
 		}
 		
-		$limit = $mainframe->getUserStateFromRequest( 'viewlistlimit', 'limit', $mainframe->getCfg('list_limit') );
-		$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
+		$limit 		= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
+		$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 	
 		
 		$templateBaseDir = JPath::clean( constant('JPATH_'.strtoupper($client)) . '/templates' );

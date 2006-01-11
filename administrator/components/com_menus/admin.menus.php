@@ -143,10 +143,10 @@ switch ($task) {
 function viewMenuItems( $menutype, $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart$menutype", 'limitstart', 0 );
-	$levellimit = $mainframe->getUserStateFromRequest( "view{$option}limit$menutype", 'levellimit', 10 );
-	$search 	= $mainframe->getUserStateFromRequest( "search{$option}$menutype", 'search', '' );
+	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit', $mosConfig_list_limit );
+	$limitstart = $mainframe->getUserStateFromRequest( "$option.$menutype.limitstart", 'limitstart', 0 );
+	$levellimit = $mainframe->getUserStateFromRequest( "$option.$menutype.levellimit", 'levellimit', 10 );
+	$search 	= $mainframe->getUserStateFromRequest( "$option.$menutype.search", 'search', '' );
 	$search 	= $database->getEscaped( trim( strtolower( $search ) ) );
 
 	// select the records

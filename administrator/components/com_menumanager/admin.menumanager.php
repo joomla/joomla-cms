@@ -72,11 +72,12 @@ switch ($task) {
 /**
 * Compiles a list of menumanager items
 */
-function showMenu( $option ) {
-	global $database, $mainframe, $mosConfig_list_limit;
+function showMenu( $option ) 
+{
+	global $database, $mainframe;
 
-	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "view{". $option ."}limitstart", 'limitstart', 0 );
+	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit',  $mainframe->getCfg('list_limit') );
+	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
 	$menuTypes 	= mosAdminMenus::menutypes();
 	$total		= count( $menuTypes );

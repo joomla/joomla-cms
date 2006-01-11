@@ -47,7 +47,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 		$CONFIG = new JConfig();
 		foreach (get_object_vars($CONFIG) as $k => $v) {
 			$name = 'mosConfig_'.$k;
-			$$name = $v;			
+			$GLOBALS[$name] = $v;
 		}
 		unset($CONFIG);
 		

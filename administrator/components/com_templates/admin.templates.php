@@ -103,8 +103,8 @@ function viewTemplates( $option, $client ) {
 	global $database, $mainframe;
 	global $mosConfig_list_limit;
 
-	$limit = $mainframe->getUserStateFromRequest( 'viewlistlimit', 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
+	$limit = $mainframe->getUserStateFromRequest( 'limit', 'limit', $mosConfig_list_limit );
+	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
 	if ($client == 'admin') {
 		$templateBaseDir = JPath::clean( JPATH_ADMINISTRATOR . '/templates' );

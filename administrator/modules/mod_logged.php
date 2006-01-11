@@ -14,12 +14,10 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-global $mosConfig_list_limit;
-
 require_once( JPATH_ADMINISTRATOR .'/includes/pageNavigation.php' );
 
-$limit 			= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-$limitstart 	= $mainframe->getUserStateFromRequest( "view{$option}", 'limitstart', 0 );
+$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+$limitstart 	= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
 // hides Administrator or Super Administrator from list depending on usertype
 $and = '';

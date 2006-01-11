@@ -46,8 +46,8 @@ class JInstallerExtensionTasks {
 			$client = $filter;	
 		}
 		
-		$limit = $mainframe->getUserStateFromRequest( 'viewlistlimit', 'limit', $mainframe->getCfg('list_limit') );
-		$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
+		$limit = $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
+		$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 	
 		$path = JLanguage::getLanguagePath(constant('JPATH_'.strtoupper($client)));
 	

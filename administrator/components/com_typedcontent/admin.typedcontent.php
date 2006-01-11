@@ -87,14 +87,15 @@ switch ( $task ) {
 * Compiles a list of installed or defined modules
 * @param database A database connector object
 */
-function view( $option ) {
-	global $database, $mainframe, $mosConfig_list_limit;
+function view( $option ) 
+{
+	global $database, $mainframe;
 
-	$filter_authorid 	= $mainframe->getUserStateFromRequest( "filter_authorid{$option}", 'filter_authorid', 0 );
+	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.filter_authorid", 'filter_authorid', 0 );
 	$order 				= $mainframe->getUserStateFromRequest( "zorder", 'zorder', 'c.ordering DESC' );
-	$limit 				= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
-	$search 			= $mainframe->getUserStateFromRequest( "search{$option}", 'search', '' );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 'search', '' );
 	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 
 	// used by filter

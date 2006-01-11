@@ -55,12 +55,13 @@ switch ($task) {
 /**
 * Compiles a list of trash items
 */
-function viewTrash( $option ) {
-	global $database, $mainframe, $mosConfig_list_limit;
+function viewTrash( $option ) 
+{
+	global $database, $mainframe;
 	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
 
-	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "view{". $option ."}limitstart", 'limitstart', 0 );
+	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
 	// get the total number of content
 	$query = "SELECT count(*)"

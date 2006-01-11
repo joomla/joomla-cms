@@ -133,15 +133,16 @@ switch ($task) {
 * Compiles a list of installed or defined modules
 * @param database A database connector object
 */
-function viewContent( $sectionid, $option ) {
-	global $database, $mainframe, $mosConfig_list_limit;
+function viewContent( $sectionid, $option ) 
+{
+	global $database, $mainframe;
 
-	$catid 				= $mainframe->getUserStateFromRequest( "catid{$option}{$sectionid}", 'catid', 0 );
-	$filter_authorid 	= $mainframe->getUserStateFromRequest( "filter_authorid{$option}{$sectionid}", 'filter_authorid', 0 );
-	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "filter_sectionid{$option}{$sectionid}", 'filter_sectionid', 0 );
-	$limit 				= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "view{$option}{$sectionid}limitstart", 'limitstart', 0 );
-	$search 			= $mainframe->getUserStateFromRequest( "search{$option}{$sectionid}", 'search', '' );
+	$catid 				= $mainframe->getUserStateFromRequest( "$option.$sectionid$option.catid", 'catid', 0 );
+	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_authorid", 'filter_authorid', 0 );
+	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_sectionid", 'filter_sectionid', 0 );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewcontent.limitstart", 'limitstart', 0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.$sectionid.search", 'search', '' );
 	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 	$redirect 			= $sectionid;
 	$filter 			= ''; //getting a undefined variable error
@@ -256,15 +257,16 @@ function viewContent( $sectionid, $option ) {
 * Shows a list of archived content items
 * @param int The section id
 */
-function viewArchive( $sectionid, $option ) {
-	global $database, $mainframe, $mosConfig_list_limit;
+function viewArchive( $sectionid, $option ) 
+{
+	global $database, $mainframe;
 
-	$catid 				= $mainframe->getUserStateFromRequest( "catidarc{$option}{$sectionid}", 'catid', 0 );
-	$limit 				= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "viewarc{$option}{$sectionid}limitstart", 'limitstart', 0 );
-	$search 			= $mainframe->getUserStateFromRequest( "searcharc{$option}{$sectionid}", 'search', '' );
-	$filter_authorid 	= $mainframe->getUserStateFromRequest( "filter_authorid{$option}{$sectionid}", 'filter_authorid', 0 );
-	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "filter_sectionid{$option}{$sectionid}", 'filter_sectionid', 0 );
+	$catid 				= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.catid", 'catid', 0 );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.limitstart", 'limitstart', 0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.search", 'search', '' );
+	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_authorid", 'filter_authorid', 0 );
+	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_sectionid", 'filter_sectionid', 0 );
 	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 	$redirect 			= $sectionid;
 

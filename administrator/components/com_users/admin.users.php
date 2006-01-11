@@ -81,14 +81,15 @@ switch ($task) {
 		break;
 }
 
-function showUsers( $option ) {
-	global $database, $mainframe, $my, $acl, $mosConfig_list_limit;
+function showUsers( $option ) 
+{
+	global $database, $mainframe, $my, $acl;
 
-	$filter_type	= $mainframe->getUserStateFromRequest( "filter_type{$option}", 'filter_type', 0 );
-	$filter_logged	= $mainframe->getUserStateFromRequest( "filter_logged{$option}", 'filter_logged', 0 );
-	$limit 			= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart 	= $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
-	$search 		= $mainframe->getUserStateFromRequest( "search{$option}", 'search', '' );
+	$filter_type	= $mainframe->getUserStateFromRequest( "$option.filter_type", 'filter_type', 0 );
+	$filter_logged	= $mainframe->getUserStateFromRequest( "$option.filter_logged", 'filter_logged', 0 );
+	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+	$search 		= $mainframe->getUserStateFromRequest( "$option.search", 'search', '' );
 	$search 		= $database->getEscaped( trim( strtolower( $search ) ) );
 	$where 			= array();
 

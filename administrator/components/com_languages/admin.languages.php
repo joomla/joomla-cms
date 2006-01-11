@@ -56,12 +56,12 @@ switch ($task) {
 /**
 * Compiles a list of installed languages
 */
-function viewLanguages( $option, $client = 'site') {
-	global $mainframe;
-	global $mosConfig_lang, $mosConfig_list_limit;
+function viewLanguages( $option, $client = 'site') 
+{
+	global $mainframe, $mosConfig_lang;
 
-	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
+	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit',  $mainframe->getCfg('list_limit') );
+	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
 	$path = JLanguage::getLanguagePath(constant('JPATH_'.strtoupper($client)));
 

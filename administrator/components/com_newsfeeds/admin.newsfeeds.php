@@ -84,9 +84,9 @@ switch ($task) {
 function showNewsFeeds( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$catid = $mainframe->getUserStateFromRequest( "catid{$option}", 'catid', 0 );
-	$limit = $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
+	$catid = $mainframe->getUserStateFromRequest( "$option.catid", 'catid', 0 );
+	$limit = $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
 	// get the total number of records
 	$query = "SELECT COUNT(*)"

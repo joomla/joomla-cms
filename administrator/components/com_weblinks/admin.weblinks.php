@@ -79,13 +79,14 @@ switch ($task) {
 * Compiles a list of records
 * @param database A database connector object
 */
-function showWeblinks( $option ) {
-	global $database, $mainframe, $mosConfig_list_limit;
+function showWeblinks( $option ) 
+{
+	global $database, $mainframe;
 
-	$catid 		= $mainframe->getUserStateFromRequest( "catid{$option}", 'catid', 0 );
-	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
-	$search 	= $mainframe->getUserStateFromRequest( "search{$option}", 'search', '' );
+	$catid 		= $mainframe->getUserStateFromRequest( "$option.catid", 'catid', 0 );
+	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+	$search 	= $mainframe->getUserStateFromRequest( "$option.search", 'search', '' );
 	$search 	= $database->getEscaped( trim( strtolower( $search ) ) );
 
 	$where = array();

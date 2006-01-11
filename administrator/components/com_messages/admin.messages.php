@@ -147,11 +147,11 @@ function saveMessage( $option ) {
 }
 
 function showMessages( $option ) {
-	global $database, $mainframe, $my, $mosConfig_list_limit;
+	global $database, $mainframe, $my;
 
-	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 );
-	$search 	= $mainframe->getUserStateFromRequest( "search{$option}", 'search', '' );
+	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit',  $mainframe->getCfg('list_limit') );
+	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+	$search 	= $mainframe->getUserStateFromRequest( "$option.search", 'search', '' );
 	$search 	= $database->getEscaped( trim( strtolower( $search ) ) );
 
 	$wheres = array();

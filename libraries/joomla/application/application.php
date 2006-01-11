@@ -149,12 +149,16 @@ class JApplication extends JObject
 	*/
 	function getUserStateFromRequest( $key, $request, $default=null ) 
 	{	
-		if (!$value = $this->getUserState( 'application.'.$key ))
-		{
-			$value = isset( $_REQUEST[$request] ) ? $_REQUEST[$request] : $default;
-			$this->setUserState( 'application.'.$key, $value );
-		}
-		return $value;
+		//Force namespace
+		$key = 'request.'.$key;
+		
+		$old_state = $this->getUserState( $key );
+		$cur_state = isset( $old_state ) ? $old_state : $default;
+		$new_state = isset( $_REQUEST[$request] ) ? $_REQUEST[$request] : $cur_state; 
+				
+		$this->setUserState( $key, $new_state );
+		
+		return $new_state;
 	}
 
 	/**
