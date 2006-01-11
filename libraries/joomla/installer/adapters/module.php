@@ -196,7 +196,7 @@ class JInstallerModule extends JInstaller {
 		/*
 		 * Let's run the install queries for the module
 		 */		
-		if ($this->_parseQueries( 'install/queries' ) === false) {
+		if ($this->_parseBackwardQueries( 'install/queries' ) === false) {
 			JError::raiseWarning( 1, 'JInstallerModule::install: '.$db->stderr(true));
 
 			// Install failed, rollback changes
@@ -340,7 +340,7 @@ print_r($this);
 				/*
 				 * Let's run the uninstall queries for the module
 				 */		
-				if ($this->_parseQueries( 'uninstall/queries' ) === false) {
+				if ($this->_parseBackwardQueries( 'uninstall/queries' ) === false) {
 					JError::raiseWarning( 1, 'JInstallerModule::uninstall: '.$db->stderr(true));
 					$retval = false;
 				}

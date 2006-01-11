@@ -31,7 +31,8 @@ class JInstallerComponent extends JInstaller {
 	function install($p_fromdir) {
 
 		// Get database connector object
-		$db =& $this->_db;
+		$db =& $this->i_db;
+		
 
 		/*
 		 * First lets set the installation directory, find and check the installation file and verify
@@ -125,13 +126,30 @@ class JInstallerComponent extends JInstaller {
 
 		/*
 		 * Let's run the install queries for the component
-		 */		
-		if ($this->_parseQueries( 'install/queries' ) === false) {
+		 *    If bacward compatibility is required - run queries in xml file
+		 *    If Joomla 1.1 compatible with discreet sql files - execute appropriate
+		 *    file for utf-8 support or not
+		 */	
+		 
+		// start with backward compatibility <queries> tag		 
+		$result = $this->_parseBackwardQueries( 'install/queries' );
+
+		if ( $result === false) {
 			JError::raiseWarning( 1, 'JInstallerComponent::install: ' . JText::_( 'SQL Error' ) ." " . $db->stderr( true ));
 
 			// Install failed, rollback changes
 			$this->_rollback();
 			return false;
+		} else if ( $result === 0 ){
+			// no backward compatibility queries found - try for Joomla 1.1 type queries
+			$utfresult = $this->_parseQueries( "install/sql/". ($db->hasUTF() ? 'primary' : 'backward'));
+			if ( $utfresult === false) {
+				JError::raiseWarning( 1, 'JInstallerComponent::install: ' . JText::_( 'SQL Error' ) ." " . $db->stderr( true ));
+	
+				// Install failed, rollback changes
+				$this->_rollback();
+				return false;
+			}
 		}
 
 		/*
@@ -349,7 +367,7 @@ class JInstallerComponent extends JInstaller {
 		$retval = true;
 
 		// Get database connector object
-		$db = & $this->_db;
+		$db = & $this->i_db;
 
 		/*
 		 * First order of business will be to load the component object model from the database.
@@ -409,7 +427,7 @@ class JInstallerComponent extends JInstaller {
 		/*
 		 * Let's run the uninstall queries for the component
 		 */		
-		if ($this->_parseQueries( 'uninstall/queries' ) === false) {
+		if ($this->_parseBackwardQueries( 'uninstall/queries' ) === false) {
 			JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerComponent::uninstall: ' . $db->stder(true));
 			$retval = false;
 		}
@@ -485,7 +503,7 @@ class JInstallerComponent extends JInstaller {
 	function _rollback_menu($arg) {
 
 		// Get database connector object
-		$db =& $this->_db;
+		$db =& $this->i_db;
 
 		/*
 		 * Remove the entry from the #__components table
@@ -512,7 +530,7 @@ class JInstallerComponent extends JInstaller {
 	function _createParentMenu($_menuname,$_comname, $_image = "js/ThemeOffice/component.png") {
 
 		// Get database connector object
-		$db =& $this->_db;
+		$db =& $this->i_db;
 
 		$db_name			= $_menuname;
 		$db_link			= "option=$_comname";

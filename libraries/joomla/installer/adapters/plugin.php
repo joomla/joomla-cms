@@ -261,7 +261,7 @@ class JInstallerPlugin extends JInstaller {
 				/*
 				 * Let's run the uninstall queries for the module
 				 */		
-				if ($this->_parseQueries( 'uninstall/queries' ) === false) {
+				if ($this->_parseBackwardQueries( 'uninstall/queries' ) === false) {
 					JError::raiseWarning( 1, 'JInstallerPlugin::uninstall: '.$db->stderr(true));
 					$retval = false;
 				}

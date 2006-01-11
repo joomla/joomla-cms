@@ -134,7 +134,7 @@ class JInstaller extends JObject {
 	 * @access protected
 	 */
 	function __construct( &$db ) {
-		$this->_db =& $db;
+		$this->i_db =& $db;
 	}
 
 	/**
@@ -554,20 +554,20 @@ class JInstaller extends JObject {
 	}
 
 	/**
-	 * Method to parse through a queries element of the installation file and take appropriate
-	 * action.
+	 * Backward compatible Method to parse through a queries element of the 
+	 * installation file and take appropriate action.
 	 *
 	 * @access private
 	 * @param string $tagName The tag name to parse
 	 * @return mixed Number of queries processed or False on error
 	 * @since 1.1
 	 */
-	function _parseQueries($tagName = 'files') {
+	function _parseBackwardQueries($tagName = 'queries') {
 
 		/*
 		 * Get the database connector object
 		 */
-		$db = & $this->_db;
+		$db = & $this->i_db;
 
 		/*
 		 * Get the install document root element
@@ -603,8 +603,77 @@ class JInstaller extends JObject {
 		foreach ($queries as $query) {
 			$db->setQuery($query->getText());
 			if (!$db->query()) {
-				JError::raiseWarning( 1, 'JInstaller::install: ' . JText :: _('SQL Error')." ".$db->stderr(true));
+				// JError::raiseWarning( 1, 'JInstaller::install: ' . JText :: _('SQL Error')." ".$db->stderr(true));
 				return false;
+			}
+		}
+
+		return count($queries);
+	}
+
+	/**
+	 * Method to extract the name of a discreet installation sql file from the xml file.
+	 *
+	 * @access private
+	 * @param string $tagName The tag name to parse
+	 * @return mixed Number of queries processed or False on error
+	 * @since 1.1
+	 */
+	function _parseQueries($tagName = 'install/sql/primary') {
+
+		/*
+		 * Get the database connector object
+		 */
+		$db = & $this->i_db;
+
+		/*
+		 * Get the install document root element
+		 */
+		$root = & $this->i_xmldoc->documentElement;
+
+		/*
+		 * Get the element of the tag names
+		 */
+		$queriesElement = & $root->getElementsByPath($tagName, 1);
+		if (is_null($queriesElement) ) {
+			/*
+			 * the tag does not exist therefore we return
+			 * zero queries processed.
+			 */
+			return 0;
+		}
+
+		/*
+		 * Get the name of the sql file to process
+		 */
+
+		$sqlfile = $queriesElement->getText();
+
+		/*
+		 * Create an array of queries from the sql file
+		 */
+		$buffer = file_get_contents($this->i_extensionAdminDir.$sqlfile);
+		$queries = JInstallerHelper::splitSql($buffer);
+		
+		if (count($queries) == 0) {
+			/*
+			 * No queries to process
+			 */
+			return 0;
+		}
+
+		/*
+		 * Process each query in the $queries array (split out of sql file).
+		 */
+		foreach ($queries as $query) {
+
+			$query = trim($query);
+			if ($query != '' && $query { 0 } != '#') {
+				$db->setQuery($query);
+				if (!$db->query()) {
+					// JError::raiseWarning( 1, 'JInstaller::install: ' . JText :: _('SQL Error')." ".$db->stderr(true));
+					return false;
+				}
 			}
 		}
 
@@ -905,7 +974,7 @@ class JInstaller extends JObject {
 		$step = array_pop($this->i_stepStack);
 
 		// Get database connector object
-		$db = & $this->_db;
+		$db = & $this->i_db;
 
 		while ($step != null) {
 
@@ -1245,5 +1314,45 @@ class JInstallerHelper {
 			JFile :: delete(JPath :: clean(JPATH_SITE.DS.'media'.DS.$p_file, false));
 		}
 	}
+	
+
+	/**
+	 * Splits contents of a sql file into array of discreet queries
+	 * queries need to be delimited with end of statement marker ';'
+	 * @param string
+	 * @return array
+	 */
+	function splitSql($sql) {
+		$sql = trim($sql);
+		$sql = preg_replace("/\n\#[^\n]*/", '', "\n".$sql);
+		$buffer = array ();
+		$ret = array ();
+		$in_string = false;
+
+		for ($i = 0; $i < strlen($sql) - 1; $i ++) {
+			if ($sql[$i] == ";" && !$in_string) {
+				$ret[] = substr($sql, 0, $i);
+				$sql = substr($sql, $i +1);
+				$i = 0;
+			}
+
+			if ($in_string && ($sql[$i] == $in_string) && $buffer[1] != "\\") {
+				$in_string = false;
+			}
+			elseif (!$in_string && ($sql[$i] == '"' || $sql[$i] == "'") && (!isset ($buffer[0]) || $buffer[0] != "\\")) {
+				$in_string = $sql[$i];
+			}
+			if (isset ($buffer[1])) {
+				$buffer[0] = $buffer[1];
+			}
+			$buffer[1] = $sql[$i];
+		}
+
+		if (!empty ($sql)) {
+			$ret[] = $sql;
+		}
+		return ($ret);
+	}
+	
 }
 ?>
