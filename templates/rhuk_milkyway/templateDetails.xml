@@ -61,5 +61,10 @@
 			<position>left</position>
 			<position>right</position>
 		</positions>
-    <params />
+    <params>
+		<param name="showComponent" type="radio" default="1" label="Show Component" description="Show/Hide the component output">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+    </params>
 </install>

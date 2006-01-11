@@ -92,7 +92,14 @@ echo '<?xml version="1.0" encoding="utf-8"?' .'>';
 							<table class="nopad">
 								<tr valign="top">
 									<td>
-										<jdoc:placeholder type="component" />
+										<jdoc:tmpl name="showComponent" varscope="index.php" type="condition" conditionvar="PARAM_SHOWCOMPONENT">
+											<jdoc:sub condition="1">
+												<jdoc:placeholder type="component" />
+											</jdoc:sub>
+											<jdoc:sub condition="0">
+												&nbsp;
+											</jdoc:sub>
+										</jdoc:tmpl>
 									</td>
 									<?php if(mosCountModules('right') && $task != 'edit' ) { ?>
 									<td class="greyline">&nbsp;</td>
