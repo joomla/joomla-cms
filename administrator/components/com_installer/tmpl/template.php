@@ -34,9 +34,12 @@ class JInstallerExtensionTasks {
 	{
 		global $mainframe;
 		
-		$client		= mosGetParam( $_REQUEST, 'client', 'site');
+		$client		= JRequest::getVar( 'client', 'site');
+		$option		= JRequest::getVar( 'option' );
+		$filter 	= $mainframe->getUserStateFromRequest( "$option.template.filter", 'filter', 'all' );
+		$limit 		= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
+		$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
-		$filter = mosGetParam($_POST, 'filter', '');
 		$select[] = mosHTML :: makeOption('all', JText :: _('All'));
 		$select[] = mosHTML :: makeOption('site', JText :: _('Site Templates'));
 		$select[] = mosHTML :: makeOption('administrator', JText :: _('Admin Templates'));
@@ -45,9 +48,6 @@ class JInstallerExtensionTasks {
 		if ($filter != '' && $filter != 'all') {
 			$client = $filter;	
 		}
-		
-		$limit 		= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
-		$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 	
 		
 		$templateBaseDir = JPath::clean( constant('JPATH_'.strtoupper($client)) . '/templates' );
@@ -109,6 +109,8 @@ class JInstallerExtensionTasks {
 	
 				$rows[] = $row;
 				$rowid++;
+				
+				unset($xmlDoc,$root);
 			}
 		}
 	

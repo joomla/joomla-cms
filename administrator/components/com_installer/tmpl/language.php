@@ -34,12 +34,15 @@ class JInstallerExtensionTasks {
 	function showInstalled() {
 		global $mainframe;
 		
-		$client		= mosGetParam( $_REQUEST, 'client', 'site');
+		$client		= JRequest::getVar( 'client', 'site');
+		$option		= JRequest::getVar( 'option' );
+		$filter 	= $mainframe->getUserStateFromRequest( "$option.language.filter", 'filter', 'all' );
+		$limit 		= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
+		$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
-		$filter = mosGetParam($_POST, 'filter', '');
 		$select[] = mosHTML :: makeOption('all', JText :: _('All'));
-		$select[] = mosHTML :: makeOption('site', JText :: _('Site Modules'));
-		$select[] = mosHTML :: makeOption('administrator', JText :: _('Admin Modules'));
+		$select[] = mosHTML :: makeOption('site', JText :: _('Site Languages'));
+		$select[] = mosHTML :: makeOption('administrator', JText :: _('Admin Languages'));
 		$lists['filter'] = mosHTML :: selectList($select, 'filter', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter);
 
 		if ($filter != '' && $filter != 'all') {
