@@ -105,7 +105,7 @@ class WeblinksView {
 	function showTable( &$params, &$rows, $catid, $tabclass ) {
 		// icon in table display
 		if ( $params->get( 'weblink_icons' ) <> -1 ) {
-			$img = mosAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $params->get( 'weblink_icons' ), NULL, 'Link', 'Link' );
+			$img = mosAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $params->get( 'weblink_icons' ), '/images/M_images/', 'Link', 'Link' );
 		} else {
 			$img = NULL;
 		}

@@ -100,7 +100,6 @@ class WeblinksController {
 		$query = 	"SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc".
 					"\n LEFT JOIN #__weblinks AS a ON a.catid = cc.id".
 					"\n WHERE a.published = 1".
-					//"\n AND a.approved = 1".
 					"\n AND section = 'com_weblinks'".
 					"\n AND cc.published = 1".
 					"\n AND cc.access <= $my->gid".
@@ -122,7 +121,6 @@ class WeblinksController {
 						"\n FROM #__weblinks".
 						"\n WHERE catid = $catid".
 						"\n AND published = 1".
-						//"\n AND approved = 1".
 						"\n AND archived = 0".
 						"\n ORDER BY ordering";
 
