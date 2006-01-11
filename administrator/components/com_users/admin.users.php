@@ -329,10 +329,13 @@ function saveUser( $option, $task ) {
 	}
 	$row->checkin();
 
-	session_start();
-	$_SESSION['session_user_params']= $row->params;
-	session_write_close();
-
+	// updates the current users param settings
+	if ( $my->id == $row->id ) {
+		session_start();
+		$_SESSION['session_user_params']= $row->params;
+		session_write_close();
+	}
+	
 	// update the ACL
 	if ( !$isNew ) {
 		$query = "SELECT id"
