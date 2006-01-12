@@ -989,12 +989,14 @@ class mosAdminMenus {
 		// establish the hierarchy of the menu
 		$children = array();
 		
-		// first pass - collect children
-		foreach ( $mitems as $v ) {
-			$pt 	= $v->parent;
-			$list 	= @$children[$pt] ? $children[$pt] : array();
-			array_push( $list, $v );
-			$children[$pt] = $list;
+		if ( $mitems ) {
+			// first pass - collect children
+			foreach ( $mitems as $v ) {
+				$pt 	= $v->parent;
+				$list 	= @$children[$pt] ? $children[$pt] : array();
+				array_push( $list, $v );
+				$children[$pt] = $list;
+			}
 		}
 		
 		// second pass - get an indent list of the items
