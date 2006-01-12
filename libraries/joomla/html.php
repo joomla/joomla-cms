@@ -975,11 +975,13 @@ class mosAdminMenus {
 		global $database;
 
 		// get a list of the menu items
+		// excluding the current menu item and its child elements
 		$query = "SELECT m.*"
 		. "\n FROM #__menu m"
 		. "\n WHERE menutype = '$row->menutype'"
 		. "\n AND published <> -2"
-		. "\n ORDER BY ordering"
+		. "\n AND id != $row->id"
+		. "\n ORDER BY parent, ordering"
 		;
 		$database->setQuery( $query );
 		$mitems = $database->loadObjectList();
@@ -1002,24 +1004,13 @@ class mosAdminMenus {
 		$mitems 	= array();
 		$mitems[] 	= mosHTML::makeOption( '0', JText::_( 'Top' ) );
 		
-		$this_treename = '';		
 		foreach ( $list as $item ) {
-			if ( $this_treename ) {
-				if ( $item->id != $row->id && strpos( $item->treename, $this_treename ) === false && ( $item->parent != $row->id ) ) {
-					$mitems[] = mosHTML::makeOption( $item->id, $item->treename );
-				}
-			} else {
-				if ( ( $item->id != $row->id ) && ( $item->parent != $row->id ) ) {
-					$mitems[] = mosHTML::makeOption( $item->id, $item->treename );
-				} else {
-					$this_treename = "$item->treename/";
-				}
-			}
+			$mitems[] = mosHTML::makeOption( $item->id, '&nbsp;&nbsp;&nbsp;'. $item->treename );
 		}
 		
-		$parent = mosHTML::selectList( $mitems, 'parent', 'class="inputbox" size="1"', 'value', 'text', $row->parent );
+		$output = mosHTML::selectList( $mitems, 'parent', 'class="inputbox" size="10"', 'value', 'text', $row->parent );
 		
-		return $parent;
+		return $output;
 	}
 
 	/**
