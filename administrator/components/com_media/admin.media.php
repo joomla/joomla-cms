@@ -267,7 +267,7 @@ class JMediaController {
 	 * @since 1.1
 	 */
 	function deleteFile($listdir) {
-		$delFile = mosGetParam($_REQUEST, 'delFile', '');
+		$delFile = JRequest::getVar( 'delFile' );
 		$fullPath = COM_MEDIA_BASE.$listdir.DS.$delFile;
 
 		return JFile :: delete($fullPath);
@@ -281,7 +281,7 @@ class JMediaController {
 	 */
 	function deleteFolder($listdir) {
 		$canDelete = true;
-		$delFolder = mosGetParam($_REQUEST, 'delFolder', '');
+		$delFolder = JRequest::getVar( 'delFolder' );
 		$delFolder = COM_MEDIA_BASE.$listdir.$delFolder;
 
 		$files = JFolder :: files($delFolder, '.', true);

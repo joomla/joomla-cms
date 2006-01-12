@@ -220,7 +220,7 @@ function removeFrontPage( &$cid, $option ) {
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
-	$fp = new mosFrontPage( $database );
+	$fp = new JFrontPageModel( $database );
 	foreach ($cid as $id) {
 		if (!$fp->delete( $id )) {
 			echo "<script> alert('".$fp->getError()."'); </script>\n";
@@ -246,7 +246,7 @@ function removeFrontPage( &$cid, $option ) {
 function orderFrontPage( $uid, $inc, $option ) {
 	global $database;
 
-	$fp = new mosFrontPage( $database );
+	$fp = new JFrontPageModel( $database );
 	$fp->load( $uid );
 	$fp->move( $inc );
 
@@ -292,7 +292,7 @@ function saveOrder( &$cid ) {
 		}
 
 		// update ordering
-		$row = new mosFrontPage( $database );
+		$row = new JFrontPageModel( $database );
 		$row->load( $cid[$i] );
 		$row->updateOrder();
 	}

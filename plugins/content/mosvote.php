@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mosvote.php 1402 2005-12-09 17:16:01Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -21,10 +21,11 @@ function botVoting( &$row, &$params, $page=0 ) {
 
 	$id 	= $row->id;
 	$option = 'com_content';
-	$task 	= mosGetParam( $_REQUEST, 'task', '' );
+	$task 	= JRequest::getVar( 'task' );
+	$html 	= false;
 
-	$html = '';
 	if ($params->get( 'rating' ) && !$params->get( 'popup' )){
+
 		$html .= '<form method="post" action="' . sefRelToAbs( 'index.php' ) . '">';
 		$img = '';
 

@@ -31,6 +31,11 @@ Legend:
 - -> Removed
 ! -> Note
 
+12-Jan-2006 Louis Landry
+ + Phase 1 of refactor and general code cleanup of content component
+ ^ Implmented static template array in JApplication->getTemplate methods
+ ^ Deprecated mosErrorAlert function, use josErrorAlert instead
+
 11-Jan-2006 Louis Landry
  + Added template parameters
 
@@ -47,6 +52,7 @@ Legend:
  ^ Removed $option coupling in JApplication
  + Added Template and Language extension handlers in installer menu
  # Fixed artf2941: Image Upload and Media Manager issues
+ # Fixed artf1863 : Function delete_file and delete_folder not check str
  # Fixed artf2424 : Help Server Select list default problem
  # Fixed artf2948 : 1700: SEF broken
  # Fixed artf1747 : No clean-up in event of component installation failure

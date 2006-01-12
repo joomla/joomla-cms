@@ -12,6 +12,16 @@
 */
 
 /**
+* Legacy function, use josErrorAlert instead
+* 
+* @deprecated As of version 1.1
+* @package Joomla.Legacy
+*/
+function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
+	return josErrorAlert( $text, $action='window.history.go(-1);', $mode=1 );
+}
+
+/**
 * Legacy function, use JPath::clean instead
 * 
 * @deprecated As of version 1.1

@@ -65,7 +65,10 @@ class JEventDispatcher extends JObservable
 	* @since 1.1
 	*/
 	function register( $event, $handler ) {
-		$this->attach(array( 'event' => $event, 'handler' => $handler ));
+		if (!empty($handler) && !empty($event))
+		{
+			$this->attach(array( 'event' => $event, 'handler' => $handler ));
+		}
 	}
 
 	/**
@@ -96,7 +99,7 @@ class JEventDispatcher extends JObservable
 			{
 				// We are handling a function or a deprecated plugin
 				if (function_exists( $observer['handler'] )) {
-					$result[] = call_user_func_array( $observer['handler'], $args );
+					$result[] = array( call_user_func_array( $observer['handler'], $args ), $observer['handler']);
 				} else {
 					JError::raiseWarning( 'SOME_ERROR_CODE', 'JEventDispatcher::dispatch: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
 				}

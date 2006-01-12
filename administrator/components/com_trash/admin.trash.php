@@ -170,7 +170,7 @@ function deleteTrash( $cid, $option ) {
 
 	if ( $type == 'content' ) {
 		$obj =& JModel::getInstance('content', $database );
-		$fp = new mosFrontPage( $database );
+		$fp = new JFrontPageModel( $database );
 		foreach ( $cid as $id ) {
 			$id = intval( $id );
 			$obj->delete( $id );

@@ -78,19 +78,40 @@ class JSite extends JApplication {
 	{
 		global $Itemid;
 
-		$db = $this->getDBO();
+		static $templates;
 
-		$assigned = ( !empty( $Itemid ) ? " OR menuid = $Itemid" : '' );
+		if (!isset ($templates))
+		{
+			$templates = array();
+			
+			/*
+			 * Load template entries for each menuid
+			 */
+			$db = $this->getDBO();
+			$query = "SELECT template, menuid"
+				. "\n FROM #__templates_menu"
+				. "\n WHERE 1"
+				;
+			$db->setQuery( $query );
+			$tmpls = $db->loadObjectList();
+			
+			/*
+			 * Build the static templates array
+			 */
+			foreach ($tmpls as $tmpl)
+			{
+				$templates[$tmpl->menuid] = $tmpl->template;	
+			}
+		}
 
-		$query = "SELECT template"
-			. "\n FROM #__templates_menu"
-			. "\n WHERE client_id = 0"
-			. "\n AND ( menuid = 0 $assigned )"
-			. "\n ORDER BY menuid DESC"
-			. "\n LIMIT 1"
-			;
-		$db->setQuery( $query );
-		$template = $db->loadResult();
+		if (!empty($Itemid) && ($templates[$Itemid]))
+		{
+			$template = $templates[$Itemid];
+		}
+		else
+		{
+			$template = $templates[0];
+		}
 
 		// TemplateChooser Start
 		$jos_user_template   = mosGetParam( $_COOKIE, 'jos_user_template', '' );

@@ -68,15 +68,27 @@ class JAdministrator extends JApplication {
 	*/
 	function getTemplate()
 	{
-		$db = $this->getDBO();
+		static $templates;
 
-		$query = "SELECT template"
-			. "\n FROM #__templates_menu"
-			. "\n WHERE client_id = 1"
-			. "\n AND menuid = 0"
-			;
-		$db->setQuery( $query );
-		$template = $db->loadResult();
+		if (!isset ($templates))
+		{
+			$templates = array();
+			
+			/*
+			 * Load template entries for each menuid
+			 */
+			$db = $this->getDBO();
+			$query = "SELECT template"
+				. "\n FROM #__templates_menu"
+				. "\n WHERE client_id = 1"
+				. "\n AND menuid = 0"
+				;
+			$db->setQuery( $query );
+			$templates[0] = $db->loadResult();
+		}
+
+		$template = $templates[0];
+
 		$path = JPATH_ADMINISTRATOR ."/templates/$template/index.php";
 		
 		if (!file_exists( $path )) {

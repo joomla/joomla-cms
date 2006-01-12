@@ -16,7 +16,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
- * HTML View class for the WebLinks class
+ * HTML View class for the WebLinks component
  *
  * @static
  * @package Joomla

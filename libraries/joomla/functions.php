@@ -234,7 +234,7 @@ function josRedirect( $url, $msg='' ) {
 	exit();
 }
 
-function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
+function josErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 	$text = nl2br( $text );
 	$text = addslashes( $text );
 	$text = strip_tags( $text );
@@ -247,9 +247,9 @@ function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 		case 1:
 		default:
 			echo "<script>alert('$text'); $action</script> \n";
-			//echo '<noscript>';
-			//mosRedirect( @$_SERVER['HTTP_REFERER'], $text );
-			//echo '</noscript>';
+			echo '<noscript>';
+			echo "$text\n";
+			echo '</noscript>';
 			break;
 	}
 

@@ -15,17 +15,16 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+// require the html view class
 require_once (JApplicationHelper :: getPath('front_html', 'com_content'));
 
-$id 		= JRequest :: getVar('id', 0, '', 'int');
-$sectionid 	= JRequest :: getVar('sectionid', 0, '', 'int');
-$pop 		= JRequest :: getVar('pop', 0, '', 'int');
-$order 		= JRequest :: getVar('order', '');
-$limit 		= JRequest :: getVar('limit', 0, '', 'int');
-$limitstart = JRequest :: getVar('limitstart', 0, '', 'int');
-$now 		= date('Y-m-d H:i', time() + $mainframe->getCfg('offset') * 60 * 60);
+/*
+ * Get some variables
+ */
+global $Itemid;
+$now = date('Y-m-d H:i', time() + $mainframe->getCfg('offset') * 60 * 60);
 
-// Editor usertype check
+// Editor access object
 $access = new stdClass();
 $access->canEdit 	= $acl->acl_check('action', 'edit', 'users', $my->usertype, 'content', 'all');
 $access->canEditOwn = $acl->acl_check('action', 'edit', 'users', $my->usertype, 'content', 'own');
@@ -37,52 +36,49 @@ $cache = & JFactory :: getCache('com_content');
 // loads function for frontpage component
 if ($option == 'com_frontpage')
 {
-	JContentController :: frontpage($gid, $access, $pop, $now);
-	//$cache->call( 'frontpage', $gid, $access, $pop, $now );
+	JContentController :: frontpage($access, $now);
+	//$cache->call( 'frontpage', $access, $now );
 	return;
 }
 
 switch (strtolower($task))
 {
 	case 'findkey' :
-		JContentController :: _findKeyItem($gid, $access, $pop, $option, $now);
+		JContentController :: _findKeyItem($access, $now);
 		break;
 
 	case 'view' :
-		JContentController :: showItem($id, $gid, $access, $pop, $option, $now);
+		JContentController :: showItem($access, $now);
 		break;
 
 	case 'section' :
-		$cache->call('JContentController::showSection', $id, $access, $now);
+		$cache->call('JContentController::showSection', $access, $now);
 		break;
 
 	case 'category' :
-		$cache->call('JContentController::showCategory', $id, $access, $sectionid, $limit, $order, $limitstart, $now);
+		$cache->call('JContentController::showCategory', $access, $now);
 		break;
 
 	case 'blogsection' :
-		$cache->call('JContentController::showBlogSection', $id, $gid, $access, $pop, $now);
+		$cache->call('JContentController::showBlogSection', $access, $now);
 		break;
 
 	case 'blogcategorymulti' :
 	case 'blogcategory' :
-		$cache->call('JContentController::showBlogCategory', $id, $gid, $access, $pop, $now);
+		$cache->call('JContentController::showBlogCategory', $access, $now);
 		break;
 
 	case 'archivesection' :
-		JContentController :: showArchiveSection($id, $gid, $access, $pop, $option);
+		JContentController :: showArchiveSection($access);
 		break;
 
 	case 'archivecategory' :
-		JContentController :: showArchiveCategory($id, $gid, $access, $pop, $option, $now);
+		JContentController :: showArchiveCategory($access, $now);
 		break;
 
 	case 'edit' :
-		JContentController :: editItem($id, $gid, $access, 0, $task, $Itemid);
-		break;
-
 	case 'new' :
-		JContentController :: editItem(0, $gid, $access, $sectionid, $task, $Itemid);
+		JContentController :: editItem($access, $Itemid);
 		break;
 
 	case 'save' :
@@ -90,7 +86,7 @@ switch (strtolower($task))
 	case 'apply_new' :
 		$cache = JFactory :: getCache();
 		$cache->cleanCache('com_content');
-		JContentController :: saveContent($access, $task);
+		JContentController :: saveContent($access);
 		break;
 
 	case 'cancel' :
@@ -98,11 +94,11 @@ switch (strtolower($task))
 		break;
 
 	case 'emailform' :
-		JContentController :: emailContentForm($id);
+		JContentController :: emailContentForm();
 		break;
 
 	case 'emailsend' :
-		JContentController :: emailContentSend($id);
+		JContentController :: emailContentSend();
 		break;
 
 	case 'vote' :
@@ -110,7 +106,7 @@ switch (strtolower($task))
 		break;
 
 	default :
-		//$cache->call('showBlogSection', 0, $gid, $access, $pop, $now );
+		//$cache->call('showBlogSection', $access, $now );
 		header("HTTP/1.0 404 Not Found");
 		echo JText :: _('NOT_EXIST');
 		break;
@@ -127,7 +123,7 @@ switch (strtolower($task))
 class JContentController
 {
 
-	function frontpage($gid, & $access, $pop, $now)
+	function frontpage(& $access, $now)
 	{
 		global $mainframe, $Itemid;
 
@@ -139,6 +135,7 @@ class JContentController
 		$nullDate 	= $db->getNullDate();
 		$noauth 	= !$mainframe->getCfg('shownoauth');
 		$offset		= $mainframe->getCfg('offset');
+		$pop 		= JRequest :: getVar('pop', 0, '', 'int');
 
 		// Parameters
 		$menu 			= & JModel :: getInstance( 'menu', $db);
@@ -176,7 +173,7 @@ class JContentController
 		// Dynamic Page Title
 		$mainframe->SetPageTitle($menu->name);
 
-		JContentController :: blogOutput($rows, $params, $gid, $access, $pop, $menu);
+		JContentView :: showBlog($rows, $params, $my->gid, $access, $pop, $menu);
 	}
 
 	/**
@@ -188,7 +185,7 @@ class JContentController
 	 * @param string $now Timestamp
 	 * @since 1.0
 	 */
-	function showSection($id, & $access, $now)
+	function showSection(& $access, $now)
 	{
 		global $mainframe, $Itemid;
 
@@ -197,6 +194,7 @@ class JContentController
 		 */
 		$db			= & $mainframe->getDBO();
 		$my			= & $mainframe->getUser();
+		$id 		= JRequest :: getVar('id', 0, '', 'int');
 		$nullDate 	= $db->getNullDate();
 		$noauth 	= !$mainframe->getCfg('shownoauth');
 
@@ -323,7 +321,7 @@ class JContentController
 	 * @param string $now Timestamp
 	 * @since 1.0
 	 */
-	function showCategory($id, & $access, $sectionid, $limit, $selected, $limitstart, $now)
+	function showCategory(& $access, $now)
 	{
 		global $mainframe, $Itemid;
 
@@ -332,6 +330,11 @@ class JContentController
 		 */
 		$db			= & $mainframe->getDBO();
 		$my			= & $mainframe->getUser();
+		$id 		= JRequest :: getVar('id', 0, '', 'int');
+		$sectionid 	= JRequest :: getVar('sectionid', 0, '', 'int');
+		$selected	= JRequest :: getVar('order', '');
+		$limit 		= JRequest :: getVar('limit', 0, '', 'int');
+		$limitstart = JRequest :: getVar('limitstart', 0, '', 'int');
 		$nullDate 	= $db->getNullDate();
 		$noauth 	= !$mainframe->getCfg('shownoauth');
 		$category	= null;
@@ -544,7 +547,7 @@ class JContentController
 		JContentView :: showCategory($category, $other_categories, $items, $access, $my->gid, $params, $page, $lists, $selected);
 	}
 
-	function showBlogSection($id = 0, $gid, & $access, $pop, $now = NULL)
+	function showBlogSection(& $access, $now = NULL)
 	{
 		global $mainframe, $Itemid;
 
@@ -552,7 +555,10 @@ class JContentController
 		 * Initialize some variables
 		 */
 		$db			= & $mainframe->getDBO();
+		$my			= & $mainframe->getUser();
 		$noauth 	= !$mainframe->getCfg('shownoauth');
+		$id 		= JRequest :: getVar('id', 0, '', 'int');
+		$pop 		= JRequest :: getVar('pop', 0, '', 'int');
 
 		// Parameters
 		if ($Itemid)
@@ -572,7 +578,7 @@ class JContentController
 			$id = $params->def('sectionid', 0);
 		}
 
-		$where = JContentController :: _where(1, $access, $noauth, $gid, $id, $now);
+		$where = JContentController :: _where(1, $access, $noauth, $my->gid, $id, $now);
 
 		// Ordering control
 		$orderby_sec 	= $params->def('orderby_sec', 'rdate');
@@ -592,7 +598,7 @@ class JContentController
 				"\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" .
 				"\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" .
 				"\n LEFT JOIN #__groups AS g ON a.access = g.id". (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '').
-				"\n AND s.access <= $gid" .
+				"\n AND s.access <= $my->gid" .
 				"\n AND s.published = 1" .
 				"\n AND cc.published = 1" .
 				"\n ORDER BY $order_pri $order_sec";
@@ -611,18 +617,21 @@ class JContentController
 			$breadcrumbs->addItem($rows[0]->section, '');
 		}
 
-		JContentController :: blogOutput($rows, $params, $gid, $access, $pop, $menu);
+		JContentView :: showBlog($rows, $params, $my->gid, $access, $pop, $menu);
 	}
 
-	function showBlogCategory($id = 0, $gid, & $access, $pop, $now)
+	function showBlogCategory(& $access, $now)
 	{
 		global $mainframe, $Itemid;
 
 		/*
 		 * Initialize variables
 		 */
-		$db		= & $mainframe->getDBO();
-		$noauth = !$mainframe->getCfg('shownoauth');
+		$db			= & $mainframe->getDBO();
+		$my			= & $mainframe->getUser();
+		$noauth 	= !$mainframe->getCfg('shownoauth');
+		$id 		= JRequest :: getVar('id', 0, '', 'int');
+		$pop 		= JRequest :: getVar('pop', 0, '', 'int');
 
 		// Paramters
 		if ($Itemid)
@@ -642,7 +651,7 @@ class JContentController
 			$id = $params->def('categoryid', 0);
 		}
 
-		$where = JContentController :: _where(2, $access, $noauth, $gid, $id, $now);
+		$where = JContentController :: _where(2, $access, $noauth, $my->gid, $id, $now);
 
 		// Ordering control
 		$orderby_sec 	= $params->def('orderby_sec', 'rdate');
@@ -662,7 +671,7 @@ class JContentController
 				"\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" .
 				"\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" .
 				"\n LEFT JOIN #__groups AS g ON a.access = g.id". (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '').
-				"\n AND s.access <= $gid" .
+				"\n AND s.access <= $my->gid" .
 				"\n AND s.published = 1" .
 				"\n AND cc.published = 1" .
 				"\n ORDER BY $order_pri $order_sec";
@@ -680,19 +689,22 @@ class JContentController
 		{
 			$breadcrumbs->addItem($rows[0]->section, '');
 		}
-
-		JContentController :: blogOutput($rows, $params, $gid, $access, $pop, $menu);
+		JContentView :: showBlog($rows, $params, $my->gid, $access, $pop, $menu);
 	}
 
-	function showArchiveSection($id = null, $gid, & $access, $pop, $option)
+	function showArchiveSection(& $access)
 	{
 		global $mainframe, $Itemid;
 
 		/*
 		 * Initialize some variables
 		 */
-		$db		= & $mainframe->getDBO();
-		$noauth = !$mainframe->getCfg('shownoauth');
+		$db			= & $mainframe->getDBO();
+		$my			= & $mainframe->getUser();
+		$noauth 	= !$mainframe->getCfg('shownoauth');
+		$option		= JRequest :: getVar('option');
+		$id 		= JRequest :: getVar('id', 0, '', 'int');
+		$pop 		= JRequest :: getVar('pop', 0, '', 'int');
 		$year 	= JRequest::getVar( 'year', date('Y') );
 		$month 	= JRequest::getVar( 'month', date('m') );
 
@@ -718,7 +730,7 @@ class JContentController
 		$order_pri 		= JContentController :: _orderby_pri($orderby_pri);
 
 		// Build the WHERE clause for the database query
-		$where = JContentController :: _where(-1, $access, $noauth, $gid, $id, NULL, $year, $month);
+		$where = JContentController :: _where(-1, $access, $noauth, $my->gid, $id, NULL, $year, $month);
 
 		// checks to see if 'All Sections' options used
 		if ($id == 0)
@@ -749,16 +761,13 @@ class JContentController
 				"\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" .
 				"\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" .
 				"\n LEFT JOIN #__groups AS g ON a.access = g.id". (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '').
-				"\n AND s.access <= $gid" .
+				"\n AND s.access <= $my->gid" .
 				"\n AND s.published = 1" .
 				"\n AND cc.published = 1" .
 				"\n ORDER BY $order_pri $order_sec";
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 
-		// initiate form
-		$link = 'index.php?option=com_content&task=archivesection&id='.$id.'&Itemid='.$Itemid;
-		echo '<form action="'.sefRelToAbs($link).'" method="post">';
 
 		// Dynamic Page Title
 		$mainframe->SetPageTitle($menu->name);
@@ -769,27 +778,25 @@ class JContentController
 
 		if (!$archives)
 		{
-			// if no archives for category, hides search and outputs empty message
-			echo '<br /><div align="center">'.JText :: _('CATEGORY_ARCHIVE_EMPTY').'</div>';
-		} else
-		{
-			JContentController :: blogOutput($rows, $params, $gid, $access, $pop, $menu, 1);
+			JContentView :: emptyContainer(JText :: _('CATEGORY_ARCHIVE_EMPTY'));
 		}
-
-		echo '<input type="hidden" name="id" value="'.$id.'" />';
-		echo '<input type="hidden" name="Itemid" value="'.$Itemid.'" />';
-		echo '<input type="hidden" name="task" value="archivesection" />';
-		echo '<input type="hidden" name="option" value="com_content" />';
-		echo '</form>';
+		else
+		{
+			JContentView :: showArchive($rows, $params, $menu, $access, $id, $my->gid, $pop);
+		}
 	}
 
-	function showArchiveCategory($id = 0, $gid, & $access, $pop, $option, $now)
+	function showArchiveCategory(& $access, $now)
 	{
-		global $database, $mainframe;
-		global $Itemid;
+		global $mainframe, $Itemid;
 
 		// Parameters
-		$noauth = !$mainframe->getCfg('shownoauth');
+		$db			= & $mainframe->getDBO();
+		$my			= & $mainframe->getUser();
+		$noauth 	= !$mainframe->getCfg('shownoauth');
+		$option		= JRequest :: getVar('option');
+		$id 		= JRequest :: getVar('id', 0, '', 'int');
+		$pop 		= JRequest :: getVar('pop', 0, '', 'int');
 		$year = mosGetParam($_REQUEST, 'year', date('Y'));
 		$month = mosGetParam($_REQUEST, 'month', date('m'));
 		$module = mosGetParam($_REQUEST, 'module', '');
@@ -805,13 +812,13 @@ class JContentController
 
 		if ($Itemid)
 		{
-			$menu = new mosMenu($database);
+			$menu 	= & JModel :: getInstance( 'menu', $db );
 			$menu->load($Itemid);
-			$params = new mosParameters($menu->params);
+			$params = new JParameters($menu->params);
 		} else
 		{
-			$menu = '';
-			$params = new mosParameters('');
+			$menu 	= null;
+			$params = new JParameters();
 		}
 
 		$params->set('year', $year);
@@ -822,22 +829,33 @@ class JContentController
 		$order_sec = JContentController :: _orderby_sec($orderby_sec);
 
 		// used in query
-		$where = JContentController :: _where(-2, $access, $noauth, $gid, $id, NULL, $year, $month);
+		$where = JContentController :: _where(-2, $access, $noauth, $my->gid, $id, NULL, $year, $month);
 
 		// query to determine if there are any archived entries for the category
-		$query = "SELECT a.id"."\n FROM #__content as a"."\n WHERE a.state = -1".$check;
-		$database->setQuery($query);
-		$items = $database->loadObjectList();
+		$query = "SELECT a.id" .
+				"\n FROM #__content as a" .
+				"\n WHERE a.state = -1".$check;
+		$db->setQuery($query);
+		$items = $db->loadObjectList();
 		$archives = count($items);
 
 		//$query = "SELECT a.*, ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, g.name AS groups"
-		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,"."\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access,"."\n CHAR_LENGTH( a.fulltext ) AS readmore,"."\n ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups"."\n FROM #__content AS a"."\n INNER JOIN #__categories AS cc ON cc.id = a.catid"."\n LEFT JOIN #__users AS u ON u.id = a.created_by"."\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id"."\n LEFT JOIN #__sections AS s ON a.sectionid = s.id"."\n LEFT JOIN #__groups AS g ON a.access = g.id". (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '')."\n AND s.access <= $gid"."\n AND s.published = 1"."\n AND cc.published = 1"."\n ORDER BY $order_sec";
-		$database->setQuery($query);
-		$rows = $database->loadObjectList();
-
-		// initiate form
-		$link = 'index.php?option=com_content&task=archivecategory&id='.$id.'&Itemid='.$Itemid;
-		echo '<form action="'.sefRelToAbs($link).'" method="post">';
+		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
+				"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
+				"\n CHAR_LENGTH( a.fulltext ) AS readmore," .
+				"\n ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups" .
+				"\n FROM #__content AS a" .
+				"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
+				"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
+				"\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" .
+				"\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" .
+				"\n LEFT JOIN #__groups AS g ON a.access = g.id". (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '') .
+				"\n AND s.access <= $my->gid" .
+				"\n AND s.published = 1" .
+				"\n AND cc.published = 1" .
+				"\n ORDER BY $order_sec";
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
 
 		// Page Title
 		$mainframe->SetPageTitle($menu->name);
@@ -848,337 +866,24 @@ class JContentController
 
 		if (!$archives)
 		{
-			// if no archives for category, hides search and outputs empty message
-			echo '<br /><div align="center">'.JText :: _('CATEGORY_ARCHIVE_EMPTY').'</div>';
-		} else
-		{
-			// if coming from the Archive Module, the Archive Dropdown selector is not shown
-			if ($id)
-			{
-				JContentController :: blogOutput($rows, $params, $gid, $access, $pop, $menu, 1);
-			} else
-			{
-				JContentController :: blogOutput($rows, $params, $gid, $access, $pop, $menu, 0);
-			}
+			JContentView :: emptyContainer(JText :: _('CATEGORY_ARCHIVE_EMPTY'));
 		}
-
-		echo '<input type="hidden" name="id" value="'.$id.'" />';
-		echo '<input type="hidden" name="Itemid" value="'.$Itemid.'" />';
-		echo '<input type="hidden" name="task" value="archivecategory" />';
-		echo '<input type="hidden" name="option" value="com_content" />';
-		echo '</form>';
+		else
+		{
+			JContentView :: showArchive($rows, $params, $menu, $access, $id, $my->gid, $pop);
+		}
 	}
 
-	function blogOutput(& $rows, & $params, $gid, & $access, $pop, & $menu, $archive = NULL)
-	{
-		global $mainframe, $Itemid;
-
-		/*
-		 * Initialize variables
-		 */
-		$db 	= & $mainframe->getDBO();
-		$my 	= & $mainframe->getUser();
-		$task 	= JRequest::getVar( 'task' );
-		$id 	= JRequest::getVar( 'id' );
-		$option = JRequest::getVar( 'option' );
-		
-		/*
-		 * Lets take care of the page header
-		 */
-		if ($params->get('page_title', 1) && $menu)
-		{
-			$header = $params->def('header', $menu->name);
-		} else
-		{
-			$header = null;
-		}
-		
-		/*
-		 * How many columns should the items be displayed in?
-		 */
-		$columns = $params->def('columns', 2);
-		if ($columns == 0)
-		{
-			$columns = 1;
-		}
-		
-		/*
-		 * Time to get some parameter defaults
-		 */
-		$intro 				= $params->def('intro', 4);
-		$leading 			= $params->def('leading', 1);
-		$links				= $params->def('link', 4);
-		$pagination 		= $params->def('pagination', 2);
-		$pagination_results = $params->def('pagination_results', 1);
-		$pagination_results = $params->def('pagination_results', 1);
-		$descrip 			= $params->def('description', 1);
-		$descrip_image 		= $params->def('description_image', 1);
-		// needed for back button for page
-		$back 				= $params->get('back_button', $mainframe->getCfg('back_button'));
-		// needed to disable back button for item
-		$params->set('back_button', 0);
-		$params->def('pageclass_sfx', '');
-		$params->set('intro_only', 1);
-
-		$total = count($rows);
-
-		// pagination support
-		$limitstart = JRequest::getVar( 'limitstart', 0, '', 'int' );
-		$limit = $intro + $leading + $links;
-		if ($total <= $limit)
-		{
-			$limitstart = 0;
-		}
-		$i = $limitstart;
-
-		// needed to reduce queries used by getItemid
-		$ItemidCount['bs'] = JApplicationHelper :: getBlogSectionCount();
-		$ItemidCount['bc'] = JApplicationHelper :: getBlogCategoryCount();
-		$ItemidCount['gbs'] = JApplicationHelper :: getGlobalBlogSectionCount();
-
-		// used to display section/catagory description text and images
-		// currently not supported in Archives
-		if ($menu && $menu->componentid && ($descrip || $descrip_image))
-		{
-			switch ($menu->type)
-			{
-				case 'content_blog_section' :
-					$description = & JModel :: getInstance( 'section', $db );
-					$description->load($menu->componentid);
-					break;
-
-				case 'content_blog_category' :
-					$description = & JModel :: getInstance( 'category', $db );
-					$description->load($menu->componentid);
-					break;
-
-				default :
-					$menu->componentid = 0;
-					break;
-			}
-		}
-
-		// Page Output
-		// page header
-		if ($header)
-		{
-			echo '<div class="componentheading'.$params->get('pageclass_sfx').'">'.$header.'</div>';
-		}
-
-		if ($archive)
-		{
-			echo '<br />';
-			echo mosHTML :: monthSelectList('month', 'size="1" class="inputbox"', $params->get('month'));
-			echo mosHTML :: integerSelectList(2000, 2010, 1, 'year', 'size="1" class="inputbox"', $params->get('year'), "%04d");
-			echo '<input type="submit" class="button" />';
-		}
-
-		// checks to see if there are there any items to display
-		if ($total)
-		{
-			$col_width = 100 / $columns; // width of each column
-			$width = 'width="'.intval($col_width).'%"';
-
-			if ($archive)
-			{
-				// Search Success message
-				$msg = sprintf(JText :: _('ARCHIVE_SEARCH_SUCCESS'), $params->get('month'), $params->get('year'));
-				echo "<br /><br /><div align='center'>".$msg."</div><br /><br />";
-			}
-			echo '<table class="blog'.$params->get('pageclass_sfx').'" cellpadding="0" cellspacing="0">';
-
-			// Secrion/Category Description & Image
-			if ($menu && $menu->componentid && ($descrip || $descrip_image))
-			{
-				$link = JURL_SITE.'/images/stories/'.$description->image;
-				echo '<tr>';
-				echo '<td valign="top">';
-				if ($descrip_image && $description->image)
-				{
-					echo '<img src="'.$link.'" align="'.$description->image_position.'" hspace="6" alt="" />';
-				}
-				if ($descrip && $description->description)
-				{
-					echo $description->description;
-				}
-				echo '<br/><br/>';
-				echo '</td>';
-				echo '</tr>';
-			}
-
-			// Leading story output
-			if ($leading)
-			{
-				echo '<tr>';
-				echo '<td valign="top">';
-				for ($z = 0; $z < $leading; $z ++)
-				{
-					if ($i >= $total)
-					{
-						// stops loop if total number of items is less than the number set to display as leading
-						break;
-					}
-					echo '<div>';
-					JContentController :: show($rows[$i], $params, $gid, $access, $pop, $option, $ItemidCount);
-					echo '</div>';
-					$i ++;
-				}
-				echo '</td>';
-				echo '</tr>';
-			}
-
-			// use newspaper style vertical layout rather than horizontal table
-			if ($intro && ($i < $total))
-			{
-				echo '<tr>';
-				echo '<td valign="top">';
-				echo '<table width="100%"  cellpadding="0" cellspacing="0">';
-				echo '<tr>';
-				echo '<td>';
-
-				$indexcount = 0;
-				$divider = '';
-				for ($z = 0; $z < $columns; $z ++)
-				{
-					if ($z > 0)
-						$divider = " column_seperator";
-					echo "<td valign=\"top\"".$width." class=\"article_column".$divider."\">\n";
-					for ($y = 0; $y < $intro / $columns; $y ++)
-					{
-						if ($indexcount < $intro)
-							//echo $rows[$indexcount++] . "\n";
-							JContentController :: show($rows[++ $indexcount], $params, $gid, $access, $pop, $option, $ItemidCount);
-					}
-					echo "</td>\n";
-
-				}
-				echo '</table>';
-				echo '</td>';
-				echo '</tr>';
-
-				// TODO: remove this below
-
-				//			echo '<tr>';
-				//			echo '<td valign="top">';
-				//			echo '<table width="100%"  cellpadding="0" cellspacing="0">';
-				//			// intro story output
-				//			for ( $z = 0; $z < $intro; $z++ ) {
-				//				if ( $i >= $total ) {
-				//					// stops loop if total number of items is less than the number set to display as intro + leading
-				//					break;
-				//				}
-				//
-				//				if ( !( $z % $columns ) || $columns == 1 ) {
-				//					echo '<tr>';
-				//				}
-				//
-				//				echo '<td valign="top" '. $width .' class="column_seperator">';
-				//
-				//				// outputs either intro or only a link
-				//				if ( $z < $intro ) {
-				//					JContentController :: show( $rows[$i], $params, $gid, $access, $pop, $option, $ItemidCount );
-				//				} else {
-				//					echo '</td>';
-				//					echo '</tr>';
-				//					break;
-				//				}
-				//
-				//				echo '</td>';
-				//
-				//				if ( !( ( $z + 1 ) % $columns ) || $columns == 1 ) {
-				//					echo '</tr>';
-				//				}
-				//
-				//				$i++;
-				//			}
-				//
-				//			// this is required to output a final closing </tr> tag when the number of items does not fully
-				//			// fill the last row of output - a blank column is left
-				//			if ( $intro % $columns ) {
-				//				echo '</tr>';
-				//			}
-				//
-				//			echo '</table>';
-				//			echo '</td>';
-				//			echo '</tr>';
-
-				// NOTE: End remove
-			}
-
-			// Links output
-			if ($links && ($i < $total))
-			{
-				echo '<tr>';
-				echo '<td valign="top">';
-				echo '<div class="blog_more'.$params->get('pageclass_sfx').'">';
-				JContentView :: showLinks($rows, $links, $total, ++ $indexcount, 1, $ItemidCount);
-				echo '</div>';
-				echo '</td>';
-				echo '</tr>';
-			}
-
-			// Pagination output
-			if ($pagination)
-			{
-				if (($pagination == 2) && ($total <= $limit))
-				{
-					// not visible when they is no 'other' pages to display
-				} else
-				{
-					// get the total number of records
-					$limitstart = $limitstart ? $limitstart : 0;
-					require_once (JPATH_SITE.'/includes/pageNavigation.php');
-					$pageNav = new mosPageNav($total, $limitstart, $limit);
-					if ($option == 'com_frontpage')
-					{
-						$link = 'index.php?option=com_frontpage&amp;Itemid='.$Itemid;
-					} else
-						if ($archive)
-						{
-							$year = $params->get('year');
-							$month = $params->get('month');
-							$link = 'index.php?option=com_content&amp;task='.$task.'&amp;id='.$id.'&amp;Itemid='.$Itemid.'&amp;year='.$year.'&amp;month='.$month;
-						} else
-						{
-							$link = 'index.php?option=com_content&amp;task='.$task.'&amp;id='.$id.'&amp;Itemid='.$Itemid;
-						}
-					echo '<tr>';
-					echo '<td valign="top" align="center">';
-					echo $pageNav->writePagesLinks($link);
-					echo '<br /><br />';
-					echo '</td>';
-					echo '</tr>';
-					if ($pagination_results)
-					{
-						echo '<tr>';
-						echo '<td valign="top" align="center">';
-						echo $pageNav->writePagesCounter();
-						echo '</td>';
-						echo '</tr>';
-					}
-				}
-			}
-
-			echo '</table>';
-
-		} else
-			if ($archive && !$total)
-			{
-				// Search Failure message for Archives
-				$msg = sprintf(JText :: _('ARCHIVE_SEARCH_FAILURE'), $params->get('month'), $params->get('year'));
-				echo '<br /><br /><div align="center">'.$msg.'</div><br />';
-			} else
-			{
-				// Generic blog empty display
-				echo _EMPTY_BLOG;
-			}
-
-		// Back Button
-		$params->set('back_button', $back);
-		mosHTML :: BackButton($params);
-	}
-
-	function showItem($uid, $gid, & $access, $pop, $option, $now)
+	/**
+	 * Method to show a content item as the main page display
+	 * 
+	 * @static
+	 * @param object $access 	User access control object
+	 * @param string $now		Current timestamp
+	 * @return void
+	 * @since 1.0
+	 */
+	function showItem( & $access, $now )
 	{
 		global $mainframe, $Itemid;
 
@@ -1186,9 +891,13 @@ class JContentController
 		 * Initialize variables
 		 */
 		$db 		= & $mainframe->getDBO();
+		$my			= & $mainframe->getUser();
 		$MetaTitle 	= $mainframe->getCfg('MetaTitle');
 		$MetaAuthor = $mainframe->getCfg('MetaAuthor');
 		$nullDate	= $db->getNullDate();
+		$option		= JRequest :: getVar('option');
+		$uid 		= JRequest :: getVar('id', 0, '', 'int');
+		$pop 		= JRequest :: getVar('pop', 0, '', 'int');
 		$row 		= null;
 
 		if ($access->canEdit)
@@ -1201,6 +910,7 @@ class JContentController
 					"\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )";
 		}
 
+		// Main content item query
 		$query = "SELECT a.*, ROUND(v.rating_sum/v.rating_count) AS rating, v.rating_count, u.name AS author, u.usertype, cc.title AS category, s.title AS section, g.name AS groups, s.published AS sec_pub, cc.published AS cat_pub" .
 				"\n FROM #__content AS a" .
 				"\n LEFT JOIN #__categories AS cc ON cc.id = a.catid" .
@@ -1209,7 +919,7 @@ class JContentController
 				"\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" .
 				"\n LEFT JOIN #__groups AS g ON a.access = g.id" .
 				"\n WHERE a.id = $uid".$xwhere.
-				"\n AND a.access <= $gid";
+				"\n AND a.access <= $my->gid";
 		$db->setQuery($query);
 
 		if ($db->loadObject($row))
@@ -1263,7 +973,7 @@ class JContentController
 				$query = "SELECT a.id" .
 						"\n FROM #__content AS a" .
 						"\n WHERE a.catid = $row->catid" .
-						"\n AND a.state = $row->state". ($access->canEdit ? '' : "\n AND a.access <= $gid").$xwhere.
+						"\n AND a.state = $row->state". ($access->canEdit ? '' : "\n AND a.access <= $my->gid").$xwhere.
 						"\n ORDER BY $orderby";
 				$db->setQuery($query);
 				$list = $db->loadResultArray();
@@ -1271,8 +981,8 @@ class JContentController
 				// location of current content item in array list
 				$location = array_search($uid, $list);
 
-				$row->prev = '';
-				$row->next = '';
+				$row->prev = null;
+				$row->next = null;
 				if ($location -1 >= 0)
 				{
 					// the previous content item cannot be in the array position -1
@@ -1317,7 +1027,7 @@ class JContentController
 			$document->setTitle($row->title);
 			
 
-			JContentController :: show($row, $params, $gid, $access, $pop, $option);
+			JContentController :: show($row, $params, $my->gid, $access, $pop, $option);
 		} else
 		{
 			mosNotAuth();
@@ -1388,36 +1098,44 @@ class JContentController
 		$params->def('item_title', 1);
 		$params->def('url', 1);
 
+
+		/*
+		 * Get itemid values for section and component links
+		 */
+		if ($params->get('section_link') || $params->get('category_link'))
+		{
+			$query = "SELECT id as value, componentid as key" .
+					"\n FROM #__menu" .
+					"\n WHERE componentid = '$row->sectionid'" .
+					"\n OR componentid = '$row->catid'";
+			$db->setQuery($query);
+			$arr = $db->loadAssocList();
+			
+			foreach($arr as $item)
+			{
+				$m[$item['key']] = $item['value'];
+			}
+		}
+
 		// loads the link for Section name
 		if ($params->get('section_link'))
 		{
-			$query = "SELECT a.id" .
-					"\n FROM #__menu AS a" .
-					"\n WHERE a.componentid = ".$row->sectionid."";
-			$db->setQuery($query);
-			$_Itemid = $db->loadResult();
-
-			if ($_Itemid)
+			if ($m[$row->sectionid])
 			{
-				$_Itemid = '&amp;Itemid='.$_Itemid;
+				$_Itemid = '&amp;Itemid='.$m[$row->sectionid];
 			}
 
 			$link = sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$row->sectionid.$_Itemid);
 			$row->section = '<a href="'.$link.'">'.$row->section.'</a>';
 		}
 
+
 		// loads the link for Category name
 		if ($params->get('category_link'))
 		{
-			$query = "SELECT a.id" .
-					"\n FROM #__menu AS a" .
-					"\n WHERE a.componentid = $row->catid";
-			$db->setQuery($query);
-			$_Itemid = $db->loadResult();
-
-			if ($_Itemid)
+			if ($m[$row->catid])
 			{
-				$_Itemid = '&amp;Itemid='.$_Itemid;
+				$_Itemid = '&amp;Itemid='.$m[$row->catid];
 			}
 
 			$link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$row->sectionid.'&amp;id='.$row->catid.$_Itemid);
@@ -1425,7 +1143,7 @@ class JContentController
 		}
 
 		// loads current template for the pop-up window
-		$template = '';
+		$template = null;
 		if ($pop)
 		{
 			$params->set('popup', 1);
@@ -1460,7 +1178,7 @@ class JContentController
 		JContentView :: show($row, $params, $access, $page, $option, $ItemidCount);
 	}
 
-	function editItem($uid, $gid, & $access, $sectionid = 0, $task, $Itemid)
+	function editItem(& $access, $Itemid)
 	{
 		global $mainframe;
 		
@@ -1468,8 +1186,11 @@ class JContentController
 		 * Initialize variables
 		 */
 		$db 		= & $mainframe->getDBO();
-		$my 		= & $mainframe->getUser();
-		$nullDate 	= $db->getNullDate();
+		$my			= & $mainframe->getUser();
+		$nullDate	= $db->getNullDate();
+		$uid 		= JRequest :: getVar('id', 0, '', 'int');
+		$sectionid 	= JRequest :: getVar('sectionid', 0, '', 'int');
+		$task 		= JRequest :: getVar('task');
 
 		/*
 		 * Get the content data object
@@ -1608,7 +1329,7 @@ class JContentController
 	/**
 	* Saves the content item an edit form submit
 	*/
-	function saveContent(& $access, $task)
+	function saveContent(& $access)
 	{
 		global $mainframe, $Itemid;
 
@@ -1682,7 +1403,7 @@ class JContentController
 
 		// manage frontpage items
 		require_once (JApplicationHelper :: getPath('class', 'com_frontpage'));
-		$fp = new mosFrontPage($db);
+		$fp = new JFrontPageModel($db);
 
 		if (JRequest :: getVar( 'frontpage', false, '', 'boolean' ))
 		{
@@ -1829,7 +1550,7 @@ class JContentController
 	 * @param int $uid The content item id to show form for
 	 * @since 1.0
 	 */
-	function emailContentForm($uid)
+	function emailContentForm()
 	{
 		global $mainframe;
 		
@@ -1838,6 +1559,7 @@ class JContentController
 		 */
 		$db = & $mainframe->getDBO();
 		$my = & $mainframe->getUser();
+		$uid 		= JRequest :: getVar('id', 0, '', 'int');
 
 		$row = & JModel :: getInstance( 'content', $db );
 		$row->load($uid);
@@ -1866,7 +1588,7 @@ class JContentController
 	 * @param int $uid The content item id to send
 	 * @since 1.0
 	 */
-	function emailContentSend($uid)
+	function emailContentSend()
 	{
 		global $mainframe;
 
@@ -1874,6 +1596,7 @@ class JContentController
 		$SiteName 	= $mainframe->getCfg('sitename');
 		$MailFrom 	= $mainframe->getCfg('mailfrom');
 		$FromName 	= $mainframe->getCfg('fromname');
+		$uid 		= JRequest :: getVar('id', 0, '', 'int');
 		$validate 	= JRequest::getVar( mosHash('validate'), 0, 'post' );
 		
 		if (!$validate)
@@ -2168,20 +1891,23 @@ class JContentController
 	/**
 	 * Searches for an item by a key parameter
 	 * 
-	 * @param int The user access level
+	 * @static
 	 * @param object Actions this user can perform
-	 * @param int
-	 * @param string The url option
 	 * @param string A timestamp
+	 * @return void
+	 * @since 1.0
 	 */
-	function _findKeyItem($gid, $access, $pop, $option, $now)
+	function _findKeyItem($access, $now)
 	{
 		global $mainframe;
 
 		/*
 		 * Initialize variables
 		 */
-		$db = & $mainframe->getDBO();
+		$db 	= & $mainframe->getDBO();
+		$my 	= & $mainframe->getUser();
+		$pop 	= JRequest::getVar( 'pop', 0, '', 'int' );
+		$option = JRequest::getVar( 'option' );
 		$keyref = $db->getEscaped(JRequest::getVar( 'keyref' ));
 
 		$query = "SELECT id" .
@@ -2191,7 +1917,7 @@ class JContentController
 		$id = $db->loadResult();
 		if ($id > 0)
 		{
-			showItem($id, $gid, $access, $pop, $option, $now);
+			showItem($id, $my->gid, $access, $pop, $option, $now);
 		} else
 		{
 			echo JText :: _('Key not found');
