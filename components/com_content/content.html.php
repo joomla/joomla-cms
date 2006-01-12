@@ -610,7 +610,6 @@ class JContentView
 
 		$onBeforeDisplayContent = $mainframe->triggerEvent('onBeforeDisplayContent', array (& $row, & $params, $page));
 		echo trim(implode("\n", $onBeforeDisplayContent));
-		print_r($onBeforeDisplayContent);
 		?>
 
 		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">

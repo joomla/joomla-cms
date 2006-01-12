@@ -99,7 +99,7 @@ class JEventDispatcher extends JObservable
 			{
 				// We are handling a function or a deprecated plugin
 				if (function_exists( $observer['handler'] )) {
-					$result[] = array( call_user_func_array( $observer['handler'], $args ), $observer['handler']);
+					$result[] = call_user_func_array( $observer['handler'], $args );
 				} else {
 					JError::raiseWarning( 'SOME_ERROR_CODE', 'JEventDispatcher::dispatch: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
 				}
