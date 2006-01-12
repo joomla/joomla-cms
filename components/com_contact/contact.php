@@ -439,47 +439,48 @@ class JContactController
 	 * @static
 	 * @since 1.0
 	 */
-	function sendmail()
-	{
+	function sendmail() {
 		global $mainframe, $Itemid;
 
 		/*
 		 * Initialize some variables
 		 */
 		$db = & $mainframe->getDBO();
-		$SiteName = $mainframe->getCfg('sitename');
-		$MailFrom = $mainframe->getCfg('mailfrom');
-		$FromName = $mainframe->getCfg('fromname');
-		$option = JRequest :: getVar('option');
-		$contactId = JRequest :: getVar('con_id');
-		$validate = JRequest :: getVar(mosHash('validate'), 0, 'post');
-		$default = sprintf(JText :: _('MAILENQUIRY'), $SiteName);
-		$email = JRequest :: getVar('email', '', 'post');
-		$text = JRequest :: getVar('text', '', 'post');
-		$name = JRequest :: getVar('name', '', 'post');
-		$subject = JRequest :: getVar('subject', $default, 'post');
-		$emailCopy = JRequest :: getVar('email_copy', 0, 'post');
+		$SiteName 	= $mainframe->getCfg('sitename');
+		$MailFrom 	= $mainframe->getCfg('mailfrom');
+		$FromName 	= $mainframe->getCfg('fromname');
+		$option 	= JRequest :: getVar('option');
+		$contactId 	= JRequest :: getVar('con_id');
+		$validate 	= JRequest :: getVar(mosHash('validate'), 0, 'post');
+		$default 	= sprintf(JText :: _('MAILENQUIRY'), $SiteName);
+		$email 		= JRequest :: getVar('email', '', 'post');
+		$text 		= JRequest :: getVar('text', '', 'post');
+		$name 		= JRequest :: getVar('name', '', 'post');
+		$subject 	= JRequest :: getVar('subject', $default, 'post');
+		$emailCopy 	= JRequest :: getVar('email_copy', 0, 'post');
 
+		// probably a spoofing attack
+		if (!$validate) {
+			echo _NOT_AUTH;
+			return;
+		}
+		
 		/*
 		 * This obviously won't catch all attempts, but it does not hurt to make
 		 * sure the request came from a client with a user agent string.
 		 */
-		if (!isset ($_SERVER['HTTP_USER_AGENT']))
-		{
-			header("HTTP/1.0 403 Forbidden");
-			die(_NOT_AUTH);
-			exit;
+		if (!isset ($_SERVER['HTTP_USER_AGENT'])) {
+			echo _NOT_AUTH;
+			return;
 		}
 
 		/*
 		 * This obviously won't catch all attempts either, but we ought to check
 		 * to make sure that the request was posted as well.
 		 */
-		if (!$_SERVER['REQUEST_METHOD'] == 'POST')
-		{
-			header("HTTP/1.0 403 Forbidden");
-			die(_NOT_AUTH);
-			exit;
+		if (!$_SERVER['REQUEST_METHOD'] == 'POST') {
+			echo _NOT_AUTH;
+			return;
 		}
 
 		// An array of e-mail headers we do not want to allow as input
@@ -501,15 +502,11 @@ class JContactController
 		 * iterate over the array of form input and check for header strings.
 		 * If we fine one, send an unauthorized header and die.
 		 */
-		foreach ($fields as $field)
-		{
-			foreach ($headers as $header)
-			{
-				if (strpos($_POST[$field], $header) !== false)
-				{
-					header("HTTP/1.0 403 Forbidden");
-					die(_NOT_AUTH);
-					exit;
+		foreach ($fields as $field) {
+			foreach ($headers as $header) {
+				if (strpos($_POST[$field], $header) !== false) {
+					echo _NOT_AUTH;
+					return;
 				}
 			}
 		}
@@ -531,17 +528,52 @@ class JContactController
 		 * error and return false.
 		 */
 		jimport('joomla.mail');
-		if (!$email || !$text || (JMailHelper :: isEmailAddress($email) == false))
-		{
+		if (!$email || !$text || (JMailHelper :: isEmailAddress($email) == false)) {
 			JContactView :: emailError();
-		} else
-		{
+		} else {
+			$menu = new JModelMenu( $database );
+			$menu->load( $Itemid );
+			$mparams = new JParameters( $menu->params );		
+			$bannedEmail 	= $mparams->get( 'bannedEmail', 	'' );		
+			$bannedSubject 	= $mparams->get( 'bannedSubject', 	'' );		
+			$bannedText 	= $mparams->get( 'bannedText', 		'' );
+			
+			// Prevent form submission if one of the banned text is discovered in the email field
+			if ( $bannedEmail ) {
+				$bannedEmail = explode( ';', $bannedEmail );
+				foreach ($bannedEmail as $value) {
+					if ( stristr($email, $value) ) {
+						echo _NOT_AUTH;
+						return;
+					}
+				}
+			}
+			// Prevent form submission if one of the banned text is discovered in the subject field		
+			if ( $bannedSubject ) {
+				$bannedSubject = explode( ';', $bannedSubject );
+				foreach ($bannedSubject as $value) {
+					if ( stristr($subject, $value) ) {
+						echo _NOT_AUTH;
+						return;
+					}
+				}
+			}
+			// Prevent form submission if one of the banned text is discovered in the text field		
+			if ( $bannedText ) {
+				$bannedText = explode( ';', $bannedText );
+				foreach ($bannedText as $value) {
+					if ( stristr($text, $value) ) {
+						echo _NOT_AUTH;
+						return;
+					}
+				}
+			}			
 
 			/*
 			 * Prepare email body
 			 */
 			$prefix = sprintf(JText :: _('ENQUIRY_TEXT'), JURL_SITE);
-			$text = $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($text);
+			$text 	= $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($text);
 
 			// Send mail
 			josMail($email, $name, $contact->email_to, $FromName.': '.$subject, $text);
@@ -550,13 +582,13 @@ class JContactController
 			 * If we are supposed to copy the admin, do so.
 			 */
 			// parameter check
-			$params = new mosParameters( $contact->params );		
+			$params 		= new JParameters( $contact->params );		
 			$emailcopyCheck = $params->get( 'email_copy', 0 );
 			
 			if ( $emailCopy && $emailcopyCheck ) {
-				$copyText = sprintf(JText :: _('Copy of:'), $contact->name, $SiteName);
-				$copyText .= "\r\n\r\n".$text;
-				$copySubject = JText :: _('Copy of:')." ".$subject;
+				$copyText 		= sprintf(JText :: _('Copy of:'), $contact->name, $SiteName);
+				$copyText 		.= "\r\n\r\n".$text;
+				$copySubject 	= JText :: _('Copy of:')." ".$subject;
 				josMail($MailFrom, $FromName, $email, $copySubject, $copyText);
 			}
 			JContactView :: emailSent();
@@ -569,8 +601,7 @@ class JContactController
 	 * @static
 	 * @since 1.0
 	 */
-	function vCard()
-	{
+	function vCard() {
 		global $mainframe;
 
 		/*
@@ -590,28 +621,25 @@ class JContactController
 		 * Get the contact detail parameters
 		 */
 		$params = new JParameters($contact->params);
-		$show = $params->get('vcard', 0);
+		$show 	= $params->get('vcard', 0);
 
 		/*
 		 * Should we show the vcard?
 		 */
-		if ($show)
-		{
-
+		if ($show) {
 			/*
 			 * We need to parse the contact name field and build the name
 			 * information for the vcard.
 			 */
-			$firstname = null;
+			$firstname 	= null;
 			$middlename = null;
-			$surname = null;
+			$surname 	= null;
 
 			// How many parts do we have?
 			$parts = explode(' ', $contact->name);
 			$count = count($parts);
 
-			switch ($count)
-			{
+			switch ($count) {
 				case 1 :
 					// only a first name
 					$firstname = $parts[0];
@@ -627,8 +655,7 @@ class JContactController
 					// we have full name info
 					$firstname = $parts[0];
 					$surname = $parts[$count -1];
-					for ($i = 1; $i < $count -1; $i ++)
-					{
+					for ($i = 1; $i < $count -1; $i ++) {
 						$middlename .= $parts[$i].' ';
 					}
 					break;
@@ -666,8 +693,7 @@ class JContactController
 			header('Pragma: cache');
 
 			print $output;
-		} else
-		{
+		} else {
 			JError :: raiseWarning('SOME_ERROR_CODE', 'JContactController::vCard: '.JText :: _('NOTAUTH'));
 			return false;
 		}
