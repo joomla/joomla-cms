@@ -34,15 +34,13 @@ $access->canPublish = $acl->acl_check('action', 'publish', 'users', $my->usertyp
 $cache = & JFactory :: getCache('com_content');
 
 // loads function for frontpage component
-if ($option == 'com_frontpage')
-{
-	JContentController :: frontpage($access, $now);
-	//$cache->call( 'frontpage', $access, $now );
+if ($option == 'com_frontpage') {
+	//JContentController :: frontpage($access, $now);
+	$cache->call('JContentController :: frontpage', $access, $now);
 	return;
 }
 
-switch (strtolower($task))
-{
+switch (strtolower($task)) {
 	case 'findkey' :
 		JContentController :: _findKeyItem($access, $now);
 		break;
