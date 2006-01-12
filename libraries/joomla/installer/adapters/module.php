@@ -195,13 +195,30 @@ class JInstallerModule extends JInstaller {
 
 		/*
 		 * Let's run the install queries for the module
-		 */		
-		if ($this->_parseBackwardQueries( 'install/queries' ) === false) {
-			JError::raiseWarning( 1, 'JInstallerModule::install: '.$db->stderr(true));
+		 *    If backward compatibility is required - run queries in xml file
+		 *    If Joomla 1.1 compatible, with discreet sql files - execute appropriate
+		 *    file for utf-8 support or non-utf-8 support
+		 */	
+		 
+		// start with backward compatibility <queries> tag		 
+		$result = $this->_parseBackwardQueries( 'install/queries' );
+
+		if ( $result === false) {
+			JError::raiseWarning( 1, 'JInstallerModule::install: ' . JText::_( 'SQL Error' ) ." " . $db->stderr( true ));
 
 			// Install failed, rollback changes
 			$this->_rollback();
 			return false;
+		} else if ( $result === 0 ){
+			// no backward compatibility queries found - try for Joomla 1.1 type queries
+			$utfresult = $this->_parseQueries( "install/sql/". ($db->hasUTF() ? 'primary' : 'backward'));
+			if ( $utfresult === false) {
+				JError::raiseWarning( 1, 'JInstallerModule::install: ' . JText::_( 'SQL Error' ) ." " . $db->stderr( true ));
+	
+				// Install failed, rollback changes
+				$this->_rollback();
+				return false;
+			}
 		}
 
 		/*
@@ -339,12 +356,25 @@ print_r($this);
 
 				/*
 				 * Let's run the uninstall queries for the module
-				 */		
-				if ($this->_parseBackwardQueries( 'uninstall/queries' ) === false) {
-					JError::raiseWarning( 1, 'JInstallerModule::uninstall: '.$db->stderr(true));
-					$retval = false;
+				 *    If backward compatibility is required - run queries in xml file
+				 *    If Joomla 1.1 compatible, with discreet sql files - execute appropriate
+				 *    file for utf-8 support or non-utf support
+				 */
+				 
+				// start with backward compatibility <queries> tag		 
+				$result = $this->_parseBackwardQueries( 'uninstall/queries' );
+		
+				if ( $result === false) {
+					JError::raiseWarning( 1, 'JInstallerModule::uninstall: ' . JText::_( 'SQL Error' ) ." " . $db->stderr( true ));
+					$retval =  false;
+				} else if ( $result === 0 ){
+					// no backward compatibility queries found - try for Joomla 1.1 type queries
+					$utfresult = $this->_parseQueries( "uninstall/sql/". ($db->hasUTF() ? 'primary' : 'backward'));
+					if ( $utfresult === false) {
+						JError::raiseWarning( 1, 'JInstallerModule::uninstall: ' . JText::_( 'SQL Error' ) ." " . $db->stderr( true ));
+						$retval =  false;
+					}
 				}
-
 			} else {
 				JError::raiseWarning( 1, 'JInstallerModule::uninstall: '.JText::_( 'Could not load XML file' ) .' '. $xmlfile);
 				$retval = false;

@@ -126,9 +126,9 @@ class JInstallerComponent extends JInstaller {
 
 		/*
 		 * Let's run the install queries for the component
-		 *    If bacward compatibility is required - run queries in xml file
-		 *    If Joomla 1.1 compatible with discreet sql files - execute appropriate
-		 *    file for utf-8 support or not
+		 *    If backward compatibility is required - run queries in xml file
+		 *    If Joomla 1.1 compatible, with discreet sql files - execute appropriate
+		 *    file for utf-8 support or non-utf-8 support
 		 */	
 		 
 		// start with backward compatibility <queries> tag		 
@@ -426,12 +426,26 @@ class JInstallerComponent extends JInstaller {
 
 		/*
 		 * Let's run the uninstall queries for the component
-		 */		
-		if ($this->_parseBackwardQueries( 'uninstall/queries' ) === false) {
-			JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerComponent::uninstall: ' . $db->stder(true));
-			$retval = false;
-		}
+		 *    If backward compatibility is required - run queries in xml file
+		 *    If Joomla 1.1 compatible, with discreet sql files - execute appropriate
+		 *    file for utf-8 support or non-utf support
+		 */
+		 
+		// start with backward compatibility <queries> tag		 
+		$result = $this->_parseBackwardQueries( 'uninstall/queries' );
 
+		if ( $result === false) {
+			JError::raiseWarning( 1, 'JInstallerComponent::uninstall: ' . JText::_( 'SQL Error' ) ." " . $db->stderr( true ));
+			$retval =  false;
+		} else if ( $result === 0 ){
+			// no backward compatibility queries found - try for Joomla 1.1 type queries
+			$utfresult = $this->_parseQueries( "uninstall/sql/". ($db->hasUTF() ? 'primary' : 'backward'));
+			if ( $utfresult === false) {
+				JError::raiseWarning( 1, 'JInstallerComponent::uninstall: ' . JText::_( 'SQL Error' ) ." " . $db->stderr( true ));
+				$retval =  false;
+			}
+		}
+		
 		/*
 		 * Let's remove language files and media in the JROOT/images/ folder that are
 		 * associated with the component we are uninstalling
