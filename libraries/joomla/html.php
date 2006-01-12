@@ -480,7 +480,7 @@ class mosHTML
 					$text_parts	= explode( '.', $text[1] );
 					$replacement 	.= "var addy_text". $rand ." = '". @$text[0] ."' + '&#64;' + '". implode( "' + '&#46;' + '", @$text_parts ) ."'; \n";
 				} else {
-					$text 	= mosHTML::_encoding_converter( $text );
+					//$text 	= mosHTML::_encoding_converter( $text );
 					$replacement 	.= "var addy_text". $rand ." = '". $text ."';\n";
 				}
 				$replacement 	.= "document.write( '<a ' + path + '\'' + prefix + ':' + addy". $rand ." + '\'>' ); \n";
