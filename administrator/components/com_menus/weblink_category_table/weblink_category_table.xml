@@ -47,5 +47,7 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="weblink_icons" type="imagelist" directory="/images/M_images" default="" label="Icon" description="Icon to be used to the left of the url links in Table view" />
 	</params>
 </install>

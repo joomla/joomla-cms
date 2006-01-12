@@ -283,7 +283,8 @@ class HTML_newsfeed {
 					<tr>
 						<td>
 						<?php echo str_replace('&apos;', "'", $currChannel->getDescription()); ?>
-						<br /><br />
+						<br />
+						<br />
 						</td>
 					</tr>
 					<?php
@@ -309,68 +310,68 @@ class HTML_newsfeed {
 				<tr>
 					<td>
 					<ul>
-					<?php
-					for ( $j = 0; $j < $totalItems; $j++ ) {
-						$currItem =& $currChannel->getItem($j);
-
-						// START fix for RSS enclosure tag url not showing
-						if ($currItem->getLink()) {
-						?>
-							<a href="<?php echo $currItem->getLink(); ?>" target="_child">
-							<?php echo $currItem->getTitle(); ?>
-							</a>
 						<?php
-						} else if ($currItem->getEnclosure()) {
-							$enclosure = $currItem->getEnclosure();
-							$eUrl	= $enclosure->getUrl();
-						?>
-							<a href="<?php echo $eUrl; ?>" target="_child">
-							<?php echo $currItem->getTitle(); ?>
-							</a>
-						<?php
-						}  else if (($currItem->getEnclosure()) && ($currItem->getLink())) {
-							$enclosure = $currItem->getEnclosure();
-							$eUrl	= $enclosure->getUrl();
-						?>
-							<a href="<?php $currItem->getLink(); ?>" target="_child">
-							<?php echo $currItem->getTitle(); ?>
-							</a><br>
-							Link: <a href="<?php echo $eUrl; ?>" target="_child">
-							<?php echo $eUrl; ?>
-							</a>
-						<?php
-						}
-						// END fix for RSS enclosure tag url not showing
-
-						// item description
-						if ( $params->get( 'item_descr' ) ) {
-							$text   = $currItem->getDescription();
-							$text   = str_replace('&apos;', "'", $text);
-							$num 	= $params->get( 'word_count' );
-
-							// word limit check
-							if ( $num ) {
-								$texts = explode( ' ', $text );
-								$count = count( $texts );
-								if ( $count > $num ) {
-									$text = '';
-									for( $i=0; $i < $num; $i++ ) {
-										$text .= ' '. $texts[$i];
-									}
-									$text .= '...';
-								}
-							}
+						for ( $j = 0; $j < $totalItems; $j++ ) {
+							$currItem =& $currChannel->getItem($j);
 							?>
-							<br />
-							<?php echo $text; ?>
-							<br/><br/>
+							<li>
+								<?php		
+								// START fix for RSS enclosure tag url not showing
+								if ($currItem->getLink()) {
+									?>
+									<a href="<?php echo $currItem->getLink(); ?>" target="_blank">
+										<?php echo $currItem->getTitle(); ?></a>
+									<?php
+								} else if ($currItem->getEnclosure()) {
+									$enclosure 	= $currItem->getEnclosure();
+									$eUrl		= $enclosure->getUrl();
+									?>
+									<a href="<?php echo $eUrl; ?>" target="_child">
+										<?php echo $currItem->getTitle(); ?></a>
+									<?php
+								}  else if (($currItem->getEnclosure()) && ($currItem->getLink())) {
+									$enclosure 	= $currItem->getEnclosure();
+									$eUrl		= $enclosure->getUrl();
+									?>
+									<a href="<?php $currItem->getLink(); ?>" target="_blank">
+										<?php echo $currItem->getTitle(); ?></a>
+									<br />
+									Link: <a href="<?php echo $eUrl; ?>" target="_blank">
+										<?php echo $eUrl; ?></a>
+									<?php
+								}
+								// END fix for RSS enclosure tag url not showing
+		
+								// item description
+								if ( $params->get( 'item_descr' ) ) {
+									$text   = $currItem->getDescription();
+									$text   = str_replace('&apos;', "'", $text);
+									$num 	= $params->get( 'word_count' );
+		
+									// word limit check
+									if ( $num ) {
+										$texts = explode( ' ', $text );
+										$count = count( $texts );
+										if ( $count > $num ) {
+											$text = '';
+											for( $i=0; $i < $num; $i++ ) {
+												$text .= ' '. $texts[$i];
+											}
+											$text .= '...';
+										}
+									}
+									?>
+									<br />
+									<?php echo $text; ?>
+									<br />
+									<br />
+									<?php
+								}
+								?>
+							</li>
 							<?php
 						}
 						?>
-						</li>
-					<?php
-					}
-					?>
 					</ul>
 					</td>
 				</tr>
