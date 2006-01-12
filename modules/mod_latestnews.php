@@ -18,7 +18,6 @@ global $mosConfig_offset, $mainframe;
 
 $type 		     = intval( $params->get( 'type', 1 ) );
 $count 		     = intval( $params->get( 'count', 5 ) );
-$count 		     = intval( $params->get( 'count', 5 ) );
 $catid 		     = trim( $params->get( 'catid' ) );
 $secid 		     = trim( $params->get( 'secid' ) );
 $show_front	     = $params->get( 'show_front', 1 );
