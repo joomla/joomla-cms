@@ -64,7 +64,7 @@ if ( count( $rows ) ) {
 }
 ?>
 
-<form action="<?php echo sefRelToAbs( $link ); ?>" method="get">
+<form action="<?php echo $link; ?>" method="get">
 	<div class="search<?php echo $moduleclass_sfx; ?>">
 		<?php echo $output; ?>
 	</div>
