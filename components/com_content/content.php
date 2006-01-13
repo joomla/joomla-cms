@@ -958,12 +958,14 @@ class JContentController
 				// for Blogs the `orderby_sec` param is the order controlling param
 				// for Table and List views it is the `orderby` param
 				$mparams_list = $mparams->toArray();
-				if (array_key_exists('orderby_sec', $mparams_list))
-				{
+				if (array_key_exists('orderby_sec', $mparams_list)) {
 					$order_method = $mparams->get('orderby_sec', '');
-				} else
-				{
+				} else {
 					$order_method = $mparams->get('orderby', '');
+				}
+				// additional check for invalid sort ordering
+				if ( $order_method == 'front' ) {
+					$order_method = '';
 				}
 				$orderby = JContentController :: _orderby_sec($order_method);
 
@@ -976,6 +978,10 @@ class JContentController
 				$db->setQuery($query);
 				$list = $db->loadResultArray();
 
+				// this check needed if incorrect Itemid is given resulting in an incorrect result
+				if ( !is_array($list) ) {
+					$list = array();
+				}
 				// location of current content item in array list
 				$location = array_search($uid, $list);
 
