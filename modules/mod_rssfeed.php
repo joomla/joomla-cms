@@ -38,7 +38,7 @@ $d_path				= JURL_SITE .'/images/M_images/';
 	// text
 	if ( $text ) {
 		?>
-		<div align="center" class="syndicate_text<?php echo $moduleclass_sfx;?>">
+		<div class="syndicate_text<?php echo $moduleclass_sfx;?>">
 			<?php echo $text;?>
 		</div>
 		<?php
@@ -47,40 +47,40 @@ $d_path				= JURL_SITE .'/images/M_images/';
 	// rss091 link
 	if ( $rss091 ) {
 		$link = 'index.php?option=com_rss&amp;feed=RSS0.91&amp;no_html=1';
-		output_rssfeed( $link, 'rss091.gif', $rss091_image, 'RSS 0.91', 'RSS091' );
+		output_rssfeed( $link, 'rss091.gif', $rss091_image, 'RSS 0.91', 'RSS091', $moduleclass_sfx );
 	}
 
 	// rss10 link
 	if ( $rss10 ) {
 		$link = 'index.php?option=com_rss&amp;feed=RSS1.0&amp;no_html=1';
-		output_rssfeed( $link, 'rss10.gif', $rss10_image, 'RSS 1.0', 'RSS10' );
+		output_rssfeed( $link, 'rss10.gif', $rss10_image, 'RSS 1.0', 'RSS10', $moduleclass_sfx );
 	}
 	
 	// rss20 link
 	if ( $rss20 ) {
 		$link = 'index.php?option=com_rss&amp;feed=RSS2.0&amp;no_html=1';
-		output_rssfeed( $link, 'rss20.gif', $rss20_image, 'RSS 2.0', 'RSS20' );
+		output_rssfeed( $link, 'rss20.gif', $rss20_image, 'RSS 2.0', 'RSS20', $moduleclass_sfx );
 	}
 
 	// atom link
 	if ( $atom ) {
 		$link = 'index.php?option=com_rss&amp;feed=ATOM0.3&amp;no_html=1';
-		output_rssfeed( $link, 'atom03.gif', $atom_image, 'ATOM 0.3', 'ATOM03' );
+		output_rssfeed( $link, 'atom03.gif', $atom_image, 'ATOM 0.3', 'ATOM03', $moduleclass_sfx );
 	}
 	
 	// opml link
 	if ( $opml ) {
 		$link = 'index.php?option=com_rss&amp;feed=OPML&amp;no_html=1';
-		output_rssfeed( $link, 'opml.png', $opml_image, 'OPML', 'OPML'  );
+		output_rssfeed( $link, 'opml.png', $opml_image, 'OPML', 'OPML', $moduleclass_sfx  );
 	}
 	?>
 </div>
 
 <?php
-function output_rssfeed( $link, $img_default, $img_file, $img_alt, $img_name ) {	
+function output_rssfeed( $link, $img_default, $img_file, $img_alt, $img_name, $moduleclass_sfx ) {	
 	$img = mosAdminMenus::ImageCheck( $img_default, '/images/M_images/', $img_file, '/images/M_images/', $img_alt, $img_name );
 	?>
-	<div align="center">
+	<div class="syndicate_link<?php echo $moduleclass_sfx;?>">
 		<a href="<?php echo sefRelToAbs( $link ); ?>">
 			<?php echo $img ?></a>
 	</div>

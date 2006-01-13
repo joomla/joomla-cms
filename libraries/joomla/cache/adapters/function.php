@@ -79,7 +79,7 @@ class JCacheFunction extends JCache
 			//$target = array_shift($arguments);
 			if (strstr( $target, '::' )) { // classname::staticMethod
 				list( $class, $method ) = explode( '::', $target );
-				$result = call_user_func_array( array( $class, $method ), $arguments );
+				$result = call_user_func_array( array( trim($class), trim($method) ), $arguments );
 			} else if (strstr( $target, '->' )) { // object->method
 				// use a stupid name ($objet_123456789 because) of problems when the object
 				// name is the same as this var name

@@ -18,5 +18,9 @@
 			<option value="1">Yes</option>
 		</param>
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+		<param name="showDate" type="radio" default="0" label="Show date" description="Show/Hide date">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
 	</params>
 </install>

@@ -33,6 +33,10 @@
 			<option value="top">Top</option>
 			<option value="bottom">Bottom</option>
 		</param>
+		<param name="imagebutton" type="radio" default="" label="Search button as image" description="Use an image as button">
+			<option value="">No</option>
+			<option value="1">Yes</option>
+		</param>
 		<param name="button_text" type="text" default="" label="Button Text" description="PARAMBUTTONTEXT" />
 	</params>
 </install>

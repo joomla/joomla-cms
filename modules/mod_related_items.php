@@ -17,6 +17,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $option = mosGetParam( $_REQUEST, 'option' );
 $task 	= mosGetParam( $_REQUEST, 'task' );
 $id 	= intval( mosGetParam( $_REQUEST, 'id', null ) );
+$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
+$showDate = $params->get( 'showDate', 0 );
 
 $now 	= date( 'Y-m-d H:i:s', time() + $mosConfig_offset * 60 * 60 );
 
@@ -42,7 +44,7 @@ if ($option == 'com_content' && $task == 'view' && $id) {
 
 		if (count( $likes )) {
 			// select other items based on the metakey field 'like' the keys found
-			$query = "SELECT id, title"
+			$query = "SELECT id, DATE_FORMAT(created, '%Y-%m-%d') AS created, title"
 			. "\n FROM #__content"
 			. "\n WHERE id <> $id"
 			. "\n AND state = 1"
@@ -54,7 +56,7 @@ if ($option == 'com_content' && $task == 'view' && $id) {
 			$database->setQuery( $query );
 			if ( $related = $database->loadObjectList() ) {
 				?>
-				<ul>
+				<ul class="relateditems<?php echo $moduleclass_sfx; ?>">
 				<?php
 				foreach ($related as $item) {
 					if ($option="com_content" && $task="view") {
@@ -64,6 +66,7 @@ if ($option == 'com_content' && $task == 'view' && $id) {
 					?>
 					<li>
 						<a href="<?php echo $href; ?>">
+							<?php if ($showDate) echo $item->created . " - "; ?>
 							<?php echo $item->title; ?></a>
 					</li>
 					<?php
