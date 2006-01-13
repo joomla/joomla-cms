@@ -31,7 +31,7 @@ class JInstallerPlugin extends JInstaller {
 	function install($p_fromdir) {
 
 		// Get database connector object
-		$db =& $this->_db;
+		$db =& $this->i_db;
 
 		/*
 		 * First lets set the installation directory, find and check the installation file and verify
@@ -189,7 +189,7 @@ class JInstallerPlugin extends JInstaller {
 		$retval = true;
 
 		// Get database connector object
-		$db = & $this->_db;
+		$db = & $this->i_db;
 
 		/*
 		 * First order of business will be to load the plugin object model from the database.
@@ -311,7 +311,7 @@ class JInstallerPlugin extends JInstaller {
 	function _rollback_plugin($arg) {
 
 		// Get database connector object
-		$db =& $this->_db;
+		$db =& $this->i_db;
 
 		/*
 		 * Remove the entry from the #__plugins table

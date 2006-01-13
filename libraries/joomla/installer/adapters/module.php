@@ -31,7 +31,7 @@ class JInstallerModule extends JInstaller {
 	function install($p_fromdir) {
 
 		// Get database connector object
-		$db =& $this->_db;
+		$db =& $this->i_db;
 
 		/*
 		 * First lets set the installation directory, find and check the installation file and verify
@@ -262,7 +262,7 @@ print_r($this);
 		$retval = true;
 
 		// Get database connector object
-		$db = & $this->_db;
+		$db = & $this->i_db;
 
 		/*
 		 * First order of business will be to load the module object model from the database.
@@ -400,7 +400,7 @@ print_r($this);
 		/*
 		 * Get the global database connector object
 		 */
-		$db = $this->_db;
+		$db = $this->i_db;
 
 		// Initialize variable
 		$retval = false;
@@ -430,7 +430,7 @@ print_r($this);
 	function _rollback_menu($arg) {
 
 		// Get database connector object
-		$db =& $this->_db;
+		$db =& $this->i_db;
 
 		/*
 		 * Remove the entry from the #__modules_menu table
@@ -456,7 +456,7 @@ print_r($this);
 	function _rollback_position($arg) {
 
 		// Get database connector object
-		$db =& $this->_db;
+		$db =& $this->i_db;
 
 		/*
 		 * Remove the entry from the #__template_positions table
@@ -482,7 +482,7 @@ print_r($this);
 	function _rollback_module($arg) {
 
 		// Get database connector object
-		$db =& $this->_db;
+		$db =& $this->i_db;
 
 		/*
 		 * Remove the entry from the #__modules table

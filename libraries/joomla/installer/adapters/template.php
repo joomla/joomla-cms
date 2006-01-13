@@ -247,7 +247,7 @@ class JInstallerTemplate extends JInstaller {
 		/*
 		 * Get the global database connector object
 		 */
-		$db = $this->_db;
+		$db = $this->i_db;
 
 		// Initialize variable
 		$retval = false;
@@ -279,7 +279,7 @@ class JInstallerTemplate extends JInstaller {
 	function _rollback_position($arg) {
 
 		// Get database connector object
-		$db =& $this->_db;
+		$db =& $this->i_db;
 
 		/*
 		 * Remove the entry from the #__template_positions table
