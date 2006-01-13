@@ -158,6 +158,11 @@ class JEditor extends JObservable {
 		global $mainframe, $my;
 
 		$this->_loadEditor();
+		
+		/*
+		 * Initialize variables
+		 */
+		$return = null;
 
 		$args['name'] = $name;
 		$args['content'] = $content;
