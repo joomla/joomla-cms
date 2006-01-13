@@ -22,9 +22,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class newsfeed_link_menu_html {
 
-	function edit( &$menu, &$lists, &$params, $option, $newsfeed ) {
+	function edit( &$menu, &$lists, &$params, $option, $newsfeed ) 
+	{
+		mosCommonHTML::loadOverlib();
 		?>
-		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
 			var form = document.adminForm;
@@ -155,7 +156,6 @@ class newsfeed_link_menu_html {
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
-		<script language="Javascript" src="<?php echo JURL_SITE;?>/includes/js/overlib_mini.js"></script>
 		<?php
 	}
 }

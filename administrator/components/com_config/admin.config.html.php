@@ -21,12 +21,13 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class JConfigView {
 
-	function showConfig( &$row, &$lists, $option) {
+	function showConfig( &$row, &$lists, $option) 
+	{
+		mosCommonHTML::loadOverlib();
+		
 		$tabs = new mosTabs(1);
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-
-		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
 		<tr>
@@ -624,9 +625,7 @@ class JConfigView {
 	  	<input type="hidden" name="lang_administrator" value="<?php echo $row->lang_administrator; ?>"/>
 	  	<input type="hidden" name="task" value=""/>
 		</form>
-
 		<?php
-		echo mosHTML::Script('/includes/js/overlib_mini.js');
 	}
 }
 ?>

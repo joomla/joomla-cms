@@ -124,7 +124,7 @@ class JTemplatesView {
 				?>
 				</td>
 				<td>
-				<a href="#info" onmouseover="showInfo('<?php echo $row->name;?>')" onmouseout="return nd();">
+				<a href="index2.php?option=com_templates&task=edit_params&cid=<?php echo $row->name;?>" onmouseover="showInfo('<?php echo $row->name;?>')" onmouseout="return nd();">
 				<?php echo $row->name;?>
 				</a>
 				</td>

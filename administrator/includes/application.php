@@ -94,9 +94,8 @@ class JAdministrator extends JApplication {
 		if (!file_exists( $path )) {
 			$cur_template = 'joomla_admin';
 		}
-
-		$this->_template = $template;
-		return $this->_template;
+		
+		return $template;
 	}
 }
 

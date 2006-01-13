@@ -137,7 +137,10 @@ class HTML_menumanager {
 	* writes a form to take the name of the menu you would like created
 	* @param option	display options for the form
 	*/
-	function edit ( &$row, $option ) {
+	function edit ( &$row, $option ) 
+	{
+		mosCommonHTML::loadOverlib();
+		
 		$new = $row->menutype ? 0 : 1;
 		?>
 		<script language="javascript" type="text/javascript">
@@ -167,7 +170,6 @@ class HTML_menumanager {
 			}
 		}
 		</script>
-		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminform">
 		<tr height="45px;">
@@ -213,7 +215,6 @@ class HTML_menumanager {
 		</table>
 		<br /><br />
 
-		<script language="Javascript" src="<?php echo JURL_SITE; ?>/includes/js/overlib_mini.js"></script>
 		<?php
 		if ( $new ) {
 			?>

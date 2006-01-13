@@ -1002,13 +1002,13 @@ class JContentView
 		$document->addStyleSheet('includes/js/calendar/calendar-mos.css');
 		$document->addScript('includes/js/calendar/calendar_mini.js');
 		$document->addScript('includes/js/calendar/lang/calendar-en.js');
-		$document->addScript('includes/js/overlib_mini.js');
+		
+		mosCommonHTML::loadOverlib();
 
 		// Ensure the row data is safe html
 		mosMakeHtmlSafe($row);
 
 		?>
-  		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 	  	<script language="javascript" type="text/javascript">
 		onunload = WarnUser;
 		var folderimages = new Array;

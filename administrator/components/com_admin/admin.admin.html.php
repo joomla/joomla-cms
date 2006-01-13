@@ -504,7 +504,8 @@ class HTML_admin_misc {
 	/**
 	* Preview site
 	*/
-	function preview( $tp=0 ) {
+	function preview( $tp=0 ) 
+	{
 		$tp = intval( $tp );
 		?>
 		<style type="text/css">
@@ -526,7 +527,7 @@ class HTML_admin_misc {
 		</tr>
 		<tr>
 			<td width="100%" valign="top" colspan="2">
-			<iframe name="previewFrame" src="<?php echo JURL_SITE . '/index.php?tp=' . $tp;?>" class="previewFrame" /></iframe>
+			<?php echo mosHTML::Iframe(JURL_SITE.'/index.php?tp='.$tp,'previewFrame',  array('class' => 'previewFrame')) ?>
 			</td>
 		</tr>
 		</table>

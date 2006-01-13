@@ -547,7 +547,7 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 
 	// calls function to read image from directory
 	$pathA 		= JPATH_SITE . '/images/stories';
-	$pathL 		= JURL_SITE .'/images/stories';
+	$pathL 		= '../images/stories';
 	$images 	= array();
 	$folders 	= array();
 	$folders[] 	= mosHTML::makeOption( '/' );

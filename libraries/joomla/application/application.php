@@ -36,14 +36,6 @@ class JApplication extends JObject
 	var $_session = null;
 	
 	/** 
-	 * The current template
-	 * 
-	 * @var string  
-	 * @access protected
-	 */
-	var $_template	= '';
-	
-	/** 
 	 * The pathway store
 	 * 
 	 * @var object  JPathWay object
@@ -286,10 +278,8 @@ class JApplication extends JObject
 	 * 
 	 * @return string
 	 */
-	function getTemplate() 
-	{
-		$this->_template = '_system';
-		return $this->_template;
+	function getTemplate() {
+		return '_system';
 	}
 
 	/**
@@ -448,16 +438,10 @@ class JApplication extends JObject
 	 */
 	function _createPathWay()
 	{
-		//global $ItemID;
-
-		/*
-		 * Load the pathway object
-		 */
+		//Load the pathway object
 		jimport( 'joomla.pathway' );
 		
-		/*
-		 * Get some request variables
-		 */
+		//Get some request variables
 		$ItemID = JRequest::getVar('Itemid');
 		$option = JRequest::getVar('option');
 		
@@ -596,7 +580,6 @@ class JApplication extends JObject
 	 * Depreceated functions
 	 */
 	 
-
 	 /**
 	 * Depreceated, use JPathWay->addItem() method instead
 	 * @since 1.1
@@ -976,7 +959,7 @@ class JApplicationHelper
 
 			case 'html':
 			case 'front_html':
-				if ( !( $result = JApplicationHelper::_checkPath( DS.'templates'.DS. $this->_template .DS.'components'.DS. $name .'.html.php', 0 ) ) ) {
+				if ( !( $result = JApplicationHelper::_checkPath( DS.'templates'.DS. JApplication::getTemplate() .DS.'components'.DS. $name .'.html.php', 0 ) ) ) {
 					$result = JApplicationHelper::_checkPath( DS.'components'.DS. $user_option .DS. $name .'.html.php', 0 );
 				}
 				break;

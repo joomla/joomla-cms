@@ -16,7 +16,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 // load feed creator class
-jimport('joomla.bitfolge.feedcreator');
+jimport('bitfolge.feedcreator');
 
 $info	=	null;
 $rss	=	null;

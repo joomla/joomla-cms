@@ -139,10 +139,13 @@ class HTML_contact {
 	}
 
 
-	function editContact( &$row, &$lists, $option, &$params ) {
+	function editContact( &$row, &$lists, $option, &$params ) 
+	{
 		if ($row->image == '') {
 			$row->image = 'blank.png';
 		}
+		
+		mosCommonHTML::loadOverlib();
 
 		$tabs = new mosTabs(0);
 
@@ -401,7 +404,6 @@ class HTML_contact {
 		</tr>
 		</table>
 
-		<script language="Javascript" src="../includes/js/overlib_mini.js"></script>
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="task" value="" />

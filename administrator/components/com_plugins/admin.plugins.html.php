@@ -161,13 +161,15 @@ class HTML_modules {
 	* @param array An array of select lists
 	* @param object Parameters
 	*/
-	function editPlugin( &$row, &$lists, &$params, $option ) {
+	function editPlugin( &$row, &$lists, &$params, $option ) 
+	{
+		mosCommonHTML::loadOverlib();
+		
 		$row->nameA = '';
 		if ( $row->id ) {
 			$row->nameA = '<small><small>[ '. $row->name .' ]</small></small>';
 		}
 		?>
-		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
 			if (pressbutton == "cancel") {
@@ -286,7 +288,6 @@ class HTML_modules {
 		<input type="hidden" name="client" value="<?php echo $row->client_id; ?>" />
 		<input type="hidden" name="task" value="" />
 		</form>
-		<script language="Javascript" src="<?php echo JURL_SITE;?>/includes/js/overlib_mini.js"></script>
 		<?php
 	}
 }

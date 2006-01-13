@@ -23,10 +23,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class wrapper_menu_html {
 
 
-	function edit( &$menu, &$lists, &$params, $option ) {
+	function edit( &$menu, &$lists, &$params, $option ) 
+	{
+		mosCommonHTML::loadOverlib();
 		?>
-		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
-		<script language="Javascript" src="<?php echo JURL_SITE;?>/includes/js/overlib_mini.js"></script>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
 			if ( pressbutton == 'cancel' ) {

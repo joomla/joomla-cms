@@ -645,7 +645,8 @@ function josMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=nul
  * @return boolean True on success
  * @since 1.1
  */
-function josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) {
+function josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) 
+{
 	global $mainframe;
 
     $strAdminDir = "administrator";

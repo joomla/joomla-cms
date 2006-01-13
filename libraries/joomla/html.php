@@ -30,7 +30,8 @@ class mosHTML
 	 * @since 1.1
 	 */
 
-	function Link($url, $text, $attribs = null, $ssl = 0) {
+	function Link($url, $text, $attribs = null, $ssl = 0) 
+	{
 		global $mainframe;
 
 		$href = josURL(ampReplace($url), $ssl, $mainframe->getCfg('sef'));
@@ -50,7 +51,8 @@ class mosHTML
 	 * @param array		An associative array of attributes to add
 	 * @since 1.1
 	 */
-	function Image($url, $alt, $attribs = null) {
+	function Image($url, $alt, $attribs = null) 
+	{
 		global $mainframe;
 
 		$src = substr( $url, 0, 4 ) != 'http' ? $mainframe->getCfg('live_site') . $url : $url;
@@ -71,7 +73,8 @@ class mosHTML
 	 * @param array		An associative array of attributes to add
 	 * @since 1.1
 	 */
-	function Script($url, $attribs = null) {
+	function Script($url, $attribs = null) 
+	{
 		global $mainframe;
 
 		$src = $mainframe->getCfg('live_site') . $url;
@@ -81,6 +84,29 @@ class mosHTML
 		 }
 
 		return '<script type="text/javascript" src="'.$src.'" '.$attribs.'></script>';
+	}
+	
+	/**
+	 * Write a <iframe></iframe> element
+	 *
+	 * @param string 	The relative URL to use for the src attribute
+	 * @param string	The target attribute to use
+	 * @param array		An associative array of attributes to add
+	 * @param integer	Set the SSL functionality
+	 * @since 1.1
+	 */
+	function Iframe($url, $name, $attribs = null, $ssl = 0) 
+	{
+		global $mainframe;
+
+		$src = josURL(ampReplace($url), $ssl, $mainframe->getCfg('sef'));
+
+		 if (is_array($attribs)) {
+            $attribs = mosHTML::_implode_assoc('=', ' ', $attribs);
+		 }
+
+		return '<iframe src="'.$src.'" alt="'.$alt.'" '.$attribs.' />';
+
 	}
 
 	function makeOption( $value, $text='', $value_name='value', $text_name='text' ) {
@@ -766,21 +792,22 @@ class mosCommonHTML {
 	/*
 	* Loads all necessary files for JS Overlib tooltips
 	*/
-	function loadOverlib() {
+	function loadOverlib() 
+	{
 		global $mainframe;
 
 		if ( !$mainframe->get( 'loadOverlib' ) ) {
 		// check if this function is already loaded
+			$doc =& $mainframe->getDocument();
+			$doc->addScript(JURL_SITE.'/includes/js/overlib_mini.js');
+			$doc->addScript(JURL_SITE.'/includes/js/overlib_hideform_mini.js');
 			?>
-			<script language="javascript" type="text/javascript" src="<?php echo JURL_SITE;?>/includes/js/overlib_mini.js"></script>
-			<script language="javascript" type="text/javascript" src="<?php echo JURL_SITE;?>/includes/js/overlib_hideform_mini.js"></script>
 			<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 			<?php
 			// change state so it isnt loaded a second time
 			$mainframe->set( 'loadOverlib', true );
 		}
 	}
-
 
 	/*
 	* Loads all necessary files for JS Calendar

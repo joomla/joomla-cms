@@ -28,6 +28,7 @@ $task	= JRequest :: getVar('task', '');
 $client = JRequest :: getVar('client', '');
 
 $cid = JRequest :: getVar('cid', array (0), '', 'array');
+
 if (!is_array($cid)) {
 	$cid = array (0);
 }

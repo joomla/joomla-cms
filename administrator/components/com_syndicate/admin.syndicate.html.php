@@ -21,9 +21,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_syndicate {
 
-	function settings( $option, &$params, $id ) {
+	function settings( $option, &$params, $id ) 
+	{
+		mosCommonHTML::loadOverlib();
 		?>
-		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminform">
 		<tr>
@@ -50,7 +51,6 @@ class HTML_syndicate {
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		</form>
-		<script language="Javascript" src="<?php echo JURL_SITE;?>/includes/js/overlib_mini.js"></script>
 		<?php
 	}
 }

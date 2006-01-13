@@ -109,7 +109,7 @@ class HTML_banners {
 					<?php echo $row->impmade;?>
 				</td>
 				<td align="center">
-					<?php echo $impleft;?>
+					<?php echo JText::_( $impleft ); ?>
 				</td>
 				<td align="center">
 					<?php echo $row->clicks;?>

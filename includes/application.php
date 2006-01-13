@@ -104,7 +104,7 @@ class JSite extends JApplication {
 			}
 		}
 
-		if (!empty($Itemid) && ($templates[$Itemid]))
+		if (!empty($Itemid) && (isset($templates[$Itemid])))
 		{
 			$template = $templates[$Itemid];
 		}
@@ -128,8 +128,7 @@ class JSite extends JApplication {
 			}
 		}
 
-		$this->_template = $template;
-		return $this->_template;
+		return $template;
 	}
 }
 

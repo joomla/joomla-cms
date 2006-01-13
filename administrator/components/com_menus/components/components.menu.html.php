@@ -26,14 +26,16 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class components_menu_html {
 
 
-	function edit( &$menu, &$components, &$lists, &$params, $option ) {
+	function edit( &$menu, &$components, &$lists, &$params, $option ) 
+	{
+		mosCommonHTML::loadOverlib();
+		
 		if ( $menu->id ) {
 			$title = '[ '. $lists['componentname'] .' ]';
 		} else {
 			$title = '';
 		}
 		?>
-		<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
 			var form = document.adminForm;
@@ -167,7 +169,6 @@ class components_menu_html {
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
-		<script language="Javascript" src="<?php echo JURL_SITE;?>/includes/js/overlib_mini.js"></script>
 		<?php
 	}
 }
