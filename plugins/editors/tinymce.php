@@ -217,7 +217,7 @@ class JEditor_tinymce extends JPlugin {
 				theme : \"$theme\",
 				language : \"$lang\",
 				mode : \"specific_textareas\",
-				document_base_url : \"$mosConfig_live_site/\",
+				document_base_url : \"". JURL_SITE ."/\",
 				relative_urls : false,
 				remove_script_host : false,
 				save_callback : \"TinyMCE_Save\",

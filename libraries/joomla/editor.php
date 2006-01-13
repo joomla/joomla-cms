@@ -110,6 +110,7 @@ class JEditor extends JObservable {
 	function init() {
 		global $mainframe;
 
+		$return = '';
 		if ($mainframe->get('loadEditor')) {
 
 			$args['event'] = 'onInitEditor';
@@ -117,7 +118,8 @@ class JEditor extends JObservable {
 			$results[] = $this->_editor->update($args);
 			foreach ($results as $result) {
 				if (trim($result)) {
-					$return .= $result;
+					//$return .= $result;
+					$return = $result;
 				}
 			}
 		}
