@@ -619,7 +619,7 @@ class JInstaller extends JObject {
 	 * @return mixed Number of queries processed or False on error
 	 * @since 1.1
 	 */
-	function _parseQueries($tagName = 'install/sql/primary') {
+	function _parseQueries($tagName = 'install/sql/mysql-412') {
 
 		/*
 		 * Get the database connector object
