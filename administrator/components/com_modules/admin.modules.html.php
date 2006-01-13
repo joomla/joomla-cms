@@ -34,19 +34,17 @@ class HTML_modules {
 
 		<table class="adminheading">
 		<tr>
+			<td align="left" valign="top" nowrap="nowrap">
+				<?php echo JText::_( 'Filter' ); ?>:
+				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+			</td>
 			<td align="right" valign="top" nowrap="nowrap">
 				<?php
 				echo $lists['position'];
 				echo $lists['type'];
 				?>
-			</td>
-		</tr>
-		<tr>
-			<td align="right" valign="top" nowrap="nowrap">
-				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 		</tr>
 		</table>
@@ -406,8 +404,7 @@ class HTML_modules {
 		<?php
 	}
 
-	function previewModule()
-	{
+	function previewModule() {
 		?>
 		<script>
 		var content = window.opener.document.adminForm.content.value;
@@ -436,6 +433,82 @@ class HTML_modules {
 			<td align="center"><a href="#" onClick="window.close()"><?php echo JText::_( 'Close' ); ?></a></td>
 		</tr>
 		</table>
+		<?php
+	}
+	/**
+	/**
+	* Displays a selection list for module types
+	*/
+	function addModule( &$modules, $client ) {
+ 		mosCommonHTML::loadOverlib();
+
+		if ( $client == 'admin' ) {
+			$type = JText::_( 'Administrator' );
+		} else {
+			$type = JText::_( 'Site' );
+		}
+		?>
+		<form action="index2.php" method="post" name="adminForm">
+
+		<fieldset>
+			<legend><?php echo JText::_( 'Modules' ); ?></legend>
+			
+			<table class="adminform">
+			<thead>
+			<tr>
+				<th colspan="4">
+				</th>
+			</tr>
+			</thead>
+			<tfoot>
+			<tr>
+				<th colspan="4">
+				</th>
+			</tr>
+			</tfoot>
+			
+			<tbody>
+			<?php
+			$k 		= 0;
+			$x 		= 0;
+			$count 	= count( $modules );
+			for ( $i=0; $i < $count; $i++ ) {
+				$row = &$modules[$i];
+				
+				$link = 'index2.php?option=com_modules&amp;task=edit&amp;module='. $row->module .'&amp;created=1&amp;client='. $client;
+				if ( !$k ) {
+					?>
+					<tr class="<?php echo "row$x"; ?>" valign="top">
+					<?php
+					$x = 1 - $x;
+				}
+				?>
+					<td width="50%">
+						<input type="radio" id="cb<?php echo $i; ?>" name="module" value="<?php echo $row->module; ?>"  />
+						<?php
+						echo mosToolTip( stripslashes( $row->descrip ), stripslashes( $row->name ), 300, '', stripslashes( $row->name ), $link, 'LEFT' );
+						?>
+					</td>
+				<?php
+				if ( $k ) {
+					?>
+					</tr>
+					<?php
+				}
+				?>
+				<?php
+				$k = 1 - $k;
+			}
+			?>
+			</tbody>
+			</table>
+		</fieldset>
+
+		<input type="hidden" name="option" value="com_modules" />
+		<input type="hidden" name="client" value="<?php echo $client; ?>" />
+		<input type="hidden" name="created" value="1" />
+		<input type="hidden" name="task" value="" />
+		</form>
 		<?php
 	}
 }

@@ -36,7 +36,8 @@ switch ( $task ) {
 		break;
 
 	case 'new':
-		editModule( $option, 0, $client );
+		//editModule( $option, 0, $client );
+		selectnew();
 		break;
 
 	case 'edit':
@@ -447,6 +448,42 @@ function editModule( $option, $uid, $client ) {
 }
 
 /**
+* Displays a list to select the creation of a new module
+*/
+function selectnew() {
+	global $mainframe;
+	
+	$client	= mosGetParam( $_REQUEST, 'client', '' );
+	
+	// path to search for modules
+	if ($client == 'admin') {
+		$dir = JPATH_ADMINISTRATOR .'/modules/';
+	} else {
+		$dir = JPATH_ROOT .'/modules/';
+	}
+
+	if (is_dir( $dir )) {
+		// generate list of module files
+		$files_php = JFolder::files( $dir, "\.xml$" );
+		
+		// custom file
+		$i = 0;
+		foreach ( $files_php as $file ) {
+			$modules[$i]->file 		= $file;
+			$modules[$i]->module 	= str_replace( '.xml', '', $file );
+			$i++;
+		}
+	}
+
+	ReadModuleXML( $modules, $client, $dir );
+	
+	// sort array of objects alphabetically by name
+	SortArrayObjects( $modules, 'name' );
+	
+	HTML_modules::addModule( $modules, $client );
+}
+
+/**
 * Deletes one or more modules
 *
 * Also deletes associated entries in the #__module_menu table.
@@ -671,8 +708,66 @@ function saveOrder( &$cid, $client ) {
 	mosRedirect( 'index2.php?option=com_modules&client='. $client, $msg );
 } // saveOrder
 
-function previewModule($id, $client)
-{
+function previewModule($id, $client) {
 	HTML_modules::previewModule( );
+}
+
+function ReadAModuleXML( &$rows, $client ) {
+	// xml file for module
+	$xmlfile = JPATH_ADMINISTRATOR .'/components/com_menus/'. $type .'/'. $type .'.xml';
+	
+	$xmlDoc =& JFactory::getXMLParser();
+	$xmlDoc->resolveErrors( true );
+	
+	if ($xmlDoc->loadXML( $xmlfile, false, true )) {
+		$root = &$xmlDoc->documentElement;
+		
+		if ( ($root->getTagName() == 'mosinstall' || $root->getTagName() == 'install')&& ( $root->getAttribute( 'type' ) == 'component' || $root->getAttribute( 'type' ) == 'menu' ) ) {
+			// Menu Type Name
+			$element 	= &$root->getElementsByPath( 'name', 1 );
+			$name 		= $element ? trim( $element->getText() ) : '';
+			// Menu Type Description
+			$element 	= &$root->getElementsByPath( 'description', 1 );
+			$descrip 	= $element ? trim( $element->getText() ) : '';
+			// Menu Type Group
+			$element 	= &$root->getElementsByPath( 'group', 1 );
+			$group 		= $element ? trim( $element->getText() ) : '';
+		}
+	}
+	
+	if ( ( $component <> -1 ) && ( $name == 'Component') ) {
+		$name .= ' - '. $component;
+	}
+	
+	$row[0]	= $name;
+	$row[1] = $descrip;
+	$row[2] = $group;
+	
+	return $row;
+}
+function ReadModuleXML( &$rows, $client, $path ) {	
+	foreach ($rows as $i => $row) {
+		if ($row->module == '') {
+			$rows[$i]->name 	= 'custom';
+			$rows[$i]->module 	= 'custom';
+			$rows[$i]->descrip 	= 'Custom created module, using Module Manager `New` function';
+		} else {
+			$xmlfile =  $path . $row->file;
+			$xmlDoc =& JFactory::getXMLParser();
+			$xmlDoc->resolveErrors( true );
+			
+			if ($xmlDoc->loadXML( $xmlfile, false, true )) {
+				$root = &$xmlDoc->documentElement;
+				
+				if ( ($root->getTagName() == 'mosinstall' || $root->getTagName() == 'install')&& ( $root->getAttribute( 'type' ) == 'module' ) ) {
+					
+					$element 			= &$root->getElementsByPath( 'name', 1 );
+					$rows[$i]->name		= $element ? trim( $element->getText() ) : '';
+					
+					$element 			= &$root->getElementsByPath( 'description', 1 );
+					$rows[$i]->descrip	= $element ? trim( $element->getText() ) : '';
+				}
+			}
+		}	}
 }
 ?>

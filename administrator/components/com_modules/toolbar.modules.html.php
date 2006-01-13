@@ -22,12 +22,7 @@ class TOOLBAR_modules {
 	*/
 	function _NEW($client)	{
 		JMenuBar::startTable();
-		JMenuBar::title( JText::_( $client ). JText::_( 'Module' ).' <small><small>[New]</small></small>', 'module.png' );
-		JMenuBar::preview( 'modulewindow' );
-		JMenuBar::spacer();
-		JMenuBar::save();
-		JMenuBar::spacer();
-		JMenuBar::apply();
+		JMenuBar::title( JText::_( 'New Module' ).' <small><small>['. JText::_( $client ) .']</small></small>', 'module.png' );
 		JMenuBar::spacer();
 		JMenuBar::cancel();
 		JMenuBar::spacer();
