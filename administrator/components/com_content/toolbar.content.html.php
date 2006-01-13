@@ -19,8 +19,11 @@
 class TOOLBAR_content {
 	function _EDIT() {
 		global $id;
-
+		
+		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+		
 		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Content Item' ).': <small>'. $text .'</small>', 'addedit.png' );
 		JMenuBar::preview( 'index3.php?option=com_content&id='.$id, true );
 		JMenuBar::spacer();
 		JMenuBar::media_manager();
@@ -43,6 +46,7 @@ class TOOLBAR_content {
 	function _ARCHIVE() {
 
 		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Archive Manager' ), 'addedit.png' );
 		JMenuBar::unarchiveList();
 		JMenuBar::spacer();
 		JMenuBar::custom( 'remove', 'delete.png', 'delete_f2.png', JText::_( 'Trash' ), false );
@@ -54,6 +58,7 @@ class TOOLBAR_content {
 	function _MOVE() {
 
 		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Move Content Items' ), 'move_f2.png' );
 		JMenuBar::custom( 'movesectsave', 'save.png', 'save_f2.png', JText::_( 'Save' ), false );
 		JMenuBar::spacer();
 		JMenuBar::cancel();
@@ -63,6 +68,7 @@ class TOOLBAR_content {
 	function _COPY() {
 
 		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Copy Content Items' ), 'copy_f2.png' );
 		JMenuBar::custom( 'copysave', 'save.png', 'save_f2.png', JText::_( 'Save' ), false );
 		JMenuBar::spacer();
 		JMenuBar::cancel();
@@ -72,6 +78,7 @@ class TOOLBAR_content {
 	function _DEFAULT() {
 
 		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Content Items Manager' ), 'addedit.png' );
 		JMenuBar::archiveList();
 		JMenuBar::spacer();
 		JMenuBar::publishList();

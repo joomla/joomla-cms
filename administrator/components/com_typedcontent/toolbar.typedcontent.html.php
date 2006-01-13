@@ -18,7 +18,12 @@
 */
 class TOOLBAR_typedcontent {
 	function _EDIT( ) {
+		global $id;
+		
+		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+		
 		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Static Content Item' ).': <small>'. $text .'</small>', 'addedit.png' );
 		JMenuBar::preview( 'contentwindow', true );
 		JMenuBar::spacer();
 		JMenuBar::media_manager();
@@ -35,6 +40,7 @@ class TOOLBAR_typedcontent {
 
 	function _DEFAULT() {
 		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Static Content Manager' ), 'addedit.png' );
 		JMenuBar::publishList();
 		JMenuBar::spacer();
 		JMenuBar::unpublishList();

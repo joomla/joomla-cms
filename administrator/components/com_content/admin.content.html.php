@@ -34,20 +34,12 @@ class HTML_content {
 
 		<table class="adminheading">
 		<tr>
-			<th class="edit" rowspan="2" nowrap="nowrap">
-			<?php
-            echo JText::_( 'Content Items Manager' );
-			if ( $all ) {
-				?>
-				 <small><small>[ <?php echo JText::_( 'Section: All' ); ?> ]</small></small>
-				<?php
-			} else {
-				?>
-				 <small><small>[ <?php echo JText::_( 'Section' ); ?>: <?php echo $section->title; ?> ]</small></small>
-				<?php
-			}
-			?>
-			</th>
+			<td align="left" valign="top" nowrap="nowrap">
+				<?php echo JText::_( 'Filter' ); ?>:
+				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+			</td>
 			<td align="right" valign="top" nowrap="nowrap">
 				<?php
 				if ( $all ) {
@@ -56,14 +48,6 @@ class HTML_content {
 				echo $lists['catid'];
 				echo $lists['authorid'];
 				?>
-			</td>
-		</tr>
-		<tr>
-			<td align="right" valign="top" nowrap="nowrap">
-				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 		</tr>
 		</table>
@@ -305,20 +289,12 @@ class HTML_content {
 
 		<table class="adminheading">
 		<tr>
-			<th class="edit" rowspan="2">
-            <?php
-            echo JText::_( 'Archive Manager' );
-			if ( $all ) {
-				?>
-				 <small><small>[ <?php echo JText::_( 'Section: All' ); ?> ]</small></small>
-				<?php
-			} else {
-				?>
-				 <small><small>[ <?php echo JText::_( 'Section' ); ?>: <?php echo $section->title; ?> ]</small></small>
-				<?php
-			}
-			?>
-			</th>
+			<td align="left" valign="top" nowrap="nowrap">
+				<?php echo JText::_( 'Filter' ); ?>:
+				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+			</td>
 			<td align="right" valign="top" nowrap="nowrap">
 				<?php
 				if ( $all ) {
@@ -327,14 +303,6 @@ class HTML_content {
 				echo $lists['catid'];
 				echo $lists['authorid'];
 				?>
-			</td>
-		</tr>
-		<tr>
-			<td align="right" valign="top" nowrap="nowrap">
-				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 		</tr>
 		</table>
@@ -533,24 +501,16 @@ class HTML_content {
 		}
 		//-->
 		</script>
+		
 		<form action="index2.php" method="post" name="adminForm">
+		
 		<table class="adminheading">
 		<tr>
-			<th class="edit">
-			<?php echo JText::_( 'Content Item' ); ?>:
-			<small>
-			<?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'New' );?>
-			</small>
-			<?php
-			if ( $row->id ) {
-				?>
+			<td>
 				<small><small>
 				[ <?php echo JText::_( 'Section' ); ?>: <?php echo $section?> ]
 				</small></small>
-				<?php
-			}
-			?>
-			</th>
+			</td>
 		</tr>
 		</table>
 
@@ -1073,16 +1033,7 @@ class HTML_content {
 		</script>
 
 		<form action="index2.php" method="post" name="adminForm">
-		<br />
-		<table class="adminheading">
-		<tr>
-			<th class="edit">
-			<?php echo JText::_( 'Move Items' ); ?>
-			</th>
-		</tr>
-		</table>
 
-		<br />
 		<table class="adminform">
 		<tr>
 			<td  valign="top" width="40%">
@@ -1142,16 +1093,7 @@ class HTML_content {
 		}
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
-		<br />
-		<table class="adminheading">
-		<tr>
-			<th class="edit">
-			<?php echo JText::_( 'Copy Content Items' ); ?>
-			</th>
-		</tr>
-		</table>
 
-		<br />
 		<table class="adminform">
 		<tr>
 			<td  valign="top" width="40%">

@@ -34,9 +34,6 @@ class HTML_typedcontent {
 
 		<table class="adminheading">
 		<tr>
-			<th class="edit" rowspan="2" nowrap="nowrap">
-				<?php echo JText::_( 'Static Content Manager' ); ?>
-			</th>
 			<td align="right" nowrap="nowrap">
 				<?php
 				echo JText::_( 'Order' ); ?>:
@@ -315,17 +312,6 @@ class HTML_typedcontent {
 			}
 		}
 		</script>
-
-		<table class="adminheading">
-		<tr>
-			<th class="edit">
-			<?php echo JText::_( 'Static Content Item' ); ?>:
-			<small>
-			<?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'New' );?>
-			</small>
-			</th>
-		</tr>
-		</table>
 
 		<form action="index2.php" method="post" name="adminForm">
 

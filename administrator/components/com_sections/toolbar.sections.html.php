@@ -25,8 +25,11 @@ class TOOLBAR_sections {
 	*/
 	function _EDIT() {
 		global $id;
+		
+		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );		
 
 		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Section' ).': <small>'. $text .'</small>', 'sections.png' );
 		JMenuBar::media_manager();
 		JMenuBar::spacer();
 		JMenuBar::save();
@@ -49,6 +52,7 @@ class TOOLBAR_sections {
 	*/
 	function _COPY() {
 		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Copy Section' ), 'sections.png' );
 		JMenuBar::save( 'copysave' );
 		JMenuBar::spacer();
 		JMenuBar::cancel();
@@ -59,6 +63,7 @@ class TOOLBAR_sections {
 	*/
 	function _DEFAULT(){
 		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Section Manager' ), 'sections.png' );
 		JMenuBar::publishList();
 		JMenuBar::spacer();
 		JMenuBar::unpublishList();

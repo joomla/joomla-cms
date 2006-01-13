@@ -31,13 +31,6 @@ class sections_html {
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminheading">
-		<tr>
-			 <th class="sections">
-			<?php echo JText::_( 'Section Manager' ); ?>
-			</th>
-		</tr>
-		</table>
 
 		<table class="adminlist">
 		<tr>
@@ -218,17 +211,14 @@ class sections_html {
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
-			<th class="sections">
-			<?php echo JText::_( 'Section' ); ?>:
-			<small>
-			<?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'New' );?>
-			</small>
-			<small><small>
-			[ <?php echo $name ; ?> ]
-			</small></small>
-			</th>
+			<td>
+				<small><small>
+				[ <?php echo JText::_( 'Section' ); ?>: <?php echo $row->name; ?> ]
+				</small></small>
+			</td>
 		</tr>
 		</table>
+
 
 		<table width="100%">
 		<tr>
@@ -428,16 +418,7 @@ class sections_html {
 	function copySectionSelect( $option, $cid, $categories, $contents, $section ) {
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-		<br />
-		<table class="adminheading">
-		<tr>
-			<th class="sections">
-			<?php echo JText::_( 'Copy Section' ); ?>
-			</th>
-		</tr>
-		</table>
 
-		<br />
 		<table class="adminform">
 		<tr>
 			<td width="3%"></td>
