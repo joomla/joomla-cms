@@ -29,29 +29,26 @@ class HTML_menusections {
 		<form action="index2.php" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
-			<td align="right" valign="top" nowrap="nowrap">
-				<?php echo JText::_( 'Max Levels' ); ?>
-				<?php echo $levellist;?>
-			</td>
-		</tr>
-		<tr>
-			<td align="right" valign="top" nowrap="nowrap">
+			<td align="left" valign="top" nowrap="nowrap">
 				<?php echo JText::_( 'Filter' ); ?>:
 				<input type="text" name="search" value="<?php echo $search;?>" class="inputbox" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+			</td>
+			<td align="right" valign="top" nowrap="nowrap">
+				<?php echo JText::_( 'Max Levels' ); ?>
+				<?php echo $levellist;?>
 			</td>
 		</tr>
 		<?php
 		if ( $menutype == 'mainmenu' ) {
 			?>
 			<tr>
-				<td align="right" nowrap style="color: red; font-weight: normal;" colspan="5">
+				<td align="left" nowrap="nowrap" style="color: red; font-weight: normal;">
 				<?php echo JText::_( 'WARNDELETEMENU' ); ?>
-				<br/>
-				<span style="color: black;">
+				</td>
+				<td align="right" valign="top" nowrap="nowrap" style="font-weight: normal;">
 				<?php echo JText::_( 'WARNMAINMENUHOME' ); ?>
-				</span>
 				</td>
 			</tr>
 			<?php
