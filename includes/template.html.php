@@ -24,10 +24,26 @@ class modules_html {
 	* @param object
 	* @param int -1=show without wrapper and title, -2=xhtml style
 	*/
-	function module( &$module, &$params, $style=0 ) {
-		global $mosConfig_lang;
-
-		switch ( $style ) {
+	function module( &$module, &$params, $style=0, $preview = false ) 
+	{
+		global $mainframe;
+		
+		$doc =& $mainframe->getDocument();
+		
+		$css  = ".mod-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;opacity: .80; filter: alpha(opacity=80); -moz-opactiy: .80; }";
+		$css .= ".mod-preview-wrapper { background-color:#eee;  border: 1px dotted black; color:#700; opacity: .50; filter: alpha(opacity=50); -moz-opactiy: .50;}";
+		$doc->addStyleDeclaration($css);
+		
+		if($preview) {
+			?>
+			<div class="mod-preview">
+			<div class="mod-preview-info"><?php echo $module->position.'['.$style.']' ?></div>
+			<div class="mod-preview-wrapper">
+			<?php
+		}
+		
+		switch ( $style ) 
+		{
 			case -3:
 			// allows for rounded corners
 				modules_html::modoutput_rounded( $module, $params );
@@ -64,6 +80,10 @@ class modules_html {
 			if (file_exists( $path )) {
 				require_once( $path );
 			}
+		}
+		
+		if($preview ) {
+			?></div></div><?php
 		}
 	}
 

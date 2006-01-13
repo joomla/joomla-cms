@@ -170,7 +170,7 @@ header( 'Cache-Control: post-check=0, pre-check=0', false );
 header( 'Pragma: no-cache' );
 
 initDocument($document); //initialise the document
-$document->display( $file, $mainframe->getCfg('gzip') );
+$document->display( $file, $mainframe->getCfg('gzip'), JRequest::getVar('tp', 0 ));
 
 // displays queries performed for page
 if ($mainframe->getCfg('debug')) {

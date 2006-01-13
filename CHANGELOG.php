@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Jan-2006 Johan Janssens
+ # Fixed artf2514 : Cannot preview template positions
+
 12-Jan-2006 Louis Landry
  + Phase 1 of refactor and general code cleanup of content component
  ^ Implmented static template array in JApplication->getTemplate methods

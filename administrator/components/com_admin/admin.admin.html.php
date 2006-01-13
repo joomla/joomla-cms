@@ -1,4 +1,4 @@
-<?php
+ro<?php
 /**
 * @version $Id$
 * @package Joomla
@@ -551,7 +551,8 @@ class HTML_admin_misc {
  * Compiles the help table of contents
  * @param string A specific keyword on which to filter the resulting list
  */
-function getHelpTOC( $helpsearch ) {
+function getHelpTOC( $helpsearch ) 
+{
 	$helpurl = mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
 
 	$files = mosReadDirectory( JPATH_SITE . '/help/', '\.xml$|\.html$' );

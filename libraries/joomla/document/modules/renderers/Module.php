@@ -39,6 +39,8 @@ class patTemplate_Renderer_Module extends patTemplate_Renderer
 	 */
 	function render( $module, $params = array() )
 	{
+		global $mainframe, $database, $my, $Itemid, $acl, $task, $option;
+		
 		//For backwards compatibility extract the config vars as globals
 		$CONFIG = new JConfig();
 		foreach (get_object_vars($CONFIG) as $k => $v) {
@@ -46,14 +48,12 @@ class patTemplate_Renderer_Module extends patTemplate_Renderer
 			$GLOBALS[$name] = $v;		
 		}
 
-		global $mosConfig_live_site, $mosConfig_sitename, $mosConfig_lang, $mosConfig_absolute_path;
-		global $mainframe, $database, $my, $Itemid, $acl, $task, $option;
-
 		if(!is_object($module)) {
 			$module = JModuleHelper::getModule($module);
 		}
 		
-		$style  = isset($params['style']) ? $params['style'] : $module->style;
+		$style   = isset($params['style']) ? $params['style'] : $module->style;
+		$outline = isset($params['outline']) ? $params['outline'] : false;
 		
 		//get module parameters
 		$params = new JParameters( $module->params );
@@ -79,7 +79,7 @@ class patTemplate_Renderer_Module extends patTemplate_Renderer
 				$cache =& JFactory::getCache( 'com_content' );
 				$cache->call('modules_html::module', $module, $params, $style );
 			} else {
-				modules_html::module( $module, $params, $style);
+				modules_html::module( $module, $params, $style, $outline);
 			}
 		$contents = ob_get_contents();
 		ob_end_clean();

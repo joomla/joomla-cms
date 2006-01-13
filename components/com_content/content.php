@@ -36,17 +36,17 @@ $cache = & JFactory :: getCache('com_content');
 // loads function for frontpage component
 if ($option == 'com_frontpage') {
 	//JContentController :: frontpage($access, $now);
-	$cache->call('JContentController :: frontpage', $access, $now);
+	$cache->call('JContentController::frontpage', $access, $now);
 	return;
 }
 
 switch (strtolower($task)) {
 	case 'findkey' :
-		JContentController :: _findKeyItem($access, $now);
+		JContentController::_findKeyItem($access, $now);
 		break;
 
 	case 'view' :
-		JContentController :: showItem($access, $now);
+		JContentController::showItem($access, $now);
 		break;
 
 	case 'section' :
@@ -67,40 +67,40 @@ switch (strtolower($task)) {
 		break;
 
 	case 'archivesection' :
-		JContentController :: showArchiveSection($access);
+		JContentController::showArchiveSection($access);
 		break;
 
 	case 'archivecategory' :
-		JContentController :: showArchiveCategory($access, $now);
+		JContentController::showArchiveCategory($access, $now);
 		break;
 
 	case 'edit' :
 	case 'new' :
-		JContentController :: editItem($access, $Itemid);
+		JContentController::editItem($access, $Itemid);
 		break;
 
 	case 'save' :
 	case 'apply' :
 	case 'apply_new' :
-		$cache = JFactory :: getCache();
+		$cache = JFactory::getCache();
 		$cache->cleanCache('com_content');
-		JContentController :: saveContent($access);
+		JContentController::saveContent($access);
 		break;
 
 	case 'cancel' :
-		JContentController :: cancelContent($access);
+		JContentController::cancelContent($access);
 		break;
 
 	case 'emailform' :
-		JContentController :: emailContentForm();
+		JContentController::emailContentForm();
 		break;
 
 	case 'emailsend' :
-		JContentController :: emailContentSend();
+		JContentController::emailContentSend();
 		break;
 
 	case 'vote' :
-		JContentController :: recordVote();
+		JContentController::recordVote();
 		break;
 
 	default :

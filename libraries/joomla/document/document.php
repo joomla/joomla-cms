@@ -449,14 +449,15 @@ class JDocument extends JTemplate
 	 * @access public
 	 * @param string 	$template	The name of the template
 	 * @param boolean 	$compress	If true, compress the output using Zlib compression
+	 * @param boolean 	$compress	If true, will display information about the placeholders
 	 */
-	function display($template, $compress = true)
+	function display($template, $compress = true, $outline = false)
 	{
 		foreach($this->_renderers as $type => $names) 
 		{
 			foreach($names as $name) 
 			{
-				if($html = $this->execRenderer($type, $name)) {
+				if($html = $this->execRenderer($type, $name, array('outline' => $outline))) {
 					$this->addGlobalVar($type.'_'.$name, $html);
 				}
 			}
@@ -533,20 +534,6 @@ class JDocument extends JTemplate
 	function _addRenderer($type, $name)
 	{
 		$this->_renderers[$type][] = $name;
-	}
-	
-	/**
-	 * Module callback function
-	 * 
-	 * @abstract
-	 * @access protected
-	 * @param string $module 	The name of the module 
-	 * @param array	 $params	Array of module parameters
-	 * @return string	The result to be inserted in the template
-	 */
-	function _moduleCallback($module, $params = array())
-	{
-		return '';
 	}
 }
 ?>
