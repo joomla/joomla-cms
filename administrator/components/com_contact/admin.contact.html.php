@@ -303,14 +303,6 @@ class HTML_contact {
 					</th>
 				<tr>
 				<tr>
-					<td width="20%" align="right">
-					<?php echo JText::_( 'Site Default' ); ?>:
-					</td>
-					<td >
-					<?php echo $lists['default_con']; ?>
-					</td>
-				</tr>
-				<tr>
 					<td valign="top" align="right">
 					<?php echo JText::_( 'Published' ); ?>:
 					</td>
