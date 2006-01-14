@@ -11,103 +11,78 @@
 * See COPYRIGHT.php for copyright notices and details.
 **/
 
-jimport('cpdf.ezpdf');
+// no direct access
+defined('_JEXEC') or die('Restricted access');
+
+jimport('tcpdf.config.lang.eng');
+jimport('tcpdf.tcpdf');
+
 
 /**
  * PDF Creator
  * 
- * Support file to display PDF Text Only using class from - http://www.ros.co.nz/pdf/readme.pdf
- * HTMLDoc is available from: http://www.easysw.com/htmldoc and needs installing on the server for better HTML to PDF conversion
+ * Support file to display content as PDF using class from - TODO
  * 
- * @author Phil Taylor <me@phil-taylor.com>
+ * @author David Gal <david@joomla.co.il>
  * @package Joomla.Framework
- * @since 1.0
+ * @since 1.1
  */
 
-function dofreePDF () {
-	global $mosConfig_sitename, $mosConfig_offset;
+function doUtfPDF () {
 	global $mainframe, $database;
 
 	$id = intval( mosGetParam( $_REQUEST, 'id', 1 ) );
-	$row = new mosContent( $database );
+	$row =& JModel::getInstance('content', $database );
+	// $row = new mosContent( $database );
 	$row->load( $id );
 
 	$params = new JParameters( $row->attribs );
 	$params->def( 'author', 	!$mainframe->getCfg( 'hideAuthor' ) );
 	$params->def( 'createdate', !$mainframe->getCfg( 'hideCreateDate' ) );
 	$params->def( 'modifydate', !$mainframe->getCfg( 'hideModifyDate' ) );
+		
+	//create new PDF document (document units are set by default to millimeters)
+	$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true); 
+	
+	// set document information
+	$pdf->SetCreator("Joomla!");
+	$pdf->SetTitle("Joomla generated PDF");
+	$pdf->SetSubject($row->title);
+	$pdf->SetKeywords($row->metakey);
+	
+	// prepare header lines
+	$headerText = getHeaderText($row, $params);
+	
+	$pdf->SetHeaderData('', 0, $row->title, $headerText);
+	
+	//set margins
+	$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+	//set auto page breaks
+	$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+	$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+	$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+	$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); //set image scale factor
+	
+	$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+	$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+	
+	$pdf->setLanguageArray($l); //set language items
+	
+	//initialize document
+	$pdf->AliasNbPages();
+	
+	$pdf->AddPage();
+	
+	$pdf->WriteHTML($row->introtext ."\n". $row->fulltext, true);
+	
+	
+	//Close and output PDF document
+	$pdf->Output("joomla.pdf", "I");
 
-	$row->fulltext 	= pdfCleaner( $row->fulltext );
-	$row->introtext = pdfCleaner( $row->introtext );
-
-	$pdf = new Cezpdf( 'a4', 'P' );  //A4 Portrait
-	$pdf -> ezSetCmMargins( 2, 1.5, 1, 1);
-	$pdf->selectFont(  './fonts/Helvetica.afm'); //choose font
-
-	$all = $pdf->openObject();
-	$pdf->saveState();
-	$pdf->setStrokeColor( 0, 0, 0, 1 );
-
-	// footer
-	$pdf->addText( 250, 822, 6, $mosConfig_sitename );
-	$pdf->line( 10, 40, 578, 40 );
-	$pdf->line( 10, 818, 578, 818 );
-	$pdf->addText( 30, 34, 6, JURL_SITE );
-	$pdf->addText( 250, 34, 6, JText::_( 'Powered by' ) .' Joomla!' );
-	$pdf->addText( 450, 34, 6, JText::_( 'Generated' ) .': '. date( 'j F, Y, H:i', time() + $mosConfig_offset * 60 * 60 ) );
-
-	$pdf->restoreState();
-	$pdf->closeObject();
-	$pdf->addObject( $all, 'all' );
-	$pdf->ezSetDy( 30 );
-
-	$txt1 = $row->title;
-	$pdf->ezText( $txt1, 14 );
-
-	$txt2 = AuthorDateLine( $row, $params );
-
-	$pdf->ezText( $txt2, 8 );
-
-	$txt3 = $row->introtext ."\n". $row->fulltext;
-	$pdf->ezText( $txt3, 10 );
-
-	$pdf->ezStream();
 }
 
-function decodeHTML( $string ) {
-	$string = strtr( $string, array_flip(get_html_translation_table( HTML_ENTITIES ) ) );
-	$string = preg_replace( "/&#([0-9]+);/me", "chr('\\1')", $string );
 
-	return $string;
-}
-
-function get_php_setting ($val ) {
-	$r = ( ini_get( $val ) == '1' ? 1 : 0 );
-
-	return $r ? 'ON' : 'OFF';
-}
-
-function pdfCleaner( $text ) {
-	// Ugly but needed to get rid of all the stuff the PDF class cant handle
-
-	$text = str_replace( '<p>', 			"\n\n", 	$text );
-	$text = str_replace( '<P>', 			"\n\n", 	$text );
-	$text = str_replace( '<br />', 			"\n", 		$text );
-	$text = str_replace( '<br>', 			"\n", 		$text );
-	$text = str_replace( '<BR />', 			"\n", 		$text );
-	$text = str_replace( '<BR>', 			"\n", 		$text );
-	$text = str_replace( '<li>', 			"\n - ", 	$text );
-	$text = str_replace( '<LI>', 			"\n - ", 	$text );
-	$text = str_replace( '{mosimage}', 		'', 		$text );
-	$text = str_replace( '{mospagebreak}', 	'',			$text );
-
-	$text = strip_tags( $text );
-	$text = decodeHTML( $text );
-
-	return $text;
-}
-
-function AuthorDateLine( &$row, &$params ) {
+function getHeaderText( &$row, &$params ) {
 	global $database;
 
 	$text = '';
@@ -122,10 +97,10 @@ function AuthorDateLine( &$row, &$params ) {
 		$row->usertype 	= $users_rows->usertype;
 
 		if ($row->usertype == 'administrator' || $row->usertype == 'superadministrator') {
-			$text .= "\n ";
+			$text .= "\n";
 			$text .=  JText::_( 'Written by' ) .' '. ( $row->created_by_alias ? $row->created_by_alias : $row->author );
 		} else {
-			$text .= "\n ";
+			$text .= "\n";
 			$text .=  JText::_( 'Contributed by' ) .' '. ( $row->created_by_alias ? $row->created_by_alias : $row->author );
 		}
 	}
@@ -157,10 +132,10 @@ function AuthorDateLine( &$row, &$params ) {
 		}
 	}
 
-	$text .= "\n\n";
+	$text .= "\n";
 
 	return $text;
 }
 
-dofreePDF ( );
+doUtfPDF ( );
 ?>
