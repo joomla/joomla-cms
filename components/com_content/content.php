@@ -36,7 +36,7 @@ $cache = & JFactory :: getCache('com_content');
 // loads function for frontpage component
 if ($option == 'com_frontpage') {
 	//JContentController :: frontpage($access, $now);
-	$cache->call('JContentController::frontpage', $access, $now);
+	$cache->call('JContentController::frontpage', $access, $now, $limit, $limitstart);
 	return;
 }
 
@@ -54,16 +54,16 @@ switch (strtolower($task)) {
 		break;
 
 	case 'category' :
-		$cache->call('JContentController::showCategory', $access, $now);
+		$cache->call('JContentController::showCategory', $access, $now, $limit, $limitstart);
 		break;
 
 	case 'blogsection' :
-		$cache->call('JContentController::showBlogSection', $access, $now);
+		$cache->call('JContentController::showBlogSection', $access, $now, $limit, $limitstart);
 		break;
 
 	case 'blogcategorymulti' :
 	case 'blogcategory' :
-		$cache->call('JContentController::showBlogCategory', $access, $now);
+		$cache->call('JContentController::showBlogCategory', $access, $now, $limit, $limitstart);
 		break;
 
 	case 'archivesection' :
