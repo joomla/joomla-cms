@@ -1346,36 +1346,30 @@ class JContentController
 		$task 		= JRequest::getVar( 'task' );		
 		
 		$row = & JModel :: getInstance( 'content', $db );
-		if (!$row->bind($_POST))
-		{
+		if (!$row->bind($_POST)) {
 			JContentView :: userInputError($row->getError());
 			exit ();
 		}
 
 		$isNew = ($row->id < 1);
-		if ($isNew)
-		{
+		if ($isNew) {
 			// new record
-			if (!($access->canEdit || $access->canEditOwn))
-			{
+			if (!($access->canEdit || $access->canEditOwn)) {
 				mosNotAuth();
 				return;
 			}
 			$row->created = date('Y-m-d H:i:s');
 			$row->created_by = $my->id;
-		} else
-		{
+		} else {
 			// existing record
-			if (!($access->canEdit || ($access->canEditOwn && $row->created_by == $my->id)))
-			{
+			if (!($access->canEdit || ($access->canEditOwn && $row->created_by == $my->id))) {
 				mosNotAuth();
 				return;
 			}
 			$row->modified = date('Y-m-d H:i:s');
 			$row->modified_by = $my->id;
 		}
-		if (trim($row->publish_down) == 'Never')
-		{
+		if (trim($row->publish_down) == 'Never') {
 			$row->publish_down = $nullDate;
 		}
 
@@ -1386,21 +1380,40 @@ class JContentController
 		// remove <br /> take being automatically added to empty fulltext
 		$length = strlen($row->fulltext) < 9;
 		$search = strstr($row->fulltext, '<br />');
-		if ($length && $search)
-		{
+		if ($length && $search) {
 			$row->fulltext = NULL;
 		}
 
 		$row->title = ampReplace($row->title);
 
-		if (!$row->check())
-		{
+		// Publishing state hardening for Authors
+		if ( !$access->canPublish ) {     
+			if ( $isNew ) {
+				// For new items - author is not allowed to publish - prevent them from doing so
+				$row->state = 0;                 
+			} else {
+				// For existing items keep existing state - author is not allowed to change status
+				$query = "SELECT state"
+						. "\n FROM #__content"
+						. "\n WHERE id = $row->id"
+						;
+				$db->setQuery($query);
+				$state = $db->loadResult();          
+				
+				if ( $state ) {
+					$row->state = 1;
+				} else {
+					$row->state = 0;
+				}
+			}
+		}
+		
+		if (!$row->check()) {
 			JContentView :: userInputError($row->getError());
 			exit ();
 		}
 		$row->version++;
-		if (!$row->store())
-		{
+		if (!$row->store()) {
 			JContentView :: userInputError($row->getError());
 			exit ();
 		}
@@ -1409,25 +1422,21 @@ class JContentController
 		require_once (JApplicationHelper :: getPath('class', 'com_frontpage'));
 		$fp = new JFrontPageModel($db);
 
-		if (JRequest :: getVar( 'frontpage', false, '', 'boolean' ))
-		{
+		if (JRequest :: getVar( 'frontpage', false, '', 'boolean' )) {
 
 			// toggles go to first place
-			if (!$fp->load($row->id))
-			{
+			if (!$fp->load($row->id)) {
 				// new entry
 				$query = "INSERT INTO #__content_frontpage" .
 						"\n VALUES ( $row->id, 1 )";
 				$db->setQuery($query);
-				if (!$db->query())
-				{
+				if (!$db->query()) {
 					JContentView :: userInputError($db->stderror());
 					exit ();
 				}
 				$fp->ordering = 1;
 			}
-		} else
-		{
+		} else {
 			// no frontpage mask
 			if (!$fp->delete($row->id))
 			{
@@ -1455,8 +1464,7 @@ class JContentController
 		$db->setQuery($query);
 		$category = $db->loadResult();
 
-		if ($isNew)
-		{
+		if ($isNew) {
 			// messaging for new items
 			require_once (JApplicationHelper :: getPath('class', 'com_messages'));
 			$query = "SELECT id" .
@@ -1464,16 +1472,14 @@ class JContentController
 					"\n WHERE sendEmail = 1";
 			$db->setQuery($query);
 			$users = $db->loadResultArray();
-			foreach ($users as $user_id)
-			{
+			foreach ($users as $user_id) {
 				$msg = new mosMessage($db);
 				$msg->send($my->id, $user_id, "New Item", sprintf(JText :: _('ON_NEW_CONTENT'), $my->username, $row->title, $section, $category));
 			}
 		}
 
 		$msg = $isNew ? JText :: _('THANK_SUB') : JText :: _('Item succesfully saved.');
-		switch ($task)
-		{
+		switch ($task) {
 			case 'apply' :
 				$link = $_SERVER['HTTP_REFERER'];
 				break;
@@ -1486,11 +1492,9 @@ class JContentController
 			case 'save' :
 			default :
 				$Itemid = JRequest::getVar( 'Returnid', '', 'post' );
-				if ($Itemid)
-				{
+				if ($Itemid) {
 					$link = 'index.php?option=com_content&task=view&id='.$row->id.'&Itemid='.$Itemid;
-				} else
-				{
+				} else {
 					$link = JRequest::getVar( 'referer', '', 'post' );
 				}
 				break;
