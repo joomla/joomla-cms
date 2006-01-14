@@ -29,8 +29,7 @@ $breadcrumbs->setItemName(1, JText :: _('Contact'));
 // Get the task variable
 $task = JRequest :: getVar( 'task' );
 
-switch ($task)
-{
+switch ($task) {
 	case 'view' :
 		JContactController :: contactPage();
 		break;
@@ -591,7 +590,11 @@ class JContactController
 				$copySubject 	= JText :: _('Copy of:')." ".$subject;
 				josMail($MailFrom, $FromName, $email, $copySubject, $copyText);
 			}
-			JContactView :: emailSent();
+		
+			$link = 'index.php?option=com_contact&task=view&contact_id='. $contact[0]->id .'&Itemid='. $Itemid;
+			$text = JText::_( 'Thank you for your e-mail', true );
+			
+			mosRedirect( $link, $text );
 		}
 	}
 

@@ -401,23 +401,6 @@ class JContactView {
 	}
 
 	/**
-	 * Method to output an email sent view
-	 * 
-	 * @static
-	 * @since 1.0
-	 */
-	function emailSent() {
-		global $Itemid;
-		$option = JRequest::getVar('option');
-		?>
-		<script>
-		alert( "<?php echo JText::_( 'Thank you for your e-mail', true ); ?>" );
-		document.location.href='<?php echo sefRelToAbs( 'index.php?option='. $option .'&Itemid='. $Itemid ); ?>';
-		</script>
-		<?php
-	}
-
-	/**
 	 * Method to output an email sending error view
 	 * 
 	 * @static
