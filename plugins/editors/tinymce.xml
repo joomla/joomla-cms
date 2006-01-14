@@ -29,11 +29,11 @@
  			<option value="rtl">Right to Left</option>
  		</param>
  		<param name="invalid_elements" type="text" default="applet" label="Prohibited Elements" description="Elements that will be cleaned from the text"/>
- 		<param name="content_css" type="radio" default="1" label="Template CSS classes" description="Load CSS classes from template_css.css">
+ 		<param name="content_css" type="radio" default="1" label="Template CSS classes" description="Loads CSS classes from default editor_content.css file. If that file is not present in the css folder, your template_css.css file will load instead.">
  			<option value="0">No</option>
  			<option value="1">Yes</option>
  		</param>
- 		<param name="content_css_custom" type="text" default="" label="Custom CSS Classes" description="PARAMCSSCLASSES"/>
+ 		<param name="content_css_custom" type="text" default="" label="Custom CSS Classes" description="You can specify the loading of a custom CSS file - simply enter the FULL URL path to the css file you want loaded. For this feature to work properly, set the Template CSS classes parameters to `No`."/>
   		<param name="newlines" type="list" default="0" label="Newlines" description="Newlines will be made into the selected option">
  			<option value="1">BR Elements</option>
  			<option value="0">P Elements</option>
