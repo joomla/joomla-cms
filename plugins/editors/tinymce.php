@@ -105,7 +105,10 @@ class JEditor_tinymce extends JPlugin {
 		// fullscreen
 		$fullscreen			=  $params->def( 'fullscreen', 1 );
 	
-		if ( $content_css ) {
+		// loading of css file for `styles` dropdown
+		if ( $content_css_custom ) {
+			$content_css = 'content_css : "'. $content_css_custom .'", ';
+		} else {
 			$query = "SELECT template"
 			. "\n FROM #__templates_menu"
 			. "\n WHERE client_id = 0"
@@ -113,21 +116,23 @@ class JEditor_tinymce extends JPlugin {
 			;
 			$database->setQuery( $query );
 			$template = $database->loadResult();
-	
-			$file			= JPATH_SITE .'/templates/'. $template .'/css/editor_content.css';
-			if ( file_exists( $file ) ) {
-				$content_css	= 'content_css : "'. JURL_SITE .'/templates/'. $template .'/css/editor_content.css", ';
+			
+			$file_path = JPATH_SITE .'/templates/'. $template .'/css/';
+			if ( $content_css ) {			
+				$file = 'template.css';
 			} else {
-				$content_css	= 'content_css : "'. JURL_SITE .'/templates/'. $template .'/css/template_css.css", ';
+				$file = 'editor_content.css';
 			}
-		} else {
-			if ( $content_css_custom ) {
-				$content_css = 'content_css : "'. $content_css_custom .'", ';
+			
+			$content_css = 'content_css : "'. JURL_SITE .'/templates/'. $template .'/css/';
+			
+			if ( file_exists( $file_path .'/'. $file ) ) {
+				$content_css = $content_css . $file .'", ';
 			} else {
-				$content_css = '';
+				$content_css = $content_css . 'template_css.css", ';
 			}
 		}
-	
+
 		$plugins[] 	= '';
 		$buttons2[]	= '';
 		$buttons3[]	= '';
@@ -147,6 +152,7 @@ class JEditor_tinymce extends JPlugin {
 			$p_newlines     = 'true';
 		}
 	
+		// Tiny Compressed mode
 		if ( $compressed ) {
 			$load = '<script type="text/javascript" src="'. JURL_SITE .'/plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php"></script>';
 		} else {
