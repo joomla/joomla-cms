@@ -418,25 +418,27 @@ class WeblinksController {
 		// Check the model in so it can be edited.... we are done with it anyway
 		$row->checkin();
 
-		/*
-				// Send notification emails to the administrators
-				$query = "SELECT email, name"
-				. "\n FROM #__users"
-				. "\n WHERE gid = 25"
-				. "\n AND sendemail = 1"
-				;
-				$database->setQuery( $query );
-				if(!$database->query()) {
-					echo $database->stderr( true );
-					return;
-				}
-
-				$adminRows = $database->loadObjectList();
-				foreach( $adminRows as $adminRow) {
-					mosSendAdminMail($adminRow->name, $adminRow->email, "", "Weblink", $row->title, $my->username );
-				}
-		*/
-
+		// admin users gid
+		$gid = 25;
+		
+		// list of admins	
+		$query = "SELECT email, name"
+		. "\n FROM #__users"
+		. "\n WHERE gid = $gid"
+		. "\n AND sendEmail = 1"
+		;
+		$database->setQuery( $query );
+		if(!$db->query()) {
+			echo $db->stderr( true );
+			return;
+		}
+		$adminRows = $db->loadObjectList();
+		
+		// send email notification to admins
+		foreach($adminRows as $adminRow) {				
+			josSendAdminMail($adminRow->name, $adminRow->email, '', 'Weblink', $row->title, $my->username );
+		}
+		
 		$msg = $isNew ? JText::_('THANK_SUB') : '';
 		mosRedirect('index.php', $msg);
 	}
