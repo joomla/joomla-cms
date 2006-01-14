@@ -26,6 +26,8 @@ $client 	= mosGetParam( $_REQUEST, 'client', 'site' );
 $cid 		= mosGetParam( $_POST, 'cid', array(0) );
 $id 		= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
 $moduleid 	= mosGetParam( $_REQUEST, 'moduleid', null );
+$module 	= mosGetParam( $_REQUEST, 'module', '' );
+
 if ($cid[0] == 0 && isset($moduleid) ) {
 	$cid[0] = $moduleid;
 }
@@ -41,7 +43,11 @@ switch ( $task ) {
 		break;
 
 	case 'edit':
-		editModule( $option, $cid[0], $client );
+		if ( $module && $cid[0] == 0 && id == 0 ) {
+			editModule( $option, 0, $client, $module );
+		} else {
+			editModule( $option, $cid[0], $client );
+		}
 		break;
 
 	case 'editA':
@@ -271,24 +277,36 @@ function saveModule( $option, $client, $task ) {
 
 	$menus = mosGetParam( $_POST, 'selections', array() );
 
+	// delete old module to menu item associations
 	$query = "DELETE FROM #__modules_menu"
 	. "\n WHERE moduleid = $row->id"
 	;
 	$database->setQuery( $query );
 	$database->query();
 
-	foreach ($menus as $menuid){
-		// this check for the blank spaces in the select box that have been added for cosmetic reasons
-		if ( $menuid <> "-999" ) {
-			$query = "INSERT INTO #__modules_menu"
-			. "\n SET moduleid = $row->id, menuid = $menuid"
-			;
-			$database->setQuery( $query );
-			$database->query();
-		}
+	// check needed to stop a module being assigned to `All` 
+	// and other menu items resulting in a module being displayed twice
+	if ( in_array( '0', $menus ) ) {
+		// assign new module to `all` menu item associations
+		$query = "INSERT INTO #__modules_menu"
+		. "\n SET moduleid = $row->id, menuid = 0"
+		;
+		$database->setQuery( $query );
+		$database->query();
+	} else {
+		foreach ($menus as $menuid){
+			// this check for the blank spaces in the select box that have been added for cosmetic reasons
+			if ( $menuid != "-999" ) {
+				// assign new module to menu item associations
+				$query = "INSERT INTO #__modules_menu"
+				. "\n SET moduleid = $row->id, menuid = $menuid"
+				;
+				$database->setQuery( $query );
+				$database->query();
+			}
+		}				
 	}
-
-
+	
 	switch ( $task ) {
 		case 'apply':
         	$msg = sprintf( JText::_( 'Successfully Saved changes to Module' ), $row->title );
@@ -308,7 +326,7 @@ function saveModule( $option, $client, $task ) {
 * @param string The current GET/POST option
 * @param integer The unique id of the record to edit
 */
-function editModule( $option, $uid, $client ) {
+function editModule( $option, $uid, $client, $module=NULL ) {
 	global $database, $my, $mainframe;
 
 	$lists 	= array();

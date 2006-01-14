@@ -23,6 +23,7 @@ class TOOLBAR_modules {
 	function _NEW($client)	{
 		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'New Module' ).' <small><small>['. JText::_( $client ) .']</small></small>', 'module.png' );
+		JMenuBar::customX( 'edit', 'next.png', 'next_f2.png', JText::_( 'Next' ), true );
 		JMenuBar::spacer();
 		JMenuBar::cancel();
 		JMenuBar::spacer();

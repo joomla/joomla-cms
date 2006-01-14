@@ -507,7 +507,8 @@ class HTML_modules {
 		<input type="hidden" name="option" value="com_modules" />
 		<input type="hidden" name="client" value="<?php echo $client; ?>" />
 		<input type="hidden" name="created" value="1" />
-		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="task" value="edit" />
+		<input type="hidden" name="boxchecked" value="0" />
 		</form>
 		<?php
 	}
