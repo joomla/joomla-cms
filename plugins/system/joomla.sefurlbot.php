@@ -347,7 +347,17 @@ function sefRelToAbs( $string ) {
 				
 				$sefstring .= $temp[0].'/';
 			}
-			
+			// Handle fragment identifiers (ex. #foo)
+			if (eregi('#', $string)) {
+				$temp = split('#', $string, 2);
+				$string = $temp[0];
+				// ensure fragment identifiers are compatible with HTML4
+				if (preg_match('@^[A-Za-z][A-Za-z0-9:_.-]*$@', $temp[1])) {
+					$fragment = '#'. $temp[1];
+					$sefstring .= $fragment .'/';
+				}
+			}
+
 			$string = $sefstring;
 		} else if (eregi('option=com_',$string) && !eregi('task=new',$string) && !eregi('task=edit',$string)) {
 			/*
