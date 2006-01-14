@@ -121,7 +121,7 @@ function listFeeds( $option, $catid ) {
 
 	// page image
 	$currentcat->img = '';
-	$path = JURL_SITE .'/images/stories/';
+	$path = 'images/stories/';
 	if ( ( @$currentcat->image ) <> '' ) {
 		$currentcat->img = $path . $currentcat->image;
 		$currentcat->align = $currentcat->image_position;

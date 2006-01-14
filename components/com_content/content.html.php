@@ -49,7 +49,7 @@ class JContentView
 		<?php
 		if ($section->image)
 		{
-			$link = JURL_SITE.'/images/stories/'.$section->image;
+			$link = 'images/stories/'.$section->image;
 			?>
 				<img src="<?php echo $link;?>" align="<?php echo $section->image_position;?>" hspace="6" alt="<?php echo $section->image;?>" />
 		<?php
@@ -101,7 +101,7 @@ class JContentView
 		<?php
 		if ($category->image)
 		{
-			$link = JURL_SITE.'/images/stories/'.$category->image;
+			$link = '/images/stories/'.$category->image;
 			?>
 				<img src="<?php echo $link;?>" align="<?php echo $category->image_position;?>" hspace="6" alt="<?php echo $category->image;?>" />
 		<?php
@@ -282,7 +282,7 @@ class JContentView
 			// Secrion/Category Description & Image
 			if ($menu && $menu->componentid && ($descrip || $descrip_image))
 			{
-				$link = JURL_SITE.'/images/stories/'.$description->image;
+				$link = '/images/stories/'.$description->image;
 				echo '<tr>';
 				echo '<td valign="top">';
 				if ($descrip_image && $description->image)
@@ -562,7 +562,7 @@ class JContentView
 		if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email'))
 		{
 			// link used by print button
-			$print_link = JURL_SITE.'/index2.php?option=com_content&amp;task=view&amp;id='.$row->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $page;
+			$print_link = '/index2.php?option=com_content&amp;task=view&amp;id='.$row->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $page;
 			?>
 			<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
 			<tr>
@@ -917,7 +917,7 @@ class JContentView
 			<tr>
 				<td colspan="4">
 				<a href="<?php echo $link; ?>">
-				<img src="<?php echo JURL_SITE;?>/images/M_images/new.png" width="13" height="14" align="middle" border="0" alt="<?php echo JText::_( 'New' );?>" />
+				<img src="images/M_images/new.png" width="13" height="14" align="middle" border="0" alt="<?php echo JText::_( 'New' );?>" />
 				&nbsp;<?php echo JText::_( 'New' );?>...
 				</a>
 				</td>
@@ -1316,12 +1316,12 @@ class JContentView
 			</tr>
 			<tr>
 				<td>
-					<img name="view_imagefiles" src="<?php echo JURL_SITE;?>/images/M_images/blank.png" width="50" alt="<?php echo JText::_( 'No Image' ); ?>" />
+					<img name="view_imagefiles" src="images/M_images/blank.png" width="50" alt="<?php echo JText::_( 'No Image' ); ?>" />
 				</td>
 				<td width="2%">
 				</td>
 				<td>
-					<img name="view_imagelist" src="<?php echo JURL_SITE;?>/images/M_images/blank.png" width="50" alt="<?php echo JText::_( 'No Image' ); ?>" />
+					<img name="view_imagelist" src="images/M_images/blank.png" width="50" alt="<?php echo JText::_( 'No Image' ); ?>" />
 				</td>
 				<td>
 				</td>
@@ -1713,7 +1713,7 @@ class JContentView
 		if ($params->get('pdf') && !$params->get('popup') && !$hideJS)
 		{
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-			$link = JURL_SITE.'/index2.php?option=com_content&amp;do_pdf=1&amp;id='.$row->id;
+			$link = 'index2.php?option=com_content&amp;do_pdf=1&amp;id='.$row->id;
 			if ($params->get('icons'))
 			{
 				$image = mosAdminMenus :: ImageCheck('pdf_button.png', '/images/M_images/', NULL, NULL, JText :: _('PDF'), JText :: _('PDF'));
@@ -1749,7 +1749,7 @@ class JContentView
 		if ($params->get('email') && !$params->get('popup') && !$hideJS)
 		{
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=400,height=250,directories=no,location=no';
-			$link = JURL_SITE.'/index2.php?option=com_content&amp;task=emailform&amp;id='.$row->id;
+			$link = 'index2.php?option=com_content&amp;task=emailform&amp;id='.$row->id;
 			if ($params->get('icons'))
 			{
 				$image = mosAdminMenus :: ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText :: _('Email'), JText :: _('Email'));

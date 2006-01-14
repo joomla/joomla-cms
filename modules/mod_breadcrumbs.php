@@ -126,7 +126,7 @@ function setSeparator($custom = null) {
 
 		// Check to see if the template specific separator exists and if so, set it
 		if (JFile::exists(JPATH_SITE."/$tSepPath")) {
-			$_separator = '<img src="'.JURL_SITE.'/'.$tSepPath.'" border="0" alt="arrow" />';
+			$_separator = '<img src="'.$tSepPath.'" border="0" alt="arrow" />';
 		} else {
 
 			// Template specific separator does not exist, use the default separator
@@ -134,7 +134,7 @@ function setSeparator($custom = null) {
 
 			// Check to make sure the default separator exists
 			if (JFile::exists(JPATH_SITE.$dSepPath)) {
-				$_separator = '<img src="'.JURL_SITE.'/images/M_images/arrow.png" alt="arrow" />';
+				$_separator = '<img src="images/M_images/arrow.png" alt="arrow" />';
 			} else {
 				// The default separator does not exist either ... just use a bracket
 				$_separator = '&gt;';

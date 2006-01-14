@@ -271,7 +271,7 @@ function JWarning($warning, $title='Joomla Warning') {
 
 	$tip 		= '<!--'. $title .'--> \n';
 	$tip 		= '<a href="#" onmouseover="'. $mouseover .'" onmouseout="return nd();">';
-	$tip 		.= '<img src="'. JURL_SITE .'/includes/js/ThemeOffice/warning.png" border="0"  alt=""/></a>';
+	$tip 		.= '<img src="includes/js/ThemeOffice/warning.png" border="0"  alt=""/></a>';
 
 	return $tip;
 }

@@ -229,9 +229,8 @@ class JFactory
 		$tmpl->addGlobalVar( 'option', 				$GLOBALS['option'] );
 		$tmpl->addGlobalVar( 'self', 				$_SERVER['PHP_SELF'] );
 		$tmpl->addGlobalVar( 'itemid', 				$GLOBALS['Itemid'] );
-		$tmpl->addGlobalVar( 'siteurl', 			JURL_SITE );
-		$tmpl->addGlobalVar( 'adminurl', 			JURL_SITE.'/administrator' );
-		$tmpl->addGlobalVar( 'admintemplateurl', 	JURL_SITE . '/administrator/templates/'. $mainframe->getTemplate() );
+		$tmpl->addGlobalVar( 'adminurl', 			'administrator' );
+		$tmpl->addGlobalVar( 'admintemplateurl',    'administrator/templates/'. $mainframe->getTemplate() );
 		$tmpl->addGlobalVar( 'sitename', 			$GLOBALS['mosConfig_sitename'] );
 
 		$tmpl->addGlobalVar( 'page_encoding', 		'UTF-8' );
@@ -249,7 +248,7 @@ class JFactory
 		if (is_dir( $tpath )) {
 			$turl = 'templates/'.$mainframe->getTemplate() .'/images/tabs/';
 		} else {
-			$turl = JURL_SITE .'/includes/js/tabs/';
+			$turl = 'includes/js/tabs/';
 		}
 		$tmpl->addVar( 'includeTabs', 'taburl', $turl );
 

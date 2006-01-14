@@ -104,7 +104,7 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 			$menu_params = new JParameters( $mitem->params );
 			$menu_image = $menu_params->def( 'menu_image', -1 );
 			if ( ( $menu_image <> '-1' ) && $menu_image ) {
-				$image = '<img src="'. JURL_SITE .'/images/stories/'. $menu_image .'" border="0" alt="'. $mitem->name .'"/>';
+				$image = '<img src="images/stories/'. $menu_image .'" border="0" alt="'. $mitem->name .'"/>';
 				if ( $params->get( 'menu_images_align' ) ) {
 					$txt = $txt .' '. $image;
 				} else {
@@ -183,14 +183,14 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 		switch ( $params->get( 'indent_image' ) ) {
 			case '1':
 			// Default images
-			$imgpath = JURL_SITE .'/images/M_images';
+			$imgpath = 'images/M_images';
 			for ( $i = 1; $i < 7; $i++ ) {
 				$img[$i] = '<img src="'. $imgpath .'/indent'. $i .'.png" alt="" />';
 			}
 			break;
 			case '2':
 			// Use Params
-			$imgpath = JURL_SITE .'/images/M_images';
+			$imgpath = 'images/M_images';
 			for ( $i = 1; $i < 7; $i++ ) {
 				if ( $params->get( 'indent_image'. $i ) == '-1' ) {
 					$img[$i] = NULL;
@@ -207,7 +207,7 @@ if (!defined( '_MOS_MAINMENU_MODULE' )) {
 			break;
 			default:
 			// Template
-			$imgpath = JURL_SITE .'/templates/'. $cur_template .'/images';
+			$imgpath = 'templates/'. $cur_template .'/images';
 			for ( $i = 1; $i < 7; $i++ ) {
 				$img[$i] = '<img src="'. $imgpath .'/indent'. $i .'.png" alt="" />';
 			}

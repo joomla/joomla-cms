@@ -30,8 +30,8 @@ $atom_image			= $params->get( 'atom_image', 		'' );
 $opml_image			= $params->get( 'opml_image', 		'' );
 
 $cur_template 		= $mainframe->getTemplate();
-$t_path 			= JURL_SITE .'/templates/'. $cur_template .'/images/';
-$d_path				= JURL_SITE .'/images/M_images/';
+$t_path 			= 'templates/'. $cur_template .'/images/';
+$d_path				= 'images/M_images/';
 ?>
 <div class="syndicate<?php echo $moduleclass_sfx;?>">
 	<?php

@@ -1287,8 +1287,8 @@ class JContentController
 		}
 
 		// calls function to read image from directory
-		$pathA = JPATH_SITE.'/images/stories';
-		$pathL = JURL_SITE.'/images/stories';
+		$pathA = 'images/stories';
+		$pathL = 'images/stories';
 		$images = array ();
 		$folders = array ();
 		$folders[] = mosHTML :: makeOption('/');
@@ -1691,7 +1691,7 @@ class JContentController
 		/*
 		 * Build the link to send in the email
 		 */
-		$link = sefRelToAbs(JURL_SITE.'/index.php?option=com_content&task=view&id='.$uid.'&Itemid='.$_Itemid);
+		$link = sefRelToAbs('index.php?option=com_content&task=view&id='.$uid.'&Itemid='.$_Itemid);
 
 		/*
 		 * Build the message to send

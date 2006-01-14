@@ -58,7 +58,7 @@ class HTML_statistics {
 					&nbsp;<?php echo $b->agent; ?>&nbsp;
 				</td>
 				<td  width="<?php echo $width+10;?>">
-					<div>&nbsp;<img src="<?php echo JURL_SITE; ?>/components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>"></div>
+					<div>&nbsp;<img src="components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>"></div>
 				</td>
 				<td>
 					<?php printf( "%.2f%%", $f * 100 );?>
@@ -102,7 +102,7 @@ class HTML_statistics {
 					&nbsp;<?php echo $p->agent; ?>&nbsp;
 					</td>
 					<td  width="<?php echo $width+10;?>">
-					<div>&nbsp;<img src="<?php echo JURL_SITE; ?>/components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>"></div>
+					<div>&nbsp;<img src="components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>"></div>
 					</td>
 					<td>
 					<?php printf( "%.2f%%", $f * 100 );?>
@@ -146,7 +146,7 @@ class HTML_statistics {
 						&nbsp;<?php echo $b->agent; ?>&nbsp;
 					</td>
 					<td  width="<?php echo $width+10;?>">
-						<div>&nbsp;<img src="<?php echo JURL_SITE; ?>/components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>"></div>
+						<div>&nbsp;<img src="components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>"></div>
 					</td>
 					<td>
 						<?php printf( "%.2f%%", $f * 100 );?>

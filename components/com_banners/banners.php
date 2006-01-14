@@ -92,11 +92,11 @@ function viewbanner() {
 			if (trim( $banner->custombannercode )) {
 				echo $banner->custombannercode;
 			} else if (eregi( "(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$", $banner->imageurl )) {
-				$imageurl = JURL_SITE . "/images/banners/$banner->imageurl";
+				$imageurl = "images/banners/$banner->imageurl";
 				echo "<a href=\"".sefRelToAbs("index.php?option=com_banners&amp;task=click&amp;bid=$banner->bid")."\" target=\"_blank\"><img src=\"$imageurl\" border=\"0\" alt=\"". JText::_( 'Banner' ) ."\" /></a>";
 
 			} else if (eregi("\.swf$", $banner->imageurl)) {
-				$imageurl = JURL_SITE . "/images/banners/".$banner->imageurl;
+				$imageurl = "images/banners/".$banner->imageurl;
 				echo "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0\" border=\"5\">
 						<param name=\"movie\" value=\"$imageurl\"><embed src=\"$imageurl\" loop=\"false\" pluginspage=\"http://www.macromedia.com/go/get/flashplayer\" type=\"application/x-shockwave-flash\"></embed></object>";
 			}

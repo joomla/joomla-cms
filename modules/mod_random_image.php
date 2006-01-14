@@ -60,7 +60,7 @@ if (is_dir($abspath_folder)) {
   		$height = (int) ($width/$coeff);
   	}
 
-  	$image = JURL_SITE .'/'. $folder .'/'. $image_name;
+  	$image = $folder .'/'. $image_name;
 
 	}
   	?>

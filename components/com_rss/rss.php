@@ -69,7 +69,7 @@ function feedFrontpage( $showFeed ) {
 	if ( $info[ 'image_file' ] == -1 ) {
 		$info[ 'image' ]	= NULL;
 	} else{
-		$info[ 'image' ]	= JURL_SITE .'/images/M_images/'. $info[ 'image_file' ];
+		$info[ 'image' ]	= 'images/M_images/'. $info[ 'image_file' ];
 	}
 	$info[ 'image_alt' ] 	= $params->def( 'image_alt', 'Powered by Joomla!' );
 	$info[ 'limit_text' ] 	= $params->def( 'limit_text', 1 );

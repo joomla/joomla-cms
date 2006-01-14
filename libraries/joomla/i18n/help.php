@@ -35,7 +35,7 @@ class JHelp {
 
 		if ($com) {
 	   		// help file for 3PD Components
-			$url = JURL_SITE . '/administrator/components/' . $option. '/help/';
+			$url = 'administrator/components/' . $option. '/help/';
 			if (!eregi( '\.html$', $ref )) {
 				$ref = $ref . '.html';
 			}
@@ -46,7 +46,7 @@ class JHelp {
 			$url = $helpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=' . urlencode( $ref );
 		} else {
 	   		// Included html help files
-			$url = JURL_SITE . '/administrator/help/eng_GB/';
+			$url = 'administrator/help/eng_GB/';
 			$ref = $ref . '.html';
 			$url .= $ref;
 		}

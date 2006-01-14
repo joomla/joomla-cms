@@ -124,7 +124,7 @@ class poll_html {
 		<table class='pollstableborder' cellspacing="0" cellpadding="0" border="0">
 		<tr>
 			<td colspan="2" class="sectiontableheader">
-			<img src="<?php echo JURL_SITE; ?>/components/com_poll/images/poll.png" align="middle" border="0" width="12" height="14" alt="" />
+			<img src="components/com_poll/images/poll.png" align="middle" border="0" width="12" height="14" alt="" />
 			<?php echo $graphtitle; ?>
 			</td>
 		</tr>
@@ -176,7 +176,7 @@ class poll_html {
 						<td width="300" >
 						<div >
 						&nbsp;
-						<img src='<?php echo JURL_SITE; ?>/components/com_poll/images/blank.png' class='<?php echo $tdclass; ?>' height='<?php echo $polls_barheight; ?>' width='<?php echo $width; ?>' alt="" />
+						<img src="components/com_poll/images/blank.png" class="<?php echo $tdclass; ?>" height="<?php echo $polls_barheight; ?>" width="<?php echo $width; ?>" alt="" />
 						</div>
 						</td>
 					</tr>

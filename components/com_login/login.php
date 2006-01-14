@@ -47,11 +47,11 @@ $params->def( 'registration', $mainframe->getCfg( 'allowUserRegistration' ) );
 $image_login = '';
 $image_logout = '';
 if ( $params->get( 'image_login' ) <> -1 ) {
-	$image = JURL_SITE .'/images/stories/'. $params->get( 'image_login' );
+	$image = 'images/stories/'. $params->get( 'image_login' );
 	$image_login = '<img src="'. $image  .'" align="'. $params->get( 'image_login_align' ) .'" hspace="10" alt="" />';
 }
 if ( $params->get( 'image_logout' ) <> -1 ) {
-	$image = JURL_SITE .'/images/stories/'. $params->get( 'image_logout' );
+	$image = 'images/stories/'. $params->get( 'image_logout' );
 	$image_logout = '<img src="'. $image .'" align="'. $params->get( 'image_logout_align' ) .'" hspace="10" alt="" />';
 }
 

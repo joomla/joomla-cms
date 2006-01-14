@@ -515,7 +515,7 @@ class JContactView {
 		if ( $contact->image && $params->get( 'image' ) ) {
 			?>
 			<div style="float: right;">
-			<img src="<?php echo JURL_SITE;?>/images/stories/<?php echo $contact->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
+			<img src="images/stories/<?php echo $contact->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
 			</div>
 			<?php
 		}
