@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Jan-2006 Samuel Moffatt
+ # Fixed artf2143 : Altered radio buttons to checkboxes for installers
+
 13-Jan-2006 Johan Janssens
  # Fixed artf2514 : Cannot preview template positions
 

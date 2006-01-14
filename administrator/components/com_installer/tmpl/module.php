@@ -172,7 +172,7 @@ class JInstallerScreens_module {
 				?>
 				<tr class="<?php echo "row$rc"; ?>">
 					<td>
-					<input type="radio" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);"><span class="bold"><?php echo $row->module; ?></span></td>
+					<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);"><span class="bold"><?php echo $row->module; ?></span></td>
 					<td>
 					<?php echo $row->client_id == "0" ? JText::_( 'Site' ) : JText::_( 'Administrator' ); ?>
 					</td>
