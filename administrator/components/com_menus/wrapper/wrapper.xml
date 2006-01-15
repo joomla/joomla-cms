@@ -39,6 +39,5 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
-		<param name="target" type="text" size="30" default="" label="Target Name" description="Name of the IFrame when used as Target" />
 	</params>
 </install>

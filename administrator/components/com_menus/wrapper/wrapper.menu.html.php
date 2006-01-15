@@ -98,14 +98,6 @@ class wrapper_menu_html {
 					</td>
 				</tr>
 				<tr>
-					<td align="right" valign="top">
-					<?php echo JText::_( 'On Click, open' ); ?>:
-					</td>
-					<td colspan="2">
-					<?php echo $lists['target']; ?>
-					</td>
-				</tr>
-				<tr>
 					<td align="right">
 					<?php echo JText::_( 'Parent Item' ); ?>:
 					</td>
