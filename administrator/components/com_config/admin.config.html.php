@@ -485,10 +485,6 @@ class JConfigView {
 				<td><input class="text_area" type="text" name="user" size="25" value="<?php echo $row->user; ?>"/></td>
 			</tr>
 			<tr>
-				<td><?php echo JText::_( 'Password' ); ?>:</td>
-				<td><input class="text_area" type="password" name="password" size="25" value="<?php echo $row->password; ?>"/></td>
-			</tr>
-			<tr>
 				<td><?php echo JText::_( 'Database' ); ?>:</td>
 				<td><input class="text_area" type="text" name="db" size="25" value="<?php echo $row->db; ?>"/></td>
 			</tr>

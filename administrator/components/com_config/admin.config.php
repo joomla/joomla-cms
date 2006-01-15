@@ -269,6 +269,9 @@ class JConfigController {
 		$server_time = date('O') / 100;
 		$offset = JRequest :: getVar('offset_user', 0, 'post', 'int') - $server_time;
 		$CONFIG->offset = $offset;
+		
+		//override any possible database password change
+		$CONFIG->password = $mainframe->getCfg( 'password' );
 
 		/*
 		 * Time to load the new configuration values into the Registry object
