@@ -22,7 +22,9 @@ require_once (JApplicationHelper :: getPath('front_html', 'com_content'));
  * Get some variables
  */
 global $Itemid;
-$now = date('Y-m-d H:i', time() + $mainframe->getCfg('offset') * 60 * 60);
+$now 		= date('Y-m-d H:i', time() + $mainframe->getCfg('offset') * 60 * 60);
+$limit		= JRequest::getVar('limit', 1, '', 'int');
+$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 // Editor access object
 $access = new stdClass();
