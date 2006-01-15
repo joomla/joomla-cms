@@ -176,17 +176,17 @@ function savePoll( $option ) {
 	$options = mosGetParam( $_POST, 'polloption', array() );
 
 	foreach ($options as $i=>$text) {
-
+		$text = $database->Quote($text);
 		if ($isNew) {
 			$query = "INSERT INTO #__poll_data"
 			. "\n ( pollid, text )"
-			. "\n VALUES ( $row->id, " . $database->Quote( $text ) . " )"
+			. "\n VALUES ( $row->id, $text )"
 			;
 			$database->setQuery( $query );
 			$database->query();
 		} else {
 			$query = "UPDATE #__poll_data"
-			. "\n SET text = " . $database->Quote( $text )
+			. "\n SET text = $text"
 			. "\n WHERE id = $i"
 			. "\n AND pollid = $row->id"
 			;

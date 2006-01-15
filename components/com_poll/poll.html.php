@@ -142,7 +142,7 @@ class poll_html {
 			?>
 			<tr class="<?php echo $tabclass_arr[$tabcnt]; ?>">
 				<td width='100%' colspan='2'>
-				<?php echo $text; ?>
+				<?php echo stripslashes($text); ?>
 				</td>
 			</tr>
 			<tr class="<?php echo $tabclass_arr[$tabcnt]; ?>">

@@ -86,7 +86,7 @@ if (!defined( '_JOS_POLL_MODULE' )) {
 								</td>
 								<td class="<?php echo $tabclass_arr[$tabcnt]; ?><?php echo $moduleclass_sfx; ?>" valign="top">
 									<label for="voteid<?php echo $options[$i]->id;?>">
-										<?php echo $options[$i]->text; ?>
+										<?php echo stripslashes($options[$i]->text); ?>
 									</label>
 								</td>
 							</tr>

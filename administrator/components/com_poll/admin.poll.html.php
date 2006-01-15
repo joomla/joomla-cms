@@ -170,7 +170,7 @@ class HTML_poll {
 				<?php echo ($i+1); ?>
 				</td>
 				<td>
-				<input class="inputbox" type="text" name="polloption[<?php echo $options[$i]->id; ?>]" value="<?php echo htmlspecialchars( $options[$i]->text, ENT_QUOTES ); ?>" size="60" />
+				<input class="inputbox" type="text" name="polloption[<?php echo $options[$i]->id; ?>]" value="<?php echo stripslashes($options[$i]->text); ?>" size="60" />
 				</td>
 			</tr>
 			<?php
