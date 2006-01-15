@@ -22,7 +22,7 @@ $params->def( 'height', '200' );
 $params->def( 'height_auto', '0' );
 $params->def( 'width', '100%' );
 $params->def( 'add', '1' );
-$params->def( 'name', 'wrapper' )
+$params->def( 'name', 'wrapper' );
 
 $url = $params->get( 'url' );
 if ( $params->get( 'add' ) ) {
