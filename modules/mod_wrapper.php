@@ -22,6 +22,7 @@ $params->def( 'height', '200' );
 $params->def( 'height_auto', '0' );
 $params->def( 'width', '100%' );
 $params->def( 'add', '1' );
+$params->def( 'name', 'wrapper' )
 
 $url = $params->get( 'url' );
 if ( $params->get( 'add' ) ) {
@@ -54,6 +55,7 @@ function iFrameHeight() {
 </script>
 <iframe
 id="blockrandom"
+name="<?php echo $params->get( 'target' ); ?>"
 src="<?php echo $url; ?>"
 width="<?php echo $params->get( 'width' ); ?>"
 height="<?php echo $params->get( 'height' ); ?>"
