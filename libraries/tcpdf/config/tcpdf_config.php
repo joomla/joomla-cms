@@ -16,7 +16,9 @@
 //               www.tecnick.com
 //               info@tecnick.com
 //============================================================+
-
+// no direct access
+defined('_JEXEC') or die('Restricted access');
+global $mainframe;
 /**
  * Congiguration file for TCPDF.
  * @author Nicola Asuni
@@ -33,7 +35,7 @@
 /**
  * installation path
  */
-define ("K_PATH_MAIN", "C:/apachefriends/xampp/htdocs/11dev/libraries/tcpdf/");
+define ("K_PATH_MAIN", $mainframe->getCfg( 'absolute_path' )."/libraries/tcpdf/");
 
 /**
  * url path
@@ -98,7 +100,7 @@ define ("PDF_HEADER_STRING", "first row\nsecond row\nthird row");
 /**
  * image logo
  */
-define ("PDF_HEADER_LOGO", "logo_example.png");
+define ("PDF_HEADER_LOGO", "");
 
 /**
  * header logo image width [mm]

@@ -3639,81 +3639,81 @@ if(!class_exists('TCPDF')) {
 			$this->barcode = $bc;
 		}
 		
-		/**
-	 	 * Print Barcode.
-		 * @param int $x x position in user units
-		 * @param int $y y position in user units
-		 * @param int $w width in user units
-		 * @param int $h height position in user units
-		 * @param string $type type of barcode (I25, C128A, C128B, C128C, C39)
-		 * @param string $style barcode style
-		 * @param string $font font for text
-		 * @param int $xres x resolution
-		 * @param string $code code to print
-		 */
-		function writeBarcode($x, $y, $w, $h, $type, $style, $font, $xres, $code) {
-			require_once("barcode/barcode.php");
-			require_once("barcode/i25object.php");
-			require_once("barcode/c39object.php");
-			require_once("barcode/c128aobject.php");
-			require_once("barcode/c128bobject.php");
-			require_once("barcode/c128cobject.php");
-			
-			if (empty($code)) {
-				return;
-			}
-			
-			if (empty($style)) {
-				$style  = BCS_ALIGN_LEFT;
-				$style |= BCS_IMAGE_PNG;
-				$style |= BCS_TRANSPARENT;
-				//$style |= BCS_BORDER;
-				//$style |= BCS_DRAW_TEXT;
-				//$style |= BCS_STRETCH_TEXT;
-				//$style |= BCS_REVERSE_COLOR;
-			}
-			if (empty($font)) {$font = BCD_DEFAULT_FONT;}
-			if (empty($xres)) {$xres = BCD_DEFAULT_XRES;}
-			
-			$scale_factor = 1.5 * $xres * $this->k;
-			$bc_w = round($w * $scale_factor); //width in points
-			$bc_h = round($h * $scale_factor); //height in points
-			
-			switch (strtoupper($type)) {
-				case "I25": {
-					$obj = new I25Object($bc_w, $bc_h, $style, $code);
-					break;
-				}
-				case "C128A": {
-					$obj = new C128AObject($bc_w, $bc_h, $style, $code);
-					break;
-				}
-				default:
-				case "C128B": {
-					$obj = new C128BObject($bc_w, $bc_h, $style, $code);
-					break;
-				}
-				case "C128C": {
-					$obj = new C128CObject($bc_w, $bc_h, $style, $code);
-					break;
-				}
-				case "C39": {
-					$obj = new C39Object($bc_w, $bc_h, $style, $code);
-					break;
-				}
-			}
-			
-			$obj->SetFont($font);   
-			$obj->DrawObject($xres);
-			
-			//use a temporary file....
-			$tmpName = tempnam(K_PATH_CACHE,'img');
-			imagepng($obj->getImage(), $tmpName);
-			$this->Image($tmpName, $x, $y, $w, $h, 'png');
-			$obj->DestroyObject();
-			unset($obj);
-			unlink($tmpName);
-		}
+//		/**
+//	 	 * Print Barcode.
+//		 * @param int $x x position in user units
+//		 * @param int $y y position in user units
+//		 * @param int $w width in user units
+//		 * @param int $h height position in user units
+//		 * @param string $type type of barcode (I25, C128A, C128B, C128C, C39)
+//		 * @param string $style barcode style
+//		 * @param string $font font for text
+//		 * @param int $xres x resolution
+//		 * @param string $code code to print
+//		 */
+//		function writeBarcode($x, $y, $w, $h, $type, $style, $font, $xres, $code) {
+//			require_once("barcode/barcode.php");
+//			require_once("barcode/i25object.php");
+//			require_once("barcode/c39object.php");
+//			require_once("barcode/c128aobject.php");
+//			require_once("barcode/c128bobject.php");
+//			require_once("barcode/c128cobject.php");
+//			
+//			if (empty($code)) {
+//				return;
+//			}
+//			
+//			if (empty($style)) {
+//				$style  = BCS_ALIGN_LEFT;
+//				$style |= BCS_IMAGE_PNG;
+//				$style |= BCS_TRANSPARENT;
+//				//$style |= BCS_BORDER;
+//				//$style |= BCS_DRAW_TEXT;
+//				//$style |= BCS_STRETCH_TEXT;
+//				//$style |= BCS_REVERSE_COLOR;
+//			}
+//			if (empty($font)) {$font = BCD_DEFAULT_FONT;}
+//			if (empty($xres)) {$xres = BCD_DEFAULT_XRES;}
+//			
+//			$scale_factor = 1.5 * $xres * $this->k;
+//			$bc_w = round($w * $scale_factor); //width in points
+//			$bc_h = round($h * $scale_factor); //height in points
+//			
+//			switch (strtoupper($type)) {
+//				case "I25": {
+//					$obj = new I25Object($bc_w, $bc_h, $style, $code);
+//					break;
+//				}
+//				case "C128A": {
+//					$obj = new C128AObject($bc_w, $bc_h, $style, $code);
+//					break;
+//				}
+//				default:
+//				case "C128B": {
+//					$obj = new C128BObject($bc_w, $bc_h, $style, $code);
+//					break;
+//				}
+//				case "C128C": {
+//					$obj = new C128CObject($bc_w, $bc_h, $style, $code);
+//					break;
+//				}
+//				case "C39": {
+//					$obj = new C39Object($bc_w, $bc_h, $style, $code);
+//					break;
+//				}
+//			}
+//			
+//			$obj->SetFont($font);   
+//			$obj->DrawObject($xres);
+//			
+//			//use a temporary file....
+//			$tmpName = tempnam(K_PATH_CACHE,'img');
+//			imagepng($obj->getImage(), $tmpName);
+//			$this->Image($tmpName, $x, $y, $w, $h, 'png');
+//			$obj->DestroyObject();
+//			unset($obj);
+//			unlink($tmpName);
+//		}
 		
 		/**
 	 	 * Returns the PDF data.
