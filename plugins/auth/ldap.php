@@ -72,6 +72,7 @@ class JAuthLdap extends JPlugin {
 			return false;
 		}
 		$success = $ldap->bind($credentials['username'], $credentials['password']);
+	
 		/*
 			// just a test, please leave
 			$search_filters = array( '(objectclass=*)' );
@@ -89,8 +90,9 @@ class JAuthLdap extends JPlugin {
 
 			$db->setQuery($query);
 			$userId = $db->loadResult();
+				
 		}
-
+				
 		if ($userId) {
 			$return = $userId;
 		}

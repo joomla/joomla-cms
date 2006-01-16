@@ -107,7 +107,6 @@ class JAuth extends JObject {
 			if ($authenticated !== false) {
 				// Credentials authenticated
 
-
 				// OK, the credentials are authenticated.  Lets fire the onLogin event
 				$results = $dispatcher->dispatch( 'onLogin', $credentials);
 
@@ -263,21 +262,18 @@ class JAuth extends JObject {
 
 		// Time to authenticate the credentials.  Lets fire the auth event
 		$results = $dispatcher->dispatch( 'auth', $credentials);
-
 		/*
 		 * If any of the authentication plugins did not authenticate the credentials
 		 * then the whole method fails.  Any errors raised should be done in the plugin
 		 * as this provides the ability to provide much more information about why
 		 * authentication may have failed.
 		 */
-		if (!in_array(false, $results)) {
-
-			// TODO: Perhaps we should check that all returned userids are the same?
-			/*
-			 * Since none of authentication plugins failed get the userid of the
-			 * authenticated user
-			 */
-			$auth = $results[0];
+		$auth = 0;
+		foreach($results as $result) {
+			if($result != false) {
+				$auth = $result;
+				break;
+			}
 		}
 		return $auth;
 	}

@@ -70,7 +70,6 @@ class JAuthJoomla extends JPlugin {
 
 		$db->setQuery( $query );
 
-
 		return $db->loadResult();
 	}
 }
