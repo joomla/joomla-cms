@@ -31,6 +31,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Jan-2006 Johan Janssens
+ ^ Implemented JDocument interface in the installation
+
 15-Jan-2006 Samuel Moffatt
  ^ Added JauthResponse class to handle responses from plugins
  ^ Altered framework to include JAuthResponse object

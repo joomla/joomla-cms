@@ -424,20 +424,21 @@ class JDocument extends JTemplate
 	 * Parse a file and create an internal patTemplate object
 	 *
 	 * @access public
-	 * @param string 	$directory	The directory to look for the file
+	 * @param string 	$template	The template to look for the file
 	 * @param string 	$filename	The actual filename
+	 * @param string 	$directory	The directory to look for the template
 	 */
-	function parse($directory, $filename = 'index.php')
+	function parse($template, $filename = 'index.php', $directory = 'templates')
 	{
-		$contents = $this->_load($directory, $filename);
+		$contents = $this->_load($directory.DS.$template, $filename);
 		$this->readTemplatesFromInput( $contents, 'String' );
 		
 		/*
 		 * Parse the template INI file if it exists for parameters and insert
 		 * them into the template.
 		 */
-		if ( file_exists( 'templates'.DS.$directory.DS.'params.ini' ) ) {
-			$content = JFile :: read('templates'.DS.$directory.DS.'params.ini');
+		if ( file_exists( $directory.DS.$template.DS.'params.ini' ) ) {
+			$content = JFile::read($directory.DS.$template.DS.'params.ini');
 			$params = new JParameters($content);
 			$this->addVars( $filename, $params->toArray(), 'param_');
 		}
@@ -502,20 +503,20 @@ class JDocument extends JTemplate
 	 * @param string 	$filename	The actual filename
 	 * @return string The contents of the template 
 	 */
-	function _load($template, $filename)
+	function _load($directory, $filename)
 	{
 		global $mainframe, $my, $acl, $database;
 		global $Itemid, $task, $option, $_VERSION;
-
+		
 		$contents = '';
-		if ( file_exists( 'templates'.DS.$template.DS.$filename ) ) {
+		if ( file_exists( $directory.DS.$filename ) ) {
 			
 			$var = isset($mainframe) ?  $mainframe->getTemplate() : '_system';
 			$this->addGlobalVar( 'template', $var);
 
 			ob_start();
 			?><jdoc:tmpl name="<?php echo $filename ?>" autoclear="yes"><?php
-				require_once( 'templates'.DS.$template.DS.$filename );
+				require_once( $directory.DS.$filename );
 			?></jdoc:tmpl><?php
 			$contents = ob_get_contents();
 			ob_end_clean();
@@ -536,4 +537,32 @@ class JDocument extends JTemplate
 		$this->_renderers[$type][] = $name;
 	}
 }
+
+/**
+ * Document helper functions
+ * 
+ * @static
+ * @author Johan Janssens <johan@joomla.be>
+ * @package Joomla.Framework
+ * @subpackage Document
+ * @since 1.1
+ */
+ class JDocumentHelper 
+ {
+	function implodeAttribs($inner_glue = "=", $outer_glue = "\n", $array = null, $keepOuterKey = false)
+    {
+        $output = array();
+
+        foreach($array as $key => $item)
+        if (is_array ($item)) {
+            if ($keepOuterKey)
+                $output[] = $key;
+            // This is value is an array, go and do it again!
+            $output[] = implode_assoc($inner_glue, $outer_glue, $item, $keepOuterKey);
+        } else
+            $output[] = $key . $inner_glue . $item;
+
+        return implode($outer_glue, $output);
+    }
+ }
 ?>

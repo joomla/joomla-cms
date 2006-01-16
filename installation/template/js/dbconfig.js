@@ -1,5 +1,5 @@
 /**
- * @version $Id: $
+ * @version $Id$
  * @package Joomla
  * @subpackage Installation
  * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.

@@ -120,6 +120,26 @@ class JTemplate extends patTemplate
 	{
 		$this->displayParsedTemplate( $name );
 	}
+	
+	/**
+	 * Returns a parsed template
+	 *
+	 * @access public
+	 * @param string 	$name		The name of the template
+	 */
+	function fetch( $name ) 
+	{
+		$result = $this->getParsedTemplate($name, true);
+
+		/**
+		 * error happened
+		 */
+		if (patErrorManager::isError($result)) {
+			return $result;
+		}
+		
+		return $result;
+	}
 
 	/**
 	 * Set the prefix of the template cache

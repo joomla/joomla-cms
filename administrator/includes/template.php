@@ -107,7 +107,7 @@ function initDocument(&$doc)
 
 	$dirs = array(
 		'templates/'.$mainframe->getTemplate().'/',
-		'/',
+		'',
 	);
 
 	foreach ($dirs as $dir ) {

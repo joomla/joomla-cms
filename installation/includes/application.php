@@ -49,6 +49,16 @@ class JInstallation extends JApplication {
 		// Create the registry with a default namespace of config which is read only
 		$this->_registry =& new JRegistry( 'config' );
 	}
+	
+	/**
+	* Get the template
+	* 
+	* @return string The template name
+	*/
+	function getTemplate()
+	{
+		return 'template';
+	}
 
 	/**
 	 * Create the user session

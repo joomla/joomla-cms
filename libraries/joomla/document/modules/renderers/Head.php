@@ -45,7 +45,7 @@ class patTemplate_Renderer_Head extends patTemplate_Renderer
 		
 		echo $this->_tmpl->fetchHead();
 
-		if(isset($mainframe)) {
+		if(isset($mainframe) && class_exists('JEditor')) {
 			$editor =& JEditor::getInstance();
 			echo $editor->init();
 		}

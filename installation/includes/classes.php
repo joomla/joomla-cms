@@ -19,25 +19,26 @@ defined('_JEXEC') or die('Restricted access');
 * @package Joomla
 * @subpackage Installation
 */
-class installationTasks {
+class installationTasks 
+{
 	/**
 	 * @param patTemplate A template object
 	 */
-	function chooseLanguage() {
-
+	function chooseLanguage() 
+	{
 		$native = detectLanguage();
 
 		$lists = array ();
 		$lists['langs'] = JLanguageHelper::createLanguageList($native);
 
-		installationScreens::chooseLanguage($lists);
+		return installationScreens::chooseLanguage($lists);
 	}
 
 	/**
 	 * @param patTemplate A template object
 	 */
-	function preInstall() {
-
+	function preInstall() 
+	{
 		$vars = (array) mosGetParam( $_POST, 'vars' );
 		$lists = array ();
 
@@ -169,22 +170,23 @@ class installationTasks {
 			);
 		}
 
-		installationScreens::preInstall( $vars, $lists );
+		return installationScreens::preInstall( $vars, $lists );
 	}
 
 	/**
 	 * Gets the parameters for database creation
 	 */
-	function license() {
+	function license()
+	{
 		$vars = mosGetParam($_POST, 'vars', array ());
-		installationScreens::license($vars);
+		return installationScreens::license($vars);
 	}
 
 	/**
 	 * Gets the parameters for database creation
 	 */
-	function dbConfig() {
-
+	function dbConfig() 
+	{
 		$vars = mosGetParam($_POST, 'vars', array ());
 		if (!isset ($vars['DBPrefix'])) {
 			$vars['DBPrefix'] = 'jos_';
@@ -202,15 +204,15 @@ class installationTasks {
 			$lists['dbTypes'][] = $option;
 		}
 
-		installationScreens::dbConfig($vars, $lists);
+		return installationScreens::dbConfig($vars, $lists);
 	}
 
 	/**
 	 * Determines db version (for utf-8 support) and gets desired collation
 	 * @return boolean True if successful
 	 */
-	function dbCollation() {
-
+	function dbCollation() 
+	{
 		$vars = mosGetParam($_POST, 'vars', array ());
 
 		$DBcreated = mosGetParam($vars, 'DBcreated', '0');
@@ -268,15 +270,15 @@ class installationTasks {
 			// collation does not really have effect so default charset and collation is set
 			$collations[0]['Collation'] = 'latin1';
 		}
-		installationScreens::dbCollation( $vars, $collations );
+		return installationScreens::dbCollation( $vars, $collations );
 	}
 
 	/**
 	 * Gets the parameters for database creation
 	 * @return boolean True if successful
 	 */
-	function makeDB() {
-
+	function makeDB() 
+	{
 		// Initialize variables
 		$errors = null;
 
@@ -383,8 +385,8 @@ class installationTasks {
 	/**
 	 * Gets ftp configuration parameters
 	 */
-	function ftpConfig($DBcreated = '0') {
-
+	function ftpConfig($DBcreated = '0') 
+	{
 		$vars = mosGetParam($_POST, 'vars', array ());
 		$vars['DBcreated'] = mosGetParam($vars, 'DBcreated', $DBcreated);
 		$strip = get_magic_quotes_gpc();
@@ -402,14 +404,14 @@ class installationTasks {
 			$vars['ftpPassword'] = '';
 		}
 
-		installationScreens::ftpConfig($vars);
+		return installationScreens::ftpConfig($vars);
 	}
 
 	/**
 	 * Finishes configuration parameters
 	 */
-	function mainConfig() {
-
+	function mainConfig() 
+	{
 		$vars = mosGetParam($_POST, 'vars', array ());
 		$strip = get_magic_quotes_gpc();
 
@@ -434,11 +436,11 @@ class installationTasks {
 			$vars['ftpRoot'] = JInstallationHelper::findFtpRoot($vars['ftpUser'], $vars['ftpPassword']);
 		}
 
-		installationScreens::mainConfig($vars);
+		return installationScreens::mainConfig($vars);
 	}
 
-	function saveConfig() {
-
+	function saveConfig() 
+	{
 		$vars = mosGetParam($_POST, 'vars', array ());
 
 		$strip = get_magic_quotes_gpc();
@@ -517,13 +519,13 @@ class installationTasks {
 	/**
 	 * Displays the finish screen
 	 */
-	function finish($buffer = '') {
-
+	function finish($buffer = '') 
+	{
 		$vars = mosGetParam($_POST, 'vars', array ());
 
 		$vars['adminUrl'] = $vars['siteUrl'].'/administrator';
 
-		installationScreens::finish($vars, $buffer);
+		return installationScreens::finish($vars, $buffer);
 	}
 }
 
@@ -531,11 +533,13 @@ class installationTasks {
 * @package Joomla
 * @subpackage Installation
 */
-class JInstallationHelper {
+class JInstallationHelper 
+{
 	/**
 	 * @return string A guess at the db required
 	 */
-	function detectDB() {
+	function detectDB() 
+	{
 		$map = array ('mysql_connect' => 'mysql', 'mysqli_connect' => 'mysqli', 'mssql_connect' => 'mssql');
 		foreach ($map as $f => $db) {
 			if (function_exists($f)) {
@@ -549,7 +553,8 @@ class JInstallationHelper {
 	 * @param array
 	 * @return string
 	 */
-	function errors2string(& $errors) {
+	function errors2string(& $errors) 
+	{
 		$buffer = '';
 		foreach ($errors as $error) {
 			$buffer .= 'SQL='.$error['msg'].":\n- - - - - - - - - -\n".$error['sql']."\n= = = = = = = = = =\n\n";
@@ -564,8 +569,8 @@ class JInstallationHelper {
 	 * @param string Selected collation
 	 * @return boolean success
 	 */
-	function createDatabase(& $database, $DBname, $DButfSupport, $DBcollation) {
-
+	function createDatabase(& $database, $DBname, $DButfSupport, $DBcollation) 
+	{
 		if ($DButfSupport) {
 			$sql = "CREATE DATABASE `$DBname` CHARACTER SET `utf8` COLLATE `$DBcollation`";
 		} else {
@@ -591,8 +596,8 @@ class JInstallationHelper {
 	 * @param string Selected collation
 	 * @return boolean success
 	 */
-	function setDBCharset(& $database, $DBname, $DBcollation) {
-		
+	function setDBCharset(& $database, $DBname, $DBcollation) 
+	{	
 		if ($database->hasUTF()){
 			$sql = "ALTER DATABASE `$DBname` CHARACTER SET `utf8` COLLATE `$DBcollation`";
 			$database->setQuery($sql);
@@ -610,8 +615,8 @@ class JInstallationHelper {
 	 * @param object Database connector
 	 * @param array An array of errors encountered
 	 */
-	function backupDatabase(& $database, $DBname, $DBPrefix, & $errors) {
-
+	function backupDatabase(& $database, $DBname, $DBPrefix, & $errors) 
+	{
 		// Initialize backup prefix variable
 		// TODO: Should this be user-defined?
 		$BUPrefix = 'bak_';
@@ -646,8 +651,8 @@ class JInstallationHelper {
 	 * @param object Database connector
 	 * @param array An array of errors encountered
 	 */
-	function deleteDatabase(& $database, $DBname, $DBPrefix, & $errors) {
-
+	function deleteDatabase(& $database, $DBname, $DBPrefix, & $errors) 
+	{
 		$query = "SHOW TABLES FROM `$DBname`";
 		$database->setQuery($query);
 		$errors = array ();
@@ -670,7 +675,8 @@ class JInstallationHelper {
 	/**
 	 *
 	 */
-	function populateDatabase(& $database, $sqlfile, & $errors, $collation = '') {
+	function populateDatabase(& $database, $sqlfile, & $errors, $collation = '') 
+	{
 		$buffer = file_get_contents($sqlfile);
 		$queries = JInstallationHelper::splitSql($buffer, $collation);
 
@@ -693,7 +699,8 @@ class JInstallationHelper {
 	 * @param string
 	 * @return array
 	 */
-	function splitSql($sql, $collation) {
+	function splitSql($sql, $collation) 
+	{
 		$sql = trim($sql);
 		$sql = preg_replace("/\n\#[^\n]*/", '', "\n".$sql);
 		if ($collation != '') {
@@ -731,7 +738,8 @@ class JInstallationHelper {
 	/**
 	 * Calculates the file/dir permissions mask
 	 */
-	function getFilePerms($input, $type = 'file') {
+	function getFilePerms($input, $type = 'file') 
+	{
 		$perms = '';
 		if (mosGetParam($input, $type.'PermsMode', 0)) {
 			$action = ($type == 'dir') ? 'Search' : 'Execute';
@@ -743,8 +751,8 @@ class JInstallationHelper {
 	/**
 	 * Creates the admin user
 	 */
-	function createAdminUser(& $vars) {
-
+	function createAdminUser(& $vars)
+	{
 		$DBtype = mosGetParam($vars, 'DBtype', 'mysql');
 		$DBhostname = mosGetParam($vars, 'DBhostname', '');
 		$DBuserName = mosGetParam($vars, 'DBuserName', '');
@@ -795,7 +803,8 @@ class JInstallationHelper {
 	 * @return string Filesystem root for given FTP user
 	 * @since 1.1
 	 */
-	function findFtpRoot($user, $pass, $host='127.0.0.1') {
+	function findFtpRoot($user, $pass, $host='127.0.0.1') 
+	{
 		jimport('joomla.connector.ftp');
 		$ftp = & JFTP::getInstance($host);
 		if (!$ftp->login($user, $pass)) {

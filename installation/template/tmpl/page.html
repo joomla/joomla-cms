@@ -1,0 +1,39 @@
+<jos:comment>
+@version $Id: page.html 137 2005-09-12 10:21:17Z eddieajau $
+@package Joomla
+@subpackage Installation
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+</jos:comment>
+
+<jos:tmpl name="page" autoclear="yes">
+<jos:tmpl name="stepbar">
+	<div id="stepbar">
+		<div id="steppad">
+			<h1><jos:translate>Installation</jos:translate></h1>
+			<div class="step-{STEP_LANG}">
+				1 - <jos:translate>Language</jos:translate>
+			</div>
+			<div class="step-{STEP_PREINSTALL}">
+				2 - <jos:translate>Pre-Installation check</jos:translate>
+			</div>
+			<div class="step-{STEP_LICENSE}">
+				3 - <jos:translate>License</jos:translate>
+			</div>
+			<div class="step-{STEP_DBCONFIG}">
+				4 - <jos:translate>Database</jos:translate>
+			</div>
+			<div class="step-{STEP_FTPCONFIG}">
+				5 - <jos:translate>FTP Configuration</jos:translate>
+			</div>
+			<div class="step-{STEP_MAINCONFIG}">
+				6 - <jos:translate>Configuration</jos:translate>
+			</div>
+			<div class="step-{STEP_FINISH}">
+				7 - <jos:translate>Finish</jos:translate>
+			</div>
+		</div>
+	</div>
+</jos:tmpl>
+<jos:tmpl name="body" src="dynamic" autoload="off" parse="on" varscope="page" />
+</jos:tmpl>

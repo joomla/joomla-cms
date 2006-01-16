@@ -14,8 +14,9 @@ define( '_JEXEC', 1 );
 
 define( 'JPATH_BASE', dirname( __FILE__ ) );
 
-require_once( JPATH_BASE .'/includes/defines.php' );
+require_once( JPATH_BASE .'/includes/defines.php'     );
 require_once( JPATH_BASE .'/includes/application.php' );
+require_once( JPATH_BASE .'/includes/template.php'    );
 
 // create the mainframe object
 $mainframe =& new JInstallation();
@@ -35,51 +36,67 @@ $mainframe->setUserState('application.lang', $configLang);
 $lang =& $mainframe->getLanguage();
 $lang->_load( JPATH_BASE . '/language/' . $configLang . '/' . $configLang .'.ini' );
 
-header( 'Cache-Control: no-cache, must-revalidate' );	// HTTP/1.1
-header( 'Pragma: no-cache' );							// HTTP/1.0
-header(' Content-Type: text/html; charset=UTF-8' );
+$document =& $mainframe->getDocument();
+$document->parse( 'template', 'index.html', JPATH_BASE);
+
+//initialise the document
+initDocument($document); 
 
 $task = mosGetParam( $_REQUEST, 'task', '' );
 
-switch ($task) {
+$result = '';
+
+switch ($task) 
+{
 	case 'preinstall':
-		installationTasks::preInstall();
+		$result = installationTasks::preInstall();
 		break;
 
 	case 'license':
-		installationTasks::license();
+		$result = installationTasks::license();
 		break;
 
 	case 'dbconfig':
-		installationTasks::dbConfig();
+		$result = installationTasks::dbConfig();
 		break;
 
 	case 'dbcollation':
-		installationTasks::dbCollation();
+		$result = installationTasks::dbCollation();
 		break;
 
 	case 'makedb':
 		if (installationTasks::makeDB()) {
-			installationTasks::ftpConfig( 1 );
+			$result = installationTasks::ftpConfig( 1 );
 		}
 		break;
 
 	case 'ftpconfig':
-		installationTasks::ftpConfig();
+		$result = installationTasks::ftpConfig();
 		break;
 
 	case 'mainconfig':
-		installationTasks::mainConfig();
+		$result = installationTasks::mainConfig();
 		break;
 
 	case 'saveconfig':
 		$buffer = installationTasks::saveConfig();
-		installationTasks::finish( $buffer );
+		$result = installationTasks::finish( $buffer );
 		break;
 
 	case 'lang':
 	default:
-		installationTasks::chooseLanguage();
+		$result = installationTasks::chooseLanguage();
 		break;
 }
+
+$document->addGlobalVar('installation_', $result);
+
+header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
+header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
+header( 'Cache-Control: no-store, no-cache, must-revalidate' );
+header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.1
+header( 'Pragma: no-cache' );										// HTTP/1.0
+
+
+$document->display( 'index.html', true);
 ?>

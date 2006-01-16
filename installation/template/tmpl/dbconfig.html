@@ -5,7 +5,6 @@
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 </jos:comment>
-<script language="JavaScript" type="text/javascript" src="tmpl/dbconfig.js"></script>
 <script language="JavaScript" type="text/javascript">
 function validateForm( frm, task ) {
 	var DBtype = getElementByName( frm, 'vars[DBtype]' );
@@ -91,6 +90,8 @@ function JProcess() {
 	}
 }
 </script>
+
+<form action="index.php" method="post" name="adminForm">
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
@@ -303,7 +304,7 @@ function JProcess() {
 <input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}" />
 <input type="hidden" name="task" value="" />
 </form>
-<form action="includes/jajax.php" id='mainForm' onsubmit="ajform:getReturnData();">
+<form action="includes/jajax.php" id="mainForm" onsubmit="ajform:getReturnData();">
 	<input type="hidden" id="theType" name="type" value="" />
 	<input type="hidden" id="theHost" name="host" value="" />
 	<input type="hidden" id="theUser" name="user" value="" />

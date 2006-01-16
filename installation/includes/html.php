@@ -19,14 +19,15 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @package Joomla
  * @subpackage Installation
  */
-class installationScreens {
+class installationScreens 
+{
 	/**
 	 * Static method to create the template object
 	 * @param string The name of the body html file
 	 * @return patTemplate
 	 */
-	function &createTemplate( $bodyHtml = null ) {
-
+	function &createTemplate( $bodyHtml = null ) 
+	{
 		global $mainframe;
 
 		$lang =& $mainframe->getLanguage();
@@ -37,16 +38,8 @@ class installationScreens {
 		$tmpl->setNamespace( 'jos' );
 
 		// load the wrapper and common templates
-		$tmpl->setRoot( JPATH_BASE . DS . 'tmpl' );
+		$tmpl->setRoot( JPATH_BASE . DS . 'template' . DS. 'tmpl' );
 		$tmpl->readTemplatesFromFile( 'page.html' );
-
-		if ($lang->isRTL()) {
-			$tmpl->addGlobalVar( 'installcss', 'install_dark_rtl.css' );
-			$tmpl->addGlobalVar( 'installdir', 'rtl' );
-		} else {
-			$tmpl->addGlobalVar( 'installcss', 'install_dark.css' );
-			$tmpl->addGlobalVar( 'installdir', 'ltr' );
-		}
 
 		if ($bodyHtml) {
 			$tmpl->setAttribute( 'body', 'src', $bodyHtml );
@@ -62,7 +55,8 @@ class installationScreens {
 	 * @param string The name of the step to go back to
 	 * @param string An extra message to display in a text area
 	 */
-	function error( &$vars, $msg, $back, $xmsg='' ) {
+	function error( &$vars, $msg, $back, $xmsg='' ) 
+	{
 		global $steps;
 
 		$tmpl =& installationScreens::createTemplate( 'error.html' );
@@ -77,14 +71,15 @@ class installationScreens {
 		$tmpl->addVar( 'body', 'back', $back );
 		$tmpl->addVars( 'body', $vars, 'var_' );
 
-		$tmpl->displayParsedTemplate( 'form' );
+		return $tmpl->fetch( 'page' );
 	}
 
 	/**
 	 * The index page
 	 * @param array An array of lists
 	 */
-	function chooseLanguage( &$lists ) {
+	function chooseLanguage( &$lists ) 
+	{
 		global $steps;
 
 		$tmpl =& installationScreens::createTemplate( 'language.html' );
@@ -94,14 +89,15 @@ class installationScreens {
 		$tmpl->addVars( 'stepbar', $steps, 'step_' );
 		$tmpl->addRows( 'lang-options', $lists['langs'] );
 
-		$tmpl->displayParsedTemplate( 'form' );
+		return $tmpl->fetch( 'page' );
 	}
 
 	/**
 	 * The index page
 	 * @param array An array of lists
 	 */
-	function preInstall( $vars, &$lists ) {
+	function preInstall( $vars, &$lists ) 
+	{
 		global $steps, $_VERSION;
 
 		$tmpl =& installationScreens::createTemplate( 'preinstall.html' );
@@ -116,14 +112,15 @@ class installationScreens {
 		$tmpl->addRows( 'php-settings', $lists['phpSettings'] );
 		$tmpl->addRows( 'folder-perms', $lists['folderPerms'] );
 
-		$tmpl->displayParsedTemplate( 'form' );
+		return $tmpl->fetch( 'page' );
 	}
 
 	/**
 	 * The index page
 	 * @param array An array of lists
 	 */
-	function license( &$vars ) {
+	function license( &$vars ) 
+	{
 		global $steps;
 
 		$tmpl =& installationScreens::createTemplate( 'license.html' );
@@ -133,15 +130,19 @@ class installationScreens {
 		$tmpl->addVars( 'stepbar', 	$steps, 'step_' );
 		$tmpl->addVars( 'body', 	$vars, 	'var_' );
 
-		$tmpl->displayParsedTemplate( 'form' );
+		return $tmpl->fetch( 'page' );
 	}
 
 	/**
 	 * The index page
 	 * @param array An array of lists
 	 */
-	function dbConfig( &$vars, &$lists ) {
-		global $steps;
+	function dbConfig( &$vars, &$lists ) 
+	{
+		global $steps, $mainframe;
+		
+		$doc =& $mainframe->getDocument();
+		$doc->addScript('template/js/dbconfig.js');
 
 		$tmpl =& installationScreens::createTemplate( 'dbconfig.html' );
 
@@ -152,14 +153,15 @@ class installationScreens {
 
 		$tmpl->addRows( 'dbtype-options', $lists['dbTypes'] );
 
-		$tmpl->displayParsedTemplate( 'form' );
+		return $tmpl->fetch( 'page' );
 	}
 
 	/**
 	 * The index page
 	 * @param array An array of lists
 	 */
-	function dbCollation( &$vars, &$collations ) {
+	function dbCollation( &$vars, &$collations ) 
+	{
 		global $steps;
 
 		$tmpl =& installationScreens::createTemplate( 'dbcollation.html' );
@@ -177,15 +179,19 @@ class installationScreens {
 
 		$tmpl->addRows( 'collation-options', $collations );
 
-		$tmpl->displayParsedTemplate( 'form' );
+		return $tmpl->fetch( 'page' );
 	}
 
 	/**
 	 * The index page
 	 * @param array An array of lists
 	 */
-	function ftpConfig( &$vars ) {
-		global $steps;
+	function ftpConfig( &$vars ) 
+	{
+		global $steps; $mainframe;
+		
+		$doc =& $mainframe->getDocument();
+		$doc->addScript('template/js/ftpconfig.js');
 
 		$tmpl =& installationScreens::createTemplate( 'ftpconfig.html' );
 
@@ -194,14 +200,15 @@ class installationScreens {
 		$tmpl->addVars( 'stepbar', $steps, 'step_' );
 		$tmpl->addVars( 'body', 	$vars, 'var_' );
 
-		$tmpl->displayParsedTemplate( 'form' );
+		return $tmpl->fetch( 'page' );
 	}
 
 	/**
 	 * The index page
 	 * @param array An array of lists
 	 */
-	function mainConfig( &$vars ) {
+	function mainConfig( &$vars ) 
+	{
 		global $steps;
 
 		$tmpl =& installationScreens::createTemplate( 'mainconfig.html' );
@@ -211,7 +218,7 @@ class installationScreens {
 		$tmpl->addVars( 'stepbar', $steps, 'step_' );
 		$tmpl->addVars( 'body', 	$vars, 'var_' );
 
-		$tmpl->displayParsedTemplate( 'form' );
+		return $tmpl->fetch( 'page' );
 	}
 
 	/**
@@ -219,7 +226,8 @@ class installationScreens {
 	 * @param array An array of lists
 	 * @param string The configuration file if it could not be saved
 	 */
-	function finish( &$vars, $buffer ) {
+	function finish( &$vars, $buffer ) 
+	{
 		global $steps;
 
 		$tmpl =& installationScreens::createTemplate( 'finish.html' );
@@ -233,7 +241,7 @@ class installationScreens {
 			$tmpl->addVar( 'configuration-error', 'buffer', $buffer );
 		}
 
-		$tmpl->displayParsedTemplate( 'form' );
+		return $tmpl->fetch( 'page' );
 	}
 }
 ?>

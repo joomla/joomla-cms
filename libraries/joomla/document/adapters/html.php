@@ -96,7 +96,7 @@ class JDocumentHTML extends JDocument
      */
     function addHeadLink($href, $relation, $relType = 'rel', $attributes = array())
 	{
-        $attribs = mosHTML::_implode_assoc('=', ' ', $attribs);
+        $attribs = JDocumentHelper::implodeAttribs('=', ' ', $attribs);
         $generatedTag = "<link href=\"$href\" $relType=\"$relation\"" . $attribs;
         $this->_links[] = $generatedTag;
     }
@@ -244,7 +244,7 @@ class JDocumentHTML extends JDocument
                 $strHtml .= ' media="'.$strAttr['media'].'"';
             }
 			
-			$strHtml .= mosHTML::_implode_assoc('=', ' ', $strAttr['attribs']);
+			$strHtml .= JDocumentHelper::implodeAttribs('=', ' ', $strAttr['attribs']);
 			
             $strHtml .= $tagEnd . $lnEnd;
         }
@@ -315,14 +315,15 @@ class JDocumentHTML extends JDocument
 	 * @access public
 	 * @param string 	$template	The template to look for the file
 	 * @param string 	$filename	The actual filename
+	 * @param string 	$directory	The directory to look for the template
 	 */
-	function parse($template, $filename = 'index.php')
+	function parse($template, $filename = 'index.php', $directory = 'templates')
 	{
-		if ( !file_exists( 'templates'.DS.$template.DS.$filename) ) {
+		if ( !file_exists( $directory.DS.$template.DS.$filename) ) {
 			$template = '_system';
 		}
 		
-		parent::parse($template, $filename);
+		parent::parse($template, $filename, $directory);
 	}
 }
 ?>
