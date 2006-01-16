@@ -49,9 +49,9 @@ class JAuthJoomla extends JPlugin {
 	 */
 	function auth(& $credentials) {
 		global $mainframe;
-
+				
 		// Initialize variables
-		$return = false;
+		$return = new JAuthResponse('Joomla');
 		$conditions = '';
 
 		// If we are in the admin panel, make sure we have access to it
@@ -69,8 +69,16 @@ class JAuthJoomla extends JPlugin {
 			. $conditions;
 
 		$db->setQuery( $query );
-
-		return $db->loadResult();
+		$result = $db->loadResult();
+		if($result) {
+			$return->type = 'success';
+		} else {
+			$return->type = 'failure';
+			$return->error_message = 'Database returned no result.';
+		}
+		
+		$return->uid = $result;
+		return $return;
 	}
 }
 ?>

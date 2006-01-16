@@ -271,9 +271,21 @@ class JAuth extends JObject {
 		$auth = 0;
 		foreach($results as $result) {
 			if($result != false) {
-				$auth = $result;
-				break;
+				if(is_object($result)) {
+					if($result->type == 'success') {
+						$auth = $result->uid;
+						break;
+					} else {
+						// Is an error or failure
+					}
+				} else {
+					// Return this value
+					$auth = $result;
+				}
 			}
+		}
+		if(!$auth) {
+			$auth = false;
 		}
 		return $auth;
 	}
@@ -660,4 +672,31 @@ class JAuthHelper {
 		return is_object($instances[$plugin]);
 	}
 }
+
+/**
+ * Authorization response class, provides an object for storing error details
+ *
+ * @author 		Samuel Moffatt <pasamio@gmail.com>
+ * @package 	Joomla.Framework
+ * @static
+ * @since 1.1
+ */
+class JAuthResponse extends JObject { 
+	var $type 			= null;
+	var $name 			= '';
+	var $error_message 	= '';
+	var $uid 			= 0;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param string $name The name of the response
+	 * @since 1.1
+	 */
+	function JAuthResponse($name) {
+		$this->name = $name;
+	}
+	
+}
+
 ?>

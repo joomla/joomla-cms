@@ -51,8 +51,9 @@ class JAuthLdap extends JPlugin {
 		global $mainframe;
 
 		// Initialize variables
-		$return = false;
+		$return = new JAuthResponse('LDAP');
 		$conditions = '';
+		$userID = 0;
 
 		// Get a database connector
 		$db = $mainframe->getDBO();
@@ -69,7 +70,10 @@ class JAuthLdap extends JPlugin {
 		$ldap = new JLDAP($pluginParams);
 		//print_r($ldap);
 		if (!$ldap->connect()) {
-			return false;
+			$return->type = 'error';
+			$return->uid  = 0;
+			$return->error_message = 'Connection to LDAP server failed';
+			return $return;
 		}
 		$success = $ldap->bind($credentials['username'], $credentials['password']);
 	
@@ -79,6 +83,7 @@ class JAuthLdap extends JPlugin {
 			$attributes = $ldap->search( $search_filters );
 			print_r($attributes);
 		*/
+		
 		$ldap->close();
 
 		$userId = 0;
@@ -91,11 +96,20 @@ class JAuthLdap extends JPlugin {
 			$db->setQuery($query);
 			$userId = $db->loadResult();
 				
+		} else {
+			$return->type = 'failure';
+			$return->uid  = 0;
+			$return->error_message = 'Bind to LDAP server failed';
+			return $return;
 		}
-				
+
 		if ($userId) {
-			$return = $userId;
+			$return->type = 'success';
+		} else {
+			$return->type = 'failure';
+			$return->error_message = 'Database returned no result.';
 		}
+		$return->uid = $userId;
 
 		return $return;
 	}
