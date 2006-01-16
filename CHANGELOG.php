@@ -31,6 +31,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Jan-2006 Samuel Moffatt
+ ^ Added JauthResponse class to handle responses from plugins
+ ^ Altered framework to include JAuthResponse object
+
 14-Jan-2006 Samuel Moffatt
  # Fixed artf2143 : Altered radio buttons to checkboxes for installers
 
