@@ -39,7 +39,7 @@ Legend:
 
 17-Jan-2006 Emir Sakic
  # Fixed a bug with base href in installer
- # Section list not loading
+ # Section and category lists not loading
 
 17-Jan-2006 Louis Landry
  ^ Changed AJAX library for installer to XAJAX

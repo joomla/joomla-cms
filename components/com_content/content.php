@@ -331,7 +331,21 @@ class JContentController
 	 */
 	function showCategory(& $access, $now)
 	{
-		global $mainframe, $Itemid, $db;
+		global $mainframe, $Itemid;
+
+		/*
+		 * Initialize some variables
+		 */
+		$db			= & $mainframe->getDBO();
+		$my			= & $mainframe->getUser();
+		$id 		= JRequest :: getVar('id', 0, '', 'int');
+		$sectionid 	= JRequest :: getVar('sectionid', 0, '', 'int');
+		$selected	= JRequest :: getVar('order', '');
+		$limit 		= JRequest :: getVar('limit', 0, '', 'int');
+		$limitstart = JRequest :: getVar('limitstart', 0, '', 'int');
+		$nullDate 	= $db->getNullDate();
+		$noauth 	= !$mainframe->getCfg('shownoauth');
+		$category	= null;
 
 		/*
 		* Lets get the information for the current category
@@ -362,20 +376,6 @@ class JContentController
 			mosNotAuth();
 			return;
 		}
-
-		/*
-		 * Initialize some variables
-		 */
-		$db			= & $mainframe->getDBO();
-		$my			= & $mainframe->getUser();
-		$id 		= JRequest :: getVar('id', 0, '', 'int');
-		$sectionid 	= JRequest :: getVar('sectionid', 0, '', 'int');
-		$selected	= JRequest :: getVar('order', '');
-		$limit 		= JRequest :: getVar('limit', 0, '', 'int');
-		$limitstart = JRequest :: getVar('limitstart', 0, '', 'int');
-		$nullDate 	= $db->getNullDate();
-		$noauth 	= !$mainframe->getCfg('shownoauth');
-		$category	= null;
 
 		// Paramters
 		if ($Itemid)
