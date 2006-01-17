@@ -164,6 +164,14 @@ class JContactController
 				{
 					$current = & $rows[0];
 				}
+			
+				/*
+				Check if the category is published
+				*/
+				if (!$current->cname) {
+					mosNotAuth();
+					return;
+				}
 			}
 
 			/*
