@@ -214,8 +214,6 @@ class JInstallerModule extends JInstaller {
 		 	$this->_rollback();
 		 	return false;
 		 }
-unset($this->i_xmldoc);
-print_r($this);
 		return true;
 	}
 
