@@ -69,18 +69,8 @@ function JProcess() {
 			</jos:translate>
 		</div>
 		<div class="install-form">
-			<div class="form-block">
+			<fieldset class="form-block">
 				<table class="content2">
-					<tr>
-						<td width="100">
-							<input class="inputbox" type="checkbox" id="advanced" name="vars[advanced]" value="1" accesskey="a" onChange="toggleAdvanced();" />
-						</td>
-						<td align="left">
-							<label for="vars[advanced]">
-								<jos:translate>Advanced Mode</jos:translate>
-							</label>
-						</td>
-					</tr>
 					<tr>
 						<td width="100">
 							<input class="inputbox" type="checkbox" id="ftpenable" name="vars[ftpEnable]" value="1" accesskey="e" onChange="formState()" checked />
@@ -89,23 +79,6 @@ function JProcess() {
 							<label for="vars[ftpEnable]">
 								<jos:translate>Enable FTP filesystem layer</jos:translate>
 							</label>
-							<input type="hidden" name="vars[lang]" value="{VAR_LANG}" />
-							<input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}" />
-							<input type="hidden" name="vars[DBtype]" value="{VAR_DBTYPE}" />
-							<input type="hidden" name="vars[DBhostname]" value="{VAR_DBHOSTNAME}" />
-							<input type="hidden" name="vars[DBuserName]" value="{VAR_DBUSERNAME}" />
-							<input type="hidden" name="vars[DBpassword]" value="{VAR_DBPASSWORD}" />
-							<input type="hidden" name="vars[DBname]" value="{VAR_DBNAME}" />
-							<input type="hidden" name="vars[DBprefix]" value="{VAR_DBPREFIX}" />
-							<input type="hidden" name="task" value="" />
-						</td>
-					</tr>
-					<tr id="rootPath" style="display:none;">
-						<td>
-							<jos:translate>FTP Root Path</jos:translate>
-						</td>
-						<td align="center">
-							<input class="inputbox" id="ftproot" type="text" name="vars[ftpRoot]" value="{VAR_FTPROOT}" size="30"/>
 						</td>
 					</tr>
 					<tr id="host" class="hidden">
@@ -132,14 +105,29 @@ function JProcess() {
 							<input class="inputbox" type="text" id="ftppass" name="vars[ftpPassword]" value="{VAR_FTPPASSWORD}" size="30"/>
 						</td>
 					</tr>
+					<tr id="rootPath">
+						<td>
+							<jos:translate>FTP Root Path</jos:translate>
+						</td>
+						<td align="center">
+							<input class="inputbox" id="ftproot" type="text" name="vars[ftpRoot]" value="{VAR_FTPROOT}" size="30"/>
+						</td>
+					</tr>
 				</table>
-				<br />
-				<br />
 				<input type="button" id="findbutton" class="button" value="Autofind FTP Path" onclick="JProcess();" />
-			</form>
-			</div>
+			</fieldset>
 		</div>
 	</div>
 </div>
 <div class="clr"></div>
+
+<input type="hidden" name="vars[lang]" value="{VAR_LANG}" />
+<input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}" />
+<input type="hidden" name="vars[DBtype]" value="{VAR_DBTYPE}" />
+<input type="hidden" name="vars[DBhostname]" value="{VAR_DBHOSTNAME}" />
+<input type="hidden" name="vars[DBuserName]" value="{VAR_DBUSERNAME}" />
+<input type="hidden" name="vars[DBpassword]" value="{VAR_DBPASSWORD}" />
+<input type="hidden" name="vars[DBname]" value="{VAR_DBNAME}" />
+<input type="hidden" name="vars[DBprefix]" value="{VAR_DBPREFIX}" />
+<input type="hidden" name="task" value="" />
 </form>

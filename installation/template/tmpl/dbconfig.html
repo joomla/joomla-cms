@@ -73,26 +73,12 @@ function JProcess() {
 		</div>
 
 		<div class="install-form">
-			<div class="form-block">
+			<fieldset class="form-block">
 	 			<table class="content2">
 	  			<tr>
 	    			<td></td>
 	    			<td></td>
 	    			<td></td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<label for="vars[advanced]">
-							<jos:translate>Advanced Mode</jos:translate>
-						</label>
-						<br/>
-						<input class="inputbox" type="checkbox" id="advanced" name="vars[advanced]" value="1" accesskey="a" onChange="toggleAdvanced();" />
-					</td>
-					<td>
-		  		    	<em>
-		  		    	<jos:translate key="tipAdvanced">Check to enter advanced mode.</jos:translate>
-		  		    	</em>
-					</td>
 				</tr>
 	  			<tr>
 	    			<td colspan="2">
@@ -201,7 +187,17 @@ function JProcess() {
 		  		    	</em>
 		  		    </td>
 				</tr>
-	  			<tr id="dbtabledel" style="display:none;">
+				</table>
+				</fieldset>
+				<fieldset>
+				<legend>Advanced Settings</legend>
+				<table class="content2">
+	  			<tr>
+	    			<td></td>
+	    			<td></td>
+	    			<td></td>
+				</tr>
+	  			<tr id="dbtabledel">
 		  		    <td>
 		  		    	<input id="vars_dbdel" type="checkbox" name="vars[DBDel]" value="1" />
 		  		    </td>
@@ -212,7 +208,7 @@ function JProcess() {
 					</td>
 	    			<td></td>
 		  		</tr>
-	  			<tr id="dbtablebu" style="display:none;">
+	  			<tr id="dbtablebu" >
 		  		    <td>
 		  		    	<input id="vars_dbbackup" type="checkbox" name="vars[DBBackup]" value="1"  checked="checked"/>
 		  		    </td>
@@ -229,7 +225,7 @@ function JProcess() {
 	    				</em>
 	    			</td>
 		  		</tr>
-	  			<tr id="dbtablesmpl" style="display:none;">
+	  			<tr id="dbtablesmpl">
 		  		    <td>
 		  		    	<input id="vars_dbsample" type="checkbox" name="vars[DBSample]" value="1" checked="checked"/>
 		  		    </td>
@@ -245,7 +241,7 @@ function JProcess() {
 		  		    </td>
 		  		</tr>
 	  			</table>
-			</div>
+			</fieldset>
 		</div>
 	</div>
 </div>

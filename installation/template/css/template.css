@@ -161,6 +161,7 @@ a:hover {
 .install-form label {
 	line-height: 16px;
 	color: #fff;
+	white-space: nowrap;
 }
 
 .install-form em {
@@ -169,6 +170,15 @@ a:hover {
 	font-size: 11px;
 	margin-left: 10px;
 	padding-top: 5px;
+}
+
+.install-form fieldset {
+	border: 1px #666 solid;
+	margin-bottom: 10px;
+}
+
+.install-form legend {
+	color: #ddd;
 }
 
 .install-text {
@@ -318,14 +328,6 @@ textarea {
 	font-family : Arial;
 	font-size : 11px;
 	border: 1px;
-}
-
-fieldset {
-	border: 1px #666 solid;
-}
-
-legend {
-	color: #ddd;
 }
 
 input.button {
