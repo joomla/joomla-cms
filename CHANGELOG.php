@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Jan-2006 Louis Landry
+ ^ Changed AJAX library for installer to XAJAX
+
 17-Jan-2006 Johan Janssens
  ^ Implemented JDocument interface in the installation
 
