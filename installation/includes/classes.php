@@ -412,7 +412,7 @@ class installationTasks
 		 */
 		$xajax = new xajax('http://'.$_SERVER['HTTP_HOST'].'/'.dirname( $_SERVER['PHP_SELF'] ).'/includes/jajax.php');
 		$xajax->registerFunction(array('getFtpRoot', 'JAJAXHandler', 'ftproot'));
-		//$xajax->debugOn();
+		$xajax->debugOn();
 
 		$vars = mosGetParam($_POST, 'vars', array ());
 		$vars['DBcreated'] = mosGetParam($vars, 'DBcreated', $DBcreated);

@@ -54,24 +54,6 @@ jimport( 'joomla.filesystem.*' );
 class JAJAXHandler {
 	
 	/**
-	 * Method to get the path from the FTP root to the Joomla root directory
-	 */
-	function ftproot($args) {
-
-		jimport( 'joomla.error' );
-		jimport( 'joomla.application.application' );
-
-		$objResponse = new xajaxResponse();
-		$args = $args['vars'];
-		require_once(JPATH_BASE.DS."classes.php");
-		$root =  JInstallationHelper::findFtpRoot($args['ftpUser'], $args['ftpPassword'], $args['ftpHost']);
-		$objResponse->addAssign('ftproot', 'value', $root);
-		$objResponse->addAssign('rootPath', 'style.display', '');
-		$objResponse->addAlert($root);
-		return $objResponse;
-	}
-
-	/**
 	 * Method to get the database collations
 	 */
 	function dbcollate($args) {
@@ -126,6 +108,24 @@ class JAJAXHandler {
 		$objResponse->addAssign("theCollation","innerHTML",$txt);
 		return $objResponse;
 	}
+
+	/**
+	 * Method to get the path from the FTP root to the Joomla root directory
+	 */
+	function ftproot($args) {
+
+		jimport( 'joomla.error' );
+		jimport( 'joomla.application.application' );
+
+		$objResponse = new xajaxResponse();
+		$args = $args['vars'];
+		require_once(JPATH_BASE.DS."classes.php");
+		$root =  JInstallationHelper::findFtpRoot($args['ftpUser'], $args['ftpPassword'], $args['ftpHost']);
+		$objResponse->addAssign('ftproot', 'value', $root);
+		$objResponse->addAssign('rootPath', 'style.display', '');
+		return $objResponse;
+	}
+
 }
 
 /*
