@@ -189,6 +189,15 @@ class JContentController
 	{
 		global $mainframe, $Itemid;
 
+		// Load the section data object
+		$section = & JModel :: getInstance( 'section', $db );
+		$section->load($id);
+		
+		if(!$section->published) {
+			mosNotAuth();
+			return;
+		}
+		
 		/*
 		 * Initialize some variables
 		 */
@@ -231,10 +240,6 @@ class JContentController
 		$orderby = $params->get('orderby', '');
 		$orderby = JContentController :: _orderby_sec($orderby);
 
-		// Load the section data object
-		$section = & JModel :: getInstance( 'section', $db );
-		$section->load($id);
-
 		// Handle the access permissions part of the main database query
 		if ($access->canEdit)
 		{
@@ -275,7 +280,7 @@ class JContentController
 			$access = "\n AND a.access <= $my->gid";
 		}
 
-		// Main Query
+		// Query of categories within section
 		$query = "SELECT a.*, COUNT( b.id ) AS numitems" .
 				"\n FROM #__categories AS a" .
 				"\n LEFT JOIN #__content AS b ON b.catid = a.id".$xwhere2 .
