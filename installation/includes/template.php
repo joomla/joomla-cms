@@ -15,31 +15,31 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
- * Initialise the document  
- *  
+ * Initialise the document
+ *
  * @param object $doc The document instance to initialise
  */
-function initDocument(&$doc) 
-{		
+function initDocument(&$doc)
+{
 	global $mainframe;
-	
+
 	$user    = $mainframe->getUser();
 	$lang    = $mainframe->getLanguage();
-	
+
 	$version = new JVersion();
-			
+
 	$doc->setMetaContentType();
-		
+
 	$doc->setTitle( 'Joomla! - Web Installer' );
-	
+
 	$doc->setMetaData( 'Generator', $version->PRODUCT . " - " . $version->COPYRIGHT);
 	$doc->setMetaData( 'robots', 'noindex, nofollow' );
-	
-	$doc->setBase( JURL_SITE.'/index.php' );
-	
+
+	$doc->setBase( JURL_SITE.'/installation/' );
+
 	$doc->addScript( 'includes/js/installation.js');
 	$doc->addScript( 'includes/js/ajform.js.js');
-	
+
 	if ($lang->isRTL()) {
 		$doc->addStyleSheet( 'template/css/template_rtl.css' );
 		$doc->addGlobalVar( 'dir', 'rtl' );
@@ -49,7 +49,7 @@ function initDocument(&$doc)
 	}
 
 	$doc->addGlobalVar('lang', $lang->getTag());
-	
+
 	$doc->addFavicon( 'favicon.ico' );
 }
 ?>

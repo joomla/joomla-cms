@@ -40,13 +40,13 @@ $document =& $mainframe->getDocument();
 $document->parse( 'template', 'index.html', JPATH_BASE);
 
 //initialise the document
-initDocument($document); 
+initDocument($document);
 
 $task = mosGetParam( $_REQUEST, 'task', '' );
 
 $result = '';
 
-switch ($task) 
+switch ($task)
 {
 	case 'preinstall':
 		$result = installationTasks::preInstall();

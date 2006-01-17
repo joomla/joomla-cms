@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Jan-2006 Emir Sakic
+ # Fixed a bug with base href in installer
+
 17-Jan-2006 Louis Landry
  ^ Changed AJAX library for installer to XAJAX
  ^ Improved com_installer to a common Joomla Extension Manager interface
@@ -117,7 +120,7 @@ Legend:
  + Added error templates for custom debug output
  # Fixed artf2807 : Missing file - Legacy plugins
  + Added JMail class
- 
+
 -------------------- Happy New Year Everyone ! ------------------------
 
 30-Dec-2005 Johan Janssens
@@ -126,7 +129,7 @@ Legend:
  - Removed administrator/mod_pathway
  + Template rendering completely overhaulted by new JDocument interface
 
-27-Dec-2005 Johan Janssens 
+27-Dec-2005 Johan Janssens
  # Fixed artf2742 : Backend generates just plain text output in IE or Opera
  # Fixed artf2739 : mambot edit-save error
  # Fixed artf2729 : Same content displayed twice on FrontPage
