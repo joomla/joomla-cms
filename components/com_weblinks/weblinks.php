@@ -62,7 +62,7 @@ switch ($task) {
 		break;
 
 	case 'view' :
-		WeblinksController::showItem($id, $catid);
+		WeblinksController::showItem($id);
 		break;
 
 	default :
@@ -234,7 +234,7 @@ class WeblinksController {
 	 * @param int $catid Web Link category id
 	 * @since 1.0
 	 */
-	function showItem($id, $catid) {
+	function showItem($id) {
 		global $mainframe, $Itemid;
 
 		// Get some objects from the JApplication
@@ -243,6 +243,14 @@ class WeblinksController {
 		$weblink = & new JWeblinkModel($db);
 		$weblink->load($id);
 
+		/*
+		* Check if link is published
+		*/
+		if (!$weblink->published) {
+			mosNotAuth();
+			return;
+		}
+		
 		// Record the hit
 		$weblink->hit();
 
