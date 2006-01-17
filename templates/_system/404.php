@@ -53,7 +53,7 @@ if (!defined( '_404_RTS' )) {
 	<?php echo _404;?>
 </h2>
 <h3>
-	<a href="<?php $mainframe->getCfg('$live_site'); ?>">
+	<a href="<?php echo $mainframe->getCfg('live_site'); ?>">
 		<?php echo _404_RTS;?></a>
 </h3>
 <br />

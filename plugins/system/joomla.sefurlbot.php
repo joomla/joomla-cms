@@ -27,12 +27,12 @@ function botJoomlaSEFUrl( ) {
 	 * Initialize some variables
 	 */
 	$mod_rewrite_off 	= 0;
-	$SEF 				= $mainframe->getCfg('sef'); 
+	$SEF 				= $mainframe->getCfg('sef');
 
 	if ($SEF) {
 
 		// load plugin params info
-	 	$plugin =& JPluginHelper::getPlugin('system', 'joomla.sefurlbot'); 
+	 	$plugin =& JPluginHelper::getPlugin('system', 'joomla.sefurlbot');
 	 	$pluginParams = new JParameters( $plugin->params );
 
 		$mod_rewrite_off = $pluginParams->get( 'mode', 0 );
@@ -111,24 +111,24 @@ function botJoomlaSEFUrl( ) {
 				$_REQUEST['limitstart'] = $limitstart;
 
 				$QUERY_STRING = "option=com_content&task=$task&id=$id&Itemid=$Itemid&limit=$limit&limitstart=$limitstart";
-		} else if (isset($url_array[$pos+4]) && $url_array[$pos+4]!='' && ( in_array('archivecategory', $url_array) || in_array('archivesection', $url_array) )) {
-					// $option/$task/$Itemid/$year/$month/$module
-					$task 					= $url_array[$pos+1];
-					$year 					= $url_array[$pos+2];
-					$month 					= $url_array[$pos+3];
-					$module 				= $url_array[$pos+4];
-					
-					// pass data onto global variables
-					$_GET['task'] 			= $task;
-					$_REQUEST['task'] 		= $task;
-					$_GET['year'] 			= $year;
-					$_REQUEST['year'] 		= $year;
-					$_GET['month'] 			= $month;
-					$_REQUEST['month'] 		= $month;
-					$_GET['module'] 		= $module;
-					$_REQUEST['module']		= $module;
-					
-					$QUERY_STRING = "option=com_content&task=$task&year=$year&month=$month&module=$module";
+			} else if (isset($url_array[$pos+4]) && $url_array[$pos+4]!='' && ( in_array('archivecategory', $url_array) || in_array('archivesection', $url_array) )) {
+			// $option/$task/$Itemid/$year/$month/$module
+				$task 					= $url_array[$pos+1];
+				$year 					= $url_array[$pos+2];
+				$month 					= $url_array[$pos+3];
+				$module 				= $url_array[$pos+4];
+
+				// pass data onto global variables
+				$_GET['task'] 			= $task;
+				$_REQUEST['task'] 		= $task;
+				$_GET['year'] 			= $year;
+				$_REQUEST['year'] 		= $year;
+				$_GET['month'] 			= $month;
+				$_REQUEST['month'] 		= $month;
+				$_GET['module'] 		= $module;
+				$_REQUEST['module']		= $module;
+
+				$QUERY_STRING = "option=com_content&task=$task&year=$year&month=$month&module=$module";
 			} else if (!(isset($url_array[$pos+5]) && $url_array[$pos+5]!='') && isset($url_array[$pos+4]) && $url_array[$pos+4]!='') {
 			// $option/$task/$sectionid/$id/$Itemid
 				$task 					= $url_array[$pos+1];
@@ -261,7 +261,7 @@ function sefRelToAbs( $string ) {
 	$SEF 					= $mainframe->getCfg('sef');
 	$MultilingualSupport 	= $mainframe->getCfg('multilingual_support');
 	$LiveSite 				= $mainframe->getCfg('live_site');
-	
+
 	if( isset($MultilingualSupport) && ($MultilingualSupport) && $string!='index.php' && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),'index.php') && !eregi('lang=', $string) ) {
 		$string .= "&lang=$iso_client_lang";
 	}
@@ -332,19 +332,19 @@ function sefRelToAbs( $string ) {
 			if (eregi('&year=',$string)) {
 				$temp = split('&year=', $string);
 				$temp = split('&', $temp[1]);
-				
+
 				$sefstring .= $temp[0].'/';
 			}
 			if (eregi('&month=',$string)) {
 				$temp = split('&month=', $string);
 				$temp = split('&', $temp[1]);
-				
+
 				$sefstring .= $temp[0].'/';
 			}
 			if (eregi('&module=',$string)) {
 				$temp = split('&module=', $string);
 				$temp = split('&', $temp[1]);
-				
+
 				$sefstring .= $temp[0].'/';
 			}
 			// Handle fragment identifiers (ex. #foo)
