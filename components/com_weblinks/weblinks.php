@@ -93,22 +93,6 @@ class WeblinksController {
 		$my = & $mainframe->getUser();
 		$breadcrumbs = & $mainframe->getPathWay();
 
-		/*
-		 * Query to retrieve all categories that belong under the web links section
-		 * and that are published.
-		 */
-		$query = 	"SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc".
-					"\n LEFT JOIN #__weblinks AS a ON a.catid = cc.id".
-					"\n WHERE a.published = 1".
-					"\n AND section = 'com_weblinks'".
-					"\n AND cc.published = 1".
-					"\n AND cc.access <= $my->gid".
-					"\n GROUP BY cc.id".
-					"\n ORDER BY cc.ordering";
-
-		$db->setQuery($query);
-		$categories = $db->loadObjectList();
-
 		if ($catid) {
 
 			// Initialize variables
@@ -138,6 +122,22 @@ class WeblinksController {
 
 		}
 
+		/*
+		* Query to retrieve all categories that belong under the web links section
+		* and that are published.
+		*/
+		$query = 	"SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc".
+		"\n LEFT JOIN #__weblinks AS a ON a.catid = cc.id".
+		"\n WHERE a.published = 1".
+		"\n AND section = 'com_weblinks'".
+		"\n AND cc.published = 1".
+		"\n AND cc.access <= $my->gid".
+		"\n GROUP BY cc.id".
+		"\n ORDER BY cc.ordering";
+		
+		$db->setQuery($query);
+		$categories = $db->loadObjectList();
+		
 		// Load Parameters
 		$menu =& JModel::getInstance('menu', $db );
 		$menu->load($Itemid);
