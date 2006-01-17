@@ -527,7 +527,7 @@ class installationTasks
 
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance('localhost');
+			$ftp = & JFTP::getInstance($vars['ftpHost']);
 			$ftp->login($vars['ftpUser'], $vars['ftpPassword']);
 
 			//Translate path for the FTP account
