@@ -181,6 +181,17 @@ function showFeed( $option, $feedid ) {
 		mosNotAuth();
 		return;
 	}
+		
+	$category = new mosCategory($database);
+	$category->load($newsfeed->catid);
+	
+	/*
+	* Check if newsfeed category is published
+	*/
+	if(!$category->published) {
+		mosNotAuth();
+		return;
+	}
 	
 	// full RSS parser used to access image information
 	$cacheDir = JPATH_SITE . '/cache/';
