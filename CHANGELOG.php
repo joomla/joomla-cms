@@ -39,6 +39,7 @@ Legend:
 
 17-Jan-2006 Louis Landry
  ^ Changed AJAX library for installer to XAJAX
+ ^ Improved com_installer to a common Joomla Extension Manager interface
 
 17-Jan-2006 Johan Janssens
  ^ Implemented JDocument interface in the installation

@@ -603,12 +603,12 @@ class JInstaller extends JObject {
 		foreach ($queries as $query) {
 			$db->setQuery($query->getText());
 			if (!$db->query()) {
-				// JError::raiseWarning( 1, 'JInstaller::install: ' . JText :: _('SQL Error')." ".$db->stderr(true));
+				JError::raiseWarning( 1, 'JInstaller::install: ' . JText :: _('SQL Error')." ".$db->stderr(true));
 				return false;
 			}
 		}
 
-		return count($queries);
+		return (int)count($queries);
 	}
 
 	/**
@@ -671,13 +671,14 @@ class JInstaller extends JObject {
 			if ($query != '' && $query { 0 } != '#') {
 				$db->setQuery($query);
 				if (!$db->query()) {
-					// JError::raiseWarning( 1, 'JInstaller::install: ' . JText :: _('SQL Error')." ".$db->stderr(true));
+					die("2");
+					JError::raiseWarning( 1, 'JInstaller::install: ' . JText :: _('SQL Error')." ".$db->stderr(true));
 					return false;
 				}
 			}
 		}
 
-		return count($queries);
+		return (int)count($queries);
 	}
 
 	/**
@@ -841,7 +842,7 @@ class JInstaller extends JObject {
 		 * Initialize variables
 		 */
 		$removefiles = array ();
-		$retval = false;
+		$retval = true;
 
 		/*
 		 * Get the install document root element
@@ -922,9 +923,13 @@ class JInstaller extends JObject {
 			 * Actually delete the files/folders
 			 */
 			if (is_dir($path)) {
-				$retval |= !JFolder :: delete($path);
+				$val = JFolder :: delete($path);
 			} else {
-				$retval |= !JFile :: delete($path);
+				$val = JFile :: delete($path);
+			}
+			
+			if ($val === false) {
+				$retval = false;
 			}
 		}
 

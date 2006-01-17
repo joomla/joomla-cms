@@ -116,7 +116,7 @@ class JInstallerController {
 			/*
 			 * There was an error in installing the package
 			 */
-			$msg = sprintf(JText :: _('Extension installation error'), $package['type'], JText::_('Error'));
+			$msg = sprintf(JText :: _('INSTALLEXT'), $package['type'], JText::_('Error'));
 			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
 			// Cleanup the install files
 			JInstallerHelper :: cleanupInstall($baseDir.$userfile['name'], $package['extractdir']);
@@ -124,7 +124,7 @@ class JInstallerController {
 			/*
 			 * Package installed sucessfully
 			 */
-			$msg = sprintf(JText :: _('Install new extension'), $package['type'], JText::_('Success'));
+			$msg = sprintf(JText :: _('INSTALLEXT'), $package['type'], JText::_('Success'));
 			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
 			// Cleanup the install files
 			JInstallerHelper :: cleanupInstall($baseDir.$userfile['name'], $package['extractdir']);
@@ -183,13 +183,13 @@ class JInstallerController {
 			/*
 			 * There was an error in installing the package
 			 */
-			$msg = sprintf(JText :: _('Install new extension'), $package['type'], JText::_('Error'));
+			$msg = sprintf(JText :: _('INSTALLEXT'), $package['type'], JText::_('Error'));
 			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
 		} else {
 			/*
 			 * Package installed sucessfully
 			 */
-			$msg = sprintf(JText :: _('Install new extension'), $package['type'], JText::_('Success'));
+			$msg = sprintf(JText :: _('INSTALLEXT'), $package['type'], JText::_('Success'));
 			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
 		}
 	}
@@ -259,7 +259,7 @@ class JInstallerController {
 			/*
 			 * There was an error in installing the package
 			 */
-			$msg = sprintf(JText :: _('Install new extension'), $package['type'], JText::_('Error'));
+			$msg = sprintf(JText :: _('INSTALLEXT'), $package['type'], JText::_('Error'));
 			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
 			// Cleanup the install files
 			JInstallerHelper :: cleanupInstall($p_file, $package['extractdir']);
@@ -267,7 +267,7 @@ class JInstallerController {
 			/*
 			 * Package installed sucessfully
 			 */
-			$msg = sprintf(JText :: _('Install new extension'), $package['type'], JText::_('Success'));
+			$msg = sprintf(JText :: _('INSTALLEXT'), $package['type'], JText::_('Success'));
 			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
 			// Cleanup the install files
 			JInstallerHelper :: cleanupInstall($p_file, $package['extractdir']);
@@ -317,7 +317,7 @@ class JInstallerController {
 		 * TODO: If it isn't an array do we want to set an error and fail?  
 		 */
 		if (!is_array($eid)) {
-			$eid = array (0);
+			$eid = array ($eid);
 		}
 
 		/*
@@ -329,10 +329,10 @@ class JInstallerController {
 		 * Uninstall the chosen extensinos
 		 */
 		foreach ($eid as $id) {
-			$result = !$installer->uninstall($id, $client);
+			$result = $installer->uninstall($id, $client);
 			
 			// Build an array of extensions that failed to uninstall
-			if (!$result) {
+			if ($result === false) {
 				$failed[] = $id;
 			}
 		}
@@ -341,16 +341,14 @@ class JInstallerController {
 			/*
 			 * There was an error in uninstalling the package
 			 */
-			$msg = sprintf(JText :: _('Uninstall extension'), $extension, JText::_('Error'));
+			$msg = sprintf(JText :: _('UNINSTALLEXT'), $extension, JText::_('Error'));
 			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
-			JInstallerExtensionTasks::showInstalled();
 		} else {
 			/*
 			 * Package uninstalled sucessfully
 			 */
-			$msg = sprintf(JText :: _('Uninstall extension'), $extension, JText::_('Success'));
+			$msg = sprintf(JText :: _('UNINSTALLEXT'), $extension, JText::_('Success'));
 			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
-			JInstallerExtensionTasks::showInstalled();
 		}
 	}
 

@@ -436,13 +436,13 @@ class JInstallerComponent extends JInstaller {
 
 		if ( $result === false) {
 			JError::raiseWarning( 1, 'JInstallerComponent::uninstall: ' . JText::_( 'SQL Error' ) ." " . $db->stderr( true ));
-			$retval =  false;
+			$retval = false;
 		} else if ( $result === 0 ){
 			// no backward compatibility queries found - try for Joomla 1.1 type queries
 			$utfresult = $this->_parseQueries( "uninstall/sql/". ($db->hasUTF() ? 'mysql-4.1.2' : 'mysql-3.2.0'));
 			if ( $utfresult === false) {
 				JError::raiseWarning( 1, 'JInstallerComponent::uninstall: ' . JText::_( 'SQL Error' ) ." " . $db->stderr( true ));
-				$retval =  false;
+				$retval = false;
 			}
 		}
 		
@@ -496,7 +496,6 @@ class JInstallerComponent extends JInstaller {
 			 	JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerComponent::uninstall: ' . JText::_( 'Unable to delete the component from the database' ));
 				$retval = false;
 			 }
-
 			return $retval;
 		} else {
 			// No component option defined... cannot delete what we don't know about

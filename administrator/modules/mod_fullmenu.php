@@ -28,11 +28,12 @@ class mosFullAdminMenu
 	function show( $usertype='' ) 
 	{
 		global $mainframe;
-		global $mosConfig_enable_stats, $mosConfig_caching;
 
-		$lang 	  =& $mainframe->getLanguage();
-		$acl 	  =& JFactory::getACL();
-		$database =& $mainframe->getDBO();
+		$lang 	  		=& $mainframe->getLanguage();
+		$acl 	  		=& JFactory::getACL();
+		$database 		=& $mainframe->getDBO();
+		$enableStats 	= $mainframe->getCfg('enable_stats');
+		$caching		= $mainframe->getCfg('caching');
 
 		// cache some acl checks
 		$canCheckin			= $acl->acl_check( 'com_checkin', 'manage', 'users', $usertype );
@@ -102,7 +103,7 @@ class mosFullAdminMenu
 				],
 				['<img src="../includes/js/ThemeOffice/globe1.png" />', '<?php echo JText::_( 'Statistics', true ); ?>', null, null, '<?php echo JText::_( 'Site Statistics', true ); ?>',
 <?php
-			if ($mosConfig_enable_stats == 1) {
+			if ($enableStats == 1) {
 ?>					['<img src="../includes/js/ThemeOffice/globe4.png" />', '<?php echo JText::_( 'Browser, OS, Domain', true ); ?>', 'index2.php?option=com_statistics', null, '<?php echo JText::_( 'Browser, OS, Domain', true ); ?>'],
   					['<img src="../includes/js/ThemeOffice/globe3.png" />', '<?php echo JText::_( 'Page Impressions', true ); ?>', 'index2.php?option=com_statistics&task=pageimp', null, '<?php echo JText::_( 'Page Impressions', true ); ?>'],
 <?php
@@ -271,14 +272,8 @@ class mosFullAdminMenu
 	// Extensions Sub-Menu
 	if ($installModules) {
 ?>			_cmSplit,
-			[null,'<?php echo JText::_( 'Extensions', true ); ?>',null,null,'<?php echo JText::_( 'Element List', true ); ?>',
-				['<img src="../includes/js/ThemeOffice/install.png" />','<?php echo JText::_( 'Installer', true ); ?>','index2.php?option=com_installer&task=installer&client=admin',null,'<?php echo JText::_( 'Install Extensions', true ); ?>'],
-				_cmSplit,
-				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Components', true ); ?>','index2.php?option=com_installer&extension=component',null,'<?php echo JText::_( 'Uninstall Components', true ); ?>'],
-				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Modules', true ); ?>', 'index2.php?option=com_installer&extension=module', null, '<?php echo JText::_( 'Uninstall Modules', true ); ?>'],
-				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Plugins', true ); ?>', 'index2.php?option=com_installer&extension=plugin', null, '<?php echo JText::_( 'Uninstall Plugins', true ); ?>'],
-				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Languages', true ); ?>', 'index2.php?option=com_installer&extension=language', null, '<?php echo JText::_( 'Uninstall Languages', true ); ?>'],
-				['<img src="../includes/js/ThemeOffice/install.png" />', '<?php echo JText::_( 'Templates', true ); ?>', 'index2.php?option=com_installer&extension=template', null, '<?php echo JText::_( 'Uninstall Templates', true ); ?>'],
+			[null,'<?php echo JText::_( 'Extensions', true ); ?>',null,null,'<?php echo JText::_( 'Extensions', true ); ?>',
+				['<img src="../includes/js/ThemeOffice/install.png" />','<?php echo JText::_( 'Manage Extensions', true ); ?>','index2.php?option=com_installer',null,'<?php echo JText::_( 'Manage Extensions', true ); ?>'],
 			],
 <?php
 	}
@@ -299,7 +294,7 @@ class mosFullAdminMenu
   		if ($canCheckin) {
 ?>				['<img src="../includes/js/ThemeOffice/checkin.png" />', '<?php echo JText::_( 'Global Checkin', true ); ?>', 'index2.php?option=com_checkin', null,'<?php echo JText::_( 'Check-in all checked-out items', true ); ?>'],
 <?php
-			if ($mosConfig_caching) {
+			if ($caching) {
 ?>				['<img src="../includes/js/ThemeOffice/config.png" />','<?php echo JText::_( 'Clean Content Cache', true ); ?>','index2.php?option=com_admin&task=clean_cache',null,'<?php echo JText::_( 'Clean the content items cache', true ); ?>'],
 				['<img src="../includes/js/ThemeOffice/config.png" />','<?php echo JText::_( 'Clean All Caches', true ); ?>','index2.php?option=com_admin&task=clean_all_cache',null,'<?php echo JText::_( 'Clean all caches', true ); ?>'],
 <?php

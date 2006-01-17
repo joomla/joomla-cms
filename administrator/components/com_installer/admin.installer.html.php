@@ -48,29 +48,10 @@ class JInstallerScreens {
 
 		</script>
 		<div id="treecell">
-			<fieldset title="JEM Navigation">
-			<legend>
-				JEM Navigation
-			</legend>
-			<p>Extensions</p>
-			<p>&nbsp;&nbsp;&nbsp;<a href="" >Components</a></p>
-			<p>&nbsp;&nbsp;&nbsp;<a href="" >Modules</a><br />
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="" >Administrator</a><br />
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="" >Site</a></p>
-			<p>&nbsp;&nbsp;&nbsp;<a href="" >Plugins</a><br />
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="" >Site</a></p>
-			<p>&nbsp;&nbsp;&nbsp;<a href="" >Languages</a><br />
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="" >Administrator</a><br />
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="" >Site</a></p>
-			<p>&nbsp;&nbsp;&nbsp;<a href="" >Templates</a><br />
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="" >Administrator</a><br />
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="" >Site</a></p>
-			<p>&nbsp;&nbsp;&nbsp;<a href="" >Installer</a></p>
-			<p>&nbsp;</p>
-			</fieldset>
+			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
 		</div>
 		<div id="datacell">
-			<fieldset>
+			<fieldset title="<?php echo JText::_('Install Form'); ?>">
 				<legend>
 					<?php echo JText::_('Install Form'); ?>
 				</legend>
@@ -152,26 +133,28 @@ class JInstallerScreens {
 	 */
 	function showInstallMessage( $title, $message, $scriptOutput ) {
 		?>
-		<table>
-		<tr>
-			<th class="install">
-			<?php echo $title; ?>
-			</th>
-		</tr>
-		</table>
-
-		<table class="adminform">
-		<tr>
-			<td >
-			<strong><?php echo $message; ?></strong>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo $scriptOutput; ?>
-			</td>
-		</tr>
-		</table>
+		<div id="treecell">
+			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
+		</div>
+		<div id="datacell">
+			<fieldset title="<?php echo $title; ?>">
+				<legend>
+					<?php echo $title; ?>
+				</legend>
+				<table class="adminform">
+				<tr>
+					<td >
+					<strong><?php echo $message; ?></strong>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<?php echo $scriptOutput; ?>
+					</td>
+				</tr>
+				</table>
+			</fieldset>
+		</div>
 		<?php
 	}
 

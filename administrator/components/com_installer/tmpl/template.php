@@ -34,33 +34,71 @@ class JInstallerExtensionTasks {
 	{
 		global $mainframe;
 		
-		$client		= JRequest::getVar( 'client', 'site');
 		$option		= JRequest::getVar( 'option' );
-		$filter 	= $mainframe->getUserStateFromRequest( "$option.template.filter", 'filter', 'all' );
+		$filter 	= $mainframe->getUserStateFromRequest( "$option.template.filter", 'filter', '-1' );
 		$limit 		= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
 		$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
-		$select[] = mosHTML :: makeOption('all', JText :: _('All'));
-		$select[] = mosHTML :: makeOption('site', JText :: _('Site Templates'));
-		$select[] = mosHTML :: makeOption('administrator', JText :: _('Admin Templates'));
-		$lists['filter'] = mosHTML :: selectList($select, 'filter', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter);
+		$select[] 			= mosHTML :: makeOption('-1', JText :: _('All'));
+		$select[] 			= mosHTML :: makeOption('0', JText :: _('Site Templates'));
+		$select[] 			= mosHTML :: makeOption('1', JText :: _('Admin Templates'));
+		$lists['filter'] 	= mosHTML :: selectList($select, 'filter', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter);
 
-		if ($filter != '' && $filter != 'all') {
-			$client = $filter;	
+		if ($filter == '-1') {
+			$client = 'all';
+			// Get the site templates
+			$templateDirs = JFolder::folders(JPATH_SITE.'/templates');
+			
+			for ($i=0; $i < count($templateDirs); $i++) {
+				$template = new stdClass();
+				$template->folder = $templateDirs[$i];
+				$template->client = 0;
+				$template->baseDir = JPATH_SITE.'/templates';
+				
+				$templates[] = $template;				
+			}			
+			// Get the admin templates
+			$templateDirs = JFolder::folders(JPATH_ADMINISTRATOR.'/templates');
+			
+			for ($i=0; $i < count($templateDirs); $i++) {
+				$template = new stdClass();
+				$template->folder = $templateDirs[$i];
+				$template->client = 1;
+				$template->baseDir = JPATH_ADMINISTRATOR.'/templates';
+				
+				$templates[] = $template;				
+			}			
+		} elseif ($filter == '0') {
+			$client = 'site';
+			$templateDirs = JFolder::folders(JPATH_SITE.'/templates');
+			
+			for ($i=0; $i < count($templateDirs); $i++) {
+				$template = new stdClass();
+				$template->folder = $templateDirs[$i];
+				$template->client = 0;
+				$template->baseDir = JPATH_SITE.'/templates';
+				
+				$templates[] = $template;				
+			}			
+		} elseif ($filter == '1') {
+			$client = 'administrator';
+			$templateDirs = JFolder::folders(JPATH_ADMINISTRATOR.'/templates');
+			
+			for ($i=0; $i < count($templateDirs); $i++) {
+				$template = new stdClass();
+				$template->folder = $templateDirs[$i];
+				$template->client = 1;
+				$template->baseDir = JPATH_ADMINISTRATOR.'/templates';
+				
+				$templates[] = $template;				
+			}			
 		}
-	
 		
-		$templateBaseDir = JPath::clean( constant('JPATH_'.strtoupper($client)) . '/templates' );
-	
 		$rows = array();
-		// Read the template dir to find templates
-		$templateDirs		= JFolder::folders($templateBaseDir);
-	
-	
 		$rowid = 0;
 		// Check that the directory contains an xml file
-		foreach($templateDirs as $templateDir) {
-			$dirName = JPath::clean($templateBaseDir . $templateDir);
+		foreach($templates as $template) {
+			$dirName = JPath::clean($template->baseDir .DS. $template->folder);
 			$xmlFilesInDir = JFolder::files($dirName,'.xml$');
 	
 			foreach($xmlFilesInDir as $xmlfile) {
@@ -82,7 +120,8 @@ class JInstallerExtensionTasks {
 	
 				$row = new StdClass();
 				$row->id 		= $rowid;
-				$row->directory = $templateDir;
+				$row->client_id	= $template->client;
+				$row->directory = $template->folder;
 				$element 		= &$root->getElementsByPath('name', 1 );
 				$row->name 		= $element->getText();
 	
@@ -143,96 +182,98 @@ class JInstallerScreens_template {
 		global $my;
 
 		?>
-		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminheading">
-		<tr>
-			<td>
-			<?php echo JText::_( 'Filter' ); ?>:
-			</td>
-			<td align="right">
-			<?php echo $lists['filter'];?>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="3">
-			<?php echo JText::_( 'DESCTEMPLATES' ); ?>
-			<br /><br />
-			</td>
-		</tr>
-		</table>
-
-		<table class="adminlist">
-		<tr>
-			<th width="5%" class="title"><?php echo JText::_( 'Num' ); ?></th>
-			<th width="5%">&nbsp;</th>
-			<th width="25%" class="title">
-			<?php echo JText::_( 'Name' ); ?>
-			</th>
-			<th width="20%"  class="title">
-			<?php echo JText::_( 'Author' ); ?>
-			</th>
-			<th width="5%" align="center">
-			<?php echo JText::_( 'Version' ); ?>
-			</th>
-			<th width="10%" align="center">
-			<?php echo JText::_( 'Date' ); ?>
-			</th>
-			<th width="20%"  class="title">
-			<?php echo JText::_( 'Author URL' ); ?>
-			</th>
-		</tr>
-		<?php
-		$k = 0;
-		for ( $i=0, $n = count( $rows ); $i < $n; $i++ ) {
-			$row = &$rows[$i];
-			?>
-			<tr class="<?php echo 'row'. $k; ?>">
+		<div id="treecell">
+			<?php require_once(dirname(__FILE__).DS.'tree.html'); ?>
+		</div>
+		<div id="datacell">
+			<fieldset title="<?php echo JText::_('Installed Templates'); ?>">
+				<legend>
+					<?php echo JText::_('Installed Templates'); ?>
+				</legend>
+			<form action="index2.php" method="post" name="adminForm">
+			<table class="adminheading">
+			<tr>
 				<td>
-				<?php echo $page->rowNumber( $i ); ?>
+				<?php echo JText::_( 'Filter' ); ?>:
 				</td>
-				<td>
-				<?php
-				if ( $row->checked_out && $row->checked_out != $my->id ) {
-					?>
-					&nbsp;
-					<?php
-				} else {
-					?>
-					<input type="radio" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->directory; ?>" onClick="isChecked(this.checked);" />
-					<?php
-				}
-				?>
-				</td>
-				<td>
-				<?php echo $row->name;?>
-				</td>
-				<td>
-				<?php echo $row->authorEmail ? '<a href="mailto:'. $row->authorEmail .'">'. $row->author .'</a>' : $row->author; ?>
-				</td>
-				<td align="center">
-				<?php echo $row->version; ?>
-				</td>
-				<td align="center">
-				<?php echo $row->creationdate; ?>
-				</td>
-				<td>
-				<a href="<?php echo substr( $row->authorUrl, 0, 7) == 'http://' ? $row->authorUrl : 'http://'.$row->authorUrl; ?>" target="_blank">
-				<?php echo $row->authorUrl; ?>
-				</a>
+				<td align="right">
+				<?php echo $lists['filter'];?>
 				</td>
 			</tr>
+			<tr>
+				<td colspan="3">
+				<?php echo JText::_( 'DESCTEMPLATES' ); ?>
+				<br /><br />
+				</td>
+			</tr>
+			</table>
+	
+			<table class="adminlist">
+				<tr>
+					<th width="20%" class="title">
+					<?php echo JText::_( 'Template' ); ?>
+					</th>
+					<th width="10%"  class="title">
+					<?php echo JText::_( 'Client' ); ?>
+					</th>
+					<th width="10%"  class="title">
+					<?php echo JText::_( 'Author' ); ?>
+					</th>
+					<th width="5%" align="center">
+					<?php echo JText::_( 'Version' ); ?>
+					</th>
+					<th width="10%" align="center">
+					<?php echo JText::_( 'Date' ); ?>
+					</th>
+					<th width="15%"  class="title">
+					<?php echo JText::_( 'Author Email' ); ?>
+					</th>
+					<th width="15%"  class="title">
+					<?php echo JText::_( 'Author URL' ); ?>
+					</th>
+				</tr>
 			<?php
-		}
-		?>
-		</table>
-		<?php echo $page->getListFooter(); ?>
-
-		<input type="hidden" name="extension" value="template" />
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="option" value="com_installer" />
-		<input type="hidden" name="client" value="<?php echo $client;?>" />
-		</form>
+				$rc = 0;
+				for ($i = 0, $n = count( $rows ); $i < $n; $i++) {
+					$row =& $rows[$i];
+					?>
+					<tr class="<?php echo "row$rc"; ?>">
+						<td>
+						<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->directory; ?>" onclick="isChecked(this.checked);"><span class="bold"><?php echo $row->name; ?></span></td>
+						<td>
+						<?php echo $row->client_id == "0" ? JText::_( 'Site' ) : JText::_( 'Administrator' ); ?>
+						</td>
+						<td>
+						<?php echo @$row->author != "" ? $row->author : "&nbsp;"; ?>
+						</td>
+						<td align="center">
+						<?php echo @$row->version != "" ? $row->version : "&nbsp;"; ?>
+						</td>
+						<td align="center">
+						<?php echo @$row->creationdate != "" ? $row->creationdate : "&nbsp;"; ?>
+						</td>
+						<td>
+						<?php echo @$row->authorEmail != "" ? $row->authorEmail : "&nbsp;"; ?>
+						</td>
+						<td>
+						<?php echo @$row->authorUrl != "" ? "<a href=\"" .(substr( $row->authorUrl, 0, 7) == 'http://' ? $row->authorUrl : 'http://'.$row->authorUrl) ."\" target=\"_blank\">$row->authorUrl</a>" : "&nbsp;"; ?>
+						</td>
+					</tr>
+					<?php
+					$rc = $rc == 0 ? 1 : 0;
+				}
+			?>
+			</table>
+			<?php echo $page->getListFooter(); ?>
+	
+			<input type="hidden" name="extension" value="template" />
+			<input type="hidden" name="task" value="" />
+			<input type="hidden" name="boxchecked" value="0" />
+			<input type="hidden" name="option" value="com_installer" />
+			<input type="hidden" name="client" value="<?php echo $client;?>" />
+			</form>
+		</fieldset>
+	</div>
 		<?php
 		}
 	}

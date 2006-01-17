@@ -573,3 +573,20 @@ div.footer {
 	clear: both;
 	margin-top: 10px;
 }
+
+.ext {
+	position: relative;
+	left: 5px;
+	padding: 3px;
+	margin: 5px;
+	font-size: 14px;
+}
+
+.subext {
+	position: relative;
+	left: 25px;
+	padding: 0px;
+	margin: 0px;
+	font-size: 12px;
+	list-style-image: url(../images/arrow.gif);
+}
