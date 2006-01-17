@@ -41,6 +41,7 @@ Legend:
  ^ Changed AJAX library for installer to XAJAX
  ^ Improved com_installer to a common Joomla Extension Manager interface
  ^ Moved modules into separate subdirectories of /modules and /administrator/modules
+ # Publish language not working with new config file format
 
 17-Jan-2006 Johan Janssens
  ^ Implemented JDocument interface in the installation

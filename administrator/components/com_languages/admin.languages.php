@@ -144,7 +144,7 @@ function publishLanguage( $p_lname, $option, $client = 'site' )
 {
 	$config = '';
 
-	$lang = ($client == 'site') ? '\$mosConfig_lang' : '\$mosConfig_lang_'.$client;
+	$lang = ($client == 'site') ? '\$lang' : '\$lang_'.$client;
 	echo $lang;
 
 	$fp = fopen("../configuration.php","r");
@@ -155,16 +155,16 @@ function publishLanguage( $p_lname, $option, $client = 'site' )
 		{
 			case 'site' :
 			{
-				if (strstr($buffer,"\$mosConfig_lang") && !strstr($buffer,"\$mosConfig_lang_administrator")){
-					$config .= "\$mosConfig_lang = \"$p_lname\";\n";
+				if (strstr($buffer,"\$lang") && !strstr($buffer,"\$lang_administrator")){
+					$config .= "\$lang = \"$p_lname\";\n";
 				} else {
 					$config .= $buffer;
 				}
 			} break;
 			case 'administrator' :
 			{
-				if (strstr($buffer,"\$mosConfig_lang_administrator")){
-					$config .= "\$mosConfig_lang_administrator = \"$p_lname\";\n";
+				if (strstr($buffer,"\$lang_administrator")){
+					$config .= "\$lang_administrator = \"$p_lname\";\n";
 				} else {
 					$config .= $buffer;
 				}
