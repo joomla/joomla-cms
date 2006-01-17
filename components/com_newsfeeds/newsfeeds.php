@@ -76,6 +76,14 @@ function listFeeds( $option, $catid ) {
 		;
 		$database->setQuery( $query );
 		$database->loadObject( $currentcat );
+
+		/*
+		Check if the category is published
+		*/
+		if (!$currentcat->name) {
+			mosNotAuth();
+			return;
+		}
 	}
 
 	// Parameters
@@ -161,6 +169,19 @@ function listFeeds( $option, $catid ) {
 function showFeed( $option, $feedid ) {
 	global $database, $mainframe, $Itemid;
 
+	require_once( $mainframe->getPath( 'class' ) );
+	
+	$newsfeed = new mosNewsFeed($database);
+	$newsfeed->load($feedid);
+	
+	/*
+	* Check if newsfeed is published
+	*/
+	if(!$newsfeed->published) {
+		mosNotAuth();
+		return;
+	}
+	
 	// full RSS parser used to access image information
 	$cacheDir = JPATH_SITE . '/cache/';
 	$LitePath = JPATH_SITE . '/includes/Cache/Lite.php';
@@ -183,35 +204,13 @@ function showFeed( $option, $feedid ) {
 		$params->set( 'header', '' );
 	}
 
-	$and = '';
-	if ( $feedid ) {
-		$and = "\n AND id = $feedid";
-	}
+	// Set page title per category
+	$mainframe->setPageTitle( $menu->name. ' - ' .$newsfeed->name );
 
-	$query = "SELECT name, link, numarticles, cache_time"
-	. "\n FROM #__newsfeeds"
-	. "\n WHERE published = 1"
-	. "\n AND checked_out = 0"
-	. $and
-	. "\n ORDER BY ordering"
-	;
-	$database->setQuery( $query );
-	$newsfeeds = $database->loadObjectList();
+	// Add breadcrumb item per category
+	$breadcrumbs =& $mainframe->getPathWay();
+	$breadcrumbs->addItem($newsfeed->name, '');
 
-
-	if (count($newsfeeds) == 1) {
-
-		// Set page title per category
-		$mainframe->setPageTitle( $menu->name. ' - ' .$newsfeeds[0]->name );
-
-		// Add breadcrumb item per category
-		$breadcrumbs =& $mainframe->getPathWay();
-		$breadcrumbs->addItem($newsfeeds[0]->name, '');
-	} else {
-
-		$mainframe->SetPageTitle($menu->name);
-	}
-
-	HTML_newsfeed::showNewsfeeds( $newsfeeds, $LitePath, $cacheDir, $params );
+	HTML_newsfeed::showNewsfeeds( $newsfeed, $LitePath, $cacheDir, $params );
 }
 ?>
