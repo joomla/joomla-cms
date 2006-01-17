@@ -1008,7 +1008,7 @@ class JApplicationHelper
 				if ( $user_option == '' ) {
 					$path = DS.'modules'.DS.'custom.xml';
 				} else {
-					$path = DS.'modules'.DS. $user_option .'.xml';
+					$path = DS.'modules'.DS. $user_option .DS. $user_option. '.xml';
 				}
 				$result = JApplicationHelper::_checkPath( $path, 0 );
 				break;
@@ -1018,7 +1018,7 @@ class JApplicationHelper
 				if ($user_option == '') {
 					$path = DS.'modules'.DS.'custom.xml';
 				} else {
-					$path = DS.'modules'.DS. $user_option .'.xml';
+					$path = DS.'modules'.DS. $user_option .DS. $user_option. '.xml';
 				}
 				$result = JApplicationHelper::_checkPath( $path, -1 );
 				break;

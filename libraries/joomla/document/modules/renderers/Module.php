@@ -59,7 +59,7 @@ class patTemplate_Renderer_Module extends patTemplate_Renderer
 		$params = new JParameters( $module->params );
 
 		//get module path
-		$path = JPATH_BASE . '/modules/'.$module->module.'.php';
+		$path = JPATH_BASE . '/modules/'.$module->module.'/'.$module->module.'.php';
 
 		//load the module
 		if (!$module->user && file_exists( $path ))
