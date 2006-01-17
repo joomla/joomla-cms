@@ -27,8 +27,6 @@ $polls_barheight 	= 2;
 $polls_maxcolors 	= 5;
 $polls_barcolor 	= 0;
 
-$poll = new mosPoll( $database );
-
 $id 	= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
 $task 	= mosGetParam( $_REQUEST, 'task', '' );
 
@@ -117,7 +115,46 @@ function pollresult( $uid ) {
 		mosNotAuth();
 		return;
 	}
-		
+	
+	$first_vote = '';
+	$last_vote 	= '';
+	$votes		= '';
+	
+	/*
+	Check if there is a poll corresponding to id
+	and if poll is published
+	*/
+	if (isset($poll->id) && $poll->id != '' && $poll->published == 1) {			
+		if (empty($poll->title)) {
+			$poll->id = '';
+			$poll->title = JText::_( 'Select Poll from the list' );
+		}
+		
+		$query = "SELECT MIN( date ) AS mindate, MAX( date ) AS maxdate"
+		. "\n FROM #__poll_date"
+		. "\n WHERE poll_id = $poll->id"
+		;
+		$database->setQuery( $query );
+		$dates = $database->loadObjectList();
+
+		if (isset($dates[0]->mindate)) {
+			$first_vote = mosFormatDate( $dates[0]->mindate, JText::_( 'DATE_FORMAT_LC2' ) );
+			$last_vote = mosFormatDate( $dates[0]->maxdate, JText::_( 'DATE_FORMAT_LC2' ) );
+		}
+
+		$query = "SELECT a.id, a.text, count( DISTINCT b.id ) AS hits, count( DISTINCT b.id )/COUNT( DISTINCT a.id )*100.0 AS percent"
+		. "\n FROM #__poll_data AS a"
+		. "\n LEFT JOIN #__poll_date AS b ON b.vote_id = a.id"
+		. "\n WHERE a.pollid = $poll->id"
+		. "\n AND a.text <> ''"
+		. "\n GROUP BY a.id"
+		. "\n ORDER BY a.id"
+		;
+		$database->setQuery( $query );
+		$votes = $database->loadObjectList();
+
+	}
+	
 	// list of polls for dropdown selection
 	$query = "SELECT id, title"
 	. "\n FROM #__polls"
@@ -127,85 +164,40 @@ function pollresult( $uid ) {
 	$database->setQuery( $query );
 	$polls = $database->loadObjectList();
 	
-	// check if there are any published polls
-	if (count($polls)) {
-		$first_vote = '';
-		$last_vote 	= '';
-		$votes		= '';
-		
-		/*
-		Check if there is a poll corresponding to id
-		and if poll is published
-		*/
-		if (isset($poll->id) && $poll->id != '' && $poll->published == 1) {			
-			if (empty($poll->title)) {
-				$poll->id = '';
-				$poll->title = JText::_( 'Select Poll from the list' );
-			}
-			
-			$query = "SELECT MIN( date ) AS mindate, MAX( date ) AS maxdate"
-			. "\n FROM #__poll_date"
-			. "\n WHERE poll_id = $poll->id"
-			;
-			$database->setQuery( $query );
-			$dates = $database->loadObjectList();
-	
-			if (isset($dates[0]->mindate)) {
-				$first_vote = mosFormatDate( $dates[0]->mindate, JText::_( 'DATE_FORMAT_LC2' ) );
-				$last_vote = mosFormatDate( $dates[0]->maxdate, JText::_( 'DATE_FORMAT_LC2' ) );
-			}
-	
-			$query = "SELECT a.id, a.text, count( DISTINCT b.id ) AS hits, count( DISTINCT b.id )/COUNT( DISTINCT a.id )*100.0 AS percent"
-			. "\n FROM #__poll_data AS a"
-			. "\n LEFT JOIN #__poll_date AS b ON b.vote_id = a.id"
-			. "\n WHERE a.pollid = $poll->id"
-			. "\n AND a.text <> ''"
-			. "\n GROUP BY a.id"
-			. "\n ORDER BY a.id"
-			;
-			$database->setQuery( $query );
-			$votes = $database->loadObjectList();
-	
-		}
-		
-		// Itemid for dropdown
-		$_Itemid = '';
-		if ( $Itemid && $Itemid != 99999999 ) {
-			$_Itemid == '&amp;Itemid='. $Itemid;
-		}
-		
-		// dropdown output
-		$link = sefRelToAbs( 'index.php?option=com_poll&amp;task=results&amp;id=\' + this.options[selectedIndex].value + \'&amp;Itemid='. $Itemid .'\' + \'' );
-		$pollist = '<select name="id" class="inputbox" size="1" style="width:200px" onchange="if (this.options[selectedIndex].value != \'\') {document.location.href=\''. $link .'\'}">';
-		$pollist .= '<option value="">'. JText::_( 'Select Poll from the list' ) .'</option>';
-		for ($i=0, $n=count( $polls ); $i < $n; $i++ ) {
-			$k = $polls[$i]->id;
-			$t = $polls[$i]->title;
-	
-			$sel = ($k == intval( $poll->id ) ? " selected=\"selected\"" : '');
-			$pollist .= "\n\t<option value=\"".$k."\"$sel>" . $t . "</option>";
-		}
-		$pollist .= '</select>';
-	
-		// Adds parameter handling
-		$menu =& JModel::getInstance('menu', $database );
-		$menu->load( $Itemid );
-	
-		$params = new JParameters( $menu->params );
-		$params->def( 'page_title', 1 );
-		$params->def( 'pageclass_sfx', '' );
-		$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
-		$params->def( 'header', $menu->name );
-	
-		$mainframe->SetPageTitle($poll->title);
-	
-		$breadcrumbs =& $mainframe->getPathWay();
-		$breadcrumbs->addItem($poll->title, '');
-	
-		poll_html::showResults( $poll, $votes, $first_vote, $last_vote, $pollist, $params );
-	} else {
-		mosNotAuth();
-		return;
+	// Itemid for dropdown
+	$_Itemid = '';
+	if ( $Itemid || $Itemid != 99999999 ) {
+		$_Itemid = '&amp;Itemid='. $Itemid;
 	}
+	
+	// dropdown output
+	$link = sefRelToAbs( 'index.php?option=com_poll&amp;task=results&amp;id=\' + this.options[selectedIndex].value + \'&amp;Itemid='. $Itemid .'\' + \'' );
+	$pollist = '<select name="id" class="inputbox" size="1" style="width:200px" onchange="if (this.options[selectedIndex].value != \'\') {document.location.href=\''. $link .'\'}">';
+	$pollist .= '<option value="">'. JText::_( 'Select Poll from the list' ) .'</option>';
+	for ($i=0, $n=count( $polls ); $i < $n; $i++ ) {
+		$k = $polls[$i]->id;
+		$t = $polls[$i]->title;
+
+		$sel = ($k == intval( $poll->id ) ? " selected=\"selected\"" : '');
+		$pollist .= "\n\t<option value=\"".$k."\"$sel>" . $t . "</option>";
+	}
+	$pollist .= '</select>';
+
+	// Adds parameter handling
+	$menu =& JModel::getInstance('menu', $database );
+	$menu->load( $Itemid );
+
+	$params = new JParameters( $menu->params );
+	$params->def( 'page_title', 1 );
+	$params->def( 'pageclass_sfx', '' );
+	$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
+	$params->def( 'header', $menu->name );
+
+	$mainframe->SetPageTitle($poll->title);
+
+	$breadcrumbs =& $mainframe->getPathWay();
+	$breadcrumbs->addItem($poll->title, '');
+
+	poll_html::showResults( $poll, $votes, $first_vote, $last_vote, $pollist, $params );
 }
 ?>
