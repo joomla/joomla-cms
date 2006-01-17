@@ -193,6 +193,9 @@ class JContentController
 		$section = & JModel :: getInstance( 'section', $db );
 		$section->load($id);
 		
+		/*
+		Check if section is published
+		*/
 		if(!$section->published) {
 			mosNotAuth();
 			return;
@@ -328,8 +331,38 @@ class JContentController
 	 */
 	function showCategory(& $access, $now)
 	{
-		global $mainframe, $Itemid;
+		global $mainframe, $Itemid, $db;
 
+		/*
+		* Lets get the information for the current category
+		*/
+		$query = "SELECT c.*, s.id sectionid, s.title as sectiontitle " .
+		"\n FROM #__categories AS c" .
+		"\n INNER JOIN #__sections AS s ON s.id = c.section " .
+		"\n WHERE c.id = '$id'" . ($noauth ? "\n AND c.access <= $my->gid" : '') .
+		"\n LIMIT 1";
+		$db->setQuery($query);
+		$db->loadObject($category);
+		
+		/*
+		Check if category is published
+		*/
+		if(!$category->published) {
+			mosNotAuth();
+			return;
+		}
+		
+		$section = & JModel :: getInstance( 'section', $db );
+		$section->load( $category->section );
+		
+		/*
+		Check if section is published
+		*/
+		if(!$section->published) {
+			mosNotAuth();
+			return;
+		}
+		
 		/*
 		 * Initialize some variables
 		 */
@@ -391,17 +424,6 @@ class JContentController
 
 		// Ordering control
 		$orderby = JContentController :: _orderby_sec($orderby);
-
-		/*
-		 * Lets get the information for the current category
-		 */
-		$query = "SELECT c.*, s.id sectionid, s.title as sectiontitle " .
-				"\n FROM #__categories AS c" .
-				"\n INNER JOIN #__sections AS s ON s.id = c.section " .
-				"\n WHERE c.id = '$id'" . ($noauth ? "\n AND c.access <= $my->gid" : '') .
-				"\n LIMIT 1";
-		$db->setQuery($query);
-		$db->loadObject($category);
 
 		if ($access->canEdit)
 		{
