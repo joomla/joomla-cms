@@ -431,8 +431,8 @@ class JPagination extends JObject {
 	 * 
 	 * @deprecated as of 1.1
 	 */
-	function writeLimitBox() {
-		echo JPagination :: getLimitBox();
+	function writeLimitBox($link = null) {
+		echo JPagination :: getLimitBox($link);
 	}
 
 	/**
@@ -451,8 +451,8 @@ class JPagination extends JObject {
 	 * 
 	 * @deprecated as of 1.1
 	 */
-	function writePagesLinks() {
-		echo $this->getPagesLinks();
+	function writePagesLinks($link = null) {
+		echo $this->getPagesLinks($link);
 	}
 }
 ?>

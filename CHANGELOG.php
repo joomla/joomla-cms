@@ -42,6 +42,7 @@ Legend:
  ^ Improved com_installer to a common Joomla Extension Manager interface
  ^ Moved modules into separate subdirectories of /modules and /administrator/modules
  # Publish language not working with new config file format
+ # Pagination bug in com_search (not displaying full links)
 
 17-Jan-2006 Johan Janssens
  ^ Implemented JDocument interface in the installation

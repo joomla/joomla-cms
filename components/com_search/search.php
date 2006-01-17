@@ -196,19 +196,20 @@ function viewSearch() {
 		$total 		= $totalRows;
 		$limit		= mosGetParam( $_GET, 'limit', $mosConfig_list_limit );
 		$limitstart = mosGetParam( $_GET, 'limitstart', 0 );
+		jimport('joomla.pagination');
+		$page = new JPagination( $total, $limitstart, $limit );
+
 		if ( $n ) {
 		// html output
-			require_once( JPATH_SITE . '/includes/pageNavigation.php' );
-			$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
-			search_html::display( $rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword_clean );
+			search_html::display( $rows, $params, $page, $limitstart, $limit, $total, $totalRows, $searchword_clean );
 		} else {
 		// html output
 			search_html::displaynoresult();
 		}
 
 		// html output
-		search_html::conclusion( $totalRows, $searchword_clean, $pageNav );
+		search_html::conclusion( $totalRows, $searchword_clean, $page );
 	}
 
 	// displays back button
