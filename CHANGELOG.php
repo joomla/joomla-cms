@@ -14,13 +14,19 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
+1. Copyright and disclaimer
+---------------------------
+This application is opensource software released under the GPL.  Please
+see source code and the LICENSE file
 
-1. Changelog 
--------------
+
+2. Changelog
+------------
 This is a non-exhaustive (but still near complete) changelog for
 Joomla! 1.1, including beta and release candidate versions.
 Our thanks to all those people who've contributed bug reports and
 code fixes.
+
 
 Legend:
 
@@ -1251,11 +1257,3 @@ see source code and the LICENSE file
 12-Oct-2005 Andy Miller
  + Added advanced SSL support plus new mosLink method
 
--------------------- 1.0.3 Released [14-Oct-2005 08:00 UTC] ----------------------
-
------ Branched from Joomla 1.0.x on 2 october 2005 -----
-
-2. Copyright and disclaimer
----------------------------
-This application is opensource software released under the GPL.  Please
-see source code and the LICENSE file

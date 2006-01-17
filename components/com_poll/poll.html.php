@@ -79,14 +79,6 @@ class poll_html {
 						</td>
 					</tr>
 					<?php
-				} else {
-					?>
-					<tr>
-						<td valign="bottom">
-						<?php echo JText::_( 'There are no results for this poll.' ); ?>
-						</td>
-					</tr>
-					<?php
 				}
 				?>
 				</table>
