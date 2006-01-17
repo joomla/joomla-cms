@@ -113,8 +113,8 @@ switch (strtolower($task)) {
 }
 
 /**
- * Content Component Controller 
- * 
+ * Content Component Controller
+ *
  * @static
  * @package Joomla
  * @subpackage Content
@@ -178,7 +178,7 @@ class JContentController
 
 	/**
 	 * Method to build data for displaying a content section
-	 * 
+	 *
 	 * @static
 	 * @param int $id Section id number to display
 	 * @param object $access An access object
@@ -189,18 +189,6 @@ class JContentController
 	{
 		global $mainframe, $Itemid;
 
-		// Load the section data object
-		$section = & JModel :: getInstance( 'section', $db );
-		$section->load($id);
-		
-		/*
-		Check if section is published
-		*/
-		if(!$section->published) {
-			mosNotAuth();
-			return;
-		}
-		
 		/*
 		 * Initialize some variables
 		 */
@@ -209,6 +197,18 @@ class JContentController
 		$id 		= JRequest :: getVar('id', 0, '', 'int');
 		$nullDate 	= $db->getNullDate();
 		$noauth 	= !$mainframe->getCfg('shownoauth');
+
+		// Load the section data object
+		$section = & JModel :: getInstance( 'section', $db );
+		$section->load($id);
+
+		/*
+		Check if section is published
+		*/
+		if(!$section->published) {
+			mosNotAuth();
+			return;
+		}
 
 		/*
 		 * Build menu parameters
@@ -321,7 +321,7 @@ class JContentController
 	*/
 	/**
 	 * Method to build data for displaying a content section
-	 * 
+	 *
 	 * @static
 	 * @param int $id Category id number to display
 	 * @param object $access An access object
@@ -343,7 +343,7 @@ class JContentController
 		"\n LIMIT 1";
 		$db->setQuery($query);
 		$db->loadObject($category);
-		
+
 		/*
 		Check if category is published
 		*/
@@ -351,10 +351,10 @@ class JContentController
 			mosNotAuth();
 			return;
 		}
-		
+
 		$section = & JModel :: getInstance( 'section', $db );
 		$section->load( $category->section );
-		
+
 		/*
 		Check if section is published
 		*/
@@ -362,7 +362,7 @@ class JContentController
 			mosNotAuth();
 			return;
 		}
-		
+
 		/*
 		 * Initialize some variables
 		 */
@@ -376,7 +376,7 @@ class JContentController
 		$nullDate 	= $db->getNullDate();
 		$noauth 	= !$mainframe->getCfg('shownoauth');
 		$category	= null;
-		
+
 		// Paramters
 		if ($Itemid)
 		{
@@ -767,7 +767,7 @@ class JContentController
 		{
 			$check = "\n AND a.sectionid = $id";
 		}
-		
+
 		// query to determine if there are any archived entries for the section
 		$query = "SELECT a.id" .
 				"\n FROM #__content as a" .
@@ -903,7 +903,7 @@ class JContentController
 
 	/**
 	 * Method to show a content item as the main page display
-	 * 
+	 *
 	 * @static
 	 * @param object $access 	User access control object
 	 * @param string $now		Current timestamp
@@ -1058,7 +1058,7 @@ class JContentController
 			// Item
 			$breadcrumbs->addItem($row->title, '');
 			$document->setTitle($row->title);
-			
+
 
 			JContentController :: show($row, $params, $my->gid, $access, $pop, $option);
 		} else
@@ -1143,7 +1143,7 @@ class JContentController
 					"\n OR componentid = '$row->catid'";
 			$db->setQuery($query);
 			$arr = $db->loadAssocList();
-			
+
 			foreach($arr as $item)
 			{
 				$m[$item['key']] = $item['value'];
@@ -1214,7 +1214,7 @@ class JContentController
 	function editItem(& $access, $Itemid)
 	{
 		global $mainframe;
-		
+
 		/*
 		 * Initialize variables
 		 */
@@ -1372,8 +1372,8 @@ class JContentController
 		$db 		= & $mainframe->getDBO();
 		$my 		= & $mainframe->getUser();
 		$nullDate 	= $db->getNullDate();
-		$task 		= JRequest::getVar( 'task' );		
-		
+		$task 		= JRequest::getVar( 'task' );
+
 		$row = & JModel :: getInstance( 'content', $db );
 		if (!$row->bind($_POST)) {
 			JContentView :: userInputError($row->getError());
@@ -1416,10 +1416,10 @@ class JContentController
 		$row->title = ampReplace($row->title);
 
 		// Publishing state hardening for Authors
-		if ( !$access->canPublish ) {     
+		if ( !$access->canPublish ) {
 			if ( $isNew ) {
 				// For new items - author is not allowed to publish - prevent them from doing so
-				$row->state = 0;                 
+				$row->state = 0;
 			} else {
 				// For existing items keep existing state - author is not allowed to change status
 				$query = "SELECT state"
@@ -1427,8 +1427,8 @@ class JContentController
 						. "\n WHERE id = $row->id"
 						;
 				$db->setQuery($query);
-				$state = $db->loadResult();          
-				
+				$state = $db->loadResult();
+
 				if ( $state ) {
 					$row->state = 1;
 				} else {
@@ -1436,7 +1436,7 @@ class JContentController
 				}
 			}
 		}
-		
+
 		if (!$row->check()) {
 			JContentView :: userInputError($row->getError());
 			exit ();
@@ -1533,7 +1533,7 @@ class JContentController
 
 	/**
 	* Cancels an edit content item operation
-	* 
+	*
 	* @static
 	* @param database A database connector object
 	* @since 1.0
@@ -1582,7 +1582,7 @@ class JContentController
 
 	/**
 	 * Shows the send email form for a content item
-	 * 
+	 *
 	 * @static
 	 * @param int $uid The content item id to show form for
 	 * @since 1.0
@@ -1590,7 +1590,7 @@ class JContentController
 	function emailContentForm()
 	{
 		global $mainframe;
-		
+
 		/*
 		 * Initialize variables
 		 */
@@ -1620,7 +1620,7 @@ class JContentController
 
 	/**
 	 * Builds and sends an email to a content item
-	 * 
+	 *
 	 * @static
 	 * @param int $uid The content item id to send
 	 * @since 1.0
@@ -1635,7 +1635,7 @@ class JContentController
 		$FromName 	= $mainframe->getCfg('fromname');
 		$uid 		= JRequest :: getVar('id', 0, '', 'int');
 		$validate 	= JRequest::getVar( mosHash('validate'), 0, 'post' );
-		
+
 		if (!$validate)
 		{
 			header("HTTP/1.0 403 Forbidden");
@@ -1927,7 +1927,7 @@ class JContentController
 
 	/**
 	 * Searches for an item by a key parameter
-	 * 
+	 *
 	 * @static
 	 * @param object Actions this user can perform
 	 * @param string A timestamp
