@@ -28,70 +28,23 @@ function validateForm( frm, task ) {
 	}
 }
 
-function getReturnData( data , statusCode , statusMessage) {
-	//AJFORM failed. Submit form normally.
-	if( statusCode != AJForm.STATUS['SUCCESS'] ) {
-		alert( statusMessage );
-		return true;
-	}
-	//AJFORM succeeded.
-	else {
-		if (data.indexOf("jos-Error") > 0) {
-			alert(data.replace(/(<([^>]+)>)/ig,""));
-		} else {
-
-			var tc = document.getElementById("theCollation");
-			var cm = document.getElementById("collationMessage");
-			var utf = document.getElementById("utfsupport");
-			
-			var split = data.indexOf("\n");
-
-			if (data.substr(0, split) == "true") {
-				cm.innerHTML = '<jos:translate key="tipCollationUtf" escape="yes"><p>This version of MySQL includes UTF-8 support which is the required encoding.</p><p>Choose a collation from the list. If none appears for your language, that is because the default collation <em>utf8_general_ci</em> is suitable.</p></jos:translate>';
-				utf.value = 1;
-			} else {
-				cm.innerHTML = '<jos:translate key="tipCollationNonUtf" escape="yes"><p>This version of MySQL does not have UTF-8 support which is the required encoding.</p><p>It is recommended that you upgrade your database to a version newer than 4.1.2. If this is not possible, Joomla! will store utf-8 encoded content in your existing database in a backward compatibility mode. Collation selection is not possible in this mode and a default collation will be used.</p></jos:translate>';
-				utf.value = 0;
-			}
-	
-			tc.innerHTML = data.substr(split + 1);
-		}
-	}
-}
-	
 function JProcess() {
 
-	var type = document.getElementById("vars_dbtype");
-	var host = document.getElementById("vars_dbhostname");
-	var user = document.getElementById("vars_dbusername");
-	var pass = document.getElementById("vars_dbpassword");
-	var ajtype = document.getElementById("theType");
-	var ajhost = document.getElementById("theHost");
-	var ajuser = document.getElementById("theUser");
-	var ajpass = document.getElementById("thePass");
-	var thisForm = document.getElementById( 'mainForm' );
-	
-	if ( type.selectedIndex == 0 ) {
+	if ( document.getElementById("vars_dbtype").selectedIndex == 0 ) {
 		alert( '<jos:translate key="validType" escape="yes">Please select the database type</jos:translate>' );
 		return;
-	} else if (host.value == '') {
+	} else if (document.getElementById("vars_dbhostname").value == '') {
 		alert( '<jos:translate key="validHost" escape="yes">Please enter the host name</jos:translate>' );
 		return;
-	} else if (user.value == '') {
+	} else if (document.getElementById("vars_dbusername").value == '') {
 		alert( '<jos:translate key="validUser" escape="yes">Please enter a database username</jos:translate>' );
 		return;
 	} else {
-		ajtype.value = type.options[type.selectedIndex].value;
-		ajhost.value = host.value;
-		ajuser.value = user.value;
-		ajpass.value = pass.value;
-	
-		thisForm.ajform_submit();
+		xajax_getCollations(xajax.getFormValues('adminForm'));
 	}
 }
 </script>
-
-<form action="index.php" method="post" name="adminForm">
+<form action="index.php" method="post" name="adminForm" id="adminForm">
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
@@ -133,7 +86,7 @@ function JProcess() {
 							<jos:translate>Advanced Mode</jos:translate>
 						</label>
 						<br/>
-						<input class="inputbox" type="checkbox" id="advanced" name="vars[advanced]" value="1" accesskey="a" onChange="toggleAdvanced(this)" />
+						<input class="inputbox" type="checkbox" id="advanced" name="vars[advanced]" value="1" accesskey="a" onChange="toggleAdvanced();" />
 					</td>
 					<td>
 		  		    	<em>
@@ -304,11 +257,3 @@ function JProcess() {
 <input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}" />
 <input type="hidden" name="task" value="" />
 </form>
-<form action="includes/jajax.php" id="mainForm" onsubmit="ajform:getReturnData();">
-	<input type="hidden" id="theType" name="type" value="" />
-	<input type="hidden" id="theHost" name="host" value="" />
-	<input type="hidden" id="theUser" name="user" value="" />
-	<input type="hidden" id="thePass" name="pass" value="" />
-	<input type="hidden" name="task" value="dbcollate" />
-</form>
-

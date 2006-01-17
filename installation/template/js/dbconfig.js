@@ -7,10 +7,6 @@
  */
 
 
-function goForm(whichForm) {
-	document.getElementById( whichForm ).ajform_submit();
-}
-
 function toggleAdvanced(box) {
 
 	var value;

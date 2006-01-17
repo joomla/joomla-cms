@@ -5,8 +5,39 @@
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 </jos:comment>
- 
-<form action="index.php" method="post" name="adminForm"> 
+<script language="JavaScript" type="text/javascript">
+function validateForm( frm, task ) {
+	var ftpEnable = document.getElementById("ftpenable");
+	var ftpRoot = document.getElementById("ftproot");
+	
+	if (ftpEnable.checked == false) {
+		alert( '<jos:translate key="warnFtpEnable" escape="yes">Disabling the FTP Filesystem layer can cause problems\nwith filesystem ownership permissions.</jos:translate>' );
+		submitForm( frm, task );
+	} else if (ftpRoot.value == '') {
+		alert( '<jos:translate key="warnFtpRoot" escape="yes">Please enter an FTP Root or use\nthe autofind root button.</jos:translate>' );
+		return;
+	} else {
+		submitForm( frm, task );
+	}
+}
+
+function JProcess() {
+
+	if ( document.getElementById("ftphost").value == '' ) {
+		alert( '<jos:translate key="validType" escape="yes">Please select the database type</jos:translate>' );
+		return;
+	} else if (document.getElementById("ftpuser").value == '') {
+		alert( '<jos:translate key="validFtpUser" escape="yes">Please enter a username</jos:translate>' );
+		return;
+	} else if (document.getElementById("ftppass").value == '') {
+		alert( '<jos:translate key="validFtpPass" escape="yes">Please enter a database password</jos:translate>' );
+		return;
+	} else {
+		xajax_getFtpRoot(xajax.getFormValues('adminForm'));
+	}
+}
+</script>
+<form action="index.php" method="post" name="adminForm" id="adminForm">
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
@@ -42,7 +73,7 @@
 				<table class="content2">
 					<tr>
 						<td width="100">
-							<input class="inputbox" type="checkbox" id="advanced" name="vars[advanced]" value="1" accesskey="a" onChange="toggleAdvanced(this)" />
+							<input class="inputbox" type="checkbox" id="advanced" name="vars[advanced]" value="1" accesskey="a" onChange="toggleAdvanced();" />
 						</td>
 						<td align="left">
 							<label for="vars[advanced]">
@@ -58,10 +89,6 @@
 							<label for="vars[ftpEnable]">
 								<jos:translate>Enable FTP filesystem layer</jos:translate>
 							</label>
-							
-							<input type="hidden" id="ftphost" name="vars[ftpHost]" value="" />
-							<input type="hidden" id="ftpuser" name="vars[ftpUser]" value="" />
-							<input type="hidden" id="ftppass" name="vars[ftpPassword]" value="" />
 							<input type="hidden" name="vars[lang]" value="{VAR_LANG}" />
 							<input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}" />
 							<input type="hidden" name="vars[DBtype]" value="{VAR_DBTYPE}" />
@@ -73,7 +100,7 @@
 							<input type="hidden" name="task" value="" />
 						</td>
 					</tr>
-					<tr id="rootPath" class="hidden">
+					<tr id="rootPath" style="display:none;">
 						<td>
 							<jos:translate>FTP Root Path</jos:translate>
 						</td>
@@ -81,18 +108,12 @@
 							<input class="inputbox" id="ftproot" type="text" name="vars[ftpRoot]" value="{VAR_FTPROOT}" size="30"/>
 						</td>
 					</tr>
-				</table>
-				<br />
-				<br />
-			</form>
-			<form action="includes/jajax.php" id='mainForm' onsubmit="ajform:getReturnData();">
-				<table class="content2">
 					<tr id="host" class="hidden">
 						<td width="100">
 							<jos:translate>FTP host</jos:translate>
 						</td>
 						<td align="center">
-							<input class="inputbox" type="text" id="hostinput" name="host" value="{VAR_FTPHOST}" size="30"/>
+							<input class="inputbox" type="text" id="ftphost" name="vars[ftpHost]" value="{VAR_FTPHOST}" size="30"/>
 						</td>
 					</tr>
 					<tr>
@@ -100,7 +121,7 @@
 							<jos:translate>FTP user</jos:translate>
 						</td>
 						<td align="center">
-							<input class="inputbox" type="text" id="userinput" name="user" value="{VAR_FTPUSER}" size="30"/>
+							<input class="inputbox" type="text" id="ftpuser" name="vars[ftpUser]" value="{VAR_FTPUSER}" size="30"/>
 						</td>
 					</tr>
 					<tr>
@@ -108,12 +129,14 @@
 							<jos:translate>FTP password</jos:translate>
 						</td>
 						<td align="center">
-							<input class="inputbox" type="text" id="passinput" name="pass" value="{VAR_FTPPASSWORD}" size="30"/>
+							<input class="inputbox" type="text" id="ftppass" name="vars[ftpPassword]" value="{VAR_FTPPASSWORD}" size="30"/>
 						</td>
 					</tr>
 				</table>
-				<input type="hidden" name="task" value="ftproot" />
-				<input type="button" id="findbutton" class="button" value="Autofind FTP Path" onclick="JProcess( this.form );" />
+				<br />
+				<br />
+				<input type="button" id="findbutton" class="button" value="Autofind FTP Path" onclick="JProcess();" />
+			</form>
 			</div>
 		</div>
 	</div>

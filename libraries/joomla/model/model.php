@@ -86,7 +86,8 @@ class JModel extends JObject
 	{
 		jimport('joomla.model.adapters.'.$type);
 		$adapter = 'JModel'.$type;
-		return new $adapter($db);
+		$m = & new $adapter($db);
+		return $m;
 	}
 	
 	/**

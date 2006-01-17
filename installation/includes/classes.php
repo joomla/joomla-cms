@@ -187,6 +187,18 @@ class installationTasks
 	 */
 	function dbConfig() 
 	{
+		global $mainframe;
+		
+		// Require the xajax library
+		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );
+
+		/*
+		 * Instantiate the xajax object and register the function
+		 */
+		$xajax = new xajax('http://localhost/joomla/installation/includes/jajax.php');
+		$xajax->registerFunction(array('getCollations', 'JAJAXHandler', 'dbcollate'));
+		$xajax->debugOn();
+
 		$vars = mosGetParam($_POST, 'vars', array ());
 		if (!isset ($vars['DBPrefix'])) {
 			$vars['DBPrefix'] = 'jos_';
@@ -203,7 +215,10 @@ class installationTasks
 			}
 			$lists['dbTypes'][] = $option;
 		}
-
+		
+		$doc =& $mainframe->getDocument();
+		$doc->addCustomTag($xajax->getJavascript('', 'includes/js/xajax.js', 'includes/js/xajax.js'));
+		
 		return installationScreens::dbConfig($vars, $lists);
 	}
 
@@ -387,6 +402,18 @@ class installationTasks
 	 */
 	function ftpConfig($DBcreated = '0') 
 	{
+		global $mainframe;
+		
+		// Require the xajax library
+		require_once( JPATH_BASE.DS.'includes'.DS.'xajax'.DS.'xajax.inc.php' );
+
+		/*
+		 * Instantiate the xajax object and register the function
+		 */
+		$xajax = new xajax('http://localhost/joomla/installation/includes/jajax.php');
+		$xajax->registerFunction(array('getFtpRoot', 'JAJAXHandler', 'ftproot'));
+		$xajax->debugOn();
+
 		$vars = mosGetParam($_POST, 'vars', array ());
 		$vars['DBcreated'] = mosGetParam($vars, 'DBcreated', $DBcreated);
 		$strip = get_magic_quotes_gpc();
@@ -403,6 +430,9 @@ class installationTasks
 		if (!isset ($vars['ftpPassword'])) {
 			$vars['ftpPassword'] = '';
 		}
+
+		$doc =& $mainframe->getDocument();
+		$doc->addCustomTag($xajax->getJavascript('', 'includes/js/xajax.js', 'includes/js/xajax.js'));
 
 		return installationScreens::ftpConfig($vars);
 	}
@@ -486,6 +516,11 @@ class installationTasks
 		// Check for safe mode
 		if (ini_get('safe_mode')) {
 			$ftpFlag = true;
+		}
+
+		// Enable/Disable override
+		if ($vars['ftpEnable'] != 1) {
+			$ftpFlag = false;
 		}
 
 		if ($ftpFlag == true) {

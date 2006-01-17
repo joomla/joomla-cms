@@ -188,7 +188,7 @@ class installationScreens
 	 */
 	function ftpConfig( &$vars ) 
 	{
-		global $steps; $mainframe;
+		global $steps, $mainframe;
 		
 		$doc =& $mainframe->getDocument();
 		$doc->addScript('template/js/ftpconfig.js');

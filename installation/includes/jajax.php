@@ -31,29 +31,17 @@ define( 'JPATH_LIBRARIES',		JPATH_ROOT . DS . 'libraries' );
 
 // Require the library loader
 require_once( JPATH_LIBRARIES . DS .'loader.php' );
+// Require the xajax library
+require_once ('xajax'.DS.'xajax.inc.php');
+$xajax = new xajax();
+$xajax->errorHandlerOn();
+
+$xajax->registerFunction(array('getCollations', 'JAJAXHandler', 'dbcollate'));
+$xajax->registerFunction(array('getFtpRoot', 'JAJAXHandler', 'ftproot'));
 
 jimport( 'joomla.common.base.object' );
 jimport( 'joomla.i18n.string' );
-
-/*
- * Check to see if the form was sent via the ajform library
- */
-if (isset ($_GET['ajform']) && (bool) $_GET['ajform']) {
-
-	switch ($_GET['task']) {
-		case 'ftproot':
-			JAJAXHandler::ftproot();
-			break;
-		case 'dbcollate':
-			JAJAXHandler::dbcollate();
-			break;
-		default:
-			JAJAXHandler::fail();
-			break;
-	}
-} else {
-	// Do nothing
-}
+jimport( 'joomla.filesystem.*' );
 
 /**
  * AJAX Task handler class
@@ -68,44 +56,42 @@ class JAJAXHandler {
 	/**
 	 * Method to get the path from the FTP root to the Joomla root directory
 	 */
-	function ftproot() {
-		jimport( 'joomla.system.error' );
+	function ftproot($args) {
+
+		jimport( 'joomla.error' );
+		jimport( 'joomla.application.application' );
+
+		$objResponse = new xajaxResponse();
+		$args = $args['vars'];
 		require_once(JPATH_BASE.DS."classes.php");
-		echo JInstallationHelper::findFtpRoot($_GET['user'], $_GET['pass'], $_GET['host']);
+		$root =  JInstallationHelper::findFtpRoot($args['ftpUser'], $args['ftpPassword'], $args['ftpHost']);
+		$objResponse->addAssign('ftproot', 'value', $root);
+		$objResponse->addAssign('rootPath', 'style.display', '');
+		$objResponse->addAlert($root);
+		return $objResponse;
 	}
 
 	/**
 	 * Method to get the database collations
 	 */
-	function dbcollate() {
+	function dbcollate($args) {
 
-		jimport( 'joomla.system.error' );
+		jimport( 'joomla.error' );
+		jimport( 'joomla.application.application' );
 		jimport( 'joomla.database.database' );
 
-		if (empty($_GET['type'])) {
-			JError::raiseError( 1, 'JInstallation::dbcollate: Missing DB Type');
-			return false;
-		}
-
-		if (empty($_GET['host'])) {
-			JError::raiseError( 1, 'JInstallation::dbcollate: Missing DB Host');
-			return false;
-		}
-
-		if (empty($_GET['user'])) {
-			JError::raiseError( 1, 'JInstallation::dbcollate: Missing DB Username');
-			return false;
-		}
+		$objResponse = new xajaxResponse();
+		$args = $args['vars'];
 
 		/*
 		 * Get a database connection instance
 		 */		
-		$database = & JDatabase :: getInstance($_GET['type'], $_GET['host'], $_GET['user'], $_GET['pass'] );
+		$database = & JDatabase :: getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'] );
 
 		if ($err = $database->getErrorNum()) {
 			if ($err != 3) {
-				// connection failed
-				echo "Connection Failed";
+				$objResponse->addAlert('Database Connection Failed');
+				return $objResponse;
 			}
 		}
 		/*
@@ -122,13 +108,13 @@ class JAJAXHandler {
 			$database->setQuery( $query );
 			$collations = $database->loadAssocList();
 			// Tell javascript we have UTF support
-			echo "true\n";
+			$objResponse->addAssign('utfsupport', 'value', '1');
 		} else {
 			// backward compatibility - utf-8 data in non-utf database
 			// collation does not really have effect so default charset and collation is set
 			$collations[0]['Collation'] = 'latin1';
 			// Tell javascript we do not have UTF support
-			echo "false\n";
+			$objResponse->addAssign('utfsupport', 'value', '0');
 		}
 		$txt = '<select id="vars_dbcollation" name="vars[DBcollation]" class="inputbox" size="1">';
 		
@@ -137,11 +123,13 @@ class JAJAXHandler {
 		}
 		$txt .=	'</select>';
 		
-		echo $txt;
-	}
-
-	function fail() {
-		echo "Invalid AJAX Task";
+		$objResponse->addAssign("theCollation","innerHTML",$txt);
+		return $objResponse;
 	}
 }
+
+/*
+ * Process the AJAX requests
+ */
+$xajax->processRequests();
 ?>

@@ -48,29 +48,25 @@ class JInstallerScreens {
 
 		</script>
 		<div id="treecell">
-			<fieldset>
-				<legend>
-					<?php echo JText::_('Directory Permissions'); ?>
-				</legend>
-				<?php
-				$txt .= '<table>';
-				$txt .= JInstallerScreens :: writableCell('media');
-				$txt .= JInstallerScreens :: writableCell('components');
-				$txt .= JInstallerScreens :: writableCell('modules');
-				$txt .= JInstallerScreens :: writableCell('templates');
-				$txt .= JInstallerScreens :: writableCell('language');
-				$txt .= JInstallerScreens :: writableCell('plugins');
-				$txt .= JInstallerScreens :: writableCell('plugins/content');
-				$txt .= JInstallerScreens :: writableCell('plugins/search');
-				$txt .= JInstallerScreens :: writableCell('images/stories');
-				$txt .= JInstallerScreens :: writableCell('administrator/components');
-				$txt .= JInstallerScreens :: writableCell('administrator/modules');
-				$txt .= JInstallerScreens :: writableCell('administrator/language');
-				$txt .= JInstallerScreens :: writableCell('administrator/templates');
-				$txt .= '</table>';
-		
-				echo $txt;
-				?>
+			<fieldset title="JEM Navigation">
+			<legend>
+				JEM Navigation
+			</legend>
+			<p>Extensions</p>
+			<p>&nbsp;&nbsp;&nbsp;<a href="" >Components</a></p>
+			<p>&nbsp;&nbsp;&nbsp;<a href="" >Modules</a><br />
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="" >Administrator</a><br />
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="" >Site</a></p>
+			<p>&nbsp;&nbsp;&nbsp;<a href="" >Plugins</a><br />
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="" >Site</a></p>
+			<p>&nbsp;&nbsp;&nbsp;<a href="" >Languages</a><br />
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="" >Administrator</a><br />
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="" >Site</a></p>
+			<p>&nbsp;&nbsp;&nbsp;<a href="" >Templates</a><br />
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="" >Administrator</a><br />
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="" >Site</a></p>
+			<p>&nbsp;&nbsp;&nbsp;<a href="" >Installer</a></p>
+			<p>&nbsp;</p>
 			</fieldset>
 		</div>
 		<div id="datacell">
