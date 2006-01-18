@@ -251,7 +251,8 @@ class JConfigController {
 	/**
 	 * Save the configuration
 	 */
-	function saveConfig($task) {
+	function saveConfig($task) 
+	{
 		global $mainframe;
 
 		$CONFIG = new JConfig();
@@ -276,7 +277,7 @@ class JConfigController {
 		/*
 		 * Time to load the new configuration values into the Registry object
 		 */
-		$mainframe->_registry->loadObjectVars($CONFIG);
+		$mainframe->_registry->loadObject($CONFIG);
 
 		// Get the path of the configuration file
 		$fname = JPATH_CONFIGURATION.'/configuration.php';

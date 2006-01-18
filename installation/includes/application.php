@@ -65,9 +65,8 @@ class JInstallation extends JApplication {
 	 *
 	 * @access private
 	 * @param string	The sessions name
-	 * @param boolean 	Use cookies to store the session on the client
 	 */
-	function _createSession( $name, $useCookies = true)
+	function _createSession( $name )
 	{
 		JSession::useCookies(true);
 		JSession::start(md5( $name ));

@@ -19,27 +19,26 @@ defined('_JEXEC') or die('Restricted access');
 * @package Joomla
 * @subpackage Installation
 */
-class installationTasks 
+class JInstallationController 
 {
 	/**
 	 * @param patTemplate A template object
 	 */
-	function chooseLanguage() 
+	function chooseLanguage($vars) 
 	{
 		$native = detectLanguage();
 
 		$lists = array ();
 		$lists['langs'] = JLanguageHelper::createLanguageList($native);
 
-		return installationScreens::chooseLanguage($lists);
+		return JInstallationView::chooseLanguage($lists);
 	}
 
 	/**
 	 * @param patTemplate A template object
 	 */
-	function preInstall() 
+	function preInstall($vars) 
 	{
-		$vars = (array) mosGetParam( $_POST, 'vars' );
 		$lists = array ();
 
 		$phpOptions[] = array (
@@ -170,22 +169,21 @@ class installationTasks
 			);
 		}
 
-		return installationScreens::preInstall( $vars, $lists );
+		return JInstallationView::preInstall( $vars, $lists );
 	}
 
 	/**
 	 * Gets the parameters for database creation
 	 */
-	function license()
+	function license($vars)
 	{
-		$vars = mosGetParam($_POST, 'vars', array ());
-		return installationScreens::license($vars);
+		return JInstallationView::license($vars);
 	}
 
 	/**
 	 * Gets the parameters for database creation
 	 */
-	function dbConfig() 
+	function dbConfig($vars) 
 	{
 		global $mainframe;
 		
@@ -199,7 +197,6 @@ class installationTasks
 		$xajax->registerFunction(array('getCollations', 'JAJAXHandler', 'dbcollate'));
 		//$xajax->debugOn();
 
-		$vars = mosGetParam($_POST, 'vars', array ());
 		if (!isset ($vars['DBPrefix'])) {
 			$vars['DBPrefix'] = 'jos_';
 		}
@@ -219,17 +216,15 @@ class installationTasks
 		$doc =& $mainframe->getDocument();
 		$doc->addCustomTag($xajax->getJavascript('', 'includes/js/xajax.js', 'includes/js/xajax.js'));
 		
-		return installationScreens::dbConfig($vars, $lists);
+		return JInstallationView::dbConfig($vars, $lists);
 	}
 
 	/**
 	 * Determines db version (for utf-8 support) and gets desired collation
 	 * @return boolean True if successful
 	 */
-	function dbCollation() 
+	function dbCollation($vars) 
 	{
-		$vars = mosGetParam($_POST, 'vars', array ());
-
 		$DBcreated = mosGetParam($vars, 'DBcreated', '0');
 
 		$DBtype = mosGetParam($vars, 'DBtype', 'mysql');
@@ -247,15 +242,15 @@ class installationTasks
 		$DBversion = mosGetParam($vars, 'DBversion', '');
 
 		if ($DBtype == '') {
-			installationScreens::error($vars, JText::_('validType'), 'dbconfig');
+			JInstallationView::error($vars, JText::_('validType'), 'dbconfig');
 			return false;
 		}
 		if (!$DBhostname || !$DBuserName || !$DBname) {
-			installationScreens::error($vars, JText::_('validDBDetails'), 'dbconfig');
+			JInstallationView::error($vars, JText::_('validDBDetails'), 'dbconfig');
 			return false;
 		}
 		if ($DBname == '') {
-			installationScreens::error($vars, JText::_('emptyDBName'), 'dbconfig');
+			JInstallationView::error($vars, JText::_('emptyDBName'), 'dbconfig');
 			return false;
 		}
 
@@ -264,8 +259,8 @@ class installationTasks
 		if ($err = $database->getErrorNum()) {
 			if ($err != 3) {
 				// connection failed
-				//installationScreens::error( $vars, array( 'Could not connect to the database.  Connector returned', $database->getErrorNum() ), 'dbconfig', $database->getErrorMsg() );
-				installationScreens::error($vars, array (sprintf(JText::_('WARNNOTCONNECTDB'), $database->getErrorNum())), 'dbconfig', $database->getErrorMsg());
+				//JInstallationView::error( $vars, array( 'Could not connect to the database.  Connector returned', $database->getErrorNum() ), 'dbconfig', $database->getErrorMsg() );
+				JInstallationView::error($vars, array (sprintf(JText::_('WARNNOTCONNECTDB'), $database->getErrorNum())), 'dbconfig', $database->getErrorMsg());
 				return false;
 			}
 		}
@@ -285,19 +280,17 @@ class installationTasks
 			// collation does not really have effect so default charset and collation is set
 			$collations[0]['Collation'] = 'latin1';
 		}
-		return installationScreens::dbCollation( $vars, $collations );
+		return JInstallationView::dbCollation( $vars, $collations );
 	}
 
 	/**
 	 * Gets the parameters for database creation
 	 * @return boolean True if successful
 	 */
-	function makeDB() 
+	function makeDB($vars) 
 	{
 		// Initialize variables
 		$errors = null;
-
-		$vars = mosGetParam($_POST, 'vars', array ());
 
 		$lang = mosGetParam($vars, 'lang', 'eng_GB');
 		$DBcreated = mosGetParam($vars, 'DBcreated', '0');
@@ -316,15 +309,15 @@ class installationTasks
 		$DBversion = mosGetParam($vars, 'DBversion', '');
 
 		if ($DBtype == '') {
-			installationScreens::error($vars, JText::_('validType'), 'dbconfig');
+			JInstallationView::error($vars, JText::_('validType'), 'dbconfig');
 			return false;
 		}
 		if (!$DBhostname || !$DBuserName || !$DBname) {
-			installationScreens::error($vars, JText::_('validDBDetails'), 'dbconfig');
+			JInstallationView::error($vars, JText::_('validDBDetails'), 'dbconfig');
 			return false;
 		}
 		if ($DBname == '') {
-			installationScreens::error($vars, JText::_('emptyDBName'), 'dbconfig');
+			JInstallationView::error($vars, JText::_('emptyDBName'), 'dbconfig');
 			return false;
 		}
 
@@ -342,13 +335,13 @@ class installationTasks
 						$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 					} else {
 						$error = $database->getErrorMsg();
-						installationScreens::error($vars, array (sprintf(JText::_('WARNCREATEDB'), $DBname)), 'dbconfig', $error);
+						JInstallationView::error($vars, array (sprintf(JText::_('WARNCREATEDB'), $DBname)), 'dbconfig', $error);
 						return false;
 					}
 				} else {
 					// connection failed
-					//installationScreens::error( $vars, array( 'Could not connect to the database.  Connector returned', $database->getErrorNum() ), 'dbconfig', $database->getErrorMsg() );
-					installationScreens::error($vars, array (sprintf(JText::_('WARNNOTCONNECTDB'), $database->getErrorNum())), 'dbconfig', $database->getErrorMsg());
+					//JInstallationView::error( $vars, array( 'Could not connect to the database.  Connector returned', $database->getErrorNum() ), 'dbconfig', $database->getErrorMsg() );
+					JInstallationView::error($vars, array (sprintf(JText::_('WARNNOTCONNECTDB'), $database->getErrorNum())), 'dbconfig', $database->getErrorMsg());
 					return false;
 				}
 			} else {
@@ -361,13 +354,13 @@ class installationTasks
 
 			if ($DBBackup) {
 				if (JInstallationHelper::backupDatabase($database, $DBname, $DBPrefix, $errors)) {
-					installationScreens::error($vars, JText::_('WARNBACKINGUPDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
+					JInstallationView::error($vars, JText::_('WARNBACKINGUPDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 					return false;
 				}
 			}
 			if ($DBDel) {
 				if (JInstallationHelper::deleteDatabase($database, $DBname, $DBPrefix, $errors)) {
-					installationScreens::error($vars, JText::_('WARNDELETEDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
+					JInstallationView::error($vars, JText::_('WARNDELETEDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 					return false;
 				}
 			}
@@ -380,7 +373,7 @@ class installationTasks
 			}
 
 			if (JInstallationHelper::populateDatabase($database, $dbscheme, $errors, ($DButfSupport) ? $DBcollation : '')) {
-				installationScreens::error($vars, JText::_('WARNPOPULATINGDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
+				JInstallationView::error($vars, JText::_('WARNPOPULATINGDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 				return false;
 			}
 
@@ -400,7 +393,7 @@ class installationTasks
 	/**
 	 * Gets ftp configuration parameters
 	 */
-	function ftpConfig($DBcreated = '0') 
+	function ftpConfig($vars, $DBcreated = '0') 
 	{
 		global $mainframe;
 		
@@ -414,7 +407,6 @@ class installationTasks
 		$xajax->registerFunction(array('getFtpRoot', 'JAJAXHandler', 'ftproot'));
 		//$xajax->debugOn();
 
-		$vars = mosGetParam($_POST, 'vars', array ());
 		$vars['DBcreated'] = mosGetParam($vars, 'DBcreated', $DBcreated);
 		$strip = get_magic_quotes_gpc();
 
@@ -434,15 +426,14 @@ class installationTasks
 		$doc =& $mainframe->getDocument();
 		$doc->addCustomTag($xajax->getJavascript('', 'includes/js/xajax.js', 'includes/js/xajax.js'));
 
-		return installationScreens::ftpConfig($vars);
+		return JInstallationView::ftpConfig($vars);
 	}
 
 	/**
 	 * Finishes configuration parameters
 	 */
-	function mainConfig() 
+	function mainConfig($vars) 
 	{
-		$vars = mosGetParam($_POST, 'vars', array ());
 		$strip = get_magic_quotes_gpc();
 
 		if (!isset ($vars['siteUrl'])) {
@@ -466,13 +457,11 @@ class installationTasks
 			$vars['ftpRoot'] = JInstallationHelper::findFtpRoot($vars['ftpUser'], $vars['ftpPassword']);
 		}
 
-		return installationScreens::mainConfig($vars);
+		return JInstallationView::mainConfig($vars);
 	}
 
-	function saveConfig() 
+	function saveConfig($vars) 
 	{
-		$vars = mosGetParam($_POST, 'vars', array ());
-
 		$strip = get_magic_quotes_gpc();
 		if (!$strip) {
 			$vars['siteName'] = addslashes($vars['siteName']);
@@ -491,7 +480,7 @@ class installationTasks
 
 		JInstallationHelper::createAdminUser($vars);
 
-		$tmpl = & installationScreens::createTemplate();
+		$tmpl = & JInstallationView::createTemplate();
 		$tmpl->readTemplatesFromFile('configuration.html');
 		$tmpl->addVars('configuration', $vars, 'var_');
 
@@ -554,13 +543,11 @@ class installationTasks
 	/**
 	 * Displays the finish screen
 	 */
-	function finish($buffer = '') 
+	function finish($vars, $buffer = '') 
 	{
-		$vars = mosGetParam($_POST, 'vars', array ());
-
 		$vars['adminUrl'] = $vars['siteUrl'].'/administrator';
 
-		return installationScreens::finish($vars, $buffer);
+		return JInstallationView::finish($vars, $buffer);
 	}
 }
 

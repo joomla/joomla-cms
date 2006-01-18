@@ -496,7 +496,7 @@ class JApplication extends JObject
 
 		// Create the registry with a default namespace of config which is read only
 		$this->_registry =& new JRegistry( 'config', true );
-		$this->_registry->loadObjectVars($config);
+		$this->_registry->loadObject($config);
 	}
 
 	/**

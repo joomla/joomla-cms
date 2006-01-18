@@ -42,8 +42,8 @@ class JRegistry extends JObject {
 	/**
 	 * Constructor
 	 * 
-	 * @param string $defaultNamespace Default registry namespace
-	 * @param boolean $readOnly Is the default namespace read only? [optional: default is false]
+	 * @param $defaultNamespace	string 	Default registry namespace
+	 * @param $readOnly			boolean Is the default namespace read only? [optional: default is false]
 	 */
 	function __construct($namespace, $readOnly = false) {
 
@@ -59,9 +59,9 @@ class JRegistry extends JObject {
 	 * 		<pre>  $registry = &JRegistry::getInstance($id[, $namespace][, $readOnly]);</pre>
 	 *
 	 * @static
-	 * @param string $id An ID for the registry instance
-	 * @param string $namespace The default namespace for the registry object [optional]
-	 * @param boolean $readOnly Is he default namespace read only? [optional: default is false]
+	 * @param $id 			string 	An ID for the registry instance
+	 * @param $namespace	string 	The default namespace for the registry object [optional]
+	 * @param $readOnly		boolean Is he default namespace read only? [optional: default is false]
 	 * @return object  The JRegistry object.
 	 * @since 1.1
 	 */
@@ -83,8 +83,8 @@ class JRegistry extends JObject {
 	 * Create a namespace
 	 * 
 	 * @access public
-	 * @param string $namespace Name of the namespace to create
-	 * @param boolean $readOnly Is the namespace read only?
+	 * @param $namespace 	string 		Name of the namespace to create
+	 * @param $readOnly		boolean 	Is the namespace read only?
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
@@ -98,9 +98,9 @@ class JRegistry extends JObject {
 	 * Get a registry value
 	 * 
 	 * @access public
-	 * @param string Registry path (e.g. joomla.content.showauthor)
-	 * @param int    User Id
-	 * @return mixed Value of entry or boolean false
+	 * @param 	$regpath	string 	Registry path (e.g. joomla.content.showauthor)
+	 * @param 	int    User Id
+	 * @return 	mixed Value of entry or boolean false
 	 */
 	function getValue($regpath) {
 		
@@ -132,9 +132,9 @@ class JRegistry extends JObject {
 	 * Set a registry value
 	 * 
 	 * @access public
-	 * @param string Registry Path (e.g. joomla.content.showauthor)	 
-	 * @param mixed Value of entry
-	 * @return mixed Value of old value or boolean false if operation failed
+	 * @param $regpath	string 	Registry Path (e.g. joomla.content.showauthor)	 
+	 * @param 	mixed Value of entry
+	 * @return 	mixed Value of old value or boolean false if operation failed
 	 * @since 1.1
 	 */
 	function setValue($regpath, $value) {
@@ -172,32 +172,72 @@ class JRegistry extends JObject {
 		
 		return $retval;
 	}
-
+	
 	/**
-	 * Load the public variables of the JRegistry object into the default
-	 * namespace.  This is used for config registry types
+	 * Load a associative array of values into the default namespace
 	 * 
 	 * @access public
-	 * @param object stdClass object with configuration vars as public vars
+	 * @param &array 		Array 	Associative array of value to load
+	 * @param &namepsace 	String	The name of the namespace
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function loadObjectVars(&$object) {
-
+	function loadArray($array, $namespace) 
+	{
+		// If namespace is not set, get the default namespace
+		if ($namespace == null) {
+			$namespace = $this->_defaultNameSpace;
+		}
+		
+		if (!isset($this->_registry[$namespace])) {
+			// If namespace does not exist, make it and load the data
+			$this->makeNameSpace($namespace, $readOnly);
+		} 
+		
 		/*
-		 * Here we just load the public variables into the registry's default
+		 * Here we just load the variables into the registry's default
 		 * namespace.
 		 */
+		foreach ($array as $k => $v) {
+			$this->_registry[$this->_defaultNameSpace]['data']->$k = $v;
+		}
+		
+		return true;
+	}
+
+	/**
+	 * Load the public variables of the object into the default namespace.
+	 * 
+	 * @access public
+	 * @param &object 		stdClass 	The object holding the public vars to load
+	 * @param &namespace 	string 		Namespace to load the INI string into [optional]
+	 * @param &readOnly 	boolean 	Should the namespace be read only after loading? [optional: default is false]
+	 * @return boolean True on success
+	 * @since 1.1
+	 */
+	function loadObject(&$object, $namespace = null, $readOnly = false) 
+	{
+		// If namespace is not set, get the default namespace
+		if ($namespace == null) {
+			$namespace = $this->_defaultNameSpace;
+		}
+		
+		if (!isset($this->_registry[$namespace])) {
+			// If namespace does not exist, make it and load the data
+			$this->makeNameSpace($namespace, $readOnly);
+		} 
+		
+		/*
+		 * We want to leave groups that are already in the namespace and add the 
+		 * groups loaded into the namespace.  This overwrites any existing group
+		 * with the same name
+		 */ 
 		foreach (get_object_vars($object) as $k => $v) {
 			if (substr($k, 0,1) != '_') {
 				$this->_registry[$this->_defaultNameSpace]['data']->$k = $v;
 			}
 		}
 		
-		/*
-		 * Set the config file name
-		 */
-		$this->_registry[$this->_defaultNameSpace]['data']->_name = get_class($object);
 		return true;
 	}
 
@@ -205,10 +245,10 @@ class JRegistry extends JObject {
 	 * Load the contents of a file into the registry
 	 * 
 	 * @access public
-	 * @param string $file Path to file to load
-	 * @param string $format Format of the file [optional: defaults to INI]
-	 * @param string $namespace Namespace to load the INI string into [optional]
-	 * @param boolean $readOnly Should the namespace be read only after loading? [optional: default is false]
+	 * @param $file 		string 		Path to file to load
+	 * @param $format		string 		Format of the file [optional: defaults to INI]
+	 * @param $namespace	string 		Namespace to load the INI string into [optional]
+	 * @param $readOnly		boolean 	Should the namespace be read only after loading? [optional: default is false]
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
@@ -248,9 +288,9 @@ class JRegistry extends JObject {
 	 * Load an XML string into the registry into the given namespace [or default if a namespace is not given]
 	 * 
 	 * @access public
-	 * @param string $data XML formatted string to load into the registry
-	 * @param string $namespace Namespace to load the INI string into [optional]
-	 * @param boolean $readOnly Should the namespace be read only after loading? [optional: default is false]
+	 * @param $data 		string 		XML formatted string to load into the registry
+	 * @param $namespace	string 		Namespace to load the INI string into [optional]
+	 * @param $readOnly		boolean 	Should the namespace be read only after loading? [optional: default is false]
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
@@ -286,9 +326,9 @@ class JRegistry extends JObject {
 	 * Load an INI string into the registry into the given namespace [or default if a namespace is not given]
 	 * 
 	 * @access public
-	 * @param string $data INI formatted string to load into the registry
-	 * @param string $namespace Namespace to load the INI string into [optional]
-	 * @param boolean $readOnly Should the namespace be read only after loading? [optional: default is false]
+	 * @param $data			string 		INI formatted string to load into the registry
+	 * @param $namespace	string 		Namespace to load the INI string into [optional]
+	 * @param $readOnly		boolean 	Should the namespace be read only after loading? [optional: default is false]
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
@@ -324,8 +364,8 @@ class JRegistry extends JObject {
 	 * Get a namespace in a given string format
 	 * 
 	 * @access public
-	 * @param string $format Format to return the string in
-	 * @param string $namespace Namespace to return [optional: null returns the default namespace]
+	 * @param $format 		string 	Format to return the string in
+	 * @param $namespace	string	Namespace to return [optional: null returns the default namespace]
 	 * @return string Namespace in string format
 	 * @since 1.1
 	 */
@@ -344,6 +384,33 @@ class JRegistry extends JObject {
 		$ns = & $this->_registry[$namespace]['data'];
 
 		return $handler->objectToString($ns);
+	}
+	
+	
+	/**
+	 * Transforms a namespace to an array
+	 * 
+	 * @access public
+	 * @param $namespace	string	Namespace to return [optional: null returns the default namespace]
+	 * @return array An associative array holding the namespace data
+	 */
+	function toArray($namespace)
+	{
+		// If namespace is not set, get the default namespace
+		if ($namespace == null) {
+			$namespace = $this->_defaultNameSpace;
+		}
+		
+		// Get the namespace
+		$ns = & $this->_registry[$namespace]['data'];
+		
+		$array = array();
+		foreach (get_object_vars( $ns ) as $k => $v) {
+			$array[$k] = $v;
+		}
+		
+		return $array;
+		
 	}
 }
 ?>

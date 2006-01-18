@@ -342,6 +342,8 @@ input.button {
 	margin: 0;
 }
 
+input.button:hover { border: 1px solid #6D9D2E; }
+
 /* mod_quickicon */
 #cpanel {  
 	width: 208px !important;

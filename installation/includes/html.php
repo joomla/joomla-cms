@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * @package Joomla
  * @subpackage Installation
  */
-class installationScreens 
+class JInstallationView 
 {
 	/**
 	 * Static method to create the template object
@@ -28,10 +28,6 @@ class installationScreens
 	 */
 	function &createTemplate( $bodyHtml = null ) 
 	{
-		global $mainframe;
-
-		$lang =& $mainframe->getLanguage();
-
 		jimport('joomla.template.template');
 
 		$tmpl = new JTemplate;
@@ -59,7 +55,7 @@ class installationScreens
 	{
 		global $steps;
 
-		$tmpl =& installationScreens::createTemplate( 'error.html' );
+		$tmpl =& JInstallationView::createTemplate( 'error.html' );
 
 		$tmpl->addVars( 'stepbar', $steps, 		'step_' );
 		$tmpl->addVar( 'messages', 'message', 	$msg );
@@ -82,7 +78,7 @@ class installationScreens
 	{
 		global $steps;
 
-		$tmpl =& installationScreens::createTemplate( 'language.html' );
+		$tmpl =& JInstallationView::createTemplate( 'language.html' );
 
 		$steps['lang'] = 'on';
 
@@ -100,7 +96,7 @@ class installationScreens
 	{
 		global $steps, $_VERSION;
 
-		$tmpl =& installationScreens::createTemplate( 'preinstall.html' );
+		$tmpl =& JInstallationView::createTemplate( 'preinstall.html' );
 
 		$steps['preinstall'] = 'on';
 
@@ -123,7 +119,7 @@ class installationScreens
 	{
 		global $steps;
 
-		$tmpl =& installationScreens::createTemplate( 'license.html' );
+		$tmpl =& JInstallationView::createTemplate( 'license.html' );
 
 		$steps['license'] = 'on';
 
@@ -144,7 +140,7 @@ class installationScreens
 		$doc =& $mainframe->getDocument();
 		$doc->addScript('template/js/dbconfig.js');
 
-		$tmpl =& installationScreens::createTemplate( 'dbconfig.html' );
+		$tmpl =& JInstallationView::createTemplate( 'dbconfig.html' );
 
 		$steps['dbconfig'] = 'on';
 
@@ -164,7 +160,7 @@ class installationScreens
 	{
 		global $steps;
 
-		$tmpl =& installationScreens::createTemplate( 'dbcollation.html' );
+		$tmpl =& JInstallationView::createTemplate( 'dbcollation.html' );
 
 		$steps['dbcollation'] = 'on';
 
@@ -193,7 +189,7 @@ class installationScreens
 		$doc =& $mainframe->getDocument();
 		$doc->addScript('template/js/ftpconfig.js');
 
-		$tmpl =& installationScreens::createTemplate( 'ftpconfig.html' );
+		$tmpl =& JInstallationView::createTemplate( 'ftpconfig.html' );
 
 		$steps['ftpconfig'] = 'on';
 
@@ -211,7 +207,7 @@ class installationScreens
 	{
 		global $steps;
 
-		$tmpl =& installationScreens::createTemplate( 'mainconfig.html' );
+		$tmpl =& JInstallationView::createTemplate( 'mainconfig.html' );
 
 		$steps['mainconfig'] = 'on';
 
@@ -230,7 +226,7 @@ class installationScreens
 	{
 		global $steps;
 
-		$tmpl =& installationScreens::createTemplate( 'finish.html' );
+		$tmpl =& JInstallationView::createTemplate( 'finish.html' );
 
 		$steps['finish'] = 'on';
 

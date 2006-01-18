@@ -24,13 +24,11 @@ $mainframe =& new JInstallation();
 // create the session
 $mainframe->setSession('installation');
 
-// get the vars array from the request and add it to the session
-$vars = (array) mosGetParam( $_POST, 'vars' );
-$mainframe->setUserState('application.vars', $vars);
+$registry =& JSession::get('registry');
+$registry->loadArray((array) mosGetParam( $_POST, 'vars' ), 'application');
 
 // get the language from the request and add it to the session
-$configLang = mosGetParam( $vars, 'lang', 'eng_GB' );
-$mainframe->setUserState('application.lang', $configLang);
+$configLang = $mainframe->getUserState('application.lang');
 
 // load the language
 $lang =& $mainframe->getLanguage();
@@ -44,48 +42,50 @@ initDocument($document);
 
 $task = mosGetParam( $_REQUEST, 'task', '' );
 
+$vars = $registry->toArray('application');
+
 $result = '';
 
 switch ($task)
 {
 	case 'preinstall':
-		$result = installationTasks::preInstall();
+		$result = JInstallationController::preInstall($vars);
 		break;
 
 	case 'license':
-		$result = installationTasks::license();
+		$result = JInstallationController::license($vars);
 		break;
 
 	case 'dbconfig':
-		$result = installationTasks::dbConfig();
+		$result = JInstallationController::dbConfig($vars);
 		break;
 
 	case 'dbcollation':
-		$result = installationTasks::dbCollation();
+		$result = JInstallationController::dbCollation($vars);
 		break;
 
 	case 'makedb':
-		if (installationTasks::makeDB()) {
-			$result = installationTasks::ftpConfig( 1 );
+		if (JInstallationController::makeDB($vars)) {
+			$result = JInstallationController::ftpConfig( $vars, 1 );
 		}
 		break;
 
 	case 'ftpconfig':
-		$result = installationTasks::ftpConfig();
+		$result = JInstallationController::ftpConfig($vars);
 		break;
 
 	case 'mainconfig':
-		$result = installationTasks::mainConfig();
+		$result = JInstallationController::mainConfig($vars);
 		break;
 
 	case 'saveconfig':
-		$buffer = installationTasks::saveConfig();
-		$result = installationTasks::finish( $buffer );
+		$buffer = JInstallationController::saveConfig($vars);
+		$result = JInstallationController::finish( $vars, $buffer );
 		break;
 
 	case 'lang':
 	default:
-		$result = installationTasks::chooseLanguage();
+		$result = JInstallationController::chooseLanguage($vars);
 		break;
 }
 
