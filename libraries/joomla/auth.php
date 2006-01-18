@@ -43,7 +43,7 @@ class JAuth extends JObject {
 		 */
 		 $query = 	"SELECT `element` " .
 		 			"\nFROM `#__plugins` " .
-		 			"\nWHERE `folder`='auth' " .
+		 			"\nWHERE (`folder`='auth' OR `folder`='user') " .
 		 			"\nAND `published`='1'";
 		 $db->setQuery($query);
 		 $plugins = $db->loadResultArray();
