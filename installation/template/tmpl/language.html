@@ -1,10 +1,10 @@
-<jos:comment>
+<jtmpl:comment>
 @version $Id: language.html 137 2005-09-12 10:21:17Z eddieajau $
 @package Joomla
 @subpackage Installation
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-</jos:comment>
+</jtmpl:comment>
 
 <script language="JavaScript" type="text/javascript">
 	function validateForm( frm, task ) {
@@ -16,15 +16,15 @@
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-				<jos:translate>Choose Language</jos:translate>
+				<jtmpl:translate>Choose Language</jtmpl:translate>
 		</div>
 
 		<div class="far-right">
-			<input type="button" class="button" value="<jos:translate escape="yes">Next</jos:translate> &gt;&gt;" onclick="validateForm( this.form, 'preinstall' );" />
+			<input type="button" class="button" value="<jtmpl:translate escape="yes">Next</jtmpl:translate> &gt;&gt;" onclick="validateForm( this.form, 'preinstall' );" />
 		</div>
 		<div class="clr"></div>
 
-		<h2><jos:translate>Select Language</jos:translate></h2>
+		<h2><jtmpl:translate>Select Language</jtmpl:translate></h2>
 
 		<div class="install-text">
 			&nbsp;
@@ -32,13 +32,13 @@
 		</div>
 
 		<div class="install-form">
-			<div class="form-block">
+			<fieldset class="form-block">
 				<select name="vars[lang]" class="inputbox" size="10">
-				<jos:tmpl name="lang-options">
+				<jtmpl:tmpl name="lang-options">
 					<option value="{VALUE}" {SELECTED}>{TEXT}</option>
-				</jos:tmpl>
+				</jtmpl:tmpl>
 				</select>
-			</div>
+			</fieldset>
 		</div>
 
 		<div class="clr"></div>

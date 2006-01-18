@@ -1,33 +1,33 @@
-<jos:comment>
+<jtmpl:comment>
 @version $Id: license.html 137 2005-09-12 10:21:17Z eddieajau $
 @package Joomla
 @subpackage Installation
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-</jos:comment>
+</jtmpl:comment>
 
 <form action="index.php" method="post" name="adminForm">
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-			<jos:translate>License</jos:translate>
+			<jtmpl:translate>License</jtmpl:translate>
 		</div>
 
 		<div class="far-right">
-			<input type="button" class="button" value="&lt;&lt; <jos:translate escape="yes">Previous</jos:translate>" onclick="submitForm( this.form, 'preinstall' );" />
-			<input class="button" type="submit" name="next" value="<jos:translate escape="yes">Next</jos:translate> &gt;&gt;" onclick="submitForm( this.form, 'dbconfig' );"/>
+			<input type="button" class="button" value="&lt;&lt; <jtmpl:translate escape="yes">Previous</jtmpl:translate>" onclick="submitForm( this.form, 'preinstall' );" />
+			<input class="button" type="submit" name="next" value="<jtmpl:translate escape="yes">Next</jtmpl:translate> &gt;&gt;" onclick="submitForm( this.form, 'dbconfig' );"/>
 		</div>
 
 		<div class="clr"></div>
 		<h2>
-		<jos:translate>GNU/GPL License</jos:translate>:
+		<jtmpl:translate>GNU/GPL License</jtmpl:translate>:
 		</h2>
 
 		<div class="clr"></div>
 		<div class="license-form">
-			<div class="form-block" style="padding: 0px;">
+			<fieldset class="form-block" style="padding: 0px;">
 				<iframe src="gpl.html" class="license" frameborder="0" scrolling="auto"></iframe>
-			</div>
+			</fieldset>
 		</div>
 
 	</div>
@@ -35,7 +35,5 @@
 </div>
 <div class="clr"></div>
 
-<input type="hidden" name="vars[lang]" value="{VAR_LANG}" />
-<input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}" />
 <input type="hidden" name="task" value="" />
 </form>

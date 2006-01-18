@@ -1,50 +1,41 @@
-<jos:comment>
+<jtmpl:comment>
 @version $Id$
 @package Joomla
 @subpackage Installation
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-</jos:comment>
+</jtmpl:comment>
 
 <form action="index.php" method="post" name="adminForm">
 <div id="right">
 	<div id="rightpad">
-		<div id="step"><jos:translate>error</jos:translate></div>
+		<div id="step"><jtmpl:translate>error</jtmpl:translate></div>
 
 		<div class="far-right">
-			<input type="button" class="button" value="&lt;&lt; <jos:translate escape="yes">Previous</jos:translate>" onclick="submitForm( this.form, '{BACK}' );" />
+			<input type="button" class="button" value="&lt;&lt; <jtmpl:translate escape="yes">Previous</jtmpl:translate>" onclick="submitForm( this.form, '{BACK}' );" />
 		</div>
 		<div class="clr"></div>
 
-		<h2><jos:translate>An error has occurred</jos:translate>:</h2>
+		<h2><jtmpl:translate>An error has occurred</jtmpl:translate>:</h2>
 		<div class="install-text">
 			<p>
-				<jos:tmpl name="messages">
+				<jtmpl:tmpl name="messages">
 				{MESSAGE}
-				</jos:tmpl>
+				</jtmpl:tmpl>
 			</p>
 		</div>
-		<jos:tmpl name="xmessages" type="simplecondition" requiredvars="xmessage">
+		<jtmpl:tmpl name="xmessages" type="simplecondition" requiredvars="xmessage">
 		<div class="install-form">
-			<div class="form-block">
+			<fieldset class="form-block">
 				<textarea rows="10" cols="50">{XMESSAGE}</textarea>
-	 		</div>
+	 		</fieldset>
 	 	</div>
-	 	</jos:tmpl>
+	 	</jtmpl:tmpl>
 
 		<div class="clr"></div>
 	</div>
 
 </div>
 <div class="clr"></div>
-<input type="hidden" name="vars[lang]" value="{VAR_LANG}">
-<input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}">
-<input type="hidden" name="vars[DBtype]" value="{VAR_DBTYPE}">
-<input type="hidden" name="vars[DBhostname]" value="{VAR_DBHOSTNAME}">
-<input type="hidden" name="vars[DBuserName]" value="{VAR_DBUSERNAME}">
-<input type="hidden" name="vars[DBpassword]" value="{VAR_DBPASSWORD}">
-<input type="hidden" name="vars[DBPrefix]" value="{VAR_DBPREFIX}">
-<input type="hidden" name="vars[DBDel]" value="{VAR_DBDEL}">
-<input type="hidden" name="vars[DBname]" value="{VAR_DBNAME}">
 <input type="hidden" name="task" value="" />
 </form>

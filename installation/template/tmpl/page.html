@@ -1,39 +1,39 @@
-<jos:comment>
+<jtmpl:comment>
 @version $Id: page.html 137 2005-09-12 10:21:17Z eddieajau $
 @package Joomla
 @subpackage Installation
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-</jos:comment>
+</jtmpl:comment>
 
-<jos:tmpl name="page" autoclear="yes">
-<jos:tmpl name="stepbar">
+<jtmpl:tmpl name="page" autoclear="yes">
+<jtmpl:tmpl name="stepbar">
 	<div id="stepbar">
 		<div id="steppad">
-			<h1><jos:translate>Installation</jos:translate></h1>
+			<h1><jtmpl:translate>Installation</jtmpl:translate></h1>
 			<div class="step-{STEP_LANG}">
-				1 - <jos:translate>Language</jos:translate>
+				1 - <jtmpl:translate>Language</jtmpl:translate>
 			</div>
 			<div class="step-{STEP_PREINSTALL}">
-				2 - <jos:translate>Pre-Installation check</jos:translate>
+				2 - <jtmpl:translate>Pre-Installation check</jtmpl:translate>
 			</div>
 			<div class="step-{STEP_LICENSE}">
-				3 - <jos:translate>License</jos:translate>
+				3 - <jtmpl:translate>License</jtmpl:translate>
 			</div>
 			<div class="step-{STEP_DBCONFIG}">
-				4 - <jos:translate>Database</jos:translate>
+				4 - <jtmpl:translate>Database</jtmpl:translate>
 			</div>
 			<div class="step-{STEP_FTPCONFIG}">
-				5 - <jos:translate>FTP Configuration</jos:translate>
+				5 - <jtmpl:translate>FTP Configuration</jtmpl:translate>
 			</div>
 			<div class="step-{STEP_MAINCONFIG}">
-				6 - <jos:translate>Configuration</jos:translate>
+				6 - <jtmpl:translate>Configuration</jtmpl:translate>
 			</div>
 			<div class="step-{STEP_FINISH}">
-				7 - <jos:translate>Finish</jos:translate>
+				7 - <jtmpl:translate>Finish</jtmpl:translate>
 			</div>
 		</div>
 	</div>
-</jos:tmpl>
-<jos:tmpl name="body" src="dynamic" autoload="off" parse="on" varscope="page" />
-</jos:tmpl>
+</jtmpl:tmpl>
+<jtmpl:tmpl name="body" src="dynamic" autoload="off" parse="on" varscope="page" />
+</jtmpl:tmpl>

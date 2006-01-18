@@ -1,10 +1,10 @@
-<jos:comment>
+<jtmpl:comment>
 @version $Id: mainconfig.html 137 2005-09-12 10:21:17Z eddieajau $
 @package Joomla
 @subpackage Installation
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-</jos:comment>
+</jtmpl:comment>
 
 <script language="JavaScript" type="text/javascript">
 	function validateForm( frm, task ) {
@@ -13,11 +13,11 @@
 		var adminPassword = getElementByName( frm , 'vars[adminPassword]' );
 
 		if (siteName.value == '') {
-			alert( '<jos:translate key="warnSiteName" escape="yes">Please enter a site name</jos:translate>' );
+			alert( '<jtmpl:translate key="warnSiteName" escape="yes">Please enter a site name</jtmpl:translate>' );
 		} else if (adminEmail.value == '') {
-			alert( '<jos:translate key="warnEmailAddress" escape="yes">Please enter a valid email address</jos:translate>' );
+			alert( '<jtmpl:translate key="warnEmailAddress" escape="yes">Please enter a valid email address</jtmpl:translate>' );
 		} else if (adminPassword.value == '') {
-			alert( '<jos:translate key="warnAdminPassword" escape="yes">Please enter a valid admin password</jos:translate>' );
+			alert( '<jtmpl:translate key="warnAdminPassword" escape="yes">Please enter a valid admin password</jtmpl:translate>' );
 		} else {
 			submitForm( frm, task );
 		}
@@ -28,38 +28,38 @@
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-			<jos:translate>Main Configuration</jos:translate>
+			<jtmpl:translate>Main Configuration</jtmpl:translate>
 		</div>
 
 		<div class="far-right">
-			<input type="button" class="button" value="<jos:translate escape="yes">Next</jos:translate> &gt;&gt;" onclick="validateForm( this.form, 'saveconfig' );" />
+			<input type="button" class="button" value="<jtmpl:translate escape="yes">Next</jtmpl:translate> &gt;&gt;" onclick="validateForm( this.form, 'saveconfig' );" />
 		</div>
 		<div class="clr"></div>
 
-		<h2><jos:translate>Site Name</jos:translate>:</h2>
+		<h2><jtmpl:translate>Site Name</jtmpl:translate>:</h2>
 		<div class="install-text">
-			<jos:translate key="enterSiteName">Enter the name of your Joomla! site.</jos:translate>
+			<jtmpl:translate key="enterSiteName">Enter the name of your Joomla! site.</jtmpl:translate>
 		</div>
 		<div class="install-form">
-			<div class="form-block">
+			<fieldset class="form-block">
 	  				<table class="content2">
 	  			   <tr>
 	  				  <td width="100">
-	  				  	<jos:translate>Site name</jos:translate>
+	  				  	<jtmpl:translate>Site name</jtmpl:translate>
 	  				  </td>
 	  				  <td align="center">
 	  				  	<input class="inputbox" type="text" name="vars[siteName]" size="30" value="{VAR_SITENAME}" />
 	  				  </td>
 	  			   </tr>
 	  				</table>
-			</div>
+			</fieldset>
 		</div>
 
 
 	    <div class="clr"></div>
-		<h2><jos:translate key="confTitle">Confirm the site URL, path, admin e-mail and FTP root path</jos:translate></h2>
+		<h2><jtmpl:translate key="confTitle">Confirm the site URL, path, admin e-mail and FTP root path</jtmpl:translate></h2>
 		<div class="install-text">
-			<jos:translate key="tipConfSteps">
+			<jtmpl:translate key="tipConfSteps">
 			<p>If URL and Path looks correct then please do not change.
 		   If you are not sure then please contact your ISP or administrator. Usually
 		   the values displayed will work for your site.<br/>
@@ -70,14 +70,14 @@
 			The Joomla! installer has attempted to automatically locate the root path for
 			the given FTP account.  Make sure this is the correct path before you continue
 			the installation process.</p>
-			</jos:translate>
+			</jtmpl:translate>
 		</div>
 		<div class="install-form">
-			<div class="form-block">
+			<fieldset class="form-block">
 				<table class="content2">
 			   <tr>
 				  <td width="100">
-				  	<jos:translate>Site URL</jos:translate>
+				  	<jtmpl:translate>Site URL</jtmpl:translate>
 				  </td>
 				  <td align="center">
 				  	<input class="inputbox" type="text" name="vars[siteUrl]" value="{VAR_SITEURL}" size="30"/>
@@ -85,7 +85,7 @@
 				</tr>
 			   <tr>
 				  <td>
-				  	<jos:translate>Site Path</jos:translate>
+				  	<jtmpl:translate>Site Path</jtmpl:translate>
 				  </td>
 					<td align="center">
 						<input class="inputbox" type="text" name="vars[sitePath]" value="{VAR_SITEPATH}" size="30"/>
@@ -93,7 +93,7 @@
 				</tr>
 				<tr>
 				  <td>
-				  	<jos:translate>Your E-mail</jos:translate>
+				  	<jtmpl:translate>Your E-mail</jtmpl:translate>
 				  </td>
 				  <td align="center">
 				  	<input class="inputbox" type="text" name="vars[adminEmail]" value="" size="30" />
@@ -101,32 +101,18 @@
 				</tr>
 				<tr>
 				  <td>
-				  	<jos:translate>Admin password</jos:translate>
+				  	<jtmpl:translate>Admin password</jtmpl:translate>
 				  </td>
 				  <td align="center">
 				  	<input class="inputbox" type="text" name="vars[adminPassword]" value="{VAR_ADMINPASSWORD}" size="30"/>
 				  </td>
 				</table>
-			</div>
+			</fieldset>
 		</div>
 	</div>
 </div>
 
 <div class="clr"></div>
 
-
-<input type="hidden" name="vars[lang]" value="{VAR_LANG}" />
-<input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}" />
-<input type="hidden" name="vars[DBtype]" value="{VAR_DBTYPE}" />
-<input type="hidden" name="vars[DBhostname]" value="{VAR_DBHOSTNAME}" />
-<input type="hidden" name="vars[DBuserName]" value="{VAR_DBUSERNAME}" />
-<input type="hidden" name="vars[DBpassword]" value="{VAR_DBPASSWORD}" />
-<input type="hidden" name="vars[DBname]" value="{VAR_DBNAME}" />
-<input type="hidden" name="vars[DBprefix]" value="{VAR_DBPREFIX}" />
-<input type="hidden" name="vars[ftpHost]" value="{VAR_FTPHOST}" />
-<input type="hidden" name="vars[ftpUser]" value="{VAR_FTPUSER}" />
-<input type="hidden" name="vars[ftpPassword]" value="{VAR_FTPPASSWORD}" />
-<input type="hidden" name="vars[ftpEnable]" value="{VAR_FTPENABLE}" />
-<input type="hidden" name="vars[ftpRoot]" value="{VAR_FTPROOT}" />
 <input type="hidden" name="task" value="" />
 </form>

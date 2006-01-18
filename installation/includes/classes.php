@@ -780,8 +780,8 @@ class JInstallationHelper
 		$DBuserName = mosGetParam($vars, 'DBuserName', '');
 		$DBpassword = mosGetParam($vars, 'DBpassword', '');
 		$DBname = mosGetParam($vars, 'DBname', '');
-		$DBPrefix = mosGetParam($vars, 'DBprefix', '');
-
+		$DBPrefix = mosGetParam($vars, 'DBPrefix', '');
+		
 		$adminPassword = mosGetParam($vars, 'adminPassword', '');
 		$adminEmail = mosGetParam($vars, 'adminEmail', '');
 

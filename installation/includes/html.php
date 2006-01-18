@@ -31,7 +31,6 @@ class JInstallationView
 		jimport('joomla.template.template');
 
 		$tmpl = new JTemplate;
-		$tmpl->setNamespace( 'jos' );
 
 		// load the wrapper and common templates
 		$tmpl->setRoot( JPATH_BASE . DS . 'template' . DS. 'tmpl' );

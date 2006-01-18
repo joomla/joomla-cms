@@ -1,10 +1,11 @@
-<jos:comment>
+<jtmpl:comment>
 @version $Id$
 @package Joomla
 @subpackage Installation
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-</jos:comment>
+</jtmpl:comment>
+
 <script language="JavaScript" type="text/javascript">
 function validateForm( frm, task ) {
 	var DBtype = getElementByName( frm, 'vars[DBtype]' );
@@ -12,16 +13,16 @@ function validateForm( frm, task ) {
 	var DBname = getElementByName( frm, 'vars[DBname]' );
 
 	if ( DBtype.selectedIndex == 0 ) {
-		alert( '<jos:translate key="validType" escape="yes">Please select the database type</jos:translate>' );
+		alert( '<jtmpl:translate key="validType" escape="yes">Please select the database type</jtmpl:translate>' );
 		return;
 	} else if (DBhostname.value == '') {
-		alert( '<jos:translate key="validHost" escape="yes">Please enter the host name</jos:translate>' );
+		alert( '<jtmpl:translate key="validHost" escape="yes">Please enter the host name</jtmpl:translate>' );
 		return;
 	} else if (!document.getElementById('vars_dbcollation')) {
-		alert( '<jos:translate key="validCollation" escape="yes">Please choose a database collation</jos:translate>' );
+		alert( '<jtmpl:translate key="validCollation" escape="yes">Please choose a database collation</jtmpl:translate>' );
 		return;
 	} else if (DBname.value == '') {
-		alert( '<jos:translate key="validName" escape="yes">Please enter a database name</jos:translate>' );
+		alert( '<jtmpl:translate key="validName" escape="yes">Please enter a database name</jtmpl:translate>' );
 		return;
 	} else {
 		submitForm( frm, task );
@@ -31,49 +32,51 @@ function validateForm( frm, task ) {
 function JProcess() {
 
 	if ( document.getElementById("vars_dbtype").selectedIndex == 0 ) {
-		alert( '<jos:translate key="validType" escape="yes">Please select the database type</jos:translate>' );
+		alert( '<jtmpl:translate key="validType" escape="yes">Please select the database type</jtmpl:translate>' );
 		return;
 	} else if (document.getElementById("vars_dbhostname").value == '') {
-		alert( '<jos:translate key="validHost" escape="yes">Please enter the host name</jos:translate>' );
+		alert( '<jtmpl:translate key="validHost" escape="yes">Please enter the host name</jtmpl:translate>' );
 		return;
 	} else if (document.getElementById("vars_dbusername").value == '') {
-		alert( '<jos:translate key="validUser" escape="yes">Please enter a database username</jos:translate>' );
+		alert( '<jtmpl:translate key="validUser" escape="yes">Please enter a database username</jtmpl:translate>' );
 		return;
 	} else {
 		xajax_getCollations(xajax.getFormValues('adminForm'));
 	}
 }
 </script>
+
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-			<jos:translate>Database Configuration</jos:translate>
+			<jtmpl:translate>Database Configuration</jtmpl:translate>
 		</div>
 
 		<div class="far-right">
-			<input type="button" class="button" value="&lt;&lt; <jos:translate escape="yes">Previous</jos:translate>" onclick="submitForm( this.form, 'license' );" />
-			<input type="button" class="button" value="<jos:translate escape="yes">Next</jos:translate> &gt;&gt;" onclick="validateForm( this.form, 'makedb' );" />
+			<input type="button" class="button" value="&lt;&lt; <jtmpl:translate escape="yes">Previous</jtmpl:translate>" onclick="submitForm( this.form, 'license' );" />
+			<input type="button" class="button" value="<jtmpl:translate escape="yes">Next</jtmpl:translate> &gt;&gt;" onclick="validateForm( this.form, 'makedb' );" />
 		</div>
 
 		<div class="clr"></div>
 
 		<h2>
-		<jos:translate>Connection Settings</jos:translate>:
+		<jtmpl:translate>Connection Settings</jtmpl:translate>:
 		</h2>
 
 		<div class="install-text">
-			<jos:translate key="tipDatabaseSteps">
+			<jtmpl:translate key="tipDatabaseSteps">
 			<p>Setting up Joomla! to run on your server involves 4 simple steps...</p>
 			<p>Please enter the hostname of the server Joomla! is to be installed on.</p>
 			<p>Enter the MySQL username, password and database name you wish to use with Joomla.</p>
 			<p>Enter a prefix to be used by tables for this Joomla! installation. Select how to handle exisitng tables from a previous installation.</p>
 			<p>Install the samples unless you are experienced want to start with a virtually empty site.</p>
-			</jos:translate>
+			</jtmpl:translate>
 		</div>
 
 		<div class="install-form">
 			<fieldset class="form-block">
+			<legend>Required settings</legend>
 	 			<table class="content2">
 	  			<tr>
 	    			<td></td>
@@ -83,19 +86,19 @@ function JProcess() {
 	  			<tr>
 	    			<td colspan="2">
 	    				<label for="vars_dbtype">
-	    					<jos:translate>Database Type</jos:translate>
+	    					<jtmpl:translate>Database Type</jtmpl:translate>
 	    				</label>
 	    				<br/>
 	 					<select id="vars_dbtype" name="vars[DBtype]" class="inputbox" size="1">
-						<option value=""><jos:translate>Select Type</jos:translate></option>
-						<jos:tmpl name="dbtype-options">
+						<option value=""><jtmpl:translate>Select Type</jtmpl:translate></option>
+						<jtmpl:tmpl name="dbtype-options">
 							<option value="{TEXT}" {SELECTED}>{TEXT}</option>
-						</jos:tmpl>
+						</jtmpl:tmpl>
 						</select>
 			   		</td>
 		  		    <td>
 		  		    	<em>
-		  		    	<jos:translate key="tipType">This is probably 'mysql'</jos:translate>
+		  		    	<jtmpl:translate key="tipType">This is probably 'mysql'</jtmpl:translate>
 		  		    	</em>
 		  		    </td>
 				</tr>
@@ -103,7 +106,7 @@ function JProcess() {
 	    			<td colspan="2">
 	    				<label for="vars_dbhostname">
 
-							<jos:translate>Host Name</jos:translate>
+							<jtmpl:translate>Host Name</jtmpl:translate>
 
 						</label>
 
@@ -113,42 +116,42 @@ function JProcess() {
 	    			</td>
 		  		    <td>
 		  		    	<em>
-		  		    	<jos:translate key="tipHost">This is usually 'localhost'</jos:translate>
+		  		    	<jtmpl:translate key="tipHost">This is usually 'localhost'</jtmpl:translate>
 		  		    	</em>
 		  		    </td>
 				</tr>
 				<tr>
 		  		    <td colspan="2">
 	    				<label for="vars_dbusername">
-			  		    	<jos:translate>User Name</jos:translate>
+			  		    	<jtmpl:translate>User Name</jtmpl:translate>
 						</label>
 		  		    	<br/>
 		  		    	<input id="vars_dbusername" class="inputbox" type="text" name="vars[DBuserName]" value="{VAR_DBUSERNAME}" />
 		  		    </td>
 		  		    <td>
 		  		    	<em>
-		  		    	<jos:translate key="tipUser">Either something as 'root' or a username given by the hoster</jos:translate>
+		  		    	<jtmpl:translate key="tipUser">Either something as 'root' or a username given by the hoster</jtmpl:translate>
 		  		    	</em>
 		  		    </td>
 				</tr>
 		  		<tr>
 		  		    <td colspan="2">
 	    				<label for="vars_dbpassword">
-		  		    		<jos:translate>Password</jos:translate>
+		  		    		<jtmpl:translate>Password</jtmpl:translate>
 						</label>
 		  		    	<br/>
 		  		    	<input id="vars_dbpassword" class="inputbox" type="text" name="vars[DBpassword]" value="{VAR_DBPASSWORD}" />
 		  		    </td>
 		  		    <td>
 		  		    	<em>
-		  		    	<jos:translate key="tipPassword">For site security using a password for the mysql account is mandatory</jos:translate>
+		  		    	<jtmpl:translate key="tipPassword">For site security using a password for the mysql account is mandatory</jtmpl:translate>
 		  		    	</em>
 		  		    </td>
 				</tr>
 		  		<tr>
 		  		    <td colspan="2" valign="top">
 	    				<label for="vars_dbcollation">
-		  		    		<jos:translate>Available collations</jos:translate>
+		  		    		<jtmpl:translate>Available collations</jtmpl:translate>
 						</label>
 		  		    	<br/>
 		  		    	<span id="theCollation"><input type="button" id="findbutton" class="button" value="Get Collations" onclick="JProcess();" /></span>
@@ -162,28 +165,14 @@ function JProcess() {
 	  			<tr>
 	    			<td colspan="2">
 	    				<label for="vars_dbname">
-		    				<jos:translate>Database Name</jos:translate>
+		    				<jtmpl:translate>Database Name</jtmpl:translate>
 						</label>
 	    				<br/>
 	    				<input id="vars_dbname" class="inputbox" type="text" name="vars[DBname]" value="{VAR_DBNAME}" />
 	    			</td>
 		  		    <td>
 		  		    	<em>
-		  		    	<jos:translate key="tipDatabase">Some hosts allow only a certain DB name per site. Use table prefix in this case for distinct Joomla! sites.</jos:translate>
-		  		    	</em>
-		  		    </td>
-				</tr>
-	  			<tr>
-	    			<td colspan="2">
-	    				<label for="vars_dbprefix">
-		    				<jos:translate>Table Prefix</jos:translate>
-						</label>
-	    				<br/>
-	    				<input id="vars_dbprefix" class="inputbox" type="text" name="vars[DBPrefix]" value="{VAR_DBPREFIX}" />
-	    			</td>
-		  		    <td>
-		  		    	<em>
-		  		    	<jos:translate key="tipPrefix">Dont use 'old_' since this is used for backup tables</jos:translate>
+		  		    	<jtmpl:translate key="tipDatabase">Some hosts allow only a certain DB name per site. Use table prefix in this case for distinct Joomla! sites.</jtmpl:translate>
 		  		    	</em>
 		  		    </td>
 				</tr>
@@ -197,49 +186,63 @@ function JProcess() {
 	    			<td></td>
 	    			<td></td>
 				</tr>
-	  			<tr id="dbtabledel">
+	  			<tr>
 		  		    <td>
 		  		    	<input id="vars_dbdel" type="checkbox" name="vars[DBDel]" value="1" />
 		  		    </td>
 					<td>
 	    				<label for="vars_dbdel">
-							<jos:translate>Drop Existing Tables</jos:translate>
+							<jtmpl:translate>Drop Existing Tables</jtmpl:translate>
 						</label>
 					</td>
 	    			<td></td>
 		  		</tr>
-	  			<tr id="dbtablebu" >
+	  			<tr>
 		  		    <td>
 		  		    	<input id="vars_dbbackup" type="checkbox" name="vars[DBBackup]" value="1"  checked="checked"/>
 		  		    </td>
 
 					<td>
 	    				<label for="vars_dbbackup">
-							<jos:translate>Backup Old Tables</jos:translate>
+							<jtmpl:translate>Backup Old Tables</jtmpl:translate>
 						</label>
 					</td>
 
 	    			<td>
 	    				<em>
-	    				<jos:translate key="tipBackup">Any existing backup tables from former Joomla! installations will be replaced</jos:translate>
+	    				<jtmpl:translate key="tipBackup">Any existing backup tables from former Joomla! installations will be replaced</jtmpl:translate>
 	    				</em>
 	    			</td>
 		  		</tr>
-	  			<tr id="dbtablesmpl">
+	  			<tr>
 		  		    <td>
 		  		    	<input id="vars_dbsample" type="checkbox" name="vars[DBSample]" value="1" checked="checked"/>
 		  		    </td>
 					<td>
 	    				<label for="vars_dbsample">
-							<jos:translate>Install Sample Data</jos:translate>
+							<jtmpl:translate>Install Sample Data</jtmpl:translate>
 						</label>
 					</td>
 		  		    <td>
 		  		    	<em>
-		  		    	<jos:translate key="tipSample">Uncheck only if you are experienced with Joomla!</jos:translate>
+		  		    	<jtmpl:translate key="tipSample">Uncheck only if you are experienced with Joomla!</jtmpl:translate>
 		  		    	</em>
 		  		    </td>
 		  		</tr>
+		  		<tr>
+	    			<td colspan="2">
+	    				<label for="vars_dbprefix">
+		    				<jtmpl:translate>Table Prefix</jtmpl:translate>
+						</label>
+	    				<br/>
+	    				<input id="vars_dbprefix" class="inputbox" type="text" name="vars[DBPrefix]" value="{VAR_DBPREFIX}" />
+	    			</td>
+		  		    <td>
+		  		    	<em>
+		  		    	<jtmpl:translate key="tipPrefix">Dont use 'old_' since this is used for backup tables</jtmpl:translate>
+		  		    	</em>
+		  		    </td>
+				</tr>
 	  			</table>
 			</fieldset>
 		</div>
@@ -247,9 +250,6 @@ function JProcess() {
 </div>
 
 <div class="clr"></div>
-
-<input type="hidden" name="vars[lang]" value="{VAR_LANG}" />
 <input type="hidden" id="utfsupport" name="vars[DButfSupport]" value="" />
-<input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}" />
 <input type="hidden" name="task" value="" />
 </form>

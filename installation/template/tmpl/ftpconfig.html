@@ -1,20 +1,20 @@
-<jos:comment>
+<jtmpl:comment>
 @version $Id$
 @package Joomla
 @subpackage Installation
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-</jos:comment>
+</jtmpl:comment>
 <script language="JavaScript" type="text/javascript">
 function validateForm( frm, task ) {
 	var ftpEnable = document.getElementById("ftpenable");
 	var ftpRoot = document.getElementById("ftproot");
 	
 	if (ftpEnable.checked == false) {
-		alert( '<jos:translate key="warnFtpEnable" escape="yes">Disabling the FTP Filesystem layer can cause problems\nwith filesystem ownership permissions.</jos:translate>' );
+		alert( '<jtmpl:translate key="warnFtpEnable" escape="yes">Disabling the FTP Filesystem layer can cause problems\nwith filesystem ownership permissions.</jtmpl:translate>' );
 		submitForm( frm, task );
 	} else if (ftpRoot.value == '') {
-		alert( '<jos:translate key="warnFtpRoot" escape="yes">Please enter an FTP Root or use\nthe autofind root button.</jos:translate>' );
+		alert( '<jtmpl:translate key="warnFtpRoot" escape="yes">Please enter an FTP Root or use\nthe autofind root button.</jtmpl:translate>' );
 		return;
 	} else {
 		submitForm( frm, task );
@@ -24,13 +24,13 @@ function validateForm( frm, task ) {
 function JProcess() {
 
 	if ( document.getElementById("ftphost").value == '' ) {
-		alert( '<jos:translate key="validType" escape="yes">Please select the database type</jos:translate>' );
+		alert( '<jtmpl:translate key="validType" escape="yes">Please select the database type</jtmpl:translate>' );
 		return;
 	} else if (document.getElementById("ftpuser").value == '') {
-		alert( '<jos:translate key="validFtpUser" escape="yes">Please enter a username</jos:translate>' );
+		alert( '<jtmpl:translate key="validFtpUser" escape="yes">Please enter a username</jtmpl:translate>' );
 		return;
 	} else if (document.getElementById("ftppass").value == '') {
-		alert( '<jos:translate key="validFtpPass" escape="yes">Please enter a database password</jos:translate>' );
+		alert( '<jtmpl:translate key="validFtpPass" escape="yes">Please enter a database password</jtmpl:translate>' );
 		return;
 	} else {
 		xajax_getFtpRoot(xajax.getFormValues('adminForm'));
@@ -41,19 +41,19 @@ function JProcess() {
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-			<jos:translate>FTP Configuration</jos:translate>
+			<jtmpl:translate>FTP Configuration</jtmpl:translate>
 		</div>
 
 		<div class="far-right">
-			<input type="button" class="button" value="<jos:translate escape="yes">Next</jos:translate> &gt;&gt;" onclick="validateForm( this.form, 'mainconfig' );" />
+			<input type="button" class="button" value="<jtmpl:translate escape="yes">Next</jtmpl:translate> &gt;&gt;" onclick="validateForm( this.form, 'mainconfig' );" />
 		</div>
 		<div class="clr"></div>
 
 		<h2>
-			<jos:translate key="ftpConfTitle">Default FTP settings</jos:translate>
+			<jtmpl:translate key="ftpConfTitle">Default FTP settings</jtmpl:translate>
 		</h2>
 		<div class="install-text">
-			<jos:translate key="tipFtpConfSteps">
+			<jtmpl:translate key="tipFtpConfSteps">
 			<p>Due to filesystem permission restrictions and PHP Safe Mode restrictions.
 			For all users to utilize the Joomla! installers an FTP layer exists to handle
 			filesystem manipulation.
@@ -66,24 +66,24 @@ function JProcess() {
 			<br/>
 			For security reasons, it is best if a separate FTP user account is created with
 			access only to the Joomla! installation.</p>
-			</jos:translate>
+			</jtmpl:translate>
 		</div>
 		<div class="install-form">
 			<fieldset class="form-block">
 				<table class="content2">
 					<tr>
 						<td width="100">
-							<input class="inputbox" type="checkbox" id="ftpenable" name="vars[ftpEnable]" value="1" accesskey="e" onChange="formState()" checked />
+							<input class="inputbox" type="checkbox" id="ftpenable" name="vars[ftpEnable]" value="1" accesskey="e" onChange="formState()" checked="checked" />
 						</td>
 						<td align="left">
 							<label for="vars[ftpEnable]">
-								<jos:translate>Enable FTP filesystem layer</jos:translate>
+								<jtmpl:translate>Enable FTP filesystem layer</jtmpl:translate>
 							</label>
 						</td>
 					</tr>
 					<tr id="host" class="hidden">
 						<td width="100">
-							<jos:translate>FTP host</jos:translate>
+							<jtmpl:translate>FTP host</jtmpl:translate>
 						</td>
 						<td align="center">
 							<input class="inputbox" type="text" id="ftphost" name="vars[ftpHost]" value="{VAR_FTPHOST}" size="30"/>
@@ -91,7 +91,7 @@ function JProcess() {
 					</tr>
 					<tr>
 						<td width="100">
-							<jos:translate>FTP user</jos:translate>
+							<jtmpl:translate>FTP user</jtmpl:translate>
 						</td>
 						<td align="center">
 							<input class="inputbox" type="text" id="ftpuser" name="vars[ftpUser]" value="{VAR_FTPUSER}" size="30"/>
@@ -99,7 +99,7 @@ function JProcess() {
 					</tr>
 					<tr>
 						<td>
-							<jos:translate>FTP password</jos:translate>
+							<jtmpl:translate>FTP password</jtmpl:translate>
 						</td>
 						<td align="center">
 							<input class="inputbox" type="text" id="ftppass" name="vars[ftpPassword]" value="{VAR_FTPPASSWORD}" size="30"/>
@@ -107,7 +107,7 @@ function JProcess() {
 					</tr>
 					<tr id="rootPath">
 						<td>
-							<jos:translate>FTP Root Path</jos:translate>
+							<jtmpl:translate>FTP Root Path</jtmpl:translate>
 						</td>
 						<td align="center">
 							<input class="inputbox" id="ftproot" type="text" name="vars[ftpRoot]" value="{VAR_FTPROOT}" size="30"/>
@@ -121,13 +121,5 @@ function JProcess() {
 </div>
 <div class="clr"></div>
 
-<input type="hidden" name="vars[lang]" value="{VAR_LANG}" />
-<input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}" />
-<input type="hidden" name="vars[DBtype]" value="{VAR_DBTYPE}" />
-<input type="hidden" name="vars[DBhostname]" value="{VAR_DBHOSTNAME}" />
-<input type="hidden" name="vars[DBuserName]" value="{VAR_DBUSERNAME}" />
-<input type="hidden" name="vars[DBpassword]" value="{VAR_DBPASSWORD}" />
-<input type="hidden" name="vars[DBname]" value="{VAR_DBNAME}" />
-<input type="hidden" name="vars[DBprefix]" value="{VAR_DBPREFIX}" />
 <input type="hidden" name="task" value="" />
 </form>

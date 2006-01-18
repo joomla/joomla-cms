@@ -1,48 +1,48 @@
-<jos:comment>
+<jtmpl:comment>
 @version $Id$
 @package Joomla
 @subpackage Installation
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-</jos:comment>
+</jtmpl:comment>
 
 <form action="index.php" method="post" name="adminForm">
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-			<jos:translate>Database Collation</jos:translate>
+			<jtmpl:translate>Database Collation</jtmpl:translate>
 		</div>
 
 		<div class="far-right">
-			<input type="button" class="button" value="&lt;&lt; <jos:translate escape="yes">Previous</jos:translate>" onclick="submitForm( this.form, 'dbconfig' );" />
-			<input type="button" class="button" value="<jos:translate escape="yes">Next</jos:translate> &gt;&gt;" onclick="submitForm( this.form, 'makedb' );" />
+			<input type="button" class="button" value="&lt;&lt; <jtmpl:translate escape="yes">Previous</jtmpl:translate>" onclick="submitForm( this.form, 'dbconfig' );" />
+			<input type="button" class="button" value="<jtmpl:translate escape="yes">Next</jtmpl:translate> &gt;&gt;" onclick="submitForm( this.form, 'makedb' );" />
 		</div>
 
 		<div class="clr"></div>
 
 		<h2>
-		<jos:translate>Collation Selection</jos:translate>:
+		<jtmpl:translate>Collation Selection</jtmpl:translate>:
 		</h2>
 
 		<div class="install-text">
-			<p><jos:translate>databaseVersion</jos:translate> {VAR_DBVERSION}</p>
-			<jos:tmpl name="utf_text" type="condition" conditionvar="utfsupport" >
-				<jos:sub condition="true">
-					<jos:translate key="tipCollationUtf">
+			<p><jtmpl:translate>databaseVersion</jtmpl:translate> {VAR_DBVERSION}</p>
+			<jtmpl:tmpl name="utf_text" type="condition" conditionvar="utfsupport" >
+				<jtmpl:sub condition="true">
+					<jtmpl:translate key="tipCollationUtf">
 					<p>This version of MySQL includes UTF-8 support which is the required encoding.</p>
 					<p>Choose a collation from the list. If none appears for your language, that is because the default collation <em>utf8_general_ci</em> is suitable.</p>
-					</jos:translate>
-				</jos:sub>
-					<jos:sub condition="false">
-					<jos:translate key="tipCollationNonUtf">
+					</jtmpl:translate>
+				</jtmpl:sub>
+					<jtmpl:sub condition="false">
+					<jtmpl:translate key="tipCollationNonUtf">
 					<p>This version of MySQL does not have UTF-8 support which is the required encoding.</p>
 					<p>It is recommended that you upgrade your database to a version newer than 4.1.2. If this is not possible, Joomla! will store utf-8 encoded content in your existing database in a backward compatibility mode. Collation selection is not possible in this mode and a default collation will be used.</p>
-					</jos:translate>
-				</jos:sub>
-			</jos:tmpl>
+					</jtmpl:translate>
+				</jtmpl:sub>
+			</jtmpl:tmpl>
 		</div>
 		<div class="install-form">
-			<div class="form-block">
+			<fieldset class="form-block">
 	 			<table class="content2">
 	  			<tr>
 	    			<td></td>
@@ -52,38 +52,25 @@
 	  			<tr>
 	    			<td colspan="2">
 	    				<label for="vars_dbtype">
-	    					<jos:translate>Available collations</jos:translate>
+	    					<jtmpl:translate>Available collations</jtmpl:translate>
 	    				</label>
 	    				<br/>
 	 					<select id="vars_dbcollation" name="vars[DBcollation]" class="inputbox" size="1">
-						<jos:tmpl name="collation-options">
+						<jtmpl:tmpl name="collation-options">
 							<option>{COLLATION}</option>
-						</jos:tmpl>
+						</jtmpl:tmpl>
 						</select>
 			   		</td>
 		  		    <td>&nbsp;
 		  		    </td>
 				</tr>
 	  			</table>
-			</div>
+			</fieldset>
 		</div>
 	</div>
 </div>
 
 <div class="clr"></div>
 
-<input type="hidden" name="vars[lang]" value="{VAR_LANG}">
-<input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}">
-<input type="hidden" name="vars[DBtype]" value="{VAR_DBTYPE}">
-<input type="hidden" name="vars[DBhostname]" value="{VAR_DBHOSTNAME}">
-<input type="hidden" name="vars[DBuserName]" value="{VAR_DBUSERNAME}">
-<input type="hidden" name="vars[DBpassword]" value="{VAR_DBPASSWORD}">
-<input type="hidden" name="vars[DBPrefix]" value="{VAR_DBPREFIX}">
-<input type="hidden" name="vars[DBDel]" value="{VAR_DBDEL}">
-<input type="hidden" name="vars[DBname]" value="{VAR_DBNAME}">
-<input type="hidden" name="vars[DBversion]" value="{VAR_DBVERSION}">
-<input type="hidden" name="vars[DButfSupport]" value="{VAR_DBUTFSUPPORT}">
-<input type="hidden" name="vars[DBSample]" value="{VAR_DBSAMPLE}">
-<input type="hidden" name="vars[DBBackup]" value="{VAR_DBBACKUP}">
 <input type="hidden" name="task" value="" />
 </form>

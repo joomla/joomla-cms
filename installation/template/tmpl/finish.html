@@ -1,65 +1,65 @@
-<jos:comment>
+<jtmpl:comment>
 @version $Id$
 @package Joomla
 @subpackage Installation
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-</jos:comment>
+</jtmpl:comment>
 
 <form action="index.php" method="post" name="adminForm">
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-		<jos:translate>Finish</jos:translate>
+		<jtmpl:translate>Finish</jtmpl:translate>
 		</div>
 
 		<div class="far-right">
-			<input type="button" class="button" value="<jos:translate escape="yes">Site</jos:translate>" onclick="window.location.href='{VAR_SITEURL}/';" />
-			<input type="button" class="button" value="<jos:translate escape="yes">Admin</jos:translate>" onclick="window.location.href='{VAR_ADMINURL}/';" />
+			<input type="button" class="button" value="<jtmpl:translate escape="yes">Site</jtmpl:translate>" onclick="window.location.href='{VAR_SITEURL}/';" />
+			<input type="button" class="button" value="<jtmpl:translate escape="yes">Admin</jtmpl:translate>" onclick="window.location.href='{VAR_ADMINURL}/';" />
 		</div>
 
 		<div class="clr"></div>
 
 	    <h2>
-	    <jos:translate key="congratulations">Congratulations! Joomla! is installed.</jos:translate>
+	    <jtmpl:translate key="congratulations">Congratulations! Joomla! is installed.</jtmpl:translate>
 	    </h2>
 
 	    <div class="install-text">
-	    	<jos:translate key="finishButtons">
+	    	<jtmpl:translate key="finishButtons">
 		   <p>
 		   Click the "Site" button to start Joomla! site or "Admin" to take you to administrator login.
 		   </p>
-		   </jos:translate>
-	       <jos:translate key="languageinfo">
+		   </jtmpl:translate>
+	       <jtmpl:translate key="languageinfo">
 		   <p>
 		   On the Joomla! help page for languages you will find an easy step by step help to install your own languagepack in Joomla!<br/>You will find a list there with links to the available languagepacks.<br/>Click the button on the right to open the helpsite in a new window.
 		   </p>
-		   </jos:translate>
+		   </jtmpl:translate>
 	    </div>
 
 	    <div class="install-form">
-		   <div class="form-block">
+		   <fieldset class="form-block">
 			  <table class="final-table">
 			  <tr>
 			  	<td class="error" align="center">
-			  		<jos:translate key="removeInstallation">PLEASE REMEMBER TO COMPLETELY REMOVE THE INSTALLATION DIRECTORY</jos:translate>
+			  		<jtmpl:translate key="removeInstallation">PLEASE REMEMBER TO COMPLETELY REMOVE THE INSTALLATION DIRECTORY</jtmpl:translate>
 			  	</td>
 			  </tr>
 			  <tr>
 			  	<td align="center">
 			  		<h3>
-			  		<jos:translate>Administration Login Details</jos:translate>
+			  		<jtmpl:translate>Administration Login Details</jtmpl:translate>
 			  		</h3>
 			  	</td>
 			  </tr>
 			  <tr>
 			  	<td align="center" class="notice">
-			  		<jos:translate>Username</jos:translate> : admin
+			  		<jtmpl:translate>Username</jtmpl:translate> : admin
 			  	</td>
 			  </tr>
 			  <tr>
 			  	<td align="center" class="notice">
-			  		<jos:translate>Password</jos:translate> : {VAR_ADMINPASSWORD}
+			  		<jtmpl:translate>Password</jtmpl:translate> : {VAR_ADMINPASSWORD}
 			  	</td>
 			  </tr>
 			  <tr>
@@ -72,9 +72,9 @@
 							<div class="icon">
 								<a href="http://help.joomla.org" target="_blank">
 								<br />
-								<b><jos:translate key="languagebuttonlineone">Joomla! in your own language?</jos:translate></b>
+								<b><jtmpl:translate key="languagebuttonlineone">Joomla! in your own language?</jtmpl:translate></b>
 								<br />
-								<jos:translate key="languagebuttonlinetwo">Visit the Joomla! help site for more information and downloads.</jos:translate>
+								<jtmpl:translate key="languagebuttonlinetwo">Visit the Joomla! help site for more information and downloads.</jtmpl:translate>
 								<br /><br />
 								</a></td>
 							</div>
@@ -85,15 +85,15 @@
 			  <tr>
 			  	<td>&nbsp;</td>
 			  </tr>
-			  <jos:tmpl name="configuration-error" type="simplecondition" requiredvars="buffer">
+			  <jtmpl:tmpl name="configuration-error" type="simplecondition" requiredvars="buffer">
 			  <tr>
 				 <td class="small">
-					<jos:translate key="confProblem">
+					<jtmpl:translate key="confProblem">
 					Your configuration file or directory is not writeable,
 					or there was a problem creating the configuration file. You'll have to
 					upload the following code by hand. Click in the textarea to highlight
 					all of the code.
-					</jos:translate>
+					</jtmpl:translate>
 				 </td>
 			  </tr>
 			  <tr>
@@ -102,9 +102,9 @@
 					<textarea rows="5" cols="60" name="configcode" onclick="javascript:this.form.configcode.focus();this.form.configcode.select();" >{BUFFER}</textarea>
 				 </td>
 			  </tr>
-				</jos:tmpl>
+				</jtmpl:tmpl>
 			</table>
-		   </div>
+		   </fieldset>
 	    </div>
 
 	    <div id="break"></div>
@@ -113,7 +113,5 @@
 
 <div class="clr"></div>
 
-<input type="hidden" name="vars[lang]" value="{VAR_LANG}" />
-<input type="hidden" name="vars[DBcreated]" value="{VAR_DBCREATED}" />
 <input type="hidden" name="task" value="" />
 </form>
