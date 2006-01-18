@@ -275,6 +275,139 @@ class JInstallerController {
 	}
 
 	/**
+	 * Enable an extension
+	 * 
+	 * @static
+	 * @return boolean True on success
+	 * @since 1.0
+	 */
+	function enableextension()
+	{
+		global $mainframe;
+		
+		/*
+		 * Get a database connector
+		 */
+		$db =& $mainframe->getDBO();
+		
+		/*
+		 * Initialize variables
+		 */
+		$eid = JRequest::getVar( 'eid', array(0), '', 'array' );
+		$extension = JRequest::getVar( 'extension' );
+		$result = false;
+
+		/*
+		 * Get the extension client
+		 * 
+		 * Defaults to 'site'
+		 * Set 'admin' to 'administrator'
+		 */
+		$client = JRequest::getVar( 'client', 'site' );
+		if ($client == '') {
+			$client = 'site';
+		}
+		if ($client == 'admin') {
+			$client = 'administrator';
+		}
+		
+		
+		/*
+		 * Ensure eid is an array of extension ids
+		 * TODO: If it isn't an array do we want to set an error and fail?  
+		 */
+		if (!is_array($eid)) {
+			$eid = array ($eid);
+		}
+
+		/*
+		 * Get a model object for the extension type
+		 */
+		$model = & JModel :: getInstance( $extension, $db );
+
+		/*
+		 * Disable the extension in the model and store it in the database
+		 */
+		foreach ($eid as $id) {
+			$model->load($id);
+			$model->enabled = '1';
+			$model->store();
+		}
+
+		/*
+		 * Display the extension management screen
+		 */
+		JInstallerExtensionTasks::showInstalled();		
+	}
+
+	/**
+	 * Disable an extension
+	 * 
+	 * @static
+	 * @return boolean True on success
+	 * @since 1.1
+	 */
+	function disableextension()
+	{
+		global $mainframe;
+		
+		/*
+		 * Get a database connector
+		 */
+		$db =& $mainframe->getDBO();
+		
+		/*
+		 * Initialize variables
+		 */
+		$eid = JRequest::getVar( 'eid', array(0), '', 'array' );
+		$extension = JRequest::getVar( 'extension' );
+		$result = false;
+
+		/*
+		 * Get the extension client
+		 * 
+		 * Defaults to 'site'
+		 * Set 'admin' to 'administrator'
+		 */
+		$client = JRequest::getVar( 'client', 'site' );
+		if ($client == '') {
+			$client = 'site';
+		}
+		if ($client == 'admin') {
+			$client = 'administrator';
+		}
+		
+		
+		/*
+		 * Ensure eid is an array of extension ids
+		 * TODO: If it isn't an array do we want to set an error and fail?  
+		 */
+		if (!is_array($eid)) {
+			$eid = array ($eid);
+		}
+
+		/*
+		 * Get a model object for the extension type
+		 */
+		$model = & JModel :: getInstance( $extension, $db );
+
+		/*
+		 * Disable the extension in the model and store it in the database
+		 */
+		foreach ($eid as $id) {
+			
+			$model->load($id);
+			$model->enabled = '0';
+			$model->store();
+		}
+
+		/*
+		 * Display the extension management screen
+		 */
+		JInstallerExtensionTasks::showInstalled();		
+	}
+
+	/**
 	 * Remove (uninstall) an extension
 	 * 
 	 * @static
@@ -326,7 +459,7 @@ class JInstallerController {
 		$installer = & JInstaller :: getInstance($db, $extension);
 
 		/*
-		 * Uninstall the chosen extensinos
+		 * Uninstall the chosen extensions
 		 */
 		foreach ($eid as $id) {
 			$result = $installer->uninstall($id, $client);
@@ -385,6 +518,12 @@ switch ($task) {
 		break;
 	case 'installfromurl':
 		JInstallerController :: installFromUrl();
+		break;
+	case 'enable':
+		JInstallerController :: enableextension();
+		break;
+	case 'disable':
+		JInstallerController :: disableextension();
 		break;
 	case 'remove':
 	case 'removeextension':

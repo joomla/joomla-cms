@@ -45,6 +45,8 @@ class JModelComponent extends JModel
 	var $iscore				= null;
 	/** @var string */
 	var $params				= null;
+	/** @var int */
+	var $enabled			= null;
 
 	/**
 	* @param database A database connector object

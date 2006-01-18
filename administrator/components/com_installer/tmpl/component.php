@@ -32,7 +32,7 @@ class JInstallerExtensionTasks {
 	 */
 	function showInstalled() {
 		global $mainframe;
-		
+
 		/*
 		 * Get a database connector
 		 */
@@ -151,10 +151,10 @@ class JInstallerScreens_component {
 					<th width="20%" class="title">
 					<?php echo JText::_( 'Currently Installed' ); ?>
 					</th>
-					<th width="20%" class="title">
-					<?php echo JText::_( 'Component Menu Link' ); ?>
+					<th width="15%" align="center">
+					<?php echo JText::_( 'Enabled' ); ?>
 					</th>
-					<th width="10%"  class="title">
+					<th width="15%"  class="title">
 					<?php echo JText::_( 'Author' ); ?>
 					</th>
 					<th width="5%" align="center">
@@ -175,7 +175,16 @@ class JInstallerScreens_component {
 				$rc = 0;
 				for ($i = 0, $n = count($rows); $i < $n; $i ++) {
 					$row = & $rows[$i];
-	?>
+					
+					$img 	= $row->enabled ? 'publish_g.png' : 'publish_x.png';
+					$task 	= $row->enabled ? 'disable' : 'enable';
+					$alt 	= $row->enabled ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
+					$action	= $row->enabled ? 'disable' : 'enable';
+					$href = '
+					<a href="javascript: void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task .'\')" title="'. $action .'">
+					<img src="images/'. $img .'" border="0" alt="'. $alt .'" />
+					</a>';
+					?>
 					<tr class="<?php echo "row$rc"; ?>">
 						<td>
 						<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);">
@@ -183,8 +192,8 @@ class JInstallerScreens_component {
 						<?php echo $row->name; ?>
 						</span>
 						</td>
-						<td>
-						<?php echo @$row->link != "" ? $row->link : "&nbsp;"; ?>
+						<td align="center">
+						<?php echo $href; ?>
 						</td>
 						<td>
 						<?php echo @$row->author != "" ? $row->author : "&nbsp;"; ?>

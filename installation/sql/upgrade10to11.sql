@@ -49,3 +49,7 @@ ALTER TABLE `jos_core_acl_aro_groups` DROP PRIMARY KEY, ADD PRIMARY KEY(`id`, `v
 # LBL: 05-Jan-2006
 # Mambot refactor to Plugin
 RENAME TABLE `jos_mambots` TO `jos_plugins`;
+
+# LBL: 18-Jan-2006
+# Add enabling of components
+ALTER TABLE `jos_components` ADD `enabled` TINYINT NOT NULL ;

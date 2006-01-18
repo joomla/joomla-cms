@@ -102,6 +102,7 @@ CREATE TABLE `#__components` (
   `admin_menu_img` varchar(255) NOT NULL default '',
   `iscore` tinyint(4) NOT NULL default '0',
   `params` text NOT NULL,
+  `enabled` tinyint(4) NOT NULL default '1',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
