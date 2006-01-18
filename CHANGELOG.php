@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+18-Jan-2006 Louis Landry
+ # Fixed a bug with module installer after move
+
 18-Jan-2006 Johan Janssens
  # Fixed artf2172 : database settings not retained in installer
 

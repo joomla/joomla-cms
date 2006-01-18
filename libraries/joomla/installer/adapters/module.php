@@ -75,7 +75,55 @@ class JInstallerModule extends JInstaller {
 		/*
 		 * Set the extension installation directory
 		 */
-		$this->i_extensionDir = JPath :: clean($basePath.DS.'modules');
+		$e = & $root->getElementsByPath('files', 1);
+		if (!is_null($e) && $e->hasChildNodes())
+		{
+			$files = & $e->childNodes;
+			foreach ($files as $file)
+			{
+				if ($file->hasAttribute('module'))
+				{
+					$m = $file->getAttribute('module');
+					break;
+				}
+			}
+		}
+		if (!empty($m))
+		{
+			$this->i_extensionDir = JPath :: clean($basePath.DS.'modules'. DS . $m . DS);
+		}
+		else
+		{
+			JError::raiseWarning( 1, 'JInstallerModule::install: ' . JText::_( 'No module file specified' ) );
+			return false;
+		}
+
+		/*
+		 * If the module directory already exists, then we will assume that the
+		 * module is already installed or another module is using that
+		 * directory.
+		 */
+		if (file_exists($this->i_extensionDir)) {
+			JError::raiseWarning( 1, 'JInstallerModule::install: ' . JText::_( 'Another module is already using directory' ) .': "' . $this->i_extensionDir . '"');
+			return false;
+		}
+
+		/*
+		 * If the module directory does not exists, lets create it
+		 */
+		if(!file_exists($this->i_extensionDir) && !$created = JFolder::create($this->i_extensionDir)) {
+			JError::raiseWarning( 1, 'JInstallerComponent::install: ' . JText::_( 'Failed to create directory' ) .': "' . $this->i_extensionDir . '"');
+			return false;
+		}
+
+		/*
+		 * Since we created the module directory and will want to remove it if
+		 * we have to roll back the installation, lets add it to the
+		 * installation step stack
+		 */
+		if ($created) {
+			$this->i_stepStack[] = array('type' => 'folder', 'path' => $this->i_extensionDir);
+		}
 
 		/*
 		 * Copy all the necessary files
@@ -255,9 +303,9 @@ class JInstallerModule extends JInstaller {
 		 * Use the client id to determine which module path to use for the xml install file
 		 */
 		if (!$row->client_id) {
-			$basepath = JPATH_SITE.DS.'modules'.DS;
+			$basepath = JPATH_SITE.DS.'modules'. DS . $row->module .DS;
 		} else {
-			$basepath = JPATH_ADMINISTRATOR.DS.'modules'.DS;
+			$basepath = JPATH_ADMINISTRATOR.DS.'modules'. DS . $row->module .DS;
 		}
 		$this->i_extensionDir = $basepath;
 		
@@ -324,6 +372,11 @@ class JInstallerModule extends JInstaller {
 				$this->_removeFiles( 'media' );
 				$this->_removeFiles( 'languages' );
 				$this->_removeFiles( 'administration/languages' );
+
+				/*
+				 * Remove module folder
+				 */
+				JFolder::delete($basepath);
 
 			} else {
 				JError::raiseWarning( 1, 'JInstallerModule::uninstall: '.JText::_( 'Could not load XML file' ) .' '. $xmlfile);

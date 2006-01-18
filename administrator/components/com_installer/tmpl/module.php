@@ -49,7 +49,12 @@ class JInstallerExtensionTasks {
 					$and = "\n AND client_id = 1";
 				}
 
-		$query = "SELECT id, module, client_id"."\n FROM #__modules"."\n WHERE module LIKE 'mod_%' AND iscore='0'".$and."\n GROUP BY module, client_id"."\n ORDER BY client_id, module";
+		$query = "SELECT id, module, client_id, title" .
+				"\n FROM #__modules" .
+				"\n WHERE module LIKE 'mod_%' " .
+				"\n AND iscore='0'".$and .
+				"\n GROUP BY module, client_id" .
+				"\n ORDER BY client_id, module";
 		$database->setQuery($query);
 		$rows = $database->loadObjectList();
 
@@ -65,7 +70,7 @@ class JInstallerExtensionTasks {
 			}
 
 			// xml file for module
-			$xmlfile = $moduleBaseDir."/".$row->module.".xml";
+			$xmlfile = $moduleBaseDir . DS . $row->module .DS. $row->module.".xml";
 
 			if (file_exists($xmlfile)) {
 				$xmlDoc = & JFactory :: getXMLParser();
