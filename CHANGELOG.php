@@ -37,6 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Jan-2006 David Gal
+ + Added rendering of {mosimage} images in pdf generation
+ # Fixed tcpdf output headers to show pdf's in IE6
+ + Added modified tcpdf pdf generation library for utf-8 data and php 4
+ - Removed cpdf library - not suitable for utf-8
+ ^ Changed component installer's query execution routine to support discrete sql scripts
+
 19-Jan-2006 Louis Landry
  # Fixed a bug causing configuration values not to save
 

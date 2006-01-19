@@ -31,6 +31,10 @@
 // Changes made by David Gal:
 //		Ported back to PHP 4 for compatibility with Joomla 1.1
 //		Added BiDi support for RTL languages
+//		Changed utf handling routines to slightly more efficient ones
+//		Wrote php version of unhtmlentities() for utf8 to work in php4
+//		Changed output() headers for IE6 compatibility
+//		Removed barcode routines
 //		Packaged for use in Joomla 1.1
 //============================================================+
 
@@ -1917,7 +1921,7 @@ if(!class_exists('TCPDF')) {
 		* @see SetFont(), SetDrawColor(), SetFillColor(), SetTextColor(), SetLineWidth(), AddLink(), Ln(), MultiCell(), Write(), SetAutoPageBreak()
 		*/
 		function Cell($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=0, $link='') {
-			// add BiDi support
+			// added BiDi support
 			if ( function_exists('fribidi_log2vis') ) {
 				$txt = fribidi_log2vis($txt,'',FRIBIDI_CHARSET_UTF8);
 			}
@@ -2440,12 +2444,16 @@ if(!class_exists('TCPDF')) {
 					}
 					if(php_sapi_name()!='cli') {
 						//We send to a browser
+						header("Cache-Control: cache, must-revalidate");    
+						header("Pragma: public");
 						header('Content-Type: application/pdf');
 						if(headers_sent()) {
 							$this->Error('Some data has already been output to browser, can\'t send PDF file');
 						}
 						header('Content-Length: '.strlen($this->buffer));
 						header('Content-disposition: inline; filename="'.$name.'"');
+						
+						
 					}
 					echo $this->buffer;
 					break;
@@ -3269,102 +3277,6 @@ if(!class_exists('TCPDF')) {
 			$this->_out('endobj');
 		}
 
-//		 /**
-//		 * Converts UTF-8 strings to codepoints array.<br>
-//		 * Invalid byte sequences will be replaced with 0xFFFD (replacement character)<br>
-//		 * Based on: http://www.faqs.org/rfcs/rfc3629.html
-//		 * <pre>
-//		 * 	  Char. number range  |        UTF-8 octet sequence
-//		 *       (hexadecimal)    |              (binary)
-//		 *    --------------------+-----------------------------------------------
-//		 *    0000 0000-0000 007F | 0xxxxxxx
-//		 *    0000 0080-0000 07FF | 110xxxxx 10xxxxxx
-//		 *    0000 0800-0000 FFFF | 1110xxxx 10xxxxxx 10xxxxxx
-//		 *    0001 0000-0010 FFFF | 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-//		 *    ---------------------------------------------------------------------
-//		 *
-//		 *   ABFN notation:
-//		 *   ---------------------------------------------------------------------
-//		 *   UTF8-octets = *( UTF8-char )
-//		 *   UTF8-char   = UTF8-1 / UTF8-2 / UTF8-3 / UTF8-4
-//		 *   UTF8-1      = %x00-7F
-//		 *   UTF8-2      = %xC2-DF UTF8-tail
-//		 *
-//		 *   UTF8-3      = %xE0 %xA0-BF UTF8-tail / %xE1-EC 2( UTF8-tail ) /
-//		 *                 %xED %x80-9F UTF8-tail / %xEE-EF 2( UTF8-tail )
-//		 *   UTF8-4      = %xF0 %x90-BF 2( UTF8-tail ) / %xF1-F3 3( UTF8-tail ) /
-//		 *                 %xF4 %x80-8F 2( UTF8-tail )
-//		 *   UTF8-tail   = %x80-BF
-//		 *   ---------------------------------------------------------------------
-//		 * </pre>
-//		 * @param string $str string to process.
-//		 * @return array containing codepoints (UTF-8 characters values)
-//		 * @access protected
-//		 * @author Nicola Asuni
-//		 * @since 1.53.0.TC005 (2005-01-05)
-//		 */
-//		function UTF8StringToArray($str) {
-//			if(!$this->isunicode) {
-//				return $str; // string is not in unicode
-//			}
-//			$unicode = array(); // array containing unicode values
-//			$bytes  = array(); // array containing single character byte sequences
-//			$numbytes  = 1; // number of octetc needed to represent the UTF-8 character
-//			
-//			$str .= ""; // force $str to be a string
-//			$length = strlen($str);
-//			
-//			for($i = 0; $i < $length; $i++) {
-//				$char = ord($str{$i}); // get one string character at time
-//				if(count($bytes) == 0) { // get starting octect
-//					if ($char <= 0x7F) {
-//						$unicode[] = $char; // use the character "as is" because is ASCII
-//					} elseif (($char >> 0x05) == 0x06) { // 2 bytes character (0x06 = 110 BIN)
-//						$bytes[] = ($char - 0xC0) << 0x06; 
-//						$numbytes = 2;
-//					} elseif (($char >> 0x04) == 0x0E) { // 3 bytes character (0x0E = 1110 BIN)
-//						$bytes[] = ($char - 0xE0) << 0x0C; 
-//						$numbytes = 3;
-//					} elseif (($char >> 0x03) == 0x1E) { // 4 bytes character (0x1E = 11110 BIN)
-//						$bytes[] = ($char - 0xF0) << 0x12; 
-//						$numbytes = 4;
-//					} else {
-//						// use replacement character for other invalid sequences
-//						$unicode[] = 0xFFFD;
-//						$bytes = array();
-//						$numbytes = 1;
-//					}
-//				} elseif (($char >> 0x06) == 0x02) { // bytes 2, 3 and 4 must start with 0x02 = 10 BIN
-//					$bytes[] = $char - 0x80;
-//					if (count($bytes) == $numbytes) {
-//						// compose UTF-8 bytes to a single unicode value
-//						$char = $bytes[0];
-//						for($j = 1; $j < $numbytes; $j++) {
-//							$char += ($bytes[$j] << (($numbytes - $j - 1) * 0x06));
-//						}
-//						if ((($char >= 0xD800) AND ($char <= 0xDFFF)) OR ($char >= 0x10FFFF)) {
-//							/* The definition of UTF-8 prohibits encoding character numbers between
-//							U+D800 and U+DFFF, which are reserved for use with the UTF-16
-//							encoding form (as surrogate pairs) and do not directly represent
-//							characters. */
-//							$unicode[] = 0xFFFD; // use replacement character
-//						}
-//						else {
-//							$unicode[] = $char; // add char to array
-//						}
-//						// reset data for next char
-//						$bytes = array(); 
-//						$numbytes = 1;
-//					}
-//				} else {
-//					// use replacement character for other invalid sequences
-//					$unicode[] = 0xFFFD;
-//					$bytes = array();
-//					$numbytes = 1;
-//				}
-//			}
-//			return $unicode;
-//		}
 
 		/** utf8_to_unicode
 		* Takes an UTF-8 string and returns an array of ints representing the
@@ -3639,81 +3551,6 @@ if(!class_exists('TCPDF')) {
 			$this->barcode = $bc;
 		}
 		
-//		/**
-//	 	 * Print Barcode.
-//		 * @param int $x x position in user units
-//		 * @param int $y y position in user units
-//		 * @param int $w width in user units
-//		 * @param int $h height position in user units
-//		 * @param string $type type of barcode (I25, C128A, C128B, C128C, C39)
-//		 * @param string $style barcode style
-//		 * @param string $font font for text
-//		 * @param int $xres x resolution
-//		 * @param string $code code to print
-//		 */
-//		function writeBarcode($x, $y, $w, $h, $type, $style, $font, $xres, $code) {
-//			require_once("barcode/barcode.php");
-//			require_once("barcode/i25object.php");
-//			require_once("barcode/c39object.php");
-//			require_once("barcode/c128aobject.php");
-//			require_once("barcode/c128bobject.php");
-//			require_once("barcode/c128cobject.php");
-//			
-//			if (empty($code)) {
-//				return;
-//			}
-//			
-//			if (empty($style)) {
-//				$style  = BCS_ALIGN_LEFT;
-//				$style |= BCS_IMAGE_PNG;
-//				$style |= BCS_TRANSPARENT;
-//				//$style |= BCS_BORDER;
-//				//$style |= BCS_DRAW_TEXT;
-//				//$style |= BCS_STRETCH_TEXT;
-//				//$style |= BCS_REVERSE_COLOR;
-//			}
-//			if (empty($font)) {$font = BCD_DEFAULT_FONT;}
-//			if (empty($xres)) {$xres = BCD_DEFAULT_XRES;}
-//			
-//			$scale_factor = 1.5 * $xres * $this->k;
-//			$bc_w = round($w * $scale_factor); //width in points
-//			$bc_h = round($h * $scale_factor); //height in points
-//			
-//			switch (strtoupper($type)) {
-//				case "I25": {
-//					$obj = new I25Object($bc_w, $bc_h, $style, $code);
-//					break;
-//				}
-//				case "C128A": {
-//					$obj = new C128AObject($bc_w, $bc_h, $style, $code);
-//					break;
-//				}
-//				default:
-//				case "C128B": {
-//					$obj = new C128BObject($bc_w, $bc_h, $style, $code);
-//					break;
-//				}
-//				case "C128C": {
-//					$obj = new C128CObject($bc_w, $bc_h, $style, $code);
-//					break;
-//				}
-//				case "C39": {
-//					$obj = new C39Object($bc_w, $bc_h, $style, $code);
-//					break;
-//				}
-//			}
-//			
-//			$obj->SetFont($font);   
-//			$obj->DrawObject($xres);
-//			
-//			//use a temporary file....
-//			$tmpName = tempnam(K_PATH_CACHE,'img');
-//			imagepng($obj->getImage(), $tmpName);
-//			$this->Image($tmpName, $x, $y, $w, $h, 'png');
-//			$obj->DestroyObject();
-//			unset($obj);
-//			unlink($tmpName);
-//		}
 		
 		/**
 	 	 * Returns the PDF data.
@@ -4268,9 +4105,6 @@ if(!class_exists('TCPDF')) {
 	       }
 	  
 	       $text = strtr($text, $ttr);
-	       // TODO - remove spike stuff
-	       //$text = $this->replace_num_entity($text);	
-	       //$text = fribidi_log2vis($text,'',FRIBIDI_CHARSET_UTF8);
 	       return $text;
 		}
 		

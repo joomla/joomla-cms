@@ -29,10 +29,11 @@ jimport('tcpdf.tcpdf');
  */
 
 function doUtfPDF () {
-	global $mainframe, $database;
+	global $mainframe;
 
+	$db = $mainframe->getDBO();
 	$id = intval( mosGetParam( $_REQUEST, 'id', 1 ) );
-	$row =& JModel::getInstance('content', $database );
+	$row =& JModel::getInstance('content', $db );
 	// $row = new mosContent( $database );
 	$row->load( $id );
 
@@ -40,6 +41,26 @@ function doUtfPDF () {
 	$params->def( 'author', 	!$mainframe->getCfg( 'hideAuthor' ) );
 	$params->def( 'createdate', !$mainframe->getCfg( 'hideCreateDate' ) );
 	$params->def( 'modifydate', !$mainframe->getCfg( 'hideModifyDate' ) );
+	$params->def( 'image', 1 );
+	$params->def('introtext', 1);
+	$params->set('intro_only', 0);
+	
+	// show/hides the intro text
+	if ($params->get('introtext')) {
+		$row->text = $row->introtext. ($params->get('intro_only') ? '' : chr(13).chr(13).$row->fulltext);
+	} else {
+		$row->text = $row->fulltext;
+	}
+	
+	// process the new plugins
+	JPluginHelper :: importGroup('content');
+	$mainframe->triggerEvent('onPrepareContent', array (& $row, & $params, 0));
+//	$text = trim(implode("\n", $results));
+//				$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (& $row, & $params, $page));
+//			$text .= trim(implode("\n", $results));
+//	
+//		$onBeforeDisplayContent = $mainframe->triggerEvent('onBeforeDisplayContent', array (& $row, & $params, 0));
+//		$text .= trim(implode("\n", $onBeforeDisplayContent));
 		
 	//create new PDF document (document units are set by default to millimeters)
 	$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true); 
@@ -73,7 +94,8 @@ function doUtfPDF () {
 	
 	$pdf->AddPage();
 	
-	$pdf->WriteHTML($row->introtext ."\n". $row->fulltext, true);
+//	$pdf->WriteHTML($row->introtext ."\n". $row->fulltext, true);
+	$pdf->WriteHTML($row->text, true);
 	
 	
 	//Close and output PDF document
@@ -83,15 +105,16 @@ function doUtfPDF () {
 
 
 function getHeaderText( &$row, &$params ) {
-	global $database;
+	global $mainframe;
 
+	$db = $mainframe->getDBO();
 	$text = '';
 
 	if ( $params->get( 'author' ) ) {
 		// Display Author name
 
 		//Find Author Name
-		$users_rows =& JModel::getInstance('user', $database );
+		$users_rows =& JModel::getInstance('user', $db );
 		$users_rows->load( $row->created_by );
 		$row->author 	= $users_rows->name;
 		$row->usertype 	= $users_rows->usertype;
@@ -132,7 +155,7 @@ function getHeaderText( &$row, &$params ) {
 		}
 	}
 
-	$text .= "\n";
+//	$text .= "\n\n";
 
 	return $text;
 }
