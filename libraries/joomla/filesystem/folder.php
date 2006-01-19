@@ -35,7 +35,7 @@ class JFolder {
 	 * @return boolean True if successful
 	 * @since 1.1
 	 */
-	function create($path = '', $mode = '0755')
+	function create($path = '', $mode = 0755)
 	{
 		global $mainframe;
 

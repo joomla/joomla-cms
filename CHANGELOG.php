@@ -39,6 +39,7 @@ Legend:
 
 18-Jan-2006 Louis Landry
  # Fixed a bug with module installer after move
+ # Fixed artf3140 : component install creates wrong directory permission
  ^ Implemented phase one of component disable/enable functionality (GUI) WIP
 
 18-Jan-2006 Johan Janssens
