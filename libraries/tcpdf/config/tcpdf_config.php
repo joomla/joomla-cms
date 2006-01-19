@@ -35,32 +35,32 @@ global $mainframe;
 /**
  * installation path
  */
-define ("K_PATH_MAIN", $mainframe->getCfg( 'absolute_path' )."/libraries/tcpdf/");
+define ("K_PATH_MAIN", JPATH_LIBRARIES.DS."tcpdf".DS);
 
 /**
  * url path
  */
-define ("K_PATH_URL", "http://localhost/11dev/");
+define ("K_PATH_URL", $mainframe->getCfg( 'live_site' ));
 
 /**
  * path for PDF fonts
  */
-define ("FPDF_FONTPATH", K_PATH_MAIN."fonts/");
+define ("FPDF_FONTPATH", K_PATH_MAIN."fonts".DS);
 
 /**
  * cache directory for temporary files (full path)
  */
-define ("K_PATH_CACHE", K_PATH_MAIN."cache/");
+define ("K_PATH_CACHE", K_PATH_MAIN."cache".DS);
 
 /**
  * cache directory for temporary files (url path)
  */
-define ("K_PATH_URL_CACHE", K_PATH_URL."cache/");
+define ("K_PATH_URL_CACHE", K_PATH_URL."cache".DS);
 
 /**
  *images directory
  */
-define ("K_PATH_IMAGES", K_PATH_MAIN."images/");
+define ("K_PATH_IMAGES", K_PATH_MAIN."images".DS);
 
 /**
  * blank image
