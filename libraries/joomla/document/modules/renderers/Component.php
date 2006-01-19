@@ -58,40 +58,67 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 		$gid = $my->gid;
 		
 		$component = !isset($component) ? $option : $component;
+		
+		/*
+		 * Check to see if component is enabled and get parameters
+		 */
+		$row = null;
+		$query = 	"SELECT enabled, params" .
+					"\n FROM `#__components`" .
+					"\n WHERE `parent` = 0" .
+					"\n AND `option` = '$component'";
+		$database->setQuery($query);
+		$database->loadObject($row);
+
+		/*
+		 * Is the component enabled?
+		 */
+		if ($mainframe->isAdmin() || $row->enabled) {
+			$file = substr( $component, 4 );
+			$path = JPATH_BASE.DS.'components'.DS.$component;
 			
-		$file = substr( $component, 4 );
-		$path = JPATH_BASE.DS.'components'.DS.$component;
-		
-		if(JFile::exists($path.DS.$file.'.php')) {
-			$path = $path.DS.$file.'.php';
+			if(JFile::exists($path.DS.$file.'.php')) {
+				$path = $path.DS.$file.'.php';
+			} else {
+				$path = $path.DS.'admin.'.$file.'.php';
+			}
+			
+			$task 	= mosGetParam( $_REQUEST, 'task', '' );
+			$ret 	= mosMenuCheck( $Itemid, $component, $task, $my->gid );
+	
+			/*
+			 * Load the component paramters
+			 */
+			$params = new JParameters($row->params);
+			
+			$content = '';
+			ob_start();
+	
+			$msg = mosGetParam( $_REQUEST, 'mosmsg', '' );
+			if (!empty($msg)) {
+				echo "\n<div class=\"message\">$msg</div>";
+			}
+			
+			if ($ret) {
+				//load common language files
+				$lang =& $mainframe->getLanguage();
+				$lang->load($component);
+				require_once $path;
+			} else {
+				mosNotAuth();
+			}
+			
+			$contents = ob_get_contents();
+			ob_end_clean();
+	
+			return $contents;
 		} else {
-			$path = $path.DS.'admin.'.$file.'.php';
+			/*
+			 * @todo Add some sort of custom error page???
+			 */
+			header("HTTP/1.0 404 Not Found");
+			exit;
 		}
-		
-		$task 	= mosGetParam( $_REQUEST, 'task', '' );
-		$ret 	= mosMenuCheck( $Itemid, $component, $task, $my->gid );
-
-		$content = '';
-		ob_start();
-
-		$msg = mosGetParam( $_REQUEST, 'mosmsg', '' );
-		if (!empty($msg)) {
-			echo "\n<div class=\"message\">$msg</div>";
-		}
-		
-		if ($ret) {
-			//load common language files
-			$lang =& $mainframe->getLanguage();
-			$lang->load($component);
-			require_once $path;
-		} else {
-			mosNotAuth();
-		}
-		
-		$contents = ob_get_contents();
-		ob_end_clean();
-
-		return $contents;
 	}
 }
 ?>

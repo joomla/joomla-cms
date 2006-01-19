@@ -156,7 +156,7 @@ function publishLanguage( $p_lname, $option, $client = 'site' )
 			case 'site' :
 			{
 				if (strstr($buffer,"var \$lang") && !strstr($buffer,"var \$lang_administrator")){
-					$config .= "var \$lang = \"$p_lname\";\n";
+					$config .= "\tvar \$lang = \"$p_lname\";\n";
 				} else {
 					$config .= $buffer;
 				}
@@ -164,7 +164,7 @@ function publishLanguage( $p_lname, $option, $client = 'site' )
 			case 'administrator' :
 			{
 				if (strstr($buffer,"var \$lang_administrator")){
-					$config .= "var \$lang_administrator = \"$p_lname\";\n";
+					$config .= "\tvar \$lang_administrator = \"$p_lname\";\n";
 				} else {
 					$config .= $buffer;
 				}

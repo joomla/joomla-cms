@@ -46,6 +46,7 @@ Legend:
 
 19-Jan-2006 Louis Landry
  # Fixed a bug causing configuration values not to save
+ ^ Finished implementation of component disable/enable functionality
 
 18-Jan-2006 Louis Landry
  # Fixed a bug with module installer after move

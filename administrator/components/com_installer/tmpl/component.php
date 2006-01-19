@@ -41,7 +41,6 @@ class JInstallerExtensionTasks {
 		$query = 	"SELECT *" .
 					"\n FROM #__components" .
 					"\n WHERE parent = 0" .
-					"\n AND iscore = 0" .
 					"\n ORDER BY name";
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
@@ -180,14 +179,25 @@ class JInstallerScreens_component {
 					$task 	= $row->enabled ? 'disable' : 'enable';
 					$alt 	= $row->enabled ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 					$action	= $row->enabled ? 'disable' : 'enable';
-					$href = '
-					<a href="javascript: void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task .'\')" title="'. $action .'">
-					<img src="images/'. $img .'" border="0" alt="'. $alt .'" />
-					</a>';
+					$href = "<a href=\"index2.php?option=com_installer&extension=component&task=$task&eid[]=".$row->id."\">
+					<img src=\"images/$img\" border=\"0\" alt=\"$alt\" />
+					</a>";
+					
+					if (!$row->option) {
+						$href = '<strong>X</strong>';
+					}
+					
+					if ($row->iscore) {
+						$cbd = "disabled";
+						$style = "style=\"color:#999999;\"";
+					} else {
+						$cbd = "";
+						$style = "";
+					}
 					?>
-					<tr class="<?php echo "row$rc"; ?>">
+					<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
 						<td>
-						<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);">
+						<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?>>
 						<span class="bold">
 						<?php echo $row->name; ?>
 						</span>
