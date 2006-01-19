@@ -277,7 +277,8 @@ class JConfigController {
 		/*
 		 * Time to load the new configuration values into the Registry object
 		 */
-		$mainframe->_registry->loadObject($CONFIG);
+		$CONFIG->_name = 'JConfig';
+		$mainframe->_registry->loadObject( $CONFIG, "JConfig", true );
 
 		// Get the path of the configuration file
 		$fname = JPATH_CONFIGURATION.'/configuration.php';
@@ -286,7 +287,7 @@ class JConfigController {
 		 * Now we get the config registry in PHP class format and write it to
 		 * configuation.php then redirect appropriately.
 		 */
-		if (JFile :: write($fname, $mainframe->_registry->getNameSpaceString('PHP'))) {
+		if (JFile :: write($fname, $mainframe->_registry->getNameSpaceString('PHP', 'JConfig'))) {
 
 			$msg = JText :: _('The Configuration Details have been updated');
 

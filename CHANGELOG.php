@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Jan-2006 Louis Landry
+ # Fixed a bug causing configuration values not to save
+
 18-Jan-2006 Louis Landry
  # Fixed a bug with module installer after move
  # Fixed artf3140 : component install creates wrong directory permission

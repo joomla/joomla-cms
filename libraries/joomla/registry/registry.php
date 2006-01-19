@@ -182,7 +182,7 @@ class JRegistry extends JObject {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function loadArray($array, $namespace) 
+	function loadArray($array, $namespace, $readOnly = false) 
 	{
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
@@ -217,6 +217,7 @@ class JRegistry extends JObject {
 	 */
 	function loadObject(&$object, $namespace = null, $readOnly = false) 
 	{
+		
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
 			$namespace = $this->_defaultNameSpace;
@@ -231,10 +232,10 @@ class JRegistry extends JObject {
 		 * We want to leave groups that are already in the namespace and add the 
 		 * groups loaded into the namespace.  This overwrites any existing group
 		 * with the same name
-		 */ 
+		 */
 		foreach (get_object_vars($object) as $k => $v) {
-			if (substr($k, 0,1) != '_') {
-				$this->_registry[$this->_defaultNameSpace]['data']->$k = $v;
+			if (substr($k, 0,1) != '_' || $k == '_name') {
+				$this->_registry[$namespace]['data']->$k = $v;
 			}
 		}
 		
