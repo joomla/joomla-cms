@@ -73,7 +73,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 		/*
 		 * Is the component enabled?
 		 */
-		if ($mainframe->isAdmin() || $row->enabled) {
+		if ($mainframe->isAdmin() || $row->enabled || $component == 'com_content') {
 			$file = substr( $component, 4 );
 			$path = JPATH_BASE.DS.'components'.DS.$component;
 			
