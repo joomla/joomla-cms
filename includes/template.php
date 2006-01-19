@@ -81,10 +81,11 @@ function initDocument(&$doc)
 {		
 	global $mainframe;
 	
-	$user    = $mainframe->getUser();
-	$db      = $mainframe->getDBO();
+	$user    =& $mainframe->getUser();
+	$db      =& $mainframe->getDBO();
+	$uri     =& $mainframe->getURI();
 	$version = new JVersion();
-	$uri      =& JURI::getInstance();
+	
 			
 	$doc->setMetaContentType();
 	

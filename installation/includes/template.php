@@ -23,10 +23,10 @@ function initDocument(&$doc)
 {
 	global $mainframe;
 
-	$user    = $mainframe->getUser();
+	$user    =& $mainframe->getUser();
+	$uri     =& $mainframe->getURI();
 	$lang    = $mainframe->getLanguage();
-	$uri      =& JURI::getInstance();
-
+	
 	$version = new JVersion();
 
 	$doc->setMetaContentType();

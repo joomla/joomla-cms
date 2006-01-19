@@ -434,13 +434,16 @@ class JInstallationController
 	 */
 	function mainConfig($vars) 
 	{
+		global $mainframe;
+		
 		$strip = get_magic_quotes_gpc();
 
 		if (!isset ($vars['siteUrl'])) {
-			$root = $_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'];
+			$uri =& $mainframe->getURI();
+			$root = $uri->toString(array('scheme', 'host', 'path'));
 			$root = str_replace('installation/', '', $root);
 			$root = str_replace('/index.php', '', $root);
-			$vars['siteUrl'] = 'http://'.$root;
+			$vars['siteUrl'] = $root;
 		}
 		if (isset ($vars['sitePath'])) {
 			$vars['sitePath'] = stripslashes(stripslashes($vars['sitePath']));

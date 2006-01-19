@@ -85,12 +85,12 @@ function initDocument(&$doc)
 {		
 	global $mainframe;
 	
-	$user    = $mainframe->getUser();
-	$db      = $mainframe->getDBO();
+	$user    =& $mainframe->getUser();
+	$db      =& $mainframe->getDBO();
+	$uri     =& $mainframe->getURI();
 	$lang    = $mainframe->getLanguage();
 	$version = new JVersion();
-	$uri      =& JURI::getInstance();
-			
+	
 	$doc->setMetaContentType();
 		
 	$doc->setTitle( $mainframe->getCfg('sitename' ). '-' .JText::_( 'Administration' ) .'  [Joomla!]' );

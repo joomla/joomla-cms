@@ -305,6 +305,27 @@ class JApplication extends JObject
 	}
 	
 	/**
+	 * Gets the name of the current template
+	 * 
+	 * @return string
+	 */
+	function getTemplate() {
+		return '_system';
+	}
+	
+	/**
+	 * Return a reference to the JURI object
+	 *
+	 * @access public
+	 * @return juri 	JURI object
+	 * @since 1.1
+	 */
+	function &getURI() {
+		jimport('joomla.application.environment.uri');
+		return JURI::getInstance();
+	}
+	
+	/**
 	 * Return a reference to the JPathWay object
 	 *
 	 * @access public
@@ -313,15 +334,6 @@ class JApplication extends JObject
 	 */
 	function &getPathWay() {
 		return $this->_pathway;
-	}
-	
-	/**
-	 * Gets the name of the current template
-	 * 
-	 * @return string
-	 */
-	function getTemplate() {
-		return '_system';
 	}
 
 	/**
