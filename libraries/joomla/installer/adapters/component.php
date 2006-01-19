@@ -555,11 +555,11 @@ class JInstallerComponent extends JInstaller {
 		$db_ordering		= 0;
 		$db_admin_menu_img	= $_image;
 		$db_iscore			= 0;
-		$db_params			= '';
 		$db_params			= $this->_getParams();
+		$db_enabled			= 1;
 
 		$query = "INSERT INTO #__components"
-		. "\n VALUES( '', '$db_name', '$db_link', $db_menuid, $db_parent, '$db_admin_menu_link', '$db_admin_menu_alt', '$db_option', $db_ordering, '$db_admin_menu_img', $db_iscore, '$db_params' )";
+		. "\n VALUES( '', '$db_name', '$db_link', $db_menuid, $db_parent, '$db_admin_menu_link', '$db_admin_menu_alt', '$db_option', $db_ordering, '$db_admin_menu_img', $db_iscore, '$db_params', '$db_enabled' )";
 		$db->setQuery( $query );
 		if(!$db->query())
 		{
