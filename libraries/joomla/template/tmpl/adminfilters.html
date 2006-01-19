@@ -1,4 +1,4 @@
-<jos:comment>
+<jtmpl:comment>
 @version $Id: adminfilters.html 85 2005-09-15 23:12:03Z eddieajau $
 @package Joomla
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
@@ -8,28 +8,28 @@ to the GNU General Public License, and as distributed it includes or
 is derivative of works licensed under the GNU General Public License or
 other free or open source software licenses.
 See COPYRIGHT.php for copyright notices and details.
-</jos:comment>
+</jtmpl:comment>
 
-<jos:tmpl name="list-search">
-	<input type="text" name="search" id="search" value="{SEARCH}" class="text_area" title="<jos:Translate>Search</jos:Translate>" />
-	<input type="button" value="<jos:Translate>Go</jos:Translate>" class="button" onclick="this.form.submit();" />
-	<input type="button" value="<jos:Translate>Reset</jos:Translate>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
-</jos:tmpl>
+<jtmpl:tmpl name="list-search">
+	<input type="text" name="search" id="search" value="{SEARCH}" class="text_area" title="<jtmpl:Translate>Search</jtmpl:Translate>" />
+	<input type="button" value="<jtmpl:Translate>Go</jtmpl:Translate>" class="button" onclick="this.form.submit();" />
+	<input type="button" value="<jtmpl:Translate>Reset</jtmpl:Translate>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+</jtmpl:tmpl>
 
-<jos:tmpl name="selectlist-state">
+<jtmpl:tmpl name="selectlist-state">
 	<select name="filter_state" class="inputbox" onchange="this.form.submit();">
-		<option value="">- <jos:Translate>State</jos:Translate> -</option>
-		<jos:tmpl name="filter-state">
+		<option value="">- <jtmpl:Translate>State</jtmpl:Translate> -</option>
+		<jtmpl:tmpl name="filter-state">
 			<option value="{VALUE}" {SELECTED}>{TEXT}</option>
-		</jos:tmpl>
+		</jtmpl:tmpl>
 	</select>
-</jos:tmpl>
+</jtmpl:tmpl>
 
-<jos:tmpl name="selectlist-access">
+<jtmpl:tmpl name="selectlist-access">
 	<select name="filter_access" class="inputbox" onchange="this.form.submit();">
-		<option value="">- <jos:Translate>Access</jos:Translate> -</option>
-		<jos:tmpl name="filter-access">
+		<option value="">- <jtmpl:Translate>Access</jtmpl:Translate> -</option>
+		<jtmpl:tmpl name="filter-access">
 			<option value="{VALUE}" {SELECTED}>{TEXT}</option>
-		</jos:tmpl>
+		</jtmpl:tmpl>
 	</select>
-</jos:tmpl>
+</jtmpl:tmpl>

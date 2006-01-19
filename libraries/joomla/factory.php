@@ -22,49 +22,6 @@
 class JFactory
 {
 	/**
-	 * Returns a reference to the global JTemplate object, only creating it
-	 * if it doesn't already exist.
-	 *
-	 * @access public
-	 * @param array An array of additional template files to load
-	 * @param boolean True to use caching
-	 * @return object
-	 * @since 1.1
-	 */
-	function &getTemplate( $files=null ) 
-	{
-		global $mainframe;
-
-		static $instances;
-
-		if (!isset($instances)) {
-			$instances = array();
-		}
-
-		if (empty($instances[0])) {
-			$instances[0] = JFactory::_createTemplate();
-		}
-
-		//set template cache prefix
-		$prefix = '';
-		if($mainframe->isAdmin()) {
-			$prefix .= 'administrator__';
-		}
-		$prefix .= $GLOBALS['option'].'__';
-
-		$instances[0]->setTemplateCachePrefix($prefix);
-
-		if ( is_array( $files ) ) {
-			foreach ( $files as $file ) {
-				$instances[0]->readTemplatesFromInput( $file );
-			}
-		}
-
-		return $instances[0];
-
-	}
-
-	/**
 	 * Creates a cache object
 	 *
 	 * @access public
@@ -192,67 +149,6 @@ class JFactory
 		$acl =& new JACL( $options );
 
 		return $acl;
-	}
-
-	/**
-	 * Create a template object
-	 *
-	 * @access private
-	 * @return object
-	 * @since 1.1
-	 */
-	function &_createTemplate()
-	{
-		global $mainframe;
-
-		jimport('joomla.template.template');
-		$tmpl = new JTemplate;
-
-		//TODO : add config var
-		/*if ($GLOBALS['mosConfig_tmpl_caching']) {
-
-			$info = array(
-				'cacheFolder' 	=> $GLOBALS['mosConfig_cachepath'].'/pattemplate',
-				'lifetime' 		=> 'auto',
-				'prefix'		=> 'global__',
-				'filemode' 		=> 0755
-			);
-		 	$tmpl->useTemplateCache( 'File', $info );
-		}*/
-
-		$tmpl->setNamespace( 'jos' );
-
-		// load the wrapper and common templates
-		$tmpl->readTemplatesFromInput( 'page.html' );
-		$tmpl->applyInputFilter('ShortModifiers');
-
-		$tmpl->addGlobalVar( 'option', 				$GLOBALS['option'] );
-		$tmpl->addGlobalVar( 'self', 				$_SERVER['PHP_SELF'] );
-		$tmpl->addGlobalVar( 'itemid', 				$GLOBALS['Itemid'] );
-		$tmpl->addGlobalVar( 'adminurl', 			'administrator' );
-		$tmpl->addGlobalVar( 'admintemplateurl',    'administrator/templates/'. $mainframe->getTemplate() );
-		$tmpl->addGlobalVar( 'sitename', 			$GLOBALS['mosConfig_sitename'] );
-
-		$tmpl->addGlobalVar( 'page_encoding', 		'UTF-8' );
-		$tmpl->addGlobalVar( 'version_copyright', 	$GLOBALS['_VERSION']->COPYRIGHT );
-		$tmpl->addGlobalVar( 'version_url', 		$GLOBALS['_VERSION']->URL );
-
-		$tmpl->addVar( 'form', 'formAction', 		$_SERVER['PHP_SELF'] );
-		$tmpl->addVar( 'form', 'formName', 			'adminForm' );
-
-		$tmpl->addGlobalVar( 'lang_iso', 		'UTF-8' );
-		$tmpl->addGlobalVar( 'lang_charset',	'charset=UTF-8' );
-
-		// tabs
-		$tpath = JPath::clean( JPATH_BASE . '/templates/images/tabs' );
-		if (is_dir( $tpath )) {
-			$turl = 'templates/'.$mainframe->getTemplate() .'/images/tabs/';
-		} else {
-			$turl = 'includes/js/tabs/';
-		}
-		$tmpl->addVar( 'includeTabs', 'taburl', $turl );
-
-		return $tmpl;
 	}
 
 	/**

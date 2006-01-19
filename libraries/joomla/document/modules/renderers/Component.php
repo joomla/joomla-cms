@@ -40,8 +40,12 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 	 */
 	function render( $component, $params = array() )
 	{
-		global $mainframe, $my, $acl, $database;
+		global $mainframe;
 		global $Itemid, $task, $option, $id;
+		
+		$my 		=& $mainframe->getUser();
+		$database   =& $mainframe->getDBO();
+		$acl  		=& JFactory::getACL();
 		
 		//For backwards compatibility extract the config vars as globals
 		$CONFIG = new JConfig();

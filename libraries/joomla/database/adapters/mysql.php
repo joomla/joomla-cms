@@ -34,7 +34,8 @@ class JDatabaseMySQL extends JDatabase
 	* @param string Database name
 	* @param string Common prefix for all tables
 	*/
-	function __construct( $host='localhost', $user, $pass, $db='', $table_prefix='') {
+	function __construct( $host='localhost', $user, $pass, $db='', $table_prefix='') 
+	{
 		// perform a number of fatality checks, then die gracefully
 		if (!function_exists( 'mysql_connect' )) {
 			$this->_errorNum = 1;
@@ -87,8 +88,8 @@ class JDatabaseMySQL extends JDatabase
 	* Execute the query
 	* @return mixed A database resource if successful, FALSE if not.
 	*/
-	function query() {
-		global $mosConfig_debug;
+	function query() 
+	{	
 		if ($this->_debug) {
 			$this->_ticker++;
 	  		$this->_log[] = $this->_sql;
@@ -122,7 +123,8 @@ class JDatabaseMySQL extends JDatabase
 	* Execute a batch query
 	* @return mixed A database resource if successful, FALSE if not.
 	*/
-	function query_batch( $abort_on_error=true, $p_transaction_safe = false) {
+	function query_batch( $abort_on_error=true, $p_transaction_safe = false) 
+	{
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
 		if ($p_transaction_safe) {
@@ -158,7 +160,8 @@ class JDatabaseMySQL extends JDatabase
 	/**
 	* Diagnostic function
 	*/
-	function explain() {
+	function explain() 
+	{
 		$temp = $this->_sql;
 		$this->_sql = "EXPLAIN $this->_sql";
 		$this->query();
@@ -204,7 +207,8 @@ class JDatabaseMySQL extends JDatabase
 	*
 	* @return The value returned in the query or null if the query failed.
 	*/
-	function loadResult() {
+	function loadResult() 
+	{
 		if (!($cur = $this->query())) {
 			return null;
 		}
@@ -218,7 +222,8 @@ class JDatabaseMySQL extends JDatabase
 	/**
 	* Load an array of single field results into an array
 	*/
-	function loadResultArray($numinarray = 0) {
+	function loadResultArray($numinarray = 0) 
+	{
 		if (!($cur = $this->query())) {
 			return null;
 		}
@@ -234,7 +239,8 @@ class JDatabaseMySQL extends JDatabase
 	* @param string The field name of a primary key
 	* @return array If <var>key</var> is empty as sequential list of returned records.
 	*/
-	function loadAssocList( $key='' ) {
+	function loadAssocList( $key='' ) 
+	{
 		if (!($cur = $this->query())) {
 			return null;
 		}
@@ -257,7 +263,8 @@ class JDatabaseMySQL extends JDatabase
 	* @param string The SQL query
 	* @param object The address of variable
 	*/
-	function loadObject( &$object ) {
+	function loadObject( &$object ) 
+	{
 		if ($object != null) {
 			if (!($cur = $this->query())) {
 				return false;
@@ -290,7 +297,8 @@ class JDatabaseMySQL extends JDatabase
 	* If <var>key</var> is not empty then the returned array is indexed by the value
 	* the database key.  Returns <var>null</var> if the query fails.
 	*/
-	function loadObjectList( $key='' ) {
+	function loadObjectList( $key='' ) 
+	{
 		if (!($cur = $this->query())) {
 			return null;
 		}
@@ -308,7 +316,8 @@ class JDatabaseMySQL extends JDatabase
 	/**
 	* @return The first row of the query.
 	*/
-	function loadRow() {
+	function loadRow() 
+	{
 		if (!($cur = $this->query())) {
 			return null;
 		}
@@ -326,7 +335,8 @@ class JDatabaseMySQL extends JDatabase
 	* If <var>key</var> is not empty then the returned array is indexed by the value
 	* the database key.  Returns <var>null</var> if the query fails.
 	*/
-	function loadRowList( $key='' ) {
+	function loadRowList( $key='' ) 
+	{
 		if (!($cur = $this->query())) {
 			return null;
 		}
@@ -349,7 +359,8 @@ class JDatabaseMySQL extends JDatabase
 	* @param [type] $keyName
 	* @param [type] $verbose
 	*/
-	function insertObject( $table, &$object, $keyName = NULL, $verbose=false ) {
+	function insertObject( $table, &$object, $keyName = NULL, $verbose=false ) 
+	{
 		$fmtsql = "INSERT INTO $table ( %s ) VALUES ( %s ) ";
 		$fields = array();
 		foreach (get_object_vars( $object ) as $k => $v) {
@@ -379,7 +390,8 @@ class JDatabaseMySQL extends JDatabase
 	 * Document::db_updateObject()
 	 * @param [type] $updateNulls
 	 */
-	function updateObject( $table, &$object, $keyName, $updateNulls=true ) {
+	function updateObject( $table, &$object, $keyName, $updateNulls=true ) 
+	{
 		$fmtsql = "UPDATE $table SET %s WHERE %s";
 		$tmp = array();
 		foreach (get_object_vars( $object ) as $k => $v) {
@@ -417,7 +429,8 @@ class JDatabaseMySQL extends JDatabase
 	 * Assumes database collation in use by sampling one text field in one table
 	 * @return string Collation in use
 	 */
-	function getCollation (){
+	function getCollation ()
+	{
 		$this->setQuery( 'SHOW FULL COLUMNS FROM #__content' );
 		$array = $this->loadAssocList();
 		return $array['4']['Collation'];
@@ -426,7 +439,8 @@ class JDatabaseMySQL extends JDatabase
 	/**
 	 * @return array A list of all the tables in the database
 	 */
-	function getTableList() {
+	function getTableList() 
+	{
 		$this->setQuery( 'SHOW TABLES' );
 		return $this->loadResultArray();
 	}
@@ -434,7 +448,8 @@ class JDatabaseMySQL extends JDatabase
 	 * @param array A list of table names
 	 * @return array A list the create SQL for the tables
 	 */
-	function getTableCreate( $tables ) {
+	function getTableCreate( $tables ) 
+	{
 		$result = array();
 
 		foreach ($tables as $tblval) {
@@ -451,7 +466,8 @@ class JDatabaseMySQL extends JDatabase
 	 * @param array A list of table names
 	 * @return array An array of fields by table
 	 */
-	function getTableFields( $tables ) {
+	function getTableFields( $tables ) 
+	{
 		$result = array();
 
 		foreach ($tables as $tblval) {
@@ -467,6 +483,4 @@ class JDatabaseMySQL extends JDatabase
 
 
 }
-
-
 ?>

@@ -28,8 +28,6 @@ class JLoader
     */
    function import( $filePath ) 
    {
-		global  $mosConfig_absolute_path; //for backwards compilance
-
 		$parts = explode( '.', $filePath );
 
 		$base =  dirname( __FILE__ );

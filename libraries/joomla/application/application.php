@@ -398,17 +398,17 @@ class JApplication extends JObject
 
 	function _createLanguage($strLang = null)
 	{
-		global $my;
+		$user = $this->getUser();
 
 		$strLang = $this->getUserState( 'application.lang' );
 
-		if ($strLang == '' && $my && isset( $my->params )) {
+		if ($strLang == '' && isset( $user->params )) {
 
 			// get user's prefered language
 			if( $this->isAdmin() ) {
-				$strLang = $my->params->get( 'admin_language', $strLang );
+				$strLang = $user->params->get( 'admin_language', $strLang );
 			} else {
-				$strLang = $my->params->get( 'language', $strLang );
+				$strLang = $user->params->get( 'language', $strLang );
 			}
 		}
 
@@ -419,11 +419,6 @@ class JApplication extends JObject
 			} else {
 				$strLang = $this->getCfg('lang');
 			}
-		}
-
-		// In case of frontend modify the config value in order to keep backward compatiblitity
-		if( !$this->isAdmin() ) {
-			$mosConfig_lang = $strLang;
 		}
 
 		$this->_lang = $strLang;
