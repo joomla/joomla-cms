@@ -56,7 +56,7 @@ if ($option == 'login')
 		mosErrorAlert( JText::_( 'LOGIN_INCORRECT' ) );
 	}
 	
-	$mainframe->setUserState( 'application.lang', mosGetParam( $_REQUEST, 'lang', $mosConfig_lang ) );
+	$mainframe->setLanguage( mosGetParam( $_REQUEST, 'lang', $mosConfig_lang ) );
 	JSession::pause();
 
 	mosRedirect( 'index2.php' );

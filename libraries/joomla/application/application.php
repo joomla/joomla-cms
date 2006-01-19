@@ -252,6 +252,48 @@ class JApplication extends JObject
 	}
 	
 	/**
+	 * Set the application language
+	 *
+	 * @access private
+	 * @param string 	The language name
+	 * @since 1.1
+	 */
+
+	function setLanguage($lang = null)
+	{
+		//get the user
+		$user = $this->getUser();
+
+		//get the user language (if present)
+		$lang = $this->getUserState( 'application.lang' );
+
+		if ($lang == '' && isset( $user->params )) {
+
+			// get user's prefered language
+			if( $this->isAdmin() ) {
+				$lang = $user->params->get( 'admin_language', $lang );
+			} else {
+				$lang = $user->params->get( 'language', $lang );
+			}
+		}
+
+		// if no user preference load the default language file
+		if ($lang == '0' || $lang == '') {
+			if( $this->isAdmin() ) {
+				$lang = $this->getCfg('lang_administrator');
+			} else {
+				$lang = $this->getCfg('lang');
+			}
+		}
+
+		//Save the language in the session
+		$this->setUserState( 'application.lang', $lang );
+		
+		//Set the language in the class
+		$this->_lang = $lang;
+	}
+	
+	/**
 	 * Set the configuration
 	 *
 	 * @access public
@@ -379,49 +421,13 @@ class JApplication extends JObject
 	function &getLanguage( )
 	{
 		if(is_null($this->_lang)) {
-			$this->_createLanguage();
+			$this->setLanguage();
 		}
 
 		$lang =& JLanguage::getInstance( $this->_lang );
 		$lang->setDebug( $this->getCfg('debug') );
 
 		return $lang;
-	}
-
-	/**
-	 * Create the language
-	 *
-	 * @access private
-	 * @param string 	The language name
-	 * @since 1.1
-	 */
-
-	function _createLanguage($strLang = null)
-	{
-		$user = $this->getUser();
-
-		$strLang = $this->getUserState( 'application.lang' );
-
-		if ($strLang == '' && isset( $user->params )) {
-
-			// get user's prefered language
-			if( $this->isAdmin() ) {
-				$strLang = $user->params->get( 'admin_language', $strLang );
-			} else {
-				$strLang = $user->params->get( 'language', $strLang );
-			}
-		}
-
-		// if no user preference load the default language file
-		if ($strLang == '0' || $strLang == '') {
-			if( $this->isAdmin() ) {
-				$strLang = $this->getCfg('lang_administrator');
-			} else {
-				$strLang = $this->getCfg('lang');
-			}
-		}
-
-		$this->_lang = $strLang;
 	}
 
 	/**

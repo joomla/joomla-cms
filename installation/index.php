@@ -27,7 +27,6 @@ $mainframe->setSession('installation');
 $registry =& JSession::get('registry');
 $registry->loadArray((array) mosGetParam( $_POST, 'vars' ), 'application');
 
-// get the language from the request and add it to the session
 $configLang = $mainframe->getUserState('application.lang');
 
 // load the language

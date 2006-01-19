@@ -106,20 +106,4 @@ function detectLanguage() {
 	$lang = mosGetParam( $vars, 'lang', $client_lang );
 	return $lang;
 }
-
-/**
- * Format a backtrace error
- * @since 1.1
- */
-function mosBackTrace() {
-	if (function_exists( 'debug_backtrace' )) {
-		echo '<div align="left">';
-		foreach( debug_backtrace() as $back) {
-			if (@$back['file']) {
-				echo '<br />' . str_replace( JPATH_ROOT, '', $back['file'] ) . ':' . $back['line'];
-			}
-		}
-		echo '</div>';
-	}
-}
 ?>

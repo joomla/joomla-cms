@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Jan-2006 Johan Janssens
+ # Fixed base href problem in installation
+
 19-Jan-2006 David Gal
  + Added rendering of {mosimage} images in pdf generation
  # Fixed tcpdf output headers to show pdf's in IE6

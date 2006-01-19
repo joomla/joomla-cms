@@ -19,9 +19,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Polls
 */
-class HTML_poll {
-
-	function showPolls( &$rows, &$pageNav, $option ) {
+class HTML_poll 
+{
+	function showPolls( &$rows, &$pageNav, $option ) 
+	{
 		global $my;
 
 		mosCommonHTML::loadOverlib();
@@ -101,7 +102,8 @@ class HTML_poll {
 	}
 
 
-	function editPoll( &$row, &$options, &$lists ) {
+	function editPoll( &$row, &$options, &$lists ) 
+	{
 		mosMakeHtmlSafe( $row, ENT_QUOTES );
 		?>
 		<script language="javascript" type="text/javascript">

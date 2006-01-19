@@ -28,8 +28,8 @@ jimport( 'joomla.common.base.object' );
  * @subpackage Application
  * @since 1.1
  */
-class JURI extends JObject {
-
+class JURI extends JObject 
+{
 	/**
 	 * Original URI
 	 * 
@@ -99,8 +99,8 @@ class JURI extends JObject {
 	 *
 	 * @param string $uri The optional URI string
 	 */
-	function __construct($uri = null) {
-
+	function __construct($uri = null) 
+	{
 		if ($uri !== null) {
 			$this->parse($uri);
 		}
@@ -118,8 +118,8 @@ class JURI extends JObject {
 	 * @return JURI  The URI object.
 	 * @since 1.1
 	 */
-	function getInstance($uri = 'SERVER') {
-		
+	function getInstance($uri = 'SERVER') 
+	{	
 		static $instances = array();
 		
 		if (!isset ($instances[$uri])) {
@@ -192,8 +192,8 @@ class JURI extends JObject {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function parse($uri) {
-
+	function parse($uri) 
+	{
 		/*
 		 * Initialize variables
 		 */
@@ -226,18 +226,24 @@ class JURI extends JObject {
 	 * Returns full uri string
 	 *
 	 * @access public
-	 * @param boolean $revert True to use the URI before it was parsed and manipulated
-	 * @return string The full URI string
+	 * @param array $parts An array specifying the parts to render
+	 * @return string The rendered URI string
 	 * @since 1.1
 	 */
-	function toString($revert = false) {
+	function toString($parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment')) 
+	{	
+		$query = $this->getQueryString();
 		
-		if ($revert) {
-			$uri = $this->_uri;			
-		} else {
-			$query = $this->getQueryString();
-			$uri = $this->_scheme.'://'.$this->_user. (!empty ($this->_pass) ? ':' : '').$this->_pass. (!empty ($this->_user) ? '@' : '').$this->_host. (!empty ($this->_port) ? ':' : '').$this->_port.$this->_path. (!empty ($query) ? '?'.$query : ''). (!empty ($this->_anchor) ? '#'.$this->_anchor : '');
-		}
+		$uri = '';
+		$uri .= in_array('scheme', $parts)   ? $this->_scheme.'://' : '';
+		$uri .= in_array('user', $parts)     ? $this->_user : '';
+		$uri .= in_array('pass', $parts)     ? (!empty ($this->_pass) ? ':' : '') .$this->_pass. (!empty ($this->_user) ? '@' : '') : '';
+		$uri .= in_array('host', $parts)     ? $this->_host : '';
+		$uri .= in_array('port', $parts)     ? (!empty ($this->_port) ? ':' : '').$this->_port : ''; 
+		$uri .= in_array('path', $parts)     ? $this->_path : '';
+		$uri .= in_array('query', $parts)    ? (!empty ($query) ? '?'.$query : '') : '';
+		$uri .= in_array('fragment', $parts) ? (!empty ($this->_anchor) ? '#'.$this->_anchor : '') : '';
+		
 		return $uri;
 	}
 
@@ -251,7 +257,8 @@ class JURI extends JObject {
 	 * @return string Previous value for the query variable
 	 * @since 1.1
 	 */
-	function setVar($name, $value) {
+	function setVar($name, $value) 
+	{
 		$tmp = $this->_vars[$name];
 		$this->_vars[$name] = is_array($value) ? array_map('urlencode', $value) : urlencode($value);
 		return $tmp;
@@ -275,7 +282,8 @@ class JURI extends JObject {
 	 * @param string $name Name of variable to remove
 	 * @since 1.1
 	 */
-	function delVar($name) {
+	function delVar($name) 
+	{
 		if (in_array($name, array_keys($this->_vars))) {
 			unset ($this->_vars[$name]);
 		}
@@ -300,7 +308,8 @@ class JURI extends JObject {
 	 * @return string Query string
 	 * @since 1.1
 	 */
-	function getQueryString() {
+	function getQueryString() 
+	{
 		if (!empty ($this->_vars)) {
 			$query = array ();
 			foreach ($this->_vars as $name => $value) {
@@ -504,7 +513,8 @@ class JURI extends JObject {
 	 * @return array An array of the query data
 	 * @since 1.1
 	 */
-	function _parseQueryString($query) {
+	function _parseQueryString($query) 
+	{
 		$query = rawurldecode($query);
 		$parts = preg_split('/&/', $query, -1, PREG_SPLIT_NO_EMPTY);
 
@@ -552,7 +562,8 @@ class JURI extends JObject {
 	 * @return string Cleaned and resolved URI path
 	 * @since 1.1
 	 */
-	function _cleanPath($path) {
+	function _cleanPath($path) 
+	{
 		$path = explode('/', str_replace('//', '/', $path));
 
 		for ($i = 0; $i < count($path); $i ++) {

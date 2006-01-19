@@ -28,7 +28,8 @@ if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
-switch( $task ) {
+switch( $task ) 
+{
 	case 'new':
 		editPoll( 0, $option );
 		break;
@@ -105,7 +106,8 @@ function showPolls( $option )
 	HTML_poll::showPolls( $rows, $pageNav, $option );
 }
 
-function editPoll( $uid=0, $option='com_poll' ) {
+function editPoll( $uid=0, $option='com_poll' ) 
+{
 	global $database, $my;
 
 	$row = new mosPoll( $database );
@@ -151,7 +153,8 @@ function editPoll( $uid=0, $option='com_poll' ) {
 	HTML_poll::editPoll($row, $options, $lists );
 }
 
-function savePoll( $option ) {
+function savePoll( $option ) 
+{
 	global $database, $my;
 
 	// save the poll parent information
@@ -215,7 +218,8 @@ function savePoll( $option ) {
 	mosRedirect( 'index2.php?option='. $option );
 }
 
-function removePoll( $cid, $option ) {
+function removePoll( $cid, $option ) 
+{
 	global $database;
 	$msg = '';
 	for ($i=0, $n=count($cid); $i < $n; $i++) {
@@ -233,7 +237,8 @@ function removePoll( $cid, $option ) {
 * @param integer 0 if unpublishing, 1 if publishing
 * @param string The current url option
 */
-function publishPolls( $cid=null, $publish=1, $option ) {
+function publishPolls( $cid=null, $publish=1, $option )
+{
 	global $database, $my;
 
 	$catid = mosGetParam( $_POST, 'catid', array(0) );
@@ -264,7 +269,8 @@ function publishPolls( $cid=null, $publish=1, $option ) {
 	mosRedirect( 'index2.php?option='. $option );
 }
 
-function cancelPoll( $option ) {
+function cancelPoll( $option ) 
+{
 	global $database;
 	$row = new mosPoll( $database );
 	$row->bind( $_POST );
@@ -272,8 +278,11 @@ function cancelPoll( $option ) {
 	mosRedirect( 'index2.php?option='. $option );
 }
 
-function previewPoll($option) {
-	global $database;
+function previewPoll($option) 
+{
+	global $database, $mainframe;
+	
+	$mainframe->setPageTitle(JText::_('Poll Preview'));
 
 	$pollid = mosGetParam( $_REQUEST, 'pollid', 0 );
 	$css = mosGetParam( $_REQUEST, 't', '' );

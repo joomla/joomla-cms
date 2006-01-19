@@ -31,12 +31,6 @@ $GLOBALS['mosConfig_sitename']      = 'Joomla! - Web Installer';
 
 require_once( JPATH_LIBRARIES . DS .'loader.php' );
 
-$url = $_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'];
-$url = str_replace( 'installation/', '', $url );
-$url = str_replace( '/index.php', '', $url );
-
-define( 'JURL_SITE', $url);
-
 if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
 	die( 'Fatal error.  Global variable hack attempted.' );
 }
@@ -65,5 +59,12 @@ jimport( 'joomla.model.model' );
 jimport( 'joomla.application.application');
 jimport( 'joomla.application.environment.request' );
 jimport( 'joomla.application.environment.session' );
+jimport( 'joomla.application.environment.uri' );
+
+$url = $_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'];
+$url = str_replace( 'installation/', '', $url );
+$url = str_replace( '/index.php', '', $url );
+
+define( 'JURL_SITE', $url);
 
 ?>

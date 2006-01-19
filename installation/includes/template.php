@@ -25,6 +25,7 @@ function initDocument(&$doc)
 
 	$user    = $mainframe->getUser();
 	$lang    = $mainframe->getLanguage();
+	$uri      =& JURI::getInstance();
 
 	$version = new JVersion();
 
@@ -35,7 +36,7 @@ function initDocument(&$doc)
 	$doc->setMetaData( 'Generator', $version->PRODUCT . " - " . $version->COPYRIGHT);
 	$doc->setMetaData( 'robots', 'noindex, nofollow' );
 
-	$doc->setBase( JURL_SITE.'/installation/' );
+	$doc->setBase( $uri->toString(array('scheme', 'host', 'path')) );
 
 	$doc->addScript( 'includes/js/installation.js');
 	$doc->addScript( 'includes/js/ajform.js.js');

@@ -1266,6 +1266,9 @@ function saveOrder( &$cid ) {
 
 function previewContent($id, $option)
 {
+	global $mainframe;
+	$mainframe->setPageTitle(JText::_('Content Preview'));
+	
 	HTML_content::previewContent( );
 }
 ?>

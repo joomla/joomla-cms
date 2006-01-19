@@ -726,11 +726,16 @@ function saveOrder( &$cid, $client ) {
 	mosRedirect( 'index2.php?option=com_modules&client='. $client, $msg );
 } // saveOrder
 
-function previewModule($id, $client) {
+function previewModule($id, $client) 
+{
+	global $mainframe;
+	$mainframe->setPageTitle(JText::_('Module Preview'));
+	
 	HTML_modules::previewModule( );
 }
 
-function ReadAModuleXML( &$rows, $client ) {
+function ReadAModuleXML( &$rows, $client ) 
+{
 	// xml file for module
 	$xmlfile = JPATH_ADMINISTRATOR .'/components/com_menus/'. $type .'/'. $type .'.xml';
 	
@@ -763,7 +768,8 @@ function ReadAModuleXML( &$rows, $client ) {
 	
 	return $row;
 }
-function ReadModuleXML( &$rows, $client, $path ) {	
+function ReadModuleXML( &$rows, $client, $path ) 
+{	
 	foreach ($rows as $i => $row) {
 		if ($row->module == '') {
 			$rows[$i]->name 	= 'custom';
