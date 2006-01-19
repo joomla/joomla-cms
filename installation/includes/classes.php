@@ -453,8 +453,10 @@ class JInstallationController
 		$vars['adminPassword'] = mosMakePassword(8);
 
 		// FTP stuff
-		if (isset ($vars['ftpEnable']) && $vars['ftpEnable']) {
-			$vars['ftpRoot'] = JInstallationHelper::findFtpRoot($vars['ftpUser'], $vars['ftpPassword']);
+		if (isset ($vars['ftpEnable'])) {
+			if ($vars['ftpEnable'] == 1) {
+				$vars['ftpRoot'] = JInstallationHelper::findFtpRoot($vars['ftpUser'], $vars['ftpPassword']);
+			}
 		}
 
 		return JInstallationView::mainConfig($vars);
@@ -508,7 +510,7 @@ class JInstallationController
 		}
 
 		// Enable/Disable override
-		if ($vars['ftpEnable'] != 1) {
+		if (!isset($vars['ftpEnable']) || $vars['ftpEnable'] != 1) {
 			$ftpFlag = false;
 		}
 
