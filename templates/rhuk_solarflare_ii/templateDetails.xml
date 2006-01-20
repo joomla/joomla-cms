@@ -4,8 +4,8 @@
 	<creationDate>10/20/05</creationDate>
 	<author>rhuk</author>
 	<copyright>GNU/GPL</copyright>
-	<authorEmail>rhuk@jamboworks</authorEmail>
-	<authorUrl>http://www.jamboworks.com</authorUrl>
+    <authorEmail>rhuk@rockettheme.com.com</authorEmail>
+    <authorUrl>http://www.rockettheme.com</authorUrl>
 	<version>2.2</version>
 	<description>SolarFlare II is a simple and stylish template.  The clean design of this template makes it very lightweight and fast.  This is a significatn upgrade for the original SolarFlare template in that is has a completely revised layout that uses an alternate box model hack that makes it easier to modify.  Also a table has been introduced in the main content area that better constricts layout causing less problems with 'problematic' components. New headers and menu elements give this template a 'fresher' look.</description>
 	<files>
