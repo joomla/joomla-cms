@@ -108,7 +108,7 @@ class JPluginHelper
 	function importGroup( $group )
 	{
 
-		$plugins =& JPluginHelper::_load();
+		$plugins = JPluginHelper::_load();
 
 		$n = count( $plugins );
 		for ($i = 0; $i < $n; $i++) {
