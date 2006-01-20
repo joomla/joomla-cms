@@ -320,9 +320,11 @@ class JApplication extends JObject
 	 * @return juri 	JURI object
 	 * @since 1.1
 	 */
-	function &getURI() {
+	function &getURI() 
+	{
 		jimport('joomla.application.environment.uri');
-		return JURI::getInstance();
+		$instance =& JURI::getInstance();
+		return $instance;
 	}
 	
 	/**
@@ -351,7 +353,8 @@ class JApplication extends JObject
           	'language' => 'eng_GB'
 		);
 		jimport('joomla.document.document');
-		return JDocument::getInstance('html', $attributes);
+		$instance =& JDocument::getInstance('html', $attributes);
+		return $instance;
 	}
 
 	/**
@@ -398,7 +401,8 @@ class JApplication extends JObject
 	function &getBrowser()
 	{
 		jimport('joomla.application.environment.browser');
-		return JBrowser::getInstance();
+		$instance =& JBrowser::getInstance();
+		return $instance;
 	}
 
 	/**
