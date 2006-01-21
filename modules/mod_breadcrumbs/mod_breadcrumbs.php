@@ -96,6 +96,10 @@ function showBreadCrumbs( &$items, $separator ) {
 				$breadcrumbs .= ' ' .$separator. ' ';
 			}
 		}
+	} 
+	
+	if(!$numItems) {
+		$breadcrumbs .= '&nbsp;';
 	}
 
 	// Close the breadcrumbs span
