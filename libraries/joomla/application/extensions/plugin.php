@@ -87,7 +87,7 @@ class JPluginHelper
 	{
 		$result = null;
 		
-		$plugins =& JPluginHelper::_load();
+		$plugins = JPluginHelper::_load();
 
 		$total = count($plugins);
 		for($i = 0; $i < $total; $i++) {
