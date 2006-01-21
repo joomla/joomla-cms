@@ -24,11 +24,11 @@ $lang->load('mod_login');
 	<title><?php echo $mainframe->getCfg('sitename'); ?> - Offline</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"" />
 	<link rel="stylesheet" href="templates/{TEMPLATE}/css/template_css.css" type="text/css" />
-	<link rel="shortcut icon" href="<?php echo JURL_SITE; ?>/images/favicon.ico" />
+	<link rel="shortcut icon" href="favicon.ico" />
 </head>
 <body>
 	<div id="frame" class="outline">
-		<img src="<?php echo JURL_SITE; ?>/images/joomla_logo_black.jpg" alt="Joomla! Logo" align="middle" />
+		<img src="images/joomla_logo_black.jpg" alt="Joomla! Logo" align="middle" />
 		<h1>
 			<?php echo $mainframe->getCfg('sitename'); ?>
 		</h1>

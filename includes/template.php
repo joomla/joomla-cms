@@ -83,7 +83,6 @@ function initDocument(&$doc)
 	
 	$user    =& $mainframe->getUser();
 	$db      =& $mainframe->getDBO();
-	$uri     =& $mainframe->getURI();
 	$version = new JVersion();
 	
 			
@@ -94,7 +93,7 @@ function initDocument(&$doc)
 	$doc->setMetaData( 'Generator', $version->PRODUCT . " - " . $version->COPYRIGHT);
 	$doc->setMetaData( 'robots', 'index, follow' );
 	
-	$doc->setBase( $uri->toString(array('scheme', 'host', 'path')) );
+	$doc->setBase( $mainframe->getBaseURL() );
 
 	if ( $user->id ) {
 		$doc->addScript( 'includes/js/joomla.javascript.js');

@@ -25,8 +25,9 @@ class JTemplatesView {
 	* @param object A page navigation object
 	* @param string The option
 	*/
-	function showTemplates( &$rows, &$pageNav, $option, $client ) {
-		global $my;
+	function showTemplates( &$rows, &$pageNav, $option, $client ) 
+	{
+		global $mainframe, $my;
 
 		if ( isset( $row->authorUrl) && $row->authorUrl != '' ) {
 			$row->authorUrl = str_replace( 'http://', '', $row->authorUrl );
@@ -41,7 +42,7 @@ class JTemplatesView {
 			name = name.replace(pattern,'_');
 			name = name.toLowerCase();
 			if (document.adminForm.doPreview.checked) {
-				var src = '<?php echo  ($client == 'administration' ? JURL_SITE.'/administrator' : JURL_SITE );?>/templates/'+name+'/template_thumbnail.png';
+				var src = '<?php echo  ($client == 'administration' ? $mainframe->getSiteURL().'/administrator' : $mainframe->getSiteURL() );?>/templates/'+name+'/template_thumbnail.png';
 				var html=name;
 				html = '<br /><img border="1" src="'+src+'" name="imagelib" alt="<?php echo JText::_( 'No preview available' ); ?>" width="206" height="145" />';
 				return overlib(html, CAPTION, name)

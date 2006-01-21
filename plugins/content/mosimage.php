@@ -76,8 +76,13 @@ function botMosImage( $published, &$row, &$params, $page=0 ) {
 	}
 }
 
-function processImages ( &$row, &$params, &$introCount ) {
+function processImages ( &$row, &$params, &$introCount ) 
+{
+	global $mainframe;
+	
 	$images 		= array();
+	
+	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
 	// split on \n the images fields into an array
 	$row->images 	= explode( "\n", $row->images );
@@ -145,7 +150,7 @@ function processImages ( &$row, &$params, &$introCount ) {
 			}
 
 			// assemble the <image> tag
-			$image = '<img src="'. JURL_SITE .'/images/stories/'. $attrib[0] .'"'. $size;
+			$image = '<img src="'. $url .'/images/stories/'. $attrib[0] .'"'. $size;
 			// no aligment variable - if caption detected
 			if ( !$attrib[4] ) {
 				$image .= $attrib[1] ? ' align="'. $attrib[1] .'"' : '';

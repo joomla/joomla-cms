@@ -74,6 +74,14 @@ class JApplication extends JObject
 	 * @access protected
 	 */
 	var $_user = null;
+	
+	/** 
+	 * The url of the application
+	 * 
+	 * @var string 
+	 * @access protected
+	 */
+	var $_baseURL = null;
 
 	/**
 	* Class constructor
@@ -239,6 +247,27 @@ class JApplication extends JObject
 	 */
 	function getOption() {
 		return JRequest::getVar('option');
+	}
+	
+	/**
+	 * Return the application url
+	 *
+	 * @access public
+	 * @return string The url of the application
+	 * @since 1.1
+	 */
+	function getBaseURL() 
+	{
+		if(isset($this->_baseURL)) {
+			return $this->_baseURL;
+		}
+		
+		$uri =& $this->getURI();
+		$url = $uri->toString(array('scheme', 'host', 'path'));
+		$url = str_replace(basename($url), '', $url);
+		
+		$this->_baseURL= $url;
+		return $url;
 	}
 
 	/**
@@ -583,14 +612,6 @@ class JApplication extends JObject
 	 */
 	function isSite() {
 		return ($this->_client == 0) ?  true : false;
-	}
-
-	/** Is admin interface?
-	 * @return boolean
-	 * @since 1.1
-	 */
-	function isInstall() {
-		return ($this->_client == 2) ?  true : false;
 	}
 
 	/**

@@ -329,7 +329,10 @@ class JMediaViews {
 		<?php
 	}
 
-	function showDoc($doc, $size, $listdir, $icon) {
+	function showDoc($doc, $size, $listdir, $icon) 
+	{
+		global $mainframe;
+		
 		$size = JMediaViews::parseSize( $size );
 		$base = "/images/";
 		$overlib = JText::_( 'Filesize' ) .': '. $size;
@@ -338,7 +341,7 @@ class JMediaViews {
 		<div style="float:left; padding: 5px">
 			<div class="imgTotal" onmouseover="return overlib( '<?php echo $overlib; ?>', CAPTION, '<?php echo $doc; ?>', BELOW, RIGHT, WIDTH, 200 );" onmouseout="return nd();">
 				<div align="center" class="imgBorder">
-				  <a href="index3.php?option=com_media&amp;task=list&amp;listdir=<?php echo $listdir; ?>" onclick="javascript:window.top.document.forms[0].imagecode.value = '<a href=&quot;<?php echo JURL_SITE. $base . $listdir  .'/'. $doc;?>&quot;><?php echo JText::_( 'Insert your text here' ); ?></a>';">
+				  <a href="index3.php?option=com_media&amp;task=list&amp;listdir=<?php echo $listdir; ?>" onclick="javascript:window.top.document.forms[0].imagecode.value = '<a href=&quot;<?php echo $mainframe->getSiteURL(). $base . $listdir  .'/'. $doc;?>&quot;><?php echo JText::_( 'Insert your text here' ); ?></a>';">
 		  				<img border="0" src="<?php echo $icon ?>" alt="<?php echo $doc; ?>" /></a>
 		  		</div>
 			</div>

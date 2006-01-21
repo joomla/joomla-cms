@@ -193,9 +193,10 @@ function mosObjectToArray($p_obj) {
  * @param string $msg A message to display on redirect
  * @since 1.0
  */
-function josRedirect( $url, $msg='' ) {
+function josRedirect( $url, $msg='' ) 
+{
    global $mainframe;
-
+   
     /*
      * Instantiate an input filter and process the URL and message
      */
@@ -206,7 +207,7 @@ function josRedirect( $url, $msg='' ) {
 	}
 
 	if ($iFilter->badAttributeValue( array( 'href', $url ))) {
-		$url = JURL_SITE;
+		$url = $mainframe->getBasePath();
 	}
 
 	/*
@@ -468,11 +469,14 @@ function mosCurrentDate( $format="" ) {
 * @returns HTML code for ToolTip
 * @since 1.0
 */
-function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='#', $link=1 ) {
+function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='#', $link=1 ) 
+{
 	global $mainframe;
-
+	
 	$tooltip = addslashes(htmlspecialchars($tooltip));
 	$title   = addslashes(htmlspecialchars($title));
+	
+	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
 	if ( $width ) {
 		$width = ', WIDTH, \''.$width .'\'';
@@ -481,7 +485,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 		$title = ', CAPTION, \''. JText::_( $title ) .'\'';
 	}
 	if ( !$text ) {
-		$image 	= JURL_SITE . '/includes/js/ThemeOffice/'. $image;
+		$image 	= $url . '/includes/js/ThemeOffice/'. $image;
 		$text 	= '<img src="'. $image .'" border="0" alt="'. JText::_( 'Tooltip' ) .'"/>';
 	}
     else{
@@ -645,15 +649,19 @@ function josMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=nul
  * @return boolean True on success
  * @since 1.1
  */
-function josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) 
+function josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author, $url = null ) 
 {
 	global $mainframe;
+	
+	if(!isset($url)) {
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+	}
 
     $strAdminDir = "administrator";
 
 	$subject = JText::_( 'User Submitted' ) ." '". $type ."'";
 
-	$message = sprintf ( JText::_( 'MAIL_MSG_ADMIN' ), $adminName, $type, $title, $author, JURL_SITE, JURL_SITE, $strAdminDir, $type);
+	$message = sprintf ( JText::_( 'MAIL_MSG_ADMIN' ), $adminName, $type, $title, $author, $url, $url, $strAdminDir, $type);
     $message .= JText::_( 'MAIL_MSG') ."\n";
 
 	eval ("\$message = \"$message\";");

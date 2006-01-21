@@ -60,7 +60,7 @@ $mainframe->triggerEvent( 'onAfterStart' );
 
 if ($option == 'logout') {
 	$mainframe->logout();
-	mosRedirect( JURL_SITE );
+	mosRedirect( $mainframe->getSiteURL() );
 }
 
 // get the information about the current user from the sessions table

@@ -34,11 +34,6 @@ require_once( JPATH_SITE      		. DS .'globals.php' );
 require_once( JPATH_CONFIGURATION   . DS .'configuration.php' );
 require_once( JPATH_LIBRARIES 		. DS .'loader.php' );
 
-// Create the JConfig object
-$CONFIG = new JConfig();
-
-define( 'JURL_SITE', $CONFIG->live_site );
-
 if (phpversion() < '4.2.0') {
 	jimport('joomla.common.compat.php41x' );
 }

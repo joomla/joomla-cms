@@ -138,8 +138,9 @@ class HTML_users {
 		<?php
 	}
 
-	function edituser( &$row, &$contact, &$lists, $option, $uid, &$params ) {
-		global $my, $acl;
+	function edituser( &$row, &$contact, &$lists, $option, $uid, &$params ) 
+	{
+		global $mainframe, $my, $acl;
 
 		$tabs = new mosTabs( 0 );
 
@@ -390,7 +391,7 @@ class HTML_users {
 						<tr>
 							<td></td>
 							<td valign="top">
-							<img src="<?php echo JURL_SITE;?>/images/stories/<?php echo $contact[0]->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
+							<img src="<?php echo $mainframe->getSiteURL();?>/images/stories/<?php echo $contact[0]->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
 							</td>
 						</tr>
 						<?php

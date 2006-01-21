@@ -164,7 +164,10 @@ class sections_html {
 	* @param string The html for the ordering list
 	* @param string The html for the groups select list
 	*/
-	function edit( &$row, $option, &$lists, &$menus ) {
+	function edit( &$row, $option, &$lists, &$menus ) 
+	{
+		global $mainframe;
+		
 		if ( $row->name != '' ) {
 			$name = $row->name;
 		} else {
@@ -264,7 +267,7 @@ class sections_html {
 					</td>
 					<td rowspan="4" width="50%">
 					<?php
-						$path = JURL_SITE . "/images/";
+						$path = $mainframe->getSiteURL() . "/images/";
 						if ($row->image != "blank.png") {
 							$path.= "stories/";
 						}

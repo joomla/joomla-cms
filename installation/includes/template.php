@@ -24,7 +24,6 @@ function initDocument(&$doc)
 	global $mainframe;
 
 	$user    =& $mainframe->getUser();
-	$uri     =& $mainframe->getURI();
 	$lang    = $mainframe->getLanguage();
 	
 	$version = new JVersion();
@@ -36,7 +35,7 @@ function initDocument(&$doc)
 	$doc->setMetaData( 'Generator', $version->PRODUCT . " - " . $version->COPYRIGHT);
 	$doc->setMetaData( 'robots', 'noindex, nofollow' );
 
-	$doc->setBase( $uri->toString(array('scheme', 'host', 'path')) );
+	$doc->setBase( $mainframe->getBaseURL() );
 
 	$doc->addScript( 'includes/js/installation.js');
 	$doc->addScript( 'includes/js/ajform.js.js');

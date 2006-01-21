@@ -51,13 +51,13 @@ function lostPassForm( $option ) {
 	HTML_registration::lostPassForm($option);
 }
 
-function sendNewPass( $option ) {
+function sendNewPass( $option ) 
+{
 	global $database, $Itemid;
-	global $mosConfig_sitename;
 	global $mosConfig_mailfrom, $mosConfig_fromname;
-
-	$_live_site = JURL_SITE;
-	$_sitename 	= $mosConfig_sitename;
+	
+	$siteURL 	= $mainframe->getBaseURL();
+	$_sitename 	= $mainframe->getCfg('sitename');
 
 	// ensure no malicous sql gets past
 	$checkusername	= mosGetParam( $_POST, 'checkusername', '' );
@@ -76,7 +76,7 @@ function sendNewPass( $option ) {
 	}
 
 	$newpass = mosMakePassword();
-	$message = sprintf( JText::_( 'NEWPASS_MAIL_MSG' ), $checkusername, JText::_( 'NEWPASS_MSG1' ), JURL_SITE, JText::_( 'NEWPASS_MSG2' ), $newpass, JText::_( 'NEWPASS_MSG3' ) );
+	$message = sprintf( JText::_( 'NEWPASS_MAIL_MSG' ), $checkusername, JText::_( 'NEWPASS_MSG1' ), $siteURL, JText::_( 'NEWPASS_MSG2' ), $newpass, JText::_( 'NEWPASS_MSG3' ) );
 
 	eval ("\$message = \"$message\";");
 	$subject = sprintf( JText::_( 'New password for' ), $_sitename, $checkusername );
@@ -97,9 +97,10 @@ function sendNewPass( $option ) {
 	mosRedirect( "index.php?option=com_registration&mosmsg=". JText::_( 'New User Password created and sent!' ) );
 }
 
-function registerForm( $option, $useractivation ) {
+function registerForm( $option, $useractivation ) 
+{
 	global $mainframe;
-
+	
 	if (!$mainframe->getCfg( 'allowUserRegistration' )) {
 		mosNotAuth();
 		return;
@@ -113,15 +114,18 @@ function registerForm( $option, $useractivation ) {
 	HTML_registration::registerForm($option, $useractivation);
 }
 
-function saveRegistration( $option ) {
+function saveRegistration( $option ) 
+{
 	global $database, $acl, $mainframe;
 	global $mosConfig_sitename, $mosConfig_useractivation, $mosConfig_allowUserRegistration;
 	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_mailfrom, $mosConfig_fromname;
-
+	
 	if ($mosConfig_allowUserRegistration=='0') {
 		mosNotAuth();
 		return;
 	}
+	
+	$siteURL = $mainframe->getBaseURL();
 
 	$row =& JModel::getInstance('user', $database );
 
@@ -170,9 +174,9 @@ function saveRegistration( $option ) {
 	$subject 	= sprintf ( JText::_( 'Account details for' ), $name, $mosConfig_sitename);
 	$subject 	= html_entity_decode($subject, ENT_QUOTES);
 	if ($mosConfig_useractivation=="1"){
-		$message = sprintf ( JText::_( 'SEND_MSG_ACTIVATE' ), $name, $mosConfig_sitename, JURL_SITE."/index.php?option=com_registration&task=activate&activation=".$row->activation, JURL_SITE, $username, $pwd);
+		$message = sprintf ( JText::_( 'SEND_MSG_ACTIVATE' ), $name, $mosConfig_sitename, $siteURL."/index.php?option=com_registration&task=activate&activation=".$row->activation, $siteURL, $username, $pwd);
 	} else {
-		$message = sprintf ( JText::_( 'SEND_MSG' ), $name, $mosConfig_sitename, JURL_SITE);
+		$message = sprintf ( JText::_( 'SEND_MSG' ), $name, $mosConfig_sitename, $siteURL);
 	}
 
 	$message = html_entity_decode($message, ENT_QUOTES);

@@ -24,8 +24,16 @@ require_once( 'includes/framework.php' );
 * @package Joomla
 * @final
 */
-class JAdministrator extends JApplication {
-
+class JAdministrator extends JApplication 
+{	
+	/** 
+	 * The url of the site
+	 * 
+	 * @var string 
+	 * @access protected
+	 */
+	var $_siteURL = null;
+	
 	/**
 	* Class constructor
 	* 
@@ -96,6 +104,25 @@ class JAdministrator extends JApplication {
 		}
 		
 		return $template;
+	}
+	
+	/**
+	* Get the url of the site 
+	* 
+	* @return string The site URL
+	* @since 1.0
+	*/
+	function getSiteURL() 
+	{
+		if(isset($this->_siteURL)) {
+			return $this->_siteURL;
+		}
+		
+		$url = $this->getBaseURL();
+		$url = str_replace('administrator/', '', $url);
+		
+		$this->_siteURL = $url;
+		return $url;
 	}
 }
 

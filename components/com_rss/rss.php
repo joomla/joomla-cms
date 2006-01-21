@@ -34,10 +34,11 @@ switch ( $task ) {
 /*
 * Creates feed from Content Iems associated to teh frontpage component
 */
-function feedFrontpage( $showFeed ) {
+function feedFrontpage( $showFeed ) 
+{
 	global $database, $mainframe;
 	global $mosConfig_offset;
-
+	
 	$nullDate = $database->getNullDate();
 	// pull id of syndication component
 	$query = "SELECT a.id"
@@ -58,7 +59,7 @@ function feedFrontpage( $showFeed ) {
 	$info[ 'date' ] 		= date( 'r' );
 	$info[ 'year' ] 		= date( 'Y' );
 	$info[ 'encoding' ] 	= "utf-8";
-	$info[ 'link' ] 		= htmlspecialchars( JURL_SITE );
+	$info[ 'link' ] 		= htmlspecialchars( $mainframe->getBaseURL() );
 	$info[ 'cache' ] 		= $params->def( 'cache', 1 );
 	$info[ 'cache_time' ] 	= $params->def( 'cache_time', 3600 );
 	$info[ 'count' ]		= $params->def( 'count', 5 );

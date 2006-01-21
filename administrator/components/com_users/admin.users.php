@@ -261,7 +261,8 @@ function editUser( $uid='0', $option='users' ) {
 	HTML_users::edituser( $row, $contact, $lists, $option, $uid, $params );
 }
 
-function saveUser( $option, $task ) {
+function saveUser( $option, $task ) 
+{
 	global $database, $my, $mainframe;
 	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_sitename;
 
@@ -363,7 +364,7 @@ function saveUser( $option, $task ) {
 		$adminEmail = $database->loadResult();
 
 		$subject = _NEW_USER_MESSAGE_SUBJECT;
-		$message = sprintf ( _NEW_USER_MESSAGE, $row->name, $mosConfig_sitename, JURL_SITE, $row->username, $pwd );
+		$message = sprintf ( _NEW_USER_MESSAGE, $row->name, $mosConfig_sitename, $mainframe->getSiteURL(), $row->username, $pwd );
 
 		if ($mosConfig_mailfrom != "" && $mosConfig_fromname != "") {
 			$adminName 	= $mosConfig_fromname;

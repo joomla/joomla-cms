@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: search.xmlrpcbot.php 1447 2005-12-14 21:49:05Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -40,8 +40,11 @@ function wsGetSearchWebServices() {
 * @param string mathcing option, exact|any|all
 * @param string ordering option, newest|oldest|popular|alpha|category
 */
-function wsSearchSite( $searchword, $phrase='', $order='' ) {
+function wsSearchSite( $searchword, $phrase='', $order='' ) 
+{
 	global $mainframe, $database, $my, $acl;
+	
+	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
 	if (!defined( '_MAMBOT_REMOTE_SEACH')) {
 		// flag that the site is being searched remotely
@@ -57,7 +60,7 @@ function wsSearchSite( $searchword, $phrase='', $order='' ) {
 
 	foreach ($results as $i=>$rows) {
 		foreach ($rows as $j=>$row) {
-			$results[$i][$j]->href = JURL_SITE . '/' . $row->href;
+			$results[$i][$j]->href = $url . '/' . $row->href;
 			$results[$i][$j]->text = mosPrepareSearchContent( $row->text );
 		}
 	}

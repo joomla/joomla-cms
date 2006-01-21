@@ -21,8 +21,6 @@ $button_text	 = $params->get( 'button_text', JText::_( 'Search' ) );
 $width 			 = intval( $params->get( 'width', 20 ) );
 $text 			 = $params->get( 'text', JText::_( 'search...' ) );
 $moduleclass_sfx = $params->get( 'moduleclass_sfx' );
-$t_path			 = JURL_SITE .'/templates/'. $mainframe->getTemplate() .'/images/';
-$d_path			 = JURL_SITE .'/images/M_images/';
 
 $output = '<input name="searchword" id="mod_search_searchword" maxlength="20" alt="'. $button_text .'" class="inputbox'. $moduleclass_sfx .'" type="text" size="'. $width .'" value="'. $text .'"  onblur="if(this.value==\'\') this.value=\''. $text .'\';" onfocus="if(this.value==\''. $text .'\') this.value=\'\';" />';
 

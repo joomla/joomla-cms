@@ -14,8 +14,8 @@ if ((mosCountModules( 'user1' )) && (mosCountModules( 'user2' ))) {
 	$userb = 'user3';
 }
 ?>
-<link href="<?php echo JURL_SITE; ?>/templates/madeyourweb/css/template_css.css" rel="stylesheet" type="text/css"/>
-<link href="<?php echo JURL_SITE; ?>/templates/madeyourweb/css/css_color_green.css" rel="stylesheet" type="text/css"/>
+<link href="templates/madeyourweb/css/template_css.css" rel="stylesheet" type="text/css"/>
+<link href="templates/madeyourweb/css/css_color_green.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
@@ -46,7 +46,7 @@ if ((mosCountModules( 'user1' )) && (mosCountModules( 'user2' ))) {
 
 		<div id="top-bottom">
 			<a href="index.php">
-				<?php echo '<img src="' .JURL_SITE. '/templates/' .$GLOBALS['cur_template']. '/images/logo.gif" border="0" width="250" height="80" alt="logo" />'; ?>
+				<?php echo '<img src="templates/' .$GLOBALS['cur_template']. '/images/logo.gif" border="0" width="250" height="80" alt="logo" />'; ?>
 				</a>
 		</div>
 		<?php

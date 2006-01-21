@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: jossiteurl.php 85 2005-09-15 23:12:03Z akede $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -20,10 +20,13 @@ $mainframe->registerEvent( 'onBeforeStart', 'botJoomlaSiteUrl' );
 * Converting the site URL to fit to the HTTP request
 *
 */
-function botJoomlaSiteUrl( ) {
+function botJoomlaSiteUrl( ) 
+{
 	global $mainframe;
+	
+	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
-	$mainframe->_registry->_registry['JConfig']['data']->original_site = JURL_SITE;
+	$mainframe->_registry->_registry['JConfig']['data']->original_site = $url;
 
 	// Testing the server information
 	if ( isset ( $_SERVER['PHP_SELF'] ) ) {
@@ -57,7 +60,7 @@ function botJoomlaSiteUrl( ) {
 		} else if ( isset( $_SERVER['SERVER_ADDR'] ) ) {
 			$siteHost = $_SERVER['SERVER_ADDR'] . $sitePort;
 		} else {
-			$siteHost = JURL_SITE;
+			$siteHost = $url;
 		}
 
 		$sitePath = dirname( $_SERVER['PHP_SELF'] );

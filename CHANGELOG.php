@@ -39,6 +39,7 @@ Legend:
 
 19-Jan-2006 Johan Janssens
  # Fixed base href problem in installation
+ ^ Removed all instances for JURL_SITE define, use JApplication->getBasePath instead
 
 19-Jan-2006 David Gal
  + Added rendering of {mosimage} images in pdf generation

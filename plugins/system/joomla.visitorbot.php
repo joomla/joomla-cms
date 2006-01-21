@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: joomla.visitorbot.php 1402 2005-12-09 17:16:01Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -23,7 +23,8 @@ $mainframe->registerEvent( 'onAfterStart', 'botDetectVisitor' );
  * visitor.  The user agent is recorded/incremented if this is the first visit.
  * A cookie is set to mark the first visit.
  */
-function botDetectVisitor() {
+function botDetectVisitor() 
+{
 	global $database, $mainframe;
 
 	if ( mosGetParam( $_COOKIE, 'mosvisitor', 0 ) || !$mainframe->isSite() ) {

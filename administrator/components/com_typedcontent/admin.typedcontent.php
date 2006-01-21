@@ -195,7 +195,8 @@ function view( $option )
 * @param string The name of the category section
 * @param integer The unique id of the category to edit (0 if new)
 */
-function edit( $uid, $option ) {
+function edit( $uid, $option ) 
+{
 	global $database, $my, $mainframe;
 
 	$nullDate = $database->getNullDate();
@@ -258,7 +259,7 @@ function edit( $uid, $option ) {
 
 	// calls function to read image from directory
 	$pathA 		= JPATH_SITE .'/images/stories';
-	$pathL 		= JURL_SITE .'/images/stories';
+	$pathL 		= $mainframe->getSiteURL() .'/images/stories';
 	$images 	= array();
 	$folders 	= array();
 	$folders[] 	= mosHTML::makeOption( '/' );

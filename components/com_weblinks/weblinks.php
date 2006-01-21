@@ -85,7 +85,8 @@ class WeblinksController {
 	 * @param int $catid Web Link category id
 	 * @since 1.0
 	 */
-	function showCategory($catid) {
+	function showCategory($catid) 
+	{
 		global $mainframe, $Itemid;
 
 		// Get some objects from the JApplication
@@ -380,12 +381,13 @@ class WeblinksController {
 	 *
 	 * @since 1.0
 	 */
-	function saveWeblink() {
+	function saveWeblink() 
+	{
 		global $mainframe, $Itemid;
 
 		// Get some objects from the JApplication
-		$db = & $mainframe->getDBO();
-		$my = & $mainframe->getUser();
+		$db  =& $mainframe->getDBO();
+		$my  =& $mainframe->getUser();
 
 		// Must be logged in
 		if ($my->gid < 1) {
@@ -444,7 +446,7 @@ class WeblinksController {
 		
 		// send email notification to admins
 		foreach($adminRows as $adminRow) {				
-			josSendAdminMail($adminRow->name, $adminRow->email, '', 'Weblink', $row->title, $my->username );
+			josSendAdminMail($adminRow->name, $adminRow->email, '', 'Weblink', $row->title, $my->username, $mainframe->getBaseURL() );
 		}
 		
 		$msg = $isNew ? JText::_('THANK_SUB') : '';

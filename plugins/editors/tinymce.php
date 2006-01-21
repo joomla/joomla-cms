@@ -47,10 +47,13 @@ class JEditor_tinymce extends JPlugin {
 	 * @return string JavaScript Initialization string
 	 * @since 1.1
 	 */
-	function onInitEditor() {
+	function onInitEditor() 
+	{
 		global $mainframe;
 		
-		$database = $mainframe->getDBO();
+		$database =& $mainframe->getDBO();
+		
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 	
 		// load tinymce info
 		$query = "SELECT id"
@@ -124,7 +127,7 @@ class JEditor_tinymce extends JPlugin {
 				$file = 'editor_content.css';
 			}
 			
-			$content_css = 'content_css : "'. JURL_SITE .'/templates/'. $template .'/css/';
+			$content_css = 'content_css : "'. $url .'/templates/'. $template .'/css/';
 			
 			if ( file_exists( $file_path .'/'. $file ) ) {
 				$content_css = $content_css . $file .'", ';
@@ -154,9 +157,9 @@ class JEditor_tinymce extends JPlugin {
 	
 		// Tiny Compressed mode
 		if ( $compressed ) {
-			$load = '<script type="text/javascript" src="'. JURL_SITE .'/plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php"></script>';
+			$load = '<script type="text/javascript" src="'. $url .'/plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php"></script>';
 		} else {
-			$load = '<script type="text/javascript" src="'. JURL_SITE .'/plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>';
+			$load = '<script type="text/javascript" src="'. $url .'/plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>';
 		}
 	
 		// preview
@@ -223,7 +226,7 @@ class JEditor_tinymce extends JPlugin {
 				theme : \"$theme\",
 				language : \"$lang\",
 				mode : \"specific_textareas\",
-				document_base_url : \"". JURL_SITE ."/\",
+				document_base_url : \"". $url ."/\",
 				relative_urls : false,
 				remove_script_host : false,
 				save_callback : \"TinyMCE_Save\",
@@ -288,17 +291,20 @@ class JEditor_tinymce extends JPlugin {
 	 * @param int The number of columns for the editor area
 	 * @param int The number of rows for the editor area
 	 */
-	function onEditorArea( $name, $content, $hiddenField, $width, $height, $col, $row ) {
+	function onEditorArea( $name, $content, $hiddenField, $width, $height, $col, $row ) 
+	{
 		global $mainframe;
 	
 		$dispatcher =& JEventDispatcher::getInstance();
+		
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 		
 		$results = $dispatcher->dispatch( 'onCustomEditorButton' );
 
 		$buttons = array();
 		foreach ($results as $result) {
 			if ( $result[0] ) {
-				$buttons[] = '<img src="'.JURL_SITE.'/plugins/editors-xtd/'.$result[0].'" onclick="tinyMCE.execCommand(\'mceInsertContent\',false,\''.$result[1].'\')" alt="'.$result[1].'"/>';
+				$buttons[] = '<img src="'.$url.'/plugins/editors-xtd/'.$result[0].'" onclick="tinyMCE.execCommand(\'mceInsertContent\',false,\''.$result[1].'\')" alt="'.$result[1].'"/>';
 			}
 		}
 		$buttons = implode( "", $buttons );

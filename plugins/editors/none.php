@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: none.php 1402 2005-12-09 17:16:01Z Jinx $
+* @version $Id$
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -91,17 +91,20 @@ class JEditor_none extends JPlugin {
 	 * @param int The number of columns for the editor area
 	 * @param int The number of rows for the editor area
 	 */
-	function onEditorArea( $name, $content, $hiddenField, $width, $height, $col, $row ) {
+	function onEditorArea( $name, $content, $hiddenField, $width, $height, $col, $row ) 
+	{
 		global $mainframe;
 	
 		$dispatcher =& JEventDispatcher::getInstance();
+		
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 		
 		$results = $dispatcher->dispatch( 'onCustomEditorButton' );
 
 		$buttons = array();
 		foreach ($results as $result) {
 			if ( $result[0] ) {
-				$buttons[] = '<img src="'.JURL_SITE.'/plugins/editors-xtd/'.$result[0].'" onclick="insertAtCursor( document.adminForm.'.$hiddenField.', \''.$result[1].'\' )" alt="'.$result[1].'"/>';
+				$buttons[] = '<img src="'.$url.'/plugins/editors-xtd/'.$result[0].'" onclick="insertAtCursor( document.adminForm.'.$hiddenField.', \''.$result[1].'\' )" alt="'.$result[1].'"/>';
 			}
 		}
 		$buttons = implode( "", $buttons );

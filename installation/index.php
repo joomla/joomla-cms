@@ -97,5 +97,5 @@ header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.1
 header( 'Pragma: no-cache' );										// HTTP/1.0
 
 
-$document->display( 'index.html', true);
+$document->display( 'index.html', false);
 ?>

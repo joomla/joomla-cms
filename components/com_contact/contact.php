@@ -446,13 +446,15 @@ class JContactController
 	 * @static
 	 * @since 1.0
 	 */
-	function sendmail() {
+	function sendmail() 
+	{
 		global $mainframe, $Itemid;
-
+		
 		/*
 		 * Initialize some variables
 		 */
 		$db = & $mainframe->getDBO();
+		
 		$SiteName 	= $mainframe->getCfg('sitename');
 		$MailFrom 	= $mainframe->getCfg('mailfrom');
 		$FromName 	= $mainframe->getCfg('fromname');
@@ -579,7 +581,10 @@ class JContactController
 			/*
 			 * Prepare email body
 			 */
-			$prefix = sprintf(JText :: _('ENQUIRY_TEXT'), JURL_SITE);
+			
+			$url = );
+			 
+			$prefix = sprintf(JText :: _('ENQUIRY_TEXT'), $mainframe->getBaseURL());
 			$text 	= $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($text);
 
 			// Send mail
@@ -612,13 +617,15 @@ class JContactController
 	 * @static
 	 * @since 1.0
 	 */
-	function vCard() {
+	function vCard() 
+	{
 		global $mainframe;
 
 		/*
 		 * Initialize some variables
 		 */
 		$db = & $mainframe->getDBO();
+		
 		$SiteName = $mainframe->getCfg('sitename');
 		$contactId = JRequest :: getVar('contact_id', 0, '', 'int');
 
@@ -685,7 +692,7 @@ class JContactController
 			$v->setAddress('', '', $contact->address, $contact->suburb, $contact->state, $contact->postcode, $contact->country, 'WORK;POSTAL');
 			$v->setEmail($contact->email_to);
 			$v->setNote($contact->misc);
-			$v->setURL(JURL_SITE, 'WORK');
+			$v->setURL( $mainframe->getBaseURL(), 'WORK');
 			$v->setTitle($contact->con_position);
 			$v->setOrg($SiteName);
 

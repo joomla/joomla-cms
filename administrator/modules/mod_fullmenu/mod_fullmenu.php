@@ -97,9 +97,9 @@ class mosFullAdminMenu
 			}
 ?>				['<img src="../includes/js/ThemeOffice/media.png" />','<?php echo JText::_( 'Media Manager', true ); ?>','index2.php?option=com_media',null,'<?php echo JText::_( 'Manage Media Files', true ); ?>'],
 					['<img src="../includes/js/ThemeOffice/preview.png" />', '<?php echo JText::_( 'Preview', true ); ?>', null, null, '<?php echo JText::_( 'Preview', true ); ?>',
-					['<img src="../includes/js/ThemeOffice/preview.png" />','<?php echo JText::_( 'In New Window', true ); ?>','<?php echo JURL_SITE; ?>/index.php','_blank','<?php echo JURL_SITE; ?>'],
-					['<img src="../includes/js/ThemeOffice/preview.png" />','<?php echo JText::_( 'Inline', true ); ?>','index2.php?option=com_admin&task=preview',null,'<?php echo JURL_SITE; ?>'],
-					['<img src="../includes/js/ThemeOffice/preview.png" />','<?php echo JText::_( 'Inline with Positions', true ); ?>','index2.php?option=com_admin&task=preview2',null,'<?php echo JURL_SITE; ?>'],
+					['<img src="../includes/js/ThemeOffice/preview.png" />','<?php echo JText::_( 'In New Window', true ); ?>','<?php echo $mainframe->getSiteURL(); ?>/index.php','_blank','<?php echo $mainframe->getSiteURL(); ?>'],
+					['<img src="../includes/js/ThemeOffice/preview.png" />','<?php echo JText::_( 'Inline', true ); ?>','index2.php?option=com_admin&task=preview',null,'<?php echo $mainframe->getSiteURL(); ?>'],
+					['<img src="../includes/js/ThemeOffice/preview.png" />','<?php echo JText::_( 'Inline with Positions', true ); ?>','index2.php?option=com_admin&task=preview2',null,'<?php echo $mainframe->getSiteURL(); ?>'],
 				],
 				['<img src="../includes/js/ThemeOffice/globe1.png" />', '<?php echo JText::_( 'Statistics', true ); ?>', null, null, '<?php echo JText::_( 'Site Statistics', true ); ?>',
 <?php

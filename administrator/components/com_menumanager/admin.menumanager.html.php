@@ -20,11 +20,15 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Menus
 */
-class HTML_menumanager {
+class HTML_menumanager 
+{
 	/**
 	* Writes a list of the menumanager items
 	*/
-	function show ( $option, $menus, $pageNav ) {
+	function show ( $option, $menus, $pageNav ) 
+	{
+		global $mainframe;
+		
 		?>
 		<script language="javascript" type="text/javascript">
 		function menu_listItemTask( id, task, option ) {
@@ -92,7 +96,7 @@ class HTML_menumanager {
 				</td>
 				<td align="center">
 				<a href="<?php echo $linkA; ?>" title="<?php echo JText::_( 'Edit Menu Items' ); ?>">
-				<img src="<?php echo JURL_SITE; ?>/includes/js/ThemeOffice/mainmenu.png" border="0"/>
+				<img src="<?php echo $mainframe->getSiteURL(); ?>/includes/js/ThemeOffice/mainmenu.png" border="0"/>
 				</a>
 				</td>
 				<td align="center">

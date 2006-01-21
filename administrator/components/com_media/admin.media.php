@@ -37,7 +37,7 @@ if (is_int(strpos($listdir, "..")) && $listdir != '') {
 }
 
 define('COM_MEDIA_BASE', JPATH_SITE.DS.'images');
-define('COM_MEDIA_BASEURL', JURL_SITE.'/images');
+define('COM_MEDIA_BASEURL', $mainframe->getSiteURL().'/images');
 
 switch ($task) {
 

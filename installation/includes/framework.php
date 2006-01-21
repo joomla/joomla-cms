@@ -60,10 +60,4 @@ jimport( 'joomla.application.application');
 jimport( 'joomla.application.environment.request' );
 jimport( 'joomla.application.environment.session' );
 
-$url = $_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'];
-$url = str_replace( 'installation/', '', $url );
-$url = str_replace( '/index.php', '', $url );
-
-define( 'JURL_SITE', $url);
-
 ?>

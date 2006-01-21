@@ -795,12 +795,14 @@ class mosCommonHTML {
 	function loadOverlib() 
 	{
 		global $mainframe;
+		
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
 		if ( !$mainframe->get( 'loadOverlib' ) ) {
 		// check if this function is already loaded
 			$doc =& $mainframe->getDocument();
-			$doc->addScript(JURL_SITE.'/includes/js/overlib_mini.js');
-			$doc->addScript(JURL_SITE.'/includes/js/overlib_hideform_mini.js');
+			$doc->addScript($url.'/includes/js/overlib_mini.js');
+			$doc->addScript($url.'/includes/js/overlib_hideform_mini.js');
 			?>
 			<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 			<?php
@@ -812,13 +814,18 @@ class mosCommonHTML {
 	/*
 	* Loads all necessary files for JS Calendar
 	*/
-	function loadCalendar() {
+	function loadCalendar() 
+	{
+		global $mainframe;
+		
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		
 		?>
-		<link rel="stylesheet" type="text/css" media="all" href="<?php echo JURL_SITE;?>/includes/js/calendar/calendar-mos.css" title="<?php echo JText::_( 'green' ); ?>" />
+		<link rel="stylesheet" type="text/css" media="all" href="<?php echo $url;?>/includes/js/calendar/calendar-mos.css" title="<?php echo JText::_( 'green' ); ?>" />
 		<!-- import the calendar script -->
-		<script type="text/javascript" src="<?php echo JURL_SITE;?>/includes/js/calendar/calendar_mini.js"></script>
+		<script type="text/javascript" src="<?php echo $url;?>/includes/js/calendar/calendar_mini.js"></script>
 		<!-- import the language module -->
-		<script type="text/javascript" src="<?php echo JURL_SITE;?>/includes/js/calendar/lang/calendar-en.js"></script>
+		<script type="text/javascript" src="<?php echo $url;?>/includes/js/calendar/lang/calendar-en.js"></script>
 		<?php
 	}
 
@@ -889,20 +896,22 @@ class mosTabs {
 	* @param int useCookies, if set to 1 cookie will hold last used tab between page refreshes
 	* @param boolean xhtml [DEPRECATED]
 	*/
-	function mosTabs( $useCookies, $xhtml=NULL ) {
+	function mosTabs( $useCookies, $xhtml=NULL ) 
+	{
 		global $mainframe;
 		
 		if($mainframe->get( 'loadTabs')) {
 			return;
 		}
 		
-		$document =& $mainframe->getDocument();
+		$document =& $mainframe->getDocument(); 
+		$lang     =& $mainframe->getLanguage();
+		
+		$css  = $lang->isRTL() ? 'tabpane_rtl.css' : 'tabpane.css';
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
-		$lang =& $mainframe->getLanguage();
-		$css = $lang->isRTL() ? 'tabpane_rtl.css' : 'tabpane.css';
-
-		$document->addStyleSheet( JURL_SITE. '/includes/js/tabs/'.$css,  'text/css', null, array('id' => 'luna-tab-style-sheet' ));
-		$document->addScript( JURL_SITE. '/includes/js/tabs/tabpane_mini.js' );
+		$document->addStyleSheet( $url. '/includes/js/tabs/'.$css,  'text/css', null, array('id' => 'luna-tab-style-sheet' ));
+		$document->addScript( $url. '/includes/js/tabs/tabpane_mini.js' );
 
 		$this->useCookies = $useCookies;
 
@@ -1544,15 +1553,18 @@ class mosAdminMenus {
 	* Also can be used in conjunction with the menulist param to create the chosen image
 	* load the default or use no image
 	*/
-	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='middle' ) {
+	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='middle' ) 
+	{
 		global $mainframe;
 
 		$cur_template = $mainframe->getTemplate();
+		
 
 		$name = ( $name ? 'name="'. $name .'"' : '' );
+		$url  = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
 		if ( $param ) {
-			$image = JURL_SITE. $param_directory . $param;
+			$image = $url. $param_directory . $param;
 			if ( $type ) {
 				$image = '<img src="'. $image .'" align="'. $align .'" alt="'. $alt .'" '. $name .' border="0" />';
 			}
@@ -1560,10 +1572,10 @@ class mosAdminMenus {
 			$image = '';
 		} else {
 			if ( file_exists( JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file ) ) {
-				$image = JURL_SITE .'/templates/'. $cur_template .'/images/'. $file;
+				$image = $url .'/templates/'. $cur_template .'/images/'. $file;
 			} else {
 				// outputs only path to image
-				$image = JURL_SITE. $directory . $file;
+				$image = $url. $directory . $file;
 			}
 
 			// outputs actual html <img> tag
@@ -1581,15 +1593,17 @@ class mosAdminMenus {
 	* Also can be used in conjunction with the menulist param to create the chosen image
 	* load the default or use no image
 	*/
-	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' ) {
+	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' ) 
+	{
 		global $mainframe;
 
 		$cur_template = $mainframe->getTemplate();
 
 		$name = ( $name ? 'name="'. $name .'"' : '' );
+		$url  = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
 		if ( $param ) {
-			$image = JURL_SITE. $param_directory . $param;
+			$image = $url. $param_directory . $param;
 			if ( $type ) {
 				$image = '<img src="'. $image .'" align="'. $align .'" alt="'. $alt .'" '. $name .' border="0" />';
 			}
@@ -1597,13 +1611,13 @@ class mosAdminMenus {
 			$image = '';
 		} else {
 			if ( file_exists( JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/images/'. $file ) ) {
-				$image = JURL_SITE .'/administrator/templates/'. $cur_template .'/images/'. $file;
+				$image = $url .'/administrator/templates/'. $cur_template .'/images/'. $file;
 			} else {
 				// compability with previous versions
 				if ( substr($directory, 0, 14 )=="/administrator" ) {
-					$image = JURL_SITE . $directory . $file;
+					$image = $url . $directory . $file;
 				} else {
-					$image = JURL_SITE . '/administrator'. $directory . $file;
+					$image = $url . '/administrator'. $directory . $file;
 				}
 			}
 
