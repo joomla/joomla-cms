@@ -540,7 +540,7 @@ class JContactController
 		if (!$email || !$text || (JMailHelper :: isEmailAddress($email) == false)) {
 			JContactView :: emailError();
 		} else {
-			$menu = new JModelMenu( $database );
+			$menu = JModel :: getInstance( 'menu', $db );
 			$menu->load( $Itemid );
 			$mparams = new JParameters( $menu->params );		
 			$bannedEmail 	= $mparams->get( 'bannedEmail', 	'' );		
@@ -581,9 +581,6 @@ class JContactController
 			/*
 			 * Prepare email body
 			 */
-			
-			$url = );
-			 
 			$prefix = sprintf(JText :: _('ENQUIRY_TEXT'), $mainframe->getBaseURL());
 			$text 	= $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($text);
 
