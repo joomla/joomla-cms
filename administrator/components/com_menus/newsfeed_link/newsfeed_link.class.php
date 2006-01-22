@@ -47,50 +47,17 @@ class newsfeed_link_menu {
 			$menu->published 	= 1;
 		}
 
-		if ( $uid ) {
-			$temp = explode( 'feedid=', $menu->link );
-			$query = "SELECT *, c.title AS category"
-			. "\n FROM #__newsfeeds AS a"
-			. "\n INNER JOIN #__categories AS c ON a.catid = c.id"
-			. "\n WHERE a.id = $temp[1]"
-			;
-			$database->setQuery( $query );
-			$newsfeed = $database->loadObjectlist();
-			// outputs item name, category & section instead of the select list
-			$lists['newsfeed'] = '
-			<table width="100%">
-			<tr>
-				<td width="10%">
-				'. JText::_( 'Item' ) .':
-				</td>
-				<td>
-				'. $newsfeed[0]->name .'
-				</td>
-			</tr>
-			<tr>
-				<td width="10%">
-				'. JText::_( 'Position' ) .':
-				</td>
-				<td>
-				'. $newsfeed[0]->category .'
-				</td>
-			</tr>
-			</table>';
-			$lists['newsfeed'] .= '<input type="hidden" name="newsfeed_link" value="'. $temp[1] .'" />';
-			$newsfeeds = '';
-		} else {
-			$query = "SELECT a.id AS value, CONCAT( c.title, ' - ', a.name ) AS text, a.catid "
-			. "\n FROM #__newsfeeds AS a"
-			. "\n INNER JOIN #__categories AS c ON a.catid = c.id"
-			. "\n WHERE a.published = 1"
-			. "\n ORDER BY a.catid, a.name"
-			;
-			$database->setQuery( $query );
-			$newsfeeds = $database->loadObjectList( );
+		$query = "SELECT a.id AS value, CONCAT( c.title, ' - ', a.name ) AS text, a.catid "
+		. "\n FROM #__newsfeeds AS a"
+		. "\n INNER JOIN #__categories AS c ON a.catid = c.id"
+		. "\n WHERE a.published = 1"
+		. "\n ORDER BY a.catid, a.name"
+		;
+		$database->setQuery( $query );
+		$newsfeeds = $database->loadObjectList( );
 
-			//	Create a list of links
-			$lists['newsfeed'] = mosHTML::selectList( $newsfeeds, 'newsfeed_link', 'class="inputbox" size="10"', 'value', 'text', '' );
-		}
+		//	Create a list of links
+		$lists['newsfeed'] = mosHTML::selectList( $newsfeeds, 'newsfeed_link', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid );
 
 		// build html select list for target window
 		$lists['target'] 		= mosAdminMenus::Target( $menu );

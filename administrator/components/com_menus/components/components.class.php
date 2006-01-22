@@ -62,7 +62,7 @@ class components_menu {
 		$database->setQuery( $query );
 		$components = $database->loadObjectList( );
 
-		// build the html select list for section
+		// build the html select list of components
 		$lists['componentid'] 	= mosAdminMenus::Component( $menu, $uid );
 
 		// componentname

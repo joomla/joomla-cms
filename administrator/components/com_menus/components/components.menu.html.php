@@ -71,93 +71,23 @@ class components_menu_html {
 
 		<form action="index2.php" method="post" name="adminForm">
 
-		<table class="adminheading">
-		<tr>
-			<th>
-			<?php echo $menu->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?> <?php echo JText::_( 'Menu Item: Component' ); ?> <small><small><?php echo $title; ?></small></small>
-			</th>
-		</tr>
-		</table>
-
 		<table width="100%">
 		<tr valign="top">
 			<td width="60%">
 				<table class="adminform">
+				<?php mosAdminMenus::MenuOutputTop( $lists, $menu, 'Component' ); ?>
 				<tr>
-					<th colspan="2">
-					<?php echo JText::_( 'Details' ); ?>
-					</th>
-				</tr>
-				<tr>
-					<td width="10%" align="right"><?php echo JText::_( 'Name' ); ?>:</td>
-					<td width="80%">
-					<input class="inputbox" type="text" name="name" size="50" maxlength="100" value="<?php echo htmlspecialchars( $menu->name, ENT_QUOTES ); ?>" />
+					<td valign="top" align="right">
+					<?php echo JText::_( 'Component' ); ?>:
 					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right"><?php echo JText::_( 'Component' ); ?>:</td>
 					<td>
 					<?php echo $lists['componentid']; ?>
 					</td>
 				</tr>
-				<tr>
-					<td width="10%" align="right"><?php echo JText::_( 'Url' ); ?>:</td>
-					<td width="80%">
-                    <?php echo ampReplace($lists['link']); ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="right"><?php echo JText::_( 'Parent Item' ); ?>:</td>
-					<td>
-					<?php echo $lists['parent'];?>
-					</td>
-				</tr>
-
-				<tr>
-					<td valign="top" align="right"><?php echo JText::_( 'Ordering' ); ?>:</td>
-					<td>
-					<?php echo $lists['ordering']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right"><?php echo JText::_( 'Access Level' ); ?>:</td>
-					<td>
-					<?php echo $lists['access']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right"><?php echo JText::_( 'Published' ); ?>:</td>
-					<td>
-					<?php echo $lists['published']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">&nbsp;</td>
-				</tr>
+				<?php mosAdminMenus::MenuOutputBottom( $lists, $menu ); ?>
 				</table>
 			</td>
-			<td width="40%">
-				<table class="adminform">
-				<tr>
-					<th>
-					<?php echo JText::_( 'Parameters' ); ?>
-					</th>
-				</tr>
-				<tr>
-					<td>
-					<?php
-					if ($menu->id) {
-						echo $params->render();
-					} else {
-						?>
-						<strong><?php echo JText::_( 'TIPPARAMLISTMENUITEM' ); ?></strong>
-						<?php
-					}
-					?>
-					</td>
-				</tr>
-				</table>
-			</td>
+			<?php mosAdminMenus::MenuOutputParams( $params, $menu, 1 ); ?>
 		</tr>
 		</table>
 

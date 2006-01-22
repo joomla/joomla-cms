@@ -1091,6 +1091,115 @@ class mosAdminMenus {
 		return $target;
 	}
 
+	function MenuOutputTop( &$lists, &$menu, $text=NULL, $tip=NULL ) {
+		?>
+		<tr>
+			<th colspan="2">
+			<?php echo JText::_( 'Details' ); ?>
+			</th>
+		</tr>
+		<tr>
+			<td width="20%" align="right">
+			<?php echo JText::_( 'Menu Type' ); ?>:
+			</td>
+			<td width="80%">
+			<?php echo JText::_( $text ); ?>
+			</td>
+		</tr>
+		<tr>
+			<td valign="top" align="right">
+			<?php echo JText::_( 'Published' ); ?>:
+			</td>
+			<td>
+			<?php echo $lists['published']; ?>
+			</td>
+		</tr>
+		<tr>
+			<td align="right">
+			<?php echo JText::_( 'Name' ); ?>:
+			</td>
+			<td>
+			<input class="inputbox" type="text" name="name" size="50" maxlength="100" value="<?php echo $menu->name; ?>" />
+			<?php
+			if ( !$menu->id && $tip ) {
+				echo mosToolTip( JText::_( 'TIPIFLEAVEBLANKCAT' ) );
+			}
+			?>
+			</td>
+		</tr>
+		<?php
+	}
+
+	function MenuOutputBottom( &$lists, &$menu ) {
+		?>
+		<tr>
+			<td align="right">
+			<?php echo JText::_( 'Url' ); ?>:
+			</td>
+			<td>
+			<?php echo ampReplace($lists['link']); ?>
+			</td>
+		</tr>
+		<tr>
+			<td valign="top" align="right">
+			<?php echo JText::_( 'Ordering' ); ?>:
+			</td>
+			<td>
+			<?php echo $lists['ordering']; ?>
+			</td>
+		</tr>
+		<tr>
+			<td valign="top" align="right">
+			<?php echo JText::_( 'Access Level' ); ?>:
+			</td>
+			<td>
+			<?php echo $lists['access']; ?>
+			</td>
+		</tr>
+		<tr>
+			<td align="right" valign="top">
+			<?php echo JText::_( 'Parent Item' ); ?>:
+			</td>
+			<td>
+			<?php echo $lists['parent']; ?>
+			</td>
+		</tr>
+		<?php
+	}
+	
+	function MenuOutputParams( &$params, $menu, $tip=NULL ) {
+		?>
+		<td width="40%">
+			<table class="adminform">
+			<tr>
+				<th>
+				<?php echo JText::_( 'Parameters' ); ?>
+				</th>
+			</tr>
+			<tr>
+				<td>
+				<?php
+				if ($tip) {
+					if ($menu->id) {
+						echo $params->render();
+					} else {
+						?>
+						<strong>
+						<?php echo JText::_( 'TIPPARAMLISTMENUITEM' ); ?>
+						</strong>
+						<?php
+					}
+				} else {
+					echo $params->render();
+				}	
+				?>
+				</td>
+			</tr>
+			</table>
+		</td>
+		<?php		
+	}	
+	
 	/**
 	* build the multiple select list for Menu Links/Pages
 	*/
@@ -1193,18 +1302,10 @@ class mosAdminMenus {
 		$database->setQuery( $query );
 		$rows = $database->loadObjectList();
 		$category = '';
-		if ( $id ) {
-			foreach ( $rows as $row ) {
-				if ( $row->value == $menu->componentid ) {
-					$category = $row->text;
-				}
-			}
-			$category .= '<input type="hidden" name="componentid" value="'. $menu->componentid .'" />';
-			$category .= '<input type="hidden" name="link" value="'. $menu->link .'" />';
-		} else {
-			$category = mosHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"'. $javascript, 'value', 'text' );
-			$category .= '<input type="hidden" name="link" value="" />';
-		}
+		
+		$category .= mosHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"'. $javascript, 'value', 'text', $menu->componentid );
+		$category .= '<input type="hidden" name="link" value="" />';
+		
 		return $category;
 	}
 
@@ -1226,19 +1327,10 @@ class mosAdminMenus {
 		} else {
 			$rows = $database->loadObjectList();
 		}
+		
+		$section = mosHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid );
+		$section .= '<input type="hidden" name="link" value="" />';
 
-		if ( $id ) {
-			foreach ( $rows as $row ) {
-				if ( $row->value == $menu->componentid ) {
-					$section = $row->text;
-				}
-			}
-			$section .= '<input type="hidden" name="componentid" value="'. $menu->componentid .'" />';
-			$section .= '<input type="hidden" name="link" value="'. $menu->link .'" />';
-		} else {
-			$section = mosHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text' );
-			$section .= '<input type="hidden" name="link" value="" />';
-		}
 		return $section;
 	}
 
@@ -1256,17 +1348,8 @@ class mosAdminMenus {
 		$database->setQuery( $query );
 		$rows = $database->loadObjectList( );
 
-		if ( $id ) {
-			// existing component, just show name
-			foreach ( $rows as $row ) {
-				if ( $row->value == $menu->componentid ) {
-					$component = JText::_( $row->text );
-				}
-			}
-			$component .= '<input type="hidden" name="componentid" value="'. $menu->componentid .'" />';
-		} else {
-			$component = mosHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', NULL, '', 1 );
-		}
+		$component = mosHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid, '', 1 );
+			
 		return $component;
 	}
 
@@ -1705,6 +1788,4 @@ class mosAdminMenus {
 		include_once( $path . $item .'.menu.html.php' );
 	}
 }
-
-
 ?>

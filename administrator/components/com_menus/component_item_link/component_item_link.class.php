@@ -36,7 +36,17 @@ class component_item_link_menu {
 		}
 
 		if ( $uid ) {
-			$menu->checkout( $my->id );
+			$menu->checkout( $my->id );			
+			
+			$temp = explode( '&Itemid=', $menu->link );
+			$query = "SELECT a.id"
+			. "\n FROM #__menu AS a"
+			. "\n WHERE a.link = '$temp[0]'"
+			;
+			$database->setQuery( $query );
+			$selected = $database->loadResult();
+;
+
 		} else {
 			// load values for new entry
 			$menu->type 		= 'component_item_link';
@@ -47,30 +57,20 @@ class component_item_link_menu {
 			$menu->published 	= 1;
 		}
 
-		if ( $uid ) {
-			$temp = explode( '&Itemid=', $menu->link );
-			 $query = "SELECT a.name"
-			. "\n FROM #__menu AS a"
-			. "\n WHERE a.link = '$temp[0]'"
-			;
-			$database->setQuery( $query );
-			$components = $database->loadResult();
-			$lists['components'] =  $components;
-			$lists['components'] .= '<input type="hidden" name="link" value="'. $menu->link .'" />';
-		} else {
-			$query = "SELECT CONCAT( a.link, '&amp;Itemid=', a.id ) AS value, a.name AS text"
-			. "\n FROM #__menu AS a"
-			. "\n WHERE a.published = 1"
-			. "\n AND a.type = 'components'"
-			. "\n ORDER BY a.menutype, a.name"
-			;
-			$database->setQuery( $query );
-			$components = $database->loadObjectList( );
+		// needed to determine selected component link
+		$selected = str_replace('&','&amp;',$menu->link);
 
-			//	Create a list of links
-			$lists['components'] = mosHTML::selectList( $components, 'link', 'class="inputbox" size="10"', 'value', 'text', '' );
-		}
-
+		$query = "SELECT CONCAT( a.link, '&amp;Itemid=', a.id ) AS value, a.name AS text"
+		. "\n FROM #__menu AS a"
+		. "\n WHERE a.published = 1"
+		. "\n AND a.type = 'components'"
+		. "\n ORDER BY a.menutype, a.name"
+		;
+		$database->setQuery( $query );
+		$components = $database->loadObjectList( );
+		//	Create a list of links
+		$lists['components'] = mosHTML::selectList( $components, 'link', 'class="inputbox" size="10"', 'value', 'text', $selected );
+		
 		// build html select list for target window
 		$lists['target'] 		= mosAdminMenus::Target( $menu );
 

@@ -50,17 +50,6 @@ class newsfeed_category_table_menu {
 
 		// build list of categories
 		$lists['componentid']	= mosAdminMenus::ComponentCategory( 'componentid', 'com_newsfeeds', intval( $menu->componentid ), NULL, 'name', 10, 0 );
-		if ( $uid ) {
-			$query = "SELECT name"
-			. "\n FROM #__categories"
-			. "\n WHERE section = 'com_newsfeeds'"
-			. "\n AND published = 1"
-			. "\n AND id = ". $menu->componentid
-			;
-			$database->setQuery( $query );
-			$category = $database->loadResult();
-			$lists['componentid'] = '<input type="hidden" name="componentid" value="'. $menu->componentid .'" />'. $category;
-		}
 
 		// build the html select list for ordering
 		$lists['ordering'] 		= mosAdminMenus::Ordering( $menu, $uid );

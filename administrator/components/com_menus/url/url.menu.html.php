@@ -49,39 +49,21 @@ class url_menu_html {
 		</script>
 
 		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminheading">
-		<tr>
-			<th>
-			<?php echo $menu->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?> <?php echo JText::_( 'Menu Item: Link - URL' ); ?>
-			</th>
-		</tr>
-		</table>
 
 		<table width="100%">
 		<tr valign="top">
 			<td width="60%">
 				<table class="adminform">
+				<?php mosAdminMenus::MenuOutputTop( $lists, $menu, 'Link - URL' ); ?>
 				<tr>
-					<th colspan="2">
-					<?php echo JText::_( 'Details' ); ?>
-					</th>
-				</tr>
-				<tr>
-					<td width="20%" align="right">
-					<?php echo JText::_( 'Name' ); ?>:
-					</td>
-					<td width="80%">
-					<input class="inputbox" type="text" name="name" size="50" maxlength="150" value="<?php echo $menu->name; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td width="20%" align="right">
+					<td align="right">
 					<?php echo JText::_( 'Link' ); ?>:
 					</td>
-					<td width="80%">
+					<td>
 					<input class="inputbox" type="text" name="link" size="50" maxlength="250" value="<?php echo $menu->link; ?>" />
 					</td>
 				</tr>
+				<?php mosAdminMenus::MenuOutputBottom( $lists, $menu ); ?>
 				<tr>
 					<td valign="top" align="right">
 					<?php echo JText::_( 'On Click, Open in' ); ?>:
@@ -90,54 +72,9 @@ class url_menu_html {
 					<?php echo $lists['target']; ?>
 					</td>
 				</tr>
-				<tr>
-					<td align="right">
-					<?php echo JText::_( 'Parent Item' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['parent']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right">
-					<?php echo JText::_( 'Ordering' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['ordering']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right">
-					<?php echo JText::_( 'Access Level' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['access']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right">
-					<?php echo JText::_( 'Published' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['published']; ?>
-					</td>
-				</tr>
 				</table>
 			</td>
-			<td width="40%">
-				<table class="adminform">
-				<tr>
-					<th>
-					<?php echo JText::_( 'Parameters' ); ?>
-					</th>
-				</tr>
-				<tr>
-					<td>
-					<?php echo $params->render();?>
-					</td>
-				</tr>
-				</table>
-			</td>
+			<?php mosAdminMenus::MenuOutputParams( $params, $menu ); ?>
 		</tr>
 		</table>
 

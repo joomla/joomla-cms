@@ -36,121 +36,41 @@ class content_archive_category_menu_html {
 				return;
 			}
 			var form = document.adminForm;
-			<?php
-			if ( !$menu->id ) {
-				?>
-				if ( getSelectedValue( 'adminForm', 'componentid' ) < 1 ) {
-					alert( "<?php echo JText::_( 'You must select a category', true ); ?>" );
-					return;
-				}
-				sectcat = getSelectedText( 'adminForm', 'componentid' );
-				sectcats = sectcat.split('/');
-				section = getSelectedOption( 'adminForm', 'componentid' );
-
-				form.link.value = "index.php?option=com_content&task=archivecategory&id=" + form.componentid.value;
-				if ( form.name.value == '' ) {
-					form.name.value = sectcats[1];
-				}
-				submitform( pressbutton );
-				<?php
-			} else {
-				?>
-				if ( form.name.value == '' ) {
-					alert( "<?php echo JText::_( 'This Menu item must have a title', true ); ?>" );
-				} else {
-					submitform( pressbutton );
-				}
-				<?php
+			
+			if ( getSelectedValue( 'adminForm', 'componentid' ) < 1 ) {
+				alert( "<?php echo JText::_( 'You must select a category', true ); ?>" );
+				return;
 			}
-			?>
+			sectcat = getSelectedText( 'adminForm', 'componentid' );
+			sectcats = sectcat.split('/');
+			section = getSelectedOption( 'adminForm', 'componentid' );
+
+			form.link.value = "index.php?option=com_content&task=archivecategory&id=" + form.componentid.value;
+			if ( form.name.value == '' ) {
+				form.name.value = sectcats[1];
+			}
+			submitform( pressbutton );
 		}
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminheading">
-		<tr>
-			<th>
-			<?php echo $menu->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?> <?php echo JText::_( 'Menu Item: Blog - Content Category Archive' ); ?>
-			</th>
-		</tr>
-		</table>
 
 		<table width="100%">
 		<tr valign="top">
 			<td width="60%">
 				<table class="adminform">
+				<?php mosAdminMenus::MenuOutputTop( $lists, $menu, 'Blog - Content Category Archive', 1 ); ?>
 				<tr>
-					<th colspan="3">
-					<?php echo JText::_( 'Details' ); ?>
-					</th>
-				</tr>
-				<tr>
-					<td width="10%" align="right" valign="top"><?php echo JText::_( 'Name' ); ?>:</td>
-					<td width="200px">
-					<input type="text" name="name" size="30" maxlength="100" class="inputbox" value="<?php echo $menu->name; ?>"/>
+					<td valign="top" align="right">
+					<?php echo JText::_( 'Category' ); ?>:
 					</td>
-					<td>
-					<?php
-					if ( !$menu->id ) {
-						echo mosToolTip( JText::_( 'TIPIFLEAVEBLANKCAT' ) );
-					}
-					?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right"><?php echo JText::_( 'Category' ); ?>:</td>
 					<td>
 					<?php echo $lists['componentid']; ?>
 					</td>
 				</tr>
-				<tr>
-					<td align="right"><?php echo JText::_( 'Url' ); ?>:</td>
-					<td>
-                    <?php echo ampReplace($lists['link']); ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="right"><?php echo JText::_( 'Parent Item' ); ?>:</td>
-					<td>
-					<?php echo $lists['parent']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right"><?php echo JText::_( 'Ordering' ); ?>:</td>
-					<td>
-					<?php echo $lists['ordering']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right"><?php echo JText::_( 'Access Level' ); ?>:</td>
-					<td>
-					<?php echo $lists['access']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right"><?php echo JText::_( 'Published' ); ?>:</td>
-					<td>
-					<?php echo $lists['published']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">&nbsp;</td>
-				</tr>
+				<?php mosAdminMenus::MenuOutputBottom( $lists, $menu ); ?>
 				</table>
 			</td>
-			<td width="40%">
-				<table class="adminform">
-				<tr>
-					<th>
-					<?php echo JText::_( 'Parameters' ); ?>
-					</th>
-				</tr>
-				<tr>
-					<td>
-					<?php echo $params->render();?>
-					</td>
-				</tr>
-				</table>
-			</td>
+			<?php mosAdminMenus::MenuOutputParams( $params, $menu ); ?>
 		</tr>
 		</table>
 

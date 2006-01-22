@@ -46,9 +46,25 @@ class content_typed_menu {
 			$menu->published 	= 1;
 		}
 
+		$query = "SELECT a.id AS value, CONCAT( a.title, '(', a.title_alias, ')' ) AS text"
+		. "\n FROM #__content AS a"
+		. "\n WHERE a.state = 1"
+		. "\n AND a.sectionid = 0"
+		. "\n AND a.catid = 0"
+		. "\n ORDER BY a.title, a.id"
+		;
+		$database->setQuery( $query );
+		$contents = $database->loadObjectList( );
+
+		//	Create a list of links
+		$lists['content'] = mosHTML::selectList( $contents, 'content_typed', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid );
+
+		// outputs item name
+		$lists['link_content'] = '';
 		if ( $uid ) {
 			$temp = explode( 'id=', $menu->link );
-			 $query = "SELECT a.title, a.title_alias, a.id"
+			
+			$query = "SELECT a.title, a.title_alias, a.id"
 			. "\n FROM #__content AS a"
 			. "\n WHERE a.id = $temp[1]"
 			;
@@ -62,23 +78,10 @@ class content_typed_menu {
 			}
 			$contents 	= '';
 			$link 		= 'javascript:submitbutton( \'redirect\' );';
-			$lists['content'] = '<input type="hidden" name="content_typed" value="'. $temp[1] .'" />';
-			$lists['content'] .= '<a href="'. $link .'" title="'. JText::_( 'Edit Static Content Item' ) .'">'. $content[0]->title . $alias .'</a>';
-		} else {
-			$query = "SELECT a.id AS value, CONCAT( a.title, '(', a.title_alias, ')' ) AS text"
-			. "\n FROM #__content AS a"
-			. "\n WHERE a.state = 1"
-			. "\n AND a.sectionid = 0"
-			. "\n AND a.catid = 0"
-			. "\n ORDER BY a.title, a.id"
-			;
-			$database->setQuery( $query );
-			$contents = $database->loadObjectList( );
-
-			//	Create a list of links
-			$lists['content'] = mosHTML::selectList( $contents, 'content_typed', 'class="inputbox" size="10"', 'value', 'text', '' );
-		}
-
+			
+			$lists['link_content'] = '<a href="'. $link .'" title="'. JText::_( 'Edit Static Content Item' ) .'">'. $content[0]->title . $alias .'</a>';
+		} 
+		
 		// build html select list for target window
 		$lists['target'] 		= mosAdminMenus::Target( $menu );
 

@@ -50,17 +50,6 @@ class contact_category_table_menu {
 
 		// build list of categories
 		$lists['componentid']	= mosAdminMenus::ComponentCategory( 'componentid', 'com_contact_details', intval( $menu->componentid ), NULL, 'ordering', 5, 0 );
-		if ( $uid ) {
-			$query = "SELECT name"
-			. "\n FROM #__categories"
-			. "\n WHERE section = 'com_contact_details'"
-			. "\n AND published = 1"
-			. "\n AND id = ". $menu->componentid
-			;
-			$database->setQuery( $query );
-			$category = $database->loadResult();
-			$lists['componentid'] = '<input type="hidden" name="componentid" value="'. $menu->componentid .'" />'. $category;
-		}
 
 		// build the html select list for ordering
 		$lists['ordering'] 		= mosAdminMenus::Ordering( $menu, $uid );

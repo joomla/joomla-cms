@@ -36,66 +36,26 @@ class submit_content_menu_html {
 				return;
 			}
 			var form = document.adminForm;
-			<?php
-			if ( !$menu->id ) {
-				?>
-				if ( getSelectedValue( 'adminForm', 'componentid' ) < 1 ) {
-					alert( "<?php echo JText::_( 'You must select a Section', true ); ?>" );
-					return;
-				}
 
-				form.link.value = "index.php?option=com_content&task=new&sectionid=" + form.componentid.value;
-				if ( form.name.value == '' ) {
-					form.name.value = form.componentid.options[form.componentid.selectedIndex].text;
-				}
-				submitform( pressbutton );
-				<?php
-			} else {
-				?>
-				if ( form.name.value == '' ) {
-					alert( "<?php echo JText::_( 'This Menu item must have a title', true ); ?>" );
-				} else {
-					submitform( pressbutton );
-				}
-				<?php
+			if ( getSelectedValue( 'adminForm', 'componentid' ) < 1 ) {
+				alert( "<?php echo JText::_( 'You must select a Section', true ); ?>" );
+				return;
 			}
-			?>
+
+			form.link.value = "index.php?option=com_content&task=new&sectionid=" + form.componentid.value;
+			if ( form.name.value == '' ) {
+				form.name.value = form.componentid.options[form.componentid.selectedIndex].text;
+			}
+			submitform( pressbutton );
 		}
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
-
-		<table class="adminheading">
-		<tr>
-			<th>
-			<?php echo $menu->id ? 'Edit' : 'Add';?> <?php echo JText::_( 'Menu Item: Submit - Content' ); ?>
-			</th>
-		</tr>
-		</table>
 
 		<table width="100%">
 		<tr valign="top">
 			<td width="60%">
 				<table class="adminform">
-				<tr>
-					<th colspan="3">
-					<?php echo JText::_( 'Details' ); ?>
-					</th>
-				</tr>
-				<tr>
-					<td width="10%" align="right" valign="top">
-					<?php echo JText::_( 'Name' ); ?>:
-					</td>
-					<td width="200px">
-					<input type="text" name="name" size="30" maxlength="100" class="inputbox" value="<?php echo $menu->name; ?>"/>
-					</td>
-					<td>
-					<?php
-					if ( !$menu->id ) {
-						echo mosToolTip( JText::_( 'TIPIFLEAVEBLANKSECTIONNAMEUSED' ) );
-					}
-					?>
-					</td>
-				</tr>
+				<?php mosAdminMenus::MenuOutputTop( $lists, $menu, 'Submit - Content', 1 ); ?>
 				<tr>
 					<td align="right" valign="top">
 					<?php echo JText::_( 'Section' ); ?>:
@@ -104,65 +64,10 @@ class submit_content_menu_html {
 					<?php echo $lists['componentid']; ?>
 					</td>
 				</tr>
-				<tr>
-					<td align="right">
-					<?php echo JText::_( 'Url' ); ?>:
-					</td>
-					<td colspan="2">
-                    <?php echo ampReplace($lists['link']); ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-					<?php echo JText::_( 'Parent Item' ); ?>:
-					</td>
-					<td colspan="2">
-					<?php echo $lists['parent'];?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right">
-					<?php echo JText::_( 'Ordering' ); ?>:
-					</td>
-					<td colspan="2">
-					<?php echo $lists['ordering']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right">
-					<?php echo JText::_( 'Access Level' ); ?>:
-					</td>
-					<td colspan="2">
-					<?php echo $lists['access']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right">
-					<?php echo JText::_( 'Published' ); ?>:
-					</td>
-					<td colspan="2">
-					<?php echo $lists['published']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3">&nbsp;</td>
-				</tr>
+				<?php mosAdminMenus::MenuOutputBottom( $lists, $menu ); ?>
 				</table>
 			</td>
-			<td width="40%">
-				<table class="adminform">
-				<tr>
-					<th>
-					<?php echo JText::_( 'Parameters' ); ?>
-					</th>
-				</tr>
-				<tr>
-					<td>
-					<?php echo $params->render();?>
-					</td>
-				</tr>
-				</table>
-			</td>
+			<?php mosAdminMenus::MenuOutputParams( $params, $menu ); ?>
 		</tr>
 		</table>
 

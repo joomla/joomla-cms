@@ -38,7 +38,9 @@ Legend:
 ! -> Note
 
 22-Jan-2006 Rey Gigataras
+ + Allow Menu Items to be changed
  + `Apply` button to other core components
+ ^ Reordered menu item edit page slightly
 
 21-Jan-2006 Louis Landry
  ^ Changed authentication and login/logout event names

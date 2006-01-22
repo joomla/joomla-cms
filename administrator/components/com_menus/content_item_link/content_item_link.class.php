@@ -46,12 +46,50 @@ class content_item_link_menu {
 			$menu->parent 		= intval( mosGetParam( $_POST, 'parent', 0 ) );
 			$menu->published 	= 1;
 		}
+		
+		$query = "SELECT a.id AS value, a.title AS text, a.sectionid, a.catid "
+		. "\n FROM #__content AS a"
+		. "\n INNER JOIN #__categories AS c ON a.catid = c.id"
+		. "\n INNER JOIN #__sections AS s ON a.sectionid = s.id"
+		. "\n WHERE a.state = 1"
+		. "\n ORDER BY a.sectionid, a.catid, a.title"
+		;
+		$database->setQuery( $query );
+		$contents = $database->loadObjectList( );
 
+		foreach ( $contents as $content ) {
+			$query = "SELECT s.title"
+			. "\n FROM #__sections AS s"
+			. "\n WHERE s.scope = 'content'"
+			. "\n AND s.id = $content->sectionid"
+			;
+			$database->setQuery( $query );
+			$section = $database->loadResult();
+
+			$query = "SELECT c.title"
+			. "\n FROM #__categories AS c"
+			. "\n WHERE c.id = $content->catid"
+			;
+			$database->setQuery( $query );
+			$category = $database->loadResult();
+
+			$value = $content->value;
+			$text = $section ." - ". $category ." / ". $content->text ."&nbsp;&nbsp;&nbsp;&nbsp;";
+
+			$temp[] = mosHTML::makeOption( $value, $text );
+			$contents = $temp;
+		}
+
+		//	Create a list of links
+		$lists['content'] = mosHTML::selectList( $contents, 'content_item_link', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid );
+
+		// outputs item name
+		$lists['link_content'] = '';
 		if ( $uid ) {
 			$link 	= 'javascript:submitbutton( \'redirect\' );';
-
+			
 			$temp 	= explode( 'id=', $menu->link );
-			 $query = "SELECT a.title, c.name AS category, s.name AS section"
+			$query = "SELECT a.title, c.name AS category, s.name AS section"
 			. "\n FROM #__content AS a"
 			. "\n LEFT JOIN #__categories AS c ON a.catid = c.id"
 			. "\n LEFT JOIN #__sections AS s ON a.sectionid = s.id"
@@ -59,76 +97,10 @@ class content_item_link_menu {
 			;
 			$database->setQuery( $query );
 			$content = $database->loadObjectlist();
-			// outputs item name, category & section instead of the select list
-			$lists['content'] = '
-			<table width="100%">
-			<tr>
-				<td width="10%">
-				'. JText::_( 'Item' ) .':
-				</td>
-				<td>
-				<a href="'. $link .'" title="'. JText::_( 'Edit Content Item' ) .'">
-				'. $content[0]->title .'
-				</a>
-				</td>
-			</tr>
-			<tr>
-				<td width="10%">
-				'. JText::_( 'Category' ) .':
-				</td>
-				<td>
-				'. $content[0]->category .'
-				</td>
-			</tr>
-			<tr>
-				<td width="10%">
-				'. JText::_( 'Section' ) .':
-				</td>
-				<td>
-				'. $content[0]->section .'
-				</td>
-			</tr>
-			</table>';
-			$contents = '';
-			$lists['content'] .= '<input type="hidden" name="content_item_link" value="'. $temp[1] .'" />';
-		} else {
-			$query = "SELECT a.id AS value, a.title AS text, a.sectionid, a.catid "
-			. "\n FROM #__content AS a"
-			. "\n INNER JOIN #__categories AS c ON a.catid = c.id"
-			. "\n INNER JOIN #__sections AS s ON a.sectionid = s.id"
-			. "\n WHERE a.state = 1"
-			. "\n ORDER BY a.sectionid, a.catid, a.title"
-			;
-			$database->setQuery( $query );
-			$contents = $database->loadObjectList( );
-
-			foreach ( $contents as $content ) {
-				$query = "SELECT s.title"
-				. "\n FROM #__sections AS s"
-				. "\n WHERE s.scope = 'content'"
-				. "\n AND s.id = $content->sectionid"
-				;
-				$database->setQuery( $query );
-				$section = $database->loadResult();
-
-				$query = "SELECT c.title"
-				. "\n FROM #__categories AS c"
-				. "\n WHERE c.id = $content->catid"
-				;
-				$database->setQuery( $query );
-				$category = $database->loadResult();
-
-				$value = $content->value;
-				$text = $section ." - ". $category ." / ". $content->text ."&nbsp;&nbsp;&nbsp;&nbsp;";
-
-				$temp[] = mosHTML::makeOption( $value, $text );
-				$contents = $temp;
-			}
-
-			//	Create a list of links
-			$lists['content'] = mosHTML::selectList( $contents, 'content_item_link', 'class="inputbox" size="10"', 'value', 'text', '' );
-		}
-
+			
+			$lists['link_content'] = '<a href="'. $link .'" title="'. JText::_( 'Edit Content Item' ) .'">'. $content[0]->title .'</a>';
+		}		
+			
 		// build html select list for target window
 		$lists['target'] 		= mosAdminMenus::Target( $menu );
 

@@ -78,6 +78,7 @@ class TOOLBAR_menus {
 		$menutype 	= mosGetParam( $_REQUEST, 'menutype', 'mainmenu' );
 
 		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Edit Menu Item' ), 'generic.png' );
 		if ( !$id ) {
 			$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=new&hidemainmenu=1';
 			JMenuBar::back( 'Back', $link );
@@ -102,7 +103,7 @@ class TOOLBAR_menus {
 		$menutype 	= mosGetParam( $_REQUEST, 'menutype', 'mainmenu' );
 
 		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'Menu Manager' ) .'<small><small>['.$menutype.']</small></small>', 'menu.png' );
+		JMenuBar::title( JText::_( 'Menu Manager' ) .' <small><small>['.$menutype.']</small></small>', 'menu.png' );
 		JMenuBar::publishList();
 		JMenuBar::spacer();
 		JMenuBar::unpublishList();
