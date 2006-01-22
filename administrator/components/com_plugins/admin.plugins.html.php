@@ -41,7 +41,10 @@ class HTML_modules {
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 			<td align="right" valign="top" nowrap="nowrap">
-				<?php echo $lists['type'];?>
+				<?php 
+				echo $lists['type'];
+				echo $lists['state'];
+				?>
 			</td>
 		</tr>
 		</table>

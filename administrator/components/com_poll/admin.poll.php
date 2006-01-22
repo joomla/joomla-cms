@@ -71,15 +71,25 @@ switch( $task ) {
 		break;
 }
 
-function showPolls( $option ) 
-{
+function showPolls( $option ) {
 	global $database, $mainframe;
 
-	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+	$filter_state 	= $mainframe->getUserStateFromRequest( "$option.filter_state", 'filter_state', '' );
+	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
-	$query = "SELECT COUNT(*)"
-	. "\n FROM #__polls"
+	$where = '';
+	if ( $filter_state ) {
+		if ( $filter_state == 'P' ) {
+			$where = "\n WHERE m.published = 1";
+		} else if ($filter_state == 'U' ) {
+			$where = "\n WHERE m.published = 0";
+		}
+	}
+	
+	$query = "SELECT COUNT(m.*)"
+	. "\n FROM #__polls AS m"
+	. $where
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
@@ -92,6 +102,7 @@ function showPolls( $option )
 	. "\n FROM #__polls AS m"
 	. "\n LEFT JOIN #__users AS u ON u.id = m.checked_out"
 	. "\n LEFT JOIN #__poll_data AS d ON d.pollid = m.id AND d.text <> ''"
+	. $where
 	. "\n GROUP BY m.id"
 	. "\n LIMIT $pageNav->limitstart, $pageNav->limit"
 	;
@@ -102,8 +113,11 @@ function showPolls( $option )
 		echo $database->stderr();
 		return false;
 	}
-
-	HTML_poll::showPolls( $rows, $pageNav, $option );
+	
+	// state filter 
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	
+	HTML_poll::showPolls( $rows, $pageNav, $option, $lists );
 }
 
 function editPoll( $uid=0, $option='com_poll' ) 

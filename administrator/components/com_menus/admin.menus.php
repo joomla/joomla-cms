@@ -143,20 +143,30 @@ switch ($task) {
 function viewMenuItems( $menutype, $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "$option.$menutype.limitstart", 'limitstart', 0 );
-	$levellimit = $mainframe->getUserStateFromRequest( "$option.$menutype.levellimit", 'levellimit', 10 );
-	$search 	= $mainframe->getUserStateFromRequest( "$option.$menutype.search", 'search', '' );
-	$search 	= $database->getEscaped( trim( strtolower( $search ) ) );
+	$filter_state	= $mainframe->getUserStateFromRequest( "$option.$menutype.filter_state", 'filter_state', '' );
+	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mosConfig_list_limit );
+	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.$menutype.limitstart", 'limitstart', 0 );
+	$levellimit 	= $mainframe->getUserStateFromRequest( "$option.$menutype.levellimit", 'levellimit', 10 );
+	$search 		= $mainframe->getUserStateFromRequest( "$option.$menutype.search", 'search', '' );
+	$search 		= $database->getEscaped( trim( strtolower( $search ) ) );
 
+	$and = '';
+	if ( $filter_state ) {
+		if ( $filter_state == 'P' ) {
+			$and = "\n AND m.published = 1";
+		} else if ($filter_state == 'U' ) {
+			$and = "\n AND m.published = 0";
+		}
+	}
+	
 	// select the records
 	// note, since this is a tree we have to do the limits code-side
 	if ($search) {
 		$query = "SELECT m.id"
 		. "\n FROM #__menu AS m"
-		//. "\n LEFT JOIN #__content AS c ON c.id = m.componentid AND type='content_typed'"
 		. "\n WHERE menutype = '$menutype'"
 		. "\n AND LOWER( m.name ) LIKE '%" . strtolower( $search ) . "%'"
+		. $and
 		;
 		$database->setQuery( $query );
 		$search_rows = $database->loadResultArray();
@@ -170,6 +180,7 @@ function viewMenuItems( $menutype, $option ) {
 	. "\n LEFT JOIN #__components AS com ON com.id = m.componentid AND m.type = 'components'"
 	. "\n WHERE m.menutype = '$menutype'"
 	. "\n AND m.published != -2"
+	. $and
 	. "\n ORDER BY parent, ordering"
 	;
 	$database->setQuery( $query );
@@ -266,8 +277,11 @@ function viewMenuItems( $menutype, $option ) {
 		if (!isset($list[$i]->descrip)) $list[$i]->descrip = $row[1];
 		$i++;
 	}
-
-	HTML_menusections::showMenusections( $list, $pageNav, $search, $levellist, $menutype, $option );
+	
+	// state filter 
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	
+	HTML_menusections::showMenusections( $list, $pageNav, $search, $levellist, $menutype, $option, $lists );
 }
 
 /**

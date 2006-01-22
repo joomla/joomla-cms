@@ -85,18 +85,26 @@ function showContacts( $option )
 {
 	global $database, $mainframe;
 
-	$catid 		= $mainframe->getUserStateFromRequest( "$option.catid", 'catid', 0 );
-	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart = $mainframe->getUserStateFromRequest( "$option.view.limitstart", 'limitstart', 0 );
-	$search 	= $mainframe->getUserStateFromRequest( "$option.search", 'search', '' );
-	$search 	= $database->getEscaped( trim( strtolower( $search ) ) );
+	$filter_state 	= $mainframe->getUserStateFromRequest( "$option.filter_state", 'filter_state', '' );
+	$catid 			= $mainframe->getUserStateFromRequest( "$option.catid", 'catid', 0 );
+	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.view.limitstart", 'limitstart', 0 );
+	$search 		= $mainframe->getUserStateFromRequest( "$option.search", 'search', '' );
+	$search 		= $database->getEscaped( trim( strtolower( $search ) ) );
 
 	if ( $search ) {
 		$where[] = "cd.name LIKE '%$search%'";
 	}
 	if ( $catid ) {
 		$where[] = "cd.catid = '$catid'";
+	}	if ( $filter_state ) {
+		if ( $filter_state == 'P' ) {
+			$where[] = "cd.published = 1";
+		} else if ($filter_state == 'U' ) {
+			$where[] = "cd.published = 0";
+		}
 	}
+	
 	if ( isset( $where ) ) {
 		$where = "\n WHERE ". implode( ' AND ', $where );
 	} else {
@@ -130,7 +138,10 @@ function showContacts( $option )
 	// build list of categories
 	$javascript = 'onchange="document.adminForm.submit();"';
 	$lists['catid'] = mosAdminMenus::ComponentCategory( 'catid', 'com_contact_details', intval( $catid ), $javascript );
-
+	
+	// state filter 
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	
 	HTML_contact::showcontacts( $rows, $pageNav, $search, $option, $lists );
 }
 

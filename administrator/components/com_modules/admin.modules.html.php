@@ -44,6 +44,7 @@ class HTML_modules {
 				<?php
 				echo $lists['position'];
 				echo $lists['type'];
+				echo $lists['state'];
 				?>
 			</td>
 		</tr>

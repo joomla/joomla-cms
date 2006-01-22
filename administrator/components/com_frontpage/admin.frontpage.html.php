@@ -44,6 +44,7 @@ class HTML_content {
 				echo $lists['sectionid'];
 				echo $lists['catid'];
 				echo $lists['authorid'];
+				echo $lists['state'];
 				?>
 			</td>
 		</tr>

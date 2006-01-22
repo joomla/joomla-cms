@@ -85,6 +85,7 @@ switch ( $task ) {
 function viewPlugins( $option, $client ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
+	$filter_state 	= $mainframe->getUserStateFromRequest( "$option.$client.filter_state", 'filter_state', '' );
 	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
 	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 	$filter_type	= $mainframe->getUserStateFromRequest( "$option.$client.filter_type", 'filter_type', 1 );
@@ -105,6 +106,13 @@ function viewPlugins( $option, $client ) {
 	}
 	if ( $search ) {
 		$where[] = "LOWER( p.name ) LIKE '%$search%'";
+	}
+	if ( $filter_state ) {
+		if ( $filter_state == 'P' ) {
+			$where[] = "p.published = 1";
+		} else if ($filter_state == 'U' ) {
+			$where[] = "p.published = 0";
+		}
 	}
 
 	// get the total number of records
@@ -145,7 +153,10 @@ function viewPlugins( $option, $client ) {
 	$database->setQuery( $query );
 	$types 			= array_merge( $types, $database->loadObjectList() );
 	$lists['type']	= mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_type );
-
+	
+	// state filter 
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	
 	HTML_modules::showPlugins( $rows, $client, $pageNav, $option, $lists, $search );
 }
 

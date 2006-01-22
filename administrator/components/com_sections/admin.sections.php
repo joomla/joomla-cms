@@ -105,17 +105,27 @@ switch ($task) {
 * @param string The name of the category section
 * @param string The name of the current user
 */
-function showSections( $scope, $option ) 
-{
+function showSections( $scope, $option ) {
 	global $database, $my, $mainframe;
 
-	$limit = $mainframe->getUserStateFromRequest( "limit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+	$filter_state 	= $mainframe->getUserStateFromRequest( "$option.filter_state", 'filter_state', '' );
+	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
+	$and = '';
+	if ( $filter_state ) {
+		if ( $filter_state == 'P' ) {
+			$and = "\n AND c.published = 1";
+		} else if ($filter_state == 'U' ) {
+			$and = "\n AND c.published = 0";
+		}
+	}
+	
 	// get the total number of records
-	$query = "SELECT COUNT(*)"
-	. "\n FROM #__sections"
-	. "\n WHERE scope = '$scope'"
+	$query = "SELECT COUNT( c.*)"
+	. "\n FROM #__sections AS c"
+	. "\n WHERE c.scope = '$scope'"
+	. $and
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
@@ -128,7 +138,8 @@ function showSections( $scope, $option )
 	. "\n LEFT JOIN #__content AS cc ON c.id = cc.sectionid"
 	. "\n LEFT JOIN #__users AS u ON u.id = c.checked_out"
 	. "\n LEFT JOIN #__groups AS g ON g.id = c.access"
-	. "\n WHERE scope = '$scope'"
+	. "\n WHERE c.scope = '$scope'"
+	. $and
 	. "\n GROUP BY c.id"
 	. "\n ORDER BY c.ordering, c.name"
 	. "\n LIMIT $pageNav->limitstart, $pageNav->limit"
@@ -174,8 +185,11 @@ function showSections( $scope, $option )
 		$trash = $database->loadResult();
 		$rows[$i]->trash = $trash;
 	}
-
-	sections_html::show( $rows, $scope, $my->id, $pageNav, $option );
+	
+	// state filter 
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	
+	sections_html::show( $rows, $scope, $my->id, $pageNav, $option, $lists );
 }
 
 /**

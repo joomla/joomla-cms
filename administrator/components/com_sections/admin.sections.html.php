@@ -25,12 +25,24 @@ class sections_html {
 	* @param array An array of category objects
 	* @param string The name of the category section
 	*/
-	function show( &$rows, $scope, $myid, &$pageNav, $option ) {
+	function show( &$rows, $scope, $myid, &$pageNav, $option, &$lists ) {
 		global $my;
 
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
+
+		<table class="adminheading">
+		<tr>
+			<td align="left" valign="top" nowrap="nowrap">
+			</td>
+			<td align="right" valign="top" nowrap="nowrap">
+				<?php
+				echo $lists['state'];
+				?>
+			</td>
+		</tr>
+		</table>
 
 		<table class="adminlist">
 		<tr>

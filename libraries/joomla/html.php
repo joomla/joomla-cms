@@ -877,6 +877,13 @@ class mosCommonHTML {
 
 		return $href;
 	}
+			function selectState( $filter_state=NULL )	{
+		$state[] = mosHTML::makeOption( '', '- '. JText::_( 'Select State' ) .' -' );
+		$state[] = mosHTML::makeOption( 'P', JText::_( 'Published' ) );
+		$state[] = mosHTML::makeOption( 'U', JText::_( 'Unpublished' ) );
+		
+		return mosHTML::selectList( $state, 'filter_state', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_state );
+	}
 }
 
 /**
@@ -1786,6 +1793,6 @@ class mosAdminMenus {
 		$path = JPATH_ADMINISTRATOR .'/components/com_menus/'. $item .'/';
 		include_once( $path . $item .'.class.php' );
 		include_once( $path . $item .'.menu.html.php' );
-	}
+	}	
 }
 ?>

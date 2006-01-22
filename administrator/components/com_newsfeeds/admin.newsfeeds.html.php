@@ -27,6 +27,19 @@ class HTML_newsfeeds {
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
+		
+		<table class="adminheading">
+		<tr>
+			<td align="left" valign="top" nowrap="nowrap">
+			</td>
+			<td align="right" valign="top" nowrap="nowrap">
+				<?php
+				echo $lists['state'];
+				?>
+			</td>
+		</tr>
+		</table>
+
 		<table class="adminlist">
 		<tr>
 			<th width="20">

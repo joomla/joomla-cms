@@ -80,15 +80,15 @@ switch ($task) {
 * Compiles a list of records
 * @param database A database connector object
 */
-function showWeblinks( $option ) 
-{
+function showWeblinks( $option ) {
 	global $database, $mainframe;
 
-	$catid 		= $mainframe->getUserStateFromRequest( "$option.catid", 'catid', 0 );
-	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
-	$search 	= $mainframe->getUserStateFromRequest( "$option.search", 'search', '' );
-	$search 	= $database->getEscaped( trim( strtolower( $search ) ) );
+	$filter_state 	= $mainframe->getUserStateFromRequest( "$option.filter_state", 'filter_state', '' );
+	$catid 			= $mainframe->getUserStateFromRequest( "$option.catid", 'catid', 0 );
+	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+	$limitstart		= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+	$search 		= $mainframe->getUserStateFromRequest( "$option.search", 'search', '' );
+	$search 		= $database->getEscaped( trim( strtolower( $search ) ) );
 
 	$where = array();
 
@@ -98,6 +98,13 @@ function showWeblinks( $option )
 	if ($search) {
 		$where[] = "LOWER(a.title) LIKE '%$search%'";
 	}
+	if ( $filter_state ) {
+		if ( $filter_state == 'P' ) {
+			$where[] = "a.published = 1";
+		} else if ($filter_state == 'U' ) {
+			$where[] = "a.published = 0";
+		}
+	}	
 
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
@@ -129,7 +136,10 @@ function showWeblinks( $option )
 	// build list of categories
 	$javascript 	= 'onchange="document.adminForm.submit();"';
 	$lists['catid'] = mosAdminMenus::ComponentCategory( 'catid', $option, intval( $catid ), $javascript );
-
+	
+	// state filter 
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	
 	HTML_weblinks::showWeblinks( $option, $rows, $lists, $search, $pageNav );
 }
 

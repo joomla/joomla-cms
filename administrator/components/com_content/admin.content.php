@@ -133,10 +133,10 @@ switch ($task) {
 * Compiles a list of installed or defined modules
 * @param database A database connector object
 */
-function viewContent( $sectionid, $option ) 
-{
+function viewContent( $sectionid, $option ) {
 	global $database, $mainframe;
 
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_state", 'filter_state', '' );
 	$catid 				= $mainframe->getUserStateFromRequest( "$option.$sectionid$option.catid", 'catid', 0 );
 	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_authorid", 'filter_authorid', 0 );
 	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_sectionid", 'filter_sectionid', 0 );
@@ -188,6 +188,13 @@ function viewContent( $sectionid, $option )
 	}
 	if ( $filter_authorid > 0 ) {
 		$where[] = "c.created_by = $filter_authorid";
+	}
+	if ( $filter_state ) {
+		if ( $filter_state == 'P' ) {
+			$where[] = "c.state = 1";
+		} else if ($filter_state == 'U' ) {
+			$where[] = "c.state = 0";
+		}
 	}
 
 	if ( $search ) {
@@ -250,6 +257,9 @@ function viewContent( $sectionid, $option )
 	$authors = array_merge( $authors, $database->loadObjectList() );
 	$lists['authorid']	= mosHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid );
 
+	// state filter 
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	
 	HTML_content::showContent( $rows, $section, $lists, $search, $pageNav, $all, $redirect );
 }
 
@@ -257,8 +267,7 @@ function viewContent( $sectionid, $option )
 * Shows a list of archived content items
 * @param int The section id
 */
-function viewArchive( $sectionid, $option ) 
-{
+function viewArchive( $sectionid, $option ) {
 	global $database, $mainframe;
 
 	$catid 				= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.catid", 'catid', 0 );
@@ -359,6 +368,9 @@ function viewArchive( $sectionid, $option )
 	$database->setQuery( $query );
 	$authors = array_merge( $authors, $database->loadObjectList() );
 	$lists['authorid']	= mosHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid );
+	
+	// state filter 
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );	
 
 	HTML_content::showArchive( $rows, $section, $lists, $search, $pageNav, $option, $all, $redirect );
 }

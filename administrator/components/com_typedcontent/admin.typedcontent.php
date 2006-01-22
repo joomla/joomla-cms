@@ -87,10 +87,10 @@ switch ( $task ) {
 * Compiles a list of installed or defined modules
 * @param database A database connector object
 */
-function view( $option ) 
-{
+function view( $option ) {
 	global $database, $mainframe;
 
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 'filter_state', '' );
 	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.filter_authorid", 'filter_authorid', 0 );
 	$order 				= $mainframe->getUserStateFromRequest( "zorder", 'zorder', 'c.ordering DESC' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
@@ -108,6 +108,13 @@ function view( $option )
 	$filter = '';
 	if ( $filter_authorid > 0 ) {
 		$filter = "\n AND c.created_by = '$filter_authorid'";
+	}
+	if ( $filter_state ) {
+		if ( $filter_state == 'P' ) {
+			$filter .= "\n AND c.state = 1";
+		} else if ($filter_state == 'U' ) {
+			$filter .= "\n AND c.state = 0";
+		}
 	}
 
 	// get the total number of records
@@ -185,6 +192,9 @@ function view( $option )
 	$database->setQuery( $query );
 	$authors = array_merge( $authors, $database->loadObjectList() );
 	$lists['authorid']	= mosHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_authorid );
+	
+	// state filter 
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
 
 	HTML_typedcontent::showContent( $rows, $pageNav, $option, $search, $lists );
 }

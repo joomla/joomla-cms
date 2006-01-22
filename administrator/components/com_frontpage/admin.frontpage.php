@@ -83,14 +83,15 @@ switch ($task) {
 function viewFrontPage( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 'filter_state', '' );
 	$catid 				= $mainframe->getUserStateFromRequest( "$option.catid", 'catid', 0 );
 	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.filter_authorid", 'filter_authorid', 0 );
 	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "$option.filter_sectionid", 'filter_sectionid', 0 );
 
-	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
-	$search 	= $mainframe->getUserStateFromRequest( "$option.search", 'search', '' );
-	$search 	= $database->getEscaped( trim( strtolower( $search ) ) );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 'search', '' );
+	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 
 	$where = array(
 	"c.state >= 0"
@@ -105,6 +106,13 @@ function viewFrontPage( $option ) {
 	}
 	if ( $filter_authorid > 0 ) {
 		$where[] = "c.created_by = $filter_authorid";
+	}
+	if ( $filter_state ) {
+		if ( $filter_state == 'P' ) {
+			$where[] = "c.state = 1";
+		} else if ($filter_state == 'U' ) {
+			$where[] = "c.state = 0";
+		}
 	}
 
 	if ($search) {
@@ -174,7 +182,10 @@ function viewFrontPage( $option ) {
 	$database->setQuery( $query );
 	$authors = array_merge( $authors, $database->loadObjectList() );
 	$lists['authorid']	= mosHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid );
-
+	
+	// state filter 
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	
 	HTML_content::showList( $rows, $search, $pageNav, $option, $lists );
 }
 

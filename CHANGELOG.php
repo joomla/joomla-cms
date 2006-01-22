@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 22-Jan-2006 Rey Gigataras
+ + Filter `State` dropdown added to all "Manager" pages
  + Allow Menu Items to be changed
  + `Apply` button to other core components
  ^ Reordered menu item edit page slightly

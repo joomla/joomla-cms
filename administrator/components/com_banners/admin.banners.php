@@ -99,16 +99,26 @@ switch ($task) {
 		break;
 }
 
-function viewBanners( $option ) 
-{
+function viewBanners( $option ) {
 	global $database, $mainframe;
 
-	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart = $mainframe->getUserStateFromRequest( "$option.viewbanners.limitstart", 'limitstart', 0 );
+	$filter_state 	= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_state", 'filter_state', '' );
+	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.viewbanners.limitstart", 'limitstart', 0 );
 
+	$where= '';
+	if ( $filter_state ) {
+		if ( $filter_state == 'P' ) {
+			$where = "\n WHERE b.showBanner = 1";
+		} else if ($filter_state == 'U' ) {
+			$where = "\n WHERE b.showBanner = 0";
+		}
+	}
+	
 	// get the total number of records
-	$query = "SELECT COUNT(*)"
-	. "\n FROM #__banner"
+	$query = "SELECT COUNT(b.*)"
+	. "\n FROM #__banner AS b"
+	. $where
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
@@ -119,6 +129,7 @@ function viewBanners( $option )
 	$query = "SELECT b.*, u.name AS editor"
 	. "\n FROM #__banner AS b "
 	. "\n LEFT JOIN #__users AS u ON u.id = b.checked_out"
+	. $where
 	. "\n LIMIT $pageNav->limitstart, $pageNav->limit";
 	$database->setQuery( $query );
 
@@ -127,8 +138,11 @@ function viewBanners( $option )
 		return;
 	}
 	$rows = $database->loadObjectList();
-
-	HTML_banners::showBanners( $rows, $pageNav, $option );
+	
+	// state filter 
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	
+	HTML_banners::showBanners( $rows, $pageNav, $option, $lists );
 }
 
 function editBanner( $bannerid, $option ) {
@@ -280,8 +294,8 @@ function removeBanner( $cid ) {
 function viewBannerClients( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$limit = $mainframe->getUserStateFromRequest( "default.limit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "com_banners.viewbannerclient.limitstart", 'limitstart', 0 );
+	$limit 			= $mainframe->getUserStateFromRequest( "default.limit", 'limit', $mosConfig_list_limit );
+	$limitstart 	= $mainframe->getUserStateFromRequest( "com_banners.viewbannerclient.limitstart", 'limitstart', 0 );
 
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
@@ -306,7 +320,7 @@ function viewBannerClients( $option ) {
 		return;
 	}
 	$rows = $database->loadObjectList();
-
+	
 	HTML_bannerClient::showClients( $rows, $pageNav, $option );
 }
 

@@ -34,7 +34,10 @@ class HTML_weblinks {
 			<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
 			</td>
 			<td align="right">
-			<?php echo $lists['catid'];?>
+			<?php 
+			echo $lists['catid'];
+			echo $lists['state'];
+			?>
 			</td>
 		</tr>
 		</table>

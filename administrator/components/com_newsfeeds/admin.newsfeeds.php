@@ -85,14 +85,27 @@ switch ($task) {
 function showNewsFeeds( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$catid = $mainframe->getUserStateFromRequest( "$option.catid", 'catid', 0 );
-	$limit = $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+	$filter_state 	= $mainframe->getUserStateFromRequest( "$option.filter_state", 'filter_state', '' );
+	$catid 			= $mainframe->getUserStateFromRequest( "$option.catid", 'catid', 0 );
+	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
+	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
+	$where = array();
+	if ( $catid ) {
+		$where[] = "a.catid = $catid";
+	}
+	if ( $filter_state ) {
+		if ( $filter_state == 'P' ) {
+			$where[] = "a.published = 1";
+		} else if ($filter_state == 'U' ) {
+			$where[] = "a.published = 0";
+		}
+	}
+	
 	// get the total number of records
-	$query = "SELECT COUNT(*)"
-	. "\n FROM #__newsfeeds"
-	. ( $catid ? "\n WHERE catid = $catid" : '' )
+	$query = "SELECT COUNT(a.*)"
+	. "\n FROM #__newsfeeds AS a"
+	. ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' )
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
@@ -105,7 +118,7 @@ function showNewsFeeds( $option ) {
 	. "\n FROM #__newsfeeds AS a"
 	. "\n LEFT JOIN #__categories AS c ON c.id = a.catid"
 	. "\n LEFT JOIN #__users AS u ON u.id = a.checked_out"
-	. ( $catid ? "\n WHERE a.catid = $catid" : '' )
+	. ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' )
 	. "\n ORDER BY a.ordering"
 	. "\n LIMIT $pageNav->limitstart, $pageNav->limit"
 	;
@@ -120,6 +133,9 @@ function showNewsFeeds( $option ) {
 	// build list of categories
 	$javascript = 'onchange="document.adminForm.submit();"';
 	$lists['category'] = mosAdminMenus::ComponentCategory( 'catid', $option, $catid, $javascript );
+	
+	// state filter 
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );	
 
 	HTML_newsfeeds::showNewsFeeds( $rows, $lists, $pageNav, $option );
 }

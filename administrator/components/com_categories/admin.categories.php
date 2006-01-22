@@ -114,6 +114,7 @@ function showCategories( $section, $option )
 {
 	global $database, $mainframe;
 
+	$filter_state 	= $mainframe->getUserStateFromRequest( "$option.$section.filter_state", 'filter_state', '' );
 	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
 	$sectionid 		= $mainframe->getUserStateFromRequest( "$option.$section.sectionid", 'sectionid', 0 );
 	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.$section.view.limitstart", 'limitstart', 0 );
@@ -168,11 +169,10 @@ function showCategories( $section, $option )
 		$table 			= 'content';
 		$content_add 	= "\n , z.title AS section_name";
 		$content_join 	= "\n LEFT JOIN #__sections AS z ON z.id = c.section";
-		//$where = "\n WHERE s1.catid = c.id";
 		$where 			= "\n WHERE c.section NOT LIKE '%com_%'";
 		$order 			= "\n ORDER BY c.section, c.ordering, c.name";
 		$section_name 	= JText::_( 'All Content:' );
-		// get the total number of records
+		
 		// get the total number of records
 		$query = "SELECT COUNT(*)"
 		. "\n FROM #__categories"
@@ -191,6 +191,13 @@ function showCategories( $section, $option )
 	} else {
 		$filter = '';
 	}
+	if ( $filter_state ) {
+		if ( $filter_state == 'P' ) {
+			$filter .= "\n AND c.published = 1";
+		} else if ($filter_state == 'U' ) {
+			$filter .= "\n AND c.published = 0";
+		}
+	}	
 
 	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit );
@@ -244,7 +251,10 @@ function showCategories( $section, $option )
 	// get list of sections for dropdown filter
 	$javascript = 'onchange="document.adminForm.submit();"';
 	$lists['sectionid']	= mosAdminMenus::SelectSection( 'sectionid', $sectionid, $javascript );
-
+	
+	// state filter 
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	
 	categories_html::show( $rows, $section, $section_name, $pageNav, $lists, $type );
 }
 

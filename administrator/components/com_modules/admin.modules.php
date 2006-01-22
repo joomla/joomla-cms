@@ -106,6 +106,7 @@ function viewModules( $option, $client )
 {
 	global $database, $my, $mainframe;
 
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$client.filter_state", 'filter_state', '' );
 	$filter_position 	= $mainframe->getUserStateFromRequest( "$option.$client.filter_position", 'filter_position', 0 );
 	$filter_type	 	= $mainframe->getUserStateFromRequest( "$option.$client.filter_type", 'filter_type', 0 );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
@@ -131,6 +132,13 @@ function viewModules( $option, $client )
 	if ( $search ) {
 		$where[] = "LOWER( m.title ) LIKE '%$search%'";
 	}
+	if ( $filter_state ) {
+		if ( $filter_state == 'P' ) {
+			$where[] = "m.published = 1";
+		} else if ($filter_state == 'U' ) {
+			$where[] = "m.published = 0";
+		}
+	}	
 
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
@@ -184,7 +192,10 @@ function viewModules( $option, $client )
 	$database->setQuery( $query );
 	$types = array_merge( $types, $database->loadObjectList() );
 	$lists['type']	= mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_type" );
-
+	
+	// state filter 
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	
 	HTML_modules::showModules( $rows, $my->id, $client, $pageNav, $option, $lists, $search );
 }
 

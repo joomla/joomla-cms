@@ -38,12 +38,11 @@ class categories_html {
 			if ( $section == 'content') {
 				?>
 				<td>
-					<small><small>
 					[ <?php echo JText::_( 'Content: All' ); ?> ]
-					</small></small>
 				</td>
 				<td align="right">
 					<?php echo $lists['sectionid'];?>
+					<?php echo $lists['state']; ?>
 				</td>
 				<?php
 			} else {
@@ -58,9 +57,10 @@ class categories_html {
 				}
 				?>
 				<td>
-					<small><small>
 					[ <?php echo $section_name;?> ]
-					</small></small>
+				</td>
+				<td align="right">
+					<?php echo $lists['state']; ?>
 				</td>
 				<?php
 			}

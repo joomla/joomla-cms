@@ -46,6 +46,7 @@ class HTML_typedcontent {
 				<?php
 				echo $lists['order'];
 				echo $lists['authorid'];
+				echo $lists['state'];
 				?>
 			</td>
 		</tr>
