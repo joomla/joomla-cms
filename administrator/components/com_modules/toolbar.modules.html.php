@@ -34,13 +34,15 @@ class TOOLBAR_modules {
 	/**
 	* Draws the menu for Editing an existing module
 	*/
-	function _EDIT( $publish, $module = '', $client ) {
+	function _EDIT( $client ) {
 		global $id;
+		
+		$moduleType = mosGetParam( $_REQUEST, 'module', '' );
 
 		JMenuBar::startTable();
 		JMenuBar::title( JText::_( $client ). JText::_( 'Module' ).' <small><small>[ Edit ]</small></small>', 'module.png' );
 
-		if($module == '') {
+		if($moduleType == 'custom') {
 			JMenuBar::Preview('index3.php?option=com_modules&client='.$client.'&pollid='.$id);
 		}
 		JMenuBar::spacer();

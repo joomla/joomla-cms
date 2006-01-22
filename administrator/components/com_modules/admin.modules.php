@@ -43,7 +43,7 @@ switch ( $task ) {
 		break;
 
 	case 'edit':
-		if ( $module && $cid[0] == 0 && id == 0 ) {
+		if ( $module && $cid[0] == 0 && $id == 0 ) {
 			editModule( $option, 0, $client, $module );
 		} else {
 			editModule( $option, $cid[0], $client );
@@ -102,8 +102,7 @@ switch ( $task ) {
 /**
 * Compiles a list of installed or defined modules
 */
-function viewModules( $option, $client ) 
-{
+function viewModules( $option, $client ) {
 	global $database, $my, $mainframe;
 
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$client.filter_state", 'filter_state', '' );
@@ -361,8 +360,11 @@ function editModule( $option, $uid, $client, $module=NULL ) {
 	if ($uid == 0) {
 		$row->position 	= 'left';
 		$row->showtitle = true;
-		//$row->ordering = $l;
 		$row->published = 1;
+		//$row->ordering = $l;
+
+		$moduleType 	= mosGetParam( $_REQUEST, 'module', '' );
+		$row->module 	= $moduleType;
 	}
 
 
@@ -375,6 +377,7 @@ function editModule( $option, $uid, $client, $module=NULL ) {
 		$lists['client_id'] = 0;
 		$path				= 'mod0_xml';
 	}
+	
 	$query = "SELECT position, ordering, showtitle, title"
 	. "\n FROM #__modules"
 	. "\n WHERE $where"
@@ -465,6 +468,9 @@ function editModule( $option, $uid, $client, $module=NULL ) {
 		$root = &$xmlDoc->documentElement;
 
 		if (($root->getTagName() == 'mosinstall' || $root->getTagName() == 'install') && $root->getAttribute( 'type' ) == 'module' ) {
+			$element = &$root->getElementsByPath( 'name', 1 );
+			$row->type = $element ? trim( $element->getText() ) : '';
+			
 			$element = &$root->getElementsByPath( 'description', 1 );
 			$row->description = $element ? trim( $element->getText() ) : '';
 		}
@@ -486,25 +492,27 @@ function selectnew() {
 	
 	// path to search for modules
 	if ($client == 'admin') {
-		$dir = JPATH_ADMINISTRATOR .'/modules/';
+		$path = JPATH_ADMINISTRATOR .'/modules/';
 	} else {
-		$dir = JPATH_ROOT .'/modules/';
+		$path = JPATH_ROOT .'/modules/';
 	}
 
-	if (is_dir( $dir )) {
-		// generate list of module files
-		$files_php = JFolder::files( $dir, "\.xml$" );
+	// handling for custom module	$modules[0]->file 		= 'custom.xml';
+	$modules[0]->module 	= 'custom';
+	$modules[0]->path 		= $path;
+		$i = 1;
+	$dirs = JFolder::folders( $path );
+	foreach ($dirs as $dir) {
+		$file 			= JFolder::files( $path . $dir, '^([_A-Za-z]*)\.xml$' );
+		$files_php[] 	= $file[0]; 
 		
-		// custom file
-		$i = 0;
-		foreach ( $files_php as $file ) {
-			$modules[$i]->file 		= $file;
-			$modules[$i]->module 	= str_replace( '.xml', '', $file );
-			$i++;
-		}
+		$modules[$i]->file 		= $file[0];
+		$modules[$i]->module 	= str_replace( '.xml', '', $file[0] );
+		$modules[$i]->path 		= $path . $dir;
+		$i++;
 	}
 
-	ReadModuleXML( $modules, $client, $dir );
+	ReadModuleXML( $modules, $client );
 	
 	// sort array of objects alphabetically by name
 	SortArrayObjects( $modules, 'name' );
@@ -779,7 +787,7 @@ function ReadAModuleXML( &$rows, $client )
 	
 	return $row;
 }
-function ReadModuleXML( &$rows, $client, $path ) 
+function ReadModuleXML( &$rows, $client ) 
 {	
 	foreach ($rows as $i => $row) {
 		if ($row->module == '') {
@@ -787,7 +795,7 @@ function ReadModuleXML( &$rows, $client, $path )
 			$rows[$i]->module 	= 'custom';
 			$rows[$i]->descrip 	= 'Custom created module, using Module Manager `New` function';
 		} else {
-			$xmlfile =  $path . $row->file;
+			$xmlfile =  $row->path .'/'. $row->file;
 			$xmlDoc =& JFactory::getXMLParser();
 			$xmlDoc->resolveErrors( true );
 			

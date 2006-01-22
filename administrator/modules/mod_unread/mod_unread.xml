@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<install type="module" version="1.0.0">
+	<name>Unread Items Module</name>
+	<author>Joomla! Project</author>
+	<creationDate>Nov 2005</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>This module shows a list of unread items</description>
+	<files>
+		<filename module="mod_unread">mod_unread.php</filename>
+	</files>
+	<params/>
+</install>

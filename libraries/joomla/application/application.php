@@ -1046,6 +1046,8 @@ class JApplicationHelper
 			case 'mod0_xml':
 				// Site modules
 				if ( $user_option == '' ) {
+					$path = DS.'modules'.DS.'custom_legacy.xml';
+				} else if ( $user_option == 'custom' ) {
 					$path = DS.'modules'.DS.'custom.xml';
 				} else {
 					$path = DS.'modules'.DS. $user_option .DS. $user_option. '.xml';
@@ -1055,7 +1057,9 @@ class JApplicationHelper
 
 			case 'mod1_xml':
 				// admin modules
-				if ($user_option == '') {
+				if ( $user_option == '' ) {
+					$path = DS.'modules'.DS.'custom_legacy.xml';
+				} else if ( $user_option == 'custom' ) {
 					$path = DS.'modules'.DS.'custom.xml';
 				} else {
 					$path = DS.'modules'.DS. $user_option .DS. $user_option. '.xml';

@@ -190,6 +190,7 @@ class HTML_menusections {
 		</style>
 
 		<form action="index2.php" method="post" name="adminForm">
+		
 		<table class="adminheading">
 		<tr>
 			<td valign="bottom" nowrap style="color: red;">

@@ -215,7 +215,7 @@ class HTML_modules {
 				alert("<?php echo JText::_( 'Module must have a title', true ); ?>");
 			} else {
 				<?php
-				if ($row->module == '') {
+				if ($row->module == '' || $row->module == 'custom') {
 					$editor =& JEditor::getInstance();
 					echo $editor->getEditorContents( 'editor1', 'content' );
 				}
@@ -249,6 +249,16 @@ class HTML_modules {
 					</th>
 				<tr>
 				<tr>
+					<td valign="top">
+					<?php echo JText::_( 'Module Type' ); ?>:
+					</td>
+					<td>
+					<strong>
+					<?php echo JText::_($row->type); ?>
+					</strong>
+					</td>
+				</tr>
+				<tr>
 					<td width="100" >
 					<?php echo JText::_( 'Title' ); ?>:
 					</td>
@@ -256,13 +266,12 @@ class HTML_modules {
 					<input class="text_area" type="text" name="title" size="35" value="<?php echo $row->title; ?>" />
 					</td>
 				</tr>
-				<!-- START selectable pages -->
 				<tr>
-					<td width="100" >
-					<?php echo JText::_( 'Show title' ); ?>:
+					<td valign="top">
+					<?php echo JText::_( 'Published' ); ?>:
 					</td>
 					<td>
-					<?php echo $lists['showtitle']; ?>
+					<?php echo $lists['published']; ?>
 					</td>
 				</tr>
 				<tr>
@@ -294,15 +303,15 @@ class HTML_modules {
 					</td>
 				</tr>
 				<tr>
-					<td valign="top">
-					<?php echo JText::_( 'Published' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['published']; ?>
+					<td colspan="2">
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2">
+					<td width="100" >
+					<?php echo JText::_( 'Show title' ); ?>:
+					</td>
+					<td>
+					<?php echo $lists['showtitle']; ?>
 					</td>
 				</tr>
 				<tr>
@@ -327,8 +336,8 @@ class HTML_modules {
 				// Hide params for Custom/New modules
 				// Show custom.xml params for backward compat with existing custom modules
 				// that are used to show rss feeds
-				// extra backward compat check [$params->get( 'rssurl', '' )] can be depreciated in 1.2
-				if ( $row->module || $params->get( 'rssurl', '' ) ) {
+				// extra backward compat check [$row->module == ''] can be depreciated in 1.2
+				if ( $row->module == '' || $row->module == 'custom' ) {
 					// Render Parameter list
 					?>
 					<table class="adminform">
@@ -365,7 +374,7 @@ class HTML_modules {
 			</td>
 		</tr>
 		<?php
-		if ( !$row->module ) {
+		if ( !$row->module || $row->module == 'custom' ) {
 			?>
 			<tr>
 				<td colspan="2">
@@ -451,65 +460,63 @@ class HTML_modules {
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 
-		<fieldset>
-			<legend><?php echo JText::_( 'Modules' ); ?></legend>
+		<table class="adminform">
+		<thead>
+		<tr>
+			<th colspan="4">
+			<?php echo JText::_( 'Modules' ); ?>
+			</th>
+		</tr>
+		</thead>
+		<tfoot>
+		<tr>
+			<th colspan="4">
+			</th>
+		</tr>
+		</tfoot>
+		
+		<tbody>
+		<?php
+		$k 		= 0;
+		$x 		= 0;
+		$count 	= count( $modules );
+		for ( $i=0; $i < $count; $i++ ) {
+			$row = &$modules[$i];
 			
-			<table class="adminform">
-			<thead>
-			<tr>
-				<th colspan="4">
-				</th>
-			</tr>
-			</thead>
-			<tfoot>
-			<tr>
-				<th colspan="4">
-				</th>
-			</tr>
-			</tfoot>
-			
-			<tbody>
-			<?php
-			$k 		= 0;
-			$x 		= 0;
-			$count 	= count( $modules );
-			for ( $i=0; $i < $count; $i++ ) {
-				$row = &$modules[$i];
-				
-				$link = 'index2.php?option=com_modules&amp;task=edit&amp;module='. $row->module .'&amp;created=1&amp;client='. $client;
-				if ( !$k ) {
-					?>
-					<tr class="<?php echo "row$x"; ?>" valign="top">
-					<?php
-					$x = 1 - $x;
-				}
+			$link = 'index2.php?option=com_modules&amp;task=editA&amp;module='. $row->module .'&amp;created=1&amp;client='. $client;
+			if ( !$k ) {
 				?>
-					<td width="50%">
-						<input type="radio" id="cb<?php echo $i; ?>" name="module" value="<?php echo $row->module; ?>"  />
-						<?php
-						echo mosToolTip( stripslashes( $row->descrip ), stripslashes( $row->name ), 300, '', stripslashes( $row->name ), $link, 'LEFT' );
-						?>
-					</td>
+				<tr class="<?php echo "row$x"; ?>" valign="top">
 				<?php
-				if ( $k ) {
-					?>
-					</tr>
-					<?php
-				}
-				?>
-				<?php
-				$k = 1 - $k;
+				$x = 1 - $x;
 			}
 			?>
-			</tbody>
-			</table>
-		</fieldset>
+				<td width="50%">
+					<input type="radio" id="cb<?php echo $i; ?>" name="module" value="<?php echo $row->module; ?>" onclick="isChecked(this.checked);" />
+					<?php
+					echo mosToolTip( stripslashes( $row->descrip ), stripslashes( $row->name ), 300, '', stripslashes( $row->name ), $link, 'LEFT' );
+					?>
+				</td>
+			<?php
+			if ( $k ) {
+				?>
+				</tr>
+				<?php
+			}
+			?>
+			<?php
+			$k = 1 - $k;
+		}
+		?>
+		</tbody>
+		</table>
 
 		<input type="hidden" name="option" value="com_modules" />
 		<input type="hidden" name="client" value="<?php echo $client; ?>" />
 		<input type="hidden" name="created" value="1" />
 		<input type="hidden" name="task" value="edit" />
 		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="hidemainmenu" value="1" />
 		</form>
 		<?php
 	}

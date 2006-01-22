@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<install type="module" version="1.0.0">
+	<name>Online Module</name>
+	<author>Joomla! Project</author>
+	<creationDate>Jan 2006</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>This module shows a list of the Backend Users logged in</description>
+	<files>
+		<filename module="mod_online">mod_online.php</filename>
+	</files>
+	<params/>
+</install>

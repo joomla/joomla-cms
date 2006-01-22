@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<install type="module" version="1.0.0">
+	<name>Dropdown Menu</name>
+	<author>Joomla! Project</author>
+	<creationDate>Jan 2006</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>This module shows the main Dropdown navigation module</description>
+	<files>
+		<filename module="mod_fullmenu">mod_fullmenu.php</filename>
+	</files>
+	<params/>
+</install>
