@@ -40,7 +40,8 @@ switch ($task) {
 		break;
 
 	case 'save':
-		saveWeblink( $option );
+	case 'apply':
+		saveWeblink( $task );
 		break;
 
 	case 'remove':
@@ -184,7 +185,7 @@ function editWeblink( $option, $id ) {
 * Saves the record on an edit form submit
 * @param database A database connector object
 */
-function saveWeblink( $option ) {
+function saveWeblink( $task ) {
 	global $database, $my;
 
 	$row = new JWeblinkModel( $database );
@@ -214,7 +215,18 @@ function saveWeblink( $option ) {
 	$row->checkin();
 	$row->updateOrder( "catid = $row->catid" );
 
-	mosRedirect( "index2.php?option=". $option );
+	switch ($task) {
+		case 'apply':
+			$link = 'index2.php?option=com_weblinks&task=editA&id='. $row->id .'&hidemainmenu=1';
+			break;
+		
+		case 'save':
+		default:
+			$link = 'index2.php?option=com_weblinks';
+			break;
+	}
+	
+	mosRedirect($link);
 }
 
 /**

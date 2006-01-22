@@ -34,7 +34,6 @@ class mosBannerClient extends JModel {
 	}
 
 	function check() {
-
 		// check for valid client name
 		if (trim($this->name == '')) {
 			$this->_error = JText::_( 'BNR_CLIENT_NAME' );
@@ -52,6 +51,7 @@ class mosBannerClient extends JModel {
 			$this->_error = JText::_( 'BNR_VALID_EMAIL' );
 			return false;
 		}
+		
 		return true;
 	}
 }
@@ -106,7 +106,6 @@ class mosBanner extends JModel {
 	}
 
 	function check() {
-
 		// check for valid client id
 		if (is_null($this->cid) || $this->cid == 0) {
 			$this->_error = JText::_( 'BNR_CLIENT' );

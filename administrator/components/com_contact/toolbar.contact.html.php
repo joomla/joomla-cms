@@ -30,6 +30,8 @@ class TOOLBAR_contact {
 
 		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Contact' ) .': '. $text, 'generic.png' );
+		JMenuBar::apply();
+		JMenuBar::spacer();
 		JMenuBar::save();
 		JMenuBar::spacer();
 		if ( $id ) {

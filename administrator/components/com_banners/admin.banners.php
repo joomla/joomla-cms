@@ -42,7 +42,8 @@ switch ($task) {
 		break;
 
 	case 'saveclient':
-		saveBannerClient( $option );
+	case 'applyclient':
+		saveBannerClient( $task );
 		break;
 
 	case 'removeclients':
@@ -69,6 +70,7 @@ switch ($task) {
 
 	case 'save':
 	case 'resethits':
+	case 'apply':
 		saveBanner( $task );
 		break;
 
@@ -175,8 +177,6 @@ function saveBanner( $task ) {
 
 	$row = new mosBanner($database);
 
-	$msg = JText::_( 'Saved Banner info' );
-	
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -185,7 +185,7 @@ function saveBanner( $task ) {
 	// Resets clicks when `Reset Clicks` button is used instead of `Save` button
 	if ( $task == 'resethits' ) {
 		$row->clicks = 0;
-		$msg = 'Reset Banner clicks';
+		$msg = JText::_( 'Reset Banner clicks' );
 	}
 	
 	// Sets impressions to unlimited when `unlimited` checkbox ticked
@@ -204,7 +204,20 @@ function saveBanner( $task ) {
 	}
 	$row->checkin();
 
-	mosRedirect( 'index2.php?option=com_banners', $msg );
+	switch ($task) {
+		case 'apply':
+			$link = 'index2.php?option=com_banners&task=editA&id='. $row->bid .'&hidemainmenu=1';
+			break;
+		
+		case 'save':
+		default:
+			$link = 'index2.php?option=com_banners';
+			break;
+	}	
+	
+	$msg = JText::_( 'Saved Banner info' );
+	
+	mosRedirect( $link, $msg );
 }
 
 function cancelEditBanner() {
@@ -321,16 +334,17 @@ function editBannerClient( $clientid, $option ) {
 	HTML_bannerClient::bannerClientForm( $row, $option );
 }
 
-function saveBannerClient( $option ) {
+function saveBannerClient( $task ) {
 	global $database;
 
 	$row = new mosBannerClient( $database );
+	
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 	if (!$row->check()) {
-		mosRedirect( "index2.php?option=$option&task=editclient&cid[]=$row->id", $row->getError() );
+		mosRedirect( "index2.php?option=com_banners&task=editclient&cid[]=$row->cid", $row->getError() );
 	}
 
 	if (!$row->store()) {
@@ -339,7 +353,18 @@ function saveBannerClient( $option ) {
 	}
 	$row->checkin();
 
-	mosRedirect( "index2.php?option=$option&task=listclients" );
+	switch ($task) {
+		case 'applyclient':
+			$link = 'index2.php?option=com_banners&task=editclientA&id='. $row->cid .'&hidemainmenu=1';
+			break;
+		
+		case 'saveclient':
+		default:
+			$link = 'index2.php?option=com_banners&task=listclients';
+			break;
+	}
+
+	mosRedirect( $link );
 }
 
 function cancelEditClient( $option ) {

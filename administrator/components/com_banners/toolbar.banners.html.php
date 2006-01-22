@@ -35,6 +35,8 @@ class TOOLBAR_banners {
 		JMenuBar::title( JText::_( 'Banner' ) .': '. $text, 'generic.png' );
 		JMenuBar::media_manager( 'banners' );
 		JMenuBar::spacer();
+		JMenuBar::apply();
+		JMenuBar::spacer();
 		JMenuBar::save();
 		JMenuBar::spacer();
 		if ( $id ) {
@@ -47,6 +49,7 @@ class TOOLBAR_banners {
 		JMenuBar::help( 'screen.banners.edit' );
 		JMenuBar::endTable();
 	}
+	
 	function _DEFAULT() {
 
 		JMenuBar::startTable();
@@ -86,6 +89,7 @@ class TOOLBAR_bannerClient {
 
 		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Banner Client' ) .': '. $text, 'generic.png' );
+		JMenuBar::apply('applyclient');
 		JMenuBar::save( 'saveclient' );
 		JMenuBar::spacer();
 		if ( $id ) {

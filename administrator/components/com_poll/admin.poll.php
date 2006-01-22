@@ -28,8 +28,7 @@ if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
-switch( $task ) 
-{
+switch( $task ) {
 	case 'new':
 		editPoll( 0, $option );
 		break;
@@ -43,7 +42,8 @@ switch( $task )
 		break;
 
 	case 'save':
-		savePoll( $option );
+	case 'apply':
+		savePoll( $task );
 		break;
 
 	case 'remove':
@@ -153,8 +153,7 @@ function editPoll( $uid=0, $option='com_poll' )
 	HTML_poll::editPoll($row, $options, $lists );
 }
 
-function savePoll( $option ) 
-{
+function savePoll( $task ) {
 	global $database, $my;
 
 	// save the poll parent information
@@ -215,7 +214,18 @@ function savePoll( $option )
 		$database->query();
 	}
 
-	mosRedirect( 'index2.php?option='. $option );
+	switch ($task) {
+		case 'apply':
+			$link = 'index2.php?option=com_poll&task=editA&id='. $row->id .'&hidemainmenu=1';
+			break;
+		
+		case 'save':
+		default:
+			$link = 'index2.php?option=com_poll';
+			break;
+	}
+	
+	mosRedirect($link);
 }
 
 function removePoll( $cid, $option ) 

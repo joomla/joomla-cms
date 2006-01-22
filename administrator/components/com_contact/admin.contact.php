@@ -44,7 +44,8 @@ switch ($task) {
 		break;
 
 	case 'save':
-		saveContact( $option );
+	case 'apply':
+		saveContact( $task );
 		break;
 
 	case 'remove':
@@ -179,7 +180,7 @@ function editContact( $id, $option ) {
 	$lists['default_con'] 		= mosHTML::yesnoradioList( 'default_con', '', $row->default_con );
 
 	// get params definitions
-	$file = JPATH_ADMINISTRATOR .'/components/com_contact/contact_items.xml';
+	$file 	= JPATH_ADMINISTRATOR .'/components/com_contact/contact_items.xml';
 	$params = new JParameters( $row->params, $file, 'component' );
 
 	HTML_contact::editcontact( $row, $lists, $option, $params );
@@ -189,7 +190,7 @@ function editContact( $id, $option ) {
 * Saves the record from an edit form submit
 * @param string The current GET/POST option
 */
-function saveContact( $option ) {
+function saveContact( $task ) {
 	global $database;
 
 	$row = new JContactModel( $database );
@@ -231,7 +232,18 @@ function saveContact( $option ) {
 		$database->query();
 	}
 
-	mosRedirect( "index2.php?option=$option" );
+	switch ($task) {
+		case 'apply':
+			$link = 'index2.php?option=com_contact&task=editA&id='. $row->id .'&hidemainmenu=1';
+			break;
+		
+		case 'save':
+		default:
+			$link = 'index2.php?option=com_contact';
+			break;
+	}
+	
+	mosRedirect( $link );
 }
 
 /**

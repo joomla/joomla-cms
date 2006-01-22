@@ -25,7 +25,7 @@ class TOOLBAR_poll {
 	*/
 	function _NEW() {
 		JMenuBar::startTable();
-		JMenuBar::title(  JText::_( 'Poll' ).'<small>'.JText::_( 'New' ) .'</small>' );
+		JMenuBar::title(  JText::_( 'Poll' ).': <small>'.JText::_( 'New' ) .'</small>' );
 		JMenuBar::save();
 		JMenuBar::spacer();
 		JMenuBar::cancel();
@@ -33,6 +33,7 @@ class TOOLBAR_poll {
 		JMenuBar::help( 'screen.polls.edit' );
 		JMenuBar::endTable();
 	}
+	
 	/**
 	* Draws the menu for Editing an existing category
 	*/
@@ -40,8 +41,10 @@ class TOOLBAR_poll {
 		global $database, $id;
 
 		JMenuBar::startTable();
-		JMenuBar::title(  JText::_( 'Poll' ).'<small>'.JText::_( 'Edit' ) .'</small>' );
+		JMenuBar::title(  JText::_( 'Poll' ).': <small>'.JText::_( 'Edit' ) .'</small>' );
 		JMenuBar::Preview('index3.php?option=com_poll&pollid='.$pollid);
+		JMenuBar::spacer();
+		JMenuBar::apply();
 		JMenuBar::spacer();
 		JMenuBar::save();
 		JMenuBar::spacer();
@@ -55,6 +58,7 @@ class TOOLBAR_poll {
 		JMenuBar::help( 'screen.polls.edit' );
 		JMenuBar::endTable();
 	}
+	
 	function _DEFAULT() {
 		JMenuBar::startTable();
 		JMenuBar::title(  JText::_( 'Poll Manager' ) );

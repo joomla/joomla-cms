@@ -40,7 +40,7 @@ class TOOLBAR_newsfeeds  {
 	function _NEW() {
 
 		JMenuBar::startTable();
-		JMenuBar::title(  JText::_( 'Newsfeed' ).'<small>'.JText::_( 'New' ) .'</small>' );
+		JMenuBar::title(  JText::_( 'Newsfeed' ). ': <small>'.JText::_( 'New' ) .'</small>' );
 		JMenuBar::save();
 		JMenuBar::spacer();
 		JMenuBar::cancel();
@@ -53,7 +53,9 @@ class TOOLBAR_newsfeeds  {
 		global $id;
 
 		JMenuBar::startTable();
-		JMenuBar::title(  JText::_( 'Newsfeed' ).'<small>'.JText::_( 'Edit' ).'</small>' );
+		JMenuBar::title(  JText::_( 'Newsfeed' ).': <small>'.JText::_( 'Edit' ).'</small>' );
+		JMenuBar::apply();
+		JMenuBar::spacer();
 		JMenuBar::save();
 		JMenuBar::spacer();
 		if ( $id ) {

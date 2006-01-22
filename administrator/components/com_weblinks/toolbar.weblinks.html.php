@@ -27,6 +27,8 @@ class TOOLBAR_weblinks {
 
 		JMenuBar::startTable();
 		JMenuBar::title(   JText::_( 'Weblink' ).': <small>'. $text .'</small>' );
+		JMenuBar::apply();
+		JMenuBar::spacer();
 		JMenuBar::save();
 		JMenuBar::spacer();
 		if ( $id ) {

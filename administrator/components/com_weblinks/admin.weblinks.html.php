@@ -31,8 +31,6 @@ class HTML_weblinks {
 		<tr>
 			<td>
 			<?php echo JText::_( 'Filter' ); ?>:
-			</td>
-			<td>
 			<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
 			</td>
 			<td align="right">

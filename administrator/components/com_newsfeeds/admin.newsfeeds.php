@@ -45,7 +45,8 @@ switch ($task) {
 		break;
 
 	case 'save':
-		saveNewsFeed( $option );
+	case 'apply':
+		saveNewsFeed( $task );
 		break;
 
 	case 'publish':
@@ -167,7 +168,7 @@ function editNewsFeed( $id, $option ) {
 * Saves the record from an edit form submit
 * @param string The current GET/POST option
 */
-function saveNewsFeed( $option ) {
+function saveNewsFeed( $task ) {
 	global $database, $my;
 
 	$row = new mosNewsFeed( $database );
@@ -190,7 +191,18 @@ function saveNewsFeed( $option ) {
 	$row->checkin();
 	$row->updateOrder();
 
-	mosRedirect( 'index2.php?option='. $option );
+	switch ($task) {
+		case 'apply':
+			$link = 'index2.php?option=com_newsfeeds&task=editA&id='. $row->id .'&hidemainmenu=1';
+			break;
+		
+		case 'save':
+		default:
+			$link = 'index2.php?option=com_newsfeeds';
+			break;
+	}
+	
+	mosRedirect( $link );
 }
 
 /**

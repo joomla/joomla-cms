@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+22-Jan-2006 Rey Gigataras
+ + `Apply` button to other core components
+
 21-Jan-2006 Louis Landry
  ^ Changed authentication and login/logout event names
  + Added example user plugin

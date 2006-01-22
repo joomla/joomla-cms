@@ -31,8 +31,6 @@ class HTML_contact {
 		<tr>
 			<td>
 			<?php echo JText::_( 'Filter' ); ?>:
-			</td>
-			<td>
 			<input type="text" name="search" value="<?php echo $search;?>" class="inputbox" onChange="document.adminForm.submit();" />
 			</td>
 			<td align="right">
