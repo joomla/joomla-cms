@@ -552,21 +552,24 @@ class gacl {
 			$query .= $where;
 
 			// $this->debug_text($query);
-			$rs = $this->db->Execute($query);
-
-			if (!is_object($rs)) {
-				$this->debug_db('acl_get_groups');
-				return FALSE;
-			}
-
-			$retarr = array();
-
-			//Unbuffered query?
-			while (!$rs->EOF) {
-				$retarr[] = reset($rs->fields);
-				$rs->MoveNext();
-			}
-
+//			$rs = $this->db->Execute($query);
+//
+//			if (!is_object($rs)) {
+//				$this->debug_db('acl_get_groups');
+//				return FALSE;
+//			}
+//
+//			$retarr = array();
+//
+//			//Unbuffered query?
+//			while (!$rs->EOF) {
+//				$retarr[] = reset($rs->fields);
+//				$rs->MoveNext();
+//			}
+			
+			$this->db->setQuery($query);
+			$retarr = $this->db->loadRowList();
+			
 			//Cache data.
 			$this->put_cache($retarr, $cache_id);
 		}

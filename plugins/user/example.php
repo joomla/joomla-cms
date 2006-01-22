@@ -16,14 +16,14 @@ jimport('joomla.application.extensions.plugin');
 
 
 /**
- * Example JAuth Plugin
+ * Example User Plugin
  *
  * @author Louis Landry <louis@webimagery.net>
  * @package Joomla
  * @subpackage JFramework
  * @since 1.1
  */
-class JAuthExample extends JPlugin {
+class JUserExample extends JPlugin {
 
 	/**
 	 * Constructor
@@ -35,31 +35,56 @@ class JAuthExample extends JPlugin {
 	 * @param object $subject The object to observe
 	 * @since 1.1
 	 */
-	function JAuthExample(& $subject) {
+	function JUserExample(& $subject) {
 		parent::__construct($subject);
 	}
 
 	/**
-	 * This method should handle any authentication and report back to the subject
+	 * This method should handle any login logic and report back to the subject
 	 *
 	 * @access public
 	 * @param array Authentication credentials
-	 * @return mixed Integer userid or boolean false
+	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function onAuthenticate(& $credentials) {
+	function onLogin(& $credentials) {
 		// Initialize variables
-		$return = false;
+		$success = false;
 
 		/*
-		 * Here you would do whatever you need for an authentication routine with the credentials
+		 * Here you would do whatever you need for a login routine with the credentials
 		 *
-		 * In this example the mixed variable $return would be set to false
-		 * if the authentication routine fails or an integer userid of the authenticated
-		 * user if the routine passes
+		 * Remember, this is not the authentication routine as that is done separately.
+		 * The most common use of this routine would be logging the user into a third party
+		 * application.
+		 *
+		 * In this example the boolean variable $success would be set to true
+		 * if the login routine succeeds
 		 */
 
-		return $return;
+		return $success;
+	}
+
+	/**
+	 * This method should handle any logout logic and report back to the subject
+	 *
+	 * @access public
+	 * @param array Authentication credentials
+	 * @return boolean True on success
+	 * @since 1.1
+	 */
+	function onLogout(& $credentials) {
+		// Initialize variables
+		$success = false;
+
+		/*
+		 * Here you would do whatever you need for a logout routine with the credentials
+		 *
+		 * In this example the boolean variable $success would be set to true
+		 * if the logout routine succeeds
+		 */
+
+		return $success;
 	}
 }
 ?>

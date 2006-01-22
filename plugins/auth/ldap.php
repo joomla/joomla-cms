@@ -47,7 +47,7 @@ class JAuthLdap extends JPlugin {
 	 * @return mixed Integer userid or boolean false
 	 * @since 1.1
 	 */
-	function auth(& $credentials) {
+	function onAuthenticate(& $credentials) {
 		global $mainframe;
 
 		// Initialize variables

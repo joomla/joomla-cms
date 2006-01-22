@@ -261,7 +261,7 @@ class JAuth extends JObject {
 		$dispatcher = &JEventDispatcher::getInstance();
 
 		// Time to authenticate the credentials.  Lets fire the auth event
-		$results = $dispatcher->dispatch( 'auth', $credentials);
+		$results = $dispatcher->dispatch( 'onAuthenticate', $credentials);
 		/*
 		 * If any of the authentication plugins did not authenticate the credentials
 		 * then the whole method fails.  Any errors raised should be done in the plugin

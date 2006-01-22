@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Jan-2006 Louis Landry
+ ^ Changed authentication and login/logout event names
+ + Added example user plugin
+
 19-Jan-2006 Johan Janssens
  # Fixed base href problem in installation
  ^ Removed all instances for JURL_SITE define, use JApplication->getBasePath instead
