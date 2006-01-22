@@ -511,9 +511,6 @@ class JDocument extends JTemplate
 		$contents = '';
 		if ( file_exists( $directory.DS.$filename ) ) {
 			
-			$var = isset($mainframe) ?  $mainframe->getTemplate() : '_system';
-			$this->addGlobalVar( 'template', $var);
-
 			ob_start();
 			?><jdoc:tmpl name="<?php echo $filename ?>" autoclear="yes"><?php
 				require_once( $directory.DS.$filename );

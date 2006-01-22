@@ -19,12 +19,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  *
  * @param object $doc The document instance to initialise
  */
-function initDocument(&$doc)
+function initDocument(&$doc, $file = 'index.html')
 {
 	global $mainframe;
 
 	$user    =& $mainframe->getUser();
-	$lang    = $mainframe->getLanguage();
+	$lang    =& $mainframe->getLanguage();
+	
+	$template =& $mainframe->getTemplate();
 	
 	$version = new JVersion();
 
@@ -42,13 +44,16 @@ function initDocument(&$doc)
 
 	if ($lang->isRTL()) {
 		$doc->addStyleSheet( 'template/css/template_rtl.css' );
-		$doc->addGlobalVar( 'dir', 'rtl' );
+		$doc->addGlobalVar( 'lang_dir', 'rtl' );
 	} else {
 		$doc->addStyleSheet( 'template/css/template.css' );
-		$doc->addGlobalVar( 'dir', 'ltr' );
+		$doc->addGlobalVar( 'lang_dir', 'ltr' );
 	}
 
-	$doc->addGlobalVar('lang', $lang->getTag());
+	$doc->addGlobalVar('lang_tag', $lang->getTag());
+	$doc->addGlobalVar( 'template', $template);
+	
+	$doc->addVar( $file, 'lang_isrtl', $lang->isRTL());
 
 	$doc->addFavicon( 'favicon.ico' );
 }

@@ -18,17 +18,20 @@ $lang =& $mainframe->getLanguage();
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $lang->getTag();?>" lang="<?php echo $lang->getTag();?>" dir="<?php echo $lang->isRTL() ? 'rtl' : 'ltr'; ?>">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}" >
 <head>
 <jdoc:placeholder type="head" />
 
 <link href="templates/{TEMPLATE}/css/template.css" rel="stylesheet" type="text/css" />
-<?php if ($lang->isRTL()){ ?>
-<link href="templates/{TEMPLATE}/css/template_rtl.css" rel="stylesheet" type="text/css" />
-<link href="templates/{TEMPLATE}/css/theme_rtl.css" rel="stylesheet" type="text/css" />
-<?php } else { ?>
-<link href="templates/{TEMPLATE}/css/theme.css" rel="stylesheet" type="text/css" />
-<?php } ?>
+<jdoc:tmpl name="isRTL" varscope="index.php" type="condition" conditionvar="LANG_ISRTL">
+	<jdoc:sub condition="1">
+		<link href="templates/{TEMPLATE}/css/template_rtl.css" rel="stylesheet" type="text/css" />
+		<link href="templates/{TEMPLATE}/css/theme_rtl.css" rel="stylesheet" type="text/css" />
+	</jdoc:sub>
+	<jdoc:sub condition="0">
+		<link href="templates/{TEMPLATE}/css/theme.css" rel="stylesheet" type="text/css" />
+	</jdoc:sub>
+</jdoc:tmpl>
 </head>
 <body>
 <div id="wrapper">

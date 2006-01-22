@@ -67,7 +67,7 @@ $cur_template = $mainframe->getTemplate();
 $document =& $mainframe->getDocument();
 $document->parse($cur_template, 'login.php');
 
-initDocument($document); //initialise the document
+initDocument($document, 'login.php'); //initialise the document
 
 $document->display( 'login.php', $mainframe->getCfg('gzip') );
 ?>

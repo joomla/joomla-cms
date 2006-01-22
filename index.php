@@ -169,7 +169,7 @@ header( 'Cache-Control: no-store, no-cache, must-revalidate' );
 header( 'Cache-Control: post-check=0, pre-check=0', false );		// HTTP/1.1
 header( 'Pragma: no-cache' );										// HTTP/1.0
 
-initDocument($document); //initialise the document
+initDocument($document, $file); //initialise the document
 $document->display( $file, $mainframe->getCfg('gzip'), JRequest::getVar('tp', 0 ));
 
 // displays queries performed for page

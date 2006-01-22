@@ -77,16 +77,23 @@ function mosShowHead()
  *  
  * @param object $doc The document instance to initialise
  */
-function initDocument(&$doc) 
+function initDocument(&$doc, $file = 'index.php') 
 {		
 	global $mainframe;
 	
 	$user    =& $mainframe->getUser();
 	$db      =& $mainframe->getDBO();
+	$lang    =& $mainframe->getLanguage();
 	$version = new JVersion();
 	
-			
+	$template = $mainframe->getTemplate();
+	$title    = $mainframe->getCfg('sitename');
+	
 	$doc->setMetaContentType();
+	
+	if($mainframe->getCfg('offline')) {
+		$doc->setTitle($title. '- Offline');
+	}
 	
 	$doc->setMetaData( 'description', $mainframe->getCfg('MetaDesc' ));
 	$doc->setMetaData( 'keywords', $mainframe->getCfg('MetaKeys' ));
@@ -94,6 +101,17 @@ function initDocument(&$doc)
 	$doc->setMetaData( 'robots', 'index, follow' );
 	
 	$doc->setBase( $mainframe->getBaseURL() );
+	
+	$doc->addGlobalVar( 'template', $template);
+	
+	$doc->addGlobalVar( 'lang_tag', $lang->getTag());
+	$doc->addVar( $file, 'lang_isrtl', $lang->isRTL());
+	
+	if ($lang->isRTL()) {
+		$doc->addGlobalVar( 'lang_dir', 'rtl' );
+	} else {
+		$doc->addGlobalVar( 'lang_dir', 'ltr' );
+	}
 
 	if ( $user->id ) {
 		$doc->addScript( 'includes/js/joomla.javascript.js');

@@ -37,7 +37,7 @@ $document =& $mainframe->getDocument();
 $document->parse( 'template', 'index.html', JPATH_BASE);
 
 //initialise the document
-initDocument($document);
+initDocument($document, 'index.html');
 
 $task = mosGetParam( $_REQUEST, 'task', '' );
 

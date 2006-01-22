@@ -81,7 +81,7 @@ function mosShowHead_Admin()
  *  
  * @param object $doc The document instance to initialise
  */
-function initDocument(&$doc) 
+function initDocument(&$doc, $file = 'index.php') 
 {		
 	global $mainframe;
 	
@@ -89,6 +89,8 @@ function initDocument(&$doc)
 	$db      =& $mainframe->getDBO();
 	$lang    = $mainframe->getLanguage();
 	$version = new JVersion();
+	
+	$template =& $mainframe->getTemplate();
 	
 	$doc->setMetaContentType();
 		
@@ -100,6 +102,18 @@ function initDocument(&$doc)
 	$doc->setMetaData( 'robots', 'noindex, nofollow' );
 	
 	$doc->setBase( $mainframe->getBaseURL( ));
+	
+	$doc->addGlobalVar( 'lang_tag', $lang->getTag());
+	
+	$doc->addVar( $file, 'lang_isrtl', $lang->isRTL());
+	
+	if ($lang->isRTL()) {
+		$doc->addGlobalVar( 'lang_dir', 'rtl' );
+	} else {
+		$doc->addGlobalVar( 'lang_dir', 'ltr' );
+	}
+	
+	$doc->addGlobalVar( 'template', $template);
 
 	if ( $user->id ) {
 		$doc->addScript( '../includes/js/joomla.javascript.js');
