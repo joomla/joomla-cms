@@ -6,8 +6,7 @@ to the GNU General Public License, and as distributed it includes or
 is derivative of works licensed under the GNU General Public License or
 other free or open source software licenses.
 See COPYRIGHT.php for copyright notices and details.
-</jdoc:comment>
-<?php echo '<?xml version="1.0" encoding="utf-8"?' .'>'; ?>
+</jdoc:comment><?php echo '<?xml version="1.0" encoding="utf-8"?' .'>'; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}" >
 <head>
