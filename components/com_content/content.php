@@ -1677,7 +1677,7 @@ class JContentController
 						 'yourname',
 						 'youremail',
 						 'subject',
-						 'email_copy');
+						 );
 
 		/*
 		 * Here is the meat and potatoes of the header injection test.  We
@@ -1709,7 +1709,7 @@ class JContentController
 		$subject_default 	= sprintf(JText :: _('Item sent by'), $yourname);
 		$subject 			= JRequest::getVar( 'subject', $subject_default, 'post' );
 
-		if ($uid < 1 || !$email || !$youremail || (is_email($email) == false) || (is_email($youremail) == false))
+		if ($uid < 1 || !$email || !$youremail || (JContentController::_is_email($email) == false) || (JContentController::_is_email($youremail) == false))
 		{
 			JContentView :: userInputError(JText :: _('EMAIL_ERR_NOINFO'));
 		}
@@ -1959,6 +1959,15 @@ class JContentController
 		{
 			echo JText :: _('Key not found');
 		}
+	}
+	
+	function _is_email($email)
+	{
+		$rBool=false;
+		if(preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $email)){
+			$rBool=true;
+		}
+		return $rBool;
 	}
 }
 ?>

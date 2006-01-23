@@ -337,7 +337,7 @@ class HTML_modules {
 				// Show custom.xml params for backward compat with existing custom modules
 				// that are used to show rss feeds
 				// extra backward compat check [$row->module == ''] can be depreciated in 1.2
-				if ( $row->module == '' || $row->module == 'custom' ) {
+				if ( !$row->module == '' || $row->module == 'custom' ) {
 					// Render Parameter list
 					?>
 					<table class="adminform">

@@ -55,6 +55,9 @@ if (is_null(JSession::get('guest')) || JSession::get('guest')) {
 	mosRedirect( 'index.php');
 }
 
+// set language 
+$mainframe->setLanguage($mainframe->getUserState('application.lang'));
+
 // trigger the onStart events
 $mainframe->triggerEvent( 'onAfterStart' );
 

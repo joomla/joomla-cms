@@ -295,9 +295,6 @@ class JApplication extends JObject
 		//get the user
 		$user = $this->getUser();
 
-		//get the user language (if present)
-		$lang = $this->getUserState( 'application.lang' );
-
 		if ($lang == '' && isset( $user->params )) {
 
 			// get user's prefered language
@@ -316,9 +313,6 @@ class JApplication extends JObject
 				$lang = $this->getCfg('lang');
 			}
 		}
-
-		//Save the language in the session
-		$this->setUserState( 'application.lang', $lang );
 		
 		//Set the language in the class
 		$this->_lang = $lang;

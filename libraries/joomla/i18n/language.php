@@ -100,7 +100,8 @@ class JLanguage extends JObject
 	*
 	* @access protected
 	*/
-	function __construct($lang = null) {
+	function __construct($lang = null) 
+	{
 		$this->_strings = array ();
 
 		if ($lang == null) {
@@ -130,7 +131,8 @@ class JLanguage extends JObject
 	 * @param string $lang  The language to use.
 	 * @return JLanguage  The Language object.
 	 */
-	function & getInstance($lang) {
+	function & getInstance($lang) 
+	{
 		static $instances;
 
 		if (!isset ($instances)) {
@@ -152,8 +154,8 @@ class JLanguage extends JObject
 	* @param boolean	$jsSafe		Make the result javascript safe
 	* @return string	The translation of the string
 	*/
-	function _($string, $jsSafe = false) {
-
+	function _($string, $jsSafe = false) 
+	{
 		//$key = str_replace( ' ', '_', strtoupper( trim( $string ) ) );echo '<br>'.$key;
 		$key = strtoupper($string);
 		$key = substr($key, 0, 1) == '_' ? substr($key, 1) : $key;
@@ -214,7 +216,8 @@ class JLanguage extends JObject
 	* @param string The name of the file
 	* @return mixed Array of parsed values if successful, boolean False if failed
 	*/
-	function _load( $filename ) {
+	function _load( $filename ) 
+	{
 		if (file_exists( $filename )) {
 			if ($content = file_get_contents( $filename )) {
 				if( $this->_identifyer === null ) {
@@ -235,7 +238,8 @@ class JLanguage extends JObject
 	 * @param mixed  $default	The default value
 	 * @return mixed The value of the property
 	 */
-	function get($property, $default = null) {
+	function get($property, $default = null) 
+	{
 		if (isset ($this->_metadata[$property])) {
 			return $this->_metadata[$property];
 		}
@@ -269,7 +273,8 @@ class JLanguage extends JObject
 	* @access public
 	* @return string The locale property
 	*/
-	function getLocale() {
+	function getLocale() 
+	{
 		$locales = explode(',', $this->_metadata['locale']);
 
 		for($i = 0; $i < count($locales); $i++ ) {
@@ -331,8 +336,8 @@ class JLanguage extends JObject
 	 *  				otherwise return NULL
 	 */
 
-	function getMetadata($lang) {
-
+	function getMetadata($lang) 
+	{
 		$path = JLanguage::getLanguagePath(JPATH_BASE, $lang);
 		$file = $lang.'.xml';
 
@@ -351,8 +356,8 @@ class JLanguage extends JObject
 	 * @param string	$basePath 	The basepath to use
 	 * @return array	key/value pair with the language file and real name
 	 */
-	function getKnownLanguages($basePath = JPATH_BASE) {
-
+	function getKnownLanguages($basePath = JPATH_BASE) 
+	{
 		$dir = JLanguage::getLanguagePath($basePath);
 		$knownLanguages = JLanguage::_parseLanguageFiles($dir);
 
@@ -368,8 +373,8 @@ class JLanguage extends JObject
 	 * @param boolean $addTrailingSlash Add a trailing slash to the pathname
 	 * @return string	language related path or null
 	 */
-	function getLanguagePath($basePath = JPATH_BASE, $language = null, $addTrailingSlash = true) {
-
+	function getLanguagePath($basePath = JPATH_BASE, $language = null, $addTrailingSlash = true) 
+	{
 		$dir = $basePath.DS.'language'.DS;
 		if (isset ($language)) {
 			$dir .= $language.DS;
@@ -383,7 +388,8 @@ class JLanguage extends JObject
 	 * @param string 	$dir 	directory of files
 	 * @return array	Array holding the found languages as filename => real name pairs
 	 */
-	function _parseLanguageFiles($dir = null) {
+	function _parseLanguageFiles($dir = null) 
+	{
 		$languages = array ();
 
 		$subdirs = JFolder::folders($dir);
@@ -401,7 +407,8 @@ class JLanguage extends JObject
 	 * @param string	$dir 	Directory of files
 	 * @return array	Array holding the found languages as filename => real name pairs
 	 */
-	function _parseINILanguageFiles($dir = null) {
+	function _parseINILanguageFiles($dir = null) 
+	{
 		if ($dir == null)
 			return null;
 
@@ -428,8 +435,8 @@ class JLanguage extends JObject
 	 * @param string	$dir	 Directory of files
 	 * @return array	Array holding the found languages as filename => metadata array
 	 */
-	function _parseXMLLanguageFiles($dir = null) {
-
+	function _parseXMLLanguageFiles($dir = null) 
+	{
 		if ($dir == null) {
 			return null;
 		}
@@ -453,8 +460,8 @@ class JLanguage extends JObject
 	 * @param string	$path	 Path to the xml files
 	 * @return array	Array holding the found metadat as a key => value pair
 	 */
-	function _parseXMLLanguageFile($path) {
-
+	function _parseXMLLanguageFile($path) 
+	{
 		$xmlDoc = & JFactory::getXMLParser();
 		$xmlDoc->resolveErrors(true);
 		if (!$xmlDoc->loadXML($path, false, true)) {

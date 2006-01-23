@@ -26,7 +26,7 @@ function initDocument(&$doc, $file = 'index.html')
 	$user    =& $mainframe->getUser();
 	$lang    =& $mainframe->getLanguage();
 	
-	$template =& $mainframe->getTemplate();
+	$template = $mainframe->getTemplate();
 	
 	$version = new JVersion();
 
