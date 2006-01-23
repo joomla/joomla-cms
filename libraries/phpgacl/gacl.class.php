@@ -552,23 +552,22 @@ class gacl {
 			$query .= $where;
 
 			// $this->debug_text($query);
-//			$rs = $this->db->Execute($query);
-//
-//			if (!is_object($rs)) {
-//				$this->debug_db('acl_get_groups');
-//				return FALSE;
-//			}
-//
-//			$retarr = array();
-//
-//			//Unbuffered query?
-//			while (!$rs->EOF) {
-//				$retarr[] = reset($rs->fields);
-//				$rs->MoveNext();
-//			}
+			$rs = $this->db->Execute($query);
+
+			if (!is_object($rs)) {
+				$this->debug_db('acl_get_groups');
+				return FALSE;
+			}
+
+			$retarr = array();
 			
-			$this->db->setQuery($query);
-			$retarr = $this->db->loadRowList();
+			/*
+			 * Changed by: Louis Landry for Joomla ACL integration
+			 * 21-Jan-2006
+			 */
+			for ($i = 0; $i < count($rs->data); $i++) {
+				$retarr[] = $rs->data[$i]['id'];
+			}
 			
 			//Cache data.
 			$this->put_cache($retarr, $cache_id);

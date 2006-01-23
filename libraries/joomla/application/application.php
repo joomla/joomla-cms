@@ -211,7 +211,7 @@ class JApplication extends JObject
 		if (!$username || !$passwd) {
 			// Error check if still no username or password values
 			echo "<script> alert(\"". JText::_( 'LOGIN_INCOMPLETE', true ) ."\"); </script>\n";
-			mosRedirect( mosGetParam( $_POST, 'return', '/' ) );
+			josRedirect( mosGetParam( $_POST, 'return', '/' ) );
 			exit();
 		} else {
 
@@ -219,8 +219,8 @@ class JApplication extends JObject
 			$credentials['username'] = $username;
 			$credentials['password'] = $passwd;
 
-			// Get the global JAuth object
-			$auth = &JAuth::getInstance();
+			// Get the global JAuthenticate object
+			$auth = & JAuthenticate::getInstance();
 
 			return $auth->login($credentials);
 		}
@@ -234,7 +234,7 @@ class JApplication extends JObject
 	*/
 	function logout() 
 	{
-		$auth = &JAuth::getInstance();
+		$auth = & JAuthenticate::getInstance();
 		return $auth->logout();
 	}
 

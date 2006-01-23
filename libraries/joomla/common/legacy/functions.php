@@ -89,13 +89,13 @@ function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
 }
 
 /**
-* Legacy function, use JAuthHelper::genRandomPassword() instead
+* Legacy function, use JAuthenticateHelper::genRandomPassword() instead
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
 */
 function mosMakePassword() {
-	return JAuthHelper::genRandomPassword();
+	return JAuthenticateHelper::genRandomPassword();
 }
 
 /**

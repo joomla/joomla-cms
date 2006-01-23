@@ -40,6 +40,8 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+22-Jan-2006 Louis Landry
+ ^ Renamed JAuth to JAuthenticate and moved to the application package
 
 22-Jan-2006 Rey Gigataras 
  + `New` option in Module Manager, now allows selection of available Module Types, much like the `New` Menu Item functionality
@@ -726,4 +728,3 @@ Legend:
 12-Oct-2005 Andy Miller
  + Added advanced SSL support plus new mosLink method
 
- 

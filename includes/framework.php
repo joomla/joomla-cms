@@ -54,7 +54,7 @@ jimport( 'joomla.common.compat.compat' );
 jimport( 'joomla.version' );
 jimport( 'joomla.functions' );
 jimport( 'joomla.error');
-jimport( 'joomla.auth');
+jimport( 'joomla.application.authenticate');
 jimport( 'joomla.profiler');
 jimport( 'joomla.application.environment.session' );
 jimport( 'joomla.application.environment.request' );

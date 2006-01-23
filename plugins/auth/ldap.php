@@ -16,14 +16,14 @@ jimport('joomla.application.extensions.plugin');
 jimport('joomla.connector.ldap');
 
 /**
- * LDAP JAuth Plugin
+ * LDAP JAuthenticate Plugin
  *
  * @author Louis Landry <louis@webimagery.net>
  * @package Joomla
  * @subpackage JFramework
  * @since 1.1
  */
-class JAuthLdap extends JPlugin {
+class JAuthenticateLdap extends JPlugin {
 
 	/**
 	 * Constructor
@@ -35,7 +35,7 @@ class JAuthLdap extends JPlugin {
 	 * @param object $subject The object to observe
 	 * @since 1.1
 	 */
-	function JAuthLdap(& $subject) {
+	function JAuthenticateLdap(& $subject) {
 		parent::__construct($subject);
 	}
 
@@ -51,7 +51,7 @@ class JAuthLdap extends JPlugin {
 		global $mainframe;
 
 		// Initialize variables
-		$return = new JAuthResponse('LDAP');
+		$return = new JAuthenticateResponse('LDAP');
 		$conditions = '';
 		$userID = 0;
 

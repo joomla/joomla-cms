@@ -38,7 +38,7 @@ class JPlugin extends JObserver {
 	}
 
 	/**
-	 * Method to trigger events based upon the JAuth object
+	 * Method to trigger events based upon the JAuthenticate object
 	 *
 	 * @access public
 	 * @param array Arguments
@@ -144,8 +144,8 @@ class JPluginHelper
 			return $plugins;
 		}
 
-		$db =& $mainframe->getDBO();
-		$my =& $mainframe->getUser();
+		$db = & $mainframe->getDBO();
+		$my = & $mainframe->getUser();
 
 		if (is_object( $my )) {
 			$gid = $my->gid;
@@ -156,7 +156,7 @@ class JPluginHelper
 		$query = "SELECT folder, element, published, params"
 			. "\n FROM #__plugins"
 			. "\n WHERE published >= 1"
-			. "\n AND access <= $gid"
+//			. "\n AND access <= $gid"
 			. "\n ORDER BY ordering"
 			;
 

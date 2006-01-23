@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: auth.php 1921 2006-01-22 02:34:47Z webImagery $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -22,7 +22,7 @@ jimport( 'joomla.common.base.object' );
  * @since 1.1
  */
 
-class JAuth extends JObject {
+class JAuthenticate extends JObject {
 
 	/**
 	 * Constructor
@@ -50,19 +50,19 @@ class JAuth extends JObject {
 
 		$isLoaded = 0;
 		foreach ($plugins as $plugin) {
-			$isLoaded |= JAuthHelper::loadPlugin($plugin, $dispatcher);
+			$isLoaded |= JAuthenticateHelper::loadPlugin($plugin, $dispatcher);
 		}
 
 		if (!$isLoaded) {
-			JError::raiseWarning('SOME_ERROR_CODE', 'JAuth::__constructor: Could not load authentication libraries.', $plugins);
+			JError::raiseWarning('SOME_ERROR_CODE', 'JAuthenticate::__constructor: Could not load authentication libraries.', $plugins);
 		}
 	}
 
 	/**
-	 * JAuth Login Method
+	 * JAuthenticate Login Method
 	 *
 	 * Username and Password are sent as credentials (along with other possibilities)
-	 * to each observer (JAuthPlugin) for user validation.  Successful validation will
+	 * to each observer (JAuthenticatePlugin) for user validation.  Successful validation will
 	 * update the current session with the user details
 	 * <pre>
 	 * Credentials Array
@@ -118,7 +118,6 @@ class JAuth extends JObject {
 				 */
 				if (!in_array(false, $results)) {
 
-
 					// Create a new user model and load the authenticated userid
 					$user =& JModel::getInstance('user', $db );
 					$user->load(intval($authenticated));
@@ -126,7 +125,7 @@ class JAuth extends JObject {
 					// If the user is blocked, redirect with an error
 					if ($user->block == 1) {
 						echo "<script>alert(\"".JText::_('LOGIN_BLOCKED', true)."\"); </script>\n";
-						mosRedirect(mosGetParam($_POST, 'return', '/'));
+						josRedirect(mosGetParam($_POST, 'return', '/'));
 						exit ();
 					}
 
@@ -142,11 +141,6 @@ class JAuth extends JObject {
 					}
 					$user->usertype = $grp->name;
 
-					// access control check
-					//if ( !$acl->acl_check( 'login', $this->_client, 'users', $user->usertype ) ) {
-					//	return false;
-					//}
-
 					// Register the needed session variables
 					JSession::set('guest', 0);
 					JSession::set('username', $user->username);
@@ -155,8 +149,8 @@ class JAuth extends JObject {
 					JSession::set('gid', intval($user->gid));
 
 					// Register session variables to prevent spoofing
-					JSession::set('JAuth_RemoteAddr', $_SERVER['REMOTE_ADDR']);
-					JSession::set('JAuth_UserAgent', $_SERVER['HTTP_USER_AGENT']);
+					JSession::set('JAuthenticate_RemoteAddr', $_SERVER['REMOTE_ADDR']);
+					JSession::set('JAuthenticate_UserAgent', $_SERVER['HTTP_USER_AGENT']);
 
 					// TODO: JRegistry will make this unnecessary
 					// Get the session object
@@ -175,7 +169,7 @@ class JAuth extends JObject {
 
 					// TODO: If we aren't going to use the database session we need to fix this
 					// Set remember me option
-					$remember = trim(mosGetParam($_POST, 'remember', ''));
+					$remember = JRequest::getVar( 'remember' );
 					if ($remember == 'yes') {
 						$session->remember($user->username, $user->password);
 					}
@@ -262,13 +256,13 @@ class JAuth extends JObject {
 
 		// Time to authenticate the credentials.  Lets fire the auth event
 		$results = $dispatcher->dispatch( 'onAuthenticate', $credentials);
+
 		/*
 		 * If any of the authentication plugins did not authenticate the credentials
 		 * then the whole method fails.  Any errors raised should be done in the plugin
 		 * as this provides the ability to provide much more information about why
 		 * authentication may have failed.
 		 */
-		$auth = 0;
 		foreach($results as $result) {
 			if($result != false) {
 				if(is_object($result)) {
@@ -295,11 +289,11 @@ class JAuth extends JObject {
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $auth = &JAuth::getInstance();</pre>
+	 * 		<pre>  $auth = &JAuthenticate::getInstance();</pre>
 	 *
 	 * @static
 	 * @access public
-	 * @return object The global JAuth object
+	 * @return object The global JAuthenticate object
 	 * @since 1.1
 	 */
 	function & getInstance()
@@ -311,7 +305,7 @@ class JAuth extends JObject {
 		}
 
 		if (empty ($instances[0])) {
-			$instances[0] = new JAuth();
+			$instances[0] = new JAuthenticate();
 		}
 
 		return $instances[0];
@@ -330,7 +324,7 @@ class JAuth extends JObject {
  * @static
  * @since 1.1
  */
-class JAuthHelper {
+class JAuthenticateHelper {
 
 	/**
 	 * Formats a password using the current encryption.
@@ -353,7 +347,7 @@ class JAuthHelper {
 		/*
 		 * Get the salt to use.
 		 */
-		$salt = JAuthHelper::getSalt($encryption, $salt, $plaintext);
+		$salt = JAuthenticateHelper::getSalt($encryption, $salt, $plaintext);
 
 		/*
 		 * Encrypt the password.
@@ -387,7 +381,7 @@ class JAuthHelper {
 			case 'aprmd5' :
 				$length = strlen($plaintext);
 				$context = $plaintext.'$apr1$'.$salt;
-				$binary = JAuthHelper::_bin(md5($plaintext.$salt.$plaintext));
+				$binary = JAuthenticateHelper::_bin(md5($plaintext.$salt.$plaintext));
 
 				for ($i = $length; $i > 0; $i -= 16) {
 					$context .= substr($binary, 0, ($i > 16 ? 16 : $i));
@@ -396,7 +390,7 @@ class JAuthHelper {
 					$context .= ($i & 1) ? chr(0) : $plaintext[0];
 				}
 
-				$binary = JAuthHelper::_bin(md5($context));
+				$binary = JAuthenticateHelper::_bin(md5($context));
 
 				for ($i = 0; $i < 1000; $i ++) {
 					$new = ($i & 1) ? $plaintext : substr($binary, 0, 16);
@@ -407,7 +401,7 @@ class JAuthHelper {
 						$new .= $plaintext;
 					}
 					$new .= ($i & 1) ? substr($binary, 0, 16) : $plaintext;
-					$binary = JAuthHelper::_bin(md5($new));
+					$binary = JAuthenticateHelper::_bin(md5($new));
 				}
 
 				$p = array ();
@@ -417,10 +411,10 @@ class JAuthHelper {
 					if ($j == 16) {
 						$j = 5;
 					}
-					$p[] = JAuthHelper::_toAPRMD5((ord($binary[$i]) << 16) | (ord($binary[$k]) << 8) | (ord($binary[$j])), 5);
+					$p[] = JAuthenticateHelper::_toAPRMD5((ord($binary[$i]) << 16) | (ord($binary[$k]) << 8) | (ord($binary[$j])), 5);
 				}
 
-				return '$apr1$'.$salt.'$'.implode('', $p).JAuthHelper::_toAPRMD5(ord($binary[11]), 3);
+				return '$apr1$'.$salt.'$'.implode('', $p).JAuthenticateHelper::_toAPRMD5(ord($binary[11]), 3);
 
 			case 'md5-hex' :
 			default :
@@ -555,7 +549,7 @@ class JAuthHelper {
 		 *
 		 * Useful to protect against spoofing
 		 */
-		if (!JAuthHelper::_checkRemoteAddr()) {
+		if (!JAuthenticateHelper::_checkRemoteAddr()) {
 			$ret = false;
 		}
 
@@ -565,7 +559,7 @@ class JAuthHelper {
 		 *
 		 * Useful to protect against spoofing
 		 */
-		if (!JAuthHelper::_checkUserAgent()) {
+		if (!JAuthenticateHelper::_checkUserAgent()) {
 			$ret = false;
 		}
 
@@ -581,7 +575,7 @@ class JAuthHelper {
 	 * @since 1.1
 	 */
 	function _checkRemoteAddr() {
-		return (JSession::get('JAuth_RemoteAddr') == $_SERVER['REMOTE_ADDR']);
+		return (JSession::get('JAuthenticate_RemoteAddr') == $_SERVER['REMOTE_ADDR']);
 	}
 
 	/**
@@ -593,7 +587,7 @@ class JAuthHelper {
 	 * @since 1.1
 	 */
 	function _checkUserAgent() {
-		return (JSession::get('JAuth_UserAgent') == $_SERVER['HTTP_USER_AGENT']);
+		return (JSession::get('JAuthenticate_UserAgent') == $_SERVER['HTTP_USER_AGENT']);
 	}
 
 	/**
@@ -641,7 +635,7 @@ class JAuthHelper {
 	 * object.
 	 *
 	 * This method should be invoked as:
-	 * 		<pre>  $isLoaded = JAuthHelper::loadPlugin($plugin, $subject);</pre>
+	 * 		<pre>  $isLoaded = JAuthenticateHelper::loadPlugin($plugin, $subject);</pre>
 	 *
 	 * @access public
 	 * @static
@@ -666,7 +660,7 @@ class JAuthHelper {
 			require_once($path);
 
 			// Build authentication plugin classname
-			$name = 'JAuth'.$plugin;
+			$name = 'JAuthenticate'.$plugin;
 			$instances[$plugin] = new $name ($subject);
 		}
 		return is_object($instances[$plugin]);
@@ -681,7 +675,7 @@ class JAuthHelper {
  * @static
  * @since 1.1
  */
-class JAuthResponse extends JObject { 
+class JAuthenticateResponse extends JObject { 
 	var $type 			= null;
 	var $name 			= '';
 	var $error_message 	= '';
@@ -693,7 +687,7 @@ class JAuthResponse extends JObject {
 	 * @param string $name The name of the response
 	 * @since 1.1
 	 */
-	function JAuthResponse($name) {
+	function JAuthenticateResponse($name) {
 		$this->name = $name;
 	}
 	

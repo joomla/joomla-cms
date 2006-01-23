@@ -16,14 +16,14 @@ jimport('joomla.application.extensions.plugin');
 
 
 /**
- * Example JAuth Plugin
+ * Example JAuthenticate Plugin
  *
  * @author Louis Landry <louis@webimagery.net>
  * @package Joomla
  * @subpackage JFramework
  * @since 1.1
  */
-class JAuthExample extends JPlugin {
+class JAuthenticateExample extends JPlugin {
 
 	/**
 	 * Constructor
@@ -35,7 +35,7 @@ class JAuthExample extends JPlugin {
 	 * @param object $subject The object to observe
 	 * @since 1.1
 	 */
-	function JAuthExample(& $subject) {
+	function JAuthenticateExample(& $subject) {
 		parent::__construct($subject);
 	}
 

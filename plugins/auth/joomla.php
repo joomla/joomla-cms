@@ -16,14 +16,14 @@ jimport('joomla.application.extensions.plugin');
 
 
 /**
- * Joomla Core JAuth plugin
+ * Joomla Core JAuthenticate plugin
  *
  * @author Louis Landry <louis@webimagery.net>
  * @package Joomla
  * @subpackage JFramework
  * @since 1.1
  */
-class JAuthJoomla extends JPlugin {
+class JAuthenticateJoomla extends JPlugin {
 
 	/**
 	 * Constructor
@@ -35,7 +35,7 @@ class JAuthJoomla extends JPlugin {
 	 * @param object $subject The object to observe
 	 * @since 1.1
 	 */
-	function JAuthJoomla(& $subject) {
+	function JAuthenticateJoomla(& $subject) {
 		parent::__construct($subject);
 	}
 
@@ -51,7 +51,7 @@ class JAuthJoomla extends JPlugin {
 		global $mainframe;
 				
 		// Initialize variables
-		$return = new JAuthResponse('Joomla');
+		$return = new JAuthenticateResponse('Joomla');
 		$conditions = '';
 
 		// If we are in the admin panel, make sure we have access to it
@@ -65,7 +65,7 @@ class JAuthJoomla extends JPlugin {
 		$query = "SELECT `id`"
 			. "\nFROM `#__users`"
 			. "\nWHERE username=" . $db->Quote( $credentials['username'] )
-			. "\n AND password=" . $db->Quote( JAuthHelper::getCryptedPassword( $credentials['password'] ) )
+			. "\n AND password=" . $db->Quote( JAuthenticateHelper::getCryptedPassword( $credentials['password'] ) )
 			. $conditions;
 
 		$db->setQuery( $query );
