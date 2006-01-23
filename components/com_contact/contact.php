@@ -284,6 +284,7 @@ class JContactController
 			 * If the drop_down parameter is true, then we need to build a
 			 * dropdown select list of contacts in the given category
 			 */
+			$list = array();
 			if ($menuParams->get('drop_down'))
 			{
 				$query = "SELECT a.id AS value, CONCAT_WS( ' - ', a.name, a.con_position ) AS text, a.catid" .
