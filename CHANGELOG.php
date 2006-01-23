@@ -42,6 +42,8 @@ Legend:
 
 22-Jan-2006 Louis Landry
  ^ Renamed JAuth to JAuthenticate and moved to the application package
+ + Added JUser class to encapsulate operations on a user object [WIP]
+ + Added JCacheHash for future compatability with phpGACL
 
 22-Jan-2006 Rey Gigataras 
  + `New` option in Module Manager, now allows selection of available Module Types, much like the `New` Menu Item functionality

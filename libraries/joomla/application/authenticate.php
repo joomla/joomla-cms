@@ -21,7 +21,6 @@ jimport( 'joomla.common.base.object' );
  * @static
  * @since 1.1
  */
-
 class JAuthenticate extends JObject {
 
 	/**
