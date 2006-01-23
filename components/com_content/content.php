@@ -331,7 +331,7 @@ class JContentController
 	 */
 	function showCategory(& $access, $now)
 	{
-		global $mainframe, $Itemid;
+		global $mainframe, $Itemid, $my;
 
 		/*
 		 * Initialize some variables
@@ -448,8 +448,8 @@ class JContentController
 		// get the list of other categories
 		$query = "SELECT c.*, COUNT( b.id ) AS numitems" .
 				"\n FROM #__categories AS c" .
-				"\n LEFT JOIN #__content AS b ON b.catid = c.id ".$xwhere2. ($noauth ? "\n AND b.access <= $gid" : '') .
-				"\n WHERE c.section = '$category->section'".$xwhere. ($noauth ? "\n AND c.access <= $gid" : '') .
+				"\n LEFT JOIN #__content AS b ON b.catid = c.id ".$xwhere2. ($noauth ? "\n AND b.access <= $my->gid" : '') .
+				"\n WHERE c.section = '$category->section'".$xwhere. ($noauth ? "\n AND c.access <= $my->gid" : '') .
 				"\n GROUP BY c.id".$empty .
 				"\n ORDER BY c.ordering";
 		$db->setQuery($query);
@@ -496,8 +496,8 @@ class JContentController
 				"\n FROM #__content AS a" .
 				"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
 				"\n LEFT JOIN #__groups AS g ON a.access = g.id" .
-				"\n WHERE a.catid = $category->id".$xwhere. ($noauth ? "\n AND a.access <= $gid" : '') .
-				"\n AND $category->access <= $gid".$and .
+				"\n WHERE a.catid = $category->id".$xwhere. ($noauth ? "\n AND a.access <= $my->gid" : '') .
+				"\n AND $category->access <= $my->gid".$and .
 				"\n ORDER BY $orderby";
 		$db->setQuery($query);
 		$counter = $db->loadObjectList();
