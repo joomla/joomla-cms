@@ -98,5 +98,6 @@ class JConfig {
 	var $multilingual_content='0';
 	var $editor = 'tinymce';
 	var $locale = '';
+	var $meta_pagetitle = '{site} - {title}';
 }
 ?>

@@ -44,16 +44,18 @@ class JSite extends JApplication {
 	*/
 	function setPageTitle( $title=null ) {
 		
-		if($this->getCfg('pagetitles'))
-		{
+		if($this->getCfg('pagetitles')) {
 			$title = trim( htmlspecialchars( $title ));
-			$site  = $this->getCfg('sitename');
+			$site  = $this->getCfg('sitename');			
 			
-			$title  = $title ? $site . ' - '. $title : $site;
+			$order = str_replace('{site}', $site, $this->getCfg('meta_pagetitle'));
+			$order = str_replace('{title}', $title, $order);
+
+			$pageTitle  = $title ? $order : $site;
 		}
 		
 		$document=& $this->getDocument();
-		$document->setTitle($title);
+		$document->setTitle($pageTitle);
 	}
 
 	/**
