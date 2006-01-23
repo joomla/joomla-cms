@@ -135,7 +135,7 @@ class categories_html {
 		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 			$row 	= &$rows[$i];
 
-			$row->sect_link = 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->section;
+			$row->sect_link = ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->section );
 
 			$link = 'index2.php?option=com_categories&section='. $section .'&task=editA&hidemainmenu=1&id='. $row->id;
 
@@ -156,7 +156,7 @@ class categories_html {
 					echo $row->name .' ( '. $row->title .' )';
 				} else {
 					?>
-					<a href="<?php echo $link; ?>">
+					<a href="<?php echo ampReplace( $link ); ?>">
 					<?php echo $row->name .' ( '. $row->title .' )'; ?>
 					</a>
 					<?php

@@ -77,7 +77,8 @@ class HTML_content {
 			<?php echo JText::_( 'Order' ); ?>
 			</th>
 			<th width="1%">
-			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
+				<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
 			</th>
 			<th >
 			<?php echo JText::_( 'Access' ); ?>
@@ -112,8 +113,8 @@ class HTML_content {
 
 			$link 	= 'index2.php?option=com_content&sectionid='. $redirect .'&task=edit&hidemainmenu=1&id='. $row->id;
 
-			$row->sect_link = 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->sectionid;
-			$row->cat_link 	= 'index2.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid;
+			$row->sect_link = ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->sectionid );
+			$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid );
 
 			$now = date( 'Y-m-d H:i:s' );
 			if ( $now <= $row->publish_up && $row->state == "1" ) {
@@ -150,7 +151,7 @@ class HTML_content {
 					$author = $row->created_by_alias;
 				} else {
 					$linkA 	= 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->created_by;
-					$author = '<a href="'. $linkA .'" title="'. JText::_( 'Edit User' ) .'">'. $row->author .'</a>';
+					$author = '<a href="'. ampReplace( $linkA ) .'" title="'. JText::_( 'Edit User' ) .'">'. $row->author .'</a>';
 				}
 			} else {
 				if ( $row->created_by_alias ) {
@@ -185,7 +186,7 @@ class HTML_content {
 				}
                 else {
 					?>
-					<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Content' ); ?>">
+					<a href="<?php echo ampReplace( $link ); ?>" title="<?php echo JText::_( 'Edit Content' ); ?>">
 					<?php echo htmlspecialchars($row->title, ENT_QUOTES); ?>
 					</a>
 					<?php

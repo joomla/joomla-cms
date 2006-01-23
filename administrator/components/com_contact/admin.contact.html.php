@@ -31,7 +31,7 @@ class HTML_contact {
 		<tr>
 			<td>
 			<?php echo JText::_( 'Filter' ); ?>:
-			<input type="text" name="search" value="<?php echo $search;?>" class="inputbox" onChange="document.adminForm.submit();" />
+			<input type="text" name="search" value="<?php echo $search;?>" class="inputbox" onchange="document.adminForm.submit();" />
 			</td>
 			<td align="right">
 			<?php 
@@ -71,7 +71,7 @@ class HTML_contact {
 		for ($i=0, $n=count($rows); $i < $n; $i++) {
 			$row = $rows[$i];
 
-			$link 	= 'index2.php?option=com_contact&task=editA&hidemainmenu=1&id='. $row->id;
+			$link 	= ampReplace( 'index2.php?option=com_contact&task=editA&hidemainmenu=1&id='. $row->id );
 
 			$img 	= $row->published ? 'tick.png' : 'publish_x.png';
 			$task 	= $row->published ? 'unpublish' : 'publish';
@@ -79,8 +79,8 @@ class HTML_contact {
 
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 
-			$row->cat_link 	= 'index2.php?option=com_categories&section=com_contact_details&task=editA&hidemainmenu=1&id='. $row->catid;
-			$row->user_link	= 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->user_id;
+			$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&section=com_contact_details&task=editA&hidemainmenu=1&id='. $row->catid );
+			$row->user_link	= ampReplace( 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->user_id );
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td>
@@ -134,7 +134,7 @@ class HTML_contact {
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="hidemainmenu" value="0">
+		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
 		<?php
 	}

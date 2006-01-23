@@ -148,7 +148,7 @@ class HTML_typedcontent {
 					$author = $row->created_by_alias;
 				} else {
 					$linkA 	= 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->created_by;
-					$author = '<a href="'. $linkA .'" title="'. JText::_( 'Edit User' ) .'">'. $row->creator .'</a>';
+					$author = '<a href="'. ampReplace( $linkA ) .'" title="'. JText::_( 'Edit User' ) .'">'. $row->creator .'</a>';
 				}
 			} else {
 				if ( $row->created_by_alias ) {
@@ -180,7 +180,7 @@ class HTML_typedcontent {
 				}
                 else {
 					?>
-					<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Static Content' ); ?>">
+					<a href="<?php echo ampReplace( $link ); ?>" title="<?php echo JText::_( 'Edit Static Content' ); ?>">
 					<?php echo htmlspecialchars($row->title, ENT_QUOTES); ?>
 					</a>
 					<?php

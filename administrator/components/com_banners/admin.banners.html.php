@@ -46,7 +46,7 @@ class HTML_banners {
             	<?php echo JText::_( 'Num' ); ?>
 			</th>
 			<th width="20">
-				<input type="checkbox" name="toggle" value="" ="checkAll(<?php echo count( $rows ); ?>);" />
+				<input type="checkbox" name="toggle" value=""  onClick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th nowrap class="title">
 				<?php echo JText::_( 'Banner Name' ); ?>
@@ -73,7 +73,7 @@ class HTML_banners {
 			$row = &$rows[$i];
 
 			$row->id 	= $row->bid;
-			$link 		= 'index2.php?option=com_banners&task=editA&hidemainmenu=1&id='. $row->id;
+			$link 		= ampReplace( 'index2.php?option=com_banners&task=editA&hidemainmenu=1&id='. $row->id );
 
 			$impleft 	= $row->imptotal - $row->impmade;
 			if( $impleft < 0 ) {
@@ -113,7 +113,7 @@ class HTML_banners {
 					?>
 				</td>
 				<td align="center">
-					<a href="javascript: void(0);" ="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
+					<a href="javascript: void(0);" onMouseOver="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
 					<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" />
 					</a>
 				</td>
@@ -322,7 +322,7 @@ class HTML_bannerClient {
            		<?php echo JText::_( 'Num' ); ?>
 			</th>
 			<th width="20">
-				<input type="checkbox" name="toggle" value="" ="checkAll(<?php echo count( $rows ); ?>);" />
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th nowrap class="title">
 				<?php echo JText::_( 'Client Name' ); ?>
@@ -340,7 +340,7 @@ class HTML_bannerClient {
 			$row = &$rows[$i];
 
 			$row->id 	= $row->cid;
-			$link 		= 'index2.php?option=com_banners&task=editclientA&hidemainmenu=1&id='. $row->id;
+			$link 		= ampReplace( 'index2.php?option=com_banners&task=editclientA&hidemainmenu=1&id='. $row->id );
 
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 			?>

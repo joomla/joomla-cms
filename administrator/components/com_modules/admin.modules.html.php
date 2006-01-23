@@ -100,7 +100,7 @@ class HTML_modules {
 		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 			$row 	= &$rows[$i];
 
-			$link = 'index2.php?option=com_modules&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id;
+			$link = ampReplace( 'index2.php?option=com_modules&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id );
 
 			$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );

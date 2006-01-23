@@ -31,7 +31,7 @@ class HTML_weblinks {
 		<tr>
 			<td>
 			<?php echo JText::_( 'Filter' ); ?>:
-			<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
+			<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onchange="document.adminForm.submit();" />
 			</td>
 			<td align="right">
 			<?php 
@@ -71,7 +71,7 @@ class HTML_weblinks {
 		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 			$row = &$rows[$i];
 
-			$link 	= 'index2.php?option=com_weblinks&task=editA&hidemainmenu=1&id='. $row->id;
+			$link 	= ampReplace( 'index2.php?option=com_weblinks&task=editA&hidemainmenu=1&id='. $row->id );
 
 			$task 	= $row->published ? 'unpublish' : 'publish';
 			$img 	= $row->published ? 'publish_g.png' : 'publish_x.png';
@@ -79,7 +79,7 @@ class HTML_weblinks {
 
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 
-			$row->cat_link 	= 'index2.php?option=com_categories&section=com_weblinks&task=editA&hidemainmenu=1&id='. $row->catid;
+			$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&section=com_weblinks&task=editA&hidemainmenu=1&id='. $row->catid );
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td>
@@ -130,7 +130,7 @@ class HTML_weblinks {
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="hidemainmenu" value="0">
+		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
 		<?php
 	}

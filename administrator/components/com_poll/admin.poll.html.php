@@ -67,7 +67,7 @@ class HTML_poll
 		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 			$row = &$rows[$i];
 
-			$link 	= 'index2.php?option=com_poll&task=editA&hidemainmenu=1&id='. $row->id;
+			$link 	= ampReplace( 'index2.php?option=com_poll&task=editA&hidemainmenu=1&id='. $row->id );
 
 			$task 	= $row->published ? 'unpublish' : 'publish';
 			$img 	= $row->published ? 'publish_g.png' : 'publish_x.png';
@@ -109,7 +109,7 @@ class HTML_poll
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="hidemainmenu" value="0">
+		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
 		<?php
 	}

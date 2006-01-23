@@ -72,7 +72,7 @@ class HTML_newsfeeds {
 		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 			$row = &$rows[$i];
 
-			$link 	= 'index2.php?option=com_newsfeeds&task=editA&hidemainmenu=1&id='. $row->id;
+			$link 	= ampReplace( 'index2.php?option=com_newsfeeds&task=editA&hidemainmenu=1&id='. $row->id );
 
 			$img 	= $row->published ? 'tick.png' : 'publish_x.png';
 			$task 	= $row->published ? 'unpublish' : 'publish';
@@ -80,7 +80,7 @@ class HTML_newsfeeds {
 
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 
-			$row->cat_link 	= 'index2.php?option=com_categories&section=com_newsfeeds&task=editA&hidemainmenu=1&id='. $row->catid;
+			$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&section=com_newsfeeds&task=editA&hidemainmenu=1&id='. $row->catid );
 			?>
 			<tr class="<?php echo 'row'. $k; ?>">
 				<td align="center">
@@ -138,7 +138,7 @@ class HTML_newsfeeds {
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="hidemainmenu" value="0">
+		<input type="hidden" name="hidemainmenu" value="0" />
 		</form>
 		<?php
 	}

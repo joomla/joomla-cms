@@ -29,7 +29,7 @@ class JMenuBar
 	* @since 1.1
 	*/
 	function title( $title, $icon='generic.png' ) {
-		$image = mosAdminMenus::ImageCheckAdmin( $icon, '/images/', NULL, NULL, $title, $title, 1 );
+		$image = mosAdminMenus::ImageCheckAdmin( $icon, '/images/', NULL, NULL, $title, str_replace( ' ', '_', $title ), 1 );
 		?>
 		<td class="title">
 			<?php echo $image; ?>

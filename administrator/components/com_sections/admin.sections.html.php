@@ -108,7 +108,7 @@ class sections_html {
 					echo $row->name. " ( ". $row->title ." )";
 				} else {
 					?>
-					<a href="<?php echo $link; ?>">
+					<a href="<?php echo ampReplace( $link ); ?>">
 					<?php echo $row->name. " ( ". $row->title ." )"; ?>
 					</a>
 					<?php
