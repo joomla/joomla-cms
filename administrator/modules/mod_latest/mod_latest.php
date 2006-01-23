@@ -56,7 +56,7 @@ foreach ($rows as $row) {
 	?>
 	<tr>
 		<td>
-		<a href="<?php echo $link; ?>"">
+		<a href="<?php echo $link; ?>">
 		<?php echo htmlspecialchars($row->title, ENT_QUOTES);?>
 		</a>
 		</td>

@@ -34,12 +34,12 @@ and new installs.
 <span class="todotitle">REPORTING</span>
 
 - Bug and problems
-Forum   : <a target="_new" href="http://forum.joomla.org/index.php/board,179.0.html">Quality Assurance and Testing</a>
-Tracker : <a target="_new" href="http://developer.joomla.org/sf/tracker/do/listArtifacts/projects.joomla/tracker.bug_tracker_1_1_x">Bug Tracker</a>
+Forum   : <a target="_blank" href="http://forum.joomla.org/index.php/board,179.0.html">Quality Assurance and Testing</a>
+Tracker : <a target="_blank" href="http://developer.joomla.org/sf/tracker/do/listArtifacts/projects.joomla/tracker.bug_tracker_1_1_x">Bug Tracker</a>
 
 - Feature requests
-Forum   : <a target="_new" href="http://forum.joomla.org/index.php/board,38.0.html">Wishlist and Feature requests</a>
-Tracker : <a target="_new" href="http://developer.joomla.org/sf/tracker/do/listArtifacts/projects.joomla/tracker.feature_requests">Feature Requests</a>
+Forum   : <a target="_blank" href="http://forum.joomla.org/index.php/board,38.0.html">Wishlist and Feature requests</a>
+Tracker : <a target="_blank" href="http://developer.joomla.org/sf/tracker/do/listArtifacts/projects.joomla/tracker.feature_requests">Feature Requests</a>
 
 <hr/>
 <span class="todotitle">CHANGES</span>

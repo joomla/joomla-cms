@@ -40,7 +40,7 @@ if (!defined( '_JOS_QUICKICON_MODULE' )) {
 		$link = 'index2.php?option=com_content&amp;sectionid=0&amp;task=new';
 		quickiconButton( $link, 'module.png', JText::_( 'Add New Content' ) );
 
-		$link = 'index2.php?option=com_content&sectionid=0';
+		$link = 'index2.php?option=com_content&amp;sectionid=0';
 		quickiconButton( $link, 'addedit.png', JText::_( 'Content Items Manager' ) );
 
 		$link = 'index2.php?option=com_typedcontent';
@@ -79,7 +79,7 @@ if (!defined( '_JOS_QUICKICON_MODULE' )) {
 		}
 
 		if ( $my->gid > 24 ) {
-			$link = 'index2.php?option=com_config&hidemainmenu=1';
+			$link = 'index2.php?option=com_config&amp;hidemainmenu=1';
 			quickiconButton( $link, 'config.png', JText::_( 'Global Configuration' ) );
 		}
 		?>

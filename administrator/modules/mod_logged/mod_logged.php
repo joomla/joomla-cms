@@ -64,7 +64,7 @@ $rows = $database->loadObjectList();
 $i = 0;
 foreach ( $rows as $row ) {
 	if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
-		$link 	= 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->userid;
+		$link 	= 'index2.php?option=com_users&amp;task=editA&amp;hidemainmenu=1&amp;id='. $row->userid;
 		$name 	= '<a href="'. $link .'" title="'. JText::_( 'Edit User' ) .'">'. $row->username .'</a>';
 	} else {
 		$name 	= $row->username;
@@ -84,7 +84,7 @@ foreach ( $rows as $row ) {
 		if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
 			?>
 			<td>
-			<a href="index2.php?option=com_users&task=flogout&id=<?php echo $row->userid; ?>">
+			<a href="index2.php?option=com_users&amp;task=flogout&amp;id=<?php echo $row->userid; ?>">
 			<img src="images/publish_x.png" width="12" height="12" border="0" alt="<?php echo JText::_( 'Logout' ); ?>" Title="<?php echo JText::_( 'Force Logout User' ); ?>" />
 			</a>
 			</td>
