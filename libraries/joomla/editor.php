@@ -140,6 +140,7 @@ class JEditor extends JObservable {
 		$args[] = $hiddenField;
 		$args['event'] = 'onGetEditorContents';
 
+		$return = '';
 		$results[] = $this->_editor->update($args);
 		foreach ($results as $result) {
 			if (trim($result)) {

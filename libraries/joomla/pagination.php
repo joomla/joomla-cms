@@ -313,8 +313,7 @@ class JPagination extends JObject {
 
 		if (($i > 0 || ($i + $this->limitstart > 0)) && $condition) {
 			return '<a href="#reorder" onClick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">
-										<img src="images/uparrow.png" width="12" height="12" border="0" alt="'.$alt.'">
-									</a>';
+						<img src="images/uparrow.png" width="12" height="12" border="0" alt="'.$alt.'" /></a>';
 		} else {
 			return '&nbsp;';
 		}
@@ -338,8 +337,7 @@ class JPagination extends JObject {
 
 		if (($i < $n -1 || $i + $this->limitstart < $this->total - 1) && $condition) {
 			return '<a href="#reorder" onClick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">
-										<img src="images/downarrow.png" width="12" height="12" border="0" alt="'.$alt.'">
-									</a>';
+						<img src="images/downarrow.png" width="12" height="12" border="0" alt="'.$alt.'" /></a>';
 		} else {
 			return '&nbsp;';
 		}

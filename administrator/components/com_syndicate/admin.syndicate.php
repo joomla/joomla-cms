@@ -24,9 +24,8 @@ require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 
 switch ($task) {
-
 	case 'save':
-		saveSyndicate( $option );
+		saveSyndicate();
 		break;
 
   case 'cancel':
@@ -66,7 +65,7 @@ function showSyndicate( $option ) {
 * Saves the record from an edit form submit
 * @param string The current GET/POST option
 */
-function saveSyndicate( $option ) {
+function saveSyndicate() {
 	global $database;
 
 	$params = mosGetParam( $_POST, 'params', '' );
@@ -97,7 +96,7 @@ function saveSyndicate( $option ) {
 	}
 
 	$msg = JText::_( 'Settings successfully Saved' );
-	mosRedirect( 'index2.php?option='. $option, $msg );
+	mosRedirect( 'index2.php?option=com_syndicate&hidemainmenu=1', $msg );
 }
 
 /**

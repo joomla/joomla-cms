@@ -118,7 +118,7 @@ class HTML_menusections {
 				} else {
 					$link = 'index2.php?option=com_menus&menutype='. $row->menutype .'&task=edit&id='. $row->id . '&hidemainmenu=1';
 					?>
-					<a href="<?php echo $link; ?>">
+					<a href="<?php echo ampReplace( $link ); ?>">
 					<?php echo $row->treename; ?>
 					</a>
 					<?php
