@@ -40,6 +40,9 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+23-Jan-2006 Rey Gigataras 
+ ^ Modified tooltips in `Global Config` to newer lower profile styling
+
 22-Jan-2006 Louis Landry
  ^ Renamed JAuth to JAuthenticate and moved to the application package
  + Added JUser class to encapsulate operations on a user object [WIP]
