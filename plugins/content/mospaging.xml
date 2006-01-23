@@ -17,5 +17,9 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
+		<param name="multipage_toc" type="radio" default="1" label="Table of Contents" description="PARAMSITETOC">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
 	</params>
 </install>

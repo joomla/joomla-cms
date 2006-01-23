@@ -78,7 +78,7 @@ class JConfigView {
 				<span class="editlinktip">
 				<?php
 				$tip = JText::_( 'TIPIFYOURSITEISOFFLINE' );
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Offline Message' ), '' );
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Offline Message' ), '', 0 );
 				?>
 				:				
 				</span>
@@ -92,7 +92,7 @@ class JConfigView {
 				<span class="editlinktip">
 				<?php
 				$tip = JText::_( 'TIPCOULDNOTCONNECTDB' );
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'System Error Message' ), '' );
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'System Error Message' ), '', 0 );
 				?>
 				:				
 				</span>
@@ -122,7 +122,7 @@ class JConfigView {
 				<span class="editlinktip">
 				<?php
 				$tip = JText::_( 'TIPSETSDEFAULTLENGTHLISTS' );
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'List Length' ), '' );
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'List Length' ), '', 0 );
 				?>
 				:				
 				</span>
@@ -171,7 +171,7 @@ class JConfigView {
 				<span class="editlinktip">
 				<?php
 				$tip = JText::_( 'TIPSECURESITE' );
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Secure Site' ), '' );
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Secure Site' ), '', 0 );
 				?>
 				:				
 				</span>
@@ -195,7 +195,7 @@ class JConfigView {
 				<span class="editlinktip">
 				<?php
 				$tip = JText::_( 'Compress buffered output if supported' );
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'GZIP Page Compression' ), '' );
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'GZIP Page Compression' ), '', 0 );
 				?>
 				:				
 				</span>
@@ -210,7 +210,7 @@ class JConfigView {
 				<span class="editlinktip">
 				<?php
 				$tip = JText::_( 'TIPAUTOLOGOUTTIMEOF' );
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Login Session Lifetime' ), '' );
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Login Session Lifetime' ), '', 0 );
 				?>
 				:				
 				</span>
@@ -252,7 +252,7 @@ class JConfigView {
 				<span class="editlinktip">
 				<?php
 				$tip = JText::_( 'If yes, allows users to self-register' );
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Allow User Registration' ), '' );
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Allow User Registration' ), '', 0 );
 				?>
 				:				
 				</span>
@@ -266,7 +266,7 @@ class JConfigView {
 				<span class="editlinktip">
 				<?php
 				$tip = JText::_( 'TIPIFYESUSERMAILEDLINK' );
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Use New Account Activation' ), '' );
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Use New Account Activation' ), '', 0 );
 				?>
 				:				
 				</span>
@@ -280,7 +280,7 @@ class JConfigView {
 				<span class="editlinktip">
 				<?php
 				$tip = JText::_( 'TIPIFYESUSERSCANNOTSHAREEMAIL' );
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Require Unique Email' ), '' );
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Require Unique Email' ), '', 0 );
 				?>
 				:				
 				</span>
@@ -294,7 +294,7 @@ class JConfigView {
 				<span class="editlinktip">
 				<?php
 				$tip = JText::_( 'TIPLINKS' );
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Show UnAuthorized Links' ), '' );
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Show UnAuthorized Links' ), '', 0 );
 				?>
 				:				
 				</span>
@@ -326,7 +326,7 @@ class JConfigView {
 						<span class="editlinktip">
 						<?php
 						$tip = JText::_( 'TIPIFYESTITLECONTENTITEMS' );
-						echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Linked Titles' ), '' );
+						echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Linked Titles' ), '', 0 );
 						?>
 						:				
 						</span>
@@ -340,7 +340,7 @@ class JConfigView {
 						<span class="editlinktip">
 						<?php
 						$tip = JText::_( 'TIPIFSETTOSHOWREADMORELINK' );
-						echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Read More Link' ), '' );
+						echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Read More Link' ), '', 0 );
 						?>
 						:				
 						</span>
@@ -354,7 +354,7 @@ class JConfigView {
 						<span class="editlinktip">
 						<?php
 						$tip = JText::_( 'TIPIFSETTOSHOWVOTING' );
-						echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Item Rating/Voting' ), '' );
+						echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Item Rating/Voting' ), '', 0 );
 						?>
 						:				
 						</span>
@@ -368,7 +368,7 @@ class JConfigView {
 						<span class="editlinktip">
 						<?php
 						$tip = JText::_( 'TIPIFSETTOSHOWAUTHOR' );
-						echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Author Names' ), '' );
+						echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Author Names' ), '', 0 );
 						?>
 						:				
 						</span>
@@ -382,7 +382,7 @@ class JConfigView {
 						<span class="editlinktip">
 						<?php
 						$tip = JText::_( 'TIPIFSETTOSHOWDATETIMECREATED' );
-						echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Created Date and Time' ), '' );
+						echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Created Date and Time' ), '', 0 );
 						?>
 						:				
 						</span>
@@ -396,7 +396,7 @@ class JConfigView {
 						<span class="editlinktip">
 						<?php
 						$tip = JText::_( 'TIPIFSETTOSHOWDATETIMEMODIFIED' );
-						echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Modified Date and Time' ), '' );
+						echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Modified Date and Time' ), '', 0 );
 						?>
 						:				
 						</span>
@@ -410,7 +410,7 @@ class JConfigView {
 						<span class="editlinktip">
 						<?php
 						$tip = JText::_( 'TIPIFSETTOSHOWHITS' );
-						echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Hits' ), '' );
+						echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Hits' ), '', 0 );
 						?>
 						:				
 						</span>
@@ -464,7 +464,7 @@ class JConfigView {
 						<span class="editlinktip">
 						<?php
 						$tip = JText::_( 'TIPPRINTPDFEMAIL' );
-						echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Icons' ), '' );
+						echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Icons' ), '', 0 );
 						?>
 						:				
 						</span>
@@ -472,14 +472,6 @@ class JConfigView {
 						<td>
 						<?php echo $lists['icons']; ?>
 		                </td>
-					</tr>
-					<tr>
-						<td>
-						<?php echo JText::_( 'Table of Contents on multi-page items' ); ?>:
-						</td>
-						<td>
-						<?php echo $lists['multipage_toc']; ?>
-						</td>
 					</tr>
 					<tr>
 						<td>
@@ -495,6 +487,20 @@ class JConfigView {
 						</td>
 						<td>
 						<?php echo $lists['item_navigation']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+						<span class="editlinktip">
+						<?php
+						$tip = JText::_( 'TIPTOC' );
+						echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Table of Contents on multi-page items' ), 'index2.php?option=com_plugins&client=site&task=editA&hidemainmenu=1&id=2' );
+						?>
+						:				
+						</span>
+						</td>
+						<td>
+						&nbsp;
 						</td>
 					</tr>
 					</table>
@@ -514,7 +520,7 @@ class JConfigView {
 				<span class="editlinktip">
 				<?php
 				$tip = JText::_( 'Current date/time configured to display' ) .': '. mosCurrentDate( JText::_( '_DATE_FORMAT_LC2' ) );
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Time Offset' ), '' );
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Time Offset' ), '', 0 );
 				?>
 				:				
 				</span>
@@ -561,7 +567,7 @@ class JConfigView {
 				<span class="editlinktip">
 				<?php
 				$tip = JText::_( 'TIPSHOWTITLEMETATAGITEMS' );
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Show Title Meta Tag' ), '' );
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Show Title Meta Tag' ), '', 0 );
 				?>
 				:				
 				</span>
@@ -575,7 +581,7 @@ class JConfigView {
 				<span class="editlinktip">
 				<?php
 				$tip = JText::_( 'TIPSHOWAUTHORMETATAGITEMS' );
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Show Author Meta Tag' ), '' );
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Show Author Meta Tag' ), '', 0 );
 				?>
 				:				
 				</span>
@@ -617,7 +623,7 @@ class JConfigView {
 				<span class="editlinktip">
 				<?php
 				$tip = JText::_( 'TIPDYNAMICALLYCHANGESPAGETITLE' );
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Dynamic Page Titles' ), '' );
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Dynamic Page Titles' ), '', 0 );
 				?>
 				:				
 				</span>
@@ -815,7 +821,7 @@ class JConfigView {
 				<span class="editlinktip">
 				<?php
 				$tip = JText::_( 'TIPENABLEDISABLESTATS' );
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Statistics' ), '' );
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Statistics' ), '', 0 );
 				?>
 				:				
 				</span>
@@ -876,7 +882,7 @@ class JConfigView {
 				if (is_writeable($row->cachepath)) {
 					$tip = JText::_( 'TIPDIRWRITEABLE' );
 				}
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Cache Folder' ), '' );
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Cache Folder' ), '', 0 );
 				?>
 				:				
 				</span>
@@ -914,7 +920,7 @@ class JConfigView {
 				<span class="editlinktip">
 				<?php
 				$tip = JText::_( 'TIPDEBUGGINGINFO' );
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Enable Debugging' ), '' );
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Enable Debugging' ), '', 0 );
 				?>
 				:				
 				</span>
@@ -936,7 +942,7 @@ class JConfigView {
 				<span class="editlinktip">
 				<?php
 				$tip = JText::_( 'TIPLOGGINGINFO' );
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Enable Logging' ), '' );
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Enable Logging' ), '', 0 );
 				?>
 				:				
 				</span>

@@ -41,6 +41,7 @@ Legend:
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
 23-Jan-2006 Rey Gigataras 
+ ^ `Table of Contents on multi-page items` Global Param moved to "MosPaging" Param
  ^ Modified tooltips in `Global Config` to newer lower profile styling
 
 22-Jan-2006 Louis Landry

@@ -68,7 +68,6 @@ class JConfig {
 	var $sef = '0';
 	var $vote = '0';
 	var $gzip = '0';
-	var $multipage_toc = '0';
 	var $allowUserRegistration = '1';
 	var $error_reporting = -1;
 	var $error_message = 'This site is temporarily unavailable.<br />Please contact your System Administrator.';
