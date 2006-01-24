@@ -561,5 +561,23 @@ class JParameters extends JObject
 
 		return mosHTML::selectList($languages, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
 	}
+	
+	/**
+	 * Returns the list of existing admin languages
+	 * @param string The name of the form element
+	 * @param string The value of the element
+	 * @param object The xml element for the parameter
+	 * @param string The control name
+	 * @return string The html for the element
+	 */
+	function _form_helpsite_list($name, $value, & $node, $control_name) {
+
+		jimport('joomla.i18n.help');
+		
+		$helpsites 				= JHelp :: createSiteList('http://help.joomla.org/helpsites-11.xml', $value);
+		array_unshift($helpsites, mosHTML :: makeOption('', JText :: _('local')));
+
+		return mosHTML :: selectList($helpsites, ''.$control_name.'['.$name.']', ' class="inputbox" id="helpsites"', 'value', 'text', $value, 'param'.$name);
+	}
 }
 ?>

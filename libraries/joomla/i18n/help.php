@@ -86,15 +86,18 @@ class JHelp {
 					$option = array ();
 					$sites = $elmSites->childNodes;
 					foreach ($sites as $site) {
+						
+						$text = $site->getText();
+						$url  = $site->getAttribute('url');
 
-						$option['text'] = $site->getText();
-						$option['value'] = $site->getAttribute('url');
+						$option['text'] = $text;
+						$option['value'] = $url;
 						$list[] = $option;
 					}
 				}
 			}
 		}
-
+		
 		return $list;
 	}
 }

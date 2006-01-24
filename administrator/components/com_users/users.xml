@@ -13,5 +13,6 @@
 	    <param name="admin_language" type="admin_language_list" default="" label="Back-end Language" description="paramAdminLanguage" />
 		<param name="language" type="language_list" default="" label="Front-end Language" description="paramLanguage" />
 		<param name="editor" type="editor_list" default="" label="User Editor" description="WYSYWYG Editor for this User" />
+		<param name="helpsite" type="helpsite_list" default="" label="Help Site" description="Help site for this User" />
 	</params>
 </install>
