@@ -1649,7 +1649,6 @@ class mosAdminMenus {
 
 		$cur_template = $mainframe->getTemplate();
 		
-
 		$name = ( $name ? 'name="'. $name .'"' : '' );
 
 		if ( $param ) {
@@ -1666,11 +1665,15 @@ class mosAdminMenus {
 				// outputs only path to image
 				$image = $directory . $file;
 			}
-
-			// outputs actual html <img> tag
-			if ( $type ) {
-				$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" '. $name .' border="0" />';
-			}
+		}
+		
+		if (substr($image, 1 ) != "/") {
+			$image = substr_replace($image, '', 0, 1);
+		}
+		
+		// outputs actual html <img> tag
+		if ( $type ) {
+			$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" '. $name .' border="0" />';
 		}
 
 		return $image;
