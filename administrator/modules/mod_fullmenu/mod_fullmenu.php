@@ -216,7 +216,7 @@ class mosFullAdminMenu
 					if ($topLevelCount > $topLevelLimit) {
 						continue;
 					}
-					$name = JText::_( $row->name, true );
+					$name = JText::_( $row->name );
 					$name = addslashes( $name );
 					$alt = addslashes( $row->admin_menu_alt );
 					$link = $row->admin_menu_link ? "'index2.php?$row->admin_menu_link'" : "null";
@@ -224,7 +224,7 @@ class mosFullAdminMenu
 					if (array_key_exists( $row->id, $subs )) {
 						foreach ($subs[$row->id] as $sub) {
 							echo ",\n";
-        					$name = JText::_( $sub->name, true );
+        					$name = JText::_( $sub->name );
 							$name = addslashes( $name );
 							$alt = addslashes( $sub->admin_menu_alt );
 							$link = $sub->admin_menu_link ? "'index2.php?$sub->admin_menu_link'" : "null";
