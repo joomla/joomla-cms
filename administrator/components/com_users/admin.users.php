@@ -263,140 +263,91 @@ function editUser( $uid='0', $option='users' ) {
 
 function saveUser( $option, $task ) 
 {
-	global $database, $my, $mainframe;
-	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_sitename;
+	global $mainframe;
 
-	$row =& JModel::getInstance('user', $database );
-	if (!$row->bind( $_POST )) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		exit();
+	/*
+	 * Initialize some variables
+	 */
+	$db			= & $mainframe->getDBO();
+	$my			= & $mainframe->getUser();
+	$MailFrom	= $mainframe->getCfg('mailfrom');
+	$FromName	= $mainframe->getCfg('fromname');
+	$SiteName	= $mainframe->getCfg('sitename');
+
+	/*
+	 * Lets create a new JUser object
+	 */
+	$user = new JUser();
+
+	if (!$user->bind( $_POST )) {
+		josRedirect( 'index2.php?option=com_users', $user->getError() );
+		return false;
 	}
 
-	$isNew 	= !$row->id;
-	$pwd 	= '';
+	/*
+	 * Are we dealing with a new user which we need to create?
+	 */
+	$isNew 	= !$user->get('id');
 
-	// MD5 hash convert passwords
+	/*
+	 * Lets save the JUser object
+	 */
+	if (!$user->save()) {
+		josRedirect( 'index2.php?option=com_users', $user->getError() );
+		return false;
+	}
+
+/*
+ * TODO
+ * @todo Remove this section if we don't need it... shouldn't need it as it is
+ * taken care of in the JUserModel class inside of the JUser class... don't we
+ * just LOVE encapsulation?... i thought so.
+ */
+//	// update the ACL
+//	if ( !$isNew ) {
+//		$query = "SELECT id"
+//		. "\n FROM #__core_acl_aro"
+//		. "\n WHERE value = '$row->id'"
+//		;
+//		$database->setQuery( $query );
+//		$aro_id = $database->loadResult();
+//
+//		$query = "UPDATE #__core_acl_groups_aro_map"
+//		. "\n SET group_id = $row->gid"
+//		. "\n WHERE aro_id = $aro_id"
+//		;
+//		$database->setQuery( $query );
+//		$database->query() or die( $database->stderr() );
+//	}
+
+	/*
+	 * Time for the email magic so get ready to sprinkle the magic dust...
+	 */
 	if ($isNew) {
-		// new user stuff
-		if ($row->password == '') {
-			$pwd = mosMakePassword();
-			$row->password = md5( $pwd );
-		} else {
-			$pwd = $row->password;
-			$row->password = md5( $row->password );
+		$adminEmail = $my->get('email');
+		$adminName	= $my->get('name');
+
+		$subject = JText::_('NEW_USER_MESSAGE_SUBJECT');
+		$message = sprintf ( JText::_('NEW_USER_MESSAGE'), $user->get('name'), $SiteName, $mainframe->getSiteURL(), $user->get('username'), $user->clearPW );
+
+		if ($MailFrom != "" && $FromName != "")
+		{
+			$adminName 	= $FromName;
+			$adminEmail = $MailFrom;
 		}
-		$row->registerDate = date( 'Y-m-d H:i:s' );
-	} else {
-		// existing user stuff
-		if ($row->password == '') {
-			// password set to null if empty
-			$row->password = null;
-		} else {
-			$row->password = md5( $row->password );
-		}
+		josMail( $adminEmail, $adminName, $user->get('email'), $subject, $message );
 	}
-
-	// save usertype to usetype column
-	$query = "SELECT name"
-	. "\n FROM #__core_acl_aro_groups"
-	. "\n WHERE id = $row->gid"
-	;
-	$database->setQuery( $query );
-	$usertype = $database->loadResult();
-	$row->usertype = $usertype;
-
-	// save params
-	$params = mosGetParam( $_POST, 'params', '' );
-	if (is_array( $params )) {
-		$txt = array();
-		foreach ( $params as $k=>$v) {
-			$txt[] = "$k=$v";
-		}
-		$row->params = implode( "\n", $txt );
-	}
-
-	if (!$row->check()) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		exit();
-	}
-
-	//trigger the onBeforeStoreUser event
-	JPluginHelper::importGroup( 'user' );
-	$results = $mainframe->triggerEvent( 'onBeforeStoreUser', array( get_object_vars( $row ), $row->id ) );
-
-	if (!$row->store()) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		exit();
-	}
-	$row->checkin();
-
-	// updates the current users param settings
-	if ( $my->id == $row->id ) {
-		//session_start();
-		$_SESSION['session_user_params']= $row->params;
-		session_write_close();
-	}
-	
-	// update the ACL
-	if ( !$isNew ) {
-		$query = "SELECT id"
-		. "\n FROM #__core_acl_aro"
-		. "\n WHERE value = '$row->id'"
-		;
-		$database->setQuery( $query );
-		$aro_id = $database->loadResult();
-
-		$query = "UPDATE #__core_acl_groups_aro_map"
-		. "\n SET group_id = $row->gid"
-		. "\n WHERE aro_id = $aro_id"
-		;
-		$database->setQuery( $query );
-		$database->query() or die( $database->stderr() );
-	}
-
-	// for new users, email username and password
-	if ($isNew) {
-		$query = "SELECT email"
-		. "\n FROM #__users"
-		. "\n WHERE id = $my->id"
-		;
-		$database->setQuery( $query );
-		$adminEmail = $database->loadResult();
-
-		$subject = _NEW_USER_MESSAGE_SUBJECT;
-		$message = sprintf ( _NEW_USER_MESSAGE, $row->name, $mosConfig_sitename, $mainframe->getSiteURL(), $row->username, $pwd );
-
-		if ($mosConfig_mailfrom != "" && $mosConfig_fromname != "") {
-			$adminName 	= $mosConfig_fromname;
-			$adminEmail = $mosConfig_mailfrom;
-		} else {
-			$query = "SELECT name, email"
-			. "\n FROM #__users"
-			// administrator
-			. "\n WHERE gid = 25"
-			;
-			$database->setQuery( $query );
-			$admins = $database->loadObjectList();
-			$admin 		= $admins[0];
-			$adminName 	= $admin->name;
-			$adminEmail = $admin->email;
-		}
-		mosMail( $adminEmail, $adminName, $row->email, $subject, $message );
-	}
-
-	//trigger the onAfterStoreUser event
-	$results = $mainframe->triggerEvent( 'onAfterStoreUser', array( get_object_vars( $row ), $row->id, true, null ) );
 
 	switch ( $task ) {
 		case 'apply':
-        	$msg = sprintf( JText::_( 'Successfully Saved changes to User' ), $row->name );
-			mosRedirect( 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->id, $msg );
+        	$msg = sprintf( JText::_( 'Successfully Saved changes to User' ), $user->get('name') );
+			josRedirect( 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $user->get('id'), $msg );
 			break;
 
 		case 'save':
 		default:
-        	$msg = sprintf( JText::_( 'Successfully Saved User' ), $row->name );
-			mosRedirect( 'index2.php?option=com_users', $msg );
+        	$msg = sprintf( JText::_( 'Successfully Saved User' ), $user->get('name') );
+			josRedirect( 'index2.php?option=com_users', $msg );
 			break;
 	}
 }

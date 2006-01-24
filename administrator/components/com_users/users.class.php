@@ -15,34 +15,34 @@
 /**
  * @package Joomla
  */
-class JUserParameters extends JParameters {
-	/**
-	* @param string The name of the form element
-	* @param string The value of the element
-	* @param object The xml element for the parameter
-	* @param string The control name
-	* @return string The html for the element
-	*/
-	function _form_editor_list( $name, $value, &$node, $control_name ) {
-		global $database, $my;
-
-		if(!($my->gid >= 20) ) {
-			return JText::_('No Access');
-		}
-
-		// compile list of the editors
-		$query = "SELECT element AS value, name AS text"
-		. "\n FROM #__plugins"
-		. "\n WHERE folder = 'editors'"
-		. "\n AND published = 1"
-		. "\n ORDER BY ordering, name"
-		;
-		$database->setQuery( $query );
-		$editors = $database->loadObjectList();
-
-		array_unshift( $editors, mosHTML::makeOption( '', '- '. JText::_( 'Select Editor' ) .' -' ) );
-
-		return mosHTML::selectList( $editors, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value );
-	}
-}
+//class JUserParameters extends JParameters {
+//	/**
+//	* @param string The name of the form element
+//	* @param string The value of the element
+//	* @param object The xml element for the parameter
+//	* @param string The control name
+//	* @return string The html for the element
+//	*/
+//	function _form_editor_list( $name, $value, &$node, $control_name ) {
+//		global $database, $my;
+//
+//		if(!($my->gid >= 20) ) {
+//			return JText::_('No Access');
+//		}
+//
+//		// compile list of the editors
+//		$query = "SELECT element AS value, name AS text"
+//		. "\n FROM #__plugins"
+//		. "\n WHERE folder = 'editors'"
+//		. "\n AND published = 1"
+//		. "\n ORDER BY ordering, name"
+//		;
+//		$database->setQuery( $query );
+//		$editors = $database->loadObjectList();
+//
+//		array_unshift( $editors, mosHTML::makeOption( '', '- '. JText::_( 'Select Editor' ) .' -' ) );
+//
+//		return mosHTML::selectList( $editors, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value );
+//	}
+//}
 ?>

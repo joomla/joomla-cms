@@ -40,6 +40,10 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+24-Jan-2006 Louis Landry
+ ^ Finished JUser class
+ + Added onActivate event triggered on user activation
+
 23-Jan-2006 Johan Janssens
  ^ Feature request artf2781 : change $mosConfig_live_site to permit server aliasing
  # Fixed artf1938 : Help site server choice per admin user

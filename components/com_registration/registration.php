@@ -231,40 +231,39 @@ function saveRegistration( $option )
 }
 
 function activate( $option ) {
-	global $database;
-	global $mosConfig_useractivation, $mosConfig_allowUserRegistration;
+	global $mainframe;
+	
+	/*
+	 * Initialize some variables
+	 */
+	$db						= & $mainframe->getDBO();
+	$UserActivation			= $mainframe->getCfg('useractivation');
+	$AllowUserRegistration	= $mainframe->getCfg('allowUserRegistration');
 
-	if ($mosConfig_allowUserRegistration == '0' || $mosConfig_useractivation == '0') {
+	if ($AllowUserRegistration == '0' || $UserActivation == '0') {
 		mosNotAuth();
 		return;
 	}
 
-	$activation = mosGetParam( $_REQUEST, 'activation', '' );
-	$activation = $database->getEscaped( $activation );
-
+	/*
+	 * Do we even have an activation string?
+	 */
+	$activation = JRequest :: getVar( 'activation', '' );
+	$activation = $db->getEscaped( $activation );
 	if (empty( $activation )) {
 		echo JText::_( 'REG_ACTIVATE_NOT_FOUND' );
 		return;
 	}
 
-	$query = "SELECT id"
-	. "\n FROM #__users"
-	. "\n WHERE activation = '$activation'"
-	. "\n AND block = 1"
-	;
-	$database->setQuery( $query );
-	$result = $database->loadResult();
-
-	if ($result) {
-		$query = "UPDATE #__users"
-		. "\n SET block = 0, activation = ''"
-		. "\n WHERE activation = '$activation'"
-		. "\n AND block = 1"
-		;
-		$database->setQuery( $query );
-		if (!$database->query()) {
-			echo "SQL error" . $database->stderr(true);
-		}
+	/*
+	 * Get a JUser object
+	 */
+	$user = new JUser();
+	
+	/*
+	 * Lets activate this user.
+	 */
+	if ($user->activate($activation)) {
 		echo JText::_( 'REG_ACTIVATE_COMPLETE' );
 	} else {
 		echo JText::_( 'REG_ACTIVATE_NOT_FOUND' );

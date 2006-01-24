@@ -48,6 +48,7 @@ jimport( 'joomla.version' );
 jimport( 'joomla.functions' );
 jimport( 'joomla.error');
 jimport( 'joomla.application.authenticate');
+jimport( 'joomla.application.user' );
 jimport( 'joomla.profiler');
 jimport( 'joomla.application.environment.session' );
 jimport( 'joomla.application.environment.request' );
