@@ -100,7 +100,7 @@ function initDocument(&$doc, $file = 'index.php')
 	$doc->setMetaData( 'Generator', $version->PRODUCT . " - " . $version->COPYRIGHT);
 	$doc->setMetaData( 'robots', 'index, follow' );
 	
-	$doc->setBase( $mainframe->getBaseURL() .'/index.php' );
+	$doc->setBase( $mainframe->getBaseURL() .'index.php' );
 	
 	$doc->addGlobalVar( 'template', $template);
 	

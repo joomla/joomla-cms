@@ -269,10 +269,6 @@ class JApplication extends JObject
 			$url = str_replace(basename($url), '', $url);
 		}
 		
-		if (substr($url, -1) == "/") {
-			$url = substr_replace($url, '', -1);
-		}
-
 		$this->_baseURL= $url;
 		return $url;
 	}

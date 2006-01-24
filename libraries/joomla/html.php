@@ -801,8 +801,8 @@ class mosCommonHTML {
 		if ( !$mainframe->get( 'loadOverlib' ) ) {
 		// check if this function is already loaded
 			$doc =& $mainframe->getDocument();
-			$doc->addScript($url.'/includes/js/overlib_mini.js');
-			$doc->addScript($url.'/includes/js/overlib_hideform_mini.js');
+			$doc->addScript($url.'includes/js/overlib_mini.js');
+			$doc->addScript($url.'includes/js/overlib_hideform_mini.js');
 			?>
 			<div id="overDiv" style="position:absolute; visibility:hidden; z-index:10000;"></div>
 			<?php
@@ -821,11 +821,11 @@ class mosCommonHTML {
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 		
 		?>
-		<link rel="stylesheet" type="text/css" media="all" href="<?php echo $url;?>/includes/js/calendar/calendar-mos.css" title="<?php echo JText::_( 'green' ); ?>" />
+		<link rel="stylesheet" type="text/css" media="all" href="<?php echo $url;?>includes/js/calendar/calendar-mos.css" title="<?php echo JText::_( 'green' ); ?>" />
 		<!-- import the calendar script -->
-		<script type="text/javascript" src="<?php echo $url;?>/includes/js/calendar/calendar_mini.js"></script>
+		<script type="text/javascript" src="<?php echo $url;?>includes/js/calendar/calendar_mini.js"></script>
 		<!-- import the language module -->
-		<script type="text/javascript" src="<?php echo $url;?>/includes/js/calendar/lang/calendar-en.js"></script>
+		<script type="text/javascript" src="<?php echo $url;?>includes/js/calendar/lang/calendar-en.js"></script>
 		<?php
 	}
 
@@ -915,7 +915,7 @@ class mosTabs {
 		$lang     =& $mainframe->getLanguage();
 		
 		$css  = $lang->isRTL() ? 'tabpane_rtl.css' : 'tabpane.css';
-		$url = $mainframe->isAdmin() ? '../' : '';
+		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
 		$document->addStyleSheet( $url. 'includes/js/tabs/'.$css,  'text/css', null, array('id' => 'luna-tab-style-sheet' ));
 		$document->addScript( $url. 'includes/js/tabs/tabpane_mini.js' );
@@ -1651,10 +1651,9 @@ class mosAdminMenus {
 		
 
 		$name = ( $name ? 'name="'. $name .'"' : '' );
-		$url  = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
 		if ( $param ) {
-			$image = $url. $param_directory . $param;
+			$image = $param_directory . $param;
 			if ( $type ) {
 				$image = '<img src="'. $image .'" align="'. $align .'" alt="'. $alt .'" '. $name .' border="0" />';
 			}
@@ -1662,10 +1661,10 @@ class mosAdminMenus {
 			$image = '';
 		} else {
 			if ( file_exists( JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file ) ) {
-				$image = $url .'/templates/'. $cur_template .'/images/'. $file;
+				$image = 'templates/'. $cur_template .'/images/'. $file;
 			} else {
 				// outputs only path to image
-				$image = $url.$directory . $file;
+				$image = $directory . $file;
 			}
 
 			// outputs actual html <img> tag
@@ -1690,31 +1689,31 @@ class mosAdminMenus {
 		$cur_template = $mainframe->getTemplate();
 
 		$name = ( $name ? 'name="'. $name .'"' : '' );
-		$url  = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
 		if ( $param ) {
-			$image = $url. '/'. $param_directory . $param;
-			if ( $type ) {
-				$image = '<img src="'. $image .'" align="'. $align .'" alt="'. $alt .'" '. $name .' border="0" />';
-			}
+			$image = $url. $param_directory . $param;
 		} else if ( $param == -1 ) {
 			$image = '';
 		} else {
 			if ( file_exists( JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/images/'. $file ) ) {
-				$image = $url .'/templates/'. $cur_template .'/images/'. $file;
+				$image = 'templates/'. $cur_template .'/images/'. $file;
 			} else {
 				// compability with previous versions
 				if ( substr($directory, 0, 14 )== "/administrator" ) {
-					$image = $url . $directory . $file;
+					$image = $directory . $file;
 				} else {
-					$image = $url . $directory . $file;
+					$image = $directory . $file;
 				}
 			}
-
-			// outputs actual html <img> tag
-			if ( $type ) {
-				$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" '. $name .' border="0" />';
-			}
+		}
+		
+		if (substr($image, 1 ) != "/") {
+			$image = substr_replace($image, '', 0, 1);
+		}
+		
+		// outputs actual html <img> tag
+		if ( $type ) {
+			$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" '. $name .' border="0" />';
 		}
 
 		return $image;

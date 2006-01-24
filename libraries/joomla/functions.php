@@ -485,7 +485,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 		$title = ', CAPTION, \''. JText::_( $title ) .'\'';
 	}
 	if ( !$text ) {
-		$image 	= $url . '/includes/js/ThemeOffice/'. $image;
+		$image 	= $url . 'includes/js/ThemeOffice/'. $image;
 		$text 	= '<img src="'. $image .'" border="0" alt="'. JText::_( 'Tooltip' ) .'"/>';
 	}
     else{
