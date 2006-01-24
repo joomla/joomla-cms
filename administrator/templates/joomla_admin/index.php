@@ -1,21 +1,15 @@
+<jdoc:comment>
+@copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
+@license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+Joomla! is free software. This version may have been modified pursuant
+to the GNU General Public License, and as distributed it includes or
+is derivative of works licensed under the GNU General Public License or
+other free or open source software licenses.
+See COPYRIGHT.php for copyright notices and details.
+</jdoc:comment>
+
 <?php
-/**
-* @version $Id$
-* @package Joomla
-* @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
-* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
-
-/** ensure this file is being included by a parent file */
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
 $lang =& $mainframe->getLanguage();
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}" >
@@ -36,8 +30,8 @@ $lang =& $mainframe->getLanguage();
 <body>
 <div id="wrapper">
 	<div id="header">
-		<div id="joomla"><?php echo JText::_( 'Administration' ); ?></div>
-		<div id="version"><?php echo JText::_( 'Version#' ); ?></div>
+		<div id="joomla"><jdoc:translate>Administration</jdoc:translate></div>
+		<div id="version"><jdoc:translate>Version#</jdoc:translate></div>
 	</div>
 </div>
 <table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
@@ -52,7 +46,7 @@ $lang =& $mainframe->getLanguage();
 	</td>
 	<td class="menubackgr" align="<?php echo $lang->isRTL() ? 'left' : 'right'; ?>" style="padding-<?php echo $lang->isRTL() ? 'left' : 'right'; ?>:5px;">
 		<a href="index2.php?option=logout" style="color: #333333; font-weight: bold">
-			<?php echo JText::_( 'Logout' ); ?></a>
+			<jdoc:translate>Logout</jdoc:translate></a>
 		<strong><?php echo $my->username;?></strong>
 	</td>
 </tr>
