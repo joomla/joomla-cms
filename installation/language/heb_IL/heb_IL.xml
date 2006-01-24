@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<install version="1.1" client="installer" type="language">
+    <name>Hebrew(IL)</name>
+    <version>1.1.0</version>
+    <creationDate>Nov 2005</creationDate>
+    <author>Hebrew Translation Team</author>
+    <authorEmail>info@joomla.co.il</authorEmail>
+    <authorUrl>www.joomla.co.il</authorUrl>
+    <copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <description>Hebrew language file for web installer</description>
+    <metadata>
+    	<name>Hebrew(IL)</name>
+    	<tag>heb_IL</tag>
+    	<rtl>1</rtl>
+   	<locale>he_IL.utf-8, heb_IL.utf-8, he, hebrew, heb</locale>
+    </metadata>
+    <files>
+        <filename>heb_IL.ini</filename>
+    </files>
+    <params />
+</install>
