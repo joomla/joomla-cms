@@ -40,6 +40,9 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+24-Jan-2006 Johan Janssens
+ + Added new JDocument Exists function
+
 24-Jan-2006 Louis Landry
  ^ Finished JUser class
  + Added onActivate event triggered on user activation

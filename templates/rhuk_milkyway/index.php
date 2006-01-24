@@ -6,7 +6,10 @@ to the GNU General Public License, and as distributed it includes or
 is derivative of works licensed under the GNU General Public License or
 other free or open source software licenses.
 See COPYRIGHT.php for copyright notices and details.
-</jdoc:comment><?php echo '<?xml version="1.0" encoding="utf-8"?' .'>'; ?>
+</jdoc:comment>
+
+<?php echo '<?xml version="1.0" encoding="utf-8"?' .'>'; ?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}" >
 <head>
@@ -73,26 +76,26 @@ See COPYRIGHT.php for copyright notices and details.
 							<jdoc:placeholder type="modules" name="left" style="-3" />
 						</div>
 						<div id="maincolumn">
-							<?php if(mosCountModules('user1') || mosCountModules('user2')) { ?>
+							<jdoc:exists type="modules" condition="user1 or user2" >
 							<table class="nopad user1user2">
 								<tr valign="top">
-									<?php if(mosCountModules('user1')) { ?>
+									<jdoc:exists type="modules" condition="user1" >
 									<td>
 										<jdoc:placeholder type="modules" name="user1" style="-2" />
 									</td>
-									<?php } ?>
-									<?php if(mosCountModules('user1') && mosCountModules('user2')) { ?>
+									</jdoc:exists>
+									<jdoc:exists type="modules" condition="user1 and user2" >
 									<td class="greyline">&nbsp;</td>
-									<?php } ?>
-									<?php if(mosCountModules('user2')) { ?>
+									</jdoc:exists>
+									<jdoc:exists type="modules" condition="user2" >
 									<td>
 										<jdoc:placeholder type="modules" name="user2" style="-2" />
 									</td>
-									<?php } ?>
+									</jdoc:exists>
 								</tr>
 							</table>
 							<div id="maindivider"></div>
-							<?php } ?>
+							</jdoc:exists>
 							<table class="nopad">
 								<tr valign="top">
 									<td>
