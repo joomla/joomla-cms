@@ -91,12 +91,6 @@ if ($option == 'search') {
 	$option = 'com_search';
 }
 
-//render as pdf
-if ( $do_pdf == 1 ){
-	jimport('joomla.pdf');
-	exit();
-}
-
 //render raw component output
 if($no_html == 1) {
 	$path = JApplicationHelper::getPath( 'front', $option );

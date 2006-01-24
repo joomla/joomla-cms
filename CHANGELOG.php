@@ -49,6 +49,7 @@ Legend:
 24-Jan-2006 Johan Janssens
  + Added new JDocument Exists function
  - Removed live_site and absolute_path from configuration
+ ^ Moved pdf.php into components/com_content
 
 24-Jan-2006 Louis Landry
  ^ Finished JUser class

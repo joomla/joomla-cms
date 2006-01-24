@@ -50,6 +50,10 @@ switch (strtolower($task)) {
 	case 'view' :
 		JContentController::showItem($access, $now);
 		break;
+		
+	case 'viewpdf' :
+		JContentController::showItemAsPDF($access, $now);
+		break;
 
 	case 'section' :
 		$cache->call('JContentController::showSection', $access, $now);
@@ -1066,6 +1070,11 @@ class JContentController
 			mosNotAuth();
 			return;
 		}
+	}
+	
+	function showItemAsPDF($access, $now) {
+		require_once (dirname(__FILE__).DS.'content.pdf.php');
+		doUtfPDF ( );
 	}
 
 	function show($row, $params, $gid, & $access, $pop, $option, $ItemidCount = NULL)

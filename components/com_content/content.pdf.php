@@ -28,7 +28,8 @@ jimport('tcpdf.tcpdf');
  * @since 1.1
  */
 
-function doUtfPDF () {
+function doUtfPDF () 
+{
 	global $mainframe;
 
 	$db = $mainframe->getDBO();
@@ -100,9 +101,7 @@ function doUtfPDF () {
 	
 	//Close and output PDF document
 	$pdf->Output("joomla.pdf", "I");
-
 }
-
 
 function getHeaderText( &$row, &$params ) {
 	global $mainframe;
