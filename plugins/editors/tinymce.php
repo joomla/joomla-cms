@@ -127,7 +127,7 @@ class JEditor_tinymce extends JPlugin {
 				$file = 'editor_content.css';
 			}
 			
-			$content_css = 'content_css : "'. $url .'templates/'. $template .'/css/';
+			$content_css = 'content_css : "'. $url .'/templates/'. $template .'/css/';
 			
 			if ( file_exists( $file_path .DS. $file ) ) {
 				$content_css = $content_css . $file .'", ';
@@ -157,9 +157,9 @@ class JEditor_tinymce extends JPlugin {
 	
 		// Tiny Compressed mode
 		if ( $compressed ) {
-			$load = '<script type="text/javascript" src="'. $url .'plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php"></script>';
+			$load = '<script type="text/javascript" src="'. $url .'/plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php"></script>';
 		} else {
-			$load = '<script type="text/javascript" src="'. $url .'plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>';
+			$load = '<script type="text/javascript" src="'. $url .'/plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>';
 		}
 	
 		// preview
@@ -226,7 +226,7 @@ class JEditor_tinymce extends JPlugin {
 				theme : \"$theme\",
 				language : \"$lang\",
 				mode : \"specific_textareas\",
-				document_base_url : \"". $url ."\",
+				document_base_url : \"". $url ."/\",
 				relative_urls : false,
 				remove_script_host : false,
 				save_callback : \"TinyMCE_Save\",
