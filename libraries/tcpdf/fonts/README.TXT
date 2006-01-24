@@ -1,1 +1,0 @@
-Tools to encode your unicode fonts can be found at: http://www.acko.net/blog/ufpdf

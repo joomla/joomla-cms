@@ -40,6 +40,12 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+24-Jan-2006 David Gal
+ + Added - pdf fonts now loaded with language packs and selected in language meta data
+ + Added tools folder under tcpdf library with tools for adding user fonts
+ - Removed old font folder under tcpdf
+ - Removed Helvetica font from media folder (used with old pdf library)
+
 24-Jan-2006 Johan Janssens
  + Added new JDocument Exists function
 

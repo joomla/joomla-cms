@@ -19,6 +19,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 global $mainframe;
+
+$lang =& $mainframe->getLanguage();
+
 /**
  * Congiguration file for TCPDF.
  * @author Nicola Asuni
@@ -45,7 +48,7 @@ define ("K_PATH_URL", $mainframe->getCfg( 'live_site' ));
 /**
  * path for PDF fonts
  */
-define ("FPDF_FONTPATH", K_PATH_MAIN."fonts".DS);
+define ("FPDF_FONTPATH", JPATH_SITE.DS."language".DS."pdf_fonts".DS);
 
 /**
  * cache directory for temporary files (full path)
@@ -145,7 +148,7 @@ define ("PDF_MARGIN_RIGHT", 15);
 /**
  * main font name
  */
-define ("PDF_FONT_NAME_MAIN", "arial");
+define ("PDF_FONT_NAME_MAIN", $lang->getPdfFontName());
 
 /**
  * main font size
@@ -155,7 +158,7 @@ define ("PDF_FONT_SIZE_MAIN", 10);
 /**
  * data font name
  */
-define ("PDF_FONT_NAME_DATA", "arial");
+define ("PDF_FONT_NAME_DATA", $lang->getPdfFontName());
 
 /**
  * data font size

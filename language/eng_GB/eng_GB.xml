@@ -14,6 +14,7 @@
     	<tag>eng_GB</tag>
     	<rtl>0</rtl>
     	<locale>eng_GB, en_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom</locale>
+    	<pdfFontName>Vera</pdfFontName>
     </metadata>
     <files>
         <filename>eng_GB.com_banners.ini</filename>
@@ -50,5 +51,10 @@
         <filename>eng_GB.mod_wrapper.ini</filename>
         <filename>eng_GB.xml</filename>
     </files>
+    <fonts>
+        <filename>Vera.php</filename>
+        <filename>Vera.z</filename>
+        <filename>Vera.ctg.z</filename>
+    </fonts>
     <params />
 </install>

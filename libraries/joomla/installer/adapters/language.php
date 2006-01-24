@@ -108,6 +108,21 @@ class JInstallerLanguage extends JInstaller {
 		}
 
 		/*
+		 * Copy all the necessary font files to the common pdf_fonts directory
+		 */
+		$holdExtDir = $this->i_extensionDir;
+		$this->i_extensionDir = JPath::clean( $basePath . DS ."language". DS .'pdf_fonts' );
+		$this->i_allowOverwrite = true;
+		if ($this->_parseFiles( 'fonts', 'language') === false) {
+
+		 	// Install failed, rollback changes
+		 	$this->_rollback();
+			return false;
+		}
+		$this->i_extensionDir = $holdExtDir;
+		$this->i_allowOverwrite = false;
+
+		/*
 		 * Get the language description
 		 */
 		$e =& $root->getElementsByPath( 'description', 1 );

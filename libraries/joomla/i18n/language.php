@@ -258,6 +258,16 @@ class JLanguage extends JObject
 	}
 
 	/**
+	* Getter for PDF Font Name
+	*
+	* @access public
+	* @return string name of pdf font to be used
+	*/
+	function getPdfFontName() {
+		return $this->_metadata['pdfFontName'];
+	}
+
+	/**
 	* Get for the langauge tag (as defined in RFC 3066)
 	*
 	* @access public
