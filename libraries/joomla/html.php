@@ -917,8 +917,8 @@ class mosTabs {
 		$css  = $lang->isRTL() ? 'tabpane_rtl.css' : 'tabpane.css';
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
-		$document->addStyleSheet( $url. '/includes/js/tabs/'.$css,  'text/css', null, array('id' => 'luna-tab-style-sheet' ));
-		$document->addScript( $url. '/includes/js/tabs/tabpane_mini.js' );
+		$document->addStyleSheet( $url. 'includes/js/tabs/'.$css,  'text/css', null, array('id' => 'luna-tab-style-sheet' ));
+		$document->addScript( $url. 'includes/js/tabs/tabpane_mini.js' );
 
 		$this->useCookies = $useCookies;
 
