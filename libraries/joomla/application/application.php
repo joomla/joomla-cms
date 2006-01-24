@@ -264,8 +264,13 @@ class JApplication extends JObject
 		
 		$uri =& $this->getURI();
 		$url = $uri->toString(array('scheme', 'host', 'path'));
+		
 		if (substr($url, -1) != "/") {
 			$url = str_replace(basename($url), '', $url);
+		}
+		
+		if (substr($url, -1) == "/") {
+			$url = substr_replace($url, '', -1);
 		}
 
 		$this->_baseURL= $url;

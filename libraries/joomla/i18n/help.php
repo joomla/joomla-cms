@@ -67,9 +67,9 @@ class JHelp {
 
 		$xmlDoc = JFactory::getXMLParser();
 		$xmlDoc->resolveErrors(true);
-		$xml = JFile::read($pathToXml);
-
-		if(!$xml) {
+		$xml = file_get_contents($pathToXml);
+		
+		if(empty($xml)) {
 			$option['text'] = 'English (GB) help.joomla.org';
 			$option['value'] = 'http://help.joomla.org';
 			$list[] = $option;

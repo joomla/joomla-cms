@@ -915,7 +915,7 @@ class mosTabs {
 		$lang     =& $mainframe->getLanguage();
 		
 		$css  = $lang->isRTL() ? 'tabpane_rtl.css' : 'tabpane.css';
-		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		$url = $mainframe->isAdmin() ? '../' : '';
 
 		$document->addStyleSheet( $url. 'includes/js/tabs/'.$css,  'text/css', null, array('id' => 'luna-tab-style-sheet' ));
 		$document->addScript( $url. 'includes/js/tabs/tabpane_mini.js' );
@@ -1665,7 +1665,7 @@ class mosAdminMenus {
 				$image = $url .'/templates/'. $cur_template .'/images/'. $file;
 			} else {
 				// outputs only path to image
-				$image = $url. $directory . $file;
+				$image = $url.$directory . $file;
 			}
 
 			// outputs actual html <img> tag
@@ -1693,7 +1693,7 @@ class mosAdminMenus {
 		$url  = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
 		if ( $param ) {
-			$image = $url. $param_directory . $param;
+			$image = $url. '/'. $param_directory . $param;
 			if ( $type ) {
 				$image = '<img src="'. $image .'" align="'. $align .'" alt="'. $alt .'" '. $name .' border="0" />';
 			}
@@ -1701,13 +1701,13 @@ class mosAdminMenus {
 			$image = '';
 		} else {
 			if ( file_exists( JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/images/'. $file ) ) {
-				$image = $url .'/administrator/templates/'. $cur_template .'/images/'. $file;
+				$image = $url .'/templates/'. $cur_template .'/images/'. $file;
 			} else {
 				// compability with previous versions
-				if ( substr($directory, 0, 14 )=="/administrator" ) {
+				if ( substr($directory, 0, 14 )== "/administrator" ) {
 					$image = $url . $directory . $file;
 				} else {
-					$image = $url . '/administrator'. $directory . $file;
+					$image = $url . $directory . $file;
 				}
 			}
 

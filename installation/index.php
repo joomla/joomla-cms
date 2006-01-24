@@ -29,6 +29,9 @@ $registry->loadArray((array) mosGetParam( $_POST, 'vars' ), 'application');
 
 $configLang = $mainframe->getUserState('application.lang');
 
+//set language
+$mainframe->setLanguage($configLang);
+
 // load the language
 $lang =& $mainframe->getLanguage();
 $lang->_load( JPATH_BASE . '/language/' . $configLang . '/' . $configLang .'.ini' );

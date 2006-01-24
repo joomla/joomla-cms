@@ -480,7 +480,5 @@ class JDatabaseMySQL extends JDatabase
 
 		return $result;
 	}
-
-
 }
 ?>

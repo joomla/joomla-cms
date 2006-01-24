@@ -18,7 +18,8 @@
  * @subpackage 	Database
  * @since 1.1
  */
-class JQueryElement {
+class JQueryElement 
+{
 	/** @var string The name of the element */
 	var $_name = null;
 	/** @var array An array of elements */
