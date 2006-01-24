@@ -536,6 +536,7 @@ class JApplication extends JObject
 		
 		// Create the JConfig object
 		$config = new JConfig();
+		$config->live_site = $this->getBaseURL();
 
 		// Create the registry with a default namespace of config which is read only
 		$this->_registry =& new JRegistry( 'config', true );

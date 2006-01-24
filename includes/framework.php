@@ -23,13 +23,6 @@ if (!file_exists( JPATH_SITE . '/configuration.php' ) || filesize( JPATH_SITE .'
 	exit();
 }
 
-//Installation sub folder check, removed for work with CVS
-/*if (file_exists( 'installation/index.php' )) {
-	define( '_INSTALL_CHECK', 1 );
-	include ('offline.php');
-	exit();
-}*/
-
 //File includes
 require_once( JPATH_SITE      	  . DS . 'globals.php' );
 require_once( JPATH_CONFIGURATION . DS . 'configuration.php' );

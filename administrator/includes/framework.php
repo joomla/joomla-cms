@@ -21,14 +21,6 @@ if (!file_exists( JPATH_SITE . DS .'configuration.php' )) {
 	exit();
 }
 
-//TODO : Fix offline message
-//Installation sub folder check, removed for work with SVN
-//if (file_exists( JPATH_INSTALLATION . DS .'index.php' )) {
-//	define( '_INSTALL_CHECK', 1 );
-//	include (JPATH_SITE . DS .'offline.php');
-//	exit();
-//}
-
 //File includes
 require_once( JPATH_SITE      		. DS .'globals.php' );
 require_once( JPATH_CONFIGURATION   . DS .'configuration.php' );

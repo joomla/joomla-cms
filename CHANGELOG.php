@@ -40,6 +40,9 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+23-Jan-2006 Johan Janssens
+ ^ Feature request artf2781 : change $mosConfig_live_site to permit server aliasing
+
 23-Jan-2006 Rey Gigataras 
  + Allow control of the formating of the SEO Page Title attribute via a new `Global Configuration` parameter
  ^ `Table of Contents on multi-page items` Global Param moved to "MosPaging" Param
