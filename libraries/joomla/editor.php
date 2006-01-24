@@ -11,54 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-if (!defined('_MOS_EDITOR_INCLUDED')) {
-
-	/**
-	* Legacy function, use JEditor::init instead
-	* 
-	* @deprecated As of version 1.1
-	* @package Joomla.Legacy
-	*/
-	function initEditor() {
-		$editor =& JEditor::getInstance();
-		echo $editor->init();
-	}
-
-	/**
-	* Legacy function, use JEditor instead
-	* 
-	* @deprecated As of version 1.1
-	* @package Joomla.Legacy
-	*/
-	function _loadEditor() {
-		$editor =& JEditor::getInstance();
-	}
-
-	/**
-	* Legacy function, use JEditor::getEditorContents instead
-	* 
-	* @deprecated As of version 1.1
-	* @package Joomla.Legacy
-	*/
-	function getEditorContents($editorArea, $hiddenField) {
-		$editor =& JEditor::getInstance();
-		echo $editor->getEditorContents();
-	}
-
-	/**
-	* Legacy function, use JEditor::getEditor instead
-	* 
-	* @deprecated As of version 1.1
-	* @package Joomla.Legacy
-	*/
-	function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) {
-		$editor =& JEditor::getInstance();
-		echo $editor->getEditor();
-	}
-
-	define('_MOS_EDITOR_INCLUDED', 1);
-}
-
 /**
  * JEditor class to handle WYSIWYG editors
  *
@@ -73,9 +25,8 @@ class JEditor extends JObservable {
 	 */
 	var $_editor = null;
 
-	function __construct()
-	{
-		$this->_loadEditor();
+	function __construct() {
+		
 	}
 
 	/**
@@ -89,7 +40,8 @@ class JEditor extends JObservable {
 	 * @param string $editor  The editor to use.
 	 * @return JEditor  The Editor object.
 	 */
-	function & getInstance() {
+	function & getInstance() 
+	{
 		static $instances;
 
 		if (!isset ($instances)) {
@@ -107,11 +59,12 @@ class JEditor extends JObservable {
 	 * Initialize the editor
 	 *
 	 */
-	function init() {
+	function init() 
+	{
 		global $mainframe;
 
 		$return = '';
-		if ($mainframe->get('loadEditor')) {
+		if ($mainframe->get('loadEditor', false)) {
 
 			$args['event'] = 'onInitEditor';
 
@@ -131,7 +84,8 @@ class JEditor extends JObservable {
 	 *
 	 *
 	 */
-	function getEditorContents($editorArea, $hiddenField) {
+	function getEditorContents($editorArea, $hiddenField) 
+	{
 		global $mainframe;
 
 		$this->_loadEditor();
@@ -155,7 +109,8 @@ class JEditor extends JObservable {
 	 *
 	 *
 	 */
-	function getEditor($name, $content, $hiddenField, $width, $height, $col, $row) {
+	function getEditor($name, $content, $hiddenField, $width, $height, $col, $row) 
+	{
 		global $mainframe, $my;
 
 		$this->_loadEditor();
@@ -188,7 +143,8 @@ class JEditor extends JObservable {
 	 * @access private
 	 * @since 1.1
 	 */
-	function _loadEditor() {
+	function _loadEditor() 
+	{
 		global $mainframe;
 
 		if ($mainframe->get('loadEditor')) {

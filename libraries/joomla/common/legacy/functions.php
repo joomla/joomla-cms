@@ -262,6 +262,39 @@ function mosLoadComponent( $name ) {
 }
 
 /**
+ * Legacy function, use JEditor::init instead
+ * 
+ * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ */
+function initEditor() {
+	$editor =& JEditor::getInstance();
+	echo $editor->init();
+}
+
+/**
+ * Legacy function, use JEditor::getEditorContents instead
+ * 
+ * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ */
+function getEditorContents($editorArea, $hiddenField) {
+	$editor =& JEditor::getInstance();
+	echo $editor->getEditorContents();
+}
+
+/**
+ * Legacy function, use JEditor::getEditor instead
+ * 
+ * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ */
+function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) {
+	$editor =& JEditor::getInstance();
+	echo $editor->getEditor();
+}
+
+/**
 * Legacy function, handled by JDocument Zlib outputfilter
 * 
 * @deprecated As of version 1.1
