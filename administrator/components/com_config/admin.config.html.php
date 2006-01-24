@@ -149,24 +149,6 @@ class JConfigView {
 
 			<table class="adminform">
 			<tr>
-				<td width="185">
-				<?php echo JText::_( 'Absolute Path' ); ?>:
-				</td>
-				<td width="450">
-				<strong><?php echo $row->absolute_path; ?></strong>
-				</td>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td>
-				<?php echo JText::_( 'Live Site' ); ?>:
-				</td>
-				<td>
-				<strong><?php echo $row->live_site; ?></strong>
-				</td>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
 				<td>
 				<span class="editlinktip">
 				<?php

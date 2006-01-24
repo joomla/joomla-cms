@@ -110,7 +110,7 @@ class JAdministrator extends JApplication
 	* Get the url of the site 
 	* 
 	* @return string The site URL
-	* @since 1.0
+	* @since 1.1
 	*/
 	function getSiteURL() 
 	{

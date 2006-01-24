@@ -25,8 +25,16 @@ require_once( 'includes/framework.php' );
 * @package Joomla
 * @final
 */
-class JInstallation extends JApplication {
-
+class JInstallation extends JApplication 
+{
+	/** 
+	 * The url of the site
+	 * 
+	 * @var string 
+	 * @access protected
+	 */
+	var $_siteURL = null;
+	
 	/**
 	* Class constructor
 	*/
@@ -80,6 +88,24 @@ class JInstallation extends JApplication {
 		}
 
 		JSession::updateIdle();
+	}
+	
+	/**
+	* Get the url of the site 
+	* 
+	* @return string The site URL
+	* @since 1.1
+	*/
+	function getSiteURL() 
+	{
+		if(isset($this->_siteURL)) {
+			return $this->_siteURL;
+		}
+		
+		$url = $this->getBaseURL();
+		$url = str_replace('installation/', '', $url);
+		$this->_siteURL = $url;
+		return $url;
 	}
 }
 

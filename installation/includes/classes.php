@@ -438,18 +438,6 @@ class JInstallationController
 		
 		$strip = get_magic_quotes_gpc();
 
-		if (!isset ($vars['siteUrl'])) {
-			$uri =& $mainframe->getURI();
-			$root = $uri->toString(array('scheme', 'host', 'path'));
-			$root = str_replace('installation/', '', $root);
-			$root = str_replace('/index.php', '', $root);
-			$vars['siteUrl'] = $root;
-		}
-		if (isset ($vars['sitePath'])) {
-			$vars['sitePath'] = stripslashes(stripslashes($vars['sitePath']));
-		} else {
-			$vars['sitePath'] = JPATH_SITE;
-		}
 		if (isset ($vars['siteName'])) {
 			$vars['siteName'] = stripslashes(stripslashes($vars['siteName']));
 		}
@@ -467,13 +455,17 @@ class JInstallationController
 
 	function saveConfig($vars) 
 	{
+		global $mainframe;
+		
+		$vars['siteUrl'] = $mainframe->getSiteURL(); 
+		
 		$strip = get_magic_quotes_gpc();
 		if (!$strip) {
 			$vars['siteName'] = addslashes($vars['siteName']);
 		}
 		$vars['secret'] = mosMakePassword(16);
-		$vars['hidePdf'] = intval(!is_writable($vars['sitePath'].'/media/'));
-
+		$vars['hidePdf'] = intval(!is_writable(JPATH_SITE.'/media/'));
+		
 		switch ($vars['DBtype']) {
 			case 'mssql' :
 				$vars['ZERO_DATE'] = '1/01/1990';
@@ -550,7 +542,10 @@ class JInstallationController
 	 */
 	function finish($vars, $buffer = '') 
 	{
-		$vars['adminUrl'] = $vars['siteUrl'].'/administrator';
+		global $mainframe;
+		
+		$vars['siteUrl'] = $mainframe->getSiteURL(); 
+		$vars['adminUrl'] = $vars['siteUrl'].'administrator/';
 
 		return JInstallationView::finish($vars, $buffer);
 	}
