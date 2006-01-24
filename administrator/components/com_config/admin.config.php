@@ -103,7 +103,7 @@ class JConfigController {
 
 		jimport('joomla.i18n.help');
 		$helpsites 				= array ();
-		$helpsites 				= JHelp :: createSiteList('http://help.joomla.org/helpsites-11.xml', $row->config_helpurl);
+		$helpsites 				= JHelp :: createSiteList('http://help.joomla.org/helpsites-11.xml', $row->helpurl);
 		array_unshift($helpsites, mosHTML :: makeOption('', JText :: _('local')));
 		$lists['helpsites'] 	= mosHTML :: selectList($helpsites, 'helpurl', ' class="inputbox" id="helpsites"', 'value', 'text', $row->helpurl);
 
