@@ -87,11 +87,11 @@ function initDocument(&$doc, $file = 'index.php')
 	$version = new JVersion();
 	
 	$template = $mainframe->getTemplate();
-	$title    = $mainframe->getCfg('sitename');
 	
 	$doc->setMetaContentType();
 	
 	if($mainframe->getCfg('offline')) {
+		$title = $mainframe->getCfg('sitename');
 		$doc->setTitle($title. '- Offline');
 	}
 	

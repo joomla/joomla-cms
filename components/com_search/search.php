@@ -124,6 +124,9 @@ function viewSearch() {
 	// html output
 	search_html::searchbox( htmlspecialchars( stripslashes( $searchword ) ), $lists, $params, $areas );
 
+	// meta pagetitle
+	$mainframe->setPageTitle( JText::_( 'Search' ) );
+		
 	if (!$searchword) {
 		if ( count( $_POST ) ) {
 			// html output
@@ -190,8 +193,6 @@ function viewSearch() {
 				}
 			}
 		}
-
-		$mainframe->setPageTitle( JText::_( 'Search' ) );
 
 		$total 		= $totalRows;
 		$limit		= mosGetParam( $_GET, 'limit', $mosConfig_list_limit );

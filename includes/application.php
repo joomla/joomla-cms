@@ -43,7 +43,8 @@ class JSite extends JApplication {
 	* @since 1.1
 	*/
 	function setPageTitle( $title=null ) {
-		
+/*		
+control moved to setTitle
 		if($this->getCfg('pagetitles')) {
 			$title = trim( htmlspecialchars( $title ));
 			$site  = $this->getCfg('sitename');			
@@ -53,9 +54,12 @@ class JSite extends JApplication {
 
 			$pageTitle  = $title ? $order : $site;
 		}
-		
+	
 		$document=& $this->getDocument();
 		$document->setTitle($pageTitle);
+*/		
+		$document=& $this->getDocument();
+		$document->setTitle($title);
 	}
 
 	/**
