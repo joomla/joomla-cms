@@ -670,54 +670,49 @@ class JContentView
 	/**
 	* Display links to categories
 	*/
-	function showCategories(& $params, & $items, $gid, & $categories, $catid, $id, $Itemid)
-	{
-	?>
-		<ul>
-		<?php
-		foreach ($categories as $row)
-		{
-			if ($catid != $row->id)
-			{
-				if ($row->access <= $gid)
-				{
-					$link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$id.'&amp;id='.$row->id.'&amp;Itemid='.$Itemid);
-					?>
-					<li>
-					<a href="<?php echo $link; ?>" class="category">
-					<?php echo $row->name;?>
-					</a>
-					<?php
-					if ($params->get('cat_items'))
-					{
-					?>
-						&nbsp;<i>( <?php echo $row->numitems ." ". JText::_( 'items' );?> )</i>
-					<?php
-					}
-					// Writes Category Description
-					if ($params->get('cat_description') && $row->description)
-					{
-						echo "<br />";
-						echo $row->description;
-					}
-					?>
-					</li>
+	function showCategories(& $params, & $items, $gid, & $categories, $catid, $id, $Itemid) {
+		if (count($categories)) {
+			?>
+			<ul>
 				<?php
-				} else
-				{
-				?>
-					<li>
-					<?php echo $row->name; ?>
-					<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=register' ); ?>">
-					( <?php echo JText::_( 'Registered Users Only' ); ?> )
-					</a>
-				<?php
+				foreach ($categories as $row) {
+					if ($catid != $row->id) {
+						if ($row->access <= $gid) {
+							$link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$id.'&amp;id='.$row->id.'&amp;Itemid='.$Itemid);
+							?>
+							<li>
+								<a href="<?php echo $link; ?>" class="category">
+									<?php echo $row->name;?></a>
+								<?php
+								if ($params->get('cat_items')) {
+									?>
+									&nbsp;<i>( <?php echo $row->numitems ." ". JText::_( 'items' );?> )</i>
+									<?php
+								}
+								
+								// Writes Category Description
+								if ($params->get('cat_description') && $row->description) {
+									echo '<br />';
+									echo $row->description;
+								}
+								?>
+							</li>
+							<?php
+						} else {
+							?>
+							<li>
+								<?php echo $row->name; ?>
+								<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=register' ); ?>">
+									( <?php echo JText::_( 'Registered Users Only' ); ?> )</a>
+							</li>
+						<?php
+						}
+					}
 				}
-			}
+				?>
+			</ul>
+			<?php
 		}
-		?>
-		</ul>
-	<?php
 	}
 
 	/**
