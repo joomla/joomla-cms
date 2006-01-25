@@ -415,6 +415,14 @@ class JTemplatesController {
 			$file = JPATH_SITE.DS.'templates'.DS.$template.DS.'index.php';
 		}
 
+		/*
+		 * Remove any slashes added by magic quotes
+		 */
+		if (get_magic_quotes_gpc())
+		{
+			$filecontent = stripslashes($filecontent);
+		}
+
 		if (JFile::write($file, $filecontent)) {
 			josRedirect('index2.php?option='.$option.'&client='.$client);
 		} else {

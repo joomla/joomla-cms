@@ -57,6 +57,7 @@ Legend:
  # Fixed: artf3197 : component install creates wrong directory permission
  # Fixed: artf2736 : Incorrect language js escape
  # Fixed: artf2911 : 1661: Admin menus inconsistent
+ # Fixed: artf3193 : Template editor escapes on save... continually
 
 23-Jan-2006 Johan Janssens
  ^ Feature request artf2781 : change $mosConfig_live_site to permit server aliasing
