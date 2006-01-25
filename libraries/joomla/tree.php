@@ -64,6 +64,27 @@ class JTree {
 	}
 
 	/**
+	 * Imports a /path/path/item style of structure
+	 */
+	function importPathList( &$paths, $separator, $idName='id', $parentName='parent_id', $textName='name' ) {
+		$data = array();
+		// first pass, assemble an object list
+		foreach ($paths as $path) {
+
+			//$path = str_replace( $stub, '', $path );
+			$dirName = dirname( $path ) . $separator;
+
+			$obj = new stdClass();
+			$obj->$idName = $path;
+			$obj->$parentName = dirname( $path );
+			$obj->$textName = str_replace( $dirName, '', $path );
+			$data[] = $obj;
+		}
+		//print_r($data);
+		$this->importObjectList( $data, $idName, $parentName, $textName );
+	}
+
+	/**
 	 * Add child data
 	 * @param mixed The id field for the parent item
 	 * @param mixed The data variable
@@ -112,13 +133,19 @@ class JTree {
 	}
 
 	/**
+	 * @param int Indent style: 0=none, 1=dashed, 2=hooked
 	 * @param int The offset to slice the tree array
 	 * @param int The number of items to have in the returned array
 	 * @return array
 	 */
 	function toArray( $type=0, $limitstart=0, $limit=0 ) {
+		if (count( $this->_children ) == 0) {
+			return array();
+		}
+
 		$this->setIndentType( $type );
-		$list = $this->_toArray();
+		$start = array_keys( $this->_children );
+		$list = $this->_toArray( $start[0] );
 
 		if ($limitstart > 0 && $limit > 0) {
 			$list = array_slice( $list, $limitstart, $limit );
@@ -141,14 +168,14 @@ class JTree {
 				$text = $v->$textName;
 				$parent = $v->$parentName;
 
-				if ($parent > 0) {
+				if ($parent != 0) {
 					$text = $this->_prefix . $text;
 				}
 
-				$list[$id] = $v;
-				$list[$id]->treename = $indent . $text;
-				$list[$id]->treelevel = $level;
-				$list[$id]->children = count( @$this->_children[$id] );
+				$v->treename = $indent . $text;
+				$v->treelevel = $level;
+				$v->children = count( @$this->_children[$id] );
+				$list[] = $v;
 				$list = $this->_toArray( $id, $indent . $this->_spacer, $list, $level+1 );
 			}
 		}
@@ -161,7 +188,12 @@ class JTree {
 	 * @return string
 	 */
 	function toUL( &$tmpl ) {
-		return $this->_toUL( $tmpl );
+		if (count( $this->_children ) == 0) {
+			return array();
+		}
+
+		$start = array_keys( $this->_children );
+		return $this->_toUL( $tmpl, $start[0] );
 	}
 
 	/**

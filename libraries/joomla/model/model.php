@@ -86,7 +86,7 @@ class JModel extends JObject
 	{
 		jimport('joomla.model.adapters.'.$type);
 		$adapter = 'JModel'.$type;
-		$m = & new $adapter($db);
+		$m = new $adapter($db);
 		return $m;
 	}
 	
@@ -602,7 +602,7 @@ class JModel extends JObject
 	* @param string Filter for the order updating
 	* @returns TRUE if completely successful, FALSE if partially or not succesful.
 	*/
-	function save( $source, $order_filter ) 
+	function save( $source, $order_filter='' ) 
 	{
 		if (!$this->bind( $source )) {
 			return false;
@@ -616,8 +616,10 @@ class JModel extends JObject
 		if (!$this->checkin()) {
 			return false;
 		}
-		$filter_value = $this->$order_filter;
-		$this->updateOrder( $order_filter ? "`$order_filter` = '$filter_value'" : '' );
+		if ($order_filter) {
+			$filter_value = $this->$order_filter;
+			$this->updateOrder( $order_filter ? "`$order_filter` = '$filter_value'" : '' );
+		}
 		$this->_error = '';
 		return true;
 	}
