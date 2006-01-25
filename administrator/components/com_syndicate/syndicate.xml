@@ -9,6 +9,11 @@
 	<version>1.0.0</version>
 	<description>This component controls the Syndication settings</description>
 	<params>
+		<param name="check" type="radio" default="1" label="Security Check" description="If enabled then the syndication functionality will only work if the mod_rssfeed module is published">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="cache" type="radio" default="1" label="Cache" description="Cache the feed files">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
