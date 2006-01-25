@@ -40,6 +40,9 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+24-Jan-2006 Rey Gigataras 
+ ^ Consolidated toolbar icon functions
+
 24-Jan-2006 David Gal
  + Added - pdf fonts now loaded with language packs and selected in language meta data
  + Added tools folder under tcpdf library with tools for adding user fonts

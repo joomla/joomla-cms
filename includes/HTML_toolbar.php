@@ -60,6 +60,10 @@ class mosToolBar {
 	* @param boolean True if required to check that a standard list item is checked
 	*/
 	function custom( $task='', $icon=NULL, $iconOver='', $alt='', $listSelect=true ) {
+		
+		$icon 	= ( $iconOver ? $iconOver : $icon );
+		$image 	= mosAdminMenus::ImageCheck( $icon, '/images/', NULL, NULL, $alt, $task, 1 );
+		
 		if ($listSelect) {
 			$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to $alt');}else{submitbutton('$task')}";
 		} else {
@@ -68,7 +72,7 @@ class mosToolBar {
 		?>
 		<td>
 			<a class="toolbar" href="<?php echo $href;?>" >
-				<img name="<?php echo $task;?>" src="images/<?php echo $iconOver;?>" alt="<?php echo $alt;?>" border="0" /></a>
+				<?php echo $image; ?></a>
 		</td>
 		<?php
 	}
@@ -79,14 +83,9 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function addNew( $task='new', $alt='New' ) {
-        $alt= JText::_( 'New' );
-		$image = mosAdminMenus::ImageCheck( 'new_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');" >
-				<?php echo $image; ?></a>
-		</td>
-		<?php
+		$alt= JText::_( $alt );
+
+		mosToolBar::custom( $task, 'new_f2.png', '', $alt, false );
 	}
 
 	/**
@@ -95,14 +94,9 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function publish( $task='publish', $alt='Published' ) {
-        $alt= JText::_( 'Published' );
-		$image = mosAdminMenus::ImageCheck( 'publish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');" >
-				<?php echo $image; ?></a>
-		</td>
-		<?php
+ 		$alt= JText::_( $alt );
+		
+		mosToolBar::custom( $task, 'publish_f2.png', '', $alt, false );
 	}
 
 	/**
@@ -111,14 +105,9 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function publishList( $task='publish', $alt='Published' ) {
-        $alt= JText::_( 'Published' );
-		$image = mosAdminMenus::ImageCheck( 'publish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please make a selection from the list to', true ) ." ". JText::_( 'publish', true ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
-				<?php echo $image; ?></a>
-		</td>
-		<?php
+		$alt= JText::_( $alt );
+		
+		mosToolBar::custom( $task, 'publish_f2.png', '', $alt, true );
 	}
 
 	/**
@@ -127,14 +116,9 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function unpublish( $task='unpublish', $alt='Unpublished' ) {
-        $alt= JText::_( 'Unpublished' );
-		$image = mosAdminMenus::ImageCheck( 'unpublish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');" >
-				<?php echo $image; ?></a>
-		</td>
-		<?php
+		$alt= JText::_( $alt );
+		
+		mosToolBar::custom( $task, 'unpublish_f2.png', '', $alt, false );
 	}
 
 	/**
@@ -143,14 +127,9 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function unpublishList( $task='unpublish', $alt='Unpublished' ) {
-        $alt= JText::_( 'Unpublished' );
-		$image = mosAdminMenus::ImageCheck( 'unpublish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please make a selection from the list to', true ) ." ". JText::_( 'unpublish', true ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
-				<?php echo $image; ?></a>
-		</td>
-		<?php
+		$alt= JText::_( $alt );
+		
+		mosToolBar::custom( $task, 'unpublish_f2.png', '', $alt, true );
 	}
 
 	/**
@@ -159,14 +138,9 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function archiveList( $task='archive', $alt='Archived' ) {
-        $alt= JText::_( 'Archived' );
-		$image = mosAdminMenus::ImageCheck( 'archive_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please make a selection from the list to', true ) ." ". JText::_( 'archive', true ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
-				<?php echo $image; ?></a>
-		</td>
-		<?php
+		$alt= JText::_( $alt );
+		
+		mosToolBar::custom( $task, 'archive_f2.png', '', $alt, true );
 	}
 
 	/**
@@ -175,14 +149,9 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function unarchiveList( $task='unarchive', $alt='Unarchive' ) {
-        $alt= JText::_( 'Unarchive' );
-		$image = mosAdminMenus::ImageCheck( 'unarchive_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select a news story to', true ) ." ". JText::_( 'unarchive', true ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
-				<?php echo $image; ?></a>
-		</td>
-		<?php
+        $alt= JText::_( $alt );
+		
+		mosToolBar::custom( $task, 'unarchive_f2.png', '', $alt, true );
 	}
 
 	/**
@@ -191,14 +160,9 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function editList( $task='edit', $alt='Edit' ) {
-        $alt= JText::_( 'Edit' );
-		$image = mosAdminMenus::ImageCheck( 'edit_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select an item from the list to', true ) ." ". JText::_( 'edit', true ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
-				<?php echo $image; ?></a>
-		</td>
-		<?php
+		$alt= JText::_( $alt );
+		
+		mosToolBar::custom( $task, 'edit_f2.png', '', $alt, true );
 	}
 
 	/**
@@ -207,14 +171,9 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function editHtml( $task='edit_source', $alt='Edit HTML' ) {
-        $alt= JText::_( 'Edit HTML' );
-		$image = mosAdminMenus::ImageCheck( 'edit_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select an item from the list to', true ) ." ". JText::_( 'edit', true ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
-				<?php echo $image; ?></a>
-		</td>
-		<?php
+		$alt= JText::_( $alt );
+		
+		mosToolBar::custom( $task, 'edit_f2.png', '', $alt, true );
 	}
 
 	/**
@@ -223,14 +182,9 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function editCss( $task='edit_css', $alt='Edit CSS' ) {
-        $alt= JText::_( 'Edit CSS' );
-		$image = mosAdminMenus::ImageCheck( 'css_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select an item from the list to', true ) ." ". JText::_( 'edit', true ); ?>'); } else {submitbutton('<?php echo $task;?>', '');}" >
-				<?php echo $image; ?></a>
-		</td>
-		<?php
+		$alt= JText::_( $alt );
+		
+		mosToolBar::custom( $task, 'css_f2.png', '', $alt, true );
 	}
 
 	/**
@@ -240,38 +194,9 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function deleteList( $msg='', $task='remove', $alt='Delete' ) {
-        $alt= JText::_( 'Delete' );
-		$image = mosAdminMenus::ImageCheck( 'delete_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please make a selection from the list to', true ) ." ". JText::_( 'delete', true ); ?>'); } else if (confirm('<?php echo JText::_( 'Are you sure you want to delete selected items.' ); ?> <?php echo $msg;?>')){ submitbutton('<?php echo $task;?>');}" >
-				<?php echo $image; ?></a>
-		</td>
-		<?php
-	}
-
-	/**
-	* Writes a preview button for a given option (opens a popup window)
-	* @param string The name of the popup file (excluding the file extension)
-	*/
-	function preview( $popup='' ) {
-		global $database;
-
-		$sql = "SELECT template"
-		. "\n FROM #__templates_menu"
-		. "\n WHERE client_id = 0"
-		. "\n AND menuid = 0";
-		$database->setQuery( $sql );
-		$cur_template = $database->loadResult();
-
-        $alt= JText::_( 'Preview' );
-		$image = mosAdminMenus::ImageCheck( 'preview_f2.png', 'images/', NULL, NULL, $alt, 'preview', 1 );
-		?>
-		<td>
-			<a class="toolbar" href="#" onclick="window.open('popups/<?php echo $popup;?>.php?t=<?php echo $cur_template; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');" >
-				<?php echo $image; ?></a>
-		</td>
-		<?php
+		$alt= JText::_( $alt );
+		
+		mosToolBar::custom( $task, 'delete_f2.png', '', $alt, true );
 	}
 
 	/**
@@ -280,14 +205,9 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function save( $task='save', $alt='Save' ) {
-        $alt= JText::_( 'Save' );
-		$image = mosAdminMenus::ImageCheck( 'save_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');" >
-				<?php echo $image;?></a>
-		</td>
-		<?php
+		$alt= JText::_( $alt );
+		
+		mosToolBar::custom( $task, 'save_f2.png', '', $alt, false );
 	}
 
 	/**
@@ -296,44 +216,9 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function apply( $task='apply', $alt='Apply' ) {
-        $alt= JText::_( 'Apply' );
-		$image = mosAdminMenus::ImageCheck( 'apply_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');" >
-				<?php echo $image;?></a>
-		</td>
-		<?php
-	}
-
-	/**
-	* Writes a save button for a given option (NOTE this is being deprecated)
-	*/
-	function savenew() {
-        $alt= JText::_( 'Save' );
-		$image = mosAdminMenus::ImageCheck( 'save_f2.png', '/images/', NULL, NULL, $alt, 'save', 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:submitbutton('savenew');" >
-				<?php echo $image;?></a>
-		</td>
-		<?php
-	}
-
-	/**
-	* Writes a save button for a given option (NOTE this is being deprecated)
-	*/
-	function saveedit() {
-		;
-
-        $alt= JText::_( 'Save' );
-		$image = mosAdminMenus::ImageCheck( 'save_f2.png', '/images/', NULL, NULL, $alt, 'save', 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:submitbutton('saveedit');" >
-				<?php echo $image;?></a>
-		</td>
-		<?php
+		$alt= JText::_( $alt );
+		
+		mosToolBar::custom( $task, 'apply_f2.png', '', $alt, false );
 	}
 
 	/**
@@ -342,12 +227,31 @@ class mosToolBar {
 	* @param string An override for the alt text
 	*/
 	function cancel( $task='cancel', $alt='Cancel' ) {
-        $alt= JText::_( 'Cancel' );
-		$image = mosAdminMenus::ImageCheck( 'cancel_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
+		$alt= JText::_( $alt );
+		
+		mosToolBar::custom( $task, 'cancel_f2.png', '', $alt, false );
+	}
+
+	/**
+	* Writes a preview button for a given option (opens a popup window)
+	* @param string The name of the popup file (excluding the file extension)
+	*/
+	function preview( $popup='' ) {
+		global $database;
+		
+		$sql = "SELECT template"
+		. "\n FROM #__templates_menu"
+		. "\n WHERE client_id = 0"
+		. "\n AND menuid = 0";
+		$database->setQuery( $sql );
+		$cur_template = $database->loadResult();
+		
+		$alt	= JText::_( 'Preview' );
+		$image 	= mosAdminMenus::ImageCheck( 'preview_f2.png', 'images/', NULL, NULL, $alt, 'preview', 1 );
 		?>
 		<td>
-		<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');" >
-			<?php echo $image;?></a>
+			<a class="toolbar" href="#" onclick="window.open('popups/<?php echo $popup;?>.php?t=<?php echo $cur_template; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');" >
+				<?php echo $image; ?></a>
 		</td>
 		<?php
 	}

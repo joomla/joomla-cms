@@ -16,8 +16,7 @@
 *
 * @package Joomla
 */
-class JMenuBar
-{
+class JMenuBar {
 	/**
 	* Title cell
 	* For the title and toolbar to be rendered correctly,
@@ -56,19 +55,27 @@ class JMenuBar
 	* @param string The image to display when moused over
 	* @param string The alt text for the icon image
 	* @param boolean True if required to check that a standard list item is checked
+	* @param boolean True if required to include callinh hideMainMenu()
 	* @since 1.0
 	*/
-	function custom( $task='', $icon='', $iconOver='', $alt='', $listSelect=true ) {
-
+	function custom( $task='', $icon='', $iconOver='', $alt='', $listSelect=true, $x=false ) {
     	$alt = JText::_( $alt );
 
 		$icon 	= ( $iconOver ? $iconOver : $icon );
 		$image 	= mosAdminMenus::ImageCheckAdmin( $icon, '/images/', NULL, NULL, $alt, $task, 1 );
 
-		if ($listSelect) {
-			$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('". JText::_( 'Please make a selection from the list to', true ) ." ". $alt ."');}else{submitbutton('$task')}";
+		if ($x) {
+			if ($listSelect) {
+				$href = "javascript:if(document.adminForm.boxchecked.value==0){alert('". JText::_( 'Please make a selection from the list to', true ) ." ". $alt ."');}else{hideMainMenu();submitbutton('$task')}";
+			} else {
+				$href = "javascript:hideMainMenu();submitbutton('$task')";
+			}
 		} else {
-			$href = "javascript:submitbutton('$task')";
+			if ($listSelect) {
+				$href = "javascript:if(document.adminForm.boxchecked.value==0){alert('". JText::_( 'Please make a selection from the list to', true ) ." ". $alt ."');}else{submitbutton('$task')}";
+			} else {
+				$href = "javascript:submitbutton('$task')";
+			}			
 		}
 
 		if ($icon || $iconOver) {
@@ -98,35 +105,14 @@ class JMenuBar
 	* @param string The alt text for the icon image
 	* @param boolean True if required to check that a standard list item is checked
 	* @since 1.0
+ 	* (NOTE this is being deprecated)
 	*/
 	function customX( $task='', $icon='', $iconOver='', $alt='', $listSelect=true ) {
-
     	$alt = JText::_( $alt );
 
 		$icon 	= ( $iconOver ? $iconOver : $icon );
-		$image 	= mosAdminMenus::ImageCheckAdmin( $icon, '/images/', NULL, NULL, $alt, $task, 1 );
-
-		if ($listSelect) {
-			$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('". JText::_( 'Please make a selection from the list to', true ) ." ". $alt ."');}else{hideMainMenu();submitbutton('$task')}";
-		} else {
-			$href = "javascript:hideMainMenu();submitbutton('$task')";
-		}
-		if ($icon || $iconOver) {
-			?>
-			<td>
-				<a class="toolbar" href="<?php echo $href;?>">
-					<?php echo $image; ?>
-					<br /><?php echo $alt; ?></a>
-			</td>
-			<?php
-		} else {
-			?>
-			<td>
-				<a class="toolbar" href="<?php echo $href;?>">
-					<br /><?php echo $alt; ?></a>
-			</td>
-			<?php
-		}
+		
+		JMenuBar::custom( $task, $icon, '', $alt, $listSelect, true );
 	}
 
 	/**
@@ -136,17 +122,9 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function addNew( $task='new', $alt='New' ) {
-
-    	$alt = JText::_( $alt );
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'new_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+		$alt = JText::_( $alt );
+		
+		JMenuBar::custom( $task, 'new_f2.png', '', $alt, false );
 	}
 
 	/**
@@ -157,17 +135,9 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function addNewX( $task='new', $alt='New' ) {
-
-    	$alt = JText::_( $alt );
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'new_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:hideMainMenu();submitbutton('<?php echo $task;?>');">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+		$alt = JText::_( $alt );
+		
+		JMenuBar::custom( $task, 'new_f2.png', '', $alt, false, true );
 	}
 
 	/**
@@ -177,17 +147,9 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function publish( $task='publish', $alt='Publish' ) {
-
-    	$alt = JText::_( $alt );
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'publish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+		$alt = JText::_( $alt );
+		
+		JMenuBar::custom( $task, 'publish_f2.png', '', $alt, false );
 	}
 
 	/**
@@ -197,17 +159,9 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function publishList( $task='publish', $alt='Publish' ) {
-
     	$alt = JText::_( $alt );
 
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'publish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-	 	<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please make a selection from the list to', true ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt; ?></a>
-		</td>
-	 	<?php
+	 	JMenuBar::custom( $task, 'publish_f2.png', '', $alt, true );
 	}
 
 	/**
@@ -217,17 +171,9 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function makeDefault( $task='default', $alt='Default' ) {
+		$alt = JText::_( $alt );
 
-    	$alt = JText::_( $alt );
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'publish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select an item to make', true ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+		JMenuBar::custom( $task, 'publish_f2.png', '', $alt, true );
 	}
 
 	/**
@@ -237,17 +183,9 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function assign( $task='assign', $alt='Assign' ) {
-
-    	$alt = JText::_( $alt );
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'publish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select an item to', true ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+		$alt = JText::_( $alt );
+		
+		JMenuBar::custom( $task, 'publish_f2.png', '', $alt, true );
 	}
 
 	/**
@@ -257,17 +195,9 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function unpublish( $task='unpublish', $alt='Unpublish' ) {
-
-    	$alt = JText::_( $alt );
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'unpublish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+		$alt = JText::_( $alt );
+		
+		JMenuBar::custom( $task, 'unpublish_f2.png', '', $alt, true );
 	}
 
 	/**
@@ -277,17 +207,9 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function unpublishList( $task='unpublish', $alt='Unpublish' ) {
-
-    	$alt = JText::_( $alt );
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'unpublish_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please make a selection from the list to', true ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+		$alt = JText::_( $alt );
+		
+		JMenuBar::custom( $task, 'unpublish_f2.png', '', $alt, true );
 	}
 
 	/**
@@ -297,17 +219,9 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function archiveList( $task='archive', $alt='Archive' ) {
-
-    	$alt = JText::_( $alt );
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'archive_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please make a selection from the list to', true ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+		$alt = JText::_( $alt );
+		
+		JMenuBar::custom( $task, 'archive_f2.png', '', $alt, true );
 	}
 
 	/**
@@ -317,17 +231,9 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function unarchiveList( $task='unarchive', $alt='Unarchive' ) {
-
-    	$alt = JText::_( $alt );
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'unarchive_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select a news story to', true ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+		$alt = JText::_( $alt );
+		
+		JMenuBar::custom( $task, 'unarchive_f2.png', '', $alt, true );
 	}
 
 	/**
@@ -337,17 +243,9 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function editList( $task='edit', $alt='Edit' ) {
-
-    	$alt = JText::_( $alt );
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'edit_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select an item from the list to', true ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+		$alt = JText::_( $alt );
+		
+		JMenuBar::custom( $task, 'edit_f2.png', '', $alt, true );
 	}
 
 	/**
@@ -358,17 +256,9 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function editListX( $task='edit', $alt='Edit' ) {
-
-    	$alt = JText::_( $alt );
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'edit_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select an item from the list to', true ); ?> <?php echo $alt; ?>'); } else {hideMainMenu();submitbutton('<?php echo $task;?>', '');}">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+		$alt = JText::_( $alt );
+		
+		JMenuBar::custom( $task, 'edit_f2.png', '', $alt, true, true );
 	}
 
 	/**
@@ -378,17 +268,9 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function editHtml( $task='edit_source', $alt='' ) {
-
     	$alt = JText::_( 'Edit HTML' );
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'html_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select an item from the list to', true ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+		
+		JMenuBar::custom( $task, 'html_f2.png', '', $alt, true );
 	}
 
 	/**
@@ -399,17 +281,9 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function editHtmlX( $task='edit_source', $alt='' ) {
-
-    	$alt = JText::_( 'Edit HTML' );
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'html_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select an item from the list to', true ); ?> <?php echo $alt; ?>'); } else {hideMainMenu();submitbutton('<?php echo $task;?>', '');}"">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+		$alt = JText::_( 'Edit HTML' );
+		
+		JMenuBar::custom( $task, 'html_f2.png', '', $alt, true, true );
 	}
 
 	/**
@@ -419,17 +293,9 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function editCss( $task='edit_css', $alt='' ) {
-
     	$alt = JText::_( 'Edit CSS' );
 
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'css_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select an item from the list to', true ); ?> <?php echo $alt; ?>'); } else {submitbutton('<?php echo $task;?>', '');}"">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+		JMenuBar::custom( $task, 'css_f2.png', '', $alt, true );
 	}
 
 	/**
@@ -440,17 +306,9 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function editCssX( $task='edit_css', $alt='' ) {
-
-    	$alt = JText::_( 'Edit CSS' );
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'css_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please select an item from the list to', true ); ?> <?php echo $alt; ?>'); } else {hideMainMenu();submitbutton('<?php echo $task;?>', '');}">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+		$alt = JText::_( 'Edit CSS' );
+		
+		JMenuBar::custom( $task, 'css_f2.png', '', $alt, true, true );
 	}
 
 	/**
@@ -461,17 +319,9 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function deleteList( $msg='', $task='remove', $alt='Delete' ) {
-
     	$alt = JText::_( $alt );
 
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'delete_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please make a selection from the list to', true ); ?> <?php echo $alt; ?>'); } else if (confirm('Are you sure you want to delete selected items? <?php echo $msg;?>')){ submitbutton('<?php echo $task;?>');}">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+		JMenuBar::custom( $task, 'delete_f2.png', '', $alt, true );
 	}
 
 	/**
@@ -483,17 +333,9 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function deleteListX( $msg='', $task='remove', $alt='Delete' ) {
-
-    	$alt = JText::_( $alt );
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'delete_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:if (document.adminForm.boxchecked.value == 0){ alert('<?php echo JText::_( 'Please make a selection from the list to', true ); ?> <?php echo $alt; ?>'); } else if (confirm('<?php echo JText::_( 'VALIDDELETEITEMS' ); ?> <?php echo $msg;?>')){ hideMainMenu();submitbutton('<?php echo $task;?>');}">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+		$alt = JText::_( $alt );
+		
+		JMenuBar::custom( $task, 'delete_f2.png', '', $alt, true, true );
 	}
 
 	/**
@@ -501,24 +343,47 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function trash( $task='remove', $alt='Trash', $check=true ) {
+		$alt = JText::_( $alt );
 
-    	$alt = JText::_( $alt );
+		JMenuBar::custom( $task, 'delete_f2.png', '', $alt, $check );
+	}
 
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'delete_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
+	/**
+	* Writes a save button for a given option
+	* Apply operation leads to a save action only (does not leave edit mode)
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function apply( $task='apply', $alt='Apply' ) {
+		$alt = JText::_( $alt );
+		
+		JMenuBar::custom( $task, 'apply_f2.png', '', $alt, false );
+	}
 
-		if ( $check ) {
-			$js = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('". JText::_( 'Please make a selection from the list to', true ) ." ". $alt ."'); } else { submitbutton('$task');}";
-		} else {
-			$js = "javascript:submitbutton('$task');";
-		}
+	/**
+	* Writes a save button for a given option
+	* Save operation leads to a save and then close action
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function save( $task='save', $alt='Save' ) {
+		$alt = JText::_( $alt );
+		
+		JMenuBar::custom( $task, 'save_f2.png', '', $alt, false );
+	}
 
-		?>
-		 <td>
-			<a class="toolbar" href="<?php echo $js; ?>">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt; ?></a>
-		</td>
-		<?php
+	/**
+	* Writes a cancel button and invokes a cancel operation (eg a checkin)
+	* @param string An override for the task
+	* @param string An override for the alt text
+	* @since 1.0
+	*/
+	function cancel( $task='cancel', $alt='Cancel' ) {
+		$alt = JText::_( $alt );
+		
+		JMenuBar::custom( $task, 'cancel_f2.png', '', $alt, false );
 	}
 
 	/**
@@ -528,9 +393,9 @@ class JMenuBar
 	*/
 	function preview( $url='', $updateEditors=false ) {
 		global $database;
-
+		
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'preview_f2.png', '/images/', NULL, NULL, 'Preview', 'preview', 1 );
-
+		
 		?>
 		<td>
 			<script language="javascript">
@@ -545,7 +410,7 @@ class JMenuBar
 				window.open('<? echo $url."&task=preview"; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');
 			}
 			</script>
-		 	<a class="toolbar" onclick="popup();">
+			<a class="toolbar" onclick="popup();">
 				<?php echo $image2; ?>
 				<br /><?php echo JText::_( 'Preview' ); ?></a>
 		</td>
@@ -560,110 +425,15 @@ class JMenuBar
 	*/
 	function help( $ref, $com=false ) {
 		$image2 	= mosAdminMenus::ImageCheckAdmin( 'help_f2.png', '/images/', NULL, NULL, 'Help', 'help', 1 );
-
+		
 		jimport('joomla.i18n.help');
 		$url = JHelp::createURL($ref, $com);
-
+		
 		?>
 		<td>
 			<a class="toolbar" onclick="window.open('<?php echo $url;?>', 'mambo_help_win', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');">
 				<?php echo $image2; ?>
 				<br /><?php echo JText::_( 'Help' ); ?></a>
-		</td>
-		<?php
-	}
-
-	/**
-	* Writes a save button for a given option
-	* Apply operation leads to a save action only (does not leave edit mode)
-	* @param string An override for the task
-	* @param string An override for the alt text
-	* @since 1.0
-	*/
-	function apply( $task='apply', $alt='Apply' ) {
-
-    	$alt = JText::_( $alt );
-
-		$image 	= mosAdminMenus::ImageCheckAdmin( 'apply.png', '/images/', NULL, NULL, $alt, $task );
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'apply_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt;?></a>
-		</td>
-		<?php
-	}
-
-	/**
-	* Writes a save button for a given option
-	* Save operation leads to a save and then close action
-	* @param string An override for the task
-	* @param string An override for the alt text
-	* @since 1.0
-	*/
-	function save( $task='save', $alt='Save' ) {
-
-    	$alt = JText::_( $alt );
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'save_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt;?></a>
-		</td>
-		<?php
-	}
-
-	/**
-	* Writes a save button for a given option (NOTE this is being deprecated)
-	* @since 1.0
-	*/
-	function savenew() {
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'save_f2.png', '/images/', NULL, NULL, 'save', 'save', 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:submitbutton('savenew');">
-				<?php echo $image2; ?>
-				<br /><?php echo JText::_( 'Save' ); ?></a>
-		</td>
-		<?php
-	}
-
-	/**
-	* Writes a save button for a given option (NOTE this is being deprecated)
-	* @since 1.0
-	*/
-	function saveedit() {
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'save_f2.png', '/images/', NULL, NULL, 'save', 'save', 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:submitbutton('saveedit');">
-				<?php echo $image2; ?>
-				<br /><?php echo JText::_( 'Save' ); ?></a>
-		</td>
-		<?php
-	}
-
-	/**
-	* Writes a cancel button and invokes a cancel operation (eg a checkin)
-	* @param string An override for the task
-	* @param string An override for the alt text
-	* @since 1.0
-	*/
-	function cancel( $task='cancel', $alt='Cancel' ) {
-
-    	$alt = JText::_( $alt );
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'cancel_f2.png', '/images/', NULL, NULL, $alt, $task, 1 );
-		?>
-		<td>
-			<a class="toolbar" href="javascript:submitbutton('<?php echo $task;?>');">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt;?></a>
 		</td>
 		<?php
 	}
@@ -711,7 +481,7 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function media_manager( $directory='', $alt='Upload' ) {
-    	$alt = JText::_( $alt );
+    	$alt 	= JText::_( $alt );
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'upload_f2.png', '/images/', NULL, NULL, 'Upload Image', 'uploadPic', 1 );
 		?>
 		<td>
@@ -755,8 +525,6 @@ class JMenuBar
  * Legacy class, use JMenuBar instead
  * @deprecated As of version 1.1
  */
-class mosMenuBar extends JMenuBar
-{
-
+class mosMenuBar extends JMenuBar {
 }
 ?>
