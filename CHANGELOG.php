@@ -55,6 +55,8 @@ Legend:
  ^ Finished JUser class
  + Added onActivate event triggered on user activation
  # Fixed: artf3197 : component install creates wrong directory permission
+ # Fixed: artf2736 : Incorrect language js escape
+ # Fixed: artf2911 : 1661: Admin menus inconsistent
 
 23-Jan-2006 Johan Janssens
  ^ Feature request artf2781 : change $mosConfig_live_site to permit server aliasing
