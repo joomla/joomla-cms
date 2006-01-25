@@ -95,17 +95,17 @@ function initDocument(&$doc, $file = 'index.php')
 		$doc->setTitle($title. '- Offline');
 	}
 	
-	$doc->setMetaData( 'description', $mainframe->getCfg('MetaDesc' ));
-	$doc->setMetaData( 'keywords', $mainframe->getCfg('MetaKeys' ));
-	$doc->setMetaData( 'Generator', $version->PRODUCT . " - " . $version->COPYRIGHT);
-	$doc->setMetaData( 'robots', 'index, follow' );
+	$doc->setMetaData( 'description', 	$mainframe->getCfg('MetaDesc' ) );
+	$doc->setMetaData( 'keywords', 		$mainframe->getCfg('MetaKeys' ) );
+	$doc->setMetaData( 'Generator', 	$version->PRODUCT .' - '. $version->COPYRIGHT );
+	$doc->setMetaData( 'robots', 		'index, follow' );
 	
 	$doc->setBase( $mainframe->getBaseURL() .'index.php' );
 	
-	$doc->addGlobalVar( 'template', $template);
+	$doc->addGlobalVar( 'template', 	$template);
 	
-	$doc->addGlobalVar( 'lang_tag', $lang->getTag());
-	$doc->addVar( $file, 'lang_isrtl', $lang->isRTL());
+	$doc->addGlobalVar( 'lang_tag', 	$lang->getTag());
+	$doc->addVar( $file, 'lang_isrtl', 	$lang->isRTL());
 	
 	if ($lang->isRTL()) {
 		$doc->addGlobalVar( 'lang_dir', 'rtl' );
@@ -149,11 +149,9 @@ function initDocument(&$doc, $file = 'index.php')
 		}
 	}
 	
-	$dirs = array(
-		'templates/'.$mainframe->getTemplate().'/',
-		'',
-	);
-		
+	// favicon support
+	$path = 'templates/'. $template .'/';
+	$dirs = array( $path, '' );		
 	foreach ($dirs as $dir ) {
 		$icon =   $dir . 'favicon.ico';
 
