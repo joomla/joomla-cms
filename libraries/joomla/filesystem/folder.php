@@ -81,10 +81,9 @@ class JFolder {
 
 			$ftp->quit();
 		} else {
-			// First set umask and mode
+			// First set umask
 			$origmask = @ umask(0);
-			$mode = octdec($mode);
-
+	
 			// We need to get and explode the open_basedir paths
 			$obd = ini_get('open_basedir');
 
