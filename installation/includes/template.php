@@ -37,7 +37,7 @@ function initDocument(&$doc, $file = 'index.html')
 	$doc->setMetaData( 'Generator', $version->PRODUCT . " - " . $version->COPYRIGHT);
 	$doc->setMetaData( 'robots', 'noindex, nofollow' );
 
-	$doc->setBase( $mainframe->getBaseURL() .'index.php');
+	$doc->setBase( $mainframe->getBaseURL());
 
 	$doc->addScript( 'includes/js/installation.js');
 	$doc->addScript( 'includes/js/ajform.js.js');
