@@ -16,10 +16,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 @set_magic_quotes_runtime( 0 );
 
-// checks for configuration file, if none found loads installation page
-if (!file_exists( JPATH_SITE . '/configuration.php' ) || filesize( JPATH_SITE .'/configuration.php' ) < 10) {
-	$self = str_replace( '/index.php','', strtolower($_SERVER['PHP_SELF']) ). '/';
-	header("Location: http://" . $_SERVER['HTTP_HOST'] . $self . "installation/index.php" );
+if (!file_exists( JPATH_SITE . DS .'configuration.php' )) {
+	header( 'Location: installation/index.php' );
 	exit();
 }
 
@@ -35,6 +33,13 @@ if (@$CONFIG->error_reporting === 0) {
 	error_reporting( 0 );
 } else if (@$CONFIG->error_reporting > 0) {
 	error_reporting( $CONFIG->error_reporting );
+}
+
+if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
+	die( 'Fatal error.  Global variable hack attempted.' );
+}
+if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
+	die( 'Fatal error.  Post variable hack attempted.' );
 }
 
 //Third party library imports

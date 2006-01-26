@@ -26,14 +26,13 @@ require_once( JPATH_SITE      		. DS .'globals.php' );
 require_once( JPATH_CONFIGURATION   . DS .'configuration.php' );
 require_once( JPATH_LIBRARIES 		. DS .'loader.php' );
 
-if (phpversion() < '4.2.0') {
-	jimport('joomla.common.compat.php41x' );
-}
-if (phpversion() < '4.3.0') {
-	jimport('joomla.common.compat.php42x' );
-}
-if (version_compare( phpversion(), '5.0' ) < 0) {
-	jimport('joomla.common.compat.php50x' );
+// Create the JConfig object
+$CONFIG = new JConfig();
+
+if (@$CONFIG->error_reporting === 0) {
+	error_reporting( 0 );
+} else if (@$CONFIG->error_reporting > 0) {
+	error_reporting( $CONFIG->error_reporting );
 }
 
 if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
