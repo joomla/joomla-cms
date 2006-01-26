@@ -466,5 +466,20 @@ class JParameters extends JObject
 	{
 		return	JPARAMETER_INCLUDE_PATH;
 	}
+	
+	/**
+	* special handling for textarea param
+	*/
+	function textareaHandling( &$txt ) {
+		$total = count( $txt );
+		for( $i=0; $i < $total; $i++ ) {
+			if ( strstr( $txt[$i], "\n" ) ) {
+				$txt[$i] = str_replace( "\n", '<br />', $txt[$i] );
+			}
+		}
+		$txt = implode( "\n", $txt );
+
+		return $txt;
+	}
 }
 ?>

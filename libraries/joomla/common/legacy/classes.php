@@ -369,12 +369,8 @@ class mosParameters extends JParameters {
 	* @param string The type of setup file
 	*/
 	function __construct($text, $path = '', $type = 'component') {
-		$this->_params = $this->parse($text);
-		$this->_raw = $text;
-		$this->_path = $path;
-		$this->_type = $type;
+		parent::__construct($text, $path, $type);
 	}
-
 }
 
 
