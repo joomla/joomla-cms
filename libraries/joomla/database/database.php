@@ -68,6 +68,7 @@ class JDatabase extends JObject
 
 	/**
 	* Database object constructor
+	* 
 	* @param string Database host
 	* @param string Database user name
 	* @param string Database user password
@@ -124,7 +125,8 @@ class JDatabase extends JObject
 	 * @return database A database object
 	 * @since 1.1
 	*/
-	function &getInstance( $driver='MySQL', $host='localhost', $user, $pass, $db='', $table_prefix='' ) {
+	function &getInstance( $driver='MySQL', $host='localhost', $user, $pass, $db='', $table_prefix='' ) 
+	{
 		static $instances;
 
 		if (!isset( $instances )) {

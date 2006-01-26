@@ -37,7 +37,7 @@ class JLoader
 			$path = $base . DS . implode( DS, $parts );
 
 			if (!is_dir( $path )) {
-				return; //TODO : throw error
+				return false;
 			}
 
 			$dir = dir( $path );
@@ -60,11 +60,11 @@ class JLoader
 			if ($found) {
 				JLoader::_requireOnce($base . DS . $path . $suffix);
 			} else {
-				return;  //TODO : throw error
+				return false;
 			}
 		}
 
-		return;
+		return true;
 	}
 
    /**
@@ -117,6 +117,6 @@ class JLoader
  * @since 1.1
  */
 function jimport( $path ) {
-	JLoader::import($path);
+	return JLoader::import($path);
 }
 ?>
