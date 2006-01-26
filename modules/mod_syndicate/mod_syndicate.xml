@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<install type="module" version="1.0.0">
+	<name>Syndication</name>
+	<author>Joomla! Project</author>
+	<creationDate>Jan 2006</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0.0</version>
+	<description>Smart Syndication module that creates syndicated feed for the page where the module is displayed</description>
+	<files>
+		<filename module="mod_syndicate">mod_sydicate.php</filename>
+	</files>
+	<params>
+		<param name="text" type="text" default="" label="Text" description="PARAMTEXT" />
+		<param name="cache" type="radio" default="0" label="Enable Cache" description="PARAMENABLECACHE">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+		<param name="rss091" type="radio" default="1" label="RSS 0.91" description="Show/Hide RSS 0.91 Link">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="rss10" type="radio" default="1" label="RSS 1.0" description="Show/Hide RSS 1.0 Link">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="rss20" type="radio" default="1" label="RSS 2.0" description="Show/Hide RSS 2.0 Link">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="atom" type="radio" default="1" label="Atom" description="Show/Hide Atom 0.3 Link">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="opml" type="radio" default="1" label="OPML" description="Show/Hide OPML Link">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="rss091_image" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="RSS 0.91 Image" description="Choose the image to be used" />
+		<param name="rss10_image" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="RSS 1.0 Image" description="Choose the image to be used" />
+		<param name="rss20_image" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="RSS 2.0 Image" description="Choose the image to be used" />
+		<param name="atom_image" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Atom Image" description="Choose the image to be used" />
+		<param name="opml_image" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="OPML Image" description="Choose the image to be used" />
+	</params>
+</install>

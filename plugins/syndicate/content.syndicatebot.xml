@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<install version="1.1" type="plugin" group="syndicate">
+	<name>Syndicate Content</name>
+	<author>Joomla!</author>
+	<creationDate>Jan 2006</creationDate>
+	<copyright>(C) 2005 Open Source Matters Inc.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@www.joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0</version>
+	<description>Feed Syndication for Content</description>
+	<files>
+		<filename mambot="content.syndicatebot">content.syndicatebot.php</filename>
+	</files>
+	<params>
+		<param name="itemContent" type="radio" default="0" label="Item page" description="Enable/Disable Item syndication">
+			<option value="0">Disable</option>
+			<option value="1">Enable</option>
+		</param>
+		<param name="blogSection" type="radio" default="1" label="Blog Section page" description="Enable/Disable Blog Section syndication">
+			<option value="0">Disable</option>
+			<option value="1">Enable</option>
+		</param>
+		<param name="blogCategory" type="radio" default="1" label="Blog Category page" description="Enable/Disable Blog Category syndication">
+			<option value="0">Disable</option>
+			<option value="1">Enable</option>
+		</param>
+		<param name="listSection" type="radio" default="1" label="List Section page" description="Enable/Disable List Section syndication">
+			<option value="0">Disable</option>
+			<option value="1">Enable</option>
+		</param>
+		<param name="tableCategory" type="radio" default="1" label="Table Category page" description="Enable/Disable Table Category syndication">
+			<option value="0">Disable</option>
+			<option value="1">Enable</option>
+		</param>
+	</params>
+</install>
