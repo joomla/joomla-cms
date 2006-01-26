@@ -124,11 +124,9 @@ switch (strtolower($task)) {
  * @subpackage Content
  * @since 1.1
  */
-class JContentController
-{
+class JContentController {
 
-	function frontpage(& $access, $now)
-	{
+	function frontpage(& $access, $now) {
 		global $mainframe, $Itemid;
 
 		/*
@@ -144,9 +142,10 @@ class JContentController
 		// Parameters
 		$menu 			= & JModel :: getInstance( 'menu', $db);
 		$menu->load($Itemid);
-		$params 		= new JParameters($menu->params);
-		$orderby_sec 	= $params->def('orderby_sec', '');
-		$orderby_pri 	= $params->def('orderby_pri', '');
+		$params 		= new JParameters($menu->params);		
+		
+		$orderby_sec 	= $params->def( 'orderby_sec', 	'' );
+		$orderby_pri 	= $params->def( 'orderby_pri', 	'' );
 
 		// Ordering control
 		$order_sec 		= JContentController :: _orderby_sec($orderby_sec);

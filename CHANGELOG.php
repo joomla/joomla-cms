@@ -40,6 +40,11 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+26-Jan-2006 Rey Gigataras 
+ + Fully extensible Syndication functionality
+ + `Live Bookmark` functionality extended to other pages
+ + `Syndicate` plugins
+
 24-Jan-2006 Rey Gigataras 
  ^ Consolidated toolbar icon functions
 

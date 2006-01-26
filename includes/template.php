@@ -77,19 +77,19 @@ function mosShowHead()
  *  
  * @param object $doc The document instance to initialise
  */
-function initDocument(&$doc, $file = 'index.php') 
-{		
-	global $mainframe;
+function initDocument( &$doc, $file = 'index.php' ) {		
+	global $mainframe, $Itemid;
 	
-	$user    =& $mainframe->getUser();
-	$db      =& $mainframe->getDBO();
-	$lang    =& $mainframe->getLanguage();
-	$version = new JVersion();
+	$user    	=& $mainframe->getUser();
+	$db      	=& $mainframe->getDBO();
+	$lang    	=& $mainframe->getLanguage();
+	$version 	= new JVersion();
 	
-	$template = $mainframe->getTemplate();
+	$template 	= $mainframe->getTemplate();
 	
 	$doc->setMetaContentType();
 	
+	// page title for offline pages
 	if($mainframe->getCfg('offline')) {
 		$title = $mainframe->getCfg('sitename');
 		$doc->setTitle($title. '- Offline');
@@ -104,9 +104,9 @@ function initDocument(&$doc, $file = 'index.php')
 	
 	$doc->addGlobalVar( 'template', 	$template);
 	
+	// support for text direction change
 	$doc->addGlobalVar( 'lang_tag', 	$lang->getTag());
-	$doc->addVar( $file, 'lang_isrtl', 	$lang->isRTL());
-	
+	$doc->addVar( $file, 'lang_isrtl', 	$lang->isRTL());	
 	if ($lang->isRTL()) {
 		$doc->addGlobalVar( 'lang_dir', 'rtl' );
 	} else {
@@ -118,37 +118,27 @@ function initDocument(&$doc, $file = 'index.php')
 	}
 
 	// support for Firefox Live Bookmarks ability for site syndication
-	$query = "SELECT a.id"
-	. "\n FROM #__components AS a"
-	. "\n WHERE a.name = 'Syndicate'"
-	;
-	$db->setQuery( $query );
-	$id = $db->loadResult();
+	$row = new JModelMenu( $db );
+	$row->load( $Itemid );
 
-	// load the row from the db table
-	$row = new mosComponent( $db );
-	$row->load( $id );
-
-	// get params definitions
-	$params = new JParameters( $row->params, JApplicationHelper::getPath( 'com_xml', $row->option ), 'component' );
-
-	$live_bookmark = $params->get( 'live_bookmark', 0 );
-
-	// support for Live Bookmarks ability for site syndication
+	$params 		= new JParameters( $row->params );
+	$live_bookmark 	= $params->get( 'live_bookmark', '' );
 	if ($live_bookmark) {
-		$show = 1;
+		$from = @$_SERVER['QUERY_STRING'];
+		
+		if ( $from ) {
+			$parts      = explode( 'option=', $from );
 
-		$link_file 	= 'index2.php?option=com_rss&feed='. $live_bookmark .'&no_html=1';
-
-		// xhtml check
-		$link_file = ampReplace( $link_file );
-
-		// outputs link tag for page
-		if ($show) {
-			$doc->addHeadLink( $link_file, 'alternate', array('type' => 'application/rss+xml'));
+			$link_file 	= 'index.php?option=com_syndicate&feed='. $live_bookmark .'&live=1&type='. $parts[1];
+	
+			// xhtml check
+			$link_file = ampReplace( $link_file );
+	
+			// outputs link tag for page
+			$doc->addHeadLink( $link_file, 'alternate', 'rel', array('type' => 'application/rss+xml'));
 		}
 	}
-	
+
 	// favicon support
 	$path = 'templates/'. $template .'/';
 	$dirs = array( $path, '' );		

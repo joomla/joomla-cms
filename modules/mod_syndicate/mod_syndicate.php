@@ -34,6 +34,7 @@ switch ($option) {
 	case 'com_search':
 	case 'com_wrapper':
 	case 'com_login':
+	case 'com_poll':
 		// do not display for specific core components    
 		return;
 		break;
@@ -73,12 +74,13 @@ $from = @$_SERVER['QUERY_STRING'];
 
 if ( $from ) {
 	$parts      = explode( 'option=', $from );
+	$url		= ampReplace( $parts[1] );
 	
-	$linkRSS091 = 'index.php?option=com_syndicate&amp;feed=RSS0.91&amp;type='. $parts[1];
-	$linkRSS10  = 'index.php?option=com_syndicate&amp;feed=RSS1.0&amp;type='. $parts[1];
-	$linkRSS20  = 'index.php?option=com_syndicate&amp;feed=RSS2.0&amp;type='. $parts[1];
-	$linkATOM03 = 'index.php?option=com_syndicate&amp;feed=ATOM0.3&amp;type='. $parts[1];
-	$linkOPML   = 'index.php?option=com_syndicate&amp;feed=OPML&amp;type='. $parts[1];	
+	$linkRSS091 = 'index.php?option=com_syndicate&amp;feed=RSS0.91&amp;type='. $url;
+	$linkRSS10  = 'index.php?option=com_syndicate&amp;feed=RSS1.0&amp;type='. $url;
+	$linkRSS20  = 'index.php?option=com_syndicate&amp;feed=RSS2.0&amp;type='. $url;
+	$linkATOM03 = 'index.php?option=com_syndicate&amp;feed=ATOM0.3&amp;type='. $url;
+	$linkOPML   = 'index.php?option=com_syndicate&amp;feed=OPML&amp;type='. $url;	
 	?>
 	<div class="syndicate<?php echo $moduleclass_sfx;?>">
 		<?php

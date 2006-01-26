@@ -94,7 +94,7 @@ class JDocumentHTML extends JDocument
      * @param    array   $attributes Associative array of remaining attributes.
      * @return   void
      */
-    function addHeadLink($href, $relation, $relType = 'rel', $attributes = array())
+    function addHeadLink($href, $relation, $relType = 'rel', $attribs = array())
 	{
         $attribs = JDocumentHelper::implodeAttribs('=', ' ', $attribs);
         $generatedTag = "<link href=\"$href\" $relType=\"$relation\"" . $attribs;

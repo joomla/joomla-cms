@@ -28,6 +28,15 @@
 			<option value="1">Show</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="live_bookmark" type="list" default="" label="Live Bookmark" description="Enable/Disable live bookmarks for this page">
+			<option value="">- Inactive -</option>
+			<option value="RSS0.91">RSS 0.91</option>
+			<option value="RSS1.0">RSS 1.0</option>
+			<option value="RSS2.0">RSS 2.0</option>
+			<option value="ATOM0.3">ATOM 0.3</option>
+			<option value="OPML">OPML</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="orderby" type="list" default="" label="Order by" description="PARAMORDERBY">
 			<option value="">Default</option>
 			<option value="alpha">Title Alphabetical</option>
