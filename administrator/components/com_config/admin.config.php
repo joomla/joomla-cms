@@ -42,7 +42,8 @@ class JConfigController {
 	 * Show the configuration edit form
 	 * @param string The URL option
 	 */
-	function showConfig($option) {
+	function showConfig($option) 
+	{
 		global $mainframe;
 
 		/*
@@ -128,8 +129,8 @@ class JConfigController {
 
 		$lists['enable_ftp'] 	= mosHTML :: yesnoRadioList('ftp_enable', 'class="inputbox"', $row->ftp_enable);
 
-		if (!$row->secure_site) {
-			$row->secure_site = str_replace('http://', 'https://', $row->live_site);
+		if (!isset($row->secure_site)) {
+			$row->secure_site = str_replace('http://', 'https://', $mainframe->getCfg('live_site'));
 		}
 
 		// LOCALE SETTINGS

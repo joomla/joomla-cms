@@ -73,7 +73,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 		/*
 		 * Is the component enabled?
 		 */
-		if ($mainframe->isAdmin() || $row->enabled || $component == 'com_content') {
+		//if ($mainframe->isAdmin() || $row->enabled || $component == 'com_content') {
 			$file = substr( $component, 4 );
 			$path = JPATH_BASE.DS.'components'.DS.$component;
 			
@@ -112,13 +112,13 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 			ob_end_clean();
 	
 			return $contents;
-		} else {
+		//} else {
 			/*
 			 * @todo Add some sort of custom error page???
 			 */
-			header("HTTP/1.0 404 Not Found");
-			exit;
-		}
+		//	header("HTTP/1.0 404 Not Found");
+		//	exit;
+		//}
 	}
 }
 ?>

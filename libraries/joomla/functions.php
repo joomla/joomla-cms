@@ -694,7 +694,7 @@ function josURL( $url, $ssl=0, $sef=1 ) {
 	}
 
 	if ( substr( $url,0,4 ) != 'http' ) {
-		$url = $mainframe->getCfg('live_site') . $url;
+		$url = $mainframe->getCfg('live_site') . '/'. $url;
 	}
 
 	//ensure that proper secure site url is used if ssl flag set and url doesn't already include it
