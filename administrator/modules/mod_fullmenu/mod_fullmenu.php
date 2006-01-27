@@ -25,8 +25,7 @@ class JFullAdminMenu
 	* Show the menu
 	* @param string The current user type
 	*/
-	function show($usertype = '')
-	{
+	function show($usertype = '') {
 		global $mainframe;
 
 		$lang 			= & $mainframe->getLanguage();
@@ -135,12 +134,7 @@ class JFullAdminMenu
 <?php
 
 		}
-		if ($manageTrash)
-		{
-?>				['<img src="../includes/js/ThemeOffice/trash.png" />','<?php echo JText::_( 'Trash Manager', true ); ?>','index2.php?option=com_trash',null,'<?php echo JText::_( 'Manage Trash', true ); ?>'],
-<?php
 
-		}
 		if ($canManageUsers || $canMassMail)
 		{
 ?>				['<img src="../includes/js/ThemeOffice/users.png" />','<?php echo JText::_( 'User Manager', true ); ?>','index2.php?option=com_users&task=view',null,'<?php echo JText::_( 'Manage users', true ); ?>'],
@@ -158,6 +152,13 @@ class JFullAdminMenu
 		if ($manageMenuMan)
 		{
 ?>				['<img src="../includes/js/ThemeOffice/menus.png" />','<?php echo JText::_( 'Menu Manager', true ); ?>','index2.php?option=com_menumanager',null,'<?php echo JText::_( 'Manage menu', true ); ?>'],
+  				<?php
+				if ($manageTrash) {
+					?>				
+					['<img src="../includes/js/ThemeOffice/trash.png" />','<?php echo JText::_( 'Trash Manager', true ); ?>','index2.php?option=com_trash&task=viewMenu',null,'<?php echo JText::_( 'Manage Trash', true ); ?>'],
+					<?php
+				}
+				?>  				
 				_cmSplit,
 <?php
 
@@ -220,6 +221,14 @@ class JFullAdminMenu
 				_cmSplit,
   				['<img src="../includes/js/ThemeOffice/home.png" />','<?php echo JText::_( 'Frontpage Manager', true ); ?>','index2.php?option=com_frontpage',null,'<?php echo JText::_( 'Manage Frontpage Items', true ); ?>'],
   				['<img src="../includes/js/ThemeOffice/edit.png" />','<?php echo JText::_( 'Archive Manager', true ); ?>','index2.php?option=com_content&task=showarchive&sectionid=0',null,'<?php echo JText::_( 'Manage Archive Items', true ); ?>'],
+  				<?php
+				if ($manageTrash) {
+					?>				
+					_cmSplit,
+					['<img src="../includes/js/ThemeOffice/trash.png" />','<?php echo JText::_( 'Trash Manager', true ); ?>','index2.php?option=com_trash&task=viewContent',null,'<?php echo JText::_( 'Manage Trash', true ); ?>'],
+					<?php
+				}
+				?>  				
 			],
 <?php
 
@@ -288,10 +297,9 @@ class JFullAdminMenu
 			{
 				echo "\t\t\t\t['<img src=\"../includes/js/ThemeOffice/sections.png\" />','".JText :: _('More Components...', true)."','index2.php?option=com_admin&task=listcomponents',null,'<?php echo JText::_( 'More Components...', true ); ?>'],\n";
 			}
-?>
+			?>
 			],
-<?php
-
+			<?php
 			// Modules Sub-Menu
 			if ($installModules | $editAllModules)
 			{

@@ -46,6 +46,7 @@ Legend:
 
 27-Jan-2006 Rey Gigataras 
  + Admin `Manager Pages` table ordering
+ + `Trash Manager` separated into `Menu` & `Cotent` menu dropdowns
 
 26-Jan-2006 Rey Gigataras 
  + Fully extensible Syndication functionality

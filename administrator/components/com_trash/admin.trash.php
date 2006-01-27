@@ -45,9 +45,22 @@ switch ($task) {
 	case 'restore':
 		restoreTrash( $cid, $option );
 		break;
+	
+	case 'viewMenu':
+		viewTrashMenu( $option );
+		break;	
 
-	default:
-		viewTrash( $option );
+	case 'viewContent':
+		viewTrashContent( $option );
+		break;
+		
+	default:	
+		$return = mosGetParam( $_POST, 'return', 'viewContent' );
+		if ( $return == 'viewMenu' ) {
+			viewTrashMenu( $option );
+		} else {
+			viewTrashContent( $option );
+		}
 		break;
 }
 
@@ -55,13 +68,14 @@ switch ($task) {
 /**
 * Compiles a list of trash items
 */
-function viewTrash( $option ) 
-{
+function viewTrashContent( $option ) {
 	global $database, $mainframe;
-	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
-
-	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+	
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewContent.filter_order", 		'filter_order', 	's.name' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewContent.filter_order_Dir",	'filter_order_Dir',	'' );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 								'limit', 			$mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewContent.limitstart", 		'limitstart', 		0 );	
+	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, s.name, cc.name, c.title";
 
 	// get the total number of content
 	$query = "SELECT count(*)"
@@ -71,23 +85,52 @@ function viewTrash( $option )
 	. "\n WHERE c.state = -2"
 	;
 	$database->setQuery( $query );
-	$total_content = $database->loadResult();
-	$pageNav_content = new mosPageNav( $total_content, $limitstart, $limit );
-
+	$total = $database->loadResult();
+	
+	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
+	$pageNav = new mosPageNav( $total, $limitstart, $limit );
+	
 	// Query content items
-	$query = 	"SELECT c.*, g.name AS groupname, cc.name AS catname, s.name AS sectname"
+	$query = "SELECT c.*, g.name AS groupname, cc.name AS catname, s.name AS sectname"
 	. "\n FROM #__content AS c"
 	. "\n LEFT JOIN #__categories AS cc ON cc.id = c.catid"
 	. "\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope='content'"
 	. "\n INNER JOIN #__groups AS g ON g.id = c.access"
 	. "\n LEFT JOIN #__users AS u ON u.id = c.checked_out"
 	. "\n WHERE c.state = -2"
-	. "\n ORDER BY s.name, cc.name, c.title"
-	. "\n LIMIT $pageNav_content->limitstart, $pageNav_content->limit "
+	. $orderby
 	;
-	$database->setQuery( $query );
+	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$contents = $database->loadObjectList();
+	
+	for ( $i = 0; $i < $total; $i++ ) {
+		if ( ( $contents[$i]->sectionid == 0 ) && ( $contents[$i]->catid == 0 ) ) {
+			$contents[$i]->sectname = 'Typed Content';
+		}
+	}	
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
+	}
+	$lists['order'] = $filter_order;
+	
+	HTML_trash::showListContent( $option, $contents, $pageNav, $lists );
+}
 
+/**
+* Compiles a list of trash items
+*/
+function viewTrashMenu( $option ) {
+	global $database, $mainframe;
+
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewMenu.filter_order", 	'filter_order', 	'm.menutype' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewMenu.filter_order_Dir",	'filter_order_Dir',	'' );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewMenu.limitstart", 		'limitstart', 		0 );
+	
+	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, m.menutype, m.ordering, m.ordering, m.name";	
 
 	$query = "SELECT count(*)"
 	. "\n FROM #__menu AS m"
@@ -95,28 +138,30 @@ function viewTrash( $option )
 	. "\n WHERE m.published = -2"
 	;
 	$database->setQuery( $query );
-	$total_menu = $database->loadResult();
-	//$total_menu = count( $total_menu );
-	$pageNav_menu = new mosPageNav( $total_menu, $limitstart, $limit );
+	$total = $database->loadResult();
+	
+	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
+	$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
 	// Query menu items
-	$query = 	"SELECT m.*"
+	$query = "SELECT m.*"
 	. "\n FROM #__menu AS m"
 	. "\n LEFT JOIN #__users AS u ON u.id = m.checked_out"
 	. "\n WHERE m.published = -2"
-	. "\n ORDER BY m.menutype, m.ordering, m.ordering, m.name"
-	. "\n LIMIT $pageNav_menu->limitstart, $pageNav_menu->limit"
+	. $orderby
 	;
-	$database->setQuery( $query );
+	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$menus = $database->loadObjectList();
 
-	for ( $i = 0; $i < $total_content; $i++ ) {
-		if ( ( $contents[$i]->sectionid == 0 ) && ( $contents[$i]->catid == 0 ) ) {
-			$contents[$i]->sectname = 'Typed Content';
-		}
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
 	}
-
-	HTML_trash::showList( $option, $contents, $menus, $pageNav_content, $pageNav_menu );
+	$lists['order'] = $filter_order;
+	
+	HTML_trash::showListMenu( $option, $menus, $pageNav, $lists );
 }
 
 
@@ -125,6 +170,8 @@ function viewTrash( $option )
 */
 function viewdeleteTrash( $cid, $mid, $option ) {
 	global $database;
+
+	$return = mosGetParam( $_POST, 'return', 'viewContent' );
 
 	// seperate contentids
 	$cids = implode( ',', $cid );
@@ -154,7 +201,7 @@ function viewdeleteTrash( $cid, $mid, $option ) {
 		$type = "menu";
 	}
 
-	HTML_trash::showDelete( $option, $id, $items, $type );
+	HTML_trash::showDelete( $option, $id, $items, $type, $return );
 }
 
 
@@ -164,7 +211,8 @@ function viewdeleteTrash( $cid, $mid, $option ) {
 function deleteTrash( $cid, $option ) {
 	global $database;
 
-	$type = mosGetParam( $_POST, 'type', array(0) );
+	$return = mosGetParam( $_POST, 'return', 'viewContent' );
+	$type 	= mosGetParam( $_POST, 'type', array(0) );
 
 	$total = count( $cid );
 
@@ -185,7 +233,7 @@ function deleteTrash( $cid, $option ) {
 	}
 
 	$msg = sprintf( JText::_( 'Item(s) successfully Deleted' ), $total );
-	mosRedirect( "index2.php?option=$option&mosmsg=". $msg ."" );
+	mosRedirect( "index2.php?option=$option&task=$return&mosmsg=$msg" );
 }
 
 
@@ -195,6 +243,8 @@ function deleteTrash( $cid, $option ) {
 function viewrestoreTrash( $cid, $mid, $option ) {
 	global $database;
 
+	$return = mosGetParam( $_POST, 'return', 'viewContent' );
+	
 	// seperate contentids
 	$cids = implode( ',', $cid );
 	$mids = implode( ',', $mid );
@@ -223,7 +273,7 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 		$type = "menu";
 	}
 
-	HTML_trash::showRestore( $option, $id, $items, $type );
+	HTML_trash::showRestore( $option, $id, $items, $type, $return );
 }
 
 
@@ -233,7 +283,8 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 function restoreTrash( $cid, $option ) {
 	global $database;
 
-	$type = mosGetParam( $_POST, 'type', array(0) );
+	$return = mosGetParam( $_POST, 'return', 'viewContent' );
+	$type 	= mosGetParam( $_POST, 'type', array(0) );
 
 	$total = count( $cid );
 
@@ -262,6 +313,6 @@ function restoreTrash( $cid, $option ) {
 	}
 
 	$msg = sprintf( JText::_( 'Item(s) successfully Restored' ), $total );
-	mosRedirect( "index2.php?option=$option&mosmsg=". $msg ."" );
+	mosRedirect( "index2.php?option=$option&task=$return&mosmsg=$msg" );
 }
 ?>

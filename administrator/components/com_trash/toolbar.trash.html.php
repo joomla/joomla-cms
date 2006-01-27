@@ -21,9 +21,16 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class TOOLBAR_Trash {
 	function _DEFAULT() {
+		global $task;
+
+		if ( $task == 'viewMenu') {
+			$text = ': <small><small>['. JText::_( 'Menu Items' ) .']</small></small>';
+		} else {
+			$text = ': <small><small>['. JText::_( 'Content Items' ) .']</small></small>';
+		}
 
 		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'Trash Manager' ), 'trash.png' );
+		JMenuBar::title( JText::_( 'Trash Manager' ) . $text, 'trash.png' );
 		JMenuBar::custom('restoreconfirm','restore.png','restore_f2.png', JText::_( 'Restore' ), true);
 		JMenuBar::spacer();
 		JMenuBar::custom('deleteconfirm','delete.png','delete_f2.png', JText::_( 'Delete' ), true);
@@ -32,19 +39,20 @@ class TOOLBAR_Trash {
 		JMenuBar::endTable();
 	}
 
-	function _DELETE() {
+	function _RESTORE() {
 		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Restore Items' ), 'restoredb.png' );
+		JMenuBar::spacer();
 		JMenuBar::cancel();
 		JMenuBar::endTable();
 	}
 
-	function _SETTINGS() {
+	function _DELETE() {
 		JMenuBar::startTable();
-		JMenuBar::back();
+		JMenuBar::title( JText::_( 'Delete Items' ), 'delete_f2.png' );
 		JMenuBar::spacer();
-		JMenuBar::save();
+		JMenuBar::cancel();
 		JMenuBar::endTable();
 	}
-
 }
 ?>
