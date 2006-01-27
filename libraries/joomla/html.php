@@ -877,10 +877,10 @@ class mosCommonHTML {
 
 		return $href;
 	}
-			function selectState( $filter_state=NULL )	{
+			function selectState( $filter_state=NULL, $published='Published', $unpublished='Unpublished' )	{
 		$state[] = mosHTML::makeOption( '', '- '. JText::_( 'Select State' ) .' -' );
-		$state[] = mosHTML::makeOption( 'P', JText::_( 'Published' ) );
-		$state[] = mosHTML::makeOption( 'U', JText::_( 'Unpublished' ) );
+		$state[] = mosHTML::makeOption( 'P', JText::_( $published ) );
+		$state[] = mosHTML::makeOption( 'U', JText::_( $unpublished ) );
 		
 		return mosHTML::selectList( $state, 'filter_state', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_state );
 	}

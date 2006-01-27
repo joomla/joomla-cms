@@ -62,6 +62,71 @@ switch ($task) {
 		break;
 }
 
+function showMessages( $option ) {
+	global $database, $mainframe, $my;
+	
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.date_time' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'DESC' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit',  			$mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
+	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
+	
+	$where = array();
+	$where[] = " a.user_id_to='$my->id'";
+	
+	if (isset($search) && $search!= "") {
+		$where[] = "( u.username LIKE '%$search%' OR email LIKE '%$search%' OR u.name LIKE '%$search%' )";
+	}	if ( $filter_state ) {
+		if ( $filter_state == 'P' ) {
+			$where[] = "a.state = 1";
+		} else if ($filter_state == 'U' ) {
+			$where[] = "a.state = 0";
+		}
+	}	
+	
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, a.date_time DESC";
+
+	$query = "SELECT COUNT(*)"
+	. "\n FROM #__messages AS a"
+	. "\n INNER JOIN #__users AS u ON u.id = a.user_id_from"
+	. $where
+	;
+	$database->setQuery( $query );
+	$total = $database->loadResult();
+	
+	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
+	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
+	
+	$query = "SELECT a.*, u.name AS user_from"
+	. "\n FROM #__messages AS a"
+	. "\n INNER JOIN #__users AS u ON u.id = a.user_id_from"
+	. $where
+	. $orderby
+	;
+	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );	
+	$rows = $database->loadObjectList();
+	if ($database->getErrorNum()) {
+		echo $database->stderr();
+		return false;
+	}		
+	
+	// state filter 
+	$lists['state']	= mosCommonHTML::selectState( $filter_state, 'Read', 'Unread' );
+	
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
+	}
+	$lists['order'] = $filter_order;
+	
+	HTML_messages::showMessages( $rows, $pageNav, $search, $option, $lists );
+}
+
 function editConfig( $option ) {
 	global $database, $my;
 
@@ -144,50 +209,6 @@ function saveMessage( $option ) {
 		mosRedirect( "index2.php?option=com_messages&mosmsg=" . $row->getError() );
 	}
 	mosRedirect( "index2.php?option=com_messages" );
-}
-
-function showMessages( $option ) {
-	global $database, $mainframe, $my;
-
-	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit',  $mainframe->getCfg('list_limit') );
-	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
-	$search 	= $mainframe->getUserStateFromRequest( "$option.search", 'search', '' );
-	$search 	= $database->getEscaped( trim( strtolower( $search ) ) );
-
-	$wheres = array();
-	$wheres[] = " a.user_id_to='$my->id'";
-
-	if (isset($search) && $search!= "") {
-		$wheres[] = "( u.username LIKE '%$search%' OR email LIKE '%$search%' OR u.name LIKE '%$search%' )";
-	}
-
-	$query = "SELECT COUNT(*)"
-	. "\n FROM #__messages AS a"
-	. "\n INNER JOIN #__users AS u ON u.id = a.user_id_from"
-	. ( $wheres ? " WHERE " . implode( " AND ", $wheres ) : '' )
-	;
-	$database->setQuery( $query );
-	$total = $database->loadResult();
-
-	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
-	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
-
-	$query = "SELECT a.*, u.name AS user_from"
-	. "\n FROM #__messages AS a"
-	. "\n INNER JOIN #__users AS u ON u.id = a.user_id_from"
-	. ($wheres ? "\n WHERE " . implode( " AND ", $wheres ) : "" )
-	. "\n ORDER BY date_time DESC"
-	. "\n LIMIT $pageNav->limitstart, $pageNav->limit"
-	;
-	$database->setQuery( $query );
-
-	$rows = $database->loadObjectList();
-	if ($database->getErrorNum()) {
-		echo $database->stderr();
-		return false;
-	}
-
-	HTML_messages::showMessages( $rows, $pageNav, $search, $option );
 }
 
 function viewMessage( $uid='0', $option ) {
