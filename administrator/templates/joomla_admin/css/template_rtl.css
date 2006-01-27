@@ -122,9 +122,43 @@ td.menudottedline {
 }
 .pathway {
 	margin-right: 15px;
+}  
+
+/* Fieldsets */
+fieldset {
+	text-align: right;
 }
 
+
+/* Two Pane Formatting */
+#treecell {
+	float: right;
+}
+
+
 .expander { 
-	float: left;  
+	 float: left;
+
+}
+
+#datacell {
+	float: right;
+}
+
+
+#datacellfull {
+	float: right;
+}
+
+.ext {
+	width: 100%;
+	right: 5px; 
+	font-size: 14px;
+}
+
+.subext {
+	width: 100%;
+	right: 25px;
+	list-style-image: url(../images/arrow_rtl.gif);
 }
 
