@@ -81,19 +81,20 @@ switch ($task) {
 		break;
 }
 
-function showUsers( $option ) 
-{
+function showUsers( $option ) {
 	global $database, $mainframe, $my, $acl;
 
-	$filter_type	= $mainframe->getUserStateFromRequest( "$option.filter_type", 'filter_type', 0 );
-	$filter_logged	= $mainframe->getUserStateFromRequest( "$option.filter_logged", 'filter_logged', 0 );
-	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
-	$search 		= $mainframe->getUserStateFromRequest( "$option.search", 'search', '' );
-	$search 		= $database->getEscaped( trim( strtolower( $search ) ) );
-	$where 			= array();
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.name' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
+	$filter_type		= $mainframe->getUserStateFromRequest( "$option.filter_type", 		'filter_type', 		0 );
+	$filter_logged		= $mainframe->getUserStateFromRequest( "$option.filter_logged", 	'filter_logged', 	0 );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
+	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
+	$where 				= array();
 
-	if (isset( $search ) && $search!= "") {
+	if (isset( $search ) && $search!= '') {
 		$where[] = "(a.username LIKE '%$search%' OR a.email LIKE '%$search%' OR a.name LIKE '%$search%')";
 	}
 	if ( $filter_type ) {
@@ -112,21 +113,24 @@ function showUsers( $option )
 	}
 
 	// exclude any child group id's for this user
-	//$acl->_debug = true;
 	$pgids = $acl->get_group_children( $my->gid, 'ARO', 'RECURSE' );
 
 	if (is_array( $pgids ) && count( $pgids ) > 0) {
 		$where[] = "(a.gid NOT IN (" . implode( ',', $pgids ) . "))";
 	}
+	$filter = '';
+	if ($filter_logged == 1 || $filter_logged == 2) {
+		$filter = "\n INNER JOIN #__session AS s ON s.userid = a.id";
+	}
+		
+	$orderby = "\n ORDER BY $filter_order $filter_order_Dir";	
+	$where = ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );		
 
 	$query = "SELECT COUNT(a.id)"
-	. "\n FROM #__users AS a";
-
-	if ($filter_logged == 1 || $filter_logged == 2) {
-		$query .= "\n INNER JOIN #__session AS s ON s.userid = a.id";
-	}
-
-	$query .= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
+	. "\n FROM #__users AS a"
+	. $filter
+	. $where
+	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
@@ -135,28 +139,22 @@ function showUsers( $option )
 
 	$query = "SELECT a.*, g.name AS groupname"
 	. "\n FROM #__users AS a"
-	. "\n INNER JOIN #__core_acl_aro AS aro ON aro.value = a.id"	// map user to aro
-	. "\n INNER JOIN #__core_acl_groups_aro_map AS gm ON gm.aro_id = aro.id"	// map aro to group
-	. "\n INNER JOIN #__core_acl_aro_groups AS g ON g.id = gm.group_id";
-
-	if ($filter_logged == 1 || $filter_logged == 2) {
-		$query .= "\n INNER JOIN #__session AS s ON s.userid = a.id";
-	}
-
-	$query .= (count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : "")
+	. "\n INNER JOIN #__core_acl_aro AS aro ON aro.value = a.id"	
+	. "\n INNER JOIN #__core_acl_groups_aro_map AS gm ON gm.aro_id = aro.id"	
+	. "\n INNER JOIN #__core_acl_aro_groups AS g ON g.id = gm.group_id"
+	. $filter
+	. $where
 	. "\n GROUP BY a.id"
-	. "\n LIMIT $pageNav->limitstart, $pageNav->limit"
+	. $orderby
 	;
-	$database->setQuery( $query );
+	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$rows = $database->loadObjectList();
 
-	if ($database->getErrorNum()) {
-		echo $database->stderr();
-		return false;
-	}
-
-	$template = 'SELECT COUNT(s.userid) FROM #__session AS s WHERE s.userid = %d';
 	$n = count( $rows );
+	$template = "SELECT COUNT(s.userid)"
+	. "\n FROM #__session AS s"
+	. "\n WHERE s.userid = %d"
+	;
 	for ($i = 0; $i < $n; $i++) {
 		$row = &$rows[$i];
 		$query = sprintf( $template, intval( $row->id ) );
@@ -170,15 +168,23 @@ function showUsers( $option )
 	. "\n WHERE name != 'ROOT'"
 	. "\n AND name != 'USERS'"
 	;
-	$types[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Group' ) .' -' );
 	$database->setQuery( $query );
-	$types = array_merge( $types, $database->loadObjectList() );
-	$lists['type'] = mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_type" );
+	$types[] 		= mosHTML::makeOption( '0', '- '. JText::_( 'Select Group' ) .' -' );
+	$types 			= array_merge( $types, $database->loadObjectList() );
+	$lists['type'] 	= mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_type" );
 
 	// get list of Log Status for dropdown filter
 	$logged[] = mosHTML::makeOption( 0, '- '. JText::_( 'Select Log Status' ) .' -');
 	$logged[] = mosHTML::makeOption( 1, JText::_( 'Logged In' ) );
 	$lists['logged'] = mosHTML::selectList( $logged, 'filter_logged', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_logged" );
+	
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
+	}
+	$lists['order'] = $filter_order;	
 
 	HTML_users::showUsers( $rows, $pageNav, $search, $option, $lists );
 }
