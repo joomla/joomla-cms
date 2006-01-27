@@ -386,6 +386,7 @@ CREATE TABLE `#__messages` (
   `message` text NOT NULL,
   PRIMARY KEY  (`message_id`)
 ) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__messages_cfg`
@@ -397,6 +398,7 @@ CREATE TABLE `#__messages_cfg` (
   `cfg_value` varchar(255) NOT NULL default '',
   UNIQUE `idx_user_var_name` (`user_id`,`cfg_name`)
 ) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
+# --------------------------------------------------------
 
 #
 # Table structure for table `#__modules`

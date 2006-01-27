@@ -47,9 +47,11 @@ Legend:
 27-Jan-2006 Rey Gigataras 
  + Admin `Manager Pages` table ordering
  + `Trash Manager` separated into `Menu` & `Cotent` menu dropdowns
+ - Depreciate `com_rss`, functionality replaced with `com_syndicate`
+ - Depreciate `mod_rssfeed`, functionality replaced with `mod_syndicate`
 
 26-Jan-2006 Rey Gigataras 
- + Fully extensible Syndication functionality
+ + Fully extensible Syndication functionality via `com_syndicate` and `syndicate` plugins
  + `Live Bookmark` functionality extended to other pages
  + `Syndicate` plugins
 
