@@ -686,22 +686,56 @@ function josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
 function josURL( $url, $ssl=0, $sef=1 ) {
 	global $mainframe;
 
-	$unsecure 	= $mainframe->getCfg('unsecure_site');
-	$secure 	= $mainframe->getCfg('secure_site');
+	/*
+	 * Get the base request URL from the JApplication object
+	 */
+	$RURL = $mainframe->getBaseURL();
+	
+	/*
+	 * First we need to get the secure/unsecure URLs.  To do this we get the
+	 * request URL from the JApplication and do a quick test.  If the first 5
+	 * characters of the RURL are 'https', then we are on an ssl connection over
+	 * https and need to set our secure URL to the current request URL, if not,
+	 * and the scheme is 'http', then we need to do a quick string manipulation
+	 * to switch schemes.
+	 */
+	if ( substr( $RURL, 0, 5 ) == 'https' )
+	{
+		$secure 	= $RURL;
+		$unsecure	= 'http'.substr( $RURL, 5 );
+	} elseif ( substr( $RURL, 0, 4 ) == 'http' )
+	{
+		$secure		= 'https'.substr( $RURL, 4 );
+		$unsecure	= $RURL;
+	}
 
+	/*
+	 * If we want to SEF the url, and the SEF function exists... lets pass the
+	 * url through it.
+	 */
 	if ( ( $sef == 1 ) && ( function_exists('sefRelToAbs' ) ) ) {
 		$url = sefRelToAbs( $url );
 	}
 
+	/*
+	 * Were we fed a relative URL?
+	 */
 	if ( substr( $url,0,4 ) != 'http' ) {
-		$url = $mainframe->getCfg('live_site') . '/'. $url;
+		$url = $RURL . $url;
 	}
 
-	//ensure that proper secure site url is used if ssl flag set and url doesn't already include it
+	/*
+	 * Ensure that proper secure site url is used if ssl flag set and url
+	 * doesn't already include it
+	 */
 	if ($ssl == 1 && strstr($url, $unsecure)) {
 		$url = str_replace( $unsecure, $secure , $url );
 	}
 
+	/*
+	 * Ok, now if the SSL flag is set to always unsecure, and we are in SSL
+	 * mode, lets change the link to use the unsecure URL
+	 */
 	if ($ssl == -1 && strstr($url, $secure)) {
 		$url = str_replace( $secure, $unsecure , $url );
 	}
