@@ -40,6 +40,9 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+27-Jan-2006 Rey Gigataras 
+ + Admin `Manager Pages` table ordering
+
 26-Jan-2006 Rey Gigataras 
  + Fully extensible Syndication functionality
  + `Live Bookmark` functionality extended to other pages

@@ -162,22 +162,6 @@ function constructFeed( $rows, $feed, $filename, $title, &$params, $showFeed=tru
 	// live bookmarks
 	$info[ 'live_bookmark' ]	= $params->def( 'live_bookmark', '' );
 	$info[ 'bookmark_file' ]	= $params->def( 'bookmark_file', '' );
-/*	
-	// set filename for live bookmarks feed
-	if ( !$showFeed & $info[ 'live_bookmark' ] ) {
-		if ( $info[ 'bookmark_file' ] ) {
-			// custom bookmark filename
-			$info[ 'file' ] = JPATH_SITE .'/cache/'. $info[ 'bookmark_file' ];
-		} else {
-			// standard bookmark filename
-			$info[ 'file' ] = JPATH_SITE .'/cache/'. $info[ 'live_bookmark' ];
-		}
-	} else {
-		// set filename for rss feeds
-		$info[ 'file' ] = strtolower( str_replace( '.', '', $info[ 'feed' ] ) );
-		$info[ 'file' ]   = JPATH_SITE .'/cache/'. $info[ 'file' ] .'_'. $filename .'.xml';
-	}
-*/
 
 	// set filename
 	if ( $showFeed ) {

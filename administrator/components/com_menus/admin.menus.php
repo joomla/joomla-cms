@@ -143,12 +143,14 @@ switch ($task) {
 function viewMenuItems( $menutype, $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$filter_state	= $mainframe->getUserStateFromRequest( "$option.$menutype.filter_state", 'filter_state', '' );
-	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mosConfig_list_limit );
-	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.$menutype.limitstart", 'limitstart', 0 );
-	$levellimit 	= $mainframe->getUserStateFromRequest( "$option.$menutype.levellimit", 'levellimit', 10 );
-	$search 		= $mainframe->getUserStateFromRequest( "$option.$menutype.search", 'search', '' );
-	$search 		= $database->getEscaped( trim( strtolower( $search ) ) );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$menutype.filter_order", 		'filter_order', 	'm.parent' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$menutype.filter_order_Dir",	'filter_order_Dir',	'' );
+	$filter_state		= $mainframe->getUserStateFromRequest( "$option.$menutype.filter_state", 		'filter_state', 	'' );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 								'limit', 			$mosConfig_list_limit );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$menutype.limitstart", 			'limitstart', 		0 );
+	$levellimit 		= $mainframe->getUserStateFromRequest( "$option.$menutype.levellimit", 			'levellimit', 		10 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.$menutype.search", 				'search', 			'' );
+	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 
 	$and = '';
 	if ( $filter_state ) {
@@ -158,6 +160,8 @@ function viewMenuItems( $menutype, $option ) {
 			$and = "\n AND m.published = 0";
 		}
 	}
+		
+	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, m.parent, m.ordering";
 	
 	// select the records
 	// note, since this is a tree we have to do the limits code-side
@@ -181,7 +185,7 @@ function viewMenuItems( $menutype, $option ) {
 	. "\n WHERE m.menutype = '$menutype'"
 	. "\n AND m.published != -2"
 	. $and
-	. "\n ORDER BY parent, ordering"
+	. $orderby
 	;
 	$database->setQuery( $query );
 	$rows = $database->loadObjectList();
@@ -279,7 +283,15 @@ function viewMenuItems( $menutype, $option ) {
 	}
 	
 	// state filter 
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );	
+
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
+	}
+	$lists['order'] = $filter_order;
 	
 	HTML_menusections::showMenusections( $list, $pageNav, $search, $levellist, $menutype, $option, $lists );
 }

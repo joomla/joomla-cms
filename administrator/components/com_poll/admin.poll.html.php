@@ -19,15 +19,13 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Polls
 */
-class HTML_poll 
-{
-	function showPolls( &$rows, &$pageNav, $option, &$lists ) 
-	{
+class HTML_poll {
+	function showPolls( &$rows, &$pageNav, $option, &$lists ) {
 		global $my;
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index2.php?option=com_poll" method="post" name="adminForm">
 		
 		<table class="adminheading">
 		<tr>
@@ -44,22 +42,25 @@ class HTML_poll
 		<table class="adminlist">
 		<tr>
 			<th width="5">
-			<?php echo JText::_( 'NUM' ); ?>
+				<?php echo JText::_( 'NUM' ); ?>
 			</th>
 			<th width="20">
-			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th  class="title">
-			<?php echo JText::_( 'Poll Title' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Poll Title', 'm.title', $lists ); ?>
 			</th>
 			<th width="10%" align="center">
-			<?php echo JText::_( 'Published' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Published', 'm.published', $lists ); ?>
 			</th>
 			<th width="10%" align="center">
-			<?php echo JText::_( 'Options' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Votes', 'm.voters', $lists ); ?>
 			</th>
 			<th width="10%" align="center">
-			<?php echo JText::_( 'Lag' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Options', 'numoptions', $lists ); ?>
+			</th>
+			<th width="10%" align="center">
+				<?php mosCommonHTML :: tableOrdering( 'Lag', 'm.lag', $lists ); ?>
 			</th>
 		</tr>
 		<?php
@@ -77,26 +78,27 @@ class HTML_poll
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td>
-				<?php echo $pageNav->rowNumber( $i ); ?>
+					<?php echo $pageNav->rowNumber( $i ); ?>
 				</td>
 				<td>
-				<?php echo $checked; ?>
+					<?php echo $checked; ?>
 				</td>
 				<td>
-				<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Poll' ); ?>">
-				<?php echo $row->title; ?>
-				</a>
+					<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Poll' ); ?>">
+						<?php echo $row->title; ?></a>
 				</td>
 				<td align="center">
-				<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
-				<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" />
-				</a>
+					<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
+						<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
 				</td>
 				<td align="center">
-				<?php echo $row->numoptions; ?>
+					<?php echo $row->voters; ?>
 				</td>
 				<td align="center">
-				<?php echo $row->lag; ?>
+					<?php echo $row->numoptions; ?>
+				</td>
+				<td align="center">
+					<?php echo $row->lag; ?>
 				</td>
 			</tr>
 			<?php
@@ -104,12 +106,15 @@ class HTML_poll
 		}
 		?>
 		</table>
+		
 		<?php echo $pageNav->getListFooter(); ?>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />
+		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
 		<?php
 	}

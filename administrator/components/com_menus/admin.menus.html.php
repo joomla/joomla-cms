@@ -26,7 +26,8 @@ class HTML_menusections {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index2.php?option=com_menus&amp;menutype=<?php echo $menutype; ?>" method="post" name="adminForm">
+		
 		<table class="adminheading">
 		<tr>
 			<td align="left" valign="top" nowrap="nowrap">
@@ -48,10 +49,10 @@ class HTML_menusections {
 			?>
 			<tr>
 				<td align="left" nowrap="nowrap" style="color: red; font-weight: normal;">
-				<?php echo JText::_( 'WARNDELETEMENU' ); ?>
+					<?php echo JText::_( 'WARNDELETEMENU' ); ?>
 				</td>
 				<td align="right" valign="top" nowrap="nowrap" style="font-weight: normal;">
-				<?php echo JText::_( 'WARNMAINMENUHOME' ); ?>
+					<?php echo JText::_( 'WARNMAINMENUHOME' ); ?>
 				</td>
 			</tr>
 			<?php
@@ -62,37 +63,38 @@ class HTML_menusections {
 		<table class="adminlist">
 		<tr>
 			<th width="20">
-			<?php echo JText::_( 'NUM' ); ?>
+				<?php echo JText::_( 'NUM' ); ?>
 			</th>
 			<th width="20">
-			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 			</th>
 			<th class="title" width="40%">
-			<?php echo JText::_( 'Menu Item' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Menu Item', 'm.name', $lists ); ?>
 			</th>
-			<th width="5%">
-			<?php echo JText::_( 'Published' ); ?>
+			<th width="5%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'Published', 'm.published', $lists ); ?>
 			</th>
 			<th colspan="2" width="5%">
-			<?php echo JText::_( 'Reorder' ); ?>
+				<?php echo JText::_( 'Reorder' ); ?>
 			</th>
-			<th width="2%">
-			<?php echo JText::_( 'Order' ); ?>
+			<th width="2%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'Order', 'm.ordering', $lists ); ?>
 			</th>
 			<th width="1%">
-			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+				<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
+					<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
 			</th>
 			<th width="10%">
-			<?php echo JText::_( 'Access' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
 			</th>
-			<th>
-			<?php echo JText::_( 'Itemid' ); ?>
+			<th nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'Itemid', 'm.id', $lists ); ?>
 			</th>
-			<th width="35%"  class="title">
-			<?php echo JText::_( 'Type' ); ?>
+			<th width="35%" class="title">
+				<?php mosCommonHTML :: tableOrdering( 'Type', 'm.type', $lists ); ?>
 			</th>
-			<th>
-			<?php echo JText::_( 'CID' ); ?>
+			<th nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'CID', 'm.componentid', $lists ); ?>
 			</th>
 		</tr>
 		<?php
@@ -106,42 +108,41 @@ class HTML_menusections {
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td>
-				<?php echo $i + 1 + $pageNav->limitstart;?>
+					<?php echo $i + 1 + $pageNav->limitstart;?>
 				</td>
 				<td>
-				<?php echo $checked; ?>
+					<?php echo $checked; ?>
 				</td>
 				<td nowrap="nowrap">
-				<?php
-				if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-					echo $row->treename;
-				} else {
-					$link = 'index2.php?option=com_menus&menutype='. $row->menutype .'&task=edit&id='. $row->id . '&hidemainmenu=1';
-					?>
-					<a href="<?php echo ampReplace( $link ); ?>">
-					<?php echo $row->treename; ?>
-					</a>
 					<?php
-				}
-				?>
+					if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+						echo $row->treename;
+					} else {
+						$link = 'index2.php?option=com_menus&menutype='. $row->menutype .'&task=edit&id='. $row->id . '&hidemainmenu=1';
+						?>
+						<a href="<?php echo ampReplace( $link ); ?>">
+							<?php echo $row->treename; ?></a>
+						<?php
+					}
+					?>
 				</td>
 				<td width="10%" align="center">
-				<?php echo $published;?>
+					<?php echo $published;?>
 				</td>
 				<td>
-				<?php echo $pageNav->orderUpIcon( $i ); ?>
+					<?php echo $pageNav->orderUpIcon( $i ); ?>
 				</td>
 				<td>
-				<?php echo $pageNav->orderDownIcon( $i, $n ); ?>
+					<?php echo $pageNav->orderDownIcon( $i, $n ); ?>
 				</td>
 				<td align="center" colspan="2">
-				<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
+					<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
 				</td>
 				<td align="center">
-				<?php echo $access;?>
+					<?php echo $access;?>
 				</td>
 				<td align="center">
-				<?php echo $row->id; ?>
+					<?php echo $row->id; ?>
 				</td>
 				<td>
 					<span class="editlinktip">
@@ -151,7 +152,7 @@ class HTML_menusections {
 					</span>
 				</td>
 				<td align="center">
-				<?php echo $row->componentid; ?>
+					<?php echo $row->componentid; ?>
 				</td>
 			</tr>
 			<?php
@@ -168,6 +169,8 @@ class HTML_menusections {
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />
+		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
 		<?php
 	}

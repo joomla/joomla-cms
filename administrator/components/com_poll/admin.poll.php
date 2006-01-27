@@ -74,9 +74,11 @@ switch( $task ) {
 function showPolls( $option ) {
 	global $database, $mainframe;
 
-	$filter_state 	= $mainframe->getUserStateFromRequest( "$option.filter_state", 'filter_state', '' );
-	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'm.id' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
 
 	$where = '';
 	if ( $filter_state ) {
@@ -87,9 +89,12 @@ function showPolls( $option ) {
 		}
 	}
 	
+	$orderby = "\n ORDER BY $filter_order $filter_order_Dir";
+	
 	$query = "SELECT COUNT(m.*)"
 	. "\n FROM #__polls AS m"
 	. $where
+	. $orderby
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
@@ -97,16 +102,15 @@ function showPolls( $option ) {
 	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
 
-	$query = "SELECT m.*, u.name AS editor,"
-	. "\n COUNT(d.id) AS numoptions"
+	$query = "SELECT m.*, u.name AS editor, COUNT(d.id) AS numoptions"
 	. "\n FROM #__polls AS m"
 	. "\n LEFT JOIN #__users AS u ON u.id = m.checked_out"
 	. "\n LEFT JOIN #__poll_data AS d ON d.pollid = m.id AND d.text <> ''"
 	. $where
 	. "\n GROUP BY m.id"
-	. "\n LIMIT $pageNav->limitstart, $pageNav->limit"
+	. $orderby
 	;
-	$database->setQuery( $query );
+	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$rows = $database->loadObjectList();
 
 	if ($database->getErrorNum()) {
@@ -115,7 +119,15 @@ function showPolls( $option ) {
 	}
 	
 	// state filter 
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );	
+	
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
+	}
+	$lists['order'] = $filter_order;
 	
 	HTML_poll::showPolls( $rows, $pageNav, $option, $lists );
 }

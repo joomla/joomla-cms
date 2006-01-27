@@ -93,13 +93,13 @@ class HTML_typedcontent {
 			$row = &$rows[$i];
 
 			$now = date( 'Y-m-d H:i:s' );
-			if ( $now <= $row->publish_up && $row->state == "1" ) {
+			if ( $now <= $row->publish_up && $row->state == 1 ) {
 				$img = 'publish_y.png';
 				$alt = JText::_( 'Published' );
-			} else if ( ( $now <= $row->publish_down || $row->publish_down == $nullDate ) && $row->state == "1" ) {
+			} else if ( ( $now <= $row->publish_down || $row->publish_down == $nullDate ) && $row->state == 1 ) {
 				$img = 'publish_g.png';
 				$alt = JText::_( 'Published' );
-			} else if ( $now > $row->publish_down && $row->state == "1" ) {
+			} else if ( $now > $row->publish_down && $row->state == 1 ) {
 				$img = 'publish_r.png';
 				$alt = JText::_( 'Expired' );
 			} elseif ( $row->state == "0" ) {

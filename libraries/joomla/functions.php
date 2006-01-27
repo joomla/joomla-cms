@@ -487,14 +487,14 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 	if ( !$text ) {
 		$image 	= $url . 'includes/js/ThemeOffice/'. $image;
 		$text 	= '<img src="'. $image .'" border="0" alt="'. JText::_( 'Tooltip' ) .'"/>';
-	}
-    else{
+	} else {
 		$text 	= JText::_( $text );
     }
 	$style = 'style="text-decoration: none; color: #333;"';
 	if ( $href ) {
+		$href = ampReplace( $href );
 		$style = '';
-	}else{
+	} else {
 		$href = '#';
 	}
 

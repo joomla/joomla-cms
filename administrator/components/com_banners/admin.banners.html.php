@@ -26,7 +26,7 @@ class HTML_banners {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index2.php?option=com_banners" method="post" name="adminForm">
 
 		<table class="adminheading">
 		<tr>
@@ -46,24 +46,24 @@ class HTML_banners {
             	<?php echo JText::_( 'Num' ); ?>
 			</th>
 			<th width="20">
-				<input type="checkbox" name="toggle" value=""  onClick="checkAll(<?php echo count( $rows ); ?>);" />
+				<input type="checkbox" name="toggle" value=""  onclick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
-			<th nowrap class="title">
-				<?php echo JText::_( 'Banner Name' ); ?>
+			<th nowrap="nowrap" class="title">
+				<?php mosCommonHTML :: tableOrdering( 'Banner Name', 'b.name', $lists ); ?>
 			</th>
-			<th width="10%" nowrap>
-				<?php echo JText::_( 'Published' ); ?>
+			<th width="10%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'Published', 'b.showBanner', $lists ); ?>
 			</th>
-			<th width="11%" nowrap>
-				<?php echo JText::_( 'Impressions Made' ); ?>
+			<th width="11%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'Impressions Made', 'b.impmade', $lists ); ?>
 			</th>
-			<th width="11%" nowrap>
+			<th width="11%" nowrap="nowrap">
 				<?php echo JText::_( 'Impressions Left' ); ?>
 			</th>
-			<th width="8%">
-				<?php echo JText::_( 'Clicks' ); ?>
+			<th width="7%">
+				<?php mosCommonHTML :: tableOrdering( 'Clicks', 'b.clicks', $lists ); ?>
 			</th>
-			<th width="8%" nowrap>
+			<th width="7%" nowrap="nowrap">
 				<?php echo JText::_( '% Clicks' ); ?>
 			</th>
 		</tr>
@@ -106,16 +106,14 @@ class HTML_banners {
 					} else {
 						?>
 						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Banner' ); ?>">
-						<?php echo $row->name; ?>
-						</a>
+							<?php echo $row->name; ?></a>
 						<?php
 					}
 					?>
 				</td>
 				<td align="center">
-					<a href="javascript: void(0);" onMouseOver="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
-					<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" />
-					</a>
+					<a href="javascript: void(0);" onmouseover="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
+						<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
 				</td>
 				<td align="center">
 					<?php echo $row->impmade;?>
@@ -135,12 +133,15 @@ class HTML_banners {
 		}
 		?>
 		</table>
+		
 		<?php echo $pageNav->getListFooter(); ?>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />
+		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
 		<?php
 	}
@@ -309,12 +310,12 @@ class HTML_banners {
 */
 class HTML_bannerClient {
 
-	function showClients( &$rows, &$pageNav, $option ) {
+	function showClients( &$rows, &$pageNav, $option, &$lists ) {
 		global $my;
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index2.php?option=com_banners&amp;task=listclients" method="post" name="adminForm">
 
 		<table class="adminlist">
 		<tr>
@@ -324,14 +325,14 @@ class HTML_bannerClient {
 			<th width="20">
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
-			<th nowrap class="title">
-				<?php echo JText::_( 'Client Name' ); ?>
+			<th nowrap="nowrap" class="title">
+				<?php mosCommonHTML :: tableOrdering( 'Client Name', 'a.name', $lists, 'listclients' ); ?>
 			</th>
-			<th nowrap class="title">
-				<?php echo JText::_( 'Contact' ); ?>
+			<th nowrap="nowrap" class="title" width="15%">
+				<?php mosCommonHTML :: tableOrdering( 'Contact', 'a.contact', $lists, 'listclients' ); ?>
 			</th>
-			<th align="center" nowrap>
-				<?php echo JText::_( 'No. of Active Banners' ); ?>
+			<th align="center" nowrap="nowrap" width="5%">
+				<?php mosCommonHTML :: tableOrdering( 'No. of Active Banners', 'bid', $lists, 'listclients' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -345,13 +346,13 @@ class HTML_bannerClient {
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 			?>
 			<tr class="<?php echo "row$k"; ?>">
-				<td width="20" align="center">
+				<td align="center">
 					<?php echo $pageNav->rowNumber( $i ); ?>
 				</td>
-				<td width="20">
+				<td>
 					<?php echo $checked; ?>
 				</td>
-				<td width="40%">
+				<td>
 					<?php
 					if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
 						echo $row->name;
@@ -364,10 +365,10 @@ class HTML_bannerClient {
 					}
 					?>
 				</td>
-				<td width="40%">
+				<td>
 					<?php echo $row->contact;?>
 				</td>
-				<td width="20%" align="center">
+				<td align="center">
 					<?php echo $row->bid;?>
 				</td>
 			</tr>
@@ -376,12 +377,15 @@ class HTML_bannerClient {
 		}
 		?>
 		</table>
+		
 		<?php echo $pageNav->getListFooter(); ?>
 		
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="listclients" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />
+		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
 		<?php
 	}

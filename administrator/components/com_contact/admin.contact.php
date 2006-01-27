@@ -81,16 +81,17 @@ switch ($task) {
 * List the records
 * @param string The current GET/POST option
 */
-function showContacts( $option ) 
-{
+function showContacts( $option ) {
 	global $database, $mainframe;
 
-	$filter_state 	= $mainframe->getUserStateFromRequest( "$option.filter_state", 'filter_state', '' );
-	$catid 			= $mainframe->getUserStateFromRequest( "$option.catid", 'catid', 0 );
-	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.view.limitstart", 'limitstart', 0 );
-	$search 		= $mainframe->getUserStateFromRequest( "$option.search", 'search', '' );
-	$search 		= $database->getEscaped( trim( strtolower( $search ) ) );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'cd.catid' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
+	$catid 				= $mainframe->getUserStateFromRequest( "$option.catid", 			'catid', 			0 );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.view.limitstart",	'limitstart', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
+	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 
 	if ( $search ) {
 		$where[] = "cd.name LIKE '%$search%'";
@@ -110,6 +111,8 @@ function showContacts( $option )
 	} else {
 		$where = '';
 	}
+	
+	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, cd.catid, cd.ordering, cd.name";
 
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
@@ -129,10 +132,9 @@ function showContacts( $option )
 	. "\n LEFT JOIN #__users AS u ON u.id = cd.user_id"
 	. "\n LEFT JOIN #__users AS v ON v.id = cd.checked_out"
 	. $where
-	. "\n ORDER BY cd.catid, cd.ordering, cd.name ASC"
-	. "\n LIMIT $pageNav->limitstart, $pageNav->limit"
+	. $orderby
 	;
-	$database->setQuery( $query );
+	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$rows = $database->loadObjectList();
 
 	// build list of categories
@@ -141,7 +143,15 @@ function showContacts( $option )
 	
 	// state filter 
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );
-	
+		
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
+	}
+	$lists['order'] = $filter_order;	
+
 	HTML_contact::showcontacts( $rows, $pageNav, $search, $option, $lists );
 }
 

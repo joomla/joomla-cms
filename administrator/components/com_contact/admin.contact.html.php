@@ -26,7 +26,7 @@ class HTML_contact {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index2.php?option=com_contact" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
 			<td>
@@ -45,25 +45,25 @@ class HTML_contact {
 		<table class="adminlist">
 		<tr>
 			<th width="20">
-			<?php echo JText::_( 'Num' ); ?>
+				<?php echo JText::_( 'Num' ); ?>
 			</th>
 			<th width="20" class="title">
-			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 			</th>
 			<th class="title">
-			<?php echo JText::_( 'Name' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Name', 'cd.name', $lists ); ?>
 			</th>
-			<th width="5%" class="title" nowrap="true">
-			<?php echo JText::_( 'Published' ); ?>
+			<th width="5%" class="title" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'Published', 'cd.published', $lists ); ?>
 			</th>
 			<th colspan="2" nowrap="nowrap" width="5%">
-			<?php echo JText::_( 'Reorder' ); ?>
+				<?php echo JText::_( 'Reorder' ); ?>
 			</th>
 			<th width="15%" class="title">
-			<?php echo JText::_( 'Category' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Category', 'category', $lists ); ?>
 			</th>
 			<th class="title" nowrap="nowrap" width="15%">
-			<?php echo JText::_( 'Linked to User' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Linked to User', 'user', $lists ); ?>
 			</th>
 		</tr>
 		<?php
@@ -84,10 +84,10 @@ class HTML_contact {
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td>
-				<?php echo $pageNav->rowNumber( $i ); ?>
+					<?php echo $pageNav->rowNumber( $i ); ?>
 				</td>
 				<td>
-				<?php echo $checked; ?>
+					<?php echo $checked; ?>
 				</td>
 				<td>
 				<?php
@@ -96,32 +96,28 @@ class HTML_contact {
 				} else {
 					?>
 					<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Contact' ); ?>">
-					<?php echo $row->name; ?>
-					</a>
+						<?php echo $row->name; ?></a>
 					<?php
 				}
 				?>
 				</td>
 				<td align="center">
-				<a href="javascript: void(0);" onClick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
-				<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" />
-				</a>
+					<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
+						<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
 				</td>
 				<td>
-				<?php echo $pageNav->orderUpIcon( $i, ( $row->catid == @$rows[$i-1]->catid ) ); ?>
+					<?php echo $pageNav->orderUpIcon( $i, ( $row->catid == @$rows[$i-1]->catid ) ); ?>
 				</td>
 				<td>
-				<?php echo $pageNav->orderDownIcon( $i, $n, ( $row->catid == @$rows[$i+1]->catid ) ); ?>
+					<?php echo $pageNav->orderDownIcon( $i, $n, ( $row->catid == @$rows[$i+1]->catid ) ); ?>
 				</td>
 				<td>
-				<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
-				<?php echo $row->category; ?>
-				</a>
+					<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
+						<?php echo $row->category; ?></a>
 				</td>
 				<td>
-				<a href="<?php echo $row->user_link; ?>" title="<?php echo JText::_( 'Edit User' ); ?>">
-				<?php echo $row->user; ?>
-				</a>
+					<a href="<?php echo $row->user_link; ?>" title="<?php echo JText::_( 'Edit User' ); ?>">
+						<?php echo $row->user; ?></a>
 				</td>
 			</tr>
 			<?php
@@ -135,6 +131,8 @@ class HTML_contact {
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />
+		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
 		<?php
 	}

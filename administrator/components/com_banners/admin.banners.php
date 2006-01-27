@@ -102,9 +102,11 @@ switch ($task) {
 function viewBanners( $option ) {
 	global $database, $mainframe;
 
-	$filter_state 	= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_state", 'filter_state', '' );
-	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.viewbanners.limitstart", 'limitstart', 0 );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_order", 		'filter_order', 	'b.id' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_order_Dir",	'filter_order_Dir',	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_state", 		'filter_state', 	'' );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 								'limit', 			$mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewbanners.limitstart", 		'limitstart', 		0 );
 
 	$where= '';
 	if ( $filter_state ) {
@@ -113,7 +115,9 @@ function viewBanners( $option ) {
 		} else if ($filter_state == 'U' ) {
 			$where = "\n WHERE b.showBanner = 0";
 		}
-	}
+	}	
+	
+	$orderby = "\n ORDER BY $filter_order $filter_order_Dir";
 	
 	// get the total number of records
 	$query = "SELECT COUNT(b.*)"
@@ -127,21 +131,25 @@ function viewBanners( $option ) {
 	$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
 	$query = "SELECT b.*, u.name AS editor"
-	. "\n FROM #__banner AS b "
+	. "\n FROM #__banner AS b"
 	. "\n LEFT JOIN #__users AS u ON u.id = b.checked_out"
 	. $where
-	. "\n LIMIT $pageNav->limitstart, $pageNav->limit";
-	$database->setQuery( $query );
-
-	if(!$result = $database->query()) {
-		echo $database->stderr();
-		return;
-	}
+	. $orderby
+	;
+	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$rows = $database->loadObjectList();
 	
 	// state filter 
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );	
 	
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
+	}
+	$lists['order'] = $filter_order;
+
 	HTML_banners::showBanners( $rows, $pageNav, $option, $lists );
 }
 
@@ -294,9 +302,13 @@ function removeBanner( $cid ) {
 function viewBannerClients( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$limit 			= $mainframe->getUserStateFromRequest( "default.limit", 'limit', $mosConfig_list_limit );
-	$limitstart 	= $mainframe->getUserStateFromRequest( "com_banners.viewbannerclient.limitstart", 'limitstart', 0 );
-
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order", 	'filter_order', 	'a.id' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order_Dir",	'filter_order_Dir',	'' );
+	$limit 				= $mainframe->getUserStateFromRequest( "default.limit", 							'limit', 			$mosConfig_list_limit );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "com_banners.viewbannerclient.limitstart", 	'limitstart', 		0 );
+	
+	$orderby = "\n ORDER BY $filter_order $filter_order_Dir";
+	
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
 	. "\n FROM #__bannerclient"
@@ -307,21 +319,26 @@ function viewBannerClients( $option ) {
 	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
-	$sql = "SELECT a.*,	count(b.bid) AS bid, u.name AS editor"
+	$query = "SELECT a.*, count(b.bid) AS bid, u.name AS editor"
 	. "\n FROM #__bannerclient AS a"
 	. "\n LEFT JOIN #__banner AS b ON a.cid = b.cid"
 	. "\n LEFT JOIN #__users AS u ON u.id = a.checked_out"
 	. "\n GROUP BY a.cid"
-	. "\n LIMIT $pageNav->limitstart, $pageNav->limit";
-	$database->setQuery($sql);
-
-	if(!$result = $database->query()) {
-		echo $database->stderr();
-		return;
-	}
-	$rows = $database->loadObjectList();
+	. $orderby
+	;
+	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
+	//$database->setQuery( $query );
+	$rows = $database->loadObjectList();	
 	
-	HTML_bannerClient::showClients( $rows, $pageNav, $option );
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
+	}
+	$lists['order'] = $filter_order;
+	
+	HTML_bannerClient::showClients( $rows, $pageNav, $option, $lists );
 }
 
 function editBannerClient( $clientid, $option ) {
