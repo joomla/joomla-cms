@@ -240,13 +240,16 @@ function mosGetOS( $agent ) {
 }
 
 /**
-* Legacy function, use JParameters::parse()
+* Legacy function, use JRegsitry instead
 * 
 * @deprecated As of version 1.1
 * @package Joomla.Legacy
 */
 function mosParseParams( $txt ) {
-	return JParameters::parse( $txt );
+	
+	$registry =& new JRegistry();
+	$registry->loadINI($txt);
+	return $registry->toObject( );
 }
 
 /**

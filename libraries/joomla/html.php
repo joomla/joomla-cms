@@ -1582,7 +1582,11 @@ class mosAdminMenus {
 		$total = count( $menus );
 		$menuselect = array();
 		for( $i = 0; $i < $total; $i++ ) {
-			$params = JParameters::parse( $menus[$i]->params );
+			
+			$registry =& new JRegistry();
+			$registry->loadINI($menus[$i]);
+			$params = $registry->toObject( );
+			
 			$menuselect[$i]->value 	= $params->menutype;
 			$menuselect[$i]->text 	= $params->menutype;
 		}
@@ -1764,7 +1768,11 @@ class mosAdminMenus {
 		foreach ( $modMenus as $modMenu ) {
 			$check = 1;
 			mosMakeHtmlSafe( $modMenu) ;
-			$modParams 	= JParameters::parse( $modMenu->params );
+			
+			$registry =& new JRegistry();
+			$registry->loadINI($modMenu->params);
+			$modParams = $registry->toObject( );
+			
 			$menuType 	= @$modParams->menutype;
 			if (!$menuType) {
 				$menuType = 'mainmenu';

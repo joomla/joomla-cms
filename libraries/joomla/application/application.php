@@ -267,7 +267,7 @@ class JApplication extends JObject
 		$url  = $uri->getScheme().'://';
 		$url .= $uri->getHost();
 		$url .= dirname($_SERVER['PHP_SELF']).'/';
-
+		
 		$this->_baseURL= $url;
 		return $url;
 	}

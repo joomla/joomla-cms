@@ -274,7 +274,7 @@ function saveModule( $option, $client, $task ) {
 		}
 		$_POST['params'] = JParameters::textareaHandling( $txt );
 	}
-
+	
 	$row =& JModel::getInstance('module', $database );
 	if (!$row->bind( $_POST, 'selections' )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";

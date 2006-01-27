@@ -11,7 +11,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport( 'joomla.common.base.object' );
+jimport( 'joomla.registry.registry' );
 
 /**
  * Parameters handler
@@ -21,16 +21,8 @@ jimport( 'joomla.common.base.object' );
  * @subpackage 	Parameters
  * @since 1.0
  */
-class JParameters extends JObject
+class JParameters extends JRegistry
 {
-	/** 
-	 * Description
-	 * 
-	 * @access	private
-	 * @var object 
-	 */
-	var $_params = null;
-	
 	/** 
 	 * The raw params string
 	 * 
@@ -40,28 +32,12 @@ class JParameters extends JObject
 	var $_raw = null;
 	
 	/** 
-	 * Path to the xml setup file
-	 * 
-	 * @access	private
-	 * @var string 
-	 */
-	var $_path = null;
-	
-	/** 
-	 * The type of setup file
-	 * 
-	 * @access	private
-	 * @var string  
-	 */
-	var $_type = null;
-	
-	/** 
 	 * The xml params element 
 	 * 
 	 * @access	private
 	 * @var object 
 	 */
-	var $_xmlElem = null;
+	var $_xml = null;
 	
 	/**
 	* loaded parameter types
@@ -87,34 +63,18 @@ class JParameters extends JObject
 	 * @param string Path to the xml setup file
 	 * @var string The type of setup file
 	 */
-	function __construct($text, $path = '', $type = 'component') 
+	function __construct($text, $path = '') 
 	{
 		if( !defined( 'JPARAMETER_INCLUDE_PATH' ) ) {
 			define( 'JPARAMETER_INCLUDE_PATH', dirname( __FILE__ ) . '/types' );
 		}
 		
-		$this->_params = $this->parse($text);
+		parent::__construct('parameters');
+		
+		$this->loadINI($text);
+		$this->loadSetupFile($path);
+		
 		$this->_raw    = $text;
-		$this->_path   = $path;
-		$this->_type   = $type;
-	}
-
-	/**
-	 * Returns the params array
-	 * 
-	 * @return object
-	 */
-	function toObject() {
-		return $this->_params;
-	}
-
-	/**
-	 * Returns a named array of the parameters
-	 * 
-	 * @return object
-	 */
-	function toArray() {
-		return mosObjectToArray($this->_params);
 	}
 
 	/**
@@ -126,8 +86,24 @@ class JParameters extends JObject
 	 * @return string The set value
 	 */
 	function set($key, $value = '') {
-		$this->_params-> $key = $value;
-		return $value;
+		return $this->setValue('parameters.'.$key, $value);
+	}
+	
+	/**
+	 * Get a value
+	 * 
+	 * @access public
+	 * @param string The name of the param
+	 * @param mixed The default value if not found
+	 * @return string
+	 */
+	function get($key, $default = '') 
+	{
+		if ($value = $this->getValue('parameters.'.$key)) {
+			return $value;
+		} else {
+			return $default;
+		}
 	}
 
 	/**
@@ -143,201 +119,47 @@ class JParameters extends JObject
 	}
 
 	/**
-	 * Get a value
+	 * Render all the parameters
 	 * 
 	 * @access public
-	 * @param string The name of the param
-	 * @param mixed The default value if not found
-	 * @return string
-	 */
-	function get($key, $default = '') 
-	{
-		if (isset ($this->_params-> $key)) {
-			return $this->_params-> $key === '' ? $default : $this->_params-> $key;
-		} else {
-			return $default;
-		}
-	}
-
-	/**
-	 * Parse an .ini string, based on phpDocumentor phpDocumentor_parse_ini_file function
-	 * 
-	 * @access public
-	 * @param mixed The ini string or array of lines
-	 * @param boolean add an associative index for each section [in brackets]
-	 * @return object
-	 */
-	function parse($txt, $process_sections = false, $asArray = false) 
-	{
-		if (is_string($txt)) {
-			$lines = explode("\n", $txt);
-		} else
-			if (is_array($txt)) {
-				$lines = $txt;
-			} else {
-				$lines = array ();
-			}
-		$obj = $asArray ? array () : new stdClass();
-
-		$sec_name = '';
-		$unparsed = 0;
-		if (!$lines) {
-			return $obj;
-		}
-		foreach ($lines as $line) {
-			// ignore comments
-			if ($line && $line[0] == ';') {
-				continue;
-			}
-			$line = trim($line);
-
-			if ($line == '') {
-				continue;
-			}
-			if ($line && $line[0] == '[' && $line[JString::strlen($line) - 1] == ']') {
-				$sec_name = JString::substr($line, 1, JString::strlen($line) - 2);
-				if ($process_sections) {
-					if ($asArray) {
-						$obj[$sec_name] = array ();
-					} else {
-						$obj-> $sec_name = new stdClass();
-					}
-				}
-			} else {
-				if ($pos = JString::strpos($line, '=')) {
-					$property = trim(JString::substr($line, 0, $pos));
-
-					// property is assumed to be ascii
-					if (substr($property, 0, 1) == '"' && substr($property, -1) == '"') {
-						$property = stripcslashes(substr($property, 1, count($property) - 2));
-					}
-					$value = trim(JString::substr($line, $pos +1));
-					if ($value == 'false') {
-						$value = false;
-					}
-					if ($value == 'true') {
-						$value = true;
-					}
-					if (JString::substr($value, 0, 1) == '"' && JString::substr($value, -1) == '"') {
-						$value = stripcslashes(JString::substr($value, 1, JString::strlen($value) - 2));
-					}
-
-					if ($process_sections) {
-						$value = str_replace('\n', "\n", $value);
-						if ($sec_name != '') {
-							if ($asArray) {
-								$obj[$sec_name][$property] = $value;
-							} else {
-								$obj-> $sec_name-> $property = $value;
-							}
-						} else {
-							if ($asArray) {
-								$obj[$property] = $value;
-							} else {
-								$obj-> $property = $value;
-							}
-						}
-					} else {
-						$value = str_replace('\n', "\n", $value);
-						if ($asArray) {
-							$obj[$property] = $value;
-						} else {
-							$obj-> $property = $value;
-						}
-					}
-				} else {
-					if ($line && trim($line[0]) == ';') {
-						continue;
-					}
-					if ($process_sections) {
-						$property = '__invalid'.$unparsed ++.'__';
-						if ($process_sections) {
-							if ($sec_name != '') {
-								if ($asArray) {
-									$obj[$sec_name][$property] = trim($line);
-								} else {
-									$obj-> $sec_name-> $property = trim($line);
-								}
-							} else {
-								if ($asArray) {
-									$obj[$property] = trim($line);
-								} else {
-									$obj-> $property = trim($line);
-								}
-							}
-						} else {
-							if ($asArray) {
-								$obj[$property] = trim($line);
-							} else {
-								$obj-> $property = trim($line);
-							}
-						}
-					}
-				}
-			}
-		}
-		return $obj;
-	}
-
-	/**
-	 * render all the parameters
-	 * 
 	 * @param string The name of the control, or the default text area if a setup file is not found
 	 * @return string HTML
 	 */
 	function render($name = 'params') 
 	{
-		if ($this->_path) {
-			if (!is_object($this->_xmlElem)) {
+		if (!is_object($this->_xml)) {
+			return false;
+		}
+		
+		$element = & $this->_xml;
+		
+		$html = array ();
+		$html[] = '<table width="100%" class="paramlist">';
 
-				$xmlDoc = & JFactory::getXMLParser();
-				$xmlDoc->resolveErrors(true);
-				if ($xmlDoc->loadXML($this->_path, false, true)) {
-					$root = & $xmlDoc->documentElement;
-
-					$tagName = $root->getTagName();
-					$isParamsFile = ($tagName == 'install' || $tagName == 'params' || $tagName == 'mosinstall' || $tagName == 'mosparams');
-					if ($isParamsFile && $root->getAttribute('type') == $this->_type) {
-						if ($params = & $root->getElementsByPath('params', 1)) {
-							$this->_xmlElem = & $params;
-						}
-					}
-				}
-			}
+		if ($description = $element->getAttribute('description')) {
+			// add the params description to the display
+			$html[] = '<tr><td colspan="3">'.$description.'</td></tr>';
 		}
 
-		if (is_object($this->_xmlElem)) {
-			$html = array ();
-			$html[] = '<table width="100%" class="paramlist">';
+		foreach ($element->childNodes as $param) 
+		{
+			$result = $this->renderParam($param, $name);
+			
+			$html[] = '<tr>';
 
-			$element = & $this->_xmlElem;
+			$html[] = '<td width="40%" align="right" valign="top"><span class="editlinktip">'.$result[0].'</span></td>';
+			$html[] = '<td>'.$result[1].'</td>';
 
-			if ($description = $element->getAttribute('description')) {
-				// add the params description to the display
-				$html[] = '<tr><td colspan="3">'.$description.'</td></tr>';
-			}
-
-			$this->_methods = get_class_methods(get_class($this));
-
-			foreach ($element->childNodes as $param) 
-			{
-				$result = $this->renderParam($param, $name);
-				$html[] = '<tr>';
-
-				$html[] = '<td width="40%" align="right" valign="top"><span class="editlinktip">'.$result[0].'</span></td>';
-				$html[] = '<td>'.$result[1].'</td>';
-
-				$html[] = '</tr>';
-			}
-			$html[] = '</table>';
-
-			if (count($element->childNodes) < 1) {
-				$html[] = "<tr><td colspan=\"2\"><i>".JText::_('There are no Parameters for this item')."</i></td></tr>";
-			}
-			return implode("\n", $html);
-		} else {
-			return "<textarea name=\"".$name."\" cols=\"40\" rows=\"10\" class=\"text_area\">".$this->_raw."</textarea>";
+			$html[] = '</tr>';
 		}
+
+		if (count($element->childNodes) < 1) {
+			$html[] = "<tr><td colspan=\"2\"><i>".JText::_('There are no Parameters for this item')."</i></td></tr>";
+		}
+		
+		$html[] = '</table>';
+		
+		return implode("\n", $html);
 	}
 
 	/**
@@ -372,7 +194,33 @@ class JParameters extends JObject
 	}
 	
 	/**
-	* loads a parameter type
+	* Loads an xml setup file and parses it
+	*
+	* @access	public
+	* @param	string	parameterType
+	* @return	object
+	* @since 1.1
+	*/
+	function loadSetupFile($path) 
+	{
+		$xmlDoc = & JFactory::getXMLParser();
+		$xmlDoc->resolveErrors(true);
+		
+		$result = false;
+		if ($xmlDoc->loadXML($path, false, true)) {
+			$root = & $xmlDoc->documentElement;
+
+			if ($params = & $root->getElementsByPath('params', 1)) {
+				$this->_xml = & $params;
+				$result = true;
+			}
+		}
+		
+		return $result;
+	}
+	
+	/**
+	* Loads a parameter type
 	*
 	* @access	public
 	* @param	string	parameterType
@@ -456,19 +304,18 @@ class JParameters extends JObject
 	}
 	
    /**
-	* get the include path
+	* Get the include path
 	*
 	* @access	public
 	* @return   string
 	* @since 1.1
 	*/
-	function getIncludePath()
-	{
+	function getIncludePath() {
 		return	JPARAMETER_INCLUDE_PATH;
 	}
 	
 	/**
-	* special handling for textarea param
+	* Special handling for textarea param
 	*/
 	function textareaHandling( &$txt ) {
 		$total = count( $txt );

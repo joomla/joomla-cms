@@ -187,7 +187,13 @@ class mosContent extends JModelContent {
 	}
 }
 
-
+/**
+ * Legacy class, replaced by JModelPlugin
+ * 
+ * @deprecated As of version 1.1
+ * @package Joomla.Legacy
+ * @subpackage 1.1
+ */
 class mosMambot extends JModelPlugin {
 	/**
 	 * Constructor
@@ -369,7 +375,44 @@ class mosParameters extends JParameters {
 	* @param string The type of setup file
 	*/
 	function __construct($text, $path = '', $type = 'component') {
-		parent::__construct($text, $path, $type);
+		parent::__construct($text, $path);
+	}
+	
+	/**
+	 * Legacy function, use JParameters->toObject instead
+	 * 
+	 * @deprecated As of version 1.1
+	 */
+	function toObject() {
+		$this->toObject();
+	}
+
+	/**
+	 * Legacy function, use JParameters->toArray instead
+	 * 
+	 * @deprecated As of version 1.1
+	 */
+	function toArray() {
+		$this->toArray();
+	}
+	
+	/**
+	 * Parse an .ini string, based on phpDocumentor phpDocumentor_parse_ini_file function
+	 * 
+	 * @access public
+	 * @param mixed The ini string or array of lines
+	 * @param boolean add an associative index for each section [in brackets]
+	 * @return object
+	 */
+	function parse($txt, $process_sections = false, $asArray = false) 
+	{
+		$this->loadINI($txt);
+		
+		if($asArray) {
+			return $this->toArray();
+		}
+		
+		return $this->toObject( );
 	}
 }
 

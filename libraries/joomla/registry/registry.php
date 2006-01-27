@@ -12,7 +12,7 @@
  */
  
 jimport( 'joomla.common.base.object' );
-jimport( 'joomla.regsitry.format' );
+jimport( 'joomla.registry.format' );
 
 /**
  * JRegistry class
@@ -45,7 +45,7 @@ class JRegistry extends JObject {
 	 * @param $defaultNamespace	string 	Default registry namespace
 	 * @param $readOnly			boolean Is the default namespace read only? [optional: default is false]
 	 */
-	function __construct($namespace, $readOnly = false) {
+	function __construct($namespace = 'default', $readOnly = false) {
 
 		$this->_defaultNameSpace = $namespace;
 		$this->makeNameSpace($namespace, $readOnly);
@@ -65,7 +65,7 @@ class JRegistry extends JObject {
 	 * @return object  The JRegistry object.
 	 * @since 1.1
 	 */
-	function & getInstance($id, $namespace = 'joomla', $readOnly = false) {
+	function & getInstance($id, $namespace = 'default', $readOnly = false) {
 		static $instances;
 
 		if (!isset ($instances)) {
@@ -395,7 +395,7 @@ class JRegistry extends JObject {
 	 * @param $namespace	string	Namespace to return [optional: null returns the default namespace]
 	 * @return array An associative array holding the namespace data
 	 */
-	function toArray($namespace)
+	function toArray($namespace = null)
 	{
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
@@ -411,6 +411,26 @@ class JRegistry extends JObject {
 		}
 		
 		return $array;
+	}
+	
+	/**
+	 * Transforms a namespace to an object
+	 * 
+	 * @access public
+	 * @param $namespace	string	Namespace to return [optional: null returns the default namespace]
+	 * @return object An an object holding the namespace data
+	 */
+	function toObject($namespace = null)
+	{
+		// If namespace is not set, get the default namespace
+		if ($namespace == null) {
+			$namespace = $this->_defaultNameSpace;
+		}
+		
+		// Get the namespace
+		$ns = & $this->_registry[$namespace]['data'];
+		
+		return $ns;
 		
 	}
 }

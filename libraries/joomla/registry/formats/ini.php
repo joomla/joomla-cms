@@ -55,19 +55,125 @@ class JRegistryFormatINI extends JRegistryFormat {
 		}
 		return $prepend."\n".$retval;	
 	}
-
+	
 	/**
-	 * Converts an INI formatted string into an object
+	 * Parse an .ini string, based on phpDocumentor phpDocumentor_parse_ini_file function
 	 * 
 	 * @access public
-	 * @param string  INI Formatted String
+	 * @param mixed The INI string or array of lines
+	 * @param boolean add an associative index for each section [in brackets]
 	 * @return object Data Object
 	 */
-	function &stringToObject( $data ) {
-		// Use the JParameters class to parse the INI filr		
-		$ini =& new JParameters( $data );
-		
-		return $ini->parse( $data, true );
+	function &stringToObject( $data, $process_sections = false, $asArray = false ) 
+	{
+		if (is_string($data)) {
+			$lines = explode("\n", $data);
+		} else
+			if (is_array($data)) {
+				$lines = $data;
+			} else {
+				$lines = array ();
+			}
+		$obj = $asArray ? array () : new stdClass();
+
+		$sec_name = '';
+		$unparsed = 0;
+		if (!$lines) {
+			return $obj;
+		}
+		foreach ($lines as $line) {
+			// ignore comments
+			if ($line && $line[0] == ';') {
+				continue;
+			}
+			$line = trim($line);
+
+			if ($line == '') {
+				continue;
+			}
+			if ($line && $line[0] == '[' && $line[JString::strlen($line) - 1] == ']') {
+				$sec_name = JString::substr($line, 1, JString::strlen($line) - 2);
+				if ($process_sections) {
+					if ($asArray) {
+						$obj[$sec_name] = array ();
+					} else {
+						$obj-> $sec_name = new stdClass();
+					}
+				}
+			} else {
+				if ($pos = JString::strpos($line, '=')) {
+					$property = trim(JString::substr($line, 0, $pos));
+
+					// property is assumed to be ascii
+					if (substr($property, 0, 1) == '"' && substr($property, -1) == '"') {
+						$property = stripcslashes(substr($property, 1, count($property) - 2));
+					}
+					$value = trim(JString::substr($line, $pos +1));
+					if ($value == 'false') {
+						$value = false;
+					}
+					if ($value == 'true') {
+						$value = true;
+					}
+					if (JString::substr($value, 0, 1) == '"' && JString::substr($value, -1) == '"') {
+						$value = stripcslashes(JString::substr($value, 1, JString::strlen($value) - 2));
+					}
+
+					if ($process_sections) {
+						$value = str_replace('\n', "\n", $value);
+						if ($sec_name != '') {
+							if ($asArray) {
+								$obj[$sec_name][$property] = $value;
+							} else {
+								$obj-> $sec_name-> $property = $value;
+							}
+						} else {
+							if ($asArray) {
+								$obj[$property] = $value;
+							} else {
+								$obj-> $property = $value;
+							}
+						}
+					} else {
+						$value = str_replace('\n', "\n", $value);
+						if ($asArray) {
+							$obj[$property] = $value;
+						} else {
+							$obj-> $property = $value;
+						}
+					}
+				} else {
+					if ($line && trim($line[0]) == ';') {
+						continue;
+					}
+					if ($process_sections) {
+						$property = '__invalid'.$unparsed ++.'__';
+						if ($process_sections) {
+							if ($sec_name != '') {
+								if ($asArray) {
+									$obj[$sec_name][$property] = trim($line);
+								} else {
+									$obj-> $sec_name-> $property = trim($line);
+								}
+							} else {
+								if ($asArray) {
+									$obj[$property] = trim($line);
+								} else {
+									$obj-> $property = trim($line);
+								}
+							}
+						} else {
+							if ($asArray) {
+								$obj[$property] = trim($line);
+							} else {
+								$obj-> $property = trim($line);
+							}
+						}
+					}
+				}
+			}
+		}
+		return $obj;
 	}
 }
 ?>

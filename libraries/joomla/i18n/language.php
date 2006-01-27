@@ -223,7 +223,10 @@ class JLanguage extends JObject
 				if( $this->_identifyer === null ) {
 					$this->_identifyer = basename( $filename, '.ini' );
 				}
-				return JParameters::parse( $content, false, true );
+				
+				$registry =& new JRegistry();
+				$registry->loadINI($content);
+				return $registry->toArray( );
 			}
 		}
 
