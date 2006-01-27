@@ -144,9 +144,10 @@ function viewTrashMenu( $option ) {
 	$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
 	// Query menu items
-	$query = "SELECT m.*"
+	$query = "SELECT m.*, com.name AS com_name"
 	. "\n FROM #__menu AS m"
 	. "\n LEFT JOIN #__users AS u ON u.id = m.checked_out"
+	. "\n LEFT JOIN #__components AS com ON com.id = m.componentid AND m.type = 'components'"
 	. "\n WHERE m.published = -2"
 	. $orderby
 	;
@@ -160,6 +161,14 @@ function viewTrashMenu( $option ) {
 		$lists['order_Dir'] = 'DESC';
 	}
 	$lists['order'] = $filter_order;
+	
+	$i = 0;
+	foreach ( $menus as $row ) {
+		// pulls name and description from menu type xml
+		$row = ReadMenuXML( $row->type, $row->com_name );
+		$menus[$i]->type 	= $row[0];
+		$i++;
+	}
 	
 	HTML_trash::showListMenu( $option, $menus, $pageNav, $lists );
 }
@@ -314,5 +323,30 @@ function restoreTrash( $cid, $option ) {
 
 	$msg = sprintf( JText::_( 'Item(s) successfully Restored' ), $total );
 	mosRedirect( "index2.php?option=$option&task=$return&mosmsg=$msg" );
+}
+
+function ReadMenuXML( $type, $component=-1 ) {
+	// xml file for module
+	$xmlfile = JPATH_ADMINISTRATOR .'/components/com_menus/'. $type .'/'. $type .'.xml';
+	$xmlDoc =& JFactory::getXMLParser();
+	$xmlDoc->resolveErrors( true );
+	
+	if ($xmlDoc->loadXML( $xmlfile, false, true )) {
+		$root = &$xmlDoc->documentElement;
+		
+		if ( ($root->getTagName() == 'mosinstall' || $root->getTagName() == 'install')&& ( $root->getAttribute( 'type' ) == 'component' || $root->getAttribute( 'type' ) == 'menu' ) ) {
+			// Menu Type Name
+			$element 	= &$root->getElementsByPath( 'name', 1 );
+			$name 		= $element ? trim( $element->getText() ) : '';
+		}
+	}
+	
+	if ( ( $component <> -1 ) && ( $name == 'Component') ) {
+		$name .= ' - '. $component;
+	}
+	
+	$row[0]	= $name;
+	
+	return $row;
 }
 ?>
