@@ -558,6 +558,14 @@ function MM_preloadImages() { //v3.0
 	if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
 }
 
+// needed for Table Column ordering
+function tableOrdering( order, dir, task ) {
+	var form = document.adminForm;
+
+	form.filter_order.value 	= order;
+	form.filter_order_Dir.value	= dir;
+	submitform( task );
+}
 
 function saveorder( n ) {
 	checkAll_button( n );

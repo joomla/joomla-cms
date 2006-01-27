@@ -30,13 +30,13 @@ class HTML_content {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index2.php?option=com_content&amp;sectionid=<?php echo $section->id; ?>" method="post" name="adminForm">
 
 		<table class="adminheading">
 		<tr>
 			<td align="left" valign="top" nowrap="nowrap">
 				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
+				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onchange="document.adminForm.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
@@ -56,53 +56,59 @@ class HTML_content {
 		<table class="adminlist">
 		<tr>
 			<th width="5">
-			<?php echo JText::_( 'Num' ); ?>
+				<?php echo JText::_( 'Num' ); ?>
 			</th>
 			<th width="5">
-			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th class="title">
-			<?php echo JText::_( 'Title' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Title', 'c.title', $lists ); ?>
 			</th>
-			<th width="5%">
-			<?php echo JText::_( 'Published' ); ?>
+			<th width="1%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'Published', 'c.state', $lists ); ?>
 			</th>
-			<th nowrap="nowrap" width="5%">
-			<?php echo JText::_( 'Front Page' ); ?>
+			<th nowrap="nowrap" width="1%">
+				<?php mosCommonHTML :: tableOrdering( 'Front Page', 'frontpage', $lists ); ?>
 			</th>
-			<th colspan="2" align="center" width="5%">
-			<?php echo JText::_( 'Reorder' ); ?>
+			<?php
+			if ( $lists['order'] == 'section_name' || !$lists['order'] ) {
+				?>
+				<th colspan="2" align="center" width="5%">
+					<?php echo JText::_( 'Reorder' ); ?>
+				</th>
+				<th width="2%">
+					<?php echo JText::_( 'Order' ); ?>
+				</th>
+				<th width="1%">
+					<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
+						<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
 			</th>
-			<th width="2%">
-			<?php echo JText::_( 'Order' ); ?>
-			</th>
-			<th width="1%">
-			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
-				<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
-			</th>
-			<th >
-			<?php echo JText::_( 'Access' ); ?>
+				<?php
+			}
+			?>
+			<th width="7%">
+				<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
 			</th>
 			<th width="2%" class="title">
-			<?php echo JText::_( 'ID' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
 			</th>
 			<?php
 			if ( $all ) {
 				?>
-				<th  class="title">
-				<?php echo JText::_( 'Section' ); ?>
+				<th class="title" width="8%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'Section', 'section_name', $lists ); ?>
 				</th>
 				<?php
 			}
 			?>
-			<th  class="title">
-			<?php echo JText::_( 'Category' ); ?>
+			<th  class="title" width="8%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'Category', 'cc.name', $lists ); ?>
 			</th>
-			<th  class="title">
-			<?php echo JText::_( 'Author' ); ?>
+			<th  class="title" width="8%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'Author', 'author', $lists ); ?>
 			</th>
 			<th align="center" width="10">
-			<?php echo JText::_( 'Date' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Date', 'c.created', $lists ); ?>
 			</th>
 		  </tr>
 		<?php
@@ -161,21 +167,22 @@ class HTML_content {
 				}
 			}
 
-			$date = mosFormatDate( $row->created, '%x' );
+			$date = mosFormatDate( $row->created, JText::_( 'DATE_FORMAT_LC4' ) );
 
 			$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td>
-				<?php echo $pageNav->rowNumber( $i ); ?>
+					<?php echo $pageNav->rowNumber( $i ); ?>
 				</td>
 				<td align="center">
-				<?php echo $checked; ?>
+					<?php echo $checked; ?>
 				</td>
     			<?php
     			if ( $row->title_alias ) {
-                    ?><td onmouseover="return overlib('<?php echo $row->title_alias; ?>', CAPTION, '<?php echo JText::_( 'Title Alias' ); ?>', BELOW, RIGHT);" onmouseout="return nd();" >
+                    ?>
+                    <td onmouseover="return overlib('<?php echo $row->title_alias; ?>', CAPTION, '<?php echo JText::_( 'Title Alias' ); ?>', BELOW, RIGHT);" onmouseout="return nd();" >
                     <?php
     			}
     			else{
@@ -187,8 +194,7 @@ class HTML_content {
                 else {
 					?>
 					<a href="<?php echo ampReplace( $link ); ?>" title="<?php echo JText::_( 'Edit Content' ); ?>">
-					<?php echo htmlspecialchars($row->title, ENT_QUOTES); ?>
-					</a>
+						<?php echo htmlspecialchars($row->title, ENT_QUOTES); ?></a>
 					<?php
 				}
 				?>
@@ -197,54 +203,56 @@ class HTML_content {
 				if ( $times ) {
 					?>
 					<td align="center">
-					<a href="javascript: void(0);" onMouseOver="return overlib('<table><?php echo $times; ?></table>', CAPTION, '<?php echo JText::_( 'Publish Information' ); ?>', BELOW, RIGHT);" onMouseOut="return nd();" onClick="return listItemTask('cb<?php echo $i;?>','<?php echo $row->state ? JText::_( 'unpublish' ) : JText::_( 'publish' );?>')">
-					<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" />
-					</a>
+						<a href="javascript: void(0);" onmouseover="return overlib('<table><?php echo $times; ?></table>', CAPTION, '<?php echo JText::_( 'Publish Information' ); ?>', BELOW, RIGHT);" onmouseout="return nd();" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $row->state ? JText::_( 'unpublish' ) : JText::_( 'publish' );?>')">
+							<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
 					</td>
 					<?php
 				}
 				?>
 				<td align="center">
-				<a href="javascript: void(0);" onClick="return listItemTask('cb<?php echo $i;?>','toggle_frontpage')">
-				<img src="images/<?php echo ( $row->frontpage ) ? 'tick.png' : 'publish_x.png';?>" width="12" height="12" border="0" alt="<?php echo ( $row->frontpage ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>" />
-				</a>
+					<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','toggle_frontpage')">
+						<img src="images/<?php echo ( $row->frontpage ) ? 'tick.png' : 'publish_x.png';?>" width="12" height="12" border="0" alt="<?php echo ( $row->frontpage ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>" /></a>
 				</td>
-				<td align="right">
-				<?php echo $pageNav->orderUpIcon( $i, ($row->catid == @$rows[$i-1]->catid) ); ?>
-				</td>
-				<td >
-				<?php echo $pageNav->orderDownIcon( $i, $n, ($row->catid == @$rows[$i+1]->catid) ); ?>
-				</td>
-				<td align="center" colspan="2">
-				<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
-				</td>
+				<?php
+				if ( $lists['order'] == 'section_name' || !$lists['order'] ) {
+					?>
+					<td align="right">
+						<?php echo $pageNav->orderUpIcon( $i, ($row->catid == @$rows[$i-1]->catid) ); ?>
+					</td>
+					<td >
+						<?php echo $pageNav->orderDownIcon( $i, $n, ($row->catid == @$rows[$i+1]->catid) ); ?>
+					</td>
+					<td align="center" colspan="2">
+						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
+					</td>
+					<?php
+				}
+				?>
 				<td align="center">
-				<?php echo $access;?>
+					<?php echo $access;?>
 				</td>
 				<td>
-				<?php echo $row->id; ?>
+					<?php echo $row->id; ?>
 				</td>
 				<?php
 				if ( $all ) {
 					?>
 					<td>
-					<a href="<?php echo $row->sect_link; ?>" title="<?php echo JText::_( 'Edit Section' ); ?>">
-					<?php echo $row->section_name; ?>
-					</a>
+						<a href="<?php echo $row->sect_link; ?>" title="<?php echo JText::_( 'Edit Section' ); ?>">
+							<?php echo $row->section_name; ?></a>
 					</td>
 					<?php
 				}
 				?>
 				<td>
-				<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
-				<?php echo $row->name; ?>
-				</a>
+					<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
+						<?php echo $row->name; ?></a>
 				</td>
 				<td>
-				<?php echo $author; ?>
+					<?php echo $author; ?>
 				</td>
-				<td>
-				<?php echo $date; ?>
+				<td nowrap="nowrap">
+					<?php echo $date; ?>
 				</td>
 			</tr>
 			<?php
@@ -262,6 +270,8 @@ class HTML_content {
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />
 		<input type="hidden" name="redirect" value="<?php echo $redirect;?>" />
+		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
 		<?php
 	}
@@ -287,13 +297,13 @@ class HTML_content {
 			}
 		}
 		</script>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index2.php?option=com_content&amp;task=showarchive&amp;sectionid=0" method="post" name="adminForm">
 
 		<table class="adminheading">
 		<tr>
 			<td align="left" valign="top" nowrap="nowrap">
 				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
+				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onchange="document.adminForm.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
@@ -312,28 +322,29 @@ class HTML_content {
 		<table class="adminlist">
 		<tr>
 			<th width="5">
-			<?php echo JText::_( 'Num' ); ?>
+				<?php echo JText::_( 'Num' ); ?>
 			</th>
 			<th width="20">
-			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th class="title">
-			<?php echo JText::_( 'Title' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Title', 'c.title', $lists, 'showarchive' ); ?>
 			</th>
 			<th width="2%">
-			<?php echo JText::_( 'Order' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Order', 'c.ordering', $lists, 'showarchive' ); ?>
 			</th>
 			<th width="1%">
-			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+				<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
+					<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
 			</th>
 			<th width="15%"  class="title">
-			<?php echo JText::_( 'Category' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Category', 'cc.name', $lists, 'showarchive' ); ?>
 			</th>
 			<th width="15%"  class="title">
-			<?php echo JText::_( 'Author' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Author', 'author', $lists, 'showarchive' ); ?>
 			</th>
 			<th align="center" width="10">
-			<?php echo JText::_( 'Date' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Date', 'c.created', $lists, 'showarchive' ); ?>
 			</th>
 		</tr>
 		<?php
@@ -341,13 +352,13 @@ class HTML_content {
 		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 			$row = &$rows[$i];
 
-			$row->cat_link 	= 'index2.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid;
+			$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid );
 
 			if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
 				if ( $row->created_by_alias ) {
 					$author = $row->created_by_alias;
 				} else {
-					$linkA 	= 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->created_by;
+					$linkA 	= ampReplace( 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->created_by );
 					$author = '<a href="'. $linkA .'" title="'. JText::_( 'Edit User' ) .'">'. $row->author .'</a>';
 				}
 			} else {
@@ -358,31 +369,30 @@ class HTML_content {
 				}
 			}
 
-			$date = mosFormatDate( $row->created, '%x' );
+			$date = mosFormatDate( $row->created, JText::_( 'DATE_FORMAT_LC4' ) );
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td>
-				<?php echo $pageNav->rowNumber( $i ); ?>
+					<?php echo $pageNav->rowNumber( $i ); ?>
 				</td>
 				<td width="20">
-				<?php echo mosHTML::idBox( $i, $row->id ); ?>
+					<?php echo mosHTML::idBox( $i, $row->id ); ?>
 				</td>
 				<td>
-				<?php echo $row->title; ?>
+					<?php echo $row->title; ?>
 				</td>
 				<td align="center" colspan="2">
-				<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
+					<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
 				</td>
 				<td>
-				<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
-				<?php echo $row->name; ?>
-				</a>
+					<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
+						<?php echo $row->name; ?></a>
 				</td>
 				<td>
-				<?php echo $author; ?>
+					<?php echo $author; ?>
 				</td>
-				<td>
-				<?php echo $date; ?>
+				<td nowrap="nowrap">
+					<?php echo $date; ?>
 				</td>
 			</tr>
 			<?php
@@ -400,6 +410,8 @@ class HTML_content {
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />
 		<input type="hidden" name="redirect" value="<?php echo $redirect;?>" />
+		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
 		<?php
 	}

@@ -83,12 +83,14 @@ switch ($task) {
 function showWeblinks( $option ) {
 	global $database, $mainframe;
 
-	$filter_state 	= $mainframe->getUserStateFromRequest( "$option.filter_state", 'filter_state', '' );
-	$catid 			= $mainframe->getUserStateFromRequest( "$option.catid", 'catid', 0 );
-	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart		= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
-	$search 		= $mainframe->getUserStateFromRequest( "$option.search", 'search', '' );
-	$search 		= $database->getEscaped( trim( strtolower( $search ) ) );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.catid' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
+	$catid 				= $mainframe->getUserStateFromRequest( "$option.catid", 			'catid', 			0 );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
+	$limitstart			= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
+	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 
 	$where = array();
 
@@ -106,10 +108,13 @@ function showWeblinks( $option ) {
 		}
 	}	
 
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, a.catid, a.ordering";
+	
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
 	. "\n FROM #__weblinks AS a"
-	. (count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : "")
+	. $where
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
@@ -121,11 +126,10 @@ function showWeblinks( $option ) {
 	. "\n FROM #__weblinks AS a"
 	. "\n LEFT JOIN #__categories AS cc ON cc.id = a.catid"
 	. "\n LEFT JOIN #__users AS u ON u.id = a.checked_out"
-	. ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : "")
-	. "\n ORDER BY a.catid, a.ordering"
-	. "\n LIMIT $pageNav->limitstart, $pageNav->limit"
+	. $where
+	. $orderby
 	;
-	$database->setQuery( $query );
+	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 
 	$rows = $database->loadObjectList();
 	if ($database->getErrorNum()) {
@@ -139,6 +143,14 @@ function showWeblinks( $option ) {
 	
 	// state filter 
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+		
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
+	}
+	$lists['order'] = $filter_order;
 	
 	HTML_weblinks::showWeblinks( $option, $rows, $lists, $search, $pageNav );
 }

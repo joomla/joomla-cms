@@ -26,7 +26,7 @@ class HTML_newsfeeds {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index2.php?option=com_newsfeeds" method="post" name="adminForm">
 		
 		<table class="adminheading">
 		<tr>
@@ -43,28 +43,28 @@ class HTML_newsfeeds {
 		<table class="adminlist">
 		<tr>
 			<th width="20">
-			<?php echo JText::_( 'NUM' ); ?>
+				<?php echo JText::_( 'NUM' ); ?>
 			</th>
 			<th width="20">
-			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th class="title">
-			<?php echo JText::_( 'News Feed' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'News Feed', 'a.name', $lists ); ?>
 			</th>
 			<th width="5%">
-			<?php echo JText::_( 'Published' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Published', 'a.published', $lists ); ?>
 			</th>
 			<th colspan="2" width="5%">
-			<?php echo JText::_( 'Reorder' ); ?>
+				<?php echo JText::_( 'Reorder' ); ?>
 			</th>
 			<th class="title" width="20%">
-			<?php echo JText::_( 'Category' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Category', 'catname', $lists ); ?>
 			</th>
 			<th width="5%" nowrap="nowrap">
-			<?php echo JText::_( 'Num Articles' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Num Articles', 'a.numarticles', $lists ); ?>
 			</th>
 			<th width="10%">
-			<?php echo JText::_( 'Cache time' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Cache time', 'a.cache_time', $lists ); ?>
 			</th>
 		</tr>
 		<?php
@@ -84,48 +84,45 @@ class HTML_newsfeeds {
 			?>
 			<tr class="<?php echo 'row'. $k; ?>">
 				<td align="center">
-				<?php echo $pageNav->rowNumber( $i ); ?>
+					<?php echo $pageNav->rowNumber( $i ); ?>
 				</td>
 				<td>
-				<?php echo $checked; ?>
+					<?php echo $checked; ?>
 				</td>
 				<td>
-				<?php
-				if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-					?>
-					<?php echo $row->name; ?>
-					&nbsp;[ <i><?php echo JText::_( 'Checked Out' ); ?></i> ]
 					<?php
-				} else {
+					if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+						?>
+						<?php echo $row->name; ?>
+						&nbsp;[ <i><?php echo JText::_( 'Checked Out' ); ?></i> ]
+						<?php
+					} else {
+						?>
+						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Newsfeed' ); ?>">
+							<?php echo $row->name; ?></a>
+						<?php
+					}
 					?>
-					<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Newsfeed' ); ?>">
-					<?php echo $row->name; ?>
-					</a>
-					<?php
-				}
-				?>
 				</td>
 				<td width="10%" align="center">
-				<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
-				<img src="images/<?php echo $img;?>" border="0" alt="<?php echo $alt; ?>" />
-				</a>
+					<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
+						<img src="images/<?php echo $img;?>" border="0" alt="<?php echo $alt; ?>" /></a>
 				</td>
 				<td align="center">
-				<?php echo $pageNav->orderUpIcon( $i ); ?>
+					<?php echo $pageNav->orderUpIcon( $i ); ?>
 				</td>
 				<td align="center">
-				<?php echo $pageNav->orderDownIcon( $i, $n ); ?>
+					<?php echo $pageNav->orderDownIcon( $i, $n ); ?>
 				</td>
 				<td>
-				<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
-				<?php echo $row->catname;?>
-				</a>
+					<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
+						<?php echo $row->catname;?></a>
 				</td>
 				<td align="center">
-				<?php echo $row->numarticles;?>
+					<?php echo $row->numarticles;?>
 				</td>
 				<td align="center">
-				<?php echo $row->cache_time;?>
+					<?php echo $row->cache_time;?>
 				</td>
 			</tr>
 			<?php
@@ -133,12 +130,15 @@ class HTML_newsfeeds {
 		}
 		?>
 		</table>
+		
 		<?php echo $pageNav->getListFooter(); ?>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />
+		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
 		<?php
 	}

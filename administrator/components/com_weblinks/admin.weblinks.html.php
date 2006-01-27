@@ -26,18 +26,18 @@ class HTML_weblinks {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index2.php?option=com_weblinks" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
 			<td>
-			<?php echo JText::_( 'Filter' ); ?>:
-			<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onchange="document.adminForm.submit();" />
+				<?php echo JText::_( 'Filter' ); ?>:
+				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onchange="document.adminForm.submit();" />
 			</td>
 			<td align="right">
-			<?php 
-			echo $lists['catid'];
-			echo $lists['state'];
-			?>
+				<?php 
+				echo $lists['catid'];
+				echo $lists['state'];
+				?>
 			</td>
 		</tr>
 		</table>
@@ -45,25 +45,25 @@ class HTML_weblinks {
 		<table class="adminlist">
 		<tr>
 			<th width="5">
-			<?php echo JText::_( 'NUM' ); ?>
+				<?php echo JText::_( 'NUM' ); ?>
 			</th>
 			<th width="20">
-			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th class="title">
-			<?php echo JText::_( 'Title' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Title', 'a.title', $lists ); ?>
 			</th>
-			<th width="5%">
-			<?php echo JText::_( 'Published' ); ?>
+			<th width="5%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'Published', 'a.published', $lists ); ?>
 			</th>
 			<th colspan="2" width="5%">
-			<?php echo JText::_( 'Reorder' ); ?>
+				<?php echo JText::_( 'Reorder' ); ?>
 			</th>
 			<th width="25%"  class="title">
-			<?php echo JText::_( 'Category' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Category', 'cc.name', $lists ); ?>
 			</th>
 			<th width="5%">
-			<?php echo JText::_( 'Hits' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Hits', 'a.hits', $lists ); ?>
 			</th>
 		</tr>
 		<?php
@@ -83,42 +83,40 @@ class HTML_weblinks {
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td>
-				<?php echo $pageNav->rowNumber( $i ); ?>
+					<?php echo $pageNav->rowNumber( $i ); ?>
 				</td>
 				<td>
-				<?php echo $checked; ?>
+					<?php echo $checked; ?>
 				</td>
 				<td>
-				<?php
-				if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-					echo $row->title;
-				} else {
-					?>
-					<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Weblinks' ); ?>">
-					<?php echo $row->title; ?>
-					</a>
 					<?php
-				}
-				?>
+					if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+						echo $row->title;
+					} else {
+						?>
+						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Weblinks' ); ?>">
+							<?php echo $row->title; ?></a>
+						<?php
+					}
+					?>
 				</td>
 				<td align="center">
-				<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
-				<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" />
-				</a>
+					<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
+						<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
 				</td>
 				<td>
-				<?php echo $pageNav->orderUpIcon( $i, ($row->catid == @$rows[$i-1]->catid) ); ?>
+					<?php echo $pageNav->orderUpIcon( $i, ($row->catid == @$rows[$i-1]->catid) ); ?>
 				</td>
 	  			<td>
-				<?php echo $pageNav->orderDownIcon( $i, $n, ($row->catid == @$rows[$i+1]->catid) ); ?>
+					<?php echo $pageNav->orderDownIcon( $i, $n, ($row->catid == @$rows[$i+1]->catid) ); ?>
 				</td>
 				<td>
 				<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
-				<?php echo $row->category; ?>
+					<?php echo $row->category; ?>
 				</a>
 				</td>
 				<td align="center">
-				<?php echo $row->hits; ?>
+					<?php echo $row->hits; ?>
 				</td>
 			</tr>
 			<?php
@@ -126,11 +124,15 @@ class HTML_weblinks {
 		}
 		?>
 		</table>
+		
 		<?php echo $pageNav->getListFooter(); ?>
+		
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />
+		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
 		<?php
 	}

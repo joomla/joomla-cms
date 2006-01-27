@@ -30,7 +30,7 @@ class HTML_typedcontent {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index2.php?option=com_typedcontent" method="post" name="adminForm">
 
 		<table class="adminheading">
 		<tr>
@@ -42,9 +42,6 @@ class HTML_typedcontent {
 			</td>
 			<td align="right" nowrap="nowrap">
 				<?php
-				echo JText::_( 'Order' ); ?>:
-				<?php
-				echo $lists['order'];
 				echo $lists['authorid'];
 				echo $lists['state'];
 				?>
@@ -55,37 +52,38 @@ class HTML_typedcontent {
 		<table class="adminlist">
 		<tr>
 			<th width="5">
-			<?php echo JText::_( 'NUM' ); ?>
+				<?php echo JText::_( 'NUM' ); ?>
 			</th>
-			<th width="5px">
-			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows ); ?>);" />
+			<th width="5">
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 			</th>
 			<th class="title">
-			<?php echo JText::_( 'Title' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Title', 'c.title', $lists ); ?>
 			</th>
-			<th width="5%">
-			<?php echo JText::_( 'Published' ); ?>
+			<th width="5%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'Published', 'c.state', $lists ); ?>
 			</th>
-			<th width="2%">
-			<?php echo JText::_( 'Order' ); ?>
+			<th width="2%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'Order', 'c.ordering', $lists ); ?>
 			</th>
 			<th width="1%">
-			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+				<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
+					<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
 			</th>
 			<th width="10%">
-			<?php echo JText::_( 'Access' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
 			</th>
-			<th width="5%">
-			<?php echo JText::_( 'ID' ); ?>
+			<th width="5%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
 			</th>
 			<th width="1%" >
-			<?php echo JText::_( 'Links' ); ?>
+				<?php echo JText::_( 'Links' ); ?>
 			</th>
 			<th width="20%"  class="title">
-			<?php echo JText::_( 'Author' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Author', 'creator', $lists ); ?>
 			</th>
 			<th align="center" width="10">
-			<?php echo JText::_( 'Date' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Date', 'c.created', $lists ); ?>
 			</th>
 		</tr>
 		<?php
@@ -158,31 +156,29 @@ class HTML_typedcontent {
 				}
 			}
 
-			$date = mosFormatDate( $row->created, '%x' );
+			$date = mosFormatDate( $row->created, JText::_( 'DATE_FORMAT_LC4' ) );
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td>
-				<?php echo $pageNav->rowNumber( $i ); ?>
+					<?php echo $pageNav->rowNumber( $i ); ?>
 				</td>
 				<td>
-				<?php echo $checked; ?>
+					<?php echo $checked; ?>
 				</td>
     			<?php
     			if ( $row->title_alias ) {
-                    ?><td onmouseover="return overlib('<?php echo $row->title_alias; ?>', CAPTION, '<?php echo JText::_( 'Title Alias' ); ?>', BELOW, RIGHT);" onmouseout="return nd();" >
+                    ?>
+                    <td onmouseover="return overlib('<?php echo $row->title_alias; ?>', CAPTION, '<?php echo JText::_( 'Title Alias' ); ?>', BELOW, RIGHT);" onmouseout="return nd();" >
                     <?php
-    			}
-    			else{
+    			} else {
 					echo "<td>";
                 }
 				if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
 					echo $row->title;
-				}
-                else {
+				} else {
 					?>
 					<a href="<?php echo ampReplace( $link ); ?>" title="<?php echo JText::_( 'Edit Static Content' ); ?>">
-					<?php echo htmlspecialchars($row->title, ENT_QUOTES); ?>
-					</a>
+						<?php echo htmlspecialchars($row->title, ENT_QUOTES); ?></a>
 					<?php
 				}
 				?>
@@ -191,32 +187,30 @@ class HTML_typedcontent {
 				if ( $times ) {
 					?>
 					<td align="center">
-					<a href="javascript: void(0);" onMouseOver="return overlib('<table><?php echo $times; ?></table>', CAPTION, '<?php echo JText::_( 'Publish Information' ); ?>', BELOW, RIGHT);" onMouseOut="return nd();" onClick="return listItemTask('cb<?php echo $i;?>','<?php echo $row->state ? "unpublish" : "publish";?>')">
-					<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" />
-					</a>
+					<a href="javascript: void(0);" onMouseOver="return overlib('<table><?php echo $times; ?></table>', CAPTION, '<?php echo JText::_( 'Publish Information' ); ?>', BELOW, RIGHT);" onMouseOut="return nd();" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $row->state ? "unpublish" : "publish";?>')">
+						<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
 					</td>
 					<?php
 				}
 				?>
 				<td align="center" colspan="2">
-				<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
+					<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
 				</td>
 				<td align="center">
-				<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task_access;?>')" <?php echo $color_access; ?>>
-				<?php echo $row->groupname;?>
-				</a>
+					<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task_access;?>')" <?php echo $color_access; ?>>
+						<?php echo $row->groupname;?></a>
 				</td>
 				<td align="center">
-				<?php echo $row->id;?>
+					<?php echo $row->id;?>
 				</td>
 				<td align="center">
-				<?php echo $row->links;?>
+					<?php echo $row->links;?>
 				</td>
 				<td>
-				<?php echo $author;?>
+					<?php echo $author;?>
 				</td>
 				<td>
-				<?php echo $date; ?>
+					<?php echo $date; ?>
 				</td>
 			</tr>
 			<?php
@@ -232,6 +226,8 @@ class HTML_typedcontent {
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />
+		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
 		<?php
 	}
@@ -409,7 +405,7 @@ class HTML_typedcontent {
 					</td>
 					<td>
 					<input class="inputbox" type="text" name="created" id="created" size="25" maxlength="19" value="<?php echo $row->created; ?>" />
-					<input name="reset" type="reset" class="button" onClick="return showCalendar('created', 'y-mm-dd');" value="...">
+					<input name="reset" type="reset" class="button" onclick="return showCalendar('created', 'y-mm-dd');" value="...">
 					</td>
 				</tr>
 				<tr>
@@ -462,7 +458,7 @@ class HTML_typedcontent {
 					<td>
 					<?php echo $row->hits;?>
 					<div <?php echo $visibility; ?>>
-					<input name="reset_hits" type="button" class="button" value="<?php echo JText::_( 'Reset Hit Count' ); ?>" onClick="submitbutton('resethits');">
+					<input name="reset_hits" type="button" class="button" value="<?php echo JText::_( 'Reset Hit Count' ); ?>" onclick="submitbutton('resethits');">
 					</div>
 					</td>
 				</tr>
@@ -626,7 +622,7 @@ class HTML_typedcontent {
 						</tr>
 						<tr>
 							<td colspan="2">
-							<input class="button" type="button" value="<?php echo JText::_( 'Apply' ); ?>" onClick="applyImageProps()" />
+							<input class="button" type="button" value="<?php echo JText::_( 'Apply' ); ?>" onclick="applyImageProps()" />
 							</td>
 						</tr>
 						</table>
@@ -711,7 +707,7 @@ class HTML_typedcontent {
 					<td>
 					</td>
 					<td>
-					<input name="menu_link" type="button" class="button" value="<?php echo JText::_( 'Link to Menu' ); ?>" onClick="submitbutton('menulink');" />
+					<input name="menu_link" type="button" class="button" value="<?php echo JText::_( 'Link to Menu' ); ?>" onclick="submitbutton('menulink');" />
 					</td>
 				<tr>
 				<tr>

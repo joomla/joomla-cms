@@ -202,8 +202,8 @@ class JPagination extends JObject {
 				$html .= "\n<a href=\"#beg\" class=\"pagenav\" title=\"".JText :: _('first page')."\" onclick=\"javascript: document.adminForm.limitstart.value=0; document.adminForm.submit();return false;\"><< ".JText :: _('Start')."</a>";
 				$html .= "\n<a href=\"#prev\" class=\"pagenav\" title=\"".JText :: _('previous page')."\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\">< ".JText :: _('Previous')."</a>";
 			} else {
-				$html .= "\n<span class=\"pagenav\"><< ".JText :: _('Start')."</span>";
-				$html .= "\n<span class=\"pagenav\">< ".JText :: _('Previous')."</span>";
+				$html .= "\n<span class=\"pagenav\">&lt;&lt; ".JText :: _('Start')."</span>";
+				$html .= "\n<span class=\"pagenav\">&lt; ".JText :: _('Previous')."</span>";
 			}
 
 			for ($i = $start_loop; $i <= $stop_loop; $i ++) {
@@ -221,8 +221,8 @@ class JPagination extends JObject {
 				$html .= "\n<a href=\"#next\" class=\"pagenav\" title=\"".JText :: _('next page')."\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\"> ".JText :: _('Next')." ></a>";
 				$html .= "\n<a href=\"#end\" class=\"pagenav\" title=\"".JText :: _('end page')."\" onclick=\"javascript: document.adminForm.limitstart.value=$end_page; document.adminForm.submit();return false;\"> ".JText :: _('End')." >></a>";
 			} else {
-				$html .= "\n<span class=\"pagenav\">".JText :: _('Next')." ></span>";
-				$html .= "\n<span class=\"pagenav\">".JText :: _('End')." >></span>";
+				$html .= "\n<span class=\"pagenav\">".JText :: _('Next')." &gt;</span>";
+				$html .= "\n<span class=\"pagenav\">".JText :: _('End')." &gt;&gt;</span>";
 			}
 		} else {
 			/*
@@ -277,9 +277,9 @@ class JPagination extends JObject {
 		$html = '<table class="adminlist"><tr><th colspan="3">';
 		$html .= $this->getPagesLinks();
 		$html .= '</th></tr><tr>';
-		$html .= '<td nowrap="true" width="48%" align="right">'.JText :: _('Display Num').'</td>';
+		$html .= '<td nowrap="nowrap" width="48%" align="right">'.JText :: _('Display Num').'</td>';
 		$html .= '<td>'.$this->getLimitBox().'</td>';
-		$html .= '<td nowrap="true" width="48%" >'.$this->getPagesCounter().'</td>';
+		$html .= '<td nowrap="nowrap" width="48%" >'.$this->getPagesCounter().'</td>';
 		$html .= '</tr></table>';
 		return $html;
 	}
@@ -312,7 +312,7 @@ class JPagination extends JObject {
 		$alt = JText :: _($alt);
 
 		if (($i > 0 || ($i + $this->limitstart > 0)) && $condition) {
-			return '<a href="#reorder" onClick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">
+			return '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">
 						<img src="images/uparrow.png" width="12" height="12" border="0" alt="'.$alt.'" /></a>';
 		} else {
 			return '&nbsp;';
@@ -336,7 +336,7 @@ class JPagination extends JObject {
 		$alt = JText :: _($alt);
 
 		if (($i < $n -1 || $i + $this->limitstart < $this->total - 1) && $condition) {
-			return '<a href="#reorder" onClick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">
+			return '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">
 						<img src="images/downarrow.png" width="12" height="12" border="0" alt="'.$alt.'" /></a>';
 		} else {
 			return '&nbsp;';

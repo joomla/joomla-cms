@@ -30,16 +30,14 @@ class sections_html {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index2.php?option=com_sections&scope=<?php echo $scope; ?>" method="post" name="adminForm">
 
 		<table class="adminheading">
 		<tr>
 			<td align="left" valign="top" nowrap="nowrap">
 			</td>
 			<td align="right" valign="top" nowrap="nowrap">
-				<?php
-				echo $lists['state'];
-				?>
+				<?php echo $lists['state'];	?>
 			</td>
 		</tr>
 		</table>
@@ -47,40 +45,41 @@ class sections_html {
 		<table class="adminlist">
 		<tr>
 			<th width="20">
-			<?php echo JText::_( 'NUM' ); ?>
+				<?php echo JText::_( 'NUM' ); ?>
 			</th>
 			<th width="20">
-			<input type="checkbox" name="toggle" value="" onClick="checkAll(<?php echo count( $rows );?>);" />
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 			</th>
 			<th class="title">
-			<?php echo JText::_( 'Section Name' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Section Name', 's.name', $lists ); ?>
 			</th>
 			<th width="10%">
-			<?php echo JText::_( 'Published' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Published', 's.published', $lists ); ?>
 			</th>
-			<th colspan="2" width="5%">
-			<?php echo JText::_( 'Reorder' ); ?>
+			<th colspan="2" width="4%">
+				<?php echo JText::_( 'Reorder' ); ?>
 			</th>
 			<th width="2%">
-			<?php echo JText::_( 'Order' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Order', 's.ordering', $lists ); ?>
 			</th>
 			<th width="1%">
-			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+				<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
+					<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
 			</th>
-			<th width="8%">
-			<?php echo JText::_( 'Access' ); ?>
+			<th width="9%">
+				<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
 			</th>
-			<th width="12%" nowrap>
-			<?php echo JText::_( 'Section ID' ); ?>
+			<th width="4%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'ID', 's.id', $lists ); ?>
 			</th>
-			<th width="12%" nowrap>
-			<?php echo JText::_( 'Num Categories' ); ?>
+			<th width="10%" nowrap="nowrap">
+				<?php echo JText::_( 'Num Categories' ); ?>
 			</th>
-			<th width="12%" nowrap>
-			<?php echo JText::_( 'Num Active' ); ?>
+			<th width="10%" nowrap="nowrap">
+				<?php echo JText::_( 'Num Active' ); ?>
 			</th>
-			<th width="12%" nowrap>
-			<?php echo JText::_( 'Num Trash' ); ?>
+			<th width="10%" nowrap="nowrap">
+				<?php echo JText::_( 'Num Trash' ); ?>
 			</th>
 
 		</tr>
@@ -97,50 +96,49 @@ class sections_html {
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td width="20" align="right">
-				<?php echo $pageNav->rowNumber( $i ); ?>
+					<?php echo $pageNav->rowNumber( $i ); ?>
 				</td>
 				<td width="20">
-				<?php echo $checked; ?>
+					<?php echo $checked; ?>
 				</td>
 				<td width="35%">
 				<?php
 				if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-					echo $row->name. " ( ". $row->title ." )";
+					echo $row->name. ' ( '. $row->title .' )';
 				} else {
 					?>
 					<a href="<?php echo ampReplace( $link ); ?>">
-					<?php echo $row->name. " ( ". $row->title ." )"; ?>
-					</a>
+						<?php echo $row->name. ' ( '. $row->title .' )'; ?></a>
 					<?php
 				}
 				?>
 				</td>
 				<td align="center">
-				<?php echo $published;?>
+					<?php echo $published;?>
 				</td>
 				<td>
-				<?php echo $pageNav->orderUpIcon( $i ); ?>
+					<?php echo $pageNav->orderUpIcon( $i ); ?>
 				</td>
 				<td>
-				<?php echo $pageNav->orderDownIcon( $i, $n ); ?>
+					<?php echo $pageNav->orderDownIcon( $i, $n ); ?>
 				</td>
 				<td align="center" colspan="2">
-				<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
+					<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
 				</td>
 				<td align="center">
-				<?php echo $access;?>
+					<?php echo $access;?>
 				</td>
 				<td align="center">
-				<?php echo $row->id; ?>
+					<?php echo $row->id; ?>
 				</td>
 				<td align="center">
-				<?php echo $row->categories; ?>
+					<?php echo $row->categories; ?>
 				</td>
 				<td align="center">
-				<?php echo $row->active; ?>
+					<?php echo $row->active; ?>
 				</td>
 				<td align="center">
-				<?php echo $row->trash; ?>
+					<?php echo $row->trash; ?>
 				</td>
 				<?php
 				$k = 1 - $k;
@@ -160,6 +158,8 @@ class sections_html {
 		<input type="hidden" name="act" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />
+		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
 		<?php
 	}
@@ -263,7 +263,7 @@ class sections_html {
 					</td>
 				</tr>
 				<tr>
-					<td nowrap>
+					<td nowrap="nowrap">
 					<?php echo JText::_( 'Section Name' ); ?>:
 					</td>
 					<td colspan="2">
@@ -288,7 +288,7 @@ class sections_html {
 					</td>
 				</tr>
 				<tr>
-					<td nowrap>
+					<td nowrap="nowrap">
 					<?php echo JText::_( 'Image Position' ); ?>:
 					</td>
 					<td>
@@ -304,7 +304,7 @@ class sections_html {
 					</td>
 				</tr>
 				<tr>
-					<td nowrap>
+					<td nowrap="nowrap">
 					<?php echo JText::_( 'Access Level' ); ?>:
 					</td>
 					<td>
@@ -376,7 +376,7 @@ class sections_html {
 					<td>
 					</td>
 					<td>
-					<input name="menu_link" type="button" class="button" value="<?php echo JText::_( 'Link to Menu' ); ?>" onClick="submitbutton('menulink');" />
+					<input name="menu_link" type="button" class="button" value="<?php echo JText::_( 'Link to Menu' ); ?>" onclick="submitbutton('menulink');" />
 					</td>
 				<tr>
 				<tr>
@@ -406,8 +406,14 @@ class sections_html {
 			} else {
 			?>
 			<table class="adminform" width="40%">
-				<tr><th>&nbsp;</th></tr>
-				<tr><td><?php echo JText::_( 'Menu links available when saved' ); ?></td></tr>
+			<tr>
+				<th>&nbsp;</th>
+			</tr>
+			<tr>
+				<td>
+					<?php echo JText::_( 'Menu links available when saved' ); ?>
+				</td>
+			</tr>
 			</table>
 			<?php
 			}

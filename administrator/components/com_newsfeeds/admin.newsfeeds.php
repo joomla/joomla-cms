@@ -85,10 +85,12 @@ switch ($task) {
 function showNewsFeeds( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$filter_state 	= $mainframe->getUserStateFromRequest( "$option.filter_state", 'filter_state', '' );
-	$catid 			= $mainframe->getUserStateFromRequest( "$option.catid", 'catid', 0 );
-	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.ordering' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
+	$catid 				= $mainframe->getUserStateFromRequest( "$option.catid", 			'catid', 			0 );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
 
 	$where = array();
 	if ( $catid ) {
@@ -102,10 +104,13 @@ function showNewsFeeds( $option ) {
 		}
 	}
 	
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, a.ordering";
+	
 	// get the total number of records
 	$query = "SELECT COUNT(a.*)"
 	. "\n FROM #__newsfeeds AS a"
-	. ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' )
+	. $where
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
@@ -118,11 +123,10 @@ function showNewsFeeds( $option ) {
 	. "\n FROM #__newsfeeds AS a"
 	. "\n LEFT JOIN #__categories AS c ON c.id = a.catid"
 	. "\n LEFT JOIN #__users AS u ON u.id = a.checked_out"
-	. ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' )
-	. "\n ORDER BY a.ordering"
-	. "\n LIMIT $pageNav->limitstart, $pageNav->limit"
+	. $where
+	. $orderby
 	;
-	$database->setQuery( $query );
+	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 
 	$rows = $database->loadObjectList();
 	if ($database->getErrorNum()) {
@@ -136,7 +140,15 @@ function showNewsFeeds( $option ) {
 	
 	// state filter 
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );	
-
+	
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
+	}
+	$lists['order'] = $filter_order;
+	
 	HTML_newsfeeds::showNewsFeeds( $rows, $lists, $pageNav, $option );
 }
 

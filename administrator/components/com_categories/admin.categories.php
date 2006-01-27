@@ -110,19 +110,20 @@ switch ($task) {
 * Compiles a list of categories for a section
 * @param string The name of the category section
 */
-function showCategories( $section, $option ) 
-{
+function showCategories( $section, $option ) {
 	global $database, $mainframe;
 
-	$filter_state 	= $mainframe->getUserStateFromRequest( "$option.$section.filter_state", 'filter_state', '' );
-	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$sectionid 		= $mainframe->getUserStateFromRequest( "$option.$section.sectionid", 'sectionid', 0 );
-	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.$section.view.limitstart", 'limitstart', 0 );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 				'filter_order', 	'c.ordering' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",			'filter_order_Dir',	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$section.filter_state", 	'filter_state', 	'' );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mainframe->getCfg('list_limit') );
+	$sectionid 			= $mainframe->getUserStateFromRequest( "$option.$section.sectionid", 		'sectionid', 		0 );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$section.view.limitstart", 	'limitstart', 		0 );
 
 	$section_name 	= '';
 	$content_add 	= '';
 	$content_join 	= '';
-	$order 			= "\n ORDER BY c.ordering, c.name";
+	$order 			= "\n ORDER BY $filter_order $filter_order_Dir, c.ordering";
 	if (intval( $section ) > 0) {
 		$table = 'content';
 
@@ -170,7 +171,7 @@ function showCategories( $section, $option )
 		$content_add 	= "\n , z.title AS section_name";
 		$content_join 	= "\n LEFT JOIN #__sections AS z ON z.id = c.section";
 		$where 			= "\n WHERE c.section NOT LIKE '%com_%'";
-		$order 			= "\n ORDER BY c.section, c.ordering, c.name";
+		$order 			= "\n ORDER BY  $filter_order $filter_order_Dir, c.section, c.ordering";
 		$section_name 	= JText::_( 'All Content:' );
 		
 		// get the total number of records
@@ -202,8 +203,7 @@ function showCategories( $section, $option )
 	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
-	$query = "SELECT  c.*, c.checked_out as checked_out_contact_category, g.name AS groupname, u.name AS editor,"
-	. "COUNT( DISTINCT s2.checked_out ) AS checked_out"
+	$query = "SELECT  c.*, c.checked_out as checked_out_contact_category, g.name AS groupname, u.name AS editor, COUNT( DISTINCT s2.checked_out ) AS checked_out"
 	. $content_add
 	. "\n FROM #__categories AS c"
 	. "\n LEFT JOIN #__users AS u ON u.id = c.checked_out"
@@ -215,9 +215,8 @@ function showCategories( $section, $option )
 	. "\n AND c.published != -2"
 	. "\n GROUP BY c.id"
 	. $order
-	. "\n LIMIT $pageNav->limitstart, $pageNav->limit"
 	;
-	$database->setQuery( $query );
+	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$rows = $database->loadObjectList();
 	if ($database->getErrorNum()) {
 		echo $database->stderr();
@@ -254,6 +253,14 @@ function showCategories( $section, $option )
 	
 	// state filter 
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+		
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
+	}
+	$lists['order'] = $filter_order;
 	
 	categories_html::show( $rows, $section, $section_name, $pageNav, $lists, $type );
 }

@@ -85,12 +85,14 @@ switch ( $task ) {
 function viewPlugins( $option, $client ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$filter_state 	= $mainframe->getUserStateFromRequest( "$option.$client.filter_state", 'filter_state', '' );
-	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
-	$filter_type	= $mainframe->getUserStateFromRequest( "$option.$client.filter_type", 'filter_type', 1 );
-	$search 		= $mainframe->getUserStateFromRequest( "$option.$client.search", 'search', '' );
-	$search 		= $database->getEscaped( trim( strtolower( $search ) ) );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$client.filter_order", 		'filter_order', 	'p.folder' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$client.filter_order_Dir",	'filter_order_Dir',	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$client.filter_state", 		'filter_state', 	'' );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 				'limitstart', 		0 );
+	$filter_type		= $mainframe->getUserStateFromRequest( "$option.$client.filter_type", 		'filter_type', 		1 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.$client.search", 			'search', 			'' );
+	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 
 	if ($client == 'admin') {
 		$where[] = "p.client_id = '1'";
@@ -115,10 +117,13 @@ function viewPlugins( $option, $client ) {
 		}
 	}
 
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, p.ordering ASC";
+	
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
 	. "\n FROM #__plugins AS p"
-	. ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' )
+	. $where
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
@@ -130,12 +135,11 @@ function viewPlugins( $option, $client ) {
 	. "\n FROM #__plugins AS p"
 	. "\n LEFT JOIN #__users AS u ON u.id = p.checked_out"
 	. "\n LEFT JOIN #__groups AS g ON g.id = p.access"
-	. ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' )
+	. $where
 	. "\n GROUP BY p.id"
-	. "\n ORDER BY p.folder ASC, p.ordering ASC, p.name ASC"
-	. "\n LIMIT $pageNav->limitstart, $pageNav->limit"
+	. $orderby
 	;
-	$database->setQuery( $query );
+	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$rows = $database->loadObjectList();
 	if ($database->getErrorNum()) {
 		echo $database->stderr();
@@ -156,6 +160,14 @@ function viewPlugins( $option, $client ) {
 	
 	// state filter 
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+		
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
+	}
+	$lists['order'] = $filter_order;
 	
 	HTML_modules::showPlugins( $rows, $client, $pageNav, $option, $lists, $search );
 }

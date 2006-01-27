@@ -884,7 +884,26 @@ class mosCommonHTML {
 		
 		return mosHTML::selectList( $state, 'filter_state', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_state );
 	}
+	
+	function tableOrdering( $text, $ordering, &$lists, $task=NULL ) {		
+		?>
+		<a href="javascript:tableOrdering('<?php echo $ordering; ?>','<?php echo $lists['order_Dir']; ?>','<?php echo $task; ?>');">
+			<?php echo JText::_( $text ); ?>
+			<?php mosCommonHTML :: tableOrdering_img( $ordering, $lists ); ?></a>
+		<?php
+	}
+			function tableOrdering_img( $current, &$lists ) {
+		if ( $current == $lists['order']) {
+			if ( $lists['order_Dir'] == 'ASC' ) {
+				$image = 'sort_desc.png';
+			} else {
+				$image = 'sort_asc.png';
+			}
+			echo mosAdminMenus::ImageCheckAdmin( $image, '/images/', NULL, NULL, '', '', 1 );
+		}
+	}
 }
+
 
 /**
  * Tab Creation handler

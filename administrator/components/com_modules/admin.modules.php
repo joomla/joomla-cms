@@ -105,12 +105,14 @@ switch ( $task ) {
 function viewModules( $option, $client ) {
 	global $database, $my, $mainframe;
 
-	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$client.filter_state", 'filter_state', '' );
-	$filter_position 	= $mainframe->getUserStateFromRequest( "$option.$client.filter_position", 'filter_position', 0 );
-	$filter_type	 	= $mainframe->getUserStateFromRequest( "$option.$client.filter_type", 'filter_type', 0 );
-	$limit 				= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.$client.search", 'search', '' );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$client.filter_order", 		'filter_order', 	'm.position' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$client.filter_order_Dir",	'filter_order_Dir',	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$client.filter_state", 		'filter_state', 	'' );
+	$filter_position 	= $mainframe->getUserStateFromRequest( "$option.$client.filter_position", 	'filter_position', 	0 );
+	$filter_type	 	= $mainframe->getUserStateFromRequest( "$option.$client.filter_type", 		'filter_type', 		0 );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 				'limitstart', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.$client.search", 			'search', 			'' );
 	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 
 	if ($client == 'admin') {
@@ -139,10 +141,12 @@ function viewModules( $option, $client ) {
 		}
 	}	
 
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );		$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, m.ordering ASC";
+
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
 	. "\n FROM #__modules AS m"
-	. ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' )
+	. $where
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
@@ -155,12 +159,11 @@ function viewModules( $option, $client ) {
 	. "\n LEFT JOIN #__users AS u ON u.id = m.checked_out"
 	. "\n LEFT JOIN #__groups AS g ON g.id = m.access"
 	. "\n LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id"
-	. ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' )
+	. $where
 	. "\n GROUP BY m.id"
-	. "\n ORDER BY position ASC, ordering ASC"
-	. "\n LIMIT $pageNav->limitstart, $pageNav->limit"
+	. $orderby	
 	;
-	$database->setQuery( $query );
+	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$rows = $database->loadObjectList();
 	if ($database->getErrorNum()) {
 		echo $database->stderr();
@@ -187,13 +190,21 @@ function viewModules( $option, $client ) {
 	. "\n GROUP BY module"
 	. "\n ORDER BY module"
 	;
-	$types[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Type' ) .' -' );
 	$database->setQuery( $query );
-	$types = array_merge( $types, $database->loadObjectList() );
+	$types[] 		= mosHTML::makeOption( '0', '- '. JText::_( 'Select Type' ) .' -' );
+	$types 			= array_merge( $types, $database->loadObjectList() );
 	$lists['type']	= mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_type" );
 	
 	// state filter 
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+	
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
+	}
+	$lists['order'] = $filter_order;
 	
 	HTML_modules::showModules( $rows, $my->id, $client, $pageNav, $option, $lists, $search );
 }

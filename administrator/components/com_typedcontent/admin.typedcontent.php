@@ -90,12 +90,13 @@ switch ( $task ) {
 function view( $option ) {
 	global $database, $mainframe;
 
-	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 'filter_state', '' );
-	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.filter_authorid", 'filter_authorid', 0 );
-	$order 				= $mainframe->getUserStateFromRequest( "zorder", 'zorder', 'c.ordering DESC' );
-	$limit 				= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 'search', '' );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'c.ordering' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
+	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.filter_authorid", 	'filter_authorid', 	0 );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
 	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 
 	// used by filter
@@ -116,6 +117,8 @@ function view( $option ) {
 			$filter .= "\n AND c.state = 0";
 		}
 	}
+	
+	$orderby = "\n ORDER BY $filter_order $filter_order_Dir";
 
 	// get the total number of records
 	$query = "SELECT count(*)"
@@ -127,6 +130,7 @@ function view( $option ) {
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
+	
 	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
@@ -140,10 +144,9 @@ function view( $option ) {
 	. "\n AND c.state <> -2"
 	. $search_query
 	. $filter
-	. "\n ORDER BY ". $order
-	. "\n LIMIT $pageNav->limitstart,$pageNav->limit"
+	. $orderby
 	;
-	$database->setQuery( $query );
+	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$rows = $database->loadObjectList();
 
 	if ($database->getErrorNum()) {
@@ -162,24 +165,7 @@ function view( $option ) {
 		$database->setQuery( $query );
 		$rows[$i]->links = $database->loadResult();
 	}
-
-	$ordering[] = mosHTML::makeOption( 'c.ordering ASC', JText::_( 'Ordering asc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.ordering DESC', JText::_( 'Ordering desc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.id ASC', JText::_( 'ID asc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.id DESC', JText::_( 'ID desc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.title ASC', JText::_( 'Title asc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.title DESC', JText::_( 'Title desc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.created ASC', JText::_( 'Date asc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.created DESC', JText::_( 'Date desc' ) );
-	$ordering[] = mosHTML::makeOption( 'z.name ASC', JText::_( 'Author asc' ) );
-	$ordering[] = mosHTML::makeOption( 'z.name DESC', JText::_( 'Author desc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.state ASC', JText::_( 'Published asc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.state DESC', JText::_( 'Published desc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.access ASC', JText::_( 'Access asc' ) );
-	$ordering[] = mosHTML::makeOption( 'c.access DESC', JText::_( 'Access desc' ) );
-	$javascript = 'onchange="document.adminForm.submit();"';
-	$lists['order'] = mosHTML::selectList( $ordering, 'zorder', 'class="inputbox" size="1"'. $javascript, 'value', 'text', $order );
-
+	
 	// get list of Authors for dropdown filter
 	$query = "SELECT c.created_by AS value, u.name AS text"
 	. "\n FROM #__content AS c"
@@ -191,11 +177,19 @@ function view( $option ) {
 	$authors[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Author' ) .' -' );
 	$database->setQuery( $query );
 	$authors = array_merge( $authors, $database->loadObjectList() );
-	$lists['authorid']	= mosHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_authorid );
+	$lists['authorid']	= mosHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter_authorid );
 	
 	// state filter 
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );
 
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
+	}
+	$lists['order'] = $filter_order;
+	
 	HTML_typedcontent::showContent( $rows, $pageNav, $option, $search, $lists );
 }
 

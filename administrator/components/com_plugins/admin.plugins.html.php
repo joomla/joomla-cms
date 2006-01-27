@@ -30,7 +30,7 @@ class HTML_modules {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index2.php?option=com_plugins" method="post" name="adminForm">
 
 		<table class="adminheading">
 		<tr>
@@ -51,33 +51,42 @@ class HTML_modules {
 
 		<table class="adminlist">
 		<tr>
-			<th width="20"><?php echo JText::_( 'Num' ); ?></th>
 			<th width="20">
-			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
+				<?php echo JText::_( 'Num' ); ?>
+			</th>
+			<th width="20">
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 			</th>
 			<th class="title">
-			<?php echo JText::_( 'Plugin Name' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Plugin Name', 'p.name', $lists ); ?>				
 			</th>
-			<th nowrap="nowrap" width="10%">
-	  		<?php echo JText::_( 'Published' ); ?>
+			<th nowrap="nowrap" width="5%">
+				<?php mosCommonHTML :: tableOrdering( 'Published', 'p.published', $lists ); ?>				
 			</th>
-			<th colspan="2" nowrap="true" width="5%">
-			<?php echo JText::_( 'Reorder' ); ?>
-			</th>
-			<th width="2%">
-			<?php echo JText::_( 'Order' ); ?>
-			</th>
-			<th width="1%">
-			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
-			</th>
-			<th nowrap="nowrap" width="10%">
-			<?php echo JText::_( 'Access' ); ?>
+			<?php
+			if ( $lists['order'] == 'p.folder' ) {
+				?>
+				<th colspan="2" nowrap="true" width="5%">
+					<?php echo JText::_( 'Reorder' ); ?>
+				</th>
+				<th width="2%">
+					<?php echo JText::_( 'Order' ); ?>
+				</th>
+				<th width="1%">
+					<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
+						<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+				</th>
+				<?php
+			}
+			?>
+			<th nowrap="nowrap" width="7%">
+				<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>				
 			</th>
 			<th nowrap="nowrap"  width="10%" class="title">
-			<?php echo JText::_( 'Type' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Type', 'p.folder', $lists ); ?>				
 			</th>
-			<th nowrap="nowrap"  width="10%" class="title">
-			<?php echo JText::_( 'File' ); ?>
+			<th nowrap="nowrap"  width="12%" class="title">
+				<?php mosCommonHTML :: tableOrdering( 'File', 'p.element', $lists ); ?>				
 			</th>
 		</tr>
 		<?php
@@ -92,9 +101,11 @@ class HTML_modules {
 			$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
 			?>
 			<tr class="<?php echo "row$k"; ?>">
-				<td align="right"><?php echo $pageNav->rowNumber( $i ); ?></td>
+				<td align="right">
+					<?php echo $pageNav->rowNumber( $i ); ?>
+				</td>
 				<td>
-				<?php echo $checked; ?>
+					<?php echo $checked; ?>
 				</td>
 				<td>
 				<?php
@@ -103,32 +114,37 @@ class HTML_modules {
 				} else {
 					?>
 					<a href="<?php echo $link; ?>">
-					<?php echo $row->name; ?>
-					</a>
+						<?php echo $row->name; ?></a>
 					<?php
 				}
 				?>
 				</td>
 				<td align="center">
-				<?php echo $published;?>
+					<?php echo $published;?>
 				</td>
-				<td>
-				<?php echo $pageNav->orderUpIcon( $i, ($row->folder == @$rows[$i-1]->folder && $row->ordering > -10000 && $row->ordering < 10000) ); ?>
-				</td>
-				<td>
-				<?php echo $pageNav->orderDownIcon( $i, $n, ($row->folder == @$rows[$i+1]->folder && $row->ordering > -10000 && $row->ordering < 10000) ); ?>
-				</td>
-				<td align="center" colspan="2">
-				<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
-				</td>
+				<?php
+				if ( $lists['order'] == 'p.folder' ) {
+					?>
+					<td>
+						<?php echo $pageNav->orderUpIcon( $i, ($row->folder == @$rows[$i-1]->folder && $row->ordering > -10000 && $row->ordering < 10000) ); ?>
+					</td>
+					<td>
+						<?php echo $pageNav->orderDownIcon( $i, $n, ($row->folder == @$rows[$i+1]->folder && $row->ordering > -10000 && $row->ordering < 10000) ); ?>
+					</td>
+					<td align="center" colspan="2">
+						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
+					</td>
+					<?php
+				}
+				?>
 				<td align="center">
-				<?php echo $access;?>
+					<?php echo $access;?>
 				</td>
 				<td nowrap="true">
-				<?php echo $row->folder;?>
+					<?php echo $row->folder;?>
 				</td>
 				<td nowrap="true">
-				<?php echo $row->element;?>
+					<?php echo $row->element;?>
 				</td>
 			</tr>
 			<?php
@@ -144,6 +160,8 @@ class HTML_modules {
 		<input type="hidden" name="client" value="<?php echo $client;?>" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />
+		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
 		<?php
 	}

@@ -108,23 +108,27 @@ switch ($task) {
 function showSections( $scope, $option ) {
 	global $database, $my, $mainframe;
 
-	$filter_state 	= $mainframe->getUserStateFromRequest( "$option.filter_state", 'filter_state', '' );
-	$limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart 	= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	's.ordering' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
 
 	$and = '';
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
-			$and = "\n AND c.published = 1";
+			$and = "\n AND s.published = 1";
 		} else if ($filter_state == 'U' ) {
-			$and = "\n AND c.published = 0";
+			$and = "\n AND s.published = 0";
 		}
 	}
+		
+	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, s.ordering";
 	
 	// get the total number of records
-	$query = "SELECT COUNT( c.*)"
-	. "\n FROM #__sections AS c"
-	. "\n WHERE c.scope = '$scope'"
+	$query = "SELECT COUNT( s.*)"
+	. "\n FROM #__sections AS s"
+	. "\n WHERE s.scope = '$scope'"
 	. $and
 	;
 	$database->setQuery( $query );
@@ -133,18 +137,17 @@ function showSections( $scope, $option ) {
 	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
-	$query = "SELECT c.*, g.name AS groupname, u.name AS editor"
-	. "\n FROM #__sections AS c"
-	. "\n LEFT JOIN #__content AS cc ON c.id = cc.sectionid"
-	. "\n LEFT JOIN #__users AS u ON u.id = c.checked_out"
-	. "\n LEFT JOIN #__groups AS g ON g.id = c.access"
-	. "\n WHERE c.scope = '$scope'"
+	$query = "SELECT s.*, g.name AS groupname, u.name AS editor"
+	. "\n FROM #__sections AS s"
+	. "\n LEFT JOIN #__content AS cc ON s.id = cc.sectionid"
+	. "\n LEFT JOIN #__users AS u ON u.id = s.checked_out"
+	. "\n LEFT JOIN #__groups AS g ON g.id = s.access"
+	. "\n WHERE s.scope = '$scope'"
 	. $and
-	. "\n GROUP BY c.id"
-	. "\n ORDER BY c.ordering, c.name"
-	. "\n LIMIT $pageNav->limitstart, $pageNav->limit"
+	. "\n GROUP BY s.id"
+	. $orderby
 	;
-	$database->setQuery( $query );
+	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$rows = $database->loadObjectList();
 	if ($database->getErrorNum()) {
 		echo $database->stderr();
@@ -188,6 +191,14 @@ function showSections( $scope, $option ) {
 	
 	// state filter 
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+		
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
+	}
+	$lists['order'] = $filter_order;
 	
 	sections_html::show( $rows, $scope, $my->id, $pageNav, $option, $lists );
 }

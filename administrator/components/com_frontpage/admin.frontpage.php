@@ -81,20 +81,21 @@ switch ($task) {
 * Compiles a list of frontpage items
 */
 function viewFrontPage( $option ) {
-	global $database, $mainframe, $mosConfig_list_limit;
+	global $database, $mainframe;
 
-	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 'filter_state', '' );
-	$catid 				= $mainframe->getUserStateFromRequest( "$option.catid", 'catid', 0 );
-	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.filter_authorid", 'filter_authorid', 0 );
-	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "$option.filter_sectionid", 'filter_sectionid', 0 );
-
-	$limit 				= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 'search', '' );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'c.ordering' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
+	$catid 				= $mainframe->getUserStateFromRequest( "$option.catid", 			'catid', 			0 );
+	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.filter_authorid", 	'filter_authorid', 	0 );
+	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "$option.filter_sectionid", 	'filter_sectionid', 0 );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
 	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 
 	$where = array(
-	"c.state >= 0"
+		"c.state >= 0"
 	);
 
 	// used by filter
@@ -119,13 +120,16 @@ function viewFrontPage( $option ) {
 		$where[] = "LOWER( c.title ) LIKE '%$search%'";
 	}
 
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, f.ordering";
+	
 	// get the total number of records
 	$query = "SELECT count(*)"
 	. "\n FROM #__content AS c"
 	. "\n INNER JOIN #__categories AS cc ON cc.id = c.catid"
 	. "\n INNER JOIN #__sections AS s ON s.id = cc.section AND s.scope='content'"
 	. "\n INNER JOIN #__content_frontpage AS f ON f.content_id = c.id"
-	. (count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' )
+	. $where
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
@@ -141,11 +145,10 @@ function viewFrontPage( $option ) {
 	. "\n INNER JOIN #__groups AS g ON g.id = c.access"
 	. "\n LEFT JOIN #__users AS u ON u.id = c.checked_out"
 	. "\n LEFT JOIN #__users AS v ON v.id = c.created_by"
-	. (count( $where ) ? "\nWHERE " . implode( ' AND ', $where ) : "")
-	. "\n ORDER BY f.ordering"
-	. "\n LIMIT $pageNav->limitstart,$pageNav->limit"
+	. $where
+	. $orderby
 	;
-	$database->setQuery( $query );
+	$database->setQuery( $query, $pageNav->limitstart,$pageNav->limit );
 
 	$rows = $database->loadObjectList();
 	if ($database->getErrorNum()) {
@@ -159,13 +162,13 @@ function viewFrontPage( $option ) {
 	. "\n INNER JOIN #__sections AS s ON s.id = cc.section "
 	. "\n ORDER BY s.ordering, cc.ordering"
 	;
-	$categories[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Category' ) .' -' );
 	$database->setQuery( $query );
-	$categories = array_merge( $categories, $database->loadObjectList() );
+	$categories[] 	= mosHTML::makeOption( '0', '- '. JText::_( 'Select Category' ) .' -' );
+	$categories 	= array_merge( $categories, $database->loadObjectList() );
 	$lists['catid'] = mosHTML::selectList( $categories, 'catid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $catid );
 
 	// get list of sections for dropdown filter
-	$javascript = 'onchange="document.adminForm.submit();"';
+	$javascript			= 'onchange="document.adminForm.submit();"';
 	$lists['sectionid']	= mosAdminMenus::SelectSection( 'filter_sectionid', $filter_sectionid, $javascript );
 
 	// get list of Authors for dropdown filter
@@ -178,13 +181,21 @@ function viewFrontPage( $option ) {
 	. "\n GROUP BY u.name"
 	. "\n ORDER BY u.name"
 	;
-	$authors[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Author' ) .' -', 'created_by', 'name' );
 	$database->setQuery( $query );
-	$authors = array_merge( $authors, $database->loadObjectList() );
+	$authors[] 			= mosHTML::makeOption( '0', '- '. JText::_( 'Select Author' ) .' -', 'created_by', 'name' );
+	$authors 			= array_merge( $authors, $database->loadObjectList() );
 	$lists['authorid']	= mosHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid );
 	
 	// state filter 
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+		
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
+	}
+	$lists['order'] = $filter_order;
 	
 	HTML_content::showList( $rows, $search, $pageNav, $option, $lists );
 }

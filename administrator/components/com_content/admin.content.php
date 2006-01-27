@@ -136,13 +136,15 @@ switch ($task) {
 function viewContent( $sectionid, $option ) {
 	global $database, $mainframe;
 
-	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_state", 'filter_state', '' );
-	$catid 				= $mainframe->getUserStateFromRequest( "$option.$sectionid$option.catid", 'catid', 0 );
-	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_authorid", 'filter_authorid', 0 );
-	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_sectionid", 'filter_sectionid', 0 );
-	$limit 				= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewcontent.limitstart", 'limitstart', 0 );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.$sectionid.search", 'search', '' );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_order", 			'filter_order', 	'' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_order_Dir",		'filter_order_Dir',	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_state", 			'filter_state', 	'' );
+	$catid 				= $mainframe->getUserStateFromRequest( "$option.$sectionid.catid", 					'catid', 			0 );
+	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_authorid", 		'filter_authorid', 	0 );
+	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_sectionid", 		'filter_sectionid', 0 );
+	$limit 				= $mainframe->getUserStateFromRequest( 'limit',	 									'limit', 			$mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewcontent.limitstart", 'limitstart', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.$sectionid.search", 				'search', 			'' );
 	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 	$redirect 			= $sectionid;
 	$filter 			= ''; //getting a undefined variable error
@@ -150,14 +152,16 @@ function viewContent( $sectionid, $option ) {
 	if ( $sectionid == 0 ) {
 		// used to show All content items
 		$where = array(
-		"c.state 	>= 0",
-		"c.catid 	= cc.id",
-		"cc.section = s.id",
-		"s.scope	= 'content'",
+			"c.state 	>= 0",
+			"c.catid 	= cc.id",
+			"cc.section = s.id",
+			"s.scope	= 'content'",
 		);
-		$order = "\n ORDER BY s.title, c.catid, cc.ordering, cc.title, c.ordering";
+		if(!$filter_order) {
+			$filter_order = 's.title';
+		}
+		$order = "\n ORDER BY $filter_order $filter_order_Dir, s.title, c.catid, cc.ordering, cc.title, c.ordering";
 		$all = 1;
-		//$filter = "\n , #__sections AS s WHERE s.id = c.section";
 
 		if ($filter_sectionid > 0) {
 			$filter = "\n WHERE cc.section = $filter_sectionid";
@@ -166,13 +170,16 @@ function viewContent( $sectionid, $option ) {
 		$section->id = 0;
 	} else {
 		$where = array(
-		"c.state 	>= 0",
-		"c.catid 	= cc.id",
-		"cc.section = s.id",
-		"s.scope 	= 'content'",
-		"c.sectionid = '$sectionid'"
+			"c.state 	>= 0",
+			"c.catid 	= cc.id",
+			"cc.section = s.id",
+			"s.scope 	= 'content'",
+			"c.sectionid = '$sectionid'"
 		);
-		$order 		= "\n ORDER BY cc.ordering, cc.title, c.ordering";
+		if(!$filter_order) {
+			$filter_order = 'cc.ordering';
+		}
+		$order 		= "\n ORDER BY $filter_order $filter_order_Dir, cc.ordering, cc.title, c.ordering";
 		$all 		= NULL;
 		$filter 	= "\n WHERE cc.section = '$sectionid'";
 		$section 	=& JModel::getInstance('section', $database );
@@ -201,13 +208,16 @@ function viewContent( $sectionid, $option ) {
 		$where[] = "LOWER( c.title ) LIKE '%$search%'";
 	}
 
+	$where = ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
+	
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
 	. "\n FROM ( #__content AS c, #__categories AS cc, #__sections AS s )"
-	. ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : "" )
+	. $where
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
+	
 	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
@@ -217,11 +227,10 @@ function viewContent( $sectionid, $option ) {
 	. "\n LEFT JOIN #__users AS u ON u.id = c.checked_out"
 	. "\n LEFT JOIN #__users AS v ON v.id = c.created_by"
 	. "\n LEFT JOIN #__content_frontpage AS f ON f.content_id = c.id"
-	. ( count( $where ) ? "\nWHERE " . implode( ' AND ', $where ) : '' )
+	. $where
 	. $order
-	. "\n LIMIT $pageNav->limitstart, $pageNav->limit"
 	;
-	$database->setQuery( $query );
+	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$rows = $database->loadObjectList();
 
 	if ($database->getErrorNum()) {
@@ -259,6 +268,14 @@ function viewContent( $sectionid, $option ) {
 
 	// state filter 
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );
+		
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
+	}
+	$lists['order'] = $filter_order;
 	
 	HTML_content::showContent( $rows, $section, $lists, $search, $pageNav, $all, $redirect );
 }
@@ -270,31 +287,33 @@ function viewContent( $sectionid, $option ) {
 function viewArchive( $sectionid, $option ) {
 	global $database, $mainframe;
 
-	$catid 				= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.catid", 'catid', 0 );
-	$limit 				= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.limitstart", 'limitstart', 0 );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.search", 'search', '' );
-	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_authorid", 'filter_authorid', 0 );
-	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_sectionid", 'filter_sectionid', 0 );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_order", 			'filter_order', 	'c.catid' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_order_Dir",		'filter_order_Dir',	'' );
+	$catid 				= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.catid", 		'catid', 			0 );
+	$limit 				= $mainframe->getUserStateFromRequest( 'limit', 									'limit', 			$mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.limitstart", 'limitstart', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.search", 	'search', 			'' );
+	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_authorid", 		'filter_authorid', 	0 );
+	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_sectionid", 		'filter_sectionid', 0 );
 	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 	$redirect 			= $sectionid;
 
 	if ( $sectionid == 0 ) {
 		$where = array(
-		"c.state 	= -1",
-		"c.catid	= cc.id",
-		"cc.section = s.id",
-		"s.scope  	= 'content'"
+			"c.state 	= -1",
+			"c.catid	= cc.id",
+			"cc.section = s.id",
+			"s.scope  	= 'content'"
 		);
 		$filter = "\n , #__sections AS s WHERE s.id = c.section";
 		$all = 1;
 	} else {
 		$where = array(
-		"c.state 	= -1",
-		"c.catid	= cc.id",
-		"cc.section	= s.id",
-		"s.scope	= 'content'",
-		"c.sectionid= $sectionid"
+			"c.state 	= -1",
+			"c.catid	= cc.id",
+			"cc.section	= s.id",
+			"s.scope	= 'content'",
+			"c.sectionid= $sectionid"
 		);
 		$filter = "\n WHERE section = '$sectionid'";
 		$all = NULL;
@@ -313,11 +332,14 @@ function viewArchive( $sectionid, $option ) {
 	if ($search) {
 		$where[] = "LOWER( c.title ) LIKE '%$search%'";
 	}
+	
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, c.catid, c.ordering";
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
 
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
 	. "FROM ( #__content AS c, #__categories AS cc, #__sections AS s )"
-	. ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' )
+	. $where
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
@@ -329,11 +351,10 @@ function viewArchive( $sectionid, $option ) {
 	. "\n FROM ( #__content AS c, #__categories AS cc, #__sections AS s )"
 	. "\n LEFT JOIN #__groups AS g ON g.id = c.access"
 	. "\n LEFT JOIN #__users AS v ON v.id = c.created_by"
-	. ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' )
-	. "\n ORDER BY c.catid, c.ordering"
-	. "\n LIMIT $pageNav->limitstart, $pageNav->limit"
+	. $where
+	. $orderby
 	;
-	$database->setQuery( $query );
+	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$rows = $database->loadObjectList();
 	if ($database->getErrorNum()) {
 		echo $database->stderr();
@@ -346,11 +367,11 @@ function viewArchive( $sectionid, $option ) {
 	. $filter
 	. "\n ORDER BY c.ordering"
 	;
-	$lists['catid'] 			= filterCategory( $query, $catid );
+	$lists['catid'] = filterCategory( $query, $catid );
 
 	// get list of sections for dropdown filter
 	$javascript = 'onchange="document.adminForm.submit();"';
-	$lists['sectionid']		= mosAdminMenus::SelectSection( 'filter_sectionid', $filter_sectionid, $javascript );
+	$lists['sectionid']	= mosAdminMenus::SelectSection( 'filter_sectionid', $filter_sectionid, $javascript );
 
 	$section =& JModel::getInstance('section', $database );
 	$section->load( $sectionid );
@@ -364,14 +385,19 @@ function viewArchive( $sectionid, $option ) {
 	. "\n GROUP BY u.name"
 	. "\n ORDER BY u.name"
 	;
-	$authors[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Author' ) .' -', 'created_by', 'name' );
 	$database->setQuery( $query );
-	$authors = array_merge( $authors, $database->loadObjectList() );
-	$lists['authorid']	= mosHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid );
-	
-	// state filter 
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );	
+	$authors[] 			= mosHTML::makeOption( '0', '- '. JText::_( 'Select Author' ) .' -', 'created_by', 'name' );
+	$authors 			= array_merge( $authors, $database->loadObjectList() );
+	$lists['authorid']	= mosHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid );	
 
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
+	}
+	$lists['order'] = $filter_order;
+	
 	HTML_content::showArchive( $rows, $section, $lists, $search, $pageNav, $option, $all, $redirect );
 }
 

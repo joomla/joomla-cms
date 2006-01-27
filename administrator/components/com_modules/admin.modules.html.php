@@ -30,7 +30,7 @@ class HTML_modules {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index2.php?option=com_modules&amp;client=<?php echo $client; ?>" method="post" name="adminForm">
 
 		<table class="adminheading">
 		<tr>
@@ -53,46 +53,52 @@ class HTML_modules {
 		<table class="adminlist">
 		<tr>
 			<th width="20px">
-			<?php echo JText::_( 'NUM' ); ?>
+				<?php echo JText::_( 'NUM' ); ?>
 			</th>
 			<th width="20px">
-			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
+				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 			</th>
 			<th class="title">
-			<?php echo JText::_( 'Module Name' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Module Name', 'm.title', $lists ); ?>
 			</th>
 			<th nowrap="nowrap" width="10%">
-			<?php echo JText::_( 'Published' ); ?>
-			</th>
-			<th colspan="2" align="center" width="5%">
-			<?php echo JText::_( 'Reorder' ); ?>
-			</th>
-			<th width="2%">
-			<?php echo JText::_( 'Order' ); ?>
-			</th>
-			<th width="1%">
-			<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+				<?php mosCommonHTML :: tableOrdering( 'Published', 'm.published', $lists ); ?>
 			</th>
 			<?php
-			if ( !$client ) {
+			if ( $lists['order'] == 'm.position' ) {
+				?>
+				<th colspan="2" align="center" width="5%">
+					<?php echo JText::_( 'Reorder' ); ?>
+				</th>
+				<th width="2%" nowrap="nowrap">
+					<?php echo JText::_( 'Order' ); ?>
+				</th>
+				<th width="1%">
+					<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+				</th>
+				<?php
+			}
+			?>
+			<?php
+			if ( $client != 'admin' ) {
 				?>
 				<th nowrap="nowrap" width="7%">
-				<?php echo JText::_( 'Access' ); ?>
+					<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
 				</th>
 				<?php
 			}
 			?>
 			<th nowrap="nowrap" width="7%">
-			<?php echo JText::_( 'Position' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Position', 'm.position', $lists ); ?>
 			</th>
 			<th nowrap="nowrap" width="5%">
-			<?php echo JText::_( 'Pages' ); ?>
+				<?php echo JText::_( 'Pages' ); ?>
 			</th>
 			<th nowrap="nowrap" width="5%">
-			<?php echo JText::_( 'ID' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'ID', 'm.id', $lists ); ?>
 			</th>
 			<th nowrap="nowrap" width="10%"  class="title">
-			<?php echo JText::_( 'Type' ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Type', 'm.module', $lists ); ?>
 			</th>
 		</tr>
 		<?php
@@ -108,10 +114,10 @@ class HTML_modules {
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td align="right">
-				<?php echo $pageNav->rowNumber( $i ); ?>
+					<?php echo $pageNav->rowNumber( $i ); ?>
 				</td>
 				<td>
-				<?php echo $checked; ?>
+					<?php echo $checked; ?>
 				</td>
 				<td>
 				<?php
@@ -120,52 +126,58 @@ class HTML_modules {
 				} else {
 					?>
 					<a href="<?php echo $link; ?>">
-					<?php echo $row->title; ?>
+						<?php echo $row->title; ?>
 					</a>
 					<?php
 				}
 				?>
 				</td>
 				<td align="center">
-				<?php echo $published;?>
-				</td>
-				<td>
-				<?php echo $pageNav->orderUpIcon( $i, ($row->position == @$rows[$i-1]->position) ); ?>
-				</td>
-				<td>
-				<?php echo $pageNav->orderDownIcon( $i, $n, ($row->position == @$rows[$i+1]->position) ); ?>
-				</td>
-				<td align="center" colspan="2">
-				<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
+					<?php echo $published;?>
 				</td>
 				<?php
-				if ( !$client ) {
+				if ( $lists['order'] == 'm.position' ) {
+					?>
+					<td>
+						<?php echo $pageNav->orderUpIcon( $i, ($row->position == @$rows[$i-1]->position) ); ?>
+					</td>
+					<td>
+						<?php echo $pageNav->orderDownIcon( $i, $n, ($row->position == @$rows[$i+1]->position) ); ?>
+					</td>
+					<td align="center" colspan="2">
+						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
+					</td>
+					<?php
+				}
+				?>
+				<?php
+				if ( $client != 'admin' ) {
 					?>
 					<td align="center">
-					<?php echo $access;?>
+						<?php echo $access;?>
 					</td>
 					<?php
 				}
 				?>
 				<td align="center">
-				<?php echo $row->position; ?>
+					<?php echo $row->position; ?>
 				</td>
 				<td align="center">
-				<?php
-				if (is_null( $row->pages )) {
-					echo JText::_( 'None' );
-				} else if ($row->pages > 0) {
-					echo JText::_( 'Varies' );
-				} else {
-					echo JText::_( 'All' );
-				}
-				?>
+					<?php
+					if (is_null( $row->pages )) {
+						echo JText::_( 'None' );
+					} else if ($row->pages > 0) {
+						echo JText::_( 'Varies' );
+					} else {
+						echo JText::_( 'All' );
+					}
+					?>
 				</td>
 				<td align="center">
-				<?php echo $row->id;?>
+					<?php echo $row->id;?>
 				</td>
 				<td>
-				<?php echo $row->module ? $row->module : JText::_( 'User' );?>
+					<?php echo $row->module ? $row->module : JText::_( 'User' );?>
 				</td>
 			</tr>
 			<?php
@@ -181,6 +193,8 @@ class HTML_modules {
 		<input type="hidden" name="client" value="<?php echo $client;?>" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />
+		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
 		<?php
 	}

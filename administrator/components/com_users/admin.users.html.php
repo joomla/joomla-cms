@@ -117,7 +117,7 @@ class HTML_users {
 				</a>
 				</td>
 				<td nowrap="nowrap">
-				<?php echo mosFormatDate( $row->lastvisitDate, "%Y-%m-%d %H:%M:%S" ); ?>
+				<?php echo mosFormatDate( $row->lastvisitDate, JText::_( 'DATE_FORMAT_LC4' ) ); ?>
 				</td>
 				<td>
 				<?php echo $row->id; ?>
