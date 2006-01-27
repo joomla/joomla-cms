@@ -98,49 +98,43 @@ class JContentView
 		<table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr>
 			<td width="60%" valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>" colspan="2">
-		<?php
-		if ($category->image)
-		{
-			$link = '/images/stories/'.$category->image;
-			?>
-				<img src="<?php echo $link;?>" align="<?php echo $category->image_position;?>" hspace="6" alt="<?php echo $category->image;?>" />
-		<?php
-		}
-		echo $category->description;
-		?>
+				<?php
+				if ($category->image) {
+					$link = '/images/stories/'.$category->image;
+					?>
+						<img src="<?php echo $link;?>" align="<?php echo $category->image_position;?>" hspace="6" alt="<?php echo $category->image;?>" />
+				<?php
+				}
+				echo $category->description;
+				?>
 			</td>
 		</tr>
 		<tr>
 			<td>
-		<?php
-		// Displays the Table of Items in Category View
-		if (count($items))
-		{
-			JContentView :: showTable($params, $items, $gid, $category->id, $category->id, $page, $access, $category->sectionid, $lists, $order);
-		} else
-			if ($category->id)
-			{
-			?>
-				<br />
-				<?php echo JText::_( 'This Category is currently empty' ); ?>
-				<br /><br />
 			<?php
-			}
-			?>
+				// Displays the Table of Items in Category View
+				if (count($items)) {
+					JContentView :: showTable($params, $items, $gid, $category->id, $category->id, $page, $access, $category->sectionid, $lists, $order);
+				} else if ($category->id) {
+					?>
+					<br />
+					<?php echo JText::_( 'This Category is currently empty' ); ?>
+					<br /><br />
+					<?php
+				}
+				?>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
-		<?php
-		// Displays listing of Categories
-		if (count($other_categories) > 0)
-		{
-			if ($params->get('other_cat'))
-			{
-				JContentView :: showCategories($params, $items, $gid, $other_categories, $category->id, $category->id, $Itemid);
-			}
-		}
-		?>
+				<?php
+				// Displays listing of Categories
+				if (count($other_categories) > 0) {
+					if ($params->get('other_cat')) {
+						JContentView :: showCategories($params, $items, $gid, $other_categories, $category->id, $category->id, $Itemid);
+					}
+				}
+				?>
 			</td>
 		</tr>
 		</table>
@@ -149,8 +143,7 @@ class JContentView
 		mosHTML :: BackButton($params);
 	}
 
-	function showArchive(&$rows, &$params, &$menu, &$access, $id, $gid, $pop)
-	{
+	function showArchive(&$rows, &$params, &$menu, &$access, $id, $gid, $pop) {
 		global $Itemid;
 		
 		/*
@@ -671,7 +664,9 @@ class JContentView
 	* Display links to categories
 	*/
 	function showCategories(& $params, & $items, $gid, & $categories, $catid, $id, $Itemid) {
-		if (count($categories)) {
+		global $task;
+		
+		if ( (count($categories) > 1 && $task == 'category') || (count($categories) && $task == 'section' ) ) {
 			?>
 			<ul>
 				<?php
@@ -737,10 +732,10 @@ class JContentView
 		
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<?php
-		if ($params->get('filter') || $params->get('order_select') || $params->get('display'))	{
+		if ($params->get('filter') || $params->get('display'))	{
 			?>
 			<tr>
-				<td colspan="4">
+				<td colspan="5">
 					<table>
 					<tr>
 					<?php
@@ -779,13 +774,6 @@ class JContentView
 					<?php echo JText :: _('Num'); ?>
 				</td>
 				<?php
-				if ($params->get('date')){
-					?>
-					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="35%">
-						<?php mosCommonHTML :: tableOrdering( 'Date', 'a.created', $lists ); ?>
-					</td>
-					<?php
-				}
 				if ($params->get('title')) {
 					?>
 					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="45%">
@@ -793,9 +781,16 @@ class JContentView
 					</td>
 					<?php
 				}
+				if ($params->get('date')){
+					?>
+					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="25%">
+						<?php mosCommonHTML :: tableOrdering( 'Date', 'a.created', $lists ); ?>
+					</td>
+					<?php
+				}
 				if ($params->get('author'))	{
 					?>
-					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>"  width="25%">
+					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>"  width="20%">
 						<?php mosCommonHTML :: tableOrdering( 'Author', 'author', $lists ); ?>
 					</td>
 					<?php
@@ -822,13 +817,6 @@ class JContentView
 					<?php echo $pageNav->rowNumber( $i ); ?>
 				</td>
 				<?php
-				if ($params->get('date')) {
-					?>
-					<td>
-						<?php echo $row->created; ?>
-					</td>
-					<?php
-				}
 				if ($params->get('title')) {
 					if ($row->access <= $gid) {
 						$link = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$row->id.'&amp;Itemid='.$Itemid);
@@ -854,6 +842,13 @@ class JContentView
 					<?php
 					}
 				}
+				if ($params->get('date')) {
+					?>
+					<td>
+						<?php echo $row->created; ?>
+					</td>
+					<?php
+				}
 				if ($params->get('author')) {
 					?>
 					<td >
@@ -877,7 +872,7 @@ class JContentView
 		if ($params->get('navigation')) {
 			?>
 			<tr>
-				<td colspan="4">&nbsp;</td>
+				<td colspan="5">&nbsp;</td>
 			</tr>
 			<tr>
 				<td align="center" colspan="4" class="sectiontablefooter<?php echo $params->get( 'pageclass_sfx' ); ?>">
@@ -888,7 +883,7 @@ class JContentView
 				</td>
 			</tr>
 			<tr>
-				<td colspan="4" align="right">
+				<td colspan="5" align="right">
 					<?php echo $pageNav->writePagesCounter(); ?>
 				</td>
 			</tr>
@@ -898,7 +893,7 @@ class JContentView
 			$link = sefRelToAbs('index.php?option=com_content&amp;task=new&amp;sectionid='.$id.'&amp;cid='.$row->id.'&amp;Itemid='.$Itemid);
 			?>
 			<tr>
-				<td colspan="4">
+				<td colspan="5">
 					<a href="<?php echo $link; ?>">
 						<img src="images/M_images/new.png" width="13" height="14" align="middle" border="0" alt="<?php echo JText::_( 'New' );?>" />
 						&nbsp;<?php echo JText::_( 'New' );?>...</a>

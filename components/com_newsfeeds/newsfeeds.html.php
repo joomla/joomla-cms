@@ -37,45 +37,41 @@ class HTML_newsfeed {
 
 		<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr>
-			<td width="60%" valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>" colspan="2">
-			<?php
-			// show image
-			if ( $currentcat->img ) {
-				?>
-				<img src="<?php echo $currentcat->img; ?>" align="<?php echo $currentcat->align; ?>" hspace="6" alt="<?php echo JText::_( 'Web Links' ); ?>" />
+			<td valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>">
 				<?php
-			}
-			echo $currentcat->descrip;
-			?>
+				// show image
+				if ( $currentcat->img ) {
+					?>
+					<img src="<?php echo $currentcat->img; ?>" align="<?php echo $currentcat->align; ?>" hspace="6" alt="<?php echo JText::_( 'Web Links' ); ?>" />
+					<?php
+				}
+				echo $currentcat->descrip;
+				?>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<?php
-			if ( count( $rows ) ) {
-				HTML_newsfeed::showTable( $params, $rows, $catid, $tabclass );
-			}
-			?>
-			</td>
-		</tr>
-		<tr>
-			<td>&nbsp;
-
+				<?php
+				if ( count( $rows ) ) {
+					HTML_newsfeed::showTable( $params, $rows, $catid, $tabclass );
+				}
+				?>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<?php
-			// Displays listing of Categories
-			if ( ( $params->get( 'type' ) == 'category' ) && $params->get( 'other_cat' ) ) {
-				HTML_newsfeed::showCategories( $params, $categories, $catid );
-			} else if ( ( $params->get( 'type' ) == 'section' ) && $params->get( 'other_cat_section' ) ) {
-				HTML_newsfeed::showCategories( $params, $categories, $catid );
-			}
-			?>
+				<?php
+				// Displays listing of Categories
+				if ( ( $params->get( 'type' ) == 'category' ) && $params->get( 'other_cat' ) ) {
+					HTML_newsfeed::showCategories( $params, $categories, $catid );
+				} else if ( ( $params->get( 'type' ) == 'section' ) && $params->get( 'other_cat_section' ) ) {
+					HTML_newsfeed::showCategories( $params, $categories, $catid );
+				}
+				?>
 			</td>
 		</tr>
 		</table>
+		
 		</form>
 		<?php
 		// displays back button
@@ -95,12 +91,16 @@ class HTML_newsfeed {
 		<?php
 		if ( $params->get( 'headings' ) ) {
 			?>
+			<thead>
 			<tr>
+				<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="5">
+					<?php echo JText :: _('Num'); ?>
+				</td>
 				<?php
 				if ( $params->get( 'name' ) ) {
 					?>
-					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
-					<?php echo JText::_( 'Feed Name' ); ?>
+					<td height="20" width="90%" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" nowrap="nowrap">
+						<?php echo JText::_( 'Feed Name' ); ?>
 					</td>
 					<?php
 				}
@@ -108,13 +108,14 @@ class HTML_newsfeed {
 				<?php
 				if ( $params->get( 'articles' ) ) {
 					?>
-					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" align="center">
-					<?php echo JText::_( 'Num Articles' ); ?>
+					<td height="20" width="10%" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" align="center" nowrap="nowrap">
+						<?php echo JText::_( 'Num Articles' ); ?>
 					</td>
 					<?php
 				}
 				?>
 				<?php
+				/*
 				if ( $params->get( 'link' ) ) {
 					?>
 					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
@@ -122,24 +123,30 @@ class HTML_newsfeed {
 					</td>
 					<?php
 				}
+				*/
 				?>
-				<td width="100%" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>"></td>
 			</tr>
+			</thead>
 			<?php
 		}
 
 		$k = 0;
+		$i = 1;
 		foreach ($rows as $row) {
 			$link = 'index.php?option=com_newsfeeds&amp;task=view&amp;feedid='. $row->id .'&amp;Itemid='. $Itemid;
 			?>
+			<tbody>
 			<tr>
+				<td align="center">
+					<?php echo $i; ?>
+				</td>
 				<?php
 				if ( $params->get( 'name' ) ) {
 					?>
-					<td width="30%" height="20" class="<?php echo $tabclass[$k]; ?>">
-					<a href="<?php echo sefRelToAbs( $link ); ?>" class="category<?php echo $params->get( 'pageclass_sfx' ); ?>">
-					<?php echo $row->name; ?>
-					</a>
+					<td height="20" width="90%" nowrap="nowrap">
+						<a href="<?php echo sefRelToAbs( $link ); ?>" class="category<?php echo $params->get( 'pageclass_sfx' ); ?>">
+							<?php echo $row->name; ?></a>
+						<br/>						
 					</td>
 					<?php
 				}
@@ -147,13 +154,14 @@ class HTML_newsfeed {
 				<?php
 				if ( $params->get( 'articles' ) ) {
 					?>
-					<td width="20%" class="<?php echo $tabclass[$k]; ?>" align="center">
-					<?php echo $row->numarticles; ?>
+					<td height="20" width="10%" align="center">
+						<?php echo $row->numarticles; ?>
 					</td>
 					<?php
 				}
 				?>
 				<?php
+				/*
 				if ( $params->get( 'link' ) ) {
 					?>
 					<td width="50%" class="<?php echo $tabclass[$k]; ?>">
@@ -161,11 +169,13 @@ class HTML_newsfeed {
 					</td>
 					<?php
 				}
+				*/
 				?>
-				<td width="100%"></td>
 			</tr>
+			</tbody>
 			<?php
 			$k = 1 - $k;
+			$i++;
 		}
 		?>
 		</table>
@@ -177,6 +187,7 @@ class HTML_newsfeed {
 	*/
 	function showCategories( &$params, &$categories, $catid ) {
 		global $Itemid;
+		
 		?>
 		<ul>
 		<?php

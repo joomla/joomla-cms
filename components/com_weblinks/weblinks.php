@@ -85,30 +85,34 @@ class WeblinksController {
 	 * @param int $catid Web Link category id
 	 * @since 1.0
 	 */
-	function showCategory($catid) 
-	{
+	function showCategory($catid) {
 		global $mainframe, $Itemid;
 
 		// Get some objects from the JApplication
-		$db = & $mainframe->getDBO();
-		$my = & $mainframe->getUser();
-		$breadcrumbs = & $mainframe->getPathWay();
+		$db 				= & $mainframe->getDBO();
+		$my 				= & $mainframe->getUser();
+		$breadcrumbs 		= & $mainframe->getPathWay();
+		$filter_order		= JRequest :: getVar('filter_order', 		'ordering');
+		$filter_order_Dir	= JRequest :: getVar('filter_order_Dir', 	'DESC');
 
 		if ($catid) {
 
 			// Initialize variables
 			$rows = array ();
 
+			// Ordering control
+			$orderby = "\n ORDER BY $filter_order $filter_order_Dir, ordering";
+			
 			/*
 			 * We need to get a list of all weblinks in the given category
 			 */
-			$query = 	"SELECT id, url, title, description, date, hits, params".
-						"\n FROM #__weblinks".
-						"\n WHERE catid = $catid".
-						"\n AND published = 1".
-						"\n AND archived = 0".
-						"\n ORDER BY ordering";
-
+			$query = "SELECT id, url, title, description, date, hits, params"
+					. "\n FROM #__weblinks"
+					. "\n WHERE catid = $catid"
+					. "\n AND published = 1"
+					. "\n AND archived = 0"
+					. $orderby
+					;
 			$db->setQuery($query);
 			$rows = $db->loadObjectList();
 
@@ -127,7 +131,7 @@ class WeblinksController {
 		* Query to retrieve all categories that belong under the web links section
 		* and that are published.
 		*/
-		$query = 	"SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc".
+		$query = "SELECT *, COUNT(a.id) AS numlinks FROM #__categories AS cc".
 		"\n LEFT JOIN #__weblinks AS a ON a.catid = cc.id".
 		"\n WHERE a.published = 1".
 		"\n AND section = 'com_weblinks'".
@@ -224,8 +228,17 @@ class WeblinksController {
 
 		// used to show table rows in alternating colours
 		$tabclass = array ('sectiontableentry1', 'sectiontableentry2');
-
-		WeblinksView::showCategory($categories, $rows, $catid, $category, $params, $tabclass);
+		
+		// table ordering
+		if ( $filter_order_Dir == 'DESC' ) {
+			$lists['order_Dir'] = 'ASC';
+		} else {
+			$lists['order_Dir'] = 'DESC';
+		}
+		$lists['order'] = $filter_order;
+		$selected = '';
+		
+		WeblinksView::showCategory($categories, $rows, $catid, $category, $params, $tabclass, $lists);
 	}
 
 	/**

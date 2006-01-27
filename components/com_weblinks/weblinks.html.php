@@ -35,7 +35,7 @@ class WeblinksView {
 	 * @param object $params Parameters object for the current category
 	 * @param array $tabclass Two element array of the two CSS classes used for alternating rows in a table
 	 */
-	function showCategory( &$categories, &$rows, $catid, &$category, &$params, $tabclass ) {
+	function showCategory( &$categories, &$rows, $catid, &$category, &$params, $tabclass, &$lists ) {
 		global $Itemid, $hide_js;
 
 		if ( $params->get( 'page_title' ) ) {
@@ -46,48 +46,40 @@ class WeblinksView {
 			<?php
 		}
 		?>
-		<form action="index.php" method="post" name="adminForm">
-
 		<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr>
 			<td width="60%" valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>" colspan="2">
-			<?php
-			// show image
-			if ( isset($category->imgTag) ) {
-				echo $category->imgTag;
-			}
-			echo $category->description;
-			?>
+				<?php
+				// show image
+				if ( isset($category->imgTag) ) {
+					echo $category->imgTag;
+				}
+				echo $category->description;
+				?>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<?php
-			if ( count( $rows ) ) {
-				WeblinksView::showTable( $params, $rows, $catid, $tabclass );
-			}
-			?>
-			</td>
-		</tr>
-		<tr>
-			<td>&nbsp;
-
+				<?php
+				if ( count( $rows ) ) {
+					WeblinksView::showTable( $params, $rows, $catid, $tabclass, $lists );
+				}
+				?>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<?php
-			// Displays listing of Categories
-			if ( ( $params->get( 'type' ) == 'category' ) && $params->get( 'other_cat' ) ) {
-				WeblinksView::showCategories( $params, $categories, $catid );
-			} else if ( ( $params->get( 'type' ) == 'section' ) && $params->get( 'other_cat_section' ) ) {
-				WeblinksView::showCategories( $params, $categories, $catid );
-			}
-			?>
+				<?php
+				// Displays listing of Categories
+				if ( ( $params->get( 'type' ) == 'category' ) && $params->get( 'other_cat' ) ) {
+					WeblinksView::showCategories( $params, $categories, $catid );
+				} else if ( ( $params->get( 'type' ) == 'section' ) && $params->get( 'other_cat_section' ) ) {
+					WeblinksView::showCategories( $params, $categories, $catid );
+				}
+				?>
 			</td>
 		</tr>
 		</table>
-		</form>
 		<?php
 		// displays back button
 		mosHTML::BackButton ( $params, $hide_js );
@@ -102,7 +94,9 @@ class WeblinksView {
 	 * @param array $tabclass Two element array with the CSS classnames of the alternating table rows
 	 * @since 1.0
 	 */
-	function showTable( &$params, &$rows, $catid, $tabclass ) {
+	function showTable( &$params, &$rows, $catid, $tabclass, &$lists ) {
+		global $Itemid;
+		
 		// icon in table display
 		if ( $params->get( 'weblink_icons' ) <> -1 ) {
 			$img = mosAdminMenus::ImageCheck( 'weblink.png', '/images/M_images/', $params->get( 'weblink_icons' ), '/images/M_images/', 'Link', 'Link' );
@@ -110,6 +104,18 @@ class WeblinksView {
 			$img = NULL;
 		}
 		?>
+		<script language="javascript" type="text/javascript">
+		function tableOrdering( order, dir, task ) {
+			var form = document.adminForm;
+		
+			form.filter_order.value 	= order;
+			form.filter_order_Dir.value	= dir;
+			document.adminForm.submit( task );
+		}
+		</script>
+				
+		<form action="index.php?option=com_weblinks&amp;catid=<?php echo $catid;?>&amp;Itemid=<?php echo $Itemid;?>" method="post" name="adminForm">
+
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<?php
 		if ( $params->get( 'headings' ) ) {
@@ -118,20 +124,23 @@ class WeblinksView {
 				<?php
 				if ( $img ) {
 					?>
-					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">&nbsp;
-
+					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
+						&nbsp;
 					</td>
 					<?php
 				}
 				?>
+				<td width="10" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
+					<?php echo JText :: _('Num'); ?>
+				</td>
 				<td width="90%" height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
-				<?php echo JText::_( 'Web Link' ); ?>
+					<?php mosCommonHTML :: tableOrdering( 'Web Link', 'title', $lists ); ?>
 				</td>
 				<?php
 				if ( $params->get( 'hits' ) ) {
 					?>
-					<td width="30" height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" align="right">
-					<?php echo JText::_( 'Hits' ); ?>
+					<td width="30" height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" align="right" nowrap="nowrap">
+						<?php mosCommonHTML :: tableOrdering( 'Hits', 'hits', $lists ); ?>
 					</td>
 					<?php
 				}
@@ -141,6 +150,7 @@ class WeblinksView {
 		}
 
 		$k = 0;
+		$i = 1;
 		foreach ($rows as $row) {
 			$iparams = new JParameters( $row->params );
 
@@ -172,27 +182,30 @@ class WeblinksView {
 				if ( $img ) {
 					?>
 					<td width="100" height="20" align="center">
-					&nbsp;&nbsp;<?php echo $img;?>&nbsp;&nbsp;
+						&nbsp;&nbsp;<?php echo $img;?>&nbsp;&nbsp;
 					</td>
 					<?php
 				}
 				?>
+				<td align="center">
+					<?php echo $i; ?>
+				</td>
 				<td height="20">
-				<?php echo $txt; ?>
-				<?php
-				if ( $params->get( 'item_description' ) ) {
-					?>
-					<br />
-					<?php echo $row->description; ?>
+					<?php echo $txt; ?>
 					<?php
-				}
-				?>
+					if ( $params->get( 'item_description' ) ) {
+						?>
+						<br />
+						<?php echo $row->description; ?>
+						<?php
+					}
+					?>
 				</td>
 				<?php
 				if ( $params->get( 'hits' ) ) {
 					?>
 					<td align="center">
-					<?php echo $row->hits; ?>
+						<?php echo $row->hits; ?>
 					</td>
 					<?php
 				}
@@ -200,9 +213,14 @@ class WeblinksView {
 			</tr>
 			<?php
 			$k = 1 - $k;
+			$i++;
 		}
 		?>
 		</table>
+		
+		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="" />
+		</form>
 		<?php
 	}
 
