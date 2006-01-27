@@ -46,6 +46,7 @@ Legend:
 
 27-Jan-2006 Rey Gigataras 
  + Admin `Manager Pages` table ordering
+ + Content Category now utilizes `table ordering` instead of `order select` method
  + `Trash Manager` separated into `Menu` & `Cotent` menu dropdowns
  - Depreciate `com_rss`, functionality replaced with `com_syndicate`
  - Depreciate `mod_rssfeed`, functionality replaced with `mod_syndicate`

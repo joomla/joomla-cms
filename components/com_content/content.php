@@ -332,32 +332,34 @@ class JContentController {
 	 * @param string $now Timestamp
 	 * @since 1.0
 	 */
-	function showCategory(& $access, $now)
-	{
+	function showCategory(& $access, $now) {
 		global $mainframe, $Itemid, $my;
 
 		/*
 		 * Initialize some variables
 		 */
-		$db			= & $mainframe->getDBO();
-		$my			= & $mainframe->getUser();
-		$id 		= JRequest :: getVar('id', 0, '', 'int');
-		$sectionid 	= JRequest :: getVar('sectionid', 0, '', 'int');
-		$selected	= JRequest :: getVar('order', '');
-		$limit 		= JRequest :: getVar('limit', 0, '', 'int');
-		$limitstart = JRequest :: getVar('limitstart', 0, '', 'int');
-		$nullDate 	= $db->getNullDate();
-		$noauth 	= !$mainframe->getCfg('shownoauth');
-		$category	= null;
-
+		$db					= & $mainframe->getDBO();
+		$my					= & $mainframe->getUser();
+		$id 				= JRequest :: getVar('id', 					0, '', 'int');
+		$sectionid 			= JRequest :: getVar('sectionid', 			0, '', 'int');
+		$limit 				= JRequest :: getVar('limit', 				0, '', 'int');
+		$limitstart 		= JRequest :: getVar('limitstart', 			0, '', 'int');
+		$nullDate 			= $db->getNullDate();
+		$noauth 			= !$mainframe->getCfg('shownoauth');
+		$category			= null;
+		$filter_order		= JRequest :: getVar('filter_order', 		'a.created');
+		$filter_order_Dir	= JRequest :: getVar('filter_order_Dir', 	'DESC');
+		
 		/*
 		* Lets get the information for the current category
 		*/
-		$query = "SELECT c.*, s.id sectionid, s.title as sectiontitle " .
-		"\n FROM #__categories AS c" .
-		"\n INNER JOIN #__sections AS s ON s.id = c.section " .
-		"\n WHERE c.id = '$id'" . ($noauth ? "\n AND c.access <= $my->gid" : '') .
-		"\n LIMIT 1";
+		$query = "SELECT c.*, s.id sectionid, s.title as sectiontitle" 
+		. "\n FROM #__categories AS c" 
+		. "\n INNER JOIN #__sections AS s ON s.id = c.section" 
+		. "\n WHERE c.id = '$id'" 
+		. ($noauth ? "\n AND c.access <= $my->gid" : '') 
+		. "\n LIMIT 1"
+		;
 		$db->setQuery($query);
 		$db->loadObject($category);
 
@@ -381,59 +383,42 @@ class JContentController {
 		}
 
 		// Paramters
-		if ($Itemid)
-		{
+		if ($Itemid) {
 			$menu 		= & JModel :: getInstance( 'menu', $db);
 			$menu->load($Itemid);
 			$params 	= new JParameters($menu->params);
 			$pagetitle 	= $menu->name;
-		} else
-		{
+		} else {
 			$menu 		= null;
 			$params		= new JParameters();
 			$pagetitle 	= null;
 		}
-
-		if ($selected)
-		{
-			$orderby = $selected;
-		} else
-		{
-			$orderby = $params->get('orderby', 'rdate');
-			$selected = $orderby;
-		}
-
+		
 		$params->set('type', 'category');
 
-		$params->def('page_title', 1);
-		$params->def('title', 1);
-		$params->def('hits', $mainframe->getCfg('hits'));
-		$params->def('author', !$mainframe->getCfg('hideAuthor'));
-		$params->def('date', !$mainframe->getCfg('hideCreateDate'));
-		$params->def('date_format', JText :: _('DATE_FORMAT_LC'));
-		$params->def('navigation', 2);
-		$params->def('display', 1);
-		$params->def('display_num', $mainframe->getCfg('list_limit'));
-		$params->def('other_cat', 1);
-		$params->def('empty_cat', 0);
-		$params->def('cat_items', 1);
+		$params->def('page_title', 		1);
+		$params->def('title', 			1);
+		$params->def('hits', 			$mainframe->getCfg('hits'));
+		$params->def('author', 			!$mainframe->getCfg('hideAuthor'));
+		$params->def('date', 			!$mainframe->getCfg('hideCreateDate'));
+		$params->def('date_format', 	JText :: _('DATE_FORMAT_LC'));
+		$params->def('navigation', 		2);
+		$params->def('display', 		1);
+		$params->def('display_num', 	$mainframe->getCfg('list_limit'));
+		$params->def('other_cat', 		1);
+		$params->def('empty_cat', 		0);
+		$params->def('cat_items', 		1);
 		$params->def('cat_description', 0);
-		$params->def('back_button', $mainframe->getCfg('back_button'));
-		$params->def('pageclass_sfx', '');
-		$params->def('headings', 1);
-		$params->def('order_select', 1);
-		$params->def('filter', 1);
-		$params->def('filter_type', 'title');
+		$params->def('back_button',		$mainframe->getCfg('back_button'));
+		$params->def('pageclass_sfx', 	'');
+		$params->def('headings', 		1);
+		$params->def('filter', 			1);
+		$params->def('filter_type', 	'title');
 
-		// Ordering control
-		$orderby = JContentController :: _orderby_sec($orderby);
-
-		if ($access->canEdit)
-		{
+		if ($access->canEdit) {
 			$xwhere = '';
 			$xwhere2 = "\n AND b.state >= 0";
-		} else
-		{
+		} else 	{
 			$xwhere = "\n AND c.published = 1";
 			$xwhere2 = "\n AND b.state = 1" .
 					"\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )" .
@@ -463,12 +448,9 @@ class JContentController {
 		$filter = JRequest::getVar( 'filter', '', 'post' );
 		$filter = strtolower($filter);
 		$and = null;
-		if ($filter)
-		{
-			if ($params->get('filter'))
-			{
-				switch ($params->get('filter_type'))
-				{
+		if ($filter) {
+			if ($params->get('filter'))	{
+				switch ($params->get('filter_type')) {
 					case 'title' :
 						$and = "\n AND LOWER( a.title ) LIKE '%$filter%'";
 						break;
@@ -485,23 +467,28 @@ class JContentController {
 
 		}
 
-		if ($access->canEdit)
-		{
+		if ($access->canEdit) {
 			$xwhere = "\n AND a.state >= 0";
-		} else
-		{
+		} else {
 			$xwhere = "\n AND a.state = 1" .
 					"\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )" .
 					"\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )";
 		}
 
-		$query = "SELECT COUNT(a.id) as numitems" .
-				"\n FROM #__content AS a" .
-				"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
-				"\n LEFT JOIN #__groups AS g ON a.access = g.id" .
-				"\n WHERE a.catid = $category->id".$xwhere. ($noauth ? "\n AND a.access <= $my->gid" : '') .
-				"\n AND $category->access <= $my->gid".$and .
-				"\n ORDER BY $orderby";
+		// Ordering control
+		$orderby = "\n ORDER BY $filter_order $filter_order_Dir, a.created DESC";
+	
+		$query = "SELECT COUNT(a.id) as numitems"
+				. "\n FROM #__content AS a"
+				. "\n LEFT JOIN #__users AS u ON u.id = a.created_by"
+				. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
+				. "\n WHERE a.catid = $category->id"
+				. $xwhere
+				. ($noauth ? "\n AND a.access <= $my->gid" : '')
+				. "\n AND $category->access <= $my->gid"
+				. $and
+				. $orderby
+				;
 		$db->setQuery($query);
 		$counter = $db->loadObjectList();
 		$total = $counter[0]->numitems;
@@ -515,52 +502,22 @@ class JContentController {
 		$page = new JPagination($total, $limitstart, $limit);
 
 		// get the list of items for this category
-		$query = "SELECT a.id, a.title, a.hits, a.created_by, a.created_by_alias, a.created AS created, a.access, u.name AS author, a.state, g.name AS groups" .
-				"\n FROM #__content AS a" .
-				"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
-				"\n LEFT JOIN #__groups AS g ON a.access = g.id" .
-				"\n WHERE a.catid = $category->id".$xwhere. ($noauth ? "\n AND a.access <= $my->gid" : '').
-				"\n AND $category->access <= $my->gid".$and.
-				"\n ORDER BY $orderby" .
-				"\n LIMIT $limitstart, $limit";
-		$db->setQuery($query);
+		$query = "SELECT a.id, a.title, a.hits, a.created_by, a.created_by_alias, a.created AS created, a.access, u.name AS author, a.state, g.name AS groups"
+				. "\n FROM #__content AS a"
+				. "\n LEFT JOIN #__users AS u ON u.id = a.created_by"
+				. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
+				. "\n WHERE a.catid = $category->id"
+				. $xwhere
+				. ($noauth ? "\n AND a.access <= $my->gid" : '')
+				. "\n AND $category->access <= $my->gid"
+				. $and
+				. $orderby
+				;
+		$db->setQuery($query, $limitstart, $limit);
 		$items = $db->loadObjectList();
-
-		$check = 0;
-		if ($params->get('date'))
-		{
-			$order[] = mosHTML :: makeOption('date', JText :: _('Date asc'));
-			$order[] = mosHTML :: makeOption('rdate', JText :: _('Date desc'));
-			$check .= 1;
-		}
-		if ($params->get('title'))
-		{
-			$order[] = mosHTML :: makeOption('alpha', JText :: _('Title asc'));
-			$order[] = mosHTML :: makeOption('ralpha', JText :: _('Title desc'));
-			$check .= 1;
-		}
-		if ($params->get('hits'))
-		{
-			$order[] = mosHTML :: makeOption('hits', JText :: _('Hits asc'));
-			$order[] = mosHTML :: makeOption('rhits', JText :: _('Hits desc'));
-			$check .= 1;
-		}
-		if ($params->get('author'))
-		{
-			$order[] = mosHTML :: makeOption('author', JText :: _('Author asc'));
-			$order[] = mosHTML :: makeOption('rauthor', JText :: _('Author desc'));
-			$check .= 1;
-		}
-		$order[] = mosHTML :: makeOption('order', JText :: _('Ordering'));
-		$lists['order'] = mosHTML :: selectList($order, 'order', 'class="inputbox" size="1"  onchange="document.adminForm.submit();"', 'value', 'text', $selected);
-		if ($check < 1)
-		{
-			$lists['order'] = '';
-			$params->set('order_select', 0);
-		}
-
-		$lists['task'] = 'category';
-		$lists['filter'] = $filter;
+		
+		$lists['task'] 		= 'category';
+		$lists['filter'] 	= $filter;
 
 		// Dynamic Page Title
 		$mainframe->SetPageTitle($pagetitle);
@@ -574,6 +531,15 @@ class JContentController {
 		// Category
 		$breadcrumbs->addItem($category->title, '');
 
+		// table ordering
+		if ( $filter_order_Dir == 'DESC' ) {
+			$lists['order_Dir'] = 'ASC';
+		} else {
+			$lists['order_Dir'] = 'DESC';
+		}
+		$lists['order'] = $filter_order;
+		$selected = '';
+		
 		JContentView :: showCategory($category, $other_categories, $items, $access, $my->gid, $params, $page, $lists, $selected);
 	}
 
@@ -617,7 +583,6 @@ class JContentController {
 		$order_pri 		= JContentController :: _orderby_pri($orderby_pri);
 
 		// Main data query
-		//$query = "SELECT a.*, ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, cc.name AS category, g.name AS groups"
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
 				"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
 				"\n CHAR_LENGTH( a.fulltext ) AS readmore," .
@@ -690,7 +655,6 @@ class JContentController {
 		$order_pri 		= JContentController :: _orderby_pri($orderby_pri);
 
 		// Main data query
-		//$query = "SELECT a.*, ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, g.name AS groups, cc.name AS category"
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
 				"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
 				"\n CHAR_LENGTH( a.fulltext ) AS readmore," .
@@ -780,7 +744,6 @@ class JContentController {
 		$archives = count($items);
 
 		// Main Query
-		//$query = "SELECT a.*, ROUND(v.rating_sum/v.rating_count) AS rating, v.rating_count, u.name AS author, u.usertype, cc.name AS category, g.name AS groups"
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
 				"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
 				"\n CHAR_LENGTH( a.fulltext ) AS readmore," .
@@ -869,7 +832,6 @@ class JContentController {
 		$items = $db->loadObjectList();
 		$archives = count($items);
 
-		//$query = "SELECT a.*, ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, g.name AS groups"
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
 				"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
 				"\n CHAR_LENGTH( a.fulltext ) AS readmore," .

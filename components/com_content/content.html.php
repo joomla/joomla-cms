@@ -718,213 +718,203 @@ class JContentView
 	/**
 	* Display Table of items
 	*/
-	function showTable(& $params, & $items, & $gid, $catid, $id, & $pageNav, & $access, & $sectionid, & $lists, $order)
-	{
+	function showTable(& $params, & $items, & $gid, $catid, $id, & $pageNav, & $access, & $sectionid, & $lists, $order) {
 		global $Itemid;
 
 		$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='.$sectionid.'&amp;id='.$catid.'&amp;Itemid='.$Itemid;
 		?>
+		<script language="javascript" type="text/javascript">
+		function tableOrdering( order, dir, task ) {
+			var form = document.adminForm;
+		
+			form.filter_order.value 	= order;
+			form.filter_order_Dir.value	= dir;
+			document.adminForm.submit( task );
+		}
+		</script>
+		
 		<form action="<?php echo sefRelToAbs($link); ?>" method="post" name="adminForm">
+		
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<?php
-		if ($params->get('filter') || $params->get('order_select') || $params->get('display'))
-		{
-		?>
+		if ($params->get('filter') || $params->get('order_select') || $params->get('display'))	{
+			?>
 			<tr>
 				<td colspan="4">
 					<table>
 					<tr>
-			<?php
-			if ($params->get('filter'))
-			{
-			?>
-							<td align="right" width="100%" nowrap="nowrap">
-				<?php
-				echo JText :: _('Filter').'&nbsp;';
-				?>
+					<?php
+					if ($params->get('filter'))	{
+						?>
+						<td align="left" width="100%" nowrap="nowrap">
+							<?php
+							echo JText :: _('Filter').'&nbsp;';
+							?>
 							<input type="text" name="filter" value="<?php echo $lists['filter'];?>" class="inputbox" onchange="document.adminForm.submit();" />
-							</td>
-			<?php
-			}
-			if ($params->get('order_select'))
-			{
-			?>
-							<td align="right" width="100%" nowrap="nowrap">
-				<?php
-				echo '&nbsp;&nbsp;&nbsp;'.JText :: _('Order').'&nbsp;';
-				echo $lists['order'];
-				?>
-							</td>
-			<?php
-			}
-			if ($params->get('display'))
-			{
-			?>
-							<td align="right" width="100%" nowrap="nowrap">
-				<?php
-				echo '&nbsp;&nbsp;&nbsp;'.JText :: _('Display Num').'&nbsp;';
-				$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='.$sectionid.'&amp;id='.$catid.'&amp;Itemid='.$Itemid;
-				echo $pageNav->getLimitBox($link);
-				?>
-							</td>
-			<?php
-			}
-			?>
+						</td>
+					<?php
+					}
+					if ($params->get('display')) {
+						?>
+						<td align="right" width="100%" nowrap="nowrap">
+							<?php
+							echo '&nbsp;&nbsp;&nbsp;'.JText :: _('Display Num').'&nbsp;';
+							$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='.$sectionid.'&amp;id='.$catid.'&amp;Itemid='.$Itemid;
+							echo $pageNav->getLimitBox($link);
+							?>
+						</td>
+						<?php
+					}
+					?>
 					</tr>
 					</table>
 				</td>
 			</tr>
-		<?php
+			<?php
 		}
-		if ($params->get('headings'))
-		{
-		?>
+		if ($params->get('headings')) {
+			?>
 			<tr>
-			<?php
-			if ($params->get('date'))
-			{
-			?>
+				<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="5">
+					<?php echo JText :: _('Num'); ?>
+				</td>
+				<?php
+				if ($params->get('date')){
+					?>
 					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="35%">
-					&nbsp;<?php echo JText::_( 'Date' ); ?>
+						<?php mosCommonHTML :: tableOrdering( 'Date', 'a.created', $lists ); ?>
 					</td>
-			<?php
-			}
-			if ($params->get('title'))
-			{
-			?>
+					<?php
+				}
+				if ($params->get('title')) {
+					?>
 					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="45%">
-					<?php echo JText::_( 'Item Title' ); ?>
+						<?php mosCommonHTML :: tableOrdering( 'Item Title', 'a.title', $lists ); ?>
 					</td>
-			<?php
-			}
-			if ($params->get('author'))
-			{
-			?>
+					<?php
+				}
+				if ($params->get('author'))	{
+					?>
 					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>"  width="25%">
-					<?php echo JText::_( 'Author' ); ?>
+						<?php mosCommonHTML :: tableOrdering( 'Author', 'author', $lists ); ?>
 					</td>
-			<?php
-			}
-			if ($params->get('hits'))
-			{
-			?>
-					<td align="center" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="5%">
-					<?php echo JText::_( 'Hits' ); ?>
+					<?php
+				}
+				if ($params->get('hits')) {
+					?>
+					<td align="center" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="5%" nowrap="nowrap">
+						<?php mosCommonHTML :: tableOrdering( 'Hits', 'a.hits', $lists ); ?>
 					</td>
-			<?php
-			}
-			?>
+					<?php
+				}
+				?>
 			</tr>
 			<?php
 		}
 
 		$k = 0;
-		foreach ($items as $row)
-		{
+		$i = 0;
+		foreach ($items as $row){
 			$row->created = mosFormatDate($row->created, $params->get('date_format'));
 			?>
 			<tr class="sectiontableentry<?php echo ($k+1) . $params->get( 'pageclass_sfx' ); ?>" >
-			<?php
-			if ($params->get('date'))
-			{
-			?>
+				<td align="center">
+					<?php echo $pageNav->rowNumber( $i ); ?>
+				</td>
+				<?php
+				if ($params->get('date')) {
+					?>
 					<td>
-					<?php echo $row->created; ?>
+						<?php echo $row->created; ?>
 					</td>
-			<?php
-			}
-			if ($params->get('title'))
-			{
-				if ($row->access <= $gid)
-				{
-					$link = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$row->id.'&amp;Itemid='.$Itemid);
-					?>
-						<td>
-						<a href="<?php echo $link; ?>">
-						<?php echo $row->title; ?>
-						</a>
 					<?php
-					JContentView :: _editIcon($row, $params, $access);
-					?>
-						</td>
-				<?php
-				} else
-				{
-				?>
-						<td>
-					<?php
-					echo $row->title.' : ';
-					$link = sefRelToAbs('index.php?option=com_registration&amp;task=register');
-					?>
-						<a href="<?php echo $link; ?>">
-						<?php echo JText::_( 'Register to read more...' ); ?>
-						</a>
-						</td>
-				<?php
 				}
-			}
-			if ($params->get('author'))
-			{
-			?>
+				if ($params->get('title')) {
+					if ($row->access <= $gid) {
+						$link = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$row->id.'&amp;Itemid='.$Itemid);
+						?>
+						<td>
+							<a href="<?php echo $link; ?>">
+								<?php echo $row->title; ?></a>
+							<?php
+							JContentView :: _editIcon($row, $params, $access);
+							?>
+						</td>
+						<?php
+					} else	{
+						?>
+						<td>
+						<?php
+						echo $row->title.' : ';
+						$link = sefRelToAbs('index.php?option=com_registration&amp;task=register');
+						?>
+						<a href="<?php echo $link; ?>">
+							<?php echo JText::_( 'Register to read more...' ); ?></a>
+						</td>
+					<?php
+					}
+				}
+				if ($params->get('author')) {
+					?>
 					<td >
-					<?php echo $row->created_by_alias ? $row->created_by_alias : $row->author; ?>
+						<?php echo $row->created_by_alias ? $row->created_by_alias : $row->author; ?>
 					</td>
-			<?php
-			}
-			if ($params->get('hits'))
-			{
-			?>
+					<?php
+				}
+				if ($params->get('hits')) {
+					?>
 					<td align="center">
-					<?php echo $row->hits ? $row->hits : '-'; ?>
+						<?php echo $row->hits ? $row->hits : '-'; ?>
 					</td>
-			<?php
-			}
-			?>
-		</tr>
+					<?php
+				}
+				?>
+			</tr>
 			<?php
 			$k = 1 - $k;
+			$i++;
 		}
-		if ($params->get('navigation'))
-		{
-		?>
+		if ($params->get('navigation')) {
+			?>
 			<tr>
 				<td colspan="4">&nbsp;</td>
 			</tr>
 			<tr>
 				<td align="center" colspan="4" class="sectiontablefooter<?php echo $params->get( 'pageclass_sfx' ); ?>">
-			<?php
-			$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='.$sectionid.'&amp;id='.$catid.'&amp;Itemid='.$Itemid;
-			echo $pageNav->writePagesLinks($link);
-			?>
+					<?php
+					$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='.$sectionid.'&amp;id='.$catid.'&amp;Itemid='.$Itemid;
+					echo $pageNav->writePagesLinks($link);
+					?>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="4" align="right">
-				<?php echo $pageNav->writePagesCounter(); ?>
+					<?php echo $pageNav->writePagesCounter(); ?>
 				</td>
 			</tr>
-		<?php
+			<?php
 		}
-		if ($access->canEdit || $access->canEditOwn)
-		{
+		if ($access->canEdit || $access->canEditOwn) {
 			$link = sefRelToAbs('index.php?option=com_content&amp;task=new&amp;sectionid='.$id.'&amp;cid='.$row->id.'&amp;Itemid='.$Itemid);
 			?>
 			<tr>
 				<td colspan="4">
-				<a href="<?php echo $link; ?>">
-				<img src="images/M_images/new.png" width="13" height="14" align="middle" border="0" alt="<?php echo JText::_( 'New' );?>" />
-				&nbsp;<?php echo JText::_( 'New' );?>...
-				</a>
+					<a href="<?php echo $link; ?>">
+						<img src="images/M_images/new.png" width="13" height="14" align="middle" border="0" alt="<?php echo JText::_( 'New' );?>" />
+						&nbsp;<?php echo JText::_( 'New' );?>...</a>
 				</td>
 			</tr>
-		<?php
+			<?php
 		}
 		?>
 		</table>
+		
 		<input type="hidden" name="id" value="<?php echo $catid; ?>" />
 		<input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" />
 		<input type="hidden" name="task" value="<?php echo $lists['task']; ?>" />
 		<input type="hidden" name="option" value="com_content" />
+		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="" />
 		</form>
 		<?php
 	}

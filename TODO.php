@@ -62,10 +62,14 @@ Tracker : <a target="_blank" href="http://developer.joomla.org/sf/tracker/do/lis
 - Depreceated files
 	* /pathway.php
 	* /mainbody.php
-	* /includes/metadata.php
-	* /includes/sef.php
 	* /administrator/templates/mambo_admin/...
 	* /administrator/templates/mambo_admin_blue/...
+	* /components/com_rss/..
+	* /includes/metadata.php
+	* /includes/sef.php
+	* /modules/mod_rssfeed/..
+	* /templates/madeyourday/..
+	* /templates/rhuk_slarflare_ii/..
 
 <hr/>
 

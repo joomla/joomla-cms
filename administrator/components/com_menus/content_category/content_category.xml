@@ -73,10 +73,6 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="order_select" type="radio" default="1" label="Order Select" description="Show/Hide the Order Select dropdown">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
 		<param name="display" type="radio" default="1" label="Display Select" description="Show/Hide the Display Select dropdown">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
