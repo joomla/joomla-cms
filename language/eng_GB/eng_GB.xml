@@ -14,7 +14,7 @@
     	<tag>eng_GB</tag>
     	<rtl>0</rtl>
     	<locale>eng_GB, en_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom</locale>
-    	<pdfFontName>Vera</pdfFontName>
+    	<pdfFontName>vera</pdfFontName>
     </metadata>
     <files>
         <filename>eng_GB.com_banners.ini</filename>
