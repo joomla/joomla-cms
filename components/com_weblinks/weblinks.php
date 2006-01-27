@@ -92,8 +92,33 @@ class WeblinksController {
 		$db 				= & $mainframe->getDBO();
 		$my 				= & $mainframe->getUser();
 		$breadcrumbs 		= & $mainframe->getPathWay();
+		$limit 				= JRequest :: getVar('limit', 				0, '', 'int');
+		$limitstart 		= JRequest :: getVar('limitstart', 			0, '', 'int');
 		$filter_order		= JRequest :: getVar('filter_order', 		'ordering');
 		$filter_order_Dir	= JRequest :: getVar('filter_order_Dir', 	'DESC');
+		$page				= '';
+		
+		// Load Parameters
+		$menu =& JModel::getInstance('menu', $db );
+		$menu->load($Itemid);
+		
+		$params = new JParameters($menu->params);
+		$params->def('page_title', 			1);
+		$params->def('header', 				$menu->name);
+		$params->def('pageclass_sfx', 		'');
+		$params->def('headings', 			1);
+		$params->def('hits', 				$mainframe->getCfg('hits'));
+		$params->def('item_description', 	1);
+		$params->def('other_cat_section', 	1);
+		$params->def('other_cat', 			1);
+		$params->def('description', 		1);
+		$params->def('description_text', 	JText::_('WEBLINKS_DESC'));
+		$params->def('image', 				-1 );
+		$params->def('weblink_icons', 		'' );
+		$params->def('image_align', 		'right' );
+		$params->def('back_button', 		$mainframe->getCfg('back_button') );
+		$params->def('display', 			1 );
+		$params->def('display_num', 		$mainframe->getCfg('list_limit'));
 
 		if ($catid) {
 
@@ -102,6 +127,22 @@ class WeblinksController {
 
 			// Ordering control
 			$orderby = "\n ORDER BY $filter_order $filter_order_Dir, ordering";
+			
+			$query = "SELECT COUNT(id) as numitems"
+			. "\n FROM #__weblinks"
+			. "\n WHERE catid = $catid"
+			. "\n AND published = 1"
+			;
+			$db->setQuery($query);
+			$counter = $db->loadObjectList();
+			$total = $counter[0]->numitems;
+			$limit = $limit ? $limit : $params->get('display_num');
+			if ($total <= $limit) {
+				$limitstart = 0;
+			}
+
+			jimport('joomla.pagination');
+			$page = new JPagination($total, $limitstart, $limit);
 			
 			/*
 			 * We need to get a list of all weblinks in the given category
@@ -113,7 +154,7 @@ class WeblinksController {
 					. "\n AND archived = 0"
 					. $orderby
 					;
-			$db->setQuery($query);
+			$db->setQuery($query, $limitstart, $limit);
 			$rows = $db->loadObjectList();
 
 			/*
@@ -138,30 +179,10 @@ class WeblinksController {
 		"\n AND cc.published = 1".
 		"\n AND cc.access <= $my->gid".
 		"\n GROUP BY cc.id".
-		"\n ORDER BY cc.ordering";
-		
+		"\n ORDER BY cc.ordering"
+		;		
 		$db->setQuery($query);
 		$categories = $db->loadObjectList();
-		
-		// Load Parameters
-		$menu =& JModel::getInstance('menu', $db );
-		$menu->load($Itemid);
-		
-		$params = new JParameters($menu->params);
-		$params->def('page_title', 1);
-		$params->def('header', $menu->name);
-		$params->def('pageclass_sfx', '');
-		$params->def('headings', 1);
-		$params->def('hits', $mainframe->getCfg('hits'));
-		$params->def('item_description', 1);
-		$params->def('other_cat_section', 1);
-		$params->def('other_cat', 1);
-		$params->def('description', 1);
-		$params->def('description_text', JText::_('WEBLINKS_DESC'));
-		$params->def('image', '-1');
-		$params->def('weblink_icons', '');
-		$params->def('image_align', 'right');
-		$params->def('back_button', $mainframe->getCfg('back_button'));
 
 		if (!$catid) {
 			/*
@@ -238,7 +259,7 @@ class WeblinksController {
 		$lists['order'] = $filter_order;
 		$selected = '';
 		
-		WeblinksView::showCategory($categories, $rows, $catid, $category, $params, $tabclass, $lists);
+		WeblinksView::showCategory($categories, $rows, $catid, $category, $params, $tabclass, $lists, $page);
 	}
 
 	/**

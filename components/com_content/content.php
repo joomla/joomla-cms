@@ -428,8 +428,7 @@ class JContentController {
 
 		// show/hide empty categories
 		$empty = null;
-		if (!$params->get('empty_cat'))
-		{
+		if (!$params->get('empty_cat'))	{
 			$empty = "\n HAVING COUNT( b.id ) > 0";
 		}
 
@@ -493,8 +492,7 @@ class JContentController {
 		$counter = $db->loadObjectList();
 		$total = $counter[0]->numitems;
 		$limit = $limit ? $limit : $params->get('display_num');
-		if ($total <= $limit)
-		{
+		if ($total <= $limit) {
 			$limitstart = 0;
 		}
 

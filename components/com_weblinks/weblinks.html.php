@@ -35,7 +35,7 @@ class WeblinksView {
 	 * @param object $params Parameters object for the current category
 	 * @param array $tabclass Two element array of the two CSS classes used for alternating rows in a table
 	 */
-	function showCategory( &$categories, &$rows, $catid, &$category, &$params, $tabclass, &$lists ) {
+	function showCategory( &$categories, &$rows, $catid, &$category, &$params, $tabclass, &$lists, &$page ) {
 		global $Itemid, $hide_js;
 
 		if ( $params->get( 'page_title' ) ) {
@@ -62,7 +62,7 @@ class WeblinksView {
 			<td>
 				<?php
 				if ( count( $rows ) ) {
-					WeblinksView::showTable( $params, $rows, $catid, $tabclass, $lists );
+					WeblinksView::showTable( $params, $rows, $catid, $tabclass, $lists, $page  );
 				}
 				?>
 			</td>
@@ -94,7 +94,7 @@ class WeblinksView {
 	 * @param array $tabclass Two element array with the CSS classnames of the alternating table rows
 	 * @since 1.0
 	 */
-	function showTable( &$params, &$rows, $catid, $tabclass, &$lists ) {
+	function showTable( &$params, &$rows, $catid, $tabclass, &$lists, &$page  ) {
 		global $Itemid;
 		
 		// icon in table display
@@ -117,6 +117,17 @@ class WeblinksView {
 		<form action="index.php?option=com_weblinks&amp;catid=<?php echo $catid;?>&amp;Itemid=<?php echo $Itemid;?>" method="post" name="adminForm">
 
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<td align="right" colspan="4">				
+				<?php
+				if ($params->get('display')) {
+					echo JText :: _('Display Num') .'&nbsp;';
+					$link = "index.php?option=com_weblinks&amp;catid=$catid&amp;Itemid=$Itemid";
+					echo $page->getLimitBox($link);
+				}
+				?>
+			</td>
+		</tr>
 		<?php
 		if ( $params->get( 'headings' ) ) {
 			?>
@@ -150,7 +161,7 @@ class WeblinksView {
 		}
 
 		$k = 0;
-		$i = 1;
+		$i = 0;
 		foreach ($rows as $row) {
 			$iparams = new JParameters( $row->params );
 
@@ -188,7 +199,7 @@ class WeblinksView {
 				}
 				?>
 				<td align="center">
-					<?php echo $i; ?>
+					<?php echo $page->rowNumber( $i ); ?>
 				</td>
 				<td height="20">
 					<?php echo $txt; ?>
@@ -216,6 +227,19 @@ class WeblinksView {
 			$i++;
 		}
 		?>
+		<tr>
+			<td align="center" colspan="4" class="sectiontablefooter<?php echo $params->get( 'pageclass_sfx' ); ?>">
+				<?php
+				$link = "index.php?option=com_weblinks&amp;catid=$catid&amp;Itemid=$Itemid";
+				echo $page->writePagesLinks($link);
+				?>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4" align="right">
+				<?php echo $page->writePagesCounter(); ?>
+			</td>
+		</tr>
 		</table>
 		
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />

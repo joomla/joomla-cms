@@ -40,6 +40,10 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+
+28-Jan-2006 Rey Gigataras 
+ + Pagination support to com_weblinks frontend output
+
 27-Jan-2006 Louis Landry 
  - Removed siteurlbot
  ^ josURL now uses a quick switch and JURI to determine secure site URI information

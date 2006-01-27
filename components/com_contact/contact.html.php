@@ -260,7 +260,7 @@ class JContactView {
 				<?php
 				if ( $params->get( 'position' ) ) {
 					?>
-					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
+					<td height="20" width="30%" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
 						<?php mosCommonHTML :: tableOrdering( 'Position', 'cd.con_position', $lists ); ?>
 					</td>
 					<?php
@@ -313,7 +313,7 @@ class JContactView {
 				<?php
 				if ( $params->get( 'position' ) ) {
 					?>
-					<td class="<?php echo $tabclass[$k]; ?>">
+					<td class="<?php echo $tabclass[$k]; ?>" width="30%">
 						<?php echo $row->con_position; ?>
 					</td>
 					<?php
