@@ -22,7 +22,7 @@ function botVoting( &$row, &$params, $page=0 ) {
 	$id 	= $row->id;
 	$option = 'com_content';
 	$task 	= JRequest::getVar( 'task' );
-	$html 	= false;
+	$html 	= '';
 
 	if ($params->get( 'rating' ) && !$params->get( 'popup' )){
 

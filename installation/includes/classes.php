@@ -448,7 +448,7 @@ class JInstallationController
 			if ($vars['ftpEnable'] == 1) {
 				$vars['ftpRoot'] = JInstallationHelper::findFtpRoot($vars['ftpUser'], $vars['ftpPassword']);
 			}
-		}
+		} 
 
 		return JInstallationView::mainConfig($vars);
 	}

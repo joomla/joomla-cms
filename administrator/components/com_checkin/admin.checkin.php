@@ -39,7 +39,7 @@ $tables = $database->getTableList();
 $k = 0;
 foreach ($tables as $tn) {
 	// make sure we get the right tables based on prefix
-	if (!preg_match( "/^".$mosConfig_dbprefix."/i", $tn )) {
+	if (!preg_match( "/^".$mainframe->getCfg('dbprefix')."/i", $tn )) {
 		continue;
 	}
 	$fields = $database->getTableFields( array( $tn ) );

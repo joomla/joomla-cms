@@ -431,7 +431,7 @@ class JMenuBar {
 		
 		?>
 		<td>
-			<a class="toolbar" onclick="window.open('<?php echo $url;?>', 'mambo_help_win', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');">
+			<a class="toolbar" onclick="window.open('<?php echo $url;?>', 'joomla_help_win', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');">
 				<?php echo $image2; ?>
 				<br /><?php echo JText::_( 'Help' ); ?></a>
 		</td>
