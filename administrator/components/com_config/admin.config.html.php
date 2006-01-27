@@ -150,21 +150,6 @@ class JConfigView {
 			<table class="adminform">
 			<tr>
 				<td>
-				<span class="editlinktip">
-				<?php
-				$tip = JText::_( 'TIPSECURESITE' );
-				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Secure Site' ), '', 0 );
-				?>
-				:				
-				</span>
-				</td>
-				<td>
-				<input class="text_area" type="text" name="secure_site" size="50" value="<?php echo $row->secure_site; ?>"/>
-				</td>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td>
 				<?php echo JText::_( 'Secret Word' ); ?>:
 				</td>
 				<td>

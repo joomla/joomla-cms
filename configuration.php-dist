@@ -40,7 +40,6 @@ class JConfig {
 	var $absolute_path = '/path/to/joomla/install';	// No trailing slash
 	var $admin_path = '/path/to/joomla/install/administrator';	// No trailing slash
 	var $live_site = 'http://your_joomla_site.com';	// No trailing slash
-	var $secure_site = 'http://your_secure_site.com'; // No trailing slash
 	var $admin_site = 'http://your_secure_site.com/administrator'; // No trailing slash
 	var $sitename = 'Joomla';				// Name of Joomla site
 	var $shownoauth = '1';				// Display links & categories users don't have access to
