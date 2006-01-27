@@ -15,11 +15,11 @@ jimport( 'joomla.common.base.object' );
 
 /**
  * JURI Class
- * 
+ *
  * This class serves two purposes.  First to parse a URI and provide a common interface
- * for the Joomla Framework to access and manipulate a URI.  Second to attain the URI of 
+ * for the Joomla Framework to access and manipulate a URI.  Second to attain the URI of
  * the current executing script from the server regardless of server.
- * 
+ *
  * The concept and implementation of this class is drawn heavily from the binary cloud
  * environment package.  <http://www.binarycloud.com/>
  *
@@ -28,78 +28,78 @@ jimport( 'joomla.common.base.object' );
  * @subpackage Application
  * @since 1.1
  */
-class JURI extends JObject 
+class JURI extends JObject
 {
 	/**
 	 * Original URI
-	 * 
+	 *
 	 * @var string
 	 */
 	var $_uri = null;
-	
+
 	/**
 	 * Protocol
-	 * 
+	 *
 	 * @var string
 	 */
 	var $_scheme = null;
 
 	/**
 	 * Username
-	 * 
+	 *
 	 * @var string
 	 */
 	var $_user = null;
 
 	/**
 	 * Password
-	 * 
+	 *
 	 * @var string
 	 */
 	var $_pass = null;
 
 	/**
 	 * Host
-	 * 
+	 *
 	 * @var string
 	 */
 	var $_host = null;
 
 	/**
 	 * Port
-	 * 
+	 *
 	 * @var integer
 	 */
 	var $_port = null;
 
 	/**
 	 * Path
-	 * 
+	 *
 	 * @var string
 	 */
 	var $_path = null;
 
 	/**
 	 * Query variable hash
-	 * 
+	 *
 	 * @var array
 	 */
 	var $_vars = array ();
 
 	/**
 	 * Anchor
-	 * 
+	 *
 	 * @var string
 	 */
 	var $_anchor = null;
 
 	/**
-	 * Constructor. 
+	 * Constructor.
 	 * You can pass a URI string to the constructor to initialize a specific URI.
 	 *
 	 * @param string $uri The optional URI string
 	 */
-	function __construct($uri = null) 
+	function __construct($uri = null)
 	{
 		if ($uri !== null) {
 			$this->parse($uri);
@@ -118,17 +118,17 @@ class JURI extends JObject
 	 * @return JURI  The URI object.
 	 * @since 1.1
 	 */
-	function getInstance($uri = 'SERVER') 
-	{	
+	function getInstance($uri = 'SERVER')
+	{
 		static $instances = array();
-		
+
 		if (!isset ($instances[$uri])) {
-			
+
 			/*
 			 * Are we obtaining the URI from the server?
 			 */
 			if ($uri == 'SERVER') {
-				
+
 				/*
 				 * Determine if the request was over SSL (HTTPS)
 				 */
@@ -137,22 +137,22 @@ class JURI extends JObject
 				} else {
 					$https = '://';
 				}
-				
+
 				/*
 				 * Since we are assigning the URI from the server variables, we first need
 				 * to determine if we are running on apache or IIS.  If PHP_SELF and REQUEST_URI
 				 * are present, we will assume we are running on apache.
 				 */
 				if (!empty ($_SERVER['PHP_SELF']) && !empty ($_SERVER['REQUEST_URI'])) {
-					
+
 					/*
-					 * To build the entire URI we need to prepend the protocol, and the http host 
+					 * To build the entire URI we need to prepend the protocol, and the http host
 					 * to the URI string.
 					 */
 					$theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
 				/*
-				 * Since we do not have REQUEST_URI to work with, we will assume we are 
+				 * Since we do not have REQUEST_URI to work with, we will assume we are
 				 * running on IIS and will therefore need to work some magic with the SCRIPT_NAME and
 				 * QUERY_STRING environment variables.
 				 */
@@ -161,7 +161,7 @@ class JURI extends JObject
 					 * IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
 					 */
 					$theURI = $_SERVER['SCRIPT_NAME'];
-					
+
 					/*
 					 * If the query string exists append it to the URI string
 					 */
@@ -175,7 +175,7 @@ class JURI extends JObject
 				 */
 				$theUri = $uri;
 			}
-			
+
 			/*
 			 * Create the new JURI instance
 			 */
@@ -192,24 +192,24 @@ class JURI extends JObject
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function parse($uri) 
+	function parse($uri)
 	{
 		/*
 		 * Initialize variables
 		 */
 		$retval = false;
-		
+
 		// Set the original URI to fall back on
 		$this->_uri = $uri;
-		
+
 		/*
-		 * Parse the URI and populate the object fields.  If URI is parsed properly, 
+		 * Parse the URI and populate the object fields.  If URI is parsed properly,
 		 * set method return value to true.
 		 */
 		if ($_parts = @parse_url($uri)) {
 			$retval = true;
 		}
-		
+
 		$this->_scheme = isset ($_parts['scheme']) ? $_parts['scheme'] : 'http';
 		$this->_user = isset ($_parts['user']) ? $_parts['user'] : null;
 		$this->_pass = isset ($_parts['pass']) ? $_parts['pass'] : null;
@@ -218,7 +218,7 @@ class JURI extends JObject
 		$this->_path = isset ($_parts['path']) ? $_parts['path'] : null;
 		$this->_vars = isset ($_parts['query']) ? $this->_parseQueryString($_parts['query']) : array ();
 		$this->_anchor = isset ($_parts['fragment']) ? $_parts['fragment'] : null;
-		
+
 		return $retval;
 	}
 
@@ -230,20 +230,20 @@ class JURI extends JObject
 	 * @return string The rendered URI string
 	 * @since 1.1
 	 */
-	function toString($parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment')) 
-	{	
+	function toString($parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
+	{
 		$query = $this->getQueryString();
-		
+
 		$uri = '';
 		$uri .= in_array('scheme', $parts)   ? $this->_scheme.'://' : '';
 		$uri .= in_array('user', $parts)     ? $this->_user : '';
 		$uri .= in_array('pass', $parts)     ? (!empty ($this->_pass) ? ':' : '') .$this->_pass. (!empty ($this->_user) ? '@' : '') : '';
 		$uri .= in_array('host', $parts)     ? $this->_host : '';
-		$uri .= in_array('port', $parts)     ? (!empty ($this->_port) ? ':' : '').$this->_port : ''; 
+		$uri .= in_array('port', $parts)     ? (!empty ($this->_port) ? ':' : '').$this->_port : '';
 		$uri .= in_array('path', $parts)     ? $this->_path : '';
 		$uri .= in_array('query', $parts)    ? (!empty ($query) ? '?'.$query : '') : '';
 		$uri .= in_array('fragment', $parts) ? (!empty ($this->_anchor) ? '#'.$this->_anchor : '') : '';
-		
+
 		return $uri;
 	}
 
@@ -257,7 +257,7 @@ class JURI extends JObject
 	 * @return string Previous value for the query variable
 	 * @since 1.1
 	 */
-	function setVar($name, $value) 
+	function setVar($name, $value)
 	{
 		$tmp = $this->_vars[$name];
 		$this->_vars[$name] = is_array($value) ? array_map('urlencode', $value) : urlencode($value);
@@ -282,7 +282,7 @@ class JURI extends JObject
 	 * @param string $name Name of variable to remove
 	 * @since 1.1
 	 */
-	function delVar($name) 
+	function delVar($name)
 	{
 		if (in_array($name, array_keys($this->_vars))) {
 			unset ($this->_vars[$name]);
@@ -308,7 +308,7 @@ class JURI extends JObject
 	 * @return string Query string
 	 * @since 1.1
 	 */
-	function getQueryString() 
+	function getQueryString()
 	{
 		if (!empty ($this->_vars)) {
 			$query = array ();
@@ -513,7 +513,7 @@ class JURI extends JObject
 	 * @return array An array of the query data
 	 * @since 1.1
 	 */
-	function _parseQueryString($query) 
+	function _parseQueryString($query)
 	{
 		$query = rawurldecode($query);
 		$parts = preg_split('/&/', $query, -1, PREG_SPLIT_NO_EMPTY);
@@ -562,7 +562,7 @@ class JURI extends JObject
 	 * @return string Cleaned and resolved URI path
 	 * @since 1.1
 	 */
-	function _cleanPath($path) 
+	function _cleanPath($path)
 	{
 		$path = explode('/', str_replace('//', '/', $path));
 

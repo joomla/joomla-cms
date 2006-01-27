@@ -29,7 +29,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 	* @var		string
 	*/
 	var $_name	=	'Component';
-	
+
    /**
 	 * Renders a component script and returns the results as a string
 	 *
@@ -42,11 +42,11 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 	{
 		global $mainframe;
 		global $Itemid, $task, $option, $id;
-		
+
 		$my 		=& $mainframe->getUser();
 		$database   =& $mainframe->getDBO();
 		$acl  		=& JFactory::getACL();
-		
+
 		//For backwards compatibility extract the config vars as globals
 		$CONFIG = new JConfig();
 		foreach (get_object_vars($CONFIG) as $k => $v) {
@@ -54,11 +54,11 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 			$GLOBALS[$name] = $v;
 		}
 		unset($CONFIG);
-		
+
 		$gid = $my->gid;
-		
+
 		$component = !isset($component) ? $option : $component;
-		
+
 		/*
 		 * Check to see if component is enabled and get parameters
 		 */
@@ -76,29 +76,31 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 		//if ($mainframe->isAdmin() || $row->enabled || $component == 'com_content') {
 			$file = substr( $component, 4 );
 			$path = JPATH_BASE.DS.'components'.DS.$component;
-			
+
 			if(JFile::exists($path.DS.$file.'.php')) {
 				$path = $path.DS.$file.'.php';
 			} else {
 				$path = $path.DS.'admin.'.$file.'.php';
 			}
-			
+
 			$task 	= mosGetParam( $_REQUEST, 'task', '' );
 			$ret 	= mosMenuCheck( $Itemid, $component, $task, $my->gid );
-	
+
 			/*
 			 * Load the component paramters
 			 */
-			$params = new JParameters($row->params);
-			
+			if ($row) {
+				$params = new JParameters($row->params);
+			}
+
 			$content = '';
 			ob_start();
-	
+
 			$msg = mosGetParam( $_REQUEST, 'mosmsg', '' );
 			if (!empty($msg)) {
 				echo "\n<div class=\"message\">$msg</div>";
 			}
-			
+
 			if ($ret) {
 				//load common language files
 				$lang =& $mainframe->getLanguage();
@@ -107,10 +109,10 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 			} else {
 				mosNotAuth();
 			}
-			
+
 			$contents = ob_get_contents();
 			ob_end_clean();
-	
+
 			return $contents;
 		//} else {
 			/*

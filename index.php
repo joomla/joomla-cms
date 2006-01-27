@@ -37,7 +37,7 @@ $mainframe->triggerEvent( 'onBeforeStart' );
 
 // Get the global option variable and create the pathway
 $option = strtolower( JRequest::getVar( 'option' ) );
-$mainframe->_createPathWay( );	
+$mainframe->_createPathWay( );
 
 //get the acl object (for backwards compatibility)
 $acl =& JFactory::getACL();
@@ -54,7 +54,7 @@ if ($option == 'login') {
 	}
 
 	if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
-		// checks for the presence of a return url 
+		// checks for the presence of a return url
 		// and ensures that this url is not the registration or login pages
 		mosRedirect( $return );
 	} else {
@@ -66,7 +66,7 @@ if ($option == 'logout') {
 	$mainframe->logout();
 
 	if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
-		// checks for the presence of a return url 
+		// checks for the presence of a return url
 		// and ensures that this url is not the registration or logout pages
 		mosRedirect( $return );
 	} else {
@@ -79,7 +79,7 @@ $my = $mainframe->getUser();
 
 $Itemid = intval( mosGetParam( $_REQUEST, 'Itemid', null ) );
 
-if ($option == '') 
+if ($option == '')
 {
 	if ($Itemid) {
 		$query = "SELECT id, link"

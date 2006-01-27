@@ -25,60 +25,60 @@ jimport( 'joomla.common.base.object' );
 * @since 1.1
 */
 
-class JApplication extends JObject 
+class JApplication extends JObject
 {
-	/** 
+	/**
 	 * The current session
-	 * 
-	 * @var JModelSession  
+	 *
+	 * @var JModelSession
 	 * @access protected
 	 */
 	var $_session = null;
-	
-	/** 
+
+	/**
 	 * The pathway store
-	 * 
+	 *
 	 * @var object  JPathWay object
 	 * @access protected
 	 */
 	var $_pathway = null;
-	
-	/** 
+
+	/**
 	 * The client identifier
-	 * 
+	 *
 	 * @var integer
 	 * @access protected
 	 */
 	var $_client = null;
-	
-	/** 
+
+	/**
 	 * A string holding the active language
-	 * 
-	 * @var string  
+	 *
+	 * @var string
 	 * @access protected
 	 */
 	var $_lang  = null;
-	
-	/** 
+
+	/**
 	 * Application persistent store
-	 * 
+	 *
 	 * @var object  JRegistry object
 	 * @access protected
 	 */
 	var $_registry = null;
-	
-	/** 
+
+	/**
 	 * The active user object
-	 * 
-	 * @var object JModelUser 
+	 *
+	 * @var object JModelUser
 	 * @access protected
 	 */
 	var $_user = null;
-	
-	/** 
+
+	/**
 	 * The url of the application
-	 * 
-	 * @var string 
+	 *
+	 * @var string
 	 * @access protected
 	 */
 	var $_baseURL = null;
@@ -89,11 +89,11 @@ class JApplication extends JObject
 	* @param string 	The URL option passed in
 	* @param integer	A client identifier
 	*/
-	function __construct( $client=0 ) 
+	function __construct( $client=0 )
 	{
 		$this->_client 		    = $client;
 	}
-	
+
 	 /**
 	 * Gets a configuration value
 	 *
@@ -104,7 +104,7 @@ class JApplication extends JObject
 	function getCfg( $varname ) {
 		return $this->_registry->getValue('config.'.$varname);
 	}
-	
+
 	/**
 	 * Gets a user state
 	 *
@@ -112,8 +112,8 @@ class JApplication extends JObject
 	 * @param string 	$key 	The path of the state
 	 * @return The user state
 	 */
-	function getUserState( $key ) 
-	{	
+	function getUserState( $key )
+	{
 		$registry =& JSession::get('registry');
 		if(!is_null($registry)) {
 			return $registry->getValue($key);
@@ -129,7 +129,7 @@ class JApplication extends JObject
 	* @param string $value 	The value of the variable
 	* @return mixed The previous state if exist
 	*/
-	function setUserState( $key, $value ) 
+	function setUserState( $key, $value )
 	{
 		$registry =& JSession::get('registry');
 		if(!is_null($registry)) {
@@ -147,17 +147,17 @@ class JApplication extends JObject
 	* @param string The default value for the variable if not found
 	* @return The request user state
 	*/
-	function getUserStateFromRequest( $key, $request, $default=null ) 
-	{	
+	function getUserStateFromRequest( $key, $request, $default=null )
+	{
 		//Force namespace
 		$key = 'request.'.$key;
-		
+
 		$old_state = $this->getUserState( $key );
 		$cur_state = isset( $old_state ) ? $old_state : $default;
-		$new_state = isset( $_REQUEST[$request] ) ? $_REQUEST[$request] : $cur_state; 
-				
+		$new_state = isset( $_REQUEST[$request] ) ? $_REQUEST[$request] : $cur_state;
+
 		$this->setUserState( $key, $new_state );
-		
+
 		return $new_state;
 	}
 
@@ -198,7 +198,7 @@ class JApplication extends JObject
 	* A successful validation updates the current session record with the
 	* users details.
 	*/
-	function login( $username=null,$passwd=null ) 
+	function login( $username=null,$passwd=null )
 	{
 		global $database, $acl;
 
@@ -232,7 +232,7 @@ class JApplication extends JObject
 	* Passed the current user information to the onLogoutUser event and reverts the current
 	* session record back to 'anonymous' parameters
 	*/
-	function logout() 
+	function logout()
 	{
 		$auth = & JAuthenticate::getInstance();
 		return $auth->logout();
@@ -248,7 +248,7 @@ class JApplication extends JObject
 	function getOption() {
 		return JRequest::getVar('option');
 	}
-	
+
 	/**
 	 * Return the application url
 	 *
@@ -256,18 +256,18 @@ class JApplication extends JObject
 	 * @return string The url of the application
 	 * @since 1.1
 	 */
-	function getBaseURL() 
+	function getBaseURL()
 	{
 		if(isset($this->_baseURL)) {
 			return $this->_baseURL;
 		}
-		
+
 		$uri =& $this->getURI();
-		
+
 		$url  = $uri->getScheme().'://';
 		$url .= $uri->getHost();
 		$url .= dirname($_SERVER['PHP_SELF']).'/';
-		
+
 		$this->_baseURL= $url;
 		return $url;
 	}
@@ -281,7 +281,7 @@ class JApplication extends JObject
 	function setSession($name) {
 		$this->_createSession($name);
 	}
-	
+
 	/**
 	 * Set the application language
 	 *
@@ -313,11 +313,11 @@ class JApplication extends JObject
 				$lang = $this->getCfg('lang');
 			}
 		}
-		
+
 		//Set the language in the class
 		$this->_lang = $lang;
 	}
-	
+
 	/**
 	 * Set the configuration
 	 *
@@ -328,16 +328,16 @@ class JApplication extends JObject
 	function setConfiguration($file, $type = 'config') {
 		$this->_createConfiguration($file, $type);
 	}
-	
+
 	/**
 	 * Gets the name of the current template
-	 * 
+	 *
 	 * @return string
 	 */
 	function getTemplate() {
 		return '_system';
 	}
-	
+
 	/**
 	 * Return a reference to the JURI object
 	 *
@@ -345,13 +345,13 @@ class JApplication extends JObject
 	 * @return juri 	JURI object
 	 * @since 1.1
 	 */
-	function &getURI() 
+	function &getURI()
 	{
 		jimport('joomla.application.environment.uri');
 		$instance = JURI::getInstance();
 		return $instance;
 	}
-	
+
 	/**
 	 * Return a reference to the JPathWay object
 	 *
@@ -369,7 +369,7 @@ class JApplication extends JObject
 	 * @access public
 	 * @since 1.1
 	 */
-	function &getDocument() 
+	function &getDocument()
 	{
 		$attributes = array (
             'charset'  => 'utf-8',
@@ -482,11 +482,11 @@ class JApplication extends JObject
 	{
 		//Load the pathway object
 		jimport( 'joomla.pathway' );
-		
+
 		//Get some request variables
 		$ItemID = JRequest::getVar('Itemid');
 		$option = JRequest::getVar('option');
-		
+
 		// Create a JPathWay object
 		$this->_pathway = new JPathWay();
 
@@ -527,17 +527,17 @@ class JApplication extends JObject
 	 * @param string $file 	The path to the configuration file
 	 * @param string $type	The format type
 	 */
-	function _createConfiguration($file, $type = 'PHP') 
-	{	
+	function _createConfiguration($file, $type = 'PHP')
+	{
 		jimport( 'joomla.registry.registry' );
-		
+
 		require_once( $file );
-		
+
 		// Create the JConfig object
 		$config = new JConfig();
 		$config->live_site     = substr_replace($this->getBaseURL(), '', -1, 1);
 		$config->absolute_path = JPATH_SITE;
-		
+
 		// Create the registry with a default namespace of config which is read only
 		$this->_registry =& new JRegistry( 'config', true );
 		$this->_registry->loadObject($config);
@@ -559,7 +559,7 @@ class JApplication extends JObject
 	{
 		JSession::useCookies(true);
 		JSession::start(md5( $name ));
-		
+
 		JSession::get('registry', new JRegistry('application'));
 
 		$session = & JModel::getInstance('session', $this->getDBO());
@@ -615,7 +615,7 @@ class JApplication extends JObject
 	/**
 	 * Depreceated functions
 	 */
-	 
+
 	 /**
 	 * Depreceated, use JPathWay->addItem() method instead
 	 * @since 1.1
@@ -736,7 +736,7 @@ class JApplication extends JObject
 	function getContentItemLinkCount( ) {
 		return JApplicationHelper::getContentItemLinkCount( );
 	}
-	
+
 	/**
 	* Depreacted, use JApplicationHelper::getPath instead
 	* @since 1.1
@@ -748,7 +748,7 @@ class JApplication extends JObject
 
 /**
  * Application helper functions
- * 
+ *
  * @static
  * @package Joomla.Framework
  * @subpackage Application
@@ -758,7 +758,7 @@ class JApplicationHelper
 {
 	/**
 	 * Get the itemid for a content item
-	 * 
+	 *
 	 * @access public
 	 * @return integer
 	 * @since 1.0
@@ -868,8 +868,8 @@ class JApplicationHelper
 
 	/**
 	 * Get the total number of published blog sections
-	 * 
-	 * @access public 
+	 *
+	 * @access public
 	 * @return integer
 	 * @since 1.0
 	 */
@@ -888,7 +888,7 @@ class JApplicationHelper
 
 	/**
 	 * Get the total number of published blog categories
-	 * 
+	 *
 	 * @access public
 	 * @return integer
 	 * @since 1.0
@@ -908,7 +908,7 @@ class JApplicationHelper
 
 	/**
 	 * Get the total number of published blog sections
-	 * 
+	 *
 	 * @access public
 	 * @return integer
 	 * @since 1.0
@@ -929,10 +929,10 @@ class JApplicationHelper
 
 	/**
 	 * Get the total number of published static content items
-	 * 
+	 *
 	 * @access public
 	 * @return integer
-	 * @since 1.0 
+	 * @since 1.0
 	 */
 	function getStaticContentCount( ) {
 		global $database;
@@ -949,7 +949,7 @@ class JApplicationHelper
 
 	/**
 	 * Get the total number of published content items
-	 * 
+	 *
 	 * @access public
 	 * @return integer
 	 * @since 1.0
@@ -966,21 +966,21 @@ class JApplicationHelper
 		$count = $database->loadResult();
 		return $count;
 	}
-	
+
 	/**
-	* Get a path 
-	* 
+	* Get a path
+	*
 	* @access public
 	* @param string $varname
 	* @param string $user_option
 	* @return string The requested path
 	* @since 1.0
 	*/
-	function getPath( $varname, $user_option=null ) 
+	function getPath( $varname, $user_option=null )
 	{
 		// check needed for handling of custom/new module xml file loading
 		$check = ( ( $varname == 'mod0_xml' ) || ( $varname == 'mod1_xml' ) );
-		
+
 		if ( !$user_option && !$check ) {
 			$user_option = $GLOBALS['option'];
 		}
@@ -1012,7 +1012,7 @@ class JApplicationHelper
 			case 'toolbar_front':
 				$result = JApplicationHelper::_checkPath( DS.'includes'.DS.'HTML_toolbar.php', 0 );
 				break;
-			
+
 			case 'admin':
 				$path 	= DS.'components'.DS. $user_option .DS.'admin.'. $name .'.php';
 				$result = JApplicationHelper::_checkPath( $path, -1 );
@@ -1077,16 +1077,16 @@ class JApplicationHelper
 
 		return $result;
 	}
-	
+
 	/**
 	 * Tries to find a file in the administrator or site areas
-	 * 
+	 *
 	 * @access private
 	 * @param string 	$parth			A file name
 	 * @param integer 	$checkAdmin		0 to check site, 1 to check site and admin only, -1 to check admin only
 	 * @since 1.1
 	 */
-	function _checkPath( $path, $checkAdmin=1 ) 
+	function _checkPath( $path, $checkAdmin=1 )
 	{
 		$file = JPATH_SITE . $path;
 		if ($checkAdmin > -1 && file_exists( $file )) {

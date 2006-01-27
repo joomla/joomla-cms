@@ -21,7 +21,7 @@ require_once( JPATH_BASE . '/includes/template.html.php' );
  * @param 	string 	The mdoule position
  * @return 	integer The number of modules loaded for that position
  */
-function mosCountModules( $position='left' ) 
+function mosCountModules( $position='left' )
 {
 	return count(JModuleHelper::getModules($position));
 }
@@ -73,40 +73,40 @@ function mosShowHead()
 }
 
 /**
- * Initialise the document  
- *  
+ * Initialise the document
+ *
  * @param object $doc The document instance to initialise
  */
-function initDocument( &$doc, $file = 'index.php' ) {		
+function initDocument( &$doc, $file = 'index.php' ) {
 	global $mainframe, $Itemid;
-	
+
 	$user    	=& $mainframe->getUser();
 	$db      	=& $mainframe->getDBO();
 	$lang    	=& $mainframe->getLanguage();
 	$version 	= new JVersion();
-	
+
 	$template 	= $mainframe->getTemplate();
-	
+
 	$doc->setMetaContentType();
-	
+
 	// page title for offline pages
 	if($mainframe->getCfg('offline')) {
 		$title = $mainframe->getCfg('sitename');
 		$doc->setTitle($title. '- Offline');
 	}
-	
+
 	$doc->setMetaData( 'description', 	$mainframe->getCfg('MetaDesc' ) );
 	$doc->setMetaData( 'keywords', 		$mainframe->getCfg('MetaKeys' ) );
 	$doc->setMetaData( 'Generator', 	$version->PRODUCT .' - '. $version->COPYRIGHT );
 	$doc->setMetaData( 'robots', 		'index, follow' );
-	
-	$doc->setBase( $mainframe->getBaseURL());
-	
+
+	$doc->setBase( $mainframe->getBaseURL() );
+
 	$doc->addGlobalVar( 'template', 	$template);
-	
+
 	// support for text direction change
 	$doc->addGlobalVar( 'lang_tag', 	$lang->getTag());
-	$doc->addVar( $file, 'lang_isrtl', 	$lang->isRTL());	
+	$doc->addVar( $file, 'lang_isrtl', 	$lang->isRTL());
 	if ($lang->isRTL()) {
 		$doc->addGlobalVar( 'lang_dir', 'rtl' );
 	} else {
@@ -125,15 +125,15 @@ function initDocument( &$doc, $file = 'index.php' ) {
 	$live_bookmark 	= $params->get( 'live_bookmark', '' );
 	if ($live_bookmark) {
 		$from = @$_SERVER['QUERY_STRING'];
-		
+
 		if ( $from ) {
 			$parts      = explode( 'option=', $from );
 
 			$link_file 	= 'index.php?option=com_syndicate&feed='. $live_bookmark .'&live=1&type='. $parts[1];
-	
+
 			// xhtml check
 			$link_file = ampReplace( $link_file );
-	
+
 			// outputs link tag for page
 			$doc->addHeadLink( $link_file, 'alternate', 'rel', array('type' => 'application/rss+xml'));
 		}
@@ -141,7 +141,7 @@ function initDocument( &$doc, $file = 'index.php' ) {
 
 	// favicon support
 	$path = 'templates/'. $template .'/';
-	$dirs = array( $path, '' );		
+	$dirs = array( $path, '' );
 	foreach ($dirs as $dir ) {
 		$icon =   $dir . 'favicon.ico';
 
