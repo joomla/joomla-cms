@@ -15,13 +15,14 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('tcpdf.config.lang.eng');
+jimport('tcpdf.config.tcpdf_config');
 jimport('tcpdf.tcpdf');
 
 
 /**
  * PDF Creator
  * 
- * Support file to display content as PDF using class from - TODO
+ * Generates a pdf page for content item using a modified tcpdf library.
  * 
  * @author David Gal <david@joomla.co.il>
  * @package Joomla.Framework
@@ -30,12 +31,11 @@ jimport('tcpdf.tcpdf');
 
 function doUtfPDF () 
 {
-	global $mainframe;
+	global $mainframe, $l;
 
 	$db = $mainframe->getDBO();
 	$id = intval( mosGetParam( $_REQUEST, 'id', 1 ) );
 	$row =& JModel::getInstance('content', $db );
-	// $row = new mosContent( $database );
 	$row->load( $id );
 
 	$params = new JParameters( $row->attribs );
