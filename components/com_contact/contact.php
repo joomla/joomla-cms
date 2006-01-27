@@ -55,8 +55,7 @@ switch ($task) {
  * @subpackage Contact
  * @since 1.1
  */
-class JContactController
-{
+class JContactController {
 
 	/**
 	 * Build the data for a contact category document
@@ -64,17 +63,18 @@ class JContactController
 	 * @static
 	 * @since 1.0
 	 */
-	function listContacts()
-	{
+	function listContacts() {
 		global $mainframe, $Itemid;
 
 		/*
 		 * Initialize some variables
 		 */
-		$db 	= & $mainframe->getDBO();
-		$my 	= & $mainframe->getUser();
-		$option = JRequest :: getVar('option');
-		$catid 	= JRequest :: getVar('catid', 0, '', 'int');
+		$db 				= & $mainframe->getDBO();
+		$my 				= & $mainframe->getUser();
+		$option 			= JRequest :: getVar('option');
+		$catid 				= JRequest :: getVar('catid', 				0, '', 'int');
+		$filter_order		= JRequest :: getVar('filter_order', 		'cd.ordering');
+		$filter_order_Dir	= JRequest :: getVar('filter_order_Dir', 	'ASC');
 
 		/*
 		 * Query to retrieve all categories that belong under the contacts
@@ -94,12 +94,10 @@ class JContactController
 		$categories = $db->loadObjectList();
 
 		$count = count($categories);
-		if (($count < 2) && (@ $categories[0]->numlinks == 1))
-		{
+		if (($count < 2) && (@ $categories[0]->numlinks == 1)) {
 			// if only one record exists loads that record, instead of displying category list
 			JContactController :: contactPage($categories[0]->cid);
-		} else
-		{
+		} else { 
 			$rows = array ();
 			$current = new stdClass();
 
@@ -129,39 +127,38 @@ class JContactController
 			$params->def('fax', 				0);
 			$params->def('telephone', 			0);
 
-			if ($catid == 0)
-			{
+			if ($catid == 0) {
 				$catid = $params->get('catid', 0);
 			}
 
-			if ($catid)
-			{
+			if ($catid) {
 				$params->set('type', 'category');
-			} else
-			{
+			} else {
 				$params->set('type', 'section');
 			}
 
 			/*
 			 * If a category id is set, lets get its information
 			 */
-			if ($catid)
-			{
-				$query = "SELECT cd.*, cc.name AS cname, cc.description AS cdescription, cc.image AS cimage, cc.image_position AS cimage_position" .
-						"\n FROM #__contact_details AS cd" .
-						"\n INNER JOIN #__categories AS cc on cd.catid = cc.id" .
-						"\n WHERE cd.catid = $catid" .
-						"\n AND cc.published = 1" .
-						"\n AND cd.published = 1" .
-						"\n AND cc.access <= $my->gid" .
-						"\n AND cd.access <= $my->gid" .
-						"\n ORDER BY cd.ordering";
+			if ($catid) {
+				// Ordering control
+				$orderby = "\n ORDER BY $filter_order $filter_order_Dir, cd.ordering";
+
+				$query = "SELECT cd.*, cc.name AS cname, cc.description AS cdescription, cc.image AS cimage, cc.image_position AS cimage_position"
+						. "\n FROM #__contact_details AS cd"
+						. "\n INNER JOIN #__categories AS cc on cd.catid = cc.id"
+						. "\n WHERE cd.catid = $catid"
+						. "\n AND cc.published = 1"
+						. "\n AND cd.published = 1"
+						. "\n AND cc.access <= $my->gid"
+						. "\n AND cd.access <= $my->gid"
+						. $orderby
+						;
 				$db->setQuery($query);
 				$rows = $db->loadObjectList();
 
 				// Quick trick to use one query for two things
-				if (count($rows))
-				{
+				if (count($rows)) {
 					$current = & $rows[0];
 				}
 			
@@ -177,8 +174,7 @@ class JContactController
 			/*
 			 * Lets get a description on the current category
 			 */
-			if (empty ($current->cdescription))
-			{
+			if (empty ($current->cdescription))	{
 				if ($params->get('description'))
 				{
 					$current->cdescription = $params->get('description_text');
@@ -189,26 +185,21 @@ class JContactController
 			 * Lets get a description on the current category
 			 */
 			$path = $mainframe->getCfg('live_site').'/images/stories/';
-			if (empty ($current->cimage))
-			{
-				if ($params->get('image') != -1)
-				{
+			if (empty ($current->cimage)) {
+				if ($params->get('image') != -1) {
 					$current->cimage = $path.$params->get('image');
 					$current->cimage_position = $params->get('image_align');
 				}
-			} else
-			{
+			} else {
 				$current->cimage = $path.$current->cimage;
 			}
 
 			/*
 			 * Time to set the page header
 			 */
-			if (empty ($current->cname))
-			{
+			if (empty ($current->cname)) {
 				$current->header = $params->get('header');
-			} else
-			{
+			} else {
 				$current->header = $params->get('header').' - '.$current->cname;
 			}
 
@@ -216,8 +207,7 @@ class JContactController
 			 * Lets set the page title
 			 */
 			$document = & $mainframe->getDocument();
-			if (!empty ($current->cname))
-			{
+			if (!empty ($current->cname)) {
 				$document->setTitle(JText :: _('Contact').' - '.$current->cname);
 			}
 
@@ -225,12 +215,20 @@ class JContactController
 			 * Lets add the category breadcrumbs item
 			 */
 			$breadcrumbs = & $mainframe->getPathWay();
-			if (!empty ($current->cname))
-			{
+			if (!empty ($current->cname)) {
 				$breadcrumbs->addItem($current->cname, "");
 			}
-
-			JContactView :: displaylist($categories, $rows, $current, $catid, $params);
+			
+			// table ordering
+			if ( $filter_order_Dir == 'DESC' ) {
+				$lists['order_Dir'] = 'ASC';
+			} else {
+				$lists['order_Dir'] = 'DESC';
+			}
+			$lists['order'] = $filter_order;
+			$selected = '';
+			
+			JContactView :: displaylist($categories, $rows, $current, $catid, $params, $lists);
 		}
 	}
 

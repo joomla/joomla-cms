@@ -32,7 +32,7 @@ class JContactView {
 	 * @static
 	 * @since 1.0
 	 */
-	function displaylist( &$categories, &$rows, &$current, $catid, &$params ) {
+	function displaylist( &$categories, &$rows, &$current, $catid, &$params, &$lists ) {
 		global $Itemid, $hide_js;
 
 		// used to show table rows in alternating colours
@@ -46,29 +46,27 @@ class JContactView {
 			<?php
 		}
 		?>
-		<form action="index.php" method="post" name="adminForm">
-
 		<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr>
 			<td width="60%" valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>" colspan="2">
-			<?php
-			// show image
-			if ( $current->cimage ) {
-				?>
-				<img src="<?php echo $current->cimage; ?>" align="<?php echo $current->cimage_position; ?>" hspace="6" alt="<?php echo JText::_( 'Web Links' ); ?>" />
 				<?php
-			}
-			echo $current->cdescription;
-			?>
+				// show image
+				if ( $current->cimage ) {
+					?>
+					<img src="<?php echo $current->cimage; ?>" align="<?php echo $current->cimage_position; ?>" hspace="6" alt="<?php echo JText::_( 'Web Links' ); ?>" />
+					<?php
+				}
+				echo $current->cdescription;
+				?>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<?php
-			if ( count( $rows ) ) {
-				JContactView::showTable( $params, $rows, $catid, $tabclass );
-			}
-			?>
+				<?php
+				if ( count( $rows ) ) {
+					JContactView::showTable( $params, $rows, $catid, $tabclass, $lists );
+				}
+				?>
 			</td>
 		</tr>
 		<tr>
@@ -78,18 +76,17 @@ class JContactView {
 		</tr>
 		<tr>
 			<td>
-			<?php
-			// Displays listing of Categories
-			if ( ( $params->get( 'type' ) == 'category' ) && $params->get( 'other_cat' ) ) {
-				JContactView::showCategories( $params, $categories, $catid );
-			} else if ( ( $params->get( 'type' ) == 'section' ) && $params->get( 'other_cat_section' ) ) {
-				JContactView::showCategories( $params, $categories, $catid );
-			}
-			?>
+				<?php
+				// Displays listing of Categories
+				if ( ( $params->get( 'type' ) == 'category' ) && $params->get( 'other_cat' ) ) {
+					JContactView::showCategories( $params, $categories, $catid );
+				} else if ( ( $params->get( 'type' ) == 'section' ) && $params->get( 'other_cat_section' ) ) {
+					JContactView::showCategories( $params, $categories, $catid );
+				}
+				?>
 			</td>
 		</tr>
 		</table>
-		</form>
 		<?php
 		// displays back button
 		mosHTML::BackButton ( $params, $hide_js );
@@ -234,22 +231,37 @@ class JContactView {
 	 * @static
 	 * @since 1.0
 	 */
-	function showTable( &$params, &$rows, $catid, $tabclass ) {
+	function showTable( &$params, &$rows, $catid, $tabclass, &$lists ) {
 		global $Itemid;
 		?>
+		<script language="javascript" type="text/javascript">
+		function tableOrdering( order, dir, task ) {
+			var form = document.adminForm;
+		
+			form.filter_order.value 	= order;
+			form.filter_order_Dir.value	= dir;
+			document.adminForm.submit( task );
+		}
+		</script>
+				
+		<form action="index.php?option=com_contact&amp;catid=<?php echo $catid;?>&amp;Itemid=<?php echo $Itemid;?>" method="post" name="adminForm">
+
 		<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
 		<?php
 		if ( $params->get( 'headings' ) ) {
 			?>
 			<tr>
+				<td width="10" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
+					<?php echo JText :: _('Num'); ?>
+				</td>
 				<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
-					<?php echo JText::_( 'Name' ); ?>
+					<?php mosCommonHTML :: tableOrdering( 'Name', 'cd.name', $lists ); ?>
 				</td>
 				<?php
 				if ( $params->get( 'position' ) ) {
 					?>
 					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
-						<?php echo JText::_( 'Position' ); ?>
+						<?php mosCommonHTML :: tableOrdering( 'Position', 'cd.con_position', $lists ); ?>
 					</td>
 					<?php
 				}
@@ -281,24 +293,27 @@ class JContactView {
 					<?php
 				}
 				?>
-				<td width="100%"></td>
 			</tr>
 			<?php
 		}
 
 		$k = 0;
+		$i = 1;
 		foreach ($rows as $row) {
 			$link = 'index.php?option=com_contact&amp;task=view&amp;contact_id='. $row->id .'&amp;Itemid='. $Itemid;
 			?>
 			<tr>
-				<td width="25%" height="20" class="<?php echo $tabclass[$k]; ?>">
+				<td align="center" width="10">
+					<?php echo $i; ?>
+				</td>
+				<td height="20" class="<?php echo $tabclass[$k]; ?>">
 					<a href="<?php echo sefRelToAbs( $link ); ?>" class="category<?php echo $params->get( 'pageclass_sfx' ); ?>">
 						<?php echo $row->name; ?></a>
 				</td>
 				<?php
 				if ( $params->get( 'position' ) ) {
 					?>
-					<td width="25%" class="<?php echo $tabclass[$k]; ?>">
+					<td class="<?php echo $tabclass[$k]; ?>">
 						<?php echo $row->con_position; ?>
 					</td>
 					<?php
@@ -334,13 +349,17 @@ class JContactView {
 					<?php
 				}
 				?>
-				<td width="100%"></td>
 			</tr>
 			<?php
 			$k = 1 - $k;
+			$i++;
 		}
 		?>
 		</table>
+		
+		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="" />
+		</form>
 		<?php
 	}
 
