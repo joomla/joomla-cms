@@ -50,16 +50,16 @@ class HTML_poll {
 			<th  class="title">
 				<?php mosCommonHTML :: tableOrdering( 'Poll Title', 'm.title', $lists ); ?>
 			</th>
-			<th width="10%" align="center">
+			<th width="8%" align="center">
 				<?php mosCommonHTML :: tableOrdering( 'Published', 'm.published', $lists ); ?>
 			</th>
-			<th width="8%" nowrap="nowrap">
+			<th width="3%" nowrap="nowrap">
 				<?php mosCommonHTML :: tableOrdering( 'ID', 'm.id', $lists ); ?>
 			</th>
-			<th width="10%" align="center">
+			<th width="8%" align="center">
 				<?php mosCommonHTML :: tableOrdering( 'Votes', 'm.voters', $lists ); ?>
 			</th>
-			<th width="10%" align="center">
+			<th width="8%" align="center">
 				<?php mosCommonHTML :: tableOrdering( 'Options', 'numoptions', $lists ); ?>
 			</th>
 			<th width="10%" align="center">

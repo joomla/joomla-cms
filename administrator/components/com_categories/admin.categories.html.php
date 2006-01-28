@@ -98,8 +98,11 @@ class categories_html {
 				<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
 					<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
 			</th>
-			<th width="10%">
+			<th width="7%">
 				<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
+			</th>
+			<th width="2%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
 			</th>
 			<?php
 			if ( $section == 'content') {
@@ -110,9 +113,6 @@ class categories_html {
 				<?php
 			}
 			?>
-			<th width="2%" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
-			</th>
 			<?php
 			if ( $type == 'content') {
 				?>
@@ -179,6 +179,9 @@ class categories_html {
 				<td align="center">
 					<?php echo $access;?>
 				</td>
+				<td align="center">
+					<?php echo $row->id; ?>
+				</td>
 				<?php
 				if ( $section == 'content' ) {
 					?>
@@ -189,9 +192,6 @@ class categories_html {
 					<?php
 				}
 				?>
-				<td align="center">
-					<?php echo $row->id; ?>
-				</td>
 				<?php
 				if ( $type == 'content') {
 					?>

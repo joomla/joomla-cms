@@ -287,7 +287,7 @@ function viewContent( $sectionid, $option ) {
 function viewArchive( $sectionid, $option ) {
 	global $database, $mainframe;
 
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_order", 			'filter_order', 	'c.catid' );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_order", 			'filter_order', 	'sectname' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_order_Dir",		'filter_order_Dir',	'' );
 	$catid 				= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.catid", 		'catid', 			0 );
 	$limit 				= $mainframe->getUserStateFromRequest( 'limit', 									'limit', 			$mainframe->getCfg('list_limit') );
@@ -333,7 +333,7 @@ function viewArchive( $sectionid, $option ) {
 		$where[] = "LOWER( c.title ) LIKE '%$search%'";
 	}
 	
-	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, c.catid, c.ordering";
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, sectname, cc.name, c.ordering";
 	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );
 
 	// get the total number of records
@@ -347,7 +347,7 @@ function viewArchive( $sectionid, $option ) {
 	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
 
-	$query = "SELECT c.*, g.name AS groupname, cc.name, v.name AS author"
+	$query = "SELECT c.*, g.name AS groupname, cc.name, v.name AS author, s.name AS sectname"
 	. "\n FROM ( #__content AS c, #__categories AS cc, #__sections AS s )"
 	. "\n LEFT JOIN #__groups AS g ON g.id = c.access"
 	. "\n LEFT JOIN #__users AS v ON v.id = c.created_by"

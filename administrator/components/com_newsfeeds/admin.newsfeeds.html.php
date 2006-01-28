@@ -51,7 +51,7 @@ class HTML_newsfeeds {
 			<th class="title">
 				<?php mosCommonHTML :: tableOrdering( 'News Feed', 'a.name', $lists ); ?>
 			</th>
-			<th width="5%">
+			<th width="7%">
 				<?php mosCommonHTML :: tableOrdering( 'Published', 'a.published', $lists ); ?>
 			</th>
 			<th colspan="2" width="5%">

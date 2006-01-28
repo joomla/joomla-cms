@@ -62,10 +62,10 @@ class HTML_contact {
 			<th width="5%" nowrap="nowrap">
 				<?php mosCommonHTML :: tableOrdering( 'ID', 'cd.id', $lists ); ?>
 			</th>
-			<th width="15%" class="title">
+			<th width="18%" class="title">
 				<?php mosCommonHTML :: tableOrdering( 'Category', 'category', $lists ); ?>
 			</th>
-			<th class="title" nowrap="nowrap" width="15%">
+			<th class="title" nowrap="nowrap" width="18%">
 				<?php mosCommonHTML :: tableOrdering( 'Linked to User', 'user', $lists ); ?>
 			</th>
 		</tr>

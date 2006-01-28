@@ -76,11 +76,11 @@ class HTML_typedcontent {
 			<th width="3%" nowrap="nowrap">
 				<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
 			</th>
-			<th width="1%" >
-				<?php echo JText::_( 'Links' ); ?>
-			</th>
 			<th width="20%"  class="title">
 				<?php mosCommonHTML :: tableOrdering( 'Author', 'creator', $lists ); ?>
+			</th>
+			<th width="1%" >
+				<?php echo JText::_( 'Links' ); ?>
 			</th>
 			<th align="center" width="10">
 				<?php mosCommonHTML :: tableOrdering( 'Date', 'c.created', $lists ); ?>
@@ -203,11 +203,11 @@ class HTML_typedcontent {
 				<td align="center">
 					<?php echo $row->id;?>
 				</td>
-				<td align="center">
-					<?php echo $row->links;?>
-				</td>
 				<td>
 					<?php echo $author;?>
+				</td>
+				<td align="center">
+					<?php echo $row->links;?>
 				</td>
 				<td>
 					<?php echo $date; ?>

@@ -330,12 +330,11 @@ class HTML_content {
 			<th class="title">
 				<?php mosCommonHTML :: tableOrdering( 'Title', 'c.title', $lists, 'showarchive' ); ?>
 			</th>
-			<th width="2%">
-				<?php mosCommonHTML :: tableOrdering( 'Order', 'c.ordering', $lists, 'showarchive' ); ?>
+			<th width="3%"  class="title">
+				<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists, 'showarchive' ); ?>
 			</th>
-			<th width="1%">
-				<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
-					<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+			<th width="15%"  class="title">
+				<?php mosCommonHTML :: tableOrdering( 'Section', 'sectname', $lists, 'showarchive' ); ?>
 			</th>
 			<th width="15%"  class="title">
 				<?php mosCommonHTML :: tableOrdering( 'Category', 'cc.name', $lists, 'showarchive' ); ?>
@@ -353,6 +352,7 @@ class HTML_content {
 			$row = &$rows[$i];
 
 			$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid );
+			$row->sec_link 	= ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->sectionid );
 
 			if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
 				if ( $row->created_by_alias ) {
@@ -381,8 +381,12 @@ class HTML_content {
 				<td>
 					<?php echo $row->title; ?>
 				</td>
-				<td align="center" colspan="2">
-					<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
+				<td>
+					<?php echo $row->id; ?>
+				</td>
+				<td>
+					<a href="<?php echo $row->sec_link; ?>" title="<?php echo JText::_( 'Edit Section' ); ?>">
+						<?php echo $row->sectname; ?></a>
 				</td>
 				<td>
 					<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">

@@ -76,6 +76,9 @@ class HTML_content {
 			<th width="8%" nowrap="nowrap">
 				<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
 			</th>
+			<th width="2%" class="title" align="center" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
+			</th>
 			<th width="10%" class="title">
 				<?php mosCommonHTML :: tableOrdering( 'Section', 'sect_name', $lists ); ?>
 			</th>
@@ -185,6 +188,9 @@ class HTML_content {
 				</td>
 				<td align="center">
 					<?php echo $access;?>
+				</td>
+				<td align="center">
+					<?php echo $row->id;?>
 				</td>
 				<td>
 					<a href="<?php echo $row->sect_link; ?>" title="<?php echo JText::_( 'Edit Section' ); ?>">

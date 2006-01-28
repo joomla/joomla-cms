@@ -59,26 +59,26 @@ class sections_html {
 			<th colspan="2" width="4%">
 				<?php echo JText::_( 'Reorder' ); ?>
 			</th>
-			<th width="2%">
+			<th width="2%" nowrap="nowrap">
 				<?php mosCommonHTML :: tableOrdering( 'Order', 's.ordering', $lists ); ?>
 			</th>
 			<th width="1%">
 				<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
 					<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
 			</th>
-			<th width="9%">
+			<th width="8%">
 				<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
 			</th>
-			<th width="4%" nowrap="nowrap">
+			<th width="2%" nowrap="nowrap">
 				<?php mosCommonHTML :: tableOrdering( 'ID', 's.id', $lists ); ?>
 			</th>
-			<th width="10%" nowrap="nowrap">
+			<th width="9%" nowrap="nowrap">
 				<?php echo JText::_( 'Num Categories' ); ?>
 			</th>
-			<th width="10%" nowrap="nowrap">
+			<th width="9%" nowrap="nowrap">
 				<?php echo JText::_( 'Num Active' ); ?>
 			</th>
-			<th width="10%" nowrap="nowrap">
+			<th width="9%" nowrap="nowrap">
 				<?php echo JText::_( 'Num Trash' ); ?>
 			</th>
 

@@ -82,10 +82,13 @@ class HTML_modules {
 			<th nowrap="nowrap" width="7%">
 				<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>				
 			</th>
-			<th nowrap="nowrap"  width="10%" class="title">
+			<th nowrap="nowrap"  width="3%" class="title">
+				<?php mosCommonHTML :: tableOrdering( 'ID', 'p.id', $lists ); ?>				
+			</th>
+			<th nowrap="nowrap"  width="13%" class="title">
 				<?php mosCommonHTML :: tableOrdering( 'Type', 'p.folder', $lists ); ?>				
 			</th>
-			<th nowrap="nowrap"  width="12%" class="title">
+			<th nowrap="nowrap"  width="13%" class="title">
 				<?php mosCommonHTML :: tableOrdering( 'File', 'p.element', $lists ); ?>				
 			</th>
 		</tr>
@@ -139,6 +142,9 @@ class HTML_modules {
 				?>
 				<td align="center">
 					<?php echo $access;?>
+				</td>
+				<td nowrap="true">
+					<?php echo $row->id;?>
 				</td>
 				<td nowrap="true">
 					<?php echo $row->folder;?>

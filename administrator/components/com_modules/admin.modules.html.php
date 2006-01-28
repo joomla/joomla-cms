@@ -61,7 +61,7 @@ class HTML_modules {
 			<th class="title">
 				<?php mosCommonHTML :: tableOrdering( 'Module Name', 'm.title', $lists ); ?>
 			</th>
-			<th nowrap="nowrap" width="10%">
+			<th nowrap="nowrap" width="7%">
 				<?php mosCommonHTML :: tableOrdering( 'Published', 'm.published', $lists ); ?>
 			</th>
 			<?php
@@ -88,14 +88,14 @@ class HTML_modules {
 				<?php
 			}
 			?>
+			<th nowrap="nowrap" width="3%">
+				<?php mosCommonHTML :: tableOrdering( 'ID', 'm.id', $lists ); ?>
+			</th>
 			<th nowrap="nowrap" width="7%">
 				<?php mosCommonHTML :: tableOrdering( 'Position', 'm.position', $lists ); ?>
 			</th>
 			<th nowrap="nowrap" width="5%">
-				<?php echo JText::_( 'Pages' ); ?>
-			</th>
-			<th nowrap="nowrap" width="5%">
-				<?php mosCommonHTML :: tableOrdering( 'ID', 'm.id', $lists ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Pages', 'pages', $lists ); ?>
 			</th>
 			<th nowrap="nowrap" width="10%"  class="title">
 				<?php mosCommonHTML :: tableOrdering( 'Type', 'm.module', $lists ); ?>
@@ -160,6 +160,9 @@ class HTML_modules {
 				}
 				?>
 				<td align="center">
+					<?php echo $row->id;?>
+				</td>
+				<td align="center">
 					<?php echo $row->position; ?>
 				</td>
 				<td align="center">
@@ -172,9 +175,6 @@ class HTML_modules {
 						echo JText::_( 'All' );
 					}
 					?>
-				</td>
-				<td align="center">
-					<?php echo $row->id;?>
 				</td>
 				<td>
 					<?php echo $row->module ? $row->module : JText::_( 'User' );?>
