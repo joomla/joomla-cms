@@ -107,17 +107,24 @@ function viewBanners( $option ) {
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_state", 		'filter_state', 	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 								'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewbanners.limitstart", 		'limitstart', 		0 );
-
-	$where= '';
+	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 						'search', 			'' );
+	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );	
+	
+	$where = array();
+	
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
-			$where = "\n WHERE b.showBanner = 1";
+			$where[] = "\n WHERE b.showBanner = 1";
 		} else if ($filter_state == 'U' ) {
-			$where = "\n WHERE b.showBanner = 0";
+			$where[] = "\n WHERE b.showBanner = 0";
 		}
 	}	
-	
-	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, b.bid";
+	if ($search) {
+		$where[] = "LOWER(b.name) LIKE '%$search%'";
+	}
+
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, b.bid";
 
 	// get the total number of records
 	$query = "SELECT COUNT(b.*)"
@@ -150,6 +157,9 @@ function viewBanners( $option ) {
 	}
 	$lists['order'] = $filter_order;
 	
+	// search filter
+	$lists['search']= $search;	
+
 	HTML_banners::showBanners( $rows, $pageNav, $option, $lists );
 }
 
@@ -305,13 +315,23 @@ function viewBannerClients( $option ) {
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order", 	'filter_order', 	'a.cid' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order_Dir",	'filter_order_Dir',	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "default.limit", 							'limit', 			$mosConfig_list_limit );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "com_banners.viewbannerclient.limitstart", 	'limitstart', 		0 );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "com_banners.viewbannerclient.limitstart", 	'limitstart', 		0 );	
+	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 							'search', 			'' );
+	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );	
+
+	$where = array();
+
+	if ($search) {
+		$where[] = "LOWER(a.name) LIKE '%$search%'";
+	}
 	
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
 	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, a.cid";
 	
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
 	. "\n FROM #__bannerclient"
+	. $where
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
@@ -323,6 +343,7 @@ function viewBannerClients( $option ) {
 	. "\n FROM #__bannerclient AS a"
 	. "\n LEFT JOIN #__banner AS b ON a.cid = b.cid"
 	. "\n LEFT JOIN #__users AS u ON u.id = a.checked_out"
+	. $where
 	. "\n GROUP BY a.cid"
 	. $orderby
 	;
@@ -336,8 +357,11 @@ function viewBannerClients( $option ) {
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;
+	$lists['order'] = $filter_order;	
 	
+	// search filter
+	$lists['search']= $search;
+
 	HTML_bannerClient::showClients( $rows, $pageNav, $option, $lists );
 }
 

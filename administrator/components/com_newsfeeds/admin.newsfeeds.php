@@ -92,13 +92,18 @@ function showNewsFeeds( $option ) {
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'catname' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
-	$catid 				= $mainframe->getUserStateFromRequest( "$option.catid", 			'catid', 			0 );
+	$filter_catid 		= $mainframe->getUserStateFromRequest( "$option.filter_catid", 		'filter_catid',		0 );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
+	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 
 	$where = array();
-	if ( $catid ) {
-		$where[] = "a.catid = $catid";
+	if ( $filter_catid ) {
+		$where[] = "a.catid = $filter_catid";
+	}
+	if ($search) {
+		$where[] = "LOWER(a.name) LIKE '%$search%'";
 	}
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
@@ -140,7 +145,7 @@ function showNewsFeeds( $option ) {
 
 	// build list of categories
 	$javascript = 'onchange="document.adminForm.submit();"';
-	$lists['category'] = mosAdminMenus::ComponentCategory( 'catid', $option, $catid, $javascript );
+	$lists['catid'] = mosAdminMenus::ComponentCategory( 'filter_catid', 'com_newsfeeds', $filter_catid, $javascript );
 	
 	// state filter 
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );	
@@ -151,8 +156,11 @@ function showNewsFeeds( $option ) {
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;
+	$lists['order'] = $filter_order;	
 	
+	// search filter
+	$lists['search']= $search;
+
 	HTML_newsfeeds::showNewsFeeds( $rows, $lists, $pageNav, $option );
 }
 

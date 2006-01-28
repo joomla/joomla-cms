@@ -91,17 +91,19 @@ function showContacts( $option ) {
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'category' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
-	$catid 				= $mainframe->getUserStateFromRequest( "$option.catid", 			'catid', 			0 );
+	$filter_catid 		= $mainframe->getUserStateFromRequest( "$option.filter_catid", 		'filter_catid',		0 );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.view.limitstart",	'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
 	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
+	
+	$where = array();	
 
 	if ( $search ) {
 		$where[] = "cd.name LIKE '%$search%'";
 	}
-	if ( $catid ) {
-		$where[] = "cd.catid = '$catid'";
+	if ( $filter_catid ) {
+		$where[] = "cd.catid = '$filter_catid'";
 	}	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
 			$where[] = "cd.published = 1";
@@ -110,13 +112,8 @@ function showContacts( $option ) {
 		}
 	}
 	
-	if ( isset( $where ) ) {
-		$where = "\n WHERE ". implode( ' AND ', $where );
-	} else {
-		$where = '';
-	}
-	
-	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, category, cd.ordering";
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, category, cd.ordering";
 
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
@@ -143,11 +140,10 @@ function showContacts( $option ) {
 
 	// build list of categories
 	$javascript = 'onchange="document.adminForm.submit();"';
-	$lists['catid'] = mosAdminMenus::ComponentCategory( 'catid', 'com_contact_details', intval( $catid ), $javascript );
+	$lists['catid'] = mosAdminMenus::ComponentCategory( 'filter_catid', 'com_contact_details', intval( $filter_catid ), $javascript );
 	
 	// state filter 
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );
-		
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );		
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
@@ -155,8 +151,11 @@ function showContacts( $option ) {
 		$lists['order_Dir'] = 'DESC';
 	}
 	$lists['order'] = $filter_order;	
+	
+	// search filter
+	$lists['search']= $search;	
 
-	HTML_contact::showcontacts( $rows, $pageNav, $search, $option, $lists );
+	HTML_contact::showcontacts( $rows, $pageNav, $option, $lists );
 }
 
 /**

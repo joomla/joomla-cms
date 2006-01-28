@@ -30,6 +30,8 @@ class HTML_poll {
 		<table class="adminheading">
 		<tr>
 			<td align="left" valign="top" nowrap="nowrap">
+				<?php echo JText::_( 'Filter' ); ?>:
+				<input type="text" name="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 			</td>
 			<td align="right" valign="top" nowrap="nowrap">
 				<?php

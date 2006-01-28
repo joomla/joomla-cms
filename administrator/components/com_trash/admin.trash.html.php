@@ -29,6 +29,17 @@ class HTML_trash {
 		?>
 		<form action="index2.php?option=com_trash&amp;task=viewContent" method="post" name="adminForm">
 		
+		<table class="adminheading">
+		<tr>
+			<td align="left" valign="top" nowrap="nowrap">
+				<?php echo JText::_( 'Filter' ); ?>:
+				<input type="text" name="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+			</td>
+			<td align="right" valign="top" nowrap="nowrap">
+			</td>
+		</tr>
+		</table>
+
 		<table class="adminlist" width="90%">
 		<tr>
 			<th width="20">
@@ -127,6 +138,17 @@ class HTML_trash {
 		}
 		</script>
 		<form action="index2.php?option=com_trash&amp;task=viewMenu" method="post" name="adminForm">
+
+		<table class="adminheading">
+		<tr>
+			<td align="left" valign="top" nowrap="nowrap">
+				<?php echo JText::_( 'Filter' ); ?>:
+				<input type="text" name="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+			</td>
+			<td align="right" valign="top" nowrap="nowrap">
+			</td>
+		</tr>
+		</table>
 
 		<table class="adminlist" width="90%">
 		<tr>

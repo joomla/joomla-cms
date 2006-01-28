@@ -34,37 +34,18 @@ class categories_html {
 		<form action="index2.php?option=com_categories&amp;section=<?php echo $section; ?>" method="post" name="adminForm">
 		<table class="adminheading">
 		<tr>
-			<?php
-			if ( $section == 'content') {
-				?>
-				<td>
-					[ <?php echo JText::_( 'Content: All' ); ?> ]
-				</td>
-				<td align="right">
-					<?php echo $lists['sectionid'];?>
-					<?php echo $lists['state']; ?>
-				</td>
+			<td>
+				<?php echo JText::_( 'Filter' ); ?>:
+				<input type="text" name="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+			</td>
+			<td align="right">
 				<?php
-			} else {
-				if ( is_numeric( $section ) ) {
-					$query = 'com_content&sectionid=' . $section;
-				} else {
-					if ( $section == 'com_contact_details' ) {
-						$query = 'com_contact';
-					} else {
-						$query = $section;
-					}
+				if ( $section == 'content') {
+					echo $lists['sectionid'];
 				}
 				?>
-				<td>
-					[ <?php echo $section_name;?> ]
-				</td>
-				<td align="right">
-					<?php echo $lists['state']; ?>
-				</td>
-				<?php
-			}
-			?>
+				<?php echo $lists['state']; ?>
+			</td>
 		</tr>
 		</table>
 

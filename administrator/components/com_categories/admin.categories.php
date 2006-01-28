@@ -119,6 +119,8 @@ function showCategories( $section, $option ) {
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mainframe->getCfg('list_limit') );
 	$sectionid 			= $mainframe->getUserStateFromRequest( "$option.$section.sectionid", 		'sectionid', 		0 );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$section.view.limitstart", 	'limitstart', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 					'search', 			'' );
+	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );	
 
 	$section_name 	= '';
 	$content_add 	= '';
@@ -199,6 +201,9 @@ function showCategories( $section, $option ) {
 			$filter .= "\n AND c.published = 0";
 		}
 	}	
+	if ($search) {
+		$filter .= "\n AND LOWER(c.name) LIKE '%$search%'";
+	}
 
 	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit );
@@ -252,16 +257,17 @@ function showCategories( $section, $option ) {
 	$lists['sectionid']	= mosAdminMenus::SelectSection( 'sectionid', $sectionid, $javascript );
 	
 	// state filter 
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );
-		
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );		
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;
-	
+	$lists['order'] = $filter_order;	
+	// search filter
+	$lists['search']= $search;
+
 	categories_html::show( $rows, $section, $section_name, $pageNav, $lists, $type );
 }
 

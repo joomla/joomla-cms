@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_newsfeeds {
 
-	function showNewsFeeds( &$rows, &$lists, $pageNav, $option ) {
+	function showNewsFeeds( &$rows, &$lists, &$pageNav, $option ) {
 		global $my;
 
 		mosCommonHTML::loadOverlib();
@@ -31,9 +31,12 @@ class HTML_newsfeeds {
 		<table class="adminheading">
 		<tr>
 			<td align="left" valign="top" nowrap="nowrap">
+				<?php echo JText::_( 'Filter' ); ?>:
+				<input type="text" name="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 			</td>
 			<td align="right" valign="top" nowrap="nowrap">
 				<?php
+				echo $lists['catid'];
 				echo $lists['state'];
 				?>
 			</td>
@@ -54,7 +57,7 @@ class HTML_newsfeeds {
 			<th width="7%">
 				<?php mosCommonHTML :: tableOrdering( 'Published', 'a.published', $lists ); ?>
 			</th>
-			<th colspan="2" width="5%">
+			<th colspan="2" width="2%">
 				<?php echo JText::_( 'Reorder' ); ?>
 			</th>
 			<th width="2%" nowrap="nowrap">

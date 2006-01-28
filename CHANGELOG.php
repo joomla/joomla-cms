@@ -43,6 +43,7 @@ Legend:
 
 28-Jan-2006 Rey Gigataras 
  + `Save Order` Admin functionality added com_weblinks, com_newsfeeds, com_contact manager pages
+ + `Filter` Admin functionality added to all manager pages
  + Pagination support to com_weblinks, com_newsfeeds, com_contact frontend output
  ^ `Preview` Admin Menu dropdown option moved under `Template Manager`
  - Depreciated `Content by Section` Admin Menu dropdown option

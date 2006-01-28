@@ -71,10 +71,19 @@ switch ($task) {
 function viewTrashContent( $option ) {
 	global $database, $mainframe;
 	
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewContent.filter_order", 		'filter_order', 	's.name' );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewContent.filter_order", 		'filter_order', 	'sectname' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewContent.filter_order_Dir",	'filter_order_Dir',	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 								'limit', 			$mainframe->getCfg('list_limit') );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewContent.limitstart", 		'limitstart', 		0 );	
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewContent.limitstart", 		'limitstart', 		0 );	
+	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 						'search', 			'' );
+	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );	
+
+	$where[] = "c.state = -2";
+		if ($search) {
+		$where[] = "LOWER(c.title) LIKE '%$search%'";
+	}
+	
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
 	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, s.name, cc.name, c.title";
 
 	// get the total number of content
@@ -82,7 +91,7 @@ function viewTrashContent( $option ) {
 	. "\n FROM #__content AS c"
 	. "\n LEFT JOIN #__categories AS cc ON cc.id = c.catid"
 	. "\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = 'content'"
-	. "\n WHERE c.state = -2"
+	. $where
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
@@ -97,7 +106,7 @@ function viewTrashContent( $option ) {
 	. "\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope='content'"
 	. "\n INNER JOIN #__groups AS g ON g.id = c.access"
 	. "\n LEFT JOIN #__users AS u ON u.id = c.checked_out"
-	. "\n WHERE c.state = -2"
+	. $where
 	. $orderby
 	;
 	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
@@ -114,8 +123,10 @@ function viewTrashContent( $option ) {
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;
-	
+	$lists['order'] = $filter_order;	
+	// search filter
+	$lists['search']= $search;
+
 	HTML_trash::showListContent( $option, $contents, $pageNav, $lists );
 }
 
@@ -128,14 +139,22 @@ function viewTrashMenu( $option ) {
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewMenu.filter_order", 	'filter_order', 	'm.menutype' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewMenu.filter_order_Dir",	'filter_order_Dir',	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mainframe->getCfg('list_limit') );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewMenu.limitstart", 		'limitstart', 		0 );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewMenu.limitstart", 		'limitstart', 		0 );	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 					'search', 			'' );
+	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );	
+		
+	$where[] = "m.published = -2";
 	
-	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, m.menutype, m.ordering, m.ordering, m.name";	
+	if ($search) {
+		$where[] = "LOWER(m.name) LIKE '%$search%'";
+	}	
+
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, m.menutype, m.ordering, m.ordering, m.name";		
 
 	$query = "SELECT count(*)"
 	. "\n FROM #__menu AS m"
 	. "\n LEFT JOIN #__users AS u ON u.id = m.checked_out"
-	. "\n WHERE m.published = -2"
+	. $where
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
@@ -148,7 +167,7 @@ function viewTrashMenu( $option ) {
 	. "\n FROM #__menu AS m"
 	. "\n LEFT JOIN #__users AS u ON u.id = m.checked_out"
 	. "\n LEFT JOIN #__components AS com ON com.id = m.componentid AND m.type = 'components'"
-	. "\n WHERE m.published = -2"
+	. $where
 	. $orderby
 	;
 	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
@@ -168,8 +187,10 @@ function viewTrashMenu( $option ) {
 		$row = ReadMenuXML( $row->type, $row->com_name );
 		$menus[$i]->type 	= $row[0];
 		$i++;
-	}
-	
+	}	
+	// search filter
+	$lists['search']= $search;
+
 	HTML_trash::showListMenu( $option, $menus, $pageNav, $lists );
 }
 

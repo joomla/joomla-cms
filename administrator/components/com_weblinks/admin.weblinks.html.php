@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_weblinks {
 
-	function showWeblinks( $option, &$rows, &$lists, &$search, &$pageNav ) {
+	function showWeblinks( $option, &$rows, &$lists, &$pageNav ) {
 		global $my;
 
 		mosCommonHTML::loadOverlib();
@@ -31,7 +31,7 @@ class HTML_weblinks {
 		<tr>
 			<td>
 				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input type="text" name="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 			</td>
 			<td align="right">
 				<?php 

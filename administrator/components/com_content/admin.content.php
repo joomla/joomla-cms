@@ -157,10 +157,11 @@ function viewContent( $sectionid, $option ) {
 			"cc.section = s.id",
 			"s.scope	= 'content'",
 		);
+		
 		if(!$filter_order) {
-			$filter_order = 's.title';
+			$filter_order = 'section_name';
 		}
-		$order = "\n ORDER BY $filter_order $filter_order_Dir, s.title, c.catid, cc.ordering, cc.title, c.ordering";
+		$order = "\n ORDER BY $filter_order $filter_order_Dir, section_name, cc.name, c.ordering";
 		$all = 1;
 
 		if ($filter_sectionid > 0) {
@@ -176,10 +177,12 @@ function viewContent( $sectionid, $option ) {
 			"s.scope 	= 'content'",
 			"c.sectionid = '$sectionid'"
 		);
+		
 		if(!$filter_order) {
-			$filter_order = 'cc.ordering';
+			$filter_order = 'cc.name';
 		}
-		$order 		= "\n ORDER BY $filter_order $filter_order_Dir, cc.ordering, cc.title, c.ordering";
+		$order 		= "\n ORDER BY $filter_order $filter_order_Dir, cc.name, c.ordering";
+		
 		$all 		= NULL;
 		$filter 	= "\n WHERE cc.section = '$sectionid'";
 		$section 	=& JModel::getInstance('section', $database );
@@ -203,7 +206,6 @@ function viewContent( $sectionid, $option ) {
 			$where[] = "c.state = 0";
 		}
 	}
-
 	if ( $search ) {
 		$where[] = "LOWER( c.title ) LIKE '%$search%'";
 	}

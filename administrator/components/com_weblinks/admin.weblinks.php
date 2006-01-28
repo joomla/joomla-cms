@@ -90,7 +90,7 @@ function showWeblinks( $option ) {
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.catid' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
-	$catid 				= $mainframe->getUserStateFromRequest( "$option.catid", 			'catid', 			0 );
+	$filter_catid 		= $mainframe->getUserStateFromRequest( "$option.filter_catid", 		'filter_catid', 	0 );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart			= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
@@ -98,8 +98,8 @@ function showWeblinks( $option ) {
 
 	$where = array();
 
-	if ($catid > 0) {
-		$where[] = "a.catid = $catid";
+	if ($filter_catid > 0) {
+		$where[] = "a.catid = $filter_catid";
 	}
 	if ($search) {
 		$where[] = "LOWER(a.title) LIKE '%$search%'";
@@ -143,7 +143,7 @@ function showWeblinks( $option ) {
 
 	// build list of categories
 	$javascript 	= 'onchange="document.adminForm.submit();"';
-	$lists['catid'] = mosAdminMenus::ComponentCategory( 'catid', $option, intval( $catid ), $javascript );
+	$lists['catid'] = mosAdminMenus::ComponentCategory( 'filter_catid', $option, intval( $filter_catid ), $javascript );
 	
 	// state filter 
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );
@@ -154,9 +154,12 @@ function showWeblinks( $option ) {
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;
+	$lists['order'] = $filter_order;	
 	
-	HTML_weblinks::showWeblinks( $option, $rows, $lists, $search, $pageNav );
+	// search filter
+	$lists['search']= $search;
+	
+	HTML_weblinks::showWeblinks( $option, $rows, $lists, $pageNav );
 }
 
 /**

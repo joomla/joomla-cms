@@ -113,23 +113,27 @@ function showSections( $scope, $option ) {
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
+	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );	
 
-	$and = '';
+	$where[] = "s.scope = '$scope'";
+	
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
-			$and = "\n AND s.published = 1";
+			$where[] = "s.published = 1";
 		} else if ($filter_state == 'U' ) {
-			$and = "\n AND s.published = 0";
+			$where[] = "s.published = 0";
 		}
-	}
-		
-	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, s.ordering";
+	}	if ($search) {
+		$where[] = "LOWER(s.title) LIKE '%$search%'";
+	}	
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, s.ordering";	
 	
 	// get the total number of records
 	$query = "SELECT COUNT( s.*)"
 	. "\n FROM #__sections AS s"
-	. "\n WHERE s.scope = '$scope'"
-	. $and
+	. $where
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
@@ -142,8 +146,7 @@ function showSections( $scope, $option ) {
 	. "\n LEFT JOIN #__content AS cc ON s.id = cc.sectionid"
 	. "\n LEFT JOIN #__users AS u ON u.id = s.checked_out"
 	. "\n LEFT JOIN #__groups AS g ON g.id = s.access"
-	. "\n WHERE s.scope = '$scope'"
-	. $and
+	. $where
 	. "\n GROUP BY s.id"
 	. $orderby
 	;
@@ -190,15 +193,17 @@ function showSections( $scope, $option ) {
 	}
 	
 	// state filter 
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );
-		
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );		
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;
+	$lists['order'] = $filter_order;	
+	
+	// search filter
+	$lists['search']= $search;
 	
 	sections_html::show( $rows, $scope, $my->id, $pageNav, $option, $lists );
 }

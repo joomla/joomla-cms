@@ -79,17 +79,24 @@ function showPolls( $option ) {
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
+	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );	
 
-	$where = '';
+	$where = array();
+
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
-			$where = "\n WHERE m.published = 1";
+			$where[] = "m.published = 1";
 		} else if ($filter_state == 'U' ) {
-			$where = "\n WHERE m.published = 0";
+			$where[] = "m.published = 0";
 		}
 	}
-	
-	$orderby = "\n ORDER BY $filter_order $filter_order_Dir";
+	if ($search) {
+		$where[] = "LOWER(m.title) LIKE '%$search%'";
+	}
+
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir";
 	
 	$query = "SELECT COUNT(m.*)"
 	. "\n FROM #__polls AS m"
@@ -129,11 +136,13 @@ function showPolls( $option ) {
 	}
 	$lists['order'] = $filter_order;
 	
+	// search filter
+	$lists['search']= $search;
+	
 	HTML_poll::showPolls( $rows, $pageNav, $option, $lists );
 }
 
-function editPoll( $uid=0, $option='com_poll' ) 
-{
+function editPoll( $uid=0, $option='com_poll' ) {
 	global $database, $my;
 
 	$row = new mosPoll( $database );
