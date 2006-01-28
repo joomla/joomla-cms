@@ -138,6 +138,9 @@ class WeblinksView {
 		if ( $params->get( 'headings' ) ) {
 			?>
 			<tr>
+				<td width="10" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
+					<?php echo JText :: _('Num'); ?>
+				</td>
 				<?php
 				if ( $img ) {
 					?>
@@ -147,9 +150,6 @@ class WeblinksView {
 					<?php
 				}
 				?>
-				<td width="10" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
-					<?php echo JText :: _('Num'); ?>
-				</td>
 				<td width="90%" height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
 					<?php mosCommonHTML :: tableOrdering( 'Web Link', 'title', $lists ); ?>
 				</td>
@@ -195,6 +195,9 @@ class WeblinksView {
 			}
 			?>
 			<tr class="<?php echo $tabclass[$k]; ?>">
+				<td align="center">
+					<?php echo $page->rowNumber( $i ); ?>
+				</td>
 				<?php
 				if ( $img ) {
 					?>
@@ -204,9 +207,6 @@ class WeblinksView {
 					<?php
 				}
 				?>
-				<td align="center">
-					<?php echo $page->rowNumber( $i ); ?>
-				</td>
 				<td height="20">
 					<?php echo $txt; ?>
 					<?php
