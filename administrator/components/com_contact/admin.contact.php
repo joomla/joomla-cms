@@ -49,23 +49,27 @@ switch ($task) {
 		break;
 
 	case 'remove':
-		removeContacts( $cid, $option );
+		removeContacts( $cid );
 		break;
 
 	case 'publish':
-		changeContact( $cid, 1, $option );
+		changeContact( $cid, 1 );
 		break;
 
 	case 'unpublish':
-		changeContact( $cid, 0, $option );
+		changeContact( $cid, 0 );
 		break;
 
 	case 'orderup':
-		orderContacts( $cid[0], -1, $option );
+		orderContacts( $cid[0], -1 );
 		break;
 
 	case 'orderdown':
-		orderContacts( $cid[0], 1, $option );
+		orderContacts( $cid[0], 1 );
+		break;
+	
+	case 'saveorder':
+		saveOrder( $cid );
 		break;
 
 	case 'cancel':
@@ -84,7 +88,7 @@ switch ($task) {
 function showContacts( $option ) {
 	global $database, $mainframe;
 
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'cd.catid' );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'category' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
 	$catid 				= $mainframe->getUserStateFromRequest( "$option.catid", 			'catid', 			0 );
@@ -112,7 +116,7 @@ function showContacts( $option ) {
 		$where = '';
 	}
 	
-	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, cd.catid, cd.ordering, cd.name";
+	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, category, cd.ordering";
 
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
@@ -272,7 +276,7 @@ function saveContact( $task ) {
 * @param array An array of id keys to remove
 * @param string The current GET/POST option
 */
-function removeContacts( &$cid, $option ) {
+function removeContacts( &$cid ) {
 	global $database;
 
 	if (count( $cid )) {
@@ -286,7 +290,7 @@ function removeContacts( &$cid, $option ) {
 		}
 	}
 
-	mosRedirect( "index2.php?option=$option" );
+	mosRedirect( "index2.php?option=com_contact" );
 }
 
 /**
@@ -295,7 +299,7 @@ function removeContacts( &$cid, $option ) {
 * @param integer 0 if unpublishing, 1 if publishing
 * @param string The current option
 */
-function changeContact( $cid=null, $state=0, $option ) {
+function changeContact( $cid=null, $state=0 ) {
 	global $database, $my;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
@@ -322,21 +326,21 @@ function changeContact( $cid=null, $state=0, $option ) {
 		$row->checkin( intval( $cid[0] ) );
 	}
 
-	mosRedirect( "index2.php?option=$option" );
+	mosRedirect( "index2.php?option=com_contact" );
 }
 
 /** JJC
 * Moves the order of a record
 * @param integer The increment to reorder by
 */
-function orderContacts( $uid, $inc, $option ) {
+function orderContacts( $uid, $inc ) {
 	global $database;
 
 	$row = new JContactModel( $database );
 	$row->load( $uid );
-	$row->move( $inc, "published >= 0" );
+	$row->move( $inc, "catid = $row->catid AND published != 0" );
 
-	mosRedirect( "index2.php?option=$option" );
+	mosRedirect( "index2.php?option=com_contact" );
 }
 
 /** PT
@@ -348,6 +352,33 @@ function cancelContact() {
 	$row = new JContactModel( $database );
 	$row->bind( $_POST );
 	$row->checkin();
+	
 	mosRedirect('index2.php?option=com_contact');
+}
+
+function saveOrder( &$cid ) {
+	global $database;
+
+	$total		= count( $cid );
+	$order 		= mosGetParam( $_POST, 'order', array(0) );
+
+	for( $i=0; $i < $total; $i++ ) {
+		$query = "UPDATE #__contact_details"
+		. "\n SET ordering = $order[$i]"
+		. "\n WHERE id = $cid[$i]";
+		$database->setQuery( $query );
+		if (!$database->query()) {
+			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+			exit();
+		}
+
+		// update ordering
+		$row = new JContactModel( $database );
+		$row->load( $cid[$i] );
+		$row->updateOrder( "catid = $row->catid AND published != 0" );
+	}
+
+	$msg 	= 'New ordering saved';
+	mosRedirect( 'index2.php?option=com_contact', $msg );
 }
 ?>

@@ -59,6 +59,12 @@ class HTML_weblinks {
 			<th colspan="2" width="5%">
 				<?php echo JText::_( 'Reorder' ); ?>
 			</th>
+			<th width="2%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'Order', 'a.ordering', $lists ); ?>
+ 			</th>
+			<th width="1%">
+				<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+			</th>
 			<th width="5%" nowrap="nowrap">
 				<?php mosCommonHTML :: tableOrdering( 'ID', 'a.id', $lists ); ?>
 			</th>
@@ -112,6 +118,9 @@ class HTML_weblinks {
 				</td>
 	  			<td>
 					<?php echo $pageNav->orderDownIcon( $i, $n, ($row->catid == @$rows[$i+1]->catid) ); ?>
+				</td>
+				<td align="center" colspan="2">
+					<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" class="text_area" style="text-align: center" />
 				</td>
 				<td align="center">
 					<?php echo $row->id; ?>

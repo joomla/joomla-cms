@@ -1302,8 +1302,7 @@ function saveOrder( &$cid ) {
 	} // switch
 } // saveOrder
 
-function previewContent($id, $option)
-{
+function previewContent($id, $option) {
 	global $mainframe;
 	$mainframe->setPageTitle(JText::_('Content Preview'));
 	

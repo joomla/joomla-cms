@@ -72,6 +72,10 @@ switch ($task) {
 	case 'orderdown':
 		orderNewsFeed( $cid[0], 1, $option );
 		break;
+	
+	case 'saveorder':
+		saveOrder( $cid );
+		break;	
 
 	default:
 		showNewsFeeds( $option );
@@ -85,7 +89,7 @@ switch ($task) {
 function showNewsFeeds( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.ordering' );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'catname' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
 	$catid 				= $mainframe->getUserStateFromRequest( "$option.catid", 			'catid', 			0 );
@@ -105,7 +109,7 @@ function showNewsFeeds( $option ) {
 	}
 	
 	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
-	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, a.ordering";
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, catname, a.ordering";
 	
 	// get the total number of records
 	$query = "SELECT COUNT(a.*)"
@@ -324,8 +328,34 @@ function orderNewsFeed( $id, $inc, $option ) {
 
 	$row = new mosNewsFeed( $database );
 	$row->load( $id );
-	$row->move( $inc );
+	$row->move( $inc, "catid = $row->catid AND published != 0" );
 
 	mosRedirect( 'index2.php?option='. $option );
+}
+
+function saveOrder( &$cid ) {
+	global $database;
+
+	$total		= count( $cid );
+	$order 		= mosGetParam( $_POST, 'order', array(0) );
+
+	for( $i=0; $i < $total; $i++ ) {
+		$query = "UPDATE #__newsfeeds"
+		. "\n SET ordering = $order[$i]"
+		. "\n WHERE id = $cid[$i]";
+		$database->setQuery( $query );
+		if (!$database->query()) {
+			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+			exit();
+		}
+
+		// update ordering
+		$row = new mosNewsFeed( $database );
+		$row->load( $cid[$i] );
+		$row->updateOrder( "catid = $row->catid AND published != 0" );
+	}
+
+	$msg 	= 'New ordering saved';
+	mosRedirect( 'index2.php?option=com_newsfeeds', $msg );
 }
 ?>

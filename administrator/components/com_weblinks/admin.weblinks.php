@@ -45,31 +45,35 @@ switch ($task) {
 		break;
 
 	case 'remove':
-		removeWeblinks( $cid, $option );
+		removeWeblinks( $cid );
 		break;
 
 	case 'publish':
-		publishWeblinks( $cid, 1, $option );
+		publishWeblinks( $cid, 1 );
 		break;
 
 	case 'unpublish':
-		publishWeblinks( $cid, 0, $option );
+		publishWeblinks( $cid, 0 );
 		break;
 
 	case 'approve':
 		break;
 
 	case 'cancel':
-		cancelWeblink( $option );
+		cancelWeblink();
 		break;
 
 	case 'orderup':
-		orderWeblinks( $cid[0], -1, $option );
+		orderWeblinks( $cid[0], -1 );
 		break;
 
 	case 'orderdown':
-		orderWeblinks( $cid[0], 1, $option );
+		orderWeblinks( $cid[0], 1 );
 		break;
+	
+	case 'saveorder':
+		saveOrder( $cid );
+		break;		
 
 	default:
 		showWeblinks( $option );
@@ -332,9 +336,37 @@ function orderWeblinks( $uid, $inc, $option ) {
 */
 function cancelWeblink( $option ) {
 	global $database;
+	
 	$row = new JWeblinkModel( $database );
 	$row->bind( $_POST );
 	$row->checkin();
+	
 	mosRedirect( "index2.php?option=". $option );
+}
+
+function saveOrder( &$cid ) {
+	global $database;
+
+	$total		= count( $cid );
+	$order 		= mosGetParam( $_POST, 'order', array(0) );
+
+	for( $i=0; $i < $total; $i++ ) {
+		$query = "UPDATE #__weblinks"
+		. "\n SET ordering = $order[$i]"
+		. "\n WHERE id = $cid[$i]";
+		$database->setQuery( $query );
+		if (!$database->query()) {
+			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+			exit();
+		}
+
+		// update ordering
+		$row = new JWeblinkModel( $database );
+		$row->load( $cid[$i] );
+		$row->updateOrder();
+	}
+
+	$msg 	= 'New ordering saved';
+	mosRedirect( 'index2.php?option=com_weblinks', $msg );
 }
 ?>

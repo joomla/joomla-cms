@@ -349,10 +349,10 @@ class HTML_bannerClient {
 		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 			$row = &$rows[$i];
 
-			$row->id 	= $row->cid;
-			$link 		= ampReplace( 'index2.php?option=com_banners&task=editclientA&hidemainmenu=1&id='. $row->id );
-
-			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
+			$row->id 		= $row->cid;
+			$link 			= ampReplace( 'index2.php?option=com_banners&task=editclientA&hidemainmenu=1&id='. $row->id );
+			
+			$checked 		= mosCommonHTML::CheckedOutProcessing( $row, $i );
 			?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td align="center">
@@ -368,8 +368,7 @@ class HTML_bannerClient {
 					} else {
 						?>
 						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Banner Client' ); ?>">
-						<?php echo $row->name; ?>
-						</a>
+							<?php echo $row->name; ?></a>
 						<?php
 					}
 					?>
@@ -378,7 +377,7 @@ class HTML_bannerClient {
 					<?php echo $row->cid; ?>
 				</td>
 				<td>
-					<?php echo $row->contact;?>
+					<?php echo $row->contact; ?>
 				</td>
 				<td align="center">
 					<?php echo $row->bid;?>
