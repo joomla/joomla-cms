@@ -1768,7 +1768,7 @@ class mosAdminMenus {
 			$check = 1;
 			mosMakeHtmlSafe( $modMenu) ;
 			
-			$registry =& new JRegistry();
+			$registry = new JRegistry();
 			$registry->loadINI($modMenu->params);
 			$modParams = $registry->toObject( );
 			
