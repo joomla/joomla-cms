@@ -194,7 +194,7 @@ class JInstallerScreens_plugin {
 					$n = count($rows);
 					for ($i = 0; $i < $n; $i ++) {
 						$row = & $rows[$i];
-	?>
+				?>
 					<tr class="<?php echo "row$rc"; ?>">
 						<td>
 						<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);">

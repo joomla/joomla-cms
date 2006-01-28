@@ -34,8 +34,9 @@ class JInstallerExtensionTasks {
 	{
 		global $mainframe;
 		
+		$db			= & $mainframe->getDBO();
 		$option		= JRequest::getVar( 'option' );
-		$filter 	= $mainframe->getUserStateFromRequest( "$option.template.filter", 'filter', '-1' );
+		$filter 	= $mainframe->getUserStateFromRequest( "$option.template.filter", 'filter', -1 );
 		$limit 		= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
 		$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
@@ -47,53 +48,62 @@ class JInstallerExtensionTasks {
 		if ($filter == '-1') {
 			$client = 'all';
 			// Get the site templates
-			$templateDirs = JFolder::folders(JPATH_SITE.'/templates');
+			$templateDirs = JFolder::folders(JPATH_SITE.DS.'templates');
 			
 			for ($i=0; $i < count($templateDirs); $i++) {
 				$template = new stdClass();
 				$template->folder = $templateDirs[$i];
 				$template->client = 0;
-				$template->baseDir = JPATH_SITE.'/templates';
+				$template->baseDir = JPATH_SITE.DS.'templates';
 				
 				$templates[] = $template;				
 			}			
 			// Get the admin templates
-			$templateDirs = JFolder::folders(JPATH_ADMINISTRATOR.'/templates');
+			$templateDirs = JFolder::folders(JPATH_ADMINISTRATOR.DS.'templates');
 			
 			for ($i=0; $i < count($templateDirs); $i++) {
 				$template = new stdClass();
 				$template->folder = $templateDirs[$i];
 				$template->client = 1;
-				$template->baseDir = JPATH_ADMINISTRATOR.'/templates';
+				$template->baseDir = JPATH_ADMINISTRATOR.DS.'templates';
 				
 				$templates[] = $template;				
 			}			
 		} elseif ($filter == '0') {
 			$client = 'site';
-			$templateDirs = JFolder::folders(JPATH_SITE.'/templates');
+			$templateDirs = JFolder::folders(JPATH_SITE.DS.'templates');
 			
 			for ($i=0; $i < count($templateDirs); $i++) {
 				$template = new stdClass();
 				$template->folder = $templateDirs[$i];
 				$template->client = 0;
-				$template->baseDir = JPATH_SITE.'/templates';
+				$template->baseDir = JPATH_SITE.DS.'templates';
 				
 				$templates[] = $template;				
 			}			
 		} elseif ($filter == '1') {
 			$client = 'administrator';
-			$templateDirs = JFolder::folders(JPATH_ADMINISTRATOR.'/templates');
+			$templateDirs = JFolder::folders(JPATH_ADMINISTRATOR.DS.'templates');
 			
 			for ($i=0; $i < count($templateDirs); $i++) {
 				$template = new stdClass();
 				$template->folder = $templateDirs[$i];
 				$template->client = 1;
-				$template->baseDir = JPATH_ADMINISTRATOR.'/templates';
+				$template->baseDir = JPATH_ADMINISTRATOR.DS.'templates';
 				
 				$templates[] = $template;				
 			}			
 		}
 		
+		/*
+		 * Get a list of currently used templates
+		 */
+		$query = "SELECT template " .
+				"\nFROM #__templates_menu " .
+				"\nWHERE 1";
+		$db->setQuery($query);
+		$currentList = $db->loadResultArray();
+
 		$rows = array();
 		$rowid = 0;
 		// Check that the directory contains an xml file
@@ -160,7 +170,7 @@ class JInstallerExtensionTasks {
 		$page = new JPagination( count( $rows ), $limitstart, $limit );
 		$rows = array_slice( $rows, $page->limitstart, $page->limit );
 	
-		JInstallerScreens_template :: showInstalled($rows, $page, $client, $lists);
+		JInstallerScreens_template :: showInstalled($rows, $page, $client, $lists, $currentList);
 	}
 
 }
@@ -177,7 +187,7 @@ class JInstallerExtensionTasks {
  */
 class JInstallerScreens_template {
 	
-	function showInstalled( &$rows, &$page, $client, $lists ) {
+	function showInstalled( &$rows, &$page, $client, $lists, &$currentList ) {
 		if (count($rows)) {
 		global $my;
 
@@ -236,10 +246,22 @@ class JInstallerScreens_template {
 				$rc = 0;
 				for ($i = 0, $n = count( $rows ); $i < $n; $i++) {
 					$row =& $rows[$i];
+					
+					/*
+					 * Handle currently used templates
+					 */
+					if (in_array($row->directory, $currentList))
+					{
+						$cbd = "disabled";
+						$style = "style=\"color:#999999;\"";
+					} else {
+						$cbd = "";
+						$style = "";
+					}
 					?>
-					<tr class="<?php echo "row$rc"; ?>">
+					<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
 						<td>
-						<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->directory; ?>" onclick="isChecked(this.checked);"><span class="bold"><?php echo $row->name; ?></span></td>
+						<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->directory; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?>><span class="bold"><?php echo $row->name; ?></span></td>
 						<td>
 						<?php echo $row->client_id == "0" ? JText::_( 'Site' ) : JText::_( 'Administrator' ); ?>
 						</td>

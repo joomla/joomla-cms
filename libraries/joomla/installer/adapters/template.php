@@ -194,7 +194,7 @@ class JInstallerTemplate extends JInstaller {
 		 */
 		$clientVals = $this->_mapClient($client);
 		if ($clientVals === false) {
-			JError::raiseWarning( 1, 'JInstallerModule::install: ' . JText::_('Unknown client type').' ['.$root->getAttribute('client').']');
+			JError::raiseWarning( 1, 'JInstallerTemplate::uninstall: ' . JText::_('Unknown client type').' ['.$root->getAttribute('client').']');
 			return false;
 		}
 		$path = JPath :: clean($clientVals['path'] . DS . 'templates' . DS . $id);

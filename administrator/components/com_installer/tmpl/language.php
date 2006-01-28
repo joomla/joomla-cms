@@ -186,7 +186,12 @@ class JInstallerScreens_language {
 	
 	function showInstalled( &$rows, &$page, $client, $lists ) {
 		if (count($rows)) {
-		global $my;
+		global $mainframe;
+		
+		/*
+		 * Initialize variables
+		 */
+		$my	= & $mainframe->getUser();
 
 		?>
 		<div id="treecell">
@@ -243,10 +248,22 @@ class JInstallerScreens_language {
 				$rc = 0;
 				for ($i = 0, $n = count( $rows ); $i < $n; $i++) {
 					$row =& $rows[$i];
+
+					/*
+					 * Handle currently used templates
+					 */
+					if ($row->language == $mainframe->getCfg('lang') || $row->language = $mainframe->getCfg('lang_administrator'))
+					{
+						$cbd = "disabled";
+						$style = "style=\"color:#999999;\"";
+					} else {
+						$cbd = "";
+						$style = "";
+					}
 					?>
-					<tr class="<?php echo "row$rc"; ?>">
+					<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
 						<td>
-						<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->language; ?>" onclick="isChecked(this.checked);"><span class="bold"><?php echo $row->name; ?></span></td>
+						<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->language; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?>><span class="bold"><?php echo $row->name; ?></span></td>
 						<td>
 						<?php echo $row->client_id == "0" ? JText::_( 'Site' ) : JText::_( 'Administrator' ); ?>
 						</td>
