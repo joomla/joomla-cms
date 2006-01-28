@@ -171,12 +171,14 @@ function editBanner( $bannerid, $option ) {
 	$row = new mosBanner($database);
 	$row->load( $bannerid );
 
-  if ( $bannerid ){
-	$row->checkout( $my->id );
-  }
+	if ( $bannerid ){
+		$row->checkout( $my->id );
+	} else {
+		$row->showBanner = 1;
+	}
 
 	// Build Client select list
-	$sql	= "SELECT cid, name"
+	$sql = "SELECT cid, name"
 	. "\n FROM #__bannerclient"
 	;
 	$database->setQuery($sql);
@@ -187,7 +189,7 @@ function editBanner( $bannerid, $option ) {
 
 	$clientlist[] 	= mosHTML::makeOption( '0', JText::_( 'Select Client' ), 'cid', 'name' );
 	$clientlist 	= array_merge( $clientlist, $database->loadObjectList() );
-	$lists['cid'] 	= mosHTML::selectList( $clientlist, 'cid', 'class="inputbox" size="1"','cid', 'name', $row->cid);
+	$lists['cid'] 	= mosHTML::selectList( $clientlist, 'cid', 'class="inputbox" size="1"','cid', 'name', $row->cid );
 
 	// Imagelist
 	$javascript 	= 'onchange="changeDisplayImage();"';
@@ -196,8 +198,8 @@ function editBanner( $bannerid, $option ) {
 
 
 	// make the select list for the image positions
-	$yesno[] = mosHTML::makeOption( '0', JText::_( 'No' ) );
   	$yesno[] = mosHTML::makeOption( '1', JText::_( 'Yes' ) );
+	$yesno[] = mosHTML::makeOption( '0', JText::_( 'No' ) );
 
   	$lists['showBanner'] = mosHTML::selectList( $yesno, 'showBanner', 'class="inputbox" size="1"' , 'value', 'text', $row->showBanner );
 
@@ -294,8 +296,14 @@ function publishBanner( $cid, $publish=1 ) {
 
 function removeBanner( $cid ) {
 	global $database;
-	if (count( $cid )) {
+
+	if (count( $cid ) && $cid[0] != 0) {
 		$cids = implode( ',', $cid );
+	} else {
+		$cids = mosGetParam( $_POST, 'banner_id', 0 );
+	}
+	
+	if ($cids) {
 		$query = "DELETE FROM #__banner"
 		. "\n WHERE bid IN ( $cids )"
 		;
@@ -304,6 +312,7 @@ function removeBanner( $cid ) {
 			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		}
 	}
+
 	mosRedirect( 'index2.php?option=com_banners' );
 }
 
@@ -399,7 +408,7 @@ function saveBannerClient( $task ) {
 		exit();
 	}
 	if (!$row->check()) {
-		mosRedirect( "index2.php?option=com_banners&task=editclient&cid[]=$row->cid", $row->getError() );
+		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 	}
 
 	if (!$row->store()) {
@@ -433,13 +442,17 @@ function cancelEditClient( $option ) {
 function removeBannerClients( $cid, $option ) {
 	global $database;
 
+	if (!count( $cid ) || $cid[0] == 0) {
+		unset($cid);	
+		$cid[0] = mosGetParam( $_POST, 'client_id', 0 );
+	}
+	
 	for ($i = 0; $i < count($cid); $i++) {
 		$query = "SELECT COUNT( bid )"
 		. "\n FROM #__banner"
 		. "\n WHERE cid = ".$cid[$i]
 		;
 		$database->setQuery($query);
-
 		if(($count = $database->loadResult()) == null) {
 			echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		}

@@ -401,7 +401,7 @@ function trash( &$cid, $option ) {
 	//seperate contentids
 	$cids = implode( ',', $cid );
 	$query = "UPDATE #__content"
-	. "\n SET state = $state, ordering = $ordering"
+	. "\n SET state = $state, ordering = $ordering, checked_out = 0, checked_out_time = '0000-00-00 00:00:00'"
 	. "\n WHERE id IN ( $cids )"
 	;
 	$database->setQuery( $query );
@@ -409,7 +409,7 @@ function trash( &$cid, $option ) {
 		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-
+	
 	$msg = sprintf( JText::_( 'Item(s) sent to the Trash' ), $total );
 	mosRedirect( 'index2.php?option='. $option, $msg );
 }

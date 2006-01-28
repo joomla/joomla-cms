@@ -79,6 +79,7 @@ class newsfeed_link_menu_html {
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="id" value="<?php echo $menu->id; ?>" />
+		<input type="hidden" name="cid[]" value="<?php echo $menu->id; ?>" />
 		<input type="hidden" name="componentid" value="" />
 		<input type="hidden" name="link" value="" />
 		<input type="hidden" name="menutype" value="<?php echo $menu->menutype; ?>" />

@@ -19,9 +19,6 @@ require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 
 switch ($task) {
 	case 'new':
-		TOOLBAR_newsfeeds::_NEW();
-		break;
-
 	case 'edit':
 	case 'editA':
 		TOOLBAR_newsfeeds::_EDIT();

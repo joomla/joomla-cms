@@ -84,6 +84,8 @@ class TOOLBAR_menus {
 			JMenuBar::back( 'Back', $link );
 			JMenuBar::spacer();
 		}
+		JMenuBar::trash('remove', 'Trash', false);
+		JMenuBar::spacer();
 		JMenuBar::save();
 		JMenuBar::spacer();
 		JMenuBar::apply();

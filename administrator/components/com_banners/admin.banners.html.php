@@ -156,8 +156,8 @@ class HTML_banners {
 		<?php
 	}
 
-	function bannerForm( &$_row, &$lists, $_option ) {
-		mosMakeHtmlSafe( $_row, ENT_QUOTES, 'custombannercode' );
+	function bannerForm( &$row, &$lists, $_option ) {
+		mosMakeHtmlSafe( $row, ENT_QUOTES, 'custombannercode' );
 		?>
 		<script language="javascript" type="text/javascript">
 		<!--
@@ -202,7 +202,7 @@ class HTML_banners {
 				<?php echo JText::_( 'Banner Name' ); ?>:
 			</td>
 			<td width="80%">
-				<input class="inputbox" type="text" name="name" value="<?php echo $_row->name;?>" />
+				<input class="inputbox" type="text" name="name" value="<?php echo $row->name;?>" />
 			</td>
 		</tr>
 		<tr>
@@ -219,13 +219,13 @@ class HTML_banners {
 			</td>
 			<?php
 			$unlimited = '';
-			if ($_row->imptotal == 0) {
+			if ($row->imptotal == 0) {
 				$unlimited = 'checked="checked"';
-				$_row->imptotal = '';
+				$row->imptotal = '';
 			}
 			?>
 			<td>
-				<input class="inputbox" type="text" name="imptotal" size="12" maxlength="11" value="<?php echo $_row->imptotal;?>" />
+				<input class="inputbox" type="text" name="imptotal" size="12" maxlength="11" value="<?php echo $row->imptotal;?>" />
 				&nbsp;&nbsp;&nbsp;&nbsp;
 				<?php echo JText::_( 'Unlimited' ); ?> <input type="checkbox" name="unlimited" <?php echo $unlimited;?> />
 			</td>
@@ -243,7 +243,7 @@ class HTML_banners {
 				<?php echo JText::_( 'Click URL' ); ?>:
 			</td>
 			<td>
-				<input class="inputbox" type="text" name="clickurl" size="100" maxlength="200" value="<?php echo $_row->clickurl;?>" />
+				<input class="inputbox" type="text" name="clickurl" size="100" maxlength="200" value="<?php echo $row->clickurl;?>" />
 			</td>
 		</tr>
 		<tr >
@@ -251,7 +251,7 @@ class HTML_banners {
 				<?php echo JText::_( 'Clicks' ); ?>
  			</td>
 			<td colspan="2">
-				<?php echo $_row->clicks;?>
+				<?php echo $row->clicks;?>
 				&nbsp;&nbsp;&nbsp;&nbsp;
 				<input name="reset_hits" type="button" class="button" value="<?php echo JText::_( 'Reset Clicks' ); ?>" ="submitbutton('resethits');" />
 			</td>
@@ -261,7 +261,7 @@ class HTML_banners {
 				<?php echo JText::_( 'Custom banner code' ); ?>:
 			</td>
 			<td>
-				<textarea class="inputbox" cols="70" rows="5" name="custombannercode"><?php echo $_row->custombannercode;?></textarea>
+				<textarea class="inputbox" cols="70" rows="5" name="custombannercode"><?php echo $row->custombannercode;?></textarea>
 			</td>
 		</tr>
 		<tr>
@@ -282,13 +282,13 @@ class HTML_banners {
 			</td>
 			<td valign="top">
 				<?php
-				if (eregi("swf", $_row->imageurl)) {
+				if (eregi("swf", $row->imageurl)) {
 					?>
 					<img src="images/blank.png" name="imagelib">
 					<?php
-				} elseif (eregi("gif|jpg|png", $_row->imageurl)) {
+				} elseif (eregi("gif|jpg|png", $row->imageurl)) {
 					?>
-					<img src="../images/banners/<?php echo $_row->imageurl; ?>" name="imagelib" />
+					<img src="../images/banners/<?php echo $row->imageurl; ?>" name="imagelib" />
 					<?php
 				} else {
 					?>
@@ -305,10 +305,11 @@ class HTML_banners {
 		</table>
 
 		<input type="hidden" name="option" value="<?php echo $_option; ?>" />
-		<input type="hidden" name="bid" value="<?php echo $_row->bid; ?>" />
-		<input type="hidden" name="clicks" value="<?php echo $_row->clicks; ?>" />
+		<input type="hidden" name="bid" value="<?php echo $row->bid; ?>" />
+		<input type="hidden" name="banner_id" value="<?php echo $row->bid; ?>" />
+		<input type="hidden" name="clicks" value="<?php echo $row->clicks; ?>" />
 		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="impmade" value="<?php echo $_row->impmade; ?>" />
+		<input type="hidden" name="impmade" value="<?php echo $row->impmade; ?>" />
 		</form>
 		<?php
 	}
@@ -354,7 +355,7 @@ class HTML_bannerClient {
 			<th width="3%" nowrap="nowrap">
 				<?php mosCommonHTML :: tableOrdering( 'ID', 'a.cid', $lists, 'listclients' ); ?>
 			</th>
-			<th nowrap="nowrap" class="title" width="30%">
+			<th nowrap="nowrap" class="title" width="35%">
 				<?php mosCommonHTML :: tableOrdering( 'Contact', 'a.contact', $lists, 'listclients' ); ?>
 			</th>
 			<th align="center" nowrap="nowrap" width="5%">
@@ -491,6 +492,7 @@ class HTML_bannerClient {
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="cid" value="<?php echo $row->cid; ?>" />
+		<input type="hidden" name="client_id" value="<?php echo $row->cid; ?>" />
 		<input type="hidden" name="task" value="" />
 		</form>
 		<?php

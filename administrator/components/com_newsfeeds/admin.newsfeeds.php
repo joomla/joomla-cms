@@ -297,7 +297,6 @@ function removeNewsFeeds( &$cid, $option ) {
 		$cids = implode( ',', $cid );
 		$query = "DELETE FROM #__newsfeeds"
 		. "\n WHERE id IN ( $cids )"
-		. "\n AND checked_out = 0"
 		;
 		$database->setQuery( $query );
 		if (!$database->query()) {

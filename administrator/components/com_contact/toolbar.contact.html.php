@@ -29,7 +29,11 @@ class TOOLBAR_contact {
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'Contact' ) .': '. $text, 'generic.png' );
+		JMenuBar::title( JText::_( 'Contact' ) .': <small><small>[ '. $text .' ]</small></small>', 'generic.png' );
+		if ($id) {
+			JMenuBar::trash('remove', 'Delete', false);
+		}
+		JMenuBar::spacer();
 		JMenuBar::apply();
 		JMenuBar::spacer();
 		JMenuBar::save();
@@ -48,7 +52,7 @@ class TOOLBAR_contact {
 	function _DEFAULT() {
 
 		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'Contact Manager' ), 'blank.png' );
+		JMenuBar::title( JText::_( 'Contact Manager' ), 'generic.png' );
 		JMenuBar::publishList();
 		JMenuBar::spacer();
 		JMenuBar::unpublishList();

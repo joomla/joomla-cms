@@ -37,23 +37,17 @@ class TOOLBAR_newsfeeds  {
 		JMenuBar::endTable();
 	}
 
-	function _NEW() {
-
-		JMenuBar::startTable();
-		JMenuBar::title(  JText::_( 'Newsfeed' ). ': <small>'.JText::_( 'New' ) .'</small>' );
-		JMenuBar::save();
-		JMenuBar::spacer();
-		JMenuBar::cancel();
-		JMenuBar::spacer();
-		JMenuBar::help( 'screen.newsfeeds.edit' );
-		JMenuBar::endTable();
-	}
-
 	function _EDIT() {
 		global $id;
 
+		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
+		
 		JMenuBar::startTable();
-		JMenuBar::title(  JText::_( 'Newsfeed' ).': <small>'.JText::_( 'Edit' ).'</small>' );
+		JMenuBar::title(  JText::_( 'Newsfeed' ).': <small><small>[ '. $text.' ]</small></small>' );
+		if ($id) {
+			JMenuBar::trash('remove', 'Delete', false);
+			JMenuBar::spacer();
+		}
 		JMenuBar::apply();
 		JMenuBar::spacer();
 		JMenuBar::save();

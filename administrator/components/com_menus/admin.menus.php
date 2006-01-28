@@ -70,7 +70,7 @@ switch ($task) {
 		break;
 
 	case 'remove':
-		if ($msg = TrashMenusection( $cid )) {
+		if ($msg = TrashMenu( $cid )) {
 			mosRedirect( 'index2.php?option=com_menus&menutype='. $menutype .'&mosmsg= '.$msg );
 		} else {
 			mosRedirect( 'index2.php?option=com_menus&menutype='. $menutype );
@@ -465,14 +465,14 @@ function publishMenuSection( $cid=null, $publish=1 ) {
 /**
 * Trashes a menu record
 */
-function TrashMenuSection( $cid=NULL ) {
+function TrashMenu( $cid=NULL ) {
 	global $database;
 
 	$state = "-2";
 	//seperate contentids
 	$cids = implode( ',', $cid );
 	$query = "UPDATE #__menu"
-	. "\n SET published = $state, ordering = 0"
+	. "\n SET published = $state, ordering = 0, checked_out = 0, checked_out_time = '0000-00-00 00:00:00'"
 	. "\n WHERE id IN ( $cids )"
 	;
 	$database->setQuery( $query );

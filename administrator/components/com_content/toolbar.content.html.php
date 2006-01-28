@@ -23,10 +23,12 @@ class TOOLBAR_content {
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 		
 		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'Content Item' ).': <small>'. $text .'</small>', 'addedit.png' );
+		JMenuBar::title( JText::_( 'Content Item' ).': <small><small>'. $text .'</small></small>', 'addedit.png' );
 		JMenuBar::preview( 'index3.php?option=com_content&id='.$id, true );
 		JMenuBar::spacer();
 		JMenuBar::media_manager();
+		JMenuBar::spacer();
+		JMenuBar::trash('remove', 'Trash', false);
 		JMenuBar::spacer();
 		JMenuBar::save();
 		JMenuBar::spacer();

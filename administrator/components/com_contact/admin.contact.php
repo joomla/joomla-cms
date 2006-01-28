@@ -30,7 +30,6 @@ if (!is_array( $cid )) {
 }
 
 switch ($task) {
-
 	case 'new':
 		editContact( '0', $option);
 		break;

@@ -310,6 +310,7 @@ class HTML_modules {
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
+		<input type="hidden" name="cid[]" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="client" value="<?php echo $row->client_id; ?>" />
 		<input type="hidden" name="task" value="" />
 		</form>

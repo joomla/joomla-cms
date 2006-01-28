@@ -414,6 +414,7 @@ class HTML_contact {
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
+		<input type="hidden" name="cid[]" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="task" value="" />
 		</form>
 		<?php

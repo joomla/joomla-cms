@@ -40,12 +40,16 @@ class TOOLBAR_modules {
 		$moduleType = mosGetParam( $_REQUEST, 'module', '' );
 
 		JMenuBar::startTable();
-		JMenuBar::title( JText::_( $client ). JText::_( 'Module' ).' <small><small>[ Edit ]</small></small>', 'module.png' );
+		JMenuBar::title( JText::_( 'Module' ) .' '. JText::_( $client ) .' <small><small>[ Edit ]</small></small>', 'module.png' );
 
 		if($moduleType == 'custom') {
 			JMenuBar::Preview('index3.php?option=com_modules&client='.$client.'&pollid='.$id);
+			JMenuBar::spacer();
 		}
-		JMenuBar::spacer();
+		if ($id) {
+			JMenuBar::trash('remove', 'Delete', false);
+			JMenuBar::spacer();
+		}
 		JMenuBar::save();
 		JMenuBar::spacer();
 		JMenuBar::apply();

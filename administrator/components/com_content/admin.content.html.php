@@ -522,16 +522,6 @@ class HTML_content {
 		
 		<form action="index2.php" method="post" name="adminForm">
 		
-		<table class="adminheading">
-		<tr>
-			<td>
-				<small><small>
-				[ <?php echo JText::_( 'Section' ); ?>: <?php echo $section?> ]
-				</small></small>
-			</td>
-		</tr>
-		</table>
-
 		<table cellspacing="0" cellpadding="0" width="100%">
 		<tr>
 			<td width="60%" valign="top">
@@ -1012,6 +1002,7 @@ class HTML_content {
 		</table>
 
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
+		<input type="hidden" name="cid[]" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="version" value="<?php echo $row->version; ?>" />
 		<input type="hidden" name="mask" value="0" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />

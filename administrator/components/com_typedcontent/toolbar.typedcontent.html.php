@@ -28,6 +28,8 @@ class TOOLBAR_typedcontent {
 		JMenuBar::spacer();
 		JMenuBar::media_manager();
 		JMenuBar::spacer();
+		JMenuBar::trash('remove', 'Trash', false);
+		JMenuBar::spacer();
 		JMenuBar::save();
 		JMenuBar::spacer();
 		JMenuBar::apply();

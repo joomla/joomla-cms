@@ -48,7 +48,7 @@ switch ($task) {
 		break;
 
 	case 'remove':
-		removeUsers( $cid, $option );
+		removeUsers( $cid );
 		break;
 
 	case 'block':
@@ -265,13 +265,12 @@ function editUser( $uid='0', $option='users' ) {
 	$lists['sendEmail'] = mosHTML::yesnoRadioList( 'sendEmail', 'class="inputbox" size="1"', $row->sendEmail );
 
 	$file 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
-	$params =& new JUserParameters( $row->params, $file, 'component' );
+	$params =& new JParameters( $row->params, $file, 'component' );
 
 	HTML_users::edituser( $row, $contact, $lists, $option, $uid, $params );
 }
 
-function saveUser( $option, $task ) 
-{
+function saveUser( $option, $task ) {
 	global $mainframe;
 
 	/*
@@ -339,8 +338,7 @@ function saveUser( $option, $task )
 		$subject = JText::_('NEW_USER_MESSAGE_SUBJECT');
 		$message = sprintf ( JText::_('NEW_USER_MESSAGE'), $user->get('name'), $SiteName, $mainframe->getSiteURL(), $user->get('username'), $user->clearPW );
 
-		if ($MailFrom != "" && $FromName != "")
-		{
+		if ($MailFrom != "" && $FromName != "") {
 			$adminName 	= $FromName;
 			$adminEmail = $MailFrom;
 		}
@@ -369,7 +367,7 @@ function cancelUser( $option ) {
 	mosRedirect( 'index2.php?option='. $option .'&task=view' );
 }
 
-function removeUsers( $cid, $option ) {
+function removeUsers( $cid ) {
 	global $mainframe, $database, $acl, $my;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
@@ -411,7 +409,7 @@ function removeUsers( $cid, $option ) {
 		}
 	}
 
-	mosRedirect( 'index2.php?option='. $option, $msg );
+	mosRedirect( 'index2.php?option=com_users', $msg );
 }
 
 /**

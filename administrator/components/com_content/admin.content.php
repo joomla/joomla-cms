@@ -894,7 +894,7 @@ function removeContent( &$cid, $sectionid, $option ) {
 	//seperate contentids
 	$cids = implode( ',', $cid );
 	$query = "UPDATE #__content"
-	. "\n SET state = $state, ordering = $ordering"
+	. "\n SET state = $state, ordering = $ordering, checked_out = 0, checked_out_time = '0000-00-00 00:00:00'"
 	. "\n WHERE id IN ( $cids )"
 	;
 	$database->setQuery( $query );

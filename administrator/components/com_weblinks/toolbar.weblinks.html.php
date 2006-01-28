@@ -26,7 +26,11 @@ class TOOLBAR_weblinks {
 		$text = $id ? JText::_( 'Edit' ) : JText::_( 'New' );
 
 		JMenuBar::startTable();
-		JMenuBar::title(   JText::_( 'Weblink' ).': <small>'. $text .'</small>' );
+		JMenuBar::title(   JText::_( 'Weblink' ).': <small><small>[ ' . $text.' ]</small></small>' );
+		if ($id) {
+			JMenuBar::trash('remove', 'Delete', false);
+			JMenuBar::spacer();
+		}
 		JMenuBar::apply();
 		JMenuBar::spacer();
 		JMenuBar::save();
@@ -41,9 +45,10 @@ class TOOLBAR_weblinks {
 		JMenuBar::help( 'screen.weblink.edit' );
 		JMenuBar::endTable();
 	}
+	
 	function _DEFAULT() {
 		JMenuBar::startTable();
-		JMenuBar::title(   JText::_( 'Weblink Manager' ) );
+		JMenuBar::title(   JText::_( 'Weblink Manager' ), 'impressions.png' );
 		JMenuBar::spacer();
 		JMenuBar::publishList();
 		JMenuBar::spacer();

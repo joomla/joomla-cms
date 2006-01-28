@@ -29,7 +29,11 @@ class TOOLBAR_users {
 		$text = $id ? JText::_( 'Edit' ) : JText::_( 'Add' );
 
 		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'User' ) .':<small>'. $text .'</small>', 'user.png' );
+		JMenuBar::title( JText::_( 'User' ) .': <small><small>[ '. $text.' ]</small></small>', 'user.png' );
+		if ($id) {
+			JMenuBar::trash('remove', 'Delete', false);
+			JMenuBar::spacer();
+		}
 		JMenuBar::save();
 		JMenuBar::spacer();
 		JMenuBar::apply();

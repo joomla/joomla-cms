@@ -419,6 +419,7 @@ class HTML_modules {
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
+		<input type="hidden" name="cid[]" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="original" value="<?php echo $row->ordering; ?>" />
 		<input type="hidden" name="module" value="<?php echo $row->module; ?>" />
 		<input type="hidden" name="task" value="" />

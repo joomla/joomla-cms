@@ -223,13 +223,13 @@ class HTML_poll {
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="option" value="com_poll" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
+		<input type="hidden" name="cid[]" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="textfieldcheck" value="<?php echo $n; ?>" />
 		</form>
 		<?php
 	}
 
-	function previewPoll($title, $options)
-	{
+	function previewPoll($title, $options){
 		?>
 		<form>
 		<table align="center" width="90%" cellspacing="2" cellpadding="2" border="0" >

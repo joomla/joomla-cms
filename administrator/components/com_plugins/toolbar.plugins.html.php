@@ -27,6 +27,10 @@ class TOOLBAR_modules {
 
 		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Site Plugin' ) .' <small><small>[' .$text. ']</small></small>', 'module.png' );
+		if ($id) {
+			JMenuBar::trash('remove', 'Delete', false);
+			JMenuBar::spacer();
+		}
 		JMenuBar::save();
 		JMenuBar::spacer();
 		JMenuBar::apply();

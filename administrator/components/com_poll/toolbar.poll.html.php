@@ -21,28 +21,20 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class TOOLBAR_poll {
 	/**
-	* Draws the menu for a New category
-	*/
-	function _NEW() {
-		JMenuBar::startTable();
-		JMenuBar::title(  JText::_( 'Poll' ).': <small>'.JText::_( 'New' ) .'</small>' );
-		JMenuBar::save();
-		JMenuBar::spacer();
-		JMenuBar::cancel();
-		JMenuBar::spacer();
-		JMenuBar::help( 'screen.polls.edit' );
-		JMenuBar::endTable();
-	}
-	
-	/**
 	* Draws the menu for Editing an existing category
 	*/
-	function _EDIT( $pollid, $cur_template ) {
-		global $database, $id;
+	function _EDIT( $pollid ) {
+		global $id;
+		
+		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );		
 
 		JMenuBar::startTable();
-		JMenuBar::title(  JText::_( 'Poll' ).': <small>'.JText::_( 'Edit' ) .'</small>' );
+		JMenuBar::title(  JText::_( 'Poll' ).': <small><small>[ ' . $text.' ]</small></small>' );
 		JMenuBar::Preview('index3.php?option=com_poll&pollid='.$pollid);
+		if ($id) {
+			JMenuBar::trash('remove', 'Delete', false);
+			JMenuBar::spacer();
+		}
 		JMenuBar::spacer();
 		JMenuBar::apply();
 		JMenuBar::spacer();

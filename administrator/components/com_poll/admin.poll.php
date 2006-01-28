@@ -273,7 +273,7 @@ function removePoll( $cid, $option )
 			$msg .= $poll->getError();
 		}
 	}
-	mosRedirect( 'index2.php?option='. $option .'&mosmsg='. $msg );
+	mosRedirect( 'index2.php?option='. $option, $msg );
 }
 
 /**

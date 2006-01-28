@@ -281,7 +281,7 @@ function removeWeblinks( $cid, $option ) {
 		}
 	}
 
-	mosRedirect( "index2.php?option=". $option );
+	mosRedirect( 'index2.php?option=com_weblinks' );
 }
 
 /**

@@ -77,6 +77,7 @@ class content_category_menu_html {
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="id" value="<?php echo $menu->id; ?>" />
+		<input type="hidden" name="cid[]" value="<?php echo $menu->id; ?>" />
 		<input type="hidden" name="menutype" value="<?php echo $menu->menutype; ?>" />
 		<input type="hidden" name="type" value="<?php echo $menu->type; ?>" />
 		<input type="hidden" name="task" value="" />

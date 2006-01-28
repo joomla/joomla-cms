@@ -18,41 +18,20 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 
 switch ($task) {
-	case 'new':
-		TOOLBAR_poll::_NEW();
-		break;
-
 	case 'edit':
 		$cid = mosGetParam( $_REQUEST, 'cid', array(0) );
 		if (!is_array( $cid )) {
 			$cid = array(0);
 		}
 
-		$query = "SELECT published"
-		. "\n FROM #__polls"
-		. "\n WHERE id = $cid[0]"
-		;
-		$database->setQuery( $query );
-		$published = $database->loadResult();
-
-		$cur_template = $mainframe->getTemplate();
-
-		TOOLBAR_poll::_EDIT( $cid[0], $cur_template );
+		TOOLBAR_poll::_EDIT( $cid[0] );
 		break;
 
+	case 'new':
 	case 'editA':
 		$id = mosGetParam( $_REQUEST, 'id', 0 );
 
-		$query = "SELECT published"
-		. "\n FROM #__polls"
-		. "\n WHERE id = $id"
-		;
-		$database->setQuery( $query );
-		$published = $database->loadResult();
-
-		$cur_template = $mainframe->getTemplate();
-
-		TOOLBAR_poll::_EDIT( $id, $cur_template );
+		TOOLBAR_poll::_EDIT( $id );
 		break;
 
 	default:
