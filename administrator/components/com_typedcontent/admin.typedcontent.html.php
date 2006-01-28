@@ -750,5 +750,67 @@ class HTML_typedcontent {
 		</form>
 		<?php
 	}
+
+	/**
+	* Form to select Section/Category to move item(s) to
+	* @param array An array of selected objects
+	* @param int The current section we are looking at
+	* @param array The list of sections and categories to move to
+	*/
+	function move( $cid, $sectCatList, $items ) {
+		?>
+		<script language="javascript" type="text/javascript">
+		function submitbutton(pressbutton) {
+			var form = document.adminForm;
+			if (pressbutton == 'cancel') {
+				submitform( pressbutton );
+				return;
+			}
+
+			// do field validation
+			if (!getSelectedValue( 'adminForm', 'sectcat' )) {
+				alert( "<?php echo JText::_( 'Please select something', true ); ?>" );
+			} else {
+				submitform( pressbutton );
+			}
+		}
+		</script>
+
+		<form action="index2.php?option=com_typedcontent" method="post" name="adminForm">
+
+		<table class="adminform">
+		<tr>
+			<td  valign="top" width="40%">
+			<strong><?php echo JText::_( 'Move to Section/Category' ); ?>:</strong>
+			<br />
+			<?php echo $sectCatList; ?>
+			<br /><br />
+			</td>
+			<td  valign="top">
+			<strong><?php echo JText::_( 'Items being Moved' ); ?>:</strong>
+			<br />
+			<?php
+			echo "<ol>";
+			foreach ( $items as $item ) {
+				echo "<li>". $item->title ."</li>";
+			}
+			echo "</ol>";
+			?>
+			</td>
+		</tr>
+		</table>
+		<br /><br />
+
+		<input type="hidden" name="option" value="com_typedcontent" />
+		<input type="hidden" name="sectionid" value="<?php echo $sectionid; ?>" />
+		<input type="hidden" name="task" value="" />
+		<?php
+		foreach ($cid as $id) {
+			echo "\n<input type=\"hidden\" name=\"cid[]\" value=\"$id\" />";
+		}
+		?>
+		</form>
+		<?php
+	}
 }
-?>
+?>	

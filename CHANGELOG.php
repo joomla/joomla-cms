@@ -42,7 +42,11 @@ Legend:
 
 
 29-Jan-2006 Rey Gigataras 
+ + `Move` & `Copy` ability added to "Static Content Manager"
+ + `Move` to 'Static Content' added to "Content Items Manager"
  ^ Content item page navigaiton moved to `Page Navigation` plugin 
+ ^ `Messages` sub menu moved under `Site`
+ ^ `Site` menu reorganized
 
 28-Jan-2006 Louis Landry 
  ^ Renamed auth plugins to authentication plugins

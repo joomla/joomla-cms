@@ -23,7 +23,6 @@ if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
-
 switch ( $task ) {
 	case 'cancel':
 		cancel( $option );
@@ -48,6 +47,18 @@ switch ( $task ) {
 	case 'save':
 	case 'apply':
 		save( $option, $task );
+		break;
+	
+	case 'move':
+		move( $cid );
+		break;
+	
+	case 'movesave':
+		moveSave( $cid );
+		break;
+	
+	case 'copy':
+		copyItem( $cid );
 		break;
 
 	case 'remove':
@@ -382,6 +393,167 @@ function save( $option, $task ) {
 			mosRedirect( 'index2.php?option='. $option .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 	}
+}
+
+/**
+* Form for moving item(s) to a different section and category
+*/
+function move( &$cid ) {
+	global $database;
+	
+	if (!is_array( $cid ) || count( $cid ) < 1) {
+		echo "<script> alert('". JText::_( 'Select an item to move', true ) ."'); window.history.go(-1);</script>\n";
+		exit;
+	}
+	
+	//seperate contentids
+	$cids = implode( ',', $cid );
+	// Content Items query
+	$query = "SELECT a.title"
+	. "\n FROM #__content AS a"
+	. "\n WHERE ( a.id IN ( $cids ) )"
+	. "\n ORDER BY a.title"
+	;
+	$database->setQuery( $query );
+	$items = $database->loadObjectList();
+	
+	$database->setQuery(
+	$query = 	"SELECT CONCAT_WS( ', ', s.id, c.id ) AS `value`, CONCAT_WS( '/', s.name, c.name ) AS `text`"
+	. "\n FROM #__sections AS s"
+	. "\n INNER JOIN #__categories AS c ON c.section = s.id"
+	. "\n WHERE s.scope = 'content'"
+	. "\n ORDER BY s.name, c.name"
+	);
+	$rows = $database->loadObjectList();
+	// build the html select list
+	$sectCatList = mosHTML::selectList( $rows, 'sectcat', 'class="inputbox" size="8"', 'value', 'text', null );
+	
+	HTML_typedcontent::move( $cid, $sectCatList, $items );
+}
+
+/**
+* Save the changes to move item(s) to a different section and category
+*/
+function moveSave( &$cid ) {
+	global $database, $my;
+	
+	$sectcat = mosGetParam( $_POST, 'sectcat', '' );
+	list( $newsect, $newcat ) = explode( ',', $sectcat );
+	
+	if (!$newsect && !$newcat ) {
+		mosRedirect( "index.php?option=com_content&sectionid=". $sectionid ."&mosmsg=". JText::_( 'An error has occurred' ) );
+	}
+	
+	// find section name
+	$query = "SELECT a.name"
+	. "\n FROM #__sections AS a"
+	. "\n WHERE a.id = $newsect"
+	;
+	$database->setQuery( $query );
+	$section = $database->loadResult();
+	
+	// find category name
+	$query = "SELECT  a.name"
+	. "\n FROM #__categories AS a"
+	. "\n WHERE a.id = $newcat"
+	;
+	$database->setQuery( $query );
+	$category = $database->loadResult();
+	
+	$total = count( $cid );
+	$cids = implode( ',', $cid );
+	
+	$row =& JModel::getInstance('content', $database );
+	// update old orders - put existing items in last place
+	foreach ($cid as $id) {
+		$row->load( intval( $id ) );
+		$row->ordering = 0;
+		$row->store();
+		$row->updateOrder( "catid = $row->catid AND state >= 0" );
+	}
+	
+	$query = "UPDATE #__content SET sectionid = $newsect, catid = $newcat"
+	. "\n WHERE id IN ( $cids )"
+	. "\n AND ( checked_out = 0 OR ( checked_out = $my->id ) )"
+	;
+	$database->setQuery( $query );
+	if ( !$database->query() ) {
+		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
+		exit();
+	}
+	
+	// update new orders - put items in last place
+	foreach ($cid as $id) {
+		$row->load( intval( $id ) );
+		$row->ordering = 0;
+		$row->store();
+		$row->updateOrder( "catid = $row->catid AND state >= 0" );
+	}
+	
+	$msg = sprintf( JText::_( 'Item(s) successfully moved to Section' ), $total, $section, $category );
+	mosRedirect( 'index2.php?option=com_typedcontent', $msg );
+}
+
+/**
+* saves Copies of items
+**/
+function copyItem( $cid ) {
+	global $database;
+
+	$total = count( $cid );
+	for ( $i = 0; $i < $total; $i++ ) {
+		$row =& JModel::getInstance('content', $database );
+
+		// main query
+		$query = "SELECT a.*"
+		. "\n FROM #__content AS a"
+		. "\n WHERE a.id = ". $cid[$i] .""
+		;
+		$database->setQuery( $query );
+		$item = $database->loadObjectList();
+
+		// values loaded into array set for store
+		$row->id 				= NULL;
+		$row->sectionid 		= $newsect;
+		$row->catid 			= $newcat;
+		$row->hits 				= '0';
+		$row->ordering			= '0';
+		$row->title 			= $item[0]->title;
+		$row->title_alias 		= $item[0]->title_alias;
+		$row->introtext 		= $item[0]->introtext;
+		$row->fulltext 			= $item[0]->fulltext;
+		$row->state 			= $item[0]->state;
+		$row->mask 				= $item[0]->mask;
+		$row->created 			= $item[0]->created;
+		$row->created_by 		= $item[0]->created_by;
+		$row->created_by_alias 	= $item[0]->created_by_alias;
+		$row->modified 			= $item[0]->modified;
+		$row->modified_by 		= $item[0]->modified_by;
+		$row->checked_out 		= $item[0]->checked_out;
+		$row->checked_out_time 	= $item[0]->checked_out_time;
+		$row->publish_up 		= $item[0]->publish_up;
+		$row->publish_down 		= $item[0]->publish_down;
+		$row->images 			= $item[0]->images;
+		$row->attribs 			= $item[0]->attribs;
+		$row->version 			= $item[0]->parentid;
+		$row->parentid 			= $item[0]->parentid;
+		$row->metakey 			= $item[0]->metakey;
+		$row->metadesc 			= $item[0]->metadesc;
+		$row->access 			= $item[0]->access;
+
+		if (!$row->check()) {
+			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+			exit();
+		}
+		if (!$row->store()) {
+			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+			exit();
+		}
+		$row->updateOrder( "catid='". $row->catid ."' AND state >= 0" );
+	}
+
+	$msg = JText::_( 'Item(s) successfully copied' );
+	mosRedirect( 'index2.php?option=com_typedcontent', $msg );
 }
 
 /**

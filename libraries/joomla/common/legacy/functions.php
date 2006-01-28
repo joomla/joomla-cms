@@ -105,7 +105,7 @@ function mosMakePassword() {
 * @package Joomla.Legacy
 */
 function mosRedirect( $url, $msg='' ) {
-	josRedirect( $url, $msg='' );
+	josRedirect( $url, $msg );
 }
 
 /**

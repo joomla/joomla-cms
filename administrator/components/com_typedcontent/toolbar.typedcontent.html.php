@@ -40,12 +40,25 @@ class TOOLBAR_typedcontent {
 		JMenuBar::endTable();
 	}
 
+	function _MOVE() {		
+		JMenuBar::startTable();
+		JMenuBar::title( JText::_( 'Move Static Content' ), 'move_f2.png' );
+		JMenuBar::custom( 'movesave', 'save.png', 'save_f2.png', JText::_( 'Save' ), false );
+		JMenuBar::spacer();
+		JMenuBar::cancel();
+		JMenuBar::endTable();
+	}
+	
 	function _DEFAULT() {
 		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Static Content Manager' ), 'addedit.png' );
 		JMenuBar::publishList();
 		JMenuBar::spacer();
 		JMenuBar::unpublishList();
+		JMenuBar::spacer();
+		JMenuBar::customX( 'move', 'move.png', 'move_f2.png', JText::_( 'Move' ) );
+		JMenuBar::spacer();
+		JMenuBar::customX( 'copy', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ) );
 		JMenuBar::spacer();
 		JMenuBar::trash();
 		JMenuBar::spacer();

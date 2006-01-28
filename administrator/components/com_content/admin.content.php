@@ -771,8 +771,7 @@ function saveContent( $sectionid, $task ) {
 * @param integer 0 if unpublishing, 1 if publishing
 * @param string The name of the current user
 */
-function changeContent( $cid=null, $state=0, $option ) 
-{
+function changeContent( $cid=null, $state=0, $option ) {
 	global $database, $my;
 
 	if (count( $cid ) < 1) {
@@ -962,14 +961,15 @@ function moveSection( $cid, $sectionid, $option ) {
 	$database->setQuery( $query );
 	$items = $database->loadObjectList();
 
-	$database->setQuery(
-	$query = 	"SELECT CONCAT_WS( ', ', s.id, c.id ) AS `value`, CONCAT_WS( '/', s.name, c.name ) AS `text`"
+	$query = "SELECT CONCAT_WS( ', ', s.id, c.id ) AS `value`, CONCAT_WS( '/', s.name, c.name ) AS `text`"
 	. "\n FROM #__sections AS s"
 	. "\n INNER JOIN #__categories AS c ON c.section = s.id"
 	. "\n WHERE s.scope = 'content'"
 	. "\n ORDER BY s.name, c.name"
-	);
-	$rows = $database->loadObjectList();
+	;
+	$database->setQuery( $query );
+	$rows[] = mosHTML::makeOption( "0, 0", 'Static Content' );
+	$rows 	= array_merge( $rows, $database->loadObjectList() );
 	// build the html select list
 	$sectCatList = mosHTML::selectList( $rows, 'sectcat', 'class="inputbox" size="8"', 'value', 'text', null );
 
@@ -986,7 +986,7 @@ function moveSectionSave( &$cid, $sectionid, $option ) {
 	list( $newsect, $newcat ) = explode( ',', $sectcat );
 
 	if (!$newsect && !$newcat ) {
-		mosRedirect( "index.php?option=com_content&sectionid=". $sectionid ."&mosmsg=". JText::_( 'An error has occurred' ) );
+		mosRedirect( "index2.php?option=com_content&sectionid=$sectionid&mosmsg=". JText::_( 'An error has occurred' ) );
 	}
 
 	// find section name
@@ -1035,8 +1035,13 @@ function moveSectionSave( &$cid, $sectionid, $option ) {
 		$row->updateOrder( "catid = $row->catid AND state >= 0" );
 	}
 
-	$msg = sprintf( JText::_( 'Item(s) successfully moved to Section' ), $total, $section, $category );
-	mosRedirect( 'index2.php?option='. $option .'&sectionid='. $sectionid .'&mosmsg='. $msg );
+	if ($section && $category) {
+		$msg = sprintf( JText::_( 'Item(s) successfully moved to Section' ), $total, $section, $category );
+	} else {
+		$msg = JText::_( 'Item(s) successfully moved to Static Content' );
+	}
+	
+	mosRedirect( 'index2.php?option='. $option .'&sectionid='. $sectionid, $msg );
 }
 
 
