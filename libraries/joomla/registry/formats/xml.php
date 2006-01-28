@@ -28,7 +28,7 @@ class JRegistryFormatXML extends JRegistryFormat {
 	 * @param string  XML Formatted String
 	 * @return object Data Object
 	 */
-	function &stringToObject( $data, $namespace='' ) {
+	function stringToObject( $data, $namespace='' ) {
 		return true;
 	}
 

@@ -55,7 +55,7 @@ class JRegistryFormatPHP extends JRegistryFormat {
 	 * @return boolean True
 	 * @since 1.1
 	 */
-	function &stringToObject() {
+	function stringToObject() {
 		return true;
 	}
 }

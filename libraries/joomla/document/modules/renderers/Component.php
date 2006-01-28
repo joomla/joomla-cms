@@ -42,7 +42,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 	{
 		global $mainframe;
 		global $Itemid, $task, $option, $id;
-
+		
 		$my 		=& $mainframe->getUser();
 		$database   =& $mainframe->getDBO();
 		$acl  		=& JFactory::getACL();

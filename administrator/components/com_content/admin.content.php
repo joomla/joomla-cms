@@ -20,11 +20,12 @@ require_once( JApplicationHelper::getPath( 'admin_html' ) );
 $sectionid 	= mosGetParam( $_REQUEST, 'sectionid', 0 );
 $id 		= mosGetParam( $_REQUEST, 'id', '' );
 $cid 		= mosGetParam( $_POST, 'cid', array(0) );
+
 if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
-switch ($task) {
+switch (strtolower($task)) {
 	case 'new':
 		editContent( 0, $sectionid, $option );
 		break;
@@ -770,7 +771,8 @@ function saveContent( $sectionid, $task ) {
 * @param integer 0 if unpublishing, 1 if publishing
 * @param string The name of the current user
 */
-function changeContent( $cid=null, $state=0, $option ) {
+function changeContent( $cid=null, $state=0, $option ) 
+{
 	global $database, $my;
 
 	if (count( $cid ) < 1) {
@@ -781,7 +783,7 @@ function changeContent( $cid=null, $state=0, $option ) {
 
 	$total = count ( $cid );
 	$cids = implode( ',', $cid );
-
+	
 	$query = "UPDATE #__content"
 	. "\n SET state = $state"
 	. "\n WHERE id IN ( $cids ) AND ( checked_out = 0 OR (checked_out = $my->id ) )"

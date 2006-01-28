@@ -338,8 +338,6 @@ class JContentView
 
 				}
 				echo '</table>';
-				echo '</td>';
-				echo '</tr>';
 
 				// TODO: remove this below
 

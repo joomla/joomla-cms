@@ -20,72 +20,64 @@ if (!$acl->acl_check('com_templates', 'manage', 'users', $GLOBALS['my']->usertyp
 	josRedirect('index2.php', JText :: _('ALERTNOTAUTH'));
 }
 
-require_once (JApplicationHelper :: getPath('admin_html'));
-require_once (JPATH_ADMINISTRATOR.'/components/com_templates/admin.templates.class.php');
+require_once (dirname(__FILE__).'/admin.templates.html.php');
+require_once (dirname(__FILE__).'/admin.templates.class.php');
 
-$option	= JRequest :: getVar('option', '');
-$task	= JRequest :: getVar('task', '');
-$client = JRequest :: getVar('client', '');
+$option	= JRequest::getVar('option', '');
+$task	= JRequest::getVar('task', '');
+$client = JRequest::getVar('client', '');
+$id     = JRequest::getVar('id', '');
 
-$cid = JRequest :: getVar('cid', array (0), '', 'array');
+$cid = JRequest::getVar('cid', array(), '', 'array');
 
 if (!is_array($cid)) {
-	$cid = array (0);
+	$cid[0] = $id;
 }
 
-switch ($task) {
-	case 'new' :
-		// Removing the install option from the template manager
-		//josRedirect ( 'index2.php?option=com_installer&task=installer&client='. $client );
-		break;
-
+switch ($task) 
+{
 	case 'edit_params' :
-		JTemplatesController :: editTemplateParams($cid[0]);
+		JTemplatesController::editTemplateParams($cid[0]);
 		break;
 
 	case 'save_params' :
-		JTemplatesController :: saveTemplateParams();
+		JTemplatesController::saveTemplateParams();
 		break;
 
 	case 'edit_source' :
-		JTemplatesController :: editTemplateSource($cid[0]);
+		JTemplatesController::editTemplateSource($cid[0]);
 		break;
 
 	case 'save_source' :
-		JTemplatesController :: saveTemplateSource();
+		JTemplatesController::saveTemplateSource();
 		break;
 
 	case 'choose_css' :
-		JTemplatesController :: chooseTemplateCSS($cid[0]);
+		JTemplatesController::chooseTemplateCSS($cid[0]);
 		break;
 
 	case 'edit_css' :
-		JTemplatesController :: editTemplateCSS($cid[0]);
+		JTemplatesController::editTemplateCSS($cid[0]);
 		break;
 
 	case 'save_css' :
-		JTemplatesController :: saveTemplateCSS($cid[0]);
-		break;
-
-	case 'remove' :
-		// Remove from template manager
-		//removeTemplate( $cid[0], $client );
+		JTemplatesController::saveTemplateCSS($cid[0]);
 		break;
 
 	case 'publish' :
-		JTemplatesController :: defaultTemplate($cid[0]);
+		JTemplatesController::defaultTemplate($cid[0]);
 		break;
 
 	case 'default' :
-		JTemplatesController :: defaultTemplate($cid[0]);
+		JTemplatesController::defaultTemplate($cid[0]);
 		break;
 
 	case 'assign' :
-		JTemplatesController :: assignTemplate($cid[0]);
+		JTemplatesController::assignTemplate($cid[0]);
 		break;
 
 	case 'save_assign' :
-		JTemplatesController :: saveTemplateAssign();
+		JTemplatesController::saveTemplateAssign();
 		break;
 
 	case 'cancel' :
@@ -93,27 +85,28 @@ switch ($task) {
 		break;
 
 	case 'positions' :
-		JTemplatesController :: editPositions();
+		JTemplatesController::editPositions();
 		break;
 
 	case 'save_positions' :
-		JTemplatesController :: savePositions();
+		JTemplatesController::savePositions();
 		break;
 
 	default :
-		JTemplatesController :: viewTemplates();
+		JTemplatesController::viewTemplates();
 		break;
 }
 
-class JTemplatesController {
-
+class JTemplatesController 
+{
 	/**
 	* Compiles a list of installed, version 4.5+ templates
 	*
 	* Based on xml files found.  If no xml file found the template
 	* is ignored
 	*/
-	function viewTemplates() {
+	function viewTemplates() 
+	{
 		global $mainframe;
 
 		/*
@@ -236,7 +229,8 @@ class JTemplatesController {
 	/**
 	* Publish, or make current, the selected template
 	*/
-	function defaultTemplate($p_tname) {
+	function defaultTemplate($p_tname) 
+	{
 		global $mainframe;
 
 		/*
@@ -271,7 +265,8 @@ class JTemplatesController {
 	/**
 	* Remove the selected template
 	*/
-	function removeTemplate($cid) {
+	function removeTemplate($cid) 
+	{
 		global $mainframe;
 
 		/*
@@ -305,7 +300,8 @@ class JTemplatesController {
 		josRedirect('index2.php?option=com_installer&type=template&client='.$client.'&task=remove&eid[]='.$cid);
 	}
 
-	function editTemplateParams($p_tname) {
+	function editTemplateParams($p_tname) 
+	{
 		/*
 		 * Initialize some variables
 		 */
@@ -332,7 +328,8 @@ class JTemplatesController {
 		JTemplatesView :: editTemplateParams($p_tname, $params, $option, $client);
 	}
 
-	function saveTemplateParams() {
+	function saveTemplateParams() 
+	{
 		/*
 		 * Initialize some variables
 		 */
@@ -367,7 +364,8 @@ class JTemplatesController {
 		}
 	}
 
-	function editTemplateSource($p_tname) {
+	function editTemplateSource($p_tname) 
+	{
 		/*
 		 * Initialize some variables
 		 */
@@ -392,7 +390,8 @@ class JTemplatesController {
 		}
 	}
 
-	function saveTemplateSource() {
+	function saveTemplateSource() 
+	{
 		/*
 		 * Initialize some variables
 		 */
@@ -430,7 +429,8 @@ class JTemplatesController {
 		}
 	}
 
-	function chooseTemplateCSS($p_tname) {
+	function chooseTemplateCSS($p_tname) 
+	{
 		/*
 		 * Initialize some variables
 		 */
@@ -463,7 +463,8 @@ class JTemplatesController {
 		}
 	}
 
-	function editTemplateCSS($p_tname) {
+	function editTemplateCSS($p_tname) 
+	{
 		/*
 		 * Initialize some variables
 		 */
@@ -492,7 +493,8 @@ class JTemplatesController {
 		}
 	}
 
-	function saveTemplateCSS($option, $client) {
+	function saveTemplateCSS($option, $client) 
+	{
 		/*
 		 * Initialize some variables
 		 */
@@ -517,7 +519,8 @@ class JTemplatesController {
 		}
 	}
 
-	function assignTemplate($p_tname) {
+	function assignTemplate($p_tname) 
+	{
 		global $mainframe;
 
 		/*
@@ -543,7 +546,8 @@ class JTemplatesController {
 		JTemplatesView :: assignTemplate($p_tname, $menulist, $option, $client);
 	}
 
-	function saveTemplateAssign() {
+	function saveTemplateAssign() 
+	{
 		global $mainframe;
 
 		/*
@@ -586,7 +590,8 @@ class JTemplatesController {
 
 	/**
 	*/
-	function editPositions() {
+	function editPositions() 
+	{
 		global $mainframe;
 
 		/*
@@ -606,7 +611,8 @@ class JTemplatesController {
 
 	/**
 	*/
-	function savePositions() {
+	function savePositions() 
+	{
 		global $mainframe;
 
 		/*

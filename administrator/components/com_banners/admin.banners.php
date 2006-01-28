@@ -99,7 +99,8 @@ switch ($task) {
 		break;
 }
 
-function viewBanners( $option ) {
+function viewBanners( $option ) 
+{
 	global $database, $mainframe;
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_order", 		'filter_order', 	'b.bid' );
@@ -127,7 +128,7 @@ function viewBanners( $option ) {
 	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, b.bid";
 
 	// get the total number of records
-	$query = "SELECT COUNT(b.*)"
+	$query = "SELECT COUNT(*)"
 	. "\n FROM #__banner AS b"
 	. $where
 	;

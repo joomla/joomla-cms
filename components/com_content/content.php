@@ -42,7 +42,8 @@ if ($option == 'com_frontpage') {
 	return;
 }
 
-switch (strtolower($task)) {
+switch (strtolower($task)) 
+{
 	case 'findkey' :
 		JContentController::_findKeyItem($access, $now);
 		break;
@@ -124,9 +125,10 @@ switch (strtolower($task)) {
  * @subpackage Content
  * @since 1.1
  */
-class JContentController {
-
-	function frontpage(& $access, $now) {
+class JContentController 
+{
+	function frontpage(& $access, $now) 
+	{
 		global $mainframe, $Itemid;
 
 		/*
@@ -332,7 +334,8 @@ class JContentController {
 	 * @param string $now Timestamp
 	 * @since 1.0
 	 */
-	function showCategory(& $access, $now) {
+	function showCategory(& $access, $now) 
+	{
 		global $mainframe, $Itemid, $my;
 
 		/*
@@ -1031,7 +1034,8 @@ class JContentController {
 		}
 	}
 	
-	function showItemAsPDF($access, $now) {
+	function showItemAsPDF($access, $now) 
+	{
 		require_once (dirname(__FILE__).DS.'content.pdf.php');
 		doUtfPDF ( );
 	}
@@ -1677,7 +1681,7 @@ class JContentController {
 		$subject_default 	= sprintf(JText :: _('Item sent by'), $yourname);
 		$subject 			= JRequest::getVar( 'subject', $subject_default, 'post' );
 
-		if ($uid < 1 || !$email || !$youremail || (JContentController::_is_email($email) == false) || (JContentController::_is_email($youremail) == false))
+		if ($uid < 1 || !$email || !$youremail || (JContentController::_is_email($email) == false) || (JMailHelper::isEmailAdress($youremail) == false))
 		{
 			JContentView :: userInputError(JText :: _('EMAIL_ERR_NOINFO'));
 		}
@@ -1927,15 +1931,6 @@ class JContentController {
 		{
 			echo JText :: _('Key not found');
 		}
-	}
-	
-	function _is_email($email)
-	{
-		$rBool=false;
-		if(preg_match("/[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}/", $email)){
-			$rBool=true;
-		}
-		return $rBool;
 	}
 }
 ?>
