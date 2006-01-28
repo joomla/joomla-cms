@@ -391,7 +391,8 @@ class HTML_admin_misc {
 	/**
 	 * Display Help Page
 	 */
-	function help() {
+	function help() 
+	{
 		$helpurl 	= mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
 
 		if ( $helpurl == 'http://help.mamboserver.com' ) {
@@ -558,11 +559,11 @@ function getHelpTOC( $helpsearch )
 {
 	$helpurl = mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
 
-	$files = mosReadDirectory( JPATH_SITE . '/help/', '\.xml$|\.html$' );
+	$files = mosReadDirectory( JPATH_SITE . '/administrator/help/eng_GB/', '\.xml$|\.html$' );
 
 	$toc = array();
 	foreach ($files as $file) {
-		$buffer = file_get_contents( JPATH_SITE . '/help/' . $file );
+		$buffer = file_get_contents( JPATH_SITE . '/administrator/help/eng_GB/' . $file );
 		if (preg_match( '#<title>(.*?)</title>#', $buffer, $m )) {
 			$title = trim( $m[1] );
 			if ($title) {
