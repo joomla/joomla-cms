@@ -221,67 +221,70 @@ class JInstallationController
 
 	/**
 	 * Determines db version (for utf-8 support) and gets desired collation
+	 * 
+	 * FUNCTIONALITY MOVED TO JAJAX.PHP
+	 * 
 	 * @return boolean True if successful
 	 */
-	function dbCollation($vars) 
-	{
-		$DBcreated = mosGetParam($vars, 'DBcreated', '0');
-
-		$DBtype = mosGetParam($vars, 'DBtype', 'mysql');
-		$DBhostname = mosGetParam($vars, 'DBhostname', '');
-		$DBuserName = mosGetParam($vars, 'DBuserName', '');
-		$DBpassword = mosGetParam($vars, 'DBpassword', '');
-		$DBname = mosGetParam($vars, 'DBname', '');
-		$DBPrefix = mosGetParam($vars, 'DBPrefix', 'jos_');
-		$DBDel = mosGetParam($vars, 'DBDel', 0);
-		$DBBackup = mosGetParam($vars, 'DBBackup', 0);
-		$DBSample = mosGetParam($vars, 'DBSample', 1);
-
-		$DButfSupport = intval(mosGetParam($vars, 'DButfSupport', 0));
-		$DBcollation = mosGetParam($vars, 'DBcollation', '');
-		$DBversion = mosGetParam($vars, 'DBversion', '');
-
-		if ($DBtype == '') {
-			JInstallationView::error($vars, JText::_('validType'), 'dbconfig');
-			return false;
-		}
-		if (!$DBhostname || !$DBuserName || !$DBname) {
-			JInstallationView::error($vars, JText::_('validDBDetails'), 'dbconfig');
-			return false;
-		}
-		if ($DBname == '') {
-			JInstallationView::error($vars, JText::_('emptyDBName'), 'dbconfig');
-			return false;
-		}
-
-		$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword );
-
-		if ($err = $database->getErrorNum()) {
-			if ($err != 3) {
-				// connection failed
-				//JInstallationView::error( $vars, array( 'Could not connect to the database.  Connector returned', $database->getErrorNum() ), 'dbconfig', $database->getErrorMsg() );
-				JInstallationView::error($vars, array (sprintf(JText::_('WARNNOTCONNECTDB'), $database->getErrorNum())), 'dbconfig', $database->getErrorMsg());
-				return false;
-			}
-		}
-
-		$collations = array();
-
-		// determine db version, utf support and available collations
-		$vars['DBversion'] = $database->getVersion();
-		$verParts = explode( '.', $vars['DBversion'] );
-		$vars['DButfSupport'] = ($verParts[0] == 5 || ($verParts[0] == 4 && $verParts[1] == 1 && (int) $verParts[2] >= 2));
-		if ($vars['DButfSupport']) {
-			$query = "SHOW COLLATION LIKE 'utf8%'";
-			$database->setQuery( $query );
-			$collations = $database->loadAssocList();
-		} else {
-			// backward compatibility - utf-8 data in non-utf database
-			// collation does not really have effect so default charset and collation is set
-			$collations[0]['Collation'] = 'latin1';
-		}
-		return JInstallationView::dbCollation( $vars, $collations );
-	}
+//	function dbCollation($vars) 
+//	{
+//		$DBcreated = mosGetParam($vars, 'DBcreated', '0');
+//
+//		$DBtype = mosGetParam($vars, 'DBtype', 'mysql');
+//		$DBhostname = mosGetParam($vars, 'DBhostname', '');
+//		$DBuserName = mosGetParam($vars, 'DBuserName', '');
+//		$DBpassword = mosGetParam($vars, 'DBpassword', '');
+//		$DBname = mosGetParam($vars, 'DBname', '');
+//		$DBPrefix = mosGetParam($vars, 'DBPrefix', 'jos_');
+//		$DBDel = mosGetParam($vars, 'DBDel', 0);
+//		$DBBackup = mosGetParam($vars, 'DBBackup', 0);
+//		$DBSample = mosGetParam($vars, 'DBSample', 1);
+//
+//		$DButfSupport = intval(mosGetParam($vars, 'DButfSupport', 0));
+//		$DBcollation = mosGetParam($vars, 'DBcollation', '');
+//		$DBversion = mosGetParam($vars, 'DBversion', '');
+//
+//		if ($DBtype == '') {
+//			JInstallationView::error($vars, JText::_('validType'), 'dbconfig');
+//			return false;
+//		}
+//		if (!$DBhostname || !$DBuserName || !$DBname) {
+//			JInstallationView::error($vars, JText::_('validDBDetails'), 'dbconfig');
+//			return false;
+//		}
+//		if ($DBname == '') {
+//			JInstallationView::error($vars, JText::_('emptyDBName'), 'dbconfig');
+//			return false;
+//		}
+//
+//		$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword );
+//
+//		if ($err = $database->getErrorNum()) {
+//			if ($err != 3) {
+//				// connection failed
+//				//JInstallationView::error( $vars, array( 'Could not connect to the database.  Connector returned', $database->getErrorNum() ), 'dbconfig', $database->getErrorMsg() );
+//				JInstallationView::error($vars, array (sprintf(JText::_('WARNNOTCONNECTDB'), $database->getErrorNum())), 'dbconfig', $database->getErrorMsg());
+//				return false;
+//			}
+//		}
+//
+//		$collations = array();
+//
+//		// determine db version, utf support and available collations
+//		$vars['DBversion'] = $database->getVersion();
+//		$verParts = explode( '.', $vars['DBversion'] );
+//		$vars['DButfSupport'] = ($verParts[0] == 5 || ($verParts[0] == 4 && $verParts[1] == 1 && (int) $verParts[2] >= 2));
+//		if ($vars['DButfSupport']) {
+//			$query = "SHOW COLLATION LIKE 'utf8%'";
+//			$database->setQuery( $query );
+//			$collations = $database->loadAssocList();
+//		} else {
+//			// backward compatibility - utf-8 data in non-utf database
+//			// collation does not really have effect so default charset and collation is set
+//			$collations[0]['Collation'] = 'latin1';
+//		}
+//		return JInstallationView::dbCollation( $vars, $collations );
+//	}
 
 	/**
 	 * Gets the parameters for database creation
@@ -443,13 +446,6 @@ class JInstallationController
 		}
 		$vars['adminPassword'] = mosMakePassword(8);
 
-		// FTP stuff
-		if (isset ($vars['ftpEnable'])) {
-			if ($vars['ftpEnable'] == 1) {
-				$vars['ftpRoot'] = JInstallationHelper::findFtpRoot($vars['ftpUser'], $vars['ftpPassword']);
-			}
-		} 
-
 		return JInstallationView::mainConfig($vars);
 	}
 
@@ -464,7 +460,7 @@ class JInstallationController
 			$vars['siteName'] = addslashes($vars['siteName']);
 		}
 		$vars['secret'] = mosMakePassword(16);
-		$vars['hidePdf'] = intval(!is_writable(JPATH_SITE.'/media/'));
+		$vars['hidePdf'] = intval(!is_writable(JPATH_SITE.DS.'media'.DS));
 		
 		switch ($vars['DBtype']) {
 			case 'mssql' :
@@ -482,7 +478,7 @@ class JInstallationController
 		$tmpl->addVars('configuration', $vars, 'var_');
 
 		$buffer = $tmpl->getParsedTemplate('configuration');
-		$path = JPATH_SITE.'/configuration.php';
+		$path = JPATH_SITE.DS.'configuration.php';
 
 		if (file_exists($path)) {
 			$canWrite = is_writable($path);
