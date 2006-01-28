@@ -43,6 +43,7 @@ Legend:
 
 28-Jan-2006 Rey Gigataras 
  + Pagination support to com_weblinks, com_newsfeeds, com_contact frontend output
+ - Depreciated `Content by Section` menu option
 
 27-Jan-2006 Louis Landry 
  - Removed siteurlbot
