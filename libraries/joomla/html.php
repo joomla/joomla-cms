@@ -1582,9 +1582,8 @@ class mosAdminMenus {
 		$total = count( $menus );
 		$menuselect = array();
 		for( $i = 0; $i < $total; $i++ ) {
-			
 			$registry =& new JRegistry();
-			$registry->loadINI($menus[$i]);
+			$registry->loadINI($menus[$i]->params);
 			$params = $registry->toObject( );
 			
 			$menuselect[$i]->value 	= $params->menutype;
