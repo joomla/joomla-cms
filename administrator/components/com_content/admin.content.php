@@ -136,15 +136,15 @@ switch ($task) {
 function viewContent( $sectionid, $option ) {
 	global $database, $mainframe;
 
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_order", 			'filter_order', 	'' );
-	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_order_Dir",		'filter_order_Dir',	'' );
-	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_state", 			'filter_state', 	'' );
-	$catid 				= $mainframe->getUserStateFromRequest( "$option.$sectionid.catid", 					'catid', 			0 );
-	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_authorid", 		'filter_authorid', 	0 );
-	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_sectionid", 		'filter_sectionid', 0 );
-	$limit 				= $mainframe->getUserStateFromRequest( 'limit',	 									'limit', 			$mainframe->getCfg('list_limit') );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewcontent.limitstart", 'limitstart', 		0 );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.$sectionid.search", 				'search', 			'' );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewcontent.filter_order", 			'filter_order', 	'' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewcontent.filter_order_Dir",		'filter_order_Dir',	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewcontent.filter_state", 			'filter_state', 	'' );
+	$catid 				= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewcontent.catid", 					'catid', 			0 );
+	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewcontent.filter_authorid", 		'filter_authorid', 	0 );
+	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewcontent.filter_sectionid", 		'filter_sectionid', 0 );
+	$limit 				= $mainframe->getUserStateFromRequest( 'limit',	 												'limit', 			$mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewcontent.limitstart", 			'limitstart', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewcontent.search", 				'search', 			'' );
 	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 	$redirect 			= $sectionid;
 	$filter 			= ''; //getting a undefined variable error
@@ -277,9 +277,11 @@ function viewContent( $sectionid, $option ) {
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;
-	
-	HTML_content::showContent( $rows, $section, $lists, $search, $pageNav, $all, $redirect );
+	$lists['order'] = $filter_order;	
+	// search filter
+	$lists['search']= $search;
+
+	HTML_content::showContent( $rows, $section, $lists, $pageNav, $all, $redirect );
 }
 
 /**
@@ -289,14 +291,14 @@ function viewContent( $sectionid, $option ) {
 function viewArchive( $sectionid, $option ) {
 	global $database, $mainframe;
 
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_order", 			'filter_order', 	'sectname' );
-	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_order_Dir",		'filter_order_Dir',	'' );
-	$catid 				= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.catid", 		'catid', 			0 );
-	$limit 				= $mainframe->getUserStateFromRequest( 'limit', 									'limit', 			$mainframe->getCfg('list_limit') );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.limitstart", 'limitstart', 		0 );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.search", 	'search', 			'' );
-	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_authorid", 		'filter_authorid', 	0 );
-	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.filter_sectionid", 		'filter_sectionid', 0 );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.filter_order", 		'filter_order', 	'sectname' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.filter_order_Dir",	'filter_order_Dir',	'' );
+	$catid 				= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.catid", 				'catid', 			0 );
+	$limit 				= $mainframe->getUserStateFromRequest( 'limit', 											'limit', 			$mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.limitstart", 		'limitstart', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.search", 			'search', 			'' );
+	$filter_authorid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.filter_authorid", 	'filter_authorid', 	0 );
+	$filter_sectionid 	= $mainframe->getUserStateFromRequest( "$option.$sectionid.viewarchive.filter_sectionid", 	'filter_sectionid', 0 );
 	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
 	$redirect 			= $sectionid;
 
@@ -398,9 +400,11 @@ function viewArchive( $sectionid, $option ) {
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;
-	
-	HTML_content::showArchive( $rows, $section, $lists, $search, $pageNav, $option, $all, $redirect );
+	$lists['order'] = $filter_order;	
+	// search filter
+	$lists['search']= $search;
+
+	HTML_content::showArchive( $rows, $section, $lists, $pageNav, $option, $all, $redirect );
 }
 
 /**

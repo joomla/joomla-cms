@@ -24,7 +24,7 @@ class HTML_content {
 	* Writes a list of the content items
 	* @param array An array of content objects
 	*/
-	function showList( &$rows, $search, $pageNav, $option, $lists ) {
+	function showList( &$rows, $pageNav, $option, $lists ) {
 		global $my, $acl, $database;
 
 		mosCommonHTML::loadOverlib();
@@ -35,7 +35,7 @@ class HTML_content {
 		<tr>
 			<td align="left" valign="top" nowrap="nowrap">
 				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>

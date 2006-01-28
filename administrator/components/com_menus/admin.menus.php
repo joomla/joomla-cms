@@ -220,9 +220,7 @@ function viewMenuItems( $menutype, $option ) {
 
 	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
-
-	$levellist = mosHTML::integerSelectList( 1, 20, 1, 'levellimit', 'size="1" onchange="document.adminForm.submit();"', $levellimit );
-
+	
 	// slice out elements based on limits
 	$list = array_slice( $list, $pageNav->limitstart, $pageNav->limit );
 
@@ -282,6 +280,9 @@ function viewMenuItems( $menutype, $option ) {
 		$i++;
 	}
 	
+	// level limit filter
+	$lists['levellist'] = mosHTML::integerSelectList( 1, 20, 1, 'levellimit', 'size="1" onchange="document.adminForm.submit();"', $levellimit );
+	
 	// state filter 
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );	
 
@@ -291,9 +292,11 @@ function viewMenuItems( $menutype, $option ) {
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;
-	
-	HTML_menusections::showMenusections( $list, $pageNav, $search, $levellist, $menutype, $option, $lists );
+	$lists['order'] = $filter_order;	
+	// search filter
+	$lists['search']= $search;
+
+	HTML_menusections::showMenusections( $list, $pageNav, $menutype, $option, $lists );
 }
 
 /**

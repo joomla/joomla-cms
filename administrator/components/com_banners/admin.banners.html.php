@@ -32,7 +32,9 @@ class HTML_banners {
 		<tr>
 			<td align="left" valign="top" nowrap="nowrap">
 				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 			<td align="right" valign="top" nowrap="nowrap">
 				<?php
@@ -329,7 +331,9 @@ class HTML_bannerClient {
 		<tr>
 			<td align="left" valign="top" nowrap="nowrap">
 				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 			<td align="right" valign="top" nowrap="nowrap">
 			</td>

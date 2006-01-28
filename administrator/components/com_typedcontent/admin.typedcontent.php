@@ -188,9 +188,12 @@ function view( $option ) {
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;
+	$lists['order'] = $filter_order;	
 	
-	HTML_typedcontent::showContent( $rows, $pageNav, $option, $search, $lists );
+	// search filter
+	$lists['search']= $search;
+	
+	HTML_typedcontent::showContent( $rows, $pageNav, $option, $lists );
 }
 
 /**

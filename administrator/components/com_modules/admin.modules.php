@@ -206,7 +206,10 @@ function viewModules( $option, $client ) {
 	}
 	$lists['order'] = $filter_order;
 	
-	HTML_modules::showModules( $rows, $my->id, $client, $pageNav, $option, $lists, $search );
+	// search filter
+	$lists['search']= $search;
+	
+	HTML_modules::showModules( $rows, $client, $pageNav, $option, $lists );
 }
 
 /**

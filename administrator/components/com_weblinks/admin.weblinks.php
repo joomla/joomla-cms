@@ -87,7 +87,7 @@ switch ($task) {
 function showWeblinks( $option ) {
 	global $database, $mainframe;
 
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'a.catid' );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'category' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
 	$filter_catid 		= $mainframe->getUserStateFromRequest( "$option.filter_catid", 		'filter_catid', 	0 );
@@ -113,7 +113,7 @@ function showWeblinks( $option ) {
 	}	
 
 	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
-	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, a.catid, a.ordering";
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, category, a.ordering";
 	
 	// get the total number of records
 	$query = "SELECT COUNT(*)"

@@ -31,7 +31,9 @@ class HTML_weblinks {
 		<tr>
 			<td>
 				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 			<td align="right">
 				<?php 
@@ -69,7 +71,7 @@ class HTML_weblinks {
 				<?php mosCommonHTML :: tableOrdering( 'ID', 'a.id', $lists ); ?>
 			</th>
 			<th width="25%"  class="title">
-				<?php mosCommonHTML :: tableOrdering( 'Category', 'cc.name', $lists ); ?>
+				<?php mosCommonHTML :: tableOrdering( 'Category', 'category', $lists ); ?>
 			</th>
 			<th width="5%">
 				<?php mosCommonHTML :: tableOrdering( 'Hits', 'a.hits', $lists ); ?>

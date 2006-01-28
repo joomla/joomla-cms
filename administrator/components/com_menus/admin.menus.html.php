@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_menusections {
 
-	function showMenusections( $rows, $pageNav, $search, $levellist, $menutype, $option, &$lists ) {
+	function showMenusections( &$rows, &$pageNav, $menutype, $option, &$lists ) {
 		global $my;
 
 		mosCommonHTML::loadOverlib();
@@ -32,14 +32,14 @@ class HTML_menusections {
 		<tr>
 			<td align="left" valign="top" nowrap="nowrap">
 				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" value="<?php echo $search;?>" class="inputbox" />
+				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 			<td align="right" valign="top" nowrap="nowrap">
 				<?php 
 				echo JText::_( 'Max Levels' );
-				echo $levellist;
+				echo $lists['levellist'];
 				echo $lists['state'];
 				?>
 			</td>

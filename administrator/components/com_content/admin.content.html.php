@@ -25,7 +25,7 @@ class HTML_content {
 	* Writes a list of the content items
 	* @param array An array of content objects
 	*/
-	function showContent( &$rows, $section, &$lists, $search, $pageNav, $all=NULL, $redirect ) {
+	function showContent( &$rows, $section, &$lists, $pageNav, $all=NULL, $redirect ) {
 		global $my, $acl, $database;
 
 		mosCommonHTML::loadOverlib();
@@ -36,7 +36,7 @@ class HTML_content {
 		<tr>
 			<td align="left" valign="top" nowrap="nowrap">
 				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
@@ -281,7 +281,7 @@ class HTML_content {
 	* Writes a list of the content items
 	* @param array An array of content objects
 	*/
-	function showArchive( &$rows, $section, &$lists, $search, $pageNav, $option, $all=NULL, $redirect ) {
+	function showArchive( &$rows, $section, &$lists, $pageNav, $option, $all=NULL, $redirect ) {
 		global $my, $acl;
 		?>
 		<script language="javascript" type="text/javascript">
@@ -303,7 +303,7 @@ class HTML_content {
 		<tr>
 			<td align="left" valign="top" nowrap="nowrap">
 				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>

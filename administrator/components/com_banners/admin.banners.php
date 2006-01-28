@@ -107,7 +107,7 @@ function viewBanners( $option ) {
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_state", 		'filter_state', 	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 								'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.viewbanners.limitstart", 		'limitstart', 		0 );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 						'search', 			'' );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.viewbanners.search", 			'search', 			'' );
 	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );	
 	
 	$where = array();
@@ -314,9 +314,9 @@ function viewBannerClients( $option ) {
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order", 	'filter_order', 	'a.cid' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order_Dir",	'filter_order_Dir',	'' );
-	$limit 				= $mainframe->getUserStateFromRequest( "default.limit", 							'limit', 			$mosConfig_list_limit );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 									'limit', 			$mosConfig_list_limit );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "com_banners.viewbannerclient.limitstart", 	'limitstart', 		0 );	
-	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 							'search', 			'' );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.search", 			'search', 			'' );
 	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );	
 
 	$where = array();

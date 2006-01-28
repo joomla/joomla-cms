@@ -36,7 +36,9 @@ class categories_html {
 		<tr>
 			<td>
 				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 			<td align="right">
 				<?php
@@ -72,8 +74,8 @@ class categories_html {
 				<?php
 			}
 			?>
-			<th width="2%">
-				<?php echo JText::_( 'Order' ); ?>
+			<th width="2%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'Order', 'c.ordering', $lists ); ?>
 			</th>
 			<th width="1%">
 				<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">

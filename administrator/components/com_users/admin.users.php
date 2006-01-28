@@ -185,8 +185,11 @@ function showUsers( $option ) {
 		$lists['order_Dir'] = 'DESC';
 	}
 	$lists['order'] = $filter_order;	
-
-	HTML_users::showUsers( $rows, $pageNav, $search, $option, $lists );
+	
+	// search filter
+	$lists['search']= $search;	
+	
+	HTML_users::showUsers( $rows, $pageNav, $option, $lists );
 }
 
 /**

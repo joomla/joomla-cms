@@ -83,7 +83,7 @@ switch ($task) {
 function viewFrontPage( $option ) {
 	global $database, $mainframe;
 
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'c.ordering' );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'fpordering' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
 	$catid 				= $mainframe->getUserStateFromRequest( "$option.catid", 			'catid', 			0 );
@@ -121,7 +121,7 @@ function viewFrontPage( $option ) {
 	}
 
 	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
-	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, f.ordering";
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, fpordering";
 	
 	// get the total number of records
 	$query = "SELECT count(*)"
@@ -187,17 +187,18 @@ function viewFrontPage( $option ) {
 	$lists['authorid']	= mosHTML::selectList( $authors, 'filter_authorid', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'created_by', 'name', $filter_authorid );
 	
 	// state filter 
-	$lists['state']	= mosCommonHTML::selectState( $filter_state );
-		
+	$lists['state']	= mosCommonHTML::selectState( $filter_state );		
 	// table ordering
 	if ( $filter_order_Dir == 'DESC' ) {
 		$lists['order_Dir'] = 'ASC';
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;
-	
-	HTML_content::showList( $rows, $search, $pageNav, $option, $lists );
+	$lists['order'] = $filter_order;	
+	// search filter
+	$lists['search']= $search;
+
+	HTML_content::showList( $rows, $pageNav, $option, $lists );
 }
 
 /**

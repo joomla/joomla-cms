@@ -25,7 +25,7 @@ class HTML_modules {
 	* Writes a list of the defined modules
 	* @param array An array of category objects
 	*/
-	function showModules( &$rows, $myid, $client, &$pageNav, $option, &$lists, $search ) {
+	function showModules( &$rows, $client, &$pageNav, $option, &$lists ) {
 		global $my;
 
 		mosCommonHTML::loadOverlib();
@@ -36,7 +36,7 @@ class HTML_modules {
 		<tr>
 			<td align="left" valign="top" nowrap="nowrap">
 				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" value="<?php echo $search;?>" class="text_area" onChange="document.adminForm.submit();" />
+				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>

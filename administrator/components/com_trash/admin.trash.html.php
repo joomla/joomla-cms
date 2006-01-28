@@ -33,7 +33,9 @@ class HTML_trash {
 		<tr>
 			<td align="left" valign="top" nowrap="nowrap">
 				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 			<td align="right" valign="top" nowrap="nowrap">
 			</td>
@@ -51,14 +53,14 @@ class HTML_trash {
 			<th class="title">
 				<?php mosCommonHTML :: tableOrdering( 'Title', 'c.title', $lists ); ?>
 			</th>
-			<th>
-				<?php mosCommonHTML :: tableOrdering( 'Section', 'sectname', $lists ); ?>
-			</th>
-			<th>
-				<?php mosCommonHTML :: tableOrdering( 'Category', 'catname', $lists ); ?>
-			</th>
 			<th width="70">
 				<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
+			</th>
+			<th class="title" width="25%">
+				<?php mosCommonHTML :: tableOrdering( 'Section', 'sectname', $lists ); ?>
+			</th>
+			<th class="title" width="25%">
+				<?php mosCommonHTML :: tableOrdering( 'Category', 'catname', $lists ); ?>
 			</th>
 		</tr>
 		<?php
@@ -78,13 +80,13 @@ class HTML_trash {
 					<?php echo $row->title; ?>
 				</td>
 				<td align="center">
+					<?php echo $row->id; ?>
+				</td>
+				<td>
 					<?php echo $row->sectname; ?>
 				</td>
-				<td align="center">
+				<td>
 					<?php echo $row->catname; ?>
-				</td>
-				<td align="center">
-					<?php echo $row->id; ?>
 				</td>
 			</tr>
 			<?php
@@ -143,7 +145,9 @@ class HTML_trash {
 		<tr>
 			<td align="left" valign="top" nowrap="nowrap">
 				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
 			<td align="right" valign="top" nowrap="nowrap">
 			</td>
@@ -161,14 +165,14 @@ class HTML_trash {
 			<th class="title">
 				<?php mosCommonHTML :: tableOrdering( 'Name', 'm.name', $lists ); ?>
 			</th>
-			<th>
-				<?php mosCommonHTML :: tableOrdering( 'Menu', 'm.menutype', $lists ); ?>
-			</th>
-			<th>
-				<?php mosCommonHTML :: tableOrdering( 'Type', 'm.type', $lists ); ?>
-			</th>
 			<th width="70">
 				<?php mosCommonHTML :: tableOrdering( 'ID', 'm.id', $lists ); ?>
+			</th>
+			<th class="title" width="25%">
+				<?php mosCommonHTML :: tableOrdering( 'Menu', 'm.menutype', $lists ); ?>
+			</th>
+			<th class="title" width="25%">
+				<?php mosCommonHTML :: tableOrdering( 'Type', 'm.type', $lists ); ?>
 			</th>
 		</tr>
 		<?php
@@ -188,13 +192,13 @@ class HTML_trash {
 					<?php echo $row->name; ?>
 				</td>
 				<td align="center">
+					<?php echo $row->id; ?>
+				</td>
+				<td>
 					<?php echo $row->menutype; ?>
 				</td>
-				<td align="center">
+				<td>
 					<?php echo $row->type; ?>
-				</td>
-				<td align="center">
-					<?php echo $row->id; ?>
 				</td>
 			</tr>
 			<?php
