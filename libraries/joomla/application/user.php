@@ -60,12 +60,10 @@ class JUser extends JObject
 	{
 		global $mainframe;
 		
-		$db				= & $mainframe->getDBO();
-		$this->_model 	= JModel :: getInstance( 'user', $db );
-		$this->_params	= new JUserParameters('');
+		$this->_model   = $this->_createModel();
+		$this->_params	= $this->_createParameters();
 
-		if (!is_null($id))
-		{
+		if (!is_null($id)) {
 			$this->_load($id);
 		}
 	}
@@ -179,6 +177,29 @@ class JUser extends JObject
 	{
 		return $this->_params;
 	}
+	
+	/**
+	 * Method to set the user parameters
+	 * 
+	 * 
+	 * @access 	public
+	 * @param 	string 	$data 	The paramters string in INI format
+	 * @param 	string 	$path 	Path to the parameters xml file [optional]
+	 * @since 	1.1
+	 */
+	function setParameters($data, $path = null)
+	{
+		/*
+		 * If we are not fed a path of an xml file for parameters then we should
+		 * assume we are using the xml file from com_users.
+		 */
+		if (is_null($path)) {
+			$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
+		}
+		
+		$this->_params->loadConfigFile($path);
+		$this->_params->loadINI($data);
+	}
 
 	/**
 	 * Method to get JUser error message
@@ -285,7 +306,7 @@ class JUser extends JObject
 				 * Load the paramters for the object to be the new parameters we
 				 * got from the array.
 				 */
-				$this->_params->setParams($this->_model->params);
+				$this->_params->loadINI($this->_model->params);
 			}
 		}
 		
@@ -454,10 +475,10 @@ class JUser extends JObject
 	/**
 	 * Method to load a JUser object by user id number
 	 * 
-	 * @access 	private
+	 * @access 	protected
 	 * @param 	int 	$id 	The user id for the user to load
 	 * @param 	string 	$path 	Path to a parameters xml file
-	 * @return 	boolean 			True on success
+	 * @return 	boolean 		True on success
 	 * @since 1.1
 	 */
 	function _load($id)
@@ -476,7 +497,7 @@ class JUser extends JObject
 		 * extend this in the future to allow for the ability to have custom
 		 * user parameters, but for right now we'll leave it how it is.
 		 */
-		$this->_params->setParams( $this->_model->params );
+		$this->_params->loadINI( $this->_model->params );
 		
 		/*
 		 * Assuming all is well at this point, we set the private id field
@@ -484,6 +505,37 @@ class JUser extends JObject
 		$this->_id = $id;
 		
 		return true;
+	}
+	
+	/**
+	 * Create the user model object
+	 * 
+	 * @access 	protected
+	 * @return 	object 			The JModelUser instance
+	 * @since 1.1
+	 */
+	function &_createModel()
+	{
+		global $mainframe;
+		
+		$db		=& $mainframe->getDBO();
+		$model 	=& JModel::getInstance( 'user', $db );
+		return $model;
+	}
+	
+	/**
+	 * Create the parameters object
+	 * 
+	 * @access 	protected
+	 * @return 	object 			The JParameters instance
+	 * @since 1.1
+	 */
+	function _createParameters()
+	{
+		$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
+		
+		$parameters =& new JParameters($data, $path);
+		return $parameters;
 	}
 	
 	/**
@@ -497,82 +549,6 @@ class JUser extends JObject
 	function _setError( $msg )
 	{
 		$this->_errorMsg .= $msg."\n";
-	}
-}
-
-/**
- * User parameters class.  Extended JParameters class to handle special
- * parameters necessary for a user object.
- *
- * @package 	Joomla.Framework
- * @since 1.1
- */
-class JUserParameters extends JParameters
-{
-	/**
-	 * This method emulates the constructor so that we can create an empty
-	 * object and load it later on.
-	 * 
-	 * @access public
-	 * @param string $text The paramters string in INI format
-	 * @param string $path Path to the parameters xml file [optional]
-	 * @param string $type Type of parameters [optional]
-	 */
-	function setParams($text, $path = null, $type = 'component')
-	{
-		/*
-		 * If we are not fed a path of an xml file for parameters then we should
-		 * assume we are using the xml file from com_users.
-		 */
-		if (is_null($path))
-		{
-			$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
-		}
-		// Emulate the constructor
-		$this->_params = $this->parse($text);
-		$this->_raw = $text;
-		$this->_path = $path;
-		$this->_type = $type;
-	}
-
-	/**
-	 * Render an editor list parameter select
-	 * 
-	 * @access private
-	 * @param string The name of the form element
-	 * @param string The value of the element
-	 * @param object The xml element for the parameter
-	 * @param string The control name
-	 * @return string The html for the element
-	 * @since 1.0
-	 */
-	function _form_editor_list( $name, $value, &$node, $control_name )
-	{
-		global $mainframe;
-
-		$db	= & $mainframe->getDBO();
-		$my	= & $mainframe->getUser();
-
-		/* 
-		 * @todo: change to acl_check method
-		 */
-		if(!($my->gid >= 20) ) {
-			return JText::_('No Access');
-		}
-
-		// compile list of the editors
-		$query = "SELECT element AS value, name AS text"
-		. "\n FROM #__plugins"
-		. "\n WHERE folder = 'editors'"
-		. "\n AND published = 1"
-		. "\n ORDER BY ordering, name"
-		;
-		$db->setQuery( $query );
-		$editors = $db->loadObjectList();
-
-		array_unshift( $editors, mosHTML::makeOption( '', '- '. JText::_( 'Select Editor' ) .' -' ) );
-
-		return mosHTML::selectList( $editors, ''. $control_name .'['. $name .']', 'class="inputbox"', 'value', 'text', $value );
 	}
 }
 ?>

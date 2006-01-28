@@ -53,13 +53,22 @@ class JModelModule extends JModel
 	var $client_id			= null;
 
 	/**
-	* @param database A database connector object
-	*/
+	 * Contructore
+	 * 
+	 * @access protected
+	 * @param database A database connector object
+	 */
 	function __construct( &$db ) {
 		parent::__construct( '#__modules', 'id', $db );
 	}
 	
-	// overloaded check function
+	/**
+	* Overloaded check function
+	* 
+	* @access public  
+	* @return boolean True if the object is ok
+	* @see JModel:bind
+	*/
 	function check() 
 	{
 		// check for valid name
@@ -80,6 +89,28 @@ class JModelModule extends JModel
 		//	return false;
 		//}
 		return true;
+	}
+	
+	/**
+	* Overloaded bind function
+	*
+	* @acces public  
+	* @param array $hash named array
+	* @return null|string	null is operation was satisfactory, otherwise returns an error
+	* @see JModel:bind
+	* @since 1.1
+	*/
+	function bind($array, $ignore = '')
+	{
+		$params = mosGetParam( $_POST, 'params', '' );
+	
+		if (is_array( $array['params'] )) {
+			$registry =& new JRegistry();
+			$registry->loadArray($array['params']);
+			$array['params'] = $registry->toString();
+		}
+	
+		return parent::bind($array, $ignore);
 	}
 }
 ?>

@@ -63,7 +63,7 @@ class JParameters extends JRegistry
 	 * @param string Path to the xml setup file
 	 * @var string The type of setup file
 	 */
-	function __construct($text, $path = '') 
+	function __construct($data, $path = '') 
 	{
 		if( !defined( 'JPARAMETER_INCLUDE_PATH' ) ) {
 			define( 'JPARAMETER_INCLUDE_PATH', dirname( __FILE__ ) . '/types' );
@@ -71,10 +71,10 @@ class JParameters extends JRegistry
 		
 		parent::__construct('parameters');
 		
-		$this->loadINI($text);
+		$this->loadINI($data);
 		$this->loadSetupFile($path);
 		
-		$this->_raw    = $text;
+		$this->_raw = $data;
 	}
 
 	/**
@@ -312,21 +312,6 @@ class JParameters extends JRegistry
 	*/
 	function getIncludePath() {
 		return	JPARAMETER_INCLUDE_PATH;
-	}
-	
-	/**
-	* Special handling for textarea param
-	*/
-	function textareaHandling( &$txt ) {
-		$total = count( $txt );
-		for( $i=0; $i < $total; $i++ ) {
-			if ( strstr( $txt[$i], "\n" ) ) {
-				$txt[$i] = str_replace( "\n", '<br />', $txt[$i] );
-			}
-		}
-		$txt = implode( "\n", $txt );
-
-		return $txt;
 	}
 }
 ?>

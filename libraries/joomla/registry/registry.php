@@ -17,13 +17,13 @@ jimport( 'joomla.registry.format' );
 /**
  * JRegistry class
  * 
- * @author Louis Landry <louis@webimagery.net>
+ * @author 		Louis Landry <louis@webimagery.net>
  * @package 	Joomla.Framework
  * @subpackage 	Registry
- * @since 1.1
+ * @since 		1.1
  */
-class JRegistry extends JObject {
-
+class JRegistry extends JObject 
+{
 	/**
 	 * Default NameSpace
 	 * 
@@ -45,8 +45,8 @@ class JRegistry extends JObject {
 	 * @param $defaultNamespace	string 	Default registry namespace
 	 * @param $readOnly			boolean Is the default namespace read only? [optional: default is false]
 	 */
-	function __construct($namespace = 'default', $readOnly = false) {
-
+	function __construct($namespace = 'default', $readOnly = false) 
+	{
 		$this->_defaultNameSpace = $namespace;
 		$this->makeNameSpace($namespace, $readOnly);
 	}
@@ -62,10 +62,11 @@ class JRegistry extends JObject {
 	 * @param $id 			string 	An ID for the registry instance
 	 * @param $namespace	string 	The default namespace for the registry object [optional]
 	 * @param $readOnly		boolean Is he default namespace read only? [optional: default is false]
-	 * @return object  The JRegistry object.
+	 * @return object  		The JRegistry object.
 	 * @since 1.1
 	 */
-	function & getInstance($id, $namespace = 'default', $readOnly = false) {
+	function & getInstance($id, $namespace = 'default', $readOnly = false) 
+	{
 		static $instances;
 
 		if (!isset ($instances)) {
@@ -88,8 +89,8 @@ class JRegistry extends JObject {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function makeNameSpace($namespace, $readOnly = false) {
-		
+	function makeNameSpace($namespace, $readOnly = false) 
+	{	
 		$this->_registry[$namespace] = array('data' => new stdClass(), 'readOnly' => $readOnly);
 		return true;
 	}
@@ -102,8 +103,8 @@ class JRegistry extends JObject {
 	 * @param 	int    User Id
 	 * @return 	mixed Value of entry or boolean false
 	 */
-	function getValue($regpath) {
-		
+	function getValue($regpath) 
+	{	
 		// Explode the registry path into an array
 		$nodes = explode('.', $regpath);
 		
@@ -137,8 +138,8 @@ class JRegistry extends JObject {
 	 * @return 	mixed Value of old value or boolean false if operation failed
 	 * @since 1.1
 	 */
-	function setValue($regpath, $value) {
-
+	function setValue($regpath, $value) 
+	{
 		// Explode the registry path into an array
 		$nodes = explode('.', $regpath);
 
@@ -182,7 +183,7 @@ class JRegistry extends JObject {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function loadArray($array, $namespace, $readOnly = false) 
+	function loadArray($array, $namespace = null, $readOnly = false) 
 	{
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
@@ -253,7 +254,8 @@ class JRegistry extends JObject {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function loadFile($file, $format = 'INI', $namespace = null, $readOnly = false) {
+	function loadFile($file, $format = 'INI', $namespace = null, $readOnly = false) 
+	{
 		// Load a file into the given namespace [or default namespace if not given]	
 		$handler =& $this->_loadFormat($format);
 
@@ -295,7 +297,8 @@ class JRegistry extends JObject {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function loadXML($data, $namespace = null, $readOnly = false) {
+	function loadXML($data, $namespace = null, $readOnly = false) 
+	{
 		// Load a string into the given namespace [or default namespace if not given]	
 		$handler =& JRegistryFormat::getInstance('XML');
 
@@ -333,7 +336,8 @@ class JRegistry extends JObject {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function loadINI($data, $namespace = null, $readOnly = false) {
+	function loadINI($data, $namespace = null, $readOnly = false) 
+	{
 		// Load a string into the given namespace [or default namespace if not given]
 		$handler =& JRegistryFormat::getInstance('INI');
 
@@ -370,7 +374,7 @@ class JRegistry extends JObject {
 	 * @return string Namespace in string format
 	 * @since 1.1
 	 */
-	function getNameSpaceString($format = 'INI', $namespace = null) {
+	function toString($format = 'INI', $namespace = null) {
 		
 		jimport('joomla.registry.format');
 		// Return a namespace in a given format

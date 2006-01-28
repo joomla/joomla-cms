@@ -96,7 +96,8 @@ class content_blog_category {
 		content_blog_category_html::edit( $menu, $lists, $params, $option );
 	}
 
-	function saveMenu( $option, $task ) {
+	function saveMenu( $option, $task ) 
+	{
 		global $database;
 
 		$params = mosGetParam( $_POST, 'params', '' );
@@ -104,13 +105,6 @@ class content_blog_category {
 		$catid	= implode( ',', $catids );
 
 		$params['categoryid']	= $catid;
-		if (is_array( $params )) {
-			$txt = array();
-			foreach ($params as $k=>$v) {
-				$txt[] = "$k=$v";
-			}
-			$_POST['params'] = JParameters::textareaHandling( $txt );
-		}
 
 		$row =& JModel::getInstance('menu', $database );
 

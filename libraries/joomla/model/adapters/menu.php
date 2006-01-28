@@ -57,10 +57,34 @@ class JModelMenu extends JModel
 	var $params				= null;
 
 	/**
-	* @param database A database connector object
-	*/
+	 * Constructor
+	 * 
+	 * @access protected
+	 * @param database A database connector object
+	 */
 	function __construct( &$db ) {
 		parent::__construct( '#__menu', 'id', $db );
+	}
+	
+	/**
+	* Overloaded bind function
+	*
+	* @acces public  
+	* @param array $hash named array
+	* @return null|string	null is operation was satisfactory, otherwise returns an error
+	* @see JModel:bind
+	* @since 1.1
+	*/
+	
+	function bind($array, $ignore = '')
+	{
+		if (is_array( $array['params'] )) {
+			$registry =& new JRegistry();
+			$registry->loadArray($array['params']);
+			$array['params'] = $registry->toString();
+		}
+	
+		return parent::bind($array, $ignore);
 	}
 }
 

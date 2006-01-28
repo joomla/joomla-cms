@@ -263,19 +263,12 @@ function copyModule( $option, $uid, $client ) {
 /**
 * Saves the module after an edit form submit
 */
-function saveModule( $option, $client, $task ) {
+function saveModule( $option, $client, $task ) 
+{
 	global $database;
 
-	$params = mosGetParam( $_POST, 'params', '' );
-	if (is_array( $params )) {
-		$txt = array();
-		foreach ($params as $k=>$v) {
-			$txt[] = "$k=$v";
-		}
-		$_POST['params'] = JParameters::textareaHandling( $txt );
-	}
-	
 	$row =& JModel::getInstance('module', $database );
+	
 	if (!$row->bind( $_POST, 'selections' )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -289,11 +282,13 @@ function saveModule( $option, $client, $task ) {
 		exit();
 	}
 	$row->checkin();
+	
 	if ($client == 'admin') {
 		$where = "client_id=1";
 	} else {
 		$where = "client_id=0";
 	}
+	
 	$row->updateOrder( "position='$row->position' AND ( $where )" );
 
 	$menus = mosGetParam( $_POST, 'selections', array() );
@@ -314,8 +309,11 @@ function saveModule( $option, $client, $task ) {
 		;
 		$database->setQuery( $query );
 		$database->query();
-	} else {
-		foreach ($menus as $menuid){
+	} 
+	else 
+	{
+		foreach ($menus as $menuid)
+		{
 			// this check for the blank spaces in the select box that have been added for cosmetic reasons
 			if ( $menuid != "-999" ) {
 				// assign new module to menu item associations

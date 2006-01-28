@@ -12,7 +12,7 @@
 	<params>
 	    <param name="admin_language" type="languages" client="administrator" default="" label="Back-end Language" description="paramAdminLanguage" />
 		<param name="language" type="languages" client="site" default="" label="Front-end Language" description="paramLanguage" />
-		<param name="editor" type="editor_list" default="" label="User Editor" description="WYSYWYG Editor for this User" />
+		<param name="editor" type="editors" default="" label="User Editor" description="WYSYWYG Editor for this User" />
 		<param name="helpsite" type="helpsites" default="" label="Help Site" description="Help site for this User" />
 	</params>
 </install>

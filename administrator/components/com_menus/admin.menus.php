@@ -385,17 +385,9 @@ function addMenuItem( &$cid, $menutype, $option, $task ) {
 /**
 * Generic function to save the menu
 */
-function saveMenu( $option, $task='save' ) {
+function saveMenu( $option, $task='save' ) 
+{
 	global $database;
-
-	$params = mosGetParam( $_POST, 'params', '' );
-	if (is_array( $params )) {
-		$txt = array();
-		foreach ($params as $k=>$v) {
-			$txt[] = "$k=$v";
-		}
-		$_POST['params'] = JParameters::textareaHandling( $txt );
-	}
 
 	$row =& JModel::getInstance('menu', $database );
 
@@ -403,9 +395,9 @@ function saveMenu( $option, $task='save' ) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-
+	
 	$row->name = ampReplace( $row->name );
-
+	
 	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();

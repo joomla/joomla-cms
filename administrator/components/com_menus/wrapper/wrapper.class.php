@@ -70,16 +70,8 @@ class wrapper_menu {
 	function saveMenu( $option, $task ) {
 		global $database;
 
-		$params = mosGetParam( $_POST, 'params', '' );
-		$params[url] = mosGetParam( $_POST, 'url', '' );
-
-		if (is_array( $params )) {
-			$txt = array();
-			foreach ($params as $k=>$v) {
-				$txt[] = "$k=$v";
-			}
- 			$_POST['params'] = JParameters::textareaHandling( $txt );
-		}
+		$params 	   = mosGetParam( $_POST, 'params', '' );
+		$params['url'] = mosGetParam( $_POST, 'url', '' );
 
 		$row =& JModel::getInstance('menu', $database );
 

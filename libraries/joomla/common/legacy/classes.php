@@ -414,8 +414,22 @@ class mosParameters extends JParameters {
 		
 		return $this->toObject( );
 	}
-}
+	
+	/**
+	* Special handling for textarea param
+	*/
+	function textareaHandling( &$txt ) {
+		$total = count( $txt );
+		for( $i=0; $i < $total; $i++ ) {
+			if ( strstr( $txt[$i], "\n" ) ) {
+				$txt[$i] = str_replace( "\n", '<br />', $txt[$i] );
+			}
+		}
+		$txt = implode( "\n", $txt );
 
+		return $txt;
+	}
+}
 
 /**
  * Legacy class, will be replaced by full MVC implementation in 1.2

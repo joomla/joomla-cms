@@ -175,20 +175,12 @@ function viewPlugins( $option, $client ) {
 /**
 * Saves the module after an edit form submit
 */
-function savePlugin( $option, $client, $task ) {
+function savePlugin( $option, $client, $task ) 
+{
 	global $database;
 
-	$params = mosGetParam( $_POST, 'params', '' );
-	if (is_array( $params )) {
-		$txt = array();
-		foreach ($params as $k=>$v) {
-			$txt[] = "$k=$v";
-		}
-
- 		$_POST['params'] = JParameters::textareaHandling( $txt );
-	}
-
 	$row =& JModel::getInstance('plugin', $database); 
+	
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -202,11 +194,13 @@ function savePlugin( $option, $client, $task ) {
 		exit();
 	}
 	$row->checkin();
+	
 	if ($client == 'admin') {
 		$where = "client_id='1'";
 	} else {
 		$where = "client_id='0'";
 	}
+	
 	$row->updateOrder( "folder = '$row->folder' AND ordering > -10000 AND ordering < 10000 AND ( $where )" );
 
 	switch ( $task ) {

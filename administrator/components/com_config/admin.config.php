@@ -296,7 +296,7 @@ class JConfigController {
 		 * Now we get the config registry in PHP class format and write it to
 		 * configuation.php then redirect appropriately.
 		 */
-		if (JFile :: write($fname, $mainframe->_registry->getNameSpaceString('PHP', 'JConfig'))) {
+		if (JFile :: write($fname, $mainframe->_registry->toString('PHP', 'JConfig'))) {
 
 			$msg = JText :: _('The Configuration Details have been updated');
 

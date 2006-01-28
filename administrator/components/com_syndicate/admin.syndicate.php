@@ -65,19 +65,12 @@ function showSyndicate( $option ) {
 * Saves the record from an edit form submit
 * @param string The current GET/POST option
 */
-function saveSyndicate() {
+function saveSyndicate() 
+{
 	global $database;
 
-	$params = mosGetParam( $_POST, 'params', '' );
-	if (is_array( $params )) {
-		$txt = array();
-		foreach ($params as $k=>$v) {
-			$txt[] = "$k=$v";
-		}
-		$_POST['params'] = JParameters::textareaHandling( $txt );
-	}
-
 	$id = mosGetParam( $_POST, 'id', '17' );
+	
 	$row =& JModel::getInstance('component', $database );
 	$row->load( $id );
 
