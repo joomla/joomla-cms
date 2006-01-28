@@ -41,6 +41,10 @@ Legend:
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
 
+28-Jan-2006 Louis Landry 
+ ^ Renamed auth plugins to authentication plugins
+ # Fixed problem with 1 being displayed on events being triggered
+
 28-Jan-2006 Rey Gigataras 
  + `mod_rss` renamed `mod_feed`
  + New `Delete` button for Admin "Edit" pages

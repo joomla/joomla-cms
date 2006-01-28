@@ -3,8 +3,8 @@
 # Joomla 1.0 to Joomla 1.1
 
 # Mambot Additions
-INSERT INTO `jos_mambots` VALUES (0, 'Joomla Auth Plugin', 'joomla', 'auth', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `jos_mambots` VALUES (0, 'LDAP Auth Plugin', 'ldap', 'auth', 0, 1, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `jos_mambots` VALUES (0, 'Joomla Authentication Plugin', 'joomla', 'authentication', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `jos_mambots` VALUES (0, 'LDAP Authentication Plugin', 'ldap', 'authentication', 0, 1, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `jos_mambots` VALUES (0, 'Joomla SEF URLs', 'joomla.sefurlbot', 'system', 0, 2, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `jos_mambots` VALUES (0, 'Search XML-RPC', 'search.xmlrpcbot', 'xmlrpc', 0, 7, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `jos_mambots` VALUES (0, 'Visitor Statistics', 'joomla.visitorbot', 'system', 0, 3, 1, 1, 0, 0, '0000-00-00 00:00:00', '');

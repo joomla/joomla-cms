@@ -42,7 +42,7 @@ class JAuthenticate extends JObject {
 		 */
 		 $query = 	"SELECT `element` " .
 		 			"\nFROM `#__plugins` " .
-		 			"\nWHERE (`folder`='auth' OR `folder`='user') " .
+		 			"\nWHERE (`folder`='authentication' OR `folder`='user') " .
 		 			"\nAND `published`='1'";
 		 $db->setQuery($query);
 		 $plugins = $db->loadResultArray();
@@ -115,7 +115,7 @@ class JAuthenticate extends JObject {
 				 * the plugin as this provides the ability to provide much more information
 				 * about why the routine may have failed.
 				 */
-				if (!in_array(false, $results)) {
+				if (!in_array(false, $results, true)) {
 
 					// Create a new user model and load the authenticated userid
 					$user =& JModel::getInstance('user', $db );
@@ -217,7 +217,7 @@ class JAuthenticate extends JObject {
 		 * the plugin as this provides the ability to provide much more information
 		 * about why the routine may have failed.
 		 */
-		if (!in_array(false, $results)) {
+		if (!in_array(false, $results, true)) {
 
 			// Clean the cache for this user
 			$cache = JFactory::getCache();
@@ -263,13 +263,14 @@ class JAuthenticate extends JObject {
 		 * authentication may have failed.
 		 */
 		foreach($results as $result) {
-			if($result != false) {
+			if($result !== false) {
 				if(is_object($result)) {
 					if($result->type == 'success') {
 						$auth = $result->uid;
 						break;
 					} else {
 						// Is an error or failure
+						// Probably method not enabled
 					}
 				} else {
 					// Return this value
@@ -653,7 +654,7 @@ class JAuthenticateHelper {
 
 		if (empty ($instances[$plugin])) {
 			// Build the path to the needed authentication plugin
-			$path = JPATH_SITE.DS.'plugins'.DS.'auth'.DS.$plugin.'.php';
+			$path = JPATH_SITE.DS.'plugins'.DS.'authentication'.DS.$plugin.'.php';
 
 			// Require plugin file
 			require_once($path);
