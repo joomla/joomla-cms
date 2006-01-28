@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <install type="module" version="1.0.0">
-	<name>RSS</name>
+	<name>Feed Display</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
@@ -8,9 +8,9 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.0.0</version>
-	<description>This module shows a specific RSS feed</description>
+	<description>This module allows the displaying of a syndicated feed</description>
 	<files>
-		<filename module="mod_rss">mod_rss.php</filename>
+		<filename module="mod_feed">mod_feed.php</filename>
 	</files>
 	<params>
 		<param name="cache" type="radio" default="0" label="Enable Cache" description="PARAMENABLECACHE">
@@ -21,7 +21,7 @@
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="rssurl" type="text" size="50" default="" label="RSS URL" description="Enter the URL of the RSS/RDF feed" />
+		<param name="rssurl" type="text" size="50" default="" label="Feed URL" description="Enter the URL of the RSS/RDF feed" />
 		<param name="rsstitle" type="radio" default="1" label="Feed Title" description="Display news feed title">
 			<option value="1">Yes</option>
 			<option value="0">No</option>

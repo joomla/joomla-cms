@@ -42,6 +42,7 @@ Legend:
 
 
 28-Jan-2006 Rey Gigataras 
+ + `mod_rss` renamed `mod_feed`
  + New `Delete` button for Admin "Edit" pages
  + `Save Order` Admin functionality added com_weblinks, com_newsfeeds, com_contact manager pages
  + `Filter` Admin functionality added to all manager pages
