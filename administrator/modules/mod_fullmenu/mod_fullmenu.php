@@ -85,27 +85,25 @@ class JFullAdminMenu {
 				['<img src="../includes/js/ThemeOffice/config.png" />','<?php echo JText::_( 'Global Configuration', true ); ?>','index2.php?option=com_config&hidemainmenu=1',null,'<?php echo JText::_( 'Configuration', true ); ?>'],
 			<?php
 		}
-		if ($manageLanguages) {	
-			?>				
-				['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Language Manager', true ); ?>',null,null,'<?php echo JText::_( 'Manage languages', true ); ?>',
-	  				['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Site Languages', true ); ?>','index2.php?option=com_languages&client=site',null,'<?php echo JText::_( 'Manage site languages', true ); ?>'],
-	   				['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Administrator Languages', true ); ?>','index2.php?option=com_languages&client=administrator',null,'<?php echo JText::_( 'Manage admin languages', true ); ?>'],
-	   			],
-			<?php
-		}
-		?>				
-				['<img src="../includes/js/ThemeOffice/media.png" />','<?php echo JText::_( 'Media Manager', true ); ?>','index2.php?option=com_media',null,'<?php echo JText::_( 'Manage Media Files', true ); ?>'],
-				['<img src="../includes/js/ThemeOffice/globe1.png" />', '<?php echo JText::_( 'Statistics', true ); ?>', null, null, '<?php echo JText::_( 'Site Statistics', true ); ?>',
+		?>
 		<?php
-		if ($enableStats == 1) {
-			?>					
-					['<img src="../includes/js/ThemeOffice/globe4.png" />', '<?php echo JText::_( 'Browser, OS, Domain', true ); ?>', 'index2.php?option=com_statistics', null, '<?php echo JText::_( 'Browser, OS, Domain', true ); ?>'],
-	  				['<img src="../includes/js/ThemeOffice/globe3.png" />', '<?php echo JText::_( 'Page Impressions', true ); ?>', 'index2.php?option=com_statistics&task=pageimp', null, '<?php echo JText::_( 'Page Impressions', true ); ?>'],
+		if ($canManageUsers || $canMassMail) {
+			?>				
+				['<img src="../includes/js/ThemeOffice/users.png" />','<?php echo JText::_( 'User Manager', true ); ?>','index2.php?option=com_users&task=view',null,'<?php echo JText::_( 'Manage users', true ); ?>'],
 			<?php
 		}
-		?>					
-					['<img src="../includes/js/ThemeOffice/search_text.png" />', '<?php echo JText::_( 'Search Text', true ); ?>', 'index2.php?option=com_statistics&task=searches', null, '<?php echo JText::_( 'Search Text', true ); ?>']
-				],
+		?>	
+				['<img src="../includes/js/ThemeOffice/media.png" />','<?php echo JText::_( 'Media Manager', true ); ?>','index2.php?option=com_media',null,'<?php echo JText::_( 'Manage Media Files', true ); ?>'],		
+		<?php
+		if ($canConfig)	{
+			?>			
+	  			['<img src="../includes/js/ThemeOffice/messaging_inbox.png" />','<?php echo JText::_( 'Messages', true ); ?>',null,null,'<?php echo JText::_( 'Messaging Management', true ); ?>',
+	  				['<img src="../includes/js/ThemeOffice/messaging_inbox.png" />','<?php echo JText::_( 'Inbox', true ); ?>','index2.php?option=com_messages',null,'<?php echo JText::_( 'Private Messages', true ); ?>'],
+	  				['<img src="../includes/js/ThemeOffice/messaging_config.png" />','<?php echo JText::_( 'Configuration', true ); ?>','index2.php?option=com_messages&task=config&hidemainmenu=1',null,'<?php echo JText::_( 'Configuration', true ); ?>']
+	  			],
+			<?php
+		}
+		?>
 		<?php
 		if ($manageTemplates) {
 			?>				
@@ -122,13 +120,29 @@ class JFullAdminMenu {
   				],
 			<?php
 		}
-		
-		if ($canManageUsers || $canMassMail) {
+		?>		
+		<?php		
+		if ($manageLanguages) {	
 			?>				
-				['<img src="../includes/js/ThemeOffice/users.png" />','<?php echo JText::_( 'User Manager', true ); ?>','index2.php?option=com_users&task=view',null,'<?php echo JText::_( 'Manage users', true ); ?>'],
+				['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Language Manager', true ); ?>',null,null,'<?php echo JText::_( 'Manage languages', true ); ?>',
+	  				['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Site Languages', true ); ?>','index2.php?option=com_languages&client=site',null,'<?php echo JText::_( 'Manage site languages', true ); ?>'],
+	   				['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Administrator Languages', true ); ?>','index2.php?option=com_languages&client=administrator',null,'<?php echo JText::_( 'Manage admin languages', true ); ?>'],
+	   			],
 			<?php
 		}
-		?>			
+		?>				
+				['<img src="../includes/js/ThemeOffice/globe1.png" />', '<?php echo JText::_( 'Statistics', true ); ?>', null, null, '<?php echo JText::_( 'Site Statistics', true ); ?>',
+		<?php
+		if ($enableStats == 1) {
+			?>					
+					['<img src="../includes/js/ThemeOffice/globe4.png" />', '<?php echo JText::_( 'Browser, OS, Domain', true ); ?>', 'index2.php?option=com_statistics', null, '<?php echo JText::_( 'Browser, OS, Domain', true ); ?>'],
+	  				['<img src="../includes/js/ThemeOffice/globe3.png" />', '<?php echo JText::_( 'Page Impressions', true ); ?>', 'index2.php?option=com_statistics&task=pageimp', null, '<?php echo JText::_( 'Page Impressions', true ); ?>'],
+			<?php
+		}
+		?>					
+					['<img src="../includes/js/ThemeOffice/search_text.png" />', '<?php echo JText::_( 'Search Text', true ); ?>', 'index2.php?option=com_statistics&task=searches', null, '<?php echo JText::_( 'Search Text', true ); ?>']
+				],
+		
 			],
 			_cmSplit,
 			
@@ -332,19 +346,6 @@ class JFullAdminMenu {
 		}
 		?>
 
-<?php /* Messages Sub-Menu */ ;?>
-		<?php
-		if ($canConfig)	{
-			?>			
-  			[null,'<?php echo JText::_( 'Messages', true ); ?>',null,null,'<?php echo JText::_( 'Messaging Management', true ); ?>',
-  				['<img src="../includes/js/ThemeOffice/messaging_inbox.png" />','<?php echo JText::_( 'Inbox', true ); ?>','index2.php?option=com_messages',null,'<?php echo JText::_( 'Private Messages', true ); ?>'],
-  				['<img src="../includes/js/ThemeOffice/messaging_config.png" />','<?php echo JText::_( 'Configuration', true ); ?>','index2.php?option=com_messages&task=config&hidemainmenu=1',null,'<?php echo JText::_( 'Configuration', true ); ?>']
-  			],
-			_cmSplit,
-			<?php
-		}
-		?>
-
 <?php /* System Sub-Menu */ ;?>  
 		<?php
 		if ($canConfig)	{
@@ -468,17 +469,6 @@ if ($installModules) {
 			
 	<?php
 } 
-?>
-
-<?php /* Messages Sub-Menu */ ?>
-<?php
-if ($canConfig)	{
-	?>
-  			[null,'<?php echo JText::_( 'Messages', true ); ?>',null,null,'<?php echo $text; ?>'],
-			_cmSplit,
-			
-	<?php
-}
 ?>
 
 <?php /* System Sub-Menu */ ?>
