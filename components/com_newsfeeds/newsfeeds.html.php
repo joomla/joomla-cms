@@ -22,7 +22,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_newsfeed {
 
-	function displaylist( &$categories, &$rows, $catid, $currentcat=NULL, &$params, $tabclass ) {
+	function displaylist( &$categories, &$rows, $catid, $currentcat=NULL, &$params, $tabclass, &$page ) {
 		global $Itemid, $hide_js;
 
 		if ( $params->get( 'page_title' ) ) {
@@ -33,27 +33,31 @@ class HTML_newsfeed {
 			<?php
 		}
 		?>
-		<form action="index.php" method="post" name="adminForm">
-
 		<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
-		<tr>
-			<td valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>">
-				<?php
-				// show image
-				if ( $currentcat->img ) {
-					?>
-					<img src="<?php echo $currentcat->img; ?>" align="<?php echo $currentcat->align; ?>" hspace="6" alt="<?php echo JText::_( 'Web Links' ); ?>" />
+		<?php
+		if ( @$currentcat->img || @$currentcat->descrip ) {
+			?>
+			<tr>
+				<td valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>">
 					<?php
-				}
-				echo $currentcat->descrip;
-				?>
-			</td>
-		</tr>
+					// show image
+					if ( $currentcat->img ) {
+						?>
+						<img src="<?php echo $currentcat->img; ?>" align="<?php echo $currentcat->align; ?>" hspace="6" alt="<?php echo JText::_( 'Web Links' ); ?>" />
+						<?php
+					}
+					echo $currentcat->descrip;
+					?>
+				</td>
+			</tr>
+			<?php
+		}
+		?>
 		<tr>
-			<td>
+			<td width="60%" colspan="2">
 				<?php
 				if ( count( $rows ) ) {
-					HTML_newsfeed::showTable( $params, $rows, $catid, $tabclass );
+					HTML_newsfeed::showTable( $params, $rows, $catid, $tabclass, $page );
 				}
 				?>
 			</td>
@@ -71,8 +75,6 @@ class HTML_newsfeed {
 			</td>
 		</tr>
 		</table>
-		
-		</form>
 		<?php
 		// displays back button
 		mosHTML::BackButton ( $params, $hide_js );
@@ -81,17 +83,33 @@ class HTML_newsfeed {
 	/**
 	* Display Table of items
 	*/
-	function showTable( &$params, &$rows, $catid, $tabclass ) {
+	function showTable( &$params, &$rows, $catid, $tabclass, &$page ) {
 		global $Itemid;
 
 		// icon in table display
 		$img = mosAdminMenus::ImageCheck( 'con_info.png', '/images/M_images/', $params->get( 'icon' ) );
 		?>
-		<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+		<form action="index.php" method="post" name="adminForm">
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<?php
+		if ($params->get('display')) {
+			?>
+			<tr>
+				<td align="right" colspan="4">		
+					<?php		
+					echo JText :: _('Display Num') .'&nbsp;';
+					$link = "index.php?option=com_newsfeeds&amp;catid=$catid&amp;Itemid=$Itemid";
+					echo $page->getLimitBox($link);
+					?>
+				</td>
+			</tr>
+			<?php
+		}
+		?>
 		<?php
 		if ( $params->get( 'headings' ) ) {
 			?>
-			<thead>
 			<tr>
 				<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="5">
 					<?php echo JText :: _('Num'); ?>
@@ -99,7 +117,7 @@ class HTML_newsfeed {
 				<?php
 				if ( $params->get( 'name' ) ) {
 					?>
-					<td height="20" width="90%" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" nowrap="nowrap">
+					<td height="20" width="90%" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
 						<?php echo JText::_( 'Feed Name' ); ?>
 					</td>
 					<?php
@@ -114,19 +132,7 @@ class HTML_newsfeed {
 					<?php
 				}
 				?>
-				<?php
-				/*
-				if ( $params->get( 'link' ) ) {
-					?>
-					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
-					<?php echo JText::_( 'Feed Link' ); ?>
-					</td>
-					<?php
-				}
-				*/
-				?>
 			</tr>
-			</thead>
 			<?php
 		}
 
@@ -135,18 +141,16 @@ class HTML_newsfeed {
 		foreach ($rows as $row) {
 			$link = 'index.php?option=com_newsfeeds&amp;task=view&amp;feedid='. $row->id .'&amp;Itemid='. $Itemid;
 			?>
-			<tbody>
-			<tr>
-				<td align="center">
+			<tr class="<?php echo $tabclass[$k]; ?>">
+				<td align="center" width="5">
 					<?php echo $i; ?>
 				</td>
 				<?php
 				if ( $params->get( 'name' ) ) {
 					?>
-					<td height="20" width="90%" nowrap="nowrap">
+					<td height="20" width="90%">
 						<a href="<?php echo sefRelToAbs( $link ); ?>" class="category<?php echo $params->get( 'pageclass_sfx' ); ?>">
 							<?php echo $row->name; ?></a>
-						<br/>						
 					</td>
 					<?php
 				}
@@ -160,25 +164,28 @@ class HTML_newsfeed {
 					<?php
 				}
 				?>
-				<?php
-				/*
-				if ( $params->get( 'link' ) ) {
-					?>
-					<td width="50%" class="<?php echo $tabclass[$k]; ?>">
-					<?php echo ampReplace( $row->link ); ?>
-					</td>
-					<?php
-				}
-				*/
-				?>
 			</tr>
-			</tbody>
 			<?php
 			$k = 1 - $k;
 			$i++;
 		}
 		?>
+		<tr>
+			<td align="center" colspan="4" class="sectiontablefooter<?php echo $params->get( 'pageclass_sfx' ); ?>">
+				<?php
+				$link = "index.php?option=com_weblinks&amp;catid=$catid&amp;Itemid=$Itemid";
+				echo $page->writePagesLinks($link);
+				?>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4" align="right">
+				<?php echo $page->writePagesCounter(); ?>
+			</td>
+		</tr>
 		</table>
+		
+		</form>
 		<?php
 	}
 
@@ -223,7 +230,7 @@ class HTML_newsfeed {
 					?>
 					<?php
 					// Writes Category Description
-					if ( $params->get( 'cat_description' ) ) {
+					if ( $params->get( 'cat_description' ) && $cat->description ) {
 						echo '<br />';
 						echo $cat->description;
 					}

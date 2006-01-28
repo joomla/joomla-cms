@@ -31,15 +31,22 @@ switch( $task ) {
 		break;
 
 	default:
-		listFeeds( $option, $catid );
+		listFeeds( $catid );
 		break;
 }
 
 
-function listFeeds( $option, $catid ) {
-	global $mainframe, $database, $my;
+function listFeeds( $catid ) {
+	global $mainframe;
 	global $Itemid;
 
+	$database 			= & $mainframe->getDBO();
+	$my 				= & $mainframe->getUser();
+	$breadcrumbs 		= & $mainframe->getPathWay();
+	$option 			= JRequest :: getVar('option');
+	$limit 				= JRequest :: getVar('limit', 				0, '', 'int');
+	$limitstart 		= JRequest :: getVar('limitstart', 			0, '', 'int');
+	
 	/* Query to retrieve all categories that belong under the contacts section and that are published. */
 	$query = "SELECT cc.*, a.catid, COUNT(a.id) AS numlinks"
 	. "\n FROM #__categories AS cc"
@@ -54,9 +61,53 @@ function listFeeds( $option, $catid ) {
 	$database->setQuery( $query );
 	$categories = $database->loadObjectList();
 
-	$rows = array();
+	// Parameters
+	$menu =& JModel::getInstance('menu', $database );
+	$menu->load( $Itemid );
+	$params = new JParameters( $menu->params );
+	
+	$params->def( 'page_title', 		1 );
+	$params->def( 'header', 			$menu->name );
+	$params->def( 'pageclass_sfx', 		'' );
+	$params->def( 'headings', 			1 );
+	$params->def( 'back_button', 		$mainframe->getCfg( 'back_button' ) );
+	$params->def( 'description_text', 	'' );
+	$params->def( 'image', 				-1 );
+	$params->def( 'image_align', 		'right' );
+	$params->def( 'other_cat_section', 	1 );
+	// Category List Display control
+	$params->def( 'other_cat', 			1 );
+	$params->def( 'cat_description', 	1 );
+	$params->def( 'cat_items', 			1 );
+	// Table Display control
+	$params->def( 'headings', 			1 );
+	$params->def( 'name',				1 );
+	$params->def( 'articles', 			1 );
+	$params->def( 'link', 				1 );
+	// pagination parameters	$params->def('display', 			1 );
+	$params->def('display_num', 		$mainframe->getCfg('list_limit'));
+
+
+	$rows 		= array();
 	$currentcat = NULL;
 	if ( $catid ) {
+
+		$query = "SELECT COUNT(id) as numitems"
+		. "\n FROM #__newsfeeds"
+		. "\n WHERE catid = $catid"
+		. "\n AND published = 1"
+		;
+		$database->setQuery($query);
+		$counter = $database->loadObjectList();
+		$total = $counter[0]->numitems;
+		$limit = $limit ? $limit : $params->get('display_num');
+		if ($total <= $limit) {
+			$limitstart = 0;
+		}
+		
+		jimport('joomla.pagination');
+		$page = new JPagination($total, $limitstart, $limit);
+		
 		// url links info for category
 		$query = "SELECT *"
 		. "\n FROM #__newsfeeds"
@@ -66,7 +117,7 @@ function listFeeds( $option, $catid ) {
 		;
 		$database->setQuery( $query );
 		$rows = $database->loadObjectList();
-
+		
 		// current category info
 		$query = "SELECT name, description, image, image_position"
 		. "\n FROM #__categories"
@@ -85,30 +136,6 @@ function listFeeds( $option, $catid ) {
 			return;
 		}
 	}
-
-	// Parameters
-	$menu =& JModel::getInstance('menu', $database );
-	$menu->load( $Itemid );
-	$params = new JParameters( $menu->params );
-
-	$params->def( 'page_title', 1 );
-	$params->def( 'header', $menu->name );
-	$params->def( 'pageclass_sfx', '' );
-	$params->def( 'headings', 1 );
-	$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
-	$params->def( 'description_text', '' );
-	$params->def( 'image', -1 );
-	$params->def( 'image_align', 'right' );
-	$params->def( 'other_cat_section', 1 );
-	// Category List Display control
-	$params->def( 'other_cat', 1 );
-	$params->def( 'cat_description', 1 );
-	$params->def( 'cat_items', 1 );
-	// Table Display control
-	$params->def( 'headings', 1 );
-	$params->def( 'name', 1 );
-	$params->def( 'articles', '1' );
-	$params->def( 'link', '1' );
 
 	if ( $catid ) {
 		$params->set( 'type', 'category' );
@@ -149,7 +176,6 @@ function listFeeds( $option, $catid ) {
 		$mainframe->setPageTitle( $menu->name. ' - ' .$currentcat->header );
 
 		// Add breadcrumb item per category
-		$breadcrumbs =& $mainframe->getPathWay();
 		$breadcrumbs->addItem($currentcat->header, '');
 	} else {
 		$currentcat->header = $params->get( 'header' );
@@ -162,7 +188,7 @@ function listFeeds( $option, $catid ) {
 	$tabclass = array( 'sectiontableentry1', 'sectiontableentry2' );
 
 
-	HTML_newsfeed::displaylist( $categories, $rows, $catid, $currentcat, $params, $tabclass );
+	HTML_newsfeed::displaylist( $categories, $rows, $catid, $currentcat, $params, $tabclass, $page );
 }
 
 

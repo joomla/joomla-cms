@@ -32,7 +32,7 @@ class JContactView {
 	 * @static
 	 * @since 1.0
 	 */
-	function displaylist( &$categories, &$rows, &$current, $catid, &$params, &$lists ) {
+	function displaylist( &$categories, &$rows, &$current, $catid, &$params, &$lists, &$page ) {
 		global $Itemid, $hide_js;
 
 		// used to show table rows in alternating colours
@@ -47,31 +47,32 @@ class JContactView {
 		}
 		?>
 		<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
-		<tr>
-			<td width="60%" valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>" colspan="2">
-				<?php
-				// show image
-				if ( $current->cimage ) {
-					?>
-					<img src="<?php echo $current->cimage; ?>" align="<?php echo $current->cimage_position; ?>" hspace="6" alt="<?php echo JText::_( 'Web Links' ); ?>" />
+		<?php
+		if ( @$current->cimage || @$current->cdescription ) {
+			?>
+			<tr>
+				<td width="60%" valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>" colspan="2">
 					<?php
-				}
-				echo $current->cdescription;
-				?>
-			</td>
-		</tr>
+					// show image
+					if ( @$current->cimage ) {
+						?>
+						<img src="<?php echo $current->cimage; ?>" align="<?php echo $current->cimage_position; ?>" hspace="6" alt="<?php echo JText::_( 'Web Links' ); ?>" />
+						<?php
+					}
+					echo @$current->cdescription;
+					?>
+				</td>
+			</tr>
+			<?php
+		}
+		?>
 		<tr>
 			<td>
 				<?php
 				if ( count( $rows ) ) {
-					JContactView::showTable( $params, $rows, $catid, $tabclass, $lists );
+					JContactView::showTable( $params, $rows, $catid, $tabclass, $lists, $page );
 				}
 				?>
-			</td>
-		</tr>
-		<tr>
-			<td>&nbsp;
-
 			</td>
 		</tr>
 		<tr>
@@ -231,7 +232,7 @@ class JContactView {
 	 * @static
 	 * @since 1.0
 	 */
-	function showTable( &$params, &$rows, $catid, $tabclass, &$lists ) {
+	function showTable( &$params, &$rows, $catid, $tabclass, &$lists, &$page ) {
 		global $Itemid;
 		?>
 		<script language="javascript" type="text/javascript">
@@ -247,11 +248,22 @@ class JContactView {
 		<form action="index.php?option=com_contact&amp;catid=<?php echo $catid;?>&amp;Itemid=<?php echo $Itemid;?>" method="post" name="adminForm">
 
 		<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+		<tr>
+			<td align="right" colspan="6">				
+				<?php
+				if ($params->get('display')) {
+					echo JText :: _('Display Num') .'&nbsp;';
+					$link = "index.php?option=com_contact&amp;catid=$catid&amp;Itemid=$Itemid";
+					echo $page->getLimitBox($link);
+				}
+				?>
+			</td>
+		</tr>
 		<?php
 		if ( $params->get( 'headings' ) ) {
 			?>
 			<tr>
-				<td width="10" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
+				<td width="5" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
 					<?php echo JText :: _('Num'); ?>
 				</td>
 				<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
@@ -260,7 +272,7 @@ class JContactView {
 				<?php
 				if ( $params->get( 'position' ) ) {
 					?>
-					<td height="20" width="30%" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
+					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
 						<?php mosCommonHTML :: tableOrdering( 'Position', 'cd.con_position', $lists ); ?>
 					</td>
 					<?php
@@ -269,7 +281,7 @@ class JContactView {
 				<?php
 				if ( $params->get( 'email' ) ) {
 					?>
-					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
+					<td height="20" width="20%" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
 						<?php echo JText::_( 'Email' ); ?>
 					</td>
 					<?php
@@ -278,7 +290,7 @@ class JContactView {
 				<?php
 				if ( $params->get( 'telephone' ) ) {
 					?>
-					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
+					<td height="20" width="15%" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
 						<?php echo JText::_( 'Phone' ); ?>
 					</td>
 					<?php
@@ -287,7 +299,7 @@ class JContactView {
 				<?php
 				if ( $params->get( 'fax' ) ) {
 					?>
-					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
+					<td height="20" width="15%" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
 						<?php echo JText::_( 'Fax' ); ?>
 					</td>
 					<?php
@@ -303,7 +315,7 @@ class JContactView {
 			$link = 'index.php?option=com_contact&amp;task=view&amp;contact_id='. $row->id .'&amp;Itemid='. $Itemid;
 			?>
 			<tr>
-				<td align="center" width="10">
+				<td align="center" width="5">
 					<?php echo $i; ?>
 				</td>
 				<td height="20" class="<?php echo $tabclass[$k]; ?>">
@@ -313,7 +325,7 @@ class JContactView {
 				<?php
 				if ( $params->get( 'position' ) ) {
 					?>
-					<td class="<?php echo $tabclass[$k]; ?>" width="30%">
+					<td class="<?php echo $tabclass[$k]; ?>">
 						<?php echo $row->con_position; ?>
 					</td>
 					<?php
@@ -355,6 +367,19 @@ class JContactView {
 			$i++;
 		}
 		?>
+		<tr>
+			<td align="center" colspan="6" class="sectiontablefooter<?php echo $params->get( 'pageclass_sfx' ); ?>">
+				<?php
+				$link = "index.php?option=com_contact&amp;catid=$catid&amp;Itemid=$Itemid";
+				echo $page->writePagesLinks($link);
+				?>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6" align="right">
+				<?php echo $page->writePagesCounter(); ?>
+			</td>
+		</tr>
 		</table>
 		
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />

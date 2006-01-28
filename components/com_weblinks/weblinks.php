@@ -117,6 +117,7 @@ class WeblinksController {
 		$params->def('weblink_icons', 		'' );
 		$params->def('image_align', 		'right' );
 		$params->def('back_button', 		$mainframe->getCfg('back_button') );
+		// pagination parameters
 		$params->def('display', 			1 );
 		$params->def('display_num', 		$mainframe->getCfg('list_limit'));
 
@@ -165,7 +166,6 @@ class WeblinksController {
 			if (!$category->load($catid)) {
 				JError::raiseError('SOME_ERROR_CODE', 'WeblinksController::showCategory: Unable to load the category', 'Category ID: '.$catid);
 			}
-
 		}
 
 		/*

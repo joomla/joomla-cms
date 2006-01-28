@@ -71,8 +71,11 @@ class JContactController {
 		 */
 		$db 				= & $mainframe->getDBO();
 		$my 				= & $mainframe->getUser();
+		$breadcrumbs	 	= & $mainframe->getPathWay();
 		$option 			= JRequest :: getVar('option');
 		$catid 				= JRequest :: getVar('catid', 				0, '', 'int');
+		$limit 				= JRequest :: getVar('limit', 				0, '', 'int');
+		$limitstart 		= JRequest :: getVar('limitstart', 			0, '', 'int');
 		$filter_order		= JRequest :: getVar('filter_order', 		'cd.ordering');
 		$filter_order_Dir	= JRequest :: getVar('filter_order_Dir', 	'ASC');
 
@@ -126,6 +129,9 @@ class JContactController {
 			$params->def('phone', 				0);
 			$params->def('fax', 				0);
 			$params->def('telephone', 			0);
+			// pagination parameters
+			$params->def('display', 			1 );
+			$params->def('display_num', 		$mainframe->getCfg('list_limit'));
 
 			if ($catid == 0) {
 				$catid = $params->get('catid', 0);
@@ -144,6 +150,22 @@ class JContactController {
 				// Ordering control
 				$orderby = "\n ORDER BY $filter_order $filter_order_Dir, cd.ordering";
 
+				$query = "SELECT COUNT(id) as numitems"
+				. "\n FROM #__contact_details AS cd"
+				. "\n WHERE catid = $catid"
+				. "\n AND published = 1"
+				;
+				$db->setQuery($query);
+				$counter = $db->loadObjectList();
+				$total = $counter[0]->numitems;
+				$limit = $limit ? $limit : $params->get('display_num');
+				if ($total <= $limit) {
+					$limitstart = 0;
+				}
+				
+				jimport('joomla.pagination');
+				$page = new JPagination($total, $limitstart, $limit);
+				
 				$query = "SELECT cd.*, cc.name AS cname, cc.description AS cdescription, cc.image AS cimage, cc.image_position AS cimage_position"
 						. "\n FROM #__contact_details AS cd"
 						. "\n INNER JOIN #__categories AS cc on cd.catid = cc.id"
@@ -214,7 +236,6 @@ class JContactController {
 			/*
 			 * Lets add the category breadcrumbs item
 			 */
-			$breadcrumbs = & $mainframe->getPathWay();
 			if (!empty ($current->cname)) {
 				$breadcrumbs->addItem($current->cname, "");
 			}
@@ -228,7 +249,7 @@ class JContactController {
 			$lists['order'] = $filter_order;
 			$selected = '';
 			
-			JContactView :: displaylist($categories, $rows, $current, $catid, $params, $lists);
+			JContactView :: displaylist($categories, $rows, $current, $catid, $params, $lists, $page);
 		}
 	}
 

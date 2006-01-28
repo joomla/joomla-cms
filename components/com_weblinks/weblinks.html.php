@@ -47,19 +47,25 @@ class WeblinksView {
 		}
 		?>
 		<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
+		<?php
+		if ( @$category->imgTag || @$category->description ) {
+			?>
+			<tr>
+				<td valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>">
+					<?php
+					// show image
+					if ( isset($category->imgTag) ) {
+						echo $category->imgTag;
+					}
+					echo $category->description;
+					?>
+				</td>
+			</tr>
+			<?php
+		}
+		?>		
 		<tr>
-			<td width="60%" valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>" colspan="2">
-				<?php
-				// show image
-				if ( isset($category->imgTag) ) {
-					echo $category->imgTag;
-				}
-				echo $category->description;
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
+			<td width="60%" colspan="2">
 				<?php
 				if ( count( $rows ) ) {
 					WeblinksView::showTable( $params, $rows, $catid, $tabclass, $lists, $page  );
@@ -173,19 +179,19 @@ class WeblinksView {
 			switch ($iparams->get( 'target' )) {
 				// cases are slightly different
 				case 1:
-				// open in a new window
-				$txt = '<a href="'. $link .'" target="_blank" class="'. $menuclass .'">'. $row->title .'</a>';
-				break;
+					// open in a new window
+					$txt = '<a href="'. $link .'" target="_blank" class="'. $menuclass .'">'. $row->title .'</a>';
+					break;
 
 				case 2:
-				// open in a popup window
-				$txt = "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">". $row->title ."</a>\n";
-				break;
+					// open in a popup window
+					$txt = "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\">". $row->title ."</a>\n";
+					break;
 
 				default:	// formerly case 2
-				// open in parent window
-				$txt = '<a href="'. $link .'" class="'. $menuclass .'">'. $row->title .'</a>';
-				break;
+					// open in parent window
+					$txt = '<a href="'. $link .'" class="'. $menuclass .'">'. $row->title .'</a>';
+					break;
 			}
 			?>
 			<tr class="<?php echo $tabclass[$k]; ?>">
