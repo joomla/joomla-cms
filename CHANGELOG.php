@@ -41,6 +41,9 @@ Legend:
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
 
+29-Jan-2006 Rey Gigataras 
+ ^ Content item page navigaiton moved to `Page Navigation` plugin 
+
 28-Jan-2006 Louis Landry 
  ^ Renamed auth plugins to authentication plugins
  # Fixed problem with 1 being displayed on events being triggered

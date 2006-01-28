@@ -373,17 +373,14 @@ class JConfigView {
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td colspan="2">
 							<span class="editlinktip">
 							<?php
-							$tip = JText::_( 'TIPIFSETTOSHOWHITS' );
-							echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Hits' ), '', 0 );
+							$tip = JText::_( 'TIPPAGENAV' );
+							echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Content Item Navigations' ), 'index2.php?option=com_plugins&client=site&task=editA&hidemainmenu=1&id=25' );
 							?>
 							:				
 							</span>
-						</td>
-						<td>
-							<?php echo $lists['hits']; ?>
 						</td>
 					</tr>
 					</table>			
@@ -397,7 +394,7 @@ class JConfigView {
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td width="185">
 							<?php echo JText::_( 'PDF Icon' ); ?>:
 						</td>
 						<td>
@@ -450,14 +447,20 @@ class JConfigView {
 					</tr>
 					<tr>
 						<td>
-							<?php echo JText::_( 'Content Item Navigation' ); ?>:
+							<span class="editlinktip">
+							<?php
+							$tip = JText::_( 'TIPIFSETTOSHOWHITS' );
+							echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Hits' ), '', 0 );
+							?>
+							:				
+							</span>
 						</td>
 						<td>
-							<?php echo $lists['item_navigation']; ?>
+							<?php echo $lists['hits']; ?>
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td colspan="2">
 							<span class="editlinktip">
 							<?php
 							$tip = JText::_( 'TIPTOC' );
@@ -465,9 +468,6 @@ class JConfigView {
 							?>
 							:				
 							</span>
-						</td>
-						<td>
-						&nbsp;
 						</td>
 					</tr>
 					</table>

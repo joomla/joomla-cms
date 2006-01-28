@@ -466,8 +466,7 @@ class JContentView
 	* @param object An object with the record data
 	* @param boolean If <code>false</code>, the print button links to a popup window.  If <code>true</code> then the print button invokes the browser print method.
 	*/
-	function show(& $row, & $params, & $access, $page = 0, $option, $ItemidCount = NULL)
-	{
+	function show(& $row, & $params, & $access, $page = 0, $option, $ItemidCount = NULL) {
 		global $mainframe, $hide_js, $Itemid;
 
 		/*
@@ -530,26 +529,22 @@ class JContentView
 		{
 			$document->setTitle($SiteName.' - '.$row->title);
 		}
-
+/*
 		// determines links to next and prev content items within category
 		if ($params->get('item_navigation'))
 		{
-			if ($row->prev)
-			{
+			if ($row->prev) {
 				$row->prev = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$row->prev.'&amp;Itemid='.$_Itemid);
-			} else
-			{
+			} else {
 				$row->prev = 0;
 			}
-			if ($row->next)
-			{
+			if ($row->next) {
 				$row->next = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$row->next.'&amp;Itemid='.$_Itemid);
-			} else
-			{
+			} else {
 				$row->next = 0;
 			}
 		}
-
+*/
 		if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email'))
 		{
 			// link used by print button
@@ -574,27 +569,22 @@ class JContentView
 			</tr>
 			</table>
 		<?php
-		} else
-			if ($access->canEdit)
-			{
+		} else if ($access->canEdit) {
 			// edit icon when item title set to hide
 			?>
 			<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
  			<tr>
  				<td>
- 				<?php
-				JContentView :: _editIcon($row, $params, $access);
-				?>
+	 				<?php
+					JContentView :: _editIcon($row, $params, $access);
+					?>
  				</td>
  			</tr>
  			</table>
  			<?php
+		}
 
-
-			}
-
-		if (!$params->get('intro_only'))
-		{
+		if (!$params->get('intro_only')) {
 			$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (& $row, & $params, $page));
 			echo trim(implode("\n", $results));
 		}
@@ -620,15 +610,13 @@ class JContentView
 		?>
 		<tr>
 			<td valign="top" colspan="2">
-			<?php
-
-
-		// displays Table of Contents
-		JContentView :: _toc($row);
-
-		// displays Item Text
-		echo ampReplace($row->text);
-		?>
+				<?php
+				// displays Table of Contents
+				JContentView :: _toc($row);
+		
+				// displays Item Text
+				echo ampReplace($row->text);
+				?>
 			</td>
 		</tr>
 		<?php
@@ -649,7 +637,7 @@ class JContentView
 		echo trim(implode("\n", $onAfterDisplayContent));
 
 		// displays the next & previous buttons
-		JContentView :: _navigation($row, $params);
+		//JContentView :: _navigation($row, $params);
 
 		// displays close button in pop-up window
 		mosHTML :: CloseButton($params, $hide_js);
@@ -830,12 +818,12 @@ class JContentView
 					} else	{
 						?>
 						<td>
-						<?php
-						echo $row->title.' : ';
-						$link = sefRelToAbs('index.php?option=com_registration&amp;task=register');
-						?>
-						<a href="<?php echo $link; ?>">
-							<?php echo JText::_( 'Register to read more...' ); ?></a>
+							<?php
+							echo $row->title.' : ';
+							$link = sefRelToAbs('index.php?option=com_registration&amp;task=register');
+							?>
+							<a href="<?php echo $link; ?>">
+								<?php echo JText::_( 'Register to read more...' ); ?></a>
 						</td>
 					<?php
 					}
@@ -923,10 +911,11 @@ class JContentView
 		{
 		?>
 			<div>
-			<strong>
-			<?php echo JText::_( 'Read more...' ); ?>
-			</strong>
+				<strong>
+				<?php echo JText::_( 'Read more...' ); ?>
+				</strong>
 			</div>
+			
 			<ul>
 			<?php
 		}
@@ -942,9 +931,9 @@ class JContentView
 			$link = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$rows[$i]->id.'&amp;Itemid='.$_Itemid)
 			?>
 			<li>
-			<a class="blogsection" href="<?php echo $link; ?>">
-			<?php echo $rows[$i]->title; ?>
-			</a>
+				<a class="blogsection" href="<?php echo $link; ?>">
+				<?php echo $rows[$i]->title; ?>
+				</a>
 			</li>
 			<?php
 			 $i ++;
@@ -963,8 +952,7 @@ class JContentView
 	* @return void
 	* @since 1.0
 	*/
-	function editContent(& $row, $section, & $lists, & $images, & $access, $myid, $sectionid, $task, $Itemid)
-	{
+	function editContent(& $row, $section, & $lists, & $images, & $access, $myid, $sectionid, $task, $Itemid) {
 		global $mainframe, $Itemid;
 
 		// Require the toolbar
@@ -1029,21 +1017,21 @@ class JContentView
 				//} else if (form.introtext.value == "") {
 				//	alert ( "<?php echo JText::_( 'Content item must have intro text', true ); ?>" );
 				} else {
-		<?php
-		$editor = & JEditor :: getInstance();
-		echo $editor->getEditorContents('editor1', 'introtext');
-		echo $editor->getEditorContents('editor2', 'fulltext');
-		?>
+					<?php
+					$editor = & JEditor :: getInstance();
+					echo $editor->getEditorContents('editor1', 'introtext');
+					echo $editor->getEditorContents('editor2', 'fulltext');
+					?>
 					submitform(pressbutton);
 				}
 			//} else if (form.introtext.value == "") {
 			//	alert ( "<?php echo JText::_( 'Content item must have intro text', true ); ?>" );
 			} else {
 				// for static content
-		<?php
-		$editor = & JEditor :: getInstance();
-		echo $editor->getEditorContents('editor1', 'introtext');
-		?>
+				<?php
+				$editor = & JEditor :: getInstance();
+				echo $editor->getEditorContents('editor1', 'introtext');
+				?>
 				submitform(pressbutton);
 			}
 		}
@@ -1076,10 +1064,10 @@ class JContentView
 		<table cellspacing="0" cellpadding="0" border="0" width="100%">
 		<tr>
 			<td class="contentheading" >
-			<?php echo $section;?> / <?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?>&nbsp;
-			<?php echo JText::_( 'Content' );?> &nbsp;&nbsp;&nbsp;
-			<?php echo mosToolTip('<table>'.$docinfo.'</table>', JText::_( 'Item Information', true ), '', '', '<strong>['.JText::_( 'Info', true ).']</strong>'); ?>
-			</a>
+				<?php echo $section;?> / <?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?>&nbsp;
+				<?php echo JText::_( 'Content' );?> &nbsp;&nbsp;&nbsp;
+				<?php echo mosToolTip('<table>'.$docinfo.'</table>', JText::_( 'Item Information', true ), '', '', '<strong>['.JText::_( 'Info', true ).']</strong>'); ?>
+				</a>
 			</td>
 		</tr>
 		</table>
@@ -1093,26 +1081,25 @@ class JContentView
 					<input class="inputbox" type="text" name="title" size="50" maxlength="100" value="<?php echo $row->title; ?>" />
 				</div>
 				<div style="float: right;">
-		<?php
-		// Toolbar Top
-		mosToolBar :: startTable();
-		mosToolBar :: save();
-		mosToolBar :: apply('apply_new');
-		mosToolBar :: cancel();
-		mosToolBar :: endtable();
-		?>
+					<?php
+					// Toolbar Top
+					mosToolBar :: startTable();
+					mosToolBar :: save();
+					mosToolBar :: apply('apply_new');
+					mosToolBar :: cancel();
+					mosToolBar :: endtable();
+					?>
 				</div>
 			</td>
 		</tr>
 		<?php
-		if ($row->sectionid)
-		{
+		if ($row->sectionid) {
 			?>
 			<tr>
 				<td>
-				<?php echo JText::_( 'Category' ); ?>:
-				<br />
-				<?php echo $lists['catid']; ?>
+					<?php echo JText::_( 'Category' ); ?>:
+					<br />
+					<?php echo $lists['catid']; ?>
 				</td>
 			</tr>
 			<?php
@@ -1120,48 +1107,45 @@ class JContentView
 		?>
 		<tr>
 		<?php
-		if (intval($row->sectionid) > 0)
-		{
+		if (intval($row->sectionid) > 0) {
 			?>
-				<td>
+			<td>
 				<?php echo JText::_( 'Intro Text' ) .' ('. JText::_( 'Required' ) .')'; ?>:
-				</td>
-				<?php
-		} else
-		{
+			</td>
+			<?php
+		} else {
 			?>
-				<td>
+			<td>
 				<?php echo JText::_( 'Main Text' ) .' ('. JText::_( 'Required' ) .')'; ?>:
-				</td>
+			</td>
 			<?php
 		}
 		?>
 		</tr>
 		<tr>
 			<td>
-			<?php
-		// parameters : areaname, content, hidden field, width, height, rows, cols
-		$editor = & JEditor :: getInstance();
-		echo $editor->getEditor('editor1', $row->introtext, 'introtext', '600', '400', '70', '15');
-		?>
+				<?php
+				// parameters : areaname, content, hidden field, width, height, rows, cols
+				$editor = & JEditor :: getInstance();
+				echo $editor->getEditor('editor1', $row->introtext, 'introtext', '600', '400', '70', '15');
+				?>
 			</td>
 		</tr>
 		<?php
-		if (intval($row->sectionid) > 0)
-		{
+		if (intval($row->sectionid) > 0) {
 			?>
 			<tr>
 				<td>
-				<?php echo JText::_( 'Main Text' ) .' ('. JText::_( 'Optional' ) .')'; ?>:
+					<?php echo JText::_( 'Main Text' ) .' ('. JText::_( 'Optional' ) .')'; ?>:
 				</td>
 			</tr>
 			<tr>
 				<td>
-			<?php
-			// parameters : areaname, content, hidden field, width, height, rows, cols
-			$editor = & JEditor :: getInstance();
-			echo $editor->getEditor('editor2', $row->fulltext, 'fulltext', '600', '400', '70', '15');
-			?>
+					<?php
+					// parameters : areaname, content, hidden field, width, height, rows, cols
+					$editor = & JEditor :: getInstance();
+					echo $editor->getEditor('editor2', $row->fulltext, 'fulltext', '600', '400', '70', '15');
+					?>
 				</td>
 			</tr>
 			<?php
@@ -1184,7 +1168,7 @@ class JContentView
 			<table class="adminform">
 			<tr>
 				<td colspan="4">
-				<?php echo JText::_( 'Sub-folder' ); ?> - <?php echo $lists['folders'];?>
+					<?php echo JText::_( 'Sub-folder' ); ?> - <?php echo $lists['folders'];?>
 				</td>
 			</tr>
 			<tr>
@@ -1221,72 +1205,72 @@ class JContentView
 					<table>
 					<tr>
 						<td align="right">
-						<?php echo JText::_( 'Source' ); ?>:
+							<?php echo JText::_( 'Source' ); ?>:
 						</td>
 						<td>
-						<input class="inputbox" type="text" name= "_source" value="" size="15" />
+							<input class="inputbox" type="text" name= "_source" value="" size="15" />
 						</td>
 					</tr>
 					<tr>
 						<td align="right" valign="top">
-						<?php echo JText::_( 'Align' ); ?>:
+							<?php echo JText::_( 'Align' ); ?>:
 						</td>
 						<td>
-						<?php echo $lists['_align']; ?>
+							<?php echo $lists['_align']; ?>
 						</td>
 					</tr>
 					<tr>
 						<td align="right">
-						<?php echo JText::_( 'Alt Text' ); ?>:
+							<?php echo JText::_( 'Alt Text' ); ?>:
 						</td>
 						<td>
-						<input class="inputbox" type="text" name="_alt" value="" size="15" />
+							<input class="inputbox" type="text" name="_alt" value="" size="15" />
 						</td>
 					</tr>
 					<tr>
 						<td align="right">
-						<?php echo JText::_( 'Border' ); ?>:
+							<?php echo JText::_( 'Border' ); ?>:
 						</td>
 						<td>
-						<input class="inputbox" type="text" name="_border" value="" size="3" maxlength="1" />
+							<input class="inputbox" type="text" name="_border" value="" size="3" maxlength="1" />
 						</td>
 					</tr>
 					<tr>
 						<td align="right">
-						<?php echo JText::_( 'Caption' ); ?>:
+							<?php echo JText::_( 'Caption' ); ?>:
 						</td>
 						<td>
-						<input class="text_area" type="text" name="_caption" value="" size="30" />
+							<input class="text_area" type="text" name="_caption" value="" size="30" />
 						</td>
 					</tr>
 					<tr>
 						<td align="right">
-						<?php echo JText::_( 'Caption Position' ); ?>:
+							<?php echo JText::_( 'Caption Position' ); ?>:
 						</td>
 						<td>
-						<?php echo $lists['_caption_position']; ?>
+							<?php echo $lists['_caption_position']; ?>
 						</td>
 					</tr>
 					<tr>
 						<td align="right">
-						<?php echo JText::_( 'Caption Align' ); ?>:
+							<?php echo JText::_( 'Caption Align' ); ?>:
 						</td>
 						<td>
-						<?php echo $lists['_caption_align']; ?>
+							<?php echo $lists['_caption_align']; ?>
 						</td>
 					</tr>
 					<tr>
 						<td align="right">
-						<?php echo JText::_( 'Caption Width' ); ?>:
+							<?php echo JText::_( 'Caption Width' ); ?>:
 						</td>
 						<td>
-						<input class="text_area" type="text" name="_width" value="" size="5" maxlength="5" />
+							<input class="text_area" type="text" name="_width" value="" size="5" maxlength="5" />
 						</td>
 					</tr>
 					<tr>
 						<td align="right"></td>
 						<td>
-						<input class="button" type="button" value="<?php echo JText::_( 'Apply' ); ?>" onclick="applyImageProps()" />
+							<input class="button" type="button" value="<?php echo JText::_( 'Apply' ); ?>" onclick="applyImageProps()" />
 						</td>
 					</tr>
 					</table>
@@ -1312,15 +1296,14 @@ class JContentView
 		?>
 			<table class="adminform">
 			<?php
-		if ($access->canPublish)
-		{
+		if ($access->canPublish) {
 			?>
 				<tr>
 					<td >
-					<?php echo JText::_( 'State' ); ?>:
+						<?php echo JText::_( 'State' ); ?>:
 					</td>
 					<td>
-					<?php echo $lists['state']; ?>
+						<?php echo $lists['state']; ?>
 					</td>
 				</tr>
 			<?php
@@ -1328,52 +1311,52 @@ class JContentView
 			?>
 			<tr>
 				<td >
-				<?php echo JText::_( 'Access Level' ); ?>:
+					<?php echo JText::_( 'Access Level' ); ?>:
 				</td>
 				<td>
-				<?php echo $lists['access']; ?>
+					<?php echo $lists['access']; ?>
 				</td>
 			</tr>
 			<tr>
 				<td >
-				<?php echo JText::_( 'Author Alias' ); ?>:
+					<?php echo JText::_( 'Author Alias' ); ?>:
 				</td>
 				<td>
-				<input type="text" name="created_by_alias" size="50" maxlength="100" value="<?php echo $row->created_by_alias; ?>" class="inputbox" />
+					<input type="text" name="created_by_alias" size="50" maxlength="100" value="<?php echo $row->created_by_alias; ?>" class="inputbox" />
 				</td>
 			</tr>
 			<tr>
 				<td >
-				<?php echo JText::_( 'Ordering' ); ?>:
+					<?php echo JText::_( 'Ordering' ); ?>:
 				</td>
 				<td>
-				<?php echo $lists['ordering']; ?>
+					<?php echo $lists['ordering']; ?>
 				</td>
 			</tr>
 			<tr>
 				<td >
-				<?php echo JText::_( 'Start Publishing' ); ?>:
+					<?php echo JText::_( 'Start Publishing' ); ?>:
 				</td>
 				<td>
-				<input class="inputbox" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo $row->publish_up; ?>" />
-				<input type="reset" class="button" value="..." onclick="return showCalendar('publish_up', 'y-mm-dd');" />
+					<input class="inputbox" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo $row->publish_up; ?>" />
+					<input type="reset" class="button" value="..." onclick="return showCalendar('publish_up', 'y-mm-dd');" />
 				</td>
 			</tr>
 			<tr>
 				<td >
-				<?php echo JText::_( 'Finish Publishing' ); ?>:
+					<?php echo JText::_( 'Finish Publishing' ); ?>:
 				</td>
 				<td>
-				<input class="inputbox" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $row->publish_down; ?>" />
-				<input type="reset" class="button" value="..." onclick="return showCalendar('publish_down', 'y-mm-dd');" />
+					<input class="inputbox" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $row->publish_down; ?>" />
+					<input type="reset" class="button" value="..." onclick="return showCalendar('publish_down', 'y-mm-dd');" />
 				</td>
 			</tr>
 			<tr>
 				<td >
-				<?php echo JText::_( 'Show on Front Page' ); ?>:
+					<?php echo JText::_( 'Show on Front Page' ); ?>:
 				</td>
 				<td>
-				<input type="checkbox" name="frontpage" value="1" <?php echo $row->frontpage ? 'checked="checked"' : ''; ?> />
+					<input type="checkbox" name="frontpage" value="1" <?php echo $row->frontpage ? 'checked="checked"' : ''; ?> />
 				</td>
 			</tr>
 			</table>
@@ -1385,18 +1368,18 @@ class JContentView
 			<table class="adminform">
 			<tr>
 				<td  valign="top">
-				<?php echo JText::_( 'Description' ); ?>:
+					<?php echo JText::_( 'Description' ); ?>:
 				</td>
 				<td>
-				<textarea class="inputbox" cols="45" rows="3" name="metadesc"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
+					<textarea class="inputbox" cols="45" rows="3" name="metadesc"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
 				</td>
 			</tr>
 			<tr>
 				<td  valign="top">
-				<?php echo JText::_( 'Keywords' ); ?>:
+					<?php echo JText::_( 'Keywords' ); ?>:
 				</td>
 				<td>
-				<textarea class="inputbox" cols="45" rows="3" name="metakey"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
+					<textarea class="inputbox" cols="45" rows="3" name="metakey"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
 				</td>
 			</tr>
 			</table>
@@ -1431,8 +1414,7 @@ class JContentView
 	 * @return void
 	 * @since 1.0
 	 */
-	function emailForm($uid, $title, $template = '')
-	{
+	function emailForm($uid, $title, $template = '') {
 		global $mosConfig_sitename, $mainframe;
 
 		$mainframe->setPageTitle($mosConfig_sitename.' - '.$title);
@@ -1454,7 +1436,7 @@ class JContentView
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
 			<td colspan="2">
-			<?php echo JText::_( 'Email this to a friend.' ); ?>
+				<?php echo JText::_( 'Email this to a friend.' ); ?>
 			</td>
 		</tr>
 		<tr>
@@ -1462,34 +1444,34 @@ class JContentView
 		</tr>
 		<tr>
 			<td width="130">
-			<?php echo JText::_( 'Your friend`s Email' ); ?>:
+				<?php echo JText::_( 'Your friend`s Email' ); ?>:
 			</td>
 			<td>
-			<input type="text" name="email" class="inputbox" size="25" />
+				<input type="text" name="email" class="inputbox" size="25" />
 			</td>
 		</tr>
 		<tr>
 			<td height="27">
-			<?php echo JText::_( 'Your Name' ); ?>:
+				<?php echo JText::_( 'Your Name' ); ?>:
 			</td>
 			<td>
-			<input type="text" name="yourname" class="inputbox" size="25" />
-			</td>
-		</tr>
-		<tr>
-			<td>
-			<?php echo JText::_( 'Your Email' ); ?>:
-			</td>
-			<td>
-			<input type="text" name="youremail" class="inputbox" size="25" />
+				<input type="text" name="yourname" class="inputbox" size="25" />
 			</td>
 		</tr>
 		<tr>
 			<td>
-			&nbsp;<?php echo JText::_( 'Message subject' ); ?>:
+				<?php echo JText::_( 'Your Email' ); ?>:
 			</td>
 			<td>
-			<input type="text" name="subject" class="inputbox" maxlength="100" size="40" />
+				<input type="text" name="youremail" class="inputbox" size="25" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				&nbsp;<?php echo JText::_( 'Message subject' ); ?>:
+			</td>
+			<td>
+				<input type="text" name="subject" class="inputbox" maxlength="100" size="40" />
 			</td>
 		</tr>
 		<tr>
@@ -1497,9 +1479,9 @@ class JContentView
 		</tr>
 		<tr>
 			<td colspan="2">
-			<input type="submit" name="submit" class="button" value="<?php echo JText::_( 'Send email' ); ?>" />
-			&nbsp;&nbsp;
-			<input type="button" name="cancel" value="<?php echo JText::_( 'Cancel' ); ?>" class="button" onclick="window.close();" />
+				<input type="submit" name="submit" class="button" value="<?php echo JText::_( 'Send email' ); ?>" />
+				&nbsp;&nbsp;
+				<input type="button" name="cancel" value="<?php echo JText::_( 'Cancel' ); ?>" class="button" onclick="window.close();" />
 			</td>
 		</tr>
 		</table>
@@ -1520,22 +1502,21 @@ class JContentView
 	 * @return void
 	 * @since 1.0
 	 */
-	function emailSent($to, $template = '')
-	{
+	function emailSent($to, $template = '') {
 		global $mainframe;
 
 		$mainframe->setPageTitle($mainframe->getCfg('sitename'));
 		$mainframe->addCustomHeadTag('<link rel="stylesheet" href="templates/'.$template.'/css/template_css.css" type="text/css" />');
 		?>
-		<span class="contentheading"><?php echo JText::_( 'This item has been sent to' )." $to";?></span> <br />
+		<span class="contentheading">
+			<?php echo JText::_( 'This item has been sent to' )." $to";?>
+		</span> 
+		<br />
 		<br />
 		<br />
 		<a href='javascript:window.close();'>
-		<span class="small"><?php echo JText::_( 'Close Window' );?></span>
-		</a>
+			<span class="small"><?php echo JText::_( 'Close Window' );?></span></a>
 		<?php
-
-
 	}
 
 	/**
@@ -1546,8 +1527,7 @@ class JContentView
 	 * @return void
 	 * @since 1.1
 	 */
-	function emptyContainer($msg)
-	{
+	function emptyContainer($msg) {
 		echo '<p><div align="center">'.$msg.'</div></p>';
 	}
 	
@@ -1559,8 +1539,7 @@ class JContentView
 	 * @return void
 	 * @since 1.1
 	 */
-	function userInputError($msg)
-	{
+	function userInputError($msg) {
 		josErrorAlert($msg);
 	}
 
@@ -1578,37 +1557,30 @@ class JContentView
 	 * @return void
 	 * @since 1.0
 	 */
-	function _title($row, $params, $linkOn, $access)
-	{
-		if ($params->get('item_title'))
-		{
-			if ($params->get('link_titles') && $linkOn != '')
-			{
+	function _title($row, $params, $linkOn, $access) {
+		if ($params->get('item_title')) {
+			if ($params->get('link_titles') && $linkOn != '') {
 				?>
 				<td class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>" width="100%">
-				<a href="<?php echo $linkOn;?>" class="contentpagetitle<?php echo $params->get( 'pageclass_sfx' ); ?>">
-				<?php echo $row->title;?>
-				</a>
-				<?php JContentView::_editIcon( $row, $params, $access ); ?>
+					<a href="<?php echo $linkOn;?>" class="contentpagetitle<?php echo $params->get( 'pageclass_sfx' ); ?>">
+						<?php echo $row->title;?></a>
+					<?php JContentView::_editIcon( $row, $params, $access ); ?>
 				</td>
 				<?php
 
 
-			} 
-			else
-			{
+			} else {
 				?>
 				<td class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>" width="100%">
-				<?php echo $row->title;?>
-				<?php JContentView::_editIcon( $row, $params, $access ); ?>
+					<?php echo $row->title;?>
+					<?php JContentView::_editIcon( $row, $params, $access ); ?>
 				</td>
 				<?php
 			}
-		} else
-		{
+		} else {
 			?>
 			<td class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>" width="100%">
-			<?php JContentView::_editIcon( $row, $params, $access ); ?>
+				<?php JContentView::_editIcon( $row, $params, $access ); ?>
 			</td>
 			<?php
 		}
@@ -1627,20 +1599,16 @@ class JContentView
 	 * @return void
 	 * @since 1.0
 	 */
-	function _editIcon($row, $params, $access)
-	{
+	function _editIcon($row, $params, $access) {
 		global $Itemid, $my, $mainframe;
 
-		if ($params->get('popup'))
-		{
+		if ($params->get('popup')) {
 			return;
 		}
-		if ($row->state < 0)
-		{
+		if ($row->state < 0) {
 			return;
 		}
-		if (!$access->canEdit && !($access->canEditOwn && $row->created_by == $my->id))
-		{
+		if (!$access->canEdit && !($access->canEditOwn && $row->created_by == $my->id)) {
 			return;
 		}
 
@@ -1649,11 +1617,9 @@ class JContentView
 		$link = 'index.php?option=com_content&amp;task=edit&amp;id='.$row->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
 		$image = mosAdminMenus :: ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText :: _('Edit'), JText :: _('Edit'));
 
-		if ($row->state == 0)
-		{
+		if ($row->state == 0) {
 			$overlib = JText :: _('Unpublished');
-		} else
-		{
+		} else {
 			$overlib = JText :: _('Published');
 		}
 		$date = mosFormatDate($row->created);
@@ -1667,8 +1633,7 @@ class JContentView
 		$overlib .= $author;
 		?>
 		<a href="<?php echo sefRelToAbs( $link ); ?>" onmouseover="return overlib('<?php echo $overlib; ?>', CAPTION, '<?php echo JText::_( 'Edit Item' ); ?>', BELOW, RIGHT);" onmouseout="return nd();">
-		<?php echo $image; ?>
-		</a>
+			<?php echo $image; ?></a>
 		<?php
 	}
 
@@ -1686,24 +1651,19 @@ class JContentView
 	 * @return void
 	 * @since 1.0
 	 */
-	function _pdfIcon($row, $params, $linkOn, $hideJS)
-	{
-		if ($params->get('pdf') && !$params->get('popup') && !$hideJS)
-		{
+	function _pdfIcon($row, $params, $linkOn, $hideJS) {
+		if ($params->get('pdf') && !$params->get('popup') && !$hideJS) {
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 			$link = 'index2.php?option=com_content&amp;no_html=1&amp;task=viewpdf&amp;id='.$row->id;
-			if ($params->get('icons'))
-			{
+			if ($params->get('icons')) {
 				$image = mosAdminMenus :: ImageCheck('pdf_button.png', '/images/M_images/', NULL, NULL, JText :: _('PDF'), JText :: _('PDF'));
-			} else
-			{
+			} else {
 				$image = JText :: _('PDF').'&nbsp;';
 			}
 			?>
 			<td align="right" width="100%" class="buttonheading">
-			<a href="javascript:void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'PDF' );?>">
-			<?php echo $image; ?>
-			</a>
+				<a href="javascript:void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'PDF' );?>">
+					<?php echo $image; ?></a>
 			</td>
 			<?php
 		}
@@ -1722,24 +1682,19 @@ class JContentView
 	 * @return void
 	 * @since 1.0
 	 */
-	function _emailIcon($row, $params, $hideJS)
-	{
-		if ($params->get('email') && !$params->get('popup') && !$hideJS)
-		{
+	function _emailIcon($row, $params, $hideJS) {
+		if ($params->get('email') && !$params->get('popup') && !$hideJS) {
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=400,height=250,directories=no,location=no';
 			$link = 'index2.php?option=com_content&amp;task=emailform&amp;id='.$row->id;
-			if ($params->get('icons'))
-			{
+			if ($params->get('icons')) 	{
 				$image = mosAdminMenus :: ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText :: _('Email'), JText :: _('Email'));
-			} else
-			{
+			} else {
 				$image = '&nbsp;'.JText :: _('Email');
 			}
 			?>
 			<td align="right" width="100%" class="buttonheading">
-			<a href="javascript:void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'Email' );?>">
-			<?php echo $image; ?>
-			</a>
+				<a href="javascript:void(0)" onclick="window.open('<?php echo $link; ?>','win2','<?php echo $status; ?>');" title="<?php echo JText::_( 'Email' );?>">
+					<?php echo $image; ?></a>
 			</td>
 			<?php
 		}
@@ -1757,10 +1712,8 @@ class JContentView
 	 * @return void
 	 * @since 1.0
 	 */
-	function _sectionCategory($row, $params)
-	{
-		if ($params->get('section') || $params->get('category'))
-		{
+	function _sectionCategory($row, $params) {
+		if ($params->get('section') || $params->get('category')) {
 			?>
 			<tr>
 				<td>
@@ -1773,8 +1726,7 @@ class JContentView
 		// displays Section Name
 		JContentView :: _category($row, $params);
 
-		if ($params->get('section') || $params->get('category'))
-		{
+		if ($params->get('section') || $params->get('category')) {
 				?>
 				</td>
 			</tr>
@@ -1794,8 +1746,7 @@ class JContentView
 	 * @return void
 	 * @since 1.0
 	 */
-	function _section($row, $params)
-	{
+	function _section($row, $params) {
 		if ($params->get('section'))
 		{
 			?>
@@ -1803,8 +1754,7 @@ class JContentView
 				<?php
 				echo $row->section;
 				// writes dash between section & Category Name when both are active
-				if ($params->get('category'))
-				{
+				if ($params->get('category')) {
 					echo ' - ';
 				}
 				?>
@@ -1825,15 +1775,13 @@ class JContentView
 	 * @return void
 	 * @since 1.0
 	 */
-	function _category($row, $params)
-	{
-		if ($params->get('category'))
-		{
+	function _category($row, $params) {
+		if ($params->get('category')) {
 			?>
 			<span>
-			<?php
-			echo $row->category;
-			?>
+				<?php
+				echo $row->category;
+				?>
 			</span>
 			<?php
 		}
@@ -1851,19 +1799,17 @@ class JContentView
 	 * @return void
 	 * @since 1.0
 	 */
-	function _author($row, $params)
-	{
+	function _author($row, $params) {
 		global $acl;
 
-		if (($params->get('author')) && ($row->author != ""))
-		{
+		if (($params->get('author')) && ($row->author != "")) {
 			?>
 			<tr>
 				<td width="70%"  valign="top" colspan="2">
-				<span class="small">
-				&nbsp;<?php JText::printf( 'Written by', ($row->created_by_alias ? $row->created_by_alias : $row->author) ); ?>
-				</span>
-				&nbsp;&nbsp;
+					<span class="small">
+					&nbsp;<?php JText::printf( 'Written by', ($row->created_by_alias ? $row->created_by_alias : $row->author) ); ?>
+					</span>
+					&nbsp;&nbsp;
 				</td>
 			</tr>
 			<?php
@@ -1882,16 +1828,13 @@ class JContentView
 	 * @return void
 	 * @since 1.0
 	 */
-	function _url($row, $params)
-	{
-		if ($params->get('url') && $row->urls)
-		{
+	function _url($row, $params) {
+		if ($params->get('url') && $row->urls) 	{
 			?>
 			<tr>
 				<td valign="top" colspan="2">
-				<a href="http://<?php echo $row->urls ; ?>" target="_blank">
-				<?php echo $row->urls; ?>
-				</a>
+					<a href="http://<?php echo $row->urls ; ?>" target="_blank">
+						<?php echo $row->urls; ?></a>
 				</td>
 			</tr>
 			<?php
@@ -1910,19 +1853,16 @@ class JContentView
 	 * @return void
 	 * @since 1.0
 	 */
-	function _createDate($row, $params)
-	{
+	function _createDate($row, $params) {
 		$create_date = null;
-		if (intval($row->created) != 0)
-		{
+		if (intval($row->created) != 0) {
 			$create_date = mosFormatDate($row->created);
 		}
-		if ($params->get('createdate'))
-		{
+		if ($params->get('createdate')) {
 			?>
 			<tr>
 				<td valign="top" colspan="2" class="createdate">
-				<?php echo $create_date; ?>
+					<?php echo $create_date; ?>
 				</td>
 			</tr>
 			<?php
@@ -1941,19 +1881,16 @@ class JContentView
 	 * @return void
 	 * @since 1.0
 	 */
-	function _modifiedDate($row, $params)
-	{
+	function _modifiedDate($row, $params) {
 		$mod_date = null;
-		if (intval($row->modified) != 0)
-		{
+		if (intval($row->modified) != 0) {
 			$mod_date = mosFormatDate($row->modified);
 		}
-		if (($mod_date != '') && $params->get('modifydate'))
-		{
+		if (($mod_date != '') && $params->get('modifydate')) {
 			?>
 			<tr>
 				<td colspan="2"  class="modifydate">
-				<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo $mod_date; ?> )
+					<?php echo JText::_( 'Last Updated' ); ?> ( <?php echo $mod_date; ?> )
 				</td>
 			</tr>
 			<?php
@@ -1972,10 +1909,8 @@ class JContentView
 	 * @return void
 	 * @since 1.0
 	 */
-	function _toc($row)
-	{
-		if (isset ($row->toc))
-		{
+	function _toc($row) {
+		if (isset ($row->toc)) {
 			echo $row->toc;
 		}
 	}
@@ -1993,18 +1928,14 @@ class JContentView
 	 * @return void
 	 * @since 1.0
 	 */
-	function _readMore($params, $linkOn, $linkText)
-	{
-		if ($params->get('readmore'))
-		{
-			if ($params->get('intro_only') && $linkText)
-			{
+	function _readMore($params, $linkOn, $linkText) {
+		if ($params->get('readmore')) {
+			if ($params->get('intro_only') && $linkText) {
 				?>
 				<tr>
 					<td  colspan="2">
-					<a href="<?php echo $linkOn;?>" class="readon<?php echo $params->get( 'pageclass_sfx' ); ?>">
-					<?php echo $linkText;?>
-					</a>
+						<a href="<?php echo $linkOn;?>" class="readon<?php echo $params->get( 'pageclass_sfx' ); ?>">
+							<?php echo $linkText;?></a>
 					</td>
 				</tr>
 				<?php
@@ -2024,45 +1955,38 @@ class JContentView
 	 * @return void
 	 * @since 1.0
 	 */
-	function _navigation($row, $params)
-	{
+/*	
+	function _navigation($row, $params) {
 		$task = mosGetParam($_REQUEST, 'task', '');
-		if ($params->get('item_navigation') && ($task == "view") && !$params->get('popup') && ($row->prev || $row->next))
-		{
+		if ($params->get('item_navigation') && ($task == "view") && !$params->get('popup') && ($row->prev || $row->next)) {
 			$pnSpace = "";
-			if (JText :: _('&lt') || JText :: _('&gt'))
-			{
+			if (JText :: _('&lt') || JText :: _('&gt')) {
 				$pnSpace = " ";
 			}
 			?>
 			<table align="center" style="margin-top: 25px;">
 			<tr>
 				<?php
-				if ($row->prev)
-				{
+				if ($row->prev) {
 					?>
 					<th class="pagenav_prev">
-					<a href="<?php echo $row->prev; ?>">
-					<?php echo JText::_( '&lt' ) . $pnSpace . JText::_( 'Prev' ); ?>
-					</a>
+						<a href="<?php echo $row->prev; ?>">
+							<?php echo JText::_( '&lt' ) . $pnSpace . JText::_( 'Prev' ); ?></a>
 					</th>
 					<?php
 				}
-				if ($row->prev && $row->next)
-				{
+				if ($row->prev && $row->next) {
 					?>
 					<td width="50">
 						&nbsp;
 					</td>
 					<?php
 				}
-				if ($row->next)
-				{
+				if ($row->next) {
 					?>
 					<th class="pagenav_next">
-					<a href="<?php echo $row->next; ?>">
-					<?php echo JText::_( 'Next' ) . $pnSpace . JText::_( '&gt' ); ?>
-					</a>
+						<a href="<?php echo $row->next; ?>">
+							<?php echo JText::_( 'Next' ) . $pnSpace . JText::_( '&gt' ); ?></a>
 					</th>
 					<?php
 				}
@@ -2072,5 +1996,6 @@ class JContentView
 			<?php
 		}
 	}
+*/
 }
 ?>

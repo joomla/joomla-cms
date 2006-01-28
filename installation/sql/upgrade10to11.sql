@@ -8,6 +8,12 @@ INSERT INTO `jos_mambots` VALUES (0, 'LDAP Authentication Plugin', 'ldap', 'auth
 INSERT INTO `jos_mambots` VALUES (0, 'Joomla SEF URLs', 'joomla.sefurlbot', 'system', 0, 2, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `jos_mambots` VALUES (0, 'Search XML-RPC', 'search.xmlrpcbot', 'xmlrpc', 0, 7, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `jos_mambots` VALUES (0, 'Visitor Statistics', 'joomla.visitorbot', 'system', 0, 3, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `jos_mambots` VALUES (0, 'Page Navigation','pagenavigation','content',0,2,1,1,0,0,'0000-00-00 00:00:00','');
+INSERT INTO `jos_mambots` VALUES (0, 'Syndicate Content', 'content.syndicatebot', 'syndicate', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `jos_mambots` VALUES (0, 'Syndicate Frontpage', 'frontpage.syndicatebot', 'syndicate', 0, 2, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `jos_mambots` VALUES (0, 'Syndicate Weblinks', 'weblinks.syndicatebot', 'syndicate', 0, 3, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `jos_mambots` VALUES (0, 'Syndicate Contacts', 'contact.syndicatebot', 'syndicate', 0, 4, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `jos_mambots` VALUES (0, 'Syndicate Poll', 'poll.syndicatebot', 'syndicate', 0, 5, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 
 #Mambot Removals 
 DELETE FROM `jos_mambots` WHERE `element` = 'legacybots' 
@@ -23,9 +29,11 @@ INSERT INTO `jos_modules_menu` VALUES (1001,0);
 INSERT INTO `jos_modules_menu` VALUES (1002,0);
 
 UPDATE `jos_modules` SET `access` = '23' WHERE `client_id` = 1;
+UPDATE `jos_modules` SET `title` = 'Feed Display' AND `module` = 'mod_feed' WHERE `module` = 'mod_rss';
 
 #Mambot Removals 
 DELETE FROM `jos_modules` WHERE `module` = 'mod_mosmsg' 
+DELETE FROM `jos_modules` WHERE `module` = 'mod_rssfeed' 
 
 # Expand content title lengths
 ALTER TABLE `jos_content` CHANGE `title` `title` varchar(255) NOT NULL default '';

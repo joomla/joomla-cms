@@ -33,6 +33,9 @@ $mainframe->registerEvent( 'onPrepareContent', 'botMosPaging' );
 function botMosPaging( $published, &$row, &$params, $page=0 ) {
 	global $mainframe, $Itemid, $database;
 
+	if(!$page) {
+		$page = 0;
+	}
  	// expression to search for
  	$regex = '/{(mospagebreak)\s*(.*?)}/i';
 

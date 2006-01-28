@@ -876,8 +876,7 @@ class JContentController
 	 * @return void
 	 * @since 1.0
 	 */
-	function showItem( & $access, $now )
-	{
+	function showItem( & $access, $now ) {
 		global $mainframe, $Itemid;
 
 		/*
@@ -893,11 +892,9 @@ class JContentController
 		$pop 		= JRequest :: getVar('pop', 0, '', 'int');
 		$row 		= null;
 
-		if ($access->canEdit)
-		{
+		if ($access->canEdit) {
 			$xwhere = '';
-		} else
-		{
+		} else {
 			$xwhere = " AND ( a.state = 1 OR a.state = -1 )" .
 					"\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )" .
 					"\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )";
@@ -915,16 +912,13 @@ class JContentController
 				"\n AND a.access <= $my->gid";
 		$db->setQuery($query);
 
-		if ($db->loadObject($row))
-		{
-			if (!$row->cat_pub && $row->catid)
-			{
+		if ($db->loadObject($row)) {
+			if (!$row->cat_pub && $row->catid) {
 				// check whether category is published
 				mosNotAuth();
 				return;
 			}
-			if (!$row->sec_pub && $row->sectionid)
-			{
+			if (!$row->sec_pub && $row->sectionid) {
 				// check whether section is published
 				mosNotAuth();
 				return;
@@ -933,17 +927,14 @@ class JContentController
 			$params = new JParameters($row->attribs);
 			$params->set('intro_only', 0);
 			$params->def('back_button', $mainframe->getCfg('back_button'));
-			if ($row->sectionid == 0)
-			{
+			if ($row->sectionid == 0) {
 				$params->set('item_navigation', 0);
-			} else
-			{
+			} else {
 				$params->set('item_navigation', $mainframe->getCfg('item_navigation'));
 			}
-
+/*
 			// loads the links for Next & Previous Button
-			if ($params->get('item_navigation'))
-			{
+			if ($params->get('item_navigation')) {
 				// Paramters for menu item as determined by controlling Itemid
 				$menu = & JModel :: getInstance( 'menu', $db );
 				$menu->load($Itemid);
@@ -982,24 +973,20 @@ class JContentController
 
 				$row->prev = null;
 				$row->next = null;
-				if ($location -1 >= 0)
-				{
+				if ($location -1 >= 0) 	{
 					// the previous content item cannot be in the array position -1
 					$row->prev = $list[$location -1];
 				}
-				if (($location +1) < count($list))
-				{
+				if (($location +1) < count($list)) {
 					// the next content item cannot be in an array position greater than the number of array postions
 					$row->next = $list[$location +1];
 				}
 			}
-
-			if ($MetaTitle == '1')
-			{
+*/
+			if ($MetaTitle == '1') {
 				$mainframe->addMetaTag('title', $row->title);
 			}
-			if ($MetaAuthor == '1')
-			{
+			if ($MetaAuthor == '1') {
 				$mainframe->addMetaTag('author', $row->author);
 			}
 
@@ -1008,16 +995,13 @@ class JContentController
 			 */
 			$breadcrumbs 	= & $mainframe->getPathWay();
 			$document		= & $mainframe->getDocument();
-			if (!empty ($Itemid))
-			{
+			if (!empty ($Itemid)) {
 				// Section
-				if (!empty ($row->section))
-				{
+				if (!empty ($row->section)) {
 					$breadcrumbs->addItem($row->section, sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$row->sectionid.'&amp;Itemid='.$Itemid));
 				}
 				// Category
-				if (!empty ($row->section))
-				{
+				if (!empty ($row->section)) {
 					$breadcrumbs->addItem($row->category, sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$row->sectionid.'&amp;id='.$row->catid.'&amp;Itemid='.$Itemid));
 				}
 			}
@@ -1027,8 +1011,7 @@ class JContentController
 
 
 			JContentController :: show($row, $params, $my->gid, $access, $pop, $option);
-		} else
-		{
+		} else {
 			mosNotAuth();
 			return;
 		}
@@ -1040,8 +1023,7 @@ class JContentController
 		doUtfPDF ( );
 	}
 
-	function show($row, $params, $gid, & $access, $pop, $option, $ItemidCount = NULL)
-	{
+	function show($row, $params, $gid, & $access, $pop, $option, $ItemidCount = NULL) {
 		global $mainframe;
 
 		/*

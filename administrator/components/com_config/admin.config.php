@@ -248,8 +248,6 @@ class JConfigController {
 
 		$lists['back_button'] 	= mosHTML :: RadioList($show_hide_r, 'back_button', 'class="inputbox"', $row->back_button, 'value', 'text');
 
-		$lists['item_navigation'] = mosHTML :: RadioList($show_hide_r, 'item_navigation', 'class="inputbox"', $row->item_navigation, 'value', 'text');
-
 		$lists['ml_support'] 	= mosHTML :: yesnoRadioList('multilingual_support', 'class="inputbox" onclick="javascript: if (document.adminForm.multilingual_support[1].checked) { alert(\''.JText :: _('Remember to install the MambelFish component.', true).'\') }"', $row->multilingual_support);
 
 		// SHOW EDIT FORM

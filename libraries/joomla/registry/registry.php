@@ -352,7 +352,7 @@ class JRegistry extends JObject
 			$this->_registry[$namespace]['data'] =& $handler->stringToObject($data);
 		} else {
 			// Get the data in object format
-			$ns =& $handler->stringToObject($data);
+			$ns = $handler->stringToObject($data);
 			
 			/*
 			 * We want to leave groups that are already in the namespace and add the 
