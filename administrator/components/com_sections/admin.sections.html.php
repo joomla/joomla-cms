@@ -228,16 +228,6 @@ class sections_html {
 		</script>
 
 		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminheading">
-		<tr>
-			<td>
-				<small><small>
-				[ <?php echo JText::_( 'Section' ); ?>: <?php echo $row->name; ?> ]
-				</small></small>
-			</td>
-		</tr>
-		</table>
-
 
 		<table width="100%">
 		<tr>

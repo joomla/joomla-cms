@@ -105,7 +105,7 @@ class TOOLBAR_menus {
 		$menutype 	= mosGetParam( $_REQUEST, 'menutype', 'mainmenu' );
 
 		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'Menu Manager' ) .' <small><small>['.$menutype.']</small></small>', 'menu.png' );
+		JMenuBar::title( JText::_( 'Menu Manager' ) .': <small><small>['.$menutype.']</small></small>', 'menu.png' );
 		JMenuBar::publishList();
 		JMenuBar::spacer();
 		JMenuBar::unpublishList();

@@ -58,7 +58,7 @@ class TOOLBAR_menumanager {
 		
 
 		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'Menu Details' ).': <small>'. $text .'</small>', 'menu.png' );
+		JMenuBar::title( JText::_( 'Menu Details' ).': <small><small>[ '. $text.' ]</small></small>', 'menu.png' );
 		JMenuBar::custom( 'savemenu', 'save.png', 'save_f2.png', JText::_( 'Save' ), false );
 		JMenuBar::spacer();
 		JMenuBar::cancel();

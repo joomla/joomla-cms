@@ -26,7 +26,7 @@ class TOOLBAR_modules {
 		$text = $id ? JText::_('Edit') : JText::_('New');
 
 		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'Site Plugin' ) .' <small><small>[' .$text. ']</small></small>', 'module.png' );
+		JMenuBar::title( JText::_( 'Site Plugin' ) .': <small><small>[' .$text. ']</small></small>', 'module.png' );
 		if ($id) {
 			JMenuBar::trash('remove', 'Delete', false);
 			JMenuBar::spacer();
@@ -48,7 +48,7 @@ class TOOLBAR_modules {
 
 	function _DEFAULT() {
 		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'Plugin Manager' ) .' <small><small>['. JText::_( 'Site' ) .']</small></small>', 'module.png' );
+		JMenuBar::title( JText::_( 'Plugin Manager' ) .': <small><small>['. JText::_( 'Site' ) .']</small></small>', 'module.png' );
 		JMenuBar::publishList();
 		JMenuBar::spacer();
 		JMenuBar::unpublishList();

@@ -27,7 +27,7 @@ class TOOLBAR_categories {
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
 		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'Category' ) .': '. $text, 'categories.png' );
+		JMenuBar::title( JText::_( 'Category' ) .': <small><small>[ '. $text.' ]</small></small>', 'categories.png' );
 		JMenuBar::media_manager();
 		JMenuBar::spacer();
 		JMenuBar::save();

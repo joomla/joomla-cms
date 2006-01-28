@@ -29,7 +29,7 @@ class TOOLBAR_sections {
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );		
 
 		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'Section' ).': <small>'. $text .'</small>', 'sections.png' );
+		JMenuBar::title( JText::_( 'Section' ).': <small><small>[ '. $text.' ]</small></small>', 'sections.png' );
 		JMenuBar::media_manager();
 		JMenuBar::spacer();
 		JMenuBar::save();
