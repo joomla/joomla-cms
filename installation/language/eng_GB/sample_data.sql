@@ -24,7 +24,7 @@ INSERT INTO `#__categories` VALUES (4, 0, 'Joomla!', 'Joomla!', '', 'com_newsfee
 INSERT INTO `#__categories` VALUES (5, 0, 'Business: general', 'Business: general', '', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 1, 0, 0, '');
 INSERT INTO `#__categories` VALUES (7, 0, 'Examples', 'Example FAQs', 'key.jpg', '3', 'left', 'Here you will find an example set of FAQs.', 1, 0, '0000-00-00 00:00:00', NULL, 0, 0, 2, '');
 INSERT INTO `#__categories` VALUES (9, 0, 'Finance', 'Finance', '', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 5, 0, 0, '');
-INSERT INTO `#__categories` VALUES (10, 0, 'Linux', 'Linux', '', 'com_newsfeeds', 'left', '<br />\r\n', 1, 0, '0000-00-00 00:00:00', NULL, 6, 0, 0, '');
+INSERT INTO `#__categories` VALUES (10, 0, 'Linux', 'Linux', '', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 6, 0, 0, '');
 INSERT INTO `#__categories` VALUES (11, 0, 'Internet', 'Internet', '', 'com_newsfeeds', 'left', '', 1, 0, '0000-00-00 00:00:00', NULL, 7, 0, 0, '');
 INSERT INTO `#__categories` VALUES (12, 0, 'Contacts', 'Contacts', '', 'com_contact_details', 'left', 'Contact Details for this website', 1, 0, '0000-00-00 00:00:00', NULL, 0, 0, 0, '');
 
