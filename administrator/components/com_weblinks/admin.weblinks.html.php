@@ -59,6 +59,9 @@ class HTML_weblinks {
 			<th colspan="2" width="5%">
 				<?php echo JText::_( 'Reorder' ); ?>
 			</th>
+			<th width="5%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'ID', 'a.id', $lists ); ?>
+			</th>
 			<th width="25%"  class="title">
 				<?php mosCommonHTML :: tableOrdering( 'Category', 'cc.name', $lists ); ?>
 			</th>
@@ -109,6 +112,9 @@ class HTML_weblinks {
 				</td>
 	  			<td>
 					<?php echo $pageNav->orderDownIcon( $i, $n, ($row->catid == @$rows[$i+1]->catid) ); ?>
+				</td>
+				<td align="center">
+					<?php echo $row->id; ?>
 				</td>
 				<td>
 				<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">

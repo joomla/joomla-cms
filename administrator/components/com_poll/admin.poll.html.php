@@ -53,6 +53,9 @@ class HTML_poll {
 			<th width="10%" align="center">
 				<?php mosCommonHTML :: tableOrdering( 'Published', 'm.published', $lists ); ?>
 			</th>
+			<th width="8%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'ID', 'm.id', $lists ); ?>
+			</th>
 			<th width="10%" align="center">
 				<?php mosCommonHTML :: tableOrdering( 'Votes', 'm.voters', $lists ); ?>
 			</th>
@@ -90,6 +93,9 @@ class HTML_poll {
 				<td align="center">
 					<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
 						<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
+				</td>
+				<td align="center">
+					<?php echo $row->id; ?>
 				</td>
 				<td align="center">
 					<?php echo $row->voters; ?>

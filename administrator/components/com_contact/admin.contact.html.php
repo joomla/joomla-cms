@@ -59,6 +59,9 @@ class HTML_contact {
 			<th colspan="2" nowrap="nowrap" width="5%">
 				<?php echo JText::_( 'Reorder' ); ?>
 			</th>
+			<th width="5%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'ID', 'cd.id', $lists ); ?>
+			</th>
 			<th width="15%" class="title">
 				<?php mosCommonHTML :: tableOrdering( 'Category', 'category', $lists ); ?>
 			</th>
@@ -110,6 +113,9 @@ class HTML_contact {
 				</td>
 				<td>
 					<?php echo $pageNav->orderDownIcon( $i, $n, ( $row->catid == @$rows[$i+1]->catid ) ); ?>
+				</td>
+				<td align="center">
+					<?php echo $row->id; ?>
 				</td>
 				<td>
 					<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">

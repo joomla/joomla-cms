@@ -102,7 +102,7 @@ switch ($task) {
 function viewBanners( $option ) {
 	global $database, $mainframe;
 
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_order", 		'filter_order', 	'b.id' );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_order", 		'filter_order', 	'b.bid' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_order_Dir",	'filter_order_Dir',	'' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_state", 		'filter_state', 	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 								'limit', 			$mainframe->getCfg('list_limit') );
@@ -117,8 +117,8 @@ function viewBanners( $option ) {
 		}
 	}	
 	
-	$orderby = "\n ORDER BY $filter_order $filter_order_Dir";
-	
+	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, b.bid";
+
 	// get the total number of records
 	$query = "SELECT COUNT(b.*)"
 	. "\n FROM #__banner AS b"
@@ -138,7 +138,7 @@ function viewBanners( $option ) {
 	;
 	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 	$rows = $database->loadObjectList();
-	
+
 	// state filter 
 	$lists['state']	= mosCommonHTML::selectState( $filter_state );	
 	
@@ -149,7 +149,7 @@ function viewBanners( $option ) {
 		$lists['order_Dir'] = 'DESC';
 	}
 	$lists['order'] = $filter_order;
-
+	
 	HTML_banners::showBanners( $rows, $pageNav, $option, $lists );
 }
 
@@ -302,12 +302,12 @@ function removeBanner( $cid ) {
 function viewBannerClients( $option ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order", 	'filter_order', 	'a.id' );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order", 	'filter_order', 	'a.cid' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.viewbannerclient.filter_order_Dir",	'filter_order_Dir',	'' );
 	$limit 				= $mainframe->getUserStateFromRequest( "default.limit", 							'limit', 			$mosConfig_list_limit );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "com_banners.viewbannerclient.limitstart", 	'limitstart', 		0 );
 	
-	$orderby = "\n ORDER BY $filter_order $filter_order_Dir";
+	$orderby = "\n ORDER BY $filter_order $filter_order_Dir, a.cid";
 	
 	// get the total number of records
 	$query = "SELECT COUNT(*)"

@@ -57,6 +57,9 @@ class HTML_newsfeeds {
 			<th colspan="2" width="5%">
 				<?php echo JText::_( 'Reorder' ); ?>
 			</th>
+			<th width="5%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'ID', 'a.id', $lists ); ?>
+			</th>
 			<th class="title" width="20%">
 				<?php mosCommonHTML :: tableOrdering( 'Category', 'catname', $lists ); ?>
 			</th>
@@ -113,6 +116,9 @@ class HTML_newsfeeds {
 				</td>
 				<td align="center">
 					<?php echo $pageNav->orderDownIcon( $i, $n ); ?>
+				</td>
+				<td align="center">
+					<?php echo $row->id; ?>
 				</td>
 				<td>
 					<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">

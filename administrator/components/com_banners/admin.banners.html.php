@@ -54,6 +54,9 @@ class HTML_banners {
 			<th width="10%" nowrap="nowrap">
 				<?php mosCommonHTML :: tableOrdering( 'Published', 'b.showBanner', $lists ); ?>
 			</th>
+			<th width="5%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'ID', 'b.bid', $lists ); ?>
+			</th>
 			<th width="11%" nowrap="nowrap">
 				<?php mosCommonHTML :: tableOrdering( 'Impressions Made', 'b.impmade', $lists ); ?>
 			</th>
@@ -114,6 +117,9 @@ class HTML_banners {
 				<td align="center">
 					<a href="javascript: void(0);" onmouseover="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
 						<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
+				</td>
+				<td align="center">
+					<?php echo $row->id; ?>
 				</td>
 				<td align="center">
 					<?php echo $row->impmade;?>
@@ -328,6 +334,9 @@ class HTML_bannerClient {
 			<th nowrap="nowrap" class="title">
 				<?php mosCommonHTML :: tableOrdering( 'Client Name', 'a.name', $lists, 'listclients' ); ?>
 			</th>
+			<th width="5%" nowrap="nowrap">
+				<?php mosCommonHTML :: tableOrdering( 'ID', 'a.cid', $lists, 'listclients' ); ?>
+			</th>
 			<th nowrap="nowrap" class="title" width="15%">
 				<?php mosCommonHTML :: tableOrdering( 'Contact', 'a.contact', $lists, 'listclients' ); ?>
 			</th>
@@ -364,6 +373,9 @@ class HTML_bannerClient {
 						<?php
 					}
 					?>
+				</td>
+				<td align="center">
+					<?php echo $row->cid; ?>
 				</td>
 				<td>
 					<?php echo $row->contact;?>

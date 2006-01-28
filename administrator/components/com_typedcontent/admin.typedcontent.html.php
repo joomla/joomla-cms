@@ -70,10 +70,10 @@ class HTML_typedcontent {
 				<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
 					<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
 			</th>
-			<th width="10%">
+			<th width="7%">
 				<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
 			</th>
-			<th width="5%" nowrap="nowrap">
+			<th width="3%" nowrap="nowrap">
 				<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
 			</th>
 			<th width="1%" >
