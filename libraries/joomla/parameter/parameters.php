@@ -237,7 +237,7 @@ class JParameters extends JRegistry
 
 		if( !class_exists( 'JParameter' ) )
 		{
-			if( !jimport('joomla.parameters.parameter') ) {
+			if( !jimport('joomla.parameter.parameter') ) {
 				//return	JError::raiseError( 'SOME_ERROR_CODE', 'Could not load parameter base class.' );
 				return false;
 			}
