@@ -292,7 +292,14 @@ class JTemplatesView {
 	function chooseCSSFiles ( $template, $t_dir='', $s_dir='', $t_files='', $s_files='', $option, $client ) {
 	?>
 		<form action="index2.php" method="post" name="adminForm">
-		
+
+		<table cellpadding="1" cellspacing="1" border="0" width="100%">
+		<tr>
+			<td width="220">
+				<span class="componentheading">&nbsp;</span>
+			</td>
+		</tr>
+		</table>
 		<table class="adminlist">
 		<tr>
 			<th width="5%" align="left">
@@ -356,7 +363,11 @@ class JTemplatesView {
 		}
 		?>
 		</table>		
-
+		<table class="adminlist">
+		<tr>
+			<th width="100%">&nbsp;</th>
+		</tr>
+		</table>
 		<input type="hidden" name="template" value="<?php echo $template; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
@@ -379,6 +390,7 @@ class JTemplatesView {
 		}
 		?>
 		<form action="index2.php" method="post" name="adminForm">
+		
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
 		<tr>
 			<td width="260">

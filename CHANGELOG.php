@@ -40,6 +40,9 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+30-Jan-2006 Arno Zijlstra
+ # Fixed css file edit style
+ 
 29-Jan-2006 Louis Landry
  ^ Moved event library to the application package
  ^ Event system cleanup
