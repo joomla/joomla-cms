@@ -166,7 +166,7 @@ class JInstaller extends JObject {
 		$signature = serialize(array ($type));
 
 		if (empty ($instances[$signature])) {
-			jimport('joomla.installer.adapters.'.$type);
+			jimport('joomla.installer.installer.'.$type);
 			$adapter = 'JInstaller'.$type;
 			$instances[$signature] = new $adapter ($db);
 		}
