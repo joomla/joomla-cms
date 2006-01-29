@@ -17,53 +17,34 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 global $document;
 
 ?>
-<table class="adminform">
-<tr>
-	<td width="55%" valign="top">
-	   <?php echo $document->execRenderer('modules','icon'); ?>
-	</td>
-	<td width="45%" valign="top">
-		<div style="width=100%;">
-			<form action="index2.php" method="post" name="adminForm">
-			<?php
-			$tabs = new mosTabs(1);
-			$tabs->startPane( 'modules-cpanel' );
-			?>
-			<?php echo $document->execRenderer('modules', 'cpanel', array('style' => 1)); ?>
-			<?php
-			$tabs->endPane();
-			?>
-			</form>
-		</div>
-	</td>
-</tr>
-</table>
-
-<style type="text/css">
-#notes { text-align: center; margin: auto 0; }
-
-s { color: red; }
-.todo {
-	background-color: #F9F9F9;
-	height: 300px;
-	overflow: auto;
-	color: black;
-	border: 1px solid #999999;
-	padding: 20px;
-	display: block;
-	text-align: left;
-}
-hr { border: 1px dotted black; }
-span.todotitle {
-	font-weight: bold;
-	color: black;
-}
-</style>
-<div id="notes">
-<h2>TESTER NOTES</h2>
-<pre class="todo">
-	<?php
-	readfile( JPATH_SITE .'/TODO.php' );
-	?>
-</pre>
+<div style="padding: 10px 2px;">	
+	<table class="adminform">
+	<tr>
+		<td width="55%" valign="top">
+		   <?php echo $document->execRenderer('modules','icon'); ?>
+		</td>
+		<td width="45%" valign="top">
+			<div style="width=100%;">
+				<form action="index2.php" method="post" name="adminForm">
+				
+				<?php
+				$tabs = new mosTabs(1);
+				$tabs->startPane( 'modules-cpanel' );
+				?>
+				
+				<?php echo $document->execRenderer('modules', 'cpanel', array('style' => 1)); ?>
+				
+				<?php
+				$tabs->endPane();
+				?>
+				
+				</form>
+			</div>
+		</td>
+	</tr>
+	</table>
 </div>
+
+<?php
+readfile( JPATH_SITE .'/TODO.php' );
+?>

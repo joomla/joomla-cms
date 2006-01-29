@@ -11,6 +11,31 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
+<style type="text/css">
+#notes { text-align: center; margin: auto 0; }
+
+s { color: red; }
+.todo {
+	background-color: #F9F9F9;
+	height: 300px;
+	overflow: auto;
+	color: black;
+	border: 1px solid #999999;
+	padding: 20px;
+	display: block;
+	text-align: left;
+}
+hr { border: 1px dotted black; }
+span.todotitle {
+	font-weight: bold;
+	color: black;
+}
+</style>
+
+<div id="notes">
+<h3>TESTER NOTES</h3>
+<pre class="todo">
+
 <span class="todotitle">STATUS</span>
 
 <b>** Joomla! 1.1.0 Alpha Release [26-10-2005] **</b>
@@ -86,3 +111,6 @@ Tracker : <a target="_blank" href="http://developer.joomla.org/sf/tracker/do/lis
 	* Feature requests on the tracker
 
 <hr/>
+
+</pre>
+</div>
