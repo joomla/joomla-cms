@@ -57,13 +57,13 @@ class JEventDispatcher extends JObservable
 	}
 
 	/**
-	* Registers a function to the event dispatcher
-	*
-	* @access public
-	* @param string The event name
-	* @param string The function name
-	* @since 1.1
-	*/
+	 * Registers a function to the event dispatcher
+	 *
+	 * @access public
+	 * @param string The event name
+	 * @param string The function name
+	 * @since 1.1
+	 */
 	function register( $event, $handler ) {
 		if (!empty($handler) && !empty($event))
 		{
