@@ -164,9 +164,9 @@ class JDocument extends JTemplate
 		$this->setNamespace( 'jdoc' );
 		
 		//add module directories
-		$this->addModuleDir('Function'    ,	dirname(__FILE__). DS. 'modules'. DS .'functions');
-		$this->addModuleDir('OutputFilter', dirname(__FILE__). DS. 'modules'. DS .'filters'  );
-		$this->addModuleDir('Renderer'    , dirname(__FILE__). DS. 'modules'. DS .'renderers');
+		$this->addModuleDir('Function'    ,	dirname(__FILE__). DS. 'module'. DS .'functions');
+		$this->addModuleDir('OutputFilter', dirname(__FILE__). DS. 'module'. DS .'filters'  );
+		$this->addModuleDir('Renderer'    , dirname(__FILE__). DS. 'module'. DS .'renderers');
 		
 	}
 
