@@ -105,7 +105,7 @@ class mosHTML
             $attribs = mosHTML::_implode_assoc('=', ' ', $attribs);
 		 }
 
-		return '<iframe src="'.$src.'" alt="'.$alt.'" '.$attribs.' />';
+		return '<iframe src="'.$src.'" '.$attribs.' />';
 
 	}
 

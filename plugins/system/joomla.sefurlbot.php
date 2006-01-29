@@ -29,7 +29,8 @@ function botJoomlaSEFUrl( ) {
 	$mod_rewrite_off 	= 0;
 	$SEF 				= $mainframe->getCfg('sef');
 
-	if ($SEF) {
+	//Only use SEF is enabled and not in the administrator
+	if ($SEF && !$mainframe->isAdmin()) {
 
 		// load plugin params info
 	 	$plugin =& JPluginHelper::getPlugin('system', 'joomla.sefurlbot');
