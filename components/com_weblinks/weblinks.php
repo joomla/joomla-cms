@@ -286,6 +286,17 @@ class WeblinksController {
 			return;
 		}
 		
+		$cat = new JModelCategory($db);
+		$cat->load($weblink->catid);
+		
+		/*
+		* Check if category is published
+		*/
+		if (!$cat->published) {
+			mosNotAuth();
+			return;
+		}
+		
 		// Record the hit
 		$weblink->hit();
 
