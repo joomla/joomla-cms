@@ -128,31 +128,40 @@ class JEventDispatcher extends JObservable
 		 */
 		foreach ($this->_observers as $observer)
 		{
-			if (is_array($observer) && $observer['event'] == $event)
+			if (is_array($observer))
 			{
 				/*
-				 * Since we have gotten here, we know two things about the
-				 * observer.
-				 * 1) It is a function type observer like mambots
-				 * 2) It handles the event we have triggered
+				 * Since we have gotten here, we know a little something about
+				 * the observer.  It is a function type observer... lets see if
+				 * it handles our event.
 				 */
-				if (function_exists($observer['handler']))
+				if ($observer['event'] == $event)
 				{
-					$result[] = call_user_func_array($observer['handler'], $args);
+					if (function_exists($observer['handler']))
+					{
+						$result[] = call_user_func_array($observer['handler'], $args);
+					} else
+					{
+						/*
+						 * Couldn't find the function that the observer specified..
+						 * wierd, lets throw an error.
+						 */
+						JError :: raiseWarning('SOME_ERROR_CODE', 'JEventDispatcher::trigger: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
+					}
 				} else
 				{
 					/*
-					 * Couldn't find the function that the observer specified..
-					 * wierd, lets throw an error.
+					 * Handler doesn't handle this event, move on to next
+					 * observer.
 					 */
-					JError :: raiseWarning('SOME_ERROR_CODE', 'JEventDispatcher::trigger: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
+					continue;
 				}
 			} elseif (is_object($observer))
 			{
 				/*
 				 * Since we have gotten here, we know a little something about
-				 * the observer.  It is not a function type observer... lets see
-				 * if it is an object which has an update method.
+				 * the observer.  It is a class type observer... lets see if it
+				 * is an object which has an update method.
 				 */
 				if (method_exists($observer, 'update'))
 				{
