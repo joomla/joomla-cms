@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.extensions.plugin' );
+jimport( 'joomla.application.extension.plugin' );
 
 /**
  * No WYSIWYG Editor Plugin
