@@ -556,6 +556,9 @@ class JContentController {
 		$id 		= JRequest :: getVar('id', 0, '', 'int');
 		$pop 		= JRequest :: getVar('pop', 0, '', 'int');
 
+		// needed for check whether section is published
+		$check = ( $id ? $id : 0 );
+		
 		// Parameters
 		if ($Itemid) {
 			$menu = & JModel :: getInstance( 'menu', $db );
@@ -607,6 +610,17 @@ class JContentController {
 			$breadcrumbs->addItem($rows[0]->section, '');
 		}
 
+		// check whether section is published
+		if (!count($rows)) {
+			$secCheck = new JModelSection( $db );
+			$secCheck->load( $check );
+			
+			if (!$secCheck->published) {
+				mosNotAuth();
+				return;
+			}
+		}
+		
 		JContentView :: showBlog($rows, $params, $my->gid, $access, $pop, $menu);
 	}
 
@@ -622,6 +636,9 @@ class JContentController {
 		$id 		= JRequest :: getVar('id', 0, '', 'int');
 		$pop 		= JRequest :: getVar('pop', 0, '', 'int');
 
+		// needed for check whether section & category is published
+		$check = ( $id ? $id : 0 );
+		
 		// Paramters
 		if ($Itemid) {
 			$menu 	= & JModel :: getInstance( 'menu', $db );
@@ -672,6 +689,26 @@ class JContentController {
 		} else {
 			$breadcrumbs->addItem($rows[0]->section, '');
 		}
+		
+		// check whether section & category is published
+		if (!count($rows)) {
+			$catCheck = new JModelCategory( $b );
+			$catCheck->load( $check );
+			
+			if (!$catCheck->published) {
+				mosNotAuth();
+				return;
+			}
+			
+			$secCheck = new JModelSection( $db );
+			$secCheck->load( $catCheck->section );
+			
+			if (!$secCheck->published) {
+				mosNotAuth();
+				return;
+			}
+		}
+		
 		JContentView :: showBlog($rows, $params, $my->gid, $access, $pop, $menu);
 	}
 
@@ -690,6 +727,9 @@ class JContentController {
 		$year 	= JRequest::getVar( 'year', date('Y') );
 		$month 	= JRequest::getVar( 'month', date('m') );
 
+		// needed for check whether section is published
+		$check = ( $id ? $id : 0 );
+		
 		if ($Itemid) {
 			$menu 	= & JModel :: getInstance( 'menu', $db );
 			$menu->load($Itemid);
@@ -753,6 +793,17 @@ class JContentController {
 		$breadcrumbs = & $mainframe->getPathWay();
 		$breadcrumbs->addItem('Archives', '');
 
+		// check whether section is published
+		if (!count($rows)) {
+			$secCheck = new JModelSection( $db );
+			$secCheck->load( $check );
+			
+			if (!$secCheck->published) {
+				mosNotAuth();
+				return;
+			}
+		}
+		
 		if (!$archives) {
 			JContentView :: emptyContainer(JText :: _('CATEGORY_ARCHIVE_EMPTY'));
 		} else {
@@ -774,6 +825,9 @@ class JContentController {
 		$month = mosGetParam($_REQUEST, 'month', date('m'));
 		$module = mosGetParam($_REQUEST, 'module', '');
 
+		// needed for check whether section & category is published
+		$check = ( $id ? $id : 0 );
+		
 		// used by archive module
 		if ($module) {
 			$check = '';
@@ -832,6 +886,25 @@ class JContentController {
 		$breadcrumbs = & $mainframe->getPathWay();
 		$breadcrumbs->addItem('Archives', '');
 
+		// check whether section & category is published
+		if (!count($rows)) {
+			$catCheck = new JModelCategory( $b );
+			$catCheck->load( $check );
+			
+			if (!$catCheck->published) {
+				mosNotAuth();
+				return;
+			}
+			
+			$secCheck = new JModelSection( $db );
+			$secCheck->load( $catCheck->section );
+			
+			if (!$secCheck->published) {
+				mosNotAuth();
+				return;
+			}
+		}
+		
 		if (!$archives) {
 			JContentView :: emptyContainer(JText :: _('CATEGORY_ARCHIVE_EMPTY'));
 		} else {
