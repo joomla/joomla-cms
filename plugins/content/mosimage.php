@@ -18,7 +18,7 @@ $mainframe->registerEvent( 'onPrepareContent', 'botMosImage' );
 
 /**
 */
-function botMosImage( $published, &$row, &$params, $page=0 ) {
+function botMosImage( &$row, &$params, $page=0 ) {
 	global $database;
 
  	// expression to search for

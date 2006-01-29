@@ -22,7 +22,7 @@ $mainframe->registerEvent( 'onPrepareContent', 'botMosSef' );
 * <b>Usage:</b>
 * <code><a href="...relative link..."></code>
 */
-function botMosSef( $published, &$row, &$params, $page=0 ) {
+function botMosSef( &$row, &$params, $page=0 ) {
 
 	$plugin =& JPluginHelper::getPlugin('content', 'mossef'); 
 

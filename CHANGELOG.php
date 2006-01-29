@@ -40,8 +40,9 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
-29-Jan-2006 Louis Landry 
+29-Jan-2006 Louis Landry
  ^ Moved event library to the application package
+ ^ Event system cleanup
 
 29-Jan-2006 Johan Janssens
  ^ Moved mail classes into mail library package

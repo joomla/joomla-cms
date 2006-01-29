@@ -21,10 +21,13 @@ $mainframe->registerEvent( 'onPrepareContent', 'botGeshi' );
 *
 * Replaces <pre>...</pre> tags with highlighted text
 */
-function botGeshi( $published, &$row, &$params, $page=0 ) {
+function botGeshi( &$row, &$params, $page=0 ) {
+
+	// Get Plugin info
+ 	$plugin =& JPluginHelper::getPlugin('content', 'geshi'); 
 
 	// check whether plugin has been unpublished
-	if ( !$published ) {
+	if (!$plugin->published) {
 		return true;
 	}
 

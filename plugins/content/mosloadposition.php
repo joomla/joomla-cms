@@ -19,7 +19,7 @@ $mainframe->registerEvent( 'onPrepareContent', 'botMosLoadPosition' );
 /**
 * Plugin that loads module positions within content
 */
-function botMosLoadPosition( $published, &$row, &$params, $page=0 ) {
+function botMosLoadPosition( &$row, &$params, $page=0 ) {
 	global $database;
 
 	// Get plugin info

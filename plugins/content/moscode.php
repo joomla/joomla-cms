@@ -22,7 +22,7 @@ $mainframe->registerEvent( 'onPrepareContent', 'botMosCode' );
 * <b>Usage:</b>
 * <code>{moscode}...some code...{/moscode}</code>
 */
-function botMosCode( $published, &$row, &$params, $page=0 ) {
+function botMosCode( &$row, &$params, $page=0 ) {
 	// define the regular expression for the bot
 	$regex = "#{moscode}(.*?){/moscode}#s";
 

@@ -642,6 +642,20 @@ class mosMambotHandler extends JEventDispatcher {
 	function registerFunction( $event, $function ) {
 		 JApplication::registerEvent( $event, $function );
 	}
+
+	/**
+	* Deprecated, use JEventDispatcher->trigger intead and handle return values
+	* in your code
+	* @since 1.1
+	*/
+	function call($event)
+	{
+		$args = & func_get_args();
+		array_shift($args);
+
+		$retArray = $this->trigger( $event, $args );
+		return $retArray[0];
+	}
 }
 
 /**

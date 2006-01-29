@@ -19,7 +19,7 @@ $mainframe->registerEvent( 'onPrepareContent', 'botMosEmailCloak' );
 /**
 * Plugin that Cloaks all emails in content from spambots via javascript
 */
-function botMosEmailCloak( $published, &$row, &$params, $page=0 ) {
+function botMosEmailCloak( &$row, &$params, $page=0 ) {
 	global $database;
 
  	$plugin =& JPluginHelper::getPlugin('content', 'mosemailcloak'); 

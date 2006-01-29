@@ -30,7 +30,7 @@ $mainframe->registerEvent( 'onPrepareContent', 'botMosPaging' );
 * <code>{mospagebreak heading=The first page&title=The page title}</code>
 *
 */
-function botMosPaging( $published, &$row, &$params, $page=0 ) {
+function botMosPaging( &$row, &$params, $page=0 ) {
 	global $mainframe, $Itemid, $database;
 
 	if(!$page) {

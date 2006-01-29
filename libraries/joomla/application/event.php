@@ -17,17 +17,18 @@ jimport('joomla.common.base.observer');
  * Event dispatcher class
  *
  * @package 	Joomla.Framework
- * @since 1.0
+ * @since	1.0
  */
-class JEventDispatcher extends JObservable 
+class JEventDispatcher extends JObservable
 {
 	/**
-	* Constructor
-	* 
-	* @access protected
-	*/
-	function __construct() {
-		parent::__construct();
+	 * Constructor
+	 * 
+	 * @access	protected
+	 */
+	function __construct()
+	{
+		parent :: __construct();
 	}
 
 	/**
@@ -37,19 +38,21 @@ class JEventDispatcher extends JObservable
 	 * This method must be invoked as:
 	 * 		<pre>  $dispatcher = &JEventDispatcher::getInstance();</pre>
 	 *
-	 * @access public
-	 * @return JEventDispatcher  The EventDispatcher object.
-	 * @since 1.1
+	 * @access	public
+	 * @return	JEventDispatcher	The EventDispatcher object.
+	 * @since	1.1
 	 */
-	function &getInstance()
+	function & getInstance()
 	{
 		static $instances;
 
-		if (!isset($instances)) {
-			$instances = array();
+		if (!isset ($instances))
+		{
+			$instances = array ();
 		}
 
-		if (empty($instances[0])) {
+		if (empty ($instances[0]))
+		{
 			$instances[0] = new JEventDispatcher();
 		}
 
@@ -57,132 +60,120 @@ class JEventDispatcher extends JObservable
 	}
 
 	/**
-	 * Registers a function to the event dispatcher
+	 * Registers an event handler to the event dispatcher
 	 *
-	 * @access public
-	 * @param string The event name
-	 * @param string The function name
-	 * @since 1.1
+	 * @access	public
+	 * @param	string	$event		Name of the event to register handler for
+	 * @param	string	$handler	Name of the event handler
+	 * @return	void
+	 * @since	1.1
 	 */
-	function register( $event, $handler ) {
-		if (!empty($handler) && !empty($event))
+	function register($event, $handler)
+	{
+		/*
+		 * Are we dealing with a class or function type handler?
+		 */
+		if (class_exists($handler))
 		{
-			$this->attach(array( 'event' => $event, 'handler' => $handler ));
+			/*
+			 * Ok, class type event handler... lets instantiate and attach it.
+			 */
+			$this->attach(new $handler);			
+		} elseif (function_exists($handler))
+		{
+			/*
+			 * Ok, function type event handler... lets attach it.
+			 */
+			$this->attach(array ('event' => $event, 'handler' => $handler));
+		} else
+		{
+			/*
+			 * We are obviously not trying to register a function or a class as
+			 * an event handler... throw an error.
+			 */
+			JError :: raiseWarning('SOME_ERROR_CODE', 'JEventDispatcher::register: Event handler not recognized.', 'Handler: '.$handler );
 		}
 	}
 
 	/**
-	* Calls all functions associated with an event group
-	*
-	* @access public
-	* @param string The event name
-	* @param array An array of arguments
-	* @param boolean True is unpublished bots are to be processed [DEPRECEATED]
-	* @return array An array of results from each function call
-	* @since 1.1
-	*/
-	function trigger( $event, $args=null, $doUnpublished=false )
+	 * Triggers an event by dispatching arguments to all observers that handle
+	 * the event and returning their return values.
+	 *
+	 * @access	public
+	 * @param	string	$event			The event name
+	 * @param	array	$args			An array of arguments
+	 * @param	boolean	$doUnpublished	[DEPRECEATED]
+	 * @return	array	An array of results from each function call
+	 * @since	1.1
+	 */
+	function trigger($event, $args = null, $doUnpublished = false)
 	{
-		if ($args === null) {
-			$args = array();
-		}
-		if ($event == 'onPrepareContent' || $doUnpublished) {
-			// prepend the published argument
-			array_unshift( $args, null );
-		}
+		/*
+		 * Initialize variables
+		 */
+		$result = array ();
 
-		$result = array();
-
-		foreach ($this->_observers as $observer) 
+		/*
+		 * If no arguments were passed, we still need to pass an empty array to
+		 * the call_user_func_array function.
+		 */
+		if ($args === null)
 		{
-			if (is_array($observer) && $observer['event'] == $event) 
+			$args = array ();
+		}
+		
+		/*
+		 * We need to iterate through all of the registered observers and
+		 * trigger the event for each observer that handles the event.
+		 */
+		foreach ($this->_observers as $observer)
+		{
+			if (is_array($observer) && $observer['event'] == $event)
 			{
-				// We are handling a function or a deprecated plugin
-				if (function_exists( $observer['handler'] )) {
-					$result[] = call_user_func_array( $observer['handler'], $args );
-				} else {
-					JError::raiseWarning( 'SOME_ERROR_CODE', 'JEventDispatcher::dispatch: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
+				/*
+				 * Since we have gotten here, we know two things about the
+				 * observer.
+				 * 1) It is a function type observer like mambots
+				 * 2) It handles the event we have triggered
+				 */
+				if (function_exists($observer['handler']))
+				{
+					$result[] = call_user_func_array($observer['handler'], $args);
+				} else
+				{
+					/*
+					 * Couldn't find the function that the observer specified..
+					 * wierd, lets throw an error.
+					 */
+					JError :: raiseWarning('SOME_ERROR_CODE', 'JEventDispatcher::trigger: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
 				}
-			} 
-			else
+			} else
 			{
-				// We are handling an observer object
-				if (is_object($observer)) {
+				/*
+				 * Since we have gotten here, we know a little something about
+				 * the observer.  It is not a function type observer... lets see
+				 * if it is an object which has an update method.
+				 */
+				if (is_object($observer) && method_exists($observer, 'update'))
+				{
+					/*
+					 * Ok, now we know that the observer is both not an array
+					 * and IS an object.  Lets trigger its update method and
+					 * return any results.
+					 */
 					$args['event'] = $event;
 					$result[] = $observer->update($args);
+				} else
+				{
+					/*
+					 * At this point, we know that the registered observer is
+					 * neither a function type observer nor an object type
+					 * observer.  PROBLEM, lets throw an error.
+					 */
+					JError :: raiseWarning('SOME_ERROR_CODE', 'JEventDispatcher::trigger: Unknown Event Handler.', $observer );
 				}
-			} 
-		}
-	
-		return $result;
-	}
-	/**
-	* Same as trigger but only returns the first event and
-	* allows for a variable argument list
-	*
-	* @access public
-	* @param string The event name
-	* @return array The result of the first function call
-	*/
-	function call( $event ) {
-
-		$args =& func_get_args();
-		array_shift( $args );
-
-		foreach ($this->_observers as $observer) {
-
-			if (is_array($observer) && $observer['event'] == $event) {
-				// We are handling a function or JBot
-				if (function_exists( $observer['handler'] )) {
-					$result[] = call_user_func_array( $observer['handler'], $args );
-				} else {
-					JError::raiseWarning( 'SOME_ERROR_CODE', 'JEventDispatcher::dispatch: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
-				}
-			} elseif (is_object($observer)) {
-				$args['event'] = $event;
-				$result[] = $observer->update($args);
-			} else {
-				// Continue
 			}
 		}
-
-		return null;
-	}
-
-	/**
-	 * This method fires the given event and passes all aditional arguements to the
-	 * event handler.  It handles both JPlugin functions and JPlugin objects
-	 * that are registered to the event.
-	 *
-	 * @access public
-	 * @param string $event The event to fire on all observers
-	 * @return array An array of return values from the observers
-	 * @since 1.1
-	 */
-	function dispatch( $event ) {
-
-		$args = func_get_args();
-		array_shift( $args );
-
-		$result = array();
-
-		foreach ($this->_observers as $observer) {
-
-			if (is_array($observer) && $observer['event'] == $event) {
-				// We are handling a function or JBot
-				if (function_exists( $observer['handler'] )) {
-					$result[] = call_user_func_array( $observer['handler'], $args );
-				} else {
-					JError::raiseWarning( 'SOME_ERROR_CODE', 'JEventDispatcher::dispatch: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
-				}
-			} elseif (is_object($observer)) {
-				$args['event'] = $event;
-				$result[] = $observer->update($args);
-			} else {
-				// Continue
-			}
-		}
-
 		return $result;
 	}
 }
