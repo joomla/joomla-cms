@@ -65,7 +65,7 @@ class TOOLBAR_templates {
 	function _EDIT_PARAMS($client){
 
 		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'Template Parameters Editor' ).': <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
+		JMenuBar::title( JText::_( 'Template Parameters' ).': <small><small>[' .JText::_( $client ) .']</small></small>', 'templatemanager.png' );
 		JMenuBar::save( 'save_params' );
 		JMenuBar::spacer();
 		JMenuBar::cancel();

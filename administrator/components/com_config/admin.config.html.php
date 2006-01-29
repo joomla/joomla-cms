@@ -390,7 +390,7 @@ class JConfigView {
 									<span class="editlinktip">
 									<?php
 									$tip = JText::_( 'TIPPAGENAV' );
-									echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Content Item Navigations' ), 'index2.php?option=com_plugins&client=site&task=editA&hidemainmenu=1&id=25' );
+									echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Content Item Navigation' ), 'index2.php?option=com_plugins&client=site&task=editA&hidemainmenu=1&id=25' );
 									?>
 									:				
 									</span>

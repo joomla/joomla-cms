@@ -759,7 +759,7 @@ class HTML_content {
 							<table class="adminform" width="100%">
 							<tr>
 								<th colspan="2">
-									<?php echo JText::_( 'MOSImage Control' ); ?>
+									<?php echo JText::_( 'Image Control' ); ?>
 								</th>
 							</tr>
 							<tr>
