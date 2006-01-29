@@ -32,15 +32,16 @@ class categories_html {
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_categories&amp;section=<?php echo $section; ?>" method="post" name="adminForm">
-		<table class="adminheading">
+		
+		<table class="adminform">
 		<tr>
-			<td>
+			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:
 				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
-			<td align="right">
+			<td nowrap="nowrap">
 				<?php
 				if ( $section == 'content') {
 					echo $lists['sectionid'];
@@ -51,150 +52,152 @@ class categories_html {
 		</tr>
 		</table>
 
-		<table class="adminlist">
-		<tr>
-			<th width="10" align="left">
-            	<?php echo JText::_( 'Num' ); ?>
-			</th>
-			<th width="20">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
-			</th>
-			<th class="title">
-				<?php mosCommonHTML :: tableOrdering( 'Category Name', 'c.name', $lists ); ?>
-			</th>
-			<th width="10%">
-				<?php mosCommonHTML :: tableOrdering( 'Published', 'c.published', $lists ); ?>
-			</th>
-			<?php
-			if ( $section <> 'content') {
-				?>
-				<th colspan="2" width="5%">
-					<?php echo JText::_( 'Reorder' ); ?>
+		<div id="tablecell">				
+			<table class="adminlist">
+			<tr>
+				<th width="10" align="left">
+	            	<?php echo JText::_( 'Num' ); ?>
+				</th>
+				<th width="20">
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
+				</th>
+				<th class="title">
+					<?php mosCommonHTML :: tableOrdering( 'Category Name', 'c.name', $lists ); ?>
+				</th>
+				<th width="10%">
+					<?php mosCommonHTML :: tableOrdering( 'Published', 'c.published', $lists ); ?>
 				</th>
 				<?php
-			}
-			?>
-			<th width="2%" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'Order', 'c.ordering', $lists ); ?>
-			</th>
-			<th width="1%">
-				<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
-					<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
-			</th>
-			<th width="7%">
-				<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
-			</th>
-			<th width="2%" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
-			</th>
-			<?php
-			if ( $section == 'content') {
-				?>
-				<th width="20%"  class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Section', 'section_name', $lists ); ?>
-				</th>
-				<?php
-			}
-			?>
-			<?php
-			if ( $type == 'content') {
-				?>
-				<th width="5%">
-					<?php echo JText::_( 'Num Active' ); ?>
-				</th>
-				<th width="5%">
-					<?php echo JText::_( 'Num Trash' ); ?>
-				</th>
-				<?php
-			}
-			?>
-		</tr>
-		<?php
-		$k = 0;
-		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
-			$row 	= &$rows[$i];
-
-			$row->sect_link = ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->section );
-
-			$link = 'index2.php?option=com_categories&section='. $section .'&task=editA&hidemainmenu=1&id='. $row->id;
-
-			$access 	= mosCommonHTML::AccessProcessing( $row, $i );
-			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
-			$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
-			?>
-			<tr class="<?php echo "row$k"; ?>">
-				<td>
-					<?php echo $pageNav->rowNumber( $i ); ?>
-				</td>
-				<td>
-					<?php echo $checked; ?>
-				</td>
-				<td>
-					<?php
-					if ( $row->checked_out_contact_category && ( $row->checked_out_contact_category != $my->id ) ) {
-						echo $row->name .' ( '. $row->title .' )';
-					} else {
-						?>
-						<a href="<?php echo ampReplace( $link ); ?>">
-							<?php echo $row->name .' ( '. $row->title .' )'; ?></a>
-						<?php
-					}
+				if ( $section <> 'content') {
 					?>
-				</td>
-				<td align="center">
-					<?php echo $published;?>
-				</td>
-				<?php
-				if ( $section <> 'content' ) {
-					?>
-					<td>
-						<?php echo $pageNav->orderUpIcon( $i ); ?>
-					</td>
-					<td>
-						<?php echo $pageNav->orderDownIcon( $i, $n ); ?>
-					</td>
+					<th colspan="2" width="5%">
+						<?php echo JText::_( 'Reorder' ); ?>
+					</th>
 					<?php
 				}
 				?>
-				<td align="center" colspan="2">
-					<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
-				</td>
-				<td align="center">
-					<?php echo $access;?>
-				</td>
-				<td align="center">
-					<?php echo $row->id; ?>
-				</td>
+				<th width="2%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'Order', 'c.ordering', $lists ); ?>
+				</th>
+				<th width="1%">
+					<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
+						<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+				</th>
+				<th width="7%">
+					<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
+				</th>
+				<th width="2%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
+				</th>
 				<?php
-				if ( $section == 'content' ) {
+				if ( $section == 'content') {
 					?>
-					<td>
-						<a href="<?php echo $row->sect_link; ?>" title="<?php echo JText::_( 'Edit Section' ); ?>">
-							<?php echo $row->section_name; ?></a>
-					</td>
+					<th width="20%"  class="title">
+						<?php mosCommonHTML :: tableOrdering( 'Section', 'section_name', $lists ); ?>
+					</th>
 					<?php
 				}
 				?>
 				<?php
 				if ( $type == 'content') {
 					?>
-					<td align="center">
-						<?php echo $row->active; ?>
-					</td>
-					<td align="center">
-						<?php echo $row->trash; ?>
-					</td>
+					<th width="5%">
+						<?php echo JText::_( 'Num Active' ); ?>
+					</th>
+					<th width="5%">
+						<?php echo JText::_( 'Num Trash' ); ?>
+					</th>
 					<?php
 				}
-				$k = 1 - $k;
 				?>
 			</tr>
 			<?php
-		}
-		?>
-		</table>
-
-		<?php echo $pageNav->getListFooter(); ?>
+			$k = 0;
+			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
+				$row 	= &$rows[$i];
+	
+				$row->sect_link = ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->section );
+	
+				$link = 'index2.php?option=com_categories&section='. $section .'&task=editA&hidemainmenu=1&id='. $row->id;
+	
+				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
+				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
+				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
+				?>
+				<tr class="<?php echo "row$k"; ?>">
+					<td>
+						<?php echo $pageNav->rowNumber( $i ); ?>
+					</td>
+					<td>
+						<?php echo $checked; ?>
+					</td>
+					<td>
+						<?php
+						if ( $row->checked_out_contact_category && ( $row->checked_out_contact_category != $my->id ) ) {
+							echo $row->name .' ( '. $row->title .' )';
+						} else {
+							?>
+							<a href="<?php echo ampReplace( $link ); ?>">
+								<?php echo $row->name .' ( '. $row->title .' )'; ?></a>
+							<?php
+						}
+						?>
+					</td>
+					<td align="center">
+						<?php echo $published;?>
+					</td>
+					<?php
+					if ( $section <> 'content' ) {
+						?>
+						<td>
+							<?php echo $pageNav->orderUpIcon( $i ); ?>
+						</td>
+						<td>
+							<?php echo $pageNav->orderDownIcon( $i, $n ); ?>
+						</td>
+						<?php
+					}
+					?>
+					<td align="center" colspan="2">
+						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
+					</td>
+					<td align="center">
+						<?php echo $access;?>
+					</td>
+					<td align="center">
+						<?php echo $row->id; ?>
+					</td>
+					<?php
+					if ( $section == 'content' ) {
+						?>
+						<td>
+							<a href="<?php echo $row->sect_link; ?>" title="<?php echo JText::_( 'Edit Section' ); ?>">
+								<?php echo $row->section_name; ?></a>
+						</td>
+						<?php
+					}
+					?>
+					<?php
+					if ( $type == 'content') {
+						?>
+						<td align="center">
+							<?php echo $row->active; ?>
+						</td>
+						<td align="center">
+							<?php echo $row->trash; ?>
+						</td>
+						<?php
+					}
+					$k = 1 - $k;
+					?>
+				</tr>
+				<?php
+			}
+			?>
+			</table>
+	
+			<?php echo $pageNav->getListFooter(); ?>
+		</div>
 
 		<input type="hidden" name="option" value="com_categories" />
 		<input type="hidden" name="section" value="<?php echo $section;?>" />

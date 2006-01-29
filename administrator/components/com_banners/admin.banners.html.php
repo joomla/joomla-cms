@@ -28,15 +28,15 @@ class HTML_banners {
 		?>
 		<form action="index2.php?option=com_banners" method="post" name="adminForm">
 
-		<table class="adminheading">
+		<table class="adminform">
 		<tr>
-			<td align="left" valign="top" nowrap="nowrap">
+			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:
 				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
-			<td align="right" valign="top" nowrap="nowrap">
+			<td nowrap="nowrap">
 				<?php
 				echo $lists['state'];
 				?>
@@ -44,107 +44,109 @@ class HTML_banners {
 		</tr>
 		</table>
 
-		<table class="adminlist">
-		<tr>
-			<th width="20">
-            	<?php echo JText::_( 'Num' ); ?>
-			</th>
-			<th width="20">
-				<input type="checkbox" name="toggle" value=""  onclick="checkAll(<?php echo count( $rows ); ?>);" />
-			</th>
-			<th nowrap="nowrap" class="title">
-				<?php mosCommonHTML :: tableOrdering( 'Banner Name', 'b.name', $lists ); ?>
-			</th>
-			<th width="7%" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'Published', 'b.showBanner', $lists ); ?>
-			</th>
-			<th width="3%" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'ID', 'b.bid', $lists ); ?>
-			</th>
-			<th width="8%" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'Impressions Made', 'b.impmade', $lists ); ?>
-			</th>
-			<th width="8%" nowrap="nowrap">
-				<?php echo JText::_( 'Impressions Left' ); ?>
-			</th>
-			<th width="7%">
-				<?php mosCommonHTML :: tableOrdering( 'Clicks', 'b.clicks', $lists ); ?>
-			</th>
-			<th width="7%" nowrap="nowrap">
-				<?php echo JText::_( '% Clicks' ); ?>
-			</th>
-		</tr>
-		<?php
-		$k = 0;
-		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
-			$row = &$rows[$i];
-
-			$row->id 	= $row->bid;
-			$link 		= ampReplace( 'index2.php?option=com_banners&task=editA&hidemainmenu=1&id='. $row->id );
-
-			$impleft 	= $row->imptotal - $row->impmade;
-			if( $impleft < 0 ) {
-				$impleft 	= "unlimited";
-			}
-
-			if ( $row->impmade != 0 ) {
-				$percentClicks = substr(100 * $row->clicks/$row->impmade, 0, 5);
-			} else {
-				$percentClicks = 0;
-			}
-
-			$task 	= $row->showBanner ? 'unpublish' : 'publish';
-			$img 	= $row->showBanner ? 'publish_g.png' : 'publish_x.png';
-			$alt 	= $row->showBanner ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
-
-			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
-			?>
-			<tr class="<?php echo "row$k"; ?>">
-				<td align="center">
-					<?php echo $pageNav->rowNumber( $i ); ?>
-				</td>
-				<td align="center">
-					<?php echo $checked; ?>
-				</td>
-				<td>
-					<?php
-					if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-						echo $row->name;
-					} else {
-						?>
-						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Banner' ); ?>">
-							<?php echo $row->name; ?></a>
-						<?php
-					}
-					?>
-				</td>
-				<td align="center">
-					<a href="javascript: void(0);" onmouseover="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
-						<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
-				</td>
-				<td align="center">
-					<?php echo $row->id; ?>
-				</td>
-				<td align="center">
-					<?php echo $row->impmade;?>
-				</td>
-				<td align="center">
-					<?php echo JText::_( $impleft ); ?>
-				</td>
-				<td align="center">
-					<?php echo $row->clicks;?>
-				</td>
-				<td align="center">
-					<?php echo $percentClicks;?>
-				</td>
+		<div id="tablecell">				
+			<table class="adminlist">
+			<tr>
+				<th width="20">
+	            	<?php echo JText::_( 'Num' ); ?>
+				</th>
+				<th width="20">
+					<input type="checkbox" name="toggle" value=""  onclick="checkAll(<?php echo count( $rows ); ?>);" />
+				</th>
+				<th nowrap="nowrap" class="title">
+					<?php mosCommonHTML :: tableOrdering( 'Banner Name', 'b.name', $lists ); ?>
+				</th>
+				<th width="7%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'Published', 'b.showBanner', $lists ); ?>
+				</th>
+				<th width="3%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'ID', 'b.bid', $lists ); ?>
+				</th>
+				<th width="8%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'Impressions Made', 'b.impmade', $lists ); ?>
+				</th>
+				<th width="8%" nowrap="nowrap">
+					<?php echo JText::_( 'Impressions Left' ); ?>
+				</th>
+				<th width="7%">
+					<?php mosCommonHTML :: tableOrdering( 'Clicks', 'b.clicks', $lists ); ?>
+				</th>
+				<th width="7%" nowrap="nowrap">
+					<?php echo JText::_( '% Clicks' ); ?>
+				</th>
 			</tr>
 			<?php
-			$k = 1 - $k;
-		}
-		?>
-		</table>
-		
-		<?php echo $pageNav->getListFooter(); ?>
+			$k = 0;
+			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
+				$row = &$rows[$i];
+	
+				$row->id 	= $row->bid;
+				$link 		= ampReplace( 'index2.php?option=com_banners&task=editA&hidemainmenu=1&id='. $row->id );
+	
+				$impleft 	= $row->imptotal - $row->impmade;
+				if( $impleft < 0 ) {
+					$impleft 	= "unlimited";
+				}
+	
+				if ( $row->impmade != 0 ) {
+					$percentClicks = substr(100 * $row->clicks/$row->impmade, 0, 5);
+				} else {
+					$percentClicks = 0;
+				}
+	
+				$task 	= $row->showBanner ? 'unpublish' : 'publish';
+				$img 	= $row->showBanner ? 'publish_g.png' : 'publish_x.png';
+				$alt 	= $row->showBanner ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
+	
+				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
+				?>
+				<tr class="<?php echo "row$k"; ?>">
+					<td align="center">
+						<?php echo $pageNav->rowNumber( $i ); ?>
+					</td>
+					<td align="center">
+						<?php echo $checked; ?>
+					</td>
+					<td>
+						<?php
+						if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+							echo $row->name;
+						} else {
+							?>
+							<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Banner' ); ?>">
+								<?php echo $row->name; ?></a>
+							<?php
+						}
+						?>
+					</td>
+					<td align="center">
+						<a href="javascript: void(0);" onmouseover="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
+							<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
+					</td>
+					<td align="center">
+						<?php echo $row->id; ?>
+					</td>
+					<td align="center">
+						<?php echo $row->impmade;?>
+					</td>
+					<td align="center">
+						<?php echo JText::_( $impleft ); ?>
+					</td>
+					<td align="center">
+						<?php echo $row->clicks;?>
+					</td>
+					<td align="center">
+						<?php echo $percentClicks;?>
+					</td>
+				</tr>
+				<?php
+				$k = 1 - $k;
+			}
+			?>
+			</table>
+			
+			<?php echo $pageNav->getListFooter(); ?>
+		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="" />
@@ -328,86 +330,88 @@ class HTML_bannerClient {
 		?>
 		<form action="index2.php?option=com_banners&amp;task=listclients" method="post" name="adminForm">
 		
-		<table class="adminheading">
+		<table class="adminform">
 		<tr>
-			<td align="left" valign="top" nowrap="nowrap">
+			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:
 				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
-			<td align="right" valign="top" nowrap="nowrap">
+			<td nowrap="nowrap">
 			</td>
 		</tr>
 		</table>
 
-		<table class="adminlist">
-		<tr>
-			<th width="20">
-           		<?php echo JText::_( 'Num' ); ?>
-			</th>
-			<th width="20">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
-			</th>
-			<th nowrap="nowrap" class="title">
-				<?php mosCommonHTML :: tableOrdering( 'Client Name', 'a.name', $lists, 'listclients' ); ?>
-			</th>
-			<th width="3%" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'ID', 'a.cid', $lists, 'listclients' ); ?>
-			</th>
-			<th nowrap="nowrap" class="title" width="35%">
-				<?php mosCommonHTML :: tableOrdering( 'Contact', 'a.contact', $lists, 'listclients' ); ?>
-			</th>
-			<th align="center" nowrap="nowrap" width="5%">
-				<?php mosCommonHTML :: tableOrdering( 'No. of Active Banners', 'bid', $lists, 'listclients' ); ?>
-			</th>
-		</tr>
-		<?php
-		$k = 0;
-		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
-			$row = &$rows[$i];
-
-			$row->id 		= $row->cid;
-			$link 			= ampReplace( 'index2.php?option=com_banners&task=editclientA&hidemainmenu=1&id='. $row->id );
-			
-			$checked 		= mosCommonHTML::CheckedOutProcessing( $row, $i );
-			?>
-			<tr class="<?php echo "row$k"; ?>">
-				<td align="center">
-					<?php echo $pageNav->rowNumber( $i ); ?>
-				</td>
-				<td>
-					<?php echo $checked; ?>
-				</td>
-				<td>
-					<?php
-					if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-						echo $row->name;
-					} else {
-						?>
-						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Banner Client' ); ?>">
-							<?php echo $row->name; ?></a>
-						<?php
-					}
-					?>
-				</td>
-				<td align="center">
-					<?php echo $row->cid; ?>
-				</td>
-				<td>
-					<?php echo $row->contact; ?>
-				</td>
-				<td align="center">
-					<?php echo $row->bid;?>
-				</td>
+		<div id="tablecell">				
+			<table class="adminlist">
+			<tr>
+				<th width="20">
+	           		<?php echo JText::_( 'Num' ); ?>
+				</th>
+				<th width="20">
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+				</th>
+				<th nowrap="nowrap" class="title">
+					<?php mosCommonHTML :: tableOrdering( 'Client Name', 'a.name', $lists, 'listclients' ); ?>
+				</th>
+				<th width="3%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'ID', 'a.cid', $lists, 'listclients' ); ?>
+				</th>
+				<th nowrap="nowrap" class="title" width="35%">
+					<?php mosCommonHTML :: tableOrdering( 'Contact', 'a.contact', $lists, 'listclients' ); ?>
+				</th>
+				<th align="center" nowrap="nowrap" width="5%">
+					<?php mosCommonHTML :: tableOrdering( 'No. of Active Banners', 'bid', $lists, 'listclients' ); ?>
+				</th>
 			</tr>
 			<?php
-			$k = 1 - $k;
-		}
-		?>
-		</table>
-		
-		<?php echo $pageNav->getListFooter(); ?>
+			$k = 0;
+			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
+				$row = &$rows[$i];
+	
+				$row->id 		= $row->cid;
+				$link 			= ampReplace( 'index2.php?option=com_banners&task=editclientA&hidemainmenu=1&id='. $row->id );
+				
+				$checked 		= mosCommonHTML::CheckedOutProcessing( $row, $i );
+				?>
+				<tr class="<?php echo "row$k"; ?>">
+					<td align="center">
+						<?php echo $pageNav->rowNumber( $i ); ?>
+					</td>
+					<td>
+						<?php echo $checked; ?>
+					</td>
+					<td>
+						<?php
+						if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+							echo $row->name;
+						} else {
+							?>
+							<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Banner Client' ); ?>">
+								<?php echo $row->name; ?></a>
+							<?php
+						}
+						?>
+					</td>
+					<td align="center">
+						<?php echo $row->cid; ?>
+					</td>
+					<td>
+						<?php echo $row->contact; ?>
+					</td>
+					<td align="center">
+						<?php echo $row->bid;?>
+					</td>
+				</tr>
+				<?php
+				$k = 1 - $k;
+			}
+			?>
+			</table>
+			
+			<?php echo $pageNav->getListFooter(); ?>
+		</div>
 		
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="listclients" />

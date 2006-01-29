@@ -111,7 +111,7 @@ function showMessages( $option ) {
 	if ($database->getErrorNum()) {
 		echo $database->stderr();
 		return false;
-	}		
+	}		
 	
 	// state filter 
 	$lists['state']	= mosCommonHTML::selectState( $filter_state, 'Read', 'Unread' );
@@ -122,9 +122,11 @@ function showMessages( $option ) {
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;
-	
-	HTML_messages::showMessages( $rows, $pageNav, $search, $option, $lists );
+	$lists['order'] = $filter_order;	
+	// search filter
+	$lists['search']= $search;
+
+	HTML_messages::showMessages( $rows, $pageNav, $option, $lists );
 }
 
 function editConfig( $option ) {

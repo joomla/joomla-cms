@@ -29,74 +29,76 @@ class HTML_trash {
 		?>
 		<form action="index2.php?option=com_trash&amp;task=viewContent" method="post" name="adminForm">
 		
-		<table class="adminheading">
+		<table class="adminform">
 		<tr>
-			<td align="left" valign="top" nowrap="nowrap">
+			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:
 				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
-			<td align="right" valign="top" nowrap="nowrap">
+			<td nowrap="nowrap">
 			</td>
 		</tr>
 		</table>
 
-		<table class="adminlist" width="90%">
-		<tr>
-			<th width="20">
-				<?php echo JText::_( 'NUM' ); ?>
-			</th>
-			<th width="20">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $contents );?>);" />
-			</th>
-			<th class="title">
-				<?php mosCommonHTML :: tableOrdering( 'Title', 'c.title', $lists ); ?>
-			</th>
-			<th width="70">
-				<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
-			</th>
-			<th class="title" width="25%">
-				<?php mosCommonHTML :: tableOrdering( 'Section', 'sectname', $lists ); ?>
-			</th>
-			<th class="title" width="25%">
-				<?php mosCommonHTML :: tableOrdering( 'Category', 'catname', $lists ); ?>
-			</th>
-		</tr>
-		<?php
-		$k = 0;
-		$i = 0;
-		$n = count( $contents );
-		foreach ( $contents as $row ) {
-			?>
-			<tr class="<?php echo "row". $k; ?>">
-				<td align="center">
-					<?php echo $i + 1 + $pageNav->limitstart;?>
-				</td>
-				<td align="center">
-					<?php echo mosHTML::idBox( $i, $row->id ); ?>
-				</td>
-				<td nowrap="nowrap">
-					<?php echo $row->title; ?>
-				</td>
-				<td align="center">
-					<?php echo $row->id; ?>
-				</td>
-				<td>
-					<?php echo $row->sectname; ?>
-				</td>
-				<td>
-					<?php echo $row->catname; ?>
-				</td>
+		<div id="tablecell">				
+			<table class="adminlist" width="90%">
+			<tr>
+				<th width="20">
+					<?php echo JText::_( 'NUM' ); ?>
+				</th>
+				<th width="20">
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $contents );?>);" />
+				</th>
+				<th class="title">
+					<?php mosCommonHTML :: tableOrdering( 'Title', 'c.title', $lists ); ?>
+				</th>
+				<th width="70">
+					<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
+				</th>
+				<th class="title" width="25%">
+					<?php mosCommonHTML :: tableOrdering( 'Section', 'sectname', $lists ); ?>
+				</th>
+				<th class="title" width="25%">
+					<?php mosCommonHTML :: tableOrdering( 'Category', 'catname', $lists ); ?>
+				</th>
 			</tr>
 			<?php
-			$k = 1 - $k;
-			$i++;
-		}
-		?>
-		</table>
-		
-		<?php echo $pageNav->getListFooter(); ?>
+			$k = 0;
+			$i = 0;
+			$n = count( $contents );
+			foreach ( $contents as $row ) {
+				?>
+				<tr class="<?php echo "row". $k; ?>">
+					<td align="center">
+						<?php echo $i + 1 + $pageNav->limitstart;?>
+					</td>
+					<td align="center">
+						<?php echo mosHTML::idBox( $i, $row->id ); ?>
+					</td>
+					<td nowrap="nowrap">
+						<?php echo $row->title; ?>
+					</td>
+					<td align="center">
+						<?php echo $row->id; ?>
+					</td>
+					<td>
+						<?php echo $row->sectname; ?>
+					</td>
+					<td>
+						<?php echo $row->catname; ?>
+					</td>
+				</tr>
+				<?php
+				$k = 1 - $k;
+				$i++;
+			}
+			?>
+			</table>
+			
+			<?php echo $pageNav->getListFooter(); ?>
+		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="viewContent" />
@@ -141,74 +143,76 @@ class HTML_trash {
 		</script>
 		<form action="index2.php?option=com_trash&amp;task=viewMenu" method="post" name="adminForm">
 
-		<table class="adminheading">
+		<table class="adminform">
 		<tr>
-			<td align="left" valign="top" nowrap="nowrap">
+			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:
 				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
-			<td align="right" valign="top" nowrap="nowrap">
+			<td nowrap="nowrap">
 			</td>
 		</tr>
 		</table>
 
-		<table class="adminlist" width="90%">
-		<tr>
-			<th width="20">
-				<?php echo JText::_( 'NUM' ); ?>
-			</th>
-			<th width="20">
-				<input type="checkbox" name="toggle1" value="" onclick="checkAll_xtd(<?php echo count( $menus );?>);" />
-			</th>
-			<th class="title">
-				<?php mosCommonHTML :: tableOrdering( 'Name', 'm.name', $lists ); ?>
-			</th>
-			<th width="70">
-				<?php mosCommonHTML :: tableOrdering( 'ID', 'm.id', $lists ); ?>
-			</th>
-			<th class="title" width="25%">
-				<?php mosCommonHTML :: tableOrdering( 'Menu', 'm.menutype', $lists ); ?>
-			</th>
-			<th class="title" width="25%">
-				<?php mosCommonHTML :: tableOrdering( 'Type', 'm.type', $lists ); ?>
-			</th>
-		</tr>
-		<?php
-		$k = 0;
-		$i = 0;
-		$n = count( $menus );
-		foreach ( $menus as $row ) {
-			?>
-			<tr class="<?php echo "row". $k; ?>">
-				<td align="center">
-					<?php echo $i + 1 + $pageNav->limitstart;?>
-				</td>
-				<td align="center">
-					<input type="checkbox" id="cb1<?php echo $i;?>" name="mid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);" />
-				</td>
-				<td nowrap="nowrap">
-					<?php echo $row->name; ?>
-				</td>
-				<td align="center">
-					<?php echo $row->id; ?>
-				</td>
-				<td>
-					<?php echo $row->menutype; ?>
-				</td>
-				<td>
-					<?php echo $row->type; ?>
-				</td>
+		<div id="tablecell">				
+			<table class="adminlist" width="90%">
+			<tr>
+				<th width="20">
+					<?php echo JText::_( 'NUM' ); ?>
+				</th>
+				<th width="20">
+					<input type="checkbox" name="toggle1" value="" onclick="checkAll_xtd(<?php echo count( $menus );?>);" />
+				</th>
+				<th class="title">
+					<?php mosCommonHTML :: tableOrdering( 'Name', 'm.name', $lists ); ?>
+				</th>
+				<th width="70">
+					<?php mosCommonHTML :: tableOrdering( 'ID', 'm.id', $lists ); ?>
+				</th>
+				<th class="title" width="25%">
+					<?php mosCommonHTML :: tableOrdering( 'Menu', 'm.menutype', $lists ); ?>
+				</th>
+				<th class="title" width="25%">
+					<?php mosCommonHTML :: tableOrdering( 'Type', 'm.type', $lists ); ?>
+				</th>
 			</tr>
 			<?php
-			$k = 1 - $k;
-			$i++;
-		}
-		?>
-		</table>
-		
-		<?php echo $pageNav->getListFooter(); ?>
+			$k = 0;
+			$i = 0;
+			$n = count( $menus );
+			foreach ( $menus as $row ) {
+				?>
+				<tr class="<?php echo "row". $k; ?>">
+					<td align="center">
+						<?php echo $i + 1 + $pageNav->limitstart;?>
+					</td>
+					<td align="center">
+						<input type="checkbox" id="cb1<?php echo $i;?>" name="mid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);" />
+					</td>
+					<td nowrap="nowrap">
+						<?php echo $row->name; ?>
+					</td>
+					<td align="center">
+						<?php echo $row->id; ?>
+					</td>
+					<td>
+						<?php echo $row->menutype; ?>
+					</td>
+					<td>
+						<?php echo $row->type; ?>
+					</td>
+				</tr>
+				<?php
+				$k = 1 - $k;
+				$i++;
+			}
+			?>
+			</table>
+			
+			<?php echo $pageNav->getListFooter(); ?>
+		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="viewMenu" />

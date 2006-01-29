@@ -25,8 +25,7 @@ class HTML_menumanager
 	/**
 	* Writes a list of the menumanager items
 	*/
-	function show ( $option, $menus, $pageNav ) 
-	{
+	function show ( $option, $menus, $pageNav ) {
 		global $mainframe;
 		
 		?>
@@ -43,90 +42,94 @@ class HTML_menumanager
 		</script>
 
 		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminlist">
-		<tr>
-			<th width="20"><?php echo JText::_( 'NUM' ); ?></th>
-			<th width="20px">
-			</th>
-			<th class="title" nowrap="nowrap">
-			<?php echo JText::_( 'Menu Name' ); ?>
-			</th>
-			<th width="5%" nowrap="nowrap">
-			<?php echo JText::_( 'Menu Items' ); ?>
-			</th>
-			<th width="10%">
-			<?php echo JText::_( 'NUM Published' ); ?>
-			</th>
-			<th width="15%">
-			<?php echo JText::_( 'NUM Unpublished' ); ?>
-			</th>
-			<th width="15%">
-			<?php echo JText::_( 'NUM Trash' ); ?>
-			</th>
-			<th width="15%">
-			<?php echo JText::_( 'NUM Modules' ); ?>
-			</th>
-		</tr>
-		<?php
-		$k = 0;
-		$i = 0;
-		$start = 0;
-		if ($pageNav->limitstart)
-			$start = $pageNav->limitstart;
-		$count = count($menus)-$start;
-		if ($pageNav->limit)
-			if ($count > $pageNav->limit)
-				$count = $pageNav->limit;
-		for ($m = $start; $m < $start+$count; $m++) {
-			$menu = $menus[$m];
-			$link 	= 'index2.php?option=com_menumanager&task=edit&hidemainmenu=1&menu='. $menu->type;
-			$linkA 	= 'index2.php?option=com_menus&menutype='. $menu->type;
-			?>
-			<tr class="<?php echo "row". $k; ?>">
-				<td align="center" width="30px">
-				<?php echo $i + 1 + $pageNav->limitstart;?>
-				</td>
-				<td width="30px" align="center">
-				<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $menu->type; ?>" onclick="isChecked(this.checked);" />
-				</td>
-				<td>
-				<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Menu Name' ); ?>">
-				<?php echo $menu->type; ?>
-				</a>
-				</td>
-				<td align="center">
-				<a href="<?php echo $linkA; ?>" title="<?php echo JText::_( 'Edit Menu Items' ); ?>">
-				<img src="<?php echo $mainframe->getSiteURL(); ?>/includes/js/ThemeOffice/mainmenu.png" border="0"/>
-				</a>
-				</td>
-				<td align="center">
-				<?php
-				echo $menu->published;
-				?>
-				</td>
-				<td align="center">
-				<?php
-				echo $menu->unpublished;
-				?>
-				</td>
-				<td align="center">
-				<?php
-				echo $menu->trash;
-				?>
-				</td>
-				<td align="center">
-				<?php
-				echo $menu->modules;
-				?>
-				</td>
+		
+		<div id="tablecell">				
+			<table class="adminlist">
+			<tr>
+				<th width="20">
+					<?php echo JText::_( 'NUM' ); ?>
+				</th>
+				<th width="20px">
+				</th>
+				<th class="title" nowrap="nowrap">
+					<?php echo JText::_( 'Menu Name' ); ?>
+				</th>
+				<th width="5%" nowrap="nowrap">
+					<?php echo JText::_( 'Menu Items' ); ?>
+				</th>
+				<th width="10%">
+					<?php echo JText::_( 'NUM Published' ); ?>
+				</th>
+				<th width="15%">
+					<?php echo JText::_( 'NUM Unpublished' ); ?>
+				</th>
+				<th width="15%">
+					<?php echo JText::_( 'NUM Trash' ); ?>
+				</th>
+				<th width="15%">
+					<?php echo JText::_( 'NUM Modules' ); ?>
+				</th>
 			</tr>
 			<?php
-			$k = 1 - $k;
-			$i++;
-		}
-		?>
-		</table>
-		<?php echo $pageNav->getListFooter(); ?>
+			$k = 0;
+			$i = 0;
+			$start = 0;
+			if ($pageNav->limitstart)
+				$start = $pageNav->limitstart;
+			$count = count($menus)-$start;
+			if ($pageNav->limit)
+				if ($count > $pageNav->limit)
+					$count = $pageNav->limit;
+			for ($m = $start; $m < $start+$count; $m++) {
+				$menu = $menus[$m];
+				$link 	= 'index2.php?option=com_menumanager&task=edit&hidemainmenu=1&menu='. $menu->type;
+				$linkA 	= 'index2.php?option=com_menus&menutype='. $menu->type;
+				?>
+				<tr class="<?php echo "row". $k; ?>">
+					<td align="center" width="30px">
+						<?php echo $i + 1 + $pageNav->limitstart;?>
+					</td>
+					<td width="30px" align="center">
+						<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $menu->type; ?>" onclick="isChecked(this.checked);" />
+					</td>
+					<td>
+						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Menu Name' ); ?>">
+							<?php echo $menu->type; ?></a>
+					</td>
+					<td align="center">
+						<a href="<?php echo $linkA; ?>" title="<?php echo JText::_( 'Edit Menu Items' ); ?>">
+							<img src="<?php echo $mainframe->getSiteURL(); ?>/includes/js/ThemeOffice/mainmenu.png" border="0" /></a>
+					</td>
+					<td align="center">
+						<?php
+						echo $menu->published;
+						?>
+					</td>
+					<td align="center">
+						<?php
+						echo $menu->unpublished;
+						?>
+					</td>
+					<td align="center">
+						<?php
+						echo $menu->trash;
+						?>
+					</td>
+					<td align="center">
+						<?php
+						echo $menu->modules;
+						?>
+					</td>
+				</tr>
+				<?php
+				$k = 1 - $k;
+				$i++;
+			}
+			?>
+			</table>
+			
+			<?php echo $pageNav->getListFooter(); ?>
+		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="" />

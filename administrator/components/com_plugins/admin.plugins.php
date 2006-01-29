@@ -167,9 +167,11 @@ function viewPlugins( $option, $client ) {
 	} else {
 		$lists['order_Dir'] = 'DESC';
 	}
-	$lists['order'] = $filter_order;
-	
-	HTML_modules::showPlugins( $rows, $client, $pageNav, $option, $lists, $search );
+	$lists['order'] = $filter_order;	
+	// search filter
+	$lists['search']= $search;
+
+	HTML_modules::showPlugins( $rows, $client, $pageNav, $option, $lists );
 }
 
 /**

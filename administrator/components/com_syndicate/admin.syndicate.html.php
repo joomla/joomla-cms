@@ -26,31 +26,33 @@ class HTML_syndicate {
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		
-		<table class="adminform">
-		<thead>
-		<tr>
-			<th>
-				<?php echo JText::_( 'Parameters' ); ?>
-			</th>
-		</tr>
-		</thead>
-		<tfoot>
-		<tr>
-			<th>
-				&nbsp;
-			</th>
-		</tr>
-		</tfoot>
-		<tbody>
-		<tr>
-			<td>
-				<?php
-				echo $params->render();
-				?>
-			</td>
-		</tr>
-		</tbody>
-		</table>
+		<div id="tablecell">				
+			<table class="adminform">
+			<thead>
+			<tr>
+				<th>
+					<?php echo JText::_( 'Parameters' ); ?>
+				</th>
+			</tr>
+			</thead>
+			<tfoot>
+			<tr>
+				<th>
+					&nbsp;
+				</th>
+			</tr>
+			</tfoot>
+			<tbody>
+			<tr>
+				<td>
+					<?php
+					echo $params->render();
+					?>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+		</div>
 
 		<input type="hidden" name="id" value="<?php echo $id; ?>" />
 		<input type="hidden" name="name" value="Syndicate" />

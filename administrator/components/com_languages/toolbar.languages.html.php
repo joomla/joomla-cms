@@ -26,7 +26,7 @@ class TOOLBAR_languages {
 		$client = mosGetParam( $_REQUEST, 'client');
 		
 		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'Language Manager' ).'<small><small>[' .JText::_( $client ) .']</small></small>', 'langmanager.png' );
+		JMenuBar::title( JText::_( 'Language Manager' ).': <small><small>[' .JText::_( $client ) .']</small></small>', 'langmanager.png' );
 		JMenuBar::publishList();
 		JMenuBar::spacer();
 		JMenuBar::addNew('install', 'Install');

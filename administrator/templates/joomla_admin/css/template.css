@@ -560,6 +560,16 @@ legend {
 	border: 1px #ccc solid; 
 }
 
+#tablecell {
+	width: 100%; 
+	display: block; 
+	position: relative; 
+	float: left;
+	margin: 0; 
+	padding: 10px 2px;
+	overflow: hidden;
+}
+
 span.editlinktip {
 	text-decoration:  none;
 	border-bottom: 1px dashed #aaa;
@@ -624,4 +634,5 @@ div.footer {
 	margin: 0; 
 	padding: 2px 0px 0px 0px;	
 }
+
 

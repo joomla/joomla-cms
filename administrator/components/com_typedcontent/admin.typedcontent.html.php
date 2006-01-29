@@ -32,15 +32,15 @@ class HTML_typedcontent {
 		?>
 		<form action="index2.php?option=com_typedcontent" method="post" name="adminForm">
 
-		<table class="adminheading">
+		<table class="adminform">
 		<tr>
-			<td align="left" valign="top" nowrap="nowrap">
+			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:
 				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
-			<td align="right" nowrap="nowrap">
+			<td nowrap="nowrap">
 				<?php
 				echo $lists['authorid'];
 				echo $lists['state'];
@@ -49,178 +49,180 @@ class HTML_typedcontent {
 		</tr>
 		</table>
 
-		<table class="adminlist">
-		<tr>
-			<th width="5">
-				<?php echo JText::_( 'NUM' ); ?>
-			</th>
-			<th width="5">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
-			</th>
-			<th class="title">
-				<?php mosCommonHTML :: tableOrdering( 'Title', 'c.title', $lists ); ?>
-			</th>
-			<th width="5%" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'Published', 'c.state', $lists ); ?>
-			</th>
-			<th width="2%" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'Order', 'c.ordering', $lists ); ?>
-			</th>
-			<th width="1%">
-				<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
-					<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
-			</th>
-			<th width="7%">
-				<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
-			</th>
-			<th width="3%" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
-			</th>
-			<th width="20%"  class="title">
-				<?php mosCommonHTML :: tableOrdering( 'Author', 'creator', $lists ); ?>
-			</th>
-			<th width="1%" >
-				<?php echo JText::_( 'Links' ); ?>
-			</th>
-			<th align="center" width="10">
-				<?php mosCommonHTML :: tableOrdering( 'Date', 'c.created', $lists ); ?>
-			</th>
-		</tr>
-		<?php
-		$k = 0;
-		$nullDate = $database->getNullDate();
-		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
-			$row = &$rows[$i];
-
-			$now = date( 'Y-m-d H:i:s' );
-			if ( $now <= $row->publish_up && $row->state == 1 ) {
-				$img = 'publish_y.png';
-				$alt = JText::_( 'Published' );
-			} else if ( ( $now <= $row->publish_down || $row->publish_down == $nullDate ) && $row->state == 1 ) {
-				$img = 'publish_g.png';
-				$alt = JText::_( 'Published' );
-			} else if ( $now > $row->publish_down && $row->state == 1 ) {
-				$img = 'publish_r.png';
-				$alt = JText::_( 'Expired' );
-			} elseif ( $row->state == "0" ) {
-				$img = "publish_x.png";
-				$alt = JText::_( 'Unpublished' );
-			}
-			$times = '';
-			if (isset($row->publish_up)) {
-				if ($row->publish_up == $nullDate) {
-					$times .= "<tr><td>". JText::_( 'Start: Always' ) ."</td></tr>";
-				} else {
-					$times .= "<tr><td>". JText::_( 'Start' ) .": ". $row->publish_up ."</td></tr>";
-				}
-			}
-			if (isset($row->publish_down)) {
-				if ($row->publish_down == $nullDate) {
-					$times .= "<tr><td>". JText::_( 'Finish: No Expiry' ) ."</td></tr>";
-				} else {
-					$times .= "<tr><td>". JText::_( 'Finish' ) .": ". $row->publish_down ."</td></tr>";
-				}
-			}
-
-			if ( !$row->access ) {
-				$color_access = 'style="color: green;"';
-				$task_access = 'accessregistered';
-			} else if ( $row->access == 1 ) {
-				$color_access = 'style="color: red;"';
-				$task_access = 'accessspecial';
-			} else {
-				$color_access = 'style="color: black;"';
-				$task_access = 'accesspublic';
-			}
-
-			$link = 'index2.php?option=com_typedcontent&task=edit&hidemainmenu=1&id='. $row->id;
-
-			if ( $row->checked_out ) {
-				$checked	 		= mosCommonHTML::checkedOut( $row );
-			} else {
-				$checked	 		= mosHTML::idBox( $i, $row->id, ($row->checked_out && $row->checked_out != $my->id ) );
-			}
-
-			if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
-				if ( $row->created_by_alias ) {
-					$author = $row->created_by_alias;
-				} else {
-					$linkA 	= 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->created_by;
-					$author = '<a href="'. ampReplace( $linkA ) .'" title="'. JText::_( 'Edit User' ) .'">'. $row->creator .'</a>';
-				}
-			} else {
-				if ( $row->created_by_alias ) {
-					$author = $row->created_by_alias;
-				} else {
-					$author = $row->creator;
-				}
-			}
-
-			$date = mosFormatDate( $row->created, JText::_( 'DATE_FORMAT_LC4' ) );
-			?>
-			<tr class="<?php echo "row$k"; ?>">
-				<td>
-					<?php echo $pageNav->rowNumber( $i ); ?>
-				</td>
-				<td>
-					<?php echo $checked; ?>
-				</td>
-    			<?php
-    			if ( $row->title_alias ) {
-                    ?>
-                    <td onmouseover="return overlib('<?php echo $row->title_alias; ?>', CAPTION, '<?php echo JText::_( 'Title Alias' ); ?>', BELOW, RIGHT);" onmouseout="return nd();" >
-                    <?php
-    			} else {
-					echo "<td>";
-                }
-				if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-					echo $row->title;
-				} else {
-					?>
-					<a href="<?php echo ampReplace( $link ); ?>" title="<?php echo JText::_( 'Edit Static Content' ); ?>">
-						<?php echo htmlspecialchars($row->title, ENT_QUOTES); ?></a>
-					<?php
-				}
-				?>
-				</td>
-				<?php
-				if ( $times ) {
-					?>
-					<td align="center">
-					<a href="javascript: void(0);" onMouseOver="return overlib('<table><?php echo $times; ?></table>', CAPTION, '<?php echo JText::_( 'Publish Information' ); ?>', BELOW, RIGHT);" onMouseOut="return nd();" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $row->state ? "unpublish" : "publish";?>')">
-						<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
-					</td>
-					<?php
-				}
-				?>
-				<td align="center" colspan="2">
-					<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
-				</td>
-				<td align="center">
-					<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task_access;?>')" <?php echo $color_access; ?>>
-						<?php echo $row->groupname;?></a>
-				</td>
-				<td align="center">
-					<?php echo $row->id;?>
-				</td>
-				<td>
-					<?php echo $author;?>
-				</td>
-				<td align="center">
-					<?php echo $row->links;?>
-				</td>
-				<td>
-					<?php echo $date; ?>
-				</td>
+		<div id="tablecell">				
+			<table class="adminlist">
+			<tr>
+				<th width="5">
+					<?php echo JText::_( 'NUM' ); ?>
+				</th>
+				<th width="5">
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+				</th>
+				<th class="title">
+					<?php mosCommonHTML :: tableOrdering( 'Title', 'c.title', $lists ); ?>
+				</th>
+				<th width="5%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'Published', 'c.state', $lists ); ?>
+				</th>
+				<th width="2%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'Order', 'c.ordering', $lists ); ?>
+				</th>
+				<th width="1%">
+					<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
+						<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+				</th>
+				<th width="7%">
+					<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
+				</th>
+				<th width="3%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
+				</th>
+				<th width="20%"  class="title">
+					<?php mosCommonHTML :: tableOrdering( 'Author', 'creator', $lists ); ?>
+				</th>
+				<th width="1%" >
+					<?php echo JText::_( 'Links' ); ?>
+				</th>
+				<th align="center" width="10">
+					<?php mosCommonHTML :: tableOrdering( 'Date', 'c.created', $lists ); ?>
+				</th>
 			</tr>
 			<?php
-			$k = 1 - $k;
-		}
-		?>
-		</table>
-
-		<?php echo $pageNav->getListFooter(); ?>
-		<?php mosCommonHTML::ContentLegend(); ?>
+			$k = 0;
+			$nullDate = $database->getNullDate();
+			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
+				$row = &$rows[$i];
+	
+				$now = date( 'Y-m-d H:i:s' );
+				if ( $now <= $row->publish_up && $row->state == 1 ) {
+					$img = 'publish_y.png';
+					$alt = JText::_( 'Published' );
+				} else if ( ( $now <= $row->publish_down || $row->publish_down == $nullDate ) && $row->state == 1 ) {
+					$img = 'publish_g.png';
+					$alt = JText::_( 'Published' );
+				} else if ( $now > $row->publish_down && $row->state == 1 ) {
+					$img = 'publish_r.png';
+					$alt = JText::_( 'Expired' );
+				} elseif ( $row->state == "0" ) {
+					$img = "publish_x.png";
+					$alt = JText::_( 'Unpublished' );
+				}
+				$times = '';
+				if (isset($row->publish_up)) {
+					if ($row->publish_up == $nullDate) {
+						$times .= "<tr><td>". JText::_( 'Start: Always' ) ."</td></tr>";
+					} else {
+						$times .= "<tr><td>". JText::_( 'Start' ) .": ". $row->publish_up ."</td></tr>";
+					}
+				}
+				if (isset($row->publish_down)) {
+					if ($row->publish_down == $nullDate) {
+						$times .= "<tr><td>". JText::_( 'Finish: No Expiry' ) ."</td></tr>";
+					} else {
+						$times .= "<tr><td>". JText::_( 'Finish' ) .": ". $row->publish_down ."</td></tr>";
+					}
+				}
+	
+				if ( !$row->access ) {
+					$color_access = 'style="color: green;"';
+					$task_access = 'accessregistered';
+				} else if ( $row->access == 1 ) {
+					$color_access = 'style="color: red;"';
+					$task_access = 'accessspecial';
+				} else {
+					$color_access = 'style="color: black;"';
+					$task_access = 'accesspublic';
+				}
+	
+				$link = 'index2.php?option=com_typedcontent&task=edit&hidemainmenu=1&id='. $row->id;
+	
+				if ( $row->checked_out ) {
+					$checked	 		= mosCommonHTML::checkedOut( $row );
+				} else {
+					$checked	 		= mosHTML::idBox( $i, $row->id, ($row->checked_out && $row->checked_out != $my->id ) );
+				}
+	
+				if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
+					if ( $row->created_by_alias ) {
+						$author = $row->created_by_alias;
+					} else {
+						$linkA 	= 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->created_by;
+						$author = '<a href="'. ampReplace( $linkA ) .'" title="'. JText::_( 'Edit User' ) .'">'. $row->creator .'</a>';
+					}
+				} else {
+					if ( $row->created_by_alias ) {
+						$author = $row->created_by_alias;
+					} else {
+						$author = $row->creator;
+					}
+				}
+	
+				$date = mosFormatDate( $row->created, JText::_( 'DATE_FORMAT_LC4' ) );
+				?>
+				<tr class="<?php echo "row$k"; ?>">
+					<td>
+						<?php echo $pageNav->rowNumber( $i ); ?>
+					</td>
+					<td>
+						<?php echo $checked; ?>
+					</td>
+	    			<?php
+	    			if ( $row->title_alias ) {
+	                    ?>
+	                    <td onmouseover="return overlib('<?php echo $row->title_alias; ?>', CAPTION, '<?php echo JText::_( 'Title Alias' ); ?>', BELOW, RIGHT);" onmouseout="return nd();" >
+	                    <?php
+	    			} else {
+						echo "<td>";
+	                }
+					if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+						echo $row->title;
+					} else {
+						?>
+						<a href="<?php echo ampReplace( $link ); ?>" title="<?php echo JText::_( 'Edit Static Content' ); ?>">
+							<?php echo htmlspecialchars($row->title, ENT_QUOTES); ?></a>
+						<?php
+					}
+					?>
+					</td>
+					<?php
+					if ( $times ) {
+						?>
+						<td align="center">
+						<a href="javascript: void(0);" onMouseOver="return overlib('<table><?php echo $times; ?></table>', CAPTION, '<?php echo JText::_( 'Publish Information' ); ?>', BELOW, RIGHT);" onMouseOut="return nd();" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $row->state ? "unpublish" : "publish";?>')">
+							<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
+						</td>
+						<?php
+					}
+					?>
+					<td align="center" colspan="2">
+						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
+					</td>
+					<td align="center">
+						<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task_access;?>')" <?php echo $color_access; ?>>
+							<?php echo $row->groupname;?></a>
+					</td>
+					<td align="center">
+						<?php echo $row->id;?>
+					</td>
+					<td>
+						<?php echo $author;?>
+					</td>
+					<td align="center">
+						<?php echo $row->links;?>
+					</td>
+					<td>
+						<?php echo $date; ?>
+					</td>
+				</tr>
+				<?php
+				$k = 1 - $k;
+			}
+			?>
+			</table>
+	
+			<?php echo $pageNav->getListFooter(); ?>
+			<?php mosCommonHTML::ContentLegend(); ?>
+		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />

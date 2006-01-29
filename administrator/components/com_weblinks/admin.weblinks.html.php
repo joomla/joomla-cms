@@ -27,15 +27,16 @@ class HTML_weblinks {
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_weblinks" method="post" name="adminForm">
-		<table class="adminheading">
+		
+		<table class="adminform">
 		<tr>
-			<td>
+			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:
 				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
-			<td align="right">
+			<td nowrap="nowrap">
 				<?php 
 				echo $lists['catid'];
 				echo $lists['state'];
@@ -44,105 +45,107 @@ class HTML_weblinks {
 		</tr>
 		</table>
 
-		<table class="adminlist">
-		<tr>
-			<th width="5">
-				<?php echo JText::_( 'NUM' ); ?>
-			</th>
-			<th width="20">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
-			</th>
-			<th class="title">
-				<?php mosCommonHTML :: tableOrdering( 'Title', 'a.title', $lists ); ?>
-			</th>
-			<th width="5%" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'Published', 'a.published', $lists ); ?>
-			</th>
-			<th colspan="2" width="5%">
-				<?php echo JText::_( 'Reorder' ); ?>
-			</th>
-			<th width="2%" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'Order', 'a.ordering', $lists ); ?>
- 			</th>
-			<th width="1%">
-				<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
-			</th>
-			<th width="5%" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'ID', 'a.id', $lists ); ?>
-			</th>
-			<th width="25%"  class="title">
-				<?php mosCommonHTML :: tableOrdering( 'Category', 'category', $lists ); ?>
-			</th>
-			<th width="5%">
-				<?php mosCommonHTML :: tableOrdering( 'Hits', 'a.hits', $lists ); ?>
-			</th>
-		</tr>
-		<?php
-		$k = 0;
-		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
-			$row = &$rows[$i];
-
-			$link 	= ampReplace( 'index2.php?option=com_weblinks&task=editA&hidemainmenu=1&id='. $row->id );
-
-			$task 	= $row->published ? 'unpublish' : 'publish';
-			$img 	= $row->published ? 'publish_g.png' : 'publish_x.png';
-			$alt 	= $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
-
-			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
-
-			$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&section=com_weblinks&task=editA&hidemainmenu=1&id='. $row->catid );
-			?>
-			<tr class="<?php echo "row$k"; ?>">
-				<td>
-					<?php echo $pageNav->rowNumber( $i ); ?>
-				</td>
-				<td>
-					<?php echo $checked; ?>
-				</td>
-				<td>
-					<?php
-					if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-						echo $row->title;
-					} else {
-						?>
-						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Weblinks' ); ?>">
-							<?php echo $row->title; ?></a>
-						<?php
-					}
-					?>
-				</td>
-				<td align="center">
-					<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
-						<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
-				</td>
-				<td>
-					<?php echo $pageNav->orderUpIcon( $i, ($row->catid == @$rows[$i-1]->catid) ); ?>
-				</td>
-	  			<td>
-					<?php echo $pageNav->orderDownIcon( $i, $n, ($row->catid == @$rows[$i+1]->catid) ); ?>
-				</td>
-				<td align="center" colspan="2">
-					<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" class="text_area" style="text-align: center" />
-				</td>
-				<td align="center">
-					<?php echo $row->id; ?>
-				</td>
-				<td>
-				<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
-					<?php echo $row->category; ?>
-				</a>
-				</td>
-				<td align="center">
-					<?php echo $row->hits; ?>
-				</td>
+		<div id="tablecell">				
+			<table class="adminlist">
+			<tr>
+				<th width="5">
+					<?php echo JText::_( 'NUM' ); ?>
+				</th>
+				<th width="20">
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+				</th>
+				<th class="title">
+					<?php mosCommonHTML :: tableOrdering( 'Title', 'a.title', $lists ); ?>
+				</th>
+				<th width="5%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'Published', 'a.published', $lists ); ?>
+				</th>
+				<th colspan="2" width="5%">
+					<?php echo JText::_( 'Reorder' ); ?>
+				</th>
+				<th width="2%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'Order', 'a.ordering', $lists ); ?>
+	 			</th>
+				<th width="1%">
+					<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+				</th>
+				<th width="5%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'ID', 'a.id', $lists ); ?>
+				</th>
+				<th width="25%"  class="title">
+					<?php mosCommonHTML :: tableOrdering( 'Category', 'category', $lists ); ?>
+				</th>
+				<th width="5%">
+					<?php mosCommonHTML :: tableOrdering( 'Hits', 'a.hits', $lists ); ?>
+				</th>
 			</tr>
 			<?php
-			$k = 1 - $k;
-		}
-		?>
-		</table>
-		
-		<?php echo $pageNav->getListFooter(); ?>
+			$k = 0;
+			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
+				$row = &$rows[$i];
+	
+				$link 	= ampReplace( 'index2.php?option=com_weblinks&task=editA&hidemainmenu=1&id='. $row->id );
+	
+				$task 	= $row->published ? 'unpublish' : 'publish';
+				$img 	= $row->published ? 'publish_g.png' : 'publish_x.png';
+				$alt 	= $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
+	
+				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
+	
+				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&section=com_weblinks&task=editA&hidemainmenu=1&id='. $row->catid );
+				?>
+				<tr class="<?php echo "row$k"; ?>">
+					<td>
+						<?php echo $pageNav->rowNumber( $i ); ?>
+					</td>
+					<td>
+						<?php echo $checked; ?>
+					</td>
+					<td>
+						<?php
+						if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+							echo $row->title;
+						} else {
+							?>
+							<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Weblinks' ); ?>">
+								<?php echo $row->title; ?></a>
+							<?php
+						}
+						?>
+					</td>
+					<td align="center">
+						<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
+							<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
+					</td>
+					<td>
+						<?php echo $pageNav->orderUpIcon( $i, ($row->catid == @$rows[$i-1]->catid) ); ?>
+					</td>
+		  			<td>
+						<?php echo $pageNav->orderDownIcon( $i, $n, ($row->catid == @$rows[$i+1]->catid) ); ?>
+					</td>
+					<td align="center" colspan="2">
+						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" class="text_area" style="text-align: center" />
+					</td>
+					<td align="center">
+						<?php echo $row->id; ?>
+					</td>
+					<td>
+					<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
+						<?php echo $row->category; ?>
+					</a>
+					</td>
+					<td align="center">
+						<?php echo $row->hits; ?>
+					</td>
+				</tr>
+				<?php
+				$k = 1 - $k;
+			}
+			?>
+			</table>
+			
+			<?php echo $pageNav->getListFooter(); ?>
+		</div>
 		
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />

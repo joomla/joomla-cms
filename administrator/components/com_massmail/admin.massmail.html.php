@@ -44,64 +44,66 @@ class HTML_massmail {
 
 		<form action="index2.php" name="adminForm" method="post">
 		
-		<table class="adminform">
-		<thead>
-		<tr>
-			<th colspan="2">
-				<?php echo JText::_( 'Details' ); ?>
-			</th>
-		</tr>
-		</thead>
-		<tfoot>
-		<tr>
-			<th colspan="2">
-				&nbsp;
-			</th>
-		</tr>
-		</tfoot>
-		<tbody>
-		<tr>
-			<td width="150" valign="top">
-				<?php echo JText::_( 'Group' ); ?>:
-			</td>
-			<td width="85%">
-				<?php echo $lists['gid']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo JText::_( 'Mail to Child Groups' ); ?>:
-			</td>
-			<td>
-				<input type="checkbox" name="mm_recurse" value="RECURSE" />
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo JText::_( 'Send in HTML mode' ); ?>:
-			</td>
-			<td>
-				<input type="checkbox" name="mm_mode" value="1" />
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo JText::_( 'Subject' ); ?>:
-			</td>
-			<td>
-				<input class="inputbox" type="text" name="mm_subject" value="" size="50" />
-			</td>
-		</tr>
-		<tr>
-			<td valign="top">
-				<?php echo JText::_( 'Message' ); ?>:
-			</td>
-			<td>
-				<textarea cols="80" rows="25" name="mm_message" class="inputbox"></textarea>
-			</td>
-		</tr>
-		</tbody>
-		</table>
+		<div id="tablecell">				
+			<table class="adminform">
+			<thead>
+			<tr>
+				<th colspan="2">
+					<?php echo JText::_( 'Details' ); ?>
+				</th>
+			</tr>
+			</thead>
+			<tfoot>
+			<tr>
+				<th colspan="2">
+					&nbsp;
+				</th>
+			</tr>
+			</tfoot>
+			<tbody>
+			<tr>
+				<td width="150" valign="top">
+					<?php echo JText::_( 'Group' ); ?>:
+				</td>
+				<td width="85%">
+					<?php echo $lists['gid']; ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?php echo JText::_( 'Mail to Child Groups' ); ?>:
+				</td>
+				<td>
+					<input type="checkbox" name="mm_recurse" value="RECURSE" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?php echo JText::_( 'Send in HTML mode' ); ?>:
+				</td>
+				<td>
+					<input type="checkbox" name="mm_mode" value="1" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?php echo JText::_( 'Subject' ); ?>:
+				</td>
+				<td>
+					<input class="inputbox" type="text" name="mm_subject" value="" size="50" />
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">
+					<?php echo JText::_( 'Message' ); ?>:
+				</td>
+				<td>
+					<textarea cols="80" rows="25" name="mm_message" class="inputbox"></textarea>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="" />

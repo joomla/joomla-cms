@@ -25,106 +25,108 @@ class HTML_users {
 		?>
 		<form action="index2.php?option=com_users" method="post" name="adminForm">
 
-		<table class="adminheading">
+		<table class="adminform">
 		<tr>
-			<td>
+			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:
 				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
-			<td align="right">
+			<td nowrap="nowrap">
 				<?php echo $lists['type'];?>
 				<?php echo $lists['logged'];?>
 			</td>
 		</tr>
 		</table>
 
-		<table class="adminlist">
-		<tr>
-			<th width="2%" class="title">
-				<?php echo JText::_( 'NUM' ); ?>
-			</th>
-			<th width="3%" class="title">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
-			</th>
-			<th class="title">
-				<?php mosCommonHTML :: tableOrdering( 'Name', 'a.name', $lists ); ?>
-			</th>
-			<th width="15%" class="title" >
-				<?php mosCommonHTML :: tableOrdering( 'Username', 'a.username', $lists ); ?>
-			</th>
-			<th width="5%" class="title" nowrap="nowrap">
-				<?php echo JText::_( 'Logged In' ); ?>
-			</th>
-			<th width="5%" class="title" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'Enabled', 'a.block', $lists ); ?>
-			</th>
-			<th width="15%" class="title">
-				<?php mosCommonHTML :: tableOrdering( 'Group', 'groupname', $lists ); ?>
-			</th>
-			<th width="15%" class="title">
-				<?php mosCommonHTML :: tableOrdering( 'E-Mail', 'a.email', $lists ); ?>
-			</th>
-			<th width="10%" class="title">
-				<?php mosCommonHTML :: tableOrdering( 'Last Visit', 'a.lastvisitDate', $lists ); ?>
-			</th>
-			<th width="1%" class="title" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'ID', 'a.id', $lists ); ?>
-			</th>
-		</tr>
-		<?php
-		$k = 0;
-		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
-			$row 	=& $rows[$i];
-
-			$img 	= $row->block ? 'publish_x.png' : 'tick.png';
-			$task 	= $row->block ? 'unblock' : 'block';
-			$alt 	= $row->block ? JText::_( 'Enabled' ) : JText::_( 'Blocked' );
-			$link 	= 'index2.php?option=com_users&amp;task=editA&amp;id='. $row->id. '&amp;hidemainmenu=1';
-			?>
-			<tr class="<?php echo "row$k"; ?>">
-				<td>
-					<?php echo $i+1+$pageNav->limitstart;?>
-				</td>
-				<td>
-					<?php echo mosHTML::idBox( $i, $row->id ); ?>
-				</td>
-				<td>
-					<a href="<?php echo $link; ?>">
-						<?php echo $row->name; ?></a>
-				</td>
-				<td>
-					<?php echo $row->username; ?>
-				</td>
-				<td align="center">
-					<?php echo $row->loggedin ? '<img src="images/tick.png" width="12" height="12" border="0" alt="" />': ''; ?>
-				</td>
-				<td>
-					<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
-						<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
-				</td>
-				<td>
-					<?php echo $row->groupname; ?>
-				</td>
-				<td>
-					<a href="mailto:<?php echo $row->email; ?>">
-						<?php echo $row->email; ?></a>
-				</td>
-				<td nowrap="nowrap">
-					<?php echo mosFormatDate( $row->lastvisitDate, JText::_( 'DATE_FORMAT_LC4' ) ); ?>
-				</td>
-				<td>
-					<?php echo $row->id; ?>
-				</td>
+		<div id="tablecell">				
+			<table class="adminlist">
+			<tr>
+				<th width="2%" class="title">
+					<?php echo JText::_( 'NUM' ); ?>
+				</th>
+				<th width="3%" class="title">
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
+				</th>
+				<th class="title">
+					<?php mosCommonHTML :: tableOrdering( 'Name', 'a.name', $lists ); ?>
+				</th>
+				<th width="15%" class="title" >
+					<?php mosCommonHTML :: tableOrdering( 'Username', 'a.username', $lists ); ?>
+				</th>
+				<th width="5%" class="title" nowrap="nowrap">
+					<?php echo JText::_( 'Logged In' ); ?>
+				</th>
+				<th width="5%" class="title" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'Enabled', 'a.block', $lists ); ?>
+				</th>
+				<th width="15%" class="title">
+					<?php mosCommonHTML :: tableOrdering( 'Group', 'groupname', $lists ); ?>
+				</th>
+				<th width="15%" class="title">
+					<?php mosCommonHTML :: tableOrdering( 'E-Mail', 'a.email', $lists ); ?>
+				</th>
+				<th width="10%" class="title">
+					<?php mosCommonHTML :: tableOrdering( 'Last Visit', 'a.lastvisitDate', $lists ); ?>
+				</th>
+				<th width="1%" class="title" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'ID', 'a.id', $lists ); ?>
+				</th>
 			</tr>
 			<?php
-			$k = 1 - $k;
-		}
-		?>
-		</table>
-		
-		<?php echo $pageNav->getListFooter(); ?>
+			$k = 0;
+			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
+				$row 	=& $rows[$i];
+	
+				$img 	= $row->block ? 'publish_x.png' : 'tick.png';
+				$task 	= $row->block ? 'unblock' : 'block';
+				$alt 	= $row->block ? JText::_( 'Enabled' ) : JText::_( 'Blocked' );
+				$link 	= 'index2.php?option=com_users&amp;task=editA&amp;id='. $row->id. '&amp;hidemainmenu=1';
+				?>
+				<tr class="<?php echo "row$k"; ?>">
+					<td>
+						<?php echo $i+1+$pageNav->limitstart;?>
+					</td>
+					<td>
+						<?php echo mosHTML::idBox( $i, $row->id ); ?>
+					</td>
+					<td>
+						<a href="<?php echo $link; ?>">
+							<?php echo $row->name; ?></a>
+					</td>
+					<td>
+						<?php echo $row->username; ?>
+					</td>
+					<td align="center">
+						<?php echo $row->loggedin ? '<img src="images/tick.png" width="12" height="12" border="0" alt="" />': ''; ?>
+					</td>
+					<td>
+						<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
+							<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
+					</td>
+					<td>
+						<?php echo $row->groupname; ?>
+					</td>
+					<td>
+						<a href="mailto:<?php echo $row->email; ?>">
+							<?php echo $row->email; ?></a>
+					</td>
+					<td nowrap="nowrap">
+						<?php echo mosFormatDate( $row->lastvisitDate, JText::_( 'DATE_FORMAT_LC4' ) ); ?>
+					</td>
+					<td>
+						<?php echo $row->id; ?>
+					</td>
+				</tr>
+				<?php
+				$k = 1 - $k;
+			}
+			?>
+			</table>
+			
+			<?php echo $pageNav->getListFooter(); ?>
+		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />

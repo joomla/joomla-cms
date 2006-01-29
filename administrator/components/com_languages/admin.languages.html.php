@@ -27,76 +27,81 @@ class HTML_languages {
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 
-		<table class="adminlist">
-		<tr>
-			<th width="20">
-			<?php echo JText::_( 'Num' ); ?>
-			</th>
-			<th width="30">
-			&nbsp;
-			</th>
-			<th width="25%" class="title">
-			<?php echo JText::_( 'Language' ); ?>
-			</th>
-			<th width="5%">
-			<?php echo JText::_( 'Published' ); ?>
-			</th>
-			<th width="10%">
-			<?php echo JText::_( 'Version' ); ?>
-			</th>
-			<th width="10%">
-			<?php echo JText::_( 'Date' ); ?>
-			</th>
-			<th width="20%">
-			<?php echo JText::_( 'Author' ); ?>
-			</th>
-			<th width="25%">
-			<?php echo JText::_( 'Author Email' ); ?>
-			</th>
-		</tr>
-		<?php
-		$k = 0;
-		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
-			$row = &$rows[$i];
-			?>
-			<tr class="<?php echo "row$k"; ?>">
-				<td width="20"><?php echo $pageNav->rowNumber( $i ); ?></td>
-				<td width="20">
-				<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->language; ?>" onClick="isChecked(this.checked);" />
-				</td>
-				<td width="25%">
-				<?php echo $row->name;?>
-				</td>
-				<td width="5%" align="center">
-				<?php
-				if ($row->published == 1) {	 ?>
-					<img src="images/tick.png" alt="<?php echo JText::_( 'Published' ); ?>"/>
-					<?php
-				} else {
-					?>
-					&nbsp;
-				<?php
-				}
-				?>
-				</td>
-				<td align=center>
-				<?php echo $row->version; ?>
-				</td>
-				<td align=center>
-				<?php echo $row->creationdate; ?>
-				</td>
-				<td align=center>
-				<?php echo $row->author; ?>
-				</td>
-				<td align=center>
-				<?php echo $row->authorEmail; ?>
-				</td>
+		<div id="tablecell">				
+			<table class="adminlist">
+			<tr>
+				<th width="20">
+					<?php echo JText::_( 'Num' ); ?>
+				</th>
+				<th width="30">
+				&nbsp;
+				</th>
+				<th width="25%" class="title">
+					<?php echo JText::_( 'Language' ); ?>
+				</th>
+				<th width="5%">
+					<?php echo JText::_( 'Published' ); ?>
+				</th>
+				<th width="10%">
+					<?php echo JText::_( 'Version' ); ?>
+				</th>
+				<th width="10%">
+					<?php echo JText::_( 'Date' ); ?>
+				</th>
+				<th width="20%">
+					<?php echo JText::_( 'Author' ); ?>
+				</th>
+				<th width="25%">
+					<?php echo JText::_( 'Author Email' ); ?>
+				</th>
 			</tr>
-		<?php
-		}
-		?>
-		</table>
-		<?php echo $pageNav->getListFooter(); ?>
+			<?php
+			$k = 0;
+			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
+				$row = &$rows[$i];
+				?>
+				<tr class="<?php echo "row$k"; ?>">
+					<td width="20">
+						<?php echo $pageNav->rowNumber( $i ); ?>
+					</td>
+					<td width="20">
+						<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $row->language; ?>" onclick="isChecked(this.checked);" />
+					</td>
+					<td width="25%">
+						<?php echo $row->name;?>
+					</td>
+					<td width="5%" align="center">
+						<?php
+						if ($row->published == 1) {	 ?>
+							<img src="images/tick.png" alt="<?php echo JText::_( 'Published' ); ?>" />
+							<?php
+						} else {
+							?>
+							&nbsp;
+						<?php
+						}
+					?>
+					</td>
+					<td align="center">
+						<?php echo $row->version; ?>
+					</td>
+					<td align="center">
+						<?php echo $row->creationdate; ?>
+					</td>
+					<td align="center">
+						<?php echo $row->author; ?>
+					</td>
+					<td align="center">
+						<?php echo $row->authorEmail; ?>
+					</td>
+				</tr>
+			<?php
+			}
+			?>
+			</table>
+			
+			<?php echo $pageNav->getListFooter(); ?>
+		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />

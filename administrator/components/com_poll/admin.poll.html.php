@@ -27,15 +27,15 @@ class HTML_poll {
 		?>
 		<form action="index2.php?option=com_poll" method="post" name="adminForm">
 		
-		<table class="adminheading">
+		<table class="adminform">
 		<tr>
-			<td align="left" valign="top" nowrap="nowrap">
+			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:
 				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
-			<td align="right" valign="top" nowrap="nowrap">
+			<td nowrap="nowrap">
 				<?php
 				echo $lists['state'];
 				?>
@@ -43,81 +43,83 @@ class HTML_poll {
 		</tr>
 		</table>
 
-		<table class="adminlist">
-		<tr>
-			<th width="5">
-				<?php echo JText::_( 'NUM' ); ?>
-			</th>
-			<th width="20">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
-			</th>
-			<th  class="title">
-				<?php mosCommonHTML :: tableOrdering( 'Poll Title', 'm.title', $lists ); ?>
-			</th>
-			<th width="8%" align="center">
-				<?php mosCommonHTML :: tableOrdering( 'Published', 'm.published', $lists ); ?>
-			</th>
-			<th width="3%" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'ID', 'm.id', $lists ); ?>
-			</th>
-			<th width="8%" align="center">
-				<?php mosCommonHTML :: tableOrdering( 'Votes', 'm.voters', $lists ); ?>
-			</th>
-			<th width="8%" align="center">
-				<?php mosCommonHTML :: tableOrdering( 'Options', 'numoptions', $lists ); ?>
-			</th>
-			<th width="10%" align="center">
-				<?php mosCommonHTML :: tableOrdering( 'Lag', 'm.lag', $lists ); ?>
-			</th>
-		</tr>
-		<?php
-		$k = 0;
-		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
-			$row = &$rows[$i];
-
-			$link 	= ampReplace( 'index2.php?option=com_poll&task=editA&hidemainmenu=1&id='. $row->id );
-
-			$task 	= $row->published ? 'unpublish' : 'publish';
-			$img 	= $row->published ? 'publish_g.png' : 'publish_x.png';
-			$alt 	= $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
-
-			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
-			?>
-			<tr class="<?php echo "row$k"; ?>">
-				<td>
-					<?php echo $pageNav->rowNumber( $i ); ?>
-				</td>
-				<td>
-					<?php echo $checked; ?>
-				</td>
-				<td>
-					<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Poll' ); ?>">
-						<?php echo $row->title; ?></a>
-				</td>
-				<td align="center">
-					<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
-						<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
-				</td>
-				<td align="center">
-					<?php echo $row->id; ?>
-				</td>
-				<td align="center">
-					<?php echo $row->voters; ?>
-				</td>
-				<td align="center">
-					<?php echo $row->numoptions; ?>
-				</td>
-				<td align="center">
-					<?php echo $row->lag; ?>
-				</td>
+		<div id="tablecell">				
+			<table class="adminlist">
+			<tr>
+				<th width="5">
+					<?php echo JText::_( 'NUM' ); ?>
+				</th>
+				<th width="20">
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+				</th>
+				<th  class="title">
+					<?php mosCommonHTML :: tableOrdering( 'Poll Title', 'm.title', $lists ); ?>
+				</th>
+				<th width="8%" align="center">
+					<?php mosCommonHTML :: tableOrdering( 'Published', 'm.published', $lists ); ?>
+				</th>
+				<th width="3%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'ID', 'm.id', $lists ); ?>
+				</th>
+				<th width="8%" align="center">
+					<?php mosCommonHTML :: tableOrdering( 'Votes', 'm.voters', $lists ); ?>
+				</th>
+				<th width="8%" align="center">
+					<?php mosCommonHTML :: tableOrdering( 'Options', 'numoptions', $lists ); ?>
+				</th>
+				<th width="10%" align="center">
+					<?php mosCommonHTML :: tableOrdering( 'Lag', 'm.lag', $lists ); ?>
+				</th>
 			</tr>
 			<?php
-			$k = 1 - $k;
-		}
-		?>
-		</table>
-		
-		<?php echo $pageNav->getListFooter(); ?>
+			$k = 0;
+			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
+				$row = &$rows[$i];
+	
+				$link 	= ampReplace( 'index2.php?option=com_poll&task=editA&hidemainmenu=1&id='. $row->id );
+	
+				$task 	= $row->published ? 'unpublish' : 'publish';
+				$img 	= $row->published ? 'publish_g.png' : 'publish_x.png';
+				$alt 	= $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
+	
+				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
+				?>
+				<tr class="<?php echo "row$k"; ?>">
+					<td>
+						<?php echo $pageNav->rowNumber( $i ); ?>
+					</td>
+					<td>
+						<?php echo $checked; ?>
+					</td>
+					<td>
+						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Poll' ); ?>">
+							<?php echo $row->title; ?></a>
+					</td>
+					<td align="center">
+						<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
+							<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
+					</td>
+					<td align="center">
+						<?php echo $row->id; ?>
+					</td>
+					<td align="center">
+						<?php echo $row->voters; ?>
+					</td>
+					<td align="center">
+						<?php echo $row->numoptions; ?>
+					</td>
+					<td align="center">
+						<?php echo $row->lag; ?>
+					</td>
+				</tr>
+				<?php
+				$k = 1 - $k;
+			}
+			?>
+			</table>
+			
+			<?php echo $pageNav->getListFooter(); ?>
+		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />

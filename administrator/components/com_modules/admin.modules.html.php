@@ -32,15 +32,15 @@ class HTML_modules {
 		?>
 		<form action="index2.php?option=com_modules&amp;client=<?php echo $client; ?>" method="post" name="adminForm">
 
-		<table class="adminheading">
+		<table class="adminform">
 		<tr>
-			<td align="left" valign="top" nowrap="nowrap">
+			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:
 				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
-			<td align="right" valign="top" nowrap="nowrap">
+			<td nowrap="nowrap">
 				<?php
 				echo $lists['position'];
 				echo $lists['type'];
@@ -50,143 +50,145 @@ class HTML_modules {
 		</tr>
 		</table>
 
-		<table class="adminlist">
-		<tr>
-			<th width="20px">
-				<?php echo JText::_( 'NUM' ); ?>
-			</th>
-			<th width="20px">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
-			</th>
-			<th class="title">
-				<?php mosCommonHTML :: tableOrdering( 'Module Name', 'm.title', $lists ); ?>
-			</th>
-			<th nowrap="nowrap" width="7%">
-				<?php mosCommonHTML :: tableOrdering( 'Published', 'm.published', $lists ); ?>
-			</th>
-			<?php
-			if ( $lists['order'] == 'm.position' ) {
-				?>
-				<th colspan="2" align="center" width="5%">
-					<?php echo JText::_( 'Reorder' ); ?>
+		<div id="tablecell">				
+			<table class="adminlist">
+			<tr>
+				<th width="20px">
+					<?php echo JText::_( 'NUM' ); ?>
 				</th>
-				<th width="2%" nowrap="nowrap">
-					<?php echo JText::_( 'Order' ); ?>
+				<th width="20px">
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 				</th>
-				<th width="1%">
-					<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+				<th class="title">
+					<?php mosCommonHTML :: tableOrdering( 'Module Name', 'm.title', $lists ); ?>
 				</th>
-				<?php
-			}
-			?>
-			<?php
-			if ( $client != 'admin' ) {
-				?>
 				<th nowrap="nowrap" width="7%">
-					<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
+					<?php mosCommonHTML :: tableOrdering( 'Published', 'm.published', $lists ); ?>
 				</th>
-				<?php
-			}
-			?>
-			<th nowrap="nowrap" width="3%">
-				<?php mosCommonHTML :: tableOrdering( 'ID', 'm.id', $lists ); ?>
-			</th>
-			<th nowrap="nowrap" width="7%">
-				<?php mosCommonHTML :: tableOrdering( 'Position', 'm.position', $lists ); ?>
-			</th>
-			<th nowrap="nowrap" width="5%">
-				<?php mosCommonHTML :: tableOrdering( 'Pages', 'pages', $lists ); ?>
-			</th>
-			<th nowrap="nowrap" width="10%"  class="title">
-				<?php mosCommonHTML :: tableOrdering( 'Type', 'm.module', $lists ); ?>
-			</th>
-		</tr>
-		<?php
-		$k = 0;
-		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
-			$row 	= &$rows[$i];
-
-			$link = ampReplace( 'index2.php?option=com_modules&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id );
-
-			$access 	= mosCommonHTML::AccessProcessing( $row, $i );
-			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
-			$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
-			?>
-			<tr class="<?php echo "row$k"; ?>">
-				<td align="right">
-					<?php echo $pageNav->rowNumber( $i ); ?>
-				</td>
-				<td>
-					<?php echo $checked; ?>
-				</td>
-				<td>
-				<?php
-				if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-					echo $row->title;
-				} else {
-					?>
-					<a href="<?php echo $link; ?>">
-						<?php echo $row->title; ?>
-					</a>
-					<?php
-				}
-				?>
-				</td>
-				<td align="center">
-					<?php echo $published;?>
-				</td>
 				<?php
 				if ( $lists['order'] == 'm.position' ) {
 					?>
-					<td>
-						<?php echo $pageNav->orderUpIcon( $i, ($row->position == @$rows[$i-1]->position) ); ?>
-					</td>
-					<td>
-						<?php echo $pageNav->orderDownIcon( $i, $n, ($row->position == @$rows[$i+1]->position) ); ?>
-					</td>
-					<td align="center" colspan="2">
-						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
-					</td>
+					<th colspan="2" align="center" width="5%">
+						<?php echo JText::_( 'Reorder' ); ?>
+					</th>
+					<th width="2%" nowrap="nowrap">
+						<?php echo JText::_( 'Order' ); ?>
+					</th>
+					<th width="1%">
+						<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+					</th>
 					<?php
 				}
 				?>
 				<?php
 				if ( $client != 'admin' ) {
 					?>
-					<td align="center">
-						<?php echo $access;?>
-					</td>
+					<th nowrap="nowrap" width="7%">
+						<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
+					</th>
 					<?php
 				}
 				?>
-				<td align="center">
-					<?php echo $row->id;?>
-				</td>
-				<td align="center">
-					<?php echo $row->position; ?>
-				</td>
-				<td align="center">
-					<?php
-					if (is_null( $row->pages )) {
-						echo JText::_( 'None' );
-					} else if ($row->pages > 0) {
-						echo JText::_( 'Varies' );
-					} else {
-						echo JText::_( 'All' );
-					}
-					?>
-				</td>
-				<td>
-					<?php echo $row->module ? $row->module : JText::_( 'User' );?>
-				</td>
+				<th nowrap="nowrap" width="3%">
+					<?php mosCommonHTML :: tableOrdering( 'ID', 'm.id', $lists ); ?>
+				</th>
+				<th nowrap="nowrap" width="7%">
+					<?php mosCommonHTML :: tableOrdering( 'Position', 'm.position', $lists ); ?>
+				</th>
+				<th nowrap="nowrap" width="5%">
+					<?php mosCommonHTML :: tableOrdering( 'Pages', 'pages', $lists ); ?>
+				</th>
+				<th nowrap="nowrap" width="10%"  class="title">
+					<?php mosCommonHTML :: tableOrdering( 'Type', 'm.module', $lists ); ?>
+				</th>
 			</tr>
 			<?php
-			$k = 1 - $k;
-		}
-		?>
-		</table>
-
-		<?php echo $pageNav->getListFooter(); ?>
+			$k = 0;
+			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
+				$row 	= &$rows[$i];
+	
+				$link = ampReplace( 'index2.php?option=com_modules&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id );
+	
+				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
+				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
+				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
+				?>
+				<tr class="<?php echo "row$k"; ?>">
+					<td align="right">
+						<?php echo $pageNav->rowNumber( $i ); ?>
+					</td>
+					<td>
+						<?php echo $checked; ?>
+					</td>
+					<td>
+					<?php
+					if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+						echo $row->title;
+					} else {
+						?>
+						<a href="<?php echo $link; ?>">
+							<?php echo $row->title; ?>
+						</a>
+						<?php
+					}
+					?>
+					</td>
+					<td align="center">
+						<?php echo $published;?>
+					</td>
+					<?php
+					if ( $lists['order'] == 'm.position' ) {
+						?>
+						<td>
+							<?php echo $pageNav->orderUpIcon( $i, ($row->position == @$rows[$i-1]->position) ); ?>
+						</td>
+						<td>
+							<?php echo $pageNav->orderDownIcon( $i, $n, ($row->position == @$rows[$i+1]->position) ); ?>
+						</td>
+						<td align="center" colspan="2">
+							<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
+						</td>
+						<?php
+					}
+					?>
+					<?php
+					if ( $client != 'admin' ) {
+						?>
+						<td align="center">
+							<?php echo $access;?>
+						</td>
+						<?php
+					}
+					?>
+					<td align="center">
+						<?php echo $row->id;?>
+					</td>
+					<td align="center">
+						<?php echo $row->position; ?>
+					</td>
+					<td align="center">
+						<?php
+						if (is_null( $row->pages )) {
+							echo JText::_( 'None' );
+						} else if ($row->pages > 0) {
+							echo JText::_( 'Varies' );
+						} else {
+							echo JText::_( 'All' );
+						}
+						?>
+					</td>
+					<td>
+						<?php echo $row->module ? $row->module : JText::_( 'User' );?>
+					</td>
+				</tr>
+				<?php
+				$k = 1 - $k;
+			}
+			?>
+			</table>
+	
+			<?php echo $pageNav->getListFooter(); ?>
+		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />

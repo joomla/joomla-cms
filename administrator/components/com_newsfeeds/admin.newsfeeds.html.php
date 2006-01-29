@@ -28,15 +28,15 @@ class HTML_newsfeeds {
 		?>
 		<form action="index2.php?option=com_newsfeeds" method="post" name="adminForm">
 		
-		<table class="adminheading">
+		<table class="adminform">
 		<tr>
-			<td align="left" valign="top" nowrap="nowrap">
+			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:
 				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
-			<td align="right" valign="top" nowrap="nowrap">
+			<td nowrap="nowrap">
 				<?php
 				echo $lists['catid'];
 				echo $lists['state'];
@@ -45,113 +45,115 @@ class HTML_newsfeeds {
 		</tr>
 		</table>
 
-		<table class="adminlist">
-		<tr>
-			<th width="20">
-				<?php echo JText::_( 'NUM' ); ?>
-			</th>
-			<th width="20">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
-			</th>
-			<th class="title">
-				<?php mosCommonHTML :: tableOrdering( 'News Feed', 'a.name', $lists ); ?>
-			</th>
-			<th width="7%">
-				<?php mosCommonHTML :: tableOrdering( 'Published', 'a.published', $lists ); ?>
-			</th>
-			<th colspan="2" width="2%">
-				<?php echo JText::_( 'Reorder' ); ?>
-			</th>
-			<th width="2%" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'Order', 'a.ordering', $lists ); ?>
- 			</th>
-			<th width="1%">
-				<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
-			</th>
-			<th width="5%" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'ID', 'a.id', $lists ); ?>
-			</th>
-			<th class="title" width="17%">
-				<?php mosCommonHTML :: tableOrdering( 'Category', 'catname', $lists ); ?>
-			</th>
-			<th width="5%" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'Num Articles', 'a.numarticles', $lists ); ?>
-			</th>
-			<th width="10%">
-				<?php mosCommonHTML :: tableOrdering( 'Cache time', 'a.cache_time', $lists ); ?>
-			</th>
-		</tr>
-		<?php
-		$k = 0;
-		for ($i=0, $n=count( $rows ); $i < $n; $i++) {
-			$row = &$rows[$i];
-
-			$link 	= ampReplace( 'index2.php?option=com_newsfeeds&task=editA&hidemainmenu=1&id='. $row->id );
-
-			$img 	= $row->published ? 'tick.png' : 'publish_x.png';
-			$task 	= $row->published ? 'unpublish' : 'publish';
-			$alt 	= $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
-
-			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
-
-			$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&section=com_newsfeeds&task=editA&hidemainmenu=1&id='. $row->catid );
-			?>
-			<tr class="<?php echo 'row'. $k; ?>">
-				<td align="center">
-					<?php echo $pageNav->rowNumber( $i ); ?>
-				</td>
-				<td>
-					<?php echo $checked; ?>
-				</td>
-				<td>
-					<?php
-					if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-						?>
-						<?php echo $row->name; ?>
-						&nbsp;[ <i><?php echo JText::_( 'Checked Out' ); ?></i> ]
-						<?php
-					} else {
-						?>
-						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Newsfeed' ); ?>">
-							<?php echo $row->name; ?></a>
-						<?php
-					}
-					?>
-				</td>
-				<td width="10%" align="center">
-					<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
-						<img src="images/<?php echo $img;?>" border="0" alt="<?php echo $alt; ?>" /></a>
-				</td>
-				<td align="center">
-					<?php echo $pageNav->orderUpIcon($i, ($row->catid == @$rows[$i-1]->catid) ); ?>
-				</td>
-				<td align="center">
-					<?php echo $pageNav->orderDownIcon($i, $n, ($row->catid == @$rows[$i+1]->catid) ); ?>
-				</td>
-				<td align="center" colspan="2">
-					<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" class="text_area" style="text-align: center" />
-				</td>
-				<td align="center">
-					<?php echo $row->id; ?>
-				</td>
-				<td>
-					<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
-						<?php echo $row->catname;?></a>
-				</td>
-				<td align="center">
-					<?php echo $row->numarticles;?>
-				</td>
-				<td align="center">
-					<?php echo $row->cache_time;?>
-				</td>
+		<div id="tablecell">				
+			<table class="adminlist">
+			<tr>
+				<th width="10">
+					<?php echo JText::_( 'NUM' ); ?>
+				</th>
+				<th width="10">
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
+				</th>
+				<th class="title">
+					<?php mosCommonHTML :: tableOrdering( 'News Feed', 'a.name', $lists ); ?>
+				</th>
+				<th width="7%">
+					<?php mosCommonHTML :: tableOrdering( 'Published', 'a.published', $lists ); ?>
+				</th>
+				<th colspan="2" width="2%">
+					<?php echo JText::_( 'Reorder' ); ?>
+				</th>
+				<th width="2%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'Order', 'a.ordering', $lists ); ?>
+	 			</th>
+				<th width="1%">
+					<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+				</th>
+				<th width="5%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'ID', 'a.id', $lists ); ?>
+				</th>
+				<th class="title" width="17%">
+					<?php mosCommonHTML :: tableOrdering( 'Category', 'catname', $lists ); ?>
+				</th>
+				<th width="5%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'Num Articles', 'a.numarticles', $lists ); ?>
+				</th>
+				<th width="10%">
+					<?php mosCommonHTML :: tableOrdering( 'Cache time', 'a.cache_time', $lists ); ?>
+				</th>
 			</tr>
 			<?php
-			$k = 1 - $k;
-		}
-		?>
-		</table>
-		
-		<?php echo $pageNav->getListFooter(); ?>
+			$k = 0;
+			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
+				$row = &$rows[$i];
+	
+				$link 	= ampReplace( 'index2.php?option=com_newsfeeds&task=editA&hidemainmenu=1&id='. $row->id );
+	
+				$img 	= $row->published ? 'tick.png' : 'publish_x.png';
+				$task 	= $row->published ? 'unpublish' : 'publish';
+				$alt 	= $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
+	
+				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
+	
+				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&section=com_newsfeeds&task=editA&hidemainmenu=1&id='. $row->catid );
+				?>
+				<tr class="<?php echo 'row'. $k; ?>">
+					<td align="center">
+						<?php echo $pageNav->rowNumber( $i ); ?>
+					</td>
+					<td>
+						<?php echo $checked; ?>
+					</td>
+					<td>
+						<?php
+						if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+							?>
+							<?php echo $row->name; ?>
+							&nbsp;[ <i><?php echo JText::_( 'Checked Out' ); ?></i> ]
+							<?php
+						} else {
+							?>
+							<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Newsfeed' ); ?>">
+								<?php echo $row->name; ?></a>
+							<?php
+						}
+						?>
+					</td>
+					<td width="10%" align="center">
+						<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
+							<img src="images/<?php echo $img;?>" border="0" alt="<?php echo $alt; ?>" /></a>
+					</td>
+					<td align="center">
+						<?php echo $pageNav->orderUpIcon($i, ($row->catid == @$rows[$i-1]->catid) ); ?>
+					</td>
+					<td align="center">
+						<?php echo $pageNav->orderDownIcon($i, $n, ($row->catid == @$rows[$i+1]->catid) ); ?>
+					</td>
+					<td align="center" colspan="2">
+						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" class="text_area" style="text-align: center" />
+					</td>
+					<td align="center">
+						<?php echo $row->id; ?>
+					</td>
+					<td>
+						<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
+							<?php echo $row->catname;?></a>
+					</td>
+					<td align="center">
+						<?php echo $row->numarticles;?>
+					</td>
+					<td align="center">
+						<?php echo $row->cache_time;?>
+					</td>
+				</tr>
+				<?php
+				$k = 1 - $k;
+			}
+			?>
+			</table>
+			
+			<?php echo $pageNav->getListFooter(); ?>
+		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />

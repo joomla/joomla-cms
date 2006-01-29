@@ -28,15 +28,15 @@ class HTML_menusections {
 		?>
 		<form action="index2.php?option=com_menus&amp;menutype=<?php echo $menutype; ?>" method="post" name="adminForm">
 		
-		<table class="adminheading">
+		<table class="adminform">
 		<tr>
-			<td align="left" valign="top" nowrap="nowrap">
+			<td align="left" width="100%">
 				<?php echo JText::_( 'Filter' ); ?>:
 				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
-			<td align="right" valign="top" nowrap="nowrap">
+			<td nowrap="nowrap">
 				<?php 
 				echo JText::_( 'Max Levels' );
 				echo $lists['levellist'];
@@ -44,9 +44,12 @@ class HTML_menusections {
 				?>
 			</td>
 		</tr>
+		</table>
+		
 		<?php
 		if ( $menutype == 'mainmenu' ) {
 			?>
+			<table class="adminheading">
 			<tr>
 				<td align="left" nowrap="nowrap" style="color: red; font-weight: normal;">
 					<?php echo JText::_( 'WARNDELETEMENU' ); ?>
@@ -55,114 +58,116 @@ class HTML_menusections {
 					<?php echo JText::_( 'WARNMAINMENUHOME' ); ?>
 				</td>
 			</tr>
+			</table>
 			<?php
 		}
 		?>
-		</table>
 
-		<table class="adminlist">
-		<tr>
-			<th width="20">
-				<?php echo JText::_( 'NUM' ); ?>
-			</th>
-			<th width="20">
-				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
-			</th>
-			<th class="title" width="40%">
-				<?php mosCommonHTML :: tableOrdering( 'Menu Item', 'm.name', $lists ); ?>
-			</th>
-			<th width="5%" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'Published', 'm.published', $lists ); ?>
-			</th>
-			<th colspan="2" width="5%">
-				<?php echo JText::_( 'Reorder' ); ?>
-			</th>
-			<th width="2%" nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'Order', 'm.ordering', $lists ); ?>
-			</th>
-			<th width="1%">
-				<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
-					<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
-			</th>
-			<th width="10%">
-				<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
-			</th>
-			<th nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'Itemid', 'm.id', $lists ); ?>
-			</th>
-			<th width="35%" class="title">
-				<?php mosCommonHTML :: tableOrdering( 'Type', 'm.type', $lists ); ?>
-			</th>
-			<th nowrap="nowrap">
-				<?php mosCommonHTML :: tableOrdering( 'CID', 'm.componentid', $lists ); ?>
-			</th>
-		</tr>
-		<?php
-		$k = 0;
-		$i = 0;
-		$n = count( $rows );
-		foreach ($rows as $row) {
-			$access 	= mosCommonHTML::AccessProcessing( $row, $i );
-			$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
-			$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
-			?>
-			<tr class="<?php echo "row$k"; ?>">
-				<td>
-					<?php echo $i + 1 + $pageNav->limitstart;?>
-				</td>
-				<td>
-					<?php echo $checked; ?>
-				</td>
-				<td nowrap="nowrap">
-					<?php
-					if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-						echo $row->treename;
-					} else {
-						$link = 'index2.php?option=com_menus&menutype='. $row->menutype .'&task=edit&id='. $row->id . '&hidemainmenu=1';
-						?>
-						<a href="<?php echo ampReplace( $link ); ?>">
-							<?php echo $row->treename; ?></a>
-						<?php
-					}
-					?>
-				</td>
-				<td width="10%" align="center">
-					<?php echo $published;?>
-				</td>
-				<td>
-					<?php echo $pageNav->orderUpIcon( $i ); ?>
-				</td>
-				<td>
-					<?php echo $pageNav->orderDownIcon( $i, $n ); ?>
-				</td>
-				<td align="center" colspan="2">
-					<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
-				</td>
-				<td align="center">
-					<?php echo $access;?>
-				</td>
-				<td align="center">
-					<?php echo $row->id; ?>
-				</td>
-				<td>
-					<span class="editlinktip">
-						<?php
-						echo mosToolTip( $row->descrip, '', 280, 'tooltip.png', $row->type, $row->edit );
-						?>
-					</span>
-				</td>
-				<td align="center">
-					<?php echo $row->componentid; ?>
-				</td>
+		<div id="tablecell">				
+			<table class="adminlist">
+			<tr>
+				<th width="20">
+					<?php echo JText::_( 'NUM' ); ?>
+				</th>
+				<th width="20">
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
+				</th>
+				<th class="title" width="40%">
+					<?php mosCommonHTML :: tableOrdering( 'Menu Item', 'm.name', $lists ); ?>
+				</th>
+				<th width="5%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'Published', 'm.published', $lists ); ?>
+				</th>
+				<th colspan="2" width="5%">
+					<?php echo JText::_( 'Reorder' ); ?>
+				</th>
+				<th width="2%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'Order', 'm.ordering', $lists ); ?>
+				</th>
+				<th width="1%">
+					<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
+						<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+				</th>
+				<th width="10%">
+					<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
+				</th>
+				<th nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'Itemid', 'm.id', $lists ); ?>
+				</th>
+				<th width="35%" class="title">
+					<?php mosCommonHTML :: tableOrdering( 'Type', 'm.type', $lists ); ?>
+				</th>
+				<th nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'CID', 'm.componentid', $lists ); ?>
+				</th>
 			</tr>
 			<?php
-			$k = 1 - $k;
-			$i++;
-		}
-		?>
-		</table>
+			$k = 0;
+			$i = 0;
+			$n = count( $rows );
+			foreach ($rows as $row) {
+				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
+				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
+				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
+				?>
+				<tr class="<?php echo "row$k"; ?>">
+					<td>
+						<?php echo $i + 1 + $pageNav->limitstart;?>
+					</td>
+					<td>
+						<?php echo $checked; ?>
+					</td>
+					<td nowrap="nowrap">
+						<?php
+						if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+							echo $row->treename;
+						} else {
+							$link = 'index2.php?option=com_menus&menutype='. $row->menutype .'&task=edit&id='. $row->id . '&hidemainmenu=1';
+							?>
+							<a href="<?php echo ampReplace( $link ); ?>">
+								<?php echo $row->treename; ?></a>
+							<?php
+						}
+						?>
+					</td>
+					<td width="10%" align="center">
+						<?php echo $published;?>
+					</td>
+					<td>
+						<?php echo $pageNav->orderUpIcon( $i ); ?>
+					</td>
+					<td>
+						<?php echo $pageNav->orderDownIcon( $i, $n ); ?>
+					</td>
+					<td align="center" colspan="2">
+						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
+					</td>
+					<td align="center">
+						<?php echo $access;?>
+					</td>
+					<td align="center">
+						<?php echo $row->id; ?>
+					</td>
+					<td>
+						<span class="editlinktip">
+							<?php
+							echo mosToolTip( $row->descrip, '', 280, 'tooltip.png', $row->type, $row->edit );
+							?>
+						</span>
+					</td>
+					<td align="center">
+						<?php echo $row->componentid; ?>
+					</td>
+				</tr>
+				<?php
+				$k = 1 - $k;
+				$i++;
+			}
+			?>
+			</table>
 
-		<?php echo $pageNav->getListFooter(); ?>
+			<?php echo $pageNav->getListFooter(); ?>
+		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="menutype" value="<?php echo $menutype; ?>" />

@@ -47,94 +47,81 @@ class JMediaViews {
 			frames['imgManager'].location.href='index3.php?option=com_media&task=list&listdir=' + dir;
 		}
 		</script>
-		<body>
 
 		<form action="index2.php" name="adminForm" method="post" enctype="multipart/form-data" >
-		<table width="100%" align="center">
+		
+		<table class="adminform">
 		<tr>
-			<th>
-				<table class="adminheading">
-				<tr>
-					<td>
-						<table border="0" align="right" cellpadding="0" cellspacing="4" width="600">
+			<td align="right" width="50%" style="padding-right:10px;white-space:nowrap">
+				<?php echo JText::_( 'Create Directory' ); ?>
+				<input class="inputbox" type="text" name="foldername" style="width: 350px" />
+			</td>
+			<td align="right" width="50%" style="padding-right:10px;;white-space:nowrap">
+				<?php echo JText::_( 'Image/Url Code' ); ?>
+				<input class="inputbox" type="text" name="imagecode" style="width: 350px" />
+			</td>
+		</tr>				
+		</table>
+				
+		<div id="tablecell">				
+			<table width="100%" align="center">
+			<tr>
+				<td align="center">
+					<fieldset>
+						<table width="99%" align="center" border="0" cellspacing="2" cellpadding="2">
 						<tr>
-							<td align="right" width="200" style="padding-right:10px;white-space:nowrap">
-								<?php echo JText::_( 'Create Directory' ); ?>
-							</td>
 							<td>
-								<input class="inputbox" type="text" name="foldername" style="width:400px" />
+								<table border="0" cellspacing="1" cellpadding="3"  class="adminheading">
+								<tr>
+									<td>
+										<?php echo JText::_( 'Directory' ); ?>
+									</td>
+									<td>
+										<?php echo $dirPath;?>
+									</td>
+									<td class="buttonOut" width="10">
+										<a href="javascript:dirup()">
+											<img src="components/com_media/images/btnFolderUp.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Up' ); ?>" />
+										</a>
+									</td>
+									<td align="right"><?php echo JText::_( 'File Upload' ); ?>
+										 <small>[ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]</small>
+										&nbsp;&nbsp;&nbsp;&nbsp;
+										<input class="inputbox" type="file" name="upload" size="63" />&nbsp;
+									</td>
+								</tr>
+								</table>
 							</td>
 						</tr>
 						<tr>
-							<td align="right" style="padding-right:10px;;white-space:nowrap">
-								<?php echo JText::_( 'Image/Url Code' ); ?>
-							</td>
-							<td>
-								<input class="inputbox" type="text" name="imagecode" style="width:400px" />
+							<td align="center" bgcolor="white">
+								<div class="manager">
+									<iframe height="360" src="index3.php?option=com_media&amp;task=list&amp;listdir=<?php echo $listdir?>" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
+								</div>
 							</td>
 						</tr>
 						</table>
-					</td>
-				</tr>
-				</table>
-			</th>
-		<tr>
-			<td align="center">
-				<fieldset>
-					<table width="99%" align="center" border="0" cellspacing="2" cellpadding="2">
-					<tr>
-						<td>
-							<table border="0" cellspacing="1" cellpadding="3"  class="adminheading">
-							<tr>
-								<td>
-									<?php echo JText::_( 'Directory' ); ?>
-								</td>
-								<td>
-									<?php echo $dirPath;?>
-								</td>
-								<td class="buttonOut" width="10">
-									<a href="javascript:dirup()">
-										<img src="components/com_media/images/btnFolderUp.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Up' ); ?>" />
-									</a>
-								</td>
-								<td align="right"><?php echo JText::_( 'File Upload' ); ?>
-									 <small>[ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]</small>
-									&nbsp;&nbsp;&nbsp;&nbsp;
-									<input class="inputbox" type="file" name="upload" id="upload" size="63" />&nbsp;
-								</td>
-							</tr>
-							</table>
-						</td>
-					</tr>
-					<tr>
-						<td align="center" bgcolor="white"><div name="manager" class="manager">
-							<iframe height="360" src="index3.php?option=com_media&amp;task=list&amp;listdir=<?php echo $listdir?>" name="imgManager" id="imgManager" width="100%" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
-						</div>
-						</td>
-					</tr>
-					</table>
-				</fieldset>
-			</td>
-		</tr>
-		<tr>
-			<td>
-
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<div style="text-align: right;">
-				</div>
-			</td>
-		</tr>
-		</table>
+					</fieldset>
+				</td>
+			</tr>
+			<tr>
+				<td>
+	
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div style="text-align: right;">
+					</div>
+				</td>
+			</tr>
+			</table>
+		</div>
 
 		<input type="hidden" name="option" value="com_media" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="cb1" id="cb1" value="0" />
 		</form>
-		</body>
-		</html>
 		<?php
 	}
 
@@ -538,10 +525,10 @@ class JMediaViews {
 		<table id="toolbar">
 		<tr>
 			<td>
-			<?php echo mosAdminMenus::ImageCheck( 'mediamanager.png', '/administrator/images/', NULL, NULL, JText::_( 'Upload a File' ), 'upload' ); ?>
+				<?php echo mosAdminMenus::ImageCheck( 'mediamanager.png', '/administrator/images/', NULL, NULL, JText::_( 'Upload a File' ), 'upload' ); ?>
 			</td>
 			<td class="title">
-			<?php echo JText::_( 'Upload a File' ); ?>
+				<?php echo JText::_( 'Upload a File' ); ?>
 			</td>
 		</tr>
 		</table>
@@ -549,25 +536,25 @@ class JMediaViews {
 		<table class="adminform">
 		<tr>
 			<td colspan="2">
-			<?php echo  JText::_( 'Select File' ); ?>&nbsp;&nbsp;&nbsp;
-			[ <?php echo  JText::_( 'Max size' ); ?> = <?php echo ini_get( 'post_max_size' );?> ]
-			<br/>
-			<input class="inputbox" name="upload" type="file" size="70" />
+				<?php echo  JText::_( 'Select File' ); ?>&nbsp;&nbsp;&nbsp;
+				[ <?php echo  JText::_( 'Max size' ); ?> = <?php echo ini_get( 'post_max_size' );?> ]
+				<br/>
+				<input class="inputbox" name="upload" type="file" size="70" />
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
-			<?php echo  JText::_( 'Destination Sub-folder' ); ?>: <?php echo $dirPath; ?>
+				<?php echo  JText::_( 'Destination Sub-folder' ); ?>: <?php echo $dirPath; ?>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<input class="button" type="button" value="<?php echo  JText::_( 'Upload' ); ?>" name="fileupload" onclick="javascript:submitbutton('upload')" />
+				<input class="button" type="button" value="<?php echo  JText::_( 'Upload' ); ?>" name="fileupload" onclick="javascript:submitbutton('upload')" />
 			</td>
 			<td>
-			<div align="right">
-			<input class="button" type="button" value="<?php echo  JText::_( 'Close' ); ?>" onclick="javascript:window.close();" align="right" />
-			</div>
+				<div align="right">
+					<input class="button" type="button" value="<?php echo  JText::_( 'Close' ); ?>" onclick="javascript:window.close();" align="right" />
+				</div>
 			</td>
 		</tr>
 		</table>
@@ -600,10 +587,10 @@ class JMediaViews {
 		<table id="toolbar">
 		<tr>
 			<td>
-			<?php echo mosAdminMenus::ImageCheck( 'module.png', '/administrator/images/', NULL, NULL, $_LANG->_( 'Upload a File' ), 'upload' ); ?>
+				<?php echo mosAdminMenus::ImageCheck( 'module.png', '/administrator/images/', NULL, NULL, $_LANG->_( 'Upload a File' ), 'upload' ); ?>
 			</td>
 			<td class="title">
-			<?php echo  JText::_( 'Create a Directory' ); ?>
+				<?php echo  JText::_( 'Create a Directory' ); ?>
 			</td>
 		</tr>
 		</table>
@@ -611,24 +598,24 @@ class JMediaViews {
 		<table class="adminform">
 		<tr>
 			<td colspan="2">
-			<?php echo JText::_( 'Directory Name' ); ?>
+				<?php echo JText::_( 'Directory Name' ); ?>
 			<br/>
-			<input class="inputbox" name="foldername" type="text" size="60" />
+				<input class="inputbox" name="foldername" type="text" size="60" />
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
-			<?php echo JText::_( 'Parent Directory' ); ?>: <?php echo $dirPath; ?>
+				<?php echo JText::_( 'Parent Directory' ); ?>: <?php echo $dirPath; ?>
 			</td>
 		</tr>
 		<tr>
 			<td>
-			<input class="button" type="button" value="<?php echo JText::_( 'Create' ); ?>" onclick="javascript:submitbutton('newdir')" />
+				<input class="button" type="button" value="<?php echo JText::_( 'Create' ); ?>" onclick="javascript:submitbutton('newdir')" />
 			</td>
 			<td>
-			<div align="right">
-			<input class="button" type="button" value="<?php echo JText::_( 'Close' ); ?>" onclick="javascript:window.close();" align="right" />
-			</div>
+				<div align="right">
+					<input class="button" type="button" value="<?php echo JText::_( 'Close' ); ?>" onclick="javascript:window.close();" align="right" />
+				</div>
 			</td>
 		</tr>
 		</table>
