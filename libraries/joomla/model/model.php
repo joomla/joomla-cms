@@ -84,7 +84,7 @@ class JModel extends JObject
 	*/
 	function &getInstance( $type, &$db ) 
 	{
-		jimport('joomla.model.adapters.'.$type);
+		jimport('joomla.model.model.'.$type);
 		$adapter = 'JModel'.$type;
 		$m = new $adapter($db);
 		return $m;

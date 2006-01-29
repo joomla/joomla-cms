@@ -15,7 +15,7 @@
 jimport( 'joomla.database.database' );
 jimport( 'joomla.database.database.mysql' );
 jimport( 'joomla.model.model' );
-jimport( 'joomla.model.adapters.*' );
+jimport( 'joomla.model.model.*' );
 
 /**
 * Legacy class, derive from JApplication instead
