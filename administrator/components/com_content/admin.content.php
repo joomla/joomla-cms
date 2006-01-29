@@ -605,6 +605,13 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 	// list of saved images
 	$lists['imagelist'] 		= mosAdminMenus::GetSavedImages( $row, $pathL );
 
+	// build the html radio buttons for frontpage
+	if (!$row->frontpage) {
+		$row->frontpage = 0;
+	}
+	$lists['frontpage']			= mosHTML::yesnoradioList( 'frontpage', '', $row->frontpage );
+	// build the html radio buttons for published
+	$lists['state'] 			= mosHTML::yesnoradioList( 'state', '', $row->state );
 	// build list of users
 	$active = ( intval( $row->created_by ) ? intval( $row->created_by ) : $my->id );
 	$lists['created_by'] 		= mosAdminMenus::UserSelect( 'created_by', $active );

@@ -287,8 +287,8 @@ class mosHTML
 	*/
 	function yesnoSelectList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no' ) {
 		$arr = array(
-			mosHTML::makeOption( '0', JText::_( $no ) ),
-			mosHTML::makeOption( '1', JText::_( $yes ) ),
+			mosHTML::makeOption( 0, JText::_( $no ) ),
+			mosHTML::makeOption( 1, JText::_( $yes ) ),
 		);
 
 		return mosHTML::selectList( $arr, $tag_name, $tag_attribs, 'value', 'text', $selected );
@@ -391,11 +391,10 @@ class mosHTML
 		if ( $params->get( 'popup' ) && !$hide_js ) {
 			?>
 			<div align="center" style="margin-top: 30px; margin-bottom: 30px;">
-			<a href='javascript:window.close();'>
-			<span class="small">
-			<?php echo JText::_( 'Close Window' );?>
-			</span>
-			</a>
+				<a href='javascript:window.close();'>
+					<span class="small">
+						<?php echo JText::_( 'Close Window' );?>
+					</span></a>
 			</div>
 			<?php
 		}
@@ -410,9 +409,8 @@ class mosHTML
 		if ( $params->get( 'back_button' ) && !$params->get( 'popup' ) && !$hide_js) {
 			?>
 			<div class="back_button">
-			<a href='javascript:history.go(-1)'>
-			<?php echo JText::_( 'BACK' ); ?>
-			</a>
+				<a href='javascript:history.go(-1)'>
+					<?php echo JText::_( 'BACK' ); ?></a>
 			</div>
 			<?php
 		}
@@ -626,50 +624,48 @@ class mosCommonHTML {
 			?>
 			<tr>
 				<td colspan="2">
-				<hr />
+					<hr />
 				</td>
 			</tr>
 			<tr>
-				<td width="90px" valign="top">
-				<?php echo JText::_( 'Menu' ); ?>
+				<td width="90" valign="top">
+					<?php echo JText::_( 'Menu' ); ?>
 				</td>
 				<td>
-				<a href="javascript:go2( 'go2menu', '<?php echo $menu->menutype; ?>' );" title="<?php echo JText::_( 'Go to Menu' ); ?>">
-				<?php echo $menu->menutype; ?>
-				</a>
+					<a href="javascript:go2( 'go2menu', '<?php echo $menu->menutype; ?>' );" title="<?php echo JText::_( 'Go to Menu' ); ?>">
+						<?php echo $menu->menutype; ?></a>
 				</td>
 			</tr>
 			<tr>
-				<td width="90px" valign="top">
+				<td width="90" valign="top">
 				<?php echo JText::_( 'Link Name' ); ?>
 				</td>
 				<td>
-				<strong>
-				<a href="javascript:go2( 'go2menuitem', '<?php echo $menu->menutype; ?>', '<?php echo $menu->id; ?>' );" title="<?php echo JText::_( 'Go to Menu Item' ); ?>">
-				<?php echo $menu->name; ?>
-				</a>
-				</strong>
+					<strong>
+					<a href="javascript:go2( 'go2menuitem', '<?php echo $menu->menutype; ?>', '<?php echo $menu->id; ?>' );" title="<?php echo JText::_( 'Go to Menu Item' ); ?>">
+						<?php echo $menu->name; ?></a>
+					</strong>
 				</td>
 			</tr>
 			<tr>
-				<td width="90px" valign="top">
-				<?php echo JText::_( 'State' ); ?>
+				<td width="90" valign="top">
+					<?php echo JText::_( 'State' ); ?>
 				</td>
 				<td>
-				<?php
-				switch ( $menu->published ) {
-					case -2:
-						echo '<font color="red">'. JText::_( 'Trashed' ) .'</font>';
-						break;
-					case 0:
-						echo JText::_( 'UnPublished' );
-						break;
-					case 1:
-					default:
-						echo '<font color="green">'. JText::_( 'Published' ) .'</font>';
-						break;
-				}
-				?>
+					<?php
+					switch ( $menu->published ) {
+						case -2:
+							echo '<font color="red">'. JText::_( 'Trashed' ) .'</font>';
+							break;
+						case 0:
+							echo JText::_( 'UnPublished' );
+							break;
+						case 1:
+						default:
+							echo '<font color="green">'. JText::_( 'Published' ) .'</font>';
+							break;
+					}
+					?>
 				</td>
 			</tr>
 			<?php
@@ -814,19 +810,15 @@ class mosCommonHTML {
 	/*
 	* Loads all necessary files for JS Calendar
 	*/
-	function loadCalendar() 
-	{
+	function loadCalendar() {
 		global $mainframe;
 		
+		$doc =& $mainframe->getDocument();
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 		
-		?>
-		<link rel="stylesheet" type="text/css" media="all" href="<?php echo $url;?>includes/js/calendar/calendar-mos.css" title="<?php echo JText::_( 'green' ); ?>" />
-		<!-- import the calendar script -->
-		<script type="text/javascript" src="<?php echo $url;?>includes/js/calendar/calendar_mini.js"></script>
-		<!-- import the language module -->
-		<script type="text/javascript" src="<?php echo $url;?>includes/js/calendar/lang/calendar-en.js"></script>
-		<?php
+		$doc->addStyleSheet( $url. 'includes/js/calendar/calendar-mos.css', 'text/css', null, array(' title' => '"'. JText::_( 'green' ) .'"',' media' => '"all"' ));
+		$doc->addScript( $url. 'includes/js/calendar/calendar_mini.js' );
+		$doc->addScript( $url. 'includes/js/calendar/lang/calendar-en.js' );
 	}
 
 	function AccessProcessing( &$row, $i ) {

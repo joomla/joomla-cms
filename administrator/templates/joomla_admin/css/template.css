@@ -570,6 +570,16 @@ legend {
 	overflow: hidden;
 }
 
+#editcell {
+	width: 100%; 
+	display: block; 
+	position: relative; 
+	float: left;
+	margin: 0; 
+	padding: 10px 2px;
+	overflow: hidden;
+}
+
 span.editlinktip {
 	text-decoration:  none;
 	border-bottom: 1px dashed #aaa;

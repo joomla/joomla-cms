@@ -289,6 +289,8 @@ function edit( $uid, $option )
 	// list of saved images
 	$lists['imagelist'] 	= mosAdminMenus::GetSavedImages( $row, $pathL );
 
+	// build the html radio buttons for published
+	$lists['state'] 		= mosHTML::yesnoradioList( 'state', '', $row->state );
 	// build list of users
 	$active = ( intval( $row->created_by ) ? intval( $row->created_by ) : $my->id );
 	$lists['created_by'] 	= mosAdminMenus::UserSelect( 'created_by', $active );
@@ -302,7 +304,7 @@ function edit( $uid, $option )
 	$lists['_caption_align'] 	= mosAdminMenus::Positions( '_caption_align' );
 	// build the select list for the image caption position
 	$pos[] = mosHTML::makeOption( 'bottom', JText::_( 'Bottom' ) );
-	$pos[] = mosHTML::makeOption( 'top', JText::_( 'Top' ) );
+	$pos[] = mosHTML::makeOption( 'top', 	JText::_( 'Top' ) );
 	$lists['_caption_position'] = mosHTML::selectList( $pos, '_caption_position', 'class="inputbox" size="1"', 'value', 'text' );
 
 	// get params definitions
