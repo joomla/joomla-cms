@@ -167,11 +167,21 @@ class JEventDispatcher extends JObservable
 				{
 					/*
 					 * Ok, now we know that the observer is both not an array
-					 * and IS an object.  Lets trigger its update method and
-					 * return any results.
+					 * and IS an object.  Lets trigger its update method if it
+					 * handles the event and return any results.
 					 */
-					$args['event'] = $event;
-					$result[] = $observer->update($args);
+					if (method_exists($observer, $event))
+					{
+						$args['event'] = $event;
+						$result[] = $observer->update($args);
+					} else
+					{
+						/*
+						 * Handler doesn't handle this event, move on to next
+						 * observer.
+						 */
+						continue;
+					}
 				} else
 				{
 					/*
