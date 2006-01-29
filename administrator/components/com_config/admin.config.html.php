@@ -212,7 +212,7 @@ class JConfigView {
 					</tr>
 					<tr>
 						<td>
-							<?php echo JText::_( 'Enable XML-RRC' ); ?>:
+							<?php echo JText::_( 'Enable XML-RPC' ); ?>:
 						</td>
 						<td>
 							<?php echo $lists['xmlrpc_server']; ?>
@@ -593,7 +593,7 @@ class JConfigView {
 							<span class="error">
 							<?php
 			                $tip = JText::_( 'WARNAPACHEONLY' );
-			                echo JWarning( $tip ); 
+			                echo mosHTML::WarningIcon( $tip ); 
 			                ?>
 		               		</span>
 		                </td>
@@ -798,7 +798,7 @@ class JConfigView {
 							&nbsp;
 							<?php
 			                $warn = JText::_( 'WARNDONOTCHANGEDATABASETABLESPREFIX' );
-			                echo JWarning( $warn ); 
+			                echo mosHTML::WarningIcon( $warn ); 
 			                ?>
 						</td>
 					</tr>
@@ -834,7 +834,7 @@ class JConfigView {
 							<span class="error">
 							<?php
 			                $warn = JText::_( 'TIPLARGEAMOUNTSOFDATA' );
-			                echo JWarning( $warn ); 
+			                echo mosHTML::WarningIcon( $warn ); 
 			                ?>
 							</span>
 						</td>
@@ -887,7 +887,7 @@ class JConfigView {
 							<?php
 							if (!is_writeable($row->cachepath)) {
 								$warn = JText::_( 'TIPCACHEDIRISUNWRITEABLE' );
-								echo JWarning( $warn );
+								echo mosHTML::WarningIcon( $warn );
 							}
 							?>
 						</td>

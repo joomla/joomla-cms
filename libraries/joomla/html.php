@@ -381,6 +381,30 @@ class mosHTML
 		. "</a>";
 		return $html;
 	}
+	
+	/**
+	 * Utility function to provide Warning Icons
+	 * 
+	 * @package Joomla.Framework
+	 * @param string Warning text
+	 * @param string Box title
+	 * @returns HTML code for Warning
+	 * @since 1.1
+	 */
+	function WarningIcon($warning, $title='Joomla Warning') 
+	{
+		global $mainframe;
+		
+		$title 		= JText::_( 'Joomla Warning' );
+		$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \''. $title .'\', BELOW, RIGHT);';
+		$url        = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		
+		$tip 		= '<!--'. $title .'--> \n';
+		$tip 		= '<a href="#" onmouseover="'. $mouseover .'" onmouseout="return nd();">';
+		$tip 		.= '<img src="'.$url.'includes/js/ThemeOffice/warning.png" border="0"  alt=""/></a>';
+
+		return $tip;
+	}
 
 	/**
 	* Writes Close Button

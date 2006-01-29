@@ -258,26 +258,6 @@ function josErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 }
 
 /**
-* Utility function to provide Warning Icons
-* 
-* @package Joomla.Framework
-* @param string Warning text
-* @param string Box title
-* @returns HTML code for Warning
-* @since 1.1
-*/
-function JWarning($warning, $title='Joomla Warning') {
-	$title 		= JText::_( 'Joomla Warning' );
-	$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \''. $title .'\', BELOW, RIGHT);';
-
-	$tip 		= '<!--'. $title .'--> \n';
-	$tip 		= '<a href="#" onmouseover="'. $mouseover .'" onmouseout="return nd();">';
-	$tip 		.= '<img src="includes/js/ThemeOffice/warning.png" border="0"  alt=""/></a>';
-
-	return $tip;
-}
-
-/**
  * Format a backtrace error
  * 
  * @package Joomla.Framework
