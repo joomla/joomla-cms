@@ -100,7 +100,7 @@ class JContentView
 			<td width="60%" valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>" colspan="2">
 				<?php
 				if ($category->image) {
-					$link = '/images/stories/'.$category->image;
+					$link = 'images/stories/'.$category->image;
 					?>
 						<img src="<?php echo $link;?>" align="<?php echo $category->image_position;?>" hspace="6" alt="<?php echo $category->image;?>" />
 				<?php
@@ -275,7 +275,7 @@ class JContentView
 			// Secrion/Category Description & Image
 			if ($menu && $menu->componentid && ($descrip || $descrip_image))
 			{
-				$link = '/images/stories/'.$description->image;
+				$link = 'images/stories/'.$description->image;
 				echo '<tr>';
 				echo '<td valign="top">';
 				if ($descrip_image && $description->image)

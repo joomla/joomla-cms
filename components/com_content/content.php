@@ -1521,11 +1521,13 @@ class JContentController
 		{
 			$referer = 'index.php?option=com_content&task=view&id='.$row->id.'&Itemid='.$Itemid;
 		}
+		
+		echo $task;
 
 		/*
 		 * If the task was not new, we go back to the referrer
 		 */
-		if ($referer && !($task == 'new'))
+		if ($referer && !isset($row->id))
 		{
 			josRedirect($referer);
 		} else
@@ -1663,7 +1665,7 @@ class JContentController
 		$subject_default 	= sprintf(JText :: _('Item sent by'), $yourname);
 		$subject 			= JRequest::getVar( 'subject', $subject_default, 'post' );
 
-		if ($uid < 1 || !$email || !$youremail || (JContentController::_is_email($email) == false) || (JMailHelper::isEmailAdress($youremail) == false))
+		if ($uid < 1 || !$email || !$youremail || (JMailHelper::isEmailAddress($email) == false) || (JMailHelper::isEmailAdress($youremail) == false))
 		{
 			JContentView :: userInputError(JText :: _('EMAIL_ERR_NOINFO'));
 		}

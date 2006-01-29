@@ -11,7 +11,7 @@
 	display: inline;
 	float: right;
 	overflow: hidden;
-	cursor: hand;
+	cursor: pointer;
 	margin: 1px 2px 1px -1px;
 	padding: 0px 0px 0px 0px;
 	border: 0;
@@ -48,7 +48,7 @@
 	font:	11px Tahoma, Helvetica, sans-serif;
 	color: #333;
 	text-decoration: none;
-	cursor: hand;
+	cursor: pointer;
 }
 .dynamic-tab-pane-control .tab-row .tab.hover {
 	font:	11px Tahoma, Helvetica, sans-serif;

@@ -1399,7 +1399,7 @@ class gacl_api extends gacl {
 			return false;
 		}
 
-		$this->db->setQuery( "SELECT group_id FROM $table WHERE name='$name'" );
+		$this->db->setQuery( "SELECT id FROM $table WHERE name='$name'" );
 
 		$rows = $this->db->loadRowList();
 		if ($this->db->getErrorNum()) {
