@@ -151,8 +151,8 @@ class JEventDispatcher extends JObservable
 
 	/**
 	 * This method fires the given event and passes all aditional arguements to the
-	 * event handler.  It handles both JBot functions and JPlugin objects that are
-	 * registered to the event.
+	 * event handler.  It handles both JPlugin functions and JPlugin objects
+	 * that are registered to the event.
 	 *
 	 * @access public
 	 * @param string $event The event to fire on all observers
