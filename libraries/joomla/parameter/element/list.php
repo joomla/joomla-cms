@@ -34,7 +34,7 @@ class JElement_List extends JElement
 	function fetchElement($name, $value, &$node, $control_name)
 	{
 		$size = $node->getAttribute('size');
-
+		
 		$options = array ();
 		foreach ($node->childNodes as $option) {
 			$val  = $option->getAttribute('value');

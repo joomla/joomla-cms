@@ -21,7 +21,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class JConfigView {
 
-	function showConfig( &$row, &$lists, $option) {
+	function showConfig( &$row, &$lists, $option) 
+	{
 		mosCommonHTML::loadOverlib();
 		
 		$tabs = new mosTabs(1);
@@ -211,7 +212,7 @@ class JConfigView {
 					</tr>
 					<tr>
 						<td>
-							<?php echo JText::_( 'Enable XML-PRC' ); ?>:
+							<?php echo JText::_( 'Enable XML-RRC' ); ?>:
 						</td>
 						<td>
 							<?php echo $lists['xmlrpc_server']; ?>

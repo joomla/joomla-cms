@@ -492,9 +492,9 @@ class HTML_admin_misc {
 							|
 							<?php echo mosHTML::Link('http://help.joomla.org', 'help.joomla.org', array('target' => '"_blank"')) ?>
 							|
-							<?php echo mosHTML::Link('/administrator/index3.php?option=com_admin&task=changelog', JText::_( 'Changelog' ), array('target' => "'helpFrame'")) ?>
+							<?php echo mosHTML::Link('index3.php?option=com_admin&task=changelog', JText::_( 'Changelog' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo mosHTML::Link('/administrator/index3.php?option=com_admin&task=sysinfo', JText::_( 'System Info' ), array('target' => "'helpFrame'")) ?>
+							<?php echo mosHTML::Link('index3.php?option=com_admin&task=sysinfo', JText::_( 'System Info' ), array('target' => "'helpFrame'")) ?>
 							|
 							<?php echo mosHTML::Link('http://www.joomla.org/content/blogcategory/32/66/', JText::_( 'Latest Version Check' ), array('target' => '"_blank"')) ?>
 						</td>
@@ -569,7 +569,7 @@ class HTML_admin_misc {
 					<?php echo JText::_( 'Site Preview' ); ?>
 				</th>
 				<th width="50%" style="text-align:right">
-					<?php echo mosHTML::Link('index.php?tp='.$tp, JText::_( 'Open in new window' ), array('target' => '_blank')); ?>
+					<?php echo mosHTML::Link($mainframe->getSiteURL().'index.php?tp='.$tp, JText::_( 'Open in new window' ), array('target' => '_blank')); ?>
 				</th>
 			</tr>
 			<tr>
@@ -589,7 +589,7 @@ class HTML_admin_misc {
 		?>
 		<pre>
 			<?php
-			readfile( $GLOBALS['mosConfig_absolute_path'].'/CHANGELOG.php' );
+			readfile( JPATH_SITE.'/CHANGELOG.php' );
 			?>
 		</pre>
 		<?php
@@ -604,11 +604,11 @@ function getHelpTOC( $helpsearch )
 {
 	$helpurl = mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
 
-	$files = mosReadDirectory( JPATH_SITE . '/administrator/help/eng_GB/', '\.xml$|\.html$' );
+	$files = mosReadDirectory( JPATH_BASE . '/help/eng_GB/', '\.xml$|\.html$' );
 
 	$toc = array();
 	foreach ($files as $file) {
-		$buffer = file_get_contents( JPATH_SITE . '/administrator/help/eng_GB/' . $file );
+		$buffer = file_get_contents( JPATH_BASE . '/help/eng_GB/' . $file );
 		if (preg_match( '#<title>(.*?)</title>#', $buffer, $m )) {
 			$title = trim( $m[1] );
 			if ($title) {

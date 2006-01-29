@@ -56,38 +56,16 @@ foreach ($comps as $row) {
 <tr>
 	<td>
 		<?php
-		if ( $task == 'listcomponents' ) {
-			$topLevelLimit = 10000;
-		} else {
-			$topLevelLimit = $count;
-		}
 		$i = 0;
 		$z = 0;
 		foreach ($comps as $row) {
 			if ( $editAllComponents | $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', $row->option ) ) {
 
 				if ($row->parent == 0 && (trim( $row->admin_menu_link ) || array_key_exists( $row->id, $subs ))) {
-
-					if ($i >= $topLevelLimit) {
-						if ($i == $topLevelLimit) {
-							?>
-							<div>
-							<table width="100%" class="adminlist">
-							<tr>
-								<td align="center" style="text-align: center; font-weight: bold;">
-									<a href="index2.php?option=com_admin&amp;task=listcomponents"><?php echo JText::_( 'Full Component List' ); ?></a>
-								</td>
-							</tr>
-							</table>
-							</div>
-							<?php
-							$i = 1000;
-						} // if
-					} else {
+					
 						?>
 						<table width="50%" class="adminlist" border="1">
 						<?php
-						if ($i < $topLevelLimit ) {
 							$i++;
 							//$name = htmlspecialchars( $row->name, ENT_QUOTES );
 							// $alt = htmlspecialchars( $row->admin_menu_alt, ENT_QUOTES );
@@ -147,12 +125,11 @@ foreach ($comps as $row) {
 									</tr>
 									<?php
 								} // foreach
-							} // if
 						} // if
 						?>
 						</table>
 						<?php
-					} // if else
+					
 				} // if
 			} // if
 

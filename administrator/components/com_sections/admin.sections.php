@@ -131,7 +131,7 @@ function showSections( $scope, $option ) {
 	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, s.ordering";	
 	
 	// get the total number of records
-	$query = "SELECT COUNT( s.*)"
+	$query = "SELECT COUNT *"
 	. "\n FROM #__sections AS s"
 	. $where
 	;

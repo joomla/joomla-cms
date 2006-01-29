@@ -71,7 +71,7 @@ class JElement extends JObject
 		$descr = $xmlElement->getAttribute('description');
 		
 		//get value
-		$value = $this->_parent->get($name, $xmlElement->getAttribute('default'));
+		$value = $this->_parent->get('pdf', $xmlElement->getAttribute('default'));
 		
 		//make sure we have a valid label
 		$label = $label ? $label : $name;

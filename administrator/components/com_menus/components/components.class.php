@@ -80,7 +80,6 @@ class components_menu {
 
 		// get params definitions
 		$params = new JParameter( $menu->params, JApplicationHelper::getPath( 'com_xml', $row->option ), 'component' );
-
 		components_menu_html::edit( $menu, $components, $lists, $params, $option );
 	}
 }

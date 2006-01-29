@@ -70,7 +70,7 @@ class JParameter extends JRegistry
 		}
 		
 		parent::__construct('parameter');
-		
+			
 		$this->loadINI($data);
 		$this->loadSetupFile($path);
 		
@@ -99,11 +99,9 @@ class JParameter extends JRegistry
 	 */
 	function get($key, $default = '') 
 	{
-		if ($value = $this->getValue('parameter.'.$key)) {
-			return $value;
-		} else {
-			return $default;
-		}
+		$value = $this->getValue('parameter.'.$key);
+		$result = isset($value) ? $value : $default; 
+		return $result;
 	}
 
 	/**
