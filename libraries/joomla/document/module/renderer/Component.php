@@ -120,10 +120,20 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 
 			return $contents;
 		} else {
+			header( 'HTTP/1.0 404 Not Found' );
 			/*
-			 * @todo Add some sort of custom error page???
+			 * If a template version exists load the custom 404 page, if not...
+			 * load the system one.
 			 */
-			header("HTTP/1.0 404 Not Found");
+			$custom = JPATH_SITE.DS.'templates'.DS.$mainframe->getTemplate().DS.'404.php';
+			$system	= JPATH_SITE . DS.'templates'.DS.'_system'.DS.'404.php';
+			if (JFile::exists($custom))
+			{
+				require_once($custom);
+			} else
+			{
+				require_once($system);
+			}
 			exit;
 		}
 	}
