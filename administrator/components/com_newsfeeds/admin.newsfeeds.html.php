@@ -197,73 +197,76 @@ class HTML_newsfeeds {
 		</script>
 
 		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminform">
-		<tr>
-			<th colspan="2">
-			<?php echo JText::_( 'Details' ); ?>
-			</th>
-		</tr>
-		<tr>
-			<td>
-			<?php echo JText::_( 'Name' ); ?>
-			</td>
-			<td>
-			<input class="inputbox" type="text" size="40" name="name" value="<?php echo $row->name; ?>">
-			</td>
-		</tr>
-		<tr>
-			<td>
-			<?php echo JText::_( 'Category' ); ?>
-			</td>
-			<td>
-			<?php echo $lists['category']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-			<?php echo JText::_( 'Link' ); ?>
-			</td>
-			<td>
-			<input class="inputbox" type="text" size="60" name="link" value="<?php echo $row->link; ?>">
-			</td>
-		</tr>
-		<tr>
-			<td>
-			<?php echo JText::_( 'Number of Articles' ); ?>
-			</td>
-			<td>
-			<input class="inputbox" type="text" size="2" name="numarticles" value="<?php echo $row->numarticles; ?>">
-			</td>
-		</tr>
-		<tr>
-			<td>
-			<?php echo JText::_( 'Cache time (in seconds)' ); ?>
-			</td>
-			<td>
-			<input class="inputbox" type="text" size="4" name="cache_time" value="<?php echo $row->cache_time; ?>">
-			</td>
-		</tr>
-		<tr>
-			<td>
-			<?php echo JText::_( 'Ordering' ); ?>
-			</td>
-			<td>
-			<?php echo $lists['ordering']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td valign="top" align="right">
-			<?php echo JText::_( 'Published' ); ?>:
-			</td>
-			<td>
-			<?php echo $lists['published']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2" align="center">
-			</td>
-		</tr>
-		</table>
+		
+		<div id="tablecell">				
+			<table class="adminform">
+			<tr>
+				<th colspan="2">
+					<?php echo JText::_( 'Details' ); ?>
+				</th>
+			</tr>
+			<tr>
+				<td>
+					<?php echo JText::_( 'Name' ); ?>
+				</td>
+				<td>
+					<input class="inputbox" type="text" size="40" name="name" value="<?php echo $row->name; ?>">
+				</td>
+			</tr>
+			<tr>
+				<td valign="top" align="right">
+					<?php echo JText::_( 'Published' ); ?>:
+				</td>
+				<td>
+					<?php echo $lists['published']; ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?php echo JText::_( 'Category' ); ?>
+				</td>
+				<td>
+					<?php echo $lists['category']; ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?php echo JText::_( 'Link' ); ?>
+				</td>
+				<td>
+					<input class="inputbox" type="text" size="60" name="link" value="<?php echo $row->link; ?>">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?php echo JText::_( 'Number of Articles' ); ?>
+				</td>
+				<td>
+					<input class="inputbox" type="text" size="2" name="numarticles" value="<?php echo $row->numarticles; ?>">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?php echo JText::_( 'Cache time (in seconds)' ); ?>
+				</td>
+				<td>
+					<input class="inputbox" type="text" size="4" name="cache_time" value="<?php echo $row->cache_time; ?>">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?php echo JText::_( 'Ordering' ); ?>
+				</td>
+				<td>
+					<?php echo $lists['ordering']; ?>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+				</td>
+			</tr>
+			</table>
+		</div>
 
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>">
 		<input type="hidden" name="cid[]" value="<?php echo $row->id; ?>" />

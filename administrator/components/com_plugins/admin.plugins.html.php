@@ -216,99 +216,102 @@ class HTML_modules {
 		</script>
 
 		<form action="index2.php" method="post" name="adminForm">
-		<table cellspacing="0" cellpadding="0" width="100%">
-		<tr valign="top">
-			<td width="60%" valign="top">
-				<table class="adminform">
-				<tr>
-					<th colspan="2">
-					<?php echo JText::_( 'Plugin Details' ); ?>
-					</th>
-				<tr>
-				<tr>
-					<td width="100" >
-					<?php echo JText::_( 'Name' ); ?>:
-					</td>
-					<td>
-					<input class="text_area" type="text" name="name" size="35" value="<?php echo $row->name; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" >
-					<?php echo JText::_( 'Folder' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['folder']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" >
-					<?php echo JText::_( 'Plugin file' ); ?>:
-					</td>
-					<td>
-					<input class="text_area" type="text" name="element" size="35" value="<?php echo $row->element; ?>" />.php
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" >
-					<?php echo JText::_( 'Plugin Order' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['ordering']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" >
-					<?php echo JText::_( 'Access Level' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['access']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top">
-					<?php echo JText::_( 'Published' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['published']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" colspan="2">&nbsp;
-					</td>
-				</tr>
-				<tr>
-					<td valign="top">
-					<?php echo JText::_( 'Description' ); ?>:
-					</td>
-					<td>
-					<?php echo JText::_( $row->description ); ?>
-					</td>
-				</tr>
-				</table>
-			</td>
-			<td width="40%">
-				<table class="adminform">
-				<tr>
-					<th colspan="2">
-					<?php echo JText::_( 'Parameters' ); ?>
-					</th>
-				<tr>
-				<tr>
-					<td>
-					<?php
-					if ( $row->id ) {
-						echo $params->render();
-					} else {
-						echo '<i>'. JText::_( 'No Parameters' ) .'</i>';
-					}
-					?>
-					</td>
-				</tr>
-				</table>
-			</td>
-		</tr>
-		</table>
+		
+		<div id="tablecell">				
+			<table cellspacing="0" cellpadding="0" width="100%">
+			<tr valign="top">
+				<td width="60%" valign="top">
+					<table class="adminform">
+					<tr>
+						<th colspan="2">
+							<?php echo JText::_( 'Plugin Details' ); ?>
+						</th>
+					<tr>
+					<tr>
+						<td width="100" >
+							<?php echo JText::_( 'Name' ); ?>:
+						</td>
+						<td>
+							<input class="text_area" type="text" name="name" size="35" value="<?php echo $row->name; ?>" />
+						</td>
+					</tr>
+					<tr>
+						<td valign="top">
+							<?php echo JText::_( 'Published' ); ?>:
+						</td>
+						<td>
+							<?php echo $lists['published']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" >
+							<?php echo JText::_( 'Folder' ); ?>:
+						</td>
+						<td>
+							<?php echo $lists['folder']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" >
+							<?php echo JText::_( 'Plugin file' ); ?>:
+						</td>
+						<td>
+							<input class="text_area" type="text" name="element" size="35" value="<?php echo $row->element; ?>" />.php
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" >
+							<?php echo JText::_( 'Access Level' ); ?>:
+						</td>
+						<td>
+							<?php echo $lists['access']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" >
+							<?php echo JText::_( 'Plugin Order' ); ?>:
+						</td>
+						<td>
+							<?php echo $lists['ordering']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" colspan="2">&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td valign="top">
+							<?php echo JText::_( 'Description' ); ?>:
+						</td>
+						<td>
+							<?php echo JText::_( $row->description ); ?>
+						</td>
+					</tr>
+					</table>
+				</td>
+				<td width="40%">
+					<table class="adminform">
+					<tr>
+						<th colspan="2">
+							<?php echo JText::_( 'Parameters' ); ?>
+						</th>
+					<tr>
+					<tr>
+						<td>
+							<?php
+							if ( $row->id ) {
+								echo $params->render();
+							} else {
+								echo '<i>'. JText::_( 'No Parameters' ) .'</i>';
+							}
+							?>
+						</td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+			</table>
+		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />

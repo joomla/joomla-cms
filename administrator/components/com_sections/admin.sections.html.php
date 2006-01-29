@@ -237,93 +237,94 @@ class sections_html {
 				<table class="adminform">
 				<tr>
 					<th colspan="3">
-					<?php echo JText::_( 'Section Details' ); ?>
+						<?php echo JText::_( 'Section Details' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td width="150">
-					<?php echo JText::_( 'Scope' ); ?>:
+						<?php echo JText::_( 'Scope' ); ?>:
 					</td>
 					<td width="85%" colspan="2">
-					<strong>
-					<?php echo $row->scope; ?>
-					</strong>
+						<strong>
+						<?php echo $row->scope; ?>
+						</strong>
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<?php echo JText::_( 'Title' ); ?>:
+						<?php echo JText::_( 'Title' ); ?>:
 					</td>
 					<td colspan="2">
-					<input class="text_area" type="text" name="title" value="<?php echo $row->title; ?>" size="50" maxlength="50" title="<?php echo JText::_( 'TIPTITLEFIELD' ); ?>" />
+						<input class="text_area" type="text" name="title" value="<?php echo $row->title; ?>" size="50" maxlength="50" title="<?php echo JText::_( 'TIPTITLEFIELD' ); ?>" />
 					</td>
 				</tr>
 				<tr>
 					<td nowrap="nowrap">
-					<?php echo JText::_( 'Section Name' ); ?>:
+						<?php echo JText::_( 'Section Name' ); ?>:
 					</td>
 					<td colspan="2">
-					<input class="text_area" type="text" name="name" value="<?php echo $row->name; ?>" size="50" maxlength="255" title="<?php echo JText::_( 'TIPNAMEFIELD' ); ?>" />
+						<input class="text_area" type="text" name="name" value="<?php echo $row->name; ?>" size="50" maxlength="255" title="<?php echo JText::_( 'TIPNAMEFIELD' ); ?>" />
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<?php echo JText::_( 'Image' ); ?>:
+						<?php echo JText::_( 'Published' ); ?>:
 					</td>
 					<td>
-					<?php echo $lists['image']; ?>
+						<?php echo $lists['published']; ?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<?php echo JText::_( 'Image' ); ?>:
+					</td>
+					<td>
+						<?php echo $lists['image']; ?>
 					</td>
 					<td rowspan="4" width="50%">
-					<?php
-						$path = $mainframe->getSiteURL() . "/images/";
-						if ($row->image != "blank.png") {
-							$path.= "stories/";
-						}
-					?>
-					<img src="<?php echo $path;?><?php echo $row->image;?>" name="imagelib" width="80" height="80" border="2" alt="<?php echo JText::_( 'Preview' ); ?>" />
+						<?php
+							$path = $mainframe->getSiteURL() . "/images/";
+							if ($row->image != "blank.png") {
+								$path.= "stories/";
+							}
+						?>
+						<img src="<?php echo $path;?><?php echo $row->image;?>" name="imagelib" width="80" height="80" border="2" alt="<?php echo JText::_( 'Preview' ); ?>" />
 					</td>
 				</tr>
 				<tr>
 					<td nowrap="nowrap">
-					<?php echo JText::_( 'Image Position' ); ?>:
+						<?php echo JText::_( 'Image Position' ); ?>:
 					</td>
 					<td>
-					<?php echo $lists['image_position']; ?>
+						<?php echo $lists['image_position']; ?>
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<?php echo JText::_( 'Ordering' ); ?>:
+						<?php echo JText::_( 'Ordering' ); ?>:
 					</td>
 					<td>
-					<?php echo $lists['ordering']; ?>
+						<?php echo $lists['ordering']; ?>
 					</td>
 				</tr>
 				<tr>
 					<td nowrap="nowrap">
-					<?php echo JText::_( 'Access Level' ); ?>:
+						<?php echo JText::_( 'Access Level' ); ?>:
 					</td>
 					<td>
-					<?php echo $lists['access']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td>
-					<?php echo JText::_( 'Published' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['published']; ?>
+						<?php echo $lists['access']; ?>
 					</td>
 				</tr>
 				<tr>
 					<td valign="top">
-					<?php echo JText::_( 'Description' ); ?>:
+						<?php echo JText::_( 'Description' ); ?>:
 					</td>
 					<td colspan="2">
-					<?php
-					// parameters : areaname, content, hidden field, width, height, rows, cols
-					$editor =& JEditor::getInstance();
-					echo $editor->getEditor( 'editor1',  $row->description , 'description', '100%;', '300', '60', '20' ) ; ?>
+						<?php
+						// parameters : areaname, content, hidden field, width, height, rows, cols
+						$editor =& JEditor::getInstance();
+						echo $editor->getEditor( 'editor1',  $row->description , 'description', '100%;', '300', '60', '20' ) ; 
+						?>
 					</td>
 				</tr>
 				</table>
@@ -335,49 +336,49 @@ class sections_html {
 				<table class="adminform">
 				<tr>
 					<th colspan="2">
-					<?php echo JText::_( 'Link to Menu' ); ?>
+						<?php echo JText::_( 'Link to Menu' ); ?>
 					</th>
 				<tr>
 				<tr>
 					<td colspan="2">
-					<?php echo JText::_( 'DESCNEWMENUITEM' ); ?>
-					<br /><br />
+						<?php echo JText::_( 'DESCNEWMENUITEM' ); ?>
+						<br /><br />
 					</td>
 				<tr>
 				<tr>
 					<td valign="top" width="100px">
-					<?php echo JText::_( 'Select a Menu' ); ?>
+						<?php echo JText::_( 'Select a Menu' ); ?>
 					</td>
 					<td>
-					<?php echo $lists['menuselect']; ?>
+						<?php echo $lists['menuselect']; ?>
 					</td>
 				<tr>
 				<tr>
 					<td valign="top" width="100px">
-					<?php echo JText::_( 'Select Menu Type' ); ?>
+						<?php echo JText::_( 'Select Menu Type' ); ?>
 					</td>
 					<td>
-					<?php echo $lists['link_type']; ?>
+						<?php echo $lists['link_type']; ?>
 					</td>
 				<tr>
 				<tr>
 					<td valign="top" width="100px">
-					<?php echo JText::_( 'Menu Item Name' ); ?>
+						<?php echo JText::_( 'Menu Item Name' ); ?>
 					</td>
 					<td>
-					<input type="text" name="link_name" class="inputbox" value="" size="25" />
+						<input type="text" name="link_name" class="inputbox" value="" size="25" />
 					</td>
 				<tr>
 				<tr>
 					<td>
 					</td>
 					<td>
-					<input name="menu_link" type="button" class="button" value="<?php echo JText::_( 'Link to Menu' ); ?>" onclick="submitbutton('menulink');" />
+						<input name="menu_link" type="button" class="button" value="<?php echo JText::_( 'Link to Menu' ); ?>" onclick="submitbutton('menulink');" />
 					</td>
 				<tr>
 				<tr>
 					<th colspan="2">
-					<?php echo JText::_( 'Existing Menu Links' ); ?>
+						<?php echo JText::_( 'Existing Menu Links' ); ?>
 					</th>
 				</tr>
 				<?php
@@ -385,7 +386,7 @@ class sections_html {
 					?>
 					<tr>
 						<td colspan="2">
-						<?php echo JText::_( 'None' ); ?>
+							<?php echo JText::_( 'None' ); ?>
 						</td>
 					</tr>
 					<?php
@@ -400,18 +401,18 @@ class sections_html {
 				</table>
 			<?php
 			} else {
-			?>
-			<table class="adminform" width="40%">
-			<tr>
-				<th>&nbsp;</th>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_( 'Menu links available when saved' ); ?>
-				</td>
-			</tr>
-			</table>
-			<?php
+				?>
+				<table class="adminform" width="40%">
+				<tr>
+					<th>&nbsp;</th>
+				</tr>
+				<tr>
+					<td>
+						<?php echo JText::_( 'Menu links available when saved' ); ?>
+					</td>
+				</tr>
+				</table>
+				<?php
 			}
 			?>
 			</td>

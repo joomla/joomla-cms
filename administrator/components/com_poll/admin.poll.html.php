@@ -132,8 +132,7 @@ class HTML_poll {
 	}
 
 
-	function editPoll( &$row, &$options, &$lists ) 
-	{
+	function editPoll( &$row, &$options, &$lists ) {
 		mosMakeHtmlSafe( $row, ENT_QUOTES );
 		?>
 		<script language="javascript" type="text/javascript">
@@ -158,69 +157,73 @@ class HTML_poll {
 		}
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
-		<table class="adminform">
-		<tr>
-			<th colspan="4">
-			<?php echo JText::_( 'Details' ); ?>
-			</th>
-		</tr>
-		<tr>
-			<td width="10%">
-			<?php echo JText::_( 'Title' ); ?>:
-			</td>
-			<td>
-			<input class="inputbox" type="text" name="title" size="60" value="<?php echo $row->title; ?>" />
-			</td>
-			<td width="20px">&nbsp;
-
-			</td>
-			<td width="100%" rowspan="20" valign="top">
-			<?php echo JText::_( 'Show on menu items' ); ?>:
-			<br />
-			<?php echo $lists['select']; ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-			<?php echo JText::_( 'Lag' ); ?>:
-			</td>
-			<td>
-			<input class="inputbox" type="text" name="lag" size="10" value="<?php echo $row->lag; ?>" /> <?php echo JText::_( '(seconds between votes)' ); ?>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="3">
-			<br /><br />
-			<?php echo JText::_( 'Options' ); ?>:
-			</td>
-		</tr>
-		<?php
-		for ($i=0, $n=count( $options ); $i < $n; $i++ ) {
-			?>
+		
+		<div id="tablecell">				
+			<table class="adminform">
 			<tr>
-				<td>
-				<?php echo ($i+1); ?>
+				<th colspan="4">
+					<?php echo JText::_( 'Details' ); ?>
+				</th>
+			</tr>
+			<tr>
+				<td width="10%">
+					<?php echo JText::_( 'Title' ); ?>:
 				</td>
 				<td>
-				<input class="inputbox" type="text" name="polloption[<?php echo $options[$i]->id; ?>]" value="<?php echo stripslashes($options[$i]->text); ?>" size="60" />
+					<input class="inputbox" type="text" name="title" size="60" value="<?php echo $row->title; ?>" />
+				</td>
+				<td width="20px">
+					&nbsp;	
+				</td>
+				<td width="100%" rowspan="20" valign="top">
+					<?php echo JText::_( 'Show on menu items' ); ?>:
+					<br />
+					<?php echo $lists['select']; ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				<?php echo JText::_( 'Lag' ); ?>:
+				</td>
+				<td>
+					<input class="inputbox" type="text" name="lag" size="10" value="<?php echo $row->lag; ?>" /> 
+					<?php echo JText::_( '(seconds between votes)' ); ?>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<br /><br />
+					<?php echo JText::_( 'Options' ); ?>:
 				</td>
 			</tr>
 			<?php
-		}
-		for (; $i < 12; $i++) {
+			for ($i=0, $n=count( $options ); $i < $n; $i++ ) {
+				?>
+				<tr>
+					<td>
+						<?php echo ($i+1); ?>
+					</td>
+					<td>
+						<input class="inputbox" type="text" name="polloption[<?php echo $options[$i]->id; ?>]" value="<?php echo stripslashes($options[$i]->text); ?>" size="60" />
+					</td>
+				</tr>
+				<?php
+			}
+			for (; $i < 12; $i++) {
+				?>
+				<tr>
+					<td>
+						<?php echo ($i+1); ?>
+					</td>
+					<td>
+						<input class="inputbox" type="text" name="polloption[]" value="" size="60" />
+					</td>
+				</tr>
+				<?php
+			}
 			?>
-			<tr>
-				<td>
-				<?php echo ($i+1); ?>
-				</td>
-				<td>
-				<input class="inputbox" type="text" name="polloption[]" value="" size="60"/>
-				</td>
-			</tr>
-			<?php
-		}
-		?>
-		</table>
+			</table>
+		</div>
 
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="option" value="com_poll" />

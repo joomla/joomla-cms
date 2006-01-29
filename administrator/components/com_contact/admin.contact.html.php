@@ -193,227 +193,235 @@ class HTML_contact {
 
 		<form action="index2.php" method="post" name="adminForm">
 
-		<table width="100%">
-		<tr>
-			<td width="60%" valign="top">
-				<table width="100%" class="adminform">
-				<tr>
-					<th colspan="2">
-					<?php echo JText::_( 'Contact Details' ); ?>
-					</th>
-				<tr>
-				<tr>
-					<td width="20%" align="right">
-					<?php echo JText::_( 'Category' ); ?>:
-					</td>
-					<td width="40%">
-					<?php echo $lists['catid'];?>
-					</td>
-				</tr>
-				<tr>
-					<td width="20%" align="right">
-					<?php echo JText::_( 'Linked to User' ); ?>:
-					</td>
-					<td >
-					<?php echo $lists['user_id'];?>
-					</td>
-				</tr>
-				<tr>
-					<td width="20%" align="right">
-					<?php echo JText::_( 'Name' ); ?>:
-					</td>
-					<td >
-					<input class="inputbox" type="text" name="name" size="50" maxlength="100" value="<?php echo $row->name; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-					<?php echo JText::_( 'Contact\'s Position' ); ?>:
-					</td>
-					<td>
-					<input class="inputbox" type="text" name="con_position" size="50" maxlength="50" value="<?php echo $row->con_position; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-					<?php echo JText::_( 'E-mail' ); ?>:
-					</td>
-					<td>
-					<input class="inputbox" type="text" name="email_to" size="50" maxlength="100" value="<?php echo $row->email_to; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-					<?php echo JText::_( 'Street Address' ); ?>:
-					</td>
-					<td>
-					<input class="inputbox" type="text" name="address" size="50" value="<?php echo $row->address; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-					<?php echo JText::_( 'Town/Suburb' ); ?>:
-					</td>
-					<td>
-					<input class="inputbox" type="text" name="suburb" size="50" maxlength="50" value="<?php echo $row->suburb;?>" />
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-					<?php echo JText::_( 'State/County' ); ?>:
-					</td>
-					<td>
-					<input class="inputbox" type="text" name="state" size="50" maxlength="20" value="<?php echo $row->state;?>" />
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-					<?php echo JText::_( 'Country' ); ?>:
-					</td>
-					<td>
-					<input class="inputbox" type="text" name="country" size="50" maxlength="50" value="<?php echo $row->country;?>" />
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-					<?php echo JText::_( 'Postal Code/ZIP' ); ?>:
-					</td>
-					<td>
-					<input class="inputbox" type="text" name="postcode" size="25" maxlength="10" value="<?php echo $row->postcode; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-					<?php echo JText::_( 'Telephone' ); ?>:
-					</td>
-					<td>
-					<input class="inputbox" type="text" name="telephone" size="25" maxlength="25" value="<?php echo $row->telephone; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td align="right">
-					<?php echo JText::_( 'Fax' ); ?>:
-					</td>
-					<td>
-					<input class="inputbox" type="text" name="fax" size="25" maxlength="25" value="<?php echo $row->fax; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td align="right" valign="top">
-					<?php echo JText::_( 'Miscellaneous Info' ); ?>:
-					</td>
-					<td>
-					<textarea name="misc" rows="5" cols="50" class="inputbox"><?php echo $row->misc; ?></textarea>
-					</td>
-				</tr>
-				<tr>
-				</table>
-			</td>
-			<td width="40%" valign="top">
-				<?php
-				$title = JText::_( 'Publishing' );
-				$tabs->startPane("content-pane");
-				$tabs->startTab( $title, "publish-page" );
-				?>
-				<table width="100%" class="adminform">
-				<tr>
-					<th colspan="2">
-					<?php echo JText::_( 'Publishing Info' ); ?>
-					</th>
-				<tr>
-				<tr>
-					<td valign="top" align="right">
-					<?php echo JText::_( 'Published' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['published']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right">
-					<?php echo JText::_( 'Ordering' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['ordering']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right">
-					<?php echo JText::_( 'Access' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['access']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">&nbsp;
-					</td>
-				</tr>
-				</table>
-				<?php
-				$title = JText::_( 'Images' );
-				$tabs->endTab();
-				$tabs->startTab( $title, "images-page" );
-				?>
-				<table width="100%" class="adminform">
-				<tr>
-					<th colspan="2">
-					<?php echo JText::_( 'Image Info' ); ?>
-					</th>
-				<tr>
-				<tr>
-					<td  width="20%">
-					<?php echo JText::_( 'Image' ); ?>:
-					</td>
-					<td >
-					<?php echo $lists['image']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td>
-					</td>
-					<td>
-					<script language="javascript" type="text/javascript">
-					if (document.forms[0].image.options.value!=''){
-						jsimg='../images/stories/' + getSelectedValue( 'adminForm', 'image' );
-					} else {
-						jsimg='../images/M_images/blank.png';
-					}
-					document.write('<img src=' + jsimg + ' name="imagelib" width="100" height="100" border="2" alt="<?php echo JText::_( 'Preview' ); ?>" />');
-					</script>
-					</td>
-				</tr>
-				</table>
-				<?php
-				$title = JText::_( 'Parameters' );
-				$tabs->endTab();
-				$tabs->startTab( $title, "params-page" );
-				?>
-				<table class="adminform">
-				<tr>
-					<th>
-					<?php echo JText::_( 'Parameters' ); ?>
-					</th>
-				</tr>
-				<tr>
-					<td>
-					<?php echo JText::_( 'DESCPARAMWHENCLICKCONTAC' ); ?>
-					<br /><br />
-					</td>
-				</tr>
-				<tr>
-					<td>
-					<?php echo $params->render();?>
-					</td>
-				</tr>
-				</table>
-				<?php
-				$tabs->endTab();
-				$tabs->endPane();
-				?>
-			</td>
-		</tr>
-		</table>
+		<div id="tablecell">				
+			<table width="100%">
+			<tr>
+				<td width="60%" valign="top">
+					<table width="100%" class="adminform">
+					<tr>
+						<th colspan="2">
+							<?php echo JText::_( 'Contact Details' ); ?>
+						</th>
+					<tr>
+					<tr>
+						<td width="20%" align="right">
+							<?php echo JText::_( 'Category' ); ?>:
+						</td>
+						<td width="40%">
+							<?php echo $lists['catid'];?>
+						</td>
+					</tr>
+					<tr>
+						<td width="20%" align="right">
+							<?php echo JText::_( 'Linked to User' ); ?>:
+						</td>
+						<td >
+							<?php echo $lists['user_id'];?>
+						</td>
+					</tr>
+					<tr>
+						<td width="20%" align="right">
+							<?php echo JText::_( 'Name' ); ?>:
+						</td>
+						<td >
+							<input class="inputbox" type="text" name="name" size="50" maxlength="100" value="<?php echo $row->name; ?>" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<?php echo JText::_( 'Contact\'s Position' ); ?>:
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="con_position" size="50" maxlength="50" value="<?php echo $row->con_position; ?>" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<?php echo JText::_( 'E-mail' ); ?>:
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="email_to" size="50" maxlength="100" value="<?php echo $row->email_to; ?>" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<?php echo JText::_( 'Street Address' ); ?>:
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="address" size="50" value="<?php echo $row->address; ?>" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<?php echo JText::_( 'Town/Suburb' ); ?>:
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="suburb" size="50" maxlength="50" value="<?php echo $row->suburb;?>" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<?php echo JText::_( 'State/County' ); ?>:
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="state" size="50" maxlength="20" value="<?php echo $row->state;?>" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<?php echo JText::_( 'Country' ); ?>:
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="country" size="50" maxlength="50" value="<?php echo $row->country;?>" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<?php echo JText::_( 'Postal Code/ZIP' ); ?>:
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="postcode" size="25" maxlength="10" value="<?php echo $row->postcode; ?>" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<?php echo JText::_( 'Telephone' ); ?>:
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="telephone" size="25" maxlength="25" value="<?php echo $row->telephone; ?>" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<?php echo JText::_( 'Fax' ); ?>:
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="fax" size="25" maxlength="25" value="<?php echo $row->fax; ?>" />
+						</td>
+					</tr>
+					<tr>
+						<td align="right" valign="top">
+							<?php echo JText::_( 'Miscellaneous Info' ); ?>:
+						</td>
+						<td>
+							<textarea name="misc" rows="5" cols="50" class="inputbox"><?php echo $row->misc; ?></textarea>
+						</td>
+					</tr>
+					<tr>
+					</table>
+				</td>
+				<td width="40%" valign="top">
+					<?php
+					$title = JText::_( 'Publishing' );
+					$tabs->startPane("content-pane");
+					$tabs->startTab( $title, "publish-page" );
+					?>
+						<table width="100%" class="adminform">
+						<tr>
+							<th colspan="2">
+								<?php echo JText::_( 'Publishing Info' ); ?>
+							</th>
+						<tr>
+						<tr>
+							<td valign="top" align="right">
+								<?php echo JText::_( 'Published' ); ?>:
+							</td>
+							<td>
+								<?php echo $lists['published']; ?>
+							</td>
+						</tr>
+						<tr>
+							<td valign="top" align="right">
+								<?php echo JText::_( 'Ordering' ); ?>:
+							</td>
+							<td>
+								<?php echo $lists['ordering']; ?>
+							</td>
+						</tr>
+						<tr>
+							<td valign="top" align="right">
+								<?php echo JText::_( 'Access' ); ?>:
+							</td>
+							<td>
+								<?php echo $lists['access']; ?>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								&nbsp;
+							</td>
+						</tr>
+						</table>
+					
+					<?php
+					$title = JText::_( 'Images' );
+					$tabs->endTab();
+					$tabs->startTab( $title, "images-page" );
+					?>
+					
+						<table width="100%" class="adminform">
+						<tr>
+							<th colspan="2">
+								<?php echo JText::_( 'Image Info' ); ?>
+							</th>
+						<tr>
+						<tr>
+							<td  width="20%">
+								<?php echo JText::_( 'Image' ); ?>:
+							</td>
+							<td >
+								<?php echo $lists['image']; ?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+							</td>
+							<td>
+								<script language="javascript" type="text/javascript">
+								if (document.forms[0].image.options.value!=''){
+									jsimg='../images/stories/' + getSelectedValue( 'adminForm', 'image' );
+								} else {
+									jsimg='../images/M_images/blank.png';
+								}
+								document.write('<img src=' + jsimg + ' name="imagelib" width="100" height="100" border="2" alt="<?php echo JText::_( 'Preview' ); ?>" />');
+								</script>
+							</td>
+						</tr>
+						</table>
+					
+					<?php
+					$title = JText::_( 'Parameters' );
+					$tabs->endTab();
+					$tabs->startTab( $title, "params-page" );
+					?>
+					
+						<table class="adminform">
+						<tr>
+							<th>
+								<?php echo JText::_( 'Parameters' ); ?>
+							</th>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'DESCPARAMWHENCLICKCONTAC' ); ?>
+								<br /><br />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo $params->render();?>
+							</td>
+						</tr>
+						</table>
+					
+					<?php
+					$tabs->endTab();
+					$tabs->endPane();
+					?>
+				</td>
+			</tr>
+			</table>
+		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />

@@ -255,169 +255,171 @@ class HTML_modules {
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
 
-		<table cellspacing="0" cellpadding="0" width="100%">
-		<tr valign="top">
-			<td width="60%">
-				<table class="adminform">
-				<tr>
-					<th colspan="2">
-					<?php echo JText::_( 'Details' ); ?>
-					</th>
-				<tr>
-				<tr>
-					<td valign="top">
-					<?php echo JText::_( 'Module Type' ); ?>:
-					</td>
-					<td>
-					<strong>
-					<?php echo JText::_($row->type); ?>
-					</strong>
-					</td>
-				</tr>
-				<tr>
-					<td width="100" >
-					<?php echo JText::_( 'Title' ); ?>:
-					</td>
-					<td>
-					<input class="text_area" type="text" name="title" size="35" value="<?php echo $row->title; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td valign="top">
-					<?php echo JText::_( 'Published' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['published']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" >
-					<?php echo JText::_( 'Position' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['position']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" >
-					<?php echo JText::_( 'Module Order' ); ?>:
-					</td>
-					<td>
-					<script language="javascript" type="text/javascript">
-					<!--
-					writeDynaList( 'class="inputbox" name="ordering" size="1"', orders, originalPos, originalPos, originalOrder );
-					//-->
-					</script>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" >
-					<?php echo JText::_( 'Access Level' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['access']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-					</td>
-				</tr>
-				<tr>
-					<td width="100" >
-					<?php echo JText::_( 'Show title' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['showtitle']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top">
-					<?php echo JText::_( 'ID' ); ?>:
-					</td>
-					<td>
-					<?php echo $row->id; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top">
-					<?php echo JText::_( 'Description' ); ?>:
-					</td>
-					<td>
-					<?php echo JText::_($row->description); ?>
-					</td>
-				</tr>
-				</table>
-
-				<?php
-				// Hide params for Custom/New modules
-				// Show custom.xml params for backward compat with existing custom modules
-				// that are used to show rss feeds
-				// extra backward compat check [$row->module == ''] can be depreciated in 1.2
-				if ( !$row->module == '' || $row->module == 'custom' ) {
-					// Render Parameter list
-					?>
+		<div id="tablecell">				
+			<table cellspacing="0" cellpadding="0" width="100%">
+			<tr valign="top">
+				<td width="60%">
 					<table class="adminform">
 					<tr>
-						<th >
-						<?php echo JText::_( 'Parameters' ); ?>
+						<th colspan="2">
+							<?php echo JText::_( 'Details' ); ?>
+						</th>
+					<tr>
+					<tr>
+						<td valign="top">
+							<?php echo JText::_( 'Module Type' ); ?>:
+						</td>
+						<td>
+							<strong>
+							<?php echo JText::_($row->type); ?>
+							</strong>
+						</td>
+					</tr>
+					<tr>
+						<td width="100" >
+							<?php echo JText::_( 'Title' ); ?>:
+						</td>
+						<td>
+							<input class="text_area" type="text" name="title" size="35" value="<?php echo $row->title; ?>" />
+						</td>
+					</tr>
+					<tr>
+						<td valign="top">
+							<?php echo JText::_( 'Published' ); ?>:
+						</td>
+						<td>
+							<?php echo $lists['published']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" >
+							<?php echo JText::_( 'Position' ); ?>:
+						</td>
+						<td>
+							<?php echo $lists['position']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" >
+							<?php echo JText::_( 'Module Order' ); ?>:
+						</td>
+						<td>
+							<script language="javascript" type="text/javascript">
+							<!--
+							writeDynaList( 'class="inputbox" name="ordering" size="1"', orders, originalPos, originalPos, originalOrder );
+							//-->
+							</script>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" >
+							<?php echo JText::_( 'Access Level' ); ?>:
+						</td>
+						<td>
+							<?php echo $lists['access']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+						</td>
+					</tr>
+					<tr>
+						<td width="100" >
+							<?php echo JText::_( 'Show title' ); ?>:
+						</td>
+						<td>
+							<?php echo $lists['showtitle']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top">
+							<?php echo JText::_( 'ID' ); ?>:
+						</td>
+						<td>
+							<?php echo $row->id; ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top">
+							<?php echo JText::_( 'Description' ); ?>:
+						</td>
+						<td>
+							<?php echo JText::_($row->description); ?>
+						</td>
+					</tr>
+					</table>
+	
+					<?php
+					// Hide params for Custom/New modules
+					// Show custom.xml params for backward compat with existing custom modules
+					// that are used to show rss feeds
+					// extra backward compat check [$row->module == ''] can be depreciated in 1.2
+					if ( !$row->module == '' || $row->module == 'custom' ) {
+						// Render Parameter list
+						?>
+						<table class="adminform">
+						<tr>
+							<th >
+								<?php echo JText::_( 'Parameters' ); ?>
+							</th>
+						<tr>
+						<tr>
+							<td>
+								<?php echo $params->render();?>
+							</td>
+						</tr>
+						</table>
+						<?php
+					}
+					?>
+				</td>
+				<td width="40%" >
+					<table width="100%" class="adminform">
+					<tr>
+						<th>
+							<?php echo JText::_( 'Pages / Items' ); ?>
 						</th>
 					<tr>
 					<tr>
 						<td>
-						<?php echo $params->render();?>
+							<?php echo JText::_( 'Menu Item Link(s)' ); ?>:
+							<br />
+							<?php echo $lists['selections']; ?>
 						</td>
 					</tr>
 					</table>
-					<?php
-				}
-				?>
-			</td>
-			<td width="40%" >
-				<table width="100%" class="adminform">
-				<tr>
-					<th>
-					<?php echo JText::_( 'Pages / Items' ); ?>
-					</th>
-				<tr>
-				<tr>
-					<td>
-					<?php echo JText::_( 'Menu Item Link(s)' ); ?>:
-					<br />
-					<?php echo $lists['selections']; ?>
-					</td>
-				</tr>
-				</table>
-			</td>
-		</tr>
-		<?php
-		if ( !$row->module || $row->module == 'custom' ) {
-			?>
-			<tr>
-				<td colspan="2">
-						<table width="100%" class="adminform">
-						<tr>
-							<th colspan="2">
-							<?php echo JText::_( 'Custom Output' ); ?>
-							</th>
-						<tr>
-						<tr>
-							<td valign="top" >
-							<?php echo JText::_( 'Content' ); ?>:
-							</td>
-							<td>
-							<?php
-							// parameters : areaname, content, hidden field, width, height, rows, cols
-							$editor =& JEditor::getInstance();
-							echo $editor->getEditor( 'editor1',  $row->content , 'content', '800', '400', '110', '40' ) ; ?>
-							</td>
-						</tr>
-						</table>
 				</td>
 			</tr>
 			<?php
-		}
-		?>
-		</table>
+			if ( !$row->module || $row->module == 'custom' ) {
+				?>
+				<tr>
+					<td colspan="2">
+							<table width="100%" class="adminform">
+							<tr>
+								<th colspan="2">
+									<?php echo JText::_( 'Custom Output' ); ?>
+								</th>
+							<tr>
+							<tr>
+								<td valign="top" >
+									<?php echo JText::_( 'Content' ); ?>:
+								</td>
+								<td>
+									<?php
+									// parameters : areaname, content, hidden field, width, height, rows, cols
+									$editor =& JEditor::getInstance();
+									echo $editor->getEditor( 'editor1',  $row->content , 'content', '800', '400', '110', '40' ) ; ?>
+								</td>
+							</tr>
+							</table>
+					</td>
+				</tr>
+				<?php
+			}
+			?>
+			</table>
+		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />

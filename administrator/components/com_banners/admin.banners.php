@@ -99,8 +99,7 @@ switch ($task) {
 		break;
 }
 
-function viewBanners( $option ) 
-{
+function viewBanners( $option ) {
 	global $database, $mainframe;
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_order", 		'filter_order', 	'b.bid' );
@@ -202,8 +201,8 @@ function editBanner( $bannerid, $option ) {
   	$yesno[] = mosHTML::makeOption( '1', JText::_( 'Yes' ) );
 	$yesno[] = mosHTML::makeOption( '0', JText::_( 'No' ) );
 
-  	$lists['showBanner'] = mosHTML::selectList( $yesno, 'showBanner', 'class="inputbox" size="1"' , 'value', 'text', $row->showBanner );
-
+	$lists['showBanner'] = mosHTML::yesnoradioList( 'showBanner', '', $row->showBanner );
+	
 	HTML_banners::bannerForm( $row, $lists, $option );
 }
 

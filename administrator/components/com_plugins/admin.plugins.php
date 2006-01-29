@@ -271,7 +271,6 @@ function editPlugin( $option, $uid, $client ) {
 		} else {
 			$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'This plugin cannot be reordered' );
 		}
-		$lists['folder'] = '<input type="hidden" name="folder" value="'. $row->folder .'" />'. $row->folder;
 
         $lang =& $mainframe->getLanguage();
         $lang->load( trim('bot_'. $row->element), JPATH_SITE );
@@ -293,17 +292,17 @@ function editPlugin( $option, $uid, $client ) {
 		$row->ordering 		= 999;
 		$row->published 	= 1;
 		$row->description 	= '';
-
-		$folders = JFolder::folders( JPATH_SITE . DS .'plugins'. DS );
-		$folders2 = array();
-		foreach ($folders as $folder) {
-			if (is_dir( JPATH_SITE . '/plugins/' . $folder ) && ( $folder <> 'CVS' ) ) {
-				$folders2[] = mosHTML::makeOption( $folder );
-			}
-		}
-		$lists['folder'] = mosHTML::selectList( $folders2, 'folder', 'class="inputbox" size="1"', 'value', 'text', null );
-		$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'DESCNEWITEMSDEFAULTLASTPLACE' );
 	}
+	
+	$folders = JFolder::folders( JPATH_SITE . DS .'plugins'. DS );
+	$folders2 = array();
+	foreach ($folders as $folder) {
+		if (is_dir( JPATH_SITE . '/plugins/' . $folder ) && ( $folder <> 'CVS' ) ) {
+			$folders2[] = mosHTML::makeOption( $folder );
+		}
+	}
+	$lists['folder'] = mosHTML::selectList( $folders2, 'folder', 'class="inputbox" size="1"', 'value', 'text', $row->folder );
+	$lists['ordering'] = '<input type="hidden" name="ordering" value="'. $row->ordering .'" />'. JText::_( 'DESCNEWITEMSDEFAULTLASTPLACE' );
 
 	$lists['published'] = mosHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
 

@@ -193,82 +193,85 @@ class HTML_weblinks {
 		}
 		</script>
 		<form action="index2.php" method="post" name="adminForm" id="adminForm">
-		<table width="100%">
-		<tr>
-			<td width="60%" valign="top">
-				<table class="adminform">
-				<tr>
-					<th colspan="2">
-					<?php echo JText::_( 'Details' ); ?>
-					</th>
-				</tr>
-				<tr>
-					<td width="20%" align="right">
-					<?php echo JText::_( 'Name' ); ?>:
-					</td>
-					<td width="80%">
-					<input class="text_area" type="text" name="title" size="50" maxlength="250" value="<?php echo $row->title;?>" />
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right">
-					<?php echo JText::_( 'Category' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['catid']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right">
-					<?php echo JText::_( 'URL' ); ?>:
-					</td>
-					<td>
-					<input class="text_area" type="text" name="url" value="<?php echo $row->url; ?>" size="50" maxlength="250" />
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right">
-					<?php echo JText::_( 'Description' ); ?>:
-					</td>
-					<td>
-					<textarea class="text_area" cols="50" rows="5" name="description" style="width:500px" width="500"><?php echo $row->description; ?></textarea>
-					</td>
-				</tr>
-
-				<tr>
-					<td valign="top" align="right">
-					<?php echo JText::_( 'Ordering' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['ordering']; ?>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right">
-					<?php echo JText::_( 'Published' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['published']; ?>
-					</td>
-				</tr>
-				</table>
-			</td>
-			<td width="40%" valign="top">
-				<table class="adminform">
-				<tr>
-					<th colspan="1">
-					<?php echo JText::_( 'Parameters' ); ?>
-					</th>
-				</tr>
-				<tr>
-					<td>
-					<?php echo $params->render();?>
-					</td>
-				</tr>
-				</table>
-			</td>
-		</tr>
-		</table>
+		
+		<div id="tablecell">				
+			<table width="100%">
+			<tr>
+				<td width="60%" valign="top">
+					<table class="adminform">
+					<tr>
+						<th colspan="2">
+							<?php echo JText::_( 'Details' ); ?>
+						</th>
+					</tr>
+					<tr>
+						<td width="20%" align="right">
+							<?php echo JText::_( 'Name' ); ?>:
+						</td>
+						<td width="80%">
+							<input class="text_area" type="text" name="title" size="50" maxlength="250" value="<?php echo $row->title;?>" />
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" align="right">
+							<?php echo JText::_( 'Published' ); ?>:
+						</td>
+						<td>
+							<?php echo $lists['published']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" align="right">
+							<?php echo JText::_( 'Category' ); ?>:
+						</td>
+						<td>
+							<?php echo $lists['catid']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" align="right">
+							<?php echo JText::_( 'URL' ); ?>:
+						</td>
+						<td>
+							<input class="text_area" type="text" name="url" value="<?php echo $row->url; ?>" size="50" maxlength="250" />
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" align="right">
+							<?php echo JText::_( 'Description' ); ?>:
+						</td>
+						<td>
+							<textarea class="text_area" cols="50" rows="5" name="description" style="width:500px" width="500"><?php echo $row->description; ?></textarea>
+						</td>
+					</tr>
+	
+					<tr>
+						<td valign="top" align="right">
+							<?php echo JText::_( 'Ordering' ); ?>:
+						</td>
+						<td>
+							<?php echo $lists['ordering']; ?>
+						</td>
+					</tr>
+					</table>
+				</td>
+				<td width="40%" valign="top">
+					<table class="adminform">
+					<tr>
+						<th colspan="1">
+							<?php echo JText::_( 'Parameters' ); ?>
+						</th>
+					</tr>
+					<tr>
+						<td>
+							<?php echo $params->render();?>
+						</td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+			</table>
+		</div>
 
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="cid[]" value="<?php echo $row->id; ?>" />

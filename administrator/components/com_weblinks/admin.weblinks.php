@@ -337,14 +337,14 @@ function orderWeblinks( $uid, $inc, $option ) {
 * Cancels an edit operation
 * @param string The current url option
 */
-function cancelWeblink( $option ) {
+function cancelWeblink() {
 	global $database;
 	
 	$row = new JWeblinkModel( $database );
 	$row->bind( $_POST );
 	$row->checkin();
 	
-	mosRedirect( "index2.php?option=". $option );
+	mosRedirect( 'index2.php?option=com_weblinks' );
 }
 
 function saveOrder( &$cid ) {

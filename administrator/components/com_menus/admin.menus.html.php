@@ -188,26 +188,17 @@ class HTML_menusections {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<style type="text/css">
-		fieldset {
-			border: 1px solid #777;
-		}
-		legend {
-			font-weight: bold;
-		}
-		</style>
-
 		<form action="index2.php" method="post" name="adminForm">
 		
-		<table class="adminheading">
+		<table width="100%">
 		<tr>
-			<td valign="bottom" nowrap style="color: red;">
+			<td valign="bottom" nowrap="nowrap" style="color: red;">
             <?php echo JText::_( 'DESCMENUGROUP' ); ?>
 			</td>
 		</tr>
 		</table>
 
-		<table class="adminform">
+		<table width="100%">
 		<tr>
 			<td width="50%" valign="top">
 				<fieldset>
@@ -320,7 +311,7 @@ class HTML_menusections {
 		<tr class="<?php echo "row$k"; ?>">
 			<td width="20">
 			</td>
-			<td style="height: 30px;">
+			<td style="height: 25px;">
 				<span class="editlinktip" style="cursor: pointer;">
 						<?php
 						echo mosToolTip( $row->descrip, $row->name, 250, '', $row->name, $link, 1 );
@@ -328,7 +319,7 @@ class HTML_menusections {
 				</span>
 			</td>
 			<td width="20">
-				<input type="radio" id="cb<?php echo $i;?>" name="type" value="<?php echo $row->type; ?>" onClick="isChecked(this.checked);" />
+				<input type="radio" id="cb<?php echo $i;?>" name="type" value="<?php echo $row->type; ?>" onclick="isChecked(this.checked);" />
 			</td>
 			<td width="20">
 			</td>
