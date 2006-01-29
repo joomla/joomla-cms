@@ -164,9 +164,9 @@ class JDocument extends JTemplate
 		$this->setNamespace( 'jdoc' );
 		
 		//add module directories
-		$this->addModuleDir('Function'    ,	dirname(__FILE__). DS. 'module'. DS .'functions');
-		$this->addModuleDir('OutputFilter', dirname(__FILE__). DS. 'module'. DS .'filters'  );
-		$this->addModuleDir('Renderer'    , dirname(__FILE__). DS. 'module'. DS .'renderers');
+		$this->addModuleDir('Function'    ,	dirname(__FILE__). DS. 'module'. DS .'function');
+		$this->addModuleDir('OutputFilter', dirname(__FILE__). DS. 'module'. DS .'filter'  );
+		$this->addModuleDir('Renderer'    , dirname(__FILE__). DS. 'module'. DS .'renderer');
 		
 	}
 
@@ -419,7 +419,7 @@ class JDocument extends JTemplate
 	 */
 	function execRenderer($type, $name, $params = array()) 
 	{
-		jimport('joomla.document.modules.renderer');
+		jimport('joomla.document.module.renderer');
 		
 		if(!$this->moduleExists('Renderer', ucfirst($type))) {
 			return false;
