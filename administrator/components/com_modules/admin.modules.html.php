@@ -255,7 +255,7 @@ class HTML_modules {
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="tablecell">				
+		<div id="editcell">				
 			<table cellspacing="0" cellpadding="0" width="100%">
 			<tr valign="top">
 				<td width="60%">

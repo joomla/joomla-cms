@@ -44,7 +44,7 @@ class HTML_massmail {
 
 		<form action="index2.php" name="adminForm" method="post">
 		
-		<div id="tablecell">				
+		<div id="editcell">				
 			<table class="adminform">
 			<thead>
 			<tr>

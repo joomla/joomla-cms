@@ -26,7 +26,7 @@ class HTML_syndicate {
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		
-		<div id="tablecell">				
+		<div id="editcell">				
 			<table class="adminform">
 			<thead>
 			<tr>

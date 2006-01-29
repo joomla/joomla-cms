@@ -193,7 +193,7 @@ class HTML_contact {
 
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="tablecell">				
+		<div id="editcell">				
 			<table width="100%">
 			<tr>
 				<td width="60%" valign="top">

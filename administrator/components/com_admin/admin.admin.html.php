@@ -562,7 +562,7 @@ class HTML_admin_misc {
 		}
 		</style>
 		
-		<div id="tablecell">				
+		<div id="editcell">				
 			<table class="adminform">
 			<tr>
 				<th width="50%" class="title">

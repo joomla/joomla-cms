@@ -268,7 +268,7 @@ class categories_html {
 
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="tablecell">				
+		<div id="editcell">				
 			<table width="100%">
 			<tr>
 				<td valign="top" width="60%">

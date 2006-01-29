@@ -312,7 +312,7 @@ class HTML_typedcontent {
 
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="tablecell">				
+		<div id="editcell">				
 			<table cellspacing="0" cellpadding="0" border="0" width="100%">
 			<tr>
 				<td width="60%" valign="top">

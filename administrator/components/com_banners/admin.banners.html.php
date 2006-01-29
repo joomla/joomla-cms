@@ -193,7 +193,7 @@ class HTML_banners {
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="tablecell">				
+		<div id="editcell">				
 			<table class="adminform">
 			<tr>
 				<th colspan="2">
@@ -452,7 +452,7 @@ class HTML_bannerClient {
 
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="tablecell">				
+		<div id="editcell">				
 			<table class="adminform">
 			<tr>
 				<th colspan="2">

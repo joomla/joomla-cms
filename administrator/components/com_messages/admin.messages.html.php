@@ -135,7 +135,7 @@ class HTML_messages {
 		</script>		
 		<form action="index2.php" method="post" name="adminForm">	
 
-		<div id="tablecell">				
+		<div id="editcell">				
 			<table class="adminform">
 			<tr>
 				<td width="20%">

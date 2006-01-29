@@ -45,7 +45,7 @@ class HTML_weblinks {
 		</tr>
 		</table>
 
-		<div id="tablecell">				
+		<div id="editcell">				
 			<table class="adminlist">
 			<tr>
 				<th width="5">

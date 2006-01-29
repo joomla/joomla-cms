@@ -198,7 +198,7 @@ class HTML_newsfeeds {
 
 		<form action="index2.php" method="post" name="adminForm">
 		
-		<div id="tablecell">				
+		<div id="editcell">				
 			<table class="adminform">
 			<tr>
 				<th colspan="2">

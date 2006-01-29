@@ -478,7 +478,7 @@ class JTemplatesView {
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		
-		<div id="tablecell">				
+		<div id="editcell">				
 			<table class="adminlist">
 			<tr>
 			<?php

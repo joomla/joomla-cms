@@ -46,7 +46,7 @@ class sections_html {
 		</tr>
 		</table>
 
-		<div id="tablecell">				
+		<div id="editcell">				
 			<table class="adminlist">
 			<tr>
 				<th width="20">
