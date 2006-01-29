@@ -254,16 +254,11 @@ function activate( $option ) {
 		echo JText::_( 'REG_ACTIVATE_NOT_FOUND' );
 		return;
 	}
-
-	/*
-	 * Get a JUser object
-	 */
-	$user = new JUser();
 	
 	/*
 	 * Lets activate this user.
 	 */
-	if ($user->activate($activation)) {
+	if (JUserHelper :: activate($activation)) {
 		echo JText::_( 'REG_ACTIVATE_COMPLETE' );
 	} else {
 		echo JText::_( 'REG_ACTIVATE_NOT_FOUND' );

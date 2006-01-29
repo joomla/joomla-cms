@@ -51,6 +51,7 @@ Legend:
 28-Jan-2006 Louis Landry 
  ^ Renamed auth plugins to authentication plugins
  # Fixed problem with 1 being displayed on events being triggered
+ ^ Moved activate method to new static JUserHelper class
 
 28-Jan-2006 Rey Gigataras 
  + `mod_rss` renamed `mod_feed`

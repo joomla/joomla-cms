@@ -214,59 +214,6 @@ class JUser extends JObject
 	}
 
 	/**
-	 * Method to activate a user
-	 *
-	 * @param	string	$activation	Activation string
-	 * @return 	boolean 			True on success
-	 * @since	1.1
-	 */
-	function activate($activation)
-	{
-		/*
-		 * Initialize some variables
-		 */
-		$db = & $this->_model->_db;
-		
-		/*
-		 * Load the user plugins and fire the onActivate event
-		 */
-		JPluginHelper::importGroup( 'user' );
-
-		/*
-		 * Lets get the id of the user we want to activate
-		 */
-		$query = "SELECT id"
-		. "\n FROM #__users"
-		. "\n WHERE activation = '$activation'"
-		. "\n AND block = 1"
-		;
-		$db->setQuery( $query );
-		$id = $db->loadResult();
-		
-		// Is it a valid user to activate?
-		if ($id) {
-			
-			$this->_load($id);
-			
-			$this->set('block', '0');
-			$this->set('activation', '');
-
-			/*
-			 * Time to take care of business.... store the user.
-			 */
-			if (!$this->_model->store()) {
-				$this->_setError("JUser::activate: ".$this->_model->getError());
-				return false;
-			}
-		} else {
-			$this->_setError("JUser::activate: ".JText::_('Unable to find a user with given activation string.'));
-			return false;
-		}
-		$results = $mainframe->triggerEvent( 'onActivate', $this->get('id') );
-		return true;
-	}
-	
-	/**
 	 * Method to bind an associative array of data to a user object
 	 * 
 	 * @access 	private
@@ -549,6 +496,73 @@ class JUser extends JObject
 	function _setError( $msg )
 	{
 		$this->_errorMsg .= $msg."\n";
+	}
+}
+
+/**
+ * Helper class for the JUser class.  Performs various tasks in correlation with
+ * the JUser class that don't logically fit inside the JUser object
+ *
+ * @author 		Louis Landry <louis@webimagery.net>
+ * @package 	Joomla.Framework
+ * @static
+ * @since 1.1
+ */
+class JUserHelper {
+
+	/**
+	 * Method to activate a user
+	 *
+	 * @param	string	$activation	Activation string
+	 * @return 	boolean 			True on success
+	 * @since	1.1
+	 */
+	function activate($activation)
+	{
+		global $mainframe;
+		/*
+		 * Initialize some variables
+		 */
+		$db = & $mainframe->getDBO();
+		
+		/*
+		 * Load the user plugins and fire the onActivate event
+		 */
+		JPluginHelper::importGroup( 'user' );
+
+		/*
+		 * Lets get the id of the user we want to activate
+		 */
+		$query = "SELECT id"
+		. "\n FROM #__users"
+		. "\n WHERE activation = '$activation'"
+		. "\n AND block = 1"
+		;
+		$db->setQuery( $query );
+		$id = $db->loadResult();
+		
+		// Is it a valid user to activate?
+		if ($id) {
+			
+			$user = JModel :: getInstance( 'user', $db );
+			$user->load($id);
+			
+			$user->set('block', '0');
+			$user->set('activation', '');
+
+			/*
+			 * Time to take care of business.... store the user.
+			 */
+			if (!$user->store()) {
+				JError::raiseWarning( "SOME_ERROR_CODE", "JUserHelper::activate: ".$user->getError() );
+				return false;
+			}
+		} else {
+			JError::raiseWarning( "SOME_ERROR_CODE", "JUserHelper::activate: ".JText::_('Unable to find a user with given activation string.') );
+			return false;
+		}
+		$results = $mainframe->triggerEvent( 'onActivate', $id );
+		return true;
 	}
 }
 ?>
