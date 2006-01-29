@@ -66,7 +66,7 @@ class separator_menu {
 		$lists['published'] 	= mosAdminMenus::Published( $menu );
 
 		// get params definitions
-		$params = new JParameters( $menu->params, JApplicationHelper::getPath( 'menu_xml', $menu->type ), 'menu' );
+		$params = new JParameter( $menu->params, JApplicationHelper::getPath( 'menu_xml', $menu->type ), 'menu' );
 
 		separator_menu_html::edit( $menu, $lists, $params, $option );
 	}

@@ -323,7 +323,7 @@ class JTemplatesController
 			$content = null;
 		}
 		
-		$params = new JParameters($content, $xml, 'template');
+		$params = new JParameter($content, $xml, 'template');
 
 		JTemplatesView :: editTemplateParams($p_tname, $params, $option, $client);
 	}

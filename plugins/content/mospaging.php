@@ -62,7 +62,7 @@ function botMosPaging( $published, &$row, &$params, $page=0 ) {
 	if ($n > 1) {
 
 		// Get plugin parameters
-	 	$pluginParams = new JParameters( $plugin->params );
+	 	$pluginParams = new JParameter( $plugin->params );
 	 	$title	= $pluginParams->def( 'title', 1 );
 		$hasToc = $pluginParams->def( 'multipage_toc', 1 );
 

@@ -60,7 +60,7 @@ jimport( 'joomla.model.model' );
 jimport( 'joomla.html' );
 jimport( 'joomla.factory' );
 jimport( 'joomla.filesystem.*' );
-jimport( 'joomla.parameter.parameters' );
+jimport( 'joomla.parameter.parameter' );
 jimport( 'joomla.i18n.language' );
 jimport( 'joomla.i18n.string' );
 jimport( 'joomla.event' );

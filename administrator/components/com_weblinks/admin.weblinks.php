@@ -205,7 +205,7 @@ function editWeblink( $option, $id ) {
 	$lists['published'] 		= mosHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
 
 	$file 	= JPATH_ADMINISTRATOR .'/components/com_weblinks/weblinks_item.xml';
-	$params = new JParameters( $row->params, $file, 'component' );
+	$params = new JParameter( $row->params, $file, 'component' );
 
 	HTML_weblinks::editWeblink( $row, $lists, $params, $option );
 }

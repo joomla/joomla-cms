@@ -107,7 +107,7 @@ class JContactController {
 			// Parameters
 			$menu = & JModel :: getInstance('menu', $db);
 			$menu->load($Itemid);
-			$params = new JParameters($menu->params);
+			$params = new JParameter($menu->params);
 
 			$params->def('page_title', 			1);
 			$params->def('header', 				$menu->name);
@@ -276,7 +276,7 @@ class JContactController {
 		 */
 		$menu 		= & JModel :: getInstance('menu', $db);
 		$menu->load($Itemid);
-		$menuParams = new JParameters($menu->params);
+		$menuParams = new JParameter($menu->params);
 
 		/*
 		 * Set some defaults for the menu item parameters
@@ -321,7 +321,7 @@ class JContactController {
 			}
 
 			// Adds parameter handling
-			$params = new JParameters($contact->params);
+			$params = new JParameter($contact->params);
 
 			$params->set('page_title', 			0);
 			$params->def('pageclass_sfx', 		'');
@@ -454,7 +454,7 @@ class JContactController {
 			JContactView :: viewContact($contact, $params, count($list), $list, $menuParams);
 		} else
 		{
-			$params = new JParameters('');
+			$params = new JParameter('');
 			$params->def('back_button', $mainframe->getCfg('back_button'));
 			JContactView :: noContact($params);
 		}
@@ -562,7 +562,7 @@ class JContactController {
 		} else {
 			$menu = JModel :: getInstance( 'menu', $db );
 			$menu->load( $Itemid );
-			$mparams = new JParameters( $menu->params );		
+			$mparams = new JParameter( $menu->params );		
 			$bannedEmail 	= $mparams->get( 'bannedEmail', 	'' );		
 			$bannedSubject 	= $mparams->get( 'bannedSubject', 	'' );		
 			$bannedText 	= $mparams->get( 'bannedText', 		'' );
@@ -611,7 +611,7 @@ class JContactController {
 			 * If we are supposed to copy the admin, do so.
 			 */
 			// parameter check
-			$params 		= new JParameters( $contact->params );		
+			$params 		= new JParameter( $contact->params );		
 			$emailcopyCheck = $params->get( 'email_copy', 0 );
 			
 			if ( $emailCopy && $emailcopyCheck ) {
@@ -655,7 +655,7 @@ class JContactController {
 		/*
 		 * Get the contact detail parameters
 		 */
-		$params = new JParameters($contact->params);
+		$params = new JParameter($contact->params);
 		$show 	= $params->get('vcard', 0);
 
 		/*

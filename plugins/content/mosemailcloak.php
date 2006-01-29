@@ -30,7 +30,7 @@ function botMosEmailCloak( $published, &$row, &$params, $page=0 ) {
 	}
 
 	// load plugin params info
- 	$pluginParams = new JParameters( $plugin->params );
+ 	$pluginParams = new JParameter( $plugin->params );
  	$mode		= $pluginParams->def( 'mode', 1 );
 
  	$search 	= "([[:alnum:]_\.\-]+)(\@[[:alnum:]\.\-]+\.+)([[:alnum:]\.\-]+)";

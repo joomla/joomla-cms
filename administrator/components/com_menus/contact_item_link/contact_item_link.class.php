@@ -74,7 +74,7 @@ class contact_item_link_menu {
 		$lists['link'] 		= mosAdminMenus::Link( $menu, $uid );
 
 		// get params definitions
-		$params = new JParameters( $menu->params, JApplicationHelper::getPath( 'menu_xml', $menu->type ), 'menu' );
+		$params = new JParameter( $menu->params, JApplicationHelper::getPath( 'menu_xml', $menu->type ), 'menu' );
 
 		contact_item_link_menu_html::edit( $menu, $lists, $params, $option, $contacts );
 	}

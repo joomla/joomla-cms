@@ -50,7 +50,7 @@ function botMosImage( $published, &$row, &$params, $page=0 ) {
  	// plugin only processes if there are any instances of the plugin in the text
  	if ( $count ) {
 		// load plugin params info
-	 	$pluginParams = new JParameters( $plugin->params );
+	 	$pluginParams = new JParameter( $plugin->params );
 
 	 	$pluginParams->def( 'padding' );
 	 	$pluginParams->def( 'margin' );

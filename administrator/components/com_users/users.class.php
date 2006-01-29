@@ -12,13 +12,13 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.parameter.parameters');
+jimport('joomla.parameter.parameter');
 
 /**
- * Legacy class, use JParameters instead
+ * Legacy class, use JParameter instead
  * @deprecated As of version 1.1
  */
-class mosUserParameters extends JParameters {
+class mosUserParameters extends JParameter {
 	function __construct() {
 		parent::__construct();
 	}

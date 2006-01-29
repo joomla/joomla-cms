@@ -72,7 +72,7 @@ $my   = $mainframe->getUser();
 $lang = $mainframe->getLanguage();
 
 $params = $database->loadResult();
-$my->params = new JParameters( $params );
+$my->params = new JParameter( $params );
 
 //render raw component output
 if($no_html == 1) {

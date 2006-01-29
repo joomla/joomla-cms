@@ -453,7 +453,7 @@ class JDocument extends JTemplate
 		 */
 		if ( file_exists( $directory.DS.$template.DS.'params.ini' ) ) {
 			$content = JFile::read($directory.DS.$template.DS.'params.ini');
-			$params = new JParameters($content);
+			$params = new JParameter($content);
 			$this->addVars( $filename, $params->toArray(), 'param_');
 		}
 	}

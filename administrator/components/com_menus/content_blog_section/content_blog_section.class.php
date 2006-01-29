@@ -41,7 +41,7 @@ class content_blog_section {
 		if ($uid) {
 			$menu->checkout( $my->id );
 			// get previously selected Categories
-			$params = new JParameters( $menu->params );
+			$params = new JParameter( $menu->params );
 			$secids = $params->def( 'sectionid', '' );
 			if ( $secids ) {
 				$query = "SELECT s.id AS `value`, s.id AS `id`, s.title AS `text`"
@@ -88,7 +88,7 @@ class content_blog_section {
 		$lists['link'] 		= mosAdminMenus::Link( $menu, $uid );
 
 		// get params definitions
-		$params = new JParameters( $menu->params, JApplicationHelper::getPath( 'menu_xml', $menu->type ), 'menu' );
+		$params = new JParameter( $menu->params, JApplicationHelper::getPath( 'menu_xml', $menu->type ), 'menu' );
 
 		content_blog_section_html::edit( $menu, $lists, $params, $option );
 	}

@@ -48,7 +48,7 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null ) {
 
 	// load plugin params info
  	$plugin =& JPluginHelper::getPlugin('search', 'content.searchbot'); 
- 	$pluginParams = new JParameters( $plugin->params );
+ 	$pluginParams = new JParameter( $plugin->params );
 
 	$sContent 	= $pluginParams->get( 'search_content', 	1 );
 	$sStatic 	= $pluginParams->get( 'search_static', 		1 );

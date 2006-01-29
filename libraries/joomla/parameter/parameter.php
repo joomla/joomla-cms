@@ -14,14 +14,14 @@
 jimport( 'joomla.registry.registry' );
 
 /**
- * Parameters handler
+ * Parameter handler
  *
  * @author 		Johan Janssens <johan@joomla.be>
  * @package 	Joomla.Framework
- * @subpackage 	Parameters
+ * @subpackage 	Parameter
  * @since 1.0
  */
-class JParameters extends JRegistry
+class JParameter extends JRegistry
 {
 	/** 
 	 * The raw params string
@@ -119,7 +119,7 @@ class JParameters extends JRegistry
 	}
 
 	/**
-	 * Render all the parameters
+	 * Render
 	 * 
 	 * @access public
 	 * @param string The name of the control, or the default text area if a setup file is not found
@@ -197,7 +197,7 @@ class JParameters extends JRegistry
 	* Loads an xml setup file and parses it
 	*
 	* @access	public
-	* @param	string	parameterType
+	* @param	string	path to xml setup file
 	* @return	object
 	* @since 1.1
 	*/

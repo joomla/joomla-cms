@@ -12,7 +12,7 @@
  */
 
 jimport( 'joomla.common.base.object' );
-jimport( 'joomla.parameter.parameters' );
+jimport( 'joomla.parameter.parameter' );
 
 /**
  * User class.  Handles all application interaction with a user
@@ -527,14 +527,14 @@ class JUser extends JObject
 	 * Create the parameters object
 	 * 
 	 * @access 	protected
-	 * @return 	object 			The JParameters instance
+	 * @return 	object 			The JParameter instance
 	 * @since 1.1
 	 */
 	function _createParameters()
 	{
 		$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
 		
-		$parameters =& new JParameters($data, $path);
+		$parameters =& new JParameter($data, $path);
 		return $parameters;
 	}
 	

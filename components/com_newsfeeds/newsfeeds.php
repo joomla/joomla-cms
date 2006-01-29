@@ -64,7 +64,7 @@ function listFeeds( $catid ) {
 	// Parameters
 	$menu =& JModel::getInstance('menu', $database );
 	$menu->load( $Itemid );
-	$params = new JParameters( $menu->params );
+	$params = new JParameter( $menu->params );
 	
 	$params->def( 'page_title', 		1 );
 	$params->def( 'header', 			$menu->name );
@@ -226,7 +226,7 @@ function showFeed( $option, $feedid ) {
 	// Adds parameter handling
 	$menu =& JModel::getInstance('menu', $database );
 	$menu->load( $Itemid );
-	$params = new JParameters( $menu->params );
+	$params = new JParameter( $menu->params );
 	$params->def( 'page_title', 1 );
 	$params->def( 'header', $menu->name );
 	$params->def( 'pageclass_sfx', '' );

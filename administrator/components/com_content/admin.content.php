@@ -624,7 +624,7 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 
 
 	// get params definitions
-	$params = new JParameters( $row->attribs, JApplicationHelper::getPath( 'com_xml', 'com_content' ), 'component' );
+	$params = new JParameter( $row->attribs, JApplicationHelper::getPath( 'com_xml', 'com_content' ), 'component' );
 
 	HTML_content::editContent( $row, $contentSection, $lists, $sectioncategories, $images, $params, $option, $redirect, $menus );
 }

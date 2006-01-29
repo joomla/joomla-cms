@@ -61,7 +61,7 @@ class patTemplate_Renderer_Module extends patTemplate_Renderer
 		$outline = isset($params['outline']) ? $params['outline'] : false;
 		
 		//get module parameters
-		$params = new JParameters( $module->params );
+		$params = new JParameter( $module->params );
 
 		//get module path
 		$path = JPATH_BASE . '/modules/'.$module->module.'/'.$module->module.'.php';

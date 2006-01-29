@@ -447,7 +447,7 @@ class JApplication extends JObject
 		if (intval( JSession::get('userid')) && $this->_user->id < 1) {
 
 			$this->_user->load(JSession::get('userid'));
-			$this->_user->params = new JParameters($this->_user->params);
+			$this->_user->params = new JParameter($this->_user->params);
 		}
 
 		return $this->_user;

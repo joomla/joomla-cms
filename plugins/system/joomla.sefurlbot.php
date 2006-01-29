@@ -34,7 +34,7 @@ function botJoomlaSEFUrl( ) {
 
 		// load plugin params info
 	 	$plugin =& JPluginHelper::getPlugin('system', 'joomla.sefurlbot');
-	 	$pluginParams = new JParameters( $plugin->params );
+	 	$pluginParams = new JParameter( $plugin->params );
 
 		$mod_rewrite_off = $pluginParams->get( 'mode', 0 );
 

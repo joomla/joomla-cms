@@ -26,7 +26,7 @@ function showWrap( $option ) {
 
 	$menu =& JModel::getInstance('menu', $database );
 	$menu->load( $Itemid );
-	$params = new JParameters( $menu->params );
+	$params = new JParameter( $menu->params );
 	$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
 	$params->def( 'scrolling', 'auto' );
 	$params->def( 'page_title', '1' );

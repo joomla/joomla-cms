@@ -361,13 +361,13 @@ class mosProfiler extends JProfiler {
 }
 
  /**
- * Legacy class, use JParameters instead
+ * Legacy class, use JParameter instead
  * 
  * @deprecated As of version 1.1
  * @package Joomla.Legacy
  * @subpackage 1.1
  */
-class mosParameters extends JParameters {
+class mosParameters extends JParameter {
 
 	/**
 	* @param string The raw parms text
@@ -379,7 +379,7 @@ class mosParameters extends JParameters {
 	}
 	
 	/**
-	 * Legacy function, use JParameters->toObject instead
+	 * Legacy function, use JParameter->toObject instead
 	 * 
 	 * @deprecated As of version 1.1
 	 */
@@ -388,7 +388,7 @@ class mosParameters extends JParameters {
 	}
 
 	/**
-	 * Legacy function, use JParameters->toArray instead
+	 * Legacy function, use JParameter->toArray instead
 	 * 
 	 * @deprecated As of version 1.1
 	 */

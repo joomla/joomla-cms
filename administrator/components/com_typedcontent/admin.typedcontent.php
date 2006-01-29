@@ -306,7 +306,7 @@ function edit( $uid, $option )
 	$lists['_caption_position'] = mosHTML::selectList( $pos, '_caption_position', 'class="inputbox" size="1"', 'value', 'text' );
 
 	// get params definitions
-	$params = new JParameters( $row->attribs, JApplicationHelper::getPath( 'com_xml', 'com_typedcontent' ), 'component' );
+	$params = new JParameter( $row->attribs, JApplicationHelper::getPath( 'com_xml', 'com_typedcontent' ), 'component' );
 
 	HTML_typedcontent::edit( $row, $images, $lists, $params, $option, $menus );
 }

@@ -306,7 +306,7 @@ function editPlugin( $option, $uid, $client ) {
 	$lists['published'] = mosHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published );
 
 	// get params definitions
-	$params = new JParameters( $row->params, JApplicationHelper::getPath( 'bot_xml', $row->folder.DS.$row->element ), 'plugin' );
+	$params = new JParameter( $row->params, JApplicationHelper::getPath( 'bot_xml', $row->folder.DS.$row->element ), 'plugin' );
 
 	HTML_modules::editPlugin( $row, $lists, $params, $option );
 }

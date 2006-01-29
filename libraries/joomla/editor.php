@@ -162,7 +162,7 @@ class JEditor extends JObservable {
 		 */
 		$my =& $mainframe->getUser();
 		if (isset ($my)) {
-			$params = new JParameters($my->params);
+			$params = new JParameter($my->params);
 			$editor = $params->get('editor', $editor);
 		}
 

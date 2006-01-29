@@ -43,7 +43,7 @@ function botMosLoadPosition( $published, &$row, &$params, $page=0 ) {
  	// plugin only processes if there are any instances of the plugin in the text
  	if ( $count ) {
 		// Get plugin parameters
-	 	$pluginParams = new JParameters( $plugin->params );
+	 	$pluginParams = new JParameter( $plugin->params );
 
 	 	$style	= $pluginParams->def( 'style', -2 );
 

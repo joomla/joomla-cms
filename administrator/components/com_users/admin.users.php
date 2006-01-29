@@ -265,7 +265,7 @@ function editUser( $uid='0', $option='users' ) {
 	$lists['sendEmail'] = mosHTML::yesnoRadioList( 'sendEmail', 'class="inputbox" size="1"', $row->sendEmail );
 
 	$file 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
-	$params =& new JParameters( $row->params, $file, 'component' );
+	$params =& new JParameter( $row->params, $file, 'component' );
 
 	HTML_users::edituser( $row, $contact, $lists, $option, $uid, $params );
 }

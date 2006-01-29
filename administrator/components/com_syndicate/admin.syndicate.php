@@ -56,7 +56,7 @@ function showSyndicate( $option ) {
 	$row->load( $id );
 
 	// get params definitions
-	$params = new JParameters( $row->params, JApplicationHelper::getPath( 'com_xml', $row->option ), 'component' );
+	$params = new JParameter( $row->params, JApplicationHelper::getPath( 'com_xml', $row->option ), 'component' );
 
 	HTML_syndicate::settings( $option, $params, $id );
 }

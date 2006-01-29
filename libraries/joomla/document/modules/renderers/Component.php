@@ -90,7 +90,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 			 * Load the component paramters
 			 */
 			if ($row) {
-				$params = new JParameters($row->params);
+				$params = new JParameter($row->params);
 			}
 
 			$content = '';

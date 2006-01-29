@@ -144,7 +144,7 @@ class JContentController
 		// Parameters
 		$menu 			= & JModel :: getInstance( 'menu', $db);
 		$menu->load($Itemid);
-		$params 		= new JParameters($menu->params);		
+		$params 		= new JParameter($menu->params);		
 		
 		$orderby_sec 	= $params->def( 'orderby_sec', 	'' );
 		$orderby_pri 	= $params->def( 'orderby_pri', 	'' );
@@ -222,11 +222,11 @@ class JContentController
 		{
 			$menu 	= & JModel :: getInstance( 'menu', $db );
 			$menu->load($Itemid);
-			$params = new JParameters($menu->params);
+			$params = new JParameter($menu->params);
 		} else
 		{
 			$menu = null;
-			$params = new JParameters();
+			$params = new JParameter();
 		}
 
 		// Set the display type parameter
@@ -389,11 +389,11 @@ class JContentController
 		if ($Itemid) {
 			$menu 		= & JModel :: getInstance( 'menu', $db);
 			$menu->load($Itemid);
-			$params 	= new JParameters($menu->params);
+			$params 	= new JParameter($menu->params);
 			$pagetitle 	= $menu->name;
 		} else {
 			$menu 		= null;
-			$params		= new JParameters();
+			$params		= new JParameter();
 			$pagetitle 	= null;
 		}
 		
@@ -562,11 +562,11 @@ class JContentController
 		{
 			$menu = & JModel :: getInstance( 'menu', $db );
 			$menu->load($Itemid);
-			$params = new JParameters($menu->params);
+			$params = new JParameter($menu->params);
 		} else
 		{
 			$menu = null;
-			$params = new JParameters(null);
+			$params = new JParameter(null);
 		}
 
 		// new blog multiple section handling
@@ -634,11 +634,11 @@ class JContentController
 		{
 			$menu 	= & JModel :: getInstance( 'menu', $db );
 			$menu->load($Itemid);
-			$params = new JParameters($menu->params);
+			$params = new JParameter($menu->params);
 		} else
 		{
 			$menu 	= null;
-			$params = new JParameters();
+			$params = new JParameter();
 		}
 
 		// new blog multiple section handling
@@ -707,11 +707,11 @@ class JContentController
 		{
 			$menu 	= & JModel :: getInstance( 'menu', $db );
 			$menu->load($Itemid);
-			$params = new JParameters($menu->params);
+			$params = new JParameter($menu->params);
 		} else
 		{
 			$menu = null;
-			$params = new JParameters();
+			$params = new JParameter();
 		}
 
 		$params->set('intro_only', 1);
@@ -808,11 +808,11 @@ class JContentController
 		{
 			$menu 	= & JModel :: getInstance( 'menu', $db );
 			$menu->load($Itemid);
-			$params = new JParameters($menu->params);
+			$params = new JParameter($menu->params);
 		} else
 		{
 			$menu 	= null;
-			$params = new JParameters();
+			$params = new JParameter();
 		}
 
 		$params->set('year', $year);
@@ -924,7 +924,7 @@ class JContentController
 				return;
 			}
 
-			$params = new JParameters($row->attribs);
+			$params = new JParameter($row->attribs);
 			$params->set('intro_only', 0);
 			$params->def('back_button', $mainframe->getCfg('back_button'));
 			if ($row->sectionid == 0) {
@@ -938,7 +938,7 @@ class JContentController
 				// Paramters for menu item as determined by controlling Itemid
 				$menu = & JModel :: getInstance( 'menu', $db );
 				$menu->load($Itemid);
-				$mparams = new JParameters($menu->params);
+				$mparams = new JParameter($menu->params);
 
 				// the following is needed as different menu items types utilise a different param to control ordering
 				// for Blogs the `orderby_sec` param is the order controlling param

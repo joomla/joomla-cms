@@ -41,7 +41,7 @@ class content_blog_category {
 		if ($uid) {
 			$menu->checkout( $my->id );
 			// get previously selected Categories
-			$params = new JParameters( $menu->params );
+			$params = new JParameter( $menu->params );
 			$catids = $params->def( 'categoryid', '' );
 			if ( $catids ) {
 				$query = "SELECT c.id AS `value`, c.section AS `id`, CONCAT_WS( ' / ', s.title, c.title) AS `text`"
@@ -90,7 +90,7 @@ class content_blog_category {
 		$lists['link'] 		= mosAdminMenus::Link( $menu, $uid );
 
 		// get params definitions
-		$params = new JParameters( $menu->params, JApplicationHelper::getPath( 'menu_xml', $menu->type ), 'menu' );
+		$params = new JParameter( $menu->params, JApplicationHelper::getPath( 'menu_xml', $menu->type ), 'menu' );
 
 		/* chipjack: passing $sectCatList (categories) instead of $slist (sections) */
 		content_blog_category_html::edit( $menu, $lists, $params, $option );

@@ -53,13 +53,13 @@ function viewSearch() {
 	if( $Itemid > 0 ) {
 		$menu =& JModel::getInstance('menu', $database );
 		$menu->load( $Itemid );
-		$params = new JParameters( $menu->params );
+		$params = new JParameter( $menu->params );
 		$params->def( 'page_title', 1 );
 		$params->def( 'pageclass_sfx', '' );
 		$params->def( 'header', $menu->name, JText::_( 'Search' ) );
 		$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
 	} else {
-		$params = new JParameters('');
+		$params = new JParameter('');
 		$params->def( 'page_title', 1 );
 		$params->def( 'pageclass_sfx', '' );
 		$params->def( 'header', JText::_( 'Search' ) );

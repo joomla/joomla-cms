@@ -65,7 +65,7 @@ class JEditor_tinymce extends JPlugin {
 		$id = $database->loadResult();
 		$plugin =& JModel::getInstance('plugin', $database); 
 		$plugin->load( $id );
-		$params = new JParameters( $plugin->params );
+		$params = new JParameter( $plugin->params );
 	
 		$theme = $params->get( 'theme', 'advanced' );
 		// handling for former default option

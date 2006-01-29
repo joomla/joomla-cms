@@ -489,7 +489,7 @@ function editModule( $option, $uid, $client, $module=NULL ) {
 	}
 
 	// get params definitions
-	$params = new JParameters( $row->params, $xmlfile, 'module' );
+	$params = new JParameter( $row->params, $xmlfile, 'module' );
 
 	HTML_modules::editModule( $row, $orders2, $lists, $params, $option, $client );
 }

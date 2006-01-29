@@ -32,7 +32,7 @@ function botNavigation( &$row, &$params, $page=0 ) {
 		// Paramters for menu item as determined by controlling Itemid
 		$menu = & JModel :: getInstance( 'menu', $db );
 		$menu->load($Itemid);
-		$mparams = new JParameters($menu->params);
+		$mparams = new JParameter($menu->params);
 		
 		// the following is needed as different menu items types utilise a different param to control ordering
 		// for Blogs the `orderby_sec` param is the order controlling param
@@ -140,7 +140,7 @@ function botNavigation( &$row, &$params, $page=0 ) {
 			
 			// Get Plugin info
 			$plugin =& JPluginHelper::getPlugin('content', 'josnavigation'); 	
-			$pluginParams = new JParameters( $plugin->params );			
+			$pluginParams = new JParameter( $plugin->params );			
 			
 			$position = $pluginParams->get('position', 1);
 

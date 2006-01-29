@@ -429,7 +429,7 @@ class JLanguage extends JObject
 		$files = JFolder::files($dir, '^([_A-Za-z]*)\.ini$');
 		foreach ($files as $file) {
 			if ($content = file_get_contents($dir.$file)) {
-				$langContent = JParameters::parse($content, false, true);
+				$langContent = JParameter::parse($content, false, true);
 				$lang = str_replace('.ini', '', $file);
 				$name = $lang;
 				if (isset ($langContent['__NAME'])) {

@@ -65,7 +65,7 @@ class JAuthenticateLdap extends JPlugin {
 
 		// load plugin parameters
 	 	$plugin =& JPluginHelper::getPlugin('auth', 'ldap'); 
-	 	$pluginParams = new JParameters( $plugin->params );
+	 	$pluginParams = new JParameter( $plugin->params );
 
 		$ldap = new JLDAP($pluginParams);
 		//print_r($ldap);

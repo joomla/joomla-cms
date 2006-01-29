@@ -38,7 +38,7 @@ function doUtfPDF ()
 	$row =& JModel::getInstance('content', $db );
 	$row->load( $id );
 
-	$params = new JParameters( $row->attribs );
+	$params = new JParameter( $row->attribs );
 	$params->def( 'author', 	!$mainframe->getCfg( 'hideAuthor' ) );
 	$params->def( 'createdate', !$mainframe->getCfg( 'hideCreateDate' ) );
 	$params->def( 'modifydate', !$mainframe->getCfg( 'hideModifyDate' ) );

@@ -25,7 +25,7 @@ $breadcrumbs->setItemName(1, 'Login');
 
 $menu =& JModel::getInstance('menu', $database );
 $menu->load( $Itemid );
-$params = new JParameters( $menu->params );
+$params = new JParameter( $menu->params );
 
 $params->def( 'page_title', 1 );
 $params->def( 'header_login', $menu->name );

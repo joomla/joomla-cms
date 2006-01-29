@@ -169,7 +169,7 @@ class WeblinksView {
 		$k = 0;
 		$i = 0;
 		foreach ($rows as $row) {
-			$iparams = new JParameters( $row->params );
+			$iparams = new JParameter( $row->params );
 
 			$link = sefRelToAbs( 'index.php?option=com_weblinks&task=view&catid='. $catid .'&id='. $row->id );
 			$link = ampReplace( $link );

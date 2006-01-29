@@ -187,7 +187,7 @@ function pollresult( $uid ) {
 	$menu =& JModel::getInstance('menu', $database );
 	$menu->load( $Itemid );
 
-	$params = new JParameters( $menu->params );
+	$params = new JParameter( $menu->params );
 	$params->def( 'page_title', 1 );
 	$params->def( 'pageclass_sfx', '' );
 	$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );

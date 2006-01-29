@@ -121,7 +121,7 @@ function initDocument( &$doc, $file = 'index.php' ) {
 	$row = new JModelMenu( $db );
 	$row->load( $Itemid );
 
-	$params 		= new JParameters( $row->params );
+	$params 		= new JParameter( $row->params );
 	$live_bookmark 	= $params->get( 'live_bookmark', '' );
 	if ($live_bookmark) {
 		$from = @$_SERVER['QUERY_STRING'];

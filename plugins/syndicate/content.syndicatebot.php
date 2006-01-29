@@ -34,7 +34,7 @@ function botSyndicateContent( $url, $limit ) {
 		// menu parameters
         $menu = new mosMenu( $database );
         $menu->load( $parts['Itemid'] );
-    	$MenuParams 	= new JParameters( $menu->params );
+    	$MenuParams 	= new JParameter( $menu->params );
 
     	$section       	= $MenuParams->get( 'sectionid', 0 );
     	$category      	= $MenuParams->get( 'categoryid', 0 );
@@ -42,7 +42,7 @@ function botSyndicateContent( $url, $limit ) {
     	$orderby_sec   	= $MenuParams->get( 'orderby_sec', 'rdate' );
         
 		$plugin 		= JPluginHelper::getPlugin('syndicate', 'content.syndicatebot'); 
-		$pluginParams 	= new JParameters( $plugin->params );
+		$pluginParams 	= new JParameter( $plugin->params );
 
     	$yItem       	= $pluginParams->get( 'itemContent', 	0 );
     	$yBlogSection   = $pluginParams->get( 'blogSection', 	1 );

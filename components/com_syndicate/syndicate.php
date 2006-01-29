@@ -48,7 +48,7 @@ function syndicate( $feed ) {
 		// meu paramss
 		$menu = new mosMenu( $database );
 		$menu->load( $Itemid );
-		$MenuParams 	= new JParameters( $menu->params );
+		$MenuParams 	= new JParameter( $menu->params );
 		$live_bookmark 	= $MenuParams->def( 'live_bookmark', '' );			
 		
 		// test if live bookmark is enabled for the menu page and it is the correct feed type enabled
@@ -92,7 +92,7 @@ function syndicate( $feed ) {
 	// load syndication parameters
 	$component =& JModel::getInstance('component', $database );
 	$component->load( $id );
-	$params = new JParameters( $component->params );
+	$params = new JParameter( $component->params );
 	
 	$limit		= $params->def( 'count', 5 );	
 	$from       = $_SERVER['QUERY_STRING'];
