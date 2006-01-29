@@ -585,7 +585,7 @@ if (!function_exists('html_entity_decode')) {
 function josMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null ) {
 	global $mainframe;
 
-	jimport('joomla.mail');
+	jimport('joomla.mail.mail');
 	
 	/*
 	 * Get a JMail instance

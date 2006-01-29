@@ -556,7 +556,7 @@ class JContactController {
 		 * If there is no valid email address or message body then we throw an
 		 * error and return false.
 		 */
-		jimport('joomla.mail');
+		jimport('joomla.mail.mail');
 		if (!$email || !$text || (JMailHelper :: isEmailAddress($email) == false)) {
 			JContactView :: emailError();
 		} else {

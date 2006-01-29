@@ -40,6 +40,12 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+29-Jan-2006 Johan Janssens
+ ^ Moved mail classes into mail library package
+ # Fixed artf3285 : White page on Your Details and Check-In My Items
+ # Fixed artf3263 : Unable to make new message in private messaging
+ # Fixed artf3271 : Category image not visible (path incorrect)
+ # Fixed artf3282 : Sample image is missing
 
 29-Jan-2006 Rey Gigataras 
  + `Move` & `Copy` ability added to "Static Content Manager"
