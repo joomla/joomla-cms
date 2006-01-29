@@ -90,7 +90,7 @@ class categories_html {
 			<?php
 			if ( $section == 'content') {
 				?>
-				<th width="12%"  class="title">
+				<th width="20%"  class="title">
 					<?php mosCommonHTML :: tableOrdering( 'Section', 'section_name', $lists ); ?>
 				</th>
 				<?php

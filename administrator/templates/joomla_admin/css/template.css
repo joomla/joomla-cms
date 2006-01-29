@@ -590,3 +590,38 @@ div.footer {
 	font-size: 12px;
 	list-style-image: url(../images/arrow.gif);
 }
+
+.helpIndex {
+	border: 0px;
+	width: 100%;
+	height: 100%;
+	padding: 0px 0px 0px 0px; 
+	overflow: auto;
+}
+.helpFrame {
+	border-left: 0px solid #222;
+	border-right: none;
+	border-top: none;
+	border-bottom: none;
+	width: 100%;
+	height: 800px;
+	padding: 0px 5px 0px 10px;
+}
+#treecellhelp {
+	width: 25%; 
+	display: block; 
+	position: relative; 
+	float: left;
+	margin: 0; 
+	padding: 2px;
+	overflow: hidden;
+}
+
+#datacellhelp {
+	width: 73%; 
+	display: block; 
+	float: left;
+	margin: 0; 
+	padding: 2px 0px 0px 0px;	
+}
+

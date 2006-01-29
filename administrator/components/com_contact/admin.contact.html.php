@@ -27,6 +27,7 @@ class HTML_contact {
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_contact" method="post" name="adminForm">
+		
 		<table class="adminheading">
 		<tr>
 			<td>

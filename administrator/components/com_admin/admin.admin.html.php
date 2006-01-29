@@ -24,8 +24,7 @@ class HTML_admin_misc {
 	/**
 	* Control panel
 	*/
-	function controlPanel() 
-	{
+	function controlPanel() {
 		global $mainframe;
 	
 		$path = JPATH_BASE . '/templates/' . $mainframe->getTemplate() . '/cpanel.php';
@@ -54,323 +53,370 @@ class HTML_admin_misc {
 
 		$width = 400;	// width of 100%
 		$tabs = new mosTabs(0);
-
-		$title = JText::_( 'System Info' );
-		$tabs->startPane("sysinfo");
-		$tabs->startTab( $title, "system-page" );
 		?>
-			<table class="adminform">
-			<tr>
-				<th colspan="2">
-				<?php echo JText::_( 'System Information' ); ?>
-				</th>
-			</tr>
-			<tr>
-				<td valign="top" width="250">
-					<strong><?php echo JText::_( 'PHP built On' ); ?>:</strong>
-				</td>
-				<td>
-					<?php echo php_uname(); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<strong><?php echo JText::_( 'Database Version' ); ?>:</strong>
-				</td>
-				<td>
-					<?php echo $database->getVersion(); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<strong><?php echo JText::_( 'Database Collation' ); ?>:</strong>
-				</td>
-				<td>
-					<?php echo $database->getCollation(); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<strong><?php echo JText::_( 'PHP Version' ); ?>:</strong>
-				</td>
-				<td>
-					<?php echo phpversion(); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<strong><?php echo JText::_( 'Web Server' ); ?>:</strong>
-				</td>
-				<td>
-					<?php echo HTML_admin_misc::get_server_software(); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<strong><?php echo JText::_( 'WebServer to PHP interface' ); ?>:</strong>
-				</td>
-				<td>
-					<?php echo php_sapi_name(); ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<strong><?php echo JText::_( 'Joomla! Version' ); ?>:</strong>
-				</td>
-				<td>
-					<?php echo $_VERSION->getLongVersion() ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<strong><?php echo JText::_( 'User Agent' ); ?>:</strong>
-				</td>
-				<td>
-					<?php echo phpversion() <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];?>
-				</td>
-			</tr>
-			<tr>
-				<td valign="top">
-					<strong><?php echo JText::_( 'Relevant PHP Settings' ); ?>:</strong>
-				</td>
-				<td>
-					<table cellspacing="1" cellpadding="1" border="0">
-					<tr>
-						<td>
-							<?php echo JText::_( 'Safe Mode' ); ?>:
-						</td>
-						<td>
-							<?php echo HTML_admin_misc::get_php_setting('safe_mode'); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Open basedir' ); ?>:
-						</td>
-						<td>
-							<?php echo (($ob = ini_get('open_basedir')) ? $ob : JText::_( 'none' ) ); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Display Errors' ); ?>:
-						</td>
-						<td>
-							<?php echo HTML_admin_misc::get_php_setting('display_errors'); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Short Open Tags' ); ?>:
-						</td>
-						<td>
-							<?php echo HTML_admin_misc::get_php_setting('short_open_tag'); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'File Uploads' ); ?>:
-						</td>
-						<td>
-							<?php echo HTML_admin_misc::get_php_setting('file_uploads'); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Magic Quotes' ); ?>:
-						</td>
-						<td>
-							<?php echo HTML_admin_misc::get_php_setting('magic_quotes_gpc'); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Register Globals' ); ?>:
-						</td>
-						<td>
-							<?php echo HTML_admin_misc::get_php_setting('register_globals'); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Output Buffering' ); ?>:
-						</td>
-						<td>
-							<?php echo HTML_admin_misc::get_php_setting('output_buffering'); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Session save path' ); ?>:
-						</td>
-						<td>
-							<?php echo (($sp=ini_get('session.save_path')) ? $sp : JText::_( 'none' ) ); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Session auto start' ); ?>:
-						</td>
-						<td>
-							<?php echo intval( ini_get( 'session.auto_start' ) ); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'XML enabled' ); ?>:
-						</td>
-						<td>
-						<?php echo extension_loaded('xml') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Zlib enabled' ); ?>:
-						</td>
-						<td>
-							<?php echo extension_loaded('zlib') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Disabled Functions' ); ?>:
-						</td>
-						<td>
-							<?php echo (($df=ini_get('disable_functions')) ? $df : JText::_( 'none' ) ); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Mbstring enabled' ); ?>:
-						</td>
-						<td>
-							<?php echo extension_loaded('mbstring') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Iconv available' ); ?>:
-						</td>
-						<td>
-							<?php echo function_exists('iconv') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
-						</td>
-					</tr>
-
-					<?php
-					$query = "SELECT name FROM #__plugins"
-					. "\nWHERE folder='editors' AND published='1'"
-					. "\nLIMIT 1";
-					$database->setQuery( $query );
-					$editor = $database->loadResult();
-					?>
-					<tr>
-						<td>
-							<?php echo JText::_( 'WYSIWYG Editor' ); ?>:
-						</td>
-						<td>
-							<?php echo $editor; ?>
-						</td>
-					</tr>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td valign="top">
-					<strong><?php echo JText::_( 'Configuration File' ); ?>:</strong>
-				</td>
-				<td>
-				<?php
-				$cf = file( JPATH_CONFIGURATION . '/configuration.php' );
-				foreach ($cf as $k=>$v) {
-					if (eregi( 'mosConfig_host', $v)) {
-						$cf[$k] = '$mosConfig_host = \'xxxxxx\'';
-					} else if (eregi( 'mosConfig_user', $v)) {
-						$cf[$k] = '$mosConfig_user = \'xxxxxx\'';
-					} else if (eregi( 'mosConfig_password', $v)) {
-						$cf[$k] = '$mosConfig_password = \'xxxxxx\'';
-					} else if (eregi( 'mosConfig_db ', $v)) {
-						$cf[$k] = '$mosConfig_db = \'xxxxxx\'';
-					} else if (eregi( '<?php', $v)) {
-						$cf[$k] = '&lt;?php';
-					}
-				}
-				echo implode( "<br />", $cf );
-				?>
-				</td>
-			</tr>
-			</table>
-		<?php
-		$title = JText::_( 'PHP Info' );
-		$tabs->endTab();
-		$tabs->startTab( $title, "php-page" );
-		?>
-			<table class="adminform">
-			<tr>
-				<th colspan="2">
-					<?php echo JText::_( 'PHP Information' ); ?>
-				</th>
-			</tr>
-			<tr>
-				<td>
-				<?php
-				ob_start();
-				phpinfo(INFO_GENERAL | INFO_CONFIGURATION | INFO_MODULES);
-				$phpinfo = ob_get_contents();
-				ob_end_clean();
-				preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpinfo, $output);
-				$output = preg_replace('#<table#', '<table class="adminlist" align="center"', $output[1][0]);
-				$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
-				$output = preg_replace('#border="0" cellpadding="3" width="600"#', 'border="0" cellspacing="1" cellpadding="4" width="95%"', $output);
-				$output = preg_replace('#<hr />#', '', $output);
-				echo $output;
-				?>
-				</td>
-			</tr>
-			</table>
-		<?php
-		$title = JText::_( 'Permissions' );
-		$tabs->endTab();
-		$tabs->startTab( $title, "perms" );
-		?>
-			<table class="adminform">
-			<tr>
-				<th colspan="2">
-					<?php echo JText::_( 'Directory Permissions' ); ?>
-				</th>
-			</tr>
-			<tr>
-				<td>
-					<strong><?php echo JText::_( 'DescDirWritable' ); ?>:</strong>
-					<?php
-					mosHTML::writableCell( 'administrator/backups' );
-					mosHTML::writableCell( 'administrator/components' );
-					mosHTML::writableCell( 'administrator/modules' );
-					mosHTML::writableCell( 'administrator/templates' );
-					mosHTML::writableCell( 'cache' );
-					mosHTML::writableCell( 'components' );
-					mosHTML::writableCell( 'images' );
-					mosHTML::writableCell( 'images/banners' );
-					mosHTML::writableCell( 'images/stories' );
-					mosHTML::writableCell( 'language' );
-					mosHTML::writableCell( 'plugins' );
-					mosHTML::writableCell( 'plugins/content' );
-					mosHTML::writableCell( 'plugins/editors' );
-					mosHTML::writableCell( 'plugins/editors-xtd' );
-					mosHTML::writableCell( 'plugins/search' );
-					mosHTML::writableCell( 'plugins/system' );
-					mosHTML::writableCell( 'plugins/user' );
-					mosHTML::writableCell( 'plugins/xmlrpc' );
-					mosHTML::writableCell( 'media' );
-					mosHTML::writableCell( 'modules' );
-					mosHTML::writableCell( 'templates' );
-					?>
-				</td>
-			</tr>
-			</table>
-		<?php
-		$tabs->endTab();
-		$tabs->endPane();
-		?>
+		
+		<fieldset title="Details">
+			<legend>
+				Details
+			</legend>
+				
+			<?php
+			$title = JText::_( 'System Info' );
+			$tabs->startPane("sysinfo");
+			$tabs->startTab( $title, "system-page" );
+			?>
+			
+				<table class="adminform">
+				<thead>
+				<tr>
+					<th colspan="2">
+						<?php echo JText::_( 'System Information' ); ?>
+					</th>
+				</tr>
+				</thead>
+				<tfoot>
+				<tr>
+					<th colspan="2">
+						&nbsp;
+					</th>
+				</tr>
+				</tfoot>			
+				<tbody>
+				<tr>
+					<td valign="top" width="250">
+						<strong><?php echo JText::_( 'PHP built On' ); ?>:</strong>
+					</td>
+					<td>
+						<?php echo php_uname(); ?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<strong><?php echo JText::_( 'Database Version' ); ?>:</strong>
+					</td>
+					<td>
+						<?php echo $database->getVersion(); ?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<strong><?php echo JText::_( 'Database Collation' ); ?>:</strong>
+					</td>
+					<td>
+						<?php echo $database->getCollation(); ?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<strong><?php echo JText::_( 'PHP Version' ); ?>:</strong>
+					</td>
+					<td>
+						<?php echo phpversion(); ?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<strong><?php echo JText::_( 'Web Server' ); ?>:</strong>
+					</td>
+					<td>
+						<?php echo HTML_admin_misc::get_server_software(); ?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<strong><?php echo JText::_( 'WebServer to PHP interface' ); ?>:</strong>
+					</td>
+					<td>
+						<?php echo php_sapi_name(); ?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<strong><?php echo JText::_( 'Joomla! Version' ); ?>:</strong>
+					</td>
+					<td>
+						<?php echo $_VERSION->getLongVersion() ?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<strong><?php echo JText::_( 'User Agent' ); ?>:</strong>
+					</td>
+					<td>
+						<?php echo phpversion() <= "4.2.1" ? getenv( "HTTP_USER_AGENT" ) : $_SERVER['HTTP_USER_AGENT'];?>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<strong><?php echo JText::_( 'Relevant PHP Settings' ); ?>:</strong>
+					</td>
+					<td>
+						<table cellspacing="1" cellpadding="1" border="0">
+						<tr>
+							<td>
+								<?php echo JText::_( 'Safe Mode' ); ?>:
+							</td>
+							<td>
+								<?php echo HTML_admin_misc::get_php_setting('safe_mode'); ?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Open basedir' ); ?>:
+							</td>
+							<td>
+								<?php echo (($ob = ini_get('open_basedir')) ? $ob : JText::_( 'none' ) ); ?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Display Errors' ); ?>:
+							</td>
+							<td>
+								<?php echo HTML_admin_misc::get_php_setting('display_errors'); ?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Short Open Tags' ); ?>:
+							</td>
+							<td>
+								<?php echo HTML_admin_misc::get_php_setting('short_open_tag'); ?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'File Uploads' ); ?>:
+							</td>
+							<td>
+								<?php echo HTML_admin_misc::get_php_setting('file_uploads'); ?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Magic Quotes' ); ?>:
+							</td>
+							<td>
+								<?php echo HTML_admin_misc::get_php_setting('magic_quotes_gpc'); ?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Register Globals' ); ?>:
+							</td>
+							<td>
+								<?php echo HTML_admin_misc::get_php_setting('register_globals'); ?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Output Buffering' ); ?>:
+							</td>
+							<td>
+								<?php echo HTML_admin_misc::get_php_setting('output_buffering'); ?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Session save path' ); ?>:
+							</td>
+							<td>
+								<?php echo (($sp=ini_get('session.save_path')) ? $sp : JText::_( 'none' ) ); ?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Session auto start' ); ?>:
+							</td>
+							<td>
+								<?php echo intval( ini_get( 'session.auto_start' ) ); ?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'XML enabled' ); ?>:
+							</td>
+							<td>
+							<?php echo extension_loaded('xml') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Zlib enabled' ); ?>:
+							</td>
+							<td>
+								<?php echo extension_loaded('zlib') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Disabled Functions' ); ?>:
+							</td>
+							<td>
+								<?php echo (($df=ini_get('disable_functions')) ? $df : JText::_( 'none' ) ); ?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Mbstring enabled' ); ?>:
+							</td>
+							<td>
+								<?php echo extension_loaded('mbstring') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Iconv available' ); ?>:
+							</td>
+							<td>
+								<?php echo function_exists('iconv') ? JText::_( 'Yes' ) : JText::_( 'No' ); ?>
+							</td>
+						</tr>
+	
+						<?php
+						$query = "SELECT name FROM #__plugins"
+						. "\nWHERE folder='editors' AND published='1'"
+						. "\nLIMIT 1";
+						$database->setQuery( $query );
+						$editor = $database->loadResult();
+						?>
+						<tr>
+							<td>
+								<?php echo JText::_( 'WYSIWYG Editor' ); ?>:
+							</td>
+							<td>
+								<?php echo $editor; ?>
+							</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<strong><?php echo JText::_( 'Configuration File' ); ?>:</strong>
+					</td>
+					<td>
+						<?php
+						$cf = file( JPATH_CONFIGURATION . '/configuration.php' );
+						foreach ($cf as $k=>$v) {
+							if (eregi( 'mosConfig_host', $v)) {
+								$cf[$k] = '$mosConfig_host = \'xxxxxx\'';
+							} else if (eregi( 'mosConfig_user', $v)) {
+								$cf[$k] = '$mosConfig_user = \'xxxxxx\'';
+							} else if (eregi( 'mosConfig_password', $v)) {
+								$cf[$k] = '$mosConfig_password = \'xxxxxx\'';
+							} else if (eregi( 'mosConfig_db ', $v)) {
+								$cf[$k] = '$mosConfig_db = \'xxxxxx\'';
+							} else if (eregi( '<?php', $v)) {
+								$cf[$k] = '&lt;?php';
+							}
+						}
+						echo implode( "<br />", $cf );
+						?>
+					</td>
+				</tr>
+				</tbody>
+				</table>
+				
+			<?php
+			$title = JText::_( 'PHP Info' );
+			$tabs->endTab();
+			$tabs->startTab( $title, "php-page" );
+			?>
+			
+				<table class="adminform">
+				<thead>
+				<tr>
+					<th colspan="2">
+						<?php echo JText::_( 'PHP Information' ); ?>
+					</th>
+				</tr>
+				</thead>
+				<tfoot>
+				<tr>
+					<th colspan="2">
+						&nbsp;
+					</th>
+				</tr>
+				</tfoot>			
+				<tbody>
+				<tr>
+					<td>
+						<?php
+						ob_start();
+						phpinfo(INFO_GENERAL | INFO_CONFIGURATION | INFO_MODULES);
+						$phpinfo = ob_get_contents();
+						ob_end_clean();
+						preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpinfo, $output);
+						$output = preg_replace('#<table#', '<table class="adminlist" align="center"', $output[1][0]);
+						$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
+						$output = preg_replace('#border="0" cellpadding="3" width="600"#', 'border="0" cellspacing="1" cellpadding="4" width="95%"', $output);
+						$output = preg_replace('#<hr />#', '', $output);
+						echo $output;
+						?>
+					</td>
+				</tr>
+				</tbody>
+				</table>
+				
+			<?php
+			$title = JText::_( 'Permissions' );
+			$tabs->endTab();
+			$tabs->startTab( $title, "perms" );
+			?>
+			
+				<table class="adminform">
+				<thead>
+				<tr>
+					<th colspan="2">
+						<?php echo JText::_( 'Directory Permissions' ); ?>
+					</th>
+				</tr>
+				</thead>
+				<tfoot>
+				<tr>
+					<th colspan="2">
+						&nbsp;
+					</th>
+				</tr>
+				</tfoot>			
+				<tbody>
+				<tr>
+					<td>
+						<strong><?php echo JText::_( 'DescDirWritable' ); ?>:</strong>
+						<?php
+						mosHTML::writableCell( 'administrator/backups' );
+						mosHTML::writableCell( 'administrator/components' );
+						mosHTML::writableCell( 'administrator/modules' );
+						mosHTML::writableCell( 'administrator/templates' );
+						mosHTML::writableCell( 'cache' );
+						mosHTML::writableCell( 'components' );
+						mosHTML::writableCell( 'images' );
+						mosHTML::writableCell( 'images/banners' );
+						mosHTML::writableCell( 'images/stories' );
+						mosHTML::writableCell( 'language' );
+						mosHTML::writableCell( 'plugins' );
+						mosHTML::writableCell( 'plugins/content' );
+						mosHTML::writableCell( 'plugins/editors' );
+						mosHTML::writableCell( 'plugins/editors-xtd' );
+						mosHTML::writableCell( 'plugins/search' );
+						mosHTML::writableCell( 'plugins/system' );
+						mosHTML::writableCell( 'plugins/user' );
+						mosHTML::writableCell( 'plugins/xmlrpc' );
+						mosHTML::writableCell( 'media' );
+						mosHTML::writableCell( 'modules' );
+						mosHTML::writableCell( 'templates' );
+						?>
+					</td>
+				</tr>
+				</tbody>
+				</table>
+				
+			<?php
+			$tabs->endTab();
+			$tabs->endPane();
+			?>
+		</fieldset>
 		<?php
 	}
 
@@ -391,8 +437,7 @@ class HTML_admin_misc {
 	/**
 	 * Display Help Page
 	 */
-	function help() 
-	{
+	function help() {
 		$helpurl 	= mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
 
 		if ( $helpurl == 'http://help.mamboserver.com' ) {
@@ -408,25 +453,8 @@ class HTML_admin_misc {
 			$page .= '.xml';
 		}
 		?>
-		<style type="text/css">
-		.helpIndex {
-			border: 0px;
-			width: 95%;
-			height: 100%;
-			padding: 0px 5px 0px 10px;
-			overflow: auto;
-		}
-		.helpFrame {
-			border-left: 0px solid #222;
-			border-right: none;
-			border-top: none;
-			border-bottom: none;
-			width: 100%;
-			height: 700px;
-			padding: 0px 5px 0px 10px;
-		}
-		</style>
-		<form name="adminForm">
+		<form action="index2.php?option=com_admin&amp;task=help" method="post" name="adminForm">
+		
 		<table class="adminform" border="1">
 		<tr>
 			<td colspan="2">
@@ -438,64 +466,79 @@ class HTML_admin_misc {
 							<input type="text" name="helpsearch" value="<?php echo $helpsearch;?>" class="inputbox" />
 							<input type="submit" value="<?php echo JText::_( 'Go' ); ?>" class="button" />
 							<input type="button" value="<?php echo JText::_( 'Clear Results' ); ?>" class="button" onclick="f=document.adminForm;f.helpsearch.value='';f.submit()" />
-							</td>
-							<td style="text-align:right">
+						</td>
+						<td style="text-align:right">
 							<?php
 							if ($helpurl) {
 							?>
-							<?php echo mosHTML::Link($fullhelpurl.'joomla.glossary', JText::_( 'Glossary' ), array('target' => 'helpFrame')) ?>
+							<?php echo mosHTML::Link($fullhelpurl.'joomla.glossary', JText::_( 'Glossary' ), array('target' => '"helpFrame"')) ?>
 							|
-							<?php echo mosHTML::Link($fullhelpurl.'joomla.credits', JText::_( 'Credits' ), array('target' => 'helpFrame')) ?>
+							<?php echo mosHTML::Link($fullhelpurl.'joomla.credits', JText::_( 'Credits' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo mosHTML::Link($fullhelpurl.'joomla.support', JText::_( 'Support' ), array('target' => 'helpFrame')) ?>
+							<?php echo mosHTML::Link($fullhelpurl.'joomla.support', JText::_( 'Support' ), array('target' => "'helpFrame'")) ?>
 							<?php
 							} else {
 							?>
-							<?php echo mosHTML::Link('/help/joomla.glossary.html', JText::_( 'Glossary' ), array('target' => 'helpFrame')) ?>
+							<?php echo mosHTML::Link('/help/joomla.glossary.html', JText::_( 'Glossary' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo mosHTML::Link('/help/joomla.credits.html', JText::_( 'Credits' ), array('target' => 'helpFrame')) ?>
+							<?php echo mosHTML::Link('/help/joomla.credits.html', JText::_( 'Credits' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo mosHTML::Link('/help/joomla.support.html', JText::_( 'Support' ), array('target' => 'helpFrame')) ?>
+							<?php echo mosHTML::Link('/help/joomla.support.html', JText::_( 'Support' ), array('target' => "'helpFrame'")) ?>
 							<?php
 							}
 							?>
 							|
-							<?php echo mosHTML::Link('http://www.gnu.org/copyleft/gpl.html', JText::_( 'License' ), array('target' => 'helpFrame')) ?>
+							<?php echo mosHTML::Link('http://www.gnu.org/copyleft/gpl.html', JText::_( 'License' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo mosHTML::Link('http://help.joomla.org', 'help.joomla.org', array('target' => '_blank')) ?>
+							<?php echo mosHTML::Link('http://help.joomla.org', 'help.joomla.org', array('target' => '"_blank"')) ?>
 							|
-							<?php echo mosHTML::Link('/administrator/index3.php?option=com_admin&task=changelog', JText::_( 'Changelog' ), array('target' => 'helpFrame')) ?>
+							<?php echo mosHTML::Link('/administrator/index3.php?option=com_admin&task=changelog', JText::_( 'Changelog' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo mosHTML::Link('/administrator/index3.php?option=com_admin&task=sysinfo', JText::_( 'System Info' ), array('target' => 'helpFrame')) ?>
+							<?php echo mosHTML::Link('/administrator/index3.php?option=com_admin&task=sysinfo', JText::_( 'System Info' ), array('target' => "'helpFrame'")) ?>
 							|
-							<?php echo mosHTML::Link('http://www.joomla.org/content/blogcategory/32/66/', JText::_( 'Latest Version Check' ), array('target' => '_blank')) ?>
+							<?php echo mosHTML::Link('http://www.joomla.org/content/blogcategory/32/66/', JText::_( 'Latest Version Check' ), array('target' => '"_blank"')) ?>
 						</td>
 					</tr>
 				</table>
 			</td>
-		</tr>
-		<tr valign="top">
-			<td width="20%" valign="top">
-				<strong><?php echo JText::_( 'Index' ); ?></strong>
-				<div class="helpIndex">
-				<?php
-				foreach ($toc as $k=>$v) {
-					if ($helpurl) {
-						echo '<br />';
-						echo mosHTML::Link($fullhelpurl . urlencode( $k ), $v, array('target' => 'helpFrame'));
-					} else {
-						echo '<br />';
-						echo mosHTML::Link('/help/'.$k, $v, array('target' => 'helpFrame'));
-					}
-				}
-				?>
-				</div>
-			</td>
-			<td valign="top">
-				<iframe name="helpFrame" src="<?php echo 'help/eng_GB/' . $page;?>" class="helpFrame" frameborder="0" /></iframe>
-			</td>
-		</tr>
+		</tr>		
 		</table>
+				
+		<div id="treecellhelp">
+			<fieldset title="Index">
+				<legend>
+					<?php echo JText::_( 'Index' ); ?>
+				</legend>
+				
+				<div class="helpIndex">
+					<ul class="subext">
+						<?php
+						foreach ($toc as $k=>$v) {
+							if ($helpurl) {
+								echo '<li>';
+								echo mosHTML::Link($fullhelpurl . urlencode( $k ), $v, array('target' => "'helpFrame'"));
+								echo '</li>';
+							} else {
+								echo '<li>';
+								echo mosHTML::Link('/help/'.$k, $v, array('target' => "'helpFrame'"));
+								echo '</li>';
+							}
+						}
+						?>
+					</ul>
+				</div>
+			</fieldset>
+		</div>
+		
+		<div id="datacellhelp">
+			<fieldset title="Details">
+				<legend>
+					Details
+				</legend>					
+				
+				<iframe name="helpFrame" src="<?php echo 'help/eng_GB/' . $page;?>" class="helpFrame" frameborder="0"></iframe>
+			</fieldset>
+		</div>			
 
 		<input type="hidden" name="task" value="help" />
 		</form>
@@ -505,8 +548,7 @@ class HTML_admin_misc {
 	/**
 	* Preview site
 	*/
-	function preview( $tp=0 ) 
-	{
+	function preview( $tp=0 ) {
 		global $mainframe;
 		
 		$tp = intval( $tp );
@@ -522,15 +564,15 @@ class HTML_admin_misc {
 		<table class="adminform">
 		<tr>
 			<th width="50%" class="title">
-			<?php echo JText::_( 'Site Preview' ); ?>
+				<?php echo JText::_( 'Site Preview' ); ?>
 			</th>
 			<th width="50%" style="text-align:right">
-			<?php echo mosHTML::Link('index.php?tp='.$tp, JText::_( 'Open in new window' ), array('target' => '_blank')); ?>
+				<?php echo mosHTML::Link('index.php?tp='.$tp, JText::_( 'Open in new window' ), array('target' => '_blank')); ?>
 			</th>
 		</tr>
 		<tr>
 			<td width="100%" valign="top" colspan="2">
-			<?php echo mosHTML::Iframe($mainframe->getSiteURL().'index.php?tp='.$tp,'previewFrame',  array('class' => 'previewFrame')) ?>
+				<?php echo mosHTML::Iframe($mainframe->getSiteURL().'index.php?tp='.$tp,'previewFrame',  array('class' => 'previewFrame')) ?>
 			</td>
 		</tr>
 		</table>

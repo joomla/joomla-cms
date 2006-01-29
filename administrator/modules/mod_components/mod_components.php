@@ -75,7 +75,7 @@ foreach ($comps as $row) {
 							<table width="100%" class="adminlist">
 							<tr>
 								<td align="center" style="text-align: center; font-weight: bold;">
-									<a href="index2.php?option=com_admin&task=listcomponents"><?php echo JText::_( 'Full Component List' ); ?></a>
+									<a href="index2.php?option=com_admin&amp;task=listcomponents"><?php echo JText::_( 'Full Component List' ); ?></a>
 								</td>
 							</tr>
 							</table>
