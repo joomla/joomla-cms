@@ -6,7 +6,7 @@ require_once( dirname(__FILE__)  .'/../libraries/loader.php' );
 * @deprecated As of version 1.1
 */
 jimport( 'joomla.database.database' );
-jimport( 'joomla.database.adapters.mysql' );
+jimport( 'joomla.database.database.mysql' );
 /**
  * @package Joomla
  * @deprecated As of version 1.1

@@ -13,7 +13,7 @@
 */
 
 jimport( 'joomla.database.database' );
-jimport( 'joomla.database.adapters.mysql' );
+jimport( 'joomla.database.database.mysql' );
 jimport( 'joomla.model.model' );
 jimport( 'joomla.model.adapters.*' );
 
