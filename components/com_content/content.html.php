@@ -61,7 +61,7 @@ class JContentView
 				// Displays listing of Categories
 				if (count($categories) > 0) {
 					if ($params->get('other_cat_section')) {
-						JContentView :: showCategories($params, new stdClass(), $gid, $categories, new stdClass(), $section->id, $Itemid);
+						JContentView :: showCategories($params, new stdClass(), $gid, $categories, null, $section->id, $Itemid);
 					}
 				}
 				?>

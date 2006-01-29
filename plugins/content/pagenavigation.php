@@ -22,11 +22,18 @@ function botNavigation( &$row, &$params, $page=0 ) {
 	$html 		= '';
 	$db 		= & $mainframe->getDBO();
 	$my			= & $mainframe->getUser();
+	$acl		= JFactory :: getACL();
 	$nullDate	= $db->getNullDate();
 	$now 		= date('Y-m-d H:i', time() + $mainframe->getCfg('offset') * 60 * 60);
 	$uid 		= $row->id;
 	$option 	= 'com_content';
 	$task 		= JRequest::getVar( 'task' );
+
+	// Editor access object
+	$access = new stdClass();
+	$access->canEdit 	= $acl->acl_check('action', 'edit', 'users', $my->usertype, 'content', 'all');
+	$access->canEditOwn = $acl->acl_check('action', 'edit', 'users', $my->usertype, 'content', 'own');
+	$access->canPublish = $acl->acl_check('action', 'publish', 'users', $my->usertype, 'content', 'all');
 
 	if ($params->get('item_navigation') && ($task == 'view') && !$params->get('popup')) {
 		// Paramters for menu item as determined by controlling Itemid
@@ -139,7 +146,7 @@ function botNavigation( &$row, &$params, $page=0 ) {
 			;
 			
 			// Get Plugin info
-			$plugin =& JPluginHelper::getPlugin('content', 'josnavigation'); 	
+			$plugin =& JPluginHelper::getPlugin('content', 'pagenavigation'); 	
 			$pluginParams = new JParameter( $plugin->params );			
 			
 			$position = $pluginParams->get('position', 1);

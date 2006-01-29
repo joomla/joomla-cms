@@ -66,14 +66,23 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 		$query = 	"SELECT enabled, params" .
 					"\n FROM `#__components`" .
 					"\n WHERE `parent` = 0" .
-					"\n AND `option` = '$component'";
+					"\n AND `option` = '$component'" .
+					"LIMIT 1";
 		$database->setQuery($query);
 		$database->loadObject($row);
+		
+		if (!is_object($row))
+		{
+			$row = new stdClass();
+			$row->enabled	= false;
+			$row->params	= null;
+		}
 		
 		/*
 		 * A static array of components that are always enabled
 		 */
 		$enabledList = array('com_content', 'com_frontpage', 'com_user');
+
 
 		/*
 		 * Is the component enabled?
