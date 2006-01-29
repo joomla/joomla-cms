@@ -299,7 +299,7 @@ class JEditor_tinymce extends JPlugin {
 		
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 		
-		$results = $dispatcher->dispatch( 'onCustomEditorButton' );
+		$results = $dispatcher->trigger( 'onCustomEditorButton' );
 
 		$buttons = array();
 		foreach ($results as $result) {

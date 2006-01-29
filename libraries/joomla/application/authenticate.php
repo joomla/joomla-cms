@@ -107,7 +107,7 @@ class JAuthenticate extends JObject {
 				// Credentials authenticated
 
 				// OK, the credentials are authenticated.  Lets fire the onLogin event
-				$results = $dispatcher->dispatch( 'onLogin', $credentials);
+				$results = $dispatcher->trigger( 'onLogin', $credentials);
 
 				/*
 				 * If any of the authentication plugins did not successfully complete the login
@@ -209,7 +209,7 @@ class JAuthenticate extends JObject {
 		$credentials['password'] = $user->password;
 
 		// OK, the credentials are built. Lets fire the onLogout event
-		$results = $dispatcher->dispatch( 'onLogout', $credentials);
+		$results = $dispatcher->trigger( 'onLogout', $credentials);
 
 		/*
 		 * If any of the authentication plugins did not successfully complete the logout
@@ -254,7 +254,7 @@ class JAuthenticate extends JObject {
 		$dispatcher = &JEventDispatcher::getInstance();
 
 		// Time to authenticate the credentials.  Lets fire the auth event
-		$results = $dispatcher->dispatch( 'onAuthenticate', $credentials);
+		$results = $dispatcher->trigger( 'onAuthenticate', $credentials);
 
 		/*
 		 * If any of the authentication plugins did not authenticate the credentials

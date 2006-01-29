@@ -73,18 +73,18 @@ class JEventDispatcher extends JObservable
 		/*
 		 * Are we dealing with a class or function type handler?
 		 */
-		if (class_exists($handler))
-		{
-			/*
-			 * Ok, class type event handler... lets instantiate and attach it.
-			 */
-			$this->attach(new $handler);			
-		} elseif (function_exists($handler))
+		if (function_exists($handler))
 		{
 			/*
 			 * Ok, function type event handler... lets attach it.
 			 */
 			$this->attach(array ('event' => $event, 'handler' => $handler));
+		} elseif (class_exists($handler))
+		{
+			/*
+			 * Ok, class type event handler... lets instantiate and attach it.
+			 */
+			$this->attach(new $handler);			
 		} else
 		{
 			/*
@@ -147,14 +147,14 @@ class JEventDispatcher extends JObservable
 					 */
 					JError :: raiseWarning('SOME_ERROR_CODE', 'JEventDispatcher::trigger: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
 				}
-			} else
+			} elseif (is_object($observer))
 			{
 				/*
 				 * Since we have gotten here, we know a little something about
 				 * the observer.  It is not a function type observer... lets see
 				 * if it is an object which has an update method.
 				 */
-				if (is_object($observer) && method_exists($observer, 'update'))
+				if (method_exists($observer, 'update'))
 				{
 					/*
 					 * Ok, now we know that the observer is both not an array

@@ -99,7 +99,7 @@ class JEditor_none extends JPlugin {
 		
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 		
-		$results = $dispatcher->dispatch( 'onCustomEditorButton' );
+		$results = $dispatcher->trigger( 'onCustomEditorButton' );
 
 		$buttons = array();
 		foreach ($results as $result) {
