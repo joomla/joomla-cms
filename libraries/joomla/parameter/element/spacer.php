@@ -12,35 +12,36 @@
 */
 
 /**
- * Renders a radio parameter
+ * Renders a spacer element
  *
  * @author 		Johan Janssens <johan@joomla.be>
  * @package 	Joomla.Framework
- * @subpackage 	Parameters
+ * @subpackage 	Parameter
  * @abstract
  * @since 1.1
  */
 
-class JParameter_Radio extends JParameter
+class JElement_Spacer extends JElement
 {
    /**
-	* parameter type
+	* Element name
 	*
 	* @access	protected
 	* @var		string
 	*/
-	var	$_type = 'Radio';
+	var	$_name = 'Spacer';
+	
+	function fetchTooltip($label, $description, &$node) {
+		return;
+	}
 	
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$options = array ();
-		foreach ($node->childNodes as $option) {
-			$val  = $option->getAttribute('value');
-			$text = $option->gettext();
-			$options[] = mosHTML::makeOption($val, JText::_($text));
+		if ($value) {
+			return $value;
+		} else {
+			return '<hr />';
 		}
-
-		return mosHTML::radioList($options, ''.$control_name.'['.$name.']', '', $value);
 	}
 }
 ?>

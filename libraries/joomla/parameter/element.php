@@ -14,19 +14,19 @@
 /**
  * Parameter base class
  * 
- * The JParameter is the base class for all JParameter types
+ * The JElement is the base class for all JElement types
  *
  * @author 		Johan Janssens <johan@joomla.be>
  * @package 	Joomla.Framework
- * @subpackage 	Parameters
+ * @subpackage 	Parameter
  * @abstract
  * @since 1.1
  */
 
-class JParameter extends JObject
+class JElement extends JObject
 {
    /**
-	* parameter type
+	* element name
 	*
 	* This has to be set in the final
 	* renderer classes.
@@ -34,10 +34,10 @@ class JParameter extends JObject
 	* @access	protected
 	* @var		string
 	*/
-	var	$_type = null;
+	var	$_name = null;
 	
    /**
-	* reference to the object that instantiated the parameter
+	* reference to the object that instantiated the element
 	*
 	* @access	protected
 	* @var		object
@@ -54,14 +54,14 @@ class JParameter extends JObject
 	}
 
    /**
-	* get the parameter type
+	* get the element name
 	*
 	* @access	public
 	* @return	string	type of the parameter
 	*/
-	function getType()
+	function getName()
 	{
-		return $this->_type;
+		return $this->_name;
 	}
 	
 	function render(&$xmlElement, $control_name = 'params')

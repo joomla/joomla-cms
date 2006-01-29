@@ -40,20 +40,20 @@ class JParameters extends JRegistry
 	var $_xml = null;
 	
 	/**
-	* loaded parameter types
+	* loaded elements
 	*
 	* @access	private
 	* @var		array
 	*/
-	var $_parameterTypes = array();
+	var $_elements = array();
 	
 	/**
-	* directories, where parameter types can be stored
+	* directories, where element types can be stored
 	* 
 	* @access	private
 	* @var		array
 	*/
-	var $_parameterDirs  = array();
+	var $_elementDirs  = array();
 
 	/**
 	 * Constructor
@@ -66,10 +66,10 @@ class JParameters extends JRegistry
 	function __construct($data, $path = '') 
 	{
 		if( !defined( 'JPARAMETER_INCLUDE_PATH' ) ) {
-			define( 'JPARAMETER_INCLUDE_PATH', dirname( __FILE__ ) . '/types' );
+			define( 'JPARAMETER_INCLUDE_PATH', dirname( __FILE__ ) . '/element' );
 		}
 		
-		parent::__construct('parameters');
+		parent::__construct('parameter');
 		
 		$this->loadINI($data);
 		$this->loadSetupFile($path);
@@ -86,7 +86,7 @@ class JParameters extends JRegistry
 	 * @return string The set value
 	 */
 	function set($key, $value = '') {
-		return $this->setValue('parameters.'.$key, $value);
+		return $this->setValue('parameter.'.$key, $value);
 	}
 	
 	/**
@@ -99,7 +99,7 @@ class JParameters extends JRegistry
 	 */
 	function get($key, $default = '') 
 	{
-		if ($value = $this->getValue('parameters.'.$key)) {
+		if ($value = $this->getValue('parameter.'.$key)) {
 			return $value;
 		} else {
 			return $default;
@@ -177,20 +177,20 @@ class JParameters extends JRegistry
 		//remove any occurance of a mos_ prefix
 		$type = str_replace('mos_', '', $type);
 		
-		$parameter =& $this->loadParameter($type);
+		$element =& $this->loadElement($type);
 		
 		/**
 		 * error happened
 		 */
-		if ($parameter === false) {
+		if ($element === false) {
 			
 			$result = array();
 			$result[0] = $node->getAttribute('name');
-			$result[1] = JText::_('Handler not defined for type').' = '.$type;
+			$result[1] = JText::_('Element not defined for type').' = '.$type;
 			return $result;
 		}
 		
-		return $parameter->render($node, $control_name);
+		return $element->render($node, $control_name);
 	}
 	
 	/**
@@ -220,34 +220,34 @@ class JParameters extends JRegistry
 	}
 	
 	/**
-	* Loads a parameter type
+	* Loads a element type
 	*
 	* @access	public
-	* @param	string	parameterType
+	* @param	string	elementType
 	* @return	object
 	* @since 1.1
 	*/
-	function &loadParameter( $type, $new = false )
+	function &loadElement( $type, $new = false )
 	{	
 		$signature = md5( $type  );
 
-		if( isset( $this->_paramatersTypes[$signature] ) && $new === false ) {
-			return	$this->_parameterTypes[$signature];
+		if( isset( $this->_elements[$signature] ) && $new === false ) {
+			return	$this->_elements[$signature];
 		}
 
-		if( !class_exists( 'JParameter' ) )
+		if( !class_exists( 'JElement' ) )
 		{
-			if( !jimport('joomla.parameter.parameter') ) {
+			if( !jimport('joomla.parameter.element') ) {
 				//return	JError::raiseError( 'SOME_ERROR_CODE', 'Could not load parameter base class.' );
 				return false;
 			}
 		}
 
-		$parameterClass	=	'JParameter_' . $type;
-		if( !class_exists( $parameterClass ) )
+		$elementClass	=	'JElement_' . $type;
+		if( !class_exists( $elementClass ) )
 		{
-			if( isset( $this->_parameterDirs ) )
-				$dirs = $this->_parameterDirs;
+			if( isset( $this->_elementDirs ) )
+				$dirs = $this->_elementDirs;
 			else
 				$dirs = array();
 			
@@ -256,9 +256,9 @@ class JParameters extends JRegistry
 			$found = false;
 			foreach( $dirs as $dir )
 			{
-				$parameterFile	= sprintf( "%s/%s.php", $dir, str_replace( '_', '/', $type ) );
+				$elementFile	= sprintf( "%s/%s.php", $dir, str_replace( '_', '/', $type ) );
 				
-				if (@include_once $parameterFile) {
+				if (@include_once $elementFile) {
 					$found = true;
 					break;
 				}
@@ -270,26 +270,26 @@ class JParameters extends JRegistry
 			}
 		}
 
-		if( !class_exists( $parameterClass ) )
+		if( !class_exists( $elementClass ) )
 		{
 			//return	JError::raiseError( 'SOME_ERROR_CODE', "Module file $parameterFile does not contain class $paramaterClass." );
 			return false;
 		}
 
-		$this->_parameterTypes[$signature]	=& new $parameterClass($this);
+		$this->_elementTypes[$signature]	=& new $elementClass($this);
 		
-		return $this->_parameterTypes[$signature];
+		return $this->_elementTypes[$signature];
 	}
 	
 	/**
-	* add a directory where JParameters should search for parameter types
+	* Add a directory where JParameter should search for element types
 	*
 	* You may either pass a string or an array of directories.
 	*
-	* JParameter will be searching for a parameter type in the same
+	* JParameter will be searching for a element type in the same
 	* order you added them. If the parameter type cannot be found in
 	* the custom folders, it will look in
-	* JParameters/types.
+	* JParameter/types.
 	*
 	* @access	public
 	* @param	string|array	directory or directories to search.
@@ -298,7 +298,7 @@ class JParameters extends JRegistry
 	function addParameterDir( $dir )
 	{
 		if( is_array( $dir ) )
-			$this->_parametersDirs = array_merge( $this->_parameterDirs, $dir );
+			$this->_elementDirs = array_merge( $this->_elementDirs, $dir );
 		else
 			array_push( $this->_parameterDirs, $dir );
 	}

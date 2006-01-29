@@ -12,33 +12,33 @@
 */
 
 /**
- * Renders a helpsites parameter
+ * Renders a languages element
  *
  * @author 		Johan Janssens <johan@joomla.be>
  * @package 	Joomla.Framework
- * @subpackage 	Parameters
+ * @subpackage 	Parameter
  * @abstract
  * @since 1.1
  */
 
-class JParameter_Helpsites extends JParameter
+class JElement_Languages extends JElement
 {
    /**
-	* parameter type
+	* Element name
 	*
 	* @access	protected
 	* @var		string
 	*/
-	var	$_type = 'Helpsites';
+	var	$_name = 'Languages';
 	
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		jimport('joomla.i18n.help');
+		$client = $node->getAttribute('client');
 		
-		$helpsites 				= JHelp :: createSiteList('http://help.joomla.org/helpsites-11.xml', $value);
-		array_unshift($helpsites, mosHTML :: makeOption('', JText :: _('local')));
+		$languages = JLanguageHelper::createLanguageList($value, constant('JPATH_'.strtoupper($client)));
+		array_unshift($languages, mosHTML::makeOption('', '- '.JText::_('Select Language').' -'));
 
-		return mosHTML :: selectList($helpsites, ''.$control_name.'['.$name.']', ' class="inputbox" id="helpsites"', 'value', 'text', $value, 'param'.$name);
+		return mosHTML::selectList($languages, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
 	}
 }
 ?>

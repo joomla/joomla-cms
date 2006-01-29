@@ -12,31 +12,37 @@
 */
 
 /**
- * Renders a imagelist parameter
+ * Renders a menu element
  *
  * @author 		Johan Janssens <johan@joomla.be>
  * @package 	Joomla.Framework
- * @subpackage 	Parameters
+ * @subpackage 	Parameter
  * @abstract
  * @since 1.1
  */
 
-class JParameter_ImageList extends JParameter
+class JElement_Menu extends JElement
 {
    /**
-	* parameter type
+	* Element name
 	*
 	* @access	protected
 	* @var		string
 	*/
-	var	$_type = 'ImageList';
+	var	$_name = 'Menu';
 	
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$node->setAttribute('filter', '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$');
-		
-		$parameter =& $this->_parent->loadParameter('filelist');
-		return $parameter->fetchElement($name, $value, $node, $control_name);
+		global $database;
+
+		$menuTypes = mosAdminMenus::menutypes();
+
+		foreach ($menuTypes as $menutype) {
+			$options[] = mosHTML::makeOption($menutype, $menutype);
+		}
+		array_unshift($options, mosHTML::makeOption('', '- '.JText::_('Select Menu').' -'));
+
+		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value);
 	}
 }
 ?>

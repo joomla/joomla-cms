@@ -12,33 +12,31 @@
 */
 
 /**
- * Renders a languages parameter
+ * Renders a imagelist element
  *
  * @author 		Johan Janssens <johan@joomla.be>
  * @package 	Joomla.Framework
- * @subpackage 	Parameters
+ * @subpackage 	Parameter
  * @abstract
  * @since 1.1
  */
 
-class JParameter_Languages extends JParameter
+class JElement_ImageList extends JElement
 {
    /**
-	* parameter type
+	* Element name
 	*
 	* @access	protected
 	* @var		string
 	*/
-	var	$_type = 'Languages';
+	var	$_name = 'ImageList';
 	
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$client = $node->getAttribute('client');
+		$node->setAttribute('filter', '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$');
 		
-		$languages = JLanguageHelper::createLanguageList($value, constant('JPATH_'.strtoupper($client)));
-		array_unshift($languages, mosHTML::makeOption('', '- '.JText::_('Select Language').' -'));
-
-		return mosHTML::selectList($languages, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
+		$parameter =& $this->_parent->loadParameter('filelist');
+		return $parameter->fetchElement($name, $value, $node, $control_name);
 	}
 }
 ?>

@@ -12,37 +12,33 @@
 */
 
 /**
- * Renders a menu parameter
+ * Renders a textarea element
  *
  * @author 		Johan Janssens <johan@joomla.be>
  * @package 	Joomla.Framework
- * @subpackage 	Parameters
+ * @subpackage 	Parameter
  * @abstract
  * @since 1.1
  */
 
-class JParameter_Menu extends JParameter
+class JElement_Textarea extends JElement
 {
    /**
-	* parameter type
+	* Element name
 	*
 	* @access	protected
 	* @var		string
 	*/
-	var	$_type = 'Menu';
+	var	$_name = 'Textarea';
 	
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		global $database;
+		$rows = $node->getAttribute('rows');
+		$cols = $node->getAttribute('cols');
+		// convert <br /> tags so they are not visible when editing
+		$value = str_replace('<br />', "\n", $value);
 
-		$menuTypes = mosAdminMenus::menutypes();
-
-		foreach ($menuTypes as $menutype) {
-			$options[] = mosHTML::makeOption($menutype, $menutype);
-		}
-		array_unshift($options, mosHTML::makeOption('', '- '.JText::_('Select Menu').' -'));
-
-		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value);
+		return '<textarea name="'.$control_name.'['.$name.']" cols="'.$cols.'" rows="'.$rows.'" class="text_area">'.$value.'</textarea>';
 	}
 }
 ?>

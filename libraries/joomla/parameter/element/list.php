@@ -12,29 +12,37 @@
 */
 
 /**
- * Renders a text parameter
+ * Renders a list element
  *
  * @author 		Johan Janssens <johan@joomla.be>
  * @package 	Joomla.Framework
- * @subpackage 	Parameters
+ * @subpackage 	Parameter
  * @abstract
  * @since 1.1
  */
 
-class JParameter_Text extends JParameter
+class JElement_List extends JElement
 {
    /**
-	* parameter type
+	* Element type
 	*
 	* @access	protected
 	* @var		string
 	*/
-	var	$_type = 'Text';
+	var	$_name = 'List';
 	
-	function fetchElement($name, $value, &$node, $control_name) 
+	function fetchElement($name, $value, &$node, $control_name)
 	{
 		$size = $node->getAttribute('size');
-		return '<input type="text" name="'.$control_name.'['.$name.']" value="'.$value.'" class="text_area" size="'.$size.'"/>';
+
+		$options = array ();
+		foreach ($node->childNodes as $option) {
+			$val  = $option->getAttribute('value');
+			$text = $option->gettext();
+			$options[] = mosHTML::makeOption($val, JText::_($text));
+		}
+
+		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value);
 	}
 }
 ?>

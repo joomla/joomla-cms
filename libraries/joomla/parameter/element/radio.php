@@ -12,7 +12,7 @@
 */
 
 /**
- * Renders a list parameter
+ * Renders a radio element
  *
  * @author 		Johan Janssens <johan@joomla.be>
  * @package 	Joomla.Framework
@@ -21,20 +21,18 @@
  * @since 1.1
  */
 
-class JParameter_List extends JParameter
+class JElement_Radio extends JElement
 {
    /**
-	* parameter type
+	* Element name
 	*
 	* @access	protected
 	* @var		string
 	*/
-	var	$_type = 'List';
+	var	$_name = 'Radio';
 	
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$size = $node->getAttribute('size');
-
 		$options = array ();
 		foreach ($node->childNodes as $option) {
 			$val  = $option->getAttribute('value');
@@ -42,7 +40,7 @@ class JParameter_List extends JParameter
 			$options[] = mosHTML::makeOption($val, JText::_($text));
 		}
 
-		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value);
+		return mosHTML::radioList($options, ''.$control_name.'['.$name.']', '', $value);
 	}
 }
 ?>

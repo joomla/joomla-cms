@@ -12,24 +12,24 @@
 */
 
 /**
- * Renders a filelist parameter
+ * Renders a filelist element
  *
  * @author 		Johan Janssens <johan@joomla.be>
  * @package 	Joomla.Framework
- * @subpackage 	Parameters
+ * @subpackage 	Parameter
  * @abstract
  * @since 1.1
  */
 
-class JParameter_FileList extends JParameter
+class JElement_FileList extends JElement
 {
    /**
-	* parameter type
+	* Element name
 	*
 	* @access	protected
 	* @var		string
 	*/
-	var	$_type = 'FileList';
+	var	$_name = 'FileList';
 	
 	function fetchElement($name, $value, &$node, $control_name)
 	{

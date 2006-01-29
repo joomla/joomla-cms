@@ -12,33 +12,43 @@
 */
 
 /**
- * Renders a section parameter
+ * Renders a category element
  *
  * @author 		Johan Janssens <johan@joomla.be>
  * @package 	Joomla.Framework
- * @subpackage 	Parameters
+ * @subpackage 	Parameter
  * @abstract
  * @since 1.1
  */
 
-class JParameter_Section extends JParameter
+class JElement_Category extends JElement
 {
    /**
-	* parameter type
+	* Element name
 	*
 	* @access	protected
 	* @var		string
 	*/
-	var	$_type = 'Section';
+	var	$_name = 'Category';
 	
 	function fetchElement($name, $value, &$node, $control_name)
 	{
 		global $database;
 
-		$query = "SELECT id, title"."\n FROM #__sections"."\n WHERE published = 1"."\n AND scope = 'content'"."\n ORDER BY title";
+		$scope = $node->getAttribute('scope');
+		if (!isset ($scope)) {
+			$scope = 'content';
+		}
+
+		if ($scope == 'content') {
+			// This might get a conflict with the dynamic translation - TODO: search for better solution
+			$query = "SELECT c.id, CONCAT_WS( '/',s.title, c.title ) AS title"."\n FROM #__categories AS c"."\n LEFT JOIN #__sections AS s ON s.id=c.section"."\n WHERE c.published = 1"."\n AND s.scope = '$scope'"."\n ORDER BY c.title";
+		} else {
+			$query = "SELECT c.id, c.title"."\n FROM #__categories AS c"."\n WHERE c.published = 1"."\n AND c.section = '$scope'"."\n ORDER BY c.title";
+		}
 		$database->setQuery($query);
 		$options = $database->loadObjectList();
-		array_unshift($options, mosHTML::makeOption('0', '- '.JText::_('Select Section').' -', 'id', 'title'));
+		array_unshift($options, mosHTML::makeOption('0', '- '.JText::_('Select Category').' -', 'id', 'title'));
 
 		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'title', $value);
 	}

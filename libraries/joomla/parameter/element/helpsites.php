@@ -12,36 +12,33 @@
 */
 
 /**
- * Renders a spacer parameter
+ * Renders a helpsites element
  *
  * @author 		Johan Janssens <johan@joomla.be>
  * @package 	Joomla.Framework
- * @subpackage 	Parameters
+ * @subpackage 	Parameter
  * @abstract
  * @since 1.1
  */
 
-class JParameter_Spacer extends JParameter
+class JElement_Helpsites extends JElement
 {
    /**
-	* parameter type
+	* Element name
 	*
 	* @access	protected
 	* @var		string
 	*/
-	var	$_type = 'Spacer';
-	
-	function fetchTooltip($label, $description, &$node) {
-		return;
-	}
+	var	$_name = 'Helpsites';
 	
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		if ($value) {
-			return $value;
-		} else {
-			return '<hr />';
-		}
+		jimport('joomla.i18n.help');
+		
+		$helpsites 				= JHelp :: createSiteList('http://help.joomla.org/helpsites-11.xml', $value);
+		array_unshift($helpsites, mosHTML :: makeOption('', JText :: _('local')));
+
+		return mosHTML :: selectList($helpsites, ''.$control_name.'['.$name.']', ' class="inputbox" id="helpsites"', 'value', 'text', $value, 'param'.$name);
 	}
 }
 ?>

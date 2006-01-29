@@ -12,7 +12,7 @@
 */
 
 /**
- * Renders a textarea parameter
+ * Renders a section element
  *
  * @author 		Johan Janssens <johan@joomla.be>
  * @package 	Joomla.Framework
@@ -21,24 +21,26 @@
  * @since 1.1
  */
 
-class JParameter_Textarea extends JParameter
+class JElement_Section extends JElement
 {
    /**
-	* parameter type
+	* Element name
 	*
 	* @access	protected
 	* @var		string
 	*/
-	var	$_type = 'Textarea';
+	var	$_name = 'Section';
 	
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$rows = $node->getAttribute('rows');
-		$cols = $node->getAttribute('cols');
-		// convert <br /> tags so they are not visible when editing
-		$value = str_replace('<br />', "\n", $value);
+		global $database;
 
-		return '<textarea name="'.$control_name.'['.$name.']" cols="'.$cols.'" rows="'.$rows.'" class="text_area">'.$value.'</textarea>';
+		$query = "SELECT id, title"."\n FROM #__sections"."\n WHERE published = 1"."\n AND scope = 'content'"."\n ORDER BY title";
+		$database->setQuery($query);
+		$options = $database->loadObjectList();
+		array_unshift($options, mosHTML::makeOption('0', '- '.JText::_('Select Section').' -', 'id', 'title'));
+
+		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'title', $value);
 	}
 }
 ?>
