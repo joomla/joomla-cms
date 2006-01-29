@@ -52,7 +52,7 @@ class patTemplate_Renderer_Module extends patTemplate_Renderer
 			$name = 'mosConfig_'.$k;
 			$GLOBALS[$name] = $v;		
 		}
-
+		
 		if(!is_object($module)) {
 			$module = JModuleHelper::getModule($module);
 		}

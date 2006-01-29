@@ -446,7 +446,7 @@ function editModule( $option, $uid, $client, $module=NULL ) {
 	}
 
 	if ( $row->access == 99 || $row->client_id == 1 || $lists['client_id'] ) {
-		$lists['access'] 			= 'Administrator<input type="hidden" name="access" value="99" />';
+		$lists['access'] 			= 'Administrator';
 		$lists['showtitle'] 		= 'N/A <input type="hidden" name="showtitle" value="1" />';
 		$lists['selections'] 		= 'N/A';
 	} else {
