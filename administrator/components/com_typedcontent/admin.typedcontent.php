@@ -73,6 +73,10 @@ switch ( $task ) {
 		changeState( $cid, 0, $option );
 		break;
 
+	case 'toggle_frontpage':
+		toggleFrontPage( $cid );
+		break;
+	
 	case 'accesspublic':
 		changeAccess( $cid[0], 0, $option );
 		break;
@@ -145,11 +149,12 @@ function view( $option ) {
 	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
-	$query = "SELECT c.*, g.name AS groupname, u.name AS editor, z.name AS creator"
+	$query = "SELECT c.*, g.name AS groupname, u.name AS editor, z.name AS creator, f.content_id AS frontpage"
 	. "\n FROM #__content AS c"
 	. "\n LEFT JOIN #__groups AS g ON g.id = c.access"
 	. "\n LEFT JOIN #__users AS u ON u.id = c.checked_out"
 	. "\n LEFT JOIN #__users AS z ON z.id = c.created_by"
+	. "\n LEFT JOIN #__content_frontpage AS f ON f.content_id = c.id"
 	. "\n WHERE c.sectionid = 0"
 	. "\n AND c.catid = 0"
 	. "\n AND c.state <> -2"
@@ -213,8 +218,7 @@ function view( $option ) {
 * @param string The name of the category section
 * @param integer The unique id of the category to edit (0 if new)
 */
-function edit( $uid, $option ) 
-{
+function edit( $uid, $option ) {
 	global $database, $my, $mainframe;
 
 	$nullDate = $database->getNullDate();
@@ -257,6 +261,16 @@ function edit( $uid, $option )
 		$database->setQuery( $query );
 		$row->modifier = $database->loadResult();
 
+		$query = "SELECT COUNT(content_id)"
+		. "\n FROM #__content_frontpage"
+		. "\n WHERE content_id = $row->id"
+		;
+		$database->setQuery( $query );
+		$row->frontpage = $database->loadResult();
+		if (!$row->frontpage) {
+			$row->frontpage = 0;
+		}
+
 		// get list of links to this item
 		$and 	= "\n AND componentid = ". $row->id;
 		$menus 	= mosAdminMenus::Links2Menu( 'content_typed', $and );
@@ -265,13 +279,14 @@ function edit( $uid, $option )
 		$row->version 		= 0;
 		$row->state 		= 1;
 		$row->images 		= array();
-		$row->publish_up 	= date( "Y-m-d", time() );
-		$row->publish_down 	= "Never";
+		$row->publish_up 	= date( 'Y-m-d', time() );
+		$row->publish_down 	= 'Never';
 		$row->sectionid 	= 0;
 		$row->catid 		= 0;
 		$row->creator 		= '';
 		$row->modifier 		= '';
 		$row->ordering 		= 0;
+		$row->frontpage 	= 0;
 		$menus = array();
 	}
 
@@ -289,6 +304,8 @@ function edit( $uid, $option )
 	// list of saved images
 	$lists['imagelist'] 	= mosAdminMenus::GetSavedImages( $row, $pathL );
 
+	// build the html radio buttons for frontpage
+	$lists['frontpage']		= mosHTML::yesnoradioList( 'frontpage', '', $row->frontpage );
 	// build the html radio buttons for published
 	$lists['state'] 		= mosHTML::yesnoradioList( 'state', '', $row->state );
 	// build list of users
@@ -353,8 +370,6 @@ function save( $option, $task ) {
 	// code cleaner for xhtml transitional compliance
 	$row->introtext = str_replace( '<br>', '<br />', $row->introtext );
 
-	$row->state = mosGetParam( $_REQUEST, 'published', 0 );
-
 	$row->title = ampReplace( $row->title );
 
 	if (!$row->check()) {
@@ -365,7 +380,38 @@ function save( $option, $task ) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
+	
+	// manage frontpage items
+	require_once( JApplicationHelper::getPath( 'class', 'com_frontpage' ) );
+	$fp = new JFrontPageModel( $database );
+	
+	$frontpage = mosGetParam( $_POST, 'frontpage', 0 );
+	if ($frontpage) {		
+		// toggles go to first place
+		if (!$fp->load( $row->id )) {
+			// new entry
+			$query = "INSERT INTO #__content_frontpage"
+			. "\n VALUES ( $row->id, 1 )"
+			;
+			$database->setQuery( $query );
+			if (!$database->query()) {
+				echo "<script> alert('".$database->stderr()."');</script>\n";
+				exit();
+			}
+			$fp->ordering = 1;
+		}
+	} else {
+		// no frontpage mask
+		if (!$fp->delete( $row->id )) {
+			$msg .= $fp->stderr();
+		}
+		$fp->ordering = 0;
+	}
+	$fp->updateOrder();
+	$msg = $frontpage;
+	
 	$row->checkin();
+	$row->updateOrder( "state >= 0" );	
 
 	switch ( $task ) {
 		case 'go2menu':
@@ -555,6 +601,52 @@ function copyItem( $cid ) {
 	}
 
 	$msg = JText::_( 'Item(s) successfully copied' );
+	mosRedirect( 'index2.php?option=com_typedcontent', $msg );
+}
+
+
+/**
+* Changes the state of one or more content pages
+* @param string The name of the category section
+* @param integer A unique category id (passed from an edit form)
+* @param array An array of unique category id numbers
+* @param integer 0 if unpublishing, 1 if publishing
+* @param string The name of the current user
+*/
+function toggleFrontPage( $cid ) {
+	global $database;
+
+	if (count( $cid ) < 1) {
+		echo "<script> alert('". JText::_( 'Select an item to toggle' ) ."'); window.history.go(-1);</script>\n";
+		exit;
+	}
+
+	$msg = '';
+	require_once( JApplicationHelper::getPath( 'class', 'com_frontpage' ) );
+
+	$fp = new JFrontPageModel( $database );
+	foreach ($cid as $id) {
+		// toggles go to first place
+		if ($fp->load( $id )) {
+			if (!$fp->delete( $id )) {
+				$msg .= $fp->stderr();
+			}
+			$fp->ordering = 0;
+		} else {
+			// new entry
+			$query = "INSERT INTO #__content_frontpage"
+			. "\n VALUES ( $id, 0 )"
+			;
+			$database->setQuery( $query );
+			if (!$database->query()) {
+				echo "<script> alert('".$database->stderr()."');</script>\n";
+				exit();
+			}
+			$fp->ordering = 0;
+		}
+		$fp->updateOrder();
+	}
+
 	mosRedirect( 'index2.php?option=com_typedcontent', $msg );
 }
 

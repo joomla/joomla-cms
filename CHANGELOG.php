@@ -48,6 +48,7 @@ Legend:
  # Fixed artf3282 : Sample image is missing
 
 29-Jan-2006 Rey Gigataras 
+ + Static Content can be assigned to `Frontpage`
  + `Move` & `Copy` ability added to "Static Content Manager"
  + `Move` to 'Static Content' added to "Content Items Manager"
  ^ Content item page navigaiton moved to `Page Navigation` plugin 

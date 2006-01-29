@@ -126,8 +126,8 @@ function viewFrontPage( $option ) {
 	// get the total number of records
 	$query = "SELECT count(*)"
 	. "\n FROM #__content AS c"
-	. "\n INNER JOIN #__categories AS cc ON cc.id = c.catid"
-	. "\n INNER JOIN #__sections AS s ON s.id = cc.section AND s.scope='content'"
+	. "\n LEFT JOIN #__categories AS cc ON cc.id = c.catid"
+	. "\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope='content'"
 	. "\n INNER JOIN #__content_frontpage AS f ON f.content_id = c.id"
 	. $where
 	;
@@ -139,8 +139,8 @@ function viewFrontPage( $option ) {
 
 	$query = "SELECT c.*, g.name AS groupname, cc.name, s.name AS sect_name, u.name AS editor, f.ordering AS fpordering, v.name AS author"
 	. "\n FROM #__content AS c"
-	. "\n INNER JOIN #__categories AS cc ON cc.id = c.catid"
-	. "\n INNER JOIN #__sections AS s ON s.id = cc.section AND s.scope='content'"
+	. "\n LEFT JOIN #__categories AS cc ON cc.id = c.catid"
+	. "\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope='content'"
 	. "\n INNER JOIN #__content_frontpage AS f ON f.content_id = c.id"
 	. "\n INNER JOIN #__groups AS g ON g.id = c.access"
 	. "\n LEFT JOIN #__users AS u ON u.id = c.checked_out"

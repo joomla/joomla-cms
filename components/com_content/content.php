@@ -42,8 +42,7 @@ if ($option == 'com_frontpage') {
 	return;
 }
 
-switch (strtolower($task)) 
-{
+switch (strtolower($task)) {
 	case 'findkey' :
 		JContentController::_findKeyItem($access, $now);
 		break;
@@ -125,10 +124,8 @@ switch (strtolower($task))
  * @subpackage Content
  * @since 1.1
  */
-class JContentController 
-{
-	function frontpage(& $access, $now) 
-	{
+class JContentController {
+	function frontpage(& $access, $now) {
 		global $mainframe, $Itemid;
 
 		/*
@@ -154,27 +151,38 @@ class JContentController
 		$order_pri 		= JContentController :: _orderby_pri($orderby_pri);
 
 		// query records
-		//$query = "SELECT a.*, ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups"
-		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
-				"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
-				"\n CHAR_LENGTH( a.fulltext ) AS readmore," .
-				"\n ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups" .
-				"\n FROM #__content AS a" .
-				"\n INNER JOIN #__content_frontpage AS f ON f.content_id = a.id" .
-				"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
-				"\n INNER JOIN #__sections AS s ON s.id = a.sectionid" .
-				"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
-				"\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" .
-				"\n LEFT JOIN #__groups AS g ON a.access = g.id" .
-				"\n WHERE a.state = 1". ($noauth ? "\n AND a.access <= $my->gid" : '') .
-				"\n AND ( publish_up = '$nullDate' OR publish_up <= '$now'  )" .
-				"\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )" .
-				"\n AND s.published = 1" .
-				"\n AND cc.published = 1" .
-				"\n ORDER BY $order_pri $order_sec";
+		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,"
+				. "\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access,"
+				. "\n CHAR_LENGTH( a.fulltext ) AS readmore, s.published AS sec_pub, cc.published AS cat_pub, s.access AS sec_access, cc.access AS cat_access," 
+				. "\n ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups" 
+				. "\n FROM #__content AS a" 
+				. "\n INNER JOIN #__content_frontpage AS f ON f.content_id = a.id" 
+				. "\n LEFT JOIN #__categories AS cc ON cc.id = a.catid" 
+				. "\n LEFT JOIN #__sections AS s ON s.id = a.sectionid" 
+				. "\n LEFT JOIN #__users AS u ON u.id = a.created_by" 
+				. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" 
+				. "\n LEFT JOIN #__groups AS g ON a.access = g.id" 
+				. "\n WHERE a.state = 1"
+				. ($noauth ? "\n AND a.access <= $my->gid" : '') 
+				. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now'  )" 
+				. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )" 
+				."\n ORDER BY $order_pri $order_sec";
 		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+		$Arows = $db->loadObjectList();
 
+		// special handling required as static content does not have a section / category id linkage
+		$i = 0;
+		foreach( $Arows as $row ) {
+			if ( ($row->sec_pub == 1 && $row->cat_pub == 1) || ($row->sec_pub == '' && $row->cat_pub == '') ) {
+			// check to determine if section or category is published
+				if ( ($row->sec_access <= $my->gid && $row->cat_access <= $my->gid) || ($row->sec_access == '' && $row->cat_access == '') ) {
+					// check to determine if section or category has proper access rights
+					$rows[$i] = $row;
+					$i++;
+				}
+			}
+		}
+		
 		// Dynamic Page Title
 		$mainframe->SetPageTitle($menu->name);
 
@@ -190,8 +198,7 @@ class JContentController
 	 * @param string $now Timestamp
 	 * @since 1.0
 	 */
-	function showSection(& $access, $now)
-	{
+	function showSection(& $access, $now) {
 		global $mainframe, $Itemid;
 
 		/*
@@ -218,13 +225,11 @@ class JContentController
 		/*
 		 * Build menu parameters
 		 */
-		if ($Itemid)
-		{
+		if ($Itemid) {
 			$menu 	= & JModel :: getInstance( 'menu', $db );
 			$menu->load($Itemid);
 			$params = new JParameter($menu->params);
-		} else
-		{
+		} else {
 			$menu = null;
 			$params = new JParameter();
 		}
@@ -233,28 +238,26 @@ class JContentController
 		$params->set('type', 'section');
 
 		// Set some parameter defaults
-		$params->def('page_title', 1);
-		$params->def('pageclass_sfx', '');
-		$params->def('other_cat_section', 1);
-		$params->def('empty_cat_section', 0);
-		$params->def('other_cat', 1);
-		$params->def('empty_cat', 0);
-		$params->def('cat_items', 1);
-		$params->def('cat_description', 1);
-		$params->def('back_button', $mainframe->getCfg('back_button'));
-		$params->def('pageclass_sfx', '');
+		$params->def('page_title', 			1);
+		$params->def('pageclass_sfx', 		'');
+		$params->def('other_cat_section', 	1);
+		$params->def('empty_cat_section', 	0);
+		$params->def('other_cat', 			1);
+		$params->def('empty_cat', 			0);
+		$params->def('cat_items', 			1);
+		$params->def('cat_description', 	1);
+		$params->def('back_button', 		$mainframe->getCfg('back_button'));
+		$params->def('pageclass_sfx', 		'');
 
 		// Ordering control
 		$orderby = $params->get('orderby', '');
 		$orderby = JContentController :: _orderby_sec($orderby);
 
 		// Handle the access permissions part of the main database query
-		if ($access->canEdit)
-		{
+		if ($access->canEdit) {
 			$xwhere = '';
 			$xwhere2 = "\n AND b.state >= 0";
-		} else
-		{
+		} else {
 			$xwhere = "\n AND a.published = 1";
 			$xwhere2 = "\n AND b.state = 1" .
 					"\n AND ( b.publish_up = '$nullDate' OR b.publish_up <= '$now' )" .
@@ -264,37 +267,36 @@ class JContentController
 		// Determine whether to show/hide the empty categories and sections
 		$empty = null;
 		$empty_sec = null;
-		if ($params->get('type') == 'category')
-		{
+		if ($params->get('type') == 'category') {
 			// show/hide empty categories
-			if (!$params->get('empty_cat'))
-			{
+			if (!$params->get('empty_cat')) {
 				$empty = "\n HAVING numitems > 0";
 			}
 		}
-		if ($params->get('type') == 'section')
-		{
+		if ($params->get('type') == 'section') {
 			// show/hide empty categories in section
-			if (!$params->get('empty_cat_section'))
-			{
+			if (!$params->get('empty_cat_section')) {
 				$empty_sec = "\n HAVING numitems > 0";
 			}
 		}
 
 		// Handle the access permissions
 		$access = null;
-		if ($noauth)
-		{
+		if ($noauth) {
 			$access = "\n AND a.access <= $my->gid";
 		}
 
 		// Query of categories within section
-		$query = "SELECT a.*, COUNT( b.id ) AS numitems" .
-				"\n FROM #__categories AS a" .
-				"\n LEFT JOIN #__content AS b ON b.catid = a.id".$xwhere2 .
-				"\n WHERE a.section = '$section->id'".$xwhere.$access .
-				"\n GROUP BY a.id".$empty.$empty_sec .
-				"\n ORDER BY $orderby";
+		$query = "SELECT a.*, COUNT( b.id ) AS numitems" 
+				. "\n FROM #__categories AS a" 
+				. "\n LEFT JOIN #__content AS b ON b.catid = a.id"
+				. $xwhere2 
+				. "\n WHERE a.section = '$section->id'"
+				. $xwhere
+				. $access 
+				. "\n GROUP BY a.id".$empty.$empty_sec 
+				. "\n ORDER BY $orderby"
+				;
 		$db->setQuery($query);
 		$categories = $db->loadObjectList();
 
@@ -302,8 +304,7 @@ class JContentController
 		 * Lets set the page title
 		 */
 		$document = & $mainframe->getDocument();
-		if (!empty ($menu->name))
-		{
+		if (!empty ($menu->name)) {
 			$document->setTitle($menu->name);
 		}
 
@@ -334,8 +335,7 @@ class JContentController
 	 * @param string $now Timestamp
 	 * @since 1.0
 	 */
-	function showCategory(& $access, $now) 
-	{
+	function showCategory(& $access, $now) {
 		global $mainframe, $Itemid, $my;
 
 		/*
@@ -544,8 +544,7 @@ class JContentController
 		JContentView :: showCategory($category, $other_categories, $items, $access, $my->gid, $params, $page, $lists, $selected);
 	}
 
-	function showBlogSection(& $access, $now = NULL)
-	{
+	function showBlogSection(& $access, $now = NULL) {
 		global $mainframe, $Itemid;
 
 		/*
@@ -558,20 +557,17 @@ class JContentController
 		$pop 		= JRequest :: getVar('pop', 0, '', 'int');
 
 		// Parameters
-		if ($Itemid)
-		{
+		if ($Itemid) {
 			$menu = & JModel :: getInstance( 'menu', $db );
 			$menu->load($Itemid);
 			$params = new JParameter($menu->params);
-		} else
-		{
+		} else {
 			$menu = null;
 			$params = new JParameter(null);
 		}
 
 		// new blog multiple section handling
-		if (!$id)
-		{
+		if (!$id) {
 			$id = $params->def('sectionid', 0);
 		}
 
@@ -604,20 +600,17 @@ class JContentController
 		// Dynamic Page Title and BreadCrumbs
 		$breadcrumbs 	= & $mainframe->getPathWay();
 		$document 		= & $mainframe->getDocument();
-		if ($menu->name)
-		{
+		if ($menu->name) {
 			$breadcrumbs->addItem($menu->name, '');
 			$document->setTitle($menu->name);
-		} else
-		{
+		} else {
 			$breadcrumbs->addItem($rows[0]->section, '');
 		}
 
 		JContentView :: showBlog($rows, $params, $my->gid, $access, $pop, $menu);
 	}
 
-	function showBlogCategory(& $access, $now)
-	{
+	function showBlogCategory(& $access, $now) {
 		global $mainframe, $Itemid;
 
 		/*
@@ -630,20 +623,17 @@ class JContentController
 		$pop 		= JRequest :: getVar('pop', 0, '', 'int');
 
 		// Paramters
-		if ($Itemid)
-		{
+		if ($Itemid) {
 			$menu 	= & JModel :: getInstance( 'menu', $db );
 			$menu->load($Itemid);
 			$params = new JParameter($menu->params);
-		} else
-		{
+		} else {
 			$menu 	= null;
 			$params = new JParameter();
 		}
 
 		// new blog multiple section handling
-		if (!$id)
-		{
+		if (!$id) {
 			$id = $params->def('categoryid', 0);
 		}
 
@@ -676,19 +666,16 @@ class JContentController
 		// Dynamic Page Title and BreadCrumbs
 		$breadcrumbs 	= & $mainframe->getPathWay();
 		$document		= & $mainframe->getDocument();
-		if ($menu->name)
-		{
+		if ($menu->name) {
 			$document->setTitle($menu->name);
 			$breadcrumbs->addItem($menu->name, '');
-		} else
-		{
+		} else {
 			$breadcrumbs->addItem($rows[0]->section, '');
 		}
 		JContentView :: showBlog($rows, $params, $my->gid, $access, $pop, $menu);
 	}
 
-	function showArchiveSection(& $access)
-	{
+	function showArchiveSection(& $access) {
 		global $mainframe, $Itemid;
 
 		/*
@@ -703,13 +690,11 @@ class JContentController
 		$year 	= JRequest::getVar( 'year', date('Y') );
 		$month 	= JRequest::getVar( 'month', date('m') );
 
-		if ($Itemid)
-		{
+		if ($Itemid) {
 			$menu 	= & JModel :: getInstance( 'menu', $db );
 			$menu->load($Itemid);
 			$params = new JParameter($menu->params);
-		} else
-		{
+		} else {
 			$menu = null;
 			$params = new JParameter();
 		}
@@ -728,11 +713,9 @@ class JContentController
 		$where = JContentController :: _where(-1, $access, $noauth, $my->gid, $id, NULL, $year, $month);
 
 		// checks to see if 'All Sections' options used
-		if ($id == 0)
-		{
+		if ($id == 0) {
 			$check = null;
-		} else
-		{
+		} else {
 			$check = "\n AND a.sectionid = $id";
 		}
 
@@ -770,18 +753,14 @@ class JContentController
 		$breadcrumbs = & $mainframe->getPathWay();
 		$breadcrumbs->addItem('Archives', '');
 
-		if (!$archives)
-		{
+		if (!$archives) {
 			JContentView :: emptyContainer(JText :: _('CATEGORY_ARCHIVE_EMPTY'));
-		}
-		else
-		{
+		} else {
 			JContentView :: showArchive($rows, $params, $menu, $access, $id, $my->gid, $pop);
 		}
 	}
 
-	function showArchiveCategory(& $access, $now)
-	{
+	function showArchiveCategory(& $access, $now) {
 		global $mainframe, $Itemid;
 
 		// Parameters
@@ -796,21 +775,17 @@ class JContentController
 		$module = mosGetParam($_REQUEST, 'module', '');
 
 		// used by archive module
-		if ($module)
-		{
+		if ($module) {
 			$check = '';
-		} else
-		{
+		} else {
 			$check = "\n AND a.catid = $id";
 		}
 
-		if ($Itemid)
-		{
+		if ($Itemid) {
 			$menu 	= & JModel :: getInstance( 'menu', $db );
 			$menu->load($Itemid);
 			$params = new JParameter($menu->params);
-		} else
-		{
+		} else {
 			$menu 	= null;
 			$params = new JParameter();
 		}
@@ -857,12 +832,9 @@ class JContentController
 		$breadcrumbs = & $mainframe->getPathWay();
 		$breadcrumbs->addItem('Archives', '');
 
-		if (!$archives)
-		{
+		if (!$archives) {
 			JContentView :: emptyContainer(JText :: _('CATEGORY_ARCHIVE_EMPTY'));
-		}
-		else
-		{
+		} else {
 			JContentView :: showArchive($rows, $params, $menu, $access, $id, $my->gid, $pop);
 		}
 	}
@@ -1017,8 +989,7 @@ class JContentController
 		}
 	}
 	
-	function showItemAsPDF($access, $now) 
-	{
+	function showItemAsPDF($access, $now) {
 		require_once (dirname(__FILE__).DS.'content.pdf.php');
 		doUtfPDF ( );
 	}
@@ -1029,33 +1000,25 @@ class JContentController
 		/*
 		 * Initialize variables
 		 */
-		$db = & $mainframe->getDBO();
+		$db 	= & $mainframe->getDBO();
 		$noauth = !$mainframe->getCfg('shownoauth');
 
-		if ($access->canEdit)
-		{
-			if ($row->id === null || $row->access > $gid)
-			{
+		if ($access->canEdit) {
+			if ($row->id === null || $row->access > $gid) {
 				mosNotAuth();
 				return;
 			}
-		} else
-		{
-			if ($row->id === null || $row->state == 0)
-			{
+		} else {
+			if ($row->id === null || $row->state == 0) {
 				mosNotAuth();
 				return;
 			}
-			if ($row->access > $gid)
-			{
-				if ($noauth)
-				{
+			if ($row->access > $gid) {
+				if ($noauth) {
 					mosNotAuth();
 					return;
-				} else
-				{
-					if (!($params->get('intro_only')))
-					{
+				} else {
+					if (!($params->get('intro_only'))) {
 						mosNotAuth();
 						return;
 					}
@@ -1064,52 +1027,53 @@ class JContentController
 		}
 
 		// GC Parameters
-		$params->def('link_titles', $mainframe->getCfg('link_titles'));
-		$params->def('author', !$mainframe->getCfg('hideAuthor'));
-		$params->def('createdate', !$mainframe->getCfg('hideCreateDate'));
-		$params->def('modifydate', !$mainframe->getCfg('hideModifyDate'));
-		$params->def('print', !$mainframe->getCfg('hidePrint'));
-		$params->def('pdf', !$mainframe->getCfg('hidePdf'));
-		$params->def('email', !$mainframe->getCfg('hideEmail'));
-		$params->def('rating', $mainframe->getCfg('vote'));
-		$params->def('icons', $mainframe->getCfg('icons'));
-		$params->def('readmore', $mainframe->getCfg('readmore'));
+		$params->def('link_titles', 	$mainframe->getCfg('link_titles'));
+		$params->def('author', 			!$mainframe->getCfg('hideAuthor'));
+		$params->def('createdate', 		!$mainframe->getCfg('hideCreateDate'));
+		$params->def('modifydate', 		!$mainframe->getCfg('hideModifyDate'));
+		$params->def('print', 			!$mainframe->getCfg('hidePrint'));
+		$params->def('pdf', 			!$mainframe->getCfg('hidePdf'));
+		$params->def('email', 			!$mainframe->getCfg('hideEmail'));
+		$params->def('rating', 			$mainframe->getCfg('vote'));
+		$params->def('icons', 			$mainframe->getCfg('icons'));
+		$params->def('readmore', 		$mainframe->getCfg('readmore'));
 		// Other Params
-		$params->def('image', 1);
-		$params->def('section', 0);
-		$params->def('section_link', 0);
-		$params->def('category', 0);
-		$params->def('category_link', 0);
-		$params->def('introtext', 1);
-		$params->def('pageclass_sfx', '');
-		$params->def('item_title', 1);
-		$params->def('url', 1);
-
+		$params->def('image', 			1);
+		$params->def('section', 		0);
+		$params->def('section_link', 	0);
+		$params->def('category', 		0);
+		$params->def('category_link', 	0);
+		$params->def('introtext', 		1);
+		$params->def('pageclass_sfx', 	'');
+		$params->def('item_title', 		1);
+		$params->def('url', 			1);
 
 		/*
 		 * Get itemid values for section and component links
 		 */
-		if ($params->get('section_link') || $params->get('category_link'))
-		{
-			$query = "SELECT id as value, componentid as key" .
-					"\n FROM #__menu" .
-					"\n WHERE componentid = '$row->sectionid'" .
-					"\n OR componentid = '$row->catid'";
+		if (($params->get('section_link') && $row->sectionid) || ($params->get('category_link') && $row->catid)) {
+			$query = "SELECT id as value, componentid as key" 
+					. "\n FROM #__menu" 
+					. "\n WHERE componentid = $row->sectionid" 
+					//. "\n OR componentid = $row->catid"
+					;
 			$db->setQuery($query);
-			$arr = $db->loadAssocList();
+			$arr = $db->loadObjectList();
 
-			foreach($arr as $item)
-			{
-				$m[$item['key']] = $item['value'];
+			if (count($arr)) {
+				foreach($arr as $item) {
+					$m[$item['key']] = $item['value'];
+				}
 			}
 		}
 
 		// loads the link for Section name
-		if ($params->get('section_link'))
-		{
-			if ($m[$row->sectionid])
-			{
-				$_Itemid = '&amp;Itemid='.$m[$row->sectionid];
+		if ($params->get('section_link') && $row->sectionid) {
+			$_Itemid = JApplicationHelper :: getItemid($row->sectionid, 0, 0);
+			if ($_Itemid) {
+				$_Itemid = '&amp;Itemid='. $_Itemid;
+			} else {
+				$_Itemid = '';
 			}
 
 			$link = sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$row->sectionid.$_Itemid);
@@ -1118,21 +1082,21 @@ class JContentController
 
 
 		// loads the link for Category name
-		if ($params->get('category_link'))
-		{
-			if ($m[$row->catid])
-			{
-				$_Itemid = '&amp;Itemid='.$m[$row->catid];
+		if ($params->get('category_link') && $row->catid) {
+			$_Itemid = JApplicationHelper :: getItemid($row->catid, 0, 0);
+			if ($_Itemid) {
+				$_Itemid = '&amp;Itemid='. $_Itemid;
+			} else {
+				$_Itemid = '';
 			}
-
+			
 			$link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$row->sectionid.'&amp;id='.$row->catid.$_Itemid);
 			$row->category = '<a href="'.$link.'">'.$row->category.'</a>';
 		}
 
 		// loads current template for the pop-up window
 		$template = null;
-		if ($pop)
-		{
+		if ($pop) {
 			$params->set('popup', 1);
 			$query = "SELECT template" .
 					"\n FROM #__templates_menu" .
@@ -1143,11 +1107,9 @@ class JContentController
 		}
 
 		// show/hides the intro text
-		if ($params->get('introtext'))
-		{
+		if ($params->get('introtext')) {
 			$row->text = $row->introtext. ($params->get('intro_only') ? '' : chr(13).chr(13).$row->fulltext);
-		} else
-		{
+		} else {
 			$row->text = $row->fulltext;
 		}
 
@@ -1156,8 +1118,7 @@ class JContentController
 		$page = JRequest::getVar( 'limitstart', 0, '', 'int' );
 
 		// record the hit
-		if (!$params->get('intro_only') && ($page == 0))
-		{
+		if (!$params->get('intro_only') && ($page == 0)) {
 			$obj = & JModel :: getInstance( 'content', $db );
 			$obj->hit($row->id);
 		}
@@ -1165,8 +1126,7 @@ class JContentController
 		JContentView :: show($row, $params, $access, $page, $option, $ItemidCount);
 	}
 
-	function editItem(& $access, $Itemid)
-	{
+	function editItem(& $access, $Itemid) {
 		global $mainframe;
 
 		/*

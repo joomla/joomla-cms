@@ -64,6 +64,9 @@ class HTML_typedcontent {
 				<th width="5%" nowrap="nowrap">
 					<?php mosCommonHTML :: tableOrdering( 'Published', 'c.state', $lists ); ?>
 				</th>
+				<th nowrap="nowrap" width="1%">
+					<?php mosCommonHTML :: tableOrdering( 'Front Page', 'frontpage', $lists ); ?>
+				</th>
 				<th width="2%" nowrap="nowrap">
 					<?php mosCommonHTML :: tableOrdering( 'Order', 'c.ordering', $lists ); ?>
 				</th>
@@ -194,6 +197,10 @@ class HTML_typedcontent {
 						<?php
 					}
 					?>
+					<td align="center">
+						<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','toggle_frontpage')">
+							<img src="images/<?php echo ( $row->frontpage ) ? 'tick.png' : 'publish_x.png';?>" width="12" height="12" border="0" alt="<?php echo ( $row->frontpage ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>" /></a>
+					</td>
 					<td align="center" colspan="2">
 						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
 					</td>
@@ -364,7 +371,7 @@ class HTML_typedcontent {
 							</th>
 						</tr>
 						<tr>
-							<td valign="top" align="right">
+							<td valign="top" align="right" width="120">
 								<?php echo JText::_( 'State' ); ?>:
 							</td>
 							<td>
@@ -377,6 +384,14 @@ class HTML_typedcontent {
 							</td>
 							<td>
 								<?php echo $lists['state']; ?>
+							</td>
+						</tr>
+						<tr>
+							<td valign="top" align="right">
+								<?php echo JText::_( 'Show on Frontpage' ); ?>:
+							</td>
+							<td>
+								<?php echo $lists['frontpage']; ?> 
 							</td>
 						</tr>
 						<tr>
@@ -413,19 +428,19 @@ class HTML_typedcontent {
 							</td>
 						</tr>
 						<tr>
-							<td width="20%" align="right">
+							<td align="right">
 								<?php echo JText::_( 'Start Publishing' ); ?>:
 							</td>
-							<td width="80%">
+							<td>
 								<input class="inputbox" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo $row->publish_up; ?>" />
 								<input type="reset" class="button" value="..." onclick="return showCalendar('publish_up', 'y-mm-dd');" />
 							</td>
 						</tr>
 						<tr>
-							<td width="20%" align="right">
+							<td align="right">
 								<?php echo JText::_( 'Finish Publishing' ); ?>:
 							</td>
-							<td width="80%">
+							<td>
 								<input class="inputbox" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $row->publish_down; ?>" />
 								<input type="reset" class="button" value="..." onclick="return showCalendar('publish_down', 'y-mm-dd');" />
 							</td>
@@ -450,15 +465,7 @@ class HTML_typedcontent {
 						}
 						?>
 						<tr>
-							<td width="90" valign="top" align="right">
-								<strong><?php echo JText::_( 'State' ); ?></strong>
-							</td>
-							<td>
-								<?php echo $row->state > 0 ? JText::_( 'Published' ) : ($row->state < 0 ? JText::_( 'Archived' ) : JText::_( 'Draft Unpublished' ) );?>
-							</td>
-						</tr>
-						<tr>
-							<td valign="top" align="right">
+							<td valign="top" align="right" width="120">
 								<strong><?php echo JText::_( 'Hits' ); ?></strong>
 							</td>
 							<td>

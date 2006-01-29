@@ -158,16 +158,16 @@ class HTML_content {
 						<?php echo $checked; ?>
 					</td>
 					<td>
-					<?php
-					if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-						echo $row->title;
-					} else {
-						?>
-						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Content' ); ?>">
-							<?php echo $row->title; ?></a>
 						<?php
-					}
-					?>
+						if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+							echo $row->title;
+						} else {
+							?>
+							<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit Content' ); ?>">
+								<?php echo $row->title; ?></a>
+							<?php
+						}
+						?>
 					</td>
 					<?php
 					if ( $times ) {
@@ -195,12 +195,28 @@ class HTML_content {
 						<?php echo $row->id;?>
 					</td>
 					<td>
-						<a href="<?php echo $row->sect_link; ?>" title="<?php echo JText::_( 'Edit Section' ); ?>">
-							<?php echo $row->sect_name; ?></a>
+						<?php
+						if ( $row->sect_name ) {
+							?>
+							<a href="<?php echo $row->sect_link; ?>" title="<?php echo JText::_( 'Edit Section' ); ?>">
+								<?php echo $row->sect_name; ?></a>
+							<?php
+						} else {
+							echo JText::_( 'Static' );
+						}
+						?>
 					</td>
 					<td>
-						<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
-							<?php echo $row->name; ?></a>
+						<?php
+						if ( $row->name ) {
+							?>
+							<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
+								<?php echo $row->name; ?></a>
+							<?php
+						} else {
+							echo JText::_( 'Static' );
+						}
+						?>
 					</td>
 					<td>
 						<?php echo $author; ?>

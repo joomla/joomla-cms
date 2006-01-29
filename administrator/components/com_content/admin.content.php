@@ -496,12 +496,15 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 		$database->setQuery( $query );
 		$row->modifier = $database->loadResult();
 
-		$query = "SELECT content_id"
+		$query = "SELECT COUNT(content_id)"
 		. "\n FROM #__content_frontpage"
 		. "\n WHERE content_id = $row->id"
 		;
 		$database->setQuery( $query );
 		$row->frontpage = $database->loadResult();
+		if (!$row->frontpage) {
+			$row->frontpage = 0;
+		}
 
 		// get list of links to this item
 		$and = "\n AND componentid = $row->id";
@@ -606,9 +609,6 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 	$lists['imagelist'] 		= mosAdminMenus::GetSavedImages( $row, $pathL );
 
 	// build the html radio buttons for frontpage
-	if (!$row->frontpage) {
-		$row->frontpage = 0;
-	}
 	$lists['frontpage']			= mosHTML::yesnoradioList( 'frontpage', '', $row->frontpage );
 	// build the html radio buttons for published
 	$lists['state'] 			= mosHTML::yesnoradioList( 'state', '', $row->state );
@@ -706,13 +706,14 @@ function saveContent( $sectionid, $task ) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
+	$row->checkin();
+	$row->updateOrder( "catid = $row->catid AND state >= 0" );	
 
 	// manage frontpage items
 	require_once( JApplicationHelper::getPath( 'class', 'com_frontpage' ) );
 	$fp = new JFrontPageModel( $database );
 
 	if (mosGetParam( $_REQUEST, 'frontpage', 0 )) {
-
 		// toggles go to first place
 		if (!$fp->load( $row->id )) {
 			// new entry
@@ -734,9 +735,6 @@ function saveContent( $sectionid, $task ) {
 		$fp->ordering = 0;
 	}
 	$fp->updateOrder();
-
-	$row->checkin();
-	$row->updateOrder( "catid = $row->catid AND state >= 0" );
 
 	$redirect = mosGetParam( $_POST, 'redirect', $sectionid );
 	switch ( $task ) {
@@ -765,7 +763,6 @@ function saveContent( $sectionid, $task ) {
 		default:
         	$msg = sprintf( JText::_( 'Successfully Saved Item' ), $row->title );
 			mosRedirect( 'index2.php?option=com_content&sectionid='. $redirect, $msg );
-
 			break;
 	}
 }

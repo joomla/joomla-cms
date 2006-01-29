@@ -30,15 +30,13 @@ class JContentView
 	 * 
 	 * @since 1.1
 	 */
-	function showSection(& $section, & $categories, & $params, & $access, $gid)
-	{
+	function showSection(& $section, & $categories, & $params, & $access, $gid) {
 		global $Itemid;
 
-		if ($params->get('page_title'))
-		{
+		if ($params->get('page_title')) {
 		?>
 			<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
-			<?php echo $section->name; ?>
+				<?php echo $section->name; ?>
 			</div>
 		<?php
 		}
@@ -46,30 +44,27 @@ class JContentView
 		<table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr>
 			<td width="60%" valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>" colspan="2">
-		<?php
-		if ($section->image)
-		{
-			$link = 'images/stories/'.$section->image;
-			?>
-				<img src="<?php echo $link;?>" align="<?php echo $section->image_position;?>" hspace="6" alt="<?php echo $section->image;?>" />
-		<?php
-		}
-		echo $section->description;
-		?>
+				<?php
+				if ($section->image) {
+					$link = 'images/stories/'.$section->image;
+					?>
+					<img src="<?php echo $link;?>" align="<?php echo $section->image_position;?>" hspace="6" alt="<?php echo $section->image;?>" />
+					<?php
+				}
+				echo $section->description;
+				?>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
-		<?php
-		// Displays listing of Categories
-		if (count($categories) > 0)
-		{
-			if ($params->get('other_cat_section'))
-			{
-				JContentView :: showCategories($params, new stdClass(), $gid, $categories, new stdClass(), $section->id, $Itemid);
-			}
-		}
-		?>
+				<?php
+				// Displays listing of Categories
+				if (count($categories) > 0) {
+					if ($params->get('other_cat_section')) {
+						JContentView :: showCategories($params, new stdClass(), $gid, $categories, new stdClass(), $section->id, $Itemid);
+					}
+				}
+				?>
 			</td>
 		</tr>
 		</table>
@@ -82,15 +77,13 @@ class JContentView
 	* Draws a Content List
 	* Used by Content Category & Content Section
 	*/
-	function showCategory(& $category, & $other_categories, & $items, & $access, $gid, & $params, & $page, & $lists, $order)
-	{
+	function showCategory(& $category, & $other_categories, & $items, & $access, $gid, & $params, & $page, & $lists, $order) {
 		global $Itemid;
 
-		if ($params->get('page_title'))
-		{
+		if ($params->get('page_title')) {
 		?>
 			<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
-			<?php echo $category->name; ?>
+				<?php echo $category->name; ?>
 			</div>
 		<?php
 		}
@@ -164,8 +157,7 @@ class JContentView
 		echo '</form>';
 	}
 
-	function showBlog($rows, $params, $gid, $access, $pop, $menu, $archive = null)
-	{
+	function showBlog($rows, $params, $gid, $access, $pop, $menu, $archive = null) {
 		global $mainframe, $Itemid;
 
 		/*
@@ -178,55 +170,51 @@ class JContentView
 		$option = JRequest::getVar( 'option' );
 
 		// parameters
-		if ($params->get('page_title', 1) && $menu)
-		{
+		if ($params->get('page_title', 1) && $menu) {
 			$header = $params->def('header', $menu->name);
-		} else
-		{
+		} else {
 			$header = '';
 		}
 		$columns = $params->def('columns', 2);
-		if ($columns == 0)
-		{
+		if ($columns == 0) {
 			$columns = 1;
 		}
-		$intro = $params->def('intro', 4);
-		$leading = $params->def('leading', 1);
-		$links = $params->def('link', 4);
-		$pagination = $params->def('pagination', 2);
-		$pagination_results = $params->def('pagination_results', 1);
-		$pagination_results = $params->def('pagination_results', 1);
-		$descrip = $params->def('description', 1);
-		$descrip_image = $params->def('description_image', 1);
+		$intro 				= $params->def('intro', 				4);
+		$leading 			= $params->def('leading', 				1);
+		$links 				= $params->def('link', 					4);
+		$pagination 		= $params->def('pagination', 			2);
+		$pagination_results = $params->def('pagination_results', 	1);
+		$descrip 			= $params->def('description', 			1);
+		$descrip_image 		= $params->def('description_image', 	1);
 		// needed for back button for page
-		$back = $params->get('back_button', $mainframe->getCfg('back_button'));
+		$back 				= $params->get('back_button', $mainframe->getCfg('back_button'));
 		// needed to disable back button for item
-		$params->set('back_button', 0);
-		$params->def('pageclass_sfx', '');
-		$params->set('intro_only', 1);
+		$params->set('back_button', 	0);
+		$params->def('pageclass_sfx', 	'');
+		$params->set('intro_only', 		1);
 
 		$total = count($rows);
 
 		// pagination support
 		$limitstart = JRequest::getVar( 'limitstart', 0, '', 'int' );
-		$limit = $intro + $leading + $links;
-		if ($total <= $limit)
-		{
+		$limit 		= $intro + $leading + $links;
+		if (!$limitstart) {
+			$limitstart = 0;
+		}
+		if ($total <= $limit) {
 			$limitstart = 0;
 		}
 		$i = $limitstart;
 
 		// needed to reduce queries used by getItemid
-		$ItemidCount['bs'] = JApplicationHelper :: getBlogSectionCount();
-		$ItemidCount['bc'] = JApplicationHelper :: getBlogCategoryCount();
+		$ItemidCount['bs'] 	= JApplicationHelper :: getBlogSectionCount();
+		$ItemidCount['bc'] 	= JApplicationHelper :: getBlogCategoryCount();
 		$ItemidCount['gbs'] = JApplicationHelper :: getGlobalBlogSectionCount();
 
 		// used to display section/catagory description text and images
 		// currently not supported in Archives
-		if ($menu && $menu->componentid && ($descrip || $descrip_image))
-		{
-			switch ($menu->type)
-			{
+		if ($menu && $menu->componentid && ($descrip || $descrip_image)) {
+			switch ($menu->type) {
 				case 'content_blog_section' :
 					$description = & JModel :: getInstance( 'section', $db );
 					$description->load($menu->componentid);
@@ -245,13 +233,11 @@ class JContentView
 
 		// Page Output
 		// page header
-		if ($header)
-		{
+		if ($header) {
 			echo '<div class="componentheading'.$params->get('pageclass_sfx').'">'.$header.'</div>';
 		}
 
-		if ($archive)
-		{
+		if ($archive) {
 			echo '<br />';
 			echo mosHTML :: monthSelectList('month', 'size="1" class="inputbox"', $params->get('month'));
 			echo mosHTML :: integerSelectList(2000, 2010, 1, 'year', 'size="1" class="inputbox"', $params->get('year'), "%04d");
@@ -259,13 +245,11 @@ class JContentView
 		}
 
 		// checks to see if there are there any items to display
-		if ($total)
-		{
+		if ($total) {
 			$col_width = 100 / $columns; // width of each column
-			$width = 'width="'.intval($col_width).'%"';
+			$width = 'width="'. intval($col_width) .'%"';
 
-			if ($archive)
-			{
+			if ($archive) {
 				// Search Success message
 				$msg = sprintf(JText :: _('ARCHIVE_SEARCH_SUCCESS'), $params->get('month'), $params->get('year'));
 				echo "<br /><br /><div align='center'>".$msg."</div><br /><br />";
@@ -273,17 +257,14 @@ class JContentView
 			echo '<table class="blog'.$params->get('pageclass_sfx').'" cellpadding="0" cellspacing="0">';
 
 			// Secrion/Category Description & Image
-			if ($menu && $menu->componentid && ($descrip || $descrip_image))
-			{
+			if ($menu && $menu->componentid && ($descrip || $descrip_image)) {
 				$link = 'images/stories/'.$description->image;
 				echo '<tr>';
 				echo '<td valign="top">';
-				if ($descrip_image && $description->image)
-				{
+				if ($descrip_image && $description->image) {
 					echo '<img src="'.$link.'" align="'.$description->image_position.'" hspace="6" alt="" />';
 				}
-				if ($descrip && $description->description)
-				{
+				if ($descrip && $description->description) {
 					echo $description->description;
 				}
 				echo '<br/><br/>';
@@ -292,14 +273,11 @@ class JContentView
 			}
 
 			// Leading story output
-			if ($leading)
-			{
+			if ($leading) {
 				echo '<tr>';
 				echo '<td valign="top">';
-				for ($z = 0; $z < $leading; $z ++)
-				{
-					if ($i >= $total)
-					{
+				for ($z = 0; $z < $leading; $z ++) {
+					if ($i >= $total) {
 						// stops loop if total number of items is less than the number set to display as leading
 						break;
 					}
@@ -311,10 +289,9 @@ class JContentView
 				echo '</td>';
 				echo '</tr>';
 			}
-
+			
 			// use newspaper style vertical layout rather than horizontal table
-			if ($intro && ($i < $total))
-			{
+			if ($intro && ($i < $total)) {
 				echo '<tr>';
 				echo '<td valign="top">';
 				echo '<table width="100%"  cellpadding="0" cellspacing="0">';
@@ -322,23 +299,24 @@ class JContentView
 				echo '<td>';
 
 				$indexcount = 0;
-				$divider = '';
-				for ($z = 0; $z < $columns; $z ++)
-				{
-					if ($z > 0)
+				$divider 	= '';
+				for ($z = 0; $z < $columns; $z ++) {
+					if ($z > 0) {
 						$divider = " column_seperator";
+					}
 					echo "<td valign=\"top\"".$width." class=\"article_column".$divider."\">\n";
-					for ($y = 0; $y < $intro / $columns; $y ++)
-					{
-						if ($indexcount < $intro)
-							//echo $rows[$indexcount++] . "\n";
+					for ($y = 0; $y < $intro / $columns; $y ++) {
+						if ($indexcount < $intro && ($i < $total)) {
 							JContentController :: show($rows[++ $indexcount], $params, $my->gid, $access, $pop, $option, $ItemidCount);
+							$i++;
+						}				
 					}
 					echo "</td>\n";
 
 				}
 				echo '</table>';
 
+				
 				// TODO: remove this below
 
 				//			echo '<tr>';
@@ -401,29 +379,23 @@ class JContentView
 			}
 
 			// Pagination output
-			if ($pagination)
-			{
-				if (($pagination == 2) && ($total <= $limit))
-				{
+			if ($pagination) {
+				if (($pagination == 2) && ($total <= $limit)) {
 					// not visible when they is no 'other' pages to display
-				} else
-				{
+				} else {
 					// get the total number of records
 					$limitstart = $limitstart ? $limitstart : 0;
 					require_once (JPATH_SITE.'/includes/pageNavigation.php');
-					$pageNav = new mosPageNav($total, $limitstart, $limit);
-					if ($option == 'com_frontpage')
-					{
+					$pageNav 	= new mosPageNav($total, $limitstart, $limit);
+					
+					if ($option == 'com_frontpage') {
 						$link = 'index.php?option=com_frontpage&amp;Itemid='.$Itemid;
-					} else
-						if ($archive)
-						{
-							$year = $params->get('year');
-							$month = $params->get('month');
-							$link = 'index.php?option=com_content&amp;task='.$task.'&amp;id='.$id.'&amp;Itemid='.$Itemid.'&amp;year='.$year.'&amp;month='.$month;
-						} else
-						{
-							$link = 'index.php?option=com_content&amp;task='.$task.'&amp;id='.$id.'&amp;Itemid='.$Itemid;
+					} else if ($archive) {
+							$year 	= $params->get('year');
+							$month 	= $params->get('month');
+							$link 	= 'index.php?option=com_content&amp;task='.$task.'&amp;id='.$id.'&amp;Itemid='.$Itemid.'&amp;year='.$year.'&amp;month='.$month;
+						} else {
+							$link 	= 'index.php?option=com_content&amp;task='.$task.'&amp;id='.$id.'&amp;Itemid='.$Itemid;
 						}
 					echo '<tr>';
 					echo '<td valign="top" align="center">';
@@ -431,8 +403,8 @@ class JContentView
 					echo '<br /><br />';
 					echo '</td>';
 					echo '</tr>';
-					if ($pagination_results)
-					{
+					
+					if ($pagination_results) {
 						echo '<tr>';
 						echo '<td valign="top" align="center">';
 						echo $pageNav->writePagesCounter();
@@ -444,14 +416,11 @@ class JContentView
 
 			echo '</table>';
 
-		} else
-			if ($archive && !$total)
-			{
+		} else if ($archive && !$total) {
 				// Search Failure message for Archives
 				$msg = sprintf(JText :: _('ARCHIVE_SEARCH_FAILURE'), $params->get('month'), $params->get('year'));
 				echo '<br /><br /><div align="center">'.$msg.'</div><br />';
-			} else
-			{
+			} else {
 				// Generic blog empty display
 				echo _EMPTY_BLOG;
 			}
@@ -490,33 +459,26 @@ class JContentView
 		$results = $mainframe->triggerEvent('onPrepareContent', array (& $row, & $params, $page));
 
 		// adds mospagebreak heading or title to <site> Title
-		if (isset ($row->page_title))
-		{
+		if (isset ($row->page_title)) {
 			$document->setTitle($row->title.': '.$row->page_title);
 		}
 
 		// determines the link and link text of the readmore button
-		if ($params->get('intro_only'))
-		{
+		if ($params->get('intro_only')) {
 			// checks if the item is a public or registered/special item
-			if ($row->access <= $gid)
-			{
-				if ($task != "view")
-				{
+			if ($row->access <= $gid) {
+				if ($task != 'view') {
 					$_Itemid = JApplicationHelper :: getItemid($row->id, 0, 0, $ItemidCount['bs'], $ItemidCount['bc'], $ItemidCount['gbs']);
 				}
 				$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$row->id."&amp;Itemid=".$_Itemid);
 				//if ( strlen( trim( $row->fulltext ) )) {
-				if (@ $row->readmore)
-				{
+				if (@ $row->readmore) {
 					$linkText = JText :: _('Read more...');
 				}
-			} else
-			{
+			} else 	{
 				$linkOn = sefRelToAbs("index.php?option=com_registration&amp;task=register");
 				//if (strlen( trim( $row->fulltext ) )) {
-				if (@ $row->readmore)
-				{
+				if (@ $row->readmore) {
 					$linkText = JText :: _('Register to read more...');
 				}
 			}
@@ -525,8 +487,7 @@ class JContentView
 		$no_html = mosGetParam($_REQUEST, 'no_html', null);
 
 		// for pop-up page
-		if ($params->get('popup') && $no_html == 0)
-		{
+		if ($params->get('popup') && $no_html == 0) {
 			$document->setTitle($SiteName.' - '.$row->title);
 		}
 /*
@@ -545,8 +506,7 @@ class JContentView
 			}
 		}
 */
-		if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email'))
-		{
+		if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email')) {
 			// link used by print button
 			$print_link = $mainframe->getCfg('live_site').'/index2.php?option=com_content&amp;task=view&amp;id='.$row->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $page;
 			?>
@@ -1713,7 +1673,7 @@ class JContentView
 	 * @since 1.0
 	 */
 	function _sectionCategory($row, $params) {
-		if ($params->get('section') || $params->get('category')) {
+		if (($params->get('section') && $row->sectionid) || ($params->get('category') && $row->catid)) {
 			?>
 			<tr>
 				<td>
@@ -1726,7 +1686,7 @@ class JContentView
 		// displays Section Name
 		JContentView :: _category($row, $params);
 
-		if ($params->get('section') || $params->get('category')) {
+		if (($params->get('section') && $row->sectionid) || ($params->get('category') && $row->catid)) {
 				?>
 				</td>
 			</tr>
@@ -1747,8 +1707,7 @@ class JContentView
 	 * @since 1.0
 	 */
 	function _section($row, $params) {
-		if ($params->get('section'))
-		{
+		if ($params->get('section') && $row->sectionid) {
 			?>
 			<span>
 				<?php
@@ -1776,7 +1735,7 @@ class JContentView
 	 * @since 1.0
 	 */
 	function _category($row, $params) {
-		if ($params->get('category')) {
+		if ($params->get('category') && $row->catid) {
 			?>
 			<span>
 				<?php
