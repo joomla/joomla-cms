@@ -192,7 +192,7 @@ class JDocument extends JTemplate
 		$signature = serialize(array($type, $attributes));
 
 		if (empty($instances[$signature])) {
-			jimport('joomla.document.adapters.'.$type);
+			jimport('joomla.document.document.'.$type);
 			$adapter = 'JDocument'.$type;
 			$instances[$signature] = new $adapter($type, $attributes);
 		}
