@@ -80,9 +80,10 @@ class JInstallerController {
 		/*
 		 * If there is no uploaded file, we have a problem...
 		 */
-		if (!$userfile) {
-			JError::raiseError('SOME_ERROR_CODE', JText :: _('No file selected'));
-			JInstallerScreens :: showInstallForm();
+		if (!$userfile || $userfile['size'] < 1) {
+//			JError::raiseError('SOME_ERROR_CODE', JText :: _('No file selected')); // since this gives me an error.
+//			JInstallerScreens :: showInstallForm();
+			josRedirect("index2.php?option=com_installer", JText :: _('Please select a file'));
 			return false;
 		}
 
