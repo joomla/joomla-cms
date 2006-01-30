@@ -946,15 +946,18 @@ class JContentController {
 		}
 
 		// Main content item query
-		$query = "SELECT a.*, ROUND(v.rating_sum/v.rating_count) AS rating, v.rating_count, u.name AS author, u.usertype, cc.title AS category, s.title AS section, g.name AS groups, s.published AS sec_pub, cc.published AS cat_pub" .
-				"\n FROM #__content AS a" .
-				"\n LEFT JOIN #__categories AS cc ON cc.id = a.catid" .
-				"\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = 'content'" .
-				"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
-				"\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" .
-				"\n LEFT JOIN #__groups AS g ON a.access = g.id" .
-				"\n WHERE a.id = $uid".$xwhere.
-				"\n AND a.access <= $my->gid";
+		$query = "SELECT a.*, ROUND(v.rating_sum/v.rating_count) AS rating, v.rating_count, u.name AS author, u.usertype, cc.title AS category, s.title AS section,"
+				. "\n g.name AS groups, s.published AS sec_pub, cc.published AS cat_pub, s.access AS sec_access, cc.access AS cat_access"
+				. "\n FROM #__content AS a"
+				. "\n LEFT JOIN #__categories AS cc ON cc.id = a.catid"
+				. "\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = 'content'"
+				. "\n LEFT JOIN #__users AS u ON u.id = a.created_by"
+				. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id"
+				. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
+				. "\n WHERE a.id = $uid"
+				. $xwhere
+				. "\n AND a.access <= $my->gid"
+				;
 		$db->setQuery($query);
 
 		if ($db->loadObject($row)) {
@@ -968,6 +971,16 @@ class JContentController {
 				mosNotAuth();
 				return;
 			}
+			if ( ($row->cat_access > $my->gid) && $row->catid ) {
+				// check whether category access level allows access
+				mosNotAuth();  
+				return;
+			}
+			if ( ($row->sec_access > $my->gid) && $row->sectionid ) {
+				// check whether section access level allows access
+				mosNotAuth();  
+				return;
+			}			
 
 			$params = new JParameter($row->attribs);
 			$params->set('intro_only', 0);
@@ -977,57 +990,6 @@ class JContentController {
 			} else {
 				$params->set('item_navigation', $mainframe->getCfg('item_navigation'));
 			}
-/*
-			// loads the links for Next & Previous Button
-			if ($params->get('item_navigation')) {
-				// Paramters for menu item as determined by controlling Itemid
-				$menu = & JModel :: getInstance( 'menu', $db );
-				$menu->load($Itemid);
-				$mparams = new JParameter($menu->params);
-
-				// the following is needed as different menu items types utilise a different param to control ordering
-				// for Blogs the `orderby_sec` param is the order controlling param
-				// for Table and List views it is the `orderby` param
-				$mparams_list = $mparams->toArray();
-				if (array_key_exists('orderby_sec', $mparams_list)) {
-					$order_method = $mparams->get('orderby_sec', '');
-				} else {
-					$order_method = $mparams->get('orderby', '');
-				}
-				// additional check for invalid sort ordering
-				if ( $order_method == 'front' ) {
-					$order_method = '';
-				}
-				$orderby = JContentController :: _orderby_sec($order_method);
-
-				// array of content items in same category corretly ordered
-				$query = "SELECT a.id" .
-						"\n FROM #__content AS a" .
-						"\n WHERE a.catid = $row->catid" .
-						"\n AND a.state = $row->state". ($access->canEdit ? '' : "\n AND a.access <= $my->gid").$xwhere.
-						"\n ORDER BY $orderby";
-				$db->setQuery($query);
-				$list = $db->loadResultArray();
-
-				// this check needed if incorrect Itemid is given resulting in an incorrect result
-				if ( !is_array($list) ) {
-					$list = array();
-				}
-				// location of current content item in array list
-				$location = array_search($uid, $list);
-
-				$row->prev = null;
-				$row->next = null;
-				if ($location -1 >= 0) 	{
-					// the previous content item cannot be in the array position -1
-					$row->prev = $list[$location -1];
-				}
-				if (($location +1) < count($list)) {
-					// the next content item cannot be in an array position greater than the number of array postions
-					$row->next = $list[$location +1];
-				}
-			}
-*/
 			if ($MetaTitle == '1') {
 				$mainframe->addMetaTag('title', $row->title);
 			}
