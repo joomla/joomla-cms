@@ -40,6 +40,9 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+31-Jan-2006 Rey Gigataras
+ # Fixed Menu not greyed out [topic,34303.0.html]
+ 
 30-Jan-2006 Louis Landry
  # Fixed cache path problem on install
 

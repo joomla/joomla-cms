@@ -416,9 +416,7 @@ class JFullAdminMenu {
 			_cmSplit,
 
 <?php /* Site Sub-Menu */ ?>
-			[null,'<?php echo JText::_( 'Site', true ); ?>',null,null,'<?php echo JText::_( 'Site Management', true ); ?>',
-  				['<img src="../includes/js/ThemeOffice/preview.png" />','<?php echo JText::_( 'Preview', true ) . " " . JText::_( 'In New Window', true ); ?>','<?php echo $mainframe->getSiteURL(); ?>index.php','_blank','<?php echo $mainframe->getSiteURL(); ?>']
-			],
+			[null,'<?php echo JText::_( 'Site', true ); ?>',null,null,'<?php echo JText::_( 'Site Management', true ); ?>',],
 			_cmSplit,
 
 <?php /* Menu Sub-Menu */ ?>
@@ -435,7 +433,6 @@ if ($installComponents) {
 	?>
 			[null,'<?php echo JText::_( 'Components', true ); ?>',null,null,'<?php echo $text; ?>'],
 			_cmSplit,
-
 	<?php
 }
 ?>
@@ -446,7 +443,6 @@ if ($installModules | $editAllModules) {
 	?>
 			[null,'<?php echo JText::_( 'Modules', true ); ?>',null,null,'<?php echo $text; ?>'],
 			_cmSplit,
-
 	<?php
 }
 ?>
@@ -457,7 +453,6 @@ if ($installPlugins | $editAllPlugins) {
 	?>
 			[null,'<?php echo JText::_( 'Plugins', true ); ?>',null,null,'<?php echo $text; ?>'],
 			_cmSplit,
-
 	<?php
 }
 ?>
@@ -468,7 +463,6 @@ if ($installModules) {
 	?>
 			[null,'<?php echo JText::_( 'Extensions', true ); ?>',null,null,'<?php echo $text; ?>'],
 			_cmSplit,
-
 	<?php
 }
 ?>
@@ -479,7 +473,6 @@ if ($canConfig)	{
 	?>
   			[null,'<?php echo JText::_( 'System', true ); ?>',null,null,'<?php echo $text; ?>'],
 			_cmSplit,
-
 	<?php
 }
 ?>
