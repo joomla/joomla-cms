@@ -263,10 +263,10 @@ class JAuthenticate extends JObject {
 		$results = $mainframe->triggerEvent( 'onAuthenticate', $credentials);
 
 		/*
-		 * If any of the authentication plugins did not authenticate the credentials
-		 * then the whole method fails.  Any errors raised should be done in the plugin
-		 * as this provides the ability to provide much more information about why
-		 * authentication may have failed.
+		 * Check each of the results to see if a valid user ID was returned. and use the
+		 * furst ID to log into the system.
+		 * Any errors raised in the plugin should be returned via the JAuthenticateResponse
+		 * and handled appropriately.
 		 */
 		foreach($results as $result) {
 			if($result !== false) {
@@ -275,8 +275,7 @@ class JAuthenticate extends JObject {
 						$auth = $result->uid;
 						break;
 					} else {
-						// Is an error or failure
-						// Probably method not enabled
+						// TODO: Determine if the error was fatal.
 					}
 				} else {
 					// Return this value
