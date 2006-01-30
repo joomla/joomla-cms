@@ -45,9 +45,6 @@ $acl =& JFactory::getACL();
 // create session
 $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->_client );
 
-// get the information about the current user from the sessions table
-$my = $mainframe->getUser();
-
 // frontend login & logout controls
 $return = mosGetParam( $_REQUEST, 'return', NULL );
 if ($option == 'login') {
@@ -73,15 +70,15 @@ if ($option == 'logout') {
 	}
 }
 
-// get the information about the current user from the sessions table
-$my = $mainframe->getUser();
-
 $Itemid 	= intval( mosGetParam( $_REQUEST, 'Itemid', 0 ) );
 $no_html 	= intval( mosGetParam( $_REQUEST, 'no_html', 0 ) );
 $do_pdf 	= intval( mosGetParam( $_REQUEST, 'do_pdf', 0 ) );
 
 // trigger the onAfterStart events
 $mainframe->triggerEvent( 'onAfterStart' );
+
+// get the information about the current user from the sessions table
+$my = $mainframe->getUser();
 
 $lang =& $mainframe->getLanguage();
 $lang->load(trim($option));

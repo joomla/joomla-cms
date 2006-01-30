@@ -40,6 +40,9 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+30-Jan-2006 Samuel Moffatt
+ ^ Moved $my to after onAfterStart trigger in index.php and index2.php
+
 30-Jan-2006 Arno Zijlstra
  # Fixed css file edit style
  
