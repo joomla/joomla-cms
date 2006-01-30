@@ -525,7 +525,7 @@ class JMediaViews {
 		<table id="toolbar">
 		<tr>
 			<td>
-				<?php echo mosAdminMenus::ImageCheck( 'mediamanager.png', '/images/', NULL, NULL, JText::_( 'Upload a File' ), 'upload' ); ?>
+				<?php echo mosAdminMenus::ImageCheck( 'mediamanager.png', 'images/', NULL, NULL, JText::_( 'Upload a File' ), 'upload' ); ?>
 			</td>
 			<td class="title">
 				<?php echo JText::_( 'Upload a File' ); ?>

@@ -14,7 +14,7 @@
 
 /**
  * Utility class for all HTML drawing classes
- * 
+ *
  * @package 	Joomla.Framework
  * @since 1.0
  */
@@ -30,7 +30,7 @@ class mosHTML
 	 * @since 1.1
 	 */
 
-	function Link($url, $text, $attribs = null, $ssl = 0) 
+	function Link($url, $text, $attribs = null, $ssl = 0)
 	{
 		global $mainframe;
 
@@ -51,7 +51,7 @@ class mosHTML
 	 * @param array		An associative array of attributes to add
 	 * @since 1.1
 	 */
-	function Image($url, $alt, $attribs = null) 
+	function Image($url, $alt, $attribs = null)
 	{
 		global $mainframe;
 
@@ -73,7 +73,7 @@ class mosHTML
 	 * @param array		An associative array of attributes to add
 	 * @since 1.1
 	 */
-	function Script($url, $attribs = null) 
+	function Script($url, $attribs = null)
 	{
 		global $mainframe;
 
@@ -85,7 +85,7 @@ class mosHTML
 
 		return '<script type="text/javascript" src="'.$src.'" '.$attribs.'></script>';
 	}
-	
+
 	/**
 	 * Write a <iframe></iframe> element
 	 *
@@ -95,7 +95,7 @@ class mosHTML
 	 * @param integer	Set the SSL functionality
 	 * @since 1.1
 	 */
-	function Iframe($url, $name, $attribs = null, $ssl = 0) 
+	function Iframe($url, $name, $attribs = null, $ssl = 0)
 	{
 		global $mainframe;
 
@@ -381,24 +381,24 @@ class mosHTML
 		. "</a>";
 		return $html;
 	}
-	
+
 	/**
 	 * Utility function to provide Warning Icons
-	 * 
+	 *
 	 * @package Joomla.Framework
 	 * @param string Warning text
 	 * @param string Box title
 	 * @returns HTML code for Warning
 	 * @since 1.1
 	 */
-	function WarningIcon($warning, $title='Joomla Warning') 
+	function WarningIcon($warning, $title='Joomla Warning')
 	{
 		global $mainframe;
-		
+
 		$title 		= JText::_( 'Joomla Warning' );
 		$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \''. $title .'\', BELOW, RIGHT);';
 		$url        = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
-		
+
 		$tip 		= '<!--'. $title .'--> \n';
 		$tip 		= '<a href="#" onmouseover="'. $mouseover .'" onmouseout="return nd();">';
 		$tip 		.= '<img src="'.$url.'includes/js/ThemeOffice/warning.png" border="0"  alt=""/></a>';
@@ -812,10 +812,10 @@ class mosCommonHTML {
 	/*
 	* Loads all necessary files for JS Overlib tooltips
 	*/
-	function loadOverlib() 
+	function loadOverlib()
 	{
 		global $mainframe;
-		
+
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
 		if ( !$mainframe->get( 'loadOverlib' ) ) {
@@ -836,10 +836,10 @@ class mosCommonHTML {
 	*/
 	function loadCalendar() {
 		global $mainframe;
-		
+
 		$doc =& $mainframe->getDocument();
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
-		
+
 		$doc->addStyleSheet( $url. 'includes/js/calendar/calendar-mos.css', 'text/css', null, array(' title' => '"'. JText::_( 'green' ) .'"',' media' => '"all"' ));
 		$doc->addScript( $url. 'includes/js/calendar/calendar_mini.js' );
 		$doc->addScript( $url. 'includes/js/calendar/lang/calendar-en.js' );
@@ -893,22 +893,22 @@ class mosCommonHTML {
 
 		return $href;
 	}
-			function selectState( $filter_state=NULL, $published='Published', $unpublished='Unpublished' )	{
+	function selectState( $filter_state=NULL, $published='Published', $unpublished='Unpublished' )	{
 		$state[] = mosHTML::makeOption( '', '- '. JText::_( 'Select State' ) .' -' );
 		$state[] = mosHTML::makeOption( 'P', JText::_( $published ) );
 		$state[] = mosHTML::makeOption( 'U', JText::_( $unpublished ) );
-		
+
 		return mosHTML::selectList( $state, 'filter_state', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_state );
 	}
-	
-	function tableOrdering( $text, $ordering, &$lists, $task=NULL ) {		
+
+	function tableOrdering( $text, $ordering, &$lists, $task=NULL ) {
 		?>
 		<a href="javascript:tableOrdering('<?php echo $ordering; ?>','<?php echo $lists['order_Dir']; ?>','<?php echo $task; ?>');">
 			<?php echo JText::_( $text ); ?>
 			<?php mosCommonHTML :: tableOrdering_img( $ordering, $lists ); ?></a>
 		<?php
 	}
-			function tableOrdering_img( $current, &$lists ) {
+	function tableOrdering_img( $current, &$lists ) {
 		if ( $current == $lists['order']) {
 			if ( $lists['order_Dir'] == 'ASC' ) {
 				$image = 'sort_desc.png';
@@ -923,7 +923,7 @@ class mosCommonHTML {
 
 /**
  * Tab Creation handler
- * 
+ *
  * @author 		Phil Taylor
  * @package 	Joomla.Framework
  * @since 1.0
@@ -938,17 +938,17 @@ class mosTabs {
 	* @param int useCookies, if set to 1 cookie will hold last used tab between page refreshes
 	* @param boolean xhtml [DEPRECATED]
 	*/
-	function mosTabs( $useCookies, $xhtml=NULL ) 
+	function mosTabs( $useCookies, $xhtml=NULL )
 	{
 		global $mainframe;
-		
+
 		if($mainframe->get( 'loadTabs')) {
 			return;
 		}
-		
-		$document =& $mainframe->getDocument(); 
+
+		$document =& $mainframe->getDocument();
 		$lang     =& $mainframe->getLanguage();
-		
+
 		$css  = $lang->isRTL() ? 'tabpane_rtl.css' : 'tabpane.css';
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
@@ -1002,7 +1002,7 @@ class mosTabs {
 
 /**
  * Common HTML Output Files
- * 
+ *
  * @package 	Joomla.Framework
  * @since 1.0
  */
@@ -1051,12 +1051,12 @@ class mosAdminMenus {
 	*/
 	function Parent( &$row ) {
 		global $database;
-		
+
 		$id = '';
 		if ( $row->id ) {
 			$id = "\n AND id != $row->id";
 		}
-		
+
 		// get a list of the menu items
 		// excluding the current menu item and its child elements
 		$query = "SELECT m.*"
@@ -1071,7 +1071,7 @@ class mosAdminMenus {
 
 		// establish the hierarchy of the menu
 		$children = array();
-		
+
 		if ( $mitems ) {
 			// first pass - collect children
 			foreach ( $mitems as $v ) {
@@ -1081,20 +1081,20 @@ class mosAdminMenus {
 				$children[$pt] = $list;
 			}
 		}
-		
+
 		// second pass - get an indent list of the items
 		$list = mosTreeRecurse( 0, '', array(), $children, 9999, 0, 0 );
 
 		// assemble menu items to the array
 		$mitems 	= array();
 		$mitems[] 	= mosHTML::makeOption( '0', JText::_( 'Top' ) );
-		
+
 		foreach ( $list as $item ) {
 			$mitems[] = mosHTML::makeOption( $item->id, '&nbsp;&nbsp;&nbsp;'. $item->treename );
 		}
-		
+
 		$output = mosHTML::selectList( $mitems, 'parent', 'class="inputbox" size="10"', 'value', 'text', $row->parent );
-		
+
 		return $output;
 	}
 
@@ -1208,7 +1208,7 @@ class mosAdminMenus {
 		</tr>
 		<?php
 	}
-	
+
 	function MenuOutputParams( &$params, $menu, $tip=NULL ) {
 		?>
 		<td width="40%">
@@ -1233,15 +1233,15 @@ class mosAdminMenus {
 					}
 				} else {
 					echo $params->render();
-				}	
+				}
 				?>
 				</td>
 			</tr>
 			</table>
 		</td>
-		<?php		
-	}	
-	
+		<?php
+	}
+
 	/**
 	* build the multiple select list for Menu Links/Pages
 	*/
@@ -1344,10 +1344,10 @@ class mosAdminMenus {
 		$database->setQuery( $query );
 		$rows = $database->loadObjectList();
 		$category = '';
-		
+
 		$category .= mosHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"'. $javascript, 'value', 'text', $menu->componentid );
 		$category .= '<input type="hidden" name="link" value="" />';
-		
+
 		return $category;
 	}
 
@@ -1369,7 +1369,7 @@ class mosAdminMenus {
 		} else {
 			$rows = $database->loadObjectList();
 		}
-		
+
 		$section = mosHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid );
 		$section .= '<input type="hidden" name="link" value="" />';
 
@@ -1391,7 +1391,7 @@ class mosAdminMenus {
 		$rows = $database->loadObjectList( );
 
 		$component = mosHTML::selectList( $rows, 'componentid', 'class="inputbox" size="10"', 'value', 'text', $menu->componentid, '', 1 );
-			
+
 		return $component;
 	}
 
@@ -1601,7 +1601,7 @@ class mosAdminMenus {
 			$registry = new JRegistry();
 			$registry->loadINI($menus[$i]->params);
 			$params = $registry->toObject( );
-			
+
 			$menuselect[$i]->value 	= $params->menutype;
 			$menuselect[$i]->text 	= $params->menutype;
 		}
@@ -1681,12 +1681,12 @@ class mosAdminMenus {
 	* Also can be used in conjunction with the menulist param to create the chosen image
 	* load the default or use no image
 	*/
-	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='middle' ) 
+	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='middle' )
 	{
 		global $mainframe;
 
 		$cur_template = $mainframe->getTemplate();
-		
+
 		$name = ( $name ? 'name="'. $name .'"' : '' );
 
 		if ( $param ) {
@@ -1704,11 +1704,11 @@ class mosAdminMenus {
 				$image = $directory . $file;
 			}
 		}
-		
-		if (substr($image, 1 ) != "/") {
+
+		if (substr($image, 0, 1 ) == "/") {
 			$image = substr_replace($image, '', 0, 1);
 		}
-		
+
 		// outputs actual html <img> tag
 		if ( $type ) {
 			$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" '. $name .' border="0" />';
@@ -1723,7 +1723,7 @@ class mosAdminMenus {
 	* Also can be used in conjunction with the menulist param to create the chosen image
 	* load the default or use no image
 	*/
-	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' ) 
+	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' )
 	{
 		global $mainframe;
 
@@ -1747,11 +1747,11 @@ class mosAdminMenus {
 				}
 			}
 		}
-		
-		if (substr($image, 1 ) != "/") {
+
+		if (substr($image, 0, 1 ) == "/") {
 			$image = substr_replace($image, '', 0, 1);
 		}
-		
+
 		// outputs actual html <img> tag
 		if ( $type ) {
 			$image = '<img src="'. $image .'" alt="'. $alt .'" align="'. $align .'" '. $name .' border="0" />';
@@ -1783,11 +1783,11 @@ class mosAdminMenus {
 		foreach ( $modMenus as $modMenu ) {
 			$check = 1;
 			mosMakeHtmlSafe( $modMenu) ;
-			
+
 			$registry = new JRegistry();
 			$registry->loadINI($modMenu->params);
 			$modParams = $registry->toObject( );
-			
+
 			$menuType 	= @$modParams->menutype;
 			if (!$menuType) {
 				$menuType = 'mainmenu';
@@ -1837,6 +1837,6 @@ class mosAdminMenus {
 		$path = JPATH_ADMINISTRATOR .'/components/com_menus/'. $item .'/';
 		include_once( $path . $item .'.class.php' );
 		include_once( $path . $item .'.menu.html.php' );
-	}	
+	}
 }
 ?>
