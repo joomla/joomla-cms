@@ -1733,9 +1733,9 @@ class JContentController {
 		global $mainframe;
 
 		$db				= & $mainframe->getDBO();
-		$url 			= JRequeset::getVar( 'url', '' );
-		$user_rating 	= JRequeset::getVar( 'user_rating', 0, '', 'int' );
-		$cid 			= JRequeset::getVar( 'cid', 0, '', 'int' );
+		$url 			= JRequest::getVar( 'url', '' );
+		$user_rating 	= JRequest::getVar( 'user_rating', 0, '', 'int' );
+		$cid 			= JRequest::getVar( 'cid', 0, '', 'int' );
 
 		if (($user_rating >= 1) and ($user_rating <= 5))
 		{

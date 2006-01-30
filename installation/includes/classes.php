@@ -193,7 +193,7 @@ class JInstallationController
 		/*
 		 * Instantiate the xajax object and register the function
 		 */
-		$xajax = new xajax('http://'.$_SERVER['HTTP_HOST'].'/'.dirname( $_SERVER['PHP_SELF'] ).'/includes/jajax.php');
+		$xajax = new xajax($mainframe->getBaseURL().'includes/jajax.php');
 		$xajax->registerFunction(array('getCollations', 'JAJAXHandler', 'dbcollate'));
 		//$xajax->debugOn();
 
@@ -406,7 +406,7 @@ class JInstallationController
 		/*
 		 * Instantiate the xajax object and register the function
 		 */
-		$xajax = new xajax('http://'.$_SERVER['HTTP_HOST'].'/'.dirname( $_SERVER['PHP_SELF'] ).'/includes/jajax.php');
+		$xajax = new xajax($mainframe->getBaseURL().'includes/jajax.php');
 		$xajax->registerFunction(array('getFtpRoot', 'JAJAXHandler', 'ftproot'));
 		//$xajax->debugOn();
 

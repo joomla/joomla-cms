@@ -57,6 +57,8 @@ Legend:
  ^ Event system cleanup
  # Fixed editor display issue
  # Fixed artf3306 : locale - time offset in configuration - very minor
+ # Fixed artf3255 : unable to edit _system css files
+ # Fixed XAJAX problem on installation (PHP as CGI on apache)
 
 29-Jan-2006 Johan Janssens
  ^ Moved mail classes into mail library package

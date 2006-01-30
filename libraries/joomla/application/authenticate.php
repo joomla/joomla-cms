@@ -79,8 +79,10 @@ class JAuthenticate extends JObject {
 	{
 		global $mainframe;
 
-		// Get the global event dispatcher object
-		$dispatcher = &JEventDispatcher::getInstance();
+		/*
+		 * Import the user plugin group
+		 */
+		JPluginHelper::importGroup('user');
 
 		// Get the global database connector object
 		$db = $mainframe->getDBO();
@@ -197,6 +199,11 @@ class JAuthenticate extends JObject {
 
 		// Initialize variables
 		$retval = false;
+
+		/*
+		 * Import the user plugin group
+		 */
+		JPluginHelper::importGroup('user');
 
 		// Get a user object from the JApplication
 		$user = $mainframe->getUser();

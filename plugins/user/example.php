@@ -14,14 +14,20 @@
 
 jimport('joomla.application.extension.plugin');
 
+/*
+ * Here we register the plugin with the JApplication class by passing an empty
+ * string for event and the class name for the handler. Function based plugins
+ * cannot register this way as they also have to pass the event to be called on.
+ */
+$mainframe->registerEvent( '', 'JUserExample' );
 
 /**
  * Example User Plugin
  *
- * @author Louis Landry <louis@webimagery.net>
- * @package Joomla
- * @subpackage JFramework
- * @since 1.1
+ * @author		Louis Landry <louis@webimagery.net>
+ * @package		Joomla
+ * @subpackage	JFramework
+ * @since 		1.1
  */
 class JUserExample extends JPlugin {
 

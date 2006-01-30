@@ -60,10 +60,7 @@ class JUser extends JObject
 	{
 		global $mainframe;
 		
-		$this->_model   = $this->_createModel();
-		$this->_params	= $this->_createParameters();
-
-		if (!is_null($id)) {
+		if (!is_null($id) && $id != '' ) {
 			$this->_load($id);
 		}
 	}
@@ -80,7 +77,7 @@ class JUser extends JObject
 	 * @return 	JUser  			The User object.
 	 * @since 	1.1
 	 */
-	function & getInstance($id) 
+	function & getInstance($id = null) 
 	{
 		static $instances;
 
@@ -197,7 +194,7 @@ class JUser extends JObject
 			$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
 		}
 		
-		$this->_params->loadConfigFile($path);
+		$this->_params->loadSetupFile($path);
 		$this->_params->loadINI($data);
 	}
 
@@ -430,6 +427,18 @@ class JUser extends JObject
 	 */
 	function _load($id)
 	{
+		global $mainframe;
+		
+		/*
+		 * Initialize variables
+		 */
+		$db				=& $mainframe->getDBO();
+		
+		/*
+		 * Create the user model
+		 */
+		$this->_model 	=& JModel::getInstance( 'user', $db );
+		
 		/*
 		 * Load the JUserModel object based on the user id or throw a warning.
 		 */
@@ -444,7 +453,8 @@ class JUser extends JObject
 		 * extend this in the future to allow for the ability to have custom
 		 * user parameters, but for right now we'll leave it how it is.
 		 */
-		$this->_params->loadINI( $this->_model->params );
+		$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
+		$this->_params = new JParameter( $this->_model->params, $path );
 		
 		/*
 		 * Assuming all is well at this point, we set the private id field
@@ -452,37 +462,6 @@ class JUser extends JObject
 		$this->_id = $id;
 		
 		return true;
-	}
-	
-	/**
-	 * Create the user model object
-	 * 
-	 * @access 	protected
-	 * @return 	object 			The JModelUser instance
-	 * @since 1.1
-	 */
-	function &_createModel()
-	{
-		global $mainframe;
-		
-		$db		=& $mainframe->getDBO();
-		$model 	=& JModel::getInstance( 'user', $db );
-		return $model;
-	}
-	
-	/**
-	 * Create the parameters object
-	 * 
-	 * @access 	protected
-	 * @return 	object 			The JParameter instance
-	 * @since 1.1
-	 */
-	function _createParameters()
-	{
-		$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
-		
-		$parameters =& new JParameter($data, $path);
-		return $parameters;
 	}
 	
 	/**
@@ -526,7 +505,7 @@ class JUserHelper {
 		$db = & $mainframe->getDBO();
 		
 		/*
-		 * Load the user plugins and fire the onActivate event
+		 * Load the user plugins
 		 */
 		JPluginHelper::importGroup( 'user' );
 
