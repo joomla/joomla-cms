@@ -270,10 +270,11 @@ class WeblinksController {
 	 * @since 1.0
 	 */
 	function showItem($id) {
-		global $mainframe, $Itemid;
+		global $mainframe;
 
 		// Get some objects from the JApplication
 		$db = & $mainframe->getDBO();
+		$my = & $mainframe->getUser();
 
 		$weblink = & new JWeblinkModel($db);
 		$weblink->load($id);
@@ -296,7 +297,14 @@ class WeblinksController {
 			mosNotAuth();
 			return;
 		}
-		
+		/*
+		* check whether category access level allows access
+		*/
+		if ( $cat->access > $my->gid ) {	
+			mosNotAuth();  
+			return;
+		}
+
 		// Record the hit
 		$weblink->hit();
 
