@@ -40,7 +40,6 @@ function initDocument(&$doc, $file = 'index.html')
 	$doc->setBase( $mainframe->getBaseURL());
 
 	$doc->addScript( 'includes/js/installation.js');
-	$doc->addScript( 'includes/js/ajform.js.js');
 
 	if ($lang->isRTL()) {
 		$doc->addStyleSheet( 'template/css/template_rtl.css' );
