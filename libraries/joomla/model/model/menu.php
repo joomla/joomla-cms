@@ -82,6 +82,7 @@ class JModelMenu extends JModel
 			$registry =& new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
+			echo $array['params'];
 		}
 	
 		return parent::bind($array, $ignore);
