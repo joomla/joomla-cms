@@ -42,6 +42,7 @@ Legend:
 
 30-Jan-2006 Emir Sakic
  # Fixed css upload a file style
+ # Fixed upload a file image
 
 30-Jan-2006 Samuel Moffatt
  ^ Moved $my to after onAfterStart trigger in index.php and index2.php

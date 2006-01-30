@@ -14,18 +14,18 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
- * Media Manager Views 
- * 
+ * Media Manager Views
+ *
  * @static
  * @package Joomla
  * @subpackage Media
  * @since 1.1
  */
 class JMediaViews {
-	
+
 	/**
 	 * Method to show the standard Media Manager view
-	 * 
+	 *
 	 * @param string $dirPath The current path select box
 	 * @param string $listdir The current working directory
 	 * @since 1.0
@@ -49,7 +49,7 @@ class JMediaViews {
 		</script>
 
 		<form action="index2.php" name="adminForm" method="post" enctype="multipart/form-data" >
-		
+
 		<table class="adminform">
 		<tr>
 			<td align="right" width="50%" style="padding-right:10px;white-space:nowrap">
@@ -60,10 +60,10 @@ class JMediaViews {
 				<?php echo JText::_( 'Image/Url Code' ); ?>
 				<input class="inputbox" type="text" name="imagecode" style="width: 350px" />
 			</td>
-		</tr>				
+		</tr>
 		</table>
-				
-		<div id="tablecell">				
+
+		<div id="tablecell">
 			<table width="100%" align="center">
 			<tr>
 				<td align="center">
@@ -106,7 +106,7 @@ class JMediaViews {
 			</tr>
 			<tr>
 				<td>
-	
+
 				</td>
 			</tr>
 			<tr>
@@ -127,7 +127,7 @@ class JMediaViews {
 
 	/**
 	 * Method to show the media list (in the iframe)
-	 * 
+	 *
 	 * @param string $listFolder The current working folder
 	 * @param array $folders Array of folders in the current working folder
 	 * @param array $docs Array of documents in the current working folder
@@ -167,7 +167,7 @@ class JMediaViews {
 						$icon = "components/com_media/images/con_info.png";
 					}
 					JMediaViews :: showDoc($doc, $docDetails['size'], $listFolder, $icon);
-				}	
+				}
 			}
 
 			/*
@@ -176,7 +176,7 @@ class JMediaViews {
 			if (count($images)) {
 				foreach ($images as $image => $imageDetails) {
 					JMediaViews :: showImage($imageDetails['file'], $image, $imageDetails['imgInfo'], $imageDetails['size'], $listFolder);
-				}	
+				}
 			}
 
 			JMediaViews :: drawTableFooter();
@@ -187,7 +187,7 @@ class JMediaViews {
 
 	/**
 	 * Method to display an error message if the working directory is not valid
-	 * 
+	 *
 	 * since 1.1
 	 */
 	function listError() {
@@ -316,10 +316,10 @@ class JMediaViews {
 		<?php
 	}
 
-	function showDoc($doc, $size, $listdir, $icon) 
+	function showDoc($doc, $size, $listdir, $icon)
 	{
 		global $mainframe;
-		
+
 		$size = JMediaViews::parseSize( $size );
 		$base = "/images/";
 		$overlib = JText::_( 'Filesize' ) .': '. $size;
@@ -468,7 +468,7 @@ class JMediaViews {
 			overflow: hidden;
 			border: 1px solid #ccc;
 		}
-		
+
 		div.imgBorder a {
 			cursor: pointer;
 		}
@@ -525,7 +525,7 @@ class JMediaViews {
 		<table id="toolbar">
 		<tr>
 			<td>
-				<?php echo mosAdminMenus::ImageCheck( 'mediamanager.png', '/administrator/images/', NULL, NULL, JText::_( 'Upload a File' ), 'upload' ); ?>
+				<?php echo mosAdminMenus::ImageCheck( 'mediamanager.png', '/images/', NULL, NULL, JText::_( 'Upload a File' ), 'upload' ); ?>
 			</td>
 			<td class="title">
 				<?php echo JText::_( 'Upload a File' ); ?>
