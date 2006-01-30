@@ -122,7 +122,6 @@ class WeblinksController {
 		$params->def('display_num', 		$mainframe->getCfg('list_limit'));
 
 		if ($catid) {
-
 			// Initialize variables
 			$rows = array ();
 
@@ -158,13 +157,22 @@ class WeblinksController {
 			$db->setQuery($query, $limitstart, $limit);
 			$rows = $db->loadObjectList();
 
+			// current category info
+			$query = "SELECT name, description, image, image_position"
+			. "\n FROM #__categories"
+			. "\n WHERE id = $catid"
+			. "\n AND published = 1"
+			. "\n AND access <= $my->gid"
+			;
+			$db->setQuery( $query );
+			$db->loadObject( $category );
+			
 			/*
-			 * Let's load a category model for the current category
-			 */
-			$category =& JModel::getInstance('category', $db );
-
-			if (!$category->load($catid)) {
-				JError::raiseError('SOME_ERROR_CODE', 'WeblinksController::showCategory: Unable to load the category', 'Category ID: '.$catid);
+			Check if the category is published or if access level allows access
+			*/
+			if (!$category->name) {
+				mosNotAuth();
+				return;
 			}
 		}
 

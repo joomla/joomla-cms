@@ -129,7 +129,7 @@ function listFeeds( $catid ) {
 		$database->loadObject( $currentcat );
 
 		/*
-		Check if the category is published
+		Check if the category is published or if access level allows access
 		*/
 		if (!$currentcat->name) {
 			mosNotAuth();
