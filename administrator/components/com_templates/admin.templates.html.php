@@ -349,7 +349,7 @@ class JTemplatesView {
 			$sy_file = &$s_files[$i]; ?>
 			<tr class="<?php echo 'row'. $kk; ?>">
 				<td width="5%">
-					<input type="radio" id="cb<?php echo $i;?>" name="tp_name" value="<?php echo '/templates/css/'. $sy_file; ?>" onClick="isChecked(this.checked);" />
+					<input type="radio" id="cb<?php echo $i;?>" name="tp_name" value="<?php echo '/templates/_system/css/'. $sy_file; ?>" onClick="isChecked(this.checked);" />
 				</td>
 				<td width="85%">
 					<?php echo $sy_file; ?>

@@ -40,9 +40,9 @@ class JAuthenticate extends JObject {
 		/*
 		 * Grab all of the plugins of type 'auth'
 		 */
-		 $query = 	"SELECT `element`, `folder` " .
+		 $query = 	"SELECT `element` " .
 		 			"\nFROM `#__plugins` " .
-		 			"\nWHERE (`folder`='authentication' OR `folder`='user') " .
+		 			"\nWHERE `folder`='authentication' " .
 		 			"\nAND `published`='1'";
 		 $db->setQuery($query);
 		 $plugins = $db->loadResultArray();
@@ -107,7 +107,7 @@ class JAuthenticate extends JObject {
 				// Credentials authenticated
 
 				// OK, the credentials are authenticated.  Lets fire the onLogin event
-				$results = $dispatcher->trigger( 'onLogin', $credentials);
+				$results = $mainframe->triggerEvent( 'onLogin', $credentials);
 
 				/*
 				 * If any of the authentication plugins did not successfully complete the login
@@ -197,9 +197,6 @@ class JAuthenticate extends JObject {
 
 		// Initialize variables
 		$retval = false;
-
-		// Get the global event dispatcher object
-		$dispatcher = &JEventDispatcher::getInstance();
 
 		// Get a user object from the JApplication
 		$user = $mainframe->getUser();

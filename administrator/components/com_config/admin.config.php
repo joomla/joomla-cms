@@ -129,9 +129,6 @@ class JConfigController {
 
 		$lists['enable_ftp'] 	= mosHTML :: yesnoRadioList('ftp_enable', 'class="inputbox"', $row->ftp_enable);
 
-		if (!isset($row->secure_site)) {
-			$row->secure_site = str_replace('http://', 'https://', $mainframe->getCfg('live_site'));
-		}
 
 		// LOCALE SETTINGS
 

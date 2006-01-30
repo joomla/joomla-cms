@@ -382,7 +382,6 @@ class JTemplatesController
 		$content = JFile :: read($file);
 		if ($content !== false) {
 			$content = htmlspecialchars($content);
-
 			JTemplatesView :: editTemplateSource($p_tname, $content, $option, $client);
 		} else {
 			$msg = sprintf(JText :: _('Operation Failed Could not open'), $file);
