@@ -185,7 +185,7 @@ class JContactController {
 				}
 			
 				/*
-				Check if the category is published
+				Check if the category is published or if access level allows access
 				*/
 				if (!$current->cname) {
 					mosNotAuth();
@@ -259,8 +259,7 @@ class JContactController {
 	 * @static
 	 * @since 1.0
 	 */
-	function contactPage($cid = 0)
-	{
+	function contactPage($cid = 0) {
 		global $mainframe, $Itemid;
 
 		/*
@@ -288,24 +287,31 @@ class JContactController {
 		/*
 		 * Ok, now lets get the information on the particular contact id
 		 */
-		$query = "SELECT a.*, cc.title as catname" .
-				"\n FROM #__contact_details AS a" .
-				"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
-				"\n WHERE a.published = 1" .
-				"\n AND a.id = $contactId" .
-				"\n AND a.access <= $my->gid";
+		$query = "SELECT a.*, cc.title as catname, cc.access AS cat_access" 
+				. "\n FROM #__contact_details AS a" 
+				. "\n INNER JOIN #__categories AS cc ON cc.id = a.catid" 
+				. "\n WHERE a.published = 1" 
+				. "\n AND a.id = $contactId" 
+				. "\n AND a.access <= $my->gid"
+				;
 		$db->SetQuery($query);
 		$db->loadObject($contact);
 
-		if (is_object($contact))
-		{
+		if (is_object($contact)) {
+			/*
+			* check whether category access level allows access
+			*/
+			if ( $contact->cat_access > $my->gid ) {	
+				mosNotAuth();  
+				return;
+			}	
+
 			/*
 			 * If the drop_down parameter is true, then we need to build a
 			 * dropdown select list of contacts in the given category
 			 */
 			$list = array();
-			if ($menuParams->get('drop_down'))
-			{
+			if ($menuParams->get('drop_down')) 	{
 				$query = "SELECT a.id AS value, CONCAT_WS( ' - ', a.name, a.con_position ) AS text, a.catid" .
 						"\n FROM #__contact_details AS a" .
 						"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
@@ -397,8 +403,7 @@ class JContactController {
 			/*
 			 * Time to manage the display mode for contact detail groups
 			 */
-			switch ($params->get('contact_icons'))
-			{
+			switch ($params->get('contact_icons')) {
 				case 1 :
 					// text
 					$params->set('marker_address', JText :: _('Address').": ");
@@ -445,15 +450,13 @@ class JContactController {
 			 * 	- Contact item always
 			 */
 			$breadcrumbs = & $mainframe->getPathWay();
-			if (!$menuParams->get('hideCatCrumbs'))
-			{
+			if (!$menuParams->get('hideCatCrumbs')) {
 				$breadcrumbs->addItem($contact->catname, "index.php?option=com_contact&catid=$contact->catid&Itemid=$Itemid");
 			}
 			$breadcrumbs->addItem($contact->name, '');
 
 			JContactView :: viewContact($contact, $params, count($list), $list, $menuParams);
-		} else
-		{
+		} else {
 			$params = new JParameter('');
 			$params->def('back_button', $mainframe->getCfg('back_button'));
 			JContactView :: noContact($params);
