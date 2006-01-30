@@ -110,7 +110,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 			$content = '';
 			ob_start();
 
-			$msg = mosGetParam( $_REQUEST, 'mosmsg', '' );
+			$msg = stripslashes(urldecode(JRequest :: getVar( 'josmsg' )));
 			if (!empty($msg)) {
 				echo "\n<div class=\"message\">$msg</div>";
 			}

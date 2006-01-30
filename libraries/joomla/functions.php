@@ -211,13 +211,13 @@ function josRedirect( $url, $msg='' )
 	}
 
 	/*
-	 * If the message exits, prepare it (url encoding)
+	 * If the message exists, prepare it (url encoding)
 	 */
 	if (trim( $msg )) {
 	 	if (strpos( $url, '?' )) {
-			$url .= '&mosmsg=' . urlencode( $msg );
+			$url .= '&josmsg=' . urlencode( $msg );
 		} else {
-			$url .= '?mosmsg=' . urlencode( $msg );
+			$url .= '?josmsg=' . urlencode( $msg );
 		}
 	}
 

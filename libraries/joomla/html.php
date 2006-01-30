@@ -400,7 +400,7 @@ class mosHTML
 		$url        = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
 		$tip 		= '<!--'. $title .'--> \n';
-		$tip 		= '<a href="#" onmouseover="'. $mouseover .'" onmouseout="return nd();">';
+		$tip 		= '<a onmouseover="'. $mouseover .'" onmouseout="return nd();">';
 		$tip 		.= '<img src="'.$url.'includes/js/ThemeOffice/warning.png" border="0"  alt=""/></a>';
 
 		return $tip;

@@ -60,7 +60,23 @@ class JUser extends JObject
 	{
 		global $mainframe;
 		
-		if (!is_null($id) && $id != '' ) {
+		/*
+		 * Initialize variables
+		 */
+		$db				=& $mainframe->getDBO();
+
+		/*
+		 * Create the user model object
+		 */
+		$this->_model 	=& JModel::getInstance( 'user', $db );
+		
+		/*
+		 * Create the user parameters object
+		 */
+		$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
+		$this->_params = new JParameter( '', $path );
+		
+		if (!is_null($id)) {
 			$this->_load($id);
 		}
 	}
@@ -430,16 +446,6 @@ class JUser extends JObject
 		global $mainframe;
 		
 		/*
-		 * Initialize variables
-		 */
-		$db				=& $mainframe->getDBO();
-		
-		/*
-		 * Create the user model
-		 */
-		$this->_model 	=& JModel::getInstance( 'user', $db );
-		
-		/*
 		 * Load the JUserModel object based on the user id or throw a warning.
 		 */
 		if (!$this->_model->load($id))
@@ -453,8 +459,7 @@ class JUser extends JObject
 		 * extend this in the future to allow for the ability to have custom
 		 * user parameters, but for right now we'll leave it how it is.
 		 */
-		$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
-		$this->_params = new JParameter( $this->_model->params, $path );
+		$this->_params->loadINI($this->_model->params);
 		
 		/*
 		 * Assuming all is well at this point, we set the private id field
