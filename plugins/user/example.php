@@ -42,10 +42,11 @@ class JUserExample extends JPlugin {
 	/**
 	 * This method should handle any login logic and report back to the subject
 	 *
-	 * @access public
-	 * @param array Authentication credentials
-	 * @return boolean True on success
-	 * @since 1.1
+	 * @access	public
+	 * @param	string	$username	Username for authentication
+	 * @param	string	$password	Password for authentication
+	 * @return	boolean	True on success
+	 * @since	1.1
 	 */
 	function onLogin(& $credentials) {
 		// Initialize variables

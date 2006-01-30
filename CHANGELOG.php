@@ -55,6 +55,7 @@ Legend:
 29-Jan-2006 Louis Landry
  ^ Moved event library to the application package
  ^ Event system cleanup
+ # Fixed editor display issue
 
 29-Jan-2006 Johan Janssens
  ^ Moved mail classes into mail library package

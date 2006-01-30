@@ -55,16 +55,8 @@ class JEditor_tinymce extends JPlugin {
 		
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 	
-		// load tinymce info
-		$query = "SELECT id"
-		. "\n FROM #__plugins"
-		. "\n WHERE element = 'tinymce'"
-		. "\n AND folder = 'editors'";
-		
-		$database->setQuery( $query );
-		$id = $database->loadResult();
-		$plugin =& JModel::getInstance('plugin', $database); 
-		$plugin->load( $id );
+		$plugin = JPluginHelper::getPlugin('editors', 'tinymce'); 
+		$id		= $plugin->id;
 		$params = new JParameter( $plugin->params );
 	
 		$theme = $params->get( 'theme', 'advanced' );
@@ -112,6 +104,10 @@ class JEditor_tinymce extends JPlugin {
 		if ( $content_css_custom ) {
 			$content_css = 'content_css : "'. $content_css_custom .'", ';
 		} else {
+			
+			/*
+			 * Lets get the default editor for the site application
+			 */
 			$query = "SELECT template"
 			. "\n FROM #__templates_menu"
 			. "\n WHERE client_id = 0"
@@ -127,7 +123,7 @@ class JEditor_tinymce extends JPlugin {
 				$file = 'editor_content.css';
 			}
 			
-			$content_css = 'content_css : "'. $url .'/templates/'. $template .'/css/';
+			$content_css = 'content_css : "'. $url .'templates/'. $template .'/css/';
 			
 			if ( file_exists( $file_path .DS. $file ) ) {
 				$content_css = $content_css . $file .'", ';
@@ -136,10 +132,10 @@ class JEditor_tinymce extends JPlugin {
 			}
 		}
 
-		$plugins[] 	= '';
-		$buttons2[]	= '';
-		$buttons3[]	= '';
-		$elements[]	= '';
+		$plugins 	= array();
+		$buttons2	= array();
+		$buttons3	= array();
+		$elements	= array();
 	
 		if ( $cleanup ) {
 			$cleanup	= 'true';
@@ -157,9 +153,9 @@ class JEditor_tinymce extends JPlugin {
 	
 		// Tiny Compressed mode
 		if ( $compressed ) {
-			$load = '<script type="text/javascript" src="'. $url .'/plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php"></script>';
+			$load = "\t<script type=\"text/javascript\" src=\"".$url."plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce_gzip.php\"></script>\n";
 		} else {
-			$load = '<script type="text/javascript" src="'. $url .'/plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>';
+			$load = "\t<script type=\"text/javascript\" src=\"".$url."plugins/editors/tinymce/jscripts/tiny_mce/tiny_mce.js\"></script>\n";
 		}
 	
 		// preview
@@ -221,51 +217,51 @@ class JEditor_tinymce extends JPlugin {
 		$lang = substr($lang->getTag(), 0, 2);
 	
 		$return = $load .
-			"<script type=\"text/javascript\">
-				tinyMCE.init({
-				theme : \"$theme\",
-				language : \"$lang\",
-				mode : \"specific_textareas\",
-				document_base_url : \"". $url ."/\",
-				relative_urls : false,
-				remove_script_host : false,
-				save_callback : \"TinyMCE_Save\",
-				invalid_elements : \"$invalid_elements\",
-				theme_advanced_toolbar_location : \"$toolbar\",
-				theme_advanced_source_editor_height : \"$html_height\",
-				theme_advanced_source_editor_width : \"$html_width\",
-				directionality: \"$text_direction\",
-				force_br_newlines : \"$br_newlines\",
-				force_p_newlines : \"$p_newlines\",
-				$content_css
-				debug : false,
-				cleanup : $cleanup,
-				safari_warning : false,
-				plugins : \"advlink, advimage, $plugins\",
-				theme_advanced_buttons2_add : \"$buttons2\",
-				theme_advanced_buttons3_add : \"$buttons3\",
-				plugin_insertdate_dateFormat : \"$format_date\",
-				plugin_insertdate_timeFormat : \"$format_time\",
-				plugin_preview_width : \"$preview_width\",
-				plugin_preview_height : \"$preview_height\",
-				extended_valid_elements : \"a[name|href|target|title|onclick], img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name], $elements\",
-				fullscreen_settings : {
-					theme_advanced_path_location : \"top\"
-				}
-			});
-			function TinyMCE_Save(editor_id, content, node)
-			{
-				base_url = tinyMCE.settings['document_base_url'];
-				var vHTML = content;
-				if (true == true){
-					vHTML = tinyMCE.regexpReplace(vHTML, 'href\s*=\s*\"?'+base_url+'', 'href=\"', 'gi');
-					vHTML = tinyMCE.regexpReplace(vHTML, 'src\s*=\s*\"?'+base_url+'', 'src=\"', 'gi');
-					vHTML = tinyMCE.regexpReplace(vHTML, 'mce_real_src\s*=\s*\"?', '', 'gi');
-					vHTML = tinyMCE.regexpReplace(vHTML, 'mce_real_href\s*=\s*\"?', '', 'gi');
-				}
-				return vHTML;
+			"\t<script type=\"text/javascript\">
+			tinyMCE.init({
+			theme : \"$theme\",
+			language : \"$lang\",
+			mode : \"specific_textareas\",
+			document_base_url : \"". $url ."\",
+			relative_urls : false,
+			remove_script_host : false,
+			save_callback : \"TinyMCE_Save\",
+			invalid_elements : \"$invalid_elements\",
+			theme_advanced_toolbar_location : \"$toolbar\",
+			theme_advanced_source_editor_height : \"$html_height\",
+			theme_advanced_source_editor_width : \"$html_width\",
+			directionality: \"$text_direction\",
+			force_br_newlines : \"$br_newlines\",
+			force_p_newlines : \"$p_newlines\",
+			$content_css
+			debug : false,
+			cleanup : $cleanup,
+			safari_warning : false,
+			plugins : \"advlink, advimage, $plugins\",
+			theme_advanced_buttons2_add : \"$buttons2\",
+			theme_advanced_buttons3_add : \"$buttons3\",
+			plugin_insertdate_dateFormat : \"$format_date\",
+			plugin_insertdate_timeFormat : \"$format_time\",
+			plugin_preview_width : \"$preview_width\",
+			plugin_preview_height : \"$preview_height\",
+			extended_valid_elements : \"a[name|href|target|title|onclick], img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name], $elements\",
+			fullscreen_settings : {
+				theme_advanced_path_location : \"top\"
 			}
-		</script>";
+		});
+		function TinyMCE_Save(editor_id, content, node)
+		{
+			base_url = tinyMCE.settings['document_base_url'];
+			var vHTML = content;
+			if (true == true){
+				vHTML = tinyMCE.regexpReplace(vHTML, 'href\s*=\s*\"?'+base_url+'', 'href=\"', 'gi');
+				vHTML = tinyMCE.regexpReplace(vHTML, 'src\s*=\s*\"?'+base_url+'', 'src=\"', 'gi');
+				vHTML = tinyMCE.regexpReplace(vHTML, 'mce_real_src\s*=\s*\"?', '', 'gi');
+				vHTML = tinyMCE.regexpReplace(vHTML, 'mce_real_href\s*=\s*\"?', '', 'gi');
+			}
+			return vHTML;
+		}
+	</script>";
 		
 		return $return;
 	}

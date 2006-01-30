@@ -43,11 +43,12 @@ class JAuthenticateJoomla extends JPlugin {
 	 * This method should handle any authentication and report back to the subject
 	 *
 	 * @access	public
-	 * @param	array	$credentials	Authentication credentials
+	 * @param	string	$username	Username for authentication
+	 * @param	string	$password	Password for authentication
 	 * @return	object	JAuthenticateResponse
 	 * @since 1.1
 	 */
-	function onAuthenticate(& $credentials) {
+	function onAuthenticate( $username, $password ) {
 		global $mainframe;
 				
 		// Initialize variables
@@ -64,8 +65,8 @@ class JAuthenticateJoomla extends JPlugin {
 
 		$query = "SELECT `id`"
 			. "\nFROM `#__users`"
-			. "\nWHERE username=" . $db->Quote( $credentials['username'] )
-			. "\n AND password=" . $db->Quote( JAuthenticateHelper::getCryptedPassword( $credentials['password'] ) )
+			. "\nWHERE username=" . $db->Quote( $username )
+			. "\n AND password=" . $db->Quote( JAuthenticateHelper::getCryptedPassword( $password ) )
 			. $conditions;
 
 		$db->setQuery( $query );

@@ -106,7 +106,7 @@ class JEventDispatcher extends JObservable
 	 * @return	array	An array of results from each function call
 	 * @since	1.1
 	 */
-	function trigger($event, $args = null, $doUnpublished = false)
+	function trigger($event, &$args = null, $doUnpublished = false)
 	{
 		/*
 		 * Initialize variables

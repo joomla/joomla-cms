@@ -58,7 +58,7 @@ class JPlugin extends JObserver {
 		 * value.  If it does not exist, return null.
 		 */
 		if (method_exists($this, $event)) {
-			return $this->$event($args);
+			return call_user_func_array ( array($this, $event), $args );
 		} else {
 			return null;
 		}

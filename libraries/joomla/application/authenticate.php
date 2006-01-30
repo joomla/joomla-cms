@@ -40,7 +40,7 @@ class JAuthenticate extends JObject {
 		/*
 		 * Grab all of the plugins of type 'auth'
 		 */
-		 $query = 	"SELECT `element` " .
+		 $query = 	"SELECT `element`, `folder` " .
 		 			"\nFROM `#__plugins` " .
 		 			"\nWHERE (`folder`='authentication' OR `folder`='user') " .
 		 			"\nAND `published`='1'";
@@ -209,7 +209,7 @@ class JAuthenticate extends JObject {
 		$credentials['password'] = $user->password;
 
 		// OK, the credentials are built. Lets fire the onLogout event
-		$results = $dispatcher->trigger( 'onLogout', $credentials);
+		$results = $mainframe->triggerEvent( 'onLogout', $credentials);
 
 		/*
 		 * If any of the authentication plugins did not successfully complete the logout
@@ -247,6 +247,8 @@ class JAuthenticate extends JObject {
 	 */
 	function authenticate($credentials)
 	{
+		global $mainframe;
+		
 		// Initialize variables
 		$auth = false;
 
@@ -254,7 +256,7 @@ class JAuthenticate extends JObject {
 		$dispatcher = &JEventDispatcher::getInstance();
 
 		// Time to authenticate the credentials.  Lets fire the auth event
-		$results = $dispatcher->trigger( 'onAuthenticate', $credentials);
+		$results = $mainframe->triggerEvent( 'onAuthenticate', $credentials);
 
 		/*
 		 * If any of the authentication plugins did not authenticate the credentials

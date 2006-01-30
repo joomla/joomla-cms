@@ -43,11 +43,12 @@ class JAuthenticateLdap extends JPlugin {
 	 * This method should handle any authentication and report back to the subject
 	 *
 	 * @access	public
-	 * @param	array	$credentials	Authentication credentials
+	 * @param	string	$username	Username for authentication
+	 * @param	string	$password	Password for authentication
 	 * @return	object	JAuthenticateResponse
 	 * @since 1.1
 	 */
-	function onAuthenticate(& $credentials) {
+	function onAuthenticate( $username, $password ) {
 		global $mainframe;
 
 		// Initialize variables
@@ -75,7 +76,7 @@ class JAuthenticateLdap extends JPlugin {
 			$return->error_message = 'Connection to LDAP server failed';
 			return $return;
 		}
-		$success = $ldap->bind($credentials['username'], $credentials['password']);
+		$success = $ldap->bind($username, $password);
 	
 		/*
 			// just a test, please leave
@@ -90,7 +91,7 @@ class JAuthenticateLdap extends JPlugin {
 		if ($success) {
 			$query = 	"SELECT `id`".
 						"\nFROM `#__users`".
-						"\nWHERE username=".$db->Quote($credentials['username']).
+						"\nWHERE username=".$db->Quote($username).
 						$conditions;
 
 			$db->setQuery($query);

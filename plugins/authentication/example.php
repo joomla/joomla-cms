@@ -43,11 +43,12 @@ class JAuthenticateExample extends JPlugin {
 	 * This method should handle any authentication and report back to the subject
 	 *
 	 * @access	public
-	 * @param	array	$credentials	Authentication credentials
+	 * @param	string	$username	Username for authentication
+	 * @param	string	$password	Password for authentication
 	 * @return	object	JAuthenticateResponse
 	 * @since 1.1
 	 */
-	function onAuthenticate(& $credentials) {
+	function onAuthenticate( $username, $password ) {
 		// Initialize variables
 		$return = false;
 
