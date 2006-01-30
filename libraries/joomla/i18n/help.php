@@ -31,8 +31,10 @@ class JHelp {
 	{
 		global $mainframe, $_VERSION, $option;
 
-		$helpUrl 	= $mainframe->getCfg('helpurl');
-		$url 		= $mainframe->getCfg('live_site');
+		$my				= & $mainframe->getUser();
+		$userHelpUrl	= $my->params->get( 'helpsite' );
+		$globalHelpUrl 	= $mainframe->getCfg('helpurl');
+		$url 			= $mainframe->getCfg('live_site');
 		
 		if ($com) {
 	   		// help file for 3PD Components
@@ -41,10 +43,14 @@ class JHelp {
 				$ref = $ref . '.html';
 			}
 			$url .= $ref;
-		} else if ( $helpUrl ) {
+		} else if ( $userHelpUrl ) {
 	   		// Online help site as defined in GC
 			$ref .= $_VERSION->getHelpVersion();
-			$url = $helpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=' . urlencode( $ref );
+			$url = $userHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=' . urlencode( $ref );
+		} else if ( $globalHelpUrl ) {
+	   		// Online help site as defined in GC
+			$ref .= $_VERSION->getHelpVersion();
+			$url = $globalHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=' . urlencode( $ref );
 		} else {
 	   		// Included html help files
 			$url .= '/administrator/help/eng_GB/';
