@@ -192,9 +192,13 @@ function listFeeds( $catid ) {
 }
 
 
-function showFeed( $option, $feedid ) {
-	global $database, $mainframe, $Itemid;
+function showFeed( $feedid ) {
+	global $mainframe, $Itemid;
 
+		// Get some objects from the JApplication
+	$database 	= & $mainframe->getDBO();
+	$my 		= & $mainframe->getUser();
+	
 	require_once( $mainframe->getPath( 'class' ) );
 	
 	$newsfeed = new mosNewsFeed($database);
@@ -207,7 +211,7 @@ function showFeed( $option, $feedid ) {
 		mosNotAuth();
 		return;
 	}
-		
+		
 	$category = new mosCategory($database);
 	$category->load($newsfeed->catid);
 	
@@ -217,8 +221,14 @@ function showFeed( $option, $feedid ) {
 	if(!$category->published) {
 		mosNotAuth();
 		return;
+	}	/*
+	* check whether category access level allows access
+	*/
+	if ( $category->access > $my->gid ) {	
+		mosNotAuth();  
+		return;
 	}
-	
+
 	// full RSS parser used to access image information
 	$cacheDir = JPATH_SITE . '/cache/';
 	$LitePath = JPATH_SITE . '/includes/Cache/Lite.php';
