@@ -22,18 +22,13 @@ div#logo {
 	margin-right: 30px;
 }
 
-p {
-	text-align: right;
-}
-
-table.pill {
-	width: auto;
-}
-
 td.pill_l {
 	background: url(../images/mw_menu_cap_r.png) no-repeat;
 }
 
+td.pill_m {
+
+}
 td.pill_r {
 	background: url(../images/mw_menu_cap_l.png) no-repeat;
 }
