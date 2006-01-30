@@ -592,7 +592,7 @@ class JConfigView {
 							<?php echo $lists['sef']; ?>
 							<span class="error">
 							<?php
-			                $tip = JText::_( 'WARNAPACHEONLY' );
+			                $tip = JText::_( 'WARNAPACHEONLY', true );
 			                echo mosHTML::WarningIcon( $tip ); 
 			                ?>
 		               		</span>
@@ -797,7 +797,7 @@ class JConfigView {
 							<input class="text_area" type="text" name="dbprefix" size="10" value="<?php echo $row->dbprefix; ?>"/>
 							&nbsp;
 							<?php
-			                $warn = JText::_( 'WARNDONOTCHANGEDATABASETABLESPREFIX' );
+			                $warn = JText::_( 'WARNDONOTCHANGEDATABASETABLESPREFIX', true );
 			                echo mosHTML::WarningIcon( $warn ); 
 			                ?>
 						</td>
@@ -833,7 +833,7 @@ class JConfigView {
 							<?php echo $lists['log_items']; ?>
 							<span class="error">
 							<?php
-			                $warn = JText::_( 'TIPLARGEAMOUNTSOFDATA' );
+			                $warn = JText::_( 'TIPLARGEAMOUNTSOFDATA', true );
 			                echo mosHTML::WarningIcon( $warn ); 
 			                ?>
 							</span>
@@ -886,7 +886,7 @@ class JConfigView {
 							<input class="text_area" type="text" name="cachepath" size="50" value="<?php echo $row->cachepath; ?>"/>
 							<?php
 							if (!is_writeable($row->cachepath)) {
-								$warn = JText::_( 'TIPCACHEDIRISUNWRITEABLE' );
+								$warn = JText::_( 'TIPCACHEDIRISUNWRITEABLE', true );
 								echo mosHTML::WarningIcon( $warn );
 							}
 							?>
