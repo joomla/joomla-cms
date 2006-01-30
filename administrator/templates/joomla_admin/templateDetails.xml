@@ -10,6 +10,6 @@
 	<description></description>
 	<files>
 		<filename>index.php</filename>
-		<filename>css/template_css.css</filename>
+		<filename>css/template.css</filename>
 	</files>
 </install>

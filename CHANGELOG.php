@@ -40,12 +40,15 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+30-Jan-2006 Emir Sakic
+ # Fixed css upload a file style
+
 30-Jan-2006 Samuel Moffatt
  ^ Moved $my to after onAfterStart trigger in index.php and index2.php
 
 30-Jan-2006 Arno Zijlstra
  # Fixed css file edit style
- 
+
 29-Jan-2006 Louis Landry
  ^ Moved event library to the application package
  ^ Event system cleanup
@@ -57,20 +60,20 @@ Legend:
  # Fixed artf3271 : Category image not visible (path incorrect)
  # Fixed artf3282 : Sample image is missing
 
-29-Jan-2006 Rey Gigataras 
+29-Jan-2006 Rey Gigataras
  + Static Content can be assigned to `Frontpage`
  + `Move` & `Copy` ability added to "Static Content Manager"
  + `Move` to 'Static Content' added to "Content Items Manager"
- ^ Content item page navigaiton moved to `Page Navigation` plugin 
+ ^ Content item page navigaiton moved to `Page Navigation` plugin
  ^ `Messages` sub menu moved under `Site`
  ^ `Site` menu reorganized
 
-28-Jan-2006 Louis Landry 
+28-Jan-2006 Louis Landry
  ^ Renamed auth plugins to authentication plugins
  # Fixed problem with 1 being displayed on events being triggered
  ^ Moved activate method to new static JUserHelper class
 
-28-Jan-2006 Rey Gigataras 
+28-Jan-2006 Rey Gigataras
  + `mod_rss` renamed `mod_feed`
  + New `Delete` button for Admin "Edit" pages
  + `Save Order` Admin functionality added com_weblinks, com_newsfeeds, com_contact manager pages
@@ -79,23 +82,23 @@ Legend:
  ^ `Preview` Admin Menu dropdown option moved under `Template Manager`
  - Depreciated `Content by Section` Admin Menu dropdown option
 
-27-Jan-2006 Louis Landry 
+27-Jan-2006 Louis Landry
  - Removed siteurlbot
  ^ josURL now uses a quick switch and JURI to determine secure site URI information
 
-27-Jan-2006 Rey Gigataras 
+27-Jan-2006 Rey Gigataras
  + Admin `Manager Pages` table ordering
  + Content Category now utilizes `table ordering` instead of `order select` method
  + `Trash Manager` separated into `Menu` & `Cotent` menu dropdowns
  - Depreciate `com_rss`, functionality replaced with `com_syndicate`
  - Depreciate `mod_rssfeed`, functionality replaced with `mod_syndicate`
 
-26-Jan-2006 Rey Gigataras 
+26-Jan-2006 Rey Gigataras
  + Fully extensible Syndication functionality via `com_syndicate` and `syndicate` plugins
  + `Live Bookmark` functionality extended to other pages
  + `Syndicate` plugins
 
-24-Jan-2006 Rey Gigataras 
+24-Jan-2006 Rey Gigataras
  ^ Consolidated toolbar icon functions
 
 24-Jan-2006 David Gal
@@ -121,7 +124,7 @@ Legend:
  ^ Feature request artf2781 : change $mosConfig_live_site to permit server aliasing
  # Fixed artf1938 : Help site server choice per admin user
 
-23-Jan-2006 Rey Gigataras 
+23-Jan-2006 Rey Gigataras
  + Allow control of the formating of the SEO Page Title attribute via a new `Global Configuration` parameter
  ^ `Table of Contents on multi-page items` Global Param moved to "MosPaging" Param
  ^ Modified tooltips in `Global Config` to newer lower profile styling
@@ -131,7 +134,7 @@ Legend:
  + Added JUser class to encapsulate operations on a user object [WIP]
  + Added JCacheHash for future compatability with phpGACL
 
-22-Jan-2006 Rey Gigataras 
+22-Jan-2006 Rey Gigataras
  + `New` option in Module Manager, now allows selection of available Module Types, much like the `New` Menu Item functionality
  + Filter `State` dropdown added to all "Manager" pages
  + Allow Menu Items to be changed
