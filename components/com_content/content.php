@@ -373,6 +373,13 @@ class JContentController {
 			mosNotAuth();
 			return;
 		}
+		/*
+		* check whether category access level allows access
+		*/
+		if( $category->access > $my->gid ) {
+			mosNotAuth();
+			return;
+		}	
 
 		$section = & JModel :: getInstance( 'section', $db );
 		$section->load( $category->section );
@@ -384,6 +391,13 @@ class JContentController {
 			mosNotAuth();
 			return;
 		}
+		/*
+		* check whether section access level allows access
+		*/
+		if( $section->access > $my->gid ) {
+			mosNotAuth();
+			return;
+		}	
 
 		// Paramters
 		if ($Itemid) {
@@ -663,20 +677,22 @@ class JContentController {
 		$order_pri 		= JContentController :: _orderby_pri($orderby_pri);
 
 		// Main data query
-		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
-				"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
-				"\n CHAR_LENGTH( a.fulltext ) AS readmore," .
-				"\n ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups" .
-				"\n FROM #__content AS a" .
-				"\n LEFT JOIN #__categories AS cc ON cc.id = a.catid" .
-				"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
-				"\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" .
-				"\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" .
-				"\n LEFT JOIN #__groups AS g ON a.access = g.id". (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '').
-				"\n AND s.access <= $my->gid" .
-				"\n AND s.published = 1" .
-				"\n AND cc.published = 1" .
-				"\n ORDER BY $order_pri $order_sec";
+		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," 
+				. "\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," 
+				. "\n CHAR_LENGTH( a.fulltext ) AS readmore," 
+				. "\n ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups" 
+				. "\n FROM #__content AS a" 
+				. "\n LEFT JOIN #__categories AS cc ON cc.id = a.catid" 
+				. "\n LEFT JOIN #__users AS u ON u.id = a.created_by" 
+				. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" 
+				. "\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" 
+				. "\n LEFT JOIN #__groups AS g ON a.access = g.id". (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '')
+				. "\n AND s.access <= $my->gid"
+				. "\n AND cc.access <= $my->gid"
+				. "\n AND s.published = 1"
+				. "\n AND cc.published = 1"
+				. "\n ORDER BY $order_pri $order_sec"
+				;
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 
@@ -695,18 +711,38 @@ class JContentController {
 			$catCheck = new JModelCategory( $b );
 			$catCheck->load( $check );
 			
+			/*
+			* check whether category is published
+			*/
 			if (!$catCheck->published) {
 				mosNotAuth();
 				return;
 			}
+			/*
+			* check whether category access level allows access
+			*/
+			if( $catCheck->access > $my->gid ) {
+				mosNotAuth();
+				return;
+			}			
 			
 			$secCheck = new JModelSection( $db );
 			$secCheck->load( $catCheck->section );
 			
+			/*
+			* check whether section is published
+			*/
 			if (!$secCheck->published) {
 				mosNotAuth();
 				return;
 			}
+			/*
+			* check whether category access level allows access
+			*/
+			if( $secCheck->access > $my->gid ) {
+				mosNotAuth();
+				return;
+			}			
 		}
 		
 		JContentView :: showBlog($rows, $params, $my->gid, $access, $pop, $menu);
@@ -821,9 +857,9 @@ class JContentController {
 		$option		= JRequest :: getVar('option');
 		$id 		= JRequest :: getVar('id', 0, '', 'int');
 		$pop 		= JRequest :: getVar('pop', 0, '', 'int');
-		$year = mosGetParam($_REQUEST, 'year', date('Y'));
-		$month = mosGetParam($_REQUEST, 'month', date('m'));
-		$module = mosGetParam($_REQUEST, 'module', '');
+		$year		= mosGetParam($_REQUEST, 'year', date('Y'));
+		$month 		= mosGetParam($_REQUEST, 'month', date('m'));
+		$module 	= mosGetParam($_REQUEST, 'module', '');
 
 		// needed for check whether section & category is published
 		$check = ( $id ? $id : 0 );
@@ -862,20 +898,22 @@ class JContentController {
 		$items = $db->loadObjectList();
 		$archives = count($items);
 
-		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
-				"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
-				"\n CHAR_LENGTH( a.fulltext ) AS readmore," .
-				"\n ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups" .
-				"\n FROM #__content AS a" .
-				"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
-				"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
-				"\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" .
-				"\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" .
-				"\n LEFT JOIN #__groups AS g ON a.access = g.id". (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '') .
-				"\n AND s.access <= $my->gid" .
-				"\n AND s.published = 1" .
-				"\n AND cc.published = 1" .
-				"\n ORDER BY $order_sec";
+		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," 
+				. "\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," 
+				. "\n CHAR_LENGTH( a.fulltext ) AS readmore," 
+				. "\n ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups" 
+				. "\n FROM #__content AS a" 
+				. "\n INNER JOIN #__categories AS cc ON cc.id = a.catid" 
+				. "\n LEFT JOIN #__users AS u ON u.id = a.created_by" 
+				. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" 
+				. "\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" 
+				. "\n LEFT JOIN #__groups AS g ON a.access = g.id". (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '')
+				. "\n AND s.access <= $my->gid"
+				. "\n AND cc.access <= $my->gid"
+				. "\n AND s.published = 1"
+				. "\n AND cc.published = 1"
+				. "\n ORDER BY $order_sec"
+				;
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 
@@ -891,18 +929,38 @@ class JContentController {
 			$catCheck = new JModelCategory( $b );
 			$catCheck->load( $check );
 			
+			/*
+			* check whether category is published
+			*/
 			if (!$catCheck->published) {
 				mosNotAuth();
 				return;
 			}
+			/*
+			* check whether category access level allows access
+			*/
+			if( $catCheck->access > $my->gid ) {
+				mosNotAuth();
+				return;
+			}			
 			
 			$secCheck = new JModelSection( $db );
 			$secCheck->load( $catCheck->section );
 			
+			/*
+			* check whether section is published
+			*/
 			if (!$secCheck->published) {
 				mosNotAuth();
 				return;
 			}
+			/*
+			* check whether category access level allows access
+			*/
+			if( $secCheck->access > $my->gid ) {
+				mosNotAuth();
+				return;
+			}			
 		}
 		
 		if (!$archives) {
