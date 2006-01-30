@@ -508,18 +508,19 @@ class JAuthenticateHelper {
 	/**
 	 * Generate a random password
 	 *
-	 * @access public
-	 * @return string Random Password
-	 * @since 1.1
+	 * @static
+	 * @param	int		$length	Length of the password to generate
+	 * @return	string			Random Password
+	 * @since	1.1
 	 */
-	function genRandomPassword()
+	function genRandomPassword($length = 8)
 	{
 		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		$len = strlen($salt);
 		$makepass = '';
 		mt_srand(10000000 * (double) microtime());
 
-		for ($i = 0; $i < 8; $i ++) {
+		for ($i = 0; $i < $length; $i ++) {
 			$makepass .= $salt[mt_rand(0, $len -1)];
 		}
 

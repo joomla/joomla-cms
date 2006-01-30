@@ -40,6 +40,9 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+30-Jan-2006 Louis Landry
+ # Fixed cache path problem on install
+
 30-Jan-2006 Emir Sakic
  + Added Preview in new window for inactive toolbar menus
  # Fixed css upload a file style

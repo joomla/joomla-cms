@@ -453,14 +453,23 @@ class JInstallationController
 	{
 		global $mainframe;
 		
-		$vars['siteUrl'] = $mainframe->getSiteURL(); 
+		/*
+		 * Import authentication library
+		 */
+		jimport( 'joomla.application.authenticate' );
+		
+		/*
+		 * Set some needed variables
+		 */
+		$vars['siteUrl']	= $mainframe->getSiteURL(); 
+		$vars['secret']		= JAuthenticateHelper::genRandomPassword(16);
+		$vars['hidePdf']	= intval(!is_writable(JPATH_SITE.DS.'media'.DS));
+		$vars['cachePath']	= JPATH_SITE.DS.'cache';
 		
 		$strip = get_magic_quotes_gpc();
 		if (!$strip) {
 			$vars['siteName'] = addslashes($vars['siteName']);
 		}
-		$vars['secret'] = mosMakePassword(16);
-		$vars['hidePdf'] = intval(!is_writable(JPATH_SITE.DS.'media'.DS));
 		
 		switch ($vars['DBtype']) {
 			case 'mssql' :
