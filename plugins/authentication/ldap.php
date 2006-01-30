@@ -65,11 +65,10 @@ class JAuthenticateLdap extends JPlugin {
 		}
 
 		// load plugin parameters
-	 	$plugin =& JPluginHelper::getPlugin('auth', 'ldap'); 
+	 	$plugin =& JPluginHelper::getPlugin('authentication', 'ldap'); 
 	 	$pluginParams = new JParameter( $plugin->params );
 
 		$ldap = new JLDAP($pluginParams);
-		//print_r($ldap);
 		if (!$ldap->connect()) {
 			$return->type = 'error';
 			$return->uid  = 0;
@@ -100,7 +99,7 @@ class JAuthenticateLdap extends JPlugin {
 		} else {
 			$return->type = 'failure';
 			$return->uid  = 0;
-			$return->error_message = 'Bind to LDAP server failed';
+			$return->error_message = 'Bind to LDAP server failed.';
 			return $return;
 		}
 
@@ -111,7 +110,7 @@ class JAuthenticateLdap extends JPlugin {
 			$return->error_message = 'Database returned no result.';
 		}
 		$return->uid = $userId;
-
+		
 		return $return;
 	}
 }
