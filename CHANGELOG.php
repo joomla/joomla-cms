@@ -41,7 +41,9 @@ Legend:
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
 31-Jan-2006 Rey Gigataras
- # Fixed Menu not greyed out [topic,34303.0.html]
+ # Fixed [topic,34247.0.html] : Not authorized message on News Feeds 
+ # Fixed [topic,34303.0.html] : Menu not greyed out 
+ # Fixed : DOMIT notice errors
  
 30-Jan-2006 Louis Landry
  # Fixed cache path problem on install

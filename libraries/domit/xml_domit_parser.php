@@ -3539,7 +3539,7 @@ class DOMIT_Parser {
 					}
 					break;
 				case '<!-': //comment
-					$currentNode =& $this->commentElement($this, substr($data, 4, (strlen($data) - 7)));
+					$currentNode = $this->commentElement($this, substr($data, 4, (strlen($data) - 7)));
 					break;
 				case '<!D': //doctype
 					$this->parseItem = 'doctype';

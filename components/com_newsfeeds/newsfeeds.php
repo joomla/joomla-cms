@@ -27,7 +27,7 @@ $catid 	= intval( mosGetParam( $_REQUEST ,'catid', 0 ) );
 
 switch( $task ) {
 	case 'view':
-		showFeed( $option, $feedid );
+		showFeed( $feedid );
 		break;
 
 	default:
@@ -197,13 +197,12 @@ function showFeed( $feedid ) {
 
 		// Get some objects from the JApplication
 	$database 	= & $mainframe->getDBO();
-	$my 		= & $mainframe->getUser();
-	
+	$my 		= & $mainframe->getUser();
 	require_once( $mainframe->getPath( 'class' ) );
 	
 	$newsfeed = new mosNewsFeed($database);
 	$newsfeed->load($feedid);
-	
+
 	/*
 	* Check if newsfeed is published
 	*/
@@ -212,7 +211,7 @@ function showFeed( $feedid ) {
 		return;
 	}
 		
-	$category = new mosCategory($database);
+	$category = new JModelCategory($database);
 	$category->load($newsfeed->catid);
 	
 	/*
