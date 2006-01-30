@@ -48,10 +48,10 @@ class HTML_contact {
 		<div id="tablecell">				
 			<table class="adminlist">
 			<tr>
-				<th width="20">
+				<th width="10">
 					<?php echo JText::_( 'Num' ); ?>
 				</th>
-				<th width="20" class="title">
+				<th width="10" class="title">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 				</th>
 				<th class="title">
@@ -69,13 +69,16 @@ class HTML_contact {
 				<th width="1%">
 					<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
 				</th>
+				<th width="7%" nowrap="nowrap">
+					<?php mosCommonHTML :: tableOrdering( 'Access', 'cd.access', $lists ); ?>
+				</th>
 				<th width="5%" nowrap="nowrap">
 					<?php mosCommonHTML :: tableOrdering( 'ID', 'cd.id', $lists ); ?>
 				</th>
-				<th width="18%" class="title">
+				<th width="15%" class="title">
 					<?php mosCommonHTML :: tableOrdering( 'Category', 'category', $lists ); ?>
 				</th>
-				<th class="title" nowrap="nowrap" width="18%">
+				<th class="title" nowrap="nowrap" width="15%">
 					<?php mosCommonHTML :: tableOrdering( 'Linked to User', 'user', $lists ); ?>
 				</th>
 			</tr>
@@ -90,6 +93,17 @@ class HTML_contact {
 				$task 	= $row->published ? 'unpublish' : 'publish';
 				$alt 	= $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
 	
+				if ( !$row->access ) {
+					$color_access = 'style="color: green;"';
+					$task_access = 'accessregistered';
+				} else if ( $row->access == 1 ) {
+					$color_access = 'style="color: red;"';
+					$task_access = 'accessspecial';
+				} else {
+					$color_access = 'style="color: black;"';
+					$task_access = 'accesspublic';
+				}
+				
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 	
 				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&section=com_contact_details&task=editA&hidemainmenu=1&id='. $row->catid );
@@ -126,6 +140,10 @@ class HTML_contact {
 					</td>
 					<td align="center" colspan="2">
 						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" class="text_area" style="text-align: center" />
+					</td>
+					<td align="center">
+						<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task_access;?>')" <?php echo $color_access; ?>>
+							<?php echo $row->groupname;?></a>
 					</td>
 					<td align="center">
 						<?php echo $row->id; ?>

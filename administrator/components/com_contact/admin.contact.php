@@ -67,6 +67,18 @@ switch ($task) {
 		orderContacts( $cid[0], 1 );
 		break;
 	
+	case 'accesspublic':
+		changeAccess( $cid[0], 0 );
+		break;
+	
+	case 'accessregistered':
+		changeAccess( $cid[0], 1 );
+		break;
+	
+	case 'accessspecial':
+		changeAccess( $cid[0], 2 );
+		break;
+		
 	case 'saveorder':
 		saveOrder( $cid );
 		break;
@@ -126,8 +138,9 @@ function showContacts( $option ) {
 	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
 
 	// get the subset (based on limits) of required records
-	$query = "SELECT cd.*, cc.title AS category, u.name AS user, v.name as editor"
+	$query = "SELECT cd.*, cc.title AS category, u.name AS user, v.name as editor, g.name AS groupname"
 	. "\n FROM #__contact_details AS cd"
+	. "\n LEFT JOIN #__groups AS g ON g.id = cd.access"
 	. "\n LEFT JOIN #__categories AS cc ON cc.id = cd.catid"
 	. "\n LEFT JOIN #__users AS u ON u.id = cd.user_id"
 	. "\n LEFT JOIN #__users AS v ON v.id = cd.checked_out"
@@ -352,6 +365,27 @@ function cancelContact() {
 	$row->checkin();
 	
 	mosRedirect('index2.php?option=com_contact');
+}
+
+/**
+* changes the access level of a record
+* @param integer The increment to reorder by
+*/
+function changeAccess( $id, $access  ) {
+	global $database;
+
+	$row = new JContactModel( $database );
+	$row->load( $id );
+	$row->access = $access;
+	
+	if ( !$row->check() ) {
+		return $row->getError();
+	}
+	if ( !$row->store() ) {
+		return $row->getError();
+	}
+	
+	mosRedirect( 'index2.php?option=com_contact' );
 }
 
 function saveOrder( &$cid ) {

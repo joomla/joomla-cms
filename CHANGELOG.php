@@ -44,6 +44,7 @@ Legend:
  # Fixed [topic,34247.0.html] : Not authorized message on News Feeds 
  # Fixed [topic,34303.0.html] : Menu not greyed out 
  # Fixed : DOMIT notice errors
+ # Fixed : missing access column in Contact Manager
  
 30-Jan-2006 Louis Landry
  # Fixed cache path problem on install
