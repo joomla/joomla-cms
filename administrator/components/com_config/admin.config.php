@@ -127,7 +127,7 @@ class JConfigController {
 
 		$lists['error_reporting'] = mosHTML :: selectList($errors, 'error_reporting', 'class="inputbox" size="1"', 'value', 'text', $row->error_reporting);
 
-		$lists['enable_ftp'] 	= mosHTML :: yesnoRadioList('ftp_enable', 'class="inputbox"', $row->ftp_enable);
+		$lists['enable_ftp'] 	= mosHTML :: yesnoRadioList('ftp_enable', 'class="inputbox"', intval($row->ftp_enable));
 
 
 		// LOCALE SETTINGS
