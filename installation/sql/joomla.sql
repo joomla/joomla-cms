@@ -501,6 +501,7 @@ INSERT INTO `#__modules_menu` VALUES (12,0);
 INSERT INTO `#__modules_menu` VALUES (14,0);
 INSERT INTO `#__modules_menu` VALUES (16,0);
 INSERT INTO `#__modules_menu` VALUES (17,0);
+INSERT INTO `#__modules_menu` VALUES (27,1);
 INSERT INTO `#__modules_menu` VALUES (28,0);
 INSERT INTO `#__modules_menu` VALUES (31,0);
 INSERT INTO `#__modules_menu` VALUES (32,0);
