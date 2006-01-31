@@ -471,11 +471,11 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 		$text 	= JText::_( $text );
     }
 	$style = 'style="text-decoration: none; color: #333;"';
-	if ( $href ) {
+	if ( $href && $href != '#' ) {
 		$href = ampReplace( $href );
 		$style = '';
-	} else {
-		$href = '#';
+	} else {		
+		$href = $_SERVER['REQUEST_URI'] .'#';
 	}
 
 	$mousover = 'return overlib(\''. JText::_( $tooltip ) .'\''. $title .', BELOW, RIGHT'. $width .');';
