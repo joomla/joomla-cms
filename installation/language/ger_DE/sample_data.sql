@@ -65,29 +65,29 @@ INSERT INTO `#__content_frontpage` VALUES (5, 5);
 # Dumping data for table `#__menu`
 #
 
-INSERT INTO `#__menu` VALUES (2, 'mainmenu', 'News', 'index.php?option=com_content&task=section&id=1', 'content_section', 1, 0, 1, 0, 3, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
-INSERT INTO `#__menu` VALUES (3, 'mainmenu', 'Kontakt', 'index.php?option=com_contact', 'components', 1, 0, 7, 0, 6, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
-INSERT INTO `#__menu` VALUES (23, 'mainmenu', 'Links', 'index.php?option=com_weblinks', 'components', 1, 0, 4, 0, 5, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'menu_image=web_links.jpg\npageclass_sfx=\nback_button=\npage_title=1\nheader=\nheadings=1\nhits=\nitem_description=1\nother_cat=1\ndescription=1\ndescription_text=\nimage=-1\nimage_align=right\nweblink_icons=');
-INSERT INTO `#__menu` VALUES (5, 'mainmenu', 'Suchen', 'index.php?option=com_search', 'components', 1, 0, 16, 0, 7, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
-INSERT INTO `#__menu` VALUES (6, 'mainmenu', 'Joomla! Lizenz', 'index.php?option=com_content&task=view&id=5', 'content_typed', 1, 0, 5, 0, 2, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, '');
-INSERT INTO `#__menu` VALUES (7, 'mainmenu', 'News Feeds', 'index.php?option=com_newsfeeds', 'components', 1, 0, 12, 0, 8, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'menu_image=-1\npageclass_sfx=\nback_button=\npage_title=1\nheader=');
-INSERT INTO `#__menu` VALUES (8, 'mainmenu', 'Wrapper', 'index.php?option=com_wrapper', 'wrapper', 1, 0, 0, 0, 10, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'menu_image=-1\npageclass_sfx=\nback_button=\npage_title=1\nheader=\nscrolling=auto\nwidth=100%\nheight=600\nheight_auto=1\nurl=www.joomla.org');
-INSERT INTO `#__menu` VALUES (9, 'mainmenu', 'Blog', 'index.php?option=com_content&task=blogsection&id=0', 'content_blog_section', 1, 0, 0, 0, 4, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'menu_image=-1\npageclass_sfx=\nback_button=\nheader=A blog of all section with no images\npage_title=1\nleading=0\nintro=6\ncolumns=2\nlink=4\norderby_pri=\norderby_sec=\npagination=2\npagination_results=1\nimage=0\ndescription=0\ndescription_image=0\ncategory=0\ncategory_link=0\nitem_title=1\nlink_titles=\nreadmore=\nrating=\nauthor=\ncreatedate=\nmodifydate=\npdf=\nprint=\nemail=\nsectionid=');
-INSERT INTO `#__menu` VALUES (10, 'othermenu', 'Joomla! Home', 'http://www.joomla.org', 'url', 1, 0, 0, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
-INSERT INTO `#__menu` VALUES (11, 'othermenu', 'Joomla! Foren', 'http://forum.joomla.org', 'url', 1, 0, 0, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
-INSERT INTO `#__menu` VALUES (12, 'othermenu', 'Joomla! Hilfe', 'http://help.joomla.org', 'url', 1, 0, 0, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
-INSERT INTO `#__menu` VALUES (13, 'othermenu', 'OSM Home', 'http://www.opensourcematters.org', 'url', 1, 0, 0, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 4, '');
-INSERT INTO `#__menu` VALUES (24, 'othermenu', 'Administrator', 'administrator/', 'url', 1, 0, 0, 0, 3, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'menu_image=-1');
-INSERT INTO `#__menu` VALUES (21, 'usermenu', 'Ihre Details', 'index.php?option=com_user&task=UserDetails', 'url', 1, 0, 0, 0, 1, 0, '2000-00-00 00:00:00', 0, 0, 1, 3, '');
-INSERT INTO `#__menu` VALUES (13, 'usermenu', 'News einreichen', 'index.php?option=com_content&task=new&sectionid=1&Itemid=0', 'url', 1, 0, 0, 0, 2, 0, '2000-00-00 00:00:00', 0, 0, 1, 2, '');
-INSERT INTO `#__menu` VALUES (14, 'usermenu', 'WebLink einreichen', 'index.php?option=com_weblinks&task=new', 'url', 1, 0, 0, 0, 4, 0, '2000-00-00 00:00:00', 0, 0, 1, 2, '');
-INSERT INTO `#__menu` VALUES (15, 'usermenu', 'Eigene Beitr&auml;ge eintragen', 'index.php?option=com_user&task=CheckIn', 'url', 1, 0, 0, 0, 5, 0, '0000-00-00 00:00:00', 0, 0, 1, 2, '');
-INSERT INTO `#__menu` VALUES (16, 'usermenu', 'Abmelden', 'index.php?option=com_login', 'components', 1, 0, 15, 0, 5, 0, '0000-00-00 00:00:00', 0, 0, 1, 3, '');
-INSERT INTO `#__menu` VALUES (17, 'topmenu', 'Home', 'index.php', 'url', 1, 0, 0, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
-INSERT INTO `#__menu` VALUES (18, 'topmenu', 'Kontakt', 'index.php?option=com_contact&Itemid=3', 'url', 1, 0, 0, 0, 2, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
-INSERT INTO `#__menu` VALUES (19, 'topmenu', 'News', 'index.php?option=com_content&task=section&id=1&Itemid=2', 'url', 1, 0, 0, 0, 3, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
-INSERT INTO `#__menu` VALUES (20, 'topmenu', 'Links', 'index.php?option=com_weblinks&Itemid=23', 'url', 1, 0, 0, 0, 4, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'menu_image=-1');
-INSERT INTO `#__menu` VALUES (25, 'mainmenu', 'FAQs', 'index.php?option=com_content&task=category&sectionid=3&id=7', 'content_category', 1, 0, 7, 0, 9, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'menu_image=-1\npage_title=1\npageclass_sfx=\nback_button=\norderby=\ndate_format=\ndate=\nauthor=\ntitle=1\nhits=\nheadings=1\nnavigation=1\norder_select=1\ndisplay=1\ndisplay_num=50\nfilter=1\nfilter_type=title\nother_cat=1\nempty_cat=0\ncat_items=1\ncat_description=1');
+INSERT INTO `#__menu` VALUES (2, 'mainmenu', 'Joomla! Lizenz', 'index.php?option=com_content&task=view&id=5', 'content_typed', 1, 0, 5, 0, 2, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, '');
+INSERT INTO `#__menu` VALUES (3, 'mainmenu', 'News', 'index.php?option=com_content&task=section&id=1', 'content_section', 1, 0, 1, 0, 3, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
+INSERT INTO `#__menu` VALUES (4, 'mainmenu', 'Blog', 'index.php?option=com_content&task=blogsection&id=0', 'content_blog_section', 1, 0, 0, 0, 4, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'menu_image=-1\npageclass_sfx=\nback_button=\nheader=A blog of all section with no images\npage_title=1\nleading=0\nintro=6\ncolumns=2\nlink=4\norderby_pri=\norderby_sec=\npagination=2\npagination_results=1\nimage=0\ndescription=0\ndescription_image=0\ncategory=0\ncategory_link=0\nitem_title=1\nlink_titles=\nreadmore=\nrating=\nauthor=\ncreatedate=\nmodifydate=\npdf=\nprint=\nemail=\nsectionid=');
+INSERT INTO `#__menu` VALUES (5, 'mainmenu', 'Links', 'index.php?option=com_weblinks', 'components', 1, 0, 4, 0, 5, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'menu_image=web_links.jpg\npageclass_sfx=\nback_button=\npage_title=1\nheader=\nheadings=1\nhits=\nitem_description=1\nother_cat=1\ndescription=1\ndescription_text=\nimage=-1\nimage_align=right\nweblink_icons=');
+INSERT INTO `#__menu` VALUES (6, 'mainmenu', 'Kontakt', 'index.php?option=com_contact', 'components', 1, 0, 7, 0, 6, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
+INSERT INTO `#__menu` VALUES (7, 'mainmenu', 'Suchen', 'index.php?option=com_search', 'components', 1, 0, 16, 0, 7, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
+INSERT INTO `#__menu` VALUES (8, 'mainmenu', 'News Feeds', 'index.php?option=com_newsfeeds', 'components', 1, 0, 12, 0, 8, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'menu_image=-1\npageclass_sfx=\nback_button=\npage_title=1\nheader=');
+INSERT INTO `#__menu` VALUES (9, 'mainmenu', 'FAQs', 'index.php?option=com_content&task=category&sectionid=3&id=7', 'content_category', 1, 0, 7, 0, 9, 0, '0000-00-00 00:00:00', 0, 0, 0, 0, 'menu_image=-1\npage_title=1\npageclass_sfx=\nback_button=\norderby=\ndate_format=\ndate=\nauthor=\ntitle=1\nhits=\nheadings=1\nnavigation=1\norder_select=1\ndisplay=1\ndisplay_num=50\nfilter=1\nfilter_type=title\nother_cat=1\nempty_cat=0\ncat_items=1\ncat_description=1');
+INSERT INTO `#__menu` VALUES (10, 'mainmenu', 'Wrapper', 'index.php?option=com_wrapper', 'wrapper', 1, 0, 0, 0, 10, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'menu_image=-1\npageclass_sfx=\nback_button=\npage_title=1\nheader=\nscrolling=auto\nwidth=100%\nheight=600\nheight_auto=1\nurl=www.joomla.org');
+INSERT INTO `#__menu` VALUES (11, 'othermenu', 'Joomla! Home', 'http://www.joomla.org', 'url', 1, 0, 0, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
+INSERT INTO `#__menu` VALUES (12, 'othermenu', 'Joomla! Foren', 'http://forum.joomla.org', 'url', 1, 0, 0, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
+INSERT INTO `#__menu` VALUES (13, 'othermenu', 'Joomla! Hilfe', 'http://help.joomla.org', 'url', 1, 0, 0, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
+INSERT INTO `#__menu` VALUES (14, 'othermenu', 'OSM Home', 'http://www.opensourcematters.org', 'url', 1, 0, 0, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 4, '');
+INSERT INTO `#__menu` VALUES (15, 'othermenu', 'Administrator', 'administrator/', 'url', 1, 0, 0, 0, 3, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'menu_image=-1');
+INSERT INTO `#__menu` VALUES (16, 'topmenu', 'Home', 'index.php', 'url', 1, 0, 0, 0, 1, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
+INSERT INTO `#__menu` VALUES (17, 'topmenu', 'Kontakt', 'index.php?option=com_contact&Itemid=3', 'url', 1, 0, 0, 0, 2, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
+INSERT INTO `#__menu` VALUES (18, 'topmenu', 'News', 'index.php?option=com_content&task=section&id=1&Itemid=2', 'url', 1, 0, 0, 0, 3, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, '');
+INSERT INTO `#__menu` VALUES (19, 'topmenu', 'Links', 'index.php?option=com_weblinks&Itemid=23', 'url', 1, 0, 0, 0, 4, 0, '0000-00-00 00:00:00', 0, 0, 0, 3, 'menu_image=-1');
+INSERT INTO `#__menu` VALUES (20, 'usermenu', 'Ihre Details', 'index.php?option=com_user&task=UserDetails', 'url', 1, 0, 0, 0, 1, 0, '2000-00-00 00:00:00', 0, 0, 1, 3, '');
+INSERT INTO `#__menu` VALUES (21, 'usermenu', 'News einreichen', 'index.php?option=com_content&task=new&sectionid=1', 'url', 1, 0, 0, 0, 2, 0, '2000-00-00 00:00:00', 0, 0, 1, 2, '');
+INSERT INTO `#__menu` VALUES (22, 'usermenu', 'WebLink einreichen', 'index.php?option=com_weblinks&task=new', 'url', 1, 0, 0, 0, 4, 0, '2000-00-00 00:00:00', 0, 0, 1, 2, '');
+INSERT INTO `#__menu` VALUES (23, 'usermenu', 'Eigene Beitr&auml;ge eintragen', 'index.php?option=com_user&task=CheckIn', 'url', 1, 0, 0, 0, 5, 0, '0000-00-00 00:00:00', 0, 0, 1, 2, '');
+INSERT INTO `#__menu` VALUES (24, 'usermenu', 'Abmelden', 'index.php?option=com_login', 'components', 1, 0, 15, 0, 5, 0, '0000-00-00 00:00:00', 0, 0, 1, 3, '');
 
 #
 # Dumping data for table `#__newsfeeds`
