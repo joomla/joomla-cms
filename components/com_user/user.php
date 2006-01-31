@@ -102,8 +102,11 @@ function saveUpload( $_dbprefix, $uid, $option, $userfile, $userfile_name, $type
 }
 
 function userEdit( $option, $uid, $submitvalue) {
-	global $database, $mainframe;
+	global $mainframe, $Itemid;
 
+	$database 			= & $mainframe->getDBO();
+	$breadcrumbs 		= & $mainframe->getPathWay();
+	
 	require_once( JPATH_ADMINISTRATOR .'/components/com_users/users.class.php' );
 
 	if ($uid == 0) {
@@ -116,6 +119,15 @@ function userEdit( $option, $uid, $submitvalue) {
 
 	$file 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
 	$params =& new JParameter( $row->params, $file, 'component' );
+	
+	$menu =& JModel::getInstance('menu', $database );
+	$menu->load( $Itemid );
+	
+	// Set page title
+	$mainframe->setPageTitle( $menu->name );
+	
+	// Add breadcrumb
+	$breadcrumbs->addItem( $menu->name, '' );
 
 	HTML_user::userEdit( $row, $option, $submitvalue, $params );
 }

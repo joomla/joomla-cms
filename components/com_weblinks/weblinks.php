@@ -28,7 +28,7 @@ $mainframe->setPageTitle(JText::_('Web Links'));
 $breadcrumbs =& $mainframe->getPathWay();
 
 // Now that we have the breadcrumb object, let's set the component name in the pathway
-$breadcrumbs->setItemName(1, JText::_('Web Links'));
+$breadcrumbs->setItemName(1, JText::_('Links'));
 
 // Get some common variables from the $_REQUEST global
 $id    = intval(mosGetParam($_REQUEST, 'id', 0));
@@ -364,7 +364,7 @@ class WeblinksController {
 			$row->checkout($my->id);
 
 			// Set page title
-			$mainframe->setPageTitle( JText::_('Web Links').' - '.JText::_( 'Edit' ));
+			$mainframe->setPageTitle( JText::_('Links').' - '.JText::_( 'Edit' ));
 
 			// Add breadcrumbs item
 			$breadcrumbs->addItem(JText::_( 'Edit' ), '');
@@ -379,27 +379,12 @@ class WeblinksController {
 			$row->ordering = 0;
 
 			// Set page title
-			$mainframe->setPageTitle( JText::_('Web Links').' - '.JText::_( 'New' ));
+			$mainframe->setPageTitle( JText::_('Links').' - '.JText::_( 'New' ));
 
 			// Add pathway item
 			$breadcrumbs->addItem(JText::_( 'New' ), '');
 		}
-
-		/*
-			// make the select list for the image positions
-			$yesno[] = mosHTML::makeOption( '0', 'No' );
-			$yesno[] = mosHTML::makeOption( '1', 'Yes' );
-			// build the html select list
-			$applist = mosHTML::selectList( $yesno, 'approved', 'class="inputbox" size="2"', 'value', 'text', $row->approved );
-			// build the html select list for ordering
-			$query = "SELECT ordering AS value, title AS text"
-			. "\n FROM #__weblinks"
-			. "\n WHERE catid='$row->catid'"
-			. "\n ORDER BY ordering"
-			;
-			$lists['ordering'] 			= mosAdminMenus::SpecificOrdering( $row, $id, $query, 1 );
-		*/
-
+		
 		// build list of categories
 		$lists['catid'] = mosAdminMenus::ComponentCategory('catid', JRequest::getVar('option'), intval($row->catid));
 
@@ -431,10 +416,7 @@ class WeblinksController {
 		// Checkin the weblink
 		$row->checkin();
 
-		// Get some standard variables and redirect
-		$Itemid = mosGetParam($_POST, 'Returnid', '');
-		$referer = mosGetParam($_POST, 'referer', '');
-		mosRedirect($referer);
+		mosRedirect('index.php');
 	}
 
 	/**

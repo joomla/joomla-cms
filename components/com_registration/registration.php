@@ -37,7 +37,7 @@ switch( $task ) {
 		break;
 
 	case 'activate':
-		activate( $option );
+		activate();
 		break;
 }
 
@@ -51,8 +51,7 @@ function lostPassForm( $option ) {
 	HTML_registration::lostPassForm($option);
 }
 
-function sendNewPass( $option ) 
-{
+function sendNewPass( $option ) {
 	global $database, $Itemid;
 	global $mosConfig_mailfrom, $mosConfig_fromname;
 	
@@ -97,8 +96,7 @@ function sendNewPass( $option )
 	mosRedirect( "index.php?option=com_registration&mosmsg=". JText::_( 'New User Password created and sent!' ) );
 }
 
-function registerForm( $option, $useractivation ) 
-{
+function registerForm( $option, $useractivation ) {
 	global $mainframe;
 	
 	if (!$mainframe->getCfg( 'allowUserRegistration' )) {
@@ -114,8 +112,7 @@ function registerForm( $option, $useractivation )
 	HTML_registration::registerForm($option, $useractivation);
 }
 
-function saveRegistration( $option ) 
-{
+function saveRegistration( $option ) {
 	global $database, $acl, $mainframe;
 	global $mosConfig_sitename, $mosConfig_useractivation, $mosConfig_allowUserRegistration;
 	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_mailfrom, $mosConfig_fromname;
@@ -230,7 +227,7 @@ function saveRegistration( $option )
 	}
 }
 
-function activate( $option ) {
+function activate() {
 	global $mainframe;
 	
 	/*

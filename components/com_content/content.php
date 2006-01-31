@@ -1262,19 +1262,19 @@ class JContentController
 		JContentView :: show($row, $params, $access, $page, $option, $ItemidCount);
 	}
 
-	function editItem(& $access, $Itemid) 
-	{
+	function editItem(& $access, $Itemid) {
 		global $mainframe;
 
 		/*
 		 * Initialize variables
 		 */
-		$db 		= & $mainframe->getDBO();
-		$my			= & $mainframe->getUser();
-		$nullDate	= $db->getNullDate();
-		$uid 		= JRequest :: getVar('id', 0, '', 'int');
-		$sectionid 	= JRequest :: getVar('sectionid', 0, '', 'int');
-		$task 		= JRequest :: getVar('task');
+		$db 			= & $mainframe->getDBO();
+		$my				= & $mainframe->getUser();
+		$breadcrumbs 	= & $mainframe->getPathWay();
+		$nullDate		= $db->getNullDate();
+		$uid 			= JRequest :: getVar('id', 			0, '', 'int');
+		$sectionid 		= JRequest :: getVar('sectionid', 	0, '', 'int');
+		$task 			= JRequest :: getVar('task');
 
 		/*
 		 * Get the content data object
@@ -1283,95 +1283,94 @@ class JContentController
 		$row->load($uid);
 
 		// fail if checked out not by 'me'
-		if ($row->isCheckedOut($my->id))
-		{
+		if ($row->isCheckedOut($my->id)) {
 			JContentView :: userInputError(JText :: _('The module')." [ ".$row->title." ] ".JText :: _('DESCBEINGEDITTEDBY'));
 		}
 
-		if ($uid)
-		{
+		if ($uid) {
 			// existing record
-			if (!($access->canEdit || ($access->canEditOwn && $row->created_by == $my->id)))
-			{
+			if (!($access->canEdit || ($access->canEditOwn && $row->created_by == $my->id))) {
 				mosNotAuth();
 				return;
 			}
-		} else
-		{
+		} else {
 			// new record
-			if (!($access->canEdit || $access->canEditOwn))
-			{
+			if (!($access->canEdit || $access->canEditOwn)) {
 				mosNotAuth();
 				return;
 			}
 		}
 
-		if ($uid)
-		{
+		if ($uid) {
 			$sectionid = $row->sectionid;
 		}
 
 		$lists = array ();
 
 		// get the type name - which is a special category
-		$query = "SELECT name FROM #__sections" .
-				"\n WHERE id = $sectionid";
+		$query = "SELECT name FROM #__sections" 
+				. "\n WHERE id = $sectionid"
+				;
 		$db->setQuery($query);
 		$section = $db->loadResult();
 
-		if ($uid == 0)
-		{
+		if ($uid == 0) {
 			$row->catid = 0;
 		}
 
-		if ($uid)
-		{
+		if ($uid) {
 			$row->checkout($my->id);
-			if (trim($row->publish_down) == '0000-00-00 00:00:00')
-			{
+			if (trim($row->publish_down) == '0000-00-00 00:00:00') {
 				$row->publish_down = 'Never';
 			}
-			if (trim($row->images))
-			{
+			if (trim($row->images)) {
 				$row->images = explode("\n", $row->images);
-			} else
-			{
+			} else {
 				$row->images = array ();
 			}
-			$query = "SELECT name from #__users" .
-					"\n WHERE id = $row->created_by";
+			$query = "SELECT name"
+					. "\n FROM #__users" 
+					. "\n WHERE id = $row->created_by"
+					;
 			$db->setQuery($query);
 			$row->creator = $db->loadResult();
 
-			$query = "SELECT name from #__users" .
-					"\n WHERE id = $row->modified_by";
+			$query = "SELECT name" 
+					. "\n FROM #__users" 
+					. "\n WHERE id = $row->modified_by"
+					;
 			$db->setQuery($query);
 			$row->modifier = $db->loadResult();
 
-			$query = "SELECT content_id from #__content_frontpage" .
-					"\n WHERE content_id = $row->id";
+			$query = "SELECT content_id"
+					. "\n FROM #__content_frontpage" 
+					. "\n WHERE content_id = $row->id"
+					;
 			$db->setQuery($query);
 			$row->frontpage = $db->loadResult();
-		} else
-		{
-			$row->sectionid = $sectionid;
-			$row->version = 0;
-			$row->state = 0;
-			$row->ordering = 0;
-			$row->images = array ();
-			$row->publish_up = date('Y-m-d', time());
-			$row->publish_down = 'Never';
-			$row->creator = 0;
-			$row->modifier = 0;
-			$row->frontpage = 0;
+			
+			$title = JText::_( 'Edit' );
+		} else {
+			$row->sectionid 	= $sectionid;
+			$row->version 		= 0;
+			$row->state 		= 0;
+			$row->ordering 		= 0;
+			$row->images 		= array ();
+			$row->publish_up 	= date('Y-m-d', time());
+			$row->publish_down 	= 'Never';
+			$row->creator 		= 0;
+			$row->modifier 		= 0;
+			$row->frontpage 	= 0;
+			
+			$title 				= JText::_( 'New' );
 		}
 
 		// calls function to read image from directory
-		$pathA = 'images/stories';
-		$pathL = 'images/stories';
-		$images = array ();
-		$folders = array ();
-		$folders[] = mosHTML :: makeOption('/');
+		$pathA 		= 'images/stories';
+		$pathL 		= 'images/stories';
+		$images 	= array ();
+		$folders 	= array ();
+		$folders[] 	= mosHTML :: makeOption('/');
 		mosAdminMenus :: ReadImages($pathA, '/', $folders, $images);
 		// list of folders in images/stories/
 		$lists['folders'] = mosAdminMenus :: GetImageFolders($folders, $pathL);
@@ -1386,10 +1385,11 @@ class JContentController
 		$lists['state'] = mosHTML :: selectList($states, 'state', 'class="inputbox" size="1"', 'value', 'text', intval($row->state));
 
 		// build the html select list for ordering
-		$query = "SELECT ordering AS value, title AS text" .
-				"\n FROM #__content" .
-				"\n WHERE catid = $row->catid" .
-				"\n ORDER BY ordering";
+		$query = "SELECT ordering AS value, title AS text" 
+				. "\n FROM #__content" 
+				. "\n WHERE catid = $row->catid" 
+				. "\n ORDER BY ordering"
+				;
 		$lists['ordering'] = mosAdminMenus :: SpecificOrdering($row, $uid, $query, 1);
 
 		// build list of categories
@@ -1407,6 +1407,14 @@ class JContentController
 		$pos[] = mosHTML :: makeOption('top', JText :: _('Top'));
 		$lists['_caption_position'] = mosHTML :: selectList($pos, '_caption_position', 'class="inputbox" size="1"', 'value', 'text');
 
+		$title = $title .' '. JText::_('Content');
+		
+		// Set page title
+		$mainframe->setPageTitle( $title );
+		
+		// Add pathway item
+		$breadcrumbs->addItem( $title, '');
+		
 		JContentView :: editContent($row, $section, $lists, $images, $access, $my->id, $sectionid, $task, $Itemid);
 	}
 

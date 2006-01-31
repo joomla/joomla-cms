@@ -622,3 +622,18 @@ div.mosimage_caption {
   font-size: .90em;
   color: #666;
 }
+
+
+/* Parameter Table */
+table.paramlist {
+	margin-top: 5px;
+}
+
+table.paramlist td.paramlist_key {
+	width: 128px;
+	text-align: left;
+	height: 30px;
+}
+
+table.paramlist td.paramlist_value {
+}
