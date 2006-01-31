@@ -502,7 +502,8 @@ class JMediaViews {
 		<?php
 	}
 
-	function popupUpload( $basePath ) {
+	function popupUpload( $basePath ) 
+	{
 		global $mosConfig_absolute_path;
 
 		$imgFiles 	= JFolder::folders( $basePath, '.', true, true );

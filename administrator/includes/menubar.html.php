@@ -16,7 +16,8 @@
 *
 * @package Joomla
 */
-class JMenuBar {
+class JMenuBar 
+{
 	/**
 	* Title cell
 	* For the title and toolbar to be rendered correctly,
@@ -27,7 +28,8 @@ class JMenuBar {
 	* @param string
 	* @since 1.1
 	*/
-	function title( $title, $icon='generic.png' ) {
+	function title( $title, $icon='generic.png' ) 
+	{
 		$image = mosAdminMenus::ImageCheckAdmin( $icon, '/images/', NULL, NULL, $title, '', 1 );
 		?>
 		<td class="title">
@@ -41,10 +43,55 @@ class JMenuBar {
 	* Writes the start of the button bar table
 	* @since 1.0
 	*/
-	function startTable() {
+	function startTable() 
+	{
 		?>
 		<table cellpadding="0" cellspacing="0" border="0" id="toolbar">
 		<tr valign="middle" align="center">
+		<?php
+	}
+	
+	/**
+	* Writes a spacer cell
+	* @param string The width for the cell
+	* @since 1.0
+	*/
+	function spacer( $width='' ) 
+	{
+		if ($width != '') {
+			?>
+			<td width="<?php echo $width;?>">&nbsp;</td>
+			<?php
+		} else {
+			?>
+			<td>&nbsp;</td>
+			<?php
+		}
+	}
+
+	/**
+	* Writes the end of the menu bar table
+	* @since 1.0
+	*/
+	function endTable() 
+	{
+		?>
+		</tr>
+		</table>
+		<?php
+	}
+	
+	/**
+	* Write a divider between menu buttons
+	* @since 1.0
+	*/
+	function divider() 
+	{
+		$image = mosAdminMenus::ImageCheckAdmin( 'menu_divider.png', '/images/' );
+		?>
+		<td>
+			<?php echo $image; ?>
+		</td>
 		<?php
 	}
 
@@ -63,9 +110,6 @@ class JMenuBar {
 
 		$icon 	= ( $iconOver ? $iconOver : $icon );
 		$image 	= mosAdminMenus::ImageCheckAdmin( $icon, '/images/', NULL, NULL, $alt, $task, 1 );
-
-		$href 	= explode('index2.php?', $_SERVER['REQUEST_URI'] );
-		$href 	= 'index2.php?'. ampReplace( $href[1] ) .'#';
 		
 		if ($x) {
 			if ($listSelect) {
@@ -84,7 +128,7 @@ class JMenuBar {
 		if ($icon || $iconOver) {
 			?>
 			<td>
-				<a class="toolbar" href="<?php echo $href;?>" onclick="<?php echo $onclick ;?>">
+				<a class="toolbar" onclick="<?php echo $onclick ;?>">
 					<?php echo $image; ?>
 					<br /><?php echo $alt; ?></a>
 			</td>
@@ -92,7 +136,7 @@ class JMenuBar {
 		} else {
 			?>
 			<td>
-				<a class="toolbar" href="<?php echo $href;?>" onclick="<?php echo $onclick ;?>>
+				<a class="toolbar" onclick="<?php echo $onclick ;?>>
 					<br /><?php echo $alt; ?></a>
 			</td>
 			<?php
@@ -116,6 +160,99 @@ class JMenuBar {
 		$icon 	= ( $iconOver ? $iconOver : $icon );
 		
 		JMenuBar::custom( $task, $icon, '', $alt, $listSelect, true );
+	}
+	
+	/**
+	* Writes a preview button for a given option (opens a popup window)
+	* @param string The name of the popup file (excluding the file extension)
+	* @since 1.0
+	*/
+	function preview( $url='', $updateEditors=false ) {
+		global $database;
+		
+		$image2 = mosAdminMenus::ImageCheckAdmin( 'preview_f2.png', '/images/', NULL, NULL, 'Preview', 'preview', 1 );
+		
+		?>
+		<td>
+			<script language="javascript">
+			function popup() {
+				<?php
+				if ($updateEditors) {
+					$editor =& JEditor::getInstance();
+					echo $editor->getEditorContents( 'editor1', 'introtext' );
+					echo $editor->getEditorContents( 'editor2', 'fulltext' );
+				}
+				?>
+				window.open('<? echo $url."&task=preview"; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');
+			}
+			</script>
+			<a class="toolbar" onclick="popup();">
+				<?php echo $image2; ?>
+				<br /><?php echo JText::_( 'Preview' ); ?></a>
+		</td>
+		<?php
+	}
+
+	/**
+	* Writes a preview button for a given option (opens a popup window)
+	* @param string The name of the popup file (excluding the file extension for an xml file)
+	* @param boolean Use the help file in the component directory
+	* @since 1.0
+	*/
+	function help( $ref, $com=false ) {
+		$image2 	= mosAdminMenus::ImageCheckAdmin( 'help_f2.png', '/images/', NULL, NULL, 'Help', 'help', 1 );
+		
+		jimport('joomla.i18n.help');
+		$url = JHelp::createURL($ref, $com);
+		
+		?>
+		<td>
+			<a class="toolbar" onclick="window.open('<?php echo $url;?>', 'joomla_help_win', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');">
+				<?php echo $image2; ?>
+				<br /><?php echo JText::_( 'Help' ); ?></a>
+		</td>
+		<?php
+	}
+
+	/**
+	* Writes a cancel button that will go back to the previous page without doing
+	* any other operation
+	* @since 1.0
+	*/
+	function back( $alt='Back', $href='' ) {
+
+    	$alt = JText::_( $alt );
+
+		$image2 = mosAdminMenus::ImageCheckAdmin( 'back_f2.png', '/images/', NULL, NULL, 'back', 'cancel', 1 );
+		if ( $href ) {
+			$link = $href;
+		} else {
+			$link = 'javascript:window.history.back();';
+		}
+		?>
+		<td>
+			<a class="toolbar" href="<?php echo $link; ?>">
+				<?php echo $image2; ?>
+				<br /><?php echo $alt;?></a>
+		</td>
+		<?php
+	}
+
+	/**
+	* Writes a media_manager button
+	* @param string The sub-drectory to upload the media to
+	* @since 1.0
+	*/
+	function media_manager( $directory='', $alt='Upload' ) {
+    	$alt 	= JText::_( $alt );
+		$image2 = mosAdminMenus::ImageCheckAdmin( 'upload_f2.png', '/images/', NULL, NULL, 'Upload Image', 'uploadPic', 1 );
+		?>
+		<td>
+			<a class="toolbar" onclick="popupWindow('index3.php?option=com_media&amp;task=popupUpload&amp;directory=<?php echo $directory; ?>','win1',550,200,'no');">
+				<?php echo $image2; ?>
+				<br /><?php echo $alt;?></a>
+		</td>
+		<?php
 	}
 
 	/**
@@ -387,140 +524,6 @@ class JMenuBar {
 		$alt = JText::_( $alt );
 		
 		JMenuBar::custom( $task, 'cancel_f2.png', '', $alt, false );
-	}
-
-	/**
-	* Writes a preview button for a given option (opens a popup window)
-	* @param string The name of the popup file (excluding the file extension)
-	* @since 1.0
-	*/
-	function preview( $url='', $updateEditors=false ) {
-		global $database;
-		
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'preview_f2.png', '/images/', NULL, NULL, 'Preview', 'preview', 1 );
-		
-		?>
-		<td>
-			<script language="javascript">
-			function popup() {
-				<?php
-				if ($updateEditors) {
-					$editor =& JEditor::getInstance();
-					echo $editor->getEditorContents( 'editor1', 'introtext' );
-					echo $editor->getEditorContents( 'editor2', 'fulltext' );
-				}
-				?>
-				window.open('<? echo $url."&task=preview"; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');
-			}
-			</script>
-			<a class="toolbar" onclick="popup();">
-				<?php echo $image2; ?>
-				<br /><?php echo JText::_( 'Preview' ); ?></a>
-		</td>
-		<?php
-	}
-
-	/**
-	* Writes a preview button for a given option (opens a popup window)
-	* @param string The name of the popup file (excluding the file extension for an xml file)
-	* @param boolean Use the help file in the component directory
-	* @since 1.0
-	*/
-	function help( $ref, $com=false ) {
-		$image2 	= mosAdminMenus::ImageCheckAdmin( 'help_f2.png', '/images/', NULL, NULL, 'Help', 'help', 1 );
-		
-		jimport('joomla.i18n.help');
-		$url = JHelp::createURL($ref, $com);
-		
-		?>
-		<td>
-			<a class="toolbar" onclick="window.open('<?php echo $url;?>', 'joomla_help_win', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');">
-				<?php echo $image2; ?>
-				<br /><?php echo JText::_( 'Help' ); ?></a>
-		</td>
-		<?php
-	}
-
-	/**
-	* Writes a cancel button that will go back to the previous page without doing
-	* any other operation
-	* @since 1.0
-	*/
-	function back( $alt='Back', $href='' ) {
-
-    	$alt = JText::_( $alt );
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'back_f2.png', '/images/', NULL, NULL, 'back', 'cancel', 1 );
-		if ( $href ) {
-			$link = $href;
-		} else {
-			$link = 'javascript:window.history.back();';
-		}
-		?>
-		<td>
-			<a class="toolbar" href="<?php echo $link; ?>">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt;?></a>
-		</td>
-		<?php
-	}
-
-	/**
-	* Write a divider between menu buttons
-	* @since 1.0
-	*/
-	function divider() {
-		$image = mosAdminMenus::ImageCheckAdmin( 'menu_divider.png', '/images/' );
-		?>
-		<td>
-			<?php echo $image; ?>
-		</td>
-		<?php
-	}
-
-	/**
-	* Writes a media_manager button
-	* @param string The sub-drectory to upload the media to
-	* @since 1.0
-	*/
-	function media_manager( $directory='', $alt='Upload' ) {
-    	$alt 	= JText::_( $alt );
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'upload_f2.png', '/images/', NULL, NULL, 'Upload Image', 'uploadPic', 1 );
-		?>
-		<td>
-			<a class="toolbar" onclick="popupWindow('index3.php?option=com_media&amp;task=popupUpload&amp;directory=<?php echo $directory; ?>','win1',550,200,'no');">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt;?></a>
-		</td>
-		<?php
-	}
-
-	/**
-	* Writes a spacer cell
-	* @param string The width for the cell
-	* @since 1.0
-	*/
-	function spacer( $width='' ) {
-		if ($width != '') {
-			?>
-			<td width="<?php echo $width;?>">&nbsp;</td>
-			<?php
-		} else {
-			?>
-			<td>&nbsp;</td>
-			<?php
-		}
-	}
-
-	/**
-	* Writes the end of the menu bar table
-	* @since 1.0
-	*/
-	function endTable() {
-		?>
-		</tr>
-		</table>
-		<?php
 	}
 }
 

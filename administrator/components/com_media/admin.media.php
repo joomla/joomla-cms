@@ -42,26 +42,26 @@ define('COM_MEDIA_BASEURL', $mainframe->getSiteURL().'images');
 switch ($task) {
 
 	case 'upload' :
-		JMediaController :: upload();
+		JMediaController::upload();
 		break;
 
 	case 'newdir' :
-		JMediaController :: createFolder($dirPath);
-		JMediaController :: showMedia($dirPath);
+		JMediaController::createFolder($dirPath);
+		JMediaController::showMedia($dirPath);
 		break;
 
 	case 'delete' :
-		JMediaController :: deleteFile($listdir);
-		JMediaController :: showMedia($listdir);
+		JMediaController::deleteFile($listdir);
+		JMediaController::showMedia($listdir);
 		break;
 
 	case 'deletefolder' :
-		JMediaController :: deleteFolder($listdir);
-		JMediaController :: showMedia($listdir);
+		JMediaController::deleteFolder($listdir);
+		JMediaController::showMedia($listdir);
 		break;
 
 	case 'list' :
-		JMediaController :: listMedia($listdir);
+		JMediaController::listMedia($listdir);
 		break;
 
 	case 'cancel' :
@@ -75,11 +75,11 @@ switch ($task) {
 
 		// popup upload interface for use by components
 	case 'popupUpload' :
-		JMediaViews :: popupUpload(COM_MEDIA_BASE);
+		JMediaViews::popupUpload(COM_MEDIA_BASE);
 		break;
 
 	default :
-		JMediaController :: showMedia($listdir);
+		JMediaController::showMedia($listdir);
 		break;
 }
 
@@ -91,15 +91,16 @@ switch ($task) {
  * @subpackage Media
  * @since 1.1
  */
-class JMediaController {
-
+class JMediaController 
+{
 	/**
 	 * Show media manager
 	 * 
 	 * @param string $listFolder The image directory to display
 	 * @since 1.1
 	 */
-	function showMedia($listFolder) {
+	function showMedia($listFolder) 
+	{
 		/*
 		 * Get the list of folders 
 		 */
@@ -136,7 +137,8 @@ class JMediaController {
 	 * @param string $listFolder The image directory to display
 	 * @since 1.1
 	 */
-	function listMedia($listFolder) {
+	function listMedia($listFolder) 
+	{
 		/*
 		 * Initialize variables
 		 */
@@ -201,13 +203,15 @@ class JMediaController {
 	 * 
 	 * @since 1.1
 	 */
-	function upload() {
+	function upload() 
+	{
 		global $clearUploads;
 
 		$file 		= JRequest::getVar( 'upload', '', 'file' );
 		$dirPath 	= JRequest::getVar( 'dirPath', '' );
 		
-		if (isset ($file) && is_array($file) && isset ($dirPath)) {
+		if (isset ($file) && is_array($file) && isset ($dirPath)) 
+		{
 			$dirPathPost = $dirPath;
 			$destDir = COM_MEDIA_BASE.$dirPathPost.DS;
 
@@ -228,7 +232,7 @@ class JMediaController {
 				josRedirect("index3.php?option=com_media&task=popupUpload&listdir=".$dirPath, JText :: _('This file type is not supported'));
 			}
 
-			if (!JFile :: upload($file['tmp_name'], $destDir.strtolower($file['name']))) {
+			if (!JFile::upload($file['tmp_name'], $destDir.strtolower($file['name']))) {
 				josRedirect("index3.php?option=com_media&task=popupUpload&listdir=".$dirPath, JText :: _('Upload FAILED'));
 			} else {
 				josRedirect("index3.php?option=com_media&task=popupUpload&listdir=".$dirPath, JText :: _('Upload complete'));
@@ -244,7 +248,8 @@ class JMediaController {
 	 * @param string $path Path of the folder to create
 	 * @since 1.1
 	 */
-	function createFolder($path) {
+	function createFolder($path) 
+	{
 		$folderName = mosGetParam($_POST, 'foldername', '');
 
 		if (strlen($folderName) > 0) {
@@ -266,7 +271,8 @@ class JMediaController {
 	 * @param string $listFolder The image directory to delete a file from
 	 * @since 1.1
 	 */
-	function deleteFile($listdir) {
+	function deleteFile($listdir) 
+	{
 		$delFile = JRequest::getVar( 'delFile' );
 		$fullPath = COM_MEDIA_BASE.$listdir.DS.$delFile;
 
@@ -279,7 +285,8 @@ class JMediaController {
 	 * @param string $listdir The image directory to delete a folder from
 	 * @since 1.1
 	 */
-	function deleteFolder($listdir) {
+	function deleteFolder($listdir) 
+	{
 		$canDelete = true;
 		$delFolder = JRequest::getVar( 'delFolder' );
 		$delFolder = COM_MEDIA_BASE.$listdir.$delFolder;

@@ -33,6 +33,7 @@ class JRegistryFormatPHP extends JRegistryFormat {
 	function objectToString( &$object ) {
 		
 		// Build the object variables string
+		$vars = '';
 		foreach (get_object_vars( $object ) as $k => $v) {
 			if ($k == "_name") {
 				$name = $v;

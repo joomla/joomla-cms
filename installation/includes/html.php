@@ -134,11 +134,8 @@ class JInstallationView
 	 */
 	function dbConfig( &$vars, &$lists ) 
 	{
-		global $steps, $mainframe;
+		global $steps;
 		
-		$doc =& $mainframe->getDocument();
-		$doc->addScript('template/js/dbconfig.js');
-
 		$tmpl =& JInstallationView::createTemplate( 'dbconfig.html' );
 
 		$steps['dbconfig'] = 'on';
@@ -183,11 +180,8 @@ class JInstallationView
 	 */
 	function ftpConfig( &$vars ) 
 	{
-		global $steps, $mainframe;
+		global $steps;
 		
-		$doc =& $mainframe->getDocument();
-		$doc->addScript('template/js/ftpconfig.js');
-
 		$tmpl =& JInstallationView::createTemplate( 'ftpconfig.html' );
 
 		$steps['ftpconfig'] = 'on';

@@ -136,7 +136,7 @@ class mosHTML {
 	* @param mixed The key that is selected
 	* @returns string HTML for the select list
 	*/
-	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag='', $flag='' ) {
+	function selectList( &$arr, $tag_name, $tag_attribs, $key, $text, $selected=NULL, $idtag=false, $flag=false ) {
 		reset( $arr );
 
         $id = $tag_name;
