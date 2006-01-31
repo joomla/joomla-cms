@@ -80,8 +80,7 @@ class categories_html {
 					<?php mosCommonHTML :: tableOrdering( 'Order', 'c.ordering', $lists ); ?>
 				</th>
 				<th width="1%">
-					<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
-						<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+					<?php mosCommonHTML :: saveorderButton( $rows ); ?>
 				</th>
 				<th width="7%">
 					<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>

@@ -67,7 +67,7 @@ class HTML_weblinks {
 					<?php mosCommonHTML :: tableOrdering( 'Order', 'a.ordering', $lists ); ?>
 	 			</th>
 				<th width="1%">
-					<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+					<?php mosCommonHTML :: saveorderButton( $rows ); ?>
 				</th>
 				<th width="5%" nowrap="nowrap">
 					<?php mosCommonHTML :: tableOrdering( 'ID', 'a.id', $lists ); ?>
@@ -86,12 +86,9 @@ class HTML_weblinks {
 	
 				$link 	= ampReplace( 'index2.php?option=com_weblinks&task=editA&hidemainmenu=1&id='. $row->id );
 	
-				$task 	= $row->published ? 'unpublish' : 'publish';
-				$img 	= $row->published ? 'publish_g.png' : 'publish_x.png';
-				$alt 	= $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
-	
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
-	
+				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
+
 				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&section=com_weblinks&task=editA&hidemainmenu=1&id='. $row->catid );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
@@ -114,8 +111,7 @@ class HTML_weblinks {
 						?>
 					</td>
 					<td align="center">
-						<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
-							<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
+						<?php echo $published;?>
 					</td>
 					<td>
 						<?php echo $pageNav->orderUpIcon( $i, ($row->catid == @$rows[$i-1]->catid) ); ?>

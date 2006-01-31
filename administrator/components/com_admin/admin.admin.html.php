@@ -384,31 +384,31 @@ class HTML_admin_misc {
 				<tr>
 					<td>
 						<strong><?php echo JText::_( 'DescDirWritable' ); ?>:</strong>
-						<?php
-						mosHTML::writableCell( 'administrator/backups' );
-						mosHTML::writableCell( 'administrator/components' );
-						mosHTML::writableCell( 'administrator/modules' );
-						mosHTML::writableCell( 'administrator/templates' );
-						mosHTML::writableCell( 'cache' );
-						mosHTML::writableCell( 'components' );
-						mosHTML::writableCell( 'images' );
-						mosHTML::writableCell( 'images/banners' );
-						mosHTML::writableCell( 'images/stories' );
-						mosHTML::writableCell( 'language' );
-						mosHTML::writableCell( 'plugins' );
-						mosHTML::writableCell( 'plugins/content' );
-						mosHTML::writableCell( 'plugins/editors' );
-						mosHTML::writableCell( 'plugins/editors-xtd' );
-						mosHTML::writableCell( 'plugins/search' );
-						mosHTML::writableCell( 'plugins/system' );
-						mosHTML::writableCell( 'plugins/user' );
-						mosHTML::writableCell( 'plugins/xmlrpc' );
-						mosHTML::writableCell( 'media' );
-						mosHTML::writableCell( 'modules' );
-						mosHTML::writableCell( 'templates' );
-						?>
 					</td>
 				</tr>
+				<?php
+				mosHTML::writableCell( 'administrator/backups' );
+				mosHTML::writableCell( 'administrator/components' );
+				mosHTML::writableCell( 'administrator/modules' );
+				mosHTML::writableCell( 'administrator/templates' );
+				mosHTML::writableCell( 'cache' );
+				mosHTML::writableCell( 'components' );
+				mosHTML::writableCell( 'images' );
+				mosHTML::writableCell( 'images/banners' );
+				mosHTML::writableCell( 'images/stories' );
+				mosHTML::writableCell( 'language' );
+				mosHTML::writableCell( 'plugins' );
+				mosHTML::writableCell( 'plugins/content' );
+				mosHTML::writableCell( 'plugins/editors' );
+				mosHTML::writableCell( 'plugins/editors-xtd' );
+				mosHTML::writableCell( 'plugins/search' );
+				mosHTML::writableCell( 'plugins/system' );
+				mosHTML::writableCell( 'plugins/user' );
+				mosHTML::writableCell( 'plugins/xmlrpc' );
+				mosHTML::writableCell( 'media' );
+				mosHTML::writableCell( 'modules' );
+				mosHTML::writableCell( 'templates' );
+				?>
 				</tbody>
 				</table>
 				

@@ -64,24 +64,27 @@ class JMenuBar {
 		$icon 	= ( $iconOver ? $iconOver : $icon );
 		$image 	= mosAdminMenus::ImageCheckAdmin( $icon, '/images/', NULL, NULL, $alt, $task, 1 );
 
+		$href 	= explode('index2.php?', $_SERVER['REQUEST_URI'] );
+		$href 	= 'index2.php?'. ampReplace( $href[1] ) .'#';
+		
 		if ($x) {
 			if ($listSelect) {
-				$href = "javascript:if(document.adminForm.boxchecked.value==0){alert('". JText::_( 'Please make a selection from the list to', true ) ." ". $alt ."');}else{hideMainMenu();submitbutton('$task')}";
+				$onclick = "javascript:if(document.adminForm.boxchecked.value==0){alert('". JText::_( 'Please make a selection from the list to', true ) ." ". $alt ."');}else{hideMainMenu();submitbutton('$task')}";
 			} else {
-				$href = "javascript:hideMainMenu();submitbutton('$task')";
+				$onclick = "javascript:hideMainMenu();submitbutton('$task')";
 			}
 		} else {
 			if ($listSelect) {
-				$href = "javascript:if(document.adminForm.boxchecked.value==0){alert('". JText::_( 'Please make a selection from the list to', true ) ." ". $alt ."');}else{submitbutton('$task')}";
+				$onclick = "javascript:if(document.adminForm.boxchecked.value==0){alert('". JText::_( 'Please make a selection from the list to', true ) ." ". $alt ."');}else{submitbutton('$task')}";
 			} else {
-				$href = "javascript:submitbutton('$task')";
+				$onclick = "javascript:submitbutton('$task')";
 			}			
 		}
 
 		if ($icon || $iconOver) {
 			?>
 			<td>
-				<a class="toolbar" href="<?php echo $href;?>">
+				<a class="toolbar" href="<?php echo $href;?>" onclick="<?php echo $onclick ;?>">
 					<?php echo $image; ?>
 					<br /><?php echo $alt; ?></a>
 			</td>
@@ -89,7 +92,7 @@ class JMenuBar {
 		} else {
 			?>
 			<td>
-				<a class="toolbar" href="<?php echo $href;?>">
+				<a class="toolbar" href="<?php echo $href;?>" onclick="<?php echo $onclick ;?>>
 					<br /><?php echo $alt; ?></a>
 			</td>
 			<?php

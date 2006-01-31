@@ -94,11 +94,9 @@ class HTML_banners {
 					$percentClicks = 0;
 				}
 	
-				$task 	= $row->showBanner ? 'unpublish' : 'publish';
-				$img 	= $row->showBanner ? 'publish_g.png' : 'publish_x.png';
-				$alt 	= $row->showBanner ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
-	
-				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
+				$row->published = $row->showBanner;
+				$published 		= mosCommonHTML::PublishedProcessing( $row, $i );
+				$checked 		= mosCommonHTML::CheckedOutProcessing( $row, $i );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center">
@@ -120,8 +118,7 @@ class HTML_banners {
 						?>
 					</td>
 					<td align="center">
-						<a href="javascript: void(0);" onmouseover="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
-							<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
+						<?php echo $published;?>
 					</td>
 					<td align="center">
 						<?php echo $row->id; ?>

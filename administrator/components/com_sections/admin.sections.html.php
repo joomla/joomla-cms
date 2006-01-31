@@ -30,7 +30,7 @@ class sections_html {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_sections&scope=<?php echo $scope; ?>" method="post" name="adminForm">
+		<form action="index2.php?option=com_sections&amp;scope=<?php echo $scope; ?>" method="post" name="adminForm">
 
 		<table class="adminform">
 		<tr>
@@ -68,8 +68,7 @@ class sections_html {
 					<?php mosCommonHTML :: tableOrdering( 'Order', 's.ordering', $lists ); ?>
 				</th>
 				<th width="1%">
-					<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
-						<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+					<?php mosCommonHTML :: saveorderButton( $rows ); ?>
 				</th>
 				<th width="8%">
 					<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
@@ -93,7 +92,7 @@ class sections_html {
 			for ( $i=0, $n=count( $rows ); $i < $n; $i++ ) {
 				$row = &$rows[$i];
 	
-				$link = 'index2.php?option=com_sections&scope=content&task=editA&hidemainmenu=1&id='. $row->id;
+				$link 		= 'index2.php?option=com_sections&scope=content&task=editA&hidemainmenu=1&id='. $row->id;
 	
 				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );

@@ -71,8 +71,7 @@ class HTML_typedcontent {
 					<?php mosCommonHTML :: tableOrdering( 'Order', 'c.ordering', $lists ); ?>
 				</th>
 				<th width="1%">
-					<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
-						<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+					<?php mosCommonHTML :: saveorderButton( $rows ); ?>
 				</th>
 				<th width="7%">
 					<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
@@ -126,17 +125,6 @@ class HTML_typedcontent {
 					}
 				}
 	
-				if ( !$row->access ) {
-					$color_access = 'style="color: green;"';
-					$task_access = 'accessregistered';
-				} else if ( $row->access == 1 ) {
-					$color_access = 'style="color: red;"';
-					$task_access = 'accessspecial';
-				} else {
-					$color_access = 'style="color: black;"';
-					$task_access = 'accesspublic';
-				}
-	
 				$link = 'index2.php?option=com_typedcontent&task=edit&hidemainmenu=1&id='. $row->id;
 	
 				if ( $row->checked_out ) {
@@ -160,7 +148,8 @@ class HTML_typedcontent {
 					}
 				}
 	
-				$date = mosFormatDate( $row->created, JText::_( 'DATE_FORMAT_LC4' ) );
+				$access = mosCommonHTML::AccessProcessing( $row, $i );
+				$date 	= mosFormatDate( $row->created, JText::_( 'DATE_FORMAT_LC4' ) );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
@@ -191,22 +180,21 @@ class HTML_typedcontent {
 					if ( $times ) {
 						?>
 						<td align="center">
-						<a href="javascript: void(0);" onMouseOver="return overlib('<table><?php echo $times; ?></table>', CAPTION, '<?php echo JText::_( 'Publish Information' ); ?>', BELOW, RIGHT);" onMouseOut="return nd();" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $row->state ? "unpublish" : "publish";?>')">
+						<a href="javascript:void(0);" onMouseOver="return overlib('<table><?php echo $times; ?></table>', CAPTION, '<?php echo JText::_( 'Publish Information' ); ?>', BELOW, RIGHT);" onMouseOut="return nd();" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $row->state ? "unpublish" : "publish";?>')">
 							<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
 						</td>
 						<?php
 					}
 					?>
 					<td align="center">
-						<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','toggle_frontpage')">
+						<a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','toggle_frontpage')">
 							<img src="images/<?php echo ( $row->frontpage ) ? 'tick.png' : 'publish_x.png';?>" width="12" height="12" border="0" alt="<?php echo ( $row->frontpage ) ? JText::_( 'Yes' ) : JText::_( 'No' );?>" /></a>
 					</td>
 					<td align="center" colspan="2">
 						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center" />
 					</td>
 					<td align="center">
-						<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task_access;?>')" <?php echo $color_access; ?>>
-							<?php echo $row->groupname;?></a>
+						<?php echo $access;?>
 					</td>
 					<td align="center">
 						<?php echo $row->id;?>

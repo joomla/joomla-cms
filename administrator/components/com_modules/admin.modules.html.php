@@ -53,10 +53,10 @@ class HTML_modules {
 		<div id="tablecell">				
 			<table class="adminlist">
 			<tr>
-				<th width="20px">
+				<th width="20">
 					<?php echo JText::_( 'NUM' ); ?>
 				</th>
-				<th width="20px">
+				<th width="20">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 				</th>
 				<th class="title">
@@ -75,7 +75,7 @@ class HTML_modules {
 						<?php echo JText::_( 'Order' ); ?>
 					</th>
 					<th width="1%">
-						<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )"><img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+						<?php mosCommonHTML :: saveorderButton( $rows ); ?>
 					</th>
 					<?php
 				}

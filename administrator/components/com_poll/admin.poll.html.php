@@ -76,13 +76,10 @@ class HTML_poll {
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row = &$rows[$i];
 	
-				$link 	= ampReplace( 'index2.php?option=com_poll&task=editA&hidemainmenu=1&id='. $row->id );
-	
-				$task 	= $row->published ? 'unpublish' : 'publish';
-				$img 	= $row->published ? 'publish_g.png' : 'publish_x.png';
-				$alt 	= $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
+				$link 		= ampReplace( 'index2.php?option=com_poll&task=editA&hidemainmenu=1&id='. $row->id );
 	
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
+				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
@@ -96,8 +93,7 @@ class HTML_poll {
 							<?php echo $row->title; ?></a>
 					</td>
 					<td align="center">
-						<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $task;?>')">
-							<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
+						<?php echo $published;?>
 					</td>
 					<td align="center">
 						<?php echo $row->id; ?>

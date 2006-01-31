@@ -475,7 +475,8 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 		$href = ampReplace( $href );
 		$style = '';
 	} else {		
-		$href = $_SERVER['REQUEST_URI'] .'#';
+		$href 	= explode('index2.php?', $_SERVER['REQUEST_URI'] );
+		$href 	= 'index2.php?'. ampReplace( $href[1] ) .'#';
 	}
 
 	$mousover = 'return overlib(\''. JText::_( $tooltip ) .'\''. $title .', BELOW, RIGHT'. $width .');';

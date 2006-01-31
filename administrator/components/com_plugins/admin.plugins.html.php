@@ -74,8 +74,7 @@ class HTML_modules {
 						<?php echo JText::_( 'Order' ); ?>
 					</th>
 					<th width="1%">
-						<a href="javascript: saveorder( <?php echo count( $rows )-1; ?> )">
-							<img src="images/filesave.png" border="0" width="16" height="16" alt="<?php echo JText::_( 'Save Order' ); ?>" /></a>
+						<?php mosCommonHTML :: saveorderButton( $rows ); ?>
 					</th>
 					<?php
 				}

@@ -18,8 +18,7 @@
  * @package 	Joomla.Framework
  * @since 1.0
  */
-class mosHTML
-{
+class mosHTML {
 	/**
 	 * Write a <a></a> element
 	 *
@@ -118,9 +117,12 @@ class mosHTML
 
 	function writableCell( $folder ) {
 		echo '<tr>';
-		echo '<td class="item">' . $folder . '/</td>';
+		echo '<td class="item">';
+		echo $folder;
+		echo '</td>';
 		echo '<td >';
-		echo is_writable( "../$folder" ) ? '<b><font color="green">'. JText::_( 'Writeable' ) .'</font></b>' : '<b><font color="red">'. JText::_( 'Unwriteable' ) .'</font></b>' . '</td>';
+		echo is_writable( "../$folder" ) ? '<b><font color="green">'. JText::_( 'Writeable' ) .'</font></b>' : '<b><font color="red">'. JText::_( 'Unwriteable' ) .'</font></b>';
+		echo '</td>';
 		echo '</tr>';
 	}
 
@@ -858,7 +860,7 @@ class mosCommonHTML {
 		}
 
 		$href = '
-		<a href="javascript: void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task_access .'\')" '. $color_access .'>
+		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task_access .'\')" '. $color_access .'>
 		'. $row->groupname .'
 		</a>'
 		;
@@ -878,15 +880,15 @@ class mosCommonHTML {
 		return $checked;
 	}
 
-	function PublishedProcessing( &$row, $i ) {
+	function PublishedProcessing( &$row, $i, $imgY='tick.png', $imgX='publish_x.png' ) {
 
-		$img 	= $row->published ? 'publish_g.png' : 'publish_x.png';
+		$img 	= $row->published ? $imgY : $imgX;
 		$task 	= $row->published ? 'unpublish' : 'publish';
 		$alt 	= $row->published ? JText::_( 'Published' ) : JText::_( 'Unpublished' );
 		$action	= $row->published ? 'Unpublish Item' : 'Publish item';
 
 		$href = '
-		<a href="javascript: void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task .'\')" title="'. $action .'">
+		<a href="javascript:void(0);" onclick="return listItemTask(\'cb'. $i .'\',\''. $task .'\')" title="'. $action .'">
 		<img src="images/'. $img .'" border="0" alt="'. $alt .'" />
 		</a>'
 		;
@@ -899,6 +901,14 @@ class mosCommonHTML {
 		$state[] = mosHTML::makeOption( 'U', JText::_( $unpublished ) );
 
 		return mosHTML::selectList( $state, 'filter_state', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter_state );
+	}
+	
+	function saveorderButton( $rows, $image='filesave.png' ) {
+		$image = mosAdminMenus::ImageCheckAdmin( $image, '/images/', NULL, NULL, JText::_( 'Save Order' ), '', 1 );
+		?>
+		<a href="javascript:saveorder(<?php echo count( $rows )-1; ?>)">
+			<?php echo $image; ?></a>
+		<?php
 	}
 
 	function tableOrdering( $text, $ordering, &$lists, $task=NULL ) {

@@ -49,7 +49,7 @@ class HTML_menumanager
 				<th width="20">
 					<?php echo JText::_( 'NUM' ); ?>
 				</th>
-				<th width="20px">
+				<th width="20">
 				</th>
 				<th class="title" nowrap="nowrap">
 					<?php echo JText::_( 'Menu Name' ); ?>
@@ -82,14 +82,14 @@ class HTML_menumanager
 					$count = $pageNav->limit;
 			for ($m = $start; $m < $start+$count; $m++) {
 				$menu = $menus[$m];
-				$link 	= 'index2.php?option=com_menumanager&task=edit&hidemainmenu=1&menu='. $menu->type;
-				$linkA 	= 'index2.php?option=com_menus&menutype='. $menu->type;
+				$link 	= 'index2.php?option=com_menumanager&amp;task=edit&amp;hidemainmenu=1&amp;menu='. $menu->type;
+				$linkA 	= 'index2.php?option=com_menus&amp;menutype='. $menu->type;
 				?>
 				<tr class="<?php echo "row". $k; ?>">
-					<td align="center" width="30px">
+					<td align="center" width="30">
 						<?php echo $i + 1 + $pageNav->limitstart;?>
 					</td>
-					<td width="30px" align="center">
+					<td width="30" align="center">
 						<input type="radio" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $menu->type; ?>" onclick="isChecked(this.checked);" />
 					</td>
 					<td>
@@ -178,38 +178,39 @@ class HTML_menumanager
 		}
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
+		
 		<table class="adminform">
-		<tr height="45px;">
-			<td width="100px" >
-			<strong><?php echo JText::_( 'Menu Name' ); ?>:</strong>
+		<tr height="45;">
+			<td width="100" >
+				<strong><?php echo JText::_( 'Menu Name' ); ?>:</strong>
 			</td>
 			<td>
-			<input class="inputbox" type="text" name="menutype" size="30" maxlength="25" value="<?php echo isset( $row->menutype ) ? $row->menutype : ''; ?>" />
-			<?php
-			$tip = JText::_( 'TIPNAMEUSEDTOIDENTIFYMENU' );
-			echo mosToolTip( $tip );
-			?>
+				<input class="inputbox" type="text" name="menutype" size="30" maxlength="25" value="<?php echo isset( $row->menutype ) ? $row->menutype : ''; ?>" />
+				<?php
+				$tip = JText::_( 'TIPNAMEUSEDTOIDENTIFYMENU' );
+				echo mosToolTip( $tip );
+				?>
 			</td>
 		</tr>
 		<?php
 		if ( $new ) {
 			?>
 			<tr>
-				<td width="100px"  valign="top">
-				<strong><?php echo JText::_( 'Module Title' ); ?>:</strong>
+				<td width="100"  valign="top">
+					<strong><?php echo JText::_( 'Module Title' ); ?>:</strong>
 				</td>
 				<td>
-				<input class="inputbox" type="text" name="title" size="30" value="<?php echo $row->title ? $row->title : '';?>" />
-				<?php
-				$tip = JText::_( 'TIPTITLEMAINMENUMODULEREQUIRED' );
-				echo mosToolTip( $tip );
-				?>
-				<br /><br /><br />
-				<strong>
-				<?php echo JText::_( 'TIPTITLECREATED' ); ?>
-				<br /><br />
-				<?php echo JText::_( 'DESCPARAMMODULEMANAGER' ); ?>
-				</strong>
+					<input class="inputbox" type="text" name="title" size="30" value="<?php echo $row->title ? $row->title : '';?>" />
+					<?php
+					$tip = JText::_( 'TIPTITLEMAINMENUMODULEREQUIRED' );
+					echo mosToolTip( $tip );
+					?>
+					<br /><br /><br />
+					<strong>
+					<?php echo JText::_( 'TIPTITLECREATED' ); ?>
+					<br /><br />
+					<?php echo JText::_( 'DESCPARAMMODULEMANAGER' ); ?>
+					</strong>
 				</td>
 			</tr>
 			<?php
@@ -255,7 +256,7 @@ class HTML_menumanager
 		<table class="adminheading">
 		<tr>
 			<th>
-			<?php echo JText::_( 'Delete Menu' ); ?>: <?php echo $type;?>
+				<?php echo JText::_( 'Delete Menu' ); ?>: <?php echo $type;?>
 			</th>
 		</tr>
 		</table>
@@ -265,57 +266,56 @@ class HTML_menumanager
 		<tr>
 			<td width="3%"></td>
 			<td  valign="top" width="20%">
-			<?php
-			if ( $modules ) {
-				?>
-				<strong><?php echo JText::_( 'Module(s) being Deleted' ); ?>:</strong>
-				<ol>
 				<?php
-				foreach ( $modules as $module ) {
+				if ( $modules ) {
 					?>
-					<li>
-					<font color="#000066">
-					<strong>
-					<?php echo $module->title; ?>
-					</strong>
-					</font>
-					</li>
-					<input type="hidden" name="cid[]" value="<?php echo $module->id; ?>" />
+					<strong><?php echo JText::_( 'Module(s) being Deleted' ); ?>:</strong>
+					<ol>
+					<?php
+					foreach ( $modules as $module ) {
+						?>
+						<li>
+						<font color="#000066">
+						<strong>
+						<?php echo $module->title; ?>
+						</strong>
+						</font>
+						</li>
+						<input type="hidden" name="cid[]" value="<?php echo $module->id; ?>" />
+						<?php
+					}
+					?>
+					</ol>
 					<?php
 				}
 				?>
-				</ol>
-				<?php
-			}
-			?>
 			</td>
 			<td  valign="top" width="25%">
-			<strong><?php echo JText::_( 'Menu Items being Deleted' ); ?>:</strong>
-			<br />
-			<ol>
-			<?php
-			foreach ( $items as $item ) {
-				?>
-				<li>
-				<font color="#000066">
-				<?php echo $item->name; ?>
-				</font>
-				</li>
-				<input type="hidden" name="mids[]" value="<?php echo $item->id; ?>" />
+				<strong><?php echo JText::_( 'Menu Items being Deleted' ); ?>:</strong>
+				<br />
+				<ol>
 				<?php
-			}
-			?>
+				foreach ( $items as $item ) {
+					?>
+					<li>
+						<font color="#000066">
+						<?php echo $item->name; ?>
+						</font>
+					</li>
+					<input type="hidden" name="mids[]" value="<?php echo $item->id; ?>" />
+					<?php
+				}
+				?>
 			</ol>
 			</td>
 			<td>
-			<?php echo JText::_( '* This will' ); ?> <strong><font color="#FF0000"><?php echo JText::_( 'Delete' ); ?></font></strong> <?php echo JText::_( 'this Menu,' ); ?> <br /><?php echo JText::_( 'DESCALLMENUITEMS' ); ?>
-			<br /><br /><br />
-			<div style="border: 1px dotted gray; width: 70px; padding: 10px; margin-left: 100px;">
-			<a class="toolbar" href="javascript:if (confirm('<?php echo JText::_( 'WARNWANTDELTHISMENU' ); ?>')){ submitbutton('deletemenu');}" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage('remove','','images/delete_f2.png',1);">
-			<img name="remove" src="images/delete.png" alt="<?php echo JText::_( 'Delete' ); ?>" border="0" align="middle" />
-			&nbsp;<?php echo JText::_( 'Delete' ); ?>
-			</a>
-			</div>
+				<?php echo JText::_( '* This will' ); ?> <strong><font color="#FF0000"><?php echo JText::_( 'Delete' ); ?></font></strong> <?php echo JText::_( 'this Menu,' ); ?> <br /><?php echo JText::_( 'DESCALLMENUITEMS' ); ?>
+				<br /><br /><br />
+				<div style="border: 1px dotted gray; width: 70px; padding: 10px; margin-left: 100px;">
+					<a class="toolbar" href="javascript:if (confirm('<?php echo JText::_( 'WARNWANTDELTHISMENU' ); ?>')){ submitbutton('deletemenu');}" onmouseout="MM_swapImgRestore();"  onmouseover="MM_swapImage('remove','','images/delete_f2.png',1);">
+						<img name="remove" src="images/delete.png" alt="<?php echo JText::_( 'Delete' ); ?>" border="0" align="middle" />
+						&nbsp;<?php echo JText::_( 'Delete' ); ?></a>
+				</div>
 			</td>
 		</tr>
 		<tr>
