@@ -630,15 +630,14 @@ function josMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=nul
  * @return boolean True on success
  * @since 1.1
  */
-function josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author, $url = null ) 
-{
+function josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author, $url = null ) {
 	global $mainframe;
 	
 	if(!isset($url)) {
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 	}
 
-    $strAdminDir = "administrator";
+    $strAdminDir = 'administrator';
 
 	$subject = JText::_( 'User Submitted' ) ." '". $type ."'";
 
@@ -647,7 +646,7 @@ function josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $auth
 
 	eval ("\$message = \"$message\";");
 	
-	return jMail($mainframe->getCfg( 'mailfrom' ), $mainframe->getCfg( 'fromname' ), $adminEmail, $subject, $message);
+	return josMail($mainframe->getCfg( 'mailfrom' ), $mainframe->getCfg( 'fromname' ), $adminEmail, $subject, $message);
 }
 
 /**

@@ -29,13 +29,12 @@ class JMail extends PHPMailer
 	 * 
 	 * @param
 	 */
-	function JMail() 
-	{
+	function JMail() {
 		global $mainframe;
 
 		$this->PluginDir = JPATH_LIBRARIES.DS.'phpmailer'.DS;
-		$this->SetLanguage('en', JPATH_LIBRARIES.DS.'includes'.DS.'phpmailer'.DS.'language'.DS);
-		$this->CharSet = "utf-8";
+		$this->SetLanguage('en', JPATH_LIBRARIES.DS.'phpmailer'.DS.'language'.DS);
+		$this->CharSet = 'utf-8';
 
 		/*
 		 * Set the default mail sender address and name

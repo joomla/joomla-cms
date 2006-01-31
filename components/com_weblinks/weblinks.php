@@ -442,9 +442,8 @@ class WeblinksController {
 	 *
 	 * @since 1.0
 	 */
-	function saveWeblink() 
-	{
-		global $mainframe, $Itemid;
+	function saveWeblink() {
+		global $mainframe;
 
 		// Get some objects from the JApplication
 		$db  =& $mainframe->getDBO();
@@ -498,7 +497,7 @@ class WeblinksController {
 		. "\n WHERE gid = $gid"
 		. "\n AND sendEmail = 1"
 		;
-		$database->setQuery( $query );
+		$db->setQuery( $query );
 		if(!$db->query()) {
 			echo $db->stderr( true );
 			return;
