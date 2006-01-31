@@ -741,9 +741,11 @@ class JContactView {
 	* Writes Email form
 	*/
 	function _writeEmailForm( &$contact, &$params, $sitename, &$menu_params ) {
-		global $Itemid;
+		global $Itemid, $mainframe;
 
 		if ( $contact->email_to && !$params->get( 'popup' ) && $params->get( 'email_form' ) ) {
+			// used for spoof hardening
+			$validate = mosHash( $mainframe->getCfg('db') );
 			?>
 			<tr>
 				<td colspan="2">
@@ -751,6 +753,7 @@ class JContactView {
 				<?php echo $params->get( 'email_description' ) ?>
 				<br /><br />
 				<form action="<?php echo sefRelToAbs( 'index.php?option=com_contact&amp;Itemid='. $Itemid ); ?>" method="post" name="emailForm" target="_top" id="emailForm">
+				
 				<div class="contact_email<?php echo $menu_params->get( 'pageclass_sfx' ); ?>">
 					<label for="contact_name">
 						&nbsp;<?php echo JText::_( 'Enter your name' );?>:
@@ -790,10 +793,12 @@ class JContactView {
 					<br />
 					<input type="button" name="send" value="<?php echo JText::_( 'Send' ); ?>" class="button" onclick="validate()" />
 				</div>
+				
 				<input type="hidden" name="option" value="com_contact" />
 				<input type="hidden" name="con_id" value="<?php echo $contact->id; ?>" />
 				<input type="hidden" name="sitename" value="<?php echo $sitename; ?>" />
 				<input type="hidden" name="task" value="sendmail" />
+				<input type="hidden" name="<?php echo $validate; ?>" value="1" />
 				</form>
 				<br />
 				</td>

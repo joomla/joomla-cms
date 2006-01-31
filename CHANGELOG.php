@@ -42,6 +42,7 @@ Legend:
 
 
 31-Jan-2006 Rey Gigataras
+ # Fixed [topic,34507.0.html] : Contact Us -> not authorized result
  # Fixed [topic,34574.0.html] : JS error in overlibs for the menu items in menu
  # Fixed [topic,34515.0.html] : Error when adding weblink on frontend
  # Fixed [topic,34103.0.html] : .contentheading and the frontend edit button
@@ -52,6 +53,7 @@ Legend:
  # Fixed : missing access column in 'Contact Manager'
  # Fixed : 'Banner Manager' `state` filter
  ^ Modified sample data menu ids
+ + Additional Contact Component hardening
  
 30-Jan-2006 Louis Landry
  # Fixed cache path problem on install

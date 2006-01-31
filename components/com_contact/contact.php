@@ -481,15 +481,17 @@ class JContactController {
 		$SiteName 	= $mainframe->getCfg('sitename');
 		$MailFrom 	= $mainframe->getCfg('mailfrom');
 		$FromName 	= $mainframe->getCfg('fromname');
+		$validate 	= mosHash( $mainframe->getCfg('db') );
+		
+		$default 	= sprintf(JText :: _('MAILENQUIRY'), $SiteName);
 		$option 	= JRequest :: getVar('option');
 		$contactId 	= JRequest :: getVar('con_id');
-		$validate 	= JRequest :: getVar(mosHash('validate'), 0, 'post');
-		$default 	= sprintf(JText :: _('MAILENQUIRY'), $SiteName);
-		$email 		= JRequest :: getVar('email', '', 'post');
-		$text 		= JRequest :: getVar('text', '', 'post');
-		$name 		= JRequest :: getVar('name', '', 'post');
-		$subject 	= JRequest :: getVar('subject', $default, 'post');
-		$emailCopy 	= JRequest :: getVar('email_copy', 0, 'post');
+		$validate 	= JRequest :: getVar($validate, 	0, 			'post');
+		$email 		= JRequest :: getVar('email', 		'', 		'post');
+		$text 		= JRequest :: getVar('text', 		'', 		'post');
+		$name 		= JRequest :: getVar('name', 		'', 		'post');
+		$subject 	= JRequest :: getVar('subject', 	$default, 	'post');
+		$emailCopy 	= JRequest :: getVar('email_copy', 	0, 			'post');
 
 		// probably a spoofing attack
 		if (!$validate) {
@@ -624,7 +626,7 @@ class JContactController {
 				josMail($MailFrom, $FromName, $email, $copySubject, $copyText);
 			}
 		
-			$link = 'index.php?option=com_contact&task=view&contact_id='. $contact[0]->id .'&Itemid='. $Itemid;
+			$link = 'index.php?option=com_contact&task=view&contact_id='. $contactId .'&Itemid='. $Itemid;
 			$text = JText::_( 'Thank you for your e-mail', true );
 			
 			mosRedirect( $link, $text );
@@ -637,8 +639,7 @@ class JContactController {
 	 * @static
 	 * @since 1.0
 	 */
-	function vCard() 
-	{
+	function vCard() {
 		global $mainframe;
 
 		/*
