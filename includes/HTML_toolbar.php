@@ -21,33 +21,20 @@ class mosToolBar {
 	* Writes the start of the button bar table
 	*/
 	function startTable() {
+		global $mainframe;
+		
+		/*
+		* Initialize some variables
+		*/
+		$document = & $mainframe->getDocument();
+		
+		/*
+		* load toolbar css
+		*/
+		$document->addStyleSheet( 'templates/_system/css/toolbar.css' );		
 		?>
-		<style type="text/css">
-		table#toolbar {
-			margin-right: 10px;
-		}
-
-		table#toolbar a.toolbar {
-			color : #808080;
-			text-decoration : none;
-			display: block;
-			border: 1px solid #DDD;
-			width: 40px;
-			padding: 2px 5px 2px 5px;
-		}
-		table#toolbar a.toolbar:hover {
-			color : #C64934;
-			cursor: pointer;
-			border: 1px solid #c24733;
-			background-color: #f1e8e6;
-			padding: 3px 5px 1px 5px;
-		}
-		table#toolbar a.toolbar:active {
-			color : #FF9900;
-		}
-		</style>
 		<table cellpadding="0" cellspacing="3" border="0" id="toolbar">
-		<tr height="60" valign="middle" align="center">
+		<tr valign="middle" align="center">
 		<?php
 	}
 
@@ -64,14 +51,17 @@ class mosToolBar {
 		$icon 	= ( $iconOver ? $iconOver : $icon );
 		$image 	= mosAdminMenus::ImageCheck( $icon, '/images/', NULL, NULL, $alt, $task, 1 );
 		
+		$href 	= explode('index.php?', $_SERVER['REQUEST_URI'] );
+		$href 	= 'index.php?'. ampReplace( $href[1] ) .'#';
+		
 		if ($listSelect) {
-			$href = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to $alt');}else{submitbutton('$task')}";
+			$onclick = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to $alt');}else{submitbutton('$task')}";
 		} else {
-			$href = "javascript:submitbutton('$task')";
+			$onclick = "javascript:submitbutton('$task')";
 		}
 		?>
 		<td>
-			<a class="toolbar" href="<?php echo $href;?>" >
+			<a class="toolbar" href="<?php echo $href;?>" onclick="<?php echo $onclick ;?>">
 				<?php echo $image; ?></a>
 		</td>
 		<?php

@@ -904,7 +904,7 @@ class JContentView
 		 */
 		$document = & $mainframe->getDocument();
 		$Returnid = JRequest::getVar( 'Returnid', $Itemid, '', 'int' );
-		$tabs = new mosTabs(0, 1);
+		$tabs = new mosTabs(0);
 
 		$document->addStyleSheet('includes/js/calendar/calendar-mos.css');
 		$document->addScript('includes/js/calendar/calendar_mini.js');
@@ -921,10 +921,8 @@ class JContentView
 		var folderimages = new Array;
 		<?php
 		$i = 0;
-		foreach ($images as $k => $items)
-		{
-			foreach ($items as $v)
-			{
+		foreach ($images as $k => $items) {
+			foreach ($items as $v) {
 				echo "\n	folderimages[".$i ++."] = new Array( '$k','".addslashes($v->value)."','".addslashes($v->text)."' );";
 			}
 		}
@@ -989,16 +987,27 @@ class JContentView
 		}
 		</script>
 		<?php
-		$docinfo = "<strong>".JText :: _('Expiry Date').":</strong> ";
-		$docinfo .= $row->publish_down."<br />";
-		$docinfo .= "<strong>".JText :: _('Version').":</strong> ";
-		$docinfo .= $row->version."<br />";
-		$docinfo .= "<strong>".JText :: _('Created').":</strong> ";
-		$docinfo .= $row->created."<br />";
-		$docinfo .= "<strong>".JText :: _('Last Modified').":</strong> ";
-		$docinfo .= $row->modified."<br />";
-		$docinfo .= "<strong>".JText :: _('Hits').":</strong> ";
-		$docinfo .= $row->hits."<br />";
+		$docinfo = '<table><tr><td>'; 
+		$docinfo .= '<strong>'.JText :: _('Expiry Date').':</strong> ';
+		$docinfo .= '</td><td>'; 
+		$docinfo .= $row->publish_down;
+		$docinfo .= '</td></tr><tr><td>'; 
+		$docinfo .= '<strong>'.JText :: _('Version').':</strong> ';
+		$docinfo .= '</td><td>'; 
+		$docinfo .= $row->version;
+		$docinfo .= '</td></tr><tr><td>'; 
+		$docinfo .= '<strong>'.JText :: _('Created').':</strong> ';
+		$docinfo .= '</td><td>'; 
+		$docinfo .= $row->created;
+		$docinfo .= '</td></tr><tr><td>'; 
+		$docinfo .= '<strong>'.JText :: _('Last Modified').':</strong> ';
+		$docinfo .= '</td><td>'; 
+		$docinfo .= $row->modified;
+		$docinfo .= '</td></tr><tr><td>'; 
+		$docinfo .= '<strong>'.JText :: _('Hits').':</strong> ';
+		$docinfo .= '</td><td>'; 
+		$docinfo .= $row->hits;
+		$docinfo .= '</td></tr></table>'; 
 		?>
 		<form action="index.php" method="post" name="adminForm" onSubmit="javascript:setgood();">
 
@@ -1008,7 +1017,6 @@ class JContentView
 				<?php echo $section;?> / <?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?>&nbsp;
 				<?php echo JText::_( 'Content' );?> &nbsp;&nbsp;&nbsp;
 				<?php echo mosToolTip('<table>'.$docinfo.'</table>', JText::_( 'Item Information', true ), '', '', '<strong>['.JText::_( 'Info', true ).']</strong>'); ?>
-				</a>
 			</td>
 		</tr>
 		</table>
@@ -1093,15 +1101,19 @@ class JContentView
 		}
 		?>
 		</table>
+		
 		<?php
-
 		// Toolbar Bottom
 		mosToolBar :: startTable();
 		mosToolBar :: save();
 		mosToolBar :: apply();
 		mosToolBar :: cancel();
 		mosToolBar :: endtable();
-
+		?>
+		
+		<br />
+		
+		<?php
 		$title = JText :: _('Images');
 		$tabs->startPane('content-pane');
 		$tabs->startTab($title, 'images-page');
@@ -1113,15 +1125,15 @@ class JContentView
 				</td>
 			</tr>
 			<tr>
-				<td align="top">
+				<td valign="top">
 					<?php echo JText::_( 'Gallery Images' ); ?>
 				</td>
 				<td width="2%">
 				</td>
-				<td align="top">
+				<td valign="top">
 					<?php echo JText::_( 'Content Images' ); ?>
 				</td>
-				<td align="top">
+				<td valign="top">
 					<?php echo JText::_( 'Edit Image' ); ?>
 				</td>
 			</tr>
@@ -1221,24 +1233,24 @@ class JContentView
 				<td>
 					<img name="view_imagefiles" src="images/M_images/blank.png" width="50" alt="<?php echo JText::_( 'No Image' ); ?>" />
 				</td>
-				<td width="2%">
-				</td>
+				<td>&nbsp;</td>
 				<td>
 					<img name="view_imagelist" src="images/M_images/blank.png" width="50" alt="<?php echo JText::_( 'No Image' ); ?>" />
 				</td>
-				<td>
-				</td>
+				<td>&nbsp;</td>
 			</tr>
 			</table>
+			
 		<?php
 		$title = JText :: _('Publishing');
 		$tabs->endTab();
 		$tabs->startTab($title, 'publish-page');
 		?>
+		
 			<table class="adminform">
 			<?php
-		if ($access->canPublish) {
-			?>
+			if ($access->canPublish) {
+				?>
 				<tr>
 					<td >
 						<?php echo JText::_( 'State' ); ?>:
@@ -1247,11 +1259,11 @@ class JContentView
 						<?php echo $lists['state']; ?>
 					</td>
 				</tr>
-			<?php
-		}
+				<?php
+			}
 			?>
 			<tr>
-				<td >
+				<td>
 					<?php echo JText::_( 'Access Level' ); ?>:
 				</td>
 				<td>
@@ -1259,7 +1271,7 @@ class JContentView
 				</td>
 			</tr>
 			<tr>
-				<td >
+				<td>
 					<?php echo JText::_( 'Author Alias' ); ?>:
 				</td>
 				<td>
@@ -1267,7 +1279,7 @@ class JContentView
 				</td>
 			</tr>
 			<tr>
-				<td >
+				<td>
 					<?php echo JText::_( 'Ordering' ); ?>:
 				</td>
 				<td>
@@ -1275,7 +1287,7 @@ class JContentView
 				</td>
 			</tr>
 			<tr>
-				<td >
+				<td>
 					<?php echo JText::_( 'Start Publishing' ); ?>:
 				</td>
 				<td>
@@ -1284,7 +1296,7 @@ class JContentView
 				</td>
 			</tr>
 			<tr>
-				<td >
+				<td>
 					<?php echo JText::_( 'Finish Publishing' ); ?>:
 				</td>
 				<td>
@@ -1293,7 +1305,7 @@ class JContentView
 				</td>
 			</tr>
 			<tr>
-				<td >
+				<td>
 					<?php echo JText::_( 'Show on Front Page' ); ?>:
 				</td>
 				<td>
@@ -1301,11 +1313,13 @@ class JContentView
 				</td>
 			</tr>
 			</table>
+			
 		<?php
 		$title = JText :: _('Metadata');
 		$tabs->endTab();
 		$tabs->startTab($title, 'meta-page');
 		?>
+		
 			<table class="adminform">
 			<tr>
 				<td  valign="top">
@@ -1373,7 +1387,7 @@ class JContentView
 		}
 		</script>
 
-		<form action="index2.php?option=com_content&amp;task=emailsend" name="frontendForm" method="post" onSubmit="return submitbutton();">
+		<form action="index2.php?option=com_content&amp;task=emailsend" name="frontendForm" method="post" onsubmit="return submitbutton();">
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
 			<td colspan="2">
@@ -1391,8 +1405,8 @@ class JContentView
 				<input type="text" name="email" class="inputbox" size="25" />
 			</td>
 		</tr>
-		<tr>
-			<td height="27">
+		<tr height="27">
+			<td>
 				<?php echo JText::_( 'Your Name' ); ?>:
 			</td>
 			<td>
@@ -1546,7 +1560,7 @@ class JContentView
 		mosCommonHTML :: loadOverlib();
 
 		$link = 'index.php?option=com_content&amp;task=edit&amp;id='.$row->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
-		$image = mosAdminMenus :: ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText :: _('Edit'), JText :: _('Edit'));
+		$image = mosAdminMenus :: ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText :: _('Edit'), JText :: _('Edit'). $row->id );
 
 		if ($row->state == 0) {
 			$overlib = JText :: _('Unpublished');
@@ -1872,60 +1886,5 @@ class JContentView
 			}
 		}
 	}
-
-	/**
-	 * Helper method to print the content item's pagination block if enabled.
-	 *
-	 * This method will be deprecated with full patTemplate integration in
-	 * Joomla 1.2
-	 *
-	 * @static
-	 * @param object $row 		The content item
-	 * @param object $params 	The content item's parameters object
-	 * @return void
-	 * @since 1.0
-	 */
-/*	
-	function _navigation($row, $params) {
-		$task = mosGetParam($_REQUEST, 'task', '');
-		if ($params->get('item_navigation') && ($task == "view") && !$params->get('popup') && ($row->prev || $row->next)) {
-			$pnSpace = "";
-			if (JText :: _('&lt') || JText :: _('&gt')) {
-				$pnSpace = " ";
-			}
-			?>
-			<table align="center" style="margin-top: 25px;">
-			<tr>
-				<?php
-				if ($row->prev) {
-					?>
-					<th class="pagenav_prev">
-						<a href="<?php echo $row->prev; ?>">
-							<?php echo JText::_( '&lt' ) . $pnSpace . JText::_( 'Prev' ); ?></a>
-					</th>
-					<?php
-				}
-				if ($row->prev && $row->next) {
-					?>
-					<td width="50">
-						&nbsp;
-					</td>
-					<?php
-				}
-				if ($row->next) {
-					?>
-					<th class="pagenav_next">
-						<a href="<?php echo $row->next; ?>">
-							<?php echo JText::_( 'Next' ) . $pnSpace . JText::_( '&gt' ); ?></a>
-					</th>
-					<?php
-				}
-				?>
-			</tr>
-			</table>
-			<?php
-		}
-	}
-*/
 }
 ?>

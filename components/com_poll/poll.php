@@ -21,11 +21,6 @@ require_once( JApplicationHelper::getPath( 'class' ) );
 $breadcrumbs =& $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, 'Polls');
 
-$tabclass 			= 'sectiontableentry2,sectiontableentry1';
-$polls_graphwidth 	= 200;
-$polls_barheight 	= 2;
-$polls_maxcolors 	= 5;
-$polls_barcolor 	= 0;
 
 $id 	= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
 $task 	= mosGetParam( $_REQUEST, 'task', '' );
@@ -56,14 +51,14 @@ function pollAddVote( $uid ) {
 	$voted = mosGetParam( $_COOKIE, $cookiename, '0' );
 
 	if ($voted) {
-		echo "<h3>". JText::_( 'You already voted for this poll today!' ) ."</h3>";
+		echo '<h3>'. JText::_( 'You already voted for this poll today!' ) .'</h3>';
 		echo "<input class=\"button\" type=\"button\" value=\"". JText::_( 'Continue' )."\" onClick=\"window.history.go(-1);\">";
 		return;
 	}
 
 	$voteid = mosGetParam( $_POST, 'voteid', 0 );
 	if (!$voteid) {
-		echo "<h3>". JText::_( 'WARNSELECT' ) ."</h3>";
+		echo '<h3>'. JText::_( 'WARNSELECT' ) .'</h3>';
 		echo '<input class="button" type="button" value="'. JText::_( 'Continue' ) .'" onClick="window.history.go(-1);">';
 		return;
 	}
@@ -98,7 +93,7 @@ function pollAddVote( $uid ) {
 	} else {
 		echo '<h3>'. JText::_( 'Thanks for your vote!' ) .'</h3>';
 		echo '<form action="" method="GET">';
-		echo '<input class="button" type="button" value="'. JText::_( 'Results' ) .'" onClick="window.location=\''. sefRelToAbs( 'index.php?option=com_poll&task=results&id='. $uid ) .'\'">';
+		echo '<input class="button" type="button" value="'. JText::_( 'Results' ) .'" onclick="window.location=\''. sefRelToAbs( 'index.php?option=com_poll&task=results&id='. $uid ) .'\'">';
 		echo '</form>';
 	}
 }
@@ -188,10 +183,10 @@ function pollresult( $uid ) {
 	$menu->load( $Itemid );
 
 	$params = new JParameter( $menu->params );
-	$params->def( 'page_title', 1 );
-	$params->def( 'pageclass_sfx', '' );
-	$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
-	$params->def( 'header', $menu->name );
+	$params->def( 'page_title',		1 );
+	$params->def( 'pageclass_sfx', 	'' );
+	$params->def( 'back_button', 	$mainframe->getCfg( 'back_button' ) );
+	$params->def( 'header', 		$menu->name );
 
 	$mainframe->SetPageTitle($poll->title);
 

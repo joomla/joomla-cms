@@ -43,7 +43,7 @@ function viewSearch() {
 	$database->setQuery( $query );
 	$_Itemid = $database->loadResult();
 
-	if ($_Itemid != "") {
+	if ($_Itemid != '') {
 		$Itemid = $_Itemid;
 	}
 
@@ -95,7 +95,7 @@ function viewSearch() {
 	$orders[] = mosHTML::makeOption( 'category', JText::_( 'Section/Category' ) );
 	$ordering = mosGetParam( $_REQUEST, 'ordering', 'newest');
 	$lists = array();
-	$lists['ordering'] = mosHTML::selectList( $orders, 'ordering', 'id="search_ordering" class="inputbox"', 'value', 'text', $ordering );
+	$lists['ordering'] = mosHTML::selectList( $orders, 'ordering', 'class="inputbox"', 'value', 'text', $ordering );
 
 	$searchphrase = mosGetParam( $_REQUEST, 'searchphrase', 'any' );
 	$searchphrases = array();

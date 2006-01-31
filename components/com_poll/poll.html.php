@@ -40,7 +40,7 @@ class poll_html {
 		if ( $params->get( 'page_title' ) ) {
 			?>
 			<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
-			<?php echo $params->get( 'header' ); ?>
+				<?php echo $params->get( 'header' ); ?>
 			</div>
 			<?php
 		}
@@ -51,10 +51,10 @@ class poll_html {
 				<table class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 				<tr>
 					<td >
-					<?php echo JText::_('Select Poll'); ?>&nbsp;
+						<?php echo JText::_('Select Poll'); ?>&nbsp;
 					</td>
 					<td >
-					<?php echo $pollist; ?>
+						<?php echo $pollist; ?>
 					</td>
 				</tr>
 				</table>
@@ -73,9 +73,9 @@ class poll_html {
 					?>
 					<tr>
 						<td>
-						<?php
-						poll_html::graphit( $data_arr, $poll->title, $first_vote, $last_vote );
-						?>
+							<?php
+							poll_html::graphit( $data_arr, $poll->title, $first_vote, $last_vote );
+							?>
 						</td>
 					</tr>
 					<?php
@@ -85,6 +85,7 @@ class poll_html {
 			</td>
 		</tr>
 		</table>
+		
 		<?php
 		// displays back button
 		mosHTML::BackButton ( $params );
@@ -95,13 +96,19 @@ class poll_html {
 
 
 	function graphit( $data_arr, $graphtitle, $first_vote, $last_vote ) {
-		global $polls_maxcolors, $tabclass;
-		global $polls_barheight, $polls_graphwidth, $polls_barcolor;
-
-		$tabclass_arr = explode( ",", $tabclass );
-		$tabcnt = 0;
-		$colorx = 0;
-		$maxval = 0;
+		
+		/*
+		* Intialise Variables
+		*/
+		$tabclass 			= 'sectiontableentry2,sectiontableentry1';
+		$polls_graphwidth 	= 200;
+		$polls_barheight 	= 2;
+		$polls_maxcolors 	= 5;
+		$polls_barcolor 	= 0;		
+		$tabclass_arr 		= explode( ',', $tabclass );
+		$tabcnt 			= 0;
+		$colorx 			= 0;
+		$maxval 			= 0;
 
 		array_multisort( $data_arr["hits"], SORT_NUMERIC,SORT_DESC, $data_arr["text"] );
 
@@ -116,8 +123,8 @@ class poll_html {
 		<table class='pollstableborder' cellspacing="0" cellpadding="0" border="0">
 		<tr>
 			<td colspan="2" class="sectiontableheader">
-			<img src="components/com_poll/images/poll.png" align="middle" border="0" width="12" height="14" alt="" />
-			<?php echo $graphtitle; ?>
+				<img src="components/com_poll/images/poll.png" align="middle" border="0" width="12" height="14" alt="" />
+				<?php echo $graphtitle; ?>
 			</td>
 		</tr>
 		<?php
@@ -132,25 +139,23 @@ class poll_html {
 				$percent = 0;
 			}
 			?>
-			<tr class="<?php echo $tabclass_arr[$tabcnt]; ?>">
+			<tr class="<?php echo @$tabclass_arr[$tabcnt]; ?>">
 				<td width='100%' colspan='2'>
-				<?php echo stripslashes($text); ?>
+					<?php echo stripslashes($text); ?>
 				</td>
 			</tr>
-			<tr class="<?php echo $tabclass_arr[$tabcnt]; ?>">
+			<tr class="<?php echo @$tabclass_arr[$tabcnt]; ?>">
 				<td>
 					<table cellspacing="0" cellpadding="0" border="0" width="100%">
-					<tr class='<?php echo $tabclass_arr[$tabcnt]; ?>'>
+					<tr class="<?php echo @$tabclass_arr[$tabcnt]; ?>">
 						<td align="right" width="25">
-						<b>
-						<?php echo $hits; ?>
-						</b>
+							<b>
+							<?php echo $hits; ?>
+							</b>
 						</td>
-						<td  width="2">&nbsp;
-
-						</td>
+						<td  width="2">&nbsp;</td>
 						<td width="30" >
-						<?php echo $percent; ?>%
+							<?php echo $percent; ?>%
 						</td>
 						<?php
 						$tdclass='';
@@ -166,10 +171,10 @@ class poll_html {
 						}
 						?>
 						<td width="300" >
-						<div >
-						&nbsp;
-						<img src="components/com_poll/images/blank.png" class="<?php echo $tdclass; ?>" height="<?php echo $polls_barheight; ?>" width="<?php echo $width; ?>" alt="" />
-						</div>
+							<div >
+								&nbsp;
+								<img src="components/com_poll/images/blank.png" class="<?php echo $tdclass; ?>" height="<?php echo $polls_barheight; ?>" width="<?php echo $width; ?>" alt="" />
+							</div>
 						</td>
 					</tr>
 					</table>
@@ -185,29 +190,29 @@ class poll_html {
 		<table cellspacing="0" cellpadding="0" border="0">
 		<tr>
 			<td class='smalldark'>
-			<?php echo JText::_( 'Number of Voters' ); ?>
+				<?php echo JText::_( 'Number of Voters' ); ?>
 			</td>
 			<td class='smalldark'>
-			&nbsp;:&nbsp;
-			<?php echo $sumval; ?>
-			</td>
-		</tr>
-		<tr>
-			<td class='smalldark'>
-			<?php echo JText::_( 'First Vote' ); ?>
-			</td>
-			<td class='smalldark'>
-			&nbsp;:&nbsp;
-			<?php echo $first_vote; ?>
+				&nbsp;:&nbsp;
+				<?php echo $sumval; ?>
 			</td>
 		</tr>
 		<tr>
 			<td class='smalldark'>
-			<?php echo JText::_( 'Last Vote' ); ?>
+				<?php echo JText::_( 'First Vote' ); ?>
 			</td>
 			<td class='smalldark'>
-			&nbsp;:&nbsp;
-			<?php echo $last_vote; ?>
+				&nbsp;:&nbsp;
+				<?php echo $first_vote; ?>
+			</td>
+		</tr>
+		<tr>
+			<td class='smalldark'>
+				<?php echo JText::_( 'Last Vote' ); ?>
+			</td>
+			<td class='smalldark'>
+				&nbsp;:&nbsp;
+				<?php echo $last_vote; ?>
 			</td>
 		</tr>
 		</table>

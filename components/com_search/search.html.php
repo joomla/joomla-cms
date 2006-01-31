@@ -30,7 +30,7 @@ class search_html {
 			<?php
 		}
 	}
-/**
+	/**
 	 * @param string
 	 * @param array
 	 * @param object
@@ -47,49 +47,52 @@ class search_html {
 
 		?>
 		<form action="index.php" method="get">
-		<input type="hidden" name="option" value="com_search" />
-		<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
+		
 		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
-			<tr>
-				<td nowrap="nowrap">
-					<label for="search_searchword">
-						<?php echo JText::_( 'Search Keyword' ); ?>:
-					</label>
-				</td>
-				<td nowrap="nowrap">
-					<input type="text" name="searchword" id="search_searchword" size="30" maxlength="20" value="<?php echo stripslashes($searchword);?>" class="inputbox" />
-				</td>
-				<td width="100%" nowrap="nowrap">
-					<input type="submit" name="submit" value="<?php echo JText::_( 'Search' );?>" class="button" />
-				</td>
-			</tr>
-			<tr>
-				<td colspan="3">
-					<?php echo $lists['searchphrase']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="3">
-					<label for="search_ordering">
-						<?php echo JText::_( 'Ordering' );?>:
-					</label>
-					<?php echo $lists['ordering'];?>
-				</td>
-			</tr>
+		<tr>
+			<td nowrap="nowrap">
+				<label for="search_searchword">
+					<?php echo JText::_( 'Search Keyword' ); ?>:
+				</label>
+			</td>
+			<td nowrap="nowrap">
+				<input type="text" name="searchword" id="search_searchword" size="30" maxlength="20" value="<?php echo stripslashes($searchword);?>" class="inputbox" />
+			</td>
+			<td width="100%" nowrap="nowrap">
+				<input type="submit" name="submit" value="<?php echo JText::_( 'Search' );?>" class="button" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<?php echo $lists['searchphrase']; ?>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<label for="search_ordering">
+					<?php echo JText::_( 'Ordering' );?>:
+				</label>
+				<?php echo $lists['ordering'];?>
+			</td>
+		</tr>
 		</table>
-	<?php
+		
+		<?php
 		if ($params->get( 'search_areas' )) {
-		?>
-		<?php echo JText::_( 'Search Only' );?>:
-	<?php
+			?>
+			<?php echo JText::_( 'Search Only' );?>:
+			<?php
 			$hasAreas = is_array( $areas );
 			foreach ($allAreas as $val => $txt) {
 				$checked = $hasAreas && in_array( $val, $areas ) ? 'checked="true"' : '';
-	?>
-			<input type="checkbox" name="areas[]" value="<?php echo $val;?>" <?php echo $checked;?>/>&nbsp;<?php echo $txt;?>
-	<?php
+				?>
+				<input type="checkbox" name="areas[]" value="<?php echo $val;?>" <?php echo $checked;?>/>&nbsp;<?php echo $txt;?>
+				<?php
 			}
-		} ?>
+		} 
+		?>
+		<input type="hidden" name="option" value="com_search" />
+		<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
 		</form>
 		<?php
 	}
@@ -99,7 +102,7 @@ class search_html {
 		<table class="searchintro<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr>
 			<td colspan="3" >
-			<?php echo JText::_( 'Search Keyword' ) .' <b>'. stripslashes($searchword) .'</b>'; ?>
+				<?php echo JText::_( 'Search Keyword' ) .' <b>'. stripslashes($searchword) .'</b>'; ?>
 		<?php
 	}
 
@@ -108,7 +111,7 @@ class search_html {
 		<table class="searchintro<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr>
 			<td colspan="3" >
-			<?php eval ('echo "'.$message.'";'); ?>
+				<?php eval ('echo "'.$message.'";'); ?>
 			</td>
 		</tr>
 		</table>
@@ -136,12 +139,13 @@ class search_html {
 				$image = mosAdminMenus::ImageCheck( 'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
 				?>
 				<a href="http://www.google.com/search?q=<?php echo stripslashes($searchword);?>" target="_blank">
-				<?php echo $image; ?>
-				</a>
+					<?php echo $image; ?></a>
 			</td>
 		</tr>
 		</table>
+		
 		<br />
+		
 		<div align="center">
 			<?php
 
@@ -154,6 +158,7 @@ class search_html {
 			echo $pageNav->writePagesCounter();
 			?>
 		</div>
+		
 		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<tr class="<?php echo $params->get( 'pageclass_sfx' ); ?>">
 			<td>
@@ -222,7 +227,8 @@ class search_html {
 						}
 						?>
 					</fieldset>
-					<br/>
+					
+					<br />
 					<?php
 				}
 				?>
@@ -237,13 +243,12 @@ class search_html {
 			<td colspan="3">
 				<div align="center">
 					<?php
-
-				$searchphrase = trim( strtolower( mosGetParam( $_REQUEST, 'searchphrase', 'any' ) ) );
-				$ordering = trim( strtolower( mosGetParam( $_REQUEST, 'ordering', 'newest' ) ) );
-
-				$link = "index.php?option=$option&Itemid=$Itemid&searchword=$searchword&searchphrase=$searchphrase&ordering=$ordering";
-
-				echo $pageNav->writePagesLinks( $link );
+					$searchphrase = trim( strtolower( mosGetParam( $_REQUEST, 'searchphrase', 'any' ) ) );
+					$ordering = trim( strtolower( mosGetParam( $_REQUEST, 'ordering', 'newest' ) ) );
+	
+					$link = "index.php?option=$option&Itemid=$Itemid&searchword=$searchword&searchphrase=$searchphrase&ordering=$ordering";
+	
+					echo $pageNav->writePagesLinks( $link );
 					?>
 				</div>
 			</td>
