@@ -449,8 +449,7 @@ function mosCurrentDate( $format="" ) {
 * @returns HTML code for ToolTip
 * @since 1.0
 */
-function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='#', $link=1 ) 
-{
+function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text='', $href='#', $link=1 ) {
 	global $mainframe;
 	
 	$tooltip = addslashes(htmlspecialchars($tooltip));
@@ -468,15 +467,22 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 		$image 	= $url . 'includes/js/ThemeOffice/'. $image;
 		$text 	= '<img src="'. $image .'" border="0" alt="'. JText::_( 'Tooltip' ) .'"/>';
 	} else {
-		$text 	= JText::_( $text );
+		$text 	= JText::_( $text, true );
     }
 	$style = 'style="text-decoration: none; color: #333;"';
 	if ( $href && $href != '#' ) {
 		$href = ampReplace( $href );
 		$style = '';
 	} else {		
-		$href 	= explode('index2.php?', $_SERVER['REQUEST_URI'] );
-		$href 	= 'index2.php?'. ampReplace( $href[1] ) .'#';
+		if ( strstr( $_SERVER['REQUEST_URI'], 'index.php' ) ) {
+			$href = explode('index.php?', $_SERVER['REQUEST_URI'] );
+			$href = 'index.php?'. $href[1];
+		} else {
+			$href = explode('index2.php?', $_SERVER['REQUEST_URI'] );
+			$href = 'index2.php?'. $href[1];
+		}
+		
+		$href =  ampReplace( $href ) .'#';
 	}
 
 	$mousover = 'return overlib(\''. JText::_( $tooltip ) .'\''. $title .', BELOW, RIGHT'. $width .');';
