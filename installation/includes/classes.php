@@ -466,6 +466,14 @@ class JInstallationController
 		$vars['hidePdf']	= intval(!is_writable(JPATH_SITE.DS.'media'.DS));
 		$vars['cachePath']	= JPATH_SITE.DS.'cache';
 		
+		/*
+		 * If FTP has not been enabled, set the value to 0
+		 */
+		if (!isset($vars['ftpEnable']))
+		{
+			$vars['ftpEnable'] = 0;
+		}
+		
 		$strip = get_magic_quotes_gpc();
 		if (!$strip) {
 			$vars['siteName'] = addslashes($vars['siteName']);
