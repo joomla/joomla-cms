@@ -490,22 +490,16 @@ class JContentView
 		if ($params->get('popup') && $no_html == 0) {
 			$document->setTitle($SiteName.' - '.$row->title);
 		}
-/*
-		// determines links to next and prev content items within category
-		if ($params->get('item_navigation'))
-		{
-			if ($row->prev) {
-				$row->prev = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$row->prev.'&amp;Itemid='.$_Itemid);
-			} else {
-				$row->prev = 0;
-			}
-			if ($row->next) {
-				$row->next = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$row->next.'&amp;Itemid='.$_Itemid);
-			} else {
-				$row->next = 0;
-			}
+
+		// edit icon
+		if ($access->canEdit) {
+			?>
+			<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">				
+				<?php JContentView :: _editIcon($row, $params, $access); ?>
+			</div>
+			<?php
 		}
-*/
+
 		if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email')) {
 			// link used by print button
 			$print_link = $mainframe->getCfg('live_site').'/index2.php?option=com_content&amp;task=view&amp;id='.$row->id.'&amp;Itemid='.$Itemid.'&amp;pop=1&amp;page='.@ $page;
@@ -528,22 +522,9 @@ class JContentView
 			?>
 			</tr>
 			</table>
-		<?php
-		} else if ($access->canEdit) {
-			// edit icon when item title set to hide
-			?>
-			<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
- 			<tr>
- 				<td>
-	 				<?php
-					JContentView :: _editIcon($row, $params, $access);
-					?>
- 				</td>
- 			</tr>
- 			</table>
- 			<?php
-		}
-
+			<?php
+		} 
+		
 		if (!$params->get('intro_only')) {
 			$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (& $row, & $params, $page));
 			echo trim(implode("\n", $results));
@@ -1519,28 +1500,18 @@ class JContentView
 	 */
 	function _title($row, $params, $linkOn, $access) {
 		if ($params->get('item_title')) {
-			if ($params->get('link_titles') && $linkOn != '') {
-				?>
-				<td class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>" width="100%">
-					<a href="<?php echo $linkOn;?>" class="contentpagetitle<?php echo $params->get( 'pageclass_sfx' ); ?>">
-						<?php echo $row->title;?></a>
-					<?php JContentView::_editIcon( $row, $params, $access ); ?>
-				</td>
-				<?php
-
-
-			} else {
-				?>
-				<td class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>" width="100%">
-					<?php echo $row->title;?>
-					<?php JContentView::_editIcon( $row, $params, $access ); ?>
-				</td>
-				<?php
-			}
-		} else {
 			?>
 			<td class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>" width="100%">
-				<?php JContentView::_editIcon( $row, $params, $access ); ?>
+				<?php
+				if ($params->get('link_titles') && $linkOn != '') {
+					?>
+					<a href="<?php echo $linkOn;?>" class="contentpagetitle<?php echo $params->get( 'pageclass_sfx' ); ?>">
+						<?php echo $row->title;?></a>
+					<?php
+				} else {
+					echo $row->title;
+				}
+				?>
 			</td>
 			<?php
 		}
