@@ -100,7 +100,7 @@ class JParameter extends JRegistry
 	function get($key, $default = '') 
 	{
 		$value = $this->getValue('parameter.'.$key);
-		$result = isset($value) ? $value : $default; 
+		$result = !empty($value) ? $value : $default; 
 		return $result;
 	}
 

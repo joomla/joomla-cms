@@ -42,7 +42,8 @@ if ($option == 'com_frontpage') {
 	return;
 }
 
-switch (strtolower($task)) {
+switch (strtolower($task)) 
+{
 	case 'findkey' :
 		JContentController::_findKeyItem($access, $now);
 		break;
@@ -124,8 +125,10 @@ switch (strtolower($task)) {
  * @subpackage Content
  * @since 1.1
  */
-class JContentController {
-	function frontpage(& $access, $now) {
+class JContentController 
+{
+	function frontpage(& $access, $now) 
+	{
 		global $mainframe, $Itemid;
 
 		/*
@@ -198,7 +201,8 @@ class JContentController {
 	 * @param string $now Timestamp
 	 * @since 1.0
 	 */
-	function showSection(& $access, $now) {
+	function showSection(& $access, $now) 
+	{
 		global $mainframe, $Itemid;
 
 		/*
@@ -342,7 +346,8 @@ class JContentController {
 	 * @param string $now Timestamp
 	 * @since 1.0
 	 */
-	function showCategory(& $access, $now) {
+	function showCategory(& $access, $now) 
+	{
 		global $mainframe, $Itemid, $my;
 
 		/*
@@ -565,7 +570,8 @@ class JContentController {
 		JContentView :: showCategory($category, $other_categories, $items, $access, $my->gid, $params, $page, $lists, $selected);
 	}
 
-	function showBlogSection(& $access, $now = NULL) {
+	function showBlogSection(& $access, $now = NULL) 
+	{
 		global $mainframe, $Itemid;
 
 		/*
@@ -657,7 +663,8 @@ class JContentController {
 		JContentView :: showBlog($rows, $params, $my->gid, $access, $pop, $menu);
 	}
 
-	function showBlogCategory(& $access, $now) {
+	function showBlogCategory(& $access, $now) 
+	{
 		global $mainframe, $Itemid;
 
 		/*
@@ -767,7 +774,8 @@ class JContentController {
 		JContentView :: showBlog($rows, $params, $my->gid, $access, $pop, $menu);
 	}
 
-	function showArchiveSection(& $access) {
+	function showArchiveSection(& $access) 
+	{
 		global $mainframe, $Itemid;
 
 		/*
@@ -878,7 +886,8 @@ class JContentController {
 		}
 	}
 
-	function showArchiveCategory(& $access, $now) {
+	function showArchiveCategory(& $access, $now) 
+	{
 		global $mainframe, $Itemid;
 
 		// Parameters
@@ -1010,7 +1019,8 @@ class JContentController {
 	 * @return void
 	 * @since 1.0
 	 */
-	function showItem( & $access, $now ) {
+	function showItem( & $access, $now ) 
+	{
 		global $mainframe, $Itemid;
 
 		/*
@@ -1021,9 +1031,9 @@ class JContentController {
 		$MetaTitle 	= $mainframe->getCfg('MetaTitle');
 		$MetaAuthor = $mainframe->getCfg('MetaAuthor');
 		$nullDate	= $db->getNullDate();
-		$option		= JRequest :: getVar('option');
-		$uid 		= JRequest :: getVar('id', 0, '', 'int');
-		$pop 		= JRequest :: getVar('pop', 0, '', 'int');
+		$option		= JRequest::getVar('option');
+		$uid 		= JRequest::getVar('id', 0, '', 'int');
+		$pop 		= JRequest::getVar('pop', 0, '', 'int');
 		$row 		= null;
 
 		if ($access->canEdit) {
@@ -1106,7 +1116,7 @@ class JContentController {
 			$document->setTitle($row->title);
 
 
-			JContentController :: show($row, $params, $my->gid, $access, $pop, $option);
+			JContentController::show($row, $params, $my->gid, $access, $pop, $option);
 		} else {
 			mosNotAuth();
 			return;
@@ -1118,7 +1128,8 @@ class JContentController {
 		doUtfPDF ( );
 	}
 
-	function show($row, $params, $gid, & $access, $pop, $option, $ItemidCount = NULL) {
+	function show($row, $params, $gid, & $access, $pop, $option, $ItemidCount = NULL) 
+	{
 		global $mainframe;
 
 		/*
@@ -1149,7 +1160,7 @@ class JContentController {
 				}
 			}
 		}
-
+		
 		// GC Parameters
 		$params->def('link_titles', 	$mainframe->getCfg('link_titles'));
 		$params->def('author', 			!$mainframe->getCfg('hideAuthor'));
@@ -1171,6 +1182,7 @@ class JContentController {
 		$params->def('pageclass_sfx', 	'');
 		$params->def('item_title', 		1);
 		$params->def('url', 			1);
+
 
 		/*
 		 * Get itemid values for section and component links
@@ -1250,7 +1262,8 @@ class JContentController {
 		JContentView :: show($row, $params, $access, $page, $option, $ItemidCount);
 	}
 
-	function editItem(& $access, $Itemid) {
+	function editItem(& $access, $Itemid) 
+	{
 		global $mainframe;
 
 		/*

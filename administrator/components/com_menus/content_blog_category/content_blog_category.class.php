@@ -104,7 +104,7 @@ class content_blog_category {
 		$catids	= mosGetParam( $_POST, 'catid', array() );
 		$catid	= implode( ',', $catids );
 
-		$params['categoryid']	= $catid;
+		$_POST['params']['categoryid']	= $catid;
 
 		$row =& JModel::getInstance('menu', $database );
 

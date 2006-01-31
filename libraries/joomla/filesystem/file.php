@@ -348,6 +348,7 @@ class JFile {
 
 			fclose($fh);
 		}
+		
 		return $data;
 	}
 

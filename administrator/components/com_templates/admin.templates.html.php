@@ -234,7 +234,8 @@ class JTemplatesView {
 		<?php
 	}
 
-	function editTemplateSource( $template, &$content, $option, $client ) {
+	function editTemplateSource( $template, &$content, $option, $client ) 
+	{
 		$template_path = ($client == 'administration' ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/' . $template . '/index.php';
 		?>
 		<form action="index2.php" method="post" name="adminForm">
@@ -289,7 +290,7 @@ class JTemplatesView {
 		<?php
 	}
 
-	function chooseCSSFiles ( $template, $t_dir='', $s_dir='', $t_files='', $s_files='', $option, $client ) {
+	function chooseCSSFiles ( $template, $t_dir, $t_files, $option, $client ) {
 	?>
 		<form action="index2.php" method="post" name="adminForm">
 
@@ -344,22 +345,6 @@ class JTemplatesView {
 			</th>
 		</tr>
 		<?php
-		$kk = 0;
-		for ( $i=0, $n = count( $s_files ); $i < $n; $i++ ) {
-			$sy_file = &$s_files[$i]; ?>
-			<tr class="<?php echo 'row'. $kk; ?>">
-				<td width="5%">
-					<input type="radio" id="cb<?php echo $i;?>" name="tp_name" value="<?php echo '/templates/_system/css/'. $sy_file; ?>" onClick="isChecked(this.checked);" />
-				</td>
-				<td width="85%">
-					<?php echo $sy_file; ?>
-				</td>
-				<td width="10%">
-					<?php echo is_writable($s_dir .'/'. $sy_file) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?>
-				</td>
-			</tr>
-		<?php
-		$kk = 1 - $kk; }
 		}
 		?>
 		</table>		

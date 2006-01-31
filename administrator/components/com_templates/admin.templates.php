@@ -379,7 +379,8 @@ class JTemplatesController
 		}
 
 		// Read the source file
-		$content = JFile :: read($file);
+		$content = JFile::read($file);
+		
 		if ($content !== false) {
 			$content = htmlspecialchars($content);
 			JTemplatesView :: editTemplateSource($p_tname, $content, $option, $client);
@@ -444,20 +445,17 @@ class JTemplatesController
 			$fs_dir = null;
 			$fs_files = null;
 
-			JTemplatesView :: chooseCSSFiles($p_tname, $a_dir, $fs_dir, $a_files, $fs_files, $option, $client);
+			JTemplatesView :: chooseCSSFiles($p_tname, $a_dir, $a_files, $option, $client);
 
 		} else {
 			// Template css dir
 			$f_dir = JPATH_SITE.DS.'templates'.DS.$p_tname.DS.'css';
-			// System css dir
-			$fs_dir = JPATH_SITE.DS.'templates'.DS.'_system'.DS.'css';
-
+			
 			// List template .css files
 			$f_files = JFolder :: files($f_dir, $filter = '\.css$', $recurse = false, $fullpath = false);
-			// List system .css files
-			$fs_files = JFolder :: files($fs_dir, $filter = '\.css$', $recurse = false, $fullpath = false);
+	
 
-			JTemplatesView :: chooseCSSFiles($p_tname, $f_dir, $fs_dir, $f_files, $fs_files, $option, $client);
+			JTemplatesView :: chooseCSSFiles($p_tname, $f_dir, $f_files, $option, $client);
 
 		}
 	}

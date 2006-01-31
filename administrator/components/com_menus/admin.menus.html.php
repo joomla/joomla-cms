@@ -150,7 +150,7 @@ class HTML_menusections {
 					<td>
 						<span class="editlinktip">
 							<?php
-							echo mosToolTip( $row->descrip, '', 280, 'tooltip.png', $row->type, $row->edit );
+							echo mosToolTip( $row->descrip, '', 280, 'tooltip.png', $row->type, $row->edit, !empty($row->edit) );
 							?>
 						</span>
 					</td>

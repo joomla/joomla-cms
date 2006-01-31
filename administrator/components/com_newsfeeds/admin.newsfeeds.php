@@ -117,7 +117,7 @@ function showNewsFeeds( $option ) {
 	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, catname, a.ordering";
 	
 	// get the total number of records
-	$query = "SELECT COUNT(a.*)"
+	$query = "SELECT COUNT * "
 	. "\n FROM #__newsfeeds AS a"
 	. $where
 	;

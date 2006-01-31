@@ -101,7 +101,7 @@ class content_blog_section {
 		$secids	= mosGetParam( $_POST, 'secid', array() );
 		$secid	= implode( ',', $secids );
 
-		$params['sectionid']	= $secid;
+		$_POST['params']['sectionid']	= $secid;
 	
 		$row =& JModel::getInstance('menu', $database );
 

@@ -1,4 +1,4 @@
-<?php
+t<?php
 /**
 * @version $Id$
 * @package Joomla
@@ -140,7 +140,8 @@ switch ($task) {
 /**
 * Shows a list of items for a menu
 */
-function viewMenuItems( $menutype, $option ) {
+function viewMenuItems( $menutype, $option ) 
+{
 	global $database, $mainframe, $mosConfig_list_limit;
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$menutype.filter_order", 		'filter_order', 	'm.parent' );
