@@ -114,9 +114,9 @@ function viewBanners( $option ) {
 	
 	if ( $filter_state ) {
 		if ( $filter_state == 'P' ) {
-			$where[] = "\n WHERE b.showBanner = 1";
+			$where[] = "b.showBanner = 1";
 		} else if ($filter_state == 'U' ) {
-			$where[] = "\n WHERE b.showBanner = 0";
+			$where[] = "b.showBanner = 0";
 		}
 	}	
 	if ($search) {
