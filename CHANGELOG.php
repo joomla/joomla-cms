@@ -40,6 +40,9 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+01-Feb 2006 Rey Gigataras
+ ^ Registration component output correctly separated into .html.php
+ 
 01-Feb 2006 Johan Janssens
  - Removed mod_templatechooser
 

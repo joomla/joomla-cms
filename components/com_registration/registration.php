@@ -227,9 +227,9 @@ function saveRegistration() {
 	}
 
 	if ( $mosConfig_useractivation == 1 ){
-		echo JText::_( 'REG_COMPLETE_ACTIVATE' );
+		HTML_registration::message( 'REG_COMPLETE_ACTIVATE_TITLE', 'REG_COMPLETE_ACTIVATE' );
 	} else {
-		echo JText::_( 'REG_COMPLETE' );
+		HTML_registration::message( 'REG_COMPLETE_TITLE', 'REG_COMPLETE' );
 	}
 }
 
@@ -262,9 +262,9 @@ function activate() {
 	 * Lets activate this user.
 	 */
 	if (JUserHelper :: activate($activation)) {
-		echo JText::_( 'REG_ACTIVATE_COMPLETE' );
+		HTML_registration::message( 'REG_ACTIVATE_COMPLETE_TITLE', 'REG_ACTIVATE_COMPLETE' );
 	} else {
-		echo JText::_( 'REG_ACTIVATE_NOT_FOUND' );
+		HTML_registration::message( 'REG_ACTIVATE_NOT_FOUND_TITLE', 'REG_ACTIVATE_NOT_FOUND' );
 	}
 }
 ?>

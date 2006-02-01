@@ -199,5 +199,17 @@ class HTML_registration {
 		</form>
 		<?php
 	}
+	
+	function message( $title, $text ) {
+		?>
+		<div class="componentheading">
+			<?php echo JText::_( $title ); ?>
+		</div>
+		
+		<div>
+			<?php echo JText::_( $text ); ?>
+		</div>
+		<?php
+	}
 }
 ?>
