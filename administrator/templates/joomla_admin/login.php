@@ -69,7 +69,7 @@ $tstart = mosProfiler::getmicrotime();
 					<input name="passwd" id="password" type="password" class="inputbox" size="15" />
 				</div>
 				<div class="inputlabel">
-					<label for="language">
+					<label for="lang">
 						<jdoc:translate>Language</jdoc:translate>
 					</label>
 				</div>
