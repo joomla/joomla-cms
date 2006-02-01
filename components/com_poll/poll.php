@@ -131,10 +131,10 @@ function pollresult( $uid ) {
 		;
 		$database->setQuery( $query );
 		$dates = $database->loadObjectList();
-
+ 
 		if (isset($dates[0]->mindate)) {
-			$first_vote = mosFormatDate( $dates[0]->mindate, JText::_( 'DATE_FORMAT_LC2' ) );
-			$last_vote = mosFormatDate( $dates[0]->maxdate, JText::_( 'DATE_FORMAT_LC2' ) );
+			$first_vote = mosFormatDate( $dates[0]->mindate, JText::_( 'DATEFORMATLC2' ) );
+			$last_vote 	= mosFormatDate( $dates[0]->maxdate, JText::_( 'DATEFORMATLC2' ) );
 		}
 
 		$query = "SELECT a.id, a.text, count( DISTINCT b.id ) AS hits, count( DISTINCT b.id )/COUNT( DISTINCT a.id )*100.0 AS percent"
@@ -167,7 +167,7 @@ function pollresult( $uid ) {
 	
 	// dropdown output
 	$link = sefRelToAbs( 'index.php?option=com_poll&amp;task=results&amp;id=\' + this.options[selectedIndex].value + \'&amp;Itemid='. $Itemid .'\' + \'' );
-	$pollist = '<select name="id" class="inputbox" size="1" style="width:200px" onchange="if (this.options[selectedIndex].value != \'\') {document.location.href=\''. $link .'\'}">';
+	$pollist = '<select name="id" id="poll_list" class="inputbox" size="1" style="width:200px" onchange="if (this.options[selectedIndex].value != \'\') {document.location.href=\''. $link .'\'}">';
 	$pollist .= '<option value="">'. JText::_( 'Select Poll from the list' ) .'</option>';
 	for ($i=0, $n=count( $polls ); $i < $n; $i++ ) {
 		$k = $polls[$i]->id;

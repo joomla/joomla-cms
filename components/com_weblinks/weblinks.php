@@ -85,8 +85,7 @@ class WeblinksController
 	 * @param int $catid Web Link category id
 	 * @since 1.0
 	 */
-	function showCategory($catid) 
-	{
+	function showCategory($catid) {
 		global $mainframe, $Itemid;
 
 		// Get some objects from the JApplication
@@ -327,9 +326,8 @@ class WeblinksController
 	 * @param int $id Web Link id to edit
 	 * @since 1.0
 	 */
-	function editWebLink($id) 
-	{
-		global $mainframe, $Itemid;
+	function editWebLink($id) {
+		global $mainframe;
 
 		// Get some objects from the JApplication
 		$db = & $mainframe->getDBO();
@@ -372,8 +370,8 @@ class WeblinksController
 			 * we need to initialize some values.
 			 */
 			$row->published = 0;
-			$row->approved = 1;
-			$row->ordering = 0;
+			$row->approved 	= 1;
+			$row->ordering 	= 0;
 
 			// Set page title
 			$mainframe->setPageTitle( JText::_('Links').' - '.JText::_( 'New' ));
@@ -393,8 +391,7 @@ class WeblinksController
 	 *
 	 * @since 1.0
 	 */
-	function cancelWebLink() 
-	{
+	function cancelWebLink() {
 		global $mainframe, $Itemid;
 
 		// Get some objects from the JApplication
@@ -422,9 +419,8 @@ class WeblinksController
 	 *
 	 * @since 1.0
 	 */
-	function saveWeblink() 
-	{
-		global $mainframe;
+	function saveWeblink() {
+		global $mainframe, $Itemid;
 
 		// Get some objects from the JApplication
 		$db  =& $mainframe->getDBO();
@@ -491,7 +487,7 @@ class WeblinksController
 		}
 		
 		$msg = $isNew ? JText::_('THANK_SUB') : '';
-		mosRedirect('index.php', $msg);
+		mosRedirect('index.php?option=com_weblinks&task=new&Itemid='. $Itemid, $msg);
 	}
 }
 ?>

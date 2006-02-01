@@ -359,35 +359,43 @@ class WeblinksView {
 
 		<table cellpadding="4" cellspacing="1" border="0" width="100%">
 		<tr>
-			<td width="20%" align="right">
-			<?php echo JText::_( 'Name' ); ?>:
+			<td width="10%">
+				<label for="title">
+					<?php echo JText::_( 'Name' ); ?>:
+				</label>
 			</td>
 			<td width="80%">
-			<input class="inputbox" type="text" name="title" size="50" maxlength="250" value="<?php echo htmlspecialchars( $row->title, ENT_QUOTES );?>" />
+				<input class="inputbox" type="text" id="title" name="title" size="50" maxlength="250" value="<?php echo htmlspecialchars( $row->title, ENT_QUOTES );?>" />
 			</td>
 		</tr>
 		<tr>
-			<td valign="top" align="right">
-			<?php echo JText::_( 'Section' ); ?>:
+			<td valign="top">
+				<label for="catid">
+					<?php echo JText::_( 'Section' ); ?>:
+				</label>
 			</td>
 			<td>
-			<?php echo $categories['catid']; ?>
+				<?php echo $categories['catid']; ?>
 			</td>
 		</tr>
 		<tr>
-			<td valign="top" align="right">
-			<?php echo JText::_( 'URL' ); ?>:
+			<td valign="top">
+				<label for="url">
+					<?php echo JText::_( 'URL' ); ?>:
+				</label>
 			</td>
 			<td>
-			<input class="inputbox" type="text" name="url" value="<?php echo $row->url; ?>" size="50" maxlength="250" />
+				<input class="inputbox" type="text" id="url" name="url" value="<?php echo $row->url; ?>" size="50" maxlength="250" />
 			</td>
 		</tr>
 		<tr>
-			<td valign="top" align="right">
-			<?php echo JText::_( 'Description' ); ?>:
+			<td valign="top">
+				<label for="description">
+					<?php echo JText::_( 'Description' ); ?>:
+				</label>
 			</td>
 			<td>
-			<textarea class="inputbox" cols="30" rows="6" name="description" style="width:300px" width="300"><?php echo htmlspecialchars( $row->description, ENT_QUOTES );?></textarea>
+				<textarea class="inputbox" cols="30" rows="6" id="description" name="description" style="width:300px"><?php echo htmlspecialchars( $row->description, ENT_QUOTES );?></textarea>
 			</td>
 		</tr>
 		</table>
@@ -398,7 +406,6 @@ class WeblinksView {
 		<input type="hidden" name="ordering" value="<?php echo $row->ordering; ?>" />
 		<input type="hidden" name="approved" value="<?php echo $row->approved; ?>" />
 		<input type="hidden" name="Returnid" value="<?php echo $Returnid; ?>" />
-		<input type="hidden" name="referer" value="<?php echo $_SERVER['HTTP_REFERER']; ?>" />
 		</form>
 		<?php
 	}

@@ -51,7 +51,9 @@ class poll_html {
 				<table class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 				<tr>
 					<td >
-						<?php echo JText::_('Select Poll'); ?>&nbsp;
+						<label for="poll_list">
+							<?php echo JText::_('Select Poll'); ?>
+						</label>
 					</td>
 					<td >
 						<?php echo $pollist; ?>

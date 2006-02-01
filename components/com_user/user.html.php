@@ -88,41 +88,51 @@ class HTML_user {
 		<table cellpadding="5" cellspacing="0" border="0" width="100%">
 		<tr>
 			<td width="120">
-				<?php echo JText::_( 'Your Name' ); ?>:
+				<label for="name">
+					<?php echo JText::_( 'Your Name' ); ?>:
+				</label>
 			</td>
 			<td>
-				<input class="inputbox" type="text" name="name" value="<?php echo $row->name;?>" size="40" />
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo JText::_( 'email' ); ?>:
-			</td>
-			<td>
-				<input class="inputbox" type="text" name="email" value="<?php echo $row->email;?>" size="40" />
-			</td>
-		<tr>
-			<td>
-				<?php echo JText::_( 'User Name' ); ?>:
-			</td>
-			<td>
-				<input class="inputbox" type="text" name="username" value="<?php echo $row->username;?>" size="40" />
+				<input class="inputbox" type="text" id="name" name="name" value="<?php echo $row->name;?>" size="40" />
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<?php echo JText::_( 'Password' ); ?>:
+				<label for="email">
+					<?php echo JText::_( 'email' ); ?>:
+				</label>
 			</td>
 			<td>
-				<input class="inputbox" type="password" name="password" value="" size="40" />
+				<input class="inputbox" type="text" id="email" name="email" value="<?php echo $row->email;?>" size="40" />
+			</td>
+		<tr>
+			<td>
+				<label for="username">
+					<?php echo JText::_( 'User Name' ); ?>:
+				</label>
+			</td>
+			<td>
+				<input class="inputbox" type="text" id="username" name="username" value="<?php echo $row->username;?>" size="40" />
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<?php echo JText::_( 'Verify Password' ); ?>:
+				<label for="password">
+					<?php echo JText::_( 'Password' ); ?>:
+				</label>
 			</td>
 			<td>
-				<input class="inputbox" type="password" name="verifyPass" size="40" />
+				<input class="inputbox" type="password" id="password" name="password" value="" size="40" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="verifyPass">
+					<?php echo JText::_( 'Verify Password' ); ?>:
+				</label>
+			</td>
+			<td>
+				<input class="inputbox" type="password" id="verifyPass" name="verifyPass" size="40" />
 			</td>
 		</tr>
 		</table>
