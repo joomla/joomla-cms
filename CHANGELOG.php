@@ -40,6 +40,10 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+01-Feb-2006 Andrew Eddie
+ # Fixed change of JModel::publish_array to JModel::publish (since 1.0.3)
+ # Fixed bug in JTree where parent_id of 0 not correctly handled if children array is out of order
+ # Added missing getAffectedRows methods to database classes
 
 31-Jan-2006 Louis Landry
  # Fixed [topic,34073.0.html] : 2076 - Installation problem
@@ -51,14 +55,14 @@ Legend:
  # Fixed [topic,34515.0.html] : Error when adding weblink on frontend
  # Fixed [topic,34103.0.html] : .contentheading and the frontend edit button
  # Fixed [topic,34522.0.html] : Menu Manager `Type` column error
- # Fixed [topic,34247.0.html] : Not authorized message on News Feeds 
- # Fixed [topic,34303.0.html] : Menu not greyed out 
+ # Fixed [topic,34247.0.html] : Not authorized message on News Feeds
+ # Fixed [topic,34303.0.html] : Menu not greyed out
  # Fixed : DOMIT notice errors
  # Fixed : missing access column in 'Contact Manager'
  # Fixed : 'Banner Manager' `state` filter
  ^ Modified sample data menu ids
  + Additional Contact Component hardening
- 
+
 30-Jan-2006 Louis Landry
  # Fixed cache path problem on install
 
