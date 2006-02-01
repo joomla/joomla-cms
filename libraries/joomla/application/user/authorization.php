@@ -25,7 +25,7 @@ jimport('phpgacl.gacl_api');
  * @package 	Joomla.Framework
  * @since 1.1
  */
-class JACL extends gacl_api {
+class JAuthorization extends gacl_api {
 	var $acl=null;
 	var $acl_count=0;
 
@@ -33,7 +33,7 @@ class JACL extends gacl_api {
 	 * Constructor
 	 * @param array An arry of options to oeverride the class defaults
 	 */
-	function JACL($options = NULL) {
+	function JAuthorization($options = NULL) {
 		parent::gacl( $options );
 
 		// ARO value is currently the user type,

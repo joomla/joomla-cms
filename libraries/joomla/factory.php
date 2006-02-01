@@ -48,7 +48,7 @@ class JFactory
 	}
 
 	/**
-	 * Returns a reference to the global JACL object, only creating it
+	 * Returns a reference to the global JAuthorization object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @access public
@@ -137,7 +137,7 @@ class JFactory
 	{
 		global $mainframe;
 
-		jimport( 'joomla.application.user.acl' );
+		jimport( 'joomla.application.user.authorization' );
 
 		$database =&  $mainframe->getDBO();
 
@@ -146,7 +146,7 @@ class JFactory
 			'db_table_prefix'	=> $database->getPrefix() . 'core_acl_',
 			'debug'				=> 0
 		);
-		$acl = new JACL( $options );
+		$acl = new JAuthorization( $options );
 
 		return $acl;
 	}
