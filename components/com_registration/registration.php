@@ -47,7 +47,7 @@ function lostPassForm( $option ) {
 	$mainframe->SetPageTitle( JText::_( 'Lost your Password?' ) );
 
 	$breadcrumbs =& $mainframe->getPathWay();
-	$breadcrumbs->addItem( JText::_( 'Lost your Password?' ));
+	$breadcrumbs->setItemName( 1, JText::_( 'Lost your Password?' ));
 	HTML_registration::lostPassForm($option);
 }
 
@@ -107,7 +107,7 @@ function registerForm( $option, $useractivation ) {
   	$mainframe->SetPageTitle( JText::_( 'Registration' ) );
 
   	$breadcrumbs =& $mainframe->getPathWay();
-  	$breadcrumbs->setItemName( JText::_( 'Registration' ));
+  	$breadcrumbs->setItemName( 1, JText::_( 'Registration' ));
 
 	HTML_registration::registerForm($option, $useractivation);
 }
