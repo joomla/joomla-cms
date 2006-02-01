@@ -41,7 +41,6 @@ Legend:
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
 01-Feb-2006 Emir Sakic
- + Added getRequestURL() function for returning current relative URL
  # Fixed admin menubar hover href issue
 
 01-Feb-2006 Andrew Eddie

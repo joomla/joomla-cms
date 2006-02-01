@@ -109,7 +109,8 @@ class JMenuBar
 	function custom( $task='', $icon='', $iconOver='', $alt='', $listSelect=true, $x=false ) {
 		global $mainframe;
 
-		$jself = $mainframe->getRequestURL()."#";
+		$uri =& $mainframe->getURI();
+		$jself = $uri->toString(array('scheme', 'uri', 'host', 'path', 'query'))."#";
 
     	$alt = JText::_( $alt );
 
@@ -175,7 +176,8 @@ class JMenuBar
 	function preview( $url='', $updateEditors=false ) {
 		global $mainframe;
 
-		$jself = $mainframe->getRequestURL()."#";
+		$uri =& $mainframe->getURI();
+		$jself = $uri->toString(array('scheme', 'uri', 'host', 'path', 'query'))."#";
 
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'preview_f2.png', '/images/', NULL, NULL, 'Preview', 'preview', 1 );
 
@@ -209,7 +211,8 @@ class JMenuBar
 	function help( $ref, $com=false ) {
 		global $mainframe;
 
-		$jself = $mainframe->getRequestURL()."#";
+		$uri =& $mainframe->getURI();
+		$jself = $uri->toString(array('scheme', 'uri', 'host', 'path', 'query'))."#";
 
 		$image2 	= mosAdminMenus::ImageCheckAdmin( 'help_f2.png', '/images/', NULL, NULL, 'Help', 'help', 1 );
 
@@ -257,7 +260,8 @@ class JMenuBar
 	function media_manager( $directory='', $alt='Upload' ) {
 		global $mainframe;
 
-		$jself = $mainframe->getRequestURL()."#";
+		$uri =& $mainframe->getURI();
+		$jself = $uri->toString(array('scheme', 'uri', 'host', 'path', 'query'))."#";
 
     	$alt 	= JText::_( $alt );
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'upload_f2.png', '/images/', NULL, NULL, 'Upload Image', 'uploadPic', 1 );

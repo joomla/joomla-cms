@@ -84,14 +84,6 @@ class JApplication extends JObject
 	var $_baseURL = null;
 
 	/**
-	 * The requested relative url
-	 *
-	 * @var string
-	 * @access protected
-	 */
-	var $_requestURL = null;
-
-	/**
 	* Class constructor
 	*
 	* @param string 	The URL option passed in
@@ -276,31 +268,8 @@ class JApplication extends JObject
 			$url .= ":$port";
 		}
 		$url .=  rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/';
-		
+
 		$this->_baseURL= $url;
-		return $url;
-	}
-
-	/**
-	 * Return the requested relative URL (file + query string)
-	 *
-	 * @access public
-	 * @return string The requested relative URL
-	 * @since 1.1
-	 */
-	function getRequestURL()
-	{
-		if(isset($this->_requestURL)) {
-			return $this->_requestURL;
-		}
-
-		$temp = split("/", $_SERVER['PHP_SELF']);
-		$file = $temp[count($temp)-1];
-
-		$temp = split($file, $_SERVER['REQUEST_URI']);
-		$url = $file.@$temp[1];
-
-		$this->_requestURL= $url;
 		return $url;
 	}
 
