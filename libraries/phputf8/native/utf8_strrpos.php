@@ -50,3 +50,4 @@ function utf8_strrpos($str, $needle, $offset = NULL) {
     }
 
 }
+?>

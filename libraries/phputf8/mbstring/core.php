@@ -35,3 +35,4 @@ function utf8_substr($str, $offset, $length = FALSE){
         return mb_substr($str, $offset, $length);
     }
 }
+?>

@@ -85,3 +85,4 @@ require_once $UTF8_DIR . '/native/utf8_substr_replace.php';
 * You should now be able to use all the other functions
 * in the native directory
 */
+?>

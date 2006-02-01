@@ -33,3 +33,4 @@ function utf8_stristr($str, $search) {
 
     return FALSE;
 }
+?>

@@ -32,3 +32,4 @@ function utf8_str_split($str, $split_len = 1) {
     return $ar[0];
 
 }
+?>

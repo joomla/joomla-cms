@@ -33,4 +33,4 @@ function utf8_strspn($str, $mask, $start = NULL, $length = NULL) {
     return 0;
 
 }
-
+?>

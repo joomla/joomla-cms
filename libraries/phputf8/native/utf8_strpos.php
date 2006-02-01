@@ -46,3 +46,4 @@ function utf8_strpos($str, $needle, $offset = NULL) {
     }
 
 }
+?>

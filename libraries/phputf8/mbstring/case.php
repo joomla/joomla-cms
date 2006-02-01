@@ -15,3 +15,4 @@ function utf8_strtolower($str){
 function utf8_strtoupper($str){
     return mb_strtoupper($str);
 }
+?>

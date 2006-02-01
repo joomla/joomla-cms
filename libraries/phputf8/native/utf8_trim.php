@@ -66,3 +66,4 @@ function utf8_trim( $str, $charlist = FALSE ) {
     if($charlist === FALSE) return trim($str);
     return utf8_ltrim(utf8_rtrim($str, $charlist), $charlist);
 }
+?>

@@ -41,4 +41,4 @@ function utf8_ucwords_callback($matches) {
     $ucword = utf8_substr_replace(ltrim($matches[0]),$ucfirst,0,1);
     return $leadingws . $ucword;
 }
-
+?>

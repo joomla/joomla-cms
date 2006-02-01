@@ -7,3 +7,4 @@
 function utf8_strlen($str){
     return iconv_strlen($str);
 }
+?>

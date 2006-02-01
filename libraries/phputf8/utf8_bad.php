@@ -363,3 +363,4 @@ function utf8_bad_explain($code) {
     return FALSE;
 
 }
+?>

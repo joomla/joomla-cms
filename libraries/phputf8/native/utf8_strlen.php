@@ -26,3 +26,4 @@
 function utf8_strlen($str){
     return strlen(utf8_decode($str));
 }
+?>

@@ -21,3 +21,4 @@ function utf8_substr_replace($str, $repl, $start , $length = NULL ) {
     array_splice( $ar[0], $start, $length, $rar[0] );
     return join('',$ar[0]);
 }
+?>

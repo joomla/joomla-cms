@@ -37,3 +37,4 @@ function utf8_substr($str, $offset, $length = FALSE){
 		return @iconv_substr($str, $offset, $length);
     }
 }
+?>
