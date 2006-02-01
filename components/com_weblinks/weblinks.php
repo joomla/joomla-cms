@@ -144,7 +144,7 @@ class WeblinksController
 				$limitstart = 0;
 			}
 
-			jimport('joomla.pagination');
+			jimport('joomla.utilities.presentation.pagination');
 			$page = new JPagination($total, $limitstart, $limit);
 			
 			/*

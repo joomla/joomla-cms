@@ -459,7 +459,7 @@ class JInstallationController
 		/*
 		 * Import authentication library
 		 */
-		jimport( 'joomla.application.authenticate' );
+		jimport( 'joomla.application.user.authenticate' );
 		
 		/*
 		 * Set some needed variables

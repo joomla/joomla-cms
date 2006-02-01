@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Id: $
+ * @version $Id$
  * @package Joomla
  * @subpackage Installation
  * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
@@ -58,7 +58,7 @@ class JAJAXHandler {
 	 */
 	function dbcollate($args) {
 
-		jimport( 'joomla.error' );
+		jimport( 'joomla.utilities.error' );
 		jimport( 'joomla.application.application' );
 		jimport( 'joomla.database.database' );
 
@@ -114,7 +114,7 @@ class JAJAXHandler {
 	 */
 	function ftproot($args) {
 
-		jimport( 'joomla.error' );
+		jimport( 'joomla.utilities.error' );
 		jimport( 'joomla.application.application' );
 
 		$objResponse = new xajaxResponse();

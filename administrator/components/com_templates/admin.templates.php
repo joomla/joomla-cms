@@ -218,7 +218,7 @@ class JTemplatesController
 			}
 		}
 
-		jimport('joomla.pagination');
+		jimport('joomla.utilities.presentation.pagination');
 		$page = new JPagination(count($rows), $limitstart, $limit);
 
 		$rows = array_slice($rows, $page->limitstart, $page->limit);

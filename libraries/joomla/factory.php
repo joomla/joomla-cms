@@ -137,7 +137,7 @@ class JFactory
 	{
 		global $mainframe;
 
-		jimport( 'joomla.acl' );
+		jimport( 'joomla.application.user.acl' );
 
 		$database =&  $mainframe->getDBO();
 

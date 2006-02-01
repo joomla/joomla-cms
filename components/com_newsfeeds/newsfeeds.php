@@ -105,7 +105,7 @@ function listFeeds( $catid ) {
 			$limitstart = 0;
 		}
 		
-		jimport('joomla.pagination');
+		jimport('joomla.utilities.presentation.pagination');
 		$page = new JPagination($total, $limitstart, $limit);
 		
 		// url links info for category

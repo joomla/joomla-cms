@@ -49,7 +49,7 @@ require_once( JPATH_INCLUDES . DS . 'html.php' );
 jimport( 'joomla.common.base.object' );
 jimport( 'joomla.common.compat.compat' );
 jimport( 'joomla.version' );
-jimport( 'joomla.error');
+jimport( 'joomla.utilities.error');
 jimport( 'joomla.factory' );
 jimport( 'joomla.filesystem.*' );
 jimport( 'joomla.parameter.parameter' );
