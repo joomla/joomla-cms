@@ -45,10 +45,12 @@
 	  				<table class="content2">
 	  			   <tr>
 	  				  <td width="100">
-	  				  	<jtmpl:translate>Site name</jtmpl:translate>
+						<label for="siteName">
+	  				  		<jtmpl:translate>Site name</jtmpl:translate>
+	  				  	</label>
 	  				  </td>
 	  				  <td align="center">
-	  				  	<input class="inputbox" type="text" name="vars[siteName]" size="30" value="{VAR_SITENAME}" />
+	  				  	<input class="inputbox" type="text" id="siteName" name="vars[siteName]" size="30" value="{VAR_SITENAME}" />
 	  				  </td>
 	  			   </tr>
 	  				</table>
@@ -69,18 +71,22 @@
 				<table class="content2">
 				<tr>
 				  <td>
-				  	<jtmpl:translate>Your E-mail</jtmpl:translate>
+					<label for="adminEmail">
+					  	<jtmpl:translate>Your E-mail</jtmpl:translate>
+  				  	</label>
 				  </td>
 				  <td align="center">
-				  	<input class="inputbox" type="text" name="vars[adminEmail]" value="" size="30" />
+				  	<input class="inputbox" type="text" id="adminEmail" name="vars[adminEmail]" value="" size="30" />
 				  </td>
 				</tr>
 				<tr>
 				  <td>
-				  	<jtmpl:translate>Admin password</jtmpl:translate>
+					<label for="adminPassword">
+					  	<jtmpl:translate>Admin password</jtmpl:translate>
+  				  	</label>
 				  </td>
 				  <td align="center">
-				  	<input class="inputbox" type="text" name="vars[adminPassword]" value="{VAR_ADMINPASSWORD}" size="30"/>
+				  	<input class="inputbox" type="text" id="adminPassword" name="vars[adminPassword]" value="{VAR_ADMINPASSWORD}" size="30"/>
 				  </td>
 				</table>
 			</fieldset>
