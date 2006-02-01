@@ -15,9 +15,9 @@
 /**
  * Joomla Framework Factory class
  *
- * @package 	Joomla.Framework
  * @static
- * @since 1.1
+ * @package Joomla.Framework
+ * @since	1.1
  */
 class JFactory
 {

@@ -16,11 +16,11 @@ jimport( 'joomla.common.base.object' );
 /**
  * Abstract Format for JRegistry
  * 
+ * @abstract
  * @author 		Samuel Moffatt <pasamio@gmail.com>
  * @package 	Joomla.Framework
  * @subpackage 	Registry
- * @abstract
- * @since 1.1
+ * @since		1.1
  */
 class JRegistryFormat extends JObject {
 

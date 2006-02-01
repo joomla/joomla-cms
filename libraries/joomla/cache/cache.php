@@ -16,10 +16,10 @@ jimport('cache.Lite');
 /**
 * Abstract class for caching handlers
 *
-* @package Joomla.Framework
-* @subpackage Cache
 * @abstract
-* @since 1.1
+* @package		Joomla.Framework
+* @subpackage	Cache
+* @since		1.1
 */
 class JCache extends Cache_Lite
 {

@@ -17,8 +17,7 @@
  * @author 		Johan Janssens <johan@joomla.be>
  * @package 	Joomla.Framework
  * @subpackage 	Parameter
- * @abstract
- * @since 1.1
+ * @since		1.1
  */
 
 class JElement_Text extends JElement

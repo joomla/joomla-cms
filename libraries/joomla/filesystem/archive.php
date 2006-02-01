@@ -19,10 +19,10 @@ if (!defined('DS')) {
 /**
  * An Archive handling class
  *
+ * @static
  * @package 	Joomla.Framework
  * @subpackage 	FileSystem
- * @static
- * @since 1.1
+ * @since		1.1
  */
 class JArchive {
 	/**

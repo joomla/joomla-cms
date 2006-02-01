@@ -17,7 +17,7 @@
  *
  * @package 	Joomla.Framework
  * @subpackage 	Model
- * @since 1.0
+ * @since		1.0
  */
 class JModelCategory extends JModel
 {

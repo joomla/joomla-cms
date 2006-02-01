@@ -11,62 +11,13 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-/**
- * Class JQueryElement
- * 
- * @package 	Joomla.Framework
- * @subpackage 	Database
- * @since 1.1
- */
-class JQueryElement 
-{
-	/** @var string The name of the element */
-	var $_name = null;
-	/** @var array An array of elements */
-	var $_elements = null;
-	/** @var string Glue piece */
-	var $_glue = null;
-
-	/**
-	 * Constructor
-	 * @param string The name of the element
-	 * @param mixed String or array
-	 * @param string The glue for elements
-	 */
-	function JQueryElement( $name, $elements, $glue=',' ) {
-		$this->_elements = array();
-		$this->_name = $name;
-		$this->append( $elements );
-		$this->_glue = $glue;
-	}
-
-	/**
-	 * Appends element parts to the internal list
-	 * @param mixed String or array
-	 */
-	function append( $elements ) {
-		if (is_array( $elements )) {
-			$this->_elements = array_merge( $this->_elements, $elements );
-		} else {
-			$this->_elements = array_merge( $this->_elements, array( $elements ) );
-		}
-	}
-
-	/**
-	 * Render the query element
-	 * @return string
-	 */
-	function toString() {
-		return "\n{$this->_name} " . implode( $this->_glue, $this->_elements );
-	}
-}
 
 /**
  * Class QueryBuilder
  * 
  * @package 	Joomla.Framework
  * @subpackage 	Database
- * @since 1.1
+ * @since		1.1
  */
 class JQuery 
 {
@@ -187,6 +138,56 @@ class JQuery
 		}
 
 		return $query;
+	}
+}
+
+/**
+ * Class JQueryElement
+ * 
+ * @package 	Joomla.Framework
+ * @subpackage 	Database
+ * @since		1.1
+ */
+class JQueryElement 
+{
+	/** @var string The name of the element */
+	var $_name = null;
+	/** @var array An array of elements */
+	var $_elements = null;
+	/** @var string Glue piece */
+	var $_glue = null;
+
+	/**
+	 * Constructor
+	 * @param string The name of the element
+	 * @param mixed String or array
+	 * @param string The glue for elements
+	 */
+	function JQueryElement( $name, $elements, $glue=',' ) {
+		$this->_elements = array();
+		$this->_name = $name;
+		$this->append( $elements );
+		$this->_glue = $glue;
+	}
+
+	/**
+	 * Appends element parts to the internal list
+	 * @param mixed String or array
+	 */
+	function append( $elements ) {
+		if (is_array( $elements )) {
+			$this->_elements = array_merge( $this->_elements, $elements );
+		} else {
+			$this->_elements = array_merge( $this->_elements, array( $elements ) );
+		}
+	}
+
+	/**
+	 * Render the query element
+	 * @return string
+	 */
+	function toString() {
+		return "\n{$this->_name} " . implode( $this->_glue, $this->_elements );
 	}
 }
 ?>

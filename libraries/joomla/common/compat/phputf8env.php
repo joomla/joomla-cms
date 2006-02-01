@@ -12,11 +12,11 @@
 */
 
 /**
- *  PHP mbstring and iconv local configuration
+ * PHP mbstring and iconv local configuration
  *
- * @package Joomla.Framework
- * @subpackage Compatibility
- * @since 1.1
+ * @package		Joomla.Framework
+ * @subpackage	Compatibility
+ * @since		1.1
  */
 // check if mbstring extension is loaded and attempt to load it if not present except for windows
 if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('mbstring.so')))) {

@@ -12,31 +12,31 @@
 */
 
 /**
-* Legacy function, use josErrorAlert instead
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy function, use josErrorAlert instead
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 function mosErrorAlert( $text, $action='window.history.go(-1);', $mode=1 ) {
 	return josErrorAlert( $text, $action='window.history.go(-1);', $mode=1 );
 }
 
 /**
-* Legacy function, use JPath::clean instead
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy function, use JPath::clean instead
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 function mosPathName($p_path, $p_addtrailingslash = true) {
 	return JPath::clean( $p_path, $p_addtrailingslash );
 }
 
 /**
-* Legacy function, use JFolder::files or JFolder::folders instead
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy function, use JFolder::files or JFolder::folders instead
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  ) {
 	$arr = array(null);
 
@@ -51,11 +51,11 @@ function mosReadDirectory( $path, $filter='.', $recurse=false, $fullpath=false  
 }
 
 /**
-* Legacy function, use JFactory::getMailer() instead
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy function, use JFactory::getMailer() instead
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 function mosCreateMail( $from='', $fromname='', $subject, $body ) {
 
 	$mail =& JFactory::getMailer();
@@ -69,41 +69,41 @@ function mosCreateMail( $from='', $fromname='', $subject, $body ) {
 }
 
 /**
-* Legacy function, use josMail instead
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy function, use josMail instead
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 function mosMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL ) {
 	josMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=NULL, $bcc=NULL, $attachment=NULL, $replyto=NULL, $replytoname=NULL );
 }
 
 /**
-* Legacy function, use josSendAdminMail instead
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy function, use josSendAdminMail instead
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 function mosSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author ) {
 	josSendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author );
 }
 
 /**
-* Legacy function, use JAuthenticateHelper::genRandomPassword() instead
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy function, use JAuthenticateHelper::genRandomPassword() instead
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 function mosMakePassword() {
 	return JAuthenticateHelper::genRandomPassword();
 }
 
 /**
-* Legacy function, use josRedirect instead
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy function, use josRedirect instead
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 function mosRedirect( $url, $msg='' ) {
 	josRedirect( $url, $msg );
 }
@@ -111,8 +111,8 @@ function mosRedirect( $url, $msg='' ) {
 /**
  * Legacy function, use JFolder::delete($path)
  * 
- * @deprecated As of version 1.1
- * @package Joomla.Legacy
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
  */
 function deldir( $dir ) {
 	$current_dir = opendir( $dir );
@@ -133,11 +133,11 @@ function deldir( $dir ) {
 }
 
 /**
-* Legacy function, use JFolder::create
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy function, use JFolder::create
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 function mosMakePath($base, $path='', $mode = NULL) {
 	return JFolder::create($base.$path, $mode);
 }
@@ -145,8 +145,8 @@ function mosMakePath($base, $path='', $mode = NULL) {
 /**
  * Legacy function, use JPath::setPermissions instead
  * 
- * @deprecated As of version 1.1
- * @package Joomla.Legacy
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
  */
 function mosChmod( $path ) {
 	return JPath::setPermissions( $path );
@@ -155,29 +155,29 @@ function mosChmod( $path ) {
 /**
  * Legacy function, use JPath::setPermissions instead
  * 
- * @deprecated As of version 1.1
- * @package Joomla.Legacy
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
  */
 function mosChmodRecursive( $path, $filemode=NULL, $dirmode=NULL ) {
 	return JPath::setPermissions( $path, $filemode, $dirmode );
 }
 
 /**
-* Legacy function, use JPath::canCHMOD
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy function, use JPath::canCHMOD
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 function mosIsChmodable( $file ) {
 	return JPath::canChmod( $file );
 }
 
 /**
-* Legacy function, replaced by geshi bot
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy function, replaced by geshi bot
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 function mosShowSource( $filename, $withLineNums=false ) {
 
 	ini_set('highlight.html', '000000');
@@ -208,43 +208,43 @@ function mosShowSource( $filename, $withLineNums=false ) {
 }
 
 /**
-* Legacy function, use mosLoadModule('breadcrumbs); instead
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy function, use mosLoadModule('breadcrumbs); instead
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 function mosPathWay() {
 	mosLoadModule('breadcrumb', -1);
 }
 
 /**
-* Legacy function, use JApplication::getBrowser() instead
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy function, use JApplication::getBrowser() instead
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 function mosGetBrowser( $agent ) {
 	$browser = JApplication::getBrowser();
 	return $browser->getBrowser();
 }
 
 /**
-* Legacy function, use JApplication::getBrowser() instead
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy function, use JApplication::getBrowser() instead
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 function mosGetOS( $agent ) {
 	$browser = JApplication::getBrowser();
 	return $browser->getPlatform();
 }
 
 /**
-* Legacy function, use JRegsitry instead
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy function, use JRegsitry instead
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 function mosParseParams( $txt ) {
 	
 	$registry = new JRegistry();
@@ -253,11 +253,11 @@ function mosParseParams( $txt ) {
 }
 
 /**
-* Legacy function, removed
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy function, removed
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 function mosLoadComponent( $name ) {
 	// set up some global variables for use by the frontend component
 	global $mainframe, $database;
@@ -267,8 +267,8 @@ function mosLoadComponent( $name ) {
 /**
  * Legacy function, use JEditor::init instead
  * 
- * @deprecated As of version 1.1
- * @package Joomla.Legacy
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
  */
 function initEditor() {
 	$editor =& JEditor::getInstance();
@@ -278,8 +278,8 @@ function initEditor() {
 /**
  * Legacy function, use JEditor::getEditorContents instead
  * 
- * @deprecated As of version 1.1
- * @package Joomla.Legacy
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
  */
 function getEditorContents($editorArea, $hiddenField) {
 	$editor =& JEditor::getInstance();
@@ -289,8 +289,8 @@ function getEditorContents($editorArea, $hiddenField) {
 /**
  * Legacy function, use JEditor::getEditor instead
  * 
- * @deprecated As of version 1.1
- * @package Joomla.Legacy
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
  */
 function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) {
 	$editor =& JEditor::getInstance();
@@ -298,11 +298,11 @@ function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) 
 }
 
 /**
-* Legacy function, handled by JDocument Zlib outputfilter
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy function, handled by JDocument Zlib outputfilter
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 function initGzip() {
 	global $mosConfig_gzip, $do_gzip_compress;
 	$do_gzip_compress = FALSE;
@@ -339,11 +339,11 @@ function initGzip() {
 }
 
 /**
-* Legacy function, handled by JDocument Zlib outputfilter
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy function, handled by JDocument Zlib outputfilter
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 function doGzip() {
 	global $do_gzip_compress;
 	if ( $do_gzip_compress ) {

@@ -15,10 +15,9 @@
 /**
  * Users model
  *
- * Provides access to the jos_user table
  * @package 	Joomla.Framework
  * @subpackage 	Model
- * @since 1.0
+ * @since		1.0
  */
 class JModelUser extends JModel 
 {

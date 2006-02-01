@@ -19,7 +19,7 @@ jimport( 'joomla.registry.registry' );
  * @author 		Johan Janssens <johan@joomla.be>
  * @package 	Joomla.Framework
  * @subpackage 	Parameter
- * @since 1.0
+ * @since		1.1
  */
 class JParameter extends JRegistry
 {

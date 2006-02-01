@@ -13,12 +13,12 @@
 
 
 /**
-* Class to support language file caching
-*
-* @package Joomla.Framework
-* @subpackage Cache
-* @since 1.1
-*/
+ * Class to support language file caching
+ *
+ * @package		Joomla.Framework
+ * @subpackage	Cache
+ * @since		1.1
+ */
 class JCacheLanguage extends JCache
 {
 	/**

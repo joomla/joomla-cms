@@ -14,13 +14,12 @@
 /**
  * Base class for JDocument Renderers
  *
- * @author 		Johan Janssens <johan@joomla.be>
- * @package 	Joomla.Framework
- * @subpackage 	Document
  * @abstract
- * @since 1.1
+ * @author		Johan Janssens <johan@joomla.be>
+ * @package		Joomla.Framework
+ * @subpackage	Document
+ * @since		1.1
  */
-
 class patTemplate_Renderer extends patTemplate_Module
 {
  	/**

@@ -1,5 +1,4 @@
 <?php
-
 /**
 * @version $Id$
 * @package Joomla.Legacy
@@ -13,37 +12,36 @@
 */
 
 /**
-* Legacy define, _ISO defined not used anymore. All output is forced as utf-8
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
-
+ * Legacy define, _ISO defined not used anymore. All output is forced as utf-8
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 DEFINE('_ISO','charset=utf-8');
 
 /**
-* Legacy constant, use _JEXEC instead
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy constant, use _JEXEC instead
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 define( '_VALID_MOS', 1 );
 
 /**
-* Legacy constant, use _JEXEC instead
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy constant, use _JEXEC instead
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 define( '_MOS_MAMBO_INCLUDED', 1 );
 
 /**
-* Legacy global, use JVersion->getLongVersion() instead
-* 
-* @name $_VERSION
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Legacy global, use JVersion->getLongVersion() instead
+ * 
+ * @name $_VERSION
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 $_VERSION = new JVersion();
 $version = $_VERSION->PRODUCT .' '. $_VERSION->RELEASE .'.'. $_VERSION->DEV_LEVEL .' '
 . $_VERSION->DEV_STATUS
@@ -51,11 +49,11 @@ $version = $_VERSION->PRODUCT .' '. $_VERSION->RELEASE .'.'. $_VERSION->DEV_LEVE
 . $_VERSION->RELTIME .' '. $_VERSION->RELTZ;
 
 /**
-* Load the site language file (the old way - to be deprecated)
-* 
-* @deprecated As of version 1.1
-* @package Joomla.Legacy
-*/
+ * Load the site language file (the old way - to be deprecated)
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ */
 global $mosConfig_lang;
 $file = JPATH_SITE .'/language/' . $mosConfig_lang .'.php';
 if (file_exists( $file )) {

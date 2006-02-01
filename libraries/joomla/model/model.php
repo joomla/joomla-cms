@@ -18,12 +18,12 @@ jimport( 'joomla.common.base.object' );
  * 
  * Parent classes to all models.  Customisation will generally not involve tampering with this object.
  * 
- * @author Andrew Eddie <eddieajau@users.sourceforge.net>
  * @abstract
+ * @author		Andrew Eddie <eddieajau@users.sourceforge.net>
  * @package 	Joomla.Framework
  * @subpackage 	Model
- * @since 1.0
- * @tutorial Joomla.Framework/jmodel.cls
+ * @since		1.0
+ * @tutorial	Joomla.Framework/jmodel.cls
  */
 class JModel extends JObject 
 {

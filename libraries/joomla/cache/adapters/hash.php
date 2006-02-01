@@ -17,9 +17,9 @@
  * Class Based Heavily on Hashed_Cache_Lite by: Mike Benoit <ipso@snappymail.ca>
  * phpGACL - Generic Access Control List - Hashed Directory Caching.
  * 
- * @package Joomla.Framework
- * @subpackage Cache
- * @since 1.1
+ * @package		Joomla.Framework
+ * @subpackage	Cache
+ * @since		1.1
  */
 class JCacheHash extends JCache
 {

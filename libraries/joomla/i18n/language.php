@@ -16,11 +16,11 @@ jimport( 'joomla.common.base.object' );
 
 /**
  * Text  handling class
- * 
- * @package 	Joomla.Framework
- * @subpackage 	I18N
+ *
  * @static
- * @since 1.1
+ * @package 	Joomla.Framework
+ * @subpackage	I18N
+ * @since		1.1
  */
 class JText
 {
@@ -76,12 +76,12 @@ class JText
 }
 
 /**
-* Languages/translation handler class
-* 
-* @package 		Joomla.Framework
-* @subpackage 	I18N
-* @since 1.1
-*/
+ * Languages/translation handler class
+ * 
+ * @package 	Joomla.Framework
+ * @subpackage	I18N
+ * @since		1.1
+ */
 class JLanguage extends JObject
 {
 	/** @var boolean If true, highlights string not found */

@@ -1,5 +1,4 @@
 <?php
-
 /**
 * @version $Id$
 * @package Joomla
@@ -15,10 +14,10 @@
 /**
  * Object class, allowing __construct and __destruct in PHP4.
  *
- * @author Johan Janssens <johan@joomla.be>
- * @package Joomla.Framework
  * @abstract
- * @since 1.1
+ * @author	Johan Janssens <johan@joomla.be>
+ * @package	Joomla.Framework
+ * @since	1.1
  */
 
 class JObject

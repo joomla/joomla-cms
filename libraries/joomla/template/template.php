@@ -19,8 +19,8 @@ jimport('pattemplate.patTemplate');
  * @author 		Johan Janssens <johan@joomla.be>
  * @package 	Joomla.Framework
  * @subpackage 	Template
- * @since 1.1
- * @see patTemplate
+ * @since		1.1
+ * @see			patTemplate
  */
 
 class JTemplate extends patTemplate

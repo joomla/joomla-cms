@@ -17,10 +17,10 @@ jimport( 'joomla.database.recordset' );
 /**
  * Database connector class
  *
- * @package Joomla.Framework
- * @subpackage Database
  * @abstract
- * @since 1.0
+ * @package		Joomla.Framework
+ * @subpackage	Database
+ * @since		1.0
  */
 class JDatabase extends JObject
 {

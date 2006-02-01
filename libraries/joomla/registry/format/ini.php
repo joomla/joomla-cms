@@ -17,7 +17,7 @@
  * @author 		Samuel Moffatt <pasamio@gmail.com>
  * @package 	Joomla.Framework
  * @subpackage 	Registry
- * @since 1.1
+ * @since		1.1
  */
 class JRegistryFormatINI extends JRegistryFormat {
 

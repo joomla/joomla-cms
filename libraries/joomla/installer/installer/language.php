@@ -14,9 +14,10 @@
 /**
  * Language  installer
  *
- * @package 	Joomla.Framework
- * @subpackage 	Installer
- * @since 1.1
+ * @author		Louis Landry <louis@webimagery.net>
+ * @package		Joomla.Framework
+ * @subpackage	Installer
+ * @since		1.1
  */
 class JInstallerLanguage extends JInstaller {
 

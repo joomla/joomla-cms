@@ -16,11 +16,11 @@
  * 
  * The JElement is the base class for all JElement types
  *
+ * @abstract
  * @author 		Johan Janssens <johan@joomla.be>
  * @package 	Joomla.Framework
  * @subpackage 	Parameter
- * @abstract
- * @since 1.1
+ * @since		1.1
  */
 
 class JElement extends JObject

@@ -19,7 +19,7 @@ jimport('phpmailer.phpmailer');
  * @author		Louis Landry <louis@webimagery.net>
  * @package 	Joomla.Framework
  * @subpackage 	Mail
- * @since 1.1
+ * @since		1.1
  */
 class JMail extends PHPMailer 
 {
@@ -316,11 +316,11 @@ class JMail extends PHPMailer
  * 
  * TODO: Test these methods as the regex work is first run and not tested thoroughly
  *
+ * @static
  * @author 		Louis Landry <louis@webimagery.net>
  * @package 	Joomla.Framework
  * @subpackage 	Mail
- * @static
- * @since 1.1
+ * @since		1.1
  */
 class JMailHelper 
 {

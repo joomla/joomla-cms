@@ -15,7 +15,7 @@
  *
  * @package 	Joomla.Framework
  * @subpackage 	Template
- * @since 1.1
+ * @since		1.1
  */
 class patTemplate_Modifier_SEF extends patTemplate_Modifier
 {

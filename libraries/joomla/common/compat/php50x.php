@@ -14,9 +14,9 @@
  /**
  * PHP 5.0.x Compatibility functions
  *
- * @package Joomla.Framework
- * @subpackage Compatibility
- * @since 1.1
+ * @package		Joomla.Framework
+ * @subpackage	Compatibility
+ * @since		1.1
  */
 
 if (!defined('FILE_USE_INCLUDE_PATH')) {

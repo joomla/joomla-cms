@@ -14,12 +14,12 @@
 
 
 /**
-* Help system class
-* 
-* @package 		Joomla.Framework
-* @subpackage	I18N
-* @since 1.1
-*/
+ * Help system class
+ * 
+ * @package 		Joomla.Framework
+ * @subpackage	I18N
+ * @since		1.1
+ */
 class JHelp {
 
 	/**

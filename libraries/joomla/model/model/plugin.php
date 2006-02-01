@@ -16,7 +16,7 @@
  *
  * @package 	Joomla.Framework
  * @subpackage 	Model
- * @since 1.1
+ * @since		1.0
  */
 class JModelPlugin extends JModel 
 {

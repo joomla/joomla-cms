@@ -18,9 +18,9 @@
  * compresses the data before sending it to the client.
  *
  * @author		Johan Janssens <johan@joomla.be>
- * @package 	Joomla.Framework
- * @subpackage 	Document
- * @since 1.1
+ * @package		Joomla.Framework
+ * @subpackage	Document
+ * @since		1.1
  */
 class patTemplate_OutputFilter_Zlib extends patTemplate_OutputFilter
 {

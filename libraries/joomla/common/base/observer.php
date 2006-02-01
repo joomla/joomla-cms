@@ -16,10 +16,10 @@ jimport( 'joomla.common.base.object' );
 /**
  * Abstract observer class to implement the observer design pattern
  *
- * @author Louis Landry <louis@webimagery.net>
- * @package Joomla.Framework
  * @abstract
- * @since 1.1
+ * @author	Louis Landry <louis@webimagery.net>
+ * @package	Joomla.Framework
+ * @since	1.1
  */
 class JObserver extends JObject {
 
@@ -57,10 +57,10 @@ class JObserver extends JObject {
 /**
  * Abstract observable class to implement the observer design pattern
  *
- * @author Louis Landry <louis@webimagery.net>
- * @package Joomla.Framework
  * @abstract
- * @since 1.1
+ * @author	Louis Landry <louis@webimagery.net>
+ * @package	Joomla.Framework
+ * @since	1.1
  */
 
 class JObservable extends JObject {

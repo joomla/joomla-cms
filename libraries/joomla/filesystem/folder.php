@@ -20,10 +20,10 @@ if (!defined('DS')) {
 /**
  * A Folder handling class
  *
+ * @static
  * @package 	Joomla.Framework
  * @subpackage 	FileSystem
- * @static
- * @since 1.1
+ * @since		1.1
  */
 class JFolder {
 

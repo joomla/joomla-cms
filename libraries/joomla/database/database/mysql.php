@@ -15,9 +15,9 @@
 /**
  * MySQL database driver
  *
- * @package Joomla.Framework
- * @subpackage Database
- * @since 1.0
+ * @package		Joomla.Framework
+ * @subpackage	Database
+ * @since		1.0
  */
 class JDatabaseMySQL extends JDatabase
 {

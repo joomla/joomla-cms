@@ -12,12 +12,12 @@
 */
 
 /**
-* Class to support page caching
-*
-* @package Joomla.Framework
-* @subpackage Cache
-* @since 1.1
-*/
+ * Class to support page caching
+ *
+ * @package		Joomla.Framework
+ * @subpackage	Cache
+ * @since		1.1
+ */
 class JCachePage extends JCache
 {
 	/**

@@ -14,9 +14,9 @@
 /**
  * PHP 4.1.x Compatibility functions
  *
- * @package Joomla.Framework
- * @subpackage Compatibility
- * @since 1.0
+ * @package		Joomla.Framework
+ * @subpackage	Compatibility
+ * @since		1.0
  */
 
 

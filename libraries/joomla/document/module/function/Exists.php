@@ -14,12 +14,11 @@
 /**
  * JDocument Placeholder function
  *
- * @author 		Johan Janssens <johan@joomla.be>
- * @package 	Joomla.Framework
- * @subpackage 	Document
- * @since 1.1
+ * @author		Johan Janssens <johan@joomla.be>
+ * @package		Joomla.Framework
+ * @subpackage	Document
+ * @since		1.1
  */
-
 class patTemplate_Function_Exists extends patTemplate_Function
 {
    /**

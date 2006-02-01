@@ -16,9 +16,11 @@ jimport('joomla.common.base.object');
 /**
  * Joomla base installer class
  *
- * @package Joomla.Framework
- * @subpackage Installer
  * @abstract
+ * @author		Louis Landry <louis@webimagery.net>
+ * @package		Joomla.Framework
+ * @subpackage	Installer
+ * @since		1.1
  */
 class JInstaller extends JObject {
 
@@ -1035,9 +1037,10 @@ class JInstaller extends JObject {
  * Installer helper class
  *
  * @static
- * @package JoomlaFramework
- * @subpackage Installer
- * @since 1.1
+ * @author		Louis Landry <louis@webimagery.net>
+ * @package		Joomla.Framework
+ * @subpackage	Installer
+ * @since		1.1
  */
 class JInstallerHelper {
 

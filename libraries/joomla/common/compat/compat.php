@@ -14,9 +14,9 @@
 /**
  * Load compatibility files
  *
- * @package Joomla.Framework
- * @subpackage Compatibility
- * @since 1.1
+ * @package		Joomla.Framework
+ * @subpackage	Compatibility
+ * @since		1.1
  */
 
 if (phpversion() < '4.2.0') {

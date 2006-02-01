@@ -17,7 +17,7 @@
  * @author 		Louis Landry <louis@webimagery.net>
  * @package 	Joomla.Framework
  * @subpackage 	Registry
- * @since 1.1
+ * @since		1.1
  */
 class JRegistryFormatPHP extends JRegistryFormat {
 

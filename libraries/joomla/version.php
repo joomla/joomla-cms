@@ -14,8 +14,8 @@
 /**
  * Version information
  * 
- * @package Joomla.Framework
- * @since 1.0
+ * @package	Joomla.Framework
+ * @since	1.0
  */
 class JVersion 
 {
