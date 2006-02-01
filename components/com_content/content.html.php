@@ -1212,7 +1212,7 @@ class JContentView {
 							</label>
 						</td>
 						<td>
-							<input class="text_area" type="text" id="_caption" name="_caption" value="" size="30" />
+							<input class="inputbox" type="text" id="_caption" name="_caption" value="" size="30" />
 						</td>
 					</tr>
 					<tr>
@@ -1242,7 +1242,7 @@ class JContentView {
 							</label>
 						</td>
 						<td>
-							<input class="text_area" type="text" id="_width" name="_width" value="" size="5" maxlength="5" />
+							<input class="inputbox" type="text" id="_width" name="_width" value="" size="5" maxlength="5" />
 						</td>
 					</tr>
 					<tr>
@@ -1366,7 +1366,7 @@ class JContentView {
 					</label>
 				</td>
 				<td>
-					<textarea rows="5" cols="50" class="inputbox" id="metadesc" name="metadesc"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
+					<textarea rows="5" cols="50" style="width:500px; height:120px" class="inputbox" id="metadesc" name="metadesc"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
 				</td>
 			</tr>
 			<tr>
@@ -1376,7 +1376,7 @@ class JContentView {
 					</label>
 				</td>
 				<td>
-					<textarea rows="5" cols="50" class="inputbox" id="metakey" name="metakey"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
+					<textarea rows="5" cols="50" style="width:500px; height:50px" class="inputbox" id="metakey" name="metakey"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
 				</td>
 			</tr>
 			</table>
