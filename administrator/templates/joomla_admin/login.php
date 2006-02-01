@@ -40,65 +40,93 @@ $tstart = mosProfiler::getmicrotime();
 </script>
 </head>
 <body onload="setFocus();">
+
+<form action="index.php" method="post" name="loginForm" id="loginForm">
+
 <div id="wrapper">
 	<div id="header">
-		<div id="joomla"><jdoc:translate>Administration</jdoc:translate></div>
-		<div id="version"><jdoc:translate>Version#</jdoc:translate></div>
+		<div id="joomla">
+			<jdoc:translate>Administration</jdoc:translate>
+		</div>
+		
+		<div id="version">
+			<jdoc:translate>Version#</jdoc:translate>
+		</div>
 	</div>
 </div>
+
 <div id="ctr" align="center">
 	<div class="login">
 		<div class="login-form">
 			<h1><jdoc:translate>Login</jdoc:translate></h1>
-			<form action="index.php" method="post" name="loginForm" id="loginForm">
 			<div class="form-block">
 				<div class="inputlabel">
 					<label for="username">
 						<jdoc:translate>Username</jdoc:translate>
 					</label>
 				</div>
+				
 				<div>
 					<input name="username" id="username" type="text" class="inputbox" size="15" />
 				</div>
+				
 				<div class="inputlabel">
 					<label for="password">
 						<jdoc:translate>Password</jdoc:translate>
 					</label>
 				</div>
+				
 				<div>
 					<input name="passwd" id="password" type="password" class="inputbox" size="15" />
 				</div>
+				
 				<div class="inputlabel">
 					<label for="lang">
 						<jdoc:translate>Language</jdoc:translate>
 					</label>
 				</div>
+				
 				<div>
 					<?php echo $lists['langs']; ?>
 				</div>
+				
 				<div class="flushstart" >
 					<input type="submit" name="submit" class="button" value="<jdoc:translate>Login</jdoc:translate>" />
 					<input type="hidden" name="option" value="login" />
 				</div>
 			</div>
-			</form>
 		</div>
+		
 		<div class="login-text">
-			<div class="ctr"><img src="templates/joomla_admin/images/security.png" width="64" height="64" alt="<jdoc:translate>security</jdoc:translate>" /></div>
+			<div class="ctr">
+				<img src="templates/joomla_admin/images/security.png" width="64" height="64" alt="<jdoc:translate>security</jdoc:translate>" />
+			</div>
+			
 			<p><jdoc:translate>Welcome to Joomla!</jdoc:translate></p>
 			<p><jdoc:translate>DESCUSEVALIDLOGIN</jdoc:translate></p>
+			<p>&nbsp;</p>
+			<p>
+				<a href="<?php echo $mainframe->getSiteURL(); ?>"><jdoc:translate>Return to site Home Page</jdoc:translate></a>
+			</p>			
 		</div>
+		
 		<div class="clr"></div>
 	</div>
 </div>
+
 <div id="break"></div>
+
 <noscript>
-<jdoc:translate key="WARNJAVASCRIPT" />
+	<jdoc:translate key="WARNJAVASCRIPT" />
 </noscript>
+
 <div class="footer" align="center">
 	<div align="center">
 		<?php echo $_VERSION->URL; ?>
 	</div>
 </div>
+
+</form>
+
 </body>
 </html>
