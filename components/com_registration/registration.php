@@ -21,7 +21,7 @@ $breadcrumbs->setItemName(1, JText::_( 'Registration' ) );
 
 switch( $task ) {
 	case 'lostPassword':
-		lostPassForm( $option );
+		lostPassForm();
 		break;
 
 	case 'sendNewPass':
@@ -45,15 +45,15 @@ switch( $task ) {
 		break;	
 }
 
-function lostPassForm( $option ) {
+function lostPassForm() {
 	global $mainframe;
 
 	$mainframe->SetPageTitle( JText::_( 'Lost your Password?' ) );
 
 	$breadcrumbs =& $mainframe->getPathWay();
-	$breadcrumbs->setItemName( 1, JText::_( 'Lost your Password?' ));
+	$breadcrumbs->addItem( JText::_( 'Lost your Password?' ));
 	
-	HTML_registration::lostPassForm($option);
+	HTML_registration::lostPassForm();
 }
 
 function sendNewPass() {
@@ -108,11 +108,12 @@ function registerForm() {
 		mosNotAuth();
 		return;
 	}
+	
+	$breadcrumbs =& $mainframe->getPathWay();
 
-  	$mainframe->SetPageTitle( JText::_( 'Registration' ) );
-
-  	$breadcrumbs =& $mainframe->getPathWay();
-
+ 	// Page Title
+ 	$mainframe->SetPageTitle( JText::_( 'Registration' ) ); 
+	// Breadcrumb
   	$breadcrumbs->addItem( JText::_( 'New' ));
 
 	HTML_registration::registerForm();
@@ -128,7 +129,8 @@ function saveRegistration() {
 		return;
 	}
 	
-	$siteURL = $mainframe->getBaseURL();
+	$siteURL 		= $mainframe->getBaseURL();
+	$breadcrumbs 	=& $mainframe->getPathWay();
 
 	$row =& JModel::getInstance('user', $database );
 
@@ -227,8 +229,18 @@ function saveRegistration() {
 	}
 
 	if ( $mosConfig_useractivation == 1 ){
+		// Page Title
+		$mainframe->SetPageTitle( JText::_( 'REG_COMPLETE_ACTIVATE_TITLE' ) );
+		// Breadcrumb
+		$breadcrumbs->addItem( JText::_( 'REG_COMPLETE_ACTIVATE_TITLE' ));
+		
 		HTML_registration::message( 'REG_COMPLETE_ACTIVATE_TITLE', 'REG_COMPLETE_ACTIVATE' );
 	} else {
+		// Page Title
+		$mainframe->SetPageTitle( JText::_( 'REG_COMPLETE_TITLE' ) );
+		// Breadcrumb
+		$breadcrumbs->addItem( JText::_( 'REG_COMPLETE_TITLE' ));
+		
 		HTML_registration::message( 'REG_COMPLETE_TITLE', 'REG_COMPLETE' );
 	}
 }
@@ -242,6 +254,7 @@ function activate() {
 	$db						= & $mainframe->getDBO();
 	$UserActivation			= $mainframe->getCfg('useractivation');
 	$AllowUserRegistration	= $mainframe->getCfg('allowUserRegistration');
+	$breadcrumbs 			=& $mainframe->getPathWay();
 
 	if ($AllowUserRegistration == '0' || $UserActivation == '0') {
 		mosNotAuth();
@@ -254,7 +267,13 @@ function activate() {
 	$activation = JRequest :: getVar( 'activation', '' );
 	$activation = $db->getEscaped( $activation );
 	if (empty( $activation )) {
-		echo JText::_( 'REG_ACTIVATE_NOT_FOUND' );
+		// Page Title
+		$mainframe->SetPageTitle( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ) );
+		// Breadcrumb
+		$breadcrumbs->addItem( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ));
+		
+		HTML_registration::message( 'REG_ACTIVATE_NOT_FOUND_TITLE', 'REG_ACTIVATE_NOT_FOUND' );
+		
 		return;
 	}
 	
@@ -262,8 +281,18 @@ function activate() {
 	 * Lets activate this user.
 	 */
 	if (JUserHelper :: activate($activation)) {
+		// Page Title
+		$mainframe->SetPageTitle( JText::_( 'REG_ACTIVATE_COMPLETE_TITLE' ) );
+		// Breadcrumb
+		$breadcrumbs->addItem( JText::_( 'REG_ACTIVATE_COMPLETE_TITLE' ));
+		
 		HTML_registration::message( 'REG_ACTIVATE_COMPLETE_TITLE', 'REG_ACTIVATE_COMPLETE' );
 	} else {
+		// Page Title
+		$mainframe->SetPageTitle( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ) );
+		// Breadcrumb
+		$breadcrumbs->addItem( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ));
+		
 		HTML_registration::message( 'REG_ACTIVATE_NOT_FOUND_TITLE', 'REG_ACTIVATE_NOT_FOUND' );
 	}
 }
