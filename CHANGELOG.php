@@ -43,6 +43,7 @@ Legend:
 01-Feb 2006 Louis Landry
  * Itemid script injection - Thanks Mathijs de Jong
  ^ Framework file catagorization cleanup
+ ^ JACL class renamed to JAuthorization
  
 01-Feb 2006 Rey Gigataras
  ^ Registration component output correctly separated into .html.php
