@@ -224,7 +224,7 @@ class JLanguage extends JObject
 					$this->_identifyer = basename( $filename, '.ini' );
 				}
 				
-				$registry =& new JRegistry();
+				$registry = new JRegistry();
 				$registry->loadINI($content);
 				return $registry->toArray( );
 			}

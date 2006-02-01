@@ -118,7 +118,7 @@ function userEdit( $option, $uid, $submitvalue) {
 	$row->orig_password = $row->password;
 
 	$file 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
-	$params =& new JParameter( $row->params, $file, 'component' );
+	$params = new JParameter( $row->params, $file, 'component' );
 	
 	$menu =& JModel::getInstance('menu', $database );
 	$menu->load( $Itemid );

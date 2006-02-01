@@ -30,7 +30,7 @@ function botSyndicateFrontpage( $url, $limit ) {
     if ( $parts['type'] == 'com_frontpage' ) {   
         $menu = new mosMenu( $database );
         $menu->load( $parts['Itemid'] );
-    	$params =& new mosParameters( $menu->params );
+    	$params = new JParameter( $menu->params );
 
     	$orderby_pri   = $params->get( 'orderby_pri', '' );
     	$orderby_sec   = $params->get( 'orderby_sec', '' );

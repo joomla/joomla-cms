@@ -19,7 +19,7 @@ require_once( JPATH_BASE .'/includes/application.php' );
 require_once( JPATH_BASE .'/includes/template.php'    );
 
 // create the mainframe object
-$mainframe =& new JInstallation();
+$mainframe = new JInstallation();
 
 // create the session
 $mainframe->setSession('installation');

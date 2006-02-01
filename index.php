@@ -21,7 +21,7 @@ require_once ( JPATH_BASE .'/includes/application.php' );
 require_once ( JPATH_BASE .'/includes/template.php'  );
 
 // create the mainframe object
-$mainframe =& new JSite();
+$mainframe = new JSite();
 
 // set the configuration
 $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');

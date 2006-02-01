@@ -79,7 +79,7 @@ class JModelMenu extends JModel
 	function bind($array, $ignore = '')
 	{
 		if (is_array( $array['params'] )) {
-			$registry =& new JRegistry();
+			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}

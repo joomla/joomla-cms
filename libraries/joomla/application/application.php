@@ -272,11 +272,11 @@ class JApplication extends JObject
 
 		$url  = $uri->getScheme().'://';
 		$url .= $uri->getHost();
-		if ($port = $uri->getPort())
-		{
+		if ($port = $uri->getPort()) {
 			$url .= ":$port";
 		}
 		$url .=  rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/';
+		
 		$this->_baseURL= $url;
 		return $url;
 	}
@@ -571,7 +571,7 @@ class JApplication extends JObject
 		$config->absolute_path = JPATH_SITE;
 
 		// Create the registry with a default namespace of config which is read only
-		$this->_registry =& new JRegistry( 'config', true );
+		$this->_registry = new JRegistry( 'config', true );
 		$this->_registry->loadObject($config);
 	}
 

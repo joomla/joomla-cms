@@ -247,7 +247,7 @@ function mosGetOS( $agent ) {
 */
 function mosParseParams( $txt ) {
 	
-	$registry =& new JRegistry();
+	$registry = new JRegistry();
 	$registry->loadINI($txt);
 	return $registry->toObject( );
 }

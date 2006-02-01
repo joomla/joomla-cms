@@ -69,7 +69,7 @@ class JModelComponent extends JModel
 		$params = mosGetParam( $_POST, 'params', '' );
 	
 		if (is_array( $array['params'] )) {
-			$registry =& new JRegistry();
+			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}

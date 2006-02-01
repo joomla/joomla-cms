@@ -55,7 +55,7 @@ class JInstallation extends JApplication
 		jimport( 'joomla.registry.registry' );
 		
 		// Create the registry with a default namespace of config which is read only
-		$this->_registry =& new JRegistry( 'config' );
+		$this->_registry = new JRegistry( 'config' );
 	}
 	
 	/**
