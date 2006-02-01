@@ -416,7 +416,9 @@ class JFullAdminMenu {
 			_cmSplit,
 
 <?php /* Site Sub-Menu */ ?>
-			[null,'<?php echo JText::_( 'Site', true ); ?>',null,null,'<?php echo JText::_( 'Site Management', true ); ?>',],
+			[null,'<?php echo JText::_( 'Site', true ); ?>',null,null,'<?php echo JText::_( 'Site Management', true ); ?>',
+  				['<img src="../includes/js/ThemeOffice/preview.png" />','<?php echo JText::_( 'Preview', true ) . " " . JText::_( 'In New Window', true ); ?>','<?php echo $mainframe->getSiteURL(); ?>index.php','_blank','<?php echo $mainframe->getSiteURL(); ?>']
+			],
 			_cmSplit,
 
 <?php /* Menu Sub-Menu */ ?>
