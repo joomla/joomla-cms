@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( JApplicationHelper::getPath( 'front_html' ) );
 
 $breadcrumbs =& $mainframe->getPathWay();
-$breadcrumbs->setItemName(1, 'Search');
+$breadcrumbs->setItemName(1, JText::_( 'Search' ) );
 
 switch ( $task ) {
 	default:
@@ -202,7 +202,6 @@ function viewSearch() {
 
 		if ( $n ) {
 		// html output
-
 			search_html::display( $rows, $params, $page, $limitstart, $limit, $total, $totalRows, $searchword_clean );
 		} else {
 		// html output

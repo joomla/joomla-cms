@@ -45,10 +45,13 @@ if ( $my->id ) {
 	<form action="index.php" method="post" name="login">
 	<?php
 	if ( $greeting ) {
-		echo sprintf( JText::_( 'HINAME' ), $name );
+		?>
+		<div>
+			<?php echo sprintf( JText::_( 'HINAME' ), $name ); ?>
+		</div>
+		<?php
 	}
 	?>
-	<br />
 	<div align="center">
 		<input type="submit" name="Submit" class="button" value="<?php echo JText::_( 'BUTTON_LOGOUT'); ?>" />
 	</div>
@@ -62,9 +65,8 @@ if ( $my->id ) {
 // ie HTML when not logged in and trying to login
 	?>
 	<form action="index.php" method="post" name="login" >
-	<?php
-	echo $pretext;
-	?>
+	
+	<?php echo $pretext; ?>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
 	<tr>
 		<td>
@@ -91,8 +93,8 @@ if ( $my->id ) {
 	</tr>
 	<tr>
 		<td>
-		<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=lostPassword' ); ?>">
-			<?php echo JText::_( 'Lost Password?'); ?></a>
+			<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=lostPassword' ); ?>">
+				<?php echo JText::_( 'Lost Password?'); ?></a>
 		</td>
 	</tr>
 	<?php
@@ -109,9 +111,7 @@ if ( $my->id ) {
 	}
 	?>
 	</table>
-	<?php
-	echo $posttext;
-	?>
+	<?php echo $posttext; ?>
 
 	<input type="hidden" name="op2" value="login" />
 	<input type="hidden" name="return" value="<?php echo sefRelToAbs( 'index.php?'.$login ); ?>" />

@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( JApplicationHelper::getPath( 'front_html' ) );
 
 $breadcrumbs =& $mainframe->getPathWay();
-$breadcrumbs->setItemName(1, 'Registration');
+$breadcrumbs->setItemName(1, JText::_( 'Registration' ) );
 
 switch( $task ) {
 	case 'lostPassword':
@@ -25,20 +25,24 @@ switch( $task ) {
 		break;
 
 	case 'sendNewPass':
-		sendNewPass( $option );
+		sendNewPass();
 		break;
 
 	case 'register':
-		registerForm( $option, $mosConfig_useractivation );
+		registerForm();
 		break;
 
 	case 'saveRegistration':
-		saveRegistration( $option );
+		saveRegistration();
 		break;
 
 	case 'activate':
 		activate();
 		break;
+		
+	case 'cancel':
+		mosRedirect( 'index.php' );
+		break;	
 }
 
 function lostPassForm( $option ) {
@@ -48,11 +52,12 @@ function lostPassForm( $option ) {
 
 	$breadcrumbs =& $mainframe->getPathWay();
 	$breadcrumbs->setItemName( 1, JText::_( 'Lost your Password?' ));
+	
 	HTML_registration::lostPassForm($option);
 }
 
-function sendNewPass( $option ) {
-	global $database, $Itemid;
+function sendNewPass() {
+	global $database, $mainframe;
 	global $mosConfig_mailfrom, $mosConfig_fromname;
 	
 	$siteURL 	= $mainframe->getBaseURL();
@@ -71,7 +76,7 @@ function sendNewPass( $option ) {
 	;
 	$database->setQuery( $query );
 	if (!($user_id = $database->loadResult()) || !$checkusername || !$confirmEmail) {
-		mosRedirect( "index.php?option=$option&task=lostPassword&mosmsg=". JText::_( 'Sorry, no corresponding user was found' ) );
+		mosRedirect( 'index.php?option=com_registration&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
 	}
 
 	$newpass = mosMakePassword();
@@ -93,10 +98,10 @@ function sendNewPass( $option ) {
 		die("SQL error" . $database->stderr(true));
 	}
 
-	mosRedirect( "index.php?option=com_registration&mosmsg=". JText::_( 'New User Password created and sent!' ) );
+	mosRedirect( 'index.php?option=com_registration', JText::_( 'New User Password created and sent!' ) );
 }
 
-function registerForm( $option, $useractivation ) {
+function registerForm() {
 	global $mainframe;
 	
 	if (!$mainframe->getCfg( 'allowUserRegistration' )) {
@@ -107,12 +112,13 @@ function registerForm( $option, $useractivation ) {
   	$mainframe->SetPageTitle( JText::_( 'Registration' ) );
 
   	$breadcrumbs =& $mainframe->getPathWay();
-  	$breadcrumbs->setItemName( 1, JText::_( 'Registration' ));
 
-	HTML_registration::registerForm($option, $useractivation);
+  	$breadcrumbs->addItem( JText::_( 'New' ));
+
+	HTML_registration::registerForm();
 }
 
-function saveRegistration( $option ) {
+function saveRegistration() {
 	global $database, $acl, $mainframe;
 	global $mosConfig_sitename, $mosConfig_useractivation, $mosConfig_allowUserRegistration;
 	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_mailfrom, $mosConfig_fromname;
@@ -170,7 +176,7 @@ function saveRegistration( $option ) {
 
 	$subject 	= sprintf ( JText::_( 'Account details for' ), $name, $mosConfig_sitename);
 	$subject 	= html_entity_decode($subject, ENT_QUOTES);
-	if ($mosConfig_useractivation=="1"){
+	if ( $mosConfig_useractivation == 1 ){
 		$message = sprintf ( JText::_( 'SEND_MSG_ACTIVATE' ), $name, $mosConfig_sitename, $siteURL."/index.php?option=com_registration&task=activate&activation=".$row->activation, $siteURL, $username, $pwd);
 	} else {
 		$message = sprintf ( JText::_( 'SEND_MSG' ), $name, $mosConfig_sitename, $siteURL);

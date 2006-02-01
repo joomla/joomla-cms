@@ -20,53 +20,83 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @subpackage Users
 */
 class HTML_registration {
-	function lostPassForm($option) {
+	function lostPassForm() {
+		require_once( JPATH_SITE .'/includes/HTML_toolbar.php' );
 		?>
-		<form action="index.php" method="post">
+		<script language="javascript" type="text/javascript">
+		function submitbutton( pressbutton ) {
+			var form = document.josForm;
+			
+			if (pressbutton == 'cancel') {
+				form.task.value = 'cancel';
+				form.submit();
+			}
+
+			form.submit();
+		}
+		</script>
+		<form action="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=lostPassword' ); ?>" method="post" name="josForm">
 
 		<div class="componentheading">
 			<?php echo JText::_( 'Lost your Password?' ); ?>
 		</div>
 
+		<div style="float: right;">
+			<?php
+			mosToolBar::startTable();
+			mosToolBar::spacer();
+			mosToolBar::save('sendNewPass');
+			mosToolBar::cancel();
+			mosToolBar::endtable();
+			?>
+		</div>
+
 		<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentpane">
 		<tr>
-			<td colspan="2">
+			<td colspan="2" height="40">
 				<?php echo JText::_( 'NEW_PASS_DESC' ); ?>
 			</td>
 		</tr>
 		<tr>
-			<td>
-				<?php echo JText::_( 'Username' ); ?>:
+			<td height="40">
+				<label for="checkusername">
+					<?php echo JText::_( 'Username' ); ?>:
+				</label>
 			</td>
 			<td>
-				<input type="text" name="checkusername" class="inputbox" size="40" maxlength="25" />
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo JText::_( 'Email Address' ); ?>:
-			</td>
-			<td>
-				<input type="text" name="confirmEmail" class="inputbox" size="40" />
+				<input type="text" id="checkusername" name="checkusername" class="inputbox" size="40" maxlength="25" />
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2">
-				<input type="hidden" name="option" value="<?php echo $option;?>" />
-				<input type="hidden" name="task" value="sendNewPass" /> <input type="submit" class="button" value="<?php echo _BUTTON_SEND_PASS; ?>" />
+			<td height="40">
+				<label for="confirmEmail">
+					<?php echo JText::_( 'Email Address' ); ?>:
+				</label>
+			</td>
+			<td>
+				<input type="text" id="confirmEmail" name="confirmEmail" class="inputbox" size="40" />
 			</td>
 		</tr>
 		</table>
+		
+		<input type="hidden" name="task" value="sendNewPass" />
 		</form>
 		<?php
 	}
 
-	function registerForm($option, $useractivation) {
+	function registerForm() {
+		require_once( JPATH_SITE .'/includes/HTML_toolbar.php' );
 		?>
 		<script language="javascript" type="text/javascript">
-		function submitbutton() {
-			var form = document.mosForm;
+		function submitbutton( pressbutton ) {
+			var form = document.josForm;
 			var r = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", "i");
+			
+			if (pressbutton == 'cancel') {
+				form.task.value = 'cancel';
+				form.submit();
+				return;
+			}
 
 			// do field validation
 			if (form.name.value == "") {
@@ -90,71 +120,82 @@ class HTML_registration {
 			}
 		}
 		</script>
-		<form action="index.php" method="post" name="mosForm">
+		<form action="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=register' ); ?>" method="post" name="josForm">
 
 		<div class="componentheading">
 			<?php echo JText::_( 'Registration' ); ?>
 		</div>
 
+		<div style="float: right;">
+			<?php
+			mosToolBar::startTable();
+			mosToolBar::spacer();
+			mosToolBar::save('saveRegistration');
+			mosToolBar::cancel();
+			mosToolBar::endtable();
+			?>
+		</div>
+
 		<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentpane">
 		<tr>
-			<td colspan="2"><?php echo JText::_( 'REGISTER_REQUIRED' ); ?></td>
-		</tr>
-		<tr>
-			<td width="30%">
-				<?php echo JText::_( 'Name' ); ?>: *
+			<td width="30%" height="40">
+				<label for="name">
+					<?php echo JText::_( 'Name' ); ?>:
+				</label>
 			</td>
 		  	<td>
-		  		<input type="text" name="name" size="40" value="" class="inputbox" />
+		  		<input type="text" name="name" id="name" size="40" value="" class="inputbox" /> *
 		  	</td>
 		</tr>
 		<tr>
-			<td>
-				<?php echo JText::_( 'Username' ); ?>: *
+			<td height="40">
+				<label for="username">
+					<?php echo JText::_( 'Username' ); ?>:
+				</label>
 			</td>
 			<td>
-				<input type="text" name="username" size="40" value="" class="inputbox" />
+				<input type="text" id="username" name="username" size="40" value="" class="inputbox" /> *
 			</td>
 		<tr>
-			<td>
-				<?php echo JText::_( 'Email' ); ?>: *
+			<td height="40">
+				<label for="email">
+					<?php echo JText::_( 'Email' ); ?>:
+				</label>
 			</td>
 			<td>
-				<input type="text" name="email" size="40" value="" class="inputbox" />
+				<input type="text" id="email" name="email" size="40" value="" class="inputbox" /> *
 			</td>
 		</tr>
 		<tr>
-			<td>
-				<?php echo JText::_( 'Password' ); ?>: *
+			<td height="40">
+				<label for="password">
+					<?php echo JText::_( 'Password' ); ?>:
+				</label>
 			</td>
 		  	<td>
-		  		<input class="inputbox" type="password" name="password" size="40" value="" />
+		  		<input class="inputbox" type="password" id="password" name="password" size="40" value="" /> *
 		  	</td>
 		</tr>
 		<tr>
-			<td>
-				<?php echo JText::_( 'Verify Password' ); ?>: *
+			<td height="40">
+				<label for="password2">
+					<?php echo JText::_( 'Verify Password' ); ?>:
+				</label>
 			</td>
 			<td>
-				<input class="inputbox" type="password" name="password2" size="40" value="" />
+				<input class="inputbox" type="password" id="password2" name="password2" size="40" value="" /> *
 			</td>
 		</tr>
 		<tr>
-			  <td colspan="2">
-			  </td>
-		</tr>
-		<tr>
-			<td colspan=2>
+			<td colspan="2" height="40">
+				<?php echo JText::_( 'REGISTER_REQUIRED' ); ?>
 			</td>
 		</tr>
 		</table>
-
+		
 		<input type="hidden" name="id" value="0" />
 		<input type="hidden" name="gid" value="0" />
-		<input type="hidden" name="useractivation" value="<?php echo $useractivation;?>" />
-		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="saveRegistration" />
-		<input type="button" value="<?php echo JText::_( 'Send Registration' ); ?>" class="button" onclick="submitbutton()" />
 		</form>
 		<?php
 	}

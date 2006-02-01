@@ -109,7 +109,7 @@ class JPathWay extends JObject {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function addItem($name, $link)
+	function addItem($name, $link='')
 	{
 		// Initalize variables
 		$ret = false;
