@@ -18,9 +18,10 @@ jimport('pattemplate.patErrorManager');
  *
  * This class is an proxy of the patError class
  *
- * @package 	Joomla.Framework
  * @static
- * @since 1.1
+ * @package 	Joomla.Framework
+ * @subpackage	Utilities
+ * @since		1.1
  */
 class JError extends patErrorManager {
 
@@ -242,7 +243,8 @@ class JError extends patErrorManager {
  * custom JError handler for the callback error handling mode
  *
  * @package 	Joomla.Framework
- * @since 1.1
+ * @subpackage	Utilities
+ * @since		1.1
  */
 class JDebugHandler
 {

@@ -1,5 +1,4 @@
 <?php
-
 /**
 * @version $Id: plugin.php 1567 2005-12-28 17:03:11Z Jinx $
 * @package Joomla
@@ -15,10 +14,11 @@
 /**
 * Module helper class
 *
-* @author Johan Janssens <johan@joomla.be>
-* @package Joomla.Framework
-* @subpackage Application
-* @since 1.1
+* @static
+* @author		Johan Janssens <johan@joomla.be>
+* @package		Joomla.Framework
+* @subpackage	Application
+* @since		1.1
 */
 class JModuleHelper
 {

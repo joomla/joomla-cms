@@ -23,10 +23,10 @@ jimport( 'joomla.common.base.object' );
  * This module has many influences from the lib/Browser.php code in
  * version 3 of Horde.
  *
- * @author Johan Janssens <johan@joomla.be>
- * @package Joomla.Framework
- * @subpackage Application
- * @since 1.1
+ * @author		Johan Janssens <johan@joomla.be>
+ * @package		Joomla.Framework
+ * @subpackage	Application
+ * @since		1.1
  */
 
 class JBrowser extends JObject

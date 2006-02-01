@@ -14,9 +14,10 @@
 /**
  * JEditor class to handle WYSIWYG editors
  *
- * @author Louis Landry <louis@webimagery.net>
- * @package Joomla.Framework
- * @since 1.1
+ * @author		Louis Landry <louis@webimagery.net>
+ * @package		Joomla.Framework
+ * @subpackage	Utilities
+ * @since		1.1
  */
 class JEditor extends JObservable {
 

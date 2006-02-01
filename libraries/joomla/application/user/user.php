@@ -19,7 +19,8 @@ jimport( 'joomla.parameter.parameter' );
  *
  * @author 		Louis Landry <louis@webimagery.net>
  * @package 	Joomla.Framework
- * @since 1.1
+ * @subpackage	Application
+ * @since		1.1
  */
 class JUser extends JObject
 {
@@ -487,10 +488,11 @@ class JUser extends JObject
  * Helper class for the JUser class.  Performs various tasks in correlation with
  * the JUser class that don't logically fit inside the JUser object
  *
+ * @static
  * @author 		Louis Landry <louis@webimagery.net>
  * @package 	Joomla.Framework
- * @static
- * @since 1.1
+ * @subpackage	Application
+ * @since		1.1
  */
 class JUserHelper {
 

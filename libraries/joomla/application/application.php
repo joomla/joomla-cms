@@ -19,10 +19,10 @@ jimport( 'joomla.common.base.object' );
 * Acts as a Factory class for application specific objects and
 * provides many supporting API functions.
 *
-* @package Joomla.Framework
-* @subpackage Application
 * @abstract
-* @since 1.1
+* @package		Joomla.Framework
+* @subpackage	Application
+* @since		1.1
 */
 
 class JApplication extends JObject
@@ -751,9 +751,9 @@ class JApplication extends JObject
  * Application helper functions
  *
  * @static
- * @package Joomla.Framework
- * @subpackage Application
- * @since 1.1
+ * @package		Joomla.Framework
+ * @subpackage	Application
+ * @since		1.1
  */
 class JApplicationHelper
 {

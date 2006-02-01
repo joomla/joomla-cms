@@ -14,11 +14,15 @@
 jimport( 'joomla.common.base.object' );
 
 /**
- * JPathWay class
+ * Class to maintain a pathway.
+ * 
+ * Main example of use so far is the mod_breadcrumbs module that keeps track of
+ * the user's navigated path within the Joomla application.
  *
- * @author Louis Landry <louis@webimagery.net>
+ * @author		Louis Landry <louis@webimagery.net>
  * @package 	Joomla.Framework
- * @since 1.1
+ * @subpackage	Application
+ * @since		1.1
  */
 class JPathWay extends JObject {
 

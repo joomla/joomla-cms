@@ -14,10 +14,11 @@
 jimport('joomla.common.base.observer');
 
 /**
- * Event dispatcher class
+ * Class to handle dispatching events
  *
  * @package 	Joomla.Framework
- * @since	1.0
+ * @subpackage	Application
+ * @since		1.1
  */
 class JEventDispatcher extends JObservable
 {

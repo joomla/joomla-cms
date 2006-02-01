@@ -23,10 +23,10 @@ jimport( 'joomla.common.base.object' );
  * The concept and implementation of this class is drawn heavily from the binary cloud
  * environment package.  <http://www.binarycloud.com/>
  *
- * @author Louis Landry <louis@webimagery.net>
- * @package Joomla.Framework
- * @subpackage Application
- * @since 1.1
+ * @author		Louis Landry <louis@webimagery.net>
+ * @package		Joomla.Framework
+ * @subpackage	Application
+ * @since		1.1
  */
 class JURI extends JObject
 {

@@ -22,8 +22,11 @@ jimport('phpgacl.gacl');
 jimport('phpgacl.gacl_api');
 
 /**
+ * Class that handles all access authorization
+ * 
  * @package 	Joomla.Framework
- * @since 1.1
+ * @subpackage	Application
+ * @since		1.1
  */
 class JAuthorization extends gacl_api {
 	var $acl=null;
@@ -462,8 +465,10 @@ class JAuthorization extends gacl_api {
 
 /**
  * @package 	Joomla.Framework
+ * @subpackage	Application
+ * @since		1.1
  */
-class mosARO extends JModel {
+class JModelARO extends JModel {
 /** @var int Primary key */
 	var $id=null;
 	var $section_value=null;
@@ -479,8 +484,10 @@ class mosARO extends JModel {
 
 /**
  * @package 	Joomla.Framework
+ * @subpackage	Application
+ * @since		1.1
  */
- class mosAroGroup extends JModel {
+ class JModelAroGroup extends JModel {
 /** @var int Primary key */
 	var $id=null;
 	var $parent_id=null;

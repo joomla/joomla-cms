@@ -20,7 +20,8 @@ defined('_JEXEC') or die('Restricted access');
  *
  * @author		Louis Landry <louis@webimagery.net>
  * @package 	Joomla.Framework
- * @since 1.1
+ * @subpackage	Utilities
+ * @since		1.1
  */
 class JPagination extends JObject {
 

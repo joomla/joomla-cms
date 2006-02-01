@@ -1,5 +1,4 @@
 <?php
-
 /**
 * @version $Id$
 * @package Joomla
@@ -15,8 +14,10 @@
 /**
  * Utility class for all HTML drawing classes
  *
+ * @static
  * @package 	Joomla.Framework
- * @since 1.0
+ * @subpackage	Utilities
+ * @since		1.0
  */
 class mosHTML {
 	/**
@@ -582,8 +583,12 @@ class mosHTML {
 }
 
 /**
+ * Utility class for drawing common HTML elements
+ * 
+ * @static
  * @package 	Joomla.Framework
- * @since 1.0
+ * @subpackage	Utilities
+ * @since		1.0
  */
 class mosCommonHTML {
 
@@ -932,11 +937,12 @@ class mosCommonHTML {
 
 
 /**
- * Tab Creation handler
+ * Utility class to draw tab panes
  *
  * @author 		Phil Taylor
  * @package 	Joomla.Framework
- * @since 1.0
+ * @subpackage	Utilities
+ * @since 		1.0
 */
 class mosTabs {
 	/** @var int Use cookies */
@@ -1011,10 +1017,12 @@ class mosTabs {
 }
 
 /**
- * Common HTML Output Files
+ * Utility class for drawing admin menu HTML elements
  *
+ * @static
  * @package 	Joomla.Framework
- * @since 1.0
+ * @subpackage	Utilities
+ * @since		1.0
  */
 class mosAdminMenus {
 	/**

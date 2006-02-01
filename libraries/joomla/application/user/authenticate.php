@@ -18,8 +18,8 @@ jimport( 'joomla.common.base.object' );
  *
  * @author 		Louis Landry <louis@webimagery.net>
  * @package 	Joomla.Framework
- * @static
- * @since 1.1
+ * @subpackage	Application
+ * @since		1.1
  */
 class JAuthenticate extends JObject {
 
@@ -322,12 +322,13 @@ class JAuthenticate extends JObject {
  * Authorization helper class, provides static methods to perform various tasks relevant
  * to the Joomla authorization routines
  *
- * This module has influences and some method logic from the Horde Auth package
+ * This class has influences and some method logic from the Horde Auth package
  *
+ * @static
  * @author 		Louis Landry <louis@webimagery.net>
  * @package 	Joomla.Framework
- * @static
- * @since 1.1
+ * @subpackage	Application
+ * @since		1.1
  */
 class JAuthenticateHelper {
 
@@ -678,8 +679,8 @@ class JAuthenticateHelper {
  *
  * @author 		Samuel Moffatt <pasamio@gmail.com>
  * @package 	Joomla.Framework
- * @static
- * @since 1.1
+ * @subpackage	Application
+ * @since		1.1
  */
 class JAuthenticateResponse extends JObject { 
 	var $type 			= null;

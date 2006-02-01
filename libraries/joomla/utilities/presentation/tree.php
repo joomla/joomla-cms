@@ -12,10 +12,11 @@
  */
 
 /**
- * Description
+ * Class for handling trees
  * 
  * @package 	Joomla.Framework
- * @since 1.1
+ * @subpackage	Utilities
+ * @since		1.1
  */
 class JTree {
 	/** @var string The name of the primary key */

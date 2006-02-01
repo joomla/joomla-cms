@@ -29,10 +29,10 @@ define("_J_ALLOWRAW", 4);
  * environment package.  <http://www.binarycloud.com/>
  *
  * @static
- * @author Louis Landry <louis@webimagery.net>
- * @package Joomla.Framework
- * @subpackage Application
- * @since 1.1
+ * @author		Louis Landry <louis@webimagery.net>
+ * @package		Joomla.Framework
+ * @subpackage	Application
+ * @since		1.1
  */
 class JRequest
 {

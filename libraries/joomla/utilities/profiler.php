@@ -18,6 +18,7 @@ jimport( 'joomla.common.base.object' );
  * Page generation time
  * 
  * @package 	Joomla.Framework
+ * @subpackage	Utilities
  * @since 1.0
  */
 class JProfiler extends JObject
