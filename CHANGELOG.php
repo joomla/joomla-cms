@@ -40,6 +40,10 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+01-Feb-2006 Emir Sakic
+ + Added getRequestURL() function for returning current relative URL
+ # Fixed admin menubar hover href issue
+
 01-Feb-2006 Andrew Eddie
  # Fixed change of JModel::publish_array to JModel::publish (since 1.0.3)
  # Fixed bug in JTree where parent_id of 0 not correctly handled if children array is out of order

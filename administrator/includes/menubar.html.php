@@ -16,8 +16,9 @@
 *
 * @package Joomla
 */
-class JMenuBar 
+class JMenuBar
 {
+
 	/**
 	* Title cell
 	* For the title and toolbar to be rendered correctly,
@@ -28,7 +29,7 @@ class JMenuBar
 	* @param string
 	* @since 1.1
 	*/
-	function title( $title, $icon='generic.png' ) 
+	function title( $title, $icon='generic.png' )
 	{
 		$image = mosAdminMenus::ImageCheckAdmin( $icon, '/images/', NULL, NULL, $title, '', 1 );
 		?>
@@ -43,20 +44,20 @@ class JMenuBar
 	* Writes the start of the button bar table
 	* @since 1.0
 	*/
-	function startTable() 
+	function startTable()
 	{
 		?>
 		<table cellpadding="0" cellspacing="0" border="0" id="toolbar">
 		<tr valign="middle" align="center">
 		<?php
 	}
-	
+
 	/**
 	* Writes a spacer cell
 	* @param string The width for the cell
 	* @since 1.0
 	*/
-	function spacer( $width='' ) 
+	function spacer( $width='' )
 	{
 		if ($width != '') {
 			?>
@@ -73,19 +74,19 @@ class JMenuBar
 	* Writes the end of the menu bar table
 	* @since 1.0
 	*/
-	function endTable() 
+	function endTable()
 	{
 		?>
 		</tr>
 		</table>
 		<?php
 	}
-	
+
 	/**
 	* Write a divider between menu buttons
 	* @since 1.0
 	*/
-	function divider() 
+	function divider()
 	{
 		$image = mosAdminMenus::ImageCheckAdmin( 'menu_divider.png', '/images/' );
 		?>
@@ -106,11 +107,15 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function custom( $task='', $icon='', $iconOver='', $alt='', $listSelect=true, $x=false ) {
+		global $mainframe;
+
+		$jself = $mainframe->getRequestURL()."#";
+
     	$alt = JText::_( $alt );
 
 		$icon 	= ( $iconOver ? $iconOver : $icon );
 		$image 	= mosAdminMenus::ImageCheckAdmin( $icon, '/images/', NULL, NULL, $alt, $task, 1 );
-		
+
 		if ($x) {
 			if ($listSelect) {
 				$onclick = "javascript:if(document.adminForm.boxchecked.value==0){alert('". JText::_( 'Please make a selection from the list to', true ) ." ". $alt ."');}else{hideMainMenu();submitbutton('$task')}";
@@ -122,13 +127,13 @@ class JMenuBar
 				$onclick = "javascript:if(document.adminForm.boxchecked.value==0){alert('". JText::_( 'Please make a selection from the list to', true ) ." ". $alt ."');}else{submitbutton('$task')}";
 			} else {
 				$onclick = "javascript:submitbutton('$task')";
-			}			
+			}
 		}
 
 		if ($icon || $iconOver) {
 			?>
 			<td>
-				<a class="toolbar" onclick="<?php echo $onclick ;?>">
+				<a class="toolbar" href="<?php echo $jself; ?>" onclick="<?php echo $onclick ;?>">
 					<?php echo $image; ?>
 					<br /><?php echo $alt; ?></a>
 			</td>
@@ -136,7 +141,7 @@ class JMenuBar
 		} else {
 			?>
 			<td>
-				<a class="toolbar" onclick="<?php echo $onclick ;?>>
+				<a class="toolbar" href="<?php echo $jself; ?>" onclick="<?php echo $onclick ;?>>
 					<br /><?php echo $alt; ?></a>
 			</td>
 			<?php
@@ -158,20 +163,22 @@ class JMenuBar
     	$alt = JText::_( $alt );
 
 		$icon 	= ( $iconOver ? $iconOver : $icon );
-		
+
 		JMenuBar::custom( $task, $icon, '', $alt, $listSelect, true );
 	}
-	
+
 	/**
 	* Writes a preview button for a given option (opens a popup window)
 	* @param string The name of the popup file (excluding the file extension)
 	* @since 1.0
 	*/
 	function preview( $url='', $updateEditors=false ) {
-		global $database;
-		
+		global $mainframe;
+
+		$jself = $mainframe->getRequestURL()."#";
+
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'preview_f2.png', '/images/', NULL, NULL, 'Preview', 'preview', 1 );
-		
+
 		?>
 		<td>
 			<script language="javascript">
@@ -186,7 +193,7 @@ class JMenuBar
 				window.open('<? echo $url."&task=preview"; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');
 			}
 			</script>
-			<a class="toolbar" onclick="popup();">
+			<a class="toolbar" href="<?php echo $jself; ?>" onclick="popup();">
 				<?php echo $image2; ?>
 				<br /><?php echo JText::_( 'Preview' ); ?></a>
 		</td>
@@ -200,14 +207,18 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function help( $ref, $com=false ) {
+		global $mainframe;
+
+		$jself = $mainframe->getRequestURL()."#";
+
 		$image2 	= mosAdminMenus::ImageCheckAdmin( 'help_f2.png', '/images/', NULL, NULL, 'Help', 'help', 1 );
-		
+
 		jimport('joomla.i18n.help');
 		$url = JHelp::createURL($ref, $com);
-		
+
 		?>
 		<td>
-			<a class="toolbar" onclick="window.open('<?php echo $url;?>', 'joomla_help_win', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');">
+			<a class="toolbar" href="<?php echo $jself; ?>" onclick="window.open('<?php echo $url;?>', 'joomla_help_win', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');">
 				<?php echo $image2; ?>
 				<br /><?php echo JText::_( 'Help' ); ?></a>
 		</td>
@@ -244,11 +255,15 @@ class JMenuBar
 	* @since 1.0
 	*/
 	function media_manager( $directory='', $alt='Upload' ) {
+		global $mainframe;
+
+		$jself = $mainframe->getRequestURL()."#";
+
     	$alt 	= JText::_( $alt );
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'upload_f2.png', '/images/', NULL, NULL, 'Upload Image', 'uploadPic', 1 );
 		?>
 		<td>
-			<a class="toolbar" onclick="popupWindow('index3.php?option=com_media&amp;task=popupUpload&amp;directory=<?php echo $directory; ?>','win1',550,200,'no');">
+			<a class="toolbar" href="<?php echo $jself; ?>" onclick="popupWindow('index3.php?option=com_media&amp;task=popupUpload&amp;directory=<?php echo $directory; ?>','win1',550,200,'no');">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt;?></a>
 		</td>
@@ -263,7 +278,7 @@ class JMenuBar
 	*/
 	function addNew( $task='new', $alt='New' ) {
 		$alt = JText::_( $alt );
-		
+
 		JMenuBar::custom( $task, 'new_f2.png', '', $alt, false );
 	}
 
@@ -276,7 +291,7 @@ class JMenuBar
 	*/
 	function addNewX( $task='new', $alt='New' ) {
 		$alt = JText::_( $alt );
-		
+
 		JMenuBar::custom( $task, 'new_f2.png', '', $alt, false, true );
 	}
 
@@ -288,7 +303,7 @@ class JMenuBar
 	*/
 	function publish( $task='publish', $alt='Publish' ) {
 		$alt = JText::_( $alt );
-		
+
 		JMenuBar::custom( $task, 'publish_f2.png', '', $alt, false );
 	}
 
@@ -324,7 +339,7 @@ class JMenuBar
 	*/
 	function assign( $task='assign', $alt='Assign' ) {
 		$alt = JText::_( $alt );
-		
+
 		JMenuBar::custom( $task, 'publish_f2.png', '', $alt, true );
 	}
 
@@ -336,7 +351,7 @@ class JMenuBar
 	*/
 	function unpublish( $task='unpublish', $alt='Unpublish' ) {
 		$alt = JText::_( $alt );
-		
+
 		JMenuBar::custom( $task, 'unpublish_f2.png', '', $alt, true );
 	}
 
@@ -348,7 +363,7 @@ class JMenuBar
 	*/
 	function unpublishList( $task='unpublish', $alt='Unpublish' ) {
 		$alt = JText::_( $alt );
-		
+
 		JMenuBar::custom( $task, 'unpublish_f2.png', '', $alt, true );
 	}
 
@@ -360,7 +375,7 @@ class JMenuBar
 	*/
 	function archiveList( $task='archive', $alt='Archive' ) {
 		$alt = JText::_( $alt );
-		
+
 		JMenuBar::custom( $task, 'archive_f2.png', '', $alt, true );
 	}
 
@@ -372,7 +387,7 @@ class JMenuBar
 	*/
 	function unarchiveList( $task='unarchive', $alt='Unarchive' ) {
 		$alt = JText::_( $alt );
-		
+
 		JMenuBar::custom( $task, 'unarchive_f2.png', '', $alt, true );
 	}
 
@@ -384,7 +399,7 @@ class JMenuBar
 	*/
 	function editList( $task='edit', $alt='Edit' ) {
 		$alt = JText::_( $alt );
-		
+
 		JMenuBar::custom( $task, 'edit_f2.png', '', $alt, true );
 	}
 
@@ -397,7 +412,7 @@ class JMenuBar
 	*/
 	function editListX( $task='edit', $alt='Edit' ) {
 		$alt = JText::_( $alt );
-		
+
 		JMenuBar::custom( $task, 'edit_f2.png', '', $alt, true, true );
 	}
 
@@ -409,7 +424,7 @@ class JMenuBar
 	*/
 	function editHtml( $task='edit_source', $alt='' ) {
     	$alt = JText::_( 'Edit HTML' );
-		
+
 		JMenuBar::custom( $task, 'html_f2.png', '', $alt, true );
 	}
 
@@ -422,7 +437,7 @@ class JMenuBar
 	*/
 	function editHtmlX( $task='edit_source', $alt='' ) {
 		$alt = JText::_( 'Edit HTML' );
-		
+
 		JMenuBar::custom( $task, 'html_f2.png', '', $alt, true, true );
 	}
 
@@ -447,7 +462,7 @@ class JMenuBar
 	*/
 	function editCssX( $task='edit_css', $alt='' ) {
 		$alt = JText::_( 'Edit CSS' );
-		
+
 		JMenuBar::custom( $task, 'css_f2.png', '', $alt, true, true );
 	}
 
@@ -474,7 +489,7 @@ class JMenuBar
 	*/
 	function deleteListX( $msg='', $task='remove', $alt='Delete' ) {
 		$alt = JText::_( $alt );
-		
+
 		JMenuBar::custom( $task, 'delete_f2.png', '', $alt, true, true );
 	}
 
@@ -497,7 +512,7 @@ class JMenuBar
 	*/
 	function apply( $task='apply', $alt='Apply' ) {
 		$alt = JText::_( $alt );
-		
+
 		JMenuBar::custom( $task, 'apply_f2.png', '', $alt, false );
 	}
 
@@ -510,7 +525,7 @@ class JMenuBar
 	*/
 	function save( $task='save', $alt='Save' ) {
 		$alt = JText::_( $alt );
-		
+
 		JMenuBar::custom( $task, 'save_f2.png', '', $alt, false );
 	}
 
@@ -522,7 +537,7 @@ class JMenuBar
 	*/
 	function cancel( $task='cancel', $alt='Cancel' ) {
 		$alt = JText::_( $alt );
-		
+
 		JMenuBar::custom( $task, 'cancel_f2.png', '', $alt, false );
 	}
 }
