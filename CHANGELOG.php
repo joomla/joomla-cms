@@ -43,6 +43,7 @@ Legend:
 
 31-Jan-2006 Louis Landry
  # Fixed [topic,34073.0.html] : 2076 - Installation problem
+ # Fixed [topic,34212.0.html] : Bug on installation
 
 31-Jan-2006 Rey Gigataras
  # Fixed [topic,34507.0.html] : Contact Us -> not authorized result

@@ -184,10 +184,10 @@ function JProcess() {
 				</tr>
 	  			<tr>
 		  		    <td>
-		  		    	<input id="vars_dbdel" type="checkbox" name="vars[DBDel]" value="1" />
+		  		    	<input id="vars_dbolddel" type="radio" name="vars[DBOld]" value="rm" />
 		  		    </td>
 					<td>
-	    				<label for="vars_dbdel">
+	    				<label for="vars_dbolddel">
 							<jtmpl:translate>Drop Existing Tables</jtmpl:translate>
 						</label>
 					</td>
@@ -195,11 +195,11 @@ function JProcess() {
 		  		</tr>
 	  			<tr>
 		  		    <td>
-		  		    	<input id="vars_dbbackup" type="checkbox" name="vars[DBBackup]" value="1"  checked="checked"/>
+		  		    	<input id="vars_dboldbackup" type="radio" name="vars[DBOld]" value="bu"  checked="checked"/>
 		  		    </td>
 
 					<td>
-	    				<label for="vars_dbbackup">
+	    				<label for="vars_dboldbackup">
 							<jtmpl:translate>Backup Old Tables</jtmpl:translate>
 						</label>
 					</td>

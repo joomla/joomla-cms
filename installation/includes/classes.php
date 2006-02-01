@@ -304,8 +304,7 @@ class JInstallationController
 		$DBpassword = mosGetParam($vars, 'DBpassword', '');
 		$DBname = mosGetParam($vars, 'DBname', '');
 		$DBPrefix = mosGetParam($vars, 'DBPrefix', 'jos_');
-		$DBDel = mosGetParam($vars, 'DBDel', 0);
-		$DBBackup = mosGetParam($vars, 'DBBackup', 0);
+		$DBOld = mosGetParam($vars, 'DBOld', 'bu');
 		$DBSample = mosGetParam($vars, 'DBSample', 1);
 		$DButfSupport = intval(mosGetParam($vars, 'DButfSupport', 0));
 		$DBcollation = mosGetParam($vars, 'DBcollation', '');
@@ -355,15 +354,19 @@ class JInstallationController
 			
 			$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
-			if ($DBBackup) {
-				if (JInstallationHelper::backupDatabase($database, $DBname, $DBPrefix, $errors)) {
-					JInstallationView::error($vars, JText::_('WARNBACKINGUPDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
-					return false;
-				}
-			}
-			if ($DBDel) {
+			if ($DBOld == 'rm') {
 				if (JInstallationHelper::deleteDatabase($database, $DBname, $DBPrefix, $errors)) {
 					JInstallationView::error($vars, JText::_('WARNDELETEDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
+					return false;
+				}
+			} else
+			{
+				/*
+				 * We assume since we aren't deleting the database that we need
+				 * to back it up :)
+				 */
+				if (JInstallationHelper::backupDatabase($database, $DBname, $DBPrefix, $errors)) {
+					JInstallationView::error($vars, JText::_('WARNBACKINGUPDB'), 'dbconfig', JInstallationHelper::errors2string($errors));
 					return false;
 				}
 			}
