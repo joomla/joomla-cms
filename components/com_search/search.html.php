@@ -69,7 +69,7 @@ class search_html {
 		</tr>
 		<tr>
 			<td colspan="3">
-				<label for="search_ordering">
+				<label for="ordering">
 					<?php echo JText::_( 'Ordering' );?>:
 				</label>
 				<?php echo $lists['ordering'];?>
@@ -132,7 +132,7 @@ class search_html {
 		$c = count ($rows);
 
 				// number of matches found
-				echo '<br/>';
+				echo '<br />';
             	$strResult = sprintf( JText::_( 'TOTALRESULTSFOUND' ), $totalRows, $searchword );
 				eval ('echo "'. $strResult .'";');
 
@@ -153,14 +153,20 @@ class search_html {
 			$ordering = trim( strtolower( mosGetParam( $_REQUEST, 'ordering', 'newest' ) ) );
 
 			$link = "index.php?option=$option&amp;Itemid=$Itemid&amp;searchword=$searchword&amp;searchphrase=$searchphrase&amp;ordering=$ordering";
-			echo $pageNav->getLimitBox( $link );
-			echo "<br />\n";
-			echo $pageNav->writePagesCounter();
 			?>
+			<div style="float: right;">
+				<label for="limit">			
+					<?php echo JText::_( 'Display Num' ); ?>
+				</label>
+				<?php echo $pageNav->getLimitBox( $link ); ?>
+			</div>
+			<div>
+				<?php echo $pageNav->writePagesCounter(); ?>
+			</div>
 		</div>
 		
 		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
-		<tr class="<?php echo $params->get( 'pageclass_sfx' ); ?>">
+		<tr>
 			<td>
 				<?php
 				$z		= $limitstart + 1;
@@ -204,7 +210,7 @@ class search_html {
 							}
 							if ( $row->section ) {
 								?>
-								<br/>
+								<br />
 								<span class="small<?php echo $params->get( 'pageclass_sfx' ); ?>">
 									(<?php echo $row->section; ?>)
 								</span>
@@ -233,6 +239,7 @@ class search_html {
 				}
 				?>
 			</td>
+		</tr>
 		<?php
 	}
 

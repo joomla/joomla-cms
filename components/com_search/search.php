@@ -214,7 +214,7 @@ function viewSearch() {
 	}
 
 	// displays back button
-	echo '<br/>';
+	echo '<br />';
 	mosHTML::BackButton ( $params, 0 );
 }
 

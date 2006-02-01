@@ -63,8 +63,8 @@ function botMosPaging( &$row, &$params, $page=0 ) {
 
 		// Get plugin parameters
 	 	$pluginParams = new JParameter( $plugin->params );
-	 	$title	= $pluginParams->def( 'title', 1 );
-		$hasToc = $pluginParams->def( 'multipage_toc', 1 );
+	 	$title	= $pluginParams->get( 'title', 1 );
+		$hasToc = $pluginParams->get( 'multipage_toc', 1 );
 
 	 	// adds heading or title to <site> Title
 	 	if ( $title ) {
