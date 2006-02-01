@@ -41,6 +41,9 @@ Legend:
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
 
+31-Jan-2006 Louis Landry
+ # Fixed [topic,34073.0.html] : 2076 - Installation problem
+
 31-Jan-2006 Rey Gigataras
  # Fixed [topic,34507.0.html] : Contact Us -> not authorized result
  # Fixed [topic,34574.0.html] : JS error in overlibs for the menu items in menu
