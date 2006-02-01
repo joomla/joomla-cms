@@ -212,7 +212,7 @@ class JMenuBar
 		global $mainframe;
 
 		$uri =& $mainframe->getURI();
-		$jself = $uri->toString(array('scheme', 'uri', 'host', 'path', 'query'))."#";
+		$jself = ampReplace( $uri->toString(array('scheme', 'uri', 'host', 'path', 'query')) .'#' );
 
 		$image2 	= mosAdminMenus::ImageCheckAdmin( 'help_f2.png', '/images/', NULL, NULL, 'Help', 'help', 1 );
 

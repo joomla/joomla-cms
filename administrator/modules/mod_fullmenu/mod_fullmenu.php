@@ -320,7 +320,7 @@ class JFullAdminMenu {
 		<?php
 		if ($installPlugins | $editAllPlugins) 	{
 			?>
-			[null,'<?php echo JText::_( 'Plugins', true ); ?>',null,null,'<?php echo JText::_( 'Plugin Management', true ); ?>',
+			[null,'<?php echo JText::_( 'Plugins', true ); ?>', 'index2.php?option=com_plugins',null,'<?php echo JText::_( 'Plugin Management', true ); ?>',
 			<?php
 			if ($editAllPlugins) {
 				?>
@@ -338,7 +338,7 @@ class JFullAdminMenu {
 		<?php
 		if ($installModules) {
 			?>
-			[null,'<?php echo JText::_( 'Extensions', true ); ?>',null,null,'<?php echo JText::_( 'Extensions', true ); ?>',
+			[null,'<?php echo JText::_( 'Extensions', true ); ?>','index2.php?option=com_installer',null,'<?php echo JText::_( 'Extensions', true ); ?>',
 				['<img src="../includes/js/ThemeOffice/install.png" />','<?php echo JText::_( 'Manage Extensions', true ); ?>','index2.php?option=com_installer',null,'<?php echo JText::_( 'Manage Extensions', true ); ?>'],
 			],
 			_cmSplit,

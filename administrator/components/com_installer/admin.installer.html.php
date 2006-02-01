@@ -50,74 +50,95 @@ class JInstallerScreens {
 		<div id="treecell">
 			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
 		</div>
+		
 		<div id="datacell">
-			<fieldset title="<?php echo JText::_('Install Form'); ?>">
+			<fieldset title="<?php echo JText::_('Installer Form'); ?>">
 				<legend>
-					<?php echo JText::_('Install Form'); ?>
+					<?php echo JText::_('Installer Form'); ?>
 				</legend>
+				
 				<form enctype="multipart/form-data" action="index2.php" method="post" name="filename">
+				
 				<table class="adminform">
 				<tr>
-					<th>
-					<?php echo JText::_( 'Upload Package File' ); ?>
+					<th colspan="2">
+						<?php echo JText::_( 'Upload Package File' ); ?>
 					</th>
 				</tr>
 				<tr>
-					<td >
-					<?php echo JText::_( 'Package File' ); ?>:
-					<input class="text_area" name="userfile" type="file" size="70"/>
-					<input class="button" type="submit" value="<?php echo JText::_( 'Upload File' ); ?> &amp; <?php echo JText::_( 'Install' ); ?>" />
+					<td width="120">
+                    	<label for="install_package">
+							<?php echo JText::_( 'Package File' ); ?>:
+						</label>
+					</td>
+					<td>
+						<input class="input_box" id="install_package" name="userfile" type="file" size="57" />
+						<input class="button" type="submit" value="<?php echo JText::_( 'Upload File' ); ?> &amp; <?php echo JText::_( 'Install' ); ?>" />
 					</td>
 				</tr>
 				</table>
 		
-				<input type="hidden" name="task" value="uploadpackage"/>
-				<input type="hidden" name="option" value="com_installer"/>
+				<input type="hidden" name="task" value="uploadpackage" />
+				<input type="hidden" name="option" value="com_installer" />
 				</form>
+				
+				<br />
 				<br />
 		
 				<form enctype="multipart/form-data" action="index2.php" method="post" name="adminForm_dir">
+				
 				<table class="adminform">
 				<tr>
-					<th>
-					<?php echo JText::_( 'Install from directory' ); ?>
+					<th colspan="2">
+						<?php echo JText::_( 'Install from directory' ); ?>
 					</th>
 				</tr>
 				<tr>
-					<td >
-					<?php echo JText::_( 'Install directory' ); ?>:&nbsp;
-					<input type="text" name="userfile" class="text_area" size="65" value="<?php echo $p_startdir; ?>"/>&nbsp;
-					<input type="button" class="button" value="<?php echo JText::_( 'Install' ); ?>" onclick="submitbutton3()" />
+					<td width="120">
+                    	<label for="install_directory">
+							<?php echo JText::_( 'Install directory' ); ?>:
+						</label>
+					</td>
+					<td>
+						<input type="text" id="install_directory" name="userfile" class="input_box" size="70" value="<?php echo $p_startdir; ?>" />
+						<input type="button" class="button" value="<?php echo JText::_( 'Install' ); ?>" onclick="submitbutton3()" />
 					</td>
 				</tr>
 				</table>
 		
 				<input type="hidden" name="task" value="installfromdir" />
-				<input type="hidden" name="option" value="com_installer"/>
+				<input type="hidden" name="option" value="com_installer" />
 				</form>
+				
+				<br />
 				<br />
 		
-		                <form enctype="multipart/form-data" action="index2.php" method="post" name="webinstall">
-		                <table class="adminform">
-		                <tr>
-		                        <th>
-		                        <?php echo JText::_( 'Install from URL' ); ?>
-		                        </th>
-		                </tr>
-		                <tr>
-		                        <td >
-		                        <?php echo JText::_( 'Install URL' ); ?>:&nbsp;
-		                        <input type="text" name="userfile" class="text_area" size="65" value="http://"/>&nbsp;
-		                        <input type="button" class="button" value="<?php echo JText::_( 'Install' ); ?>" onclick="submitbutton4()" />
-		                        </td>
-		                </tr>
-		                </table>
-		
-		                <input type="hidden" name="task" value="installfromurl" />
-		                <input type="hidden" name="option" value="com_installer"/>
-		                </form>
-					</fieldset>
-				</div>
+                <form enctype="multipart/form-data" action="index2.php" method="post" name="webinstall">
+                
+                <table class="adminform">
+                <tr>
+                    <th colspan="2">
+                    	<?php echo JText::_( 'Install from URL' ); ?>
+                    </th>
+                </tr>
+                <tr>
+                    <td width="120">
+                    	<label for="install_url">
+	                        <?php echo JText::_( 'Install URL' ); ?>:
+						</label>
+					</td>
+					<td>
+                        <input type="text" id="install_url" name="userfile" class="input_box" size="70" value="http://" />
+                        <input type="button" class="button" value="<?php echo JText::_( 'Install' ); ?>" onclick="submitbutton4()" />
+                    </td>
+                </tr>
+                </table>
+
+                <input type="hidden" name="task" value="installfromurl" />
+                <input type="hidden" name="option" value="com_installer" />		                
+                </form>
+			</fieldset>
+		</div>
 		<?php
 	}
 
