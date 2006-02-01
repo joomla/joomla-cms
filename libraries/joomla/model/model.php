@@ -625,26 +625,36 @@ class JModel extends JObject
 	}
 
 	/**
-	* Generic Publish/Unpublish function
-	* 
-	* @access public
-	* @param array An array of id numbers
-	* @param integer 0 if unpublishing, 1 if publishing
-	* @param integer The id of the user performnig the operation
-	*/
-	function publish_array( $cid=null, $publish=1, $myid=0 ) 
-	{
-		if (!is_array( $cid ) || count( $cid ) < 1) {
+	 * @deprecated As of 1.0.3, replaced by publish
+	 */
+	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+		$this->publish( $cid, $publish, $user_id );
+	}
+
+	/**
+	 * Generic Publish/Unpublish function
+	 * @access public
+	 * @param array An array of id numbers
+	 * @param integer 0 if unpublishing, 1 if publishing
+	 * @param integer The id of the user performnig the operation
+	 * @since 1.0.4
+	 */
+	function publish( $cid=null, $publish=1, $user_id=0 ) {
+		mosArrayToInts( $cid, array() );
+		$user_id = (int) $user_id;
+		$publish = (int) $publish;
+
+		if (count( $cid ) < 1) {
 			$this->_error = "No items selected.";
 			return false;
 		}
 
-		$cids = implode( ',', $cid );
+		$cids = 'id=' . implode( ' OR id=', $cid );
 
 		$query = "UPDATE $this->_tbl"
 		. "\n SET published = " . intval( $publish )
-		. "\n WHERE $this->_tbl_key IN ( $cids )"
-		. "\n AND ( checked_out = 0 OR ( checked_out = $myid ) )"
+		. "\n WHERE ($cids)"
+		. "\n AND (checked_out = 0 OR checked_out = $user_id)"
 		;
 		$this->_db->setQuery( $query );
 		if (!$this->_db->query()) {
