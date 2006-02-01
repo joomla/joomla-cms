@@ -485,7 +485,7 @@ function mosToolTip( $tooltip, $title='', $width='', $image='tooltip.png', $text
 		$href =  ampReplace( $href ) .'#';
 	}
 
-	$mousover = 'return overlib(\''. JText::_( $tooltip ) .'\''. $title .', BELOW, RIGHT'. $width .');';
+	$mousover = 'return overlib(\''. JText::_( $tooltip, true ) .'\''. $title .', BELOW, RIGHT'. $width .');';
 
 	$tip = '<!--'. JText::_( 'Tooltip' ) .'--> \n';
 	if ( $link ) {
