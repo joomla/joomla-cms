@@ -77,21 +77,23 @@ switch ($task) {
  * @subpackage Weblinks
  * @since 1.1
  */
-class WeblinksController {
-
+class WeblinksController 
+{
 	/**
 	 * Show a web link category
 	 *
 	 * @param int $catid Web Link category id
 	 * @since 1.0
 	 */
-	function showCategory($catid) {
+	function showCategory($catid) 
+	{
 		global $mainframe, $Itemid;
 
 		// Get some objects from the JApplication
 		$db 				= & $mainframe->getDBO();
 		$my 				= & $mainframe->getUser();
 		$breadcrumbs 		= & $mainframe->getPathWay();
+		
 		$limit 				= JRequest :: getVar('limit', 				0, '', 'int');
 		$limitstart 		= JRequest :: getVar('limitstart', 			0, '', 'int');
 		$filter_order		= JRequest :: getVar('filter_order', 		'ordering');
@@ -120,6 +122,8 @@ class WeblinksController {
 		// pagination parameters
 		$params->def('display', 			1 );
 		$params->def('display_num', 		$mainframe->getCfg('list_limit'));
+		
+		$category = new stdClass();
 
 		if ($catid) {
 			// Initialize variables
@@ -175,7 +179,30 @@ class WeblinksController {
 				return;
 			}
 		}
+		else
+		{
+			
+			/*
+			 * If we are at the WebLink component root (no category id set) certain
+			 * defaults need to be set based on parameter values.
+			 */
 
+			// Handle the type
+			$params->set('type', 'section');
+
+			// Handle the page description
+			if ($params->get('description')) {
+				$category->description = $params->get('description_text');
+			}
+			
+			// Handle the page image
+			if ($params->get('image') != -1) {
+				$category->image = $params->get('image');
+				$category->image_position = $params->get('image_align');
+			}
+		}
+
+		
 		/*
 		* Query to retrieve all categories that belong under the web links section
 		* and that are published.
@@ -191,47 +218,6 @@ class WeblinksController {
 		;		
 		$db->setQuery($query);
 		$categories = $db->loadObjectList();
-
-		if (!$catid) {
-			/*
-			 * If we are at the WebLink component root (no category id set) certain
-			 * defaults need to be set based on parameter values.
-			 */
-
-			// Handle the type
-			$params->set('type', 'section');
-
-			// Handle the page description
-			if (empty ($category->description)) {
-				if ($params->get('description')) {
-					$category->description = $params->get('description_text');
-				}
-			}
-
-			// Handle the page image
-			if (empty ($category->image)) {
-				// The description field of the category is empty
-				if ($params->get('image') != -1) {
-					$category->image = 'images/stories/'.$params->get('image');
-					$category->image_position = $params->get('image_align');
-					
-					// Define image tag attributes
-					$imgAttribs['align'] = $category->image_position;
-					$imgAttribs['hspace'] = '6';
-					
-					// Use the static HTML library to build the image tag
-					$category->imgTag = mosHTML::Image($category->image, JText::_('Web Links'), $imgAttribs);
-				}
-			}
-		} else {
-			/*
-			 * If a category id is set (in a category) we don't need to set most values
-			 * because they are defined in the category model from the database tuple.
-			 */
-
-			// Handle the type
-			$params->set('type', 'category');
-		}
 
 		// Handle page header, page title, and breadcrumbs
 		if (empty ($category->name)) {
@@ -254,7 +240,16 @@ class WeblinksController {
 			// Add breadcrumbs item based on category name
 			$breadcrumbs->addItem($category->name, '');
 		}
-
+		
+		// Define image tag attributes
+		if(isset($category->image))  {
+			$imgAttribs['align'] = $category->image_position;
+			$imgAttribs['hspace'] = '6';
+					
+			// Use the static HTML library to build the image tag
+			$category->imgTag = mosHTML::Image('images/stories/'.$category->image, JText::_('Web Links'), $imgAttribs);
+		}
+			
 		// used to show table rows in alternating colours
 		$tabclass = array ('sectiontableentry1', 'sectiontableentry2');
 		
@@ -277,7 +272,8 @@ class WeblinksController {
 	 * @param int $catid Web Link category id
 	 * @since 1.0
 	 */
-	function showItem($id) {
+	function showItem($id) 
+	{
 		global $mainframe;
 
 		// Get some objects from the JApplication
@@ -331,7 +327,8 @@ class WeblinksController {
 	 * @param int $id Web Link id to edit
 	 * @since 1.0
 	 */
-	function editWebLink($id) {
+	function editWebLink($id) 
+	{
 		global $mainframe, $Itemid;
 
 		// Get some objects from the JApplication
@@ -396,7 +393,8 @@ class WeblinksController {
 	 *
 	 * @since 1.0
 	 */
-	function cancelWebLink() {
+	function cancelWebLink() 
+	{
 		global $mainframe, $Itemid;
 
 		// Get some objects from the JApplication
@@ -424,7 +422,8 @@ class WeblinksController {
 	 *
 	 * @since 1.0
 	 */
-	function saveWeblink() {
+	function saveWeblink() 
+	{
 		global $mainframe;
 
 		// Get some objects from the JApplication
