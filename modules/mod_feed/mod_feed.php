@@ -20,13 +20,12 @@ if ( !is_writable( $cacheDir ) ) {
 	echo '<div>';
 	echo JText::_( 'Please make cache directory writable.' );
 	echo '</div>';
-
-	exit;
+	return;
 }
 
 // module params
 $moduleclass_sfx   	= $params->get( 'moduleclass_sfx' );
-$rssurl 			= $params->get( 'rssurl' );
+$rssurl 			= $params->get( 'rssurl', '');
 $rssitems 			= $params->get( 'rssitems', 5 );
 $rssdesc 			= $params->get( 'rssdesc', 1 );
 $rssimage 			= $params->get( 'rssimage', 1 );
@@ -36,6 +35,11 @@ $rsstitle			= $params->get( 'rsstitle', 1 );
 
 $cacheDir 			= JPATH_SITE .'/cache/';
 $LitePath 			= JPATH_SITE .'/includes/Cache/Lite.php';
+
+if(empty($rssurl)) {
+	//TODO : provided warning : No feedurl specified
+	return;
+}
 
 $rssDoc =& JFactory::getXMLParser('RSS');
 $rssDoc->useCacheLite(true, $LitePath, $cacheDir, 3600);
