@@ -161,8 +161,7 @@ class HTML_contact {
 	}
 
 
-	function editContact( &$row, &$lists, $option, &$params ) 
-	{
+	function editContact( &$row, &$lists, $option, &$params ) {
 		if ($row->image == '') {
 			$row->image = 'blank.png';
 		}

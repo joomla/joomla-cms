@@ -36,6 +36,7 @@ switch ($option) {
 	case 'com_login':
 	case 'com_poll':
 		// do not display for specific core components    
+		echo '&nbsp;';
 		return;
 		break;
 }
@@ -92,5 +93,6 @@ if ( $from ) {
 		?>
 	</div>
 	<?php
+} else {	echo '&nbsp;';
 }
 ?>

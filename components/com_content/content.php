@@ -1379,11 +1379,6 @@ class JContentController
 		// list of saved images
 		$lists['imagelist'] = mosAdminMenus :: GetSavedImages($row, $pathL);
 
-		// make the select list for the states
-		$states[] = mosHTML :: makeOption(0, _CMN_UNPUBLISHED);
-		$states[] = mosHTML :: makeOption(1, _CMN_PUBLISHED);
-		$lists['state'] = mosHTML :: selectList($states, 'state', 'class="inputbox" size="1"', 'value', 'text', intval($row->state));
-
 		// build the html select list for ordering
 		$query = "SELECT ordering AS value, title AS text" 
 				. "\n FROM #__content" 
@@ -1406,6 +1401,11 @@ class JContentController
 		$pos[] = mosHTML :: makeOption('bottom', JText :: _('Bottom'));
 		$pos[] = mosHTML :: makeOption('top', JText :: _('Top'));
 		$lists['_caption_position'] = mosHTML :: selectList($pos, '_caption_position', 'class="inputbox" size="1"', 'value', 'text');
+
+		// build the html radio buttons for published
+		$lists['state'] 	= mosHTML::yesnoradioList( 'state', '', $row->state );
+		// build the html radio buttons for frontpage
+		$lists['frontpage'] = mosHTML::yesnoradioList( 'frontpage', '', $row->frontpage );
 
 		$title = $title .' '. JText::_('Content');
 		

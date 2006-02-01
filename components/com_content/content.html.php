@@ -23,8 +23,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Content
  * @since 1.0
  */
-class JContentView
-{
+class JContentView {
 	/**
 	 * Draws a Content List Used by Content Category & Content Section
 	 * 
@@ -1025,9 +1024,11 @@ class JContentView
 		<tr>
 			<td>
 				<div style="float: left;">
-					<?php echo JText::_( 'Title' ); ?>:
+					<label for="title">
+						<?php echo JText::_( 'Title' ); ?>:
+					</label>
 					<br />
-					<input class="inputbox" type="text" name="title" size="50" maxlength="100" value="<?php echo $row->title; ?>" />
+					<input class="inputbox" type="text" id="title" name="title" size="50" maxlength="100" value="<?php echo $row->title; ?>" />
 				</div>
 				<div style="float: right;">
 					<?php
@@ -1046,7 +1047,9 @@ class JContentView
 			?>
 			<tr>
 				<td>
-					<?php echo JText::_( 'Category' ); ?>:
+					<label for="catid">
+						<?php echo JText::_( 'Category' ); ?>:
+					</label>
 					<br />
 					<?php echo $lists['catid']; ?>
 				</td>
@@ -1118,17 +1121,22 @@ class JContentView
 		$tabs->startPane('content-pane');
 		$tabs->startTab($title, 'images-page');
 		?>
-			<table class="adminform">
+			<table width="100%" class="adminform">
 			<tr>
 				<td colspan="4">
-					<?php echo JText::_( 'Sub-folder' ); ?> - <?php echo $lists['folders'];?>
+					<label for="folders">
+						<?php echo JText::_( 'Sub-folder' ); ?>
+					</label>
+					- <?php echo $lists['folders'];?>
 				</td>
 			</tr>
 			<tr>
 				<td valign="top">
-					<?php echo JText::_( 'Gallery Images' ); ?>
+					<label for="imagefiles">
+						<?php echo JText::_( 'Gallery Images' ); ?>
+					</label>
 				</td>
-				<td width="2%">
+				<td width="1%">
 				</td>
 				<td valign="top">
 					<?php echo JText::_( 'Content Images' ); ?>
@@ -1152,21 +1160,26 @@ class JContentView
 					<?php echo $lists['imagelist'];?>
 					<br />
 					<input class="button" type="button" value="<?php echo JText::_( 'Up' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,-1)" />
+					<br />
 					<input class="button" type="button" value="<?php echo JText::_( 'Down' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,+1)" />
 				</td>
-				<td valign="top">
-					<table>
+				<td valign="top" width="100%">
+					<table width="100%">
 					<tr>
 						<td align="right">
-							<?php echo JText::_( 'Source' ); ?>:
+							<label for="_source">
+								<?php echo JText::_( 'Source' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name= "_source" value="" size="15" />
+							<input class="inputbox" type="text" id= "_source" name= "_source" value="" size="15" />
 						</td>
 					</tr>
 					<tr>
 						<td align="right" valign="top">
-							<?php echo JText::_( 'Align' ); ?>:
+							<label for="_align">
+								<?php echo JText::_( 'Align' ); ?>:
+							</label>
 						</td>
 						<td>
 							<?php echo $lists['_align']; ?>
@@ -1174,31 +1187,39 @@ class JContentView
 					</tr>
 					<tr>
 						<td align="right">
-							<?php echo JText::_( 'Alt Text' ); ?>:
+							<label for="_alt">
+								<?php echo JText::_( 'Alt Text' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="_alt" value="" size="15" />
+							<input class="inputbox" type="text" id="_alt" name="_alt" value="" size="15" />
 						</td>
 					</tr>
 					<tr>
 						<td align="right">
-							<?php echo JText::_( 'Border' ); ?>:
+							<label for="_border">
+								<?php echo JText::_( 'Border' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="_border" value="" size="3" maxlength="1" />
+							<input class="inputbox" type="text" id="_border" name="_border" value="" size="3" maxlength="1" />
 						</td>
 					</tr>
 					<tr>
 						<td align="right">
-							<?php echo JText::_( 'Caption' ); ?>:
+							<label for="_caption">
+								<?php echo JText::_( 'Caption' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="text_area" type="text" name="_caption" value="" size="30" />
+							<input class="text_area" type="text" id="_caption" name="_caption" value="" size="30" />
 						</td>
 					</tr>
 					<tr>
 						<td align="right">
-							<?php echo JText::_( 'Caption Position' ); ?>:
+							<label for="_caption_position">
+								<?php echo JText::_( 'Caption Position' ); ?>:
+							</label>
 						</td>
 						<td>
 							<?php echo $lists['_caption_position']; ?>
@@ -1206,7 +1227,9 @@ class JContentView
 					</tr>
 					<tr>
 						<td align="right">
-							<?php echo JText::_( 'Caption Align' ); ?>:
+							<label for="_caption_align">
+								<?php echo JText::_( 'Caption Align' ); ?>:
+							</label>
 						</td>
 						<td>
 							<?php echo $lists['_caption_align']; ?>
@@ -1214,10 +1237,12 @@ class JContentView
 					</tr>
 					<tr>
 						<td align="right">
-							<?php echo JText::_( 'Caption Width' ); ?>:
+							<label for="_width">
+								<?php echo JText::_( 'Caption Width' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="text_area" type="text" name="_width" value="" size="5" maxlength="5" />
+							<input class="text_area" type="text" id="_width" name="_width" value="" size="5" maxlength="5" />
 						</td>
 					</tr>
 					<tr>
@@ -1253,7 +1278,9 @@ class JContentView
 				?>
 				<tr>
 					<td >
-						<?php echo JText::_( 'State' ); ?>:
+						<label for="state">
+							<?php echo JText::_( 'Published' ); ?>:
+						</label>
 					</td>
 					<td>
 						<?php echo $lists['state']; ?>
@@ -1263,32 +1290,30 @@ class JContentView
 			}
 			?>
 			<tr>
-				<td>
-					<?php echo JText::_( 'Access Level' ); ?>:
+				<td width="120">
+					<label for="frontpage">
+						<?php echo JText::_( 'Show on Front Page' ); ?>:
+					</label>
 				</td>
 				<td>
-					<?php echo $lists['access']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_( 'Author Alias' ); ?>:
-				</td>
-				<td>
-					<input type="text" name="created_by_alias" size="50" maxlength="100" value="<?php echo $row->created_by_alias; ?>" class="inputbox" />
+					<?php echo $lists['frontpage']; ?>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<?php echo JText::_( 'Ordering' ); ?>:
+					<label for="created_by_alias">
+						<?php echo JText::_( 'Author Alias' ); ?>:
+					</label>
 				</td>
 				<td>
-					<?php echo $lists['ordering']; ?>
+					<input type="text" id="created_by_alias" name="created_by_alias" size="50" maxlength="100" value="<?php echo $row->created_by_alias; ?>" class="inputbox" />
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<?php echo JText::_( 'Start Publishing' ); ?>:
+					<label for="publish_up">
+						<?php echo JText::_( 'Start Publishing' ); ?>:
+					</label>
 				</td>
 				<td>
 					<input class="inputbox" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo $row->publish_up; ?>" />
@@ -1297,7 +1322,9 @@ class JContentView
 			</tr>
 			<tr>
 				<td>
-					<?php echo JText::_( 'Finish Publishing' ); ?>:
+					<label for="publish_down">
+						<?php echo JText::_( 'Finish Publishing' ); ?>:
+					</label>
 				</td>
 				<td>
 					<input class="inputbox" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $row->publish_down; ?>" />
@@ -1305,11 +1332,23 @@ class JContentView
 				</td>
 			</tr>
 			<tr>
-				<td>
-					<?php echo JText::_( 'Show on Front Page' ); ?>:
+				<td valign="top">
+					<label for="access">
+						<?php echo JText::_( 'Access Level' ); ?>:
+					</label>
 				</td>
 				<td>
-					<input type="checkbox" name="frontpage" value="1" <?php echo $row->frontpage ? 'checked="checked"' : ''; ?> />
+					<?php echo $lists['access']; ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="ordering">
+						<?php echo JText::_( 'Ordering' ); ?>:
+					</label>
+				</td>
+				<td>
+					<?php echo $lists['ordering']; ?>
 				</td>
 			</tr>
 			</table>
@@ -1319,32 +1358,33 @@ class JContentView
 		$tabs->endTab();
 		$tabs->startTab($title, 'meta-page');
 		?>
-		
 			<table class="adminform">
 			<tr>
 				<td  valign="top">
-					<?php echo JText::_( 'Description' ); ?>:
+					<label for="metadesc">
+						<?php echo JText::_( 'Description' ); ?>:
+					</label>
 				</td>
 				<td>
-					<textarea class="inputbox" cols="45" rows="3" name="metadesc"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
+					<textarea rows="5" cols="50" class="inputbox" id="metadesc" name="metadesc"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
 				</td>
 			</tr>
 			<tr>
 				<td  valign="top">
-					<?php echo JText::_( 'Keywords' ); ?>:
+					<label for="metakey">
+						<?php echo JText::_( 'Keywords' ); ?>:
+					</label>
 				</td>
 				<td>
-					<textarea class="inputbox" cols="45" rows="3" name="metakey"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
+					<textarea rows="5" cols="50" class="inputbox" id="metakey" name="metakey"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
 				</td>
 			</tr>
 			</table>
-
+			
 		<?php
 		$tabs->endTab();
 		$tabs->endPane();
 		?>
-
-		<div style="clear:both;"></div>
 
 		<input type="hidden" name="images" value="" />
 		<input type="hidden" name="goodexit" value="0" />
@@ -1354,7 +1394,7 @@ class JContentView
 		<input type="hidden" name="version" value="<?php echo $row->version; ?>" />
 		<input type="hidden" name="sectionid" value="<?php echo $row->sectionid; ?>" />
 		<input type="hidden" name="created_by" value="<?php echo $row->created_by; ?>" />
-		<input type="hidden" name="referer" value="<?php echo ampReplace( $_SERVER['HTTP_REFERER'] ); ?>" />
+		<input type="hidden" name="referer" value="<?php echo ampReplace( @$_SERVER['HTTP_REFERER'] ); ?>" />
 		<input type="hidden" name="task" value="" />
 		</form>
 		<?php
