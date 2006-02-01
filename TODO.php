@@ -74,27 +74,38 @@ Tracker : <a target="_blank" href="http://developer.joomla.org/sf/tracker/do/lis
 	* RTL language compilance
 	* UTF-8 output
 
-- Systembots
-	* SSL + new josURL function
-	* SEF
-
-- Userbots
+- New plugins
+	* authentication
+	* user
+	* xml-rpc
+	* syndicate
 
 - Other
 	* Changed CSS editor, can edit all css files now
 	* Added statistics reset functions
 
-- Depreceated files
+- Removed files
 	* /pathway.php
 	* /mainbody.php
-	* /administrator/templates/mambo_admin/...
-	* /administrator/templates/mambo_admin_blue/...
-	* /components/com_rss/..
+	* /offlinebar.php
+	* /offline.php
 	* /includes/metadata.php
 	* /includes/sef.php
-	* /modules/mod_rssfeed/..
+	* /includes/agent_browser
+	* /includes/agent_os
+	
+- Removed templates
 	* /templates/madeyourday/..
-	* /templates/rhuk_slarflare_ii/..
+	* /templates/rhuk_solarflare_ii/..
+	* /administrator/templates/mambo_admin/...
+	* /administrator/templates/mambo_admin_blue/...
+	
+- Removed modules
+	* /modules/mod_templatechooser
+	* /modules/mod_rssfeed
+	
+- Removed components
+	* /components/com_rss/..
 
 <hr/>
 

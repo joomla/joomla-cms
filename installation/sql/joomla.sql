@@ -438,7 +438,6 @@ INSERT INTO `#__modules` VALUES (5, 'Latest News', '', 4, 'user1', 0, '0000-00-0
 INSERT INTO `#__modules` VALUES (6, 'Statistics', '', 4, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_stats', 0, 0, 1, 'serverinfo=1\nsiteinfo=1\ncounter=1\nincrease=0\nmoduleclass_sfx=', 0, 0);
 INSERT INTO `#__modules` VALUES (7, 'Who\'s Online', '', 1, 'right', 0, '0000-00-00 00:00:00', 1, 'mod_whosonline', 0, 0, 1, 'online=1\nusers=1\nmoduleclass_sfx=', 0, 0);
 INSERT INTO `#__modules` VALUES (8, 'Popular', '', 6, 'user2', 0, '0000-00-00 00:00:00', 1, 'mod_mostread', 0, 0, 1, '', 0, 0);
-INSERT INTO `#__modules` VALUES (9, 'Template Chooser','',6,'left',0,'0000-00-00 00:00:00',0,'mod_templatechooser', 0, 0, 1, 'show_preview=1', 0, 0);
 INSERT INTO `#__modules` VALUES (10, 'Archive', '', 7, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_archive', 0, 0, 1, '', 1, 0);
 INSERT INTO `#__modules` VALUES (11, 'Sections', '', 8, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_sections', 0, 0, 1, '', 1, 0);
 INSERT INTO `#__modules` VALUES (12, 'Newsflash', '', 1, 'top', 0, '0000-00-00 00:00:00', 1, 'mod_newsflash', 0, 0, 1, 'catid=3\r\nstyle=random\r\nitems=\r\nmoduleclass_sfx=', 0, 0);
@@ -496,7 +495,6 @@ INSERT INTO `#__modules_menu` VALUES (8,2);
 INSERT INTO `#__modules_menu` VALUES (8,4);
 INSERT INTO `#__modules_menu` VALUES (8,27);
 INSERT INTO `#__modules_menu` VALUES (8,36);
-INSERT INTO `#__modules_menu` VALUES (9,1);
 INSERT INTO `#__modules_menu` VALUES (12,0);
 INSERT INTO `#__modules_menu` VALUES (14,0);
 INSERT INTO `#__modules_menu` VALUES (16,0);

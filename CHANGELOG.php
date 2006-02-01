@@ -40,6 +40,9 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+01-Feb 2006 Johan Janssens
+ - Removed mod_templatechooser
+
 01-Feb-2006 Emir Sakic
  # Fixed admin menubar hover href issue
 
