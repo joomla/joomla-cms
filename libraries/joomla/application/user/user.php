@@ -181,6 +181,24 @@ class JUser extends JObject
 	}
 
 	/**
+	 * Method to check JUser object authorization against an access control
+	 * object and optionally an access extension object
+	 * 
+	 * @access 	public
+	 * @param	string	$acoSection	The ACO section value
+	 * @param	string	$aco		The ACO value
+	 * @param	string	$axoSection	The AXO section value	[optional]
+	 * @param	string	$axo		The AXO value			[optional]
+	 * @return	boolean	True if authorized
+	 * @since	1.1
+	 */
+	function authorize( $acoSection, $aco, $axoSection = null, $axo = null )
+	{
+		$acl = & JFactory::getACL();
+		return $acl->acl_check( $acoSection, $aco,	'users', $this->get('usertype'), $axoSection, $axo );
+	}
+
+	/**
 	 * Method to get the user parameters
 	 * 
 	 * @access 	public
@@ -410,9 +428,6 @@ class JUser extends JObject
 		 */
 		if ( $my->id == $this->get( 'id' ) ) {
 			JSession :: set('session_user_params', $this->get( 'params' ));
-			// Don't think we need this... if no one in testing complains
-			// TODO: delete this line
-			//session_write_close();
 		}
 	
 		/*
@@ -549,6 +564,70 @@ class JUserHelper {
 		}
 		$results = $mainframe->triggerEvent( 'onActivate', $id );
 		return true;
+	}
+	
+	/**
+	 * Method to block a user
+	 *
+	 * @param	int		$id	User id to block
+	 * @return 	boolean 	True on success
+	 * @since	1.1
+	 */
+	function block($id)
+	{
+		global $mainframe;
+		
+		/*
+		 * Initialize variables
+		 */
+		$db = & $mainframe->getDBO();
+		
+		/*
+		 * Perform user block query
+		 */
+		$query = "UPDATE `#__users` " .
+				"\n SET `block` = '1' " .
+				"\n WHERE `id` = '$id'";
+		$db->setQuery( $query );
+		if (!$db->query())
+		{
+			return false;
+		} else
+		{
+			return true;
+		}
+	}
+	
+	/**
+	 * Method to unblock a user
+	 *
+	 * @param	int		$id	User id to unblock
+	 * @return 	boolean 	True on success
+	 * @since	1.1
+	 */
+	function unblock($id)
+	{
+		global $mainframe;
+		
+		/*
+		 * Initialize variables
+		 */
+		$db = & $mainframe->getDBO();
+		
+		/*
+		 * Perform user unblock query
+		 */
+		$query = "UPDATE `#__users` " .
+				"\n SET `block` = '0' " .
+				"\n WHERE `id` = '$id'";
+		$db->setQuery( $query );
+		if (!$db->query())
+		{
+			return false;
+		} else
+		{
+			return true;
+		}
 	}
 }
 ?>
