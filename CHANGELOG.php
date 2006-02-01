@@ -40,6 +40,9 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+01-Feb 2006 Louis Landry
+ * Itemid script injection - Thanks Mathijs de Jong
+ 
 01-Feb 2006 Rey Gigataras
  ^ Registration component output correctly separated into .html.php
  

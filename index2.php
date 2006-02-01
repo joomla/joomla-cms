@@ -70,7 +70,7 @@ if ($option == 'logout') {
 	}
 }
 
-$Itemid 	= intval( mosGetParam( $_REQUEST, 'Itemid', 0 ) );
+$Itemid 	= JRequest::getVar( 'Itemid', 0, '', 'int' );
 $no_html 	= intval( mosGetParam( $_REQUEST, 'no_html', 0 ) );
 $do_pdf 	= intval( mosGetParam( $_REQUEST, 'do_pdf', 0 ) );
 

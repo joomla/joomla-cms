@@ -74,7 +74,7 @@ if ($option == 'logout') {
 	}
 }
 
-$Itemid = intval( mosGetParam( $_REQUEST, 'Itemid', null ) );
+$Itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
 
 if ($option == '')
 {

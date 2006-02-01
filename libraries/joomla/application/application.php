@@ -485,7 +485,7 @@ class JApplication extends JObject
 		jimport( 'joomla.pathway' );
 
 		//Get some request variables
-		$ItemID = JRequest::getVar('Itemid');
+		$ItemID = JRequest::getVar( 'Itemid', null, '', 'int' );
 		$option = JRequest::getVar('option');
 
 		// Create a JPathWay object
