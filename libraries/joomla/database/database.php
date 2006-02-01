@@ -356,6 +356,15 @@ class JDatabase extends JObject
 		return;
 	}
 
+	/**
+	 * @return int The number of affected rows in the previous operation
+	 * @abstract
+	 * @since 1.0.5
+	 */
+	function getAffectedRows() {
+		return;
+	}
+
    /**
 	* Execute a batch query
     * @abstract

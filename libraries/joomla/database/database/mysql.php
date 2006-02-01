@@ -120,6 +120,14 @@ class JDatabaseMySQL extends JDatabase
 	}
 
 	/**
+	 * @return int The number of affected rows in the previous operation
+	 * @since 1.0.5
+	 */
+	function getAffectedRows() {
+		return mysql_affected_rows( $this->_resource );
+	}
+
+	/**
 	* Execute a batch query
 	* @return mixed A database resource if successful, FALSE if not.
 	*/

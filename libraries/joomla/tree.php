@@ -134,18 +134,22 @@ class JTree {
 
 	/**
 	 * @param int Indent style: 0=none, 1=dashed, 2=hooked
+	 * @param int The parent_id to start with
 	 * @param int The offset to slice the tree array
 	 * @param int The number of items to have in the returned array
 	 * @return array
 	 */
-	function toArray( $type=0, $limitstart=0, $limit=0 ) {
+	function toArray( $type=0, $start=0, $limitstart=0, $limit=0 ) {
 		if (count( $this->_children ) == 0) {
 			return array();
 		}
 
 		$this->setIndentType( $type );
-		$start = array_keys( $this->_children );
-		$list = $this->_toArray( $start[0] );
+		$keys = array_keys( $this->_children );
+		if (!in_array( $start, $keys )) {
+			$start = $keys[0];
+		}
+		$list = $this->_toArray( $start );
 
 		if ($limitstart > 0 && $limit > 0) {
 			$list = array_slice( $list, $limitstart, $limit );
@@ -185,15 +189,19 @@ class JTree {
 	/**
 	 * Render list in unordered list format with templates
 	 * @param object patTemplate object
+	 * @param int The parent_id to start with
 	 * @return string
 	 */
-	function toUL( &$tmpl ) {
+	function toUL( &$tmpl, $start=0 ) {
 		if (count( $this->_children ) == 0) {
 			return array();
 		}
+		$keys = array_keys( $this->_children );
+		if (!in_array( $start, $keys )) {
+			$start = $keys[0];
+		}
 
-		$start = array_keys( $this->_children );
-		return $this->_toUL( $tmpl, $start[0] );
+		return $this->_toUL( $tmpl, $start );
 	}
 
 	/**
