@@ -534,7 +534,7 @@ class JApplication extends JObject
 
 		// Create the JConfig object
 		$config = new JConfig();
-		$config->live_site     = substr_replace($this->getBaseURL(), '', -1, 1);
+		$config->live_site     = substr_replace($this->getSiteURL(), '', -1, 1);
 		$config->absolute_path = JPATH_SITE;
 
 		// Create the registry with a default namespace of config which is read only
