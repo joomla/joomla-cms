@@ -86,7 +86,7 @@ class JParameter extends JRegistry
 	 * @return string The set value
 	 */
 	function set($key, $value = '') {
-		return $this->setValue('parameter.'.$key, $value);
+		return $this->setValue('parameter.'.$key, (string) $value);
 	}
 	
 	/**
@@ -100,7 +100,7 @@ class JParameter extends JRegistry
 	function get($key, $default = '') 
 	{
 		$value = $this->getValue('parameter.'.$key);
-		$result = !empty($value) ? $value : $default; 
+		$result = (!empty($var) || ($var == 0) || ($var == '0')) ? $value : $default; 
 		return $result;
 	}
 
@@ -113,7 +113,7 @@ class JParameter extends JRegistry
 	 * @return string The set value
 	 */
 	function def($key, $value = '') {
-		return $this->set($key, $this->get($key, $value));
+		return $this->set($key, $this->get($key, (string) $value));
 	}
 
 	/**
