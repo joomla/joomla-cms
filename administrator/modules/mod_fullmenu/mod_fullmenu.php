@@ -31,6 +31,7 @@ class JFullAdminMenu {
 		$user 			= & $mainframe->getUser();
 		$database 		= & $mainframe->getDBO();
 		$enableStats 	= $mainframe->getCfg('enable_stats');
+		$enableSearches = $mainframe->getCfg('enable_log_searches');
 		$caching 		= $mainframe->getCfg('caching');
 
 		// cache some acl checks
@@ -131,17 +132,35 @@ class JFullAdminMenu {
 			<?php
 		}
 		?>
-				['<img src="../includes/js/ThemeOffice/globe1.png" />', '<?php echo JText::_( 'Statistics', true ); ?>', null, null, '<?php echo JText::_( 'Site Statistics', true ); ?>',
 		<?php
-		//if ($enableStats == 1) {
+		if ($enableStats || $enableSearches ) {
 			?>
-					['<img src="../includes/js/ThemeOffice/globe4.png" />', '<?php echo JText::_( 'Browser, OS, Domain', true ); ?>', 'index2.php?option=com_statistics', null, '<?php echo JText::_( 'Browser, OS, Domain', true ); ?>'],
-					['<img src="../includes/js/ThemeOffice/search_text.png" />', '<?php echo JText::_( 'Search Text', true ); ?>', 'index2.php?option=com_statistics&task=searches', null, '<?php echo JText::_( 'Search Text', true ); ?>']
+				['<img src="../includes/js/ThemeOffice/globe1.png" />', '<?php echo JText::_( 'Statistics', true ); ?>', null, null, '<?php echo JText::_( 'Site Statistics', true ); ?>',
 			<?php
-		//}
-		?>
+			if ($enableStats ) {
+				?>
+					['<img src="../includes/js/ThemeOffice/globe4.png" />', '<?php echo JText::_( 'Browser, OS, Domain', true ); ?>', 'index2.php?option=com_statistics', null, '<?php echo JText::_( 'Browser, OS, Domain', true ); ?>']
+				<?php
+			}
+			?>
+			<?php
+			if ($enableStats == 1 && $enableSearches ) {
+				?>	
+					,
+				<?php
+			}
+			?>
+			<?php
+			if ($enableSearches ) {
+				?>
+					['<img src="../includes/js/ThemeOffice/search_text.png" />', '<?php echo JText::_( 'Search Text', true ); ?>', 'index2.php?option=com_statistics&task=searches', null, '<?php echo JText::_( 'Search Text', true ); ?>']
 				],
-
+				<?php
+			}
+			?>
+			<?php
+		}
+		?>
 			],
 			_cmSplit,
 
