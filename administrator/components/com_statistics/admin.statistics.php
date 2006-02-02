@@ -61,23 +61,23 @@ function showSummary( $option, $task ) {
 	switch ($field) {
 		case 'hits':
 			$order_by = "hits $order";
-			$sorts['b_agent'] 	= mosHTML::sortIcon( "$sort_base&tab=tab1", "agent" );
-			$sorts['b_hits'] 	= mosHTML::sortIcon( "$sort_base&tab=tab1", "hits", $order );
-			$sorts['o_agent'] 	= mosHTML::sortIcon( "$sort_base&tab=tab2", "agent" );
-			$sorts['o_hits'] 	= mosHTML::sortIcon( "$sort_base&tab=tab2", "hits", $order );
-			$sorts['d_agent'] 	= mosHTML::sortIcon( "$sort_base&tab=tab3", "agent" );
-			$sorts['d_hits'] 	= mosHTML::sortIcon( "$sort_base&tab=tab3", "hits", $order );
+			$sorts['b_agent'] 	= mosHTML::sortIcon( 'Browser', "$sort_base&tab=tab1", 'agent' );
+			$sorts['b_hits'] 	= mosHTML::sortIcon( ' % ', "$sort_base&tab=tab1", 'hits', $order );
+			$sorts['o_agent'] 	= mosHTML::sortIcon( 'Operating System', "$sort_base&tab=tab2", 'agent' );
+			$sorts['o_hits'] 	= mosHTML::sortIcon( ' % ', "$sort_base&tab=tab2", 'hits', $order );
+			$sorts['d_agent'] 	= mosHTML::sortIcon( 'Domain', "$sort_base&tab=tab3", 'agent' );
+			$sorts['d_hits'] 	= mosHTML::sortIcon( ' % ', "$sort_base&tab=tab3", 'hits', $order );
 			break;
 
 		case 'agent':
 		default:
 			$order_by = "agent $order";
-			$sorts['b_agent'] 	= mosHTML::sortIcon( "$sort_base&tab=tab1", "agent", $order );
-			$sorts['b_hits'] 	= mosHTML::sortIcon( "$sort_base&tab=tab1", "hits" );
-			$sorts['o_agent'] 	= mosHTML::sortIcon( "$sort_base&tab=tab2", "agent", $order );
-			$sorts['o_hits'] 	= mosHTML::sortIcon( "$sort_base&tab=tab2", "hits" );
-			$sorts['d_agent'] 	= mosHTML::sortIcon( "$sort_base&tab=tab3", "agent", $order );
-			$sorts['d_hits'] 	= mosHTML::sortIcon( "$sort_base&tab=tab3", "hits" );
+			$sorts['b_agent'] 	= mosHTML::sortIcon( 'Browser', "$sort_base&tab=tab1", 'agent', $order );
+			$sorts['b_hits'] 	= mosHTML::sortIcon( ' % ', "$sort_base&tab=tab1", 'hits' );
+			$sorts['o_agent'] 	= mosHTML::sortIcon( 'Operating System', "$sort_base&tab=tab2", 'agent', $order );
+			$sorts['o_hits'] 	= mosHTML::sortIcon( ' % ', "$sort_base&tab=tab2", 'hits' );
+			$sorts['d_agent'] 	= mosHTML::sortIcon( 'Domain', "$sort_base&tab=tab3", 'agent', $order );
+			$sorts['d_hits'] 	= mosHTML::sortIcon( ' % ', "$sort_base&tab=tab3", 'hits' );
 			break;
 	}
 

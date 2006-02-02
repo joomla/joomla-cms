@@ -362,21 +362,30 @@ class mosHTML {
 		}
 	}
 
-	function sortIcon( $base_href, $field, $state='none' ) {
+	function sortIcon( $text, $base_href, $field, $state='none' ) {
 		$alts = array(
 			'none' 	=> JText::_( 'No Sorting' ),
 			'asc' 	=> JText::_( 'Sort Ascending' ),
 			'desc' 	=> JText::_( 'Sort Descending' ),
 		);
+		
 		$next_state = 'asc';
 		if ($state == 'asc') {
 			$next_state = 'desc';
 		} else if ($state == 'desc') {
 			$next_state = 'none';
 		}
-
+		
+		if ($state == 'none') {
+			$img = '';
+		} else {
+			$img = "<img src=\"images/sort_$state.png\" width=\"12\" height=\"12\" border=\"0\" alt=\"{$alts[$next_state]}\" />";
+		}
+		
 		$html = "<a href=\"$base_href&field=$field&order=$next_state\">"
-		. "<img src=\"images/sort_$state.png\" width=\"12\" height=\"12\" border=\"0\" alt=\"{$alts[$next_state]}\" />"
+		. JText::_( $text )
+		. '&nbsp;&nbsp;'
+		. $img
 		. "</a>";
 
 		return $html;

@@ -38,12 +38,11 @@ class HTML_statistics {
 				<table class="adminlist">
 				<tr>
 					<th class="title">
-						<?php echo JText::_( 'Browser' ); ?>
 						<?php echo ampReplace( $sorts['b_agent'] );?>
 					</th>
 					<th>&nbsp;</th>
 					<th width="100" class="title">
-						% <?php echo ampReplace( $sorts['b_hits'] );?>
+						<?php echo ampReplace( $sorts['b_hits'] );?>
 					</th>
 					<th width="100" class="title">
 						<?php echo JText::_( 'NUM' ); ?>
@@ -59,7 +58,7 @@ class HTML_statistics {
 					?>
 					<tr class="row<?php echo $k;?>">
 						<td width="200">
-							&nbsp;<?php echo $b->agent; ?>&nbsp;
+							<?php echo $b->agent; ?>
 						</td>
 						<td  width="<?php echo $width+10;?>">
 							<div>
@@ -93,12 +92,11 @@ class HTML_statistics {
 				<table class="adminlist">
 				<tr>
 					<th class="title">
-						<?php echo JText::_( 'Operating System' ); ?>
 						<?php echo ampReplace( $sorts['o_agent'] );?>
 					</th>
 					<th>&nbsp;</th>
 					<th width="100" class="title">
-						% <?php echo ampReplace( $sorts['o_hits'] );?>
+						<?php echo ampReplace( $sorts['o_hits'] );?>
 					</th>
 					<th width="100" class="title">
 						<?php echo JText::_( 'NUM' ); ?>
@@ -148,12 +146,11 @@ class HTML_statistics {
 				<table class="adminlist">
 				<tr>
 					<th class="title">
-						<?php echo JText::_( 'Domain' ); ?>
 						<?php echo ampReplace( $sorts['d_agent'] );?>
 					</th>
 					<th>&nbsp;</th>
 					<th width="100" class="title">
-						% <?php echo ampReplace( $sorts['d_hits'] );?>
+						<?php echo ampReplace( $sorts['d_hits'] );?>
 					</th>
 					<th width="100" class="title">
 						<?php echo JText::_( 'NUM' ); ?>
