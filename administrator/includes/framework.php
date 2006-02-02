@@ -68,6 +68,6 @@ jimport( 'joomla.application.extension.plugin' );
 jimport( 'joomla.utilities.presentation.editor' );
 jimport( 'joomla.application.application');
 
+// support for legacy classes & functions that will be depreciated
 jimport( 'joomla.common.legacy.*' );
-
 ?>

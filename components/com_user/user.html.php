@@ -70,7 +70,7 @@ class HTML_user {
 			}
 		}
 		</script>
-		<form action="<?php echo sefRelToAbs( 'index.php?option=com_user&task=UserDetails' ); ?>" method="post" name="JModelUserForm">
+		<form action="<?php echo sefRelToAbs( 'index.php?option=com_user&amp;task=UserDetails' ); ?>" method="post" name="JModelUserForm">
 		
 		<div class="componentheading">
 			<?php echo JText::_( 'Edit Your Details' ); ?>

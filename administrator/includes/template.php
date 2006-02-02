@@ -22,8 +22,7 @@ require_once( JPATH_BASE . '/includes/template.html.php' );
  * @param 	string 	The mdoule position
  * @return 	integer The number of modules loaded for that position
  */
-function mosCountAdminModules(  $position='left' ) 
-{
+function mosCountAdminModules(  $position='left' ) {
 	global $mainframe;
 	$document =& $mainframe->getDocument();
 	return count($document->getModules($position));
@@ -32,8 +31,7 @@ function mosCountAdminModules(  $position='left' )
 /**
  * Insert a component placeholder
  */
-function mosMainBody_Admin() 
-{
+function mosMainBody_Admin() {
 	?>
 	<jdoc:placeholder type="component" />
 	<?php
@@ -46,10 +44,9 @@ function mosMainBody_Admin()
  * @param integer 	The style.  0=no wrapper, 1=tabbed, 2=xhtml
  */
  
-function mosLoadAdminModules( $position='left', $style=0 ) 
-{
+function mosLoadAdminModules( $position='left', $style=0 ) {
 	?>
-	<jdoc:placeholder type="modules" name="<?php echo $position ?>" style="<?php echo $style ?>"/>
+	<jdoc:placeholder type="modules" name="<?php echo $position ?>" style="<?php echo $style ?>" />
 	<?php
 }
 
@@ -59,8 +56,7 @@ function mosLoadAdminModules( $position='left', $style=0 )
  * @param string 	The name of the module
  * @param integer 	The style.  0=no wrapper, 1=tabbed, 2=xhtml
  */
-function mosLoadAdminModule( $name, $style=0 ) 
-{
+function mosLoadAdminModule( $name, $style=0 ) {
 	?>
 	<jdoc:placeholder type="module" name="<?php echo $name ?>" style="<?php echo $style ?>" />
 	<?php
@@ -69,8 +65,7 @@ function mosLoadAdminModule( $name, $style=0 )
 /**
 * Insert a head placeholder
 */
-function mosShowHead_Admin() 
-{	
+function mosShowHead_Admin() {	
 	?>
 	<jdoc:placeholder type="head" />
 	<?php
@@ -81,8 +76,7 @@ function mosShowHead_Admin()
  *  
  * @param object $doc The document instance to initialise
  */
-function initDocument(&$doc, $file = 'index.php') 
-{		
+function initDocument(&$doc, $file = 'index.php') {		
 	global $mainframe;
 	
 	$user    =& $mainframe->getUser();
@@ -98,7 +92,7 @@ function initDocument(&$doc, $file = 'index.php')
 	
 	$doc->setMetaData( 'description', $mainframe->getCfg('MetaDesc' ));
 	$doc->setMetaData( 'keywords', $mainframe->getCfg('MetaKeys' ));
-	$doc->setMetaData( 'Generator', $version->PRODUCT . " - " . $version->COPYRIGHT);
+	$doc->setMetaData( 'Generator', $version->PRODUCT . ' - ' . $version->COPYRIGHT);
 	$doc->setMetaData( 'robots', 'noindex, nofollow' );
 	
 	$doc->setBase( $mainframe->getBaseURL( ));

@@ -24,8 +24,7 @@ class modules_html {
 	* @param object
 	* @param int 0=show without wrapper and title, 1=tabbed style, 2=xhtml style
 	*/
-	function module( &$module, &$params, $style=0, $preview=true ) 
-	{	
+	function module( &$module, &$params, $style=0, $preview=true ) {	
 		switch ( $style ) 
 		{
 			case 2:
@@ -54,8 +53,7 @@ class modules_html {
 	/*
 	* standard tabled output
 	*/
-	function modoutput_xhtml( $module, $params  ) 
-	{
+	function modoutput_xhtml( $module, $params  ) {
 		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
 
 		?>
@@ -68,8 +66,7 @@ class modules_html {
 	/*
 	* standard tabled output
 	*/
-	function modoutput_tabs( $module, $params  ) 
-	{
+	function modoutput_tabs( $module, $params  ) {
 		global $mainframe;
 
 		/*
@@ -91,14 +88,12 @@ class modules_html {
 	/*
 	* show a naked module - no wrapper and no title
 	*/
-	function modoutput_naked( $module, $params  ) 
-	{
+	function modoutput_naked( $module, $params  ) {
 		$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
 		echo $module->content;
 	}
 
-	function modoutput_feed( &$module, &$params ) 
-	{
+	function modoutput_feed( &$module, &$params ) {
 		$rssurl 			= $params->get( 'rssurl', '' );
 		$rssitems 			= $params->get( 'rssitems', '' );
 		$rssdesc 			= $params->get( 'rssdesc', '' );

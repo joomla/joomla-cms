@@ -440,6 +440,10 @@ td.menudottedline {
 	font-size : 14px;
 	color : #c30;
 	text-align: center;
+	background-color: #f9f9f9;
+	border: solid 1px #d5d5d5;
+	padding: 2px 0px;
+	margin: 2px 0px;
 }
 
 div.centermain {
