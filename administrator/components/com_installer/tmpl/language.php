@@ -185,7 +185,7 @@ class JInstallerExtensionTasks {
 class JInstallerScreens_language {
 	
 	function showInstalled( &$rows, &$page, $client, $lists ) {
-		
+		global $mainframe;
 		/*
 		 * Load overlib
 		 */
