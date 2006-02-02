@@ -70,17 +70,16 @@ class JTemplatesView {
 		<div id="tablecell">				
 			<table class="adminlist">
 			<tr>
-				<th width="5%" class="title">
+				<th width="5" class="title">
 					<?php echo JText::_( 'Num' ); ?>
 				</th>
-				<th width="5%">&nbsp;</th>
-				<th width="25%" class="title">
+				<th class="title" colspan="2">
 					<?php echo JText::_( 'Name' ); ?>
 				</th>
 				<?php
 				if ( $client == 'administration' ) {
 					?>
-					<th width="10%">
+					<th width="5%">
 						<?php echo JText::_( 'Default' ); ?>
 					</th>
 					<?php
@@ -95,29 +94,28 @@ class JTemplatesView {
 					<?php
 				}
 				?>
-				<th width="20%"  class="title">
-					<?php echo JText::_( 'Author' ); ?>
-				</th>
-				<th width="5%" align="center">
+				<th width="10%" align="center">
 					<?php echo JText::_( 'Version' ); ?>
 				</th>
-				<th width="10%" align="center">
+				<th width="15%" class="title">
 					<?php echo JText::_( 'Date' ); ?>
 				</th>
-				<th width="20%"  class="title">
-					<?php echo JText::_( 'Author URL' ); ?>
+				<th width="25%"  class="title">
+					<?php echo JText::_( 'Author' ); ?>
 				</th>
 			</tr>
 			<?php
 			$k = 0;
 			for ( $i=0, $n = count( $rows ); $i < $n; $i++ ) {
 				$row = &$rows[$i];
+							
+				$author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
 				?>
 				<tr class="<?php echo 'row'. $k; ?>">
 					<td>
 						<?php echo $pageNav->rowNumber( $i ); ?>
 					</td>
-					<td>
+					<td width="5">
 					<?php
 						if ( $row->checked_out && $row->checked_out != $my->id ) {
 							?>
@@ -182,18 +180,16 @@ class JTemplatesView {
 						<?php
 					}
 					?>
-					<td>
-						<?php echo $row->authorEmail ? '<a href="mailto:'. $row->authorEmail .'">'. $row->author .'</a>' : $row->author; ?>
-					</td>
 					<td align="center">
 						<?php echo $row->version; ?>
 					</td>
-					<td align="center">
+					<td>
 						<?php echo $row->creationdate; ?>
 					</td>
 					<td>
-						<a href="<?php echo substr( $row->authorUrl, 0, 7) == 'http://' ? $row->authorUrl : 'http://'.$row->authorUrl; ?>" target="_blank">
-							<?php echo $row->authorUrl; ?></a>
+						<span onmouseover="return overlib('<?php echo $author_info; ?>', CAPTION, '<?php echo JText::_( 'Author Information' ); ?>', BELOW, LEFT);" onmouseout="return nd();">
+							<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>										
+						</span>
 					</td>
 				</tr>
 				<?php
