@@ -36,7 +36,7 @@ class WeblinksView {
 	 * @param array $tabclass Two element array of the two CSS classes used for alternating rows in a table
 	 */
 	function showCategory( &$categories, &$rows, $catid, &$category, &$params, $tabclass, &$lists, &$page ) {
-		global $Itemid, $hide_js;
+		global $hide_js;
 
 		if ( $params->get( 'page_title' ) ) {
 			?>

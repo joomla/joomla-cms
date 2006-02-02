@@ -30,8 +30,7 @@ class mosHTML {
 	 * @since 1.1
 	 */
 
-	function Link($url, $text, $attribs = null, $ssl = 0)
-	{
+	function Link($url, $text, $attribs = null, $ssl = 0) {
 		global $mainframe;
 
 		$href = josURL(ampReplace($url), $ssl, $mainframe->getCfg('sef'));
@@ -51,8 +50,7 @@ class mosHTML {
 	 * @param array		An associative array of attributes to add
 	 * @since 1.1
 	 */
-	function Image($url, $alt, $attribs = null)
-	{
+	function Image($url, $alt, $attribs = null) {
 		global $mainframe;
 
 		$src = substr( $url, 0, 4 ) != 'http' ? $mainframe->getCfg('live_site') . $url : $url;
@@ -73,8 +71,7 @@ class mosHTML {
 	 * @param array		An associative array of attributes to add
 	 * @since 1.1
 	 */
-	function Script($url, $attribs = null)
-	{
+	function Script($url, $attribs = null) {
 		global $mainframe;
 
 		$src = $mainframe->getCfg('live_site') . $url;
@@ -95,8 +92,7 @@ class mosHTML {
 	 * @param integer	Set the SSL functionality
 	 * @since 1.1
 	 */
-	function Iframe($url, $name, $attribs = null, $ssl = 0)
-	{
+	function Iframe($url, $name, $attribs = null, $ssl = 0)	{
 		global $mainframe;
 
 		$src = josURL(ampReplace($url), $ssl, $mainframe->getCfg('sef'));

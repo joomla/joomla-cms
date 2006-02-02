@@ -178,10 +178,7 @@ class WeblinksController
 				mosNotAuth();
 				return;
 			}
-		}
-		else
-		{
-			
+		} else	{			
 			/*
 			 * If we are at the WebLink component root (no category id set) certain
 			 * defaults need to be set based on parameter values.
@@ -243,11 +240,11 @@ class WeblinksController
 		
 		// Define image tag attributes
 		if(isset($category->image))  {
-			$imgAttribs['align'] = $category->image_position;
-			$imgAttribs['hspace'] = '6';
+			$imgAttribs['align'] = '"'. $category->image_position .'"';
+			$imgAttribs['hspace'] = '"6"';
 					
 			// Use the static HTML library to build the image tag
-			$category->imgTag = mosHTML::Image('images/stories/'.$category->image, JText::_('Web Links'), $imgAttribs);
+			$category->imgTag = mosHTML::Image('/images/stories/'. $category->image, JText::_('Web Links'), $imgAttribs);
 		}
 			
 		// used to show table rows in alternating colours

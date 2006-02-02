@@ -41,7 +41,10 @@ Legend:
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
 
-01-Feb-2006 Louis Landry
+02-Feb 2006 Rey Gigataras
+ # Fixed [topic,34959.0.html] : Weblinks error
+
+01-Feb 2006 Louis Landry
  * Itemid script injection - Thanks Mathijs de Jong
  ^ Framework file catagorization cleanup
  ^ JACL class renamed to JAuthorization
