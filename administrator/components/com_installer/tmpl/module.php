@@ -32,13 +32,18 @@ class JInstallerExtensionTasks {
 	* @param string The URL option
 	*/
 	function showInstalled() {
-		global $database;
+		global $database, $mainframe;
 
 		$filter 			= JRequest::getVar( 'filter' );
+		$option				= JRequest::getVar( 'option' );
+		$limit 				= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
+		$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+		
 		$select[] 			= mosHTML :: makeOption('', JText :: _('All'));
 		$select[] 			= mosHTML :: makeOption('0', JText :: _('Site Modules'));
 		$select[] 			= mosHTML :: makeOption('1', JText :: _('Admin Modules'));
 		$lists['filter'] 	= mosHTML :: selectList($select, 'filter', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter);
+		
 		if ($filter == NULL) {
 			$and = '';
 		} else
@@ -108,7 +113,14 @@ class JInstallerExtensionTasks {
 			}
 		}
 
-		JInstallerScreens_module :: showInstalled($rows, $lists);
+		/*
+		* Take care of the pagination
+		*/	
+		jimport('joomla.utilities.presentation.pagination');
+		$page = new JPagination( count( $rows ), $limitstart, $limit );
+		$rows = array_slice( $rows, $page->limitstart, $page->limit );
+		
+		JInstallerScreens_module :: showInstalled($rows, $lists, $page);
 	}
 
 }
@@ -125,106 +137,114 @@ class JInstallerExtensionTasks {
  */
 class JInstallerScreens_module {
 	
-	function showInstalled( &$rows, &$lists ) {
-		if (count($rows)) {
-			?>
+	function showInstalled( &$rows, &$lists, &$page ) {
+		?>
+		<form action="index2.php?option=com_installer&amp;extension=module" method="post" name="adminForm">
+				
 		<div id="treecell">
 			<?php require_once(dirname(__FILE__).DS.'tree.html'); ?>
 		</div>
+		
 		<div id="datacell">
 			<fieldset title="<?php echo JText::_('Installed Modules'); ?>">
 				<legend>
 					<?php echo JText::_('Installed Modules'); ?>
 				</legend>
-				<form action="index2.php" method="post" name="adminForm">
-				<table class="adminheading">
+				
+				<table class="adminform">
 				<tr>
-					<td>
-					<?php echo JText::_( 'Filter' ); ?>:
+					<td width="100%">
+						<?php echo JText::_( 'DESCMODULES' ); ?>
 					</td>
 					<td align="right">
-					<?php echo $lists['filter'];?>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3">
-					<?php echo JText::_( 'DESCMODULES' ); ?>
-					<br /><br />
+						<?php echo $lists['filter'];?>
 					</td>
 				</tr>
 				</table>
-	
-				<table class="adminlist">
-				<tr>
-					<th width="20%" class="title">
-					<?php echo JText::_( 'Module File' ); ?>
-					</th>
-					<th width="10%"  class="title">
-					<?php echo JText::_( 'Client' ); ?>
-					</th>
-					<th width="10%"  class="title">
-					<?php echo JText::_( 'Author' ); ?>
-					</th>
-					<th width="5%" align="center">
-					<?php echo JText::_( 'Version' ); ?>
-					</th>
-					<th width="10%" align="center">
-					<?php echo JText::_( 'Date' ); ?>
-					</th>
-					<th width="15%"  class="title">
-					<?php echo JText::_( 'Author Email' ); ?>
-					</th>
-					<th width="15%"  class="title">
-					<?php echo JText::_( 'Author URL' ); ?>
-					</th>
-				</tr>
-				<?php
-				$rc = 0;
-				for ($i = 0, $n = count( $rows ); $i < $n; $i++) {
-					$row =& $rows[$i];
-					?>
-					<tr class="<?php echo "row$rc"; ?>">
-						<td>
-						<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);"><span class="bold"><?php echo $row->module; ?></span></td>
-						<td>
-						<?php echo $row->client_id == "0" ? JText::_( 'Site' ) : JText::_( 'Administrator' ); ?>
-						</td>
-						<td>
-						<?php echo @$row->author != "" ? $row->author : "&nbsp;"; ?>
-						</td>
-						<td align="center">
-						<?php echo @$row->version != "" ? $row->version : "&nbsp;"; ?>
-						</td>
-						<td align="center">
-						<?php echo @$row->creationdate != "" ? $row->creationdate : "&nbsp;"; ?>
-						</td>
-						<td>
-						<?php echo @$row->authorEmail != "" ? $row->authorEmail : "&nbsp;"; ?>
-						</td>
-						<td>
-						<?php echo @$row->authorUrl != "" ? "<a href=\"" .(substr( $row->authorUrl, 0, 7) == 'http://' ? $row->authorUrl : 'http://'.$row->authorUrl) ."\" target=\"_blank\">$row->authorUrl</a>" : "&nbsp;"; ?>
-						</td>
-					</tr>
+			
+				<div id="tablecell">				
 					<?php
-					$rc = $rc == 0 ? 1 : 0;
-				}
-			} else {
-				?>
-				<td class="small">
-				<?php echo JText::_( 'No custom modules installed' ); ?>
-				</td>
-				<?php
-			}
-			?>
-			</table>
+					if (count($rows)) {
+						?>
+						<table class="adminlist">
+						<tr>
+							<th class="title" width="2">
+								<?php echo JText::_( 'Num' ); ?>
+							</th>
+							<th class="title">
+								<?php echo JText::_( 'Module File' ); ?>
+							</th>
+							<th width="10%"  class="title">
+								<?php echo JText::_( 'Client' ); ?>
+							</th>
+							<th width="10%"  class="title">
+								<?php echo JText::_( 'Author' ); ?>
+							</th>
+							<th width="5%" align="center">
+								<?php echo JText::_( 'Version' ); ?>
+							</th>
+							<th width="10%" align="center">
+								<?php echo JText::_( 'Date' ); ?>
+							</th>
+							<th width="15%"  class="title">
+								<?php echo JText::_( 'Author Email' ); ?>
+							</th>
+							<th width="15%"  class="title">
+								<?php echo JText::_( 'Author URL' ); ?>
+							</th>
+						</tr>
+						<?php
+						$rc = 0;
+						for ($i = 0, $n = count( $rows ); $i < $n; $i++) {
+							$row =& $rows[$i];
+							?>
+							<tr class="<?php echo "row$rc"; ?>">
+								<td>
+									<?php echo $page->rowNumber( $i ); ?>
+								</td>
+								<td>
+									<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);" />
+									<span class="bold"><?php echo $row->module; ?></span>
+								</td>
+								<td>
+									<?php echo $row->client_id == "0" ? JText::_( 'Site' ) : JText::_( 'Admin' ); ?>
+								</td>
+								<td>
+									<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>
+								</td>
+								<td align="center">
+									<?php echo @$row->version != '' ? $row->version : '&nbsp;'; ?>
+								</td>
+								<td align="center">
+									<?php echo @$row->creationdate != '' ? $row->creationdate : '&nbsp;'; ?>
+								</td>
+								<td>
+									<?php echo @$row->authorEmail != '' ? $row->authorEmail : '&nbsp;'; ?>
+								</td>
+								<td>
+									<?php echo @$row->authorUrl != '' ? "<a href=\"" .(substr( $row->authorUrl, 0, 7) == 'http://' ? $row->authorUrl : 'http://'.$row->authorUrl) ."\" target=\"_blank\">$row->authorUrl</a>" : '&nbsp;'; ?>
+								</td>
+							</tr>
+							<?php
+							$rc = $rc == 0 ? 1 : 0;
+						}
+						?>
+						</table>						
+						<?php echo $page->getListFooter(); ?>		
+						<?php
+					} else {
+						echo JText::_( 'No custom modules installed' ); 
+					}
+					?>
+				</div>
+			</fieldset>
+		</div>
 	
-			<input type="hidden" name="task" value="" />
-			<input type="hidden" name="boxchecked" value="0" />
-			<input type="hidden" name="option" value="com_installer" />
-			<input type="hidden" name="extension" value="module" />
-			</form>
-		</fieldset>
-	</div>
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="option" value="com_installer" />
+		<input type="hidden" name="extension" value="module" />
+		</form>
 		<?php
 	}
 }

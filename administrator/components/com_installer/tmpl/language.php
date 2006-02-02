@@ -185,7 +185,6 @@ class JInstallerExtensionTasks {
 class JInstallerScreens_language {
 	
 	function showInstalled( &$rows, &$page, $client, $lists ) {
-		if (count($rows)) {
 		global $mainframe;
 		
 		/*
@@ -194,112 +193,125 @@ class JInstallerScreens_language {
 		$my	= & $mainframe->getUser();
 
 		?>
+		<form action="index2.php" method="post" name="adminForm">
+			
 		<div id="treecell">
 			<?php require_once(dirname(__FILE__).DS.'tree.html'); ?>
 		</div>
+		
 		<div id="datacell">
 			<fieldset title="<?php echo JText::_('Installed Languages'); ?>">
 				<legend>
 					<?php echo JText::_('Installed Languages'); ?>
 				</legend>
-			<form action="index2.php" method="post" name="adminForm">
-			<table class="adminheading">
-			<tr>
-				<td>
-				<?php echo JText::_( 'Filter' ); ?>:
-				</td>
-				<td align="right">
-				<?php echo $lists['filter'];?>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="3">
-				<?php echo JText::_( 'DESCLANGUAGES' ); ?>
-				<br /><br />
-				</td>
-			</tr>
-			</table>
-	
-			<table class="adminlist">
+				
+				<table class="adminform">
 				<tr>
-					<th width="20%" class="title">
-					<?php echo JText::_( 'Language' ); ?>
-					</th>
-					<th width="10%"  class="title">
-					<?php echo JText::_( 'Client' ); ?>
-					</th>
-					<th width="10%"  class="title">
-					<?php echo JText::_( 'Author' ); ?>
-					</th>
-					<th width="5%" align="center">
-					<?php echo JText::_( 'Version' ); ?>
-					</th>
-					<th width="10%" align="center">
-					<?php echo JText::_( 'Date' ); ?>
-					</th>
-					<th width="15%"  class="title">
-					<?php echo JText::_( 'Author Email' ); ?>
-					</th>
-					<th width="15%"  class="title">
-					<?php echo JText::_( 'Author URL' ); ?>
-					</th>
+					<td width="100%">
+						<?php echo JText::_( 'DESCLANGUAGES' ); ?>
+					</td>
+					<td align="right">
+						<?php echo $lists['filter'];?>
+					</td>
 				</tr>
-			<?php
-				$rc = 0;
-				for ($i = 0, $n = count( $rows ); $i < $n; $i++) {
-					$row =& $rows[$i];
-
-					/*
-					 * Handle currently used templates
-					 */
-					if ($row->language == $mainframe->getCfg('lang') || $row->language = $mainframe->getCfg('lang_administrator'))
-					{
-						$cbd = "disabled";
-						$style = "style=\"color:#999999;\"";
-					} else {
-						$cbd = "";
-						$style = "";
-					}
-					?>
-					<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
-						<td>
-						<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->language; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?>><span class="bold"><?php echo $row->name; ?></span></td>
-						<td>
-						<?php echo $row->client_id == "0" ? JText::_( 'Site' ) : JText::_( 'Administrator' ); ?>
-						</td>
-						<td>
-						<?php echo @$row->author != "" ? $row->author : "&nbsp;"; ?>
-						</td>
-						<td align="center">
-						<?php echo @$row->version != "" ? $row->version : "&nbsp;"; ?>
-						</td>
-						<td align="center">
-						<?php echo @$row->creationdate != "" ? $row->creationdate : "&nbsp;"; ?>
-						</td>
-						<td>
-						<?php echo @$row->authorEmail != "" ? $row->authorEmail : "&nbsp;"; ?>
-						</td>
-						<td>
-						<?php echo @$row->authorUrl != "" ? "<a href=\"" .(substr( $row->authorUrl, 0, 7) == 'http://' ? $row->authorUrl : 'http://'.$row->authorUrl) ."\" target=\"_blank\">$row->authorUrl</a>" : "&nbsp;"; ?>
-						</td>
-					</tr>
+				</table>
+		
+				<div id="tablecell">				
 					<?php
-					$rc = $rc == 0 ? 1 : 0;
-				}
-			?>
-			</table>
-			<?php echo $page->getListFooter(); ?>
-	
-			<input type="hidden" name="option" value="com_installer" />
-			<input type="hidden" name="task" value="" />
-			<input type="hidden" name="extension" value="language" />
-			<input type="hidden" name="boxchecked" value="0" />
-			<input type="hidden" name="client" value="<?php echo $client;?>" />
-			</form>
-		</fieldset>
-	</div>
+					if (count($rows)) {
+						?>
+						<table class="adminlist">
+						<tr>
+							<th class="title" width="2">
+								<?php echo JText::_( 'Num' ); ?>
+							</th>
+							<th class="title">
+								<?php echo JText::_( 'Language' ); ?>
+							</th>
+							<th width="10%"  class="title">
+								<?php echo JText::_( 'Client' ); ?>
+							</th>
+							<th width="10%"  class="title">
+								<?php echo JText::_( 'Author' ); ?>
+							</th>
+							<th width="5%" align="center">
+								<?php echo JText::_( 'Version' ); ?>
+							</th>
+							<th width="10%" align="center">
+								<?php echo JText::_( 'Date' ); ?>
+							</th>
+							<th width="15%"  class="title">
+								<?php echo JText::_( 'Author Email' ); ?>
+							</th>
+							<th width="15%"  class="title">
+								<?php echo JText::_( 'Author URL' ); ?>
+							</th>
+						</tr>
+						<?php
+						$rc = 0;
+						for ($i = 0, $n = count( $rows ); $i < $n; $i++) {
+							$row =& $rows[$i];
+		
+							/*
+							 * Handle currently used templates
+							 */
+							if ($row->language == $mainframe->getCfg('lang') || $row->language = $mainframe->getCfg('lang_administrator'))	{
+								$cbd 	= 'disabled';
+								$style 	= 'style="color:#999999;"';
+							} else {
+								$cbd 	= '';
+								$style 	= '';
+							}
+							?>
+							<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
+								<td>
+									<?php echo $page->rowNumber( $i ); ?>
+								</td>
+								<td>
+									<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->language; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?> />
+									<span class="bold"><?php echo $row->name; ?></span>
+								</td>
+								<td>
+									<?php echo $row->client_id == 0 ? JText::_( 'Site' ) : JText::_( 'Administrator' ); ?>
+								</td>
+								<td>
+									<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>
+								</td>
+								<td align="center">
+									<?php echo @$row->version != '' ? $row->version : '&nbsp;'; ?>
+								</td>
+								<td align="center">
+									<?php echo @$row->creationdate != '' ? $row->creationdate : '&nbsp;'; ?>
+								</td>
+								<td>
+									<?php echo @$row->authorEmail != '' ? $row->authorEmail : '&nbsp;'; ?>
+								</td>
+								<td>
+									<?php echo @$row->authorUrl != '' ? "<a href=\"" .(substr( $row->authorUrl, 0, 7) == 'http://' ? $row->authorUrl : 'http://'.$row->authorUrl) ."\" target=\"_blank\">$row->authorUrl</a>" : '&nbsp;'; ?>
+								</td>
+							</tr>
+							<?php
+							$rc = $rc == 0 ? 1 : 0;
+						}
+						?>
+						</table>
+						<?php echo $page->getListFooter(); ?>		
+						<?php
+					} else {
+						echo JText::_( 'No Languages installed' ); 
+					}
+					?>							
+				</div>						
+			</fieldset>
+		</div>
+		
+		<input type="hidden" name="option" value="com_installer" />
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="extension" value="language" />
+		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="client" value="<?php echo $client;?>" />
+		</form>
 		<?php
-		}
 	}
 }
 ?>

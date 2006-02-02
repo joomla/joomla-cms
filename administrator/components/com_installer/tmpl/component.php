@@ -33,6 +33,10 @@ class JInstallerExtensionTasks {
 	function showInstalled() {
 		global $mainframe;
 
+		$option				= JRequest::getVar( 'option' );
+		$limit 				= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
+		$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
+		
 		/*
 		 * Get a database connector
 		 */
@@ -112,8 +116,15 @@ class JInstallerExtensionTasks {
 				$row->jname = strtolower(str_replace(" ", "_", $row->name));
 			}
 		}
-
-		JInstallerScreens_component :: showInstalled($rows);
+		
+		/*
+		* Take care of the pagination
+		*/	
+		jimport('joomla.utilities.presentation.pagination');
+		$page = new JPagination( count( $rows ), $limitstart, $limit );
+		$rows = array_slice( $rows, $page->limitstart, $page->limit );
+		
+		JInstallerScreens_component :: showInstalled($rows, $page);
 	}
 
 }
@@ -133,118 +144,125 @@ class JInstallerScreens_component {
 	* @param array An array of records
 	* @param string The URL option
 	*/
-	function showInstalled(&$rows) {
-		if (count($rows)) {
-?>
+	function showInstalled(&$rows, &$page) {
+		?>
+		<form action="index2.php?option=com_installer&amp;extension=component" method="post" name="adminForm">
+				
 		<div id="treecell">
 			<?php require_once(dirname(__FILE__).DS.'tree.html'); ?>
 		</div>
+
 		<div id="datacell">
 			<fieldset title="<?php echo JText::_('Installed Components'); ?>">
 				<legend>
 					<?php echo JText::_('Installed Components'); ?>
 				</legend>
-				<form action="index2.php" method="post" name="adminForm">
-				<table class="adminlist">
-				<tr>
-					<th width="20%" class="title">
-					<?php echo JText::_( 'Currently Installed' ); ?>
-					</th>
-					<th width="15%" align="center">
-					<?php echo JText::_( 'Enabled' ); ?>
-					</th>
-					<th width="15%"  class="title">
-					<?php echo JText::_( 'Author' ); ?>
-					</th>
-					<th width="5%" align="center">
-					<?php echo JText::_( 'Version' ); ?>
-					</th>
-					<th width="10%" align="center">
-					<?php echo JText::_( 'Date' ); ?>
-					</th>
-					<th width="15%"  class="title">
-					<?php echo JText::_( 'Author Email' ); ?>
-					</th>
-					<th width="15%"  class="title">
-					<?php echo JText::_( 'Author URL' ); ?>
-					</th>
-				</tr>
-				<?php
-	
-				$rc = 0;
-				for ($i = 0, $n = count($rows); $i < $n; $i ++) {
-					$row = & $rows[$i];
-					
-					$img 	= $row->enabled ? 'publish_g.png' : 'publish_x.png';
-					$task 	= $row->enabled ? 'disable' : 'enable';
-					$alt 	= $row->enabled ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
-					$action	= $row->enabled ? 'disable' : 'enable';
-					$href = "<a href=\"index2.php?option=com_installer&extension=component&task=$task&eid[]=".$row->id."\">
-					<img src=\"images/$img\" border=\"0\" alt=\"$alt\" />
-					</a>";
-					
-					if (!$row->option) {
-						$href = '<strong>X</strong>';
-					}
-					
-					if ($row->iscore) {
-						$cbd = "disabled";
-						$style = "style=\"color:#999999;\"";
+				
+				<div id="tablecell">				
+					<?php
+					if (count($rows)) {
+						?>
+						<table class="adminlist">
+						<tr>
+							<th class="title" width="10">
+								<?php echo JText::_( 'Num' ); ?>
+							</th>
+							<th class="title" nowrap="nowrap">
+								<?php echo JText::_( 'Currently Installed' ); ?>
+							</th>
+							<th width="15%" align="center">
+								<?php echo JText::_( 'Enabled' ); ?>
+							</th>
+							<th width="15%"  class="title">
+								<?php echo JText::_( 'Author' ); ?>
+							</th>
+							<th width="5%" align="center">
+								<?php echo JText::_( 'Version' ); ?>
+							</th>
+							<th width="10%" align="center">
+								<?php echo JText::_( 'Date' ); ?>
+							</th>
+							<th width="15%"  class="title">
+								<?php echo JText::_( 'Author Email' ); ?>
+							</th>
+							<th width="15%"  class="title">
+								<?php echo JText::_( 'Author URL' ); ?>
+							</th>
+						</tr>
+						<?php
+			
+						$rc = 0;
+						for ($i = 0, $n = count($rows); $i < $n; $i ++) {
+							$row = & $rows[$i];
+							
+							$img 	= $row->enabled ? 'tick.png' : 'publish_x.png';
+							$task 	= $row->enabled ? 'disable' : 'enable';
+							$alt 	= $row->enabled ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
+							$action	= $row->enabled ? 'disable' : 'enable';
+							$href 	= "<a href=\"index2.php?option=com_installer&amp;extension=component&amp;task=$task&amp;eid[]=".$row->id."\"><img src=\"images/$img\" border=\"0\" alt=\"$alt\" /></a>";
+							
+							if (!$row->option) {
+								$href = '<strong>X</strong>';
+							}
+							
+							if ($row->iscore) {
+								$cbd 	= 'disabled';
+								$style 	= 'style="color:#999999;"';
+							} else {
+								$cbd 	= '';
+								$style 	= '';
+							}
+							?>
+							<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
+								<td>
+									<?php echo $page->rowNumber( $i ); ?>
+								</td>
+								<td>
+									<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?> />
+									<span class="bold">
+										<?php echo $row->name; ?>
+									</span>
+								</td>
+								<td align="center">
+									<?php echo $href; ?>
+								</td>
+								<td>
+									<?php echo @$row->author != "" ? $row->author : "&nbsp;"; ?>
+								</td>
+								<td align="center">
+									<?php echo @$row->version != "" ? $row->version : "&nbsp;"; ?>
+								</td>
+								<td align="center">
+									<?php echo @$row->creationdate != "" ? $row->creationdate : "&nbsp;"; ?>
+								</td>
+								<td>
+									<?php echo @$row->authorEmail != "" ? $row->authorEmail : "&nbsp;"; ?>
+								</td>
+								<td>
+									<?php echo @$row->authorUrl != "" ? "<a href=\"" .(substr( $row->authorUrl, 0, 7) == 'http://' ? $row->authorUrl : 'http://'.$row->authorUrl). "\" target=\"_blank\">$row->authorUrl</a>" : "&nbsp;";?>
+								</td>
+							</tr>
+							<?php			
+							$rc = 1 - $rc;
+						}
+						?>
+						</table>
+						<?php echo $page->getListFooter(); ?>		
+						<?php
 					} else {
-						$cbd = "";
-						$style = "";
+						echo JText::_( 'There are no custom components installed' ); 
 					}
 					?>
-					<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
-						<td>
-						<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?>>
-						<span class="bold">
-						<?php echo $row->name; ?>
-						</span>
-						</td>
-						<td align="center">
-						<?php echo $href; ?>
-						</td>
-						<td>
-						<?php echo @$row->author != "" ? $row->author : "&nbsp;"; ?>
-						</td>
-						<td align="center">
-						<?php echo @$row->version != "" ? $row->version : "&nbsp;"; ?>
-						</td>
-						<td align="center">
-						<?php echo @$row->creationdate != "" ? $row->creationdate : "&nbsp;"; ?>
-						</td>
-						<td>
-						<?php echo @$row->authorEmail != "" ? $row->authorEmail : "&nbsp;"; ?>
-						</td>
-						<td>
-						<?php echo @$row->authorUrl != "" ? "<a href=\"" .(substr( $row->authorUrl, 0, 7) == 'http://' ? $row->authorUrl : 'http://'.$row->authorUrl). "\" target=\"_blank\">$row->authorUrl</a>" : "&nbsp;";?>
-						</td>
-					</tr>
-					<?php
-	
-					$rc = 1 - $rc;
-				}
-			} else {
-	?>
-				<td class="small">
-				<?php echo JText::_( 'There are no custom components installed' ); ?>
-				</td>
-				<?php
-	
-			}
-	?>
-			</table>
-	
-			<input type="hidden" name="task" value="" />
-			<input type="hidden" name="boxchecked" value="0" />
-			<input type="hidden" name="option" value="com_installer" />
-			<input type="hidden" name="extension" value="component" />
-			</form>
-		</fieldset>
-	</div>
-		<?php
+				</div>
+			</fieldset>
+		</div>
 
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="option" value="com_installer" />
+		<input type="hidden" name="extension" value="component" />
+		</form>
+		<?php
 	}
 }
 ?>

@@ -339,7 +339,7 @@ class JFullAdminMenu {
 		if ($installModules) {
 			?>
 			[null,'<?php echo JText::_( 'Extensions', true ); ?>','index2.php?option=com_installer',null,'<?php echo JText::_( 'Extensions', true ); ?>',
-				['<img src="../includes/js/ThemeOffice/install.png" />','<?php echo JText::_( 'Manage Extensions', true ); ?>','index2.php?option=com_installer',null,'<?php echo JText::_( 'Manage Extensions', true ); ?>'],
+				['<img src="../includes/js/ThemeOffice/install.png" />','<?php echo JText::_( 'Extension Manager', true ); ?>','index2.php?option=com_installer',null,'<?php echo JText::_( 'Manage Extensions', true ); ?>'],
 			],
 			_cmSplit,
 			<?php

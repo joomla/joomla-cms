@@ -109,8 +109,8 @@ class JMenuBar
 	function custom( $task='', $icon='', $iconOver='', $alt='', $listSelect=true, $x=false ) {
 		global $mainframe;
 
-		$uri =& $mainframe->getURI();
-		$jself = $uri->toString(array('scheme', 'uri', 'host', 'path', 'query'))."#";
+		$uri 	=& $mainframe->getURI();
+		$jself 	= ampReplace( $uri->toString(array('scheme', 'uri', 'host', 'path', 'query')) .'#' );
 
     	$alt = JText::_( $alt );
 

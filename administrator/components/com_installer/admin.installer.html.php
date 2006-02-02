@@ -157,15 +157,17 @@ class JInstallerScreens {
 		<div id="treecell">
 			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
 		</div>
+		
 		<div id="datacell">
 			<fieldset title="<?php echo $title; ?>">
 				<legend>
 					<?php echo $title; ?>
 				</legend>
+				
 				<table class="adminform">
 				<tr>
 					<td >
-					<strong><?php echo $message; ?></strong>
+						<strong><?php echo $message; ?></strong>
 					</td>
 				</tr>
 				<tr>
@@ -195,6 +197,5 @@ class JInstallerScreens {
 	
 		return $txt;
 	}
-
 }
 ?>
