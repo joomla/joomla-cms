@@ -250,7 +250,7 @@ function showImageProps(base_path) {
 function applyImageProps() {
 	form = document.adminForm;
 	if (!getSelectedValue( 'adminForm', 'imagelist' )) {
-		alert( "Select and image from the list" );
+		alert( "Select an image from the list" );
 		return;
 	}
 	value = form._source.value + '|'
