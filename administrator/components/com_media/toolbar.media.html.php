@@ -32,7 +32,7 @@ class TOOLBAR_media {
 		JMenuBar::spacer();
 		JMenuBar::custom('newdir','new.png','new_f2.png',JText::_( 'Create' ),false);
 		JMenuBar::spacer();
-		JMenuBar::cancel();
+		JMenuBar::cancel('cancel', JText::_( 'Close' ));
 		JMenuBar::spacer();
 		JMenuBar::help( 'screen.mediamanager' );
 		JMenuBar::endTable();

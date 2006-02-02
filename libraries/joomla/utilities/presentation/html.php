@@ -303,9 +303,15 @@ class mosHTML {
 	* @param string The name of the object variable for the option text
 	* @returns string HTML for the select list
 	*/
-	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text' ) {
+	function radioList( &$arr, $tag_name, $tag_attribs, $selected=null, $key='value', $text='text', $idtag=false ) {
 		reset( $arr );
-		$html = "";
+		$html = '';
+		
+		$id_text = $tag_name;
+		if ( $idtag ) {
+			$id_text = $idtag;
+		}
+		
 		for ($i=0, $n=count( $arr ); $i < $n; $i++ ) {
 			$k = $arr[$i]->$key;
 			$t = $arr[$i]->$text;
@@ -324,8 +330,8 @@ class mosHTML {
 			} else {
 				$extra .= ($k == $selected ? " checked=\"checked\"" : '');
 			}
-			$html .= "\n\t<input type=\"radio\" name=\"$tag_name\" id=\"$tag_name$k\" value=\"".$k."\"$extra $tag_attribs />";
-			$html .= "\n\t<label for=\"$tag_name$k\">$t</label>";
+			$html .= "\n\t<input type=\"radio\" name=\"$tag_name\" id=\"$id_text$k\" value=\"".$k."\"$extra $tag_attribs />";
+			$html .= "\n\t<label for=\"$id_text$k\">$t</label>";
 		}
 		$html .= "\n";
 		return $html;
@@ -1280,9 +1286,6 @@ class mosAdminMenus {
 		// get a list of the menu items
 		$query = "SELECT m.*"
 		. "\n FROM #__menu AS m"
-//		. "\n WHERE type != 'url'"
-//		. "\n AND type != 'separator'"
-// Change adds Itemid support for Link - Urls without `index.php` or `Itemid=` in their url
 		. "\n WHERE m.type != 'separator'"
 		. "\n AND NOT ("
 			. "\n ( m.type = 'url' )"
@@ -1353,7 +1356,7 @@ class mosAdminMenus {
 		foreach ($list as $item) {
 			$mitems[] = mosHTML::makeOption( $item->value, $item->text );
 		}
-		$pages = mosHTML::selectList( $mitems, 'selections[]', 'class="inputbox" size="26" multiple="multiple"', 'value', 'text', $lookup );
+		$pages = mosHTML::selectList( $mitems, 'selections[]', 'class="inputbox" size="26" multiple="multiple"', 'value', 'text', $lookup, 'selections' );
 		return $pages;
 	}
 

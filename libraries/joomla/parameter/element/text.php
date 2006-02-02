@@ -29,14 +29,6 @@ class JElement_Text extends JElement {
 	*/
 	var	$_name = 'Text';
 	
-	function fetchTooltip($label, $description, &$node, $control_name, $name) {
-		$output = '<label for="'.$control_name.$name.'">';
-		$output .= mosToolTip(addslashes($description), $label, '', '', $label, '#', 0);
-		$output .= '</label>';
-
-		return $output;
-	}
-	
 	function fetchElement($name, $value, &$node, $control_name) {
 		$size = ( $node->getAttribute('size') ? 'size="'.$node->getAttribute('size').'"' : '' );
 		

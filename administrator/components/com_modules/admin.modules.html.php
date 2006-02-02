@@ -382,7 +382,9 @@ class HTML_modules {
 					</tr>
 					<tr>
 						<td>
-							<?php echo JText::_( 'Menu Item Link(s)' ); ?>:
+							<label for="selections">
+								<?php echo JText::_( 'Menu Item Link(s)' ); ?>:
+							</label>
 							<br />
 							<?php echo $lists['selections']; ?>
 						</td>

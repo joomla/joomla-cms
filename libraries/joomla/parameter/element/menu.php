@@ -40,7 +40,7 @@ class JElement_Menu extends JElement
 		}
 		array_unshift($options, mosHTML::makeOption('', '- '.JText::_('Select Menu').' -'));
 
-		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value);
+		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name);
 	}
 }
 ?>

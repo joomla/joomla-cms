@@ -36,7 +36,7 @@ class JElement_Helpsites extends JElement
 		$helpsites 				= JHelp :: createSiteList('http://help.joomla.org/helpsites-11.xml', $value);
 		array_unshift($helpsites, mosHTML :: makeOption('', JText :: _('local')));
 
-		return mosHTML :: selectList($helpsites, ''.$control_name.'['.$name.']', ' class="inputbox" id="helpsites"', 'value', 'text', $value, 'param'.$name);
+		return mosHTML :: selectList($helpsites, ''.$control_name.'['.$name.']', ' class="inputbox"', 'value', 'text', $value, $control_name.$name );
 	}
 }
 ?>

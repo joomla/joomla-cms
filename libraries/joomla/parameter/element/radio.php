@@ -20,8 +20,7 @@
  * @since		1.1
  */
 
-class JElement_Radio extends JElement
-{
+class JElement_Radio extends JElement {
    /**
 	* Element name
 	*
@@ -30,8 +29,7 @@ class JElement_Radio extends JElement
 	*/
 	var	$_name = 'Radio';
 	
-	function fetchElement($name, $value, &$node, $control_name)
-	{
+	function fetchElement($name, $value, &$node, $control_name) {
 		$options = array ();
 		foreach ($node->childNodes as $option) {
 			$val  = $option->getAttribute('value');
@@ -39,7 +37,7 @@ class JElement_Radio extends JElement
 			$options[] = mosHTML::makeOption($val, JText::_($text));
 		}
 
-		return mosHTML::radioList($options, ''.$control_name.'['.$name.']', '', $value);
+		return mosHTML::radioList($options, ''.$control_name.'['.$name.']', '', $value, 'value', 'text', $control_name.$name );
 	}
 }
 ?>
