@@ -97,10 +97,9 @@ class JParameter extends JRegistry
 	 * @param mixed The default value if not found
 	 * @return string
 	 */
-	function get($key, $default = '') 
-	{
+	function get($key, $default = '') {
 		$value = $this->getValue('parameter.'.$key);
-		$result = (!empty($var) || ($var == 0) || ($var == '0')) ? $value : $default; 
+		$result = (!empty($value) || ($value == 0) || ($value == '0')) ? $value : $default; 
 		return $result;
 	}
 
