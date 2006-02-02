@@ -335,35 +335,41 @@ class HTML_statistics {
 		<?php
 	}
 
-	function showSearches( &$rows, $pageNav, $option, $task ) {
+	function showSearches( &$rows, $pageNav, &$lists, $option, $task ) {
 		global $mainframe;
 
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+		<form action="index2.php?option=com_statistics&amp;task=searches" method="post" name="adminForm">
 		
-		<div id="tablecell">				
-			<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminheading">
-			<tr>
-				<td>
-					<span class="componentheading"><?php echo JText::_( 'logging is' ); ?> :
-						<?php echo $mainframe->getCfg( 'enable_log_searches' ) ? '<b><font color="green">'. JText::_( 'Enabled' ) .'</font></b>' : '<b><font color="red">'. JText::_( 'Disabled' ) .'</font></b>' ?>
-					</span>
-				</td>
-			</tr>
-			</table>
-			
+		<table class="adminform">
+		<tr>
+			<td align="left" width="100%">
+				<?php echo JText::_( 'Filter' ); ?>:
+				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+			</td>
+			<td nowrap="nowrap">
+				<span class="componentheading"><?php echo JText::_( 'Search Logging' ); ?> :
+					<?php echo $mainframe->getCfg( 'enable_log_searches' ) ? '<b><font color="green">'. JText::_( 'Enabled' ) .'</font></b>' : '<b><font color="red">'. JText::_( 'Disabled' ) .'</font></b>' ?>
+				</span>
+			</td>
+		</tr>
+		</table>
+		
+		<div id="tablecell">
 			<table class="adminlist">
 			<tr>
-				<th style="text-align:right">
+				<th width="10">
 					<?php echo JText::_( 'NUM' ); ?>
 				</th>
 				<th class="title">
-					<?php echo JText::_( 'Search Text' ); ?>
+					<?php mosCommonHTML :: tableOrdering( 'Search Text', 'search_term', $lists, $task ); ?>
 				</th>
-				<th nowrap="nowrap">
-					<?php echo JText::_( 'Times Requested' ); ?>
+				<th nowrap="nowrap" width="20%">
+					<?php mosCommonHTML :: tableOrdering( 'Times Requested', 'hits', $lists, $task ); ?>
 				</th>
-				<th nowrap="nowrap">
+				<th nowrap="nowrap" width="20%">
 					<?php echo JText::_( 'Results Returned' ); ?>
 				</th>
 			</tr>
@@ -379,7 +385,7 @@ class HTML_statistics {
 					<td>
 						<?php echo $row->search_term;?>
 					</td>
-					<td>
+					<td align="center">
 						<?php echo $row->hits; ?>
 					</td>
 					<td align="center">
@@ -397,6 +403,8 @@ class HTML_statistics {
   	<input type="hidden" name="option" value="<?php echo $option;?>" />
   	<input type="hidden" name="task" value="<?php echo $task;?>" />
   	<input type="hidden" name="op" value="set" />
+	<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+	<input type="hidden" name="filter_order_Dir" value="" />
 	</form>
 	<?php
 	}

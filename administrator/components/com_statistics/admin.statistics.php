@@ -225,12 +225,25 @@ function showPageImpressions( $option, $task ) {
 function showSearches( $option, $task ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
-	$limit 		= $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit );
-	$limitstart = $mainframe->getUserStateFromRequest( "view{$option}{$task}limitstart", 'limitstart', 0 );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$task.filter_order", 		'filter_order', 	'hits' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$task.filter_order_Dir",	'filter_order_Dir',	'' );
+	$limit 				= $mainframe->getUserStateFromRequest( 'limit', 							'limit', 			$mosConfig_list_limit );
+	$limitstart			= $mainframe->getUserStateFromRequest( "$option.$task.limitstart", 			'limitstart', 		0 );	
+	$search 			= $mainframe->getUserStateFromRequest( "$option.$task.search", 				'search', 			'' );
+	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
+	$where				= array();
+
+	if ($search) {
+		$where[] = "LOWER( search_term ) LIKE '%$search%'";
+	}
+	
+	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
+	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir, hits DESC";
 
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
 	. "\n FROM #__core_log_searches"
+	. $where
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();
@@ -240,7 +253,8 @@ function showSearches( $option, $task ) {
 
 	$query = "SELECT *"
 	. "\n FROM #__core_log_searches"
-	. "\n ORDER BY hits DESC"
+	. $where
+	. $orderby
 	;
 	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
 
@@ -262,8 +276,19 @@ function showSearches( $option, $task ) {
 
 		$rows[$i]->returns = $count;
 	}
+	
+	// table ordering
+	if ( $filter_order_Dir == 'DESC' ) {
+		$lists['order_Dir'] = 'ASC';
+	} else {
+		$lists['order_Dir'] = 'DESC';
+	}
+	$lists['order'] = $filter_order;
+	
+	// search filter
+	$lists['search']= $search;	
 
-	HTML_statistics::showSearches( $rows, $pageNav, $option, $task );
+	HTML_statistics::showSearches( $rows, $pageNav, $lists, $option, $task );
 }
 
 function resetStats( $option, $task ) {
