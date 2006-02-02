@@ -642,26 +642,6 @@ class mosCommonHTML {
 	}
 
 	function menuLinksContent( &$menus ) {
-		?>
-		<script language="javascript" type="text/javascript">
-		function go2( pressbutton, menu, id ) {
-			var form = document.adminForm;
-
-			if (pressbutton == 'go2menu') {
-				form.menu.value = menu;
-				submitform( pressbutton );
-				return;
-			}
-
-			if (pressbutton == 'go2menuitem') {
-				form.menu.value 	= menu;
-				form.menuid.value 	= id;
-				submitform( pressbutton );
-				return;
-			}
-		}
-		</script>
-		<?php
 		foreach( $menus as $menu ) {
 			?>
 			<tr>
@@ -723,26 +703,6 @@ class mosCommonHTML {
 	}
 
 	function menuLinksSecCat( &$menus ) {
-		?>
-		<script language="javascript" type="text/javascript">
-		function go2( pressbutton, menu, id ) {
-			var form = document.adminForm;
-
-			if (pressbutton == 'go2menu') {
-				form.menu.value = menu;
-				submitform( pressbutton );
-				return;
-			}
-
-			if (pressbutton == 'go2menuitem') {
-				form.menu.value 	= menu;
-				form.menuid.value 	= id;
-				submitform( pressbutton );
-				return;
-			}
-		}
-		</script>
-		<?php
 		foreach( $menus as $menu ) {
 			?>
 			<tr>
@@ -836,8 +796,7 @@ class mosCommonHTML {
 	/*
 	* Loads all necessary files for JS Overlib tooltips
 	*/
-	function loadOverlib()
-	{
+	function loadOverlib() {
 		global $mainframe;
 
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
@@ -935,7 +894,7 @@ class mosCommonHTML {
 
 	function tableOrdering( $text, $ordering, &$lists, $task=NULL ) {
 		?>
-		<a href="javascript:tableOrdering('<?php echo $ordering; ?>','<?php echo $lists['order_Dir']; ?>','<?php echo $task; ?>');">
+		<a href="javascript:tableOrdering('<?php echo $ordering; ?>','<?php echo $lists['order_Dir']; ?>','<?php echo $task; ?>');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( $text ); ?>">
 			<?php echo JText::_( $text ); ?>
 			<?php mosCommonHTML :: tableOrdering_img( $ordering, $lists ); ?></a>
 		<?php

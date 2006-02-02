@@ -42,6 +42,7 @@ Legend:
 
 03-Feb 2006 Rey Gigataras
  ^ Modified admin Content/Static Content edit pages to better use of screen realestate
+ + Add `100` to list dropdown select
 
 02-Feb 2006 Louis Landry
  ^ Changed core components to use new JUser->authorize method instead of acl_check()

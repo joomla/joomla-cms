@@ -313,18 +313,13 @@ class HTML_contact {
 				</td>
 				<td width="40%" valign="top">
 					<?php
-					$title = JText::_( 'Publishing' );
+					$title = JText::_( 'Info' );
 					$tabs->startPane("content-pane");
-					$tabs->startTab( $title, "publish-page" );
+					$tabs->startTab( $title, "info-page" );
 					?>
 						<table width="100%" class="adminform">
 						<tr>
-							<th colspan="2">
-								<?php echo JText::_( 'Publishing Info' ); ?>
-							</th>
-						</tr>
-						<tr>
-							<td valign="top" align="right">
+							<td valign="top" align="right"  width="100">
 								<?php echo JText::_( 'Published' ); ?>:
 							</td>
 							<td>
@@ -347,27 +342,13 @@ class HTML_contact {
 								<?php echo $lists['access']; ?>
 							</td>
 						</tr>
-						<tr>
-							<td colspan="2">
-								&nbsp;
-							</td>
-						</tr>
 						</table>
 					
-					<?php
-					$title = JText::_( 'Images' );
-					$tabs->endTab();
-					$tabs->startTab( $title, "images-page" );
-					?>
+						<br />
 					
 						<table width="100%" class="adminform">
 						<tr>
-							<th colspan="2">
-								<?php echo JText::_( 'Image Info' ); ?>
-							</th>
-						</tr>
-						<tr>
-							<td  width="20%">
+							<td  width="100">
 								<?php echo JText::_( 'Image' ); ?>:
 							</td>
 							<td >
@@ -397,11 +378,6 @@ class HTML_contact {
 					?>
 					
 						<table class="adminform">
-						<tr>
-							<th>
-								<?php echo JText::_( 'Parameters' ); ?>
-							</th>
-						</tr>
 						<tr>
 							<td>
 								<?php echo JText::_( 'DESCPARAMWHENCLICKCONTAC' ); ?>

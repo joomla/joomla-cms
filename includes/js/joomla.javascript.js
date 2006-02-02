@@ -595,3 +595,20 @@ function getElementByName( f, name ) {
 	}
 	return null;
 }
+
+function go2( pressbutton, menu, id ) {
+	var form = document.adminForm;
+
+	if (pressbutton == 'go2menu') {
+		form.menu.value = menu;
+		submitform( pressbutton );
+		return;
+	}
+
+	if (pressbutton == 'go2menuitem') {
+		form.menu.value 	= menu;
+		form.menuid.value 	= id;
+		submitform( pressbutton );
+		return;
+	}
+}

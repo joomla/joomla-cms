@@ -103,7 +103,7 @@ class JConfigController {
 		// build the html select list
 		$lists['editor'] 		= mosHTML :: selectList($edits, 'editor', 'class="inputbox" size="1"', 'value', 'text', $row->editor);
 
-		$listLimit 				= array (mosHTML :: makeOption(5, 5), mosHTML :: makeOption(10, 10), mosHTML :: makeOption(15, 15), mosHTML :: makeOption(20, 20), mosHTML :: makeOption(25, 25), mosHTML :: makeOption(30, 30), mosHTML :: makeOption(50, 50),);
+		$listLimit 				= array (mosHTML :: makeOption(5, 5), mosHTML :: makeOption(10, 10), mosHTML :: makeOption(15, 15), mosHTML :: makeOption(20, 20), mosHTML :: makeOption(25, 25), mosHTML :: makeOption(30, 30), mosHTML :: makeOption(50, 50), mosHTML :: makeOption(100, 100),);
 
 		$lists['list_limit'] 	= mosHTML :: selectList($listLimit, 'list_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->list_limit ? $row->list_limit : 50));
 
@@ -260,8 +260,7 @@ class JConfigController {
 	/**
 	 * Save the configuration
 	 */
-	function saveConfig($task) 
-	{
+	function saveConfig($task) {
 		global $mainframe;
 
 		$CONFIG = new JConfig();

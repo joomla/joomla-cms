@@ -138,7 +138,7 @@ function showPageImpressions( $option, $task ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$task.filter_order", 		'filter_order', 	'c.hits' );
-	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$task.filter_order_Dir",	'filter_order_Dir',	'' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$task.filter_order_Dir",	'filter_order_Dir',	'DESC' );
 	$filter_catid		= $mainframe->getUserStateFromRequest( "$option.$task.filter_catid", 		'filter_catid', 	'' );
 	$filter_sectionid	= $mainframe->getUserStateFromRequest( "$option.$task.filter_sectionid", 	'filter_sectionid', '' );
 	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$task.filter_state", 		'filter_state', 	'' );
@@ -189,7 +189,7 @@ function showPageImpressions( $option, $task ) {
 	;
 	$database->setQuery($query, $pageNav->limitstart, $pageNav->limit);
 	$rows = $database->loadObjectList();
-	
+
 	// get list of categories for dropdown filter
 	$query = "SELECT cc.id AS value, cc.title AS text, section"
 	. "\n FROM #__categories AS cc"

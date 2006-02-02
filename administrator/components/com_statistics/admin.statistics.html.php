@@ -327,7 +327,7 @@ class HTML_statistics {
 	  	<input type="hidden" name="task" value="pageimp" />
 	  	<input type="hidden" name="op" value="pi" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="" />
+		<input type="hidden" name="filter_order_Dir" value="DESC" />
 		</form>
 		<?php
 	}

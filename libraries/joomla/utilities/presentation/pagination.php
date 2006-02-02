@@ -125,7 +125,8 @@ class JPagination extends JObject {
 		for ($i = 5; $i <= 30; $i += 5) {
 			$limits[] = mosHTML :: makeOption("$i");
 		}
-		$limits[] = mosHTML :: makeOption("50");
+		$limits[] = mosHTML :: makeOption('50');
+		$limits[] = mosHTML :: makeOption('100');
 
 		// Build the select list
 		if ($mainframe->isAdmin()) {
