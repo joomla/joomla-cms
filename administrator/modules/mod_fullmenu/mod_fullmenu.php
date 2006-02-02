@@ -133,14 +133,13 @@ class JFullAdminMenu {
 		?>
 				['<img src="../includes/js/ThemeOffice/globe1.png" />', '<?php echo JText::_( 'Statistics', true ); ?>', null, null, '<?php echo JText::_( 'Site Statistics', true ); ?>',
 		<?php
-		if ($enableStats == 1) {
+		//if ($enableStats == 1) {
 			?>
 					['<img src="../includes/js/ThemeOffice/globe4.png" />', '<?php echo JText::_( 'Browser, OS, Domain', true ); ?>', 'index2.php?option=com_statistics', null, '<?php echo JText::_( 'Browser, OS, Domain', true ); ?>'],
-	  				['<img src="../includes/js/ThemeOffice/globe3.png" />', '<?php echo JText::_( 'Page Impressions', true ); ?>', 'index2.php?option=com_statistics&task=pageimp', null, '<?php echo JText::_( 'Page Impressions', true ); ?>'],
-			<?php
-		}
-		?>
 					['<img src="../includes/js/ThemeOffice/search_text.png" />', '<?php echo JText::_( 'Search Text', true ); ?>', 'index2.php?option=com_statistics&task=searches', null, '<?php echo JText::_( 'Search Text', true ); ?>']
+			<?php
+		//}
+		?>
 				],
 
 			],
@@ -222,6 +221,7 @@ class JFullAdminMenu {
 			?>
 				_cmSplit,
 				['<img src="../includes/js/ThemeOffice/trash.png" />','<?php echo JText::_( 'Trash Manager', true ); ?>','index2.php?option=com_trash&task=viewContent',null,'<?php echo JText::_( 'Manage Trash', true ); ?>'],
+  				['<img src="../includes/js/ThemeOffice/globe3.png" />', '<?php echo JText::_( 'Page Hits', true ); ?>', 'index2.php?option=com_statistics&task=pageimp', null, '<?php echo JText::_( 'Page Impressions', true ); ?>']
 			<?php
 		}
 		?>

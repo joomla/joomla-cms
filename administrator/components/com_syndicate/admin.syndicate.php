@@ -19,8 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * Make sure the user is authorized to view this page
  */
 $user = & $mainframe->getUser();
-if (!$user->authorize( 'com_syndicate', 'manage' ))
-{
+if (!$user->authorize( 'com_syndicate', 'manage' )) {
 	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
@@ -69,8 +68,7 @@ function showSyndicate( $option ) {
 * Saves the record from an edit form submit
 * @param string The current GET/POST option
 */
-function saveSyndicate() 
-{
+function saveSyndicate() {
 	global $database;
 
 	$id = mosGetParam( $_POST, 'id', '17' );

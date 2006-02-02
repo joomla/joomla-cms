@@ -102,9 +102,6 @@ class HTML_content {
 	
 				$link 			= ampReplace( 'index2.php?option=com_content&sectionid=0&task=edit&hidemainmenu=1&id='. $row->id );
 	
-				$row->sect_link = ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->sectionid );
-				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid );
-	
 				$now = date( 'Y-m-d H:i:s' );
 				if ( $now <= $row->publish_up && $row->state == '1' ) {
 					$img = 'publish_y.png';
@@ -153,6 +150,25 @@ class HTML_content {
 						$author = $row->author;
 					}
 				}
+				
+				// section handling
+				if ($row->sectionid) {
+					$row->sect_link = ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->sectionid );
+					$title_sec		= JText::_( 'Edit Section' );
+				} else {
+					$row->sect_name = JText::_( 'Static Content' );
+					$row->sect_link = ampReplace( 'index2.php?option=com_typedcontent' );
+					$title_sec		= JText::_( 'View Static Content Manager' );
+				}
+				// category handling
+				if ($row->catid) {
+					$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid );
+					$title_cat		= JText::_( 'Edit Category' );
+				} else {
+					$row->name 		= JText::_( 'Static Content' );
+					$row->cat_link 	= ampReplace( 'index2.php?option=com_typedcontent' );
+					$title_cat		= JText::_( 'View Static Content Manager' );
+				}				
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
@@ -199,28 +215,12 @@ class HTML_content {
 						<?php echo $row->id;?>
 					</td>
 					<td>
-						<?php
-						if ( $row->sect_name ) {
-							?>
-							<a href="<?php echo $row->sect_link; ?>" title="<?php echo JText::_( 'Edit Section' ); ?>">
-								<?php echo $row->sect_name; ?></a>
-							<?php
-						} else {
-							echo JText::_( 'Static' );
-						}
-						?>
+						<a href="<?php echo $row->sect_link; ?>" title="<?php echo $title_sec; ?>">
+							<?php echo $row->sect_name; ?></a>
 					</td>
 					<td>
-						<?php
-						if ( $row->name ) {
-							?>
-							<a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
-								<?php echo $row->name; ?></a>
-							<?php
-						} else {
-							echo JText::_( 'Static' );
-						}
-						?>
+						<a href="<?php echo $row->cat_link; ?>" title="<?php echo $title_cat; ?>">
+							<?php echo $row->name; ?></a>
 					</td>
 					<td>
 						<?php echo $author; ?>

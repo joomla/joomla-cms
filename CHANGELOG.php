@@ -47,6 +47,7 @@ Legend:
 02-Feb 2006 Rey Gigataras
  # Fixed [topic,34959.0.html] : Weblinks error
  + Labels added to params output
+ ^ Moved `Page Hits Statistics` to `Content` submenu
 
 01-Feb 2006 Louis Landry
  * Itemid script injection - Thanks Mathijs de Jong

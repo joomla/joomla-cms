@@ -153,7 +153,6 @@ function viewFrontPage( $option ) {
 	. $orderby
 	;
 	$database->setQuery( $query, $pageNav->limitstart,$pageNav->limit );
-
 	$rows = $database->loadObjectList();
 	if ($database->getErrorNum()) {
 		echo $database->stderr();

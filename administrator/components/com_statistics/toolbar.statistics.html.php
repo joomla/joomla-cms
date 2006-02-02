@@ -31,7 +31,7 @@ class TOOLBAR_statistics {
 
 	function _PAGEIMP() {
 		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'Page Impression Statistics' ), 'impressions.png' );
+		JMenuBar::title( JText::_( 'Page Hit Statistics' ), 'impressions.png' );
 		JMenuBar::custom( 'resetStats', 'delete.png', 'delete_f2.png', JText::_( 'Reset' ), false );
 		JMenuBar::endTable();
 	}
