@@ -98,10 +98,9 @@ function showPolls( $option ) {
 	$where 		= ( count( $where ) ? "\n WHERE " . implode( ' AND ', $where ) : '' );	
 	$orderby 	= "\n ORDER BY $filter_order $filter_order_Dir";
 	
-	$query = "SELECT COUNT(m.*)"
+	$query = "SELECT COUNT(m.id)"
 	. "\n FROM #__polls AS m"
 	. $where
-	. $orderby
 	;
 	$database->setQuery( $query );
 	$total = $database->loadResult();

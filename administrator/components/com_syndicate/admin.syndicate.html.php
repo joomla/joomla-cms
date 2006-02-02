@@ -24,6 +24,14 @@ class HTML_syndicate {
 	function settings( $option, &$params, $id ) {
 		mosCommonHTML::loadOverlib();
 		?>
+		<style>
+		table.paramlist td.paramlist_key {
+			width: 150px;
+			text-align: left;
+			height: 30px;
+		}		
+		</style>
+		
 		<form action="index2.php" method="post" name="adminForm">
 		
 		<div id="editcell">				
