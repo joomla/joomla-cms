@@ -318,29 +318,12 @@ class HTML_typedcontent {
 				<td width="60%" valign="top">
 					<table class="adminform">
 					<tr>
-						<th colspan="3">
-							<?php echo JText::_( 'Item Details' ); ?>
+						<th>
+							<?php echo JText::_( 'Item Text' ); ?>
 						</th>
 					</tr>
 					<tr>
-						<td >
-							<?php echo JText::_( 'Title' ); ?>:
-						</td>
 						<td>
-							<input class="inputbox" type="text" name="title" size="30" maxlength="255" value="<?php echo $row->title; ?>" />
-						</td>
-					</tr>
-					<tr>
-						<td >
-							<?php echo JText::_( 'Title Alias' ); ?>:
-						</td>
-						<td>
-							<input class="inputbox" type="text" name="title_alias" size="30" maxlength="255" value="<?php echo $row->title_alias; ?>" />
-						</td>
-					</tr>
-					<tr>
-						<td valign="top"  colspan="2">
-							<?php echo JText::_( 'Text: (required)' ); ?><br />
 							<?php
 							// parameters : areaname, content, hidden field, width, height, rows, cols
 							$editor =& JEditor::getInstance();
@@ -352,27 +335,40 @@ class HTML_typedcontent {
 				</td>
 				<td width="40%" valign="top">
 					<?php
-	    	   		$title = JText::_( 'Publishing' );
+	    	   		$title = JText::_( 'Details' );
 					$tabs->startPane("content-pane");
-					$tabs->startTab( $title, "publish-page" );
+					$tabs->startTab( $title, "detail-page" );
 					?>
 					
 						<table class="adminform">
 						<tr>
 							<th colspan="2">
-								<?php echo JText::_( 'Publishing Info' ); ?>
+								<?php echo JText::_( 'Item Details' ); ?>
 							</th>
 						</tr>
 						<tr>
-							<td valign="top" align="right" width="120">
-								<?php echo JText::_( 'State' ); ?>:
+							<td width="100">
+								<?php echo JText::_( 'Title' ); ?>:
 							</td>
-							<td>
-								<?php echo $row->state > 0 ? JText::_( 'Published' ) : JText::_( 'Draft Unpublished' ); ?>
+							<td valign="top" align="right">
+								<input class="inputbox" type="text" name="title" size="50" maxlength="255" value="<?php echo $row->title; ?>" />
 							</td>
 						</tr>
 						<tr>
+							<td>
+								<?php echo JText::_( 'Title Alias' ); ?>:
+							</td>
 							<td valign="top" align="right">
+								<input class="inputbox" type="text" name="title_alias" size="50" maxlength="255" value="<?php echo $row->title_alias; ?>" />
+							</td>
+						</tr>
+						</table>
+						
+						<br />
+						
+						<table class="adminform">
+						<tr>
+							<td valign="top" align="right" width="130">
 								<?php echo JText::_( 'Published' ); ?>:
 							</td>
 							<td>
@@ -381,7 +377,7 @@ class HTML_typedcontent {
 						</tr>
 						<tr>
 							<td valign="top" align="right">
-								<?php echo JText::_( 'Show on Frontpage' ); ?>:
+								<?php echo JText::_( 'Frontpage' ); ?>:
 							</td>
 							<td>
 								<?php echo $lists['frontpage']; ?> 
@@ -458,7 +454,7 @@ class HTML_typedcontent {
 						}
 						?>
 						<tr>
-							<td valign="top" align="right" width="120">
+							<td valign="top" align="right" width="130">
 								<strong><?php echo JText::_( 'Hits' ); ?></strong>
 							</td>
 							<td>
@@ -511,7 +507,7 @@ class HTML_typedcontent {
 						<table class="adminform">
 						<tr>
 							<th colspan="2">
-								<?php echo JText::_( 'MOSImage Control' ); ?>
+								<?php echo JText::_( 'Image Control' ); ?>
 							</th>
 						</tr>
 						<tr>
@@ -560,6 +556,11 @@ class HTML_typedcontent {
 								</div>
 							</td>
 						</tr>
+						</table>
+						
+						<br />
+						
+						<table class="adminform">
 						<tr>
 							<td>
 							<?php echo JText::_( 'Edit the image selected' ); ?>:
