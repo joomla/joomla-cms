@@ -25,7 +25,7 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="search_areas" type="radio" default="0" label="Use Search Areas" description="Show the search areas checkboxes">
+		<param name="search_areas" type="radio" default="1" label="Use Search Areas" description="Show the search areas checkboxes">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>

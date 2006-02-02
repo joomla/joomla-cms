@@ -78,7 +78,7 @@ class search_html {
 		</table>
 		
 		<?php
-		if ($params->get( 'search_areas' )) {
+		if ($params->get( 'search_areas', 1 )) {
 			?>
 			<?php echo JText::_( 'Search Only' );?>:
 			<?php
