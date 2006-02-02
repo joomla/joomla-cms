@@ -30,8 +30,7 @@ class JContentView
 	 * 
 	 * @since 1.1
 	 */
-	function showSection(& $section, & $categories, & $params, & $access, $gid) 
-	{
+	function showSection(& $section, & $categories, & $params, & $access, $gid) {
 		global $Itemid;
 
 		if ($params->get('page_title')) {
@@ -902,8 +901,7 @@ class JContentView
 	* @return void
 	* @since 1.0
 	*/
-	function editContent(& $row, $section, & $lists, & $images, & $access, $myid, $sectionid, $task, $Itemid) 
-	{
+	function editContent(& $row, $section, & $lists, & $images, & $access, $myid, $sectionid, $task, $Itemid) 	{
 		global $mainframe, $Itemid;
 
 		// Require the toolbar
@@ -986,10 +984,10 @@ class JContentView
 		}
 
 		function WarnUser(){
-			//if (document.adminForm.goodexit.value==0) {
-			//	alert('<?php echo JText::_( 'WARNUSER', true );?>');
-			//	window.location="<?php echo sefRelToAbs("index.php?option=com_content&task=".$task."&sectionid=".$sectionid."&id=".$row->id."&Itemid=".$Itemid); ?>";
-			//}
+			if (document.adminForm.goodexit.value==0) {
+				alert('<?php echo JText::_( 'WARNUSER', true );?>');
+				window.location="<?php echo sefRelToAbs("index.php?option=com_content&task=".$task."&sectionid=".$sectionid."&id=".$row->id."&Itemid=".$Itemid); ?>";
+			}
 		}
 		</script>
 		<?php
@@ -1048,13 +1046,11 @@ class JContentView
 		</tr>
 		</table>
 		
-		<table class="adminform" width="100%">
 		<?php
 		if ($row->sectionid) {
 			?>
+			<table class="adminform" width="100%">
 			<tr>
-				<td>
-				</td>
 				<td>
 					<label for="catid">
 						<?php echo JText::_( 'Section' ); ?>:
@@ -1070,28 +1066,26 @@ class JContentView
 					<?php echo $lists['catid']; ?>
 				</td>
 			</tr>
+			</table>
 			<?php
 		}
 		?>
-		<tr>
-		</table>
 		
 		<table class="adminform">
-		<?php
-		if (intval($row->sectionid) > 0) {
-			?>
+		<tr>
 			<td>
-				<?php echo JText::_( 'Intro Text' ) .' ('. JText::_( 'Required' ) .')'; ?>:
+				<?php
+				if (intval($row->sectionid) > 0) {
+					?>
+					<?php echo JText::_( 'Intro Text' ) .' ('. JText::_( 'Required' ) .')'; ?>:
+					<?php
+				} else {
+					?>
+						<?php echo JText::_( 'Main Text' ) .' ('. JText::_( 'Required' ) .')'; ?>:
+					<?php
+				}
+				?>
 			</td>
-			<?php
-		} else {
-			?>
-			<td>
-				<?php echo JText::_( 'Main Text' ) .' ('. JText::_( 'Required' ) .')'; ?>:
-			</td>
-			<?php
-		}
-		?>
 		</tr>
 		<tr>
 			<td>
