@@ -131,40 +131,44 @@ class loginHTML {
 		$return = $params->get('logout');
 		?>
 		<form action="<?php echo sefRelToAbs( 'index.php?option=logout' ); ?>" method="post" name="login" id="login">
-			<table width="100%" border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
+		
+		<?php
+		if ( $params->get( 'page_title' ) ) {
+			?>
+			<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
+			<?php echo $params->get( 'header_logout' ); ?>
+			</div>
+			<?php
+		}
+		?>
+		
+		<table border="0" align="center" cellpadding="4" cellspacing="0" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>" width="100%">
 		<tr>
 			<td valign="top">
-			<?php
-			if ( $params->get( 'page_title' ) ) {
-				?>
-				<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
-				<?php echo $params->get( 'header_logout' ); ?>
+				<div>
+					<?php
+					echo $image;
+		
+					if ( $params->get( 'description_logout' ) ) {
+						echo $params->get( 'description_logout_text' );
+						?>
+						<?php
+					}
+					?>
 				</div>
-				<?php
-			}
-			?>
-			<div>
-			<?php
-			echo $image;
-
-			if ( $params->get( 'description_logout' ) ) {
-				echo $params->get( 'description_logout_text' );
-				?>
-				<br/><br/>
-				<?php
-			}
-			?>
-			</div>
 			</td>
 		</tr>
 		<tr>
 			<td align="center">
-			<div align="center">
-			<input type="submit" name="Submit" class="button" value="<?php echo JText::_( 'Logout' ); ?>" />
-			</div>
+				<div align="center">
+					<input type="submit" name="Submit" class="button" value="<?php echo JText::_( 'Logout' ); ?>" />
+				</div>
 			</td>
 		</tr>
 		</table>
+		
+		<br/><br/>
+		
 		<?php
 		// displays back button
 		mosHTML::BackButton ( $params );
@@ -173,7 +177,7 @@ class loginHTML {
 		<input type="hidden" name="option" value="logout" />
 		<input type="hidden" name="return" value="<?php echo sefRelToAbs( $return ); ?>" />
 		</form>
-	<?php
+		<?php
 	}
 }
 ?>

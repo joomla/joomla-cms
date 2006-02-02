@@ -340,12 +340,12 @@ class WeblinksView {
 		</script>
 
 		<form action="<?php echo sefRelToAbs("index.php"); ?>" method="post" name="adminForm" id="adminForm">
-		<table cellpadding="0" cellspacing="0" border="0" width="100%">
-		<tr>
-			<td class="contentheading">
+		
+		<div class="componentheading">
 			<?php echo JText::_( 'Submit A Web Link' );?>
-			</td>
-			<td width="10%">
+		</div>
+		
+		<div style="float: right;">
 			<?php
 			mosToolBar::startTable();
 			mosToolBar::spacer();
@@ -353,10 +353,8 @@ class WeblinksView {
 			mosToolBar::cancel();
 			mosToolBar::endtable();
 			?>
-			</td>
-		</tr>
-		</table>
-
+		</div>
+		
 		<table cellpadding="4" cellspacing="1" border="0" width="100%">
 		<tr>
 			<td width="10%">

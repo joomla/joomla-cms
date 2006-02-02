@@ -963,8 +963,6 @@ class JContentView
 				// for content items
 				if (getSelectedValue('adminForm','catid') < 1) {
 					alert ( "<?php echo JText::_( 'Please select a category', true ); ?>" );
-				//} else if (form.introtext.value == "") {
-				//	alert ( "<?php echo JText::_( 'Content item must have intro text', true ); ?>" );
 				} else {
 					<?php
 					$editor = & JEditor :: getInstance();
@@ -973,8 +971,6 @@ class JContentView
 					?>
 					submitform(pressbutton);
 				}
-			//} else if (form.introtext.value == "") {
-			//	alert ( "<?php echo JText::_( 'Content item must have intro text', true ); ?>" );
 			} else {
 				// for static content
 				<?php
@@ -990,10 +986,10 @@ class JContentView
 		}
 
 		function WarnUser(){
-			if (document.adminForm.goodexit.value==0) {
-				alert('<?php echo JText::_( 'WARNUSER', true );?>');
-				window.location="<?php echo sefRelToAbs("index.php?option=com_content&task=".$task."&sectionid=".$sectionid."&id=".$row->id."&Itemid=".$Itemid); ?>";
-			}
+			//if (document.adminForm.goodexit.value==0) {
+			//	alert('<?php echo JText::_( 'WARNUSER', true );?>');
+			//	window.location="<?php echo sefRelToAbs("index.php?option=com_content&task=".$task."&sectionid=".$sectionid."&id=".$row->id."&Itemid=".$Itemid); ?>";
+			//}
 		}
 		</script>
 		<?php
@@ -1021,17 +1017,12 @@ class JContentView
 		?>
 		<form action="index.php" method="post" name="adminForm" onSubmit="javascript:setgood();">
 
-		<table cellspacing="0" cellpadding="0" border="0" width="100%">
-		<tr>
-			<td class="contentheading" >
-				<?php echo $section;?> / <?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'Add' );?>&nbsp;
-				<?php echo JText::_( 'Content' );?> &nbsp;&nbsp;&nbsp;
-				<?php echo mosToolTip('<table>'.$docinfo.'</table>', JText::_( 'Item Information', true ), '', '', '<strong>['.JText::_( 'Info', true ).']</strong>'); ?>
-			</td>
-		</tr>
-		</table>
+		<div class="componentheading">
+			<?php echo $row->id ? JText::_( 'Edit' ) : JText::_( 'New' );?>
+			<?php echo JText::_( 'Content' );?>		
+		</div>
 
-		<table class="adminform">
+		<table class="adminform" width="100%">
 		<tr>
 			<td>
 				<div style="float: left;">
@@ -1040,6 +1031,8 @@ class JContentView
 					</label>
 					<br />
 					<input class="inputbox" type="text" id="title" name="title" size="50" maxlength="100" value="<?php echo $row->title; ?>" />
+					&nbsp;&nbsp;&nbsp;
+					<?php echo mosToolTip('<table>'.$docinfo.'</table>', JText::_( 'Item Information', true ), '', '', '<strong>['.JText::_( 'Info', true ).']</strong>'); ?>
 				</div>
 				<div style="float: right;">
 					<?php
@@ -1053,15 +1046,27 @@ class JContentView
 				</div>
 			</td>
 		</tr>
+		</table>
+		
+		<table class="adminform" width="100%">
 		<?php
 		if ($row->sectionid) {
 			?>
 			<tr>
 				<td>
+				</td>
+				<td>
+					<label for="catid">
+						<?php echo JText::_( 'Section' ); ?>:
+					</label>
+					<strong>
+						<?php echo $section;?>
+					</strong>
+				</td>
+				<td>
 					<label for="catid">
 						<?php echo JText::_( 'Category' ); ?>:
 					</label>
-					<br />
 					<?php echo $lists['catid']; ?>
 				</td>
 			</tr>
@@ -1069,6 +1074,9 @@ class JContentView
 		}
 		?>
 		<tr>
+		</table>
+		
+		<table class="adminform">
 		<?php
 		if (intval($row->sectionid) > 0) {
 			?>
