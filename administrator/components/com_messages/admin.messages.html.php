@@ -156,8 +156,8 @@ class HTML_messages {
 			</table>	
 		</div>
 		
-		<input type="hidden" name="option" value="<?php echo $option; ?>">	  
-		<input type="hidden" name="task" value="">
+		<input type="hidden" name="option" value="<?php echo $option; ?>" />	  
+		<input type="hidden" name="task" value="" />
 		</form>
 		<?php 
 	}

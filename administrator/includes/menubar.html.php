@@ -29,8 +29,7 @@ class JMenuBar
 	* @param string
 	* @since 1.1
 	*/
-	function title( $title, $icon='generic.png' )
-	{
+	function title( $title, $icon='generic.png' ) {
 		$image = mosAdminMenus::ImageCheckAdmin( $icon, '/images/', NULL, NULL, $title, '', 1 );
 		?>
 		<td class="title">
@@ -44,8 +43,7 @@ class JMenuBar
 	* Writes the start of the button bar table
 	* @since 1.0
 	*/
-	function startTable()
-	{
+	function startTable() {
 		?>
 		<table cellpadding="0" cellspacing="0" border="0" id="toolbar">
 		<tr valign="middle" align="center">
@@ -57,8 +55,7 @@ class JMenuBar
 	* @param string The width for the cell
 	* @since 1.0
 	*/
-	function spacer( $width='' )
-	{
+	function spacer( $width='' ) {
 		if ($width != '') {
 			?>
 			<td width="<?php echo $width;?>">&nbsp;</td>
@@ -74,8 +71,7 @@ class JMenuBar
 	* Writes the end of the menu bar table
 	* @since 1.0
 	*/
-	function endTable()
-	{
+	function endTable()	{
 		?>
 		</tr>
 		</table>
@@ -86,8 +82,7 @@ class JMenuBar
 	* Write a divider between menu buttons
 	* @since 1.0
 	*/
-	function divider()
-	{
+	function divider() {
 		$image = mosAdminMenus::ImageCheckAdmin( 'menu_divider.png', '/images/' );
 		?>
 		<td>
@@ -176,14 +171,14 @@ class JMenuBar
 	function preview( $url='', $updateEditors=false ) {
 		global $mainframe;
 
-		$uri =& $mainframe->getURI();
-		$jself = $uri->toString(array('scheme', 'uri', 'host', 'path', 'query'))."#";
+		$uri 	=& $mainframe->getURI();
+		$jself 	= ampReplace( $uri->toString(array('scheme', 'uri', 'host', 'path', 'query')) .'#' );
 
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'preview_f2.png', '/images/', NULL, NULL, 'Preview', 'preview', 1 );
 
 		?>
 		<td>
-			<script language="javascript">
+			<script language="javascript" type="text/javascript">
 			function popup() {
 				<?php
 				if ($updateEditors) {
@@ -260,8 +255,8 @@ class JMenuBar
 	function media_manager( $directory='', $alt='Upload' ) {
 		global $mainframe;
 
-		$uri =& $mainframe->getURI();
-		$jself = $uri->toString(array('scheme', 'uri', 'host', 'path', 'query'))."#";
+		$uri 	=& $mainframe->getURI();
+		$jself 	= ampReplace( $uri->toString(array('scheme', 'uri', 'host', 'path', 'query')) .'#' );
 
     	$alt 	= JText::_( $alt );
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'upload_f2.png', '/images/', NULL, NULL, 'Upload Image', 'uploadPic', 1 );

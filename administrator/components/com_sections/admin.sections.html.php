@@ -238,7 +238,7 @@ class sections_html {
 					<th colspan="3">
 						<?php echo JText::_( 'Section Details' ); ?>
 					</th>
-				<tr>
+				</tr>
 				<tr>
 					<td width="150">
 						<?php echo JText::_( 'Scope' ); ?>:
@@ -337,44 +337,44 @@ class sections_html {
 					<th colspan="2">
 						<?php echo JText::_( 'Link to Menu' ); ?>
 					</th>
-				<tr>
+				</tr>
 				<tr>
 					<td colspan="2">
 						<?php echo JText::_( 'DESCNEWMENUITEM' ); ?>
 						<br /><br />
 					</td>
+				</tr>
 				<tr>
-				<tr>
-					<td valign="top" width="100px">
+					<td valign="top" width="100">
 						<?php echo JText::_( 'Select a Menu' ); ?>
 					</td>
 					<td>
 						<?php echo $lists['menuselect']; ?>
 					</td>
+				</tr>
 				<tr>
-				<tr>
-					<td valign="top" width="100px">
+					<td valign="top" width="100">
 						<?php echo JText::_( 'Select Menu Type' ); ?>
 					</td>
 					<td>
 						<?php echo $lists['link_type']; ?>
 					</td>
+				</tr>
 				<tr>
-				<tr>
-					<td valign="top" width="100px">
+					<td valign="top" width="100">
 						<?php echo JText::_( 'Menu Item Name' ); ?>
 					</td>
 					<td>
 						<input type="text" name="link_name" class="inputbox" value="" size="25" />
 					</td>
-				<tr>
+				</tr>
 				<tr>
 					<td>
 					</td>
 					<td>
 						<input name="menu_link" type="button" class="button" value="<?php echo JText::_( 'Link to Menu' ); ?>" onclick="submitbutton('menulink');" />
 					</td>
-				<tr>
+				</tr>
 				<tr>
 					<th colspan="2">
 						<?php echo JText::_( 'Existing Menu Links' ); ?>

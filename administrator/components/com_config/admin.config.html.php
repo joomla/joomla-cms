@@ -21,8 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class JConfigView {
 
-	function showConfig( &$row, &$lists, $option) 
-	{
+	function showConfig( &$row, &$lists, $option) {
 		mosCommonHTML::loadOverlib();
 		
 		$tabs = new mosTabs(1);
@@ -45,14 +44,14 @@ class JConfigView {
 									<label for="disable_write">
 										<?php echo JText::_( 'Make unwriteable after saving' ); ?>
 									</label>
-									<input type="checkbox" id="disable_write" name="disable_write" value="1"/>
+									<input type="checkbox" id="disable_write" name="disable_write" value="1" />
 									<?php
 								} else {
 									?>
 									<label for="enable_write">
 										<?php echo JText::_( 'Override write protection while saving' ); ?>
 									</label>
-									<input type="checkbox" id="enable_write" name="enable_write" value="1"/>
+									<input type="checkbox" id="enable_write" name="enable_write" value="1" />
 								<?php
 								} 
 							} 
@@ -123,7 +122,7 @@ class JConfigView {
 							<?php echo JText::_( 'Site Name' ); ?>:
 						</td>
 						<td>
-							<input class="text_area" type="text" name="sitename" size="50" value="<?php echo $row->sitename; ?>"/>
+							<input class="text_area" type="text" name="sitename" size="50" value="<?php echo $row->sitename; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -198,7 +197,7 @@ class JConfigView {
 							</span>
 						</td>
 						<td>
-							<input class="text_area" type="text" name="lifetime" size="10" value="<?php echo $row->lifetime; ?>"/>
+							<input class="text_area" type="text" name="lifetime" size="10" value="<?php echo $row->lifetime; ?>" />
 							&nbsp;<?php echo JText::_('seconds'); ?>&nbsp;
 						</td>
 					</tr>
@@ -514,7 +513,7 @@ class JConfigView {
 							<?php echo JText::_( 'Server Offset' ); ?>:
 						</td>
 						<td>
-							<input class="text_area" type="text" name="offset" size="15" value="<?php echo $row->offset; ?>" disabled="true"/>
+							<input class="text_area" type="text" name="offset" size="15" value="<?php echo $row->offset; ?>" disabled="disabled" />
 						</td>
 					</tr>
 					</table>
@@ -623,7 +622,7 @@ class JConfigView {
 							</span>
 						</td>
 						<td>				
-							<input class="text_area" type="text" name="meta_pagetitle" size="20" value="<?php echo $row->meta_pagetitle; ?>"/>
+							<input class="text_area" type="text" name="meta_pagetitle" size="20" value="<?php echo $row->meta_pagetitle; ?>" />
 						</td>
 					</tr>
 					</table>
@@ -648,7 +647,7 @@ class JConfigView {
 							<?php echo JText::_( 'Mail From' ); ?>:
 						</td>
 						<td>
-							<input class="text_area" type="text" name="mailfrom" size="50" value="<?php echo $row->mailfrom; ?>"/>
+							<input class="text_area" type="text" name="mailfrom" size="50" value="<?php echo $row->mailfrom; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -656,7 +655,7 @@ class JConfigView {
 							<?php echo JText::_( 'From Name' ); ?>:
 						</td>
 						<td>
-							<input class="text_area" type="text" name="fromname" size="50" value="<?php echo $row->fromname; ?>"/>
+							<input class="text_area" type="text" name="fromname" size="50" value="<?php echo $row->fromname; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -664,7 +663,7 @@ class JConfigView {
 							<?php echo JText::_( 'Sendmail Path' ); ?>:
 						</td>
 						<td>
-							<input class="text_area" type="text" name="sendmail" size="50" value="<?php echo $row->sendmail; ?>"/>
+							<input class="text_area" type="text" name="sendmail" size="50" value="<?php echo $row->sendmail; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -680,7 +679,7 @@ class JConfigView {
 							<?php echo JText::_( 'SMTP User' ); ?>:
 						</td>
 						<td>
-							<input class="text_area" type="text" name="smtpuser" size="50" value="<?php echo $row->smtpuser; ?>"/>
+							<input class="text_area" type="text" name="smtpuser" size="50" value="<?php echo $row->smtpuser; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -688,7 +687,7 @@ class JConfigView {
 							<?php echo JText::_( 'SMTP Pass' ); ?>:
 						</td>
 						<td>
-							<input class="text_area" type="text" name="smtppass" size="50" value="<?php echo $row->smtppass; ?>"/>
+							<input class="text_area" type="text" name="smtppass" size="50" value="<?php echo $row->smtppass; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -696,7 +695,7 @@ class JConfigView {
 							<?php echo JText::_( 'SMTP Host' ); ?>:
 						</td>
 						<td>
-							<input class="text_area" type="text" name="smtphost" size="50" value="<?php echo $row->smtphost; ?>"/>
+							<input class="text_area" type="text" name="smtphost" size="50" value="<?php echo $row->smtphost; ?>" />
 						</td>
 					</tr>
 					</table>
@@ -721,7 +720,7 @@ class JConfigView {
 							<?php echo JText::_( 'FTP Host' ); ?>:
 						</td>
 						<td>
-							<input class="text_area" type="text" name="ftp_host" size="25" value="<?php echo $row->ftp_host; ?>"/>
+							<input class="text_area" type="text" name="ftp_host" size="25" value="<?php echo $row->ftp_host; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -729,7 +728,7 @@ class JConfigView {
 							<?php echo JText::_( 'FTP Username' ); ?>:
 						</td>
 						<td>
-							<input class="text_area" type="text" name="ftp_user" size="25" value="<?php echo $row->ftp_user; ?>"/>
+							<input class="text_area" type="text" name="ftp_user" size="25" value="<?php echo $row->ftp_user; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -737,7 +736,7 @@ class JConfigView {
 							<?php echo JText::_( 'FTP Password' ); ?>:
 						</td>
 						<td>
-							<input class="text_area" type="password" name="ftp_pass" size="25" value="<?php echo $row->ftp_pass; ?>"/>
+							<input class="text_area" type="password" name="ftp_pass" size="25" value="<?php echo $row->ftp_pass; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -745,7 +744,7 @@ class JConfigView {
 							<?php echo JText::_( 'FTP Root' ); ?>:
 						</td>
 						<td>
-							<input class="text_area" type="text" name="ftp_root" size="50" value="<?php echo $row->ftp_root; ?>"/>
+							<input class="text_area" type="text" name="ftp_root" size="50" value="<?php echo $row->ftp_root; ?>" />
 						</td>
 					</tr>
 					</table>
@@ -762,7 +761,7 @@ class JConfigView {
 							<?php echo JText::_( 'Database type' ); ?>:
 						</td>
 						<td>
-							<input class="text_area" type="text" name="dbtype" size="25" value="<?php echo $row->dbtype; ?>"/>
+							<input class="text_area" type="text" name="dbtype" size="25" value="<?php echo $row->dbtype; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -770,7 +769,7 @@ class JConfigView {
 							<?php echo JText::_( 'Hostname' ); ?>:
 						</td>
 						<td>
-							<input class="text_area" type="text" name="host" size="25" value="<?php echo $row->host; ?>"/>
+							<input class="text_area" type="text" name="host" size="25" value="<?php echo $row->host; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -778,7 +777,7 @@ class JConfigView {
 							<?php echo JText::_( 'Username' ); ?>:
 						</td>
 						<td>
-							<input class="text_area" type="text" name="user" size="25" value="<?php echo $row->user; ?>"/>
+							<input class="text_area" type="text" name="user" size="25" value="<?php echo $row->user; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -786,7 +785,7 @@ class JConfigView {
 							<?php echo JText::_( 'Database' ); ?>:
 						</td>
 						<td>
-							<input class="text_area" type="text" name="db" size="25" value="<?php echo $row->db; ?>"/>
+							<input class="text_area" type="text" name="db" size="25" value="<?php echo $row->db; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -794,7 +793,7 @@ class JConfigView {
 							<?php echo JText::_( 'Database Prefix' ); ?>:
 						</td>
 						<td>
-							<input class="text_area" type="text" name="dbprefix" size="10" value="<?php echo $row->dbprefix; ?>"/>
+							<input class="text_area" type="text" name="dbprefix" size="10" value="<?php echo $row->dbprefix; ?>" />
 							&nbsp;
 							<?php
 			                $warn = JText::_( 'WARNDONOTCHANGEDATABASETABLESPREFIX', true );
@@ -883,7 +882,7 @@ class JConfigView {
 							</span>
 						</td>
 						<td>
-							<input class="text_area" type="text" name="cachepath" size="50" value="<?php echo $row->cachepath; ?>"/>
+							<input class="text_area" type="text" name="cachepath" size="50" value="<?php echo $row->cachepath; ?>" />
 							<?php
 							if (!is_writeable($row->cachepath)) {
 								$warn = JText::_( 'TIPCACHEDIRISUNWRITEABLE', true );
@@ -897,7 +896,7 @@ class JConfigView {
 							<?php echo JText::_( 'Cache Time' ); ?>:
 						</td>
 						<td>
-							<input class="text_area" type="text" name="cachetime" size="5" value="<?php echo $row->cachetime; ?>"/> 
+							<input class="text_area" type="text" name="cachetime" size="5" value="<?php echo $row->cachetime; ?>" /> 
 							<?php echo JText::_( 'seconds' ); ?>
 						</td>
 					</tr>
@@ -963,19 +962,19 @@ class JConfigView {
 			</fieldset>
 		</div>
 
-		<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<?php
 		/*
-		<input type="hidden" name="admin_path" value="<?php echo $row->admin_path; ?>"/>
-		<input type="hidden" name="absolute_path" value="<?php echo $row->absolute_path; ?>"/>
-		<input type="hidden" name="live_site" value="<?php echo $row->live_site; ?>"/>
+		<input type="hidden" name="admin_path" value="<?php echo $row->admin_path; ?>" />
+		<input type="hidden" name="absolute_path" value="<?php echo $row->absolute_path; ?>" />
+		<input type="hidden" name="live_site" value="<?php echo $row->live_site; ?>" />
 		*/
 		?>
-		<input type="hidden" name="secret" value="<?php echo $row->secret; ?>"/>
-		<input type="hidden" name="multilingual_support" value="<?php echo $row->multilingual_support; ?>"/>
-	  	<input type="hidden" name="lang" value="<?php echo $row->lang; ?>"/>
-	  	<input type="hidden" name="lang_administrator" value="<?php echo $row->lang_administrator; ?>"/>
-	  	<input type="hidden" name="task" value=""/>
+		<input type="hidden" name="secret" value="<?php echo $row->secret; ?>" />
+		<input type="hidden" name="multilingual_support" value="<?php echo $row->multilingual_support; ?>" />
+	  	<input type="hidden" name="lang" value="<?php echo $row->lang; ?>" />
+	  	<input type="hidden" name="lang_administrator" value="<?php echo $row->lang_administrator; ?>" />
+	  	<input type="hidden" name="task" value="" />
 		</form>
 		<?php
 	}

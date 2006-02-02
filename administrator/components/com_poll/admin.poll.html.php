@@ -168,7 +168,7 @@ class HTML_poll {
 				<td>
 					<input class="inputbox" type="text" name="title" size="60" value="<?php echo $row->title; ?>" />
 				</td>
-				<td width="20px">
+				<td width="20">
 					&nbsp;	
 				</td>
 				<td width="100%" rowspan="20" valign="top">
@@ -221,7 +221,7 @@ class HTML_poll {
 			</table>
 		</div>
 
-		<input type="hidden" name="task" value="">
+		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="option" value="com_poll" />
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="cid[]" value="<?php echo $row->id; ?>" />

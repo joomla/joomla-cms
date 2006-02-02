@@ -253,7 +253,7 @@ class HTML_banners {
 				<td colspan="2">
 					<?php echo $row->clicks;?>
 					&nbsp;&nbsp;&nbsp;&nbsp;
-					<input name="reset_hits" type="button" class="button" value="<?php echo JText::_( 'Reset Clicks' ); ?>" ="submitbutton('resethits');" />
+					<input name="reset_hits" type="button" class="button" value="<?php echo JText::_( 'Reset Clicks' ); ?>" onclick="submitbutton('resethits');" />
 				</td>
 			</tr>
 			<tr>
@@ -464,7 +464,7 @@ class HTML_bannerClient {
 							<?php echo JText::_( 'Client Name' ); ?>:
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="name" size="40" maxlength="60" valign="top" value="<?php echo $row->name; ?>" />
+							<input class="inputbox" type="text" name="name" size="40" maxlength="60" value="<?php echo $row->name; ?>" />
 						</td>
 					</tr>
 					<tr>

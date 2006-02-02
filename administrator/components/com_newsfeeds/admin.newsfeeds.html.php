@@ -206,7 +206,7 @@ class HTML_newsfeeds {
 					<?php echo JText::_( 'Name' ); ?>
 				</td>
 				<td>
-					<input class="inputbox" type="text" size="40" name="name" value="<?php echo $row->name; ?>">
+					<input class="inputbox" type="text" size="40" name="name" value="<?php echo $row->name; ?>" />
 				</td>
 			</tr>
 			<tr>
@@ -230,7 +230,7 @@ class HTML_newsfeeds {
 					<?php echo JText::_( 'Link' ); ?>
 				</td>
 				<td>
-					<input class="inputbox" type="text" size="60" name="link" value="<?php echo $row->link; ?>">
+					<input class="inputbox" type="text" size="60" name="link" value="<?php echo $row->link; ?>" />
 				</td>
 			</tr>
 			<tr>
@@ -238,7 +238,7 @@ class HTML_newsfeeds {
 					<?php echo JText::_( 'Number of Articles' ); ?>
 				</td>
 				<td>
-					<input class="inputbox" type="text" size="2" name="numarticles" value="<?php echo $row->numarticles; ?>">
+					<input class="inputbox" type="text" size="2" name="numarticles" value="<?php echo $row->numarticles; ?>" />
 				</td>
 			</tr>
 			<tr>
@@ -246,7 +246,7 @@ class HTML_newsfeeds {
 					<?php echo JText::_( 'Cache time (in seconds)' ); ?>
 				</td>
 				<td>
-					<input class="inputbox" type="text" size="4" name="cache_time" value="<?php echo $row->cache_time; ?>">
+					<input class="inputbox" type="text" size="4" name="cache_time" value="<?php echo $row->cache_time; ?>" />
 				</td>
 			</tr>
 			<tr>
@@ -264,10 +264,10 @@ class HTML_newsfeeds {
 			</table>
 		</div>
 
-		<input type="hidden" name="id" value="<?php echo $row->id; ?>">
+		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="cid[]" value="<?php echo $row->id; ?>" />
-		<input type="hidden" name="option" value="<?php echo $option; ?>">
-		<input type="hidden" name="task" value="">
+		<input type="hidden" name="option" value="<?php echo $option; ?>" />
+		<input type="hidden" name="task" value="" />
 		</form>
 	<?php
 	}

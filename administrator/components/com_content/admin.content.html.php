@@ -775,9 +775,9 @@ class HTML_content {
 											</div>
 										</td>
 										<td width="2%">
-											<input class="button" type="button" value=">>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" title="<?php echo JText::_( 'Add' ); ?>"/>
+											<input class="button" type="button" value=">>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" title="<?php echo JText::_( 'Add' ); ?>" />
 											<br />
-											<input class="button" type="button" value="<<" onclick="delSelectedFromList('adminForm','imagelist')" title="<?php echo JText::_( 'Remove' ); ?>"/>
+											<input class="button" type="button" value="<<" onclick="delSelectedFromList('adminForm','imagelist')" title="<?php echo JText::_( 'Remove' ); ?>" />
 										</td>
 										<td width="48%">
 											<div align="center">
@@ -926,14 +926,14 @@ class HTML_content {
 								<td>
 									<?php echo JText::_( 'Description' ); ?>:
 									<br />
-									<textarea class="text_area" cols="30" rows="3" style="width:300px; height:50px" name="metadesc" width="500"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
+									<textarea class="text_area" cols="30" rows="3" style="width:300px; height:50px" name="metadesc"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
 								</td>
 							</tr>
 							<tr>
 								<td>
 									<?php echo JText::_( 'Keywords' ); ?>:
 									<br />
-									<textarea class="text_area" cols="30" rows="3" style="width:300px; height:50px" name="metakey" width="500"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
+									<textarea class="text_area" cols="30" rows="3" style="width:300px; height:50px" name="metakey"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
 								</td>
 							</tr>
 							<tr>

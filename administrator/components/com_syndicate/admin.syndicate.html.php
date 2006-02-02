@@ -24,7 +24,7 @@ class HTML_syndicate {
 	function settings( $option, &$params, $id ) {
 		mosCommonHTML::loadOverlib();
 		?>
-		<style>
+		<style type="text/css">
 		table.paramlist td.paramlist_key {
 			width: 150px;
 			text-align: left;

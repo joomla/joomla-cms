@@ -225,7 +225,7 @@ class HTML_modules {
 						<th colspan="2">
 							<?php echo JText::_( 'Plugin Details' ); ?>
 						</th>
-					<tr>
+					</tr>
 					<tr>
 						<td width="100" >
 							<?php echo JText::_( 'Name' ); ?>:
@@ -294,7 +294,7 @@ class HTML_modules {
 						<th colspan="2">
 							<?php echo JText::_( 'Parameters' ); ?>
 						</th>
-					<tr>
+					</tr>
 					<tr>
 						<td>
 							<?php

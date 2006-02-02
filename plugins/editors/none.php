@@ -104,7 +104,7 @@ class JEditor_none extends JPlugin {
 		$buttons = array();
 		foreach ($results as $result) {
 			if ( $result[0] ) {
-				$buttons[] = '<img src="'.$url.'/plugins/editors-xtd/'.$result[0].'" onclick="insertAtCursor( document.adminForm.'.$hiddenField.', \''.$result[1].'\' )" alt="'.$result[1].'"/>';
+				$buttons[] = '<img src="'.$url.'/plugins/editors-xtd/'.$result[0].'" onclick="insertAtCursor( document.adminForm.'.$hiddenField.', \''.$result[1].'\' )" alt="'.$result[1].'" />';
 			}
 		}
 		$buttons = implode( "", $buttons );

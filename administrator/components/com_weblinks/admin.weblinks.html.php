@@ -237,7 +237,7 @@ class HTML_weblinks {
 							<?php echo JText::_( 'Description' ); ?>:
 						</td>
 						<td>
-							<textarea class="text_area" cols="50" rows="5" name="description" style="width:500px" width="500"><?php echo $row->description; ?></textarea>
+							<textarea class="text_area" cols="50" rows="5" name="description" style="width:500px"><?php echo $row->description; ?></textarea>
 						</td>
 					</tr>
 	

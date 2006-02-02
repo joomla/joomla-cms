@@ -204,7 +204,7 @@ class HTML_contact {
 						<th colspan="2">
 							<?php echo JText::_( 'Contact Details' ); ?>
 						</th>
-					<tr>
+					</tr>
 					<tr>
 						<td width="20%" align="right">
 							<?php echo JText::_( 'Category' ); ?>:
@@ -309,7 +309,6 @@ class HTML_contact {
 							<textarea name="misc" rows="5" cols="50" class="inputbox"><?php echo $row->misc; ?></textarea>
 						</td>
 					</tr>
-					<tr>
 					</table>
 				</td>
 				<td width="40%" valign="top">
@@ -323,7 +322,7 @@ class HTML_contact {
 							<th colspan="2">
 								<?php echo JText::_( 'Publishing Info' ); ?>
 							</th>
-						<tr>
+						</tr>
 						<tr>
 							<td valign="top" align="right">
 								<?php echo JText::_( 'Published' ); ?>:
@@ -366,7 +365,7 @@ class HTML_contact {
 							<th colspan="2">
 								<?php echo JText::_( 'Image Info' ); ?>
 							</th>
-						<tr>
+						</tr>
 						<tr>
 							<td  width="20%">
 								<?php echo JText::_( 'Image' ); ?>:
