@@ -59,5 +59,5 @@ jimport( 'joomla.model.model' );
 jimport( 'joomla.application.application');
 jimport( 'joomla.application.environment.request' );
 jimport( 'joomla.application.environment.session' );
-
+jimport( 'joomla.application.user.user' );
 ?>
