@@ -1250,7 +1250,7 @@ class JContentController
 			$db->setQuery($query);
 			$template = $db->loadResult();
 		}
-
+		
 		// show/hides the intro text
 		if ($params->get('introtext')) {
 			$row->text = $row->introtext. ($params->get('intro_only') ? '' : chr(13).chr(13).$row->fulltext);
