@@ -25,15 +25,7 @@ class HTML_statistics {
 		$width 	= 400;	// width of 100%
 		
 		$tabs 	= new mosTabs(1);
-		?>
-		<style type="text/css">
-		.bar_1{ background-color: #8D1B1B; border: 2px ridge #B22222; }
-		.bar_2{ background-color: #6740E1; border: 2px ridge #4169E1; }
-		.bar_3{ background-color: #8D8D8D; border: 2px ridge #D2D2D2; }
-		.bar_4{ background-color: #CC8500; border: 2px ridge #FFA500; }
-		.bar_5{ background-color: #5B781E; border: 2px ridge #6B8E23; }
-		</style>
-		
+		?>	
 		<form action="index2.php?option=com_statistics" method="post" name="adminForm">
 		
 		<div id="tablecell">				
@@ -71,7 +63,7 @@ class HTML_statistics {
 						</td>
 						<td  width="<?php echo $width+10;?>">
 							<div>
-								<img src="components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>" />
+								<img src="images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>" />
 							</div>
 						</td>
 						<td>
@@ -126,7 +118,7 @@ class HTML_statistics {
 							</td>
 							<td  width="<?php echo $width+10;?>">
 								<div>
-									<img src="components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>" />
+									<img src="images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>" />
 								</div>
 							</td>
 							<td>
@@ -181,7 +173,7 @@ class HTML_statistics {
 							</td>
 							<td  width="<?php echo $width+10;?>">
 								<div>
-									<img src="components/com_poll/images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>" />
+									<img src="images/blank.png" class="bar_<?php echo $c; ?>" height="6" width="<?php echo $w; ?>" />
 								</div>
 							</td>
 							<td>

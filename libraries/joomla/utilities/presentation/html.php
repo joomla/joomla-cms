@@ -376,8 +376,9 @@ class mosHTML {
 		}
 
 		$html = "<a href=\"$base_href&field=$field&order=$next_state\">"
-		. "<img src=\"images/M_images/sort_$state.png\" width=\"12\" height=\"12\" border=\"0\" alt=\"{$alts[$next_state]}\" />"
+		. "<img src=\"images/sort_$state.png\" width=\"12\" height=\"12\" border=\"0\" alt=\"{$alts[$next_state]}\" />"
 		. "</a>";
+
 		return $html;
 	}
 
@@ -390,8 +391,7 @@ class mosHTML {
 	 * @returns HTML code for Warning
 	 * @since 1.1
 	 */
-	function WarningIcon($warning, $title='Joomla Warning')
-	{
+	function WarningIcon($warning, $title='Joomla Warning')	{
 		global $mainframe;
 
 		$title 		= JText::_( 'Joomla Warning' );
