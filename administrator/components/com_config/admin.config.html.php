@@ -69,7 +69,7 @@ class JConfigView {
 		</div>
 		
 		<div id="datacell">
-			<fieldset title="Details">
+			<fieldset>
 				<legend>
 					Details
 				</legend>
