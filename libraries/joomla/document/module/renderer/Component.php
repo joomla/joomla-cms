@@ -46,7 +46,13 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 		$acl  		=& JFactory::getACL();
 
 		$gid = $my->gid;
-
+		
+		//For backwards compatibility extract the config vars as globals
+		foreach (get_object_vars($mainframe->_registry->toObject()) as $k => $v) {
+			$name = 'mosConfig_'.$k;
+			$$name = $v;
+		}
+		
 		$component = !isset($component) ? $option : $component;
 
 		/*
