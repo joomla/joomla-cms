@@ -237,7 +237,7 @@ class JInstallerComponent extends JInstaller {
 				 * Lets build the submenus
 				 */
 				foreach($comAdminSubMenus as $adminSubMenu) {
-					$com =& JModel::getInstance('component', $db );
+					$com = JModel::getInstance('component', $db );
 					$com->name		= $adminSubMenu->getText();
 					$com->link		= '';
 					$com->menuid	= 0;
