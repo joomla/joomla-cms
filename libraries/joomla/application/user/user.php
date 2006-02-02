@@ -594,6 +594,11 @@ class JUserHelper {
 			return false;
 		} else
 		{
+			/*
+			 * Load the user plugins
+			 */
+			JPluginHelper::importGroup( 'user' );
+			$results = $mainframe->triggerEvent( 'onBlock', $id );
 			return true;
 		}
 	}
@@ -626,6 +631,11 @@ class JUserHelper {
 			return false;
 		} else
 		{
+			/*
+			 * Load the user plugins
+			 */
+			JPluginHelper::importGroup( 'user' );
+			$results = $mainframe->triggerEvent( 'onUnblock', $id );
 			return true;
 		}
 	}
