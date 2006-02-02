@@ -383,7 +383,7 @@ function save( $option, $task ) {
 	
 	// manage frontpage items
 	require_once( JApplicationHelper::getPath( 'class', 'com_frontpage' ) );
-	$fp = new JFrontPageModel( $database );
+	$fp = new JModelFrontPage( $database );
 	
 	$frontpage = mosGetParam( $_POST, 'frontpage', 0 );
 	if ($frontpage) {		
@@ -624,7 +624,7 @@ function toggleFrontPage( $cid ) {
 	$msg = '';
 	require_once( JApplicationHelper::getPath( 'class', 'com_frontpage' ) );
 
-	$fp = new JFrontPageModel( $database );
+	$fp = new JModelFrontPage( $database );
 	foreach ($cid as $id) {
 		// toggles go to first place
 		if ($fp->load( $id )) {

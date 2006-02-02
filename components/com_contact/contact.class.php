@@ -21,7 +21,7 @@ jimport('bitfolge.vcard');
 * @package Joomla
 * @subpackage Contact
 */
-class JContactModel extends JModel {
+class JModelContact extends JModel {
 	/** @var int Primary key */
 	var $id 				= null;
 	/** @var string */

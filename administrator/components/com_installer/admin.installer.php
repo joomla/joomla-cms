@@ -22,9 +22,13 @@ require_once ($mainframe->getPath('admin_html'));
 $extension 	= mosGetParam($_REQUEST, 'extension', '');
 $client 	= mosGetParam($_REQUEST, 'client', '');
 
-// ensure user has access to this function
-if (!$acl->acl_check('com_installer', 'installer', 'users', $my->usertype)) {
-	mosRedirect('index2.php', JText :: _('ALERTNOTAUTH'));
+/*
+ * Make sure the user is authorized to view this page
+ */
+$user = & $mainframe->getUser();
+if (!$user->authorize( 'com_installer', 'installer' ))
+{
+	josRedirect('index2.php', JText :: _('ALERTNOTAUTH'));
 }
 
 /*

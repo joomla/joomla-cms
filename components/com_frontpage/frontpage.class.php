@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Content
 */
-class JFrontPageModel extends JModel {
+class JModelFrontPage extends JModel {
 	/** @var int Primary key */
 	var $content_id	= null;
 	/** @var int */

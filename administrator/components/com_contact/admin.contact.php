@@ -15,9 +15,13 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-// ensure user has access to this function
-if (!$acl->acl_check( 'com_contact', 'manage', 'users', $my->usertype )) {
-	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+/*
+ * Make sure the user is authorized to view this page
+ */
+$user = & $mainframe->getUser();
+if (!$user->authorize( 'com_contact', 'manage' ))
+{
+	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
@@ -178,7 +182,7 @@ function showContacts( $option ) {
 function editContact( $id, $option ) {
 	global $database, $my;
 
-	$row = new JContactModel( $database );
+	$row = new JModelContact( $database );
 	// load the row from the db table
 	$row->load( $id );
 
@@ -229,7 +233,7 @@ function editContact( $id, $option ) {
 function saveContact( $task ) {
 	global $database;
 
-	$row = new JContactModel( $database );
+	$row = new JModelContact( $database );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -333,7 +337,7 @@ function changeContact( $cid=null, $state=0 ) {
 	}
 
 	if (count( $cid ) == 1) {
-		$row = new JContactModel( $database );
+		$row = new JModelContact( $database );
 		$row->checkin( intval( $cid[0] ) );
 	}
 
@@ -347,7 +351,7 @@ function changeContact( $cid=null, $state=0 ) {
 function orderContacts( $uid, $inc ) {
 	global $database;
 
-	$row = new JContactModel( $database );
+	$row = new JModelContact( $database );
 	$row->load( $uid );
 	$row->move( $inc, "catid = $row->catid AND published != 0" );
 
@@ -360,7 +364,7 @@ function orderContacts( $uid, $inc ) {
 function cancelContact() {
 	global $database;
 
-	$row = new JContactModel( $database );
+	$row = new JModelContact( $database );
 	$row->bind( $_POST );
 	$row->checkin();
 	
@@ -374,7 +378,7 @@ function cancelContact() {
 function changeAccess( $id, $access  ) {
 	global $database;
 
-	$row = new JContactModel( $database );
+	$row = new JModelContact( $database );
 	$row->load( $id );
 	$row->access = $access;
 	
@@ -405,7 +409,7 @@ function saveOrder( &$cid ) {
 		}
 
 		// update ordering
-		$row = new JContactModel( $database );
+		$row = new JModelContact( $database );
 		$row->load( $cid[$i] );
 		$row->updateOrder( "catid = $row->catid AND published != 0" );
 	}

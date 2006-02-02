@@ -25,12 +25,13 @@ global $Itemid;
 $now 		= date('Y-m-d H:i', time() + $mainframe->getCfg('offset') * 60 * 60);
 $limit		= JRequest::getVar('limit', 1, '', 'int');
 $limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+$user		= & $mainframe->getUser();
 
 // Editor access object
 $access = new stdClass();
-$access->canEdit 	= $acl->acl_check('action', 'edit', 'users', $my->usertype, 'content', 'all');
-$access->canEditOwn = $acl->acl_check('action', 'edit', 'users', $my->usertype, 'content', 'own');
-$access->canPublish = $acl->acl_check('action', 'publish', 'users', $my->usertype, 'content', 'all');
+$access->canEdit 	= $user->authorize('action', 'edit', 'content', 'all');
+$access->canEditOwn = $user->authorize('action', 'edit', 'content', 'own');
+$access->canPublish = $user->authorize('action', 'publish', 'content', 'all');
 
 // cache activation
 $cache = & JFactory :: getCache('com_content');
@@ -1516,7 +1517,7 @@ class JContentController
 
 		// manage frontpage items
 		require_once (JApplicationHelper :: getPath('class', 'com_frontpage'));
-		$fp = new JFrontPageModel($db);
+		$fp = new JModelFrontPage($db);
 
 		if (JRequest :: getVar( 'frontpage', false, '', 'boolean' )) {
 

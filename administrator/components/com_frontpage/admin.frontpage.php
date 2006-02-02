@@ -15,8 +15,12 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-// ensure user has access to this function
-if (!$acl->acl_check( 'com_frontpage', 'manage', 'users', $my->usertype )) {
+/*
+ * Make sure the user is authorized to view this page
+ */
+$user = & $mainframe->getUser();
+if (!$user->authorize( 'com_frontpage', 'manage' ))
+{
 	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
@@ -243,7 +247,7 @@ function removeFrontPage( &$cid, $option ) {
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
-	$fp = new JFrontPageModel( $database );
+	$fp = new JModelFrontPage( $database );
 	foreach ($cid as $id) {
 		if (!$fp->delete( $id )) {
 			echo "<script> alert('".$fp->getError()."'); </script>\n";
@@ -269,7 +273,7 @@ function removeFrontPage( &$cid, $option ) {
 function orderFrontPage( $uid, $inc, $option ) {
 	global $database;
 
-	$fp = new JFrontPageModel( $database );
+	$fp = new JModelFrontPage( $database );
 	$fp->load( $uid );
 	$fp->move( $inc );
 
@@ -315,7 +319,7 @@ function saveOrder( &$cid ) {
 		}
 
 		// update ordering
-		$row = new JFrontPageModel( $database );
+		$row = new JModelFrontPage( $database );
 		$row->load( $cid[$i] );
 		$row->updateOrder();
 	}

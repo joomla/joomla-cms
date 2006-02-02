@@ -556,7 +556,7 @@ class JContactController {
 		/*
 		 * Load the contact details
 		 */
-		$contact = new JContactModel($db);
+		$contact = new JModelContact($db);
 		$contact->load($contactId);
 
 		/*
@@ -655,7 +655,7 @@ class JContactController {
 		/*
 		 * Get a JContact model object and load the selected contact details
 		 */
-		$contact = new JContactModel($db);
+		$contact = new JModelContact($db);
 		$contact->load($contactId);
 
 		/*
