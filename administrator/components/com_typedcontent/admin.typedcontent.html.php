@@ -84,14 +84,14 @@ class HTML_typedcontent {
 				<th width="3%" nowrap="nowrap">
 					<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
 				</th>
-				<th width="20%"  class="title">
+				<th width="15%"  class="title">
 					<?php mosCommonHTML :: tableOrdering( 'Author', 'creator', $lists ); ?>
+				</th>
+				<th align="center" width="10%">
+					<?php mosCommonHTML :: tableOrdering( 'Date', 'c.created', $lists ); ?>
 				</th>
 				<th width="1%" >
 					<?php echo JText::_( 'Links' ); ?>
-				</th>
-				<th align="center" width="10">
-					<?php mosCommonHTML :: tableOrdering( 'Date', 'c.created', $lists ); ?>
 				</th>
 			</tr>
 			<?php
@@ -175,7 +175,7 @@ class HTML_typedcontent {
 						echo $row->title;
 					} else {
 						?>
-						<a href="<?php echo ampReplace( $link ); ?>" title="<?php echo JText::_( 'Edit Static Content' ); ?>">
+						<a href="<?php echo ampReplace( $link ); ?>">
 							<?php echo htmlspecialchars($row->title, ENT_QUOTES); ?></a>
 						<?php
 					}
@@ -208,10 +208,10 @@ class HTML_typedcontent {
 						<?php echo $author;?>
 					</td>
 					<td align="center">
-						<?php echo $row->links;?>
-					</td>
-					<td>
 						<?php echo $date; ?>
+					</td>
+					<td align="center">
+						<?php echo $row->links;?>
 					</td>
 				</tr>
 				<?php

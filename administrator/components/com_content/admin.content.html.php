@@ -198,7 +198,7 @@ class HTML_content {
 					}
 	                else {
 						?>
-						<a href="<?php echo ampReplace( $link ); ?>" title="<?php echo JText::_( 'Edit Content' ); ?>">
+						<a href="<?php echo ampReplace( $link ); ?>">
 							<?php echo htmlspecialchars($row->title, ENT_QUOTES); ?></a>
 						<?php
 					}
