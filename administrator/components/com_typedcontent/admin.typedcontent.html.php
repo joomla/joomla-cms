@@ -235,8 +235,9 @@ class HTML_typedcontent {
 	}
 
 	function edit( &$row, &$images, &$lists, &$params, $option, &$menus ) {
-		//mosMakeHtmlSafe( $row );
-		$tabs = new mosTabs( 1 );
+
+		$tabs = new mosTabs(0);
+		
 		// used to hide "Reset Hits" when hits = 0
 		if ( !$row->hits ) {
 			$visibility = "style='display: none; visbility: hidden;'";
@@ -318,11 +319,6 @@ class HTML_typedcontent {
 				<td width="60%" valign="top">
 					<table class="adminform">
 					<tr>
-						<th>
-							<?php echo JText::_( 'Item Text' ); ?>
-						</th>
-					</tr>
-					<tr>
 						<td>
 							<?php
 							// parameters : areaname, content, hidden field, width, height, rows, cols
@@ -342,16 +338,11 @@ class HTML_typedcontent {
 					
 						<table class="adminform">
 						<tr>
-							<th colspan="2">
-								<?php echo JText::_( 'Item Details' ); ?>
-							</th>
-						</tr>
-						<tr>
-							<td width="100">
+							<td width="130">
 								<?php echo JText::_( 'Title' ); ?>:
 							</td>
 							<td valign="top" align="right">
-								<input class="inputbox" type="text" name="title" size="50" maxlength="255" value="<?php echo $row->title; ?>" />
+								<input class="inputbox" type="text" name="title" size="40" maxlength="255" value="<?php echo $row->title; ?>" />
 							</td>
 						</tr>
 						<tr>
@@ -359,7 +350,7 @@ class HTML_typedcontent {
 								<?php echo JText::_( 'Title Alias' ); ?>:
 							</td>
 							<td valign="top" align="right">
-								<input class="inputbox" type="text" name="title_alias" size="50" maxlength="255" value="<?php echo $row->title_alias; ?>" />
+								<input class="inputbox" type="text" name="title_alias" size="40" maxlength="255" value="<?php echo $row->title_alias; ?>" />
 							</td>
 						</tr>
 						</table>
@@ -506,11 +497,6 @@ class HTML_typedcontent {
 					
 						<table class="adminform">
 						<tr>
-							<th colspan="2">
-								<?php echo JText::_( 'Image Control' ); ?>
-							</th>
-						</tr>
-						<tr>
 							<td colspan="2">
 								<table width="100%">
 								<tr>
@@ -544,13 +530,13 @@ class HTML_typedcontent {
 						</tr>
 						<tr valign="top">
 							<td>
-								<div align="center">
+								<div align="center" style="border: 1px solid #d5d5d5;">
 									<?php echo JText::_( 'Sample Image' ); ?>:<br />
 									<img name="view_imagefiles" src="../images/M_images/blank.png" width="100" />
 								</div>
 							</td>
 							<td valign="top">
-								<div align="center">
+								<div align="center" style="border: 1px solid #d5d5d5;">
 									<?php echo JText::_( 'Active Image' ); ?>:<br />
 									<img name="view_imagelist" src="../images/M_images/blank.png" width="100" />
 								</div>
@@ -647,11 +633,6 @@ class HTML_typedcontent {
 					
 						<table class="adminform">
 						<tr>
-							<th colspan="2">
-								<?php echo JText::_( 'Parameter Control' ); ?>
-							</th>
-						</tr>
-						<tr>
 							<td>
 								<?php echo $params->render();?>
 							</td>
@@ -665,11 +646,6 @@ class HTML_typedcontent {
 					?>
 					
 						<table class="adminform">
-						<tr>
-							<th colspan="2">
-								<?php echo JText::_( 'Meta Data' ); ?>
-							</th>
-						</tr>
 						<tr>
 							<td >
 								<?php echo JText::_( 'Description' ); ?>:
@@ -693,11 +669,6 @@ class HTML_typedcontent {
 					?>
 					
 						<table class="adminform">
-						<tr>
-							<th colspan="2">
-								<?php echo JText::_( 'Link to Menu' ); ?>
-							</th>
-						</tr>
 						<tr>
 							<td colspan="2">
 								<?php echo JText::_( 'DESCLINKSTATIC' ); ?>
@@ -727,29 +698,23 @@ class HTML_typedcontent {
 								<input name="menu_link" type="button" class="button" value="<?php echo JText::_( 'Link to Menu' ); ?>" onclick="submitbutton('menulink');" />
 							</td>
 						</tr>
-						<tr>
-							<th colspan="2">
-								<?php echo JText::_( 'Existing Menu Links' ); ?>
-							</th>
-						</tr>
+						</table>
+						
 						<?php
-						if ( $menus == NULL ) {
+						if ( $menus != NULL ) {
 							?>
+							<br />
+							
+							<table class="adminform">
 							<tr>
 								<td colspan="2">
-									<?php echo JText::_( 'None' ); ?>
+									<?php mosCommonHTML::menuLinksContent( $menus ); ?>
 								</td>
 							</tr>
+							</table>
 							<?php
-						} else {
-							mosCommonHTML::menuLinksContent( $menus );
 						}
 						?>
-						<tr>
-							<td colspan="2">
-							</td>
-						</tr>
-						</table>
 					
 					<?php
 					$tabs->endTab();

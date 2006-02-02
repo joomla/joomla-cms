@@ -454,7 +454,7 @@ class HTML_content {
 			$mod_date 		= mosFormatDate( $row->modified, '%A, %d %B %Y %H:%M', '0' );
 		}
 
-		$tabs = new mosTabs(1);
+		$tabs = new mosTabs(0);
 
 
 		// used to hide "Reset Hits" when hits = 0
@@ -536,495 +536,466 @@ class HTML_content {
 		<form action="index2.php" method="post" name="adminForm">
 		
 		<div id="editcell">				
-			<table cellspacing="0" cellpadding="0" width="100%">
+			<table cellspacing="0" cellpadding="0" border="0" width="100%">
 			<tr>
 				<td width="60%" valign="top">
-					<table width="100%" class="adminform">
+					<table class="adminform">
 					<tr>
-						<td width="100%">
-							<table cellspacing="0" cellpadding="0" border="0" width="100%">
-							<tr>
-								<th colspan="4">
-									<?php echo JText::_( 'Item Details' ); ?>
-								</th>
-							</tr>
-							<tr>
-								<td>
-									<?php echo JText::_( 'Title' ); ?>:
-								</td>
-								<td>
-									<input class="text_area" type="text" name="title" size="30" maxlength="255" value="<?php echo $row->title; ?>" />
-								</td>
-								<td>
-									<?php echo JText::_( 'Section' ); ?>:
-								</td>
-								<td>
-									<?php echo $lists['sectionid']; ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<?php echo JText::_( 'Title Alias' ); ?>:
-								</td>
-								<td>
-									<input name="title_alias" type="text" class="text_area" id="title_alias" value="<?php echo $row->title_alias; ?>" size="30" maxlength="255" />
-								</td>
-								<td>
-									<?php echo JText::_( 'Category' ); ?>:
-								</td>
-								<td>
-									<?php echo $lists['catid']; ?>
-								</td>
-							</tr>
-							</table>
-						</td>
-					</tr>
-					<tr>
-						<td width="100%">
-							<?php echo JText::_( 'Intro Text: (required)' ); ?>
-							<br /><?php
+						<td>
+							<?php
 							// parameters : areaname, content, hidden field, width, height, rows, cols
 							$editor =& JEditor::getInstance();
-							echo $editor->getEditor( 'editor1',  $row->introtext , 'introtext', '100%;', '350', '75', '20' ) ; ?>
+							echo $editor->getEditor( 'editor1',  $row->introtext , 'introtext', '100%;', '350', '75', '20' ) ; 
+							?>
 						</td>
 					</tr>
 					<tr>
-						<td width="100%">
+						<td>
 							<?php echo JText::_( 'Main Text: (optional)' ); ?>
-							<br /><?php
+							<br />
+							<?php
 							// parameters : areaname, content, hidden field, width, height, rows, cols
 							$editor =& JEditor::getInstance();
-							echo $editor->getEditor( 'editor2',  $row->fulltext , 'fulltext', '100%;', '400', '75', '30' ) ; ?>
+							echo $editor->getEditor( 'editor2',  $row->fulltext , 'fulltext', '100%;', '400', '75', '30' ) ; 
+							?>
 						</td>
 					</tr>
 					</table>
 				</td>
 				<td valign="top" width="40%">
-					<table>
-					<tr>
-						<td>
+					<?php
+					$title = JText::_( 'Details' );
+					$tabs->startPane("content-pane");
+					$tabs->startTab( $title, "detail-page" );
+					?>				
+						
+						<table class="adminform">
+						<tr>
+							<td width="130">
+								<?php echo JText::_( 'Title' ); ?>:
+							</td>
+							<td valign="top" align="right">
+								<input class="inputbox" type="text" name="title" size="40" maxlength="255" value="<?php echo $row->title; ?>" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Title Alias' ); ?>:
+							</td>
+							<td valign="top" align="right">
+								<input class="inputbox" type="text" name="title_alias" size="40" maxlength="255" value="<?php echo $row->title_alias; ?>" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Section' ); ?>:
+							</td>
+							<td>
+								<?php echo $lists['sectionid']; ?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Category' ); ?>:
+							</td>
+							<td>
+								<?php echo $lists['catid']; ?>
+							</td>
+						</tr>
+						</table>
+						
+						<br />
+					
+						<table class="adminform">
+						<tr>
+							<td valign="top" align="right" width="130">
+								<?php echo JText::_( 'Published' ); ?>:
+							</td>
+							<td>
+								<?php echo $lists['state']; ?> 
+							</td>
+						</tr>
+						<tr>
+							<td valign="top" align="right">
+								<?php echo JText::_( 'Show on Frontpage' ); ?>:
+							</td>
+							<td>
+								<?php echo $lists['frontpage']; ?> 
+							</td>
+						</tr>
+						<tr>
+							<td valign="top" align="right">
+								<?php echo JText::_( 'Access Level' ); ?>:
+							</td>
+							<td>
+								<?php echo $lists['access']; ?> 
+							</td>
+						</tr>
+						<tr>
+							<td valign="top" align="right">
+								<?php echo JText::_( 'Author Alias' ); ?>:
+							</td>
+							<td>
+								<input type="text" name="created_by_alias" size="30" maxlength="100" value="<?php echo $row->created_by_alias; ?>" class="text_area" />
+							</td>
+						</tr>
+						<tr>
+							<td valign="top" align="right">
+								<?php echo JText::_( 'Change Creator' ); ?>:
+							</td>
+							<td>
+								<?php echo $lists['created_by']; ?> 
+							</td>
+						</tr>
+						<tr>
+							<td valign="top" align="right">
+								<?php echo JText::_( 'Ordering' ); ?>:
+							</td>
+							<td>
+								<?php echo $lists['ordering']; ?> 
+							</td>
+						</tr>
+						<tr>
+							<td valign="top" align="right">
+								<?php echo JText::_( 'Override Created Date' ); ?>
+							</td>
+							<td>
+								<input class="text_area" type="text" name="created" id="created" size="25" maxlength="19" value="<?php echo $row->created; ?>" />
+								<input name="reset" type="reset" class="button" onclick="return showCalendar('created', 'y-mm-dd');" value="..." />
+							</td>
+						</tr>
+						<tr>
+							<td valign="top" align="right">
+								<?php echo JText::_( 'Start Publishing' ); ?>:
+							</td>
+							<td>
+								<input class="text_area" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo $row->publish_up; ?>" />
+								<input type="reset" class="button" value="..." onclick="return showCalendar('publish_up', 'y-mm-dd');" />
+							</td>
+						</tr>
+						<tr>
+							<td valign="top" align="right">
+								<?php echo JText::_( 'Finish Publishing' ); ?>:
+							</td>
+							<td>
+								<input class="text_area" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $row->publish_down; ?>" />
+								<input type="reset" class="button" value="..." onclick="return showCalendar('publish_down', 'y-mm-dd');" />
+							</td>
+						</tr>
+						</table>
+						
+						<br />
+						
+						<table class="adminform">
 						<?php
-						$title = JText::_( 'Publishing' );
-						$tabs->startPane("content-pane");
-						$tabs->startTab( $title, "publish-page" );
-						?>
-							<table class="adminform">
-							<tr>
-								<th colspan="2">
-									<?php echo JText::_( 'Publishing Info' ); ?>
-								</th>
-							</tr>
-							<tr>
-								<td valign="top" align="right">
-									<?php echo JText::_( 'Published' ); ?>:
-								</td>
-								<td>
-									<?php echo $lists['state']; ?> 
-								</td>
-							</tr>
-							<tr>
-								<td valign="top" align="right">
-									<?php echo JText::_( 'Show on Frontpage' ); ?>:
-								</td>
-								<td>
-									<?php echo $lists['frontpage']; ?> 
-								</td>
-							</tr>
-							<tr>
-								<td valign="top" align="right">
-									<?php echo JText::_( 'Access Level' ); ?>:
-								</td>
-								<td>
-									<?php echo $lists['access']; ?> 
-								</td>
-							</tr>
-							<tr>
-								<td valign="top" align="right">
-									<?php echo JText::_( 'Author Alias' ); ?>:
-								</td>
-								<td>
-									<input type="text" name="created_by_alias" size="30" maxlength="100" value="<?php echo $row->created_by_alias; ?>" class="text_area" />
-								</td>
-							</tr>
-							<tr>
-								<td valign="top" align="right">
-									<?php echo JText::_( 'Change Creator' ); ?>:
-								</td>
-								<td>
-									<?php echo $lists['created_by']; ?> 
-								</td>
-							</tr>
-							<tr>
-								<td valign="top" align="right">
-									<?php echo JText::_( 'Ordering' ); ?>:
-								</td>
-								<td>
-									<?php echo $lists['ordering']; ?> 
-								</td>
-							</tr>
-							<tr>
-								<td valign="top" align="right">
-									<?php echo JText::_( 'Override Created Date' ); ?>
-								</td>
-								<td>
-									<input class="text_area" type="text" name="created" id="created" size="25" maxlength="19" value="<?php echo $row->created; ?>" />
-									<input name="reset" type="reset" class="button" onclick="return showCalendar('created', 'y-mm-dd');" value="..." />
-								</td>
-							</tr>
-							<tr>
-								<td valign="top" align="right">
-									<?php echo JText::_( 'Start Publishing' ); ?>:
-								</td>
-								<td>
-									<input class="text_area" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo $row->publish_up; ?>" />
-									<input type="reset" class="button" value="..." onclick="return showCalendar('publish_up', 'y-mm-dd');" />
-								</td>
-							</tr>
-							<tr>
-								<td valign="top" align="right">
-									<?php echo JText::_( 'Finish Publishing' ); ?>:
-								</td>
-								<td>
-									<input class="text_area" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $row->publish_down; ?>" />
-									<input type="reset" class="button" value="..." onclick="return showCalendar('publish_down', 'y-mm-dd');" />
-								</td>
-							</tr>
-							</table>
-							<br />
-							<table class="adminform">
-							<?php
-							if ( $row->id ) {
-								?>
-								<tr>
-									<td>
-										<strong><?php echo JText::_( 'Content ID' ); ?>:</strong>
-									</td>
-									<td>
-										<?php echo $row->id; ?>
-									</td>
-								</tr>
-								<?php
-							}
+						if ( $row->id ) {
 							?>
 							<tr>
-								<td width="90" valign="top" align="right">
-									<strong><?php echo JText::_( 'State' ); ?>:</strong>
+								<td>
+									<strong><?php echo JText::_( 'Content ID' ); ?>:</strong>
 								</td>
 								<td>
-									<?php echo $row->state > 0 ? JText::_( 'Published' ) : ($row->state < 0 ? JText::_( 'Archived' ) : JText::_( 'Draft Unpublished' ) );?>
+									<?php echo $row->id; ?>
 								</td>
-							</tr>
-							<tr >
-								<td valign="top" align="right">
-									<strong>
-									<?php echo JText::_( 'Hits' ); ?>
-									</strong>:
-								</td>
-								<td>
-									<?php echo $row->hits;?>
-									<div <?php echo $visibility; ?>>
-										<input name="reset_hits" type="button" class="button" value="<?php echo JText::_( 'Reset Hit Count' ); ?>" onclick="submitbutton('resethits');" />
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td valign="top" align="right">
-									<strong>
-									<?php echo JText::_( 'Revised' ); ?>
-									</strong>:
-								</td>
-								<td>
-									<?php echo $row->version;?> <?php echo JText::_( 'times' ); ?>
-								</td>
-							</tr>
-							<tr>
-								<td valign="top" align="right">
-									<strong>
-									<?php echo JText::_( 'Created' ); ?>
-									</strong>
-								</td>
-								<td>
-									<?php echo $row->created ? "$create_date</td></tr><tr><td valign='top' align='right'><strong>". JText::_( 'By' ) ."</strong></td><td>". $row->creator : JText::_( 'New document' ); ?>
-								</td>
-							</tr>
-							<tr>
-								<td valign="top" align="right">
-									<strong>
-									<?php echo JText::_( 'Last Modified' ); ?>
-									</strong>
-								</td>
-								<td>
-									<?php echo $row->modified ? "$mod_date</td></tr><tr><td valign='top' align='right'><strong>". JText::_( 'By' ) ."</strong></td><td>". $row->modifier : JText::_( 'Not modified' );?>
-								</td>
-							</tr>
-							</table>
-							
-						<?php
-						$title = JText::_( 'Images' );
-						$tabs->endTab();
-						$tabs->startTab( $title, "images-page" );
-						?>
-						
-							<table class="adminform" width="100%">
-							<tr>
-								<th colspan="2">
-									<?php echo JText::_( 'Image Control' ); ?>
-								</th>
-							</tr>
-							<tr>
-								<td colspan="2">
-									<table width="100%">
-									<tr>
-										<td width="48%">
-											<div align="center">
-												<?php echo JText::_( 'Gallery Images' ); ?>:
-												<br />
-												<?php echo $lists['imagefiles'];?>
-												<br />
-												<?php echo JText::_( 'Sub-folder' ); ?>: <?php echo $lists['folders'];?>
-											</div>
-										</td>
-										<td width="2%">
-											<input class="button" type="button" value=">>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" title="<?php echo JText::_( 'Add' ); ?>" />
-											<br />
-											<input class="button" type="button" value="<<" onclick="delSelectedFromList('adminForm','imagelist')" title="<?php echo JText::_( 'Remove' ); ?>" />
-										</td>
-										<td width="48%">
-											<div align="center">
-												<?php echo JText::_( 'Content Images' ); ?>:
-												<br />
-												<?php echo $lists['imagelist'];?>
-												<br />
-												<input class="button" type="button" value="<?php echo JText::_( 'Up' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,-1)" />
-												<input class="button" type="button" value="<?php echo JText::_( 'Down' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,+1)" />
-											</div>
-										</td>
-									</tr>
-									</table>
-								</td>
-							</tr>
-							<tr valign="top">
-								<td>
-									<div align="center">
-										<?php echo JText::_( 'Sample Image' ); ?>:<br />
-										<img name="view_imagefiles" src="../images/M_images/blank.png" width="100" />
-									</div>
-								</td>
-								<td valign="top">
-									<div align="center">
-										<?php echo JText::_( 'Active Image' ); ?>:<br />
-										<img name="view_imagelist" src="../images/M_images/blank.png" width="100" />
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2">
-									<?php echo JText::_( 'Edit the image selected' ); ?>:
-									<table>
-									<tr>
-										<td align="right">
-											<?php echo JText::_( 'Source' ); ?>:
-										</td>
-										<td>
-											<input class="text_area" type="text" name= "_source" value="" />
-										</td>
-									</tr>
-									<tr>
-										<td align="right">
-											<?php echo JText::_( 'Image Align' ); ?>:
-										</td>
-										<td>
-											<?php echo $lists['_align']; ?>
-										</td>
-									</tr>
-									<tr>
-										<td align="right">
-											<?php echo JText::_( 'Alt Text' ); ?>:
-										</td>
-										<td>
-											<input class="text_area" type="text" name="_alt" value="" />
-										</td>
-									</tr>
-									<tr>
-										<td align="right">
-											<?php echo JText::_( 'Border' ); ?>:
-										</td>
-										<td>
-											<input class="text_area" type="text" name="_border" value="" size="3" maxlength="1" />
-										</td>
-									</tr>
-									<tr>
-										<td align="right">
-											<?php echo JText::_( 'Caption' ); ?>:
-										</td>
-										<td>
-											<input class="text_area" type="text" name="_caption" value="" size="30" />
-										</td>
-									</tr>
-									<tr>
-										<td align="right">
-											<?php echo JText::_( 'Caption Position' ); ?>:
-										</td>
-										<td>
-											<?php echo $lists['_caption_position']; ?>
-										</td>
-									</tr>
-									<tr>
-										<td align="right">
-											<?php echo JText::_( 'Caption Align' ); ?>:
-										</td>
-										<td>
-											<?php echo $lists['_caption_align']; ?>
-										</td>
-									</tr>
-									<tr>
-										<td align="right">
-											<?php echo JText::_( 'Caption Width' ); ?>:
-										</td>
-										<td>
-											<input class="text_area" type="text" name="_width" value="" size="5" maxlength="5" />
-										</td>
-									</tr>
-									<tr>
-										<td colspan="2">
-											<input class="button" type="button" value="<?php echo JText::_( 'Apply' ); ?>" onclick="applyImageProps()" />
-										</td>
-									</tr>
-									</table>
-								</td>
-							</tr>
-							</table>
-						
-						<?php
-						$title = JText::_( 'Parameters' );
-						$tabs->endTab();
-						$tabs->startTab( $title, "params-page" );
-						?>
-						
-							<table class="adminform">
-							<tr>
-								<th colspan="2">
-									<?php echo JText::_( 'Parameter Control' ); ?>
-								</th>
-							</tr>
-							<tr>
-								<td>
-									<?php echo JText::_( 'DESCPARAMCONTROLWHATSEE' ); ?>
-									<br /><br />
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<?php echo $params->render();?>
-								</td>
-							</tr>
-							</table>
-							
-						<?php
-						$title = JText::_( 'Meta Info' );
-						$tabs->endTab();
-						$tabs->startTab( $title, "metadata-page" );
-						?>
-						
-							<table class="adminform">
-							<tr>
-								<th colspan="2">
-									<?php echo JText::_( 'Meta Data' ); ?>
-								</th>
-							</tr>
-							<tr>
-								<td>
-									<?php echo JText::_( 'Description' ); ?>:
-									<br />
-									<textarea class="text_area" cols="30" rows="3" style="width:300px; height:50px" name="metadesc"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<?php echo JText::_( 'Keywords' ); ?>:
-									<br />
-									<textarea class="text_area" cols="30" rows="3" style="width:300px; height:50px" name="metakey"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="button" class="button" value="<?php echo JText::_( 'Add Sect/Cat/Title' ); ?>" onclick="f=document.adminForm;f.metakey.value=document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].text+', '+getSelectedText('adminForm','catid')+', '+f.title.value+f.metakey.value;" />
-								</td>
-							</tr>
-							</table>
-							
-						<?php
-						$title = JText::_( 'Link to Menu' );
-						$tabs->endTab();
-						$tabs->startTab( $title, "link-page" );
-						?>
-						
-							<table class="adminform">
-							<tr>
-								<th colspan="2">
-									<?php echo JText::_( 'Link to Menu' ); ?>
-								</th>
-							</tr>
-							<tr>
-								<td colspan="2">
-									<?php echo JText::_( 'DESCWILLCREATELINKINMENU' ); ?>
-									<br /><br />
-								</td>
-							</tr>
-							<tr>
-								<td valign="top" width="90">
-									<?php echo JText::_( 'Select a Menu' ); ?>
-								</td>
-								<td>
-									<?php echo $lists['menuselect']; ?>
-								</td>
-							</tr>
-							<tr>
-								<td valign="top" width="90">
-									<?php echo JText::_( 'Menu Item Name' ); ?>
-								</td>
-								<td>
-									<input type="text" name="link_name" class="inputbox" value="" size="30" />
-								</td>
-							</tr>
-							<tr>
-								<td>
-								</td>
-								<td>
-									<input name="menu_link" type="button" class="button" value="<?php echo JText::_( 'Link to Menu' ); ?>" onclick="submitbutton('menulink');" />
-								</td>
-							</tr>
-							<tr>
-								<th colspan="2">
-									<?php echo JText::_( 'Existing Menu Links' ); ?>
-								</th>
 							</tr>
 							<?php
-							if ( $menus == NULL ) {
-								?>
+						}
+						?>
+						<tr>
+							<td valign="top" align="right" width="130">
+								<strong><?php echo JText::_( 'State' ); ?>:</strong>
+							</td>
+							<td>
+								<?php echo $row->state > 0 ? JText::_( 'Published' ) : ($row->state < 0 ? JText::_( 'Archived' ) : JText::_( 'Draft Unpublished' ) );?>
+							</td>
+						</tr>
+						<tr >
+							<td valign="top" align="right">
+								<strong>
+								<?php echo JText::_( 'Hits' ); ?>
+								</strong>:
+							</td>
+							<td>
+								<?php echo $row->hits;?>
+								<div <?php echo $visibility; ?>>
+									<input name="reset_hits" type="button" class="button" value="<?php echo JText::_( 'Reset Hit Count' ); ?>" onclick="submitbutton('resethits');" />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td valign="top" align="right">
+								<strong>
+								<?php echo JText::_( 'Revised' ); ?>
+								</strong>:
+							</td>
+							<td>
+								<?php echo $row->version;?> <?php echo JText::_( 'times' ); ?>
+							</td>
+						</tr>
+						<tr>
+							<td valign="top" align="right">
+								<strong>
+								<?php echo JText::_( 'Created' ); ?>
+								</strong>
+							</td>
+							<td>
+								<?php echo $row->created ? "$create_date</td></tr><tr><td valign='top' align='right'><strong>". JText::_( 'By' ) ."</strong></td><td>". $row->creator : JText::_( 'New document' ); ?>
+							</td>
+						</tr>
+						<tr>
+							<td valign="top" align="right">
+								<strong>
+								<?php echo JText::_( 'Last Modified' ); ?>
+								</strong>
+							</td>
+							<td>
+								<?php echo $row->modified ? "$mod_date</td></tr><tr><td valign='top' align='right'><strong>". JText::_( 'By' ) ."</strong></td><td>". $row->modifier : JText::_( 'Not modified' );?>
+							</td>
+						</tr>
+						</table>
+						
+					<?php
+					$title = JText::_( 'Images' );
+					$tabs->endTab();
+					$tabs->startTab( $title, "images-page" );
+					?>
+					
+						<table class="adminform" width="100%">
+						<tr>
+							<td colspan="2">
+								<table width="100%">
+								<tr>
+									<td width="48%">
+										<div align="center">
+											<?php echo JText::_( 'Gallery Images' ); ?>:
+											<br />
+											<?php echo $lists['imagefiles'];?>
+											<br />
+											<?php echo JText::_( 'Sub-folder' ); ?>: <?php echo $lists['folders'];?>
+										</div>
+									</td>
+									<td width="2%">
+										<input class="button" type="button" value=">>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" title="<?php echo JText::_( 'Add' ); ?>" />
+										<br />
+										<input class="button" type="button" value="<<" onclick="delSelectedFromList('adminForm','imagelist')" title="<?php echo JText::_( 'Remove' ); ?>" />
+									</td>
+									<td width="48%">
+										<div align="center">
+											<?php echo JText::_( 'Content Images' ); ?>:
+											<br />
+											<?php echo $lists['imagelist'];?>
+											<br />
+											<input class="button" type="button" value="<?php echo JText::_( 'Up' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,-1)" />
+											<input class="button" type="button" value="<?php echo JText::_( 'Down' ); ?>" onclick="moveInList('adminForm','imagelist',adminForm.imagelist.selectedIndex,+1)" />
+										</div>
+									</td>
+								</tr>
+								</table>
+							</td>
+						</tr>
+						<tr valign="top">
+							<td>
+								<div align="center" style="border: 1px solid #d5d5d5;">
+									<?php echo JText::_( 'Sample Image' ); ?>:<br />
+									<img name="view_imagefiles" src="../images/M_images/blank.png" width="100" />
+								</div>
+							</td>
+							<td valign="top">
+								<div align="center" style="border: 1px solid #d5d5d5;">
+									<?php echo JText::_( 'Active Image' ); ?>:<br />
+									<img name="view_imagelist" src="../images/M_images/blank.png" width="100" />
+								</div>
+							</td>
+						</tr>
+						</table>
+						
+						<br />
+						
+						<table class="adminform">
+						<tr>
+							<td colspan="2">
+								<?php echo JText::_( 'Edit the image selected' ); ?>:
+								<table>
+								<tr>
+									<td align="right">
+										<?php echo JText::_( 'Source' ); ?>:
+									</td>
+									<td>
+										<input class="text_area" type="text" name= "_source" value="" />
+									</td>
+								</tr>
+								<tr>
+									<td align="right">
+										<?php echo JText::_( 'Image Align' ); ?>:
+									</td>
+									<td>
+										<?php echo $lists['_align']; ?>
+									</td>
+								</tr>
+								<tr>
+									<td align="right">
+										<?php echo JText::_( 'Alt Text' ); ?>:
+									</td>
+									<td>
+										<input class="text_area" type="text" name="_alt" value="" />
+									</td>
+								</tr>
+								<tr>
+									<td align="right">
+										<?php echo JText::_( 'Border' ); ?>:
+									</td>
+									<td>
+										<input class="text_area" type="text" name="_border" value="" size="3" maxlength="1" />
+									</td>
+								</tr>
+								<tr>
+									<td align="right">
+										<?php echo JText::_( 'Caption' ); ?>:
+									</td>
+									<td>
+										<input class="text_area" type="text" name="_caption" value="" size="30" />
+									</td>
+								</tr>
+								<tr>
+									<td align="right">
+										<?php echo JText::_( 'Caption Position' ); ?>:
+									</td>
+									<td>
+										<?php echo $lists['_caption_position']; ?>
+									</td>
+								</tr>
+								<tr>
+									<td align="right">
+										<?php echo JText::_( 'Caption Align' ); ?>:
+									</td>
+									<td>
+										<?php echo $lists['_caption_align']; ?>
+									</td>
+								</tr>
+								<tr>
+									<td align="right">
+										<?php echo JText::_( 'Caption Width' ); ?>:
+									</td>
+									<td>
+										<input class="text_area" type="text" name="_width" value="" size="5" maxlength="5" />
+									</td>
+								</tr>
 								<tr>
 									<td colspan="2">
-										<?php echo JText::_( 'None' ); ?>
+										<input class="button" type="button" value="<?php echo JText::_( 'Apply' ); ?>" onclick="applyImageProps()" />
 									</td>
 								</tr>
-								<?php
-							} else {
-								mosCommonHTML::menuLinksContent( $menus );
-							}
+								</table>
+							</td>
+						</tr>
+						</table>
+					
+					<?php
+					$title = JText::_( 'Parameters' );
+					$tabs->endTab();
+					$tabs->startTab( $title, "params-page" );
+					?>
+					
+						<table class="adminform">
+						<tr>
+							<td>
+								<?php echo JText::_( 'DESCPARAMCONTROLWHATSEE' ); ?>
+								<br /><br />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo $params->render();?>
+							</td>
+						</tr>
+						</table>
+						
+					<?php
+					$title = JText::_( 'Meta Info' );
+					$tabs->endTab();
+					$tabs->startTab( $title, "metadata-page" );
+					?>
+					
+						<table class="adminform">
+						<tr>
+							<td>
+								<?php echo JText::_( 'Description' ); ?>:
+								<br />
+								<textarea class="text_area" cols="30" rows="3" style="width:300px; height:50px" name="metadesc"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Keywords' ); ?>:
+								<br />
+								<textarea class="text_area" cols="30" rows="3" style="width:300px; height:50px" name="metakey"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input type="button" class="button" value="<?php echo JText::_( 'Add Sect/Cat/Title' ); ?>" onclick="f=document.adminForm;f.metakey.value=document.adminForm.sectionid.options[document.adminForm.sectionid.selectedIndex].text+', '+getSelectedText('adminForm','catid')+', '+f.title.value+f.metakey.value;" />
+							</td>
+						</tr>
+						</table>
+						
+					<?php
+					$title = JText::_( 'Link to Menu' );
+					$tabs->endTab();
+					$tabs->startTab( $title, "link-page" );
+					?>
+					
+						<table class="adminform">
+						<tr>
+							<td colspan="2">
+								<?php echo JText::_( 'DESCWILLCREATELINKINMENU' ); ?>
+								<br /><br />
+							</td>
+						</tr>
+						<tr>
+							<td valign="top" width="90">
+								<?php echo JText::_( 'Select a Menu' ); ?>
+							</td>
+							<td>
+								<?php echo $lists['menuselect']; ?>
+							</td>
+						</tr>
+						<tr>
+							<td valign="top" width="90">
+								<?php echo JText::_( 'Menu Item Name' ); ?>
+							</td>
+							<td>
+								<input type="text" name="link_name" class="inputbox" value="" size="30" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+							</td>
+							<td>
+								<input name="menu_link" type="button" class="button" value="<?php echo JText::_( 'Link to Menu' ); ?>" onclick="submitbutton('menulink');" />
+							</td>
+						</tr>
+						</table>
+						
+						<?php
+						if ( $menus != NULL ) {
 							?>
+							<br />
+							
+							<table class="adminform">
 							<tr>
 								<td colspan="2">
+									<?php mosCommonHTML::menuLinksContent( $menus ); ?>
 								</td>
 							</tr>
 							</table>
-						
-						<?php
-						$tabs->endTab();
-						$tabs->endPane();
+							<?php
+						}
 						?>
-						</td>
-					</tr>
-					</table>
+
+					<?php
+					$tabs->endTab();
+					$tabs->endPane();
+					?>
 				</td>
 			</tr>
 			</table>
