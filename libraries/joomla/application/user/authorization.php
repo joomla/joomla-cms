@@ -177,6 +177,8 @@ class JAuthorization extends gacl_api {
 		// Legacy ACL's for backward compat
 		$this->_mos_add_acl( 'administration', 'edit', 'users', 'super administrator', 'components', 'all' );
 		$this->_mos_add_acl( 'administration', 'edit', 'users', 'administrator', 'components', 'all' );
+		$this->_mos_add_acl( 'administration', 'manage', 'users', 'super administrator', 'components', 'com_users' );
+		$this->_mos_add_acl( 'administration', 'manage', 'users', 'administrator', 'components', 'com_users' );
 
 		$this->acl_count = count( $this->acl );
 	}
