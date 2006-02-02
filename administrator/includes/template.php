@@ -115,7 +115,7 @@ function initDocument(&$doc, $file = 'index.php')
 	
 	$doc->addGlobalVar( 'template', $template);
 
-	if ( $user->id ) {
+	if ( $user->get('id') ) {
 		$doc->addScript( '../includes/js/joomla.javascript.js');
 	}
 

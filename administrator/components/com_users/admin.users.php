@@ -277,7 +277,7 @@ function saveUser( $option, $task ) {
 	 * Initialize some variables
 	 */
 	$db			= & $mainframe->getDBO();
-	$my			= & $mainframe->getUser();
+	$me			= & $mainframe->getUser();
 	$MailFrom	= $mainframe->getCfg('mailfrom');
 	$FromName	= $mainframe->getCfg('fromname');
 	$SiteName	= $mainframe->getCfg('sitename');
@@ -332,8 +332,8 @@ function saveUser( $option, $task ) {
 	 * Time for the email magic so get ready to sprinkle the magic dust...
 	 */
 	if ($isNew) {
-		$adminEmail = $my->get('email');
-		$adminName	= $my->get('name');
+		$adminEmail = $me->get('email');
+		$adminName	= $me->get('name');
 
 		$subject = JText::_('NEW_USER_MESSAGE_SUBJECT');
 		$message = sprintf ( JText::_('NEW_USER_MESSAGE'), $user->get('name'), $SiteName, $mainframe->getSiteURL(), $user->get('username'), $user->clearPW );

@@ -517,8 +517,8 @@ if ($lang->isRTL()) {
  * full menu.
  */
 if ($hide) {
-	JFullAdminMenu :: showDisabled($user->usertype);
+	JFullAdminMenu :: showDisabled($user->get('usertype'));
 } else {
-	JFullAdminMenu :: show($user->usertype);
+	JFullAdminMenu :: show($user->get('usertype'));
 }
 ?>

@@ -34,13 +34,13 @@ class JElement_Editors extends JElement
 	{
 		global $mainframe;
 
-		$db	= & $mainframe->getDBO();
-		$my	= & $mainframe->getUser();
+		$db		= & $mainframe->getDBO();
+		$user	= & $mainframe->getUser();
 
 		/* 
 		 * @todo: change to acl_check method
 		 */
-		if(!($my->gid >= 20) ) {
+		if(!($user->get('gid') >= 20) ) {
 			return JText::_('No Access');
 		}
 

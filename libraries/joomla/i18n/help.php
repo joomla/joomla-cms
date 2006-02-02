@@ -31,8 +31,8 @@ class JHelp {
 	{
 		global $mainframe, $_VERSION, $option;
 
-		$my				= & $mainframe->getUser();
-		$userHelpUrl	= $my->params->get( 'helpsite' );
+		$user			= & $mainframe->getUser();
+		$userHelpUrl	= $user->getParam( 'helpsite' );
 		$globalHelpUrl 	= $mainframe->getCfg('helpurl');
 		$url 			= $mainframe->getCfg('live_site');
 		

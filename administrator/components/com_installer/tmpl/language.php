@@ -185,13 +185,10 @@ class JInstallerExtensionTasks {
 class JInstallerScreens_language {
 	
 	function showInstalled( &$rows, &$page, $client, $lists ) {
-		global $mainframe;
 		
 		/*
-		 * Initialize variables
+		 * Load overlib
 		 */
-		$my	= & $mainframe->getUser();
-		
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">

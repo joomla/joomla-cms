@@ -67,7 +67,8 @@ if ($option == 'logout') {
 }
 
 // get the information about the current user from the sessions table
-$my   = $mainframe->getUser();
+$user   = $mainframe->getUser();
+$my		= $user->_model;
 
 $lang = $mainframe->getLanguage();
 

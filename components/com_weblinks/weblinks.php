@@ -90,8 +90,9 @@ class WeblinksController
 
 		// Get some objects from the JApplication
 		$db 				= & $mainframe->getDBO();
-		$my 				= & $mainframe->getUser();
+		$user 				= & $mainframe->getUser();
 		$breadcrumbs 		= & $mainframe->getPathWay();
+		$gid				= $user->get('gid');
 		
 		$limit 				= JRequest :: getVar('limit', 				0, '', 'int');
 		$limitstart 		= JRequest :: getVar('limitstart', 			0, '', 'int');
@@ -165,14 +166,14 @@ class WeblinksController
 			. "\n FROM #__categories"
 			. "\n WHERE id = $catid"
 			. "\n AND published = 1"
-			. "\n AND access <= $my->gid"
+			. "\n AND access <= $gid"
 			;
 			$db->setQuery( $query );
 			$db->loadObject( $category );
 			
 			/*
-			Check if the category is published or if access level allows access
-			*/
+			 * Check if the category is published or if access level allows access
+			 */
 			if (!$category->name) {
 				mosNotAuth();
 				return;
@@ -211,7 +212,7 @@ class WeblinksController
 		"\n WHERE a.published = 1".
 		"\n AND section = 'com_weblinks'".
 		"\n AND cc.published = 1".
-		"\n AND cc.access <= $my->gid".
+		"\n AND cc.access <= $gid".
 		"\n GROUP BY cc.id".
 		"\n ORDER BY cc.ordering"
 		;		
@@ -276,8 +277,8 @@ class WeblinksController
 		global $mainframe;
 
 		// Get some objects from the JApplication
-		$db = & $mainframe->getDBO();
-		$my = & $mainframe->getUser();
+		$db		= & $mainframe->getDBO();
+		$user	= & $mainframe->getUser();
 
 		$weblink = & new JWeblinkModel($db);
 		$weblink->load($id);
@@ -303,7 +304,7 @@ class WeblinksController
 		/*
 		* check whether category access level allows access
 		*/
-		if ( $cat->access > $my->gid ) {	
+		if ( $cat->access > $user->get('gid') ) {	
 			mosNotAuth();  
 			return;
 		}
@@ -316,7 +317,7 @@ class WeblinksController
 			mosRedirect($weblink->url);
 		} else {		
 			// redirects to weblink category page if no matching id found
-			WeblinksController::showCategory($catid);
+			WeblinksController::showCategory($cat->id);
 		}
 	}
 
@@ -330,12 +331,12 @@ class WeblinksController
 		global $mainframe;
 
 		// Get some objects from the JApplication
-		$db = & $mainframe->getDBO();
-		$my = & $mainframe->getUser();
+		$db		= & $mainframe->getDBO();
+		$user	= & $mainframe->getUser();
 		$breadcrumbs = & $mainframe->getPathWay();
 
 		// Make sure you are logged in
-		if ($my->gid < 1) {
+		if ($user->get('gid') < 1) {
 			mosNotAuth();
 			return;
 		}
@@ -345,7 +346,7 @@ class WeblinksController
 		$row->load($id);
 
 		// Is this link checked out?  If not by me fail
-		if ($row->isCheckedOut($my->id)) {
+		if ($row->isCheckedOut($user->get('id'))) {
 			mosRedirect("index2.php?option=$option", 'The module $row->title is currently being edited by another administrator.');
 		}
 
@@ -356,7 +357,7 @@ class WeblinksController
 			 * manipulate the pathway and pagetitle to indicate this, plus we want
 			 * to check the web link out so no one can edit it while we are editing it
 			 */
-			$row->checkout($my->id);
+			$row->checkout($user->get('id'));
 
 			// Set page title
 			$mainframe->setPageTitle( JText::_('Links').' - '.JText::_( 'Edit' ));
@@ -395,11 +396,11 @@ class WeblinksController
 		global $mainframe, $Itemid;
 
 		// Get some objects from the JApplication
-		$db = & $mainframe->getDBO();
-		$my = & $mainframe->getUser();
+		$db		= & $mainframe->getDBO();
+		$user	= & $mainframe->getUser();
 
 		// Must be logged in
-		if ($my->gid < 1) {
+		if ($user->get('id') < 1) {
 			mosNotAuth();
 			return;
 		}
@@ -423,11 +424,11 @@ class WeblinksController
 		global $mainframe, $Itemid;
 
 		// Get some objects from the JApplication
-		$db  =& $mainframe->getDBO();
-		$my  =& $mainframe->getUser();
+		$db		=& $mainframe->getDBO();
+		$user	=& $mainframe->getUser();
 
 		// Must be logged in
-		if ($my->gid < 1) {
+		if ($user->get('id') < 1) {
 			mosNotAuth();
 			return;
 		}
@@ -483,7 +484,7 @@ class WeblinksController
 		
 		// send email notification to admins
 		foreach($adminRows as $adminRow) {				
-			josSendAdminMail($adminRow->name, $adminRow->email, '', 'Weblink', $row->title, $my->username, $mainframe->getBaseURL() );
+			josSendAdminMail($adminRow->name, $adminRow->email, '', 'Weblink', $row->title, $user->get('username'), $mainframe->getBaseURL() );
 		}
 		
 		$msg = $isNew ? JText::_('THANK_SUB') : '';

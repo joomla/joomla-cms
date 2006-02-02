@@ -45,6 +45,7 @@ Legend:
  * Itemid script injection - Thanks Mathijs de Jong
  ^ Framework file catagorization cleanup
  ^ JACL class renamed to JAuthorization
+ ^ JApplication::getUser now uses the JUser class: global $my deprecated
  
 01-Feb-2006 Rey Gigataras
  ^ Registration component output correctly separated into .html.php

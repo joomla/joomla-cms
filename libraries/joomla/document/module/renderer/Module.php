@@ -39,9 +39,9 @@ class patTemplate_Renderer_Module extends patTemplate_Renderer
 	function render( $module, $params = array() )
 	{
 		global $mainframe;
-		global $Itemid, $task, $option;
+		global $Itemid, $task, $option, $my;
 		
-		$my 		=& $mainframe->getUser();
+		$user 		=& $mainframe->getUser();
 		$database   =& $mainframe->getDBO();
 		$acl  		=& JFactory::getACL();
 		

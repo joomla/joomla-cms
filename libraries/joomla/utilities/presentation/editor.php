@@ -161,10 +161,10 @@ class JEditor extends JObservable {
 		/*
 		 * Handle per-user editor options
 		 */
-		$my =& $mainframe->getUser();
-		if (isset ($my)) {
-			$params = new JParameter($my->params);
-			$editor = $params->get('editor', $editor);
+		$user	=& $mainframe->getUser();
+		if (is_object($user))
+		{
+			$editor = $user->getParam('editor', $editor);
 		}
 
 		// Build the path to the needed editor plugin

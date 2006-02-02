@@ -145,11 +145,11 @@ class JPluginHelper
 			return $plugins;
 		}
 
-		$db = & $mainframe->getDBO();
-		$my = & $mainframe->getUser();
+		$db		= & $mainframe->getDBO();
+		$user	= & $mainframe->getUser();
 
-		if (is_object( $my )) {
-			$gid = $my->gid;
+		if (is_object( $user )) {
+			$gid = $user->get('gid');
 		} else {
 			$gid = 0;
 		}

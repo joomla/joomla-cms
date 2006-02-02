@@ -135,11 +135,12 @@ class JContentController
 		 * Initialize some variables
 		 */
 		$db			= & $mainframe->getDBO();
-		$my			= & $mainframe->getUser();
+		$user		= & $mainframe->getUser();
 		$nullDate 	= $db->getNullDate();
 		$noauth 	= !$mainframe->getCfg('shownoauth');
 		$offset		= $mainframe->getCfg('offset');
 		$pop 		= JRequest :: getVar('pop', 0, '', 'int');
+		$gid		= $user->get('gid');
 
 		// Parameters
 		$menu 			= & JModel :: getInstance( 'menu', $db);
@@ -166,7 +167,7 @@ class JContentController
 				. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" 
 				. "\n LEFT JOIN #__groups AS g ON a.access = g.id" 
 				. "\n WHERE a.state = 1"
-				. ($noauth ? "\n AND a.access <= $my->gid" : '') 
+				. ($noauth ? "\n AND a.access <= $gid" : '') 
 				. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now'  )" 
 				. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )" 
 				."\n ORDER BY $order_pri $order_sec";
@@ -178,7 +179,7 @@ class JContentController
 		foreach( $Arows as $row ) {
 			if ( ($row->sec_pub == 1 && $row->cat_pub == 1) || ($row->sec_pub == '' && $row->cat_pub == '') ) {
 			// check to determine if section or category is published
-				if ( ($row->sec_access <= $my->gid && $row->cat_access <= $my->gid) || ($row->sec_access == '' && $row->cat_access == '') ) {
+				if ( ($row->sec_access <= $gid && $row->cat_access <= $gid) || ($row->sec_access == '' && $row->cat_access == '') ) {
 					// check to determine if section or category has proper access rights
 					$rows[$i] = $row;
 					$i++;
@@ -189,7 +190,7 @@ class JContentController
 		// Dynamic Page Title
 		$mainframe->SetPageTitle($menu->name);
 
-		JContentView :: showBlog($rows, $params, $my->gid, $access, $pop, $menu);
+		JContentView :: showBlog($rows, $params, $gid, $access, $pop, $menu);
 	}
 
 	/**
@@ -209,10 +210,11 @@ class JContentController
 		 * Initialize some variables
 		 */
 		$db			= & $mainframe->getDBO();
-		$my			= & $mainframe->getUser();
+		$user		= & $mainframe->getUser();
 		$id 		= JRequest :: getVar('id', 0, '', 'int');
 		$nullDate 	= $db->getNullDate();
 		$noauth 	= !$mainframe->getCfg('shownoauth');
+		$gid		= $user->get('gid');
 
 		// Load the section data object
 		$section = & JModel :: getInstance( 'section', $db );
@@ -228,7 +230,7 @@ class JContentController
 		/*
 		* check whether section access level allows access
 		*/
-		if( $section->access > $my->gid ) {
+		if( $section->access > $gid ) {
 			mosNotAuth();
 			return;
 		}	
@@ -294,7 +296,7 @@ class JContentController
 		// Handle the access permissions
 		$access = null;
 		if ($noauth) {
-			$access = "\n AND a.access <= $my->gid";
+			$access = "\n AND a.access <= $gid";
 		}
 
 		// Query of categories within section
@@ -325,7 +327,7 @@ class JContentController
 		$breadcrumbs = & $mainframe->getPathWay();
 		$breadcrumbs->addItem($section->title, '');
 
-		JContentView :: showSection($section, $categories, $params, $access, $my->gid);
+		JContentView :: showSection($section, $categories, $params, $access, $gid);
 	}
 
 	/**
@@ -348,13 +350,13 @@ class JContentController
 	 */
 	function showCategory(& $access, $now) 
 	{
-		global $mainframe, $Itemid, $my;
+		global $mainframe, $Itemid;
 
 		/*
 		 * Initialize some variables
 		 */
 		$db					= & $mainframe->getDBO();
-		$my					= & $mainframe->getUser();
+		$user				= & $mainframe->getUser();
 		$id 				= JRequest :: getVar('id', 					0, '', 'int');
 		$sectionid 			= JRequest :: getVar('sectionid', 			0, '', 'int');
 		$limit 				= JRequest :: getVar('limit', 				0, '', 'int');
@@ -364,6 +366,7 @@ class JContentController
 		$category			= null;
 		$filter_order		= JRequest :: getVar('filter_order', 		'a.created');
 		$filter_order_Dir	= JRequest :: getVar('filter_order_Dir', 	'DESC');
+		$gid				= $user->get('gid');
 		
 		/*
 		* Lets get the information for the current category
@@ -372,7 +375,7 @@ class JContentController
 		. "\n FROM #__categories AS c" 
 		. "\n INNER JOIN #__sections AS s ON s.id = c.section" 
 		. "\n WHERE c.id = '$id'" 
-		. ($noauth ? "\n AND c.access <= $my->gid" : '') 
+		. ($noauth ? "\n AND c.access <= $gid" : '') 
 		. "\n LIMIT 1"
 		;
 		$db->setQuery($query);
@@ -388,7 +391,7 @@ class JContentController
 		/*
 		* check whether category access level allows access
 		*/
-		if( $category->access > $my->gid ) {
+		if( $category->access > $gid ) {
 			mosNotAuth();
 			return;
 		}	
@@ -406,7 +409,7 @@ class JContentController
 		/*
 		* check whether section access level allows access
 		*/
-		if( $section->access > $my->gid ) {
+		if( $section->access > $gid ) {
 			mosNotAuth();
 			return;
 		}	
@@ -464,8 +467,8 @@ class JContentController
 		// get the list of other categories
 		$query = "SELECT c.*, COUNT( b.id ) AS numitems" .
 				"\n FROM #__categories AS c" .
-				"\n LEFT JOIN #__content AS b ON b.catid = c.id ".$xwhere2. ($noauth ? "\n AND b.access <= $my->gid" : '') .
-				"\n WHERE c.section = '$category->section'".$xwhere. ($noauth ? "\n AND c.access <= $my->gid" : '') .
+				"\n LEFT JOIN #__content AS b ON b.catid = c.id ".$xwhere2. ($noauth ? "\n AND b.access <= $gid" : '') .
+				"\n WHERE c.section = '$category->section'".$xwhere. ($noauth ? "\n AND c.access <= $gid" : '') .
 				"\n GROUP BY c.id".$empty .
 				"\n ORDER BY c.ordering";
 		$db->setQuery($query);
@@ -512,8 +515,8 @@ class JContentController
 				. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
 				. "\n WHERE a.catid = $category->id"
 				. $xwhere
-				. ($noauth ? "\n AND a.access <= $my->gid" : '')
-				. "\n AND $category->access <= $my->gid"
+				. ($noauth ? "\n AND a.access <= $gid" : '')
+				. "\n AND $category->access <= $gid"
 				. $and
 				. $orderby
 				;
@@ -535,8 +538,8 @@ class JContentController
 				. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
 				. "\n WHERE a.catid = $category->id"
 				. $xwhere
-				. ($noauth ? "\n AND a.access <= $my->gid" : '')
-				. "\n AND $category->access <= $my->gid"
+				. ($noauth ? "\n AND a.access <= $gid" : '')
+				. "\n AND $category->access <= $gid"
 				. $and
 				. $orderby
 				;
@@ -567,7 +570,7 @@ class JContentController
 		$lists['order'] = $filter_order;
 		$selected = '';
 		
-		JContentView :: showCategory($category, $other_categories, $items, $access, $my->gid, $params, $page, $lists, $selected);
+		JContentView :: showCategory($category, $other_categories, $items, $access, $gid, $params, $page, $lists, $selected);
 	}
 
 	function showBlogSection(& $access, $now = NULL) 
@@ -578,10 +581,11 @@ class JContentController
 		 * Initialize some variables
 		 */
 		$db			= & $mainframe->getDBO();
-		$my			= & $mainframe->getUser();
+		$user		= & $mainframe->getUser();
 		$noauth 	= !$mainframe->getCfg('shownoauth');
 		$id 		= JRequest :: getVar('id', 0, '', 'int');
 		$pop 		= JRequest :: getVar('pop', 0, '', 'int');
+		$gid		= $user->get('gid');
 
 		// needed for check whether section is published
 		$check = ( $id ? $id : 0 );
@@ -601,7 +605,7 @@ class JContentController
 			$id = $params->def('sectionid', 0);
 		}
 
-		$where = JContentController :: _where(1, $access, $noauth, $my->gid, $id, $now);
+		$where = JContentController :: _where(1, $access, $noauth, $gid, $id, $now);
 
 		// Ordering control
 		$orderby_sec 	= $params->def('orderby_sec', 'rdate');
@@ -620,8 +624,8 @@ class JContentController
 				. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" 
 				. "\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" 
 				. "\n LEFT JOIN #__groups AS g ON a.access = g.id". (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '')
-				. "\n AND s.access <= $my->gid" 
-				. "\n AND cc.access <= $my->gid" 
+				. "\n AND s.access <= $gid" 
+				. "\n AND cc.access <= $gid" 
 				. "\n AND s.published = 1" 
 				. "\n AND cc.published = 1" 
 				. "\n ORDER BY $order_pri $order_sec"
@@ -654,13 +658,13 @@ class JContentController
 			/*
 			* check whether section access level allows access
 			*/
-			if( $secCheck->access > $my->gid ) {
+			if( $secCheck->access > $gid ) {
 				mosNotAuth();
 				return;
 			}			
 		}
 		
-		JContentView :: showBlog($rows, $params, $my->gid, $access, $pop, $menu);
+		JContentView :: showBlog($rows, $params, $gid, $access, $pop, $menu);
 	}
 
 	function showBlogCategory(& $access, $now) 
@@ -671,10 +675,11 @@ class JContentController
 		 * Initialize variables
 		 */
 		$db			= & $mainframe->getDBO();
-		$my			= & $mainframe->getUser();
+		$user		= & $mainframe->getUser();
 		$noauth 	= !$mainframe->getCfg('shownoauth');
 		$id 		= JRequest :: getVar('id', 0, '', 'int');
 		$pop 		= JRequest :: getVar('pop', 0, '', 'int');
+		$gid		= $user->get('gid');
 
 		// needed for check whether section & category is published
 		$check = ( $id ? $id : 0 );
@@ -694,7 +699,7 @@ class JContentController
 			$id = $params->def('categoryid', 0);
 		}
 
-		$where = JContentController :: _where(2, $access, $noauth, $my->gid, $id, $now);
+		$where = JContentController :: _where(2, $access, $noauth, $gid, $id, $now);
 
 		// Ordering control
 		$orderby_sec 	= $params->def('orderby_sec', 'rdate');
@@ -713,8 +718,8 @@ class JContentController
 				. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" 
 				. "\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" 
 				. "\n LEFT JOIN #__groups AS g ON a.access = g.id". (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '')
-				. "\n AND s.access <= $my->gid"
-				. "\n AND cc.access <= $my->gid"
+				. "\n AND s.access <= $gid"
+				. "\n AND cc.access <= $gid"
 				. "\n AND s.published = 1"
 				. "\n AND cc.published = 1"
 				. "\n ORDER BY $order_pri $order_sec"
@@ -734,7 +739,7 @@ class JContentController
 		
 		// check whether section & category is published
 		if (!count($rows)) {
-			$catCheck = new JModelCategory( $b );
+			$catCheck = new JModelCategory( $db );
 			$catCheck->load( $check );
 			
 			/*
@@ -747,7 +752,7 @@ class JContentController
 			/*
 			* check whether category access level allows access
 			*/
-			if( $catCheck->access > $my->gid ) {
+			if( $catCheck->access > $gid ) {
 				mosNotAuth();
 				return;
 			}			
@@ -765,13 +770,13 @@ class JContentController
 			/*
 			* check whether section access level allows access
 			*/
-			if( $secCheck->access > $my->gid ) {
+			if( $secCheck->access > $gid ) {
 				mosNotAuth();
 				return;
 			}			
 		}
 		
-		JContentView :: showBlog($rows, $params, $my->gid, $access, $pop, $menu);
+		JContentView :: showBlog($rows, $params, $gid, $access, $pop, $menu);
 	}
 
 	function showArchiveSection(& $access) 
@@ -782,13 +787,14 @@ class JContentController
 		 * Initialize some variables
 		 */
 		$db			= & $mainframe->getDBO();
-		$my			= & $mainframe->getUser();
+		$user		= & $mainframe->getUser();
 		$noauth 	= !$mainframe->getCfg('shownoauth');
 		$option		= JRequest :: getVar('option');
 		$id 		= JRequest :: getVar('id', 0, '', 'int');
 		$pop 		= JRequest :: getVar('pop', 0, '', 'int');
-		$year 	= JRequest::getVar( 'year', date('Y') );
-		$month 	= JRequest::getVar( 'month', date('m') );
+		$year 		= JRequest::getVar( 'year', date('Y') );
+		$month 		= JRequest::getVar( 'month', date('m') );
+		$gid		= $user->get('gid');
 
 		// needed for check whether section is published
 		$check = ( $id ? $id : 0 );
@@ -813,7 +819,7 @@ class JContentController
 		$order_pri 		= JContentController :: _orderby_pri($orderby_pri);
 
 		// Build the WHERE clause for the database query
-		$where = JContentController :: _where(-1, $access, $noauth, $my->gid, $id, NULL, $year, $month);
+		$where = JContentController :: _where(-1, $access, $noauth, $gid, $id, NULL, $year, $month);
 
 		// checks to see if 'All Sections' options used
 		if ($id == 0) {
@@ -841,8 +847,8 @@ class JContentController
 				. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" 
 				. "\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" 
 				. "\n LEFT JOIN #__groups AS g ON a.access = g.id". (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '')
-				. "\n AND s.access <= $my->gid" 
-				. "\n AND cc.access <= $my->gid" 
+				. "\n AND s.access <= $gid" 
+				. "\n AND cc.access <= $gid" 
 				. "\n AND s.published = 1" 
 				. "\n AND cc.published = 1" 
 				. "\n ORDER BY $order_pri $order_sec"
@@ -873,7 +879,7 @@ class JContentController
 			/*
 			* check whether section access level allows access
 			*/
-			if( $secCheck->access > $my->gid ) {
+			if( $secCheck->access > $gid ) {
 				mosNotAuth();
 				return;
 			}			
@@ -882,7 +888,7 @@ class JContentController
 		if (!$archives) {
 			JContentView :: emptyContainer(JText :: _('CATEGORY_ARCHIVE_EMPTY'));
 		} else {
-			JContentView :: showArchive($rows, $params, $menu, $access, $id, $my->gid, $pop);
+			JContentView :: showArchive($rows, $params, $menu, $access, $id, $gid, $pop);
 		}
 	}
 
@@ -892,7 +898,7 @@ class JContentController
 
 		// Parameters
 		$db			= & $mainframe->getDBO();
-		$my			= & $mainframe->getUser();
+		$user		= & $mainframe->getUser();
 		$noauth 	= !$mainframe->getCfg('shownoauth');
 		$option		= JRequest :: getVar('option');
 		$id 		= JRequest :: getVar('id', 0, '', 'int');
@@ -900,6 +906,7 @@ class JContentController
 		$year		= mosGetParam($_REQUEST, 'year', date('Y'));
 		$month 		= mosGetParam($_REQUEST, 'month', date('m'));
 		$module 	= mosGetParam($_REQUEST, 'module', '');
+		$gid		= $user->get('gid');
 
 		// needed for check whether section & category is published
 		$check = ( $id ? $id : 0 );
@@ -928,7 +935,7 @@ class JContentController
 		$order_sec = JContentController :: _orderby_sec($orderby_sec);
 
 		// used in query
-		$where = JContentController :: _where(-2, $access, $noauth, $my->gid, $id, NULL, $year, $month);
+		$where = JContentController :: _where(-2, $access, $noauth, $gid, $id, NULL, $year, $month);
 
 		// query to determine if there are any archived entries for the category
 		$query = "SELECT a.id" .
@@ -948,8 +955,8 @@ class JContentController
 				. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" 
 				. "\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" 
 				. "\n LEFT JOIN #__groups AS g ON a.access = g.id". (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '')
-				. "\n AND s.access <= $my->gid"
-				. "\n AND cc.access <= $my->gid"
+				. "\n AND s.access <= $gid"
+				. "\n AND cc.access <= $gid"
 				. "\n AND s.published = 1"
 				. "\n AND cc.published = 1"
 				. "\n ORDER BY $order_sec"
@@ -966,7 +973,7 @@ class JContentController
 
 		// check whether section & category is published
 		if (!count($rows)) {
-			$catCheck = new JModelCategory( $b );
+			$catCheck = new JModelCategory( $db );
 			$catCheck->load( $check );
 			
 			/*
@@ -979,7 +986,7 @@ class JContentController
 			/*
 			* check whether category access level allows access
 			*/
-			if( $catCheck->access > $my->gid ) {
+			if( $catCheck->access > $gid ) {
 				mosNotAuth();
 				return;
 			}			
@@ -997,7 +1004,7 @@ class JContentController
 			/*
 			* check whether category access level allows access
 			*/
-			if( $secCheck->access > $my->gid ) {
+			if( $secCheck->access > $gid ) {
 				mosNotAuth();
 				return;
 			}			
@@ -1006,7 +1013,7 @@ class JContentController
 		if (!$archives) {
 			JContentView :: emptyContainer(JText :: _('CATEGORY_ARCHIVE_EMPTY'));
 		} else {
-			JContentView :: showArchive($rows, $params, $menu, $access, $id, $my->gid, $pop);
+			JContentView :: showArchive($rows, $params, $menu, $access, $id, $gid, $pop);
 		}
 	}
 
@@ -1027,13 +1034,14 @@ class JContentController
 		 * Initialize variables
 		 */
 		$db 		= & $mainframe->getDBO();
-		$my			= & $mainframe->getUser();
+		$user		= & $mainframe->getUser();
 		$MetaTitle 	= $mainframe->getCfg('MetaTitle');
 		$MetaAuthor = $mainframe->getCfg('MetaAuthor');
 		$nullDate	= $db->getNullDate();
 		$option		= JRequest::getVar('option');
 		$uid 		= JRequest::getVar('id', 0, '', 'int');
 		$pop 		= JRequest::getVar('pop', 0, '', 'int');
+		$gid		= $user->get('gid');
 		$row 		= null;
 
 		if ($access->canEdit) {
@@ -1055,7 +1063,7 @@ class JContentController
 				. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
 				. "\n WHERE a.id = $uid"
 				. $xwhere
-				. "\n AND a.access <= $my->gid"
+				. "\n AND a.access <= $gid"
 				;
 		$db->setQuery($query);
 
@@ -1070,12 +1078,12 @@ class JContentController
 				mosNotAuth();
 				return;
 			}
-			if ( ($row->cat_access > $my->gid) && $row->catid ) {
+			if ( ($row->cat_access > $gid) && $row->catid ) {
 				// check whether category access level allows access
 				mosNotAuth();  
 				return;
 			}
-			if ( ($row->sec_access > $my->gid) && $row->sectionid ) {
+			if ( ($row->sec_access > $gid) && $row->sectionid ) {
 				// check whether section access level allows access
 				mosNotAuth();  
 				return;
@@ -1116,7 +1124,7 @@ class JContentController
 			$document->setTitle($row->title);
 
 
-			JContentController::show($row, $params, $my->gid, $access, $pop, $option);
+			JContentController::show($row, $params, $gid, $access, $pop, $option);
 		} else {
 			mosNotAuth();
 			return;
@@ -1269,7 +1277,7 @@ class JContentController
 		 * Initialize variables
 		 */
 		$db 			= & $mainframe->getDBO();
-		$my				= & $mainframe->getUser();
+		$user			= & $mainframe->getUser();
 		$breadcrumbs 	= & $mainframe->getPathWay();
 		$nullDate		= $db->getNullDate();
 		$uid 			= JRequest :: getVar('id', 			0, '', 'int');
@@ -1283,13 +1291,13 @@ class JContentController
 		$row->load($uid);
 
 		// fail if checked out not by 'me'
-		if ($row->isCheckedOut($my->id)) {
+		if ($row->isCheckedOut($user->get('id'))) {
 			JContentView :: userInputError(JText :: _('The module')." [ ".$row->title." ] ".JText :: _('DESCBEINGEDITTEDBY'));
 		}
 
 		if ($uid) {
 			// existing record
-			if (!($access->canEdit || ($access->canEditOwn && $row->created_by == $my->id))) {
+			if (!($access->canEdit || ($access->canEditOwn && $row->created_by == $user->get('gid')))) {
 				mosNotAuth();
 				return;
 			}
@@ -1319,7 +1327,7 @@ class JContentController
 		}
 
 		if ($uid) {
-			$row->checkout($my->id);
+			$row->checkout($user->get('id'));
 			if (trim($row->publish_down) == '0000-00-00 00:00:00') {
 				$row->publish_down = 'Never';
 			}
@@ -1415,7 +1423,7 @@ class JContentController
 		// Add pathway item
 		$breadcrumbs->addItem( $title, '');
 		
-		JContentView :: editContent($row, $section, $lists, $images, $access, $my->id, $sectionid, $task, $Itemid);
+		JContentView :: editContent($row, $section, $lists, $images, $access, $user->get('id'), $sectionid, $task, $Itemid);
 	}
 
 	/**
@@ -1429,7 +1437,7 @@ class JContentController
 		 * Initialize variables
 		 */
 		$db 		= & $mainframe->getDBO();
-		$my 		= & $mainframe->getUser();
+		$user		= & $mainframe->getUser();
 		$nullDate 	= $db->getNullDate();
 		$task 		= JRequest::getVar( 'task' );
 
@@ -1447,15 +1455,15 @@ class JContentController
 				return;
 			}
 			$row->created = date('Y-m-d H:i:s');
-			$row->created_by = $my->id;
+			$row->created_by = $user->get('id');
 		} else {
 			// existing record
-			if (!($access->canEdit || ($access->canEditOwn && $row->created_by == $my->id))) {
+			if (!($access->canEdit || ($access->canEditOwn && $row->created_by == $user->get('id')))) {
 				mosNotAuth();
 				return;
 			}
 			$row->modified = date('Y-m-d H:i:s');
-			$row->modified_by = $my->id;
+			$row->modified_by = $user->get('id');
 		}
 		if (trim($row->publish_down) == 'Never') {
 			$row->publish_down = $nullDate;
@@ -1562,7 +1570,7 @@ class JContentController
 			$users = $db->loadResultArray();
 			foreach ($users as $user_id) {
 				$msg = new mosMessage($db);
-				$msg->send($my->id, $user_id, "New Item", sprintf(JText :: _('ON_NEW_CONTENT'), $my->username, $row->title, $section, $category));
+				$msg->send($user->get('id'), $user_id, "New Item", sprintf(JText :: _('ON_NEW_CONTENT'), $user->get('username'), $row->title, $section, $category));
 			}
 		}
 
@@ -1605,7 +1613,7 @@ class JContentController
 		 * Initialize variables
 		 */
 		$db 		= & $mainframe->getDBO();
-		$my 		= & $mainframe->getUser();
+		$user 		= & $mainframe->getUser();
 		$task 		= JRequest::getVar( 'task' );
 		$Itemid 	= JRequest::getVar( 'Returnid', '0', 'post' );
 		$referer 	= JRequest::getVar( 'referer', '', 'post' );
@@ -1614,7 +1622,7 @@ class JContentController
 		$row = & JModel :: getInstance( 'content', $db );
 		$row->bind($_POST);
 
-		if ($access->canEdit || ($access->canEditOwn && $row->created_by == $my->id))
+		if ($access->canEdit || ($access->canEditOwn && $row->created_by == $user->get('id')))
 		{
 			$row->checkin();
 		}
@@ -1655,14 +1663,14 @@ class JContentController
 		/*
 		 * Initialize variables
 		 */
-		$db = & $mainframe->getDBO();
-		$my = & $mainframe->getUser();
-		$uid 		= JRequest :: getVar('id', 0, '', 'int');
+		$db		= & $mainframe->getDBO();
+		$user	= & $mainframe->getUser();
+		$uid 	= JRequest :: getVar('id', 0, '', 'int');
 
 		$row = & JModel :: getInstance( 'content', $db );
 		$row->load($uid);
 
-		if ($row->id === null || $row->access > $my->gid)
+		if ($row->id === null || $row->access > $user->get('gid'))
 		{
 			mosNotAuth();
 			return;
@@ -2003,7 +2011,7 @@ class JContentController
 		 * Initialize variables
 		 */
 		$db 	= & $mainframe->getDBO();
-		$my 	= & $mainframe->getUser();
+		$user 	= & $mainframe->getUser();
 		$pop 	= JRequest::getVar( 'pop', 0, '', 'int' );
 		$option = JRequest::getVar( 'option' );
 		$keyref = $db->getEscaped(JRequest::getVar( 'keyref' ));
@@ -2015,7 +2023,7 @@ class JContentController
 		$id = $db->loadResult();
 		if ($id > 0)
 		{
-			showItem($id, $my->gid, $access, $pop, $option, $now);
+			showItem($id, $user->get('gid'), $access, $pop, $option, $now);
 		} else
 		{
 			echo JText :: _('Key not found');

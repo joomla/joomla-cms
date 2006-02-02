@@ -106,7 +106,7 @@ class JEditor_tinymce extends JPlugin {
 		} else {
 			
 			/*
-			 * Lets get the default editor for the site application
+			 * Lets get the default template for the site application
 			 */
 			$query = "SELECT template"
 			. "\n FROM #__templates_menu"

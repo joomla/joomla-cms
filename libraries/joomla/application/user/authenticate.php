@@ -209,8 +209,8 @@ class JAuthenticate extends JObject {
 		$user = $mainframe->getUser();
 
 		// Build the credentials array
-		$credentials['username'] = $user->username;
-		$credentials['password'] = $user->password;
+		$credentials['username'] 	= $user->get('username');
+		$credentials['id'] 			= $user->get('id');
 
 		// OK, the credentials are built. Lets fire the onLogout event
 		$results = $mainframe->triggerEvent( 'onLogout', $credentials);

@@ -77,7 +77,7 @@ class JUser extends JObject
 		$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
 		$this->_params = new JParameter( '', $path );
 		
-		if (!is_null($id)) {
+		if (!is_null($id) && $id != 'guest') {
 			$this->_load($id);
 		}
 	}
@@ -94,7 +94,7 @@ class JUser extends JObject
 	 * @return 	JUser  			The User object.
 	 * @since 	1.1
 	 */
-	function & getInstance($id = null) 
+	function & getInstance($id = 'guest') 
 	{
 		static $instances;
 
@@ -147,7 +147,7 @@ class JUser extends JObject
 	 * @return	mixed				The value or the default if it did not exist
 	 * @since	1.1
 	 */
-	function getParam( $key, $default )
+	function getParam( $key, $default = null )
 	{
 		return $this->_params->get( $key, $default );	
 	}
@@ -317,7 +317,7 @@ class JUser extends JObject
 		 * might very well be modifying that user... and isn't it ironic...
 		 * don't ya think?
 		 */
-		$my = & $mainframe->getUser();
+		$me = & $mainframe->getUser();
 		
 		/*
 		 * Lets check to see if the user is new or not
@@ -426,7 +426,7 @@ class JUser extends JObject
 		 * If we have just updated ourselves, lets modify our session
 		 * parameters... i know a little too "inside the matrix" for some...
 		 */
-		if ( $my->id == $this->get( 'id' ) ) {
+		if ( $me->get('id') == $this->get('id') ) {
 			JSession :: set('session_user_params', $this->get( 'params' ));
 		}
 	

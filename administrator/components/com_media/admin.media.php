@@ -205,18 +205,18 @@ class JMediaController
 	 */
 	function upload() 
 	{
-		global $clearUploads;
+		global $mainframe, $clearUploads;
 
-		$file 		= JRequest::getVar( 'upload', '', 'file' );
+		$file 		= JRequest::getVar( 'upload', '', 'file', 'array' );
 		$dirPath 	= JRequest::getVar( 'dirPath', '' );
-		
+		$index		= (strpos($mainframe->getURI(),'index3.php')) ? 'index3.php' : 'index2.php';
 		if (isset ($file) && is_array($file) && isset ($dirPath)) 
 		{
 			$dirPathPost = $dirPath;
 			$destDir = COM_MEDIA_BASE.$dirPathPost.DS;
 
 			if (file_exists($destDir.$file['name'])) {
-				josRedirect("index3.php?option=com_media&task=popupUpload&listdir=".$dirPath, JText :: _('Upload FAILED.File allready exists'));
+				josRedirect( $index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText :: _('Upload FAILED.File allready exists'));
 			}
 
 			$format = JFile :: getExt($file['name']);
@@ -229,13 +229,13 @@ class JMediaController
 			}
 
 			if (!$noMatch) {
-				josRedirect("index3.php?option=com_media&task=popupUpload&listdir=".$dirPath, JText :: _('This file type is not supported'));
+				josRedirect($index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText :: _('This file type is not supported'));
 			}
 
 			if (!JFile::upload($file['tmp_name'], $destDir.strtolower($file['name']))) {
-				josRedirect("index3.php?option=com_media&task=popupUpload&listdir=".$dirPath, JText :: _('Upload FAILED'));
+				josRedirect($index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText :: _('Upload FAILED'));
 			} else {
-				josRedirect("index3.php?option=com_media&task=popupUpload&listdir=".$dirPath, JText :: _('Upload complete'));
+				josRedirect($index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText :: _('Upload complete'));
 			}
 
 			$clearUploads = true;

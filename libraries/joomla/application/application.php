@@ -300,9 +300,9 @@ class JApplication extends JObject
 
 			// get user's prefered language
 			if( $this->isAdmin() ) {
-				$lang = $user->params->get( 'admin_language', $lang );
+				$lang = $user->getParam( 'admin_language', $lang );
 			} else {
-				$lang = $user->params->get( 'language', $lang );
+				$lang = $user->getParam( 'language', $lang );
 			}
 		}
 
@@ -438,19 +438,17 @@ class JApplication extends JObject
 	 */
 	function &getUser()
 	{
-		// Check to see if the user object exists
-		if (!is_object($this->_user)) {
-			// If it doesn't exist, create a new user object
-			$this->_user =& JModel::getInstance('user', $this->getDBO());
+		/*
+		 * If there is a userid in the session, load the application user
+		 * object with the logged in user.
+		 */
+		if (intval( JSession::get('userid')))
+		{
+			$this->_user = & JUser::getInstance(JSession::get('userid'));
+		} else
+		{
+			$this->_user = & JUser::getInstance();
 		}
-
-		// If there is a userid in the session, load the user object with the logged in user
-		if (intval( JSession::get('userid')) && $this->_user->id < 1) {
-
-			$this->_user->load(JSession::get('userid'));
-			$this->_user->params = new JParameter($this->_user->params);
-		}
-
 		return $this->_user;
 	}
 

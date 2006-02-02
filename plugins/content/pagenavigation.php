@@ -17,11 +17,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $mainframe->registerEvent( 'onBeforeDisplayContent', 'botNavigation' );
 
 function botNavigation( &$row, &$params, $page=0 ) {
-	global $Itemid, $access, $mainframe;
+	global $Itemid, $access, $mainframe, $my;
 
 	$html 		= '';
 	$db 		= & $mainframe->getDBO();
-	$my			= & $mainframe->getUser();
 	$acl		= JFactory :: getACL();
 	$nullDate	= $db->getNullDate();
 	$now 		= date('Y-m-d H:i', time() + $mainframe->getCfg('offset') * 60 * 60);

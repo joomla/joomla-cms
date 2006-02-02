@@ -70,7 +70,7 @@ class JContactController {
 		 * Initialize some variables
 		 */
 		$db 				= & $mainframe->getDBO();
-		$my 				= & $mainframe->getUser();
+		$user 				= & $mainframe->getUser();
 		$breadcrumbs	 	= & $mainframe->getPathWay();
 		$option 			= JRequest :: getVar('option');
 		$catid 				= JRequest :: getVar('catid', 				0, '', 'int');
@@ -78,6 +78,7 @@ class JContactController {
 		$limitstart 		= JRequest :: getVar('limitstart', 			0, '', 'int');
 		$filter_order		= JRequest :: getVar('filter_order', 		'cd.ordering');
 		$filter_order_Dir	= JRequest :: getVar('filter_order_Dir', 	'ASC');
+		$gid				= $user->get('gid');
 
 		/*
 		 * Query to retrieve all categories that belong under the contacts
@@ -89,8 +90,8 @@ class JContactController {
 				"\n WHERE a.published = 1" .
 				"\n AND cc.section = 'com_contact_details'" .
 				"\n AND cc.published = 1" .
-				"\n AND a.access <= $my->gid" .
-				"\n AND cc.access <= $my->gid" .
+				"\n AND a.access <= $gid" .
+				"\n AND cc.access <= $gid" .
 				"\n GROUP BY cc.id" .
 				"\n ORDER BY cc.ordering";
 		$db->setQuery($query);
@@ -172,8 +173,8 @@ class JContactController {
 						. "\n WHERE cd.catid = $catid"
 						. "\n AND cc.published = 1"
 						. "\n AND cd.published = 1"
-						. "\n AND cc.access <= $my->gid"
-						. "\n AND cd.access <= $my->gid"
+						. "\n AND cc.access <= $gid"
+						. "\n AND cd.access <= $gid"
 						. $orderby
 						;
 				$db->setQuery($query);
@@ -266,8 +267,9 @@ class JContactController {
 		 * Initialize some variables
 		 */
 		$db 		= & $mainframe->getDBO();
-		$my 		= & $mainframe->getUser();
+		$user 		= & $mainframe->getUser();
 		$contactId 	= JRequest :: getVar('contact_id', $cid, '', 'int');
+		$gid		= $user->get('gid');
 		$contact 	= null;
 
 		/*
@@ -292,7 +294,7 @@ class JContactController {
 				. "\n INNER JOIN #__categories AS cc ON cc.id = a.catid" 
 				. "\n WHERE a.published = 1" 
 				. "\n AND a.id = $contactId" 
-				. "\n AND a.access <= $my->gid"
+				. "\n AND a.access <= $gid"
 				;
 		$db->SetQuery($query);
 		$db->loadObject($contact);
@@ -301,7 +303,7 @@ class JContactController {
 			/*
 			* check whether category access level allows access
 			*/
-			if ( $contact->cat_access > $my->gid ) {	
+			if ( $contact->cat_access > $gid ) {	
 				mosNotAuth();  
 				return;
 			}	
@@ -318,8 +320,8 @@ class JContactController {
 						"\n WHERE a.catid = $contact->catid" .
 						"\n AND a.published = 1" .
 						"\n AND cc.published = 1" .
-						"\n AND a.access <= $my->gid" .
-						"\n AND cc.access <= $my->gid" .
+						"\n AND a.access <= $gid" .
+						"\n AND cc.access <= $gid" .
 						"\n ORDER BY a.default_con DESC, a.ordering ASC";
 				$db->setQuery($query);
 				$list = $db->loadObjectList();

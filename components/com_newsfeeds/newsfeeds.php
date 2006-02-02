@@ -41,11 +41,12 @@ function listFeeds( $catid ) {
 	global $Itemid;
 
 	$database 			= & $mainframe->getDBO();
-	$my 				= & $mainframe->getUser();
+	$user 				= & $mainframe->getUser();
 	$breadcrumbs 		= & $mainframe->getPathWay();
 	$option 			= JRequest :: getVar('option');
 	$limit 				= JRequest :: getVar('limit', 				0, '', 'int');
 	$limitstart 		= JRequest :: getVar('limitstart', 			0, '', 'int');
+	$gid				= $user->get('gid');
 	
 	/* Query to retrieve all categories that belong under the contacts section and that are published. */
 	$query = "SELECT cc.*, a.catid, COUNT(a.id) AS numlinks"
@@ -54,7 +55,7 @@ function listFeeds( $catid ) {
 	. "\n WHERE a.published = 1"
 	. "\n AND cc.section = 'com_newsfeeds'"
 	. "\n AND cc.published = 1"
-	. "\n AND cc.access <= $my->gid"
+	. "\n AND cc.access <= $gid"
 	. "\n GROUP BY cc.id"
 	. "\n ORDER BY cc.ordering"
 	;
@@ -123,7 +124,7 @@ function listFeeds( $catid ) {
 		. "\n FROM #__categories"
 		. "\n WHERE id = $catid"
 		. "\n AND published = 1"
-		. "\n AND access <= $my->gid"
+		. "\n AND access <= $gid"
 		;
 		$database->setQuery( $query );
 		$database->loadObject( $currentcat );
@@ -197,7 +198,7 @@ function showFeed( $feedid ) {
 
 		// Get some objects from the JApplication
 	$database 	= & $mainframe->getDBO();
-	$my 		= & $mainframe->getUser();
+	$user 		= & $mainframe->getUser();
 	require_once( $mainframe->getPath( 'class' ) );
 	
 	$newsfeed = new mosNewsFeed($database);
@@ -223,7 +224,7 @@ function showFeed( $feedid ) {
 	}	/*
 	* check whether category access level allows access
 	*/
-	if ( $category->access > $my->gid ) {	
+	if ( $category->access > $user->get('gid') ) {	
 		mosNotAuth();  
 		return;
 	}

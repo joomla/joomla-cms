@@ -52,7 +52,6 @@ if ($option == 'login') {
 		$mainframe->logout();
 		mosErrorAlert( JText::_( 'LOGIN_INCORRECT' ) );
 	}
-
 	if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
 		// checks for the presence of a return url
 		// and ensures that this url is not the registration or login pages
@@ -124,7 +123,8 @@ $mainframe->triggerEvent( 'onAfterStart' );
 
 // get the information about the current user from the sessions table
 // Note: Moved to allow for single sign-on bots that can't run with onBeforeStart due to extra setup
-$my = $mainframe->getUser();
+$user	= & $mainframe->getUser();
+$my		= & $user->_model;
 
 // checking if we can find the Itemid thru the content
 if ( $option == 'com_content' && $Itemid === 0 ) {

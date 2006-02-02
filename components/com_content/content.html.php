@@ -168,10 +168,11 @@ class JContentView
 		 * Initialize variables
 		 */
 		$db 	= & $mainframe->getDBO();
-		$my 	= & $mainframe->getUser();
+		$user 	= & $mainframe->getUser();
 		$task 	= JRequest::getVar( 'task' );
 		$id 	= JRequest::getVar( 'id' );
 		$option = JRequest::getVar( 'option' );
+		$gid	= $user->get('gid');
 
 		// parameters
 		if ($params->get('page_title', 1) && $menu) {
@@ -286,7 +287,7 @@ class JContentView
 						break;
 					}
 					echo '<div>';
-					JContentController :: show($rows[$i], $params, $my->gid, $access, $pop, $option, $ItemidCount);
+					JContentController :: show($rows[$i], $params, $gid, $access, $pop, $option, $ItemidCount);
 					echo '</div>';
 					$i ++;
 				}
@@ -311,7 +312,7 @@ class JContentView
 					echo "<td valign=\"top\"".$width." class=\"article_column".$divider."\">\n";
 					for ($y = 0; $y < $intro / $columns; $y ++) {
 						if ($indexcount < $intro && ($i < $total)) {
-							JContentController :: show($rows[++ $indexcount], $params, $my->gid, $access, $pop, $option, $ItemidCount);
+							JContentController :: show($rows[++ $indexcount], $params, $gid, $access, $pop, $option, $ItemidCount);
 							$i++;
 						}				
 					}
@@ -446,11 +447,11 @@ class JContentView
 		/*
 		 * Initialize some variables
 		 */
-		$my 		= & $mainframe->getUser();
+		$user 		= & $mainframe->getUser();
 		$document	= & $mainframe->getDocument();
 		$SiteName 	= $mainframe->getCfg('sitename');
 		$task 		= JRequest::getVar( 'task' );
-		$gid 		= $my->gid;
+		$gid 		= $user->get('gid');
 		$_Itemid 	= $Itemid;
 		$linkOn 	= null;
 		$linkText 	= null;

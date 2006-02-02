@@ -24,7 +24,8 @@ require_once( JPATH_SITE .'includes/joomla.php' );
 $mainframe = new JApplication( $database, 3 );
 
 /** get the information about the current user from the sessions table */
-$my = $mainframe->getUser();
+$user	= & $mainframe->getUser();
+$my		= $user->_model;
 
 /**
 * CUSTOM HANDLER FOR METHOD NOT FOUND

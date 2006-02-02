@@ -87,8 +87,9 @@ class JModuleHelper
 			return $modules;
 		}
 				
-		$user =& $mainframe->getUser();
-		$db   =& $mainframe->getDBO();
+		$user	=& $mainframe->getUser();
+		$db		=& $mainframe->getDBO();
+		$gid	= $user->get('gid');
 		
 		$modules = array();
 		
@@ -98,7 +99,7 @@ class JModuleHelper
 			. "\n FROM #__modules AS m"
 			. "\n LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id"
 			. "\n WHERE m.published = 1"
-			. "\n AND m.access <= '". $user->gid ."'"
+			. "\n AND m.access <= '". $gid ."'"
 			. "\n AND m.client_id = '". $mainframe->getClient() ."'"
 			. $wheremenu
 			. "\n ORDER BY position, ordering";
