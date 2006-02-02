@@ -224,6 +224,7 @@ class JEditor_tinymce extends JPlugin {
 			mode : \"specific_textareas\",
 			document_base_url : \"". $url ."\",
 			relative_urls : false,
+			entity_encoding : \"raw\",
 			remove_script_host : false,
 			save_callback : \"TinyMCE_Save\",
 			invalid_elements : \"$invalid_elements\",
