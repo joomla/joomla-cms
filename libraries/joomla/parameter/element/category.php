@@ -30,8 +30,7 @@ class JElement_Category extends JElement
 	*/
 	var	$_name = 'Category';
 	
-	function fetchElement($name, $value, &$node, $control_name)
-	{
+	function fetchElement($name, $value, &$node, $control_name)	{
 		global $database;
 
 		$scope = $node->getAttribute('scope');

@@ -20,8 +20,7 @@
  * @since		1.1
  */
 
-class JElement_Text extends JElement
-{
+class JElement_Text extends JElement {
    /**
 	* Element name
 	*
@@ -30,10 +29,18 @@ class JElement_Text extends JElement
 	*/
 	var	$_name = 'Text';
 	
-	function fetchElement($name, $value, &$node, $control_name) 
-	{
-		$size = $node->getAttribute('size');
-		return '<input type="text" name="'.$control_name.'['.$name.']" value="'.$value.'" class="text_area" size="'.$size.'"/>';
+	function fetchTooltip($label, $description, &$node, $control_name, $name) {
+		$output = '<label for="'.$control_name.$name.'">';
+		$output .= mosToolTip(addslashes($description), $label, '', '', $label, '#', 0);
+		$output .= '</label>';
+
+		return $output;
+	}
+	
+	function fetchElement($name, $value, &$node, $control_name) {
+		$size = ( $node->getAttribute('size') ? 'size="'.$node->getAttribute('size').'"' : '' );
+		
+		return '<input type="text" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.$value.'" class="text_area" '.$size.' />';
 	}
 }
 ?>

@@ -225,16 +225,14 @@ class JParameter extends JRegistry
 	* @return	object
 	* @since 1.1
 	*/
-	function &loadElement( $type, $new = false )
-	{	
+	function &loadElement( $type, $new = false ) {	
 		$signature = md5( $type  );
 
 		if( isset( $this->_elements[$signature] ) && $new === false ) {
 			return	$this->_elements[$signature];
 		}
 
-		if( !class_exists( 'JElement' ) )
-		{
+		if( !class_exists( 'JElement' ) ) {
 			if( !jimport('joomla.parameter.element') ) {
 				//return	JError::raiseError( 'SOME_ERROR_CODE', 'Could not load parameter base class.' );
 				return false;
@@ -242,8 +240,7 @@ class JParameter extends JRegistry
 		}
 
 		$elementClass	=	'JElement_' . $type;
-		if( !class_exists( $elementClass ) )
-		{
+		if( !class_exists( $elementClass ) ) {
 			if( isset( $this->_elementDirs ) )
 				$dirs = $this->_elementDirs;
 			else
@@ -252,8 +249,7 @@ class JParameter extends JRegistry
 			array_push( $dirs, $this->getIncludePath());
 				
 			$found = false;
-			foreach( $dirs as $dir )
-			{
+			foreach( $dirs as $dir ) {
 				$elementFile	= sprintf( "%s/%s.php", $dir, str_replace( '_', '/', $type ) );
 				
 				if (@include_once $elementFile) {
@@ -268,8 +264,7 @@ class JParameter extends JRegistry
 			}
 		}
 
-		if( !class_exists( $elementClass ) )
-		{
+		if( !class_exists( $elementClass ) ) {
 			//return	JError::raiseError( 'SOME_ERROR_CODE', "Module file $parameterFile does not contain class $paramaterClass." );
 			return false;
 		}
@@ -293,12 +288,12 @@ class JParameter extends JRegistry
 	* @param	string|array	directory or directories to search.
 	* @since 1.1
 	*/
-	function addParameterDir( $dir )
-	{
-		if( is_array( $dir ) )
+	function addParameterDir( $dir ) {
+		if( is_array( $dir ) ) {
 			$this->_elementDirs = array_merge( $this->_elementDirs, $dir );
-		else
+		} else {
 			array_push( $this->_parameterDirs, $dir );
+		}
 	}
 	
    /**

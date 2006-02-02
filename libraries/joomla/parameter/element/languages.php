@@ -30,8 +30,7 @@ class JElement_Languages extends JElement
 	*/
 	var	$_name = 'Languages';
 	
-	function fetchElement($name, $value, &$node, $control_name)
-	{
+	function fetchElement($name, $value, &$node, $control_name)	{
 		$client = $node->getAttribute('client');
 		
 		$languages = JLanguageHelper::createLanguageList($value, constant('JPATH_'.strtoupper($client)));

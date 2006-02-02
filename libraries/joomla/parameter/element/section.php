@@ -30,8 +30,7 @@ class JElement_Section extends JElement
 	*/
 	var	$_name = 'Section';
 	
-	function fetchElement($name, $value, &$node, $control_name)
-	{
+	function fetchElement($name, $value, &$node, $control_name)	{
 		global $database;
 
 		$query = "SELECT id, title"."\n FROM #__sections"."\n WHERE published = 1"."\n AND scope = 'content'"."\n ORDER BY title";

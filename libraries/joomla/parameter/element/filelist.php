@@ -20,8 +20,7 @@
  * @since		1.1
  */
 
-class JElement_FileList extends JElement
-{
+class JElement_FileList extends JElement {
    /**
 	* Element name
 	*
@@ -30,8 +29,15 @@ class JElement_FileList extends JElement
 	*/
 	var	$_name = 'FileList';
 	
-	function fetchElement($name, $value, &$node, $control_name)
-	{
+	function fetchTooltip($label, $description, &$node, $control_name, $name) {
+		$output = '<label for="'.$control_name.$name.'">';
+		$output .= mosToolTip(addslashes($description), $label, '', '', $label, '#', 0);
+		$output .= '</label>';
+		
+		return $output;
+	}
+	
+	function fetchElement($name, $value, &$node, $control_name)	{
 		// path to images directory
 		$path = JPATH_SITE.$node->getAttribute('directory');
 		$filter = $node->getAttribute('filter');

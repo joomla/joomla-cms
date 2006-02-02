@@ -30,8 +30,7 @@ class JElement_List extends JElement
 	*/
 	var	$_name = 'List';
 	
-	function fetchElement($name, $value, &$node, $control_name)
-	{
+	function fetchElement($name, $value, &$node, $control_name)	{
 		$size = $node->getAttribute('size');
 		
 		$options = array ();

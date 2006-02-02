@@ -1695,13 +1695,19 @@ class mosAdminMenus {
 	* Also can be used in conjunction with the menulist param to create the chosen image
 	* load the default or use no image
 	*/
-	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='middle' )
-	{
+	function ImageCheck( $file, $directory='/images/M_images/', $param=NULL, $param_directory='/images/M_images/', $alt=NULL, $name='image', $type=1, $align='middle' ) {
 		global $mainframe;
 
 		$cur_template = $mainframe->getTemplate();
 
-		$name = ( $name ? 'name="'. $name .'"' : '' );
+		// strip html
+		$alt	= mosHTML::cleanText( $alt );
+		$alt	= html_entity_decode( $alt );		
+		// strip html
+		$name	= mosHTML::cleanText( $name );
+		$name	= html_entity_decode( $name );
+		$name	= str_replace( ' ','', $name );
+		$name 	= ( $name ? 'name="'. $name .'"' : '' );
 
 		if ( $param ) {
 			$image = $param_directory . $param;
@@ -1737,13 +1743,19 @@ class mosAdminMenus {
 	* Also can be used in conjunction with the menulist param to create the chosen image
 	* load the default or use no image
 	*/
-	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' )
-	{
+	function ImageCheckAdmin( $file, $directory='/images/', $param=NULL, $param_directory='/images/', $alt=NULL, $name=NULL, $type=1, $align='middle' )	{
 		global $mainframe;
 
 		$cur_template = $mainframe->getTemplate();
 
-		$name = ( $name ? 'name="'. $name .'"' : '' );
+		// strip html
+		$alt	= mosHTML::cleanText( $alt );
+		$alt	= html_entity_decode( $alt );		
+		// strip html
+		$name	= mosHTML::cleanText( $name );
+		$name	= html_entity_decode( $name );
+		$name	= str_replace( ' ','', $name );
+		$name 	= ( $name ? 'name="'. $name .'"' : '' );
 
 		if ( $param ) {
 			$image = $url. $param_directory . $param;

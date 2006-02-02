@@ -23,8 +23,7 @@
  * @since		1.1
  */
 
-class JElement extends JObject
-{
+class JElement extends JObject {
    /**
 	* element name
 	*
@@ -59,13 +58,11 @@ class JElement extends JObject
 	* @access	public
 	* @return	string	type of the parameter
 	*/
-	function getName()
-	{
+	function getName() {
 		return $this->_name;
 	}
 	
-	function render(&$xmlElement, $control_name = 'params')
-	{
+	function render(&$xmlElement, $control_name = 'params')	{
 		$name  = $xmlElement->getAttribute('name');
 		$label = $xmlElement->getAttribute('label');
 		$descr = $xmlElement->getAttribute('description');
@@ -76,14 +73,18 @@ class JElement extends JObject
 		//make sure we have a valid label
 		$label = $label ? $label : $name;
 		
-		$result[0] = $this->fetchTooltip($label, $descr, $xmlElement);
+		$result[0] = $this->fetchTooltip($label, $descr, $xmlElement, $control_name, $name);
 		$result[1] = $this->fetchElement($name, $value, $xmlElement, $control_name);
 		
 		return $result;
 	}
 	
-	function fetchTooltip($label, $description, &$xmlElement) {
-		return mosToolTip(addslashes($description), $label, '', '', $label, '#', 0);
+	function fetchTooltip($label, $description, &$xmlElement, $control_name='', $name='') {
+		$output = '<label for="'.$control_name.'['.$name.']'.'">';
+		$output .= mosToolTip(addslashes($description), $label, '', '', $label, '#', 0);
+		$output .= '</label>';
+		
+		return $output;
 	}
 	
 	function fetchElement($name, $value, &$xmlElement, $control_name) {

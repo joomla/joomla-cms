@@ -264,7 +264,7 @@ class HTML_modules {
 						<th colspan="2">
 							<?php echo JText::_( 'Details' ); ?>
 						</th>
-					<tr>
+					</tr>
 					<tr>
 						<td valign="top">
 							<?php echo JText::_( 'Module Type' ); ?>:
@@ -362,7 +362,7 @@ class HTML_modules {
 							<th >
 								<?php echo JText::_( 'Parameters' ); ?>
 							</th>
-						<tr>
+						</tr>
 						<tr>
 							<td>
 								<?php echo $params->render();?>
@@ -379,7 +379,7 @@ class HTML_modules {
 						<th>
 							<?php echo JText::_( 'Pages / Items' ); ?>
 						</th>
-					<tr>
+					</tr>
 					<tr>
 						<td>
 							<?php echo JText::_( 'Menu Item Link(s)' ); ?>:
@@ -400,7 +400,7 @@ class HTML_modules {
 								<th colspan="2">
 									<?php echo JText::_( 'Custom Output' ); ?>
 								</th>
-							<tr>
+							</tr>
 							<tr>
 								<td valign="top" >
 									<?php echo JText::_( 'Content' ); ?>:
