@@ -273,7 +273,7 @@ function editPlugin( $option, $uid, $client ) {
 		}
 
         $lang =& $mainframe->getLanguage();
-        $lang->load( trim('bot_'. $row->element), JPATH_SITE );
+        $lang->load( trim('plg_'. $row->element), JPATH_SITE );
 
 		// xml file for plugins
 		$xmlfile = JPATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element .'.xml';

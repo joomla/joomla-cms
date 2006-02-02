@@ -40,16 +40,18 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
-01-Feb 2006 Louis Landry
+
+01-Feb-2006 Louis Landry
  * Itemid script injection - Thanks Mathijs de Jong
  ^ Framework file catagorization cleanup
  ^ JACL class renamed to JAuthorization
  
-01-Feb 2006 Rey Gigataras
+01-Feb-2006 Rey Gigataras
  ^ Registration component output correctly separated into .html.php
  
-01-Feb 2006 Johan Janssens
+01-Feb-2006 Johan Janssens
  - Removed mod_templatechooser
+ ^ Changed bot language file prefix to plg
 
 01-Feb-2006 Emir Sakic
  # Fixed admin menubar hover href issue
@@ -59,18 +61,7 @@ Legend:
  # Fixed bug in JTree where parent_id of 0 not correctly handled if children array is out of order
  # Added missing getAffectedRows methods to database classes
 
-31-Jan-2006 Louis Landry
- # Fixed [topic,34073.0.html] : 2076 - Installation problem
- # Fixed [topic,34212.0.html] : Bug on installation
-
 31-Jan-2006 Rey Gigataras
- # Fixed [topic,34507.0.html] : Contact Us -> not authorized result
- # Fixed [topic,34574.0.html] : JS error in overlibs for the menu items in menu
- # Fixed [topic,34515.0.html] : Error when adding weblink on frontend
- # Fixed [topic,34103.0.html] : .contentheading and the frontend edit button
- # Fixed [topic,34522.0.html] : Menu Manager `Type` column error
- # Fixed [topic,34247.0.html] : Not authorized message on News Feeds
- # Fixed [topic,34303.0.html] : Menu not greyed out
  # Fixed : DOMIT notice errors
  # Fixed : missing access column in 'Contact Manager'
  # Fixed : 'Banner Manager' `state` filter
