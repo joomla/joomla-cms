@@ -15,9 +15,13 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-// ensure user has access to this function
-if (!$acl->acl_check( 'com_languages', 'manage', 'users', $my->usertype )) {
-	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+/*
+ * Make sure the user is authorized to view this page
+ */
+$user = & $mainframe->getUser();
+if (!$user->authorize( 'com_languages', 'manage' ))
+{
+	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 

@@ -139,12 +139,17 @@ class HTML_users {
 	}
 
 	function edituser( &$row, &$contact, &$lists, $option, $uid, &$params ) {
-		global $mainframe, $my, $acl;
-
-		$tabs = new mosTabs( 0 );
+		global $mainframe, $my;
+		
+		/*
+		 * Initialize variables
+		 */
+		$user	= & $mainframe->getUser();
+		$acl	= & JFactory::getACL();
+		$tabs	= new mosTabs( 0 );
 
 		mosCommonHTML::loadOverlib();
-		$canBlockUser 	= $acl->acl_check( 'com_user', 'block user', 'users', $my->usertype );
+		$canBlockUser 	= $user->authorize( 'com_user', 'block user' );
 		$canEmailEvents = $acl->acl_check( 'workflow', 'email_events', 'users', $acl->get_group_name( $row->gid, 'ARO' ) );
 		?>
 		<script language="javascript" type="text/javascript">

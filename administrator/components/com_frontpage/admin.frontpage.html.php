@@ -25,10 +25,14 @@ class HTML_content {
 	* @param array An array of content objects
 	*/
 	function showList( &$rows, $pageNav, $option, $lists ) {
-		global $my, $acl, $database;
+		global $my, $mainframe, $database;
 
+		/*
+		 * Initialize variables
+		 */
+		$user		= & $mainframe->getUser();
+		$nullDate	= $database->getNullDate();
 		mosCommonHTML::loadOverlib();
-		$nullDate = $database->getNullDate();
 		?>
 		<form action="index2.php?option=com_frontpage" method="post" name="adminForm">
 		
@@ -135,7 +139,7 @@ class HTML_content {
 				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
 	
-				if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
+				if ( $user->authorize( 'com_users', 'manage' ) ) {
 					if ( $row->created_by_alias ) {
 						$author = $row->created_by_alias;
 					} else {

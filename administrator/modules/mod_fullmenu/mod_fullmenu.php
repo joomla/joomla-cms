@@ -28,26 +28,26 @@ class JFullAdminMenu {
 		global $mainframe;
 
 		$lang 			= & $mainframe->getLanguage();
-		$acl 			= & JFactory :: getACL();
+		$user 			= & $mainframe->getUser();
 		$database 		= & $mainframe->getDBO();
 		$enableStats 	= $mainframe->getCfg('enable_stats');
 		$caching 		= $mainframe->getCfg('caching');
 
 		// cache some acl checks
-		$canCheckin 		= $acl->acl_check('com_checkin', 		'manage', 		'users', $usertype);
-		$canConfig 			= $acl->acl_check('com_config', 		'manage', 		'users', $usertype);
-		$manageTemplates 	= $acl->acl_check('com_templates', 		'manage', 		'users', $usertype);
-		$manageTrash 		= $acl->acl_check('com_trash', 			'manage', 		'users', $usertype);
-		$manageMenuMan 		= $acl->acl_check('com_menumanager', 	'manage', 		'users', $usertype);
-		$manageLanguages 	= $acl->acl_check('com_languages', 		'manage', 		'users', $usertype);
-		$installModules 	= $acl->acl_check('com_installer', 		'module', 		'users', $usertype);
-		$editAllModules 	= $acl->acl_check('com_modules', 		'manage', 		'users', $usertype);
-		$installPlugins 	= $acl->acl_check('com_installer', 		'plugin', 		'users', $usertype);
-		$editAllPlugins 	= $acl->acl_check('com_plugins', 		'manage', 		'users', $usertype);
-		$installComponents 	= $acl->acl_check('com_installer', 		'component', 	'users', $usertype);
-		$editAllComponents 	= $acl->acl_check('com_components', 	'manage', 		'users', $usertype);
-		$canMassMail 		= $acl->acl_check('com_massmail', 		'manage', 		'users', $usertype);
-		$canManageUsers 	= $acl->acl_check('com_users', 			'manage', 		'users', $usertype);
+		$canCheckin 		= $user->authorize('com_checkin', 		'manage');
+		$canConfig 			= $user->authorize('com_config', 		'manage');
+		$manageTemplates 	= $user->authorize('com_templates', 	'manage');
+		$manageTrash 		= $user->authorize('com_trash', 		'manage');
+		$manageMenuMan 		= $user->authorize('com_menumanager', 	'manage');
+		$manageLanguages 	= $user->authorize('com_languages', 	'manage');
+		$installModules 	= $user->authorize('com_installer', 	'module');
+		$editAllModules 	= $user->authorize('com_modules', 		'manage');
+		$installPlugins 	= $user->authorize('com_installer', 	'plugin');
+		$editAllPlugins 	= $user->authorize('com_plugins', 		'manage');
+		$installComponents 	= $user->authorize('com_installer', 	'component');
+		$editAllComponents 	= $user->authorize('com_components', 	'manage');
+		$canMassMail 		= $user->authorize('com_massmail', 		'manage');
+		$canManageUsers 	= $user->authorize('com_users', 		'manage');
 
 		$query = "SELECT a.id, a.title, a.name, COUNT( DISTINCT c.id ) AS numcat, COUNT( DISTINCT b.id ) AS numarc" .
 				"\n FROM #__sections AS a" .
@@ -254,7 +254,7 @@ class JFullAdminMenu {
 			$topLevelLimit = 19; //You can get 19 top levels on a 800x600 Resolution
 			$topLevelCount = 0;
 			foreach ($comps as $row) {
-				if ($editAllComponents | $acl->acl_check('administration', 'edit', 'users', $usertype, 'components', $row->option)) {
+				if ($editAllComponents | $user->authorize('administration', 'edit', 'components', $row->option)) {
 					if ($row->parent == 0 && (trim($row->admin_menu_link) || array_key_exists($row->id, $subs))) {
 						$topLevelCount ++;
 						if ($topLevelCount > $topLevelLimit) {
@@ -392,17 +392,17 @@ class JFullAdminMenu {
 		global $mainframe;
 
 		$lang 	= & $mainframe->getLanguage();
-		$acl 	= & JFactory :: getACL();
+		$user 	= & $mainframe->getUser();
 
-		$canConfig 			= $acl->acl_check('com_config', 	'manage', 		'users', $usertype);
-		$installModules 	= $acl->acl_check('com_installer', 	'module', 		'users', $usertype);
-		$editAllModules 	= $acl->acl_check('com_modules', 	'manage', 		'users', $usertype);
-		$installPlugins 	= $acl->acl_check('com_installer', 	'plugin', 		'users', $usertype);
-		$editAllPlugins 	= $acl->acl_check('com_plugins', 	'manage', 		'users', $usertype);
-		$installComponents 	= $acl->acl_check('com_installer', 	'component', 	'users', $usertype);
-		$editAllComponents 	= $acl->acl_check('com_components', 'manage', 		'users', $usertype);
-		$canMassMail 		= $acl->acl_check('com_massmail', 	'manage', 		'users', $usertype);
-		$canManageUsers 	= $acl->acl_check('com_users', 		'manage', 		'users', $usertype);
+		$canConfig 			= $user->authorize('com_config', 		'manage');
+		$installModules 	= $user->authorize('com_installer', 	'module');
+		$editAllModules 	= $user->authorize('com_modules', 		'manage');
+		$installPlugins 	= $user->authorize('com_installer', 	'plugin');
+		$editAllPlugins 	= $user->authorize('com_plugins', 		'manage');
+		$installComponents 	= $user->authorize('com_installer', 	'component');
+		$editAllComponents 	= $user->authorize('com_components',	'manage');
+		$canMassMail 		= $user->authorize('com_massmail', 		'manage');
+		$canManageUsers 	= $user->authorize('com_users', 		'manage');
 
 		$text = JText :: _('Menu inactive for this Page', true);
 		?>

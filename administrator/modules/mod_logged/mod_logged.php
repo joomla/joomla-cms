@@ -16,6 +16,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( JPATH_ADMINISTRATOR .'/includes/pageNavigation.php' );
 
+$user			= & $mainframe->getUser();
 $limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
 $limitstart 	= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
@@ -63,7 +64,7 @@ $rows = $database->loadObjectList();
 <?php
 $i = 0;
 foreach ( $rows as $row ) {
-	if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
+	if ( $user->authorize( 'com_users', 'manage' ) ) {
 		$link 	= 'index2.php?option=com_users&amp;task=editA&amp;hidemainmenu=1&amp;id='. $row->userid;
 		$name 	= '<a href="'. $link .'" title="'. JText::_( 'Edit User' ) .'">'. $row->username .'</a>';
 	} else {
@@ -81,7 +82,7 @@ foreach ( $rows as $row ) {
 		<?php echo $row->usertype;?>
 		</td>
 		<?php
-		if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
+		if ( $user->authorize( 'com_users', 'manage' ) ) {
 			?>
 			<td>
 			<a href="index2.php?option=com_users&amp;task=flogout&amp;id=<?php echo $row->userid; ?>">

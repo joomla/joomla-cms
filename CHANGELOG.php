@@ -41,6 +41,9 @@ Legend:
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
 
+02-Feb 2006 Louis Landry
+ ^ Changed core components to use new JUser->authorize method instead of acl_check()
+
 02-Feb 2006 Rey Gigataras
  # Fixed [topic,34959.0.html] : Weblinks error
  + Labels added to params output

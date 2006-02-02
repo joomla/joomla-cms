@@ -70,11 +70,15 @@ class modules_html {
 	*/
 	function modoutput_tabs( $module, $params  ) 
 	{
-		global $acl, $my;
+		global $mainframe;
 
-		$tabs = new mosTabs(1);
+		/*
+		 * Initialize variables
+		 */
+		$user	= & $mainframe->getUser();
+		$tabs	= new mosTabs(1);
 
-		$editAllComponents 	= $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', 'all' );
+		$editAllComponents 	= $user->authorize( 'administration', 'edit', 'components', 'all' );
 		// special handling for components module
 
 		if ( $module->module != 'mod_components' || ( $module->module == 'mod_components' && $editAllComponents ) ) {

@@ -21,7 +21,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_messages {
 	function showMessages( &$rows, &$pageNav, $option, &$lists ) {
-		global $acl, $my;
+		global $mainframe, $my;
+		
+		/*
+		 * Initialize variables
+		 */
+		$user	= & $mainframe->getUser();
 		?>
 		<form action="index2.php?option=com_messages" method="post" name="adminForm">
 		
@@ -70,7 +75,7 @@ class HTML_messages {
 				$img = $row->state ? 'tick.png' : 'publish_x.png';
 				$alt = $row->state ? JText::_( 'Read' ) : JText::_( 'Read' );
 				
-				if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
+				if ( $user->authorize( 'com_users', 'manage' ) ) {
 					$linkA 	= 'index2.php?option=com_users&task=editA&hidemainmenu=1&id='. $row->user_id_from;
 					$author = '<a href="'. ampReplace( $linkA ) .'" title="'. JText::_( 'Edit User' ) .'">'. $row->user_from .'</a>';
 				} else {

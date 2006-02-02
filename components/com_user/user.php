@@ -15,10 +15,15 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+/*
+ * Get user object for current logged in user
+ */
+$user	= & $mainframe->getUser();
+
 // Editor usertype check
 $access = new stdClass();
-$access->canEdit = $acl->acl_check( 'action', 'edit', 'users', $my->usertype, 'content', 'all' );
-$access->canEditOwn = $acl->acl_check( 'action', 'edit', 'users', $my->usertype, 'content', 'own' );
+$access->canEdit = $user->authorize( 'action', 'edit', 'content', 'all' );
+$access->canEditOwn = $user->authorize( 'action', 'edit', 'content', 'own' );
 
 require_once ( JApplicationHelper::getPath( 'front_html' ) );
 

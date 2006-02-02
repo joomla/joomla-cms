@@ -14,17 +14,24 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-// cache some acl checks
-$canConfig = $acl->acl_check( 'com_config', 'manage', 'users', $my->usertype );
+/*
+ * Get the user object for the current user
+ */
+$user = & $mainframe->getUser();
 
-$manageTemplates 	= $acl->acl_check( 'com_templates', 'manage', 'users', $my->usertype );
-$manageLanguages 	= $acl->acl_check( 'com_languages', 'manage', 'users', $my->usertype );
-$installModules 	= $acl->acl_check( 'com_install', 'module', 'users', $my->usertype );
-$editAllModules 	= $acl->acl_check( 'com_modules', 'manage', 'users', $my->usertype );
-$installComponents 	= $acl->acl_check( 'com_install', 'component', 'users', $my->usertype );
-$editAllComponents 	= $acl->acl_check( 'com_components', 'manage', 'users', $my->usertype );
-$canMassMail 		= $acl->acl_check( 'com_massmail', 'manage', 'users', $my->usertype );
-$canManageUsers 	= $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype );
+/*
+ * Cache some ACL checks
+ */
+$canConfig			= $user->authorize( 'com_config', 'manage' );
+
+$manageTemplates 	= $user->authorize( 'com_templates', 'manage' );
+$manageLanguages 	= $user->authorize( 'com_languages', 'manage' );
+$installModules 	= $user->authorize( 'com_install', 'module' );
+$editAllModules 	= $user->authorize( 'com_modules', 'manage' );
+$installComponents 	= $user->authorize( 'com_install', 'component' );
+$editAllComponents 	= $user->authorize( 'com_components', 'manage' );
+$canMassMail 		= $user->authorize( 'com_massmail', 'manage' );
+$canManageUsers 	= $user->authorize( 'com_users', 'manage' );
 
 $count = intval( $params->def( 'count', 10 ) );
 
@@ -59,7 +66,7 @@ foreach ($comps as $row) {
 		$i = 0;
 		$z = 0;
 		foreach ($comps as $row) {
-			if ( $editAllComponents | $acl->acl_check( 'administration', 'edit', 'users', $my->usertype, 'components', $row->option ) ) {
+			if ( $editAllComponents | $user->authorize( 'administration', 'edit', 'components', $row->option ) ) {
 
 				if ($row->parent == 0 && (trim( $row->admin_menu_link ) || array_key_exists( $row->id, $subs ))) {
 					

@@ -21,7 +21,7 @@ function botNavigation( &$row, &$params, $page=0 ) {
 
 	$html 		= '';
 	$db 		= & $mainframe->getDBO();
-	$acl		= JFactory :: getACL();
+	$user		= & $mainframe->getUser();
 	$nullDate	= $db->getNullDate();
 	$now 		= date('Y-m-d H:i', time() + $mainframe->getCfg('offset') * 60 * 60);
 	$uid 		= $row->id;
@@ -30,9 +30,9 @@ function botNavigation( &$row, &$params, $page=0 ) {
 
 	// Editor access object
 	$access = new stdClass();
-	$access->canEdit 	= $acl->acl_check('action', 'edit', 'users', $my->usertype, 'content', 'all');
-	$access->canEditOwn = $acl->acl_check('action', 'edit', 'users', $my->usertype, 'content', 'own');
-	$access->canPublish = $acl->acl_check('action', 'publish', 'users', $my->usertype, 'content', 'all');
+	$access->canEdit 	= $user->authorize('action', 'edit', 'content', 'all');
+	$access->canEditOwn = $user->authorize('action', 'edit', 'content', 'own');
+	$access->canPublish = $user->authorize('action', 'publish', 'content', 'all');
 
 	if ($params->get('item_navigation') && ($task == 'view') && !$params->get('popup')) {
 		// Paramters for menu item as determined by controlling Itemid

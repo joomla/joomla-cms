@@ -15,8 +15,13 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-if (!$acl->acl_check( 'com_checkin', 'manage', 'users', $my->usertype )) {
-	mosRedirect( 'index2.php?', JText::_('ALERTNOTAUTH') );
+/*
+ * Make sure the user is authorized to view this page
+ */
+$user = & $mainframe->getUser();
+if (!$user->authorize( 'com_checkin', 'manage' ))
+{
+	josRedirect( 'index2.php?', JText::_('ALERTNOTAUTH') );
 }
 $nullDate = $database->getNullDate();
 ?>
@@ -112,4 +117,4 @@ $nullDate = $database->getNullDate();
 		</td>
 	</tr>
 	</table>
-</div>	
+</div>

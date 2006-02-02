@@ -14,6 +14,11 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+/*
+ * Get the user object for the logged in user
+ */
+$user	= & $mainframe->getUser();
+
 $query = "SELECT a.id, a.sectionid, a.title, a.created, u.name, a.created_by_alias, a.created_by"
 . "\n FROM #__content AS a"
 . "\n LEFT JOIN #__users AS u ON u.id = a.created_by"
@@ -39,7 +44,7 @@ foreach ($rows as $row) {
 		$link = 'index2.php?option=com_content&amp;task=edit&amp;hidemainmenu=1&amp;id='. $row->id;
 	}
 
-	if ( $acl->acl_check( 'administration', 'manage', 'users', $my->usertype, 'components', 'com_users' ) ) {
+	if ( $user->authorize( 'administration', 'manage', 'components', 'com_users' ) ) {
 		if ( $row->created_by_alias ) {
 			$author = $row->created_by_alias;
 		} else {

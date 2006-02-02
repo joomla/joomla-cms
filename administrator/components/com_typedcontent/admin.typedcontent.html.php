@@ -26,7 +26,12 @@ class HTML_typedcontent {
 	* @param array An array of content objects
 	*/
 	function showContent( &$rows, &$pageNav, $option, &$lists ) {
-		global $my, $acl, $database;
+		global $my, $mainframe, $database;
+		
+		/*
+		 * Initialize variables
+		 */
+		$user	= & $mainframe->getUser();
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -133,7 +138,7 @@ class HTML_typedcontent {
 					$checked	 		= mosHTML::idBox( $i, $row->id, ($row->checked_out && $row->checked_out != $my->id ) );
 				}
 	
-				if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
+				if ( $user->authorize( 'com_users', 'manage' ) ) {
 					if ( $row->created_by_alias ) {
 						$author = $row->created_by_alias;
 					} else {
@@ -826,4 +831,4 @@ class HTML_typedcontent {
 		<?php
 	}
 }
-?>	
+?>

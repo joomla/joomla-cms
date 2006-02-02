@@ -15,7 +15,12 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-if (!$acl->acl_check( 'com_users', 'manage', 'users', $my->usertype )) {
+/*
+ * Make sure the user is authorized to view this page
+ */
+$user = & $mainframe->getUser();
+if (!$user->authorize( 'com_users', 'manage' ))
+{
 	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 

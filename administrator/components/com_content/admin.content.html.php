@@ -26,7 +26,12 @@ class HTML_content {
 	* @param array An array of content objects
 	*/
 	function showContent( &$rows, $section, &$lists, $pageNav, $all=NULL, $redirect ) {
-		global $my, $acl, $database;
+		global $my, $mainframe, $database;
+		
+		/*
+		 * Initialize variables
+		 */
+		$user	= & $mainframe->getUser();
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -152,7 +157,7 @@ class HTML_content {
 					}
 				}
 	
-				if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
+				if ( $user->authorize( 'com_users', 'manage' ) ) {
 					if ( $row->created_by_alias ) {
 						$author = $row->created_by_alias;
 					} else {
@@ -283,7 +288,12 @@ class HTML_content {
 	* @param array An array of content objects
 	*/
 	function showArchive( &$rows, $section, &$lists, $pageNav, $option, $all=NULL, $redirect ) {
-		global $my, $acl;
+		global $my, $mainframe;
+		
+		/*
+		 * Initialize variables
+		 */
+		$user	= & $mainframe->getUser();
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
@@ -356,7 +366,7 @@ class HTML_content {
 				$row->cat_link 	= ampReplace( 'index2.php?option=com_categories&task=editA&hidemainmenu=1&id='. $row->catid );
 				$row->sec_link 	= ampReplace( 'index2.php?option=com_sections&task=editA&hidemainmenu=1&id='. $row->sectionid );
 	
-				if ( $acl->acl_check( 'com_users', 'manage', 'users', $my->usertype ) ) {
+				if ( $user->authorize( 'com_users', 'manage' ) ) {
 					if ( $row->created_by_alias ) {
 						$author = $row->created_by_alias;
 					} else {
