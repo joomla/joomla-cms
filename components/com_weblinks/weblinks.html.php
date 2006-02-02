@@ -48,21 +48,21 @@ class WeblinksView {
 		?>
 		<table width="100%" cellpadding="4" cellspacing="0" border="0" align="center" class="contentpane<?php echo $params->get( 'pageclass_sfx' ); ?>">
 		<?php
-		//if ( @$category->imgTag || @$category->description ) {
+		if ( @$category->imgTag || @$category->description ) {
 			?>
 			<tr>
 				<td valign="top" class="contentdescription<?php echo $params->get( 'pageclass_sfx' ); ?>">
 					<?php
 					// show image
-					//if ( isset($category->imgTag) ) {
+					if ( isset($category->imgTag) ) {
 						echo $category->imgTag;
-					//}
+					}
 					echo $category->description;
 					?>
 				</td>
 			</tr>
 			<?php
-		//}
+		}
 		?>		
 		<tr>
 			<td width="60%" colspan="2">

@@ -23,13 +23,15 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Content
  * @since 1.0
  */
-class JContentView {
+class JContentView 
+{
 	/**
 	 * Draws a Content List Used by Content Category & Content Section
 	 * 
 	 * @since 1.1
 	 */
-	function showSection(& $section, & $categories, & $params, & $access, $gid) {
+	function showSection(& $section, & $categories, & $params, & $access, $gid) 
+	{
 		global $Itemid;
 
 		if ($params->get('page_title')) {
@@ -76,7 +78,8 @@ class JContentView {
 	* Draws a Content List
 	* Used by Content Category & Content Section
 	*/
-	function showCategory(& $category, & $other_categories, & $items, & $access, $gid, & $params, & $page, & $lists, $order) {
+	function showCategory(& $category, & $other_categories, & $items, & $access, $gid, & $params, & $page, & $lists, $order) 
+	{
 		global $Itemid;
 
 		if ($params->get('page_title')) {
@@ -135,7 +138,8 @@ class JContentView {
 		mosHTML :: BackButton($params);
 	}
 
-	function showArchive(&$rows, &$params, &$menu, &$access, $id, $gid, $pop) {
+	function showArchive(&$rows, &$params, &$menu, &$access, $id, $gid, $pop) 
+	{
 		global $Itemid;
 		
 		/*
@@ -156,7 +160,8 @@ class JContentView {
 		echo '</form>';
 	}
 
-	function showBlog($rows, $params, $gid, $access, $pop, $menu, $archive = null) {
+	function showBlog($rows, $params, $gid, $access, $pop, $menu, $archive = null) 
+	{
 		global $mainframe, $Itemid;
 
 		/*
@@ -434,7 +439,8 @@ class JContentView {
 	* @param object An object with the record data
 	* @param boolean If <code>false</code>, the print button links to a popup window.  If <code>true</code> then the print button invokes the browser print method.
 	*/
-	function show(& $row, & $params, & $access, $page = 0, $option, $ItemidCount = NULL) {
+	function show(& $row, & $params, & $access, $page = 0, $option, $ItemidCount = NULL) 
+	{
 		global $mainframe, $hide_js, $Itemid;
 
 		/*
@@ -589,7 +595,8 @@ class JContentView {
 	/**
 	* Display links to categories
 	*/
-	function showCategories(& $params, & $items, $gid, & $categories, $catid, $id, $Itemid) {
+	function showCategories(& $params, & $items, $gid, & $categories, $catid, $id, $Itemid) 
+	{
 		global $task;
 		
 		if ( (count($categories) > 1 && $task == 'category') || (count($categories) && $task == 'section' ) ) {
@@ -639,7 +646,8 @@ class JContentView {
 	/**
 	* Display Table of items
 	*/
-	function showTable(& $params, & $items, & $gid, $catid, $id, & $pageNav, & $access, & $sectionid, & $lists, $order) {
+	function showTable(& $params, & $items, & $gid, $catid, $id, & $pageNav, & $access, & $sectionid, & $lists, $order) 
+	{
 		global $Itemid;
 
 		$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='.$sectionid.'&amp;id='.$catid.'&amp;Itemid='.$Itemid;
@@ -735,7 +743,8 @@ class JContentView {
 
 		$k = 0;
 		$i = 0;
-		foreach ($items as $row){
+		foreach ($items as $row)
+		{
 			$row->created = mosFormatDate($row->created, $params->get('date_format'));
 			?>
 			<tr class="sectiontableentry<?php echo ($k+1) . $params->get( 'pageclass_sfx' ); ?>" >
@@ -892,7 +901,8 @@ class JContentView {
 	* @return void
 	* @since 1.0
 	*/
-	function editContent(& $row, $section, & $lists, & $images, & $access, $myid, $sectionid, $task, $Itemid) {
+	function editContent(& $row, $section, & $lists, & $images, & $access, $myid, $sectionid, $task, $Itemid) 
+	{
 		global $mainframe, $Itemid;
 
 		// Require the toolbar
@@ -1409,7 +1419,8 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function emailForm($uid, $title, $template = '') {
+	function emailForm($uid, $title, $template = '') 
+	{
 		global $mosConfig_sitename, $mainframe;
 
 		$mainframe->setPageTitle($mosConfig_sitename.' - '.$title);
@@ -1497,7 +1508,8 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function emailSent($to, $template = '') {
+	function emailSent($to, $template = '') 
+	{
 		global $mainframe;
 
 		$mainframe->setPageTitle($mainframe->getCfg('sitename'));
@@ -1552,7 +1564,8 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _title($row, $params, $linkOn, $access) {
+	function _title($row, $params, $linkOn, $access) 
+	{
 		if ($params->get('item_title')) {
 			?>
 			<td class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>" width="100%">
@@ -1584,7 +1597,8 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _editIcon($row, $params, $access) {
+	function _editIcon($row, $params, $access) 
+	{
 		global $Itemid, $my, $mainframe;
 
 		if ($params->get('popup')) {
@@ -1636,8 +1650,10 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _pdfIcon($row, $params, $linkOn, $hideJS) {
-		if ($params->get('pdf') && !$params->get('popup') && !$hideJS) {
+	function _pdfIcon($row, $params, $linkOn, $hideJS) 
+	{
+		if ($params->get('pdf') && !$params->get('popup') && !$hideJS) 
+		{
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 			$link = 'index2.php?option=com_content&amp;no_html=1&amp;task=viewpdf&amp;id='.$row->id;
 			if ($params->get('icons')) {
@@ -1667,7 +1683,8 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _emailIcon($row, $params, $hideJS) {
+	function _emailIcon($row, $params, $hideJS) 
+	{
 		if ($params->get('email') && !$params->get('popup') && !$hideJS) {
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=400,height=250,directories=no,location=no';
 			$link = 'index2.php?option=com_content&amp;task=emailform&amp;id='.$row->id;
@@ -1697,7 +1714,8 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _sectionCategory($row, $params) {
+	function _sectionCategory($row, $params) 
+	{
 		if (($params->get('section') && $row->sectionid) || ($params->get('category') && $row->catid)) {
 			?>
 			<tr>
@@ -1731,7 +1749,8 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _section($row, $params) {
+	function _section($row, $params) 
+	{
 		if ($params->get('section') && $row->sectionid) {
 			?>
 			<span>
@@ -1759,7 +1778,8 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _category($row, $params) {
+	function _category($row, $params) 
+	{
 		if ($params->get('category') && $row->catid) {
 			?>
 			<span>
@@ -1783,7 +1803,8 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _author($row, $params) {
+	function _author($row, $params) 
+	{
 		global $acl;
 
 		if (($params->get('author')) && ($row->author != "")) {
@@ -1812,7 +1833,8 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _url($row, $params) {
+	function _url($row, $params) 
+	{
 		if ($params->get('url') && $row->urls) 	{
 			?>
 			<tr>
@@ -1837,7 +1859,8 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _createDate($row, $params) {
+	function _createDate($row, $params) 
+	{
 		$create_date = null;
 		if (intval($row->created) != 0) {
 			$create_date = mosFormatDate($row->created);
@@ -1865,7 +1888,8 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _modifiedDate($row, $params) {
+	function _modifiedDate($row, $params) 
+	{
 		$mod_date = null;
 		if (intval($row->modified) != 0) {
 			$mod_date = mosFormatDate($row->modified);
@@ -1893,7 +1917,8 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _toc($row) {
+	function _toc($row) 
+	{
 		if (isset ($row->toc)) {
 			echo $row->toc;
 		}
@@ -1912,7 +1937,8 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _readMore($params, $linkOn, $linkText) {
+	function _readMore($params, $linkOn, $linkText) 
+	{
 		if ($params->get('readmore')) {
 			if ($params->get('intro_only') && $linkText) {
 				?>
