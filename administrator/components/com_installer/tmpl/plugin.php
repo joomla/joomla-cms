@@ -33,19 +33,27 @@ class JInstallerExtensionTasks {
 	function showInstalled() {
 		global $mainframe;
 
+		$filter 			= JRequest::getVar( 'filter', '' );
 		$option				= JRequest::getVar( 'option' );
 		$limit 				= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
 		$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 		
+		if ($filter == NULL) {
+			$and = '';
+		} else {
+			$and = "\n AND folder = '$filter'";
+		}
 		/*
 		 * Get a database connector
 		 */
 		$db = & $mainframe->getDBO();
 
-		$query = 	"SELECT id, name, folder, element, client_id" .
-					"\n FROM #__plugins" .
-					"\n WHERE iscore = 0" .
-					"\n ORDER BY folder, name";
+		$query = 	"SELECT id, name, folder, element, client_id" 
+					. "\n FROM #__plugins" 
+					. "\n WHERE iscore = 0" 
+					. $and
+					. "\n ORDER BY folder, name"
+					;
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 
@@ -114,6 +122,17 @@ class JInstallerExtensionTasks {
 			}
 		}
 		
+		// get list of Positions for dropdown filter
+		$query = "SELECT folder AS value, folder AS text"
+		. "\n FROM #__plugins"
+		. "\n GROUP BY folder"
+		. "\n ORDER BY folder"
+		;
+		$types[] = mosHTML::makeOption( '', JText::_( 'All' ) );
+		$db->setQuery( $query );
+		$types = array_merge( $types, $db->loadObjectList() );
+		$lists['filter'] = mosHTML::selectList( $types, 'filter', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', $filter );
+
 		/*
 		* Take care of the pagination
 		*/	
@@ -121,7 +140,7 @@ class JInstallerExtensionTasks {
 		$page = new JPagination( count( $rows ), $limitstart, $limit );
 		$rows = array_slice( $rows, $page->limitstart, $page->limit );
 		
-		JInstallerScreens_plugin :: showInstalled($rows, $page);
+		JInstallerScreens_plugin :: showInstalled($rows, $lists, $page);
 
 	}
 }
@@ -144,7 +163,9 @@ class JInstallerScreens_plugin {
 	 * @param array An array of plugin objects
 	 * @return void
 	 */
-	function showInstalled(&$rows, &$page) {
+	function showInstalled(&$rows, &$lists, &$page) {
+		
+		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_installer&amp;extension=plugin" method="post" name="adminForm">
 		
@@ -160,8 +181,11 @@ class JInstallerScreens_plugin {
 				
 				<table class="adminform">
 				<tr>
-					<td>
+					<td width="100%">
 						<?php echo JText::_( 'DESCPLUGINS' ); ?>
+					</td>
+					<td align="right">
+						<?php echo $lists['filter'];?>
 					</td>
 				</tr>
 				</table>
@@ -181,20 +205,14 @@ class JInstallerScreens_plugin {
 							<th width="10%" class="title">
 								<?php echo JText::_( 'Type' ); ?>
 							</th>
-							<th width="10%"  class="title">
-								<?php echo JText::_( 'Author' ); ?>
-							</th>
-							<th width="5%" align="center">
+							<th width="10%" align="center">
 								<?php echo JText::_( 'Version' ); ?>
 							</th>
-							<th width="10%" align="center">
+							<th width="15%">
 								<?php echo JText::_( 'Date' ); ?>
 							</th>
-							<th width="15%"  class="title">
-								<?php echo JText::_( 'Author Email' ); ?>
-							</th>
-							<th width="15%"  class="title">
-								<?php echo JText::_( 'Author URL' ); ?>
+							<th width="25%"  class="title">
+								<?php echo JText::_( 'Author' ); ?>
 							</th>
 						</tr>
 						
@@ -203,6 +221,8 @@ class JInstallerScreens_plugin {
 						$n = count($rows);
 						for ($i = 0; $i < $n; $i ++) {
 							$row = & $rows[$i];
+							
+							$author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
 							?>
 							<tr class="<?php echo "row$rc"; ?>">
 								<td>
@@ -217,20 +237,16 @@ class JInstallerScreens_plugin {
 								<td>
 									<?php echo $row->folder; ?>
 								</td>
-								<td>
-									<?php echo @$row->author != '' ? $row->author : "&nbsp;"; ?>
-								</td>
 								<td align="center">
-									<?php echo @$row->version != '' ? $row->version : "&nbsp;"; ?>
-								</td>
-								<td align="center">
-									<?php echo @$row->creationdate != '' ? $row->creationdate : "&nbsp;"; ?>
+									<?php echo @$row->version != '' ? $row->version : '&nbsp;'; ?>
 								</td>
 								<td>
-									<?php echo @$row->authorEmail != '' ? $row->authorEmail : "&nbsp;"; ?>
+									<?php echo @$row->creationdate != '' ? $row->creationdate : '&nbsp;'; ?>
 								</td>
 								<td>
-									<?php echo @$row->authorUrl != "" ? "<a href=\"" .(substr( $row->authorUrl, 0, 7) == 'http://' ? $row->authorUrl : 'http://'.$row->authorUrl). "\" target=\"_blank\">$row->authorUrl</a>" : "&nbsp;";?>
+									<span onmouseover="return overlib('<?php echo $author_info; ?>', CAPTION, '<?php echo JText::_( 'Author Information' ); ?>', BELOW, LEFT);" onmouseout="return nd();">
+										<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>										
+									</span>
 								</td>
 							</tr>
 							<?php	

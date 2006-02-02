@@ -46,20 +46,24 @@ class JInstallerExtensionTasks {
 		
 		if ($filter == NULL) {
 			$and = '';
-		} else
+		} else {
 			if (!$filter) {
 				$and = "\n AND client_id = 0";
-			} else
+			} else {
 				if ($filter) {
 					$and = "\n AND client_id = 1";
 				}
+			}
+		}
 
-		$query = "SELECT id, module, client_id, title" .
-				"\n FROM #__modules" .
-				"\n WHERE module LIKE 'mod_%' " .
-				"\n AND iscore='0'".$and .
-				"\n GROUP BY module, client_id" .
-				"\n ORDER BY client_id, module";
+		$query = "SELECT id, module, client_id, title" 
+				. "\n FROM #__modules" 
+				. "\n WHERE module LIKE 'mod_%' " 
+				. "\n AND iscore='0'"
+				. $and 
+				. "\n GROUP BY module, client_id" 
+				. "\n ORDER BY client_id, module"
+				;
 		$database->setQuery($query);
 		$rows = $database->loadObjectList();
 
@@ -138,6 +142,8 @@ class JInstallerExtensionTasks {
 class JInstallerScreens_module {
 	
 	function showInstalled( &$rows, &$lists, &$page ) {
+		
+		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_installer&amp;extension=module" method="post" name="adminForm">
 				
@@ -174,29 +180,25 @@ class JInstallerScreens_module {
 							<th class="title">
 								<?php echo JText::_( 'Module File' ); ?>
 							</th>
-							<th width="10%"  class="title">
+							<th width="7%" align="center">
 								<?php echo JText::_( 'Client' ); ?>
 							</th>
-							<th width="10%"  class="title">
-								<?php echo JText::_( 'Author' ); ?>
-							</th>
-							<th width="5%" align="center">
+							<th width="10%" align="center">
 								<?php echo JText::_( 'Version' ); ?>
 							</th>
-							<th width="10%" align="center">
+							<th width="15%">
 								<?php echo JText::_( 'Date' ); ?>
 							</th>
-							<th width="15%"  class="title">
-								<?php echo JText::_( 'Author Email' ); ?>
-							</th>
-							<th width="15%"  class="title">
-								<?php echo JText::_( 'Author URL' ); ?>
+							<th width="25%"  class="title">
+								<?php echo JText::_( 'Author' ); ?>
 							</th>
 						</tr>
 						<?php
 						$rc = 0;
 						for ($i = 0, $n = count( $rows ); $i < $n; $i++) {
 							$row =& $rows[$i];
+							
+							$author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
 							?>
 							<tr class="<?php echo "row$rc"; ?>">
 								<td>
@@ -206,23 +208,19 @@ class JInstallerScreens_module {
 									<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);" />
 									<span class="bold"><?php echo $row->module; ?></span>
 								</td>
-								<td>
+								<td align="center">
 									<?php echo $row->client_id == "0" ? JText::_( 'Site' ) : JText::_( 'Admin' ); ?>
-								</td>
-								<td>
-									<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>
 								</td>
 								<td align="center">
 									<?php echo @$row->version != '' ? $row->version : '&nbsp;'; ?>
 								</td>
-								<td align="center">
+								<td>
 									<?php echo @$row->creationdate != '' ? $row->creationdate : '&nbsp;'; ?>
 								</td>
 								<td>
-									<?php echo @$row->authorEmail != '' ? $row->authorEmail : '&nbsp;'; ?>
-								</td>
-								<td>
-									<?php echo @$row->authorUrl != '' ? "<a href=\"" .(substr( $row->authorUrl, 0, 7) == 'http://' ? $row->authorUrl : 'http://'.$row->authorUrl) ."\" target=\"_blank\">$row->authorUrl</a>" : '&nbsp;'; ?>
+									<span onmouseover="return overlib('<?php echo $author_info; ?>', CAPTION, '<?php echo JText::_( 'Author Information' ); ?>', BELOW, LEFT);" onmouseout="return nd();">
+										<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>										
+									</span>
 								</td>
 							</tr>
 							<?php

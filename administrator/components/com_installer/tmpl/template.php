@@ -187,6 +187,8 @@ class JInstallerExtensionTasks {
 class JInstallerScreens_template {
 	
 	function showInstalled( &$rows, &$page, $client, $lists, &$currentList ) {
+		
+		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 				
@@ -223,23 +225,17 @@ class JInstallerScreens_template {
 							<th class="title">
 								<?php echo JText::_( 'Template' ); ?>
 							</th>
-							<th width="10%"  class="title">
+							<th width="7%" align="center">
 								<?php echo JText::_( 'Client' ); ?>
 							</th>
-							<th width="10%"  class="title">
-								<?php echo JText::_( 'Author' ); ?>
-							</th>
-							<th width="5%" align="center">
+							<th width="10%" align="center">
 								<?php echo JText::_( 'Version' ); ?>
 							</th>
-							<th width="10%" align="center">
+							<th width="15%">
 								<?php echo JText::_( 'Date' ); ?>
 							</th>
-							<th width="15%"  class="title">
-								<?php echo JText::_( 'Author Email' ); ?>
-							</th>
-							<th width="15%"  class="title">
-								<?php echo JText::_( 'Author URL' ); ?>
+								<th width="25%"  class="title">
+								<?php echo JText::_( 'Author' ); ?>
 							</th>
 						</tr>
 						<?php
@@ -257,6 +253,8 @@ class JInstallerScreens_template {
 								$cbd 	= '';
 								$style 	= '';
 							}
+							
+							$author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
 							?>
 							<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
 								<td>
@@ -266,23 +264,19 @@ class JInstallerScreens_template {
 									<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->directory; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?> />
 									<span class="bold"><?php echo $row->name; ?></span>
 								</td>
-								<td>
+								<td align="center">
 									<?php echo $row->client_id == 0 ? JText::_( 'Site' ) : JText::_( 'Admin' ); ?>
-								</td>
-								<td>
-									<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>
 								</td>
 								<td align="center">
 									<?php echo @$row->version != '' ? $row->version : '&nbsp;'; ?>
 								</td>
-								<td align="center">
+								<td>
 									<?php echo @$row->creationdate != '' ? $row->creationdate : '&nbsp;'; ?>
 								</td>
 								<td>
-									<?php echo @$row->authorEmail != '' ? $row->authorEmail : '&nbsp;'; ?>
-								</td>
-								<td>
-									<?php echo @$row->authorUrl != '' ? "<a href=\"" .(substr( $row->authorUrl, 0, 7) == 'http://' ? $row->authorUrl : 'http://'.$row->authorUrl) ."\" target=\"_blank\">$row->authorUrl</a>" : '&nbsp;'; ?>
+									<span onmouseover="return overlib('<?php echo $author_info; ?>', CAPTION, '<?php echo JText::_( 'Author Information' ); ?>', BELOW, LEFT);" onmouseout="return nd();">
+										<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>										
+									</span>
 								</td>
 							</tr>
 							<?php
