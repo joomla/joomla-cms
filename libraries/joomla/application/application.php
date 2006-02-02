@@ -540,6 +540,12 @@ class JApplication extends JObject
 		// Create the registry with a default namespace of config which is read only
 		$this->_registry = new JRegistry( 'config', true );
 		$this->_registry->loadObject($config);
+		
+		//Insert configuration values into global scope (for backwards compatibility)
+		foreach (get_object_vars($config) as $k => $v) {
+			$name = 'mosConfig_'.$k;
+			$GLOBALS[$name] = $v;
+		}
 	}
 
 	/**

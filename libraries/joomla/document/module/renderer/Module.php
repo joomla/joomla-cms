@@ -45,13 +45,6 @@ class patTemplate_Renderer_Module extends patTemplate_Renderer
 		$database   =& $mainframe->getDBO();
 		$acl  		=& JFactory::getACL();
 		
-		//For backwards compatibility extract the config vars as globals
-		$CONFIG = new JConfig();
-		foreach (get_object_vars($CONFIG) as $k => $v) {
-			$name = 'mosConfig_'.$k;
-			$GLOBALS[$name] = $v;		
-		}
-		
 		if(!is_object($module)) {
 			$module = JModuleHelper::getModule($module);
 		}

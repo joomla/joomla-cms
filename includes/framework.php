@@ -26,7 +26,7 @@ require_once( JPATH_SITE      	  . DS . 'globals.php' );
 require_once( JPATH_CONFIGURATION . DS . 'configuration.php' );
 require_once( JPATH_LIBRARIES 	  . DS . 'loader.php' );
 
-// Create the JConfig object
+//TODO : move this inside the framework
 $CONFIG = new JConfig();
 
 if (@$CONFIG->error_reporting === 0) {
@@ -34,6 +34,8 @@ if (@$CONFIG->error_reporting === 0) {
 } else if (@$CONFIG->error_reporting > 0) {
 	error_reporting( $CONFIG->error_reporting );
 }
+
+unset($CONFIG);
 
 if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
 	die( 'Fatal error.  Global variable hack attempted.' );
