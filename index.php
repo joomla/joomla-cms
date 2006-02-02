@@ -124,7 +124,7 @@ $mainframe->triggerEvent( 'onAfterStart' );
 // get the information about the current user from the sessions table
 // Note: Moved to allow for single sign-on bots that can't run with onBeforeStart due to extra setup
 $user	= & $mainframe->getUser();
-$my		= & $user->_model;
+$my		= $user->_model;
 
 // checking if we can find the Itemid thru the content
 if ( $option == 'com_content' && $Itemid === 0 ) {

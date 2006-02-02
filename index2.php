@@ -78,7 +78,7 @@ $do_pdf 	= intval( mosGetParam( $_REQUEST, 'do_pdf', 0 ) );
 $mainframe->triggerEvent( 'onAfterStart' );
 
 // get the information about the current user from the sessions table
-$user	= $mainframe->getUser();
+$user	= & $mainframe->getUser();
 $my		= $user->_model;
 
 $lang =& $mainframe->getLanguage();
