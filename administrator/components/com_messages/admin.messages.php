@@ -139,9 +139,9 @@ function editConfig( $option ) {
 	$database->setQuery( $query );
 	$data = $database->loadObjectList( 'cfg_name' );
 
-	$vars 				= array();
-	$vars['lock'] 		= mosHTML::yesnoSelectList( "vars[lock]", 'class="inputbox" size="1"', @$data['lock']->cfg_value );
-	$vars['mail_on_new'] = mosHTML::yesnoSelectList( "vars[mail_on_new]", 'class="inputbox" size="1"', @$data['mail_on_new']->cfg_value );
+	$vars 					= array();	
+	$vars['lock'] 			= mosHTML::yesnoradioList( "vars[lock]", '', @$data['lock']->cfg_value, 'yes', 'no', 'varslock' );	$vars['mail_on_new'] 	= mosHTML::yesnoradioList( "vars[mail_on_new]", '', @$data['mail_on_new']->cfg_value, 'yes', 'no', 'varsmail_on_new' );
+
 
 	HTML_messages::editConfig( $vars, $option );
 

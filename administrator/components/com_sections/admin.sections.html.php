@@ -49,10 +49,10 @@ class sections_html {
 		<div id="editcell">				
 			<table class="adminlist">
 			<tr>
-				<th width="20">
+				<th width="10">
 					<?php echo JText::_( 'NUM' ); ?>
 				</th>
-				<th width="20">
+				<th width="10">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 				</th>
 				<th class="title">
@@ -99,23 +99,23 @@ class sections_html {
 				$published 	= mosCommonHTML::PublishedProcessing( $row, $i );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
-					<td width="20" align="right">
+					<td align="center">
 						<?php echo $pageNav->rowNumber( $i ); ?>
 					</td>
-					<td width="20">
+					<td>
 						<?php echo $checked; ?>
 					</td>
-					<td width="35%">
-					<?php
-					if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
-						echo $row->name. ' ( '. $row->title .' )';
-					} else {
-						?>
-						<a href="<?php echo ampReplace( $link ); ?>">
-							<?php echo $row->name. ' ( '. $row->title .' )'; ?></a>
+					<td onmouseover="return overlib('<?php echo $row->title; ?>', CAPTION, '<?php echo JText::_( 'Title' ); ?>', BELOW, RIGHT);" onmouseout="return nd();">
 						<?php
-					}
-					?>
+						if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+							echo $row->name;
+						} else {
+							?>
+							<a href="<?php echo ampReplace( $link ); ?>">
+								<?php echo $row->name; ?></a>
+							<?php
+						}
+						?>
 					</td>
 					<td align="center">
 						<?php echo $published;?>

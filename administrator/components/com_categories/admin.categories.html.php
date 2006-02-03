@@ -130,14 +130,14 @@ class categories_html {
 					<td>
 						<?php echo $checked; ?>
 					</td>
-					<td>
+					<td onmouseover="return overlib('<?php echo $row->title; ?>', CAPTION, '<?php echo JText::_( 'Title' ); ?>', BELOW, RIGHT);" onmouseout="return nd();">
 						<?php
 						if ( $row->checked_out_contact_category && ( $row->checked_out_contact_category != $my->id ) ) {
-							echo $row->name .' ( '. $row->title .' )';
+							echo $row->name;
 						} else {
 							?>
 							<a href="<?php echo ampReplace( $link ); ?>">
-								<?php echo $row->name .' ( '. $row->title .' )'; ?></a>
+								<?php echo $row->name; ?></a>
 							<?php
 						}
 						?>

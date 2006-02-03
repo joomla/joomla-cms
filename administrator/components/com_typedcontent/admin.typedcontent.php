@@ -316,13 +316,13 @@ function edit( $uid, $option ) {
 	// build the html select list for menu selection
 	$lists['menuselect']	= mosAdminMenus::MenuSelect( );
 	// build the select list for the image positions
-	$lists['_align'] 		= mosAdminMenus::Positions( '_align' );
+	$lists['_align'] 		= mosAdminMenus::Positions( '_align', '', '', 1, 1, 1, 1, 'Ialign' );
 	// build the select list for the image caption alignment
-	$lists['_caption_align'] 	= mosAdminMenus::Positions( '_caption_align' );
+	$lists['_caption_align'] 	= mosAdminMenus::Positions( '_caption_align', '', '', 1, 1, 1, 1, 'Icaption_align' );
 	// build the select list for the image caption position
 	$pos[] = mosHTML::makeOption( 'bottom', JText::_( 'Bottom' ) );
 	$pos[] = mosHTML::makeOption( 'top', 	JText::_( 'Top' ) );
-	$lists['_caption_position'] = mosHTML::selectList( $pos, '_caption_position', 'class="inputbox" size="1"', 'value', 'text' );
+	$lists['_caption_position'] = mosHTML::selectList( $pos, '_caption_position', 'class="inputbox" size="1"', 'value', 'text', '', 'Icaption_position' );
 
 	// get params definitions
 	$params = new JParameter( $row->attribs, JApplicationHelper::getPath( 'com_xml', 'com_typedcontent' ), 'component' );

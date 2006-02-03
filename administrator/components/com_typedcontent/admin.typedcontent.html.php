@@ -184,9 +184,9 @@ class HTML_typedcontent {
 					<?php
 					if ( $times ) {
 						?>
-						<td align="center">
-						<a href="javascript:void(0);" onMouseOver="return overlib('<table><?php echo $times; ?></table>', CAPTION, '<?php echo JText::_( 'Publish Information' ); ?>', BELOW, RIGHT);" onMouseOut="return nd();" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $row->state ? "unpublish" : "publish";?>')">
-							<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
+						<td align="center" onMouseOver="return overlib('<table><?php echo $times; ?></table>', CAPTION, '<?php echo JText::_( 'Publish Information' ); ?>', BELOW, RIGHT);" onMouseOut="return nd();">
+							<a href="javascript:void(0);" onclick="return listItemTask('cb<?php echo $i;?>','<?php echo $row->state ? 'unpublish' : 'publish';?>')">
+								<img src="images/<?php echo $img;?>" width="12" height="12" border="0" alt="<?php echo $alt; ?>" /></a>
 						</td>
 						<?php
 					}
@@ -339,18 +339,22 @@ class HTML_typedcontent {
 						<table class="adminform">
 						<tr>
 							<td width="130">
-								<?php echo JText::_( 'Title' ); ?>:
+								<label for="title">
+									<?php echo JText::_( 'Title' ); ?>:
+								</label>
 							</td>
 							<td valign="top" align="right">
-								<input class="inputbox" type="text" name="title" size="40" maxlength="255" value="<?php echo $row->title; ?>" />
+								<input class="inputbox" type="text" name="title" id="title" size="40" maxlength="255" value="<?php echo $row->title; ?>" />
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<?php echo JText::_( 'Title Alias' ); ?>:
+								<label for="title_alias">
+									<?php echo JText::_( 'Title Alias' ); ?>:
+								</label>
 							</td>
 							<td valign="top" align="right">
-								<input class="inputbox" type="text" name="title_alias" size="40" maxlength="255" value="<?php echo $row->title_alias; ?>" />
+								<input class="inputbox" type="text" name="title_alias" id="title_alias" size="40" maxlength="255" value="<?php echo $row->title_alias; ?>" />
 							</td>
 						</tr>
 						</table>
@@ -376,7 +380,9 @@ class HTML_typedcontent {
 						</tr>
 						<tr>
 							<td valign="top" align="right">
-								<?php echo JText::_( 'Access Level' ); ?>:
+								<label for="access">
+									<?php echo JText::_( 'Access Level' ); ?>:
+								</label>
 							</td>
 							<td>
 								<?php echo $lists['access']; ?>
@@ -384,23 +390,29 @@ class HTML_typedcontent {
 						</tr>
 						<tr>
 							<td valign="top" align="right">
-								<?php echo JText::_( 'Author Alias' ); ?>:
+								<label for="created_by_alias">
+									<?php echo JText::_( 'Author Alias' ); ?>:
+								</label>
 							</td>
 							<td>
-								<input type="text" name="created_by_alias" size="30" maxlength="100" value="<?php echo $row->created_by_alias; ?>" class="inputbox" />
+								<input type="text" name="created_by_alias" id="created_by_alias" size="30" maxlength="100" value="<?php echo $row->created_by_alias; ?>" class="inputbox" />
 							</td>
 						</tr>
 						<tr>
 							<td valign="top" align="right">
-							<?php echo JText::_( 'Change Creator' ); ?>:
+								<label for="created_by">
+									<?php echo JText::_( 'Change Creator' ); ?>:
+								</label>
 							</td>
 							<td>
-							<?php echo $lists['created_by']; ?>
+								<?php echo $lists['created_by']; ?>
 							</td>
 						</tr>
 						<tr>
 							<td valign="top" align="right">
-								<?php echo JText::_( 'Override Created Date' ); ?>
+								<label for="created">
+									<?php echo JText::_( 'Override Created Date' ); ?>
+								</label>
 							</td>
 							<td>
 								<input class="inputbox" type="text" name="created" id="created" size="25" maxlength="19" value="<?php echo $row->created; ?>" />
@@ -409,7 +421,9 @@ class HTML_typedcontent {
 						</tr>
 						<tr>
 							<td align="right">
-								<?php echo JText::_( 'Start Publishing' ); ?>:
+								<label for="publish_up">
+									<?php echo JText::_( 'Start Publishing' ); ?>:
+								</label>
 							</td>
 							<td>
 								<input class="inputbox" type="text" name="publish_up" id="publish_up" size="25" maxlength="19" value="<?php echo $row->publish_up; ?>" />
@@ -418,7 +432,9 @@ class HTML_typedcontent {
 						</tr>
 						<tr>
 							<td align="right">
-								<?php echo JText::_( 'Finish Publishing' ); ?>:
+								<label for="publish_down">
+									<?php echo JText::_( 'Finish Publishing' ); ?>:
+								</label>
 							</td>
 							<td>
 								<input class="inputbox" type="text" name="publish_down" id="publish_down" size="25" maxlength="19" value="<?php echo $row->publish_down; ?>" />
@@ -502,21 +518,28 @@ class HTML_typedcontent {
 								<tr>
 									<td width="48%">
 										<div align="center">
-											<?php echo JText::_( 'Gallery Images' ); ?>:
+											<label for="imagefiles">
+												<?php echo JText::_( 'Gallery Images' ); ?>:
+											</label>
 											<br />
 											<?php echo $lists['imagefiles'];?>
 											<br />
-											<?php echo JText::_( 'Sub-folder' ); ?>: <?php echo $lists['folders'];?>
+											<label for="folders">
+												<?php echo JText::_( 'Sub-folder' ); ?>: 
+											</label>
+											<?php echo $lists['folders'];?>
 										</div>
 									</td>
 									<td width="2%">
-										<input class="button" type="button" value=">>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" title="<?php echo JText::_( 'Add' ); ?>"/>
+										<input class="button" type="button" value=">>" onclick="addSelectedToList('adminForm','imagefiles','imagelist')" title="<?php echo JText::_( 'Add' ); ?>" />
 										<br />
-										<input class="button" type="button" value="<<" onclick="delSelectedFromList('adminForm','imagelist')" title="<?php echo JText::_( 'Remove' ); ?>"/>
+										<input class="button" type="button" value="<<" onclick="delSelectedFromList('adminForm','imagelist')" title="<?php echo JText::_( 'Remove' ); ?>" />
 									</td>
 									<td width="48%">
 										<div align="center">
-											<?php echo JText::_( 'Content Images' ); ?>:
+											<label for="imagelist">
+												<?php echo JText::_( 'Content Images' ); ?>:
+											</label>
 											<br />
 											<?php echo $lists['imagelist'];?>
 											<br />
@@ -531,13 +554,15 @@ class HTML_typedcontent {
 						<tr valign="top">
 							<td>
 								<div align="center" style="border: 1px solid #d5d5d5;">
-									<?php echo JText::_( 'Sample Image' ); ?>:<br />
+									<?php echo JText::_( 'Sample Image' ); ?>:
+									<br />
 									<img name="view_imagefiles" src="../images/M_images/blank.png" width="100" />
 								</div>
 							</td>
 							<td valign="top">
 								<div align="center" style="border: 1px solid #d5d5d5;">
-									<?php echo JText::_( 'Active Image' ); ?>:<br />
+									<?php echo JText::_( 'Active Image' ); ?>:
+									<br />
 									<img name="view_imagelist" src="../images/M_images/blank.png" width="100" />
 								</div>
 							</td>
@@ -553,15 +578,19 @@ class HTML_typedcontent {
 								<table>
 								<tr>
 									<td align="right">
-										<?php echo JText::_( 'Source' ); ?>
+										<label for="Isource">
+											<?php echo JText::_( 'Source' ); ?>
+										</label>
 									</td>
 									<td>
-										<input type="text" name= "_source" value="" />
+										<input type="text" name= "_source" id= "Isource" value="" />
 									</td>
 								</tr>
 								<tr>
 									<td align="right">
-										<?php echo JText::_( 'Align' ); ?>
+										<label for="Ialign">
+											<?php echo JText::_( 'Align' ); ?>
+										</label>
 									</td>
 									<td>
 										<?php echo $lists['_align']; ?>
@@ -569,31 +598,39 @@ class HTML_typedcontent {
 								</tr>
 								<tr>
 									<td align="right">
-										<?php echo JText::_( 'Alt Text' ); ?>
+										<label for="Ialt">
+											<?php echo JText::_( 'Alt Text' ); ?>
+										</label>
 									</td>
 									<td>
-										<input type="text" name="_alt" value="" />
+										<input type="text" name="_alt" id="Ialt" value="" />
 									</td>
 								</tr>
 								<tr>
 									<td align="right">
-										<?php echo JText::_( 'Border' ); ?>
+										<label for="Iborder">
+											<?php echo JText::_( 'Border' ); ?>
+										</label>
 									</td>
 									<td>
-										<input type="text" name="_border" value="" size="3" maxlength="1" />
+										<input type="text" name="_border" id="Iborder" value="" size="3" maxlength="1" />
 									</td>
 								</tr>
 								<tr>
 									<td align="right">
-										<?php echo JText::_( 'Caption' ); ?>:
+										<label for="Icaption">
+											<?php echo JText::_( 'Caption' ); ?>:
+										</label>
 									</td>
 									<td>
-										<input class="text_area" type="text" name="_caption" value="" size="30" />
+										<input class="text_area" type="text" name="_caption" id="Icaption" value="" size="30" />
 									</td>
 								</tr>
 								<tr>
 									<td align="right">
-										<?php echo JText::_( 'Caption Position' ); ?>:
+										<label for="Icaption_position">
+											<?php echo JText::_( 'Caption Position' ); ?>:
+										</label>
 									</td>
 									<td>
 										<?php echo $lists['_caption_position']; ?>
@@ -601,7 +638,9 @@ class HTML_typedcontent {
 								</tr>
 								<tr>
 									<td align="right">
-										<?php echo JText::_( 'Caption Align' ); ?>:
+										<label for="Icaption_align">
+											<?php echo JText::_( 'Caption Align' ); ?>:
+										</label>
 									</td>
 									<td>
 										<?php echo $lists['_caption_align']; ?>
@@ -609,10 +648,12 @@ class HTML_typedcontent {
 								</tr>
 								<tr>
 									<td align="right">
-										<?php echo JText::_( 'Width' ); ?>:
+										<label for="Iwidth">
+											<?php echo JText::_( 'Width' ); ?>:
+										</label>
 									</td>
 									<td>
-										<input class="text_area" type="text" name="_width" value="" size="5" maxlength="5" />
+										<input class="text_area" type="text" name="_width" id="Iwidth" value="" size="5" maxlength="5" />
 									</td>
 								</tr>
 								<tr>
@@ -648,16 +689,20 @@ class HTML_typedcontent {
 						<table class="adminform">
 						<tr>
 							<td >
-								<?php echo JText::_( 'Description' ); ?>:
+								<label for="metadesc">
+									<?php echo JText::_( 'Description' ); ?>:
+								</label>
 								<br />
-								<textarea class="inputbox" cols="40" rows="5" name="metadesc" style="width:300"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
+								<textarea class="inputbox" cols="40" rows="5" name="metadesc" id="metadesc" style="width:300"><?php echo str_replace('&','&amp;',$row->metadesc); ?></textarea>
 							</td>
 						</tr>
 						<tr>
 							<td >
-								<?php echo JText::_( 'Keywords' ); ?>:
+								<label for="metakey">
+									<?php echo JText::_( 'Keywords' ); ?>:
+								</label>
 								<br />
-								<textarea class="inputbox" cols="40" rows="5" name="metakey" style="width:300"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
+								<textarea class="inputbox" cols="40" rows="5" name="metakey" id="metakey" style="width:300"><?php echo str_replace('&','&amp;',$row->metakey); ?></textarea>
 							</td>
 						</tr>
 						</table>
@@ -677,7 +722,9 @@ class HTML_typedcontent {
 						</tr>
 						<tr>
 							<td valign="top" width="90">
-								<?php echo JText::_( 'Select a Menu' ); ?>
+								<label for="menuselect">
+									<?php echo JText::_( 'Select a Menu' ); ?>
+								</label>
 							</td>
 							<td>
 								<?php echo $lists['menuselect']; ?>
@@ -685,10 +732,12 @@ class HTML_typedcontent {
 						</tr>
 						<tr>
 							<td valign="top" width="90">
-								<?php echo JText::_( 'Menu Item Name' ); ?>
+								<label for="link_name">
+									<?php echo JText::_( 'Menu Item Name' ); ?>
+								</label>
 							</td>
 							<td>
-								<input type="text" name="link_name" class="inputbox" value="" size="30" />
+								<input type="text" name="link_name" id="link_name" class="inputbox" value="" size="30" />
 							</td>
 						</tr>
 						<tr>
@@ -706,11 +755,7 @@ class HTML_typedcontent {
 							<br />
 							
 							<table class="adminform">
-							<tr>
-								<td colspan="2">
-									<?php mosCommonHTML::menuLinksContent( $menus ); ?>
-								</td>
-							</tr>
+							<?php mosCommonHTML::menuLinksContent( $menus ); ?>
 							</table>
 							<?php
 						}

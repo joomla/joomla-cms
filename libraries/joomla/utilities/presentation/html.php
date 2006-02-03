@@ -158,7 +158,7 @@ class mosHTML {
             if(isset($splitText[1])){ $t .= " - ". $splitText[1]; }
 
 			$extra = '';
-			$extra .= $id ? ' id="' . $arr[$i]->id . '"' : '';
+			//$extra .= $id ? ' id="' . $arr[$i]->id . '"' : '';
 			if (is_array( $selected )) {
 				foreach ($selected as $obj) {
 					$k2 = $obj->$key;
@@ -344,13 +344,13 @@ class mosHTML {
 	* @param mixed The key that is selected
 	* @returns string HTML for the radio list
 	*/
-	function yesnoRadioList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no' ) {
+	function yesnoRadioList( $tag_name, $tag_attribs, $selected, $yes='yes', $no='no', $id=false ) {
 
 		$arr = array(
 			mosHTML::makeOption( '0', JText::_( $no ) ),
 			mosHTML::makeOption( '1', JText::_( $yes ) )
 		);
-		return mosHTML::radioList( $arr, $tag_name, $tag_attribs, $selected );
+		return mosHTML::radioList( $arr, $tag_name, $tag_attribs, $selected, 'value', 'text', $id );
 	}
 
 	/**
@@ -1487,7 +1487,7 @@ class mosAdminMenus {
 	/**
 	* Select list of positions - generally used for location of images
 	*/
-	function Positions( $name, $active=NULL, $javascript=NULL, $none=1, $center=1, $left=1, $right=1 ) {
+	function Positions( $name, $active=NULL, $javascript=NULL, $none=1, $center=1, $left=1, $right=1, $id=false ) {
 
 		if ( $none ) {
 			$pos[] = mosHTML::makeOption( '', JText::_( 'None' ) );
@@ -1502,7 +1502,7 @@ class mosAdminMenus {
 			$pos[] = mosHTML::makeOption( 'right', JText::_( 'Right' ) );
 		}
 
-		$positions = mosHTML::selectList( $pos, $name, 'class="inputbox" size="1"'. $javascript, 'value', 'text', $active );
+		$positions = mosHTML::selectList( $pos, $name, 'class="inputbox" size="1"'. $javascript, 'value', 'text', $active, $id );
 
 		return $positions;
 	}
