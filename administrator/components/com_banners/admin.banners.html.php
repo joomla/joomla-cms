@@ -199,10 +199,12 @@ class HTML_banners {
 			</tr>
 			<tr>
 				<td width="20%">
-					<?php echo JText::_( 'Banner Name' ); ?>:
+					<label for="name">
+						<?php echo JText::_( 'Banner Name' ); ?>:
+					</label>
 				</td>
 				<td width="80%">
-					<input class="inputbox" type="text" name="name" value="<?php echo $row->name;?>" />
+					<input class="inputbox" type="text" name="name" id="name" value="<?php echo $row->name;?>" />
 				</td>
 			</tr>
 			<tr>
@@ -215,7 +217,9 @@ class HTML_banners {
 			</tr>
 			<tr>
 				<td>
-					<?php echo JText::_( 'Client Name' ); ?>:
+					<label for="cid">
+						<?php echo JText::_( 'Client Name' ); ?>:
+					</label>
 				</td>
 				<td >
 					<?php echo $lists['cid']; ?>
@@ -223,7 +227,9 @@ class HTML_banners {
 			</tr>
 			<tr>
 				<td>
-					<?php echo JText::_( 'Impressions Purchased' ); ?>:
+					<label for="imptotal">
+						<?php echo JText::_( 'Impressions Purchased' ); ?>:
+					</label>
 				</td>
 				<?php
 				$unlimited = '';
@@ -233,17 +239,22 @@ class HTML_banners {
 				}
 				?>
 				<td>
-					<input class="inputbox" type="text" name="imptotal" size="12" maxlength="11" value="<?php echo $row->imptotal;?>" />
+					<input class="inputbox" type="text" name="imptotal" id="imptotal" size="12" maxlength="11" value="<?php echo $row->imptotal;?>" />
 					&nbsp;&nbsp;&nbsp;&nbsp;
-					<?php echo JText::_( 'Unlimited' ); ?> <input type="checkbox" name="unlimited" <?php echo $unlimited;?> />
+					<label for="unlimited">
+						<?php echo JText::_( 'Unlimited' ); ?> 
+					</label>
+					<input type="checkbox" name="unlimited" id="unlimited" <?php echo $unlimited;?> />
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<?php echo JText::_( 'Click URL' ); ?>:
+					<label for="clickurl">
+						<?php echo JText::_( 'Click URL' ); ?>:
+					</label>
 				</td>
 				<td>
-					<input class="inputbox" type="text" name="clickurl" size="100" maxlength="200" value="<?php echo $row->clickurl;?>" />
+					<input class="inputbox" type="text" name="clickurl" id="clickurl" size="100" maxlength="200" value="<?php echo $row->clickurl;?>" />
 				</td>
 			</tr>
 			<tr >
@@ -258,10 +269,12 @@ class HTML_banners {
 			</tr>
 			<tr>
 				<td valign="top">
-					<?php echo JText::_( 'Custom banner code' ); ?>:
+					<label for="custombannercode">
+						<?php echo JText::_( 'Custom banner code' ); ?>:
+					</label>
 				</td>
 				<td>
-					<textarea class="inputbox" cols="70" rows="5" name="custombannercode"><?php echo $row->custombannercode;?></textarea>
+					<textarea class="inputbox" cols="70" rows="5" name="custombannercode" id="custombannercode"><?php echo $row->custombannercode;?></textarea>
 				</td>
 			</tr>
 			<tr>
@@ -270,7 +283,9 @@ class HTML_banners {
 			</tr>
 			<tr>
 				<td valign="top">
-					<?php echo JText::_( 'Banner Image Selector' ); ?>:
+					<label for="imageurl">
+						<?php echo JText::_( 'Banner Image Selector' ); ?>:
+					</label>
 				</td>
 				<td >
 					<?php echo $lists['imageurl']; ?>
@@ -461,26 +476,32 @@ class HTML_bannerClient {
 					<table width="100%">
 					<tr>
 						<td width="20%" nowrap="nowrap">
-							<?php echo JText::_( 'Client Name' ); ?>:
+							<label for="name">
+								<?php echo JText::_( 'Client Name' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="name" size="40" maxlength="60" value="<?php echo $row->name; ?>" />
+							<input class="inputbox" type="text" name="name" id="name" size="40" maxlength="60" value="<?php echo $row->name; ?>" />
 						</td>
 					</tr>
 					<tr>
 						<td nowrap="nowrap">
-							<?php echo JText::_( 'Contact Name' ); ?>:
+							<label for="contact">
+								<?php echo JText::_( 'Contact Name' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="contact" size="40" maxlength="60" value="<?php echo $row->contact; ?>" />
+							<input class="inputbox" type="text" name="contact" id="contact" size="40" maxlength="60" value="<?php echo $row->contact; ?>" />
 						</td>
 					</tr>
 					<tr>
 						<td nowrap="nowrap">
-							<?php echo JText::_( 'Contact Email' ); ?>:
+							<label for="email">
+								<?php echo JText::_( 'Contact Email' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="email" size="40" maxlength="60" value="<?php echo $row->email; ?>" />
+							<input class="inputbox" type="text" name="email" id="email" size="40" maxlength="60" value="<?php echo $row->email; ?>" />
 						</td>
 					</tr>
 					</table>				
@@ -489,8 +510,10 @@ class HTML_bannerClient {
 					<table width="100%">
 					<tr>
 						<td valign="top">
-							<?php echo JText::_( 'Extra Info' ); ?>:
-							<textarea class="inputbox" name="extrainfo" cols="60" rows="10"><?php echo str_replace('&','&amp;',$row->extrainfo);?></textarea>
+							<label for="extrainfo">
+								<?php echo JText::_( 'Extra Info' ); ?>:
+							</label>
+							<textarea class="inputbox" name="extrainfo" id="extrainfo" cols="60" rows="10"><?php echo str_replace('&','&amp;',$row->extrainfo);?></textarea>
 						</td>
 					</tr>
 					<tr>

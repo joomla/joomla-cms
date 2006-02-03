@@ -271,16 +271,18 @@ class HTML_modules {
 						</td>
 						<td>
 							<strong>
-							<?php echo JText::_($row->type); ?>
+								<?php echo JText::_($row->type); ?>
 							</strong>
 						</td>
 					</tr>
 					<tr>
 						<td width="100" >
-							<?php echo JText::_( 'Title' ); ?>:
+							<label for="title">
+								<?php echo JText::_( 'Title' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="text_area" type="text" name="title" size="35" value="<?php echo $row->title; ?>" />
+							<input class="text_area" type="text" name="title" id="title" size="35" value="<?php echo $row->title; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -293,7 +295,9 @@ class HTML_modules {
 					</tr>
 					<tr>
 						<td valign="top" >
-							<?php echo JText::_( 'Position' ); ?>:
+							<label for="position">
+								<?php echo JText::_( 'Position' ); ?>:
+							</label>
 						</td>
 						<td>
 							<?php echo $lists['position']; ?>
@@ -301,19 +305,23 @@ class HTML_modules {
 					</tr>
 					<tr>
 						<td valign="top" >
-							<?php echo JText::_( 'Module Order' ); ?>:
+							<label for="ordering">
+								<?php echo JText::_( 'Module Order' ); ?>:
+							</label>
 						</td>
 						<td>
 							<script language="javascript" type="text/javascript">
 							<!--
-							writeDynaList( 'class="inputbox" name="ordering" size="1"', orders, originalPos, originalPos, originalOrder );
+							writeDynaList( 'class="inputbox" name="ordering" id="ordering" size="1"', orders, originalPos, originalPos, originalOrder );
 							//-->
 							</script>
 						</td>
 					</tr>
 					<tr>
 						<td valign="top" >
-							<?php echo JText::_( 'Access Level' ); ?>:
+							<label for="access">
+								<?php echo JText::_( 'Access Level' ); ?>:
+							</label>
 						</td>
 						<td>
 							<?php echo $lists['access']; ?>

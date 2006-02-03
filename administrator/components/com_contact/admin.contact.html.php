@@ -207,7 +207,9 @@ class HTML_contact {
 					</tr>
 					<tr>
 						<td width="20%" align="right">
-							<?php echo JText::_( 'Category' ); ?>:
+							<label for="catid">
+								<?php echo JText::_( 'Category' ); ?>:
+							</label>
 						</td>
 						<td width="40%">
 							<?php echo $lists['catid'];?>
@@ -215,7 +217,9 @@ class HTML_contact {
 					</tr>
 					<tr>
 						<td width="20%" align="right">
-							<?php echo JText::_( 'Linked to User' ); ?>:
+							<label for="user_id">
+								<?php echo JText::_( 'Linked to User' ); ?>:
+							</label>
 						</td>
 						<td >
 							<?php echo $lists['user_id'];?>
@@ -223,90 +227,112 @@ class HTML_contact {
 					</tr>
 					<tr>
 						<td width="20%" align="right">
-							<?php echo JText::_( 'Name' ); ?>:
+							<label for="name">
+								<?php echo JText::_( 'Name' ); ?>:
+							</label>
 						</td>
 						<td >
-							<input class="inputbox" type="text" name="name" size="50" maxlength="100" value="<?php echo $row->name; ?>" />
+							<input class="inputbox" type="text" name="name" id="name" size="50" maxlength="100" value="<?php echo $row->name; ?>" />
 						</td>
 					</tr>
 					<tr>
 						<td align="right">
-							<?php echo JText::_( 'Contact\'s Position' ); ?>:
+							<label for="con_position">
+								<?php echo JText::_( 'Contact\'s Position' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="con_position" size="50" maxlength="50" value="<?php echo $row->con_position; ?>" />
+							<input class="inputbox" type="text" name="con_position" id="con_position" size="50" maxlength="50" value="<?php echo $row->con_position; ?>" />
 						</td>
 					</tr>
 					<tr>
 						<td align="right">
-							<?php echo JText::_( 'E-mail' ); ?>:
+							<label for="email_to">
+								<?php echo JText::_( 'E-mail' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="email_to" size="50" maxlength="100" value="<?php echo $row->email_to; ?>" />
+							<input class="inputbox" type="text" name="email_to" id="email_to" size="50" maxlength="100" value="<?php echo $row->email_to; ?>" />
 						</td>
 					</tr>
 					<tr>
 						<td align="right">
-							<?php echo JText::_( 'Street Address' ); ?>:
+							<label for="address">
+								<?php echo JText::_( 'Street Address' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="address" size="50" value="<?php echo $row->address; ?>" />
+							<input class="inputbox" type="text" name="address" id="address" size="50" value="<?php echo $row->address; ?>" />
 						</td>
 					</tr>
 					<tr>
 						<td align="right">
-							<?php echo JText::_( 'Town/Suburb' ); ?>:
+							<label for="suburb">
+								<?php echo JText::_( 'Town/Suburb' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="suburb" size="50" maxlength="50" value="<?php echo $row->suburb;?>" />
+							<input class="inputbox" type="text" name="suburb" id="suburb" size="50" maxlength="50" value="<?php echo $row->suburb;?>" />
 						</td>
 					</tr>
 					<tr>
 						<td align="right">
-							<?php echo JText::_( 'State/County' ); ?>:
+							<label for="state">
+								<?php echo JText::_( 'State/County' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="state" size="50" maxlength="20" value="<?php echo $row->state;?>" />
+							<input class="inputbox" type="text" name="state" id="state" size="50" maxlength="20" value="<?php echo $row->state;?>" />
 						</td>
 					</tr>
 					<tr>
 						<td align="right">
-							<?php echo JText::_( 'Country' ); ?>:
+							<label for="country">
+								<?php echo JText::_( 'Country' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="country" size="50" maxlength="50" value="<?php echo $row->country;?>" />
+							<input class="inputbox" type="text" name="country" id="country" size="50" maxlength="50" value="<?php echo $row->country;?>" />
 						</td>
 					</tr>
 					<tr>
 						<td align="right">
-							<?php echo JText::_( 'Postal Code/ZIP' ); ?>:
+							<label for="postcode">
+								<?php echo JText::_( 'Postal Code/ZIP' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="postcode" size="25" maxlength="10" value="<?php echo $row->postcode; ?>" />
+							<input class="inputbox" type="text" name="postcode" id="postcode" size="25" maxlength="10" value="<?php echo $row->postcode; ?>" />
 						</td>
 					</tr>
 					<tr>
 						<td align="right">
-							<?php echo JText::_( 'Telephone' ); ?>:
+							<label for="telephone">
+								<?php echo JText::_( 'Telephone' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="telephone" size="25" maxlength="25" value="<?php echo $row->telephone; ?>" />
+							<input class="inputbox" type="text" name="telephone" id="telephone" size="25" maxlength="25" value="<?php echo $row->telephone; ?>" />
 						</td>
 					</tr>
 					<tr>
 						<td align="right">
-							<?php echo JText::_( 'Fax' ); ?>:
+							<label for="fax">
+								<?php echo JText::_( 'Fax' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="fax" size="25" maxlength="25" value="<?php echo $row->fax; ?>" />
+							<input class="inputbox" type="text" name="fax" id="fax" size="25" maxlength="25" value="<?php echo $row->fax; ?>" />
 						</td>
 					</tr>
 					<tr>
 						<td align="right" valign="top">
-							<?php echo JText::_( 'Miscellaneous Info' ); ?>:
+							<label for="misc">
+								<?php echo JText::_( 'Miscellaneous Info' ); ?>:
+							</label>
 						</td>
 						<td>
-							<textarea name="misc" rows="5" cols="50" class="inputbox"><?php echo $row->misc; ?></textarea>
+							<textarea name="misc" id="misc" rows="5" cols="50" class="inputbox"><?php echo $row->misc; ?></textarea>
 						</td>
 					</tr>
 					</table>
@@ -328,7 +354,9 @@ class HTML_contact {
 						</tr>
 						<tr>
 							<td valign="top" align="right">
-								<?php echo JText::_( 'Ordering' ); ?>:
+								<label for="ordering">
+									<?php echo JText::_( 'Ordering' ); ?>:
+								</label>
 							</td>
 							<td>
 								<?php echo $lists['ordering']; ?>
@@ -336,7 +364,9 @@ class HTML_contact {
 						</tr>
 						<tr>
 							<td valign="top" align="right">
-								<?php echo JText::_( 'Access' ); ?>:
+								<label for="access">
+									<?php echo JText::_( 'Access' ); ?>:
+								</label>
 							</td>
 							<td>
 								<?php echo $lists['access']; ?>
@@ -349,7 +379,9 @@ class HTML_contact {
 						<table width="100%" class="adminform">
 						<tr>
 							<td  width="100">
-								<?php echo JText::_( 'Image' ); ?>:
+								<label for="image">
+									<?php echo JText::_( 'Image' ); ?>:
+								</label>
 							</td>
 							<td >
 								<?php echo $lists['image']; ?>

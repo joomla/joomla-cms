@@ -53,12 +53,16 @@ class JMediaViews {
 		<table class="adminform">
 		<tr>
 			<td align="right" width="50%" style="padding-right:10px;white-space:nowrap">
-				<?php echo JText::_( 'Create Directory' ); ?>
-				<input class="inputbox" type="text" name="foldername" style="width: 350px" />
+				<label for="foldername">
+					<?php echo JText::_( 'Create Directory' ); ?>
+				</label>
+				<input class="inputbox" type="text" name="foldername" id="foldername" style="width: 350px" />
 			</td>
 			<td align="right" width="50%" style="padding-right:10px;;white-space:nowrap">
-				<?php echo JText::_( 'Image/Url Code' ); ?>
-				<input class="inputbox" type="text" name="imagecode" style="width: 350px" />
+				<label for="imagecode">
+					<?php echo JText::_( 'Image/Url Code' ); ?>
+				</label>
+				<input class="inputbox" type="text" name="imagecode" id="imagecode" style="width: 350px" />
 			</td>
 		</tr>
 		</table>
@@ -74,7 +78,9 @@ class JMediaViews {
 								<table border="0" cellspacing="1" cellpadding="3"  class="adminheading">
 								<tr>
 									<td>
-										<?php echo JText::_( 'Directory' ); ?>
+										<label for="dirPath">
+											<?php echo JText::_( 'Directory' ); ?>
+										</label>
 									</td>
 									<td>
 										<?php echo $dirPath;?>
@@ -84,10 +90,13 @@ class JMediaViews {
 											<img src="components/com_media/images/btnFolderUp.gif" width="15" height="15" border="0" alt="<?php echo JText::_( 'Up' ); ?>" />
 										</a>
 									</td>
-									<td align="right"><?php echo JText::_( 'File Upload' ); ?>
-										 <small>[ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]</small>
+									<td align="right">
+										<label for="uploadfile">
+											<?php echo JText::_( 'File Upload' ); ?>
+										</label>
+										<small>[ <?php echo JText::_( 'Max' ); ?>&nbsp;<?php echo ini_get( 'post_max_size' );?> ]</small>
 										&nbsp;&nbsp;&nbsp;&nbsp;
-										<input class="inputbox" type="file" name="upload" size="63" />&nbsp;
+										<input class="inputbox" type="file" name="upload" id="uploadfile" size="63" />&nbsp;
 									</td>
 								</tr>
 								</table>

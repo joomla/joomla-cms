@@ -202,11 +202,13 @@ class HTML_newsfeeds {
 				</th>
 			</tr>
 			<tr>
-				<td>
-					<?php echo JText::_( 'Name' ); ?>
+				<td width="170">
+					<label for="name">
+						<?php echo JText::_( 'Name' ); ?>
+					</label>
 				</td>
 				<td>
-					<input class="inputbox" type="text" size="40" name="name" value="<?php echo $row->name; ?>" />
+					<input class="inputbox" type="text" size="40" name="name" id="name" value="<?php echo $row->name; ?>" />
 				</td>
 			</tr>
 			<tr>
@@ -219,7 +221,9 @@ class HTML_newsfeeds {
 			</tr>
 			<tr>
 				<td>
-					<?php echo JText::_( 'Category' ); ?>
+					<label for="catid">
+						<?php echo JText::_( 'Category' ); ?>
+					</label>
 				</td>
 				<td>
 					<?php echo $lists['category']; ?>
@@ -227,31 +231,39 @@ class HTML_newsfeeds {
 			</tr>
 			<tr>
 				<td>
-					<?php echo JText::_( 'Link' ); ?>
+					<label for="link">
+						<?php echo JText::_( 'Link' ); ?>
+					</label>
 				</td>
 				<td>
-					<input class="inputbox" type="text" size="60" name="link" value="<?php echo $row->link; ?>" />
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_( 'Number of Articles' ); ?>
-				</td>
-				<td>
-					<input class="inputbox" type="text" size="2" name="numarticles" value="<?php echo $row->numarticles; ?>" />
+					<input class="inputbox" type="text" size="60" name="link" id="link" value="<?php echo $row->link; ?>" />
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<?php echo JText::_( 'Cache time (in seconds)' ); ?>
+					<label for="numarticles">
+						<?php echo JText::_( 'Number of Articles' ); ?>
+					</label>
 				</td>
 				<td>
-					<input class="inputbox" type="text" size="4" name="cache_time" value="<?php echo $row->cache_time; ?>" />
+					<input class="inputbox" type="text" size="2" name="numarticles" id="numarticles" value="<?php echo $row->numarticles; ?>" />
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<?php echo JText::_( 'Ordering' ); ?>
+					<label for="cache_time">
+						<?php echo JText::_( 'Cache time (in seconds)' ); ?>
+					</label>
+				</td>
+				<td>
+					<input class="inputbox" type="text" size="4" name="cache_time" id="cache_time" value="<?php echo $row->cache_time; ?>" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="ordering">
+						<?php echo JText::_( 'Ordering' ); ?>
+					</label>
 				</td>
 				<td>
 					<?php echo $lists['ordering']; ?>

@@ -228,10 +228,12 @@ class HTML_modules {
 					</tr>
 					<tr>
 						<td width="100" >
-							<?php echo JText::_( 'Name' ); ?>:
+							<label for="name"> 
+								<?php echo JText::_( 'Name' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="text_area" type="text" name="name" size="35" value="<?php echo $row->name; ?>" />
+							<input class="text_area" type="text" name="name" id="name" size="35" value="<?php echo $row->name; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -244,7 +246,9 @@ class HTML_modules {
 					</tr>
 					<tr>
 						<td valign="top" >
-							<?php echo JText::_( 'Folder' ); ?>:
+							<label for="folder"> 
+								<?php echo JText::_( 'Folder' ); ?>:
+							</label>
 						</td>
 						<td>
 							<?php echo $lists['folder']; ?>
@@ -252,15 +256,19 @@ class HTML_modules {
 					</tr>
 					<tr>
 						<td valign="top" >
-							<?php echo JText::_( 'Plugin file' ); ?>:
+							<label for="element"> 
+								<?php echo JText::_( 'Plugin file' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="text_area" type="text" name="element" size="35" value="<?php echo $row->element; ?>" />.php
+							<input class="text_area" type="text" name="element" id="element" size="35" value="<?php echo $row->element; ?>" />.php
 						</td>
 					</tr>
 					<tr>
 						<td valign="top" >
-							<?php echo JText::_( 'Access Level' ); ?>:
+							<label for="access"> 
+								<?php echo JText::_( 'Access Level' ); ?>:
+							</label>
 						</td>
 						<td>
 							<?php echo $lists['access']; ?>

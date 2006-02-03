@@ -155,69 +155,74 @@ class HTML_poll {
 		<form action="index2.php" method="post" name="adminForm">
 		
 		<div id="editcell">				
-			<table class="adminform">
+			<table width="100%">
 			<tr>
-				<th colspan="4">
-					<?php echo JText::_( 'Details' ); ?>
-				</th>
+				<td width="50%" valign="top">
+					<table class="adminform">
+					<tr>
+						<th colspan="2">
+							<?php echo JText::_( 'Details' ); ?>
+						</th>
+					</tr>
+					<tr>
+						<td width="110">
+							<label for="title">
+								<?php echo JText::_( 'Title' ); ?>:
+							</label>
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="title" id="title" size="60" value="<?php echo $row->title; ?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="lag">
+								<?php echo JText::_( 'Lag' ); ?>:
+							</label>
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="lag" id="lag" size="10" value="<?php echo $row->lag; ?>" /> 
+							<?php echo JText::_( '(seconds between votes)' ); ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top">
+							<label for="selections">
+								<?php echo JText::_( 'Menu Item Link(s)' ); ?>:
+							</label>
+						</td>
+						<td>
+							<?php echo $lists['select']; ?>
+						</td>
+					</tr>
+					</table>
+				</td>
+				<td width="50%" valign="top">
+					<table class="adminform">
+					<tr>
+						<th colspan="3">
+							<?php echo JText::_( 'Options' ); ?>
+						</th>
+					</tr>
+					<?php
+					for ($i=0, $n=count( $options ); $i < $n; $i++ ) {
+						?>
+						<tr>
+							<td>
+								<label for="polloption<?php echo $options[$i]->id; ?>">
+									<?php echo JText::_( 'Option' ); ?> <?php echo ($i+1); ?>
+								</label>
+							</td>
+							<td>
+								<input class="inputbox" type="text" name="polloption[<?php echo $options[$i]->id; ?>]" id="polloption<?php echo $options[$i]->id; ?>" value="<?php echo stripslashes($options[$i]->text); ?>" size="60" />
+							</td>
+						</tr>
+						<?php
+					}
+					?>
+					</table>
+				</td>
 			</tr>
-			<tr>
-				<td width="10%">
-					<?php echo JText::_( 'Title' ); ?>:
-				</td>
-				<td>
-					<input class="inputbox" type="text" name="title" size="60" value="<?php echo $row->title; ?>" />
-				</td>
-				<td width="20">
-					&nbsp;	
-				</td>
-				<td width="100%" rowspan="20" valign="top">
-					<?php echo JText::_( 'Show on menu items' ); ?>:
-					<br />
-					<?php echo $lists['select']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-				<?php echo JText::_( 'Lag' ); ?>:
-				</td>
-				<td>
-					<input class="inputbox" type="text" name="lag" size="10" value="<?php echo $row->lag; ?>" /> 
-					<?php echo JText::_( '(seconds between votes)' ); ?>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="3">
-					<br /><br />
-					<?php echo JText::_( 'Options' ); ?>:
-				</td>
-			</tr>
-			<?php
-			for ($i=0, $n=count( $options ); $i < $n; $i++ ) {
-				?>
-				<tr>
-					<td>
-						<?php echo ($i+1); ?>
-					</td>
-					<td>
-						<input class="inputbox" type="text" name="polloption[<?php echo $options[$i]->id; ?>]" value="<?php echo stripslashes($options[$i]->text); ?>" size="60" />
-					</td>
-				</tr>
-				<?php
-			}
-			for (; $i < 12; $i++) {
-				?>
-				<tr>
-					<td>
-						<?php echo ($i+1); ?>
-					</td>
-					<td>
-						<input class="inputbox" type="text" name="polloption[]" value="" size="60" />
-					</td>
-				</tr>
-				<?php
-			}
-			?>
 			</table>
 		</div>
 

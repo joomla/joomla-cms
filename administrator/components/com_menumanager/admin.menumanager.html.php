@@ -182,10 +182,12 @@ class HTML_menumanager
 		<table class="adminform">
 		<tr height="45;">
 			<td width="100" >
-				<strong><?php echo JText::_( 'Menu Name' ); ?>:</strong>
+				<label for="menutype">
+					<strong><?php echo JText::_( 'Menu Name' ); ?>:</strong>
+				</label>
 			</td>
 			<td>
-				<input class="inputbox" type="text" name="menutype" size="30" maxlength="25" value="<?php echo isset( $row->menutype ) ? $row->menutype : ''; ?>" />
+				<input class="inputbox" type="text" name="menutype" id="menutype" size="30" maxlength="25" value="<?php echo isset( $row->menutype ) ? $row->menutype : ''; ?>" />
 				<?php
 				$tip = JText::_( 'TIPNAMEUSEDTOIDENTIFYMENU' );
 				echo mosToolTip( $tip );
@@ -197,10 +199,12 @@ class HTML_menumanager
 			?>
 			<tr>
 				<td width="100"  valign="top">
-					<strong><?php echo JText::_( 'Module Title' ); ?>:</strong>
+					<label for="title">
+						<strong><?php echo JText::_( 'Module Title' ); ?>:</strong>
+					</label>
 				</td>
 				<td>
-					<input class="inputbox" type="text" name="title" size="30" value="<?php echo $row->title ? $row->title : '';?>" />
+					<input class="inputbox" type="text" name="title" id="title" size="30" value="<?php echo $row->title ? $row->title : '';?>" />
 					<?php
 					$tip = JText::_( 'TIPTITLEMAINMENUMODULEREQUIRED' );
 					echo mosToolTip( $tip );

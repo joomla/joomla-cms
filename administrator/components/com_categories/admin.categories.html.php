@@ -279,22 +279,26 @@ class categories_html {
 					</tr>
 					<tr>
 						<td>
-							<?php echo JText::_( 'Category Title' ); ?>:
+							<label for="title">
+								<?php echo JText::_( 'Category Title' ); ?>:
+							</label>
 						</td>
 						<td colspan="2">
-							<input class="text_area" type="text" name="title" value="<?php echo $row->title; ?>" size="50" maxlength="50" title="<?php echo JText::_( 'A short name to appear in menus' ); ?>" />
+							<input class="text_area" type="text" name="title" id="title" value="<?php echo $row->title; ?>" size="50" maxlength="50" title="<?php echo JText::_( 'A short name to appear in menus' ); ?>" />
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<?php echo JText::_( 'Category Name' ); ?>:
+							<label for="name">
+								<?php echo JText::_( 'Category Name' ); ?>:
+							</label>
 						</td>
 						<td colspan="2">
-							<input class="text_area" type="text" name="name" value="<?php echo $row->name; ?>" size="50" maxlength="255" title="<?php echo JText::_( 'A long name to be displayed in headings' ); ?>" />
+							<input class="text_area" type="text" name="name" id="name" value="<?php echo $row->name; ?>" size="50" maxlength="255" title="<?php echo JText::_( 'A long name to be displayed in headings' ); ?>" />
 						</td>
 					</tr>
 					<tr>
-						<td>
+						<td width="120">
 							<?php echo JText::_( 'Published' ); ?>:
 						</td>
 						<td>
@@ -303,7 +307,9 @@ class categories_html {
 					</tr>
 					<tr>
 						<td>
-							<?php echo JText::_( 'Section' ); ?>:
+							<label for="section">
+								<?php echo JText::_( 'Section' ); ?>:
+							</label>
 						</td>
 						<td colspan="2">
 							<?php echo $lists['section']; ?>
@@ -311,7 +317,9 @@ class categories_html {
 					</tr>
 					<tr>
 						<td>
-							<?php echo JText::_( 'Image' ); ?>:
+							<label for="image">
+								<?php echo JText::_( 'Image' ); ?>:
+							</label>
 						</td>
 						<td>
 							<?php echo $lists['image']; ?>
@@ -329,7 +337,9 @@ class categories_html {
 					</tr>
 					<tr>
 						<td>
-							<?php echo JText::_( 'Image Position' ); ?>:
+							<label for="image_position">
+								<?php echo JText::_( 'Image Position' ); ?>:
+							</label>
 						</td>
 						<td>
 							<?php echo $lists['image_position']; ?>
@@ -337,25 +347,29 @@ class categories_html {
 					</tr>
 					<tr>
 						<td>
-							<?php echo JText::_( 'Ordering' ); ?>:
+							<label for="ordering">
+								<?php echo JText::_( 'Ordering' ); ?>:
+							</label>
 						</td>
 						<td>
 							<?php echo $lists['ordering']; ?>
 						</td>
 					</tr>
 					<tr>
-						<td>
-							<?php echo JText::_( 'Access Level' ); ?>:
+						<td valign="top">
+							<label for="access">
+								<?php echo JText::_( 'Access Level' ); ?>:
+							</label>
 						</td>
 						<td>
 							<?php echo $lists['access']; ?>
 						</td>
 					</tr>
 					<tr>
-						<td valign="top">
-							<?php echo JText::_( 'Description' ); ?>:
-						</td>
-						<td colspan="2">
+						<td valign="top" colspan="3">
+							<label for="description">
+								<?php echo JText::_( 'Description' ); ?>:
+							</label>
 							<?php
 							// parameters : areaname, content, hidden field, width, height, rows, cols
 							$editor =& JEditor::getInstance();
@@ -383,7 +397,9 @@ class categories_html {
 						</tr>
 						<tr>
 							<td valign="top" width="100">
-								<?php echo JText::_( 'Select a Menu' ); ?>
+								<label for="menuselect">
+									<?php echo JText::_( 'Select a Menu' ); ?>
+								</label>
 							</td>
 							<td>
 								<?php echo $lists['menuselect']; ?>
@@ -391,7 +407,9 @@ class categories_html {
 						</tr>
 						<tr>
 							<td valign="top" width="100">
-								<?php echo JText::_( 'Select Menu Type' ); ?>
+								<label for="link_type">
+									<?php echo JText::_( 'Select Menu Type' ); ?>
+								</label>
 							</td>
 							<td>
 								<?php echo $lists['link_type']; ?>
@@ -399,10 +417,12 @@ class categories_html {
 						</tr>
 						<tr>
 							<td valign="top" width="100">
-								<?php echo JText::_( 'Menu Item Name' ); ?>
+								<label for="link_name">
+									<?php echo JText::_( 'Menu Item Name' ); ?>
+								</label>
 							</td>
 							<td>
-								<input type="text" name="link_name" class="inputbox" value="" size="25" />
+								<input type="text" name="link_name" id="link_name" class="inputbox" value="" size="25" />
 							</td>
 						</tr>
 						<tr>

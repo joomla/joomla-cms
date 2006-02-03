@@ -44,64 +44,81 @@ class HTML_massmail {
 
 		<form action="index2.php" name="adminForm" method="post">
 		
-		<div id="editcell">				
-			<table class="adminform">
-			<thead>
+		<div id="editcell">		
+			<table width="100%">		
 			<tr>
-				<th colspan="2">
-					<?php echo JText::_( 'Details' ); ?>
-				</th>
+				<td>					
+					<table width="100%" class="adminform">
+					<thead>
+					<tr>
+						<th colspan="2">
+							<?php echo JText::_( 'Details' ); ?>
+						</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td width="70">
+							<label for="mm_subject">
+								<?php echo JText::_( 'Subject' ); ?>:
+							</label>
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="mm_subject" id="mm_subject" value="" size="50" />
+						</td>
+					</tr>
+					<tr>
+						<td valign="top">
+							<label for="mm_message">
+								<?php echo JText::_( 'Message' ); ?>:
+							</label>
+						</td>
+						<td>
+							<textarea cols="80" rows="25" name="mm_message" id="mm_message" class="inputbox"></textarea>
+						</td>
+					</tr>
+					</tbody>
+					</table>
+				</td>
+				<td valign="top" width="30%">
+					<table width="100%" class="adminform">
+					<thead>
+					<tr>
+						<th colspan="2">
+							<?php echo JText::_( 'Details' ); ?>
+						</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td width="150" valign="top">
+							<label for="mm_group">
+								<?php echo JText::_( 'Group' ); ?>:
+							</label>
+							<br />
+							<?php echo $lists['gid']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="mm_recurse">
+								<?php echo JText::_( 'Mail to Child Groups' ); ?>:
+							</label>
+							<input type="checkbox" name="mm_recurse" id="mm_recurse" value="RECURSE" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="mm_mode">
+								<?php echo JText::_( 'Send in HTML mode' ); ?>:
+							</label>
+							<input type="checkbox" name="mm_mode" id="mm_mode" value="1" />
+						</td>
+					</tr>
+					</tbody>
+					</table>
+				</td>
 			</tr>
-			</thead>
-			<tfoot>
-			<tr>
-				<th colspan="2">
-					&nbsp;
-				</th>
-			</tr>
-			</tfoot>
-			<tbody>
-			<tr>
-				<td width="150" valign="top">
-					<?php echo JText::_( 'Group' ); ?>:
-				</td>
-				<td width="85%">
-					<?php echo $lists['gid']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_( 'Mail to Child Groups' ); ?>:
-				</td>
-				<td>
-					<input type="checkbox" name="mm_recurse" value="RECURSE" />
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_( 'Send in HTML mode' ); ?>:
-				</td>
-				<td>
-					<input type="checkbox" name="mm_mode" value="1" />
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_( 'Subject' ); ?>:
-				</td>
-				<td>
-					<input class="inputbox" type="text" name="mm_subject" value="" size="50" />
-				</td>
-			</tr>
-			<tr>
-				<td valign="top">
-					<?php echo JText::_( 'Message' ); ?>:
-				</td>
-				<td>
-					<textarea cols="80" rows="25" name="mm_message" class="inputbox"></textarea>
-				</td>
-			</tr>
-			</tbody>
 			</table>
 		</div>
 
