@@ -188,12 +188,20 @@ class HTML_weblinks {
 			}
 		}
 		</script>
+		<style type="text/css">
+		table.paramlist td.paramlist_key {
+			width: 92px;
+			text-align: left;
+			height: 30px;
+		}		
+		</style>
+		
 		<form action="index2.php" method="post" name="adminForm" id="adminForm">
 		
 		<div id="tablecell">				
 			<table width="100%">
 			<tr>
-				<td width="60%" valign="top">
+				<td width="45%" valign="top">
 					<table class="adminform">
 					<tr>
 						<th colspan="2">
@@ -201,11 +209,13 @@ class HTML_weblinks {
 						</th>
 					</tr>
 					<tr>
-						<td width="20%" align="right">
-							<?php echo JText::_( 'Name' ); ?>:
+						<td width="100" align="right">
+							<label for="title">
+								<?php echo JText::_( 'Name' ); ?>:
+							</label>
 						</td>
-						<td width="80%">
-							<input class="text_area" type="text" name="title" size="50" maxlength="250" value="<?php echo $row->title;?>" />
+						<td>
+							<input class="text_area" type="text" name="title" id="title" size="50" maxlength="250" value="<?php echo $row->title;?>" />
 						</td>
 					</tr>
 					<tr>
@@ -218,7 +228,9 @@ class HTML_weblinks {
 					</tr>
 					<tr>
 						<td valign="top" align="right">
-							<?php echo JText::_( 'Category' ); ?>:
+							<label for="catid">
+								<?php echo JText::_( 'Category' ); ?>:
+							</label>
 						</td>
 						<td>
 							<?php echo $lists['catid']; ?>
@@ -226,43 +238,43 @@ class HTML_weblinks {
 					</tr>
 					<tr>
 						<td valign="top" align="right">
-							<?php echo JText::_( 'URL' ); ?>:
+							<label for="url">
+								<?php echo JText::_( 'URL' ); ?>:
+							</label>
 						</td>
 						<td>
-							<input class="text_area" type="text" name="url" value="<?php echo $row->url; ?>" size="50" maxlength="250" />
+							<input class="text_area" type="text" name="url" id="url" value="<?php echo $row->url; ?>" size="50" maxlength="250" />
 						</td>
 					</tr>
 					<tr>
 						<td valign="top" align="right">
-							<?php echo JText::_( 'Description' ); ?>:
-						</td>
-						<td>
-							<textarea class="text_area" cols="50" rows="5" name="description" style="width:500px"><?php echo $row->description; ?></textarea>
-						</td>
-					</tr>
-	
-					<tr>
-						<td valign="top" align="right">
-							<?php echo JText::_( 'Ordering' ); ?>:
+							<label for="ordering">
+								<?php echo JText::_( 'Ordering' ); ?>:
+							</label>
 						</td>
 						<td>
 							<?php echo $lists['ordering']; ?>
 						</td>
 					</tr>
+					<tr>
+						<td colspan="2">
+							<?php echo $params->render();?>
+						</td>
+					</tr>
 					</table>
 				</td>
-				<td width="40%" valign="top">
+				<td width="55%" valign="top">
 					<table class="adminform">
 					<tr>
-						<th colspan="1">
-							<?php echo JText::_( 'Parameters' ); ?>
+						<th colspan="2">
+							<?php echo JText::_( 'Description' ); ?>
 						</th>
 					</tr>
 					<tr>
 						<td>
-							<?php echo $params->render();?>
+							<textarea class="text_area" cols="20" rows="9" name="description" id="description" style="width:500px"><?php echo $row->description; ?></textarea>
 						</td>
-					</tr>
+					</tr>	
 					</table>
 				</td>
 			</tr>

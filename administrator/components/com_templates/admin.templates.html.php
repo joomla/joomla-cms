@@ -507,10 +507,12 @@ class JTemplatesView {
 				for ( $c = 0; $c < $cols; $c++ ) {
 					?>
 					<td align="center">
-						<?php echo $i; ?>
+						<label for="position<?php echo $i; ?>">
+							<?php echo $i; ?>.
+						</label>
 					</td>
 					<td>
-						<input type="text" name="position[<?php echo $i; ?>]" value="<?php echo @$positions[$i-1]->position; ?>" size="10" maxlength="10" />
+						<input type="text" name="position[<?php echo $i; ?>]" id="position<?php echo $i; ?>" value="<?php echo @$positions[$i-1]->position; ?>" size="10" maxlength="10" />
 					</td>
 					<td>
 						<input type="text" name="description[<?php echo $i; ?>]" value="<?php echo htmlspecialchars( @$positions[$i-1]->description ); ?>" size="50" maxlength="255" />

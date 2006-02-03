@@ -465,15 +465,15 @@ class HTML_bannerClient {
 		<form action="index2.php" method="post" name="adminForm">
 
 		<div id="editcell">				
-			<table class="adminform">
-			<tr>
-				<th colspan="2">
-					<?php echo JText::_( 'Details' ); ?>
-				</th>
-			</tr>
+			<table width="100%">
 			<tr>
 				<td width="50%" valign="top">
-					<table width="100%">
+					<table width="100%" class="adminform">
+					<tr>
+						<th colspan="2">
+							<?php echo JText::_( 'Details' ); ?>
+						</th>
+					</tr>
 					<tr>
 						<td width="20%" nowrap="nowrap">
 							<label for="name">
@@ -507,7 +507,12 @@ class HTML_bannerClient {
 					</table>				
 				</td>
 				<td valign="top">
-					<table width="100%">
+					<table width="100%" class="adminform">
+					<tr>
+						<th colspan="2">
+							&nbsp;
+						</th>
+					</tr>
 					<tr>
 						<td valign="top">
 							<label for="extrainfo">

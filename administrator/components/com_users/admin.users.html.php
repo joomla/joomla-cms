@@ -190,212 +190,118 @@ class HTML_users {
 		}
 		</script>
 		<form action="index2.php" method="post" name="adminForm">
-		<table width="100%">
-		<tr>
-			<td width="60%" valign="top">
-				<table class="adminform">
-				<tr>
-					<th colspan="2">
-					<?php echo JText::_( 'User Details' ); ?>
-					</th>
-				</tr>
-				<tr>
-					<td width="100">
-					<?php echo JText::_( 'Name' ); ?>:
-					</td>
-					<td width="85%">
-					<input type="text" name="name" class="inputbox" size="40" value="<?php echo $row->name; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td>
-					<?php echo JText::_( 'Username' ); ?>:
-					</td>
-					<td>
-					<input type="text" name="username" class="inputbox" size="40" value="<?php echo $row->username; ?>" />
-					</td>
-				<tr>
-					<td>
-					<?php echo JText::_( 'Email' ); ?>:
-					</td>
-					<td>
-					<input class="inputbox" type="text" name="email" size="40" value="<?php echo $row->email; ?>" />
-					</td>
-				</tr>
-				<tr>
-					<td>
-					<?php echo JText::_( 'New Password' ); ?>:
-					</td>
-					<td>
-					<input class="inputbox" type="password" name="password" size="40" value="" />
-					</td>
-				</tr>
-				<tr>
-					<td>
-					<?php echo JText::_( 'Verify Password' ); ?>:
-					</td>
-					<td>
-					<input class="inputbox" type="password" name="password2" size="40" value="" />
-					</td>
-				</tr>
-				<tr>
-					<td valign="top">
-					<?php echo JText::_( 'Group' ); ?>:
-					</td>
-					<td>
-					<?php echo $lists['gid']; ?>
-					</td>
-				</tr>
-				<?php
-				if ($canBlockUser) {
-					?>
-					<tr>
-						<td>
-						<?php echo JText::_( 'Block User' ); ?>
-						</td>
-						<td>
-						<?php echo $lists['block']; ?>
-						</td>
-					</tr>
-					<?php
-				}
-				if ($canEmailEvents) {
-					?>
-					<tr>
-						<td>
-						<?php echo JText::_( 'Receive System Emails' ); ?>
-						</td>
-						<td>
-						<?php echo $lists['sendEmail']; ?>
-						</td>
-					</tr>
-					<?php
-				}
-				if( $uid ) {
-					?>
-					<tr>
-						<td>
-						<?php echo JText::_( 'Register Date' ); ?>
-						</td>
-						<td>
-						<?php echo $row->registerDate;?>
-						</td>
-					</tr>
-				<tr>
-					<td>
-					<?php echo JText::_( 'Last Visit Date' ); ?>
-					</td>
-					<td>
-					<?php echo $row->lastvisitDate;?>
-					</td>
-				</tr>
-					<?php
-				}
-				?>
-				<tr>
-					<td colspan="2">&nbsp;
-
-					</td>
-				</tr>
-				</table>
-			</td>
-			<td width="40%" valign="top">
-				<table class="adminform">
-				<tr>
-					<th colspan="1">
-					<?php echo JText::_( 'Parameters' ); ?>
-					</th>
-				</tr>
-				<tr>
-					<td>
-					<?php echo $params->render( 'params' );?>
-					</td>
-				</tr>
-				</table>
-
-				<?php
-				if ( !$contact ) {
-					?>
-					<table class="adminform">
-					<tr>
-						<th>
-						<?php echo JText::_( 'Contact Information' ); ?>
-						</th>
-					</tr>
-					<tr>
-						<td>
-						<br />
-						<?php echo JText::_( 'No Contact details linked to this User' ); ?>:
-						<br />
-						<?php echo JText::_( 'SEECOMPCONTACTFORDETAILS' ); ?>.
-						<br /><br />
-						</td>
-					</tr>
-					</table>
-					<?php
-				} else {
-					?>
+		
+		<div id="editcell">				
+			<table width="100%">
+			<tr>
+				<td width="55%" valign="top">
 					<table class="adminform">
 					<tr>
 						<th colspan="2">
-						<?php echo JText::_( 'Contact Information' ); ?>
+							<?php echo JText::_( 'User Details' ); ?>
 						</th>
 					</tr>
 					<tr>
-						<td width="15%">
-						<?php echo JText::_( 'Name' ); ?>:
+						<td width="150">
+							<label for="name">
+								<?php echo JText::_( 'Name' ); ?>:
+							</label>
 						</td>
 						<td>
-						<strong>
-						<?php echo $contact[0]->name;?>
-						</strong>
+							<input type="text" name="name" id="name" class="inputbox" size="40" value="<?php echo $row->name; ?>" />
 						</td>
 					</tr>
 					<tr>
 						<td>
-						<?php echo JText::_( 'Position' ); ?>:
+							<label for="username">
+								<?php echo JText::_( 'Username' ); ?>:
+							</label>
 						</td>
-						<td >
-						<strong>
-						<?php echo $contact[0]->con_position;?>
-						</strong>
+						<td>
+							<input type="text" name="username" id="username" class="inputbox" size="40" value="<?php echo $row->username; ?>" />
 						</td>
 					</tr>
 					<tr>
 						<td>
-						<?php echo JText::_( 'Telephone' ); ?>:
+							<label for="email">
+								<?php echo JText::_( 'Email' ); ?>:
+							</label>
 						</td>
-						<td >
-						<strong>
-						<?php echo $contact[0]->telephone;?>
-						</strong>
+						<td>
+							<input class="inputbox" type="text" name="email" id="email" size="40" value="<?php echo $row->email; ?>" />
 						</td>
 					</tr>
 					<tr>
 						<td>
-						<?php echo JText::_( 'Fax' ); ?>:
+							<label for="password">
+								<?php echo JText::_( 'New Password' ); ?>:
+							</label>
 						</td>
-						<td >
-						<strong>
-						<?php echo $contact[0]->fax;?>
-						</strong>
+						<td>
+							<input class="inputbox" type="password" name="password" id="password" size="40" value="" />
 						</td>
 					</tr>
 					<tr>
-						<td></td>
-						<td >
-						<strong>
-						<?php echo $contact[0]->misc;?>
-						</strong>
+						<td>
+							<label for="password2">
+								<?php echo JText::_( 'Verify Password' ); ?>:
+							</label>
+						</td>
+						<td>
+							<input class="inputbox" type="password" name="password2" id="password2" size="40" value="" />
+						</td>
+					</tr>
+					<tr>
+						<td valign="top">
+							<label for="gid">
+								<?php echo JText::_( 'Group' ); ?>:
+							</label>
+						</td>
+						<td>
+							<?php echo $lists['gid']; ?>
 						</td>
 					</tr>
 					<?php
-					if ($contact[0]->image) {
+					if ($canBlockUser) {
 						?>
 						<tr>
-							<td></td>
-							<td valign="top">
-							<img src="<?php echo $mainframe->getSiteURL();?>/images/stories/<?php echo $contact[0]->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
+							<td>
+								<?php echo JText::_( 'Block User' ); ?>
+							</td>
+							<td>
+								<?php echo $lists['block']; ?>
+							</td>
+						</tr>
+						<?php
+					}
+					if ($canEmailEvents) {
+						?>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Receive System Emails' ); ?>
+							</td>
+							<td>
+								<?php echo $lists['sendEmail']; ?>
+							</td>
+						</tr>
+						<?php
+					}
+					if( $uid ) {
+						?>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Register Date' ); ?>
+							</td>
+							<td>
+								<?php echo $row->registerDate;?>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Last Visit Date' ); ?>
+							</td>
+							<td>
+								<?php echo $row->lastvisitDate;?>
 							</td>
 						</tr>
 						<?php
@@ -403,21 +309,135 @@ class HTML_users {
 					?>
 					<tr>
 						<td colspan="2">
-						<br /><br />
-						<input class="button" type="button" value="<?php echo JText::_( 'change Contact Details' ); ?>" onclick="javascript: gotocontact( '<?php echo $contact[0]->id; ?>' )">
-						<i>
-						<br />
-						'<?php echo JText::_( 'Components -> Contact -> Manage Contacts' ); ?>'
-						</i>
+							&nbsp;	
 						</td>
 					</tr>
 					</table>
+				</td>
+				<td width="45%" valign="top">
+					<table class="adminform">
+					<tr>
+						<th colspan="1">
+							<?php echo JText::_( 'Parameters' ); ?>
+						</th>
+					</tr>
+					<tr>
+						<td>
+							<?php echo $params->render( 'params' );?>
+						</td>
+					</tr>
+					</table>
+	
+					<br />
+					
 					<?php
-				}
-				?>
-			</td>
-		</tr>
-		</table>
+					if ( !$contact ) {
+						?>
+						<table class="adminform">
+						<tr>
+							<th>
+								<?php echo JText::_( 'Contact Information' ); ?>
+							</th>
+						</tr>
+						<tr>
+							<td>
+								<br />
+								<?php echo JText::_( 'No Contact details linked to this User' ); ?>:
+								<br />
+								<?php echo JText::_( 'SEECOMPCONTACTFORDETAILS' ); ?>.
+								<br /><br />
+							</td>
+						</tr>
+						</table>
+						<?php
+					} else {
+						?>
+						<table class="adminform">
+						<tr>
+							<th colspan="2">
+								<?php echo JText::_( 'Contact Information' ); ?>
+							</th>
+						</tr>
+						<tr>
+							<td width="120">
+								<?php echo JText::_( 'Name' ); ?>:
+							</td>
+							<td>
+							<strong>
+								<?php echo $contact[0]->name;?>
+							</strong>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Position' ); ?>:
+							</td>
+							<td >
+								<strong>
+									<?php echo $contact[0]->con_position;?>
+								</strong>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Telephone' ); ?>:
+							</td>
+							<td >
+								<strong>
+									<?php echo $contact[0]->telephone;?>
+								</strong>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php echo JText::_( 'Fax' ); ?>:
+							</td>
+							<td >
+								<strong>
+									<?php echo $contact[0]->fax;?>
+								</strong>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td >
+								<strong>
+									<?php echo $contact[0]->misc;?>
+								</strong>
+							</td>
+						</tr>
+						<?php
+						if ($contact[0]->image) {
+							?>
+							<tr>
+								<td></td>
+								<td valign="top">
+									<img src="<?php echo $mainframe->getSiteURL();?>/images/stories/<?php echo $contact[0]->image; ?>" align="middle" alt="<?php echo JText::_( 'Contact' ); ?>" />
+								</td>
+							</tr>
+							<?php
+						}
+						?>
+						<tr>
+							<td colspan="2" align="center">
+								<div align="center">
+									<br />
+									<input class="button" type="button" value="<?php echo JText::_( 'change Contact Details' ); ?>" onclick="javascript: gotocontact( '<?php echo $contact[0]->id; ?>' )" />
+									<i>
+									<br />
+									'<?php echo JText::_( 'Components -> Contact -> Manage Contacts' ); ?>'
+									</i>
+								</div>
+							</td>
+						</tr>
+						</table>
+						<?php
+					}
+					?>
+				</td>
+			</tr>
+			</table>
+		</div>
 
 		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
 		<input type="hidden" name="cid[]" value="<?php echo $row->id; ?>" />
