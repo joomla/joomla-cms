@@ -60,6 +60,33 @@ class JSite extends JApplication {
 	}
 	
 	/**
+	 * Set the configuration
+	 *
+	 * @access public
+	 * @param string	The path to the configuration file
+	 * @param string	The type of the configuration file
+	 * @since 1.1
+	 */
+	function setConfiguration($file, $type = 'config') 
+	{
+		parent::setConfiguration($file, $type);
+		
+		// Create the JConfig object
+		$config = new JConfig();
+		$config->live_site     = substr_replace($this->getBaseURL(), '', -1, 1);
+		$config->absolute_path = JPATH_SITE;
+
+		// Load the configuration values into the registry
+		$this->_registry->loadObject($config);
+		
+		//Insert configuration values into global scope (for backwards compatibility)
+		foreach (get_object_vars($config) as $k => $v) {
+			$name = 'mosConfig_'.$k;
+			$GLOBALS[$name] = $v;
+		}
+	}
+	
+	/**
 	* Get the template
 	* 
 	* @return string The template name

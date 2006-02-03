@@ -325,6 +325,7 @@ class JApplication extends JObject
 	 * @access public
 	 * @param string	The path to the configuration file
 	 * @param string	The type of the configuration file
+	 * @since 1.1
 	 */
 	function setConfiguration($file, $type = 'config') {
 		$this->_createConfiguration($file, $type);
@@ -532,20 +533,8 @@ class JApplication extends JObject
 
 		require_once( $file );
 
-		// Create the JConfig object
-		$config = new JConfig();
-		$config->live_site     = substr_replace($this->getSiteURL(), '', -1, 1);
-		$config->absolute_path = JPATH_SITE;
-
 		// Create the registry with a default namespace of config which is read only
 		$this->_registry = new JRegistry( 'config', true );
-		$this->_registry->loadObject($config);
-		
-		//Insert configuration values into global scope (for backwards compatibility)
-		foreach (get_object_vars($config) as $k => $v) {
-			$name = 'mosConfig_'.$k;
-			$GLOBALS[$name] = $v;
-		}
 	}
 
 	/**
