@@ -28,7 +28,8 @@ jimport('phpgacl.gacl_api');
  * @subpackage	Application
  * @since		1.1
  */
-class JAuthorization extends gacl_api {
+class JAuthorization extends gacl_api 
+{
 	var $acl=null;
 	var $acl_count=0;
 
@@ -36,7 +37,8 @@ class JAuthorization extends gacl_api {
 	 * Constructor
 	 * @param array An arry of options to oeverride the class defaults
 	 */
-	function JAuthorization($options = NULL) {
+	function JAuthorization($options = NULL) 
+	{
 		parent::gacl( $options );
 
 		// ARO value is currently the user type,

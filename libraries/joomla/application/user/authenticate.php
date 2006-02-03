@@ -142,6 +142,7 @@ class JAuthenticate extends JObject {
 					}
 					$user->usertype = $grp->name;
 
+					// TODO: JRegistry will make this unnecessary
 					// Register the needed session variables
 					JSession::set('guest', 0);
 					JSession::set('username', $user->username);
@@ -153,7 +154,6 @@ class JAuthenticate extends JObject {
 					JSession::set('JAuthenticate_RemoteAddr', $_SERVER['REMOTE_ADDR']);
 					JSession::set('JAuthenticate_UserAgent', $_SERVER['HTTP_USER_AGENT']);
 
-					// TODO: JRegistry will make this unnecessary
 					// Get the session object
 					$session = & $mainframe->_session;
 

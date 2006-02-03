@@ -466,7 +466,7 @@ class JDocument extends JTemplate
 	 * @param boolean 	$compress	If true, compress the output using Zlib compression
 	 * @param boolean 	$compress	If true, will display information about the placeholders
 	 */
-	function display($template, $compress = true, $outline = false)
+	function display($template, $compress = false, $outline = false)
 	{
 		foreach($this->_renderers as $type => $names) 
 		{

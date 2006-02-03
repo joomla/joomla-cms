@@ -476,6 +476,7 @@ class JSession
     function setGcMaxLifetime($gcMaxLifetime = null)
     {
         $return = ini_get('session.gc_maxlifetime');
+
         if (isset($gcMaxLifetime) && is_int($gcMaxLifetime) && $gcMaxLifetime >= 1) {
             ini_set('session.gc_maxlifetime', $gcMaxLifetime);
         }

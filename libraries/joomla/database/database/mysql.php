@@ -99,19 +99,14 @@ class JDatabaseMySQL extends JDatabase
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
 		$this->_cursor = mysql_query( $this->_sql, $this->_resource );
-		if (!$this->_cursor) {
+		
+		if (!$this->_cursor) 
+		{
 			$this->_errorNum = mysql_errno( $this->_resource );
 			$this->_errorMsg = mysql_error( $this->_resource )." SQL=$this->_sql";
+			
 			if ($this->_debug) {
-				trigger_error( mysql_error( $this->_resource ), E_USER_NOTICE );
-				//echo "<pre>" . $this->_sql . "</pre>\n";
-				if (function_exists( 'debug_backtrace' )) {
-					foreach( debug_backtrace() as $back) {
-						if (@$back['file']) {
-							echo '<br />'.$back['file'].':'.$back['line'];
-						}
-					}
-				}
+				JError::raiseError('joomla.database:'.$this->_errorNum, 'JDatabaseMySQL::query: '.$this->_errorMsg );
 			}
 			return false;
 		}

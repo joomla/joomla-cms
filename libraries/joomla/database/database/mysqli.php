@@ -91,19 +91,14 @@ class JDatabaseMySQLi extends JDatabase
 		$this->_errorNum = 0;
 		$this->_errorMsg = '';
 		$this->_cursor = mysqli_query( $this->_resource, $this->_sql );
-		if (!$this->_cursor) {
+		
+		if (!$this->_cursor) 
+		{
 			$this->_errorNum = mysqli_errno( $this->_resource );
 			$this->_errorMsg = mysqli_error( $this->_resource ) . " SQL=$this->_sql";
+			
 			if ($this->_debug) {
-				trigger_error( mysqli_error( $this->_resource ), E_USER_NOTICE );
-				//echo "<pre>" . $this->_sql . "</pre>\n";
-				if (function_exists( 'debug_backtrace' )) {
-					foreach( debug_backtrace() as $back) {
-						if (@$back['file']) {
-							echo '<br />'.$back['file'].':'.$back['line'];
-						}
-					}
-				}
+				JError::raiseError('joomla.database:'.$this->_errorNum, 'JDatabaseMySQLi::query: '.$this->_errorMsg );
 			}
 			return false;
 		}
