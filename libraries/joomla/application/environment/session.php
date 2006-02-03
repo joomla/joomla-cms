@@ -363,13 +363,15 @@ class JSession
      */
     function set($name, $value)
     {
-        $return = @$_SESSION[$name];
-        if (null === $value) {
+        $old = isset($_SESSION[$name]) ?  $_SESSION[$name] : null;
+        
+		if (null === $value) {
             unset($_SESSION[$name]);
         } else {
             $_SESSION[$name] = $value;
         }
-        return $return;
+		
+        return $old;
     }
 
     /**
