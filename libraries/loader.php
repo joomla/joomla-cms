@@ -26,7 +26,7 @@ class JLoader
     * @return void
     * @since 1.1
     */
-   function import( $filePath ) 
+   function import( $filePath )
    {
 		$parts = explode( '.', $filePath );
 
@@ -69,8 +69,8 @@ class JLoader
 
    /**
     * A common object factory.
-    * 
-    * Assumes that the class constructor takes only one parameter, an associative array of 
+    *
+    * Assumes that the class constructor takes only one parameter, an associative array of
     * construction options. Attempts to load the class automatically.
     *
     * @access public
@@ -78,40 +78,40 @@ class JLoader
     * @param array $options An associative array of options (default null).
     * @return object An object instance.
     */
-   function &factory($class, $options = null) 
+   function &factory($class, $options = null)
    {
        JLoader::import($class);
        $obj = new $class($options);
        return $obj;
    }
-   
+
    /**
     * Custom require_once function to improve preformance
-    * 
+    *
     * @access private
     * @param string $file The path to the file to include
     * @since 1.1
     * @see require_once
-    * 
+    *
     */
-   function _requireOnce( $file ) 
+   function _requireOnce( $file )
    {
 		static $paths;
-		
+
 		if (!isset($paths)) {
 			$paths = array();
-		} 
-		
+		}
+
 	   if(!isset($paths[$file])) {
             include($file);
             $paths[$file] = true;
        }
-   } 
+   }
 }
 
 /**
  * Intelligent file importer
- * 
+ *
  * @access public
  * @param string $$path A dot syntax path
  * @since 1.1
