@@ -19,8 +19,8 @@ jimport('joomla.parameter.parameter');
  * @deprecated As of version 1.1
  */
 class mosUserParameters extends JParameter {
-	function __construct() {
-		parent::__construct();
+	function __construct($text, $file = '', $type = 'component') {
+		parent::__construct($text, $file);
 	}
 }
 
