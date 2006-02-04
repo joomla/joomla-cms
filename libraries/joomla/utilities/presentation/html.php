@@ -1735,7 +1735,7 @@ class mosAdminMenus {
 		$name 	= ( $name ? 'name="'. $name .'"' : '' );
 
 		if ( $param ) {
-			$image = $url. $param_directory . $param;
+			$image = $param_directory . $param;
 		} else if ( $param == -1 ) {
 			$image = '';
 		} else {

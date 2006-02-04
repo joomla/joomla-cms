@@ -40,6 +40,9 @@ Legend:
 
 -------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
 
+04-Feb-2005 Johan Janssens
+ # Fixed artf3368 : $url not set in mosAdminMenus::ImageCheckAdmin and administrator-dir handling is wrong
+
 03-Feb 2006 Rey Gigataras
  ^ Modified admin Content/Static Content edit pages to better use of screen realestate
  + Add `100` to list dropdown select
