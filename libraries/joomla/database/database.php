@@ -139,6 +139,10 @@ class JDatabase extends JObject
 			jimport('joomla.database.database.'.$driver);
 			$adapter = 'JDatabase'.$driver;
 			$instances[$signature] = new $adapter($host, $user, $pass, $db, $table_prefix);
+
+			if ($instances[$signature]->getErrorNum()) {
+				JError::raiseError('joomla.library:'.$instances[$signature]->getErrorNum(), 'JDatabase::getInstance: Could not connect to database' );
+			}
 		}
 
 		return $instances[$signature];
