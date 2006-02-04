@@ -1024,7 +1024,6 @@ class JInstaller extends JObject {
 				$retval = false;
 			}
 			
-			print_r($step);
 			// Get the next step and continue
 			$step = array_pop($this->i_stepStack);
 		}
