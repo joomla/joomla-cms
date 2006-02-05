@@ -77,8 +77,14 @@ Tracker : <a target="_blank" href="http://developer.joomla.org/sf/tracker/do/lis
 
 - Languages
 	* Backend Translated
+	* Frontend Translated
 	* RTL language compilance
 	* UTF-8 output
+	
+- Framework
+	* Joomla! Framework introduced
+	* FTP installer
+	* New PDF library (TCPDF)
 
 - New plugins
 	* authentication
@@ -89,6 +95,7 @@ Tracker : <a target="_blank" href="http://developer.joomla.org/sf/tracker/do/lis
 - Other
 	* Changed CSS editor, can edit all css files now
 	* Added statistics reset functions
+	* Added new com_syndicate
 
 - Removed files
 	* /pathway.php
@@ -118,14 +125,16 @@ Tracker : <a target="_blank" href="http://developer.joomla.org/sf/tracker/do/lis
 <span class="todotitle">TODO</span>
 
 - Languages
-	* Language manager and installer
-	* Installation translation
+	* Component language installation
 
 - Other
-	* XML-RPC server
-	* LDAP library class
-	* Allow admin folder to reside elsewhere
 	* Feature requests on the tracker
+	* Session timeout issues
+	* Core extension refactoring
+	
+- User Interface
+	* Usability changes
+	* Media manager improvements
 
 <hr/>
 
