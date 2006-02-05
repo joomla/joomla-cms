@@ -27,13 +27,13 @@ class JVersion {
 	/** @var int Sub Release Level */
 	var $DEV_LEVEL 	= '0';
 	/** @var int build Number */
-	var $BUILD	 	= '$Revision: 224_ $';
+	var $BUILD	 	= '$Revision: 2250 $';
 	/** @var string Codename */
 	var $CODENAME 	= 'Nightlight';
 	/** @var string Date */
 	var $RELDATE 	= '06-Feb-2006';
 	/** @var string Time */
-	var $RELTIME 	= '**:**';
+	var $RELTIME 	= '00:00';
 	/** @var string Timezone */
 	var $RELTZ 		= 'UTC';
 	/** @var string Copyright Text */

@@ -38,7 +38,8 @@ Legend:
 ! -> Note
 
 
--------------------- 1.1.0 Alpha2 [**-***-2006] ------------------------
+-------------------- 1.1.0 Alpha 2 Released -- [06-Feb-2006 00:00 UTC] ------------------
+
 
 04-Feb-2005 Johan Janssens
  # Fixed artf3368 : $url not set in mosAdminMenus::ImageCheckAdmin and administrator-dir handling is wrong
