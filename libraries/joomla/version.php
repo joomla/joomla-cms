@@ -17,22 +17,21 @@
  * @package	Joomla.Framework
  * @since	1.0
  */
-class JVersion
-{
+class JVersion {
 	/** @var string Product */
 	var $PRODUCT 	= 'Joomla!';
 	/** @var int Main Release Level */
 	var $RELEASE 	= '1.1';
 	/** @var string Development Status */
-	var $DEV_STATUS = 'Alpha';
+	var $DEV_STATUS = 'Alpha 2';
 	/** @var int Sub Release Level */
 	var $DEV_LEVEL 	= '0';
 	/** @var int build Number */
-	var $BUILD	 	= '$Revision: 789 $';
+	var $BUILD	 	= '$Revision: 224_ $';
 	/** @var string Codename */
-	var $CODENAME 	= 'Nightfall';
+	var $CODENAME 	= 'Nightlight';
 	/** @var string Date */
-	var $RELDATE 	= '**-***-2005';
+	var $RELDATE 	= '06-Feb-2006';
 	/** @var string Time */
 	var $RELTIME 	= '**:**';
 	/** @var string Timezone */

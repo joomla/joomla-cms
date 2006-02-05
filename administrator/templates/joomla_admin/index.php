@@ -69,6 +69,9 @@ $lang =& $mainframe->getLanguage();
 	<table width="99%" border="0">
 	<tr>
 		<td align="center">
+			<span style="color: red; font-weight: bold;">
+			** This should NOT meant to be used for a `live` or `production` site **
+			</span>
 			<jdoc:placeholder type="modules" name="footer" />
 		</td>
 	</tr>

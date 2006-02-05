@@ -25,23 +25,29 @@ s { color: red; }
 	display: block;
 	text-align: left;
 }
-hr { border: 1px dotted black; }
+hr { 
+	border: 1px dotted black; 
+}
 span.todotitle {
 	font-weight: bold;
 	color: black;
 }
+.highlight {
+	font-weight: bold;
+	color: red;
+}
 </style>
-
 <div id="notes">
 <h3>TESTER NOTES</h3>
 <pre class="todo">
-
 <span class="todotitle">STATUS</span>
 
-<b>** Joomla! 1.1.0 Alpha Release [26-10-2005] **</b>
+<b>** Joomla! 1.1.0 Alpha Release2 [06-02-2006] **</b>
 
-Alpha or beta versions are versions for testing purposes or internal use only.
-They are not meant to be used in for general or practical deployment.
+<span class="highlight">** This should NOT meant to be used for a `live` or `production` site **</span>
+This Alpha version is for testing and development purposes, or internal use only.  Use at your own risk!
+
+<a href="http://dev.joomla.org/content/view/39/63/" target="_blank">Click for information about the Joomla! <strong>Development Cycle</strong></a>.
 
 <hr/>
 
@@ -118,7 +124,7 @@ Tracker : <a target="_blank" href="http://developer.joomla.org/sf/tracker/do/lis
 - Other
 	* XML-RPC server
 	* LDAP library class
-	* Allow adming folder to reside elsewhere
+	* Allow admin folder to reside elsewhere
 	* Feature requests on the tracker
 
 <hr/>
