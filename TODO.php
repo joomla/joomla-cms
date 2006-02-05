@@ -47,10 +47,7 @@ span.todotitle {
 <span class="highlight">** This should NOT meant to be used for a `live` or `production` site **</span>
 This Alpha version is for testing and development purposes, or internal use only.  Use at your own risk!
 
-<a href="http://dev.joomla.org/content/view/39/63/" target="_blank">Click for information about the Joomla! <strong>Development Cycle</strong></a>.
-
 <hr/>
-
 <span class="todotitle">BROKEN</span>
 
 To be able to handle all languages correctly we are moving towards UTF-8. It's clear that
@@ -62,6 +59,7 @@ u are experiencing. For now we advice u to stay away from upgrading an existing 
 Upgrading problems will be handled after we identified and fixed any problems with translations
 and new installs.
 
+<hr/>
 <span class="todotitle">REPORTING</span>
 
 - Bug and problems
@@ -121,7 +119,6 @@ Tracker : <a target="_blank" href="http://developer.joomla.org/sf/tracker/do/lis
 	* /components/com_rss/..
 
 <hr/>
-
 <span class="todotitle">TODO</span>
 
 - Languages
