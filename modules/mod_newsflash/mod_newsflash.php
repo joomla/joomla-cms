@@ -69,7 +69,8 @@ $nullDate = $database->getNullDate();
 // query to determine article count
 $query = "SELECT a.id"
 ."\n FROM #__content AS a"
-."\n INNER JOIN #__categories AS b ON b.id = a.catid"
+."\n INNER JOIN #__categories AS cc ON cc.id = a.catid"
+."\n INNER JOIN #__sections AS s ON s.id = a.sectionid"
 ."\n WHERE a.state = 1"
 . ( $noauth ? "\n AND a.access <= $my->gid AND cc.access <= $my->gid AND s.access <= $my->gid" : '' )
 ."\n AND (a.publish_up = '$nullDate' OR a.publish_up <= '$now' ) "
