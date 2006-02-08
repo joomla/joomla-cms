@@ -71,10 +71,12 @@ $query = "SELECT a.id"
 ."\n FROM #__content AS a"
 ."\n INNER JOIN #__categories AS b ON b.id = a.catid"
 ."\n WHERE a.state = 1"
-. ( $noauth ? "\n AND a.access <= $my->gid AND b.access <= $my->gid" : '' )
+. ( $noauth ? "\n AND a.access <= $my->gid AND cc.access <= $my->gid AND s.access <= $my->gid" : '' )
 ."\n AND (a.publish_up = '$nullDate' OR a.publish_up <= '$now' ) "
 ."\n AND (a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
-."\n AND catid = $catid"
+."\n AND a.catid = $catid"
+."\n AND cc.published = 1"
+."\n AND s.published = 1"
 ."\n ORDER BY a.ordering"
 ."\n $limit"
 ;
