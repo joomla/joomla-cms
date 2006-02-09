@@ -77,8 +77,8 @@ class JInstallerTemplate extends JInstaller {
 		/*
 		 * If the template directory does not exists, lets create it
 		 */
-		if (!file_exists($this->extensionDir) && !JFolder::create($this->extensionDir)) {
-			JError::raiseWarning( 1, 'JInstallerTemplate::install: ' . JText::_('Failed to create directory').' "'.$this->extensionDir.'"');
+		if (!file_exists($this->i_extensionDir) && !JFolder::create($this->i_extensionDir)) {
+			JError::raiseWarning( 1, 'JInstallerTemplate::install: ' . JText::_('Failed to create directory').' "'.$this->i_extensionDir.'"');
 			return false;
 		}
 
@@ -92,28 +92,28 @@ class JInstallerTemplate extends JInstaller {
 		 * Copy all necessary files
 		 */
 		if ($this->_parseFiles('files') === false) {
-			JError::raiseWarning( 1, 'JInstallerTemplate::install: ' . JText::_('Failed to create directory').' "'.$this->extensionDir.'"');
+			JError::raiseWarning( 1, 'JInstallerTemplate::install: ' . JText::_('Failed to create directory').' "'.$this->i_extensionDir.'"');
 
 			// Install failed, rollback any changes
 			$this->_rollback();
 			return false;
 		}
 		if ($this->_parseFiles('images') === false) {
-			JError::raiseWarning( 1, 'JInstallerTemplate::install: ' . JText::_('Failed to create directory').' "'.$this->extensionDir.'"');
+			JError::raiseWarning( 1, 'JInstallerTemplate::install: ' . JText::_('Failed to create directory').' "'.$this->i_extensionDir.'"');
 
 			// Install failed, rollback any changes
 			$this->_rollback();
 			return false;
 		}
 		if ($this->_parseFiles('css') === false) {
-			JError::raiseWarning( 1, 'JInstallerTemplate::install: ' . JText::_('Failed to create directory').' "'.$this->extensionDir.'"');
+			JError::raiseWarning( 1, 'JInstallerTemplate::install: ' . JText::_('Failed to create directory').' "'.$this->i_extensionDir.'"');
 
 			// Install failed, rollback any changes
 			$this->_rollback();
 			return false;
 		}
 		if ($this->_parseFiles('media') === false) {
-			JError::raiseWarning( 1, 'JInstallerTemplate::install: ' . JText::_('Failed to create directory').' "'.$this->extensionDir.'"');
+			JError::raiseWarning( 1, 'JInstallerTemplate::install: ' . JText::_('Failed to create directory').' "'.$this->i_extensionDir.'"');
 
 			// Install failed, rollback any changes
 			$this->_rollback();
