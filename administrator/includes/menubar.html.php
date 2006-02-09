@@ -105,7 +105,7 @@ class JMenuBar
 		global $mainframe;
 
 		$uri 	=& $mainframe->getURI();
-		$jself 	= ampReplace( $uri->toString(array('scheme', 'uri', 'host', 'path', 'query')) .'#' );
+		$jself 	= ampReplace( $uri->toString(array('scheme', 'uri', 'host', 'port', 'path', 'query')) .'#' );
 
     	$alt = JText::_( $alt );
 
@@ -172,7 +172,7 @@ class JMenuBar
 		global $mainframe;
 
 		$uri 	=& $mainframe->getURI();
-		$jself 	= ampReplace( $uri->toString(array('scheme', 'uri', 'host', 'path', 'query')) .'#' );
+		$jself 	= ampReplace( $uri->toString(array('scheme', 'uri', 'host', 'port', 'path', 'query')) .'#' );
 
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'preview_f2.png', '/images/', NULL, NULL, 'Preview', 'preview', 1 );
 
@@ -207,7 +207,7 @@ class JMenuBar
 		global $mainframe;
 
 		$uri =& $mainframe->getURI();
-		$jself = ampReplace( $uri->toString(array('scheme', 'uri', 'host', 'path', 'query')) .'#' );
+		$jself = ampReplace( $uri->toString(array('scheme', 'uri', 'host', 'port', 'path', 'query')) .'#' );
 
 		$image2 	= mosAdminMenus::ImageCheckAdmin( 'help_f2.png', '/images/', NULL, NULL, 'Help', 'help', 1 );
 
@@ -256,7 +256,7 @@ class JMenuBar
 		global $mainframe;
 
 		$uri 	=& $mainframe->getURI();
-		$jself 	= ampReplace( $uri->toString(array('scheme', 'uri', 'host', 'path', 'query')) .'#' );
+		$jself 	= ampReplace( $uri->toString(array('scheme', 'uri', 'host', 'port', 'path', 'query')) .'#' );
 
     	$alt 	= JText::_( $alt );
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'upload_f2.png', '/images/', NULL, NULL, 'Upload Image', 'uploadPic', 1 );
