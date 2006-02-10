@@ -911,7 +911,7 @@ class DOMIT_Lite_Document extends DOMIT_Lite_ChildNodes_Interface {
 	*/
 	function &createElement($tagName) {
 		$node = new DOMIT_Lite_Element($tagName);
-		$node->ownerDocument =& $this;
+		$node->ownerDocument = $this;
 
 		return $node;
 	} //createElement
@@ -923,7 +923,7 @@ class DOMIT_Lite_Document extends DOMIT_Lite_ChildNodes_Interface {
 	*/
 	function &createTextNode($data) {
 		$node = new DOMIT_Lite_TextNode($data);
-		$node->ownerDocument =& $this;
+		$node->ownerDocument = $this;
 
 		return $node;
 	} //createTextNode
@@ -935,7 +935,7 @@ class DOMIT_Lite_Document extends DOMIT_Lite_ChildNodes_Interface {
 	*/
 	function &createCDATASection($data) {
 		$node = new DOMIT_Lite_CDATASection($data);
-		$node->ownerDocument =& $this;
+		$node->ownerDocument = $this;
 
 		return $node;
 	} //createCDATASection
