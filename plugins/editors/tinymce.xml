@@ -28,6 +28,10 @@
  			<option value="ltr">Left to Right</option>
  			<option value="rtl">Right to Left</option>
  		</param>
+  		<param name="relative_urls" type="list" default="0" label="Urls" description="URL behaviour">
+ 			<option value="0">Absolute</option>
+ 			<option value="1">Relative</option>
+ 		</param>
  		<param name="invalid_elements" type="text" default="applet" label="Prohibited Elements" description="Elements that will be cleaned from the text"/>
   		<param name="content_css" type="radio" default="1" label="Template CSS classes" description="By default the bot looks for an editor_content.css file.  If it cant find one it loads template_css.css.  However if you want to force loading of template_css.css than please select `yes`">
  			<option value="0">No</option>

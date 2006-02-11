@@ -74,8 +74,9 @@ class JEditor_tinymce extends JPlugin {
 		$invalid_elements	= $params->def( 'invalid_elements', 'script,applet,iframe' );
 		$newlines			= $params->def( 'newlines', 0 );
 		$cleanup			= $params->def( 'cleanup', 1 );
-		$compressed			= $params->def( 'compressed', 0 );
-	
+		$compressed			= $params->def( 'compressed', 0 );		$relative_urls		= $params->def( 'relative_urls', 0 );
+
+
 		// Plugins
 		// preview
 		$preview			= $params->def( 'preview', 1 );
@@ -100,6 +101,12 @@ class JEditor_tinymce extends JPlugin {
 		// fullscreen
 		$fullscreen			=  $params->def( 'fullscreen', 1 );
 	
+		if ( $relative_urls ) {
+			$relative_urls = 'true';
+		} else {
+			$relative_urls = 'false';
+		}
+		
 		// loading of css file for `styles` dropdown
 		if ( $content_css_custom ) {
 			$content_css = 'content_css : "'. $content_css_custom .'", ';
