@@ -86,3 +86,10 @@ RewriteRule ^(content/|component/) index.php
 #
 ########## End 3rd Party or Core SEF Section
 
+
+############################################
+## Used to disable session.use_trans_sid, which can conflict with gzip compression
+## And can be a potential security vunerability
+## If you are experiencing problems with 3rd Party Addons try commenting out this line
+php_value session.use_trans_sid 0
+
