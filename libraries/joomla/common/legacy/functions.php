@@ -281,6 +281,7 @@ function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) 
  */
 function initGzip() {
 	global $mosConfig_gzip, $do_gzip_compress;
+	
 	$do_gzip_compress = FALSE;
 	if ($mosConfig_gzip == 1) {
 		$phpver = phpversion();
@@ -292,10 +293,14 @@ function initGzip() {
 				  strpos($useragent,'Gecko')	  !== false
 				)
 			) {
-			if ( extension_loaded('zlib') && !ini_get('zlib.output_compression')) {
+			// Check for gzip header or northon internet securities
+			if ( isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
+				$encodings = explode(',', strtolower($_SERVER['HTTP_ACCEPT_ENCODING']));
+			}				
+			if ( (in_array('gzip', $encodings) || isset( $_SERVER['---------------']) ) && extension_loaded('zlib') && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression') ) {
 				// You cannot specify additional output handlers if
 				// zlib.output_compression is activated here
-				ob_start("ob_gzhandler" );
+				ob_start( 'ob_gzhandler' );
 				return;
 			}
 		} else if ( $phpver > '4.0' ) {
