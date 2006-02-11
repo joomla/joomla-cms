@@ -62,5 +62,5 @@ height="<?php echo $params->get( 'height' ); ?>"
 scrolling="<?php echo $params->get( 'scrolling' ); ?>"
 align="top"
 frameborder="0"
-class="wrapper<?php echo $params->get( 'pageclass_sfx' ); ?>">
+class="wrapper<?php echo $params->get( 'moduleclass_sfx' ); ?>">
 </iframe>

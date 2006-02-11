@@ -14,13 +14,15 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$option = mosGetParam( $_REQUEST, 'option' );
-$task 	= mosGetParam( $_REQUEST, 'task' );
-$id 	= intval( mosGetParam( $_REQUEST, 'id', null ) );
 $moduleclass_sfx = $params->get( 'moduleclass_sfx' );
-$showDate = $params->get( 'showDate', 0 );
+$option 	= mosGetParam( $_REQUEST, 'option' );
+$task 		= mosGetParam( $_REQUEST, 'task' );
+$id 		= intval( mosGetParam( $_REQUEST, 'id', null ) );
+$showDate 	= $params->get( 'showDate', 0 );
 
-$now 	= date( 'Y-m-d H:i:s', time() + $mosConfig_offset * 60 * 60 );
+$now 		= date( 'Y-m-d H:i:s', time() + $mosConfig_offset * 60 * 60 );
+
+$nullDate 	= $database->getNullDate();
 
 if ($option == 'com_content' && $task == 'view' && $id) {
 	// select the meta keywords from the item
@@ -44,17 +46,32 @@ if ($option == 'com_content' && $task == 'view' && $id) {
 
 		if (count( $likes )) {
 			// select other items based on the metakey field 'like' the keys found
-			$query = "SELECT id, DATE_FORMAT(created, '%Y-%m-%d') AS created, title"
-			. "\n FROM #__content"
-			. "\n WHERE id <> $id"
-			. "\n AND state = 1"
-			. "\n AND access <= $my->gid"
-			. "\n AND ( metakey LIKE '%" . implode( "%' OR metakey LIKE '%", $likes ) ."%' )"
-			. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )"
-			. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
+			$query = "SELECT a.id, a.title, DATE_FORMAT(a.created, '%Y-%m-%d') AS created, a.sectionid, a.catid, cc.access AS cat_access, s.access AS sec_access, cc.published AS cat_state, s.published AS sec_state"
+			. "\n FROM #__content AS a"
+			. "\n LEFT JOIN #__content_frontpage AS f ON f.content_id = a.id"
+			. "\n LEFT JOIN #__categories AS cc ON cc.id = a.catid"
+			. "\n LEFT JOIN #__sections AS s ON s.id = a.sectionid"
+			. "\n WHERE a.id != $id"
+			. "\n AND a.state = 1"
+			. "\n AND a.access <= $my->gid"
+			. "\n AND ( a.metakey LIKE '%" . implode( "%' OR a.metakey LIKE '%", $likes ) ."%' )"
+			. "\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )"
+			. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )"
 			;
 			$database->setQuery( $query );
-			if ( $related = $database->loadObjectList() ) {
+			$temp = $database->loadObjectList();
+			
+			$related = array();
+			if (count($temp)) {
+				foreach ($temp as $row ) {
+					if (($row->cat_state == 1 || $row->cat_state == '') &&  ($row->sec_state == 1 || $row->sec_state == '') &&  ($row->cat_access <= $my->gid || $row->cat_access == '') &&  ($row->sec_access <= $my->gid || $row->sec_access == '')) {
+						$related[] = $row;
+					}
+				}
+			}
+			unset($temp);
+			
+			if ( count( $related ) ) {
 				?>
 				<ul class="relateditems<?php echo $moduleclass_sfx; ?>">
 				<?php
