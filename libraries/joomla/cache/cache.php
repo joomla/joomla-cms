@@ -125,14 +125,14 @@ class JCache extends Cache_Lite
 	* Cleans the cache
 	*/
 	function cleanCache( $group=false, $mode='ingroup' ) {
-		global $mosConfig_caching;
+		global $mosConfig_caching, $mosConfig_cachepath;
 
 		if ( $mosConfig_caching ) {
 			$cache =& JCache::getCache( $group );
 			$cache->clean( $group, $mode );
 
 			// delete feedcreator syndication cache files
-			$path 	= JPATH_SITE .'/cache/';
+			$path 	= $mosConfig_cachepath .'/';
 			$files = mosReadDirectory( $path, '.xml' );
 			foreach ( $files as $file ) {
 				$file = $path . $file;

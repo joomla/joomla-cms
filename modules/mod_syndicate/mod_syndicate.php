@@ -15,7 +15,7 @@
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
 //check if cache diretory is writable as cache files will be created for the feed
-$cacheDir = JPATH_SITE .'/cache/';
+$cacheDir = $mosConfig_cachepath .'/';
 if ( !is_writable( $cacheDir ) ) {
 	echo '<div>';
 	echo JText::_( 'Please make cache directory writable.' );

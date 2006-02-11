@@ -94,6 +94,8 @@ class modules_html {
 	}
 
 	function modoutput_feed( &$module, &$params ) {
+		global $mainframe;
+		
 		$rssurl 			= $params->get( 'rssurl', '' );
 		$rssitems 			= $params->get( 'rssitems', '' );
 		$rssdesc 			= $params->get( 'rssdesc', '' );
@@ -109,7 +111,7 @@ class modules_html {
 
 		// feed output
 		if ( $rssurl ) {
-			$cacheDir = JPATH_SITE .'/cache/';
+			$cacheDir = $mainframe->getCfg( 'cachepath' ) .'/';
 			if (!is_writable( $cacheDir )) {
 				echo '<tr>';
 				echo '<td>'. JText::_( 'Please make cache directory writable.' ) .'</td>';

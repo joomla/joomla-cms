@@ -194,7 +194,7 @@ function listFeeds( $catid ) {
 
 
 function showFeed( $feedid ) {
-	global $mainframe, $Itemid;
+	global $mainframe, $Itemid, $mosConfig_cachepath;
 
 		// Get some objects from the JApplication
 	$database 	= & $mainframe->getDBO();
@@ -230,7 +230,7 @@ function showFeed( $feedid ) {
 	}
 
 	// full RSS parser used to access image information
-	$cacheDir = JPATH_SITE . '/cache/';
+	$cacheDir = $mosConfig_cachepath .'/';
 	$LitePath = JPATH_SITE . '/includes/Cache/Lite.php';
 
 	// Adds parameter handling

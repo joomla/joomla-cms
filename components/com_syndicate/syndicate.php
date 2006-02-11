@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('bitfolge.feedcreator');
 
 //check if cache diretory is writable as cache files will be created for the feed
-$cacheDir = JPATH_SITE .'/cache/';
+$cacheDir = $mosConfig_cachepath .'/';
 if ( !is_writable( $cacheDir ) ) {
 	echo '<div>';
 	echo JText::_( 'Please make cache directory writable.' );
@@ -131,7 +131,7 @@ function syndicate( $feed ) {
 */
 function constructFeed( $rows, $feed, $filename, $title, &$params, $showFeed=true ) {
 	global $mainframe;
-	global $mosConfig_offset;
+	global $mosConfig_offset, $mosConfig_cachepath;
 	
 	$now 	= date( 'Y-m-d H:i:s', time() + $mosConfig_offset * 60 * 60 );
 	
@@ -167,7 +167,7 @@ function constructFeed( $rows, $feed, $filename, $title, &$params, $showFeed=tru
 	if ( $showFeed ) {
 		// set filename for rss feeds
 		$info[ 'file' ]   = strtolower( str_replace( '.', '', $info[ 'feed' ] ) );
-		$info[ 'file' ]   = JPATH_SITE .'/cache/'. $info[ 'file' ] .'_'. $filename .'.xml';
+		$info[ 'file' ]   = $mosConfig_cachepath .'/'. $info[ 'file' ] .'_'. $filename .'.xml';
 	}	
 
 	// load feed creator class
