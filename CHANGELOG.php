@@ -37,7 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
-
+11-Feb-2006 David Gal
+ ^ Modified JString to load after pre-installation check (phputf8 will crash on wrong settings)
+ + Added local mbstring environmental settings in htaccess.txt ready for uncommenting if needed
+ 
 08-Feb-2005 Louis Landry
  # Fixed artf3432 : Administrator toolbar items do not contain port number
 

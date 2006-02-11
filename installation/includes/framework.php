@@ -54,10 +54,15 @@ jimport( 'joomla.factory' );
 jimport( 'joomla.filesystem.*' );
 jimport( 'joomla.parameter.parameter' );
 jimport( 'joomla.i18n.language' );
-jimport( 'joomla.i18n.string' );
 jimport( 'joomla.model.model' );
 jimport( 'joomla.application.application');
 jimport( 'joomla.application.environment.request' );
 jimport( 'joomla.application.environment.session' );
 jimport( 'joomla.application.user.user' );
+
+// JString should only be loaded after pre-install checks
+$task = mosGetParam( $_REQUEST, 'task', '' );
+if (!($task == '' || $task == 'preinstall' || $task == 'lang')){
+	jimport( 'joomla.i18n.string' );
+}
 ?>

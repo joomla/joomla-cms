@@ -86,6 +86,14 @@ RewriteRule ^(content/|component/) index.php
 #
 ########## End 3rd Party or Core SEF Section
 
+########## Begin mbstring section
+## UNCOMMENT THE APPROPRIATE SETTING WHEN SETTINGS IN php.ini CAN'T BE CHANGED
+## THIS WILL PROVIDE LOCAL SETTINGS WITHOUT DISTURBING SITE DEFAULTS
+#
+# php_value mbstring.func_overload 0
+# php_value mbstring.language neutral
+#
+########## End mbstring section
 
 ############################################
 ## Used to disable session.use_trans_sid, which can conflict with gzip compression

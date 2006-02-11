@@ -91,8 +91,8 @@ class JRegistryFormatINI extends JRegistryFormat {
 			if ($line == '') {
 				continue;
 			}
-			if ($line && $line[0] == '[' && $line[JString::strlen($line) - 1] == ']') {
-				$sec_name = JString::substr($line, 1, JString::strlen($line) - 2);
+			if ($line && $line[0] == '[' && $line[strlen($line) - 1] == ']') {
+				$sec_name = substr($line, 1, strlen($line) - 2);
 				if ($process_sections) {
 					if ($asArray) {
 						$obj[$sec_name] = array ();
@@ -101,22 +101,22 @@ class JRegistryFormatINI extends JRegistryFormat {
 					}
 				}
 			} else {
-				if ($pos = JString::strpos($line, '=')) {
-					$property = trim(JString::substr($line, 0, $pos));
+				if ($pos = strpos($line, '=')) {
+					$property = trim(substr($line, 0, $pos));
 
 					// property is assumed to be ascii
 					if (substr($property, 0, 1) == '"' && substr($property, -1) == '"') {
 						$property = stripcslashes(substr($property, 1, count($property) - 2));
 					}
-					$value = trim(JString::substr($line, $pos +1));
+					$value = trim(substr($line, $pos +1));
 					if ($value == 'false') {
 						$value = false;
 					}
 					if ($value == 'true') {
 						$value = true;
 					}
-					if (JString::substr($value, 0, 1) == '"' && JString::substr($value, -1) == '"') {
-						$value = stripcslashes(JString::substr($value, 1, JString::strlen($value) - 2));
+					if (substr($value, 0, 1) == '"' && substr($value, -1) == '"') {
+						$value = stripcslashes(substr($value, 1, strlen($value) - 2));
 					}
 
 					if ($process_sections) {
