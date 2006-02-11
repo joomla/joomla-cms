@@ -1245,13 +1245,13 @@ class mosAdminMenus {
 		// get a list of the menu items
 		$query = "SELECT m.*"
 		. "\n FROM #__menu AS m"
-		. "\n WHERE m.type != 'separator'"
+		. "\n WHERE m.published = 1"
+		//. "\n AND m.type != 'separator'"
 		. "\n AND NOT ("
 			. "\n ( m.type = 'url' )"
 			. "\n AND ( m.link LIKE '%index.php%' )"
 			. "\n AND ( m.link LIKE '%Itemid=%' )"
 		. "\n )"
-		. "\n AND m.published = 1"
 		. "\n ORDER BY m.menutype, m.parent, m.ordering"
 		;
 		$database->setQuery( $query );
