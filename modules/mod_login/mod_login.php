@@ -14,8 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$return = mosGetParam( $_SERVER, 'QUERY_STRING', null );
-
+$return	= 'index.php?'. mosGetParam( $_SERVER, 'QUERY_STRING', null );
 // converts & to &amp; for xtml compliance
 $return = str_replace( '&', '&amp;', $return );
 

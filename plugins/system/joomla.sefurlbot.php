@@ -383,6 +383,10 @@ function sefRelToAbs( $string ) {
 		}
 
 	} else {
+		if ( !strstr( $string, $LiveSite ) ) {
+			$string = $LiveSite .'/'. $string;
+		}
+		
 		return $string;
 	}
 }
