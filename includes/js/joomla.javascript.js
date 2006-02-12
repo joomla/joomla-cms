@@ -599,6 +599,13 @@ function getElementByName( f, name ) {
 function go2( pressbutton, menu, id ) {
 	var form = document.adminForm;
 
+	// assemble the images back into one field
+	var temp = new Array;
+	for (var i=0, n=form.imagelist.options.length; i < n; i++) {
+		temp[i] = form.imagelist.options[i].value;
+	}
+	form.images.value = temp.join( '\n' );
+
 	if (pressbutton == 'go2menu') {
 		form.menu.value = menu;
 		submitform( pressbutton );
