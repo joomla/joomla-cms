@@ -71,9 +71,9 @@ if (!defined( '_JOS_POLL_MODULE' )) {
 
 		<table width="95%" border="0" cellspacing="0" cellpadding="1" align="center" class="poll<?php echo $moduleclass_sfx; ?>">
 		<tr>
-			<td>
-				<b><?php echo $poll->title; ?></b>
-			</td>
+			<th>
+				<?php echo $poll->title; ?>
+			</th>
 		</tr>
 		<tr>
 			<td align="center">
