@@ -328,6 +328,11 @@ function editCategory( $uid=0, $section='' )
 				$and 	= "\n AND type = 'contact_category_table'";
 				$link 	= JText::_( 'Table - Contacts Category' );
 				break;
+			
+			default:
+				$and  = '';
+				$link = '';
+				break;
 		}
 
 		if ( $row->section > 0 ) {
