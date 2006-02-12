@@ -111,7 +111,7 @@ function processImages ( &$row, &$params, &$introCount )
 
 			// $attrib[3] border
 			if ( !isset($attrib[3]) || !$attrib[3] ) {
-				$attrib[3] = '0';
+				$attrib[3] = 0;
 			}
 
 			// $attrib[4] caption
@@ -150,41 +150,68 @@ function processImages ( &$row, &$params, &$introCount )
 			}
 
 			// assemble the <image> tag
-			$image = '<img src="'. $url .'/images/stories/'. $attrib[0] .'"'. $size;
+			$image = '<img src="'. $mosConfig_live_site .'/images/stories/'. $attrib[0] .'"'. $size;
 			// no aligment variable - if caption detected
 			if ( !$attrib[4] ) {
 				$image .= $attrib[1] ? ' align="'. $attrib[1] .'"' : '';
 			}
 			$image .=' hspace="6" alt="'. $attrib[2] .'" title="'. $attrib[2] .'" border="'. $border .'" />';
-
+			
 			// assemble caption - if caption detected
-			if ( $attrib[4] ) {
-				$caption = '<div class="mosimage_caption" style="width: '. $width .'; text-align: '. $attrib[6] .';" align="'. $attrib[6] .'">';
+			$caption = '';
+			if ( $attrib[4] ) {				
+				$caption = '<div class="mosimage_caption"';
+				if ( $attrib[6] ) {
+					$caption .= ' style="text-align: '. $attrib[6] .';"';
+				}				
+				if ( $attrib[6] ) {
+					$caption .= ' align="'. $attrib[6] .'">';
+				}
 				$caption .= $attrib[4];
-				$caption .='</div>';
+				$caption .= '</div>';
 			}
-
+			
 			// final output
 			if ( $attrib[4] ) {
-				$img = '<div class="mosimage" style="border-width: '. $attrib[3] .'px; float: '. $attrib[1] .'; margin: '. $params->def( 'margin' ) .'px; padding: '. $params->def( 'padding' ) .'px;'. $width .'" align="center">';
-
+				// initialize variables
+				$margin  	= '';
+				$padding 	= '';
+				$float		= '';
+				if ( $params->def( 'margin' ) ) {
+					$margin 		= ' margin: '. $params->def( 'margin' ).'px;';
+				}				
+				if ( $params->def( 'padding' ) ) {
+					$padding 		= ' padding: '. $params->def( 'padding' ).'px;';
+				}				
+				if ( $attrib[1] ) {
+					$float 			= ' float: '. $attrib[1] .';';
+				}
+				if ( $attrib[3] ) {
+					$border_width	= ' border-width: '. $attrib[3] .'px;';
+				}
+				
+				if ( $params->def( 'margin' ) || $params->def( 'padding' ) || $attrib[1] || $attrib[3] ) {
+					$style = ' style="'. $border_width . $float . $margin . $padding . $width .'"';
+				}
+				
+				$img = '<div class="mosimage" '. $style .' align="center">'; 
+				
 				// display caption in top position
-				if ( $attrib[5] == 'top' ) {
+				if ( $attrib[5] == 'top' && $caption ) {
 					$img .= $caption;
 				}
-
+				
 				$img .= $image;
-
+				
 				// display caption in bottom position
-				if ( $attrib[5] == 'bottom' ) {
+				if ( $attrib[5] == 'bottom' && $caption ) {
 					$img .= $caption;
 				}
 				$img .='</div>';
 			} else {
 				$img = $image;
-			}
-
-
+			}			
+			
 			$images[] = $img;
 		}
 	}

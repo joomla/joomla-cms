@@ -14,6 +14,6 @@
 	</files>
 	<params>
 		<param name="margin" type="text" default="5" size="5" label="Margin" description="PARAMMARGIN" />
-		<param name="padding" type="text" default="5" size="5" label="Padding" description="PARAMPADDING" />
+		<param name="padding" type="text" default="0" size="5" label="Padding" description="PARAMPADDING" />
 	</params>
 </install>
