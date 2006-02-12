@@ -460,7 +460,7 @@ class mosAbstractTasker {
 	 * @param string Set the default task
 	 */
 	function mosAbstractTasker( $default='' ) {
-		$taskMap = array();
+		$this->_taskMap = array();
 		$this->_methods = array();
 		foreach (get_class_methods( get_class( $this ) ) as $method) {
 			if (substr( $method, 0, 1 ) != '_') {
