@@ -106,9 +106,11 @@ function botSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
 	. "\n CONCAT( 'index.php?option=com_newsfeeds&task=view&feedid=', a.id ) AS href,"
 	. "\n '1' AS browsernav"
 	. "\n FROM #__newsfeeds AS a"
-	. "\n INNER JOIN #__categories AS b ON b.id = a.catid AND b.access <= '$my->gid'"
+	. "\n INNER JOIN #__categories AS b ON b.id = a.catid"
 	. "\n WHERE ( $where )"
 	. "\n AND a.published = 1"
+	. "\n AND b.published = 1"
+	. "\n AND b.access <= $my->gid"
 	. "\n ORDER BY $order"
 	;
 	$database->setQuery( $query, 0, $limit );

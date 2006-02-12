@@ -81,7 +81,7 @@ function botSearchContacts( $text, $phrase='', $ordering='', $areas=null ) {
 	. "\n '2' AS browsernav,"
 	. "\n CONCAT( 'index.php?option=com_contact&task=view&&contact_id=', a.id ) AS href"
 	. "\n FROM #__contact_details AS a"
-	. "\n INNER JOIN #__categories AS b ON b.id = a.catid AND b.access <= '$my->gid'"
+	. "\n INNER JOIN #__categories AS b ON b.id = a.catid"
 	. "\n WHERE ( a.name LIKE '%$text%'"
 	. "\n OR a.misc LIKE '%$text%'"
 	. "\n OR a.con_position LIKE '%$text%'"
@@ -93,6 +93,9 @@ function botSearchContacts( $text, $phrase='', $ordering='', $areas=null ) {
 	. "\n OR a.telephone LIKE '%$text%'"
 	. "\n OR a.fax LIKE '%$text%' )"
 	. "\n AND a.published = 1"
+	. "\n AND b.published = 1"
+	. "\n AND a.access <= $my->gid"
+	. "\n AND b.access <= $my->gid"
 	. "\n GROUP BY a.id"
 	. "\n ORDER BY $order"
 	;

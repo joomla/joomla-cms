@@ -113,9 +113,11 @@ function botSearchWeblinks( $text, $phrase='', $ordering='', $areas=null ) {
 	. "\n '1' AS browsernav,"
 	. "\n a.url AS href"
 	. "\n FROM #__weblinks AS a"
-	. "\n INNER JOIN #__categories AS b ON b.id = a.catid AND b.access <= '$my->gid'"
+	. "\n INNER JOIN #__categories AS b ON b.id = a.catid"
 	. "\n WHERE ($where)"
 	. "\n AND a.published = 1"
+	. "\n AND b.published = 1"
+	. "\n AND b.access <= $my->gid"
 	. "\n ORDER BY $order"
 	;
 	$database->setQuery( $query, 0, $limit );
