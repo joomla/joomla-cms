@@ -21,6 +21,7 @@ $button_text	 = $params->get( 'button_text', JText::_( 'Search' ) );
 $width 			 = intval( $params->get( 'width', 20 ) );
 $text 			 = $params->get( 'text', JText::_( 'search...' ) );
 $moduleclass_sfx = $params->get( 'moduleclass_sfx' );
+$set_Itemid		 = intval( $params->get( 'set_itemid', 0 ) );
 
 $output = '<input name="searchword" id="mod_search_searchword" maxlength="20" alt="'. $button_text .'" class="inputbox'. $moduleclass_sfx .'" type="text" size="'. $width .'" value="'. $text .'"  onblur="if(this.value==\'\') this.value=\''. $text .'\';" onfocus="if(this.value==\''. $text .'\') this.value=\'\';" />';
 
@@ -55,19 +56,28 @@ switch ( $button_pos ) {
 		break;
 }
 
-$query = "SELECT id"
-. "\n FROM #__menu"
-. "\n WHERE link = 'index.php?option=com_search'"
-;
-$database->setQuery( $query );
-$rows = $database->loadObjectList();
-
-if ( count( $rows ) ) {
-	$_Itemid	= $rows[0]->id;
-	$link 		= 'index.php?option=com_search&amp;Itemid='. $_Itemid;
+// set Itemid id for links
+if ( $set_Itemid ) {
+	// use param setting
+	$_Itemid	= $set_Itemid;
+	$link 		= 'index.php?option=com_search&amp;Itemid='. $set_Itemid;
 } else {
-	$_Itemid 	= '';
-	$link 		= 'index.php?option=com_search';
+	$query = "SELECT id"
+	. "\n FROM #__menu"
+	. "\n WHERE link = 'index.php?option=com_search'"
+	;
+	$database->setQuery( $query );
+	$rows = $database->loadObjectList();
+	
+	// try to auto detect search component Itemid
+	if ( count( $rows ) ) {
+		$_Itemid	= $rows[0]->id;
+		$link 		= 'index.php?option=com_search&amp;Itemid='. $_Itemid;
+	} else {
+		// Assign no Itemid
+		$_Itemid 	= '';
+		$link 		= 'index.php?option=com_search';	
+	}
 }
 ?>
 
