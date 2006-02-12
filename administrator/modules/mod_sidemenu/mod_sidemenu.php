@@ -60,12 +60,9 @@ if ($hide) {
 	JSideAdminMenu :: show($user->get('usertype'));
 }
 echo "</div>";
-
-?>
-	<script type="text/javascript">
-		init();
-	</script>
-<?php
+echo "<script type=\"text/javascript\">" .
+		"\n\tinit()" .
+		"\n</script>";
 
 
 /**
@@ -123,10 +120,16 @@ class JSideAdminMenu {
 		}
 		$menuTypes = mosAdminMenus :: menutypes();
 
+	/*
+	 * Home SubMenu
+	 */
 		$homeList[] = array( 'title' => JText::_('Control Panel'), 'link' => 'index2.php', 'img' => '../includes/js/ThemeOffice/controlpanel.png' );
 		$homeList[] = array( 'title' => JText::_('Help'), 'link' => 'index2.php?option=com_admin&task=help', 'img' => '../includes/js/ThemeOffice/help.png' );
 		echo JSideAdminMenu::buildDiv ( JText::_('Home'), $homeList );
 
+	/*
+	 * Site SubMenu
+	 */
 		if ($canConfig)
 		{
 			$siteList[] = array( 'title' => JText::_('Global Configuration'), 'link' => 'index2.php?option=com_config&hidemainmenu=1', 'img' => '../includes/js/ThemeOffice/config.png' );
@@ -149,6 +152,9 @@ class JSideAdminMenu {
 		}
 		echo JSideAdminMenu::buildDiv ( JText::_('Site'), $siteList );
 
+	/*
+	 * Menus SubMenu
+	 */
 		if ($manageMenuMan) {
 			$menusList[] = array( 'title' => JText::_('Menu Manager'), 'link' => 'index2.php?option=com_menumanager', 'img' => '../includes/js/ThemeOffice/menus.png' );
 		}
@@ -163,6 +169,9 @@ class JSideAdminMenu {
 		}
 		echo JSideAdminMenu::buildDiv ( JText::_('Menus'), $menusList );
 
+	/*
+	 * Content SubMenu
+	 */
 		$contentList[] = array( 'title' => JText::_('All Content Items'), 'link' => 'index2.php?option=com_content&sectionid=0', 'img' => '../includes/js/ThemeOffice/edit.png' );
 		$contentList[] = array( 'title' => JText::_('Static Content Manager'), 'link' => 'index2.php?option=com_typedcontent', 'img' => '../includes/js/ThemeOffice/edit.png' );
 		/*
@@ -184,6 +193,9 @@ class JSideAdminMenu {
 		}
 		echo JSideAdminMenu::buildDiv ( JText::_('Content'), $contentList );
 
+	/*
+	 * Components SubMenu
+	 */
 		if ($installComponents) {
 			$query = "SELECT *" .
 					"\n FROM #__components" .
@@ -214,21 +226,49 @@ class JSideAdminMenu {
 			echo JSideAdminMenu::buildDiv ( JText::_('Components'), $componentsList );
 		}
 
-		$modulesList[] = array( 'title' => JText::_('Control Panel'), 'link' => 'index2.php', 'img' => '../includes/js/ThemeOffice/controlpanel.png' );
-		$modulesList[] = array( 'title' => JText::_('Help'), 'link' => 'index2.php?option=com_admin&task=help', 'img' => '../includes/js/ThemeOffice/help.png' );
-		echo JSideAdminMenu::buildDiv ( JText::_('Modules'), $modulesList );
+	/*
+	 * Modules SubMenu
+	 */
+		if ($installModules | $editAllModules) {
+			if ($editAllModules) {
+				$modulesList[] = array( 'title' => JText::_('Site Modules'), 'link' => 'index2.php?option=com_modules', 'img' => '../includes/js/ThemeOffice/module.png' );
+				$modulesList[] = array( 'title' => JText::_('Administrator Modules'), 'link' => 'index2.php?option=com_modules&client=admin', 'img' => '../includes/js/ThemeOffice/module.png' );
+			}
+			echo JSideAdminMenu::buildDiv ( JText::_('Modules'), $modulesList );
+		}
 
-		$pluginsList[] = array( 'title' => JText::_('Control Panel'), 'link' => 'index2.php', 'img' => '../includes/js/ThemeOffice/controlpanel.png' );
-		$pluginsList[] = array( 'title' => JText::_('Help'), 'link' => 'index2.php?option=com_admin&task=help', 'img' => '../includes/js/ThemeOffice/help.png' );
-		echo JSideAdminMenu::buildDiv ( JText::_('Plugins'), $pluginsList );
+	/*
+	 * Plugins SubMenu
+	 */
+		if ($installPlugins | $editAllPlugins) 	{
+			if ($editAllPlugins) {
+				$pluginsList[] = array( 'title' => JText::_('Site Plugins'), 'link' => 'index2.php?option=com_plugins', 'img' => '../includes/js/ThemeOffice/module.png' );
+			}
+			echo JSideAdminMenu::buildDiv ( JText::_('Plugins'), $pluginsList );
+		}
 
-		$extensionsList[] = array( 'title' => JText::_('Control Panel'), 'link' => 'index2.php', 'img' => '../includes/js/ThemeOffice/controlpanel.png' );
-		$extensionsList[] = array( 'title' => JText::_('Help'), 'link' => 'index2.php?option=com_admin&task=help', 'img' => '../includes/js/ThemeOffice/help.png' );
-		echo JSideAdminMenu::buildDiv ( JText::_('Extensions'), $extensionsList );
+	/*
+	 * Extensions SubMenu
+	 */
+		if ($installModules) {
+			$extensionsList[] = array( 'title' => JText::_('Extension Manager'), 'link' => 'index2.php?option=com_installer', 'img' => '../includes/js/ThemeOffice/install.png' );
+			echo JSideAdminMenu::buildDiv ( JText::_('Extensions'), $extensionsList );
+		}
 
-		$systemList[] = array( 'title' => JText::_('Control Panel'), 'link' => 'index2.php', 'img' => '../includes/js/ThemeOffice/controlpanel.png' );
-		$systemList[] = array( 'title' => JText::_('Help'), 'link' => 'index2.php?option=com_admin&task=help', 'img' => '../includes/js/ThemeOffice/help.png' );
-		echo JSideAdminMenu::buildDiv ( JText::_('System'), $systemList );
+	/*
+	 * System SubMenu
+	 */
+		if ($canConfig)	{
+			$systemList[] = array( 'title' => JText::_('System Info'), 'link' => 'index2.php?option=com_admin&task=sysinfo', 'img' => '../includes/js/ThemeOffice/sysinfo.png' );
+			if ($canCheckin) {
+				$systemList[] = array( 'title' => JText::_('Global Checkin'), 'link' => 'index2.php?option=com_checkin', 'img' => '../includes/js/ThemeOffice/checkin.png' );
+			}
+			if ($caching) {
+				$systemList[] = array( 'title' => JText::_('Clean Content Cache'), 'link' => 'index2.php?option=com_admin&task=clean_cache', 'img' => '../includes/js/ThemeOffice/config.png' );
+				$systemList[] = array( 'title' => JText::_('Clean All Cache'), 'link' => 'index2.php?option=com_admin&task=clean_all_cache', 'img' => '../includes/js/ThemeOffice/config.png' );
+			}
+			echo JSideAdminMenu::buildDiv ( JText::_('System'), $systemList );
+		}
 	}
 
 	/**
