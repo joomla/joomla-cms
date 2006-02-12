@@ -204,13 +204,50 @@ function botJoomlaSEFUrl( ) {
 			$uri = explode('component/', $_SERVER['REQUEST_URI']);
 			$uri_array = explode('/', $uri[1]);
 			$QUERY_STRING = '';
-
+			
+			// needed for check if component exists
+			$path 		= JPATH_BASE .'/components';
+			$dirlist 	= array();
+			if ( is_dir( $path ) ) {
+				$base = opendir( $path );	
+				while (false !== ( $dir = readdir($base) ) ) {
+					if (is_dir($path .'/'. $dir) && $dir !== '.' && $dir !== '..' && strtolower($dir) !== 'cvs' && strtolower($dir) !== '.svn') {
+						$dirlist[] = $dir;
+					}
+				}
+				closedir($base);
+			}
+			
 			foreach($uri_array as $value) {
 				$temp = explode(',', $value);
 				if (isset($temp[0]) && $temp[0]!='' && isset($temp[1]) && $temp[1]!='') {
 					$_GET[$temp[0]] 	= $temp[1];
 					$_REQUEST[$temp[0]] = $temp[1];
-					$QUERY_STRING .= $QUERY_STRING=='' ? "$temp[0]=$temp[1]" : "&$temp[0]=$temp[1]";
+				
+					// check to ensure component actually exists
+					if ( $temp[0] == 'option' ) {
+						$check = '';
+						if (count( $dirlist )) {
+							foreach ( $dirlist as $dir ) {
+								if ( $temp[1] == $dir ) {
+									$check = 1;
+									break;
+								}
+							}
+						}
+						// redirect to 404 page if no component found to match url
+						if ( !$check ) {
+							header( 'HTTP/1.0 404 Not Found' );
+							require_once( $mosConfig_absolute_path . '/templates/404.php' );
+							exit( 404 );
+						}
+					}
+					
+					if ( $QUERY_STRING == '' ) {
+						$QUERY_STRING .= "$temp[0]=$temp[1]";
+					} else {
+						$QUERY_STRING .= "&$temp[0]=$temp[1]";
+					}
 				}
 			}
 
