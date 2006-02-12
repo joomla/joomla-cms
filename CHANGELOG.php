@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+11-Feb-2006
+ # Fixed artf3478 : Error in SQL Script
+ 
 11-Feb-2006 David Gal
  ^ Modified JString to load after pre-installation check (phputf8 will crash on wrong settings)
  + Added local mbstring environmental settings in htaccess.txt ready for uncommenting if needed
