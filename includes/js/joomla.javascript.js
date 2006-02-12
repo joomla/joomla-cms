@@ -424,6 +424,7 @@ function showCalendar(id) {
 		calendar = cal;		// remember the calendar in the global
 		cal.setRange(1900, 2070);	// min/max year allowed
 		calendar.create();		// create a popup calendar
+		calendar.parseDate(el.value); // set it to a new date
 	}
 	calendar.sel = el;		// inform it about the input field in use
 	calendar.showAtElement(el);	// show the calendar next to the input field
