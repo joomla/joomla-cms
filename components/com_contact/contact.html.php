@@ -111,9 +111,11 @@ class JContactView {
 		function validate(){
 			if ( ( document.emailForm.text.value == "" ) || ( document.emailForm.email.value.search("@") == -1 ) || ( document.emailForm.email.value.search("[.*]" ) == -1 ) ) {
 				alert( "<?php echo JText::_( 'CONTACT_FORM_NC', true ); ?>" );
+			} else if ( ( document.emailForm.email.value.search(";") != -1 ) || ( document.emailForm.email.value.search(",") != -1 ) || ( document.emailForm.email.value.search(" ") != -1 ) ) {
+				alert( "<?php echo JText::_( 'You cannot enter more than one email address', true ); ?>" );			
 			} else {
-			document.emailForm.action = "<?php echo sefRelToAbs("index.php?option=com_contact&Itemid=$Itemid"); ?>"
-			document.emailForm.submit();
+				document.emailForm.action = "<?php echo sefRelToAbs("index.php?option=com_contact&Itemid=$Itemid"); ?>"
+				document.emailForm.submit();
 			}
 		}
 		//-->

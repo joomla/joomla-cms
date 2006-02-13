@@ -605,6 +605,12 @@ class JContactController {
 				}
 			}			
 
+			// test to ensure that only one email address is entered
+			$check = explode( '@', $email );
+			if ( strpos( $email, ';' ) || strpos( $email, ',' ) || strpos( $email, ' ' ) || count( $check ) > 2 ) {
+				mosErrorAlert( JText::_( 'You cannot enter more than one email address', true ) );
+			}
+			
 			/*
 			 * Prepare email body
 			 */
@@ -621,6 +627,7 @@ class JContactController {
 			$params 		= new JParameter( $contact->params );		
 			$emailcopyCheck = $params->get( 'email_copy', 0 );
 			
+			// check whether email copy function activated
 			if ( $emailCopy && $emailcopyCheck ) {
 				$copyText 		= sprintf(JText :: _('Copy of:'), $contact->name, $SiteName);
 				$copyText 		.= "\r\n\r\n".$text;
