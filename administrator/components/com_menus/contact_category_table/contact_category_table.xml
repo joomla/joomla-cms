@@ -75,5 +75,10 @@
 		<param name="bannedEmail" type="text" default="" label="Banned Email" size="40" description="Emails containing any of the text will be banned, separate different words with semi-colons e.g. ban;text;etc" />
 		<param name="bannedSubject" type="text" default="" label="Banned Subject" size="40" description="Subjects containing any of the text will be banned, separate different words with semi-colons e.g. ban;text;etc" />
 		<param name="bannedText" type="text" default="" label="Banned Text" size="40" description="Text containing any of the text will be banned, separate different words with semi-colons e.g. ban;text;etc" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="session" type="radio" default="1" label="Session Check" description="Check for existance of session cookie, this means that users without cookies will not be able to send emails">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
 	</params>
 </install>

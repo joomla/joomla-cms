@@ -497,8 +497,7 @@ class JContactController {
 
 		// probably a spoofing attack
 		if (!$validate) {
-			echo _NOT_AUTH;
-			return;
+			mosErrorAlert( _NOT_AUTH );
 		}
 		
 		/*
@@ -506,8 +505,7 @@ class JContactController {
 		 * sure the request came from a client with a user agent string.
 		 */
 		if (!isset ($_SERVER['HTTP_USER_AGENT'])) {
-			echo _NOT_AUTH;
-			return;
+			mosErrorAlert( _NOT_AUTH );
 		}
 
 		/*
@@ -515,8 +513,7 @@ class JContactController {
 		 * to make sure that the request was posted as well.
 		 */
 		if (!$_SERVER['REQUEST_METHOD'] == 'POST') {
-			echo _NOT_AUTH;
-			return;
+			mosErrorAlert( _NOT_AUTH );
 		}
 
 		// An array of e-mail headers we do not want to allow as input
@@ -541,8 +538,7 @@ class JContactController {
 		foreach ($fields as $field) {
 			foreach ($headers as $header) {
 				if (strpos($_POST[$field], $header) !== false) {
-					echo _NOT_AUTH;
-					return;
+					mosErrorAlert( _NOT_AUTH );
 				}
 			}
 		}
@@ -573,14 +569,26 @@ class JContactController {
 			$bannedEmail 	= $mparams->get( 'bannedEmail', 	'' );		
 			$bannedSubject 	= $mparams->get( 'bannedSubject', 	'' );		
 			$bannedText 	= $mparams->get( 'bannedText', 		'' );
+			$sessionCheck 	= $mparams->get( 'sessionCheck', 	1 );
 			
+			// check for session cookie
+			if  ( $sessionCheck ) {		
+				// Session Cookie `name`
+				$sessionCookieName 	= mosMainFrame::sessionCookieName();		
+				// Get Session Cookie `value`
+				$sessioncookie 		= mosGetParam( $_COOKIE, $sessionCookieName, null );			
+				
+				if ( !(strlen($sessioncookie) == 32 || $sessioncookie == '-') ) {
+					mosErrorAlert( _NOT_AUTH );
+				}
+			}			
+
 			// Prevent form submission if one of the banned text is discovered in the email field
 			if ( $bannedEmail ) {
 				$bannedEmail = explode( ';', $bannedEmail );
 				foreach ($bannedEmail as $value) {
 					if ( stristr($email, $value) ) {
-						echo _NOT_AUTH;
-						return;
+						mosErrorAlert( _NOT_AUTH );
 					}
 				}
 			}
@@ -589,8 +597,7 @@ class JContactController {
 				$bannedSubject = explode( ';', $bannedSubject );
 				foreach ($bannedSubject as $value) {
 					if ( stristr($subject, $value) ) {
-						echo _NOT_AUTH;
-						return;
+						mosErrorAlert( _NOT_AUTH );
 					}
 				}
 			}
@@ -599,8 +606,7 @@ class JContactController {
 				$bannedText = explode( ';', $bannedText );
 				foreach ($bannedText as $value) {
 					if ( stristr($text, $value) ) {
-						echo _NOT_AUTH;
-						return;
+						mosErrorAlert( _NOT_AUTH );
 					}
 				}
 			}			
