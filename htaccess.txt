@@ -98,6 +98,6 @@ RewriteRule ^(content/|component/) index.php
 ############################################
 ## Used to disable session.use_trans_sid, which can conflict with gzip compression
 ## And can be a potential security vunerability
-## If you are experiencing problems with 3rd Party Addons try commenting out this line
+## If you are experiencing problems with 3rd Party Addons or getting apache 500 errors try commenting out this line
 php_value session.use_trans_sid 0
 
