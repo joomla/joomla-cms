@@ -41,6 +41,7 @@ Legend:
  # Fixed artf3481 : Changes in uri.php - Corrects MS problem in Installation
  # Fixed artf3498 : Bugs in uri.php - HTTPS detection, URI handling is not correct on Microsoft IIS environment
  # Fixed artf3383 : Component installation languagefiles are not copied
+ # Fixed artf3368 : $url not set in mosAdminMenus::ImageCheckAdmin and administrator-dir handling is wrong
 
 11-Feb-2006 Louis Landry
  # Fixed artf3478 : Error in SQL Script

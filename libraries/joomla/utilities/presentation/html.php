@@ -1744,7 +1744,7 @@ class mosAdminMenus {
 			} else {
 				// compability with previous versions
 				if ( substr($directory, 0, 14 )== "/administrator" ) {
-					$image = $directory . $file;
+					$image = substr($directory,15) . $file;
 				} else {
 					$image = $directory . $file;
 				}
