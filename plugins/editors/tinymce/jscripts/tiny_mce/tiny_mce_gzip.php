@@ -4,9 +4,9 @@
  * $Revision: $
  * $Date: $
  *
- * @version 1.06
+ * @version 1.07
  * @author Moxiecode
- * @copyright Copyright © 2005, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 20052006, Moxiecode Systems AB, All rights reserved.
  *
  * This file compresses the TinyMCE JavaScript using GZip and
  * enables the browser to do two requests instead of one for each .js file.
@@ -36,6 +36,16 @@ $cacheKey = md5($theme . $language . $plugins . $lang . $index . $debug);
 $cacheFile = $cacheDir == "" ? "" : $cacheDir . "/" . "tinymce_" .  $cacheKey . ".gz";
 $cacheData = "";
 
+// Patch older versions of PHP < 4.3.0
+if (!function_exists('file_get_contents')) {
+	function file_get_contents($filename) {
+		$fd = fopen($filename, 'rb');
+		$content = fread($fd, filesize($filename));
+		fclose($fd);
+		return $content;
+	}
+}
+
 // Security check function, can only contain a-z 0-9 , _ - and whitespace.
 function TinyMCE_cleanInput($str) {
 	return preg_replace("/[^0-9a-z\-_,]+/i", "", $str); // Remove anything but 0-9,a-z,-_
@@ -54,7 +64,7 @@ function TinyMCE_echo($str) {
 $encodings = array();
 
 if (isset($_SERVER['HTTP_ACCEPT_ENCODING']))
-	$encodings = explode(',', strtolower($_SERVER['HTTP_ACCEPT_ENCODING']));
+	$encodings = explode(',', strtolower(preg_replace("/\s+/", "", $_SERVER['HTTP_ACCEPT_ENCODING'])));
 
 // Check for gzip header or northon internet securities
 if ((in_array('gzip', $encodings) || isset($_SERVER['---------------'])) && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression')) {
@@ -74,8 +84,9 @@ if ($index > -1) {
 	// Write main script and patch some things
 	if ($index == 0) {
 		TinyMCE_echo(file_get_contents(realpath("tiny_mce" . $suffix . ".js")));
-		TinyMCE_echo('TinyMCE.prototype.loadScript = function() {};');
-	}
+		TinyMCE_echo('TinyMCE.prototype.loadScript = function() {};var realTinyMCE = tinyMCE;');
+	} else
+		TinyMCE_echo('tinyMCE = realTinyMCE;');
 
 	// Do init based on index
 	TinyMCE_echo("tinyMCE.init(tinyMCECompressed.configs[" . $index . "]);");
@@ -101,6 +112,9 @@ if ($index > -1) {
 		if ($languageFile)
 			TinyMCE_echo(file_get_contents($languageFile));
 	}
+
+	// Reset tinyMCE compressor engine
+	TinyMCE_echo("tinyMCE = tinyMCECompressed;");
 
 	// Write to cache
 	if ($diskCache) {
@@ -131,6 +145,8 @@ if ($index > -1) {
 function TinyMCECompressed() {
 	this.configs = new Array();
 	this.loadedFiles = new Array();
+	this.loadAdded = false;
+	this.isLoaded = false;
 }
 
 TinyMCECompressed.prototype.init = function(settings) {
@@ -153,6 +169,29 @@ TinyMCECompressed.prototype.init = function(settings) {
 
 	scriptURL += "?theme=" + escape(this.getOnce(settings["theme"])) + "&language=" + escape(this.getOnce(settings["language"])) + "&plugins=" + escape(this.getOnce(settings["plugins"])) + "&lang=" + settings["language"] + "&index=" + escape(this.configs.length-1);
 	document.write('<sc'+'ript language="javascript" type="text/javascript" src="' + scriptURL + '"></script>');
+
+	if (!this.loadAdded) {
+		tinyMCE.addEvent(window, "DOMContentLoaded", TinyMCECompressed.prototype.onLoad);
+		tinyMCE.addEvent(window, "load", TinyMCECompressed.prototype.onLoad);
+		this.loadAdded = true;
+	}
+}
+
+TinyMCECompressed.prototype.onLoad = function() {
+	if (tinyMCE.isLoaded)
+		return true;
+
+	tinyMCE = realTinyMCE;
+	TinyMCE_Engine.prototype.onLoad();
+	tinyMCE._addUnloadEvents();
+	tinyMCE.isLoaded = true;
+}
+
+TinyMCECompressed.prototype.addEvent = function(o, n, h) {
+	if (o.attachEvent)
+		o.attachEvent("on" + n, h);
+	else
+		o.addEventListener(n, h, false);
 }
 
 TinyMCECompressed.prototype.getOnce = function(str) {

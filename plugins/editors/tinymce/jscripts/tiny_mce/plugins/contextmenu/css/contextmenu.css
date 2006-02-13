@@ -16,10 +16,6 @@
 .contextMenuItem, .contextMenuItemOver {
 }
 
-.contextMenuItemOver {
-	background-color: #B6BDD2;
-}
-
 .contextMenuSeparator {
 	width: 100%;
 	background-color: #D4D0C8;
@@ -51,10 +47,21 @@
 .contextMenuText {
 	font-family: Tahoma, Verdana, Arial, Helvetica;
 	font-size: 11px;
-	margin-left: 5px;
-	margin-right: 10px;
+	line-height: 20px;
 }
 
 .contextMenuItemDisabled {
 	color: #AAAAAA;
+}
+
+.contextMenuText a {
+	display: block;
+	line-height: 20px;
+	width: 100%;
+	text-decoration: none;
+	color: black;
+}
+
+.contextMenuText a:hover {
+	background-color: #B6BDD2;
 }

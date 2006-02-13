@@ -1,10 +1,10 @@
 /**
  * $RCSfile: tiny_mce_popup.js,v $
- * $Revision: 1.22 $
- * $Date: 2006/01/11 14:34:56 $
+ * $Revision: 1.24 $
+ * $Date: 2006/02/05 17:26:01 $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 var tinyMCE = null, tinyMCELang = null;
@@ -14,6 +14,7 @@ function TinyMCEPopup() {
 
 TinyMCEPopup.prototype.init = function() {
 	var win = window.opener ? window.opener : window.dialogArguments;
+	var inst;
 
 	if (!win) {
 		// Try parent
@@ -37,6 +38,7 @@ TinyMCEPopup.prototype.init = function() {
 		return;
 	}
 
+	inst = tinyMCE.selectedInstance;
 	this.isWindow = tinyMCE.getWindowArg('mce_inside_iframe', false) == false;
 	this.storeSelection = (tinyMCE.isMSIE && !tinyMCE.isOpera) && !this.isWindow && tinyMCE.getWindowArg('mce_store_selection', true);
 
@@ -45,7 +47,7 @@ TinyMCEPopup.prototype.init = function() {
 
 	// Store selection
 	if (this.storeSelection)
-		tinyMCE.selectedInstance.execCommand('mceStoreSelection');
+		inst.selectionBookmark = inst.selection.getBookmark(true);
 
 	// Setup dir
 	if (tinyMCELang['lang_dir'])
@@ -205,7 +207,9 @@ TinyMCEPopup.prototype.restoreSelection = function() {
 		var inst = tinyMCE.selectedInstance;
 
 		inst.getWin().focus();
-		inst.execCommand('mceRestoreSelection');
+
+		if (inst.selectionBookmark)
+			inst.selection.moveToBookmark(inst.selectionBookmark);
 	}
 };
 
@@ -217,7 +221,7 @@ TinyMCEPopup.prototype.execCommand = function(command, user_interface, value) {
 
 	// Store selection
 	if (this.storeSelection)
-		inst.execCommand('mceStoreSelection');
+		inst.selectionBookmark = inst.selection.getBookmark(true);
 };
 
 TinyMCEPopup.prototype.close = function() {

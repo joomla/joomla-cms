@@ -6,8 +6,8 @@ function init() {
 	formObj.searchstring.value = tinyMCE.getWindowArg("searchstring");
 	formObj.replacestring.value = tinyMCE.getWindowArg("replacestring");
 	formObj.casesensitivebox.checked = tinyMCE.getWindowArg("casesensitive");
-	formObj.backwards[0].checked = tinyMCE.getWindowArg("backwards");
-	formObj.backwards[1].checked = !tinyMCE.getWindowArg("backwards");
+//	formObj.backwards[0].checked = tinyMCE.getWindowArg("backwards");
+//	formObj.backwards[1].checked = !tinyMCE.getWindowArg("backwards");
 //		formObj.wrapatend.checked = tinyMCE.getWindowArg("wrap");
 //		formObj.wholeword.checked = tinyMCE.getWindowArg("wholeword");
 
@@ -27,7 +27,7 @@ function searchNext(replacemode) {
 		replacestring : formObj.replacestring.value,
 		replacemode : replacemode,
 		casesensitive : formObj.casesensitivebox.checked,
-		backwards : formObj.backwards[0].checked
+		backwards : false
 //			wrap : formObj.wrapatend.checked,
 //			wholeword : formObj.wholeword.checked
 		}, false);

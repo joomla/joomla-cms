@@ -2,27 +2,50 @@
  * Czech lang variables 
  * encoding: utf-8
  *  
- * $Id: cs.js,v 1.4 2005/10/18 13:59:42 spocke Exp $ 
+ * $Id: cs.js,v 1.5 2006/01/11 14:25:47 spocke Exp $ 
  */  
 
-tinyMCE.addToLang('',{
-insert_link_target_same : 'Otevřít ve stejném okně/rámu',
-insert_link_target_parent : 'Otevřít v rodičovském okně/rámu',
-insert_link_target_top : 'Otevřít v nejvyšším rámu (přepíše všechny rámy)',
-insert_link_target_blank : 'Otevřít v novém okně',
-insert_link_target_named : 'Otevřít v okně',
-insert_link_popup : 'JS-Popup',
-insert_link_popup_url : 'Popup URL',
-insert_link_popup_name : 'Název okna',
-insert_link_popup_return : 'Vložit \'return false\'',
-insert_link_popup_scrollbars : 'Ukázat posuvníky',
-insert_link_popup_statusbar : 'Ukázat stavový řádek',
-insert_link_popup_toolbar : 'Ukázat ovládací lištu',
-insert_link_popup_menubar : 'Ukázat menu',
-insert_link_popup_location : 'Ukázat lištu umístění',
-insert_link_popup_resizable : 'Proměnná velikost okna',
-insert_link_popup_size : 'Velikost',
-insert_link_popup_position : 'Umístění (X/Y)',
-insert_link_popup_missingtarget : 'Vložte název cíle nebo vyberte jinou volbu.'
+tinyMCE.addToLang('advlink',{
+general_tab : 'Obecné',
+popup_tab : 'Popup',
+events_tab : 'Události',
+advanced_tab : 'Pokročilé',
+general_props : 'Obecné vlastnosti',
+popup_props : 'Popup vlastnosti',
+event_props : 'Události',
+advanced_props : 'Advanced properties',
+popup_opts : 'Možnosti',
+anchor_names : 'Anchors',
+target_same : 'Otevřít v tomto okně / rámu',
+target_parent : 'Otevřít v rodičovském okně / rámu',
+target_top : 'Otevřít v hlavním rámci (nahradí všechny rámce)',
+target_blank : 'Otevřít v novém okně',
+popup : 'Javascript popup',
+popup_url : 'Popup URL',
+popup_name : 'Jméno okna',
+popup_return : 'Vložit \'return false\'',
+popup_scrollbars : 'Zobrazit posuvníky',
+popup_statusbar : 'Zobrazit stavový řádek',
+popup_toolbar : 'Zobrazit nástrojovou lištu',
+popup_menubar : 'Zobrazit menu',
+popup_location : 'Zobrazit pole s adresou',
+popup_resizable : 'Vytvořit okno, které jde zvětšovat/zmenšovat',
+popup_dependent : 'Závisí (jen pro Mozilla/Firefox)',
+popup_size : 'Velikost',
+popup_position : 'Pozice (X/Y)',
+id : 'Id',
+style: 'Styl',
+classes : 'Třídy',
+target_name : 'Jméno cíle',
+langdir : 'Jazykové nastavení',
+target_langcode : 'Cílový jazyk',
+langcode : 'Kód jazyka',
+encoding : 'Cílové kódování znaků',
+mime : 'Cílový MIME typ',
+rel : 'Vztah stránky k cíli',
+rev : 'Vztah cíle ke stránce',
+tabindex : 'Tabulátor',
+accesskey : 'Přístupové tlačítko',
+ltr : 'Z leva doprava',
+rtl : 'Z prava doleva'
 });
-

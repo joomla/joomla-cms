@@ -2,7 +2,7 @@
  * Czech lang variables 
  * encoding: utf-8
  *  
- * $Id: cs.js,v 1.1 2005/10/18 13:55:41 spocke Exp $ 
+ * $Id: cs.js,v 1.2 2006/01/11 14:25:47 spocke Exp $ 
  */  
 
 tinyMCE.addToLang('',{

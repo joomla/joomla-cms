@@ -420,7 +420,7 @@ function insertAction() {
 	// Create new anchor elements
 	if (elm == null) {
 		if (tinyMCE.isSafari)
-			tinyMCEPopup.execCommand("mceInsertContent", false, '<a href="#mce_temp_url#">' + inst.getSelectedHTML() + '</a>');
+			tinyMCEPopup.execCommand("mceInsertContent", false, '<a href="#mce_temp_url#">' + inst.selection.getSelectedHTML() + '</a>');
 		else
 			tinyMCEPopup.execCommand("createlink", false, "#mce_temp_url#");
 

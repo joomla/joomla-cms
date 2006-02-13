@@ -1,6 +1,6 @@
 /* This is the CSS file for the noneditable elements plugin */
 
-.mceItemEditable {
+.mceEditable {
 	/*border: 1px dotted #0000cc;*/
 	-moz-user-focus: none;
 	-moz-user-input: auto;
@@ -8,7 +8,7 @@
 	-moz-user-select: text;
 }
 
-.mceItemNonEditable {
+.mceNonEditable {
 	/*border: 1px dotted #cc0000;*/
 	-moz-user-focus: ignore;
 	/*-moz-user-input: disabled;*/

@@ -65,6 +65,6 @@ function insertLink() {
 		target = '';
 
 	tinyMCEPopup.restoreSelection();
-	tinyMCE.insertLink(href, target, title, dummy, style_class);
+	tinyMCE.themes['advanced']._insertLink(href, target, title, dummy, style_class);
 	tinyMCEPopup.close();
 }

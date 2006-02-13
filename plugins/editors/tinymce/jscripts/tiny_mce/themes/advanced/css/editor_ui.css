@@ -4,62 +4,11 @@
 	border: 0; margin: 0; padding: 0; background: transparent;
 }
 
-.mceButtonNormal, .mceButtonOver, .mceButtonDown, .mceSeparator, .mceSeparatorLine, .mceButtonDisabled, .mceButtonSelected {
-	border: 0; margin: 0; padding: 0; background: transparent;
-	margin-top: 1px;
-	margin-left: 1px;
-	padding: 0;
-}
-
-.mceButtonNormal {
-	border: 1px solid #F0F0EE !important;
-	cursor: default;
-}
-
-.mceButtonOver {
-	border: 1px solid #0A246A !important;
-	cursor: default;
-	background-color: #B6BDD2;
-}
-
-.mceButtonDown {
-	cursor: default;
-	border: 1px solid #0A246A !important;
-	background-color: #8592B5;
-}
-
-.mceButtonSelected {
-	border: 1px solid #C0C0BB !important;
-	cursor: default;
-}
-
-.mceButtonDisabled {
-	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=30);
-	-moz-opacity:0.3;
-	opacity: 0.3;
-	border: 1px solid #F0F0EE !important;
-	cursor: default;
-}
-
-.mceSeparator {
-	border-top: 1px solid buttonhighlight;
-	border-left: 1px solid buttonhighlight;
-	border-bottom: 1px solid buttonshadow;
-	border-right: 1px solid buttonshadow;
-	margin-right: 2px;
-	margin-left: 2px;
-}
-
 .mceSeparatorLine {
-	margin:2px;
+	border: 0;
+	padding: 0;
 	margin-left: 4px;
-	background-color: #F0F0EE;
-	border-top: 1px solid buttonshadow;
-	border-left: 1px solid buttonshadow;
-	border-bottom: 1px solid buttonhighlight;
-	border-right: 1px solid buttonhighlight;
-	width: 0;
-	height: 15px;
+	margin-right: 2px;
 }
 
 .mceSelectList {
@@ -70,7 +19,7 @@
 	padding: 0;
 	display: inline;
 	vertical-align: top;
-	background-color: #F0F0EE
+	background-color: #F0F0EE;
 }
 
 .mceLabel, .mceLabelDisabled {
@@ -109,6 +58,7 @@
 
 .mceToolbarTop {
 	border-bottom: 1px solid #cccccc;
+	padding-bottom: 1px;
 }
 
 .mceToolbarBottom {
@@ -170,4 +120,80 @@
 	border: 1px dotted gray;
 	margin: 0;
 	padding: 0;
+}
+
+/* Button CSS rules */
+
+a.mceButtonDisabled img, a.mceButtonNormal img, a.mceButtonSelected img {
+	width: 20px;
+	height: 20px;
+	cursor: default;
+	margin-top: 1px;
+	margin-left: 1px;
+}
+
+a.mceButtonDisabled img {
+	border: 0 !important;
+}
+
+a.mceButtonNormal img, a.mceButtonSelected img {
+	border: 1px solid #F0F0EE !important;
+}
+
+a.mceButtonSelected img {
+	border: 1px solid #C0C0BB !important;
+}
+
+a.mceButtonNormal img:hover, a.mceButtonSelected img:hover {
+	border: 1px solid #0A246A !important;
+	cursor: default;
+	background-color: #B6BDD2;
+}
+
+a.mceButtonDisabled img {
+	-moz-opacity:0.3;
+	opacity: 0.3;
+	border: 1px solid #F0F0EE !important;
+	cursor: default;
+}
+
+a.mceTiledButton img {
+	background-image: url('../images/buttons.gif');
+	background-repeat: no-repeat;
+}
+
+/* MSIE specific rules */
+
+* html a.mceButtonNormal img, * html a.mceButtonSelected img, * html a.mceButtonDisabled img {
+	border: 0px !important;
+	margin-top: 2px;
+	margin-bottom: 1px;
+}
+
+* html a.mceButtonDisabled img {
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=30);
+	border: 0px !important;
+}
+
+* html a.mceButtonDisabled {
+	border: 1px solid #F0F0EE !important;
+}
+
+* html a.mceButtonNormal, * html a.mceButtonSelected {
+	border: 1px solid #F0F0EE;
+	cursor: default;
+}
+
+* html a.mceButtonSelected {
+	border: 1px solid #C0C0BB;
+}
+
+* html a.mceButtonNormal:hover, * html a.mceButtonSelected:hover {
+	border: 1px solid #0A246A;
+	cursor: default;
+	background-color: #B6BDD2;
+}
+
+* html .mceSelectList {
+	margin-top: 2px;
 }

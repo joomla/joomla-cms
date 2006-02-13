@@ -1,6 +1,6 @@
 // NL lang variables
 
-tinyMCE.addToLang('',{
+tinyMCE.addToLang('advlink',{
 general_tab : 'Algemeen',
 popup_tab : 'Popup',
 events_tab : 'Gebeurtenissen',

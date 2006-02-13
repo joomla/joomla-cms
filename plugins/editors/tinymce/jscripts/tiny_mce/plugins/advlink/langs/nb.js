@@ -26,7 +26,7 @@ popup_menubar : 'Vis meny bar',
 popup_location : 'Vis location bar',
 popup_resizable : 'Gj&oslash;r vinduet skalerbart',
 popup_dependent : 'Avhengig vindu (Bare i Mozilla/Firefox)',
-popup_size : 'St&oring;rrelse',
+popup_size : 'St&oslash;rrelse',
 popup_position : 'Posisjon (X/Y)',
 id : 'Id',
 style: 'Stil',
@@ -44,3 +44,4 @@ accesskey : 'Accesskey',
 ltr : 'Venstre mot h&oslash;yre',
 rtl : 'H&oslash;yre mot venstre'
 });
+
