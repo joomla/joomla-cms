@@ -19,7 +19,7 @@
  			<option value="0">Off</option>
  			<option value="1">On</option>
  		</param>
- 		<param name="cleanup_startup" type="radio" default="1" label="Code Cleanup on startup" description="Code Cleanup on Startup" description="Cleans code on editor load">
+ 		<param name="cleanup_startup" type="radio" default="1" label="Code Cleanup on startup" description="Cleans code on editor load">
  			<option value="0">Off</option>
  			<option value="1">On</option>
  		</param>
