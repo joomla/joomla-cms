@@ -63,7 +63,7 @@ class JRequest
 	 * @since 1.1
 	 */
 
-	function getVar($name, $default = null, $hash = 'default', $type = 'string', $mask = 0)
+	function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
 	{
 		$hash = strtoupper($hash);
 		$type = strtoupper($type);
@@ -115,7 +115,7 @@ class JRequest
 		/*
 		 * Clean the variable given using the given filter mask
 		 */
-//		$result = JRequest :: cleanVar($result, $mask);
+		$result = JRequest :: cleanVar($result, $mask);
 
 		/*
 		 * Handle default case
@@ -150,8 +150,12 @@ class JRequest
 						$result = null;
 					}
 					break;
-				default :
+				case 'STRING' :
 					$result = (string) $result;
+					break;
+				case 'NONE' :
+				default :
+					// Do Nothing
 					break;
 			}
 		}

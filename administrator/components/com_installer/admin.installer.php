@@ -60,8 +60,8 @@ class JInstallerController {
 		/*
 		 * Get the uploaded file information
 		 */
-		$userfile = mosGetParam($_FILES, 'userfile', null);
-		$baseDir = JPath :: clean(JPATH_SITE.DS.'media');
+		$userfile 	= JRequest::getVar( 'userfile', '', 'files', 'array' );
+		$baseDir 	= JPath::clean(JPATH_SITE.DS.'media');
 
 		/*
 		 * Make sure that file uploads are enabled in php
@@ -84,9 +84,9 @@ class JInstallerController {
 		/*
 		 * If there is no uploaded file, we have a problem...
 		 */
-		if (!$userfile || $userfile['size'] < 1) {
-//			JError::raiseError('SOME_ERROR_CODE', JText :: _('No file selected')); // since this gives me an error.
-//			JInstallerScreens :: showInstallForm();
+		if (!is_array($userfile) || $userfile['size'] < 1) {
+			JError::raiseError('SOME_ERROR_CODE', JText :: _('No file selected'));
+			JInstallerScreens :: showInstallForm();
 			josRedirect("index2.php?option=com_installer", JText :: _('Please select a file'));
 			return false;
 		}
@@ -94,7 +94,7 @@ class JInstallerController {
 		/*
 		 * Move uploaded file
 		 */
-		$uploaded = JFile :: upload($userfile['tmp_name'], $baseDir.$userfile['name']);
+		$uploaded = JFile::upload($userfile['tmp_name'], $baseDir.$userfile['name']);
 
 		/*
 		 * Unpack the downloaded package file
