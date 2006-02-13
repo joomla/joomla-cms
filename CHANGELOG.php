@@ -37,7 +37,11 @@ Legend:
 - -> Removed
 ! -> Note
 
-11-Feb-2006
+13-Feb-2006 Louis Landry
+ # Fixed artf3481 : Changes in uri.php - Corrects MS problem in Installation
+ # Fixed artf3498 : Bugs in uri.php - HTTPS detection, URI handling is not correct on Microsoft IIS environment
+
+11-Feb-2006 Louis Landry
  # Fixed artf3478 : Error in SQL Script
  
 11-Feb-2006 David Gal

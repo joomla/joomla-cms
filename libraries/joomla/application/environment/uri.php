@@ -132,7 +132,7 @@ class JURI extends JObject
 				/*
 				 * Determine if the request was over SSL (HTTPS)
 				 */
-				if (!empty($_SERVER['HTTPS'])) {
+				if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off') {
 					$https = 's://';
 				} else {
 					$https = '://';
@@ -160,7 +160,7 @@ class JURI extends JObject
 					/*
 					 * IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
 					 */
-					$theURI = $_SERVER['SCRIPT_NAME'];
+					$theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
 
 					/*
 					 * If the query string exists append it to the URI string
