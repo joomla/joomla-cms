@@ -2,7 +2,7 @@ function init() {
 	var formObj = document.forms[0];
 	formObj.width.value  = tinyMCE.getWindowArg('width');
 	formObj.size.value   = tinyMCE.getWindowArg('size');
-	formObj.insert.value = tinyMCE.getLang('lang_' + tinyMCE.getWindowArg('mceDo'));
+	formObj.insert.value = tinyMCE.getLang('lang_' + tinyMCE.getWindowArg('mceDo'),'Insert',true);
 	if (tinyMCE.getWindowArg('noshade')) {
 		formObj.noshade.checked = true;
 	}

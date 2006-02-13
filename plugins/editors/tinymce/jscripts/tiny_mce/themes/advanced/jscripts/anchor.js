@@ -44,7 +44,7 @@ function insertAnchor() {
 		name = name.replace(/&/g, '&amp;');
 		name = name.replace(/\"/g, '&quot;');
 		name = name.replace(/</g, '&lt;');
-		name = name.replace(/>/g, '&gr;');
+		name = name.replace(/>/g, '&gt;');
 
 		html = '<a name="' + name + '"></a>';
 

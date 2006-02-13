@@ -170,7 +170,7 @@ charmap = [
 	['&yacute;',  '&#253;',  true, 'y - acute'],
 	['&thorn;',   '&#254;',  true, 'thorn'],
 	['&yuml;',    '&#255;',  true, 'y - diaeresis'],
-// ['&Alpha;',   '&#913;',  true, 'Alpha'],
+    ['&Alpha;',   '&#913;',  true, 'Alpha'],
 	['&Beta;',    '&#914;',  true, 'Beta'],
 	['&Gamma;',   '&#915;',  true, 'Gamma'],
 	['&Delta;',   '&#916;',  true, 'Delta'],
@@ -299,11 +299,13 @@ function renderCharMapHTML() {
 }
 
 function insertChar(chr) {
-	tinyMCEPopup.execCommand('mceInsertContent', false, '\&#' + chr + ';');
+	tinyMCEPopup.execCommand('mceInsertContent', false, '&#' + chr + ';');
 
 	// Refocus in window
 	if (tinyMCEPopup.isWindow)
 		window.focus();
+
+	tinyMCEPopup.close();
 }
 
 function previewChar(codeA, codeB, codeN) {

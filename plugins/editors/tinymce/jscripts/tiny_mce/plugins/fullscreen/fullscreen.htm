@@ -54,7 +54,8 @@
 			document.title = divElm.innerHTML;
 
 			// Get content
-			inst.getBody().innerHTML = backInst.getBody().innerHTML;
+			tinyMCE.triggerSave(false, false);
+			inst.execCommand('mceSetContent', false, backInst.formElement.value);
 		}
 
 		function unloadHandler(e) {
@@ -67,7 +68,7 @@
 	</script>
 	<base target="_self" />
 </head>
-<body style="margin: 0px; overflow: hidden; height: 100%" scrolling="no" scroll="no">
+<body style="margin: 0; overflow: hidden; height: 100%" scrolling="no" scroll="no">
 <textarea id="fullscreenarea" style="width: 100%; height: 100%"></textarea>
 </body>
 </html>

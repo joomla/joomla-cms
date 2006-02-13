@@ -2,8 +2,8 @@
 
 .mceWindow {
 	position: absolute;
-	left: 0px;
-	top: 0px;
+	left: 0;
+	top: 0;
 	border: 1px solid black;
 	background-color: #D4D0C8;
 }

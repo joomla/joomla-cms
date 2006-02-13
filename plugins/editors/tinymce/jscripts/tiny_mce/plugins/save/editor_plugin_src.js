@@ -1,5 +1,5 @@
 /* Import plugin specific language pack */
-tinyMCE.importPluginLanguagePack('save', 'en,sv,zh_cn,cs,fa,fr_ca,fr,de,pl,pt_br,nl,he,nb,hu,ru,ru_KOI8-R,ru_UTF-8,nn,fi,da,es,cy,is,zh_tw,zh_tw_utf8,sk');
+tinyMCE.importPluginLanguagePack('save', 'en,tr,sv,zh_cn,cs,fa,fr_ca,fr,de,pl,pt_br,nl,he,nb,hu,ru,ru_KOI8-R,ru_UTF-8,nn,fi,da,es,cy,is,zh_tw,zh_tw_utf8,sk');
 
 function TinyMCE_save_getInfo() {
 	return {
@@ -31,10 +31,30 @@ function TinyMCE_save_execCommand(editor_id, element, command, user_interface, v
 	// Handle commands
 	switch (command) {
 		case "mceSave":
-			var formObj = tinyMCE.selectedInstance.formElement.form;
+			var inst = tinyMCE.selectedInstance;
+			var formObj = inst.formElement.form;
+
+			if (tinyMCE.getParam("save_enablewhendirty") && !inst.isDirty())
+				return true;
 
 			if (formObj) {
 				tinyMCE.triggerSave();
+
+				// Use callback instead
+				var os;
+				if ((os = tinyMCE.getParam("save_onsavecallback"))) {
+					if (eval(os + '(inst);')) {
+						inst.startContent = tinyMCE.trim(inst.getBody().innerHTML);
+						/*inst.undoLevels = new Array();
+						inst.undoIndex = 0;
+						inst.typingUndoIndex = -1;
+						inst.undoRedo = true;
+						inst.undoLevels[inst.undoLevels.length] = inst.startContent;*/
+						tinyMCE.triggerNodeChange(false, true);
+					}
+
+					return true;
+				}
 
 				// Disable all UI form elements that TinyMCE created
 				for (var i=0; i<formObj.elements.length; i++) {
@@ -47,7 +67,7 @@ function TinyMCE_save_execCommand(editor_id, element, command, user_interface, v
 				tinyMCE.isNotDirty = true;
 
 				if (formObj.onsubmit == null || formObj.onsubmit() != false)
-					tinyMCE.selectedInstance.formElement.form.submit();
+					inst.formElement.form.submit();
 			} else
 				alert("Error: No form element found.");
 
@@ -55,4 +75,17 @@ function TinyMCE_save_execCommand(editor_id, element, command, user_interface, v
 	}
 	// Pass to next handler in chain
 	return false;
+};
+
+function TinyMCE_save_handleNodeChange(editor_id, node, undo_index, undo_levels, visual_aid, any_selection) {
+	if (tinyMCE.getParam("save_enablewhendirty")) {
+		var inst = tinyMCE.getInstanceById(editor_id);
+
+		tinyMCE.switchClassSticky(editor_id + '_save', 'mceButtonDisabled', true);
+
+		if (inst.isDirty())
+			tinyMCE.switchClassSticky(editor_id + '_save', 'mceButtonNormal', false);
+	}
+
+	return true;
 }

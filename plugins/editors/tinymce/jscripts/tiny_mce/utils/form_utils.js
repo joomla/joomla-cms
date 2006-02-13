@@ -1,7 +1,7 @@
 /**
  * $RCSfile: form_utils.js,v $
- * $Revision: 1.5 $
- * $Date: 2005/10/25 16:01:51 $
+ * $Revision: 1.7 $
+ * $Date: 2006/01/13 21:17:50 $
  *
  * Various form utilitiy functions.
  *
@@ -74,7 +74,7 @@ function openBrower(img_id, target_form_element, type, option) {
 		tinyMCEPopup.openBrowser(target_form_element, type, option);
 }
 
-function selectByValue(form_obj, field_name, value, add_custom) {
+function selectByValue(form_obj, field_name, value, add_custom, ignore_case) {
 	if (!form_obj || !form_obj.elements[field_name])
 		return;
 
@@ -84,7 +84,7 @@ function selectByValue(form_obj, field_name, value, add_custom) {
 	for (var i=0; i<sel.options.length; i++) {
 		var option = sel.options[i];
 
-		if (option.value == value) {
+		if (option.value == value || (ignore_case && option.value.toLowerCase() == value.toLowerCase())) {
 			option.selected = true;
 			found = true;
 		} else
@@ -107,6 +107,12 @@ function getSelectValue(form_obj, field_name) {
 		return "";
 
 	return elm.options[elm.selectedIndex].value;
+}
+
+function addSelectValue(form_obj, field_name, name, value) {
+	var s = form_obj.elements[field_name];
+	var o = new Option(name, value);
+	s.options[s.options.length] = o;
 }
 
 function addClassesToList(list_id, specific_option) {

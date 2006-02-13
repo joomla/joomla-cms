@@ -1,36 +1,36 @@
 /* This file contains the CSS data for the editor UI of TinyMCE instances */
 
 .mceToolbarTop a, .mceToolbarTop a:visited, .mceToolbarTop a:hover, .mceToolbarBottom a, .mceToolbarBottom a:visited, .mceToolbarBottom a:hover {
-	border: 0px; margin: 0px; padding: 0px; background: transparent;
+	border: 0; margin: 0; padding: 0; background: transparent;
 }
 
 .mceButtonNormal, .mceButtonOver, .mceButtonDown, .mceSeparator, .mceSeparatorLine, .mceButtonDisabled, .mceButtonSelected {
-	border: 0px; margin: 0px; padding: 0px; background: transparent;
+	border: 0; margin: 0; padding: 0; background: transparent;
 	margin-top: 1px;
 	margin-left: 1px;
-	padding: 0px;
+	padding: 0;
 }
 
 .mceButtonNormal {
 	border: 1px solid #F0F0EE !important;
-	cursor: arrow;
+	cursor: default;
 }
 
 .mceButtonOver {
 	border: 1px solid #0A246A !important;
-	cursor: arrow;
+	cursor: default;
 	background-color: #B6BDD2;
 }
 
 .mceButtonDown {
-	cursor: arrow;
+	cursor: default;
 	border: 1px solid #0A246A !important;
 	background-color: #8592B5;
 }
 
 .mceButtonSelected {
 	border: 1px solid #C0C0BB !important;
-	cursor: arrow;
+	cursor: default;
 }
 
 .mceButtonDisabled {
@@ -38,7 +38,7 @@
 	-moz-opacity:0.3;
 	opacity: 0.3;
 	border: 1px solid #F0F0EE !important;
-	cursor: arrow;
+	cursor: default;
 }
 
 .mceSeparator {
@@ -58,7 +58,7 @@
 	border-left: 1px solid buttonshadow;
 	border-bottom: 1px solid buttonhighlight;
 	border-right: 1px solid buttonhighlight;
-	width: 0px;
+	width: 0;
 	height: 15px;
 }
 
@@ -67,7 +67,7 @@
 	font-size: 7pt !important;
 	font-weight: normal;
 	margin-top: 3px;
-	padding: 0px;
+	padding: 0;
 	display: inline;
 	vertical-align: top;
 	background-color: #F0F0EE
@@ -90,15 +90,15 @@
 .mceEditor {
 	background: #F0F0EE;
 	border: 1px solid #cccccc;
-	padding: 0px;
-	margin: 0px;
+	padding: 0;
+	margin: 0;
 }
 
 .mceEditorArea {
 	font-family: 'MS Sans Serif', sans-serif, Verdana, Arial;
 	background: #FFFFFF;
-	padding: 0px;
-	margin: 0px;
+	padding: 0;
+	margin: 0;
 }
 
 .mceToolbarTop, .mceToolbarBottom {
@@ -168,6 +168,6 @@
 	height: 10px;
 	display: none;
 	border: 1px dotted gray;
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 }

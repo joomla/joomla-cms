@@ -1,5 +1,5 @@
 /* Import plugin specific language pack */
-tinyMCE.importPluginLanguagePack('preview', 'cs,de,el,en,fr_ca,it,ko,pt,sv,zh_cn,fa,fr,pl,pt_br,nl,da,he,nb,hu,ru,ru_KOI8-R,ru_UTF-8,nn,es,cy,is,zh_tw,zh_tw_utf8,sk');
+tinyMCE.importPluginLanguagePack('preview', 'en,tr,cs,de,el,fr_ca,it,ko,pt,sv,zh_cn,fa,fr,pl,pt_br,nl,da,he,nb,hu,ru,ru_KOI8-R,ru_UTF-8,nn,es,cy,is,zh_tw,zh_tw_utf8,sk');
 
 function TinyMCE_preview_getInfo() {
 	return {
@@ -52,9 +52,9 @@ function TinyMCE_preview_execCommand(editor_id, element, command, user_interface
 				html += '<html xmlns="http://www.w3.org/1999/xhtml">';
 				html += '<head>';
 				html += '<title>' + tinyMCE.getLang('lang_preview_desc') + '</title>';
-				html += '<base href="' + tinyMCE.getParam("document_base_url") + '">';
-				html += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
-				html += '<link href="' + tinyMCE.getParam("content_css") + '" rel="stylesheet" type="text/css">';
+				html += '<base href="' + tinyMCE.getParam("document_base_url") + '" />';
+				html += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+				html += '<link href="' + tinyMCE.getParam("content_css") + '" rel="stylesheet" type="text/css" />';
 				html += '</head>';
 				html += '<body>';
 				html += tinyMCE.getContent();

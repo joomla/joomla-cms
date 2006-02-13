@@ -1,5 +1,5 @@
 /* Import plugin specific language pack */
-tinyMCE.importPluginLanguagePack('advhr', 'en,de,sv,zh_cn,cs,fa,fr_ca,fr,pl,pt_br,nl,da,he,nb,hu,ru,ru_KOI8-R,ru_UTF-8,nn,fi,es,cy,is,zh_tw,zh_tw_utf8,sk');
+tinyMCE.importPluginLanguagePack('advhr', 'en,tr,de,sv,zh_cn,cs,fa,fr_ca,fr,pl,pt_br,nl,da,he,nb,hu,ru,ru_KOI8-R,ru_UTF-8,nn,fi,es,cy,is,zh_tw,zh_tw_utf8,sk');
 
 function TinyMCE_advhr_getInfo() {
 	return {
@@ -31,8 +31,8 @@ function TinyMCE_advhr_execCommand(editor_id, element, command, user_interface, 
             var template = new Array();
 
             template['file']   = '../../plugins/advhr/rule.htm'; // Relative to theme
-            template['width']  = 270;
-            template['height'] = 180;
+            template['width']  = 250;
+            template['height'] = 160;
 
 			template['width']  += tinyMCE.getLang('lang_advhr_delta_width', 0);
 			template['height'] += tinyMCE.getLang('lang_advhr_delta_height', 0);

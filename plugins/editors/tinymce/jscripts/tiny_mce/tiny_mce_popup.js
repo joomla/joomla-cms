@@ -1,7 +1,7 @@
 /**
  * $RCSfile: tiny_mce_popup.js,v $
- * $Revision: 1.21 $
- * $Date: 2005/11/27 18:11:16 $
+ * $Revision: 1.22 $
+ * $Date: 2006/01/11 14:34:56 $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004, Moxiecode Systems AB, All rights reserved.
@@ -117,13 +117,13 @@ TinyMCEPopup.prototype.resizeToInnerSize = function() {
 
 		// Remove margin
 		oldMargin = body.style.margin;
-		body.style.margin = '0px';
+		body.style.margin = '0';
 
 		// Create wrapper
 		wrapper = doc.createElement("div");
 		wrapper.id = 'mcBodyWrapper';
 		wrapper.style.display = 'none';
-		wrapper.style.margin = '0px';
+		wrapper.style.margin = '0';
 
 		// Wrap body elements
 		nodes = doc.body.childNodes;
@@ -145,7 +145,7 @@ TinyMCEPopup.prototype.resizeToInnerSize = function() {
 		iframe.src = document.location.href.toLowerCase().indexOf('https') == -1 ? "about:blank" : tinyMCE.settings['default_document'];
 		iframe.width = "100%";
 		iframe.height = "100%";
-		iframe.style.margin = '0px';
+		iframe.style.margin = '0';
 
 		// Add iframe
 		doc.body.appendChild(iframe);

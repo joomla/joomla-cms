@@ -69,7 +69,7 @@ function TinyMCE_advanced_getControlHTML(button_name)
 					if (buttonTileMap[x] == but[1])
 					{
 						var cmd = 'tinyMCE.execInstanceCommand(\'{$editor_id}\',\'' + but[3] + '\',' + (but.length > 4 ? but[4] : false) + (but.length > 5 ? ',\'' + but[5] + '\'' : '') + ')';
-						return '<a href="javascript:' + cmd + '" onclick="' + cmd + ';return false;" onmousedown="return false;" target="_self"><img id="{$editor_id}_' + but[0] +'" src="{$themeurl}/images/spacer.gif" style="background-image:url({$themeurl}/images/buttons.gif); background-position: ' + (0-(x*20)) + 'px 0px" title="' + but[2] + '" width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" /></a>';
+						return '<a href="javascript:' + cmd + '" onclick="' + cmd + ';return false;" onmousedown="return false;" target="_self"><img id="{$editor_id}_' + but[0] +'" src="{$themeurl}/images/spacer.gif" style="background-image:url({$themeurl}/images/buttons.gif); background-position: ' + ((0-(x*20)) == 0 ? '0' : ((0-(x*20)) + 'px')) + ' 0" title="' + but[2] + '" width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" /></a>';
 					}
 				}
 			}
@@ -228,7 +228,9 @@ function TinyMCE_advanced_execCommand(editor_id, element, command, user_interfac
 				var savedVal = tinyMCE.lastColorPickerValue;
 				var elm = savedVal['document'].getElementById(savedVal['element_id']);
 				elm.value = value;
-				eval('elm.onchange();');
+
+				if (elm.onchange != null && elm.onchange != '')
+					eval('elm.onchange();');
 			}
 		return true;
 
@@ -311,10 +313,8 @@ function TinyMCE_advanced_getEditorTemplate(settings, editorId)
 		return outArray;
 	}
 
-	function addToArray(in_array, add_array)
-	{
-		for (var i=0; i<add_array.length; i++)
-		{
+	function addToArray(in_array, add_array) {
+		for (var i=0; i<add_array.length; i++) {
 			in_array[in_array.length] = add_array[i];
 		}
 
@@ -323,7 +323,6 @@ function TinyMCE_advanced_getEditorTemplate(settings, editorId)
 
 	var template = new Array();
 	var deltaHeight = 0;
-
 	var resizing = tinyMCE.getParam("theme_advanced_resizing", false);
 	var path = tinyMCE.getParam("theme_advanced_path", true);
 	var statusbarHTML = '<div id="{$editor_id}_path" class="mceStatusbarPathText" style="display: ' + (path ? "block" : "none") + '">&nbsp;</div><div id="{$editor_id}_resize" class="mceStatusbarResize" style="display: ' + (resizing ? "block" : "none") + '" onmousedown="TinyMCE_advanced_setResizing(event,\'{$editor_id}\',true);"></div><br style="clear: both" />';
@@ -360,7 +359,12 @@ function TinyMCE_advanced_getEditorTemplate(settings, editorId)
 			};
 
 			// Add accessibility control
-			toolbarHTML += '<a href="#" accesskey="q" title="' + tinyMCE.getLang("lang_toolbar_focus") + '"></a>';
+			toolbarHTML += '<a href="#" accesskey="q" title="' + tinyMCE.getLang("lang_toolbar_focus") + '"';
+
+			if (!tinyMCE.getParam("accessibility_focus"))
+				toolbarHTML += ' onfocus="tinyMCE.getInstanceById(\'' + editorId + '\').getWin().focus();"';
+
+			toolbarHTML += '></a>';
 
 			// Render rows
 			for (var i=1; i<100; i++) {
@@ -746,13 +750,12 @@ function TinyMCE_advanced_resizeEventHandler(e) {
 /**
  * Insert link template function.
  */
-function TinyMCE_advanced_getInsertLinkTemplate()
-{
+function TinyMCE_advanced_getInsertLinkTemplate() {
 	var template = new Array();
 
 	template['file'] = 'link.htm';
-	template['width'] = 330;
-	template['height'] = 170 + (tinyMCE.isMSIE ? 25 : 0);
+	template['width'] = 310;
+	template['height'] = 200;
 
 	// Language specific width and height addons
 	template['width'] += tinyMCE.getLang('lang_insert_link_delta_width', 0);
@@ -768,8 +771,8 @@ function TinyMCE_advanced_getInsertImageTemplate() {
 	var template = new Array();
 
 	template['file'] = 'image.htm?src={$src}';
-	template['width'] = 340;
-	template['height'] = 250 + (tinyMCE.isMSIE ? 25 : 0);
+	template['width'] = 355;
+	template['height'] = 265 + (tinyMCE.isMSIE ? 25 : 0);
 
 	// Language specific width and height addons
 	template['width'] += tinyMCE.getLang('lang_insert_image_delta_width', 0);

@@ -17,7 +17,7 @@
 }
 
 .checkbox {
-	border: 0px;
+	border: 0;
 }
 
 .panel_wrapper div.current {
@@ -25,11 +25,11 @@
 }
 
 #prev {
-	margin:0px;
+	margin: 0;
 	border: 1px
 	solid black;
 	width: 99%;
-	height:150px;
+	height: 150px;
 	overflow: auto;
 }
 

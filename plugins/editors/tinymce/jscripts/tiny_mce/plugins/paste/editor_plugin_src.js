@@ -1,5 +1,5 @@
 /* Import plugin specific language pack */ 
-tinyMCE.importPluginLanguagePack('paste', 'en,sv,cs,zh_cn,fr_ca,da,he,nb,de,hu,ru,ru_KOI8-R,ru_UTF-8,nn,fi,es,cy,is,pl,nl,fr,pt_br');
+tinyMCE.importPluginLanguagePack('paste', 'en,tr,sv,cs,zh_cn,fr_ca,da,he,nb,de,hu,ru,ru_KOI8-R,ru_UTF-8,nn,fi,es,cy,is,pl,nl,fr,pt_br');
 
 function TinyMCE_paste_getInfo() {
 	return {
@@ -162,6 +162,10 @@ function TinyMCE_paste__insertWordContent(content) {
 		// Cleanup Word content
 		var bull = String.fromCharCode(8226);
 		var middot = String.fromCharCode(183);
+		var cb;
+
+		if ((cb = tinyMCE.getParam("paste_insert_word_content_callback", "")) != "")
+			content = eval(cb + "('before', content)");
 
 		var rl = tinyMCE.getParam("paste_replace_list", '\u2122,<sup>TM</sup>,\u2026,...,\u201c|\u201d,",\u2019,\',\u2013|\u2014|\u2015|\u2212,-').split(',');
 		for (var i=0; i<rl.length; i+=2)
@@ -238,6 +242,9 @@ function TinyMCE_paste__insertWordContent(content) {
 		}
 
 		content = content.replace(/--list--/gi, ""); // Remove --list--
+
+		if ((cb = tinyMCE.getParam("paste_insert_word_content_callback", "")) != "")
+			content = eval(cb + "('after', content)");
 
 		// Insert cleaned content
 		tinyMCE.execCommand("mceInsertContent", false, content);

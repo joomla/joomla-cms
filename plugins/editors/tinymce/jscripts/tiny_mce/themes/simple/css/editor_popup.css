@@ -32,7 +32,7 @@ input, select, textarea {
 }
 
 .input_noborder {
-	border: 0px solid #808080;
+	border: 0;
 }
 
 .title {

@@ -1,5 +1,5 @@
 /* Import plugin specific language pack */
-//tinyMCE.importPluginLanguagePack('contextmenu', 'en,zh_cn,cs,fa,fr_ca,fr,de,nb');
+//tinyMCE.importPluginLanguagePack('contextmenu', 'en,tr,zh_cn,cs,fa,fr_ca,fr,de,nb');
 if (!tinyMCE.settings['contextmenu_skip_plugin_css'])
 	tinyMCE.loadCSS(tinyMCE.baseURL + "/plugins/contextmenu/css/contextmenu.css");
 
@@ -91,18 +91,29 @@ function TinyMCE_contextmenu_showContextMenu(e, inst) {
 		contextMenu.addItem(tinyMCE.baseURL + "/themes/" + theme + "/images/copy.gif", "$lang_copy_desc", "Copy", "", !sel);
 		contextMenu.addItem(tinyMCE.baseURL + "/themes/" + theme + "/images/paste.gif", "$lang_paste_desc", "Paste", "", false);
 
+		if (sel || (elm ? (elm.nodeName == 'A') || (elm.nodeName == 'IMG') : false)) {
+			contextMenu.addSeparator();
+			contextMenu.addItem(tinyMCE.baseURL + "/themes/advanced/images/link.gif", "$lang_link_desc", typeof(TinyMCE_advlink_getControlHTML) != "undefined" ? "mceAdvLink" : "mceLink");
+			contextMenu.addItem(tinyMCE.baseURL + "/themes/advanced/images/unlink.gif", "$lang_unlink_desc", "unlink", "", (elm ? (elm.nodeName != 'A') && (elm.nodeName != 'IMG') : true));
+		}
+
 		// Get element
-		elm = tinyMCE.getParentElement(elm, "img,table,td");
+		elm = tinyMCE.getParentElement(elm, "img,table,td" + ((typeof(TinyMCE_advhr_getControlHTML) != "undefined") ? ',hr' : ''));
 		if (elm) {
 			switch (elm.nodeName) {
 				case "IMG":
 					contextMenu.addSeparator();
 
 					// If flash
-					if (tinyMCE.getAttrib(elm, 'class').indexOf('mceItemFlash') == 0)
+					if (tinyMCE.getAttrib(elm, 'class').indexOf('mceItemFlash') != -1)
 						contextMenu.addItem(tinyMCE.baseURL + "/plugins/flash/images/flash.gif", "$lang_flash_props", "mceFlash");
 					else
 						contextMenu.addItem(tinyMCE.baseURL + "/themes/" + theme + "/images/image.gif", "$lang_image_props_desc", typeof(TinyMCE_advimage_getControlHTML) != "undefined" ? "mceAdvImage" : "mceImage");
+					break;
+
+				case "HR":
+					contextMenu.addSeparator();
+					contextMenu.addItem(tinyMCE.baseURL + "/plugins/advhr/images/advhr.gif", "$lang_insert_advhr_desc", "mceAdvancedHr");
 					break;
 
 				case "TABLE":
@@ -176,7 +187,13 @@ function TinyMCE_contextmenu_commandHandler(command, value) {
 	if (command == "Paste")
 		value = null;
 
-	TinyMCE_contextmenu_contextMenu.inst.execCommand(command, ui, value);
+	if (tinyMCE.getParam("dialog_type") == "modal" && tinyMCE.isMSIE) {
+		// Cell properties will generate access denied error is this isn't done?!
+		window.setTimeout(function() {
+			TinyMCE_contextmenu_contextMenu.inst.execCommand(command, ui, value);
+		}, 100);
+	} else
+		TinyMCE_contextmenu_contextMenu.inst.execCommand(command, ui, value);
 }
 
 // Context menu class
@@ -198,8 +215,8 @@ function ContextMenu(settings) {
 	this.contextMenuDiv.style.display = "none";
 	this.contextMenuDiv.style.position = 'absolute';
 	this.contextMenuDiv.style.zindex = 1000;
-	this.contextMenuDiv.style.left = '0px';
-	this.contextMenuDiv.style.top = '0px';
+	this.contextMenuDiv.style.left = '0';
+	this.contextMenuDiv.style.top = '0';
 	this.contextMenuDiv.unselectable = "on";
 
 	document.body.appendChild(this.contextMenuDiv);

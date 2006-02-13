@@ -146,7 +146,8 @@ function parseWindowOpen(onclick) {
 	if (onclick.indexOf('return false;') != -1) {
 		formObj.popupreturn.checked = true;
 		onclick = onclick.replace('return false;', '');
-	}
+	} else
+		formObj.popupreturn.checked = false;
 
 	var onClickData = parseLink(onclick);
 
@@ -355,6 +356,9 @@ function buildOnClick() {
 	// tinyMCE.debug(onclick);
 
 	formObj.onclick.value = onclick;
+
+	if (formObj.href.value == "")
+		formObj.href.value = url;
 }
 
 function setAttrib(elm, attrib, value) {
@@ -460,7 +464,7 @@ function setAllAttribs(elm) {
 	var target = getSelectValue(formObj, 'targetlist');
 
 	// Make anchors absolute
-	if (href.charAt(0) == '#')
+	if (href.charAt(0) == '#' && tinyMCE.getParam('convert_urls'))
 		href = tinyMCE.settings['document_base_url'] + href;
 
 	setAttrib(elm, 'href', convertURL(href, elm));

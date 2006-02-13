@@ -12,6 +12,10 @@ function init() {
 
 	document.getElementById('hrefbrowsercontainer').innerHTML = getBrowserHTML('hrefbrowser','href','file','theme_advanced_link');
 
+	// Handle file browser
+	if (isVisible('hrefbrowser'))
+		document.getElementById('href').style.width = '180px';
+
 	var formObj = document.forms[0];
 
 	for (var i=0; i<document.forms[0].target.options.length; i++) {
@@ -30,13 +34,10 @@ function init() {
 
 	// Hide css select row if no CSS classes
 	if (formObj.styleSelect && formObj.styleSelect.options.length <= 1) {
-		document.getElementById('styleSelectRow').style.display = 'none';
-		window.resizeBy(0, -20);
+		var sr = document.getElementById('styleSelectRow');
+		sr.style.display = 'none';
+		sr.parentNode.removeChild(sr);
 	}
-
-	// Handle file browser
-	if (isVisible('hrefbrowser'))
-		document.getElementById('href').style.width = '180px';
 
 	// Auto select link in list
 	if (typeof(tinyMCELinkList) != "undefined" && tinyMCELinkList.length > 0) {
@@ -53,7 +54,7 @@ function insertLink() {
 	var href = document.forms[0].href.value;
 	var target = document.forms[0].target.options[document.forms[0].target.selectedIndex].value;
 	var title = document.forms[0].linktitle.value;
-	var style_class = document.forms[0].styleSelect.value;
+	var style_class = document.forms[0].styleSelect ? document.forms[0].styleSelect.value : "";
 	var dummy;
 
 	// Make anchors absolute

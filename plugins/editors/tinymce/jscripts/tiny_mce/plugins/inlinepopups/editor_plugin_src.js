@@ -1,7 +1,7 @@
 /**
  * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.4 $
- * $Date: 2005/11/27 18:06:45 $
+ * $Revision: 1.5 $
+ * $Date: 2006/01/11 14:25:49 $
  *
  * Moxiecode DHTML Windows script.
  *
@@ -323,8 +323,8 @@ MCWindows.prototype.setDocumentLock = function(state) {
 
 			elm.id = "mcWindowEventBlocker";
 			elm.style.position = "absolute";
-			elm.style.left = "0px";
-			elm.style.top = "0px";
+			elm.style.left = "0";
+			elm.style.top = "0";
 
 			document.body.appendChild(elm);
 		}

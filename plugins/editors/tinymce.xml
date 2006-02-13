@@ -19,6 +19,14 @@
  			<option value="0">Off</option>
  			<option value="1">On</option>
  		</param>
+ 		<param name="cleanup_startup" type="radio" default="1" label="Code Cleanup on startup" description="Code Cleanup on Startup" description="Cleans code on editor load">
+ 			<option value="0">Off</option>
+ 			<option value="1">On</option>
+ 		</param>
+ 		<param name="autosave" type="radio" default="0" label="Save Warning" description=="Save warning - gives warning if you cancel without saving changes">
+ 			<option value="0">Off</option>
+ 			<option value="1">On</option>
+ 		</param>
  		<param name="compressed" type="radio" default="0" label="Compressed Version" description="PARAMCOMPRESSEDVERSION">
  			<option value="0">Off</option>
  			<option value="1">On</option>
