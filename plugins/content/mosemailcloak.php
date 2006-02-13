@@ -72,6 +72,7 @@ function botMosEmailCloak( &$row, &$params, $page=0 ) {
 		$mail = $regs[0];
 
 		$replacement = mosHTML::emailCloaking( $mail, $mode );
+		
 
 		// replace the found address with the js cloacked email
 		$row->text = str_replace( $regs[0], $replacement, $row->text );
