@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<install version="1.1" type="plugin" group="editors">
+    <name>XStandard Lite for Joomla!</name>
+    <version>1.0 alpha</version>
+    <creationDate>Feb 2006</creationDate>
+    <author>Johan Janssens</author>
+    <authorEmail>johan@joomla.be</authorEmail>
+    <authorUrl>http://www.joomla.be</authorUrl>
+    <copyright>(C) 2006 Johan Janssens</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <description>XStandard is the leading standards-compliant plug-in WYSIWYG editor for Windows desktop applications and browser-based content management systems (IE/Mozilla/Firefox/Netscape).</description>
+    <files>
+    	 <filename>xstandard_lite/xstandard.js</filename>
+    	 <filename plugin="xstandard">xstandard.php</filename>
+    </files>
+    <parameters>
+    </parameters>
+</install>

@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Feb-2006 Johan Janssens
+ + Added XStandard Lite 1.7 plugin
+
 13-Feb-2006 Louis Landry
  # Fixed artf3481 : Changes in uri.php - Corrects MS problem in Installation
  # Fixed artf3498 : Bugs in uri.php - HTTPS detection, URI handling is not correct on Microsoft IIS environment
