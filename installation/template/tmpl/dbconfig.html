@@ -37,6 +37,7 @@ function validateForm( frm, task ) {
 	var DBtype = getElementByName( frm, 'vars[DBtype]' );
 	var DBhostname = getElementByName( frm, 'vars[DBhostname]' );
 	var DBname = getElementByName( frm, 'vars[DBname]' );
+	var DBPrefix = getElementByName( frm, 'vars[DBPrefix]' );
 
 	if ( DBtype.selectedIndex == 0 ) {
 		alert( '<jtmpl:translate key="validType" escape="yes">Please select the database type</jtmpl:translate>' );
@@ -49,6 +50,9 @@ function validateForm( frm, task ) {
 		return;
 	} else if (DBname.value == '') {
 		alert( '<jtmpl:translate key="validName" escape="yes">Please enter a database name</jtmpl:translate>' );
+		return;
+	} else if (DBPrefix.value == '') {
+		alert('<jtmpl:translate key="validPrefix" escape="yes">You must enter a MySQL Table Prefix for Joomla to operate correctly</jtmpl:translate>');
 		return;
 	} else {
 		submitForm( frm, task );
