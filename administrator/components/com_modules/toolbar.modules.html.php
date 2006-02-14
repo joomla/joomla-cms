@@ -46,10 +46,6 @@ class TOOLBAR_modules {
 			JMenuBar::Preview('index3.php?option=com_modules&client='.$client.'&pollid='.$id);
 			JMenuBar::spacer();
 		}
-		if ($id) {
-			JMenuBar::trash('remove', 'Delete', false);
-			JMenuBar::spacer();
-		}
 		JMenuBar::save();
 		JMenuBar::spacer();
 		JMenuBar::apply();

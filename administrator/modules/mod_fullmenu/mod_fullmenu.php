@@ -154,10 +154,10 @@ class JFullAdminMenu {
 			if ($enableSearches ) {
 				?>
 					['<img src="../includes/js/ThemeOffice/search_text.png" />', '<?php echo JText::_( 'Search Text', true ); ?>', 'index2.php?option=com_statistics&task=searches', null, '<?php echo JText::_( 'Search Text', true ); ?>']
-				],
 				<?php
 			}
 			?>
+			],
 			<?php
 		}
 		?>

@@ -30,10 +30,6 @@ class TOOLBAR_users {
 
 		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'User' ) .': <small><small>[ '. $text.' ]</small></small>', 'user.png' );
-		if ($id) {
-			JMenuBar::trash('remove', 'Delete', false);
-			JMenuBar::spacer();
-		}
 		JMenuBar::save();
 		JMenuBar::spacer();
 		JMenuBar::apply();
