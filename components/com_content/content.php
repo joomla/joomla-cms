@@ -295,9 +295,9 @@ class JContentController
 		}
 
 		// Handle the access permissions
-		$access = null;
+		$access_check = null;
 		if ($noauth) {
-			$access = "\n AND a.access <= $gid";
+			$access_check = "\n AND a.access <= $gid";
 		}
 
 		// Query of categories within section
@@ -307,7 +307,7 @@ class JContentController
 				. $xwhere2 
 				. "\n WHERE a.section = '$section->id'"
 				. $xwhere
-				. $access 
+				. $access_check 
 				. "\n GROUP BY a.id".$empty.$empty_sec 
 				. "\n ORDER BY $orderby"
 				;
