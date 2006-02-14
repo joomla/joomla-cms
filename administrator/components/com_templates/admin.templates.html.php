@@ -36,12 +36,12 @@ class JTemplatesView {
 		?>
 		<script language="javascript" type="text/javascript">
 		<!--
-		function showInfo(name) {
+		function showInfo(name, dir) {
 			var pattern = /\b \b/ig;
 			name = name.replace(pattern,'_');
 			name = name.toLowerCase();
 			if (document.adminForm.doPreview.checked) {
-				var src = '<?php echo  ($client == 'administration' ? $mainframe->getSiteURL().'/administrator' : $mainframe->getSiteURL() );?>/templates/'+name+'/template_thumbnail.png';
+				var src = '<?php echo  ($client == 'administration' ? $mainframe->getSiteURL().'/administrator' : $mainframe->getSiteURL() );?>/templates/'+dir+'/template_thumbnail.png';
 				var html=name;
 				html = '<br /><img border="1" src="'+src+'" name="imagelib" alt="<?php echo JText::_( 'No preview available' ); ?>" width="206" height="145" />';
 				return overlib(html, CAPTION, name)
@@ -129,7 +129,7 @@ class JTemplatesView {
 						?>
 					</td>
 					<td>
-						<a href="index2.php?option=com_templates&amp;task=edit_params&amp;id=<?php echo $row->directory;?>&amp;client=<?php echo $client;?>" onmouseover="showInfo('<?php echo $row->name;?>')" onmouseout="return nd();">
+						<a href="index2.php?option=com_templates&amp;task=edit_params&amp;id=<?php echo $row->directory;?>&amp;client=<?php echo $client;?>" onmouseover="showInfo('<?php echo $row->name;?>','<?php echo $row->directory; ?>')" onmouseout="return nd();">
 							<?php echo $row->name;?></a>
 					</td>
 					<?php
