@@ -5,6 +5,33 @@
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 </jtmpl:comment>
+<script type="text/javascript" src="../includes/js/moofx/prototype.lite.js"></script>
+<script type="text/javascript" src="../includes/js/moofx/moo.fx.js"></script>
+<script type="text/javascript" src="../includes/js/moofx/moo.fx.pack.js"></script>
+<script type="text/javascript">
+//the main function, call to the effect object
+function init(){
+	
+	var stretchers = document.getElementsByClassName('stretcher'); //div that stretches
+	var toggles = document.getElementsByClassName('display'); //h3s where I click on
+
+	//accordion effect
+	var myAccordion = new fx.Accordion(
+		toggles, stretchers, {opacity: true, duration: 400}
+	);
+
+	//hash functions
+	var found = false;
+	toggles.each(function(h3, i){
+		var div = Element.find(h3, 'nextSibling'); //element.find is located in prototype.lite
+		if (window.location.href.indexOf(h3.title) > 0) {
+			myAccordion.showThisHideOpen(div);
+			found = true;
+		}
+	});
+	if (!found) myAccordion.showThisHideOpen(stretchers[0]);
+}
+</script>
 <script language="JavaScript" type="text/javascript">
 function validateForm( frm, task ) {
 	var ftpEnable = document.getElementById("ftpenable");
@@ -38,105 +65,124 @@ function JProcess() {
 }
 </script>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
+	
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-			<jtmpl:translate>FTP Configuration</jtmpl:translate>
+			<div id="steppad">
+				<div class="far-right">
+					<div class="button1_right"><div class="prev"><a onclick="submitForm( adminForm, 'dbconfig' );" alt="<jtmpl:translate escape="yes">Previous</jtmpl:translate>"><jtmpl:translate escape="yes">Previous</jtmpl:translate></a></div></div>
+					<div class="button1_left"><div class="next"><a onclick="submitForm( adminForm, 'mainconfig' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
+				</div>
+				<span class="step"><jtmpl:translate>FTP Configuration</jtmpl:translate></span>
+			</div>
 		</div>
 
-		<div class="far-right">
-			<input type="button" class="button" value="<jtmpl:translate escape="yes">Next</jtmpl:translate> &gt;&gt;" onclick="validateForm( this.form, 'mainconfig' );" />
-		</div>
-		<div class="clr"></div>
+		<div id="installer">
+			<div id="installerpad">	
 
-		<h2>
-			<jtmpl:translate key="ftpConfTitle">Default FTP settings</jtmpl:translate>
-		</h2>
-		<div class="install-text">
-			<jtmpl:translate key="tipFtpConfSteps">
-			<p>Due to filesystem permission restrictions and PHP Safe Mode restrictions.
-			For all users to utilize the Joomla! installers an FTP layer exists to handle
-			filesystem manipulation.
-			<br />
-			<br />
-			Enter an FTP username and password with access to the Joomla! root directory,
-			this will be the FTP account that handles all filesystem operations when Joomla!
-			requires FTP access to complete a task.
-			<br />
-			<br/>
-			For security reasons, it is best if a separate FTP user account is created with
-			access only to the Joomla! installation.</p>
-			</jtmpl:translate>
+				<h2><jtmpl:translate>FTP Configuration</jtmpl:translate>:</h2>
+				<div class="install-text">
+					<jtmpl:translate key="tipFtpConfSteps">
+					<p>Due to filesystem permission restrictions and PHP Safe Mode restrictions.
+					For all users to utilize the Joomla! installers an FTP layer exists to handle
+					filesystem manipulation.
+					<br />
+					<br />
+					Enter an FTP username and password with access to the Joomla! root directory,
+					this will be the FTP account that handles all filesystem operations when Joomla!
+					requires FTP access to complete a task.
+					<br />
+					<br/>
+					For security reasons, it is best if a separate FTP user account is created with
+					access only to the Joomla! installation.</p>
+					</jtmpl:translate>
+				</div>
+				<div class="install-body">
+					<div class="install-form">	
+						<div class="extra-padding">
+							<h3 class="display" title="Basic"><jtmpl:translate>Basic Settings</jtmpl:translate></h3>
+							<div class="stretcher">
+								<table class="content2">
+									<tr>
+										<td width="100">
+											<input class="inputbox" type="checkbox" id="ftpenable" name="vars[ftpEnable]" value="1" accesskey="e" onChange="formState()" checked="checked" />
+										</td>
+										<td align="left">
+											<label for="ftpenable">
+												<jtmpl:translate key="ENABLEFTPDESC">Enable FTP filesystem layer</jtmpl:translate>
+											</label>
+										</td>
+									</tr>
+									<tr>
+										<td width="100">
+											<label for="ftpuser">
+												<jtmpl:translate>FTP user</jtmpl:translate>
+											</label>
+										</td>
+										<td align="center">
+											<input class="inputbox" type="text" id="ftpuser" name="vars[ftpUser]" value="{VAR_FTPUSER}" size="30"/>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<label for="ftppass">
+												<jtmpl:translate>FTP password</jtmpl:translate>
+											</label>
+										</td>
+										<td align="center">
+											<input class="inputbox" type="text" id="ftppass" name="vars[ftpPassword]" value="{VAR_FTPPASSWORD}" size="30"/>
+										</td>
+									</tr>
+									<tr id="rootPath">
+										<td>
+											<label for="ftproot">
+												<jtmpl:translate>FTP Root Path</jtmpl:translate>
+											</label>
+										</td>
+										<td align="center">
+											<input class="inputbox" id="ftproot" type="text" name="vars[ftpRoot]" value="{VAR_FTPROOT}" size="30"/>
+										</td>
+									</tr>
+								</table>
+								<input type="button" id="findbutton" class="button" value="<jtmpl:translate>Autofind FTP Path</jtmpl:translate>" onclick="JProcess();" />
+								
+								<br /><br />
+							</div>
+							<h3 class="display" title="Advanced"><jtmpl:translate>Advanced settings</jtmpl:translate></h3>
+							<div class="stretcher">
+								<table class="content2">
+									<tr id="host">
+										<tr>
+							    			<td></td>
+							    			<td></td>
+										</tr>
+										<td width="100">
+											<label for="ftphost">
+												<jtmpl:translate>FTP host</jtmpl:translate>
+											</label>
+										</td>
+										<td align="center">
+											<input class="inputbox" type="text" id="ftphost" name="vars[ftpHost]" value="{VAR_FTPHOST}" size="30"/>
+										</td>
+									</tr>
+								</table>								
+								<br /><br /><br /><br /><br /><br /><br /><br />
+							</div>
+						</div>
+						<div class="clr"></div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="install-form">
-			<fieldset class="form-block">
-				<table class="content2">
-					<tr>
-						<td width="100">
-							<input class="inputbox" type="checkbox" id="ftpenable" name="vars[ftpEnable]" value="1" accesskey="e" onChange="formState()" checked="checked" />
-						</td>
-						<td align="left">
-							<label for="ftpenable">
-								<jtmpl:translate key="ENABLEFTPDESC">Enable FTP filesystem layer</jtmpl:translate>
-							</label>
-						</td>
-					</tr>
-					<tr>
-						<td width="100">
-							<label for="ftpuser">
-								<jtmpl:translate>FTP user</jtmpl:translate>
-							</label>
-						</td>
-						<td align="center">
-							<input class="inputbox" type="text" id="ftpuser" name="vars[ftpUser]" value="{VAR_FTPUSER}" size="30"/>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label for="ftppass">
-								<jtmpl:translate>FTP password</jtmpl:translate>
-							</label>
-						</td>
-						<td align="center">
-							<input class="inputbox" type="text" id="ftppass" name="vars[ftpPassword]" value="{VAR_FTPPASSWORD}" size="30"/>
-						</td>
-					</tr>
-					<tr id="rootPath">
-						<td>
-							<label for="ftproot">
-								<jtmpl:translate>FTP Root Path</jtmpl:translate>
-							</label>
-						</td>
-						<td align="center">
-							<input class="inputbox" id="ftproot" type="text" name="vars[ftpRoot]" value="{VAR_FTPROOT}" size="30"/>
-						</td>
-					</tr>
-				</table>
-				<input type="button" id="findbutton" class="button" value="<jtmpl:translate>Autofind FTP Path</jtmpl:translate>" onclick="JProcess();" />
-			</fieldset>
-			<fieldset>
-			<legend><jtmpl:translate>Advanced settings</jtmpl:translate></legend>
-				<table class="content2">
-	  				<tr>
-	    				<td></td>
-	    				<td></td>
-					</tr>
-					<tr id="host">
-						<td width="100">
-							<label for="ftphost">
-								<jtmpl:translate>FTP host</jtmpl:translate>
-							</label>
-						</td>
-						<td align="center">
-							<input class="inputbox" type="text" id="ftphost" name="vars[ftpHost]" value="{VAR_FTPHOST}" size="30"/>
-						</td>
-					</tr>
-				</table>
-			</fieldset>
-		</div>
+
 	</div>
 </div>
-<div class="clr"></div>
-
+								
 <input type="hidden" name="task" value="" />
 </form>
+
+<script type="text/javascript">
+	Element.cleanWhitespace('content');
+	init();
+</script>

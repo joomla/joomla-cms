@@ -10,144 +10,132 @@
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-			<jtmpl:translate>Pre-Installation check</jtmpl:translate>
+			<div id="steppad">
+				<div class="far-right">
+					<div class="button1_left"><div class="refresh"><a onclick="submitForm( adminForm, 'preinstall' );" alt="<jtmpl:translate escape="yes">Check Again</jtmpl:translate>"><jtmpl:translate escape="yes">Check Again</jtmpl:translate></a></div></div>
+					<div class="button1_right"><div class="prev"><a onclick="submitForm( adminForm, 'lang' );" alt="<jtmpl:translate escape="yes">Previous</jtmpl:translate>"><jtmpl:translate escape="yes">Previous</jtmpl:translate></a></div></div>
+					<div class="button1_left"><div class="next"><a onclick="submitForm( adminForm, 'license' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
+				</div>
+				<span class="step"><jtmpl:translate>Pre-Installation check</jtmpl:translate></span>
+			</div>
 		</div>
+		
+		<div id="installer">
+			<div id="installerpad">	
 
-		<div class="far-right">
-			<input type="button" class="button" value="&lt;&lt; <jtmpl:translate escape="yes">Previous</jtmpl:translate>" onclick="submitForm( this.form, 'lang' );" />
-			<input type="button" class="button" value="<jtmpl:translate escape="yes">Next</jtmpl:translate> &gt;&gt;" onclick="submitForm( this.form, 'license' );" />
-			<br/>
-			<br/>
-			<input type="button" class="button" value="<jtmpl:translate escape="yes">Check Again</jtmpl:translate>" onclick="submitForm( this.form, 'preinstall' );" />
-		</div>
-
-		<div class="clr"></div>
-
-		<h2>
-		<jtmpl:translate key="preTitle">Pre-installation check for</jtmpl:translate> {VERSION}:
-		</h2>
-
-		<div class="install-text">
-			<jtmpl:translate key="tipPreinstall">If any of these items are highlighted
-			in red then please take actions to correct them. Failure to do so
-			could lead to your Joomla! installation not functioning
-			correctly.</jtmpl:translate>
-			<div class="ctr"></div>
-		</div>
-
-		<div class="install-form">
-			<div class="form-block">
-				<table class="content">
-				<jtmpl:tmpl name="php-options">
-				<tr>
-					<td class="item" valign="top">
-						<jtmpl:translate>{LABEL}</jtmpl:translate>
-					</td>
-					<td align="left" valign="top">
-						<span class="{STATE}">
-						<jtmpl:var name="statetext" copyFrom="state" modifier="translate" />
-						</span>
-						<span class="small">
-						{NOTICE}&nbsp;
-						</span>
-					</td>
-				</tr>
-				</jtmpl:tmpl>
-				<tr>
-					<td valign="top" class="item">
-					</td>
-				</tr>
-				</table>
+				<h2><jtmpl:translate key="preTitle">Pre-installation check for</jtmpl:translate> {VERSION}:</h2>
+				<div class="install-text">
+					<jtmpl:translate key="tipPreinstall">If any of these items are highlighted
+					in red then please take actions to correct them. Failure to do so
+					could lead to your Joomla! installation not functioning
+					correctly.</jtmpl:translate>
+				</div>
+				<div class="install-body">
+					<div class="install-form">
+						<fieldset>
+	
+							<table class="content">
+							<jtmpl:tmpl name="php-options">
+							<tr>
+								<td class="item" valign="top">
+									<jtmpl:translate>{LABEL}</jtmpl:translate>
+								</td>
+								<td align="left" valign="top">
+									<span class="{STATE}">
+									<jtmpl:var name="statetext" copyFrom="state" modifier="translate" />
+									</span>
+									<span class="small">
+									{NOTICE}&nbsp;
+									</span>
+								</td>
+							</tr>
+							</jtmpl:tmpl>
+							<tr>
+								<td valign="top" class="item">
+								</td>
+							</tr>
+							</table>
+						</fieldset>
+					</div>
+					<div class="clr"></div>
+				</div>
+				
+				<h2><jtmpl:translate>Recommended settings</jtmpl:translate>:</h2>
+				<div class="install-text">
+					<jtmpl:translate key="tipRecomSettings">These settings are recommended for PHP in order to ensure full
+					compatibility with Joomla.
+					<br />
+					However, Joomla! will still operate if your settings do not quite match the recommended.</jtmpl:translate>
+				</div>
+				<div class="install-body">
+					<div class="install-form">
+						<fieldset>
+							<table class="content">
+							<tr>
+								<td class="toggle">
+									<jtmpl:translate>Directive</jtmpl:translate>
+								</td>
+								<td class="toggle">
+									<jtmpl:translate>Recommended</jtmpl:translate>
+								</td>
+								<td class="toggle">
+									<jtmpl:translate>Actual</jtmpl:translate>
+								</td>
+							</tr>
+							<jtmpl:tmpl name="php-settings">
+							<tr>
+								<td class="item">
+									{LABEL}:
+								</td>
+								<td class="toggle">
+									<jtmpl:var name="setting" modifier="translate" />
+								</td>
+								<td>
+									<span class="{STATE}">
+									<jtmpl:var name="actual" modifier="translate" />
+									</span>
+								<td>
+							</tr>
+							</jtmpl:tmpl>
+							</table>							
+						</fieldset>
+					</div>
+					<div class="clr"></div>
+				</div>
+				
+				<h2><jtmpl:translate>Directory and File Permissions</jtmpl:translate>:</h2>
+				<div class="install-text">
+					<jtmpl:translate key="tipPerms">In order for Joomla! to function
+					correctly it needs to be able to access or write to certain files
+					or directories. If you see "Unwriteable" you need to change the
+					permissions on the file or directory to allow Joomla
+					to write to it.</jtmpl:translate>
+				</div>
+				<div class="install-body">
+					<div class="install-form">
+						<fieldset>
+							<table class="content">
+							<jtmpl:tmpl name="folder-perms">
+								<tr>
+									<td class="item">
+									{LABEL}
+									</td>
+									<td align="left">
+										<span class="{STATE}">
+										<jtmpl:var name="statetext" copyFrom="state" modifier="Translate" />
+										</span>
+									</td>
+								</tr>
+							</jtmpl:tmpl>
+							</table>
+						</fieldset>
+					</div>
+					<div class="clr"></div>
+				</div>
+				
 			</div>
 		</div>
 
-		<div class="clr"></div>
-
-
-		<h2>
-		<jtmpl:translate>Recommended settings</jtmpl:translate>:
-		</h2>
-
-		<div class="install-text">
-			<jtmpl:translate key="tipRecomSettings">These settings are recommended for PHP in order to ensure full
-			compatibility with Joomla.
-			<br />
-			However, Joomla! will still operate if your settings do not quite match the recommended.</jtmpl:translate>
-			<div class="ctr"></div>
-		</div>
-
-		<div class="install-form">
-			<div class="form-block">
-				<table class="content">
-				<tr>
-					<td class="toggle">
-						<jtmpl:translate>Directive</jtmpl:translate>
-					</td>
-					<td class="toggle">
-						<jtmpl:translate>Recommended</jtmpl:translate>
-					</td>
-					<td class="toggle">
-						<jtmpl:translate>Actual</jtmpl:translate>
-					</td>
-				</tr>
-				<jtmpl:tmpl name="php-settings">
-				<tr>
-					<td class="item">
-						{LABEL}:
-					</td>
-					<td class="toggle">
-						<jtmpl:var name="setting" modifier="translate" />
-					</td>
-					<td>
-						<span class="{STATE}">
-						<jtmpl:var name="actual" modifier="translate" />
-						</span>
-					<td>
-				</tr>
-				</jtmpl:tmpl>
-				</table>
-			</div>
-		</div>
-
-		<div class="clr"></div>
-
-
-		<h2>
-		<jtmpl:translate>Directory and File Permissions</jtmpl:translate>:
-		</h2>
-
-		<div class="install-text">
-			<jtmpl:translate key="tipPerms">In order for Joomla! to function
-			correctly it needs to be able to access or write to certain files
-			or directories. If you see "Unwriteable" you need to change the
-			permissions on the file or directory to allow Joomla
-			to write to it.</jtmpl:translate>
-			<div class="clr">&nbsp;&nbsp;</div>
-			<div class="ctr"></div>
-		</div>
-
-		<div class="install-form">
-			<fieldset class="form-block">
-				<table class="content">
-				<jtmpl:tmpl name="folder-perms">
-					<tr>
-						<td class="item">
-						{LABEL}
-						</td>
-						<td align="left">
-							<span class="{STATE}">
-							<jtmpl:var name="statetext" copyFrom="state" modifier="Translate" />
-							</span>
-						</td>
-					</tr>
-				</jtmpl:tmpl>
-				</table>
-			</fieldset>
-
-			<div class="clr"></div>
-		</div>
-
-		<div class="clr"></div>
 	</div>
 </div>
 

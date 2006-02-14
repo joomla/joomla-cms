@@ -10,30 +10,26 @@
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-			<jtmpl:translate>License</jtmpl:translate>
+			<div id="steppad">
+				<div class="far-right">
+					<div class="button1_right"><div class="prev"><a onclick="submitForm( adminForm, 'preinstall' );" alt="<jtmpl:translate escape="yes">Previous</jtmpl:translate>"><jtmpl:translate escape="yes">Previous</jtmpl:translate></a></div></div>
+					<div class="button1_left"><div class="next"><a onclick="submitForm( adminForm, 'dbconfig' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
+				</div>
+				<span class="step"><jtmpl:translate>License</jtmpl:translate></span>
+			</div>
 		</div>
+		
+		<div id="installer">
+			<div id="installerpad">
+		
+				<h2><jtmpl:translate>GNU/GPL License</jtmpl:translate>:</h2>
+				<iframe src="gpl.html" class="license" frameborder="0" scrolling="auto"></iframe>	
 
-		<div class="far-right">
-			<input type="button" class="button" value="&lt;&lt; <jtmpl:translate escape="yes">Previous</jtmpl:translate>" onclick="submitForm( this.form, 'preinstall' );" />
-			<input class="button" type="submit" name="next" value="<jtmpl:translate escape="yes">Next</jtmpl:translate> &gt;&gt;" onclick="submitForm( this.form, 'dbconfig' );"/>
-		</div>
-
-		<div class="clr"></div>
-		<h2>
-		<jtmpl:translate>GNU/GPL License</jtmpl:translate>:
-		</h2>
-
-		<div class="clr"></div>
-		<div class="license-form">
-			<div class="form-block" style="padding: 0px;">
-				<iframe src="gpl.html" class="license" frameborder="0" scrolling="auto"></iframe>
 			</div>
 		</div>
 
 	</div>
-
 </div>
-<div class="clr"></div>
 
 <input type="hidden" name="task" value="" />
 </form>

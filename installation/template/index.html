@@ -2,21 +2,42 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}" >
 	<head>
 		<jdoc:placeholder type="head" />
-		<script language="JavaScript" type="text/javascript" src="template/js/google_autofill_fix.js"></script>
+		<link rel="stylesheet" type="text/css" href="template/css/nifty.css">
+		<link rel="stylesheet" type="text/css" href="template/css/nifty_print.css" media="print">
+		<script type="text/javascript" src="template/js/nifty.js"></script>
+		<script type="text/javascript">
+		window.onload=function(){
+			if(!NiftyCheck()) return;
+			Rounded("div#stepbar","all","#fff","#f7f7f7","border #ccc");
+			Rounded("div#step","all","#fff","#fbfbfb","border #ccc");
+			Rounded("div#installer","all","#fff","#fff","border #ccc");
+			Rounded("div.install-form","all","#fff","#fbfbfb","border #ccc");
+		}
+		</script>
 	</head>
 	<body>
-		<div class="logo">
-		</div>
-		<div class="watermark">
-			<div id="ctr" align="center">
-				<div class="install">
-					<jdoc:placeholder type="installation" />
-					<div class="footer">
-						<a href="http://www.joomla.org" target="_blank">Joomla!</a>
-						<jdoc:translate key="isFreeSoftware">is Free Software released under the GNU/GPL License.</jdoc:translate>
-					</div>
+		<div id="header1">
+			<div id="header2">
+				<div id="header3">
+					<div id="version"><jdoc:translate>Version#</jdoc:translate></div>
+					<span><jtmpl:translate>Installation</jtmpl:translate></span>
 				</div>
 			</div>
+		</div>
+		<div id="content_outside">
+			<div id="content">
+				<jdoc:placeholder type="installation" />
+				<div class="clr"></div>
+			</div>
+		</div>		
+		<div id="footer1">
+			<div id="footer2">
+				<div id="footer3"></div>
+			</div>
+		</div>	
+		
+		<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla!</a>
+					<jdoc:translate key="isFreeSoftware">is Free Software released under the GNU/GPL License.</jdoc:translate>	
 		</div>
 	</body>
 </html>

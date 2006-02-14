@@ -16,33 +16,37 @@
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-				<jtmpl:translate>Choose Language</jtmpl:translate>
+			<div id="steppad">
+				<div class="far-right">
+					<div class="button1_left"><div class="next"><a onclick="validateForm( adminForm, 'preinstall' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
+				</div>
+				<span class="step"><jtmpl:translate>Choose Language</jtmpl:translate></span>
+			</div>
 		</div>
-
-		<div class="far-right">
-			<input type="button" class="button" value="<jtmpl:translate escape="yes">Next</jtmpl:translate> &gt;&gt;" onclick="validateForm( this.form, 'preinstall' );" />
+		
+		<div id="installer">
+			<div id="installerpad">
+			
+				<h2><jtmpl:translate>Select Language</jtmpl:translate></h2>
+				<div class="install-text">
+					<jtmpl:translate>PICKYOURCHOICEOFLANGS</jtmpl:translate>
+				</div>
+				<div class="install-body">
+					<div class="install-form">
+						<fieldset>
+							<select name="vars[lang]" class="inputbox" size="5">
+							<jtmpl:tmpl name="lang-options">
+								<option value="{VALUE}" {SELECTED}>{TEXT}</option>
+							</jtmpl:tmpl>
+							</select>
+						
+						</fieldset>
+					</div>
+					<div class="clr"></div>
+				</div>
+			</div>
 		</div>
-		<div class="clr"></div>
-
-		<h2><jtmpl:translate>Select Language</jtmpl:translate></h2>
-
-		<div class="install-text">
-			&nbsp;
-			<div class="ctr"></div>
-		</div>
-
-		<div class="install-form">
-			<fieldset class="form-block">
-				<select name="vars[lang]" class="inputbox" size="10">
-				<jtmpl:tmpl name="lang-options">
-					<option value="{VALUE}" {SELECTED}>{TEXT}</option>
-				</jtmpl:tmpl>
-				</select>
-			</fieldset>
-		</div>
-
-		<div class="clr"></div>
-		<div class="clr"></div>
+		
 	</div>
 </div>
 

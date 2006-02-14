@@ -5,7 +5,33 @@
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 </jtmpl:comment>
+<script type="text/javascript" src="../includes/js/moofx/prototype.lite.js"></script>
+<script type="text/javascript" src="../includes/js/moofx/moo.fx.js"></script>
+<script type="text/javascript" src="../includes/js/moofx/moo.fx.pack.js"></script>
+<script type="text/javascript">
+//the main function, call to the effect object
+function init(){
+	
+	var stretchers = document.getElementsByClassName('stretcher'); //div that stretches
+	var toggles = document.getElementsByClassName('display'); //h3s where I click on
 
+	//accordion effect
+	var myAccordion = new fx.Accordion(
+		toggles, stretchers, {opacity: true, duration: 400}
+	);
+
+	//hash functions
+	var found = false;
+	toggles.each(function(h3, i){
+		var div = Element.find(h3, 'nextSibling'); //element.find is located in prototype.lite
+		if (window.location.href.indexOf(h3.title) > 0) {
+			myAccordion.showThisHideOpen(div);
+			found = true;
+		}
+	});
+	if (!found) myAccordion.showThisHideOpen(stretchers[0]);
+}
+</script>
 <script language="JavaScript" type="text/javascript">
 function validateForm( frm, task ) {
 	var DBtype = getElementByName( frm, 'vars[DBtype]' );
@@ -50,202 +76,215 @@ function JProcess() {
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-			<jtmpl:translate>Database Configuration</jtmpl:translate>
+			<div id="steppad">
+				<div class="far-right">
+					<div class="button1_right"><div class="prev"><a onclick="submitForm( adminForm, 'license' );" alt="<jtmpl:translate escape="yes">Previous</jtmpl:translate>"><jtmpl:translate escape="yes">Previous</jtmpl:translate></a></div></div>
+					<div class="button1_left"><div class="next"><a onclick="submitForm( adminForm, 'makedb' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
+				</div>
+				<span class="step"><jtmpl:translate>Database Configuration</jtmpl:translate></span>
+			</div>
+		</div>
+		
+		<div id="installer">
+			<div id="installerpad">	
+
+				<h2><jtmpl:translate>Connection Settings</jtmpl:translate>:</h2>
+				<div class="install-text">
+					<jtmpl:translate key="tipDatabaseSteps">
+					<p>Setting up Joomla! to run on your server involves 4 simple steps...</p>
+					<p>Please enter the hostname of the server Joomla! is to be installed on.</p>
+					<p>Enter the MySQL username, password and database name you wish to use with Joomla.</p>
+					<p>Enter a prefix to be used by tables for this Joomla! installation. Select how to handle exisitng tables from a previous installation.</p>
+					<p>Install the samples unless you are experienced want to start with a virtually empty site.</p>
+					</jtmpl:translate>
+				</div>
+				<div class="install-body">
+					<div class="install-form">
+						<div class="extra-padding">
+							<h3 class="display" title="Basic"><jtmpl:translate>Basic Settings</jtmpl:translate></h3>
+							<div class="stretcher">
+								<table class="content2">
+					  			<tr>
+					    			<td></td>
+					    			<td></td>
+					    			<td></td>
+								</tr>
+					  			<tr>
+					    			<td colspan="2">
+					    				<label for="vars_dbtype">
+					    					<jtmpl:translate>Database Type</jtmpl:translate>
+					    				</label>
+					    				<br/>
+					 					<select id="vars_dbtype" name="vars[DBtype]" class="inputbox" size="1">
+										<option value=""><jtmpl:translate>Select Type</jtmpl:translate></option>
+										<jtmpl:tmpl name="dbtype-options">
+											<option value="{TEXT}" {SELECTED}>{TEXT}</option>
+										</jtmpl:tmpl>
+										</select>
+							   		</td>
+						  		    <td>
+						  		    	<em>
+						  		    	<jtmpl:translate key="tipType">This is probably 'mysql'</jtmpl:translate>
+						  		    	</em>
+						  		    </td>
+								</tr>
+					  			<tr>
+					    			<td colspan="2">
+					    				<label for="vars_dbhostname">
+											<jtmpl:translate>Host Name</jtmpl:translate>
+										</label>
+					    				<br/>
+					    				<input id="vars_dbhostname" class="inputbox" type="text" name="vars[DBhostname]" value="{VAR_DBHOSTNAME}" />
+					    			</td>
+						  		    <td>
+						  		    	<em>
+						  		    	<jtmpl:translate key="tipHost">This is usually 'localhost'</jtmpl:translate>
+						  		    	</em>
+						  		    </td>
+								</tr>
+								<tr>
+						  		    <td colspan="2">
+					    				<label for="vars_dbusername">
+							  		    	<jtmpl:translate>User Name</jtmpl:translate>
+										</label>
+						  		    	<br/>
+						  		    	<input id="vars_dbusername" class="inputbox" type="text" name="vars[DBuserName]" value="{VAR_DBUSERNAME}" />
+						  		    </td>
+						  		    <td>
+						  		    	<em>
+						  		    	<jtmpl:translate key="tipUser">Either something as 'root' or a username given by the hoster</jtmpl:translate>
+						  		    	</em>
+						  		    </td>
+								</tr>
+						  		<tr>
+						  		    <td colspan="2">
+					    				<label for="vars_dbpassword">
+						  		    		<jtmpl:translate>Password</jtmpl:translate>
+										</label>
+						  		    	<br/>
+						  		    	<input id="vars_dbpassword" class="inputbox" type="text" name="vars[DBpassword]" value="{VAR_DBPASSWORD}" />
+						  		    </td>
+						  		    <td>
+						  		    	<em>
+						  		    	<jtmpl:translate key="tipPassword">For site security using a password for the mysql account is mandatory</jtmpl:translate>
+						  		    	</em>
+						  		    </td>
+								</tr>
+						  		<tr>
+						  		    <td colspan="2" valign="top">
+					    				<label for="vars_dbcollation">
+						  		    		<jtmpl:translate>Available collations</jtmpl:translate>
+										</label>
+						  		    	<br/>
+						  		    	<span id="theCollation"><input type="button" id="findbutton" class="button" value="<jtmpl:translate>Get Collations</jtmpl:translate>" onclick="JProcess();" /></span>
+						  		    </td>
+						  		    <td>
+						  		    	<em>
+						  		    	<span id="collationMessage"><jtmpl:translate key="COLLATIONDESC">Once you have filled in the database information, click the Get Collations button to get the available collation options from the database</jtmpl:translate></span>
+						  		    	</em>
+						  		    </td>
+								</tr>
+					  			<tr>
+					    			<td colspan="2">
+					    				<label for="vars_dbname">
+						    				<jtmpl:translate>Database Name</jtmpl:translate>
+										</label>
+					    				<br/>
+					    				<input id="vars_dbname" class="inputbox" type="text" name="vars[DBname]" value="{VAR_DBNAME}" />
+					    			</td>
+						  		    <td>
+						  		    	<em>
+						  		    	<jtmpl:translate key="tipDatabase">Some hosts allow only a certain DB name per site. Use table prefix in this case for distinct Joomla! sites.</jtmpl:translate>
+						  		    	</em>
+						  		    </td>
+								</tr>
+								</table>
+								<br /><br />
+							</div>
+							<h3 class="display" title="Advanced"><jtmpl:translate>Advanced settings</jtmpl:translate></h3>
+							<div class="stretcher">
+								<table class="content2">
+					  			<tr>
+					    			<td></td>
+					    			<td></td>
+					    			<td></td>
+								</tr>
+					  			<tr>
+						  		    <td>
+						  		    	<input id="vars_dbolddel" type="radio" name="vars[DBOld]" value="rm" />
+						  		    </td>
+									<td>
+					    				<label for="vars_dbolddel">
+											<jtmpl:translate>Drop Existing Tables</jtmpl:translate>
+										</label>
+									</td>
+					    			<td></td>
+						  		</tr>
+					  			<tr>
+						  		    <td>
+						  		    	<input id="vars_dboldbackup" type="radio" name="vars[DBOld]" value="bu"  checked="checked"/>
+						  		    </td>
+
+									<td>
+					    				<label for="vars_dboldbackup">
+											<jtmpl:translate>Backup Old Tables</jtmpl:translate>
+										</label>
+									</td>
+
+					    			<td>
+					    				<em>
+					    				<jtmpl:translate key="tipBackup">Any existing backup tables from former Joomla! installations will be replaced</jtmpl:translate>
+					    				</em>
+					    			</td>
+						  		</tr>
+					  			<tr>
+						  		    <td>
+						  		    	<input id="vars_dbsample" type="checkbox" name="vars[DBSample]" value="1" checked="checked"/>
+						  		    </td>
+									<td>
+					    				<label for="vars_dbsample">
+											<jtmpl:translate>Install Sample Data</jtmpl:translate>
+										</label>
+									</td>
+						  		    <td>
+						  		    	<em>
+						  		    	<jtmpl:translate key="tipSample">Uncheck only if you are experienced with Joomla!</jtmpl:translate>
+						  		    	</em>
+						  		    </td>
+						  		</tr>
+						  		<tr>
+					    			<td colspan="2">
+					    				<label for="vars_dbprefix">
+						    				<jtmpl:translate>Table Prefix</jtmpl:translate>
+										</label>
+					    				<br/>
+					    				<input id="vars_dbprefix" class="inputbox" type="text" name="vars[DBPrefix]" value="{VAR_DBPREFIX}" />
+					    			</td>
+						  		    <td>
+						  		    	<em>
+						  		    	<jtmpl:translate key="tipPrefix">Dont use 'old_' since this is used for backup tables</jtmpl:translate>
+						  		    	</em>
+						  		    </td>
+								</tr>
+					  			</table>
+								<br /><br />
+							</div>
+						</div>
+						<div class="clr"></div>
+					</div>
+				</div>
+			</div>
 		</div>
 
-		<div class="far-right">
-			<input type="button" class="button" value="&lt;&lt; <jtmpl:translate escape="yes">Previous</jtmpl:translate>" onclick="submitForm( this.form, 'license' );" />
-			<input type="button" class="button" value="<jtmpl:translate escape="yes">Next</jtmpl:translate> &gt;&gt;" onclick="validateForm( this.form, 'makedb' );" />
-		</div>
-
-		<div class="clr"></div>
-
-		<h2>
-		<jtmpl:translate>Connection Settings</jtmpl:translate>:
-		</h2>
-
-		<div class="install-text">
-			<jtmpl:translate key="tipDatabaseSteps">
-			<p>Setting up Joomla! to run on your server involves 4 simple steps...</p>
-			<p>Please enter the hostname of the server Joomla! is to be installed on.</p>
-			<p>Enter the MySQL username, password and database name you wish to use with Joomla.</p>
-			<p>Enter a prefix to be used by tables for this Joomla! installation. Select how to handle exisitng tables from a previous installation.</p>
-			<p>Install the samples unless you are experienced want to start with a virtually empty site.</p>
-			</jtmpl:translate>
-		</div>
-
-		<div class="install-form">
-			<fieldset class="form-block">
-			<legend><jtmpl:translate>Required settings</jtmpl:translate></legend>
-	 			<table class="content2">
-	  			<tr>
-	    			<td></td>
-	    			<td></td>
-	    			<td></td>
-				</tr>
-	  			<tr>
-	    			<td colspan="2">
-	    				<label for="vars_dbtype">
-	    					<jtmpl:translate>Database Type</jtmpl:translate>
-	    				</label>
-	    				<br/>
-	 					<select id="vars_dbtype" name="vars[DBtype]" class="inputbox" size="1">
-						<option value=""><jtmpl:translate>Select Type</jtmpl:translate></option>
-						<jtmpl:tmpl name="dbtype-options">
-							<option value="{TEXT}" {SELECTED}>{TEXT}</option>
-						</jtmpl:tmpl>
-						</select>
-			   		</td>
-		  		    <td>
-		  		    	<em>
-		  		    	<jtmpl:translate key="tipType">This is probably 'mysql'</jtmpl:translate>
-		  		    	</em>
-		  		    </td>
-				</tr>
-	  			<tr>
-	    			<td colspan="2">
-	    				<label for="vars_dbhostname">
-							<jtmpl:translate>Host Name</jtmpl:translate>
-						</label>
-	    				<br/>
-	    				<input id="vars_dbhostname" class="inputbox" type="text" name="vars[DBhostname]" value="{VAR_DBHOSTNAME}" />
-	    			</td>
-		  		    <td>
-		  		    	<em>
-		  		    	<jtmpl:translate key="tipHost">This is usually 'localhost'</jtmpl:translate>
-		  		    	</em>
-		  		    </td>
-				</tr>
-				<tr>
-		  		    <td colspan="2">
-	    				<label for="vars_dbusername">
-			  		    	<jtmpl:translate>User Name</jtmpl:translate>
-						</label>
-		  		    	<br/>
-		  		    	<input id="vars_dbusername" class="inputbox" type="text" name="vars[DBuserName]" value="{VAR_DBUSERNAME}" />
-		  		    </td>
-		  		    <td>
-		  		    	<em>
-		  		    	<jtmpl:translate key="tipUser">Either something as 'root' or a username given by the hoster</jtmpl:translate>
-		  		    	</em>
-		  		    </td>
-				</tr>
-		  		<tr>
-		  		    <td colspan="2">
-	    				<label for="vars_dbpassword">
-		  		    		<jtmpl:translate>Password</jtmpl:translate>
-						</label>
-		  		    	<br/>
-		  		    	<input id="vars_dbpassword" class="inputbox" type="text" name="vars[DBpassword]" value="{VAR_DBPASSWORD}" />
-		  		    </td>
-		  		    <td>
-		  		    	<em>
-		  		    	<jtmpl:translate key="tipPassword">For site security using a password for the mysql account is mandatory</jtmpl:translate>
-		  		    	</em>
-		  		    </td>
-				</tr>
-		  		<tr>
-		  		    <td colspan="2" valign="top">
-	    				<label for="vars_dbcollation">
-		  		    		<jtmpl:translate>Available collations</jtmpl:translate>
-						</label>
-		  		    	<br/>
-		  		    	<span id="theCollation"><input type="button" id="findbutton" class="button" value="<jtmpl:translate>Get Collations</jtmpl:translate>" onclick="JProcess();" /></span>
-		  		    </td>
-		  		    <td>
-		  		    	<em>
-		  		    	<span id="collationMessage"><jtmpl:translate key="COLLATIONDESC">Once you have filled in the database information, click the Get Collations button to get the available collation options from the database</jtmpl:translate></span>
-		  		    	</em>
-		  		    </td>
-				</tr>
-	  			<tr>
-	    			<td colspan="2">
-	    				<label for="vars_dbname">
-		    				<jtmpl:translate>Database Name</jtmpl:translate>
-						</label>
-	    				<br/>
-	    				<input id="vars_dbname" class="inputbox" type="text" name="vars[DBname]" value="{VAR_DBNAME}" />
-	    			</td>
-		  		    <td>
-		  		    	<em>
-		  		    	<jtmpl:translate key="tipDatabase">Some hosts allow only a certain DB name per site. Use table prefix in this case for distinct Joomla! sites.</jtmpl:translate>
-		  		    	</em>
-		  		    </td>
-				</tr>
-				</table>
-				</fieldset>
-				<fieldset>
-				<legend><jtmpl:translate>Advanced settings</jtmpl:translate></legend>
-				<table class="content2">
-	  			<tr>
-	    			<td></td>
-	    			<td></td>
-	    			<td></td>
-				</tr>
-	  			<tr>
-		  		    <td>
-		  		    	<input id="vars_dbolddel" type="radio" name="vars[DBOld]" value="rm" />
-		  		    </td>
-					<td>
-	    				<label for="vars_dbolddel">
-							<jtmpl:translate>Drop Existing Tables</jtmpl:translate>
-						</label>
-					</td>
-	    			<td></td>
-		  		</tr>
-	  			<tr>
-		  		    <td>
-		  		    	<input id="vars_dboldbackup" type="radio" name="vars[DBOld]" value="bu"  checked="checked"/>
-		  		    </td>
-
-					<td>
-	    				<label for="vars_dboldbackup">
-							<jtmpl:translate>Backup Old Tables</jtmpl:translate>
-						</label>
-					</td>
-
-	    			<td>
-	    				<em>
-	    				<jtmpl:translate key="tipBackup">Any existing backup tables from former Joomla! installations will be replaced</jtmpl:translate>
-	    				</em>
-	    			</td>
-		  		</tr>
-	  			<tr>
-		  		    <td>
-		  		    	<input id="vars_dbsample" type="checkbox" name="vars[DBSample]" value="1" checked="checked"/>
-		  		    </td>
-					<td>
-	    				<label for="vars_dbsample">
-							<jtmpl:translate>Install Sample Data</jtmpl:translate>
-						</label>
-					</td>
-		  		    <td>
-		  		    	<em>
-		  		    	<jtmpl:translate key="tipSample">Uncheck only if you are experienced with Joomla!</jtmpl:translate>
-		  		    	</em>
-		  		    </td>
-		  		</tr>
-		  		<tr>
-	    			<td colspan="2">
-	    				<label for="vars_dbprefix">
-		    				<jtmpl:translate>Table Prefix</jtmpl:translate>
-						</label>
-	    				<br/>
-	    				<input id="vars_dbprefix" class="inputbox" type="text" name="vars[DBPrefix]" value="{VAR_DBPREFIX}" />
-	    			</td>
-		  		    <td>
-		  		    	<em>
-		  		    	<jtmpl:translate key="tipPrefix">Dont use 'old_' since this is used for backup tables</jtmpl:translate>
-		  		    	</em>
-		  		    </td>
-				</tr>
-	  			</table>
-			</fieldset>
-		</div>
 	</div>
 </div>
 
 <div class="clr"></div>
 <input type="hidden" id="utfsupport" name="vars[DButfSupport]" value="" />
 <input type="hidden" name="task" value="" />
-</form>
+</form>		
+
+<script type="text/javascript">
+	Element.cleanWhitespace('content');
+	init();
+</script>

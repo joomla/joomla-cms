@@ -28,73 +28,85 @@
 <div id="right">
 	<div id="rightpad">
 		<div id="step">
-			<jtmpl:translate>Main Configuration</jtmpl:translate>
+			<div id="steppad">
+				<div class="far-right">
+					<div class="button1_right"><div class="prev"><a onclick="submitForm( adminForm, 'ftpconfig' );" alt="<jtmpl:translate escape="yes">Previous</jtmpl:translate>"><jtmpl:translate escape="yes">Previous</jtmpl:translate></a></div></div>
+					<div class="button1_left"><div class="next"><a onclick="submitForm( adminForm, 'saveconfig' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
+				</div>
+				<span class="step"><jtmpl:translate>Main Configuration</jtmpl:translate></span>
+			</div>
 		</div>
 
-		<div class="far-right">
-			<input type="button" class="button" value="<jtmpl:translate escape="yes">Next</jtmpl:translate> &gt;&gt;" onclick="validateForm( this.form, 'saveconfig' );" />
-		</div>
-		<div class="clr"></div>
+		<div id="installer">
+			<div id="installerpad">	
 
-		<h2><jtmpl:translate>Site Name</jtmpl:translate>:</h2>
-		<div class="install-text">
-			<jtmpl:translate key="enterSiteName">Enter the name of your Joomla! site.</jtmpl:translate>
-		</div>
-		<div class="install-form">
-			<fieldset class="form-block">
-	  				<table class="content2">
-	  			   <tr>
-	  				  <td width="100">
-						<label for="siteName">
-	  				  		<jtmpl:translate>Site name</jtmpl:translate>
-	  				  	</label>
-	  				  </td>
-	  				  <td align="center">
-	  				  	<input class="inputbox" type="text" id="siteName" name="vars[siteName]" size="30" value="{VAR_SITENAME}" />
-	  				  </td>
-	  			   </tr>
-	  				</table>
-			</fieldset>
+				<h2><jtmpl:translate>Site Name</jtmpl:translate>:</h2>
+				<div class="install-text">
+					<jtmpl:translate key="enterSiteName">Enter the name of your Joomla! site.</jtmpl:translate>
+				</div>
+				<div class="install-body">
+					<div class="install-form">
+						<fieldset>
+							<table class="content2">
+				  			   <tr>
+				  				  <td width="100">
+									<label for="siteName">
+				  				  		<jtmpl:translate>Site name</jtmpl:translate>
+				  				  	</label>
+				  				  </td>
+				  				  <td align="center">
+				  				  	<input class="inputbox" type="text" id="siteName" name="vars[siteName]" size="30" value="{VAR_SITENAME}" />
+				  				  </td>
+				  			   </tr>
+							</table>
+						</fieldset>
+					</div>
+					<div class="clr"></div>
+				</div>
+				
+				<h2><jtmpl:translate key="confTitle">Confirm the admin email and password</jtmpl:translate></h2>
+				<div class="install-text">
+					<jtmpl:translate key="tipConfSteps">
+					<p>Enter your e-mail address, this will be the e-mail address of the site
+				   SuperAdministrator.</p>
+					</jtmpl:translate>
+				</div>
+				<div class="install-body">
+					<div class="install-form">
+						<fieldset>
+							<table class="content2">
+							<tr>
+							  <td>
+								<label for="adminEmail">
+								  	<jtmpl:translate>Your E-mail</jtmpl:translate>
+			  				  	</label>
+							  </td>
+							  <td align="center">
+							  	<input class="inputbox" type="text" id="adminEmail" name="vars[adminEmail]" value="" size="30" />
+							  </td>
+							</tr>
+							<tr>
+							  <td>
+								<label for="adminPassword">
+								  	<jtmpl:translate>Admin password</jtmpl:translate>
+			  				  	</label>
+							  </td>
+							  <td align="center">
+							  	<input class="inputbox" type="text" id="adminPassword" name="vars[adminPassword]" value="{VAR_ADMINPASSWORD}" size="30"/>
+							  </td>
+							</table>
+						</fieldset>
+					</div>
+					<div class="clr"></div>
+				</div>
+
+			</div>
 		</div>
 
-
-	    <div class="clr"></div>
-		<h2><jtmpl:translate key="confTitle">Confirm the site URL, path, admin e-mail and FTP root path</jtmpl:translate></h2>
-		<div class="install-text">
-			<jtmpl:translate key="tipConfSteps">
-			<p>Enter your e-mail address, this will be the e-mail address of the site
-		   SuperAdministrator.</p>
-			</jtmpl:translate>
-		</div>
-		<div class="install-form">
-			<fieldset class="form-block">
-				<table class="content2">
-				<tr>
-				  <td>
-					<label for="adminEmail">
-					  	<jtmpl:translate>Your E-mail</jtmpl:translate>
-  				  	</label>
-				  </td>
-				  <td align="center">
-				  	<input class="inputbox" type="text" id="adminEmail" name="vars[adminEmail]" value="" size="30" />
-				  </td>
-				</tr>
-				<tr>
-				  <td>
-					<label for="adminPassword">
-					  	<jtmpl:translate>Admin password</jtmpl:translate>
-  				  	</label>
-				  </td>
-				  <td align="center">
-				  	<input class="inputbox" type="text" id="adminPassword" name="vars[adminPassword]" value="{VAR_ADMINPASSWORD}" size="30"/>
-				  </td>
-				</table>
-			</fieldset>
-		</div>
 	</div>
 </div>
 
-<div class="clr"></div>
+<div class="clr"></div>	
 
 <input type="hidden" name="task" value="" />
 </form>
