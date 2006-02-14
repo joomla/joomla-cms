@@ -79,7 +79,7 @@ if ($option == 'com_content' && $task == 'view' && $id) {
 					if ($option="com_content" && $task="view") {
 						$Itemid = JApplicationHelper::getItemid($item->id);
 					}
-					$href = sefRelToAbs( "index.php?option=com_content&task=view&id=$item->id&Itemid=$Itemid" );
+					$href = sefRelToAbs( "index.php?option=com_content&amp;task=view&amp;id=$item->id&amp;Itemid=$Itemid" );
 					?>
 					<li>
 						<a href="<?php echo $href; ?>">
