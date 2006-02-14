@@ -33,7 +33,6 @@ $rssitemdesc		= $params->get( 'rssitemdesc', 1 );
 $words 				= $params->def( 'word_count', 0 );
 $rsstitle			= $params->get( 'rsstitle', 1 );
 
-$cacheDir 			= JPATH_SITE .'/cache/';
 $LitePath 			= JPATH_SITE .'/includes/Cache/Lite.php';
 
 if(empty($rssurl)) {
