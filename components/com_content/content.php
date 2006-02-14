@@ -1631,8 +1631,7 @@ class JContentController
 		/*
 		 * If the task was edit or cancel, we go back to the content item
 		 */
-		if ($task == 'edit' || $task == 'cancel')
-		{
+		if ($task == 'edit' || $task == 'cancel') {
 			$referer = 'index.php?option=com_content&task=view&id='.$row->id.'&Itemid='.$Itemid;
 		}
 		
@@ -1641,11 +1640,9 @@ class JContentController
 		/*
 		 * If the task was not new, we go back to the referrer
 		 */
-		if ($referer && !isset($row->id))
-		{
+		if ($referer && isset($row->id)) {
 			josRedirect($referer);
-		} else
-		{
+		} else {
 			josRedirect('index.php');
 		}
 	}
