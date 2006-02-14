@@ -259,7 +259,7 @@ function initEditor() {
  */
 function getEditorContents($editorArea, $hiddenField) {
 	$editor =& JEditor::getInstance();
-	echo $editor->getEditorContents();
+	echo $editor->getEditorContents($editorArea, $hiddenField);
 }
 
 /**
@@ -270,7 +270,7 @@ function getEditorContents($editorArea, $hiddenField) {
  */
 function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) {
 	$editor =& JEditor::getInstance();
-	echo $editor->getEditor();
+	echo $editor->getEditor($name, $content, $hiddenField, $width, $height, $col, $row);
 }
 
 /**
