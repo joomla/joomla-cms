@@ -160,17 +160,32 @@ class JModel extends JObject
 	* @param int $oid optional argument, if not specifed then the value of current key is used
 	* @return any result from the database operation
 	*/
-	function load( $oid=null ) 
-	{
+	function load( $oid=null ) {
 		$k = $this->_tbl_key;
+		
 		if ($oid !== null) {
 			$this->$k = $oid;
 		}
+		
 		$oid = $this->$k;
+		
 		if ($oid === null) {
 			return false;
 		}
-		$this->_db->setQuery( "SELECT * FROM $this->_tbl WHERE $this->_tbl_key='$oid'" );
+		//Note: Prior to PHP 4.2.0, Uninitialized class variables will not be reported by get_class_vars().
+		$class_vars = get_class_vars(get_class($this));
+		foreach ($class_vars as $name => $value) {
+			if (($name != $k) and ($name != "_db") and ($name != "_tbl") and ($name != "_tbl_key")) {
+				$this->$name = $value;
+			}
+		}
+		
+		$query = "SELECT *"
+		. "\n FROM $this->_tbl"
+		. "\n WHERE $this->_tbl_key = '$oid'"
+		;
+		$this->_db->setQuery( $query );
+		
 		return $this->_db->loadObject( $this );
 	}
 
