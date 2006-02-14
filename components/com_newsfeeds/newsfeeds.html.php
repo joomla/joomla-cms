@@ -262,142 +262,146 @@ class HTML_newsfeed {
 		// full RSS parser used to access image information
 		$rssDoc =& JFactory::getXMLParser('RSS');
 		$rssDoc->useCacheLite( true, $LitePath, $cacheDir, $newsfeed->cache_time );
-		$rssDoc->loadRSS( $newsfeed->link );
-		$totalChannels = $rssDoc->getChannelCount();
+		$rssDoc->useHTTPClient(true); 
+		$success = $rssDoc->loadRSS( $newsfeed->link );
 
-		for ( $i = 0; $i < $totalChannels; $i++ ) {
-			$currChannel	=& $rssDoc->getChannel($i);
-			$elements 		= $currChannel->getElementList();
-			$descrip 		= 0;
-			$iUrl			= 0;
-			foreach ( $elements as $element ) {
-				//image handling
-				if ( $element == 'image' ) {
-					$image =& $currChannel->getElement( DOMIT_RSS_ELEMENT_IMAGE );
-					$iUrl	= $image->getUrl();
-					$iTitle	= $image->getTitle();
-				}
-				if ( $element == 'description' ) {
-					$descrip = 1;
-					// hide com_rss descrip in 4.5.0 feeds
-					if ( $currChannel->getDescription() == 'com_rss' ) {
-						$descrip = 0;
+		if ( $success ) {
+			$totalChannels = $rssDoc->getChannelCount();
+	
+			for ( $i = 0; $i < $totalChannels; $i++ ) {
+				$currChannel	=& $rssDoc->getChannel($i);
+				$elements 		= $currChannel->getElementList();
+				$descrip 		= 0;
+				$iUrl			= 0;
+				foreach ( $elements as $element ) {
+					//image handling
+					if ( $element == 'image' ) {
+						$image =& $currChannel->getElement( DOMIT_RSS_ELEMENT_IMAGE );
+						$iUrl	= $image->getUrl();
+						$iTitle	= $image->getTitle();
+					}
+					if ( $element == 'description' ) {
+						$descrip = 1;
+						// hide com_rss descrip in 4.5.0 feeds
+						if ( $currChannel->getDescription() == 'com_rss' ) {
+							$descrip = 0;
+						}
 					}
 				}
-			}
-			?>
-			<tr>
-				<td class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
-				<a href="<?php echo ampReplace( $currChannel->getLink() ); ?>" target="_blank">
-				<?php echo str_replace('&apos;', "'", $currChannel->getTitle()); ?>
-				</a>
-				</td>
-			</tr>
-			<?php
-			// feed description
-			if ( $descrip && $params->get( 'feed_descr' ) ) {
 				?>
 				<tr>
-					<td>
-					<?php echo str_replace('&apos;', "'", $currChannel->getDescription()); ?>
-					<br />
-					<br />
+					<td class="contentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">
+					<a href="<?php echo ampReplace( $currChannel->getLink() ); ?>" target="_blank">
+					<?php echo str_replace('&apos;', "'", $currChannel->getTitle()); ?>
+					</a>
 					</td>
 				</tr>
 				<?php
-			}
-			// feed image
-			if ( $iUrl && $params->get( 'feed_image' ) ) {
-				?>
-				<tr>
-					<td>
-					<img src="<?php echo $iUrl; ?>" alt="<?php echo $iTitle; ?>" />
-					</td>
-				</tr>
-				<?php
-			}
-			$actualItems 	= $currChannel->getItemCount();
-			$setItems 		= $newsfeed->numarticles;
-			if ( $setItems > $actualItems ) {
-				$totalItems = $actualItems;
-			} else {
-				$totalItems = $setItems;
-			}
-			?>
-			<tr>
-				<td>
-				<ul>
+				// feed description
+				if ( $descrip && $params->get( 'feed_descr' ) ) {
+					?>
+					<tr>
+						<td>
+						<?php echo str_replace('&apos;', "'", $currChannel->getDescription()); ?>
+						<br />
+						<br />
+						</td>
+					</tr>
 					<?php
-					for ( $j = 0; $j < $totalItems; $j++ ) {
-						$currItem =& $currChannel->getItem($j);
-						?>
-						<li>
-							<?php		
-							// START fix for RSS enclosure tag url not showing
-							if ($currItem->getLink()) {
-								?>
-								<a href="<?php echo $currItem->getLink(); ?>" target="_blank">
-									<?php echo $currItem->getTitle(); ?></a>
-								<?php
-							} else if ($currItem->getEnclosure()) {
-								$enclosure 	= $currItem->getEnclosure();
-								$eUrl		= $enclosure->getUrl();
-								?>
-								<a href="<?php echo $eUrl; ?>" target="_child">
-									<?php echo $currItem->getTitle(); ?></a>
-								<?php
-							}  else if (($currItem->getEnclosure()) && ($currItem->getLink())) {
-								$enclosure 	= $currItem->getEnclosure();
-								$eUrl		= $enclosure->getUrl();
-								?>
-								<a href="<?php $currItem->getLink(); ?>" target="_blank">
-									<?php echo $currItem->getTitle(); ?></a>
-								<br />
-								Link: <a href="<?php echo $eUrl; ?>" target="_blank">
-									<?php echo $eUrl; ?></a>
-								<?php
-							}
-							// END fix for RSS enclosure tag url not showing
-	
-							// item description
-							if ( $params->get( 'item_descr' ) ) {
-								$text   = $currItem->getDescription();
-								$text   = str_replace('&apos;', "'", $text);
-								$num 	= $params->get( 'word_count' );
-	
-								// word limit check
-								if ( $num ) {
-									$texts = explode( ' ', $text );
-									$count = count( $texts );
-									if ( $count > $num ) {
-										$text = '';
-										for( $i=0; $i < $num; $i++ ) {
-											$text .= ' '. $texts[$i];
+				}
+				// feed image
+				if ( $iUrl && $params->get( 'feed_image' ) ) {
+					?>
+					<tr>
+						<td>
+						<img src="<?php echo $iUrl; ?>" alt="<?php echo $iTitle; ?>" />
+						</td>
+					</tr>
+					<?php
+				}
+				$actualItems 	= $currChannel->getItemCount();
+				$setItems 		= $newsfeed->numarticles;
+				if ( $setItems > $actualItems ) {
+					$totalItems = $actualItems;
+				} else {
+					$totalItems = $setItems;
+				}
+				?>
+				<tr>
+					<td>
+					<ul>
+						<?php
+						for ( $j = 0; $j < $totalItems; $j++ ) {
+							$currItem =& $currChannel->getItem($j);
+							?>
+							<li>
+								<?php		
+								// START fix for RSS enclosure tag url not showing
+								if ($currItem->getLink()) {
+									?>
+									<a href="<?php echo ampReplace( $currItem->getLink() ); ?>" target="_blank">
+										<?php echo $currItem->getTitle(); ?></a>
+									<?php
+								} else if ($currItem->getEnclosure()) {
+									$enclosure 	= $currItem->getEnclosure();
+									$eUrl		= $enclosure->getUrl();
+									?>
+									<a href="<?php echo ampReplace( $eUrl ); ?>" target="_child">
+										<?php echo $currItem->getTitle(); ?></a>
+									<?php
+								}  else if (($currItem->getEnclosure()) && ($currItem->getLink())) {
+									$enclosure 	= $currItem->getEnclosure();
+									$eUrl		= $enclosure->getUrl();
+									?>
+									<a href="<?php echo ampReplace( $currItem->getLink() ); ?>" target="_blank">
+										<?php echo $currItem->getTitle(); ?></a>
+									<br />
+									Link: <a href="<?php echo ampReplace( $eUrl ); ?>" target="_blank">
+										<?php echo $eUrl; ?></a>
+									<?php
+								}
+								// END fix for RSS enclosure tag url not showing
+		
+								// item description
+								if ( $params->get( 'item_descr' ) ) {
+									$text   = $currItem->getDescription();
+									$text   = str_replace('&apos;', "'", $text);
+									$num 	= $params->get( 'word_count' );
+		
+									// word limit check
+									if ( $num ) {
+										$texts = explode( ' ', $text );
+										$count = count( $texts );
+										if ( $count > $num ) {
+											$text = '';
+											for( $i=0; $i < $num; $i++ ) {
+												$text .= ' '. $texts[$i];
+											}
+											$text .= '...';
 										}
-										$text .= '...';
 									}
+									?>
+									<br />
+									<?php echo $text; ?>
+									<br />
+									<br />
+									<?php
 								}
 								?>
-								<br />
-								<?php echo $text; ?>
-								<br />
-								<br />
-								<?php
-							}
-							?>
-						</li>
-						<?php
-					}
-					?>
-				</ul>
-				</td>
-			</tr>
-			<tr>
-				<td>
-				<br />
-				</td>
-			</tr>
-			<?php
+							</li>
+							<?php
+						}
+						?>
+					</ul>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<br />
+					</td>
+				</tr>
+				<?php
+			}
 		}
 		?>
 		</table>

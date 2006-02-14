@@ -43,142 +43,146 @@ if(empty($rssurl)) {
 
 $rssDoc =& JFactory::getXMLParser('RSS');
 $rssDoc->useCacheLite(true, $LitePath, $cacheDir, 3600);
-$rssDoc->loadRSS( $rssurl );
-$totalChannels 	= $rssDoc->getChannelCount();
+$rssDoc->useHTTPClient(true); 
+$success = $rssDoc->loadRSS( $rssurl );
 
-for ( $i = 0; $i < $totalChannels; $i++ ) {
-	$currChannel =& $rssDoc->getChannel($i);
-	$elements 	= $currChannel->getElementList();
-	$iUrl		= 0;
-	foreach ( $elements as $element ) {
-		//image handling
-		if ( $element == 'image' ) {
-			$image =& $currChannel->getElement( DOMIT_RSS_ELEMENT_IMAGE );
-			$iUrl	= $image->getUrl();
-			$iTitle	= $image->getTitle();
+if ( $success ) {
+	$totalChannels 	= $rssDoc->getChannelCount();
+	
+	for ( $i = 0; $i < $totalChannels; $i++ ) {
+		$currChannel =& $rssDoc->getChannel($i);
+		$elements 	= $currChannel->getElementList();
+		$iUrl		= 0;
+		foreach ( $elements as $element ) {
+			//image handling
+			if ( $element == 'image' ) {
+				$image =& $currChannel->getElement( DOMIT_RSS_ELEMENT_IMAGE );
+				$iUrl	= $image->getUrl();
+				$iTitle	= $image->getTitle();
+			}
 		}
-	}
-
-	// feed title
-	?>
-	<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $moduleclass_sfx; ?>">
-	<?php
-	// feed description
-	if ( $currChannel->getTitle() && $rsstitle ) {
+	
+		// feed title
 		?>
-		<tr>
-			<td>
-				<strong>
-				<a href="<?php echo ampReplace( $currChannel->getLink() ); ?>" target="_blank">
-					<?php echo $currChannel->getTitle(); ?></a>
-				</strong>
-			</td>
-		</tr>
+		<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $moduleclass_sfx; ?>">
 		<?php
-	}
-
-	// feed description
-	if ( $rssdesc ) {
-		?>
-		<tr>
-			<td>
-				<?php echo $currChannel->getDescription(); ?>
-			</td>
-		</tr>
-		<?php
-	}
-
-	// feed image
-	if ( $rssimage && $iUrl ) {
-		?>
-		<tr>
-			<td align="center">
-				<image src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
-			</td>
-		</tr>
-		<?php
-	}
-
-	$actualItems = $currChannel->getItemCount();
-	$setItems = $rssitems;
-
-	if ($setItems > $actualItems) {
-		$totalItems = $actualItems;
-	} else {
-		$totalItems = $setItems;
-	}
-
-	?>
-	<tr>
-		<td>
-			<ul class="newsfeed<?php echo $moduleclass_sfx; ?>">
+		// feed description
+		if ( $currChannel->getTitle() && $rsstitle ) {
+			?>
+			<tr>
+				<td>
+					<strong>
+					<a href="<?php echo ampReplace( $currChannel->getLink() ); ?>" target="_blank">
+						<?php echo $currChannel->getTitle(); ?></a>
+					</strong>
+				</td>
+			</tr>
 			<?php
-			for ($j = 0; $j < $totalItems; $j++) {
-				$currItem =& $currChannel->getItem($j);
-				// item title
-
-				// START fix for RSS enclosure tag url not showing
-				if ($currItem->getLink()) {
-				?>
-					<a href="<?php echo $currItem->getLink(); ?>" target="_child">
-					<?php echo $currItem->getTitle(); ?>
-					</a>
+		}
+	
+		// feed description
+		if ( $rssdesc ) {
+			?>
+			<tr>
+				<td>
+					<?php echo $currChannel->getDescription(); ?>
+				</td>
+			</tr>
+			<?php
+		}
+	
+		// feed image
+		if ( $rssimage && $iUrl ) {
+			?>
+			<tr>
+				<td align="center">
+					<image src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
+				</td>
+			</tr>
+			<?php
+		}
+	
+		$actualItems = $currChannel->getItemCount();
+		$setItems = $rssitems;
+	
+		if ($setItems > $actualItems) {
+			$totalItems = $actualItems;
+		} else {
+			$totalItems = $setItems;
+		}
+	
+		?>
+		<tr>
+			<td>
+				<ul class="newsfeed<?php echo $moduleclass_sfx; ?>">
 				<?php
-				} else if ($currItem->getEnclosure()) {
-					$enclosure = $currItem->getEnclosure();
-					$eUrl	= $enclosure->getUrl();
-				?>
-					<a href="<?php echo $eUrl; ?>" target="_child">
-					<?php echo $currItem->getTitle(); ?>
-					</a>
-				<?php
-				}  else if (($currItem->getEnclosure()) && ($currItem->getLink())) {
-					$enclosure = $currItem->getEnclosure();
-					$eUrl	= $enclosure->getUrl();
-				?>
-					<a href="<?php $currItem->getLink(); ?>" target="_child">
-					<?php echo $currItem->getTitle(); ?>
-					</a><br>
-					Link: <a href="<?php echo $eUrl; ?>" target="_child">
-					<?php echo $eUrl; ?>
-					</a>
-				<?php
-				}
-				// END fix for RSS enclosure tag url not showing
-
-				// item description
-				if ( $rssitemdesc ) {
+				for ($j = 0; $j < $totalItems; $j++) {
+					$currItem =& $currChannel->getItem($j);
+					// item title
+	
+					// START fix for RSS enclosure tag url not showing
+					if ($currItem->getLink()) {
+					?>
+						<a href="<?php echo $currItem->getLink(); ?>" target="_child">
+						<?php echo $currItem->getTitle(); ?>
+						</a>
+					<?php
+					} else if ($currItem->getEnclosure()) {
+						$enclosure = $currItem->getEnclosure();
+						$eUrl	= $enclosure->getUrl();
+					?>
+						<a href="<?php echo $eUrl; ?>" target="_child">
+						<?php echo $currItem->getTitle(); ?>
+						</a>
+					<?php
+					}  else if (($currItem->getEnclosure()) && ($currItem->getLink())) {
+						$enclosure = $currItem->getEnclosure();
+						$eUrl	= $enclosure->getUrl();
+					?>
+						<a href="<?php $currItem->getLink(); ?>" target="_child">
+						<?php echo $currItem->getTitle(); ?>
+						</a><br>
+						Link: <a href="<?php echo $eUrl; ?>" target="_child">
+						<?php echo $eUrl; ?>
+						</a>
+					<?php
+					}
+					// END fix for RSS enclosure tag url not showing
+	
 					// item description
-					$text = html_entity_decode( $currItem->getDescription() );
-                    $text = str_replace('&apos;', "'", $text);
-
-					// word limit check
-					if ( $words ) {
-						$texts = explode( ' ', $text );
-						$count = count( $texts );
-						if ( $count > $words ) {
-							$text = '';
-							for( $i=0; $i < $words; $i++ ) {
-								$text .= ' '. $texts[$i];
+					if ( $rssitemdesc ) {
+						// item description
+						$text = html_entity_decode( $currItem->getDescription() );
+	                    $text = str_replace('&apos;', "'", $text);
+	
+						// word limit check
+						if ( $words ) {
+							$texts = explode( ' ', $text );
+							$count = count( $texts );
+							if ( $count > $words ) {
+								$text = '';
+								for( $i=0; $i < $words; $i++ ) {
+									$text .= ' '. $texts[$i];
+								}
+								$text .= '...';
 							}
-							$text .= '...';
 						}
+						?>
+						<div>
+							<?php echo $text; ?>
+						</div>
+						<?php
 					}
 					?>
-					<div>
-						<?php echo $text; ?>
-					</div>
-					<?php
+				</li>
+				<?php
 				}
 				?>
-			</li>
-			<?php
-			}
-			?>
-			</ul>
-		</td>
-	</tr>
-	</table>
-	<?php
+				</ul>
+			</td>
+		</tr>
+		</table>
+		<?php
+	}
 }
 ?>
