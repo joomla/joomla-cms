@@ -339,6 +339,7 @@ INSERT INTO `#__plugins` VALUES (28, 'Syndicate Weblinks', 'weblinks.syndicatebo
 INSERT INTO `#__plugins` VALUES (29, 'Syndicate Contacts', 'contact.syndicatebot', 'syndicate', 0, 4, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (30, 'Syndicate Poll', 'poll.syndicatebot', 'syndicate', 0, 5, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (31, 'XStandard Lite 1.7', 'xstandard', 'editors', 0, 0, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (32, 'GMail Auth Plugin', 'gmail', 'authentication', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
 
 # --------------------------------------------------------
 

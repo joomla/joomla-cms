@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Feb-2006 Samuel Moffatt
+ + Added GMail authentication plugin
+
 15-Feb-2006 Louis Landry
  # Fixed JFile::upload src path issue causing an inability to upload components on some systems
  # Fixed Installation autofind FTP path issue on windows machines wehre paths case don't match

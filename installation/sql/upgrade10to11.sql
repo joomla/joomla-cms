@@ -65,3 +65,7 @@ ALTER TABLE `jos_components` ADD `enabled` TINYINT NOT NULL ;
 # LBL: 11-Feb-2006
 # Add breadcrumb template position
 INSERT INTO `#__template_positions` VALUES (0, 'breadcrumb', '');
+
+# SAM: 16-Feb-2006
+# Add GMail Auth Plugin
+INSERT INTO `#__plugins` VALUES (0, 'GMail Auth Plugin', 'gmail', 'authentication', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
