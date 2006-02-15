@@ -295,23 +295,14 @@ class JApplication extends JObject
 	{
 		//get the user
 		$user = $this->getUser();
-
-		if ($lang == '' && isset( $user->params )) {
-
+		
+		if (empty($lang)) 
+		{	
 			// get user's prefered language
 			if( $this->isAdmin() ) {
-				$lang = $user->getParam( 'admin_language', $lang );
+				$lang = $user->getParam( 'admin_language', $this->getCfg('lang_administrator') );
 			} else {
-				$lang = $user->getParam( 'language', $lang );
-			}
-		}
-
-		// if no user preference load the default language file
-		if ($lang == '0' || $lang == '') {
-			if( $this->isAdmin() ) {
-				$lang = $this->getCfg('lang_administrator');
-			} else {
-				$lang = $this->getCfg('lang');
+				$lang = $user->getParam( 'language', $this->getCfg('lang') );
 			}
 		}
 

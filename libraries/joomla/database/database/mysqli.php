@@ -399,7 +399,9 @@ class JDatabaseMySQLi extends JDatabase
 			if ($v === NULL && !$updateNulls) {
 				continue;
 			}
-			if( $v == '' ) {
+			if( $v == '0' ) {
+				$val = $this->isQuoted( $v ) ? $this->Quote( '0' ) : 0;
+			} else if( $v == '' ) {
 				$val = $this->isQuoted( $v ) ? $this->Quote( '' ) : 0;
 			} else {
 				$val = $this->isQuoted( $v ) ? $this->Quote( $v ) : $v;
