@@ -41,6 +41,7 @@ Legend:
  # Fixed JFile::upload src path issue causing an inability to upload components on some systems
  # Fixed Installation autofind FTP path issue on windows machines wehre paths case don't match
  ^ On installation paths are now auto-chmodded by the installation script
+ ^ FTP Port now configurable option for connecting to ftp the ftp server
 
 14-Feb-2006 Johan Janssens
  + Added XStandard Lite 1.7 plugin
