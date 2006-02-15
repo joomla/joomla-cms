@@ -77,8 +77,7 @@ class JContentView
 	* Draws a Content List
 	* Used by Content Category & Content Section
 	*/
-	function showCategory(& $category, & $other_categories, & $items, & $access, $gid, & $params, & $page, & $lists, $order) 
-	{
+	function showCategory(& $category, & $other_categories, & $items, & $access, $gid, & $params, & $page, & $lists, $order) {
 		global $Itemid;
 
 		if ($params->get('page_title')) {
@@ -113,6 +112,16 @@ class JContentView
 					?>
 					<br />
 					<?php echo JText::_( 'This Category is currently empty' ); ?>
+					<br /><br />
+					<?php
+				}
+				// New Content icon
+				if ($access->canEdit || $access->canEditOwn) {
+					$link = sefRelToAbs('index.php?option=com_content&amp;task=new&amp;sectionid='.$id.'&amp;Itemid='.$Itemid);
+					?>
+					<a href="<?php echo $link; ?>">
+						<img src="images/M_images/new.png" width="13" height="14" align="middle" border="0" alt="<?php echo JText::_( 'New' );?>" />
+						&nbsp;<?php echo JText::_( 'New' );?>...</a>
 					<br /><br />
 					<?php
 				}
@@ -820,18 +829,6 @@ class JContentView
 			<tr>
 				<td colspan="5" align="right">
 					<?php echo $pageNav->writePagesCounter(); ?>
-				</td>
-			</tr>
-			<?php
-		}
-		if ($access->canEdit || $access->canEditOwn) {
-			$link = sefRelToAbs('index.php?option=com_content&amp;task=new&amp;sectionid='.$id.'&amp;cid='.$row->id.'&amp;Itemid='.$Itemid);
-			?>
-			<tr>
-				<td colspan="5">
-					<a href="<?php echo $link; ?>">
-						<img src="images/M_images/new.png" width="13" height="14" align="middle" border="0" alt="<?php echo JText::_( 'New' );?>" />
-						&nbsp;<?php echo JText::_( 'New' );?>...</a>
 				</td>
 			</tr>
 			<?php
