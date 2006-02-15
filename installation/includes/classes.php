@@ -141,34 +141,6 @@ class JInstallationController
 			);
 		}
 
-		$folders = array (
-			'administrator/backups',
-			'administrator/components',
-			'administrator/language',
-			'administrator/modules',
-			'administrator/templates',
-			'cache',
-			'components',
-			'images',
-			'images/banners',
-			'images/stories',
-			'language',
-			'plugins',
-			'plugins/content',
-			'plugins/editors',
-			'plugins/search',
-			'plugins/system',
-			'media',
-			'modules',
-			'templates',
-		);
-		foreach ($folders as $folder) {
-			$lists['folderPerms'][] = array (
-				'label' => $folder,
-				'state' => is_writeable( JPATH_SITE . DS . $folder ) ? 'Writeable' : 'Unwriteable'
-			);
-		}
-
 		return JInstallationView::preInstall( $vars, $lists );
 	}
 
@@ -422,6 +394,9 @@ class JInstallationController
 		if (!isset ($vars['ftpHost'])) {
 			$vars['ftpHost'] = '127.0.0.1';
 		}
+		if (!isset ($vars['ftpPort'])) {
+			$vars['ftpPort'] = '21';
+		}
 		if (!isset ($vars['ftpUser'])) {
 			$vars['ftpUser'] = '';
 		}
@@ -447,9 +422,52 @@ class JInstallationController
 		if (isset ($vars['siteName'])) {
 			$vars['siteName'] = stripslashes(stripslashes($vars['siteName']));
 		}
-		$vars['adminPassword'] = mosMakePassword(8);
+		
+		/*
+		 * Import the authentication library
+		 */
+		jimport('joomla.application.user.authenticate');
+		
+		/*
+		 * Generate a random admin password
+		 */
+		$vars['adminPassword'] = JAuthenticateHelper::genRandomPassword(8);
 
-		return JInstallationView::mainConfig($vars);
+		$folders = array (
+			'administrator/backups',
+			'administrator/components',
+			'administrator/language',
+			'administrator/modules',
+			'administrator/templates',
+			'cache',
+			'components',
+			'images',
+			'images/banners',
+			'images/stories',
+			'language',
+			'plugins',
+			'plugins/content',
+			'plugins/editors',
+			'plugins/search',
+			'plugins/system',
+			'media',
+			'modules',
+			'templates',
+		);
+		
+		/*
+		 * Now lets make sure we have permissions set on the appropriate folders
+		 */
+		foreach ($folders as $folder)
+		{
+			
+			$lists['folderPerms'][] = array (
+				'label' => $folder,
+				'state' => JInstallationHelper::setDirPerms( $folder, $vars ) ? 'Writeable' : 'Unwriteable'
+			);
+		}
+
+		return JInstallationView::mainConfig($vars, $lists);
 	}
 
 	function saveConfig($vars) 
@@ -529,7 +547,7 @@ class JInstallationController
 
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
-			$ftp = & JFTP::getInstance($vars['ftpHost']);
+			$ftp = & JFTP::getInstance($vars['ftpHost'], $vars['ftpPort']);
 			$ftp->login($vars['ftpUser'], $vars['ftpPassword']);
 
 			//Translate path for the FTP account
@@ -841,10 +859,10 @@ class JInstallationHelper
 	 * @return string Filesystem root for given FTP user
 	 * @since 1.1
 	 */
-	function findFtpRoot($user, $pass, $host='127.0.0.1') 
+	function findFtpRoot($user, $pass, $host='127.0.0.1', $port='21') 
 	{
 		jimport('joomla.connector.ftp');
-		$ftp = & JFTP::getInstance($host);
+		$ftp = & JFTP::getInstance($host, $port);
 		if (!$ftp->login($user, $pass)) {
 			JError::raiseError('SOME_ERROR_CODE', 'JInstallationHelper::findFtpRoot: Unable to login');
 		}
@@ -866,6 +884,74 @@ class JInstallationHelper
 
 		$thePath = str_replace($thePath, '', JPATH_SITE);
 		return ($thePath == '') ? DS : $thePath.DS;
+	}
+
+	/**
+	 * Set default folder permissions
+	 *
+	 * @param string $path The full file path
+	 * @param string $buffer The buffer to write
+	 * @return boolean True on success
+	 * @since 1.1
+	 */
+	function setDirPerms($dir, &$srv)
+	{
+
+		/*
+		 * Initialize variables
+		 */
+		$ftpFlag = false;
+		$ftpRoot = $srv['ftpRoot'];
+		
+		/*
+		 * First we need to determine if the path is chmodable
+		 */
+		if (!JPath::canChmod(JPATH_SITE.DS.$dir))
+		{
+			$ftpFlag = true;
+		}
+
+		// Do NOT use ftp if it is not enabled
+		if ($srv['ftpEnable'] != 1)
+		{
+			$ftpFlag = false;
+		}
+
+		if ($ftpFlag == true)
+		{
+			// Connect the FTP client
+			jimport('joomla.connector.ftp');
+			$ftp = & JFTP::getInstance($srv['ftpHost'], $srv['ftpPort']);
+			$ftp->login($srv['ftpUser'],$srv['ftpPass']);
+
+			//Translate path for the FTP account
+			$path = JPath::clean($ftpRoot."/".$dir, false);
+
+			/*
+			 * chmod using ftp
+			 */
+			if (!$ftp->chmod($path, '0755'))
+			{
+				$ret = false;
+			}
+
+			$ftp->quit();
+			$ret = true;
+		} else
+		{
+
+			$path = JPath::clean(JPATH_SITE.DS.$dir, false);
+
+			if (!@ chmod($path, octdec('0755')))
+			{
+				$ret = false;
+			} else
+			{
+				$ret = true;
+			}
+		}
+
+		return $ret;
 	}
 }
 ?>

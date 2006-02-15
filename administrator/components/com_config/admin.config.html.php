@@ -725,6 +725,14 @@ class JConfigView {
 					</tr>
 					<tr>
 						<td>
+							<?php echo JText::_( 'FTP Port' ); ?>:
+						</td>
+						<td>
+							<input class="text_area" type="text" name="ftp_port" size="25" value="<?php echo $row->ftp_port; ?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
 							<?php echo JText::_( 'FTP Username' ); ?>:
 						</td>
 						<td>

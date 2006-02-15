@@ -100,6 +100,36 @@
 					<div class="clr"></div>
 				</div>
 
+				<h2><jtmpl:translate>Directory and File Permissions</jtmpl:translate>:</h2>
+				<div class="install-text">
+					<jtmpl:translate key="tipPerms">In order for Joomla! to function
+					correctly it needs to be able to access or write to certain files
+					or directories. If you see "Unwriteable" you need to change the
+					permissions on the file or directory to allow Joomla
+					to write to it.</jtmpl:translate>
+				</div>
+				<div class="install-body">
+					<div class="install-form">
+						<fieldset>
+							<table class="content">
+							<jtmpl:tmpl name="folder-perms">
+								<tr>
+									<td class="item">
+									{LABEL}
+									</td>
+									<td align="left">
+										<span class="{STATE}">
+										<jtmpl:var name="statetext" copyFrom="state" modifier="Translate" />
+										</span>
+									</td>
+								</tr>
+							</jtmpl:tmpl>
+							</table>
+						</fieldset>
+					</div>
+					<div class="clr"></div>
+				</div>
+
 			</div>
 		</div>
 

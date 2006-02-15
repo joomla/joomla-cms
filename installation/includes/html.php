@@ -105,7 +105,6 @@ class JInstallationView
 
 		$tmpl->addRows( 'php-options', 	$lists['phpOptions'] );
 		$tmpl->addRows( 'php-settings', $lists['phpSettings'] );
-		$tmpl->addRows( 'folder-perms', $lists['folderPerms'] );
 
 		return $tmpl->fetch( 'page' );
 	}
@@ -196,7 +195,7 @@ class JInstallationView
 	 * The index page
 	 * @param array An array of lists
 	 */
-	function mainConfig( &$vars ) 
+	function mainConfig( &$vars, &$lists ) 
 	{
 		global $steps;
 
@@ -206,6 +205,7 @@ class JInstallationView
 
 		$tmpl->addVars( 'stepbar', $steps, 'step_' );
 		$tmpl->addVars( 'body', 	$vars, 'var_' );
+		$tmpl->addRows( 'folder-perms', $lists['folderPerms'] );
 
 		return $tmpl->fetch( 'page' );
 	}

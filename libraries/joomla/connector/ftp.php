@@ -142,25 +142,27 @@ class JFTP extends JObject {
 	 * @return JFTP  The FTP Client object.
 	 * @since 1.1
 	 */
-	function & getInstance($host = '127.0.0.1', $options = null) {
+	function & getInstance($host = '127.0.0.1', $port = '21', $options = null) {
 		static $instances;
 
+		$signature = $host.":".$port;
+		
 		if (!isset ($instances)) {
 			$instances = array ();
-			$instances[$host] = new JFTP($options);
-			$instances[$host]->connect($host);
+			$instances[$signature] = new JFTP($options);
+			$instances[$signature]->connect($host, $port);
 		}
 
-		if (!is_object($instances[$host])) {
-			$instances[$host] = new JFTP($options);
-			$instances[$host]->connect($host);
+		if (!is_object($instances[$signature])) {
+			$instances[$signature] = new JFTP($options);
+			$instances[$signature]->connect($host, $port);
 		} else {
 			// If instance already exists, set options for this use
-			$instances[$host]->connect($host);
-			$instances[$host]->setOptions($options);
+			$instances[$signature]->connect($host, $port);
+			$instances[$signature]->setOptions($options);
 		}
 
-		return $instances[$host];
+		return $instances[$signature];
 	}
 
 	/**
