@@ -240,9 +240,9 @@ class JRequest
 		}
 		elseif (is_array($var))
 		{
-			for ($i = 0; $i < count($var); $i ++)
+			foreach ($var as $offset)
 			{
-				$var[$i] = JRequest :: cleanVar($var[$i], $mask);
+				$offset = JRequest :: cleanVar($offset, $mask);
 			}
 			$return = $var;
 			/*
