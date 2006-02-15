@@ -14,14 +14,20 @@
 /** Set flag that this is a parent file */
 define( "_JEXEC", 1 );
 
-// crank up Joomla!
-require_once( 'configuration.php' );
+define('JPATH_BASE', dirname(__FILE__) );
+
+require_once ( JPATH_BASE .'/includes/defines.php'     );
+require_once ( JPATH_BASE .'/includes/application.php' );
+
 //if (!$mainframe->getCfg('xmlrpc_server')) {
 //	die( 'XML-RPC server not enabled.' );
 //}
-require_once( JPATH_SITE .'includes/joomla.php' );
 
-$mainframe = new JApplication( $database, 3 );
+// create the mainframe object
+$mainframe = new JSite();
+
+// set the configuration
+$mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 
 /** get the information about the current user from the sessions table */
 $user	= & $mainframe->getUser();
@@ -42,8 +48,8 @@ function domXmlRpcFault( &$server, $methodName, &$params ) {
 
 
 // Includes the required class file for the XML-RPC Server
-jimport('domit.dom_xmlrpc_server.php' );
-jimport('domit.dom_xmlrpc_fault.php' );
+jimport('domit.dom_xmlrpc_server' );
+jimport('domit.dom_xmlrpc_fault' );
 
 $xmlrpcServer = new dom_xmlrpc_server();
 $xmlrpcServer->setMethodNotFoundHandler( 'domXmlRpcFault' );

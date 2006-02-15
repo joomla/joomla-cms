@@ -14,14 +14,16 @@
 /** Set flag that this is a parent file */
 define( "_JEXEC", 1 );
 
-require_once( 'configuration.php' );
+define('JPATH_BASE', dirname(__FILE__) );
+
+require_once ( JPATH_BASE .'/includes/defines.php'     );
+require_once ( JPATH_BASE .'/includes/application.php' );
 
 //if (!$mainframe->getCfg('xmlrpc_server')) {
 //	die( 'XML-RPC server not enabled.' );
 //}
-require_once( JPATH_SITE .'includes/joomla.php' );
 
-jimport('domit.dom_xmlrpc_client.php' );
+jimport('domit.dom_xmlrpc_client' );
 
 error_reporting( E_ALL );
 
