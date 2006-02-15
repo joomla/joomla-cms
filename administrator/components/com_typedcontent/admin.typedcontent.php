@@ -221,15 +221,12 @@ function view( $option ) {
 function edit( $uid, $option ) {
 	global $database, $my, $mainframe;
 
-	$nullDate = $database->getNullDate();
 	$row =& JModel::getInstance('content', $database );
 
 	$lists = array();
+	$row->load( $uid );
 
 	if ($uid) {
-		// load the row from the db table
-		$row->load( $uid );
-
 		// fail if checked out not by 'me'
 		if ($row->isCheckedOut( $my->id )) {
         	$alert = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
@@ -238,13 +235,20 @@ function edit( $uid, $option ) {
 		}
 
 		$row->checkout( $my->id );
+		
 		if (trim( $row->images )) {
 			$row->images = explode( "\n", $row->images );
 		} else {
 			$row->images = array();
 		}
+		
+		$row->created 		= mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S' );
+		$row->modified 		= $row->modified == '0000-00-00 00:00:00' ? '' : mosFormatDate( $row->modified, '%Y-%m-%d %H:%M:%S' );
+		$row->publish_up 	= mosFormatDate( $row->publish_up, '%Y-%m-%d %H:%M:%S' );
+		
+		$nullDate = $database->getNullDate();
 		if (trim( $row->publish_down ) == $nullDate) {
-			$row->publish_down = "Never";
+			$row->publish_down = JText::_( 'Never' );
 		}
 
 		$query = "SELECT name"
@@ -279,12 +283,13 @@ function edit( $uid, $option ) {
 		$row->version 		= 0;
 		$row->state 		= 1;
 		$row->images 		= array();
-		$row->publish_up 	= date( 'Y-m-d', time() );
-		$row->publish_down 	= 'Never';
+		$row->publish_up 	= date( 'Y-m-d', time() + $mosConfig_offset * 60 * 60 );
+		$row->publish_down 	= JText::_( 'Never' );
 		$row->sectionid 	= 0;
 		$row->catid 		= 0;
 		$row->creator 		= '';
 		$row->modifier 		= '';
+		$row->modified 		= '0000-00-00 00:00:00';
 		$row->ordering 		= 0;
 		$row->frontpage 	= 0;
 		$menus = array();
@@ -346,17 +351,28 @@ function save( $option, $task ) {
 		exit();
 	}
 
-	if ( $row->id ) {
-		$row->modified = date( 'Y-m-d H:i:s' );
-		$row->modified_by = $my->id;
+	if ($row->id) {
+		$row->modified 		= date( 'Y-m-d H:i:s' );
+		$row->modified_by 	= $my->id;
+		$row->created 		= $row->created ? mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S', -$mosConfig_offset ) : date( 'Y-m-d H:i:s' );
+		$row->created_by 	= $row->created_by ? $row->created_by : $my->id;
 	} else {
-		$row->created = date( 'Y-m-d H:i:s' );
+		$row->created 		= $row->created ? mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S', -$mosConfig_offset ) : date( 'Y-m-d H:i:s' );
 		$row->created_by 	= $row->created_by ? $row->created_by : $my->id;
 	}
-	if (trim( $row->publish_down ) == 'Never') {
+	
+	if (strlen(trim( $row->publish_up )) <= 10) {
+		$row->publish_up .= ' 00:00:00';
+	}
+	$row->publish_up = mosFormatDate($row->publish_up, '%Y-%m-%d %H:%M:%S', -$mosConfig_offset );
+	
+	$nullDate = $database->getNullDate();
+	if (trim( $row->publish_down ) == "Never") {
 		$row->publish_down = $nullDate;
 	}
-
+	
+	$row->state = mosGetParam( $_REQUEST, 'published', 0 );
+	
 	// Save Parameters
 	$params = mosGetParam( $_POST, 'params', '' );
 	if (is_array( $params )) {

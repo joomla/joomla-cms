@@ -446,11 +446,11 @@ class HTML_content {
 		mosMakeHtmlSafe( $row );
 
 		$create_date = null;
-		if (intval( $row->created ) <> 0) {
+		if ( $row->created != '0000-00-00 00:00:00' ) {
 			$create_date 	= mosFormatDate( $row->created, '%A, %d %B %Y %H:%M', '0' );
 		}
 		$mod_date = null;
-		if (intval( $row->modified ) <> 0) {
+		if ( $row->modified != '0000-00-00 00:00:00' ) {
 			$mod_date 		= mosFormatDate( $row->modified, '%A, %d %B %Y %H:%M', '0' );
 		}
 
@@ -751,7 +751,13 @@ class HTML_content {
 								</strong>
 							</td>
 							<td>
-								<?php echo $row->created ? "$create_date</td></tr><tr><td valign='top' align='right'><strong>". JText::_( 'By' ) ."</strong></td><td>". $row->creator : JText::_( 'New document' ); ?>
+								<?php
+								if ( !$create_date ) {
+									echo JText::_( 'New document' );
+								} else {
+									echo $create_date;
+								}
+								?>
 							</td>
 						</tr>
 						<tr>
@@ -761,7 +767,17 @@ class HTML_content {
 								</strong>
 							</td>
 							<td>
-								<?php echo $row->modified ? "$mod_date</td></tr><tr><td valign='top' align='right'><strong>". JText::_( 'By' ) ."</strong></td><td>". $row->modifier : JText::_( 'Not modified' );?>
+								<?php
+								if ( !$mod_date ) {
+									echo JText::_( 'Not modified' );
+								} else {
+									echo $mod_date;
+									?>
+									<br />
+									<?php
+									echo $row->modifier;
+								}
+								?>
 							</td>
 						</tr>
 						</table>

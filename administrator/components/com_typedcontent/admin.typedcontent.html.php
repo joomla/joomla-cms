@@ -236,6 +236,15 @@ class HTML_typedcontent {
 
 	function edit( &$row, &$images, &$lists, &$params, $option, &$menus ) {
 
+		$create_date = null;
+		if ( $row->created != '0000-00-00 00:00:00' ) {
+			$create_date 	= mosFormatDate( $row->created, '%A, %d %B %Y %H:%M', '0' );
+		}
+		$mod_date = null;
+		if ( $row->modified != '0000-00-00 00:00:00' ) {
+			$mod_date 		= mosFormatDate( $row->modified, '%A, %d %B %Y %H:%M', '0' );
+		}
+		
 		$tabs = new mosTabs(0);
 		
 		// used to hide "Reset Hits" when hits = 0
@@ -476,7 +485,7 @@ class HTML_typedcontent {
 								<strong><?php echo JText::_( 'Version' ); ?></strong>
 							</td>
 							<td>
-								<?php echo "$row->version";?>
+								<?php echo "$row->version";?> <?php echo JText::_( 'times' ); ?>
 							</td>
 						</tr>
 						<tr>
@@ -484,7 +493,13 @@ class HTML_typedcontent {
 								<strong><?php echo JText::_( 'Created' ); ?></strong>
 							</td>
 							<td>
-								<?php echo $row->created ? "$row->created</td></tr><tr><td valign='top' align='right'><strong>". JText::_( 'By' ) ."</strong></td><td>". $row->creator : JText::_( 'New document' );?>
+								<?php
+								if ( !$create_date ) {
+									echo JText::_( 'New document' );
+								} else {
+									echo $create_date;
+								}
+								?>
 							</td>
 						</tr>
 						<tr>
@@ -492,7 +507,17 @@ class HTML_typedcontent {
 								<strong><?php echo JText::_( 'Last Modified' ); ?></strong>
 							</td>
 							<td>
-								<?php echo $row->modified ? "$row->modified</td></tr><tr><td valign='top' align='right'><strong>". JText::_( 'By' ) ."</strong></td><td>". $row->modifier : JText::_( 'Not modified' );?>
+								<?php
+								if ( !$mod_date ) {
+									echo JText::_( 'Not modified' );
+								} else {
+									echo $mod_date;
+									?>
+									<br />
+									<?php
+									echo $row->modifier;
+								}
+								?>
 							</td>
 						</tr>
 						<tr>
