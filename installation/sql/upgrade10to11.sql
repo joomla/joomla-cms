@@ -14,6 +14,7 @@ INSERT INTO `jos_mambots` VALUES (0, 'Syndicate Frontpage', 'frontpage.syndicate
 INSERT INTO `jos_mambots` VALUES (0, 'Syndicate Weblinks', 'weblinks.syndicatebot', 'syndicate', 0, 3, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `jos_mambots` VALUES (0, 'Syndicate Contacts', 'contact.syndicatebot', 'syndicate', 0, 4, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `jos_mambots` VALUES (0, 'Syndicate Poll', 'poll.syndicatebot', 'syndicate', 0, 5, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `jos_mambots` VALUES (0, 'XStandard Lite 1.7', 'xstandard', 'editors', 0, 0, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 
 #Mambot Removals 
 DELETE FROM `jos_mambots` WHERE `element` = 'legacybots' 
