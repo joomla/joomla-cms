@@ -12,21 +12,21 @@
 */
 
 /**
- * JDocument Placeholder function
+ * JDocument Include function
  *
  * @author		Johan Janssens <johan@joomla.be>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.1
  */
-class patTemplate_Function_Placeholder extends patTemplate_Function
+class patTemplate_Function_Include extends patTemplate_Function
 {
    /**
 	* name of the function
 	* @access	private
 	* @var		string
 	*/
-	var $_name	=	'placeholder';
+	var $_name	=	'include';
 	
 	/**
 	* reference to the JDocument object that instantiated the module

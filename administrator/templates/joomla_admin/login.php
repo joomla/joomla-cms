@@ -23,7 +23,7 @@ $tstart = mosProfiler::getmicrotime();
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}" >
 <head>
-<jdoc:placeholder type="head" />
+<jdoc: type="head" />
 <jdoc:tmpl name="isRTL" varscope="login.php" type="condition" conditionvar="LANG_ISRTL">
 	<jdoc:sub condition="1">
 		<link href="templates/{TEMPLATE}/css/login_rtl.css" rel="stylesheet" type="text/css" />

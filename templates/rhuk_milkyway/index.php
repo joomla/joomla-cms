@@ -10,7 +10,7 @@ See COPYRIGHT.php for copyright notices and details.
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}" >
 <head>
-<jdoc:placeholder type="head" />
+<jdoc:include type="head" />
 
 <link href="templates/{TEMPLATE}/css/template.css" rel="stylesheet" type="text/css" />
 <!--[if lte IE 6]>
@@ -33,7 +33,7 @@ See COPYRIGHT.php for copyright notices and details.
 				<div id="header_l">
 					<div id="header_r">
 						<div id="logo"></div>
-						<jdoc:placeholder type="modules" name="top" style="-1" />
+						<jdoc:include type="modules" name="top" style="-1" />
 					</div>
 				</div>
 			</div>
@@ -47,7 +47,7 @@ See COPYRIGHT.php for copyright notices and details.
 	    				      <td class="pill_l">&nbsp;</td>
 	    				      <td class="pill_m">
 	    				        <div id="pillmenu">
-	    				        	<jdoc:placeholder type="modules" name="user3" style="-1" />
+	    				        	<jdoc:include type="modules" name="user3" style="-1" />
 	    				        </div>
 	    				      </td>
 	    				      <td class="pill_r">&nbsp;</td>
@@ -59,11 +59,11 @@ See COPYRIGHT.php for copyright notices and details.
 			</div>
 			
 			<div id="search">
-				<jdoc:placeholder type="modules" name="user4" style="-1" />
+				<jdoc:include type="modules" name="user4" style="-1" />
 			</div>
 			
 			<div id="pathway">
-				<jdoc:placeholder type="module" name="breadcrumbs" style="-1" />
+				<jdoc:include type="module" name="breadcrumbs" style="-1" />
 			</div>
 			
 			<div class="clr"></div>
@@ -78,7 +78,7 @@ See COPYRIGHT.php for copyright notices and details.
 				<div id="whitebox_m">
 					<div id="area">
 						<div id="leftcolumn">
-							<jdoc:placeholder type="modules" name="left" style="-3" />
+							<jdoc:include type="modules" name="left" style="-3" />
 						</div>
 						
 						<div id="maincolumn">
@@ -87,7 +87,7 @@ See COPYRIGHT.php for copyright notices and details.
 									<tr valign="top">
 										<jdoc:exists type="modules" condition="user1" >
 											<td>
-												<jdoc:placeholder type="modules" name="user1" style="-2" />
+												<jdoc:include type="modules" name="user1" style="-2" />
 											</td>
 										</jdoc:exists>
 										<jdoc:exists type="modules" condition="user1 and user2" >
@@ -95,7 +95,7 @@ See COPYRIGHT.php for copyright notices and details.
 										</jdoc:exists>
 										<jdoc:exists type="modules" condition="user2" >
 											<td>
-												<jdoc:placeholder type="modules" name="user2" style="-2" />
+												<jdoc:include type="modules" name="user2" style="-2" />
 											</td>
 										</jdoc:exists>
 									</tr>
@@ -109,7 +109,7 @@ See COPYRIGHT.php for copyright notices and details.
 									<td>
 										<jdoc:tmpl name="showComponent" varscope="index.php" type="condition" conditionvar="PARAM_SHOWCOMPONENT">
 											<jdoc:sub condition="1">
-												<jdoc:placeholder type="component" />
+												<jdoc:include type="component" />
 											</jdoc:sub>
 											<jdoc:sub condition="0">
 												&nbsp;
@@ -121,7 +121,7 @@ See COPYRIGHT.php for copyright notices and details.
 										?>
 										<td class="greyline">&nbsp;</td>
 										<td width="170">
-											<jdoc:placeholder type="modules" name="right" style="-2"/>
+											<jdoc:include type="modules" name="right" style="-2"/>
 										</td>
 										<?php 
 									} 
@@ -148,14 +148,14 @@ See COPYRIGHT.php for copyright notices and details.
 		<div id="footer">
 			<div id="footer_l">
 				<div id="footer_r">
-					<jdoc:placeholder type="modules" name="footer" style="-1" />
+					<jdoc:include type="modules" name="footer" style="-1" />
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
-<jdoc:placeholder type="modules" name="debug" style="-1"/>
+<jdoc:include type="modules" name="debug" style="-1"/>
 
 </body>
 </html>

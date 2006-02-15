@@ -33,7 +33,7 @@ function mosCountAdminModules(  $position='left' ) {
  */
 function mosMainBody_Admin() {
 	?>
-	<jdoc:placeholder type="component" />
+	<jdoc:include type="component" />
 	<?php
 }
 
@@ -46,7 +46,7 @@ function mosMainBody_Admin() {
  
 function mosLoadAdminModules( $position='left', $style=0 ) {
 	?>
-	<jdoc:placeholder type="modules" name="<?php echo $position ?>" style="<?php echo $style ?>" />
+	<jdoc:include type="modules" name="<?php echo $position ?>" style="<?php echo $style ?>" />
 	<?php
 }
 
@@ -58,7 +58,7 @@ function mosLoadAdminModules( $position='left', $style=0 ) {
  */
 function mosLoadAdminModule( $name, $style=0 ) {
 	?>
-	<jdoc:placeholder type="module" name="<?php echo $name ?>" style="<?php echo $style ?>" />
+	<jdoc:include type="module" name="<?php echo $name ?>" style="<?php echo $style ?>" />
 	<?php
 }
 
@@ -67,7 +67,7 @@ function mosLoadAdminModule( $name, $style=0 ) {
 */
 function mosShowHead_Admin() {	
 	?>
-	<jdoc:placeholder type="head" />
+	<jdoc:include type="head" />
 	<?php
 }
 

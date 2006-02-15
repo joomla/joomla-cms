@@ -39,6 +39,7 @@ Legend:
 
 14-Feb-2006 Johan Janssens
  + Added XStandard Lite 1.7 plugin
+ ^ Renamed JDocument placeholder funtion to include
 
 13-Feb-2006 Louis Landry
  # Fixed artf3481 : Changes in uri.php - Corrects MS problem in Installation

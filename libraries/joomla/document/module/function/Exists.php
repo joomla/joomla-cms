@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: Exists.php 2181 2006-02-01 22:18:02Z webImagery $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php

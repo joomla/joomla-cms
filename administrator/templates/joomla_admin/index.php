@@ -14,7 +14,7 @@ $lang =& $mainframe->getLanguage();
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}" >
 <head>
-<jdoc:placeholder type="head" />
+<jdoc:include type="head" />
 
 <link href="templates/{TEMPLATE}/css/template.css" rel="stylesheet" type="text/css" />
 <jdoc:tmpl name="isRTL" varscope="index.php" type="condition" conditionvar="LANG_ISRTL">
@@ -37,11 +37,11 @@ $lang =& $mainframe->getLanguage();
 <table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td class="menubackgr" style="padding-<?php echo $lang->isRTL() ? 'right' : 'left'; ?>:5px;">
-		<jdoc:placeholder type="module" name="fullmenu" />
+		<jdoc:include type="module" name="fullmenu" />
 	</td>
 	<td class="menubackgr" align="<?php echo $lang->isRTL() ? 'left' : 'right'; ?>">
 		<div id="wrapper1">
-			<jdoc:placeholder type="modules" name="header" style="2" />
+			<jdoc:include type="modules" name="header" style="2" />
 		</div>
 	</td>
 	<td class="menubackgr" align="<?php echo $lang->isRTL() ? 'left' : 'right'; ?>" style="padding-<?php echo $lang->isRTL() ? 'left' : 'right'; ?>:5px;">
@@ -55,13 +55,13 @@ $lang =& $mainframe->getLanguage();
 <table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td class="menudottedline" align="<?php echo $lang->isRTL() ? 'left' : 'right'; ?>">
-		<jdoc:placeholder type="modules" name="toolbar" />
+		<jdoc:include type="modules" name="toolbar" />
 	</td>
 </tr>
 </table>
 <div class="centermain">
 	<div class="main">
-		<jdoc:placeholder type="component" />
+		<jdoc:include type="component" />
 	</div>
 </div>
 
@@ -72,11 +72,11 @@ $lang =& $mainframe->getLanguage();
 			<span style="color: red; font-weight: bold;">
 			** This release is NOT meant to be used for a "live" or "production" site **
 			</span>
-			<jdoc:placeholder type="modules" name="footer" />
+			<jdoc:include type="modules" name="footer" />
 		</td>
 	</tr>
 	</table>
 </div>
-<jdoc:placeholder type="modules" name="debug" />
+<jdoc:include type="modules" name="debug" />
 </body>
 </html>
