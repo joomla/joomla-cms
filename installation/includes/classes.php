@@ -868,6 +868,7 @@ class JInstallationHelper
 		}
 
 		$ftpList = $ftp->nameList();
+		$ftpList = array_map( 'strtolower', $ftpList );
 		$parts = explode(DS, JPATH_SITE);
 		$i = 1;
 		$numParts = count($parts);
@@ -875,15 +876,15 @@ class JInstallationHelper
 		$thePath = JPATH_SITE;
 
 		for ($i = 1; $i < $numParts; $i ++) {
-			if (in_array($parts[$i], $ftpList)) {
+			if (in_array(strtolower($parts[$i]), $ftpList)) {
 
 				$thePath = $ftpPath;
 			}
-			$ftpPath .= DS.$parts[$i];
+			$ftpPath .= "/".$parts[$i];
 		}
 
 		$thePath = str_replace($thePath, '', JPATH_SITE);
-		return ($thePath == '') ? DS : $thePath.DS;
+		return ($thePath == '') ? "/" : $thePath."/";
 	}
 
 	/**
