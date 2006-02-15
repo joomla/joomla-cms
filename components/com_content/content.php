@@ -1576,6 +1576,7 @@ class JContentController
 		}
 
 		$msg = $isNew ? JText :: _('THANK_SUB') : JText :: _('Item succesfully saved.');
+		$msg = $user->get('usertype') == 'Publisher' ? JText :: _('THANK_SUB'): $msg;
 		switch ($task) {
 			case 'apply' :
 				$link = $_SERVER['HTTP_REFERER'];
@@ -1640,7 +1641,7 @@ class JContentController
 		/*
 		 * If the task was not new, we go back to the referrer
 		 */
-		if ($referer && isset($row->id)) {
+		if ($referer && $row->id) {
 			josRedirect($referer);
 		} else {
 			josRedirect('index.php');
