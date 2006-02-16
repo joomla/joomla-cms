@@ -48,11 +48,11 @@ class InputFilter
 		/*
 		 * Assign member variables
 		 */
-		$this->tagsArray = $tagsArray;
-		$this->attrArray = $attrArray;
-		$this->tagsMethod = $tagsMethod;
-		$this->attrMethod = $attrMethod;
-		$this->xssAuto = $xssAuto;
+		$this->tagsArray	= $tagsArray;
+		$this->attrArray	= $attrArray;
+		$this->tagsMethod	= $tagsMethod;
+		$this->attrMethod	= $attrMethod;
+		$this->xssAuto		= $xssAuto;
 	}
 
 	/**
@@ -79,19 +79,19 @@ class InputFilter
 				}
 			}
 			return $source;
+		} else
 			/*
 			 * Or a string?
 			 */
-		} else
 			if (is_string($source) && !empty ($source))
 			{
 				// filter source for XSS and other 'bad' code etc.
 				return $this->remove($this->decode($source));
+			} else
+			{
 				/*
 				 * Not an array or string.. return the passed parameter
 				 */
-			} else
-			{
 				return $source;
 			}
 	}
@@ -106,7 +106,9 @@ class InputFilter
 	function remove($source)
 	{
 		$loopCounter = 0;
-		// provides nested-tag protection
+		/*
+		 * Iteration provides nested tag protection
+		 */
 		while ($source != $this->filterTags($source))
 		{
 			$source = $this->filterTags($source);
@@ -124,117 +126,197 @@ class InputFilter
 	 */
 	function filterTags($source)
 	{
-		// filter pass setup
-		$preTag = NULL;
-		$postTag = $source;
-		// find initial tag's position
+		/*
+		 * In the beginning we don't really have a tag, so everything is
+		 * postTag
+		 */
+		$preTag		= null;
+		$postTag	= $source;
+
+		/*
+		 * Is there a tag? If so it will certainly start with a '<'
+		 */
 		$tagOpen_start = strpos($source, '<');
-		// interate through string until no tags left
-		while ($tagOpen_start !== FALSE)
+		while ($tagOpen_start !== false)
 		{
 			// process tag interatively
-			$preTag .= substr($postTag, 0, $tagOpen_start);
-			$postTag = substr($postTag, $tagOpen_start);
-			$fromTagOpen = substr($postTag, 1);
+			$preTag		   .= substr($postTag, 0, $tagOpen_start);
+			$postTag		= substr($postTag, $tagOpen_start);
+			$fromTagOpen	= substr($postTag, 1);
 			// end of tag
-			$tagOpen_end = strpos($fromTagOpen, '>');
+			$tagOpen_end	= strpos($fromTagOpen, '>');
+
 			if ($tagOpen_end === false)
+			{
 				break;
-			// next start of tag (for nested tag assessment)
+			}
+
+			/*
+			 * Do we have a nested tag?
+			 */
 			$tagOpen_nested = strpos($fromTagOpen, '<');
 			if (($tagOpen_nested !== false) && ($tagOpen_nested < $tagOpen_end))
 			{
-				$preTag .= substr($postTag, 0, ($tagOpen_nested +1));
-				$postTag = substr($postTag, ($tagOpen_nested +1));
-				$tagOpen_start = strpos($postTag, '<');
+				$preTag		   .= substr($postTag, 0, ($tagOpen_nested +1));
+				$postTag		= substr($postTag, ($tagOpen_nested +1));
+				$tagOpen_start	= strpos($postTag, '<');
 				continue;
 			}
-			$tagOpen_nested = (strpos($fromTagOpen, '<') + $tagOpen_start +1);
-			$currentTag = substr($fromTagOpen, 0, $tagOpen_end);
-			$tagLength = strlen($currentTag);
+
+			/*
+			 * Let's catch any non-terminated tags and skip over them
+			 */
 			if (!$tagOpen_end)
 			{
-				$preTag .= $postTag;
-				$tagOpen_start = strpos($postTag, '<');
-			}
-			// iterate through tag finding attribute pairs - setup
-			$tagLeft = $currentTag;
-			$attrSet = array ();
-			$currentSpace = strpos($tagLeft, ' ');
-			// is end tag
-			if (substr($currentTag, 0, 1) == "/")
-			{
-				$isCloseTag = TRUE;
-				list ($tagName) = explode(' ', $currentTag);
-				$tagName = substr($tagName, 1);
-				// is start tag
-			} else
-			{
-				$isCloseTag = FALSE;
-				list ($tagName) = explode(' ', $currentTag);
-			}
-			// excludes all "non-regular" tagnames OR no tagname OR remove if xssauto is on and tag is blacklisted
-			if ((!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)) || (!$tagName) || ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto)))
-			{
-				$postTag = substr($postTag, ($tagLength +2));
-				$tagOpen_start = strpos($postTag, '<');
-				// don't append this tag
+				$postTag		= substr($postTag, $tagOpen_start +1);
+				$tagOpen_start	= strpos($postTag, '<');
 				continue;
 			}
-			// this while is needed to support attribute values with spaces in!
-			while ($currentSpace !== FALSE)
+
+			/*
+			 * Lets get some information about our tag and setup attribute pairs
+			 */
+			$tagOpen_nested	= (strpos($fromTagOpen, '<') + $tagOpen_start +1);
+			$currentTag		= substr($fromTagOpen, 0, $tagOpen_end);
+			$tagLength		= strlen($currentTag);
+			$tagLeft		= $currentTag;
+			$attrSet		= array ();
+			$currentSpace	= strpos($tagLeft, ' ');
+
+			/*
+			 * Are we an open tag or a close tag?
+			 */
+			if (substr($currentTag, 0, 1) == "/")
 			{
-				$fromSpace = substr($tagLeft, ($currentSpace +1));
-				$nextSpace = strpos($fromSpace, ' ');
-				$openQuotes = strpos($fromSpace, '"');
-				$closeQuotes = strpos(substr($fromSpace, ($openQuotes +1)), '"') + $openQuotes +1;
-				// another equals exists
-				if (strpos($fromSpace, '=') !== FALSE)
-				{
-					// opening and closing quotes exists
-					if (($openQuotes !== FALSE) && (strpos(substr($fromSpace, ($openQuotes +1)), '"') !== FALSE))
-						$attr = substr($fromSpace, 0, ($closeQuotes +1));
-					// one or neither exist
-					else
-						$attr = substr($fromSpace, 0, $nextSpace);
-					// no more equals exist
-				} else
-					$attr = substr($fromSpace, 0, $nextSpace);
-				// last attr pair
-				if (!$attr)
-					$attr = $fromSpace;
-				// add to attribute pairs array
-				$attrSet[] = $attr;
-				// next inc
-				$tagLeft = substr($fromSpace, strlen($attr));
-				$currentSpace = strpos($tagLeft, ' ');
+				// Close Tag
+				$isCloseTag		= true;
+				list ($tagName)	= explode(' ', $currentTag);
+				$tagName		= substr($tagName, 1);
+			} else
+			{
+				// Open Tag
+				$isCloseTag		= false;
+				list ($tagName)	= explode(' ', $currentTag);
 			}
-			// appears in array specified by user
+
+			/*
+			 * Exclude all "non-regular" tagnames 
+			 * OR no tagname 
+			 * OR remove if xssauto is on and tag is blacklisted
+			 */
+			if ((!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)) || (!$tagName) || ((in_array(strtolower($tagName), $this->tagBlacklist)) && ($this->xssAuto)))
+			{
+				$postTag		= substr($postTag, ($tagLength +2));
+				$tagOpen_start	= strpos($postTag, '<');
+				// Strip tag
+				continue;
+			}
+
+			/*
+			 * Time to grab any attributes from the tag... need this section in
+			 * case attributes have spaces in the values.
+			 */
+			while ($currentSpace !== false)
+			{
+				$fromSpace		= substr($tagLeft, ($currentSpace +1));
+				$nextSpace		= strpos($fromSpace, ' ');
+				$openQuotes		= strpos($fromSpace, '"');
+				$closeQuotes	= strpos(substr($fromSpace, ($openQuotes +1)), '"') + $openQuotes +1;
+
+				/*
+				 * Do we have an attribute to process? [check for equal sign]
+				 */
+				if (strpos($fromSpace, '=') !== false)
+				{
+					/*
+					 * If the attribute value is wrapped in quotes we need to
+					 * grab the substring from the closing quote, otherwise grab
+					 * till the next space
+					 */
+					if (($openQuotes !== false) && (strpos(substr($fromSpace, ($openQuotes +1)), '"') !== false))
+					{
+						$attr = substr($fromSpace, 0, ($closeQuotes +1));
+					} else
+					{
+						$attr = substr($fromSpace, 0, $nextSpace);
+					}
+				} else
+				{
+					/*
+					 * No more equal signs so add any extra text in the tag into
+					 * the attribute array [eg. checked]
+					 */
+					$attr = substr($fromSpace, 0, $nextSpace);
+				}
+
+				// Last Attribute Pair
+				if (!$attr)
+				{
+					$attr = $fromSpace;
+				}
+
+				/*
+				 * Add attribute pair to the attribute array
+				 */
+				$attrSet[] = $attr;
+
+				/*
+				 * Move search point and continue iteration
+				 */
+				$tagLeft		= substr($fromSpace, strlen($attr));
+				$currentSpace	= strpos($tagLeft, ' ');
+			}
+
+			/*
+			 * Is our tag in the user input array?
+			 */
 			$tagFound = in_array(strtolower($tagName), $this->tagsArray);
-			// remove this tag on condition
+
+			/*
+			 * If the tag is allowed lets append it to the output string
+			 */
 			if ((!$tagFound && $this->tagsMethod) || ($tagFound && !$this->tagsMethod))
 			{
-				// reconstruct tag with allowed attributes
+				/*
+				 * Reconstruct tag with allowed attributes
+				 */
 				if (!$isCloseTag)
 				{
+					// Open or Single tag
 					$attrSet = $this->filterAttr($attrSet);
 					$preTag .= '<'.$tagName;
 					for ($i = 0; $i < count($attrSet); $i ++)
+					{
 						$preTag .= ' '.$attrSet[$i];
-					// reformat single tags to XHTML
+					}
+
+					/*
+					 * Reformat single tags to XHTML
+					 */
 					if (strpos($fromTagOpen, "</".$tagName))
+					{
 						$preTag .= '>';
-					else
+					} else
+					{
 						$preTag .= ' />';
-					// just the tagname
+					}
 				} else
+				{
+					// Closing Tag
 					$preTag .= '</'.$tagName.'>';
+				}
 			}
-			// find next tag's start
-			$postTag = substr($postTag, ($tagLength +2));
-			$tagOpen_start = strpos($postTag, '<');
+
+			/*
+			 * Find next tag's start and continue iteration
+			 */
+			$postTag		= substr($postTag, ($tagLength +2));
+			$tagOpen_start	= strpos($postTag, '<');
 		}
-		// append any code after end of tags
+
+		/*
+		 * Append any code after the end of tags and return
+		 */
 		$preTag .= $postTag;
 		return $preTag;
 	}
@@ -243,29 +325,47 @@ class InputFilter
 	 * Internal method to strip a tag of certain attributes
 	 * 
 	 * @access	protected
-	 * @param	array	$attrSet
-	 * @return	array	$newSet
+	 * @param	array	$attrSet	Array of attribute pairs to filter
+	 * @return	array	$newSet		Filtered array of attribute pairs
 	 */
 	function filterAttr($attrSet)
 	{
+		/*
+		 * Initialize variables
+		 */
 		$newSet = array ();
-		// process attributes
+
+		/*
+		 * Iterate through attribute pairs
+		 */
 		for ($i = 0; $i < count($attrSet); $i ++)
 		{
-			// skip blank spaces in tag
+			/*
+			 * Skip blank spaces
+			 */
 			if (!$attrSet[$i])
 			{
 				continue;
 			}
-			// split into attr name and value
+
+			/*
+			 * Split into name/value pairs
+			 */
 			$attrSubSet = explode('=', trim($attrSet[$i]), 2);
 			list ($attrSubSet[0]) = explode(' ', $attrSubSet[0]);
-			// removes all "non-regular" attr names AND also attr blacklisted
+
+			/*
+			 * Remove all "non-regular" attribute names
+			 * AND blacklisted attributes
+			 */
 			if ((!eregi("^[a-z]*$", $attrSubSet[0])) || (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist)) || (substr($attrSubSet[0], 0, 2) == 'on'))))
 			{
 				continue;
 			}
-			// xss attr value filtering
+
+			/*
+			 * XSS attribute value filtering
+			 */
 			if ($attrSubSet[1])
 			{
 				// strips unicode, hex, etc
@@ -282,24 +382,38 @@ class InputFilter
 				// strip slashes
 				$attrSubSet[1] = stripslashes($attrSubSet[1]);
 			}
-			// auto strip attr's with "javascript:
+
+			/*
+			 * Autostrip script tags
+			 */
 			if (InputFilter :: badAttributeValue($attrSubSet))
 			{
 				continue;
 			}
 
-			// if matches user defined array
+			/*
+			 * Is our attribute in the user input array?
+			 */
 			$attrFound = in_array(strtolower($attrSubSet[0]), $this->attrArray);
-			// keep this attr on condition
+
+			/*
+			 * If the tag is allowed lets keep it
+			 */
 			if ((!$attrFound && $this->attrMethod) || ($attrFound && !$this->attrMethod))
 			{
-				// attr has value
+				/*
+				 * Does the attribute have a value?
+				 */
 				if ($attrSubSet[1])
 				{
 					$newSet[] = $attrSubSet[0].'="'.$attrSubSet[1].'"';
 				}
 				elseif ($attrSubSet[1] == "0")
 				{
+					/*
+					 * Special Case
+					 * Is the value 0?
+					 */
 					$newSet[] = $attrSubSet[0].'="0"';
 				} else
 				{

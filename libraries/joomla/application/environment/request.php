@@ -113,11 +113,6 @@ class JRequest
 		}
 
 		/*
-		 * Clean the variable given using the given filter mask
-		 */
-		$result = JRequest :: cleanVar($result, $mask);
-
-		/*
 		 * Handle default case
 		 */
 		if ((empty($result)) && (!empty($default)))
@@ -134,28 +129,47 @@ class JRequest
 			{
 				case 'INT' :
 				case 'INTEGER' :
+					// Simple regex to only get integer values
 					$result = (int) $result;
 					break;
 				case 'FLOAT' :
 				case 'DOUBLE' :
+					// Simple regex to only get floating point values
 					$result = (float) $result;
 					break;
 				case 'BOOL' :
 				case 'BOOLEAN' :
+					// Simple regex to only get boolean values
 					$result = (bool) $result;
 					break;
 				case 'ARRAY' :
+
+					/*
+					 * Clean the variable given using the given filter mask
+					 */
+					$result = JRequest :: cleanVar($result, $mask);
+
 					if (!is_array($result))
 					{
 						$result = null;
 					}
 					break;
 				case 'STRING' :
+
+					/*
+					 * Clean the variable given using the given filter mask
+					 */
+					$result = JRequest :: cleanVar($result, $mask);
+
 					$result = (string) $result;
 					break;
 				case 'NONE' :
 				default :
-					// Do Nothing
+
+					/*
+					 * Clean the variable given using the given filter mask
+					 */
+					$result = JRequest :: cleanVar($result, $mask);
 					break;
 			}
 		}
@@ -197,36 +211,39 @@ class JRequest
 			{
 				$var = trim($var);
 			}
+
 			/*
-			 * If the allow raw flag is set, do not modify the variable
+			 * Now we handle input filtering
 			 */
 			if ($mask & 2)
 			{
-				// do nothing
+				/*
+				 * If the allow raw flag is set, do not modify the variable
+				 */
 				$return = $var;
+			} elseif ($mask & 4)
+			{
 				/*
 				 * If the allow html flag is set, apply a safe html filter to the variable
 				 */
-			} else
-				if ($mask & 4)
+				if (is_null($safeHtmlFilter))
 				{
-					if (is_null($safeHtmlFilter))
-					{
-						$safeHtmlFilter = new InputFilter(null, null, 1, 1);
-					}
-					$return = $safeHtmlFilter->process($var);
-					/*
-					 * Since no allow flags were set, we will apply the most strict filter to the variable
-					 */
-				} else
-				{
-					if (is_null($noHtmlFilter))
-					{
-						$noHtmlFilter = new InputFilter(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */
-						);
-					}
-					$return = $noHtmlFilter->process($var);
+					$safeHtmlFilter = new InputFilter(null, null, 1, 1);
 				}
+				$return = $safeHtmlFilter->process($var);
+			} else
+			{
+				/*
+				 * Since no allow flags were set, we will apply the most strict filter to the variable
+				 */
+				if (is_null($noHtmlFilter))
+				{
+					$noHtmlFilter = new InputFilter(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */
+					);
+				}
+				$return = $noHtmlFilter->process($var);
+			}
+
 			/*
 			 * Handle magic quotes compatability
 			 */
@@ -234,22 +251,22 @@ class JRequest
 			{
 				$return = addslashes($return);
 			}
-			/*
-			 * If the variable to clean is an array, recursively iterate through it
-			 */
 		}
 		elseif (is_array($var))
 		{
+			/*
+			 * If the variable to clean is an array, recursively iterate through it
+			 */
 			foreach ($var as $offset)
 			{
 				$offset = JRequest :: cleanVar($offset, $mask);
 			}
 			$return = $var;
+		} else
+		{
 			/*
 			 * If the variable is neither an array or string just return the raw value
 			 */
-		} else
-		{
 			$return = $var;
 		}
 		return $return;
