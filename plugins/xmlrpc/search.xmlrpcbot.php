@@ -42,7 +42,9 @@ function wsGetSearchWebServices() {
 */
 function wsSearchSite( $searchword, $phrase='', $order='' ) 
 {
-	global $mainframe, $database, $my, $acl;
+	global $mainframe;
+	
+	$database =& $mainframe->getDBO();
 	
 	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
@@ -61,7 +63,7 @@ function wsSearchSite( $searchword, $phrase='', $order='' )
 	foreach ($results as $i=>$rows) {
 		foreach ($rows as $j=>$row) {
 			$results[$i][$j]->href = $url . '/' . $row->href;
-			$results[$i][$j]->text = mosPrepareSearchContent( $row->text );
+			$results[$i][$j]->text = mosPrepareSearchContent( $row->text, 200, $searchword);
 		}
 	}
 	return $results;

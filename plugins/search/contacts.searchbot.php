@@ -36,8 +36,11 @@ function &botSearchContactAreas() {
 * @param string mathcing option, exact|any|all
 * @param string ordering option, newest|oldest|popular|alpha|category
 */
-function botSearchContacts( $text, $phrase='', $ordering='', $areas=null ) {
-	global $database, $my;
+function botSearchContacts( $text, $phrase='', $ordering='', $areas=null ) 
+{
+	global $mainframe, $my;
+	
+	$database =& $mainframe->getDBO();
 
 	if (is_array( $areas )) {
 		if (!array_intersect( $areas, array_keys( botSearchContactAreas() ) )) {

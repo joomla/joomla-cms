@@ -37,8 +37,11 @@ function &botSearchSectionAreas() {
 * @param string ordering option, newest|oldest|popular|alpha|category
  * @param mixed An array if restricted to areas, null if search all
 */
-function botSearchSections( $text, $phrase='', $ordering='', $areas=null ) {
-	global $database, $my;
+function botSearchSections( $text, $phrase='', $ordering='', $areas=null ) 
+{
+	global $mainframe, $my;
+	
+	$database =& $mainframe->getDBO();
 
 	if (is_array( $areas )) {
 		if (!array_intersect( $areas, array_keys( botSearchSectionAreas() ) )) {
