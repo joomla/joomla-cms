@@ -24,6 +24,11 @@ $mainframe->registerEvent( 'onPrepareContent', 'botMosSef' );
 */
 function botMosSef( &$row, &$params, $page=0 ) {
 
+	// simple performance check to determine whether bot should process further
+	if ( strpos( $row->text, 'href="' ) === false ) {
+		return true;
+	}
+	
 	$plugin =& JPluginHelper::getPlugin('content', 'mossef'); 
 
 	// check whether plugin has been unpublished

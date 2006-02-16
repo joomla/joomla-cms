@@ -22,6 +22,10 @@ $mainframe->registerEvent( 'onPrepareContent', 'botGeshi' );
 * Replaces <pre>...</pre> tags with highlighted text
 */
 function botGeshi( &$row, &$params, $page=0 ) {
+	// simple performance check to determine whether bot should process further
+	if ( strpos( $row->text, 'pre>' ) === false ) {
+		return true;
+	}	
 
 	// Get Plugin info
  	$plugin =& JPluginHelper::getPlugin('content', 'geshi'); 

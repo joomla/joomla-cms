@@ -22,6 +22,11 @@ $mainframe->registerEvent( 'onPrepareContent', 'botMosLoadPosition' );
 function botMosLoadPosition( &$row, &$params, $page=0 ) {
 	global $database;
 
+	// simple performance check to determine whether bot should process further
+	if ( strpos( $row->text, 'mosloadposition' ) === false ) {
+		return true;
+	}
+	
 	// Get plugin info
 	$plugin =& JPluginHelper::getPlugin('content', 'mosloadposition'); 
 

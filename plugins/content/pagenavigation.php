@@ -19,22 +19,23 @@ $mainframe->registerEvent( 'onBeforeDisplayContent', 'botNavigation' );
 function botNavigation( &$row, &$params, $page=0 ) {
 	global $Itemid, $access, $mainframe, $my;
 
-	$html 		= '';
-	$db 		= & $mainframe->getDBO();
-	$user		= & $mainframe->getUser();
-	$nullDate	= $db->getNullDate();
-	$now 		= date('Y-m-d H:i', time() + $mainframe->getCfg('offset') * 60 * 60);
-	$uid 		= $row->id;
-	$option 	= 'com_content';
 	$task 		= JRequest::getVar( 'task' );
 
-	// Editor access object
-	$access = new stdClass();
-	$access->canEdit 	= $user->authorize('action', 'edit', 'content', 'all');
-	$access->canEditOwn = $user->authorize('action', 'edit', 'content', 'own');
-	$access->canPublish = $user->authorize('action', 'publish', 'content', 'all');
-
 	if ($params->get('item_navigation') && ($task == 'view') && !$params->get('popup')) {
+		$html 		= '';
+		$db 		= & $mainframe->getDBO();
+		$user		= & $mainframe->getUser();
+		$nullDate	= $db->getNullDate();
+		$now 		= date('Y-m-d H:i', time() + $mainframe->getCfg('offset') * 60 * 60);
+		$uid 		= $row->id;
+		$option 	= 'com_content';
+		
+		// Editor access object
+		$access = new stdClass();
+		$access->canEdit 	= $user->authorize('action', 'edit', 'content', 'all');
+		$access->canEditOwn = $user->authorize('action', 'edit', 'content', 'own');
+		$access->canPublish = $user->authorize('action', 'publish', 'content', 'all');		
+
 		// Paramters for menu item as determined by controlling Itemid
 		$menu = & JModel :: getInstance( 'menu', $db );
 		$menu->load($Itemid);

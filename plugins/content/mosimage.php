@@ -21,7 +21,12 @@ $mainframe->registerEvent( 'onPrepareContent', 'botMosImage' );
 function botMosImage( &$row, &$params, $page=0 ) {
 	global $database;
 
- 	// expression to search for
+ 	// simple performance check to determine whether bot should process further
+	if ( strpos( $row->text, 'mosimage' ) === false ) {
+		return true;
+	}
+	
+	// expression to search for
 	$regex = '/{mosimage\s*.*?}/i';
 
 	$plugin =& JPluginHelper::getPlugin('content', 'mosimage'); 

@@ -22,6 +22,11 @@ $mainframe->registerEvent( 'onPrepareContent', 'botMosEmailCloak' );
 function botMosEmailCloak( &$row, &$params, $page=0 ) {
 	global $database;
 
+	// simple performance check to determine whether bot should process further
+	if ( strpos( $row->text, '@' ) === false ) {
+		return true;
+	}
+	
  	$plugin =& JPluginHelper::getPlugin('content', 'mosemailcloak'); 
 
 	// check whether plugin has been unpublished
@@ -29,6 +34,12 @@ function botMosEmailCloak( &$row, &$params, $page=0 ) {
 		return true;
 	}
 
+	// check for presence of {mosemailcloak=off} which is explicits disables this bot for the item
+	if ( !strpos( $row->text, '{mosemailcloak=off}' ) === false ) {		
+		$row->text = str_replace( '{mosemailcloak=off}', '', $row->text );
+		return true;
+	}
+	
 	// load plugin params info
  	$pluginParams = new JParameter( $plugin->params );
  	$mode		= $pluginParams->def( 'mode', 1 );

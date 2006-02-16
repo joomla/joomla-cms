@@ -33,6 +33,11 @@ $mainframe->registerEvent( 'onPrepareContent', 'botMosPaging' );
 function botMosPaging( &$row, &$params, $page=0 ) {
 	global $mainframe, $Itemid, $database;
 
+	// simple performance check to determine whether bot should process further
+	if ( strpos( $row->text, 'mospagebreak' ) === false ) {
+		return true;
+	}
+	
 	if(!$page) {
 		$page = 0;
 	}
