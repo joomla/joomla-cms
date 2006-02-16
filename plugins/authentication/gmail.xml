@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <install version="1.1" type="plugin"  group="auth">
-    <name>GMail Authentication Plugin</name>
+    <name>Authentication - GMail</name>
     <author>Joomla! Project</author>
 	<creationDate>February 2006</creationDate>
 	<copyright>(C) 2006 Open Source Matters. All rights reserved.</copyright>

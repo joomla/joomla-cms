@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <install version="1.1" type="plugin" group="search">
-	<name>Newsfeeds searchbot</name>
+	<name>Search - Newsfeeds</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
@@ -10,7 +10,7 @@
 	<version>1.1</version>
 	<description>Allows Searching of Newsfeeds</description>
 	<files>
-		<filename plugin="newsfeeds.searchbot">newsfeeds.searchbot.php</filename>
+		<filename plugin="newsfeeds">newsfeeds.php</filename>
 	</files>
 	<params>
 		<param name="search_limit" type="text" size="5" default="50" label="Search Limit" description="Number of Search items to return"/>		

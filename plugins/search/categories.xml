@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <install version="1.1" type="plugin" group="search">
-	<name>Categories searchbot</name>
+	<name>Search - Categories</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
@@ -10,7 +10,7 @@
 	<version>1.1</version>
 	<description>Allows Searching of Categories information</description>
 	<files>
-		<filename plugin="categories.searchbot">categories.searchbot.php</filename>
+		<filename plugin="categories">categories.php</filename>
 	</files>
 	<params>
 		<param name="search_limit" type="text" size="5" default="50" label="Search Limit" description="Number of Search items to return"/>		

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<install version="1.1" type="plugin" group="xmlrpc">
-	<name>Search XML-RPC Bot</name>
+<install version="1.1" type="plugin" group="search">
+	<name>Search - Weblinks</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
@@ -8,9 +8,11 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.1</version>
-	<description>Search a site through XML-RPC</description>
+	<description>Allows Searching of Weblinks Component</description>
 	<files>
-		<filename plugin="search.xmlrpcbot">search.xmlrpcbot.php</filename>
+		<filename plugin="weblinks">weblinks.php</filename>
 	</files>
-	<params/>
+	<params>
+		<param name="search_limit" type="text" size="5" default="50" label="Search Limit" description="Number of Search items to return"/>		
+	</params>
 </install>

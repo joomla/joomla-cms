@@ -3,18 +3,33 @@
 # Joomla 1.0 to Joomla 1.1
 
 # Mambot Additions
-INSERT INTO `jos_mambots` VALUES (0, 'Joomla Authentication Plugin', 'joomla', 'authentication', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `jos_mambots` VALUES (0, 'LDAP Authentication Plugin', 'ldap', 'authentication', 0, 1, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `jos_mambots` VALUES (0, 'Authentication - Joomla', 'joomla', 'authentication', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `jos_mambots` VALUES (0, 'Authentication - LDAP', 'ldap', 'authentication', 0, 1, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `jos_mambots` VALUES (0, 'Joomla SEF URLs', 'joomla.sefurlbot', 'system', 0, 2, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `jos_mambots` VALUES (0, 'Search XML-RPC', 'search.xmlrpcbot', 'xmlrpc', 0, 7, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `jos_mambots` VALUES (0, 'XML-RPC - Joomla', 'joomla', 'xmlrpc', 0, 7, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `jos_mambots` VALUES (0, 'Visitor Statistics', 'joomla.visitorbot', 'system', 0, 3, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `jos_mambots` VALUES (0, 'Page Navigation','pagenavigation','content',0,2,1,1,0,0,'0000-00-00 00:00:00','');
-INSERT INTO `jos_mambots` VALUES (0, 'Syndicate Content', 'content.syndicatebot', 'syndicate', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `jos_mambots` VALUES (0, 'Syndicate Frontpage', 'frontpage.syndicatebot', 'syndicate', 0, 2, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `jos_mambots` VALUES (0, 'Syndicate Weblinks', 'weblinks.syndicatebot', 'syndicate', 0, 3, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `jos_mambots` VALUES (0, 'Syndicate Contacts', 'contact.syndicatebot', 'syndicate', 0, 4, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `jos_mambots` VALUES (0, 'Syndicate Poll', 'poll.syndicatebot', 'syndicate', 0, 5, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `jos_mambots` VALUES (0, 'Syndicate - Content', 'content', 'syndicate', 0, 1, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `jos_mambots` VALUES (0, 'Syndicate - Frontpage', 'frontpage', 'syndicate', 0, 2, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `jos_mambots` VALUES (0, 'Syndicate - Weblinks', 'weblinks', 'syndicate', 0, 3, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `jos_mambots` VALUES (0, 'Syndicate - Contacts', 'contact', 'syndicate', 0, 4, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `jos_mambots` VALUES (0, 'Syndicate - Poll', 'poll', 'syndicate', 0, 5, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `jos_mambots` VALUES (0, 'XStandard Lite 1.7', 'xstandard', 'editors', 0, 0, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `jos_mambots` VALUES (0, 'Authentication - GMail', 'gmail', 'authentication', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
+
+UPDATE `jos_mambots` SET `name` = 'Search - Content' WHERE `id` = '6'  
+UPDATE `jos_mambots` SET `name` = 'Search - Weblinks' WHERE `id` = '7'  
+UPDATE `jos_mambots` SET `name` = 'Search - Contacts' WHERE `id` = '13' 
+UPDATE `jos_mambots` SET `name` = 'Search - Categories' WHERE `id` = '14' 
+UPDATE `jos_mambots` SET `name` = 'Search - Sections' WHERE `id` = '15'
+UPDATE `jos_mambots` SET `name` = 'Search - Newsfeeds' WHERE `id` = '18'
+
+UPDATE `jos_mambots` SET `element` = 'content' WHERE `id` = '6'  
+UPDATE `jos_mambots` SET `element` = 'weblinks' WHERE `id` = '7' 
+UPDATE `jos_mambots` SET `element` = 'contacts' WHERE `id` = '13'
+UPDATE `jos_mambots` SET `element` = 'categories' WHERE `id` = '14'  
+UPDATE `jos_mambots` SET `element` = 'sections' WHERE `id` = '15'
+UPDATE `jos_mambots` SET `element` = 'wewsfeeds' WHERE `id` = '18'
 
 #Mambot Removals 
 DELETE FROM `jos_mambots` WHERE `element` = 'legacybots' 
@@ -64,8 +79,5 @@ ALTER TABLE `jos_components` ADD `enabled` TINYINT NOT NULL ;
 
 # LBL: 11-Feb-2006
 # Add breadcrumb template position
-INSERT INTO `#__template_positions` VALUES (0, 'breadcrumb', '');
+INSERT INTO `jos_template_positions` VALUES (0, 'breadcrumb', '');
 
-# SAM: 16-Feb-2006
-# Add GMail Auth Plugin
-INSERT INTO `#__plugins` VALUES (0, 'GMail Auth Plugin', 'gmail', 'authentication', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');

@@ -23,7 +23,7 @@ $mainframe->registerEvent( 'onGetWebServices', 'wsGetSearchWebServices' );
 function wsGetSearchWebServices() {
 	return array(
 		array(
-			'name' => 'search.site',
+			'name' => 'joomla.searchSite',
 			'method' => 'wsSearchSite',
 			'help' => 'Searches a remote site',
 			'signature' => array('string','string','string') // ??
