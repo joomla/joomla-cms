@@ -389,8 +389,7 @@ function addMenuItem( &$cid, $menutype, $option, $task ) {
 /**
 * Generic function to save the menu
 */
-function saveMenu( $option, $task='save' ) 
-{
+function saveMenu( $option, $task='save' ) {
 	global $database;
 
 	$row =& JModel::getInstance('menu', $database );

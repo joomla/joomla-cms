@@ -73,6 +73,14 @@ class wrapper_menu {
 		$params 	   = mosGetParam( $_POST, 'params', '' );
 		$params['url'] = mosGetParam( $_POST, 'url', '' );
 
+		if (is_array( $params )) {
+			$txt = array();
+			foreach ($params as $k=>$v) {
+				$txt[] = "$k=$v";
+			}
+			$_POST['params'] = mosParameters::textareaHandling( $txt );
+		}
+		
 		$row =& JModel::getInstance('menu', $database );
 
 		if (!$row->bind( $_POST )) {
