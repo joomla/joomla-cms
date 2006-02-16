@@ -423,6 +423,10 @@ class JInstallationController
 			$vars['siteName'] = stripslashes(stripslashes($vars['siteName']));
 		}
 		
+		if (!isset ($vars['ftpEnable'])) {
+			$vars['ftpEnable'] = 0;
+		}
+		
 		/*
 		 * Import the authentication library
 		 */
@@ -907,7 +911,7 @@ class JInstallationHelper
 		/*
 		 * First we need to determine if the path is chmodable
 		 */
-		if (!JPath::canChmod(JPATH_SITE.DS.$dir))
+		if (!JPath::canChmod(JPath::clean(JPATH_SITE.DS.$dir, false)))
 		{
 			$ftpFlag = true;
 		}
