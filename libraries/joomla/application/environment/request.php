@@ -65,9 +65,13 @@ class JRequest
 
 	function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
 	{
-		$hash = strtoupper($hash);
-		$type = strtoupper($type);
-		$result = null;
+		/*
+		 * Initialize variables
+		 */
+		$hash		= strtoupper($hash);
+		$type		= strtoupper($type);
+		$result		= null;
+		$matches	= array ();
 
 		if ($hash === 'METHOD')
 		{
@@ -129,17 +133,18 @@ class JRequest
 			{
 				case 'INT' :
 				case 'INTEGER' :
-					// Simple regex to only get integer values
-					$result = (int) $result;
+					// Only use the first integer value
+					@preg_match('/[0-9]+/', $result, $matches);
+					$result = (int) $matches[0];
 					break;
 				case 'FLOAT' :
 				case 'DOUBLE' :
-					// Simple regex to only get floating point values
-					$result = (float) $result;
+					// Only use the first floating point value
+					@preg_match('/[0-9]+(\.[0-9]+)?/', $result, $matches);
+					$result = (float) $matches[0];
 					break;
 				case 'BOOL' :
 				case 'BOOLEAN' :
-					// Simple regex to only get boolean values
 					$result = (bool) $result;
 					break;
 				case 'ARRAY' :
