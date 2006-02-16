@@ -33,47 +33,77 @@ function botMosEmailCloak( &$row, &$params, $page=0 ) {
  	$pluginParams = new JParameter( $plugin->params );
  	$mode		= $pluginParams->def( 'mode', 1 );
 
- 	$search 	= "([[:alnum:]_\.\-]+)(\@[[:alnum:]\.\-]+\.+)([[:alnum:]\.\-]+)";
- 	$search_text 	= "([[:alnum:][:space:][:punct:]][^<>]+)";
-
+	$search_email		= "([[:alnum:]_\.\-]+)(\@[[:alnum:]\.\-]+\.+)([[:alnum:]\.\-]+)";
+	$search_email_msg   = "([[:alnum:]_\.\-]+)(\@[[:alnum:]\.\-]+\.+)([[:alnum:]\.\-]+)([[:alnum:][:space:][:punct:]][^\"<>]+)";
+	$search_text 		= "([[:alnum:][:space:][:punct:]][^<>]+)";
+	
 	// search for derivativs of link code <a href="mailto:email@amail.com">email@amail.com</a>
-	// extra handling for inclusion of title and target attributes either side of href attribute
-	$searchlink	= "(<a [[:alnum:] _\"\'=\@\.\-]*href=[\"\']mailto:". $search ."[\"\'][[:alnum:] _\"\'=\@\.\-]*>)". $search ."</a>";
+	$searchlink	= "(<a [[:alnum:] _\"\'=\@\.\-]*href=[\"\']mailto:". $search_email ."[\"\'][[:alnum:] _\"\'=\@\.\-]*>)". $search_email ."</a>";
 	while( eregi( $searchlink, $row->text, $regs ) ) {
 		$mail 		= $regs[2] . $regs[3] . $regs[4];
 		$mail_text 	= $regs[5] . $regs[6] . $regs[7];
-
+		
 		// check to see if mail text is different from mail addy
 		if ( $mail_text ) {
-			$replacement 	= mosHTML::emailCloaking( $mail, $mode, $mail_text );
+			$replacement = mosHTML::emailCloaking( $mail, $mode, $mail_text );
 		} else {
-			$replacement 	= mosHTML::emailCloaking( $mail, $mode );
+			$replacement = mosHTML::emailCloaking( $mail, $mode );
 		}
-
+		
 		// replace the found address with the js cloacked email
 		$row->text 	= str_replace( $regs[0], $replacement, $row->text );
 	}
-
+	
 	// search for derivativs of link code <a href="mailto:email@amail.com">anytext</a>
-	// extra handling for inclusion of title and target attributes either side of href attribute
-	$searchlink	= "(<a [[:alnum:] _\"\'=\@\.\-]*href=[\"\']mailto:". $search ."[\"\'][[:alnum:] _\"\'=\@\.\-]*)>". $search_text ."</a>";
+	$searchlink	= "(<a [[:alnum:] _\"\'=\@\.\-]*href=[\"\']mailto:". $search_email ."[\"\'][[:alnum:] _\"\'=\@\.\-]*)>". $search_text ."</a>";
 	while( eregi( $searchlink, $row->text, $regs ) ) {
 		$mail 		= $regs[2] . $regs[3] . $regs[4];
 		$mail_text 	= $regs[5];
-
-		$replacement 	= mosHTML::emailCloaking( $mail, $mode, $mail_text, 0 );
-
+		
+		$replacement = mosHTML::emailCloaking( $mail, $mode, $mail_text, 0 );
+		
 		// replace the found address with the js cloacked email
 		$row->text 	= str_replace( $regs[0], $replacement, $row->text );
 	}
+	
+	// search for derivativs of link code <a href="mailto:email@amail.com?subject=Text">email@amail.com</a>
+	$searchlink		= "(<a [[:alnum:] _\"\'=\@\.\-]*href=[\"\']mailto:". $search_email_msg ."[\"\'][[:alnum:] _\"\'=\@\.\-]*)>". $search_email ."</a>";
+	while( eregi( $searchlink, $row->text, $regs ) ) {
+		
+		$mail		= $regs[2] . $regs[3] . $regs[4] . $regs[5];
+		$mail_text	= $regs[6] . $regs[7]. $regs[8];
+		
+		// check to see if mail text is different from mail addy
+		if ( $mail_text ) {
+			$replacement = mosHTML::emailCloaking( $mail, $mode, $mail_text );
+		} else {
+			$replacement = mosHTML::emailCloaking( $mail, $mode );
+		}
+		
+		
+		// replace the found address with the js cloacked email
+		$row->text     = str_replace( $regs[0], $replacement, $row->text );
+	}
 
+	// search for derivativs of link code <a href="mailto:email@amail.com?subject=Text">anytext</a>
+	$searchlink		= "(<a [[:alnum:] _\"\'=\@\.\-]*href=[\"\']mailto:". $search_email_msg ."[\"\'][[:alnum:] _\"\'=\@\.\-]*)>". $search_text ."</a>";
+	while( eregi( $searchlink, $row->text, $regs ) ) {
+		
+		$mail		= $regs[2] . $regs[3] . $regs[4] . $regs[5];
+		$mail_text	= $regs[6];
+		
+		$replacement = mosHTML::emailCloaking( $mail, $mode, $mail_text, 0 );
+		
+		// replace the found address with the js cloacked email
+		$row->text     = str_replace( $regs[0], $replacement, $row->text );
+	}
+	
 	// search for plain text email@amail.com
-	while( eregi( $search, $row->text, $regs ) ) {
+	while( eregi( $search_email, $row->text, $regs ) ) {
 		$mail = $regs[0];
-
+		
 		$replacement = mosHTML::emailCloaking( $mail, $mode );
 		
-
 		// replace the found address with the js cloacked email
 		$row->text = str_replace( $regs[0], $replacement, $row->text );
 	}

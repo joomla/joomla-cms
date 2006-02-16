@@ -45,12 +45,17 @@ function botMosSef( &$row, &$params, $page=0 ) {
 * @return string
 */
 function botMosSef_replacer( &$matches ) {
-	if ( substr($matches[1],0,1)=="#" ) {
+	// disable bot from being applied to mailto tags
+	if (strstr($matches[1],'mailto:')) {
+		return 'href="'. $matches[1] .'"';
+	}
+	
+	if ( substr($matches[1],0,1) == '#' ) {
 		// anchor
-		$temp = split("index.php", $_SERVER['REQUEST_URI']);
-		return "href=\"".sefRelToAbs("index.php".@$temp[1]).$matches[1]."\"";
+		$temp = split('index.php', $_SERVER['REQUEST_URI']);
+		return 'href="'. sefRelToAbs( 'index.php' . @$temp[1] ) . $matches[1] .'"';
 	} else {
-		return "href=\"".sefRelToAbs($matches[1])."\"";
+		return 'href="'. sefRelToAbs($matches[1]) .'"';
 	}
 }
 ?>
