@@ -424,17 +424,17 @@ function sefRelToAbs( $string ) {
 	} else {
 	// Handling for when SEF is not activated
 		// Relative link handling
-		if ( !(strpos( $string, $mosConfig_live_site ) === 0) ) {
+		if ( !(strpos( $string, $LiveSite ) === 0) ) {
 			// if URI starts with a "/", means URL is at the root of the host...
 			if (strncmp($string, '/', 1) == 0) {
 				// splits http(s)://xx.xx/yy/zz..." into [1]="htpp(s)://xx.xx" and [2]="/yy/zz...":
 				$live_site_parts = array();
-				eregi("^(https?:[\/]+[^\/]+)(.*$)", $mosConfig_live_site, $live_site_parts);
+				eregi("^(https?:[\/]+[^\/]+)(.*$)", $LiveSite, $live_site_parts);
 				
 				$string = $live_site_parts[1] . $string;
 			} else {
 				// URI doesn't start with a "/" so relative to the page (live-site):
-				$string = $mosConfig_live_site .'/'. $string;
+				$string = $LiveSite .'/'. $string;
 			}
 		}
 		
