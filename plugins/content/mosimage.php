@@ -82,8 +82,6 @@ function processImages ( &$row, &$params, &$introCount )
 	
 	$images 		= array();
 	
-	$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
-
 	// split on \n the images fields into an array
 	$row->images 	= explode( "\n", $row->images );
 	$total 			= count( $row->images );
@@ -150,7 +148,7 @@ function processImages ( &$row, &$params, &$introCount )
 			}
 
 			// assemble the <image> tag
-			$image = '<img src="'. $mosConfig_live_site .'/images/stories/'. $attrib[0] .'"'. $size;
+			$image = '<img src="images/stories/'. $attrib[0] .'"'. $size;
 			// no aligment variable - if caption detected
 			if ( !$attrib[4] ) {
 				$image .= $attrib[1] ? ' align="'. $attrib[1] .'"' : '';

@@ -485,7 +485,7 @@ class JDocument extends JTemplate
 		// Set mime type and character encoding
         header('Content-Type: ' . $this->_mime .  '; charset=' . $this->_charset);
 
-		parent::display( $name );
+		parent::display( $template );
 	}
 
 	/**

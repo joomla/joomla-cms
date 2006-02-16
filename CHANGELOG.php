@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Feb-2006 Johan Janssens
+ # Fixed artf3454 : using statistics the main toolbar in admin breaks
+
 16-Feb-2006 Samuel Moffatt
  + Added GMail authentication plugin
 

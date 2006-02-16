@@ -101,11 +101,9 @@ class JMenuBar
 	* @param boolean True if required to include callinh hideMainMenu()
 	* @since 1.0
 	*/
-	function custom( $task='', $icon='', $iconOver='', $alt='', $listSelect=true, $x=false ) {
+	function custom( $task='', $icon='', $iconOver='', $alt='', $listSelect=true, $x=false ) 
+	{
 		global $mainframe;
-
-		$uri 	=& $mainframe->getURI();
-		$jself 	= ampReplace( $uri->toString(array('scheme', 'uri', 'host', 'port', 'path', 'query')) .'#' );
 
     	$alt = JText::_( $alt );
 
@@ -129,7 +127,7 @@ class JMenuBar
 		if ($icon || $iconOver) {
 			?>
 			<td>
-				<a class="toolbar" href="<?php echo $jself; ?>" onclick="<?php echo $onclick ;?>">
+				<a class="toolbar" onclick="<?php echo $onclick ;?>">
 					<?php echo $image; ?>
 					<br /><?php echo $alt; ?></a>
 			</td>
@@ -137,7 +135,7 @@ class JMenuBar
 		} else {
 			?>
 			<td>
-				<a class="toolbar" href="<?php echo $jself; ?>" onclick="<?php echo $onclick ;?>>
+				<a class="toolbar" onclick="<?php echo $onclick ;?>>
 					<br /><?php echo $alt; ?></a>
 			</td>
 			<?php
@@ -171,9 +169,6 @@ class JMenuBar
 	function preview( $url='', $updateEditors=false ) {
 		global $mainframe;
 
-		$uri 	=& $mainframe->getURI();
-		$jself 	= ampReplace( $uri->toString(array('scheme', 'uri', 'host', 'port', 'path', 'query')) .'#' );
-
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'preview_f2.png', '/images/', NULL, NULL, 'Preview', 'preview', 1 );
 
 		?>
@@ -190,7 +185,7 @@ class JMenuBar
 				window.open('<? echo $url."&task=preview"; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');
 			}
 			</script>
-			<a class="toolbar" href="<?php echo $jself; ?>" onclick="popup();">
+			<a class="toolbar" onclick="popup();">
 				<?php echo $image2; ?>
 				<br /><?php echo JText::_( 'Preview' ); ?></a>
 		</td>
@@ -206,9 +201,6 @@ class JMenuBar
 	function help( $ref, $com=false ) {
 		global $mainframe;
 
-		$uri =& $mainframe->getURI();
-		$jself = ampReplace( $uri->toString(array('scheme', 'uri', 'host', 'port', 'path', 'query')) .'#' );
-
 		$image2 	= mosAdminMenus::ImageCheckAdmin( 'help_f2.png', '/images/', NULL, NULL, 'Help', 'help', 1 );
 
 		jimport('joomla.i18n.help');
@@ -216,7 +208,7 @@ class JMenuBar
 
 		?>
 		<td>
-			<a class="toolbar" href="<?php echo $jself; ?>" onclick="window.open('<?php echo $url;?>', 'joomla_help_win', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');">
+			<a class="toolbar" onclick="window.open('<?php echo $url;?>', 'joomla_help_win', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');">
 				<?php echo $image2; ?>
 				<br /><?php echo JText::_( 'Help' ); ?></a>
 		</td>
@@ -255,14 +247,11 @@ class JMenuBar
 	function media_manager( $directory='', $alt='Upload' ) {
 		global $mainframe;
 
-		$uri 	=& $mainframe->getURI();
-		$jself 	= ampReplace( $uri->toString(array('scheme', 'uri', 'host', 'port', 'path', 'query')) .'#' );
-
     	$alt 	= JText::_( $alt );
 		$image2 = mosAdminMenus::ImageCheckAdmin( 'upload_f2.png', '/images/', NULL, NULL, 'Upload Image', 'uploadPic', 1 );
 		?>
 		<td>
-			<a class="toolbar" href="<?php echo $jself; ?>" onclick="popupWindow('index3.php?option=com_media&amp;task=popupUpload&amp;directory=<?php echo $directory; ?>','win1',550,200,'no');">
+			<a class="toolbar" onclick="popupWindow('index3.php?option=com_media&amp;task=popupUpload&amp;directory=<?php echo $directory; ?>','win1',550,200,'no');">
 				<?php echo $image2; ?>
 				<br /><?php echo $alt;?></a>
 		</td>

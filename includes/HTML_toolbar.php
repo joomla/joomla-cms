@@ -50,10 +50,7 @@ class mosToolBar {
 		
 		$icon 	= ( $iconOver ? $iconOver : $icon );
 		$image 	= mosAdminMenus::ImageCheck( $icon, '/images/', NULL, NULL, $alt, $task, 1 );
-		
-		$href 	= explode('index.php?', $_SERVER['REQUEST_URI'] );
-		$href 	= 'index.php?'. ampReplace( $href[1] ) .'#';
-		
+			
 		if ($listSelect) {
 			$onclick = "javascript:if (document.adminForm.boxchecked.value == 0){ alert('Please make a selection from the list to $alt');}else{submitbutton('$task')}";
 		} else {
@@ -61,7 +58,7 @@ class mosToolBar {
 		}
 		?>
 		<td>
-			<a class="toolbar" href="<?php echo $href;?>" onclick="<?php echo $onclick ;?>">
+			<a class="toolbar" onclick="<?php echo $onclick ;?>">
 				<?php echo $image; ?></a>
 		</td>
 		<?php
@@ -240,7 +237,7 @@ class mosToolBar {
 		$image 	= mosAdminMenus::ImageCheck( 'preview_f2.png', 'images/', NULL, NULL, $alt, 'preview', 1 );
 		?>
 		<td>
-			<a class="toolbar" href="#" onclick="window.open('popups/<?php echo $popup;?>.php?t=<?php echo $cur_template; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');" >
+			<a class="toolbar" onclick="window.open('popups/<?php echo $popup;?>.php?t=<?php echo $cur_template; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');" >
 				<?php echo $image; ?></a>
 		</td>
 		<?php
