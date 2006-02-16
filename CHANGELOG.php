@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Feb-2006 Rey Gigataras
+ + Allow ability to siwtch off emailcloaking for specific items via {mosemailcloak=off} tag
+
 16-Feb-2006 Louis Landry
  # Fixed artf3475 : relative include paths break installation on some systems
  
