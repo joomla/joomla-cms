@@ -300,10 +300,12 @@ function sefRelToAbs( $string ) {
 	$MultilingualSupport 	= $mainframe->getCfg('multilingual_support');
 	$LiveSite 				= $mainframe->getCfg('live_site');
 
+	//multilingual code url support
 	if( isset($MultilingualSupport) && ($MultilingualSupport) && $string!='index.php' && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),'index.php') && !eregi('lang=', $string) ) {
 		$string .= "&lang=$iso_client_lang";
 	}
 
+	// SEF URL Handling
 	if ( $SEF && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),'index.php')) {
 		// Replace all &amp; with &
 		$string = str_replace( '&amp;', '&', $string );
@@ -420,8 +422,20 @@ function sefRelToAbs( $string ) {
 		}
 
 	} else {
-		if ( !strstr( $string, $LiveSite ) ) {
-			$string = $LiveSite .'/'. $string;
+	// Handling for when SEF is not activated
+		// Relative link handling
+		if ( !(strpos( $string, $mosConfig_live_site ) === 0) ) {
+			// if URI starts with a "/", means URL is at the root of the host...
+			if (strncmp($string, '/', 1) == 0) {
+				// splits http(s)://xx.xx/yy/zz..." into [1]="htpp(s)://xx.xx" and [2]="/yy/zz...":
+				$live_site_parts = array();
+				eregi("^(https?:[\/]+[^\/]+)(.*$)", $mosConfig_live_site, $live_site_parts);
+				
+				$string = $live_site_parts[1] . $string;
+			} else {
+				// URI doesn't start with a "/" so relative to the page (live-site):
+				$string = $mosConfig_live_site .'/'. $string;
+			}
 		}
 		
 		return $string;
