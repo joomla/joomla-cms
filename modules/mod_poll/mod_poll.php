@@ -70,11 +70,13 @@ if (!defined( '_JOS_POLL_MODULE' )) {
 		<form name="form2" method="post" action="<?php echo sefRelToAbs("index.php?option=com_poll&amp;Itemid=$Itemid"); ?>">
 
 		<table width="95%" border="0" cellspacing="0" cellpadding="1" align="center" class="poll<?php echo $moduleclass_sfx; ?>">
+		<thead>
 		<tr>
-			<th>
+			<td style="font-weight: bold;">
 				<?php echo $poll->title; ?>
-			</th>
+			</td>
 		</tr>
+		</thead>
 		<tr>
 			<td align="center">
 				<table class="pollstableborder<?php echo $moduleclass_sfx; ?>" cellspacing="0" cellpadding="0" border="0">
