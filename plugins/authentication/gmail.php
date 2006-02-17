@@ -114,7 +114,7 @@ class JAuthenticateGMail extends JPlugin {
 			$user->set( 'id', 0 );
 			$user->set( 'name', $username );
 			$user->set( 'username', $username );
-			$user->set( 'gid', 22 );
+			$user->set( 'gid', 18 );
 			$user->set( 'usertype', 'Registered' );
 			$user->set( 'email', $username );			
 			$user->save();
