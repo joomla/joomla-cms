@@ -235,7 +235,7 @@ class JBrowser extends JObject
 	 * @return string  The current browser's version.
 	 */
 	function getVersion()     {
-		return $this->_browser['verion'];
+		return $this->_browser['version'];
 	}
 
 	/**
