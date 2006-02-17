@@ -462,13 +462,13 @@ class JInstallationController
 		/*
 		 * Now lets make sure we have permissions set on the appropriate folders
 		 */
-		foreach ($folders as $folder)
-		{
-			if (!JInstallationHelper::setDirPerms( $folder, $vars ))
-			{
-				$lists['folderPerms'][] = $folder;
-			}
-		}
+//		foreach ($folders as $folder)
+//		{
+//			if (!JInstallationHelper::setDirPerms( $folder, $vars ))
+//			{
+//				$lists['folderPerms'][] = $folder;
+//			}
+//		}
 
 		return JInstallationView::mainConfig($vars, $lists);
 	}
