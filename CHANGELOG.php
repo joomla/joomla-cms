@@ -42,6 +42,7 @@ Legend:
 
 16-Feb-2006 Louis Landry
  # Fixed artf3475 : relative include paths break installation on some systems
+ # Fixed infinite recursion problem with some JError errors
  
 16-Feb-2006 Johan Janssens
  # Fixed artf3454 : using statistics the main toolbar in admin breaks

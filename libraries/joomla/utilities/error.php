@@ -267,12 +267,19 @@ class JDebugHandler
 	function &errorDebug( &$error )
 	{	
 		$document =& JApplication::getDocument();
+
+		/*
+		 * Need to clear the renderers array so we don't have a bad case of
+		 * infinite recursion on a database error among other things.
+		 */
+		$document->_renderers = array ();
+
 		$document->parse('_system', 'error.html');
 		
 		$document->setTitle( 'Joomla 1.1 - Error' );
 		
 		$html = $this->_fetchDebug($error);
-		$document->addGlobalVar('error_', $html);
+		$document->addGlobalVar('error_msg', $html);
 		
 		$document->display( 'error.html');
 		
