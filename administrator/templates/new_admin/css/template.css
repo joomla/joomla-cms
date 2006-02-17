@@ -1,0 +1,257 @@
+/* CSS Document */
+html {
+	height: 100%;
+}
+
+body {
+	margin: 10px;
+	padding: 0;
+	background: #fff;
+	height: 100%;
+	padding-bottom: 1px;
+}
+
+
+
+.clr {
+	clear: both;
+}
+
+form {
+	margin: 0;
+	padding: 0;
+}
+
+/* installer */
+#header1 {
+	background: url(../images/j_header_middle.png) repeat-x;
+}
+
+#header2 {
+	background: url(../images/j_header_right.png) 100% 0 no-repeat;
+}
+
+#header3 {
+	background: url(../images/j_header_left.png) no-repeat;
+	height: 54px;
+}
+
+#header3 span {
+	font-size: 22px;
+	color: #fff;
+	font-weight: bold;
+	padding-left: 180px;
+	line-height: 44px;
+}
+
+#version {
+	float: right;
+	color: #fff;
+	padding-top: 25px;
+	padding-right: 5px;
+}
+
+.far-right {
+	margin-right: 6px !Important;
+	margin-right: 0px;
+	margin-top: 2px;
+	float: right;
+	text-align: right;
+}
+
+/** body parts **/
+
+#footer1 {
+	background: url(../images/j_bottom.png) repeat-x;
+}
+
+#footer2 {
+	background: url(../images/j_corner_br.png) 100% 0 no-repeat;
+}
+
+#footer3 {
+	background: url(../images/j_corner_bl.png) no-repeat;
+	height: 11px;
+}
+
+#copyright {
+	margin: 10px;
+	text-align: center;
+}
+
+#content-box {
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+}
+
+#content-pad {
+	padding: 10px 10px 0 10px;
+}
+
+.component {
+	background: #fff;
+}
+
+.element-box {
+	background: #fbfbfb;
+}
+
+.element-pad {
+	padding: 10px;
+}
+
+.extra-padding {
+	padding: 10px;
+}
+
+/** text elements **/
+
+h1 {
+	margin: 0;
+	padding-bottom: 8px;
+	font-size: 22px;
+	color: #0B55C4;
+	font-weight: bold;
+}
+
+body, div, p, td, span {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 11px;
+}
+
+a:link, a:visited {
+	text-decoration: none;
+	color: #0B55C4;
+}
+
+a:hover {
+
+}
+
+h1, h2, h3, h4, h5,
+#header3 span,
+.button1-left a,
+.button1-right a {
+	font-family: Arial Narrow, Helvetica, Arial, sans-serif;
+}
+
+
+
+/** buttons **/
+
+.button1-left {
+	background: url(../images/j_button1_left.png) no-repeat;
+	float: left;
+	margin-left: 5px;
+}
+
+.button1-right {
+	background: url(../images/j_button1_right.png) 100% 0 no-repeat;
+	float: left;
+	margin-left: 5px;
+}
+
+.button1-right .prev {
+	float: left;
+	background: url(../images/j_button1_prev.png) no-repeat;
+}
+
+.button1-left .next {
+	float: left;
+	background: url(../images/j_button1_next.png) 100% 0 no-repeat;
+}
+
+.button1-left a, 
+.button1-right a {
+	display: block;
+	height: 26px;
+	float: left;
+	line-height: 26px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #333;
+	cursor: pointer;
+}
+
+.button1-left a {
+	padding: 0 30px 0 6px;
+}
+
+.button1-right a {
+	padding: 0 6px 0 30px;
+}
+
+/** moofx stuff **/
+h3.title-smenu {
+	margin: 0;
+	border: 1px solid #ccc;
+	background: #EBEBEB;
+	padding: 4px;
+	margin-bottom: 1px;
+	color: #666;
+}
+
+
+/** login page **/
+
+#login-content-pad {
+	padding-top: 40px;
+	padding-bottom: 100px;
+}
+
+
+#login {
+	background: #fff;
+	margin: 0 auto;
+	width: 500px;
+}
+
+#login .inputbox {
+	width: 120px;
+}
+
+
+#loginpad {
+	padding: 20px;
+		background: url(../images/j_login_lock.jpg) 50px 100% no-repeat;
+		padding-bottom: 60px;
+}
+
+table.login {
+ width: 100%;
+ padding: 0;
+ margin: 0;
+}
+
+
+#login-form {
+	float: right;
+	width: 210px;
+}
+
+td.login-button {
+	text-align: right;
+}
+
+/** administrator pages **/
+
+.sidemenu-box {
+	background: #F7F7F7;
+	float: left;
+	width: 170px;
+}
+
+.sidemenu-pad {
+	padding: 0;
+}
+
+.sidemenu-box h2 {
+	margin: 0;
+	padding: 0 5px;
+	
+}
+
+.sidemenu-box h3.title-smenu {
+	border-left: 0px;
+	border-right: 0px;
+}
