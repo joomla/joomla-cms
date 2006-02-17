@@ -189,6 +189,7 @@ h3.title-smenu {
 	padding: 4px;
 	margin-bottom: 1px;
 	color: #666;
+	cursor: pointer;
 }
 
 
@@ -243,6 +244,11 @@ td.login-button {
 
 .sidemenu-pad {
 	padding: 0;
+}
+
+.content-area {
+	margin-left: 180px;
+	
 }
 
 .sidemenu-box h2 {

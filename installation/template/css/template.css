@@ -197,7 +197,7 @@ span.step {
 
 .button1-left .admin {
 	float: left;
-	background: url(../images/j_button1-admin.png) 100% 0 no-repeat;
+	background: url(../images/j_button1_admin.png) 100% 0 no-repeat;
 }
 
 .button1-left .collate {
@@ -301,13 +301,14 @@ span.step {
   height: 500px;
 }
 
-h3.display {
+h3.title-smenu {
 	margin: 0;
 	border: 1px solid #ccc;
 	background: #EBEBEB;
 	padding: 4px;
 	margin-bottom: 1px;
 	color: #666;
+	cursor: pointer;
 }
 
 div.stretcher {

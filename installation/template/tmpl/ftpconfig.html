@@ -5,33 +5,6 @@
 @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
 </jtmpl:comment>
-<script type="text/javascript" src="../includes/js/moofx/prototype.lite.js"></script>
-<script type="text/javascript" src="../includes/js/moofx/moo.fx.js"></script>
-<script type="text/javascript" src="../includes/js/moofx/moo.fx.pack.js"></script>
-<script type="text/javascript">
-//the main function, call to the effect object
-function init(){
-	
-	var stretchers = document.getElementsByClassName('stretcher'); //div that stretches
-	var toggles = document.getElementsByClassName('display'); //h3s where I click on
-
-	//accordion effect
-	var myAccordion = new fx.Accordion(
-		toggles, stretchers, {opacity: true, duration: 400}
-	);
-
-	//hash functions
-	var found = false;
-	toggles.each(function(h3, i){
-		var div = Element.find(h3, 'nextSibling'); //element.find is located in prototype.lite
-		if (window.location.href.indexOf(h3.title) > 0) {
-			myAccordion.showThisHideOpen(div);
-			found = true;
-		}
-	});
-	if (!found) myAccordion.showThisHideOpen(stretchers[0]);
-}
-</script>
 <script language="JavaScript" type="text/javascript">
 function validateForm( frm, task ) {
 	var ftpEnable = document.getElementById("ftpenable");
@@ -101,8 +74,8 @@ function JProcess() {
 				<div class="install-body">
 					<div class="install-form">	
 						<div class="extra-padding">
-							<h3 class="display" title="Basic"><jtmpl:translate>Basic Settings</jtmpl:translate></h3>
-							<div class="stretcher">
+							<h3 class="title-smenu" title="Basic"><jtmpl:translate>Basic Settings</jtmpl:translate></h3>
+							<div class="section-smenu">
 								<table class="content2">
 									<tr>
 										<td width="100">
@@ -149,8 +122,8 @@ function JProcess() {
 								
 								<br /><br />
 							</div>
-							<h3 class="display" title="Advanced"><jtmpl:translate>Advanced settings</jtmpl:translate></h3>
-							<div class="stretcher">
+							<h3 class="title-smenu" title="Advanced"><jtmpl:translate>Advanced settings</jtmpl:translate></h3>
+							<div class="section-smenu">
 								<table class="content2">
 									<tr id="host">
 										<tr>

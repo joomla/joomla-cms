@@ -60,53 +60,40 @@ $lang =& $mainframe->getLanguage();
 		<div id="content-box">
 			<div id="content-pad">
 			
-			<!-- very temporary -->
-			<table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
-			<tr>
-				<td class="menubackgr" style="padding-<?php echo $lang->isRTL() ? 'right' : 'left'; ?>:5px;">
-					<jdoc:include type="module" name="fullmenu" />
-				</td>
-				<td class="menubackgr" align="<?php echo $lang->isRTL() ? 'left' : 'right'; ?>">
-					<div id="wrapper1">
-						<jdoc:include type="modules" name="header" style="2" />
-					</div>
-				</td>
-				<td class="menubackgr" align="<?php echo $lang->isRTL() ? 'left' : 'right'; ?>" style="padding-<?php echo $lang->isRTL() ? 'left' : 'right'; ?>:5px;">
-					<a href="index2.php?option=logout" style="color: #333333; font-weight: bold">
-						<jdoc:translate>Logout</jdoc:translate></a>
-					<strong><?php echo $my->username;?></strong>
-				</td>
-			</tr>
-			</table>
-			
-			
 			<div class="sidemenu-box">
 				<div class="sidemenu-pad">
 					<!-- toolbox module here -->
+					<!-- START VERY TEMPORARY -->
 					<h2>Toolbox</h2>
+					<jdoc:include type="modules" name="header" style="3" />
+					<a href="index2.php?option=logout" style="color: #333333; font-weight: bold">
+						<jdoc:translate>Logout</jdoc:translate></a>
+					<!-- END VERY TEMPORARY -->
 					<jdoc:include type="modules" name="menu" />
 				
 				</div>
 			</div>
+			<div class="content-area">
 			
 			
-			<table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
-			<tr>
-				<td class="menudottedline" align="<?php echo $lang->isRTL() ? 'left' : 'right'; ?>">
-					<jdoc:include type="modules" name="toolbar" />
-				</td>
-			</tr>
-			</table>
-			<div class="centermain">
-				<div class="main">
-					<jdoc:include type="component" />
+				<table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
+				<tr>
+					<td class="menudottedline" align="<?php echo $lang->isRTL() ? 'left' : 'right'; ?>">
+						<jdoc:include type="modules" name="toolbar" />
+					</td>
+				</tr>
+				</table>
+				<div class="centermain">
+					<div class="main">
+						<jdoc:include type="component" />
+					</div>
 				</div>
+
+
+				<noscript>
+					<jdoc:translate key="WARNJAVASCRIPT" />
+				</noscript>
 			</div>
-
-
-			<noscript>
-				<jdoc:translate key="WARNJAVASCRIPT" />
-			</noscript>
 		</div>
 		<div class="clr"></div>
 	</div>	
