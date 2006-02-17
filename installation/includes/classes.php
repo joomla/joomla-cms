@@ -424,7 +424,7 @@ class JInstallationController
 		}
 		
 		if (!isset ($vars['ftpEnable'])) {
-			$vars['ftpEnable'] = 0;
+			$vars['ftpEnable'] = false;
 		}
 		
 		/*
@@ -924,7 +924,7 @@ class JInstallationHelper
 		}
 
 		// Do NOT use ftp if it is not enabled
-		if ($srv['ftpEnable'] != 1)
+		if (!$srv['ftpEnable'])
 		{
 			$ftpFlag = false;
 		}
