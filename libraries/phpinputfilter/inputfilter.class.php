@@ -136,25 +136,34 @@ class InputFilter
 		/*
 		 * Is there a tag? If so it will certainly start with a '<'
 		 */
-		$tagOpen_start = strpos($source, '<');
+		$tagOpen_start	= strpos($source, '<');
+
 		while ($tagOpen_start !== false)
 		{
-			// process tag interatively
+
+			/*
+			 * Get some information about the tag we are processing
+			 */
 			$preTag		   .= substr($postTag, 0, $tagOpen_start);
 			$postTag		= substr($postTag, $tagOpen_start);
 			$fromTagOpen	= substr($postTag, 1);
-			// end of tag
 			$tagOpen_end	= strpos($fromTagOpen, '>');
 
+			/*
+			 * Let's catch any non-terminated tags and skip over them
+			 */
 			if ($tagOpen_end === false)
 			{
-				break;
+				$postTag		= substr($postTag, $tagOpen_start +1);
+				$tagOpen_start	= strpos($postTag, '<');
+				continue;
 			}
 
 			/*
 			 * Do we have a nested tag?
 			 */
 			$tagOpen_nested = strpos($fromTagOpen, '<');
+			$tagOpen_nested_end	= strpos(substr($postTag, $tagOpen_end), '>');
 			if (($tagOpen_nested !== false) && ($tagOpen_nested < $tagOpen_end))
 			{
 				$preTag		   .= substr($postTag, 0, ($tagOpen_nested +1));
@@ -163,15 +172,6 @@ class InputFilter
 				continue;
 			}
 
-			/*
-			 * Let's catch any non-terminated tags and skip over them
-			 */
-			if (!$tagOpen_end)
-			{
-				$postTag		= substr($postTag, $tagOpen_start +1);
-				$tagOpen_start	= strpos($postTag, '<');
-				continue;
-			}
 
 			/*
 			 * Lets get some information about our tag and setup attribute pairs
@@ -312,12 +312,16 @@ class InputFilter
 			 */
 			$postTag		= substr($postTag, ($tagLength +2));
 			$tagOpen_start	= strpos($postTag, '<');
+			print "T: $preTag\n";
 		}
 
 		/*
 		 * Append any code after the end of tags and return
 		 */
-		$preTag .= $postTag;
+		if ($postTag != '<')
+		{
+			$preTag .= $postTag;
+		}
 		return $preTag;
 	}
 
