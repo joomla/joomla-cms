@@ -98,6 +98,12 @@ class JAuthenticate extends JObject {
 		// In particular... this error :)
 		if (empty($credentials['username']) || empty($credentials['password'])) {
 			// Error check if still no username or password values
+			/*
+			 * TODO
+			 * @todo We need a function to alert and redirect (or
+			 * on JS disable show a message and offer a redirect
+			 * link)
+			 */
 			echo "<script> alert(\"".JText::_('LOGIN_INCOMPLETE', true)."\"); </script>\n";
 			mosRedirect(mosGetParam($_POST, 'return', '/'));
 			exit ();
@@ -119,36 +125,40 @@ class JAuthenticate extends JObject {
 				 */
 				if (!in_array(false, $results, true)) {
 
-					// Create a new user model and load the authenticated userid
-					$user =& JModel::getInstance('user', $db );
-					$user->load(intval($authenticated));
+					// Get the JUser object for the user to login
+					$user =& JUser::getInstance( intval($authenticated) );
 
 					// If the user is blocked, redirect with an error
-					if ($user->block == 1) {
+					if ($user->get('block') == 1) {
+						/*
+						 * TODO
+						 * @todo We need a function to alert and redirect (or
+						 * on JS disable show a message and offer a redirect
+						 * link)
+						 */
 						echo "<script>alert(\"".JText::_('LOGIN_BLOCKED', true)."\"); </script>\n";
-						josRedirect(mosGetParam($_POST, 'return', '/'));
-						exit ();
+						josRedirect(JRequest::getVar( 'return', '/' ));
+						exit;
 					}
 
 					// Fudge the ACL stuff for now...
 					// TODO: Implement ACL :)
 					$acl = &JFactory::getACL();
-					$grp = $acl->getAroGroup($user->id);
+					$grp = $acl->getAroGroup($user->get('id'));
 					$row->gid = 1;
 
 					if ($acl->is_group_child_of($grp->name, 'Registered', 'ARO') || $acl->is_group_child_of($grp->name, 'Public Backend', 'ARO')) {
 						// fudge Authors, Editors, Publishers and Super Administrators into the Special Group
-						$user->gid = 2;
+						$user->set('gid', 2);
 					}
-					$user->usertype = $grp->name;
+					$user->set('usertype', $grp->name);
 
-					// TODO: JRegistry will make this unnecessary
 					// Register the needed session variables
 					JSession::set('guest', 0);
-					JSession::set('username', $user->username);
-					JSession::set('userid', intval($user->id));
-					JSession::set('usertype', $user->usertype);
-					JSession::set('gid', intval($user->gid));
+					JSession::set('username', $user->get('username'));
+					JSession::set('userid', intval($user->get('id')));
+					JSession::set('usertype', $user->get('usertype'));
+					JSession::set('gid', intval($user->get('gid')));
 
 					// Register session variables to prevent spoofing
 					JSession::set('JAuthenticate_RemoteAddr', $_SERVER['REMOTE_ADDR']);
@@ -158,10 +168,10 @@ class JAuthenticate extends JObject {
 					$session = & $mainframe->_session;
 
 					$session->guest = 0;
-					$session->username = $user->username;
-					$session->userid = intval($user->id);
-					$session->usertype = $user->usertype;
-					$session->gid = intval($user->gid);
+					$session->username = $user->get('username');
+					$session->userid = intval($user->get('id'));
+					$session->usertype = $user->get('usertype');
+					$session->gid = intval($user->get('gid'));
 
 					$session->update();
 
@@ -172,7 +182,7 @@ class JAuthenticate extends JObject {
 					// Set remember me option
 					$remember = JRequest::getVar( 'remember' );
 					if ($remember == 'yes') {
-						$session->remember($user->username, $user->password);
+						$session->remember($user->get('username'), $user->get('password'));
 					}
 
 					// Clean the cache for this user

@@ -464,11 +464,10 @@ class JInstallationController
 		 */
 		foreach ($folders as $folder)
 		{
-			
-			$lists['folderPerms'][] = array (
-				'label' => $folder,
-				'state' => JInstallationHelper::setDirPerms( $folder, $vars ) ? 'Writeable' : 'Unwriteable'
-			);
+			if (!JInstallationHelper::setDirPerms( $folder, $vars ))
+			{
+				$lists['folderPerms'][] = $folder;
+			}
 		}
 
 		return JInstallationView::mainConfig($vars, $lists);
@@ -871,7 +870,15 @@ class JInstallationHelper
 			JError::raiseError('SOME_ERROR_CODE', 'JInstallationHelper::findFtpRoot: Unable to login');
 		}
 
+		/*
+		 * Get file/folder list in CWD
+		 */
 		$ftpList = $ftp->nameList();
+		$ftp->quit();
+		
+		/*
+		 * Process the list
+		 */
 		$ftpList = array_map( 'strtolower', $ftpList );
 		$parts = explode(DS, JPATH_SITE);
 		$i = 1;

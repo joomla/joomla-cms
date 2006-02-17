@@ -205,7 +205,7 @@ class JInstallationView
 
 		$tmpl->addVars( 'stepbar', $steps, 'step_' );
 		$tmpl->addVars( 'body', 	$vars, 'var_' );
-		$tmpl->addRows( 'folder-perms', $lists['folderPerms'] );
+//		$tmpl->addRows( 'folder-perms', $lists['folderPerms'] );
 
 		return $tmpl->fetch( 'page' );
 	}

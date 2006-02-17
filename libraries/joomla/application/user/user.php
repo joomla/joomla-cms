@@ -199,6 +199,19 @@ class JUser extends JObject
 	}
 
 	/**
+	 * Pass through method to the model for setting the last visit date
+	 * 
+	 * @access 	public
+	 * @param	int		$timestamp	The timestamp, defaults to 'now'
+	 * @return	boolean	True on success
+	 * @since	1.1
+	 */
+	function setLastVisit($timestamp=null)
+	{
+		return $this->_model->setLastVisit($timestamp);
+	}
+	
+	/**
 	 * Method to get the user parameters
 	 * 
 	 * @access 	public
