@@ -10,7 +10,7 @@
 	<version>1.0</version>
 	<description>Joomla! XML-PRC API</description>
 	<files>
-		<filename plugin="joomla.xmlrpcbot">search.xmlrpcbot.php</filename>
+		<filename plugin="joomla">joomla.php</filename>
 	</files>
 	<params/>
 </install>

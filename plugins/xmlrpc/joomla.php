@@ -11,16 +11,15 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onGetWebServices', 'wsGetSearchWebServices' );
+$mainframe->registerEvent( 'onGetWebServices', 'wsGetJoomlaWebServices' );
 
 /**
 * @return array An array of associative arrays defining the available methods
 */
-function wsGetSearchWebServices() {
+function wsGetJoomlaWebServices() {
 	return array(
 		array(
 			'name' => 'joomla.searchSite',
