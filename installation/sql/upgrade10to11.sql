@@ -17,22 +17,22 @@ INSERT INTO `jos_mambots` VALUES (0, 'Syndicate - Poll', 'poll', 'syndicate', 0,
 INSERT INTO `jos_mambots` VALUES (0, 'XStandard Lite 1.7', 'xstandard', 'editors', 0, 0, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `jos_mambots` VALUES (0, 'Authentication - GMail', 'gmail', 'authentication', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
 
-UPDATE `jos_mambots` SET `name` = 'Search - Content' WHERE `id` = '6'  
-UPDATE `jos_mambots` SET `name` = 'Search - Weblinks' WHERE `id` = '7'  
-UPDATE `jos_mambots` SET `name` = 'Search - Contacts' WHERE `id` = '13' 
-UPDATE `jos_mambots` SET `name` = 'Search - Categories' WHERE `id` = '14' 
-UPDATE `jos_mambots` SET `name` = 'Search - Sections' WHERE `id` = '15'
-UPDATE `jos_mambots` SET `name` = 'Search - Newsfeeds' WHERE `id` = '18'
+UPDATE `jos_mambots` SET `name` = 'Search - Content' WHERE `id` = '6'; 
+UPDATE `jos_mambots` SET `name` = 'Search - Weblinks' WHERE `id` = '7';  
+UPDATE `jos_mambots` SET `name` = 'Search - Contacts' WHERE `id` = '13'; 
+UPDATE `jos_mambots` SET `name` = 'Search - Categories' WHERE `id` = '14'; 
+UPDATE `jos_mambots` SET `name` = 'Search - Sections' WHERE `id` = '15';
+UPDATE `jos_mambots` SET `name` = 'Search - Newsfeeds' WHERE `id` = '18';
 
-UPDATE `jos_mambots` SET `element` = 'content' WHERE `id` = '6'  
-UPDATE `jos_mambots` SET `element` = 'weblinks' WHERE `id` = '7' 
-UPDATE `jos_mambots` SET `element` = 'contacts' WHERE `id` = '13'
-UPDATE `jos_mambots` SET `element` = 'categories' WHERE `id` = '14'  
-UPDATE `jos_mambots` SET `element` = 'sections' WHERE `id` = '15'
-UPDATE `jos_mambots` SET `element` = 'wewsfeeds' WHERE `id` = '18'
+UPDATE `jos_mambots` SET `element` = 'content' WHERE `id` = '6';  
+UPDATE `jos_mambots` SET `element` = 'weblinks' WHERE `id` = '7'; 
+UPDATE `jos_mambots` SET `element` = 'contacts' WHERE `id` = '13';
+UPDATE `jos_mambots` SET `element` = 'categories' WHERE `id` = '14';  
+UPDATE `jos_mambots` SET `element` = 'sections' WHERE `id` = '15';
+UPDATE `jos_mambots` SET `element` = 'wewsfeeds' WHERE `id` = '18';
 
 #Mambot Removals 
-DELETE FROM `jos_mambots` WHERE `element` = 'legacybots' 
+DELETE FROM `jos_mambots` WHERE `element` = 'legacybots'; 
 
 # Module Additions
 INSERT INTO `jos_modules` VALUES (1000, 'Footer', '', 1, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 0, 1, '', 1, 0);
