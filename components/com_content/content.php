@@ -1344,12 +1344,17 @@ class JContentController
 			$db->setQuery($query);
 			$row->creator = $db->loadResult();
 
-			$query = "SELECT name" 
-					. "\n FROM #__users" 
-					. "\n WHERE id = $row->modified_by"
-					;
-			$db->setQuery($query);
-			$row->modifier = $db->loadResult();
+			// test to reduce unneeded query
+			if ( $row->created_by == $row->modified_by ) {
+				$row->modifier = $row->creator;
+			} else {
+				$query = "SELECT name" 
+						. "\n FROM #__users" 
+						. "\n WHERE id = $row->modified_by"
+						;
+				$db->setQuery($query);
+				$row->modifier = $db->loadResult();
+			}
 
 			$query = "SELECT content_id"
 					. "\n FROM #__content_frontpage" 

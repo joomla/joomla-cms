@@ -489,12 +489,17 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 		$database->setQuery( $query );
 		$row->creator = $database->loadResult();
 
-		$query = "SELECT name"
-		. "\n FROM #__users"
-		. "\n WHERE id = $row->modified_by"
-		;
-		$database->setQuery( $query );
-		$row->modifier = $database->loadResult();
+		// test to reduce unneeded query
+		if ( $row->created_by == $row->modified_by ) {
+			$row->modifier = $row->creator;
+		} else {
+			$query = "SELECT name"
+			. "\n FROM #__users"
+			. "\n WHERE id = $row->modified_by"
+			;
+			$database->setQuery( $query );
+			$row->modifier = $database->loadResult();
+		}
 
 		$query = "SELECT COUNT(content_id)"
 		. "\n FROM #__content_frontpage"
@@ -549,26 +554,35 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 		$sections = $database->loadObjectList();
 		$lists['sectionid'] = mosHTML::selectList( $sections, 'sectionid', 'class="inputbox" size="1" '. $javascript, 'id', 'title', intval( $row->sectionid ) );
 	}
-
 	$sections = $database->loadObjectList();
 
 	$sectioncategories 			= array();
 	$sectioncategories[-1] 		= array();
-	$sectioncategories[-1][] 	= mosHTML::makeOption( '-1', '- '. JText::_( 'Select Category' ) .' -', 'id', 'name' );
+	$sectioncategories[-1][] 	= mosHTML::makeOption( '-1', 'Select Category', 'id', 'name' );
+	foreach($sections as $section) {
+		$section_list[] = $section->id;
+	}
+	$section_list = implode( ',', $section_list );
+	$query = "SELECT id, name, section"
+	. "\n FROM #__categories"
+	. "\n WHERE section IN ( $section_list )"
+	. "\n ORDER BY ordering"
+	;
+	$database->setQuery( $query );
+	$cat_list = $database->loadObjectList();
 	foreach($sections as $section) {
 		$sectioncategories[$section->id] = array();
-		$query = "SELECT id, name"
-		. "\n FROM #__categories"
-		. "\n WHERE section = '$section->id'"
-		. "\n ORDER BY ordering"
-		;
-		$database->setQuery( $query );
-		$rows2 = $database->loadObjectList();
+		$rows2 = array();
+		foreach($cat_list as $cat) {
+			if ($cat->section == $section->id) {
+				$rows2[] = $cat;
+			}
+		}
 		foreach($rows2 as $row2) {
 			$sectioncategories[$section->id][] = mosHTML::makeOption( $row2->id, $row2->name, 'id', 'name' );
 		}
-	}
-
+	}	
+	
  	// get list of categories
   	if ( !$row->catid && !$row->sectionid ) {
  		$categories[] 		= mosHTML::makeOption( '-1', '- '. JText::_( 'Select Category' ) .' -', 'id', 'name' );
