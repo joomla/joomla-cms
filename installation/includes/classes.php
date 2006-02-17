@@ -934,7 +934,7 @@ class JInstallationHelper
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
 			$ftp = & JFTP::getInstance($srv['ftpHost'], $srv['ftpPort']);
-			$ftp->login($srv['ftpUser'],$srv['ftpPass']);
+			$ftp->login($srv['ftpUser'],$srv['ftpPassword']);
 
 			//Translate path for the FTP account
 			$path = JPath::clean($ftpRoot."/".$dir, false);
