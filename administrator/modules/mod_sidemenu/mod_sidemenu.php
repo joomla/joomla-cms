@@ -23,6 +23,7 @@ $user 	= & $mainframe->getUser();
 $hide 	= JRequest :: getVar( 'hidemainmenu', 0 );
 
 // Add the javascript to the page head
+/*
 $doc->addScript('../includes/js/moofx/prototype.lite.js');
 $doc->addScript('../includes/js/moofx/moo.fx.js');
 $doc->addScript('../includes/js/moofx/moo.fx.pack.js');
@@ -48,6 +49,7 @@ $js = 	"\t\t\t//the main function, call to the effect object" .
 		"\n\t\t\t}";
 
 $doc->addScriptDeclaration($js);
+*/
 
 /*
  * If we are disabling the menu, show the disabled menu... otherwise show the
@@ -60,9 +62,6 @@ if ($hide) {
 	JSideAdminMenu :: show($user->get('usertype'));
 }
 echo "</div>";
-echo "<script type=\"text/javascript\">" .
-		"\n\tinit()" .
-		"\n</script>";
 
 
 /**
@@ -295,7 +294,7 @@ class JSideAdminMenu {
 		$text = JText :: _('Menu inactive for this Page', true);
 	}
 	
-	function buildDiv ( $title, $list, $suffix = '_smenu' )
+	function buildDiv ( $title, $list, $suffix = '-smenu' )
 	{
 
 		$txt = 	"<h3 class=\"title".$suffix."\" title=\"$title\">$title</h3>";		
@@ -314,8 +313,8 @@ class JSideAdminMenu {
 				$sfx = $suffix;
 			}
 			$txt .=	"<li class=\"item".$sfx."\">";
-			$txt .= "<a href=\"".$item['link']."\"><img src=\"".$item['img']."\" />&nbsp;&nbsp;".$item['title']."</a>";
-			$txt .=	"</li>";
+			$txt .= "<a href=\"".$item['link']."\"><img src=\"".$item['img']."\" border=\"0\" />&nbsp;&nbsp;".$item['title']."</a>";
+			$txt .=	"</li>"; 
 		}
 		$txt .=	"\n</div>";
 

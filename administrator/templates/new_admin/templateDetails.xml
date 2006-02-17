@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<install type="template" version="1.0.0" client="administrator">
+	<name>New Joomla Admin</name>
+	<creationDate>02/16/06</creationDate>
+	<author>Andy Miller</author>
+	<copyright>GNU/GPL</copyright>
+	<authorEmail>support@rockettheme.com</authorEmail>
+	<authorUrl>http://www.rockettheme.com</authorUrl>
+	<version>1.0</version>
+	<description></description>
+	<files>
+		<filename>index.php</filename>
+		<filename>css/template.css</filename>
+	</files>
+</install>

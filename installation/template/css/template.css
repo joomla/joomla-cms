@@ -29,8 +29,8 @@ h1, h2, h3, h4, h5,
 #header3 span,
 .step-on, .step-off,
 .step,
-.button1_left a,
-.button1_right a {
+.button1-left a,
+.button1-right a {
 	font-family: Arial Narrow, Helvetica, Arial, sans-serif;
 }
 
@@ -85,12 +85,12 @@ form {
 	height: 11px;
 }
 
-#content_outside {
+#content-box {
 	border-left: 1px solid #ccc;
 	border-right: 1px solid #ccc;
 }
 
-#content {
+#content-pad {
 	padding: 10px 10px 0 10px;
 }
 
@@ -163,52 +163,52 @@ span.step {
 	text-align: right;
 }
 
-.button1_left {
+.button1-left {
 	background: url(../images/j_button1_left.png) no-repeat;
 	float: left;
 	margin-left: 5px;
 }
 
-.button1_right {
+.button1-right {
 	background: url(../images/j_button1_right.png) 100% 0 no-repeat;
 	float: left;
 	margin-left: 5px;
 }
 
-.button1_left .refresh {
+.button1-left .refresh {
 	float: left;
 	background: url(../images/j_button1_refresh.png) 100% 0 no-repeat;
 }
 
-.button1_right .prev {
+.button1-right .prev {
 	float: left;
 	background: url(../images/j_button1_prev.png) no-repeat;
 }
 
-.button1_left .next {
+.button1-left .next {
 	float: left;
 	background: url(../images/j_button1_next.png) 100% 0 no-repeat;
 }
 
-.button1_left .site {
+.button1-left .site {
 	float: left;
 	background: url(../images/j_button1_site.png) 100% 0 no-repeat;
 }
 
-.button1_left .admin {
+.button1-left .admin {
 	float: left;
-	background: url(../images/j_button1_admin.png) 100% 0 no-repeat;
+	background: url(../images/j_button1-admin.png) 100% 0 no-repeat;
 }
 
-.button1_left .collate {
+.button1-left .collate {
 	float: left;
 	background: url(../images/j_button1_collate.png) 100% 0 no-repeat;
 }
 
 
 
-.button1_left a, 
-.button1_right a {
+.button1-left a, 
+.button1-right a {
 	display: block;
 	height: 26px;
 	float: left;
@@ -219,11 +219,11 @@ span.step {
 	cursor: pointer;
 }
 
-.button1_left a {
+.button1-left a {
 	padding: 0 30px 0 6px;
 }
 
-.button1_right a {
+.button1-right a {
 	padding: 0 6px 0 30px;
 }
 
