@@ -31,7 +31,7 @@
 		</param>
 		<param name="width" type="text" size="5" default="100%" label="Width" description="PARAMWIDTH" />
 		<param name="height" type="text" size="5" default="500" label="Height" description="PARAMHEIGHT" />
-		<param name="height_auto" type="radio" default="1" label="Auto Height" description="PARAMHEIGHTAUTO">
+		<param name="height_auto" type="radio" default="0" label="Auto Height" description="PARAMHEIGHTAUTO">
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>

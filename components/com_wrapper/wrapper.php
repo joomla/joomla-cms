@@ -33,7 +33,7 @@ function showWrap( $option ) {
 	$params->def( 'pageclass_sfx', '' );
 	$params->def( 'header', $menu->name );
 	$params->def( 'height', '500' );
-	$params->def( 'height_auto', '1' );
+	$params->def( 'height_auto', '0' );
 	$params->def( 'width', '100%' );
 	$params->def( 'add', '1' );
 	$url = $params->def( 'url', '' );
