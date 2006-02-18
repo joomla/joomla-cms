@@ -82,6 +82,11 @@ $lang =& $mainframe->getLanguage();
 						<jdoc:include type="modules" name="toolbar" />
 					</td>
 				</tr>
+				<tr>
+					<td class="menudottedline" align="<?php echo $lang->isRTL() ? 'left' : 'right'; ?>">
+						<jdoc:include type="modules" name="submenu" />
+					</td>
+				</tr>
 				</table>
 				<div class="centermain">
 					<div class="main">
