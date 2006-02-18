@@ -196,7 +196,14 @@ function listFeeds( $catid ) {
 function showFeed( $feedid ) {
 	global $mainframe, $Itemid, $mosConfig_cachepath;
 
-		// Get some objects from the JApplication
+	// check if cache directory is writeable
+	$cacheDir = $mosConfig_cachepath .'/';
+	if ( !is_writable( $cacheDir ) ) {	
+		echo JText :: _( 'Cache Directory Unwriteable' );
+		return;
+	}
+	
+	// Get some objects from the JApplication
 	$database 	= & $mainframe->getDBO();
 	$user 		= & $mainframe->getUser();
 	require_once( $mainframe->getPath( 'class' ) );
@@ -230,38 +237,33 @@ function showFeed( $feedid ) {
 	}
 
 	// full RSS parser used to access image information
-	$cacheDir = $mosConfig_cachepath .'/';
 	$LitePath = JPATH_SITE . '/includes/Cache/Lite.php';
 
-	if ( is_writable( $cacheDir ) ) {	
-		// Adds parameter handling
-		$menu =& JModel::getInstance('menu', $database );
-		$menu->load( $Itemid );
-		$params = new JParameter( $menu->params );
-		$params->def( 'page_title', 1 );
-		$params->def( 'header', $menu->name );
-		$params->def( 'pageclass_sfx', '' );
-		$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
-		// Feed Display control
-		$params->def( 'feed_image', 1 );
-		$params->def( 'feed_descr', 1 );
-		$params->def( 'item_descr', 1 );
-		$params->def( 'word_count', 0 );
-	
-		if ( !$params->get( 'page_title' ) ) {
-			$params->set( 'header', '' );
-		}
-	
-		// Set page title per category
-		$mainframe->setPageTitle( $menu->name. ' - ' .$newsfeed->name );
-	
-		// Add breadcrumb item per category
-		$breadcrumbs =& $mainframe->getPathWay();
-		$breadcrumbs->addItem($newsfeed->name, '');
-	
-		HTML_newsfeed::showNewsfeeds( $newsfeed, $LitePath, $cacheDir, $params );
-	} else {
-		echo JText :: _( 'Cache Directory Unwriteable' );
+	// Adds parameter handling
+	$menu =& JModel::getInstance('menu', $database );
+	$menu->load( $Itemid );
+	$params = new JParameter( $menu->params );
+	$params->def( 'page_title', 1 );
+	$params->def( 'header', $menu->name );
+	$params->def( 'pageclass_sfx', '' );
+	$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );
+	// Feed Display control
+	$params->def( 'feed_image', 1 );
+	$params->def( 'feed_descr', 1 );
+	$params->def( 'item_descr', 1 );
+	$params->def( 'word_count', 0 );
+
+	if ( !$params->get( 'page_title' ) ) {
+		$params->set( 'header', '' );
 	}
+
+	// Set page title per category
+	$mainframe->setPageTitle( $menu->name. ' - ' .$newsfeed->name );
+
+	// Add breadcrumb item per category
+	$breadcrumbs =& $mainframe->getPathWay();
+	$breadcrumbs->addItem($newsfeed->name, '');
+
+	HTML_newsfeed::showNewsfeeds( $newsfeed, $LitePath, $cacheDir, $params );
 }
 ?>
