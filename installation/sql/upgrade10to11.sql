@@ -39,7 +39,8 @@ INSERT INTO `jos_modules` VALUES (1000, 'Footer', '', 1, 'footer', 0, '0000-00-0
 INSERT INTO `jos_modules` VALUES (1001, 'Footer', '', 0, 'footer', 0, '0000-00-00 00:00:00', 1, 'mod_footer', 0, 0, 1, '', 1, 1);
 INSERT INTO `jos_modules` VALUES (0, 'Newsfeed', '', 11, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_rss', 0, 0, 1, '', 1, 0);
 INSERT INTO `jos_modules` VALUES (1002, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 0, 1, '', 1, 0);
-INSERT INTO `jos_modules` VALUES (35, 'Admin Menu','', 1,'menu', 0,'0000-00-00 00:00:00', 1,'mod_menu', 0, 23, 1, '', 0, 1);
+INSERT INTO `jos_modules` VALUES (1003, 'Admin Menu','', 1,'menu', 0,'0000-00-00 00:00:00', 1,'mod_menu', 0, 23, 1, '', 0, 1);
+INSERT INTO `jos_modules` VALUES (1004, 'Admin SubMenu','', 1,'submenu', 0,'0000-00-00 00:00:00', 1,'mod_submenu', 0, 23, 1, '', 0, 1);
 
 INSERT INTO `jos_modules_menu` VALUES (1000,0);
 INSERT INTO `jos_modules_menu` VALUES (1001,0);
@@ -84,4 +85,5 @@ ALTER TABLE `jos_components` ADD `enabled` TINYINT NOT NULL ;
 # LBL: 11-Feb-2006
 # Add breadcrumb template position
 INSERT INTO `jos_template_positions` VALUES (0, 'breadcrumb', '');
+INSERT INTO `jos_template_positions` VALUES (0, 'submenu', '');
 
