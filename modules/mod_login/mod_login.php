@@ -26,20 +26,12 @@ $logout 				= $params->def( 'logout', $return );
 $name 					= $params->def( 'name', 1 );
 $greeting 				= $params->def( 'greeting', 1 );
 
-if ( $name ) {
-	$query = "SELECT name"
-	. "\n FROM #__users"
-	. "\n WHERE id = $my->id"
-	;
-	$database->setQuery( $query );
-	$name = $database->loadResult();
-} else {
-	$name = $my->username;
-}
-
 if ( $my->id ) {
 // Logout output
 // ie HTML when already logged in and trying to logout
+	if ( $name ) {
+		$name = $my->username;
+	}
 	?>
 	<form action="index.php" method="post" name="login">
 	<?php

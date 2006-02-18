@@ -24,8 +24,13 @@ if (!defined( '_JOS_NEWSFLASH_MODULE' )) {
 		
 		$row->text 		= $row->introtext;
 		$row->groups 	= '';
-		$row->readmore 	= (trim( $row->fulltext ) != '');
-		
+		$row->readmore 	= (trim( $row->fulltext ) != '');		
+		$row->metadesc 	= '';
+		$row->metakey 	= '';
+		$row->access 	= '';
+		$row->created 	= '';
+		$row->modified 	= '';	
+
 		$bs 			= $mainframe->getBlogSectionCount();
 		$bc 			= $mainframe->getBlogCategoryCount();
 		$gbs 			= $mainframe->getGlobalBlogSectionCount();
@@ -67,7 +72,7 @@ $noauth = !$mainframe->getCfg( 'shownoauth' );
 $nullDate = $database->getNullDate();
 
 // query to determine article count
-$query = "SELECT a.id"
+$query = "SELECT a.id, a.introtext, a.fulltext, a.images, a.attribs"
 ."\n FROM #__content AS a"
 ."\n INNER JOIN #__categories AS cc ON cc.id = a.catid"
 ."\n INNER JOIN #__sections AS s ON s.id = a.sectionid"
@@ -82,45 +87,37 @@ $query = "SELECT a.id"
 ."\n $limit"
 ;
 $database->setQuery( $query );
-$rows = $database->loadResultArray();
+$rows = $database->loadObjectList();
 $numrows = count( $rows );
-
-$row =& JModel::getInstance('content', $database );
 
 switch ($style) {
 	case 'horiz':
 		echo '<table class="moduletable' . $moduleclass_sfx .'">';
 		echo '<tr>';
-		foreach ($rows as $id) {
-			$row->load( $id );
-			
-			echo '<td>';
-			
-			output_newsflash( $row, $params, $access );
-			
+		foreach ($rows as $row) {			
+			echo '<td>';			
+			output_newsflash( $row, $params, $access );			
 			echo '</td>';
-			}
+		}
 		echo '</tr></table>';
 		break;
 	
 	case 'vert':
-		foreach ($rows as $id) {
-			$row->load( $id );
-			
+		foreach ($rows as $row) {		
 			output_newsflash( $row, $params, $access );
-			}
+		}
 		break;
 	
 	case 'flash':
 	default:
 		if ($numrows > 0) {
 			srand ((double) microtime() * 1000000);
-			$flashnum = $rows[rand( 0, $numrows-1 )];
+			$flashnum = rand( 0, $numrows-1 );
 		} else {
 			$flashnum = 0;
 		}
-		$row->load( $flashnum );
-
+		$row = $rows[$flashnum];
+		
 		output_newsflash( $row, $params, $access );
 		break;
 }
