@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Feb-2005 Andy Miller
+ + Added new installer Look and Feel
+ + Added new login Look and Feel
+ + Work started on new Admin Template
+ + Created new set of icons for new Admin Template
+
 16-Feb-2006 Rey Gigataras
  + Allow ability to siwtch off emailcloaking for specific items via {mosemailcloak=off} tag
 
