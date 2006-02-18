@@ -443,7 +443,7 @@ INSERT INTO `#__modules` VALUES (31, 'Footer', '', 0, 'footer', 0, '0000-00-00 0
 INSERT INTO `#__modules` VALUES (32, 'Feed Display', '', 11, 'left', 0, '0000-00-00 00:00:00', 0, 'mod_feed', 0, 0, 1, '', 1, 0);
 INSERT INTO `#__modules` VALUES (33, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 0, 1, '', 1, 0);
 INSERT INTO `#__modules` VALUES (34, 'Syndication', '', 3, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_syndicate', 0, 0, 0, '', 1, 0);
-INSERT INTO `#__modules` VALUES (35, 'Side Menu','', 1,'menu', 0,'0000-00-00 00:00:00', 1,'mod_sidemenu', 0, 23, 1, '', 0, 1);
+INSERT INTO `#__modules` VALUES (35, 'Admin Menu','', 1,'menu', 0,'0000-00-00 00:00:00', 1,'mod_menu', 0, 23, 1, '', 0, 1);
 
 # --------------------------------------------------------
 
