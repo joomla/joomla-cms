@@ -65,11 +65,14 @@ class JCache extends Cache_Lite
 		}
 
 		/*
-		 * Build the cache directory
+		 * Build the cache directory if it exists
 		 */
 		$baseDir = $mainframe->getCfg('cachepath');
-		$baseDir .= ($mainframe->getClient()) ? DS.'administrator'.DS : DS.'site'.DS;
-		$this->_cacheDir = JPath :: clean($baseDir);
+		if (!empty($baseDir))
+		{
+			$baseDir .= ($mainframe->getClient()) ? DS.'administrator'.DS : DS.'site'.DS;
+			$this->_cacheDir = JPath :: clean($baseDir);
+		}
 
 		/*
 		 * Create cache directory if not present

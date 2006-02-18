@@ -306,6 +306,14 @@ class JApplication extends JObject
 			}
 		}
 
+		/*
+		 * One last check to make sure we have something
+		 */
+		if (empty($lang))
+		{
+			$lang = 'eng_GB';
+		}
+		
 		//Set the language in the class
 		$this->_lang = $lang;
 	}
