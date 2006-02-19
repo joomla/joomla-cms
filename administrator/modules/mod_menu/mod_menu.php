@@ -217,7 +217,7 @@ class JAdminMenu {
 				if ($editAllComponents | $user->authorize('administration', 'edit', 'components', $row->option)) {
 					if ($row->parent == 0 && (trim($row->admin_menu_link) || array_key_exists($row->id, $subs))) {
 						$alt 	= $row->admin_menu_alt;
-						$link 	= $row->admin_menu_link ? "'index2.php?$row->admin_menu_link'" : "null";
+						$link 	= $row->admin_menu_link ? "index2.php?$row->admin_menu_link" : "index2.php?option=$row->option";
 						$componentsList[] = array( 'title' => JText::_($row->name), 'link' => $link, 'img' => '../includes/'.$row->admin_menu_img );
 					}
 				}

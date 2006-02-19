@@ -17,17 +17,18 @@ defined('_JEXEC') or die('Restricted access');
 /*
  * Lets get some variables we will need to render the menu
  */
-$lang = & $mainframe->getLanguage();
-$doc = & $mainframe->getDocument();
-$user = & $mainframe->getUser();
-$hide = JRequest :: getVar('hidemainmenu', 0);
+$lang		= & $mainframe->getLanguage();
+$doc		= & $mainframe->getDocument();
+$user	= & $mainframe->getUser();
+$hide	= JRequest::getVar('hidemainmenu', 0);
 
 /*
  * If hidemainmenu is true, we don't want to render this module at all
  */
-if (!$hide) {
+if (!$hide)
+{
 	$contents = JAdminSubMenu::get();
-	
+
 	/*
 	 * Only show the module if there are items to actually show
 	 */
@@ -44,80 +45,129 @@ if (!$hide) {
  *
  * @package Joomla
  */
-class JAdminSubMenu {
+class JAdminSubMenu
+{
 
-	function get() {
+	function get()
+	{
 		global $mainframe;
 
 		/*
 		 * Lets get some variables we are going to need
 		 */
-		$menu			= false;
-		$lang			= & $mainframe->getLanguage();
-		$user			= & $mainframe->getUser();
-		$database		= & $mainframe->getDBO();
-		$enableStats		= $mainframe->getCfg('enable_stats');
+		$menu					= false;
+		$lang						= & $mainframe->getLanguage();
+		$user					= & $mainframe->getUser();
+		$db						= & $mainframe->getDBO();
+		$enableStats			= $mainframe->getCfg('enable_stats');
 		$enableSearches	= $mainframe->getCfg('enable_log_searches');
-		$option			= JRequest :: getVar('option');
-		$task			= JRequest :: getVar('task');
-		$act				= JRequest :: getVar('act');
+		$option					= JRequest::getVar('option');
+		$task						= JRequest::getVar('task');
+		$act						= JRequest::getVar('act');
 
+		/*
+		 * If there is no option set, then we obviously have no submenu to view
+		 * so return false
+		 */
+		if (empty($option))
+		{
+			return false;
+		}
+		
 		/*
 		 * Basically this module is a big switch statement.... this way we only display menu
 		 * items that are relevant to the option/task request
 		 */
-		switch ($option) {
+		switch ($option)
+		{
 			case 'com_messages' :
-				$subMenuList[] = array ('title' => JText :: _('Inbox'), 'link' => 'index2.php?option=com_messages', 'img' => '../includes/js/ThemeOffice/messaging_inbox.png');
-				$subMenuList[] = array ('title' => JText :: _('Configuration'), 'link' => 'index2.php?option=com_messages&task=config&hidemainmenu=1', 'img' => '../includes/js/ThemeOffice/messaging_config.png');
-				$menu = JAdminSubMenu :: buildList($subMenuList);
+				$subMenuList[] = array ('title' => JText::_('Inbox'), 'link' => 'index2.php?option=com_messages', 'img' => '../includes/js/ThemeOffice/messaging_inbox.png');
+				$subMenuList[] = array ('title' => JText::_('Configuration'), 'link' => 'index2.php?option=com_messages&task=config&hidemainmenu=1', 'img' => '../includes/js/ThemeOffice/messaging_config.png');
+				$menu = JAdminSubMenu::buildList($subMenuList);
 				break;
 
 			case 'com_templates' :
-				$subMenuList[] = array ('title' => JText :: _('Site Templates'), 'link' => 'index2.php?option=com_templates&client=site', 'img' => '../includes/js/ThemeOffice/template.png');
-				$subMenuList[] = array ('title' => JText :: _('Administrator Templates'), 'link' => 'index2.php?option=com_templates&client=administrator', 'img' => '../includes/js/ThemeOffice/template.png');
-				$subMenuList[] = array ('title' => JText :: _('Module Positions'), 'link' => 'index2.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/template.png');
-				$subMenuList[] = array ('title' => JText :: _('Preview'), 'link' => 'index2.php?option=com_admin&task=preview', 'img' => '../includes/js/ThemeOffice/preview.png');
-				$menu = JAdminSubMenu :: buildList($subMenuList);
+				$subMenuList[] = array ('title' => JText::_('Site Templates'), 'link' => 'index2.php?option=com_templates&client=site', 'img' => '../includes/js/ThemeOffice/template.png');
+				$subMenuList[] = array ('title' => JText::_('Administrator Templates'), 'link' => 'index2.php?option=com_templates&client=administrator', 'img' => '../includes/js/ThemeOffice/template.png');
+				$subMenuList[] = array ('title' => JText::_('Module Positions'), 'link' => 'index2.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/template.png');
+				$subMenuList[] = array ('title' => JText::_('Preview'), 'link' => 'index2.php?option=com_admin&task=preview', 'img' => '../includes/js/ThemeOffice/preview.png');
+				$menu = JAdminSubMenu::buildList($subMenuList);
 				break;
 
 			case 'com_languages' :
-				$subMenuList[] = array ('title' => JText :: _('Site Languages'), 'link' => 'index2.php?option=com_languages&client=site', 'img' => '../includes/js/ThemeOffice/language.png');
-				$subMenuList[] = array ('title' => JText :: _('Administrator Languages'), 'link' => 'index2.php?option=com_languages&client=administrator', 'img' => '../includes/js/ThemeOffice/language.png');
-				$menu = JAdminSubMenu :: buildList($subMenuList);
+				$subMenuList[] = array ('title' => JText::_('Site Languages'), 'link' => 'index2.php?option=com_languages&client=site', 'img' => '../includes/js/ThemeOffice/language.png');
+				$subMenuList[] = array ('title' => JText::_('Administrator Languages'), 'link' => 'index2.php?option=com_languages&client=administrator', 'img' => '../includes/js/ThemeOffice/language.png');
+				$menu = JAdminSubMenu::buildList($subMenuList);
 				break;
 
 			case 'com_statistics' :
 				if ($enableStats)
 				{
-					$subMenuList[] = array ('title' => JText :: _('Browser, OS, Domain'), 'link' => 'index2.php?option=com_statistics', 'img' => '../includes/js/ThemeOffice/globe4.png');
+					$subMenuList[] = array ('title' => JText::_('Browser, OS, Domain'), 'link' => 'index2.php?option=com_statistics', 'img' => '../includes/js/ThemeOffice/globe4.png');
 				}
 				if ($enableSearches)
 				{
-					$subMenuList[] = array ('title' => JText :: _('Search Text'), 'link' => 'index2.php?option=com_statistics&task=searches', 'img' => '../includes/js/ThemeOffice/search_text.png');
+					$subMenuList[] = array ('title' => JText::_('Search Text'), 'link' => 'index2.php?option=com_statistics&task=searches', 'img' => '../includes/js/ThemeOffice/search_text.png');
 				}
-				$menu = JAdminSubMenu :: buildList($subMenuList);
+				$menu = JAdminSubMenu::buildList($subMenuList);
 				break;
 
 			default :
-				// This would be any third party component		
+				/*
+				 * This is where we handle all third party components or
+				 * otherwise unhandled components
+				 */		
+				$query = "SELECT `id`" .
+						"\n FROM `#__components`" .
+						"\n WHERE `parent` = '0'" .
+						"\n AND `option` = '$option'";
+				$db->setQuery($query);
+				$compid = $db->loadResult();
+
+				$query = "SELECT *" .
+						"\n FROM `#__components`" .
+						"\n WHERE `parent` = '$compid'" .
+						"\n ORDER BY `ordering`, `name`";
+				$db->setQuery($query);
+				$items = $db->loadObjectList();
+
+				/*
+				 * Only process the data if we have menu items returned from the
+				 * database query.
+				 */
+				if (is_array($items))
+				{
+					foreach ($items as $item)
+					{
+						if (trim($item->admin_menu_link))
+						{
+							$subMenuList[] = array ('title' => JText::_($item->name), 'link' => $item->admin_menu_link, 'img' => '../includes/'.$row->admin_menu_img);
+						}
+					}
+					$menu = JAdminSubMenu::buildList($subMenuList);
+				}
 				break;
 		}
-		
+
 		return $menu;
 	}
 
-	function buildList( $list, $suffix = '-smenu') {
+	function buildList($list, $suffix = '-smenu')
+	{
 
 		$txt = "<ul>\n";
 
 		/*
 		 * Iterate through the link items for building the menu items
 		 */
-		foreach ($list as $item) {
-			if (isset ($item['active']) && $item['active'] == 1) {
+		foreach ($list as $item)
+		{
+			if (isset ($item['active']) && $item['active'] == 1)
+			{
 				$sfx = $suffix.'_active';
-			} else {
+			}
+			else
+			{
 				$sfx = $suffix;
 			}
 			$txt .= "<li class=\"item".$sfx."\">\n";
@@ -126,7 +176,7 @@ class JAdminSubMenu {
 		}
 
 		$txt .= "</ul>\n";
-		
+
 		return $txt;
 	}
 }
