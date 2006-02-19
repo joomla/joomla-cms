@@ -20,7 +20,7 @@ $task 		= mosGetParam( $_REQUEST, 'task' );
 $id 		= intval( mosGetParam( $_REQUEST, 'id', null ) );
 $showDate 	= $params->get( 'showDate', 0 );
 
-$now 		= date( 'Y-m-d H:i:s', time() + $mosConfig_offset * 60 * 60 );
+$now 		= date( 'Y-m-d H:i:s', time() );
 
 $nullDate 	= $database->getNullDate();
 

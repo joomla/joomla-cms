@@ -23,7 +23,7 @@ $secid 		     = trim( $params->get( 'secid' ) );
 $show_front	     = $params->get( 'show_front', 1 );
 $moduleclass_sfx = $params->get( 'moduleclass_sfx' );
 
-$now 		= date( 'Y-m-d H:i:s', time()+$mosConfig_offset*60*60 );
+$now 		= date( 'Y-m-d H:i:s', time() );
 $access 	= !$mainframe->getCfg( 'shownoauth' );
 
 $nullDate = $database->getNullDate();
