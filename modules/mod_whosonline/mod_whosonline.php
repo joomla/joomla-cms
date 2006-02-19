@@ -21,19 +21,23 @@ if (!$showmode || $showmode == '0')
 $content = '';
 
 if ($showmode == 0 || $showmode == 2) {
-	$query = "SELECT COUNT( session_id ) AS guest_online" .
-			"\n FROM #__session" .
-			"\n WHERE guest = 1" .
-			"\n AND ( usertype is NULL OR usertype = '' )";
-	$database->setQuery($query);
-	$guest_array = $database->loadResult();
-
-	$query = "SELECT COUNT( DISTINCT( username ) ) AS user_online" .
-			"\n FROM #__session" .
-			"\n WHERE guest = 0";
-	$database->setQuery($query);
-	$user_array = $database->loadResult();
-
+	$query = "SELECT guest, usertype"
+	. "\n FROM #__session"
+	;
+	$database->setQuery( $query );
+	$sessions = $database->loadObjectList();
+	
+	$user_array 	= 0;
+	$guest_array 	= 0;
+	foreach( $sessions as $session ) {
+		if ( $session->guest == 1 && !$session->usertype ) {
+			$guest_array++;
+		}
+		if ( $session->guest == 0 ) {
+			$user_array++;
+		}
+	}
+	
 	if ($guest_array <> 0 && $user_array == 0) {
 		if ($guest_array == 1) {
 			$content = sprintf(JText :: _('We have guest online'), $guest_array);
