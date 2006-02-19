@@ -423,10 +423,6 @@ class JInstallationController
 			$vars['siteName'] = stripslashes(stripslashes($vars['siteName']));
 		}
 		
-		if (!isset ($vars['ftpEnable'])) {
-			$vars['ftpEnable'] = false;
-		}
-		
 		/*
 		 * Import the authentication library
 		 */
@@ -485,9 +481,9 @@ class JInstallationController
 		/*
 		 * Set some needed variables
 		 */
-		$vars['siteUrl']	= $mainframe->getSiteURL(); 
-		$vars['secret']		= JAuthenticateHelper::genRandomPassword(16);
-		$vars['hidePdf']	= intval(!is_writable(JPATH_SITE.DS.'media'.DS));
+		$vars['siteUrl']			= $mainframe->getSiteURL(); 
+		$vars['secret']			= JAuthenticateHelper::genRandomPassword(16);
+		$vars['hidePdf']		= intval(!is_writable(JPATH_SITE.DS.'media'.DS));
 		$vars['cachePath']	= JPATH_SITE.DS.'cache';
 		
 		/*
@@ -542,7 +538,7 @@ class JInstallationController
 		}
 
 		// Enable/Disable override
-		if (!isset($vars['ftpEnable']) || $vars['ftpEnable'] != 1) {
+		if (!isset($vars['ftpEnable']) || ($vars['ftpEnable'] != 1)) {
 			$ftpFlag = false;
 		}
 
@@ -812,15 +808,15 @@ class JInstallationHelper
 	 */
 	function createAdminUser(& $vars)
 	{
-		$DBtype = mosGetParam($vars, 'DBtype', 'mysql');
-		$DBhostname = mosGetParam($vars, 'DBhostname', '');
-		$DBuserName = mosGetParam($vars, 'DBuserName', '');
-		$DBpassword = mosGetParam($vars, 'DBpassword', '');
-		$DBname = mosGetParam($vars, 'DBname', '');
-		$DBPrefix = mosGetParam($vars, 'DBPrefix', '');
+		$DBtype			= mosGetParam($vars, 'DBtype', 'mysql');
+		$DBhostname	= mosGetParam($vars, 'DBhostname', '');
+		$DBuserName	= mosGetParam($vars, 'DBuserName', '');
+		$DBpassword	= mosGetParam($vars, 'DBpassword', '');
+		$DBname			= mosGetParam($vars, 'DBname', '');
+		$DBPrefix			= mosGetParam($vars, 'DBPrefix', '');
 		
-		$adminPassword = mosGetParam($vars, 'adminPassword', '');
-		$adminEmail = mosGetParam($vars, 'adminEmail', '');
+		$adminPassword	= mosGetParam($vars, 'adminPassword', '');
+		$adminEmail			= mosGetParam($vars, 'adminEmail', '');
 
 		$cryptpass = md5($adminPassword);
 		
