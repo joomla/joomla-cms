@@ -79,12 +79,18 @@ function JProcess() {
 								<table class="content2">
 									<tr>
 										<td width="100">
-											<input class="inputbox" type="checkbox" id="ftpenable" name="vars[ftpEnable]" value="1" accesskey="e" checked="checked" />
+						  		    		<input id="vars_ftpenable" type="radio" name="vars[ftpEnable]" value="1" />
+											<label for="vars_ftpenable">
+												<jtmpl:translate key="YES">Yes</jtmpl:translate>
+											</label>
+											<br />
+						  		    		<input id="vars_ftpdisable" type="radio" name="vars[ftpEnable]" value="0" />
+											<label for="vars_ftpdisable">
+												<jtmpl:translate key="NO">No</jtmpl:translate>
+											</label>
 										</td>
 										<td align="left">
-											<label for="ftpenable">
 												<jtmpl:translate key="ENABLEFTPDESC">Enable FTP filesystem layer</jtmpl:translate>
-											</label>
 										</td>
 									</tr>
 									<tr>
