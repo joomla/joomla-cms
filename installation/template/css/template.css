@@ -304,11 +304,16 @@ span.step {
 h3.title-smenu {
 	margin: 0;
 	border: 1px solid #ccc;
-	background: #EBEBEB;
+	background: #EBEBEB url(../images/j_arrow.png) 5px 5px no-repeat;
 	padding: 4px;
+	text-indent: 15px;
 	margin-bottom: 1px;
 	color: #666;
 	cursor: pointer;
+}
+
+h3.title-smenu-down {
+	background: url(../images/j_arrow_down.png) 5px 5px no-repeat;
 }
 
 div.stretcher {
