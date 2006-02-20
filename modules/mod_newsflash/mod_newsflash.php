@@ -72,7 +72,7 @@ $noauth = !$mainframe->getCfg( 'shownoauth' );
 $nullDate = $database->getNullDate();
 
 // query to determine article count
-$query = "SELECT a.id, a.introtext, a.fulltext, a.images, a.attribs"
+$query = "SELECT a.id, a.introtext, a.fulltext, a.images, a.attribs, a.title, a.state"
 ."\n FROM #__content AS a"
 ."\n INNER JOIN #__categories AS cc ON cc.id = a.catid"
 ."\n INNER JOIN #__sections AS s ON s.id = a.sectionid"
