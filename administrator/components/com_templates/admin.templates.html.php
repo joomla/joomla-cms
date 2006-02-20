@@ -25,7 +25,7 @@ class JTemplatesView {
 	* @param object A page navigation object
 	* @param string The option
 	*/
-	function showTemplates( &$rows, &$pageNav, $option, $client ) {
+	function showTemplates( &$rows, &$pageNav, $option, &$client ) {
 		global $mainframe, $my;
 
 		if ( isset( $row->authorUrl) && $row->authorUrl != '' ) {
@@ -41,7 +41,7 @@ class JTemplatesView {
 			name = name.replace(pattern,'_');
 			name = name.toLowerCase();
 			if (document.adminForm.doPreview.checked) {
-				var src = '<?php echo  ($client == 'administration' ? $mainframe->getSiteURL().'/administrator' : $mainframe->getSiteURL() );?>/templates/'+dir+'/template_thumbnail.png';
+				var src = '<?php echo  ($client->id == 1 ? $mainframe->getSiteURL().'/administrator' : $mainframe->getSiteURL() );?>/templates/'+dir+'/template_thumbnail.png';
 				var html=name;
 				html = '<br /><img border="1" src="'+src+'" name="imagelib" alt="<?php echo JText::_( 'No preview available' ); ?>" width="206" height="145" />';
 				return overlib(html, CAPTION, name)
@@ -77,7 +77,7 @@ class JTemplatesView {
 					<?php echo JText::_( 'Name' ); ?>
 				</th>
 				<?php
-				if ( $client == 'administration' ) {
+				if ( $client->id == 1 ) {
 					?>
 					<th width="5%">
 						<?php echo JText::_( 'Default' ); ?>
@@ -204,7 +204,7 @@ class JTemplatesView {
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />
-		<input type="hidden" name="client" value="<?php echo $client;?>" />
+		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		</form>
 		<?php
 	}
@@ -215,8 +215,8 @@ class JTemplatesView {
 	* @param string Source code
 	* @param string The option
 	*/
-	function editTemplateParams( $template, &$params, $option, $client ) {
-		$template_path = ($client == 'administration' ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/' . $template . '/index.php';
+	function editTemplateParams( $template, &$params, $option, &$client ) {
+		$template_path = $client->path . '/templates/' . $template . '/index.php';
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		<?php
@@ -225,14 +225,14 @@ class JTemplatesView {
 		<input type="hidden" name="template" value="<?php echo $template; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="client" value="<?php echo $client;?>" />
+		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		</form>
 		<?php
 	}
 
-	function editTemplateSource( $template, &$content, $option, $client ) 
+	function editTemplateSource( $template, &$content, $option, &$client ) 
 	{
-		$template_path = ($client == 'administration' ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/' . $template . '/index.php';
+		$template_path = $client->path . '/templates/' . $template . '/index.php';
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		
@@ -281,12 +281,12 @@ class JTemplatesView {
 		<input type="hidden" name="template" value="<?php echo $template; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="client" value="<?php echo $client;?>" />
+		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		</form>
 		<?php
 	}
 
-	function chooseCSSFiles ( $template, $t_dir, $t_files, $option, $client ) {
+	function chooseCSSFiles ( $template, $t_dir, $t_files, $option, &$client ) {
 	?>
 		<form action="index2.php" method="post" name="adminForm">
 
@@ -327,7 +327,7 @@ class JTemplatesView {
 		<?php
 		$k = 1 - $k; }
 
-		if ( $client != 'administration' ) {
+		if ( $client->id != 1 ) {
 		?>
 		<tr>
 			<th width="5%" align="left">
@@ -353,7 +353,7 @@ class JTemplatesView {
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="client" value="<?php echo $client;?>" />
+		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		</form>
 		<?php
 	}
@@ -363,12 +363,8 @@ class JTemplatesView {
 	* @param string Source code
 	* @param string The option
 	*/
-	function editCSSSource( $template, $tp_name, &$content, $option, $client ) {
-		if ( $client == 'administration' ) {
-			$css_path = JPATH_ADMINISTRATOR . '/administrator' . $tp_name;
-		} else {
-			$css_path = JPATH_SITE . $tp_name;
-		}
+	function editCSSSource( $template, $tp_name, &$content, $option, &$client ) {
+		$css_path = $client->path . $tp_name;
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		
@@ -418,7 +414,7 @@ class JTemplatesView {
 		<input type="hidden" name="tp_fname" value="<?php echo $css_path; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="client" value="<?php echo $client;?>" />
+		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		</form>
 		<?php
 	}
