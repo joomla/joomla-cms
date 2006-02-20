@@ -87,8 +87,8 @@ class JAdminSubMenu
 				break;
 
 			case 'com_templates' :
-				$subMenuList[] = array ('title' => JText::_('Site Templates'), 'link' => 'index2.php?option=com_templates&client=site', 'img' => '../includes/js/ThemeOffice/template.png');
-				$subMenuList[] = array ('title' => JText::_('Administrator Templates'), 'link' => 'index2.php?option=com_templates&client=administrator', 'img' => '../includes/js/ThemeOffice/template.png');
+				$subMenuList[] = array ('title' => JText::_('Site Templates'), 'link' => 'index2.php?option=com_templates&client=0', 'img' => '../includes/js/ThemeOffice/template.png');
+				$subMenuList[] = array ('title' => JText::_('Administrator Templates'), 'link' => 'index2.php?option=com_templates&client=1', 'img' => '../includes/js/ThemeOffice/template.png');
 				$subMenuList[] = array ('title' => JText::_('Module Positions'), 'link' => 'index2.php?option=com_templates&task=positions', 'img' => '../includes/js/ThemeOffice/template.png');
 				$subMenuList[] = array ('title' => JText::_('Preview'), 'link' => 'index2.php?option=com_admin&task=preview', 'img' => '../includes/js/ThemeOffice/preview.png');
 				$menu = JAdminSubMenu::buildList($subMenuList);
