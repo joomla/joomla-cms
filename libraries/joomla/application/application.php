@@ -599,7 +599,7 @@ class JApplication extends JObject
 	 * 
 	 * @access	public
 	 * @param	int			$id	A client identifier
-	 * @return	object	Object describing the requested client	
+	 * @return	mixed	Object describing the client or false if not known
 	 * @since		1.1
 	 */
 	function getClientInfo($id) {
@@ -630,7 +630,13 @@ class JApplication extends JObject
 			$clients[2] = clone($obj);
 		}
 		
-		return $clients[$id];
+		if (!isset($clients[$id]))
+		{
+			return false;
+		} else
+		{
+			return $clients[$id];
+		}
 	}
 
 	/**
