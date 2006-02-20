@@ -185,11 +185,16 @@ h1, h2, h3, h4, h5,
 h3.title-smenu {
 	margin: 0;
 	border: 1px solid #ccc;
-	background: #EBEBEB;
+	background: #EBEBEB url(../images/j_arrow.png) 5px 5px no-repeat;
 	padding: 4px;
+	text-indent: 15px;
 	margin-bottom: 1px;
 	color: #666;
 	cursor: pointer;
+}
+
+h3.title-smenu-down {
+	background: url(../images/j_arrow_down.png) 5px 5px no-repeat;
 }
 
 
@@ -234,6 +239,44 @@ td.login-button {
 	text-align: right;
 }
 
+/** status layout **/
+
+span.unread-messages,
+span.no-unread-messages,
+span.loggedin-users,
+span.logout {
+	display: block;
+	float: left;
+	padding-left: 22px;
+	line-height: 16px;
+	padding-right: 15px;
+	padding-top: 4px;
+	margin-bottom: 5px;
+}
+
+span.unread-messages,
+span.no-unread-messages {
+	background: url(../images/menu/icon-16-messages.png) 3px 3px no-repeat;
+}
+
+span.unread-messages a {
+	font-weight: bold;
+}
+
+span.loggedin-users {
+	background: url(../images/menu/icon-16-user.png) 3px 3px no-repeat;
+}
+
+span.logout {
+	background: url(../images/menu/icon-16-logout.png) 3px 3px no-repeat;
+}
+
+div.status_divider {
+	clear:left;
+	margin-bottom: 1px;
+}
+
+
 /** administrator pages **/
 
 .sidemenu-box {
@@ -252,8 +295,11 @@ td.login-button {
 }
 
 .sidemenu-box h2 {
+	font-size: 16px;
 	margin: 0;
 	padding: 0 5px;
+	color: #0B55C4;
+	margin-bottom: 5px;
 	
 }
 

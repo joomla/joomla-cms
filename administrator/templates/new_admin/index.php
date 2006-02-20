@@ -65,9 +65,9 @@ $lang =& $mainframe->getLanguage();
 					<!-- toolbox module here -->
 					<!-- START VERY TEMPORARY -->
 					<h2>Toolbox</h2>
-					<jdoc:include type="modules" name="header" style="3" />
-					<a href="index2.php?option=logout" style="color: #333333; font-weight: bold">
-						<jdoc:translate>Logout</jdoc:translate></a>
+					
+					<jdoc:include type="modules" name="status" style="3" />
+					<div class="status_divider"></div>
 					<!-- END VERY TEMPORARY -->
 					<jdoc:include type="modules" name="menu" />
 				
