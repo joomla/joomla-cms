@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 
-$client = mosGetParam( $_REQUEST, 'client', 'site' );
+$client	= $mainframe->getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 switch ($task) {
 

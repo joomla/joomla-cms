@@ -295,6 +295,8 @@ class JTemplatesController
 
 	function editTemplateParams($p_tname)
 	{
+		global $mainframe;
+		
 		/*
 		 * Initialize some variables
 		 */
@@ -320,6 +322,8 @@ class JTemplatesController
 
 	function saveTemplateParams()
 	{
+		global $mainframe;
+		
 		/*
 		 * Initialize some variables
 		 */
@@ -360,6 +364,8 @@ class JTemplatesController
 
 	function editTemplateSource($p_tname)
 	{
+		global $mainframe;
+		
 		/*
 		 * Initialize some variables
 		 */
@@ -384,6 +390,8 @@ class JTemplatesController
 
 	function saveTemplateSource()
 	{
+		global $mainframe;
+		
 		/*
 		 * Initialize some variables
 		 */
@@ -424,6 +432,8 @@ class JTemplatesController
 
 	function chooseTemplateCSS($p_tname)
 	{
+		global $mainframe;
+		
 		/*
 		 * Initialize some variables
 		 */
@@ -457,6 +467,8 @@ class JTemplatesController
 
 	function editTemplateCSS($p_tname)
 	{
+		global $mainframe;
+		
 		/*
 		 * Initialize some variables
 		 */
@@ -483,6 +495,8 @@ class JTemplatesController
 
 	function saveTemplateCSS($option, $client)
 	{
+		global $mainframe;
+		
 		/*
 		 * Initialize some variables
 		 */
