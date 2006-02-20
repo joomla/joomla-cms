@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Feb-2006 Andrew Eddie
+ # Fixed filelist param - would always show list entries related to images for default and do not use
+
 17-Feb-2005 Andy Miller
  + Added new installer Look and Feel
  + Added new login Look and Feel

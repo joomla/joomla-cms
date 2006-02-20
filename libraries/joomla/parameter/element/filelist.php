@@ -48,10 +48,10 @@ class JElement_FileList extends JElement {
 			$options[] = mosHTML::makeOption($file, $file);
 		}
 		if (!$node->getAttribute('hide_none')) {
-			array_unshift($options, mosHTML::makeOption('-1', '- '.JText::_('Do not use an image').' -'));
+			array_unshift($options, mosHTML::makeOption('-1', '- '.JText::_('Do not use').' -'));
 		}
 		if (!$node->getAttribute('hide_default')) {
-			array_unshift($options, mosHTML::makeOption('', '- '.JText::_('Use Default image').' -'));
+			array_unshift($options, mosHTML::makeOption('', '- '.JText::_('Use default').' -'));
 		}
 
 		return mosHTML::selectList($options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, "param$name");
