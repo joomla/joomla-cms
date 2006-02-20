@@ -544,9 +544,11 @@ class JApplication extends JObject
 	 * If a new session, a session id is generated and a record is created in
 	 * the #__sessions table.
 	 *
-	 * @access private
-	 * @param string	The sessions name
-	 * @param boolean 	Use cookies to store the session on the client
+	 * @access	private
+	 * @param	string		The sessions name
+	 * @param	boolean 	Use cookies to store the session on the client
+	 * @return	void
+	 * @since		1.1
 	 */
 	function _createSession( $name, $useCookies = true)
 	{
@@ -581,25 +583,73 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Gets the client id
-	 * @param mixed A client identifier
-	 * @since 1.1
+	 * Gets the client id of the current running application
+	 * 
+	 * @access	public
+	 * @return	int			A client identifier
+	 * @since		1.1
 	 */
 	function getClient( ) {
 		return $this->_client;
 	}
 
-	/** Is admin interface?
-	 * @return boolean
-	 * @since 1.0.2
+	/**
+	 * Gets information on a specific client id.  This method will be useful in
+	 * future versions when we start mapping applications in the database.
+	 * 
+	 * @access	public
+	 * @param	int			$id	A client identifier
+	 * @return	object	Object describing the requested client	
+	 * @since		1.1
+	 */
+	function getClientInfo($id) {
+		
+		static $clients;
+
+		// Only create the array if it does not exist		
+		if (!is_array($clients))
+		{
+			$obj = new stdClass();
+			
+			// Site Client
+			$obj->id		= 0;
+			$obj->name	= 'site';
+			$obj->path	= JPATH_SITE;
+			$clients[0] = clone($obj);
+			
+			// Administrator Client
+			$obj->id		= 1;
+			$obj->name	= 'administrator';
+			$obj->path	= JPATH_ADMINISTRATOR;
+			$clients[1] = clone($obj);
+
+			// Installation Client
+			$obj->id		= 2;
+			$obj->name	= 'installation';
+			$obj->path	= JPATH_INSTALLATION;
+			$clients[2] = clone($obj);
+		}
+		
+		return $clients[$id];
+	}
+
+	/**
+	 * Is admin interface?
+	 * 
+	 * @access	public
+	 * @return	boolean		True if this application is administrator
+	 * @since		1.0.2
 	 */
 	function isAdmin() {
 		return ($this->_client == 1) ?  true : false;
 	}
 
-	/** Is site interface?
-	 * @return boolean
-	 * @since 1.1
+	/**
+	 * Is site interface?
+	 * 
+	 * @access	public
+	 * @return	boolean		True of this application is site
+	 * @since		1.1
 	 */
 	function isSite() {
 		return ($this->_client == 0) ?  true : false;
