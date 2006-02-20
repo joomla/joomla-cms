@@ -50,9 +50,15 @@ function domXmlRpcFault( &$server, $methodName, &$params ) {
 // Includes the required class file for the XML-RPC Server
 jimport('domit.dom_xmlrpc_server' );
 jimport('domit.dom_xmlrpc_fault' );
+jimport('domit.dom_xmlrpc_builder' );
 
 $xmlrpcServer = new dom_xmlrpc_server();
+
+//set the method not found handler
 $xmlrpcServer->setMethodNotFoundHandler( 'domXmlRpcFault' );
+
+// pass individual arguments to the called method
+$xmlrpcServer->tokenizeParams( true );
 
 // load all available remote calls
 JPluginHelper::importGroup( 'xmlrpc' );
@@ -64,9 +70,6 @@ foreach ($allCalls as $calls) {
 	    $xmlrpcServer->addMethod( new dom_xmlrpc_method( $call ) );
 	}
 }
-
-// pass individual arguments to the called method
-$xmlrpcServer->tokenizeParams( true );
 
 // process the call
 $xmlrpcServer->receive();

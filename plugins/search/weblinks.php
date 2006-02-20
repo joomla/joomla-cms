@@ -50,7 +50,7 @@ function botSearchWeblinks( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	// load plugin params info
- 	$plugin =& JPluginHelper::getPlugin('search', 'weblinks.searchbot'); 
+ 	$plugin =& JPluginHelper::getPlugin('search', 'weblinks'); 
  	$pluginParams = new JParameter( $plugin->params );
 
 	$limit = $pluginParams->def( 'search_limit', 50 );

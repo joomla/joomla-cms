@@ -21,14 +21,16 @@ jimport( 'joomla.common.base.object' );
  * @subpackage	Application
  * @since		1.1
  */
-class JAuthenticate extends JObject {
+class JAuthenticate extends JObject 
+{
 
 	/**
 	 * Constructor
 	 *
 	 * @access protected
 	 */
-	function __construct() {
+	function __construct() 
+	{
 		global $mainframe;
 
 		// Get the global database connector object
@@ -340,7 +342,8 @@ class JAuthenticate extends JObject {
  * @subpackage	Application
  * @since		1.1
  */
-class JAuthenticateHelper {
+class JAuthenticateHelper 
+{
 
 	/**
 	 * Formats a password using the current encryption.
@@ -692,7 +695,8 @@ class JAuthenticateHelper {
  * @subpackage	Application
  * @since		1.1
  */
-class JAuthenticateResponse extends JObject { 
+class JAuthenticateResponse extends JObject 
+{ 
 	var $type 			= null;
 	var $name 			= '';
 	var $error_message 	= '';

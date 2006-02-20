@@ -1,0 +1,16 @@
+<?xml version="1.1" encoding="iso-8859-1"?>
+<install version="1.1" type="plugin" group="xmlrpc">
+	<name>XML-RPC - Blogger API</name>
+	<author>Joomla! Project</author>
+	<creationDate>February 2006</creationDate>
+	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0</version>
+	<description>Blogger XML-PRC API</description>
+	<files>
+		<filename plugin="blogger">blogger.php</filename>
+	</files>
+	<params/>
+</install>

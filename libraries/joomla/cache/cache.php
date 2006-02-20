@@ -98,7 +98,7 @@ class JCache extends Cache_Lite
 	 * @return database A database object
 	 * @since 1.1
 	 */
-	function & getInstance($handler = 'Function', $options)
+	function &getInstance($handler = 'Function', $options)
 	{
 		static $instances;
 

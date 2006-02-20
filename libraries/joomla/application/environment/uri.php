@@ -118,7 +118,7 @@ class JURI extends JObject
 	 * @return JURI  The URI object.
 	 * @since 1.1
 	 */
-	function getInstance($uri = 'SERVER')
+	function &getInstance($uri = 'SERVER')
 	{
 		static $instances = array();
 

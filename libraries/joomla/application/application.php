@@ -349,7 +349,7 @@ class JApplication extends JObject
 	function &getURI()
 	{
 		jimport('joomla.application.environment.uri');
-		$instance = JURI::getInstance();
+		$instance =& JURI::getInstance();
 		return $instance;
 	}
 

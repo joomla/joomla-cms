@@ -261,8 +261,11 @@ class JAuthorization extends gacl_api
 		return $this->_getGroup( 'aro', $value );
 	}
 
-	function _getGroup( $type, $value ) {
-		global $database;
+	function _getGroup( $type, $value ) 
+	{
+		global $mainframe;
+		
+		$database = $mainframe->getDBO();
 
 		$database->setQuery( "SELECT g.*"
 			. "\nFROM #__core_acl_{$type}_groups AS g"
@@ -275,8 +278,11 @@ class JAuthorization extends gacl_api
 		return $obj;
 	}
 
-	function _getBelow( $table, $fields, $groupby=null, $root_id=null, $root_name=null, $inclusive=true ) {
-		global $database;
+	function _getBelow( $table, $fields, $groupby=null, $root_id=null, $root_name=null, $inclusive=true ) 
+	{
+		global $mainframe;
+		
+		$database = $mainframe->getDBO();
 
 		$root = new stdClass();
 		$root->lft = 0;
@@ -316,8 +322,11 @@ class JAuthorization extends gacl_api
 	 * @param boolean Returns the complete html if true
 	 * @return string|array String if html, otherwise an array
 	 */
-	function get_group_children_tree( $root_id=null, $root_name=null, $inclusive=true, $html=true ) {
-		global $database;
+	function get_group_children_tree( $root_id=null, $root_name=null, $inclusive=true, $html=true ) 
+	{
+		global $mainframe;
+		
+		$database = $mainframe->getDBO();
 
 		$tree = $this->_getBelow( '#__core_acl_aro_groups',
 			'g1.id, g1.name, COUNT(g2.name) AS level',
@@ -372,8 +381,11 @@ class JAuthorization extends gacl_api
 		Function:	has_group_parent
 		Purpose:	Checks whether the 'source' group is a child of the 'target'
 	\*======================================================================*/
-	function is_group_child_of( $grp_src, $grp_tgt, $group_type='ARO' ) {
-		global $database;
+	function is_group_child_of( $grp_src, $grp_tgt, $group_type='ARO' ) 
+	{
+		global $mainframe;
+		
+		$database = $mainframe->getDBO();
 
 		$this->debug_text("has_group_parent(): Source=$grp_src, Target=$grp_tgt, Type=$group_type");
 
@@ -473,7 +485,8 @@ class JAuthorization extends gacl_api
  * @subpackage	Application
  * @since		1.1
  */
-class JModelARO extends JModel {
+class JModelARO extends JModel 
+{
 /** @var int Primary key */
 	var $id=null;
 	var $section_value=null;
@@ -492,7 +505,8 @@ class JModelARO extends JModel {
  * @subpackage	Application
  * @since		1.1
  */
- class JModelAroGroup extends JModel {
+ class JModelAroGroup extends JModel 
+ {
 /** @var int Primary key */
 	var $id=null;
 	var $parent_id=null;

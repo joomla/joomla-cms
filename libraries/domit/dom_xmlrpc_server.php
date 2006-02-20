@@ -49,7 +49,7 @@ class dom_xmlrpc_server extends php_http_server_generic {
 	/** @var object A reference to a method mapping class */
 	var $methodmapper;
 	/** @var boolean True if params array is to be tokenized */
-	var $tokenizeParamsArray = false;
+	var $tokenizeParamsArray = true;
 	/** @var int Server error code */
 	var $serverError = -1;
 	/** @var string Server error string */
@@ -294,14 +294,15 @@ class dom_xmlrpc_server extends php_http_server_generic {
 	*/
 	function &invokeMethod($xmlText) {
 		$xmlrpcdoc = $this->parseRequest($xmlText);
-
+		
 		if (!$this->isError()) {
 			$methodName = $xmlrpcdoc->getMethodName();
 			$method =& $this->methodmapper->getMethod($methodName);
 			$params =& $xmlrpcdoc->getParams();
-
+	
 			if (!($method == null)) {
 				if ($this->tokenizeParamsArray) {
+				
 					$response =& call_user_func_array($method->method, $params); //should I worry about < PHP 4.04?
 				}
 				else {

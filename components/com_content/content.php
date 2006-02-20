@@ -868,7 +868,7 @@ class JContentController
 		// check whether section is published
 		if (!count($rows)) {
 			$secCheck = new JModelSection( $db );
-			$secCheck->load( $check );			
+			$secCheck->load( $id );			
 			
 			/*
 			* check whether section is published
@@ -975,7 +975,7 @@ class JContentController
 		// check whether section & category is published
 		if (!count($rows)) {
 			$catCheck = new JModelCategory( $db );
-			$catCheck->load( $check );
+			$catCheck->load( $id );
 			
 			/*
 			* check whether category is published

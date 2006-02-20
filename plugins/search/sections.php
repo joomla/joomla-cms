@@ -50,7 +50,7 @@ function botSearchSections( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	// load plugin params info
- 	$plugin =& JPluginHelper::getPlugin('search', 'sections.searchbot'); 
+ 	$plugin =& JPluginHelper::getPlugin('search', 'sections'); 
  	$pluginParams = new JParameter( $plugin->params );
 
 	$limit = $pluginParams->def( 'search_limit', 50 );

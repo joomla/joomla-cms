@@ -686,7 +686,7 @@ function saveContent( $sectionid, $task ) {
 		$row->publish_down = $nullDate;
 	}
 	
-	$row->state = mosGetParam( $_REQUEST, 'published', 0 );
+	$row->state = mosGetParam( $_REQUEST, 'state', 0 );
 	
 	$params = mosGetParam( $_POST, 'params', '' );
 	if (is_array( $params )) {

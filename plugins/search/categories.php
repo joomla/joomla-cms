@@ -51,7 +51,7 @@ function botSearchCategories( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	// load plugin params info
- 	$plugin =& JPluginHelper::getPlugin('search', 'categories.searchbot'); 
+ 	$plugin =& JPluginHelper::getPlugin('search', 'categories'); 
  	$pluginParams = new JParameter( $plugin->params );
 
 	$limit = $pluginParams->def( 'search_limit', 50 );

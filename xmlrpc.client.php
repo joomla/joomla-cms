@@ -60,15 +60,21 @@ if ($task) {
 			}
 			$output = 'Methods<br />';
 			$output .= mosHTML::selectList( $methods, 'method', 'size="10', 'value', 'text' );
-			$output .= ' <input name="args[]" type="text" />';
+			$output .= ' <input name="args" type="text" />';
 			$output .= ' <input name="task" type="submit" value="exec" />';
 
 			break;
 		case 'exec':
 			$method = mosGetParam( $_POST, 'method', '' );
-			$args = mosGetParam( $_POST, 'args', array() );
-
-			$myXmlRpc = new dom_xmlrpc_methodcall( $method, $args[0] );
+			$args = mosGetParam( $_POST, 'args' );
+			
+			$myXmlRpc = new dom_xmlrpc_methodcall( $method );
+			
+			$args = explode( ',', $args );
+			foreach ($args as $arg) {
+				$myXmlRpc->add($arg);
+			}
+			
 			$xmlrpcdoc = $client->send( $myXmlRpc );
 
 			if (!$xmlrpcdoc->isFault()) {
@@ -76,7 +82,6 @@ if ($task) {
 			} else {
 				print $xmlrpcdoc->getFaultString();
 			}
-
 
 			break;
 	}

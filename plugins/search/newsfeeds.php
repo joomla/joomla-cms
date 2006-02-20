@@ -50,7 +50,7 @@ function botSearchNewsfeedslinks( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	// load plugin params info
- 	$plugin =& JPluginHelper::getPlugin('search', 'newsfeeds.searchbot'); 
+ 	$plugin =& JPluginHelper::getPlugin('search', 'newsfeeds'); 
  	$pluginParams = new JParameter( $plugin->params );
 
 	$limit = $pluginParams->def( 'search_limit', 50 );

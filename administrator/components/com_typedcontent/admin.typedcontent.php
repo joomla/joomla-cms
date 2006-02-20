@@ -376,7 +376,7 @@ function save( $option, $task ) {
 		$row->publish_down = $nullDate;
 	}
 	
-	$row->state = mosGetParam( $_REQUEST, 'published', 0 );
+	$row->state = mosGetParam( $_REQUEST, 'state', 0 );
 	
 	// Save Parameters
 	$params = mosGetParam( $_POST, 'params', '' );

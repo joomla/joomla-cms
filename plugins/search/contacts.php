@@ -49,7 +49,7 @@ function botSearchContacts( $text, $phrase='', $ordering='', $areas=null )
 	}
 
 	// load plugin params info
- 	$plugin =& JPluginHelper::getPlugin('search', 'contacts.searchbot'); 
+ 	$plugin =& JPluginHelper::getPlugin('search', 'contacts'); 
  	$pluginParams = new JParameter( $plugin->params );
 
 	$limit = $pluginParams->def( 'search_limit', 50 );
