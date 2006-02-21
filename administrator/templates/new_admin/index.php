@@ -63,18 +63,18 @@ $lang =& $mainframe->getLanguage();
 			<div class="sidemenu-box">
 				<div class="sidemenu-pad">
 					<!-- toolbox module here -->
-					<!-- START VERY TEMPORARY -->
-					<h2>Toolbox</h2>
-					
+					<h2><jdoc:translate>Toolbox</jdoc:translate></h2>
 					<jdoc:include type="modules" name="status" style="3" />
-					<div class="status_divider"></div>
-					<!-- END VERY TEMPORARY -->
+					<div class="status-divider"></div>
 					<jdoc:include type="modules" name="menu" />
-				
 				</div>
 			</div>
 			<div class="content-area">
-			
+				<div class="toolbar-box">
+					<div class="toolbar-pad">
+					
+					</div>
+				</div>
 			
 				<table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
 				<tr>
