@@ -378,29 +378,33 @@ function mosGetOrderingList( $sql, $chop='30' ) {
 */
 function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 	global $database;
-	$dblink="index.php?option=$menu_option";
-	if ($Itemid!="" && $Itemid!=0 && $Itemid!=99999999) {
+	
+	$dblink = "index.php?option=$menu_option";
+	
+	if ( $Itemid != '' && $Itemid != 0 && $Itemid != 99999999 ) {
 		$query = "SELECT access"
 		. "\n FROM #__menu"
 		. "\n WHERE id = $Itemid"
 		;
 		$database->setQuery( $query );
 	} else {
-		if ($task!="") {
-			$dblink.="&task=$task";
+		if ($task!='') {
+			$dblink	.= "&task=$task";
 		}
+		
 		$query = "SELECT access"
 		. "\n FROM #__menu"
 		. "\n WHERE link LIKE '$dblink%'"
 		;
 		$database->setQuery( $query );
 	}
-	$results = $database->loadObjectList();
-	$access = 0;
-	//echo "<pre>"; print_r($results); echo "</pre>";
+	$results 	= $database->loadObjectList();
+	$access 	= 0;
+	
 	foreach ($results as $result) {
 		$access = max( $access, $result->access );
 	}
+	
 	return ($access <= $gid);
 }
 
