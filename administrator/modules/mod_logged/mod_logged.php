@@ -57,19 +57,23 @@ $rows = $database->loadObjectList();
 ?>
 <table class="adminlist">
 <tr>
-	<th colspan="4">
+	<th colspan="5">
 	<?php echo JText::_( 'Currently Logged in Users' ); ?>
 	</th>
 </tr>
 <?php
 $i = 0;
-foreach ( $rows as $row ) {
-	if ( $user->authorize( 'com_users', 'manage' ) ) {
+foreach ( $rows as $row ) 
+{
+	if ( $user->authorize( 'com_users', 'manage' ) ) 
+	{
 		$link 	= 'index2.php?option=com_users&amp;task=editA&amp;hidemainmenu=1&amp;id='. $row->userid;
 		$name 	= '<a href="'. $link .'" title="'. JText::_( 'Edit User' ) .'">'. $row->username .'</a>';
 	} else {
 		$name 	= $row->username;
 	}
+	
+	$clientInfo = $mainframe->getClientInfo($row->client_id);
 	?>
 	<tr>
 		<td width="5%">
@@ -81,11 +85,14 @@ foreach ( $rows as $row ) {
 		<td>
 		<?php echo $row->usertype;?>
 		</td>
+		<td>
+		<?php echo $clientInfo->name;?>
+		</td>
 		<?php
 		if ( $user->authorize( 'com_users', 'manage' ) ) {
 			?>
 			<td>
-			<a href="index2.php?option=com_users&amp;task=flogout&amp;id=<?php echo $row->userid; ?>">
+			<a href="index2.php?option=com_users&amp;task=flogout&amp;id=<?php echo $row->userid ?>&amp;client=<?php echo $row->client_id; ?>">
 			<img src="images/publish_x.png" width="12" height="12" border="0" alt="<?php echo JText::_( 'Logout' ); ?>" title="<?php echo JText::_( 'Force Logout User' ); ?>" />
 			</a>
 			</td>

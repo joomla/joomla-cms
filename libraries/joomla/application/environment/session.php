@@ -58,7 +58,7 @@ class JSession
     {
         JSession::name($name);
         if (is_null(JSession::_detectID())) {
-            JSession::id($id ? $id : md5(uniqid(dechex(rand())).$_SERVER['REMOTE_ADDR']));
+            JSession::id($id ? $id : JSession::_createID());
         }
         session_start();
         if (!isset($_SESSION['__HTTP_Session_Info'])) {
@@ -528,6 +528,23 @@ class JSession
         }
         return null;
     }
+	
+	 /**
+     * Create a session id
+     *
+     * @static
+     * @access private
+     * @return string Session ID
+     */
+	function _createID()
+	{	
+		if (phpversion() <= '4.2.1') {
+			$agent = getenv( 'HTTP_USER_AGENT' );
+		} else {
+			$agent = $_SERVER['HTTP_USER_AGENT'];
+		}
+		return md5( $agent . uniqid(dechex(rand())) . $value . $_SERVER['REMOTE_ADDR'] );
+	}
 }
 
 ?>

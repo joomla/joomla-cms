@@ -122,7 +122,8 @@ class JFactory
 			} break;
 		}
 
-		return $doc;
+		$reference =& $doc;
+		return $reference;
 	}
 
 	/**

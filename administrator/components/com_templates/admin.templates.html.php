@@ -425,7 +425,7 @@ class JTemplatesView {
 	* @param string Menu list
 	* @param string The option
 	*/
-	function assignTemplate( $template, &$menulist, $option ) {
+	function assignTemplate( $template, &$menulist, $option, &$client ) {
 
 		?>
 		<form action="index2.php" method="post" name="adminForm">
@@ -449,6 +449,7 @@ class JTemplatesView {
 		
 		<input type="hidden" name="template" value="<?php echo $template; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
+		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		<input type="hidden" name="task" value="" />
 		</form>
 		<?php

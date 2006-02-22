@@ -76,7 +76,7 @@ class JCache extends Cache_Lite
 		/*
 		 * Add the application specific subdirectory for cache paths
 		 */
-		$this->_cacheDir .= ($mainframe->getClient()) ? 'administrator'.DS : 'site'.DS;
+		$this->_cacheDir .= ($mainframe->getClientId()) ? 'administrator'.DS : 'site'.DS;
 
 		/*
 		 * Create cache directory if not present

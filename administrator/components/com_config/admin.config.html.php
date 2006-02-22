@@ -31,7 +31,7 @@ class JConfigView {
 		<div id="treecell">
 			<fieldset title="File Status">
 				<legend>
-					File Status
+					<?php echo JText::_( 'File Status' ); ?>	
 				</legend>
 				
 				<div id="extensions">
@@ -71,7 +71,7 @@ class JConfigView {
 		<div id="datacell">
 			<fieldset>
 				<legend>
-					Details
+					<?php echo JText::_( 'Details' ); ?>	
 				</legend>
 				
 				<?php

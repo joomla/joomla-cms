@@ -49,7 +49,7 @@ $mainframe->_createPathWay( );
 $acl =& JFactory::getACL();
 
 // create the session
-$mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->_client );
+$mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
 
 if (is_null(JSession::get('guest')) || JSession::get('guest')) {
 	mosRedirect( 'index.php');

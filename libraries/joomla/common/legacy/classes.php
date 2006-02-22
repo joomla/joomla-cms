@@ -283,6 +283,36 @@ class mosSession extends JModelSession {
 	function mosSession(&$db) {
 		parent::__construct( $db );
 	}
+	
+	/**
+	 * Encodes a session id
+	 */
+	function hash( $value ) 
+	{
+		global $mainframe;
+		
+		if (phpversion() <= '4.2.1') {
+			$agent = getenv( 'HTTP_USER_AGENT' );
+		} else {
+			$agent = $_SERVER['HTTP_USER_AGENT'];
+		}
+
+		return md5( $agent . $mainframe->getCfg('secret') . $value . $_SERVER['REMOTE_ADDR'] );
+	}
+	
+	/**
+	 * Set the information to allow a session to persist
+	 */
+	function persist() 
+	{
+		global $mainframe;
+
+		$usercookie = mosGetParam( $_COOKIE, 'usercookie', null );
+		if ($usercookie) {
+			// Remember me cookie exists. Login with usercookie info.
+			$mainframe->login( $usercookie['username'], $usercookie['password'] );
+		}
+	}
 }
 
 /**

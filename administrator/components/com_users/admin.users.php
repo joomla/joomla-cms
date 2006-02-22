@@ -30,6 +30,7 @@ require_once( JApplicationHelper::getPath( 'class' ) );
 $task 	= mosGetParam( $_REQUEST, 'task' );
 $cid 	= mosGetParam( $_REQUEST, 'cid', array( 0 ) );
 $id 	= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
+
 if (!is_array( $cid )) {
 	$cid = array ( 0 );
 }
@@ -439,6 +440,7 @@ function changeUserBlock( $cid=null, $block=1, $option ) {
 	. "\n WHERE id IN ( $cids )"
 	;
 	$database->setQuery( $query );
+	
 	if (!$database->query()) {
 		echo "<script> alert('".$database->getErrorMsg()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -451,8 +453,11 @@ function changeUserBlock( $cid=null, $block=1, $option ) {
 * @param array An array of unique user id numbers
 * @param string The current url option
 */
-function logoutUser( $cid=null, $option, $task ) {
+function logoutUser( $cid=null, $option, $task ) 
+{
 	global $database, $my;
+	
+	$client = mosGetParam( $_REQUEST, 'client' );
 
 	$cids = $cid;
 	if ( is_array( $cid ) ) {
@@ -464,10 +469,11 @@ function logoutUser( $cid=null, $option, $task ) {
 
 	$query = "DELETE FROM #__session"
 	. "\n WHERE userid IN ( $cids )"
+	. "\n AND client_id = $client"
 	;
 	$database->setQuery( $query );
 	$database->query();
-
+	
 	$msg = JText::_( 'User Sesssion ended' );
 	switch ( $task ) {
 		case 'flogout':

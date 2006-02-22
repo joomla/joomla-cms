@@ -100,7 +100,7 @@ class JModuleHelper
 			. "\n LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id"
 			. "\n WHERE m.published = 1"
 			. "\n AND m.access <= '". $gid ."'"
-			. "\n AND m.client_id = '". $mainframe->getClient() ."'"
+			. "\n AND m.client_id = '". $mainframe->getClientId() ."'"
 			. $wheremenu
 			. "\n ORDER BY position, ordering";
 

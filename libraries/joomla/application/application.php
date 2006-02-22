@@ -48,8 +48,9 @@ class JApplication extends JObject
 	 *
 	 * @var integer
 	 * @access protected
+	 * @since 1.1
 	 */
-	var $_client = null;
+	var $_clientId = null;
 
 	/**
 	 * A string holding the active language
@@ -89,9 +90,8 @@ class JApplication extends JObject
 	* @param string 	The URL option passed in
 	* @param integer	A client identifier
 	*/
-	function __construct( $client=0 )
-	{
-		$this->_client 		    = $client;
+	function __construct( $clientId = 0 ) {
+		$this->_clientId = $clientId;
 	}
 
 	 /**
@@ -279,8 +279,15 @@ class JApplication extends JObject
 	 * @access public
 	 * @param string	The sessions name
 	 */
-	function setSession($name) {
+	function setSession($name) 
+	{
 		$this->_createSession($name);
+		
+		if (JSession::isIdle()) {
+			$this->logout();
+		}
+
+		JSession::updateIdle();
 	}
 
 	/**
@@ -309,8 +316,7 @@ class JApplication extends JObject
 		/*
 		 * One last check to make sure we have something
 		 */
-		if (empty($lang))
-		{
+		if (empty($lang)) {
 			$lang = 'eng_GB';
 		}
 		
@@ -442,11 +448,9 @@ class JApplication extends JObject
 		 * If there is a userid in the session, load the application user
 		 * object with the logged in user.
 		 */
-		if (intval( JSession::get('userid')))
-		{
+		if (intval( JSession::get('userid'))){
 			$this->_user = & JUser::getInstance(JSession::get('userid'));
-		} else
-		{
+		} else {
 			$this->_user = & JUser::getInstance();
 		}
 		return $this->_user;
@@ -554,32 +558,38 @@ class JApplication extends JObject
 	{
 		JSession::useCookies(true);
 		JSession::start(md5( $name ));
-
-		JSession::get('registry', new JRegistry('application'));
-
+		
 		$session = & JModel::getInstance('session', $this->getDBO());
 		$session->purge( intval( $this->getCfg( 'lifetime' ) ) );
 
-		if ($session->load( $session->hash( JSession::id() ) )) {
+		if ($session->load( JSession::id())) {
 			// Session cookie exists, update time in session table
 			$session->update();
 		} else {
 
-			if (!$session->insert($session->hash( JSession::id()))) {
+			//make sure the session is cleared
+			JSession::clear();
+			
+			//create persistance store in the session
+			JSession::set('registry', new JRegistry('application'));
+			
+			if (!$session->insert( JSession::id(), $this->getClientId())) {
 				die( $session->getError() );
 			}
-			$session->persist();
+			
+			//TODO::Fix remember me (harden and move out of function)
+			//$usercookie = mosGetParam( $_COOKIE, 'usercookie', null );
+			//if ($usercookie) {
+				// Remember me cookie exists. Login with usercookie info.
+			//	$this->login( $usercookie['username'], $usercookie['password'] );
+			//}
 		}
 
 		$this->_session = $session;
 
 		JSession::setIdle($this->getCfg('lifetime'));
 
-		if (JSession::isIdle()) {
-			$this->logout();
-		}
-
-		JSession::updateIdle();
+		return true;
 	}
 
 	/**
@@ -589,8 +599,8 @@ class JApplication extends JObject
 	 * @return	int			A client identifier
 	 * @since		1.1
 	 */
-	function getClient( ) {
-		return $this->_client;
+	function getClientId( ) {
+		return $this->_clientId;
 	}
 
 	/**
@@ -647,7 +657,7 @@ class JApplication extends JObject
 	 * @since		1.0.2
 	 */
 	function isAdmin() {
-		return ($this->_client == 1) ?  true : false;
+		return ($this->_clientId == 1) ?  true : false;
 	}
 
 	/**
@@ -658,7 +668,7 @@ class JApplication extends JObject
 	 * @since		1.1
 	 */
 	function isSite() {
-		return ($this->_client == 0) ?  true : false;
+		return ($this->_clientId == 0) ?  true : false;
 	}
 
 	/**

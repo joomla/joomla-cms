@@ -43,7 +43,7 @@ $mainframe->_createPathWay( );
 $acl =& JFactory::getACL();
 
 // create session
-$mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->_client );
+$mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
 
 // frontend login & logout controls
 $return = mosGetParam( $_REQUEST, 'return', NULL );

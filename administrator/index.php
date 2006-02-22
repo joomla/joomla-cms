@@ -43,7 +43,7 @@ $mainframe->_createPathWay( );
 $acl =& JFactory::getACL();
 
 //create the session
-$mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->_client );
+$mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
 
 // trigger the onAfterStart events
 $mainframe->triggerEvent( 'onAfterStart' );

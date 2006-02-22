@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Feb-2006 Johan Janssens
+ + Added client_id field to session table
+ ^ Added client column to mod_logged and improved forced log out functionality
+
 20-Feb-2006 Andrew Eddie
  # Fixed filelist param - would always show list entries related to images for default and do not use
 

@@ -89,4 +89,8 @@ INSERT INTO `jos_template_positions` VALUES (0, 'breadcrumb', '');
 INSERT INTO `jos_template_positions` VALUES (0, 'submenu', '');
 INSERT INTO `jos_template_positions` VALUES (0, 'status', '');
 
+#JJ: 21-Feb-2006
+# Add client id to session table
+ALTER TABLE `jos_session` ADD COLUMN `client_id` tinyint(3) NOT NULL default 0;
+
 

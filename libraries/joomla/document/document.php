@@ -522,6 +522,12 @@ class JDocument extends JTemplate
 		global $mainframe, $my, $acl, $database;
 		global $Itemid, $task, $option, $_VERSION;
 		
+		//For backwards compatibility extract the config vars as globals
+		foreach (get_object_vars($mainframe->_registry->toObject()) as $k => $v) {
+			$name = 'mosConfig_'.$k;
+			$$name = $v;
+		}
+		
 		$contents = '';
 		if ( file_exists( $directory.DS.$filename ) ) {
 			

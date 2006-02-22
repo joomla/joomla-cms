@@ -39,9 +39,7 @@ class JInstallation extends JApplication
 	* Class constructor
 	*/
 	function __construct( ) {
-
-		$this->_client = 2;
-
+		parent::__construct(2);
 		$this->_createConfiguration();
 	}
 

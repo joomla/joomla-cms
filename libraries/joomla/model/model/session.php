@@ -35,6 +35,8 @@ class JModelSession extends JModel
 	var $gid				= null;
 	/** @var int */
 	var $guest				= null;
+	/** @var int */
+	var $client_id			= null;
 
 	/**
 	 * Constructor
@@ -49,9 +51,10 @@ class JModelSession extends JModel
 		$this->gid = 0;
 	}
 
-	function insert($id) 
+	function insert($sessionId, $clientId) 
 	{
-		$this->session_id = $id;
+		$this->session_id = $sessionId;
+		$this->client_id  = $clientId;
 
 		$this->time = time();
 		$ret = $this->_db->insertObject( $this->_tbl, $this );
@@ -78,20 +81,6 @@ class JModelSession extends JModel
 	}
 
 	/**
-	 * Set the information to allow a session to persist
-	 */
-	function persist() 
-	{
-		global $mainframe;
-
-		$usercookie = mosGetParam( $_COOKIE, 'usercookie', null );
-		if ($usercookie) {
-			// Remember me cookie exists. Login with usercookie info.
-			$mainframe->login( $usercookie['username'], $usercookie['password'] );
-		}
-	}
-
-	/**
 	 * Allows site to remember login
 	 * @param string The username
 	 * @param string The user password
@@ -108,8 +97,6 @@ class JModelSession extends JModel
 	 */
 	function destroy() 
 	{
-		global $database;
-
 		if ($this->userid) {
 			// update the user last visit
 			$query = "UPDATE #__users"
@@ -118,7 +105,7 @@ class JModelSession extends JModel
 			$this->_db->setQuery( $query );
 
 			if ( !$this->_db->query() ) {
-		 		mosErrorAlert( $database->stderr() );
+		 		mosErrorAlert( $this->_db->stderr() );
 			}
 		}
 
@@ -129,29 +116,6 @@ class JModelSession extends JModel
 		if ( !$this->_db->query() ) {
 			mosErrorAlert( $this->_db->stderr() );
 		}
-	}
-
-	/**
-	 * @return string The cookie|session based session id
-	 */
-	function getCookie() {
-		return $this->_session_cookie;
-	}
-
-	/**
-	 * Encodes a session id
-	 */
-	function hash( $value ) 
-	{
-		global $mainframe;
-		
-		if (phpversion() <= '4.2.1') {
-			$agent = getenv( 'HTTP_USER_AGENT' );
-		} else {
-			$agent = $_SERVER['HTTP_USER_AGENT'];
-		}
-
-		return md5( $agent . $mainframe->getCfg('secret') . $value . $_SERVER['REMOTE_ADDR'] );
 	}
 
 	/**
