@@ -39,14 +39,14 @@
 ** - Purpose: Attachment/Link Library
 ** - Version: 1.00
 ** - Date: 2006-01-30
-** - Documentation: http://xstandard.com/xstandard-lite-for-authorized-cms/
+** - Documentation: http://xstandard.com/xstandard-lite-for-partner-cms/
 ****************************************************************************************/
 
 $base_path = "../../../";
 require_once( $base_path . 'configuration.php' );
 
 /*************************** OPTIONAL - CHANGE THESE SETTINGS **************************/
-define("XS_LIBRARY_FOLDER", $base_path . 'images/stories/'); // Root library folder
+define("XS_LIBRARY_FOLDER",  $base_path . 'images/stories/'); // Root library folder
 define("XS_BASE_URL", 'images/stories/'); // Base URL to create for files. Relative URLs are okay, for example: "docs/".
 define("XS_ACCEPTED_FILE_TYPES", "txt zip pdf doc rtf tar ppt xls xml xsl xslt swf gif jpeg jpg png bmp"); // A list of accepted file extensions.
 define("XS_GET_DATE_LAST_MODIFIED", true); //Provide the last modified date for files.  For large libraries, turning this off can improve performance.

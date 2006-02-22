@@ -39,7 +39,7 @@
 ** - Purpose: Image Library
 ** - Version: 1.00
 ** - Date: 2006-01-30
-** - Documentation: http://xstandard.com/xstandard-lite-for-authorized-cms/
+** - Documentation: http://xstandard.com/xstandard-lite-for-partner-cms/
 ****************************************************************************************/
 
 $base_path = "../../../";
