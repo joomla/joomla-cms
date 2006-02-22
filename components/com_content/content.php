@@ -1582,7 +1582,7 @@ class JContentController
 			}
 		}
 
-		$msg = $isNew ? JText :: _('THANK_SUB') : JText :: _('Item succesfully saved.');
+		$msg = $isNew ? JText :: _('THANK_SUB') : JText :: _('Item successfully saved.');
 		$msg = $user->get('usertype') == 'Publisher' ? JText :: _('THANK_SUB'): $msg;
 		switch ($task) {
 			case 'apply' :

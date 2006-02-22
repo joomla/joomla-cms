@@ -246,7 +246,7 @@ DEFINE('_E_SAVE','Save');
 DEFINE('_E_CANCEL','Cancel');
 DEFINE('_E_REGISTERED','Registered Users Only');
 DEFINE('_E_ITEM_INFO','Item Information');
-DEFINE('_E_ITEM_SAVED','Item succesfully saved.');
+DEFINE('_E_ITEM_SAVED','Item successfully saved.');
 DEFINE('_ITEM_PREVIOUS','&lt; Prev');
 DEFINE('_ITEM_NEXT','Next &gt;');
 
@@ -458,7 +458,7 @@ DEFINE('_BNR_URL','You must select a URL/Custom banner code for the banner.');
 DEFINE('_ALREADY_LOGIN','You are already logged in!');
 DEFINE('_LOGOUT','Click here to logout');
 DEFINE('_LOGIN_TEXT','Use the login and password fields opposite to gain full access');
-DEFINE('_LOGIN_SUCCESS','You have succesfully Logged In');
+DEFINE('_LOGIN_SUCCESS','You have successfully Logged In');
 DEFINE('_LOGOUT_SUCCESS','You have successfully Logged Out');
 DEFINE('_LOGIN_DESCRIPTION','To access the Private area of this site please Login');
 DEFINE('_LOGOUT_DESCRIPTION','You are currently Logged in to the private area of this site');

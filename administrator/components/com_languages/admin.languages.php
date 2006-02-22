@@ -182,7 +182,7 @@ function publishLanguage( $p_lname, $option, $client = 'site' )
 	if ($fp = fopen("../configuration.php","w")){
 		fputs($fp, $config, strlen($config));
 		fclose($fp);
-		josRedirect("index2.php?option=com_languages&client=".$client,JText::_( 'Configuration succesfully updated!' ) );
+		josRedirect("index2.php?option=com_languages&client=".$client,JText::_( 'Configuration successfully updated!' ) );
 	} else {
 		josRedirect("index2.php?option=com_languages&client=".$client,JText::_( 'ERRORCONFIGWRITEABLE' ) );
 	}

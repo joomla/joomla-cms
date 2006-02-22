@@ -180,7 +180,7 @@ class JLanguage extends JObject
 	 * @access public
 	 * @param string 	$prefix 	The prefix
 	 * @param string 	$basePath  	The basepath to use
-	 * $return boolean	True, if the file has succesfully loaded.
+	 * $return boolean	True, if the file has successfully loaded.
 	 */
 	function load( $prefix = '', $basePath = JPATH_BASE )
 	{
