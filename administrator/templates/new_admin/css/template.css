@@ -247,7 +247,7 @@ span.logout {
 	float: left;
 	padding-left: 22px;
 	line-height: 16px;
-	padding-right: 15px;
+	padding-right: 10px;
 	padding-top: 4px;
 	margin-bottom: 5px;
 }
@@ -285,6 +285,8 @@ div.status-divider {
 
 .sidemenu-pad {
 	padding: 0;
+	margin-bottom: 0 !Important;
+	margin-bottom: -5px;
 }
 
 .content-area {
@@ -320,7 +322,7 @@ div.status-divider {
 
 .toolbar-pad {
 	padding: 0 5px;
-	margin-bottom: -5px;
+	padding-bottom: 2px;
 }
 
 div.header {
