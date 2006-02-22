@@ -543,7 +543,7 @@ class JSession
 		} else {
 			$agent = $_SERVER['HTTP_USER_AGENT'];
 		}
-		return md5( $agent . uniqid(dechex(rand())) . $value . $_SERVER['REMOTE_ADDR'] );
+		return md5( $agent . uniqid(dechex(rand())) . $_SERVER['REMOTE_ADDR'] );
 	}
 }
 
