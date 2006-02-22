@@ -38,6 +38,7 @@ class JButton_Standard extends JButton
 		$html .= "<a onclick=\"$doTask\">\n";
 		$html .= "<div class=\"$class\" title=\"$text\" type=\"$type\">\n";
 		$html .= "</div>\n";
+		$html .= "<br />\n";
 		$html .= "$text\n";
 		$html .= "</a>\n";
 
