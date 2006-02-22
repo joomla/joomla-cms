@@ -34,6 +34,8 @@ class TOOLBAR_massmail {
 //		JMenuBar::help( 'screen.users.massmail' );
 //		JMenuBar::endTable();
 
+		echo mosHTML::Header( JText::_('Mass Mail'), 'massemail' );
+
 		jimport('joomla.utilities.presentation.toolbar.toolbar');
 		$bar = & JToolBar::getInstance('main');
 		$bar->appendButton( 'Standard', 'send', 'Send Mail', 'send', false );

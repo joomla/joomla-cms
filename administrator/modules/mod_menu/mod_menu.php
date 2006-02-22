@@ -320,5 +320,31 @@ class JAdminMenu {
 
 		return $txt;		
 	}
+
+	/**
+	 * Method to get the CSS class name for an icon identifier or create one if
+	 * a custom image path is passed as the identifier
+	 * 
+	 * Can be redefined in the final class
+	 * 
+	 * @access	public
+	 * @param	string	$identifier	Icon identification string
+	 * @return	string	CSS class name
+	 * @since	1.1
+	 */
+	function fetchIconClass($identifier)
+	{
+		if (strpos($identifier, 'class:'))
+		{
+			// We were passed a class name
+			
+		} else
+		{
+			// We were passed an image path
+			
+		}
+		
+		return "icon-16-$class";
+	}
 }
 ?>

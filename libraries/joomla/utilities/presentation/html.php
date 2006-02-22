@@ -511,6 +511,27 @@ class mosHTML {
 	}
 
 	/**
+	 * Write a page header block
+	 *
+	 * @param string 	The relative URL to use for the src attribute
+	 * @param string	The target attribute to use
+	 * @param array		An associative array of attributes to add
+	 * @param integer	Set the SSL functionality
+	 * @since 1.1
+	 */
+	function Header($text, $iconClass)
+	{
+		$html	= null;
+		
+		$html	.= "<div class=\"header\">\n";
+		$html	.= "<div class=\"icon-48-$iconClass\">\n</div>\n";
+		$html	.= "$text\n";
+		$html	.= "</div>\n";
+
+		return $html;
+	}
+
+	/**
 	* simple Javascript Cloaking
 	* email cloacking
  	* by default replaces an email with a mailto link with email cloacked
