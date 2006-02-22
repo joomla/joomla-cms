@@ -252,9 +252,8 @@ class JRequest
 			/*
 			 * Handle magic quotes compatability
 			 */
-			if (!get_magic_quotes_gpc())
-			{
-				$return = addslashes($return);
+			if (get_magic_quotes_gpc()) {
+				$return = stripslashes($return);
 			}
 		}
 		elseif (is_array($var))
