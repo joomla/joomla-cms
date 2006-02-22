@@ -131,21 +131,6 @@ class JSite extends JApplication {
 			$template = $templates[0];
 		}
 
-		// TemplateChooser Start
-		$jos_user_template   = mosGetParam( $_COOKIE, 'jos_user_template', '' );
-		$jos_change_template = mosGetParam( $_REQUEST, 'jos_change_template', $jos_user_template );
-		
-		if ($jos_change_template) {
-			// check that template exists in case it was deleted
-			if (file_exists( JPATH_SITE .'/templates/'. $jos_change_template .'/index.php' )) {
-				$lifetime = 60*10;
-				$template = $jos_change_template;
-				setcookie( 'jos_user_template', "$jos_change_template", time() + $lifetime);
-			} else {
-				setcookie( 'jos_user_template', '', time()-3600 );
-			}
-		}
-
 		return $template;
 	}
 }
