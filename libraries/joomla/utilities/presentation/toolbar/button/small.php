@@ -36,8 +36,8 @@ class JButton_Small extends JButton
 
 		$html .= "<a onclick=\"$doTask\">\n";
 		$html .= "<div class=\"$class\" title=\"$text\" type=\"$type\">\n";
-		$html .= "$text\n";
 		$html .= "</div>\n";
+		$html .= "$text\n";
 		$html .= "</a>\n";
 
 		return $html;
