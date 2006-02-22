@@ -271,12 +271,11 @@ function botJoomlaSEFUrl( ) {
 			$jdir = str_replace ('index.php', '', $_SERVER['PHP_SELF']);
 			$juri = str_replace ($jdir, '', $_SERVER['REQUEST_URI']);
 
-			if ($juri != '' && $juri != '/' && !eregi("index\.php", $_SERVER['REQUEST_URI']) && !eregi("index2\.php", $_SERVER['REQUEST_URI']) && !eregi("/\?", $_SERVER['REQUEST_URI']) ) {
+			if ($juri != '' && $juri != '/' && !eregi("index\.php", $_SERVER['REQUEST_URI']) && !eregi("index2\.php", $_SERVER['REQUEST_URI']) && !eregi("/\?", $_SERVER['REQUEST_URI']) && $_SERVER['QUERY_STRING'] == '' ) {
 				header( 'HTTP/1.0 404 Not Found' );
 				require_once( JPATH_SITE . '/templates/_system/404.php' );
 				exit( 404 );
 			}
-
 		}
 
 	}
