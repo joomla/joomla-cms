@@ -35,9 +35,9 @@ class JButton_Unarchive extends JButton
 		$class	= $this->fetchIconClass('unarchive');
 		$doTask	= $this->_getCommand($task);
 
-		$html .= "<div class=\"$class\" onclick=\"$doTask\" title=\"$text\" type=\"$type\">\n";
+		$html .= "<a class=\"$class\" onclick=\"$doTask\" title=\"$text\" type=\"$type\">\n";
 		$html .= "$text\n";
-		$html .= "</div>\n";
+		$html .= "</a>\n";
 
 		return $html;
 	}

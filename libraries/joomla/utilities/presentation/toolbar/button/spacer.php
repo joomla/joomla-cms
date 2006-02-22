@@ -42,8 +42,8 @@ class JButton_Spacer extends JButton
 			$style = "style=\"width: $width px;\"";
 		}
 
-		$html	.= "<div class=\"spacer\" $style>\n";
-		$html	.= "</div>\n";
+		$html	.= "<a class=\"spacer\" $style>\n";
+		$html	.= "</a>\n";
 
 		return $html;
 	}
@@ -57,7 +57,7 @@ class JButton_Spacer extends JButton
 	 */
 	function fetchId()
 	{
-		return $this->_parent->_name.'-spacer';
+		return;
 	}
 }
 ?>

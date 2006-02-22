@@ -35,9 +35,9 @@ class JButton_Popup extends JButton
 		$class	= $this->fetchIconClass($name);
 		$doTask	= $this->_getCommand($name, $task, $url, $list, $width, $height, $top, $left);
 
-		$html .= "<div class=\"$class\" onclick=\"$doTask\" title=\"$text\" type=\"$type\">\n";
+		$html .= "<a class=\"$class\" onclick=\"$doTask\" title=\"$text\" type=\"$type\">\n";
 		$html .= "$text\n";
-		$html .= "</div>\n";
+		$html .= "</a>\n";
 
 		return $html;
 	}

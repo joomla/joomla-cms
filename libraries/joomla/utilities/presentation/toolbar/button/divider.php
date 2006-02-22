@@ -52,7 +52,7 @@ class JButton_Divider extends JButton
 	 */
 	function fetchId()
 	{
-		return $this->_parent->_name.'-divider';
+		return;
 	}
 }
 ?>

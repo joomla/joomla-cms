@@ -71,9 +71,15 @@ class JButton extends JObject
 		$html	= null;
 		$id		= call_user_func_array(array(&$this, 'fetchId'), $definition);
 		$action	= call_user_func_array(array(&$this, 'fetchButton'), $definition);
+		
+		// Build id attribute
+		if ($id)
+		{
+			$id = "id=\"$id\"";
+		}
 
 		// Build the HTML Button
-		$html	.= "<div class=\"button\" id=\"$id\" >\n";
+		$html	.= "<div class=\"button\" $id>\n";
 		$html	.= $action;
 		$html	.= "</div>\n";
 		
