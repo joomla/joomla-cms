@@ -297,7 +297,7 @@ class JAdminMenu {
 	function buildDiv ( $title, $list, $suffix = '-smenu' )
 	{
 
-		$txt = 	"<h3 class=\"title".$suffix."\" title=\"$title\">$title</h3>";		
+		$txt = 	"<h3 class=\"title".$suffix."\" title=\"$title\">$title</h3>\n";		
 		$txt .=	"<div class=\"section".$suffix."\">\n";
 		
 		/*
@@ -316,7 +316,7 @@ class JAdminMenu {
 			$txt .= "<a href=\"".$item['link']."\">".$item['title']."</a>";
 			$txt .=	"</li>"; 
 		}
-		$txt .=	"\n</div>";
+		$txt .=	"\n</div>\n";
 
 		return $txt;		
 	}
