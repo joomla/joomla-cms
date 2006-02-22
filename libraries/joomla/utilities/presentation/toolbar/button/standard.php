@@ -35,8 +35,10 @@ class JButton_Standard extends JButton
 		$class	= $this->fetchIconClass($name);
 		$doTask	= $this->_getCommand($name, $task, $list, $hideMenu);
 
-		$html .= "<a class=\"$class\" onclick=\"$doTask\" title=\"$text\" type=\"$type\">\n";
+		$html .= "<a onclick=\"$doTask\">\n";
+		$html .= "<div class=\"$class\" title=\"$text\" type=\"$type\">\n";
 		$html .= "$text\n";
+		$html .= "</div>\n";
 		$html .= "</a>\n";
 
 		return $html;

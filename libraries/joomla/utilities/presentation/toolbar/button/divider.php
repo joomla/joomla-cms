@@ -29,7 +29,7 @@ class JButton_Divider extends JButton
 	 */
 	var $_name = 'Divider';
 
-	function fetchButton( $type='Divider' )
+	function render()
 	{
 
 		/*
@@ -41,18 +41,6 @@ class JButton_Divider extends JButton
 		$html	.= "</div>\n";
 
 		return $html;
-	}
-	
-	/**
-	 * Get the button CSS Id
-	 * 
-	 * @access	public
-	 * @return	string	Button CSS Id
-	 * @since	1.1
-	 */
-	function fetchId()
-	{
-		return;
 	}
 }
 ?>

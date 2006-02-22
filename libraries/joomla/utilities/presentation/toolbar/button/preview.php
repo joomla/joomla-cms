@@ -35,8 +35,10 @@ class JButton_Preview extends JButton
 		$class	= $this->fetchIconClass('preview');
 		$doTask	= $this->_getCommand($url, $updateEditor);
 
-		$html .= "<a class=\"$class\" onclick=\"$doTask\" title=\"$text\" type=\"$type\">\n";
+		$html .= "<a onclick=\"$doTask\">\n";
+		$html .= "<div class=\"$class\" title=\"$text\" type=\"$type\">\n";
 		$html .= "$text\n";
+		$html .= "</div>\n";
 		$html .= "</a>\n";
 
 		return $html;

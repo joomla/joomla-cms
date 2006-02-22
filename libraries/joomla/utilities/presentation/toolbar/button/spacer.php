@@ -29,35 +29,22 @@ class JButton_Spacer extends JButton
 	 */
 	var $_name = 'Spacer';
 
-	function fetchButton( $type='Spacer', $width = null )
+	function render( &$definition )
 	{
-
 		/*
 		 * Initialize variables
 		 */
 		$html	= null;
 		$style	= null;
-		if (!empty($width))
+		if (!empty($definition[1]))
 		{
-			$style = "style=\"width: $width px;\"";
+			$style = "style=\"width: $definition[1] px;\"";
 		}
 
-		$html	.= "<a class=\"spacer\" $style>\n";
-		$html	.= "</a>\n";
+		$html	.= "<div class=\"spacer\" $style>\n";
+		$html	.= "</div>\n";
 
 		return $html;
-	}
-	
-	/**
-	 * Get the button CSS Id
-	 * 
-	 * @access	public
-	 * @return	string	Button CSS Id
-	 * @since	1.1
-	 */
-	function fetchId()
-	{
-		return;
 	}
 }
 ?>
