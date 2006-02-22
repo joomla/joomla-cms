@@ -523,8 +523,7 @@ class mosHTML {
 	{
 		$html	= null;
 		
-		$html	.= "<div class=\"header\">\n";
-		$html	.= "<div class=\"icon-48-$iconClass\">\n</div>\n";
+		$html	.= "<div class=\"header icon-48-$iconClass\">\n";
 		$html	.= "$text\n";
 		$html	.= "</div>\n";
 
