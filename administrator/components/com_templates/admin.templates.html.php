@@ -133,7 +133,7 @@ class JTemplatesView {
 							<?php echo $row->name;?></a>
 					</td>
 					<?php
-					if ( $client == 'administration' ) {
+					if ( $client->id == 1 ) {
 						?>
 						<td align="center">
 							<?php
