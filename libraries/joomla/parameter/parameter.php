@@ -268,9 +268,9 @@ class JParameter extends JRegistry
 			return false;
 		}
 
-		$this->_elementTypes[$signature]	= new $elementClass($this);
+		$this->_elements[$signature]	= new $elementClass($this);
 		
-		return $this->_elementTypes[$signature];
+		return $this->_elements[$signature];
 	}
 	
 	/**
@@ -291,7 +291,7 @@ class JParameter extends JRegistry
 		if( is_array( $dir ) ) {
 			$this->_elementDirs = array_merge( $this->_elementDirs, $dir );
 		} else {
-			array_push( $this->_parameterDirs, $dir );
+			array_push( $this->_elementDirs, $dir );
 		}
 	}
 	
