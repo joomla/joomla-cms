@@ -32,20 +32,18 @@ $lang =& $mainframe->getLanguage();
 	<script type="text/javascript" src="../includes/js/moofx/moo.fx.pack.js"></script>
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/moo.fx.effect.js"></script>
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/nifty.js"></script>
+	<script type="text/javascript" src="templates/{TEMPLATE}/js/rounded_corners.js"></script>
 	<script type="text/javascript">
 	window.onload=function(){
+   
 		if(!NiftyCheck()) alert("hello");
 		Rounded("div.sidemenu-box","all","#fff","#f7f7f7","border #ccc");
 		Rounded("div.component","all","#fff","#fff","border #ccc");
+		Rounded("div.toolbar-box","all","#fff","#fbfbfb","border #ccc");
 		Rounded("div.element-box","all","#fff","#fbfbfb","border #ccc");
-		setFocus();
+		
+		
 	}
-	</script>
-	<script language="javascript" type="text/javascript">
-		function setFocus() {
-			document.loginForm.username.select();
-			document.loginForm.username.focus();
-		}
 	</script>
 	</head>
 	<body>
@@ -59,61 +57,60 @@ $lang =& $mainframe->getLanguage();
 		</div>
 		<div id="content-box">
 			<div id="content-pad">
-			
-			<div class="sidemenu-box">
-				<div class="sidemenu-pad">
-					<!-- toolbox module here -->
-					<h2><jdoc:translate>Toolbox</jdoc:translate></h2>
-					<jdoc:include type="modules" name="status" style="3" />
-					<div class="status-divider"></div>
-					<jdoc:include type="modules" name="menu" />
+				<div class="sidemenu-box">
+					<div class="sidemenu-pad">
+						<!-- toolbox module here -->
+						<h2><jdoc:translate>Toolbox</jdoc:translate></h2>
+						<jdoc:include type="modules" name="status" style="3" />
+						<div class="status-divider"></div>
+						<jdoc:include type="modules" name="menu" />
+					</div>
 				</div>
-			</div>
-			<div class="content-area">
-				<div class="toolbar-box">
-					<div class="toolbar-pad">
+				<div class="content-area">
+					<div class="content-pad">
+						<div class="toolbar-box">
+							<div class="toolbar-pad">
+									<jdoc:include type="modules" name="toolbar" />
+									<div class="clr"></div>
+							</div>
+							<div class="clr"></div>
+						</div>
+		
 					
+						<table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
+						<tr>
+							<td class="menudottedline" align="<?php echo $lang->isRTL() ? 'left' : 'right'; ?>">
+								<jdoc:include type="modules" name="submenu" />
+							</td>
+						</tr>
+						</table>
+						<div class="centermain">
+							<div class="main">
+								<jdoc:include type="component" />
+							</div>
+						</div>
+		
+		
+						<noscript>
+							<jdoc:translate key="WARNJAVASCRIPT" />
+						</noscript>
 					</div>
 				</div>
-			
-				<table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
-				<tr>
-					<td class="menudottedline" align="<?php echo $lang->isRTL() ? 'left' : 'right'; ?>">
-						<jdoc:include type="modules" name="toolbar" />
-					</td>
-				</tr>
-				<tr>
-					<td class="menudottedline" align="<?php echo $lang->isRTL() ? 'left' : 'right'; ?>">
-						<jdoc:include type="modules" name="submenu" />
-					</td>
-				</tr>
-				</table>
-				<div class="centermain">
-					<div class="main">
-						<jdoc:include type="component" />
-					</div>
-				</div>
-
-
-				<noscript>
-					<jdoc:translate key="WARNJAVASCRIPT" />
-				</noscript>
 			</div>
+			<div class="clr"></div>
+		</div>	
+		<div id="footer1">
+			<div id="footer2">
+				<div id="footer3"></div>
+			</div>
+		</div>	
+		
+		<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla!</a>
+			<jdoc:translate key="isFreeSoftware">is Free Software released under the GNU/GPL License.</jdoc:translate>	
 		</div>
-		<div class="clr"></div>
-	</div>	
-	<div id="footer1">
-		<div id="footer2">
-			<div id="footer3"></div>
-		</div>
-	</div>	
-	
-	<div id="copyright"><a href="http://www.joomla.org" target="_blank">Joomla!</a>
-		<jdoc:translate key="isFreeSoftware">is Free Software released under the GNU/GPL License.</jdoc:translate>	
-	</div>
-	
-	<script type="text/javascript">
-		init_moofx();
-	</script>
-</body>
-</html>
+		
+		<script type="text/javascript">
+			init_moofx();
+		</script>
+	</body>
+	</html>

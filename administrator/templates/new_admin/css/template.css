@@ -15,6 +15,7 @@ body {
 
 .clr {
 	clear: both;
+	overflow:hidden;
 }
 
 form {
@@ -115,7 +116,7 @@ h1 {
 }
 
 body, div, p, td, span {
-	font-family: Helvetica, Arial, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-size: 11px;
 }
 
@@ -124,12 +125,9 @@ a:link, a:visited {
 	color: #0B55C4;
 }
 
-a:hover {
-
-}
-
 h1, h2, h3, h4, h5,
 #header3 span,
+div.header,
 .button1-left a,
 .button1-right a {
 	font-family: Arial Narrow, Helvetica, Arial, sans-serif;
@@ -282,7 +280,7 @@ div.status-divider {
 .sidemenu-box {
 	background: #F7F7F7;
 	float: left;
-	width: 170px;
+	width: 20%;
 }
 
 .sidemenu-pad {
@@ -290,12 +288,17 @@ div.status-divider {
 }
 
 .content-area {
-	margin-left: 180px;
-	
+	float: right;
+	width: 80%;
+}
+
+.content-pad {
+	padding-left: 10px;
 }
 
 .sidemenu-box h2 {
-	font-size: 16px;
+	font-size: 18px;
+	font-weight: bold;
 	margin: 0;
 	padding: 0 5px;
 	color: #0B55C4;
@@ -307,3 +310,91 @@ div.status-divider {
 	border-left: 0px;
 	border-right: 0px;
 }
+
+/** toolbar **/
+
+.toolbar-box {
+	background: #fbfbfb;
+	width: 100%;
+}
+
+.toolbar-pad {
+	padding: 0 5px;
+	margin-bottom: -5px;
+}
+
+div.header {
+	width: 50%;
+	color: #0B55C4;
+	font-size: 18px;
+	line-height: 48px;
+	font-weight: bold;
+	padding-left: 55px;
+}
+
+div.toolbar {
+	float: right;
+	text-align: right;
+	padding: 0;
+}
+
+div.button {
+	float: left;
+	text-align: center;
+	margin-left: 4px;
+	color: #666666;
+}
+
+div.button div {
+	float: none;
+	width: 32px;
+	height: 32px;
+	margin: 0 auto !important;
+	margin: 0;
+}
+
+div.button a.toolbar {
+	display: block;
+	float: left;
+	white-space: nowrap;
+	display: block;
+	border: 1px solid #fbfbfb;
+	padding: 1px 5px;
+	cursor: pointer;
+
+}
+
+div.button a.toolbar:hover {
+	border-left: 1px solid #eee;
+	border-top: 1px solid #eee;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+/** toolbar icons **/
+.icon-48-massemail {
+	height: 48px;
+	background: url(../images/header/icon-48-massmail.png) no-repeat;
+}
+
+.icon-32-cancel {
+	background: url(../images/toolbar/icon-32-cancel.png) 50% 0 no-repeat;
+}
+
+.icon-32-send {
+	background: url(../images/toolbar/icon-32-cancel.png) 50% 0 no-repeat;
+}
+
+.icon-32-help {
+	background: url(../images/toolbar/icon-32-help.png) 50% 0 no-repeat;
+}
+
+
+input#mm_subject {
+	width: 200px;
+}
+
+textarea#mm_message {
+ width: 200px;
+}
+
