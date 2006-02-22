@@ -25,14 +25,23 @@ class TOOLBAR_massmail {
 	*/
 	function _DEFAULT() {
 
-		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'Mass Mail' ), 'massemail.png' );
-		JMenuBar::custom('send','publish.png','publish_f2.png',JText::_( 'Send Mail' ),false);
-		JMenuBar::spacer();
-		JMenuBar::cancel();
-		JMenuBar::spacer();
-		JMenuBar::help( 'screen.users.massmail' );
-		JMenuBar::endTable();
+//		JMenuBar::startTable();
+//		JMenuBar::title( JText::_( 'Mass Mail' ), 'massemail.png' );
+//		JMenuBar::custom('send','publish.png','publish_f2.png',JText::_( 'Send Mail' ),false);
+//		JMenuBar::spacer();
+//		JMenuBar::cancel();
+//		JMenuBar::spacer();
+//		JMenuBar::help( 'screen.users.massmail' );
+//		JMenuBar::endTable();
+
+		jimport('joomla.utilities.presentation.toolbar.toolbar');
+		$bar = & JToolBar::getInstance('main');
+		$bar->appendButton( 'Standard', 'send', 'Send Mail', 'send', false );
+		$bar->appendButton( 'Spacer' );
+		$bar->appendButton( 'Cancel' );
+		$bar->appendButton( 'Spacer' );
+		$bar->appendButton( 'Help', 'screen.users.massmail' );
+		echo $bar->render('main');
 	}
 }
 ?>
