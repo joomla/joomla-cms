@@ -105,15 +105,27 @@ class JEditor_xstandard extends JPlugin {
 			<param name="EnablePasteMarkup" value="yes" />
 			<param name="EnableTimestamp" value="no" />
 			<param name="Options" value="32768" />
-			<param name="LatestVersion" value="1.7.0.0" />
+			<param name="Toolbar" value="numbering, bullets, , draw-layout-table, draw-data-table, image, line, hyperlink, attachment, directory, undo, , wysiwyg, source, preview, screen-reader, ,expand" />
  			
  			<param name="BorderColor" value="#FFF" />
  			<param name="Base" value="<?php echo $url ?>" />
+ 			<param name="ExpandWidth" value="100%" />
+ 			<param name="ExpandHeight" value="400" />
+ 			
  			<param name="License" value="XStandard Lite for Joomla!" />
+ 			<param name="LatestVersion" value="1.7.0.0" />
+ 			
+ 			<param name="Namespaces" value="xmlns:joomla='http://joomla.org'" />
+			<param name="CustomBlockElements" value="joomla:pagebreak" />
+			<param name="CustomInlineElements" value="joomla:readmore,joomla:image" />
+
+			<param name="CustomEmptyElements" value="joomla:pagebreak,joomla:readmore,joomla:image" />
  			
  			<param name="CMSCode" value="065126D6-357D-46FC-AF74-A1F5B2D5036E" />
  			<param name="CMSImageLibraryURL" value="<?php echo $url ?>plugins/editors/xstandard/imagelibrary.php" />
 			<param name="CMSAttachmentLibraryURL" value="<?php echo $url ?>plugins/editors/xstandard/attachmentlibrary.php" />
+			<param name="CMSDirectoryURL" value="<?php echo $url ?>plugins/editors/xstandard/directory.php" />
+			<param name="PreviewXSLT" value="<?php echo $url ?>plugins/editors/xstandard/preview.xsl" />
 		
 			<textarea name="alternate1" id="alternate1" cols="60" rows="15"><?php echo $content ?></textarea>
 		</object>
