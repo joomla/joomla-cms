@@ -333,6 +333,15 @@ div.status-divider {
 	background-position: 2px 2px;
 }
 
+.sidemenu-box ul li.divider {
+	background: none;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #eee;
+	height: 2px;
+	overflow: hidden;
+	margin: 5px 0;
+}
+
 .sidemenu-box li a {
 	color: #666;
 	font-weight: bold;
