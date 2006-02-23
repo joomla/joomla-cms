@@ -287,15 +287,15 @@ CREATE TABLE `#__plugins` (
   KEY `idx_folder` (`published`,`client_id`,`access`,`folder`)
 ) TYPE=MyISAM;
 
-INSERT INTO `#__plugins` VALUES (1,'MOS Image','mosimage','content',0,-10000,1,1,0,0,'0000-00-00 00:00:00','');
+INSERT INTO `#__plugins` VALUES (1,'Content - Image','image','content',0,-10000,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (2,'MOS Pagination','mospaging','content',0,10000,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (4,'SEF','mossef','content',0,3,1,0,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (5,'MOS Rating','mosvote','content',0,4,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (6,'Search - Content','content','search',0,1,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (7,'Search - Weblinks','weblinks','search',0,2,1,1,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (8,'Code support','moscode','content',0,2,0,0,0,0,'0000-00-00 00:00:00','');
-INSERT INTO `#__plugins` VALUES (9,'No WYSIWYG Editor','none','editors',0,0,1,1,0,0,'0000-00-00 00:00:00','');
-INSERT INTO `#__plugins` VALUES (10,'TinyMCE 2.0','tinymce','editors',0,0,1,1,0,0,'0000-00-00 00:00:00','theme=advanced\r\ncleanup=1\r\ncompressed=0\r\ntext_direction=ltr\r\ninvalid_elements=applet\r\ncontent_css=1\r\ncontent_css_custom=\r\nnewlines=0\r\ntoolbar=top\r\nsmilies=1\r\ntable=1\r\nflash=1\r\nhr=1\r\nfullscreen=1\r\nhtml_height=550\r\nhtml_width=750\r\npreview=1\r\npreview_height=550\r\npreview_width=750\r\nsearchreplace=1\r\ninsertdate=1\r\nformat_date=%Y-%m-%d\r\ninserttime=1\r\nformat_time=%H:%M:%S');
+INSERT INTO `#__plugins` VALUES (9,'Editor - No Editor','none','editors',0,0,1,1,0,0,'0000-00-00 00:00:00','');
+INSERT INTO `#__plugins` VALUES (10,'Editor - TinyMCE 2.0','tinymce','editors',0,0,1,1,0,0,'0000-00-00 00:00:00','theme=advanced\r\ncleanup=1\r\ncompressed=0\r\ntext_direction=ltr\r\ninvalid_elements=applet\r\ncontent_css=1\r\ncontent_css_custom=\r\nnewlines=0\r\ntoolbar=top\r\nsmilies=1\r\ntable=1\r\nflash=1\r\nhr=1\r\nfullscreen=1\r\nhtml_height=550\r\nhtml_width=750\r\npreview=1\r\npreview_height=550\r\npreview_width=750\r\nsearchreplace=1\r\ninsertdate=1\r\nformat_date=%Y-%m-%d\r\ninserttime=1\r\nformat_time=%H:%M:%S');
 INSERT INTO `#__plugins` VALUES (11,'MOS Image Editor Button','mosimage.btn','editors-xtd',0,0,1,0,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (12,'MOS Pagebreak Editor Button','mospage.btn','editors-xtd',0,0,1,0,0,0,'0000-00-00 00:00:00','');
 INSERT INTO `#__plugins` VALUES (13,'Search - Contacts','contacts','search',0,3,1,1,0,0,'0000-00-00 00:00:00','');
@@ -316,7 +316,7 @@ INSERT INTO `#__plugins` VALUES (27, 'Syndicate - Frontpage', 'frontpage', 'synd
 INSERT INTO `#__plugins` VALUES (28, 'Syndicate - Weblinks', 'weblinks', 'syndicate', 0, 3, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (29, 'Syndicate - Contacts', 'contact', 'syndicate', 0, 4, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (30, 'Syndicate - Poll', 'poll', 'syndicate', 0, 5, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
-INSERT INTO `#__plugins` VALUES (31, 'XStandard Lite 1.7', 'xstandard', 'editors', 0, 0, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `#__plugins` VALUES (31, 'Editor - XStandard Lite 1.7', 'xstandard', 'editors', 0, 0, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `#__plugins` VALUES (32, 'XML-RPC - Joomla', 'joomla', 'xmlrpc', 0, 7, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 #INSERT INTO `#__plugins` VALUES (33, 'XML-RPC - Blogger API', 'blogger', 'xmlrpc', 0, 7, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 #INSERT INTO `#__plugins` VALUES (34, 'XML-RPC - MetaWeblog API', 'metaweblog', 'xmlrpc', 0, 7, 1, 1, 0, 0, '0000-00-00 00:00:00', '');

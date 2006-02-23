@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <install version="1.1" type="plugin" group="editors">
-	<name>TinyMCE</name>
-	<version>2.0 RC2</version>
+	<name>Editor - TinyMCE 2.0</name>
+	<version>2.0.3</version>
 	<creationDate>2005</creationDate>
 	<author>Moxiecode Systems AB</author>
 	<authorEmail>N/A</authorEmail>
@@ -23,7 +23,7 @@
  			<option value="0">Off</option>
  			<option value="1">On</option>
  		</param>
- 		<param name="autosave" type="radio" default="0" label="Save Warning" description=="Save warning - gives warning if you cancel without saving changes">
+ 		<param name="autosave" type="radio" default="0" label="Save Warning" description="Save warning - gives warning if you cancel without saving changes">
  			<option value="0">Off</option>
  			<option value="1">On</option>
  		</param>
@@ -32,14 +32,6 @@
  			<option value="1">On</option>
  		</param>
  		<param name="@spacer" type="spacer" default="" label="" description="" />
- 		<param name="text_direction" type="list" default="ltr" label="Text Direction" description="Ability to change text direction">
- 			<option value="ltr">Left to Right</option>
- 			<option value="rtl">Right to Left</option>
- 		</param>
-  		<param name="relative_urls" type="list" default="0" label="Urls" description="URL behaviour">
- 			<option value="0">Absolute</option>
- 			<option value="1">Relative</option>
- 		</param>
  		<param name="invalid_elements" type="text" default="applet" label="Prohibited Elements" description="Elements that will be cleaned from the text"/>
   		<param name="content_css" type="radio" default="1" label="Template CSS classes" description="By default the bot looks for an editor_content.css file.  If it cant find one it loads template_css.css.  However if you want to force loading of template_css.css than please select `yes`">
  			<option value="0">No</option>
@@ -57,16 +49,16 @@
  		</param>
  		<param name="@spacer" type="spacer" default="" label="" description="" />
  		<param name="smilies" type="radio" default="1" label="Smilies" description="PARAMSMILIES">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
+ 			<option value="1">Hide</option>
+ 			<option value="0">Show</option>
  		</param>
  		<param name="table" type="radio" default="1" label="Table" description="PARAMTABLE">
  			<option value="0">Hide</option>
  			<option value="1">Show</option>
  		</param>
  		<param name="flash" type="radio" default="1" label="Flash" description="PARAMFLASH">
- 			<option value="0">Hide</option>
- 			<option value="1">Show</option>
+ 			<option value="1">Hide</option>
+ 			<option value="0">Show</option>
  		</param>
  		<param name="hr" type="radio" default="1" label="Horizontal Rule" description="Show/Hide the Horizontal Rule button">
  			<option value="0">Hide</option>

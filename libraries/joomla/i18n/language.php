@@ -84,15 +84,44 @@ class JText
  */
 class JLanguage extends JObject
 {
-	/** @var boolean If true, highlights string not found */
+	/** 
+	 * Debug language, If true, highlights if string isn't found
+	 * 
+	 * @var boolean  
+	 * @access protected
+	 */
 	var $_debug 	= false;
-	/** @var array 	Array holding the language metadata */
+	
+	/** 
+	 * Array holding the language metadata
+	 * 
+	 * @var array 
+	 * @access protected	 
+	 */
 	var $_metadata 	= null;
-	/** @var string Identifying string of the language */
+	
+	/** 
+	 * Identifying string of the language
+	 * 
+	 * @var string  
+	 * @access protected
+	 */
 	var $_identifyer = null;
-	/** @var string The language to load */
+	
+	/** 
+	 * The language to load 
+	 * 
+	 * @var string 
+	 * @access protected
+	 */
 	var $_lang = null;
-	/** @var array Transaltions */
+	
+	/** 
+	 * Transaltions
+	 * 
+	 * @var array  
+	 * @access protected
+	 */
 	var $_strings = null;
 
 	/**

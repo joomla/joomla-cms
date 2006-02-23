@@ -40,6 +40,7 @@ Legend:
 22-Feb-2006 Johan Janssens
  ^ Upgraded TinyMCE Compressor [1.0.7]
  ^ Upgraded TinyMCE [2.0.3]
+ ^ Renamed mosimage content plugin to image
 
 21-Feb-2006 Johan Janssens
  + Added client_id field to session table

@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <install version="1.1" type="plugin" group="editors">
-    <name>XStandard Lite for Joomla!</name>
+    <name>Editor - XStandard Lite for Joomla!</name>
     <version>1.0 alpha</version>
     <creationDate>Feb 2006</creationDate>
     <author>Johan Janssens</author>

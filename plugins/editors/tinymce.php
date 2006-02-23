@@ -52,6 +52,7 @@ class JEditor_tinymce extends JPlugin {
 		global $mainframe;
 		
 		$database =& $mainframe->getDBO();
+		$language =& $mainframe->getLanguage();
 		
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 	
@@ -68,7 +69,6 @@ class JEditor_tinymce extends JPlugin {
 		$toolbar 			= $params->def( 'toolbar', 'top' );
 		$html_height		= $params->def( 'html_height', '550' );
 		$html_width			= $params->def( 'html_width', '750' );
-		$text_direction		= $params->def( 'text_direction', 'ltr' );
 		$content_css		= $params->def( 'content_css', 1 );
 		$content_css_custom	= $params->def( 'content_css_custom', '' );
 		$invalid_elements	= $params->def( 'invalid_elements', 'script,applet,iframe' );
@@ -102,12 +102,11 @@ class JEditor_tinymce extends JPlugin {
 		// fullscreen
 		$fullscreen			=  $params->def( 'fullscreen', 1 );		// autosave
 		$autosave			= $params->def( 'autosave', 0 );
-
-
-		if ( $relative_urls ) {
-			$relative_urls = 'true';
+		
+		if ($language->isRTL()) {
+			$text_direction = 'rtl';
 		} else {
-			$relative_urls = 'false';
+			$text_direction = 'ltr';
 		}
 		
 		// loading of css file for `styles` dropdown
@@ -233,14 +232,11 @@ class JEditor_tinymce extends JPlugin {
 		$plugins 	= implode( ', ', $plugins );
 		$elements 	= implode( ', ', $elements );
 		
-		$lang = $mainframe->getLanguage();
-		$lang = substr($lang->getTag(), 0, 2);
-	
 		$return = $load .
 			"\t<script type=\"text/javascript\">
 			tinyMCE.init({
 			theme : \"$theme\",
-			language : \"$lang\",
+			language : \"en\",
 			mode : \"specific_textareas\",
 			document_base_url : \"". $url ."\",
 			entities : \"60,lt,62,gt\",

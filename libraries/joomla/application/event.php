@@ -47,13 +47,11 @@ class JEventDispatcher extends JObservable
 	{
 		static $instances;
 
-		if (!isset ($instances))
-		{
+		if (!isset ($instances)) {
 			$instances = array ();
 		}
 
-		if (empty ($instances[0]))
-		{
+		if (empty ($instances[0])) {
 			$instances[0] = new JEventDispatcher();
 		}
 

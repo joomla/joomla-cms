@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <install version="1.1" type="plugin" group="content">
-	<name>mosimage</name>
+	<name>Content - Image</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
@@ -10,7 +10,7 @@
 	<version>1.1</version>
 	<description>DESCMOSIMAGE</description>
 	<files>
-		<filename plugin="mosimage">mosimage.php</filename>
+		<filename plugin="image">image.php</filename>
 	</files>
 	<params>
 		<param name="margin" type="text" default="5" size="5" label="Margin" description="PARAMMARGIN" />

@@ -112,7 +112,7 @@ class JAuthenticate extends JObject
 		} else {
 
 			$authenticated = $this->authenticate($credentials);
-
+			
 			if ($authenticated !== false) {
 				// Credentials authenticated
 
@@ -273,6 +273,7 @@ class JAuthenticate extends JObject
 
 		// Time to authenticate the credentials.  Lets fire the auth event
 		$results = $mainframe->triggerEvent( 'onAuthenticate', $credentials);
+		
 
 		/*
 		 * Check each of the results to see if a valid user ID was returned. and use the

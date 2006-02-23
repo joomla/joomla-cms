@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: mosimage.php 2412 2006-02-16 17:24:10Z stingrey $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -14,31 +14,32 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onPrepareContent', 'botMosImage' );
+$mainframe->registerEvent( 'onPrepareContent', 'pluginImage' );
 
 /**
 */
-function botMosImage( &$row, &$params, $page=0 ) {
+function pluginImage( &$row, &$params, $page=0 ) 
+{
 	global $database;
 
  	// simple performance check to determine whether bot should process further
-	if ( strpos( $row->text, 'mosimage' ) === false ) {
+	if ( strpos( $row->text, '{image' ) === false ) {
 		return true;
 	}
 	
 	// expression to search for
-	$regex = '/{mosimage\s*.*?}/i';
+	$regex = '/{image\s*.*?}/i';
 
-	$plugin =& JPluginHelper::getPlugin('content', 'mosimage'); 
+	$plugin =& JPluginHelper::getPlugin('content', 'image'); 
 
-	// check whether mosimage has been disabled for page
+	// check whether images have been disabled for page
 	// check whether plugin has been unpublished
 	if (!$plugin->published || !$params->get( 'image' )) {
 		$row->text = preg_replace( $regex, '', $row->text );
 		return true;
 	}
 
-	//count how many {mosimage} are in introtext if it is set to hidden.
+	//count how many {jcp:image} are in introtext if it is set to hidden.
 	$introCount=0;
 	if ( ! $params->get( 'introtext' ) & ! $params->get( 'intro_only') )
 	{
@@ -227,7 +228,8 @@ function processImages ( &$row, &$params, &$introCount )
 * @param array An array of matches (see preg_match_all)
 * @return string
 */
-function botMosImage_replacer( &$matches ) {
+function botMosImage_replacer( &$matches ) 
+{
 	$i = $GLOBALS['botMosImageCount']++;
 
 	return @$GLOBALS['botMosImageArray'][$i];

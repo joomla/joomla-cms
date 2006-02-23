@@ -89,9 +89,16 @@ class JEditor_xstandard extends JPlugin {
 	{
 		global $mainframe;
 		
- 		$browser =& $mainframe->getBrowser();
+ 		$browser   =& $mainframe->getBrowser();
+		$language  =& $mainframe->getLanguage();
 		
 		$url = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
+		
+		if ($language->isRTL()) {
+			$text_direction = 'rtl';
+		} else {
+			$text_direction = 'ltr';
+		}
 
 		$html = '';
 		ob_start();
@@ -99,9 +106,10 @@ class JEditor_xstandard extends JPlugin {
 	
 		<div style="border: 1px solid #D5D5D5">  
 		<object type="application/x-xstandard" id="<?php echo $name ?>" class="<?php echo $hiddenField ?>" width="<?php echo $width ?>" height="<?php echo $height ?>">
- 			<param name="Value" value="<?php echo $content ?>" />
+ 			<param name="Value" value="<?php echo convertToXML($content) ?>" />
  			
  			<param name="Lang" value="en" />
+ 			<param name="Dir" value="<?php echo $text_direction ?>" />
 			<param name="EnablePasteMarkup" value="yes" />
 			<param name="EnableTimestamp" value="no" />
 			<param name="Options" value="32768" />
@@ -119,7 +127,7 @@ class JEditor_xstandard extends JPlugin {
 			<param name="CustomBlockElements" value="joomla:pagebreak" />
 			<param name="CustomInlineElements" value="joomla:readmore,joomla:image" />
 
-			<param name="CustomEmptyElements" value="joomla:pagebreak,joomla:readmore,joomla:image" />
+			<param name="CustomEmptyElements" value="joomla:readmore,joomla:image" />
  			
  			<param name="CMSCode" value="065126D6-357D-46FC-AF74-A1F5B2D5036E" />
  			<param name="CMSImageLibraryURL" value="<?php echo $url ?>plugins/editors/xstandard/imagelibrary.php" />
@@ -137,5 +145,12 @@ class JEditor_xstandard extends JPlugin {
 	
 		return $html;
 	}
+}
+
+function convertToXML($content)
+{
+	//replace {jcp:image}
+	$content = preg_replace( '/{image\s*.*?}/i', '<joomla:image />', $content );
+	return $content;
 }
 ?>
