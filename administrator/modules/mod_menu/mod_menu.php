@@ -182,7 +182,7 @@ class JAdminMenu {
 		/*
 		 * SPLIT HR
 		 */
-		$contentList[] = array( 'title' => JText::_('Frontpage Manager'), 'link' => 'index2.php?option=com_frontpage', 'class' => JAdminMenu::getIconClass('class:home', $css) );
+		$contentList[] = array( 'title' => JText::_('Frontpage Manager'), 'link' => 'index2.php?option=com_frontpage', 'class' => JAdminMenu::getIconClass('class:frontpage', $css) );
 		$contentList[] = array( 'title' => JText::_('Archive Manager'), 'link' => 'index2.php?option=com_content&task=showarchive&sectionid=0', 'class' => JAdminMenu::getIconClass('class:archive', $css) );
 		if ($manageTrash) {
 			/*
