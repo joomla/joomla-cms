@@ -38,9 +38,7 @@ class TOOLBAR_massmail {
 		jimport('joomla.utilities.presentation.toolbar.toolbar');
 		$bar = & JToolBar::getInstance('main');
 		$bar->appendButton( 'Standard', 'send', 'Send Mail', 'send', false );
-		$bar->appendButton( 'Spacer' );
 		$bar->appendButton( 'Cancel' );
-		$bar->appendButton( 'Spacer' );
 		$bar->appendButton( 'Help', 'screen.users.massmail' );
 		echo $bar->render('main');
 

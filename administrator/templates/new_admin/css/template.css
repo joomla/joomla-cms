@@ -360,11 +360,15 @@ div.toolbar {
 
 table.toolbar {
 	border-collapse: collapse;
+	width: 1;
 	padding: 0;
 	margin: 0;
+	
 }
 
 table.toolbar td {
+	padding: 1px;
+	padding-left: 4px;
 	text-align: center;
 	color: #666;
 	height: 48px;
@@ -378,8 +382,7 @@ table.toolbar div {
 	float: none;
 	width: 32px;
 	height: 32px;
-	margin: 0 auto !important;
-	margin: 0;
+	margin: 0 auto;
 }
 
 table.toolbar a {
@@ -390,7 +393,6 @@ table.toolbar a {
 	border: 1px solid #fbfbfb;
 	padding: 1px 5px;
 	cursor: pointer;
-
 }
 
 table.toolbar a:hover {
@@ -400,17 +402,6 @@ table.toolbar a:hover {
 	border-bottom: 1px solid #ccc;
 	text-decoration: none;
 }
-
-table.toolbar a:active {
-	border-right: 1px solid #eee;
-	border-bottom: 1px solid #eee;
-	border-left: 1px solid #ccc;
-	border-top: 1px solid #ccc;
-	text-decoration: none;	
-	color: #000;
-}
-
-
 
 
 input#mm_subject {
