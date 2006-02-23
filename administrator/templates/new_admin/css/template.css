@@ -93,8 +93,13 @@ form {
 	background: #fff;
 }
 
+.spacer {
+	height: 10px;
+	overflow: hidden;
+}
+
 .element-box {
-	background: #fbfbfb;
+	background: #fff;
 }
 
 .element-pad {
@@ -299,8 +304,18 @@ div.status-divider {
 	width: 80%;
 }
 
-.content-pad {
+.content-area-full {
+	clear: both;
+	float: none;
+	width: 100%;
+}
+
+.content-area .content-pad {
 	padding-left: 10px;
+}
+
+.content-area-full .content-pad {
+	padding: 0;
 }
 
 .sidemenu-box ul {
@@ -313,6 +328,16 @@ div.status-divider {
 	padding-left: 24px;
 	line-height: 20px;
 	background-position: 2px 2px;
+}
+
+.sidemenu-box li a {
+	color: #666;
+	font-weight: bold;
+}
+
+.sidemenu-box li a:hover {
+	color: #0B55C4;
+	text-decoration: none;
 }
 
 .sidemenu-box h2 {
@@ -336,7 +361,6 @@ div.status-divider {
 .toolbar-box {
 	background: #fbfbfb;
 	width: 100%;
-	height: 60px;
 }
 
 .toolbar-pad {
@@ -403,7 +427,45 @@ table.toolbar a:hover {
 	text-decoration: none;
 }
 
+/** submenu **/
 
+.submenu-box {
+	margin-top: 10px;
+	background: #f2f2f2;
+	width: 100%;
+}
+
+.submenu-pad {
+	padding: 0;
+	margin: 0;
+}
+
+.submenu-box ul {
+	margin: 0;
+	padding: 0;
+	height: 12px;
+}
+
+.submenu-box ul li {
+	list-style: none;
+	padding: 0 10px;
+	line-height: 12px;
+	float: left;
+	border-right: 1px solid #ccc;
+}
+
+.submenu-box li a {
+	color: #666;
+	font-weight: bold;
+}
+
+.submenu-box li a:hover {
+	color: #0B55C4;
+	text-decoration: none;
+}
+
+
+/** for massmail component **/
 input#mm_subject {
 	width: 200px;
 }

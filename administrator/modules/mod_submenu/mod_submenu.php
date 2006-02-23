@@ -34,9 +34,10 @@ if (!$hide)
 	 */
 	if ($contents)
 	{
-		echo "<div id=\"submenu\">\n";
+		echo "<div class=\"submenu-box\">\n<div class=\"submenu-pad\">\n";
 		echo "$contents\n";
-		echo "</div>";
+		echo "<div class=\"clr\"></div>\n";
+		echo "</div></div>";
 	}
 }
 
@@ -160,7 +161,6 @@ class JAdminSubMenu
 
 	function buildList($list, $suffix = '-smenu')
 	{
-
 		$txt = "<ul>\n";
 
 		/*
@@ -177,7 +177,7 @@ class JAdminSubMenu
 				$sfx = $suffix;
 			}
 			$txt .= "<li class=\"item".$sfx."\">\n";
-			$txt .= "<a href=\"".$item['link']."\"><img src=\"".$item['img']."\" border=\"0\" />&nbsp;&nbsp;".$item['title']."</a>\n";
+			$txt .= "<a href=\"".$item['link']."\">".$item['title']."</a>\n";
 			$txt .= "</li>\n";
 		}
 

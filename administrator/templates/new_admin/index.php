@@ -37,7 +37,8 @@ $lang =& $mainframe->getLanguage();
 		Rounded("div.sidemenu-box","all","#fff","#f7f7f7","border #ccc");
 		Rounded("div.component","all","#fff","#fff","border #ccc");
 		Rounded("div.toolbar-box","all","#fff","#fbfbfb","border #ccc");
-		Rounded("div.element-box","all","#fff","#fbfbfb","border #ccc");
+		Rounded("div.element-box","all","#fff","#fff","border #ccc");
+		Rounded("div.submenu-box","all","#fff","#f2f2f2","border #ccc");
 		
 		
 	}
@@ -72,33 +73,28 @@ $lang =& $mainframe->getLanguage();
 							</div>
 							<div class="clr"></div>
 						</div>
-		
-					
-						<table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
-						<tr>
-							<td class="menudottedline" align="<?php echo $lang->isRTL() ? 'left' : 'right'; ?>">
-								<jdoc:include type="modules" name="submenu" />
-							</td>
-						</tr>
-						</table>
+					</div>
+				</div>
+
 <jdoc:tmpl name="fullsizeComponent" useglobals="yes" type="condition" conditionvar="HIDEMAINMENU">
 	<jdoc:sub condition="1">
-						<div class="centermain">
-							<div class="main">
-								GO FULLSCREEN NOW
-								<jdoc:include type="component" />
-							</div>
-						</div>
+				<div class="content-area-full">
 	</jdoc:sub>
 	<jdoc:sub condition="0">
-						<div class="centermain">
-							<div class="main">
-								<jdoc:include type="component" />
-							</div>
-						</div>
+				<div class="content-area">
 	</jdoc:sub>
 </jdoc:tmpl>
-		
+					<div class="content-pad">
+
+
+							<jdoc:include type="modules" name="submenu" />
+							<div class="spacer"></div>
+							<div class="element-box">
+								<div class="element-pad">
+									<jdoc:include type="component" />
+								</div>
+							</div>
+						</div>
 		
 						<noscript>
 							<jdoc:translate key="WARNJAVASCRIPT" />
