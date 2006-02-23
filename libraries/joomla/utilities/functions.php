@@ -386,7 +386,6 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 		. "\n FROM #__menu"
 		. "\n WHERE id = $Itemid"
 		;
-		$database->setQuery( $query );
 	} else {
 		if ($task!='') {
 			$dblink	.= "&task=$task";
@@ -396,8 +395,8 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 		. "\n FROM #__menu"
 		. "\n WHERE link LIKE '$dblink%'"
 		;
-		$database->setQuery( $query );
 	}
+	$database->setQuery( $query );
 	$results 	= $database->loadObjectList();
 	$access 	= 0;
 	
