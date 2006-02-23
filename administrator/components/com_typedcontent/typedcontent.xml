@@ -62,5 +62,7 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="language" type="languages" client="site" label="Content language" description="PARAMCONTENTLANGUAGE" />
 	</params>
 </install>
