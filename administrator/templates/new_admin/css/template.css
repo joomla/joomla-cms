@@ -414,6 +414,11 @@ table.toolbar td.spacer {
 	width: 10px;
 }
 
+table.toolbar td.divider {
+	border-right: 1px solid #eee;
+	width: 5px;
+}
+
 table.toolbar div {
 	float: none;
 	width: 32px;
