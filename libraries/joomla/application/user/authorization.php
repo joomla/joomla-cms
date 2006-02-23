@@ -182,6 +182,8 @@ class JAuthorization extends gacl_api
 		$this->_mos_add_acl( 'administration', 'edit', 'users', 'super administrator', 'user properties', 'block_user' );
 		$this->_mos_add_acl( 'administration', 'manage', 'users', 'super administrator', 'components', 'com_users' );
 		$this->_mos_add_acl( 'administration', 'manage', 'users', 'administrator', 'components', 'com_users' );
+		$this->_mos_add_acl( 'administration', 'config', 'users', 'super administrator' );
+		//$this->_mos_add_acl( 'administration', 'config', 'users', 'administrator' );
 
 		$this->acl_count = count( $this->acl );
 	}
