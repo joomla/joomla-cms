@@ -612,7 +612,7 @@ class JApplication extends JObject
 	 * @return	mixed	Object describing the client or false if not known
 	 * @since		1.1
 	 */
-	function getClientInfo($id) {
+	function getClientInfo($id, $byName = false) {
 		
 		static $clients;
 
@@ -640,12 +640,28 @@ class JApplication extends JObject
 			$clients[2] = clone($obj);
 		}
 		
-		if (!isset($clients[$id]))
+		/*
+		 * Are we looking for client information by id or by name?
+		 */
+		if (!$byName)
 		{
-			return false;
+			if (!isset($clients[$id]))
+			{
+				return false;
+			} else
+			{
+				return $clients[$id];
+			}
 		} else
 		{
-			return $clients[$id];
+			foreach ($clients as $client)
+			{
+				if ($client->name == strtolower($id))
+				{
+					return $client;
+				}
+			}
+			return false;
 		}
 	}
 

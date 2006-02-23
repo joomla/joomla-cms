@@ -119,9 +119,9 @@ class JRequest
 		/*
 		 * Handle default case
 		 */
-		if ((empty($result)) && (!empty($default)))
+		if ((empty($result)) && (!is_null($default)))
 		{
-			return $default;
+			$result = $default;
 		}
 
 		if ($result != null)
