@@ -40,6 +40,10 @@ Legend:
 23-Feb-2006 Johan Janssens
   ^ Renamed mossef content plugin to sef
   ^ Fixed language detection
+  # Fixed artf3624 : Content priview error with {mosImage}
+  # Fixed artf3552 : Typo in mosCommonHTML::menuLinksContent
+  # Fixed artf3344 : Install errors due to empty browser language setting
+  # Fixed artf2792 : Web installer language choice
 
 23-Feb-2006 Alex Kempkens
  + Added language parameter to content.xml

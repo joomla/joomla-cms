@@ -16,7 +16,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $mainframe->registerEvent( 'onBeforeDisplayContent', 'botNavigation' );
 
-function botNavigation( &$row, &$params, $page=0 ) {
+function botNavigation( &$row, &$params, $page=0 ) 
+{
 	global $Itemid, $access, $mainframe, $my;
 
 	$task 		= JRequest::getVar( 'task' );

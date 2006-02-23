@@ -684,7 +684,7 @@ class mosCommonHTML {
 				</td>
 				<td>
 					<strong>
-					<a href="javascript:go2(go2menuitem','<?php echo $menu->menutype; ?>','<?php echo $menu->id; ?>');" title="<?php echo JText::_( 'Go to Menu Item' ); ?>">
+					<a href="javascript:go2('go2menuitem','<?php echo $menu->menutype; ?>','<?php echo $menu->id; ?>');" title="<?php echo JText::_( 'Go to Menu Item' ); ?>">
 						<?php echo $menu->name; ?></a>
 					</strong>
 				</td>

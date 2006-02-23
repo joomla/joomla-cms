@@ -1218,7 +1218,7 @@ class HTML_content {
 			temp[i] = '<img src="../images/stories/' + parts[0] + '" align="' + parts[1] + '" border="' + parts[3] + '" alt="' + parts[2] + '" hspace="6" />';
 		}
 
-		var temp2 = alltext.split( '{mosimage}' );
+		var temp2 = alltext.split( '{image}' );
 
 		var alltext = temp2[0];
 
