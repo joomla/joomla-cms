@@ -37,8 +37,8 @@ class JButton_Divider extends JButton
 		 */
 		$html	= null;
 
-		$html	.= "<div class=\"divider\" >\n";
-		$html	.= "</div>\n";
+		$html	.= "<td class=\"divider\" >\n";
+		$html	.= "</td>\n";
 
 		return $html;
 	}

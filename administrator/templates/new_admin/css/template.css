@@ -125,6 +125,10 @@ a:link, a:visited {
 	color: #0B55C4;
 }
 
+a:hover {
+	text-decoration: underline;
+}
+
 h1, h2, h3, h4, h5,
 #header3 span,
 div.header,
@@ -286,7 +290,6 @@ div.status-divider {
 .sidemenu-pad {
 	padding: 0;
 	margin-bottom: 0 !Important;
-	margin-bottom: -5px;
 }
 
 .content-area {
@@ -318,6 +321,7 @@ div.status-divider {
 .toolbar-box {
 	background: #fbfbfb;
 	width: 100%;
+	height: 60px;
 }
 
 .toolbar-pad {
@@ -326,7 +330,6 @@ div.status-divider {
 }
 
 div.header {
-	width: 50%;
 	color: #0B55C4;
 	font-size: 22px;
 	line-height: 48px;
@@ -340,14 +343,23 @@ div.toolbar {
 	padding: 0;
 }
 
-div.button {
-	float: left;
-	text-align: center;
-	margin-left: 4px;
-	color: #666666;
+table.toolbar {
+	border-collapse: collapse;
+	padding: 0;
+	margin: 0;
 }
 
-div.button div {
+table.toolbar td {
+	text-align: center;
+	color: #666;
+	height: 48px;
+}
+
+table.toolbar td.spacer {
+	width: 10px;
+}
+
+table.toolbar div {
 	float: none;
 	width: 32px;
 	height: 32px;
@@ -355,7 +367,7 @@ div.button div {
 	margin: 0;
 }
 
-div.button a.toolbar {
+table.toolbar a {
 	display: block;
 	float: left;
 	white-space: nowrap;
@@ -366,30 +378,24 @@ div.button a.toolbar {
 
 }
 
-div.button a.toolbar:hover {
+table.toolbar a:hover {
 	border-left: 1px solid #eee;
 	border-top: 1px solid #eee;
 	border-right: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
+	text-decoration: none;
 }
 
-/** toolbar icons **/
-.icon-48-massemail {
-	height: 48px;
-	background: url(../images/header/icon-48-massmail.png) no-repeat;
+table.toolbar a:active {
+	border-right: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+	border-left: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	text-decoration: none;	
+	color: #000;
 }
 
-.icon-32-cancel {
-	background: url(../images/toolbar/icon-32-cancel.png) 50% 0 no-repeat;
-}
 
-.icon-32-send {
-	background: url(../images/toolbar/icon-32-cancel.png) 50% 0 no-repeat;
-}
-
-.icon-32-help {
-	background: url(../images/toolbar/icon-32-help.png) 50% 0 no-repeat;
-}
 
 
 input#mm_subject {

@@ -41,8 +41,8 @@ class JButton_Spacer extends JButton
 			$style = "style=\"width: $definition[1] px;\"";
 		}
 
-		$html	.= "<div class=\"spacer\" $style>\n";
-		$html	.= "</div>\n";
+		$html	.= "<td class=\"spacer\" $style>\n";
+		$html	.= "</td>\n";
 
 		return $html;
 	}

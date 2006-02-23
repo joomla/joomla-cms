@@ -101,3 +101,25 @@
 .icon-16-user {
 	background: url(../images/menu/icon-16-user.png) no-repeat;
 }
+
+
+
+
+.icon-32-cancel {
+	background: url(../images/toolbar/icon-32-cancel.png) 50% 0 no-repeat;
+}
+
+.icon-32-send {
+	background: url(../images/toolbar/icon-32-cancel.png) 50% 0 no-repeat;
+}
+
+.icon-32-help {
+	background: url(../images/toolbar/icon-32-help.png) 50% 0 no-repeat;
+}
+
+
+/** toolbar icons **/
+.icon-48-massemail {
+	height: 48px;
+	background: url(../images/header/icon-48-massmail.png) no-repeat;
+}

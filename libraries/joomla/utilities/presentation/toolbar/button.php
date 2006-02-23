@@ -79,9 +79,9 @@ class JButton extends JObject
 		}
 
 		// Build the HTML Button
-		$html	.= "<div class=\"button\" $id>\n";
+		$html	.= "<td class=\"button\" $id>\n";
 		$html	.= $action;
-		$html	.= "</div>\n";
+		$html	.= "</td>\n";
 		
 		return $html;
 	}
