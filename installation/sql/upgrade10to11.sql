@@ -18,6 +18,7 @@ INSERT INTO `jos_mambots` VALUES (0, 'Editor - XStandard Lite 1.7', 'xstandard',
 INSERT INTO `jos_mambots` VALUES (0, 'Authentication - GMail', 'gmail', 'authentication', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
 
 UPDATE `jos_mambots` SET `name` = 'Content - Image' WHERE `id` = '1'; 
+UPDATE `jos_mambots` SET `name` = 'Content - SEF' WHERE `id` = '4'; 
 
 UPDATE `jos_mambots` SET `name` = 'Search - Content' WHERE `id` = '6'; 
 UPDATE `jos_mambots` SET `name` = 'Search - Weblinks' WHERE `id` = '7';  
@@ -29,7 +30,8 @@ UPDATE `jos_mambots` SET `name` = 'Search - Newsfeeds' WHERE `id` = '18';
 UPDATE `jos_mambots` SET `name` = 'Editor - No Editor' WHERE `id` = '9';
 UPDATE `jos_mambots` SET `name` = 'Editor - TinyMCE 2.0' WHERE `id` = '10';
 
-UPDATE `jos_mambots` SET `element` = 'image' WHERE `id` = '1'; 
+UPDATE `jos_mambots` SET `element` = 'image' WHERE `id` = '1';
+UPDATE `jos_mambots` SET `element` = 'sef' WHERE `id` = '4'; 
 
 UPDATE `jos_mambots` SET `element` = 'content' WHERE `id` = '6';  
 UPDATE `jos_mambots` SET `element` = 'weblinks' WHERE `id` = '7'; 

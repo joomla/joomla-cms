@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Feb-2006 Johan Janssens
+  ^ Renamed mossef content plugin to sef
+
 23-Feb-2006 Alex Kempkens
  + Added language parameter to content.xml
 

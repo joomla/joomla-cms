@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: mossef.php 2412 2006-02-16 17:24:10Z stingrey $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onPrepareContent', 'botMosSef' );
+$mainframe->registerEvent( 'onPrepareContent', 'convertSEF' );
 
 /**
 * Converting internal relative links to SEF URLs
@@ -22,14 +22,21 @@ $mainframe->registerEvent( 'onPrepareContent', 'botMosSef' );
 * <b>Usage:</b>
 * <code><a href="...relative link..."></code>
 */
-function botMosSef( &$row, &$params, $page=0 ) {
-
+function convertSEF( &$row, &$params, $page=0 ) 
+{
+	global $mainframe;
+	
+	// check to see of SEF is enabled
+	if(!$mainframe->getCfg('sef')) {
+		return true;
+	}
+	
 	// simple performance check to determine whether bot should process further
 	if ( strpos( $row->text, 'href="' ) === false ) {
 		return true;
 	}
 	
-	$plugin =& JPluginHelper::getPlugin('content', 'mossef'); 
+	$plugin =& JPluginHelper::getPlugin('content', 'sef'); 
 
 	// check whether plugin has been unpublished
 	if ( !$plugin->published ) {
@@ -40,7 +47,7 @@ function botMosSef( &$row, &$params, $page=0 ) {
 	$regex = "#href=\"(.*?)\"#s";
 
 	// perform the replacement
-	$row->text = preg_replace_callback( $regex, 'botMosSef_replacer', $row->text );
+	$row->text = preg_replace_callback( $regex, 'contentSEF_replacer', $row->text );
 
 	return true;
 }
@@ -49,18 +56,21 @@ function botMosSef( &$row, &$params, $page=0 ) {
 * @param array An array of matches (see preg_match_all)
 * @return string
 */
-function botMosSef_replacer( &$matches ) {
+function contentSEF_replacer( &$matches ) 
+{
 	// disable bot from being applied to mailto tags
 	if (strstr($matches[1],'mailto:')) {
 		return 'href="'. $matches[1] .'"';
 	}
 	
-	if ( substr($matches[1],0,1) == '#' ) {
-		// anchor
-		$temp = split('index.php', $_SERVER['REQUEST_URI']);
-		return 'href="'. sefRelToAbs( 'index.php' . @$temp[1] ) . $matches[1] .'"';
-	} else {
-		return 'href="'. sefRelToAbs($matches[1]) .'"';
+	$uriLocal =& JURI::getInstance();
+	$uriHREF  =& JURI::getInstance($matches[1]);
+	
+	//disbale bot from being applied to external links
+	if($uriLocal->getHost() !== $uriHREF->getHost() && !is_null($uriHREF->getHost())) {
+		return 'href="'. $matches[1] .'"';
 	}
+	
+	return 'href="'. sefRelToAbs( 'index.php' . $uriHREF->getQueryString() ) . $uriHREF->getAnchor() .'"';
 }
 ?>

@@ -14,11 +14,11 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onPrepareContent', 'pluginImage' );
+$mainframe->registerEvent( 'onPrepareContent', 'convertImage' );
 
 /**
 */
-function pluginImage( &$row, &$params, $page=0 ) 
+function convertImage( &$row, &$params, $page=0 ) 
 {
 	global $database;
 

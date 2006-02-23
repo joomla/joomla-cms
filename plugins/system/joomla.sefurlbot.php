@@ -289,9 +289,10 @@ function botJoomlaSEFUrl( ) {
  * @return string The absolute search engine friendly URL
  * @since 1.0
  */
-function sefRelToAbs( $string ) {
+function sefRelToAbs( $string ) 
+{
 	global $mainframe, $iso_client_lang, $mod_rewrite_off;
-
+	
 	/*
 	 * Initialize some variables
 	 */
