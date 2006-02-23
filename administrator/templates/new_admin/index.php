@@ -81,11 +81,23 @@ $lang =& $mainframe->getLanguage();
 							</td>
 						</tr>
 						</table>
+<jdoc:tmpl name="fullsizeComponent" useglobals="yes" type="condition" conditionvar="HIDEMAINMENU">
+	<jdoc:sub condition="1">
+						<div class="centermain">
+							<div class="main">
+								GO FULLSCREEN NOW
+								<jdoc:include type="component" />
+							</div>
+						</div>
+	</jdoc:sub>
+	<jdoc:sub condition="0">
 						<div class="centermain">
 							<div class="main">
 								<jdoc:include type="component" />
 							</div>
 						</div>
+	</jdoc:sub>
+</jdoc:tmpl>
 		
 		
 						<noscript>
@@ -106,8 +118,14 @@ $lang =& $mainframe->getLanguage();
 			<jdoc:translate key="isFreeSoftware">is Free Software released under the GNU/GPL License.</jdoc:translate>	
 		</div>
 		
+<jdoc:tmpl name="initMoo" useglobals="yes" type="condition" conditionvar="HIDEMAINMENU">
+	<jdoc:sub condition="1">
+	</jdoc:sub>
+	<jdoc:sub condition="0">
 		<script type="text/javascript">
 			init_moofx();
 		</script>
+	</jdoc:sub>
+</jdoc:tmpl>
 	</body>
 	</html>

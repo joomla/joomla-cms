@@ -102,7 +102,7 @@ $file     = 'index.php';
 $document =& $mainframe->getDocument();
 $document->parse($cur_template, $file);
 // Add the hidemainmenu var to the JDocument object so templates can adapt if needed
-$document->addVar( $file, 'hidemainmenu', JRequest::getVar( 'hidemainmenu', 0 ));
+$document->addGlobalVar( 'hidemainmenu', (JRequest::getVar( 'hidemainmenu', '0' ))? '1' : '0');
 
 header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
