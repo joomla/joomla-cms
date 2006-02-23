@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Feb-2006 Alex Kempkens
+ + Added language parameter to content.xml
+
 22-Feb-2006 Johan Janssens
  ^ Upgraded TinyMCE Compressor [1.0.7]
  ^ Upgraded TinyMCE [2.0.3]
