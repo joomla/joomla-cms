@@ -77,6 +77,7 @@ class JAdminMenu {
 	function show($usertype = '') {
 		global $mainframe;
 
+		$css			= null;
 		$lang 			= & $mainframe->getLanguage();
 		$user 			= & $mainframe->getUser();
 		$database 		= & $mainframe->getDBO();
@@ -122,8 +123,8 @@ class JAdminMenu {
 	/*
 	 * Home SubMenu
 	 */
-		$homeList[] = array( 'title' => JText::_('Control Panel'), 'link' => 'index2.php', 'class' => JAdminMenu::getIconClass('class:cpanel') );
-		$homeList[] = array( 'title' => JText::_('Help'), 'link' => 'index2.php?option=com_admin&task=help', 'class' => JAdminMenu::getIconClass('class:help') );
+		$homeList[] = array( 'title' => JText::_('Control Panel'), 'link' => 'index2.php', 'class' => JAdminMenu::getIconClass('class:cpanel', $css) );
+		$homeList[] = array( 'title' => JText::_('Help'), 'link' => 'index2.php?option=com_admin&task=help', 'class' => JAdminMenu::getIconClass('class:help', $css) );
 		echo JAdminMenu::buildDiv ( JText::_('Home'), $homeList );
 
 	/*
@@ -131,23 +132,23 @@ class JAdminMenu {
 	 */
 		if ($canConfig)
 		{
-			$siteList[] = array( 'title' => JText::_('Global Configuration'), 'link' => 'index2.php?option=com_config&hidemainmenu=1', 'class' => JAdminMenu::getIconClass('class:config') );
+			$siteList[] = array( 'title' => JText::_('Global Configuration'), 'link' => 'index2.php?option=com_config&hidemainmenu=1', 'class' => JAdminMenu::getIconClass('class:config', $css) );
 		}
 		if ($canManageUsers || $canMassMail) {
-			$siteList[] = array( 'title' => JText::_('User Manager'), 'link' => 'index2.php?option=com_users&task=view', 'class' => JAdminMenu::getIconClass('class:user') );
+			$siteList[] = array( 'title' => JText::_('User Manager'), 'link' => 'index2.php?option=com_users&task=view', 'class' => JAdminMenu::getIconClass('class:user', $css) );
 		}
-		$siteList[] = array( 'title' => JText::_('Media Manager'), 'link' => 'index2.php?option=com_media', 'class' => JAdminMenu::getIconClass('class:media') );
+		$siteList[] = array( 'title' => JText::_('Media Manager'), 'link' => 'index2.php?option=com_media', 'class' => JAdminMenu::getIconClass('class:media', $css) );
 		if ($canConfig)	{
-			$siteList[] = array( 'title' => JText::_('Messages'), 'link' => 'index2.php?option=com_messages', 'class' => JAdminMenu::getIconClass('class:messages') );
+			$siteList[] = array( 'title' => JText::_('Messages'), 'link' => 'index2.php?option=com_messages', 'class' => JAdminMenu::getIconClass('class:messages', $css) );
 		}
 		if ($manageTemplates) {
-			$siteList[] = array( 'title' => JText::_('Template Manager'), 'link' => 'index2.php?option=com_templates', 'class' => JAdminMenu::getIconClass('class:themes') );
+			$siteList[] = array( 'title' => JText::_('Template Manager'), 'link' => 'index2.php?option=com_templates', 'class' => JAdminMenu::getIconClass('class:themes', $css) );
 		}
 		if ($manageLanguages) {
-			$siteList[] = array( 'title' => JText::_('Language Manager'), 'link' => 'index2.php?option=com_languages', 'class' => JAdminMenu::getIconClass('class:language') );
+			$siteList[] = array( 'title' => JText::_('Language Manager'), 'link' => 'index2.php?option=com_languages', 'class' => JAdminMenu::getIconClass('class:language', $css) );
 		}
 		if ($enableStats || $enableSearches ) {
-			$siteList[] = array( 'title' => JText::_('Statistics'), 'link' => 'index2.php?option=com_stastistics', 'class' => JAdminMenu::getIconClass('class:stats') );
+			$siteList[] = array( 'title' => JText::_('Statistics'), 'link' => 'index2.php?option=com_stastistics', 'class' => JAdminMenu::getIconClass('class:stats', $css) );
 		}
 		echo JAdminMenu::buildDiv ( JText::_('Site'), $siteList );
 
@@ -155,40 +156,40 @@ class JAdminMenu {
 	 * Menus SubMenu
 	 */
 		if ($manageMenuMan) {
-			$menusList[] = array( 'title' => JText::_('Menu Manager'), 'link' => 'index2.php?option=com_menumanager', 'class' => JAdminMenu::getIconClass('class:menumgr') );
+			$menusList[] = array( 'title' => JText::_('Menu Manager'), 'link' => 'index2.php?option=com_menumanager', 'class' => JAdminMenu::getIconClass('class:menumgr', $css) );
 		}
 		if ($manageTrash) {
-			$menusList[] = array( 'title' => JText::_('Trash Manager'), 'link' => 'index2.php?option=com_trash&task=viewMenu', 'class' => JAdminMenu::getIconClass('class:trash') );
+			$menusList[] = array( 'title' => JText::_('Trash Manager'), 'link' => 'index2.php?option=com_trash&task=viewMenu', 'class' => JAdminMenu::getIconClass('class:trash', $css) );
 		}
 		/*
 		 * SPLIT HR
 		 */
 		foreach ($menuTypes as $menuType) {
-			$menusList[] = array( 'title' => $menuType, 'link' => 'index2.php?option=com_menus&menutype='.$menuType, 'class' => JAdminMenu::getIconClass('class:menu') );
+			$menusList[] = array( 'title' => $menuType, 'link' => 'index2.php?option=com_menus&menutype='.$menuType, 'class' => JAdminMenu::getIconClass('class:menu', $css) );
 		}
 		echo JAdminMenu::buildDiv ( JText::_('Menus'), $menusList );
 
 	/*
 	 * Content SubMenu
 	 */
-		$contentList[] = array( 'title' => JText::_('All Content Items'), 'link' => 'index2.php?option=com_content&sectionid=0', 'class' => JAdminMenu::getIconClass('class:content') );
-		$contentList[] = array( 'title' => JText::_('Static Content Manager'), 'link' => 'index2.php?option=com_typedcontent', 'class' => JAdminMenu::getIconClass('class:static') );
+		$contentList[] = array( 'title' => JText::_('All Content Items'), 'link' => 'index2.php?option=com_content&sectionid=0', 'class' => JAdminMenu::getIconClass('class:content', $css) );
+		$contentList[] = array( 'title' => JText::_('Static Content Manager'), 'link' => 'index2.php?option=com_typedcontent', 'class' => JAdminMenu::getIconClass('class:static', $css) );
 		/*
 		 * SPLIT HR
 		 */
-		$contentList[] = array( 'title' => JText::_('Section Manager'), 'link' => 'index2.php?option=com_sections&scope=content', 'class' => JAdminMenu::getIconClass('class:category') );
-		$contentList[] = array( 'title' => JText::_('Category Manager'), 'link' => 'index2.php?option=com_categories&section=content', 'class' => JAdminMenu::getIconClass('class:category') );
+		$contentList[] = array( 'title' => JText::_('Section Manager'), 'link' => 'index2.php?option=com_sections&scope=content', 'class' => JAdminMenu::getIconClass('class:category', $css) );
+		$contentList[] = array( 'title' => JText::_('Category Manager'), 'link' => 'index2.php?option=com_categories&section=content', 'class' => JAdminMenu::getIconClass('class:category', $css) );
 		/*
 		 * SPLIT HR
 		 */
-		$contentList[] = array( 'title' => JText::_('Frontpage Manager'), 'link' => 'index2.php?option=com_frontpage', 'class' => JAdminMenu::getIconClass('class:home') );
-		$contentList[] = array( 'title' => JText::_('Archive Manager'), 'link' => 'index2.php?option=com_content&task=showarchive&sectionid=0', 'class' => JAdminMenu::getIconClass('class:archive') );
+		$contentList[] = array( 'title' => JText::_('Frontpage Manager'), 'link' => 'index2.php?option=com_frontpage', 'class' => JAdminMenu::getIconClass('class:home', $css) );
+		$contentList[] = array( 'title' => JText::_('Archive Manager'), 'link' => 'index2.php?option=com_content&task=showarchive&sectionid=0', 'class' => JAdminMenu::getIconClass('class:archive', $css) );
 		if ($manageTrash) {
 			/*
 			 * SPLIT HR
 			 */
-			$contentList[] = array( 'title' => JText::_('Trash Manager'), 'link' => 'index2.php?option=com_trash&task=viewContent', 'class' => JAdminMenu::getIconClass('class:trash') );
-			$contentList[] = array( 'title' => JText::_('Page Hits'), 'link' => 'index2.php?option=com_statistics&task=pageimp', 'class' => JAdminMenu::getIconClass('class:stats') );
+			$contentList[] = array( 'title' => JText::_('Trash Manager'), 'link' => 'index2.php?option=com_trash&task=viewContent', 'class' => JAdminMenu::getIconClass('class:trash', $css) );
+			$contentList[] = array( 'title' => JText::_('Page Hits'), 'link' => 'index2.php?option=com_statistics&task=pageimp', 'class' => JAdminMenu::getIconClass('class:stats', $css) );
 		}
 		echo JAdminMenu::buildDiv ( JText::_('Content'), $contentList );
 
@@ -218,7 +219,7 @@ class JAdminMenu {
 					if ($row->parent == 0 && (trim($row->admin_menu_link) || array_key_exists($row->id, $subs))) {
 						$alt 	= $row->admin_menu_alt;
 						$link 	= $row->admin_menu_link ? "index2.php?$row->admin_menu_link" : "index2.php?option=$row->option";
-						$componentsList[] = array( 'title' => JText::_($row->name), 'link' => $link, 'class' => JAdminMenu::getIconClass($row->admin_menu_img) );
+						$componentsList[] = array( 'title' => JText::_($row->name), 'link' => $link, 'class' => JAdminMenu::getIconClass($row->admin_menu_img, $css) );
 					}
 				}
 			}
@@ -230,8 +231,8 @@ class JAdminMenu {
 	 */
 		if ($installModules | $editAllModules) {
 			if ($editAllModules) {
-				$modulesList[] = array( 'title' => JText::_('Site Modules'), 'link' => 'index2.php?option=com_modules', 'class' => JAdminMenu::getIconClass('class:module') );
-				$modulesList[] = array( 'title' => JText::_('Administrator Modules'), 'link' => 'index2.php?option=com_modules&client=admin', 'class' => JAdminMenu::getIconClass('class:module') );
+				$modulesList[] = array( 'title' => JText::_('Site Modules'), 'link' => 'index2.php?option=com_modules', 'class' => JAdminMenu::getIconClass('class:module', $css) );
+				$modulesList[] = array( 'title' => JText::_('Administrator Modules'), 'link' => 'index2.php?option=com_modules&client=admin', 'class' => JAdminMenu::getIconClass('class:module', $css) );
 			}
 			echo JAdminMenu::buildDiv ( JText::_('Modules'), $modulesList );
 		}
@@ -241,7 +242,7 @@ class JAdminMenu {
 	 */
 		if ($installPlugins | $editAllPlugins) 	{
 			if ($editAllPlugins) {
-				$pluginsList[] = array( 'title' => JText::_('Site Plugins'), 'link' => 'index2.php?option=com_plugins', 'class' => JAdminMenu::getIconClass('class:plugin') );
+				$pluginsList[] = array( 'title' => JText::_('Site Plugins'), 'link' => 'index2.php?option=com_plugins', 'class' => JAdminMenu::getIconClass('class:plugin', $css) );
 			}
 			echo JAdminMenu::buildDiv ( JText::_('Plugins'), $pluginsList );
 		}
@@ -250,7 +251,7 @@ class JAdminMenu {
 	 * Extensions SubMenu
 	 */
 		if ($installModules) {
-			$extensionsList[] = array( 'title' => JText::_('Extension Manager'), 'link' => 'index2.php?option=com_installer', 'class' => JAdminMenu::getIconClass('class:install') );
+			$extensionsList[] = array( 'title' => JText::_('Extension Manager'), 'link' => 'index2.php?option=com_installer', 'class' => JAdminMenu::getIconClass('class:install', $css) );
 			echo JAdminMenu::buildDiv ( JText::_('Extensions'), $extensionsList );
 		}
 
@@ -258,15 +259,22 @@ class JAdminMenu {
 	 * System SubMenu
 	 */
 		if ($canConfig)	{
-			$systemList[] = array( 'title' => JText::_('System Info'), 'link' => 'index2.php?option=com_admin&task=sysinfo', 'class' => JAdminMenu::getIconClass('class:info') );;
+			$systemList[] = array( 'title' => JText::_('System Info'), 'link' => 'index2.php?option=com_admin&task=sysinfo', 'class' => JAdminMenu::getIconClass('class:info', $css) );;
 			if ($canCheckin) {
-				$systemList[] = array( 'title' => JText::_('Global Checkin'), 'link' => 'index2.php?option=com_checkin', 'class' => JAdminMenu::getIconClass('class:checkin') );
+				$systemList[] = array( 'title' => JText::_('Global Checkin'), 'link' => 'index2.php?option=com_checkin', 'class' => JAdminMenu::getIconClass('class:checkin', $css) );
 			}
 			if ($caching) {
-				$systemList[] = array( 'title' => JText::_('Clean Content Cache'), 'link' => 'index2.php?option=com_admin&task=clean_cache', 'class' => JAdminMenu::getIconClass('class:config') );
-				$systemList[] = array( 'title' => JText::_('Clean All Cache'), 'link' => 'index2.php?option=com_admin&task=clean_all_cache', 'class' => JAdminMenu::getIconClass('class:config') );
+				$systemList[] = array( 'title' => JText::_('Clean Content Cache'), 'link' => 'index2.php?option=com_admin&task=clean_cache', 'class' => JAdminMenu::getIconClass('class:config', $css) );
+				$systemList[] = array( 'title' => JText::_('Clean All Cache'), 'link' => 'index2.php?option=com_admin&task=clean_all_cache', 'class' => JAdminMenu::getIconClass('class:config', $css) );
 			}
 			echo JAdminMenu::buildDiv ( JText::_('System'), $systemList );
+		}
+
+		if ($css)
+		{
+			// Add style to document head
+			$doc = & $mainframe->getDocument();
+			$doc->addStyleDeclaration($css);
 		}
 	}
 
@@ -330,7 +338,7 @@ class JAdminMenu {
 	 * @return	string	CSS class name
 	 * @since	1.1
 	 */
-	function getIconClass($identifier)
+	function getIconClass($identifier, &$css)
 	{
 		global $mainframe;
 		
@@ -365,13 +373,10 @@ class JAdminMenu {
 				{
 					// Build the CSS class for the icon
 					$class = JFile::makeSafe(JFile::stripExt(basename($identifier)));
-					$style = ".icon-16-$class {\n" .
+					$css  .= "\n.icon-16-$class {\n" .
 							"\tbackground: url($identifier) no-repeat;\n" .
-							"}";
+							"}\n";
 					
-					// Add style to document head
-					$doc = & $mainframe->getDocument();
-					$doc->addStyleDeclaration($style);
 					$classes[$identifier] = "icon-16-$class";
 				}
 			}
