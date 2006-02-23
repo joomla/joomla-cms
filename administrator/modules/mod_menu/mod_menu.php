@@ -298,7 +298,7 @@ class JAdminMenu {
 	{
 
 		$txt = 	"<h3 class=\"title".$suffix."\" title=\"$title\">$title</h3>\n";		
-		$txt .=	"<div class=\"section".$suffix."\">\n";
+		$txt .=	"<div class=\"section".$suffix."\">\n<ul>\n";
 		
 		/*
 		 * Iterate through the link items for building the menu items
@@ -316,7 +316,7 @@ class JAdminMenu {
 			$txt .= "<a href=\"".$item['link']."\">".$item['title']."</a>";
 			$txt .=	"</li>"; 
 		}
-		$txt .=	"\n</div>\n";
+		$txt .=	"\n</ul>\n</div>\n";
 
 		return $txt;		
 	}

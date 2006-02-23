@@ -275,7 +275,9 @@ span.logout {
 
 div.status-divider {
 	clear:left;
-	margin-bottom: 1px;
+	height: 1px !important;
+	height: 3px;
+	overflow: hidden;
 }
 
 
@@ -301,6 +303,18 @@ div.status-divider {
 	padding-left: 10px;
 }
 
+.sidemenu-box ul {
+	margin: 0;
+	padding: 0;
+}
+
+.sidemenu-box ul li {
+	list-style: none;
+	padding-left: 24px;
+	line-height: 20px;
+	background-position: 2px 2px;
+}
+
 .sidemenu-box h2 {
 	font-size: 18px;
 	font-weight: bold;
@@ -312,6 +326,7 @@ div.status-divider {
 }
 
 .sidemenu-box h3.title-smenu {
+	font-size: 12px;
 	border-left: 0px;
 	border-right: 0px;
 }
