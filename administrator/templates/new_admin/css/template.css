@@ -81,8 +81,11 @@ form {
 }
 
 #content-box {
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
+	background: url(../images/j_border.png) 0 0 repeat-y;
+}
+
+#content-box2 {
+	background: url(../images/j_border.png) 100% 0 repeat-y;
 }
 
 #content-pad {

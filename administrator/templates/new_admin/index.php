@@ -54,55 +54,59 @@ $lang =& $mainframe->getLanguage();
 			</div>
 		</div>
 		<div id="content-box">
-			<div id="content-pad">
-				<div class="sidemenu-box">
-					<div class="sidemenu-pad">
-						<!-- toolbox module here -->
-						<h2><jdoc:translate>Toolbox</jdoc:translate></h2>
-						<jdoc:include type="modules" name="status" style="3" />
-						<div class="status-divider"></div>
-						<jdoc:include type="modules" name="menu" />
-					</div>
-				</div>
-				<div class="content-area">
-					<div class="content-pad">
-						<div class="toolbar-box">
-							<div class="toolbar-pad">
-									<jdoc:include type="modules" name="toolbar" />
-									<div class="clr"></div>
-							</div>
-							<div class="clr"></div>
+			<div id="content-box2">
+				<div id="content-pad">
+					<div class="sidemenu-box">
+						<div class="sidemenu-pad">
+							<!-- toolbox module here -->
+							<h2><jdoc:translate>Toolbox</jdoc:translate></h2>
+							<jdoc:include type="modules" name="status" style="3" />
+							<div class="status-divider"></div>
+							<jdoc:include type="modules" name="menu" />
 						</div>
 					</div>
-				</div>
-
-<jdoc:tmpl name="fullsizeComponent" useglobals="yes" type="condition" conditionvar="HIDEMAINMENU">
-	<jdoc:sub condition="1">
-				<div class="content-area-full">
-	</jdoc:sub>
-	<jdoc:sub condition="0">
-				<div class="content-area">
-	</jdoc:sub>
-</jdoc:tmpl>
-					<div class="content-pad">
-
-
-							<jdoc:include type="modules" name="submenu" />
-							<div class="spacer"></div>
-							<div class="element-box">
-								<div class="element-pad">
-									<jdoc:include type="component" />
+					<div class="content-area">
+						<div class="content-pad">
+							<div class="toolbar-box">
+								<div class="toolbar-pad">
+										<jdoc:include type="modules" name="toolbar" />
+										<div class="clr"></div>
+								</div>
+								<div class="clr"></div>
+							</div>
+						</div>
+					</div>
+	
+	<jdoc:tmpl name="fullsizeComponent" useglobals="yes" type="condition" conditionvar="HIDEMAINMENU">
+		<jdoc:sub condition="1">
+					<div class="content-area-full">
+		</jdoc:sub>
+		<jdoc:sub condition="0">
+					<div class="content-area">
+		</jdoc:sub>
+	</jdoc:tmpl>
+						<div class="content-pad">
+	
+	
+								<jdoc:include type="modules" name="submenu" />
+								<div class="spacer"></div>
+								<div class="element-box">
+									<div class="element-pad">
+										<jdoc:include type="component" />
+									</div>
 								</div>
 							</div>
+			
+							<noscript>
+								<jdoc:translate key="WARNJAVASCRIPT" />
+							</noscript>
+							
 						</div>
-		
-						<noscript>
-							<jdoc:translate key="WARNJAVASCRIPT" />
-						</noscript>
+						<div class="clr"></div>
 					</div>
 				</div>
+				<div class="clr"></div>
 			</div>
-			<div class="clr"></div>
 		</div>	
 		<div id="footer1">
 			<div id="footer2">
