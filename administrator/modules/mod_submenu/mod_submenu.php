@@ -124,12 +124,18 @@ class JAdminSubMenu
 				$db->setQuery($query);
 				$compid = $db->loadResult();
 
-				$query = "SELECT *" .
-						"\n FROM `#__components`" .
-						"\n WHERE `parent` = '$compid'" .
-						"\n ORDER BY `ordering`, `name`";
-				$db->setQuery($query);
-				$items = $db->loadObjectList();
+				if ($compid > 0)
+				{
+					$query = "SELECT *" .
+							"\n FROM `#__components`" .
+							"\n WHERE `parent` = '$compid'" .
+							"\n ORDER BY `ordering`, `name`";
+					$db->setQuery($query);
+					$items = $db->loadObjectList();
+				} else
+				{
+					$items = false;
+				}
 
 				/*
 				 * Only process the data if we have menu items returned from the
