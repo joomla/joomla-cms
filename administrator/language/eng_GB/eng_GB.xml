@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <install version="1.1" client="administrator" type="language">
-    <name>English(GB)</name>
+    <name>English(United Kingdom)</name>
     <version>1.1.0</version>
     <creationDate>2005-10-06</creationDate>
     <author>Joomla! Project</author>
@@ -10,10 +10,10 @@
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
     <description></description>
     <metadata>
-    	<name>English (GB)</name>
-    	<tag>eng_GB</tag>
+    	<name>English (United Kingdom)</name>
+    	<tag>eng-GB</tag>
     	<rtl>0</rtl>
-    	<locale>eng_GB, en_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom</locale>
+    	<locale>en, uk, eng_GB, en_GB, english, english-uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom</locale>
     </metadata>
     <files>
         <filename>eng_GB.com_admin.ini</filename>

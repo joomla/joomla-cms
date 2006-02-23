@@ -11,9 +11,9 @@
     <description>Hebrew language file for web installer</description>
     <metadata>
     	<name>Hebrew</name>
-    	<tag>he</tag>
+    	<tag>heb-IL</tag>
     	<rtl>1</rtl>
-   	<locale>he_IL.utf-8, heb_IL.utf-8, he, hebrew, heb</locale>
+   	<locale>he, he_IL.utf-8, heb_IL.utf-8, he, hebrew, heb</locale>
     </metadata>
     <files>
         <filename>heb_IL.ini</filename>

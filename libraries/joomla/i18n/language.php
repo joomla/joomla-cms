@@ -589,10 +589,12 @@ class JLanguageHelper
 			
 				foreach($systemLangs as $systemLang => $metadata) {
 				
-					$primary_systemLang = substr( $metadata['tag'], 0, 2 );
-				
-					if($primary_systemLang == $primary_browserLang) {
-						return $systemLang;
+					$locales = explode( ',', $metadata['locale'] );
+					
+					foreach($locales as $locale) {
+						if($primary_browserLang == trim($locale)) {
+							return $systemLang;
+						}
 					}
 				}
 			}

@@ -9,10 +9,10 @@ See COPYRIGHT.php for copyright notices and details.
 </jdoc:comment>
 
 <?php
-global $mosConfig_lang;
+$browserLang = JLanguageHelper::detectLanguage();
 
 $languages = array();
-$languages = JLanguageHelper::createLanguageList( $mosConfig_lang );
+$languages = JLanguageHelper::createLanguageList($browserLang );
 array_unshift( $languages, mosHTML::makeOption( '', JText::_( 'Default' ) ) );
 $lists['langs'] = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 'text', '' );
 
