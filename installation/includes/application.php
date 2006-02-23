@@ -42,6 +42,22 @@ class JInstallation extends JApplication
 		parent::__construct(2);
 		$this->_createConfiguration();
 	}
+	
+	/**
+	 * Set the application language
+	 *
+	 * @access private
+	 * @param string 	The language name
+	 */
+
+	function setLanguage($lang = null)
+	{
+		if(empty($lang)) {
+			$lang = JLanguageHelper::detectLanguage();
+		}
+		
+		parent::setLanguage($lang);
+	}
 
 	/**
 	 * Create the configuration registry

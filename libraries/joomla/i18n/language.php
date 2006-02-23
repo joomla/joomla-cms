@@ -534,9 +534,11 @@ class JLanguage extends JObject
 /**
  * @package 	Joomla.Framework
  * @subpackage 	I18N
+ * @static
  * @since 1.1
  */
-class JLanguageHelper {
+class JLanguageHelper 
+{
 	/**
 	 * Builds a list of the system languages which can be used in a select option
 	 *
@@ -565,6 +567,38 @@ class JLanguageHelper {
 		}
 
 		return $list;
+	}
+	
+	/**
+ 	 * Tries to detect the language
+ 	 * 
+ 	 * @access public
+ 	 */
+	function detectLanguage() 
+	{
+		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+		{
+			$systemLangs  = JLanguage::getKnownLanguages();
+			$browserLangs = explode( ',', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
+		
+			foreach ($browserLangs as $browserLang) 
+			{
+				// slice out the part before ; on first step, the part before - on second, place into array
+				$browserLang = substr( $browserLang, 0, strcspn( $browserLang, ';' ) );	
+				$primary_browserLang = substr( $browserLang, 0, 2 );
+			
+				foreach($systemLangs as $systemLang => $metadata) {
+				
+					$primary_systemLang = substr( $metadata['tag'], 0, 2 );
+				
+					if($primary_systemLang == $primary_browserLang) {
+						return $systemLang;
+					}
+				}
+			}
+		}
+
+		return 'eng_GB';
 	}
 }
 ?>

@@ -65,45 +65,4 @@ function get_php_setting($val) {
 	$r =  (ini_get($val) == '1' ? 1 : 0);
 	return $r ? 'ON' : 'OFF';
 }
-
-/**
- * Tries to detect the language
- */
-function detectLanguage() {
-
-	$vars = mosGetParam( $_REQUEST, 'vars', array() );
-
-	$client_lang = '';
-	if ($_SERVER['HTTP_ACCEPT_LANGUAGE'] != '') {
-		$languages = JLanguageHelper::createLanguageList( '', JPATH_BASE );
-		$active_lang = array();
-
-		foreach ($languages as $language) {
-			$LANG = new JLanguage($language['value']);
-			$LANG->load('');
-			$active_lang[$LANG->getTag()] = $language['value'];
-		}
-
-		$browserLang = explode( ',', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
-
-		foreach ($browserLang as $lang) {
-			$shortLang = substr( $lang, 0, 2 );
-			if (isset( $active_lang[$lang] )) {
-				$client_lang = $active_lang[$lang];
-				break;
-			}
-			if (isset( $active_lang[$shortLang] )) {
-				$client_lang = $active_lang[$shortLang];
-				break;
-			}
-		}
-	}
-
-	if ($client_lang=='') {
-		$client_lang = 'eng_GB';
-	}
-
-	$lang = mosGetParam( $vars, 'lang', $client_lang );
-	return $lang;
-}
 ?>

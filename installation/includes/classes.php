@@ -26,8 +26,8 @@ class JInstallationController
 	 */
 	function chooseLanguage($vars) 
 	{
-		$native = detectLanguage();
-
+		$native = JLanguageHelper::detectLanguage();
+		
 		$lists = array ();
 		$lists['langs'] = JLanguageHelper::createLanguageList($native);
 
