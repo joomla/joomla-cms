@@ -158,6 +158,4 @@ function getHeaderText( &$row, &$params ) {
 
 	return $text;
 }
-
-doUtfPDF ( );
 ?>
