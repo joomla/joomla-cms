@@ -521,7 +521,8 @@ class mosHTML {
 	 */
 	function Header($text, $iconClass)
 	{
-		$html	= null;
+		$iconClass	= JFile::stripExt($iconClass);
+		$html		= null;
 		
 		$html	.= "<div class=\"header icon-48-$iconClass\">\n";
 		$html	.= "$text\n";
