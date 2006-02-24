@@ -30,6 +30,9 @@ div.icon-32-new {
 div.icon-32-upload {
 	background: url(../../../images/upload_f2.png) no-repeat left;
 }
+div.icon-32-send {
+	background: url(../../../images/publish_f2.png) no-repeat left;
+}
 div.icon-32-default {
 	background: url(../../../images/publish_f2.png) no-repeat left;
 }
