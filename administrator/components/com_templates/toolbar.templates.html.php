@@ -22,7 +22,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class TOOLBAR_templates {
 	function _DEFAULT(&$client) {
 
-		JMenuBar::title( JText::_( 'Template Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'templatemanager.png' );
+		JMenuBar::title( JText::_( 'Template Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
 		if ($client=="admin") {
 			JMenuBar::custom('publish', 'publish.png', 'publish_f2.png', JText::_( 'Default' ), true);
 		} else {
@@ -37,45 +37,45 @@ class TOOLBAR_templates {
 	}
  	function _VIEW(&$client){
 
-		JMenuBar::title( JText::_( 'Template Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'templatemanager.png' );
+		JMenuBar::title( JText::_( 'Template Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
 		JMenuBar::back();
 	}
 
 	function _EDIT_SOURCE(&$client){
 
-		JMenuBar::title( JText::_( 'Template HTML Editor' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'templatemanager.png' );
+		JMenuBar::title( JText::_( 'Template HTML Editor' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
 		JMenuBar::save( 'save_source' );
 		JMenuBar::cancel();
 	}
 
 	function _EDIT_PARAMS(&$client){
 
-		JMenuBar::title( JText::_( 'Template Parameters' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'templatemanager.png' );
+		JMenuBar::title( JText::_( 'Template Parameters' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
 		JMenuBar::save( 'save_params' );
 		JMenuBar::cancel();
 	}
 
 	function _CHOOSE_CSS(&$client){
-		JMenuBar::title( JText::_( 'Template CSS Editor' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'templatemanager.png' );
+		JMenuBar::title( JText::_( 'Template CSS Editor' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
 		JMenuBar::custom( 'edit_css', 'next.png', 'next_f2.png', JText::_( 'Next' ), true );
 		JMenuBar::cancel();
 	}
 
 	function _EDIT_CSS(&$client){
-		JMenuBar::title( JText::_( 'Template Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'templatemanager.png' );
+		JMenuBar::title( JText::_( 'Template Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
 		JMenuBar::save( 'save_css' );
 		JMenuBar::cancel();
 	}
 
 	function _ASSIGN(&$client){
-		JMenuBar::title( JText::_( 'Template Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'templatemanager.png' );
+		JMenuBar::title( JText::_( 'Template Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
 		JMenuBar::save( 'save_assign', JText::_( 'Save' ) );
 		JMenuBar::cancel();
 		JMenuBar::help( 'screen.templates.assign' );
 	}
 
 	function _POSITIONS(){
-		JMenuBar::title( JText::_( 'Module Positions' ), 'templatemanager.png' );
+		JMenuBar::title( JText::_( 'Module Positions' ), 'thememanager' );
 		JMenuBar::save( 'save_positions' );
 		JMenuBar::cancel();
 		JMenuBar::help( 'screen.templates.modules' );
