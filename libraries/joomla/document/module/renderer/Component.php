@@ -123,6 +123,15 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 			$contents = ob_get_contents();
 			ob_end_clean();
 
+			/*
+			 * Build the component toolbar
+			 * - This will move to a MVC controller at some point in the future
+			 */
+			require_once( JPATH_ADMINISTRATOR .'/includes/menubar.html.php' );
+			if ($path = JApplicationHelper::getPath( 'toolbar' )) {
+				include_once( $path );
+			}
+
 			return $contents;
 		} else {
 			header( 'HTTP/1.0 404 Not Found' );

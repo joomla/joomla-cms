@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: mod_toolbar.php 1879 2006-01-17 20:35:15Z webImagery $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -13,19 +13,6 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
-
-/*
- * Import the JToolBar library
- */
-jimport('joomla.utilities.presentation.toolbar.toolbar');
-
-/*
- * Get the JComponent instance of JToolBar
- */
-$bar = & JToolBar::getInstance('JComponent');
-
-// Render the toolbar
-echo $bar->render('JComponent');
 
 /*
  * Get the component title div

@@ -11,6 +11,8 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
+jimport('joomla.utilities.presentation.toolbar.toolbar');
+
 /**
 * Utility class for the button bar
 *
@@ -29,25 +31,26 @@ class JMenuBar
 	* @param string
 	* @since 1.1
 	*/
-	function title( $title, $icon='generic.png' ) {
-		$image = mosAdminMenus::ImageCheckAdmin( $icon, '/images/', NULL, NULL, $title, '', 1 );
-		?>
-		<td class="title">
-			<?php echo $image; ?>
-			<?php echo $title; ?>
-		</td>
-		<?php
+	function title($title, $icon = 'generic.png')
+	{
+		global $mainframe;
+		$mainframe->set('JComponentTitle', mosHTML::Header( JText::_($title), $icon ));
 	}
 
 	/**
-	* Writes the start of the button bar table
-	* @since 1.0
+	* @deprecated As of Version 1.1
 	*/
-	function startTable() {
-		?>
-		<table cellpadding="0" cellspacing="0" border="0" id="toolbar">
-		<tr valign="middle" align="center">
-		<?php
+	function startTable()
+	{
+		return;
+	}
+
+	/**
+	* @deprecated As of Version 1.1
+	*/
+	function endTable()
+	{
+		return;
 	}
 
 	/**
@@ -55,40 +58,22 @@ class JMenuBar
 	* @param string The width for the cell
 	* @since 1.0
 	*/
-	function spacer( $width='' ) {
-		if ($width != '') {
-			?>
-			<td width="<?php echo $width;?>">&nbsp;</td>
-			<?php
-		} else {
-			?>
-			<td>&nbsp;</td>
-			<?php
-		}
-	}
-
-	/**
-	* Writes the end of the menu bar table
-	* @since 1.0
-	*/
-	function endTable()	{
-		?>
-		</tr>
-		</table>
-		<?php
+	function spacer($width = '')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add a spacer
+		$bar->appendButton( 'Spacer', $width );
 	}
 
 	/**
 	* Write a divider between menu buttons
 	* @since 1.0
 	*/
-	function divider() {
-		$image = mosAdminMenus::ImageCheckAdmin( 'menu_divider.png', '/images/' );
-		?>
-		<td>
-			<?php echo $image; ?>
-		</td>
-		<?php
+	function divider()
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add a divider
+		$bar->appendButton( 'Divider' );
 	}
 
 	/**
@@ -101,45 +86,11 @@ class JMenuBar
 	* @param boolean True if required to include callinh hideMainMenu()
 	* @since 1.0
 	*/
-	function custom( $task='', $icon='', $iconOver='', $alt='', $listSelect=true, $x=false ) 
+	function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true, $x = false)
 	{
-		global $mainframe;
-
-    	$alt = JText::_( $alt );
-
-		$icon 	= ( $iconOver ? $iconOver : $icon );
-		$image 	= mosAdminMenus::ImageCheckAdmin( $icon, '/images/', NULL, NULL, $alt, $task, 1 );
-
-		if ($x) {
-			if ($listSelect) {
-				$onclick = "javascript:if(document.adminForm.boxchecked.value==0){alert('". JText::_( 'Please make a selection from the list to', true ) ." ". $alt ."');}else{hideMainMenu();submitbutton('$task')}";
-			} else {
-				$onclick = "javascript:hideMainMenu();submitbutton('$task')";
-			}
-		} else {
-			if ($listSelect) {
-				$onclick = "javascript:if(document.adminForm.boxchecked.value==0){alert('". JText::_( 'Please make a selection from the list to', true ) ." ". $alt ."');}else{submitbutton('$task')}";
-			} else {
-				$onclick = "javascript:submitbutton('$task')";
-			}
-		}
-
-		if ($icon || $iconOver) {
-			?>
-			<td>
-				<a class="toolbar" onclick="<?php echo $onclick ;?>">
-					<?php echo $image; ?>
-					<br /><?php echo $alt; ?></a>
-			</td>
-			<?php
-		} else {
-			?>
-			<td>
-				<a class="toolbar" onclick="<?php echo $onclick ;?>>
-					<br /><?php echo $alt; ?></a>
-			</td>
-			<?php
-		}
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add a standard button
+		$bar->appendButton( 'Standard', JFile::stripExt($icon), $alt, $task, $listSelect, $x );
 	}
 
 	/**
@@ -151,14 +102,13 @@ class JMenuBar
 	* @param string The alt text for the icon image
 	* @param boolean True if required to check that a standard list item is checked
 	* @since 1.0
- 	* (NOTE this is being deprecated)
+		* (NOTE this is being deprecated)
 	*/
-	function customX( $task='', $icon='', $iconOver='', $alt='', $listSelect=true ) {
-    	$alt = JText::_( $alt );
-
-		$icon 	= ( $iconOver ? $iconOver : $icon );
-
-		JMenuBar::custom( $task, $icon, '', $alt, $listSelect, true );
+	function customX($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true)
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add a standard button
+		$bar->appendButton( 'Standard', JFile::stripExt($icon), $alt, $task, $listSelect, true );
 	}
 
 	/**
@@ -166,22 +116,24 @@ class JMenuBar
 	* @param string The name of the popup file (excluding the file extension)
 	* @since 1.0
 	*/
-	function preview( $url='', $updateEditors=false ) {
+	function preview($url = '', $updateEditors = false)
+	{
 		global $mainframe;
 
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'preview_f2.png', '/images/', NULL, NULL, 'Preview', 'preview', 1 );
-
-		?>
+		$image2 = mosAdminMenus :: ImageCheckAdmin('preview_f2.png', '/images/', NULL, NULL, 'Preview', 'preview', 1);
+?>
 		<td>
 			<script language="javascript" type="text/javascript">
 			function popup() {
 				<?php
-				if ($updateEditors) {
-					$editor =& JEditor::getInstance();
-					echo $editor->getEditorContents( 'editor1', 'introtext' );
-					echo $editor->getEditorContents( 'editor2', 'fulltext' );
-				}
-				?>
+
+		if ($updateEditors)
+		{
+			$editor = & JEditor :: getInstance();
+			echo $editor->getEditorContents('editor1', 'introtext');
+			echo $editor->getEditorContents('editor2', 'fulltext');
+		}
+?>
 				window.open('<? echo $url."&task=preview"; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');
 			}
 			</script>
@@ -190,6 +142,7 @@ class JMenuBar
 				<br /><?php echo JText::_( 'Preview' ); ?></a>
 		</td>
 		<?php
+
 	}
 
 	/**
@@ -198,21 +151,11 @@ class JMenuBar
 	* @param boolean Use the help file in the component directory
 	* @since 1.0
 	*/
-	function help( $ref, $com=false ) {
-		global $mainframe;
-
-		$image2 	= mosAdminMenus::ImageCheckAdmin( 'help_f2.png', '/images/', NULL, NULL, 'Help', 'help', 1 );
-
-		jimport('joomla.i18n.help');
-		$url = JHelp::createURL($ref, $com);
-
-		?>
-		<td>
-			<a class="toolbar" onclick="window.open('<?php echo $url;?>', 'joomla_help_win', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');">
-				<?php echo $image2; ?>
-				<br /><?php echo JText::_( 'Help' ); ?></a>
-		</td>
-		<?php
+	function help($ref, $com = false)
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add a help button
+		$bar->appendButton( 'Help', $ref, $com );
 	}
 
 	/**
@@ -220,23 +163,11 @@ class JMenuBar
 	* any other operation
 	* @since 1.0
 	*/
-	function back( $alt='Back', $href='' ) {
-
-    	$alt = JText::_( $alt );
-
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'back_f2.png', '/images/', NULL, NULL, 'back', 'cancel', 1 );
-		if ( $href ) {
-			$link = $href;
-		} else {
-			$link = 'javascript:window.history.back();';
-		}
-		?>
-		<td>
-			<a class="toolbar" href="<?php echo $link; ?>">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt;?></a>
-		</td>
-		<?php
+	function back($alt = 'Back', $href = '')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add a back button
+		$bar->appendButton( 'Back', $alt, $href );
 	}
 
 	/**
@@ -244,18 +175,11 @@ class JMenuBar
 	* @param string The sub-drectory to upload the media to
 	* @since 1.0
 	*/
-	function media_manager( $directory='', $alt='Upload' ) {
-		global $mainframe;
-
-    	$alt 	= JText::_( $alt );
-		$image2 = mosAdminMenus::ImageCheckAdmin( 'upload_f2.png', '/images/', NULL, NULL, 'Upload Image', 'uploadPic', 1 );
-		?>
-		<td>
-			<a class="toolbar" onclick="popupWindow('index3.php?option=com_media&amp;task=popupUpload&amp;directory=<?php echo $directory; ?>','win1',550,200,'no');">
-				<?php echo $image2; ?>
-				<br /><?php echo $alt;?></a>
-		</td>
-		<?php
+	function media_manager($directory = '', $alt = 'Upload')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add an upload button
+		$bar->appendButton( 'Upload', $alt, $directory );
 	}
 
 	/**
@@ -264,10 +188,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function addNew( $task='new', $alt='New' ) {
-		$alt = JText::_( $alt );
-
-		JMenuBar::custom( $task, 'new_f2.png', '', $alt, false );
+	function addNew($task = 'new', $alt = 'New')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add a new button
+		$bar->appendButton( 'New', true, $alt, $task );
 	}
 
 	/**
@@ -277,10 +202,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function addNewX( $task='new', $alt='New' ) {
-		$alt = JText::_( $alt );
-
-		JMenuBar::custom( $task, 'new_f2.png', '', $alt, false, true );
+	function addNewX($task = 'new', $alt = 'New')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add a new button (hide menu)
+		$bar->appendButton( 'New', false, $alt, $task );
 	}
 
 	/**
@@ -289,10 +215,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function publish( $task='publish', $alt='Publish' ) {
-		$alt = JText::_( $alt );
-
-		JMenuBar::custom( $task, 'publish_f2.png', '', $alt, false );
+	function publish($task = 'publish', $alt = 'Publish')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add a publish button
+		$bar->appendButton( 'Publish', false, $alt, $task );
 	}
 
 	/**
@@ -301,10 +228,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function publishList( $task='publish', $alt='Publish' ) {
-    	$alt = JText::_( $alt );
-
-	 	JMenuBar::custom( $task, 'publish_f2.png', '', $alt, true );
+	function publishList($task = 'publish', $alt = 'Publish')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add a publish button (list)
+		$bar->appendButton( 'Publish', true, $alt, $task );
 	}
 
 	/**
@@ -313,10 +241,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function makeDefault( $task='default', $alt='Default' ) {
-		$alt = JText::_( $alt );
-
-		JMenuBar::custom( $task, 'publish_f2.png', '', $alt, true );
+	function makeDefault($task = 'default', $alt = 'Default')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add a default button
+		$bar->appendButton( 'Default', $alt, $task );
 	}
 
 	/**
@@ -325,10 +254,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function assign( $task='assign', $alt='Assign' ) {
-		$alt = JText::_( $alt );
-
-		JMenuBar::custom( $task, 'publish_f2.png', '', $alt, true );
+	function assign($task = 'assign', $alt = 'Assign')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add an assign button
+		$bar->appendButton( 'Assign', $alt, $task );
 	}
 
 	/**
@@ -337,10 +267,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function unpublish( $task='unpublish', $alt='Unpublish' ) {
-		$alt = JText::_( $alt );
-
-		JMenuBar::custom( $task, 'unpublish_f2.png', '', $alt, true );
+	function unpublish($task = 'unpublish', $alt = 'Unpublish')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add an unpublish button
+		$bar->appendButton( 'Unpublish', false, $alt, $task );
 	}
 
 	/**
@@ -349,10 +280,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function unpublishList( $task='unpublish', $alt='Unpublish' ) {
-		$alt = JText::_( $alt );
-
-		JMenuBar::custom( $task, 'unpublish_f2.png', '', $alt, true );
+	function unpublishList($task = 'unpublish', $alt = 'Unpublish')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add an unpublish button (list)
+		$bar->appendButton( 'Unpublish', true, $alt, $task );
 	}
 
 	/**
@@ -361,10 +293,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function archiveList( $task='archive', $alt='Archive' ) {
-		$alt = JText::_( $alt );
-
-		JMenuBar::custom( $task, 'archive_f2.png', '', $alt, true );
+	function archiveList($task = 'archive', $alt = 'Archive')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add an archive button
+		$bar->appendButton( 'Archive', $alt, $task );
 	}
 
 	/**
@@ -373,10 +306,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function unarchiveList( $task='unarchive', $alt='Unarchive' ) {
-		$alt = JText::_( $alt );
-
-		JMenuBar::custom( $task, 'unarchive_f2.png', '', $alt, true );
+	function unarchiveList($task = 'unarchive', $alt = 'Unarchive')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add an unarchive button (list)
+		$bar->appendButton( 'Unarchive', $alt, $task );
 	}
 
 	/**
@@ -385,10 +319,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function editList( $task='edit', $alt='Edit' ) {
-		$alt = JText::_( $alt );
-
-		JMenuBar::custom( $task, 'edit_f2.png', '', $alt, true );
+	function editList($task = 'edit', $alt = 'Edit')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add an edit button
+		$bar->appendButton( 'Edit', false, $alt, $task );
 	}
 
 	/**
@@ -398,10 +333,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function editListX( $task='edit', $alt='Edit' ) {
-		$alt = JText::_( $alt );
-
-		JMenuBar::custom( $task, 'edit_f2.png', '', $alt, true, true );
+	function editListX($task = 'edit', $alt = 'Edit')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add an edit button (hide)
+		$bar->appendButton( 'Edit', true, $alt, $task );
 	}
 
 	/**
@@ -410,10 +346,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function editHtml( $task='edit_source', $alt='' ) {
-    	$alt = JText::_( 'Edit HTML' );
-
-		JMenuBar::custom( $task, 'html_f2.png', '', $alt, true );
+	function editHtml($task = 'edit_source', $alt = '')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add an edit html button
+		$bar->appendButton( 'EditHTML', false, $alt, $task );
 	}
 
 	/**
@@ -423,10 +360,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function editHtmlX( $task='edit_source', $alt='' ) {
-		$alt = JText::_( 'Edit HTML' );
-
-		JMenuBar::custom( $task, 'html_f2.png', '', $alt, true, true );
+	function editHtmlX($task = 'edit_source', $alt = '')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add an edit html button (hide)
+		$bar->appendButton( 'EditHTML', true, $alt, $task );
 	}
 
 	/**
@@ -435,10 +373,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function editCss( $task='edit_css', $alt='' ) {
-    	$alt = JText::_( 'Edit CSS' );
-
-		JMenuBar::custom( $task, 'css_f2.png', '', $alt, true );
+	function editCss($task = 'edit_css', $alt = '')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add an edit css button (hide)
+		$bar->appendButton( 'EditCSS', false, $alt, $task );
 	}
 
 	/**
@@ -448,10 +387,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function editCssX( $task='edit_css', $alt='' ) {
-		$alt = JText::_( 'Edit CSS' );
-
-		JMenuBar::custom( $task, 'css_f2.png', '', $alt, true, true );
+	function editCssX($task = 'edit_css', $alt = '')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add an edit css button (hide)
+		$bar->appendButton( 'EditCSS', true, $alt, $task );
 	}
 
 	/**
@@ -461,10 +401,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function deleteList( $msg='', $task='remove', $alt='Delete' ) {
-    	$alt = JText::_( $alt );
-
-		JMenuBar::custom( $task, 'delete_f2.png', '', $alt, true );
+	function deleteList($msg = '', $task = 'remove', $alt = 'Delete')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add a delete button
+		$bar->appendButton( 'Delete', false, $alt, $task );
 	}
 
 	/**
@@ -475,20 +416,22 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function deleteListX( $msg='', $task='remove', $alt='Delete' ) {
-		$alt = JText::_( $alt );
-
-		JMenuBar::custom( $task, 'delete_f2.png', '', $alt, true, true );
+	function deleteListX($msg = '', $task = 'remove', $alt = 'Delete')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add a delete button (hide)
+		$bar->appendButton( 'Delete', true, $alt, $task );
 	}
 
 	/**
 	* Write a trash button that will move items to Trash Manager
 	* @since 1.0
 	*/
-	function trash( $task='remove', $alt='Trash', $check=true ) {
-		$alt = JText::_( $alt );
-
-		JMenuBar::custom( $task, 'delete_f2.png', '', $alt, $check );
+	function trash($task = 'remove', $alt = 'Trash', $check = true)
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add a trash button
+		$bar->appendButton( 'Trash', $check, $alt, $task );
 	}
 
 	/**
@@ -498,10 +441,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function apply( $task='apply', $alt='Apply' ) {
-		$alt = JText::_( $alt );
-
-		JMenuBar::custom( $task, 'apply_f2.png', '', $alt, false );
+	function apply($task = 'apply', $alt = 'Apply')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add an apply button
+		$bar->appendButton( 'Apply', $alt, $task );
 	}
 
 	/**
@@ -511,10 +455,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function save( $task='save', $alt='Save' ) {
-		$alt = JText::_( $alt );
-
-		JMenuBar::custom( $task, 'save_f2.png', '', $alt, false );
+	function save($task = 'save', $alt = 'Save')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add a save button
+		$bar->appendButton( 'Save', $alt, $task );
 	}
 
 	/**
@@ -523,10 +468,11 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function cancel( $task='cancel', $alt='Cancel' ) {
-		$alt = JText::_( $alt );
-
-		JMenuBar::custom( $task, 'cancel_f2.png', '', $alt, false );
+	function cancel($task = 'cancel', $alt = 'Cancel')
+	{
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add a cancel button
+		$bar->appendButton( 'Cancel', $alt, $task );
 	}
 }
 
@@ -534,6 +480,7 @@ class JMenuBar
  * Legacy class, use JMenuBar instead
  * @deprecated As of version 1.1
  */
-class mosMenuBar extends JMenuBar {
+class mosMenuBar extends JMenuBar
+{
 }
 ?>
