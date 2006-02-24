@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id: mospage.btn.php 1402 2005-12-09 17:16:01Z Jinx $
+* @version $Id: mosimage.btn.php 1671 2006-01-06 10:20:01Z webImagery $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -14,13 +14,13 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onCustomEditorButton', 'botMosPageButton' );
+$mainframe->registerEvent( 'onCustomEditorButton', 'pluginImageButton' );
 
 /**
-* mospage button
+* mosimage button
 * @return array A two element array of ( imageName, textToInsert )
 */
-function botMosPageButton() {
+function pluginImageButton() {
 	global $option;
 
 	// button is not active in specific content components
@@ -32,7 +32,7 @@ function botMosPageButton() {
 			break;
 
 		default:
-			$button = array( 'mospage.gif', '{mospagebreak}' );
+			$button = array( 'image.gif', '{image}' );
 			break;
 	}
 

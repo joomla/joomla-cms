@@ -44,6 +44,8 @@ Legend:
   ^ Renamed mosloadposition content plugin to loadmodule
   ^ Renamed mospagebreak content plugin to pagebreak
   ^ Renamed mosvote content plugin to vote
+  ^ Renamed mosimage.btn editor-xtd plugin to image
+  ^ Renamed mospage.btn editor-xtd plugin to pagebreak
   ^ Fixed language detection
   # Fixed artf3624 : Content priview error with {mosImage}
   # Fixed artf3552 : Typo in mosCommonHTML::menuLinksContent

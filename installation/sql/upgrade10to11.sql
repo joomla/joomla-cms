@@ -21,7 +21,7 @@ UPDATE `jos_mambots` SET `name` = 'Content - Image' WHERE `id` = '1';
 UPDATE `jos_mambots` SET `name` = 'Content - Pagebreak' WHERE `id` = '2'; 
 UPDATE `jos_mambots` SET `name` = 'Content - SEF' WHERE `id` = '4';
 UPDATE `jos_mambots` SET `name` = 'Content - Ratinr' WHERE `id` = '5';  
-UPDATE `jos_mambots` SET `name` = 'Content - Code Hightlighter (Joomla)' WHERE `id` = '8'; 
+UPDATE `jos_mambots` SET `name` = 'Content - Code Hightlighter (Joomla)' WHERE `id` = '8';  
 UPDATE `jos_mambots` SET `name` = 'Content - Email Cloaking' WHERE `id` = '16'; 
 UPDATE `jos_mambots` SET `name` = 'Content - Code Hightlighter (GeSHi)' WHERE `id` = '17';
 UPDATE `jos_mambots` SET `name` = 'Content - Load Module' WHERE `id` = '19';
@@ -37,6 +37,9 @@ UPDATE `jos_mambots` SET `name` = 'Search - Newsfeeds' WHERE `id` = '18';
 UPDATE `jos_mambots` SET `name` = 'Editor - No Editor' WHERE `id` = '9';
 UPDATE `jos_mambots` SET `name` = 'Editor - TinyMCE 2.0' WHERE `id` = '10';
 
+UPDATE `jos_mambots` SET `name` = 'Editor Buttton - Image' WHERE `id` = '11';
+UPDATE `jos_mambots` SET `name` = 'Editor Button  - Pagebreak' WHERE `id` = '12'; 
+
 UPDATE `jos_mambots` SET `element` = 'image' WHERE `id` = '1';
 UPDATE `jos_mambots` SET `element` = 'pagebreak' WHERE `id` = '2';
 UPDATE `jos_mambots` SET `element` = 'sef' WHERE `id` = '4'; 
@@ -51,6 +54,9 @@ UPDATE `jos_mambots` SET `element` = 'contacts' WHERE `id` = '13';
 UPDATE `jos_mambots` SET `element` = 'categories' WHERE `id` = '14';  
 UPDATE `jos_mambots` SET `element` = 'sections' WHERE `id` = '15';
 UPDATE `jos_mambots` SET `element` = 'newsfeeds' WHERE `id` = '18';
+
+UPDATE `jos_mambots` SET `element` = 'image' WHERE `id` = '11';
+UPDATE `jos_mambots` SET `element` = 'pagebreak' WHERE `id` = '12';
 
 #Mambot Removals 
 DELETE FROM `jos_mambots` WHERE `element` = 'legacybots'; 
