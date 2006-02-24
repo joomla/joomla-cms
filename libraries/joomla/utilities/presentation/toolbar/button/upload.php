@@ -35,7 +35,7 @@ class JButton_Upload extends JButton
 		$class	= $this->fetchIconClass('upload');
 		$doTask	= $this->_getCommand($directory);
 
-		$html .= "<a onclick=\"$doTask\">\n";
+		$html  = "<a onclick=\"$doTask\">\n";
 		$html .= "<div class=\"$class\" title=\"$text\" type=\"$type\">\n";
 		$html .= "</div>\n";
 		$html .= "$text\n";

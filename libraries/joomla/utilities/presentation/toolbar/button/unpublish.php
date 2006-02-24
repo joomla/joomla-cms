@@ -35,7 +35,7 @@ class JButton_Unpublish extends JButton
 		$class	= $this->fetchIconClass('unpublish');
 		$doTask	= $this->_getCommand($task, $list);
 
-		$html .= "<a onclick=\"$doTask\">\n";
+		$html  = "<a onclick=\"$doTask\">\n";
 		$html .= "<div class=\"$class\" title=\"$text\" type=\"$type\">\n";
 		$html .= "</div>\n";
 		$html .= "$text\n";

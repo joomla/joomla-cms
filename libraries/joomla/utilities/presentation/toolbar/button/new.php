@@ -35,7 +35,7 @@ class JButton_New extends JButton
 		$class	= $this->fetchIconClass('new');
 		$doTask	= $this->_getCommand($task, $hide);
 
-		$html .= "<a onclick=\"$doTask\">\n";
+		$html  = "<a onclick=\"$doTask\">\n";
 		$html .= "<div class=\"$class\" title=\"$text\" type=\"$type\">\n";
 		$html .= "</div>\n";
 		$html .= "$text\n";

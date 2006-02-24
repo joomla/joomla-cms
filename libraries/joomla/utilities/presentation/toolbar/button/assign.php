@@ -35,7 +35,7 @@ class JButton_Assign extends JButton
 		$class	= $this->fetchIconClass('assign');
 		$doTask	= $this->_getCommand($task);
 
-		$html .= "<a onclick=\"$doTask\">\n";
+		$html  = "<a onclick=\"$doTask\">\n";
 		$html .= "<div class=\"$class\" title=\"$text\" type=\"$type\">\n";
 		$html .= "</div>\n";
 		$html .= "$text\n";

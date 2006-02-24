@@ -35,7 +35,7 @@ class JButton_Back extends JButton
 		$class	= $this->fetchIconClass('back');
 		$doTask	= $this->_getCommand($url);
 
-		$html .= "<a onclick=\"$doTask\">\n";
+		$html  = "<a onclick=\"$doTask\">\n";
 		$html .= "<div class=\"$class\" title=\"$text\" type=\"$type\">\n";
 		$html .= "</div>\n";
 		$html .= "$text\n";

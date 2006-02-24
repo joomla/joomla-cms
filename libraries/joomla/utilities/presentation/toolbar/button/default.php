@@ -35,7 +35,7 @@ class JButton_Default extends JButton
 		$class	= $this->fetchIconClass('default');
 		$doTask	= $this->_getCommand($task);
 
-		$html .= "<a onclick=\"$doTask\">\n";
+		$html  = "<a onclick=\"$doTask\">\n";
 		$html .= "<div class=\"$class\" title=\"$text\" type=\"$type\">\n";
 		$html .= "</div>\n";
 		$html .= "$text\n";

@@ -34,7 +34,7 @@ class JButton_Small extends JButton
 		$text	= JText::_($text);
 		$class	= $this->fetchIconClass($name);
 
-		$html .= "<a onclick=\"$doTask\">\n";
+		$html  = "<a onclick=\"$doTask\">\n";
 		$html .= "<div class=\"$class\" title=\"$text\" type=\"$type\">\n";
 		$html .= "</div>\n";
 		$html .= "$text\n";
