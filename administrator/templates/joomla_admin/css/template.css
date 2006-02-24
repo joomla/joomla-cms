@@ -85,31 +85,53 @@ a:active {
 	text-decoration : underline;
 }
 
-table#toolbar a.toolbar {
+
+div.toolbar {
+	float: right;
+	text-align: right;
+	padding: 0;	
+}
+
+table.toolbar {
+	border-collapse: collapse;
+	width: 1;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	
+}
+
+table.toolbar td {
+	text-align: center;
+	border: 0;
+}
+
+table.toolbar div {
+	float: none;
+	width: 32px;
+	height: 32px;
+	margin: 2px auto;
+}
+
+table.toolbar a {
 	color : #808080;
 	text-decoration : none;
+	font-weight: normal;
 	display: block;
 	border: 1px solid #DDD;
 	width: 55px;
 	padding: 2px 1px 2px 1px;
 }
-table#toolbar a.toolbar:hover {
+table.toolbar a:hover {
 	color : #333;
 	border: 1px solid #6d9d2e;
 	background-color: #e7eddf;
 	padding: 3px 0px 1px 2px;
 }
-table#toolbar a.toolbar:active {
+table.toolbar a:active {
 	color : #FF9900;
 }
-table#toolbar td.title {
-	color: #4a780e;
-	font-size : 18px;
-	font-weight: bold;
-	text-align: left;
-	width: 100%;
-	padding-left: 10px;
-}
+
 
 .pagenav {
 	font-size : 10px;
@@ -181,106 +203,16 @@ td {
 	font-size: 11px;
 }
 /* header block */
-table.adminheading {
-	background-color: #FFF;
+div.header {
 	font-family : Arial, Helvetica, sans-serif;
-	margin: 0px;
-	padding: 0px;
-	border: 0px;
-	width: 100%;
-	border-collapse: collapse;
+	text-align: left;
+	line-height: 48px;
+	font-weight: bold;
+	padding-left: 55px;
 	color: #4a780e;
 	font-size : 18px;
-	font-weight: bold;
-	text-align: left;
-}
-table.adminheading th {
-	background: url(../../../images/generic.png) no-repeat left;
-	text-align: left;
-	height: 50px;
-	width: 99%;
-	padding-left: 50px;
-	border-bottom: 5px solid #fff;
-}
-table.adminheading th.checkin {
-	background: url(../../../images/checkin.png) no-repeat left;
-}
-table.adminheading th.cpanel {
-	background: url(../../../images/cpanel.png) no-repeat left;
-}
-table.adminheading th.config {
-	background: url(../../../images/config.png) no-repeat left;
-}
-table.adminheading th.modules {
-	background: url(../../../images/module.png) no-repeat left;
-}
-table.adminheading th.menus {
-	background: url(../../../images/menu.png) no-repeat left;
-}
-table.adminheading th.trash {
-	background: url(../../../images/trash.png) no-repeat left;
-}
-table.adminheading th.user {
-	background: url(../../../images/user.png) no-repeat left;
-}
-table.adminheading th.inbox {
-	background: url(../../../images/inbox.png) no-repeat left;
-}
-table.adminheading th.msgconfig {
-	background: url(../../../images/message_config.png) no-repeat left;
-}
-table.adminheading th.langmanager {
-	background: url(../../../images/langmanager.png) no-repeat left;
-}
-table.adminheading th.mediamanager {
-	background: url(../../../images/mediamanager.png) no-repeat left;
-}
-table.adminheading th.impressions {
-	background: url(../../../images/impressions.png) no-repeat left;
-}
-table.adminheading th.browser {
-	background: url(../../../images/browser.png) no-repeat left;
-}
-table.adminheading th.searchtext {
-	background: url(../../../images/searchtext.png) no-repeat left;
-}
-table.adminheading th.templates {
-	background: url(../../../images/templatemanager.png) no-repeat left;
-}
-table.adminheading th.massemail {
-	background: url(../../../images/massemail.png) no-repeat left;
-}
-table.adminheading th.frontpage {
-	background: url(../../../images/frontpage.png) no-repeat left;
-}
-table.adminheading th.sections {
-	background: url(../../../images/sections.png) no-repeat left;
-}
-table.adminheading th.edit {
-	background: url(../../../images/addedit.png) no-repeat left;
-}
-table.adminheading th.categories {
-	background: url(../../../images/categories.png) no-repeat left;
-}
-table.adminheading th.install {
-	background: url(../../../images/install.png) no-repeat left;
-}
-table.adminheading th.dbbackup {
-	background: url(../../../images/backup.png) no-repeat left;
-}
-table.adminheading th.dbrestore {
-	background: url(../../../images/dbrestore.png) no-repeat left;
-}
-table.adminheading th.dbquery {
-	background: url(../../../images/query.png) no-repeat left;
-}
-table.adminheading th.info {
-	background: url(../../../images/systeminfo.png) no-repeat left;
 }
 
-table.adminheading td {
-	color : #000;
-}
 /* standard list style table */
 table.adminlist {
 	background-color: #FFFFFF;
@@ -424,15 +356,12 @@ td.menudottedline {
 	border-bottom: 1px solid #cccccc;
 	border-top: 1px solid #ffffff;
 	background-color: #F1F3F5;
-	padding-right: 10px;
+	padding: 5px 10px;
 }
 .pathway {
 	margin-left: 15px;
 }
-.adminheader {
-	color : #c30;
-	font-size : 24px;
-}
+
 /* Text passed with mosmsg url parameter */
 .message {
 	font-family : "Trebuchet MS", Arial, Helvetica, sans-serif;

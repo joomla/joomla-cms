@@ -17,6 +17,7 @@ $lang =& $mainframe->getLanguage();
 <jdoc:include type="head" />
 
 <link href="templates/{TEMPLATE}/css/template.css" rel="stylesheet" type="text/css" />
+<link href="templates/{TEMPLATE}/css/icon.css" rel="stylesheet" type="text/css" />
 <jdoc:tmpl name="isRTL" varscope="index.php" type="condition" conditionvar="LANG_ISRTL">
 	<jdoc:sub condition="1">
 		<link href="templates/{TEMPLATE}/css/template_rtl.css" rel="stylesheet" type="text/css" />
