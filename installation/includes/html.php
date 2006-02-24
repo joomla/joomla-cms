@@ -75,7 +75,9 @@ class JInstallationView
 	 */
 	function chooseLanguage( &$lists ) 
 	{
-		global $steps;
+		global $steps, $mainframe;
+
+		$lang    =& $mainframe->getLanguage();
 
 		$tmpl =& JInstallationView::createTemplate( 'language.html' );
 
@@ -83,6 +85,8 @@ class JInstallationView
 
 		$tmpl->addVars( 'stepbar', $steps, 'step_' );
 		$tmpl->addRows( 'lang-options', $lists['langs'] );
+		
+		$tmpl->addVar( 'buttons', 'direction', $lang->isRTL() ? 'rtl' : 'ltr');
 
 		return $tmpl->fetch( 'page' );
 	}
@@ -93,7 +97,9 @@ class JInstallationView
 	 */
 	function preInstall( $vars, &$lists ) 
 	{
-		global $steps, $_VERSION;
+		global $steps, $_VERSION, $mainframe;
+
+		$lang    =& $mainframe->getLanguage();
 
 		$tmpl =& JInstallationView::createTemplate( 'preinstall.html' );
 
@@ -102,9 +108,12 @@ class JInstallationView
 		$tmpl->addVars( 'stepbar', 	$steps, 	'step_' );
 		$tmpl->addVar( 'body', 		'version', 	$_VERSION->getLongVersion() );
 		$tmpl->addVars( 'body', 	$vars, 		'var_' );
-
+		
+		$tmpl->addVar( 'php-options', 'align', $lang->isRTL() ? 'right' : 'left');
 		$tmpl->addRows( 'php-options', 	$lists['phpOptions'] );
 		$tmpl->addRows( 'php-settings', $lists['phpSettings'] );
+
+		$tmpl->addVar( 'buttons', 'direction', $lang->isRTL() ? 'rtl' : 'ltr');
 
 		return $tmpl->fetch( 'page' );
 	}
@@ -115,7 +124,9 @@ class JInstallationView
 	 */
 	function license( &$vars ) 
 	{
-		global $steps;
+		global $steps, $mainframe;
+
+		$lang    =& $mainframe->getLanguage();
 
 		$tmpl =& JInstallationView::createTemplate( 'license.html' );
 
@@ -123,6 +134,7 @@ class JInstallationView
 
 		$tmpl->addVars( 'stepbar', 	$steps, 'step_' );
 		$tmpl->addVars( 'body', 	$vars, 	'var_' );
+		$tmpl->addVar( 'buttons', 'direction', $lang->isRTL() ? 'rtl' : 'ltr');
 
 		return $tmpl->fetch( 'page' );
 	}
@@ -133,7 +145,9 @@ class JInstallationView
 	 */
 	function dbConfig( &$vars, &$lists ) 
 	{
-		global $steps;
+		global $steps, $mainframe;
+
+		$lang    =& $mainframe->getLanguage();
 		
 		$tmpl =& JInstallationView::createTemplate( 'dbconfig.html' );
 
@@ -141,7 +155,7 @@ class JInstallationView
 
 		$tmpl->addVars( 'stepbar', $steps, 'step_' );
 		$tmpl->addVars( 'body', 	$vars, 'var_' );
-
+		$tmpl->addVar( 'buttons', 'direction', $lang->isRTL() ? 'rtl' : 'ltr');
 		$tmpl->addRows( 'dbtype-options', $lists['dbTypes'] );
 
 		return $tmpl->fetch( 'page' );
@@ -179,7 +193,9 @@ class JInstallationView
 	 */
 	function ftpConfig( &$vars ) 
 	{
-		global $steps;
+		global $steps, $mainframe;
+
+		$lang    =& $mainframe->getLanguage();
 		
 		$tmpl =& JInstallationView::createTemplate( 'ftpconfig.html' );
 
@@ -187,6 +203,7 @@ class JInstallationView
 
 		$tmpl->addVars( 'stepbar', $steps, 'step_' );
 		$tmpl->addVars( 'body', 	$vars, 'var_' );
+		$tmpl->addVar( 'buttons', 'direction', $lang->isRTL() ? 'rtl' : 'ltr');
 
 		return $tmpl->fetch( 'page' );
 	}
@@ -197,7 +214,9 @@ class JInstallationView
 	 */
 	function mainConfig( &$vars, &$lists ) 
 	{
-		global $steps;
+		global $steps, $mainframe;
+
+		$lang    =& $mainframe->getLanguage();
 
 		$tmpl =& JInstallationView::createTemplate( 'mainconfig.html' );
 
@@ -205,6 +224,7 @@ class JInstallationView
 
 		$tmpl->addVars( 'stepbar', $steps, 'step_' );
 		$tmpl->addVars( 'body', 	$vars, 'var_' );
+		$tmpl->addVar( 'buttons', 'direction', $lang->isRTL() ? 'rtl' : 'ltr');
 //		$tmpl->addRows( 'folder-perms', $lists['folderPerms'] );
 
 		return $tmpl->fetch( 'page' );
@@ -217,7 +237,9 @@ class JInstallationView
 	 */
 	function finish( &$vars, $buffer ) 
 	{
-		global $steps;
+		global $steps, $mainframe;
+
+		$lang    =& $mainframe->getLanguage();
 
 		$tmpl =& JInstallationView::createTemplate( 'finish.html' );
 
@@ -225,6 +247,7 @@ class JInstallationView
 
 		$tmpl->addVars( 'stepbar', $steps, 'step_' );
 		$tmpl->addVars( 'body', 	$vars, 'var_' );
+		$tmpl->addVar( 'buttons', 'direction', $lang->isRTL() ? 'rtl' : 'ltr');
 
 		if ($buffer) {
 			$tmpl->addVar( 'configuration-error', 'buffer', $buffer );

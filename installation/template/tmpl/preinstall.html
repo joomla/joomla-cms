@@ -12,9 +12,18 @@
 		<div id="step">
 			<div id="steppad">
 				<div class="far-right">
+					<jtmpl:tmpl name="buttons" type="Condition" conditionvar="direction">
+						<jtmpl:sub condition="ltr">
+							<div class="button1-left"><div class="refresh"><a onclick="submitForm( adminForm, 'preinstall' );" alt="<jtmpl:translate escape="yes">Check Again</jtmpl:translate>"><jtmpl:translate escape="yes">Check Again</jtmpl:translate></a></div></div>
+							<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, 'lang' );" alt="<jtmpl:translate escape="yes">Previous</jtmpl:translate>"><jtmpl:translate escape="yes">Previous</jtmpl:translate></a></div></div>
+							<div class="button1-left"><div class="next"><a onclick="submitForm( adminForm, 'license' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
+						</jtmpl:sub>
+						<jtmpl:sub condition="rtl">
+					<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, 'license' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
+					<div class="button1-left"><div class="next"><a onclick="submitForm( adminForm, 'lang' );" alt="<jtmpl:translate escape="yes">Previous</jtmpl:translate>"><jtmpl:translate escape="yes">Previous</jtmpl:translate></a></div></div>
 					<div class="button1-left"><div class="refresh"><a onclick="submitForm( adminForm, 'preinstall' );" alt="<jtmpl:translate escape="yes">Check Again</jtmpl:translate>"><jtmpl:translate escape="yes">Check Again</jtmpl:translate></a></div></div>
-					<div class="button1-right"><div class="prev"><a onclick="submitForm( adminForm, 'lang' );" alt="<jtmpl:translate escape="yes">Previous</jtmpl:translate>"><jtmpl:translate escape="yes">Previous</jtmpl:translate></a></div></div>
-					<div class="button1-left"><div class="next"><a onclick="submitForm( adminForm, 'license' );" alt="<jtmpl:translate escape="yes">Next</jtmpl:translate>"><jtmpl:translate escape="yes">Next</jtmpl:translate></a></div></div>
+						</jtmpl:sub>
+					</jtmpl:tmpl>
 				</div>
 				<span class="step"><jtmpl:translate>Pre-Installation check</jtmpl:translate></span>
 			</div>
@@ -40,7 +49,7 @@
 								<td class="item" valign="top">
 									<jtmpl:translate>{LABEL}</jtmpl:translate>
 								</td>
-								<td align="left" valign="top">
+								<td align={ALIGN} valign="top">
 									<span class="{STATE}">
 									<jtmpl:var name="statetext" copyFrom="state" modifier="translate" />
 									</span>

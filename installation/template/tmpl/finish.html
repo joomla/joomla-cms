@@ -13,8 +13,17 @@
 		<div id="step">
 			<div id="steppad">
 				<div class="far-right">
-					<div class="button1-left"><div class="site"><a onclick="window.location.href='{VAR_SITEURL}';" alt="<jtmpl:translate escape="yes">Site</jtmpl:translate>"><jtmpl:translate escape="yes">Site</jtmpl:translate></a></div></div>
-						<div class="button1-left"><div class="admin"><a onclick="window.location.href='{VAR_ADMINURL}';" alt="<jtmpl:translate escape="yes">Admin</jtmpl:translate>"><jtmpl:translate escape="yes">Admin</jtmpl:translate></a></div></div>
+					<jtmpl:tmpl name="buttons" type="condition" conditionvar="direction">
+						<jtmpl:sub condition="ltr">
+							<div class="button1-left"><div class="site"><a onclick="window.location.href='{VAR_SITEURL}';" alt="<jtmpl:translate escape="yes">Site</jtmpl:translate>"><jtmpl:translate escape="yes">Site</jtmpl:translate></a></div></div>
+							<div class="button1-left"><div class="admin"><a onclick="window.location.href='{VAR_ADMINURL}';" alt="<jtmpl:translate escape="yes">Admin</jtmpl:translate>"><jtmpl:translate escape="yes">Admin</jtmpl:translate></a></div></div>
+						</jtmpl:sub>
+						<jtmpl:sub condition="rtl">
+							<div class="button1-left"><div class="admin"><a onclick="window.location.href='{VAR_ADMINURL}';" alt="<jtmpl:translate escape="yes">Admin</jtmpl:translate>"><jtmpl:translate escape="yes">Admin</jtmpl:translate></a></div></div>
+							<div class="button1-left"><div class="site"><a onclick="window.location.href='{VAR_SITEURL}';" alt="<jtmpl:translate escape="yes">Site</jtmpl:translate>"><jtmpl:translate escape="yes">Site</jtmpl:translate></a></div></div>
+						</jtmpl:sub>
+					</jtmpl:tmpl>
+				</div>
 				</div>
 				<span class="step"><jtmpl:translate>Choose Language</jtmpl:translate></span>
 			</div>

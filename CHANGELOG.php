@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+24-Feb-2006 David Gal
+  + Added RTL support to new installation program UI
+  
 23-Feb-2006 Johan Janssens
   ^ Renamed mossef content plugin to sef
   ^ Renamed moscode content plugin to code
