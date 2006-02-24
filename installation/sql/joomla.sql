@@ -470,6 +470,7 @@ INSERT INTO `#__modules` VALUES (34, 'Syndication', '', 3, 'left', 0, '0000-00-0
 INSERT INTO `#__modules` VALUES (35, 'Admin Menu','', 1,'menu', 0,'0000-00-00 00:00:00', 1,'mod_menu', 0, 23, 1, '', 0, 1);
 INSERT INTO `#__modules` VALUES (36, 'Admin SubMenu','', 1,'submenu', 0,'0000-00-00 00:00:00', 1,'mod_submenu', 0, 23, 1, '', 0, 1);
 INSERT INTO `#__modules` VALUES (37, 'User Status','', 1,'status', 0,'0000-00-00 00:00:00', 1,'mod_status', 0, 23, 1, '', 0, 1);
+INSERT INTO `#__modules` VALUES (38, 'Title','', 1,'title', 0,'0000-00-00 00:00:00', 1,'mod_title', 0, 23, 1, '', 0, 1);
 
 # --------------------------------------------------------
 
@@ -720,6 +721,7 @@ INSERT INTO `#__template_positions` VALUES (0, 'icon', '');
 INSERT INTO `#__template_positions` VALUES (0, 'debug', '');
 INSERT INTO `#__template_positions` VALUES (0, 'submenu', '');
 INSERT INTO `#__template_positions` VALUES (0, 'status', '');
+INSERT INTO `#__template_positions` VALUES (0, 'title', '');
 # --------------------------------------------------------
 
 #

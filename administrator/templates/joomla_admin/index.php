@@ -56,6 +56,7 @@ $lang =& $mainframe->getLanguage();
 <tr>
 	<td class="menudottedline" align="<?php echo $lang->isRTL() ? 'left' : 'right'; ?>">
 		<jdoc:include type="modules" name="toolbar" />
+		<jdoc:include type="modules" name="title" />
 	</td>
 </tr>
 </table>

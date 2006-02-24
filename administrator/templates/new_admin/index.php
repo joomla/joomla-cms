@@ -70,6 +70,7 @@ $lang =& $mainframe->getLanguage();
 							<div class="toolbar-box">
 								<div class="toolbar-pad">
 										<jdoc:include type="modules" name="toolbar" />
+										<jdoc:include type="modules" name="title" />
 										<div class="clr"></div>
 								</div>
 								<div class="clr"></div>

@@ -26,17 +26,4 @@ $bar = & JToolBar::getInstance('JComponent');
 
 // Render the toolbar
 echo $bar->render('JComponent');
-
-/*
- * Get the component title div
- */
-$title = $mainframe->get('JComponentTitle');
-
-/*
- * Echo title if it exists
- */
-if (!empty($title))
-{
-	echo $title;
-}
 ?>

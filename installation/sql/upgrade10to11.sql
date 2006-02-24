@@ -69,6 +69,7 @@ INSERT INTO `jos_modules` VALUES (1002, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '
 INSERT INTO `jos_modules` VALUES (1003, 'Admin Menu','', 1,'menu', 0,'0000-00-00 00:00:00', 1,'mod_menu', 0, 23, 1, '', 0, 1);
 INSERT INTO `jos_modules` VALUES (1004, 'Admin SubMenu','', 1,'submenu', 0,'0000-00-00 00:00:00', 1,'mod_submenu', 0, 23, 1, '', 0, 1);
 INSERT INTO `jos_modules` VALUES (1005, 'User Status','', 1,'status', 0,'0000-00-00 00:00:00', 1,'mod_status', 0, 23, 1, '', 0, 1);
+INSERT INTO `jos_modules` VALUES (1006, 'Title','', 1,'title', 0,'0000-00-00 00:00:00', 1,'mod_title', 0, 23, 1, '', 0, 1);
 
 INSERT INTO `jos_modules_menu` VALUES (1000,0);
 INSERT INTO `jos_modules_menu` VALUES (1001,0);
@@ -115,6 +116,7 @@ ALTER TABLE `jos_components` ADD `enabled` TINYINT NOT NULL ;
 INSERT INTO `jos_template_positions` VALUES (0, 'breadcrumb', '');
 INSERT INTO `jos_template_positions` VALUES (0, 'submenu', '');
 INSERT INTO `jos_template_positions` VALUES (0, 'status', '');
+INSERT INTO `jos_template_positions` VALUES (0, 'title', '');
 
 #JJ: 21-Feb-2006
 # Add client id to session table
