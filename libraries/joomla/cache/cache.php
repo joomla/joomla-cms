@@ -74,16 +74,23 @@ class JCache extends Cache_Lite
 		}
 		
 		/*
-		 * Add the application specific subdirectory for cache paths
+		 * If we are in the installation application, we don't need to be
+		 * creating any directories
 		 */
-		$this->_cacheDir .= ($mainframe->getClientId()) ? 'administrator'.DS : 'site'.DS;
-
-		/*
-		 * Create cache directory if not present
-		 */
-		if (!JFolder::exists($this->_cacheDir))
+		if ($mainframe->getClientId() != 2)
 		{
-			JFolder::create($this->_cacheDir);
+			/*
+			 * Add the application specific subdirectory for cache paths
+			 */
+			$this->_cacheDir .= ($mainframe->getClientId()) ? 'administrator'.DS : 'site'.DS;
+	
+			/*
+			 * Create cache directory if not present
+			 */
+			if (!JFolder::exists($this->_cacheDir))
+			{
+				JFolder::create($this->_cacheDir);
+			}
 		}
 		
 		$this->Cache_Lite($options);
@@ -174,7 +181,7 @@ class JCache extends Cache_Lite
 			 * Build the cache directory
 			 */
 			$baseDir = $mainframe->getCfg('cachepath');
-			$baseDir .= ($mainframe->getClient()) ? DS.'administrator'.DS : DS.'site'.DS;
+			$baseDir .= ($mainframe->getClientId()) ? DS.'administrator'.DS : DS.'site'.DS;
 			$path = JPath :: clean($baseDir);
 			$files = JFolder :: files($path, '.xml');
 			foreach ($files as $file)
