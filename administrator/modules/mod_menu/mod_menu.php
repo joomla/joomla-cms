@@ -242,7 +242,7 @@ class JAdminMenu {
 	 */
 		if ($installPlugins | $editAllPlugins) 	{
 			if ($editAllPlugins) {
-				$pluginsList[] = array( 'title' => JText::_('Site Plugins'), 'link' => 'index2.php?option=com_plugins', 'class' => JAdminMenu::getIconClass('class:plugin', $css) );
+				$pluginsList[] = array( 'title' => JText::_('Plugin Manager'), 'link' => 'index2.php?option=com_plugins', 'class' => JAdminMenu::getIconClass('class:plugin', $css) );
 			}
 			echo JAdminMenu::buildDiv ( JText::_('Plugins'), $pluginsList );
 		}

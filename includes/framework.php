@@ -16,7 +16,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 @set_magic_quotes_runtime( 0 );
 
-if (!file_exists( JPATH_SITE . DS .'configuration.php' )) {
+if (!file_exists( JPATH_SITE . DS .'configuration.php' ) || (filesize( JPATH_SITE . DS . 'configuration.php' ) > 10)) {
 	header( 'Location: installation/index.php' );
 	exit();
 }
