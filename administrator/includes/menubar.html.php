@@ -118,31 +118,9 @@ class JMenuBar
 	*/
 	function preview($url = '', $updateEditors = false)
 	{
-		global $mainframe;
-
-		$image2 = mosAdminMenus :: ImageCheckAdmin('preview_f2.png', '/images/', NULL, NULL, 'Preview', 'preview', 1);
-?>
-		<td>
-			<script language="javascript" type="text/javascript">
-			function popup() {
-				<?php
-
-		if ($updateEditors)
-		{
-			$editor = & JEditor :: getInstance();
-			echo $editor->getEditorContents('editor1', 'introtext');
-			echo $editor->getEditorContents('editor2', 'fulltext');
-		}
-?>
-				window.open('<? echo $url."&task=preview"; ?>', 'win1', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');
-			}
-			</script>
-			<a class="toolbar" onclick="popup();">
-				<?php echo $image2; ?>
-				<br /><?php echo JText::_( 'Preview' ); ?></a>
-		</td>
-		<?php
-
+		$bar = & JToolBar :: getInstance('JComponent');
+		// Add a preview button
+		$bar->appendButton( 'Preview', $url, $updateEditors );
 	}
 
 	/**
