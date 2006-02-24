@@ -21,20 +21,13 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class TOOLBAR_newsfeeds  {
 	function _DEFAULT() {
-		JMenuBar::startTable();
 		JMenuBar::title(  JText::_( 'Newsfeed Manager' ) );
 		JMenuBar::publishList();
-		JMenuBar::spacer();
 		JMenuBar::unpublishList();
-		JMenuBar::spacer();
 		JMenuBar::deleteList();
-		JMenuBar::spacer();
 		JMenuBar::editListX();
-		JMenuBar::spacer();
 		JMenuBar::addNewX();
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.newsfeeds' );
-		JMenuBar::endTable();
 	}
 
 	function _EDIT() {
@@ -42,25 +35,19 @@ class TOOLBAR_newsfeeds  {
 
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 		
-		JMenuBar::startTable();
 		JMenuBar::title(  JText::_( 'Newsfeed' ).': <small><small>[ '. $text.' ]</small></small>' );
 		if ($id) {
 			JMenuBar::trash('remove', 'Delete', false);
-			JMenuBar::spacer();
 		}
 		JMenuBar::apply();
-		JMenuBar::spacer();
 		JMenuBar::save();
-		JMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
 			JMenuBar::cancel();
 		}
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.newsfeeds.edit' );
-		JMenuBar::endTable();
 	}
 }
 ?>

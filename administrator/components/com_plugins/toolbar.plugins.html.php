@@ -25,38 +25,26 @@ class TOOLBAR_modules {
 
 		$text = $id ? JText::_('Edit') : JText::_('New');
 
-		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'Site Plugin' ) .': <small><small>[' .$text. ']</small></small>', 'module.png' );
+		JMenuBar::title( JText::_( 'Plugin' ) .': <small><small>[' .$text. ']</small></small>', 'module.png' );
 		JMenuBar::save();
-		JMenuBar::spacer();
 		JMenuBar::apply();
-		JMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
 			JMenuBar::cancel();
 		}
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.plugins.edit' );
-		JMenuBar::endTable();
 	}
 
 	function _DEFAULT() {
-		JMenuBar::startTable();
-		JMenuBar::title( JText::_( 'Plugin Manager' ) .': <small><small>['. JText::_( 'Site' ) .']</small></small>', 'module.png' );
+		JMenuBar::title( JText::_( 'Plugin Manager' ), 'module.png' );
 		JMenuBar::publishList();
-		JMenuBar::spacer();
 		JMenuBar::unpublishList();
-		JMenuBar::spacer();
 		JMenuBar::deleteList();
-		JMenuBar::spacer();
 		JMenuBar::editListX();
-		JMenuBar::spacer();
 		JMenuBar::addNewX();
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.plugins' );
-		JMenuBar::endTable();
 	}
 }
 ?>

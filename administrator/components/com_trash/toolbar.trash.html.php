@@ -29,30 +29,20 @@ class TOOLBAR_Trash {
 			$text = ': <small><small>['. JText::_( 'Content Items' ) .']</small></small>';
 		}
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Trash Manager' ) . $text, 'trash.png' );
 		JMenuBar::custom('restoreconfirm','restore.png','restore_f2.png', JText::_( 'Restore' ), true);
-		JMenuBar::spacer();
 		JMenuBar::custom('deleteconfirm','delete.png','delete_f2.png', JText::_( 'Delete' ), true);
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.trashmanager' );
-		JMenuBar::endTable();
 	}
 
 	function _RESTORE() {
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Restore Items' ), 'restoredb.png' );
-		JMenuBar::spacer();
 		JMenuBar::cancel();
-		JMenuBar::endTable();
 	}
 
 	function _DELETE() {
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Delete Items' ), 'delete_f2.png' );
-		JMenuBar::spacer();
 		JMenuBar::cancel();
-		JMenuBar::endTable();
 	}
 }
 ?>

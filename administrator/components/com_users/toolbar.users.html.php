@@ -28,37 +28,26 @@ class TOOLBAR_users {
 
 		$text = $id ? JText::_( 'Edit' ) : JText::_( 'Add' );
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'User' ) .': <small><small>[ '. $text.' ]</small></small>', 'user.png' );
 		JMenuBar::save();
-		JMenuBar::spacer();
 		JMenuBar::apply();
-		JMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
 			JMenuBar::cancel();
 		}
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.users.edit' );
-		JMenuBar::endTable();
 	}
 
 	function _DEFAULT() {
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'User Manager' ), 'user.png' );
 		JMenuBar::custom( 'logout', 'cancel.png', 'cancel_f2.png', '&nbsp;'. JText::_( 'Logout' ) );
-		JMenuBar::spacer();
 		JMenuBar::deleteList();
-		JMenuBar::spacer();
 		JMenuBar::editListX();
-		JMenuBar::spacer();
 		JMenuBar::addNewX();
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.users' );
-		JMenuBar::endTable();
 	}
 }
 ?>

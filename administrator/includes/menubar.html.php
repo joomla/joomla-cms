@@ -346,7 +346,7 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function editHtml($task = 'edit_source', $alt = '')
+	function editHtml($task = 'edit_source', $alt = 'Edit HTML')
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add an edit html button
@@ -360,7 +360,7 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function editHtmlX($task = 'edit_source', $alt = '')
+	function editHtmlX($task = 'edit_source', $alt = 'Edit HTML')
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add an edit html button (hide)
@@ -373,7 +373,7 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function editCss($task = 'edit_css', $alt = '')
+	function editCss($task = 'edit_css', $alt = 'Edit CSS')
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add an edit css button (hide)
@@ -387,7 +387,7 @@ class JMenuBar
 	* @param string An override for the alt text
 	* @since 1.0
 	*/
-	function editCssX($task = 'edit_css', $alt = '')
+	function editCssX($task = 'edit_css', $alt = 'Edit CSS')
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add an edit css button (hide)

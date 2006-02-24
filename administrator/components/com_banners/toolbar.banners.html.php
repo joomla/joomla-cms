@@ -31,48 +31,32 @@ class TOOLBAR_banners {
 		}
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Banner' ) .': <small><small>[ '. $text.' ]</small></small>', 'generic.png' );
 		JMenuBar::media_manager( 'banners' );
-		JMenuBar::spacer();
 		if ($id) {
 			JMenuBar::trash('remove', 'Delete', false);
-			JMenuBar::spacer();
 		}
 		JMenuBar::apply();
-		JMenuBar::spacer();
 		JMenuBar::save();
-		JMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
 			JMenuBar::cancel();
 		}
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.banners.edit' );
-		JMenuBar::endTable();
 	}
 	
 	function _DEFAULT() {
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Banner Manager' ), 'generic.png' );
 		JMenuBar::media_manager( 'banners' );
-		JMenuBar::spacer();
 		JMenuBar::publishList();
-		JMenuBar::spacer();
 		JMenuBar::unpublishList();
-		JMenuBar::spacer();
 		JMenuBar::deleteList();
-		JMenuBar::spacer();
 		JMenuBar::editListX();
-		JMenuBar::spacer();
 		JMenuBar::addNewX();
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.banners' );
-		JMenuBar::spacer();
-		JMenuBar::endTable();
 	}
 }
 
@@ -91,40 +75,30 @@ class TOOLBAR_bannerClient {
 		}
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Banner Client' ) .': <small><small>[ '. $text.' ]</small></small>', 'generic.png' );
 		if ($id) {
 			JMenuBar::trash('removeclients', 'Delete', false);
-			JMenuBar::spacer();
 		}
 		JMenuBar::apply('applyclient');
 		JMenuBar::save( 'saveclient' );
-		JMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancelclient', JText::_( 'Close' ) );
 		} else {
 			JMenuBar::cancel( 'cancelclient' );
 		}
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.banners.client.edit' );
-		JMenuBar::endTable();
 	}
 	
 	/**
 	* Draws the default menu
 	*/
 	function _DEFAULT() {
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Banner Client Manager' ), 'generic.png' );
 		JMenuBar::deleteList( '', 'removeclients' );
-		JMenuBar::spacer();
 		JMenuBar::editListX( 'editclient' );
-		JMenuBar::spacer();
 		JMenuBar::addNewX( 'newclient' );
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.banners.client' );
-		JMenuBar::endTable();
 	}
 }
 ?>

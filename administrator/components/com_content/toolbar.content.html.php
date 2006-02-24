@@ -22,83 +22,55 @@ class TOOLBAR_content {
 		
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 		
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Content Item' ).': <small><small>[ '. $text.' ]</small></small>', 'addedit.png' );
 		JMenuBar::preview( 'index3.php?option=com_content&id='.$id, true );
-		JMenuBar::spacer();
 		JMenuBar::media_manager();
-		JMenuBar::spacer();
 		JMenuBar::trash('remove', 'Trash', false);
-		JMenuBar::spacer();
 		JMenuBar::save();
-		JMenuBar::spacer();
 		JMenuBar::apply();
-		JMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
 			JMenuBar::cancel();
 		}
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.content.edit' );
-		JMenuBar::endTable();
 	}
 
 	function _ARCHIVE() {
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Archive Manager' ), 'addedit.png' );
 		JMenuBar::unarchiveList();
-		JMenuBar::spacer();
 		JMenuBar::custom( 'remove', 'delete.png', 'delete_f2.png', JText::_( 'Trash' ), false );
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.content.archive' );
-		JMenuBar::endTable();
 	}
 
 	function _MOVE() {
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Move Content Items' ), 'move_f2.png' );
 		JMenuBar::custom( 'movesectsave', 'save.png', 'save_f2.png', JText::_( 'Save' ), false );
-		JMenuBar::spacer();
 		JMenuBar::cancel();
-		JMenuBar::endTable();
 	}
 
 	function _COPY() {
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Copy Content Items' ), 'copy_f2.png' );
 		JMenuBar::custom( 'copysave', 'save.png', 'save_f2.png', JText::_( 'Save' ), false );
-		JMenuBar::spacer();
 		JMenuBar::cancel();
-		JMenuBar::endTable();
 	}
 
 	function _DEFAULT() {
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Content Items Manager' ), 'addedit.png' );
 		JMenuBar::archiveList();
-		JMenuBar::spacer();
 		JMenuBar::publishList();
-		JMenuBar::spacer();
 		JMenuBar::unpublishList();
-		JMenuBar::spacer();
 		JMenuBar::customX( 'movesect', 'move.png', 'move_f2.png', JText::_( 'Move' ) );
-		JMenuBar::spacer();
 		JMenuBar::customX( 'copy', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ) );
-		JMenuBar::spacer();
 		JMenuBar::trash();
-		JMenuBar::spacer();
 		JMenuBar::editListX( 'editA' );
-		JMenuBar::spacer();
 		JMenuBar::addNewX();
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.content' );
-		JMenuBar::endTable();
 	}
 }
 ?>

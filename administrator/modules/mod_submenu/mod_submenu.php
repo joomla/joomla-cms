@@ -161,6 +161,12 @@ class JAdminSubMenu
 
 	function buildList($list, $suffix = '-smenu')
 	{
+
+		if (!is_array($list) || !count($list))
+		{
+			return null;
+		}
+		
 		$txt = "<ul>\n";
 
 		/*

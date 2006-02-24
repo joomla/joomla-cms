@@ -22,48 +22,32 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class TOOLBAR_messages {
 	function _VIEW() {
 
-		JMenuBar::startTable();
 		JMenuBar::title(  JText::_( 'View Private Message' ), 'inbox.png' );
 		JMenuBar::customX('reply', 'restore.png', 'restore_f2.png', JText::_( 'Reply' ), false );
-		JMenuBar::spacer();
 		JMenuBar::deleteList();
-		JMenuBar::spacer();
 		JMenuBar::cancel();
-		JMenuBar::endTable();
 	}
 
 	function _EDIT() {
 
-		JMenuBar::startTable();
 		JMenuBar::title(  JText::_( 'New Private Message' ), 'inbox.png' );
 		JMenuBar::save( 'save', JText::_( 'Send' ) );
-		JMenuBar::spacer();
 		JMenuBar::cancel();
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.messages.edit' );
-		JMenuBar::endTable();
 	}
 
 	function _CONFIG() {
-		JMenuBar::startTable();
 		JMenuBar::title(  JText::_( 'Private Messaging Configuration' ), 'inbox.png' );
 		JMenuBar::save( 'saveconfig' );
-		JMenuBar::spacer();
 		JMenuBar::cancel( 'cancelconfig' );
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.messages.conf' );
-		JMenuBar::endTable();
 	}
 
 	function _DEFAULT() {
-		JMenuBar::startTable();
 		JMenuBar::title(  JText::_( 'Private Messaging' ), 'inbox.png' );
 		JMenuBar::deleteList();
-		JMenuBar::spacer();
 		JMenuBar::addNewX();
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.messages.inbox' );
-		JMenuBar::endTable();
 	}
 }
 ?>

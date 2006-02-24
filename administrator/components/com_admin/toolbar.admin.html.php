@@ -22,40 +22,27 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class TOOLBAR_admin {
 	function _SYSINFO() {
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Information' ), 'systeminfo.png' );
 		JMenuBar::help( 'screen.system.info' );
-		JMenuBar::endTable();
 	}
 
 	function _CPANEL() {
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Control Panel' ), 'cpanel.png' );
 		JMenuBar::help( 'screen.cpanel' );
-		JMenuBar::endTable();
 	}
 
 	function _HELP() {
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Help' ), 'help_header.png' );
-		JMenuBar::spacer();
-		JMenuBar::endTable();
 	}
 
 	function _PREVIEW() {
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Preview' ) );
-		JMenuBar::spacer();
-		JMenuBar::endTable();
 	}
 
 	function _DEFAULT() {
-		JMenuBar::startTable();
-		JMenuBar::spacer();
-		JMenuBar::endTable();
 	}
 }
 ?>

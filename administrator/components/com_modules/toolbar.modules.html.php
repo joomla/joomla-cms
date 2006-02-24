@@ -21,14 +21,10 @@ class TOOLBAR_modules {
 	* Draws the menu for a New module
 	*/
 	function _NEW($client)	{
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'New Module' ).': <small><small>['. JText::_( $client ) .']</small></small>', 'module.png' );
 		JMenuBar::customX( 'edit', 'next.png', 'next_f2.png', JText::_( 'Next' ), true );
-		JMenuBar::spacer();
 		JMenuBar::cancel();
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.modules.new' );
-		JMenuBar::endTable();
 	}
 
 	/**
@@ -39,45 +35,31 @@ class TOOLBAR_modules {
 		
 		$moduleType = mosGetParam( $_REQUEST, 'module', '' );
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Module' ) .' <small>'. JText::_( $client ) .'</small>: <small><small>[ Edit ]</small></small>', 'module.png' );
 
 		if($moduleType == 'custom') {
 			JMenuBar::Preview('index3.php?option=com_modules&client='.$client.'&pollid='.$id);
-			JMenuBar::spacer();
 		}
 		JMenuBar::save();
-		JMenuBar::spacer();
 		JMenuBar::apply();
-		JMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
 			JMenuBar::cancel();
 		}
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.modules.edit' );
-		JMenuBar::endTable();
 	}
 	function _DEFAULT($client) {
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Module Manager' ).': <small><small>[' .JText::_( $client ) .']</small></small>', 'module.png' );
 		JMenuBar::publishList();
-		JMenuBar::spacer();
 		JMenuBar::unpublishList();
-		JMenuBar::spacer();
 		JMenuBar::custom( 'copy', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), true );
-		JMenuBar::spacer();
 		JMenuBar::deleteList();
-		JMenuBar::spacer();
 		JMenuBar::editListX();
-		JMenuBar::spacer();
 		JMenuBar::addNewX();
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.modules' );
-		JMenuBar::endTable();
 	}
 }
 ?>

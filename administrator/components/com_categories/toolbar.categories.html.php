@@ -26,23 +26,17 @@ class TOOLBAR_categories {
 
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Category' ) .': <small><small>[ '. $text.' ]</small></small>', 'categories.png' );
 		JMenuBar::media_manager();
-		JMenuBar::spacer();
 		JMenuBar::save();
-		JMenuBar::spacer();
 		JMenuBar::apply();
-		JMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
 			JMenuBar::cancel();
 		}
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.categories.edit' );
-		JMenuBar::endTable();
 	}
 	/**
 	* Draws the menu for Moving existing categories
@@ -50,12 +44,9 @@ class TOOLBAR_categories {
 	*/
 	function _MOVE() {
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Move Category' ) );
 		JMenuBar::save( 'movesave' );
-		JMenuBar::spacer();
 		JMenuBar::cancel();
-		JMenuBar::endTable();
 	}
 	/**
 	* Draws the menu for Copying existing categories
@@ -63,12 +54,9 @@ class TOOLBAR_categories {
 	*/
 	function _COPY() {
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Copy Category' ) );
 		JMenuBar::save( 'copysave' );
-		JMenuBar::spacer();
 		JMenuBar::cancel();
-		JMenuBar::endTable();
 	}
 	/**
 	* Draws the menu for Editing an existing category
@@ -77,26 +65,17 @@ class TOOLBAR_categories {
 
 		$section = mosGetParam( $_REQUEST, 'section', '' );
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Category Manager' ), 'categories.png' );
 		JMenuBar::publishList();
-		JMenuBar::spacer();
 		JMenuBar::unpublishList();
-		JMenuBar::spacer();
 		if ( $section == 'content' || ( $section > 0 ) ) {
 			JMenuBar::customX( 'moveselect', 'move.png', 'move_f2.png', JText::_( 'Move' ), true );
-			JMenuBar::spacer();
 			JMenuBar::customX( 'copyselect', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), true );
-			JMenuBar::spacer();
 		}
 		JMenuBar::deleteList();
-		JMenuBar::spacer();
 		JMenuBar::editListX();
-		JMenuBar::spacer();
 		JMenuBar::addNewX();
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.categories' );
-		JMenuBar::endTable();
 	}
 }
 ?>

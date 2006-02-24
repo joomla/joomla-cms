@@ -19,30 +19,22 @@
 class TOOLBAR_installer
 {
 	function _DEFAULT()	{
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Extension Manager' ), 'install.png' );
 		JMenuBar::help( 'screen.installer' );
-		JMenuBar::endTable();
 	}
 
 	function _DEFAULT2()	{
 
 		$type = mosGetParam($_REQUEST, 'extension');
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Extension Manager'), 'install.png' );
 		JMenuBar::deleteList( '', 'remove', JText::_( 'Uninstall' ) );
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.installer2' );
-		JMenuBar::endTable();
 	}
 
 	function _NEW()	{
-		JMenuBar::startTable();
 		JMenuBar::save();
-		JMenuBar::spacer();
 		JMenuBar::cancel();
-		JMenuBar::endTable();
 	}
 }
 ?>

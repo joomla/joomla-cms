@@ -22,18 +22,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class TOOLBAR_FrontPage {
 	function _DEFAULT() {
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Frontpage Manager' ), 'frontpage.png' );
 		JMenuBar::archiveList();
-		JMenuBar::spacer();
 		JMenuBar::publishList();
-		JMenuBar::spacer();
 		JMenuBar::unpublishList();
-		JMenuBar::spacer();
 		JMenuBar::custom('remove','delete.png','delete_f2.png',JText::_( 'Remove' ), true);
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.frontpage' );
-		JMenuBar::endTable();
 	}
 }
 ?>

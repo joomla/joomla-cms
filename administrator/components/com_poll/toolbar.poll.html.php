@@ -28,44 +28,30 @@ class TOOLBAR_poll {
 		
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );		
 
-		JMenuBar::startTable();
 		JMenuBar::title(  JText::_( 'Poll' ).': <small><small>[ ' . $text.' ]</small></small>' );
 		JMenuBar::Preview('index3.php?option=com_poll&pollid='.$pollid);
 		if ($id) {
 			JMenuBar::trash('remove', 'Delete', false);
-			JMenuBar::spacer();
 		}
-		JMenuBar::spacer();
 		JMenuBar::apply();
-		JMenuBar::spacer();
 		JMenuBar::save();
-		JMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', JText::_( 'Close' ) );
 		} else {
 			JMenuBar::cancel();
 		}
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.polls.edit' );
-		JMenuBar::endTable();
 	}
 	
 	function _DEFAULT() {
-		JMenuBar::startTable();
 		JMenuBar::title(  JText::_( 'Poll Manager' ) );
 		JMenuBar::publishList();
-		JMenuBar::spacer();
 		JMenuBar::unpublishList();
-		JMenuBar::spacer();
 		JMenuBar::deleteList();
-		JMenuBar::spacer();
 		JMenuBar::editListX();
-		JMenuBar::spacer();
 		JMenuBar::addNewX();
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.polls' );
-		JMenuBar::endTable();
 	}
 }
 ?>

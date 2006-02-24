@@ -22,52 +22,32 @@ class TOOLBAR_typedcontent {
 		
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 		
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Static Content Item' ).': <small>'. $text .'</small>', 'addedit.png' );
 		JMenuBar::preview( 'contentwindow', true );
-		JMenuBar::spacer();
 		JMenuBar::media_manager();
-		JMenuBar::spacer();
 		JMenuBar::trash('remove', 'Trash', false);
-		JMenuBar::spacer();
 		JMenuBar::save();
-		JMenuBar::spacer();
 		JMenuBar::apply();
-		JMenuBar::spacer();
 		JMenuBar::cancel();
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.staticcontent.edit' );
-		JMenuBar::endTable();
 	}
 
 	function _MOVE() {		
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Move Static Content' ), 'move_f2.png' );
 		JMenuBar::custom( 'movesave', 'save.png', 'save_f2.png', JText::_( 'Save' ), false );
-		JMenuBar::spacer();
 		JMenuBar::cancel();
-		JMenuBar::endTable();
 	}
 	
 	function _DEFAULT() {
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Static Content Manager' ), 'addedit.png' );
 		JMenuBar::publishList();
-		JMenuBar::spacer();
 		JMenuBar::unpublishList();
-		JMenuBar::spacer();
 		JMenuBar::customX( 'move', 'move.png', 'move_f2.png', JText::_( 'Move' ) );
-		JMenuBar::spacer();
 		JMenuBar::customX( 'copy', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ) );
-		JMenuBar::spacer();
 		JMenuBar::trash();
-		JMenuBar::spacer();
 		JMenuBar::editListX( 'editA' );
-		JMenuBar::spacer();
 		JMenuBar::addNewX();
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.staticcontent' );
-		JMenuBar::endTable();
 	}
 }
 ?>

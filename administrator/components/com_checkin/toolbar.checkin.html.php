@@ -25,10 +25,8 @@ class TOOLBAR_checkin {
 	*/
 	function _DEFAULT() {
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Global Check-in' ), 'checkin.png' );
 		JMenuBar::help( 'screen.checkin' );
-		JMenuBar::endTable();
 	}
 }
 ?>

@@ -25,14 +25,10 @@ class TOOLBAR_menus {
 	*/
 	function _NEW()	{
 
-		JMenuBar::startTable();
 		JMenuBar::title(  JText::_( 'New Menu Item' ), 'menu.png' );
 		JMenuBar::customX( 'edit', 'next.png', 'next_f2.png', JText::_( 'Next' ), true );
-		JMenuBar::spacer();
 		JMenuBar::cancel();
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.menus.new' );
-		JMenuBar::endTable();
 	}
 
 	/**
@@ -40,14 +36,10 @@ class TOOLBAR_menus {
 	*/
 	function _MOVEMENU()	{
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Move Menu Items' ) );
 		JMenuBar::custom( 'movemenusave', 'move.png', 'move_f2.png', JText::_( 'Move' ), false );
-		JMenuBar::spacer();
 		JMenuBar::cancel( 'cancelmovemenu' );
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.menus.move' );
-		JMenuBar::endTable();
 	}
 
 	/**
@@ -55,14 +47,10 @@ class TOOLBAR_menus {
 	*/
 	function _COPYMENU()	{
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Copy Menu Items' ) );
 		JMenuBar::custom( 'copymenusave', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), false );
-		JMenuBar::spacer();
 		JMenuBar::cancel( 'cancelcopymenu' );
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.menus.copy' );
-		JMenuBar::endTable();
 	}
 
 	/**
@@ -77,51 +65,35 @@ class TOOLBAR_menus {
 		}
 		$menutype 	= mosGetParam( $_REQUEST, 'menutype', 'mainmenu' );
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Edit Menu Item' ), 'generic.png' );
 		if ( !$id ) {
 			$link = 'index2.php?option=com_menus&menutype='. $menutype .'&task=new&hidemainmenu=1';
 			JMenuBar::back( 'Back', $link );
-			JMenuBar::spacer();
 		}
 		JMenuBar::trash('remove', 'Trash', false);
-		JMenuBar::spacer();
 		JMenuBar::save();
-		JMenuBar::spacer();
 		JMenuBar::apply();
-		JMenuBar::spacer();
 		if ( $id ) {
 			// for existing content items the button is renamed `close`
 			JMenuBar::cancel( 'cancel', 'Close' );
 		} else {
 			JMenuBar::cancel();
 		}
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.menus.edit' );
-		JMenuBar::endTable();
 	}
 
 	function _DEFAULT() {
 		$menutype 	= mosGetParam( $_REQUEST, 'menutype', 'mainmenu' );
 
-		JMenuBar::startTable();
 		JMenuBar::title( JText::_( 'Menu Manager' ) .': <small><small>['.$menutype.']</small></small>', 'menu.png' );
 		JMenuBar::publishList();
-		JMenuBar::spacer();
 		JMenuBar::unpublishList();
-		JMenuBar::spacer();
 		JMenuBar::customX( 'movemenu', 'move.png', 'move_f2.png', JText::_( 'Move' ), true );
-		JMenuBar::spacer();
 		JMenuBar::customX( 'copymenu', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), true );
-		JMenuBar::spacer();
 		JMenuBar::trash();
-		JMenuBar::spacer();
 		JMenuBar::editListX();
-		JMenuBar::spacer();
 		JMenuBar::addNewX();
-		JMenuBar::spacer();
 		JMenuBar::help( 'screen.menus' );
-		JMenuBar::endTable();
 	}
 }
 ?>
