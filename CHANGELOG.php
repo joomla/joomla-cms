@@ -39,6 +39,11 @@ Legend:
 
 23-Feb-2006 Johan Janssens
   ^ Renamed mossef content plugin to sef
+  ^ Renamed moscode content plugin to code
+  ^ Renamed mosemailcloak content plugin to emailcloak
+  ^ Renamed mosloadposition content plugin to loadmodule
+  ^ Renamed mospagebreak content plugin to pagebreak
+  ^ Renamed mosvote content plugin to vote
   ^ Fixed language detection
   # Fixed artf3624 : Content priview error with {mosImage}
   # Fixed artf3552 : Typo in mosCommonHTML::menuLinksContent

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <install version="1.1" type="plugin" group="content">
-	<name>mosemailcloak</name>
+	<name>Content - Code Highlighter (Joomla)</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
@@ -8,14 +8,9 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.1</version>
-	<description>DESCMOSEMAILCLOAK</description>
+	<description>Displays formatted code in content items</description>
 	<files>
-		<filename plugin="mosemailcloak">mosemailcloak.php</filename>
+		<filename plugin="code">code.php</filename>
 	</files>
-	<params>
-		<param name="mode" type="list" default="1" label="Mode" description="Select how the emails will be displayed">
-			<option value="0">Nonlinkable Text</option>
-			<option value="1">As linkable mailto address</option>
-		</param>
-	</params>
+	<params/>
 </install>

@@ -13,7 +13,7 @@
 
 // -- Events handling ---------------------------
 
-var mosEvents = { 
+var JEvents = { 
 	//cross-browser event handling by Scott Andrew
 	addEvent : function (elm, evType, fn, useCapture) {
 		if (elm.addEventListener)   { 	//EOMB
@@ -53,7 +53,8 @@ XStandardLite.prototype.init = function()
 	 }
 }
 
-XStandardLite.prototype.getInstances = function() {
+XStandardLite.prototype.getInstances = function() 
+{
 	var objects = new Array();
 	var elements = document.getElementsByTagName('OBJECT');
 	for (var i = 0; i < elements.length; i++) {
@@ -65,11 +66,19 @@ XStandardLite.prototype.getInstances = function() {
   return objects;
 }
 
-XStandardLite.prototype.save = function() {
+XStandardLite.prototype.save = function() 
+{
 	for(var instance in this.instances) {
 		var object = this.instances[instance];
 		object.EscapeUnicode = true;
-		document.getElementById(object.className).value = object.value;
+		
+		var contents = object.value;
+		
+		contents = contents.replace(/<joomla:image\s*.*?\/>/gi, '{image}');
+		contents = contents.replace(/<joomla:pagebreak\s*.*?\/>/gi, '{pagebreak}');
+		contents = contents.replace(/<joomla:readmore\s*.*?\/>/gi, '{readmore}');
+		
+		document.getElementById(object.className).value = contents;
 	}
 }
 
@@ -80,6 +89,6 @@ function onLoad() {
 	xstandard_lite.init();
 } 
 
-mosEvents.addEvent(window, 'load', onLoad, true);
+JEvents.addEvent(window, 'load', onLoad, true);
 
 

@@ -14,9 +14,9 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onBeforeDisplayContent', 'botNavigation' );
+$mainframe->registerEvent( 'onBeforeDisplayContent', 'pluginNavigation' );
 
-function botNavigation( &$row, &$params, $page=0 ) 
+function pluginNavigation( &$row, &$params, $page=0 ) 
 {
 	global $Itemid, $access, $mainframe, $my;
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <install version="1.1" type="plugin" group="content">
-	<name>moscode</name>
+	<name>Content - Vote</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
@@ -8,9 +8,9 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.1</version>
-	<description>Displays formatted code in content items</description>
+	<description>Add the Voting functionality to Items</description>
 	<files>
-		<filename plugin="moscode">moscode.php</filename>
+		<filename plugin="vote">vote.php</filename>
 	</files>
 	<params/>
 </install>

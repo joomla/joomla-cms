@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onPrepareContent', 'convertSEF' );
+$mainframe->registerEvent( 'onPrepareContent', 'pluginSEF' );
 
 /**
 * Converting internal relative links to SEF URLs
@@ -22,7 +22,7 @@ $mainframe->registerEvent( 'onPrepareContent', 'convertSEF' );
 * <b>Usage:</b>
 * <code><a href="...relative link..."></code>
 */
-function convertSEF( &$row, &$params, $page=0 ) 
+function pluginSEF( &$row, &$params, $page=0 ) 
 {
 	global $mainframe;
 	

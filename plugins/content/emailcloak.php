@@ -14,12 +14,13 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onPrepareContent', 'botMosEmailCloak' );
+$mainframe->registerEvent( 'onPrepareContent', 'pluginEmailCloak' );
 
 /**
 * Plugin that Cloaks all emails in content from spambots via javascript
 */
-function botMosEmailCloak( &$row, &$params, $page=0 ) {
+function pluginEmailCloak( &$row, &$params, $page=0 ) 
+{
 	global $database;
 
 	// simple performance check to determine whether bot should process further
@@ -27,16 +28,16 @@ function botMosEmailCloak( &$row, &$params, $page=0 ) {
 		return true;
 	}
 	
- 	$plugin =& JPluginHelper::getPlugin('content', 'mosemailcloak'); 
+ 	$plugin =& JPluginHelper::getPlugin('content', 'emailcloak'); 
 
 	// check whether plugin has been unpublished
 	if ( !$plugin->published ) {
 		return true;
 	}
 
-	// check for presence of {mosemailcloak=off} which is explicits disables this bot for the item
-	if ( !strpos( $row->text, '{mosemailcloak=off}' ) === false ) {		
-		$row->text = str_replace( '{mosemailcloak=off}', '', $row->text );
+	// check for presence of {emailcloak=off} which is explicits disables this bot for the item
+	if ( !strpos( $row->text, '{emailcloak=off}' ) === false ) {		
+		$row->text = str_replace( '{emailcloak=off}', '', $row->text );
 		return true;
 	}
 	

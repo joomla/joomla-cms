@@ -65,7 +65,6 @@ if (isset($_SERVER["HTTP_X_CMS_DIRECTORY_METADATA"])) {
 }
 
 
-
 // Respond
 if (get_magic_quotes_runtime() != 0) {
 	set_magic_quotes_runtime(0);
@@ -77,6 +76,13 @@ echo "<library>";
 	echo "<containers>";
 		// Process folders
 		if ($id == "") {
+			echo ("<container>");
+				echo ("<label>Content Items</label>");
+				echo ("<id>a</id>");
+				echo ("<metadata></metadata>");
+				echo ("<location></location>");
+				echo ("<icon></icon>");
+			echo ("</container>");
 			echo ("<container>");
 				echo ("<label>Special Characters &amp; Symbols</label>");
 				echo ("<id>c</id>");
@@ -111,36 +117,16 @@ echo "<library>";
 	echo ("<objects>");
 		
 		// Process items
-		if ($id == "a") {
-			//This is an example of how to fetch data from a CSV file and format it into XHTML.
-			$row = 0;
-			$name = "";
-			$xhtml = "";
-			$icon = "";
-			
-			if (!($handle = @fopen("cms_directory_example_staff.csv", "r")) === false) {
-				while ($data = fgetcsv($handle, 1000, ",")) {
-					$row++;
-					if($row > 1) {
-						$name = $data[1] . " " . $data[2];
-						$xhtml = "<a href=\"staff.php?id=" . $data[0] . "\">" . $name . "</a> <a href=\"mailto:" . $data[3] . "\"><img src=\"http://xstandard.com/images/mail.gif\" width=\"16\" height=\"16\" alt=\"Email: " . $name . "\" /></a>";
-						if ($data[4] == "M") {
-							$icon = "user-male";
-						} else if ($data[4] == "F") {
-							$icon = "user-female";
-						} else {
-							$icon = "";
-						}
-						echo ("<object>");
-							echo ("<label>" . xs_xhtml_escape($name) . "</label>");
-							echo ("<data>" . xs_xhtml_escape($xhtml) . "</data>");
-							echo ("<icon>" . $icon . "</icon>");
-						echo ("</object>");
-					}
-				}
-				fclose($handle);
-			}
-		} else if ($id == "b") {
+		if ($id == "a") 
+		{
+			echo ("<object>");
+				echo ("<label>test</label>");
+				echo ("<data>test</data>");
+				echo ("<icon>test</icon>");
+			echo ("</object>");
+		} 
+		else if ($id == "b") 
+		{
 			//This is an example of how to read XHTML from a file.
 			echo ("<object>");
 				echo ("<label>Cordless Phone</label>");
@@ -165,7 +151,9 @@ echo "<library>";
 				echo ("<data>" . xs_xhtml_escape(read_from_file("cms-directory-example-product-4.txt")) . "</data>");
 				echo ("<icon></icon>");
 			echo ("</object>");			
-		} else if ($id == "d") {
+		} 
+		else if ($id == "d") 
+		{
 			//This is an example of how create XHTML on the fly.
 			echo ("<object>");
 				echo ("<label>Temperature</label>");

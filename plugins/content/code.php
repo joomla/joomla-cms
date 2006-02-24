@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onPrepareContent', 'botMosCode' );
+$mainframe->registerEvent( 'onPrepareContent', 'pluginCode' );
 
 /**
 * Code Highlighting Plugin
@@ -22,17 +22,18 @@ $mainframe->registerEvent( 'onPrepareContent', 'botMosCode' );
 * <b>Usage:</b>
 * <code>{moscode}...some code...{/moscode}</code>
 */
-function botMosCode( &$row, &$params, $page=0 ) {
+function pluginCode( &$row, &$params, $page=0 ) 
+{
 	// simple performance check to determine whether bot should process further
-	if ( strpos( $row->text, 'moscode' ) === false ) {
+	if ( strpos( $row->text, '{code' ) === false ) {
 		return true;
 	}
 	
 	// define the regular expression for the bot
-	$regex = "#{moscode}(.*?){/moscode}#s";
+	$regex = "#{code}(.*?){/code}#s";
 
 	// Get Plugin info
- 	$plugin =& JPluginHelper::getPlugin('content', 'moscode'); 
+ 	$plugin =& JPluginHelper::getPlugin('content', 'code'); 
 
 	// check whether plugin has been unpublished
 	if (!$plugin->published) {
@@ -42,7 +43,7 @@ function botMosCode( &$row, &$params, $page=0 ) {
 
 
 	// perform the replacement
-	$row->text = preg_replace_callback( $regex, 'botMosCode_replacer', $row->text );
+	$row->text = preg_replace_callback( $regex, 'contentCode_replacer', $row->text );
 
 	return true;
 }
@@ -51,7 +52,8 @@ function botMosCode( &$row, &$params, $page=0 ) {
 * @param array An array of matches (see preg_match_all)
 * @return string
 */
-function botMosCode_replacer( &$matches ) {
+function contentCode_replacer( &$matches ) 
+{
 	$html_entities_match = array("#<#", "#>#");
 	$html_entities_replace = array("&lt;", "&gt;");
 

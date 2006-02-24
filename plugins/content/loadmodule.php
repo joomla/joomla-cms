@@ -1,6 +1,6 @@
 <?php
 /**
-* @version $Id$
+* @version $Id: mosloadposition.php 2412 2006-02-16 17:24:10Z stingrey $
 * @package Joomla
 * @copyright Copyright (C) 2005 Open Source Matters. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -14,24 +14,25 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onPrepareContent', 'botMosLoadPosition' );
+$mainframe->registerEvent( 'onPrepareContent', 'pluginLoadModule' );
 
 /**
 * Plugin that loads module positions within content
 */
-function botMosLoadPosition( &$row, &$params, $page=0 ) {
+function pluginLoadModule( &$row, &$params, $page=0 ) 
+{
 	global $database;
 
 	// simple performance check to determine whether bot should process further
-	if ( strpos( $row->text, 'mosloadposition' ) === false ) {
+	if ( strpos( $row->text, 'loadposition' ) === false ) {
 		return true;
 	}
 	
 	// Get plugin info
-	$plugin =& JPluginHelper::getPlugin('content', 'mosloadposition'); 
+	$plugin =& JPluginHelper::getPlugin('content', 'loadmodule'); 
 
  	// expression to search for
- 	$regex = '/{mosloadposition\s*.*?}/i';
+ 	$regex = '/{loadposition\s*.*?}/i';
 
 	// check whether plugin has been unpublished
 	if ( !$plugin->published ) {
@@ -56,7 +57,8 @@ function botMosLoadPosition( &$row, &$params, $page=0 ) {
 	}
 }
 
-function processPositions ( &$row, &$matches, $count, $regex, $style ) {
+function processPositions ( &$row, &$matches, $count, $regex, $style ) 
+{
 	global $database;
 
 	$query = "SELECT position"
@@ -67,7 +69,7 @@ function processPositions ( &$row, &$matches, $count, $regex, $style ) {
  	$positions 	= $database->loadResultArray();
 
  	for ( $i=0; $i < $count; $i++ ) {
- 		$load = str_replace( 'mosloadposition', '', $matches[0][$i] );
+ 		$load = str_replace( 'oadposition', '', $matches[0][$i] );
  		$load = str_replace( '{', '', $load );
  		$load = str_replace( '}', '', $load );
  		$load = trim( $load );

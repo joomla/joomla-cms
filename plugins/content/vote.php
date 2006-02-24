@@ -14,9 +14,10 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onBeforeDisplayContent', 'botVoting' );
+$mainframe->registerEvent( 'onBeforeDisplayContent', 'pluginVote' );
 
-function botVoting( &$row, &$params, $page=0 ) {
+function pluginVote( &$row, &$params, $page=0 ) 
+{
 	global $Itemid;
 
 	$id 	= $row->id;

@@ -99,7 +99,6 @@ class JEditor_xstandard extends JPlugin {
 		} else {
 			$text_direction = 'ltr';
 		}
-
 		$html = '';
 		ob_start();
 		?> 
@@ -148,9 +147,10 @@ class JEditor_xstandard extends JPlugin {
 }
 
 function convertToXML($content)
-{
-	//replace {jcp:image}
+{	
 	$content = preg_replace( '/{image\s*.*?}/i', '<joomla:image />', $content );
+	$content = preg_replace( '/{pagebreak\s*.*?}/i', '<joomla:pagebreak />', $content );
+	$content = preg_replace( '/{readmore\s*.*?}/i', '<joomla:readmore />', $content );
 	return $content;
 }
 ?>

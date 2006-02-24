@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <install version="1.1" type="plugin" group="content">
-	<name>mospaging</name>
+	<name>Content - Pagebreak</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
 	<copyright>(C) 2005 Open Source Matters. All rights reserved.</copyright>
@@ -10,7 +10,7 @@
 	<version>1.1</version>
 	<description>DESCMOSPAGING</description>
 	<files>
-		<filename plugin="mospaging">mospaging.php</filename>
+		<filename plugin="pagebreak">pagebreak.php</filename>
 	</files>
 	<params>
 		<param name="title" type="radio" default="1" label="Site Title" description="PARAMSITETITLE">

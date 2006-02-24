@@ -14,27 +14,28 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$mainframe->registerEvent( 'onPrepareContent', 'botMosPaging' );
+$mainframe->registerEvent( 'onPrepareContent', 'convertPagebreak' );
 
 /**
 * Page break plugin
 *
 * <b>Usage:</b>
-* <code>{mospagebreak}</code>
-* <code>{mospagebreak title=The page title}</code>
+* <code>{pagebreak}</code>
+* <code>{pagebreak title=The page title}</code>
 * or
-* <code>{mospagebreak heading=The first page}</code>
+* <code>{pagebreak heading=The first page}</code>
 * or
-* <code>{mospagebreak title=The page title&heading=The first page}</code>
+* <code>{pagebreak title=The page title&heading=The first page}</code>
 * or
-* <code>{mospagebreak heading=The first page&title=The page title}</code>
+* <code>{pagebreak heading=The first page&title=The page title}</code>
 *
 */
-function botMosPaging( &$row, &$params, $page=0 ) {
+function convertPagebreak( &$row, &$params, $page=0 ) 
+{
 	global $mainframe, $Itemid, $database;
 
 	// simple performance check to determine whether bot should process further
-	if ( strpos( $row->text, 'mospagebreak' ) === false ) {
+	if ( strpos( $row->text, '{pagebreak' ) === false ) {
 		return true;
 	}
 	
@@ -42,10 +43,10 @@ function botMosPaging( &$row, &$params, $page=0 ) {
 		$page = 0;
 	}
  	// expression to search for
- 	$regex = '/{(mospagebreak)\s*(.*?)}/i';
+ 	$regex = '/{(pagebreak)\s*(.*?)}/i';
 
 	// Get Plugin info
- 	$plugin =& JPluginHelper::getPlugin('content', 'mospaging'); 
+ 	$plugin =& JPluginHelper::getPlugin('content', 'pagebreak'); 
 
 	// check whether plugin has been unpublished
  	if (!$plugin->published || $params->get( 'intro_only' )|| $params->get( 'popup' )) {
@@ -134,7 +135,8 @@ function botMosPaging( &$row, &$params, $page=0 ) {
 	return true;
 }
 
-function createTOC( &$row, &$matches, &$page ) {
+function createTOC( &$row, &$matches, &$page ) 
+{
 	global $Itemid;
 
 	$nonseflink = 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
@@ -221,7 +223,8 @@ function createTOC( &$row, &$matches, &$page ) {
 	$row->toc .= '</table>';
 }
 
-function createNavigation( &$row, $page, $n ) {
+function createNavigation( &$row, $page, $n ) 
+{
 	global $Itemid;
 
 	$link = 'index.php?option=com_content&amp;task=view&amp;id='. $row->id .'&amp;Itemid='. $Itemid;
