@@ -323,8 +323,14 @@ class JEditor_tinymce extends JPlugin {
 		}
 		$buttons = implode( "", $buttons );
 	
+		/*
+		 * When adding the editor extension buttons to your own editor the following construction :
+		 * Markup : <div id=\"editor-xtd-buttons\">$buttons</div>
+		 * 
+		 * This will allow plugins to attach buttons or change the behavior on the fly using AJAX
+		 */
 		return "<textarea id=\"$hiddenField\" name=\"$hiddenField\" cols=\"$col\" rows=\"$row\" style=\"width:{$width}px; height:{$height}px;\" mce_editable=\"true\">$content</textarea>" .
-				"<br />".$buttons;
-		}
+				"<div id=\"editor-xtd-buttons\">$buttons</div>";
+	}
 }
 ?>
