@@ -142,13 +142,13 @@ class JAdminSubMenu
 				 * Only process the data if we have menu items returned from the
 				 * database query.
 				 */
-				if (is_array($items))
+				if (is_array($items) && count($items))
 				{
 					foreach ($items as $item)
 					{
 						if (trim($item->admin_menu_link))
 						{
-							$subMenuList[] = array ('title' => JText::_($item->name), 'link' => $item->admin_menu_link, 'img' => '../includes/'.$row->admin_menu_img);
+							$subMenuList[] = array ('title' => JText::_($item->name), 'link' => 'index2.php?'.$item->admin_menu_link, 'img' => '../includes/'.$row->admin_menu_img);
 						}
 					}
 					$menu = JAdminSubMenu::buildList($subMenuList);

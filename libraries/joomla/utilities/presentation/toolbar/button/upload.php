@@ -67,7 +67,7 @@ class JButton_Upload extends JButton
 	 * @return	string	JavaScript command string
 	 * @since	1.1
 	 */
-	function _getCommand($ref, $com)
+	function _getCommand($directory)
 	{
 		$cmd = "popupWindow('index3.php?option=com_media&amp;task=popupUpload&amp;directory=$directory','win1',550,200,'no');";
 		
