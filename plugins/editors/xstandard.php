@@ -111,6 +111,7 @@ class JEditor_xstandard extends JPlugin {
  			<param name="Dir" value="<?php echo $text_direction ?>" />
 			<param name="EnablePasteMarkup" value="yes" />
 			<param name="EnableTimestamp" value="no" />
+			<param name="EscapeUnicode" value="no" />
 			<param name="Options" value="32768" />
 			<param name="Toolbar" value="numbering, bullets, , draw-layout-table, draw-data-table, image, line, hyperlink, attachment, directory, undo, , wysiwyg, source, preview, screen-reader, ,expand" />
  			
