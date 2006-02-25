@@ -43,7 +43,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 		$page = 0;
 	}
  	// expression to search for
- 	$regex = '/{(pagebreak)\s*(.*?)}/i';
+ 	$regex = '/{pagebreak\s*(.*?)}/i';
 
 	// Get Plugin info
  	$plugin =& JPluginHelper::getPlugin('content', 'pagebreak'); 
@@ -78,18 +78,18 @@ function convertPagebreak( &$row, &$params, $page=0 )
 			$row->page_title = sprintf( JText::_( 'Page' ), $page_text );
 			if ( !$page ) {
 				// processing for first page
-				parse_str( html_entity_decode( $matches[0][2] ), $args );
+				$attrs = josParseAttributes($matches[0][1]);
 
-				if ( @$args['heading'] ) {
-					$row->page_title = $args['heading'];
+				if ( @$attrs['heading'] ) {
+					$row->page_title = $attrs['heading'];
 				} else {
 					$row->page_title = '';
 				}
 			} else if ( $matches[$page-1][2] ) {
-				parse_str( html_entity_decode( $matches[$page-1][2] ), $args );
+				$attrs = josParseAttributes($matches[$page-1][1]);
 
-				if ( @$args['title'] ) {
-					$row->page_title = stripslashes( $args['title'] );
+				if ( @$attrs['title'] ) {
+					$row->page_title = $attrs['title'];
 				}
 			}
 	 	}
@@ -145,11 +145,10 @@ function createTOC( &$row, &$matches, &$page )
 
 	$heading = $row->title;
 	// allows customization of first page title by checking for `heading` attribute in first bot
-	if ( @$matches[0][2] ) {
-		parse_str( html_entity_decode( $matches[0][2] ), $args );
-
-		if ( @$args['heading'] ) {
-			$heading = $args['heading'];
+	if ( @$matches[0][1] ) {
+		$attrs = josParseAttributes($matches[0][1]);
+		if ( @$attrs['heading'] ) {
+			$heading = $attrs['heading'];
 			$row->title .= ': '. $heading;
 		}
 	}
@@ -176,21 +175,20 @@ function createTOC( &$row, &$matches, &$page )
 	';
 
 	$i = 2;
-	$args2 = array();
 
 	foreach ( $matches as $bot ) {
 		$link = $nonseflink .'&amp;limit=1&amp;limitstart='. ($i-1);
 		$link = sefRelToAbs( $link );
 
-		if ( @$bot[2] ) {
-			parse_str( html_entity_decode( $bot[2] ), $args2 );
+		if ( @$bot[1] ) {
+			$attrs2 = josParseAttributes($bot[1]);
 
-			if ( @$args2['title'] ) {
+			if ( @$attrs2['title'] ) {
 				$row->toc .= '
 				<tr>
 					<td>
 					<a href="'. $link .'" class="toclink">'
-					. stripslashes( $args2['title'] ) .
+					. stripslashes( $attrs2['title'] ) .
 					'</a>
 					</td>
 				</tr>

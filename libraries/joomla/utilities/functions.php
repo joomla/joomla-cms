@@ -711,6 +711,37 @@ function josURL( $url, $ssl=0, $sef=1 ) {
 }
 
 /**
+ * Method to process internal Joomla URLs
+ *
+ * @package	Joomla.Framework
+ * @param	string	$string	String containing xml style attributes
+ * @return	array	Key/Value pairs for the attributes
+ * @since	1.1
+ */
+function josParseAttributes( $string ) {
+	
+	/*
+	 * Initialize variables
+	 */
+	$attr		= array();
+	$retarray	= array();
+	/*
+	 * Lets grab all the key/value pairs using a regular expression
+	 */
+	preg_match_all( '/([\w]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr );
+
+	if (is_array($attr))
+	{
+		$numPairs = count($attr[1]);
+		for($i = 0; $i < $numPairs; $i++ )
+		{
+			$retarray[$attr[1][$i]] = $attr[2][$i];
+		}
+	}
+	return $retarray;	
+}
+
+/**
 * Prepares results from search for display
 * 
 * @package Joomla.Framework
