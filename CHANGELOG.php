@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+25-Feb-2006 David Gal
+  ^ Changed xStandard to output utf-8 content instead of NCR codes
+   
 24-Feb-2006 David Gal
   + Added RTL support to new installation program UI
   

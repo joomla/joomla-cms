@@ -70,7 +70,7 @@ XStandardLite.prototype.save = function()
 {
 	for(var instance in this.instances) {
 		var object = this.instances[instance];
-		object.EscapeUnicode = true;
+		object.EscapeUnicode = false;
 		
 		var contents = object.value;
 		
