@@ -14,6 +14,7 @@
     	<tag>eng-GB</tag>
     	<rtl>0</rtl>
     	<locale>eng_GB, en_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom</locale>
+    	<winCodePage>iso-8859-1</winCodePage>
     	<pdfFontName>vera</pdfFontName>
     </metadata>
     <files>

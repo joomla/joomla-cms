@@ -143,7 +143,7 @@ class JLanguage extends JObject
 
 		//set locale based on the language tag
 		//TODO : add function to display locale setting in configuration
-		$locale = setlocale(LC_TIME, $this->getLocale());
+		$locale = setlocale(LC_ALL, $this->getLocale());
 		//echo $locale;
 
 		$this->load();
@@ -297,6 +297,16 @@ class JLanguage extends JObject
 	*/
 	function getPdfFontName() {
 		return $this->_metadata['pdfFontName'];
+	}
+
+	/**
+	* Getter for Windows locale code page
+	*
+	* @access public
+	* @return string windows locale encoding
+	*/
+	function getWinCP() {
+		return $this->_metadata['winCodePage'];
 	}
 
 	/**

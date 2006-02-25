@@ -39,6 +39,8 @@ Legend:
 
 25-Feb-2006 David Gal
   ^ Changed xStandard to output utf-8 content instead of NCR codes
+  + Implemented converstion to utf-8 of locale formated date when Windows is the host OS
+  + Added new metadata tag <winCodePage> in language xml files to support above conversion 
    
 24-Feb-2006 David Gal
   + Added RTL support to new installation program UI

@@ -420,6 +420,7 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 function mosFormatDate( $date, $format="", $offset="" ){
 	global $mosConfig_offset, $mainframe;
 
+	$lang = $mainframe->getLanguage();
 	if ( $format == '' ) {
 		// %Y-%m-%d %H:%M:%S
 		$format = JText::_( 'DATE_FORMAT_LC' );
@@ -431,6 +432,13 @@ function mosFormatDate( $date, $format="", $offset="" ){
 		$date = mktime( $regs[4], $regs[5], $regs[6], $regs[2], $regs[3], $regs[1] );
 		$date = $date > -1 ? strftime( $format, $date + ($offset*60*60) ) : '-';
 	}
+	
+	// for Windows there is a need to convert the date string to utf-8.
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && function_exists(iconv)) {
+		JError::raiseWarning(100, $date. ' - '. ord(substr($date,0,1)));
+		return iconv($lang->getWinCP(), "UTF-8", $date);
+	}
+	
 	return $date;
 }
 
