@@ -57,14 +57,14 @@ class JUser extends JObject
 	*
 	* @access 	protected
 	*/
-	function __construct($id = null) 
+	function __construct($username = '') 
 	{
 		global $mainframe;
 		
 		/*
 		 * Initialize variables
 		 */
-		$db				=& $mainframe->getDBO();
+		$db	=& $mainframe->getDBO();
 
 		/*
 		 * Create the user model object
@@ -77,8 +77,8 @@ class JUser extends JObject
 		$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
 		$this->_params = new JParameter( '', $path );
 		
-		if (!is_null($id) && $id != 'guest') {
-			$this->_load($id);
+		if (!empty($username) && $username != 'guest') {	
+			$this->_load($username);
 		}
 	}
 
@@ -94,7 +94,7 @@ class JUser extends JObject
 	 * @return 	JUser  			The User object.
 	 * @since 	1.1
 	 */
-	function & getInstance($id = 'guest') 
+	function & getInstance($username = 'guest') 
 	{
 		static $instances;
 
@@ -102,11 +102,11 @@ class JUser extends JObject
 			$instances = array ();
 		}
 
-		if (empty ($instances[$id])) {
-			$instances[$id] = new JUser($id);
+		if (empty ($instances[$username])) {
+			$instances[$username] = new JUser($username);
 		}
 
-		return $instances[$id];
+		return $instances[$username];
 	}
 
 	/**
@@ -118,7 +118,8 @@ class JUser extends JObject
 	 * @return	void
 	 * @since	1.1
 	 */
-	function set( $property, $value=null ) {
+	function set( $property, $value=null ) 
+	{
 		$this->_model->$property = $value;
 	}
 
@@ -131,7 +132,8 @@ class JUser extends JObject
 	 * @return 	mixed 				The value of the property
 	 * @since	1.1
 	 */
-	function get($property, $default=null) {
+	function get($property, $default=null) 
+	{
 		if(isset($this->_model->$property)) {
 			return $this->_model->$property;
 		}
@@ -147,8 +149,7 @@ class JUser extends JObject
 	 * @return	mixed				The value or the default if it did not exist
 	 * @since	1.1
 	 */
-	function getParam( $key, $default = null )
-	{
+	function getParam( $key, $default = null ) {
 		return $this->_params->get( $key, $default );	
 	}
 
@@ -161,8 +162,7 @@ class JUser extends JObject
 	 * @return	mixed			Set parameter value
 	 * @since	1.1
 	 */
-	function setParam( $key, $value )
-	{
+	function setParam( $key, $value ) {
 		return $this->_params->set( $key, $value );	
 	}
 
@@ -175,8 +175,7 @@ class JUser extends JObject
 	 * @return	mixed			Set parameter value
 	 * @since	1.1
 	 */
-	function defParam( $key, $value )
-	{
+	function defParam( $key, $value ) {
 		return $this->_params->def( $key, $value );	
 	}
 
@@ -206,8 +205,7 @@ class JUser extends JObject
 	 * @return	boolean	True on success
 	 * @since	1.1
 	 */
-	function setLastVisit($timestamp=null)
-	{
+	function setLastVisit($timestamp=null) {
 		return $this->_model->setLastVisit($timestamp);
 	}
 	
@@ -218,8 +216,7 @@ class JUser extends JObject
 	 * @return	object	The user parameters object
 	 * @since	1.1
 	 */
-	function getParameters()
-	{
+	function getParameters() {
 		return $this->_params;
 	}
 	
@@ -253,8 +250,7 @@ class JUser extends JObject
 	 * @return	string	The error message
 	 * @since	1.1
 	 */
-	function getError()
-	{
+	function getError() {
 		return $this->_errorMsg;
 	}
 
@@ -470,19 +466,17 @@ class JUser extends JObject
 	 * @return 	boolean 		True on success
 	 * @since 1.1
 	 */
-	function _load($id)
+	function _load($username)
 	{
-		global $mainframe;
-		
 		/*
 		 * Load the JUserModel object based on the user id or throw a warning.
 		 */
-		if (!$this->_model->load($id))
+		if (!$this->_model->load($username))
 		{
-			JError :: raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: Unable to load user with id: '.$id );
+			JError :: raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: Unable to load user with username: '.$username );
 			return false;
 		}
-		
+			
 		/*
 		 * Set the user parameters using the default xml file.  We might want to
 		 * extend this in the future to allow for the ability to have custom
@@ -493,7 +487,7 @@ class JUser extends JObject
 		/*
 		 * Assuming all is well at this point, we set the private id field
 		 */
-		$this->_id = $id;
+		$this->_id = $this->_model->id;
 		
 		return true;
 	}

@@ -80,7 +80,7 @@ function wsGetBloggerWebServices()
 }
 
 /* 
- * blogger.getUsersBlogs will make more sense once we support multiple blogs 
+ * Note : blogger.getUsersBlogs will make more sense once we support multiple blogs 
  */
 function getUserBlogs($appkey, $username, $password)
 {
@@ -89,6 +89,9 @@ function getUserBlogs($appkey, $username, $password)
 	if(!JBloggerHelper::authenticateUser($username, $password)) {
 		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
 	}
+	
+	$user =& JUser::getInstance($username);
+	//TODO::implement generic access check
 	
 	$struct = array(
 	    'url'      => $mainframe->getBaseURL(),
@@ -105,13 +108,18 @@ function getUserInfo($appkey, $username, $password)
 		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
 	}
 	
+	$user =& JUser::getInstance($username);
+	//TODO::implement generic access check
+	
+	$user =& JUser::getInstance($username);
+	
 	$struct = array(
-	    'nickname'  => 'test',
-	    'userid'    => '1',
-	    'url'       => 'url',
-	    'email'     => 'email',
-	    'lastname'  => 'test',
-	    'firstname' => 'test'
+	    'nickname'  => $user->get('username'),
+	    'userid'    => $user->get('id'),
+	    'url'       => '',
+	    'email'     => $user->get('email'),
+	    'lastname'  => $user->get('name'),
+	    'firstname' => $user->get('name')
 	  );
 	  
 	 return $struct;
@@ -124,6 +132,9 @@ function getPost($appkey, $postid, $username, $password)
 	if(!JBloggerHelper::authenticateUser($username, $password)) {
 		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
 	}
+	
+	$user =& JUser::getInstance($username);
+	//TODO::implement generic access check
 		
 	// load the row from the db table
 	$item =& JModel::getInstance('content', $mainframe->getDBO() );
@@ -151,26 +162,48 @@ function newPost($appkey, $blogid, $username, $password, $content, $publish)
 		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
 	}
 	
-	// load the row from the db table
-	$item =& JModel::getInstance('content', $mainframe->getDBO() );
+	$user =& JUser::getInstance($username);
+	//TODO::implement generic access check
+	
+	$db   =& $mainframe->getDBO();
+	
+	// load plugin params info
+ 	$plugin =& JPluginHelper::getPlugin('xmlrpc','blogger'); 
+ 	$params = new JParameter( $plugin->params );
+	
+	// load the category
+	$cat =& JModel::getInstance('category', $db);
+	$cat->load($params->get( 'catid', 1 ));
+	
+	// create a new content item
+	$item =& JModel::getInstance('content', $db );
 	
 	$item->title     = JBloggerHelper::getPostTitle($content);
-	//$item->catid     = JBloggerHelper::getPostCategory($content); 
 	$item->introtext = JBloggerHelper::getPostIntroText($content);
 	$item->fulltext  = JBloggerHelper::getPostFullText($content);
+
+	$item->catid     = $cat->id;
+	$item->sectionid = $cat->section;
 	
 	$item->created = date('Y-m-d H:i:s');
 	$item->created_by = $user->get('id');
 	
-	//if (!$item->check()) {
-		
-	//}
-	//$content->version++;
+	$item->publish_up   = $publish ? date('Y-m-d H:i:s') : $db->getNullDate();
+	$item->publish_down = $db->getNullDate();
+	
+	$item->state = $publish;
+	
+	if (!$item->check()) {
+		return new dom_xmlrpc_fault( '500', 'Post check failed' );
+	}
+	
+	$item->version++;
+	
 	if (!$item->store()) {
 		return new dom_xmlrpc_fault( '500', 'Post store failed' );
 	}
 	
-	return true;
+	return $item->id;
 }
 
 function editPost($appkey, $postid, $username, $password, $content, $publish)
@@ -181,16 +214,25 @@ function editPost($appkey, $postid, $username, $password, $content, $publish)
 		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
 	}
 	
+	$user =& JUser::getInstance($username);
+	//TODO::implement generic access check
+	
 	// load the row from the db table
 	$item =& JModel::getInstance('content', $mainframe->getDBO() );
 	if(!$item->load( $postid )) {
 		return new dom_xmlrpc_fault( '404', 'Sorry, no such post' );
 	}
- 	
-	//TODO::implement access and checkout check
 	
+	if($item->isCheckedOut($user->get('id'))) {
+		return new dom_xmlrpc_fault( '500', 'Sorry, post is already being edited' );
+	}
+	
+	//TODO::implement content access check
+	
+	//lock the item
+	$item->checkout();
+ 		
 	$item->title     = JBloggerHelper::getPostTitle($content);
-	//$item->catid     = JBloggerHelper::getPostCategory($content); 
 	$item->introtext = JBloggerHelper::getPostIntroText($content);
 	$item->fulltext  = JBloggerHelper::getPostFullText($content);
 	
@@ -204,6 +246,9 @@ function editPost($appkey, $postid, $username, $password, $content, $publish)
 		return new dom_xmlrpc_fault( '500', 'Post store failed' );
 	}
 	
+	//lock the item
+	$item->checkout();
+	
 	return true;
 }
 
@@ -215,17 +260,30 @@ function deletePost($appkey, $postid, $username, $password, $publish)
 		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
 	}
 	
+	$user =& JUser::getInstance($username);
+	//TODO::implement generic access check
+	
 	// load the row from the db table
 	$item =& JModel::getInstance('content', $mainframe->getDBO() );
 	if(!$item->load( $postid )) {
 		return new dom_xmlrpc_fault( '404', 'Sorry, no such post' );
 	}
 	
-	//TODO::implement access and checkout check
+	if($item->isCheckedOut($user->get('id'))) {
+		return new dom_xmlrpc_fault( '500', 'Sorry, post is already being edited' );
+	}
+	
+	//TODO::implement content access check
+	
+	//lock the item
+	$item->checkout();
 	
 	if (!$item->delete()) {
 		return new dom_xmlrpc_fault( '500', 'Post delete failed' );
 	}
+	
+	//lock the item
+	$item->checkout();
 	
 	return true;
 }
@@ -239,13 +297,27 @@ function getRecentPosts($appkey, $blogid, $username, $password, $numposts)
 		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
 	}
 	
+	$user =& JUser::getInstance($username);
+	//TODO::implement generic access check
+	
+	// load plugin params info
+ 	$plugin =& JPluginHelper::getPlugin('xmlrpc','blogger'); 
+ 	$params = new JParameter( $plugin->params );
+	
 	$db =& $mainframe->getDBO();
 	
-	/*
-	 * Lets get a list of the recents content items
-	 */
+	// Lets get a list of the recents content items
+	$where = '';
+	echo $params->get('sectionid', 0);
+	if($params->get('sectionid', 0)) {
+		$where = "\n WHERE sectionid = ".$params->get('sectionid');
+	}
+	
+	echo $where;
+	
 	$query = "SELECT *" 
 		. "\n FROM #__content" 
+		. $where
 		. "\n ORDER BY created"
 		. "\n LIMIT ".$numposts
 		;
@@ -259,7 +331,7 @@ function getRecentPosts($appkey, $blogid, $username, $password, $numposts)
 	 foreach ($items as $item) 
 	 { 
 	    $content  = '<title>'.$item->title.'</title>';
-		//$content .= '<category>'.$item->catid.'</category>';
+		//$content .= '<category>'.$item->catid.'</category>'; //doesn't seem to work
 		$content .= $item->introtext;
 	
 		$struct[] = array(
@@ -289,8 +361,6 @@ function setTemplate($appkey, $blogid, $username, $password, $template, $templat
 	return new dom_xmlrpc_fault( '500', 'Method not implemented' );
 }
 
-
-
 class JBloggerHelper 
 {
 	function authenticateUser($username, $password)
@@ -301,9 +371,8 @@ class JBloggerHelper
 	
 		// Get the global JAuthenticate object
 		$auth = & JAuthenticate::getInstance();
-		$result = $auth->authenticate($credentials);
 		
-		return $result;
+		return $auth->authenticate($credentials);
 	}
 	
 	function getPostTitle($content) 
@@ -332,12 +401,14 @@ class JBloggerHelper
 		return $category;
 	}
 	
-	function getPostIntroText($content) {
+	function getPostIntroText($content) 
+	{
 		$string = JBloggerHelper::removePostData($content); 
 		return substr($string, 0, strpos($string, '<!--more-->'));
 	}
 	
-	function getPostFullText($content) {
+	function getPostFullText($content) 
+	{
 		$string = JBloggerHelper::removePostData($content); 
 		return substr($string, strpos($string, '<!--more-->') + 11);
 	}

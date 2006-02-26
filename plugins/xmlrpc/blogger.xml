@@ -12,5 +12,8 @@
 	<files>
 		<filename plugin="blogger">blogger.php</filename>
 	</files>
-	<params/>
+	<params>
+		<param name="catid" type="category" default="1" label="New posts" description="Set the category to place new posts into" />
+		<param name="sectionid" type="section" default="0" label="Edit posts" description="Set the section to retrieve posts from" />
+	</params>
 </install>

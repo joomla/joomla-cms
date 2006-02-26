@@ -37,28 +37,31 @@ Legend:
 - -> Removed
 ! -> Note
 
+26-Feb-2006 Johan Janssens
+ + Added Blogger API XML-RPC plugin  
+
 25-Feb-2006 David Gal
-  ^ Changed xStandard to output utf-8 content instead of NCR codes
-  + Implemented converstion to utf-8 of locale formated date when Windows is the host OS
-  + Added new metadata tag <winCodePage> in language xml files to support above conversion 
+ ^ Changed xStandard to output utf-8 content instead of NCR codes
+ + Implemented converstion to utf-8 of locale formated date when Windows is the host OS
+ + Added new metadata tag <winCodePage> in language xml files to support above conversion 
    
 24-Feb-2006 David Gal
-  + Added RTL support to new installation program UI
+ + Added RTL support to new installation program UI
   
 23-Feb-2006 Johan Janssens
-  ^ Renamed mossef content plugin to sef
-  ^ Renamed moscode content plugin to code
-  ^ Renamed mosemailcloak content plugin to emailcloak
-  ^ Renamed mosloadposition content plugin to loadmodule
-  ^ Renamed mospagebreak content plugin to pagebreak
-  ^ Renamed mosvote content plugin to vote
-  ^ Renamed mosimage.btn editor-xtd plugin to image
-  ^ Renamed mospage.btn editor-xtd plugin to pagebreak
-  ^ Fixed language detection
-  # Fixed artf3624 : Content priview error with {mosImage}
-  # Fixed artf3552 : Typo in mosCommonHTML::menuLinksContent
-  # Fixed artf3344 : Install errors due to empty browser language setting
-  # Fixed artf2792 : Web installer language choice
+ ^ Renamed mossef content plugin to sef
+ ^ Renamed moscode content plugin to code
+ ^ Renamed mosemailcloak content plugin to emailcloak
+ ^ Renamed mosloadposition content plugin to loadmodule
+ ^ Renamed mospagebreak content plugin to pagebreak
+ ^ Renamed mosvote content plugin to vote
+ ^ Renamed mosimage.btn editor-xtd plugin to image
+ ^ Renamed mospage.btn editor-xtd plugin to pagebreak
+ ^ Fixed language detection
+ # Fixed artf3624 : Content priview error with {mosImage}
+ # Fixed artf3552 : Typo in mosCommonHTML::menuLinksContent
+ # Fixed artf3344 : Install errors due to empty browser language setting
+ # Fixed artf2792 : Web installer language choice
 
 23-Feb-2006 Alex Kempkens
  + Added language parameter to content.xml

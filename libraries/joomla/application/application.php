@@ -242,8 +242,8 @@ class JApplication extends JObject
 			if (!in_array(false, $results, true)) 
 			{
 				// Get the JUser object for the user to login
-				$user =& JUser::getInstance( intval($authenticated) );
-
+				$user =& JUser::getInstance( $username );
+				
 				// If the user is blocked, redirect with an error
 				if ($user->get('block') == 1) {
 					 // TODO :: provide error message
@@ -567,8 +567,8 @@ class JApplication extends JObject
 		 * If there is a userid in the session, load the application user
 		 * object with the logged in user.
 		 */
-		if (intval( JSession::get('userid'))){
-			$this->_user = & JUser::getInstance(JSession::get('userid'));
+		if (JSession::get('username')){
+			$this->_user = & JUser::getInstance(JSession::get('username'));
 		} else {
 			$this->_user = & JUser::getInstance();
 		}

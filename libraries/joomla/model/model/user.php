@@ -52,7 +52,7 @@ class JModelUser extends JModel
 	* @param database A database connector object
 	*/
 	function __construct( &$database ) {
-		parent::__construct( '#__users', 'id', $database );
+		parent::__construct( '#__users', 'username', $database );
 
 		//initialise
 		$this->id  = 0;

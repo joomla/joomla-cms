@@ -417,7 +417,8 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 * @returns formated date
 * @since 1.0
 */
-function mosFormatDate( $date, $format="", $offset="" ){
+function mosFormatDate( $date, $format="", $offset="" )
+{
 	global $mosConfig_offset, $mainframe;
 
 	$lang = $mainframe->getLanguage();
@@ -426,7 +427,7 @@ function mosFormatDate( $date, $format="", $offset="" ){
 		$format = JText::_( 'DATE_FORMAT_LC' );
 	}
 	if ( $offset == '' ) {
-		$offset = $mosConfig_offset;
+		$offset = $mainframe->get('offset');
 	}
 	if ( $date && ereg( "([0-9]{4})-([0-9]{2})-([0-9]{2})[ ]([0-9]{2}):([0-9]{2}):([0-9]{2})", $date, $regs ) ) {
 		$date = mktime( $regs[4], $regs[5], $regs[6], $regs[2], $regs[3], $regs[1] );
@@ -449,13 +450,14 @@ function mosFormatDate( $date, $format="", $offset="" ){
 * @returns current date
 * @since 1.0
 */
-function mosCurrentDate( $format="" ) {
-	global $mosConfig_offset;
+function mosCurrentDate( $format="" ) 
+{
+	global $mainframe;
 
 	if ($format=="") {
 		$format = JText::_( 'DATE_FORMAT_LC' );
 	}
-	$date = strftime( $format, time() + ($mosConfig_offset*60*60) );
+	$date = strftime( $format, time() + ($mainframe->getCfg('offset')*60*60) );
 	return $date;
 }
 
