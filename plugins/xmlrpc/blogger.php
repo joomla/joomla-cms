@@ -79,18 +79,15 @@ function wsGetBloggerWebServices()
 	);
 }
 
+/* 
+ * blogger.getUsersBlogs will make more sense once we support multiple blogs 
+ */
 function getUserBlogs($appkey, $username, $password)
 {
 	global $mainframe;
 	
-	// Build the credentials array
-	$credentials['username'] = $username;
-	$credentials['password'] = $password;
-	
-	// Get the global JAuthenticate object
-	$auth = & JAuthenticate::getInstance();
-	if(!$auth->authenticate($credentials)) {
-		return new dom_xmlrpc_fault( '-1', $login );
+	if(!JBloggerHelper::authenticateUser($username, $password)) {
+		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
 	}
 	
 	$struct = array(
@@ -104,13 +101,7 @@ function getUserBlogs($appkey, $username, $password)
 
 function getUserInfo($appkey, $username, $password)
 {
-	// Build the credentials array
-	$credentials['username'] = $username;
-	$credentials['password'] = $password;
-	
-	// Get the global JAuthenticate object
-	$auth = & JAuthenticate::getInstance();
-	if(!$auth->authenticate($credentials)) {
+	if(!JBloggerHelper::authenticateUser($username, $password)) {
 		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
 	}
 	
@@ -130,13 +121,7 @@ function getPost($appkey, $postid, $username, $password)
 {
 	global $mainframe;
 	
-	// Build the credentials array
-	$credentials['username'] = $username;
-	$credentials['password'] = $password;
-	
-	// Get the global JAuthenticate object
-	$auth = & JAuthenticate::getInstance();
-	if(!$auth->authenticate($credentials)) {
+	if(!JBloggerHelper::authenticateUser($username, $password)) {
 		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
 	}
 		
@@ -146,14 +131,14 @@ function getPost($appkey, $postid, $username, $password)
 	
 	$content  = '<title>'.$item->title.'</title>';
 	//$content .= '<category>'.$item->catid.'</category>';
-	$content .= $item->introtext;
+	$content .= $item->introtext.'<!--more-->'.$item->fulltext;
 	
-	 $struct = array(
-	    'userid'    => $item->created_by,
-	    'dateCreated' => '0', //TODO
-	    'content'     => $content,
-	    'postid'  => $item->id
-	  );
+	$struct = array(
+	   'userid'    => $item->created_by,
+	   'dateCreated' => '0', //TODO
+	   'content'     => $content,
+	   'postid'  => $item->id
+	);
 
 	return $struct;
 }
@@ -162,28 +147,27 @@ function newPost($appkey, $blogid, $username, $password, $content, $publish)
 {
 	global $mainframe;
 	
-	// Build the credentials array
-	$credentials['username'] = $username;
-	$credentials['password'] = $password;
-	
-	// Get the global JAuthenticate object
-	$auth = & JAuthenticate::getInstance();
-	if(!$auth->authenticate($credentials)) {
+	if(!JBloggerHelper::authenticateUser($username, $password)) {
 		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
 	}
 	
 	// load the row from the db table
 	$item =& JModel::getInstance('content', $mainframe->getDBO() );
 	
-	$item->introtext = $content;
+	$item->title     = JBloggerHelper::getPostTitle($content);
+	//$item->catid     = JBloggerHelper::getPostCategory($content); 
+	$item->introtext = JBloggerHelper::getPostIntroText($content);
+	$item->fulltext  = JBloggerHelper::getPostFullText($content);
 	
+	$item->created = date('Y-m-d H:i:s');
+	$item->created_by = $user->get('id');
 	
 	//if (!$item->check()) {
 		
 	//}
 	//$content->version++;
 	if (!$item->store()) {
-		
+		return new dom_xmlrpc_fault( '500', 'Post store failed' );
 	}
 	
 	return true;
@@ -193,13 +177,7 @@ function editPost($appkey, $postid, $username, $password, $content, $publish)
 {
 	global $mainframe;
 	
-	// Build the credentials array
-	$credentials['username'] = $username;
-	$credentials['password'] = $password;
-	
-	// Get the global JAuthenticate object
-	$auth = & JAuthenticate::getInstance();
-	if(!$auth->authenticate($credentials)) {
+	if(!JBloggerHelper::authenticateUser($username, $password)) {
 		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
 	}
 	
@@ -213,7 +191,8 @@ function editPost($appkey, $postid, $username, $password, $content, $publish)
 	
 	$item->title     = JBloggerHelper::getPostTitle($content);
 	//$item->catid     = JBloggerHelper::getPostCategory($content); 
-	$item->introtext = JBloggerHelper::removePostData($content);
+	$item->introtext = JBloggerHelper::getPostIntroText($content);
+	$item->fulltext  = JBloggerHelper::getPostFullText($content);
 	
 	if (!$item->check()) {
 		return new dom_xmlrpc_fault( '500', 'Post check failed' );
@@ -230,28 +209,103 @@ function editPost($appkey, $postid, $username, $password, $content, $publish)
 
 function deletePost($appkey, $postid, $username, $password, $publish)
 {
-	return array();
+	global $mainframe;
+	
+	if(!JBloggerHelper::authenticateUser($username, $password)) {
+		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
+	}
+	
+	// load the row from the db table
+	$item =& JModel::getInstance('content', $mainframe->getDBO() );
+	if(!$item->load( $postid )) {
+		return new dom_xmlrpc_fault( '404', 'Sorry, no such post' );
+	}
+	
+	//TODO::implement access and checkout check
+	
+	if (!$item->delete()) {
+		return new dom_xmlrpc_fault( '500', 'Post delete failed' );
+	}
+	
+	return true;
 }
 
 
 function getRecentPosts($appkey, $blogid, $username, $password, $numposts)
 {
-	return array();
+	global $mainframe;
+	
+	if(!JBloggerHelper::authenticateUser($username, $password)) {
+		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
+	}
+	
+	$db =& $mainframe->getDBO();
+	
+	/*
+	 * Lets get a list of the recents content items
+	 */
+	$query = "SELECT *" 
+		. "\n FROM #__content" 
+		. "\n ORDER BY created"
+		. "\n LIMIT ".$numposts
+		;
+	$db->setQuery($query);
+	$items = $db->loadObjectList();
+	
+	if (!$items) {
+		return new dom_xmlrpc_fault( 500, 'No posts available, or an error has occured.' );
+	 }
+	
+	 foreach ($items as $item) 
+	 { 
+	    $content  = '<title>'.$item->title.'</title>';
+		//$content .= '<category>'.$item->catid.'</category>';
+		$content .= $item->introtext;
+	
+		$struct[] = array(
+	    	'userid'    => $item->created_by,
+	    	'dateCreated' => '0', //TODO
+	    	'content'     => $content,
+	    	'postid'  => $item->id
+		);
+	}
+	
+	$recent_posts = array();
+	for ($j=0; $j < count($struct); $j++) {
+	    array_push($recent_posts, $struct[$j]);
+	}
+	
+	 return $recent_posts;
 }
+
 
 function getTemplate($appkey, $blogid, $username, $password, $templateType)
 {
-	return array();
+	return new dom_xmlrpc_fault( '500', 'Method not implemented' );
 }
 
 function setTemplate($appkey, $blogid, $username, $password, $template, $templateType)
 {
-	return array();
+	return new dom_xmlrpc_fault( '500', 'Method not implemented' );
 }
+
+
 
 class JBloggerHelper 
 {
-
+	function authenticateUser($username, $password)
+	{
+		// Build the credentials array
+		$credentials['username'] = $username;
+		$credentials['password'] = $password;
+	
+		// Get the global JAuthenticate object
+		$auth = & JAuthenticate::getInstance();
+		$result = $auth->authenticate($credentials);
+		
+		return $result;
+	}
+	
 	function getPostTitle($content) 
 	{
 		$title = '';
@@ -268,13 +322,24 @@ class JBloggerHelper
 	{
 		$category = 0; 
 	
-		if ( preg_match('/<category>(.+?)<\/category>/is', $content, $matchcat) ) 
+		$match = array();
+		if ( preg_match('/<category>(.+?)<\/category>/is', $content, $match) ) 
 		{
-			$category = trim($matchcat[1], ',');
+			$category = trim($match[1], ',');
 			$category = explode(',', $category);
 		}
      
 		return $category;
+	}
+	
+	function getPostIntroText($content) {
+		$string = JBloggerHelper::removePostData($content); 
+		return substr($string, 0, strpos($string, '<!--more-->'));
+	}
+	
+	function getPostFullText($content) {
+		$string = JBloggerHelper::removePostData($content); 
+		return substr($string, strpos($string, '<!--more-->') + 11);
 	}
 
 	function removePostData($content) 
