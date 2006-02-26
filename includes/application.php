@@ -37,6 +37,57 @@ class JSite extends JApplication {
 	}
 	
 	/**
+	* Login authentication function
+	* 
+	* @param string The username
+	* @param string The password
+	* @access public
+	* @see JApplication::login
+	*/
+	function login($username=null, $password=null, $return=null) 
+	{
+		if(!$username || !$password) {
+			$username = trim( mosGetParam( $_POST, 'username', '' ) );
+			$password = trim( mosGetParam( $_POST, 'passwd', '' ) );
+		}
+	
+		if (!parent::login($username, $password)) {
+			mosErrorAlert( JText::_( 'LOGIN_INCORRECT' ) );
+		}
+		
+		$return = mosGetParam( $_REQUEST, 'return', NULL );
+		
+		if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
+			// checks for the presence of a return url
+			// and ensures that this url is not the registration or login pages
+			mosRedirect( $return );
+		} else {
+			mosRedirect( 'index.php' );
+		}
+	}
+	
+	/**
+	* Logout authentication function
+	* 
+	* @access public
+	* @see JApplication::login
+	*/
+	function logout($return = null) 
+	{
+		parent::logout();
+		
+		$return = mosGetParam( $_REQUEST, 'return', NULL );
+
+		if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
+			// checks for the presence of a return url
+			// and ensures that this url is not the registration or logout pages
+			mosRedirect( $return );
+		} else {
+			mosRedirect( 'index.php' );
+		}
+	}
+	
+	/**
 	* Set Page Title
 	* 
 	* @param string $title The title for the page

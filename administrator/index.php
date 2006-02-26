@@ -48,18 +48,9 @@ $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId(
 // trigger the onAfterStart events
 $mainframe->triggerEvent( 'onAfterStart' );
 
-if ($option == 'login') 
-{
-	if (!$mainframe->login()) 
-	{
-		$mainframe->logout();
-		mosErrorAlert( JText::_( 'LOGIN_INCORRECT' ) );
-	}
-	
-	$mainframe->setUserState( 'application.lang', mosGetParam( $_REQUEST, 'lang', $mainframe->getCfg('lang_administrator') ) );
-	JSession::pause();
-
-	mosRedirect( 'index2.php' );
+// login the user
+if ($option == 'login') {
+	$mainframe->login();
 }
 
 $cur_template = $mainframe->getTemplate();

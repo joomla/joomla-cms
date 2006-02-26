@@ -189,39 +189,118 @@ class JApplication extends JObject
 	}
 
 	/**
-	* Login authentication function
-	*
-	* Username and encoded password are passed the the onLoginUser event who
-	* is responsible for the user validation.
-	* A successful validation updates the current session record with the
-	* users details.
-	*/
-	function login( $username=null,$passwd=null )
+	 * Login authentication function
+	 * 
+	 * Username and encoded password are passed the the onLoginUser event who
+	 * is responsible for the user validation.
+	 * A successful validation updates the current session record with the
+	 * users details.
+	 *
+	 * Username and Password are sent as credentials (along with other possibilities)
+	 * to each observer (JAuthenticatePlugin) for user validation.  Successful validation will
+	 * update the current session with the user details
+	 * 
+	 * @param string The username
+	 * @param string The password
+	 * @return boolean True on success
+	 * @access public
+	 * @since 1.1
+	 */
+	function login($username,$password)
 	{
-		global $database, $acl;
-
-		if (!$username || !$passwd) {
-			$username 	= $database->getEscaped( trim( mosGetParam( $_POST, 'username', '' ) ) );
-			$passwd 	= $database->getEscaped( trim( mosGetParam( $_POST, 'passwd', '' ) ) );
-			$bypost 	= 1;
+		if (empty($username) || empty($password)) {
+			return false;
 		}
+		
+		// Get the global database connector object
+		$db = $this->getDBO();
 
-		if (!$username || !$passwd) {
-			// Error check if still no username or password values
-			echo "<script> alert(\"". JText::_( 'LOGIN_INCOMPLETE', true ) ."\"); </script>\n";
-			josRedirect( mosGetParam( $_POST, 'return', '/' ) );
-			exit();
-		} else {
+		// Build the credentials array
+		$credentials['username'] = $db->getEscaped( $username );
+		$credentials['password'] = $db->getEscaped( $password );
+		
+		// Get the global JAuthenticate object
+		$auth = & JAuthenticate::getInstance();
+		$authenticated = $auth->authenticate($credentials);
+		
+		if ($authenticated !== false) 
+		{	
+			/*
+			 * Import the user plugin group
+		 	 */
+			JPluginHelper::importGroup('user');
 
-			// Build the credentials array
-			$credentials['username'] = $username;
-			$credentials['password'] = $passwd;
+			// OK, the credentials are authenticated.  Lets fire the onLogin event
+			$results = $this->triggerEvent( 'onLogin', $credentials);
 
-			// Get the global JAuthenticate object
-			$auth = & JAuthenticate::getInstance();
+			/*
+			 * If any of the authentication plugins did not successfully complete the login
+			 * routine then the whole method fails.  Any errors raised should be done in
+			 * the plugin as this provides the ability to provide much more information
+			 * about why the routine may have failed.
+			 */
+			if (!in_array(false, $results, true)) 
+			{
+				// Get the JUser object for the user to login
+				$user =& JUser::getInstance( intval($authenticated) );
 
-			return $auth->login($credentials);
+				// If the user is blocked, redirect with an error
+				if ($user->get('block') == 1) {
+					 // TODO :: provide error message
+					return false;
+				}
+
+				// Fudge the ACL stuff for now...
+				// TODO: Implement ACL :)
+				$acl = &JFactory::getACL();
+				$grp = $acl->getAroGroup($user->get('id'));
+				$row->gid = 1;
+
+				if ($acl->is_group_child_of($grp->name, 'Registered', 'ARO') || $acl->is_group_child_of($grp->name, 'Public Backend', 'ARO')) {
+					// fudge Authors, Editors, Publishers and Super Administrators into the Special Group
+					$user->set('gid', 2);
+				}
+				$user->set('usertype', $grp->name);
+				
+				// Register the needed session variables
+				JSession::set('guest', 0);
+				JSession::set('username', $user->get('username'));
+				JSession::set('userid', intval($user->get('id')));
+				JSession::set('usertype', $user->get('usertype'));
+				JSession::set('gid', intval($user->get('gid')));
+				
+				// Register session variables to prevent spoofing
+				JSession::set('JAuthenticate_RemoteAddr', $_SERVER['REMOTE_ADDR']);
+				JSession::set('JAuthenticate_UserAgent', $_SERVER['HTTP_USER_AGENT']);
+
+				// Get the session object
+				$session = & $this->_session;
+
+				$session->guest = 0;
+				$session->username = $user->get('username');
+				$session->userid = intval($user->get('id'));
+				$session->usertype = $user->get('usertype');
+				$session->gid = intval($user->get('gid'));
+
+				$session->update();
+
+				// Hit the user last visit field
+				$user->setLastVisit();
+
+				// TODO: If we aren't going to use the database session we need to fix this
+				// Set remember me option
+				$remember = JRequest::getVar( 'remember' );
+				if ($remember == 'yes') {
+					$session->remember($user->get('username'), $user->get('password'));
+				}
+
+				// Clean the cache for this user
+				$cache = JFactory::getCache();
+				$cache->cleanCache();
+				return true;
+			}
 		}
+		return false;
 	}
 
 	/**
@@ -229,11 +308,51 @@ class JApplication extends JObject
 	*
 	* Passed the current user information to the onLogoutUser event and reverts the current
 	* session record back to 'anonymous' parameters
+	* @access public
 	*/
 	function logout()
 	{
-		$auth = & JAuthenticate::getInstance();
-		return $auth->logout();
+		// Initialize variables
+		$retval = false;
+
+		// Get a user object from the JApplication
+		$user = $this->getUser();
+
+		// Build the credentials array
+		$credentials['username'] 	= $user->get('username');
+		$credentials['id'] 			= $user->get('id');
+		
+		/*
+		 * Import the user plugin group
+		 */
+		JPluginHelper::importGroup('user');
+
+		// OK, the credentials are built. Lets fire the onLogout event
+		$results = $this->triggerEvent( 'onLogout', $credentials);
+
+		/*
+		 * If any of the authentication plugins did not successfully complete the logout
+		 * routine then the whole method fails.  Any errors raised should be done in
+		 * the plugin as this provides the ability to provide much more information
+		 * about why the routine may have failed.
+		 */
+		if (!in_array(false, $results, true)) 
+		{
+			// Clean the cache for this user
+			$cache = JFactory::getCache();
+			$cache->cleanCache();
+
+			// TODO: JRegistry will make this unnecessary
+			// Get the session object
+			$session =& $this->_session;
+			$session->destroy();
+
+			// Destroy the session for this user
+			JSession::destroy();
+
+			$retval = true;
+		}
+		return $retval;
 	}
 
 	/**

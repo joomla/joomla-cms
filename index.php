@@ -45,32 +45,14 @@ $acl =& JFactory::getACL();
 // create the session
 $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
 
-// frontend login & logout controls
-$return = mosGetParam( $_REQUEST, 'return', NULL );
-if ($option == 'login') {
-	if (!$mainframe->login()) {
-		$mainframe->logout();
-		mosErrorAlert( JText::_( 'LOGIN_INCORRECT' ) );
-	}
-	if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
-		// checks for the presence of a return url
-		// and ensures that this url is not the registration or login pages
-		mosRedirect( $return );
-	} else {
-		mosRedirect( 'index.php' );
-	}
+// login user
+if ($option == 'login')  {
+	$mainframe->login();
 }
 
+// logout user
 if ($option == 'logout') {
 	$mainframe->logout();
-
-	if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
-		// checks for the presence of a return url
-		// and ensures that this url is not the registration or logout pages
-		mosRedirect( $return );
-	} else {
-		mosRedirect( 'index.php' );
-	}
 }
 
 $Itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );

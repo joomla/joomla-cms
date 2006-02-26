@@ -45,6 +45,40 @@ class JAdministrator extends JApplication
 	}
 	
 	/**
+	* Login authentication function
+	* 
+	* @param string The username
+	* @param string The password
+	* @access public
+	* @see JApplication::login
+	*/
+	function login($username=null, $password=null) 
+	{
+		$username = trim( mosGetParam( $_POST, 'username', '' ) );
+		$password = trim( mosGetParam( $_POST, 'passwd', ''   ) );
+	
+		if (!parent::login($username, $password)) {
+			mosErrorAlert( JText::_( 'LOGIN_INCORRECT' ) );
+		}
+	
+		$this->setUserState( 'application.lang', mosGetParam( $_REQUEST, 'lang', $this->getCfg('lang_administrator') ) );
+		JSession::pause();
+
+		mosRedirect( 'index2.php' );
+	}
+	
+	/**
+	* Logout authentication function
+	* 
+	* @access public
+	* @see JApplication::login
+	*/
+	function logout() {
+		parent::logout();
+		mosRedirect( $this->getSiteURL() );
+	}
+	
+	/**
 	* Set Page Title
 	* 
 	* @param string $title The title for the page
