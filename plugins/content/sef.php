@@ -56,10 +56,9 @@ function pluginSEF( &$row, &$params, $page=0 )
 * @param array An array of matches (see preg_match_all)
 * @return string
 */
-function contentSEF_replacer( &$matches ) 
-{
+function contentSEF_replacer( &$matches ) {
 	// disable bot from being applied to mailto tags
-	if (strstr($matches[1],'mailto:')) {
+	if ( strpos($matches[1],'mailto:') !== false ) {
 		return 'href="'. $matches[1] .'"';
 	}
 	
