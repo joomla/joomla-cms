@@ -614,36 +614,38 @@ class JContentView
 				<?php
 				foreach ($categories as $row) {
 					if ($catid != $row->id) {
-						if ($row->access <= $gid) {
-							$link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$id.'&amp;id='.$row->id.'&amp;Itemid='.$Itemid);
-							?>
-							<li>
+						?>
+						<li>
+							<?php				
+							if ($row->access <= $gid) {
+								$link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$id.'&amp;id='.$row->id.'&amp;Itemid='.$Itemid);
+								?>
 								<a href="<?php echo $link; ?>" class="category">
 									<?php echo $row->name;?></a>
-								<?php
-								if ($params->get('cat_items')) {
-									?>
-									&nbsp;<i>( <?php echo $row->numitems ." ". JText::_( 'items' );?> )</i>
 									<?php
-								}
-								
-								// Writes Category Description
-								if ($params->get('cat_description') && $row->description) {
-									echo '<br />';
-									echo $row->description;
-								}
+									if ($params->get('cat_items')) {
+										?>
+										&nbsp;<i>( <?php echo $row->numitems ." ". JText::_( 'items' );?> )</i>
+										<?php
+									}
+									
+									// Writes Category Description
+									if ($params->get('cat_description') && $row->description) {
+										?>
+										<br />
+										<?php
+										echo $row->description;
+									}
+							} else {
+								echo $row->name;
 								?>
-							</li>
-							<?php
-						} else {
-							?>
-							<li>
-								<?php echo $row->name; ?>
 								<a href="<?php echo sefRelToAbs( 'index.php?option=com_registration&amp;task=register' ); ?>">
 									( <?php echo JText::_( 'Registered Users Only' ); ?> )</a>
-							</li>
+								<?php
+							}
+							?>
+						</li>
 						<?php
-						}
 					}
 				}
 				?>
