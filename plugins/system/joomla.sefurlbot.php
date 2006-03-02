@@ -289,8 +289,7 @@ function botJoomlaSEFUrl( ) {
  * @return string The absolute search engine friendly URL
  * @since 1.0
  */
-function sefRelToAbs( $string ) 
-{
+function sefRelToAbs( $string ) {
 	global $mainframe, $iso_client_lang, $mod_rewrite_off;
 	
 	/*
@@ -427,12 +426,13 @@ function sefRelToAbs( $string )
 		if ( !(strpos( $string, $LiveSite ) === 0) ) {
 			// if URI starts with a "/", means URL is at the root of the host...
 			if (strncmp($string, '/', 1) == 0) {
-				// splits http(s)://xx.xx/yy/zz..." into [1]="htpp(s)://xx.xx" and [2]="/yy/zz...":
+				// splits http(s)://xx.xx/yy/zz..." into [1]="http(s)://xx.xx" and [2]="/yy/zz...":
 				$live_site_parts = array();
 				eregi("^(https?:[\/]+[^\/]+)(.*$)", $LiveSite, $live_site_parts);
 				
 				$string = $live_site_parts[1] . $string;
-			} else {
+			// check that url does not contain `http`, `https` or `ftp` at start of string
+			} else if ( !( strpos( $string, 'http' ) === 0 ) && !( strpos( $string, 'https' ) === 0 ) && !( strpos( $string, 'ftp' ) === 0 ) ) {
 				// URI doesn't start with a "/" so relative to the page (live-site):
 				$string = $LiveSite .'/'. $string;
 			}
