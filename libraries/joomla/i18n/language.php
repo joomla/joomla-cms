@@ -134,7 +134,7 @@ class JLanguage extends JObject
 		$this->_strings = array ();
 
 		if ($lang == null) {
-			$lang = 'eng_GB';
+			$lang = 'eng-GB';
 		}
 
 		$this->_lang= $lang;
@@ -610,7 +610,7 @@ class JLanguageHelper
 			}
 		}
 
-		return 'eng_GB';
+		return 'eng-GB';
 	}
 }
 ?>

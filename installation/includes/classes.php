@@ -267,7 +267,7 @@ class JInstallationController
 		// Initialize variables
 		$errors = null;
 
-		$lang = mosGetParam($vars, 'lang', 'eng_GB');
+		$lang = mosGetParam($vars, 'lang', 'eng-GB');
 		$DBcreated = mosGetParam($vars, 'DBcreated', '0');
 
 		$DBtype = mosGetParam($vars, 'DBtype', 'mysql');
@@ -356,7 +356,7 @@ class JInstallationController
 			}
 
 			if ($DBSample) {
-				$dbsample = 'language/eng_GB/sample_data.sql';
+				$dbsample = 'language/eng-GB/sample_data.sql';
 				// Checks for language depended files
 				if (JFile::exists('language'.DS.$lang.DS.'sample_data.sql')) {
 					$dbsample = 'language'.DS.$lang.DS.'sample_data.sql';

@@ -536,7 +536,7 @@ class HTML_admin_misc {
 					Details
 				</legend>					
 				
-				<iframe name="helpFrame" src="<?php echo 'help/eng_GB/' . $page;?>" class="helpFrame" frameborder="0"></iframe>
+				<iframe name="helpFrame" src="<?php echo 'help/eng-GB/' . $page;?>" class="helpFrame" frameborder="0"></iframe>
 			</fieldset>
 		</div>			
 
@@ -604,11 +604,11 @@ function getHelpTOC( $helpsearch )
 {
 	$helpurl = mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
 
-	$files = mosReadDirectory( JPATH_BASE . '/help/eng_GB/', '\.xml$|\.html$' );
+	$files = mosReadDirectory( JPATH_BASE . '/help/eng-GB/', '\.xml$|\.html$' );
 
 	$toc = array();
 	foreach ($files as $file) {
-		$buffer = file_get_contents( JPATH_BASE . '/help/eng_GB/' . $file );
+		$buffer = file_get_contents( JPATH_BASE . '/help/eng-GB/' . $file );
 		if (preg_match( '#<title>(.*?)</title>#', $buffer, $m )) {
 			$title = trim( $m[1] );
 			if ($title) {

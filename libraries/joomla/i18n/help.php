@@ -53,7 +53,7 @@ class JHelp {
 			$url = $globalHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=' . urlencode( $ref );
 		} else {
 	   		// Included html help files
-			$url .= '/administrator/help/eng_GB/';
+			$url .= '/administrator/help/eng-GB/';
 			$ref = $ref . '.html';
 			$url .= $ref;
 		}

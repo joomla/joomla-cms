@@ -436,7 +436,7 @@ class JApplication extends JObject
 		 * One last check to make sure we have something
 		 */
 		if (empty($lang)) {
-			$lang = 'eng_GB';
+			$lang = 'eng-GB';
 		}
 		
 		//Set the language in the class
@@ -501,7 +501,7 @@ class JApplication extends JObject
             'charset'  => 'utf-8',
            	'lineend'  => 'unix',
             'tab'  => '  ',
-          	'language' => 'eng_GB'
+          	'language' => 'eng-GB'
 		);
 		jimport('joomla.document.document');
 		$instance =& JDocument::getInstance('html', $attributes);
