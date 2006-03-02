@@ -19,16 +19,16 @@ $url = mosGetParam( $_SERVER, 'REQUEST_URI', null );
 // if return link does not contain https:// & http:// and to url
 if ( strpos($url, 'http:') !== 0 && strpos($url, 'https:') !== 0 ) {
 	$url = mosGetParam( $_SERVER, 'HTTP_HOST', null ) . $url;
-	
+
 	// check if link is https://
-	if ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] ) {
+	if ( isset( $_SERVER['HTTPS'] ) && ( !empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] != 'off' ) ) {
 		$return = 'https://'. $url;
 	} else {
-		// normal http:// link
+	// normal http:// link
 		$return = 'http://'. $url;
 	}
 } else {
-	$return = $request_uri;
+	$return = $url;
 }
 // converts & to &amp; for xtml compliance
 $return = str_replace( '&', '&amp;', $return );
