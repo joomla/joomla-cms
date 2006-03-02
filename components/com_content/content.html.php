@@ -23,8 +23,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Content
  * @since 1.0
  */
-class JContentView 
-{
+class JContentView {
 	/**
 	 * Draws a Content List Used by Content Category & Content Section
 	 * 
@@ -116,7 +115,7 @@ class JContentView
 					<?php
 				}
 				// New Content icon
-				if ($access->canEdit || $access->canEditOwn) {
+				if ( ( $access->canEdit || $access->canEditOwn ) && count( $other_categories ) > 0 ) {
 					$link = sefRelToAbs('index.php?option=com_content&amp;task=new&amp;sectionid='.$id.'&amp;Itemid='.$Itemid);
 					?>
 					<a href="<?php echo $link; ?>">

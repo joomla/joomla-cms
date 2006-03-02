@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <install type="menu" version="1.0.0">
-	<name>Table - Content Section</name>
+	<name>List - Content Section</name>
 	<group>Content</group>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
