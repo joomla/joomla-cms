@@ -494,7 +494,7 @@ class JLanguage extends JObject
 		}
 
 		$languages = array ();
-		$files = JFolder::files($dir, '^([_A-Za-z]*)\.xml$');
+		$files = JFolder::files($dir, '^([-_A-Za-z]*)\.xml$');
 		foreach ($files as $file) {
 			if ($content = file_get_contents($dir.$file)) {
 				if ($metadata = JLanguage::_parseXMLLanguageFile($dir.$file)) {
