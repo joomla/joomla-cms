@@ -101,7 +101,7 @@ class JInstallerExtensionTasks {
 		$rows = array();
 		$rowid = 0;
 		foreach ($languages as $language) {
-			$files = JFolder::files( $language->baseDir .DS. $language->folder, '^([_A-Za-z]*)\.xml$' );
+			$files = JFolder::files( $language->baseDir .DS. $language->folder, '^([-_A-Za-z]*)\.xml$' );
 			foreach ($files as $file) {
 				// Read the file to see if it's a valid template XML file
 				$xmlDoc =& JFactory::getXMLParser();

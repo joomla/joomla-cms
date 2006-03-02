@@ -16,7 +16,7 @@
     	<locale>en, uk, eng_GB, en_GB, english, english-uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom</locale>
     </metadata>
     <files>
-        <filename>eng_GB.ini</filename>
+        <filename>eng-GB.ini</filename>
     </files>
     <params />
 </install>

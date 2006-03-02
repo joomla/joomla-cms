@@ -16,7 +16,7 @@
     	<locale>fr, French_Standard, french, fr_FR, fre_FR, fr_FR.utf8, fr_FR.UTF-8, fr_FR.UTF-8@euro</locale>
     </metadata>
     <files>
-        <filename>fre_Fr.ini</filename>
+        <filename>fre-Fr.ini</filename>
     </files>
     <params />
 </install>

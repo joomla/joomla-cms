@@ -16,7 +16,7 @@
     	<locale>ge, de, de_DE@euro, de_DE, deu, german, germany</locale>
     </metadata>
     <files>
-        <filename>ger_DE.ini</filename>
+        <filename>ger-DE.ini</filename>
     </files>
     <params />
 </install>
