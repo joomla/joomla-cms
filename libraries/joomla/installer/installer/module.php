@@ -18,7 +18,8 @@
  * @subpackage	Installer
  * @since		1.1
  */
-class JInstallerModule extends JInstaller {
+class JInstallerModule extends JInstaller
+{
 
 	/**
 	 * Custom install method
@@ -28,50 +29,53 @@ class JInstallerModule extends JInstaller {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function install($p_fromdir) {
+	function install($p_fromdir)
+	{
 
 		// Get database connector object
-		$db =& $this->i_db;
+		$db = & $this->_db;
 
 		/*
 		 * First lets set the installation directory, find and check the installation file and verify
 		 * that it is the proper installation type
 		 */
-		if (!$this->preInstallCheck( $p_fromdir, 'module' )) {
+		if (!$this->preInstallCheck($p_fromdir, 'module'))
+		{
 			return false;
 		}
 
 		// Get the root node of the XML document
-		$root =& $this->i_xmldoc->documentElement;
+		$root = & $this->_xmldoc->documentElement;
 
 		/*
 		 * Get the client application target
 		 */
-		if ($client = $root->getAttribute('client')) {
-
-			// Attempt to map the client to a base path
-			$clientVals = $this->_mapClient($client);
-			if ($clientVals === false) {
-				JError::raiseWarning( 1, 'JInstallerModule::install: ' . JText::_('Unknown client type').' ['.$client.']');
+		if ($client = $root->getAttribute('client'))
+		{
+			$clientVals = JApplicationHelper::getClientInfo($client, true);
+			if ($clientVals === false)
+			{
+				JError::raiseWarning(1, 'JInstallerModule::install: '.JText::_('Unknown client type').' ['.$client.']');
 				return false;
 			}
-			$basePath = $clientVals['path'];
-			$clientId = $clientVals['id'];
-		} else {
+			$basePath = $clientVals->path;
+			$clientId = $clientVals->id;
+		} else
+		{
 			/*
 			 * No client attribute was found so we assume the site as the client
 			 */
 			$client = 'site';
 			$basePath = JPATH_SITE;
-			$clientId = 0;	
+			$clientId = 0;
 		}
 
 		/*
 		 * Set the extension name
 		 */
 		$e = & $root->getElementsByPath('name', 1);
-		$this->i_extensionName = $e->getText();
-		
+		$this->_extensionName = $e->getText();
+
 		/*
 		 * Set the extension installation directory
 		 */
@@ -88,13 +92,12 @@ class JInstallerModule extends JInstaller {
 				}
 			}
 		}
-		if (!empty($m))
+		if (!empty ($m))
 		{
-			$this->i_extensionDir = JPath :: clean($basePath.DS.'modules'. DS . $m . DS);
-		}
-		else
+			$this->_extensionDir = JPath::clean($basePath.DS.'modules'.DS.$m.DS);
+		} else
 		{
-			JError::raiseWarning( 1, 'JInstallerModule::install: ' . JText::_( 'No module file specified' ) );
+			JError::raiseWarning(1, 'JInstallerModule::install: '.JText::_('No module file specified'));
 			return false;
 		}
 
@@ -103,17 +106,22 @@ class JInstallerModule extends JInstaller {
 		 * module is already installed or another module is using that
 		 * directory.
 		 */
-		if (file_exists($this->i_extensionDir)) {
-			JError::raiseWarning( 1, 'JInstallerModule::install: ' . JText::_( 'Another module is already using directory' ) .': "' . $this->i_extensionDir . '"');
+		if (file_exists($this->_extensionDir))
+		{
+			JError::raiseWarning(1, 'JInstallerModule::install: '.JText::_('Another module is already using directory').': "'.$this->_extensionDir.'"');
 			return false;
 		}
 
 		/*
 		 * If the module directory does not exists, lets create it
 		 */
-		if(!file_exists($this->i_extensionDir) && !$created = JFolder::create($this->i_extensionDir)) {
-			JError::raiseWarning( 1, 'JInstallerComponent::install: ' . JText::_( 'Failed to create directory' ) .': "' . $this->i_extensionDir . '"');
-			return false;
+		if (!file_exists($this->_extensionDir))
+		{
+			if (!$created = JFolder::create($this->_extensionDir))
+			{
+				JError::raiseWarning(1, 'JInstallerComponent::install: '.JText::_('Failed to create directory').': "'.$this->_extensionDir.'"');
+				return false;
+			}
 		}
 
 		/*
@@ -121,15 +129,17 @@ class JInstallerModule extends JInstaller {
 		 * we have to roll back the installation, lets add it to the
 		 * installation step stack
 		 */
-		if ($created) {
-			$this->i_stepStack[] = array('type' => 'folder', 'path' => $this->i_extensionDir);
+		if ($created)
+		{
+			$this->_stepStack[] = array ('type' => 'folder', 'path' => $this->_extensionDir);
 		}
 
 		/*
 		 * Copy all the necessary files
 		 */
-		if ($this->_parseFiles('files', 'module', JText::_('No file is marked as module file')) === false) {
-			JError::raiseWarning( 1, 'JInstallerModule::install: ' . JText::_('Failed to copy files to').' "'.$this->i_extensionDir.'"');
+		if ($this->_parseFiles('files', 'module', JText::_('No file is marked as module file')) === false)
+		{
+			JError::raiseWarning(1, 'JInstallerModule::install: '.JText::_('Failed to copy files to').' "'.$this->_extensionDir.'"');
 
 			// Install failed, roll back changes
 			$this->_rollback();
@@ -140,53 +150,56 @@ class JInstallerModule extends JInstaller {
 		 * Copy all the images and languages as well
 		 */
 		$this->_parseFiles('images');
-		$this->_parseFiles( 'media' );
-		$this->_parseFiles( 'languages' );
-		$this->_parseFiles( 'administration/languages' );
-
+		$this->_parseFiles('media');
+		$this->_parseFiles('languages');
+		$this->_parseFiles('administration/languages');
 
 		/*
 		 * Check to see if a module by the same name is already installed
 		 */
-		$query = 	"SELECT `id` " .
-					"\nFROM `#__modules` " .
-					"\nWHERE module = '".$this->i_extensionSpecial."' " .
-					"\nAND client_id = $clientId";
+		$query = "SELECT `id` " .
+				"\nFROM `#__modules` " .
+				"\nWHERE module = '".$this->_extensionSpecial."' " .
+				"\nAND client_id = $clientId";
 
 		$db->setQuery($query);
-		if (!$db->Query()) {
-			JError::raiseWarning( 1, 'JInstallerModule::install: '.$db->stderr(true));
+		if (!$db->Query())
+		{
+			JError::raiseWarning(1, 'JInstallerModule::install: '.$db->stderr(true));
 
 			// Install failed, roll back changes
 			$this->_rollback();
 			return false;
 		}
 		$id = $db->loadResult();
-		
+
 		/*
 		 * Was there a module already installed?
 		 */
-		if ($id) {
-			JError::raiseWarning( 1, 'JInstallerModule::install: '.JText::_('Module').' "'.$this->i_extensionName.'" '.JText::_('already exists!'));
+		if ($id)
+		{
+			JError::raiseWarning(1, 'JInstallerModule::install: '.JText::_('Module').' "'.$this->_extensionName.'" '.JText::_('already exists!'));
 
 			// Install failed, roll back changes
 			$this->_rollback();
 			return false;
-		} else {
-			$row =& JModel::getInstance('module', $db );
-			$row->title = $this->i_extensionName;
+		} else
+		{
+			$row = & JModel::getInstance('module', $db);
+			$row->title = $this->_extensionName;
 			$row->ordering = 99;
 			$row->position = 'left';
 			$row->showtitle = 1;
 			$row->iscore = 0;
 			$row->access = $clientId == 1 ? 23 : 0;
 			$row->client_id = $clientId;
-			$row->module = $this->i_extensionSpecial;
+			$row->module = $this->_extensionSpecial;
 			$row->params = $this->_getParams();
 
-			if (!$row->store()) {
-				JError::raiseWarning( 1, 'JInstallerModule::install: '.$db->stderr(true));
-	
+			if (!$row->store())
+			{
+				JError::raiseWarning(1, 'JInstallerModule::install: '.$db->stderr(true));
+
 				// Install failed, roll back changes
 				$this->_rollback();
 				return false;
@@ -196,17 +209,17 @@ class JInstallerModule extends JInstaller {
 			 * Since we have created a module item, we add it to the installation step stack
 			 * so that if we have to rollback the changes we can undo it.
 			 */
-			$this->i_stepStack[] = array ('type' => 'module', 'id' => $row->id);
-
+			$this->_stepStack[] = array ('type' => 'module', 'id' => $row->id);
 
 			/*
 			 * Time to create a menu entry for the module
 			 */
-			$query = 	"INSERT INTO `#__modules_menu` ".
-						"\nVALUES ( $row->id, 0 )";
+			$query = "INSERT INTO `#__modules_menu` " .
+					"\nVALUES ( $row->id, 0 )";
 			$db->setQuery($query);
-			if (!$db->query()) {
-				JError::raiseWarning( 1, 'JInstallerModule::install: '.$db->stderr(true));
+			if (!$db->query())
+			{
+				JError::raiseWarning(1, 'JInstallerModule::install: '.$db->stderr(true));
 
 				// Install failed, roll back changes
 				$this->_rollback();
@@ -217,7 +230,7 @@ class JInstallerModule extends JInstaller {
 			 * Since we have created a menu item, we add it to the installation step stack
 			 * so that if we have to rollback the changes we can undo it.
 			 */
-			$this->i_stepStack[] = array ('type' => 'menu', 'id' => $db->insertid());
+			$this->_stepStack[] = array ('type' => 'menu', 'id' => $db->insertid());
 
 		}
 
@@ -225,43 +238,48 @@ class JInstallerModule extends JInstaller {
 		 * Now, lets create the necessary module positions
 		 */
 		$templatePositions = & $root->getElementsByPath('install/positions', 1);
-		if (!is_null($templatePositions)) {
+		if (!is_null($templatePositions))
+		{
 			$positions = $templatePositions->childNodes;
-			foreach ($positions as $position) {
-				
+			foreach ($positions as $position)
+			{
+
 				$id = $this->_createTemplatePosition($position->getText());
 
-				if ($id) {
+				if ($id)
+				{
 					/*
 					 * Since we have created a template positions item, we add it to the installation step stack
 					 * so that if we have to rollback the changes we can undo it.
 					 */
-					$this->i_stepStack[] = array ('type' => 'position', 'id' => $id);
+					$this->_stepStack[] = array ('type' => 'position', 'id' => $id);
 				}
 			}
 		}
 
-
 		/*
 		 * Get the module description
 		 */
-		$e =& $root->getElementsByPath( 'description', 1 );
-		if (!is_null($e)) {
-			$this->i_description = $this->i_extensionName.'<p>'.$e->getText().'</p>';
-		} else {
-			$this->i_description = $this->i_extensionName;
+		$e = & $root->getElementsByPath('description', 1);
+		if (!is_null($e))
+		{
+			$this->_description = $this->_extensionName.'<p>'.$e->getText().'</p>';
+		} else
+		{
+			$this->_description = $this->_extensionName;
 		}
 
 		/*
 		 * Lastly, we will copy the setup file to its appropriate place.
 		 */
-		 if (!$this->_copyInstallFile(0)) {
-			JError::raiseWarning( 1, 'JInstallerModule::install: ' . JText::_( 'Could not copy setup file' ));
+		if (!$this->_copyInstallFile(0))
+		{
+			JError::raiseWarning(1, 'JInstallerModule::install: '.JText::_('Could not copy setup file'));
 
-		 	// Install failed, rollback changes
-		 	$this->_rollback();
-		 	return false;
-		 }
+			// Install failed, rollback changes
+			$this->_rollback();
+			return false;
+		}
 		return true;
 	}
 
@@ -274,68 +292,76 @@ class JInstallerModule extends JInstaller {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function uninstall($id, $client = 0) {
+	function uninstall($id, $client = 0)
+	{
 
-		// Initialize variables
+		/*
+		 * Initialize variables
+		 */
 		$row = null;
 		$retval = true;
 
 		// Get database connector object
-		$db = & $this->i_db;
+		$db = & $this->_db;
 
 		/*
 		 * First order of business will be to load the module object model from the database.
 		 * This should give us the necessary information to proceed.
 		 */
-		$row =& JModel::getInstance('module', $db );
+		$row = & JModel::getInstance('module', $db);
 		$row->load($id);
 
 		/*
 		 * Is the component we are trying to uninstall a core one?
 		 * Because that is not a good idea...
 		 */
-		if ($row->iscore) {
-            JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerModule::uninstall: '. sprintf( JText::_( 'WARNCORECOMPONENT' ), $row->name ) ."<br />". JText::_( 'WARNCORECOMPONENT2' ));
+		if ($row->iscore)
+		{
+			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerModule::uninstall: '.sprintf(JText::_('WARNCORECOMPONENT'), $row->name)."<br />".JText::_('WARNCORECOMPONENT2'));
 			return false;
 		}
 
 		/*
 		 * Use the client id to determine which module path to use for the xml install file
 		 */
-		if (!$row->client_id) {
-			$basepath = JPATH_SITE.DS.'modules'. DS . $row->module .DS;
-		} else {
-			$basepath = JPATH_ADMINISTRATOR.DS.'modules'. DS . $row->module .DS;
+		if (!$row->client_id)
+		{
+			$basepath = JPATH_SITE.DS.'modules'.DS.$row->module.DS;
+		} else
+		{
+			$basepath = JPATH_ADMINISTRATOR.DS.'modules'.DS.$row->module.DS;
 		}
-		$this->i_extensionDir = $basepath;
-		
+		$this->_extensionDir = $basepath;
+
 		// Get the path to the xml install file
 		$xmlfile = $basepath.$row->module.'.xml';
 
 		/*
 		 * Lets delete all the module copies for the type we are uninstalling
 		 */
-		$query = 	"SELECT `id` " .
-					"\nFROM `#__modules` " .
-					"\nWHERE module = '". $row->module ."' " .
-					"\nAND client_id = '". $row->client_id ."'";
+		$query = "SELECT `id` " .
+				"\nFROM `#__modules` " .
+				"\nWHERE module = '".$row->module."' " .
+				"\nAND client_id = '".$row->client_id."'";
 
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		$modules = $db->loadResultArray();
 
 		/*
 		 * Do we have any module copies?
 		 */
-		if (count( $modules )) {
-            $modID = implode( ',', $modules );
+		if (count($modules))
+		{
+			$modID = implode(',', $modules);
 
 			$query = "DELETE " .
 					"\nFROM #__modules_menu " .
-					"\nWHERE moduleid IN ('". $modID ."')";
+					"\nWHERE moduleid IN ('".$modID."')";
 
-			$db->setQuery( $query );
-			if (!$db->query()) {
-				JError::raiseWarning( 1, 'JInstallerModule::uninstall: '.$db->stderr(true));
+			$db->setQuery($query);
+			if (!$db->query())
+			{
+				JError::raiseWarning(1, 'JInstallerModule::uninstall: '.$db->stderr(true));
 				$retval = false;
 			}
 		}
@@ -344,24 +370,27 @@ class JInstallerModule extends JInstaller {
 		 * Now we will no longer need the module object, so lets delete it
 		 */
 		$row->delete($row->id);
-		
+
 		// Free up memory
-		unset($row);
+		unset ($row);
 
 		/*
 		 * Now is time to load the xml file and process it
 		 */
-		if (file_exists($xmlfile)) {
-			$this->i_xmldoc = & JFactory::getXMLParser();
-			$this->i_xmldoc->resolveErrors(true);
+		if (file_exists($xmlfile))
+		{
+			$this->_xmldoc = & JFactory::getXMLParser();
+			$this->_xmldoc->resolveErrors(true);
 
-			if ($this->i_xmldoc->loadXML($xmlfile, false, true)) {
+			if ($this->_xmldoc->loadXML($xmlfile, false, true))
+			{
 
 				/*
 				 * Let's remove the files for the module
-				 */		
-				if ($this->_removeFiles( 'files' ) === false) {
-					JError::raiseWarning( 1, 'JInstallerModule::uninstall: '.JText::_( 'Unable to remove all files' ));
+				 */
+				if ($this->_removeFiles('files') === false)
+				{
+					JError::raiseWarning(1, 'JInstallerModule::uninstall: '.JText::_('Unable to remove all files'));
 					$retval = false;
 				}
 
@@ -369,24 +398,26 @@ class JInstallerModule extends JInstaller {
 				 * Remove other files
 				 */
 				$this->_removeFiles('images');
-				$this->_removeFiles( 'media' );
-				$this->_removeFiles( 'languages' );
-				$this->_removeFiles( 'administration/languages' );
+				$this->_removeFiles('media');
+				$this->_removeFiles('languages');
+				$this->_removeFiles('administration/languages');
 
 				/*
 				 * Remove module folder
 				 */
 				JFolder::delete($basepath);
 
-			} else {
-				JError::raiseWarning( 1, 'JInstallerModule::uninstall: '.JText::_( 'Could not load XML file' ) .' '. $xmlfile);
+			} else
+			{
+				JError::raiseWarning(1, 'JInstallerModule::uninstall: '.JText::_('Could not load XML file').' '.$xmlfile);
 				$retval = false;
 			}
-		} else {
-			JError::raiseWarning( 1, 'JInstallerModule::uninstall: '.JText::_( 'File does not exist' ) .' '. $xmlfile);
+		} else
+		{
+			JError::raiseWarning(1, 'JInstallerModule::uninstall: '.JText::_('File does not exist').' '.$xmlfile);
 			$retval = false;
 		}
-		
+
 		return $retval;
 	}
 
@@ -398,23 +429,30 @@ class JInstallerModule extends JInstaller {
 	 * @return mixed Template position id (int) if a position was inserted or boolean false otherwise
 	 * @since 1.1
 	 */
-	function _createTemplatePosition($position) {
+	function _createTemplatePosition($position)
+	{
 
 		/*
 		 * Get the global database connector object
 		 */
-		$db = $this->i_db;
+		$db = $this->_db;
 
 		// Initialize variable
 		$retval = false;
 
-		if ($position) {
-			$db->setQuery("SELECT id "."\nFROM #__template_positions "."\nWHERE position = '$position'");
+		if ($position)
+		{
+			$db->setQuery("SELECT id " .
+					"\nFROM #__template_positions " .
+					"\nWHERE position = '$position'");
 			$db->Query();
-			if (!$db->getNumRows()) {
-				$db->setQuery("INSERT INTO #__template_positions "."\nVALUES (0,'$position','')");
-				if ($db->Query() !== false) {
-					$retval = $db->insertid();	
+			if (!$db->getNumRows())
+			{
+				$db->setQuery("INSERT INTO #__template_positions " .
+						"\nVALUES (0,'$position','')");
+				if ($db->Query() !== false)
+				{
+					$retval = $db->insertid();
 				}
 			}
 		}
@@ -430,20 +468,21 @@ class JInstallerModule extends JInstaller {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function _rollback_menu($arg) {
+	function _rollback_menu($arg)
+	{
 
 		// Get database connector object
-		$db =& $this->i_db;
+		$db = & $this->_db;
 
 		/*
 		 * Remove the entry from the #__modules_menu table
 		 */
-		$query = 	"DELETE " .
-					"\nFROM `#__modules_menu` " .
-					"\nWHERE moduleid='".$arg['id']."'";
+		$query = "DELETE " .
+				"\nFROM `#__modules_menu` " .
+				"\nWHERE moduleid='".$arg['id']."'";
 
-		$db->setQuery( $query );
-		
+		$db->setQuery($query);
+
 		return ($db->query() !== false);
 	}
 
@@ -456,20 +495,21 @@ class JInstallerModule extends JInstaller {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function _rollback_position($arg) {
+	function _rollback_position($arg)
+	{
 
 		// Get database connector object
-		$db =& $this->i_db;
+		$db = & $this->_db;
 
 		/*
 		 * Remove the entry from the #__template_positions table
 		 */
-		$query = 	"DELETE " .
-					"\nFROM `#__template_positions` " .
-					"\nWHERE id='".$arg['id']."'";
+		$query = "DELETE " .
+				"\nFROM `#__template_positions` " .
+				"\nWHERE id='".$arg['id']."'";
 
-		$db->setQuery( $query );
-		
+		$db->setQuery($query);
+
 		return ($db->query() !== false);
 	}
 
@@ -482,20 +522,21 @@ class JInstallerModule extends JInstaller {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function _rollback_module($arg) {
+	function _rollback_module($arg)
+	{
 
 		// Get database connector object
-		$db =& $this->i_db;
+		$db = & $this->_db;
 
 		/*
 		 * Remove the entry from the #__modules table
 		 */
-		$query = 	"DELETE " .
-					"\nFROM `#__modules` " .
-					"\nWHERE id='".$arg['id']."'";
+		$query = "DELETE " .
+				"\nFROM `#__modules` " .
+				"\nWHERE id='".$arg['id']."'";
 
-		$db->setQuery( $query );
-		
+		$db->setQuery($query);
+
 		return ($db->query() !== false);
 	}
 }

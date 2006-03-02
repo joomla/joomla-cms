@@ -12,14 +12,23 @@
 */
 
 /**
- * Language  installer
+ * Language installer
  *
  * @author		Louis Landry <louis@webimagery.net>
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @since		1.1
  */
-class JInstallerLanguage extends JInstaller {
+class JInstallerLanguage extends JInstaller
+{
+
+	/**
+	 * Core language pack flag
+	 * 
+	 * @access	private
+	 * @var		boolean
+	 */
+	var $_corePack = false;
 
 	/**
 	 * Custom install method
@@ -29,64 +38,106 @@ class JInstallerLanguage extends JInstaller {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function install( $p_fromdir ) {
+	function install($p_fromdir)
+	{
 
 		/*
 		 * First lets set the installation directory, find and check the installation file and verify
 		 * that it is the proper installation type
 		 */
-		if (!$this->preInstallCheck( $p_fromdir, 'language' )) {
+		if (!$this->preInstallCheck($p_fromdir, 'language'))
+		{
 			return false;
 		}
 
 		// Get the root node of the XML document
-		$root =& $this->i_xmldoc->documentElement;
+		$root = & $this->_xmldoc->documentElement;
 
 		/*
 		 * Get the client application target
 		 */
-		if ($client = $root->getAttribute('client')) {
-
+		if ($client = $root->getAttribute('client'))
+		{
 			// Attempt to map the client to a base path
-			$clientVals = $this->_mapClient($client);
-			if ($clientVals === false) {
-				JError::raiseWarning( 1, 'JInstallerLanguage::install: ' . JText::_('Unknown client type').' ['.$client.']');
+			$clientVals = JApplicationHelper::getClientInfo($client, true);
+			if ($clientVals === false)
+			{
+				JError::raiseWarning(1, 'JInstallerLanguage::install: '.JText::_('Unknown client type').' ['.$client.']');
 				return false;
 			}
-			$basePath = $clientVals['path'];
-			$clientId = $clientVals['id'];
-		} else {
+			$basePath = $clientVals->path;
+			$clientId = $clientVals->id;
+		} else
+		{
 			/*
 			 * No client attribute was found so we assume the site as the client
 			 */
 			$client = 'site';
 			$basePath = JPATH_SITE;
-			$clientId = 0;	
+			$clientId = 0;
 		}
 
 		/*
 		 * Get the language name
 		 */
-		$e =& $root->getElementsByPath( 'name', 1);
-		$this->i_extensionName = $e->getText();
+		$e = & $root->getElementsByPath('name', 1);
+		$this->_extensionName = $e->getText();
 
 		/*
 		 * Get the Language tag [ISO tag, eg. en_GB]
 		 */
-		$e =& $root->getElementsByPath( 'metadata/tag', 1);
+		$e = & $root->getElementsByPath('tag', 1);
 		$folder = $e->getText();
-		
+
 		/*
 		 * Set the language installation path
 		 */
-		$this->i_extensionDir = JPath::clean( $basePath . DS ."language". DS .$folder );
+		$this->_extensionDir = JPath::clean($basePath.DS."language".DS.$folder);
+
+		/*
+		 * Do we have a meta file in the file list?  In other words... is this a
+		 * core language pack?
+		 */
+		$e = & $root->getElementsByPath('files', 1);
+		if (!is_null($e) && $e->hasChildNodes())
+		{
+			$files = & $e->childNodes;
+			foreach ($files as $file)
+			{
+				if ($file->hasAttribute('file'))
+				{
+					if ($file->getAttribute('file') == "meta")
+					{
+						$this->_corePack = true;
+						break;
+					}
+				}
+			}
+		}
+
+		/*
+		 * Either we are installing a core pack or a core pack must exist for
+		 * the language we are installing.
+		 */
+		if (!$this->_corePack)
+		{
+			if (!JFile::exists($this->_extensionDir.DS.$folder.'.xml'))
+			{
+				JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerLanguage::install: '.JText::_('No core pack exists for the language').' :'.$folder);
+				return false;
+			}
+		}
 
 		/*
 		 * If the language directory does not exist, lets create it
 		 */
-		if (!file_exists($this->i_extensionDir) && !$created = JFolder::create($this->i_extensionDir)) {
-			JError::raiseWarning( 1, 'JInstallerLanguage::install: ' . JText::_('Failed to create directory').' "'.$this->i_extensionDir.'"');
-			return false;
+		if (!file_exists($this->_extensionDir))
+		{
+			if (!$created = JFolder::create($this->_extensionDir))
+			{
+				JError::raiseWarning(1, 'JInstallerLanguage::install: '.JText::_('Failed to create directory').' "'.$this->_extensionDir.'"');
+				return false;
+			}
 		}
 
 		/*
@@ -94,55 +145,61 @@ class JInstallerLanguage extends JInstaller {
 		 * have to roll back the installation, lets add it to the installation
 		 * step stack
 		 */
-		if ($created) {
-			$this->i_stepStack[] = array('type' => 'folder', 'path' => $this->i_extensionDir);
+		if ($created)
+		{
+			$this->_stepStack[] = array ('type' => 'folder', 'path' => $this->_extensionDir);
 		}
 
 		/*
 		 * Copy all the necessary files
 		 */
-		if ($this->_parseFiles( 'files', 'language' ) === false) {
+		if ($this->_parseFiles('files') === false)
+		{
 
-		 	// Install failed, rollback changes
-		 	$this->_rollback();
+			// Install failed, rollback changes
+			$this->_rollback();
 			return false;
 		}
 
 		/*
 		 * Copy all the necessary font files to the common pdf_fonts directory
 		 */
-		$holdExtDir = $this->i_extensionDir;
-		$this->i_extensionDir = JPath::clean( $basePath . DS ."language". DS .'pdf_fonts' );
-		$this->i_allowOverwrite = true;
-		if ($this->_parseFiles( 'fonts', 'language') === false) {
+		$holdExtDir = $this->_extensionDir;
+		$this->_extensionDir = JPath::clean($basePath.DS."language".DS.'pdf_fonts');
+		$this->_allowOverwrite = true;
+		if ($this->_parseFiles('fonts', 'language') === false)
+		{
 
-		 	// Install failed, rollback changes
-		 	$this->_rollback();
+			// Install failed, rollback changes
+			$this->_rollback();
 			return false;
 		}
-		$this->i_extensionDir = $holdExtDir;
-		$this->i_allowOverwrite = false;
+		$this->_extensionDir = $holdExtDir;
+		$this->_allowOverwrite = false;
 
 		/*
 		 * Get the language description
 		 */
-		$e =& $root->getElementsByPath( 'description', 1 );
-		if (!is_null($e)) {
-			$this->i_description = $this->i_extensionName.'<p>'.$e->getText().'</p>';
-		} else {
-			$this->i_description = $this->i_extensionName;
+		$e = & $root->getElementsByPath('description', 1);
+		if (!is_null($e))
+		{
+			$this->_description = $this->_extensionName.'<p>'.$e->getText().'</p>';
+		} else
+		{
+			$this->_description = $this->_extensionName;
 		}
 
 		/*
 		 * Lastly, we will copy the setup file to its appropriate place.
 		 */
-		 if (!$this->_copyInstallFile(0)) {
-			JError::raiseWarning( 1, 'JInstallerLanguage::install: ' . JText::_( 'Could not copy setup file' ));
+		if (!$this->_copyInstallFile(0))
+		{
+			JError::raiseWarning(1, 'JInstallerLanguage::install: '.JText::_('Could not copy setup file'));
 
-		 	// Install failed, rollback changes
-		 	$this->_rollback();
-		 	return false;
-		 }
+			// Install failed, rollback changes
+			$this->_rollback();
+			return false;
+		}
 		return true;
 	}
 
@@ -155,59 +212,40 @@ class JInstallerLanguage extends JInstaller {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function uninstall( $id, $client = 'site' ) {
-		
+	function uninstall($id, $client = 'site')
+	{
+
 		/*
 		 * For a language the id will be an ISO tag, eg. en_GB which represents the 
 		 * subfolder of the languages folder that the language resides in.
 		 */
-		$id = trim( $id );
-		if (!$id) {
-			JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerLanguage::uninstall: ' . JText::_('Language id is empty, cannot uninstall files') );
+		$id = trim($id);
+		if (!$id)
+		{
+			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerLanguage::uninstall: '.JText::_('Language id is empty, cannot uninstall files'));
 			return false;
 		}
-		
+
 		/*
 		 * Set the language path
 		 */
-		$clientVals = $this->_mapClient($client);
-		if ($clientVals === false) {
-			JError::raiseWarning( 1, 'JInstallerModule::install: ' . JText::_('Unknown client type').' ['.$root->getAttribute('client').']');
+		$clientVals = JApplicationHelper::getClientInfo($client, true);
+		if ($clientVals === false)
+		{
+			JError::raiseWarning(1, 'JInstallerModule::uninstall: '.JText::_('Unknown client type').' ['.$root->getAttribute('client').']');
 			return false;
 		}
-		$path = JPath :: clean($clientVals['path'] . DS . 'language' . DS . $id);
+		$path = JPath::clean($clientVals->path.DS.'language'.DS.$id);
 
 		/*
-		 * Set some internal paths for smooth operation :)
-		 */		
-		$this->i_installDir = $path;
-		$this->i_extensionDir = $path;
-
-		/*
-		 * See if there is an xml install file
+		 * Remove the language folder
 		 */
-		if (!$this->_findInstallFile()) {
-			JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerLanguage::uninstall: ' . JText::_( 'Could not find xml install file' ) );
+		if (!JFolder::delete($this->_installDir))
+		{
+			JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerLanguage::uninstall: '.JText::_('Unable to remove language directory'));
 			return false;
 		}
 
-		/*
-		 * Remove all installed files (leaving files in this directory that
-		 * might have already been there -- belong to another extension)
-		 */
-		if (!$this->_removeFiles('files')) {
-			JError::raiseWarning( 'SOME_ERROR_CODE', 'JInstallerLanguage::uninstall: ' . JText::_( 'Could not remove all files' ) );
-			return false;
-		}
-
-		/*
-		 * If the folder is empty, let's delete it
-		 */
-		$files = JFolder::files($this->i_installDir);
-		if (!count($files)) {
-			JFolder::delete($this->i_installDir);
-		}
-		
 		return true;
 	}
 }
