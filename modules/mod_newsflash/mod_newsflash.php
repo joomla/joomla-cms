@@ -48,28 +48,21 @@ $access->canEdit 	= 0;
 $access->canEditOwn = 0;
 $access->canPublish = 0;
 
-$now = date( 'Y-m-d H:i:s', time()+$mosConfig_offset*60*60 );
+$now 				= date( 'Y-m-d H:i:s', time() + $mosConfig_offset * 60 * 60 );
+$noauth 			= !$mainframe->getCfg( 'shownoauth' );
+$nullDate 			= $database->getNullDate();
 
 $catid 				= intval( $params->get( 'catid' ) );
-$style 				= $params->get( 'style' );
-$items 				= intval( $params->get( 'items' ) );
+$items 				= intval( $params->get( 'items', 0 ) );
+$style 				= $params->get( 'style', 'flash' );
 $moduleclass_sfx    = $params->get( 'moduleclass_sfx' );
 $link_titles		= $params->get( 'link_titles', $mosConfig_link_titles );
 
-$params->set( 'intro_only', 1 );
-$params->set( 'hide_author', 1 );
-$params->set( 'hide_createdate', 0 );
-$params->set( 'hide_modifydate', 1 );
-$params->set( 'link_titles', $link_titles );
-
-if ( $items ) {
-	$limit = "LIMIT $items";
-} else {
-	$limit = '';
-}
-
-$noauth = !$mainframe->getCfg( 'shownoauth' );
-$nullDate = $database->getNullDate();
+$params->set( 'intro_only', 		1 );
+$params->set( 'hide_author', 		1 );
+$params->set( 'hide_createdate',	0 );
+$params->set( 'hide_modifydate', 	1 );
+$params->set( 'link_titles', 		$link_titles );
 
 // query to determine article count
 $query = "SELECT a.id, a.introtext, a.fulltext, a.images, a.attribs, a.title, a.state"
@@ -84,41 +77,41 @@ $query = "SELECT a.id, a.introtext, a.fulltext, a.images, a.attribs, a.title, a.
 ."\n AND cc.published = 1"
 ."\n AND s.published = 1"
 ."\n ORDER BY a.ordering"
-."\n $limit"
 ;
-$database->setQuery( $query );
+$database->setQuery( $query, $items );
 $rows = $database->loadObjectList();
+
 $numrows = count( $rows );
 
-switch ($style) {
-	case 'horiz':
-		echo '<table class="moduletable' . $moduleclass_sfx .'">';
-		echo '<tr>';
-		foreach ($rows as $row) {			
-			echo '<td>';			
-			output_newsflash( $row, $params, $access );			
-			echo '</td>';
-		}
-		echo '</tr></table>';
-		break;
-	
-	case 'vert':
-		foreach ($rows as $row) {		
-			output_newsflash( $row, $params, $access );
-		}
-		break;
-	
-	case 'flash':
-	default:
-		if ($numrows > 0) {
+// check if any results returned
+if ( $numrows ) {
+	switch ($style) {
+		case 'horiz':
+			echo '<table class="moduletable' . $moduleclass_sfx .'">';
+			echo '<tr>';
+			foreach ($rows as $row) {			
+				echo '<td>';			
+				output_newsflash( $row, $params, $access );			
+				echo '</td>';
+			}
+			echo '</tr></table>';
+			break;
+		
+		case 'vert':
+			foreach ($rows as $row) {		
+				output_newsflash( $row, $params, $access );
+			}
+			break;
+		
+		case 'flash':
+		default:
 			srand ((double) microtime() * 1000000);
 			$flashnum = rand( 0, $numrows-1 );
-		} else {
-			$flashnum = 0;
-		}
-		$row = $rows[$flashnum];
-		
-		output_newsflash( $row, $params, $access );
-		break;
+
+			$row = $rows[$flashnum];
+			
+			output_newsflash( $row, $params, $access );
+			break;
+	}
 }
 ?>
