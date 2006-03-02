@@ -73,7 +73,7 @@ foreach ( $rows as $row )
 		$name 	= $row->username;
 	}
 	
-	$clientInfo = $mainframe->getClientInfo($row->client_id);
+	$clientInfo = JApplicationHelper::getClientInfo($row->client_id);
 	?>
 	<tr>
 		<td width="5%">

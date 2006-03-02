@@ -720,7 +720,7 @@ function josURL( $url, $ssl=0, $sef=1 ) {
 }
 
 /**
- * Method to process internal Joomla URLs
+ * Method to extract key/value pairs out of a string with xml style attributes
  *
  * @package	Joomla.Framework
  * @param	string	$string	String containing xml style attributes

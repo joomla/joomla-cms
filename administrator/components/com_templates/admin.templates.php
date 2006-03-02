@@ -118,7 +118,7 @@ class JTemplatesController
 		 */
 		$db		= & $mainframe->getDBO();
 		$option = JRequest::getVar('option');
-		$client	= $mainframe->getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$rows	= array ();
 		$i			= 0;
 		$id		= intval($client->id == 1);
@@ -238,7 +238,7 @@ class JTemplatesController
 		 */
 		$db		= & $mainframe->getDBO();
 		$option	= JRequest::getVar('option');
-		$client	= $mainframe->getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		$query = "DELETE FROM #__templates_menu" .
 				"\n WHERE client_id = $client->id" .
@@ -268,7 +268,7 @@ class JTemplatesController
 		 */
 		$db		= & $mainframe->getDBO();
 		$option	= JRequest::getVar('option');
-		$client	= $mainframe->getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		$query = "SELECT template" .
 				"\n FROM #__templates_menu" .
@@ -301,7 +301,7 @@ class JTemplatesController
 		 * Initialize some variables
 		 */
 		$option	= JRequest::getVar('option');
-		$client	= $mainframe->getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$ini		= $client->path.DS.'templates'.DS.$p_tname.DS.'params.ini';
 		$xml		= $client->path.DS.'templates'.DS.$p_tname.DS.'templateDetails.xml';
 
@@ -328,7 +328,7 @@ class JTemplatesController
 		 * Initialize some variables
 		 */
 		$option		= JRequest::getVar('option');
-		$client		= $mainframe->getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$template	= JRequest::getVar('template');
 		$params	= JRequest::getVar('params', array (), '', 'array');
 
@@ -370,8 +370,8 @@ class JTemplatesController
 		 * Initialize some variables
 		 */
 		$option	= JRequest::getVar('option');
-		$client	= $mainframe->getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$file		= $client->path.DS.'templates'.DS.$p_tname.DS.'index.php';
+		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$file	= $client->path.DS.'templates'.DS.$p_tname.DS.'index.php';
 
 		// Read the source file
 		$content = JFile::read($file);
@@ -396,7 +396,7 @@ class JTemplatesController
 		 * Initialize some variables
 		 */
 		$option			= JRequest::getVar('option');
-		$client			= $mainframe->getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client			= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$template		= JRequest::getVar('template');
 		$enableWrite	= JRequest::getVar('enable_write', 0, '', 'int');
 		$filecontent	= JRequest::getVar('filecontent', '', '', '', _J_ALLOWHTML);
@@ -438,7 +438,7 @@ class JTemplatesController
 		 * Initialize some variables
 		 */
 		$option = JRequest :: getVar('option');
-		$client	= $mainframe->getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		if ($client->id == 1)
 		{
@@ -473,7 +473,7 @@ class JTemplatesController
 		 * Initialize some variables
 		 */
 		$option		= JRequest::getVar('option');
-		$client		= $mainframe->getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$template	= JRequest::getVar('template');
 		$tp_name	= JRequest::getVar('tp_name');
 		$file			= $client->path.$tp_name;
@@ -501,7 +501,7 @@ class JTemplatesController
 		 * Initialize some variables
 		 */
 		$option			= JRequest::getVar('option');
-		$client			= $mainframe->getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client			= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$template		= JRequest::getVar('template');
 		$tp_fname		= JRequest::getVar('tp_fname');
 		$filecontent	= JRequest::getVar('filecontent', '', '', '', _J_ALLOWHTML);
@@ -535,7 +535,7 @@ class JTemplatesController
 		 */
 		$db		= & $mainframe->getDBO();
 		$option	= JRequest::getVar('option');
-		$client	= $mainframe->getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		// get selected pages for $menulist
 		if ($p_tname)
@@ -563,7 +563,7 @@ class JTemplatesController
 		 */
 		$db			= & $mainframe->getDBO();
 		$option		= JRequest::getVar('option');
-		$client		= $mainframe->getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$menus		= JRequest::getVar('selections', array (), 'post', 'array');
 		$template	= JRequest::getVar('template');
 

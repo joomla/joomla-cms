@@ -723,68 +723,6 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Gets information on a specific client id.  This method will be useful in
-	 * future versions when we start mapping applications in the database.
-	 * 
-	 * @access	public
-	 * @param	int			$id	A client identifier
-	 * @return	mixed	Object describing the client or false if not known
-	 * @since		1.1
-	 */
-	function getClientInfo($id, $byName = false) {
-		
-		static $clients;
-
-		// Only create the array if it does not exist		
-		if (!is_array($clients))
-		{
-			$obj = new stdClass();
-			
-			// Site Client
-			$obj->id		= 0;
-			$obj->name	= 'site';
-			$obj->path	= JPATH_SITE;
-			$clients[0] = clone($obj);
-			
-			// Administrator Client
-			$obj->id		= 1;
-			$obj->name	= 'administrator';
-			$obj->path	= JPATH_ADMINISTRATOR;
-			$clients[1] = clone($obj);
-
-			// Installation Client
-			$obj->id		= 2;
-			$obj->name	= 'installation';
-			$obj->path	= JPATH_INSTALLATION;
-			$clients[2] = clone($obj);
-		}
-		
-		/*
-		 * Are we looking for client information by id or by name?
-		 */
-		if (!$byName)
-		{
-			if (!isset($clients[$id]))
-			{
-				return false;
-			} else
-			{
-				return $clients[$id];
-			}
-		} else
-		{
-			foreach ($clients as $client)
-			{
-				if ($client->name == strtolower($id))
-				{
-					return $client;
-				}
-			}
-			return false;
-		}
-	}
-
-	/**
 	 * Is admin interface?
 	 * 
 	 * @access	public
@@ -950,6 +888,69 @@ class JApplication extends JObject
  */
 class JApplicationHelper
 {
+
+	/**
+	 * Gets information on a specific client id.  This method will be useful in
+	 * future versions when we start mapping applications in the database.
+	 * 
+	 * @access	public
+	 * @param	int		$id	A client identifier
+	 * @return	mixed	Object describing the client or false if not known
+	 * @since	1.1
+	 */
+	function getClientInfo($id, $byName = false) {
+		
+		static $clients;
+
+		// Only create the array if it does not exist		
+		if (!is_array($clients))
+		{
+			$obj = new stdClass();
+			
+			// Site Client
+			$obj->id		= 0;
+			$obj->name	= 'site';
+			$obj->path	= JPATH_SITE;
+			$clients[0] = clone($obj);
+			
+			// Administrator Client
+			$obj->id		= 1;
+			$obj->name	= 'administrator';
+			$obj->path	= JPATH_ADMINISTRATOR;
+			$clients[1] = clone($obj);
+
+			// Installation Client
+			$obj->id		= 2;
+			$obj->name	= 'installation';
+			$obj->path	= JPATH_INSTALLATION;
+			$clients[2] = clone($obj);
+		}
+		
+		/*
+		 * Are we looking for client information by id or by name?
+		 */
+		if (!$byName)
+		{
+			if (!isset($clients[$id]))
+			{
+				return false;
+			} else
+			{
+				return $clients[$id];
+			}
+		} else
+		{
+			foreach ($clients as $client)
+			{
+				if ($client->name == strtolower($id))
+				{
+					return $client;
+				}
+			}
+			return false;
+		}
+	}
+
 	/**
 	 * Get the itemid for a content item
 	 *
