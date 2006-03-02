@@ -1396,7 +1396,7 @@ class DOMIT_Lite_Element extends DOMIT_Lite_ChildNodes_Interface {
 		require_once(DOMIT_INCLUDE_PATH . 'xml_domit_getelementsbypath.php');
 
 		$gebp = new DOMIT_GetElementsByPath();
-		$myResponse =& $gebp->parsePattern($this, $pattern, $nodeIndex);
+		$myResponse = $gebp->parsePattern($this, $pattern, $nodeIndex);
 
 		return $myResponse;
 	} //getElementsByPath
