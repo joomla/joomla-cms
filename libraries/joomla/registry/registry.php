@@ -273,7 +273,6 @@ class JRegistry extends JObject
 		// Get the contents of the file
 		$data =& JFile :: read($file);
 		
-		
 		if (!isset($this->_registry[$namespace])) {
 			// If namespace does not exist, make it and load the data
 			$this->makeNameSpace($namespace, $readOnly);
@@ -442,6 +441,24 @@ class JRegistry extends JObject
 		
 		return $ns;
 		
+	}
+	
+	/** 
+	 * Return the relevant object
+	 *
+	 * @access private
+	 * @param $format string The format to return
+	 * @return object Formatting object
+	 */
+	function _loadFormat($format) {
+		$lformat = strtolower($format);
+		if(jimport('joomla.registry.format.'.$lformat)) {
+			$return = null;
+			eval('$return =& new JRegistryFormat'.$format.'();');
+			return $return;
+		} else {
+			die('Unable to load format');
+		}
 	}
 }
 ?>
