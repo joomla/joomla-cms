@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+04-Mar-2006 Louis Landry
+ # Fixed artf3431 : Error when mod_breadcrumbs is published
+ 
 26-Feb-2006 Johan Janssens
  + Added Blogger API XML-RPC plugin  
 
