@@ -286,14 +286,8 @@ span.step {
 	color: #c00;
 }
 
-.content {
-	width: 100%;
-}
-
-.content .item {
-	width: 50%;
-}
-
+.content       { width: 100%; }
+.content .item { width: 50%; }
 
 .license {
   padding: 0px;
@@ -301,25 +295,17 @@ span.step {
   height: 500px;
 }
 
-h3.title-smenu {
+h3.title-smenu, h3.moofx-toggler {
 	margin: 0;
 	border: 1px solid #ccc;
-	background: #EBEBEB url(../images/j_arrow.png) 5px 5px no-repeat;
 	padding: 4px;
-	text-indent: 15px;
+	background-color: #EBEBEB;
 	margin-bottom: 1px;
 	color: #666;
 	cursor: pointer;
 }
 
-h3.title-smenu-down {
-	background: url(../images/j_arrow_down.png) 5px 5px no-repeat;
-}
+h3.moofx-toggler      { background: #EBEBEB url(../images/j_arrow.png) 5px 50% no-repeat; text-indent: 15px; }
+h3.moofx-toggler-down { background-image: url(../images/j_arrow_down.png); }
 
-div.stretcher {
-	
-}
-
-.final-table {
-	width: 100%;
-}
+.final-table { width: 100%; }
