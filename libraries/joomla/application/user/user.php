@@ -471,9 +471,15 @@ class JUser extends JObject
 		/*
 		 * Load the JUserModel object based on the user id or throw a warning.
 		 */
-		if (!$this->_model->load($username))
+		if (!$id =  $this->_model->userExists($username))
 		{
-			JError :: raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: Unable to load user with username: '.$username );
+			JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$username.' does not exist' );
+			return false;
+		}
+		
+		 if(!$this->_model->load($id))
+		 {
+			JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: Unable to load user with username: '.$username );
 			return false;
 		}
 			

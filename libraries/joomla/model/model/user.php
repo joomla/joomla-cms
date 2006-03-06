@@ -52,7 +52,7 @@ class JModelUser extends JModel
 	* @param database A database connector object
 	*/
 	function __construct( &$database ) {
-		parent::__construct( '#__users', 'username', $database );
+		parent::__construct( '#__users', 'id', $database );
 
 		//initialise
 		$this->id  = 0;
@@ -244,16 +244,16 @@ class JModelUser extends JModel
 	}
 
 	/**
-	 * Returns if a user exists
+	 * Returns userid if a user exists
+	 * 
 	 * @param string The username to search on
-	 * @return int Number of matching rows (either 0 or 1)
+	 * @return int The user id or 0 if not found
 	 */
 	function userExists($username) 
 	{
 		global $database;
-		$database->setQuery("SELECT username FROM #__users WHERE username = '$username' LIMIT 1");
-		$database->Query();
-		return $database->getNumRows();
+		$database->setQuery("SELECT id FROM #__users WHERE username = '$username' LIMIT 1");
+		return $database->loadResult();
 	}
 
 	/**

@@ -19,8 +19,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Users
 */
-class HTML_user {
-	function frontpage() {
+class HTML_user 
+{
+	function frontpage() 
+	{
 		?>
 		<div class="componentheading">
 			<?php echo JText::_( 'Welcome!' ); ?>
@@ -36,7 +38,8 @@ class HTML_user {
 		<?php
 	}
 
-	function userEdit( $row, $option, $submitvalue, &$params ) {
+	function userEdit( &$user, $option, $submitvalue ) 
+	{
 		require_once( JPATH_SITE .'/includes/HTML_toolbar.php' );
 
 		mosCommonHTML::loadOverlib();
@@ -94,7 +97,7 @@ class HTML_user {
 				</label>
 			</td>
 			<td>
-				<input class="inputbox" type="text" id="name" name="name" value="<?php echo $row->name;?>" size="40" />
+				<input class="inputbox" type="text" id="name" name="name" value="<?php echo $user->get('name');?>" size="40" />
 			</td>
 		</tr>
 		<tr>
@@ -104,7 +107,7 @@ class HTML_user {
 				</label>
 			</td>
 			<td>
-				<input class="inputbox" type="text" id="email" name="email" value="<?php echo $row->email;?>" size="40" />
+				<input class="inputbox" type="text" id="email" name="email" value="<?php echo $user->get('email');?>" size="40" />
 			</td>
 		<tr>
 			<td>
@@ -113,7 +116,7 @@ class HTML_user {
 				</label>
 			</td>
 			<td>
-				<input class="inputbox" type="text" id="username" name="username" value="<?php echo $row->username;?>" size="40" />
+				<input class="inputbox" type="text" id="username" name="username" value="<?php echo $user->get('username');?>" size="40" />
 			</td>
 		</tr>
 		<tr>
@@ -137,16 +140,20 @@ class HTML_user {
 			</td>
 		</tr>
 		</table>
-		<?php echo $params->render( 'params' ); ?>
+		<?php 
+			$params =& $user->getParameters(); 
+			echo $params->render( 'params' );
+		?>
 
-		<input type="hidden" name="id" value="<?php echo $row->id;?>" />
+		<input type="hidden" name="id" value="<?php echo $user->get('id');?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="saveUserEdit" />
 		</form>
 		<?php
 	}
 
-	function confirmation() {
+	function confirmation() 
+	{
 		?>
 		<div class="componentheading">
 			<?php echo JText::_( 'Submission Success!' ); ?>

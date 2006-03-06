@@ -203,17 +203,18 @@ function showUsers( $option ) {
  * @param int The user ID
  * @param string The URL option
  */
-function editUser( $uid='0', $option='users' ) {
-	global $database, $my, $acl, $mainframe;
+function editUser( $id, $option='users' ) 
+{
+	global $mainframe;
+	
+	$database =& $mainframe->getDBO();
+	$user 	  =& $mainframe->getUser();
+	$acl      =& JFactory::getACL();
 
-	$row =& JModel::getInstance('user', $database );
-	// load the row from the db table
-	$row->load( $uid );
-
-	if ( $uid ) {
+	if ( $user->get('id') ) {
 		$query = "SELECT *"
 		. "\n FROM #__contact_details"
-		. "\n WHERE user_id = $row->id"
+		. "\n WHERE user_id = $user->get('id')"
 		;
 		$database->setQuery( $query );
 		$contact = $database->loadObjectList();
@@ -222,11 +223,11 @@ function editUser( $uid='0', $option='users' ) {
 		$row->block = 0;
 	}
 
-	$userObjectID 	= $acl->get_object_id( 'users', $row->id, 'ARO' );
+	$userObjectID 	= $acl->get_object_id( 'users', $user->get('id'), 'ARO' );
 	$userGroups 	= $acl->get_object_groups( $userObjectID, 'ARO' );
 	$userGroupName 	= strtolower( $acl->get_group_name( $userGroups[0], 'ARO' ) );
 
-	$myObjectID 	= $acl->get_object_id( 'users', $my->id, 'ARO' );
+	$myObjectID 	= $acl->get_object_id( 'users', $user->get('id'), 'ARO' );
 	$myGroups 		= $acl->get_object_groups( $myObjectID, 'ARO' );
 	$myGroupName 	= strtolower( $acl->get_group_name( $myGroups[0], 'ARO' ) );;
 
@@ -248,7 +249,7 @@ function editUser( $uid='0', $option='users' ) {
 	//} else if ( $userGroupName == $myGroupName && $myGroupName == 'administrator' ) {
 	if ( $userGroupName == $myGroupName && $myGroupName == 'administrator' ) {
 		// administrators can't change each other
-		$lists['gid'] = '<input type="hidden" name="gid" value="'. $my->gid .'" /><strong>'. JText::_( 'Administrator' ) .'</strong>';
+		$lists['gid'] = '<input type="hidden" name="gid" value="'. $user->get('gid') .'" /><strong>'. JText::_( 'Administrator' ) .'</strong>';
 	} else {
 		$gtree = $acl->get_group_children_tree( null, 'USERS', false );
 
@@ -262,21 +263,19 @@ function editUser( $uid='0', $option='users' ) {
 			}
 		}
 
-		$lists['gid'] 	= mosHTML::selectList( $gtree, 'gid', 'size="10"', 'value', 'text', $row->gid );
+		$lists['gid'] 	= mosHTML::selectList( $gtree, 'gid', 'size="10"', 'value', 'text', $user->get('gid') );
 	}
 
 	// build the html select list
-	$lists['block'] 	= mosHTML::yesnoRadioList( 'block', 'class="inputbox" size="1"', $row->block );
+	$lists['block'] 	= mosHTML::yesnoRadioList( 'block', 'class="inputbox" size="1"', $user->get('block') );
 	// build the html select list
-	$lists['sendEmail'] = mosHTML::yesnoRadioList( 'sendEmail', 'class="inputbox" size="1"', $row->sendEmail );
+	$lists['sendEmail'] = mosHTML::yesnoRadioList( 'sendEmail', 'class="inputbox" size="1"', $user->get('sendEmail') );
 
-	$file 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
-	$params = new JParameter( $row->params, $file, 'component' );
-
-	HTML_users::edituser( $row, $contact, $lists, $option, $uid, $params );
+	HTML_users::edituser( $user, $contact, $lists, $option );
 }
 
-function saveUser( $option, $task ) {
+function saveUser( $option, $task ) 
+{
 	global $mainframe;
 
 	/*

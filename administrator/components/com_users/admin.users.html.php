@@ -138,19 +138,19 @@ class HTML_users {
 		<?php
 	}
 
-	function edituser( &$row, &$contact, &$lists, $option, $uid, &$params ) {
-		global $mainframe, $my;
+	function edituser( &$user, &$contact, &$lists, $option ) 
+	{
+		global $mainframe;
 		
 		/*
 		 * Initialize variables
 		 */
-		$user	= & $mainframe->getUser();
 		$acl	= & JFactory::getACL();
 		$tabs	= new mosTabs( 0 );
 
 		mosCommonHTML::loadOverlib();
 		$canBlockUser 	= $user->authorize( 'com_user', 'block user' );
-		$canEmailEvents = $acl->acl_check( 'workflow', 'email_events', 'users', $acl->get_group_name( $row->gid, 'ARO' ) );
+		$canEmailEvents = $acl->acl_check( 'workflow', 'email_events', 'users', $acl->get_group_name( $user->get('gid'), 'ARO' ) );
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
@@ -208,7 +208,7 @@ class HTML_users {
 							</label>
 						</td>
 						<td>
-							<input type="text" name="name" id="name" class="inputbox" size="40" value="<?php echo $row->name; ?>" />
+							<input type="text" name="name" id="name" class="inputbox" size="40" value="<?php echo $user->get('name'); ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -218,7 +218,7 @@ class HTML_users {
 							</label>
 						</td>
 						<td>
-							<input type="text" name="username" id="username" class="inputbox" size="40" value="<?php echo $row->username; ?>" />
+							<input type="text" name="username" id="username" class="inputbox" size="40" value="<?php echo $user->get('username'); ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -228,7 +228,7 @@ class HTML_users {
 							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="email" id="email" size="40" value="<?php echo $row->email; ?>" />
+							<input class="inputbox" type="text" name="email" id="email" size="40" value="<?php echo $user->get('email'); ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -293,7 +293,7 @@ class HTML_users {
 								<?php echo JText::_( 'Register Date' ); ?>
 							</td>
 							<td>
-								<?php echo $row->registerDate;?>
+								<?php echo $user->get('registerDate');?>
 							</td>
 						</tr>
 						<tr>
@@ -301,7 +301,7 @@ class HTML_users {
 								<?php echo JText::_( 'Last Visit Date' ); ?>
 							</td>
 							<td>
-								<?php echo $row->lastvisitDate;?>
+								<?php echo $user->get('lastvisitDate');?>
 							</td>
 						</tr>
 						<?php
@@ -323,7 +323,10 @@ class HTML_users {
 					</tr>
 					<tr>
 						<td>
-							<?php echo $params->render( 'params' );?>
+							<?php 
+								$params =& $user->getParameters();
+								echo $params->render( 'params' );
+							?>
 						</td>
 					</tr>
 					</table>
@@ -439,8 +442,8 @@ class HTML_users {
 			</table>
 		</div>
 
-		<input type="hidden" name="id" value="<?php echo $row->id; ?>" />
-		<input type="hidden" name="cid[]" value="<?php echo $row->id; ?>" />
+		<input type="hidden" name="id" value="<?php echo $user->get('id'); ?>" />
+		<input type="hidden" name="cid[]" value="<?php echo $user->get('id'); ?>" />
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="contact_id" value="" />

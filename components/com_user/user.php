@@ -36,7 +36,7 @@ switch( $task ) {
 		break;
 
 	case 'UserDetails':
-		userEdit( $option, $my->id, JText::_( 'Update' ) );
+		userEdit( $option, JText::_( 'Update' ) );
 		break;
 
 	case 'saveUserEdit':
@@ -106,24 +106,13 @@ function saveUpload( $_dbprefix, $uid, $option, $userfile, $userfile_name, $type
 	}
 }
 
-function userEdit( $option, $uid, $submitvalue) {
+function userEdit( $option, $submitvalue) 
+{
 	global $mainframe, $Itemid;
 
-	$database 			= & $mainframe->getDBO();
-	$breadcrumbs 		= & $mainframe->getPathWay();
-	
-	require_once( JPATH_ADMINISTRATOR .'/components/com_users/users.class.php' );
-
-	if ($uid == 0) {
-		mosNotAuth();
-		return;
-	}
-	$row =& JModel::getInstance('user', $database );
-	$row->load( $uid );
-	$row->orig_password = $row->password;
-
-	$file 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
-	$params = new JParameter( $row->params, $file, 'component' );
+	$database 		=& $mainframe->getDBO();
+	$breadcrumbs 	=& $mainframe->getPathWay();
+	$user			=& $mainframe->getUser();	
 	
 	$menu =& JModel::getInstance('menu', $database );
 	$menu->load( $Itemid );
@@ -134,10 +123,11 @@ function userEdit( $option, $uid, $submitvalue) {
 	// Add breadcrumb
 	$breadcrumbs->addItem( $menu->name, '' );
 
-	HTML_user::userEdit( $row, $option, $submitvalue, $params );
+	HTML_user::userEdit( $user, $option, $submitvalue );
 }
 
-function userSave( $option, $uid) {
+function userSave( $option, $uid) 
+{
 	global $mainframe, $database, $Itemid;
 
 	$user_id = intval( mosGetParam( $_POST, 'id', 0 ));
