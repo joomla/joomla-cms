@@ -89,9 +89,9 @@ function initDocument( &$doc, $file = 'index.php' )
 	$template 	= $mainframe->getTemplate();
 
 	$doc->setMetaContentType();
-
-	$doc->setMetaData( 'description', 	$mainframe->getCfg('MetaDesc' ) );
-	$doc->setMetaData( 'keywords', 		$mainframe->getCfg('MetaKeys' ) );
+	
+	$doc->setMetaData( 'description', 	$mainframe->getCfg('MetaDesc') );
+	$doc->setMetaData( 'keywords', 		$mainframe->getCfg('MetaKeys') );
 	$doc->setMetaData( 'Generator', 	$version->PRODUCT .' - '. $version->COPYRIGHT );
 	$doc->setMetaData( 'robots', 		'index, follow' );
 

@@ -95,8 +95,14 @@ class JSite extends JApplication {
 	*/
 	function setPageTitle( $title=null ) {
 	
+		$site = $this->getCfg('sitename');
+		
+		if($this->getCfg('offline')) {
+			$site .= ' [Offline]';
+		}
+		
 		$document=& $this->getDocument();
-		$document->setTitle($this->getCfg('sitename') .' - '.$title);
+		$document->setTitle( $site.' - '.$title);
 	}
 
 	/**
@@ -159,20 +165,12 @@ class JSite extends JApplication {
 			$db = $this->getDBO();
 			$query = "SELECT template, menuid"
 				. "\n FROM #__templates_menu"
-				. "\n WHERE 1"
+				. "\n WHERE client_id = 0"
 				;
 			$db->setQuery( $query );
-			$tmpls = $db->loadObjectList();
-			
-			/*
-			 * Build the static templates array
-			 */
-			foreach ($tmpls as $tmpl)
-			{
-				$templates[$tmpl->menuid] = $tmpl->template;	
-			}
+			$templates = $db->loadObjectList('menuid');
 		}
-
+		
 		if (!empty($Itemid) && (isset($templates[$Itemid])))
 		{
 			$template = $templates[$Itemid];
@@ -182,7 +180,7 @@ class JSite extends JApplication {
 			$template = $templates[0];
 		}
 
-		return $template;
+		return $template->template;
 	}
 }
 

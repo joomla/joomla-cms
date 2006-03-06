@@ -57,7 +57,7 @@ class JUser extends JObject
 	*
 	* @access 	protected
 	*/
-	function __construct($username = '') 
+	function __construct($identifier) 
 	{
 		global $mainframe;
 		
@@ -77,8 +77,8 @@ class JUser extends JObject
 		$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
 		$this->_params = new JParameter( '', $path );
 		
-		if (!empty($username) && $username != 'guest') {	
-			$this->_load($username);
+		if (!empty($identifier) && $identifier != 'guest') {	
+			$this->_load($identifier);
 		}
 	}
 
@@ -461,25 +461,35 @@ class JUser extends JObject
 	 * Method to load a JUser object by user id number
 	 * 
 	 * @access 	protected
-	 * @param 	int 	$id 	The user id for the user to load
-	 * @param 	string 	$path 	Path to a parameters xml file
-	 * @return 	boolean 		True on success
+	 * @param 	int 	$identifier The user id or username for the user to load
+	 * @param 	string 	$path 		Path to a parameters xml file
+	 * @return 	boolean 			True on success
 	 * @since 1.1
 	 */
-	function _load($username)
+	function _load($identifier)
 	{
-		/*
+		 /*
+		 * Find the user id
+		 */
+		if(!is_int($identifier)) 
+		{
+			if (!$id =  $this->_model->userExists($identifier))
+			{
+				JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$username.' does not exist' );
+				return false;
+			}
+		} 
+		else 
+		{
+			$id = $identifier;
+		}
+		 
+		 /*
 		 * Load the JUserModel object based on the user id or throw a warning.
 		 */
-		if (!$id =  $this->_model->userExists($username))
-		{
-			JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$username.' does not exist' );
-			return false;
-		}
-		
 		 if(!$this->_model->load($id))
 		 {
-			JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: Unable to load user with username: '.$username );
+			JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: Unable to load user with id: '.$id );
 			return false;
 		}
 			

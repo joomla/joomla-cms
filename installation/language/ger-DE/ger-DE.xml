@@ -11,7 +11,7 @@
     <description>German language file for web installer, provided by joomla!GTT</description>
     <metadata>
     	<name>German (Germany)</name>
-    	<tag>ger-DE</tag>
+    	<tag>de-DE</tag>
     	<rtl>0</rtl>
     	<locale>ge, de, de_DE@euro, de_DE, deu, german, germany</locale>
     </metadata>

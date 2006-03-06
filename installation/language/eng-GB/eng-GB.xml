@@ -11,7 +11,7 @@
     <description>English language file for web installer</description>
     <metadata>
     	<name>English (United Kingdom)</name>
-    	<tag>eng-GB</tag>
+    	<tag>en-GB</tag>
     	<rtl>0</rtl>
     	<locale>en, uk, eng_GB, en_GB, english, english-uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom</locale>
     </metadata>

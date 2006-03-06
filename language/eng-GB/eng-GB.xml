@@ -11,7 +11,7 @@
     <description></description>
     <metadata>
     	<name>English (United Kingdom)</name>
-    	<tag>eng-GB</tag>
+    	<tag>en-GB</tag>
     	<rtl>0</rtl>
     	<locale>eng_GB, en_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom</locale>
     	<winCodePage>iso-8859-1</winCodePage>

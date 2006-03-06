@@ -89,7 +89,7 @@ function initDocument(&$doc, $file = 'index.php')
 	
 	$doc->setMetaContentType();
 		
-	//$doc->setTitle( $mainframe->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
+	$doc->setTitle( $mainframe->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
 	
 	$doc->setMetaData( 'description', $mainframe->getCfg('MetaDesc' ));
 	$doc->setMetaData( 'keywords', $mainframe->getCfg('MetaKeys' ));

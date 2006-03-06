@@ -208,7 +208,7 @@ function editUser( $id, $option='users' )
 	global $mainframe;
 	
 	$database =& $mainframe->getDBO();
-	$user 	  =& $mainframe->getUser();
+	$user 	  =& JUser::getInstance($id);
 	$acl      =& JFactory::getACL();
 
 	if ( $user->get('id') ) {
