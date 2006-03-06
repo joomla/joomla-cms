@@ -56,6 +56,7 @@ if ( $my->id ) {
 	}	
 	?>
 	<form action="index.php" method="post" name="login">
+	
 	<?php
 	if ( $greeting ) {
 		?>
@@ -65,11 +66,13 @@ if ( $my->id ) {
 		<?php
 	}
 	?>
+	
 	<div align="center">
 		<input type="submit" name="Submit" class="button" value="<?php echo JText::_( 'BUTTON_LOGOUT'); ?>" />
 	</div>
 
 	<input type="hidden" name="option" value="logout" />
+	<input type="hidden" name="op2" value="logout" />
 	<input type="hidden" name="return" value="<?php echo sefRelToAbs( 'index.php?'.$logout ); ?>" />
 	</form>
 	<?php
@@ -100,7 +103,6 @@ if ( $my->id ) {
 				<?php echo JText::_( 'Remember me' ); ?>
 			</label>
 			<br />
-			<input type="hidden" name="option" value="login" />
 			<input type="submit" name="Submit" class="button" value="<?php echo JText::_( 'BUTTON_LOGIN'); ?>" />
 		</td>
 	</tr>
@@ -126,6 +128,7 @@ if ( $my->id ) {
 	</table>
 	<?php echo $posttext; ?>
 
+	<input type="hidden" name="option" value="login" />
 	<input type="hidden" name="op2" value="login" />
 	<input type="hidden" name="return" value="<?php echo sefRelToAbs( 'index.php?'.$login ); ?>" />
 	</form>
