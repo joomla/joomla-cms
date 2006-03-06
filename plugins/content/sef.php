@@ -57,9 +57,17 @@ function pluginSEF( &$row, &$params, $page=0 )
 * @return string
 */
 function contentSEF_replacer( &$matches ) {
+	// original text that might be replaced
+	$original = 'href="'. $matches[1] .'"';
+	
 	// disable bot from being applied to mailto tags
 	if ( strpos($matches[1],'mailto:') !== false ) {
-		return 'href="'. $matches[1] .'"';
+		return $original;
+	}
+	
+	// disable bot from being applied to javascript tags
+	if ( strpos( $matches[1], 'javascript:' ) !== false ) {
+		return $original;
 	}
 	
 	$uriLocal =& JURI::getInstance();
@@ -67,7 +75,7 @@ function contentSEF_replacer( &$matches ) {
 	
 	//disbale bot from being applied to external links
 	if($uriLocal->getHost() !== $uriHREF->getHost() && !is_null($uriHREF->getHost())) {
-		return 'href="'. $matches[1] .'"';
+		return $original;
 	}
 	
 	return 'href="'. sefRelToAbs( 'index.php' . $uriHREF->getQueryString() ) . $uriHREF->getAnchor() .'"';
