@@ -597,34 +597,6 @@ class JConfigView {
 		               		</span>
 		                </td>
 					</tr>
-					<tr>
-						<td>
-							<span class="editlinktip">
-							<?php
-							$tip = JText::_( 'TIPDYNAMICALLYCHANGESPAGETITLE' );
-							echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Dynamic Page Titles' ), '', 0 );
-							?>
-							:				
-							</span>
-						</td>
-						<td>
-							<?php echo $lists['pagetitles']; ?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<span class="editlinktip">
-							<?php
-							$tip = JText::_( 'TIPPAGETITLEFORMAT' );
-							echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Page Title Format' ), '', 0 );
-							?>
-							:				
-							</span>
-						</td>
-						<td>				
-							<input class="text_area" type="text" name="meta_pagetitle" size="20" value="<?php echo $row->meta_pagetitle; ?>" />
-						</td>
-					</tr>
 					</table>
 		
 				<?php

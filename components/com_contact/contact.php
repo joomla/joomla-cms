@@ -229,9 +229,8 @@ class JContactController {
 			/*
 			 * Lets set the page title
 			 */
-			$document = & $mainframe->getDocument();
 			if (!empty ($current->cname)) {
-				$document->setTitle(JText :: _('Contact').' - '.$current->cname);
+				$mainframe->setPageTitle(JText :: _('Contact').' - '.$current->cname);
 			}
 
 			/*
@@ -443,8 +442,7 @@ class JContactController {
 			/*
 			 * Set the document page title
 			 */
-			$document = & $mainframe->getDocument();
-			$document->setTitle(JText :: _('Contact').' - '.$contact->name);
+			$mainframe->setTitle(JText :: _('Contact').' - '.$contact->name);
 
 			/*
 			 * Add the breadcrumbs items

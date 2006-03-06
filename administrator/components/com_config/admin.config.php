@@ -218,8 +218,6 @@ class JConfigController {
 
 		$lists['sef'] 			= mosHTML :: yesnoRadioList('sef', 'class="inputbox" onclick="javascript: if (document.adminForm.sef[1].checked) { alert(\''.JText :: _('Remember to rename htaccess.txt to .htaccess', true).'\') }"', $row->sef);
 
-		$lists['pagetitles'] 	= mosHTML :: yesnoRadioList('pagetitles', 'class="inputbox"', $row->pagetitles);
-
 		// CONTENT SETTINGS
 
 		$lists['link_titles'] 	= mosHTML :: yesnoRadioList('link_titles', 'class="inputbox"', $row->link_titles);

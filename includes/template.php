@@ -77,7 +77,8 @@ function mosShowHead()
  *
  * @param object $doc The document instance to initialise
  */
-function initDocument( &$doc, $file = 'index.php' ) {
+function initDocument( &$doc, $file = 'index.php' ) 
+{
 	global $mainframe, $Itemid;
 
 	$user    	=& $mainframe->getUser();
@@ -88,12 +89,6 @@ function initDocument( &$doc, $file = 'index.php' ) {
 	$template 	= $mainframe->getTemplate();
 
 	$doc->setMetaContentType();
-
-	// page title for offline pages
-	if($mainframe->getCfg('offline')) {
-		$title = $mainframe->getCfg('sitename');
-		$doc->setTitle($title. '- Offline');
-	}
 
 	$doc->setMetaData( 'description', 	$mainframe->getCfg('MetaDesc' ) );
 	$doc->setMetaData( 'keywords', 		$mainframe->getCfg('MetaKeys' ) );

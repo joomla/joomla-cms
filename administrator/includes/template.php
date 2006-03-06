@@ -76,7 +76,8 @@ function mosShowHead_Admin() {
  *  
  * @param object $doc The document instance to initialise
  */
-function initDocument(&$doc, $file = 'index.php') {		
+function initDocument(&$doc, $file = 'index.php') 
+{		
 	global $mainframe;
 	
 	$user    =& $mainframe->getUser();
@@ -88,7 +89,7 @@ function initDocument(&$doc, $file = 'index.php') {
 	
 	$doc->setMetaContentType();
 		
-	$doc->setTitle( $mainframe->getCfg('sitename' ). '-' .JText::_( 'Administration' ) .'  [Joomla!]' );
+	//$doc->setTitle( $mainframe->getCfg('sitename' ). ' - ' .JText::_( 'Administration' ));
 	
 	$doc->setMetaData( 'description', $mainframe->getCfg('MetaDesc' ));
 	$doc->setMetaData( 'keywords', $mainframe->getCfg('MetaKeys' ));

@@ -455,7 +455,6 @@ class JContentView {
 		 * Initialize some variables
 		 */
 		$user 		= & $mainframe->getUser();
-		$document	= & $mainframe->getDocument();
 		$SiteName 	= $mainframe->getCfg('sitename');
 		$task 		= JRequest::getVar( 'task' );
 		$gid 		= $user->get('gid');
@@ -473,7 +472,7 @@ class JContentView {
 
 		// adds mospagebreak heading or title to <site> Title
 		if (isset ($row->page_title)) {
-			$document->setTitle($row->title.' '.$row->page_title);
+			$mainframe->setPageTitle($row->title.' '.$row->page_title);
 		}
 
 		// determines the link and link text of the readmore button
@@ -501,7 +500,7 @@ class JContentView {
 
 		// for pop-up page
 		if ($params->get('popup') && $no_html == 0) {
-			$document->setTitle($SiteName.' - '.$row->title);
+			$mainframe->setPageTitle($SiteName.' - '.$row->title);
 		}
 
 		// edit icon
@@ -1422,9 +1421,9 @@ class JContentView {
 	 */
 	function emailForm($uid, $title, $template = '') 
 	{
-		global $mosConfig_sitename, $mainframe;
+		global $mainframe;
 
-		$mainframe->setPageTitle($mosConfig_sitename.' - '.$title);
+		$mainframe->setPageTitle($title);
 		$mainframe->addCustomHeadTag('<link rel="stylesheet" href="templates/'.$template.'/css/template_css.css" type="text/css" />');
 		?>
 		<script language="javascript" type="text/javascript">
@@ -1513,7 +1512,6 @@ class JContentView {
 	{
 		global $mainframe;
 
-		$mainframe->setPageTitle($mainframe->getCfg('sitename'));
 		$mainframe->addCustomHeadTag('<link rel="stylesheet" href="templates/'.$template.'/css/template_css.css" type="text/css" />');
 		?>
 		<span class="contentheading">

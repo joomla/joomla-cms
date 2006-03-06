@@ -96,7 +96,7 @@ class JSite extends JApplication {
 	function setPageTitle( $title=null ) {
 	
 		$document=& $this->getDocument();
-		$document->setTitle($title);
+		$document->setTitle($this->getCfg('sitename') .' - '.$title);
 	}
 
 	/**

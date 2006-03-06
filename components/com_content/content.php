@@ -317,9 +317,8 @@ class JContentController
 		/*
 		 * Lets set the page title
 		 */
-		$document = & $mainframe->getDocument();
 		if (!empty ($menu->name)) {
-			$document->setTitle($menu->name);
+			$mainframe->setPageTitle($menu->name);
 		}
 
 		/*
@@ -638,10 +637,9 @@ class JContentController
 
 		// Dynamic Page Title and BreadCrumbs
 		$breadcrumbs 	= & $mainframe->getPathWay();
-		$document 		= & $mainframe->getDocument();
 		if ($menu->name) {
 			$breadcrumbs->addItem($menu->name, '');
-			$document->setTitle($menu->name);
+			$mainframe->setPageTitle($menu->name);
 		} else {
 			$breadcrumbs->addItem($rows[0]->section, '');
 		}
@@ -1111,7 +1109,6 @@ class JContentController
 			 * Handle BreadCrumbs and Page Title
 			 */
 			$breadcrumbs 	= & $mainframe->getPathWay();
-			$document		= & $mainframe->getDocument();
 			if (!empty ($Itemid)) {
 				// Section
 				if (!empty ($row->section)) {
@@ -1124,7 +1121,7 @@ class JContentController
 			}
 			// Item
 			$breadcrumbs->addItem($row->title, '');
-			$document->setTitle($row->title);
+			$mainframe->setPageTitle($row->title);
 
 
 			JContentController::show($row, $params, $gid, $access, $pop, $option);

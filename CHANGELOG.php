@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+05-Mar-2006 Johan Janssens
+ - Removed pagetitles and meta_pagetitle configuration settings
+
 04-Mar-2006 Louis Landry
  # Fixed artf3431 : Error when mod_breadcrumbs is published
  

@@ -305,22 +305,7 @@ class JDocument extends JTemplate
      * @access   public
      */
     function setTitle($title) {
-		global $mainframe;
-		
-		$site  = $mainframe->getCfg('sitename');			
-		
-		if($mainframe->getCfg('pagetitles')) {
-			$title = trim( htmlspecialchars( $title ));
-			
-			$order = str_replace('{site}', $site, $mainframe->getCfg('meta_pagetitle'));
-			$order = str_replace('{title}', $title, $order);
-			
-			$title  = $title ? $order : $site;
-			
-			$this->_title = $title;
-		} else {
-			$this->_title = $site;
-		}	
+		$this->_title = $title;
     }
 
 	/**
