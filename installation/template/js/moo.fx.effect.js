@@ -50,17 +50,4 @@ function init_moofx()
 	var togglers = document.getElementsByClassName('moofx-toggler'); 	//h3s where I click on
 
 	var slide = new fx.Slide(togglers, sliders, {opacity: true, duration: 400});
-
-	//hash functions
-	var found = false;
-	togglers.each(function(h3, i)
-	{
-			var div = Element.find(h3, 'nextSibling'); //element.find is located in prototype.lite
-			if (window.location.href.indexOf(h3.title) > 0) 
-			{
-					slide.toggle(div);
-					found = true;
-			}
-	});
-	if (!found) slide.toggle(stretchers[0]);
 }
