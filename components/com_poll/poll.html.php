@@ -122,7 +122,7 @@ class poll_html {
 		$sumval = array_sum( $data_arr["hits"] );
 		?>
 		<br />
-		<table class='pollstableborder' cellspacing="0" cellpadding="0" border="0">
+		<table class="pollstableborder" cellspacing="0" cellpadding="0" border="0">
 		<tr>
 			<td colspan="2" class="sectiontableheader">
 				<img src="components/com_poll/images/poll.png" align="middle" border="0" width="12" height="14" alt="" />
