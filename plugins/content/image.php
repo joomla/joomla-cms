@@ -167,10 +167,9 @@ function processImages ( &$row, &$params, &$introCount )
 				$caption = '<div class="mosimage_caption"';
 				if ( $attrib[6] ) {
 					$caption .= ' style="text-align: '. $attrib[6] .';"';
-				}				
-				if ( $attrib[6] ) {
-					$caption .= ' align="'. $attrib[6] .'">';
+					$caption .= ' align="'. $attrib[6] .'"';
 				}
+				$caption .= '>';
 				$caption .= $attrib[4];
 				$caption .= '</div>';
 			}
