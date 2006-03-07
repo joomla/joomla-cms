@@ -19,8 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * Make sure the user is authorized to view this page
  */
 $user = & $mainframe->getUser();
-if (!$user->authorize( 'com_modules', 'manage' ))
-{
+if (!$user->authorize( 'com_modules', 'manage' )) {
 	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
@@ -106,8 +105,17 @@ switch ( $task ) {
 /**
 * Compiles a list of installed or defined modules
 */
-function viewModules( $option, $client ) {
-	global $database, $my, $mainframe;
+function viewModules() 
+{
+	global $mainframe;
+	
+	/*
+	 * Initialize some variables
+	 */
+	$db		=& $mainframe->getDBO();
+	
+	$option = JRequest::getVar('option');
+	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$client.filter_order", 		'filter_order', 	'm.position' );
 	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$client.filter_order_Dir",	'filter_order_Dir',	'' );
@@ -117,15 +125,9 @@ function viewModules( $option, $client ) {
 	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mainframe->getCfg('list_limit') );
 	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 				'limitstart', 		0 );
 	$search 			= $mainframe->getUserStateFromRequest( "$option.$client.search", 			'search', 			'' );
-	$search 			= $database->getEscaped( trim( strtolower( $search ) ) );
+	$search 			= $db->getEscaped( trim( strtolower( $search ) ) );
 
-	if ($client == 'admin') {
-		$where[] = "m.client_id = '1'";
-		$client_id = 1;
-	} else {
-		$where[] = "m.client_id = '0'";
-		$client_id = 0;
-	}
+	$where[] = "m.client_id = ".$client->id;
 
 	// used by filter
 	if ( $filter_position ) {
@@ -152,8 +154,8 @@ function viewModules( $option, $client ) {
 	. "\n FROM #__modules AS m"
 	. $where
 	;
-	$database->setQuery( $query );
-	$total = $database->loadResult();
+	$db->setQuery( $query );
+	$total = $db->loadResult();
 
 	require_once( JPATH_ADMINISTRATOR .'/includes/pageNavigation.php' );
 	$pageNav = new mosPageNav( $total, $limitstart, $limit );
@@ -167,10 +169,10 @@ function viewModules( $option, $client ) {
 	. "\n GROUP BY m.id"
 	. $orderby	
 	;
-	$database->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
-	$rows = $database->loadObjectList();
-	if ($database->getErrorNum()) {
-		echo $database->stderr();
+	$db->setQuery( $query, $pageNav->limitstart, $pageNav->limit );
+	$rows = $db->loadObjectList();
+	if ($db->getErrorNum()) {
+		echo $db->stderr();
 		return false;
 	}
 
@@ -178,25 +180,25 @@ function viewModules( $option, $client ) {
 	$query = "SELECT t.position AS value, t.position AS text"
 	. "\n FROM #__template_positions as t"
 	. "\n LEFT JOIN #__modules AS m ON m.position = t.position"
-	. "\n WHERE m.client_id = $client_id"
+	. "\n WHERE m.client_id = $client->id"
 	. "\n GROUP BY t.position"
 	. "\n ORDER BY t.position"
 	;
 	$positions[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Position' ) .' -' );
-	$database->setQuery( $query );
-	$positions = array_merge( $positions, $database->loadObjectList() );
+	$db->setQuery( $query );
+	$positions = array_merge( $positions, $db->loadObjectList() );
 	$lists['position']	= mosHTML::selectList( $positions, 'filter_position', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_position" );
 
 	// get list of Positions for dropdown filter
 	$query = "SELECT module AS value, module AS text"
 	. "\n FROM #__modules"
-	. "\n WHERE client_id = $client_id"
+	. "\n WHERE client_id = $client->id"
 	. "\n GROUP BY module"
 	. "\n ORDER BY module"
 	;
-	$database->setQuery( $query );
+	$db->setQuery( $query );
 	$types[] 		= mosHTML::makeOption( '0', '- '. JText::_( 'Select Type' ) .' -' );
-	$types 			= array_merge( $types, $database->loadObjectList() );
+	$types 			= array_merge( $types, $db->loadObjectList() );
 	$lists['type']	= mosHTML::selectList( $types, 'filter_type', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_type" );
 	
 	// state filter 
@@ -212,6 +214,11 @@ function viewModules( $option, $client ) {
 	
 	// search filter
 	$lists['search']= $search;
+	
+	// client filter
+	$select[] 			= mosHTML :: makeOption('0', JText :: _('Site'));
+	$select[] 			= mosHTML :: makeOption('1', JText :: _('Administrator'));
+	$lists['client'] 	= mosHTML :: selectList($select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $client->id);
 	
 	HTML_modules::showModules( $rows, $client, $pageNav, $option, $lists );
 }

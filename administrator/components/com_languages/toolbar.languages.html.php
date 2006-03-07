@@ -21,14 +21,12 @@ $client = mosGetParam( $_REQUEST, 'client', 'site' );
 * @package Joomla
 * @subpackage Languages
 */
-class TOOLBAR_languages {
-	function _DEFAULT() {
-		$client = mosGetParam( $_REQUEST, 'client');
-		
-		JMenuBar::title( JText::_( 'Language Manager' ).': <small><small>[' .JText::_( $client ) .']</small></small>', 'langmanager.png' );
+class TOOLBAR_languages 
+{
+	function _DEFAULT(&$client) 
+	{
+		JMenuBar::title( JText::_( 'Language Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'langmanager.png' );
 		JMenuBar::publishList();
-		JMenuBar::addNew('install', 'Install');
-		JMenuBar::deleteList('', 'uninstall', 'Uninstall');
 		JMenuBar::help( 'screen.languages' );
 	}
 }

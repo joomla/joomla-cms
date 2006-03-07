@@ -24,7 +24,8 @@ class JFullAdminMenu {
 	* Show the menu
 	* @param string The current user type
 	*/
-	function show($usertype = '') {
+	function show($usertype = '') 
+	{
 		global $mainframe;
 
 		$lang 			= & $mainframe->getLanguage();
@@ -108,27 +109,20 @@ class JFullAdminMenu {
 		<?php
 		if ($manageTemplates) {
 			?>
-				['<img src="../includes/js/ThemeOffice/template.png" />','<?php echo JText::_( 'Template Manager', true ); ?>',null,null,'<?php echo JText::_( 'Change site template', true ); ?>',
-  					['<img src="../includes/js/ThemeOffice/template.png" />','<?php echo JText::_( 'Site Templates', true ); ?>','index2.php?option=com_templates&client=0',null,'<?php echo JText::_( 'Change site template', true ); ?>'],
-  					['<img src="../includes/js/ThemeOffice/template.png" />','<?php echo JText::_( 'Administrator Templates', true ); ?>','index2.php?option=com_templates&client=1',null,'<?php echo JText::_( 'Change admin template', true ); ?>'],
-  					_cmSplit,
-  					['<img src="../includes/js/ThemeOffice/template.png" />','<?php echo JText::_( 'Module Positions', true ); ?>','index2.php?option=com_templates&task=positions',null,'<?php echo JText::_( 'Module Positions in Template', true ); ?>'],
-	  				['<img src="../includes/js/ThemeOffice/preview.png" />', '<?php echo JText::_( 'Preview', true ); ?>', null, null, '<?php echo JText::_( 'Preview', true ); ?>',
+				['<img src="../includes/js/ThemeOffice/template.png" />','<?php echo JText::_( 'Module Positions', true ); ?>','index2.php?option=com_templates&task=positions',null,'<?php echo JText::_( 'Module Positions in Template', true ); ?>'],
+				['<img src="../includes/js/ThemeOffice/template.png" />','<?php echo JText::_( 'Template Manager', true ); ?>','index2.php?option=com_templates&client=0',null,'<?php echo JText::_( 'Change site template', true ); ?>'],
+  				['<img src="../includes/js/ThemeOffice/preview.png" />', '<?php echo JText::_( 'Preview', true ); ?>', null, null, '<?php echo JText::_( 'Preview', true ); ?>',
 							['<img src="../includes/js/ThemeOffice/preview.png" />','<?php echo JText::_( 'In New Window', true ); ?>','<?php echo $mainframe->getSiteURL(); ?>index.php','_blank','<?php echo $mainframe->getSiteURL(); ?>'],
 							['<img src="../includes/js/ThemeOffice/preview.png" />','<?php echo JText::_( 'Inline', true ); ?>','index2.php?option=com_admin&task=preview',null,'<?php echo $mainframe->getSiteURL(); ?>'],
 							['<img src="../includes/js/ThemeOffice/preview.png" />','<?php echo JText::_( 'Inline with Positions', true ); ?>','index2.php?option=com_admin&task=preview2',null,'<?php echo $mainframe->getSiteURL(); ?>'],
 					],
-  				],
 			<?php
 		}
 		?>
 		<?php
 		if ($manageLanguages) {
 			?>
-				['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Language Manager', true ); ?>',null,null,'<?php echo JText::_( 'Manage languages', true ); ?>',
-	  				['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Site Languages', true ); ?>','index2.php?option=com_languages&client=site',null,'<?php echo JText::_( 'Manage site languages', true ); ?>'],
-	   				['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Administrator Languages', true ); ?>','index2.php?option=com_languages&client=administrator',null,'<?php echo JText::_( 'Manage admin languages', true ); ?>'],
-	   			],
+				['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Language Manager', true ); ?>','index2.php?option=com_languages&client=0',null,'<?php echo JText::_( 'Manage languages', true ); ?>',],
 			<?php
 		}
 		?>
@@ -320,16 +314,7 @@ class JFullAdminMenu {
 		<?php
 		if ($installModules | $editAllModules) {
 			?>
-			[null,'<?php echo JText::_( 'Modules', true ); ?>',null,null,'<?php echo JText::_( 'Module Management', true ); ?>',
-			<?php
-			if ($editAllModules) {
-				?>
-				['<img src="../includes/js/ThemeOffice/module.png" />', '<?php echo JText::_( 'Site Modules', true ); ?>', "index2.php?option=com_modules", null, '<?php echo JText::_( 'Manage Site modules', true ); ?>'],
-				['<img src="../includes/js/ThemeOffice/module.png" />', '<?php echo JText::_( 'Administrator Modules', true ); ?>', "index2.php?option=com_modules&client=admin", null, '<?php echo JText::_( 'Manage Administrator modules', true ); ?>'],
-				<?php
-			}
-			?>
-			],
+			[null,'<?php echo JText::_( 'Modules', true ); ?>','index2.php?option=com_modules&client=0',null,'<?php echo JText::_( 'Module Management', true ); ?>'],
 			_cmSplit,
 			<?php
 		}
@@ -339,15 +324,7 @@ class JFullAdminMenu {
 		<?php
 		if ($installPlugins | $editAllPlugins) 	{
 			?>
-			[null,'<?php echo JText::_( 'Plugins', true ); ?>', 'index2.php?option=com_plugins',null,'<?php echo JText::_( 'Plugin Management', true ); ?>',
-			<?php
-			if ($editAllPlugins) {
-				?>
-				['<img src="../includes/js/ThemeOffice/module.png" />', '<?php echo JText::_( 'Site Plugins', true ); ?>', "index2.php?option=com_plugins", null, '<?php echo JText::_( 'Manage Site Plugins', true ); ?>'],
-				<?php
-			}
-			?>
-			],
+			[null,'<?php echo JText::_( 'Plugins', true ); ?>', 'index2.php?option=com_plugins',null,'<?php echo JText::_( 'Plugin Management', true ); ?>'],
 			_cmSplit,
 			<?php
 		}
@@ -357,9 +334,7 @@ class JFullAdminMenu {
 		<?php
 		if ($installModules) {
 			?>
-			[null,'<?php echo JText::_( 'Extensions', true ); ?>','index2.php?option=com_installer',null,'<?php echo JText::_( 'Extensions', true ); ?>',
-				['<img src="../includes/js/ThemeOffice/install.png" />','<?php echo JText::_( 'Extension Manager', true ); ?>','index2.php?option=com_installer',null,'<?php echo JText::_( 'Manage Extensions', true ); ?>'],
-			],
+			[null,'<?php echo JText::_( 'Extensions', true ); ?>','index2.php?option=com_installer',null,'<?php echo JText::_( 'Extensions', true ); ?>'],
 			_cmSplit,
 			<?php
 		}

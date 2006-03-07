@@ -19,9 +19,10 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Templates
 */
-class TOOLBAR_templates {
-	function _DEFAULT(&$client) {
-
+class TOOLBAR_templates 
+{
+	function _DEFAULT(&$client) 
+	{
 		JMenuBar::title( JText::_( 'Template Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
 		if ($client=="admin") {
 			JMenuBar::custom('publish', 'publish.png', 'publish_f2.png', JText::_( 'Default' ), true);

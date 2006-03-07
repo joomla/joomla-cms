@@ -1,37 +1,32 @@
-			<fieldset title="<?php echo JText::_('EM Navigation'); ?>">
+			<fieldset title="<?php echo JText::_('Installed extensions'); ?>">
 			<legend>
-				<?php echo JText::_('EM Navigation'); ?>
+				<?php echo JText::_('Installed extensions'); ?>
 			</legend>
-			<div id="extensions">
-				<div id="installer" class="ext">
-					<a class="exttype" href="index2.php?option=com_installer&amp;task=installer" ><?php echo JText::_('Installer'); ?></a>
-				</div>
-				<div id="components" class="ext">
+			<ul id="extensions" class="menu-tree">
+				<li>
 					<a class="exttype" href="index2.php?option=com_installer&amp;extension=component" ><?php echo JText::_('Components'); ?></a>
-				</div>
-				<div id="modules" class="ext">
+				</li>
+				<li>
 					<a class="exttype" href="index2.php?option=com_installer&amp;extension=module"><?php echo JText::_('Modules'); ?></a>
-					<ul class="subext">
-						<li><a href="index2.php?option=com_installer&amp;extension=module&amp;filter=1" ><?php echo JText::_('Administrator'); ?></a></li>
-						<li><a href="index2.php?option=com_installer&amp;extension=module&amp;filter=0" ><?php echo JText::_('Site'); ?></a></li>
-					</ul>
-				</div>
-				<div id="plugins" class="ext">
+				</li>
+				<li>
 					<a class="exttype" href="index2.php?option=com_installer&amp;extension=plugin"><?php echo JText::_('Plugins'); ?></a>
-				</div>
-				<div id="languages" class="ext">
+				</li>
+				<li>
 					<a class="exttype" href="index2.php?option=com_installer&amp;extension=language"><?php echo JText::_('Languages'); ?></a>
-					<ul class="subext">
-						<li><a href="index2.php?option=com_installer&amp;extension=language&amp;filter=1" ><?php echo JText::_('Administrator'); ?></a></li>
-						<li><a href="index2.php?option=com_installer&amp;extension=language&amp;filter=0" ><?php echo JText::_('Site'); ?></a></li>
-					</ul>
-				</div>
-				<div id="templates" class="ext">
+				</li>
+				<li>
 					<a class="exttype" href="index2.php?option=com_installer&amp;extension=template"><?php echo JText::_('Templates'); ?></a>
-					<ul class="subext">
-						<li><a href="index2.php?option=com_installer&amp;extension=template&amp;filter=1" ><?php echo JText::_('Administrator'); ?></a></li>
-						<li><a href="index2.php?option=com_installer&amp;extension=template&amp;filter=0" ><?php echo JText::_('Site'); ?></a></li>
-					</ul>
-				</div>
-			</div>
+				</li>
+			</ul>
+			</fieldset>
+			<fieldset title="<?php echo JText::_('Install an extension'); ?>">
+			<legend>
+				<?php echo JText::_('Install an extension'); ?>
+			</legend>
+			<ul id="installer" class="menu-tree">
+				<li>
+					<a class="exttype" href="index2.php?option=com_installer&amp;task=installer" ><?php echo JText::_('Install'); ?></a>
+				</li>
+			</ul>
 			</fieldset>

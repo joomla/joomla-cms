@@ -25,12 +25,15 @@ class HTML_modules {
 	* Writes a list of the defined modules
 	* @param array An array of category objects
 	*/
-	function showModules( &$rows, $client, &$pageNav, $option, &$lists ) {
-		global $my;
+	function showModules( &$rows, $client, &$pageNav, $option, &$lists ) 
+	{
+		global $mainframe;
+		
+		$user =& $mainframe->getUser();
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_modules&amp;client=<?php echo $client; ?>" method="post" name="adminForm">
+		<form action="index2.php?option=com_modules" method="post" name="adminForm">
 
 		<table class="adminform">
 		<tr>
@@ -40,6 +43,12 @@ class HTML_modules {
 				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
 				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
 			</td>
+			<td>
+				<td nowrap="nowrap">
+				<label for="client"><?php echo JText::_( 'Select Client' ); ?></label>
+				<?php echo $lists['client'];?>
+			</td>
+			<td>|</td>
 			<td nowrap="nowrap">
 				<?php
 				echo $lists['position'];
@@ -81,7 +90,7 @@ class HTML_modules {
 				}
 				?>
 				<?php
-				if ( $client != 'admin' ) {
+				if ( $client->name != 'admin' ) {
 					?>
 					<th nowrap="nowrap" width="7%">
 						<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
@@ -107,7 +116,7 @@ class HTML_modules {
 			for ($i=0, $n=count( $rows ); $i < $n; $i++) {
 				$row 	= &$rows[$i];
 	
-				$link = ampReplace( 'index2.php?option=com_modules&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id );
+				$link = ampReplace( 'index2.php?option=com_modules&client='. $client->id .'&task=editA&hidemainmenu=1&id='. $row->id );
 	
 				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
 				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
@@ -122,7 +131,7 @@ class HTML_modules {
 					</td>
 					<td>
 					<?php
-					if ( $row->checked_out && ( $row->checked_out != $my->id ) ) {
+					if ( $row->checked_out && ( $row->checked_out != $user->get('id') ) ) {
 						echo $row->title;
 					} else {
 						?>
@@ -152,7 +161,7 @@ class HTML_modules {
 					}
 					?>
 					<?php
-					if ( $client != 'admin' ) {
+					if ( $client->name != 'admin' ) {
 						?>
 						<td align="center">
 							<?php echo $access;?>
@@ -192,7 +201,6 @@ class HTML_modules {
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="client" value="<?php echo $client;?>" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />

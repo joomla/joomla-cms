@@ -19,8 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * Make sure the user is authorized to view this page
  */
 $user = & $mainframe->getUser();
-if (!$user->authorize( 'com_languages', 'manage' ))
-{
+if (!$user->authorize( 'com_languages', 'manage' )) {
 	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
@@ -29,21 +28,13 @@ require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 $task 	= trim( strtolower( mosGetParam( $_REQUEST, 'task', '' ) ) );
 $cid 	= mosGetParam( $_REQUEST, 'cid', array(0) );
-$client = mosGetParam( $_REQUEST, 'client', 'site' );
 
 if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
-switch ($task) {
-	case 'install':
-		josRedirect( 'index2.php?option=com_installer&task=installer&client='. $client );
-		break;
-
-	case 'uninstall':
-		removeLanguage( $cid[0], $option, $client );
-		break;
-
+switch ($task) 
+{
 	case 'publish':
 		publishLanguage( $cid[0], $option, $client );
 		break;
@@ -53,27 +44,39 @@ switch ($task) {
 		break;
 
 	default:
-		viewLanguages( $option, $client );
+		viewLanguages();
 		break;
 }
 
 /**
 * Compiles a list of installed languages
 */
-function viewLanguages( $option, $client = 'site') 
+function viewLanguages() 
 {
-	global $mainframe, $mosConfig_lang;
-
+	global $mainframe;
+	
+	/*
+	 * Initialize some variables
+	 */
+	$db		= & $mainframe->getDBO();
+	$option = JRequest::getVar('option');
+	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+	$rows	= array ();
+	
 	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit',  $mainframe->getCfg('list_limit') );
 	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
-	$path = JLanguage::getLanguagePath(constant('JPATH_'.strtoupper($client)));
+	$select[] 			= mosHTML :: makeOption('0', JText :: _('Site'));
+	$select[] 			= mosHTML :: makeOption('1', JText :: _('Administrator'));
+	$lists['client'] 	= mosHTML :: selectList($select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $client->id);
+	
+	$path = JLanguage::getLanguagePath($client->path);
 
-	$rows = array();
 	$rowid = 0;
 
 	$dirs = JFolder::folders( $path );
-	foreach ($dirs as $dir) {
+	foreach ($dirs as $dir) 
+	{
 		$files = JFolder::files( $path . $dir, '^([-_A-Za-z]*)\.xml$' );
 		foreach ($files as $file) {
 			// Read the file to see if it's a valid template XML file
@@ -116,7 +119,7 @@ function viewLanguages( $option, $client = 'site')
 			$element 		= &$root->getElementsByPath('version', 1);
 			$row->version 	= $element ? $element->getText() : '';
 
-			$lang = ($client == 'site') ? 'lang' : 'lang_'.$client;
+			$lang = ($client->name == 'site') ? 'lang' : 'lang_'.$client->name;
 
 			// if current than set published
 			if ( $mainframe->getCfg($lang) == $row->language) {
@@ -138,7 +141,7 @@ function viewLanguages( $option, $client = 'site')
 
 	$rows = array_slice( $rows, $pageNav->limitstart, $pageNav->limit );
 
-	HTML_languages::showLanguages( $rows, $pageNav, $option, $client );
+	HTML_languages::showLanguages( $rows, $lists, $pageNav, $option );
 }
 
 /**
@@ -186,22 +189,6 @@ function publishLanguage( $p_lname, $option, $client = 'site' )
 	} else {
 		josRedirect("index2.php?option=com_languages&client=".$client,JText::_( 'ERRORCONFIGWRITEABLE' ) );
 	}
-
-}
-
-/**
-* Remove the selected language
-*/
-function removeLanguage( $cid, $option, $client = 'site' ) {
-	global $mainframe;
-
-	$lang = ($client == 'site') ? 'lang' : 'lang_'.$client;
-
-	if ($mainframe->getCfg($lang) == $cid) {
-		mosErrorAlert(JText::_( 'You can not delete language in use.', true ));
-	}
-
-	josRedirect( 'index2.php?option=com_installer&type=language&client='. $client .'&task=remove&eid[]='. $cid );
 
 }
 ?>

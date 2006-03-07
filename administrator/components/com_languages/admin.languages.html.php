@@ -21,11 +21,20 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_languages {
 
-	function showLanguages( &$rows, &$pageNav, $option, $client ) {
-		global $my;
-
+	function showLanguages( &$rows, &$lists, &$pageNav, $option ) 
+	{
 		?>
 		<form action="index2.php" method="post" name="adminForm">
+		
+		<table class="adminform">
+		<tr>
+			<td align="left" width="100%"></td>
+			<td nowrap="nowrap">
+				<label for="filter"><?php echo JText::_( 'Select Client' ); ?></label>
+				<?php echo $lists['client'];?>
+			</td>
+		</tr>
+		</table>
 
 		<div id="tablecell">				
 			<table class="adminlist">
@@ -107,7 +116,6 @@ class HTML_languages {
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="hidemainmenu" value="0" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="client" value="<?php echo $client;?>" />
 		</form>
 		<?php
 	}

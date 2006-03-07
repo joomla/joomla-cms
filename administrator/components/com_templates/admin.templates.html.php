@@ -19,14 +19,18 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Templates
 */
-class JTemplatesView {
+class JTemplatesView 
+{
 	/**
 	* @param array An array of data objects
 	* @param object A page navigation object
 	* @param string The option
 	*/
-	function showTemplates( &$rows, &$pageNav, $option, &$client ) {
-		global $mainframe, $my;
+	function showTemplates( &$rows, &$lists, &$pageNav, $option, &$client ) 
+	{
+		global $mainframe;
+		
+		$user =& $mainframe->getUser();
 
 		if ( isset( $row->authorUrl) && $row->authorUrl != '' ) {
 			$row->authorUrl = str_replace( 'http://', '', $row->authorUrl );
@@ -56,13 +60,13 @@ class JTemplatesView {
 		
 		<table class="adminform">
 		<tr>
-			<td align="left" width="100%">
+			<td nowrap="nowrap" align="left" width="100%">
+				<input type="checkbox" name="doPreview" id="doPreview" checked="checked" />
+				<label id="doPreview"><?php echo JText::_( 'Preview Template' ); ?></label>
 			</td>
 			<td nowrap="nowrap">
-				<label id="doPreview">
-					<input type="checkbox" name="doPreview" id="doPreview" checked="checked" />
-		            <?php echo JText::_( 'Preview Template' ); ?>
-				</label>
+				<label for="client"><?php echo JText::_( 'Select Client' ); ?></label>
+				<?php echo $lists['client'];?>
 			</td>
 		</tr>
 		</table>
@@ -117,7 +121,7 @@ class JTemplatesView {
 					</td>
 					<td width="5">
 					<?php
-						if ( $row->checked_out && $row->checked_out != $my->id ) {
+						if ( $row->checked_out && $row->checked_out != $user->get('id') ) {
 							?>
 							&nbsp;
 							<?php
@@ -204,7 +208,6 @@ class JTemplatesView {
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="hidemainmenu" value="0" />
-		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
 		</form>
 		<?php
 	}

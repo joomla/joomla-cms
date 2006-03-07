@@ -176,6 +176,9 @@ input, textarea, select {
 	z-index : -3;
 	font-size: 11px;
 }
+
+label { margin: 0 5px 0 5px; }
+
 .small {
 	color : #FF9900;
 	font-family : Arial, Helvetica, sans-serif;
@@ -278,6 +281,7 @@ table.adminform {
 	width: 100%;
 	padding: 10px;
 	border-collapse: collapse;
+	margin-top: 10px;
 }
 table.adminform tr.row0 {
 	background-color: #f9f9f9;
@@ -527,13 +531,8 @@ div.footer {
 	margin-top: 10px;
 }
 
-.ext {
-	position: relative;
-	left: 5px;
-	padding: 3px;
-	margin: 5px;
-	font-size: 14px;
-}
+.menu-tree { margin: 0; padding: 0; }
+.menu-tree li { margin-left: 25px; padding: 2px;}
 
 .subext {
 	position: relative;

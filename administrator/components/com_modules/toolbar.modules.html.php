@@ -21,7 +21,7 @@ class TOOLBAR_modules {
 	* Draws the menu for a New module
 	*/
 	function _NEW($client)	{
-		JMenuBar::title( JText::_( 'New Module' ).': <small><small>['. JText::_( $client ) .']</small></small>', 'module.png' );
+		JMenuBar::title( JText::_( 'New Module' ).': <small><small>['. JText::_( $client->name ) .']</small></small>', 'module.png' );
 		JMenuBar::customX( 'edit', 'next.png', 'next_f2.png', JText::_( 'Next' ), true );
 		JMenuBar::cancel();
 		JMenuBar::help( 'screen.modules.new' );
@@ -35,7 +35,7 @@ class TOOLBAR_modules {
 		
 		$moduleType = mosGetParam( $_REQUEST, 'module', '' );
 
-		JMenuBar::title( JText::_( 'Module' ) .' <small>'. JText::_( $client ) .'</small>: <small><small>[ Edit ]</small></small>', 'module.png' );
+		JMenuBar::title( JText::_( 'Module' ) .' <small>'. JText::_( $client->name ) .'</small>: <small><small>[ Edit ]</small></small>', 'module.png' );
 
 		if($moduleType == 'custom') {
 			JMenuBar::Preview('index3.php?option=com_modules&client='.$client.'&pollid='.$id);
@@ -52,7 +52,7 @@ class TOOLBAR_modules {
 	}
 	function _DEFAULT($client) {
 
-		JMenuBar::title( JText::_( 'Module Manager' ).': <small><small>[' .JText::_( $client ) .']</small></small>', 'module.png' );
+		JMenuBar::title( JText::_( 'Module Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'module.png' );
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
 		JMenuBar::custom( 'copy', 'copy.png', 'copy_f2.png', JText::_( 'Copy' ), true );

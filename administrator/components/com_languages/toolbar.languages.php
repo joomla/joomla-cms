@@ -17,14 +17,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 
+$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+
 switch ($task) {
 
-	case 'edit_source':
-		TOOLBAR_languages::_EDIT_SOURCE();
-		break;
-
 	default:
-		TOOLBAR_languages::_DEFAULT();
+		TOOLBAR_languages::_DEFAULT($client);
 		break;
 }
 ?>

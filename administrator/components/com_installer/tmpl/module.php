@@ -31,7 +31,8 @@ class JInstallerExtensionTasks {
 	/**
 	* @param string The URL option
 	*/
-	function showInstalled() {
+	function showInstalled() 
+	{
 		global $database, $mainframe;
 
 		$filter 			= JRequest::getVar( 'filter' );

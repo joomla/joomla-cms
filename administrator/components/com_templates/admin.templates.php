@@ -19,8 +19,7 @@ defined('_JEXEC') or die('Restricted access');
  * Make sure the user is authorized to view this page
  */
 $user = & $mainframe->getUser();
-if (!$user->authorize('com_templates', 'manage'))
-{
+if (!$user->authorize('com_templates', 'manage')) {
 	josRedirect('index2.php', JText::_('ALERTNOTAUTH'));
 }
 
@@ -28,13 +27,12 @@ require_once (dirname(__FILE__).'/admin.templates.html.php');
 require_once (dirname(__FILE__).'/admin.templates.class.php');
 
 $option	= JRequest::getVar('option');
-$task		= JRequest::getVar('task');
+$task	= JRequest::getVar('task');
 $client	= JRequest::getVar('client');
 $id		= JRequest::getVar('id');
-$cid		= JRequest::getVar('cid', array (), '', 'array');
+$cid	= JRequest::getVar('cid', array (), '', 'array');
 
-if (!is_array($cid))
-{
+if (!is_array($cid)) {
 	$cid[0] = $id;
 }
 
@@ -119,14 +117,15 @@ class JTemplatesController
 		$db		= & $mainframe->getDBO();
 		$option = JRequest::getVar('option');
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$rows	= array ();
-		$i			= 0;
-		$id		= intval($client->id == 1);
-
+		
 		// Initialize the pagination variables
 		$limit		= $mainframe->getUserStateFromRequest("limit", 'limit', $mainframe->getCfg('list_limit'));
 		$limitstart	= $mainframe->getUserStateFromRequest("$option.limitstart", 'limitstart', 0);
 
+		$select[] 			= mosHTML :: makeOption('0', JText :: _('Site'));
+		$select[] 			= mosHTML :: makeOption('1', JText :: _('Administrator'));
+		$lists['client'] 	= mosHTML :: selectList($select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $client->id);
+		
 		$templateBaseDir = JPath::clean($client->path.DS.'templates');
 
 		// Read the template folder to find templates
@@ -223,7 +222,7 @@ class JTemplatesController
 
 		$rows = array_slice($rows, $page->limitstart, $page->limit);
 
-		JTemplatesView :: showTemplates($rows, $page, $option, $client);
+		JTemplatesView::showTemplates($rows, $lists, $page, $option, $client);
 	}
 
 	/**
