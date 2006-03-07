@@ -49,7 +49,7 @@ class HTML_admin_misc {
 	}
 
 	function system_info( ) {
-		global $database, $_VERSION;
+		global $database, $_VERSION, $mosConfig_cachepath;
 
 		$width = 400;	// width of 100%
 		$tabs = new mosTabs(0);
@@ -387,11 +387,12 @@ class HTML_admin_misc {
 					</td>
 				</tr>
 				<?php
+				$sp = ini_get('session.save_path');
+
 				mosHTML::writableCell( 'administrator/backups' );
 				mosHTML::writableCell( 'administrator/components' );
 				mosHTML::writableCell( 'administrator/modules' );
 				mosHTML::writableCell( 'administrator/templates' );
-				mosHTML::writableCell( 'cache' );
 				mosHTML::writableCell( 'components' );
 				mosHTML::writableCell( 'images' );
 				mosHTML::writableCell( 'images/banners' );
@@ -408,6 +409,8 @@ class HTML_admin_misc {
 				mosHTML::writableCell( 'media' );
 				mosHTML::writableCell( 'modules' );
 				mosHTML::writableCell( 'templates' );
+				mosHTML::writableCell( $mosConfig_cachepath, 0, '<strong>'. JText::_( 'Cache Directory' ) .'</strong> ' );
+				mosHTML::writableCell( $sp, 0, '<strong>'. JText::_( 'Session Directory' ) .'</strong> ' );
 				?>
 				</tbody>
 				</table>

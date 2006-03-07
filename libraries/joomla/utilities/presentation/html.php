@@ -112,13 +112,23 @@ class mosHTML {
 		return $obj;
 	}
 
-	function writableCell( $folder ) {
+	function writableCell( $folder, $relative=1, $text='', $visible=1 ) {
+		$writeable 		= '<b><font color="green">'. JText::_( 'Writeable' ) .'</font></b>';
+		$unwriteable 	= '<b><font color="red">'. JText::_( 'Unwriteable' ) .'</font></b>';
+
 		echo '<tr>';
 		echo '<td class="item">';
-		echo $folder;
+		echo $text;
+		if ( $visible ) {
+			echo $folder . '/';
+		}
 		echo '</td>';
 		echo '<td >';
-		echo is_writable( "../$folder" ) ? '<b><font color="green">'. JText::_( 'Writeable' ) .'</font></b>' : '<b><font color="red">'. JText::_( 'Unwriteable' ) .'</font></b>';
+		if ( $relative ) {
+			echo is_writable( "../$folder" ) 	? $writeable : $unwriteable;
+		} else {
+			echo is_writable( "$folder" ) 		? $writeable : $unwriteable;
+		}
 		echo '</td>';
 		echo '</tr>';
 	}

@@ -225,6 +225,7 @@ class HTML_modules {
 	*/
 	function editModule( &$row, &$orders2, &$lists, &$params, $option, $client ) {
 		global $mainframe;
+		global $my, $mosConfig_cachepath;		
 
 		$row->titleA = '';
 		if ( $row->id ) {
@@ -382,6 +383,30 @@ class HTML_modules {
 						<tr>
 							<td>
 								<?php echo $params->render();?>
+							</td>
+						</tr>
+						</table>
+						<?php
+					}
+					?>
+				
+					<?php
+					// show Cache directory writable status for mod_feed or mod_syndication
+					if ( $row->module == 'mod_feed' || $row->module == 'mod_syndicate' ) {
+						?>
+						<table class="adminform">
+						<tr>
+							<td>
+								<table align="center">
+								<?php
+								$visible = 0;
+								// check to hide certain paths if not super admin
+								if ( $my->gid == 25 ) {
+									$visible = 1;
+								}
+								mosHTML::writableCell( $mosConfig_cachepath, 0, '<strong>Cache Directory</strong> ', $visible );
+								?>
+								</table>
 							</td>
 						</tr>
 						</table>

@@ -22,7 +22,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class HTML_newsfeeds {
 
 	function showNewsFeeds( &$rows, &$lists, &$pageNav, $option ) {
-		global $my;
+		global $my, $mosConfig_cachepath;
 
 		mosCommonHTML::loadOverlib();
 		?>
@@ -146,9 +146,26 @@ class HTML_newsfeeds {
 				$k = 1 - $k;
 			}
 			?>
-			</table>
+			</table>			
 			
-			<?php echo $pageNav->getListFooter(); ?>
+			<?php echo $pageNav->getListFooter(); ?>		
+				
+			<table class="adminform">
+			<tr>
+				<td>
+					<table align="center">
+					<?php
+					$visible = 0;
+					// check to hide certain paths if not super admin
+					if ( $my->gid == 25 ) {
+						$visible = 1;
+					}
+					mosHTML::writableCell( $mosConfig_cachepath, 0, '<strong>Cache Directory</strong> ', $visible );
+					?>
+					</table>
+				</td>
+			</tr>
+			</table>
 		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option;?>" />

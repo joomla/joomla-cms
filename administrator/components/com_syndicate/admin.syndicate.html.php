@@ -22,6 +22,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class HTML_syndicate {
 
 	function settings( $option, &$params, $id ) {
+		global $mosConfig_cachepath, $my;
+		
 		mosCommonHTML::loadOverlib();
 		?>
 		<style type="text/css">
@@ -59,6 +61,23 @@ class HTML_syndicate {
 				</td>
 			</tr>
 			</tbody>
+			</table>
+				
+			<table class="adminform">
+			<tr>
+				<td>
+					<table align="center">
+					<?php
+					$visible = 0;
+					// check to hide certain paths if not super admin
+					if ( $my->gid == 25 ) {
+						$visible = 1;
+					}
+					mosHTML::writableCell( $mosConfig_cachepath, 0, '<strong>Cache Directory</strong> ', $visible );
+					?>
+					</table>
+				</td>
+			</tr>
 			</table>
 		</div>
 
