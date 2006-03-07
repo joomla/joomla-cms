@@ -1,6 +1,16 @@
-			<fieldset title="<?php echo JText::_('Installed extensions'); ?>">
+			<fieldset title="<?php echo JText::_('Install an extension'); ?>">
 			<legend>
-				<?php echo JText::_('Installed extensions'); ?>
+				<?php echo JText::_('Install an extension'); ?>
+			</legend>
+			<ul id="installer" class="menu-tree">
+				<li>
+					<a class="exttype" href="index2.php?option=com_installer&amp;task=installer" ><?php echo JText::_('Install'); ?></a>
+				</li>
+			</ul>
+			</fieldset>
+			<fieldset title="<?php echo JText::_('Uninstall and extension'); ?>">
+			<legend>
+				<?php echo JText::_('Uninstall and extension'); ?>
 			</legend>
 			<ul id="extensions" class="menu-tree">
 				<li>
@@ -17,16 +27,6 @@
 				</li>
 				<li>
 					<a class="exttype" href="index2.php?option=com_installer&amp;extension=template"><?php echo JText::_('Templates'); ?></a>
-				</li>
-			</ul>
-			</fieldset>
-			<fieldset title="<?php echo JText::_('Install an extension'); ?>">
-			<legend>
-				<?php echo JText::_('Install an extension'); ?>
-			</legend>
-			<ul id="installer" class="menu-tree">
-				<li>
-					<a class="exttype" href="index2.php?option=com_installer&amp;task=installer" ><?php echo JText::_('Install'); ?></a>
 				</li>
 			</ul>
 			</fieldset>
