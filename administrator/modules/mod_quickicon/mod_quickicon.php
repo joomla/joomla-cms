@@ -69,7 +69,7 @@ if (!defined( '_JOS_QUICKICON_MODULE' )) {
 		}
 
 		if ( $my->gid > 24 ) {
-			$link = 'index2.php?option=com_languages&amp;client=site';
+			$link = 'index2.php?option=com_languages&amp;client=0';
 			quickiconButton( $link, 'langmanager.png', JText::_( 'Language Manager' ) );
 		}
 
