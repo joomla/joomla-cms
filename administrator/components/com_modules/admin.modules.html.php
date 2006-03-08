@@ -90,7 +90,7 @@ class HTML_modules {
 				}
 				?>
 				<?php
-				if ( $client->name != 'admin' ) {
+				if ( $client->id == 0 ) {
 					?>
 					<th nowrap="nowrap" width="7%">
 						<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
@@ -161,7 +161,7 @@ class HTML_modules {
 					}
 					?>
 					<?php
-					if ( $client->name != 'admin' ) {
+					if ( $client->id == 0 ) {
 						?>
 						<td align="center">
 							<?php echo $access;?>

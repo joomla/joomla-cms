@@ -125,7 +125,7 @@ class JFullAdminMenu {
 		?>
 			<?php if ($canConfig) { ?>
 				_cmSplit,
-				['<img src="../includes/js/ThemeOffice/config.png" />','<?php echo JText::_( 'Configuration', true ); ?>','index2.php?option=com_config&hidemainmenu=1',null,'<?php echo JText::_( 'Configuration', true ); ?>'],
+				['<img src="../includes/js/ThemeOffice/config.png" />','<?php echo JText::_( 'Configuration', true ); ?>','index2.php?option=com_config',null,'<?php echo JText::_( 'Configuration', true ); ?>'],
 			<?php } ?>
 			_cmSplit,
 			[null,'<?php echo JText::_( 'Exit', true ); ?>','index2.php?option=logout',null,'<?php echo JText::_( 'Exit', true ); ?>'],
