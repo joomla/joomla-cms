@@ -197,7 +197,7 @@ function viewSearch() {
 		$total 		= $totalRows;
 		$limit		= mosGetParam( $_GET, 'limit', $mosConfig_list_limit );
 		$limitstart = mosGetParam( $_GET, 'limitstart', 0 );
-		jimport('joomla.utilities.presentation.pagination');
+		jimport('joomla.presentation.pagination');
 		$page = new JPagination( $total, $limitstart, $limit );
 
 		if ( $n ) {

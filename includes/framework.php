@@ -60,7 +60,7 @@ jimport( 'joomla.utilities.profiler');
 jimport( 'joomla.application.environment.session' );
 jimport( 'joomla.application.environment.request' );
 jimport( 'joomla.model.model' );
-jimport( 'joomla.utilities.presentation.html' );
+jimport( 'joomla.presentation.html' );
 jimport( 'joomla.factory' );
 jimport( 'joomla.filesystem.*' );
 jimport( 'joomla.parameter.parameter' );
@@ -68,7 +68,7 @@ jimport( 'joomla.i18n.language' );
 jimport( 'joomla.i18n.string' );
 jimport( 'joomla.application.event' );
 jimport( 'joomla.application.extension.plugin' );
-jimport( 'joomla.utilities.presentation.editor' );
+jimport( 'joomla.presentation.editor' );
 jimport( 'joomla.application.application');
 
 jimport( 'joomla.common.legacy.*' );

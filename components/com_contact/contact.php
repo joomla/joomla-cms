@@ -164,7 +164,7 @@ class JContactController {
 					$limitstart = 0;
 				}
 				
-				jimport('joomla.utilities.presentation.pagination');
+				jimport('joomla.presentation.pagination');
 				$page = new JPagination($total, $limitstart, $limit);
 				
 				$query = "SELECT cd.*, cc.name AS cname, cc.description AS cdescription, cc.image AS cimage, cc.image_position AS cimage_position"

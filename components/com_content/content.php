@@ -532,7 +532,7 @@ class JContentController
 			$limitstart = 0;
 		}
 
-		jimport('joomla.utilities.presentation.pagination');
+		jimport('joomla.presentation.pagination');
 		$page = new JPagination($total, $limitstart, $limit);
 
 		// get the list of items for this category

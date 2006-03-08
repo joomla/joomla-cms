@@ -11,7 +11,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.utilities.presentation.toolbar.toolbar');
+jimport('joomla.presentation.toolbar.toolbar');
 
 /**
 * Utility class for the button bar
