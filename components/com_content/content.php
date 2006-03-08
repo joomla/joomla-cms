@@ -141,7 +141,8 @@ class JContentController
 		$noauth 	= !$mainframe->getCfg('shownoauth');
 		$offset		= $mainframe->getCfg('offset');
 		$pop 		= JRequest :: getVar('pop', 0, '', 'int');
-		$gid		= $user->get('gid');
+		$gid			= $user->get('gid');
+		$rows		= array();
 
 		// Parameters
 		$menu 			= & JModel :: getInstance( 'menu', $db);

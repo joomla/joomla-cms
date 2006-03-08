@@ -40,6 +40,7 @@ Legend:
 08-Mar-2006 Louis Landry
  + Proper HTML Error page rendering for JError
  # Fixed artf3646 : Lowercase definition in language file
+ # Fixed artf3452 : array may be passed uninitialised
 
 06-Mar-2006 Johan Janssens
  ^ Reorganised the administrator menu structure
