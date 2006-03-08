@@ -41,6 +41,7 @@ Legend:
  + Proper HTML Error page rendering for JError
  # Fixed artf3646 : Lowercase definition in language file
  # Fixed artf3452 : array may be passed uninitialised
+ # Fixed artf3557 : Bug in go2(), mistake in mosCommonHTML::Images()
 
 06-Mar-2006 Johan Janssens
  ^ Reorganised the administrator menu structure

@@ -1446,7 +1446,7 @@ class mosAdminMenus {
 	*/
 	function Images( $name, &$active, $javascript=NULL, $directory=NULL ) {
 		if ( !$javascript ) {
-			$javascript = "onchange=\"javascript:if (document.forms[0].image.options[selectedIndex].value!='') {document.imagelib.src='../images/stories/' + document.forms[0].image.options[selectedIndex].value} else {document.imagelib.src='../images/blank.png'}\"";
+			$javascript = "onchange=\"javascript:if (document.forms[0]." . $name . ".options[selectedIndex].value!='') {document.imagelib.src='../images/stories/' + document.forms[0]." . $name . ".options[selectedIndex].value} else {document.imagelib.src='../images/blank.png'}\"";
 		}
 		if ( !$directory ) {
 			$directory = '/images/stories';
