@@ -204,8 +204,7 @@ class JContentController
 	 * @param string $now Timestamp
 	 * @since 1.0
 	 */
-	function showSection(& $access, $now) 
-	{
+	function showSection(& $access, $now) {
 		global $mainframe, $Itemid;
 
 		/*
@@ -349,8 +348,7 @@ class JContentController
 	 * @param string $now Timestamp
 	 * @since 1.0
 	 */
-	function showCategory(& $access, $now) 
-	{
+	function showCategory(& $access, $now) {
 		global $mainframe, $Itemid;
 
 		/*
@@ -466,12 +464,14 @@ class JContentController
 		}
 
 		// get the list of other categories
-		$query = "SELECT c.*, COUNT( b.id ) AS numitems" .
-				"\n FROM #__categories AS c" .
-				"\n LEFT JOIN #__content AS b ON b.catid = c.id ".$xwhere2. ($noauth ? "\n AND b.access <= $gid" : '') .
-				"\n WHERE c.section = '$category->section'".$xwhere. ($noauth ? "\n AND c.access <= $gid" : '') .
-				"\n GROUP BY c.id".$empty .
-				"\n ORDER BY c.ordering";
+		$query = "SELECT c.*, COUNT( b.id ) AS numitems"
+				. "\n FROM #__categories AS c"
+				. "\n LEFT JOIN #__content AS b ON b.catid = c.id ".$xwhere2. ($noauth ? "\n AND b.access <= $gid" : '')
+				. "\n WHERE c.section = '$category->section'".$xwhere. ($noauth ? "\n AND c.access <= $gid" : '')
+				. "\n GROUP BY c.id"
+				. $empty 
+				. "\n ORDER BY c.ordering"
+				;
 		$db->setQuery($query);
 		$other_categories = $db->loadObjectList();
 
@@ -576,8 +576,7 @@ class JContentController
 		JContentView :: showCategory($category, $other_categories, $items, $access, $gid, $params, $page, $lists, $selected);
 	}
 
-	function showBlogSection(& $access, $now = NULL) 
-	{
+	function showBlogSection(& $access, $now = NULL) {
 		global $mainframe, $Itemid;
 
 		/*
@@ -609,6 +608,7 @@ class JContentController
 		}
 
 		$where = JContentController :: _where(1, $access, $noauth, $gid, $id, $now);
+		$where = ( count( $where ) ? "\n WHERE ". implode( "\n AND ", $where ) : '' );
 
 		// Ordering control
 		$orderby_sec 	= $params->def('orderby_sec', 'rdate');
@@ -626,7 +626,8 @@ class JContentController
 				. "\n LEFT JOIN #__users AS u ON u.id = a.created_by" 
 				. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" 
 				. "\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" 
-				. "\n LEFT JOIN #__groups AS g ON a.access = g.id". (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '')
+				. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
+				. $where
 				. "\n AND s.access <= $gid" 
 				. "\n AND cc.access <= $gid" 
 				. "\n AND s.published = 1" 
@@ -669,8 +670,7 @@ class JContentController
 		JContentView :: showBlog($rows, $params, $gid, $access, $pop, $menu);
 	}
 
-	function showBlogCategory(& $access, $now) 
-	{
+	function showBlogCategory(& $access, $now) {
 		global $mainframe, $Itemid;
 
 		/*
@@ -702,6 +702,7 @@ class JContentController
 		}
 
 		$where = JContentController :: _where(2, $access, $noauth, $gid, $id, $now);
+		$where = ( count( $where ) ? "\n WHERE ". implode( "\n AND ", $where ) : '' );
 
 		// Ordering control
 		$orderby_sec 	= $params->def('orderby_sec', 'rdate');
@@ -719,7 +720,8 @@ class JContentController
 				. "\n LEFT JOIN #__users AS u ON u.id = a.created_by" 
 				. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" 
 				. "\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" 
-				. "\n LEFT JOIN #__groups AS g ON a.access = g.id". (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '')
+				. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
+				. $where
 				. "\n AND s.access <= $gid"
 				. "\n AND cc.access <= $gid"
 				. "\n AND s.published = 1"
@@ -781,8 +783,7 @@ class JContentController
 		JContentView :: showBlog($rows, $params, $gid, $access, $pop, $menu);
 	}
 
-	function showArchiveSection(& $access) 
-	{
+	function showArchiveSection(& $access) {
 		global $mainframe, $Itemid;
 
 		/*
@@ -799,7 +800,7 @@ class JContentController
 		$gid		= $user->get('gid');
 
 		// needed for check whether section is published
-		$check = ( $id ? $id : 0 );
+		$secID = ( $id ? $id : 0 );
 		
 		if ($Itemid) {
 			$menu 	= & JModel :: getInstance( 'menu', $db );
@@ -822,7 +823,8 @@ class JContentController
 
 		// Build the WHERE clause for the database query
 		$where = JContentController :: _where(-1, $access, $noauth, $gid, $id, NULL, $year, $month);
-
+		$where = ( count( $where ) ? "\n WHERE ". implode( "\n AND ", $where ) : '' );
+		
 		// checks to see if 'All Sections' options used
 		if ($id == 0) {
 			$check = null;
@@ -831,9 +833,11 @@ class JContentController
 		}
 
 		// query to determine if there are any archived entries for the section
-		$query = "SELECT a.id" .
-				"\n FROM #__content as a" .
-				"\n WHERE a.state = -1".$check;
+		$query = "SELECT a.id"
+				. "\n FROM #__content as a"
+				. "\n WHERE a.state = -1"
+				. $check
+				;
 		$db->setQuery($query);
 		$items = $db->loadObjectList();
 		$archives = count($items);
@@ -848,7 +852,8 @@ class JContentController
 				. "\n LEFT JOIN #__users AS u ON u.id = a.created_by" 
 				. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" 
 				. "\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" 
-				. "\n LEFT JOIN #__groups AS g ON a.access = g.id". (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '')
+				. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
+				. $where
 				. "\n AND s.access <= $gid" 
 				. "\n AND cc.access <= $gid" 
 				. "\n AND s.published = 1" 
@@ -869,7 +874,7 @@ class JContentController
 		// check whether section is published
 		if (!count($rows)) {
 			$secCheck = new JModelSection( $db );
-			$secCheck->load( $id );			
+			$secCheck->load( $secID );			
 			
 			/*
 			* check whether section is published
@@ -894,8 +899,7 @@ class JContentController
 		}
 	}
 
-	function showArchiveCategory(& $access, $now) 
-	{
+	function showArchiveCategory(& $access, $now) {
 		global $mainframe, $Itemid;
 
 		// Parameters
@@ -911,7 +915,7 @@ class JContentController
 		$gid		= $user->get('gid');
 
 		// needed for check whether section & category is published
-		$check = ( $id ? $id : 0 );
+		$catID = ( $id ? $id : 0 );
 		
 		// used by archive module
 		if ($module) {
@@ -938,11 +942,14 @@ class JContentController
 
 		// used in query
 		$where = JContentController :: _where(-2, $access, $noauth, $gid, $id, NULL, $year, $month);
+		$where = ( count( $where ) ? "\n WHERE ". implode( "\n AND ", $where ) : '' );
 
 		// query to determine if there are any archived entries for the category
-		$query = "SELECT a.id" .
-				"\n FROM #__content as a" .
-				"\n WHERE a.state = -1".$check;
+		$query = "SELECT a.id"
+				. "\n FROM #__content as a" 
+				. "\n WHERE a.state = -1"
+				. $check
+				;
 		$db->setQuery($query);
 		$items = $db->loadObjectList();
 		$archives = count($items);
@@ -956,7 +963,8 @@ class JContentController
 				. "\n LEFT JOIN #__users AS u ON u.id = a.created_by" 
 				. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" 
 				. "\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" 
-				. "\n LEFT JOIN #__groups AS g ON a.access = g.id". (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '')
+				. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
+				. $where
 				. "\n AND s.access <= $gid"
 				. "\n AND cc.access <= $gid"
 				. "\n AND s.published = 1"
@@ -976,7 +984,7 @@ class JContentController
 		// check whether section & category is published
 		if (!count($rows)) {
 			$catCheck = new JModelCategory( $db );
-			$catCheck->load( $id );
+			$catCheck->load( $catID );
 			
 			/*
 			* check whether category is published
