@@ -39,9 +39,10 @@ class JRegistryFormatXML extends JRegistryFormat {
 	 * 
 	 * @access public
 	 * @param object $object Data Source Object
+	 * @param array  $param  Parameters used by the formatter
 	 * @return string XML Formatted String
 	 */
-	function objectToString( &$object ) {
+	function objectToString( &$object, $params ) {
 		$depth = 1;
 		$retval = "<?xml version=\"1.0\" ?>\n<config>\n";
 		foreach (get_object_vars( $object ) as $key=>$item) {				

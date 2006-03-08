@@ -27,22 +27,19 @@ class JRegistryFormatPHP extends JRegistryFormat {
 	 * 
 	 * @access public
 	 * @param object $object Data Source Object
+	 * @param array  $param  Parameters used by the formatter
 	 * @return string Config class formatted string
 	 * @since 1.1
 	 */
-	function objectToString( &$object ) {
+	function objectToString( &$object, $params ) {
 		
 		// Build the object variables string
 		$vars = '';
 		foreach (get_object_vars( $object ) as $k => $v) {
-			if ($k == "_name") {
-				$name = $v;
-			} else {
-				$vars .= "\tvar $". $k . " = '" . addslashes($v) . "';\n";
-			}
+			$vars .= "\tvar $". $k . " = '" . addslashes($v) . "';\n";
 		}
 
-		$str = "<?php\nclass $name {\n";
+		$str = "<?php\nclass ".$params['class']." {\n";
 		$str .= $vars;
 		$str .= "}\n?>";
 

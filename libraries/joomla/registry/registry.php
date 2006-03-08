@@ -43,12 +43,11 @@ class JRegistry extends JObject
 	 * Constructor
 	 * 
 	 * @param $defaultNamespace	string 	Default registry namespace
-	 * @param $readOnly			boolean Is the default namespace read only? [optional: default is false]
 	 */
-	function __construct($namespace = 'default', $readOnly = false) 
+	function __construct($namespace = 'default') 
 	{
 		$this->_defaultNameSpace = $namespace;
-		$this->makeNameSpace($namespace, $readOnly);
+		$this->makeNameSpace($namespace);
 	}
 
 	/**
@@ -56,16 +55,15 @@ class JRegistry extends JObject
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $registry = &JRegistry::getInstance($id[, $namespace][, $readOnly]);</pre>
+	 * 		<pre>  $registry = &JRegistry::getInstance($id[, $namespace]);</pre>
 	 *
 	 * @static
 	 * @param $id 			string 	An ID for the registry instance
 	 * @param $namespace	string 	The default namespace for the registry object [optional]
-	 * @param $readOnly		boolean Is he default namespace read only? [optional: default is false]
 	 * @return object  		The JRegistry object.
 	 * @since 1.1
 	 */
-	function & getInstance($id, $namespace = 'default', $readOnly = false) 
+	function & getInstance($id, $namespace = 'default') 
 	{
 		static $instances;
 
@@ -74,7 +72,7 @@ class JRegistry extends JObject
 		}
 
 		if (empty ($instances[$id])) {
-			$instances[$id] = & new JRegistry($namespace, $readOnly);
+			$instances[$id] = & new JRegistry($namespace);
 		}
 
 		return $instances[$id];
@@ -85,13 +83,12 @@ class JRegistry extends JObject
 	 * 
 	 * @access public
 	 * @param $namespace 	string 		Name of the namespace to create
-	 * @param $readOnly		boolean 	Is the namespace read only?
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function makeNameSpace($namespace, $readOnly = false) 
+	function makeNameSpace($namespace) 
 	{	
-		$this->_registry[$namespace] = array('data' => new stdClass(), 'readOnly' => $readOnly);
+		$this->_registry[$namespace] = array('data' => new stdClass());
 		return true;
 	}
 
@@ -149,11 +146,6 @@ class JRegistry extends JObject
 			$this->makeNameSpace($namespace);	
 		}
 		
-		// If the registry is read only, return a boolean false
-		if ($this->_registry[$namespace]['readOnly']) {
-			return false;
-		}
-		
 		$ns = & $this->_registry[$namespace]['data'];
 
 		$pathNodes = count($nodes) - 1;
@@ -163,7 +155,6 @@ class JRegistry extends JObject
 			$pathNodes = 0;
 		}
 		
-
 		for ($i = 0; $i < $pathNodes; $i ++) {
 			
 			// If any node along the registry path does not exist, create it
@@ -189,7 +180,7 @@ class JRegistry extends JObject
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function loadArray($array, $namespace = null, $readOnly = false) 
+	function loadArray($array, $namespace = null) 
 	{
 		// If namespace is not set, get the default namespace
 		if ($namespace == null) {
@@ -198,7 +189,7 @@ class JRegistry extends JObject
 		
 		if (!isset($this->_registry[$namespace])) {
 			// If namespace does not exist, make it and load the data
-			$this->makeNameSpace($namespace, $readOnly);
+			$this->makeNameSpace($namespace);
 		} 
 		
 		/*
@@ -218,11 +209,10 @@ class JRegistry extends JObject
 	 * @access public
 	 * @param &object 		stdClass 	The object holding the public vars to load
 	 * @param &namespace 	string 		Namespace to load the INI string into [optional]
-	 * @param &readOnly 	boolean 	Should the namespace be read only after loading? [optional: default is false]
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function loadObject(&$object, $namespace = null, $readOnly = false) 
+	function loadObject(&$object, $namespace = null) 
 	{
 		
 		// If namespace is not set, get the default namespace
@@ -232,7 +222,7 @@ class JRegistry extends JObject
 		
 		if (!isset($this->_registry[$namespace])) {
 			// If namespace does not exist, make it and load the data
-			$this->makeNameSpace($namespace, $readOnly);
+			$this->makeNameSpace($namespace);
 		} 
 		
 		/*
@@ -256,11 +246,10 @@ class JRegistry extends JObject
 	 * @param $file 		string 		Path to file to load
 	 * @param $format		string 		Format of the file [optional: defaults to INI]
 	 * @param $namespace	string 		Namespace to load the INI string into [optional]
-	 * @param $readOnly		boolean 	Should the namespace be read only after loading? [optional: default is false]
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function loadFile($file, $format = 'INI', $namespace = null, $readOnly = false) 
+	function loadFile($file, $format = 'INI', $namespace = null) 
 	{
 		// Load a file into the given namespace [or default namespace if not given]	
 		$handler =& $this->_loadFormat($format);
@@ -275,7 +264,7 @@ class JRegistry extends JObject
 		
 		if (!isset($this->_registry[$namespace])) {
 			// If namespace does not exist, make it and load the data
-			$this->makeNameSpace($namespace, $readOnly);
+			$this->makeNameSpace($namespace);
 			$this->_registry[$namespace]['data'] =& $handler->stringToObject($data);
 		} else {
 			// Get the data in object format
@@ -298,11 +287,10 @@ class JRegistry extends JObject
 	 * @access public
 	 * @param $data 		string 		XML formatted string to load into the registry
 	 * @param $namespace	string 		Namespace to load the INI string into [optional]
-	 * @param $readOnly		boolean 	Should the namespace be read only after loading? [optional: default is false]
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function loadXML($data, $namespace = null, $readOnly = false) 
+	function loadXML($data, $namespace = null) 
 	{
 		// Load a string into the given namespace [or default namespace if not given]	
 		$handler =& JRegistryFormat::getInstance('XML');
@@ -314,7 +302,7 @@ class JRegistry extends JObject
 
 		if (!isset($this->_registry[$namespace])) {
 			// If namespace does not exist, make it and load the data
-			$this->makeNameSpace($namespace, $readOnly);
+			$this->makeNameSpace($namespace);
 			$this->_registry[$namespace]['data'] =& $handler->stringToObject($data);
 		} else {
 			// Get the data in object format
@@ -337,11 +325,10 @@ class JRegistry extends JObject
 	 * @access public
 	 * @param $data			string 		INI formatted string to load into the registry
 	 * @param $namespace	string 		Namespace to load the INI string into [optional]
-	 * @param $readOnly		boolean 	Should the namespace be read only after loading? [optional: default is false]
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function loadINI($data, $namespace = null, $readOnly = false) 
+	function loadINI($data, $namespace = null) 
 	{
 		// Load a string into the given namespace [or default namespace if not given]
 		$handler =& JRegistryFormat::getInstance('INI');
@@ -353,7 +340,7 @@ class JRegistry extends JObject
 		
 		if (!isset($this->_registry[$namespace])) {
 			// If namespace does not exist, make it and load the data
-			$this->makeNameSpace($namespace, $readOnly);
+			$this->makeNameSpace($namespace);
 			$this->_registry[$namespace]['data'] =& $handler->stringToObject($data);
 		} else {
 			// Get the data in object format
@@ -376,10 +363,11 @@ class JRegistry extends JObject
 	 * @access public
 	 * @param $format 		string 	Format to return the string in
 	 * @param $namespace	string	Namespace to return [optional: null returns the default namespace]
+	 * @param $params		mixed	Parameters used by the formatter, see formatters for more info
 	 * @return string Namespace in string format
 	 * @since 1.1
 	 */
-	function toString($format = 'INI', $namespace = null) {
+	function toString($format = 'INI', $namespace = null, $params = null) {
 		
 		jimport('joomla.registry.format');
 		// Return a namespace in a given format
@@ -393,7 +381,7 @@ class JRegistry extends JObject
 		// Get the namespace
 		$ns = & $this->_registry[$namespace]['data'];
 
-		return $handler->objectToString($ns);
+		return $handler->objectToString($ns, $params);
 	}
 	
 	
@@ -450,7 +438,8 @@ class JRegistry extends JObject
 	 * @param $format string The format to return
 	 * @return object Formatting object
 	 */
-	function _loadFormat($format) {
+	function _loadFormat($format) 
+	{
 		$lformat = strtolower($format);
 		if(jimport('joomla.registry.format.'.$lformat)) {
 			$return = null;
