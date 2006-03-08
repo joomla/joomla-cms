@@ -215,7 +215,9 @@ function viewContent( $sectionid, $option ) {
 	
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
-	. "\n FROM ( #__content AS c, #__categories AS cc, #__sections AS s )"
+	. "\n FROM #__content AS c"
+	. "\n LEFT JOIN #__categories AS cc ON cc.id = c.catid"
+	. "\n LEFT JOIN #__sections AS s ON s.id = c.sectionid"
 	. $where
 	;
 	$database->setQuery( $query );
@@ -225,7 +227,9 @@ function viewContent( $sectionid, $option ) {
 	$pageNav = new mosPageNav( $total, $limitstart, $limit );
 
 	$query = "SELECT c.*, g.name AS groupname, cc.name, u.name AS editor, f.content_id AS frontpage, s.title AS section_name, v.name AS author"
-	. "\n FROM ( #__content AS c, #__categories AS cc, #__sections AS s )"
+	. "\n FROM #__content AS c"
+	. "\n LEFT JOIN #__categories AS cc ON cc.id = c.catid"
+	. "\n LEFT JOIN #__sections AS s ON s.id = c.sectionid"
 	. "\n LEFT JOIN #__groups AS g ON g.id = c.access"
 	. "\n LEFT JOIN #__users AS u ON u.id = c.checked_out"
 	. "\n LEFT JOIN #__users AS v ON v.id = c.created_by"
@@ -343,7 +347,9 @@ function viewArchive( $sectionid, $option ) {
 
 	// get the total number of records
 	$query = "SELECT COUNT(*)"
-	. "FROM ( #__content AS c, #__categories AS cc, #__sections AS s )"
+	. "\n FROM #__content AS c"
+	. "\n LEFT JOIN #__categories AS cc ON cc.id = c.catid"
+	. "\n LEFT JOIN #__sections AS s ON s.id = c.sectionid"
 	. $where
 	;
 	$database->setQuery( $query );
@@ -353,7 +359,9 @@ function viewArchive( $sectionid, $option ) {
 	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
 
 	$query = "SELECT c.*, g.name AS groupname, cc.name, v.name AS author, s.name AS sectname"
-	. "\n FROM ( #__content AS c, #__categories AS cc, #__sections AS s )"
+	. "\n FROM #__content AS c"
+	. "\n LEFT JOIN #__categories AS cc ON cc.id = c.catid"
+	. "\n LEFT JOIN #__sections AS s ON s.id = c.sectionid"
 	. "\n LEFT JOIN #__groups AS g ON g.id = c.access"
 	. "\n LEFT JOIN #__users AS v ON v.id = c.created_by"
 	. $where
@@ -422,7 +430,9 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 	if ( !$redirect ) {
 		$redirect = $sectionid;
 	}
-
+		
+	$nullDate = $database->getNullDate();
+	
 	// load the row from the db table
 	$row =& JModel::getInstance('content', $database );
 	$row->load( $uid );
@@ -455,10 +465,9 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 		}
 
  		$row->created 		= mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S' );
-		$row->modified 		= $row->modified == '0000-00-00 00:00:00' ? '' : mosFormatDate( $row->modified, '%Y-%m-%d %H:%M:%S' );
+		$row->modified 		= $row->modified == $nullDate ? '' : mosFormatDate( $row->modified, '%Y-%m-%d %H:%M:%S' );
 		$row->publish_up 	= mosFormatDate( $row->publish_up, '%Y-%m-%d %H:%M:%S' );
 
-		$nullDate = $database->getNullDate();
   		if (trim( $row->publish_down ) == $nullDate) {
 			$row->publish_down = JText::_( 'Never' );
 		}
@@ -515,7 +524,7 @@ function editContent( $uid=0, $sectionid=0, $option ) {
 		$row->publish_up 	= date( 'Y-m-d', time() + $mosConfig_offset * 60 * 60 );
 		$row->publish_down 	= JText::_( 'Never' );
 		$row->creator 		= '';
-		$row->modified 		= '0000-00-00 00:00:00';
+		$row->modified 		= $nullDate;
 		$row->modifier 		= '';
 		$row->frontpage 	= 0;
 		$menus = array();
@@ -906,13 +915,14 @@ function removeContent( &$cid, $sectionid, $option ) {
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
-
-	$state = '-2';
-	$ordering = '0';
+	
+	$nullDate 	= $database->getNullDate();
+	$state 		= '-2';
+	$ordering 	= '0';
 	//seperate contentids
 	$cids = implode( ',', $cid );
 	$query = "UPDATE #__content"
-	. "\n SET state = $state, ordering = $ordering, checked_out = 0, checked_out_time = '0000-00-00 00:00:00'"
+	. "\n SET state = $state, ordering = $ordering, checked_out = 0, checked_out_time = '$nullDate'"
 	. "\n WHERE id IN ( $cids )"
 	;
 	$database->setQuery( $query );

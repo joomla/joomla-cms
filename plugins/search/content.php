@@ -165,8 +165,8 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		. "\n AND a.state = 1"
 		. "\n AND a.access <= $my->gid"
 		. "\n AND m.type = 'content_typed'"
-		. "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now' )"
-		. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
+		. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )"
+		. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
 		. "\n ORDER BY ". ($morder ? $morder : $order)
 		;
 		$database->setQuery( $query, 0, $limit );
@@ -195,8 +195,8 @@ function botSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		. "\n AND a.access <= $my->gid"
 		. "\n AND b.access <= $my->gid"
 		. "\n AND u.access <= $my->gid"
-		. "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now' )"
-		. "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
+		. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )"
+		. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
 		. "\n ORDER BY $order"
 		;
 		$database->setQuery( $query, 0, $limit );

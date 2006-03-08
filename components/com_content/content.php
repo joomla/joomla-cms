@@ -1338,7 +1338,7 @@ class JContentController
 
 		if ($uid) {
 			$row->checkout($user->get('id'));
-			if (trim($row->publish_down) == '0000-00-00 00:00:00') {
+			if (trim($row->publish_down) == $nullDate) {
 				$row->publish_down = 'Never';
 			}
 			if (trim($row->images)) {

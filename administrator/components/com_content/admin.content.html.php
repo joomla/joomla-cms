@@ -443,14 +443,18 @@ class HTML_content {
 	* @param string The html for the groups select list
 	*/
 	function editContent( &$row, $section, &$lists, &$sectioncategories, &$images, &$params, $option, $redirect, &$menus ) {
+		global $database;
+		
 		mosMakeHtmlSafe( $row );
 
-		$create_date = null;
-		if ( $row->created != '0000-00-00 00:00:00' ) {
+		$create_date 	= null;
+		$nullDate 		= $database->getNullDate();
+
+		if ( $row->created != $nullDate ) {
 			$create_date 	= mosFormatDate( $row->created, '%A, %d %B %Y %H:%M', '0' );
 		}
 		$mod_date = null;
-		if ( $row->modified != '0000-00-00 00:00:00' ) {
+		if ( $row->modified != $nullDate ) {
 			$mod_date 		= mosFormatDate( $row->modified, '%A, %d %B %Y %H:%M', '0' );
 		}
 

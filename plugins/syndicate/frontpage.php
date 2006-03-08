@@ -42,6 +42,7 @@ function botSyndicateFrontpage( $url, $limit ) {
 
 	   $now        = date( 'Y-m-d H:i:s', time() + $mosConfig_offset * 60 * 60 );
 	   $link       = $mainframe->getBaseURL() .'index.php?option=com_content&task=view&id=';
+	   $nullDate   = $database->getNullDate();
 	   
 	   /*
 	   * All SyndicateBots must return
@@ -66,8 +67,8 @@ function botSyndicateFrontpage( $url, $limit ) {
         . "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id"
         . "\n LEFT JOIN #__groups AS g ON a.access = g.id"
         . "\n WHERE a.state = '1'"
-        . "\n AND ( publish_up = '0000-00-00 00:00:00' OR publish_up <= '$now'  )"
-        . "\n AND ( publish_down = '0000-00-00 00:00:00' OR publish_down >= '$now' )"
+        . "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now'  )"
+        . "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )"
 	    . $orderby
     	;
 		$database->setQuery( $query, 0, $limit );

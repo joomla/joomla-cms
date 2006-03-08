@@ -468,11 +468,13 @@ function publishMenuSection( $cid=null, $publish=1 ) {
 function TrashMenu( $cid=NULL ) {
 	global $database;
 
-	$state = "-2";
+	$state 		= -2;
+	$nullDate 	= $database->getNullDate();
+	
 	//seperate contentids
 	$cids = implode( ',', $cid );
 	$query = "UPDATE #__menu"
-	. "\n SET published = $state, ordering = 0, checked_out = 0, checked_out_time = '0000-00-00 00:00:00'"
+	. "\n SET published = $state, ordering = 0, checked_out = 0, checked_out_time = '$nullDate'"
 	. "\n WHERE id IN ( $cids )"
 	;
 	$database->setQuery( $query );

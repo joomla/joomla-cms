@@ -223,9 +223,11 @@ function edit( $uid, $option ) {
 
 	$row =& JModel::getInstance('content', $database );
 
-	$lists = array();
 	$row->load( $uid );
 
+	$nullDate 	= $database->getNullDate();
+	$lists 		= array();
+	
 	if ($uid) {
 		// fail if checked out not by 'me'
 		if ($row->isCheckedOut( $my->id )) {
@@ -243,10 +245,9 @@ function edit( $uid, $option ) {
 		}
 		
 		$row->created 		= mosFormatDate( $row->created, '%Y-%m-%d %H:%M:%S' );
-		$row->modified 		= $row->modified == '0000-00-00 00:00:00' ? '' : mosFormatDate( $row->modified, '%Y-%m-%d %H:%M:%S' );
+		$row->modified 		= $row->modified == $nullDate ? '' : mosFormatDate( $row->modified, '%Y-%m-%d %H:%M:%S' );
 		$row->publish_up 	= mosFormatDate( $row->publish_up, '%Y-%m-%d %H:%M:%S' );
 		
-		$nullDate = $database->getNullDate();
 		if (trim( $row->publish_down ) == $nullDate) {
 			$row->publish_down = JText::_( 'Never' );
 		}
@@ -294,7 +295,7 @@ function edit( $uid, $option ) {
 		$row->catid 		= 0;
 		$row->creator 		= '';
 		$row->modifier 		= '';
-		$row->modified 		= '0000-00-00 00:00:00';
+		$row->modified 		= $nullDate;
 		$row->ordering 		= 0;
 		$row->frontpage 	= 0;
 		$menus = array();
@@ -683,12 +684,13 @@ function trash( &$cid, $option ) {
 		exit;
 	}
 
-	$state = '-2';
-	$ordering = '0';
+	$nullDate 	= $database->getNullDate();
+	$state 		= -2;
+	$ordering 	= 0;
 	//seperate contentids
 	$cids = implode( ',', $cid );
 	$query = "UPDATE #__content"
-	. "\n SET state = $state, ordering = $ordering, checked_out = 0, checked_out_time = '0000-00-00 00:00:00'"
+	. "\n SET state = $state, ordering = $ordering, checked_out = 0, checked_out_time = '$nullDate'"
 	. "\n WHERE id IN ( $cids )"
 	;
 	$database->setQuery( $query );

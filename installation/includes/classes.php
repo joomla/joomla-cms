@@ -824,8 +824,9 @@ class JInstallationHelper
 		$database = & JDatabase::getInstance($DBtype, $DBhostname, $DBuserName, $DBpassword, $DBname, $DBPrefix);
 
 		// create the admin user
-		$installdate = date('Y-m-d H:i:s');
-		$query = "INSERT INTO #__users VALUES (62, 'Administrator', 'admin', ".$database->Quote($adminEmail).", ".$database->Quote($cryptpass).", 'Super Administrator', 0, 1, 25, '$installdate', '0000-00-00 00:00:00', '', '')";
+		$installdate 	= date('Y-m-d H:i:s');
+		$nullDate 		= $database->getNullDate();
+		$query = "INSERT INTO #__users VALUES (62, 'Administrator', 'admin', ".$database->Quote($adminEmail).", ".$database->Quote($cryptpass).", 'Super Administrator', 0, 1, 25, '$installdate', '$nullDate', '', '')";
 		$database->setQuery($query);
 		if (!$database->query()) {
 			echo $database->getErrorMsg();
