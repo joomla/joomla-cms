@@ -75,7 +75,7 @@ class JFullAdminMenu {
 		var myMenu =
 		[
 <?php /* Site Sub-Menu */ ?>
-			[null,'<?php echo JText::_( 'Joomla', true ); ?>',null,null,'<?php echo JText::_( 'Site Management', true ); ?>',
+			[null,'<?php echo JText::_( 'System', true ); ?>',null,null,'<?php echo JText::_( 'Site Management', true ); ?>',
 				['<img src="../includes/js/ThemeOffice/controlpanel.png" />','<?php echo JText::_( 'Control Panel', true ); ?>','index2.php',null,'<?php echo JText::_( 'Control Panel', true ); ?>'],
 				_cmSplit,
 		<?php
@@ -90,12 +90,7 @@ class JFullAdminMenu {
 		if ($manageTemplates) {
 			?>
 				_cmSplit,
-  				['<img src="../includes/js/ThemeOffice/preview.png" />', '<?php echo JText::_( 'Preview', true ); ?>', null, null, '<?php echo JText::_( 'Preview', true ); ?>',
-							['<img src="../includes/js/ThemeOffice/preview.png" />','<?php echo JText::_( 'In New Window', true ); ?>','<?php echo $mainframe->getSiteURL(); ?>index.php','_blank','<?php echo $mainframe->getSiteURL(); ?>'],
-							['<img src="../includes/js/ThemeOffice/preview.png" />','<?php echo JText::_( 'Inline', true ); ?>','index2.php?option=com_admin&task=preview',null,'<?php echo $mainframe->getSiteURL(); ?>'],
-							['<img src="../includes/js/ThemeOffice/preview.png" />','<?php echo JText::_( 'Inline with Positions', true ); ?>','index2.php?option=com_admin&task=preview2',null,'<?php echo $mainframe->getSiteURL(); ?>'],
-					],
-								['<img src="../includes/js/ThemeOffice/template.png" />','<?php echo JText::_( 'Module Positions', true ); ?>','index2.php?option=com_templates&task=positions',null,'<?php echo JText::_( 'Module Positions in Template', true ); ?>'],
+  				['<img src="../includes/js/ThemeOffice/preview.png" />', '<?php echo JText::_( 'Preview...', true ); ?>', 'index2.php?option=com_templates&task=preview', null, null],
 			<?php
 		}
 		?>
@@ -138,7 +133,7 @@ class JFullAdminMenu {
 			_cmSplit,
 
 <?php /* Menu Sub-Menu */ ?>
-			[null,'<?php echo JText::_( 'Menu', true ); ?>',null,null,'<?php echo JText::_( 'Menu Management', true ); ?>',
+			[null,'<?php echo JText::_( 'Menus', true ); ?>',null,null,'<?php echo JText::_( 'Menu Management', true ); ?>',
 		<?php
 		if ($manageMenuMan) {
 			?>
@@ -330,10 +325,17 @@ class JFullAdminMenu {
 		if ($canConfig)	{
 			?>
   			[null,'<?php echo JText::_( 'Tools', true ); ?>',null,null,'<?php echo JText::_( 'Tools', true ); ?>',
-	  			['<img src="../includes/js/ThemeOffice/messaging_inbox.png" />','<?php echo JText::_( 'Messages', true ); ?>',null,null,'<?php echo JText::_( 'Messaging Management', true ); ?>',
-	  				['<img src="../includes/js/ThemeOffice/messaging_inbox.png" />','<?php echo JText::_( 'Inbox', true ); ?>','index2.php?option=com_messages',null,'<?php echo JText::_( 'Private Messages', true ); ?>'],
-	  				['<img src="../includes/js/ThemeOffice/messaging_config.png" />','<?php echo JText::_( 'Configuration', true ); ?>','index2.php?option=com_messages&task=config&hidemainmenu=1',null,'<?php echo JText::_( 'Configuration', true ); ?>']
-	  			],
+	  			['<img src="../includes/js/ThemeOffice/messaging_inbox.png" />','<?php echo JText::_( 'Read Messages', true ); ?>','index2.php?option=com_messages',null,null],
+	  			['<img src="../includes/js/ThemeOffice/messaging_inbox.png" />','<?php echo JText::_( 'New Message', true ); ?>','index2.php?option=com_messages&taks=new',null,null],
+				_cmSplit,
+			<?php 
+			if ($canMassMail)	{
+				?>	
+				['<img src=\"../includes/js/ThemeOffice/mass_email.png\" />','<?php echo JText::_( 'Mass Mail', true ); ?>','index2.php?option=com_massmail&hidemainmenu=1',null,'<?php echo JText::_( 'Send Mass Mail', true ); ?>'],
+				_cmSplit,
+				<?php
+			}
+			?>
 			<?php
 			if ($canCheckin) {
 				?>
@@ -373,7 +375,8 @@ class JFullAdminMenu {
 	*
 	* @param string The current user type
 	*/
-	function showDisabled($usertype = '') {
+	function showDisabled($usertype = '') 
+	{
 		global $mainframe;
 
 		$lang 	= & $mainframe->getLanguage();
@@ -397,11 +400,11 @@ class JFullAdminMenu {
 		[
 
 <?php /* Site Sub-Menu */ ?>
-			[null,'<?php echo JText::_( 'Joomla', true ); ?>',null,null,'<?php echo JText::_( 'Site Management', true ); ?>'],
+			[null,'<?php echo JText::_( 'System', true ); ?>',null,null,'<?php echo JText::_( 'Site Management', true ); ?>'],
 			_cmSplit,
 
 <?php /* Menu Sub-Menu */ ?>
-			[null,'<?php echo JText::_( 'Menu', true ); ?>',null,null,'<?php echo $text; ?>'],
+			[null,'<?php echo JText::_( 'Menus', true ); ?>',null,null,'<?php echo $text; ?>'],
 			_cmSplit,
 
 <?php /* Content Sub-Menu */ ?>

@@ -133,7 +133,7 @@ class JTemplatesView
 						?>
 					</td>
 					<td>
-						<a href="index2.php?option=com_templates&amp;task=edit_params&amp;id=<?php echo $row->directory;?>&amp;client=<?php echo $client;?>" onmouseover="showInfo('<?php echo $row->name;?>','<?php echo $row->directory; ?>')" onmouseout="return nd();">
+						<a href="index2.php?option=com_templates&amp;task=edit&amp;id=<?php echo $row->directory;?>&amp;client=<?php echo $client->id;?>" onmouseover="showInfo('<?php echo $row->name;?>','<?php echo $row->directory; ?>')" onmouseout="return nd();">
 							<?php echo $row->name;?></a>
 					</td>
 					<?php
@@ -211,6 +211,43 @@ class JTemplatesView
 		</form>
 		<?php
 	}
+	
+	function previewTemplate($template, $showPositions, $client, $option)
+	{
+		global $mainframe;
+		
+		$tp 	= intval( $showPositions );
+		$url 	= $client->id ? $mainframe->getBaseURL() : $mainframe->getSiteURL();
+		
+		?>
+		<style type="text/css">
+		.previewFrame {
+			border: none;
+			width: 95%;
+			height: 600px;
+			padding: 0px 5px 0px 10px;
+		}
+		</style>
+		
+		<div id="editcell">				
+			<table class="adminform">
+			<tr>
+				<th width="50%" class="title">
+					<?php echo JText::_( 'Site Preview' ); ?>
+				</th>
+				<th width="50%" style="text-align:right">
+					<?php echo mosHTML::Link($url.'index.php?tp='.$tp, JText::_( 'Open in new window' ), array('target' => '_blank')); ?>
+				</th>
+			</tr>
+			<tr>
+				<td width="100%" valign="top" colspan="2">
+					<?php echo mosHTML::Iframe($url.'index.php?tp='.$tp,'previewFrame',  array('class' => 'previewFrame')) ?>
+				</td>
+			</tr>
+			</table>
+		</div>
+		<?php
+	}
 
 
 	/**
@@ -218,13 +255,90 @@ class JTemplatesView
 	* @param string Source code
 	* @param string The option
 	*/
-	function editTemplateParams( $template, &$params, $option, &$client ) {
-		$template_path = $client->path . '/templates/' . $template . '/index.php';
+	function editTemplate( $row, $lists, &$params, $option, &$client ) 
+	{		
+		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
-		<?php
-		echo $params->render();
-		?>
+
+		<div id="editcell">				
+			<table cellspacing="0" cellpadding="0" width="100%">
+			<tr valign="top">
+				<td width="60%">
+					<table class="adminform">
+					<tr>
+						<th colspan="2">
+							<?php echo JText::_( 'Template Details' ); ?>
+						</th>
+					</tr>
+					<tr>
+						<td valign="top">
+							<?php echo JText::_( 'Name' ); ?>:
+						</td>
+						<td>
+							<strong>
+								<?php echo JText::_($row->name); ?>
+							</strong>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top">
+							<?php echo JText::_( 'Published' ); ?>:
+						</td>
+						<td>
+							<?php echo $lists['published']; ?>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top">
+							<?php echo JText::_( 'Description' ); ?>:
+						</td>
+						<td>
+							<?php echo JText::_($row->description); ?>
+						</td>
+					</tr>
+					</table>
+					<table  width="100%" class="adminform">
+					<tr>
+						<th colspan="2">
+							<?php echo JText::_( 'Parameters' ); ?>
+						</th>
+					</tr>
+					<tr>
+						<td>
+							<?php
+							if ( !is_null($params) ) {
+								echo $params->render();
+							} else {
+								echo '<i>'. JText::_( 'No Parameters' ) .'</i>';
+							}
+							?>
+						</td>
+					</tr>
+					</table>
+				</td>
+				<td width="40%" >
+					<table width="100%" class="adminform">
+					<tr>
+						<th class="left" colspan="2">
+							<?php echo JText::_( 'Assign template' ); ?>
+				 			<?php echo $row->name; ?> <?php echo JText::_( 'to menu items' ); ?>
+						</th>
+					</tr>
+					<tr>
+						<td valign="top" >
+							<?php echo JText::_( 'Page(s)' ); ?>:
+						</td>
+						<td width="90%">
+							<?php echo $lists['selections']; ?>
+						</td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+			</table>
+		</div>
+
 		<input type="hidden" name="template" value="<?php echo $template; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
@@ -421,43 +535,6 @@ class JTemplatesView
 		</form>
 		<?php
 	}
-
-
-	/**
-	* @param string Template name
-	* @param string Menu list
-	* @param string The option
-	*/
-	function assignTemplate( $template, &$menulist, $option, &$client ) {
-
-		?>
-		<form action="index2.php" method="post" name="adminForm">
-		
-		<table class="adminform">
-		<tr>
-			<th class="left" colspan="2">
-				<?php echo JText::_( 'Assign template' ); ?>
-				 <?php echo $template; ?> <?php echo JText::_( 'to menu items' ); ?>
-			</th>
-		</tr>
-		<tr>
-			<td valign="top" >
-				<?php echo JText::_( 'Page(s)' ); ?>:
-			</td>
-			<td width="90%">
-				<?php echo $menulist; ?>
-			</td>
-		</tr>
-		</table>
-		
-		<input type="hidden" name="template" value="<?php echo $template; ?>" />
-		<input type="hidden" name="option" value="<?php echo $option;?>" />
-		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
-		<input type="hidden" name="task" value="" />
-		</form>
-		<?php
-	}
-
 
 	/**
 	* @param array

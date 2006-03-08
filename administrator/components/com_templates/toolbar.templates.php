@@ -21,7 +21,8 @@ $client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 
 
 switch ($task) {
 
-	case 'view':
+	case 'view'   :
+	case 'preview':
 		TOOLBAR_templates::_VIEW($client);
 		break;
 
@@ -29,8 +30,8 @@ switch ($task) {
 		TOOLBAR_templates::_EDIT_SOURCE($client);
 		break;
 
-	case 'edit_params':
-		TOOLBAR_templates::_EDIT_PARAMS($client);
+	case 'edit':
+		TOOLBAR_templates::_EDIT($client);
 		break;
 
 	case 'choose_css':
@@ -39,10 +40,6 @@ switch ($task) {
 
 	case 'edit_css':
 		TOOLBAR_templates::_EDIT_CSS($client);
-		break;
-
-	case 'assign':
-		TOOLBAR_templates::_ASSIGN($client);
 		break;
 
 	case 'positions':

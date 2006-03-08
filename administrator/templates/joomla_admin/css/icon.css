@@ -64,7 +64,16 @@ div.icon-32-unarchive {
 	background: url(../../../images/unarchive_f2.png) no-repeat left;
 }
 div.icon-32-preview {
-	background: url(../../../images/archive_f2.png) no-repeat left;
+	background: url(../../../images/preview_f2.png) no-repeat left;
+}
+div.icon-32-properties {
+	background: url(../../../images/properties_f2.png) no-repeat left;
+}
+div.icon-32-back {
+	background: url(../../../images/back_f2.png) no-repeat left;
+}
+div.icon-32-next {
+	background: url(../../../images/next_f2.png) no-repeat left;
 }
 
 /** header icons **/
@@ -116,7 +125,7 @@ div.icon-48-browser {
 div.icon-48-searchtext {
 	background: url(../../../images/searchtext.png) no-repeat left;
 }
-div.icon-48-templatemanager {
+div.icon-48-thememanager {
 	background: url(../../../images/templatemanager.png) no-repeat left;
 }
 div.icon-48-massemail {

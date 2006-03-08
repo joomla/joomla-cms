@@ -19,7 +19,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Messages
 */
-class TOOLBAR_messages {
+class TOOLBAR_messages 
+{
 	function _VIEW() {
 
 		JMenuBar::title(  JText::_( 'View Private Message' ), 'inbox.png' );
@@ -47,6 +48,7 @@ class TOOLBAR_messages {
 		JMenuBar::title(  JText::_( 'Private Messaging' ), 'inbox.png' );
 		JMenuBar::deleteList();
 		JMenuBar::addNewX();
+		JMenuBar::custom('config', 'properties.png', 'properties_f2.png', JText::_( 'Settings' ), false, false);
 		JMenuBar::help( 'screen.messages.inbox' );
 	}
 }

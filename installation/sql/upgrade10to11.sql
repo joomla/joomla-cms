@@ -122,4 +122,8 @@ INSERT INTO `jos_template_positions` VALUES (0, 'title', '');
 # Add client id to session table
 ALTER TABLE `jos_session` ADD COLUMN `client_id` tinyint(3) NOT NULL default 0;
 
+#JJ: 08-Mar-2006 
+# Delete massmail component from component menu table
+DELETE FROM `jos_components` WHERE `option` = 'com_massmail' 
+
 

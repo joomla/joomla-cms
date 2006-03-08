@@ -223,7 +223,8 @@ class HTML_modules {
 	* @param array An array of select lists
 	* @param object Parameters
 	*/
-	function editModule( &$row, &$orders2, &$lists, &$params, $option, $client ) {
+	function editModule( &$row, &$orders2, &$lists, &$params, $option, $client ) 
+	{
 		global $mainframe;
 		global $my, $mosConfig_cachepath;		
 

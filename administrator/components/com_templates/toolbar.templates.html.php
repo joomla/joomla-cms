@@ -24,15 +24,16 @@ class TOOLBAR_templates
 	function _DEFAULT(&$client) 
 	{
 		JMenuBar::title( JText::_( 'Template Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
+		
 		if ($client=="admin") {
 			JMenuBar::custom('publish', 'publish.png', 'publish_f2.png', JText::_( 'Default' ), true);
 		} else {
 			JMenuBar::makeDefault();
-			JMenuBar::assign();
 		}
-		JMenuBar::editListX( 'edit_params', 'Params' );
+		JMenuBar::editListX( 'edit', 'Edit' );
 		JMenuBar::editHtmlX( 'edit_source' );
 		JMenuBar::editCssX( 'choose_css' );
+		JMenuBar::custom('positions', 'properties.png', 'properties_f2.png', JText::_( 'Positions' ), false, false);
 		//JMenuBar::addNew();
 		JMenuBar::help( 'screen.templates' );
 	}
@@ -49,9 +50,10 @@ class TOOLBAR_templates
 		JMenuBar::cancel();
 	}
 
-	function _EDIT_PARAMS(&$client){
+	function _EDIT(&$client){
 
 		JMenuBar::title( JText::_( 'Template Parameters' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
+		JMenuBar::custom('preview', 'preview.png', 'preview_f2.png', JText::_( 'Preview' ), false, false);
 		JMenuBar::save( 'save_params' );
 		JMenuBar::cancel();
 	}
@@ -66,13 +68,6 @@ class TOOLBAR_templates
 		JMenuBar::title( JText::_( 'Template Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
 		JMenuBar::save( 'save_css' );
 		JMenuBar::cancel();
-	}
-
-	function _ASSIGN(&$client){
-		JMenuBar::title( JText::_( 'Template Manager' ).': <small><small>[' .JText::_( $client->name ) .']</small></small>', 'thememanager' );
-		JMenuBar::save( 'save_assign', JText::_( 'Save' ) );
-		JMenuBar::cancel();
-		JMenuBar::help( 'screen.templates.assign' );
 	}
 
 	function _POSITIONS(){

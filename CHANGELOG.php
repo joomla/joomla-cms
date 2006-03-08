@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+06-Mar-2006 Johan Janssens
+ ^ Reorganised the administrator menu structure
+
 05-Mar-2006 Johan Janssens
  - Removed pagetitles and meta_pagetitle configuration settings
 

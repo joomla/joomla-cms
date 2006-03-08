@@ -931,19 +931,16 @@ class JApplicationHelper
 		 */
 		if (!$byName)
 		{
-			if (!isset($clients[$id]))
-			{
+			if (!isset($clients[$id])){
 				return false;
-			} else
-			{
+			} else {
 				return $clients[$id];
 			}
-		} else
+		} 
+		else
 		{
-			foreach ($clients as $client)
-			{
-				if ($client->name == strtolower($id))
-				{
+			foreach ($clients as $client) {
+				if ($client->name == strtolower($id)) {
 					return $client;
 				}
 			}

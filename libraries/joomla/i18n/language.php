@@ -434,7 +434,8 @@ class JLanguage extends JObject
 		return JPath::clean($dir, $addTrailingSlash);
 	}
 
-	/** Searches for language directories within a certain base dir
+	/** 
+	 * Searches for language directories within a certain base dir
 	 *
 	 * @access public
 	 * @param string 	$dir 	directory of files
@@ -453,7 +454,8 @@ class JLanguage extends JObject
 		return $languages;
 	}
 
-	/** parses INI type of files for language information
+	/** 
+	 * Parses INI type of files for language information
 	 *
 	 * @access public
 	 * @param string	$dir 	Directory of files
@@ -481,7 +483,8 @@ class JLanguage extends JObject
 		return $languages;
 	}
 
-	/** Parses XML files for language information
+	/** 
+	 * Parses XML files for language information
 	 *
 	 * @access public
 	 * @param string	$dir	 Directory of files
@@ -506,7 +509,8 @@ class JLanguage extends JObject
 		return $languages;
 	}
 
-	/** Parse XML file for language information
+	/** 
+	 * Parse XML file for language information
 	 *
 	 * @access public
 	 * @param string	$path	 Path to the xml files

@@ -19,12 +19,13 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Admin
 */
-class HTML_admin_misc {
-
+class HTML_admin_misc 
+{
 	/**
 	* Control panel
 	*/
-	function controlPanel() {
+	function controlPanel() 
+	{
 		global $mainframe;
 	
 		$path = JPATH_BASE . '/templates/' . $mainframe->getTemplate() . '/cpanel.php';
@@ -33,12 +34,14 @@ class HTML_admin_misc {
 		}
 	}
 
-	function get_php_setting($val) {
+	function get_php_setting($val) 
+	{
 		$r =  (ini_get($val) == '1' ? 1 : 0);
 		return $r ? JText::_( 'ON' ) : JText::_( 'OFF' ) ;
 	}
 
-	function get_server_software() {
+	function get_server_software() 
+	{
 		if (isset($_SERVER['SERVER_SOFTWARE'])) {
 			return $_SERVER['SERVER_SOFTWARE'];
 		} else if (($sf = getenv('SERVER_SOFTWARE'))) {
@@ -48,7 +51,8 @@ class HTML_admin_misc {
 		}
 	}
 
-	function system_info( ) {
+	function system_info( ) 
+	{
 		global $database, $_VERSION, $mosConfig_cachepath;
 
 		$width = 400;	// width of 100%
@@ -423,7 +427,8 @@ class HTML_admin_misc {
 		<?php
 	}
 
-	function ListComponents() {
+	function ListComponents() 
+	{
 		global $database;
 
 		$query = "SELECT params"
@@ -440,7 +445,8 @@ class HTML_admin_misc {
 	/**
 	 * Display Help Page
 	 */
-	function help() {
+	function help() 
+	{
 		$helpurl 	= mosGetParam( $GLOBALS, 'mosConfig_helpurl', '' );
 
 		if ( $helpurl == 'http://help.mamboserver.com' ) {
@@ -548,47 +554,11 @@ class HTML_admin_misc {
 		<?php
 	}
 
-	/**
-	* Preview site
-	*/
-	function preview( $tp=0 ) {
-		global $mainframe;
-		
-		$tp = intval( $tp );
-		?>
-		<style type="text/css">
-		.previewFrame {
-			border: none;
-			width: 95%;
-			height: 600px;
-			padding: 0px 5px 0px 10px;
-		}
-		</style>
-		
-		<div id="editcell">				
-			<table class="adminform">
-			<tr>
-				<th width="50%" class="title">
-					<?php echo JText::_( 'Site Preview' ); ?>
-				</th>
-				<th width="50%" style="text-align:right">
-					<?php echo mosHTML::Link($mainframe->getSiteURL().'index.php?tp='.$tp, JText::_( 'Open in new window' ), array('target' => '_blank')); ?>
-				</th>
-			</tr>
-			<tr>
-				<td width="100%" valign="top" colspan="2">
-					<?php echo mosHTML::Iframe($mainframe->getSiteURL().'index.php?tp='.$tp,'previewFrame',  array('class' => 'previewFrame')) ?>
-				</td>
-			</tr>
-			</table>
-		</div>
-		<?php
-	}
-
 	/*
 	* Displays contents of Changelog.php file
 	*/
-	function changelog() {
+	function changelog() 
+	{
 		?>
 		<pre>
 			<?php
