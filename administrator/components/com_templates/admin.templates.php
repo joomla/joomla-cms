@@ -26,9 +26,9 @@ if (!$user->authorize('com_templates', 'manage')) {
 require_once (dirname(__FILE__).'/admin.templates.html.php');
 require_once (dirname(__FILE__).'/admin.templates.class.php');
 
-$task	= JRequest::getVar('task');
+$task		= JRequest::getVar('task');
 $id		= JRequest::getVar('id');
-$cid	= JRequest::getVar('cid', array (), '', 'array');
+$cid		= JRequest::getVar('cid', array (), '', 'array');
 
 if (!isset($cid[0])) {
 	$cid[0] = $id;
@@ -66,7 +66,7 @@ switch ($task)
 
 	case 'publish' :
 	case 'default' :
-		JTemplatesController::defaultTemplate($cid[0]);
+		JTemplatesController::publishTemplate($cid[0]);
 		break;
 
 	case 'cancel' :
