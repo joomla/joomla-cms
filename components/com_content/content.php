@@ -477,7 +477,8 @@ class JContentController
 
 		// get the total number of published items in the category
 		// filter functionality
-		$and = null;
+		$and 	= null;
+		$filter = null;
 		if ($params->get('filter'))	{
 			$filter = JRequest::getVar( 'filter', '', 'post' );
 			if ($filter) {
