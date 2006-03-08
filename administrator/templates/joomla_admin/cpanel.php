@@ -24,7 +24,7 @@ global $document;
 		   <?php echo $document->execRenderer('modules','icon'); ?>
 		</td>
 		<td width="45%" valign="top">
-			<div style="width=100%;">
+			<div style="width: 100%;">
 				<form action="index2.php" method="post" name="adminForm">
 				
 				<?php
