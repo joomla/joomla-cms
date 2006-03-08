@@ -83,7 +83,7 @@ class JEventDispatcher extends JObservable
 			/*
 			 * Ok, class type event handler... lets instantiate and attach it.
 			 */
-			$this->attach(new $handler);			
+			$this->attach(new $handler($this));
 		} else
 		{
 			/*
