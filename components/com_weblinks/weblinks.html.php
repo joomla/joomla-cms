@@ -407,5 +407,29 @@ class WeblinksView {
 		</form>
 		<?php
 	}
+
+	/**
+	 * Method to show an empty container if there is no data to display
+	 * 
+	 * @static
+	 * @param string $msg The message to show
+	 * @return void
+	 * @since 1.1
+	 */
+	function emptyContainer($msg) {
+		echo '<p>'.$msg.'</p>';
+	}
+	
+	/**
+	 * Writes a user input error message and if javascript is enabled goes back
+	 * to the previous screen to try again.
+	 * 
+	 * @param string $msg The error message to display
+	 * @return void
+	 * @since 1.1
+	 */
+	function userInputError($msg) {
+		josErrorAlert($msg);
+	}
 }
 ?>

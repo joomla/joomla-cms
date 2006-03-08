@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+08-Mar-2006 Louis Landry
+ + Proper HTML Error page rendering for JError
+
 06-Mar-2006 Johan Janssens
  ^ Reorganised the administrator menu structure
 

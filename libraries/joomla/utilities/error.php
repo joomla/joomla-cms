@@ -246,10 +246,152 @@ class JError extends patErrorManager {
  * @subpackage	Utilities
  * @since		1.1
  */
-class JDebugHandler
+class JErrorHandler
 {
+	
    /**
-	* Error handler that outputs pretty debugging HTML
+	* Method to handle an error
+	*
+	* @access		public
+	* @param		object	Error object
+	* @return	mixed	Error object or void
+	* @since		1.1
+	*/
+	function &handleError( &$error )
+	{
+		global $mainframe;
+
+		/*
+		 * Initialize variables
+		 */
+		$document =& JApplication::getDocument();
+
+		/*
+		 * Send the error header for the appropriate error code 
+		 */
+		$this->_sendErrorHeader( $error );
+
+		/*
+		 * Get the current template from the application and the appropriate
+		 * error file to parse and display
+		 */
+		$template	= $mainframe->getTemplate();
+		$file			= $this->getErrorDocument( $error );
+
+		/*
+		 * Need to clear the renderers array so we don't have a bad case of
+		 * infinite recursion on a database error among other things.
+		 */
+		$document->_renderers = array ();
+
+		$document->parse($template, $file);
+
+		$document->setTitle( 'Joomla! - Error: '.$error->code );
+
+		$html = $this->getErrorMessage($error);
+		$document->addGlobalVar('error_msg', $html);
+
+		$document->display($file);
+
+		
+		/*
+		 * If error level is less than E_ERROR, return the object and
+		 * continue... otherwise exit
+		 */
+		$level =	$error->getLevel();
+		if( $level != E_ERROR )
+		{
+			return	$error;
+		}
+		exit();
+	}
+	
+   /**
+	* Method to get error template for display
+	*
+	* @access		public
+	* @param		object	Error object
+	* @return	string	Error code template
+	* @since		1.1
+	*/
+	function getErrorDocument( &$error )
+	{
+		switch ($error->code)
+		{
+			case '403':
+				$file	= '403.html';
+				break;
+
+			case '404':
+				$file	= '404.html';
+				break;
+
+			case '500':
+			default:
+				$file	= '500.html';
+				break;
+		}
+		return $file;
+	}
+	
+   /**
+	* Method to get error message for display
+	*
+	* @access		public
+	* @param		object	Error object
+	* @return	string	Error message
+	* @since		1.1
+	*/
+	function getErrorMessage( &$error )
+	{
+		switch ($error->code)
+		{
+			case '403':
+				$msg = $error->message;
+				break;
+
+			case '404':
+				$msg = $error->message;
+				break;
+
+			case '500':
+			default:
+				$msg = $this->_fetchDebug($error);
+				break;
+		}
+		return $msg;
+	}
+	
+   /**
+	* Send appropriate HTTP header for error code
+	*
+	* @access		public
+	* @param		object	Error object
+	* @return	void
+	* @since		1.1
+	*/
+	function _sendErrorHeader( &$error )
+	{
+		switch ($error->code)
+		{
+			case '403':
+				header('HTTP/1.1 403 Forbidden');
+				break;
+
+			case '404':
+				header('HTTP/1.1 404 Not Found');
+				break;
+
+			case '500':
+			default:
+				header('HTTP/1.1 500 Internal Server Error');
+				break;
+		}
+		return;
+	}
+	
+   /**
+	* Method to output pretty debugging HTML
 	*
 	* Displays:
 	* - Error level
@@ -259,38 +401,12 @@ class JDebugHandler
 	* - Error line
 	* - plus the call stack that lead to the error
 	*
-	* @access	public
 	* @static
-	* @param	object		error object
-	* @return	object		error object
+	* @access		public
+	* @param		object	Error object
+	* @return	string	HTML Debugging string
+	* @since		1.1
 	*/
-	function &errorDebug( &$error )
-	{	
-		$document =& JApplication::getDocument();
-
-		/*
-		 * Need to clear the renderers array so we don't have a bad case of
-		 * infinite recursion on a database error among other things.
-		 */
-		$document->_renderers = array ();
-
-		$document->parse('_system', 'error.html');
-		
-		$document->setTitle( 'Joomla 1.1 - Error' );
-		
-		$html = $this->_fetchDebug($error);
-		$document->addGlobalVar('error_msg', $html);
-		
-		$document->display( 'error.html');
-		
-		$level	=	$error->getLevel();
-		
-		if( $level != E_ERROR )
-			return	$error;
-			
-		exit();
-	}
-	
 	function _fetchDebug(&$error)
 	{
 		ob_start();
@@ -353,6 +469,6 @@ class JDebugHandler
 }
 	
 // setup handler for each error-level
-JError::setErrorHandling( E_ERROR, 'callback', array( new JDebugHandler, 'errorDebug' ) );
+JError::setErrorHandling( E_ERROR, 'callback', array( new JErrorHandler, 'handleError' ) );
 
 ?>

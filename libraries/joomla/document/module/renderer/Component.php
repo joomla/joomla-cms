@@ -117,7 +117,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 				$lang->load($component);
 				require_once $path;
 			} else {
-				mosNotAuth();
+				JError::raiseError( 403, JText::_('Component Access Forbidden') );
 			}
 
 			$contents = ob_get_contents();
@@ -134,21 +134,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 
 			return $contents;
 		} else {
-			header( 'HTTP/1.0 404 Not Found' );
-			/*
-			 * If a template version exists load the custom 404 page, if not...
-			 * load the system one.
-			 */
-			$custom = JPATH_SITE.DS.'templates'.DS.$mainframe->getTemplate().DS.'404.php';
-			$system	= JPATH_SITE . DS.'templates'.DS.'_system'.DS.'404.php';
-			if (JFile::exists($custom))
-			{
-				require_once($custom);
-			} else
-			{
-				require_once($system);
-			}
-			exit;
+			JError::raiseError( 404, JText::_('Component Not Found') );
 		}
 	}
 }
