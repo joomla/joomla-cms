@@ -258,33 +258,18 @@ class JConfigController {
 	/**
 	 * Save the configuration
 	 */
-	function saveConfig($task) {
+	function saveConfig($task) 
+	{
 		global $mainframe;
-
-		$CONFIG = new JConfig();
-
-		/*
-		 * Bind the $_POST array to the JConfig object
-		 */
-		if (!mosBindArrayToObject($_POST, $CONFIG)) {
-			return false;
-		}
+		
+		$mainframe->_registry->loadArray($_POST);
 
 		/*
 		 * Handle the server time offset
 		 */
 		$server_time = date('O') / 100;
-		$offset = JRequest :: getVar('offset_user', 0, 'post', 'int') - $server_time;
-		$CONFIG->offset = $offset;
-		
-		//override any possible database password change
-		$CONFIG->password = $mainframe->getCfg( 'password' );
-
-		/*
-		 * Time to load the new configuration values into the Registry object
-		 */
-		$CONFIG->_name = 'JConfig';
-		$mainframe->_registry->loadObject( $CONFIG, "JConfig", true );
+		$offset = JRequest::getVar('offset_user', 0, 'post', 'int') - $server_time;
+		$mainframe->_registry->setValue('config.offset', $offset);
 
 		// Get the path of the configuration file
 		$fname = JPATH_CONFIGURATION.'/configuration.php';
@@ -293,7 +278,7 @@ class JConfigController {
 		 * Now we get the config registry in PHP class format and write it to
 		 * configuation.php then redirect appropriately.
 		 */
-		if (JFile :: write($fname, $mainframe->_registry->toString('PHP', 'JConfig'))) {
+		if (JFile::write($fname, $mainframe->_registry->toString('PHP', 'config', array('class' => 'JConfig')))) {
 
 			$msg = JText :: _('The Configuration Details have been updated');
 

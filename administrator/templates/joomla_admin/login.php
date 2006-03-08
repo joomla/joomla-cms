@@ -14,7 +14,7 @@ $browserLang = JLanguageHelper::detectLanguage();
 $languages = array();
 $languages = JLanguageHelper::createLanguageList($browserLang );
 array_unshift( $languages, mosHTML::makeOption( '', JText::_( 'Default' ) ) );
-$lists['langs'] = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 'text', '' );
+$lists['langs'] = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 'text', $browserLang );
 
 $lang = $mainframe->getLanguage();
 

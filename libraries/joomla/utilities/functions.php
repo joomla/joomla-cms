@@ -435,7 +435,7 @@ function mosFormatDate( $date, $format="", $offset="" )
 	}
 	
 	// for Windows there is a need to convert the date string to utf-8.
-	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && function_exists(iconv)) {
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && function_exists('iconv')) {
 		return iconv($lang->getWinCP(), "UTF-8", $date);
 	}
 	

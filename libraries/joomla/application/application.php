@@ -656,7 +656,7 @@ class JApplication extends JObject
 		require_once( $file );
 
 		// Create the registry with a default namespace of config which is read only
-		$this->_registry = new JRegistry( 'config', true );
+		$this->_registry = new JRegistry( 'config');
 	}
 
 	/**

@@ -36,7 +36,7 @@ if (!is_array( $cid )) {
 switch ($task) 
 {
 	case 'publish':
-		publishLanguage( $cid[0], $option, $client );
+		publishLanguage( $cid[0], $option );
 		break;
 
 	case 'cancel':
@@ -147,48 +147,30 @@ function viewLanguages()
 /**
 * Publish, or make current, the selected language
 */
-function publishLanguage( $p_lname, $option, $client = 'site' )
+function publishLanguage( $language, $option )
 {
-	$config = '';
-
-	$lang = ($client == 'site') ? '\$lang' : '\$lang_'.$client;
-	echo $lang;
-
-	$fp = fopen("../configuration.php","r");
-	while(!feof($fp)){
-		$buffer = fgets($fp,4096);
-
-		switch($client)
-		{
-			case 'site' :
-			{
-				if (strstr($buffer,"var \$lang") && !strstr($buffer,"var \$lang_administrator")){
-					$config .= "\tvar \$lang = \"$p_lname\";\n";
-				} else {
-					$config .= $buffer;
-				}
-			} break;
-			case 'administrator' :
-			{
-				if (strstr($buffer,"var \$lang_administrator")){
-					$config .= "\tvar \$lang_administrator = \"$p_lname\";\n";
-				} else {
-					$config .= $buffer;
-				}
-			} break;
-		}
-
-
-	}
-	fclose($fp);
-
-	if ($fp = fopen("../configuration.php","w")){
-		fputs($fp, $config, strlen($config));
-		fclose($fp);
-		josRedirect("index2.php?option=com_languages&client=".$client,JText::_( 'Configuration successfully updated!' ) );
+	global $mainframe;
+	
+	/*
+	 * Initialize some variables
+	 */
+	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+	
+	$varname = ($client->id == 0) ? 'lang' : 'lang_administrator';
+	
+	$mainframe->_registry->setValue('config.'.$varname, $language);
+	
+	// Get the path of the configuration file
+	$fname = JPATH_CONFIGURATION.'/configuration.php';
+	
+	/*
+	 * Now we get the config registry in PHP class format and write it to
+	 * configuation.php then redirect appropriately.
+	 */
+	if (JFile::write($fname, $mainframe->_registry->toString('PHP', 'config',  array('class' => 'JConfig')))) {
+		josRedirect("index2.php?option=com_languages&client=".$client->id,JText::_( 'Configuration successfully updated!' ) );
 	} else {
-		josRedirect("index2.php?option=com_languages&client=".$client,JText::_( 'ERRORCONFIGWRITEABLE' ) );
+		josRedirect("index2.php?option=com_languages&client=".$client->id,JText::_( 'ERRORCONFIGWRITEABLE' ) );
 	}
-
 }
 ?>
