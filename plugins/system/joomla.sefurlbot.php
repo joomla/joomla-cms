@@ -335,110 +335,92 @@ function sefRelToAbs( $string ) {
 	if ( $SEF && !eregi("^(([^:/?#]+):)",$string) && !strcasecmp(substr($string,0,9),'index.php')) {
 		// Replace all &amp; with &
 		$string = str_replace( '&amp;', '&', $string );
-
-		/*
-		Home
-		index.php
-		*/
-		if ($string=='index.php') {
-			$string='';
+		
+		// Home index.php
+		if ($string == 'index.php') {
+			$string = '';
 		}
-
-		$sefstring = '';
-		if ( (eregi('option=com_content',$string) || eregi('option=content',$string) ) && !eregi('task=new',$string) && !eregi('task=edit',$string) ) {
-			// Handle fragment identifiers (ex. #foo)
-			$fragment = '';
-			if (eregi('#', $string)) {
-				$temp = split('#', $string, 2);
-				$string = $temp[0];
-				// ensure fragment identifiers are compatible with HTML4
-				if (preg_match('@^[A-Za-z][A-Za-z0-9:_.-]*$@', $temp[1])) {
-					$fragment = '#'. $temp[1];
-				}
+		
+		// break link into url component parts
+		$url = parse_url( $string );
+		
+		// check if link contained fragment identifiers (ex. #foo)
+		$fragment = '';
+		if ( isset($url['fragment']) ) {
+			// ensure fragment identifiers are compatible with HTML4
+			if (preg_match('@^[A-Za-z][A-Za-z0-9:_.-]*$@', $url['fragment'])) {
+				$fragment = '#'. $url['fragment'];
 			}
+		}
+		
+		// check if link contained a query component
+		if ( isset($url['query']) ) {
+			parse_str( $url['query'], $parts );
 			
-			/*
-			Content
-			index.php?option=com_content&task=$task&sectionid=$sectionid&id=$id&Itemid=$Itemid&limit=$limit&limitstart=$limitstart
-			*/
-			$sefstring .= 'content/';
-			if (eregi('&task=',$string)) {
-				$temp = split('&task=', $string);
-				$temp = split('&', $temp[1]);
-
-				$sefstring .= $temp[0].'/';
-			}
-			if (eregi('&sectionid=',$string)) {
-				$temp = split('&sectionid=', $string);
-				$temp = split('&', $temp[1]);
-
-				$sefstring .= $temp[0].'/';
-			}
-			if (eregi('&id=',$string)) {
-				$temp = split('&id=', $string);
-				$temp = split('&', $temp[1]);
-
-				$sefstring .= $temp[0].'/';
-			}
-			if (eregi('&Itemid=',$string)) {
-				$temp = split('&Itemid=', $string);
-				$temp = split('&', $temp[1]);
-
-				if ( $temp[0] !=  99999999 ) {
-					$sefstring .= $temp[0].'/';
-				}
-			}
-			if (eregi('&limit=',$string)) {
-				$temp = split('&limit=', $string);
-				$temp = split('&', $temp[1]);
-
-				$sefstring .= $temp[0].'/';
-			}
-			if (eregi('&limitstart=',$string)) {
-				$temp = split('&limitstart=', $string);
-				$temp = split('&', $temp[1]);
-
-				$sefstring .= $temp[0].'/';
-			}
-			if (eregi('&lang=',$string)) {
-				$temp = split('&lang=', $string);
-				$temp = split('&', $temp[1]);
-
-				$sefstring .= 'lang,'.$temp[0].'/';
-			}
-			if (eregi('&year=',$string)) {
-				$temp = split('&year=', $string);
-				$temp = split('&', $temp[1]);
-
-				$sefstring .= $temp[0].'/';
-			}
-			if (eregi('&month=',$string)) {
-				$temp = split('&month=', $string);
-				$temp = split('&', $temp[1]);
-
-				$sefstring .= $temp[0].'/';
-			}
-			if (eregi('&module=',$string)) {
-				$temp = split('&module=', $string);
-				$temp = split('&', $temp[1]);
-
-				$sefstring .= $temp[0].'/';
-			}
+			$sefstring = '';
 			
-			$string = $sefstring . $fragment;
-		} else if (eregi('option=com_',$string) && !eregi('task=new',$string) && !eregi('task=edit',$string)) {
-			/*
-			Components
-			index.php?option=com_xxxx&...
-			*/
-			$sefstring 	= 'component/';
-			$temp 		= split("\?", $string);
-			$temp 		= split('&', $temp[1]);
-
-			foreach($temp as $key => $value) {
-				$sefstring .= $value.'/';
+			// Component com_content urls
+			if ( ( $parts['option'] == 'com_content' || $parts['option'] == 'content' ) && ( $parts['task'] != 'new' ) && ( $parts['task'] != 'edit' ) ) {
+				// index.php?option=com_content [&task=$task] [&sectionid=$sectionid] [&id=$id] [&Itemid=$Itemid] [&limit=$limit] [&limitstart=$limitstart] [&year=$year] [&month=$month] [&module=$module]
+				$sefstring .= 'content/';
+				
+				// task 
+				if ( isset( $parts['task'] ) ) {
+					$sefstring .= $parts['task'].'/';					
+				}
+				// sectionid 
+				if ( isset( $parts['sectionid'] ) ) {
+					$sefstring .= $parts['sectionid'].'/';					
+				}
+				// id 
+				if ( isset( $parts['id'] ) ) {
+					$sefstring .= $parts['id'].'/';					
+				}
+				// Itemid 
+				if ( isset( $parts['Itemid'] ) ) {
+					//only add Itemid value if it does not correspond with the 'unassigned' Itemid value
+					if ( $parts['Itemid'] != 99999999 ) {
+						$sefstring .= $parts['Itemid'].'/';					
+					}
+				}
+				// limit
+				if ( isset( $parts['limit'] ) ) {
+					$sefstring .= $parts['limit'].'/';					
+				}
+				// limitstart
+				if ( isset( $parts['limitstart'] ) ) {
+					$sefstring .= $parts['limitstart'].'/';					
+				}
+				// year
+				if ( isset( $parts['year'] ) ) {
+					$sefstring .= $parts['year'].'/';					
+				}
+				// month
+				if ( isset( $parts['month'] ) ) {
+					$sefstring .= $parts['month'].'/';					
+				}
+				// module
+				if ( isset( $parts['module'] ) ) {
+					$sefstring .= $parts['module'].'/';					
+				}
+				// lang
+				if ( isset( $parts['lang'] ) ) {
+					$sefstring .= 'lang,'. $parts['lang'].'/';					
+				}
+				
+				$string = $sefstring;
+				
+				// all other components
+			} else if ( ( strpos( $parts['option'], 'com_' ) !== false ) && ( @$parts['task'] != 'new' ) && ( @$parts['task'] != 'edit' ) ) {
+				// index.php?option=com_xxxx &...
+				$sefstring 	= 'component/';
+				
+				foreach($parts as $key => $value) {
+					$sefstring .= $key .','. $value.'/';
+				}
+				
+				$string = str_replace( '=', ',', $sefstring );
 			}
-			$string = str_replace( '=', ',', $sefstring );
 		}
 
 		if ( $mod_rewrite_off ) {
@@ -459,7 +441,7 @@ function sefRelToAbs( $string ) {
 				
 				$string = $live_site_parts[1] . $string;
 			// check that url does not contain `http`, `https` or `ftp` at start of string
-			} else if ( !( strpos( $string, 'http' ) === 0 ) && !( strpos( $string, 'https' ) === 0 ) && !( strpos( $string, 'ftp' ) === 0 ) ) {
+			} else if ( ( strpos( $string, 'http' ) !== 0 ) && ( strpos( $string, 'https' ) !== 0 ) && ( strpos( $string, 'ftp' ) !== 0 ) ) {
 				// URI doesn't start with a "/" so relative to the page (live-site):
 				$string = $LiveSite .'/'. $string;
 			}
