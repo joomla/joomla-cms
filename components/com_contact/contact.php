@@ -442,7 +442,7 @@ class JContactController {
 			/*
 			 * Set the document page title
 			 */
-			$mainframe->setTitle(JText :: _('Contact').' - '.$contact->name);
+			$mainframe->setPageTitle(JText :: _('Contact').' - '.$contact->name);
 
 			/*
 			 * Add the breadcrumbs items
@@ -557,7 +557,7 @@ class JContactController {
 		 * If there is no valid email address or message body then we throw an
 		 * error and return false.
 		 */
-		jimport('joomla.mail.mail');
+		jimport('joomla.utilities.mail');
 		if (!$email || !$text || (JMailHelper :: isEmailAddress($email) == false)) {
 			JContactView :: emailError();
 		} else {

@@ -562,7 +562,7 @@ function mosHash( $seed ) {
 function josMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null ) {
 	global $mainframe;
 
-	jimport('joomla.mail.mail');
+	jimport('joomla.utilities.mail');
 	
 	/*
 	 * Get a JMail instance

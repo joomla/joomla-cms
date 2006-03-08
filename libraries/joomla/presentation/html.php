@@ -423,8 +423,8 @@ class mosHTML {
 		$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \''. $title .'\', BELOW, RIGHT);';
 		$url        = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
-		$tip 		= '<!--'. $title .'--> \n';
-		$tip 		= '<a onmouseover="'. $mouseover .'" onmouseout="return nd();">';
+		$tip 		 = '<!--'. $title .'--> \n';
+		$tip 		.= '<a onmouseover="'. $mouseover .'" onmouseout="return nd();">';
 		$tip 		.= '<img src="'.$url.'includes/js/ThemeOffice/warning.png" border="0"  alt="" /></a>';
 
 		return $tip;

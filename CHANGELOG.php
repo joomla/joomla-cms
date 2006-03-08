@@ -39,7 +39,8 @@ Legend:
 
 08-Mar-2006 Johan Janssens
  ^ Moved presentation classes into their own package
-
+ ^ Moved mail classes into utilities package
+ 
 08-Mar-2006 Louis Landry
  + Proper HTML Error page rendering for JError
  # Fixed artf3646 : Lowercase definition in language file

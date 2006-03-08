@@ -1791,7 +1791,7 @@ class JContentController
 		$subject_default 	= sprintf(JText :: _('Item sent by'), $yourname);
 		$subject 			= JRequest::getVar( 'subject', $subject_default, 'post' );
 
-		jimport('joomla.mail.mail');
+		jimport('joomla.utilities.mail');
 		if ($uid < 1 || !$email || !$youremail || (JMailHelper::isEmailAddress($email) == false) || (JMailHelper::isEmailAddress($youremail) == false))
 		{
 			JContentView :: userInputError(JText :: _('EMAIL_ERR_NOINFO'));
