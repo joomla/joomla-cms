@@ -14,12 +14,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$showmode = $params->get('showmode');
-if (!$showmode || $showmode == '0')
-	$showmode = 0;
+$showmode 	= $params->get( 'showmode', 0 );
 
-$content = '';
+$output 	= '';
 
+// show online count
 if ($showmode == 0 || $showmode == 2) {
 	$query = "SELECT guest, usertype"
 	. "\n FROM #__session"
@@ -27,75 +26,76 @@ if ($showmode == 0 || $showmode == 2) {
 	$database->setQuery( $query );
 	$sessions = $database->loadObjectList();
 	
+	// calculate number of guests and members
 	$user_array 	= 0;
 	$guest_array 	= 0;
-	foreach( $sessions as $session ) {
+	foreach( $sessions as $session ) {		
+		// if guest increase guest count by 1
 		if ( $session->guest == 1 && !$session->usertype ) {
 			$guest_array++;
 		}
+		// if member increase member count by 1
 		if ( $session->guest == 0 ) {
 			$user_array++;
 		}
 	}
 	
-	if ($guest_array <> 0 && $user_array == 0) {
+	// check if any guest or member is on the site
+	if ($guest_array != 0 || $user_array != 0) {
+		$output .= JText :: _('We have');
+		$output .= '&nbsp;';
+
+		// guest count handling
 		if ($guest_array == 1) {
-			$content = sprintf(JText :: _('We have guest online'), $guest_array);
-			eval ("\$content = \"$content\";");
-		} else {
-			$content = sprintf(JText :: _('We have guests online'), $guest_array);
-			eval ("\$content = \"$content\";");
+		// 1 guest only
+			$output .= sprintf(JText :: _('guest'), $guest_array);
+		} else if ($guest_array > 1) {
+		// more than 1 guest
+			$output .= sprintf(JText :: _('guests'), $guest_array);
 		}
-	}
-
-	if ($guest_array == 0 && $user_array <> 0) {
+		
+		// if there are guests and members online
+		if ($guest_array != 0 && $user_array != 0) {
+			$output .= '&nbsp;';
+			$output .= JText :: _('and');
+			$output .= '&nbsp;';
+		}
+		
+		// member count handling
 		if ($user_array == 1) {
-			$content = sprintf(JText :: _('We have member online'), $user_array);
-			eval ("\$content = \"$content\";");
-		} else {
-			$content = sprintf(JText :: _('We have members online'), $user_array);
-			eval ("\$content = \"$content\";");
+		// 1 member only
+			$output .= sprintf(JText :: _('member'), $user_array);
+		} else if ($user_array > 1) {
+		// more than 1 member
+			$output .= sprintf(JText :: _('members'), $user_array);
 		}
-	}
-
-	if ($guest_array <> 0 && $user_array <> 0) {
-		if ($guest_array == 1) {
-			$content = sprintf(JText :: _('We have guest and'), $guest_array);
-			eval ("\$content = \"$content\";");
-		} else {
-			$content = sprintf(JText :: _('We have guests and'), $guest_array);
-			eval ("\$content = \"$content\";");
-		}
-
-		if ($user_array == 1) {
-			$content .= sprintf(JText :: _('member online'), $user_array);
-			eval ("\$content = \"$content\";");
-		} else {
-			$content .= sprintf(JText :: _('members online'), $user_array);
-			eval ("\$content = \"$content\";");
-		}
-
-	}
-	echo $content;
-	$content = '';
+		
+		$output .= '&nbsp;';
+		$output .= JText :: _('online');
+	}	
 }
 
-if ($showmode == 1 || $showmode == 2) {
+// show online member names
+if ($showmode > 0) {
 	$query = "SELECT DISTINCT a.username" .
 			"\n FROM #__session AS a" .
 			"\n WHERE a.guest = 0";
 	$database->setQuery($query);
 	$rows = $database->loadObjectList();
-	foreach ($rows as $row) {
-		$content .= "<ul>\n";
-		$content .= "<li><strong>".$row->username."</strong></li>\n";
-		$content .= "</ul>\n";
-	}
-
-	if (!$content) {
-		echo JText :: _('No Users Online')."\n";
-	} else {
-		echo $content;
+	
+	if ( count( $rows ) ) {
+		// output
+		$output .= '<ul>';
+		foreach($rows as $row) {
+			$output .= '<li>';
+			$output .= '<strong>';
+			$output .= $row->username;
+			$output .= '</strong>';
+			$output .= '</li>';
+		}
+		$output .= '</ul>';
 	}
 }
+
+echo $output;
 ?>
