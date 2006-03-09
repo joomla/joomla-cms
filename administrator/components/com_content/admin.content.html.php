@@ -16,10 +16,14 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 /**
-* @package Joomla
-* @subpackage Content
-*/
-class HTML_content {
+ * HTML View class for the Content component
+ *
+ * @static
+ * @package Joomla
+ * @subpackage Content
+ * @since 1.0
+ */
+class ContentView {
 
 	/**
 	* Writes a list of the content items
@@ -549,18 +553,7 @@ class HTML_content {
 							<?php
 							// parameters : areaname, content, hidden field, width, height, rows, cols
 							$editor =& JEditor::getInstance();
-							echo $editor->getEditor( 'editor1',  $row->introtext , 'introtext', '100%;', '350', '75', '20' ) ; 
-							?>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php echo JText::_( 'Main Text: (optional)' ); ?>
-							<br />
-							<?php
-							// parameters : areaname, content, hidden field, width, height, rows, cols
-							$editor =& JEditor::getInstance();
-							echo $editor->getEditor( 'editor2',  $row->fulltext , 'fulltext', '100%;', '400', '75', '30' ) ; 
+							echo $editor->getEditor( 'editor1',  $row->text , 'text', '100%;', '550', '75', '20' ) ; 
 							?>
 						</td>
 					</tr>
@@ -1245,5 +1238,18 @@ class HTML_content {
 		</table>
 		<?php
 	}
+
+	/**
+	 * Writes a user input error message and if javascript is enabled goes back
+	 * to the previous screen to try again.
+	 * 
+	 * @param string $msg The error message to display
+	 * @return void
+	 * @since 1.1
+	 */
+	function displayError($msg) {
+		josErrorAlert($msg);
+	}
+
 }
 ?>
