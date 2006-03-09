@@ -16,6 +16,7 @@ INSERT INTO `jos_mambots` VALUES (0, 'Syndicate - Contacts', 'contact', 'syndica
 INSERT INTO `jos_mambots` VALUES (0, 'Syndicate - Poll', 'poll', 'syndicate', 0, 5, 0, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `jos_mambots` VALUES (0, 'Editor - XStandard Lite 1.7', 'xstandard', 'editors', 0, 0, 1, 1, 0, 0, '0000-00-00 00:00:00', '');
 INSERT INTO `jos_mambots` VALUES (0, 'Authentication - GMail', 'gmail', 'authentication', 0, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', '');
+INSERT INTO `jos_mambots` VALUES (0, 'Editor Button - Readmore','readmore','editors-xtd',0,0,1,0,0,0,'0000-00-00 00:00:00','');
 
 UPDATE `jos_mambots` SET `name` = 'Content - Image' WHERE `id` = '1'; 
 UPDATE `jos_mambots` SET `name` = 'Content - Pagebreak' WHERE `id` = '2'; 

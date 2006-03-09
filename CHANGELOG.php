@@ -47,6 +47,7 @@ Legend:
  # Fixed artf3452 : array may be passed uninitialised
  # Fixed artf3557 : Bug in go2(), mistake in mosCommonHTML::Images()
  ^ Editor unification and com_content cleanup in administrator client
+ + Editor button for {readmore} tag
 
 06-Mar-2006 Johan Janssens
  ^ Reorganised the administrator menu structure
