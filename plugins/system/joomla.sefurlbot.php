@@ -355,8 +355,19 @@ function sefRelToAbs( $string ) {
 		
 		// check if link contained a query component
 		if ( isset($url['query']) ) {
+			// special handling for javascript
+			$url['query'] = stripslashes( str_replace( '+', '%2b', $url['query'] ) );
+			
+			// break url into component parts			
 			parse_str( $url['query'], $parts );
 			
+			// special handling for javascript
+			foreach( $parts as $key => $value) {
+				if ( strpos( '%2b', $parts[$key] ) !== false ) {
+					$parts[$key] = stripslashes( str_replace( '%2b', '+', $value ) );
+				}
+			}
+						
 			$sefstring = '';
 			
 			// Component com_content urls
