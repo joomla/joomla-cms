@@ -696,8 +696,14 @@ class JContentView {
 						?>
 						<td align="right" width="100%" nowrap="nowrap">
 							<?php
+							$filter = '';
+							if ( $lists['filter'] ) {
+								$filter = '&amp;filter='. $lists['filter'];
+							}
+							
+							$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='.$sectionid.'&amp;id='.$catid.'&amp;Itemid='. $Itemid . $filter;
+
 							echo '&nbsp;&nbsp;&nbsp;'.JText :: _('Display Num').'&nbsp;';
-							$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='.$sectionid.'&amp;id='.$catid.'&amp;Itemid='.$Itemid;
 							echo $pageNav->getLimitBox($link);
 							?>
 						</td>
@@ -821,7 +827,12 @@ class JContentView {
 			<tr>
 				<td align="center" colspan="4" class="sectiontablefooter<?php echo $params->get( 'pageclass_sfx' ); ?>">
 					<?php
-					$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='.$sectionid.'&amp;id='.$catid.'&amp;Itemid='.$Itemid;
+					$filter = '';
+					if ( $lists['filter'] ) {
+						$filter = '&amp;filter='. $lists['filter'];
+					}
+
+					$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='. $sectionid .'&amp;id='. $catid .'&amp;Itemid='. $Itemid . $filter;
 					echo $pageNav->writePagesLinks($link);
 					?>
 				</td>

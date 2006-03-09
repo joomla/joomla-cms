@@ -480,7 +480,7 @@ class JContentController
 		$and 	= null;
 		$filter = null;
 		if ($params->get('filter'))	{
-			$filter = JRequest::getVar( 'filter', '', 'post' );
+			$filter = JRequest::getVar( 'filter', '', 'request' );
 			if ($filter) {
 				// clean filter variable
 				$filter = strtolower( $filter );

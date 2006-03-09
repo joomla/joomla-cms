@@ -67,7 +67,37 @@ function botJoomlaSEFUrl( ) {
 				}
 			}
 
-			if (isset($url_array[$pos+7]) && $url_array[$pos+7] != '' && ( in_array('archivecategory', $url_array) || in_array('archivesection', $url_array) ) ) {
+		if (isset($url_array[$pos+8]) && $url_array[$pos+8] != '' && in_array('category', $url_array) && ( strpos( $url_array[$pos+5], 'order,' ) !== false ) && ( strpos( $url_array[$pos+6], 'filter,' ) !== false ) ) {
+				// $option/$task/$sectionid/$id/$Itemid/$order/$filter/$limit/$limitstart
+				$task 					= $url_array[$pos+1];
+				$sectionid				= $url_array[$pos+2];
+				$id 					= $url_array[$pos+3];
+				$Itemid 				= $url_array[$pos+4];
+				$order 					= str_replace( 'order,', '', $url_array[$pos+5] );
+				$filter					= str_replace( 'filter,', '', $url_array[$pos+6] );
+				$limit 					= $url_array[$pos+7];
+				$limitstart 			= $url_array[$pos+8];
+				
+				// pass data onto global variables
+				$_GET['task'] 			= $task;
+				$_REQUEST['task'] 		= $task;
+				$_GET['sectionid'] 		= $sectionid;
+				$_REQUEST['sectionid'] 	= $sectionid;
+				$_GET['id'] 			= $id;
+				$_REQUEST['id'] 		= $id;
+				$_GET['Itemid'] 		= $Itemid;
+				$_REQUEST['Itemid'] 	= $Itemid;
+				$_GET['order'] 			= $order;
+				$_REQUEST['order'] 		= $order;
+				$_GET['filter'] 		= $filter;
+				$_REQUEST['filter'] 	= $filter;
+				$_GET['limit'] 			= $limit;
+				$_REQUEST['limit'] 		= $limit;
+				$_GET['limitstart'] 	= $limitstart;
+				$_REQUEST['limitstart'] = $limitstart;
+				
+				$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&id=$id&Itemid=$Itemid&order=$order&filter=$filter&limit=$limit&limitstart=$limitstart";
+			} else if (isset($url_array[$pos+7]) && $url_array[$pos+7] != '' && ( in_array('archivecategory', $url_array) || in_array('archivesection', $url_array) ) ) {
 				// $option/$task/$sectionid/$Itemid/$limit/$limitstart/year/month
 				$task 					= $url_array[$pos+1];
 				$sectionid				= $url_array[$pos+2];
@@ -94,6 +124,33 @@ function botJoomlaSEFUrl( ) {
 				$_REQUEST['month'] 		= $month;
 				
 				$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&Itemid=$Itemid&limit=$limit&limitstart=$limitstart&year=$year&month=$month";			
+			} else if (isset($url_array[$pos+7]) && $url_array[$pos+7] != '' && in_array('category', $url_array) && ( strpos( $url_array[$pos+5], 'order,' ) !== false )) {
+				// $option/$task/$sectionid/$id/$Itemid/$order/$limit/$limitstart
+				$task 					= $url_array[$pos+1];
+				$sectionid				= $url_array[$pos+2];
+				$id 					= $url_array[$pos+3];
+				$Itemid 				= $url_array[$pos+4];
+				$order 					= str_replace( 'order,', '', $url_array[$pos+5] );
+				$limit 					= $url_array[$pos+6];
+				$limitstart 			= $url_array[$pos+7];
+				
+				// pass data onto global variables
+				$_GET['task'] 			= $task;
+				$_REQUEST['task'] 		= $task;
+				$_GET['sectionid'] 		= $sectionid;
+				$_REQUEST['sectionid'] 	= $sectionid;
+				$_GET['id'] 			= $id;
+				$_REQUEST['id'] 		= $id;
+				$_GET['Itemid'] 		= $Itemid;
+				$_REQUEST['Itemid'] 	= $Itemid;
+				$_GET['order'] 			= $order;
+				$_REQUEST['order'] 		= $order;
+				$_GET['limit'] 			= $limit;
+				$_REQUEST['limit'] 		= $limit;
+				$_GET['limitstart'] 	= $limitstart;
+				$_REQUEST['limitstart'] = $limitstart;
+				
+				$QUERY_STRING = "option=com_content&task=$task&sectionid=$sectionid&id=$id&Itemid=$Itemid&order=$order&limit=$limit&limitstart=$limitstart";
 			} else if (isset($url_array[$pos+6]) && $url_array[$pos+6] != '') {
 			// $option/$task/$sectionid/$id/$Itemid/$limit/$limitstart
 				$task 					= $url_array[$pos+1];
@@ -363,11 +420,11 @@ function sefRelToAbs( $string ) {
 			
 			// special handling for javascript
 			foreach( $parts as $key => $value) {
-				if ( strpos( '%2b', $parts[$key] ) !== false ) {
+				if ( strpos( $value, '+' ) !== false ) {
 					$parts[$key] = stripslashes( str_replace( '%2b', '+', $value ) );
 				}
 			}
-						
+			
 			$sefstring = '';
 			
 			// Component com_content urls
@@ -393,6 +450,14 @@ function sefRelToAbs( $string ) {
 					if ( $parts['Itemid'] != 99999999 ) {
 						$sefstring .= $parts['Itemid'].'/';					
 					}
+				}
+				// order
+				if ( isset( $parts['order'] ) ) {
+					$sefstring .= $parts['order'].'/';	
+				}
+				// filter
+				if ( isset( $parts['filter'] ) ) {
+					$sefstring .= 'filter,'. $parts['filter'].'/';	
 				}
 				// limit
 				if ( isset( $parts['limit'] ) ) {
