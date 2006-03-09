@@ -133,7 +133,7 @@ class JTemplatesView
 						?>
 					</td>
 					<td>
-						<a href="index2.php?option=com_templates&amp;task=edit&amp;id=<?php echo $row->directory;?>&amp;client=<?php echo $client->id;?>" onmouseover="showInfo('<?php echo $row->name;?>','<?php echo $row->directory; ?>')" onmouseout="return nd();">
+						<a href="index2.php?option=com_templates&amp;task=edit&amp;id=<?php echo $row->directory;?>&amp;client=<?php echo $client->id;?>&amp;hidemainmenu=1" onmouseover="showInfo('<?php echo $row->name;?>','<?php echo $row->directory; ?>')" onmouseout="return nd();">
 							<?php echo $row->name;?></a>
 					</td>
 					<?php
@@ -339,7 +339,7 @@ class JTemplatesView
 			</table>
 		</div>
 
-		<input type="hidden" name="template" value="<?php echo $template; ?>" />
+		<input type="hidden" name="id" value="<?php echo $row->directory; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
@@ -395,7 +395,7 @@ class JTemplatesView
 		</tr>
 		</table>
 		
-		<input type="hidden" name="template" value="<?php echo $template; ?>" />
+		<input type="hidden" name="id" value="<?php echo $template; ?>" />
 		<input type="hidden" name="option" value="<?php echo $option;?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="client" value="<?php echo $client->id;?>" />

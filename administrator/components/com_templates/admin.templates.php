@@ -26,9 +26,9 @@ if (!$user->authorize('com_templates', 'manage')) {
 require_once (dirname(__FILE__).'/admin.templates.html.php');
 require_once (dirname(__FILE__).'/admin.templates.class.php');
 
-$task		= JRequest::getVar('task');
+$task	= JRequest::getVar('task');
 $id		= JRequest::getVar('id');
-$cid		= JRequest::getVar('cid', array (), '', 'array');
+$cid	= JRequest::getVar('cid', array (), '', 'array');
 
 if (!isset($cid[0])) {
 	$cid[0] = $id;
@@ -40,8 +40,9 @@ switch ($task)
 		JTemplatesController::editTemplate($cid[0]);
 		break;
 
-	case 'save' :
-		JTemplatesController::saveTemplate();
+	case 'save'  :
+	case 'apply' :
+		JTemplatesController::saveTemplate($cid[0], $task);
 		break;
 
 	case 'edit_source' :
@@ -70,7 +71,7 @@ switch ($task)
 		break;
 
 	case 'cancel' :
-		josRedirect('index2.php?option='.JRequest::getVar('option').'&client='.JRequest::getVar('client'));
+		JTemplatesController::cancelTemplate();
 		break;
 
 	case 'positions' :
@@ -248,26 +249,27 @@ class JTemplatesController
 		JTemplatesView::editTemplate($row, $lists, $params, $option, $client);
 	}
 
-	function saveTemplate()
+	function saveTemplate($template, $task)
 	{
 		global $mainframe;
 		
 		/*
 		 * Initialize some variables
 		 */
+		$db	   		 = & $mainframe->getDBO();
+		
 		$option		= JRequest::getVar('option');
 		$client		= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 		$menus		= JRequest::getVar('selections', array (), 'post', 'array');
-		$template	= JRequest::getVar('template');
-		$params	= JRequest::getVar('params', array (), '', 'array');
-
+		$params		= JRequest::getVar('params', array (), '', 'array');
+		
 		if (!$template)
 		{
 			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('No template specified.'));
 		}
 
 		$file = $client->path.DS.'templates'.DS.$template.DS.'params.ini';
-
+		
 		if (is_array($params))
 		{
 			$txt = null;
@@ -275,7 +277,7 @@ class JTemplatesController
 				$txt .= "$k=$v\n";
 			}
 			
-			if (JFile::write($file, $txt)) {
+			if (!JFile::write($file, $txt)) {
 				josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
 			}
 		}
@@ -309,7 +311,24 @@ class JTemplatesController
 				}
 			}
 		}
-
+		
+		if($task == 'apply') {
+			josRedirect('index2.php?option='.$option.'&task=edit&id='.$template.'&client='.$client->id);
+		} else {
+			josRedirect('index2.php?option='.$option.'&client='.$client->id);
+		}
+	}
+	
+	function cancelTemplate()
+	{
+		global $mainframe;
+		
+		/*
+		 * Initialize some variables
+		 */
+		$option	= JRequest::getVar('option');
+		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));	
+		
 		josRedirect('index2.php?option='.$option.'&client='.$client->id);
 	}
 	
