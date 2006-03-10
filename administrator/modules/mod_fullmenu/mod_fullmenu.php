@@ -128,7 +128,7 @@ class JFullAdminMenu {
 				['<img src="../includes/js/ThemeOffice/config.png" />','<?php echo JText::_( 'Configuration', true ); ?>','index2.php?option=com_config',null,'<?php echo JText::_( 'Configuration', true ); ?>'],
 			<?php } ?>
 			_cmSplit,
-			[null,'<?php echo JText::_( 'Exit', true ); ?>','index2.php?option=logout',null,'<?php echo JText::_( 'Exit', true ); ?>'],
+			[null,'<?php echo JText::_( 'Logout', true ); ?>','index2.php?option=logout',null,'<?php echo JText::_( 'Logout', true ); ?>'],
 			],
 			_cmSplit,
 

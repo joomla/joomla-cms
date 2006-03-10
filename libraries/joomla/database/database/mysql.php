@@ -363,6 +363,8 @@ class JDatabaseMySQL extends JDatabase
 	*/
 	function insertObject( $table, &$object, $keyName = NULL, $verbose=false ) 
 	{
+		$this->setSQLMode();
+		
 		$fmtsql = "INSERT INTO $table ( %s ) VALUES ( %s ) ";
 		$fields = array();
 		foreach (get_object_vars( $object ) as $k => $v) {
@@ -394,6 +396,8 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	function updateObject( $table, &$object, $keyName, $updateNulls=true ) 
 	{
+		$this->setSQLMode();
+		
 		$fmtsql = "UPDATE $table SET %s WHERE %s";
 		$tmp = array();
 		foreach (get_object_vars( $object ) as $k => $v) {
@@ -483,6 +487,24 @@ class JDatabaseMySQL extends JDatabase
 		}
 
 		return $result;
+	}
+		
+	/**
+	* Method to disable strict mode in MySQL 5 when attempting to insert or update data
+	* Added 1.0.9
+	*/
+	function setSQLMode() {
+		if (!defined( '_JOS_SET_SQLMODE' )) {
+			/** ensure that functions are declared only once */
+			define( '_JOS_SET_SQLMODE', 1 );
+			
+			// if running mysql 5, set sql-mode to mysql40 - thereby circumventing strict mode problems
+			if ( strpos( $this->getVersion(), '5' ) === 0 ) {
+				$query = "SET sql_mode = 'MYSQL40'";
+				$this->setQuery( $query );
+				$this->query();
+			}
+		}
 	}
 }
 ?>
