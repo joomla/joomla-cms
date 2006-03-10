@@ -263,7 +263,7 @@ class JConfigController {
 		global $mainframe;
 		
 		$mainframe->_registry->loadArray($_POST);
-
+		
 		/*
 		 * Handle the server time offset
 		 */

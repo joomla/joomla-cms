@@ -633,7 +633,6 @@ class JTemplatesHelper
 		}
 
 		$data = new StdClass();
-		$data->id = $i;
 		$data->directory = $templateDir;
 		$element = & $root->getElementsByPath('name', 1);
 		$data->name = $element->getText();
