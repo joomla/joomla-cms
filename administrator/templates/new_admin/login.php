@@ -20,7 +20,7 @@ $tstart = mosProfiler::getmicrotime();
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{LANG_TAG}" lang="{LANG_TAG}" dir="{LANG_DIR}" >
 	<head>
-	<jdoc: type="head" />
+	<jdoc:include type="head" />
 	<jdoc:tmpl name="isRTL" varscope="login.php" type="condition" conditionvar="LANG_ISRTL">
 		<jdoc:sub condition="1">
 			<link href="templates/{TEMPLATE}/css/template_rtl.css" rel="stylesheet" type="text/css" />
@@ -29,8 +29,8 @@ $tstart = mosProfiler::getmicrotime();
 			<link href="templates/{TEMPLATE}/css/template.css" rel="stylesheet" type="text/css" />
 		</jdoc:sub>
 	</jdoc:tmpl>
-	<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/nifty.css">
-	<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/nifty_print.css" media="print">
+	<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/nifty.css" />
+	<link rel="stylesheet" type="text/css" href="templates/{TEMPLATE}/css/nifty_print.css" media="print" />
 	<script type="text/javascript" src="templates/{TEMPLATE}/js/nifty.js"></script>
 	<script type="text/javascript">
 	window.onload=function(){
@@ -92,7 +92,12 @@ $tstart = mosProfiler::getmicrotime();
 											<tr>
 												<td colspan="2">
 													<div class="far-right">
-														<div class="button1-left"><div class="next"><a onclick="loginForm.submit();" alt="<jdoc:translate>Login</jdoc:translate>"><jtmpl:translate escape="yes">Login</jtmpl:translate></a></div></div>
+														<div class="button1-left">
+															<div class="next">
+																<a onclick="loginForm.submit();">
+																	<jdoc:translate>Login</jdoc:translate></a>
+															</div>
+														</div>
 														<input type="hidden" name="option" value="login" />
 													</div>
 												</td>
