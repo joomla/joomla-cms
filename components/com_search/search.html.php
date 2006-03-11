@@ -86,7 +86,10 @@ class search_html {
 			foreach ($allAreas as $val => $txt) {
 				$checked = $hasAreas && in_array( $val, $areas ) ? 'checked="true"' : '';
 				?>
-				<input type="checkbox" name="areas[]" value="<?php echo $val;?>" <?php echo $checked;?>/>&nbsp;<?php echo $txt;?>
+				<input type="checkbox" name="areas[]" value="<?php echo $val;?>" id="area_<?php echo $val;?>" <?php echo $checked;?> />
+				<label for="area_<?php echo $val;?>">
+					<?php echo $txt;?>
+				</label>
 				<?php
 			}
 		} 
