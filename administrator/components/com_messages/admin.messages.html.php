@@ -158,6 +158,15 @@ class HTML_messages {
 					<?php echo $vars['mail_on_new']; ?> 
 				</td>
 			</tr>
+			<tr>
+				<td>
+					<?php echo JText::_( 'Auto Purge Messages' ); ?>:
+				</td>
+				<td> 
+					<input type="text" name="vars[auto_purge]" size="5" value="<?php echo $vars['auto_purge']; ?>" class="inputbox" /> 
+					<?php echo JText::_( 'days old' ); ?>
+				</td>
+			</tr>
 			</table>	
 		</div>
 		

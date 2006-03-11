@@ -65,6 +65,8 @@ class JAdministrator extends JApplication
 		$this->setUserState( 'application.lang', mosGetParam( $_REQUEST, 'lang', $this->getCfg('lang_administrator') ) );
 		JSession::pause();
 
+		JAdministrator::purgeMessages();
+		
 		mosRedirect( 'index2.php' );
 	}
 	
@@ -185,6 +187,49 @@ class JAdministrator extends JApplication
 		
 		$this->_siteURL = $url;
 		return $url;
+	}
+	
+	/**
+	* Purge the jos_messages table of old messages 
+	* 
+	* static method
+	* @since 1.1
+	*/
+	function purgeMessages() {
+		$db = $this->getDBO();
+
+		$userid = JSession::get('userid');
+		
+		$query = "SELECT *"
+		. "\n FROM #__messages_cfg"
+		. "\n WHERE user_id = $userid"
+		. "\n AND cfg_name = 'auto_purge'"
+		;
+		$db->setQuery( $query );
+		$db->loadObject( $user );
+		
+		// check if auto_purge value set
+		if ( $user->cfg_name == 'auto_purge' ) {
+			$purge 	= $user->cfg_value;
+		} else {
+			// if no value set, default is 7 days
+			$purge 	= 7;
+		}
+		// calculation of past date
+		$past = date( 'Y-m-d H:i:s', time() - $purge * 60 * 60 * 24 );
+		
+		// if purge value is not 0, then allow purging of old messages
+		if ($purge != 0) {
+			// purge old messages at day set in message configuration
+			$query = "DELETE FROM #__messages"
+			. "\n WHERE date_time < '$past'"
+			. "\n AND user_id_to = $userid"
+			;
+			$db->setQuery( $query );
+			$db->query();
+		}		
+		echo $purge;
+		echo $query;
 	}
 }
 

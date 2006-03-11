@@ -138,10 +138,20 @@ function editConfig( $option ) {
 	;
 	$database->setQuery( $query );
 	$data = $database->loadObjectList( 'cfg_name' );
+	
+	// initialize values if they do not exist
+	if (!isset($data['lock']->cfg_value)) {
+		$data['lock']->cfg_value 		= 0;
+	}	if (!isset($data['mail_on_new']->cfg_value)) {
+		$data['mail_on_new']->cfg_value = 0;
+	}
+	if (!isset($data['auto_purge']->cfg_value)) {
+		$data['auto_purge']->cfg_value 	= 7;
+	}
 
 	$vars 					= array();	
-	$vars['lock'] 			= mosHTML::yesnoradioList( "vars[lock]", '', @$data['lock']->cfg_value, 'yes', 'no', 'varslock' );	$vars['mail_on_new'] 	= mosHTML::yesnoradioList( "vars[mail_on_new]", '', @$data['mail_on_new']->cfg_value, 'yes', 'no', 'varsmail_on_new' );
-
+	$vars['lock'] 			= mosHTML::yesnoradioList( "vars[lock]", '', $data['lock']->cfg_value, 'yes', 'no', 'varslock' );	$vars['mail_on_new'] 	= mosHTML::yesnoradioList( "vars[mail_on_new]", '', $data['mail_on_new']->cfg_value, 'yes', 'no', 'varsmail_on_new' );
+	$vars['auto_purge'] 	= $data['auto_purge']->cfg_value;
 
 	HTML_messages::editConfig( $vars, $option );
 
