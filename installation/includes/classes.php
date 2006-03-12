@@ -515,7 +515,7 @@ class JInstallationController
 		$tmpl->addVars('configuration', $vars, 'var_');
 
 		$buffer = $tmpl->getParsedTemplate('configuration');
-		$path = JPATH_SITE.DS.'configuration.php';
+		$path = JPATH_CONFIGURATION.DS.'configuration.php';
 
 		if (file_exists($path)) {
 			$canWrite = is_writable($path);

@@ -84,7 +84,7 @@ class JInstallerLanguage extends JInstaller
 		$this->_extensionName = $e->getText();
 
 		/*
-		 * Get the Language tag [ISO tag, eg. en_GB]
+		 * Get the Language tag [ISO tag, eg. en-GB]
 		 */
 		$e = & $root->getElementsByPath('tag', 1);
 		$folder = $e->getText();

@@ -40,6 +40,7 @@ Legend:
 09-Mar-2006 Johan Janssens
  - Removed backbutton configuration setting
  # Fixed : artf3786 : Template - names
+ # Fixed : artf3842 : [patch] JPATH_SITE should be JPATH_CONFIGURATION
 
 08-Mar-2006 Johan Janssens
  ^ Moved presentation classes into their own package
