@@ -23,6 +23,10 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
+		<param name="search_static_nonmenu" type="radio" default="1" label="Static Content NonMenu" description="Search Static Content not linked to a menu item?">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
 		<param name="search_archived" type="radio" default="1" label="Archived Content" description="Search Archived Content?">
 			<option value="0">No</option>
 			<option value="1">Yes</option>

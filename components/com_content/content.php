@@ -170,8 +170,8 @@ class JContentController
 				. "\n LEFT JOIN #__groups AS g ON a.access = g.id" 
 				. "\n WHERE a.state = 1"
 				. ($noauth ? "\n AND a.access <= $gid" : '') 
-				. "\n AND ( publish_up = '$nullDate' OR publish_up <= '$now'  )" 
-				. "\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )" 
+				. "\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now'  )" 
+				. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )" 
 				."\n ORDER BY $order_pri $order_sec";
 		$db->setQuery($query);
 		$Arows = $db->loadObjectList();
@@ -466,8 +466,12 @@ class JContentController
 		// get the list of other categories
 		$query = "SELECT c.*, COUNT( b.id ) AS numitems"
 				. "\n FROM #__categories AS c"
-				. "\n LEFT JOIN #__content AS b ON b.catid = c.id ".$xwhere2. ($noauth ? "\n AND b.access <= $gid" : '')
-				. "\n WHERE c.section = '$category->section'".$xwhere. ($noauth ? "\n AND c.access <= $gid" : '')
+				. "\n LEFT JOIN #__content AS b ON b.catid = c.id "
+				. $xwhere2
+				. ($noauth ? "\n AND b.access <= $gid" : '')
+				. "\n WHERE c.section = '$category->section'"
+				. $xwhere
+				. ($noauth ? "\n AND c.access <= $gid" : '')
 				. "\n GROUP BY c.id"
 				. $empty 
 				. "\n ORDER BY c.ordering"
@@ -1059,8 +1063,8 @@ class JContentController
 			$xwhere = '';
 		} else {
 			$xwhere = " AND ( a.state = 1 OR a.state = -1 )" .
-					"\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )" .
-					"\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )";
+					"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
+					"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )";
 		}
 
 		// Main content item query
