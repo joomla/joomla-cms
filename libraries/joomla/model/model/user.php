@@ -249,11 +249,10 @@ class JModelUser extends JModel
 	 * @param string The username to search on
 	 * @return int The user id or 0 if not found
 	 */
-	function userExists($username) 
+	function getUserId($username) 
 	{
-		global $database;
-		$database->setQuery("SELECT id FROM #__users WHERE username = '$username' LIMIT 1");
-		return $database->loadResult();
+		$this->_db->setQuery("SELECT id FROM #__users WHERE username = '$username' LIMIT 1");
+		return $this->_db->loadResult();
 	}
 
 	/**
@@ -262,9 +261,8 @@ class JModelUser extends JModel
 	 */
 	function getUserList() 
 	{
-		global $database;
-		$database->setQuery("SELECT username FROM #__users");
-		return $database->loadAssocList();
+		$this->_db->setQuery("SELECT username FROM #__users");
+		return $this->_db->loadAssocList();
 	}
 
 	/**

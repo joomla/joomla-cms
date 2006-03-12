@@ -473,7 +473,7 @@ class JUser extends JObject
 		 */
 		if(!is_int($identifier)) 
 		{
-			if (!$id =  $this->_model->userExists($identifier))
+			if (!$id =  $this->_model->getUserId($identifier))
 			{
 				JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$username.' does not exist' );
 				return false;
