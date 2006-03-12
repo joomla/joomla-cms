@@ -332,9 +332,10 @@ class HTML_statistics {
 		<?php
 	}
 
-	function showSearches( &$rows, $pageNav, &$lists, $option, $task ) {
+	function showSearches( &$rows, $pageNav, &$lists, $option, $task, $showResults ) {
 		global $mainframe;
-
+		
+		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php?option=com_statistics&amp;task=searches" method="post" name="adminForm">
 		
@@ -351,6 +352,26 @@ class HTML_statistics {
 					<?php echo $mainframe->getCfg( 'enable_log_searches' ) ? '<b><font color="green">'. JText::_( 'Enabled' ) .'</font></b>' : '<b><font color="red">'. JText::_( 'Disabled' ) .'</font></b>' ?>
 				</span>
 			</td>
+			<td align="right">
+				<?php
+				if ( !$showResults ) {
+					echo mosToolTip('WARN_RESULTS');
+				}
+				?>
+			</td>
+			<td align="right">
+				<?php
+				if ( $showResults ) {
+					?>
+					<input name="search_results" type="button" class="button" value="<?php echo JText::_( 'Hide Search Results' ); ?>" onclick="submitbutton('searches');">
+					<?php
+				} else {
+					?>
+					<input name="search_results" type="button" class="button" value="<?php echo JText::_( 'Show Search Results' ); ?>" onclick="submitbutton('searchesresults');">
+					<?php
+				}
+				?>
+			</td>
 		</tr>
 		</table>
 		
@@ -366,9 +387,15 @@ class HTML_statistics {
 				<th nowrap="nowrap" width="20%">
 					<?php mosCommonHTML :: tableOrdering( 'Times Requested', 'hits', $lists, $task ); ?>
 				</th>
-				<th nowrap="nowrap" width="20%">
-					<?php echo JText::_( 'Results Returned' ); ?>
-				</th>
+				<?php
+				if ( $showResults ) {
+					?>
+					<th nowrap="nowrap" width="20%">
+						<?php echo JText::_( 'Results Returned' ); ?>
+					</th>
+					<?php
+				}
+				?>
 			</tr>
 			<?php
 			$k = 0;
@@ -385,25 +412,31 @@ class HTML_statistics {
 					<td align="center">
 						<?php echo $row->hits; ?>
 					</td>
-					<td align="center">
-						<?php echo $row->returns; ?>
-					</td>
+					<?php
+					if ( $showResults ) {
+						?>
+						<td align="center">
+							<?php echo $row->returns; ?>
+						</td>
+						<?php
+					}
+					?>
 				</tr>
 				<?php
 				$k = 1 - $k;
 			}
 			?>
-		</table>
-		<?php echo $pageNav->getListFooter(); ?>
-	</div>
-	
-  	<input type="hidden" name="option" value="<?php echo $option;?>" />
-  	<input type="hidden" name="task" value="<?php echo $task;?>" />
-  	<input type="hidden" name="op" value="set" />
-	<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
-	<input type="hidden" name="filter_order_Dir" value="" />
-	</form>
-	<?php
+			</table>
+			<?php echo $pageNav->getListFooter(); ?>
+		</div>
+		
+	  	<input type="hidden" name="option" value="<?php echo $option;?>" />
+	  	<input type="hidden" name="task" value="<?php echo $task;?>" />
+	  	<input type="hidden" name="op" value="set" />
+		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="" />
+		</form>
+		<?php
 	}
 }
 ?>

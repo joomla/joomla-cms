@@ -21,6 +21,10 @@ switch ($task) {
 		showSearches( $option, $task );
 		break;
 
+	case 'searchesresults':
+		showSearches( $option, $task, 1 );
+		break;
+	
 	case 'pageimp':
 		showPageImpressions( $option, $task );
 		break;
@@ -222,7 +226,7 @@ function showPageImpressions( $option, $task ) {
 	HTML_statistics::pageImpressions( $rows, $pageNav, $lists, $task );
 }
 
-function showSearches( $option, $task ) {
+function showSearches( $option, $task, $showResults=null ) {
 	global $database, $mainframe, $mosConfig_list_limit;
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$task.filter_order", 		'filter_order', 	'hits' );
@@ -267,14 +271,20 @@ function showSearches( $option, $task ) {
 	JPluginHelper::importGroup( 'search' );
 
 	for ($i=0, $n = count($rows); $i < $n; $i++) {
-		$results = $mainframe->triggerEvent( 'onSearch', array( $rows[$i]->search_term ) );
-
-		$count = 0;
-		for ($j = 0, $n2 = count( $results ); $j < $n2; $j++) {
-			$count += count( $results[$j] );
+		// determine if number of results for search item should be calculated
+		// by default it is `off` as it is highly query intensive
+		if ( $showResults ) {
+			$results = $mainframe->triggerEvent( 'onSearch', array( $rows[$i]->search_term ) );
+	
+			$count = 0;
+			for ($j = 0, $n2 = count( $results ); $j < $n2; $j++) {
+				$count += count( $results[$j] );
+			}
+	
+			$rows[$i]->returns = $count;
+		} else {
+			$rows[$i]->returns = null;
 		}
-
-		$rows[$i]->returns = $count;
 	}
 	
 	// table ordering
@@ -288,7 +298,7 @@ function showSearches( $option, $task ) {
 	// search filter
 	$lists['search']= $search;	
 
-	HTML_statistics::showSearches( $rows, $pageNav, $lists, $option, $task );
+	HTML_statistics::showSearches( $rows, $pageNav, $lists, $option, $task, $showResults );
 }
 
 function resetStats( $option, $task ) {
