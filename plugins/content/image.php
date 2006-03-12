@@ -159,7 +159,7 @@ function processImages ( &$row, &$params, &$introCount )
 			if ( !$attrib[4] ) {
 				$image .= $attrib[1] ? ' align="'. $attrib[1] .'"' : '';
 			}
-			$image .=' hspace="6" alt="'. $attrib[2] .'" title="'. $attrib[2] .'" border="'. $border .'" />';
+			$image .=' alt="'. $attrib[2] .'" title="'. $attrib[2] .'" border="'. $border .'" />';
 			
 			// assemble caption - if caption detected
 			$caption = '';

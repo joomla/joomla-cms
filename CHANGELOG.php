@@ -41,6 +41,7 @@ Legend:
  - Removed backbutton configuration setting
  # Fixed : artf3786 : Template - names
  # Fixed : artf3842 : [patch] JPATH_SITE should be JPATH_CONFIGURATION
+ # Fixed : artf3850 : Remove hspace attribute from mosimage.php
 
 08-Mar-2006 Johan Janssens
  ^ Moved presentation classes into their own package
