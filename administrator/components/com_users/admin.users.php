@@ -214,7 +214,7 @@ function editUser( $id, $option='users' )
 	if ( $user->get('id') ) {
 		$query = "SELECT *"
 		. "\n FROM #__contact_details"
-		. "\n WHERE user_id = $user->get('id')"
+		. "\n WHERE user_id =". $user->get('id')
 		;
 		$database->setQuery( $query );
 		$contact = $database->loadObjectList();

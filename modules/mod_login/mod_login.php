@@ -16,8 +16,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 // url of current page that user will be returned to after login
 $url = mosGetParam( $_SERVER, 'REQUEST_URI', null );
+
+$user =& $mainframe->getUser();
+
 // if return link does not contain https:// & http:// and to url
-if ( strpos($url, 'http:') !== 0 && strpos($url, 'https:') !== 0 ) {
+if ( strpos($url, 'http:') !== 0 && strpos($url, 'https:') !== 0 ) 
+{
 	$url = mosGetParam( $_SERVER, 'HTTP_HOST', null ) . $url;
 
 	// check if link is https://
@@ -27,9 +31,12 @@ if ( strpos($url, 'http:') !== 0 && strpos($url, 'https:') !== 0 ) {
 	// normal http:// link
 		$return = 'http://'. $url;
 	}
-} else {
+} 
+else 
+{
 	$return = $url;
 }
+
 // converts & to &amp; for xtml compliance
 $return = str_replace( '&', '&amp;', $return );
 
@@ -41,18 +48,19 @@ $logout 				= $params->def( 'logout', $return );
 $name 					= $params->def( 'name', 1 );
 $greeting 				= $params->def( 'greeting', 1 );
 
-if ( $my->id ) {
-// Logout output
-// ie HTML when already logged in and trying to logout
+if ( $user->get('id') ) 
+{
+	// Logout output
+	// ie HTML when already logged in and trying to logout
 	if ( $name ) {
 		$query = "SELECT name"
 		. "\n FROM #__users"
-		. "\n WHERE id = $my->id"
+		. "\n WHERE id = ".$user->get('id')
 		;
 		$database->setQuery( $query );
 		$name = $database->loadResult();
 	} else {
-		$name = $my->username;
+		$name = $user->get('username');
 	}	
 	?>
 	<form action="index.php" method="post" name="login">

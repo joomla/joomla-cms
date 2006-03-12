@@ -423,7 +423,7 @@ class mosHTML {
 		$mouseover 	= 'return overlib(\''. $warning .'\', CAPTION, \''. $title .'\', BELOW, RIGHT);';
 		$url        = $mainframe->isAdmin() ? $mainframe->getSiteURL() : $mainframe->getBaseURL();
 
-		$tip 		 = '<!--'. $title .'--> \n';
+		$tip 		 = '<!--'. $title .'-->';
 		$tip 		.= '<a onmouseover="'. $mouseover .'" onmouseout="return nd();">';
 		$tip 		.= '<img src="'.$url.'includes/js/ThemeOffice/warning.png" border="0"  alt="" /></a>';
 
@@ -1573,7 +1573,7 @@ class mosAdminMenus {
 	function SelectSection( $name, $active=NULL, $javascript=NULL, $order='ordering' ) {
 		global $database;
 
-		$categories[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select a Section' ) .' -' );
+		$categories[] = mosHTML::makeOption( '0', '- '. JText::_( 'Select Section' ) .' -' );
 		$query = "SELECT id AS value, title AS text"
 		. "\n FROM #__sections"
 		. "\n WHERE published = 1"

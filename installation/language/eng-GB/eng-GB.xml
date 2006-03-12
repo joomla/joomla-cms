@@ -14,6 +14,7 @@
     	<tag>en-GB</tag>
     	<rtl>0</rtl>
     	<locale>en, uk, eng_GB, en_GB, english, english-uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom</locale>
+    	<winCodePage>iso-8859-1</winCodePage>
     </metadata>
     <files>
         <filename>eng-GB.ini</filename>

@@ -21,7 +21,8 @@ class TOOLBAR_categories {
 	* Draws the menu for Editing an existing category
 	* @param int The published state (to display the inverse button)
 	*/
-	function _EDIT() {
+	function _EDIT() 
+	{
 		global $id;
 
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
@@ -61,11 +62,11 @@ class TOOLBAR_categories {
 	/**
 	* Draws the menu for Editing an existing category
 	*/
-	function _DEFAULT(){
-
+	function _DEFAULT()
+	{
 		$section = mosGetParam( $_REQUEST, 'section', '' );
 
-		JMenuBar::title( JText::_( 'Category Manager' ), 'categories.png' );
+		JMenuBar::title( JText::_( 'Category Manager' ) .': <small><small>[ '. substr($section, 4).' ]</small></small>', 'categories.png' );
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
 		if ( $section == 'content' || ( $section > 0 ) ) {

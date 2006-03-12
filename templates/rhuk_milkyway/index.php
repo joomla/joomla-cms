@@ -78,7 +78,9 @@ See COPYRIGHT.php for copyright notices and details.
 				<div id="whitebox_m">
 					<div id="area">
 						<div id="leftcolumn">
+						<jdoc:exists type="modules" condition="left" >
 							<jdoc:include type="modules" name="left" style="-3" />
+						</jdoc:exists>
 						</div>
 						
 						<div id="maincolumn">

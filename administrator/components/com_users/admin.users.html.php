@@ -286,7 +286,7 @@ class HTML_users {
 						</tr>
 						<?php
 					}
-					if( $uid ) {
+					if( $user->get('id') ) {
 						?>
 						<tr>
 							<td>

@@ -497,6 +497,7 @@ class JContentController
 		$option		= JRequest::getVar( 'option' );
 		$redirect	= JRequest::getVar( 'redirect', $sectionid, 'post' );
 		$nullDate	= $db->getNullDate();
+		$contentSection = '';
 
 		/*
 		 * Create and load the content item model
