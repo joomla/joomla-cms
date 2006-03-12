@@ -216,6 +216,12 @@ function saveMenu() {
 		}
 	}
 
+	// check for ' in menu name
+	if (strstr($menutype, '\'')) {
+		echo "<script> alert('". JText::_( 'The menu name cannot contain a \'', true ) ."'); window.history.go(-1); </script>\n";
+		exit;
+	}
+	
 	// check for unique menutype for new menus
 	$query = "SELECT params"
 	. "\n FROM #__modules"
