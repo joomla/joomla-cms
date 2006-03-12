@@ -38,6 +38,7 @@ Legend:
 ! -> Note
 
 09-Mar-2006 Johan Janssens
+ - Removed backbutton configuration setting
  # Fixed : artf3786 : Template - names
 
 08-Mar-2006 Johan Janssens

@@ -76,8 +76,6 @@ class HTML_newsfeed {
 		</tr>
 		</table>
 		<?php
-		// displays back button
-		mosHTML::BackButton ( $params, $hide_js );
 	}
 
 	/**
@@ -406,8 +404,6 @@ class HTML_newsfeed {
 		?>
 		</table>
 		<?php
-		// displays back button
-		mosHTML::BackButton ( $params );
 	}
 }
 ?>

@@ -87,8 +87,6 @@ class WeblinksView {
 		</tr>
 		</table>
 		<?php
-		// displays back button
-		mosHTML::BackButton ( $params, $hide_js );
 	}
 
 	/**

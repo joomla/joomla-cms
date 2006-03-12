@@ -451,14 +451,6 @@ class JConfigView {
 							</tr>
 							<tr>
 								<td>
-									<?php echo JText::_( 'Back Button' ); ?>:
-								</td>
-								<td>
-									<?php echo $lists['back_button']; ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
 									<span class="editlinktip">
 									<?php
 									$tip = JText::_( 'TIPIFSETTOSHOWHITS' );

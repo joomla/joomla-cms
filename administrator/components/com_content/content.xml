@@ -11,11 +11,6 @@
 	<description>This shows a single content page</description>
 	<params>
 		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
-		<param name="back_button" type="list" default="" label="Back Button" description="PARAMBACKBUTTON">
-			<option value="">Use Global</option>
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
 		<param name="item_title" type="radio" default="1" label="Page Title" description="Show/Hide the items title">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>

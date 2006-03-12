@@ -21,11 +21,6 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="back_button" type="list" default="0" label="Back Button" description="PARAMBACKBUTTON">
-			<option value="">Use Global</option>
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="live_bookmark" type="list" default="" label="Live Bookmark" description="Enable/Disable live bookmarks for this page">
 			<option value="">- Inactive -</option>

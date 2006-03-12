@@ -18,11 +18,6 @@
 			<option value="1">On</option>
 		</param>	
 		<param name="pageclass_sfx" type="text" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
-		<param name="back_button" type="list" default="" label="Back Button" description="PARAMBACKBUTTON">
-			<option value="">Use Global</option>
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
 		<param name="page_title" type="radio" default="1" label="Page Title" description="Show/Hide the pages Title">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>

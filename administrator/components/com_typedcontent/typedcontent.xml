@@ -21,11 +21,6 @@
 			<option value="1">Show</option>
 		</param>
 		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="PARAMPAGECLASSSFX" />
-		<param name="back_button" type="list" default="" label="Back Button" description="PARAMBACKBUTTON">
-			<option value="">Use Global</option>
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="rating" type="list" default="" label="Item Rating" description="PARAMRATING">
 			<option value="">Use Global</option>

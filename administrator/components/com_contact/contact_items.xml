@@ -16,11 +16,6 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="back_button" type="list" default="" label="Back Button" description="PARAMBACKBUTTON">
-			<option value="">Use Global</option>
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="name" type="radio" default="1" label="Name" description="Show/Hide the name info">
 			<option value="0">Hide</option>

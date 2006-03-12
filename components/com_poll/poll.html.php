@@ -87,11 +87,6 @@ class poll_html {
 			</td>
 		</tr>
 		</table>
-		
-		<?php
-		// displays back button
-		mosHTML::BackButton ( $params );
-		?>
 		</form>
 		<?php
 	}

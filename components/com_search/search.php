@@ -211,10 +211,6 @@ function viewSearch() {
 		// html output
 		search_html::conclusion( $totalRows, $searchword_clean, $page );
 	}
-
-	// displays back button
-	echo '<br />';
-	mosHTML::BackButton ( $params, 0 );
 }
 
 function mosLogSearch( $search_term ) {

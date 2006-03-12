@@ -62,8 +62,6 @@ class HTML_wrapper {
 
 		</div>
 		<?php
-		// displays back button
-		mosHTML::BackButton ( $params );
 	}
 }
 ?>

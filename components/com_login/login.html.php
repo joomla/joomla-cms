@@ -114,10 +114,6 @@ class loginHTML {
 			</td>
 		</tr>
 		</table>
-		<?php
-		// displays back button
-		mosHTML::BackButton ( $params );
-		?>
 
 		<input type="hidden" name="option" value="login" />
 		<input type="hidden" name="return" value="<?php echo sefRelToAbs( $return ); ?>" />
@@ -168,11 +164,6 @@ class loginHTML {
 		</table>
 		
 		<br/><br/>
-		
-		<?php
-		// displays back button
-		mosHTML::BackButton ( $params );
-		?>
 
 		<input type="hidden" name="option" value="logout" />
 		<input type="hidden" name="return" value="<?php echo sefRelToAbs( $return ); ?>" />

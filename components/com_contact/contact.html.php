@@ -89,8 +89,6 @@ class JContactView {
 		</tr>
 		</table>
 		<?php
-		// displays back button
-		mosHTML::BackButton ( $params, $hide_js );
 	}
 
 	/**
@@ -204,9 +202,6 @@ class JContactView {
 		<?php
 		// display Close button in pop-up window
 		mosHTML::CloseButton ( $params, $hide_js );
-
-		// displays back button
-		mosHTML::BackButton ( $params, $hide_js );
 	}
 
 	/**
@@ -223,8 +218,6 @@ class JContactView {
 		<br />
 		<br />
 		<?php
-		// displays back button
-		mosHTML::BackButton ( $params );
 	}
 
 	/**

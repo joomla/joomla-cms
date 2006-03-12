@@ -68,8 +68,6 @@ class JContentView {
 		</tr>
 		</table>
 		<?php
-		// displays back button
-		mosHTML :: BackButton($params);
 	}
 
 	/**
@@ -141,8 +139,6 @@ class JContentView {
 		</tr>
 		</table>
 		<?php
-		// displays back button
-		mosHTML :: BackButton($params);
 	}
 
 	function showArchive(&$rows, &$params, &$menu, &$access, $id, $gid, $pop) 
@@ -198,10 +194,7 @@ class JContentView {
 		$pagination_results = $params->def('pagination_results', 	1);
 		$descrip 			= $params->def('description', 			1);
 		$descrip_image 		= $params->def('description_image', 	1);
-		// needed for back button for page
-		$back 				= $params->get('back_button', $mainframe->getCfg('back_button'));
-		// needed to disable back button for item
-		$params->set('back_button', 	0);
+		
 		$params->def('pageclass_sfx', 	'');
 		$params->set('intro_only', 		1);
 
@@ -437,9 +430,6 @@ class JContentView {
 				echo _EMPTY_BLOG;
 			}
 
-		// Back Button
-		$params->set('back_button', $back);
-		mosHTML :: BackButton($params);
 	}
 
 	/**
@@ -595,8 +585,6 @@ class JContentView {
 		// displays close button in pop-up window
 		mosHTML :: CloseButton($params, $hide_js);
 
-		// displays back button in pop-up window
-		mosHTML :: BackButton($params, $hide_js);
 	}
 
 	/**
