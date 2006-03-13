@@ -53,7 +53,7 @@ if ($option == 'login') {
 	$mainframe->login();
 }
 
-$cur_template = $mainframe->getTemplate();
+$cur_template = JRequest::getVar( 'template', $mainframe->getTemplate(), 'default', 'string' );
 
 $document =& $mainframe->getDocument();
 $document->parse($cur_template, 'login.php');

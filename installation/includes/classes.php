@@ -577,8 +577,8 @@ class JInstallationController
 	{
 		global $mainframe;
 		
-		$vars['siteUrl'] = $mainframe->getSiteURL(); 
-		$vars['adminUrl'] = $vars['siteUrl'].'administrator/';
+		$vars['siteurl'] = $mainframe->getSiteURL(); 
+		$vars['adminurl'] = $vars['siteurl'].'administrator/';
 
 		return JInstallationView::finish($vars, $buffer);
 	}

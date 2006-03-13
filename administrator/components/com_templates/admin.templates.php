@@ -243,9 +243,14 @@ class JTemplatesController
 		$params = new JParameter($content, $xml, 'template');
 		
 		$lists['published']  = mosHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published);
-		$lists['selections'] = JTemplatesHelper::createMenuList($template);
 		
-		
+		$lists['selections'] = '';
+		if(JTemplatesHelper::isTemplateDefault($row->directory, $client->id)) {
+			$lists['selections'] =  JText::_("Can't assign a default template");
+		} else {
+			$lists['selections'] = JTemplatesHelper::createMenuList($template);
+		}
+		 
 		JTemplatesView::editTemplate($row, $lists, $params, $option, $client);
 	}
 
@@ -270,7 +275,7 @@ class JTemplatesController
 
 		$file = $client->path.DS.'templates'.DS.$template.DS.'params.ini';
 		
-		if (is_array($params))
+		if (JFile::exists($file) && is_array($params))
 		{
 			$txt = null;
 			foreach ($params as $k => $v) {

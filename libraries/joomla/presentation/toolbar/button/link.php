@@ -35,7 +35,7 @@ class JButton_Link extends JButton
 		$class	= $this->fetchIconClass('back');
 		$doTask	= $this->_getCommand($url);
 
-		$html  = "<a onclick=\"$doTask\">\n";
+		$html  = "<a href=\"$doTask\">\n";
 		$html .= "<div class=\"$class\" title=\"$text\" type=\"$type\">\n";
 		$html .= "</div>\n";
 		$html .= "$text\n";
@@ -64,11 +64,8 @@ class JButton_Link extends JButton
 	 * @return	string	JavaScript command string
 	 * @since	1.1
 	 */
-	function _getCommand($url)
-	{
-		$cmd = "location.href='$url';";
-
-		return $cmd;
+	function _getCommand($url) {
+		return $url;
 	}
 }
 ?>

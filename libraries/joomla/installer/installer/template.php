@@ -185,12 +185,12 @@ class JInstallerTemplate extends JInstaller
 	 * Custom uninstall method
 	 *
 	 * @access	public
-	 * @param	int		$id		The id of the template to uninstall
-	 * @param	int		$client	The client id
+	 * @param	int		$path	The path of the template to uninstall
+	 * @param	int		$client	The client id (unused)
 	 * @return	boolean	True on success
 	 * @since	1.1
 	 */
-	function uninstall($id, $client)
+	function uninstall($path, $client)
 	{
 
 		// Initialize variables
@@ -200,23 +200,12 @@ class JInstallerTemplate extends JInstaller
 		 * For a template the id will be the template name which represents the 
 		 * subfolder of the templates folder that the template resides in.
 		 */
-		$id = trim($id);
-		if (!$id)
+		$path = trim($path);
+		if (!$path)
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', 'JInstallerTemplate::uninstall: '.JText::_('Template id is empty, cannot uninstall files'));
 			return false;
 		}
-
-		/*
-		 * Set the template path
-		 */
-		$clientVals = JApplicationHelper::getClientInfo($client, true);
-		if ($clientVals === false)
-		{
-			JError::raiseWarning(1, 'JInstallerTemplate::uninstall: '.JText::_('Unknown client type').' ['.$root->getAttribute('client').']');
-			return false;
-		}
-		$path = JPath::clean($clientVals->path.DS.'templates'.DS.$id);
 
 		/*
 		 * Set some internal paths for smooth operation :)

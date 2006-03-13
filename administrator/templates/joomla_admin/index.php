@@ -72,7 +72,7 @@ $lang =& $mainframe->getLanguage();
 	<tr>
 		<td align="center">
 			<span style="color: red; font-weight: bold;">
-			** This release is NOT meant to be used for a "live" or "production" site **
+			** This is NOT meant to be used for a `live` or `production` site **
 			</span>
 			<jdoc:include type="modules" name="footer" />
 		</td>

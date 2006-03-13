@@ -61,7 +61,6 @@ class JAdministrator extends JApplication
 			mosErrorAlert( JText::_( 'LOGIN_INCORRECT' ) );
 		}
 		
-	
 		$this->setUserState( 'application.lang', mosGetParam( $_REQUEST, 'lang', $this->getCfg('lang_administrator') ) );
 		JSession::pause();
 

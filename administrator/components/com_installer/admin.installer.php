@@ -414,7 +414,8 @@ class JInstallerController {
 	 * @return boolean True on success
 	 * @since 1.0
 	 */
-	function removeextension() {
+	function removeextension() 
+	{
 		global $mainframe;
 
 		/*
@@ -425,7 +426,7 @@ class JInstallerController {
 		/*
 		 * Initialize variables
 		 */
-		$eid			= JRequest::getVar('eid', array (0));
+		$eid		= JRequest::getVar('eid', array (0));
 		$extension	= JRequest::getVar('extension', '');
 		$result		= false;
 		$failed		= array ();

@@ -136,7 +136,7 @@ if ($option == 'search') {
 // set for overlib check
 $mainframe->set( 'loadOverlib', false );
 
-$cur_template = $mainframe->getTemplate();
+$cur_template = JRequest::getVar( 'template', $mainframe->getTemplate(), 'default', 'string' );
 $file     = 'index.php';
 
 if ($mainframe->getCfg('offline') && $my->gid < '23' ) {

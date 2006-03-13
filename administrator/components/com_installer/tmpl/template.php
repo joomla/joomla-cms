@@ -131,6 +131,7 @@ class JInstallerExtensionTasks {
 				$row->id 		= $rowid;
 				$row->client_id	= $template->client;
 				$row->directory = $template->folder;
+				$row->baseDir   = $template->baseDir;
 				$element 		= &$root->getElementsByPath('name', 1 );
 				$row->name 		= $element->getText();
 	
@@ -184,10 +185,10 @@ class JInstallerExtensionTasks {
  * @category View
  * @since 1.1
  */
-class JInstallerScreens_template {
-	
-	function showInstalled( &$rows, &$page, $client, $lists, &$currentList ) {
-		
+class JInstallerScreens_template 
+{
+	function showInstalled( &$rows, &$page, $client, $lists, &$currentList ) 
+	{	
 		mosCommonHTML::loadOverlib();
 		?>
 		<form action="index2.php" method="post" name="adminForm">
@@ -261,7 +262,7 @@ class JInstallerScreens_template {
 									<?php echo $page->rowNumber( $i ); ?>
 								</td>
 								<td>
-									<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->directory; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?> />
+									<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->baseDir.DS.$row->directory; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?> />
 									<span class="bold"><?php echo $row->name; ?></span>
 								</td>
 								<td align="center">

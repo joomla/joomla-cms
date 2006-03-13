@@ -35,7 +35,7 @@ See COPYRIGHT.php for copyright notices and details.
 		<p>
 			<label for="remember"><jdoc:translate>Remember me</jdoc:translate></label>
 			<input type="checkbox" name="remember" class="inputbox" value="yes" alt="Remember Me" />
-			<input type="submit" name="Submit" class="button" value="<jdoc:translate>BUTTON_LOGIN</jdoc:translate>" />
+			<input type="submit" name="Submit" class="button" value="<jdoc:translate>_BUTTON_LOGIN</jdoc:translate>" />
 		</p>
 	</fieldset>
 	<input type="hidden" name="option" value="login" />

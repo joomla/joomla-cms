@@ -309,12 +309,9 @@ class JFullAdminMenu {
 			
 			<?php
 			if ($manageLanguages) { ?>
-				['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Languages', true ); ?>','index2.php?option=com_languages&client=0',null,'<?php echo JText::_( 'Manage languages', true ); ?>',],
+				['<img src="../includes/js/ThemeOffice/language.png" />','<?php echo JText::_( 'Languages', true ); ?>','index2.php?option=com_languages&client=0',null,'<?php echo JText::_( 'Manage languages', true ); ?>'],
 			<?php } ?>
 			],
-			
-			
-			
 			_cmSplit,
 			<?php
 		}
