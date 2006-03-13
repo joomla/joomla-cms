@@ -12,14 +12,14 @@
 */
 
 /**
- * Renders a back button
+ * Renders a link button
  *
  * @author 		Louis Landry <louis@webimagery.net>
  * @package 	Joomla.Framework
  * @subpackage 	Presentation
  * @since		1.1
  */
-class JButton_Back extends JButton
+class JButton_Link extends JButton
 {
 	/**
 	 * Button type
@@ -27,9 +27,9 @@ class JButton_Back extends JButton
 	 * @access	protected
 	 * @var		string
 	 */
-	var $_name = 'Back';
+	var $_name = 'Link';
 
-	function fetchButton( $type='Back', $text = 'Back', $url = null )
+	function fetchButton( $type='Link', $name = '', $text = '', $url = null )
 	{
 		$text	= JText::_($text);
 		$class	= $this->fetchIconClass('back');
@@ -51,9 +51,9 @@ class JButton_Back extends JButton
 	 * @return	string	Button CSS Id
 	 * @since	1.1
 	 */
-	function fetchId()
+	function fetchId($name)
 	{
-		return $this->_parent->_name.'-back';
+		return $this->_parent->_name.'-'.$name;
 	}
 
 	/**
@@ -66,13 +66,8 @@ class JButton_Back extends JButton
 	 */
 	function _getCommand($url)
 	{
-		if ($url)
-		{
-			$cmd = "$url";
-		} else
-		{
-			$cmd = "javascript:window.history.back();";
-		}
+		$cmd = "location.href='$url';";
+
 		return $cmd;
 	}
 }

@@ -141,11 +141,11 @@ class JMenuBar
 	* any other operation
 	* @since 1.0
 	*/
-	function back($alt = 'Back', $href = '')
+	function back($alt = 'Back', $href = 'history.back()')
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add a back button
-		$bar->appendButton( 'Back', $alt, $href );
+		$bar->appendButton( 'Link', 'back', $alt, $href );
 	}
 
 	/**
