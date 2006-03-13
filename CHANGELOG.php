@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Mar-2006 Johan Janssens
+ + Added phpxmlrpc library to replace DOMit XML-RPC
+
 14-Mar-2006 David Gal
  ^ Changed configuration var $lang to $lang_site and made required modifications
 

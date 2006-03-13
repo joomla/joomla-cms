@@ -1,0 +1,154 @@
+XML-RPC for PHP version 2.0RC3 - 2006/01/22
+
+This release corrects a few bugs and adds some interesting new features.
+It has been tested with PHP up to 4.4.2 and 5.1.2.
+
+* fixed bug: server not recognizing clients that declare support for http compression
+* fixed bug: serialization of new xmlrpcval (8, 'string') when internal encoding
+  set to UTF-8
+* fixed bug: serialization of new xmlrpcval ('hello', 'int') would produce
+  invalid xml-rpc
+* new: let the server accept 'class::method' syntax in the dispatch map
+* new: php_xmlrpc_decode() can decode xmlrpcmessage objects
+* new: both client and server can specify a charset to be used for serializing
+  values instead of the default 'US-ASCII+xml-entities-for-other-characters'.
+  Values allowed: ISO-8859-1 and UTF-8
+* new: the server object can register 'plain' php functions instead of functions
+  that accept a single parameter of type xmlrpcmsg. Faster, uses less memory
+  (but comes with minor drawbacks as well, read the manual for more details)
+* new: client::setDebug(2) can be used to have the request payload printed to
+  screen before being sent
+* new: server::service($data) lets user parse data other than POST body, for
+  easier testing / subclassing
+* changed: framework-generated debug messages are sent back by the server base64
+  ancoded, to avoid any charset/xml compatibility problem
+* other minor fixes
+
+The ususal refactoring of a lot of (private) methods has taken place, with new
+parameters added to some functions.
+Javadoc documentation has been improved a lot.
+The HTML documentation has been shuffled around a bit, hoping to give it a more
+logical organization.
+
+The experimental support for the JSON protocol has been removed, and will be
+packaged as a separate download with some extra very interesting stuff (human
+readable auto-generated documentation, anyone?).
+
+
+XML-RPC for PHP version 2.0RC2 - 2005/11/22
+
+This release corrects a few bugs and adds basically one new method for better
+HTTPS support:
+
+ * fixed two bugs that prevented xmlrpc calls to take place over https
+ * fixed two bugs that prevented proper recognition of xml character set
+   when it was declared inside the xml prologue
+ * added xmlrpc_client::setKey($key, $keypass) method, to allow using client
+   side certificates for https connections
+ * fixed bug that prevented proper serialization of string xmlrpcvals when
+   $xmlrpc_internalencoding was set to UTF-8
+ * fixed bug in xmlrpc_server::echoInput() (and marked method as deprecated)
+ * correctly set cookies/http headers into xmlrpcresp objects even when the
+   sned() method call fails for some reason
+ * added a benchmark file in the testsuite directory
+
+A couple of (private/protected) methods have been refactored, as well as a
+couple of extra parameters added to some (private) functions - this has no
+impact on the public API and should be of interest primarily to people extending
+/ subclassing the lib.
+
+There is also new, PARTIAL support for the JSON-RPC protocol, implemented in
+two files in the extras dir (more info about json-rpc at http://json-rpc.org)
+
+
+XML-RPC for PHP version 2.0RC1 - 2005/10/03
+
+I'm pleased to announce XML-RPC for PHP version 2.0, release candidate 1.
+
+This release introduces so many new features it is almost impossible to list them
+here, making the library finally on pair with, if not more advanced than, any other
+similar offer (e.g. the PEAR XMLRPC package or the Incutio IXR library).
+No, really, trust me.
+
+The minimum supported PHP version is now 4.2 - natively - or 4.0.4pl1 - by usage of
+a couple of compatibility classes (code taken from PEAR php_compat package).
+
+The placement of files and directories in the distribution has been deeply modifed,
+in the hope of making it more clear, now that the file count has increased.
+I hope you find it easy.
+
+Support for "advanced" HTTP features such as cookies, proxies and keep-alives has
+been added at last.
+
+It is now much easier to convert between xmlrpcval objects and php values, and
+in fact php_xmlrpc_encode and php_xmlrpc_decode are now the recommeded methods
+for all cases, except when encoding base64 data.
+
+Two new (experimental) functions have been added, allowing automagic conversion
+of a php function into an xmlrpc method to be exposed and vice-versa.
+
+PHP objects can be now automatically serialized as xmlrpc struct values and
+correctly deserialized on the other end of the transmission, provided that the
+same class definition is present on both sides and no object members are of
+type resource.
+
+A lot of the exisiting class methods have been overloaded with extra parameters
+or new functionality, and a few added ex-novo, making usage easier than ever.
+
+A complete debugger solution is included in the distribution. It needs a web server
+to run (a freely available version of the same debugger is accessible online, it
+can be found at http://phpxmlrpc.sourceforge.net).
+
+For a more dtailed list of changes, please read carefully chapter 2 of the
+included documentation, or, even better, take a look at the source code, which
+is commented in javadoc style quite a bit.
+
+
+XML-RPC for PHP version 1.2 - 2005/08/14
+
+This removes all use of eval(), which is a potential security problem.
+All users are encouraged to upgrade as soon as possible.
+As of this release we are no longer php3-compatible.
+
+XML-RPC for PHP version 1.1.1 - 2005/06/30
+
+This is a security vulnerability fix release.
+All users are invited to upgrade as soon as possible.
+
+
+XML-RPC for PHP version 1.1 - 2005/05/03
+
+I'm pleased to announce XML-RPC for PHP version 1.1
+It's taken two years to get to the this point, but here we are, finally.
+
+This is a bugfix and maintenance relase. No major new features have been added.
+All known bugs have been ironed out, unless fixing would have meant breaking
+the API.
+The code has been tested with PHP 3, 4 and 5, even tough PHP 4 is the main
+development platform (and some warnings will be emitted when runnning PHP5).
+
+Notheworthy changes include:
+
+ * do not clash any more with the EPI xmlrpc extension bundled with PHP 4 and 5
+ * fixed the unicode/charset problems that have been plaguing the lib for years
+ * proper parsing of int and float values prepended with zeroes or the '+' char
+ * accept float values in exponential notation
+ * configurable http user-agent string
+ * use the same timeout on client socket reads as used for connecting
+ * more explicative error messages in xmlrpcresponse in many cases
+ * much more tolerant parsing of malformed http responses from xmlrpc servers
+ * fixed memleak that prevented the client to be used in never-ending scripts
+ * parse bigger xmlrpc messages without crashing (1MB in size or more)
+ * be tolerant to xmlrpc responses generated on public servers that add
+   javascript advertising at the end of hosted content
+ * the lib generates quite a few less PHP warnings during standard operation
+
+This is the last release that will support PHP 3.
+The next release will include better support for PHP 5 and (possibly) a slew of
+new features.
+
+The changelog is available at:
+http://cvs.sourceforge.net/viewcvs.py/phpxmlrpc/xmlrpc/ChangeLog?view=markup
+
+Please report bugs to the XML-RPC PHP mailing list or to the sourceforge project
+pages at http://sourceforge.net/projects/phpxmlrpc/
