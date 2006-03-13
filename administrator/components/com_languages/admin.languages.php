@@ -119,7 +119,7 @@ function viewLanguages()
 			$element 		= &$root->getElementsByPath('version', 1);
 			$row->version 	= $element ? $element->getText() : '';
 
-			$lang = ($client->name == 'site') ? 'lang' : 'lang_'.$client->name;
+			$lang = ($client->name == 'site') ? 'lang_site' : 'lang_'.$client->name;
 
 			// if current than set published
 			if ( $mainframe->getCfg($lang) == $row->language) {
@@ -156,7 +156,7 @@ function publishLanguage( $language, $option )
 	 */
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	
-	$varname = ($client->id == 0) ? 'lang' : 'lang_administrator';
+	$varname = ($client->id == 0) ? 'lang_site' : 'lang_administrator';
 	
 	$mainframe->_registry->setValue('config.'.$varname, $language);
 	

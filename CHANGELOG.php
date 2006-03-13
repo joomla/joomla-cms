@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+14-Mar-2006 David Gal
+ ^ Changed configuration var $lang to $lang_site and made required modifications
+
 13-Mar-2006 Louis Landry
  ^ JButton cleanup and consolidation
 

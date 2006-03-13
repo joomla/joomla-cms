@@ -428,7 +428,7 @@ class JApplication extends JObject
 			if( $this->isAdmin() ) {
 				$lang = $user->getParam( 'admin_language', $this->getCfg('lang_administrator') );
 			} else {
-				$lang = $user->getParam( 'language', $this->getCfg('lang') );
+				$lang = $user->getParam( 'language', $this->getCfg('lang_site') );
 			}
 		}
 

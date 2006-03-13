@@ -144,7 +144,7 @@ class JInstallerExtensionTasks {
 				$element 		= &$root->getElementsByPath('version', 1);
 				$row->version 	= $element ? $element->getText() : '';
 	
-				$lang = ($client == 'site') ? 'lang' : 'lang_'.$client;
+				$lang = ($client == 'site') ? 'lang_site' : 'lang_'.$client;
 	
 				// if current than set published
 				if ( $mainframe->getCfg($lang) == $row->language) {
@@ -247,7 +247,7 @@ class JInstallerScreens_language {
 							/*
 							 * Handle currently used templates
 							 */
-							if ($row->language == $mainframe->getCfg('lang') || $row->language = $mainframe->getCfg('lang_administrator'))	{
+							if ($row->language == $mainframe->getCfg('lang_site') || $row->language = $mainframe->getCfg('lang_administrator'))	{
 								$cbd 	= 'disabled';
 								$style 	= 'style="color:#999999;"';
 							} else {
