@@ -41,9 +41,7 @@ class TOOLBAR_modules {
 		JMenuBar::title( JText::_( 'Plugin Manager' ), 'module.png' );
 		JMenuBar::publishList();
 		JMenuBar::unpublishList();
-		JMenuBar::deleteList();
 		JMenuBar::editListX();
-		JMenuBar::addNewX();
 		JMenuBar::help( 'screen.plugins' );
 	}
 }

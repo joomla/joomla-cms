@@ -318,23 +318,6 @@ function editPlugin( $option, $uid, $client ) {
 }
 
 /**
-* Deletes one or more plugins
-*
-* Also deletes associated entries in the #__plugins table.
-* @param array An array of unique category id numbers
-*/
-function removePlugin( &$cid, $option, $client ) {
-	global $database, $my;
-
-	if (count( $cid ) < 1) {
-		echo "<script> alert('". JText::_( 'Select a module to delete', true ) ."'); window.history.go(-1);</script>\n";
-		exit;
-	}
-
-	josRedirect( 'index2.php?option=com_installer&type=plugin&client='. $client .'&task=remove&eid[]='. $cid[0] );
-}
-
-/**
 * Publishes or Unpublishes one or more modules
 * @param array An array of unique category id numbers
 * @param integer 0 if unpublishing, 1 if publishing
