@@ -120,7 +120,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add a preview button
-		$bar->appendButton( 'Preview', $url, $updateEditors );
+		$bar->appendButton( 'Popup', 'preview', 'Preview', "$url&task=preview" );
 	}
 
 	/**
