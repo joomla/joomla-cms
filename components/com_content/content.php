@@ -126,10 +126,8 @@ switch (strtolower($task))
  * @subpackage Content
  * @since 1.1
  */
-class JContentController 
-{
-	function frontpage(& $access, $now) 
-	{
+class JContentController {
+	function frontpage(& $access, $now)	{
 		global $mainframe, $Itemid;
 
 		/*
@@ -141,7 +139,7 @@ class JContentController
 		$noauth 	= !$mainframe->getCfg('shownoauth');
 		$offset		= $mainframe->getCfg('offset');
 		$pop 		= JRequest :: getVar('pop', 0, '', 'int');
-		$gid			= $user->get('gid');
+		$gid		= $user->get('gid');
 		$rows		= array();
 
 		// Parameters
@@ -156,22 +154,25 @@ class JContentController
 		$order_sec 		= JContentController :: _orderby_sec($orderby_sec);
 		$order_pri 		= JContentController :: _orderby_pri($orderby_pri);
 
+		$voting = JContentController :: votingQuery();
+		
+		$where 	= JContentController :: _where( 1, $access, $noauth, $gid, 0, $now );		
+		$where 	= ( count( $where ) ? "\n WHERE ". implode( "\n AND ", $where ) : '' );
+
 		// query records
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by,"
 				. "\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access,"
 				. "\n CHAR_LENGTH( a.fulltext ) AS readmore, s.published AS sec_pub, cc.published AS cat_pub, s.access AS sec_access, cc.access AS cat_access," 
-				. "\n ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups" 
+				. "\n u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups" 
+				. $voting['select']
 				. "\n FROM #__content AS a" 
 				. "\n INNER JOIN #__content_frontpage AS f ON f.content_id = a.id" 
 				. "\n LEFT JOIN #__categories AS cc ON cc.id = a.catid" 
 				. "\n LEFT JOIN #__sections AS s ON s.id = a.sectionid" 
 				. "\n LEFT JOIN #__users AS u ON u.id = a.created_by" 
-				. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" 
 				. "\n LEFT JOIN #__groups AS g ON a.access = g.id" 
-				. "\n WHERE a.state = 1"
-				. ($noauth ? "\n AND a.access <= $gid" : '') 
-				. "\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now'  )" 
-				. "\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )" 
+				. $voting['join']
+				. $where
 				."\n ORDER BY $order_pri $order_sec";
 		$db->setQuery($query);
 		$Arows = $db->loadObjectList();
@@ -621,22 +622,20 @@ class JContentController
 		$order_sec 		= JContentController :: _orderby_sec($orderby_sec);
 		$order_pri 		= JContentController :: _orderby_pri($orderby_pri);
 
+		$voting = JContentController :: votingQuery();
+		
 		// Main data query
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," 
 				. "\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," 
-				. "\n CHAR_LENGTH( a.fulltext ) AS readmore," 
-				. "\n ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups" 
+				. "\n CHAR_LENGTH( a.fulltext ) AS readmore, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups" 
+				. $voting['select']
 				. "\n FROM #__content AS a" 
 				. "\n INNER JOIN #__categories AS cc ON cc.id = a.catid" 
 				. "\n LEFT JOIN #__users AS u ON u.id = a.created_by" 
-				. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" 
 				. "\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" 
 				. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
+				. $voting['join']
 				. $where
-				. "\n AND s.access <= $gid" 
-				. "\n AND cc.access <= $gid" 
-				. "\n AND s.published = 1" 
-				. "\n AND cc.published = 1" 
 				. "\n ORDER BY $order_pri $order_sec"
 				;
 		$db->setQuery($query);
@@ -715,22 +714,20 @@ class JContentController
 		$order_sec 		= JContentController :: _orderby_sec($orderby_sec);
 		$order_pri 		= JContentController :: _orderby_pri($orderby_pri);
 
+		$voting = JContentController :: votingQuery();
+		
 		// Main data query
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," 
 				. "\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," 
-				. "\n CHAR_LENGTH( a.fulltext ) AS readmore," 
-				. "\n ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups" 
+				. "\n CHAR_LENGTH( a.fulltext ) AS readmore, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups" 
+				. $voting['select']
 				. "\n FROM #__content AS a" 
 				. "\n LEFT JOIN #__categories AS cc ON cc.id = a.catid" 
 				. "\n LEFT JOIN #__users AS u ON u.id = a.created_by" 
-				. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" 
 				. "\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" 
 				. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
+				. $voting['join']
 				. $where
-				. "\n AND s.access <= $gid"
-				. "\n AND cc.access <= $gid"
-				. "\n AND s.published = 1"
-				. "\n AND cc.published = 1"
 				. "\n ORDER BY $order_pri $order_sec"
 				;
 		$db->setQuery($query);
@@ -847,22 +844,20 @@ class JContentController
 		$items = $db->loadObjectList();
 		$archives = count($items);
 
+		$voting = JContentController :: votingQuery();
+		
 		// Main Query
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," 
 				. "\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," 
-				. "\n CHAR_LENGTH( a.fulltext ) AS readmore," 
-				. "\n ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups" 
+				. "\n CHAR_LENGTH( a.fulltext ) AS readmore, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups" 
+				. $voting['select']
 				. "\n FROM #__content AS a" 
 				. "\n INNER JOIN #__categories AS cc ON cc.id = a.catid" 
 				. "\n LEFT JOIN #__users AS u ON u.id = a.created_by" 
-				. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" 
 				. "\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" 
 				. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
+				. $voting['join']
 				. $where
-				. "\n AND s.access <= $gid" 
-				. "\n AND cc.access <= $gid" 
-				. "\n AND s.published = 1" 
-				. "\n AND cc.published = 1" 
 				. "\n ORDER BY $order_pri $order_sec"
 				;
 		$db->setQuery($query);
@@ -959,21 +954,19 @@ class JContentController
 		$items = $db->loadObjectList();
 		$archives = count($items);
 
+		$voting = JContentController :: votingQuery();
+		
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," 
 				. "\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," 
-				. "\n CHAR_LENGTH( a.fulltext ) AS readmore," 
-				. "\n ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups" 
+				. "\n CHAR_LENGTH( a.fulltext ) AS readmore, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups" 
+				. $voting['select']
 				. "\n FROM #__content AS a" 
 				. "\n INNER JOIN #__categories AS cc ON cc.id = a.catid" 
 				. "\n LEFT JOIN #__users AS u ON u.id = a.created_by" 
-				. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id" 
 				. "\n LEFT JOIN #__sections AS s ON a.sectionid = s.id" 
 				. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
+				. $voting['join']
 				. $where
-				. "\n AND s.access <= $gid"
-				. "\n AND cc.access <= $gid"
-				. "\n AND s.published = 1"
-				. "\n AND cc.published = 1"
 				. "\n ORDER BY $order_sec"
 				;
 		$db->setQuery($query);
@@ -1041,8 +1034,7 @@ class JContentController
 	 * @return void
 	 * @since 1.0
 	 */
-	function showItem( & $access, $now ) 
-	{
+	function showItem( & $access, $now ) {
 		global $mainframe, $Itemid;
 
 		/*
@@ -1052,6 +1044,7 @@ class JContentController
 		$user		= & $mainframe->getUser();
 		$MetaTitle 	= $mainframe->getCfg('MetaTitle');
 		$MetaAuthor = $mainframe->getCfg('MetaAuthor');
+		$voting		= $mainframe->getCfg( 'vote' );
 		$nullDate	= $db->getNullDate();
 		$option		= JRequest::getVar('option');
 		$uid 		= JRequest::getVar('id', 0, '', 'int');
@@ -1067,15 +1060,18 @@ class JContentController
 					"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )";
 		}
 
+		$voting = JContentController :: votingQuery();
+		
 		// Main content item query
-		$query = "SELECT a.*, ROUND(v.rating_sum/v.rating_count) AS rating, v.rating_count, u.name AS author, u.usertype, cc.title AS category, s.title AS section,"
+		$query = "SELECT a.*, u.name AS author, u.usertype, cc.title AS category, s.title AS section,"
 				. "\n g.name AS groups, s.published AS sec_pub, cc.published AS cat_pub, s.access AS sec_access, cc.access AS cat_access"
+				. $voting['select']
 				. "\n FROM #__content AS a"
 				. "\n LEFT JOIN #__categories AS cc ON cc.id = a.catid"
 				. "\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = 'content'"
 				. "\n LEFT JOIN #__users AS u ON u.id = a.created_by"
-				. "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id"
 				. "\n LEFT JOIN #__groups AS g ON a.access = g.id"
+				. $voting['join']
 				. "\n WHERE a.id = $uid"
 				. $xwhere
 				. "\n AND a.access <= $gid"
@@ -1857,10 +1853,8 @@ class JContentController
 		}
 	}
 
-	function _orderby_pri($orderby)
-	{
-		switch ($orderby)
-		{
+	function _orderby_pri($orderby) {
+		switch ($orderby) {
 			case 'alpha' :
 				$orderby = 'cc.title, ';
 				break;
@@ -1881,10 +1875,8 @@ class JContentController
 		return $orderby;
 	}
 
-	function _orderby_sec($orderby)
-	{
-		switch ($orderby)
-		{
+	function _orderby_sec($orderby) {
+		switch ($orderby) {
 			case 'date' :
 				$orderby = 'a.created';
 				break;
@@ -1936,71 +1928,79 @@ class JContentController
 	/*
 	* @param int 0 = Archives, 1 = Section, 2 = Category
 	*/
-	function _where($type = 1, & $access, & $noauth, $gid, $id, $now = NULL, $year = NULL, $month = NULL)
-	{
-		global $database;
-
-		$nullDate = $database->getNullDate();
-		$where = array ();
+	function _where($type = 1, & $access, & $noauth, $gid, $id, $now = NULL, $year = NULL, $month = NULL) {
+		global $database, $mainframe;
+		
+		$noauth		= !$mainframe->getCfg( 'shownoauth' );
+		$nullDate 	= $database->getNullDate();
+		$where		= array ();
 
 		// normal
-		if ($type > 0)
-		{
-			$where[] = "a.state = '1'";
-			if (!$access->canEdit)
-			{
+		if ($type > 0) {
+			$where[] = "a.state = 1";
+			if (!$access->canEdit) {
 				$where[] = "( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )";
 				$where[] = "( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )";
 			}
-			if ($noauth)
-			{
-				$where[] = "a.access <= $gid";
-			}
-			if ($id > 0)
-			{
-				if ($type == 1)
-				{
+			if ($id > 0) {
+				if ($type == 1) {
 					$where[] = "a.sectionid IN ( $id ) ";
-				} else
-					if ($type == 2)
-					{
-						$where[] = "a.catid IN ( $id ) ";
-					}
+				} else if ($type == 2) {
+					$where[] = "a.catid IN ( $id ) ";
+				}
 			}
 		}
 
 		// archive
-		if ($type < 0)
-		{
+		if ($type < 0) 	{
 			$where[] = "a.state='-1'";
-			if ($year)
-			{
+			if ($year) {
 				$where[] = "YEAR( a.created ) = '$year'";
 			}
-			if ($month)
-			{
+			if ($month) {
 				$where[] = "MONTH( a.created ) = '$month'";
 			}
-			if ($noauth)
-			{
-				$where[] = "a.access <= $gid";
-			}
-			if ($id > 0)
-			{
-				if ($type == -1)
-				{
+			if ($id > 0) {
+				if ($type == -1) {
 					$where[] = "a.sectionid = $id";
-				} else
-					if ($type == -2)
-					{
-						$where[] = "a.catid = $id";
-					}
+				} else if ($type == -2) {
+					$where[] = "a.catid = $id";
+				}
 			}
 		}
 
+		if ( $id == 0 ) {
+			$where[] = "s.published = 1";
+			$where[] = "cc.published = 1";
+			if ( $noauth ) {
+				$where[] = "a.access <= $gid";
+				$where[] = "s.access <= $gid";
+				$where[] = "cc.access <= $gid";
+			}
+		}
+		
 		return $where;
 	}
-
+	
+	function votingQuery() {
+		global $mainframe;
+		
+		$voting	= $mainframe->getCfg( 'vote' );
+		
+		if ( $voting ) {
+			// calculate voting count
+			$select = "\n , ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count"; 
+			$join	= "\n LEFT JOIN #__content_rating AS v ON a.id = v.content_id";
+		} else {
+			$select	= ''; 
+			$join	= '';
+		}
+		
+		$results = array( 'select' => $select, 'join' => $join );
+		
+		return $results;
+	}
+	
 	/**
 	 * Searches for an item by a key parameter
 	 *
@@ -2010,8 +2010,7 @@ class JContentController
 	 * @return void
 	 * @since 1.0
 	 */
-	function _findKeyItem($access, $now)
-	{
+	function _findKeyItem($access, $now) {
 		global $mainframe;
 
 		/*
@@ -2028,11 +2027,9 @@ class JContentController
 				"\n WHERE attribs LIKE '%keyref=$keyref%'";
 		$db->setQuery($query);
 		$id = $db->loadResult();
-		if ($id > 0)
-		{
+		if ($id > 0) {
 			showItem($id, $user->get('gid'), $access, $pop, $option, $now);
-		} else
-		{
+		} else {
 			echo JText :: _('Key not found');
 		}
 	}
