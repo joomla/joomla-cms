@@ -1200,54 +1200,102 @@ class JContentController {
 		$params->def('item_title', 		1);
 		$params->def('url', 			1);
 
-		// query to determine Itemid of Section and Category links
-		$query = "SELECT id, componentid, type"
-		. "\n FROM #__menu"
-		. "\n WHERE published = 1"
-		. "\n AND type IN ( 'content_section', 'content_category' )"
-		. "\n AND ( componentid = $row->sectionid OR componentid = $row->catid )"
-		. "\n ORDER BY type DESC, ordering"
-		;
-		$db->setQuery( $query );
-		$menuLinks = $db->loadObjectList();
-		
-		if (count($menuLinks)) {
-			foreach($menuLinks as $menuLink) {
-				// find Itemid of section link
-				if ($menuLink->type == 'content_section' && $menuLink->componentid == $row->sectionid && !isset($menuLink_sec)) {
-					$menuLink_sec = $menuLink;
-				}
-				// find Itemid of category link
-				if ($menuLink->type == 'content_category' && $menuLink->componentid == $row->catid && !isset($menuLink_cat)) {
-					$menuLink_cat = $menuLink;
-				}
-			}
-		}
-		
-		// loads the link for Section name
 		if ( $params->get( 'section_link' ) || $params->get( 'category_link' ) ) {
-			$_Itemid = '';
-			// use Itemid for section found in query
-			if (isset($menuLink_sec)) {
-				$_Itemid = '&amp;Itemid='. $menuLink_sec->id;
-			}
-			$link 			= sefRelToAbs( 'index.php?option=com_content&amp;task=section&amp;id='. $row->sectionid . $_Itemid );
-			$row->section 	= '<a href="'. $link .'">'. $row->section .'</a>';
-		}
-		
-		// loads the link for Category name
-		if ( $params->get( 'category_link' ) && $row->catid ) {
-			$_Itemid = '';
-			// use Itemid for category found in query
-			if (isset($menuLink_cat)) {
-				$_Itemid = '&amp;Itemid='. $menuLink_cat->id;
-			} else if (isset($menuLink_sec)) {
+			// loads the link for Section name
+			if ( $params->get( 'section_link' ) || $params->get( 'category_link' ) ) {
+				// pull values from mainframe
+				$secLinkID 	= $mainframe->get( 'secID_'. $row->sectionid, -1 );
+				$secLinkURL = $mainframe->get( 'secURL_'. $row->sectionid );
+				
+				// check if values have already been placed into mainframe memory
+				if ( $secLinkID == -1 ) {
+					$query = "SELECT id, link"
+					. "\n FROM #__menu"
+					. "\n WHERE published = 1"
+					. "\n AND type IN ( 'content_section', 'content_blog_section' )"
+					. "\n AND componentid = $row->sectionid"
+					. "\n ORDER BY type DESC, ordering"
+					;
+					$database->setQuery( $query );
+					//$secLinkID = $database->loadResult();
+					$result = $database->loadRow();
+					
+					$secLinkID 	= $result[0];
+					$secLinkURL = $result[1];
+					
+					if ($secLinkID == null) {
+						$secLinkID = 0;
+						// save 0 query result to mainframe
+						$mainframe->set( 'secID_'. $row->sectionid, 0 );
+					} else {
+						// save query result to mainframe
+						$mainframe->set( 'secID_'. $row->sectionid, $secLinkID );
+						$mainframe->set( 'secURL_'. $row->sectionid, $secLinkURL );
+					}
+				}
+				
+				$_Itemid = '';
 				// use Itemid for section found in query
-				$_Itemid = '&amp;Itemid='. $menuLink_sec->id;
+				if ($secLinkID != -1 && $secLinkID) {				
+					$_Itemid = '&amp;Itemid='. $secLinkID;
+				}
+				if ($secLinkURL) {
+					$link 			= sefRelToAbs( $secLinkURL . $_Itemid );
+				} else {
+					$link 			= sefRelToAbs( 'index.php?option=com_content&amp;task=section&amp;id='. $row->sectionid . $_Itemid );
+				}
+				$row->section 	= '<a href="'. $link .'">'. $row->section .'</a>';
 			}
-			$link 			= sefRelToAbs( 'index.php?option=com_content&amp;task=category&amp;sectionid='. $row->sectionid .'&amp;id='. $row->catid . $_Itemid );
-			$row->category 	= '<a href="'. $link .'">'. $row->category .'</a>';
-		}
+			
+			// loads the link for Category name
+			if ( $params->get( 'category_link' ) && $row->catid ) {
+				// pull values from mainframe
+				$catLinkID 	= $mainframe->get( 'catID_'. $row->catid, -1 );
+				$catLinkURL = $mainframe->get( 'catURL_'. $row->catid );
+				
+				// check if values have already been placed into mainframe memory
+				if ( $catLinkID == -1 ) {
+					$query = "SELECT id, link"
+					. "\n FROM #__menu"
+					. "\n WHERE published = 1"
+					. "\n AND type IN ( 'content_category', 'content_blog_category' )"
+					. "\n AND componentid = $row->catid"
+					. "\n ORDER BY type DESC, ordering"
+					;
+					$database->setQuery( $query );
+					//$catLinkID = $database->loadResult();
+					$result = $database->loadRow();
+					
+					$catLinkID 	= $result[0];
+					$catLinkURL = $result[1];				
+					
+					if ($catLinkID == null) {
+						$catLinkID = 0;
+						// save 0 query result to mainframe
+						$mainframe->set( 'catID_'. $row->catid, 0 );
+					} else {
+						// save query result to mainframe
+						$mainframe->set( 'catID_'. $row->catid, $catLinkID );
+						$mainframe->set( 'catURL_'. $row->catid, $catLinkURL );
+					}
+				}
+				
+				$_Itemid = '';
+				// use Itemid for category found in query
+				if ($catLinkID != -1 && $catLinkID) {				
+					$_Itemid = '&amp;Itemid='. $catLinkID;
+				} else if ($secLinkID != -1 && $secLinkID) {				
+					// use Itemid for section found in query
+					$_Itemid = '&amp;Itemid='. $secLinkID;
+				}
+				if ($catLinkURL) {
+					$link 			= sefRelToAbs( $catLinkURL . $_Itemid );
+				} else {
+					$link 			= sefRelToAbs( 'index.php?option=com_content&amp;task=category&amp;sectionid='. $row->sectionid .'&amp;id='. $row->catid . $_Itemid );
+				}
+				$row->category 	= '<a href="'. $link .'">'. $row->category .'</a>';
+			}
+		}		
 		
 		// show/hides the intro text
 		if ($params->get('introtext')) {
