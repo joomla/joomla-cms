@@ -17,7 +17,7 @@
     	<winCodePage>iso-8859-1</winCodePage>
     </metadata>
     <files>
-        <filename>eng-GB.ini</filename>
+        <filename>en-GB.ini</filename>
     </files>
     <params />
 </install>
