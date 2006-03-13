@@ -62,7 +62,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add a spacer
-		$bar->appendButton( 'Spacer', $width );
+		$bar->appendButton( 'Separator', 'spacer', $width );
 	}
 
 	/**
@@ -73,7 +73,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add a divider
-		$bar->appendButton( 'Divider' );
+		$bar->appendButton( 'Separator', 'divider' );
 	}
 
 	/**

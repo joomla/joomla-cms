@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+13-Mar-2006 Louis Landry
+ ^ JButton cleanup and consolidation
+
 09-Mar-2006 Johan Janssens
  - Removed backbutton configuration setting
  # Fixed : artf3786 : Template - names

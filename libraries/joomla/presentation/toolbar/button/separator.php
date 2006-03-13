@@ -12,14 +12,14 @@
 */
 
 /**
- * Renders a button spacer
+ * Renders a button separator
  *
  * @author 		Louis Landry <louis@webimagery.net>
  * @package 	Joomla.Framework
  * @subpackage 	Presentation
  * @since		1.1
  */
-class JButton_Spacer extends JButton
+class JButton_Separator extends JButton
 {
 	/**
 	 * Button type
@@ -27,7 +27,7 @@ class JButton_Spacer extends JButton
 	 * @access	protected
 	 * @var		string
 	 */
-	var $_name = 'Spacer';
+	var $_name = 'Separator';
 
 	function render( &$definition )
 	{
@@ -35,13 +35,22 @@ class JButton_Spacer extends JButton
 		 * Initialize variables
 		 */
 		$html	= null;
+		$class	= null;
 		$style	= null;
-		if (!empty($definition[1]))
+		
+		// Separator class name
+		if (empty($definition[1]))
+		{
+			$class = "spacer";
+		}
+
+		// Custom width
+		if (!empty($definition[2]))
 		{
 			$style = " style=\"width: $definition[1] px;\"";
 		}
 
-		$html	 = "<td class=\"spacer\"$style>\n";
+		$html	 = "<td class=\"$class\"$style>\n";
 		$html	.= "</td>\n";
 
 		return $html;
