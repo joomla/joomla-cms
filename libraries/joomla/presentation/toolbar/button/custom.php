@@ -12,14 +12,14 @@
 */
 
 /**
- * Renders a small button
+ * Renders a custom button
  *
  * @author 		Louis Landry <louis@webimagery.net>
  * @package 	Joomla.Framework
  * @subpackage 	Presentation
  * @since		1.1
  */
-class JButton_Small extends JButton
+class JButton_Custom extends JButton
 {
 	/**
 	 * Button type
@@ -27,19 +27,10 @@ class JButton_Small extends JButton
 	 * @access	protected
 	 * @var		string
 	 */
-	var $_name = 'Small';
+	var $_name = 'Custom';
 
-	function fetchButton( $type='Small', $name = '', $text = '', $task = '', $list = true, $hideMenu = false )
+	function fetchButton( $type='Custom', $html = '', $id = 'custom' )
 	{
-		$text	= JText::_($text);
-		$class	= $this->fetchIconClass($name);
-
-		$html  = "<a onclick=\"$doTask\">\n";
-		$html .= "<div class=\"$class\" title=\"$text\" type=\"$type\">\n";
-		$html .= "</div>\n";
-		$html .= "$text\n";
-		$html .= "</a>\n";
-
 		return $html;
 	}
 	
@@ -50,10 +41,9 @@ class JButton_Small extends JButton
 	 * @return	string	Button CSS Id
 	 * @since	1.1
 	 */
-	function fetchId( $type='Small', $name = '', $text = '', $task = '', $list = true, $hideMenu = false )
+	function fetchId( $type='Custom', $html = '', $id = 'custom' )
 	{
-		return $name;
+		return $this->_parent->_name.'-'.$id;
 	}
-
 }
 ?>
