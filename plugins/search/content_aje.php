@@ -53,7 +53,7 @@ class JSearchContent extends JPlugin {
 			return;
 		}
 	
-		$mosConfig_offset = $mainframe->getCfg( 'offset' );
+		$offset = $mainframe->getCfg( 'offset' );
 
 		// load plugin params info
 	 	$pluginParams = JSearchHelper::getPluginParams( 'search', 'content' );
@@ -65,7 +65,7 @@ class JSearchContent extends JPlugin {
 		$limit 		= $pluginParams->def( 'search_limit', 		50 );
 	
 		$nullDate 	= $database->getNullDate();
-		$now 		= date( 'Y-m-d H:i:s', time()+$mosConfig_offset*60*60 );
+		$now 		= date( 'Y-m-d H:i:s', time()+$offset*60*60 );
 	
 		$text = trim( $oSearch->getText() );
 		if ($text == '') {

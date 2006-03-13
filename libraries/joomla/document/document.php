@@ -282,7 +282,7 @@ class JDocument extends JTemplate
      * @access public
      * @param   string   $lang
      */
-    function setLang($lang = "eng-GB")
+    function setLang($lang = "en-GB")
 	{
         $this->_language = strtolower($lang);
     }
