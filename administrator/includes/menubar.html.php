@@ -157,7 +157,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add an upload button
-		$bar->appendButton( 'Upload', $alt, $directory );
+		$bar->appendButton( 'Popup', 'upload', $alt, "index3.php?option=com_media&task=popupUpload&directory=$directory", 550, 200 );
 	}
 
 	/**
@@ -170,7 +170,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add a new button
-		$bar->appendButton( 'New', true, $alt, $task );
+		$bar->appendButton( 'Standard', 'new', $alt, $task, false, false );
 	}
 
 	/**
@@ -184,7 +184,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add a new button (hide menu)
-		$bar->appendButton( 'New', false, $alt, $task );
+		$bar->appendButton( 'Standard', 'new', $alt, $task, false, true );
 	}
 
 	/**
@@ -198,6 +198,7 @@ class JMenuBar
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add a publish button
 		$bar->appendButton( 'Publish', false, $alt, $task );
+		$bar->appendButton( 'Standard', 'publish', $alt, $task, false, false );
 	}
 
 	/**
@@ -210,7 +211,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add a publish button (list)
-		$bar->appendButton( 'Publish', true, $alt, $task );
+		$bar->appendButton( 'Standard', 'publish', $alt, $task, true, false );
 	}
 
 	/**
@@ -223,7 +224,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add a default button
-		$bar->appendButton( 'Default', $alt, $task );
+		$bar->appendButton( 'Standard', 'default', $alt, $task, true, false );
 	}
 
 	/**
@@ -236,7 +237,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add an assign button
-		$bar->appendButton( 'Assign', $alt, $task );
+		$bar->appendButton( 'Standard', 'assign', $alt, $task, true, false );
 	}
 
 	/**
@@ -249,7 +250,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add an unpublish button
-		$bar->appendButton( 'Unpublish', false, $alt, $task );
+		$bar->appendButton( 'Standard', 'unpublish', $alt, $task, false, false );
 	}
 
 	/**
@@ -262,7 +263,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add an unpublish button (list)
-		$bar->appendButton( 'Unpublish', true, $alt, $task );
+		$bar->appendButton( 'Standard', 'unpublish', $alt, $task, true, false );
 	}
 
 	/**
@@ -275,7 +276,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add an archive button
-		$bar->appendButton( 'Archive', $alt, $task );
+		$bar->appendButton( 'Standard', 'archive', $alt, $task, true, false );
 	}
 
 	/**
@@ -288,7 +289,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add an unarchive button (list)
-		$bar->appendButton( 'Unarchive', $alt, $task );
+		$bar->appendButton( 'Standard', 'unarchive', $alt, $task, true, false );
 	}
 
 	/**
@@ -301,7 +302,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add an edit button
-		$bar->appendButton( 'Edit', false, $alt, $task );
+		$bar->appendButton( 'Standard', 'edit', $alt, $task, true, false );
 	}
 
 	/**
@@ -315,7 +316,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add an edit button (hide)
-		$bar->appendButton( 'Edit', true, $alt, $task );
+		$bar->appendButton( 'Standard', 'edit', $alt, $task, true, true );
 	}
 
 	/**
@@ -328,7 +329,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add an edit html button
-		$bar->appendButton( 'EditHTML', false, $alt, $task );
+		$bar->appendButton( 'Standard', 'edithtml', $alt, $task, true, false );
 	}
 
 	/**
@@ -342,7 +343,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add an edit html button (hide)
-		$bar->appendButton( 'EditHTML', true, $alt, $task );
+		$bar->appendButton( 'Standard', 'edithtml', $alt, $task, true, true );
 	}
 
 	/**
@@ -355,7 +356,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add an edit css button (hide)
-		$bar->appendButton( 'EditCSS', false, $alt, $task );
+		$bar->appendButton( 'Standard', 'editcss', $alt, $task, true, false );
 	}
 
 	/**
@@ -369,7 +370,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add an edit css button (hide)
-		$bar->appendButton( 'EditCSS', true, $alt, $task );
+		$bar->appendButton( 'Standard', 'editcss', $alt, $task, true, true );
 	}
 
 	/**
@@ -383,7 +384,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add a delete button
-		$bar->appendButton( 'Delete', false, $alt, $task );
+		$bar->appendButton( 'Standard', 'delete', $alt, $task, true, false );
 	}
 
 	/**
@@ -398,7 +399,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add a delete button (hide)
-		$bar->appendButton( 'Delete', true, $alt, $task );
+		$bar->appendButton( 'Standard', 'delete', $alt, $task, true, true );
 	}
 
 	/**
@@ -409,7 +410,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add a trash button
-		$bar->appendButton( 'Trash', $check, $alt, $task );
+		$bar->appendButton( 'Standard', 'trash', $alt, $task, $check, false );
 	}
 
 	/**
@@ -423,7 +424,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add an apply button
-		$bar->appendButton( 'Apply', $alt, $task );
+		$bar->appendButton( 'Standard', 'apply', $alt, $task, false, false );
 	}
 
 	/**
@@ -437,7 +438,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add a save button
-		$bar->appendButton( 'Save', $alt, $task );
+		$bar->appendButton( 'Standard', 'save', $alt, $task, false, false );
 	}
 
 	/**
@@ -450,7 +451,7 @@ class JMenuBar
 	{
 		$bar = & JToolBar :: getInstance('JComponent');
 		// Add a cancel button
-		$bar->appendButton( 'Cancel', $alt, $task );
+		$bar->appendButton( 'Standard', 'cancel', $alt, $task, false, false );
 	}
 }
 

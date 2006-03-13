@@ -29,11 +29,11 @@ class JButton_Popup extends JButton
 	 */
 	var $_name = 'Popup';
 
-	function fetchButton( $type='Popup', $name = '', $text = '', $task = '', $url = '', $list = true, $width=640, $height=480, $top=0, $left=0 )
+	function fetchButton( $type='Popup', $name = '', $text = '', $url = '', $width=640, $height=480, $top=0, $left=0 )
 	{
 		$text	= JText::_($text);
 		$class	= $this->fetchIconClass($name);
-		$doTask	= $this->_getCommand($name, $task, $url, $list, $width, $height, $top, $left);
+		$doTask	= $this->_getCommand($name, $url, $width, $height, $top, $left);
 
 		$html  = "<a onclick=\"$doTask\">\n";
 		$html .= "<div class=\"$class\" title=\"$text\" type=\"$type\">\n";
@@ -67,8 +67,9 @@ class JButton_Popup extends JButton
 	 * @return	string	JavaScript command string
 	 * @since	1.1
 	 */
-	function _getCommand($name, $task, $url, $list, $width, $height, $top, $left)
+	function _getCommand($name, $url, $width, $height, $top, $left)
 	{
+		$url	= urlencode($url);
 		$cmd = "popupWindow('$url','$name',$width,$height,'no');";
 		
 		return $cmd;
