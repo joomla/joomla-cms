@@ -50,7 +50,7 @@ class JLoader
 		} else {
 			$path = str_replace( '.', DS, $filePath );
 			$found = false;
-			foreach (array( '.php', '.class.php', '.lib.php' ) as $suffix) {
+			foreach (array( '.php', '.class.php', '.lib.php', '.inc' ) as $suffix) {
 				if (file_exists( $base . DS . $path . $suffix )) {
 					$found = true;
 					break;
