@@ -103,7 +103,7 @@ class JPluginHelper
 			else 
 			{
 				if($plugins[$i]->folder == $group && $plugins[$i]->element == $plugin) {
-					$result = $plugin[$i];
+					$result = $plugins[$i];
 					break;
 				}
 			}
