@@ -117,7 +117,7 @@ function viewSearch() {
 
 	$lists['searchphrase']= mosHTML::radioList( $searchphrases, 'searchphrase', '', $searchphrase );
 
-	JPluginHelper::importGroup( 'search' );
+	JPluginHelper::importPlugin( 'search' );
 	$lists['areas'] = $mainframe->triggerEvent( 'onSearchAreas' );
 	$areas 	= mosGetParam( $_REQUEST, 'areas', null );
 

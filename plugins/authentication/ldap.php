@@ -48,13 +48,12 @@ class JAuthenticateLdap extends JPlugin {
 	 * @return	object	JAuthenticateResponse
 	 * @since 1.1
 	 */
-	function onAuthenticate( $username, $password ) {
+	function onAuthenticate( $username, $password ) 
+	{
 		global $mainframe;
 
 		// Initialize variables
-		$return = new JAuthenticateResponse('LDAP');
 		$conditions = '';
-		$userID = 0;
 
 		// Get a database connector
 		$db = $mainframe->getDBO();
@@ -69,9 +68,10 @@ class JAuthenticateLdap extends JPlugin {
 	 	$pluginParams = new JParameter( $plugin->params );
 
 		$ldap = new JLDAP($pluginParams);
+		
+		$return = new JAuthenticateResponse('LDAP');
 		if (!$ldap->connect()) {
-			$return->type = 'error';
-			$return->uid  = 0;
+			$return->error_type = 'error';
 			$return->error_message = 'Connection to LDAP server failed';
 			return $return;
 		}
@@ -86,32 +86,7 @@ class JAuthenticateLdap extends JPlugin {
 		
 		$ldap->close();
 
-		$userId = 0;
-		if ($success) {
-			$query = 	"SELECT `id`".
-						"\nFROM `#__users`".
-						"\nWHERE username=".$db->Quote($username).
-						$conditions;
-
-			$db->setQuery($query);
-			$userId = $db->loadResult();
-				
-		} else {
-			$return->type = 'failure';
-			$return->uid  = 0;
-			$return->error_message = 'Bind to LDAP server failed.';
-			return $return;
-		}
-
-		if ($userId) {
-			$return->type = 'success';
-		} else {
-			$return->type = 'failure';
-			$return->error_message = 'Database returned no result.';
-		}
-		$return->uid = $userId;
-		
-		return $return;
+		return $success;
 	}
 }
 ?>

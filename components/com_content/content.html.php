@@ -457,7 +457,7 @@ class JContentView {
 		$mainframe->appendMetaTag('keywords', $row->metakey);
 
 		// process the new plugins
-		JPluginHelper :: importGroup('content');
+		JPluginHelper :: importPlugin('content');
 		$results = $mainframe->triggerEvent('onPrepareContent', array (& $row, & $params, $page));
 
 		// adds mospagebreak heading or title to <site> Title

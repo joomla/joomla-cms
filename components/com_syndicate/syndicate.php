@@ -98,7 +98,7 @@ function syndicate( $feed ) {
 	$from       = $_SERVER['QUERY_STRING'];
 	
 	// trigger Syndicate bots
-	JPluginHelper::importGroup( 'syndicate' );
+	JPluginHelper::importPlugin( 'syndicate' );
 	$results = $mainframe->triggerEvent( 'onSyndicate', array( $from, $limit ) );
 
 	$num   = 'a';

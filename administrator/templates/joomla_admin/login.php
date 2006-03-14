@@ -9,15 +9,6 @@ See COPYRIGHT.php for copyright notices and details.
 </jdoc:comment>
 
 <?php
-$browserLang = JLanguageHelper::detectLanguage();
-
-$languages = array();
-$languages = JLanguageHelper::createLanguageList($browserLang );
-array_unshift( $languages, mosHTML::makeOption( '', JText::_( 'Default' ) ) );
-$lists['langs'] = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 'text', $browserLang );
-
-$lang = $mainframe->getLanguage();
-
 $tstart = mosProfiler::getmicrotime();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -57,59 +48,19 @@ $tstart = mosProfiler::getmicrotime();
 
 <div id="ctr" align="center">
 	<div class="login">
-		<div class="login-form">
-			<h1><jdoc:translate>Login</jdoc:translate></h1>
-			<div class="form-block">
-				<div class="inputlabel">
-					<label for="username">
-						<jdoc:translate>Username</jdoc:translate>
-					</label>
-				</div>
-				
-				<div>
-					<input name="username" id="username" type="text" class="inputbox" size="15" />
-				</div>
-				
-				<div class="inputlabel">
-					<label for="password">
-						<jdoc:translate>Password</jdoc:translate>
-					</label>
-				</div>
-				
-				<div>
-					<input name="passwd" id="password" type="password" class="inputbox" size="15" />
-				</div>
-				
-				<div class="inputlabel">
-					<label for="lang">
-						<jdoc:translate>Language</jdoc:translate>
-					</label>
-				</div>
-				
-				<div>
-					<?php echo $lists['langs']; ?>
-				</div>
-				
-				<div class="flushstart" >
-					<input type="submit" name="submit" class="button" value="<jdoc:translate>Login</jdoc:translate>" />
-					<input type="hidden" name="option" value="login" />
-				</div>
-			</div>
-		</div>
-		
+		<jdoc:include type="module" name="login" />
 		<div class="login-text">
-			<div class="ctr">
-				<img src="templates/joomla_admin/images/security.png" width="64" height="64" alt="<jdoc:translate>security</jdoc:translate>" />
-			</div>
-			
-			<p><jdoc:translate>Welcome to Joomla!</jdoc:translate></p>
-			<p><jdoc:translate>DESCUSEVALIDLOGIN</jdoc:translate></p>
-			<p>&nbsp;</p>
-			<p>
-				<a href="<?php echo $mainframe->getSiteURL(); ?>"><jdoc:translate>Return to site Home Page</jdoc:translate></a>
-			</p>			
+		<div class="ctr">
+			<img src="templates/joomla_admin/images/security.png" width="64" height="64" alt="<jdoc:translate>security</jdoc:translate>" />
 		</div>
-		
+			
+		<p><jdoc:translate>Welcome to Joomla!</jdoc:translate></p>
+		<p><jdoc:translate>DESCUSEVALIDLOGIN</jdoc:translate></p>
+		<p>&nbsp;</p>
+		<p>
+			<a href="<?php echo $mainframe->getSiteURL(); ?>"><jdoc:translate>Return to site Home Page</jdoc:translate></a>
+		</p>			
+</div>
 		<div class="clr"></div>
 	</div>
 </div>

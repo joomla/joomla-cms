@@ -124,7 +124,7 @@ function viewSearch() {
 	jimport( 'joomla.application.search' );
 	
 
-	JPluginHelper::importGroup( 'search' );
+	JPluginHelper::importPlugin( 'search' );
 	$lists['areas'] = $mainframe->triggerEvent( 'onSearchAreas' );
 	$areas 	= mosGetParam( $_REQUEST, 'areas', null );
 

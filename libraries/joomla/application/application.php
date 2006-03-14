@@ -228,7 +228,7 @@ class JApplication extends JObject
 			/*
 			 * Import the user plugin group
 		 	 */
-			JPluginHelper::importGroup('user');
+			JPluginHelper::importPlugin('user');
 
 			// OK, the credentials are authenticated.  Lets fire the onLogin event
 			$results = $this->triggerEvent( 'onLogin', $credentials);
@@ -325,7 +325,7 @@ class JApplication extends JObject
 		/*
 		 * Import the user plugin group
 		 */
-		JPluginHelper::importGroup('user');
+		JPluginHelper::importPlugin('user');
 
 		// OK, the credentials are built. Lets fire the onLogout event
 		$results = $this->triggerEvent( 'onLogout', $credentials);

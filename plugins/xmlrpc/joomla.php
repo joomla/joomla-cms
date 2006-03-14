@@ -56,7 +56,7 @@ function wsSearchSite( $searchword, $phrase='', $order='' )
 	$phrase = '';
 	$ordering = '';
 
-	JPluginHelper::importGroup( 'search' );
+	JPluginHelper::importPlugin( 'search' );
 	$results = $mainframe->triggerEvent( 'onSearch', array( $searchword, $phrase, $ordering ) );
 
 	foreach ($results as $i=>$rows) {

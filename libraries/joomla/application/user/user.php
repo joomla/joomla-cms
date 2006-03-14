@@ -418,7 +418,7 @@ class JUser extends JObject
 		 * Since we have passed all checks lets load the user plugin group and
 		 * fire the onBeforeStoreUser event.
 		 */
-		JPluginHelper::importGroup( 'user' );
+		JPluginHelper::importPlugin( 'user' );
 		$results = $mainframe->triggerEvent( 'onBeforeStoreUser', array( get_object_vars( $this->_model ), $this->_model->id ) );
 
 		/*
@@ -552,7 +552,7 @@ class JUserHelper {
 		/*
 		 * Load the user plugins
 		 */
-		JPluginHelper::importGroup( 'user' );
+		JPluginHelper::importPlugin( 'user' );
 
 		/*
 		 * Lets get the id of the user we want to activate
@@ -620,7 +620,7 @@ class JUserHelper {
 			/*
 			 * Load the user plugins
 			 */
-			JPluginHelper::importGroup( 'user' );
+			JPluginHelper::importPlugin( 'user' );
 			$results = $mainframe->triggerEvent( 'onBlock', $id );
 			return true;
 		}
@@ -657,7 +657,7 @@ class JUserHelper {
 			/*
 			 * Load the user plugins
 			 */
-			JPluginHelper::importGroup( 'user' );
+			JPluginHelper::importPlugin( 'user' );
 			$results = $mainframe->triggerEvent( 'onUnblock', $id );
 			return true;
 		}

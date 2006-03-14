@@ -648,7 +648,7 @@ class mosMambotHandler extends JEventDispatcher {
 	* @param string The group name, relates to the sub-directory in the plugins directory
 	*/
 	function loadBotGroup( $group ) {
-		return JPluginHelper::importGroup($group);
+		return JPluginHelper::importPlugin($group);
 	}
 	/**
 	 * Loads the bot file
@@ -658,7 +658,7 @@ class mosMambotHandler extends JEventDispatcher {
 	 * @param string The params for the bot
 	 */
 	function loadBot( $folder, $element, $published, $params='' ) {
-		return JPluginHelper::import($folder, $element, $published, $params='' );
+		return JPluginHelper::_import($folder, $element, $published, $params='' );
 	}
 
 	/**

@@ -37,7 +37,7 @@ $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 $database =& $mainframe->getDBO();
 
 // load system plugin group
-JPluginHelper::importGroup( 'system' );
+JPluginHelper::importPlugin( 'system' );
 
 $_PROFILER->mark( 'onBeforeStart' );
 

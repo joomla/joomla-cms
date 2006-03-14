@@ -23,7 +23,6 @@ jimport( 'joomla.common.base.object' );
  */
 class JAuthenticate extends JObject 
 {
-
 	/**
 	 * Constructor
 	 *
@@ -31,139 +30,20 @@ class JAuthenticate extends JObject
 	 */
 	function __construct() 
 	{
-		global $mainframe;
-
-		// Get the global database connector object
-		$db =& $mainframe->getDBO();
-
 		// Get the global event dispatcher to load the plugins
 		$dispatcher =& JEventDispatcher::getInstance();
 
-		/*
-		 * Grab all of the plugins of type 'auth'
-		 */
-		 $query = 	"SELECT `element` " .
-		 			"\nFROM `#__plugins` " .
-		 			"\nWHERE `folder`='authentication' " .
-		 			"\nAND `published`='1'";
-		 $db->setQuery($query);
-		 $plugins = $db->loadResultArray();
-
-		$isLoaded = 0;
+		$plugins = JPluginHelper::getPlugin('authentication');
+		
 		foreach ($plugins as $plugin) {
-			$isLoaded |= JAuthenticateHelper::loadPlugin($plugin, $dispatcher);
+			$isLoaded |= $this->loadPlugin($plugin->element, $dispatcher);
 		}
 
 		if (!$isLoaded) {
 			JError::raiseWarning('SOME_ERROR_CODE', 'JAuthenticate::__constructor: Could not load authentication libraries.', $plugins);
 		}
 	}
-
-	/**
-	 * Logs a user out by asking all obvserving objects to run their respective
-	 * logout routines.
-	 *
-	 * @access public
-	 * @return boolean True on success
-	 * @since 1.1
-	 */
-	function logout()
-	{
-		global $mainframe;
-
-		// Initialize variables
-		$retval = false;
-
-		/*
-		 * Import the user plugin group
-		 */
-		JPluginHelper::importGroup('user');
-
-		// Get a user object from the JApplication
-		$user = $mainframe->getUser();
-
-		// Build the credentials array
-		$credentials['username'] 	= $user->get('username');
-		$credentials['id'] 			= $user->get('id');
-
-		// OK, the credentials are built. Lets fire the onLogout event
-		$results = $mainframe->triggerEvent( 'onLogout', $credentials);
-
-		/*
-		 * If any of the authentication plugins did not successfully complete the logout
-		 * routine then the whole method fails.  Any errors raised should be done in
-		 * the plugin as this provides the ability to provide much more information
-		 * about why the routine may have failed.
-		 */
-		if (!in_array(false, $results, true)) {
-
-			// Clean the cache for this user
-			$cache = JFactory::getCache();
-			$cache->cleanCache();
-
-			// TODO: JRegistry will make this unnecessary
-			// Get the session object
-			$session =& $mainframe->_session;
-			$session->destroy();
-
-			// Destroy the session for this user
-			JSession::destroy();
-
-			$retval = true;
-		}
-		return $retval;
-	}
-
-	/**
-	 * Finds out if a set of login credentials are valid by asking all obvserving
-	 * objects to run their respective authentication routines.
-	 *
-	 * @access public
-	 * @param array $credentials  The credentials to authenticate.
-	 * @return mixed Integer userid for valid user if credentials are valid or boolean false if they are not
-	 * @since 1.1
-	 */
-	function authenticate($credentials)
-	{
-		global $mainframe;
-		
-		// Initialize variables
-		$auth = false;
-
-		// Get the global event dispatcher object
-		$dispatcher = &JEventDispatcher::getInstance();
-
-		// Time to authenticate the credentials.  Lets fire the auth event
-		$results = $mainframe->triggerEvent( 'onAuthenticate', $credentials);
-		
-
-		/*
-		 * Check each of the results to see if a valid user ID was returned. and use the
-		 * furst ID to log into the system.
-		 * Any errors raised in the plugin should be returned via the JAuthenticateResponse
-		 * and handled appropriately.
-		 */
-		foreach($results as $result) {
-			if($result !== false) {
-				if(is_object($result)) {
-					if($result->type == 'success') {
-						$auth = $result->uid;
-						break;
-					} else {
-						// TODO: Determine if the error was fatal.
-					}
-				} else {
-					// Return this value
-					$auth = $result;
-				}
-			}
-		}
-		if(!$auth) {
-			$auth = false;
-		}
-		return $auth;
-	}
-
+	
 	/**
 	 * Returns a reference to a global authentication object, only creating it
 	 * if it doesn't already exist.
@@ -189,6 +69,75 @@ class JAuthenticate extends JObject
 		}
 
 		return $instances[0];
+	}
+
+	/**
+	 * Finds out if a set of login credentials are valid by asking all obvserving
+	 * objects to run their respective authentication routines.
+	 *
+	 * @access public
+	 * @param array $credentials  The credentials to authenticate.
+	 * @return mixed Integer userid for valid user if credentials are valid or boolean false if they are not
+	 * @since 1.1
+	 */
+	function authenticate($credentials)
+	{
+		// Initialize variables
+		$auth = false;
+
+		// Get the global event dispatcher object
+		$dispatcher = &JEventDispatcher::getInstance();
+
+		// Time to authenticate the credentials.  Lets fire the auth event
+		$results = $dispatcher->trigger( 'onAuthenticate', $credentials);
+		
+		/*
+		 * Check each of the results to see if a valid user ID was returned. and use the
+		 * furst ID to log into the system.
+		 * Any errors raised in the plugin should be returned via the JAuthenticateResponse
+		 * and handled appropriately.
+		 */
+		foreach($results as $result) 
+		{
+			if($result !== false) {
+				return true;
+			}	
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Static method to load an auth plugin and attach it to the JEventDispatcher
+	 * object.
+	 *
+	 * This method should be invoked as:
+	 * 		<pre>  $isLoaded = JAuthenticate::loadPlugin($plugin, $subject);</pre>
+	 *
+	 * @access public
+	 * @static
+	 * @param string $plugin The authentication plugin to use.
+	 * @param object $subject Observable object for the plugin to observe
+	 * @return boolean True if plugin is loaded
+	 * @since 1.1
+	 */
+	function loadPlugin($plugin, & $subject)
+	{
+		static $instances;
+
+		if (!isset ($instances)) {
+			$instances = array ();
+		}
+
+		if (empty ($instances[$plugin])) {
+			
+			if(JPluginHelper::importPlugin('authentication', $plugin)) {
+				// Build authentication plugin classname
+				$name = 'JAuthenticate'.$plugin;
+				$instances[$plugin] = new $name ($subject);
+			}
+		}
+		return is_object($instances[$plugin]);
 	}
 }
 
@@ -512,69 +461,6 @@ class JAuthenticateHelper
 		}
 		return $bin;
 	}
-
-	/**
-	 * Static method to load an auth plugin and attach it to the JEventDispatcher
-	 * object.
-	 *
-	 * This method should be invoked as:
-	 * 		<pre>  $isLoaded = JAuthenticateHelper::loadPlugin($plugin, $subject);</pre>
-	 *
-	 * @access public
-	 * @static
-	 * @param string $plugin The authentication plugin to use.
-	 * @param object $subject Observable object for the plugin to observe
-	 * @return boolean True if plugin is loaded
-	 * @since 1.1
-	 */
-	function loadPlugin($plugin, & $subject)
-	{
-		static $instances;
-
-		if (!isset ($instances)) {
-			$instances = array ();
-		}
-
-		if (empty ($instances[$plugin])) {
-			// Build the path to the needed authentication plugin
-			$path = JPATH_SITE.DS.'plugins'.DS.'authentication'.DS.$plugin.'.php';
-
-			// Require plugin file
-			require_once($path);
-
-			// Build authentication plugin classname
-			$name = 'JAuthenticate'.$plugin;
-			$instances[$plugin] = new $name ($subject);
-		}
-		return is_object($instances[$plugin]);
-	}
-}
-
-/**
- * Authorization response class, provides an object for storing error details
- *
- * @author 		Samuel Moffatt <pasamio@gmail.com>
- * @package 	Joomla.Framework
- * @subpackage	Application
- * @since		1.1
- */
-class JAuthenticateResponse extends JObject 
-{ 
-	var $type 			= null;
-	var $name 			= '';
-	var $error_message 	= '';
-	var $uid 			= 0;
-	
-	/**
-	 * Constructor
-	 *
-	 * @param string $name The name of the response
-	 * @since 1.1
-	 */
-	function JAuthenticateResponse($name) {
-		$this->name = $name;
-	}
-	
 }
 
 ?>

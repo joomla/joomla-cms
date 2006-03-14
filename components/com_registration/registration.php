@@ -160,7 +160,7 @@ function saveRegistration() {
 	$row->registerDate 	= date('Y-m-d H:i:s');
 
 	//trigger the onBeforeStoreUser event
-	JPluginHelper::importGroup( 'user' );
+	JPluginHelper::importPlugin( 'user' );
 	$results = $mainframe->triggerEvent( 'onBeforeStoreUser', array( get_object_vars( $row )) );
 
 	if (!$row->store()) {

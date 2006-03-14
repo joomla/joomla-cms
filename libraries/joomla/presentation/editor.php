@@ -179,7 +179,7 @@ class JEditor extends JObservable {
 		$name = 'JEditor_'.$editor;
 		$this->_editor = new $name ($this);
 
-		JPluginHelper::importGroup('editors-xtd');
+		JPluginHelper::importPlugin('editors-xtd');
 
 		$mainframe->set('loadEditor', true);
 	}

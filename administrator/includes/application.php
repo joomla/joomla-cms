@@ -58,6 +58,7 @@ class JAdministrator extends JApplication
 		$password = trim( mosGetParam( $_POST, 'passwd', ''   ) );
 	
 		if (!parent::login($username, $password)) {
+			//TODO change to html message instead of popup
 			mosErrorAlert( JText::_( 'LOGIN_INCORRECT' ) );
 		}
 		
@@ -194,7 +195,8 @@ class JAdministrator extends JApplication
 	* static method
 	* @since 1.1
 	*/
-	function purgeMessages() {
+	function purgeMessages() 
+	{
 		$db = $this->getDBO();
 
 		$userid = JSession::get('userid');
@@ -227,8 +229,6 @@ class JAdministrator extends JApplication
 			$db->setQuery( $query );
 			$db->query();
 		}		
-		echo $purge;
-		echo $query;
 	}
 }
 
@@ -245,7 +245,7 @@ $_PROFILER = new JProfiler( 'Core' );
 /**
  *  Legacy global
  * 	use JApplicaiton->registerEvent and JApplication->triggerEvent for event handling
- *  use JPlugingHelper::importGroup and JPluginHelper::import to load bot code
+ *  use JPlugingHelper::importPlugin
  *  @deprecated As of version 1.1
  */
 $_MAMBOTS = new mosMambotHandler();

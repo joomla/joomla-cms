@@ -383,7 +383,7 @@ function removeUsers( $cid ) {
 	if (count( $cid )) {
 		//load user bot group
 
-		JPluginHelper::importGroup( 'user' );
+		JPluginHelper::importPlugin( 'user' );
 
 		$obj =& JModel::getInstance('user', $database );
 		foreach ($cid as $id) {

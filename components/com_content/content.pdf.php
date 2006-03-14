@@ -54,7 +54,7 @@ function doUtfPDF ()
 	}
 	
 	// process the new plugins
-	JPluginHelper :: importGroup('content');
+	JPluginHelper :: importPlugin('content');
 	$mainframe->triggerEvent('onPrepareContent', array (& $row, & $params, 0));
 //	$text = trim(implode("\n", $results));
 //				$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (& $row, & $params, $page));

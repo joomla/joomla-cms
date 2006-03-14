@@ -48,11 +48,11 @@ class JAuthenticateJoomla extends JPlugin {
 	 * @return	object	JAuthenticateResponse
 	 * @since 1.1
 	 */
-	function onAuthenticate( $username, $password ) {
+	function onAuthenticate( $username, $password ) 
+	{
 		global $mainframe;
 				
 		// Initialize variables
-		$return = new JAuthenticateResponse('Joomla');
 		$conditions = '';
 
 		// If we are in the admin panel, make sure we have access to it
@@ -71,15 +71,8 @@ class JAuthenticateJoomla extends JPlugin {
 
 		$db->setQuery( $query );
 		$result = $db->loadResult();
-		if($result) {
-			$return->type = 'success';
-		} else {
-			$return->type = 'failure';
-			$return->error_message = 'Database returned no result.';
-		}
 		
-		$return->uid = $result;
-		return $return;
+		return $result ? true : false;
 	}
 }
 ?>

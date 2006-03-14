@@ -268,7 +268,7 @@ function showSearches( $option, $task, $showResults=null ) {
 		return false;
 	}
 
-	JPluginHelper::importGroup( 'search' );
+	JPluginHelper::importPlugin( 'search' );
 
 	for ($i=0, $n = count($rows); $i < $n; $i++) {
 		// determine if number of results for search item should be calculated

@@ -84,7 +84,7 @@ function initDocument(&$doc, $file = 'index.php')
 	$db      =& $mainframe->getDBO();
 	$lang    = $mainframe->getLanguage();
 	$version = new JVersion();
-	
+
 	$template = $mainframe->getTemplate();
 	
 	$doc->setMetaContentType();

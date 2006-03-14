@@ -176,7 +176,7 @@ function userSave( $option, $uid)
 	}
 
 	//trigger the onBeforeStoreUser event
-	JPluginHelper::importGroup( 'user' );
+	JPluginHelper::importPlugin( 'user' );
 	$results = $mainframe->triggerEvent( 'onBeforeStoreUser', array(get_object_vars($row), false));
 
 	unset($row->orig_password); // prevent DB error!!

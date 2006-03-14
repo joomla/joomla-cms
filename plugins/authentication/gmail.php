@@ -47,13 +47,12 @@ class JAuthenticateGMail extends JPlugin {
 	 * @return	object	JAuthenticateResponse
 	 * @since 1.1
 	 */
-	function onAuthenticate( $username, $password ) {
+	function onAuthenticate( $username, $password ) 
+	{
 		global $mainframe;
 
 		// Initialize variables
-		$return = new JAuthenticateResponse('GMail');
 		$conditions = '';
-		$userID = 0;
 
 		// Get a database connector
 		$db = $mainframe->getDBO();
@@ -89,46 +88,8 @@ class JAuthenticateGMail extends JPlugin {
 				
 				break;
 		}
-
-
-		$userId = 0;
-		if ($success) {
-			$query = 	"SELECT `id`".
-						"\nFROM `#__users`".
-						"\nWHERE username=".$db->Quote($username).
-						$conditions;
-
-			$db->setQuery($query);
-			$userId = $db->loadResult();				
-		} else {
-			$return->type = 'failure';
-			$return->uid  = 0;
-			$return->error_message = 'Failed to authenticate: ' . $message;	
-			return $return;
-		}
-		
-		
-		if (!$userId) {
-			// We need to create the user
-			$user = new JUser();
-			$user->set( 'id', 0 );
-			$user->set( 'name', $username );
-			$user->set( 'username', $username );
-			$user->set( 'gid', 18 );
-			$user->set( 'usertype', 'Registered' );
-			$user->set( 'email', $username );			
-			$user->save();
-			$query = 	"SELECT `id`".
-				"\nFROM `#__users`".
-				"\nWHERE username=".$db->Quote($username).
-				$conditions;
-
-			$db->setQuery($query);
-			$userId = $db->loadResult();
-		}
-		$return->type = 'success';
-		$return->uid = $userId;			
-		return $return;
+					
+		return $success;
 	}
 }
 ?>
