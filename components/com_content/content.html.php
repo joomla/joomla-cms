@@ -466,22 +466,18 @@ class JContentView {
 		}
 
 		// determines the link and link text of the readmore button
-		if ($params->get('intro_only')) {
-			// checks if the item is a public or registered/special item
-			if ($row->access <= $gid) {
-				if ($task != 'view') {
-					$_Itemid = JApplicationHelper :: getItemid($row->id, 0, 0, $ItemidCount['bs'], $ItemidCount['bc'], $ItemidCount['gbs']);
-				}
-				$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$row->id."&amp;Itemid=".$_Itemid);
-				//if ( strlen( trim( $row->fulltext ) )) {
-				if (@ $row->readmore) {
-					$linkText = JText :: _('Read more...');
-				}
-			} else 	{
-				$linkOn = sefRelToAbs("index.php?option=com_registration&amp;task=register");
-				//if (strlen( trim( $row->fulltext ) )) {
-				if (@ $row->readmore) {
-					$linkText = JText :: _('Register to read more...');
+		if ($params->get( 'readmore' ) && @$row->readmore) {
+			if ($params->get('intro_only')) {
+				// checks if the item is a public or registered/special item
+				if ($row->access <= $gid) {
+					if ($task != 'view') {
+						$_Itemid = JApplicationHelper :: getItemid($row->id, 0, 0, $ItemidCount['bs'], $ItemidCount['bc'], $ItemidCount['gbs']);
+					}
+					$linkOn 	= sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$row->id."&amp;Itemid=".$_Itemid);
+					$linkText 	= JText :: _('Read more...');
+				} else 	{
+					$linkOn 	= sefRelToAbs("index.php?option=com_registration&amp;task=register");
+					$linkText 	= JText :: _('Register to read more...');
 				}
 			}
 		}
