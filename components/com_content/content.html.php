@@ -466,7 +466,7 @@ class JContentView {
 		}
 
 		// determines the link and link text of the readmore button
-		if ($params->get( 'readmore' ) && @$row->readmore) {
+		if (($params->get( 'readmore' ) && @$row->readmore ) || $params->get( 'link_titles' )) {
 			if ($params->get('intro_only')) {
 				// checks if the item is a public or registered/special item
 				if ($row->access <= $gid) {
