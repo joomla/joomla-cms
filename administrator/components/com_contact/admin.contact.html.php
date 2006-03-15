@@ -207,6 +207,16 @@ class HTML_contact {
 					</tr>
 					<tr>
 						<td width="20%" align="right">
+							<label>
+								<?php echo JText::_( 'ID' ); ?>:
+							</label>
+						</td>
+						<td width="40%">
+							<strong><?php echo $row->id;?></strong>
+						</td>
+					</tr>
+					<tr>
+						<td width="20%" align="right">
 							<label for="catid">
 								<?php echo JText::_( 'Category' ); ?>:
 							</label>
@@ -232,7 +242,7 @@ class HTML_contact {
 							</label>
 						</td>
 						<td >
-							<input class="inputbox" type="text" name="name" id="name" size="50" maxlength="100" value="<?php echo $row->name; ?>" />
+							<input class="inputbox" type="text" name="name" id="name" size="50" maxlength="255" value="<?php echo $row->name; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -242,7 +252,7 @@ class HTML_contact {
 							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="con_position" id="con_position" size="50" maxlength="50" value="<?php echo $row->con_position; ?>" />
+ 							<textarea name="con_position" id="con_position" rows="2" cols="50" class="inputbox"><?php echo $row->con_position; ?></textarea>
 						</td>
 					</tr>
 					<tr>
@@ -252,7 +262,7 @@ class HTML_contact {
 							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="email_to" id="email_to" size="50" maxlength="100" value="<?php echo $row->email_to; ?>" />
+							<input class="inputbox" type="text" name="email_to" id="email_to" size="50" maxlength="255" value="<?php echo $row->email_to; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -262,7 +272,7 @@ class HTML_contact {
 							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="address" id="address" size="50" value="<?php echo $row->address; ?>" />
+ 							<textarea name="address" id="address" rows="3" cols="50" class="inputbox"><?php echo $row->address; ?></textarea>
 						</td>
 					</tr>
 					<tr>
@@ -272,7 +282,7 @@ class HTML_contact {
 							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="suburb" id="suburb" size="50" maxlength="50" value="<?php echo $row->suburb;?>" />
+							<input class="inputbox" type="text" name="suburb" id="suburb" size="50" maxlength="100" value="<?php echo $row->suburb;?>" />
 						</td>
 					</tr>
 					<tr>
@@ -282,7 +292,7 @@ class HTML_contact {
 							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="state" id="state" size="50" maxlength="20" value="<?php echo $row->state;?>" />
+							<input class="inputbox" type="text" name="state" id="state" size="50" maxlength="100" value="<?php echo $row->state;?>" />
 						</td>
 					</tr>
 					<tr>
@@ -292,7 +302,7 @@ class HTML_contact {
 							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="country" id="country" size="50" maxlength="50" value="<?php echo $row->country;?>" />
+							<input class="inputbox" type="text" name="country" id="country" size="50" maxlength="100" value="<?php echo $row->country;?>" />
 						</td>
 					</tr>
 					<tr>
@@ -302,7 +312,7 @@ class HTML_contact {
 							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="postcode" id="postcode" size="25" maxlength="10" value="<?php echo $row->postcode; ?>" />
+							<input class="inputbox" type="text" name="postcode" id="postcode" size="50" maxlength="100" value="<?php echo $row->postcode; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -312,7 +322,17 @@ class HTML_contact {
 							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="telephone" id="telephone" size="25" maxlength="25" value="<?php echo $row->telephone; ?>" />
+ 							<textarea name="telephone" id="telephone" rows="2" cols="50" class="inputbox"><?php echo $row->telephone; ?></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label for="mobile">
+								<?php echo JText::_( 'Mobile' ); ?>:
+							</label>
+						</td>
+						<td>
+ 							<textarea name="mobile" id="mobile" rows="2" cols="50" class="inputbox"><?php echo $row->mobile; ?></textarea>
 						</td>
 					</tr>
 					<tr>
@@ -322,7 +342,17 @@ class HTML_contact {
 							</label>
 						</td>
 						<td>
-							<input class="inputbox" type="text" name="fax" id="fax" size="25" maxlength="25" value="<?php echo $row->fax; ?>" />
+ 							<textarea name="fax" id="fax" rows="2" cols="50" class="inputbox"><?php echo $row->fax; ?></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<label for="webpage">
+								<?php echo JText::_( 'Webpage' ); ?>:
+							</label>
+						</td>
+						<td>
+							<input class="inputbox" type="text" name="webpage" id="webpage" size="50" maxlength="255" value="<?php echo $row->webpage; ?>" />
 						</td>
 					</tr>
 					<tr>

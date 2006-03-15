@@ -37,6 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Mar-2005 Andrew Eddie
+ + Added webpage and mobile fields to contacts table
+ ^ Widen several narrow fields in contacts table to allow for more characters
+ ^ Contact position, address and phone number edit fields changes to textareas
+   to allow for multi-line input
+ + New toolbar buttons in contact edit form: Save and New, Save To Copy 
+
 14-Mar-2006 David Gal
  + Added backward compatibility to $mosConfig_lang such that en-GB returns 'english'
  + Added new tag <backwardLang> to language metadata xml files

@@ -4,15 +4,15 @@ body {
 }
 
 h1 { 
-	color: #C64934;
+	color: #6D9D2E;
 	font-size: 1.5em;
-    border-left: 25px solid #C64934;
-	border-bottom: 1px solid #C64934;
+    border-left: 25px solid #6D9D2E;
+	border-bottom: 1px solid #6D9D2E;
 	padding: 0 0 2px 5px;
 }
 
 h2 { 
-	color: #C64934;    
+	color: #6D9D2E;    
 	font-size: 1.3em;
 	margin: 1ex 0; 
 }

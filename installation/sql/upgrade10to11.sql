@@ -129,4 +129,17 @@ ALTER TABLE `jos_session` ADD COLUMN `client_id` tinyint(3) NOT NULL default 0;
 # Delete massmail component from component menu table
 DELETE FROM `jos_components` WHERE `option` = 'com_massmail' 
 
+#AE: 15-Mar-2005
+ALTER TABLE `jos_contact_details` MODIFY COLUMN `name` VARCHAR(255) NOT NULL;
+ALTER TABLE `jos_contact_details` MODIFY COLUMN `con_position` VARCHAR(255) ,
+ALTER TABLE `jos_contact_details` MODIFY COLUMN `suburb` VARCHAR(100) ,
+ALTER TABLE `jos_contact_details` MODIFY COLUMN `state` VARCHAR(100) ,
+ALTER TABLE `jos_contact_details` MODIFY COLUMN `country` VARCHAR(100) ,
+ALTER TABLE `jos_contact_details` MODIFY COLUMN `postcode` VARCHAR(100) ,
+ALTER TABLE `jos_contact_details` MODIFY COLUMN `telephone` VARCHAR(255) ,
+ALTER TABLE `jos_contact_details` MODIFY COLUMN `fax` VARCHAR(255) ,
+ALTER TABLE `jos_contact_details` MODIFY COLUMN `image` VARCHAR(255) ,
+ALTER TABLE `jos_contact_details` MODIFY COLUMN `email_to` VARCHAR(255) ,
+ALTER TABLE `jos_contact_details` ADD COLUMN `mobile` VARCHAR(255) NOT NULL;
+ALTER TABLE `jos_contact_details` ADD COLUMN `webpage` VARCHAR(255) NOT NULL;
 

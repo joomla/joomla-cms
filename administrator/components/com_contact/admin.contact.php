@@ -46,8 +46,10 @@ switch ($task) {
 		editContact( $id, $option );
 		break;
 
-	case 'save':
 	case 'apply':
+	case 'save':
+	case 'save2new':
+	case 'save2copy':
 		saveContact( $task );
 		break;
 
@@ -249,6 +251,11 @@ function saveContact( $task ) {
 		$row->params = implode( "\n", $txt );
 	}
 
+	// save to a copy, reset the primary key
+	if ($task == 'save2copy') {
+		$row->id = 0;
+	}
+
 	// pre-save checks
 	if (!$row->check()) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
@@ -274,7 +281,12 @@ function saveContact( $task ) {
 
 	switch ($task) {
 		case 'apply':
+		case 'save2copy':
 			$link = 'index2.php?option=com_contact&task=editA&id='. $row->id .'&hidemainmenu=1';
+			break;
+		
+		case 'save2new':
+			$link = 'index2.php?option=com_contact&task=edit&hidemainmenu=1';
 			break;
 		
 		case 'save':

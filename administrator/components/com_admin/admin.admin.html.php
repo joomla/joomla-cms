@@ -456,7 +456,7 @@ class HTML_admin_misc
 		$fullhelpurl = $helpurl . '/index2.php?option=com_content&amp;task=findkey&pop=1&keyref=';
 
 		$helpsearch = mosGetParam( $_REQUEST, 'helpsearch', '' );
-		$page 		= mosGetParam( $_REQUEST, 'page', 'joomla.whatsnew100.html' );
+		$page 		= mosGetParam( $_REQUEST, 'page', 'joomla.whatsnew11.html' );
 		$toc 		= getHelpToc( $helpsearch );
 		if (!eregi( '\.html$', $page )) {
 			$page .= '.xml';

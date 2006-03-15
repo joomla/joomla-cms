@@ -568,7 +568,7 @@ class JContactView {
 				<tr>
 					<td valign="top">
 					<?php
-					echo $contact->address;
+					echo nl2br($contact->address); 
 					?>
 					</td>
 				</tr>
@@ -659,7 +659,7 @@ class JContactView {
 					</td>
 					<td>
 					<?php
-					echo $contact->telephone;
+					echo nl2br($contact->telephone);
 					?>
 					</td>
 				</tr>
@@ -675,8 +675,33 @@ class JContactView {
 					</td>
 					<td>
 					<?php
-					echo $contact->fax;
+					echo nl2br($contact->fax);
 					?>
+					</td>
+				</tr>
+				<?php
+			}
+			if ( $contact->mobile ) {
+				?>
+				<tr>
+					<td width="<?php echo $params->get( 'column_width' ); ?>" >
+					</td>
+					<td>
+					<?php
+					echo nl2br($contact->mobile);
+					?>
+					</td>
+				</tr>
+				<?php
+			}
+			if ( $contact->webpage ) {
+				?>
+				<tr>
+					<td width="<?php echo $params->get( 'column_width' ); ?>" >
+					</td>
+					<td>
+						<a href="<?php echo $contact->webpage; ?>" target="_blank">
+							<?php echo $contact->webpage; ?></a>
 					</td>
 				</tr>
 				<?php

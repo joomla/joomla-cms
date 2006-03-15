@@ -146,19 +146,19 @@ INSERT INTO `#__components` VALUES (17, 'Syndicate','',0,0,'option=com_syndicate
 
 CREATE TABLE `#__contact_details` (
   `id` int(11) NOT NULL auto_increment,
-  `name` varchar(100) NOT NULL default '',
-  `con_position` varchar(50) default NULL,
+  `name` varchar(255) NOT NULL default '',
+  `con_position` varchar(255) default NULL,
   `address` text,
-  `suburb` varchar(50) default NULL,
-  `state` varchar(20) default NULL,
-  `country` varchar(50) default NULL,
-  `postcode` varchar(10) default NULL,
-  `telephone` varchar(25) default NULL,
-  `fax` varchar(25) default NULL,
+  `suburb` varchar(100) default NULL,
+  `state` varchar(100) default NULL,
+  `country` varchar(100) default NULL,
+  `postcode` varchar(100) default NULL,
+  `telephone` varchar(255) default NULL,
+  `fax` varchar(255) default NULL,
   `misc` mediumtext,
-  `image` varchar(100) default NULL,
+  `image` varchar(255) default NULL,
   `imagepos` varchar(20) default NULL,
-  `email_to` varchar(100) default NULL,
+  `email_to` varchar(255) default NULL,
   `default_con` tinyint(1) unsigned NOT NULL default '0',
   `published` tinyint(1) unsigned NOT NULL default '0',
   `checked_out` int(11) unsigned NOT NULL default '0',
@@ -168,6 +168,8 @@ CREATE TABLE `#__contact_details` (
   `user_id` int(11) NOT NULL default '0',
   `catid` int(11) NOT NULL default '0',
   `access` tinyint(3) unsigned NOT NULL default '0',
+  `mobile` varchar(255) NOT NULL default '',
+  `webpage` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
 

@@ -95,6 +95,14 @@ Tracker : <a target="_blank" href="http://developer.joomla.org/sf/tracker/do/lis
 	* Added statistics reset functions
 	* Added new com_syndicate
 
+- Contacts Component
+	* Added field for mobile numbers and webpage
+	* Widened many database fields to accept more characters
+	* Allowed for position, address and phone numbers to be multi-line
+	* For testing: added 2 new toolbar buttons to the edit form:
+	  - Save & New: saves the item and places you into a new blank form
+	  - Save To Copy: saves the current contents to a new item, very similar to Apply except a copy is made while saving
+
 - Removed files
 	* /pathway.php
 	* /mainbody.php

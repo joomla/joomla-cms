@@ -68,6 +68,10 @@ class JModelContact extends JModel {
 	var $catid 				= null;
 	/** @var int */
 	var $access 			= null;
+	/** @var string Mobile phone number(s) */
+	var $mobile 			= null;
+	/** @var string */
+	var $webpage 			= null;
 
 	/**
 	* @param database A database connector object
@@ -78,6 +82,20 @@ class JModelContact extends JModel {
 
 	function check() {
 		$this->default_con = intval( $this->default_con );
+
+		// Create specific filters
+		$iFilter = new InputFilter();
+
+		if ($iFilter->badAttributeValue(array ('href', $this->webpage))) {
+			$this->_error = JText::_('Please provide a valid URL');
+			return false;
+		}
+
+		// check for http on webpage
+		if (!(eregi('http://', $this->webpage) || (eregi('https://', $this->webpage)) || (eregi('ftp://', $this->webpage)))) {
+			$this->webpage = 'http://'.$this->webpage;
+		}
+
 		return true;
 	}
 }
