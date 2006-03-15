@@ -21,60 +21,52 @@ $mainframe->registerEvent( 'onGetWebServices', 'wsGetBloggerWebServices' );
 */
 function wsGetBloggerWebServices() 
 {
+	global $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
 	return array(
-		array(
-			'name' => 'blogger.getUsersBlogs',
-			'method' => 'getUserBlogs',
-			'help' => 'Returns a list of weblogs to which an author has posting privileges.',
-			'signature' => array('string', 'string', 'string')
+			'blogger.getUsersBlogs' => array(
+			'function' => 'getUserBlogs',
+			'docstring' => 'Returns a list of weblogs to which an author has posting privileges.',
+			'signature' => array(array($xmlrpcArray, $xmlrpcString, $xmlrpcString, $xmlrpcString ))
 		),
-		array(
-			'name' => 'blogger.getUserInfo',
-			'method' => 'getUserInfo',
-			'help' => 'Returns information about an author in the system.',
-			'signature' => array('string', 'string', 'string')
+			'blogger.getUserInfo' => array(
+			'function' => 'getUserInfo',
+			'docstring' => 'Returns information about an author in the system.',
+			'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString))
 		),
-		array(
-			'name' => 'blogger.getPost',
-			'method' => 'getPost',
-			'help' => 'Returns information about a specific post.',
-			'signature' => array() 
+			'blogger.getPost' => array(
+			'function' => 'getPost',
+			'docstring' => 'Returns information about a specific post.',
+			'signature' => array(array())
 		),
-		array(
-			'name' => 'blogger.getRecentPosts',
-			'method' => 'getRecentPosts',
-			'help' => 'Returns a list of the most recent posts in the system.',
-			'signature' => array() 
+			'blogger.getRecentPosts' => array(
+			'function' => 'getRecentPosts',
+			'docstring' => 'Returns a list of the most recent posts in the system.',
+			'signature' => array(array())
 		),
-		array(
-			'name' => 'blogger.getTemplate',
-			'method' => 'getTemplate',
-			'help' => '',
-			'signature' => array('string', 'string', 'string', 'string', 'string') 
+			'blogger.getTemplate' => array(
+			'function' => 'getTemplate',
+			'docstring' => '',
+			'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString)) 
 		),
-		array(
-			'name' => 'blogger.setTemplate',
-			'method' => 'setTemplate',
-			'help' => '',
-			'signature' => array('string', 'string', 'string', 'string', 'string', 'string') 
+			'blogger.setTemplate' => array(
+			'function' => 'setTemplate',
+			'docstring' => '',
+			'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString))
 		),
-		array(
-			'name' => 'blogger.newPost',
-			'method' => 'newPost',
-			'help' => 'Creates a new post, and optionally publishes it.',
-			'signature' => array('string', 'string', 'string', 'string', 'string', 'boolean') 
+			'blogger.newPost' => array(
+			'function' => 'newPost',
+			'docstring' => 'Creates a new post, and optionally publishes it.',
+			'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcBoolean))
 		),
-		array(
-			'name' => 'blogger.deletePost',
-			'method' => 'deletePost',
-			'help' => 'Deletes a post.',
-			'signature' => array() 
+			'blogger.deletePost' => array(
+			'function' => 'deletePost',
+			'docstring' => 'Deletes a post.',
+			'signature' => array(array())
 		),
-		array(
-			'name' => 'blogger.editPost',
-			'method' => 'editPost',
-			'help' => 'Updates the information about an existing post.',
-			'signature' => array('string', 'string', 'string', 'string', 'string', 'boolean') 
+			'blogger.editPost' => array(
+			'function' => 'editPost',
+			'docstring' => 'Updates the information about an existing post.',
+			'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcBoolean))
 		)
 	);
 }
@@ -82,24 +74,31 @@ function wsGetBloggerWebServices()
 /* 
  * Note : blogger.getUsersBlogs will make more sense once we support multiple blogs 
  */
-function getUserBlogs($appkey, $username, $password)
+function getUserBlogs($msg)
 {
+	global $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
+	$appkey = php_xmlrpc_decode($msg->getParam(0));
+	$username = php_xmlrpc_decode($msg->getParam(1));
+	$password = php_xmlrpc_decode($msg->getParam(2));
 	global $mainframe;
-	
-	if(!JBloggerHelper::authenticateUser($username, $password)) {
-		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
+
+	if(!JBloggerHelper::authenticateUser($username, $password)) {	
+		return new xmlrpcresp(0, $xmlrpcerruser+1, "Login Failed");		
 	}
 	
 	$user =& JUser::getInstance($username);
 	//TODO::implement generic access check
 	
-	$struct = array(
-	    'url'      => $mainframe->getBaseURL(),
-	    'blogid'   => '1',
-	    'blogName' => 'Joomla Content Items'
-	  );
-
-	  return array($struct);
+	$structarray = array();
+	
+	$blog = new xmlrpcval(array(
+	    'url'      => new xmlrpcval($mainframe->getBaseURL(), 'string'),
+	    'blogid'   => new xmlrpcval('1', 'string'),
+	    'blogName' => new xmlrpcval('Joomla Content Items', 'string')
+	  ), 'array');
+	  
+	array_push($structarray, $blog);
+	return new xmlrpcresp(new xmlrpcval( $structarray , "array"));		
 }
 
 function getUserInfo($appkey, $username, $password)

@@ -36,41 +36,23 @@ $my		= $user->_model;
 /**
 * CUSTOM HANDLER FOR METHOD NOT FOUND
 */
-function domXmlRpcFault( &$server, $methodName, &$params ) {
-	//one option would be to return a custom fault
-	//(implementation defined errors should be
-	//in the range  -32099 .. -32000 according to
-	//Specification for Fault Code Interoperability)
-	$server->serverError = 123456;
-	$server->serverErrorString = 'I don\'t know about ' . $methodName;
-	return $server->raiseFault();
-} //faultExample
-
 
 // Includes the required class file for the XML-RPC Server
-jimport('domit.dom_xmlrpc_server' );
-jimport('domit.dom_xmlrpc_fault' );
-jimport('domit.dom_xmlrpc_builder' );
-
-$xmlrpcServer = new dom_xmlrpc_server();
-
-//set the method not found handler
-$xmlrpcServer->setMethodNotFoundHandler( 'domXmlRpcFault' );
-
-// pass individual arguments to the called method
-$xmlrpcServer->tokenizeParams( true );
+jimport('phpxmlrpc.xmlrpc' );
+jimport('phpxmlrpc.xmlrpcs' );
 
 // load all available remote calls
 JPluginHelper::importPlugin( 'xmlrpc' );
-$allCalls = $mainframe->triggerEvent( 'onGetWebServices' );
 
-// add all calls to the connector object
-foreach ($allCalls as $calls) {
-    foreach ($calls as $call) {
-	    $xmlrpcServer->addMethod( new dom_xmlrpc_method( $call ) );
-	}
+$allCalls = $mainframe->triggerEvent( 'onGetWebServices' );
+$methodsArray = array();
+
+foreach($allCalls as $calls) {
+	$methodsArray = array_merge($methodsArray, $calls);
 }
 
-// process the call
-$xmlrpcServer->receive();
+$xmlrpcServer = new xmlrpc_server($methodsArray, false);//, false);
+$xmlrpcServer->setDebug(3);
+$xmlrpcServer->service();
+
 ?>
