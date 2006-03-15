@@ -51,7 +51,7 @@ foreach($allCalls as $calls) {
 	$methodsArray = array_merge($methodsArray, $calls);
 }
 
-$xmlrpcServer = new xmlrpc_server($methodsArray, false);//, false);
+$xmlrpcServer = new xmlrpc_server($methodsArray, false);
 $xmlrpcServer->setDebug(3);
 $xmlrpcServer->service();
 

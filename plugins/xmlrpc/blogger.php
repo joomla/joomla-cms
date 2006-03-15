@@ -31,7 +31,7 @@ function wsGetBloggerWebServices()
 			'blogger.getUserInfo' => array(
 			'function' => 'getUserInfo',
 			'docstring' => 'Returns information about an author in the system.',
-			'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString))
+			'signature' => array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcString, $xmlrpcString))
 		),
 			'blogger.getPost' => array(
 			'function' => 'getPost',
@@ -41,7 +41,7 @@ function wsGetBloggerWebServices()
 			'blogger.getRecentPosts' => array(
 			'function' => 'getRecentPosts',
 			'docstring' => 'Returns a list of the most recent posts in the system.',
-			'signature' => array(array())
+			'signature' => array(array($xmlrpcArray, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcInt))
 		),
 			'blogger.getTemplate' => array(
 			'function' => 'getTemplate',
@@ -56,17 +56,17 @@ function wsGetBloggerWebServices()
 			'blogger.newPost' => array(
 			'function' => 'newPost',
 			'docstring' => 'Creates a new post, and optionally publishes it.',
-			'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcBoolean))
+			'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcBoolean))
 		),
 			'blogger.deletePost' => array(
 			'function' => 'deletePost',
 			'docstring' => 'Deletes a post.',
-			'signature' => array(array())
+			'signature' => array(array($xmlrpcBoolean, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcBoolean))
 		),
 			'blogger.editPost' => array(
 			'function' => 'editPost',
 			'docstring' => 'Updates the information about an existing post.',
-			'signature' => array(array($xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcBoolean))
+			'signature' => array(array($xmlrpcBoolean, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcBoolean))
 		)
 	);
 }
@@ -76,7 +76,7 @@ function wsGetBloggerWebServices()
  */
 function getUserBlogs($msg)
 {
-	global $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
+	global $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
 	$appkey = php_xmlrpc_decode($msg->getParam(0));
 	$username = php_xmlrpc_decode($msg->getParam(1));
 	$password = php_xmlrpc_decode($msg->getParam(2));
@@ -92,19 +92,24 @@ function getUserBlogs($msg)
 	$structarray = array();
 	
 	$blog = new xmlrpcval(array(
-	    'url'      => new xmlrpcval($mainframe->getBaseURL(), 'string'),
-	    'blogid'   => new xmlrpcval('1', 'string'),
-	    'blogName' => new xmlrpcval('Joomla Content Items', 'string')
-	  ), 'array');
+	    'url'      => new xmlrpcval($mainframe->getBaseURL(), $xmlrpcString),
+	    'blogid'   => new xmlrpcval('1', $xmlrpcString),
+	    'blogName' => new xmlrpcval('Joomla Content Items', $xmlrpcString)
+	  ), 'struct');
 	  
 	array_push($structarray, $blog);
-	return new xmlrpcresp(new xmlrpcval( $structarray , "array"));		
+	return new xmlrpcresp(new xmlrpcval( $structarray , $xmlrpcArray));		
 }
 
-function getUserInfo($appkey, $username, $password)
+function getUserInfo($msg)
 {
+	global $xmlrpcerruser, $xmlrpcStruct;
+	$appkey = php_xmlrpc_decode($msg->getParam(0)); 
+	$username = php_xmlrpc_decode($msg->getParam(1));
+	$password = php_xmlrpc_decode($msg->getParam(2));
+	
 	if(!JBloggerHelper::authenticateUser($username, $password)) {
-		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
+		return new xmlrpcresp(0, $xmlrpcerruser+1, "Login Failed");	
 	}
 	
 	$user =& JUser::getInstance($username);
@@ -112,24 +117,30 @@ function getUserInfo($appkey, $username, $password)
 	
 	$user =& JUser::getInstance($username);
 	
-	$struct = array(
-	    'nickname'  => $user->get('username'),
-	    'userid'    => $user->get('id'),
-	    'url'       => '',
-	    'email'     => $user->get('email'),
-	    'lastname'  => $user->get('name'),
-	    'firstname' => $user->get('name')
-	  );
-	  
-	 return $struct;
+	$struct = new xmlrpcval(
+	array(
+	    'nickname'  => new xmlrpcval($user->get('username')),
+	    'userid'    => new xmlrpcval($user->get('id')),
+	    'url'       => new xmlrpcval(''),
+	    'email'     => new xmlrpcval($user->get('email')),
+	    'lastname'  => new xmlrpcval($user->get('name')),
+	    'firstname' => new xmlrpcval($user->get('name'))
+	), $xmlrpcStruct);
+	
+	return new xmlrpcresp($struct);
 }
 
-function getPost($appkey, $postid, $username, $password)
+function getPost($msg)
 {
-	global $mainframe;
+	global $mainframe,  $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
+	
+	$appkey = php_xmlrpc_decode($msg->getParam(0));
+	$postid = php_xmlrpc_decode($msg->getParam(1));
+	$username = php_xmlrpc_decode($msg->getParam(2));
+	$password = php_xmlrpc_decode($msg->getParam(3));
 	
 	if(!JBloggerHelper::authenticateUser($username, $password)) {
-		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
+		return new xmlrpcresp(0, $xmlrpcerruser+1, "Login Failed");	
 	}
 	
 	$user =& JUser::getInstance($username);
@@ -143,22 +154,30 @@ function getPost($appkey, $postid, $username, $password)
 	//$content .= '<category>'.$item->catid.'</category>';
 	$content .= $item->introtext.'<!--more-->'.$item->fulltext;
 	
-	$struct = array(
+	$struct = new xmlrpcval(
+	array(
 	   'userid'    => $item->created_by,
 	   'dateCreated' => '0', //TODO
 	   'content'     => $content,
 	   'postid'  => $item->id
-	);
+	), $xmlrpcStruct);
 
-	return $struct;
+	return new xmlrpcresp($struct);
 }
 
-function newPost($appkey, $blogid, $username, $password, $content, $publish)
-{
-	global $mainframe;
+function newPost($msg)
+{	
+	global $mainframe, $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
+	
+	$appkey = php_xmlrpc_decode($msg->getParam(0));
+	$blogid = php_xmlrpc_decode($msg->getParam(1));
+	$username = php_xmlrpc_decode($msg->getParam(2));
+	$password = php_xmlrpc_decode($msg->getParam(3));
+	$content = php_xmlrpc_decode($msg->getParam(4));
+	$publish = php_xmlrpc_decode($msg->getParam(5));
 	
 	if(!JBloggerHelper::authenticateUser($username, $password)) {
-		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
+		return new xmlrpcresp(0, $xmlrpcerruser+1, "Login Failed");	
 	}
 	
 	$user =& JUser::getInstance($username);
@@ -202,15 +221,22 @@ function newPost($appkey, $blogid, $username, $password, $content, $publish)
 		return new dom_xmlrpc_fault( '500', 'Post store failed' );
 	}
 	
-	return $item->id;
+	return new xmlrpcresp(new xmlrpcval($item->id, $xmlrpcString));
 }
 
-function editPost($appkey, $postid, $username, $password, $content, $publish)
+function editPost($msg)
 {
-	global $mainframe;
+	global $mainframe, $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
+	
+	$appkey = php_xmlrpc_decode($msg->getParam(0));
+	$postid = php_xmlrpc_decode($msg->getParam(1));
+	$username = php_xmlrpc_decode($msg->getParam(2));
+	$password = php_xmlrpc_decode($msg->getParam(3));
+	$content = php_xmlrpc_decode($msg->getParam(4));
+	$publish = php_xmlrpc_decode($msg->getParam(5));
 	
 	if(!JBloggerHelper::authenticateUser($username, $password)) {
-		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
+		return new xmlrpcresp(0, $xmlrpcerruser+1, "Login Failed");	
 	}
 	
 	$user =& JUser::getInstance($username);
@@ -219,11 +245,11 @@ function editPost($appkey, $postid, $username, $password, $content, $publish)
 	// load the row from the db table
 	$item =& JModel::getInstance('content', $mainframe->getDBO() );
 	if(!$item->load( $postid )) {
-		return new dom_xmlrpc_fault( '404', 'Sorry, no such post' );
+		return new xmlrpcresp(0, $xmlrpcerruser+1, 'Sorry, no such post' );
 	}
 	
 	if($item->isCheckedOut($user->get('id'))) {
-		return new dom_xmlrpc_fault( '500', 'Sorry, post is already being edited' );
+		return new xmlrpcresp(0, $xmlrpcerruser+1, 'Sorry, post is already being edited' );
 	}
 	
 	//TODO::implement content access check
@@ -235,28 +261,37 @@ function editPost($appkey, $postid, $username, $password, $content, $publish)
 	$item->introtext = JBloggerHelper::getPostIntroText($content);
 	$item->fulltext  = JBloggerHelper::getPostFullText($content);
 	
+	die( nl2br(print_r($item, true)));
+	
+	
 	if (!$item->check()) {
-		return new dom_xmlrpc_fault( '500', 'Post check failed' );
+		return new xmlrpcresp(0, $xmlrpcerruser+1, 'Post check failed' );
 	}
 	
 	$item->version++;
 	
 	if (!$item->store()) {
-		return new dom_xmlrpc_fault( '500', 'Post store failed' );
+		return new xmlrpcresp(0, $xmlrpcerruser+1, 'Post store failed' );
 	}
 	
 	//lock the item
 	$item->checkout();
 	
-	return true;
+	return new xmlrpcresp(new xmlrpcval('true', $xmlrpcBoolean));
 }
 
-function deletePost($appkey, $postid, $username, $password, $publish)
+function deletePost($msg)
 {
-	global $mainframe;
+	global $mainframe, $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
+	
+	$appkey = php_xmlrpc_decode($msg->getParam(0));
+	$postid = php_xmlrpc_decode($msg->getParam(1));
+	$username = php_xmlrpc_decode($msg->getParam(2));
+	$password = php_xmlrpc_decode($msg->getParam(3));
+	$publish = php_xmlrpc_decode($msg->getParam(4));
 	
 	if(!JBloggerHelper::authenticateUser($username, $password)) {
-		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
+		return new xmlrpcresp(0, $xmlrpcerruser+1, "Login Failed");	
 	}
 	
 	$user =& JUser::getInstance($username);
@@ -265,11 +300,11 @@ function deletePost($appkey, $postid, $username, $password, $publish)
 	// load the row from the db table
 	$item =& JModel::getInstance('content', $mainframe->getDBO() );
 	if(!$item->load( $postid )) {
-		return new dom_xmlrpc_fault( '404', 'Sorry, no such post' );
+		return new xmlrpcresp(0, $xmlrpcerruser+1, 'Sorry, no such post' );
 	}
 	
 	if($item->isCheckedOut($user->get('id'))) {
-		return new dom_xmlrpc_fault( '500', 'Sorry, post is already being edited' );
+		return new xmlrpcresp(0, $xmlrpcerruser+1, 'Sorry, post is already being edited' );
 	}
 	
 	//TODO::implement content access check
@@ -278,22 +313,28 @@ function deletePost($appkey, $postid, $username, $password, $publish)
 	$item->checkout();
 	
 	if (!$item->delete()) {
-		return new dom_xmlrpc_fault( '500', 'Post delete failed' );
+		return new xmlrpcresp(0, $xmlrpcerruser+1, 'Post delete failed' );
 	}
 	
 	//lock the item
 	$item->checkout();
 	
-	return true;
+	return new xmlrpcresp(new xmlrpcval('true', $xmlrpcBoolean));
 }
 
 
-function getRecentPosts($appkey, $blogid, $username, $password, $numposts)
+function getRecentPosts($msg)
 {
-	global $mainframe;
+	global $mainframe, $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
+	
+	$appkey = php_xmlrpc_decode($msg->getParam(0));
+	$blogid = php_xmlrpc_decode($msg->getParam(1));
+	$username = php_xmlrpc_decode($msg->getParam(2));
+	$password = php_xmlrpc_decode($msg->getParam(3));
+	$numposts = php_xmlrpc_decode($msg->getParam(4));
 	
 	if(!JBloggerHelper::authenticateUser($username, $password)) {
-		return new dom_xmlrpc_fault( '-1', 'Login Failed' );
+		return new xmlrpcresp(0, $xmlrpcerruser+1, "Login Failed");	
 	}
 	
 	$user =& JUser::getInstance($username);
@@ -307,12 +348,10 @@ function getRecentPosts($appkey, $blogid, $username, $password, $numposts)
 	
 	// Lets get a list of the recents content items
 	$where = '';
-	echo $params->get('sectionid', 0);
+	//echo $params->get('sectionid', 0);
 	if($params->get('sectionid', 0)) {
 		$where = "\n WHERE sectionid = ".$params->get('sectionid');
 	}
-	
-	echo $where;
 	
 	$query = "SELECT *" 
 		. "\n FROM #__content" 
@@ -324,40 +363,50 @@ function getRecentPosts($appkey, $blogid, $username, $password, $numposts)
 	$items = $db->loadObjectList();
 	
 	if (!$items) {
-		return new dom_xmlrpc_fault( 500, 'No posts available, or an error has occured.' );
-	 }
+		return new xmlrpcresp(0, $xmlrpcerruser+1, 'No posts available, or an error has occured.' );
+	}
 	
-	 foreach ($items as $item) 
-	 { 
-	    $content  = '<title>'.$item->title.'</title>';
+	
+	$structArray = array();
+	foreach ($items as $item) 
+	{ 
+		$content  = '<title>'.$item->title.'</title>';
 		//$content .= '<category>'.$item->catid.'</category>'; //doesn't seem to work
 		$content .= $item->introtext;
-	
-		$struct[] = array(
-	    	'userid'    => $item->created_by,
-	    	'dateCreated' => '0', //TODO
-	    	'content'     => $content,
-	    	'postid'  => $item->id
-		);
+		
+		$structArray[] = new xmlrpcval(array(
+		    'userid'      => new xmlrpcval($item->created_by),
+		    'dateCreated'   => new xmlrpcval('0'),
+		    'content' => new xmlrpcval($content),
+		    'postid' => new xmlrpcval($item->id)
+		), 'struct');
 	}
 	
-	$recent_posts = array();
-	for ($j=0; $j < count($struct); $j++) {
-	    array_push($recent_posts, $struct[$j]);
-	}
-	
-	 return $recent_posts;
+	return new xmlrpcresp(new xmlrpcval( $structArray , $xmlrpcArray));
 }
+
+/*
+	$structarray = array();
+	
+	$blog = new xmlrpcval(array(
+	    'url'      => new xmlrpcval($mainframe->getBaseURL(), $xmlrpcString),
+	    'blogid'   => new xmlrpcval('1', $xmlrpcString),
+	    'blogName' => new xmlrpcval('Joomla Content Items', $xmlrpcString)
+	  ), 'struct');
+	  
+	array_push($structarray, $blog);
+	return new xmlrpcresp(new xmlrpcval( $structarray , $xmlrpcArray));	
+*/
 
 
 function getTemplate($appkey, $blogid, $username, $password, $templateType)
 {
-	return new dom_xmlrpc_fault( '500', 'Method not implemented' );
+	return new xmlrpcresp(0, $xmlrpcerruser+1, 'Method not implemented' );
 }
 
 function setTemplate($appkey, $blogid, $username, $password, $template, $templateType)
 {
-	return new dom_xmlrpc_fault( '500', 'Method not implemented' );
+	return new xmlrpcresp(0, $xmlrpcerruser+1, 'Method not implemented' );
 }
 
 class JBloggerHelper 
