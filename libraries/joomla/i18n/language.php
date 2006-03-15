@@ -310,6 +310,16 @@ class JLanguage extends JObject
 	}
 
 	/**
+	* Getter for backward compatible language name
+	*
+	* @access public
+	* @return string backward compatible name
+	*/
+	function getBackwardLang() {
+		return $this->_metadata['backwardLang'];
+	}
+
+	/**
 	* Get for the langauge tag (as defined in RFC 3066)
 	*
 	* @access public
