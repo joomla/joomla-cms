@@ -263,23 +263,24 @@ class JContentViewHTML_blog
 		else
 		{
 			// Generic blog empty display
-			echo _EMPTY_BLOG;
+			JContentViewHTML::emptyContainer(_EMPTY_BLOG);
 		}
 
 	}
 
 	function showItem(&$row, &$access, $showImages = false)
 	{
-		global $mainframe, $hide_js, $Itemid;
+		global $mainframe, $hide_js;
 
 		/*
 		 * Initialize some variables
 		 */
 		$user			= & $mainframe->getUser();
 		$SiteName	= $mainframe->getCfg('sitename');
-		$task			= JRequest::getVar('task');
 		$gid				= $user->get('gid');
-		$_Itemid		= $Itemid;
+		$task			= JRequest::getVar( 'task' );
+		$no_html		= JRequest::getVar( 'no_html', null );
+		$Itemid		= JRequest::getVar( 'Itemid', 9999 );
 		$linkOn			= null;
 		$linkText		= null;
 		$params 		= new JParameter($row->attribs);
@@ -324,13 +325,9 @@ class JContentViewHTML_blog
 		JPluginHelper::importPlugin('content');
 		$results = $mainframe->triggerEvent('onPrepareContent', array (& $row, & $params, 0));
 
-		// adds mospagebreak heading or title to <site> Title
-		if (isset ($row->page_title))
-		{
-			$mainframe->setPageTitle($row->title.' '.$row->page_title);
-		}
-
-		// determines the link and link text of the readmore button
+		/*
+		 * Build the link and text of the readmore button
+		 */
 		if (($params->get('readmore') && @ $row->readmore) || $params->get('link_titles'))
 		{
 			if ($params->get('intro_only'))
@@ -340,9 +337,9 @@ class JContentViewHTML_blog
 				{
 					if ($task != 'view')
 					{
-						$_Itemid = JApplicationHelper::getItemid($row->id, 0, 0, JApplicationHelper::getBlogSectionCount(),JApplicationHelper::getBlogCategoryCount(), JApplicationHelper::getGlobalBlogSectionCount());
+						$Itemid = JApplicationHelper::getItemid($row->id, 0, 0, JApplicationHelper::getBlogSectionCount(),JApplicationHelper::getBlogCategoryCount(), JApplicationHelper::getGlobalBlogSectionCount());
 					}
-					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$row->id."&amp;Itemid=".$_Itemid);
+					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$row->id."&amp;Itemid=".$Itemid);
 					$linkText = JText::_('Read more...');
 				}
 				else
@@ -353,9 +350,9 @@ class JContentViewHTML_blog
 			}
 		}
 
-		$no_html = mosGetParam($_REQUEST, 'no_html', null);
-
-		// edit icon
+		/*
+		 * Print the edit icon if appropriate
+		 */
 		if ($access->canEdit)
 		{
 			?>

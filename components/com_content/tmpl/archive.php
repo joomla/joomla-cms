@@ -265,22 +265,22 @@ class JContentViewHTML_archive
 			else
 			{
 				// Generic blog empty display
-				echo _EMPTY_BLOG;
+				JContentViewHTML::emptyContainer(_EMPTY_BLOG);
 			}
 	}
 
 	function showItem(&$row, &$params, &$access, $showImages = false)
 	{
-		global $mainframe, $hide_js, $Itemid;
+		global $mainframe, $hide_js;
 
 		/*
 		 * Initialize some variables
 		 */
 		$user			= & $mainframe->getUser();
 		$SiteName	= $mainframe->getCfg('sitename');
-		$task			= JRequest::getVar('task');
 		$gid				= $user->get('gid');
-		$_Itemid		= $Itemid;
+		$task			= JRequest::getVar('task');
+		$Itemid		= JRequest::getVar( 'Itemid', 9999 );
 		$linkOn			= null;
 		$linkText		= null;
 		$params 		= new JParameter($row->attribs);
@@ -341,9 +341,9 @@ class JContentViewHTML_archive
 				{
 					if ($task != 'view')
 					{
-						$_Itemid = JApplicationHelper::getItemid($row->id, 0, 0, JApplicationHelper::getBlogSectionCount(),JApplicationHelper::getBlogCategoryCount(), JApplicationHelper::getGlobalBlogSectionCount());
+						$Itemid = JApplicationHelper::getItemid($row->id, 0, 0, JApplicationHelper::getBlogSectionCount(),JApplicationHelper::getBlogCategoryCount(), JApplicationHelper::getGlobalBlogSectionCount());
 					}
-					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$row->id."&amp;Itemid=".$_Itemid);
+					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$row->id."&amp;Itemid=".$Itemid);
 					$linkText = JText::_('Read more...');
 				}
 				else
