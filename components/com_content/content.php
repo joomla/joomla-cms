@@ -148,9 +148,9 @@ class JContentController
 		$order_sec	= JContentControllerHelper::orderbySecondary($orderby_sec);
 		$order_pri	= JContentControllerHelper::orderbyPrimary($orderby_pri);
 
-		$voting = JContentControllerHelper::_votingQuery();
+		$voting = JContentControllerHelper::buildVotingQuery();
 
-		$where = JContentControllerHelper::_where(1, $access, $noauth, $gid, 0, $now);
+		$where = JContentControllerHelper::buildWhere(1, $access, $noauth, $gid, 0, $now);
 		$where = (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '');
 
 		// query records
@@ -190,7 +190,7 @@ class JContentController
 		// Dynamic Page Title
 		$mainframe->SetPageTitle($menu->name);
 
-		JContentViewHTML::showBlog($rows, $params, $gid, $access, $pop, $menu);
+		JContentViewHTML::showBlog($rows, $params, $access, $menu);
 	}
 
 	/**
@@ -343,7 +343,7 @@ class JContentController
 		$breadcrumbs = & $mainframe->getPathWay();
 		$breadcrumbs->addItem($section->title, '');
 
-		JContentViewHTML::showSection($section, $categories, $params, $access, $gid);
+		JContentViewHTML::showSection($section, $categories, $params);
 	}
 
 	/**
@@ -602,7 +602,7 @@ class JContentController
 		$lists['order'] = $filter_order;
 		$selected = '';
 
-		JContentViewHTML::showCategory($category, $other_categories, $items, $access, $gid, $params, $page, $lists, $selected);
+		JContentViewHTML::showCategory($category, $other_categories, $items, $access, $params, $page, $lists, $selected);
 	}
 
 	function showBlogSection()
@@ -650,7 +650,7 @@ class JContentController
 			$id = $params->def('sectionid', 0);
 		}
 
-		$where = JContentControllerHelper::_where(1, $access, $noauth, $gid, $id, $now);
+		$where = JContentControllerHelper::buildWhere(1, $access, $noauth, $gid, $id, $now);
 		$where = (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '');
 
 		// Ordering control
@@ -659,11 +659,11 @@ class JContentController
 		$order_sec		= JContentControllerHelper::orderbySecondary($orderby_sec);
 		$order_pri		= JContentControllerHelper::orderbyPrimary($orderby_pri);
 
-		$voting = JContentControllerHelper::_votingQuery();
+		$voting = JContentControllerHelper::buildVotingQuery();
 
 		// Main data query
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
-				"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
+				"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
 				"\n CHAR_LENGTH( a.fulltext ) AS readmore, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups".$voting['select'] .
 				"\n FROM #__content AS a" .
 				"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
@@ -710,7 +710,7 @@ class JContentController
 			}
 		}
 
-		JContentViewHTML::showBlog($rows, $params, $gid, $access, $pop, $menu);
+		JContentViewHTML::showBlog($rows, $params, $access, $menu);
 	}
 
 	function showBlogCategory()
@@ -758,7 +758,7 @@ class JContentController
 			$id = $params->def('categoryid', 0);
 		}
 
-		$where = JContentControllerHelper::_where(2, $access, $noauth, $gid, $id, $now);
+		$where = JContentControllerHelper::buildWhere(2, $access, $noauth, $gid, $id, $now);
 		$where = (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '');
 
 		// Ordering control
@@ -767,11 +767,11 @@ class JContentController
 		$order_sec		= JContentControllerHelper::orderbySecondary($orderby_sec);
 		$order_pri		= JContentControllerHelper::orderbyPrimary($orderby_pri);
 
-		$voting = JContentControllerHelper::_votingQuery();
+		$voting = JContentControllerHelper::buildVotingQuery();
 
 		// Main data query
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
-				"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
+				"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
 				"\n CHAR_LENGTH( a.fulltext ) AS readmore, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups".$voting['select'] .
 				"\n FROM #__content AS a" .
 				"\n LEFT JOIN #__categories AS cc ON cc.id = a.catid" .
@@ -837,7 +837,7 @@ class JContentController
 			}
 		}
 
-		JContentViewHTML::showBlog($rows, $params, $gid, $access, $pop, $menu);
+		JContentViewHTML::showBlog($rows, $params, $access, $menu);
 	}
 
 	function showArchiveSection()
@@ -891,7 +891,7 @@ class JContentController
 		$order_pri		= JContentControllerHelper::orderbyPrimary($orderby_pri);
 
 		// Build the WHERE clause for the database query
-		$where = JContentControllerHelper::_where(-1, $access, $noauth, $gid, $id, NULL, $year, $month);
+		$where = JContentControllerHelper::buildWhere(-1, $access, $noauth, $gid, $id, NULL, $year, $month);
 		$where = (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '');
 
 		// checks to see if 'All Sections' options used
@@ -913,11 +913,11 @@ class JContentController
 		$items = $db->loadObjectList();
 		$archives = count($items);
 
-		$voting = JContentControllerHelper::_votingQuery();
+		$voting = JContentControllerHelper::buildVotingQuery();
 
 		// Main Query
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
-				"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
+				"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
 				"\n CHAR_LENGTH( a.fulltext ) AS readmore, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups".$voting['select'].
 				"\n FROM #__content AS a" .
 				"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
@@ -965,7 +965,7 @@ class JContentController
 		}
 		else
 		{
-			JContentViewHTML::showArchive($rows, $params, $menu, $access, $id, $gid, $pop);
+			JContentViewHTML::showArchive($rows, $params, $access, $menu, $id);
 		}
 	}
 
@@ -1027,7 +1027,7 @@ class JContentController
 		$order_sec		= JContentControllerHelper::orderbySecondary($orderby_sec);
 
 		// used in query
-		$where = JContentControllerHelper::_where(-2, $access, $noauth, $gid, $id, NULL, $year, $month);
+		$where = JContentControllerHelper::buildWhere(-2, $access, $noauth, $gid, $id, NULL, $year, $month);
 		$where = (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '');
 
 		// query to determine if there are any archived entries for the category
@@ -1039,10 +1039,10 @@ class JContentController
 		$items = $db->loadObjectList();
 		$archives = count($items);
 
-		$voting = JContentControllerHelper::_votingQuery();
+		$voting = JContentControllerHelper::buildVotingQuery();
 
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
-				"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
+				"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
 				"\n CHAR_LENGTH( a.fulltext ) AS readmore, u.name AS author, u.usertype, s.name AS section, cc.name AS category, g.name AS groups".$voting['select'].
 				"\n FROM #__content AS a" .
 				"\n INNER JOIN #__categories AS cc ON cc.id = a.catid" .
@@ -1108,7 +1108,7 @@ class JContentController
 		}
 		else
 		{
-			JContentViewHTML::showArchive($rows, $params, $menu, $access, $id, $gid, $pop);
+			JContentViewHTML::showArchive($rows, $params, $access, $menu, $id);
 		}
 	}
 
@@ -1165,7 +1165,7 @@ class JContentController
 					"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )";
 		}
 
-		$voting = JContentControllerHelper::_votingQuery();
+		$voting = JContentControllerHelper::buildVotingQuery();
 
 		// Main content item query
 		$query = "SELECT a.*, u.name AS author, u.usertype, cc.title AS category, s.title AS section," .
@@ -2240,7 +2240,7 @@ class JContentControllerHelper{
 	/*
 	* @param int 0 = Archives, 1 = Section, 2 = Category
 	*/
-	function _where($type = 1, & $access, & $noauth, $gid, $id, $now = NULL, $year = NULL, $month = NULL)
+	function buildWhere($type = 1, & $access, & $noauth, $gid, $id, $now = NULL, $year = NULL, $month = NULL)
 	{
 		global $database, $mainframe;
 
@@ -2312,7 +2312,7 @@ class JContentControllerHelper{
 		return $where;
 	}
 
-	function _votingQuery()
+	function buildVotingQuery()
 	{
 		global $mainframe;
 

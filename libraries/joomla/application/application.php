@@ -1067,15 +1067,23 @@ class JApplicationHelper
 	 * @since 1.0
 	 */
 	function getBlogSectionCount( ) {
-		global $database;
+		static $count;
 
-		$query = "SELECT COUNT( id )"
-		."\n FROM #__menu "
-		."\n WHERE type = 'content_blog_section'"
-		."\n AND published = 1"
-		;
-		$database->setQuery( $query );
-		$count = $database->loadResult();
+		if (!isset ($count)) {
+			$count = false;
+		}
+
+		if ($count !== false) {
+			global $database;
+	
+			$query = "SELECT COUNT( id )"
+			."\n FROM #__menu "
+			."\n WHERE type = 'content_blog_section'"
+			."\n AND published = 1"
+			;
+			$database->setQuery( $query );
+			$count = $database->loadResult();
+		}
 		return $count;
 	}
 
@@ -1087,15 +1095,23 @@ class JApplicationHelper
 	 * @since 1.0
 	 */
 	function getBlogCategoryCount( ) {
-		global $database;
+		static $count;
 
-		$query = "SELECT COUNT( id )"
-		."\n FROM #__menu "
-		. "\n WHERE type = 'content_blog_category'"
-		. "\n AND published = 1"
-		;
-		$database->setQuery( $query );
-		$count = $database->loadResult();
+		if (!isset ($count)) {
+			$count = false;
+		}
+
+		if ($count !== false) {
+			global $database;
+	
+			$query = "SELECT COUNT( id )"
+			."\n FROM #__menu "
+			. "\n WHERE type = 'content_blog_category'"
+			. "\n AND published = 1"
+			;
+			$database->setQuery( $query );
+			$count = $database->loadResult();
+		}
 		return $count;
 	}
 
@@ -1107,16 +1123,24 @@ class JApplicationHelper
 	 * @since 1.0
 	 */
 	function getGlobalBlogSectionCount( ) {
-		global $database;
+		static $count;
 
-		$query = "SELECT COUNT( id )"
-		."\n FROM #__menu "
-		."\n WHERE type = 'content_blog_section'"
-		."\n AND published = 1"
-		."\n AND componentid = 0"
-		;
-		$database->setQuery( $query );
-		$count = $database->loadResult();
+		if (!isset ($count)) {
+			$count = false;
+		}
+
+		if ($count !== false) {
+			global $database;
+	
+			$query = "SELECT COUNT( id )"
+			."\n FROM #__menu "
+			."\n WHERE type = 'content_blog_section'"
+			."\n AND published = 1"
+			."\n AND componentid = 0"
+			;
+			$database->setQuery( $query );
+			$count = $database->loadResult();
+		}
 		return $count;
 	}
 
@@ -1128,15 +1152,23 @@ class JApplicationHelper
 	 * @since 1.0
 	 */
 	function getStaticContentCount( ) {
-		global $database;
+		static $count;
 
-		$query = "SELECT COUNT( id )"
-		."\n FROM #__menu "
-		."\n WHERE type = 'content_typed'"
-		."\n AND published = 1"
-		;
-		$database->setQuery( $query );
-		$count = $database->loadResult();
+		if (!isset ($count)) {
+			$count = false;
+		}
+
+		if ($count !== false) {
+			global $database;
+	
+			$query = "SELECT COUNT( id )"
+			."\n FROM #__menu "
+			."\n WHERE type = 'content_typed'"
+			."\n AND published = 1"
+			;
+			$database->setQuery( $query );
+			$count = $database->loadResult();
+		}
 		return $count;
 	}
 
@@ -1148,15 +1180,23 @@ class JApplicationHelper
 	 * @since 1.0
 	 */
 	function getContentItemLinkCount( ) {
-		global $database;
+		static $count;
 
-		$query = "SELECT COUNT( id )"
-		."\n FROM #__menu "
-		."\n WHERE type = 'content_item_link'"
-		."\n AND published = 1"
-		;
-		$database->setQuery( $query );
-		$count = $database->loadResult();
+		if (!isset ($count)) {
+			$count = false;
+		}
+
+		if ($count !== false) {
+			global $database;
+	
+			$query = "SELECT COUNT( id )"
+			."\n FROM #__menu "
+			."\n WHERE type = 'content_item_link'"
+			."\n AND published = 1"
+			;
+			$database->setQuery( $query );
+			$count = $database->loadResult();
+		}
 		return $count;
 	}
 

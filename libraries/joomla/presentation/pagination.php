@@ -103,7 +103,7 @@ class JPagination extends JObject {
 		$html = null;
 		$page = $this->limitstart + 1;
 		if ($this->total > 0) {
-			$html .= JText :: _('Page')." ".$page." ".JText :: _('of')." ".$this->total;
+			$html .= JText::_('Page')." ".$page." ".JText::_('of')." ".$this->total;
 		}
 		return $html;
 	}
@@ -123,18 +123,18 @@ class JPagination extends JObject {
 
 		// Make the option list
 		for ($i = 5; $i <= 30; $i += 5) {
-			$limits[] = mosHTML :: makeOption("$i");
+			$limits[] = mosHTML::makeOption("$i");
 		}
-		$limits[] = mosHTML :: makeOption('50');
-		$limits[] = mosHTML :: makeOption('100');
+		$limits[] = mosHTML::makeOption('50');
+		$limits[] = mosHTML::makeOption('100');
 
 		// Build the select list
 		if ($mainframe->isAdmin()) {
-			$html = mosHTML :: selectList($limits, 'limit', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $this->limit);
+			$html = mosHTML::selectList($limits, 'limit', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $this->limit);
 			$html .= "\n<input type=\"hidden\" name=\"limitstart\" value=\"$this->limitstart\" />";
 		} else {
 			$link = sefRelToAbs($link.'&amp;limit=\' + this.options[selectedIndex].value + \'&amp;limitstart='.$this->limitstart);
-			$html = mosHTML :: selectList($limits, 'limit', 'class="inputbox" size="1" onchange="document.location.href=\''.$link.'\';"', 'value', 'text', $this->limit);
+			$html = mosHTML::selectList($limits, 'limit', 'class="inputbox" size="1" onchange="document.location.href=\''.$link.'\';"', 'value', 'text', $this->limit);
 		}
 		return $html;
 	}
@@ -161,10 +161,10 @@ class JPagination extends JObject {
 		}
 		// If there are results found
 		if ($this->total > 0) {
-			$msg = sprintf(JText :: _('Results of'), $from_result, $to_result, $this->total);
+			$msg = sprintf(JText::_('Results of'), $from_result, $to_result, $this->total);
 			$html .= "\n".$msg;
 		} else {
-			$html .= "\n".JText :: _('No records found');
+			$html .= "\n".JText::_('No records found');
 		}
 
 		return $html;
@@ -201,11 +201,11 @@ class JPagination extends JObject {
 			 */
 			if ($this_page > 1) {
 				$page = ($this_page -2) * $this->limit;
-				$html .= "\n<a href=\"#beg\" class=\"pagenav\" title=\"".JText :: _('first page')."\" onclick=\"javascript: document.adminForm.limitstart.value=0; document.adminForm.submit();return false;\"><< ".JText :: _('Start')."</a>";
-				$html .= "\n<a href=\"#prev\" class=\"pagenav\" title=\"".JText :: _('previous page')."\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\">< ".JText :: _('Previous')."</a>";
+				$html .= "\n<a href=\"#beg\" class=\"pagenav\" title=\"".JText::_('first page')."\" onclick=\"javascript: document.adminForm.limitstart.value=0; document.adminForm.submit();return false;\"><< ".JText::_('Start')."</a>";
+				$html .= "\n<a href=\"#prev\" class=\"pagenav\" title=\"".JText::_('previous page')."\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\">< ".JText::_('Previous')."</a>";
 			} else {
-				$html .= "\n<span class=\"pagenav\">&lt;&lt; ".JText :: _('Start')."</span>";
-				$html .= "\n<span class=\"pagenav\">&lt; ".JText :: _('Previous')."</span>";
+				$html .= "\n<span class=\"pagenav\">&lt;&lt; ".JText::_('Start')."</span>";
+				$html .= "\n<span class=\"pagenav\">&lt; ".JText::_('Previous')."</span>";
 			}
 
 			for ($i = $start_loop; $i <= $stop_loop; $i ++) {
@@ -220,11 +220,11 @@ class JPagination extends JObject {
 			if ($this_page < $total_pages) {
 				$page = $this_page * $this->limit;
 				$end_page = ($total_pages -1) * $this->limit;
-				$html .= "\n<a href=\"#next\" class=\"pagenav\" title=\"".JText :: _('next page')."\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\"> ".JText :: _('Next')." ></a>";
-				$html .= "\n<a href=\"#end\" class=\"pagenav\" title=\"".JText :: _('end page')."\" onclick=\"javascript: document.adminForm.limitstart.value=$end_page; document.adminForm.submit();return false;\"> ".JText :: _('End')." >></a>";
+				$html .= "\n<a href=\"#next\" class=\"pagenav\" title=\"".JText::_('next page')."\" onclick=\"javascript: document.adminForm.limitstart.value=$page; document.adminForm.submit();return false;\"> ".JText::_('Next')." ></a>";
+				$html .= "\n<a href=\"#end\" class=\"pagenav\" title=\"".JText::_('end page')."\" onclick=\"javascript: document.adminForm.limitstart.value=$end_page; document.adminForm.submit();return false;\"> ".JText::_('End')." >></a>";
 			} else {
-				$html .= "\n<span class=\"pagenav\">".JText :: _('Next')." &gt;</span>";
-				$html .= "\n<span class=\"pagenav\">".JText :: _('End')." &gt;&gt;</span>";
+				$html .= "\n<span class=\"pagenav\">".JText::_('Next')." &gt;</span>";
+				$html .= "\n<span class=\"pagenav\">".JText::_('End')." &gt;&gt;</span>";
 			}
 		} else {
 			/*
@@ -233,16 +233,16 @@ class JPagination extends JObject {
 			$link .= '&amp;limit='.$this->limit;
 
 			$pnSpace = "";
-			if (JText :: _('&lt') || JText :: _('&gt'))
+			if (JText::_('&lt') || JText::_('&gt'))
 				$pnSpace = " ";
 
 			if ($this_page > 1) {
 				$page = ($this_page -2) * $this->limit;
-				$html .= '<a href="'.sefRelToAbs("$link&amp;limitstart=0").'" class="pagenav" title="first page">'.JText :: _('&lt').JText :: _('&lt').$pnSpace.JText :: _('Start').'</a> ';
-				$html .= '<a href="'.sefRelToAbs("$link&amp;limitstart=$page").'" class="pagenav" title="previous page">'.JText :: _('&lt').$pnSpace.JText :: _('Prev').'</a> ';
+				$html .= '<a href="'.sefRelToAbs("$link&amp;limitstart=0").'" class="pagenav" title="first page">'.JText::_('&lt').JText::_('&lt').$pnSpace.JText::_('Start').'</a> ';
+				$html .= '<a href="'.sefRelToAbs("$link&amp;limitstart=$page").'" class="pagenav" title="previous page">'.JText::_('&lt').$pnSpace.JText::_('Prev').'</a> ';
 			} else {
-				$html .= '<span class="pagenav">'.JText :: _('&lt').JText :: _('&lt').$pnSpace.JText :: _('Start').'</span> ';
-				$html .= '<span class="pagenav">'.JText :: _('&lt').$pnSpace.JText :: _('Prev').'</span> ';
+				$html .= '<span class="pagenav">'.JText::_('&lt').JText::_('&lt').$pnSpace.JText::_('Start').'</span> ';
+				$html .= '<span class="pagenav">'.JText::_('&lt').$pnSpace.JText::_('Prev').'</span> ';
 			}
 
 			for ($i = $start_loop; $i <= $stop_loop; $i ++) {
@@ -257,11 +257,11 @@ class JPagination extends JObject {
 			if ($this_page < $total_pages) {
 				$page = $this_page * $this->limit;
 				$end_page = ($total_pages -1) * $this->limit;
-				$html .= '<a href="'.sefRelToAbs($link.'&amp;limitstart='.$page).' " class="pagenav" title="next page">'.JText :: _('Next').$pnSpace.JText :: _('&gt').'</a> ';
-				$html .= '<a href="'.sefRelToAbs($link.'&amp;limitstart='.$end_page).' " class="pagenav" title="end page">'.JText :: _('End').$pnSpace.JText :: _('&gt').JText :: _('&gt').'</a>';
+				$html .= '<a href="'.sefRelToAbs($link.'&amp;limitstart='.$page).' " class="pagenav" title="next page">'.JText::_('Next').$pnSpace.JText::_('&gt').'</a> ';
+				$html .= '<a href="'.sefRelToAbs($link.'&amp;limitstart='.$end_page).' " class="pagenav" title="end page">'.JText::_('End').$pnSpace.JText::_('&gt').JText :: _('&gt').'</a>';
 			} else {
-				$html .= '<span class="pagenav">'.JText :: _('Next').$pnSpace.JText :: _('&gt').'</span> ';
-				$html .= '<span class="pagenav">'.JText :: _('End').$pnSpace.JText :: _('&gt').JText :: _('&gt').'</span>';
+				$html .= '<span class="pagenav">'.JText::_('Next').$pnSpace.JText::_('&gt').'</span> ';
+				$html .= '<span class="pagenav">'.JText::_('End').$pnSpace.JText::_('&gt').JText::_('&gt').'</span>';
 			}
 		}
 		return $html;
@@ -279,7 +279,7 @@ class JPagination extends JObject {
 		$html = '<table class="adminlist"><tr><th colspan="3">';
 		$html .= $this->getPagesLinks();
 		$html .= '</th></tr><tr>';
-		$html .= '<td nowrap="nowrap" width="48%" align="right">'.JText :: _('Display Num').'</td>';
+		$html .= '<td nowrap="nowrap" width="48%" align="right">'.JText::_('Display Num').'</td>';
 		$html .= '<td>'.$this->getLimitBox().'</td>';
 		$html .= '<td nowrap="nowrap" width="48%" >'.$this->getPagesCounter().'</td>';
 		$html .= '</tr></table>';
@@ -311,7 +311,7 @@ class JPagination extends JObject {
 	 */
 	function orderUpIcon($i, $condition = true, $task = 'orderup', $alt = 'Move Up') {
 
-		$alt = JText :: _($alt);
+		$alt = JText::_($alt);
 
 		if (($i > 0 || ($i + $this->limitstart > 0)) && $condition) {
 			return '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">
@@ -335,7 +335,7 @@ class JPagination extends JObject {
 	 */
 	function orderDownIcon($i, $n, $condition = true, $task = 'orderdown', $alt = 'Move Down') {
 
-		$alt = JText :: _($alt);
+		$alt = JText::_($alt);
 
 		if (($i < $n -1 || $i + $this->limitstart < $this->total - 1) && $condition) {
 			return '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">
@@ -361,7 +361,7 @@ class JPagination extends JObject {
 
 		// handling of default value
 		if ($alt = '#') {
-			$alt = JText :: _('Move Up');
+			$alt = JText::_('Move Up');
 		}
 
 		if ($order == 0) {
@@ -401,7 +401,7 @@ class JPagination extends JObject {
 
 		// handling of default value
 		if ($alt = '#') {
-			$alt = JText :: _('Move Down');
+			$alt = JText::_('Move Down');
 		}
 
 		if ($order == 0) {
@@ -427,12 +427,12 @@ class JPagination extends JObject {
 
 	/**
 	 * Writes the dropdown select list for number of rows to show per page
-	 * Use: print JPagination :: getLimitBox();
+	 * Use: print $pagination->getLimitBox();
 	 * 
 	 * @deprecated as of 1.1
 	 */
 	function writeLimitBox($link = null) {
-		echo JPagination :: getLimitBox($link);
+		echo $this->getLimitBox($link);
 	}
 
 	/**
