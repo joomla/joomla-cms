@@ -192,6 +192,8 @@ class sections_html {
 		if ($row->image == '') {
 			$row->image = 'blank.png';
 		}
+		
+		mosMakeHtmlSafe( $row, ENT_QUOTES, 'description' );
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {
