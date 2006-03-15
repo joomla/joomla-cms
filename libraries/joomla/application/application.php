@@ -92,6 +92,7 @@ class JApplication extends JObject
 	*/
 	function __construct( $clientId = 0 ) {
 		$this->_clientId = $clientId;
+		$this->set( 'requestTime', date('Y-m-d H:i', time()) );
 	}
 
 	 /**

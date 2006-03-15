@@ -38,7 +38,7 @@ function pluginNavigation( &$row, &$params, $page=0 )
 		$access->canPublish = $user->authorize('action', 'publish', 'content', 'all');		
 
 		// Paramters for menu item as determined by controlling Itemid
-		$menu = & JModel :: getInstance( 'menu', $db );
+		$menu = & JModel::getInstance( 'menu', $db );
 		$menu->load($Itemid);
 		$mparams = new JParameter($menu->params);
 		
@@ -55,7 +55,54 @@ function pluginNavigation( &$row, &$params, $page=0 )
 		if ( $order_method == 'front' ) {
 			$order_method = '';
 		}
-		$orderby = JContentController :: _orderby_sec($order_method);
+
+		// Determine sort order
+		switch ($order_method)
+		{
+			case 'date' :
+				$orderby = 'a.created';
+				break;
+
+			case 'rdate' :
+				$orderby = 'a.created DESC';
+				break;
+
+			case 'alpha' :
+				$orderby = 'a.title';
+				break;
+
+			case 'ralpha' :
+				$orderby = 'a.title DESC';
+				break;
+
+			case 'hits' :
+				$orderby = 'a.hits';
+				break;
+
+			case 'rhits' :
+				$orderby = 'a.hits DESC';
+				break;
+
+			case 'order' :
+				$orderby = 'a.ordering';
+				break;
+
+			case 'author' :
+				$orderby = 'a.created_by_alias, u.name';
+				break;
+
+			case 'rauthor' :
+				$orderby = 'a.created_by_alias DESC, u.name DESC';
+				break;
+
+			case 'front' :
+				$orderby = 'f.ordering';
+				break;
+
+			default :
+				$orderby = 'a.ordering';
+				break;
+		}
 		
 		if ($access->canEdit) {
 			$xwhere = '';
@@ -94,7 +141,7 @@ function pluginNavigation( &$row, &$params, $page=0 )
 		}
 
 		$pnSpace = "";
-		if (JText :: _('&lt') || JText :: _('&gt')) {
+		if (JText::_('&lt') || JText::_('&gt')) {
 			$pnSpace = " ";
 		}
 		

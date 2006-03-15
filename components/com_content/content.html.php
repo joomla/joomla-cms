@@ -23,7 +23,8 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Content
  * @since 1.0
  */
-class JContentView {
+class JContentViewHTML {
+
 	/**
 	 * Draws a Content List Used by Content Category & Content Section
 	 * 
@@ -60,7 +61,7 @@ class JContentView {
 				// Displays listing of Categories
 				if (count($categories) > 0) {
 					if ($params->get('other_cat_section')) {
-						JContentView :: showCategories($params, new stdClass(), $gid, $categories, null, $section->id, $Itemid);
+						JContentViewHTML::showCategories($params, new stdClass(), $gid, $categories, null, $section->id, $Itemid);
 					}
 				}
 				?>
@@ -104,7 +105,7 @@ class JContentView {
 			<?php
 				// Displays the Table of Items in Category View
 				if (count($items)) {
-					JContentView :: showTable($params, $items, $gid, $category->id, $category->id, $page, $access, $category->sectionid, $lists, $order);
+					JContentViewHTML::showTable($params, $items, $gid, $category->id, $category->id, $page, $access, $category->sectionid, $lists, $order);
 				} else if ($category->id) {
 					?>
 					<br />
@@ -131,7 +132,7 @@ class JContentView {
 				// Displays listing of Categories
 				if (count($other_categories) > 0) {
 					if ($params->get('other_cat')) {
-						JContentView :: showCategories($params, $items, $gid, $other_categories, $category->id, $category->id, $Itemid);
+						JContentViewHTML::showCategories($params, $items, $gid, $other_categories, $category->id, $category->id, $Itemid);
 					}
 				}
 				?>
@@ -154,7 +155,7 @@ class JContentView {
 		$link = 'index.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
 		echo '<form action="'.sefRelToAbs($link).'" method="post">';
 
-		JContentView :: showBlog($rows, $params, $gid, $access, $pop, $menu, ($id) ? 1 : 0 );
+		JContentViewHTML::showBlog($rows, $params, $gid, $access, $pop, $menu, ($id) ? 1 : 0 );
 		
 		echo '<input type="hidden" name="id" value="'.$id.'" />';
 		echo '<input type="hidden" name="Itemid" value="'.$Itemid.'" />';
@@ -212,21 +213,21 @@ class JContentView {
 		$i = $limitstart;
 
 		// needed to reduce queries used by getItemid
-		$ItemidCount['bs'] 	= JApplicationHelper :: getBlogSectionCount();
-		$ItemidCount['bc'] 	= JApplicationHelper :: getBlogCategoryCount();
-		$ItemidCount['gbs'] = JApplicationHelper :: getGlobalBlogSectionCount();
+		$ItemidCount['bs'] 	= JApplicationHelper::getBlogSectionCount();
+		$ItemidCount['bc'] 	= JApplicationHelper::getBlogCategoryCount();
+		$ItemidCount['gbs'] = JApplicationHelper::getGlobalBlogSectionCount();
 
 		// used to display section/catagory description text and images
 		// currently not supported in Archives
 		if ($menu && $menu->componentid && ($descrip || $descrip_image)) {
 			switch ($menu->type) {
 				case 'content_blog_section' :
-					$description = & JModel :: getInstance( 'section', $db );
+					$description = & JModel::getInstance( 'section', $db );
 					$description->load($menu->componentid);
 					break;
 
 				case 'content_blog_category' :
-					$description = & JModel :: getInstance( 'category', $db );
+					$description = & JModel::getInstance( 'category', $db );
 					$description->load($menu->componentid);
 					break;
 
@@ -244,8 +245,8 @@ class JContentView {
 
 		if ($archive) {
 			echo '<br />';
-			echo mosHTML :: monthSelectList('month', 'size="1" class="inputbox"', $params->get('month'));
-			echo mosHTML :: integerSelectList(2000, 2010, 1, 'year', 'size="1" class="inputbox"', $params->get('year'), "%04d");
+			echo mosHTML::monthSelectList('month', 'size="1" class="inputbox"', $params->get('month'));
+			echo mosHTML::integerSelectList(2000, 2010, 1, 'year', 'size="1" class="inputbox"', $params->get('year'), "%04d");
 			echo '<input type="submit" class="button" />';
 		}
 
@@ -256,7 +257,7 @@ class JContentView {
 
 			if ($archive) {
 				// Search Success message
-				$msg = sprintf(JText :: _('ARCHIVE_SEARCH_SUCCESS'), $params->get('month'), $params->get('year'));
+				$msg = sprintf(JText::_('ARCHIVE_SEARCH_SUCCESS'), $params->get('month'), $params->get('year'));
 				echo "<br /><br /><div align='center'>".$msg."</div><br /><br />";
 			}
 			echo '<table class="blog'.$params->get('pageclass_sfx').'" cellpadding="0" cellspacing="0">';
@@ -287,7 +288,7 @@ class JContentView {
 						break;
 					}
 					echo '<div>';
-					JContentController :: show($rows[$i], $params, $gid, $access, $pop, $option, $ItemidCount);
+					JContentControllerHelper::show($rows[$i], $params, $gid, $access, $pop, $option, $ItemidCount);
 					echo '</div>';
 					$i ++;
 				}
@@ -312,7 +313,7 @@ class JContentView {
 					echo "<td valign=\"top\"".$width." class=\"article_column".$divider."\">\n";
 					for ($y = 0; $y < $intro / $columns; $y ++) {
 						if ($indexcount < $intro && ($i < $total)) {
-							JContentController :: show($rows[++ $indexcount], $params, $gid, $access, $pop, $option, $ItemidCount);
+							JContentControllerHelper::show($rows[++ $indexcount], $params, $gid, $access, $pop, $option, $ItemidCount);
 							$i++;
 						}				
 					}
@@ -377,7 +378,7 @@ class JContentView {
 				echo '<tr>';
 				echo '<td valign="top">';
 				echo '<div class="blog_more'.$params->get('pageclass_sfx').'">';
-				JContentView :: showLinks($rows, $links, $total, ++ $indexcount, 1, $ItemidCount);
+				JContentViewHTML::showLinks($rows, $links, $total, ++ $indexcount, 1, $ItemidCount);
 				echo '</div>';
 				echo '</td>';
 				echo '</tr>';
@@ -423,7 +424,7 @@ class JContentView {
 
 		} else if ($archive && !$total) {
 				// Search Failure message for Archives
-				$msg = sprintf(JText :: _('ARCHIVE_SEARCH_FAILURE'), $params->get('month'), $params->get('year'));
+				$msg = sprintf(JText::_('ARCHIVE_SEARCH_FAILURE'), $params->get('month'), $params->get('year'));
 				echo '<br /><br /><div align="center">'.$msg.'</div><br />';
 			} else {
 				// Generic blog empty display
@@ -457,7 +458,7 @@ class JContentView {
 		$mainframe->appendMetaTag('keywords', $row->metakey);
 
 		// process the new plugins
-		JPluginHelper :: importPlugin('content');
+		JPluginHelper::importPlugin('content');
 		$results = $mainframe->triggerEvent('onPrepareContent', array (& $row, & $params, $page));
 
 		// adds mospagebreak heading or title to <site> Title
@@ -471,13 +472,13 @@ class JContentView {
 				// checks if the item is a public or registered/special item
 				if ($row->access <= $gid) {
 					if ($task != 'view') {
-						$_Itemid = JApplicationHelper :: getItemid($row->id, 0, 0, $ItemidCount['bs'], $ItemidCount['bc'], $ItemidCount['gbs']);
+						$_Itemid = JApplicationHelper::getItemid($row->id, 0, 0, $ItemidCount['bs'], $ItemidCount['bc'], $ItemidCount['gbs']);
 					}
 					$linkOn 	= sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$row->id."&amp;Itemid=".$_Itemid);
-					$linkText 	= JText :: _('Read more...');
+					$linkText 	= JText::_('Read more...');
 				} else 	{
 					$linkOn 	= sefRelToAbs("index.php?option=com_registration&amp;task=register");
-					$linkText 	= JText :: _('Register to read more...');
+					$linkText 	= JText::_('Register to read more...');
 				}
 			}
 		}
@@ -493,7 +494,7 @@ class JContentView {
 		if ($access->canEdit) {
 			?>
 			<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">				
-				<?php JContentView :: _editIcon($row, $params, $access); ?>
+				<?php JContentViewHTMLHelper::editIcon($row, $params, $access); ?>
 			</div>
 			<?php
 		}
@@ -507,16 +508,16 @@ class JContentView {
 			<?php
 
 			// displays Item Title
-			JContentView :: _title($row, $params, $linkOn, $access);
+			JContentViewHTMLHelper::title($row, $params, $linkOn, $access);
 
 			// displays PDF Icon
-			JContentView :: _pdfIcon($row, $params, $linkOn, $hide_js);
+			JContentViewHTMLHelper::pdfIcon($row, $params, $linkOn, $hide_js);
 
 			// displays Print Icon
-			mosHTML :: PrintIcon($row, $params, $hide_js, $print_link);
+			mosHTML::PrintIcon($row, $params, $hide_js, $print_link);
 
 			// displays Email Icon
-			JContentView :: _emailIcon($row, $params, $hide_js);
+			JContentViewHTMLHelper::emailIcon($row, $params, $hide_js);
 			?>
 			</tr>
 			</table>
@@ -536,22 +537,22 @@ class JContentView {
 		<?php
 
 		// displays Section & Category
-		JContentView :: _sectionCategory($row, $params);
+		JContentViewHTMLHelper::sectionCategory($row, $params);
 
 		// displays Author Name
-		JContentView :: _author($row, $params);
+		JContentViewHTMLHelper::author($row, $params);
 
 		// displays Created Date
-		JContentView :: _createDate($row, $params);
+		JContentViewHTMLHelper::createDate($row, $params);
 
 		// displays Urls
-		JContentView :: _url($row, $params);
+		JContentViewHTMLHelper::url($row, $params);
 		?>
 		<tr>
 			<td valign="top" colspan="2">
 				<?php
 				// displays Table of Contents
-				JContentView :: _toc($row);
+				JContentViewHTMLHelper::toc($row);
 		
 				// displays Item Text
 				echo ampReplace($row->text);
@@ -561,10 +562,10 @@ class JContentView {
 		<?php
 
 		// displays Modified Date
-		JContentView :: _modifiedDate($row, $params);
+		JContentViewHTMLHelper::modifiedDate($row, $params);
 
 		// displays Readmore button
-		JContentView :: _readMore($params, $linkOn, $linkText);
+		JContentViewHTMLHelper::readMore($params, $linkOn, $linkText);
 
 		?>
 		</table>
@@ -576,10 +577,10 @@ class JContentView {
 		echo trim(implode("\n", $onAfterDisplayContent));
 
 		// displays the next & previous buttons
-		//JContentView :: _navigation($row, $params);
+		//JContentViewHTMLHelper::navigation($row, $params);
 
 		// displays close button in pop-up window
-		mosHTML :: CloseButton($params, $hide_js);
+		mosHTML::CloseButton($params, $hide_js);
 
 	}
 
@@ -670,7 +671,7 @@ class JContentView {
 						?>
 						<td align="left" width="100%" nowrap="nowrap">
 							<?php
-							echo JText :: _('Filter').'&nbsp;';
+							echo JText::_('Filter').'&nbsp;';
 							?>
 							<input type="text" name="filter" value="<?php echo $lists['filter'];?>" class="inputbox" onchange="document.adminForm.submit();" />
 						</td>
@@ -687,7 +688,7 @@ class JContentView {
 							
 							$link = 'index.php?option=com_content&amp;task=category&amp;sectionid='.$sectionid.'&amp;id='.$catid.'&amp;Itemid='. $Itemid . $filter;
 
-							echo '&nbsp;&nbsp;&nbsp;'.JText :: _('Display Num').'&nbsp;';
+							echo '&nbsp;&nbsp;&nbsp;'.JText::_('Display Num').'&nbsp;';
 							echo $pageNav->getLimitBox($link);
 							?>
 						</td>
@@ -704,34 +705,34 @@ class JContentView {
 			?>
 			<tr>
 				<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="5">
-					<?php echo JText :: _('Num'); ?>
+					<?php echo JText::_('Num'); ?>
 				</td>
 				<?php
 				if ($params->get('title')) {
 					?>
 					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="45%">
-						<?php mosCommonHTML :: tableOrdering( 'Item Title', 'a.title', $lists ); ?>
+						<?php mosCommonHTML::tableOrdering( 'Item Title', 'a.title', $lists ); ?>
 					</td>
 					<?php
 				}
 				if ($params->get('date')){
 					?>
 					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="25%">
-						<?php mosCommonHTML :: tableOrdering( 'Date', 'a.created', $lists ); ?>
+						<?php mosCommonHTML::tableOrdering( 'Date', 'a.created', $lists ); ?>
 					</td>
 					<?php
 				}
 				if ($params->get('author'))	{
 					?>
 					<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>"  width="20%">
-						<?php mosCommonHTML :: tableOrdering( 'Author', 'author', $lists ); ?>
+						<?php mosCommonHTML::tableOrdering( 'Author', 'author', $lists ); ?>
 					</td>
 					<?php
 				}
 				if ($params->get('hits')) {
 					?>
 					<td align="center" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="5%" nowrap="nowrap">
-						<?php mosCommonHTML :: tableOrdering( 'Hits', 'a.hits', $lists ); ?>
+						<?php mosCommonHTML::tableOrdering( 'Hits', 'a.hits', $lists ); ?>
 					</td>
 					<?php
 				}
@@ -759,7 +760,7 @@ class JContentView {
 							<a href="<?php echo $link; ?>">
 								<?php echo $row->title; ?></a>
 							<?php
-							JContentView :: _editIcon($row, $params, $access);
+							JContentViewHTMLHelper::editIcon($row, $params, $access);
 							?>
 						</td>
 						<?php
@@ -868,7 +869,7 @@ class JContentView {
 				break;
 			}
 			// needed to reduce queries used by getItemid
-			$_Itemid = JApplicationHelper :: getItemid($rows[$i]->id, 0, 0, $ItemidCount['bs'], $ItemidCount['bc'], $ItemidCount['gbs']);
+			$_Itemid = JApplicationHelper::getItemid($rows[$i]->id, 0, 0, $ItemidCount['bs'], $ItemidCount['bc'], $ItemidCount['gbs']);
 			$link = sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$rows[$i]->id.'&amp;Itemid='.$_Itemid)
 			?>
 			<li>
@@ -955,7 +956,7 @@ class JContentView {
 					alert ( "<?php echo JText::_( 'Please select a category', true ); ?>" );
 				} else {
 					<?php
-					$editor = & JEditor :: getInstance();
+					$editor = & JEditor::getInstance();
 					echo $editor->getEditorContents('editor1', 'introtext');
 					echo $editor->getEditorContents('editor2', 'fulltext');
 					?>
@@ -964,7 +965,7 @@ class JContentView {
 			} else {
 				// for static content
 				<?php
-				$editor = & JEditor :: getInstance();
+				$editor = & JEditor::getInstance();
 				echo $editor->getEditorContents('editor1', 'introtext');
 				?>
 				submitform(pressbutton);
@@ -984,23 +985,23 @@ class JContentView {
 		</script>
 		<?php
 		$docinfo = '<table><tr><td>'; 
-		$docinfo .= '<strong>'.JText :: _('Expiry Date').':</strong> ';
+		$docinfo .= '<strong>'.JText::_('Expiry Date').':</strong> ';
 		$docinfo .= '</td><td>'; 
 		$docinfo .= $row->publish_down;
 		$docinfo .= '</td></tr><tr><td>'; 
-		$docinfo .= '<strong>'.JText :: _('Version').':</strong> ';
+		$docinfo .= '<strong>'.JText::_('Version').':</strong> ';
 		$docinfo .= '</td><td>'; 
 		$docinfo .= $row->version;
 		$docinfo .= '</td></tr><tr><td>'; 
-		$docinfo .= '<strong>'.JText :: _('Created').':</strong> ';
+		$docinfo .= '<strong>'.JText::_('Created').':</strong> ';
 		$docinfo .= '</td><td>'; 
 		$docinfo .= $row->created;
 		$docinfo .= '</td></tr><tr><td>'; 
-		$docinfo .= '<strong>'.JText :: _('Last Modified').':</strong> ';
+		$docinfo .= '<strong>'.JText::_('Last Modified').':</strong> ';
 		$docinfo .= '</td><td>'; 
 		$docinfo .= $row->modified;
 		$docinfo .= '</td></tr><tr><td>'; 
-		$docinfo .= '<strong>'.JText :: _('Hits').':</strong> ';
+		$docinfo .= '<strong>'.JText::_('Hits').':</strong> ';
 		$docinfo .= '</td><td>'; 
 		$docinfo .= $row->hits;
 		$docinfo .= '</td></tr></table>'; 
@@ -1027,11 +1028,11 @@ class JContentView {
 				<div style="float: right;">
 					<?php
 					// Toolbar Top
-					mosToolBar :: startTable();
-					mosToolBar :: save();
-					mosToolBar :: apply('apply_new');
-					mosToolBar :: cancel();
-					mosToolBar :: endtable();
+					mosToolBar::startTable();
+					mosToolBar::save();
+					mosToolBar::apply('apply_new');
+					mosToolBar::cancel();
+					mosToolBar::endtable();
 					?>
 				</div>
 			</td>
@@ -1083,7 +1084,7 @@ class JContentView {
 			<td>
 				<?php
 				// parameters : areaname, content, hidden field, width, height, rows, cols
-				$editor = & JEditor :: getInstance();
+				$editor = & JEditor::getInstance();
 				echo $editor->getEditor('editor1', $row->introtext, 'introtext', '600', '400', '70', '15');
 				?>
 			</td>
@@ -1100,7 +1101,7 @@ class JContentView {
 				<td>
 					<?php
 					// parameters : areaname, content, hidden field, width, height, rows, cols
-					$editor = & JEditor :: getInstance();
+					$editor = & JEditor::getInstance();
 					echo $editor->getEditor('editor2', $row->fulltext, 'fulltext', '600', '400', '70', '15');
 					?>
 				</td>
@@ -1112,17 +1113,17 @@ class JContentView {
 		
 		<?php
 		// Toolbar Bottom
-		mosToolBar :: startTable();
-		mosToolBar :: save();
-		mosToolBar :: apply();
-		mosToolBar :: cancel();
-		mosToolBar :: endtable();
+		mosToolBar::startTable();
+		mosToolBar::save();
+		mosToolBar::apply();
+		mosToolBar::cancel();
+		mosToolBar::endtable();
 		?>
 		
 		<br />
 		
 		<?php
-		$title = JText :: _('Images');
+		$title = JText::_('Images');
 		$tabs->startPane('content-pane');
 		$tabs->startTab($title, 'images-page');
 		?>
@@ -1272,7 +1273,7 @@ class JContentView {
 			</table>
 			
 		<?php
-		$title = JText :: _('Publishing');
+		$title = JText::_('Publishing');
 		$tabs->endTab();
 		$tabs->startTab($title, 'publish-page');
 		?>
@@ -1359,7 +1360,7 @@ class JContentView {
 			</table>
 			
 		<?php
-		$title = JText :: _('Metadata');
+		$title = JText::_('Metadata');
 		$tabs->endTab();
 		$tabs->startTab($title, 'meta-page');
 		?>
@@ -1543,6 +1544,9 @@ class JContentView {
 	function userInputError($msg) {
 		josErrorAlert($msg);
 	}
+}
+
+class JContentViewHTMLHelper {
 
 	/**
 	 * Helper method to print the content item's title block if enabled.
@@ -1558,7 +1562,7 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _title($row, $params, $linkOn, $access) 
+	function title($row, $params, $linkOn, $access) 
 	{
 		if ($params->get('item_title')) {
 			?>
@@ -1591,7 +1595,7 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _editIcon($row, $params, $access) 
+	function editIcon($row, $params, $access) 
 	{
 		global $Itemid, $my, $mainframe;
 
@@ -1605,15 +1609,15 @@ class JContentView {
 			return;
 		}
 
-		mosCommonHTML :: loadOverlib();
+		mosCommonHTML::loadOverlib();
 
 		$link = 'index.php?option=com_content&amp;task=edit&amp;id='.$row->id.'&amp;Itemid='.$Itemid.'&amp;Returnid='.$Itemid;
-		$image = mosAdminMenus :: ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText :: _('Edit'), JText :: _('Edit'). $row->id );
+		$image = mosAdminMenus::ImageCheck('edit.png', '/images/M_images/', NULL, NULL, JText::_('Edit'), JText::_('Edit'). $row->id );
 
 		if ($row->state == 0) {
-			$overlib = JText :: _('Unpublished');
+			$overlib = JText::_('Unpublished');
 		} else {
-			$overlib = JText :: _('Published');
+			$overlib = JText::_('Published');
 		}
 		$date = mosFormatDate($row->created);
 		$author = $row->created_by_alias ? $row->created_by_alias : $row->author;
@@ -1644,16 +1648,16 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _pdfIcon($row, $params, $linkOn, $hideJS) 
+	function pdfIcon($row, $params, $linkOn, $hideJS) 
 	{
 		if ($params->get('pdf') && !$params->get('popup') && !$hideJS) 
 		{
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 			$link = 'index2.php?option=com_content&amp;no_html=1&amp;task=viewpdf&amp;id='.$row->id;
 			if ($params->get('icons')) {
-				$image = mosAdminMenus :: ImageCheck('pdf_button.png', '/images/M_images/', NULL, NULL, JText :: _('PDF'), JText :: _('PDF'));
+				$image = mosAdminMenus::ImageCheck('pdf_button.png', '/images/M_images/', NULL, NULL, JText::_('PDF'), JText::_('PDF'));
 			} else {
-				$image = JText :: _('PDF').'&nbsp;';
+				$image = JText::_('PDF').'&nbsp;';
 			}
 			?>
 			<td align="right" width="100%" class="buttonheading">
@@ -1677,15 +1681,15 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _emailIcon($row, $params, $hideJS) 
+	function emailIcon($row, $params, $hideJS) 
 	{
 		if ($params->get('email') && !$params->get('popup') && !$hideJS) {
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=400,height=250,directories=no,location=no';
 			$link = 'index2.php?option=com_content&amp;task=emailform&amp;id='.$row->id;
 			if ($params->get('icons')) 	{
-				$image = mosAdminMenus :: ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText :: _('Email'), JText :: _('Email'));
+				$image = mosAdminMenus::ImageCheck('emailButton.png', '/images/M_images/', NULL, NULL, JText::_('Email'), JText::_('Email'));
 			} else {
-				$image = '&nbsp;'.JText :: _('Email');
+				$image = '&nbsp;'.JText::_('Email');
 			}
 			?>
 			<td align="right" width="100%" class="buttonheading">
@@ -1708,7 +1712,7 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _sectionCategory($row, $params) 
+	function sectionCategory($row, $params) 
 	{
 		if (($params->get('section') && $row->sectionid) || ($params->get('category') && $row->catid)) {
 			?>
@@ -1718,10 +1722,10 @@ class JContentView {
 		}
 
 		// displays Section Name
-		JContentView :: _section($row, $params);
+		JContentViewHTMLHelper::section($row, $params);
 
 		// displays Section Name
-		JContentView :: _category($row, $params);
+		JContentViewHTMLHelper::category($row, $params);
 
 		if (($params->get('section') && $row->sectionid) || ($params->get('category') && $row->catid)) {
 				?>
@@ -1743,7 +1747,7 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _section($row, $params) 
+	function section($row, $params) 
 	{
 		if ($params->get('section') && $row->sectionid) {
 			?>
@@ -1772,7 +1776,7 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _category($row, $params) 
+	function category($row, $params) 
 	{
 		if ($params->get('category') && $row->catid) {
 			?>
@@ -1797,7 +1801,7 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _author($row, $params) 
+	function author($row, $params) 
 	{
 		global $acl;
 
@@ -1827,7 +1831,7 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _url($row, $params) 
+	function url($row, $params) 
 	{
 		if ($params->get('url') && $row->urls) 	{
 			?>
@@ -1853,7 +1857,7 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _createDate($row, $params) 
+	function createDate($row, $params) 
 	{
 		$create_date = null;
 		if (intval($row->created) != 0) {
@@ -1882,7 +1886,7 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _modifiedDate($row, $params) 
+	function modifiedDate($row, $params) 
 	{
 		$mod_date = null;
 		if (intval($row->modified) != 0) {
@@ -1911,7 +1915,7 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _toc($row) 
+	function toc($row) 
 	{
 		if (isset ($row->toc)) {
 			echo $row->toc;
@@ -1931,7 +1935,7 @@ class JContentView {
 	 * @return void
 	 * @since 1.0
 	 */
-	function _readMore($params, $linkOn, $linkText) 
+	function readMore($params, $linkOn, $linkText) 
 	{
 		if ($params->get('readmore')) {
 			if ($params->get('intro_only') && $linkText) {
