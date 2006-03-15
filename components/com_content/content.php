@@ -1132,6 +1132,7 @@ class JContentController
 		$MetaAuthor	= $mainframe->getCfg('MetaAuthor');
 		$voting			= $mainframe->getCfg('vote');
 		$now				= $mainframe->get('requestTime');
+		$noauth			= !$mainframe->getCfg('shownoauth');
 		$nullDate			= $db->getNullDate();
 		$gid					= $user->get('gid');
 		$option			= JRequest::getVar('option');
@@ -1245,7 +1246,91 @@ class JContentController
 			$breadcrumbs->addItem($row->title, '');
 			$mainframe->setPageTitle($row->title);
 
-			JContentControllerHelper::show($row, $params, $gid, $access, $pop, $option);
+			if ($access->canEdit)
+			{
+				if ($row->id === null || $row->access > $gid)
+				{
+					JError::raiseError( 404, JText::_("Resource Not Found") );
+				}
+			}
+			else
+			{
+				if ($row->id === null || $row->state == 0)
+				{
+					JError::raiseError( 404, JText::_("Resource Not Found") );
+				}
+				if ($row->access > $gid)
+				{
+					if ($noauth)
+					{
+						JError::raiseError( 403, JText::_("Access Forbidden") );
+					}
+					else
+					{
+						if (!($params->get('intro_only')))
+						{
+							JError::raiseError( 403, JText::_("Access Forbidden") );
+						}
+					}
+				}
+			}
+
+			/*
+			 * Get some parameters from global configuration
+			 */
+			$params->def('link_titles',		$mainframe->getCfg('link_titles'));
+			$params->def('author',			!$mainframe->getCfg('hideAuthor'));
+			$params->def('createdate',	!$mainframe->getCfg('hideCreateDate'));
+			$params->def('modifydate',	!$mainframe->getCfg('hideModifyDate'));
+			$params->def('print',				!$mainframe->getCfg('hidePrint'));
+			$params->def('pdf',					!$mainframe->getCfg('hidePdf'));
+			$params->def('email',				!$mainframe->getCfg('hideEmail'));
+			$params->def('rating',				$mainframe->getCfg('vote'));
+			$params->def('icons',				$mainframe->getCfg('icons'));
+			$params->def('readmore',		$mainframe->getCfg('readmore'));
+			
+			/*
+			 * Get some item specific parameters
+			 */
+			$params->def('image',					1);
+			$params->def('section',				0);
+			$params->def('popup',					$pop);
+			$params->def('section_link',		0);
+			$params->def('category',			0);
+			$params->def('category_link',	0);
+			$params->def('introtext',			1);
+			$params->def('pageclass_sfx',	'');
+			$params->def('item_title',			1);
+			$params->def('url',						1);
+	
+			if ($params->get('section_link') && $row->sectionid)
+			{
+				$row->section = JContentControllerHelper::getSectionLink($row);
+			}
+	
+			if ($params->get('category_link') && $row->catid)
+			{
+				$row->category = JContentControllerHelper::getCategoryLink($row);
+			}
+	
+			// show/hides the intro text
+			if ($params->get('introtext'))
+			{
+				$row->text = $row->introtext. ($params->get('intro_only') ? '' : chr(13).chr(13).$row->fulltext);
+			}
+			else
+			{
+				$row->text = $row->fulltext;
+			}
+	
+			// record the hit
+			if (!$params->get('intro_only') && ($limitstart == 0))
+			{
+				$obj = & JModel::getInstance('content', $db);
+				$obj->hit($row->id);
+			}
+	
+			JContentViewHTML::showItem($row, $params, $access);
 		}
 		else
 		{
@@ -1256,7 +1341,7 @@ class JContentController
 	function showItemAsPDF()
 	{
 		require_once (dirname(__FILE__).DS.'content.pdf.php');
-		doUtfPDF();
+		JContentViewPDF::showItem();
 	}
 
 	function editItem()
@@ -1950,217 +2035,6 @@ class JContentController
 
 class JContentControllerHelper{
 	
-	function show($row, $params, $gid, & $access, $pop, $option, $ItemidCount = NULL)
-	{
-		global $mainframe;
-
-		/*
-		 * Initialize variables
-		 */
-		$db = & $mainframe->getDBO();
-		$noauth = !$mainframe->getCfg('shownoauth');
-
-		if ($access->canEdit)
-		{
-			if ($row->id === null || $row->access > $gid)
-			{
-				mosNotAuth();
-				return;
-			}
-		}
-		else
-		{
-			if ($row->id === null || $row->state == 0)
-			{
-				mosNotAuth();
-				return;
-			}
-			if ($row->access > $gid)
-			{
-				if ($noauth)
-				{
-					mosNotAuth();
-					return;
-				}
-				else
-				{
-					if (!($params->get('intro_only')))
-					{
-						mosNotAuth();
-						return;
-					}
-				}
-			}
-		}
-
-		/*
-		 * Get some parameters from global configuration
-		 */
-		$params->def('link_titles',		$mainframe->getCfg('link_titles'));
-		$params->def('author',			!$mainframe->getCfg('hideAuthor'));
-		$params->def('createdate',	!$mainframe->getCfg('hideCreateDate'));
-		$params->def('modifydate',	!$mainframe->getCfg('hideModifyDate'));
-		$params->def('print',				!$mainframe->getCfg('hidePrint'));
-		$params->def('pdf',					!$mainframe->getCfg('hidePdf'));
-		$params->def('email',				!$mainframe->getCfg('hideEmail'));
-		$params->def('rating',				$mainframe->getCfg('vote'));
-		$params->def('icons',				$mainframe->getCfg('icons'));
-		$params->def('readmore',		$mainframe->getCfg('readmore'));
-		
-		/*
-		 * Get some item specific parameters
-		 */
-		$params->def('image',					1);
-		$params->def('section',				0);
-		$params->def('section_link',		0);
-		$params->def('category',			0);
-		$params->def('category_link',	0);
-		$params->def('introtext',			1);
-		$params->def('pageclass_sfx',	'');
-		$params->def('item_title',			1);
-		$params->def('url',						1);
-
-		if ($params->get('section_link') || $params->get('category_link'))
-		{
-			// loads the link for Section name
-			if ($params->get('section_link') || $params->get('category_link'))
-			{
-				// pull values from mainframe
-				$secLinkID = $mainframe->get('secID_'.$row->sectionid, -1);
-				$secLinkURL = $mainframe->get('secURL_'.$row->sectionid);
-
-				// check if values have already been placed into mainframe memory
-				if ($secLinkID == -1)
-				{
-					$query = "SELECT id, link" .
-							"\n FROM #__menu" .
-							"\n WHERE published = 1" .
-							"\n AND type IN ( 'content_section', 'content_blog_section' )" .
-							"\n AND componentid = $row->sectionid" .
-							"\n ORDER BY type DESC, ordering";
-					$database->setQuery($query);
-					//$secLinkID = $database->loadResult();
-					$result = $database->loadRow();
-
-					$secLinkID = $result[0];
-					$secLinkURL = $result[1];
-
-					if ($secLinkID == null)
-					{
-						$secLinkID = 0;
-						// save 0 query result to mainframe
-						$mainframe->set('secID_'.$row->sectionid, 0);
-					}
-					else
-					{
-						// save query result to mainframe
-						$mainframe->set('secID_'.$row->sectionid, $secLinkID);
-						$mainframe->set('secURL_'.$row->sectionid, $secLinkURL);
-					}
-				}
-
-				$_Itemid = '';
-				// use Itemid for section found in query
-				if ($secLinkID != -1 && $secLinkID)
-				{
-					$_Itemid = '&amp;Itemid='.$secLinkID;
-				}
-				if ($secLinkURL)
-				{
-					$link = sefRelToAbs($secLinkURL.$_Itemid);
-				}
-				else
-				{
-					$link = sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$row->sectionid.$_Itemid);
-				}
-				$row->section = '<a href="'.$link.'">'.$row->section.'</a>';
-			}
-
-			// loads the link for Category name
-			if ($params->get('category_link') && $row->catid)
-			{
-				// pull values from mainframe
-				$catLinkID = $mainframe->get('catID_'.$row->catid, -1);
-				$catLinkURL = $mainframe->get('catURL_'.$row->catid);
-
-				// check if values have already been placed into mainframe memory
-				if ($catLinkID == -1)
-				{
-					$query = "SELECT id, link" .
-							"\n FROM #__menu" .
-							"\n WHERE published = 1" .
-							"\n AND type IN ( 'content_category', 'content_blog_category' )" .
-							"\n AND componentid = $row->catid" .
-							"\n ORDER BY type DESC, ordering";
-					$database->setQuery($query);
-					//$catLinkID = $database->loadResult();
-					$result = $database->loadRow();
-
-					$catLinkID = $result[0];
-					$catLinkURL = $result[1];
-
-					if ($catLinkID == null)
-					{
-						$catLinkID = 0;
-						// save 0 query result to mainframe
-						$mainframe->set('catID_'.$row->catid, 0);
-					}
-					else
-					{
-						// save query result to mainframe
-						$mainframe->set('catID_'.$row->catid, $catLinkID);
-						$mainframe->set('catURL_'.$row->catid, $catLinkURL);
-					}
-				}
-
-				$_Itemid = '';
-				// use Itemid for category found in query
-				if ($catLinkID != -1 && $catLinkID)
-				{
-					$_Itemid = '&amp;Itemid='.$catLinkID;
-				}
-				else
-					if ($secLinkID != -1 && $secLinkID)
-					{
-						// use Itemid for section found in query
-						$_Itemid = '&amp;Itemid='.$secLinkID;
-					}
-				if ($catLinkURL)
-				{
-					$link = sefRelToAbs($catLinkURL.$_Itemid);
-				}
-				else
-				{
-					$link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$row->sectionid.'&amp;id='.$row->catid.$_Itemid);
-				}
-				$row->category = '<a href="'.$link.'">'.$row->category.'</a>';
-			}
-		}
-
-		// show/hides the intro text
-		if ($params->get('introtext'))
-		{
-			$row->text = $row->introtext. ($params->get('intro_only') ? '' : chr(13).chr(13).$row->fulltext);
-		}
-		else
-		{
-			$row->text = $row->fulltext;
-		}
-
-		// deal with the {mospagebreak} plugins
-		// only permitted in the full text area
-		$page = JRequest::getVar('limitstart', 0, '', 'int');
-
-		// record the hit
-		if (!$params->get('intro_only') && ($page == 0))
-		{
-			$obj = & JModel::getInstance('content', $db);
-			$obj->hit($row->id);
-		}
-
-		JContentViewHTML::show($row, $params, $access, $page, $option, $ItemidCount);
-	}
-
 	function orderbyPrimary($orderby)
 	{
 		switch ($orderby)
@@ -2333,6 +2207,141 @@ class JContentControllerHelper{
 		$results = array ('select' => $select, 'join' => $join);
 
 		return $results;
+	}
+
+	function getSectionLink(&$row)
+	{
+		static $links;
+
+		if (!isset ($links)) {
+			$links = array ();
+		}
+
+		if (empty ($links[$row->sectionid]))
+		{
+			$query = "SELECT id, link" .
+					"\n FROM #__menu" .
+					"\n WHERE published = 1" .
+					"\n AND (type = 'content_section' OR type = 'content_blog_section' )" .
+					"\n AND componentid = $row->sectionid" .
+					"\n ORDER BY type DESC, ordering";
+			$database->setQuery($query);
+			//$secLinkID = $database->loadResult();
+			$result = $database->loadRow();
+
+			$secLinkID = $result[0];
+			$secLinkURL = $result[1];
+
+			/*
+			 * Did we find an Itemid for the section?
+			 */
+			$Itemid = null;
+			if ($secLinkID)
+			{
+				$Itemid = '&amp;Itemid='.(int)$secLinkID;
+
+				if ($secLinkURL)
+				{
+					$link = sefRelToAbs($secLinkURL.$Itemid);
+				}
+				else
+				{
+					$link = sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$row->sectionid.$Itemid);
+				}
+				/*
+				 * We found one.. and built the link, so lets set it
+				 */
+				$links[$row->sectionid] = '<a href="'.$link.'">'.$row->section.'</a>';
+			}
+			else
+			{
+				/*
+				 * Didn't find an Itemid.. set the section name as the link
+				 */
+				$links[$row->sectionid] = $row->section;
+			}
+		}
+
+		return $links[$row->sectionid];
+	}
+
+	function getCategoryLink(&$row)
+	{
+		static $links;
+
+		if (!isset ($links)) {
+			$links = array ();
+		}
+
+		if (empty ($links[$row->catid])) {
+	
+			$query = "SELECT id, link" .
+					"\n FROM #__menu" .
+					"\n WHERE published = 1" .
+					"\n AND (type = 'content_category' OR type = 'content_blog_category' )" .
+					"\n AND componentid = $row->catid" .
+					"\n ORDER BY type DESC, ordering";
+			$database->setQuery($query);
+			$result = $database->loadRow();
+
+			$catLinkID = $result[0];
+			$catLinkURL = $result[1];
+
+			/*
+			 * Did we find an Itemid for the category?
+			 */
+			$Itemid = null;
+			if ($catLinkID)
+			{
+				$Itemid = '&amp;Itemid='.(int)$catLinkID;
+			}	else
+			{
+				/*
+				 * Nope, lets try to find it by section...
+				 */
+				$query = "SELECT id, link" .
+						"\n FROM #__menu" .
+						"\n WHERE published = 1" .
+						"\n AND (type = 'content_section' OR type = 'content_blog_section' )" .
+						"\n AND componentid = $row->sectionid" .
+						"\n ORDER BY type DESC, ordering";
+				$database->setQuery($query);
+				$secLinkID = $database->loadResult();
+				
+				/*
+				 * Find it by section?
+				 */
+				if ($secLinkID)
+				{
+					$Itemid = '&amp;Itemid='.$secLinkID;
+				}
+			}
+
+			if ($Itemid !== null)
+			{
+				if ($catLinkURL)
+				{
+					$link = sefRelToAbs($catLinkURL.$Itemid);
+				}
+				else
+				{
+					$link = sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$row->sectionid.'&amp;id='.$row->catid.$Itemid);
+				}
+				/*
+				 * We found an Itemid... build the link
+				 */
+				$links[$row->catid] = '<a href="'.$link.'">'.$row->category.'</a>';
+			}
+			else
+			{
+				/*
+				 * Didn't find an Itemid.. set the section name as the link
+				 */
+				$links[$row->catid] = $row->category;
+			}
+		}
+
+		return $links[$row->catid];
 	}
 }
 ?>
