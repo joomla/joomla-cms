@@ -913,6 +913,8 @@ function menuLink( $id ) {
 	$sectionid	= mosGetParam( $_POST, 'sectionid', '' );
 	$type 		= mosGetParam( $_POST, 'link_type', '' );
 
+	$name		= stripslashes( ampReplace($name) );
+	
 	switch ( $type ) {
 		case 'content_category':
 			$link 		= 'index.php?option=com_content&task=category&sectionid='. $sectionid .'&id='. $id;

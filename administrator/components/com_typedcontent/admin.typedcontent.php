@@ -804,6 +804,8 @@ function menuLink( $option, $id ) {
 	$menu 	= mosGetParam( $_POST, 'menuselect', '' );
 	$link 	= mosGetParam( $_POST, 'link_name', '' );
 
+	$link	= stripslashes( ampReplace($link) );
+	
 	$row 				=& JModel::getInstance( 'menu', $database );
 	$row->menutype 		= $menu;
 	$row->name 			= $link;

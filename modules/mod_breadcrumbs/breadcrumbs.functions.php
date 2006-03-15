@@ -22,19 +22,19 @@ defined('_JEXEC') or die('Restricted access');
  * @return	string	XHTML Compliant breadcrumbs string
  * @since	1.1
  */
-function showBreadCrumbs(& $items, $separator)
-{
+function showBreadCrumbs(& $items, $separator) {
 
 	/*
 	 * Initialize variables
 	 */
-	$breadcrumbs = '<span class="breadcrumbs pathway">';
-	$i = null;
-	$numItems = count($items);
+	$breadcrumbs 	= '<span class="breadcrumbs pathway">';
+	$i 				= null;
+	$numItems 		= count($items);
 
-	for ($i = 0; $i < $numItems; $i ++)
-	{
+	for ($i = 0; $i < $numItems; $i ++) {
 
+		$items[$i]->name = stripslashes( ampReplace($items[$i]->name) );
+		
 		// If a link is present create an html link, if not just use the name
 		if (empty ($items[$i]->link) || $numItems == $i +1)
 		{

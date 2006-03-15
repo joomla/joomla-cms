@@ -1702,8 +1702,10 @@ class JContentHelper {
 		 */
 		$db		= & $mainframe->getDBO();
 		$menu	= JRequest::getVar( 'menuselect', '', 'post' );
-		$link		= JRequest::getVar( 'link_name', '', 'post' );
+		$link	= JRequest::getVar( 'link_name', '', 'post' );
 
+		$link	= stripslashes( ampReplace($link) );
+		
 		/*
 		 * Instantiate a new menu item model
 		 */

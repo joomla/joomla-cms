@@ -101,6 +101,8 @@ class JSite extends JApplication {
 			$site .= ' [Offline]';
 		}
 		
+		$title = stripslashes($title);
+		
 		$document=& $this->getDocument();
 		$document->setTitle( $site.' - '.$title);
 	}
