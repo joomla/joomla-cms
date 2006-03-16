@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Mar-2005 Johan Janssens
+ - Removed administrator/includes/toolbar.html.php
+
 16-Mar-2005 Louis Landry
  + JMenu class to hold menu item information
  ^ Implemented caching in com_content

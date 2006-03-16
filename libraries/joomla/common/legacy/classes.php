@@ -23,7 +23,8 @@ jimport( 'joomla.model.model.*' );
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosMainFrame extends JApplication {
+class mosMainFrame extends JApplication 
+{
 	/**
 	 * Class constructor
 	 * @param database A database connection object
@@ -112,7 +113,8 @@ class mosMainFrame extends JApplication {
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosDBTable extends JModel {
+class mosDBTable extends JModel 
+{
 	/**
 	 * Constructor
 	 */
@@ -132,7 +134,8 @@ class mosDBTable extends JModel {
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosCategory extends JModelCategory {
+class mosCategory extends JModelCategory 
+{
 	/**
 	 * Constructor
 	 */
@@ -152,7 +155,8 @@ class mosCategory extends JModelCategory {
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosComponent extends JModelComponent {
+class mosComponent extends JModelComponent 
+{
 	/**
 	 * Constructor
 	 */
@@ -172,7 +176,8 @@ class mosComponent extends JModelComponent {
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosContent extends JModelContent {
+class mosContent extends JModelContent 
+{
 	/**
 	 * Constructor
 	 */
@@ -192,7 +197,8 @@ class mosContent extends JModelContent {
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosMambot extends JModelPlugin {
+class mosMambot extends JModelPlugin 
+{
 	/**
 	 * Constructor
 	 */
@@ -212,7 +218,8 @@ class mosMambot extends JModelPlugin {
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosMenu extends JModelMenu {
+class mosMenu extends JModelMenu 
+{
 	/**
 	 * Constructor
 	 */
@@ -232,7 +239,8 @@ class mosMenu extends JModelMenu {
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosModule extends JModelModule {
+class mosModule extends JModelModule 
+{
 	/**
 	 * Constructor
 	 */
@@ -252,7 +260,8 @@ class mosModule extends JModelModule {
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosSection extends JModelSection {
+class mosSection extends JModelSection 
+{
 	/**
 	 * Constructor
 	 */
@@ -272,7 +281,8 @@ class mosSection extends JModelSection {
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosSession extends JModelSession {
+class mosSession extends JModelSession 
+{
 	/**
 	 * Constructor
 	 */
@@ -322,7 +332,8 @@ class mosSession extends JModelSession {
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosUser extends JModelUser {
+class mosUser extends JModelUser 
+{
 	/**
 	 * Constructor
 	 */
@@ -342,7 +353,8 @@ class mosUser extends JModelUser {
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class database extends JDatabaseMySQL {
+class database extends JDatabaseMySQL 
+{
 	function __construct ($host='localhost', $user, $pass, $db='', $table_prefix='', $offline = true) {
 		parent::__construct( $host, $user, $pass, $db, $table_prefix );
 	}
@@ -355,7 +367,8 @@ class database extends JDatabaseMySQL {
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosCache {
+class mosCache 
+{
 	/**
 	* @return object A function cache object
 	*/
@@ -379,7 +392,8 @@ class mosCache {
  * @subpackage	1.1
  */
  
-class mosProfiler extends JProfiler {
+class mosProfiler extends JProfiler 
+{
 	/**
 	* @return object A function cache object
 	*/
@@ -395,8 +409,8 @@ class mosProfiler extends JProfiler {
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosParameters extends JParameter {
-
+class mosParameters extends JParameter 
+{
 	/**
 	* @param string The raw parms text
 	* @param string Path to the xml setup file
@@ -466,7 +480,8 @@ class mosParameters extends JParameter {
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosAbstractTasker {
+class mosAbstractTasker 
+{
 	/** @var array An array of the class methods to call for a task */
 	var $_taskMap 	= null;
 	/** @var string The name of the current task*/
@@ -638,7 +653,8 @@ class mosAbstractTasker {
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosMambotHandler extends JEventDispatcher {
+class mosMambotHandler extends JEventDispatcher 
+{
 	function __construct() {
 		parent::__construct();
 	}
@@ -693,7 +709,8 @@ class mosMambotHandler extends JEventDispatcher {
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosEmpty {
+class mosEmpty 
+{
 	function def( $key, $value='' ) {
 		return 1;
 	}
@@ -701,4 +718,27 @@ class mosEmpty {
 		return 1;
 	}
 }
+
+
+/**
+ * Legacy class, removed
+ * 
+ * @deprecated	As of version 1.1
+ * @package		Joomla.Legacy
+ * @subpackage	1.1
+ */
+class MENU_Default 
+{	
+	function MENU_Default() {
+		JMenuBar::startTable();
+		JMenuBar::publishList();
+		JMenuBar::unpublishList();
+		JMenuBar::addNew();
+		JMenuBar::editList();
+		JMenuBar::deleteList();
+		JMenuBar::spacer();
+		JMenuBar::endTable();
+	}
+}
+
 ?>
