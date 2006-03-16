@@ -282,7 +282,7 @@ class JConfigController {
 
 			switch ($task) {
 				case 'apply' :
-					josRedirect('index2.php?option=com_config&hidemainmenu=1', $msg);
+					josRedirect('index2.php?option=com_config', $msg);
 					break;
 
 				case 'save' :

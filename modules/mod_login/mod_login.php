@@ -113,17 +113,14 @@ else
 			<input type="password" id="mod_login_password" name="passwd" class="inputbox" size="10" alt="<?php echo JText::_( 'Password' ); ?>" />
 			<br />
 			<?php
-
-	if (JError :: hasErrors())
-	{
-		echo "<p>";
-		foreach (JError :: getErrors() as $error)
-		{
-			echo $error->getMessage()."<br />\n";
-		}
-		echo "</p>";
-	}
-	?>
+			if(JRequest::getVar('option') == 'login') {		
+				if(!JSession::get('guest')) {
+					echo "<p>";
+					echo JText::_( 'LOGIN_INCORRECT' );
+					echo  "</p>";
+				}
+			}	
+			?>
 			<input type="checkbox" name="remember" id="mod_login_remember" class="inputbox" value="yes" alt="<?php echo JText::_( 'Remember me' ); ?>" />
 			<label for="mod_login_remember">
 				<?php echo JText::_( 'Remember me' ); ?>

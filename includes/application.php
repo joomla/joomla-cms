@@ -62,7 +62,7 @@ class JSite extends JApplication {
 			}
 		} 
 		
-		JError::raiseWarning('SOME_ERROR_CODE', JText::_( 'LOGIN_INCORRECT' ));
+		return false;
 	}
 	
 	/**

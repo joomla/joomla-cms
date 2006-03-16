@@ -67,7 +67,7 @@ class JAdministrator extends JApplication
 			mosRedirect( 'index2.php' );
 		}
 		
-		JError::raiseWarning('SOME_ERROR_CODE', JText::_( 'LOGIN_INCORRECT' ));
+		return false;
 	}
 	
 	/**
