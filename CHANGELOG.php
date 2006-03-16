@@ -37,6 +37,10 @@ Legend:
 - -> Removed
 ! -> Note
 
+15-Mar-2005 Louis Landry
+ + JMessage class to utility package
+ ^ com_content restructuring
+
 15-Mar-2005 Andrew Eddie
  + Added webpage and mobile fields to contacts table
  ^ Widen several narrow fields in contacts table to allow for more characters
