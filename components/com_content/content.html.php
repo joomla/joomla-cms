@@ -31,7 +31,7 @@ class JContentViewHTML {
 	 * @since 1.1
 	 */
 	function showSection(& $section, & $categories, & $params) {
-		require_once (dirname(__FILE__).DS.'tmpl'.DS.'section.php');
+		require_once (dirname(__FILE__).DS.'view'.DS.'section.php');
 		/*
 		 * Need to cache this for speed
 		 */
@@ -43,7 +43,7 @@ class JContentViewHTML {
 	* Used by Content Category & Content Section
 	*/
 	function showCategory(& $category, & $other_categories, & $items, & $access, & $params, & $page, & $lists, $order) {
-		require_once (dirname(__FILE__).DS.'tmpl'.DS.'category.php');
+		require_once (dirname(__FILE__).DS.'view'.DS.'category.php');
 		/*
 		 * Need to cache this for speed
 		 */
@@ -52,7 +52,7 @@ class JContentViewHTML {
 
 	function showArchive(&$rows, &$params, &$menu, &$access, $id) 
 	{
-		require_once (dirname(__FILE__).DS.'tmpl'.DS.'archive.php');
+		require_once (dirname(__FILE__).DS.'view'.DS.'archive.php');
 		/*
 		 * Need to cache this for speed
 		 */
@@ -61,7 +61,7 @@ class JContentViewHTML {
 
 	function showBlog(&$rows, &$params, &$access, &$menu) 
 	{
-		require_once (dirname(__FILE__).DS.'tmpl'.DS.'blog.php');
+		require_once (dirname(__FILE__).DS.'view'.DS.'blog.php');
 		/*
 		 * Need to cache this for speed
 		 */
@@ -70,7 +70,7 @@ class JContentViewHTML {
 
 	function showItem(&$rows, &$params, &$access) 
 	{
-		require_once (dirname(__FILE__).DS.'tmpl'.DS.'item.php');
+		require_once (dirname(__FILE__).DS.'view'.DS.'item.php');
 		/*
 		 * Need to cache this for speed
 		 */

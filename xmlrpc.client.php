@@ -23,7 +23,7 @@ require_once ( JPATH_BASE .'/includes/application.php' );
 //	die( 'XML-RPC server not enabled.' );
 //}
 
-jimport('domit.dom_xmlrpc_client' );
+jimport('phpxmlrpc.xmlrpc');
 
 error_reporting( E_ALL );
 
@@ -36,51 +36,49 @@ $task 	= mosGetParam( $_POST, 'task', 0 );
 
 $output = '';
 if ($task) {
-	$client = new dom_xmlrpc_client( $host, $path );
-	$client->setResponseType( 'array' );
-
-	if ($debug) {
-		$client->setHTTPEvent( 'onRequest', true );
-		$client->setHTTPEvent( 'onResponse', true );
-	}
+	$client = new xmlrpc_client("/joomla/xmlrpc.server.php", "localhost", 80);
+	$client->setDebug(true);
 
 	switch ($task) {
 		case 'list_methods':
-			$myXmlRpc = new dom_xmlrpc_methodcall( 'system.listMethods' );
-			$xmlrpcdoc = $client->send( $myXmlRpc );
-
-			if (!$xmlrpcdoc->isFault()) {
-				$methods = $xmlrpcdoc->getParam(0);
+			$msg = new xmlrpcmsg('system.listMethods');
+			$xmlrpcdoc = $client->send($msg);
+			
+			if ($xmlrpcdoc->faultCode() == 0) {
+				$result = $xmlrpcdoc->value();
+				$array = $result->scalarval();
 			} else {
-				print $xmlrpcdoc->getFaultString();
+				print $xmlrpcdoc->faultString();
 			}
 
-			foreach ($methods as $k=>$v) {
-				$methods[$k] = mosHTML::makeOption( $v );
+			for ($i=0; $i < sizeof($array); $i++)
+			{
+				$var = new xmlrpcval($array[$i]);
+				$array_method = $var->scalarval();
+				
+				$methods[$i] = mosHTML::makeOption($array_method->scalarval());
 			}
+			
 			$output = 'Methods<br />';
 			$output .= mosHTML::selectList( $methods, 'method', 'size="10', 'value', 'text' );
 			$output .= ' <input name="args" type="text" />';
 			$output .= ' <input name="task" type="submit" value="exec" />';
 
 			break;
+			
 		case 'exec':
-			$method = mosGetParam( $_POST, 'method', '' );
-			$args = mosGetParam( $_POST, 'args' );
+			$method = mosGetParam($_POST, 'method', '');
+			$args = mosGetParam($_POST, 'args');
 			
-			$myXmlRpc = new dom_xmlrpc_methodcall( $method );
+			$message = new xmlrpcmsg($method, array(new xmlrpcval('okidoki', 'string')));
 			
-			$args = explode( ',', $args );
-			foreach ($args as $arg) {
-				$myXmlRpc->add($arg);
-			}
-			
-			$xmlrpcdoc = $client->send( $myXmlRpc );
+			$xmlrpcdoc = $client->send($message);
 
-			if (!$xmlrpcdoc->isFault()) {
-				$output .= var_export( $xmlrpcdoc->getParam(0), true );
+			if ($xmlrpcdoc->faultCode()== 0) { 
+				$scalar_var = $xmlrpcdoc->value();
+				$output = var_export($scalar_var->scalarval(), true);
 			} else {
-				print $xmlrpcdoc->getFaultString();
+				print $xmlrpcdoc->faultString();
 			}
 
 			break;
