@@ -12,7 +12,7 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-jimport('joomla.parameter.parameter');
+jimport('joomla.presentation.parameter.parameter');
 
 /**
  * Legacy class, use JParameter instead

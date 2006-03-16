@@ -52,7 +52,7 @@ jimport( 'joomla.version' );
 jimport( 'joomla.utilities.error');
 jimport( 'joomla.factory' );
 jimport( 'joomla.filesystem.*' );
-jimport( 'joomla.parameter.parameter' );
+jimport( 'joomla.presentation.parameter.parameter' );
 jimport( 'joomla.i18n.language' );
 jimport( 'joomla.model.model' );
 jimport( 'joomla.application.application');

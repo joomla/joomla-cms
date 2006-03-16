@@ -459,7 +459,5 @@ class JMenuBar
  * Legacy class, use JMenuBar instead
  * @deprecated As of version 1.1
  */
-class mosMenuBar extends JMenuBar
-{
-}
+class mosMenuBar extends JMenuBar { }
 ?>

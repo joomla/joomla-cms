@@ -12,7 +12,7 @@
  */
 
 jimport( 'joomla.common.base.object' );
-jimport( 'joomla.parameter.parameter' );
+jimport( 'joomla.presentation.parameter.parameter' );
 
 /**
  * User class.  Handles all application interaction with a user

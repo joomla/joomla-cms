@@ -232,7 +232,7 @@ class JParameter extends JRegistry
 		}
 
 		if( !class_exists( 'JElement' ) ) {
-			if( !jimport('joomla.parameter.element') ) {
+			if( !jimport('joomla.presentation.parameter.element') ) {
 				//return	JError::raiseError( 'SOME_ERROR_CODE', 'Could not load parameter base class.' );
 				return false;
 			}

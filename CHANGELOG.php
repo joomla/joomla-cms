@@ -39,6 +39,7 @@ Legend:
 
 16-Mar-2005 Johan Janssens
  - Removed administrator/includes/toolbar.html.php
+ - Moved paramater package into presentation package
 
 16-Mar-2005 Louis Landry
  + JMenu class to hold menu item information

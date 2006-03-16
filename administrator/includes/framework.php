@@ -62,7 +62,7 @@ jimport( 'joomla.model.model' );
 jimport( 'joomla.presentation.html' );
 jimport( 'joomla.factory' );
 jimport( 'joomla.filesystem.*' );
-jimport( 'joomla.parameter.parameter' );
+jimport( 'joomla.presentation.parameter.parameter' );
 jimport( 'joomla.i18n.language' );
 jimport( 'joomla.i18n.string' );
 jimport('joomla.application.menu');
