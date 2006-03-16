@@ -884,7 +884,7 @@ class mosCommonHTML {
 	function CheckedOutProcessing( &$row, $i ) {
 		global $my;
 
-		if ( $row->checked_out && $row->checked_out != $my->id ) {
+		if ( $row->checked_out ) {
 			$checked = mosCommonHTML::checkedOut( $row );
 		} else {
 			$checked = mosHTML::idBox( $i, $row->id, ($row->checked_out && $row->checked_out != $my->id ) );

@@ -130,13 +130,7 @@ class HTML_typedcontent {
 					}
 				}
 	
-				$link = 'index2.php?option=com_typedcontent&task=edit&hidemainmenu=1&id='. $row->id;
-	
-				if ( $row->checked_out ) {
-					$checked	 		= mosCommonHTML::checkedOut( $row );
-				} else {
-					$checked	 		= mosHTML::idBox( $i, $row->id, ($row->checked_out && $row->checked_out != $my->id ) );
-				}
+				$link = 'index2.php?option=com_typedcontent&task=edit&hidemainmenu=1&id='. $row->id;	
 	
 				if ( $user->authorize( 'com_users', 'manage' ) ) {
 					if ( $row->created_by_alias ) {
@@ -153,8 +147,9 @@ class HTML_typedcontent {
 					}
 				}
 	
-				$access = mosCommonHTML::AccessProcessing( $row, $i );
-				$date 	= mosFormatDate( $row->created, JText::_( 'DATE_FORMAT_LC4' ) );
+				$checked 	= mosCommonHTML::CheckedOutProcessing( $row, $i );
+				$access 	= mosCommonHTML::AccessProcessing( $row, $i );
+				$date 		= mosFormatDate( $row->created, JText::_( 'DATE_FORMAT_LC4' ) );
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
