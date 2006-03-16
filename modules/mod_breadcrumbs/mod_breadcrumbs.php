@@ -17,13 +17,13 @@ defined('_JEXEC') or die('Restricted access');
 /*
  * Include the breadcrumbs functions only once
  */
-require_once(JPath::clean(dirname(__FILE__).DS.'breadcrumbs.functions.php', false));
+require_once (JPath::clean(dirname(__FILE__).DS.'breadcrumbs.functions.php', false));
 
 /*
  * Initialize variables
  */
-$showHome		= true;
-$showComponent	= true;
+$showHome = true;
+$showComponent = true;
 
 // Set the default separator
 $separator = setSeparator();
@@ -46,8 +46,8 @@ if (JRequest::getVar('option') == 'com_content')
 }
 
 // Get the PathWay object from the application
-$pathway	= & $mainframe->getPathWay();
-$crumbs		= $pathway->getPathWay($showHome, $showComponent);
+$pathway = & $mainframe->getPathWay();
+$crumbs = $pathway->getPathWay($showHome, $showComponent);
 
 /*
  * This is the JTemplate method of displaying the BreadCrumbs for maximum flexibility
@@ -64,5 +64,4 @@ $crumbs		= $pathway->getPathWay($showHome, $showComponent);
  * This is the standard way of displaying the BreadCrumbs
  */
 echo showBreadCrumbs($crumbs, $separator);
-
 ?>

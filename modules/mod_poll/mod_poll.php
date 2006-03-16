@@ -12,48 +12,53 @@
 */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-if (!defined( '_JOS_POLL_MODULE' )) {
+if (!defined('_JOS_POLL_MODULE'))
+{
 	/** ensure that functions are declared only once */
-	define( '_JOS_POLL_MODULE', 1 );
+	define('_JOS_POLL_MODULE', 1);
 
 	/**
 	 * @param int The current menu item
 	 */
-	function show_poll_vote_form( $Itemid, $moduleclass_sfx ) {
+	function show_poll_vote_form($Itemid, $moduleclass_sfx)
+	{
 		global $database;
 
-		$query = "SELECT p.id, p.title"
-		. "\n FROM #__polls AS p, #__poll_menu AS pm"
-		. "\n WHERE (pm.menuid = " . (int) $Itemid . " OR pm.menuid = 0)"
-		. "\n AND p.id = pm.pollid"
-		. "\n AND p.published = 1";
+		$query = "SELECT p.id, p.title" .
+				"\n FROM #__polls AS p, #__poll_menu AS pm" .
+				"\n WHERE (pm.menuid = ".(int) $Itemid." OR pm.menuid = 0)" .
+				"\n AND p.id = pm.pollid" .
+				"\n AND p.published = 1";
 
-		$database->setQuery( $query );
+		$database->setQuery($query);
 		$polls = $database->loadObjectList();
 
-
-		if($database->getErrorNum()) {
+		if ($database->getErrorNum())
+		{
 			echo "MB ".$database->stderr(true);
 			return;
 		}
 
-		foreach ($polls as $poll) {
-			if ($poll->id && $poll->title) {
+		foreach ($polls as $poll)
+		{
+			if ($poll->id && $poll->title)
+			{
 
-				$query = "SELECT id, text"
-				. "\n FROM #__poll_data"
-				. "\n WHERE pollid = $poll->id"
-				. "\n AND text <> ''"
-				. "\n ORDER BY id";
+				$query = "SELECT id, text" .
+						"\n FROM #__poll_data" .
+						"\n WHERE pollid = $poll->id" .
+						"\n AND text <> '" .
+						"\n ORDER BY id";
 				$database->setQuery($query);
 
-				if(!($options = $database->loadObjectList())) {
+				if (!($options = $database->loadObjectList()))
+				{
 					echo "MD ".$database->stderr(true);
 					return;
 				}
-				poll_vote_form_html( $poll, $options, $Itemid, $moduleclass_sfx );
+				poll_vote_form_html($poll, $options, $Itemid, $moduleclass_sfx);
 			}
 		}
 	}
@@ -63,8 +68,9 @@ if (!defined( '_JOS_POLL_MODULE' )) {
 	 * @param array
 	 * @param int The current menu item
 	 */
-	function poll_vote_form_html( &$poll, &$options, $Itemid, $moduleclass_sfx ) {
-		$tabclass_arr = array( 'sectiontableentry2', 'sectiontableentry1' );
+	function poll_vote_form_html(& $poll, & $options, $Itemid, $moduleclass_sfx)
+	{
+		$tabclass_arr = array ('sectiontableentry2', 'sectiontableentry1');
 		$tabcnt = 0;
 		?>
 		<form name="form2" method="post" action="<?php echo sefRelToAbs("index.php?option=com_poll&amp;Itemid=$Itemid"); ?>">
@@ -81,7 +87,10 @@ if (!defined( '_JOS_POLL_MODULE' )) {
 			<td align="center">
 				<table class="pollstableborder<?php echo $moduleclass_sfx; ?>" cellspacing="0" cellpadding="0" border="0">
 				<?php
-				for ($i=0, $n=count( $options ); $i < $n; $i++) { ?>
+
+		for ($i = 0, $n = count($options); $i < $n; $i ++)
+		{
+		?>
 							<tr>
 								<td class="<?php echo $tabclass_arr[$tabcnt]; ?><?php echo $moduleclass_sfx; ?>" valign="top">
 									<input type="radio" name="voteid" id="voteid<?php echo $options[$i]->id;?>" value="<?php echo $options[$i]->id;?>" alt="<?php echo $options[$i]->id;?>" />
@@ -93,13 +102,17 @@ if (!defined( '_JOS_POLL_MODULE' )) {
 								</td>
 							</tr>
 					<?php
-					if ($tabcnt == 1){
-						$tabcnt = 0;
-					} else {
-						$tabcnt++;
-					}
-				}
-				?>
+
+			if ($tabcnt == 1)
+			{
+				$tabcnt = 0;
+			}
+			else
+			{
+				$tabcnt ++;
+			}
+		}
+		?>
 				</table>
 			</td>
 		</tr>
@@ -118,9 +131,10 @@ if (!defined( '_JOS_POLL_MODULE' )) {
 		<input type="hidden" name="task" value="vote" />
 		</form>
 		<?php
+
 	}
 }
 
-$moduleclass_sfx = $params->get( 'moduleclass_sfx' );
-show_poll_vote_form( $Itemid, $moduleclass_sfx );
+$moduleclass_sfx = $params->get('moduleclass_sfx');
+show_poll_vote_form($Itemid, $moduleclass_sfx);
 ?>

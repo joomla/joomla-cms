@@ -12,25 +12,33 @@
 */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 global $_VERSION;
 
-// NOTE - You may change this file to suit your site needs
+/*
+ * 						::NOTE::
+ * You may change this file to suit your site needs
+ * 						::NOTE::
+ */
 
-$cur_year = mosCurrentDate( '%Y' );
+$cur_year = mosCurrentDate('%Y');
 $csite_name = $GLOBALS['mosConfig_sitename'];
 
-if ( strpos( JText::_( 'FOOTER_LINE1' ), '%date%' ) ) {
-	$line1 = ereg_replace('%date%', $cur_year, JText::_( 'FOOTER_LINE1' ) );
+if (strpos(JText :: _('FOOTER_LINE1'), '%date%'))
+{
+	$line1 = ereg_replace('%date%', $cur_year, JText :: _('FOOTER_LINE1'));
 }
-else {
-	$line1 = JText::_( 'FOOTER_LINE1' );
+else
+{
+	$line1 = JText :: _('FOOTER_LINE1');
 }
-if ( strpos( $line1, '%sitename%' ) ) {
-	$lineone = ereg_replace('%sitename%', $csite_name, $line1 );
+if (strpos($line1, '%sitename%'))
+{
+	$lineone = ereg_replace('%sitename%', $csite_name, $line1);
 }
-else {
+else
+{
 	$lineone = $line1;
 }
 ?>

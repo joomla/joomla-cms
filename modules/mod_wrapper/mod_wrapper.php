@@ -12,38 +12,46 @@
 */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 global $_CONFIG;
 
-$params->def( 'url', '' );
-$params->def( 'scrolling', 'auto' );
-$params->def( 'height', '200' );
-$params->def( 'height_auto', '0' );
-$params->def( 'width', '100%' );
-$params->def( 'add', '1' );
-$params->def( 'name', 'wrapper' );
+$params->def('url', '');
+$params->def('scrolling', 'auto');
+$params->def('height', '200');
+$params->def('height_auto', '0');
+$params->def('width', '100%');
+$params->def('add', '1');
+$params->def('name', 'wrapper');
 
-$url = $params->get( 'url' );
-if ( $params->get( 'add' ) ) {
+$url = $params->get('url');
+if ($params->get('add'))
+{
 	// adds 'http://' if none is set
-if ( substr( $url, 0, 1 ) == '/' ) {
-	// relative url in component. use server http_host.
-	$url = 'http://'. $_SERVER['HTTP_HOST'] . $url;
-} elseif ( !strstr( $url, 'http' ) && !strstr( $url, 'https' ) ) {
-	$url = 'http://'. $url;
-} else {
-	$url = $url;
-}
+	if (substr($url, 0, 1) == '/')
+	{
+		// relative url in component. use server http_host.
+		$url = 'http://'.$_SERVER['HTTP_HOST'].$url;
+	}
+	elseif (!strstr($url, 'http') && !strstr($url, 'https'))
+	{
+		$url = 'http://'.$url;
+	}
+	else
+	{
+		$url = $url;
+	}
 }
 
 // auto height control
-if ( $params->def( 'height_auto' ) ) {
+if ($params->def('height_auto'))
+{
 	$load = 'onload="iFrameHeight()"';
-} else {
+}
+else
+{
 	$load = '';
 }
-
 ?>
 <script language="javascript" type="text/javascript">
 function iFrameHeight() {

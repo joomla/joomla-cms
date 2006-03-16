@@ -22,24 +22,26 @@ defined('_JEXEC') or die('Restricted access');
  * @return	string	XHTML Compliant breadcrumbs string
  * @since	1.1
  */
-function showBreadCrumbs(& $items, $separator) {
+function showBreadCrumbs(& $items, $separator)
+{
 
 	/*
 	 * Initialize variables
 	 */
-	$breadcrumbs 	= '<span class="breadcrumbs pathway">';
-	$i 				= null;
-	$numItems 		= count($items);
+	$breadcrumbs	= '<span class="breadcrumbs pathway">';
+	$i						= null;
+	$numItems		= count($items);
 
-	for ($i = 0; $i < $numItems; $i ++) {
+	for ($i = 0; $i < $numItems; $i ++)
+	{
+		$items[$i]->name = stripslashes(ampReplace($items[$i]->name));
 
-		$items[$i]->name = stripslashes( ampReplace($items[$i]->name) );
-		
 		// If a link is present create an html link, if not just use the name
 		if (empty ($items[$i]->link) || $numItems == $i +1)
 		{
 			$link = $items[$i]->name;
-		} else
+		}
+		else
 		{
 			$link = '<a href="'.sefRelToAbs($items[$i]->link).'" class="pathway">'.$items[$i]->name.'</a>';
 		}
@@ -96,7 +98,8 @@ function setSeparator($custom = null)
 		if (JFile::exists(JPATH_SITE."/$tSepPath"))
 		{
 			$_separator = '<img src="'.$tSepPath.'" border="0" alt="arrow" />';
-		} else
+		}
+		else
 		{
 
 			// Template specific separator does not exist, use the default separator
@@ -106,17 +109,18 @@ function setSeparator($custom = null)
 			if (JFile::exists(JPATH_SITE.$dSepPath))
 			{
 				$_separator = '<img src="images/M_images/arrow.png" alt="arrow" />';
-			} else
+			}
+			else
 			{
 				// The default separator does not exist either ... just use a bracket
 				$_separator = '&gt;';
 			}
 		}
-	} else
+	}
+	else
 	{
 		$_separator = $custom;
 	}
 	return $_separator;
 }
 ?>
-

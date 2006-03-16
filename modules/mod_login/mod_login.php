@@ -12,69 +12,73 @@
 */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 // url of current page that user will be returned to after login
-$url = mosGetParam( $_SERVER, 'REQUEST_URI', null );
+$url = mosGetParam($_SERVER, 'REQUEST_URI', null);
 
-$user =& $mainframe->getUser();
+$user = & $mainframe->getUser();
 
 // if return link does not contain https:// & http:// and to url
-if ( strpos($url, 'http:') !== 0 && strpos($url, 'https:') !== 0 ) 
+if (strpos($url, 'http:') !== 0 && strpos($url, 'https:') !== 0)
 {
-	$url = mosGetParam( $_SERVER, 'HTTP_HOST', null ) . $url;
+	$url = mosGetParam($_SERVER, 'HTTP_HOST', null).$url;
 
 	// check if link is https://
-	if ( isset( $_SERVER['HTTPS'] ) && ( !empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] != 'off' ) ) {
-		$return = 'https://'. $url;
-	} else {
-	// normal http:// link
-		$return = 'http://'. $url;
+	if (isset ($_SERVER['HTTPS']) && (!empty ($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off'))
+	{
+		$return = 'https://'.$url;
 	}
-} 
-else 
+	else
+	{
+		// normal http:// link
+		$return = 'http://'.$url;
+	}
+}
+else
 {
 	$return = $url;
 }
 
 // converts & to &amp; for xtml compliance
-$return = str_replace( '&', '&amp;', $return );
+$return = str_replace('&', '&amp;', $return);
 
-$registration_enabled 	= $mainframe->getCfg( 'allowUserRegistration' );
-$pretext 				= $params->get( 'pretext' );
-$posttext 				= $params->get( 'posttext' );
-$login 					= $params->def( 'login', $return );
-$logout 				= $params->def( 'logout', $return );
-$name 					= $params->def( 'name', 1 );
-$greeting 				= $params->def( 'greeting', 1 );
+$registration_enabled	= $mainframe->getCfg('allowUserRegistration');
+$pretext						= $params->get('pretext');
+$posttext						= $params->get('posttext');
+$login							= $params->def('login', $return);
+$logout						= $params->def('logout', $return);
+$name							= $params->def('name', 1);
+$greeting						= $params->def('greeting', 1);
 
-if ( $user->get('id') ) 
+if ($user->get('id'))
 {
 	// Logout output
 	// ie HTML when already logged in and trying to logout
-	if ( $name ) {
-		$query = "SELECT name"
-		. "\n FROM #__users"
-		. "\n WHERE id = ".$user->get('id')
-		;
-		$database->setQuery( $query );
+	if ($name)
+	{
+		$query = "SELECT name" .
+				"\n FROM #__users" .
+				"\n WHERE id = ".$user->get('id');
+		$database->setQuery($query);
 		$name = $database->loadResult();
-	} else {
+	}
+	else
+	{
 		$name = $user->get('username');
-	}	
+	}
 	?>
 	<form action="index.php" method="post" name="login">
-	
 	<?php
-	if ( $greeting ) {
-		?>
+	if ($greeting)
+	{
+	?>
 		<div>
 			<?php echo sprintf( JText::_( 'HINAME' ), $name ); ?>
 		</div>
 		<?php
 	}
 	?>
-	
 	<div align="center">
 		<input type="submit" name="Submit" class="button" value="<?php echo JText::_( 'BUTTON_LOGOUT'); ?>" />
 	</div>
@@ -84,9 +88,11 @@ if ( $user->get('id') )
 	<input type="hidden" name="return" value="<?php echo sefRelToAbs( 'index.php?'.$logout ); ?>" />
 	</form>
 	<?php
-} else {
-// Login output
-// ie HTML when not logged in and trying to login
+}
+else
+{
+	// Login output
+	// ie HTML when not logged in and trying to login
 	?>
 	<form action="index.php" method="post" name="login" >
 	
@@ -106,16 +112,18 @@ if ( $user->get('id') )
 			<br />
 			<input type="password" id="mod_login_password" name="passwd" class="inputbox" size="10" alt="<?php echo JText::_( 'Password' ); ?>" />
 			<br />
-			<?php 
-			if(JError::hasErrors()) 
-			{
-				echo "<p>";
-					foreach(JError::getErrors() as $error) {
-						echo $error->getMessage()."<br />\n";
-					}
-				echo  "</p>";
-			}
-			?>
+			<?php
+
+	if (JError :: hasErrors())
+	{
+		echo "<p>";
+		foreach (JError :: getErrors() as $error)
+		{
+			echo $error->getMessage()."<br />\n";
+		}
+		echo "</p>";
+	}
+	?>
 			<input type="checkbox" name="remember" id="mod_login_remember" class="inputbox" value="yes" alt="<?php echo JText::_( 'Remember me' ); ?>" />
 			<label for="mod_login_remember">
 				<?php echo JText::_( 'Remember me' ); ?>
@@ -131,8 +139,10 @@ if ( $user->get('id') )
 		</td>
 	</tr>
 	<?php
-	if ( $registration_enabled ) {
-		?>
+
+	if ($registration_enabled)
+	{
+	?>
 		<tr>
 			<td>
 				<?php echo JText::_( 'No account yet?'); ?>
@@ -141,6 +151,7 @@ if ( $user->get('id') )
 			</td>
 		</tr>
 		<?php
+
 	}
 	?>
 	</table>
