@@ -338,7 +338,7 @@ class JContentViewHTML_blog
 					if ($task != 'view')
 					{
 						$cache = JFactory::getCache('getItemid');
-						$Itemid = $cache->call( 'JApplicationHelper::getItemid', $row->id, 0, 0, JApplicationHelper::getBlogSectionCount(),JApplicationHelper::getBlogCategoryCount(), JApplicationHelper::getGlobalBlogSectionCount());
+						$Itemid = $cache->call( 'JContentHelper::getItemid', $row->id);
 					}
 					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$row->id."&amp;Itemid=".$Itemid);
 					$linkText = JText::_('Read more...');
@@ -473,7 +473,7 @@ class JContentViewHTML_blog
 				break;
 			}
 			$cache		= JFactory::getCache('getItemid');
-			$Itemid	= $cache->call( 'JApplicationHelper::getItemid', $rows[$i]->id, 0, 0, JApplicationHelper::getBlogSectionCount(),JApplicationHelper::getBlogCategoryCount(), JApplicationHelper::getGlobalBlogSectionCount());
+			$Itemid	= $cache->call( 'JContentHelper::getItemid', $rows[$i]->id);
 			$link			= sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$rows[$i]->id.'&amp;Itemid='.$Itemid)
 			?>
 			<li>

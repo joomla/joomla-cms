@@ -103,6 +103,8 @@ switch ($type)
 <?php
 
 $cache = JFactory :: getCache('getItemid');
+require_once (JApplicationHelper::getPath('front', 'com_content'));
+
 foreach ($rows as $row)
 {
 	// get Itemid
@@ -120,7 +122,7 @@ foreach ($rows as $row)
 		case 3 :
 			if ($row->sectionid)
 			{
-				$my_itemid = $cache->call('JApplicationHelper::getItemid', $row->id, 0, 0, JApplicationHelper :: getBlogSectionCount(), JApplicationHelper :: getBlogCategoryCount(), JApplicationHelper :: getGlobalBlogSectionCount());
+				$my_itemid = $cache->call('JContentHelper::getItemid', $row->id);
 			}
 			else
 			{
@@ -135,7 +137,7 @@ foreach ($rows as $row)
 
 		case 1 :
 		default :
-			$my_itemid = $cache->call('JApplicationHelper::getItemid', $row->id, 0, 0, JApplicationHelper :: getBlogSectionCount(), JApplicationHelper :: getBlogCategoryCount(), JApplicationHelper :: getGlobalBlogSectionCount());
+			$my_itemid = $cache->call('JContentHelper::getItemid', $row->id);
 			break;
 	}
 

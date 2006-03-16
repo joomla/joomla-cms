@@ -382,10 +382,8 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 	$dblink = "index.php?option=$menu_option";
 	
 	if ( $Itemid != '' && $Itemid != 0 && $Itemid != 99999999 ) {
-		$query = "SELECT access"
-		. "\n FROM #__menu"
-		. "\n WHERE id = $Itemid"
-		;
+		$menu = JMenu::getInstance();
+		$results[] = $menu->getItemById($Itemid);
 	} else {
 		if ($task!='') {
 			$dblink	.= "&task=$task";
@@ -395,9 +393,9 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 		. "\n FROM #__menu"
 		. "\n WHERE link LIKE '$dblink%'"
 		;
+		$database->setQuery( $query );
+		$results 	= $database->loadObjectList();
 	}
-	$database->setQuery( $query );
-	$results 	= $database->loadObjectList();
 	$access 	= 0;
 	
 	foreach ($results as $result) {

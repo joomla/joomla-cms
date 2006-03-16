@@ -14,7 +14,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once (JApplicationHelper :: getPath('front_html', 'com_content'));
+require_once (JApplicationHelper::getPath('front_html', 'com_content'));
 
 if (!defined('_JOS_NEWSFLASH_MODULE'))
 {
@@ -34,12 +34,8 @@ if (!defined('_JOS_NEWSFLASH_MODULE'))
 		$row->created = '';
 		$row->modified = '';
 
-		$bs = $mainframe->getBlogSectionCount();
-		$bc = $mainframe->getBlogCategoryCount();
-		$gbs = $mainframe->getGlobalBlogSectionCount();
-		$ItemidCount = $mainframe->getItemid($row->id, 0, 0, $bs, $bc, $gbs);
-
-		JContentViewHTML :: showItem($row, $params, $access, 0, 'com_content', $ItemidCount);
+		$cache = JFactory::getCache('com_content');
+		$cache->call( 'JContentViewHTML::showItem', $row, $params, $access, "mod_newsflash");
 	}
 }
 

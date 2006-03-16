@@ -70,6 +70,7 @@ jimport( 'joomla.application.event' );
 jimport( 'joomla.application.extension.plugin' );
 jimport( 'joomla.presentation.editor' );
 jimport( 'joomla.application.application');
+jimport( 'joomla.application.menu' );
 
 jimport( 'joomla.common.legacy.*' );
 ?>

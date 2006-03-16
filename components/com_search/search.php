@@ -164,6 +164,8 @@ function viewSearch() {
 		}
 
 		$cache = JFactory::getCache('getItemid');
+		require_once (JApplicationHelper::getPath('front', 'com_content'));
+		
 		$totalRows = count( $rows );
 
 		for ($i=0; $i < $totalRows; $i++) {
@@ -189,7 +191,7 @@ function viewSearch() {
 					// tests to see if itemid has already been included - this occurs for typed content items
 					if ( !strstr( $rows[$i]->href, 'Itemid' ) ) {
 						$temp = explode( 'id=', $rows[$i]->href );
-						$_Itemid = $cache->call( 'JApplicationHelper::getItemid', $temp[1]);
+						$_Itemid = $cache->call( 'JContentHelper::getItemid', $temp[1]);
 						@$rows[$i]->href = $rows[$i]->href. '&amp;Itemid='. $_Itemid;
 					}
 				}

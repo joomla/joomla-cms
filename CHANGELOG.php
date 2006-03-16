@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+16-Mar-2005 Louis Landry
+ + JMenu class to hold menu item information
+ ^ Implemented caching in com_content
+ ^ Implemented caching in mod_newsflash
+ ^ Various performance improvements
+
 15-Mar-2005 Louis Landry
  + JMessage class to utility package
  ^ com_content restructuring

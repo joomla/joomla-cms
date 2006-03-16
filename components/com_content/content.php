@@ -137,20 +137,20 @@ class JContentController
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		// Parameters
-		$menu = & JModel::getInstance('menu', $db);
-		$menu->load($Itemid);
+		$menu = JMenu::getInstance();
+		$menu = $menu->getItemById($Itemid);
 		$params = new JParameter($menu->params);
 
 		$orderby_pri	= $params->def('orderby_pri', '');
 		$orderby_sec	= $params->def('orderby_sec', '');
 
 		// Ordering control
-		$order_sec	= JContentControllerHelper::orderbySecondary($orderby_sec);
-		$order_pri	= JContentControllerHelper::orderbyPrimary($orderby_pri);
+		$order_sec	= JContentHelper::orderbySecondary($orderby_sec);
+		$order_pri	= JContentHelper::orderbyPrimary($orderby_pri);
 
-		$voting = JContentControllerHelper::buildVotingQuery();
+		$voting = JContentHelper::buildVotingQuery();
 
-		$where = JContentControllerHelper::buildWhere(1, $access, $noauth, $gid, 0, $now);
+		$where = JContentHelper::buildWhere(1, $access, $noauth, $gid, 0, $now);
 		$where = (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '');
 
 		// query records
@@ -190,7 +190,8 @@ class JContentController
 		// Dynamic Page Title
 		$mainframe->SetPageTitle($menu->name);
 
-		JContentViewHTML::showBlog($rows, $params, $access, $menu);
+		$cache = JFactory::getCache('com_content');
+		$cache->call('JContentViewHTML::showBlog', $rows, $params, $access, $menu);
 	}
 
 	/**
@@ -246,8 +247,8 @@ class JContentController
 		 */
 		if ($Itemid)
 		{
-			$menu = & JModel::getInstance('menu', $db);
-			$menu->load($Itemid);
+			$menu = JMenu::getInstance();
+			$menu = $menu->getItemById($Itemid);
 			$params = new JParameter($menu->params);
 		}
 		else
@@ -273,7 +274,7 @@ class JContentController
 
 		// Ordering control
 		$orderby = $params->get('orderby', '');
-		$orderby = JContentControllerHelper::orderbySecondary($orderby);
+		$orderby = JContentHelper::orderbySecondary($orderby);
 
 		// Handle the access permissions part of the main database query
 		if ($access->canEdit)
@@ -343,7 +344,8 @@ class JContentController
 		$breadcrumbs = & $mainframe->getPathWay();
 		$breadcrumbs->addItem($section->title, '');
 
-		JContentViewHTML::showSection($section, $categories, $params);
+		$cache = JFactory::getCache('com_content');
+		$cache->call('JContentViewHTML::showSection', $section, $categories, $params);
 	}
 
 	/**
@@ -429,8 +431,8 @@ class JContentController
 		// Paramters
 		if ($Itemid)
 		{
-			$menu = & JModel::getInstance('menu', $db);
-			$menu->load($Itemid);
+			$menu = JMenu::getInstance();
+			$menu = $menu->getItemById($Itemid);
 			$params = new JParameter($menu->params);
 			$pagetitle = $menu->name;
 		}
@@ -602,7 +604,8 @@ class JContentController
 		$lists['order'] = $filter_order;
 		$selected = '';
 
-		JContentViewHTML::showCategory($category, $other_categories, $items, $access, $params, $page, $lists, $selected);
+		$cache = JFactory::getCache('com_content');
+		$cache->call('JContentViewHTML::showCategory', $category, $other_categories, $items, $access, $params, $page, $lists, $selected);
 	}
 
 	function showBlogSection()
@@ -634,8 +637,8 @@ class JContentController
 		// Parameters
 		if ($Itemid)
 		{
-			$menu = & JModel::getInstance('menu', $db);
-			$menu->load($Itemid);
+			$menu = JMenu::getInstance();
+			$menu = $menu->getItemById($Itemid);
 			$params = new JParameter($menu->params);
 		}
 		else
@@ -650,16 +653,16 @@ class JContentController
 			$id = $params->def('sectionid', 0);
 		}
 
-		$where = JContentControllerHelper::buildWhere(1, $access, $noauth, $gid, $id, $now);
+		$where = JContentHelper::buildWhere(1, $access, $noauth, $gid, $id, $now);
 		$where = (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '');
 
 		// Ordering control
 		$orderby_sec	= $params->def('orderby_sec', 'rdate');
 		$orderby_pri	= $params->def('orderby_pri', '');
-		$order_sec		= JContentControllerHelper::orderbySecondary($orderby_sec);
-		$order_pri		= JContentControllerHelper::orderbyPrimary($orderby_pri);
+		$order_sec		= JContentHelper::orderbySecondary($orderby_sec);
+		$order_pri		= JContentHelper::orderbyPrimary($orderby_pri);
 
-		$voting = JContentControllerHelper::buildVotingQuery();
+		$voting = JContentHelper::buildVotingQuery();
 
 		// Main data query
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
@@ -710,7 +713,8 @@ class JContentController
 			}
 		}
 
-		JContentViewHTML::showBlog($rows, $params, $access, $menu);
+		$cache = JFactory::getCache('com_content');
+		$cache->call('JContentViewHTML::showBlog', $rows, $params, $access, $menu);
 	}
 
 	function showBlogCategory()
@@ -742,8 +746,8 @@ class JContentController
 		// Paramters
 		if ($Itemid)
 		{
-			$menu = & JModel::getInstance('menu', $db);
-			$menu->load($Itemid);
+			$menu = JMenu::getInstance();
+			$menu = $menu->getItemById($Itemid);
 			$params = new JParameter($menu->params);
 		}
 		else
@@ -758,16 +762,16 @@ class JContentController
 			$id = $params->def('categoryid', 0);
 		}
 
-		$where = JContentControllerHelper::buildWhere(2, $access, $noauth, $gid, $id, $now);
+		$where = JContentHelper::buildWhere(2, $access, $noauth, $gid, $id, $now);
 		$where = (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '');
 
 		// Ordering control
 		$orderby_sec	= $params->def('orderby_sec', 'rdate');
 		$orderby_pri	= $params->def('orderby_pri', '');
-		$order_sec		= JContentControllerHelper::orderbySecondary($orderby_sec);
-		$order_pri		= JContentControllerHelper::orderbyPrimary($orderby_pri);
+		$order_sec		= JContentHelper::orderbySecondary($orderby_sec);
+		$order_pri		= JContentHelper::orderbyPrimary($orderby_pri);
 
-		$voting = JContentControllerHelper::buildVotingQuery();
+		$voting = JContentHelper::buildVotingQuery();
 
 		// Main data query
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
@@ -837,7 +841,8 @@ class JContentController
 			}
 		}
 
-		JContentViewHTML::showBlog($rows, $params, $access, $menu);
+		$cache = JFactory::getCache('com_content');
+		$cache->call('JContentViewHTML::showBlog', $rows, $params, $access, $menu);
 	}
 
 	function showArchiveSection()
@@ -870,8 +875,8 @@ class JContentController
 
 		if ($Itemid)
 		{
-			$menu = & JModel::getInstance('menu', $db);
-			$menu->load($Itemid);
+			$menu = JMenu::getInstance();
+			$menu = $menu->getItemById($Itemid);
 			$params = new JParameter($menu->params);
 		}
 		else
@@ -887,11 +892,11 @@ class JContentController
 		// Ordering control
 		$orderby_sec	= $params->def('orderby_sec', 'rdate');
 		$orderby_pri	= $params->def('orderby_pri', '');
-		$order_sec		= JContentControllerHelper::orderbySecondary($orderby_sec);
-		$order_pri		= JContentControllerHelper::orderbyPrimary($orderby_pri);
+		$order_sec		= JContentHelper::orderbySecondary($orderby_sec);
+		$order_pri		= JContentHelper::orderbyPrimary($orderby_pri);
 
 		// Build the WHERE clause for the database query
-		$where = JContentControllerHelper::buildWhere(-1, $access, $noauth, $gid, $id, NULL, $year, $month);
+		$where = JContentHelper::buildWhere(-1, $access, $noauth, $gid, $id, NULL, $year, $month);
 		$where = (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '');
 
 		// checks to see if 'All Sections' options used
@@ -913,7 +918,7 @@ class JContentController
 		$items = $db->loadObjectList();
 		$archives = count($items);
 
-		$voting = JContentControllerHelper::buildVotingQuery();
+		$voting = JContentHelper::buildVotingQuery();
 
 		// Main Query
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
@@ -965,7 +970,8 @@ class JContentController
 		}
 		else
 		{
-			JContentViewHTML::showArchive($rows, $params, $access, $menu, $id);
+			$cache = JFactory::getCache('com_content');
+			$cache->call('JContentViewHTML::showArchive', $rows, $params, $access, $menu, $id);
 		}
 	}
 
@@ -1009,8 +1015,8 @@ class JContentController
 
 		if ($Itemid)
 		{
-			$menu = & JModel::getInstance('menu', $db);
-			$menu->load($Itemid);
+			$menu = JMenu::getInstance();
+			$menu = $menu->getItemById($Itemid);
 			$params = new JParameter($menu->params);
 		}
 		else
@@ -1024,10 +1030,10 @@ class JContentController
 
 		// Ordering control
 		$orderby_sec	= $params->def('orderby', 'rdate');
-		$order_sec		= JContentControllerHelper::orderbySecondary($orderby_sec);
+		$order_sec		= JContentHelper::orderbySecondary($orderby_sec);
 
 		// used in query
-		$where = JContentControllerHelper::buildWhere(-2, $access, $noauth, $gid, $id, NULL, $year, $month);
+		$where = JContentHelper::buildWhere(-2, $access, $noauth, $gid, $id, NULL, $year, $month);
 		$where = (count($where) ? "\n WHERE ".implode("\n AND ", $where) : '');
 
 		// query to determine if there are any archived entries for the category
@@ -1039,7 +1045,7 @@ class JContentController
 		$items = $db->loadObjectList();
 		$archives = count($items);
 
-		$voting = JContentControllerHelper::buildVotingQuery();
+		$voting = JContentHelper::buildVotingQuery();
 
 		$query = "SELECT a.id, a.title, a.title_alias, a.introtext, a.sectionid, a.state, a.catid, a.created, a.created_by, a.created_by_alias, a.modified, a.modified_by," .
 				"\n a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, a.attribs, a.images, a.urls, a.ordering, a.metakey, a.metadesc, a.access," .
@@ -1166,7 +1172,7 @@ class JContentController
 					"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )";
 		}
 
-		$voting = JContentControllerHelper::buildVotingQuery();
+		$voting = JContentHelper::buildVotingQuery();
 
 		// Main content item query
 		$query = "SELECT a.*, u.name AS author, u.usertype, cc.title AS category, s.title AS section," .
@@ -1305,12 +1311,12 @@ class JContentController
 	
 			if ($params->get('section_link') && $row->sectionid)
 			{
-				$row->section = JContentControllerHelper::getSectionLink($row);
+				$row->section = JContentHelper::getSectionLink($row);
 			}
 	
 			if ($params->get('category_link') && $row->catid)
 			{
-				$row->category = JContentControllerHelper::getCategoryLink($row);
+				$row->category = JContentHelper::getCategoryLink($row);
 			}
 	
 			// show/hides the intro text
@@ -1330,7 +1336,8 @@ class JContentController
 				$obj->hit($row->id);
 			}
 	
-			JContentViewHTML::showItem($row, $params, $access);
+			$cache = JFactory::getCache('com_content');
+			$cache->call('JContentViewHTML::showItem', $row, $params, $access, $limitstart);
 		}
 		else
 		{
@@ -1906,13 +1913,13 @@ class JContentController
 		 */
 		unset ($headers, $fields);
 
-		$cache = JFactory::getCache('getItemid');
-		$_Itemid = $cache->call( 'JApplicationHelper::getItemid', $uid, 0, 0, JApplicationHelper::getBlogSectionCount(),JApplicationHelper::getBlogCategoryCount(), JApplicationHelper::getGlobalBlogSectionCount());
-		$email = JRequest::getVar('email', '', 'post');
-		$yourname = JRequest::getVar('yourname', '', 'post');
-		$youremail = JRequest::getVar('youremail', '', 'post');
-		$subject_default = sprintf(JText::_('Item sent by'), $yourname);
-		$subject = JRequest::getVar('subject', $subject_default, 'post');
+		$cache					= JFactory::getCache('getItemid');
+		$_Itemid				= $cache->call( 'JContentHelper::getItemid', $uid);
+		$email					= JRequest::getVar('email', '', 'post');
+		$yourname			= JRequest::getVar('yourname', '', 'post');
+		$youremail			= JRequest::getVar('youremail', '', 'post');
+		$subject_default	= sprintf(JText::_('Item sent by'), $yourname);
+		$subject				= JRequest::getVar('subject', $subject_default, 'post');
 
 		jimport('joomla.utilities.mail');
 		if ($uid < 1 || !$email || !$youremail || (JMailHelper::isEmailAddress($email) == false) || (JMailHelper::isEmailAddress($youremail) == false))
@@ -2034,7 +2041,7 @@ class JContentController
 	}
 }
 
-class JContentControllerHelper{
+class JContentHelper{
 	
 	function orderbyPrimary($orderby)
 	{
@@ -2343,6 +2350,89 @@ class JContentControllerHelper{
 		}
 
 		return $links[$row->catid];
+	}
+
+	function getItemid($id)
+	{
+		global $mainframe;
+
+		$db			= & $mainframe->getDBO();
+		$menu		= JMenu::getInstance();
+		$items		= $menu->getMenu();
+		$Itemid	= null;
+
+		if (count($items))
+		{
+
+			/*
+			 * Do we have a content item linked to the menu with this id?
+			 */
+			foreach ($items as $item)
+			{
+				if ($item->link == "index.php?option=com_content&task=view&id=$id")
+				{
+					return $item->id;
+				}
+			}
+
+			/*
+			 * Not a content item, so perhaps is it in a section that is linked
+			 * to the menu?
+			 */
+			$query = "SELECT m.id " .
+					"\n FROM #__content AS i" .
+					"\n LEFT JOIN #__sections AS s ON i.sectionid = s.id" .
+					"\n LEFT JOIN #__menu AS m ON m.componentid = s.id " .
+					"\n WHERE (m.type = 'content_section' OR m.type = 'content_blog_section')" .
+					"\n AND m.published = 1" .
+					"\n AND i.id = $id";
+			$db->setQuery($query);
+			$Itemid = $db->loadResult();
+			if ($Itemid != '')
+			{
+				return $Itemid;
+			}
+
+			/*
+			 * Not a section either... is it in a category that is linked to the
+			 * menu?
+			 */
+			$query = "SELECT m.id " .
+					"\n FROM #__content AS i" .
+					"\n LEFT JOIN #__categories AS c ON i.catid = c.id" .
+					"\n LEFT JOIN #__menu AS m ON m.componentid = c.id " .
+					"\n WHERE (m.type = 'content_blog_category' OR m.type = 'content_category')" .
+					"\n AND m.published = 1" .
+					"\n AND i.id = $id";
+			$db->setQuery($query);
+			$Itemid = $db->loadResult();
+			if ($Itemid != '')
+			{
+				return $Itemid;
+			}
+
+			/*
+			 * Once we have exhausted all our options for finding the Itemid in
+			 * the content structure, lets see if maybe we have a global blog
+			 * section in the menu we can put it under.
+			 */
+			foreach ($items as $item)
+			{
+				if ($item->type == "content_blog_section" && $item->componentid == "0")
+				{
+					return $item->id;
+				}
+			}
+		}
+
+		if ($Itemid != '')
+		{
+			return $Itemid;
+		}
+		else
+		{
+			return JRequest::getVar('Itemid', 9999, '', 'int');
+		}
 	}
 }
 ?>

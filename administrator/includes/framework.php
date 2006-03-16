@@ -65,6 +65,7 @@ jimport( 'joomla.filesystem.*' );
 jimport( 'joomla.parameter.parameter' );
 jimport( 'joomla.i18n.language' );
 jimport( 'joomla.i18n.string' );
+jimport('joomla.application.menu');
 jimport( 'joomla.application.event' );
 jimport( 'joomla.application.extension.plugin' );
 jimport( 'joomla.presentation.editor' );

@@ -69,24 +69,19 @@ if ($set_Itemid)
 }
 else
 {
-	$query = "SELECT id" .
-			"\n FROM #__menu" .
-			"\n WHERE link = 'index.php?option=com_search'";
-	$database->setQuery($query);
-	$rows = $database->loadObjectList();
+	$menu = JMenu::getInstance();
+	$items	= $menu->getMenu();
 
-	// try to auto detect search component Itemid
-	if (count($rows))
+	$_Itemid = null;
+	foreach ($items as $item)
 	{
-		$_Itemid = $rows[0]->id;
-		$link = 'index.php?option=com_search&amp;Itemid='.$_Itemid;
+		if ($item->link == "index.php?option=com_search")
+		{
+			$_Itemid = '&amp;Itemid='.$item->id;
+		}
 	}
-	else
-	{
-		// Assign no Itemid
-		$_Itemid = '';
-		$link = 'index.php?option=com_search';
-	}
+
+	$link = 'index.php?option=com_search'.$_Itemid;
 }
 ?>
 

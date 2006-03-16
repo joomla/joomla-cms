@@ -82,11 +82,13 @@ if ($option == 'com_content' && $task == 'view' && $id)
 				<?php
 
 				$cache = JFactory :: getCache('getItemid');
+				require_once (JApplicationHelper::getPath('front', 'com_content'));
+				
 				foreach ($related as $item)
 				{
 					if ($option = "com_content" && $task = "view")
 					{
-						$Itemid = $cache->call('JApplicationHelper::getItemid', $item->id);
+						$Itemid = $cache->call('JContentHelper::getItemid', $item->id);
 					}
 					$href = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=$item->id&amp;Itemid=$Itemid");
 					?>

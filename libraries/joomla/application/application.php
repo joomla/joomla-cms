@@ -823,12 +823,11 @@ class JApplication extends JObject
 	}
 
 	/**
-	* Depreacted, use JApplicationHelper::getItemid instead
+	* Depreacted, use JMenu->getItemid instead
 	* @since 1.1
 	*/
 	function getItemid( $id, $typed=1, $link=1, $bs=1, $bc=1, $gbs=1 ) {
-		$cache = JFactory::getCache('getItemid');
-		return $cache->call( 'JApplicationHelper::getItemid', $id, $typed, $link, $bs, $bc, $gbs);
+		return JApplicationHelper::getItemid($id);
 	}
 
 	/**
@@ -958,106 +957,8 @@ class JApplicationHelper
 	 * @since 1.0
 	 */
 	function getItemid( $id, $typed=1, $link=1, $bs=1, $bc=1, $gbs=1 ) {
-		global $Itemid, $database;
-
-		$_Itemid = '';
-		if ($_Itemid == '' && $typed) {
-			// Search for typed link
-			$query = "SELECT id"
-			. "\n FROM #__menu"
-			. "\n WHERE type = 'content_typed'"
-			. "\n AND published = 1"
-			. "\n AND link = 'index.php?option=com_content&task=view&id=$id'"
-			;
-			$database->setQuery( $query );
-			$_Itemid = $database->loadResult();
-		}
-
-		if ($_Itemid == '' && $link) {
-			// Search for item link
-			$query = "SELECT id"
-			."\n FROM #__menu"
-			."\n WHERE type = 'content_item_link'"
-			. "\n AND published = 1"
-			. "\n AND link = 'index.php?option=com_content&task=view&id=$id'"
-			;
-			$database->setQuery( $query );
-			$_Itemid = $database->loadResult();
-		}
-
-		if ($_Itemid == '') {
-			// Search in sections
-			$query = "SELECT m.id "
-			. "\n FROM #__content AS i"
-			. "\n LEFT JOIN #__sections AS s ON i.sectionid = s.id"
-			. "\n LEFT JOIN #__menu AS m ON m.componentid = s.id "
-			. "\n WHERE m.type = 'content_section'"
-			. "\n AND m.published = 1"
-			. "\n AND i.id = $id"
-			;
-			$database->setQuery( $query );
-			$_Itemid = $database->loadResult();
-		}
-
-		if ($_Itemid == '' && $bs) {
-			// Search in specific blog section
-			$query = "SELECT m.id "
-			. "\n FROM #__content AS i"
-			. "\n LEFT JOIN #__sections AS s ON i.sectionid = s.id"
-			. "\n LEFT JOIN #__menu AS m ON m.componentid = s.id "
-			. "\n WHERE m.type = 'content_blog_section'"
-			. "\n AND m.published = 1"
-			. "\n AND i.id = $id"
-			;
-			$database->setQuery( $query );
-			$_Itemid = $database->loadResult();
-		}
-
-		if ($_Itemid == '' && $bc) {
-			// Search in specific blog category
-			$query = "SELECT m.id "
-			. "\n FROM #__content AS i"
-			. "\n LEFT JOIN #__categories AS c ON i.catid = c.id"
-			. "\n LEFT JOIN #__menu AS m ON m.componentid = c.id "
-			. "\n WHERE m.type = 'content_blog_category'"
-			. "\n AND m.published = 1"
-			. "\n AND i.id = $id"
-			;
-			$database->setQuery( $query );
-			$_Itemid = $database->loadResult();
-		}
-
-		if ($_Itemid == '' && $gbs) {
-			// Search in global blog section
-			$query = "SELECT id "
-			. "\n FROM #__menu "
-			. "\n WHERE type = 'content_blog_section'"
-			. "\n AND published = 1"
-			. "\n AND componentid = 0"
-			;
-			$database->setQuery( $query );
-			$_Itemid = $database->loadResult();
-		}
-
-		if ($_Itemid == '') {
-			// Search in categories
-			$query = "SELECT m.id "
-			. "\n FROM #__content AS i"
-			. "\n LEFT JOIN #__categories AS cc ON i.catid = cc.id"
-			. "\n LEFT JOIN #__menu AS m ON m.componentid = cc.id "
-			. "\n WHERE m.type = 'content_category'"
-			. "\n AND m.published = 1"
-			. "\n AND i.id = $id"
-			;
-			$database->setQuery( $query );
-			$_Itemid = $database->loadResult();
-		}
-
-		if ( $_Itemid != '' ) {
-			return $_Itemid;
-		} else {
-			return $Itemid;
-		}
+		$menu = JMenu::getInstance();
+		return $menu->getItemid($id);
 	}
 
 	/**

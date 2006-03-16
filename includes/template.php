@@ -113,8 +113,8 @@ function initDocument( &$doc, $file = 'index.php' )
 	}
 
 	// support for Firefox Live Bookmarks ability for site syndication
-	$row = new JModelMenu( $db );
-	$row->load( $Itemid );
+	$menu = JMenu::getInstance();
+	$row = $menu->getItemById($Itemid);
 
 	$params 		= new JParameter( $row->params );
 	$live_bookmark 	= $params->get( 'live_bookmark', '' );

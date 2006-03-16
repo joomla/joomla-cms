@@ -179,6 +179,8 @@ function viewSearch() {
 		*/
 
 		$cache = JFactory::getCache('getItemid');
+		require_once (JApplicationHelper::getPath('front', 'com_content'));
+		
 		$rows = $oSearch->getResults();
 		$totalRows = count( $rows );
 
@@ -205,7 +207,7 @@ function viewSearch() {
 					// tests to see if itemid has already been included - this occurs for typed content items
 					if ( !strstr( $rows[$i]->href, 'Itemid' ) ) {
 						$temp = explode( 'id=', $rows[$i]->href );
-						$_Itemid = $cache->call( 'JApplicationHelper::getItemid', $temp[1]);
+						$_Itemid = $cache->call( 'JContentHelper::getItemid', $temp[1]);
 						@$rows[$i]->href = $rows[$i]->href. '&amp;Itemid='. $_Itemid;
 					}
 				}
@@ -214,7 +216,7 @@ function viewSearch() {
 
 		$total 		= $oSearch->getResultCount();
 
-		jimport('joomla.utilities.presentation.pagination');
+		jimport('joomla.presentation.pagination');
 		$page = new JPagination( $total, $limitstart, $limit );
 
 		if ($total) {
