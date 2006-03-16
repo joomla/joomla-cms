@@ -1906,7 +1906,8 @@ class JContentController
 		 */
 		unset ($headers, $fields);
 
-		$_Itemid = JApplicationHelper::getItemid($uid, 0, 0);
+		$cache = JFactory::getCache('getItemid');
+		$_Itemid = $cache->call( 'JApplicationHelper::getItemid', $uid, 0, 0, JApplicationHelper::getBlogSectionCount(),JApplicationHelper::getBlogCategoryCount(), JApplicationHelper::getGlobalBlogSectionCount());
 		$email = JRequest::getVar('email', '', 'post');
 		$yourname = JRequest::getVar('yourname', '', 'post');
 		$youremail = JRequest::getVar('youremail', '', 'post');

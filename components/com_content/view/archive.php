@@ -341,7 +341,8 @@ class JContentViewHTML_archive
 				{
 					if ($task != 'view')
 					{
-						$Itemid = JApplicationHelper::getItemid($row->id, 0, 0, JApplicationHelper::getBlogSectionCount(),JApplicationHelper::getBlogCategoryCount(), JApplicationHelper::getGlobalBlogSectionCount());
+						$cache = JFactory::getCache('getItemid');
+						$Itemid = $cache->call( 'JApplicationHelper::getItemid', $row->id, 0, 0, JApplicationHelper::getBlogSectionCount(),JApplicationHelper::getBlogCategoryCount(), JApplicationHelper::getGlobalBlogSectionCount());
 					}
 					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$row->id."&amp;Itemid=".$Itemid);
 					$linkText = JText::_('Read more...');
@@ -476,8 +477,9 @@ class JContentViewHTML_archive
 				 */
 				break;
 			}
-			$_Itemid	= JApplicationHelper::getItemid($rows[$i]->id, 0, 0, JApplicationHelper::getBlogSectionCount(),JApplicationHelper::getBlogCategoryCount(), JApplicationHelper::getGlobalBlogSectionCount());
-			$link			= sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$rows[$i]->id.'&amp;Itemid='.$_Itemid)
+			$cache		= JFactory::getCache('getItemid');
+			$Itemid	= $cache->call( 'JApplicationHelper::getItemid', $rows[$i]->id, 0, 0, JApplicationHelper::getBlogSectionCount(),JApplicationHelper::getBlogCategoryCount(), JApplicationHelper::getGlobalBlogSectionCount());
+			$link			= sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$rows[$i]->id.'&amp;Itemid='.$Itemid)
 			?>
 			<li>
 				<a class="blogsection" href="<?php echo $link; ?>">

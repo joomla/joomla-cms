@@ -97,17 +97,11 @@ switch ( $type ) {
 		break;
 }
 
-// needed to reduce queries used by getItemid for Content Items
-if ( ( $type == 1 ) || ( $type == 3 ) ) {
-	$bs 	= JApplicationHelper::getBlogSectionCount();
-	$bc 	= JApplicationHelper::getBlogCategoryCount();
-	$gbs 	= JApplicationHelper::getGlobalBlogSectionCount();
-}
-
 // Output
 ?>
 <ul class="mostread<?php echo $moduleclass_sfx; ?>">
 <?php
+$cache = JFactory::getCache('getItemid');
 foreach ($rows as $row) {
 	// get Itemid
 	switch ( $type ) {
@@ -123,7 +117,7 @@ foreach ($rows as $row) {
 
 		case 3:
 			if ( $row->sectionid ) {
-				$my_itemid = JApplicationHelper::getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
+				$my_itemid = $cache->call( 'JApplicationHelper::getItemid', $row->id, 0, 0, JApplicationHelper::getBlogSectionCount(),JApplicationHelper::getBlogCategoryCount(), JApplicationHelper::getGlobalBlogSectionCount());
 			} else {
 				$query = "SELECT id"
 				. "\n FROM #__menu"
@@ -137,7 +131,7 @@ foreach ($rows as $row) {
 
 		case 1:
 		default:
-			$my_itemid = JApplicationHelper::getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
+			$my_itemid = $cache->call( 'JApplicationHelper::getItemid', $row->id, 0, 0, JApplicationHelper::getBlogSectionCount(),JApplicationHelper::getBlogCategoryCount(), JApplicationHelper::getGlobalBlogSectionCount());
 			break;
 	}
 

@@ -36,7 +36,7 @@ if (!defined( '_JOS_NEWSFLASH_MODULE' )) {
 		$gbs 			= $mainframe->getGlobalBlogSectionCount();
 		$ItemidCount 	= $mainframe->getItemid( $row->id, 0, 0, $bs, $bc, $gbs );
 		
-		JContentViewHTML::show( $row, $params, $access, 0, 'com_content', $ItemidCount );
+		JContentViewHTML::showItem( $row, $params, $access, 0, 'com_content', $ItemidCount );
 	}
 }
 	

@@ -163,6 +163,7 @@ function viewSearch() {
 			$rows = array_merge( (array)$rows, (array)$results[$i] );
 		}
 
+		$cache = JFactory::getCache('getItemid');
 		$totalRows = count( $rows );
 
 		for ($i=0; $i < $totalRows; $i++) {
@@ -188,7 +189,8 @@ function viewSearch() {
 					// tests to see if itemid has already been included - this occurs for typed content items
 					if ( !strstr( $rows[$i]->href, 'Itemid' ) ) {
 						$temp = explode( 'id=', $rows[$i]->href );
-						@$rows[$i]->href = $rows[$i]->href. '&amp;Itemid='. JApplicationHelper::getItemid($temp[1]);
+						$_Itemid = $cache->call( 'JApplicationHelper::getItemid', $temp[1]);
+						@$rows[$i]->href = $rows[$i]->href. '&amp;Itemid='. $_Itemid;
 					}
 				}
 			}

@@ -40,6 +40,7 @@ Legend:
 15-Mar-2005 Louis Landry
  + JMessage class to utility package
  ^ com_content restructuring
+ ^ Implemented caching of JApplicationHelper::getItemid method
 
 15-Mar-2005 Andrew Eddie
  + Added webpage and mobile fields to contacts table

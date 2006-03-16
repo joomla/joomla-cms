@@ -827,7 +827,8 @@ class JApplication extends JObject
 	* @since 1.1
 	*/
 	function getItemid( $id, $typed=1, $link=1, $bs=1, $bc=1, $gbs=1 ) {
-		return JApplicationHelper::getItemid( $id, $typed, $link, $bs, $bc, $gbs);
+		$cache = JFactory::getCache('getItemid');
+		return $cache->call( 'JApplicationHelper::getItemid', $id, $typed, $link, $bs, $bc, $gbs);
 	}
 
 	/**
