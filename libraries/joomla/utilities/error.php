@@ -14,6 +14,12 @@
 jimport('pattemplate.patErrorManager');
 
 /**
+ * stored errors
+ * Store error-codes for retrieval
+ */
+$GLOBALS['_JError_errorStore']	= array();
+
+/**
  * Error Handling Class
  *
  * This class is an proxy of the patError class
@@ -36,6 +42,28 @@ class JError extends patErrorManager {
 	*/
     function isError( &$object ) {
 		return JError::isError($object);
+    }
+	
+	/**
+	* method for for retrieving the errors that are stored
+	*
+	* @static
+	* @access	public
+	* @return	array 	$result	Chronological array of errors that have been stored during script execution
+	*/
+    function getErrors( ) {
+		return $GLOBALS['_JError_errorStore'];
+    }
+	
+	/**
+	* method to check if any errors have been stored
+	*
+	* @static
+	* @access	public
+	* @return	array 	$result	True if any error are stored
+	*/
+    function hasErrors( ) {
+		return count($GLOBALS['_JError_errorStore']);
     }
 
    /**
@@ -184,7 +212,7 @@ class JError extends patErrorManager {
 		if( isset( $_SERVER['HTTP_HOST'] ) )
 		{
 			// output as html
-			echo "<br /><b>jos-$level_human</b>: " . $error->getMessage() . "<br />\n";
+			echo "<br /><b>J$level_human</b>: " . $error->getMessage() . "<br />\n";
 			if( $info != null )
 			{
 				echo "&nbsp;&nbsp;&nbsp;" . $error->getInfo() . "<br />\n";
@@ -194,7 +222,7 @@ class JError extends patErrorManager {
 		else
 		{
 			// output as simple text
-			echo "jos-$level_human: " . $error->getMessage() . "\n";
+			echo "J$level_human: " . $error->getMessage() . "\n";
 			if( $info != null )
 			{
 				echo "    " . $error->getInfo() . "\n";
@@ -221,21 +249,130 @@ class JError extends patErrorManager {
 		if( isset( $_SERVER['HTTP_HOST'] ) )
 		{
 			// output as html
-			die( "<br /><b>jos-$level_human</b> " . $error->getMessage() . "<br />\n" );
+			die( "<br /><b>J$level_human</b> " . $error->getMessage() . "<br />\n" );
 		}
 		else
 		{
 			// output as simple text
 			if( defined( 'STDERR' ) )
 			{
-				fwrite( STDERR, "jos-$level_human " . $error->getMessage() . "\n" );
+				fwrite( STDERR, "J$level_human " . $error->getMessage() . "\n" );
 			}
 			else
 			{
-				die( "jos-$level_human " . $error->getMessage() . "\n" );
+				die( "J$level_human " . $error->getMessage() . "\n" );
 			}
 		}
 		return $error;
+    }
+	
+	/**
+	* handleError: store
+	* store error-message for easy 
+	*
+	* @access private
+	* @param object $error patError-Object
+	* @param array $options options for handler
+	* @return object $error error-object
+	* @see raise()
+	*/
+    function &handleErrorStore( &$error, $options )
+    {
+		//store error for easy retrieval
+		$GLOBALS['_JError_errorStore'][] = &$error;
+		return $error;
+    }
+	
+	/**
+	* sets the way the patErrorManager will handle teh different error levels. Use this
+	* if you want to override the default settings.
+	*
+	* Error handling modes:
+	* - ignore
+	* - trigger
+	* - verbose
+	* - echo
+	* - callback
+	* - die
+	* - store
+	*
+	* You may also set the error handling for several modes at once using PHP's bit operations.
+	* Examples:
+	* - E_ALL = Set the handling for all levels
+	* - E_ERROR | E_WARNING = Set the handling for errors and warnings
+	* - E_ALL ^ E_ERROR = Set the handling for all levels except errors
+	*
+	* @static
+	* @access	public
+	* @param	int		$level		The error level for which to set the error handling
+	* @param	string	$mode		The mode to use for the error handling.
+	* @param	mixed	$options	Optional: Any options needed for the given mode.
+	* @return	mixed	$result		True on success, or a patError object if failed.
+	* @see		getErrorHandling()
+	*/
+    function setErrorHandling( $level, $mode, $options = null )
+    {
+		$levels	=	$GLOBALS['_pat_errorLevels'];
+
+		$function	=	'handleError' . ucfirst( $mode );
+		if( !is_callable( array( 'JError', $function ) ) )
+		{
+			return JError::raiseError( E_ERROR,
+												'JError:' . PATERRORMANAGER_ERROR_ILLEGAL_MODE,
+												'Error Handling mode is not knwon',
+												'Mode: ' .  $mode . ' is not implemented.'
+												);
+		}
+
+		foreach( $levels as $eLevel => $eTitle )
+		{
+			if( ( $level & $eLevel ) != $eLevel )
+			{
+				continue;
+			}
+
+			// set callback options
+			if( $mode == 'callback' )
+			{
+				if( !is_array( $options ) )
+				{
+					return JError::raiseError( E_ERROR,
+														'JError:' . PATERRORMANAGER_ERROR_ILLEGAL_OPTIONS,
+														'Options for callback not valid'
+														);
+				}
+
+				if( !is_callable( $options ) )
+				{
+					$tmp	=	array( 'GLOBAL' );
+					if( is_array( $options ) )
+					{
+						$tmp[0]	=	$options[0];
+						$tmp[1]	=	$options[1];
+					}
+					else
+					{
+						$tmp[1]	=	$options;
+					}
+
+					return JError::raiseError(	E_ERROR,
+														'JError:' . PATERRORMANAGER_ERROR_CALLBACK_NOT_CALLABLE,
+														'Function is not callable',
+														'Function:' . $tmp[1]  . ' scope ' . $tmp[0] . '.'
+														);
+				}
+			}
+
+
+			// save settings
+			$GLOBALS['_pat_errorHandling'][$eLevel]	=	array( 'mode' => $mode );
+			if( $options	!= null )
+			{
+				$GLOBALS['_pat_errorHandling'][$eLevel]['options']	=	$options;
+			}
+		}
+
+        return  true;
     }
 }
 
@@ -275,8 +412,8 @@ class JErrorHandler
 		 * Get the current template from the application and the appropriate
 		 * error file to parse and display
 		 */
-		$template	= $mainframe->getTemplate();
-		$file			= $this->getErrorDocument( $error );
+		$template = $mainframe->getTemplate();
+		$file	  = $this->getErrorDocument( $error );
 
 		/*
 		 * Need to clear the renderers array so we don't have a bad case of
@@ -299,8 +436,7 @@ class JErrorHandler
 		 * continue... otherwise exit
 		 */
 		$level =	$error->getLevel();
-		if( $level != E_ERROR )
-		{
+		if( $level != E_ERROR ) {
 			return	$error;
 		}
 		exit();
@@ -469,6 +605,8 @@ class JErrorHandler
 }
 	
 // setup handler for each error-level
-JError::setErrorHandling( E_ERROR, 'callback', array( new JErrorHandler, 'handleError' ) );
+JError::setErrorHandling( E_ERROR  , 'callback', array( new JErrorHandler, 'handleError' ) );
+JError::setErrorHandling( E_WARNING, 'store' );
+JError::setErrorHandling( E_NOTICE , 'store' );
 
 ?>

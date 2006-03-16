@@ -51,19 +51,18 @@ class JSite extends JApplication {
 			$password = trim( mosGetParam( $_POST, 'passwd', '' ) );
 		}
 	
-		if (!parent::login($username, $password)) {
-			mosErrorAlert( JText::_( 'LOGIN_INCORRECT' ) );
-		}
+		if (parent::login($username, $password)) 
+		{	
+			$return = mosGetParam( $_REQUEST, 'return', NULL );
 		
-		$return = mosGetParam( $_REQUEST, 'return', NULL );
+			if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
+				// checks for the presence of a return url
+				// and ensures that this url is not the registration or login pages
+				mosRedirect( $return );
+			}
+		} 
 		
-		if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
-			// checks for the presence of a return url
-			// and ensures that this url is not the registration or login pages
-			mosRedirect( $return );
-		} else {
-			mosRedirect( 'index.php' );
-		}
+		JError::raiseWarning('SOME_ERROR_CODE', JText::_( 'LOGIN_INCORRECT' ));
 	}
 	
 	/**

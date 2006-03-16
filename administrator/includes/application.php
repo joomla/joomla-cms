@@ -57,17 +57,17 @@ class JAdministrator extends JApplication
 		$username = trim( mosGetParam( $_POST, 'username', '' ) );
 		$password = trim( mosGetParam( $_POST, 'passwd', ''   ) );
 	
-		if (!parent::login($username, $password)) {
-			//TODO change to html message instead of popup
-			mosErrorAlert( JText::_( 'LOGIN_INCORRECT' ) );
+		if (parent::login($username, $password)) 
+		{
+			$this->setUserState( 'application.lang', mosGetParam( $_REQUEST, 'lang', $this->getCfg('lang_administrator') ) );
+			JSession::pause();
+
+			JAdministrator::purgeMessages();
+		
+			mosRedirect( 'index2.php' );
 		}
 		
-		$this->setUserState( 'application.lang', mosGetParam( $_REQUEST, 'lang', $this->getCfg('lang_administrator') ) );
-		JSession::pause();
-
-		JAdministrator::purgeMessages();
-		
-		mosRedirect( 'index2.php' );
+		JError::raiseWarning('SOME_ERROR_CODE', JText::_( 'LOGIN_INCORRECT' ));
 	}
 	
 	/**

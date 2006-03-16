@@ -57,7 +57,7 @@ if ($option == 'logout') {
 
 $Itemid = JRequest::getVar( 'Itemid', 0, '', 'int' );
 
-if ($option == '')
+if ($option == '' || $option == 'login' || $option == 'logout')
 {
 	if ($Itemid) {
 		$query = "SELECT id, link"
