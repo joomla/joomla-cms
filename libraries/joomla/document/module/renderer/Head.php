@@ -45,6 +45,7 @@ class patTemplate_Renderer_Head extends patTemplate_Renderer
 		echo $this->_tmpl->fetchHead();
 
 		if(isset($mainframe) && class_exists('JEditor')) {
+			jimport( 'joomla.presentation.editor' );
 			$editor =& JEditor::getInstance();
 			echo $editor->init();
 		}

@@ -181,8 +181,12 @@ class sections_html {
 	* @param string The html for the ordering list
 	* @param string The html for the groups select list
 	*/
-	function edit( &$row, $option, &$lists, &$menus ) {
+	function edit( &$row, $option, &$lists, &$menus ) 
+	{
 		global $mainframe;
+		
+		jimport( 'joomla.presentation.editor' );
+		$editor =& JEditor::getInstance();
 		
 		if ( $row->name != '' ) {
 			$name = $row->name;
@@ -222,7 +226,6 @@ class sections_html {
 				alert("<?php echo JText::_( 'Section must have a title', true  ); ?>");
 			} else {
 				<?php 
-				$editor =& JEditor::getInstance();
 				echo $editor->getEditorContents( 'editor1', 'description' ) ; ?>
 				submitform(pressbutton);
 			}
@@ -335,7 +338,6 @@ class sections_html {
 							</label>
 							<?php
 							// parameters : areaname, content, hidden field, width, height, rows, cols
-							$editor =& JEditor::getInstance();
 							echo $editor->getEditor( 'editor1',  $row->description , 'description', '100%;', '300', '60', '20' ) ; 
 							?>
 						</td>

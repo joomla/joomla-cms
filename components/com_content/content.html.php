@@ -86,8 +86,12 @@ class JContentViewHTML {
 	* @return void
 	* @since 1.0
 	*/
-	function editContent(& $row, $section, & $lists, & $images, & $access, $myid, $sectionid, $task, $Itemid) 	{
+	function editContent(& $row, $section, & $lists, & $images, & $access, $myid, $sectionid, $task, $Itemid) 	
+	{
 		global $mainframe, $Itemid;
+		
+		jimport( 'joomla.presentation.editor' );
+		$editor =& JEditor::getInstance();
 
 		// Require the toolbar
 		require_once (JPATH_SITE.'/includes/HTML_toolbar.php');
@@ -148,7 +152,6 @@ class JContentViewHTML {
 					alert ( "<?php echo JText::_( 'Please select a category', true ); ?>" );
 				} else {
 					<?php
-					$editor = & JEditor::getInstance();
 					echo $editor->getEditorContents('editor1', 'introtext');
 					echo $editor->getEditorContents('editor2', 'fulltext');
 					?>
@@ -157,7 +160,6 @@ class JContentViewHTML {
 			} else {
 				// for static content
 				<?php
-				$editor = & JEditor::getInstance();
 				echo $editor->getEditorContents('editor1', 'introtext');
 				?>
 				submitform(pressbutton);
@@ -276,7 +278,6 @@ class JContentViewHTML {
 			<td>
 				<?php
 				// parameters : areaname, content, hidden field, width, height, rows, cols
-				$editor = & JEditor::getInstance();
 				echo $editor->getEditor('editor1', $row->introtext, 'introtext', '600', '400', '70', '15');
 				?>
 			</td>
@@ -293,7 +294,6 @@ class JContentViewHTML {
 				<td>
 					<?php
 					// parameters : areaname, content, hidden field, width, height, rows, cols
-					$editor = & JEditor::getInstance();
 					echo $editor->getEditor('editor2', $row->fulltext, 'fulltext', '600', '400', '70', '15');
 					?>
 				</td>

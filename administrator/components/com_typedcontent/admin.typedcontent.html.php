@@ -229,8 +229,12 @@ class HTML_typedcontent {
 		<?php
 	}
 
-	function edit( &$row, &$images, &$lists, &$params, $option, &$menus ) {
+	function edit( &$row, &$images, &$lists, &$params, $option, &$menus ) 
+	{
 		global $database;
+		
+		jimport( 'joomla.presentation.editor' );
+		$editor =& JEditor::getInstance();
 		
 		mosMakeHtmlSafe( $row );
 		
@@ -312,7 +316,6 @@ class HTML_typedcontent {
 				} else {
 				}
 				<?php 
-				$editor =& JEditor::getInstance();
 				echo $editor->getEditorContents( 'editor1', 'introtext' ) ; ?>
 				submitform( pressbutton );
 			}
@@ -330,7 +333,6 @@ class HTML_typedcontent {
 						<td>
 							<?php
 							// parameters : areaname, content, hidden field, width, height, rows, cols
-							$editor =& JEditor::getInstance();
 							echo $editor->getEditor( 'editor1',  $row->introtext, 'introtext', '100%;', '500', '75', '50' );
 							?>
 						</td>

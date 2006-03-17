@@ -226,7 +226,10 @@ class HTML_modules {
 	function editModule( &$row, &$orders2, &$lists, &$params, $option, $client ) 
 	{
 		global $mainframe;
-		global $my, $mosConfig_cachepath;		
+		global $my, $mosConfig_cachepath;	
+		
+		jimport( 'joomla.presentation.editor' );
+		$editor =& JEditor::getInstance();	
 
 		$row->titleA = '';
 		if ( $row->id ) {
@@ -242,7 +245,6 @@ class HTML_modules {
 			} else {
 				<?php
 				if ($row->module == '' || $row->module == 'custom') {
-					$editor =& JEditor::getInstance();
 					echo $editor->getEditorContents( 'editor1', 'content' );
 				}
 				?>
@@ -452,7 +454,6 @@ class HTML_modules {
 								<td>
 									<?php
 									// parameters : areaname, content, hidden field, width, height, rows, cols
-									$editor =& JEditor::getInstance();
 									echo $editor->getEditor( 'editor1',  $row->content , 'content', '800', '400', '110', '40' ) ; ?>
 								</td>
 							</tr>

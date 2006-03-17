@@ -247,6 +247,7 @@ function mosLoadComponent( $name ) {
  * @package		Joomla.Legacy
  */
 function initEditor() {
+	jimport( 'joomla.presentation.editor' );
 	$editor =& JEditor::getInstance();
 	echo $editor->init();
 }
@@ -258,6 +259,7 @@ function initEditor() {
  * @package		Joomla.Legacy
  */
 function getEditorContents($editorArea, $hiddenField) {
+	jimport( 'joomla.presentation.editor' );
 	$editor =& JEditor::getInstance();
 	echo $editor->getEditorContents($editorArea, $hiddenField);
 }
@@ -269,6 +271,7 @@ function getEditorContents($editorArea, $hiddenField) {
  * @package		Joomla.Legacy
  */
 function editorArea($name, $content, $hiddenField, $width, $height, $col, $row) {
+	jimport( 'joomla.presentation.editor' );
 	$editor =& JEditor::getInstance();
 	echo $editor->getEditor($name, $content, $hiddenField, $width, $height, $col, $row);
 }

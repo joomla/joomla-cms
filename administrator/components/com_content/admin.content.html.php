@@ -450,6 +450,9 @@ class ContentView {
 		global $database;
 		
 		mosMakeHtmlSafe( $row );
+		
+		jimport( 'joomla.presentation.editor' );
+		$editor =& JEditor::getInstance();
 
 		$create_date 	= null;
 		$nullDate 		= $database->getNullDate();
@@ -532,7 +535,6 @@ class ContentView {
  				alert( "<?php echo JText::_( 'You must select a Category.', true ); ?>" );
 			} else {
 				<?php 
-				$editor =& JEditor::getInstance();
 				echo $editor->getEditorContents( 'editor1', 'introtext' );
 				echo $editor->getEditorContents( 'editor2', 'fulltext' ); ?>
 				submitform( pressbutton );
@@ -552,7 +554,6 @@ class ContentView {
 						<td>
 							<?php
 							// parameters : areaname, content, hidden field, width, height, rows, cols
-							$editor =& JEditor::getInstance();
 							echo $editor->getEditor( 'editor1',  $row->text , 'text', '100%;', '550', '75', '20' ) ; 
 							?>
 						</td>

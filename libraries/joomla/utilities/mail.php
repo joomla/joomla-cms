@@ -29,7 +29,8 @@ class JMail extends PHPMailer
 	 * 
 	 * @param
 	 */
-	function JMail() {
+	function JMail() 
+	{
 		global $mainframe;
 
 		$this->PluginDir = JPATH_LIBRARIES.DS.'phpmailer'.DS;

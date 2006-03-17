@@ -45,7 +45,6 @@ if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER 
 }
 
 //Third party library imports
-jimport( 'phpmailer.phpmailer');
 jimport( 'phpinputfilter.inputfilter' );
 
 //Joomla library imports
@@ -68,7 +67,6 @@ jimport( 'joomla.i18n.language' );
 jimport( 'joomla.i18n.string' );
 jimport( 'joomla.application.event' );
 jimport( 'joomla.application.extension.plugin' );
-jimport( 'joomla.presentation.editor' );
 jimport( 'joomla.application.application');
 jimport( 'joomla.application.menu' );
 
