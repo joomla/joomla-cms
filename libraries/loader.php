@@ -96,7 +96,7 @@ class JLoader
     */
    function _requireOnce( $file )
    {
-		/*static $paths;
+		static $paths;
 
 		if (!isset($paths)) {
 			$paths = array();
@@ -105,9 +105,7 @@ class JLoader
 	   if(!isset($paths[$file])) {
             require_once($file);
             $paths[$file] = true;
-       }*/
-		
-		 require_once($file);
+	   }
    }
 }
 

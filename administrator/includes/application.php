@@ -240,10 +240,6 @@ class JAdministrator extends JApplication
  */
 $_VERSION = new JVersion();
 
-/** 
- * @global $_PROFILER
- */
-$_PROFILER = new JProfiler( 'Core' );
 
 /**
  *  Legacy global

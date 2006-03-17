@@ -14,28 +14,16 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+/**
+ * Post system checks
+ */
+
 @set_magic_quotes_runtime( 0 );
 
 if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize( JPATH_CONFIGURATION . DS . 'configuration.php' ) < 10)) {
 	header( 'Location: ../installation/index.php' );
 	exit();
 }
-
-//File includes
-require_once( JPATH_SITE      		. DS .'globals.php' );
-require_once( JPATH_CONFIGURATION   . DS .'configuration.php' );
-require_once( JPATH_LIBRARIES 		. DS .'loader.php' );
-
-//TODO : move this inside the framework
-$CONFIG = new JConfig();
-
-if (@$CONFIG->error_reporting === 0) {
-	error_reporting( 0 );
-} else if (@$CONFIG->error_reporting > 0) {
-	error_reporting( $CONFIG->error_reporting );
-}
-
-unset($CONFIG);
 
 if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
 	die( 'Fatal error.  Global variable hack attempted.' );
@@ -44,12 +32,43 @@ if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER 
 	die( 'Fatal error.  Post variable hack attempted.' );
 }
 
+/**
+ * System startup
+ */
+
+//System includes
+require_once( JPATH_SITE      		. DS .'globals.php' );
+require_once( JPATH_CONFIGURATION   . DS .'configuration.php' );
+require_once( JPATH_LIBRARIES 		. DS .'loader.php' );
+
+//System configuration
+$CONFIG = new JConfig();
+
+if (@$CONFIG->error_reporting === 0) {
+	error_reporting( 0 );
+} else if (@$CONFIG->error_reporting > 0) {
+	error_reporting( $CONFIG->error_reporting );
+}
+
+define('JDEBUG', $CONFIG->debug); 
+
+unset($CONFIG);
+
+//System profiler
+if(JDEBUG) {
+	jimport('joomla.utilities.profiler');
+	$_PROFILER =& JProfiler::getInstance('Application');
+}
+
+/**
+ * Framework loading
+ */
+
 //Third party library imports
 jimport( 'phpinputfilter.inputfilter' );
 
 //Joomla library imports
 jimport( 'joomla.common.compat.compat' );
-
 jimport( 'joomla.version' );
 jimport( 'joomla.utilities.functions' );
 jimport( 'joomla.utilities.error');
@@ -68,9 +87,10 @@ jimport( 'joomla.i18n.string' );
 jimport('joomla.application.menu');
 jimport( 'joomla.application.event' );
 jimport( 'joomla.application.extension.plugin' );
-jimport( 'joomla.presentation.editor' );
 jimport( 'joomla.application.application');
 
 // support for legacy classes & functions that will be depreciated
 jimport( 'joomla.common.legacy.*' );
+
+JDEBUG ?  $_PROFILER->mark('afterLoadFramework') : null;
 ?>

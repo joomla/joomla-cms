@@ -14,6 +14,11 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+/**
+ * Post system checks
+ */
+
+
 @set_magic_quotes_runtime( 0 );
 
 if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize( JPATH_CONFIGURATION . DS . 'configuration.php' ) < 10)) {
@@ -21,12 +26,23 @@ if (!file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) || (filesize(
 	exit();
 }
 
-//File includes
+if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
+	die( 'Fatal error.  Global variable hack attempted.' );
+}
+if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
+	die( 'Fatal error.  Post variable hack attempted.' );
+}
+
+/**
+ * System startup
+ */
+
+//System includes
 require_once( JPATH_SITE      	  . DS . 'globals.php' );
 require_once( JPATH_CONFIGURATION . DS . 'configuration.php' );
 require_once( JPATH_LIBRARIES 	  . DS . 'loader.php' );
 
-//TODO : move this inside the framework
+//System configuration
 $CONFIG = new JConfig();
 
 if (@$CONFIG->error_reporting === 0) {
@@ -35,14 +51,19 @@ if (@$CONFIG->error_reporting === 0) {
 	error_reporting( $CONFIG->error_reporting );
 }
 
+define('JDEBUG', $CONFIG->debug); 
+
 unset($CONFIG);
 
-if (in_array( 'globals', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
-	die( 'Fatal error.  Global variable hack attempted.' );
+//System profiler
+if(JDEBUG) {
+	jimport('joomla.utilities.profiler');
+	$_PROFILER =& JProfiler::getInstance('Application');
 }
-if (in_array( '_post', array_keys( array_change_key_case( $_REQUEST, CASE_LOWER ) ) ) ) {
-	die( 'Fatal error.  Post variable hack attempted.' );
-}
+
+/**
+ * Framework loading
+ */
 
 //Third party library imports
 jimport( 'phpinputfilter.inputfilter' );
@@ -53,7 +74,6 @@ jimport( 'joomla.common.compat.compat' );
 jimport( 'joomla.version' );
 jimport( 'joomla.utilities.functions' );
 jimport( 'joomla.utilities.error');
-jimport( 'joomla.application.user.authenticate');
 jimport( 'joomla.application.user.user' );
 jimport( 'joomla.utilities.profiler');
 jimport( 'joomla.application.environment.session' );
@@ -70,5 +90,8 @@ jimport( 'joomla.application.extension.plugin' );
 jimport( 'joomla.application.application');
 jimport( 'joomla.application.menu' );
 
+// support for legacy classes & functions that will be depreciated
 jimport( 'joomla.common.legacy.*' );
+
+JDEBUG ? $_PROFILER->mark('afterLoadFramework') : null;
 ?>

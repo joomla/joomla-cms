@@ -418,6 +418,7 @@ class JBloggerHelper
 		$credentials['password'] = $password;
 	
 		// Get the global JAuthenticate object
+		jimport( 'joomla.application.user.authenticate');
 		$auth = & JAuthenticate::getInstance();
 		
 		return $auth->authenticate($credentials);

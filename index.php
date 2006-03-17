@@ -103,6 +103,8 @@ if ( !$Itemid ) {
 // trigger the onAfterStart events
 $mainframe->triggerEvent( 'onAfterStart' );
 
+JDEBUG ? $_PROFILER->mark( 'afterStartFramework' ) : null;
+
 // get the information about the current user from the sessions table
 // Note: Moved to allow for single sign-on bots that can't run with onBeforeStart due to extra setup
 $user	= & $mainframe->getUser();
@@ -149,6 +151,8 @@ if ($mainframe->getCfg('offline') && $my->gid < '23' ) {
 $document =& $mainframe->getDocument();
 $document->parse($cur_template, $file);
 
+JDEBUG ? $_PROFILER->mark( 'afterBufferOutput' ) : null;
+
 header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
 header( 'Cache-Control: no-store, no-cache, must-revalidate' );
@@ -158,8 +162,17 @@ header( 'Pragma: no-cache' );										// HTTP/1.0
 initDocument($document, $file); //initialise the document
 $document->display( $file, $mainframe->getCfg('gzip'), JRequest::getVar('tp', 0 ));
 
+JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null;
+
+if (JDEBUG) {
+	echo $_PROFILER->report();
+	echo $_PROFILER->getMemory();
+}
+
+echo "<br />";
+
 // displays queries performed for page
-if ($mainframe->getCfg('debug')) {
+if (JDEBUG) {
 	echo $database->_ticker . ' queries executed';
 	echo '<pre>';
  	foreach ($database->_log as $k=>$sql) {

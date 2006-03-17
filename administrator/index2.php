@@ -39,8 +39,6 @@ $database =& $mainframe->getDBO();
 // load system plugin group
 JPluginHelper::importPlugin( 'system' );
 
-$_PROFILER->mark( 'onBeforeStart' );
-
 // trigger the onStart events
 $mainframe->triggerEvent( 'onBeforeStart' );
 
@@ -64,7 +62,7 @@ $mainframe->setLanguage($mainframe->getUserState('application.lang'));
 // trigger the onStart events
 $mainframe->triggerEvent( 'onAfterStart' );
 
-$_PROFILER->mark( 'onAfterStart' );
+JDEBUG ? $_PROFILER->mark( 'afterStartFramework' ) :  null;
 
 // logout the user
 if ($option == 'logout') {
@@ -77,12 +75,6 @@ $my		= $user->_model;
 
 // set for overlib check
 $mainframe->set( 'loadOverlib', false );
-
-$_PROFILER->mark( 'onBeforeBuffer' );
-
-$_PROFILER->mark( 'onAfterBuffer' );
-
-$_PROFILER->mark( 'onBeforeOutput' );
 
 //render raw component output
 if($no_html == 1) {
@@ -104,6 +96,8 @@ $document->parse($cur_template, $file);
 // Add the hidemainmenu var to the JDocument object so templates can adapt if needed
 $document->addGlobalVar( 'hidemainmenu', (JRequest::getVar( 'hidemainmenu', '0' ))? '1' : '0');
 
+JDEBUG ? $_PROFILER->mark( 'afterBufferOutput' ) : null;
+
 header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
 header( 'Cache-Control: no-store, no-cache, must-revalidate' );
@@ -114,10 +108,21 @@ initDocument($document, $file); //initialise the document
 
 $document->display( $file, $mainframe->getCfg('gzip') );
 
-$_PROFILER->mark( 'onAfterOutput' );
+JDEBUG ? $_PROFILER->mark( 'afterDisplayOutput' ) : null ; 
 
-if ($mainframe->getCfg('debug')) {
+if (JDEBUG) {
 	echo $_PROFILER->report();
 	echo $_PROFILER->getMemory();
+}
+
+echo "<br />";
+
+// displays queries performed for page
+if (JDEBUG)  {
+	echo $database->_ticker . ' queries executed';
+	echo '<pre>';
+ 	foreach ($database->_log as $k=>$sql) {
+ 		echo $k+1 . "\n" . $sql . '<hr />';
+	}
 }
 ?>

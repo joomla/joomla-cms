@@ -23,55 +23,111 @@ jimport( 'joomla.common.base.object' );
  */
 class JProfiler extends JObject
 {
-	/** @var int */
-	var $start=0;
-	/** @var string */
-	var $prefix='';
-	/** @var array */
-	var $buffer= null;
+	/** 
+	 * 
+	 * @var int 
+	 */
+	var $_start = 0;
+	
+	/** 
+	 * 
+	 * @var string 
+	 */
+	var $_prefix = '';
+	
+	/** 
+	 * 
+	 * @var array 
+	 */
+	var $_buffer= null;
 
 	/**
 	 * Constructor
-	 * @var string Prefix for mark messages
+	 * 
+	 * @access protected
+	 * @param string Prefix for mark messages
 	 */
-	function __construct( $prefix='' ) {
-		$this->start = $this->getmicrotime();
-		$this->prefix = $prefix;
-		$this->buffer = array();
+	function __construct( $prefix = '' ) 
+	{
+		$this->_start = $this->getmicrotime();
+		$this->_prefix = $prefix;
+		$this->_buffer = array();
+	}
+	
+	/**
+	 * Returns a reference to the global Profiler object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * This method must be invoked as:
+	 * 		<pre>  $browser = &JProfiler::getInstance([$prefix]);</pre>
+	 *
+	 * @access public
+	 * @return JProfiler  The Profiler object.
+	 */
+	function &getInstance($prefix = '')
+	{
+		static $instances;
+
+		if (!isset($instances)) {
+			$instances = array();
+		}
+
+		if (empty($instances[$prefix])) {
+			$instances[$prefix] = new JProfiler($prefix);
+		}
+
+		return $instances[$prefix];
 	}
 
 	/**
 	 * Output a time mark
+	 * 
+	 * @access public
 	 * @var string A label for the time mark
 	 */
-	function mark( $label ) {
-		$mark = sprintf ( "\n<div class=\"profiler\">$this->prefix %.3f $label</div>", $this->getmicrotime() - $this->start );
-		$this->buffer[] = $mark;
+	function mark( $label ) 
+	{
+		$mark = sprintf ( "\n<div class=\"profiler\">$this->_prefix %.3f $label</div>", $this->getmicrotime() - $this->_start );
+		$this->_buffer[] = $mark;
 		return $mark;
 	}
 
 	/**
 	 * Reports on the buffered marks
+	 * 
+	 * @access public
 	 * @param string Glue string
 	 */
-	function report( $glue='' ) {
-		return implode( $glue, $this->buffer );
+	function report( $glue='' )  {
+		return implode( $glue, $this->_buffer );
 	}
 
 	/**
+	 * 
+	 * @access public
 	 * @return float The current time
 	 */
-	function getmicrotime(){
+	function getmicrotime()
+	{
 		list( $usec, $sec ) = explode( ' ', microtime() );
 		return ((float)$usec + (float)$sec);
 	}
 
-	function getMemory() {
+	/**
+	 * 
+	 * @access public
+	 * @return int The memory usage
+	 */
+	function getMemory() 
+	{
 		static $isWin;
 
-		if (function_exists( 'memory_get_usage' )) {
+		if (function_exists( 'memory_get_usage' )) 
+		{
 			return memory_get_usage();
-		} else {
+		} 
+		else 
+		{
 			if (is_null( $isWin )) {
 				$isWin = (substr(PHP_OS, 0, 3) == 'WIN');
 			}

@@ -221,6 +221,7 @@ class JApplication extends JObject
 		$credentials['password'] = $db->getEscaped( $password );
 		
 		// Get the global JAuthenticate object
+		jimport( 'joomla.application.user.authenticate');
 		$auth = & JAuthenticate::getInstance();
 		$authenticated = $auth->authenticate($credentials);
 		
