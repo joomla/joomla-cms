@@ -383,7 +383,7 @@ function mosMenuCheck( $Itemid, $menu_option, $task, $gid ) {
 	
 	if ( $Itemid != '' && $Itemid != 0 && $Itemid != 99999999 ) {
 		$menu = JMenu::getInstance();
-		$results[] = $menu->getItemById($Itemid);
+		$results[] = $menu->getItem($Itemid);
 	} else {
 		if ($task!='') {
 			$dblink	.= "&task=$task";

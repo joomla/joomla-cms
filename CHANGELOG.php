@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Mar-2005 Johan Janssens
+ ! Overall preformance improvements
+
 17-Mar-2005 Andrew Eddie
  ^ Upgraded mod_banners to allow for multiple banners to be shown
  ^ For review: In component navigation for com_banners

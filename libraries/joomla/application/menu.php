@@ -44,17 +44,15 @@ class JMenu extends JObject
 		$db					= & $mainframe->getDBO();
 		$user				= & $mainframe->getUser();
 
-		$sql = "SELECT *" .
-				"\n FROM #__menu" .
-				"\n WHERE published = 1";
+		$sql = "SELECT *"
+			. "\n FROM #__menu" 
+			. "\n WHERE published = 1"
+			. "\n ORDER BY menutype, parent, ordering";
 
 		$db->setQuery($sql);
-		if ($this->_menuitems = $db->loadObjectList('id'))
-		{
+		if ($this->_menuitems = $db->loadObjectList('id')) {
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
@@ -99,10 +97,8 @@ class JMenu extends JObject
 			/*
 			 * Do we have a content item linked to the menu with this id?
 			 */
-			foreach ($this->_menuitems as $item)
-			{
-				if ($item->link == "index.php?option=com_content&task=view&id=$id")
-				{
+			foreach ($this->_menuitems as $item) {
+				if ($item->link == "index.php?option=com_content&task=view&id=$id") {
 					return $item->id;
 				}
 			}
@@ -148,33 +144,38 @@ class JMenu extends JObject
 			 * the content structure, lets see if maybe we have a global blog
 			 * section in the menu we can put it under.
 			 */
-			foreach ($this->_menuitems as $item)
-			{
-				if ($item->type == "content_blog_section" && $item->componentid == "0")
-				{
+			foreach ($this->_menuitems as $item) {
+				if ($item->type == "content_blog_section" && $item->componentid == "0") {
 					return $item->id;
 				}
 			}
 		}
 
-		if ($Itemid != '')
-		{
+		if ($Itemid != '') {
 			return $Itemid;
-		}
-		else 
-		{
+		} else  {
 			return JRequest::getVar('Itemid', 9999, '', 'int');
 		}
 	}
 
-	function getMenu()
-	{
+	function getMenu() {
 		return $this->_menuitems;
 	}
 
-	function getItemById($id)
-	{
+	function getItem($id) {
 		return $this->_menuitems[$id];
+	}
+	
+	function getItems($attribute, $value) 
+	{	
+		$items = array();
+		foreach($this->_menuitems as $item) {
+			if($item->$attribute == $value ) {
+				$items[] = $item; 
+			}
+		}
+		
+		return $items;
 	}
 }
 ?>

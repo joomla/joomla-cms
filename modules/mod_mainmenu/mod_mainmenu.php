@@ -151,148 +151,102 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 	*/
 	function mosShowVIMenu(& $params)
 	{
-		global $database, $mainframe, $my, $Itemid;
+		global $database, $mainframe, $Itemid;
 		global $mosConfig_shownoauth;
 
-		$cur_template = $mainframe->getTemplate();
-
-		/* If a user has signed in, get their user type */
-		$intUserType = 0;
-		if ($my->gid)
-		{
-			switch ($my->usertype)
-			{
-				case 'Super Administrator' :
-					$intUserType = 0;
-					break;
-
-				case 'Administrator' :
-					$intUserType = 1;
-					break;
-
-				case 'Editor' :
-					$intUserType = 2;
-					break;
-
-				case 'Registered' :
-					$intUserType = 3;
-					break;
-
-				case 'Author' :
-					$intUserType = 4;
-					break;
-
-				case 'Publisher' :
-					$intUserType = 5;
-					break;
-
-				case 'Manager' :
-					$intUserType = 6;
-					break;
-			}
-		}
-		else
-		{
-			/* user isn't logged in so make their usertype 0 */
-			$intUserType = 0;
-		}
-
-		if ($mosConfig_shownoauth)
-		{
-			$sql = "SELECT m.*" .
-					"\n FROM #__menu AS m" .
-					"\n WHERE menutype = '".$params->get('menutype')."''" .
-					"\n AND published = 1" .
-					"\n ORDER BY parent, ordering";
-		}
-		else
-		{
-			$sql = "SELECT m.*" .
-					"\n FROM #__menu AS m" .
-					"\n WHERE menutype = '".$params->get('menutype')."'" .
-					"\n AND published = 1" .
-					"\n AND access <= $my->gid" .
-					"\n ORDER BY parent, ordering";
-		}
-		$database->setQuery($sql);
-		$rows = $database->loadObjectList('id');
+		$template = $mainframe->getTemplate();
+		$menu     =& JMenu::getInstance();
+		$user 	  =& $mainframe->getUser();
 
 		// indent icons
 		switch ($params->get('indent_image'))
 		{
 			case '1' :
+			{
 				// Default images
 				$imgpath = 'images/M_images';
-				for ($i = 1; $i < 7; $i ++)
-				{
+				for ($i = 1; $i < 7; $i ++) {
 					$img[$i] = '<img src="'.$imgpath.'/indent'.$i.'.png" alt="" />';
 				}
-				break;
+			} break;
+			
 			case '2' :
+			{
 				// Use Params
 				$imgpath = 'images/M_images';
 				for ($i = 1; $i < 7; $i ++)
 				{
-					if ($params->get('indent_image'.$i) == '-1')
-					{
+					if ($params->get('indent_image'.$i) == '-1') {
 						$img[$i] = NULL;
-					}
-					else
-					{
+					} else {
 						$img[$i] = '<img src="'.$imgpath.'/'.$params->get('indent_image'.$i).'" alt="" />';
 					}
 				}
-				break;
+			} break;
+			
 			case '3' :
+			{
 				// None
-				for ($i = 1; $i < 7; $i ++)
-				{
+				for ($i = 1; $i < 7; $i ++) {
 					$img[$i] = NULL;
 				}
-				break;
+			} break;
+			
 			default :
+			{
 				// Template
-				$imgpath = 'templates/'.$cur_template.'/images';
-				for ($i = 1; $i < 7; $i ++)
-				{
+				$imgpath = 'templates/'.$template.'/images';
+				for ($i = 1; $i < 7; $i ++) {
 					$img[$i] = '<img src="'.$imgpath.'/indent'.$i.'.png" alt="" />';
 				}
-				break;
+			}
 		}
 
 		$indents = array (
 			// block prefix / item prefix / item suffix / block suffix
-	array ('<table width="100%" border="0" cellpadding="0" cellspacing="0">', '<tr ><td>', '</td></tr>', '</table>'), array ('', '<div style="padding-left: 4px">'.$img[1], '</div>', ''), array ('', '<div style="padding-left: 8px">'.$img[2], '</div>', ''), array ('', '<div style="padding-left: 12px">'.$img[3], '</div>', ''), array ('', '<div style="padding-left: 16px">'.$img[4], '</div>', ''), array ('', '<div style="padding-left: 20px">'.$img[5], '</div>', ''), array ('', '<div style="padding-left: 24px">'.$img[6], '</div>', ''),);
+			array ('<table width="100%" border="0" cellpadding="0" cellspacing="0">', '<tr ><td>', '</td></tr>', '</table>'), 
+			array ('', '<div style="padding-left: 4px">'.$img[1], '</div>', ''), 
+			array ('', '<div style="padding-left: 8px">'.$img[2], '</div>', ''), 
+			array ('', '<div style="padding-left: 12px">'.$img[3], '</div>', ''), 
+			array ('', '<div style="padding-left: 16px">'.$img[4], '</div>', ''), 
+			array ('', '<div style="padding-left: 20px">'.$img[5], '</div>', ''), 
+			array ('', '<div style="padding-left: 24px">'.$img[6], '</div>', ''),
+		);
 
 		// establish the hierarchy of the menu
 		$children = array ();
+		
+		//get menu items
+		$rows = $menu->getItems('menutype', $params->get('menutype'));
+		
 		// first pass - collect children
 		foreach ($rows as $v)
 		{
-			$pt = $v->parent;
-			$list = @ $children[$pt] ? $children[$pt] : array ();
-			array_push($list, $v);
-			$children[$pt] = $list;
+			if($v->access <= $user->get('gid'))
+			{
+				$pt = $v->parent;
+				$list = @ $children[$pt] ? $children[$pt] : array ();
+				array_push($list, $v);
+				$children[$pt] = $list;
+			}
 		}
 
 		// second pass - collect 'open' menus
 		$open = array ($Itemid);
 		$count = 20; // maximum levels - to prevent runaway loop
 		$id = $Itemid;
+		
 		while (-- $count)
 		{
-			if (isset ($rows[$id]) && $rows[$id]->parent > 0)
-			{
+			if (isset ($rows[$id]) && $rows[$id]->parent > 0) {
 				$id = $rows[$id]->parent;
 				$open[] = $id;
-			}
-			else
-			{
+			} else {
 				break;
 			}
 		}
+		
 		mosRecurseVIMenu(0, 0, $children, $open, $indents, $params);
-
 	}
 
 	/**
@@ -302,6 +256,7 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 	function mosRecurseVIMenu($id, $level, & $children, & $open, & $indents, & $params)
 	{
 		global $Itemid;
+		
 		if (@ $children[$id])
 		{
 			$n = min($level, count($indents) - 1);
@@ -337,31 +292,24 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 	*/
 	function mosShowHFMenu(& $params, $style = 0)
 	{
-		global $database, $my, $Itemid;
+		global $database, $mainframe, $Itemid;
 		global $mosConfig_shownoauth;
+		
+		$menu     =& JMenu::getInstance();
+		$user 	  =& $mainframe->getUser();
 
-		$and = '';
-		if (!$mosConfig_shownoauth)
-		{
-			$and = "\n AND access <= $my->gid";
-		}
-		$sql = "SELECT m.*" .
-				"\n FROM #__menu AS m" .
-				"\n WHERE menutype = '".$params->get('menutype')."'" .
-				"\n AND published = 1".
-				$and .
-				"\n AND parent = 0" .
-				"\n ORDER BY ordering";
-		$database->setQuery($sql);
-		$rows = $database->loadObjectList('id');
+		//get menu items
+		$rows = $menu->getItems('menutype', $params->get('menutype'));
 
 		$links = array ();
-		foreach ($rows as $row)
-		{
-			$links[] = mosGetMenuLink($row, 0, $params);
+		foreach ($rows as $row) {
+			if($v->access <= $user->get('gid')) {
+				$links[] = mosGetMenuLink($row, 0, $params);
+			}
 		}
 
 		$menuclass = 'mainlevel'.$params->get('class_sfx');
+		
 		if (count($links))
 		{
 			switch ($style)

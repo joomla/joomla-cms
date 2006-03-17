@@ -829,7 +829,7 @@ class JApplication extends JObject
 	}
 
 	/**
-	* Depreacted, use JMenu->getItemid instead
+	* Depreacted, use JApplicationHelper::getItemid instead
 	* @since 1.1
 	*/
 	function getItemid( $id, $typed=1, $link=1, $bs=1, $bc=1, $gbs=1 ) {
@@ -837,43 +837,43 @@ class JApplication extends JObject
 	}
 
 	/**
-	* Depreacted, use JApplicationHelper::getBlogSectionCount instead
+	* Depreacted, use JApplicationHelper::getItemCount instead
 	* @since 1.1
 	*/
 	function getBlogSectionCount( ) {
-		return JApplicationHelper::getBlogSectionCount( );
+		return JApplicationHelper::getItemCount( 'content_blog_section' );
 	}
 
 	/**
-	* Depreacted, use JApplicationHelper::getBlogCategoryCount instead
+	* Depreacted, use JApplicationHelper::getItemCount instead
 	* @since 1.1
 	*/
 	function getBlogCategoryCount( ) {
-		return JApplicationHelper::getBlogCategoryCount( );
+		return JApplicationHelper::getItemCount( 'content_blog_category' );
 	}
 
 	/**
-	* Depreacted, use JApplicationHelper::getGlobalBlogSectionCount instead
+	* Depreacted, use JApplicationHelper::getItemCount instead
 	* @since 1.1
 	*/
 	function getGlobalBlogSectionCount( ) {
-		return JApplicationHelper::getGlobalBlogSectionCount( );
+		return JApplicationHelper::getItemCount( 'content_blog_section' );
 	}
 
 	/**
-	* Depreacted, use JApplicationHelper::getStaticContentCount instead
+	* Depreacted, use JApplicationHelper::getItemCount instead
 	* @since 1.1
 	*/
 	function getStaticContentCount( ) {
-		return JApplicationHelper::getStaticContentCount( );
+		return JApplicationHelper::getItemCount( 'content_typed' );
 	}
 
 	/**
-	* Depreacted, use JApplicationHelper::getContentItemLinkCount instead
+	* Depreacted, use JApplicationHelper::getItemCount instead
 	* @since 1.1
 	*/
 	function getContentItemLinkCount( ) {
-		return JApplicationHelper::getContentItemLinkCount( );
+		return JApplicationHelper::getItemCount( 'content_item_link');
 	}
 
 	/**
@@ -956,156 +956,27 @@ class JApplicationHelper
 	}
 
 	/**
-	 * Get the itemid for a content item
+	 * Get the ItemId for a content item
 	 *
 	 * @access public
 	 * @return integer
 	 * @since 1.0
 	 */
-	function getItemid( $id, $typed=1, $link=1, $bs=1, $bc=1, $gbs=1 ) {
+	function getItemid( $id ) {
 		$menu = JMenu::getInstance();
 		return $menu->getItemid($id);
 	}
-
+	
 	/**
-	 * Get the total number of published blog sections
+	 * Count the items in the menu for a certain type
 	 *
 	 * @access public
 	 * @return integer
-	 * @since 1.0
+	 * @since 1.1
 	 */
-	function getBlogSectionCount( ) {
-		static $count;
-
-		if (!isset ($count)) {
-			$count = false;
-		}
-
-		if ($count !== false) {
-			global $database;
-	
-			$query = "SELECT COUNT( id )"
-			."\n FROM #__menu "
-			."\n WHERE type = 'content_blog_section'"
-			."\n AND published = 1"
-			;
-			$database->setQuery( $query );
-			$count = $database->loadResult();
-		}
-		return $count;
-	}
-
-	/**
-	 * Get the total number of published blog categories
-	 *
-	 * @access public
-	 * @return integer
-	 * @since 1.0
-	 */
-	function getBlogCategoryCount( ) {
-		static $count;
-
-		if (!isset ($count)) {
-			$count = false;
-		}
-
-		if ($count !== false) {
-			global $database;
-	
-			$query = "SELECT COUNT( id )"
-			."\n FROM #__menu "
-			. "\n WHERE type = 'content_blog_category'"
-			. "\n AND published = 1"
-			;
-			$database->setQuery( $query );
-			$count = $database->loadResult();
-		}
-		return $count;
-	}
-
-	/**
-	 * Get the total number of published blog sections
-	 *
-	 * @access public
-	 * @return integer
-	 * @since 1.0
-	 */
-	function getGlobalBlogSectionCount( ) {
-		static $count;
-
-		if (!isset ($count)) {
-			$count = false;
-		}
-
-		if ($count !== false) {
-			global $database;
-	
-			$query = "SELECT COUNT( id )"
-			."\n FROM #__menu "
-			."\n WHERE type = 'content_blog_section'"
-			."\n AND published = 1"
-			."\n AND componentid = 0"
-			;
-			$database->setQuery( $query );
-			$count = $database->loadResult();
-		}
-		return $count;
-	}
-
-	/**
-	 * Get the total number of published static content items
-	 *
-	 * @access public
-	 * @return integer
-	 * @since 1.0
-	 */
-	function getStaticContentCount( ) {
-		static $count;
-
-		if (!isset ($count)) {
-			$count = false;
-		}
-
-		if ($count !== false) {
-			global $database;
-	
-			$query = "SELECT COUNT( id )"
-			."\n FROM #__menu "
-			."\n WHERE type = 'content_typed'"
-			."\n AND published = 1"
-			;
-			$database->setQuery( $query );
-			$count = $database->loadResult();
-		}
-		return $count;
-	}
-
-	/**
-	 * Get the total number of published content items
-	 *
-	 * @access public
-	 * @return integer
-	 * @since 1.0
-	 */
-	function getContentItemLinkCount( ) {
-		static $count;
-
-		if (!isset ($count)) {
-			$count = false;
-		}
-
-		if ($count !== false) {
-			global $database;
-	
-			$query = "SELECT COUNT( id )"
-			."\n FROM #__menu "
-			."\n WHERE type = 'content_item_link'"
-			."\n AND published = 1"
-			;
-			$database->setQuery( $query );
-			$count = $database->loadResult();
-		}
-		return $count;
+	function getItemCount( $type ) {
+		$menu = JMenu::getInstance();
+		return count($menu->getItems('type', $type));
 	}
 
 	/**

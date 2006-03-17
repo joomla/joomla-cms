@@ -138,7 +138,7 @@ class JContentController
 
 		// Parameters
 		$menu = JMenu::getInstance();
-		$menu = $menu->getItemById($Itemid);
+		$menu = $menu->getItem($Itemid);
 		$params = new JParameter($menu->params);
 
 		$orderby_pri	= $params->def('orderby_pri', '');
@@ -248,7 +248,7 @@ class JContentController
 		if ($Itemid)
 		{
 			$menu = JMenu::getInstance();
-			$menu = $menu->getItemById($Itemid);
+			$menu = $menu->getItem($Itemid);
 			$params = new JParameter($menu->params);
 		}
 		else
@@ -432,7 +432,7 @@ class JContentController
 		if ($Itemid)
 		{
 			$menu = JMenu::getInstance();
-			$menu = $menu->getItemById($Itemid);
+			$menu = $menu->getItem($Itemid);
 			$params = new JParameter($menu->params);
 			$pagetitle = $menu->name;
 		}
@@ -638,7 +638,7 @@ class JContentController
 		if ($Itemid)
 		{
 			$menu = JMenu::getInstance();
-			$menu = $menu->getItemById($Itemid);
+			$menu = $menu->getItem($Itemid);
 			$params = new JParameter($menu->params);
 		}
 		else
@@ -747,7 +747,7 @@ class JContentController
 		if ($Itemid)
 		{
 			$menu = JMenu::getInstance();
-			$menu = $menu->getItemById($Itemid);
+			$menu = $menu->getItem($Itemid);
 			$params = new JParameter($menu->params);
 		}
 		else
@@ -876,7 +876,7 @@ class JContentController
 		if ($Itemid)
 		{
 			$menu = JMenu::getInstance();
-			$menu = $menu->getItemById($Itemid);
+			$menu = $menu->getItem($Itemid);
 			$params = new JParameter($menu->params);
 		}
 		else
@@ -1016,7 +1016,7 @@ class JContentController
 		if ($Itemid)
 		{
 			$menu = JMenu::getInstance();
-			$menu = $menu->getItemById($Itemid);
+			$menu = $menu->getItem($Itemid);
 			$params = new JParameter($menu->params);
 		}
 		else

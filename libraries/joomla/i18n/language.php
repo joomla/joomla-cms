@@ -220,11 +220,6 @@ class JLanguage extends JObject
 		$result = false;
 		if (file_exists( $path . $filename .'.ini') ) {
 
-			//NOTE : Caching is slower
-			//$langGroup = 'Lang'.$this->_lang;
-			//$loadCache = JFactory::getCache($langGroup, 'JCache_Language');
-			//$newStrings = $loadCache->load(substr($langGroup, 4), $this, $basePath . $filename .'.ini');
-
 			$newStrings = $this->_load( $path . $filename .'.ini' );
 
 			if (is_array($newStrings)) {
