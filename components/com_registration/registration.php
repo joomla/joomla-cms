@@ -119,7 +119,8 @@ function registerForm() {
 	HTML_registration::registerForm();
 }
 
-function saveRegistration() {
+function saveRegistration() 
+{
 	global $database, $acl, $mainframe;
 	global $mosConfig_sitename, $mosConfig_useractivation, $mosConfig_allowUserRegistration;
 	global $mosConfig_mailfrom, $mosConfig_fromname, $mosConfig_mailfrom, $mosConfig_fromname;

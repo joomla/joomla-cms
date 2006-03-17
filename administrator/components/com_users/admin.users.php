@@ -372,7 +372,8 @@ function cancelUser( $option ) {
 	mosRedirect( 'index2.php?option='. $option .'&task=view' );
 }
 
-function removeUsers( $cid ) {
+function removeUsers( $cid ) 
+{
 	global $mainframe, $database, $acl, $my;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
@@ -380,9 +381,9 @@ function removeUsers( $cid ) {
 		exit;
 	}
 
-	if (count( $cid )) {
-		//load user bot group
-
+	if (count( $cid )) 
+	{
+		//load user plugin group
 		JPluginHelper::importPlugin( 'user' );
 
 		$obj =& JModel::getInstance('user', $database );

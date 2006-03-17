@@ -14,12 +14,11 @@
 
 jimport('joomla.application.extension.plugin');
 
-/*
- * Here we register the plugin with the JApplication class by passing an empty
- * string for event and the class name for the handler. Function based plugins
- * cannot register this way as they also have to pass the event to be called on.
- */
-$mainframe->registerEvent( '', 'JUserExample' );
+/**
+ * Attach the plugin to the event dispatcher
+ */  
+$dispatcher =& JEventDispatcher::getInstance();
+$dispatcher->attach('JUserExample');
 
 /**
  * Example User Plugin
@@ -44,6 +43,93 @@ class JUserExample extends JPlugin {
 	function JUserExample(& $subject) {
 		parent::__construct($subject);
 	}
+	
+	/**
+	 * Example store user method
+	 * Method is called before user data is stored in the database
+	 * 
+	 * @param 	array	  	holds the user data
+	 * @param 	boolean		true if a new user is stored
+	 */
+	function onBeforeStoreUser($user, $isnew)
+	{
+		global $mainframe;
+		
+		//Make sure
+		mysql_select_db($mainframe->getCfg('db'));
+	}
+	
+	/**
+	 * Example store user method
+	 * Method is called after user data is stored in the database
+	 * 
+	 * @param 	array	  	holds the user data
+	 * @param 	boolean		true if a new user is stored
+	 * @param	boolean		true if user was succesfully stored in the database
+	 * @param	string		message
+	 */
+	function onAfterStoreUser($user, $isnew, $succes, $msg)
+	{
+		global $mainframe;
+
+		/*
+	 	 * convert the user parameters passed to the event to a format the
+	 	 * external appliction
+	 	 */
+
+		$args = array();
+		$args['username'] = $user['username'];
+		$args['email'] 	  = $user['email'];
+		$args['fullname'] = $user['name'];
+		$args['password'] = $user['password'];
+
+		if($isnew) {
+			// Call a function in the external app to create the user
+			// ThirdPartyApp::createUser($user['id'], $args);
+		} else {
+			// Call a function in the external app to update the user
+			// ThirdPartyApp::updateUser($user['id'], $args);
+		}
+
+		//Make sure
+		mysql_select_db($mainframe->getCfg('db'));
+	}
+	
+	/**
+	 * Example store user method
+	 * 
+	 * Method is called before user data is deleted from the database
+	 * @param 	array	  	holds the user data
+	 */
+	function onBeforeDeleteUser($user)
+	{
+		global $mainframe;
+
+		//Make sure
+		mysql_select_db($mainframe->getCfg('db'));
+	}
+
+	/**
+	 * Example store user method
+	 * Method is called after user data is deleted from the database
+	 * @param 	array	  	holds the user data
+	 * @param	boolean		true if user was succesfully stored in the database
+	 * @param	string		message
+	 */
+	function botExampleAfterDeleteUser($user, $succes, $msg)
+	{
+		global $mainframe;
+
+		/*
+	 	 * only the $user['id'] exists and carries valid information
+	 	 */
+
+		// Call a function in the external app to delete the user
+		// ThirdPartyApp::deleteUser($user['id']);
+
+		//Make sure
+		mysql_select_db($mainframe->getCfg('db'));
+	}
 
 	/**
 	 * This method should handle any login logic and report back to the subject
@@ -54,7 +140,8 @@ class JUserExample extends JPlugin {
 	 * @return	boolean	True on success
 	 * @since	1.1
 	 */
-	function onLogin(& $credentials) {
+	function onLogin(& $credentials) 
+	{
 		// Initialize variables
 		$success = false;
 
@@ -68,6 +155,8 @@ class JUserExample extends JPlugin {
 		 * In this example the boolean variable $success would be set to true
 		 * if the login routine succeeds
 		 */
+		 
+		 //ThirdPartyApp::loginUser($username, $password);
 
 		return $success;
 	}
@@ -80,7 +169,8 @@ class JUserExample extends JPlugin {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function onLogout(& $credentials) {
+	function onLogout(& $credentials) 
+	{
 		// Initialize variables
 		$success = false;
 
@@ -90,6 +180,8 @@ class JUserExample extends JPlugin {
 		 * In this example the boolean variable $success would be set to true
 		 * if the logout routine succeeds
 		 */
+		 
+		 // ThirdPartyApp::logoutUser($user->username, $user->password);
 
 		return $success;
 	}

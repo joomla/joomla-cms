@@ -23,8 +23,8 @@ jimport('joomla.application.extension.plugin');
  * @subpackage JFramework
  * @since 1.1
  */
-class JAuthenticateExample extends JPlugin {
-
+class JAuthenticateExample extends JPlugin 
+{
 	/**
 	 * Constructor
 	 *
@@ -48,7 +48,8 @@ class JAuthenticateExample extends JPlugin {
 	 * @return	object	JAuthenticateResponse
 	 * @since 1.1
 	 */
-	function onAuthenticate( $username, $password ) {
+	function onAuthenticate( $username, $password ) 
+	{
 		// Initialize variables
 		$return = false;
 
