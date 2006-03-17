@@ -26,7 +26,13 @@ class HTML_banners {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_banners" method="post" name="adminForm">
+<form action="index2.php?option=com_banners" method="post" name="adminForm">
+
+	<div id="treecell">
+		<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
+	</div>
+		
+	<div id="datacell">
 
 		<table class="adminform">
 		<tr>
@@ -144,14 +150,15 @@ class HTML_banners {
 			
 			<?php echo $pageNav->getListFooter(); ?>
 		</div>
+	</div>
 
-		<input type="hidden" name="option" value="<?php echo $option; ?>" />
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="hidemainmenu" value="0" />
-		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="" />
-		</form>
+	<input type="hidden" name="option" value="<?php echo $option; ?>" />
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="boxchecked" value="0" />
+	<input type="hidden" name="hidemainmenu" value="0" />
+	<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+	<input type="hidden" name="filter_order_Dir" value="" />
+</form>
 		<?php
 	}
 
@@ -342,8 +349,14 @@ class HTML_bannerClient {
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<form action="index2.php?option=com_banners&amp;task=listclients" method="post" name="adminForm">
+<form action="index2.php?option=com_banners&amp;task=listclients" method="post" name="adminForm">
+
+	<div id="treecell">
+		<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
+	</div>
 		
+	<div id="datacell">
+
 		<table class="adminform">
 		<tr>
 			<td align="left" width="100%">
@@ -426,14 +439,15 @@ class HTML_bannerClient {
 			
 			<?php echo $pageNav->getListFooter(); ?>
 		</div>
+	</div>
 		
-		<input type="hidden" name="option" value="<?php echo $option; ?>" />
-		<input type="hidden" name="task" value="listclients" />
-		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="hidemainmenu" value="0" />
-		<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="" />
-		</form>
+	<input type="hidden" name="option" value="<?php echo $option; ?>" />
+	<input type="hidden" name="task" value="listclients" />
+	<input type="hidden" name="boxchecked" value="0" />
+	<input type="hidden" name="hidemainmenu" value="0" />
+	<input type="hidden" name="filter_order" value="<?php echo $lists['order']; ?>" />
+	<input type="hidden" name="filter_order_Dir" value="" />
+</form>
 		<?php
 	}
 

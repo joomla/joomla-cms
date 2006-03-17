@@ -15,91 +15,96 @@
 defined('_JEXEC') or die('Restricted access');
 
 $clientids	= intval($params->get('banner_cids', 0));
-$where	= null;
-$banner	= null;
+$limit		= (int) $params->get( 'count', 1 );
+$randomise	= (int) $params->get( 'randomise' );
+$cssSuffix	= $params->get( 'moduleclass_sfx' );
+
+$where	= '';
 
 if ($clientids)
 {
-	$where = "\n AND cid IN ( $clientids )";
+	$ids = explode( ',', $clientids );
+	mosArrayToInts( $ids, array() );
+	if (count( $ids ))
+	{
+		$where = " AND (cid=";
+		$where .= implode( ' OR cid=', $ids );
+		$where .= ')';
+	}
 }
 
-$query = "SELECT *" .
-		"\n FROM #__banner" .
-		"\n WHERE showBanner=1 ".
-		$where;
-$database->setQuery($query);
+$query = "SELECT *"
+	. ($randomise ? ', RAND() AS ordering' : ', 1 AS ordering')
+	. "\n FROM #__banner"
+	. "\n WHERE showBanner = 1 "
+	. $where
+	. "\nORDER BY ordering"
+	. "\nLIMIT " . $limit;
+	;
+$database->setQuery( $query );
 $banners = $database->loadObjectList();
-$numrows = count($banners);
+$numrows = count( $banners );
 
-$bannum = 0;
-if ($numrows > 1)
+echo '<div class="bannergroup' . $cssSuffix . '">';
+
+for ($i = 0; $i < $numrows; $i++)
 {
-	$numrows --;
-	mt_srand((double) microtime() * 1000000);
-	$bannum = mt_rand(0, $numrows);
-}
+	$item = &$banners[$i];
 
-if ($numrows)
-{
-	$banner = $banners[$bannum];
+	$query = "UPDATE #__banner"
+	. "\n SET impmade = impmade + 1"
+	. "\n WHERE bid = $item->bid"
+	;
+	$database->setQuery( $query );
 
-	$query = "UPDATE #__banner" .
-			"\n SET impmade = impmade + 1" .
-			"\n WHERE bid = $banner->bid";
-	$database->setQuery($query);
 	if (!$database->query())
 	{
-		echo $database->stderr(true);
+		echo $database->stderr( true );
 		return;
 	}
-	$banner->impmade++;
+	$item->impmade++;
 
-	if ($numrows > 0)
+	// expire the banner
+	if ($item->imptotal == $item->impmade)
 	{
-		// Check if this impression is the last one and print the banner
-		if ($banner->imptotal == $banner->impmade)
-		{
 
-			$query = "INSERT INTO #__bannerfinish ( cid, type, name, impressions, clicks, imageurl, datestart, dateend )" .
-					"\n VALUES ( $banner->cid, '$banner->type', '$banner->name', $banner->impmade, $banner->clicks, '$banner->imageurl', '$banner->date', 'now()' )";
-			$database->setQuery($query);
-			if (!$database->query())
-			{
-				die($database->stderr(true));
-			}
-
-			$query = "DELETE FROM #__banner" .
-					"\n WHERE bid = $banner->bid";
-			$database->setQuery($query);
-			if (!$database->query())
-			{
-				die($database->stderr(true));
-			}
+		$query = "INSERT INTO #__bannerfinish ( cid, type, name, impressions, clicks, imageurl, datestart, dateend )"
+		. "\n VALUES ( $item->cid, '$item->type', '$item->name', $item->impmade, $item->clicks, '$item->imageurl', '$item->date', 'now()' )"
+		;
+		$database->setQuery($query);
+		if(!$database->query()) {
+			die($database->stderr(true));
 		}
 
-		if (trim($banner->custombannercode))
-		{
-			echo $banner->custombannercode;
+		$query = "DELETE FROM #__banner"
+		. "\n WHERE bid = $item->bid"
+		;
+		$database->setQuery($query);
+		if(!$database->query()) {
+			die($database->stderr(true));
 		}
-		else
-			if (eregi("(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$", $banner->imageurl))
-			{
-				$imageurl = 'images/banners/'.$banner->imageurl;
-				$link = sefRelToAbs('index.php?option=com_banners&amp;task=click&amp;bid='.$banner->bid);
-				echo '<a href="'.$link.'" target="_blank"><img src="'.$imageurl.'" border="0" alt="'.JText :: _('Banner').'" /></a>';
+	}
 
-			}
-			else
-				if (eregi("\.swf$", $banner->imageurl))
-				{
-					$imageurl = "images/banners/".$banner->imageurl;
+	echo '<div class="banneritem' . $cssSuffix . '">';
+	if (trim( $item->custombannercode ))
+	{
+		echo $item->custombannercode;
+	}
+	else if (eregi( "(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$", $item->imageurl ))
+	{
+		$imageurl = 'images/banners/'.$item->imageurl;
+		$link		= sefRelToAbs( 'index.php?option=com_banners&amp;task=click&amp;bid='. $item->bid );
+		echo '<a href="'.$link.'" target="_blank"><img src="'.$imageurl.'" border="0" alt="'.JText :: _('Banner').'" /></a>';
+	}
+	else if (eregi("\.swf$", $item->imageurl))
+	{
+					$imageurl = "images/banners/".$item->imageurl;
 					echo "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0\" border=\"5\">
 										<param name=\"movie\" value=\"$imageurl\"><embed src=\"$imageurl\" loop=\"false\" pluginspage=\"http://www.macromedia.com/go/get/flashplayer\" type=\"application/x-shockwave-flash\"></embed></object>";
-				}
 	}
+
+	echo '	<div class="clr"></div>';
+	echo '</div>';
 }
-else
-{
-	echo "&nbsp;";
-}
+echo '</div>';
 ?>

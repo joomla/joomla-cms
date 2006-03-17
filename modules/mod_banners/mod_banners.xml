@@ -13,7 +13,16 @@
 		<filename module="mod_banners">mod_banners.php</filename>
 	</files>
 	<params>
-		<param name="banner_cids" type="text" default="" label="Banner client" description="Reference to banner client id. Enter separated by" />
+		<param name="count" type="text" default="1" label="Count" description="The number of items to display (default 5)" />
+		<param name="randomise" type="radio" default="0" label="Randomise" description="Randomise the ordering of the banners">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="banner_cids" type="text" default="" label="Banner client" description="Reference to banner client id. Separate multiple ids with a comma (,)." />
 		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+		<param name="cache" type="radio" default="0" label="Enable Cache" description="Select whether to cache the content of this module">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
 	</params>
 </install>

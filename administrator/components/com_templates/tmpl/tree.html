@@ -1,0 +1,30 @@
+<fieldset title="<?php echo JText::_( 'Template Manager' ); ?>">
+	<legend>
+		<?php echo JText::_('Template Manager'); ?>
+	</legend>
+	<ul id="templates" class="menu-tree">
+		<li>
+			<a class="exttype" href="index2.php?option=com_templates&amp;client=0" >
+				<?php echo JText::_('Site Templates'); ?></a>
+		</li>
+		<li>
+			<a class="exttype" href="index2.php?option=com_templates&amp;client=1" >
+				<?php echo JText::_('Admin Templates'); ?></a>
+		</li>
+		<li>
+			<a class="exttype" href="index2.php?option=com_templates&amp;task=positions" >
+				<?php echo JText::_('Positions'); ?></a>
+		</li>
+		<li>
+			<a class="exttype" href="index2.php?option=com_templates&amp;task=preview" >
+				<?php echo JText::_('Preview Site'); ?></a>
+
+			<ul class="menu-tree">
+				<li>
+					<a class="exttype" href="index.php?tp=1" target="_blank" title="<?php echo JText::_('Preview'); ?>">
+						<?php echo JText::_('Open in new window'); ?></a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</fieldset>

@@ -37,6 +37,12 @@ Legend:
 - -> Removed
 ! -> Note
 
+17-Mar-2005 Andrew Eddie
+ ^ Upgraded mod_banners to allow for multiple banners to be shown
+ ^ For review: In component navigation for com_banners
+ ^ For review: In component navigation for com_templates
+ ^ For review: Code snippets in template HTML editor
+
 16-Mar-2005 Johan Janssens
  - Removed administrator/includes/toolbar.html.php
  - Moved paramater package into presentation package

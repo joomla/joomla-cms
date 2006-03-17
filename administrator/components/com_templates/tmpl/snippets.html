@@ -1,0 +1,109 @@
+<?php
+// no direct access
+defined( '_JEXEC' ) or die( 'Restricted access' );
+?>
+<script type="text/javascript">
+	var snippets = {
+		'Head'	:	'<jdoc:include type="head" />',
+		'RTL'	:	'<jdoc:tmpl name="isRTL" varscope="index.php" type="condition" conditionvar="LANG_ISRTL"> \n\
+	<jdoc:sub condition="1"> \n\
+		<link href="templates//css/template_rtl.css" rel="stylesheet" type="text/css" /> \n\
+	</jdoc:sub> \n\
+</jdoc:tmpl>\n',
+		'Mod+1'	:	'<jdoc:include type="modules" name="left" style="1" />',
+		'Mod+0'	:	'<jdoc:include type="modules" name="left" style="0" />',
+		'Mod-1'	:	'<jdoc:include type="modules" name="left" style="-1" />',
+		'Mod-2'	:	'<jdoc:include type="modules" name="left" style="-2" />',
+		'Mod-3'	:	'<jdoc:include type="modules" name="left" style="-3" />',
+		'IfExists'	:	'<jdoc:exists type="modules" condition="left" > \n\
+</jdoc:exists>\n',
+
+	};
+
+	function insertAtCursor(myField, myValue) {
+		if (document.selection) {
+			// IE support
+			myField.focus();
+			sel = document.selection.createRange();
+			sel.text = myValue;
+		} else if (myField.selectionStart || myField.selectionStart == '0') {
+			// MOZILLA/NETSCAPE support
+			var startPos = myField.selectionStart;
+			var endPos = myField.selectionEnd;
+			myField.value = myField.value.substring(0, startPos)
+				+ myValue
+				+ myField.value.substring(endPos, myField.value.length);
+		} else {
+			myField.value += myValue;
+		}
+	}
+
+	function inSnip( type ) {
+		e = getElementByName( document.adminForm, 'filecontent' );
+		if (e) {
+			if (snippets[type]) {
+				snip = snippets[type];
+				/* if (snip.indexOf( 'LoadModules' ) >= 0) {
+					p = getSelectedValue( 'adminForm', 'positions' );
+					if (p != '0') {
+						snip = snip.replace( 'position', p );
+					}
+				} */
+				insertAtCursor( e, snip );
+			}
+		}
+	}
+</script>
+
+
+<fieldset title="<?php echo JText::_( 'Template Snippets' ); ?>">
+	<legend>
+		<?php echo JText::_('Template Snippets'); ?>
+	</legend>
+
+	<?php echo JText::_('Insert Snippet'); ?>
+	<ul id="templates" class="menu-tree">
+		<li>
+			<a class="exttype" href="javascript:void inSnip( 'Head' );" title="<?php echo JText::_('Place once after the head tag'); ?>">
+				<?php echo JText::_('Head'); ?></a>
+		</li>
+		<li>
+			<a class="exttype" href="javascript:void inSnip( 'RTL' );" title="<?php echo JText::_('Place in head tag to support RTL styles'); ?>">
+				<?php echo JText::_('RTL Head'); ?></a>
+		</li>
+		<li>
+			<?php echo JText::_('Modules'); ?>
+			<ul id="templates" class="menu-tree">
+				<li>
+					<a class="exttype" href="javascript:void inSnip( 'Mod+1' );" title="<?php echo JText::_('Horizontal Modules'); ?>">
+						<?php echo JText::_('Horizontal'); ?></a>
+				</li>
+				<li>
+					<a class="exttype" href="javascript:void inSnip( 'Mod+0' );" title="<?php echo JText::_('Vertical Modules'); ?>">
+						<?php echo JText::_('Vertical'); ?></a>
+				</li>
+				<li>
+					<a class="exttype" href="javascript:void inSnip( 'Mod-1' );" title="<?php echo JText::_('No Wrapper'); ?>">
+						<?php echo JText::_('No Wrapper'); ?></a>
+				</li>
+				<li>
+					<a class="exttype" href="javascript:void inSnip( 'Mod-2' );" title="<?php echo JText::_('Div Wrapper'); ?>">
+						<?php echo JText::_('Div Wrapper'); ?></a>
+				</li>
+				<li>
+					<a class="exttype" href="javascript:void inSnip( 'Mod-3' );" title="<?php echo JText::_('DL Wrapper - supports rounded corners'); ?>">
+						<?php echo JText::_('DL Wrapper'); ?></a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<?php echo JText::_('Logic'); ?>
+			<ul id="templates" class="menu-tree">
+				<li>
+					<a class="exttype" href="javascript:void inSnip( 'IfExists' );" title="<?php echo JText::_('Outputs contents if module position exists'); ?>">
+						<?php echo JText::_('If Exists'); ?></a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</fieldset>

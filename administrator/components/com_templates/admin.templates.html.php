@@ -38,25 +38,31 @@ class JTemplatesView
 
 		mosCommonHTML::loadOverlib();
 		?>
-		<script language="javascript" type="text/javascript">
-		<!--
-		function showInfo(name, dir) {
-			var pattern = /\b \b/ig;
-			name = name.replace(pattern,'_');
-			name = name.toLowerCase();
-			if (document.adminForm.doPreview.checked) {
-				var src = '<?php echo  ($client->id == 1 ? $mainframe->getSiteURL().'/administrator' : $mainframe->getSiteURL() );?>/templates/'+dir+'/template_thumbnail.png';
-				var html=name;
-				html = '<br /><img border="1" src="'+src+'" name="imagelib" alt="<?php echo JText::_( 'No preview available' ); ?>" width="206" height="145" />';
-				return overlib(html, CAPTION, name)
-			} else {
-				return false;
-			}
-		}
-		-->
-		</script>
+<script language="javascript" type="text/javascript">
+<!--
+function showInfo(name, dir) {
+	var pattern = /\b \b/ig;
+	name = name.replace(pattern,'_');
+	name = name.toLowerCase();
+	if (document.adminForm.doPreview.checked) {
+		var src = '<?php echo  ($client->id == 1 ? $mainframe->getSiteURL().'/administrator' : $mainframe->getSiteURL() );?>/templates/'+dir+'/template_thumbnail.png';
+		var html=name;
+		html = '<br /><img border="1" src="'+src+'" name="imagelib" alt="<?php echo JText::_( 'No preview available' ); ?>" width="206" height="145" />';
+		return overlib(html, CAPTION, name)
+	} else {
+		return false;
+	}
+}
+-->
+</script>
 
-		<form action="index2.php" method="post" name="adminForm">
+<form action="index2.php" method="post" name="adminForm">
+
+	<div id="treecell">
+		<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
+	</div>
+		
+	<div id="datacell">
 		
 		<table class="adminform">
 		<tr>
@@ -203,12 +209,13 @@ class JTemplatesView
 			
 			<?php echo $pageNav->getListFooter(); ?>
 		</div>			
+	</div>
 
-		<input type="hidden" name="option" value="<?php echo $option;?>" />
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="hidemainmenu" value="0" />
-		</form>
+	<input type="hidden" name="option" value="<?php echo $option;?>" />
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="boxchecked" value="0" />
+	<input type="hidden" name="hidemainmenu" value="0" />
+</form>
 		<?php
 	}
 	
@@ -220,15 +227,21 @@ class JTemplatesView
 		$url 	= $client->id ? $mainframe->getBaseURL() : $mainframe->getSiteURL();
 		
 		?>
-		<style type="text/css">
-		.previewFrame {
-			border: none;
-			width: 95%;
-			height: 600px;
-			padding: 0px 5px 0px 10px;
-		}
-		</style>
+	<style type="text/css">
+	.previewFrame {
+		border: none;
+		width: 95%;
+		height: 600px;
+		padding: 0px 5px 0px 10px;
+	}
+	</style>
+
+	<div id="treecell">
+		<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
+	</div>
 		
+	<div id="datacell">
+
 		<div id="editcell">				
 			<table class="adminform">
 			<tr>
@@ -246,6 +259,7 @@ class JTemplatesView
 			</tr>
 			</table>
 		</div>
+	</div>
 		<?php
 	}
 
@@ -351,7 +365,39 @@ class JTemplatesView
 	{
 		$template_path = $client->path . '/templates/' . $template . '/index.php';
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+<form action="index2.php" method="post" name="adminForm">
+
+	<div id="treecell">
+		<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'snippets.html'); ?>
+
+		<fieldset title="">
+			**An alternative layout**
+			<p>
+				<?php echo JText::_( 'This file is' ); ?>:
+				<strong><?php echo is_writable($template_path) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?></strong>
+			</p>
+			<p>
+			<?php
+			if (mosIsChmodable($template_path)) {
+				if (is_writable($template_path)) {
+				?>
+					<input type="checkbox" id="disable_write" name="disable_write" value="1"/>
+					<label for="disable_write"><?php echo JText::_( 'Make unwriteable after saving' ); ?></label>
+				<?php
+			} else {
+				?>
+					<input type="checkbox" id="enable_write" name="enable_write" value="1"/>
+					<label for="enable_write"><?php echo JText::_( 'Override write protection while saving' ); ?></label>
+				<?php
+				} // if
+			} // if
+			?>
+			</p>
+		</fieldset>
+
+	</div>
+		
+	<div id="datacell">
 		
 		<table cellpadding="1" cellspacing="1" border="0" width="100%">
 		<tr>
@@ -394,12 +440,13 @@ class JTemplatesView
 			</td>
 		</tr>
 		</table>
-		
-		<input type="hidden" name="id" value="<?php echo $template; ?>" />
-		<input type="hidden" name="option" value="<?php echo $option;?>" />
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="client" value="<?php echo $client->id;?>" />
-		</form>
+	</div>
+
+	<input type="hidden" name="id" value="<?php echo $template; ?>" />
+	<input type="hidden" name="option" value="<?php echo $option;?>" />
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="client" value="<?php echo $client->id;?>" />
+</form>
 		<?php
 	}
 
@@ -546,9 +593,15 @@ class JTemplatesView
 		$cols = 2;
 		$n = $rows * $cols;
 		?>
-		<form action="index2.php" method="post" name="adminForm">
+<form action="index2.php" method="post" name="adminForm">
+
+	<div id="treecell">
+		<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
+	</div>
 		
-		<div id="editcell">				
+	<div id="datacell">
+		
+		<div id="tablecell">				
 			<table class="adminlist">
 			<tr>
 			<?php
@@ -592,7 +645,7 @@ class JTemplatesView
 						<input type="text" name="position[<?php echo $i; ?>]" id="position<?php echo $i; ?>" value="<?php echo @$positions[$i-1]->position; ?>" size="10" maxlength="10" />
 					</td>
 					<td>
-						<input type="text" name="description[<?php echo $i; ?>]" value="<?php echo htmlspecialchars( @$positions[$i-1]->description ); ?>" size="50" maxlength="255" />
+						<input type="text" name="description[<?php echo $i; ?>]" value="<?php echo htmlspecialchars( @$positions[$i-1]->description ); ?>" size="40" maxlength="255" />
 					</td>
 					<?php
 					$i++;
@@ -605,10 +658,11 @@ class JTemplatesView
 			?>
 			</table>
 		</div>
+	</div>
 		
-		<input type="hidden" name="option" value="<?php echo $option;?>" />
-		<input type="hidden" name="task" value="" />
-		</form>
+	<input type="hidden" name="option" value="<?php echo $option;?>" />
+	<input type="hidden" name="task" value="" />
+</form>
 		<?php
 	}
 }
