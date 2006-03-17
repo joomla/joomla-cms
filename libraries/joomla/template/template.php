@@ -26,6 +26,15 @@ jimport('pattemplate.patTemplate');
 class JTemplate extends patTemplate
 {
 	/**
+     * The path of the template file
+     *
+     * @var       string
+     * @access    private
+     */
+	var $_file = '';
+	
+	
+	/**
 	 * A hack to support __construct() on PHP 4
 	 * Hint: descendant classes have no PHP4 class_name() constructors,
 	 * so this constructor gets called first and calls the top-layer __construct()
@@ -106,7 +115,8 @@ class JTemplate extends patTemplate
 	 * @param string 	$file	The filename
 	 */
 	function parse( $file )
-	{
+	{	
+		$this->_file = $file; //store the file for later usage
 		$this->readTemplatesFromInput( $file );
 	}
 
@@ -140,6 +150,30 @@ class JTemplate extends patTemplate
 		
 		return $result;
 	}
+	
+   /**
+	* enable a template cache
+	*
+	* A template cache will improve performace, as the templates
+	* do not have to be read on each request.
+	*
+	* @access	public
+	* @param	string		name of the template cache
+	* @param	string		folder to store the cached files
+	* @return	boolean		true on success, patError otherwise
+	*/
+	function enableTemplateCache( $handler, $folder )
+	{
+		$info = array(
+			'cacheFolder' 	=> $folder,
+			'lifetime' 		=> 'auto',
+			'prefix'		=> 'global__',
+			'filemode' 		=> 0755
+		);
+		$result = $this->useTemplateCache( 'File', $info );
+		
+		return $result;
+	}
 
 	/**
 	 * Set the prefix of the template cache
@@ -148,7 +182,8 @@ class JTemplate extends patTemplate
 	 * @param	string		the prefix of the template cache
 	 * @return	boolean		true on success, patError otherwise
 	 */
-	function setTemplateCachePrefix( $prefix ) {
+	function setTemplateCachePrefix( $prefix ) 
+	{
 		if (!$this->_tmplCache) {
 			return false;
 		}

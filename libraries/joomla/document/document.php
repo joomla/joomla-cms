@@ -130,7 +130,7 @@ class JDocument extends JTemplate
      * @access    private
      */
 	var $_renderers = array();
-
+	
 
 	/**
 	* Class constructor
@@ -514,8 +514,13 @@ class JDocument extends JTemplate
 		}
 		
 		$contents = '';
-		if ( file_exists( $directory.DS.$filename ) ) {
+		//Check to see if we have a valid template file
+		if ( file_exists( $directory.DS.$filename ) ) 
+		{
+			//store the file path 
+			$this->_file = $directory.DS.$filename;
 			
+			//get the file content
 			ob_start();
 			?><jdoc:tmpl name="<?php echo $filename ?>" autoclear="yes"><?php
 				require_once( JPath::clean($directory.DS.$filename, false) );
@@ -534,9 +539,32 @@ class JDocument extends JTemplate
 	 * @param string 	$name	The renderer name
 	 * @return string The contents of the template 
 	 */
-	function _addRenderer($type, $name)
-	{
+	function _addRenderer($type, $name) {
 		$this->_renderers[$type][] = $name;
+	}
+	
+	 /**
+	* load from template cache
+	*
+	* @access	private
+	* @param	string	name of the input (filename, shm segment, etc.)
+	* @param	string	driver that is used as reader, you may also pass a Reader object
+	* @param	array	options for the reader
+	* @param	string	cache key
+	* @return	array|boolean	either an array containing the templates, or false
+	*/
+	function _loadTemplatesFromCache( $input, &$reader, $options, $key )
+	{
+		$stat	=	&$this->loadModule( 'Stat', 'File' );
+		$stat->setOptions( $options );
+
+		/**
+		 * get modification time
+		 */
+		$modTime   = $stat->getModificationTime( $this->_file );
+		$templates = $this->_tmplCache->load( $key, $modTime );
+		
+		return $templates;
 	}
 }
 

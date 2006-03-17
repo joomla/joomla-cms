@@ -498,14 +498,19 @@ class JApplication extends JObject
 	 */
 	function &getDocument()
 	{
+		global $mainframe;
+		jimport('joomla.document.document');
+		
 		$attributes = array (
             'charset'  => 'utf-8',
            	'lineend'  => 'unix',
             'tab'  => '  ',
           	'language' => 'en-GB'
 		);
-		jimport('joomla.document.document');
+		
 		$instance =& JDocument::getInstance('html', $attributes);
+		$instance->enableTemplateCache( 'File', $mainframe->getCfg('cachepath'));
+		
 		return $instance;
 	}
 
