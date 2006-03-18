@@ -31,7 +31,6 @@ class TOOLBAR_templates
 			JMenuBar::makeDefault();
 		}
 		JMenuBar::editListX( 'edit', 'Edit' );
-		JMenuBar::custom('positions', 'properties.png', 'properties_f2.png', JText::_( 'Positions' ), false, false);
 		//JMenuBar::addNew();
 		JMenuBar::help( 'screen.templates' );
 	}
