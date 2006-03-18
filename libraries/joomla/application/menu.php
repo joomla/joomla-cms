@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @version $Id$
  * @package Joomla
@@ -28,32 +29,28 @@ class JMenu extends JObject
 	var $_menuitems = array ();
 
 	/**
+	 * Array to hold the menu items
+	 * @access private
+	 */
+	var $_thismenu = array ();
+
+	/**
 	 * Class constructor
 	 * 
 	 * @param string $name The menu name to load
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function __construct()
+	function __construct($name = 'all')
 	{
-		global $mainframe;
+		$this->_menuitems = $this->_load();
 
-		/*
-		 * Initialize some variables
-		 */
-		$db					= & $mainframe->getDBO();
-		$user				= & $mainframe->getUser();
-
-		$sql = "SELECT *"
-			. "\n FROM #__menu" 
-			. "\n WHERE published = 1"
-			. "\n ORDER BY menutype, parent, ordering";
-
-		$db->setQuery($sql);
-		if ($this->_menuitems = $db->loadObjectList('id')) {
-			return true;
-		} else {
-			return false;
+		foreach ($this->_menuitems as $item)
+		{
+			if ($item->menutype == $name || $name == 'all')
+			{
+				$this->_thismenu[] = $item;
+			}
 		}
 	}
 
@@ -68,28 +65,29 @@ class JMenu extends JObject
 	 * @return	JMenu	The Menu object.
 	 * @since	1.1
 	 */
-	function getInstance()
+	function getInstance($id = 'all')
 	{
 		static $instances;
 
-		if (!isset ($instances)) {
+		if (!isset ($instances))
+		{
 			$instances = array ();
 		}
 
-		if (empty ($instances[0])) {
-			$instances[0] = new JMenu();
+		if (empty ($instances[$id]))
+		{
+			$instances[$id] = new JMenu($id);
 		}
 
-		return $instances[0];
+		return $instances[$id];
 	}
-
 
 	function getItemid($id)
 	{
 		global $mainframe;
 
-		$db			= & $mainframe->getDBO();
-		$Itemid	= null;
+		$db = & $mainframe->getDBO();
+		$Itemid = null;
 
 		if (count($this->_menuitems))
 		{
@@ -97,8 +95,10 @@ class JMenu extends JObject
 			/*
 			 * Do we have a content item linked to the menu with this id?
 			 */
-			foreach ($this->_menuitems as $item) {
-				if ($item->link == "index.php?option=com_content&task=view&id=$id") {
+			foreach ($this->_menuitems as $item)
+			{
+				if ($item->link == "index.php?option=com_content&task=view&id=$id")
+				{
 					return $item->id;
 				}
 			}
@@ -144,38 +144,77 @@ class JMenu extends JObject
 			 * the content structure, lets see if maybe we have a global blog
 			 * section in the menu we can put it under.
 			 */
-			foreach ($this->_menuitems as $item) {
-				if ($item->type == "content_blog_section" && $item->componentid == "0") {
+			foreach ($this->_menuitems as $item)
+			{
+				if ($item->type == "content_blog_section" && $item->componentid == "0")
+				{
 					return $item->id;
 				}
 			}
 		}
 
-		if ($Itemid != '') {
+		if ($Itemid != '')
+		{
 			return $Itemid;
-		} else  {
-			return JRequest::getVar('Itemid', 9999, '', 'int');
+		}
+		else
+		{
+			return JRequest :: getVar('Itemid', 9999, '', 'int');
 		}
 	}
 
-	function getMenu() {
-		return $this->_menuitems;
+	function getMenu()
+	{
+		return $this->_thismenu;
 	}
 
-	function getItem($id) {
+	function getItem($id)
+	{
 		return $this->_menuitems[$id];
 	}
-	
-	function getItems($attribute, $value) 
-	{	
-		$items = array();
-		foreach($this->_menuitems as $item) {
-			if($item->$attribute == $value ) {
-				$items[] = $item; 
+
+	function getItems($attribute, $value)
+	{
+		$items = array ();
+		foreach ($this->_menuitems as $item)
+		{
+			if ($item->$attribute == $value)
+			{
+				$items[] = $item;
 			}
 		}
-		
+
 		return $items;
+	}
+
+	function _load()
+	{
+		global $mainframe;
+
+		static $menus;
+
+		if (isset ($menus))
+		{
+			return $menus;
+		}
+		/*
+		 * Initialize some variables
+		 */
+		$db = & $mainframe->getDBO();
+		$user = & $mainframe->getUser();
+
+		$sql = "SELECT *" .
+				"\n FROM #__menu" .
+				"\n WHERE published = 1";
+
+		$db->setQuery($sql);
+		if (!($menus = $db->loadObjectList()))
+		{
+			JError :: raiseWarning('SOME_ERROR_CODE', "Error loading Menus: ".$db->getErrorMsg());
+			return false;
+		}
+
+		return $menus;
 	}
 }
 ?>
