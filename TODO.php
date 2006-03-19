@@ -25,17 +25,21 @@ s { color: red; }
 	display: block;
 	text-align: left;
 }
+
 hr { 
 	border: 1px dotted black; 
 }
+
 span.todotitle {
 	font-weight: bold;
 	color: black;
 }
+
 .highlight {
 	font-weight: bold;
 	color: red;
 }
+
 </style>
 <div id="notes">
 <h3>TESTER NOTES</h3>
