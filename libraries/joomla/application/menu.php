@@ -208,7 +208,7 @@ class JMenu extends JObject
 				"\n WHERE published = 1";
 
 		$db->setQuery($sql);
-		if (!($menus = $db->loadObjectList()))
+		if (!($menus = $db->loadObjectList('id')))
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', "Error loading Menus: ".$db->getErrorMsg());
 			return false;
