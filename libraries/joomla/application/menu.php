@@ -159,7 +159,7 @@ class JMenu extends JObject
 		}
 		else
 		{
-			return JRequest :: getVar('Itemid', 9999, '', 'int');
+			return JRequest::getVar('Itemid', 9999, '', 'int');
 		}
 	}
 
@@ -210,7 +210,7 @@ class JMenu extends JObject
 		$db->setQuery($sql);
 		if (!($menus = $db->loadObjectList()))
 		{
-			JError :: raiseWarning('SOME_ERROR_CODE', "Error loading Menus: ".$db->getErrorMsg());
+			JError::raiseWarning('SOME_ERROR_CODE', "Error loading Menus: ".$db->getErrorMsg());
 			return false;
 		}
 

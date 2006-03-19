@@ -37,11 +37,13 @@ Legend:
 - -> Removed
 ! -> Note
 
+19-Mar-2005 Louis Landry
+ + CSS driven full admin menu module
+ 
 17-Mar-2005 Johan Janssens
  ! Overall preformance improvements
  ^ Feature request artf1796 : Admin: Items -> sort by pressing on tableheader
  
-
 17-Mar-2005 Andrew Eddie
  ^ Upgraded mod_banners to allow for multiple banners to be shown
  ^ For review: In component navigation for com_banners

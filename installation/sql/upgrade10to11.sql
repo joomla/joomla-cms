@@ -72,6 +72,7 @@ INSERT INTO `jos_modules` VALUES (1004, 'Admin SubMenu','', 1,'submenu', 0,'0000
 INSERT INTO `jos_modules` VALUES (1005, 'User Status','', 1,'status', 0,'0000-00-00 00:00:00', 1,'mod_status', 0, 23, 1, '', 0, 1);
 INSERT INTO `jos_modules` VALUES (1006, 'Title','', 1,'title', 0,'0000-00-00 00:00:00', 1,'mod_title', 0, 23, 1, '', 0, 1);
 INSERT INTO `jos_modules` VALUES (9, 'Login Form', '', 3, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 0, 1, '', 1, 1);
+INSERT INTO `jos_modules` VALUES (1007, 'CSS Admin Menu','',1,'top',0,'0000-00-00 00:00:00',0,'mod_cssmenu',0,23,1,'',1, 1);
 
 
 INSERT INTO `jos_modules_menu` VALUES (1000,0);
