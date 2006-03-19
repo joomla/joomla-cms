@@ -451,7 +451,7 @@ INSERT INTO `#__modules` VALUES (35, 'Admin Menu','', 1,'menu', 0,'0000-00-00 00
 INSERT INTO `#__modules` VALUES (36, 'Admin SubMenu','', 1,'submenu', 0,'0000-00-00 00:00:00', 1,'mod_submenu', 0, 23, 1, '', 0, 1);
 INSERT INTO `#__modules` VALUES (37, 'User Status','', 1,'status', 0,'0000-00-00 00:00:00', 1,'mod_status', 0, 23, 1, '', 0, 1);
 INSERT INTO `#__modules` VALUES (38, 'Title','', 1,'title', 0,'0000-00-00 00:00:00', 1,'mod_title', 0, 23, 1, '', 0, 1);
-INSERT INTO `#__modules` VALUES (39, 'CSS Admin Menu','',1,'top',0,'0000-00-00 00:00:00',0,'mod_cssmenu',0,23,1,'',1, 1);
+INSERT INTO `#__modules` VALUES (39, 'CSS Admin Menu','',1,'top',0,'0000-00-00 00:00:00',1,'mod_cssmenu',0,23,1,'',1, 1);
 
 # --------------------------------------------------------
 
