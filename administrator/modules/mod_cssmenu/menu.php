@@ -49,6 +49,8 @@ class JAdminCSSMenu extends JObject
 	{
 		global $mainframe;
 		
+		$depth = 1;
+		
 		/*
 		 * Build the CSS class suffix
 		 */
@@ -65,11 +67,11 @@ class JAdminCSSMenu extends JObject
 		 */
 		while ($this->_current->hasChildren())
 		{
-			echo "<ul>\n";
+			echo "<ul id=\"menuList\" class=\"adxm\">\n";
 			foreach ($this->_current->getChildren() as $child)
 			{
 				$this->_current = & $child;
-				$this->renderLevel($suffix);
+				$this->renderLevel($suffix, $depth++);
 			}
 			echo "</ul>\n";
 		}
@@ -82,24 +84,24 @@ class JAdminCSSMenu extends JObject
 		}
 	}
 
-	function renderLevel($suffix = '-smenu')
+	function renderLevel($suffix = '-smenu', $depth)
 	{
 		
 		/*
 		 * Build the CSS class suffix
 		 */
-		if ($this->_current->active)
+		if ($this->_current->hasChildren())
 		{
-			$sfx = $suffix.'_active';
+			$class = 'submenu';
 		} else
 		{
-			$sfx = $suffix;
+			$class = 'item';
 		}
 		
 		/*
 		 * Print the item
 		 */
-		echo "<li class=\"item".$sfx.$this->getIconClass($this->_current->class)."\">";
+		echo "<li class=\"".$class.$this->getIconClass($this->_current->class)."\">";
 		
 		/*
 		 * Print a link if it exists
@@ -117,11 +119,11 @@ class JAdminCSSMenu extends JObject
 		 */
 		while ($this->_current->hasChildren())
 		{
-			echo "<ul>\n";
+			echo "<ul id=\"".$this->_current->title."Menu\">\n";
 			foreach ($this->_current->getChildren() as $child)
 			{
 				$this->_current = & $child;
-				$this->renderLevel($suffix);
+				$this->renderLevel($suffix, $depth++);
 			}
 			echo "</ul>\n";
 		}

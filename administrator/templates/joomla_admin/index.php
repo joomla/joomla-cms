@@ -38,7 +38,7 @@ $lang =& $mainframe->getLanguage();
 <table width="100%" class="menubar" cellpadding="0" cellspacing="0" border="0">
 <tr>
 	<td class="menubackgr" style="padding-<?php echo $lang->isRTL() ? 'right' : 'left'; ?>:5px;">
-		<jdoc:include type="module" name="fullmenu" />
+		<jdoc:include type="module" name="cssmenu" />
 	</td>
 	<td class="menubackgr" align="<?php echo $lang->isRTL() ? 'left' : 'right'; ?>">
 		<div id="wrapper1">

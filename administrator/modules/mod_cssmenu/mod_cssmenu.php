@@ -19,10 +19,25 @@ require_once(dirname(__FILE__).DS.'menu.php');
 /*
  * Lets get some variables we will need to render the menu
  */
-$lang	= & $mainframe->getLanguage();
-$doc		= & $mainframe->getDocument();
 $user	= & $mainframe->getUser();
+$doc		= & $mainframe->getDocument();
 $hide	= JRequest::getVar('hidemainmenu', 0);
+
+$incPath = $mainframe->getBaseURL().'modules/mod_cssmenu/includes/';
+$head = '<!--[if !IE]> <-->
+<script type="text/javascript" src="'.$incPath.'ADxMenu.js"></script>
+<!--> <![endif]-->
+<style type="text/css" media="screen, tv, projection">
+	@import "'.$incPath.'Menu.css";
+</style>
+<!--[if lte IE 6]>
+<style type="text/css" media="screen, tv, projection">
+	@import "'.$incPath.'Menu4IE.css";
+	body { behavior:url("'.$incPath.'ADxMenu.htc"); }
+</style>
+<![endif]-->';
+
+$doc->addCustomTag($head);
 
 /*
  * If we are disabling the menu, show the disabled menu... otherwise show the
@@ -37,7 +52,7 @@ else
 	$menu = & buildMenu($user->get('usertype'));
 }
 
-echo "<div id=\"sidemenu\">";
+echo "<div id=\"menu\">";
 $menu->renderMenu();
 echo "</div>";
 
