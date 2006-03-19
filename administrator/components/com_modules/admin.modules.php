@@ -215,11 +215,6 @@ function viewModules()
 	// search filter
 	$lists['search']= $search;
 	
-	// client filter
-	$select[] 			= mosHTML :: makeOption('0', JText :: _('Site'));
-	$select[] 			= mosHTML :: makeOption('1', JText :: _('Administrator'));
-	$lists['client'] 	= mosHTML :: selectList($select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $client->id);
-	
 	HTML_modules::showModules( $rows, $client, $pageNav, $option, $lists );
 }
 

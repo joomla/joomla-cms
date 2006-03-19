@@ -26,17 +26,17 @@ class HTML_languages {
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 		
-		<table class="adminform">
-		<tr>
-			<td align="left" width="100%"></td>
-			<td nowrap="nowrap">
-				<label for="filter"><?php echo JText::_( 'Select Client' ); ?></label>
-				<?php echo $lists['client'];?>
-			</td>
-		</tr>
-		</table>
+		<div id="pane-navigation">
+			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
+		</div>
+		
+		<div id="pane-document">
+			<table class="adminform">
+			<tr>
+				<td align="left" width="100%">&nbsp;</td>
+			</tr>
+			</table>
 
-		<div id="tablecell">				
 			<table class="adminlist">
 			<tr>
 				<th width="20">

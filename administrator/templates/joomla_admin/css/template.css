@@ -219,7 +219,7 @@ div.header {
 /* standard list style table */
 table.adminlist {
 	background-color: #FFFFFF;
-	margin: 0px;
+	margin: 0 0 0 0;
 	padding: 0px;
 	border: 1px solid #ddd;
 	border-spacing: 0px;
@@ -279,9 +279,8 @@ table.adminform {
 	background-color: #f9f9f9;
 	border: solid 1px #d5d5d5;
 	width: 100%;
-	padding: 10px;
 	border-collapse: collapse;
-	margin-top: 10px;
+	margin: 8px 0 10px 0;
 }
 table.adminform tr.row0 {
 	background-color: #f9f9f9;
@@ -461,7 +460,7 @@ legend {
 }
 
 /* Two Pane Formatting */
-#treecell {
+#pane-navigation {
 	width: 20%; 
 	display: block; 
 	position: relative; 
@@ -471,11 +470,7 @@ legend {
 	overflow: hidden;
 }
 
-.expander { 
-	float: right;  
-}
-
-#datacell {
+#pane-document {
 	width: 78%; 
 	display: block; 
 	float: left;
@@ -483,18 +478,17 @@ legend {
 	padding: 2px 0px 0px 0px;	
 }
 
+#pane-document fieldset    { border: 1px #ccc solid;  }
+#pane-navigation fieldset  {  }
+
+.expander {  float: right; }
+
 #datacellfull {
 	width: 98%; 
 	display: block; 
 	float: left;
 	margin: 0; 
 	padding: 2px;
-}
-
-#treecell fieldset { 
-}
-#datacell fieldset { 
-	border: 1px #ccc solid; 
 }
 
 #tablecell {

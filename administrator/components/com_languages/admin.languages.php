@@ -66,10 +66,6 @@ function viewLanguages()
 	$limit 		= $mainframe->getUserStateFromRequest( "limit", 'limit',  $mainframe->getCfg('list_limit') );
 	$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
-	$select[] 			= mosHTML :: makeOption('0', JText :: _('Site'));
-	$select[] 			= mosHTML :: makeOption('1', JText :: _('Administrator'));
-	$lists['client'] 	= mosHTML :: selectList($select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $client->id);
-	
 	$path = JLanguage::getLanguagePath($client->path);
 
 	$rowid = 0;

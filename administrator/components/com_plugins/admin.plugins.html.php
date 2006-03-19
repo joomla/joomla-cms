@@ -32,24 +32,29 @@ class HTML_modules {
 		?>
 		<form action="index2.php?option=com_plugins" method="post" name="adminForm">
 
-		<table class="adminform">
-		<tr>
-			<td align="left" width="100%">
-				<?php echo JText::_( 'Filter' ); ?>:
-				<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
-				<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
-			</td>
-			<td nowrap="nowrap">
-				<?php 
-				echo $lists['type'];
-				echo $lists['state'];
-				?>
-			</td>
-		</tr>
-		</table>
-
-		<div id="tablecell">				
+		<div id="pane-navigation">
+			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
+		</div>
+		
+		<div id="pane-document">
+		
+			<table class="adminform">
+			<tr>
+				<td align="left" width="100%">
+					<?php echo JText::_( 'Filter' ); ?>:
+					<input type="text" name="search" id="search" value="<?php echo $lists['search'];?>" class="text_area" onchange="document.adminForm.submit();" />
+					<input type="button" value="<?php echo JText::_( 'Go' ); ?>" class="button" onclick="this.form.submit();" />
+					<input type="button" value="<?php echo JText::_( 'Reset' ); ?>" class="button" onclick="getElementById('search').value='';this.form.submit();" />
+				</td>
+				<td nowrap="nowrap">
+					<?php 
+					echo $lists['type'];
+					echo $lists['state'];
+					?>
+				</td>
+			</tr>
+			</table>
+			
 			<table class="adminlist">
 			<tr>
 				<th width="20">

@@ -38,46 +38,41 @@ class JTemplatesView
 
 		mosCommonHTML::loadOverlib();
 		?>
-<script language="javascript" type="text/javascript">
-<!--
-function showInfo(name, dir) {
-	var pattern = /\b \b/ig;
-	name = name.replace(pattern,'_');
-	name = name.toLowerCase();
-	if (document.adminForm.doPreview.checked) {
-		var src = '<?php echo  ($client->id == 1 ? $mainframe->getSiteURL().'/administrator' : $mainframe->getSiteURL() );?>/templates/'+dir+'/template_thumbnail.png';
-		var html=name;
-		html = '<br /><img border="1" src="'+src+'" name="imagelib" alt="<?php echo JText::_( 'No preview available' ); ?>" width="206" height="145" />';
-		return overlib(html, CAPTION, name)
-	} else {
-		return false;
-	}
-}
--->
-</script>
+		<script language="javascript" type="text/javascript">
+		<!--
+		function showInfo(name, dir) {
+			var pattern = /\b \b/ig;
+			name = name.replace(pattern,'_');
+			name = name.toLowerCase();
+			if (document.adminForm.doPreview.checked) {
+				var src = '<?php echo  ($client->id == 1 ? $mainframe->getSiteURL().'/administrator' : $mainframe->getSiteURL() );?>/templates/'+dir+'/template_thumbnail.png';
+				var html=name;
+				html = '<br /><img border="1" src="'+src+'" name="imagelib" alt="<?php echo JText::_( 'No preview available' ); ?>" width="206" height="145" />';
+				return overlib(html, CAPTION, name)
+			} else {
+				return false;
+			}
+		}
+		-->
+		</script>
 
-<form action="index2.php" method="post" name="adminForm">
+		<form action="index2.php" method="post" name="adminForm">
 
-	<div id="treecell">
-		<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
-	</div>
+		<div id="pane-navigation">
+			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
+		</div>
 		
-	<div id="datacell">
+		<div id="pane-document">
 		
-		<table class="adminform">
-		<tr>
-			<td nowrap="nowrap" align="left" width="100%">
-				<input type="checkbox" name="doPreview" id="doPreview" checked="checked" />
-				<label id="doPreview"><?php echo JText::_( 'Preview Template' ); ?></label>
-			</td>
-			<td nowrap="nowrap">
-				<label for="client"><?php echo JText::_( 'Select Client' ); ?></label>
-				<?php echo $lists['client'];?>
-			</td>
-		</tr>
-		</table>
+			<table class="adminform">
+			<tr>
+				<td nowrap="nowrap" align="left" width="100%">
+					<input type="checkbox" name="doPreview" id="doPreview" checked="checked" />
+					<label id="doPreview"><?php echo JText::_( 'Preview Template' ); ?></label>
+				</td>
+			</tr>
+			</table>
 				
-		<div id="tablecell">				
 			<table class="adminlist">
 			<tr>
 				<th width="5" class="title">
@@ -206,17 +201,15 @@ function showInfo(name, dir) {
 			}
 			?>
 			</table>
-			
 			<?php echo $pageNav->getListFooter(); ?>
-		</div>			
 	</div>
 
 	<input type="hidden" name="option" value="<?php echo $option;?>" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="hidemainmenu" value="0" />
-</form>
-		<?php
+	</form>
+	<?php
 	}
 	
 	function previewTemplate($template, $showPositions, $client, $option)
@@ -371,7 +364,6 @@ function showInfo(name, dir) {
 		<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'snippets.html'); ?>
 
 		<fieldset title="">
-			**An alternative layout**
 			<p>
 				<?php echo JText::_( 'This file is' ); ?>:
 				<strong><?php echo is_writable($template_path) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?></strong>
@@ -398,35 +390,6 @@ function showInfo(name, dir) {
 	</div>
 		
 	<div id="datacell">
-		
-		<table cellpadding="1" cellspacing="1" border="0" width="100%">
-		<tr>
-			<td width="220">
-				<span class="componentheading">index.php <?php echo JText::_( 'is' ); ?>:
-				<b><?php echo is_writable($template_path) ? '<font color="green"> '. JText::_( 'Writeable' ) .'</font>' : '<font color="red"> '. JText::_( 'Unwriteable' ) .'</font>' ?></b>
-				</span>
-			</td>
-			<?php
-			if (mosIsChmodable($template_path)) {
-				if (is_writable($template_path)) {
-				?>
-				<td>
-					<input type="checkbox" id="disable_write" name="disable_write" value="1"/>
-					<label for="disable_write"><?php echo JText::_( 'Make unwriteable after saving' ); ?></label>
-				</td>
-				<?php
-			} else {
-				?>
-				<td>
-					<input type="checkbox" id="enable_write" name="enable_write" value="1"/>
-					<label for="enable_write"><?php echo JText::_( 'Override write protection while saving' ); ?></label>
-				</td>
-				<?php
-				} // if
-			} // if
-			?>
-		</tr>
-		</table>
 		
 		<table class="adminform">
 		<tr>

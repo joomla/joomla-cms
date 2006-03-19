@@ -47,11 +47,11 @@ class JInstallerScreens {
 		}
 
 		</script>
-		<div id="treecell">
+		<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
 		</div>
 		
-		<div id="datacell">
+		<div id="pane-document">
 			<fieldset title="<?php echo JText::_('Installer Form'); ?>">
 				<legend>
 					<?php echo JText::_('Installer Form'); ?>
