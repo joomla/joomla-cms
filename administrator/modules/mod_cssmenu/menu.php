@@ -90,25 +90,22 @@ class JAdminCSSMenu extends JObject
 		/*
 		 * Build the CSS class suffix
 		 */
-		if ($this->_current->hasChildren())
-		{
-			$class = 'submenu';
-		} else
-		{
-			$class = 'item';
-		}
+		$class = '';
+		if ($this->_current->hasChildren()) {
+			$class = 'submenu ';
+		} 
 		
 		/*
 		 * Print the item
 		 */
-		echo "<li class=\"".$class.$this->getIconClass($this->_current->class)."\">";
+		echo "<li class=\"".$class."\">";
 		
 		/*
 		 * Print a link if it exists
 		 */
 		if ($this->_current->link != null)
 		{
-			echo "<a href=\"".$this->_current->link."\">".$this->_current->title."</a> \n";
+			echo "<a class=\"".$this->getIconClass($this->_current->class)."\" href=\"".$this->_current->link."\">".$this->_current->title."</a> \n";
 		} else
 		{
 			echo $this->_current->title."\n";
@@ -161,7 +158,7 @@ class JAdminCSSMenu extends JObject
 			{
 				// We were passed a class name
 				$class = substr($identifier, 6);
-				$classes[$identifier] = " icon-16-$class";
+				$classes[$identifier] = "icon-16-$class";
 			} else
 			{
 				// We were passed an image path... is it a themeoffice one?
@@ -169,7 +166,7 @@ class JAdminCSSMenu extends JObject
 				{
 					// Strip the filename without extension and use that for the classname
 					$class = JFile::stripExt(basename($identifier));
-					$classes[$identifier] = " icon-16-$class";
+					$classes[$identifier] = "icon-16-$class";
 				} else
 				{
 					if ($identifier == null)
@@ -182,7 +179,7 @@ class JAdminCSSMenu extends JObject
 							"\tbackground: url($identifier) no-repeat;\n" .
 							"}\n";
 					
-					$classes[$identifier] = " icon-16-$class";
+					$classes[$identifier] = "icon-16-$class";
 				}
 			}
 		}

@@ -1,105 +1,105 @@
 .icon-16-archive {
-	background: url(../images/menu/icon-16-archive.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/archive.png) no-repeat;
 }
 
 .icon-16-category {
-	background: url(../images/menu/icon-16-category.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/categories.png) no-repeat;
 }
 
 .icon-16-checkin {
-	background: url(../images/menu/icon-16-checkin.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/checkin.png);
 }
 
 .icon-16-component {
-	background: url(../images/menu/icon-16-component.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/component.png);
 }
 
 .icon-16-config {
-	background: url(../images/menu/icon-16-config.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/config.png);
 }
 
 .icon-16-content {
-	background: url(../images/menu/icon-16-content.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/content.png);
 }
 
 .icon-16-cpanel {
-	background: url(../images/menu/icon-16-cpanel.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/controlpanel.png);
 }
 
 .icon-16-frontpage {
-	background: url(../images/menu/icon-16-frontpage.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/frontpage.png);
 }
 
 .icon-16-help {
-	background: url(../images/menu/icon-16-help.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/help.png);
 }
 
 .icon-16-info {
-	background: url(../images/menu/icon-16-info.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/info.png);
 }
 
 .icon-16-install {
-	background: url(../images/menu/icon-16-install.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/install.png);
 }
 
 .icon-16-language {
-	background: url(../images/menu/icon-16-language.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/language.png);
 }
 
 .icon-16-logout {
-	background: url(../images/menu/icon-16-logout.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/logout.png);
 }
 
 .icon-16-massmail {
-	background: url(../images/menu/icon-16-massmail.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/massmail.png);
 }
 
 .icon-16-media {
-	background: url(../images/menu/icon-16-media.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/media.png);
 }
 
 .icon-16-menu {
-	background: url(../images/menu/icon-16-menu.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/menu.png);
 }
 
 .icon-16-menumgr {
-	background: url(../images/menu/icon-16-menumgr.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/menumgr.png);
 }
 
 .icon-16-messages {
-	background: url(../images/menu/icon-16-messages.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/messages.png);
 }
 
 .icon-16-module {
-	background: url(../images/menu/icon-16-module.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/module.png);
 }
 
 .icon-16-plugin {
-	background: url(../images/menu/icon-16-plugin.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/plugin.png);
 }
 
 .icon-16-section {
-	background: url(../images/menu/icon-16-section.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/section.png);
 }
 
 .icon-16-static {
-	background: url(../images/menu/icon-16-static.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/static.png);
 }
 
 .icon-16-stats {
-	background: url(../images/menu/icon-16-stats.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/statistics.png);
 }
 
 .icon-16-themes {
-	background: url(../images/menu/icon-16-themes.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/themes.png);
 }
 
 .icon-16-trash {
-	background: url(../images/menu/icon-16-trash.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/trash.png);
 }
 
 .icon-16-user {
-	background: url(../images/menu/icon-16-user.png) no-repeat;
+	background-image: url(../../../../includes/js/ThemeOffice/users.png);
 }
 
 /** toolbar icons **/

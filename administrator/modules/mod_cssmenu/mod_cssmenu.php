@@ -20,35 +20,15 @@ require_once(dirname(__FILE__).DS.'menu.php');
  * Lets get some variables we will need to render the menu
  */
 $user	= & $mainframe->getUser();
-$doc		= & $mainframe->getDocument();
 $hide	= JRequest::getVar('hidemainmenu', 0);
-
-$incPath = $mainframe->getBaseURL().'modules/mod_cssmenu/includes/';
-$head = '<!--[if !IE]> <-->
-<script type="text/javascript" src="'.$incPath.'ADxMenu.js"></script>
-<!--> <![endif]-->
-<style type="text/css" media="screen, tv, projection">
-	@import "'.$incPath.'Menu.css";
-</style>
-<!--[if lte IE 6]>
-<style type="text/css" media="screen, tv, projection">
-	@import "'.$incPath.'Menu4IE.css";
-	body { behavior:url("'.$incPath.'ADxMenu.htc"); }
-</style>
-<![endif]-->';
-
-$doc->addCustomTag($head);
 
 /*
  * If we are disabling the menu, show the disabled menu... otherwise show the
  * full menu.
  */
-if ($hide)
-{
+if ($hide) {
 	$menu = & buildDisabledMenu($user->get('usertype'));
-}
-else
-{
+} else {
 	$menu = & buildMenu($user->get('usertype'));
 }
 
@@ -64,27 +44,27 @@ function & buildMenu($usertype = '')
 {
 	global $mainframe;
 
-	$lang					= & $mainframe->getLanguage();
-	$user					= & $mainframe->getUser();
-	$database			= & $mainframe->getDBO();
-	$enableStats		= $mainframe->getCfg('enable_stats');
+	$lang			= & $mainframe->getLanguage();
+	$user			= & $mainframe->getUser();
+	$database		= & $mainframe->getDBO();
+	$enableStats	= $mainframe->getCfg('enable_stats');
 	$enableSearches	= $mainframe->getCfg('enable_log_searches');
-	$caching				= $mainframe->getCfg('caching');
+	$caching		= $mainframe->getCfg('caching');
 
 	// cache some acl checks
-	$canCheckin				= $user->authorize('com_checkin', 'manage');
-	$canConfig					= $user->authorize('com_config', 'manage');
-	$manageTemplates		= $user->authorize('com_templates', 'manage');
-	$manageTrash				= $user->authorize('com_trash', 'manage');
+	$canCheckin			= $user->authorize('com_checkin', 'manage');
+	$canConfig			= $user->authorize('com_config', 'manage');
+	$manageTemplates	= $user->authorize('com_templates', 'manage');
+	$manageTrash		= $user->authorize('com_trash', 'manage');
 	$manageMenuMan		= $user->authorize('com_menumanager', 'manage');
 	$manageLanguages	= $user->authorize('com_languages', 'manage');
-	$installModules			= $user->authorize('com_installer', 'module');
-	$editAllModules			= $user->authorize('com_modules', 'manage');
-	$installPlugins				= $user->authorize('com_installer', 'plugin');
-	$editAllPlugins				= $user->authorize('com_plugins', 'manage');
-	$installComponents		= $user->authorize('com_installer', 'component');
-	$editAllComponents		= $user->authorize('com_components', 'manage');
-	$canMassMail				= $user->authorize('com_massmail', 'manage');
+	$installModules		= $user->authorize('com_installer', 'module');
+	$editAllModules		= $user->authorize('com_modules', 'manage');
+	$installPlugins		= $user->authorize('com_installer', 'plugin');
+	$editAllPlugins		= $user->authorize('com_plugins', 'manage');
+	$installComponents	= $user->authorize('com_installer', 'component');
+	$editAllComponents	= $user->authorize('com_components', 'manage');
+	$canMassMail		= $user->authorize('com_massmail', 'manage');
 	$canManageUsers		= $user->authorize('com_users', 'manage');
 
 	$query = "SELECT a.id, a.title, a.name, COUNT( DISTINCT c.id ) AS numcat, COUNT( DISTINCT b.id ) AS numarc" .
@@ -101,8 +81,7 @@ function & buildMenu($usertype = '')
 	{
 		foreach ($sections as $section)
 		{
-			if ($section->numcat > 0)
-			{
+			if ($section->numcat > 0) {
 				$nonemptySections ++;
 			}
 		}
@@ -119,18 +98,15 @@ function & buildMenu($usertype = '')
 	 */
 	$site = new JMenuNode(JText::_('Site'));
 	$site->addChild(new JMenuNode(JText::_('Control Panel'), 'index2.php', 'class:cpanel'));
-	if ($canManageUsers)
-	{
+	if ($canManageUsers) {
 		$site->addChild(new JMenuNode(JText::_('User Manager'), 'index2.php?option=com_users&task=view', 'class:user'));
 	}
 	$site->addChild(new JMenuNode(JText::_('Media Manager'), 'index2.php?option=com_media', 'class:media'));
 	$site->addChild(new JMenuNode(JText::_('Preview...'), 'index2.php?option=com_templates&task=preview', 'class:preview'));
-	if ($enableStats || $enableSearches)
-	{
+	if ($enableStats || $enableSearches) {
 		$site->addChild(new JMenuNode(JText::_('Statistics'), 'index2.php?option=com_statistics', 'class:stats'));
 	}
-	if ($canConfig)
-	{
+	if ($canConfig) {
 		$site->addChild(new JMenuNode(JText::_('Configuration'), 'index2.php?option=com_config&hidemainmenu=1', 'class:config'));
 	}
 	$site->addChild(new JMenuNode(JText::_('Logout'), 'index2.php?option=com_logout', 'class:logout'));
@@ -141,19 +117,16 @@ function & buildMenu($usertype = '')
 	 * Menus SubMenu
 	 */
 	$menus = new JMenuNode(JText::_('Menus'));
-	if ($manageMenuMan)
-	{
+	if ($manageMenuMan) {
 		$menus->addChild(new JMenuNode(JText::_('Menu Manager'), 'index2.php?option=com_menumanager', 'class:menumgr'));
 	}
-	if ($manageTrash)
-	{
+	if ($manageTrash) {
 		$menus->addChild(new JMenuNode(JText::_('Trash Manager'), 'index2.php?option=com_trash&task=viewMenu', 'class:trash'));
 	}
 	/*
 	 * SPLIT HR
 	 */
-	foreach ($menuTypes as $menuType)
-	{
+	foreach ($menuTypes as $menuType) {
 		$menus->addChild(new JMenuNode($menuType, 'index2.php?option=com_menus&menutype='.$menuType, 'class:menu'));
 	}
 
@@ -175,8 +148,7 @@ function & buildMenu($usertype = '')
 	 */
 	$content->addChild(new JMenuNode(JText::_('Frontpage Manager'), 'index2.php?option=com_frontpage', 'class:frontpage'));
 	$content->addChild(new JMenuNode(JText::_('Archive Manager'), 'index2.php?option=com_content&task=showarchive&sectionid=0', 'class:archive'));
-	if ($manageTrash)
-	{
+	if ($manageTrash) {
 		/*
 		 * SPLIT HR
 		 */
@@ -189,8 +161,7 @@ function & buildMenu($usertype = '')
 	/*
 	 * Components SubMenu
 	 */
-	if ($installComponents)
-	{
+	if ($installComponents) {
 		$components = new JMenuNode(JText::_('Components'));
 
 		$query = "SELECT *" .
@@ -206,8 +177,7 @@ function & buildMenu($usertype = '')
 		{
 			if ($row->parent)
 			{
-				if (!array_key_exists($row->parent, $subs))
-				{
+				if (!array_key_exists($row->parent, $subs)) {
 					$subs[$row->parent] = array ();
 				}
 				$subs[$row->parent][] = $row;
@@ -245,20 +215,16 @@ function & buildMenu($usertype = '')
 		$extensions = new JMenuNode(JText::_('Extensions'));
 
 		$extensions->addChild(new JMenuNode(JText::_('Install/Uninstall'), 'index2.php?option=com_installer', 'class:install'));
-		if ($editAllModules)
-		{
+		if ($editAllModules) {
 			$extensions->addChild(new JMenuNode(JText::_('Module Manager'), 'index2.php?option=com_modules', 'class:module'));
 		}
-		if ($editAllPlugins)
-		{
+		if ($editAllPlugins) {
 			$extensions->addChild(new JMenuNode(JText::_('Plugin Manager'), 'index2.php?option=com_plugins', 'class:plugin'));
 		}
-		if ($manageTemplates)
-		{
+		if ($manageTemplates) {
 			$extensions->addChild(new JMenuNode(JText::_('Template Manager'), 'index2.php?option=com_templates', 'class:themes'));
 		}
-		if ($manageLanguages)
-		{
+		if ($manageLanguages) {
 			$extensions->addChild(new JMenuNode(JText::_('Language Manager'), 'index2.php?option=com_languages', 'class:language'));
 		}
 
@@ -275,16 +241,13 @@ function & buildMenu($usertype = '')
 		$tools->addChild(new JMenuNode(JText::_('Read Messages'), 'index2.php?option=com_messages', 'class:messages'));
 		$tools->addChild(new JMenuNode(JText::_('New Messages'), 'index2.php?option=com_messages&task=new', 'class:messages'));
 
-		if ($canMassMail)
-		{
+		if ($canMassMail) {
 			$tools->addChild(new JMenuNode(JText::_('Mass Mail'), 'index2.php?option=com_massmail', 'class:massmail'));
 		}
-		if ($canCheckin)
-		{
+		if ($canCheckin) {
 			$tools->addChild(new JMenuNode(JText::_('Global Checkin'), 'index2.php?option=com_checkin', 'class:checkin'));
 		}
-		if ($caching)
-		{
+		if ($caching) {
 			$tools->addChild(new JMenuNode(JText::_('Clean Content Cache'), 'index2.php?option=com_admin&task=clean_cache', 'class:config'));
 			$tools->addChild(new JMenuNode(JText::_('Clean All Cache'), 'index2.php?option=com_admin&task=clean_all_cache', 'class:config'));
 		}
@@ -316,14 +279,14 @@ function & buildDisabledMenu($usertype = '')
 	$lang	= & $mainframe->getLanguage();
 	$user	= & $mainframe->getUser();
 
-	$canConfig				= $user->authorize('com_config', 'manage');
+	$canConfig			= $user->authorize('com_config', 'manage');
 	$installModules		= $user->authorize('com_installer', 'module');
 	$editAllModules		= $user->authorize('com_modules', 'manage');
-	$installPlugins			= $user->authorize('com_installer', 'plugin');
-	$editAllPlugins			= $user->authorize('com_plugins', 'manage');
+	$installPlugins		= $user->authorize('com_installer', 'plugin');
+	$editAllPlugins		= $user->authorize('com_plugins', 'manage');
 	$installComponents	= $user->authorize('com_installer', 'component');
 	$editAllComponents	= $user->authorize('com_components', 'manage');
-	$canMassMail			= $user->authorize('com_massmail', 'manage');
+	$canMassMail		= $user->authorize('com_massmail', 'manage');
 	$canManageUsers	= $user->authorize('com_users', 'manage');
 
 	$text = JText::_('Menu inactive for this Page', true);
