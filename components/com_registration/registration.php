@@ -149,7 +149,7 @@ function saveRegistration()
 	$user->set('gid', $acl->get_group_id( '', 'Registered', 'ARO' ));
 
 	if ($mosConfig_useractivation == '1') {
-		$user->set('activation', md5( mosMakePassword() );
+		$user->set('activation', md5( mosMakePassword()) );
 		$user->set('block', '1');
 	}
 

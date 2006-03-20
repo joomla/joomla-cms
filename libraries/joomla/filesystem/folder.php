@@ -115,9 +115,10 @@ class JFolder {
 			// Just to make sure
 			$inOBD = true;
 
-			do {
+			$dir = $path;
+			while ($dir != dirname($dir))
+			{
 				$dir = $path;
-
 				while (!@ mkdir($dir, $mode)) {
 					$dir = dirname($dir);
 
@@ -127,11 +128,17 @@ class JFolder {
 							break 2;
 						}
 					}
-					if ($dir == '/' || is_dir($dir))
+					if ($dir == dirname($dir))
+					{
 						break;
+					}
+					if (is_dir($dir)){
+						// Reset umask
+						@ umask($origmask);
+						return false;
+					}
 				}
 			}
-			while ($dir != $path);
 
 			// Reset umask
 			@ umask($origmask);
