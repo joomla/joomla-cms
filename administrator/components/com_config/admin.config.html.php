@@ -28,7 +28,7 @@ class JConfigView {
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 
-		<div id="treecell">
+		<div id="pane-navigation">
 			<fieldset title="File Status">
 				<legend>
 					<?php echo JText::_( 'File Status' ); ?>	
@@ -68,7 +68,7 @@ class JConfigView {
 			</fieldset>
 		</div>
 		
-		<div id="datacell">
+		<div id="pane-document">
 			<fieldset>
 				<legend>
 					<?php echo JText::_( 'Details' ); ?>	
