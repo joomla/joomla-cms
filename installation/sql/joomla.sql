@@ -754,30 +754,6 @@ CREATE TABLE `#__users` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `#__usertypes`
-#
-
-CREATE TABLE `#__usertypes` (
-  `id` tinyint(3) unsigned NOT NULL default '0',
-  `name` varchar(50) NOT NULL default '',
-  `mask` varchar(11) NOT NULL default '',
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM CHARACTER SET `utf8` COLLATE `utf8_general_ci`;
-
-#
-# Dumping data for table `#__usertypes`
-#
-
-INSERT INTO `#__usertypes` VALUES (0, 'superadministrator', '');
-INSERT INTO `#__usertypes` VALUES (1, 'administrator', '');
-INSERT INTO `#__usertypes` VALUES (2, 'editor', '');
-INSERT INTO `#__usertypes` VALUES (3, 'user', '');
-INSERT INTO `#__usertypes` VALUES (4, 'author', '');
-INSERT INTO `#__usertypes` VALUES (5, 'publisher', '');
-INSERT INTO `#__usertypes` VALUES (6, 'manager', '');
-# --------------------------------------------------------
-
-#
 # Table structure for table `#__weblinks`
 #
 

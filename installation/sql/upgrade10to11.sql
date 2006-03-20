@@ -144,3 +144,6 @@ ALTER TABLE `jos_contact_details` MODIFY COLUMN `email_to` VARCHAR(255) ,
 ALTER TABLE `jos_contact_details` ADD COLUMN `mobile` VARCHAR(255) NOT NULL;
 ALTER TABLE `jos_contact_details` ADD COLUMN `webpage` VARCHAR(255) NOT NULL;
 
+#JJ: 20-Mar-2005
+DROP TABLDE `jos_usertypes`
+
