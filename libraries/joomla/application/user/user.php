@@ -528,7 +528,7 @@ class JUserHelper {
 	 * @return 	boolean 			True on success
 	 * @since	1.1
 	 */
-	function activate($activation)
+	function activateUser($activation)
 	{
 		global $mainframe;
 		/*
@@ -536,10 +536,6 @@ class JUserHelper {
 		 */
 		$db = & $mainframe->getDBO();
 		
-		/*
-		 * Load the user plugins
-		 */
-		JPluginHelper::importPlugin( 'user' );
 
 		/*
 		 * Lets get the id of the user we want to activate
@@ -555,8 +551,7 @@ class JUserHelper {
 		// Is it a valid user to activate?
 		if ($id) {
 			
-			$user = JModel::getInstance( 'user', $db );
-			$user->load($id);
+			$user = JUser::getInstance( $id );
 			
 			$user->set('block', '0');
 			$user->set('activation', '');
@@ -565,89 +560,15 @@ class JUserHelper {
 			 * Time to take care of business.... store the user.
 			 */
 			if (!$user->store()) {
-				JError::raiseWarning( "SOME_ERROR_CODE", "JUserHelper::activate: ".$user->getError() );
+				JError::raiseWarning( "SOME_ERROR_CODE", "JUserHelper::activateUser: ".$user->getError() );
 				return false;
 			}
 		} else {
-			JError::raiseWarning( "SOME_ERROR_CODE", "JUserHelper::activate: ".JText::_('Unable to find a user with given activation string.') );
+			JError::raiseWarning( "SOME_ERROR_CODE", "JUserHelper::activateUser: ".JText::_('Unable to find a user with given activation string.') );
 			return false;
 		}
-		$results = $mainframe->triggerEvent( 'onActivate', $id );
+
 		return true;
-	}
-	
-	/**
-	 * Method to block a user
-	 *
-	 * @param	int		$id	User id to block
-	 * @return 	boolean 	True on success
-	 * @since	1.1
-	 */
-	function block($id)
-	{
-		global $mainframe;
-		
-		/*
-		 * Initialize variables
-		 */
-		$db = & $mainframe->getDBO();
-		
-		/*
-		 * Perform user block query
-		 */
-		$query = "UPDATE `#__users` " .
-				"\n SET `block` = '1' " .
-				"\n WHERE `id` = '$id'";
-		$db->setQuery( $query );
-		if (!$db->query())
-		{
-			return false;
-		} else
-		{
-			/*
-			 * Load the user plugins
-			 */
-			JPluginHelper::importPlugin( 'user' );
-			$results = $mainframe->triggerEvent( 'onBlock', $id );
-			return true;
-		}
-	}
-	
-	/**
-	 * Method to unblock a user
-	 *
-	 * @param	int		$id	User id to unblock
-	 * @return 	boolean 	True on success
-	 * @since	1.1
-	 */
-	function unblock($id)
-	{
-		global $mainframe;
-		
-		/*
-		 * Initialize variables
-		 */
-		$db = & $mainframe->getDBO();
-		
-		/*
-		 * Perform user unblock query
-		 */
-		$query = "UPDATE `#__users` " .
-				"\n SET `block` = '0' " .
-				"\n WHERE `id` = '$id'";
-		$db->setQuery( $query );
-		if (!$db->query())
-		{
-			return false;
-		} else
-		{
-			/*
-			 * Load the user plugins
-			 */
-			JPluginHelper::importPlugin( 'user' );
-			$results = $mainframe->triggerEvent( 'onUnblock', $id );
-			return true;
-		}
 	}
 }
 ?>

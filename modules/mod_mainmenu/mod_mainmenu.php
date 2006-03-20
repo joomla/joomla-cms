@@ -303,7 +303,7 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 
 		$links = array ();
 		foreach ($rows as $row) {
-			if($v->access <= $user->get('gid')) {
+			if($row->access <= $user->get('gid')) {
 				$links[] = mosGetMenuLink($row, 0, $params);
 			}
 		}

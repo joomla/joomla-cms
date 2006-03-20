@@ -272,7 +272,7 @@ function activate()
 	/*
 	 * Lets activate this user.
 	 */
-	if (JUserHelper::activate($activation)) 
+	if (JUserHelper::activateUser($activation)) 
 	{
 		// Page Title
 		$mainframe->SetPageTitle( JText::_( 'REG_ACTIVATE_COMPLETE_TITLE' ) );
