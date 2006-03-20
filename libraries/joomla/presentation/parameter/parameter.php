@@ -200,18 +200,24 @@ class JParameter extends JRegistry
 	*/
 	function loadSetupFile($path) 
 	{
-		$xmlDoc = & JFactory::getXMLParser();
-		$xmlDoc->resolveErrors(true);
-		
-		$result = false;
-		if ($xmlDoc->loadXML($path, false, true)) {
-			$root = & $xmlDoc->documentElement;
-
-			if ($params = & $root->getElementsByPath('params', 1)) {
-				$this->_xml = & $params;
-				$result = true;
+		if ($path)
+		{
+			$xmlDoc = & JFactory::getXMLParser();
+			$xmlDoc->resolveErrors(true);
+			
+			$result = false;
+			if ($xmlDoc->loadXML($path, false, true)) {
+				$root = & $xmlDoc->documentElement;
+	
+				if ($params = & $root->getElementsByPath('params', 1)) {
+					$this->_xml = & $params;
+					$result = true;
+				}
 			}
 		}
+		else {
+				$result = true;
+			}
 		
 		return $result;
 	}
