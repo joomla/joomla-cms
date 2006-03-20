@@ -105,7 +105,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 		}
 
 		// traditional mos page navigation
-		require_once( JPATH_SITE . '/includes/pageNavigation.php' );
+		jimport('joomla.presentation.pagination');
 		$pageNav = new mosPageNav( $n, $page, 1 );
 
 		// page counter

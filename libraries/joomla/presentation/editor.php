@@ -121,15 +121,17 @@ class JEditor extends JObservable {
 		 */
 		$return = null;
 
-		$args['name'] = $name;
-		$args['content'] = $content;
+		$args['name'] 		 = $name;
+		$args['content']	 = $content;
 		$args['hiddenField'] = $hiddenField;
-		$args['width'] = $width;
-		$args['height'] = $height;
-		$args['col'] = $col;
-		$args['row'] = $row;
-		$args['event'] = 'onEditorArea';
+		$args['width'] 		 = $width;
+		$args['height'] 	 = $height;
+		$args['col'] 		 = $col;
+		$args['row'] 		 = $row;
+		$args['event'] 		 = 'onEditorArea';
+		
 		$results[] = $this->_editor->update($args);
+		
 		foreach ($results as $result) {
 			if (trim($result)) {
 				$return .= $result;

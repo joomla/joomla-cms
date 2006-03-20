@@ -35,6 +35,7 @@ class JAuthenticate extends JObject
 
 		$plugins = JPluginHelper::getPlugin('authentication');
 		
+		$isLoaded = false;
 		foreach ($plugins as $plugin) {
 			$isLoaded |= $this->loadPlugin($plugin->element, $dispatcher);
 		}

@@ -219,8 +219,8 @@ function viewMenuItems( $menutype, $option )
 
 	$total = count( $list );
 
-	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
-	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
+	jimport('joomla.presentation.pagination');
+	$pageNav = new JPagination( $total, $limitstart, $limit );
 	
 	// slice out elements based on limits
 	$list = array_slice( $list, $pageNav->limitstart, $pageNav->limit );

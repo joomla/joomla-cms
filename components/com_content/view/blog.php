@@ -41,19 +41,18 @@ class JContentViewHTML_blog
 		$gid			= $user->get('gid');
 
 		// parameters
-		if ($params->get('page_title', 1) && $menu)
-		{
+		if ($params->get('page_title', 1) && $menu) {
 			$header = $params->def('header', $menu->name);
-		}
-		else
-		{
+		} else {
 			$header = '';
 		}
+		
 		$columns = $params->def('columns', 2);
-		if ($columns == 0)
-		{
+		
+		if ($columns == 0) {
 			$columns = 1;
 		}
+		
 		$intro								= $params->def('intro', 4);
 		$leading							= $params->def('leading', 1);
 		$links								= $params->def('link', 4);
@@ -72,12 +71,11 @@ class JContentViewHTML_blog
 		$total = count($rows);
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 		$limit = $intro + $leading + $links;
-		if (!$limitstart)
-		{
+		if (!$limitstart) {
 			$limitstart = 0;
 		}
-		if ($total <= $limit)
-		{
+		
+		if ($total <= $limit) {
 			$limitstart = 0;
 		}
 		$i = $limitstart;
@@ -109,8 +107,7 @@ class JContentViewHTML_blog
 		/*
 		 * Header output
 		 */
-		if ($header)
-		{
+		if ($header) {
 			echo '<div class="componentheading'.$params->get('pageclass_sfx').'">'.$header.'</div>';
 		}
 
@@ -275,29 +272,29 @@ class JContentViewHTML_blog
 		/*
 		 * Initialize some variables
 		 */
-		$user			= & $mainframe->getUser();
+		$user		= & $mainframe->getUser();
 		$SiteName	= $mainframe->getCfg('sitename');
-		$gid				= $user->get('gid');
-		$task			= JRequest::getVar( 'task' );
-		$no_html		= JRequest::getVar( 'no_html', null );
+		$gid		= $user->get('gid');
+		$task		= JRequest::getVar( 'task' );
+		$no_html	= JRequest::getVar( 'no_html', null );
 		$Itemid		= JRequest::getVar( 'Itemid', 9999 );
-		$linkOn			= null;
-		$linkText		= null;
-		$params 		= new JParameter($row->attribs);
+		$linkOn		= null;
+		$linkText	= null;
+		$params 	= new JParameter($row->attribs);
 
 		/*
 		 * Get some parameters from global configuration
 		 */
-		$params->def('link_titles',		$mainframe->getCfg('link_titles'));
-		$params->def('author',			!$mainframe->getCfg('hideAuthor'));
+		$params->def('link_titles',	$mainframe->getCfg('link_titles'));
+		$params->def('author',		!$mainframe->getCfg('hideAuthor'));
 		$params->def('createdate',	!$mainframe->getCfg('hideCreateDate'));
 		$params->def('modifydate',	!$mainframe->getCfg('hideModifyDate'));
-		$params->def('print',				!$mainframe->getCfg('hidePrint'));
-		$params->def('pdf',					!$mainframe->getCfg('hidePdf'));
-		$params->def('email',				!$mainframe->getCfg('hideEmail'));
-		$params->def('rating',				$mainframe->getCfg('vote'));
-		$params->def('icons',				$mainframe->getCfg('icons'));
-		$params->def('readmore',		$mainframe->getCfg('readmore'));
+		$params->def('print',		!$mainframe->getCfg('hidePrint'));
+		$params->def('pdf',			!$mainframe->getCfg('hidePdf'));
+		$params->def('email',		!$mainframe->getCfg('hideEmail'));
+		$params->def('rating',		$mainframe->getCfg('vote'));
+		$params->def('icons',		$mainframe->getCfg('icons'));
+		$params->def('readmore',	$mainframe->getCfg('readmore'));
 		$params->def('back_button', $mainframe->getCfg('back_button'));
 		
 		/*

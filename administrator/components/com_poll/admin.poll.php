@@ -109,8 +109,8 @@ function showPolls( $option ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
-	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
-	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
+	jimport('joomla.presentation.pagination');
+	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	$query = "SELECT m.*, u.name AS editor, COUNT(d.id) AS numoptions"
 	. "\n FROM #__polls AS m"

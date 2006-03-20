@@ -508,8 +508,7 @@ class JContentController
 		if ($cid)
 		{
 			$sectionid = $row->sectionid;
-			if ($row->state < 0)
-			{
+			if ($row->state < 0) {
 				josRedirect('index2.php?option=com_content&sectionid='.$row->sectionid, JText::_('You cannot edit an archived item'));
 			}
 		}
@@ -517,8 +516,7 @@ class JContentController
 		/*
 		 * A section id of zero means grab from all sections
 		 */
-		if ($sectionid == 0)
-		{
+		if ($sectionid == 0) {
 			$where = "\n WHERE section NOT LIKE '%com_%'";
 		}
 		else
@@ -555,8 +553,7 @@ class JContentController
 			$row->modified		= $row->modified == $nullDate ? '' : mosFormatDate($row->modified, '%Y-%m-%d %H:%M:%S');
 			$row->publish_up	= mosFormatDate($row->publish_up, '%Y-%m-%d %H:%M:%S');
 
-			if (trim($row->publish_down) == $nullDate)
-			{
+			if (trim($row->publish_down) == $nullDate) {
 				$row->publish_down = JText::_('Never');
 			}
 
@@ -567,8 +564,7 @@ class JContentController
 			$row->creator = $db->loadResult();
 
 			// test to reduce unneeded query
-			if ($row->created_by == $row->modified_by)
-			{
+			if ($row->created_by == $row->modified_by) {
 				$row->modifier = $row->creator;
 			}
 			else
@@ -596,10 +592,10 @@ class JContentController
 		}
 		else
 		{
-			if (!$sectionid && @ $_POST['filter_sectionid'])
-			{
+			if (!$sectionid && @ $_POST['filter_sectionid']) {
 				$sectionid = $_POST['filter_sectionid'];
 			}
+			
 			if (@ $_POST['catid'])
 			{
 				$row->catid = $_POST['catid'];
@@ -649,15 +645,13 @@ class JContentController
 			// get the type name - which is a special category
 			if ($row->sectionid)
 			{
-				if ($section->id == $row->sectionid)
-				{
+				if ($section->id == $row->sectionid) {
 					$contentSection = $section->title;
 				}
 			}
 			else
 			{
-				if ($section->id == $sectionid)
-				{
+				if ($section->id == $sectionid) {
 					$contentSection = $section->title;
 				}
 			}
@@ -680,13 +674,11 @@ class JContentController
 			$rows2 = array ();
 			foreach ($cat_list as $cat)
 			{
-				if ($cat->section == $section->id)
-				{
+				if ($cat->section == $section->id) {
 					$rows2[] = $cat;
 				}
 			}
-			foreach ($rows2 as $row2)
-			{
+			foreach ($rows2 as $row2) {
 				$sectioncategories[$section->id][] = mosHTML::makeOption($row2->id, $row2->name, 'id', 'name');
 			}
 		}
@@ -699,21 +691,17 @@ class JContentController
 		}
 		else
 		{
-			if ($sectionid == 0)
-			{
+			if ($sectionid == 0) {
 				//$where = "\n WHERE section NOT LIKE '%com_%'";
-				foreach ($cat_list as $cat)
-				{
+				foreach ($cat_list as $cat) {
 					$categoriesA[] = $cat;
 				}
 			}
-			else
+			else 
 			{
 				//$where = "\n WHERE section = '$sectionid'";
-				foreach ($cat_list as $cat)
-				{
-					if ($cat->section == $sectionid)
-					{
+				foreach ($cat_list as $cat) {
+					if ($cat->section == $sectionid) {
 						$categoriesA[] = $cat;
 					}
 				}
@@ -774,11 +762,9 @@ class JContentController
 		 * We need to unify the introtext and fulltext fields and have the
 		 * fields separated by the {readmore} tag, so lets do that now.
 		 */
-		if (strlen($row->fulltext) > 1)
-		{
+		if (strlen($row->fulltext) > 1) {
 			$row->text = $row->introtext . '{readmore}' . $row->fulltext;
-		} else
-		{
+		} else {
 			$row->text = $row->introtext;
 		}
 
@@ -808,8 +794,7 @@ class JContentController
 
 
 		$row = & JModel::getInstance('content', $db);
-		if (!$row->bind($_POST))
-		{
+		if (!$row->bind($_POST)) {
 			JError::raiseError( 500, $db->stderr() );
 			return false;
 		}
@@ -836,8 +821,7 @@ class JContentController
 		/*
 		 * Append time if not added to publish date
 		 */
-		if (strlen(trim($row->publish_up)) <= 10)
-		{
+		if (strlen(trim($row->publish_up)) <= 10) {
 			$row->publish_up .= ' 00:00:00';
 		}
 		$row->publish_up = mosFormatDate($row->publish_up, '%Y-%m-%d %H:%M:%S', - $mainframe->getCfg('offset'));
@@ -845,8 +829,7 @@ class JContentController
 		/*
 		 * Handle never unpublish date
 		 */
-		if (trim($row->publish_down) == "Never")
-		{
+		if (trim($row->publish_down) == "Never") {
 			$row->publish_down = $nullDate;
 		}
 
@@ -862,8 +845,7 @@ class JContentController
 		if (is_array($params))
 		{
 			$txt = array ();
-			foreach ($params as $k => $v)
-			{
+			foreach ($params as $k => $v) {
 				$txt[] = "$k=$v";
 			}
 			$row->attribs = implode("\n", $txt);
@@ -877,8 +859,7 @@ class JContentController
 		/*
 		 * Make sure the data is valid
 		 */
-		if (!$row->check())
-		{
+		if (!$row->check()) {
 			JError::raiseError( 500, $db->stderr() );
 			return false;
 		}
@@ -891,8 +872,7 @@ class JContentController
 		/*
 		 * Store the content to the database
 		 */
-		if (!$row->store())
-		{
+		if (!$row->store()) {
 			JError::raiseError( 500, $db->stderr() );
 			return false;
 		}

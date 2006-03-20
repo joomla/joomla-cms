@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Mar-2005 Johan Janssens
+ # Fixed artf3938 : addHeadLink does not properly format output when additional attributes are specified.
+
 19-Mar-2005 Louis Landry
  + CSS driven full admin menu module
  

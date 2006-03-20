@@ -218,7 +218,6 @@ class JTemplatesController
 	{
 		global $mainframe;
 		
-		
 		/*
 		 * Initialize some variables
 		 */
@@ -245,10 +244,14 @@ class JTemplatesController
 		$lists['published']  = mosHTML::yesnoRadioList( 'published', 'class="inputbox"', $row->published);
 		
 		$lists['selections'] = '';
-		if(JTemplatesHelper::isTemplateDefault($row->directory, $client->id)) {
-			$lists['selections'] =  JText::_("Can't assign a default template");
-		} else {
-			$lists['selections'] = JTemplatesHelper::createMenuList($template);
+		if($client->id == '1')  {
+			$lists['selections'] =  JText::_("Can't assign an administrator template");
+		} else  {
+			if(JTemplatesHelper::isTemplateDefault($row->directory, $client->id)) {
+				$lists['selections'] =  JText::_("Can't assign a default template");
+			} else {
+				$lists['selections'] = JTemplatesHelper::createMenuList($template);
+			}
 		}
 		 
 		JTemplatesView::editTemplate($row, $lists, $params, $option, $client);

@@ -84,14 +84,6 @@ class JBrowser extends JObject
     var $_platform = '';
 
 	/**
-	 * Browser information array
-	 * using PHP get_browser function
-	 *
-	 * @var array
-	 */
-	var $_browser = null;
-
-	/**
 	  * Known robots.
 	  *
 	  * @var array
@@ -792,7 +784,7 @@ class JBrowser extends JObject
 	 * @return boolean  Is the given browser the same as the current?
 	 */
 	function isBrowser($browser)     {
-		return ($this->_browser['browser'] === $browser);
+		return ($this->_browser === $browser);
 	}
 
 	/**
@@ -820,35 +812,6 @@ class JBrowser extends JObject
 		return ((isset($_SERVER['HTTPS']) &&
 			($_SERVER['HTTPS'] == 'on')) ||
 			getenv('SSL_PROTOCOL_VERSION'));
-	}
-	
-	function _get_browser($userAgent, $return_array = false, $db='./browscap.ini')
-	{
-		$browscap = parse_ini_file($db,true);
-
-		$cap = null;
-
-		foreach ($browscap as $key=>$value)
-		{
-			if (!array_key_exists('parent',$value)) continue;
-			$keyEreg='^'.strtolower(str_replace(
-			array('\\',  '.',  '?','*', '^',  '$',  '[',  ']',  '|',  '(',  ')',  '+',  '{',  '}',  '%'  ),
-			array('\\\\','\\.','.','.*','\\^','\\$','\\[','\\]','\\|','\\(','\\)','\\+','\\{','\\}','\\%'),
-			$key)).'$';
-			if (preg_match('%'.$keyEreg.'%i',$userAgent))
-			{
-				$cap = array('browser_name_regex'=>$keyEreg,'browser_name_pattern'=>$key)+$value;
-				$maxDeep = 8;
-				while (array_key_exists('parent',$value)&&(--$maxDeep>0))
-				$cap += ($value=$browscap[$value['parent']]);
-				break;
-			}
-		}
-		if ($return_array)  {
-			return $cap;
-		}
-
-		return ((object)$cap);
 	}
 }
 

@@ -100,8 +100,8 @@ function viewTrashContent( $option ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 	
-	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
-	$pageNav = new mosPageNav( $total, $limitstart, $limit );
+	jimport('joomla.presentation.pagination');
+	$pageNav = new JPagination( $total, $limitstart, $limit );
 	
 	// Query content items
 	$query = "SELECT c.*, g.name AS groupname, cc.name AS catname, s.name AS sectname"
@@ -163,8 +163,8 @@ function viewTrashMenu( $option ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 	
-	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
-	$pageNav = new mosPageNav( $total, $limitstart, $limit );
+	jimport('joomla.presentation.pagination');
+	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	// Query menu items
 	$query = "SELECT m.*, com.name AS com_name"

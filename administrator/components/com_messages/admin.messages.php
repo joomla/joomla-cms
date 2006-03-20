@@ -97,8 +97,8 @@ function showMessages( $option ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 	
-	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
-	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
+	jimport('joomla.presentation.pagination');
+	$pageNav = new JPagination( $total, $limitstart, $limit );
 	
 	$query = "SELECT a.*, u.name AS user_from"
 	. "\n FROM #__messages AS a"

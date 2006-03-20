@@ -140,8 +140,8 @@ function showContacts( $option ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
-	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
-	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
+	jimport('joomla.presentation.pagination');
+	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	// get the subset (based on limits) of required records
 	$query = "SELECT cd.*, cc.title AS category, u.name AS user, v.name as editor, g.name AS groupname"

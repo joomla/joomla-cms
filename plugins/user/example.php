@@ -116,7 +116,7 @@ class JUserExample extends JPlugin {
 	 * @param	boolean		true if user was succesfully stored in the database
 	 * @param	string		message
 	 */
-	function botExampleAfterDeleteUser($user, $succes, $msg)
+	function onAfterDeleteUser($user, $succes, $msg)
 	{
 		global $mainframe;
 

@@ -103,7 +103,8 @@ switch ($task) {
 		break;
 }
 
-function viewBanners( $option ) {
+function viewBanners( $option ) 
+{
 	global $database, $mainframe;
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.viewbanners.filter_order", 		'filter_order', 	'b.bid' );
@@ -138,8 +139,8 @@ function viewBanners( $option ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
-	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
-	$pageNav = new mosPageNav( $total, $limitstart, $limit );
+	jimport('joomla.presentation.pagination');
+	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	$query = "SELECT b.*, u.name AS editor"
 	. "\n FROM #__banner AS b"
@@ -349,8 +350,8 @@ function viewBannerClients( $option ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
-	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
-	$pageNav = new mosPageNav( $total, $limitstart, $limit );
+	jimport('joomla.presentation.pagination');
+	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	$query = "SELECT a.*, count(b.bid) AS bid, u.name AS editor"
 	. "\n FROM #__bannerclient AS a"

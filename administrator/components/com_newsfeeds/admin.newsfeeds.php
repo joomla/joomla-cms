@@ -128,8 +128,8 @@ function showNewsFeeds( $option ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
-	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
-	$pageNav = new mosPageNav( $total, $limitstart, $limit );
+	jimport('joomla.presentation.pagination');
+	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	// get the subset (based on limits) of required records
 	$query = "SELECT a.*, c.name AS catname, u.name AS editor"

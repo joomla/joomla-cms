@@ -1045,6 +1045,11 @@ class JApplicationHelper
 					$result = JApplicationHelper::_checkPath( DS.'includes'.DS. $name .'.php' );
 				}
 				break;
+				
+			case 'helper':
+				$path	= DS.'components'.DS. $user_option .DS. $name .'.helper.php';
+				$result = JApplicationHelper::_checkPath( $path, 0 );
+				break;
 
 			case 'com_xml':
 				$path 	= DS.'components'.DS. $user_option .DS. $name .'.xml';
@@ -1060,7 +1065,7 @@ class JApplicationHelper
 				} else {
 					$path = DS.'modules'.DS. $user_option .DS. $user_option. '.xml';
 				}
-				$result = JApplicationHelper::_checkPath( $path, 0 );
+				$result = JApplicationHelper::_checkPath( $path );
 				break;
 
 			case 'mod1_xml':

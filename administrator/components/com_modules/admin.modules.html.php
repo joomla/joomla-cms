@@ -470,8 +470,7 @@ class HTML_modules {
 		<input type="hidden" name="original" value="<?php echo $row->ordering; ?>" />
 		<input type="hidden" name="module" value="<?php echo $row->module; ?>" />
 		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="client_id" value="<?php echo $lists['client_id']; ?>" />
-		<input type="hidden" name="client" value="<?php echo $client ?>" />
+		<input type="hidden" name="client" value="<?php echo $client->id ?>" />
 		</form>
 		<?php
 	}
@@ -511,14 +510,10 @@ class HTML_modules {
 	/**
 	* Displays a selection list for module types
 	*/
-	function addModule( &$modules, $client ) {
+	function addModule( &$modules, $client ) 
+	{
  		mosCommonHTML::loadOverlib();
 
-		if ( $client == 'admin' ) {
-			$type = JText::_( 'Administrator' );
-		} else {
-			$type = JText::_( 'Site' );
-		}
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 
@@ -545,7 +540,7 @@ class HTML_modules {
 		for ( $i=0; $i < $count; $i++ ) {
 			$row = &$modules[$i];
 			
-			$link = 'index2.php?option=com_modules&amp;task=editA&amp;module='. $row->module .'&amp;created=1&amp;client='. $client;
+			$link = 'index2.php?option=com_modules&amp;task=editA&amp;module='. $row->module .'&amp;created=1&amp;client='. $client->id;
 			if ( !$k ) {
 				?>
 				<tr class="<?php echo "row$x"; ?>" valign="top">
@@ -574,7 +569,7 @@ class HTML_modules {
 		</table>
 
 		<input type="hidden" name="option" value="com_modules" />
-		<input type="hidden" name="client" value="<?php echo $client; ?>" />
+		<input type="hidden" name="client" value="<?php echo $client->id; ?>" />
 		<input type="hidden" name="created" value="1" />
 		<input type="hidden" name="task" value="edit" />
 		<input type="hidden" name="boxchecked" value="0" />

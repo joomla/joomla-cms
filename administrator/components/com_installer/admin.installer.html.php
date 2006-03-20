@@ -19,8 +19,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 /**
  * @package Joomla
  */
-class JInstallerScreens {
-
+class JInstallerScreens 
+{
 	function showInstallForm( $p_startdir = "", $backLink="" ) {
 		?>
 		<script language="javascript" type="text/javascript">
@@ -152,13 +152,14 @@ class JInstallerScreens {
 	 * @return void
 	 * @since 1.0
 	 */
-	function showInstallMessage( $title, $message, $scriptOutput ) {
+	function showInstallMessage( $title, $message, $scriptOutput ) 
+	{
 		?>
-		<div id="treecell">
+		<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
 		</div>
 		
-		<div id="datacell">
+		<div id="pane-document">
 			<fieldset title="<?php echo $title; ?>">
 				<legend>
 					<?php echo $title; ?>

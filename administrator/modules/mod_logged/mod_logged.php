@@ -14,7 +14,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once( JPATH_ADMINISTRATOR .'/includes/pageNavigation.php' );
+jimport('joomla.presentation.pagination');
 
 $user			= & $mainframe->getUser();
 $limit 			= $mainframe->getUserStateFromRequest( "limit", 'limit', $mainframe->getCfg('list_limit') );
@@ -43,7 +43,7 @@ $database->setQuery( $query );
 $total = $database->loadResult();
 
 // page navigation
-$pageNav = new mosPageNav( $total, $limitstart, $limit );
+$pageNav = new JPagination( $total, $limitstart, $limit );
 
 $query = "SELECT *"
 . "\n FROM #__session"

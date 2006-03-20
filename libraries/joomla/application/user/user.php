@@ -264,45 +264,86 @@ class JUser extends JObject
 	 */
 	function bind(& $array)
 	{
+		jimport('joomla.application.user.authenticate');
+		
+		/*
+		 * Lets check to see if the user is new or not
+		 */
+		if (empty($this->_model->id) || empty($this->_id))
+		{
+			/*
+			 * Since we have a new user, and we are going to create it... we
+			 * need to check a few things and set some defaults if we don't
+			 * already have them.
+			 */
+				
+			// First the password
+			if (empty($array['password'])) {
+				$array['password'] = JAuthenticateHelper::genRandomPassword();
+			} 
+			$array['password'] = JAuthenticateHelper::getCryptedPassword($array['password']);
+				
+			// Next the registration timestamp
+			$this->set( 'registerDate', date( 'Y-m-d H:i:s' ) );
+				
+			/*
+			 * NOTE
+			 * TODO
+			 * @todo: this will be deprecated as of the ACL implementation
+			 */
+			$query = "SELECT name"
+				. "\n FROM #__core_acl_aro_groups"
+				. "\n WHERE id = " . $this->get('gid')
+				;
+			$this->_model->_db->setQuery( $query );
+			$this->set( 'usertype', $this->_model->_db->loadResult());
+		}
+		else
+		{
+			/*
+			 * We are updating an existing user.. so lets get down to it.
+			 */
+			if (!empty($array['password'])) {
+				$array['password'] = JAuthenticateHelper::getCryptedPassword($array['password']);
+			} else {
+				$array['password'] = $this->get('password');
+			}
+
+			/*
+			 * NOTE
+			 * TODO
+			 * @todo: this will be deprecated as of the ACL implementation
+			 */
+			$query = "SELECT name"
+			. "\n FROM #__core_acl_aro_groups"
+			. "\n WHERE id = " . $this->get('gid')
+			;
+			$this->_model->_db->setQuery( $query );
+			$this->set( 'usertype', $this->_model->_db->loadResult());
+		}
+		
+		
 		/*
 		 * Lets first try to bind the array to the user model... if that fails
 		 * then we can certainly fail the whole method as we've done absolutely
 		 * no good :)
 		 */
-		if (!$this->_model->bind($array))
-		{
+		if (!$this->_model->bind($array)) {
 			$this->_setError("JUser::bind: Unable to bind array to user object");
 			return false;
 		}
-		else
-		{
-			/*
-			 * We were able to bind the array to the object, so now lets run
-			 * through the parameters and build the INI parameter string for the
-			 * model
-			 */
-			if (array_key_exists( 'params', $array ))
-			{
-				$txt = array();
-				foreach ( $array['params'] as $k => $v )
-				{
-					$txt[] = "$k=$v";
-				}
-				$this->_model->params = implode( "\n", $txt );
-				
-				/*
-				 * Load the paramters for the object to be the new parameters we
-				 * got from the array.
-				 */
-				$this->_params->loadINI($this->_model->params);
-			}
-		}
+		
+		/*
+		 * We were able to bind the array to the object, so now lets run
+		 * through the parameters and build the INI parameter string for the
+		 * model
+		 */
+		$this->_params->loadINI($this->_model->params);
 		
 		/*
 		 * If the model user id is set, lets set the id for the JUser object.
 		 */
-		if ($this->get( 'id' ))
-		{
+		if ($this->get( 'id' )) {
 			$this->_id = $this->get( 'id' );
 		}
 		
@@ -329,83 +370,6 @@ class JUser extends JObject
 		$me = & $mainframe->getUser();
 		
 		/*
-		 * Lets check to see if the user is new or not
-		 */
-		if (empty($this->_model->id) || empty($this->_id))
-		{
-			// The user is new, should we create it?
-			if ($updateOnly)
-			{
-				return false;
-			}
-			else
-			{
-				/*
-				 * Since we have a new user, and we are going to create it... we
-				 * need to check a few things and set some defaults if we don't
-				 * already have them.
-				 */
-				
-				// First the password
-				if (!$this->get('password'))
-				{
-					$this->clearPW = JAuthenticateHelper::genRandomPassword();
-				}
-				else
-				{
-					$this->clearPW = $this->get('password');
-				}
-				$this->set('password', JAuthenticateHelper::getCryptedPassword($this->clearPW));
-				
-				// Next the registration timestamp
-				$this->set( 'registerDate', date( 'Y-m-d H:i:s' ) );
-				
-				/*
-				 * NOTE
-				 * TODO
-				 * @todo: this will be deprecated as of the ACL implementation
-				 */
-				$query = "SELECT name"
-				. "\n FROM #__core_acl_aro_groups"
-				. "\n WHERE id = " . $this->get('gid')
-				;
-				$this->_model->_db->setQuery( $query );
-				$this->set( 'usertype', $this->_model->_db->loadResult());
-			}
-		}
-		else
-		{
-			/*
-			 * We are updating an existing user.. so lets get down to it.
-			 */
-			if (!$this->get('password'))
-			{
-				/*
-				 * If the password is empty we set it to null
-				 */
-				$this->clearPW = null;
-				$this->set('password', null );
-			}
-			else
-			{
-				$this->clearPW = $this->get('password');
-				$this->set('password', JAuthenticateHelper::getCryptedPassword($this->clearPW));
-			}
-
-			/*
-			 * NOTE
-			 * TODO
-			 * @todo: this will be deprecated as of the ACL implementation
-			 */
-			$query = "SELECT name"
-			. "\n FROM #__core_acl_aro_groups"
-			. "\n WHERE id = " . $this->get('gid')
-			;
-			$this->_model->_db->setQuery( $query );
-			$this->set( 'usertype', $this->_model->_db->loadResult());
-		}
-
-		/*
 		 * Now that we have gotten all the field handling out of the way, time
 		 * to check and store the object.
 		 */
@@ -419,16 +383,15 @@ class JUser extends JObject
 		 * fire the onBeforeStoreUser event.
 		 */
 		JPluginHelper::importPlugin( 'user' );
-		$results = $mainframe->triggerEvent( 'onBeforeStoreUser', array( get_object_vars( $this->_model ), $this->_model->id ) );
+		$mainframe->triggerEvent( 'onBeforeStoreUser', array( get_object_vars( $this->_model ), $this->_model->id ) );
 
 		/*
 		 * Time for the real thing... are you ready for the real thing?  Store
-		 * the JUserModel ... if a fail condition exists throw a warning and
-		 * return false.
+		 * the JUserModel ... if a fail condition exists throw a warning
 		 */
-		if (!$this->_model->store()) {
+		$result = false;
+		if (!$result = $this->_model->store()) {
 			$this->_setError("JUser::save: ".$this->_model->getError());
-			return false;
 		}
 		
 		/*
@@ -436,7 +399,7 @@ class JUser extends JObject
 		 * parameters... i know a little too "inside the matrix" for some...
 		 */
 		if ( $me->get('id') == $this->get('id') ) {
-			JSession :: set('session_user_params', $this->get( 'params' ));
+			JSession::set('session_user_params', $this->get( 'params' ));
 		}
 	
 		/*
@@ -444,17 +407,44 @@ class JUser extends JObject
 		 * might happen if we just inserted a new user... and need to update
 		 * this objects id value with the inserted id.
 		 */
-		if (empty($this->_id))
-		{
+		if (empty($this->_id)) {
 			$this->_id = $this->get( 'id' );
 		}
-
+		
 		/*
 		 * We stored the user... lets tell everyone about it.
 		 */
-		$results = $mainframe->triggerEvent( 'onAfterStoreUser', array( get_object_vars( $this->_model ), $this->_model->id ) );
+		$mainframe->triggerEvent( 'onAfterStoreUser', array( get_object_vars( $this->_model ), $this->_model->id, $result, $this->getError() ) );
 
-		return true;
+		return $result;
+	}
+	
+	/**
+	 * Method to delete the JUser object from the database
+	 * 
+	 * @access 	private
+	 * @param 	boolean $updateOnly Save the object only if not a new user
+	 * @return 	boolean 			True on success
+	 * @since 1.1
+	 */
+	function delete( )
+	{
+		global $mainframe;
+		
+		echo $this->_id;
+		
+		//trigger the onBeforeDeleteUser event
+		$mainframe->triggerEvent( 'onBeforeDeleteUser', array( array( 'id' => $this->_id ) ) );
+		
+		$result = false;
+		if (!$result = $this->_model->delete($this->_id)) {
+			$this->_setError("JUser::delete: ".$this->_model->getError());
+		}
+		
+		//trigger the onAfterDeleteUser event
+		$mainframe->triggerEvent( 'onAfterDeleteUser', array( array('id' => $this->_id), $result, $this->getError()) );
+		return $result;
+	
 	}
 
 	/**
@@ -473,9 +463,8 @@ class JUser extends JObject
 		 */
 		if(!is_int($identifier)) 
 		{
-			if (!$id =  $this->_model->getUserId($identifier))
-			{
-				JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$username.' does not exist' );
+			if (!$id =  $this->_model->getUserId($identifier)) {
+				JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$identifier.' does not exist' );
 				return false;
 			}
 		} 
@@ -487,8 +476,7 @@ class JUser extends JObject
 		 /*
 		 * Load the JUserModel object based on the user id or throw a warning.
 		 */
-		 if(!$this->_model->load($id))
-		 {
+		 if(!$this->_model->load($id)) {
 			JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: Unable to load user with id: '.$id );
 			return false;
 		}
@@ -516,8 +504,7 @@ class JUser extends JObject
 	 * @return	void
 	 * @since	1.1
 	 */
-	function _setError( $msg )
-	{
+	function _setError( $msg ) {
 		$this->_errorMsg .= $msg."\n";
 	}
 }
@@ -568,7 +555,7 @@ class JUserHelper {
 		// Is it a valid user to activate?
 		if ($id) {
 			
-			$user = JModel :: getInstance( 'user', $db );
+			$user = JModel::getInstance( 'user', $db );
 			$user->load($id);
 			
 			$user->set('block', '0');

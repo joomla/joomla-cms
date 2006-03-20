@@ -166,8 +166,8 @@ function showMenu( $option )
 		}
 	}
 
-	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
-	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
+	jimport('joomla.presentation.pagination');
+	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	HTML_menumanager::show( $option, $menus, $pageNav );
 }

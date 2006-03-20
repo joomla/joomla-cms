@@ -220,23 +220,16 @@ class JTemplatesView
 		$url 	= $client->id ? $mainframe->getBaseURL() : $mainframe->getSiteURL();
 		
 		?>
-	<style type="text/css">
-	.previewFrame {
-		border: none;
-		width: 95%;
-		height: 600px;
-		padding: 0px 5px 0px 10px;
-	}
-	</style>
-
-	<div id="treecell">
-		<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
-	</div>
-		
-	<div id="datacell">
-
-		<div id="editcell">				
-			<table class="adminform">
+		<style type="text/css">
+		.previewFrame {
+			border: none;
+			width: 95%;
+			height: 600px;
+			padding: 0px 5px 0px 10px;
+		}
+		</style>
+	
+		<table class="adminform">
 			<tr>
 				<th width="50%" class="title">
 					<?php echo JText::_( 'Site Preview' ); ?>
@@ -250,9 +243,7 @@ class JTemplatesView
 					<?php echo mosHTML::Iframe($url.'index.php?template='.$template.'&tp='.$tp,'previewFrame',  array('class' => 'previewFrame')) ?>
 				</td>
 			</tr>
-			</table>
-		</div>
-	</div>
+		</table>
 		<?php
 	}
 
@@ -550,22 +541,21 @@ class JTemplatesView
 	* @param array
 	* @param string The option
 	*/
-	function editPositions( &$positions, $option ) {
+	function editPositions( &$positions, $option ) 
+	{
 
 		$rows = 25;
 		$cols = 2;
 		$n = $rows * $cols;
 		?>
-<form action="index2.php" method="post" name="adminForm">
+		<form action="index2.php" method="post" name="adminForm">
 
-	<div id="treecell">
-		<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'tree.html'); ?>
-	</div>
+		<div id="pane-navigation">
+			<?php require_once(dirname(__FILE__).DS.'tmpl'.DS.'navigation.html'); ?>
+		</div>
 		
-	<div id="datacell">
-		
-		<div id="tablecell">				
-			<table class="adminlist">
+		<div id="pane-document">				
+			<table class="adminform">
 			<tr>
 			<?php
 			for ( $c = 0; $c < $cols; $c++ ) {
@@ -621,11 +611,10 @@ class JTemplatesView
 			?>
 			</table>
 		</div>
-	</div>
-		
-	<input type="hidden" name="option" value="<?php echo $option;?>" />
-	<input type="hidden" name="task" value="" />
-</form>
+	
+		<input type="hidden" name="option" value="<?php echo $option;?>" />
+		<input type="hidden" name="task" value="" />
+		</form>
 		<?php
 	}
 }

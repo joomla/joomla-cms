@@ -181,8 +181,8 @@ function showPageImpressions( $option, $task ) {
 	$database->setQuery($query);
 	$total = $database->loadResult();
 
-	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
-	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
+	jimport('joomla.presentation.pagination');
+	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	$query = "SELECT c.id, c.title, c.created, c.hits, c.state, c.sectionid, c.catid, c.checked_out, cc.title AS cat_title, s.title AS sec_title"
 	. "\n FROM #__content AS c"
@@ -252,8 +252,8 @@ function showSearches( $option, $task, $showResults=null ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
-	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
-	$pageNav = new mosPageNav( $total, $limitstart, $limit );
+	jimport('joomla.presentation.pagination');
+	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	$query = "SELECT *"
 	. "\n FROM #__core_log_searches"

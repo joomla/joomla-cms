@@ -150,104 +150,100 @@ class JInstallerScreens_component {
 		?>
 		<form action="index2.php?option=com_installer&amp;extension=component" method="post" name="adminForm">
 				
-		<div id="treecell">
+		<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'tree.html'); ?>
 		</div>
 
-		<div id="datacell">
+		<div id="pane-document">
 			<fieldset title="<?php echo JText::_('Installed Components'); ?>">
 				<legend>
 					<?php echo JText::_('Installed Components'); ?>
 				</legend>
 				
-				<div id="tablecell">				
-					<?php
-					if (count($rows)) {
-						?>
-						<table class="adminlist">
-						<tr>
-							<th class="title" width="10">
-								<?php echo JText::_( 'Num' ); ?>
-							</th>
-							<th class="title" nowrap="nowrap">
-								<?php echo JText::_( 'Currently Installed' ); ?>
-							</th>
-							<th width="5%" align="center">
-								<?php echo JText::_( 'Enabled' ); ?>
-							</th>
-							<th width="10%" align="center">
-								<?php echo JText::_( 'Version' ); ?>
-							</th>
-							<th width="15%">
-								<?php echo JText::_( 'Date' ); ?>
-							</th>
-							<th width="25%"  class="title">
-								<?php echo JText::_( 'Author' ); ?>
-							</th>
-						</tr>
-						<?php
-			
-						$rc = 0;
-						for ($i = 0, $n = count($rows); $i < $n; $i ++) {
-							$row = & $rows[$i];
+			<?php
+				if (count($rows)) {
+				?>
+				<table class="adminlist">
+				<tr>
+					<th class="title" width="10">
+						<?php echo JText::_( 'Num' ); ?>
+					</th>
+					<th class="title" nowrap="nowrap">
+						<?php echo JText::_( 'Currently Installed' ); ?>
+					</th>
+					<th width="5%" align="center">
+						<?php echo JText::_( 'Enabled' ); ?>
+					</th>
+					<th width="10%" align="center">
+						<?php echo JText::_( 'Version' ); ?>
+					</th>
+					<th width="15%">
+						<?php echo JText::_( 'Date' ); ?>
+					</th>
+					<th width="25%"  class="title">
+						<?php echo JText::_( 'Author' ); ?>
+					</th>
+				</tr>
+			<?php
+				$rc = 0;
+				for ($i = 0, $n = count($rows); $i < $n; $i ++) {
+					$row = & $rows[$i];
 							
-							$img 	= $row->enabled ? 'tick.png' : 'publish_x.png';
-							$task 	= $row->enabled ? 'disable' : 'enable';
-							$alt 	= $row->enabled ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
-							$action	= $row->enabled ? 'disable' : 'enable';
-							$href 	= "<a href=\"index2.php?option=com_installer&amp;extension=component&amp;task=$task&amp;eid[]=".$row->id."\"><img src=\"images/$img\" border=\"0\" alt=\"$alt\" /></a>";
-							
-							if (!$row->option) {
-								$href = '<strong>X</strong>';
-							}
-							
-							if ($row->iscore) {
-								$cbd 	= 'disabled';
-								$style 	= 'style="color:#999999;"';
-							} else {
-								$cbd 	= '';
-								$style 	= '';
-							}
-							
-							$author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
-							?>
-							<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
-								<td>
-									<?php echo $page->rowNumber( $i ); ?>
-								</td>
-								<td>
-									<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?> />
-									<span class="bold">
-										<?php echo $row->name; ?>
-									</span>
-								</td>
-								<td align="center">
-									<?php echo $href; ?>
-								</td>
-								<td align="center">
-									<?php echo @$row->version != '' ? $row->version : '&nbsp;'; ?>
-								</td>
-								<td>
-									<?php echo @$row->creationdate != '' ? $row->creationdate : '&nbsp;'; ?>
-								</td>
-								<td>
-									<span onmouseover="return overlib('<?php echo $author_info; ?>', CAPTION, '<?php echo JText::_( 'Author Information' ); ?>', BELOW, LEFT);" onmouseout="return nd();">
-										<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>										
-									</span>
-								</td>
-							</tr>
-							<?php			
-							$rc = 1 - $rc;
-						}
-						?>
-						</table>
-						<?php echo $page->getListFooter(); ?>		
-						<?php
-					} else {
-						echo JText::_( 'There are no custom components installed' ); 
+					$img 	= $row->enabled ? 'tick.png' : 'publish_x.png';
+					$task 	= $row->enabled ? 'disable' : 'enable';
+					$alt 	= $row->enabled ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
+					$action	= $row->enabled ? 'disable' : 'enable';
+					$href 	= "<a href=\"index2.php?option=com_installer&amp;extension=component&amp;task=$task&amp;eid[]=".$row->id."\"><img src=\"images/$img\" border=\"0\" alt=\"$alt\" /></a>";
+					
+					if (!$row->option) {
+						$href = '<strong>X</strong>';
 					}
+							
+					if ($row->iscore) {
+						$cbd 	= 'disabled';
+						$style 	= 'style="color:#999999;"';
+					} else {
+						$cbd 	= '';
+						$style 	= '';
+					}
+							
+					$author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
 					?>
-				</div>
+					<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
+						<td>
+							<?php echo $page->rowNumber( $i ); ?>
+						</td>
+						<td>
+							<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->id; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?> />
+							<span class="bold">
+								<?php echo $row->name; ?>
+							</span>
+						</td>
+						<td align="center">
+							<?php echo $href; ?>
+						</td>
+						<td align="center">
+							<?php echo @$row->version != '' ? $row->version : '&nbsp;'; ?>
+						</td>
+						<td>
+							<?php echo @$row->creationdate != '' ? $row->creationdate : '&nbsp;'; ?>
+						</td>
+						<td>
+							<span onmouseover="return overlib('<?php echo $author_info; ?>', CAPTION, '<?php echo JText::_( 'Author Information' ); ?>', BELOW, LEFT);" onmouseout="return nd();">									<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>										
+							</span>
+						</td>
+					</tr>
+					<?php			
+					$rc = 1 - $rc;
+				}
+				?>
+				</table>
+				<?php echo $page->getListFooter(); ?>		
+				<?php
+			} else {
+				echo JText::_( 'There are no custom components installed' ); 
+			}
+			?>
 			</fieldset>
 		</div>
 

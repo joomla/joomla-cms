@@ -140,8 +140,8 @@ function showUsers( $option ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 
-	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
-	$pageNav = new mosPageNav( $total, $limitstart, $limit  );
+	jimport('joomla.presentation.pagination');
+	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	$query = "SELECT a.*, g.name AS groupname"
 	. "\n FROM #__users AS a"
@@ -368,7 +368,8 @@ function saveUser( $option, $task )
 * Cancels an edit operation
 * @param option component option to call
 */
-function cancelUser( $option ) {
+function cancelUser( $option ) 
+{
 	mosRedirect( 'index2.php?option='. $option .'&task=view' );
 }
 
@@ -383,39 +384,35 @@ function removeUsers( $cid )
 
 	if (count( $cid )) 
 	{
-		//load user plugin group
-		JPluginHelper::importPlugin( 'user' );
-
-		$obj =& JModel::getInstance('user', $database );
-		foreach ($cid as $id) {
+		foreach ($cid as $id) 
+		{
 			// check for a super admin ... can't delete them
 			$objectID 	= $acl->get_object_id( 'users', $id, 'ARO' );
 			$groups 	= $acl->get_object_groups( $objectID, 'ARO' );
 			$this_group = strtolower( $acl->get_group_name( $groups[0], 'ARO' ) );
 
-
-			//trigger the onBeforeDeleteUser event
-			$results = $mainframe->triggerEvent( 'onBeforeDeleteUser', array( array( 'id' => $id ) ) );
-
 			$success = false;
-			if ( $this_group == 'super administrator' ) {
+			if ( $this_group == 'super administrator' ) 
+			{
 				$msg = JText::_( 'You cannot delete a Super Administrator' );
- 			} else if ( $id == $my->id ){
+ 			} 
+			else if ( $id == $my->id )
+			{
  				$msg = JText::_( 'You cannot delete Yourself!' );
- 			} else if ( ( $this_group == 'administrator' ) && ( $my->gid == 24 ) ){
+ 			} 
+			else if ( ( $this_group == 'administrator' ) && ( $my->gid == 24 ) )
+			{
  				$msg = JText::_( 'WARNDELETE' );
-			} else {
-				$obj->delete( $id );
-				$msg = $obj->getError();
-				$success = true;
+			} 
+			else 
+			{
+				$user =& JUser::getInstance((int)$id);
+				$user->delete( );
 			}
-
-			//trigger the onAfterDeleteUser event
-			$results = $mainframe->triggerEvent( 'onAfterDeleteUser', array( array('id' => $id), $success, $msg ) );
 		}
 	}
 
-	mosRedirect( 'index2.php?option=com_users', $msg );
+	mosRedirect( 'index2.php?option=com_users', $user->getError() );
 }
 
 /**
@@ -424,7 +421,8 @@ function removeUsers( $cid )
 * @param integer 0 if unblock, 1 if blocking
 * @param string The current url option
 */
-function changeUserBlock( $cid=null, $block=1, $option ) {
+function changeUserBlock( $cid=null, $block=1, $option ) 
+{
 	global $database;
 
 	if (count( $cid ) < 1) {

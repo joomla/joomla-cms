@@ -21,7 +21,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class JConfigView {
 
-	function showConfig( &$row, &$lists, $option) {
+	function showConfig( &$row, &$lists, $option) 
+	{
 		mosCommonHTML::loadOverlib();
 		
 		$tabs = new mosTabs(1);
@@ -935,13 +936,6 @@ class JConfigView {
 		</div>
 
 		<input type="hidden" name="option" value="<?php echo $option; ?>" />
-		<?php
-		/*
-		<input type="hidden" name="admin_path" value="<?php echo $row->admin_path; ?>" />
-		<input type="hidden" name="absolute_path" value="<?php echo $row->absolute_path; ?>" />
-		<input type="hidden" name="live_site" value="<?php echo $row->live_site; ?>" />
-		*/
-		?>
 		<input type="hidden" name="secret" value="<?php echo $row->secret; ?>" />
 		<input type="hidden" name="multilingual_support" value="<?php echo $row->multilingual_support; ?>" />
 	  	<input type="hidden" name="lang_site" value="<?php echo $row->lang_site; ?>" />

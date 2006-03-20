@@ -184,7 +184,8 @@ class JInstallerExtensionTasks {
  */
 class JInstallerScreens_language {
 	
-	function showInstalled( &$rows, &$page, $client, $lists ) {
+	function showInstalled( &$rows, &$page, $client, $lists ) 
+	{
 		global $mainframe;
 		/*
 		 * Load overlib
@@ -193,11 +194,11 @@ class JInstallerScreens_language {
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 			
-		<div id="treecell">
+		<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'tree.html'); ?>
 		</div>
 		
-		<div id="datacell">
+		<div id="pane-document">
 			<fieldset title="<?php echo JText::_('Installed Languages'); ?>">
 				<legend>
 					<?php echo JText::_('Installed Languages'); ?>
@@ -214,84 +215,82 @@ class JInstallerScreens_language {
 				</tr>
 				</table>
 		
-				<div id="tablecell">				
-					<?php
-					if (count($rows)) {
-						?>
-						<table class="adminlist">
-						<tr>
-							<th class="title" width="2">
-								<?php echo JText::_( 'Num' ); ?>
-							</th>
-							<th class="title">
-								<?php echo JText::_( 'Language' ); ?>
-							</th>
-							<th width="7%" align="center">
-								<?php echo JText::_( 'Client' ); ?>
-							</th>
-							<th width="10%" align="center">
-								<?php echo JText::_( 'Version' ); ?>
-							</th>
-							<th width="15%" class="title">
-								<?php echo JText::_( 'Date' ); ?>
-							</th>
-							<th width="25%"  class="title">
-								<?php echo JText::_( 'Author' ); ?>
-							</th>
-						</tr>
-						<?php
-						$rc = 0;
-						for ($i = 0, $n = count( $rows ); $i < $n; $i++) {
-							$row =& $rows[$i];
-		
-							/*
-							 * Handle currently used templates
-							 */
-							if ($row->language == $mainframe->getCfg('lang_site') || $row->language = $mainframe->getCfg('lang_administrator'))	{
-								$cbd 	= 'disabled';
-								$style 	= 'style="color:#999999;"';
-							} else {
-								$cbd 	= '';
-								$style 	= '';
-							}
-							
-							$author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
-							?>
-							<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
-								<td>
-									<?php echo $page->rowNumber( $i ); ?>
-								</td>
-								<td>
-									<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->language; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?> />
-									<span class="bold"><?php echo $row->name; ?></span>
-								</td>
-								<td align="center">
-									<?php echo $row->client_id == 0 ? JText::_( 'Site' ) : JText::_( 'Admin' ); ?>
-								</td>
-								<td align="center">
-									<?php echo @$row->version != '' ? $row->version : '&nbsp;'; ?>
-								</td>
-								<td>
-									<?php echo @$row->creationdate != '' ? $row->creationdate : '&nbsp;'; ?>
-								</td>
-								<td>
-									<span onmouseover="return overlib('<?php echo $author_info; ?>', CAPTION, '<?php echo JText::_( 'Author Information' ); ?>', BELOW, LEFT);" onmouseout="return nd();">
-										<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>										
-									</span>
-								</td>
-							</tr>
-							<?php
-							$rc = $rc == 0 ? 1 : 0;
-						}
-						?>
-						</table>
-						<?php echo $page->getListFooter(); ?>		
-						<?php
+			<?php
+			if (count($rows)) {
+			?>
+				<table class="adminlist">
+				<tr>
+					<th class="title" width="2">
+						<?php echo JText::_( 'Num' ); ?>
+					</th>
+					<th class="title">
+						<?php echo JText::_( 'Language' ); ?>
+					</th>
+					<th width="7%" align="center">
+						<?php echo JText::_( 'Client' ); ?>
+					</th>
+					<th width="10%" align="center">
+						<?php echo JText::_( 'Version' ); ?>
+					</th>
+					<th width="15%" class="title">
+						<?php echo JText::_( 'Date' ); ?>
+					</th>
+					<th width="25%"  class="title">
+						<?php echo JText::_( 'Author' ); ?>
+					</th>
+				</tr>
+				<?php
+				$rc = 0;
+				for ($i = 0, $n = count( $rows ); $i < $n; $i++) {
+					$row =& $rows[$i];
+
+					/*
+					 * Handle currently used templates
+					 */
+					if ($row->language == $mainframe->getCfg('lang_site') || $row->language = $mainframe->getCfg('lang_administrator'))	{
+						$cbd 	= 'disabled';
+						$style 	= 'style="color:#999999;"';
 					} else {
-						echo JText::_( 'No Languages installed' ); 
+						$cbd 	= '';
+						$style 	= '';
 					}
-					?>							
-				</div>						
+					
+					$author_info = @$row->authorEmail .'<br />'. @$row->authorUrl;
+					?>
+					<tr class="<?php echo "row$rc"; ?>" <?php echo $style; ?>>
+						<td>
+							<?php echo $page->rowNumber( $i ); ?>
+						</td>
+						<td>
+							<input type="checkbox" id="cb<?php echo $i;?>" name="eid[]" value="<?php echo $row->language; ?>" onclick="isChecked(this.checked);" <?php echo $cbd; ?> />
+							<span class="bold"><?php echo $row->name; ?></span>
+						</td>
+						<td align="center">
+							<?php echo $row->client_id == 0 ? JText::_( 'Site' ) : JText::_( 'Admin' ); ?>
+						</td>
+						<td align="center">
+							<?php echo @$row->version != '' ? $row->version : '&nbsp;'; ?>
+						</td>
+						<td>
+							<?php echo @$row->creationdate != '' ? $row->creationdate : '&nbsp;'; ?>
+						</td>
+						<td>
+							<span onmouseover="return overlib('<?php echo $author_info; ?>', CAPTION, '<?php echo JText::_( 'Author Information' ); ?>', BELOW, LEFT);" onmouseout="return nd();">
+								<?php echo @$row->author != '' ? $row->author : '&nbsp;'; ?>										
+							</span>
+						</td>
+					</tr>
+					<?php
+					$rc = $rc == 0 ? 1 : 0;
+				}
+				?>
+				</table>
+				<?php echo $page->getListFooter(); ?>		
+				<?php
+			} else {
+				echo JText::_( 'No Languages installed' ); 
+			}
+			?>									
 			</fieldset>
 		</div>
 		

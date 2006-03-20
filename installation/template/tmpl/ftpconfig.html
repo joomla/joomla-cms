@@ -24,13 +24,13 @@ function validateForm( frm, task ) {
 function JProcess() {
 
 	if ( document.getElementById("ftphost").value == '' ) {
-		alert( '<jtmpl:translate key="validType" escape="yes">Please select the database type</jtmpl:translate>' );
+		alert( '<jtmpl:translate key="validFtpHost" escape="yes">Please enter a correct FTP host</jtmpl:translate>' );
 		return;
 	} else if (document.getElementById("ftpuser").value == '') {
 		alert( '<jtmpl:translate key="validFtpUser" escape="yes">Please enter a username</jtmpl:translate>' );
 		return;
 	} else if (document.getElementById("ftppass").value == '') {
-		alert( '<jtmpl:translate key="validFtpPass" escape="yes">Please enter a database password</jtmpl:translate>' );
+		alert( '<jtmpl:translate key="validFtpPass" escape="yes">Please enter a FTP password</jtmpl:translate>' );
 		return;
 	} else {
 		xajax_getFtpRoot(xajax.getFormValues('adminForm'));

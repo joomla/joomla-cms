@@ -137,57 +137,26 @@ function userSave( $option, $uid)
 		mosNotAuth();
 		return;
 	}
-	$row =& JModel::getInstance('user', $database );
-	$row->load( $user_id );
-	$row->orig_password = $row->password;
-
-	mosMakeHtmlSafe($row);
-
-	if (!$row->bind( $_POST, "gid usertype" )) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		exit();
-	}
-
+	
+	// do a password safety check
 	if(isset($_POST["password"]) && $_POST["password"] != "") {
-		if(isset($_POST["verifyPass"]) && ($_POST["verifyPass"] == $_POST["password"])) {
-			$row->password = md5($_POST["password"]);
-		} else {
+		if(!isset($_POST["verifyPass"]) && ($_POST["verifyPass"] == $_POST["password"])) {
 			echo "<script> alert(\"". JText::_( 'Passwords do not match', true ) ."\"); window.history.go(-1); </script>\n";
 			exit();
 		}
-	} else {
-		// Restore 'original password'
-		$row->password = $row->orig_password;
 	}
+	
+	$user = JUser::getInstance($user_id);
 
-	// save params
-	$params = mosGetParam( $_POST, 'params', '' );
-	if (is_array( $params )) {
-		$txt = array();
-		foreach ( $params as $k=>$v) {
-			$txt[] = "$k=$v";
-		}
-		$row->params = implode( "\n", $txt );
-	}
-
-	if (!$row->check()) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+	if (!$user->bind( $_POST )) {
+		echo "<script> alert('".$user->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
-	//trigger the onBeforeStoreUser event
-	JPluginHelper::importPlugin( 'user' );
-	$results = $mainframe->triggerEvent( 'onBeforeStoreUser', array(get_object_vars($row), false));
-
-	unset($row->orig_password); // prevent DB error!!
-
-	if (!$row->store()) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+	if (!$user->save()) {
+		echo "<script> alert('".$user->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
-
-	//trigger the onAfterStoreUser event
-	$results = $mainframe->triggerEvent( 'onAfterStoreUser', array(get_object_vars($row), false, true, null ));
 
 	$link = $_SERVER['HTTP_REFERER'];
 	mosRedirect( $link, JText::_( 'Your settings have been saved.' ) );

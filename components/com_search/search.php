@@ -123,7 +123,7 @@ function viewSearch() {
 
 	// html output
 	search_html::searchbox( htmlspecialchars( stripslashes( $searchword ) ), $lists, $params, $areas );
-
+	
 	// meta pagetitle
 	$mainframe->setPageTitle( JText::_( 'Search' ) );
 		
@@ -152,6 +152,7 @@ function viewSearch() {
 		search_html::searchintro( $searchword_clean, $params );
 
 		mosLogSearch( $searchword );
+		
 		$phrase 	= mosGetParam( $_REQUEST, 'searchphrase', '' );
 		$ordering 	= mosGetParam( $_REQUEST, 'ordering', '' );
 
@@ -162,9 +163,9 @@ function viewSearch() {
 		for ($i = 0, $n = count( $results); $i < $n; $i++) {
 			$rows = array_merge( (array)$rows, (array)$results[$i] );
 		}
-
+		
 		$cache = JFactory::getCache('getItemid');
-		require_once (JApplicationHelper::getPath('front', 'com_content'));
+		require_once (JApplicationHelper::getPath('helper', 'com_content'));
 		
 		$totalRows = count( $rows );
 
@@ -214,6 +215,8 @@ function viewSearch() {
 
 		// html output
 		search_html::conclusion( $totalRows, $searchword_clean, $page );
+		
+		
 	}
 }
 

@@ -241,7 +241,7 @@ class JDocumentHTML extends JDocument
         foreach ($this->_styleSheets as $strSrc => $strAttr ) {
             $strHtml .= $tab . "<link rel=\"stylesheet\" href=\"$strSrc\" type=\"".$strAttr['mime'].'"';
             if (!is_null($strAttr['media'])){
-                $strHtml .= ' media="'.$strAttr['media'].'"';
+                $strHtml .= ' media="'.$strAttr['media'].'" ';
             }
 			
 			$strHtml .= JDocumentHelper::implodeAttribs('=', ' ', $strAttr['attribs']);

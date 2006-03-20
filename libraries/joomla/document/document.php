@@ -590,7 +590,7 @@ class JDocument extends JTemplate
             // This is value is an array, go and do it again!
             $output[] = implode_assoc($inner_glue, $outer_glue, $item, $keepOuterKey);
         } else
-            $output[] = $key . $inner_glue . $item;
+            $output[] = $key . $inner_glue . '"'.$item.'"';
 
         return implode($outer_glue, $output);
     }

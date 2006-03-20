@@ -146,8 +146,8 @@ function view( $option ) {
 	$database->setQuery( $query );
 	$total = $database->loadResult();
 	
-	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
-	$pageNav = new mosPageNav( $total, $limitstart, $limit );
+	jimport('joomla.presentation.pagination');
+	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	$query = "SELECT c.*, g.name AS groupname, u.name AS editor, z.name AS creator, f.content_id AS frontpage"
 	. "\n FROM #__content AS c"

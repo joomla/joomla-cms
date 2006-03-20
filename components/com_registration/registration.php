@@ -19,7 +19,8 @@ require_once( JApplicationHelper::getPath( 'front_html' ) );
 $breadcrumbs =& $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, JText::_( 'Registration' ) );
 
-switch( $task ) {
+switch( $task ) 
+{
 	case 'lostPassword':
 		lostPassForm();
 		break;
@@ -45,7 +46,8 @@ switch( $task ) {
 		break;	
 }
 
-function lostPassForm() {
+function lostPassForm() 
+{
 	global $mainframe;
 
 	$mainframe->SetPageTitle( JText::_( 'Lost your Password?' ) );
@@ -56,7 +58,8 @@ function lostPassForm() {
 	HTML_registration::lostPassForm();
 }
 
-function sendNewPass() {
+function sendNewPass() 
+{
 	global $database, $mainframe;
 	global $mosConfig_mailfrom, $mosConfig_fromname;
 	
@@ -101,7 +104,8 @@ function sendNewPass() {
 	mosRedirect( 'index.php?option=com_registration', JText::_( 'New User Password created and sent!' ) );
 }
 
-function registerForm() {
+function registerForm() 
+{
 	global $mainframe;
 	
 	if (!$mainframe->getCfg( 'allowUserRegistration' )) {
@@ -133,54 +137,39 @@ function saveRegistration()
 	$siteURL 		= $mainframe->getBaseURL();
 	$breadcrumbs 	=& $mainframe->getPathWay();
 
-	$row =& JModel::getInstance('user', $database );
+	$user =& JUser::getInstance( );
 
-	mosMakeHtmlSafe($row);
-
-	if (!$row->bind( $_POST, 'usertype' )) {
+	if (!$user->bind( $_POST, 'usertype' )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
-	$row->id = 0;
-	$row->usertype = '';
-	$row->gid = $acl->get_group_id( '', 'Registered', 'ARO' );
+	$user->set('id', 0);
+	$user->set('usertype', '');
+	$user->set('gid', $acl->get_group_id( '', 'Registered', 'ARO' ));
 
 	if ($mosConfig_useractivation == '1') {
-		$row->activation = md5( mosMakePassword() );
-		$row->block = '1';
+		$user->set('activation', md5( mosMakePassword() );
+		$user->set('block', '1');
 	}
 
-	if (!$row->check()) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
+	$pwd = $user->get('password');
+	$user->set('password', md5( $pwd ));
+	$user->set('registerDate', date('Y-m-d H:i:s'));
+
+	if (!$user->store()) {
+		echo "<script> alert('".$user->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
 
-	$pwd 				= $row->password;
-	$row->password 		= md5( $row->password );
-	$row->registerDate 	= date('Y-m-d H:i:s');
-
-	//trigger the onBeforeStoreUser event
-	JPluginHelper::importPlugin( 'user' );
-	$results = $mainframe->triggerEvent( 'onBeforeStoreUser', array( get_object_vars( $row )) );
-
-	if (!$row->store()) {
-		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
-		exit();
-	}
-	$row->checkin();
-
-	//trigger the onAfterStoreUser event
-	$results = $mainframe->triggerEvent( 'onAfterStoreUser', array( get_object_vars( $row ), true, true, null ) );
-
-	$name 		= $row->name;
-	$email 		= $row->email;
-	$username 	= $row->username;
+	$name 		= $user->get('name');
+	$email 		= $user->get('email');
+	$username 	= $user->get('username');
 
 	$subject 	= sprintf ( JText::_( 'Account details for' ), $name, $mosConfig_sitename);
 	$subject 	= html_entity_decode($subject, ENT_QUOTES);
 	if ( $mosConfig_useractivation == 1 ){
-		$message = sprintf ( JText::_( 'SEND_MSG_ACTIVATE' ), $name, $mosConfig_sitename, $siteURL."/index.php?option=com_registration&task=activate&activation=".$row->activation, $siteURL, $username, $pwd);
+		$message = sprintf ( JText::_( 'SEND_MSG_ACTIVATE' ), $name, $mosConfig_sitename, $siteURL."/index.php?option=com_registration&task=activate&activation=".$user->get('activation'), $siteURL, $username, $pwd);
 	} else {
 		$message = sprintf ( JText::_( 'SEND_MSG' ), $name, $mosConfig_sitename, $siteURL);
 	}
@@ -246,7 +235,8 @@ function saveRegistration()
 	}
 }
 
-function activate() {
+function activate() 
+{
 	global $mainframe;
 	
 	/*
@@ -265,30 +255,34 @@ function activate() {
 	/*
 	 * Do we even have an activation string?
 	 */
-	$activation = JRequest :: getVar( 'activation', '' );
+	$activation = JRequest::getVar( 'activation', '' );
 	$activation = $db->getEscaped( $activation );
-	if (empty( $activation )) {
+	
+	if (empty( $activation )) 
+	{
 		// Page Title
 		$mainframe->SetPageTitle( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ) );
 		// Breadcrumb
 		$breadcrumbs->addItem( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ));
 		
 		HTML_registration::message( 'REG_ACTIVATE_NOT_FOUND_TITLE', 'REG_ACTIVATE_NOT_FOUND' );
-		
 		return;
 	}
 	
 	/*
 	 * Lets activate this user.
 	 */
-	if (JUserHelper :: activate($activation)) {
+	if (JUserHelper::activate($activation)) 
+	{
 		// Page Title
 		$mainframe->SetPageTitle( JText::_( 'REG_ACTIVATE_COMPLETE_TITLE' ) );
 		// Breadcrumb
 		$breadcrumbs->addItem( JText::_( 'REG_ACTIVATE_COMPLETE_TITLE' ));
 		
 		HTML_registration::message( 'REG_ACTIVATE_COMPLETE_TITLE', 'REG_ACTIVATE_COMPLETE' );
-	} else {
+	} 
+	else 
+	{
 		// Page Title
 		$mainframe->SetPageTitle( JText::_( 'REG_ACTIVATE_NOT_FOUND_TITLE' ) );
 		// Breadcrumb

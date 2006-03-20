@@ -30,11 +30,11 @@ switch ($task) {
 		break;
 
 	case 'edit':
-		editCategory( intval( $cid[0] ) );
+		editCategory( intval( $cid[0] ), $section );
 		break;
 
 	case 'editA':
-		editCategory( intval( $id ) );
+		editCategory( intval( $id ), $section );
 		break;
 
 	case 'moveselect':
@@ -110,7 +110,8 @@ switch ($task) {
 * Compiles a list of categories for a section
 * @param string The name of the category section
 */
-function showCategories( $section, $option ) {
+function showCategories( $section, $option ) 
+{
 	global $database, $mainframe;
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 				'filter_order', 	'c.ordering' );
@@ -205,8 +206,8 @@ function showCategories( $section, $option ) {
 		$filter .= "\n AND LOWER(c.name) LIKE '%$search%'";
 	}
 
-	require_once( JPATH_ADMINISTRATOR . '/includes/pageNavigation.php' );
-	$pageNav = new mosPageNav( $total, $limitstart, $limit );
+	jimport('joomla.presentation.pagination');
+	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	$query = "SELECT  c.*, c.checked_out as checked_out_contact_category, g.name AS groupname, u.name AS editor, COUNT( DISTINCT s2.checked_out ) AS checked_out"
 	. $content_add
@@ -397,6 +398,7 @@ function editCategory( $uid=0, $section='' )
 		$order[] = mosHTML::makeOption( $i );
 	}
 
+	echo 'test';
 	// build the html select list for sections
 	if ( $section == 'content' ) {
 		$query = "SELECT s.id AS value, s.title AS text"

@@ -25,7 +25,6 @@ if (!$user->authorize( 'com_modules', 'manage' )) {
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
-$client 	= mosGetParam( $_REQUEST, 'client', 'site' );
 $cid 		= mosGetParam( $_POST, 'cid', array(0) );
 $id 		= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
 $moduleid 	= mosGetParam( $_REQUEST, 'moduleid', null );
@@ -35,9 +34,10 @@ if ($cid[0] == 0 && isset($moduleid) ) {
 	$cid[0] = $moduleid;
 }
 
-switch ( $task ) {
+switch ( $task ) 
+{
 	case 'copy':
-		copyModule( $option, intval( $cid[0] ), $client );
+		copyModule( $option, intval( $cid[0] ));
 		break;
 
 	case 'new':
@@ -47,35 +47,35 @@ switch ( $task ) {
 
 	case 'edit':
 		if ( $module && $cid[0] == 0 && $id == 0 ) {
-			editModule( $option, 0, $client, $module );
+			editModule( $option, 0, $module );
 		} else {
-			editModule( $option, $cid[0], $client );
+			editModule( $option, $cid[0]);
 		}
 		break;
 
 	case 'editA':
-		editModule( $option, $id, $client );
+		editModule( $option, $id );
 		break;
 
 	case 'save':
 	case 'apply':
 		$cache = JFactory::getCache();
 		$cache->cleanCache( 'com_content' );
-		saveModule( $option, $client, $task );
+		saveModule( $option, $task );
 		break;
 
 	case 'remove':
-		removeModule( $cid, $option, $client );
+		removeModule( $cid, $option );
 		break;
 
 	case 'cancel':
-		cancelModule( $option, $client );
+		cancelModule( $option );
 		break;
 
 	case 'publish':
 	case 'unpublish':
 		mosCache::cleanCache( 'com_content' );
-		publishModule( $cid, ($task == 'publish'), $option, $client );
+		publishModule( $cid, ($task == 'publish'), $option );
 		break;
 
 	case 'orderup':
@@ -86,19 +86,19 @@ switch ( $task ) {
 	case 'accesspublic':
 	case 'accessregistered':
 	case 'accessspecial':
-		accessMenu( $cid[0], $task, $option, $client );
+		accessMenu( $cid[0], $task, $option );
 		break;
 
 	case 'saveorder':
-		saveOrder( $cid, $client );
+		saveOrder( $cid );
 		break;
 
 	case 'preview' :
-		previewModule($id, $client);
+		previewModule($id );
 		break;
 
 	default:
-		viewModules( $option, $client );
+		viewModules( $option );
 		break;
 }
 
@@ -113,18 +113,17 @@ function viewModules()
 	 * Initialize some variables
 	 */
 	$db		=& $mainframe->getDBO();
-	
 	$option = JRequest::getVar('option');
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$client.filter_order", 		'filter_order', 	'm.position' );
-	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.$client.filter_order_Dir",	'filter_order_Dir',	'' );
-	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.$client.filter_state", 		'filter_state', 	'' );
-	$filter_position 	= $mainframe->getUserStateFromRequest( "$option.$client.filter_position", 	'filter_position', 	0 );
-	$filter_type	 	= $mainframe->getUserStateFromRequest( "$option.$client.filter_type", 		'filter_type', 		0 );
-	$limit 				= $mainframe->getUserStateFromRequest( "limit", 							'limit', 			$mainframe->getCfg('list_limit') );
-	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 				'limitstart', 		0 );
-	$search 			= $mainframe->getUserStateFromRequest( "$option.$client.search", 			'search', 			'' );
+	$filter_order		= $mainframe->getUserStateFromRequest( "$option.filter_order", 		'filter_order', 	'm.position' );
+	$filter_order_Dir	= $mainframe->getUserStateFromRequest( "$option.filter_order_Dir",	'filter_order_Dir',	'' );
+	$filter_state 		= $mainframe->getUserStateFromRequest( "$option.filter_state", 		'filter_state', 	'' );
+	$filter_position 	= $mainframe->getUserStateFromRequest( "$option.filter_position", 	'filter_position', 	0 );
+	$filter_type	 	= $mainframe->getUserStateFromRequest( "$option.filter_type", 		'filter_type', 		0 );
+	$limit 				= $mainframe->getUserStateFromRequest( "limit", 					'limit', 			$mainframe->getCfg('list_limit') );
+	$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 		'limitstart', 		0 );
+	$search 			= $mainframe->getUserStateFromRequest( "$option.search", 			'search', 			'' );
 	$search 			= $db->getEscaped( trim( strtolower( $search ) ) );
 
 	$where[] = "m.client_id = ".$client->id;
@@ -157,8 +156,8 @@ function viewModules()
 	$db->setQuery( $query );
 	$total = $db->loadResult();
 
-	require_once( JPATH_ADMINISTRATOR .'/includes/pageNavigation.php' );
-	$pageNav = new mosPageNav( $total, $limitstart, $limit );
+	jimport('joomla.presentation.pagination');
+	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	$query = "SELECT m.*, u.name AS editor, g.name AS groupname, MIN(mm.menuid) AS pages"
 	. "\n FROM #__modules AS m"
@@ -223,10 +222,17 @@ function viewModules()
 * @param string The current GET/POST option
 * @param integer The unique id of the record to edit
 */
-function copyModule( $option, $uid, $client ) {
+function copyModule( $option, $uid ) 
+{
 	global $database, $my;
 
-	$row =& JModel::getInstance('module', $database );
+	/*
+	 * Initialize some variables
+	 */
+	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+	
+	$row 	=& JModel::getInstance('module', $database );
+	
 	// load the row from the db table
 	$row->load( $uid );
 	$row->title 		= sprintf( JText::_( 'Copy of' ), $row->title );
@@ -243,12 +249,8 @@ function copyModule( $option, $uid, $client ) {
 		exit();
 	}
 	$row->checkin();
-	if ($client == 'admin') {
-		$where = "client_id='1'";
-	} else {
-		$where = "client_id='0'";
-	}
-	$row->updateOrder( "position='$row->position' AND ($where)" );
+	
+	$row->updateOrder( "position=".$row->position." AND client_id=".$client->id );
 
 	$query = "SELECT menuid"
 	. "\n FROM #__modules_menu"
@@ -272,9 +274,14 @@ function copyModule( $option, $uid, $client ) {
 /**
 * Saves the module after an edit form submit
 */
-function saveModule( $option, $client, $task ) 
+function saveModule( $option, $task ) 
 {
 	global $database;
+	
+	/*
+	 * Initialize some variables
+	 */
+	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	$row =& JModel::getInstance('module', $database );
 	
@@ -292,13 +299,7 @@ function saveModule( $option, $client, $task )
 	}
 	$row->checkin();
 	
-	if ($client == 'admin') {
-		$where = "client_id=1";
-	} else {
-		$where = "client_id=0";
-	}
-	
-	$row->updateOrder( "position='$row->position' AND ( $where )" );
+	$row->updateOrder( "position=".$row->position." AND client_id=".$client->id );
 
 	$menus = mosGetParam( $_POST, 'selections', array() );
 
@@ -354,9 +355,15 @@ function saveModule( $option, $client, $task )
 * @param string The current GET/POST option
 * @param integer The unique id of the record to edit
 */
-function editModule( $option, $uid, $client, $module=NULL ) {
+function editModule( $option, $uid, $module=NULL ) 
+{
 	global $database, $my, $mainframe;
 
+	/*
+	 * Initialize some variables
+	 */
+	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+	
 	$lists 	= array();
 	$row 	=& JModel::getInstance('module', $database );
 	// load the row from the db table
@@ -386,7 +393,7 @@ function editModule( $option, $uid, $client, $module=NULL ) {
 	}
 
 
-	if ( $client == 'admin' ) {
+	if ( $client->id == '1' ) {
 		$where 				= 'client_id = 1';
 		$lists['client_id'] = 1;
 		$path				= 'mod1_xml';
@@ -456,7 +463,7 @@ function editModule( $option, $uid, $client, $module=NULL ) {
 		$lists['showtitle'] 		= 'N/A <input type="hidden" name="showtitle" value="1" />';
 		$lists['selections'] 		= 'N/A';
 	} else {
-		if ( $client == 'admin' ) {
+		if ( $client->id == '1' ) {
 			$lists['access'] 		= 'N/A';
 			$lists['selections'] 	= 'N/A';
 		} else {
@@ -472,7 +479,7 @@ function editModule( $option, $uid, $client, $module=NULL ) {
 	$row->description = '';
 
     $lang =& $mainframe->getLanguage();
-	if ( $client != 'admin' ) {
+	if ( $client->id != '1' ) {
         $lang->load( trim($row->module), JPATH_SITE );
 	} else {
         $lang->load( trim($row->module) );
@@ -503,13 +510,17 @@ function editModule( $option, $uid, $client, $module=NULL ) {
 /**
 * Displays a list to select the creation of a new module
 */
-function selectnew() {
+function selectnew() 
+{
 	global $mainframe;
 	
-	$client	= mosGetParam( $_REQUEST, 'client', '' );
+	/*
+	 * Initialize some variables
+	 */
+	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	
 	// path to search for modules
-	if ($client == 'admin') {
+	if ($client->id == '1') {
 		$path = JPATH_ADMINISTRATOR .'/modules/';
 	} else {
 		$path = JPATH_ROOT .'/modules/';
@@ -544,8 +555,14 @@ function selectnew() {
 * Also deletes associated entries in the #__module_menu table.
 * @param array An array of unique category id numbers
 */
-function removeModule( &$cid, $option, $client ) {
+function removeModule( &$cid, $option ) 
+{
 	global $database;
+	
+	/*
+	 * Initialize some variables
+	 */
+	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	if (count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select a module to delete', true ) ."'); window.history.go(-1);</script>\n";
@@ -609,7 +626,7 @@ function removeModule( &$cid, $option, $client ) {
 		echo "<script>alert('". JText::_( 'Module(s)', true ) .": \'". $cids ."\' ". JText::_( 'WARNMODULES', true ) ."');</script>\n";
 	}
 
-	mosRedirect( 'index2.php?option='. $option .'&client='. $client );
+	mosRedirect( 'index2.php?option='. $option .'&client='. $client->id );
 }
 
 /**
@@ -617,7 +634,8 @@ function removeModule( &$cid, $option, $client ) {
 * @param array An array of unique record id numbers
 * @param integer 0 if unpublishing, 1 if publishing
 */
-function publishModule( $cid=null, $publish=1, $option, $client ) {
+function publishModule( $cid=null, $publish=1, $option ) 
+{
 	global $database, $my;
 
 	if (count( $cid ) < 1) {
@@ -625,6 +643,11 @@ function publishModule( $cid=null, $publish=1, $option, $client ) {
 		echo "<script> alert('". JText::_( 'Select a module to', true ) ." ". $action ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
+	
+	/*
+	 * Initialize some variables
+	 */
+	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	$cids = implode( ',', $cid );
 
@@ -644,21 +667,27 @@ function publishModule( $cid=null, $publish=1, $option, $client ) {
 		$row->checkin( $cid[0] );
 	}
 
-	mosRedirect( 'index2.php?option='. $option .'&client='. $client );
+	mosRedirect( 'index2.php?option='. $option .'&client='. $client->id );
 }
 
 /**
 * Cancels an edit operation
 */
-function cancelModule( $option, $client ) {
+function cancelModule( $option ) 
+{
 	global $database;
+	
+	/*
+	 * Initialize some variables
+	 */
+	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	$row =& JModel::getInstance('module', $database );
 	// ignore array elements
 	$row->bind( $_POST, 'selections params' );
 	$row->checkin();
 
-	mosRedirect( 'index2.php?option='. $option .'&client='. $client );
+	mosRedirect( 'index2.php?option='. $option .'&client='. $client->id );
 }
 
 /**
@@ -666,35 +695,35 @@ function cancelModule( $option, $client ) {
 * @param integer The unique id of record
 * @param integer The increment to reorder by
 */
-function orderModule( $uid, $inc, $option ) {
+function orderModule( $uid, $inc, $option ) 
+{
 	global $database;
 
-	$client = mosGetParam( $_POST, 'client', '' );
+	/*
+	 * Initialize some variables
+	 */
+	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	$row =& JModel::getInstance('module', $database );
 	$row->load( $uid );
-	if ($client == 'admin') {
-		$where = "client_id = 1";
-	} else {
-		$where = "client_id = 0";
-	}
 
-	$row->move( $inc, "position = '$row->position' AND ( $where )"  );
-	if ( $client ) {
-		$client = '&client=admin' ;
-	} else {
-		$client = '';
-	}
-
-	mosRedirect( 'index2.php?option='. $option .'&client='. $client );
+	$row->move( $inc, "position = ".$row->position." AND client_id=".$client->id  );
+	
+	mosRedirect( 'index2.php?option='. $option .'&client='. $client->id );
 }
 
 /**
 * changes the access level of a record
 * @param integer The increment to reorder by
 */
-function accessMenu( $uid, $access, $option, $client ) {
+function accessMenu( $uid, $access, $option ) 
+{
 	global $database;
+	
+	/*
+	 * Initialize some variables
+	 */
+	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	switch ( $access ) {
 		case 'accesspublic':
@@ -721,11 +750,17 @@ function accessMenu( $uid, $access, $option, $client ) {
 		return $row->getError();
 	}
 
-	mosRedirect( 'index2.php?option='. $option .'&client='. $client );
+	mosRedirect( 'index2.php?option='. $option .'&client='. $client->id );
 }
 
-function saveOrder( &$cid, $client ) {
+function saveOrder( &$cid ) 
+{
 	global $database;
+	
+	/*
+	 * Initialize some variables
+	 */
+	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	$total		= count( $cid );
 	$order 		= mosGetParam( $_POST, 'order', array(0) );
@@ -760,10 +795,10 @@ function saveOrder( &$cid, $client ) {
 	} // foreach
 
 	$msg 	= JText::_( 'New ordering saved' );
-	mosRedirect( 'index2.php?option=com_modules&client='. $client, $msg );
+	mosRedirect( 'index2.php?option=com_modules&client='. $client->id, $msg );
 } // saveOrder
 
-function previewModule($id, $client) 
+function previewModule($id ) 
 {
 	global $mainframe;
 	$mainframe->setPageTitle(JText::_('Module Preview'));
@@ -771,8 +806,13 @@ function previewModule($id, $client)
 	HTML_modules::previewModule( );
 }
 
-function ReadAModuleXML( &$rows, $client ) 
+function ReadAModuleXML( &$rows ) 
 {
+	/*
+	 * Initialize some variables
+	 */
+	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+	
 	// xml file for module
 	$xmlfile = JPATH_ADMINISTRATOR .'/components/com_menus/'. $type .'/'. $type .'.xml';
 	
@@ -805,14 +845,18 @@ function ReadAModuleXML( &$rows, $client )
 	
 	return $row;
 }
-function ReadModuleXML( &$rows, $client ) 
+function ReadModuleXML( &$rows  ) 
 {	
-	foreach ($rows as $i => $row) {
-		if ($row->module == '') {
+	foreach ($rows as $i => $row) 
+	{
+		if ($row->module == '') 
+		{
 			$rows[$i]->name 	= 'custom';
 			$rows[$i]->module 	= 'custom';
 			$rows[$i]->descrip 	= 'Custom created module, using Module Manager `New` function';
-		} else {
+		} 
+		else 
+		{
 			$xmlfile =  $row->path .'/'. $row->file;
 			$xmlDoc =& JFactory::getXMLParser();
 			$xmlDoc->resolveErrors( true );
