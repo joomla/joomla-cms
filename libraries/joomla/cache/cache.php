@@ -67,10 +67,17 @@ class JCache extends Cache_Lite
 		/*
 		 * Build the cache directory if it exists
 		 */
-		$baseDir = $mainframe->getCfg('cachepath');
-		if (!empty($baseDir))
+		if (isset ($options['cacheDir']))
 		{
-			$this->_cacheDir = JPath::clean($baseDir);
+			$this->_cacheDir = JPath::clean($options['cacheDir']);			
+		}
+		else
+		{
+			$baseDir = $mainframe->getCfg('cachepath');
+			if (!empty($baseDir))
+			{
+				$this->_cacheDir = JPath::clean($baseDir);
+			}
 		}
 		
 		$this->Cache_Lite($options);
