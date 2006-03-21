@@ -422,7 +422,7 @@ class JApplication extends JObject
 	function setLanguage($lang = null)
 	{
 		//get the user
-		$user = $this->getUser();
+		$user = & $this->getUser();
 		
 		if (empty($lang)) 
 		{	

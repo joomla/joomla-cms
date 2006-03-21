@@ -290,7 +290,7 @@ function saveUser( $option, $task )
 	/*
 	 * Lets create a new JUser object
 	 */
-	$user = new JUser();
+	$user = & new JUser(JRequest::getVar( 'id', 0, 'post', 'int'));
 
 	if (!$user->bind( $_POST )) {
 		josRedirect( 'index2.php?option=com_users', $user->getError() );

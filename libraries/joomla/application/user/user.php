@@ -57,7 +57,7 @@ class JUser extends JObject
 	*
 	* @access 	protected
 	*/
-	function __construct($identifier) 
+	function __construct($identifier = 'guest') 
 	{
 		global $mainframe;
 		
@@ -265,18 +265,18 @@ class JUser extends JObject
 	function bind(& $array)
 	{
 		jimport('joomla.application.user.authenticate');
-		
+
 		/*
 		 * Lets check to see if the user is new or not
 		 */
-		if (empty($this->_model->id) || empty($this->_id))
+		if (empty($this->_model->id) && empty($this->_id) && $array['id'])
 		{
 			/*
 			 * Since we have a new user, and we are going to create it... we
 			 * need to check a few things and set some defaults if we don't
 			 * already have them.
 			 */
-				
+die("HERE");				
 			// First the password
 			if (empty($array['password'])) {
 				$array['password'] = JAuthenticateHelper::genRandomPassword();
@@ -305,7 +305,8 @@ class JUser extends JObject
 			 */
 			if (!empty($array['password'])) {
 				$array['password'] = JAuthenticateHelper::getCryptedPassword($array['password']);
-			} else {
+			} else
+			{
 				$array['password'] = $this->get('password');
 			}
 
