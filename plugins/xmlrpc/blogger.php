@@ -36,7 +36,7 @@ function wsGetBloggerWebServices()
 			'blogger.getPost' => array(
 			'function' => 'getPost',
 			'docstring' => 'Returns information about a specific post.',
-			'signature' => array(array())
+			'signature' => array(array($xmlrpcStruct, $xmlrpcString, $xmlrpcString, $xmlrpcString, $xmlrpcString))
 		),
 			'blogger.getRecentPosts' => array(
 			'function' => 'getRecentPosts',
@@ -152,14 +152,14 @@ function getPost($msg)
 	
 	$content  = '<title>'.$item->title.'</title>';
 	//$content .= '<category>'.$item->catid.'</category>';
-	$content .= $item->introtext.'<!--more-->'.$item->fulltext;
-	
+	$content .= $item->introtext.'<more_text>'.$item->fulltext.'</more_text>';
+
 	$struct = new xmlrpcval(
 	array(
-	   'userid'    => $item->created_by,
-	   'dateCreated' => '0', //TODO
-	   'content'     => $content,
-	   'postid'  => $item->id
+	   'userid'    => new xmlrpcval($item->created_by),
+	   'dateCreated' => new xmlrpcval('0'), //TODO
+	   'content'     => new xmlrpcval($content),
+	   'postid'  => new xmlrpcval($item->id)
 	), $xmlrpcStruct);
 
 	return new xmlrpcresp($struct);
@@ -261,9 +261,6 @@ function editPost($msg)
 	$item->introtext = JBloggerHelper::getPostIntroText($content);
 	$item->fulltext  = JBloggerHelper::getPostFullText($content);
 	
-	die( nl2br(print_r($item, true)));
-	
-	
 	if (!$item->check()) {
 		return new xmlrpcresp(0, $xmlrpcerruser+1, 'Post check failed' );
 	}
@@ -318,11 +315,17 @@ function deletePost($msg)
 	
 	//lock the item
 	$item->checkout();
-	
+
 	return new xmlrpcresp(new xmlrpcval('true', $xmlrpcBoolean));
 }
 
 
+/**
+ * Blogger API - blogger.getRecentPosts
+ *
+ * @param xmlrpcmessage XML-RPC message passed to the method
+ * @return xmlrpcresp XML-RPC response
+ */
 function getRecentPosts($msg)
 {
 	global $mainframe, $xmlrpcerruser, $xmlrpcI4, $xmlrpcInt, $xmlrpcBoolean, $xmlrpcDouble, $xmlrpcString, $xmlrpcDateTime, $xmlrpcBase64, $xmlrpcArray, $xmlrpcStruct, $xmlrpcValue;
@@ -372,7 +375,7 @@ function getRecentPosts($msg)
 	{ 
 		$content  = '<title>'.$item->title.'</title>';
 		//$content .= '<category>'.$item->catid.'</category>'; //doesn't seem to work
-		$content .= $item->introtext;
+		$content .= $item->introtext.'<more_text>'.$item->fulltext.'</more_text>';
 		
 		$structArray[] = new xmlrpcval(array(
 		    'userid'      => new xmlrpcval($item->created_by),
@@ -384,20 +387,6 @@ function getRecentPosts($msg)
 	
 	return new xmlrpcresp(new xmlrpcval( $structArray , $xmlrpcArray));
 }
-
-/*
-	$structarray = array();
-	
-	$blog = new xmlrpcval(array(
-	    'url'      => new xmlrpcval($mainframe->getBaseURL(), $xmlrpcString),
-	    'blogid'   => new xmlrpcval('1', $xmlrpcString),
-	    'blogName' => new xmlrpcval('Joomla Content Items', $xmlrpcString)
-	  ), 'struct');
-	  
-	array_push($structarray, $blog);
-	return new xmlrpcresp(new xmlrpcval( $structarray , $xmlrpcArray));	
-*/
-
 
 function getTemplate($appkey, $blogid, $username, $password, $templateType)
 {
@@ -452,20 +441,26 @@ class JBloggerHelper
 	
 	function getPostIntroText($content) 
 	{
-		$string = JBloggerHelper::removePostData($content); 
-		return substr($string, 0, strpos($string, '<!--more-->'));
+		return JBloggerHelper::removePostData($content); //substr($string, 0, strpos($string, '<more_text>'));
 	}
 	
 	function getPostFullText($content) 
 	{
-		$string = JBloggerHelper::removePostData($content); 
-		return substr($string, strpos($string, '<!--more-->') + 11);
+		$match = array();
+		if ( preg_match('/<more_text>(.+?)<\/more_text>/is', $content, $match) ) 
+		{
+			$fulltext = trim($match[1], ',');
+			$fulltext = explode(',', $fulltext);
+		}
+     
+		return $fulltext;	
 	}
 
 	function removePostData($content) 
 	{
 		$content = preg_replace('/<title>(.+?)<\/title>/si', '', $content);
 		$content = preg_replace('/<category>(.+?)<\/category>/si', '', $content);
+		$content = preg_replace('/<more_text>(.+?)<\/more_text>/si', '', $content);
 		$content = trim($content);
 		return $content;
 	}
