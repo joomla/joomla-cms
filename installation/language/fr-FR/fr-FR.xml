@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <install version="1.1" client="installer" type="language">
-    <name>French (France)</name>
+    <name>French (FR)</name>
     <version>1.1.0</version>
     <creationDate>Nov 2005</creationDate>
     <author>Joomla! Project</author>
@@ -10,13 +10,15 @@
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
     <description>French language file for web installer</description>
     <metadata>
-    	<name>French (France)</name>
+    	<name>French (FR)</name>
     	<tag>fr-FR</tag>
     	<rtl>0</rtl>
     	<locale>fr, French_Standard, french, fr_FR, fre_FR, fr_FR.utf8, fr_FR.UTF-8, fr_FR.UTF-8@euro</locale>
+    	<winCodePage>iso-8859-1</winCodePage>
+    	<backwardLang>french</backwardLang>
     </metadata>
     <files>
-        <filename>fre-Fr.ini</filename>
+        <filename>fr-Fr.ini</filename>
     </files>
     <params />
 </install>
