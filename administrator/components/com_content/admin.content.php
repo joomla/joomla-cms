@@ -50,7 +50,7 @@ switch (strtolower($task))
 	case 'menulink' :
 	case 'apply' :
 	case 'save' :
-		$cache = JFactory::getCache();
+		$cache = & JFactory::getCache();
 		$cache->cleanCache();
 		JContentController::saveContent();
 		break;

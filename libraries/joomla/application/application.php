@@ -297,7 +297,7 @@ class JApplication extends JObject
 				}
 
 				// Clean the cache for this user
-				$cache = JFactory::getCache();
+				$cache = & JFactory::getCache();
 				$cache->cleanCache();
 				return true;
 			}
@@ -341,7 +341,7 @@ class JApplication extends JObject
 		if (!in_array(false, $results, true)) 
 		{
 			// Clean the cache for this user
-			$cache = JFactory::getCache();
+			$cache = & JFactory::getCache();
 			$cache->cleanCache();
 
 			// TODO: JRegistry will make this unnecessary

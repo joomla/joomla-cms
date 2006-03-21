@@ -285,7 +285,7 @@ class JContentCategory
 		$lists['order'] = $filter_order;
 		$selected = '';
 
-		$cache = JFactory::getCache('com_content');
+		$cache = & JFactory::getCache('com_content');
 		$cache->call('JContentViewHTML::showCategory', $category, $other_categories, $items, $access, $params, $page, $lists, $selected);
 	}
 

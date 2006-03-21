@@ -193,7 +193,7 @@ class JInstallerScreens_template
 		?>
 		<form action="index2.php" method="post" name="adminForm">
 				
-		<div id="pane-nvaigation">
+		<div id="pane-navigation">
 			<?php require_once(dirname(__FILE__).DS.'tree.html'); ?>
 		</div>
 		

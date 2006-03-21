@@ -73,7 +73,7 @@ switch (strtolower($task))
 	case 'save' :
 	case 'apply' :
 	case 'apply_new' :
-		$cache = JFactory::getCache();
+		$cache = & JFactory::getCache();
 		$cache->cleanCache('com_content');
 		JContentController::saveContent();
 		break;
@@ -143,7 +143,7 @@ class JContentController
 		// Dynamic Page Title
 		$mainframe->SetPageTitle($menu->name);
 
-		$cache = JFactory::getCache('com_content');
+		$cache = & JFactory::getCache('com_content');
 		$cache->call('JContentViewHTML::showBlog', $rows, $params, $access, $menu);
 	}
 
@@ -297,7 +297,7 @@ class JContentController
 		$breadcrumbs = & $mainframe->getPathWay();
 		$breadcrumbs->addItem($section->title, '');
 
-		$cache = JFactory::getCache('com_content');
+		$cache = & JFactory::getCache('com_content');
 		$cache->call('JContentViewHTML::showSection', $section, $categories, $params);
 	}
 
@@ -557,7 +557,7 @@ class JContentController
 		$lists['order'] = $filter_order;
 		$selected = '';
 
-		$cache = JFactory::getCache('com_content');
+		$cache = & JFactory::getCache('com_content');
 		$cache->call('JContentViewHTML::showCategory', $category, $other_categories, $items, $access, $params, $page, $lists, $selected);
 	}
 
@@ -607,7 +607,7 @@ class JContentController
 		require_once (dirname(__FILE__).DS.'model'.DS.'blog.php');
 		$rows = & JContentBlog::getSectionData($id, $access, $params);
 		
-		$cache = JFactory::getCache('com_content');
+		$cache = & JFactory::getCache('com_content');
 		$cache->call('JContentViewHTML::showBlog', $rows, $params, $access, $menu);
 	}
 
@@ -658,7 +658,7 @@ class JContentController
 		require_once (dirname(__FILE__).DS.'model'.DS.'blog.php');
 		$rows = & JContentBlog::getCategoryData($id, $access, $params);
 		
-		$cache = JFactory::getCache('com_content');
+		$cache = & JFactory::getCache('com_content');
 		$cache->call('JContentViewHTML::showBlog', $rows, $params, $access, $menu);
 	}
 
@@ -710,7 +710,7 @@ class JContentController
 		}
 		else
 		{
-			$cache = JFactory::getCache('com_content');
+			$cache = & JFactory::getCache('com_content');
 			$cache->call('JContentViewHTML::showArchive', $rows, $params, $access, $menu, $id);
 		}
 	}
@@ -981,7 +981,7 @@ class JContentController
 				$obj->hit($row->id);
 			}
 	
-			$cache = JFactory::getCache('com_content');
+			$cache = & JFactory::getCache('com_content');
 			$cache->call('JContentViewHTML::showItem', $row, $params, $access, $limitstart);
 		}
 		else
@@ -1558,7 +1558,7 @@ class JContentController
 		 */
 		unset ($headers, $fields);
 
-		$cache					= JFactory::getCache('getItemid');
+		$cache					= & JFactory::getCache('getItemid');
 		$_Itemid				= $cache->call( 'JContentHelper::getItemid', $uid);
 		$email					= JRequest::getVar('email', '', 'post');
 		$yourname			= JRequest::getVar('yourname', '', 'post');

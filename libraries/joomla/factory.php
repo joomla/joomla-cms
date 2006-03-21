@@ -30,17 +30,47 @@ class JFactory
 	 */
 	function &getCache($group='', $handler = 'function')
 	{
-		global $mosConfig_caching, $mosConfig_cachepath, $mosConfig_cachetime;
+		global $mainframe;
 
 		jimport('joomla.cache.cache');
 
-		$options = array(
-			'cacheDir' 		=> $mosConfig_cachepath . '/',
-			'caching' 		=> $mosConfig_caching,
-			'defaultGroup' 	=> $group,
-			'lifeTime' 		=> $mosConfig_cachetime,
-			'fileNameProtection' => false
-		);
+		/*
+		 * If we are in the installation application, we don't need to be
+		 * creating any directories or have caching on
+		 */
+		if ($mainframe->getClientId() != 2)
+		{
+			/*
+			 * Add the application specific subdirectory for cache paths
+			 */
+			$cachePath = $mainframe->getCfg('cachepath');
+			$cachePath .= ($mainframe->getClientId()) ? 'administrator'.DS : 'site'.DS;
+	
+			/*
+			 * Create cache directory if not present
+			 */
+			if (!JFolder::exists($cachePath))
+			{
+				JFolder::create($cachePath);
+			}
+			$options = array(
+				'cacheDir' 		=> $cachePath,
+				'caching' 		=> $mainframe->getCfg('caching'),
+				'defaultGroup' 	=> $group,
+				'lifeTime' 		=> $mainframe->getCfg('cachetime'),
+				'fileNameProtection' => false
+			);
+		} else
+		{
+			$options = array(
+				'cacheDir' 		=> $mainframe->getCfg('cachepath') . '/',
+				'caching' 		=> false,
+				'defaultGroup' 	=> $group,
+				'lifeTime' 		=> $mainframe->getCfg('cachetime'),
+				'fileNameProtection' => false
+			);
+		}
+
 		$cache =& JCache::getInstance( $handler, $options );
 
 		return $cache;

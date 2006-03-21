@@ -247,7 +247,7 @@ class JContentItem
 				$obj->hit($row->id);
 			}
 	
-			$cache = JFactory::getCache('com_content');
+			$cache = & JFactory::getCache('com_content');
 			$cache->call('JContentViewHTML::showItem', $row, $params, $access, $limitstart);
 		}
 		else
@@ -824,7 +824,7 @@ class JContentItem
 		 */
 		unset ($headers, $fields);
 
-		$cache					= JFactory::getCache('getItemid');
+		$cache					= & JFactory::getCache('getItemid');
 		$_Itemid				= $cache->call( 'JContentHelper::getItemid', $uid);
 		$email					= JRequest::getVar('email', '', 'post');
 		$yourname			= JRequest::getVar('yourname', '', 'post');

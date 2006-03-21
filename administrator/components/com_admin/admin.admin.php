@@ -19,13 +19,13 @@ require_once( JApplicationHelper::getPath( 'admin_html' ) );
 switch ($task) {
 
 	case 'clean_cache':
-		$cache = JFactory::getCache();
+		$cache = & JFactory::getCache();
 		$cache->cleanCache( 'com_content' );
 		mosRedirect( 'index2.php', JText::_( 'Content caches cleaned' ) );
 		break;
 
 	case 'clean_all_cache':
-		$cache = JFactory::getCache();
+		$cache = & JFactory::getCache();
 		$cache->cleanCache( );
 		mosRedirect( 'index2.php', JText::_( 'All caches cleaned' ) );
 		break;

@@ -51,7 +51,7 @@ class JRequest
 	 *   get        $_GET
 	 *   files      $_FILES
 	 *   method     via current $_SERVER['REQUEST_METHOD']
-	 *   default    via default order (GET, POST, FILE)
+	 *   default    $_REQUEST
 	 *
 	 * @static
 	 * @param string $name Variable name
@@ -65,37 +65,24 @@ class JRequest
 
 	function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
 	{
+
+		static $vars;
+		
 		/*
 		 * Initialize variables
 		 */
 		$hash		= strtoupper($hash);
 		$type		= strtoupper($type);
-		$result		= null;
-		$matches	= array ();
+		$signature	= $name.$default.$hash.$type.$mask;
 
-		if ($hash === 'METHOD')
+		if (!isset($vars[$signature]))
 		{
-			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
-		} else
-		{
-			if ($hash == 'DEFAULT' || $hash == '')
+			$result		= null;
+			$matches	= array ();
+	
+			if ($hash === 'METHOD')
 			{
-				if (isset ($_GET[$name]))
-				{
-					$result = $_GET[$name];
-				} else
-				{
-					if (isset ($_POST[$name]))
-					{
-						$result = $_POST[$name];
-					} else
-					{
-						if (isset ($_FILES[$name]))
-						{
-							$result = $_FILES[$name];
-						}
-					}
-				}
+				$hash = strtoupper($_SERVER['REQUEST_METHOD']);
 			} else
 			{
 				switch ($hash)
@@ -112,73 +99,78 @@ class JRequest
 						if (isset ($_FILES[$name]))
 							$result = $_FILES[$name];
 						break;
+					default:
+						if (isset ($_REQUEST[$name]))
+							$result = $_REQUEST[$name];
+						break;
 				}
 			}
-		}
-
-		/*
-		 * Handle default case
-		 */
-		if ((empty($result)) && (!is_null($default)))
-		{
-			$result = $default;
-		}
-
-		if ($result != null)
-		{
+	
 			/*
-			 * Handle the type constraint
+			 * Handle default case
 			 */
-			switch ($type)
+			if ((empty($result)) && (!is_null($default)))
 			{
-				case 'INT' :
-				case 'INTEGER' :
-					// Only use the first integer value
-					@preg_match('/[0-9]+/', $result, $matches);
-					$result = (int) $matches[0];
-					break;
-				case 'FLOAT' :
-				case 'DOUBLE' :
-					// Only use the first floating point value
-					@preg_match('/[0-9]+(\.[0-9]+)?/', $result, $matches);
-					$result = (float) $matches[0];
-					break;
-				case 'BOOL' :
-				case 'BOOLEAN' :
-					$result = (bool) $result;
-					break;
-				case 'ARRAY' :
-
-					/*
-					 * Clean the variable given using the given filter mask
-					 */
-					$result = JRequest :: cleanVar($result, $mask);
-
-					if (!is_array($result))
-					{
-						$result = null;
-					}
-					break;
-				case 'STRING' :
-
-					/*
-					 * Clean the variable given using the given filter mask
-					 */
-					$result = JRequest :: cleanVar($result, $mask);
-
-					$result = (string) $result;
-					break;
-				case 'NONE' :
-				default :
-
-					/*
-					 * Clean the variable given using the given filter mask
-					 */
-					$result = JRequest :: cleanVar($result, $mask);
-					break;
+				$result = $default;
 			}
+	
+			if ($result != null)
+			{
+				/*
+				 * Handle the type constraint
+				 */
+				switch ($type)
+				{
+					case 'INT' :
+					case 'INTEGER' :
+						// Only use the first integer value
+						@preg_match('/[0-9]+/', $result, $matches);
+						$result = (int) $matches[0];
+						break;
+					case 'FLOAT' :
+					case 'DOUBLE' :
+						// Only use the first floating point value
+						@preg_match('/[0-9]+(\.[0-9]+)?/', $result, $matches);
+						$result = (float) $matches[0];
+						break;
+					case 'BOOL' :
+					case 'BOOLEAN' :
+						$result = (bool) $result;
+						break;
+					case 'ARRAY' :
+	
+						/*
+						 * Clean the variable given using the given filter mask
+						 */
+						$result = JRequest :: cleanVar($result, $mask);
+	
+						if (!is_array($result))
+						{
+							$result = null;
+						}
+						break;
+					case 'STRING' :
+	
+						/*
+						 * Clean the variable given using the given filter mask
+						 */
+						$result = JRequest :: cleanVar($result, $mask);
+	
+						$result = (string) $result;
+						break;
+					case 'NONE' :
+					default :
+	
+						/*
+						 * Clean the variable given using the given filter mask
+						 */
+						$result = JRequest :: cleanVar($result, $mask);
+						break;
+				}
+			}
+			$vars[$signature] = $result;
 		}
-		return $result;
+		return $vars[$signature];
 	}
 
 	/**

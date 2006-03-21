@@ -59,7 +59,7 @@ switch ( $task )
 
 	case 'save':
 	case 'apply':
-		$cache = JFactory::getCache();
+		$cache = & JFactory::getCache();
 		$cache->cleanCache( 'com_content' );
 		saveModule( $option, $task );
 		break;

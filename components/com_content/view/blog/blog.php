@@ -334,7 +334,7 @@ class JContentViewHTML_blog
 				{
 					if ($task != 'view')
 					{
-						$cache = JFactory::getCache('getItemid');
+						$cache = & JFactory::getCache('getItemid');
 						$Itemid = $cache->call( 'JContentHelper::getItemid', $row->id);
 					}
 					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$row->id."&amp;Itemid=".$Itemid);
@@ -469,7 +469,7 @@ class JContentViewHTML_blog
 				 */
 				break;
 			}
-			$cache		= JFactory::getCache('getItemid');
+			$cache		= & JFactory::getCache('getItemid');
 			$Itemid	= $cache->call( 'JContentHelper::getItemid', $rows[$i]->id);
 			$link			= sefRelToAbs('index.php?option=com_content&amp;task=view&amp;id='.$rows[$i]->id.'&amp;Itemid='.$Itemid)
 			?>

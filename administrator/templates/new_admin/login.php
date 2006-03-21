@@ -14,7 +14,7 @@ $languages = JLanguageHelper::createLanguageList( $mosConfig_lang );
 array_unshift( $languages, mosHTML::makeOption( '', JText::_( 'Default' ) ) );
 $lists['langs'] = mosHTML::selectList( $languages, 'lang', ' class="inputbox"', 'value', 'text', '' );
 $lang = $mainframe->getLanguage();
-$tstart = mosProfiler::getmicrotime();
+$tstart = JProfiler::getmicrotime();
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

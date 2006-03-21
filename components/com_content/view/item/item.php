@@ -66,7 +66,7 @@ class JContentViewHTML_item
 				{
 					if ($task != 'view')
 					{
-						$cache = JFactory::getCache('getItemid');
+						$cache = & JFactory::getCache('getItemid');
 						$Itemid = $cache->call( 'JContentHelper::getItemid', $row->id);
 					}
 					$linkOn = sefRelToAbs("index.php?option=com_content&amp;task=view&amp;id=".$row->id."&amp;Itemid=".$Itemid);

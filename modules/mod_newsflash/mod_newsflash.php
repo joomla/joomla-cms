@@ -34,7 +34,7 @@ if (!defined('_JOS_NEWSFLASH_MODULE'))
 		$row->created = '';
 		$row->modified = '';
 
-		$cache = JFactory::getCache('com_content');
+		$cache = & JFactory::getCache('com_content');
 		$cache->call( 'JContentViewHTML::showItem', $row, $params, $access, "mod_newsflash");
 	}
 }

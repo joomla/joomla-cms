@@ -179,7 +179,7 @@ class JContentSection
 		$breadcrumbs = & $mainframe->getPathWay();
 		$breadcrumbs->addItem($section->title, '');
 
-		$cache = JFactory::getCache('com_content');
+		$cache = & JFactory::getCache('com_content');
 		$cache->call('JContentViewHTML::showSection', $section, $categories, $params);
 	}
 }

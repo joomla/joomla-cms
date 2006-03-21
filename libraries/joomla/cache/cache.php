@@ -73,26 +73,6 @@ class JCache extends Cache_Lite
 			$this->_cacheDir = JPath :: clean($baseDir);
 		}
 		
-		/*
-		 * If we are in the installation application, we don't need to be
-		 * creating any directories
-		 */
-		if ($mainframe->getClientId() != 2)
-		{
-			/*
-			 * Add the application specific subdirectory for cache paths
-			 */
-			$this->_cacheDir .= ($mainframe->getClientId()) ? 'administrator'.DS : 'site'.DS;
-	
-			/*
-			 * Create cache directory if not present
-			 */
-			if (!JFolder::exists($this->_cacheDir))
-			{
-				JFolder::create($this->_cacheDir);
-			}
-		}
-		
 		$this->Cache_Lite($options);
 	}
 

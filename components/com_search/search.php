@@ -164,7 +164,7 @@ function viewSearch() {
 			$rows = array_merge( (array)$rows, (array)$results[$i] );
 		}
 		
-		$cache = JFactory::getCache('getItemid');
+		$cache = & JFactory::getCache('getItemid');
 		require_once (JApplicationHelper::getPath('helper', 'com_content'));
 		
 		$totalRows = count( $rows );

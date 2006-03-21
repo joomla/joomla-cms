@@ -361,7 +361,7 @@ class database extends JDatabaseMySQL
 }
 
  /**
- * Legacy class, use JFactory::getCache instead
+ * Legacy class, use & JFactory::getCache instead
  * 
  * @deprecated	As of version 1.1
  * @package		Joomla.Legacy
@@ -391,7 +391,7 @@ class mosCache
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
- 
+jimport('joomla.utilities.profiler'); 
 class mosProfiler extends JProfiler 
 {
 	/**
