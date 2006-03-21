@@ -61,7 +61,7 @@ jimport( 'joomla.application.environment.session' );
 jimport( 'joomla.application.user.user' );
 
 // JString should only be loaded after pre-install checks
-$task = mosGetParam( $_REQUEST, 'task', '' );
+$task = JRequest::getVar( 'task' );
 if (!($task == '' || $task == 'preinstall' || $task == 'lang')){
 	jimport( 'joomla.i18n.string' );
 }

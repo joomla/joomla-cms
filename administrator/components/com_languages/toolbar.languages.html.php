@@ -15,7 +15,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$client = mosGetParam( $_REQUEST, 'client', 'site' );
+$client = JRequest::getVar( 'client', 'site' );
 
 /**
 * @package Joomla

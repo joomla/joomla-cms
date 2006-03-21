@@ -152,8 +152,8 @@ class search_html {
 		<div align="center">
 			<?php
 
-			$searchphrase = trim( strtolower( mosGetParam( $_REQUEST, 'searchphrase', 'any' ) ) );
-			$ordering = trim( strtolower( mosGetParam( $_REQUEST, 'ordering', 'newest' ) ) );
+			$searchphrase = trim( strtolower( JRequest::getVar( 'searchphrase', 'any' ) ) );
+			$ordering = trim( strtolower( JRequest::getVar( 'ordering', 'newest' ) ) );
 
 			$link = "index.php?option=$option&amp;Itemid=$Itemid&amp;searchword=$searchword&amp;searchphrase=$searchphrase&amp;ordering=$ordering";
 			?>
@@ -253,8 +253,8 @@ class search_html {
 			<td colspan="3">
 				<div align="center">
 					<?php
-					$searchphrase = trim( strtolower( mosGetParam( $_REQUEST, 'searchphrase', 'any' ) ) );
-					$ordering = trim( strtolower( mosGetParam( $_REQUEST, 'ordering', 'newest' ) ) );
+					$searchphrase = trim( strtolower( JRequest::getVar( 'searchphrase', 'any' ) ) );
+					$ordering = trim( strtolower( JRequest::getVar( 'ordering', 'newest' ) ) );
 	
 					$link = "index.php?option=$option&Itemid=$Itemid&searchword=$searchword&searchphrase=$searchphrase&ordering=$ordering";
 	

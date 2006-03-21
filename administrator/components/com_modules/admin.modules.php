@@ -25,10 +25,10 @@ if (!$user->authorize( 'com_modules', 'manage' )) {
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
-$cid 		= mosGetParam( $_POST, 'cid', array(0) );
-$id 		= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
-$moduleid 	= mosGetParam( $_REQUEST, 'moduleid', null );
-$module 	= mosGetParam( $_REQUEST, 'module', '' );
+$cid 		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+$id 		= JRequest::getVar( 'id', 0, '', 'int' );
+$moduleid 	= JRequest::getVar( 'moduleid' );
+$module 	= JRequest::getVar( 'module' );
 
 if ($cid[0] == 0 && isset($moduleid) ) {
 	$cid[0] = $moduleid;
@@ -301,7 +301,7 @@ function saveModule( $option, $task )
 	
 	$row->updateOrder( "position=".$row->position." AND client_id=".$client->id );
 
-	$menus = mosGetParam( $_POST, 'selections', array() );
+	$menus = JRequest::getVar( 'selections', array(), 'post', 'array' );
 
 	// delete old module to menu item associations
 	$query = "DELETE FROM #__modules_menu"
@@ -388,7 +388,7 @@ function editModule( $option, $uid, $module=NULL )
 		$row->published = 1;
 		//$row->ordering = $l;
 
-		$moduleType 	= mosGetParam( $_REQUEST, 'module', '' );
+		$moduleType 	= JRequest::getVar( 'module' );
 		$row->module 	= $moduleType;
 	}
 
@@ -763,7 +763,7 @@ function saveOrder( &$cid )
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 	$total		= count( $cid );
-	$order 		= mosGetParam( $_POST, 'order', array(0) );
+	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 	$row 		=& JModel::getInstance('module', $database );
 	$conditions = array();
 

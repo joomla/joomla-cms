@@ -44,7 +44,7 @@ class content_section_menu {
 			$menu->type 		= 'content_section';
 			$menu->menutype 	= $menutype;
 			$menu->ordering 	= 9999;
-			$menu->parent 		= intval( mosGetParam( $_POST, 'parent', 0 ) );
+			$menu->parent 		= JRequest::getVar( 'parent', 0, 'post', 'int' );
 			$menu->published 	= 1;
 		}
 

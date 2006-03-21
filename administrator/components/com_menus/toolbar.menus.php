@@ -32,7 +32,7 @@ switch ($task) {
 		break;
 
 	case 'edit':
-		$cid 	= mosGetParam( $_POST, 'cid', array(0) );
+		$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 		if (!is_array( $cid )) {
 			$cid = array(0);
 		}
@@ -57,7 +57,7 @@ switch ($task) {
 				echo $database->stderr();
 			}
 		} else {
-			$type 		= mosGetParam( $_REQUEST, 'type', null );
+			$type 		= JRequest::getVar( 'type' );
 			$item_path  = $path . $type .'/'. $type .'.menubar.php';
 
 			if ( $type ) {
@@ -73,7 +73,7 @@ switch ($task) {
 		break;
 
 	default:
-		$type 		= mosGetParam( $_REQUEST, 'type' );
+		$type 		= JRequest::getVar( 'type' );
 		$item_path  = $path . $type .'/'. $type .'.menubar.php';
 
 		if ( $type ) {

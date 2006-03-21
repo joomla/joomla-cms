@@ -27,7 +27,7 @@ class TOOLBAR_banners {
 		global $id;
 
 		if ( !$id ) {
-			$id = mosGetParam( $_REQUEST, 'cid', '' );
+			$id = JRequest::getVar( 'cid' );
 		}
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 
@@ -71,7 +71,7 @@ class TOOLBAR_bannerClient {
 		global $id;
 
 		if ( !$id ) {
-			$id = mosGetParam( $_REQUEST, 'cid', '' );
+			$id = JRequest::getVar( 'cid' );
 		}
 		$text = ( $id ? JText::_( 'Edit' ) : JText::_( 'New' ) );
 

@@ -28,8 +28,8 @@ if (!$user->authorize( 'com_frontpage', 'manage' ))
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 require_once( JApplicationHelper::getPath( 'class' ) );
 
-$task 	= mosGetParam( $_REQUEST, 'task', array(0) );
-$cid 	= mosGetParam( $_POST, 'cid', array(0) );
+$task 	= JRequest::getVar( 'task' );
+$cid 	= JRequest::getVar( 'cid', array(0), 'post' );
 if (!is_array( $cid )) {
 	$cid = array(0);
 }
@@ -305,7 +305,7 @@ function saveOrder( &$cid ) {
 	global $database;
 
 	$total		= count( $cid );
-	$order 		= mosGetParam( $_POST, 'order', array(0) );
+	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 
 	for( $i=0; $i < $total; $i++ ) {
 		$query = "UPDATE #__content_frontpage"

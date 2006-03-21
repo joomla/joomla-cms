@@ -56,8 +56,8 @@ if ($option == 'logout') {
 }
 
 $Itemid 	= JRequest::getVar( 'Itemid', 0, '', 'int' );
-$no_html 	= intval( mosGetParam( $_REQUEST, 'no_html', 0 ) );
-$do_pdf 	= intval( mosGetParam( $_REQUEST, 'do_pdf', 0 ) );
+$no_html 	= JRequest::getVar( 'no_html', 0, '', 'int' );
+$do_pdf 	= JRequest::getVar( 'do_pdf', 0, '', 'int' );
 
 // trigger the onAfterStart events
 $mainframe->triggerEvent( 'onAfterStart' );
@@ -77,7 +77,7 @@ if ($option == 'search') {
 //render raw component output
 if($no_html == 1) {
 	$path = JApplicationHelper::getPath( 'front', $option );
-	$task 	= mosGetParam( $_REQUEST, 'task', '' );
+	$task 	= JRequest::getVar( 'task' );
 	
 	//load common language files
 	$lang =& $mainframe->getLanguage();

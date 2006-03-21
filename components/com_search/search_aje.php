@@ -31,8 +31,8 @@ function viewSearch() {
 	global $Itemid, $database;
 	global $mosConfig_list_limit;
 
-	$limit		= (int) mosGetParam( $_GET, 'limit', $mosConfig_list_limit );
-	$limitstart = (int) mosGetParam( $_GET, 'limitstart', 0 );
+	$limit		= JRequest::getVar( 'limit', $mosConfig_list_limit, 'get', 'int' );
+	$limitstart = JRequest::getVar( 'limitstart', 0, 'get', 'int' );
 
 	$restriction = 0;
 
@@ -72,7 +72,7 @@ function viewSearch() {
 	// html output
 	search_html::openhtml( $params );
 
-	$searchword = mosGetParam( $_REQUEST, 'searchword', '' );
+	$searchword = JRequest::getVar( 'searchword' );
 	$searchword = $database->getEscaped( trim( $searchword ) );
 
 	// limit searchword to 20 characters
@@ -96,11 +96,11 @@ function viewSearch() {
 	$orders[] = mosHTML::makeOption( 'popular', JText::_( 'Most popular' ) );
 	$orders[] = mosHTML::makeOption( 'alpha', JText::_( 'Alphabetical' ) );
 	$orders[] = mosHTML::makeOption( 'category', JText::_( 'Section/Category' ) );
-	$ordering = mosGetParam( $_REQUEST, 'ordering', 'newest');
+	$ordering = JRequest::getVar( 'ordering', 'newest');
 	$lists = array();
 	$lists['ordering'] = mosHTML::selectList( $orders, 'ordering', 'class="inputbox"', 'value', 'text', $ordering );
 
-	$searchphrase = mosGetParam( $_REQUEST, 'searchphrase', 'any' );
+	$searchphrase = JRequest::getVar( 'searchphrase', 'any' );
 	$searchphrases = array();
 
 	$phrase = new stdClass();
@@ -126,7 +126,7 @@ function viewSearch() {
 
 	JPluginHelper::importPlugin( 'search' );
 	$lists['areas'] = $mainframe->triggerEvent( 'onSearchAreas' );
-	$areas 	= mosGetParam( $_REQUEST, 'areas', null );
+	$areas 	= JRequest::getVar( 'areas' );
 
 	// html output
 	search_html::searchbox( htmlspecialchars( stripslashes( $searchword ) ), $lists, $params, $areas );
@@ -159,8 +159,8 @@ function viewSearch() {
 		search_html::searchintro( $searchword_clean, $params );
 
 		mosLogSearch( $searchword );
-		$phrase 	= mosGetParam( $_REQUEST, 'searchphrase', '' );
-		$ordering 	= mosGetParam( $_REQUEST, 'ordering', '' );
+		$phrase 	= JRequest::getVar( 'searchphrase' );
+		$ordering 	= JRequest::getVar( 'ordering' );
 
 		$oSearch = new JSearch( $searchword, $phrase, $ordering, $areas, $limitstart, $limit );
 

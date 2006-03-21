@@ -21,11 +21,11 @@ require_once ( JPATH_BASE .'/includes/application.php' );
 require_once ( JPATH_BASE .'/includes/template.php'    );
 
 // initialise some common request directives
-$task 		= mosGetParam( $_REQUEST, 'task', '' );
-$section 	= mosGetParam( $_REQUEST, 'section', '' );
-$no_html 	= strtolower( mosGetParam( $_REQUEST, 'no_html', 0 ) );
-$id         = intval( mosGetParam( $_REQUEST, 'id' ) );
-$cid		= mosGetParam( $_POST, 'cid', null );
+$task 		= JRequest::getVar( 'task' );
+$section 	= JRequest::getVar( 'section' );
+$no_html 	= strtolower( JRequest::getVar( 'no_html', 0 ) );
+$id         = JRequest::getVar( 'id', 0, '', 'int' );
+$cid		= JRequest::getVar( 'cid', null, 'post' );
 
 // create the mainframe object
 $mainframe = new JAdministrator();

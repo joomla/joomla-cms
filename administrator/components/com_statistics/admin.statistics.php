@@ -42,13 +42,13 @@ function showSummary( $option, $task ) {
 	global $database, $mainframe;
 
 	// get sort field and check against allowable field names
-	$field = strtolower( mosGetParam( $_REQUEST, 'field', '' ) );
+	$field = strtolower( JRequest::getVar( 'field' ) );
 	if (!in_array( $field, array( 'agent', 'hits' ) )) {
 		$field = '';
 	}
 
 	// get field ordering or set the default field to order
-	$order = strtolower( mosGetParam( $_REQUEST, 'order', 'asc' ) );
+	$order = strtolower( JRequest::getVar( 'order', 'asc' ) );
 	if ($order != 'asc' && $order != 'desc' && $order != 'none') {
 		$order = 'asc';
 	} else if ($order == 'none') {
@@ -59,7 +59,7 @@ function showSummary( $option, $task ) {
 	// browser stats
 	$order_by = '';
 	$sorts = array();
-	$tab = mosGetParam( $_REQUEST, 'tab', 'tab1' );
+	$tab = JRequest::getVar( 'tab', 'tab1' );
 	$sort_base = "index2.php?option=$option&task=$task";
 
 	switch ($field) {
@@ -304,7 +304,7 @@ function showSearches( $option, $task, $showResults=null ) {
 function resetStats( $option, $task ) {
 		global $database, $mainfraime;
 
-		$op = mosGetParam( $_REQUEST, 'op', '' );
+		$op = JRequest::getVar( 'op' );
 
 		switch ($op) {
 			case 'bod':

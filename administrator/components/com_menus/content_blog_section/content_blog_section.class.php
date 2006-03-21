@@ -59,7 +59,7 @@ class content_blog_section {
 			$menu->type 			= 'content_blog_section';
 			$menu->menutype 		= $menutype;
 			$menu->ordering 		= 9999;
-			$menu->parent 			= intval( mosGetParam( $_POST, 'parent', 0 ) );
+			$menu->parent 			= JRequest::getVar( 'parent', 0, 'post', 'int' );
 			$menu->published 		= 1;
 			$lookup 				= '';
 		}
@@ -97,8 +97,8 @@ class content_blog_section {
 	{
 		global $database;
 
-		$params = mosGetParam( $_POST, 'params', '' );
-		$secids	= mosGetParam( $_POST, 'secid', array() );
+		$params =JRequest::getVar( 'params', array(), 'post', 'array' );
+		$secids	= JRequest::getVar( 'secid', array(), 'post', 'array' );
 		$secid	= implode( ',', $secids );
 
 		$_POST['params']['sectionid']	= $secid;

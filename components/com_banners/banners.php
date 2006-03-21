@@ -15,8 +15,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-$bid = intval( mosGetParam( $_REQUEST, 'bid', 0 ) );
-$task = mosGetParam( $_REQUEST, 'task' ,'' );
+$bid = JRequest::getVar( 'bid', 0, '', 'int' );
+$task = JRequest::getVar( 'task' );
 
 switch($task) {
 	case 'click':

@@ -47,13 +47,13 @@ class JSite extends JApplication {
 	function login($username=null, $password=null, $return=null) 
 	{
 		if(!$username || !$password) {
-			$username = trim( mosGetParam( $_POST, 'username', '' ) );
-			$password = trim( mosGetParam( $_POST, 'passwd', '' ) );
+			$username = trim( JRequest::getVar( 'username', '', 'post' ) );
+			$password = trim( JRequest::getVar( 'passwd', '', 'post' ) );
 		}
 	
 		if (parent::login($username, $password)) 
 		{	
-			$return = mosGetParam( $_REQUEST, 'return', NULL );
+			$return = JRequest::getVar( 'return' );
 		
 			if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
 				// checks for the presence of a return url
@@ -75,7 +75,7 @@ class JSite extends JApplication {
 	{
 		parent::logout();
 		
-		$return = mosGetParam( $_REQUEST, 'return', NULL );
+		$return = JRequest::getVar( 'return' );
 
 		if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
 			// checks for the presence of a return url

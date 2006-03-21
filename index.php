@@ -112,7 +112,7 @@ $my		= $user->_model;
 
 // checking if we can find the Itemid thru the content
 if ( $option == 'com_content' && $Itemid === 0 ) {
-	$id = intval( mosGetParam( $_REQUEST, 'id', 0 ) );
+	$id = JRequest::getVar( 'id', 0, '', 'int' );
 	$cache = JFactory::getCache('getItemid');
 	require_once (JApplicationHelper::getPath('front', 'com_content'));
 	

@@ -27,8 +27,8 @@ if (!$user->authorize( 'com_trash', 'manage' ))
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 require_once( JApplicationHelper::getPath( 'class', 'com_frontpage' ) );
 
-$cid = mosGetParam( $_POST, 'cid', array(0) );
-$mid = mosGetParam( $_POST, 'mid', array(0) );
+$cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
+$mid = JRequest::getVar( 'mid', array(0), 'post', 'array' );
 if ( !is_array( $cid ) ) {
 	$cid = array(0);
 }
@@ -59,7 +59,7 @@ switch ($task) {
 		break;
 		
 	default:	
-		$return = mosGetParam( $_POST, 'return', 'viewContent' );
+		$return = JRequest::getVar( 'return', 'viewContent', 'post' );
 		if ( $return == 'viewMenu' ) {
 			viewTrashMenu( $option );
 		} else {
@@ -205,7 +205,7 @@ function viewTrashMenu( $option ) {
 function viewdeleteTrash( $cid, $mid, $option ) {
 	global $database;
 
-	$return = mosGetParam( $_POST, 'return', 'viewContent' );
+	$return = JRequest::getVar( 'return', 'viewContent', 'post' );
 
 	// seperate contentids
 	$cids = implode( ',', $cid );
@@ -245,8 +245,8 @@ function viewdeleteTrash( $cid, $mid, $option ) {
 function deleteTrash( $cid, $option ) {
 	global $database;
 
-	$return = mosGetParam( $_POST, 'return', 'viewContent' );
-	$type 	= mosGetParam( $_POST, 'type', array(0) );
+	$return = JRequest::getVar( 'return', 'viewContent', 'post' );
+	$type 	= JRequest::getVar( 'type', array(0), 'post' );
 
 	$total = count( $cid );
 
@@ -277,7 +277,7 @@ function deleteTrash( $cid, $option ) {
 function viewrestoreTrash( $cid, $mid, $option ) {
 	global $database;
 
-	$return = mosGetParam( $_POST, 'return', 'viewContent' );
+	$return = JRequest::getVar( 'return', 'viewContent', 'post' );
 	
 	// seperate contentids
 	$cids = implode( ',', $cid );
@@ -317,8 +317,8 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 function restoreTrash( $cid, $option ) {
 	global $database;
 
-	$return = mosGetParam( $_POST, 'return', 'viewContent' );
-	$type 	= mosGetParam( $_POST, 'type', array(0) );
+	$return = JRequest::getVar( 'return', 'viewContent', 'post' );
+	$type 	= JRequest::getVar( 'type', array(0), 'post' );
 
 	$total = count( $cid );
 

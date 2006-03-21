@@ -18,9 +18,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 // get parameters from the URL or submitted form
-$scope 		= mosGetParam( $_REQUEST, 'scope', '' );
-$cid 		= mosGetParam( $_REQUEST, 'cid', array(0) );
-$section 	= mosGetParam( $_REQUEST, 'scope', '' );
+$scope 		= JRequest::getVar( 'scope' );
+$cid 		= JRequest::getVar( 'cid', array(0), '', 'array' );
+$section 	= JRequest::getVar( 'scope' );
 if (!is_array( $cid )) {
 	$cid = array(0);
 }
@@ -300,9 +300,9 @@ function editSection( $uid=0, $scope='', $option ) {
 function saveSection( $option, $scope, $task ) {
 	global $database;
 
-	$menu 		= mosGetParam( $_POST, 'menu', 'mainmenu' );
-	$menuid		= mosGetParam( $_POST, 'menuid', 0 );
-	$oldtitle 	= mosGetParam( $_POST, 'oldtitle', null );
+	$menu 		= JRequest::getVar( 'menu', 'mainmenu', 'post' );
+	$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
+	$oldtitle 	= JRequest::getVar( 'oldtitle', '', '', 'post' );
 
 	$row =& JModel::getInstance('section', $database );
 	if (!$row->bind( $_POST )) {
@@ -554,9 +554,9 @@ function copySectionSelect( $option, $cid, $section ) {
 function copySectionSave( $sectionid ) {
 	global $database;
 
-	$title 		= mosGetParam( $_REQUEST, 'title', '' );
-	$contentid 	= mosGetParam( $_REQUEST, 'content', '' );
-	$categoryid = mosGetParam( $_REQUEST, 'category', '' );
+	$title 		= JRequest::getVar( 'title' );
+	$contentid 	= JRequest::getVar( 'content' );
+	$categoryid = JRequest::getVar( 'category' );
 
 	// copy section
 	$section =& JModel::getInstance('section', $database );
@@ -672,9 +672,9 @@ function menuLink( $id ) {
 	$section->bind( $_POST );
 	$section->checkin();
 
-	$menu 		= mosGetParam( $_POST, 'menuselect', '' );
-	$name 		= mosGetParam( $_POST, 'link_name', '' );
-	$type 		= mosGetParam( $_POST, 'link_type', '' );
+	$menu 		= JRequest::getVar( 'menuselect', '', 'post' );
+	$name 		= JRequest::getVar( 'link_name', '', 'post' );
+	$type 		= JRequest::getVar( 'link_type', '', 'post' );
 
 	$name		= stripslashes( ampReplace($name) );
 	
@@ -727,7 +727,7 @@ function saveOrder( &$cid ) {
 	global $database;
 
 	$total		= count( $cid );
-	$order 		= mosGetParam( $_POST, 'order', array(0) );
+	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 	$row 		=& JModel::getInstance('section', $database );
 	$conditions = array();
 

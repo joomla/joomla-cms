@@ -18,8 +18,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 // get parameters from the URL or submitted form
-$section 	= mosGetParam( $_REQUEST, 'section', 'content' );
-$cid 		= mosGetParam( $_REQUEST, 'cid', array(0) );
+$section 	= JRequest::getVar( 'section', 'content' );
+$cid 		= JRequest::getVar( 'cid', array(0), '', 'array' );
 if (!is_array( $cid )) {
 	$cid = array(0);
 }
@@ -282,8 +282,8 @@ function editCategory( $uid=0, $section='' )
 {
 	global $database, $my;
 
-	$type 		= mosGetParam( $_REQUEST, 'type', '' );
-	$redirect 	= mosGetParam( $_REQUEST, 'section', 'content' );
+	$type 		= JRequest::getVar( 'type' );
+	$redirect 	= JRequest::getVar( 'section', 'content' );
 
 	// check for existance of any sections
 	$query = "SELECT COUNT( id )"
@@ -468,10 +468,10 @@ function saveCategory( $task )
 {
 	global $database;
 
-	$menu 		= mosGetParam( $_POST, 'menu', 'mainmenu' );
-	$menuid		= mosGetParam( $_POST, 'menuid', 0 );
-	$redirect 	= mosGetParam( $_POST, 'redirect', '' );
-	$oldtitle 	= mosGetParam( $_POST, 'oldtitle', null );
+	$menu 		= JRequest::getVar( 'menu', 'mainmenu', 'post' );
+	$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
+	$redirect 	= JRequest::getVar( 'redirect', '', 'post' );
+	$oldtitle 	= JRequest::getVar( 'oldtitle', '', 'post' );
 
 	$row = JModel::getInstance('category', $database );
 	if (!$row->bind( $_POST )) {
@@ -664,7 +664,7 @@ function cancelCategory()
 {
 	global $database;
 
-	$redirect = mosGetParam( $_POST, 'redirect', '' );
+	$redirect = JRequest::getVar( 'redirect', '', 'post' );
 
 	$row =& JModel::getInstance('category', $database );
 	$row->bind( $_POST );
@@ -693,7 +693,7 @@ function orderCategory( $uid, $inc ) {
 function moveCategorySelect( $option, $cid, $sectionOld ) {
 	global $database;
 
-	$redirect = mosGetParam( $_POST, 'section', 'content' );;
+	$redirect = JRequest::getVar( 'section', 'content', 'post' );;
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
@@ -740,7 +740,7 @@ function moveCategorySelect( $option, $cid, $sectionOld ) {
 function moveCategorySave( $cid, $sectionOld ) {
 	global $database;
 
-	$sectionMove = mosGetParam( $_REQUEST, 'sectionmove', '' );
+	$sectionMove = JRequest::getVar( 'sectionmove' );
 
 	$cids = implode( ',', $cid );
 	$total = count( $cid );
@@ -776,7 +776,7 @@ function moveCategorySave( $cid, $sectionOld ) {
 function copyCategorySelect( $option, $cid, $sectionOld ) {
 	global $database;
 
-	$redirect = mosGetParam( $_POST, 'section', 'content' );;
+	$redirect = JRequest::getVar( 'section', 'content', 'post' );
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		echo "<script> alert('". JText::_( 'Select an item to move' ) ."'); window.history.go(-1);</script>\n";
@@ -823,8 +823,8 @@ function copyCategorySelect( $option, $cid, $sectionOld ) {
 function copyCategorySave( $cid, $sectionOld ) {
 	global $database;
 
-	$sectionMove 	= mosGetParam( $_REQUEST, 'sectionmove', '' );
-	$contentid 		= mosGetParam( $_REQUEST, 'item', '' );
+	$sectionMove 	= JRequest::getVar( 'sectionmove' );
+	$contentid 		= JRequest::getVar( 'item' );
 	$total 			= count( $contentid  );
 
 	$category =& JModel::getInstance('category', $database );
@@ -909,11 +909,11 @@ function menuLink( $id ) {
 	$category->bind( $_POST );
 	$category->checkin();
 
-	$redirect	= mosGetParam( $_POST, 'redirect', '' );
-	$menu 		= mosGetParam( $_POST, 'menuselect', '' );
-	$name 		= mosGetParam( $_POST, 'link_name', '' );
-	$sectionid	= mosGetParam( $_POST, 'sectionid', '' );
-	$type 		= mosGetParam( $_POST, 'link_type', '' );
+	$redirect	= JRequest::getVar( 'redirect', '', 'post' );
+	$menu 		= JRequest::getVar( 'menuselect', '', 'post' );
+	$name 		= JRequest::getVar( 'link_name', '', 'post' );
+	$sectionid	= JRequest::getVar( 'sectionid', '', 'post', 'int' );
+	$type 		= JRequest::getVar( 'link_type', '', 'post' );
 
 	$name		= stripslashes( ampReplace($name) );
 	
@@ -981,7 +981,7 @@ function saveOrder( &$cid, $section ) {
 	global $database;
 
 	$total		= count( $cid );
-	$order 		= mosGetParam( $_POST, 'order', array(0) );
+	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 	$row		=& JModel::getInstance('category', $database );
 	$conditions = array();
 

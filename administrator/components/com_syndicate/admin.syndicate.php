@@ -72,7 +72,7 @@ function showSyndicate( $option ) {
 function saveSyndicate() {
 	global $database;
 
-	$id = mosGetParam( $_POST, 'id', '17' );
+	$id = JRequest::getVar( 'id', 17, 'post', 'int' );
 	
 	$row =& JModel::getInstance('component', $database );
 	$row->load( $id );

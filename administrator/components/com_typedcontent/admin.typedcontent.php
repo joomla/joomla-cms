@@ -17,8 +17,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
-$id 	= mosGetParam( $_REQUEST, 'id', '' );
-$cid 	= mosGetParam( $_POST, 'cid', array(0) );
+$id 	= JRequest::getVar( 'id', '', '', 'int' );
+$cid 	= JRequest::getVar( 'cid', array(0), 'post' );
 if (!is_array( $cid )) {
 	$cid = array(0);
 }
@@ -348,8 +348,8 @@ function save( $option, $task ) {
 	global $database, $my;
 
 	$nullDate = $database->getNullDate();
-	$menu 		= mosGetParam( $_POST, 'menu', 'mainmenu' );
-	$menuid		= mosGetParam( $_POST, 'menuid', 0 );
+	$menu 		= JRequest::getVar( 'menu', 'mainmenu', 'post' );
+	$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
 
 	$row =& JModel::getInstance('content', $database );
 	if (!$row->bind( $_POST )) {
@@ -377,10 +377,10 @@ function save( $option, $task ) {
 		$row->publish_down = $nullDate;
 	}
 	
-	$row->state = mosGetParam( $_REQUEST, 'state', 0 );
+	$row->state = JRequest::getVar( 'state', 0 );
 	
 	// Save Parameters
-	$params = mosGetParam( $_POST, 'params', '' );
+	$params = JRequest::getVar( 'params', '', 'post' );
 	if (is_array( $params )) {
 		$txt = array();
 		foreach ( $params as $k=>$v) {
@@ -407,7 +407,7 @@ function save( $option, $task ) {
 	require_once( JApplicationHelper::getPath( 'class', 'com_frontpage' ) );
 	$fp = new JModelFrontPage( $database );
 	
-	$frontpage = mosGetParam( $_POST, 'frontpage', 0 );
+	$frontpage = JRequest::getVar( 'frontpage', 0, 'post' );
 	if ($frontpage) {		
 		// toggles go to first place
 		if (!$fp->load( $row->id )) {
@@ -507,7 +507,7 @@ function move( &$cid ) {
 function moveSave( &$cid ) {
 	global $database, $my;
 	
-	$sectcat = mosGetParam( $_POST, 'sectcat', '' );
+	$sectcat = JRequest::getVar( 'sectcat', '', 'post' );
 	list( $newsect, $newcat ) = explode( ',', $sectcat );
 	
 	if (!$newsect && !$newcat ) {
@@ -801,8 +801,8 @@ function cancel( $option ) {
 function menuLink( $option, $id ) {
 	global $database;
 
-	$menu 	= mosGetParam( $_POST, 'menuselect', '' );
-	$link 	= mosGetParam( $_POST, 'link_name', '' );
+	$menu 	= JRequest::getVar( 'menuselect', '', 'post' );
+	$link 	= JRequest::getVar( 'link_name', '', 'post' );
 
 	$link	= stripslashes( ampReplace($link) );
 	
@@ -838,7 +838,7 @@ function go2menu() {
 	$row->bind( $_POST );
 	$row->checkin();
 
-	$menu = mosGetParam( $_POST, 'menu', 'mainmenu' );
+	$menu = JRequest::getVar( 'menu', 'mainmenu', 'post' );
 
 	mosRedirect( 'index2.php?option=com_menus&menutype='. $menu );
 }
@@ -851,8 +851,8 @@ function go2menuitem() {
 	$row->bind( $_POST );
 	$row->checkin();
 
-	$menu 	= mosGetParam( $_POST, 'menu', 'mainmenu' );
-	$id		= mosGetParam( $_POST, 'menuid', 0 );
+	$menu 	= JRequest::getVar( 'menu', 'mainmenu', 'post' );
+	$id		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
 
 	mosRedirect( 'index2.php?option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $id );
 }
@@ -861,7 +861,7 @@ function saveOrder( &$cid ) {
 	global $database;
 
 	$total		= count( $cid );
-	$order 		= mosGetParam( $_POST, 'order', array(0) );
+	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 	$row 		=& JModel::getInstance('content', $database );
 	$conditions = array();
 

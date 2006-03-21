@@ -67,9 +67,9 @@ function sendNewPass()
 	$_sitename 	= $mainframe->getCfg('sitename');
 
 	// ensure no malicous sql gets past
-	$checkusername	= mosGetParam( $_POST, 'checkusername', '' );
+	$checkusername	= JRequest::getVar( 'checkusername', '', 'post' );
 	$checkusername	= $database->getEscaped( $checkusername );
-	$confirmEmail	= mosGetParam( $_POST, 'confirmEmail', '');
+	$confirmEmail	= JRequest::getVar( 'confirmEmail', '', 'post' );
 	$confirmEmail	= $database->getEscaped( $confirmEmail );
 
 	$query = "SELECT id"

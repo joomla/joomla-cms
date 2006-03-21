@@ -66,7 +66,7 @@ class JModelComponent extends JModel
 	*/
 	function bind($array, $ignore = '')
 	{
-		$params = mosGetParam( $_POST, 'params', '' );
+		$params = JRequest::getVar( 'params', array(), 'post', 'array' );
 	
 		if (is_array( $array['params'] )) {
 			$registry = new JRegistry();

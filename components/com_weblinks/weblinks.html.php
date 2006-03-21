@@ -314,7 +314,7 @@ class WeblinksView {
 		$option = JRequest::getVar('option');
 		require_once( JPATH_SITE . '/includes/HTML_toolbar.php' );
 
-		$Returnid = intval( mosGetParam( $_REQUEST, 'Returnid', 0 ) );
+		$Returnid = JRequest::getVar( 'Returnid', 0, '', 'int' );
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton(pressbutton) {

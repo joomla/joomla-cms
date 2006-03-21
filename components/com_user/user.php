@@ -130,7 +130,7 @@ function userSave( $option, $uid)
 {
 	global $mainframe, $database, $Itemid;
 
-	$user_id = intval( mosGetParam( $_POST, 'id', 0 ));
+	$user_id = JRequest::getVar( 'id', 0, 'post', 'int' );
 
 	// do some security checks
 	if ($uid == 0 || $user_id == 0 || $user_id <> $uid) {

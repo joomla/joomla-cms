@@ -45,7 +45,7 @@ class submit_content_menu {
 			$menu->menutype		= $menutype;
 			$menu->browserNav	= 0;
 			$menu->ordering		= 9999;
-			$menu->parent		= intval( mosGetParam( $_POST, 'parent', 0 ) );
+			$menu->parent		= JRequest::getVarl( 'parent', 0, 'post', 'int' );
 			$menu->published	= 1;
 		}
 		// build the html select list for section

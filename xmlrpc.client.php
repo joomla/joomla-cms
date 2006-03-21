@@ -29,10 +29,10 @@ error_reporting( E_ALL );
 
 $uri 	= dirname( $_SERVER['PHP_SELF'] );
 
-$host 	= mosGetParam( $_POST, 'host', 'http://' . $_SERVER['HTTP_HOST'] );
-$path 	= mosGetParam( $_POST, 'path', $uri . '/xmlrpc.server.php' );
-$debug 	= mosGetParam( $_POST, 'debug', 0 );
-$task 	= mosGetParam( $_POST, 'task', 0 );
+$host 	= JRequest::getVar( 'host', 'http://' . $_SERVER['HTTP_HOST'], 'post' );
+$path 	= JRequest::getVar( 'path', $uri . '/xmlrpc.server.php', 'post' );
+$debug 	= JRequest::getVar( 'debug', 0, 'post', 'int' );
+$task 	= JRequest::getVar( 'task', 0, 'post' );
 
 $output = '';
 if ($task) {
@@ -67,8 +67,8 @@ if ($task) {
 			break;
 			
 		case 'exec':
-			$method = mosGetParam($_POST, 'method', '');
-			$args = mosGetParam($_POST, 'args');
+			$method = JRequest::getVar( 'method' );
+			$args = JRequest::getVar( 'args' );
 			
 			$message = new xmlrpcmsg($method, array(new xmlrpcval('okidoki', 'string')));
 			

@@ -27,9 +27,9 @@ if (!$user->authorize( 'com_newsfeeds', 'manage' ))
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 require_once( JApplicationHelper::getPath( 'class' ) );
 
-$task 	= mosGetParam( $_REQUEST, 'task', array(0) );
-$cid 	= mosGetParam( $_POST, 'cid', array(0) );
-$id 	= mosGetParam( $_GET, 'id', 0 );
+$task 	= JRequest::getVar( 'task', array(0), '', 'array' );
+$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+$id 	= JRequest::getVar( 'id', 0, 'get', 'int' );
 if (!is_array( $cid )) {
 	$cid = array(0);
 }
@@ -176,7 +176,7 @@ function showNewsFeeds( $option ) {
 function editNewsFeed( $id, $option ) {
 	global $database, $my;
 
-	$catid = intval( mosGetParam( $_REQUEST, 'catid', 0 ) );
+	$catid = JRequest::getVar( 'catid', 0, '', 'int' );
 
 	$row = new mosNewsFeed( $database );
 	// load the row from the db table
@@ -333,9 +333,9 @@ function cancelNewsFeed( $option ) {
 function orderNewsFeed( $id, $inc, $option ) {
 	global $database;
 
-	$limit 		= mosGetParam( $_REQUEST, 'limit', 0 );
-	$limitstart = mosGetParam( $_REQUEST, 'limitstart', 0 );
-	$catid 		= intval( mosGetParam( $_REQUEST, 'catid', 0 ) );
+	$limit 		= JRequest::getVar( 'limit', 0, '', 'int' );
+	$limitstart = JRequest::getVar( 'limitstart', 0, '', 'int' );
+	$catid 		= JRequest::getVar( 'catid', 0, '', 'int' );
 
 	$row = new mosNewsFeed( $database );
 	$row->load( $id );
@@ -348,7 +348,7 @@ function saveOrder( &$cid ) {
 	global $database;
 
 	$total		= count( $cid );
-	$order 		= mosGetParam( $_POST, 'order', array(0) );
+	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 
 	for( $i=0; $i < $total; $i++ ) {
 		$query = "UPDATE #__newsfeeds"

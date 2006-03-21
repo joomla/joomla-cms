@@ -19,7 +19,7 @@ require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 
 switch ($task) {
 	case 'edit':
-		$cid = mosGetParam( $_REQUEST, 'cid', array(0) );
+		$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 		if (!is_array( $cid )) {
 			$cid = array(0);
 		}
@@ -29,7 +29,7 @@ switch ($task) {
 
 	case 'new':
 	case 'editA':
-		$id = mosGetParam( $_REQUEST, 'id', 0 );
+		$id = JRequest::getVar( 'id', 0, '', 'int' );
 
 		TOOLBAR_poll::_EDIT( $id );
 		break;

@@ -25,7 +25,7 @@ class TOOLBAR_installer
 
 	function _DEFAULT2()	{
 
-		$type = mosGetParam($_REQUEST, 'extension');
+		$type = JRequest::getVar( 'extension');
 
 		JMenuBar::title( JText::_( 'Extension Manager'), 'install.png' );
 		JMenuBar::deleteList( '', 'remove', JText::_( 'Uninstall' ) );

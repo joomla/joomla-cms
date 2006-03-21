@@ -22,8 +22,8 @@ require_once( JApplicationHelper::getPath( 'front_html' ) );
 $breadcrumbs =& $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, 'News Feeds');
 
-$feedid = intval( mosGetParam( $_REQUEST ,'feedid', 0 ) );
-$catid 	= intval( mosGetParam( $_REQUEST ,'catid', 0 ) );
+$feedid = JRequest::getVar( 'feedid', 0, '', 'int' );
+$catid 	= JRequest::getVar( 'catid', 0, '', 'int' );
 
 switch( $task ) {
 	case 'view':

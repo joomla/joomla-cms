@@ -27,9 +27,9 @@ if (!$user->authorize( 'com_users', 'manage' ))
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 require_once( JApplicationHelper::getPath( 'class' ) );
 
-$task 	= mosGetParam( $_REQUEST, 'task' );
-$cid 	= mosGetParam( $_REQUEST, 'cid', array( 0 ) );
-$id 	= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
+$task 	= JRequest::getVar( 'task' );
+$cid 	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
+$id 	= JRequest::getVar( 'id', 0, '', 'int' );
 
 if (!is_array( $cid )) {
 	$cid = array ( 0 );
@@ -78,7 +78,7 @@ switch ($task) {
 		break;
 
 	case 'contact':
-		$contact_id = mosGetParam( $_POST, 'contact_id', '' );
+		$contact_id = JRequest::getVar( 'contact_id', '', 'post', 'int' );
 		mosRedirect( 'index2.php?option=com_contact&task=editA&id='. $contact_id );
 		break;
 
@@ -455,7 +455,7 @@ function logoutUser( $cid=null, $option, $task )
 {
 	global $database, $my;
 	
-	$client = mosGetParam( $_REQUEST, 'client' );
+	$client = JRequest::getVar( 'client' );
 
 	$cids = $cid;
 	if ( is_array( $cid ) ) {

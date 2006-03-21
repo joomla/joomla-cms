@@ -27,9 +27,9 @@ if (!$user->authorize( 'com_plugins', 'manage' ))
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
 $option = JRequest::getVar( 'option', '' );
-$client = mosGetParam( $_REQUEST, 'client', 'site' );
-$cid 	= mosGetParam( $_POST, 'cid', array(0) );
-$id 	= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
+$client = JRequest::getVar( 'client', 'site' );
+$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+$id 	= JRequest::getVar( 'id', 0, '', 'int' );
 if (!is_array( $cid )) {
 	$cid = array(0);
 }
@@ -424,7 +424,7 @@ function saveOrder( &$cid ) {
 	global $database;
 
 	$total		= count( $cid );
-	$order 		= mosGetParam( $_POST, 'order', array(0) );
+	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 	$row 		=& JModel::getInstance('plugin', $database); 
 	$conditions = array();
 

@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 */
 class HTML_statistics {
 	function show( &$browsers, &$platforms, $tldomains, $bstats, $pstats, $dstats, $sorts, $option ) {
-		$tab 	= mosGetParam( $_REQUEST, 'tab', 'tab1' );
+		$tab 	= JRequest::getVar( 'tab', 'tab1' );
 		$width 	= 400;	// width of 100%
 		
 		$tabs 	= new mosTabs(1);

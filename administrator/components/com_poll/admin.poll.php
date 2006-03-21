@@ -27,7 +27,7 @@ if (!$user->authorize( 'com_poll', 'manage' ))
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 require_once( JApplicationHelper::getPath( 'class' ) );
 
-$cid 	= mosGetParam( $_REQUEST, 'cid', array(0) );
+$cid 	= JRequest::getVar( 'cid', array(0), '', 'array' );
 if (!is_array( $cid )) {
 	$cid = array(0);
 }
@@ -213,7 +213,7 @@ function savePoll( $task ) {
 	}
 	$row->checkin();
 	// save the poll options
-	$options = mosGetParam( $_POST, 'polloption', array() );
+	$options = JRequest::getVar( 'polloption', array(), 'post', 'array' );
 
 	foreach ($options as $i=>$text) {
 		$text = $database->Quote($text);
@@ -236,7 +236,7 @@ function savePoll( $task ) {
 	}
 
 	// update the menu visibility
-	$selections = mosGetParam( $_POST, 'selections', array() );
+	$selections = JRequest::getVar( 'selections', array(), 'post', 'array' );
 
 	$query = "DELETE FROM #__poll_menu"
 	. "\n WHERE pollid = $row->id"
@@ -289,7 +289,7 @@ function publishPolls( $cid=null, $publish=1, $option )
 {
 	global $database, $my;
 
-	$catid = mosGetParam( $_POST, 'catid', array(0) );
+	$catid = JRequest::getVar( 'catid', array(0), 'post', 'array' );
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		$action = $publish ? 'publish' : 'unpublish';
@@ -332,8 +332,8 @@ function previewPoll($option)
 	
 	$mainframe->setPageTitle(JText::_('Poll Preview'));
 
-	$pollid = mosGetParam( $_REQUEST, 'pollid', 0 );
-	$css = mosGetParam( $_REQUEST, 't', '' );
+	$pollid = JRequest::getVar( 'pollid', 0, '', 'int' );
+	$css = JRequest::getVar( 't', '' );
 
 	$query = "SELECT title"
 		. "\n FROM #__polls"

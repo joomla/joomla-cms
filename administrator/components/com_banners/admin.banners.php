@@ -27,7 +27,7 @@ if (!$user->authorize( 'com_banners', 'manage' ))
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 require_once( JApplicationHelper::getPath( 'class' ) );
 
-$cid = mosGetParam( $_REQUEST, 'cid', array(0) );
+$cid = JRequest::getVar( 'cid', array(0), '', 'array' );
 if (!is_array( $cid )) {
 	$cid = array(0);
 }
@@ -228,7 +228,7 @@ function saveBanner( $task ) {
 	}
 	
 	// Sets impressions to unlimited when `unlimited` checkbox ticked
-	$unlimited = mosGetParam( $_POST, 'unlimited', 0 );
+	$unlimited = JRequest::getVar( 'unlimited', 0 );
 	if ( $unlimited ) {
 		$row->imptotal = 0;
 	}
@@ -305,7 +305,7 @@ function removeBanner( $cid ) {
 	if (count( $cid ) && $cid[0] != 0) {
 		$cids = implode( ',', $cid );
 	} else {
-		$cids = mosGetParam( $_POST, 'banner_id', 0 );
+		$cids = JRequest::getVar( 'banner_id', 0, 'post' );
 	}
 	
 	if ($cids) {
@@ -449,7 +449,7 @@ function removeBannerClients( $cid, $option ) {
 
 	if (!count( $cid ) || $cid[0] == 0) {
 		unset($cid);	
-		$cid[0] = mosGetParam( $_POST, 'client_id', 0 );
+		$cid[0] = JRequest::getVar( 'client_id', 0, 'post' );
 	}
 	
 	for ($i = 0; $i < count($cid); $i++) {

@@ -22,8 +22,8 @@ $breadcrumbs =& $mainframe->getPathWay();
 $breadcrumbs->setItemName(1, 'Polls');
 
 
-$id 	= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
-$task 	= mosGetParam( $_REQUEST, 'task', '' );
+$id 	= JRequest::getVar( 'id', 0, '', 'int' );
+$task 	= JRequest::getVar( 'task' );
 
 switch ($task) {
 	case 'vote':
@@ -56,7 +56,7 @@ function pollAddVote( $uid ) {
 		return;
 	}
 
-	$voteid = mosGetParam( $_POST, 'voteid', 0 );
+	$voteid = JRequest::getVar( 'voteid', 0, 'post', 'int' );
 	if (!$voteid) {
 		echo '<h3>'. JText::_( 'WARNSELECT' ) .'</h3>';
 		echo '<input class="button" type="button" value="'. JText::_( 'Continue' ) .'" onClick="window.history.go(-1);">';

@@ -26,10 +26,10 @@ if (!$user->authorize( 'com_menumanager', 'manage' ))
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
-$menu 		= mosGetParam( $_GET, 'menu', '' );
-$task 		= mosGetParam( $_REQUEST, 'task', array(0) );
-$type 		= mosGetParam( $_POST, 'type', '' );
-$cid 		= mosGetParam( $_POST, 'cid', '' );
+$menu 		= JRequest::getVar( 'menu', '', 'get' );
+$task 		= JRequest::getVar( 'task' );
+$type 		= JRequest::getVar( 'type', '', 'post' );
+$cid 		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 
 switch ($task) {
 	case 'new':
@@ -204,9 +204,9 @@ function editMenu( $option, $menu ) {
 function saveMenu() {
 	global $database;
 
-	$menutype 		= mosGetParam( $_POST, 'menutype', '' );
-	$old_menutype 	= mosGetParam( $_POST, 'old_menutype', '' );
-	$new			= mosGetParam( $_POST, 'new', 1 );
+	$menutype 		= JRequest::getVar( 'menutype', '', 'post' );
+	$old_menutype 	= JRequest::getVar( 'old_menutype', '', 'post' );
+	$new			= JRequest::getVar( 'new', 1, 'post', 'int' );
 
 	// block to stop renaming of 'mainmenu' menutype
 	if ( $old_menutype == 'mainmenu' ) {
@@ -392,7 +392,7 @@ function deleteMenu( $option, $cid, $type ) {
 	}
 
 
-	$mids = mosGetParam( $_POST, 'mids', 0 );
+	$mids = JRequest::getVar( 'mids', 0, 'post' );
 	if ( is_array( $mids ) ) {
 		$mids = implode( ',', $mids );
 	}
@@ -470,8 +470,8 @@ function copyConfirm( $option, $type ) {
 function copyMenu( $option, $cid, $type ) {
 	global $database;
 
-	$menu_name 		= mosGetParam( $_POST, 'menu_name', 'New Menu' );
-	$module_name 	= mosGetParam( $_POST, 'module_name', 'New Module' );
+	$menu_name 		= JRequest::getVar( 'menu_name', 'New Menu', 'post' );
+	$module_name 	= JRequest::getVar( 'module_name', 'New Module', 'post' );
 
 	// check for unique menutype for new menu copy
 	$query = "SELECT params"
@@ -489,7 +489,7 @@ function copyMenu( $option, $cid, $type ) {
 	}
 
 	// copy the menu items
-	$mids 		= mosGetParam( $_POST, 'mids', '' );
+	$mids 		= JRequest::getVar( 'mids', array(), 'post', 'array' );
 	$total 		= count( $mids );
 	$copy 		=& JModel::getInstance('menu', $database );
 	$original 	=& JModel::getInstance('menu', $database );

@@ -15,9 +15,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 $moduleclass_sfx	= $params->get('moduleclass_sfx');
-$option					= mosGetParam($_REQUEST, 'option');
-$task						= mosGetParam($_REQUEST, 'task');
-$id							= intval(mosGetParam($_REQUEST, 'id', null));
+$option					= JRequest::getVar( 'option' );
+$task						= JRequest::getVar( 'task' );
+$id							= JRequest::getVar( 'id', 0, '', 'int' );
 $showDate				= $params->get('showDate', 0);
 $now						= date('Y-m-d H:i:s', time());
 $nullDate					= $database->getNullDate();

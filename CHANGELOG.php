@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+20-Mar-2005 Louis Landry
+ ^ Use JRequest::getVar instead of mosGetParam in codebase 
+
 20-Mar-2005 Johan Janssens
  # Fixed artf3938 : addHeadLink does not properly format output when additional attributes are specified.
  - Removed legacy usertypes db table

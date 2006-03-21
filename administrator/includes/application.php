@@ -54,12 +54,12 @@ class JAdministrator extends JApplication
 	*/
 	function login($username=null, $password=null) 
 	{
-		$username = trim( mosGetParam( $_POST, 'username', '' ) );
-		$password = trim( mosGetParam( $_POST, 'passwd', ''   ) );
+		$username = trim( JRequest::getVar( 'username', '', 'post' ) );
+		$password = trim( JRequest::getVar( 'passwd', '', 'post'  ) );
 	
 		if (parent::login($username, $password)) 
 		{
-			$this->setUserState( 'application.lang', mosGetParam( $_REQUEST, 'lang', $this->getCfg('lang_administrator') ) );
+			$this->setUserState( 'application.lang', JRequest::getVar( 'lang', $this->getCfg('lang_administrator') ) );
 			JSession::pause();
 
 			JAdministrator::purgeMessages();

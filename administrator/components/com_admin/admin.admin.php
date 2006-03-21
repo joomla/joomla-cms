@@ -31,7 +31,7 @@ switch ($task) {
 		break;
 
 	case 'redirect':
-		$goto = trim( strtolower( mosGetParam( $_REQUEST, 'link' ) ) );
+		$goto = trim( strtolower( JRequest::getVar( 'link' ) ) );
 		if ($goto == 'null') {
 			$msg = JText::_( 'There is no link associated with this item' );
 			mosRedirect( 'index2.php?option=com_admin&task=listcomponents', $msg );

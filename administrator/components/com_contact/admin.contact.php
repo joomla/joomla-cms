@@ -27,8 +27,8 @@ if (!$user->authorize( 'com_contact', 'manage' ))
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 require_once( JApplicationHelper::getPath( 'class' ) );
 
-$id 	= mosGetParam( $_GET, 'id', 0 );
-$cid 	= mosGetParam( $_POST, 'cid', array(0) );
+$id 	= JRequest::getVar(  'id', 0, 'get', 'int' );
+$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 if (!is_array( $cid )) {
 	$cid = array(0);
 }
@@ -242,7 +242,7 @@ function saveContact( $task ) {
 	}
 
 	// save params
-	$params = mosGetParam( $_POST, 'params', '' );
+	$params = JRequest::getVar( 'params', array(), 'post', 'array' );
 	if (is_array( $params )) {
 		$txt = array();
 		foreach ( $params as $k=>$v) {
@@ -408,7 +408,7 @@ function saveOrder( &$cid ) {
 	global $database;
 
 	$total		= count( $cid );
-	$order 		= mosGetParam( $_POST, 'order', array(0) );
+	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 
 	for( $i=0; $i < $total; $i++ ) {
 		$query = "UPDATE #__contact_details"

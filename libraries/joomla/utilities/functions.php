@@ -53,6 +53,7 @@ function mosGetParam( &$arr, $name, $def=null, $mask=0 ) {
 			} else {
 				// send to inputfilter
 				if (is_null( $noHtmlFilter )) {
+					jimport( 'phpinputfilter.inputfilter' );
 					$noHtmlFilter = new InputFilter( /* $tags, $attr, $tag_method, $attr_method, $xss_auto */ );
 				}
 				$return = $noHtmlFilter->process( $return );

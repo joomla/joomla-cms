@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( JApplicationHelper::getPath( 'toolbar_html' ) );
 require_once( JApplicationHelper::getPath( 'toolbar_default' ) );
 
-$act = mosGetParam( $_REQUEST, 'act', '' );
+$act = JRequest::getVar( 'act' );
 if ($act) {
 	$task = $act;
 }

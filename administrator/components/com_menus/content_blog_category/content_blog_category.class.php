@@ -60,7 +60,7 @@ class content_blog_category {
 			$menu->type 			= 'content_blog_category';
 			$menu->menutype 		= $menutype;
 			$menu->ordering 		= 9999;
-			$menu->parent 			= intval( mosGetParam( $_POST, 'parent', 0 ) );
+			$menu->parent 			= JRequest::getVar( 'parent', 0, 'post', 'int' );
 			$menu->published 		= 1;
 			$lookup 				= '';
 		}
@@ -100,8 +100,8 @@ class content_blog_category {
 	{
 		global $database;
 
-		$params = mosGetParam( $_POST, 'params', '' );
-		$catids	= mosGetParam( $_POST, 'catid', array() );
+		$params = JRequest::getVar( 'params', '', 'post' );
+		$catids	= JRequest::getVar( 'catid', array(), 'post', 'array' );
 		$catid	= implode( ',', $catids );
 
 		$_POST['params']['categoryid']	= $catid;

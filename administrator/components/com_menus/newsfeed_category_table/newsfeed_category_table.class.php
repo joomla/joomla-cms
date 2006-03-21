@@ -44,7 +44,7 @@ class newsfeed_category_table_menu {
 			$menu->type 		= 'newsfeed_category_table';
 			$menu->menutype 	= $menutype;
 			$menu->ordering 	= 9999;
-			$menu->parent 		= intval( mosGetParam( $_POST, 'parent', 0 ) );
+			$menu->parent 		= JRequest::getVar( 'parent', 0, 'post', 'int' );
 			$menu->published 	= 1;
 		}
 

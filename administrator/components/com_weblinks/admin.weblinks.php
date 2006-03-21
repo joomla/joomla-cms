@@ -27,8 +27,8 @@ if (!$user->authorize( 'com_weblinks', 'manage' ))
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 require_once( JApplicationHelper::getPath( 'class' ) );
 
-$cid 	= mosGetParam( $_POST, 'cid', array(0) );
-$id 	= mosGetParam( $_GET, 'id', 0 );
+$cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+$id 	= JRequest::getVar( 'id', 0, 'get', 'int' );
 
 switch ($task) {
 	case 'new':
@@ -193,7 +193,7 @@ function editWeblink( $option, $id )
 		$row->published = 1;
 		$row->approved 	= 1;
 		$row->order 	= 0;
-		$row->catid 	= mosGetParam( $_POST, 'catid', 0 );
+		$row->catid 	= JRequest::getVar( 'catid', 0, 'post', 'int' );
 	}
 
 	// build the html select list for ordering
@@ -228,7 +228,7 @@ function saveWeblink( $task ) {
 		exit();
 	}
 	// save params
-	$params = mosGetParam( $_POST, 'params', '' );
+	$params = JRequest::getVar( 'params', '', 'post', 'array' );
 	if (is_array( $params )) {
 		$txt = array();
 		foreach ( $params as $k=>$v) {
@@ -298,7 +298,7 @@ function removeWeblinks( $cid, $option ) {
 function publishWeblinks( $cid=null, $publish=1,  $option ) {
 	global $database, $my;
 
-	$catid = mosGetParam( $_POST, 'catid', array(0) );
+	$catid = JRequest::getVar( 'catid', array(0), 'post', 'array' );
 
 	if (!is_array( $cid ) || count( $cid ) < 1) {
 		$action = $publish ? JText::_( 'publish' ) : JText::_( 'unpublish' );
@@ -356,7 +356,7 @@ function saveOrder( &$cid ) {
 	global $database;
 
 	$total		= count( $cid );
-	$order 		= mosGetParam( $_POST, 'order', array(0) );
+	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 
 	for( $i=0; $i < $total; $i++ ) {
 		$query = "UPDATE #__weblinks"

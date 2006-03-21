@@ -23,7 +23,7 @@ switch ($task){
 		break;
 
 	default:
-		$extension = mosGetParam( $_REQUEST, 'extension', '' );
+		$extension = JRequest::getVar( 'extension' );
 		if ($extension == 'component' || $extension == 'module' || $extension == 'plugin' || $extension == 'language' || $extension == 'template') {
 			TOOLBAR_installer::_DEFAULT2();
 		} else {

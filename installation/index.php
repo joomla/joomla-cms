@@ -25,7 +25,7 @@ $mainframe = new JInstallation();
 $mainframe->setSession('installation');
 
 $registry =& JSession::get('registry');
-$registry->loadArray((array) mosGetParam( $_POST, 'vars' ), 'application');
+$registry->loadArray(JRequest::getVar( 'vars', array(), 'post', 'array' ), 'application');
 
 $configLang = $mainframe->getUserState('application.lang');
 
@@ -42,7 +42,7 @@ $document->parse( 'template', 'index.html', JPATH_BASE);
 //initialise the document
 initDocument($document, 'index.html');
 
-$task = mosGetParam( $_REQUEST, 'task', '' );
+$task = JRequest::getVar( 'task' );
 
 $vars = $registry->toArray('application');
 

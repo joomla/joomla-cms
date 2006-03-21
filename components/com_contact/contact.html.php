@@ -101,7 +101,7 @@ class JContactView {
 		global $mainframe, $Itemid;
 
 		$template = $mainframe->getTemplate();
-		$hide_js = mosGetParam($_REQUEST,'hide_js', 0 );
+		$hide_js = JRequest::getVar( 'hide_js', 0 );
 		?>
 		<script language="JavaScript" type="text/javascript">
 		<!--

@@ -27,7 +27,7 @@ if (!$user->authorize( 'com_media', 'manage' ))
 // Load the admin HTML view
 require_once (JApplicationHelper :: getPath('admin_html'));
 
-$cid = mosGetParam($_POST, 'cid', array (0));
+$cid = JRequest::getVar( 'cid', array (0), 'post', 'array');
 if (!is_array($cid)) {
 	$cid = array (0);
 }
@@ -254,7 +254,7 @@ class JMediaController
 	 */
 	function createFolder($path) 
 	{
-		$folderName = mosGetParam($_POST, 'foldername', '');
+		$folderName = JRequest::getVar( 'foldername', '', 'post' );
 
 		if (strlen($folderName) > 0) {
 			if (eregi("[^0-9a-zA-Z_]", $folderName)) {

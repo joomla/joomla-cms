@@ -1267,7 +1267,7 @@ class JContentController
 		$sectionid	= JRequest::getVar( 'sectionid', 0, '', 'int' );
 		$option		= JRequest::getVar( 'option' );
 
-		$sectcat = mosGetParam($_POST, 'sectcat', '');
+		$sectcat = JRequest::getVar( 'sectcat', '', 'post' );
 		list ($newsect, $newcat) = explode(',', $sectcat);
 
 		if (!$newsect && !$newcat)
@@ -1395,7 +1395,7 @@ class JContentController
 		$option		= JRequest::getVar( 'option' );
 
 		$item	= null;
-		$sectcat = mosGetParam($_POST, 'sectcat', '');
+		$sectcat = JRequest::getVar( 'sectcat', '', 'post' );
 		//seperate sections and categories from selection
 		$sectcat = explode(',', $sectcat);
 		list ($newsect, $newcat) = $sectcat;

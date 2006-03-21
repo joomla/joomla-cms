@@ -106,7 +106,7 @@ function convertPagebreak( &$row, &$params, $page=0 )
 
 		// traditional mos page navigation
 		jimport('joomla.presentation.pagination');
-		$pageNav = new mosPageNav( $n, $page, 1 );
+		$pageNav = new JPagination( $n, $page, 1 );
 
 		// page counter
 		$row->text .= '<div class="pagenavcounter">';

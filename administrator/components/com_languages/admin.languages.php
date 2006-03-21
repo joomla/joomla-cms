@@ -26,8 +26,8 @@ if (!$user->authorize( 'com_languages', 'manage' )) {
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
-$task 	= trim( strtolower( mosGetParam( $_REQUEST, 'task', '' ) ) );
-$cid 	= mosGetParam( $_REQUEST, 'cid', array(0) );
+$task 	= trim( strtolower( JRequest::getVar( 'task' ) ) );
+$cid 	= JRequest::getVar( 'cid', array(0), '', 'array' );
 
 if (!is_array( $cid )) {
 	$cid = array(0);

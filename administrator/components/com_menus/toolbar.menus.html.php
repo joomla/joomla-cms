@@ -60,10 +60,10 @@ class TOOLBAR_menus {
 		global $id;
 
 		if ( !$id ) {
-			$cid = mosGetParam( $_POST, 'cid', array(0) );
+			$cid = JRequest::getVar( 'cid', array(0), 'post', 'array' );
 			$id = $cid[0];
 		}
-		$menutype 	= mosGetParam( $_REQUEST, 'menutype', 'mainmenu' );
+		$menutype 	= JRequest::getVar( 'menutype', 'mainmenu' );
 
 		JMenuBar::title( JText::_( 'Edit Menu Item' ), 'generic.png' );
 		if ( !$id ) {
@@ -83,7 +83,7 @@ class TOOLBAR_menus {
 	}
 
 	function _DEFAULT() {
-		$menutype 	= mosGetParam( $_REQUEST, 'menutype', 'mainmenu' );
+		$menutype 	= JRequest::getVar( 'menutype', 'mainmenu' );
 
 		JMenuBar::title( JText::_( 'Menu Manager' ) .': <small><small>['.$menutype.']</small></small>', 'menu.png' );
 		JMenuBar::publishList();

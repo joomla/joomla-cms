@@ -43,7 +43,7 @@ class newsfeed_link_menu {
 			$menu->menutype 	= $menutype;
 			$menu->browserNav 	= 0;
 			$menu->ordering 	= 9999;
-			$menu->parent 		= intval( mosGetParam( $_POST, 'parent', 0 ) );
+			$menu->parent 		= JRequest::getVar( 'parent', 0, 'post', 'int' );
 			$menu->published 	= 1;
 		}
 

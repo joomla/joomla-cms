@@ -41,7 +41,7 @@ class wrapper_menu {
 			$menu->type 		= 'wrapper';
 			$menu->menutype 	= $menutype;
 			$menu->ordering 	= 9999;
-			$menu->parent 		= intval( mosGetParam( $_POST, 'parent', 0 ) );
+			$menu->parent 		= JRequest::getVar( 'parent', 0, 'post', 'int' );
 			$menu->published 	= 1;
 			$menu->link 		= 'index.php?option=com_wrapper';
 		}
@@ -70,8 +70,8 @@ class wrapper_menu {
 	function saveMenu( $option, $task ) {
 		global $database;
 
-		$params 	   = mosGetParam( $_POST, 'params', '' );
-		$params['url'] = mosGetParam( $_POST, 'url', '' );
+		$params 	   = JRequest::getVar( 'params', array(), 'post', 'array' );
+		$params['url'] = JRequest::getVar( 'url', '', 'post' );
 
 		if (is_array( $params )) {
 			$txt = array();

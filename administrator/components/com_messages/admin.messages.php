@@ -18,8 +18,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 require_once( JApplicationHelper::getPath( 'class' ) );
 
-$task	= mosGetParam( $_REQUEST, 'task' );
-$cid	= mosGetParam( $_REQUEST, 'cid', array( 0 ) );
+$task	= JRequest::getVar( 'task' );
+$cid	= JRequest::getVar( 'cid', array( 0 ), '', 'array' );
 if (!is_array( $cid )) {
 	$cid = array ( 0 );
 }
@@ -36,8 +36,8 @@ switch ($task) {
 	case 'reply':
 		newMessage(
 			$option,
-			mosGetParam( $_REQUEST, 'userid', 0 ),
-			mosGetParam( $_REQUEST, 'subject', '' )
+			JRequest::getVar( 'userid', 0, '', 'int' ),
+			JRequest::getVar( 'subject', '' )
 		);
 		break;
 
@@ -166,7 +166,7 @@ function saveConfig( $option ) {
 	$database->setQuery( $query );
 	$database->query();
 
-	$vars = mosGetParam( $_POST, 'vars', array() );
+	$vars = JRequest::getVar( 'vars', array(), 'post', 'array' );
 	foreach ($vars as $k=>$v) {
 		$v = $database->getEscaped( $v );
 		$query = "INSERT INTO #__messages_cfg"
@@ -264,8 +264,8 @@ function removeMessage( $cid, $option ) {
 		}
 	}
 
-	$limit 		= intval( mosGetParam( $_REQUEST, 'limit', 10 ) );
-	$limitstart	= intval( mosGetParam( $_REQUEST, 'limitstart', 0 ) );
+	$limit 		= JRequest::getVar( 'limit', 10, '', 'int' );
+	$limitstart	= JRequest::getVar( 'limitstart', 0, '', 'int' );
 
 	mosRedirect( "index2.php?option=$option&limit=$limit&limitstart=$limitstart" );
 }

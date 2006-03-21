@@ -17,15 +17,15 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
 
-$id 		= intval( mosGetParam( $_REQUEST, 'id', 0 ) );
-$type 		= mosGetParam( $_REQUEST, 'type', false );
-$menutype 	= mosGetParam( $_REQUEST, 'menutype', 'mainmenu' );
-$task 		= mosGetParam( $_REQUEST, 'task', '' );
-$access 	= mosGetParam( $_POST, 'access', '' );
-$utaccess	= mosGetParam( $_POST, 'utaccess', '' );
-$ItemName	= mosGetParam( $_POST, 'ItemName', '' );
-$menu 		= mosGetParam( $_POST, 'menu', '' );
-$cid 		= mosGetParam( $_POST, 'cid', array(0) );
+$id 		= JRequest::getVar( 'id', 0, '', 'int' );
+$type 		= JRequest::getVar( 'type', false );
+$menutype 	= JRequest::getVar( 'menutype', 'mainmenu' );
+$task 		= JRequest::getVar( 'task', '' );
+$access 	= JRequest::getVar( 'access', '', 'post' );
+$utaccess	= JRequest::getVar( 'utaccess', '', 'post' );
+$ItemName	= JRequest::getVar( 'ItemName', '', 'post' );
+$menu 		= JRequest::getVar( 'menu', '', 'post' );
+$cid 		= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 
 $path 		= JPATH_ADMINISTRATOR . '/components/com_menus/';
 
@@ -127,7 +127,7 @@ switch ($task) {
 		break;
 
 	default:
-		$type = mosGetParam( $_REQUEST, 'type' );
+		$type = JRequest::getVar( 'type' );
 		if ($type) {
 			// adding a new item - type selection form
 			require_once( $path . $type .'/'. $type .'.menu.php' );
@@ -497,7 +497,7 @@ function cancelMenu( $option ) {
 
 	$menu =& JModel::getInstance('menu', $database );
 	$menu->bind( $_POST );
-	$menuid = mosGetParam( $_POST, 'menuid', 0 );
+	$menuid = JRequest::getVar( 'menuid', 0, 'post', 'int' );
 	if ( $menuid ) {
 		$menu->id = $menuid;
 	}
@@ -773,7 +773,7 @@ function saveOrder( &$cid, $menutype ) {
 	global $database;
 
 	$total		= count( $cid );
-	$order 		= mosGetParam( $_POST, 'order', array(0) );
+	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
 	$row		=& JModel::getInstance('menu', $database );
 	$conditions = array();
 

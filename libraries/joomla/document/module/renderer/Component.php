@@ -94,7 +94,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 				$path = $path.DS.'admin.'.$file.'.php';
 			}
 
-			$task 	= mosGetParam( $_REQUEST, 'task', '' );
+			$task 	= JRequest::getVar( 'task' );
 			$ret 	= mosMenuCheck( $Itemid, $component, $task, $my->gid );
 
 			/*

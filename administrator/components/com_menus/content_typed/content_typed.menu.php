@@ -17,7 +17,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 mosAdminMenus::menuItem( $type );
 
-$scid 	= mosGetParam( $_POST, 'scid', '' );
+$scid 	= JRequest::getVar( 'scid', '', 'post' );
 
 switch ($task) {
 	case 'content_typed':

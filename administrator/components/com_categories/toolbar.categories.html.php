@@ -64,7 +64,7 @@ class TOOLBAR_categories {
 	*/
 	function _DEFAULT()
 	{
-		$section = mosGetParam( $_REQUEST, 'section', '' );
+		$section = JRequest::getVar( 'section' );
 
 		JMenuBar::title( JText::_( 'Category Manager' ) .': <small><small>[ '. substr($section, 4).' ]</small></small>', 'categories.png' );
 		JMenuBar::publishList();

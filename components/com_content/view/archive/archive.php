@@ -355,7 +355,7 @@ class JContentViewHTML_archive
 			}
 		}
 
-		$no_html = mosGetParam($_REQUEST, 'no_html', null);
+		$no_html = JRequest::getVar( 'no_html' );
 
 		// edit icon
 		if ($access->canEdit)
