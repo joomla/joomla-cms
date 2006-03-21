@@ -103,7 +103,7 @@ class JLoader
 		}
 
 	   if(!isset($paths[$file])) {
-            require_once($file);
+            require($file);
             $paths[$file] = true;
 	   }
    }

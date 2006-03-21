@@ -442,7 +442,8 @@ class JApplication extends JObject
 		}
 		
 		//Set the language in the class
-		$this->_lang = $lang;
+		$this->_lang =& JLanguage::getInstance( $lang );
+		$this->_lang->setDebug( $this->getCfg('debug') );
 	}
 
 	/**
@@ -594,10 +595,7 @@ class JApplication extends JObject
 			$this->setLanguage();
 		}
 
-		$lang =& JLanguage::getInstance( $this->_lang );
-		$lang->setDebug( $this->getCfg('debug') );
-
-		return $lang;
+		return $this->_lang;
 	}
 
 	/**

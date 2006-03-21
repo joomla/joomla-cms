@@ -32,7 +32,8 @@ class JText
 	 * @param boolean	$jsSafe		Make the result javascript safe
 	 *
 	 */
-	function _($string, $jsSafe = false) {
+	function _($string, $jsSafe = false) 
+	{
 		global $mainframe;
 		$lang = & $mainframe->getLanguage();
 		return $lang->_($string, $jsSafe);
@@ -45,7 +46,8 @@ class JText
 	 * @param format The format string
 	 * @param mixed Mixed number of arguments for the sprintf function
 	 */
-	function sprintf($string) {
+	function sprintf($string) 
+	{
 		global $mainframe;
 		$lang = & $mainframe->getLanguage();
 		$args = func_get_args();
@@ -62,7 +64,8 @@ class JText
 	 * @param format The format string
 	 * @param mixed Mixed number of arguments for the sprintf function
 	 */
-	function printf($string) {
+	function printf($string) 
+	{
 		global $mainframe;
 		$lang = & $mainframe->getLanguage();
 		$args = func_get_args();

@@ -63,12 +63,9 @@ if(JDEBUG) {
 /**
  * Framework loading
  */
-
-//Third party library imports
-jimport( 'phpinputfilter.inputfilter' );
-
 //Joomla library imports
 jimport( 'joomla.common.compat.compat' );
+
 jimport( 'joomla.version' );
 jimport( 'joomla.utilities.functions' );
 jimport( 'joomla.utilities.error');

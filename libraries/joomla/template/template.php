@@ -76,13 +76,6 @@ class JTemplate extends patTemplate
 		//set root template directory
 		$this->setRoot( dirname(__FILE__). DS. 'tmpl' );
 	}
-	
-	/**
-	 * Class destructor
-	 * 
-	 * @access	protected
-	 */
-	function __destruct() {}
 
 	/**
 	 * Returns a reference to a global Template object, only creating it

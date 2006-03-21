@@ -233,6 +233,7 @@ class JRequest
 				 */
 				if (is_null($safeHtmlFilter))
 				{
+					jimport( 'phpinputfilter.inputfilter' );
 					$safeHtmlFilter = new InputFilter(null, null, 1, 1);
 				}
 				$return = $safeHtmlFilter->process($var);
@@ -243,6 +244,7 @@ class JRequest
 				 */
 				if (is_null($noHtmlFilter))
 				{
+					jimport( 'phpinputfilter.inputfilter' );
 					$noHtmlFilter = new InputFilter(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */
 					);
 				}

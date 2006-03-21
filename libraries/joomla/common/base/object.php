@@ -33,7 +33,6 @@ class JObject
 	function JObject()
 	{
 		$args = func_get_args();
-		register_shutdown_function(array(&$this, '__destruct'));
 		call_user_func_array(array(&$this, '__construct'), $args);
 	}
 
@@ -43,13 +42,6 @@ class JObject
 	 * @access	protected
 	 */
 	function __construct() {}
-
-	/**
-	 * Class destructor, overridden in descendant classes.
-	 * 
-	 * @access	protected
-	 */
-	function __destruct() {}
 
 	/**
 	* @param string The name of the property
