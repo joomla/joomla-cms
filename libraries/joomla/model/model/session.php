@@ -105,7 +105,8 @@ class JModelSession extends JModel
 			$this->_db->setQuery( $query );
 
 			if ( !$this->_db->query() ) {
-		 		mosErrorAlert( $this->_db->stderr() );
+		 		$this->_error =  $this->_db->stderr();
+				return false;
 			}
 		}
 
@@ -114,8 +115,11 @@ class JModelSession extends JModel
 			;
 		$this->_db->setQuery( $query );
 		if ( !$this->_db->query() ) {
-			mosErrorAlert( $this->_db->stderr() );
+			$this->_error =  $this->_db->stderr();
+			return false;
 		}
+		
+		return true;
 	}
 
 	/**

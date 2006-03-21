@@ -157,7 +157,7 @@ function saveRegistration()
 	$user->set('password', md5( $pwd ));
 	$user->set('registerDate', date('Y-m-d H:i:s'));
 
-	if (!$user->store()) {
+	if (!$user->save()) {
 		echo "<script> alert('".$user->getError()."'); window.history.go(-1); </script>\n";
 		exit();
 	}
