@@ -107,7 +107,7 @@ class patTemplate_Renderer_Component extends patTemplate_Renderer
 			$content = '';
 			ob_start();
 
-			$msg = stripslashes(urldecode(JRequest :: getVar( 'josmsg' )));
+			$msg = stripslashes(urldecode(JRequest::getVar( 'josmsg' )));
 			if (!empty($msg)) {
 				echo "\n<div class=\"message\">$msg</div>";
 			}

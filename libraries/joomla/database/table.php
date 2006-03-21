@@ -16,16 +16,16 @@ jimport( 'joomla.common.base.object' );
 /**
  * Abstract Model class
  * 
- * Parent classes to all models.  Customisation will generally not involve tampering with this object.
+ * Parent classes to all tables.  Customisation will generally not involve tampering with this object.
  * 
  * @abstract
  * @author		Andrew Eddie <eddieajau@users.sourceforge.net>
  * @package 	Joomla.Framework
  * @subpackage 	Model
  * @since		1.0
- * @tutorial	Joomla.Framework/jmodel.cls
+ * @tutorial	Joomla.Framework/jtable.cls
  */
-class JModel extends JObject 
+class JTable extends JObject 
 {
 	/** 
 	 * Name of the table in the db schema relating to child class
@@ -78,14 +78,14 @@ class JModel extends JObject
 	/**
 	 * Returns a reference to the a Model object, always creating it
 	 *
-	 * @param type $type The model type to instantiate
+	 * @param type $type The table type to instantiate
 	 * @return database A database object
 	 * @since 1.1
 	*/
 	function &getInstance( $type, &$db ) 
 	{
-		jimport('joomla.model.model.'.$type);
-		$adapter = 'JModel'.$type;
+		jimport('joomla.database.table.'.$type);
+		$adapter = 'JTable'.$type;
 		$m = new $adapter($db);
 		return $m;
 	}

@@ -56,16 +56,16 @@ class HTML_messages {
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 				</th>
 				<th width="25%" class="title">
-					<?php mosCommonHTML :: tableOrdering( 'From', 'user_from', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'From', 'user_from', $lists ); ?>
 				</th>
 				<th width="5%" class="title" align="center">
-					<?php mosCommonHTML :: tableOrdering( 'Read', 'a.state', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Read', 'a.state', $lists ); ?>
 				</th>
 				<th width="50%" class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Subject', 'a.subject', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Subject', 'a.subject', $lists ); ?>
 				</th>
 				<th width="15%" class="title" nowrap="nowrap" align="center">
-					<?php mosCommonHTML :: tableOrdering( 'Date', 'a.date_time', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Date', 'a.date_time', $lists ); ?>
 				</th>
 			</tr>
 			<?php

@@ -29,7 +29,7 @@ class JEventDispatcher extends JObservable
 	 */
 	function __construct()
 	{
-		parent :: __construct();
+		parent::__construct();
 	}
 
 	/**
@@ -90,7 +90,7 @@ class JEventDispatcher extends JObservable
 			 * We are obviously not trying to register a function or a class as
 			 * an event handler... throw an error.
 			 */
-			JError :: raiseWarning('SOME_ERROR_CODE', 'JEventDispatcher::register: Event handler not recognized.', 'Handler: '.$handler );
+			JError::raiseWarning('SOME_ERROR_CODE', 'JEventDispatcher::register: Event handler not recognized.', 'Handler: '.$handler );
 		}
 	}
 
@@ -145,7 +145,7 @@ class JEventDispatcher extends JObservable
 						 * Couldn't find the function that the observer specified..
 						 * wierd, lets throw an error.
 						 */
-						JError :: raiseWarning('SOME_ERROR_CODE', 'JEventDispatcher::trigger: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
+						JError::raiseWarning('SOME_ERROR_CODE', 'JEventDispatcher::trigger: Event Handler Method does not exist.', 'Method called: '.$observer['handler']);
 					}
 				} else
 				{
@@ -188,7 +188,7 @@ class JEventDispatcher extends JObservable
 					 * neither a function type observer nor an object type
 					 * observer.  PROBLEM, lets throw an error.
 					 */
-					JError :: raiseWarning('SOME_ERROR_CODE', 'JEventDispatcher::trigger: Unknown Event Handler.', $observer );
+					JError::raiseWarning('SOME_ERROR_CODE', 'JEventDispatcher::trigger: Unknown Event Handler.', $observer );
 				}
 			}
 		}

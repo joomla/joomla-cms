@@ -54,7 +54,7 @@ function viewSearch() {
 
 	// Adds parameter handling
 	if( $Itemid > 0 ) {
-		$menu =& JModel::getInstance('menu', $database );
+		$menu =& JTable::getInstance('menu', $database );
 		$menu->load( $Itemid );
 		$params = new JParameter( $menu->params );
 		$params->def( 'page_title', 1 );

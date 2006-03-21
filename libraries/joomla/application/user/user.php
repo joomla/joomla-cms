@@ -32,11 +32,11 @@ class JUser extends JObject
 	var $_id		= null;
 	
 	/**
-	 * User model
+	 * User table
 	 * 
 	 * @var object
 	 */	
-	var $_model 	= null;
+	var $_table 	= null;
 	
 	/**
 	 * User parameters
@@ -67,9 +67,9 @@ class JUser extends JObject
 		$db	=& $mainframe->getDBO();
 
 		/*
-		 * Create the user model object
+		 * Create the user table object
 		 */
-		$this->_model 	=& JModel::getInstance( 'user', $db );
+		$this->_table 	=& JTable::getInstance( 'user', $db );
 		
 		/*
 		 * Create the user parameters object
@@ -87,7 +87,7 @@ class JUser extends JObject
 	 * doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $user = JUser :: getInstance($id);</pre>
+	 * 		<pre>  $user = JUser::getInstance($id);</pre>
 	 *
 	 * @access 	public
 	 * @param 	int 	$id 	The user id to load.
@@ -110,7 +110,7 @@ class JUser extends JObject
 	}
 
 	/**
-	 * Overridden set method to pass properties on to the user model
+	 * Overridden set method to pass properties on to the user table
 	 * 
 	 * @access	public
 	 * @param	string	$property	The name of the property
@@ -120,11 +120,11 @@ class JUser extends JObject
 	 */
 	function set( $property, $value=null ) 
 	{
-		$this->_model->$property = $value;
+		$this->_table->$property = $value;
 	}
 
 	/**
-	 * Overridden get method to get properties from the user model
+	 * Overridden get method to get properties from the user table
 	 * 
 	 * @access	public
 	 * @param	string	$property	The name of the property
@@ -134,8 +134,8 @@ class JUser extends JObject
 	 */
 	function get($property, $default=null) 
 	{
-		if(isset($this->_model->$property)) {
-			return $this->_model->$property;
+		if(isset($this->_table->$property)) {
+			return $this->_table->$property;
 		}
 		return $default;
 	}
@@ -198,7 +198,7 @@ class JUser extends JObject
 	}
 
 	/**
-	 * Pass through method to the model for setting the last visit date
+	 * Pass through method to the table for setting the last visit date
 	 * 
 	 * @access 	public
 	 * @param	int		$timestamp	The timestamp, defaults to 'now'
@@ -206,7 +206,7 @@ class JUser extends JObject
 	 * @since	1.1
 	 */
 	function setLastVisit($timestamp=null) {
-		return $this->_model->setLastVisit($timestamp);
+		return $this->_table->setLastVisit($timestamp);
 	}
 	
 	/**
@@ -269,7 +269,7 @@ class JUser extends JObject
 		/*
 		 * Lets check to see if the user is new or not
 		 */
-		if (empty($this->_model->id) && empty($this->_id) && $array['id'])
+		if (empty($this->_table->id) && empty($this->_id) && $array['id'])
 		{
 			/*
 			 * Since we have a new user, and we are going to create it... we
@@ -295,8 +295,8 @@ die("HERE");
 				. "\n FROM #__core_acl_aro_groups"
 				. "\n WHERE id = " . $this->get('gid')
 				;
-			$this->_model->_db->setQuery( $query );
-			$this->set( 'usertype', $this->_model->_db->loadResult());
+			$this->_table->_db->setQuery( $query );
+			$this->set( 'usertype', $this->_table->_db->loadResult());
 		}
 		else
 		{
@@ -319,17 +319,17 @@ die("HERE");
 			. "\n FROM #__core_acl_aro_groups"
 			. "\n WHERE id = " . $this->get('gid')
 			;
-			$this->_model->_db->setQuery( $query );
-			$this->set( 'usertype', $this->_model->_db->loadResult());
+			$this->_table->_db->setQuery( $query );
+			$this->set( 'usertype', $this->_table->_db->loadResult());
 		}
 		
 		
 		/*
-		 * Lets first try to bind the array to the user model... if that fails
+		 * Lets first try to bind the array to the user table... if that fails
 		 * then we can certainly fail the whole method as we've done absolutely
 		 * no good :)
 		 */
-		if (!$this->_model->bind($array)) {
+		if (!$this->_table->bind($array)) {
 			$this->_setError("JUser::bind: Unable to bind array to user object");
 			return false;
 		}
@@ -337,12 +337,12 @@ die("HERE");
 		/*
 		 * We were able to bind the array to the object, so now lets run
 		 * through the parameters and build the INI parameter string for the
-		 * model
+		 * table
 		 */
-		$this->_params->loadINI($this->_model->params);
+		$this->_params->loadINI($this->_table->params);
 		
 		/*
-		 * If the model user id is set, lets set the id for the JUser object.
+		 * If the table user id is set, lets set the id for the JUser object.
 		 */
 		if ($this->get( 'id' )) {
 			$this->_id = $this->get( 'id' );
@@ -374,8 +374,8 @@ die("HERE");
 		 * Now that we have gotten all the field handling out of the way, time
 		 * to check and store the object.
 		 */
-		if (!$this->_model->check()) {
-			$this->_setError("JUser::save: ".$this->_model->getError());
+		if (!$this->_table->check()) {
+			$this->_setError("JUser::save: ".$this->_table->getError());
 			return false;
 		}
 
@@ -384,15 +384,15 @@ die("HERE");
 		 * fire the onBeforeStoreUser event.
 		 */
 		JPluginHelper::importPlugin( 'user' );
-		$mainframe->triggerEvent( 'onBeforeStoreUser', array( get_object_vars( $this->_model ), $this->_model->id ) );
+		$mainframe->triggerEvent( 'onBeforeStoreUser', array( get_object_vars( $this->_table ), $this->_table->id ) );
 
 		/*
 		 * Time for the real thing... are you ready for the real thing?  Store
 		 * the JUserModel ... if a fail condition exists throw a warning
 		 */
 		$result = false;
-		if (!$result = $this->_model->store()) {
-			$this->_setError("JUser::save: ".$this->_model->getError());
+		if (!$result = $this->_table->store()) {
+			$this->_setError("JUser::save: ".$this->_table->getError());
 		}
 		
 		/*
@@ -415,7 +415,7 @@ die("HERE");
 		/*
 		 * We stored the user... lets tell everyone about it.
 		 */
-		$mainframe->triggerEvent( 'onAfterStoreUser', array( get_object_vars( $this->_model ), $this->_model->id, $result, $this->getError() ) );
+		$mainframe->triggerEvent( 'onAfterStoreUser', array( get_object_vars( $this->_table ), $this->_table->id, $result, $this->getError() ) );
 
 		return $result;
 	}
@@ -438,8 +438,8 @@ die("HERE");
 		$mainframe->triggerEvent( 'onBeforeDeleteUser', array( array( 'id' => $this->_id ) ) );
 		
 		$result = false;
-		if (!$result = $this->_model->delete($this->_id)) {
-			$this->_setError("JUser::delete: ".$this->_model->getError());
+		if (!$result = $this->_table->delete($this->_id)) {
+			$this->_setError("JUser::delete: ".$this->_table->getError());
 		}
 		
 		//trigger the onAfterDeleteUser event
@@ -464,7 +464,7 @@ die("HERE");
 		 */
 		if(!is_int($identifier)) 
 		{
-			if (!$id =  $this->_model->getUserId($identifier)) {
+			if (!$id =  $this->_table->getUserId($identifier)) {
 				JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: User '.$identifier.' does not exist' );
 				return false;
 			}
@@ -477,7 +477,7 @@ die("HERE");
 		 /*
 		 * Load the JUserModel object based on the user id or throw a warning.
 		 */
-		 if(!$this->_model->load($id)) {
+		 if(!$this->_table->load($id)) {
 			JError::raiseWarning( 'SOME_ERROR_CODE', 'JUser::_load: Unable to load user with id: '.$id );
 			return false;
 		}
@@ -487,12 +487,12 @@ die("HERE");
 		 * extend this in the future to allow for the ability to have custom
 		 * user parameters, but for right now we'll leave it how it is.
 		 */
-		$this->_params->loadINI($this->_model->params);
+		$this->_params->loadINI($this->_table->params);
 		
 		/*
 		 * Assuming all is well at this point, we set the private id field
 		 */
-		$this->_id = $this->_model->id;
+		$this->_id = $this->_table->id;
 		
 		return true;
 	}

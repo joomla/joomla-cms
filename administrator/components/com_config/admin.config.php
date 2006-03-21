@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
 $user = & $mainframe->getUser();
 if (!$user->authorize( 'com_config', 'manage' ))
 {
-	josRedirect('index2.php?', JText :: _('ALERTNOTAUTH'));
+	josRedirect('index2.php?', JText::_('ALERTNOTAUTH'));
 }
 
 require_once (JApplicationHelper::getPath('admin_html'));
@@ -29,7 +29,7 @@ require_once (JApplicationHelper::getPath('admin_html'));
 switch ($task) {
 	case 'apply' :
 	case 'save' :
-		JConfigController :: saveConfig($task);
+		JConfigController::saveConfig($task);
 		break;
 
 	case 'cancel' :
@@ -37,7 +37,7 @@ switch ($task) {
 		break;
 
 	default :
-		JConfigController :: showConfig($option);
+		JConfigController::showConfig($option);
 		break;
 }
 
@@ -78,9 +78,9 @@ class JConfigController {
 
 		// -- Show/Hide --
 
-		$show_hide		= array (mosHTML :: makeOption(1, JText :: _('Hide')), mosHTML :: makeOption(0, JText :: _('Show')),);
+		$show_hide		= array (mosHTML::makeOption(1, JText::_('Hide')), mosHTML::makeOption(0, JText::_('Show')),);
 
-		$show_hide_r 	= array (mosHTML :: makeOption(0, JText :: _('Hide')), mosHTML :: makeOption(1, JText :: _('Show')),);
+		$show_hide_r 	= array (mosHTML::makeOption(0, JText::_('Hide')), mosHTML::makeOption(1, JText::_('Show')),);
 
 		// -- menu items --
 
@@ -95,162 +95,162 @@ class JConfigController {
 
 		// SITE SETTINGS
 
-		$lists['offline'] = mosHTML :: yesnoRadioList('offline', 'class="inputbox"', $row->offline);
+		$lists['offline'] = mosHTML::yesnoRadioList('offline', 'class="inputbox"', $row->offline);
 
 		if (!$row->editor) {
 			$row->editor = '';
 		}
 		// build the html select list
-		$lists['editor'] 		= mosHTML :: selectList($edits, 'editor', 'class="inputbox" size="1"', 'value', 'text', $row->editor);
+		$lists['editor'] 		= mosHTML::selectList($edits, 'editor', 'class="inputbox" size="1"', 'value', 'text', $row->editor);
 
-		$listLimit 				= array (mosHTML :: makeOption(5, 5), mosHTML :: makeOption(10, 10), mosHTML :: makeOption(15, 15), mosHTML :: makeOption(20, 20), mosHTML :: makeOption(25, 25), mosHTML :: makeOption(30, 30), mosHTML :: makeOption(50, 50), mosHTML :: makeOption(100, 100),);
+		$listLimit 				= array (mosHTML::makeOption(5, 5), mosHTML::makeOption(10, 10), mosHTML::makeOption(15, 15), mosHTML::makeOption(20, 20), mosHTML::makeOption(25, 25), mosHTML::makeOption(30, 30), mosHTML::makeOption(50, 50), mosHTML::makeOption(100, 100),);
 
-		$lists['list_limit'] 	= mosHTML :: selectList($listLimit, 'list_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->list_limit ? $row->list_limit : 50));
+		$lists['list_limit'] 	= mosHTML::selectList($listLimit, 'list_limit', 'class="inputbox" size="1"', 'value', 'text', ($row->list_limit ? $row->list_limit : 50));
 
 		jimport('joomla.i18n.help');
 		$helpsites 				= array ();
-		$helpsites 				= JHelp :: createSiteList('http://help.joomla.org/helpsites-11.xml', $row->helpurl);
-		array_unshift($helpsites, mosHTML :: makeOption('', JText :: _('local')));
-		$lists['helpsites'] 	= mosHTML :: selectList($helpsites, 'helpurl', ' class="inputbox"', 'value', 'text', $row->helpurl);
+		$helpsites 				= JHelp::createSiteList('http://help.joomla.org/helpsites-11.xml', $row->helpurl);
+		array_unshift($helpsites, mosHTML::makeOption('', JText::_('local')));
+		$lists['helpsites'] 	= mosHTML::selectList($helpsites, 'helpurl', ' class="inputbox"', 'value', 'text', $row->helpurl);
 
 		// DEBUG
 
-		$lists['debug'] 		= mosHTML :: yesnoRadioList('debug', 'class="inputbox"', $row->debug);
-		$lists['debug_db'] 		= mosHTML :: yesnoRadioList('debug_db', 'class="inputbox"', $row->debug_db);
-		$lists['log'] 			= mosHTML :: yesnoRadioList('log', 'class="inputbox"', $row->log);
-		$lists['log_db'] 		= mosHTML :: yesnoRadioList('log_db', 'class="inputbox"', $row->log_db);
+		$lists['debug'] 		= mosHTML::yesnoRadioList('debug', 'class="inputbox"', $row->debug);
+		$lists['debug_db'] 		= mosHTML::yesnoRadioList('debug_db', 'class="inputbox"', $row->debug_db);
+		$lists['log'] 			= mosHTML::yesnoRadioList('log', 'class="inputbox"', $row->log);
+		$lists['log_db'] 		= mosHTML::yesnoRadioList('log_db', 'class="inputbox"', $row->log_db);
 
 		// DATABASE SETTINGS
 
 		// SERVER SETTINGS
 
-		$lists['gzip'] 			= mosHTML :: yesnoRadioList('gzip', 'class="inputbox"', $row->gzip);
+		$lists['gzip'] 			= mosHTML::yesnoRadioList('gzip', 'class="inputbox"', $row->gzip);
 
-		$errors 				= array (mosHTML :: makeOption(-1, JText :: _('System Default')), mosHTML :: makeOption(0, JText :: _('None')), mosHTML :: makeOption(E_ERROR | E_WARNING | E_PARSE, JText :: _('Simple')), mosHTML :: makeOption(E_ALL, JText :: _('Maximum')));
+		$errors 				= array (mosHTML::makeOption(-1, JText::_('System Default')), mosHTML::makeOption(0, JText::_('None')), mosHTML::makeOption(E_ERROR | E_WARNING | E_PARSE, JText::_('Simple')), mosHTML::makeOption(E_ALL, JText::_('Maximum')));
 
-		$lists['xmlrpc_server'] = mosHTML :: yesnoRadioList('xmlrpc_server', 'class="inputbox"', $row->xmlrpc_server);
+		$lists['xmlrpc_server'] = mosHTML::yesnoRadioList('xmlrpc_server', 'class="inputbox"', $row->xmlrpc_server);
 
-		$lists['error_reporting'] = mosHTML :: selectList($errors, 'error_reporting', 'class="inputbox" size="1"', 'value', 'text', $row->error_reporting);
+		$lists['error_reporting'] = mosHTML::selectList($errors, 'error_reporting', 'class="inputbox" size="1"', 'value', 'text', $row->error_reporting);
 
-		$lists['enable_ftp'] 	= mosHTML :: yesnoRadioList('ftp_enable', 'class="inputbox"', intval($row->ftp_enable));
+		$lists['enable_ftp'] 	= mosHTML::yesnoRadioList('ftp_enable', 'class="inputbox"', intval($row->ftp_enable));
 
 
 		// LOCALE SETTINGS
 
-		$timeoffset = array (	mosHTML :: makeOption(-12, JText :: _('(UTC -12:00) International Date Line West')), 
-								mosHTML :: makeOption(-11, JText :: _('(UTC -11:00) Midway Island, Samoa')), 
-								mosHTML :: makeOption(-10, JText :: _('(UTC -10:00) Hawaii')), 
-								mosHTML :: makeOption(-9.5, JText :: _('(UTC -09:30) Taiohae, Marquesas Islands')), 
-								mosHTML :: makeOption(-9, JText :: _('(UTC -09:00) Alaska')), 
-								mosHTML :: makeOption(-8, JText :: _('(UTC -08:00) Pacific Time (US &amp; Canada)')), 
-								mosHTML :: makeOption(-7, JText :: _('(UTC -07:00) Mountain Time (US &amp; Canada)')), 
-								mosHTML :: makeOption(-6, JText :: _('(UTC -06:00) Central Time (US &amp; Canada), Mexico City')), 
-								mosHTML :: makeOption(-5, JText :: _('(UTC -05:00) Eastern Time (US &amp; Canada), Bogota, Lima')), 
-								mosHTML :: makeOption(-4, JText :: _('(UTC -04:00) Atlantic Time (Canada), Caracas, La Paz')), 
-								mosHTML :: makeOption(-3.5, JText :: _('(UTC -03:30) St. John`s, Newfoundland and Labrador')), 
-								mosHTML :: makeOption(-3, JText :: _('(UTC -03:00) Brazil, Buenos Aires, Georgetown')), 
-								mosHTML :: makeOption(-2, JText :: _('(UTC -02:00) Mid-Atlantic')), 
-								mosHTML :: makeOption(-1, JText :: _('(UTC -01:00) Azores, Cape Verde Islands')), 
-								mosHTML :: makeOption(0, JText :: _('(UTC 00:00) Western Europe Time, London, Lisbon, Casablanca')), 
-								mosHTML :: makeOption(1, JText :: _('(UTC +01:00) Amsterdam, Berlin, Brussels, Copenhagen, Madrid, Paris')), 
-								mosHTML :: makeOption(2, JText :: _('(UTC +02:00) Jerusalem, Kaliningrad, South Africa')), 
-								mosHTML :: makeOption(3, JText :: _('(UTC +03:00) Baghdad, Riyadh, Moscow, St. Petersburg')), 
-								mosHTML :: makeOption(3.5, JText :: _('(UTC +03:30) Tehran')), 
-								mosHTML :: makeOption(4, JText :: _('(UTC +04:00) Abu Dhabi, Muscat, Baku, Tbilisi')), 
-								mosHTML :: makeOption(4.5, JText :: _('(UTC +04:30) Kabul')), 
-								mosHTML :: makeOption(5, JText :: _('(UTC +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent')), 
-								mosHTML :: makeOption(5.5, JText :: _('(UTC +05:30) Bombay, Calcutta, Madras, New Delhi')), 
-								mosHTML :: makeOption(5.75, JText :: _('(UTC +05:45) Kathmandu')), 
-								mosHTML :: makeOption(6, JText :: _('(UTC +06:00) Almaty, Dhaka, Colombo')), 
-								mosHTML :: makeOption(6.30, JText :: _('(UTC +06:30) Yagoon')), 
-								mosHTML :: makeOption(7, JText :: _('(UTC +07:00) Bangkok, Hanoi, Jakarta')), 
-								mosHTML :: makeOption(8, JText :: _('(UTC +08:00) Beijing, Perth, Singapore, Hong Kong')), 
-								mosHTML :: makeOption(8.75, JText :: _('(UTC +08:00) Western Australia')), 
-								mosHTML :: makeOption(9, JText :: _('(UTC +09:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk')), 
-								mosHTML :: makeOption(9.5, JText :: _('(UTC +09:30) Adelaide, Darwin, Yakutsk')), 
-								mosHTML :: makeOption(10, JText :: _('(UTC +10:00) Eastern Australia, Guam, Vladivostok')), 
-								mosHTML :: makeOption(10.5, JText :: _('(UTC +10:30) Lord Howe Island (Australia)')), 
-								mosHTML :: makeOption(11, JText :: _('(UTC +11:00) Magadan, Solomon Islands, New Caledonia')), 
-								mosHTML :: makeOption(11.30, JText :: _('(UTC +11:30) Norfolk Island')), 
-								mosHTML :: makeOption(12, JText :: _('(UTC +12:00) Auckland, Wellington, Fiji, Kamchatka')), 
-								mosHTML :: makeOption(12.75, JText :: _('(UTC +12:45) Chatham Island')), 
-								mosHTML :: makeOption(13, JText :: _('(UTC +13:00) Tonga')), 
-								mosHTML :: makeOption(14, JText :: _('(UTC +14:00) Kiribati')),);
+		$timeoffset = array (	mosHTML::makeOption(-12, JText::_('(UTC -12:00) International Date Line West')), 
+								mosHTML::makeOption(-11, JText::_('(UTC -11:00) Midway Island, Samoa')), 
+								mosHTML::makeOption(-10, JText::_('(UTC -10:00) Hawaii')), 
+								mosHTML::makeOption(-9.5, JText::_('(UTC -09:30) Taiohae, Marquesas Islands')), 
+								mosHTML::makeOption(-9, JText::_('(UTC -09:00) Alaska')), 
+								mosHTML::makeOption(-8, JText::_('(UTC -08:00) Pacific Time (US &amp; Canada)')), 
+								mosHTML::makeOption(-7, JText::_('(UTC -07:00) Mountain Time (US &amp; Canada)')), 
+								mosHTML::makeOption(-6, JText::_('(UTC -06:00) Central Time (US &amp; Canada), Mexico City')), 
+								mosHTML::makeOption(-5, JText::_('(UTC -05:00) Eastern Time (US &amp; Canada), Bogota, Lima')), 
+								mosHTML::makeOption(-4, JText::_('(UTC -04:00) Atlantic Time (Canada), Caracas, La Paz')), 
+								mosHTML::makeOption(-3.5, JText::_('(UTC -03:30) St. John`s, Newfoundland and Labrador')), 
+								mosHTML::makeOption(-3, JText::_('(UTC -03:00) Brazil, Buenos Aires, Georgetown')), 
+								mosHTML::makeOption(-2, JText::_('(UTC -02:00) Mid-Atlantic')), 
+								mosHTML::makeOption(-1, JText::_('(UTC -01:00) Azores, Cape Verde Islands')), 
+								mosHTML::makeOption(0, JText::_('(UTC 00:00) Western Europe Time, London, Lisbon, Casablanca')), 
+								mosHTML::makeOption(1, JText::_('(UTC +01:00) Amsterdam, Berlin, Brussels, Copenhagen, Madrid, Paris')), 
+								mosHTML::makeOption(2, JText::_('(UTC +02:00) Jerusalem, Kaliningrad, South Africa')), 
+								mosHTML::makeOption(3, JText::_('(UTC +03:00) Baghdad, Riyadh, Moscow, St. Petersburg')), 
+								mosHTML::makeOption(3.5, JText::_('(UTC +03:30) Tehran')), 
+								mosHTML::makeOption(4, JText::_('(UTC +04:00) Abu Dhabi, Muscat, Baku, Tbilisi')), 
+								mosHTML::makeOption(4.5, JText::_('(UTC +04:30) Kabul')), 
+								mosHTML::makeOption(5, JText::_('(UTC +05:00) Ekaterinburg, Islamabad, Karachi, Tashkent')), 
+								mosHTML::makeOption(5.5, JText::_('(UTC +05:30) Bombay, Calcutta, Madras, New Delhi')), 
+								mosHTML::makeOption(5.75, JText::_('(UTC +05:45) Kathmandu')), 
+								mosHTML::makeOption(6, JText::_('(UTC +06:00) Almaty, Dhaka, Colombo')), 
+								mosHTML::makeOption(6.30, JText::_('(UTC +06:30) Yagoon')), 
+								mosHTML::makeOption(7, JText::_('(UTC +07:00) Bangkok, Hanoi, Jakarta')), 
+								mosHTML::makeOption(8, JText::_('(UTC +08:00) Beijing, Perth, Singapore, Hong Kong')), 
+								mosHTML::makeOption(8.75, JText::_('(UTC +08:00) Western Australia')), 
+								mosHTML::makeOption(9, JText::_('(UTC +09:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk')), 
+								mosHTML::makeOption(9.5, JText::_('(UTC +09:30) Adelaide, Darwin, Yakutsk')), 
+								mosHTML::makeOption(10, JText::_('(UTC +10:00) Eastern Australia, Guam, Vladivostok')), 
+								mosHTML::makeOption(10.5, JText::_('(UTC +10:30) Lord Howe Island (Australia)')), 
+								mosHTML::makeOption(11, JText::_('(UTC +11:00) Magadan, Solomon Islands, New Caledonia')), 
+								mosHTML::makeOption(11.30, JText::_('(UTC +11:30) Norfolk Island')), 
+								mosHTML::makeOption(12, JText::_('(UTC +12:00) Auckland, Wellington, Fiji, Kamchatka')), 
+								mosHTML::makeOption(12.75, JText::_('(UTC +12:45) Chatham Island')), 
+								mosHTML::makeOption(13, JText::_('(UTC +13:00) Tonga')), 
+								mosHTML::makeOption(14, JText::_('(UTC +14:00) Kiribati')),);
 
-		$lists['offset'] 		= mosHTML :: selectList($timeoffset, 'offset_user', 'class="inputbox" size="1"', 'value', 'text', $row->offset_user);
+		$lists['offset'] 		= mosHTML::selectList($timeoffset, 'offset_user', 'class="inputbox" size="1"', 'value', 'text', $row->offset_user);
 
 		// MAIL SETTINGS
 
-		$mailer 				= array (mosHTML :: makeOption('mail', JText :: _('PHP mail function')), mosHTML :: makeOption('sendmail', JText :: _('Sendmail')), mosHTML :: makeOption('smtp', JText :: _('SMTP Server')));
-		$lists['mailer'] 		= mosHTML :: selectList($mailer, 'mailer', 'class="inputbox" size="1"', 'value', 'text', $row->mailer);
+		$mailer 				= array (mosHTML::makeOption('mail', JText::_('PHP mail function')), mosHTML::makeOption('sendmail', JText::_('Sendmail')), mosHTML::makeOption('smtp', JText::_('SMTP Server')));
+		$lists['mailer'] 		= mosHTML::selectList($mailer, 'mailer', 'class="inputbox" size="1"', 'value', 'text', $row->mailer);
 
-		$lists['smtpauth'] 		= mosHTML :: yesnoRadioList('smtpauth', 'class="inputbox"', $row->smtpauth);
+		$lists['smtpauth'] 		= mosHTML::yesnoRadioList('smtpauth', 'class="inputbox"', $row->smtpauth);
 
 		// CACHE SETTINGS
 
-		$lists['caching'] 		= mosHTML :: yesnoRadioList('caching', 'class="inputbox"', $row->caching);
+		$lists['caching'] 		= mosHTML::yesnoRadioList('caching', 'class="inputbox"', $row->caching);
 
 		// USER SETTINGS
 
-		$lists['allowUserRegistration'] = mosHTML :: yesnoRadioList('allowUserRegistration', 'class="inputbox"', $row->allowUserRegistration);
+		$lists['allowUserRegistration'] = mosHTML::yesnoRadioList('allowUserRegistration', 'class="inputbox"', $row->allowUserRegistration);
 
-		$lists['useractivation'] = mosHTML :: yesnoRadioList('useractivation', 'class="inputbox"', $row->useractivation);
+		$lists['useractivation'] = mosHTML::yesnoRadioList('useractivation', 'class="inputbox"', $row->useractivation);
 
-		$lists['uniquemail'] 	= mosHTML :: yesnoRadioList('uniquemail', 'class="inputbox"', $row->uniquemail);
+		$lists['uniquemail'] 	= mosHTML::yesnoRadioList('uniquemail', 'class="inputbox"', $row->uniquemail);
 
-		$lists['shownoauth'] 	= mosHTML :: yesnoRadioList('shownoauth', 'class="inputbox"', $row->shownoauth);
+		$lists['shownoauth'] 	= mosHTML::yesnoRadioList('shownoauth', 'class="inputbox"', $row->shownoauth);
 
 		// META SETTINGS
 
-		$lists['MetaAuthor'] 	= mosHTML :: yesnoRadioList('MetaAuthor', 'class="inputbox"', $row->MetaAuthor);
+		$lists['MetaAuthor'] 	= mosHTML::yesnoRadioList('MetaAuthor', 'class="inputbox"', $row->MetaAuthor);
 
-		$lists['MetaTitle'] 	= mosHTML :: yesnoRadioList('MetaTitle', 'class="inputbox"', $row->MetaTitle);
+		$lists['MetaTitle'] 	= mosHTML::yesnoRadioList('MetaTitle', 'class="inputbox"', $row->MetaTitle);
 
 		// STATISTICS SETTINGS
 
-		$lists['log_searches'] 	= mosHTML :: yesnoRadioList('enable_log_searches', 'class="inputbox"', $row->enable_log_searches);
+		$lists['log_searches'] 	= mosHTML::yesnoRadioList('enable_log_searches', 'class="inputbox"', $row->enable_log_searches);
 
-		$lists['enable_stats'] 	= mosHTML :: yesnoRadioList('enable_stats', 'class="inputbox"', $row->enable_stats);
+		$lists['enable_stats'] 	= mosHTML::yesnoRadioList('enable_stats', 'class="inputbox"', $row->enable_stats);
 
-		$lists['log_items'] 	= mosHTML :: yesnoRadioList('enable_log_items', 'class="inputbox"', $row->enable_log_items);
+		$lists['log_items'] 	= mosHTML::yesnoRadioList('enable_log_items', 'class="inputbox"', $row->enable_log_items);
 
 		// SEO SETTINGS
 
-		$lists['sef'] 			= mosHTML :: yesnoRadioList('sef', 'class="inputbox" onclick="javascript: if (document.adminForm.sef[1].checked) { alert(\''.JText :: _('Remember to rename htaccess.txt to .htaccess', true).'\') }"', $row->sef);
+		$lists['sef'] 			= mosHTML::yesnoRadioList('sef', 'class="inputbox" onclick="javascript: if (document.adminForm.sef[1].checked) { alert(\''.JText::_('Remember to rename htaccess.txt to .htaccess', true).'\') }"', $row->sef);
 
 		// CONTENT SETTINGS
 
-		$lists['link_titles'] 	= mosHTML :: yesnoRadioList('link_titles', 'class="inputbox"', $row->link_titles);
+		$lists['link_titles'] 	= mosHTML::yesnoRadioList('link_titles', 'class="inputbox"', $row->link_titles);
 
-		$lists['readmore'] 		= mosHTML :: RadioList($show_hide_r, 'readmore', 'class="inputbox"', $row->readmore, 'value', 'text');
+		$lists['readmore'] 		= mosHTML::RadioList($show_hide_r, 'readmore', 'class="inputbox"', $row->readmore, 'value', 'text');
 
-		$lists['vote'] 			= mosHTML :: RadioList($show_hide_r, 'vote', 'class="inputbox"', $row->vote, 'value', 'text');
+		$lists['vote'] 			= mosHTML::RadioList($show_hide_r, 'vote', 'class="inputbox"', $row->vote, 'value', 'text');
 
-		$lists['hideAuthor'] 	= mosHTML :: RadioList($show_hide, 'hideAuthor', 'class="inputbox"', $row->hideAuthor, 'value', 'text');
+		$lists['hideAuthor'] 	= mosHTML::RadioList($show_hide, 'hideAuthor', 'class="inputbox"', $row->hideAuthor, 'value', 'text');
 
-		$lists['hideCreateDate'] = mosHTML :: RadioList($show_hide, 'hideCreateDate', 'class="inputbox"', $row->hideCreateDate, 'value', 'text');
+		$lists['hideCreateDate'] = mosHTML::RadioList($show_hide, 'hideCreateDate', 'class="inputbox"', $row->hideCreateDate, 'value', 'text');
 
-		$lists['hideModifyDate'] = mosHTML :: RadioList($show_hide, 'hideModifyDate', 'class="inputbox"', $row->hideModifyDate, 'value', 'text');
+		$lists['hideModifyDate'] = mosHTML::RadioList($show_hide, 'hideModifyDate', 'class="inputbox"', $row->hideModifyDate, 'value', 'text');
 
-		$lists['hits'] 			= mosHTML :: RadioList($show_hide_r, 'hits', 'class="inputbox"', $row->hits, 'value', 'text');
+		$lists['hits'] 			= mosHTML::RadioList($show_hide_r, 'hits', 'class="inputbox"', $row->hits, 'value', 'text');
 
 		if (is_writable(JPATH_SITE.DS.'media'.DS)) {
-			$lists['hidePdf'] = mosHTML :: RadioList($show_hide, 'hidePdf', 'class="inputbox"', $row->hidePdf, 'value', 'text');
+			$lists['hidePdf'] = mosHTML::RadioList($show_hide, 'hidePdf', 'class="inputbox"', $row->hidePdf, 'value', 'text');
 		} else {
 			$lists['hidePdf'] = '<input type="hidden" name="hidePdf" value="1" /><strong>Hide</strong>';
 		}
 
-		$lists['hidePrint'] 	= mosHTML :: RadioList($show_hide, 'hidePrint', 'class="inputbox"', $row->hidePrint, 'value', 'text');
+		$lists['hidePrint'] 	= mosHTML::RadioList($show_hide, 'hidePrint', 'class="inputbox"', $row->hidePrint, 'value', 'text');
 
-		$lists['hideEmail'] 	= mosHTML :: RadioList($show_hide, 'hideEmail', 'class="inputbox"', $row->hideEmail, 'value', 'text');
+		$lists['hideEmail'] 	= mosHTML::RadioList($show_hide, 'hideEmail', 'class="inputbox"', $row->hideEmail, 'value', 'text');
 
-		$lists['icons'] 		= mosHTML :: yesnoRadioList('icons', 'class="inputbox"', $row->icons, 'icons', 'text');
+		$lists['icons'] 		= mosHTML::yesnoRadioList('icons', 'class="inputbox"', $row->icons, 'icons', 'text');
 
-		$lists['ml_support'] 	= mosHTML :: yesnoRadioList('multilingual_support', 'class="inputbox" onclick="javascript: if (document.adminForm.multilingual_support[1].checked) { alert(\''.JText :: _('Remember to install the MambelFish component.', true).'\') }"', $row->multilingual_support);
+		$lists['ml_support'] 	= mosHTML::yesnoRadioList('multilingual_support', 'class="inputbox" onclick="javascript: if (document.adminForm.multilingual_support[1].checked) { alert(\''.JText::_('Remember to install the MambelFish component.', true).'\') }"', $row->multilingual_support);
 
 		// SHOW EDIT FORM
 
-		JConfigView :: showConfig($row, $lists, $option);
+		JConfigView::showConfig($row, $lists, $option);
 	}
 
 	/**
@@ -278,7 +278,7 @@ class JConfigController {
 		 */
 		if (JFile::write($fname, $mainframe->_registry->toString('PHP', 'config', array('class' => 'JConfig')))) {
 
-			$msg = JText :: _('The Configuration Details have been updated');
+			$msg = JText::_('The Configuration Details have been updated');
 
 			switch ($task) {
 				case 'apply' :
@@ -291,7 +291,7 @@ class JConfigController {
 					break;
 			}
 		} else {
-			josRedirect('index2.php', JText :: _('ERRORCONFIGFILE'));
+			josRedirect('index2.php', JText::_('ERRORCONFIGFILE'));
 		}
 	}
 }

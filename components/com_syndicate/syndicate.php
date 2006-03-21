@@ -90,7 +90,7 @@ function syndicate( $feed ) {
 	$id = $database->loadResult();
 	
 	// load syndication parameters
-	$component =& JModel::getInstance('component', $database );
+	$component =& JTable::getInstance('component', $database );
 	$component->load( $id );
 	$params = new JParameter( $component->params );
 	
@@ -116,7 +116,7 @@ function syndicate( $feed ) {
 		$rss        = null;
 		$filename   = explode( 'type=', $from ); 
 
-		$menu = new JModelMenu( $database );
+		$menu = new JTableMenu( $database );
 		$menu->load( $parts['Itemid'] );    	
 		
 		constructFeed( $results[$num], $parts['feed'], $filename[1], $menu->name, $params, true );    

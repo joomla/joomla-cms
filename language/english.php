@@ -304,7 +304,7 @@ DEFINE('_NEWPASS_MSG','The user account $checkusername has this email associated
 .' Your New Password is: $newpass\n\nIf you didn\'t ask for this, don\'t worry.'
 .' You are seeing this message, not them. If this was an error just login with your'
 .' new password and then change your password to what you would like it to be.');
-DEFINE('_NEWPASS_SUB','$_sitename :: New password for - $checkusername');
+DEFINE('_NEWPASS_SUB','$_sitename::New password for - $checkusername');
 DEFINE('_NEWPASS_SENT','New User Password created and sent!');
 DEFINE('_REGWARN_NAME','Please enter your name.');
 DEFINE('_REGWARN_UNAME','Please enter a user name.');

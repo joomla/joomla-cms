@@ -70,7 +70,7 @@ class JCache extends Cache_Lite
 		$baseDir = $mainframe->getCfg('cachepath');
 		if (!empty($baseDir))
 		{
-			$this->_cacheDir = JPath :: clean($baseDir);
+			$this->_cacheDir = JPath::clean($baseDir);
 		}
 		
 		$this->Cache_Lite($options);
@@ -154,7 +154,7 @@ class JCache extends Cache_Lite
 
 		if ($mainframe->getCfg('caching'))
 		{
-			$cache = & JCache :: getCache($group);
+			$cache = & JCache::getCache($group);
 			$cache->clean($group, $mode);
 
 			/*
@@ -162,8 +162,8 @@ class JCache extends Cache_Lite
 			 */
 			$baseDir = $mainframe->getCfg('cachepath');
 			$baseDir .= ($mainframe->getClientId()) ? DS.'administrator'.DS : DS.'site'.DS;
-			$path = JPath :: clean($baseDir);
-			$files = JFolder :: files($path, '.xml');
+			$path = JPath::clean($baseDir);
+			$files = JFolder::files($path, '.xml');
 			foreach ($files as $file)
 			{
 				$file = $path.$file;
@@ -178,7 +178,7 @@ class JCache extends Cache_Lite
 	 */
 	function & getCache($group = '')
 	{
-		return JFactory :: getCache($group);
+		return JFactory::getCache($group);
 	}
 }
 ?>

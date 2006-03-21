@@ -114,7 +114,7 @@ class WeblinksController
 		/*
 		 * Load the parameters
 		 */
-		$menu = & JModel::getInstance('menu', $db);
+		$menu = & JTable::getInstance('menu', $db);
 		$menu->load($Itemid);
 
 		$params = new JParameter($menu->params);
@@ -301,9 +301,9 @@ class WeblinksController
 		$document		= & $mainframe->getDocument();
 
 		/*
-		 * Get the weblink model and load it
+		 * Get the weblink table and load it
 		 */
-		$weblink		= & new JModelWeblink($db);
+		$weblink		= & new JTableWeblink($db);
 		$weblink->load($id);
 
 		/*
@@ -316,9 +316,9 @@ class WeblinksController
 		}
 
 		/*
-		 * Get the category model and load it
+		 * Get the category table and load it
 		 */
-		$cat = new JModelCategory($db);
+		$cat = new JTableCategory($db);
 		$cat->load($weblink->catid);
 
 		/*
@@ -377,8 +377,8 @@ class WeblinksController
 			return;
 		}
 
-		// Create and load a weblink model
-		$row = new JModelWeblink($db);
+		// Create and load a weblink table
+		$row = new JTableWeblink($db);
 		$row->load($id);
 
 		// Is this link checked out?  If not by me fail
@@ -447,8 +447,8 @@ class WeblinksController
 			return;
 		}
 
-		// Create and load a web link model
-		$row = new JModelWeblink($db);
+		// Create and load a web link table
+		$row = new JTableWeblink($db);
 		$row->load(JRequest::getVar( 'id', 0, 'post', 'int' ));
 
 		// Checkin the weblink
@@ -477,10 +477,10 @@ class WeblinksController
 			return;
 		}
 
-		// Create a web link model
-		$row = new JModelWeblink($db);
+		// Create a web link table
+		$row = new JTableWeblink($db);
 
-		// Bind the $_POST array to the web link model
+		// Bind the $_POST array to the web link table
 		if (!$row->bind($_POST, "published"))
 		{
 			WeblinksView::userInputError($row->getError());
@@ -496,21 +496,21 @@ class WeblinksController
 		// until full edit capabilities are given for weblinks - limit saving to new weblinks only
 		$row->id = 0;
 
-		// Make sure the web link model is valid
+		// Make sure the web link table is valid
 		if (!$row->check())
 		{
 			WeblinksView::userInputError($row->getError());
 			return;
 		}
 
-		// Store the web link model to the database
+		// Store the web link table to the database
 		if (!$row->store())
 		{
 			WeblinksView::userInputError($row->getError());
 			return;
 		}
 
-		// Check the model in so it can be edited.... we are done with it anyway
+		// Check the table in so it can be edited.... we are done with it anyway
 		$row->checkin();
 
 		// admin users gid

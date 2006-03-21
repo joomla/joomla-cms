@@ -34,7 +34,7 @@ if (!defined('_MOS_MAINMENU_MODULE'))
 				break;
 			case 'content_item_link' :
 				$temp = split("&task=view&id=", $mitem->link);
-				$cache = JFactory :: getCache('getItemid');
+				$cache = JFactory::getCache('getItemid');
 				require_once (JApplicationHelper::getPath('front', 'com_content'));
 				
 				$_Itemid = $cache->call('JContentHelper::getItemid', $temp[1]);

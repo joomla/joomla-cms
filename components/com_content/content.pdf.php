@@ -40,7 +40,7 @@ class JContentViewPDF
 
 	function showArchive()
 	{
-		JError::raiseError(500, JText :: _('Method not implemented'));
+		JError::raiseError(500, JText::_('Method not implemented'));
 	}
 
 	function showBlog()
@@ -63,7 +63,7 @@ class JContentViewPDF
 
 		$db	= $mainframe->getDBO();
 		$id	= JRequest::getVar( 'id', 1, '', 'int' );
-		$row = & JModel::getInstance('content', $db);
+		$row = & JTable::getInstance('content', $db);
 		$row->load($id);
 
 		$params = new JParameter($row->attribs);
@@ -188,7 +188,7 @@ class JContentViewPDFHelper
 			// Display Author name
 
 			//Find Author Name
-			$users_rows = & JModel::getInstance('user', $db);
+			$users_rows = & JTable::getInstance('user', $db);
 			$users_rows->load($row->created_by);
 			$row->author = $users_rows->name;
 			$row->usertype = $users_rows->usertype;

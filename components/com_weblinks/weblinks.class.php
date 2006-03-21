@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
 * @subpackage Weblinks
 * @since 1.0
 */
-class JModelWeblink extends JModel {
+class JTableWeblink extends JTable {
 	/**
 	 * Primary Key
 	 *
@@ -106,7 +106,7 @@ class JModelWeblink extends JModel {
 	 * @param object Database connector object
 	 * @since 1.0
 	 */
-	function JModelWeblink(& $db) {
+	function JTableWeblink(& $db) {
 		parent::__construct('#__weblinks', 'id', $db);
 	}
 

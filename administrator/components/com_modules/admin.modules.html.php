@@ -68,10 +68,10 @@ class HTML_modules {
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 				</th>
 				<th class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Module Name', 'm.title', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Module Name', 'm.title', $lists ); ?>
 				</th>
 				<th nowrap="nowrap" width="7%">
-					<?php mosCommonHTML :: tableOrdering( 'Published', 'm.published', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Published', 'm.published', $lists ); ?>
 				</th>
 				<?php
 				if ( $lists['order'] == 'm.position' ) {
@@ -83,7 +83,7 @@ class HTML_modules {
 						<?php echo JText::_( 'Order' ); ?>
 					</th>
 					<th width="1%">
-						<?php mosCommonHTML :: saveorderButton( $rows ); ?>
+						<?php mosCommonHTML::saveorderButton( $rows ); ?>
 					</th>
 					<?php
 				}
@@ -92,22 +92,22 @@ class HTML_modules {
 				if ( $client->id == 0 ) {
 					?>
 					<th nowrap="nowrap" width="7%">
-						<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
+						<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
 					</th>
 					<?php
 				}
 				?>
 				<th nowrap="nowrap" width="3%">
-					<?php mosCommonHTML :: tableOrdering( 'ID', 'm.id', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'ID', 'm.id', $lists ); ?>
 				</th>
 				<th nowrap="nowrap" width="7%">
-					<?php mosCommonHTML :: tableOrdering( 'Position', 'm.position', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Position', 'm.position', $lists ); ?>
 				</th>
 				<th nowrap="nowrap" width="5%">
-					<?php mosCommonHTML :: tableOrdering( 'Pages', 'pages', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Pages', 'pages', $lists ); ?>
 				</th>
 				<th nowrap="nowrap" width="10%"  class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Type', 'm.module', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Type', 'm.module', $lists ); ?>
 				</th>
 			</tr>
 			<?php
@@ -212,7 +212,7 @@ class HTML_modules {
 	*
 	* A new record is defined when <var>$row</var> is passed with the <var>id</var>
 	* property set to 0.
-	* @param JModelCategory The category object
+	* @param JTableCategory The category object
 	* @param array <p>The modules of the left side.  The array elements are in the form
 	* <var>$leftorder[<i>order</i>] = <i>label</i></var>
 	* where <i>order</i> is the module order from the db table and <i>label</i> is a

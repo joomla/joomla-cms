@@ -94,7 +94,7 @@ for ($i = 0; $i < $numrows; $i++)
 	{
 		$imageurl = 'images/banners/'.$item->imageurl;
 		$link		= sefRelToAbs( 'index.php?option=com_banners&amp;task=click&amp;bid='. $item->bid );
-		echo '<a href="'.$link.'" target="_blank"><img src="'.$imageurl.'" border="0" alt="'.JText :: _('Banner').'" /></a>';
+		echo '<a href="'.$link.'" target="_blank"><img src="'.$imageurl.'" border="0" alt="'.JText::_('Banner').'" /></a>';
 	}
 	else if (eregi("\.swf$", $item->imageurl))
 	{

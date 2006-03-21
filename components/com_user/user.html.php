@@ -46,7 +46,7 @@ class HTML_user
 		?>
 		<script language="javascript" type="text/javascript">
 		function submitbutton( pressbutton ) {
-			var form = document.JModelUserForm;
+			var form = document.JTableUserForm;
 			var r = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-]", "i");
 
 			if (pressbutton == 'cancel') {
@@ -73,7 +73,7 @@ class HTML_user
 			}
 		}
 		</script>
-		<form action="<?php echo sefRelToAbs( 'index.php?option=com_user&amp;task=UserDetails' ); ?>" method="post" name="JModelUserForm">
+		<form action="<?php echo sefRelToAbs( 'index.php?option=com_user&amp;task=UserDetails' ); ?>" method="post" name="JTableUserForm">
 		
 		<div class="componentheading">
 			<?php echo JText::_( 'Edit Your Details' ); ?>

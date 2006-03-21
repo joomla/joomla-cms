@@ -125,7 +125,7 @@ class WeblinksView {
 			<td align="right" colspan="4">				
 				<?php
 				if ($params->get('display')) {
-					echo JText :: _('Display Num') .'&nbsp;';
+					echo JText::_('Display Num') .'&nbsp;';
 					$link = "index.php?option=com_weblinks&amp;catid=$catid&amp;Itemid=$Itemid";
 					echo $page->getLimitBox($link);
 				}
@@ -137,7 +137,7 @@ class WeblinksView {
 			?>
 			<tr>
 				<td width="10" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
-					<?php echo JText :: _('Num'); ?>
+					<?php echo JText::_('Num'); ?>
 				</td>
 				<?php
 				if ( $img ) {
@@ -149,13 +149,13 @@ class WeblinksView {
 				}
 				?>
 				<td width="90%" height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
-					<?php mosCommonHTML :: tableOrdering( 'Web Link', 'title', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Web Link', 'title', $lists ); ?>
 				</td>
 				<?php
 				if ( $params->get( 'hits' ) ) {
 					?>
 					<td width="30" height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" align="right" nowrap="nowrap">
-						<?php mosCommonHTML :: tableOrdering( 'Hits', 'hits', $lists ); ?>
+						<?php mosCommonHTML::tableOrdering( 'Hits', 'hits', $lists ); ?>
 					</td>
 					<?php
 				}

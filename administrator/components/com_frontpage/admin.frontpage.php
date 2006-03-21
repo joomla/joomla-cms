@@ -232,7 +232,7 @@ function changeFrontPage( $cid=null, $state=0, $option ) {
 	}
 
 	if (count( $cid ) == 1) {
-		$row =& JModel::getInstance('content', $database );
+		$row =& JTable::getInstance('content', $database );
 		$row->checkin( $cid[0] );
 	}
 
@@ -246,13 +246,13 @@ function removeFrontPage( &$cid, $option ) {
 		echo "<script> alert('". JText::_( 'Select an item to delete', true ) ."'); window.history.go(-1);</script>\n";
 		exit;
 	}
-	$fp = new JModelFrontPage( $database );
+	$fp = new JTableFrontPage( $database );
 	foreach ($cid as $id) {
 		if (!$fp->delete( $id )) {
 			echo "<script> alert('".$fp->getError()."'); </script>\n";
 			exit();
 		}
-		$obj =& JModel::getInstance('content', $database );
+		$obj =& JTable::getInstance('content', $database );
 		$obj->load( $id );
 		$obj->mask = 0;
 		if (!$obj->store()) {
@@ -272,7 +272,7 @@ function removeFrontPage( &$cid, $option ) {
 function orderFrontPage( $uid, $inc, $option ) {
 	global $database;
 
-	$fp = new JModelFrontPage( $database );
+	$fp = new JTableFrontPage( $database );
 	$fp->load( $uid );
 	$fp->move( $inc );
 
@@ -287,7 +287,7 @@ function orderFrontPage( $uid, $inc, $option ) {
 function accessMenu( $uid, $access ) {
 	global $database;
 
-	$row =& JModel::getInstance('content', $database );
+	$row =& JTable::getInstance('content', $database );
 	$row->load( $uid );
 	$row->access = $access;
 
@@ -318,7 +318,7 @@ function saveOrder( &$cid ) {
 		}
 
 		// update ordering
-		$row = new JModelFrontPage( $database );
+		$row = new JTableFrontPage( $database );
 		$row->load( $cid[$i] );
 		$row->updateOrder();
 	}

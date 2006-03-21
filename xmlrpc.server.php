@@ -31,7 +31,7 @@ $mainframe->setConfiguration(JPATH_CONFIGURATION . DS . 'configuration.php');
 
 /** get the information about the current user from the sessions table */
 $user	= & $mainframe->getUser();
-$my		= $user->_model;
+$my		= $user->_table;
 
 /**
 * CUSTOM HANDLER FOR METHOD NOT FOUND

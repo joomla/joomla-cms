@@ -52,16 +52,16 @@ class HTML_trash {
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $contents );?>);" />
 				</th>
 				<th class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Title', 'c.title', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
 				</th>
 				<th width="70">
-					<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
 				</th>
 				<th class="title" width="25%">
-					<?php mosCommonHTML :: tableOrdering( 'Section', 'sectname', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Section', 'sectname', $lists ); ?>
 				</th>
 				<th class="title" width="25%">
-					<?php mosCommonHTML :: tableOrdering( 'Category', 'catname', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Category', 'catname', $lists ); ?>
 				</th>
 			</tr>
 			<?php
@@ -166,16 +166,16 @@ class HTML_trash {
 					<input type="checkbox" name="toggle1" value="" onclick="checkAll_xtd(<?php echo count( $menus );?>);" />
 				</th>
 				<th class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Name', 'm.name', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Name', 'm.name', $lists ); ?>
 				</th>
 				<th width="70">
-					<?php mosCommonHTML :: tableOrdering( 'ID', 'm.id', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'ID', 'm.id', $lists ); ?>
 				</th>
 				<th class="title" width="25%">
-					<?php mosCommonHTML :: tableOrdering( 'Menu', 'm.menutype', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Menu', 'm.menutype', $lists ); ?>
 				</th>
 				<th class="title" width="25%">
-					<?php mosCommonHTML :: tableOrdering( 'Type', 'm.type', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Type', 'm.type', $lists ); ?>
 				</th>
 			</tr>
 			<?php

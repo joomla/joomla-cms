@@ -65,34 +65,34 @@ class HTML_content {
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 				</th>
 				<th class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Title', 'c.title', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
 				</th>
 				<th width="10%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Published', 'c.state', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Published', 'c.state', $lists ); ?>
 				</th>
 				<th colspan="2" nowrap="nowrap" width="5%">
 					<?php echo JText::_( 'Reorder' ); ?>
 				</th>
 				<th width="2%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Order', 'fpordering', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Order', 'fpordering', $lists ); ?>
 	 			</th>
 				<th width="1%">
-					<?php mosCommonHTML :: saveorderButton( $rows ); ?>
+					<?php mosCommonHTML::saveorderButton( $rows ); ?>
 				</th>
 				<th width="8%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
 				</th>
 				<th width="2%" class="title" align="center" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
 				</th>
 				<th width="10%" class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Section', 'sect_name', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Section', 'sect_name', $lists ); ?>
 				</th>
 				<th width="10%" class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Category', 'cc.name', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
 				</th>
 				<th width="10%" class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Author', 'author', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Author', 'author', $lists ); ?>
 				</th>
 			</tr>
 			<?php

@@ -40,10 +40,10 @@ class JInstallerExtensionTasks {
 		$limit 				= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
 		$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 		
-		$select[] 			= mosHTML :: makeOption('', JText :: _('All'));
-		$select[] 			= mosHTML :: makeOption('0', JText :: _('Site Modules'));
-		$select[] 			= mosHTML :: makeOption('1', JText :: _('Admin Modules'));
-		$lists['filter'] 	= mosHTML :: selectList($select, 'filter', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter);
+		$select[] 			= mosHTML::makeOption('', JText::_('All'));
+		$select[] 			= mosHTML::makeOption('0', JText::_('Site Modules'));
+		$select[] 			= mosHTML::makeOption('1', JText::_('Admin Modules'));
+		$lists['filter'] 	= mosHTML::selectList($select, 'filter', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter);
 		
 		if ($filter == NULL) {
 			$and = '';
@@ -74,16 +74,16 @@ class JInstallerExtensionTasks {
 
 			// path to module directory
 			if ($row->client_id == "1") {
-				$moduleBaseDir = JPath :: clean(JPath :: clean(JPATH_ADMINISTRATOR)."modules");
+				$moduleBaseDir = JPath::clean(JPath::clean(JPATH_ADMINISTRATOR)."modules");
 			} else {
-				$moduleBaseDir = JPath :: clean(JPath :: clean(JPATH_SITE)."modules");
+				$moduleBaseDir = JPath::clean(JPath::clean(JPATH_SITE)."modules");
 			}
 
 			// xml file for module
 			$xmlfile = $moduleBaseDir . DS . $row->module .DS. $row->module.".xml";
 
 			if (file_exists($xmlfile)) {
-				$xmlDoc = & JFactory :: getXMLParser();
+				$xmlDoc = & JFactory::getXMLParser();
 				$xmlDoc->resolveErrors(true);
 				if (!$xmlDoc->loadXML($xmlfile, false, true)) {
 					continue;
@@ -125,7 +125,7 @@ class JInstallerExtensionTasks {
 		$page = new JPagination( count( $rows ), $limitstart, $limit );
 		$rows = array_slice( $rows, $page->limitstart, $page->limit );
 		
-		JInstallerScreens_module :: showInstalled($rows, $lists, $page);
+		JInstallerScreens_module::showInstalled($rows, $lists, $page);
 	}
 
 }

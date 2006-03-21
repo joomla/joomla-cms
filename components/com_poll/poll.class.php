@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Polls
 */
-class mosPoll extends JModel {
+class mosPoll extends JTable {
 	/** @var int Primary key */
 	var $id					= null;
 	/** @var string */

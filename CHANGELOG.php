@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Mar-2005 Louis Landry
+ ^ Renamed JModel to JTable and added to the database package 
+
 20-Mar-2005 Louis Landry
  ^ Use JRequest::getVar instead of mosGetParam in codebase 
 

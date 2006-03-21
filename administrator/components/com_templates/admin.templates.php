@@ -114,9 +114,9 @@ class JTemplatesController
 		$limit		= $mainframe->getUserStateFromRequest("limit", 'limit', $mainframe->getCfg('list_limit'));
 		$limitstart	= $mainframe->getUserStateFromRequest("$option.limitstart", 'limitstart', 0);
 
-		$select[] 			= mosHTML :: makeOption('0', JText :: _('Site'));
-		$select[] 			= mosHTML :: makeOption('1', JText :: _('Administrator'));
-		$lists['client'] 	= mosHTML :: selectList($select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $client->id);
+		$select[] 			= mosHTML::makeOption('0', JText::_('Site'));
+		$select[] 			= mosHTML::makeOption('1', JText::_('Administrator'));
+		$lists['client'] 	= mosHTML::selectList($select, 'client', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $client->id);
 		
 		$templateBaseDir = JPath::clean($client->path.DS.'templates');
 		
@@ -200,7 +200,7 @@ class JTemplatesController
 
 		if ($cur_template == $cid)
 		{
-			mosErrorAlert(JText :: _('You can not delete template in use.'));
+			mosErrorAlert(JText::_('You can not delete template in use.'));
 		}
 
 		// Un-assign
@@ -404,7 +404,7 @@ class JTemplatesController
 		}
 		else
 		{
-			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText :: _('Operation Failed').': '.JText::_('Failed to open file for writing.'));
+			josRedirect('index2.php?option='.$option.'&client='.$client->id, JText::_('Operation Failed').': '.JText::_('Failed to open file for writing.'));
 		}
 	}
 
@@ -415,7 +415,7 @@ class JTemplatesController
 		/*
 		 * Initialize some variables
 		 */
-		$option = JRequest :: getVar('option');
+		$option = JRequest::getVar('option');
 		$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
 		if ($client->id == 1)
@@ -457,7 +457,7 @@ class JTemplatesController
 		$file			= $client->path.$tp_name;
 		$p_tname = $template;
 
-		$content = JFile :: read($file);
+		$content = JFile::read($file);
 		if ($content !== false)
 		{
 			$content = htmlspecialchars($content);

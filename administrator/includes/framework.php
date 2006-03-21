@@ -74,7 +74,7 @@ jimport( 'joomla.application.user.user' );
 jimport( 'joomla.utilities.profiler' );
 jimport( 'joomla.application.environment.session' );
 jimport( 'joomla.application.environment.request' );
-jimport( 'joomla.model.model' );
+jimport( 'joomla.database.table' );
 jimport( 'joomla.presentation.html' );
 jimport( 'joomla.factory' );
 jimport( 'joomla.filesystem.*' );

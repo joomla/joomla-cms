@@ -72,13 +72,13 @@ class ContentView {
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 				</th>
 				<th class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Title', 'c.title', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
 				</th>
 				<th width="1%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Published', 'c.state', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Published', 'c.state', $lists ); ?>
 				</th>
 				<th nowrap="nowrap" width="1%">
-					<?php mosCommonHTML :: tableOrdering( 'Front Page', 'frontpage', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Front Page', 'frontpage', $lists ); ?>
 				</th>
 				<?php
 				if ( $lists['order'] == 'section_name' || !$lists['order'] ) {
@@ -90,34 +90,34 @@ class ContentView {
 						<?php echo JText::_( 'Order' ); ?>
 					</th>
 					<th width="1%">
-						<?php mosCommonHTML :: saveorderButton( $rows ); ?>
+						<?php mosCommonHTML::saveorderButton( $rows ); ?>
 					</th>
 					<?php
 				}
 				?>
 				<th width="7%">
-					<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
 				</th>
 				<th width="2%" class="title">
-					<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
 				</th>
 				<?php
 				if ( $all ) {
 					?>
 					<th class="title" width="8%" nowrap="nowrap">
-						<?php mosCommonHTML :: tableOrdering( 'Section', 'section_name', $lists ); ?>
+						<?php mosCommonHTML::tableOrdering( 'Section', 'section_name', $lists ); ?>
 					</th>
 					<?php
 				}
 				?>
 				<th  class="title" width="8%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Category', 'cc.name', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Category', 'cc.name', $lists ); ?>
 				</th>
 				<th  class="title" width="8%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Author', 'author', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Author', 'author', $lists ); ?>
 				</th>
 				<th align="center" width="10">
-					<?php mosCommonHTML :: tableOrdering( 'Date', 'c.created', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Date', 'c.created', $lists ); ?>
 				</th>
 			  </tr>
 			<?php
@@ -344,22 +344,22 @@ class ContentView {
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 				</th>
 				<th class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Title', 'c.title', $lists, 'showarchive' ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Title', 'c.title', $lists, 'showarchive' ); ?>
 				</th>
 				<th width="3%"  class="title">
-					<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists, 'showarchive' ); ?>
+					<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists, 'showarchive' ); ?>
 				</th>
 				<th width="15%"  class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Section', 'sectname', $lists, 'showarchive' ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Section', 'sectname', $lists, 'showarchive' ); ?>
 				</th>
 				<th width="15%"  class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Category', 'cc.name', $lists, 'showarchive' ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Category', 'cc.name', $lists, 'showarchive' ); ?>
 				</th>
 				<th width="15%"  class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Author', 'author', $lists, 'showarchive' ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Author', 'author', $lists, 'showarchive' ); ?>
 				</th>
 				<th align="center" width="10">
-					<?php mosCommonHTML :: tableOrdering( 'Date', 'c.created', $lists, 'showarchive' ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Date', 'c.created', $lists, 'showarchive' ); ?>
 				</th>
 			</tr>
 			<?php
@@ -443,7 +443,7 @@ class ContentView {
 	*
 	* A new record is defined when <var>$row</var> is passed with the <var>id</var>
 	* property set to 0.
-	* @param JModelContent The category object
+	* @param JTableContent The category object
 	* @param string The html for the groups select list
 	*/
 	function editContent( &$row, $section, &$lists, &$sectioncategories, &$images, &$params, $option, $redirect, &$menus ) {

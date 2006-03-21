@@ -55,31 +55,31 @@ class HTML_contact {
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 				</th>
 				<th class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Name', 'cd.name', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Name', 'cd.name', $lists ); ?>
 				</th>
 				<th width="5%" class="title" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Published', 'cd.published', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Published', 'cd.published', $lists ); ?>
 				</th>
 				<th colspan="2" nowrap="nowrap" width="5%">
 					<?php echo JText::_( 'Reorder' ); ?>
 				</th>
 				<th width="2%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Order', 'cd.ordering', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Order', 'cd.ordering', $lists ); ?>
 	 			</th>
 				<th width="1%">
-					<?php mosCommonHTML :: saveorderButton( $rows ); ?>
+					<?php mosCommonHTML::saveorderButton( $rows ); ?>
 				</th>
 				<th width="7%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Access', 'cd.access', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Access', 'cd.access', $lists ); ?>
 				</th>
 				<th width="5%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'ID', 'cd.id', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'ID', 'cd.id', $lists ); ?>
 				</th>
 				<th width="15%" class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Category', 'category', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Category', 'category', $lists ); ?>
 				</th>
 				<th class="title" nowrap="nowrap" width="15%">
-					<?php mosCommonHTML :: tableOrdering( 'Linked to User', 'user', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Linked to User', 'user', $lists ); ?>
 				</th>
 			</tr>
 			<?php

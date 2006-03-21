@@ -55,31 +55,31 @@ class HTML_newsfeeds {
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 				</th>
 				<th class="title">
-					<?php mosCommonHTML :: tableOrdering( 'News Feed', 'a.name', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'News Feed', 'a.name', $lists ); ?>
 				</th>
 				<th width="7%">
-					<?php mosCommonHTML :: tableOrdering( 'Published', 'a.published', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Published', 'a.published', $lists ); ?>
 				</th>
 				<th colspan="2" width="2%">
 					<?php echo JText::_( 'Reorder' ); ?>
 				</th>
 				<th width="2%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Order', 'a.ordering', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Order', 'a.ordering', $lists ); ?>
 	 			</th>
 				<th width="1%">
-					<?php mosCommonHTML :: saveorderButton( $rows ); ?>
+					<?php mosCommonHTML::saveorderButton( $rows ); ?>
 				</th>
 				<th width="5%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'ID', 'a.id', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'ID', 'a.id', $lists ); ?>
 				</th>
 				<th class="title" width="17%">
-					<?php mosCommonHTML :: tableOrdering( 'Category', 'catname', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Category', 'catname', $lists ); ?>
 				</th>
 				<th width="5%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Num Articles', 'a.numarticles', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Num Articles', 'a.numarticles', $lists ); ?>
 				</th>
 				<th width="10%">
-					<?php mosCommonHTML :: tableOrdering( 'Cache time', 'a.cache_time', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Cache time', 'a.cache_time', $lists ); ?>
 				</th>
 			</tr>
 			<?php

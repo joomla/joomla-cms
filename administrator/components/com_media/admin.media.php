@@ -21,11 +21,11 @@ defined('_JEXEC') or die('Restricted access');
 $user = & $mainframe->getUser();
 if (!$user->authorize( 'com_media', 'manage' ))
 {
-	josRedirect('index2.php', JText :: _('ALERTNOTAUTH'));
+	josRedirect('index2.php', JText::_('ALERTNOTAUTH'));
 }
 
 // Load the admin HTML view
-require_once (JApplicationHelper :: getPath('admin_html'));
+require_once (JApplicationHelper::getPath('admin_html'));
 
 $cid = JRequest::getVar( 'cid', array (0), 'post', 'array');
 if (!is_array($cid)) {
@@ -37,7 +37,7 @@ $listdir = JRequest::getVar( 'listdir', '');
 $dirPath = JRequest::getVar( 'dirPath', '');
 
 if (is_int(strpos($listdir, "..")) && $listdir != '') {
-	josRedirect("index2.php?option=com_media&listdir=".$listDir, JText :: _('NO HACKING PLEASE'));
+	josRedirect("index2.php?option=com_media&listdir=".$listDir, JText::_('NO HACKING PLEASE'));
 }
 
 define('COM_MEDIA_BASE', JPATH_SITE.DS.'images');
@@ -74,7 +74,7 @@ switch ($task) {
 
 		// popup directory creation interface for use by components
 	case 'popupDirectory' :
-		JMediaViews :: popupDirectory(COM_MEDIA_BASEURL);
+		JMediaViews::popupDirectory(COM_MEDIA_BASEURL);
 		break;
 
 		// popup upload interface for use by components
@@ -108,16 +108,16 @@ class JMediaController
 		/*
 		 * Get the list of folders 
 		 */
-		$imgFolders = JFolder :: folders(COM_MEDIA_BASE, '.', true, true);
+		$imgFolders = JFolder::folders(COM_MEDIA_BASE, '.', true, true);
 
 		/*
 		 * Build the array of select options for the folder list
 		 */
-		$folders[] = mosHTML :: makeOption("/");
+		$folders[] = mosHTML::makeOption("/");
 		foreach ($imgFolders as $folder) {
 			$folder = str_replace(COM_MEDIA_BASE, "", $folder);
 			$folder = str_replace(DS, "/", $folder);
-			$folders[] = mosHTML :: makeOption($folder);
+			$folders[] = mosHTML::makeOption($folder);
 		}
 
 		/*
@@ -130,9 +130,9 @@ class JMediaController
 		/*
 		 * Create the drop-down folder select list
 		 */
-		$folderSelect = mosHTML :: selectList($folders, 'dirPath', "class=\"inputbox\" size=\"1\" onchange=\"goUpDir()\" ", 'value', 'text', $listFolder);
+		$folderSelect = mosHTML::selectList($folders, 'dirPath', "class=\"inputbox\" size=\"1\" onchange=\"goUpDir()\" ", 'value', 'text', $listFolder);
 
-		JMediaViews :: showMedia($folderSelect, $listFolder);
+		JMediaViews::showMedia($folderSelect, $listFolder);
 	}
 
 	/**
@@ -155,8 +155,8 @@ class JMediaController
 		/*
 		 * Get the list of files and folders from the given folder
 		 */
-		$fileList = JFolder :: files($basePath);
-		$folderList = JFolder :: folders($basePath);
+		$fileList = JFolder::files($basePath);
+		$folderList = JFolder::folders($basePath);
 
 		/*
 		 * Iterate over the files if they exist
@@ -196,9 +196,9 @@ class JMediaController
 		 * If there are no errors then lets list the media
 		 */
 		if ($folderList !== false && $fileList !== false) {
-			JMediaViews :: listMedia($listFolder, $folders, $docs, $images);
+			JMediaViews::listMedia($listFolder, $folders, $docs, $images);
 		} else {
-			JMediaViews :: listError();
+			JMediaViews::listError();
 		}
 	}
 
@@ -220,10 +220,10 @@ class JMediaController
 			$destDir = COM_MEDIA_BASE.$dirPathPost.DS;
 
 			if (file_exists($destDir.$file['name'])) {
-				josRedirect( $index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText :: _('Upload FAILED.File allready exists'));
+				josRedirect( $index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText::_('Upload FAILED.File allready exists'));
 			}
 
-			$format = JFile :: getExt($file['name']);
+			$format = JFile::getExt($file['name']);
 
 			$allowable = array ('bmp', 'csv', 'doc', 'epg', 'gif', 'ico', 'jpg', 'odg', 'odp', 'ods', 'odt', 'pdf', 'png', 'ppt', 'swf', 'txt', 'xcf', 'xls');
 			if (in_array($format, $allowable)) {
@@ -233,13 +233,13 @@ class JMediaController
 			}
 
 			if (!$noMatch) {
-				josRedirect($index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText :: _('This file type is not supported'));
+				josRedirect($index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText::_('This file type is not supported'));
 			}
 
 			if (!JFile::upload($file['tmp_name'], $destDir.strtolower($file['name']))) {
-				josRedirect($index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText :: _('Upload FAILED'));
+				josRedirect($index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText::_('Upload FAILED'));
 			} else {
-				josRedirect($index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText :: _('Upload complete'));
+				josRedirect($index."?option=com_media&task=popupUpload&listdir=".$dirPath, JText::_('Upload complete'));
 			}
 
 			$clearUploads = true;
@@ -258,13 +258,13 @@ class JMediaController
 
 		if (strlen($folderName) > 0) {
 			if (eregi("[^0-9a-zA-Z_]", $folderName)) {
-				mosRedirect("index2.php?option=com_media&listdir=".$_POST['dirPath'], JText :: _('WARNDIRNAME'));
+				mosRedirect("index2.php?option=com_media&listdir=".$_POST['dirPath'], JText::_('WARNDIRNAME'));
 			}
 			$folder = COM_MEDIA_BASE.$path.DS.$folderName;
 			if (!is_dir($folder) && !is_file($folder)) {
-				$folder = JPath :: clean($folder);
-				JFolder :: create($folder);
-				JFile :: write($folder."index.html", "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>");
+				$folder = JPath::clean($folder);
+				JFolder::create($folder);
+				JFile::write($folder."index.html", "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>");
 			}
 		}
 	}
@@ -280,7 +280,7 @@ class JMediaController
 		$delFile = JRequest::getVar( 'delFile' );
 		$fullPath = COM_MEDIA_BASE.$listdir.DS.$delFile;
 
-		return JFile :: delete($fullPath);
+		return JFile::delete($fullPath);
 	}
 
 	/**
@@ -295,7 +295,7 @@ class JMediaController
 		$delFolder = JRequest::getVar( 'delFolder' );
 		$delFolder = COM_MEDIA_BASE.$listdir.$delFolder;
 
-		$files = JFolder :: files($delFolder, '.', true);
+		$files = JFolder::files($delFolder, '.', true);
 
 		foreach ($files as $file) {
 			if ($file != 'index.html') {
@@ -304,9 +304,9 @@ class JMediaController
 		}
 
 		if ($canDelete) {
-			JFolder :: delete($delFolder);
+			JFolder::delete($delFolder);
 		} else {
-			echo '<font color="red">'.JText :: _('Unable to delete: not empty!').'</font>';
+			echo '<font color="red">'.JText::_('Unable to delete: not empty!').'</font>';
 		}
 	}
 }

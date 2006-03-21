@@ -142,7 +142,7 @@ class JRequest
 						/*
 						 * Clean the variable given using the given filter mask
 						 */
-						$result = JRequest :: cleanVar($result, $mask);
+						$result = JRequest::cleanVar($result, $mask);
 	
 						if (!is_array($result))
 						{
@@ -154,7 +154,7 @@ class JRequest
 						/*
 						 * Clean the variable given using the given filter mask
 						 */
-						$result = JRequest :: cleanVar($result, $mask);
+						$result = JRequest::cleanVar($result, $mask);
 	
 						$result = (string) $result;
 						break;
@@ -164,7 +164,7 @@ class JRequest
 						/*
 						 * Clean the variable given using the given filter mask
 						 */
-						$result = JRequest :: cleanVar($result, $mask);
+						$result = JRequest::cleanVar($result, $mask);
 						break;
 				}
 			}
@@ -257,7 +257,7 @@ class JRequest
 			 */
 			foreach ($var as $offset)
 			{
-				$offset = JRequest :: cleanVar($offset, $mask);
+				$offset = JRequest::cleanVar($offset, $mask);
 			}
 			$return = $var;
 		} else

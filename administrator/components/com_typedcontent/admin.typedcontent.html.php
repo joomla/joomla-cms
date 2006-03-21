@@ -64,31 +64,31 @@ class HTML_typedcontent {
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 				</th>
 				<th class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Title', 'c.title', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Title', 'c.title', $lists ); ?>
 				</th>
 				<th width="5%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Published', 'c.state', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Published', 'c.state', $lists ); ?>
 				</th>
 				<th nowrap="nowrap" width="1%">
-					<?php mosCommonHTML :: tableOrdering( 'Front Page', 'frontpage', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Front Page', 'frontpage', $lists ); ?>
 				</th>
 				<th width="2%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Order', 'c.ordering', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Order', 'c.ordering', $lists ); ?>
 				</th>
 				<th width="1%">
-					<?php mosCommonHTML :: saveorderButton( $rows ); ?>
+					<?php mosCommonHTML::saveorderButton( $rows ); ?>
 				</th>
 				<th width="7%">
-					<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
 				</th>
 				<th width="3%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
 				</th>
 				<th width="15%"  class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Author', 'creator', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Author', 'creator', $lists ); ?>
 				</th>
 				<th align="center" width="10%">
-					<?php mosCommonHTML :: tableOrdering( 'Date', 'c.created', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Date', 'c.created', $lists ); ?>
 				</th>
 				<th width="1%" >
 					<?php echo JText::_( 'Links' ); ?>

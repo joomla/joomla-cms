@@ -12,13 +12,13 @@
  */
 
 /**
- * Plugin model
+ * Plugin table
  *
  * @package 	Joomla.Framework
  * @subpackage 	Model
  * @since		1.0
  */
-class JModelPlugin extends JModel 
+class JTablePlugin extends JTable 
 {
 	/**
 	 * Primary Key
@@ -114,7 +114,7 @@ class JModelPlugin extends JModel
 	* @acces public  
 	* @param array $hash named array
 	* @return null|string	null is operation was satisfactory, otherwise returns an error
-	* @see JModel:bind
+	* @see JTable:bind
 	* @since 1.1
 	*/
 	function bind($array, $ignore = '')

@@ -54,7 +54,7 @@ jimport( 'joomla.factory' );
 jimport( 'joomla.filesystem.*' );
 jimport( 'joomla.presentation.parameter.parameter' );
 jimport( 'joomla.i18n.language' );
-jimport( 'joomla.model.model' );
+jimport( 'joomla.database.table' );
 jimport( 'joomla.application.application');
 jimport( 'joomla.application.environment.request' );
 jimport( 'joomla.application.environment.session' );

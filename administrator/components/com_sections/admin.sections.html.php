@@ -56,25 +56,25 @@ class sections_html {
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 				</th>
 				<th class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Section Name', 's.name', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Section Name', 's.name', $lists ); ?>
 				</th>
 				<th width="10%">
-					<?php mosCommonHTML :: tableOrdering( 'Published', 's.published', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Published', 's.published', $lists ); ?>
 				</th>
 				<th colspan="2" width="4%">
 					<?php echo JText::_( 'Reorder' ); ?>
 				</th>
 				<th width="2%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Order', 's.ordering', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Order', 's.ordering', $lists ); ?>
 				</th>
 				<th width="1%">
-					<?php mosCommonHTML :: saveorderButton( $rows ); ?>
+					<?php mosCommonHTML::saveorderButton( $rows ); ?>
 				</th>
 				<th width="8%">
-					<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
 				</th>
 				<th width="2%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'ID', 's.id', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'ID', 's.id', $lists ); ?>
 				</th>
 				<th width="9%" nowrap="nowrap">
 					<?php echo JText::_( 'Num Categories' ); ?>
@@ -175,7 +175,7 @@ class sections_html {
 	* A new record is defined when <var>$row</var> is passed with the <var>id</var>
 	* property set to 0.  Note that the <var>section</var> property <b>must</b> be defined
 	* even for a new record.
-	* @param JModelCategory The category object
+	* @param JTableCategory The category object
 	* @param string The html for the image list select list
 	* @param string The html for the image position select list
 	* @param string The html for the ordering list

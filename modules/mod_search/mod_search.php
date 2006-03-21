@@ -17,9 +17,9 @@ defined('_JEXEC') or die('Restricted access');
 $button					= $params->get('button', '');
 $imagebutton			= $params->get('imagebutton', '');
 $button_pos			= $params->get('button_pos', 'left');
-$button_text			= $params->get('button_text', JText :: _('Search'));
+$button_text			= $params->get('button_text', JText::_('Search'));
 $width						= intval($params->get('width', 20));
-$text						= $params->get('text', JText :: _('search...'));
+$text						= $params->get('text', JText::_('search...'));
 $moduleclass_sfx	= $params->get('moduleclass_sfx');
 $set_Itemid				= intval($params->get('set_itemid', 0));
 
@@ -29,7 +29,7 @@ if ($button)
 {
 	if ($imagebutton)
 	{
-		$img = mosAdminMenus :: ImageCheck('searchButton.gif', '/images/M_images/', NULL, NULL, $button_text, $button_text, 0);
+		$img = mosAdminMenus::ImageCheck('searchButton.gif', '/images/M_images/', NULL, NULL, $button_text, $button_text, 0);
 		$button = '<input type="image" value="'.$button_text.'" class="button'.$moduleclass_sfx.'" src="'.$img.'"/>';
 	}
 	else

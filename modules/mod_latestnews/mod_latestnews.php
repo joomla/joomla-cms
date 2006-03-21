@@ -104,7 +104,7 @@ switch ($type)
 <ul class="latestnews<?php echo $moduleclass_sfx; ?>">
 <?php
 
-$cache = JFactory :: getCache('getItemid');
+$cache = JFactory::getCache('getItemid');
 require_once (JApplicationHelper::getPath('front', 'com_content'));
 
 foreach ($rows as $row)

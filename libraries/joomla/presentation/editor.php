@@ -172,7 +172,7 @@ class JEditor extends JObservable {
 		// Build the path to the needed editor plugin
 		$path = JPATH_SITE.DS.'plugins'.DS.'editors'.DS.$editor.'.php';
 
-		//TODO :: Raise warning when the file can't be found
+		//TODO::Raise warning when the file can't be found
 		
 		// Require plugin file
 		require_once ($path);

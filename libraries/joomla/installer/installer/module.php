@@ -185,7 +185,7 @@ class JInstallerModule extends JInstaller
 			return false;
 		} else
 		{
-			$row = & JModel::getInstance('module', $db);
+			$row = & JTable::getInstance('module', $db);
 			$row->title = $this->_extensionName;
 			$row->ordering = 99;
 			$row->position = 'left';
@@ -305,10 +305,10 @@ class JInstallerModule extends JInstaller
 		$db = & $this->_db;
 
 		/*
-		 * First order of business will be to load the module object model from the database.
+		 * First order of business will be to load the module object table from the database.
 		 * This should give us the necessary information to proceed.
 		 */
-		$row = & JModel::getInstance('module', $db);
+		$row = & JTable::getInstance('module', $db);
 		$row->load($id);
 
 		/*

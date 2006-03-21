@@ -13,13 +13,13 @@
 */
 
 /**
- * Module model
+ * Module table
  *
  * @package 	Joomla.Framework
  * @subpackage 	Model
  * @since		1.0
  */
-class JModelModule extends JModel 
+class JTableModule extends JTable 
 {
 	/** @var int Primary key */
 	var $id					= null;
@@ -67,7 +67,7 @@ class JModelModule extends JModel
 	* 
 	* @access public  
 	* @return boolean True if the object is ok
-	* @see JModel:bind
+	* @see JTable:bind
 	*/
 	function check() 
 	{
@@ -97,7 +97,7 @@ class JModelModule extends JModel
 	* @acces public  
 	* @param array $hash named array
 	* @return null|string	null is operation was satisfactory, otherwise returns an error
-	* @see JModel:bind
+	* @see JTable:bind
 	* @since 1.1
 	*/
 	function bind($array, $ignore = '')

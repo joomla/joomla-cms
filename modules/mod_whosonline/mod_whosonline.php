@@ -84,7 +84,7 @@ if ($showmode == 0 || $showmode == 2)
 			}
 
 		$output .= '&nbsp;';
-		$output .= JText :: _('online');
+		$output .= JText::_('online');
 	}
 }
 

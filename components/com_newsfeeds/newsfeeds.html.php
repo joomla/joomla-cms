@@ -96,7 +96,7 @@ class HTML_newsfeed {
 			<tr>
 				<td align="right" colspan="4">		
 					<?php		
-					echo JText :: _('Display Num') .'&nbsp;';
+					echo JText::_('Display Num') .'&nbsp;';
 					$link = "index.php?option=com_newsfeeds&amp;catid=$catid&amp;Itemid=$Itemid";
 					echo $page->getLimitBox($link);
 					?>
@@ -110,7 +110,7 @@ class HTML_newsfeed {
 			?>
 			<tr>
 				<td class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>" width="5">
-					<?php echo JText :: _('Num'); ?>
+					<?php echo JText::_('Num'); ?>
 				</td>
 				<?php
 				if ( $params->get( 'name' ) ) {

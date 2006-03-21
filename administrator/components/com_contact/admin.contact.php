@@ -184,7 +184,7 @@ function showContacts( $option ) {
 function editContact( $id, $option ) {
 	global $database, $my;
 
-	$row = new JModelContact( $database );
+	$row = new JTableContact( $database );
 	// load the row from the db table
 	$row->load( $id );
 
@@ -235,7 +235,7 @@ function editContact( $id, $option ) {
 function saveContact( $task ) {
 	global $database;
 
-	$row = new JModelContact( $database );
+	$row = new JTableContact( $database );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -349,7 +349,7 @@ function changeContact( $cid=null, $state=0 ) {
 	}
 
 	if (count( $cid ) == 1) {
-		$row = new JModelContact( $database );
+		$row = new JTableContact( $database );
 		$row->checkin( intval( $cid[0] ) );
 	}
 
@@ -363,7 +363,7 @@ function changeContact( $cid=null, $state=0 ) {
 function orderContacts( $uid, $inc ) {
 	global $database;
 
-	$row = new JModelContact( $database );
+	$row = new JTableContact( $database );
 	$row->load( $uid );
 	$row->move( $inc, "catid = $row->catid AND published != 0" );
 
@@ -376,7 +376,7 @@ function orderContacts( $uid, $inc ) {
 function cancelContact() {
 	global $database;
 
-	$row = new JModelContact( $database );
+	$row = new JTableContact( $database );
 	$row->bind( $_POST );
 	$row->checkin();
 	
@@ -390,7 +390,7 @@ function cancelContact() {
 function changeAccess( $id, $access  ) {
 	global $database;
 
-	$row = new JModelContact( $database );
+	$row = new JTableContact( $database );
 	$row->load( $id );
 	$row->access = $access;
 	
@@ -421,7 +421,7 @@ function saveOrder( &$cid ) {
 		}
 
 		// update ordering
-		$row = new JModelContact( $database );
+		$row = new JTableContact( $database );
 		$row->load( $cid[$i] );
 		$row->updateOrder( "catid = $row->catid AND published != 0" );
 	}

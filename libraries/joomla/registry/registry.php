@@ -260,7 +260,7 @@ class JRegistry extends JObject
 		}
 
 		// Get the contents of the file
-		$data =& JFile :: read($file);
+		$data =& JFile::read($file);
 		
 		if (!isset($this->_registry[$namespace])) {
 			// If namespace does not exist, make it and load the data

@@ -13,57 +13,46 @@
 */
 
 /**
- * Menu model
+ * Component table
  *
  * @package 	Joomla.Framework
  * @subpackage 	Model
  * @since		1.0
  */
-class JModelMenu extends JModel 
+class JTableComponent extends JTable 
 {
 	/** @var int Primary key */
 	var $id					= null;
-	/** @var string */
-	var $menutype			= null;
 	/** @var string */
 	var $name				= null;
 	/** @var string */
 	var $link				= null;
 	/** @var int */
-	var $type				= null;
-	/** @var int */
-	var $published			= null;
-	/** @var int */
-	var $componentid		= null;
+	var $menuid				= null;
 	/** @var int */
 	var $parent				= null;
-	/** @var int */
-	var $sublevel			= null;
-	/** @var int */
-	var $ordering			= null;
-	/** @var boolean */
-	var $checked_out		= null;
-	/** @var datetime */
-	var $checked_out_time	= null;
-	/** @var boolean */
-	var $pollid				= null;
 	/** @var string */
-	var $browserNav			= null;
+	var $admin_menu_link	= null;
+	/** @var string */
+	var $admin_menu_alt		= null;
+	/** @var string */
+	var $option				= null;
+	/** @var string */
+	var $ordering			= null;
+	/** @var string */
+	var $admin_menu_img		= null;
 	/** @var int */
-	var $access				= null;
-	/** @var int */
-	var $utaccess			= null;
+	var $iscore				= null;
 	/** @var string */
 	var $params				= null;
+	/** @var int */
+	var $enabled			= null;
 
 	/**
-	 * Constructor
-	 * 
-	 * @access protected
-	 * @param database A database connector object
-	 */
+	* @param database A database connector object
+	*/
 	function __construct( &$db ) {
-		parent::__construct( '#__menu', 'id', $db );
+		parent::__construct( '#__components', 'id', $db );
 	}
 	
 	/**
@@ -72,12 +61,13 @@ class JModelMenu extends JModel
 	* @acces public  
 	* @param array $hash named array
 	* @return null|string	null is operation was satisfactory, otherwise returns an error
-	* @see JModel:bind
+	* @see JTable:bind
 	* @since 1.1
 	*/
-	
 	function bind($array, $ignore = '')
 	{
+		$params = JRequest::getVar( 'params', array(), 'post', 'array' );
+	
 		if (is_array( $array['params'] )) {
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
@@ -87,5 +77,4 @@ class JModelMenu extends JModel
 		return parent::bind($array, $ignore);
 	}
 }
-
 ?>

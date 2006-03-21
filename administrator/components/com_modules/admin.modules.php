@@ -231,7 +231,7 @@ function copyModule( $option, $uid )
 	 */
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	
-	$row 	=& JModel::getInstance('module', $database );
+	$row 	=& JTable::getInstance('module', $database );
 	
 	// load the row from the db table
 	$row->load( $uid );
@@ -283,7 +283,7 @@ function saveModule( $option, $task )
 	 */
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-	$row =& JModel::getInstance('module', $database );
+	$row =& JTable::getInstance('module', $database );
 	
 	if (!$row->bind( $_POST, 'selections' )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
@@ -365,7 +365,7 @@ function editModule( $option, $uid, $module=NULL )
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 	
 	$lists 	= array();
-	$row 	=& JModel::getInstance('module', $database );
+	$row 	=& JTable::getInstance('module', $database );
 	// load the row from the db table
 	$row->load( $uid );
 	// fail if checked out not by 'me'
@@ -379,7 +379,7 @@ function editModule( $option, $uid, $module=NULL )
 	if ( $uid ) {
 		$row->checkout( $my->id );
 	}
-	// if a new record we must still prime the JModelModel object with a default
+	// if a new record we must still prime the JTableModel object with a default
 	// position and the order; also add an extra item to the order list to
 	// place the 'new' record in last position if desired
 	if ($uid == 0) {
@@ -615,7 +615,7 @@ function removeModule( &$cid, $option )
 			echo "<script> alert('".$database->getErrorMsg()."');</script>\n";
 			exit;
 		}
-		$mod =& JModel::getInstance('module', $database );
+		$mod =& JTable::getInstance('module', $database );
 		$mod->ordering = 0;
 		$mod->updateOrder( "position='left'" );
 		$mod->updateOrder( "position='right'" );
@@ -663,7 +663,7 @@ function publishModule( $cid=null, $publish=1, $option )
 	}
 
 	if (count( $cid ) == 1) {
-		$row =& JModel::getInstance('module', $database );
+		$row =& JTable::getInstance('module', $database );
 		$row->checkin( $cid[0] );
 	}
 
@@ -682,7 +682,7 @@ function cancelModule( $option )
 	 */
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-	$row =& JModel::getInstance('module', $database );
+	$row =& JTable::getInstance('module', $database );
 	// ignore array elements
 	$row->bind( $_POST, 'selections params' );
 	$row->checkin();
@@ -704,7 +704,7 @@ function orderModule( $uid, $inc, $option )
 	 */
 	$client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
 
-	$row =& JModel::getInstance('module', $database );
+	$row =& JTable::getInstance('module', $database );
 	$row->load( $uid );
 
 	$row->move( $inc, "position = ".$row->position." AND client_id=".$client->id  );
@@ -739,7 +739,7 @@ function accessMenu( $uid, $access, $option )
 			break;
 	}
 
-	$row =& JModel::getInstance('module', $database );
+	$row =& JTable::getInstance('module', $database );
 	$row->load( $uid );
 	$row->access = $access;
 
@@ -764,7 +764,7 @@ function saveOrder( &$cid )
 
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
-	$row 		=& JModel::getInstance('module', $database );
+	$row 		=& JTable::getInstance('module', $database );
 	$conditions = array();
 
 	// update ordering values

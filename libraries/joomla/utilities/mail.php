@@ -63,7 +63,7 @@ class JMail extends PHPMailer
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $mail =& JMail :: getInstance();</pre>
+	 * 		<pre>  $mail =& JMail::getInstance();</pre>
 	 * 
 	 * NOTE: If you need an instance to use that does not have the global configuration
 	 * values, use an id string that is not 'Joomla'.
@@ -177,10 +177,10 @@ class JMail extends PHPMailer
 		if (isset ($cc)) {
 			if (is_array($cc)) {
 				foreach ($cc as $to) {
-					parent :: AddCC($to);
+					parent::AddCC($to);
 				}
 			} else {
-				parent :: AddCC($cc);
+				parent::AddCC($cc);
 			}
 		}
 	}
@@ -201,10 +201,10 @@ class JMail extends PHPMailer
 		if (isset ($bcc)) {
 			if (is_array($bcc)) {
 				foreach ($bcc as $to) {
-					parent :: AddBCC($to);
+					parent::AddBCC($to);
 				}
 			} else {
-				parent :: AddBCC($bcc);
+				parent::AddBCC($bcc);
 			}
 		}
 	}
@@ -225,10 +225,10 @@ class JMail extends PHPMailer
 		if (isset ($attachment)) {
 			if (is_array($attachment)) {
 				foreach ($attachment as $file) {
-					parent :: AddAttachment($file);
+					parent::AddAttachment($file);
 				}
 			} else {
-				parent :: AddAttachment($attachment);
+				parent::AddAttachment($attachment);
 			}
 		}
 	}
@@ -251,10 +251,10 @@ class JMail extends PHPMailer
 		 */
 		if (is_array($replyto[0])) {
 			foreach ($replyto as $to) {
-				parent :: AddReplyTo($to[0], $to[1]);
+				parent::AddReplyTo($to[0], $to[1]);
 			}
 		} else {
-			parent :: AddReplyTo($replyto[0], $replyto[1]);
+			parent::AddReplyTo($replyto[0], $replyto[1]);
 		}
 	}
 

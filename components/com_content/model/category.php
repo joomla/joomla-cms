@@ -90,7 +90,7 @@ class JContentCategory
 			JError::raiseError( 403, JText::_("Access Forbidden") );
 		}
 
-		$section = & JModel::getInstance('section', $db);
+		$section = & JTable::getInstance('section', $db);
 		$section->load($category->section);
 
 		/*

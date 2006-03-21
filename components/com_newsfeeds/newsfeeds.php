@@ -43,9 +43,9 @@ function listFeeds( $catid ) {
 	$database 			= & $mainframe->getDBO();
 	$user 				= & $mainframe->getUser();
 	$breadcrumbs 		= & $mainframe->getPathWay();
-	$option 			= JRequest :: getVar('option');
-	$limit 				= JRequest :: getVar('limit', 				0, '', 'int');
-	$limitstart 		= JRequest :: getVar('limitstart', 			0, '', 'int');
+	$option 			= JRequest::getVar('option');
+	$limit 				= JRequest::getVar('limit', 				0, '', 'int');
+	$limitstart 		= JRequest::getVar('limitstart', 			0, '', 'int');
 	$gid				= $user->get('gid');
 	
 	/* Query to retrieve all categories that belong under the contacts section and that are published. */
@@ -63,7 +63,7 @@ function listFeeds( $catid ) {
 	$categories = $database->loadObjectList();
 
 	// Parameters
-	$menu =& JModel::getInstance('menu', $database );
+	$menu =& JTable::getInstance('menu', $database );
 	$menu->load( $Itemid );
 	$params = new JParameter( $menu->params );
 	
@@ -199,7 +199,7 @@ function showFeed( $feedid ) {
 	// check if cache directory is writeable
 	$cacheDir = $mosConfig_cachepath .'/';
 	if ( !is_writable( $cacheDir ) ) {	
-		echo JText :: _( 'Cache Directory Unwriteable' );
+		echo JText::_( 'Cache Directory Unwriteable' );
 		return;
 	}
 	
@@ -219,7 +219,7 @@ function showFeed( $feedid ) {
 		return;
 	}
 		
-	$category = new JModelCategory($database);
+	$category = new JTableCategory($database);
 	$category->load($newsfeed->catid);
 	
 	/*
@@ -240,7 +240,7 @@ function showFeed( $feedid ) {
 	$LitePath = JPATH_SITE . '/includes/Cache/Lite.php';
 
 	// Adds parameter handling
-	$menu =& JModel::getInstance('menu', $database );
+	$menu =& JTable::getInstance('menu', $database );
 	$menu->load( $Itemid );
 	$params = new JParameter( $menu->params );
 	$params->def( 'page_title', 1 );

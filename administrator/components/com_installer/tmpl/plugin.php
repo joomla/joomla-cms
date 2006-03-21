@@ -60,7 +60,7 @@ class JInstallerExtensionTasks {
 		/*
 		 * Get the plugin base directory
 		 */
-		$baseDir = JPath :: clean(JPATH_SITE.DS.'plugins');
+		$baseDir = JPath::clean(JPATH_SITE.DS.'plugins');
 
 		$numRows = count($rows);
 		for ($i = 0; $i < $numRows; $i ++) {
@@ -73,7 +73,7 @@ class JInstallerExtensionTasks {
 
 			if (file_exists($xmlfile)) {
 
-				$xmlDoc = & JFactory :: getXMLParser();
+				$xmlDoc = & JFactory::getXMLParser();
 				$xmlDoc->resolveErrors(true);
 
 				if (!$xmlDoc->loadXML($xmlfile, false, true)) {
@@ -140,7 +140,7 @@ class JInstallerExtensionTasks {
 		$page = new JPagination( count( $rows ), $limitstart, $limit );
 		$rows = array_slice( $rows, $page->limitstart, $page->limit );
 		
-		JInstallerScreens_plugin :: showInstalled($rows, $lists, $page);
+		JInstallerScreens_plugin::showInstalled($rows, $lists, $page);
 
 	}
 }
@@ -256,7 +256,7 @@ class JInstallerScreens_plugin {
 				<?php echo $page->getListFooter(); ?>		
 				<?php
 			} else {
-				echo JText :: _('WARNNONONCORE');
+				echo JText::_('WARNNONONCORE');
 			}
 			?>
 			</fieldset>

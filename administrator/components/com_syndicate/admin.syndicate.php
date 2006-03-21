@@ -56,7 +56,7 @@ function showSyndicate( $option ) {
 	$id = $database->loadResult();
 
 	// load the row from the db table
-	$row =& JModel::getInstance('component', $database );
+	$row =& JTable::getInstance('component', $database );
 	$row->load( $id );
 
 	// get params definitions
@@ -74,7 +74,7 @@ function saveSyndicate() {
 
 	$id = JRequest::getVar( 'id', 17, 'post', 'int' );
 	
-	$row =& JModel::getInstance('component', $database );
+	$row =& JTable::getInstance('component', $database );
 	$row->load( $id );
 
 	if (!$row->bind( $_POST )) {

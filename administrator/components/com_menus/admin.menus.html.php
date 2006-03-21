@@ -73,31 +73,31 @@ class HTML_menusections {
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 				</th>
 				<th class="title" width="40%">
-					<?php mosCommonHTML :: tableOrdering( 'Menu Item', 'm.name', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Menu Item', 'm.name', $lists ); ?>
 				</th>
 				<th width="5%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Published', 'm.published', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Published', 'm.published', $lists ); ?>
 				</th>
 				<th colspan="2" width="5%">
 					<?php echo JText::_( 'Reorder' ); ?>
 				</th>
 				<th width="2%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Order', 'm.ordering', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Order', 'm.ordering', $lists ); ?>
 				</th>
 				<th width="1%">
-					<?php mosCommonHTML :: saveorderButton( $rows ); ?>
+					<?php mosCommonHTML::saveorderButton( $rows ); ?>
 				</th>
 				<th width="10%">
-					<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
 				</th>
 				<th nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Itemid', 'm.id', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Itemid', 'm.id', $lists ); ?>
 				</th>
 				<th width="35%" class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Type', 'm.type', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Type', 'm.type', $lists ); ?>
 				</th>
 				<th nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'CID', 'm.componentid', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'CID', 'm.componentid', $lists ); ?>
 				</th>
 			</tr>
 			<?php

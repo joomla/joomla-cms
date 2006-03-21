@@ -60,22 +60,22 @@ class HTML_banners {
 					<input type="checkbox" name="toggle" value=""  onclick="checkAll(<?php echo count( $rows ); ?>);" />
 				</th>
 				<th nowrap="nowrap" class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Banner Name', 'b.name', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Banner Name', 'b.name', $lists ); ?>
 				</th>
 				<th width="7%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Published', 'b.showBanner', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Published', 'b.showBanner', $lists ); ?>
 				</th>
 				<th width="3%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'ID', 'b.bid', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'ID', 'b.bid', $lists ); ?>
 				</th>
 				<th width="8%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Impressions Made', 'b.impmade', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Impressions Made', 'b.impmade', $lists ); ?>
 				</th>
 				<th width="8%" nowrap="nowrap">
 					<?php echo JText::_( 'Impressions Left' ); ?>
 				</th>
 				<th width="7%">
-					<?php mosCommonHTML :: tableOrdering( 'Clicks', 'b.clicks', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Clicks', 'b.clicks', $lists ); ?>
 				</th>
 				<th width="7%" nowrap="nowrap">
 					<?php echo JText::_( '% Clicks' ); ?>
@@ -380,16 +380,16 @@ class HTML_bannerClient {
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 				</th>
 				<th nowrap="nowrap" class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Client Name', 'a.name', $lists, 'listclients' ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Client Name', 'a.name', $lists, 'listclients' ); ?>
 				</th>
 				<th width="3%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'ID', 'a.cid', $lists, 'listclients' ); ?>
+					<?php mosCommonHTML::tableOrdering( 'ID', 'a.cid', $lists, 'listclients' ); ?>
 				</th>
 				<th nowrap="nowrap" class="title" width="35%">
-					<?php mosCommonHTML :: tableOrdering( 'Contact', 'a.contact', $lists, 'listclients' ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Contact', 'a.contact', $lists, 'listclients' ); ?>
 				</th>
 				<th align="center" nowrap="nowrap" width="5%">
-					<?php mosCommonHTML :: tableOrdering( 'No. of Active Banners', 'bid', $lists, 'listclients' ); ?>
+					<?php mosCommonHTML::tableOrdering( 'No. of Active Banners', 'bid', $lists, 'listclients' ); ?>
 				</th>
 			</tr>
 			<?php

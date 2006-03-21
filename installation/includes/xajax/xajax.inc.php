@@ -1,6 +1,6 @@
 <?php
 ///////////////////////////////////////////////////////////////////////////////
-// xajax.inc.php :: Main xajax class and setup file
+// xajax.inc.php::Main xajax class and setup file
 //
 // xajax version 0.2
 // copyright (c) 2005 by Jared White & J. Max Wilson

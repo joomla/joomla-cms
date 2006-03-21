@@ -13,8 +13,8 @@
 
 jimport( 'joomla.database.database' );
 jimport( 'joomla.database.database.mysql' );
-jimport( 'joomla.model.model' );
-jimport( 'joomla.model.model.*' );
+jimport( 'joomla.database.table' );
+jimport( 'joomla.database.table.*' );
 
 /**
  * Legacy class, derive from JApplication instead
@@ -107,13 +107,13 @@ class mosMainFrame extends JApplication
 }
 
 /**
- * Legacy class, derive from JModel instead
+ * Legacy class, derive from JTable instead
  * 
  * @deprecated	As of version 1.1
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosDBTable extends JModel 
+class mosDBTable extends JTable 
 {
 	/**
 	 * Constructor
@@ -128,13 +128,13 @@ class mosDBTable extends JModel
 }
 
 /**
- * Legacy class, use JModelCategory instead
+ * Legacy class, use JTableCategory instead
  * 
  * @deprecated	As of version 1.1
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosCategory extends JModelCategory 
+class mosCategory extends JTableCategory 
 {
 	/**
 	 * Constructor
@@ -149,13 +149,13 @@ class mosCategory extends JModelCategory
 }
 
 /**
- * Legacy class, use JModelComponent instead
+ * Legacy class, use JTableComponent instead
  * 
  * @deprecated	As of version 1.1
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosComponent extends JModelComponent 
+class mosComponent extends JTableComponent 
 {
 	/**
 	 * Constructor
@@ -170,13 +170,13 @@ class mosComponent extends JModelComponent
 }
 
 /**
- * Legacy class, use JModelContent instead
+ * Legacy class, use JTableContent instead
  * 
  * @deprecated	As of version 1.1
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosContent extends JModelContent 
+class mosContent extends JTableContent 
 {
 	/**
 	 * Constructor
@@ -191,13 +191,13 @@ class mosContent extends JModelContent
 }
 
 /**
- * Legacy class, replaced by JModelPlugin
+ * Legacy class, replaced by JTablePlugin
  * 
  * @deprecated	As of version 1.1
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosMambot extends JModelPlugin 
+class mosMambot extends JTablePlugin 
 {
 	/**
 	 * Constructor
@@ -212,13 +212,13 @@ class mosMambot extends JModelPlugin
 }
 
 /**
- * Legacy class, use JModelMenu instead
+ * Legacy class, use JTableMenu instead
  * 
  * @deprecated	As of version 1.1
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosMenu extends JModelMenu 
+class mosMenu extends JTableMenu 
 {
 	/**
 	 * Constructor
@@ -233,13 +233,13 @@ class mosMenu extends JModelMenu
 }
 
 /**
- * Legacy class, use JModelModule instead
+ * Legacy class, use JTableModule instead
  * 
  * @deprecated	As of version 1.1
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosModule extends JModelModule 
+class mosModule extends JTableModule 
 {
 	/**
 	 * Constructor
@@ -254,13 +254,13 @@ class mosModule extends JModelModule
 }
 
 /**
- * Legacy class, use JModelSection instead
+ * Legacy class, use JTableSection instead
  * 
  * @deprecated	As of version 1.1
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosSection extends JModelSection 
+class mosSection extends JTableSection 
 {
 	/**
 	 * Constructor
@@ -275,13 +275,13 @@ class mosSection extends JModelSection
 }
 
 /**
- * Legacy class, use JModelSession instead
+ * Legacy class, use JTableSession instead
  * 
  * @deprecated	As of version 1.1
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosSession extends JModelSession 
+class mosSession extends JTableSession 
 {
 	/**
 	 * Constructor
@@ -326,13 +326,13 @@ class mosSession extends JModelSession
 }
 
 /**
- * Legacy class, use JModelUser instead
+ * Legacy class, use JTableUser instead
  * 
  * @deprecated	As of version 1.1
  * @package		Joomla.Legacy
  * @subpackage	1.1
  */
-class mosUser extends JModelUser 
+class mosUser extends JTableUser 
 {
 	/**
 	 * Constructor

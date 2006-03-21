@@ -114,7 +114,7 @@ function userEdit( $option, $submitvalue)
 	$breadcrumbs 	=& $mainframe->getPathWay();
 	$user			=& $mainframe->getUser();	
 	
-	$menu =& JModel::getInstance('menu', $database );
+	$menu =& JTable::getInstance('menu', $database );
 	$menu->load( $Itemid );
 	
 	// Set page title

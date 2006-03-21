@@ -1155,7 +1155,7 @@ if(!class_exists('TCPDF')) {
 
 		/**
 		* This method is automatically called in case of fatal error; it simply outputs the message and halts the execution. An inherited class may override it to customize the error handling but should always halt the script, or the resulting document would probably be invalid.
-		* 2004-06-11 :: Nicola Asuni : changed bold tag with strong
+		* 2004-06-11::Nicola Asuni : changed bold tag with strong
 		* @param string $msg The error message
 		* @since 1.0
 		*/
@@ -2303,7 +2303,7 @@ if(!class_exists('TCPDF')) {
 			//Automatic width and height calculation if needed
 			if(($w == 0) and ($h == 0)) {
 				//Put image at 72 dpi
-				// 2004-06-14 :: Nicola Asuni, scale factor where added
+				// 2004-06-14::Nicola Asuni, scale factor where added
 				$w = $info['w'] / ($this->imgscale * $this->k);
 				$h = $info['h'] / ($this->imgscale * $this->k);
 			}

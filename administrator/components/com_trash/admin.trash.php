@@ -251,15 +251,15 @@ function deleteTrash( $cid, $option ) {
 	$total = count( $cid );
 
 	if ( $type == 'content' ) {
-		$obj =& JModel::getInstance('content', $database );
-		$fp = new JModelFrontPage( $database );
+		$obj =& JTable::getInstance('content', $database );
+		$fp = new JTableFrontPage( $database );
 		foreach ( $cid as $id ) {
 			$id = intval( $id );
 			$obj->delete( $id );
 			$fp->delete( $id );
 		}
 	} else if ( $type == "menu" ) {
-		$obj =& JModel::getInstance('menu', $database );
+		$obj =& JTable::getInstance('menu', $database );
 		foreach ( $cid as $id ) {
 			$id = intval( $id );
 			$obj->delete( $id );

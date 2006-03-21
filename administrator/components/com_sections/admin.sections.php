@@ -218,7 +218,7 @@ function showSections( $scope, $option ) {
 function editSection( $uid=0, $scope='', $option ) {
 	global $database, $my;
 
-	$row =& JModel::getInstance('section', $database );
+	$row =& JTable::getInstance('section', $database );
 	// load the row from the db table
 	$row->load( $uid );
 
@@ -304,7 +304,7 @@ function saveSection( $option, $scope, $task ) {
 	$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
 	$oldtitle 	= JRequest::getVar( 'oldtitle', '', '', 'post' );
 
-	$row =& JModel::getInstance('section', $database );
+	$row =& JTable::getInstance('section', $database );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); document.location.href='index2.php?option=$option&scope=$scope&task=new'; </script>\n";
 		exit();
@@ -456,7 +456,7 @@ function publishSections( $scope, $cid=null, $publish=1, $option ) {
 	}
 
 	if ( $count == 1 ) {
-		$row =& JModel::getInstance('section', $database );
+		$row =& JTable::getInstance('section', $database );
 		$row->checkin( $cid[0] );
 	}
 
@@ -493,7 +493,7 @@ function publishSections( $scope, $cid=null, $publish=1, $option ) {
 */
 function cancelSection( $option, $scope ) {
 	global $database;
-	$row =& JModel::getInstance('section', $database );
+	$row =& JTable::getInstance('section', $database );
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -507,7 +507,7 @@ function cancelSection( $option, $scope ) {
 function orderSection( $uid, $inc, $option, $scope ) {
 	global $database;
 
-	$row =& JModel::getInstance('section', $database );
+	$row =& JTable::getInstance('section', $database );
 	$row->load( $uid );
 	$row->move( $inc, "scope = '$row->scope'" );
 
@@ -559,7 +559,7 @@ function copySectionSave( $sectionid ) {
 	$categoryid = JRequest::getVar( 'category' );
 
 	// copy section
-	$section =& JModel::getInstance('section', $database );
+	$section =& JTable::getInstance('section', $database );
 	foreach( $sectionid as $id ) {
 		$section->load( $id );
 		$section->id 	= NULL;
@@ -584,7 +584,7 @@ function copySectionSave( $sectionid ) {
 	$sectionMove = $section->id;
 
 	// copy categories
-	$category =& JModel::getInstance('category', $database );
+	$category =& JTable::getInstance('category', $database );
 	foreach( $categoryid as $id ) {
 		$category->load( $id );
 		$category->id = NULL;
@@ -611,7 +611,7 @@ function copySectionSave( $sectionid ) {
 		$newcatids[]["new"] = $category->id;
 	}
 
-	$content =& JModel::getInstance('content', $database );
+	$content =& JTable::getInstance('content', $database );
 	foreach( $contentid as $id) {
 		$content->load( $id );
 		$content->id = NULL;
@@ -637,7 +637,7 @@ function copySectionSave( $sectionid ) {
 		}
 		$content->checkin();
 	}
-	$sectionOld =& JModel::getInstance('section', $database );
+	$sectionOld =& JTable::getInstance('section', $database );
 	$sectionOld->load( $sectionMove );
 
 	$msg = sprintf( JText::_( 'DESCCATANDITEMSCOPIED' ), $sectionOld-> name, $title );
@@ -651,7 +651,7 @@ function copySectionSave( $sectionid ) {
 function accessMenu( $uid, $access, $option ) {
 	global $database;
 
-	$row =& JModel::getInstance('section', $database );
+	$row =& JTable::getInstance('section', $database );
 	$row->load( $uid );
 	$row->access = $access;
 
@@ -668,7 +668,7 @@ function accessMenu( $uid, $access, $option ) {
 function menuLink( $id ) {
 	global $database;
 
-	$section =& JModel::getInstance('section', $database );
+	$section =& JTable::getInstance('section', $database );
 	$section->bind( $_POST );
 	$section->checkin();
 
@@ -695,7 +695,7 @@ function menuLink( $id ) {
 			break;
 	}
 
-	$row 				=& JModel::getInstance('menu', $database );
+	$row 				=& JTable::getInstance('menu', $database );
 	$row->menutype 		= $menu;
 	$row->name 			= $name;
 	$row->type 			= $type;
@@ -728,7 +728,7 @@ function saveOrder( &$cid ) {
 
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
-	$row 		=& JModel::getInstance('section', $database );
+	$row 		=& JTable::getInstance('section', $database );
 	$conditions = array();
 
 	// update ordering values

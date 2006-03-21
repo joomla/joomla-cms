@@ -39,10 +39,10 @@ class JInstallerExtensionTasks {
 		$limit 		= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
 		$limitstart = $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 
-		$select[] 			= mosHTML :: makeOption('-1', JText :: _('All'));
-		$select[] 			= mosHTML :: makeOption('0', JText :: _('Site Templates'));
-		$select[] 			= mosHTML :: makeOption('1', JText :: _('Admin Templates'));
-		$lists['filter'] 	= mosHTML :: selectList($select, 'filter', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter);
+		$select[] 			= mosHTML::makeOption('-1', JText::_('All'));
+		$select[] 			= mosHTML::makeOption('0', JText::_('Site Templates'));
+		$select[] 			= mosHTML::makeOption('1', JText::_('Admin Templates'));
+		$lists['filter'] 	= mosHTML::selectList($select, 'filter', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter);
 
 		if ($filter == '-1') {
 			$client = 'all';
@@ -170,7 +170,7 @@ class JInstallerExtensionTasks {
 		$page = new JPagination( count( $rows ), $limitstart, $limit );
 		$rows = array_slice( $rows, $page->limitstart, $page->limit );
 	
-		JInstallerScreens_template :: showInstalled($rows, $page, $client, $lists, $currentList);
+		JInstallerScreens_template::showInstalled($rows, $page, $client, $lists, $currentList);
 	}
 
 }
@@ -287,7 +287,7 @@ class JInstallerScreens_template
 				<?php echo $page->getListFooter(); ?>			
 				<?php
 			} else {
-				echo JText :: _('No Installed Templates');
+				echo JText::_('No Installed Templates');
 			}
 			?>
 			</fieldset>

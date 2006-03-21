@@ -71,7 +71,7 @@ if ($option == 'logout') {
 
 // get the information about the current user from the sessions table
 $user   = & $mainframe->getUser();
-$my		= $user->_model;
+$my		= $user->_table;
 
 // set for overlib check
 $mainframe->set( 'loadOverlib', false );

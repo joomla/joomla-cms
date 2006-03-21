@@ -185,7 +185,7 @@ function savePlugin( $option, $client, $task )
 {
 	global $database;
 
-	$row =& JModel::getInstance('plugin', $database); 
+	$row =& JTable::getInstance('plugin', $database); 
 	
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
@@ -231,7 +231,7 @@ function editPlugin( $option, $uid, $client ) {
 	global $database, $my, $mainframe;
 
 	$lists 	= array();
-	$row 	=& JModel::getInstance('plugin', $database); 
+	$row 	=& JTable::getInstance('plugin', $database); 
 
 	// load the row from the db table
 	$row->load( $uid );
@@ -344,7 +344,7 @@ function publishPlugin( $cid=null, $publish=1, $option, $client ) {
 	}
 
 	if (count( $cid ) == 1) {
-		$row =& JModel::getInstance('plugin', $database); 
+		$row =& JTable::getInstance('plugin', $database); 
 		$row->checkin( $cid[0] );
 	}
 
@@ -357,7 +357,7 @@ function publishPlugin( $cid=null, $publish=1, $option, $client ) {
 function cancelPlugin( $option, $client ) {
 	global $database;
 
-	$row =& JModel::getInstance('plugin', $database); 
+	$row =& JTable::getInstance('plugin', $database); 
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -378,7 +378,7 @@ function orderPlugin( $uid, $inc, $option, $client ) {
 	} else {
 		$where = "client_id = 0";
 	}
-	$row =& JModel::getInstance('plugin', $database); 
+	$row =& JTable::getInstance('plugin', $database); 
 	$row->load( $uid );
 	$row->move( $inc, "folder='$row->folder' AND ordering > -10000 AND ordering < 10000 AND ($where)"  );
 
@@ -406,7 +406,7 @@ function accessMenu( $uid, $access, $option, $client ) {
 			break;
 	}
 
-	$row =& JModel::getInstance('plugin', $database); 
+	$row =& JTable::getInstance('plugin', $database); 
 	$row->load( $uid );
 	$row->access = $access;
 
@@ -425,7 +425,7 @@ function saveOrder( &$cid ) {
 
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
-	$row 		=& JModel::getInstance('plugin', $database); 
+	$row 		=& JTable::getInstance('plugin', $database); 
 	$conditions = array();
 
 	// update ordering values

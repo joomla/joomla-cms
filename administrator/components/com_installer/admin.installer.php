@@ -23,7 +23,7 @@ require_once ($mainframe->getPath('admin_html'));
  */
 $user = & $mainframe->getUser();
 if (!$user->authorize('com_installer', 'installer')) {
-	josRedirect('index2.php', JText :: _('ALERTNOTAUTH'));
+	josRedirect('index2.php', JText::_('ALERTNOTAUTH'));
 }
 
 /*
@@ -323,17 +323,17 @@ class JInstallerController {
 		}
 
 		/*
-		 * Get a model object for the extension type
+		 * Get a table object for the extension type
 		 */
-		$model = & JModel::getInstance($extension, $db);
+		$table = & JTable::getInstance($extension, $db);
 
 		/*
-		 * Disable the extension in the model and store it in the database
+		 * Disable the extension in the table and store it in the database
 		 */
 		foreach ($eid as $id) {
-			$model->load($id);
-			$model->enabled = '1';
-			$model->store();
+			$table->load($id);
+			$table->enabled = '1';
+			$table->store();
 		}
 
 		/*
@@ -387,18 +387,18 @@ class JInstallerController {
 		}
 
 		/*
-		 * Get a model object for the extension type
+		 * Get a table object for the extension type
 		 */
-		$model = & JModel::getInstance($extension, $db);
+		$table = & JTable::getInstance($extension, $db);
 
 		/*
-		 * Disable the extension in the model and store it in the database
+		 * Disable the extension in the table and store it in the database
 		 */
 		foreach ($eid as $id) {
 
-			$model->load($id);
-			$model->enabled = '0';
-			$model->store();
+			$table->load($id);
+			$table->enabled = '0';
+			$table->store();
 		}
 
 		/*

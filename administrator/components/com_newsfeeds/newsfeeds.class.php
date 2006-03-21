@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Newsfeeds
 */
-class mosNewsFeed extends JModel {
+class mosNewsFeed extends JTable {
 /** @var int Primary key */
 	var $id					= null;
 /** @var int */

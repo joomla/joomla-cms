@@ -210,7 +210,7 @@ class JContentController
 
 			$all = NULL;
 			$filter = "\n WHERE cc.section = '$sectionid'";
-			$section = & JModel::getInstance('section', $db);
+			$section = & JTable::getInstance('section', $db);
 			$section->load($sectionid);
 		}
 
@@ -444,7 +444,7 @@ class JContentController
 		$javascript = 'onchange="document.adminForm.submit();"';
 		$lists['sectionid'] = mosAdminMenus::SelectSection('filter_sectionid', $filter_sectionid, $javascript);
 
-		$section = & JModel::getInstance('section', $db);
+		$section = & JTable::getInstance('section', $db);
 		$section->load($sectionid);
 
 		// get list of Authors for dropdown filter
@@ -500,9 +500,9 @@ class JContentController
 		$contentSection = '';
 
 		/*
-		 * Create and load the content item model
+		 * Create and load the content item table
 		 */
-		$row = & JModel::getInstance('content', $db);
+		$row = & JTable::getInstance('content', $db);
 		$row->load($cid);
 
 		if ($cid)
@@ -599,7 +599,7 @@ class JContentController
 			if (@ $_POST['catid'])
 			{
 				$row->catid = $_POST['catid'];
-				$category = & JModel::getInstance('category', $db);
+				$category = & JTable::getInstance('category', $db);
 				$category->load($_POST['catid']);
 				$sectionid = $category->section;
 			}
@@ -793,7 +793,7 @@ class JContentController
 		$nullDate	= $db->getNullDate();
 
 
-		$row = & JModel::getInstance('content', $db);
+		$row = & JTable::getInstance('content', $db);
 		if (!$row->bind($_POST)) {
 			JError::raiseError( 500, $db->stderr() );
 			return false;
@@ -886,11 +886,11 @@ class JContentController
 		/*
 		 * We need to update frontpage status for the content item.
 		 * 
-		 * First we include the frontpage model and instantiate an instance of
+		 * First we include the frontpage table and instantiate an instance of
 		 * it.
 		 */
 		require_once (JApplicationHelper::getPath('class', 'com_frontpage'));
-		$fp = new JModelFrontPage($db);
+		$fp = new JTableFrontPage($db);
 
 		/*
 		 * Is the content item viewable on the frontpage?
@@ -1004,7 +1004,7 @@ class JContentController
 
 		if (count($cid) == 1)
 		{
-			$row = & JModel::getInstance('content', $db);
+			$row = & JTable::getInstance('content', $db);
 			$row->checkin($cid[0]);
 		}
 
@@ -1074,11 +1074,11 @@ class JContentController
 		/*
 		 * We need to update frontpage status for the content items.
 		 * 
-		 * First we include the frontpage model and instantiate an instance of
+		 * First we include the frontpage table and instantiate an instance of
 		 * it.
 		 */
 		require_once (JApplicationHelper::getPath('class', 'com_frontpage'));
-		$fp = new JModelFrontPage($db);
+		$fp = new JTableFrontPage($db);
 
 		foreach ($cid as $id)
 		{
@@ -1174,7 +1174,7 @@ class JContentController
 		/*
 		 * Check the content item in if checked out
 		 */
-		$row = & JModel::getInstance('content', $db);
+		$row = & JTable::getInstance('content', $db);
 		$row->bind($_POST);
 		$row->checkin();
 
@@ -1197,7 +1197,7 @@ class JContentController
 		$option		= JRequest::getVar( 'option' );
 
 
-		$row = & JModel::getInstance('content', $db);
+		$row = & JTable::getInstance('content', $db);
 		$row->load($cid[0]);
 		$row->move($direction, "catid = $row->catid AND state >= 0");
 
@@ -1293,7 +1293,7 @@ class JContentController
 		$cids		= implode(',', $cid);
 		$uid		= $user->get('id');
 
-		$row = & JModel::getInstance('content', $db);
+		$row = & JTable::getInstance('content', $db);
 		// update old orders - put existing items in last place
 		foreach ($cid as $id)
 		{
@@ -1422,7 +1422,7 @@ class JContentController
 		$total = count($cid);
 		for ($i = 0; $i < $total; $i ++)
 		{
-			$row = & JModel::getInstance('content', $db);
+			$row = & JTable::getInstance('content', $db);
 
 			// main query
 			$query = "SELECT a.*" .
@@ -1496,9 +1496,9 @@ class JContentController
 		$uid		= $cid[0];
 
 		/*
-		 * Create and instantiate a the content model
+		 * Create and instantiate a the content table
 		 */
-		$row = & JModel::getInstance('content', $db);
+		$row = & JTable::getInstance('content', $db);
 		$row->load($uid);
 		$row->access = $access;
 
@@ -1540,9 +1540,9 @@ class JContentController
 		$conditions	= array ();
 		
 		/*
-		 * Instantiate a content item model
+		 * Instantiate a content item table
 		 */
-		$row = & JModel::getInstance('content', $db);
+		$row = & JTable::getInstance('content', $db);
 
 		/*
 		 * Update the ordering for items in the cid array
@@ -1661,9 +1661,9 @@ class JContentHelper {
 		$db	= & $mainframe->getDBO();
 
 		/*
-		 * Instantiate and load a content item model
+		 * Instantiate and load a content item table
 		 */
-		$row = & JModel::getInstance('content', $db);
+		$row = & JTable::getInstance('content', $db);
 		$row->Load($id);
 		$row->hits = 0;
 		$row->store();
@@ -1687,9 +1687,9 @@ class JContentHelper {
 		$link	= stripslashes( ampReplace($link) );
 		
 		/*
-		 * Instantiate a new menu item model
+		 * Instantiate a new menu item table
 		 */
-		$row = & JModel::getInstance('menu', $db);
+		$row = & JTable::getInstance('menu', $db);
 		$row->menutype		= $menu;
 		$row->name				= $link;
 		$row->type				= 'content_item_link';
@@ -1699,7 +1699,7 @@ class JContentHelper {
 		$row->ordering			= 9999;
 
 		/*
-		 * Make sure model values are valid
+		 * Make sure table values are valid
 		 */
 		if (!$row->check())
 		{

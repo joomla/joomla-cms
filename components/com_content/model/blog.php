@@ -143,7 +143,7 @@ class JContentBlog
 		// check whether section is published
 		if (!count($rows))
 		{
-			$secCheck = new JModelSection($db);
+			$secCheck = new JTableSection($db);
 			$secCheck->load($check);
 
 			/*
@@ -216,7 +216,7 @@ class JContentBlog
 		// check whether section & category is published
 		if (!count($rows))
 		{
-			$catCheck = new JModelCategory($db);
+			$catCheck = new JTableCategory($db);
 			$catCheck->load($check);
 
 			/*
@@ -234,7 +234,7 @@ class JContentBlog
 				JError::raiseError( 403, JText::_("Access Forbidden") );
 			}
 
-			$secCheck = new JModelSection($db);
+			$secCheck = new JTableSection($db);
 			$secCheck->load($catCheck->section);
 
 			/*

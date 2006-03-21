@@ -30,7 +30,7 @@ class JApplication extends JObject
 	/**
 	 * The current session
 	 *
-	 * @var JModelSession
+	 * @var JTableSession
 	 * @access protected
 	 */
 	var $_session = null;
@@ -71,7 +71,7 @@ class JApplication extends JObject
 	/**
 	 * The active user object
 	 *
-	 * @var object JModelUser
+	 * @var object JTableUser
 	 * @access protected
 	 */
 	var $_user = null;
@@ -248,7 +248,7 @@ class JApplication extends JObject
 				
 				// If the user is blocked, redirect with an error
 				if ($user->get('block') == 1) {
-					 // TODO :: provide error message
+					 // TODO::provide error message
 					return false;
 				}
 
@@ -567,7 +567,7 @@ class JApplication extends JObject
 	/**
 	 * Returns a reference to the JUser object
 	 *
-	 * @return JModelUser A user object with the information from the current session
+	 * @return JTableUser A user object with the information from the current session
 	 */
 	function &getUser()
 	{
@@ -683,7 +683,7 @@ class JApplication extends JObject
 		JSession::useCookies(true);
 		JSession::start(md5( $name ));
 		
-		$session = & JModel::getInstance('session', $this->getDBO());
+		$session = & JTable::getInstance('session', $this->getDBO());
 		$session->purge( intval( $this->getCfg( 'lifetime' ) ) );
 
 		if ($session->load( JSession::id())) {

@@ -176,7 +176,7 @@ function editWeblink( $option, $id )
 
 	$lists = array();
 
-	$row = new JModelWeblink( $database );
+	$row = new JTableWeblink( $database );
 	// load the row from the db table
 	$row->load( $id );
 
@@ -222,7 +222,7 @@ function editWeblink( $option, $id )
 function saveWeblink( $task ) {
 	global $database, $my;
 
-	$row = new JModelWeblink( $database );
+	$row = new JTableWeblink( $database );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -320,7 +320,7 @@ function publishWeblinks( $cid=null, $publish=1,  $option ) {
 	}
 
 	if (count( $cid ) == 1) {
-		$row = new JModelWeblink( $database );
+		$row = new JTableWeblink( $database );
 		$row->checkin( $cid[0] );
 	}
 	mosRedirect( "index2.php?option=". $option );
@@ -331,7 +331,7 @@ function publishWeblinks( $cid=null, $publish=1,  $option ) {
 */
 function orderWeblinks( $uid, $inc, $option ) {
 	global $database;
-	$row = new JModelWeblink( $database );
+	$row = new JTableWeblink( $database );
 	$row->load( $uid );
 	$row->move( $inc, "published >= 0" );
 
@@ -345,7 +345,7 @@ function orderWeblinks( $uid, $inc, $option ) {
 function cancelWeblink() {
 	global $database;
 	
-	$row = new JModelWeblink( $database );
+	$row = new JTableWeblink( $database );
 	$row->bind( $_POST );
 	$row->checkin();
 	
@@ -369,7 +369,7 @@ function saveOrder( &$cid ) {
 		}
 
 		// update ordering
-		$row = new JModelWeblink( $database );
+		$row = new JTableWeblink( $database );
 		$row->load( $cid[$i] );
 		$row->updateOrder();
 	}

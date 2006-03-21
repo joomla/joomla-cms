@@ -235,22 +235,22 @@ class HTML_statistics {
 					<?php echo JText::_( 'NUM' ); ?>
 				</th>
 				<th class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Title', 'c.title', $lists, $task ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Title', 'c.title', $lists, $task ); ?>
 				</th>
 				<th width="80" align="center" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Hits', 'c.hits', $lists, $task ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Hits', 'c.hits', $lists, $task ); ?>
 				</th>
 				<th width="50" align="center" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'State', 'c.state', $lists, $task ); ?>
+					<?php mosCommonHTML::tableOrdering( 'State', 'c.state', $lists, $task ); ?>
 				</th>
 				<th class="title" width="17%">
-					<?php mosCommonHTML :: tableOrdering( 'Section', 'sec_title', $lists, $task ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Section', 'sec_title', $lists, $task ); ?>
 				</th>
 				<th class="title" width="17%">
-					<?php mosCommonHTML :: tableOrdering( 'Category', 'cat_title', $lists, $task ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Category', 'cat_title', $lists, $task ); ?>
 				</th>
 				<th class="title" width="10%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Date', 'c.created', $lists, $task ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Date', 'c.created', $lists, $task ); ?>
 				</th>
 			</tr>
 			<?php
@@ -382,10 +382,10 @@ class HTML_statistics {
 					<?php echo JText::_( 'NUM' ); ?>
 				</th>
 				<th class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Search Text', 'search_term', $lists, $task ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Search Text', 'search_term', $lists, $task ); ?>
 				</th>
 				<th nowrap="nowrap" width="20%">
-					<?php mosCommonHTML :: tableOrdering( 'Times Requested', 'hits', $lists, $task ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Times Requested', 'hits', $lists, $task ); ?>
 				</th>
 				<?php
 				if ( $showResults ) {

@@ -64,10 +64,10 @@ class HTML_modules {
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 				</th>
 				<th class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Plugin Name', 'p.name', $lists ); ?>				
+					<?php mosCommonHTML::tableOrdering( 'Plugin Name', 'p.name', $lists ); ?>				
 				</th>
 				<th nowrap="nowrap" width="5%">
-					<?php mosCommonHTML :: tableOrdering( 'Published', 'p.published', $lists ); ?>				
+					<?php mosCommonHTML::tableOrdering( 'Published', 'p.published', $lists ); ?>				
 				</th>
 				<?php
 				if ( $lists['order'] == 'p.folder' ) {
@@ -79,22 +79,22 @@ class HTML_modules {
 						<?php echo JText::_( 'Order' ); ?>
 					</th>
 					<th width="1%">
-						<?php mosCommonHTML :: saveorderButton( $rows ); ?>
+						<?php mosCommonHTML::saveorderButton( $rows ); ?>
 					</th>
 					<?php
 				}
 				?>
 				<th nowrap="nowrap" width="7%">
-					<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>				
+					<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>				
 				</th>
 				<th nowrap="nowrap"  width="3%" class="title">
-					<?php mosCommonHTML :: tableOrdering( 'ID', 'p.id', $lists ); ?>				
+					<?php mosCommonHTML::tableOrdering( 'ID', 'p.id', $lists ); ?>				
 				</th>
 				<th nowrap="nowrap"  width="13%" class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Type', 'p.folder', $lists ); ?>				
+					<?php mosCommonHTML::tableOrdering( 'Type', 'p.folder', $lists ); ?>				
 				</th>
 				<th nowrap="nowrap"  width="13%" class="title">
-					<?php mosCommonHTML :: tableOrdering( 'File', 'p.element', $lists ); ?>				
+					<?php mosCommonHTML::tableOrdering( 'File', 'p.element', $lists ); ?>				
 				</th>
 			</tr>
 			<?php

@@ -928,7 +928,7 @@ class mosCommonHTML {
 		?>
 		<a href="javascript:tableOrdering('<?php echo $ordering; ?>','<?php echo $lists['order_Dir']; ?>','<?php echo $task; ?>');" title="<?php echo JText::_( 'Order by' ); ?> <?php echo JText::_( $text ); ?>">
 			<?php echo JText::_( $text ); ?>
-			<?php mosCommonHTML :: tableOrdering_img( $ordering, $lists ); ?></a>
+			<?php mosCommonHTML::tableOrdering_img( $ordering, $lists ); ?></a>
 		<?php
 	}
 	function tableOrdering_img( $current, &$lists ) {

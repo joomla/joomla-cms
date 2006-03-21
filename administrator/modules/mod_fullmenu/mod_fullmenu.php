@@ -68,7 +68,7 @@ class JFullAdminMenu {
 				}
 			}
 		}
-		$menuTypes = mosAdminMenus :: menutypes();
+		$menuTypes = mosAdminMenus::menutypes();
 		?>
 		<div id="myMenuID"></div>
 		<script language="JavaScript" type="text/javascript">
@@ -247,7 +247,7 @@ class JFullAdminMenu {
 						if ($topLevelCount > $topLevelLimit) {
 							continue;
 						}
-						$name 	= JText :: _($row->name);
+						$name 	= JText::_($row->name);
 						$name 	= addslashes($name);
 						$alt 	= addslashes($row->admin_menu_alt);
 						$link 	= $row->admin_menu_link ? "'index2.php?$row->admin_menu_link'" : "null";
@@ -257,7 +257,7 @@ class JFullAdminMenu {
 						if (array_key_exists($row->id, $subs)) 	{
 							foreach ($subs[$row->id] as $sub) {
 								echo ",\n";
-								$name 	= JText :: _($sub->name);
+								$name 	= JText::_($sub->name);
 								$name 	= addslashes($name);
 								$alt 	= addslashes($sub->admin_menu_alt);
 								$link 	= $sub->admin_menu_link ? "'index2.php?$sub->admin_menu_link'" : "null";
@@ -274,7 +274,7 @@ class JFullAdminMenu {
 			}
 			if ($topLevelLimit < $topLevelCount) {
 				?>
-				['<img src=\"../includes/js/ThemeOffice/sections.png\" />','<?php echo JText :: _('More Components...', true); ?>','index2.php?option=com_admin&task=listcomponents',null,'<?php echo JText::_( 'More Components...', true ); ?>']
+				['<img src=\"../includes/js/ThemeOffice/sections.png\" />','<?php echo JText::_('More Components...', true); ?>','index2.php?option=com_admin&task=listcomponents',null,'<?php echo JText::_( 'More Components...', true ); ?>']
 				<?php
 			}
 			?>
@@ -389,7 +389,7 @@ class JFullAdminMenu {
 		$canMassMail 		= $user->authorize('com_massmail', 		'manage');
 		$canManageUsers 	= $user->authorize('com_users', 		'manage');
 
-		$text = JText :: _('Menu inactive for this Page', true);
+		$text = JText::_('Menu inactive for this Page', true);
 		?>
 		<div id="myMenuID" class="inactive"></div>
 		<script language="JavaScript" type="text/javascript">
@@ -456,11 +456,11 @@ if ($canConfig)	{
 $lang 	= & $mainframe->getLanguage();
 $doc 	= & $mainframe->getDocument();
 $user 	= & $mainframe->getUser();
-$hide 	= JRequest :: getVar( 'hidemainmenu', 0 );
+$hide 	= JRequest::getVar( 'hidemainmenu', 0 );
 
 /*
  * TODO: Implement caching
- * $cache 	= & JFactory :: getCache('jos_fullmenu');
+ * $cache 	= & JFactory::getCache('jos_fullmenu');
  */
 
 // Add the javascript to the page head
@@ -478,8 +478,8 @@ if ($lang->isRTL()) {
  * full menu.
  */
 if ($hide) {
-	JFullAdminMenu :: showDisabled($user->get('usertype'));
+	JFullAdminMenu::showDisabled($user->get('usertype'));
 } else {
-	JFullAdminMenu :: show($user->get('usertype'));
+	JFullAdminMenu::show($user->get('usertype'));
 }
 ?>

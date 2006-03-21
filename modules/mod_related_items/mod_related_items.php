@@ -81,7 +81,7 @@ if ($option == 'com_content' && $task == 'view' && $id)
 				<ul class="relateditems<?php echo $moduleclass_sfx; ?>">
 				<?php
 
-				$cache = JFactory :: getCache('getItemid');
+				$cache = JFactory::getCache('getItemid');
 				require_once (JApplicationHelper::getPath('front', 'com_content'));
 				
 				foreach ($related as $item)

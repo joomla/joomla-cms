@@ -258,7 +258,7 @@ class JPagination extends JObject {
 				$page = $this_page * $this->limit;
 				$end_page = ($total_pages -1) * $this->limit;
 				$html .= '<a href="'.sefRelToAbs($link.'&amp;limitstart='.$page).' " class="pagenav" title="next page">'.JText::_('Next').$pnSpace.JText::_('&gt').'</a> ';
-				$html .= '<a href="'.sefRelToAbs($link.'&amp;limitstart='.$end_page).' " class="pagenav" title="end page">'.JText::_('End').$pnSpace.JText::_('&gt').JText :: _('&gt').'</a>';
+				$html .= '<a href="'.sefRelToAbs($link.'&amp;limitstart='.$end_page).' " class="pagenav" title="end page">'.JText::_('End').$pnSpace.JText::_('&gt').JText::_('&gt').'</a>';
 			} else {
 				$html .= '<span class="pagenav">'.JText::_('Next').$pnSpace.JText::_('&gt').'</span> ';
 				$html .= '<span class="pagenav">'.JText::_('End').$pnSpace.JText::_('&gt').JText::_('&gt').'</span>';

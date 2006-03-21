@@ -389,7 +389,7 @@ class InputFilter
 			/*
 			 * Autostrip script tags
 			 */
-			if (InputFilter :: badAttributeValue($attrSubSet))
+			if (InputFilter::badAttributeValue($attrSubSet))
 			{
 				continue;
 			}

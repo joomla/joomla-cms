@@ -16,34 +16,34 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Load the HTML view class
-require_once (JApplicationHelper :: getPath('front_html'));
-require_once (JApplicationHelper :: getPath('class'));
+require_once (JApplicationHelper::getPath('front_html'));
+require_once (JApplicationHelper::getPath('class'));
 
 // Set the base page title
-$mainframe->setPageTitle(JText :: _('Contact'));
+$mainframe->setPageTitle(JText::_('Contact'));
 
 // Set the component level breadcrumbs name
 $breadcrumbs = & $mainframe->getPathWay();
-$breadcrumbs->setItemName(1, JText :: _('Contact'));
+$breadcrumbs->setItemName(1, JText::_('Contact'));
 
 // Get the task variable
-$task = JRequest :: getVar( 'task' );
+$task = JRequest::getVar( 'task' );
 
 switch ($task) {
 	case 'view' :
-		JContactController :: contactPage();
+		JContactController::contactPage();
 		break;
 
 	case 'vcard' :
-		JContactController :: vCard();
+		JContactController::vCard();
 		break;
 
 	case 'sendmail' :
-		JContactController :: sendmail();
+		JContactController::sendmail();
 		break;
 
 	default :
-		JContactController :: listContacts();
+		JContactController::listContacts();
 		break;
 }
 
@@ -72,12 +72,12 @@ class JContactController {
 		$db 				= & $mainframe->getDBO();
 		$user 				= & $mainframe->getUser();
 		$breadcrumbs	 	= & $mainframe->getPathWay();
-		$option 			= JRequest :: getVar('option');
-		$catid 				= JRequest :: getVar('catid', 				0, '', 'int');
-		$limit 				= JRequest :: getVar('limit', 				0, '', 'int');
-		$limitstart 		= JRequest :: getVar('limitstart', 			0, '', 'int');
-		$filter_order		= JRequest :: getVar('filter_order', 		'cd.ordering');
-		$filter_order_Dir	= JRequest :: getVar('filter_order_Dir', 	'ASC');
+		$option 			= JRequest::getVar('option');
+		$catid 				= JRequest::getVar('catid', 				0, '', 'int');
+		$limit 				= JRequest::getVar('limit', 				0, '', 'int');
+		$limitstart 		= JRequest::getVar('limitstart', 			0, '', 'int');
+		$filter_order		= JRequest::getVar('filter_order', 		'cd.ordering');
+		$filter_order_Dir	= JRequest::getVar('filter_order_Dir', 	'ASC');
 		$gid				= $user->get('gid');
 
 		/*
@@ -100,13 +100,13 @@ class JContactController {
 		$count = count($categories);
 		if (($count < 2) && (@ $categories[0]->numlinks == 1)) {
 			// if only one record exists loads that record, instead of displying category list
-			JContactController :: contactPage($categories[0]->cid);
+			JContactController::contactPage($categories[0]->cid);
 		} else { 
 			$rows = array ();
 			$current = new stdClass();
 
 			// Parameters
-			$menu = & JModel :: getInstance('menu', $db);
+			$menu = & JTable::getInstance('menu', $db);
 			$menu->load($Itemid);
 			$params = new JParameter($menu->params);
 
@@ -115,7 +115,7 @@ class JContactController {
 			$params->def('pageclass_sfx', 		'');
 			$params->def('headings', 			1);
 			$params->def('back_button', 		$mainframe->getCfg('back_button'));
-			$params->def('description_text', 	JText :: _('The Contact list for this Website.'));
+			$params->def('description_text', 	JText::_('The Contact list for this Website.'));
 			$params->def('image', 				-1);
 			$params->def('image_align', 		'right');
 			$params->def('other_cat_section', 	1);
@@ -230,7 +230,7 @@ class JContactController {
 			 * Lets set the page title
 			 */
 			if (!empty ($current->cname)) {
-				$mainframe->setPageTitle(JText :: _('Contact').' - '.$current->cname);
+				$mainframe->setPageTitle(JText::_('Contact').' - '.$current->cname);
 			}
 
 			/*
@@ -249,7 +249,7 @@ class JContactController {
 			$lists['order'] = $filter_order;
 			$selected = '';
 			
-			JContactView :: displaylist($categories, $rows, $current, $catid, $params, $lists, $page);
+			JContactView::displaylist($categories, $rows, $current, $catid, $params, $lists, $page);
 		}
 	}
 
@@ -267,14 +267,14 @@ class JContactController {
 		 */
 		$db 		= & $mainframe->getDBO();
 		$user 		= & $mainframe->getUser();
-		$contactId 	= JRequest :: getVar('contact_id', $cid, '', 'int');
+		$contactId 	= JRequest::getVar('contact_id', $cid, '', 'int');
 		$gid		= $user->get('gid');
 		$contact 	= null;
 
 		/*
 		 * Get the parameters for this particular menu item
 		 */
-		$menu 		= & JModel :: getInstance('menu', $db);
+		$menu 		= & JTable::getInstance('menu', $db);
 		$menu->load($Itemid);
 		$menuParams = new JParameter($menu->params);
 
@@ -324,7 +324,7 @@ class JContactController {
 						"\n ORDER BY a.default_con DESC, a.ordering ASC";
 				$db->setQuery($query);
 				$list = $db->loadObjectList();
-				$contact->select = mosHTML :: selectList($list, 'contact_id', 'class="inputbox" onchange="ViewCrossReference(this);"', 'value', 'text', $contactId);
+				$contact->select = mosHTML::selectList($list, 'contact_id', 'class="inputbox" onchange="ViewCrossReference(this);"', 'value', 'text', $contactId);
 			}
 
 			// Adds parameter handling
@@ -346,7 +346,7 @@ class JContactController {
 			$params->def('misc', 				1);
 			$params->def('image', 				1);
 			$params->def('email_description', 	1);
-			$params->def('email_description_text', JText :: _('Send an Email to this Contact:'));
+			$params->def('email_description_text', JText::_('Send an Email to this Contact:'));
 			$params->def('email_form', 			1);
 			$params->def('email_copy', 			0);
 			// global pront|pdf|email
@@ -364,13 +364,13 @@ class JContactController {
 			if ($contact->email_to && $params->get('email'))
 			{
 				// email cloacking
-				$contact->email = mosHTML :: emailCloaking($contact->email_to);
+				$contact->email = mosHTML::emailCloaking($contact->email_to);
 			}
 
 			/*
 			 * If the popup var is set, make some parameter changes
 			 */
-			$pop = JRequest :: getVar('pop', 0, '', 'int');
+			$pop = JRequest::getVar('pop', 0, '', 'int');
 			if ($pop)
 			{
 				$params->set('popup', 1);
@@ -407,11 +407,11 @@ class JContactController {
 			switch ($params->get('contact_icons')) {
 				case 1 :
 					// text
-					$params->set('marker_address', JText :: _('Address').": ");
-					$params->set('marker_email', JText :: _('Email').": ");
-					$params->set('marker_telephone', JText :: _('Telephone').": ");
-					$params->set('marker_fax', JText :: _('Fax').": ");
-					$params->set('marker_misc', JText :: _('Information').": ");
+					$params->set('marker_address', JText::_('Address').": ");
+					$params->set('marker_email', JText::_('Email').": ");
+					$params->set('marker_telephone', JText::_('Telephone').": ");
+					$params->set('marker_fax', JText::_('Fax').": ");
+					$params->set('marker_misc', JText::_('Information').": ");
 					$params->set('column_width', '100');
 					break;
 				case 2 :
@@ -425,11 +425,11 @@ class JContactController {
 					break;
 				default :
 					// icons
-					$image1 = mosAdminMenus :: ImageCheck('con_address.png', '/images/M_images/', $params->get('icon_address'), '/images/M_images/', JText :: _('Address').": ", JText :: _('Address').": ");
-					$image2 = mosAdminMenus :: ImageCheck('emailButton.png', '/images/M_images/', $params->get('icon_email'), '/images/M_images/', JText :: _('Email').": ", JText :: _('Email').": ");
-					$image3 = mosAdminMenus :: ImageCheck('con_tel.png', '/images/M_images/', $params->get('icon_telephone'), '/images/M_images/', JText :: _('Telephone').": ", JText :: _('Telephone').": ");
-					$image4 = mosAdminMenus :: ImageCheck('con_fax.png', '/images/M_images/', $params->get('icon_fax'), '/images/M_images/', JText :: _('Fax').": ", JText :: _('Fax').": ");
-					$image5 = mosAdminMenus :: ImageCheck('con_info.png', '/images/M_images/', $params->get('icon_misc'), '/images/M_images/', JText :: _('Information').": ", JText :: _('Information').": ");
+					$image1 = mosAdminMenus::ImageCheck('con_address.png', '/images/M_images/', $params->get('icon_address'), '/images/M_images/', JText::_('Address').": ", JText::_('Address').": ");
+					$image2 = mosAdminMenus::ImageCheck('emailButton.png', '/images/M_images/', $params->get('icon_email'), '/images/M_images/', JText::_('Email').": ", JText::_('Email').": ");
+					$image3 = mosAdminMenus::ImageCheck('con_tel.png', '/images/M_images/', $params->get('icon_telephone'), '/images/M_images/', JText::_('Telephone').": ", JText::_('Telephone').": ");
+					$image4 = mosAdminMenus::ImageCheck('con_fax.png', '/images/M_images/', $params->get('icon_fax'), '/images/M_images/', JText::_('Fax').": ", JText::_('Fax').": ");
+					$image5 = mosAdminMenus::ImageCheck('con_info.png', '/images/M_images/', $params->get('icon_misc'), '/images/M_images/', JText::_('Information').": ", JText::_('Information').": ");
 					$params->set('marker_address', $image1);
 					$params->set('marker_email', $image2);
 					$params->set('marker_telephone', $image3);
@@ -442,7 +442,7 @@ class JContactController {
 			/*
 			 * Set the document page title
 			 */
-			$mainframe->setPageTitle(JText :: _('Contact').' - '.$contact->name);
+			$mainframe->setPageTitle(JText::_('Contact').' - '.$contact->name);
 
 			/*
 			 * Add the breadcrumbs items
@@ -455,11 +455,11 @@ class JContactController {
 			}
 			$breadcrumbs->addItem($contact->name, '');
 
-			JContactView :: viewContact($contact, $params, count($list), $list, $menuParams);
+			JContactView::viewContact($contact, $params, count($list), $list, $menuParams);
 		} else {
 			$params = new JParameter('');
 			$params->def('back_button', $mainframe->getCfg('back_button'));
-			JContactView :: noContact($params);
+			JContactView::noContact($params);
 		}
 	}
 
@@ -483,15 +483,15 @@ class JContactController {
 		$FromName 	= $mainframe->getCfg('fromname');
 		$validate 	= mosHash( $mainframe->getCfg('db') );
 		
-		$default 	= sprintf(JText :: _('MAILENQUIRY'), $SiteName);
-		$option 	= JRequest :: getVar('option');
-		$contactId 	= JRequest :: getVar('con_id');
-		$validate 	= JRequest :: getVar($validate, 	0, 			'post');
-		$email 		= JRequest :: getVar('email', 		'', 		'post');
-		$text 		= JRequest :: getVar('text', 		'', 		'post');
-		$name 		= JRequest :: getVar('name', 		'', 		'post');
-		$subject 	= JRequest :: getVar('subject', 	$default, 	'post');
-		$emailCopy 	= JRequest :: getVar('email_copy', 	0, 			'post');
+		$default 	= sprintf(JText::_('MAILENQUIRY'), $SiteName);
+		$option 	= JRequest::getVar('option');
+		$contactId 	= JRequest::getVar('con_id');
+		$validate 	= JRequest::getVar($validate, 	0, 			'post');
+		$email 		= JRequest::getVar('email', 		'', 		'post');
+		$text 		= JRequest::getVar('text', 		'', 		'post');
+		$name 		= JRequest::getVar('name', 		'', 		'post');
+		$subject 	= JRequest::getVar('subject', 	$default, 	'post');
+		$emailCopy 	= JRequest::getVar('email_copy', 	0, 			'post');
 
 		// probably a spoofing attack
 		if (!$validate) {
@@ -550,7 +550,7 @@ class JContactController {
 		/*
 		 * Load the contact details
 		 */
-		$contact = new JModelContact($db);
+		$contact = new JTableContact($db);
 		$contact->load($contactId);
 
 		/*
@@ -558,10 +558,10 @@ class JContactController {
 		 * error and return false.
 		 */
 		jimport('joomla.utilities.mail');
-		if (!$email || !$text || (JMailHelper :: isEmailAddress($email) == false)) {
-			JContactView :: emailError();
+		if (!$email || !$text || (JMailHelper::isEmailAddress($email) == false)) {
+			JContactView::emailError();
 		} else {
-			$menu = JModel :: getInstance( 'menu', $db );
+			$menu = JTable::getInstance( 'menu', $db );
 			$menu->load( $Itemid );
 			$mparams = new JParameter( $menu->params );		
 			$bannedEmail 	= $mparams->get( 'bannedEmail', 	'' );		
@@ -618,7 +618,7 @@ class JContactController {
 			/*
 			 * Prepare email body
 			 */
-			$prefix = sprintf(JText :: _('ENQUIRY_TEXT'), $mainframe->getBaseURL());
+			$prefix = sprintf(JText::_('ENQUIRY_TEXT'), $mainframe->getBaseURL());
 			$text 	= $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($text);
 
 			// Send mail
@@ -633,9 +633,9 @@ class JContactController {
 			
 			// check whether email copy function activated
 			if ( $emailCopy && $emailcopyCheck ) {
-				$copyText 		= sprintf(JText :: _('Copy of:'), $contact->name, $SiteName);
+				$copyText 		= sprintf(JText::_('Copy of:'), $contact->name, $SiteName);
 				$copyText 		.= "\r\n\r\n".$text;
-				$copySubject 	= JText :: _('Copy of:')." ".$subject;
+				$copySubject 	= JText::_('Copy of:')." ".$subject;
 				josMail($MailFrom, $FromName, $email, $copySubject, $copyText);
 			}
 		
@@ -661,12 +661,12 @@ class JContactController {
 		$db = & $mainframe->getDBO();
 		
 		$SiteName = $mainframe->getCfg('sitename');
-		$contactId = JRequest :: getVar('contact_id', 0, '', 'int');
+		$contactId = JRequest::getVar('contact_id', 0, '', 'int');
 
 		/*
-		 * Get a JContact model object and load the selected contact details
+		 * Get a JContact table object and load the selected contact details
 		 */
-		$contact = new JModelContact($db);
+		$contact = new JTableContact($db);
 		$contact->load($contactId);
 
 		/*
@@ -746,7 +746,7 @@ class JContactController {
 
 			print $output;
 		} else {
-			JError :: raiseWarning('SOME_ERROR_CODE', 'JContactController::vCard: '.JText :: _('NOTAUTH'));
+			JError::raiseWarning('SOME_ERROR_CODE', 'JContactController::vCard: '.JText::_('NOTAUTH'));
 			return false;
 		}
 	}

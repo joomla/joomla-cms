@@ -24,7 +24,7 @@ class content_typed_menu {
 	function edit( &$uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
 
-		$menu =& JModel::getInstance('menu', $database );
+		$menu =& JTable::getInstance('menu', $database );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
@@ -105,7 +105,7 @@ class content_typed_menu {
 	function redirect( $id ) {
 		global $database;
 
-		$menu =& JModel::getInstance('menu', $database );
+		$menu =& JTable::getInstance('menu', $database );
 		$menu->bind( $_POST );
 		$menuid = JRequest::getVar( 'menuid', 0, 'post', 'int' );
 		if ( $menuid ) {

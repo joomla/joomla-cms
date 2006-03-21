@@ -22,7 +22,7 @@ global $database, $my;
 
 $breadcrumbs =& $mainframe->getPathWay();
 
-$menu =& JModel::getInstance('menu', $database );
+$menu =& JTable::getInstance('menu', $database );
 $menu->load( $Itemid );
 $params = new JParameter( $menu->params );
 

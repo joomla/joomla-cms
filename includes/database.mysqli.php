@@ -2,7 +2,7 @@
 require_once( dirname(__FILE__)  .'/../libraries/loader.php' );
 
 /**
-* Legacy class, derive from JModel instead
+* Legacy class, derive from JTable instead
 * @deprecated As of version 1.1
 */
 jimport( 'joomla.database.database' );

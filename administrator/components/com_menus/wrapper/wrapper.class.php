@@ -25,7 +25,7 @@ class wrapper_menu {
 	function edit( &$uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
 
-		$menu =& JModel::getInstance('menu', $database );
+		$menu =& JTable::getInstance('menu', $database );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'
@@ -81,7 +81,7 @@ class wrapper_menu {
 			$_POST['params'] = mosParameters::textareaHandling( $txt );
 		}
 		
-		$row =& JModel::getInstance('menu', $database );
+		$row =& JTable::getInstance('menu', $database );
 
 		if (!$row->bind( $_POST )) {
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";

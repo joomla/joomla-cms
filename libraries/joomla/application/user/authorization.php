@@ -487,7 +487,7 @@ class JAuthorization extends gacl_api
  * @subpackage	Application
  * @since		1.1
  */
-class JModelARO extends JModel 
+class JTableARO extends JTable 
 {
 /** @var int Primary key */
 	var $id=null;
@@ -507,7 +507,7 @@ class JModelARO extends JModel
  * @subpackage	Application
  * @since		1.1
  */
- class JModelAroGroup extends JModel 
+ class JTableAroGroup extends JTable 
  {
 /** @var int Primary key */
 	var $id=null;

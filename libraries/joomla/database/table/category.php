@@ -13,24 +13,26 @@
 */
 
 /**
- * Section model
+ * Category table
  *
  * @package 	Joomla.Framework
  * @subpackage 	Model
  * @since		1.0
  */
-class JModelSection extends JModel 
+class JTableCategory extends JTable
 {
 	/** @var int Primary key */
 	var $id					= null;
-	/** @var string The menu title for the Section (a short name)*/
+	/** @var int */
+	var $parent_id			= null;
+	/** @var string The menu title for the Category (a short name)*/
 	var $title				= null;
-	/** @var string The full name for the Section*/
+	/** @var string The full name for the Category*/
 	var $name				= null;
 	/** @var string */
 	var $image				= null;
 	/** @var string */
-	var $scope				= null;
+	var $section			= null;
 	/** @var int */
 	var $image_position		= null;
 	/** @var string */
@@ -52,31 +54,32 @@ class JModelSection extends JModel
 	* @param database A database connector object
 	*/
 	function __construct( &$db ) {
-		parent::__construct( '#__sections', 'id', $db );
+		parent::__construct( '#__categories', 'id', $db );
 	}
+
 	// overloaded check function
 	function check() 
 	{
 		// check for valid name
 		if (trim( $this->title ) == '') {
-			$this->_error = sprintf( JText::_( 'must contain a title' ), JText::_( 'Section') );
+			$this->_error = sprintf( JText::_( 'must contain a title' ), JText::_( 'Category') );
 			return false;
 		}
 		if (trim( $this->name ) == '') {
-			$this->_error = sprintf( JText::_( 'must have a name' ), JText::_( 'Section') );
+			$this->_error = sprintf( JText::_( 'must have a name' ), JText::_( 'Category') );
 			return false;
 		}
 		// check for existing name
 		$query = "SELECT id"
-		. "\n FROM #__sections "
+		. "\n FROM #__categories "
 		. "\n WHERE name = '$this->name'"
-		. "\n AND scope = '$this->scope'"
+		. "\n AND section = '$this->section'"
 		;
 		$this->_db->setQuery( $query );
 
 		$xid = intval( $this->_db->loadResult() );
 		if ($xid && $xid != intval( $this->id )) {
-			$this->_error = sprintf( JText::_( 'WARNNAMETRYAGAIN' ), JText::_( 'Section') );
+			$this->_error = sprintf( JText::_( 'WARNNAMETRYAGAIN' ), JText::_( 'Category') );
 			return false;
 		}
 		return true;

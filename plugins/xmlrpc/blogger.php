@@ -147,7 +147,7 @@ function getPost($msg)
 	//TODO::implement generic access check
 		
 	// load the row from the db table
-	$item =& JModel::getInstance('content', $mainframe->getDBO() );
+	$item =& JTable::getInstance('content', $mainframe->getDBO() );
 	$item->load( $postid );
 	
 	$content  = '<title>'.$item->title.'</title>';
@@ -190,11 +190,11 @@ function newPost($msg)
  	$params = new JParameter( $plugin->params );
 	
 	// load the category
-	$cat =& JModel::getInstance('category', $db);
+	$cat =& JTable::getInstance('category', $db);
 	$cat->load($params->get( 'catid', 1 ));
 	
 	// create a new content item
-	$item =& JModel::getInstance('content', $db );
+	$item =& JTable::getInstance('content', $db );
 	
 	$item->title     = JBloggerHelper::getPostTitle($content);
 	$item->introtext = JBloggerHelper::getPostIntroText($content);
@@ -243,7 +243,7 @@ function editPost($msg)
 	//TODO::implement generic access check
 	
 	// load the row from the db table
-	$item =& JModel::getInstance('content', $mainframe->getDBO() );
+	$item =& JTable::getInstance('content', $mainframe->getDBO() );
 	if(!$item->load( $postid )) {
 		return new xmlrpcresp(0, $xmlrpcerruser+1, 'Sorry, no such post' );
 	}
@@ -298,7 +298,7 @@ function deletePost($msg)
 	//TODO::implement generic access check
 	
 	// load the row from the db table
-	$item =& JModel::getInstance('content', $mainframe->getDBO() );
+	$item =& JTable::getInstance('content', $mainframe->getDBO() );
 	if(!$item->load( $postid )) {
 		return new xmlrpcresp(0, $xmlrpcerruser+1, 'Sorry, no such post' );
 	}

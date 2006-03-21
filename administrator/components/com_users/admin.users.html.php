@@ -50,28 +50,28 @@ class HTML_users {
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($rows); ?>);" />
 				</th>
 				<th class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Name', 'a.name', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Name', 'a.name', $lists ); ?>
 				</th>
 				<th width="15%" class="title" >
-					<?php mosCommonHTML :: tableOrdering( 'Username', 'a.username', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Username', 'a.username', $lists ); ?>
 				</th>
 				<th width="5%" class="title" nowrap="nowrap">
 					<?php echo JText::_( 'Logged In' ); ?>
 				</th>
 				<th width="5%" class="title" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Enabled', 'a.block', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Enabled', 'a.block', $lists ); ?>
 				</th>
 				<th width="15%" class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Group', 'groupname', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Group', 'groupname', $lists ); ?>
 				</th>
 				<th width="15%" class="title">
-					<?php mosCommonHTML :: tableOrdering( 'E-Mail', 'a.email', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'E-Mail', 'a.email', $lists ); ?>
 				</th>
 				<th width="10%" class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Last Visit', 'a.lastvisitDate', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Last Visit', 'a.lastvisitDate', $lists ); ?>
 				</th>
 				<th width="1%" class="title" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'ID', 'a.id', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'ID', 'a.id', $lists ); ?>
 				</th>
 			</tr>
 			<?php

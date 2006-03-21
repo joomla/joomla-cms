@@ -55,28 +55,28 @@ class HTML_weblinks {
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows ); ?>);" />
 				</th>
 				<th class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Title', 'a.title', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Title', 'a.title', $lists ); ?>
 				</th>
 				<th width="5%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Published', 'a.published', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Published', 'a.published', $lists ); ?>
 				</th>
 				<th colspan="2" width="5%">
 					<?php echo JText::_( 'Reorder' ); ?>
 				</th>
 				<th width="2%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Order', 'a.ordering', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Order', 'a.ordering', $lists ); ?>
 	 			</th>
 				<th width="1%">
-					<?php mosCommonHTML :: saveorderButton( $rows ); ?>
+					<?php mosCommonHTML::saveorderButton( $rows ); ?>
 				</th>
 				<th width="5%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'ID', 'a.id', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'ID', 'a.id', $lists ); ?>
 				</th>
 				<th width="25%"  class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Category', 'category', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Category', 'category', $lists ); ?>
 				</th>
 				<th width="5%">
-					<?php mosCommonHTML :: tableOrdering( 'Hits', 'a.hits', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Hits', 'a.hits', $lists ); ?>
 				</th>
 			</tr>
 			<?php

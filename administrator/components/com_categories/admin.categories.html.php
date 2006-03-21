@@ -62,10 +62,10 @@ class categories_html {
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $rows );?>);" />
 				</th>
 				<th class="title">
-					<?php mosCommonHTML :: tableOrdering( 'Category Name', 'c.name', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Category Name', 'c.name', $lists ); ?>
 				</th>
 				<th width="10%">
-					<?php mosCommonHTML :: tableOrdering( 'Published', 'c.published', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Published', 'c.published', $lists ); ?>
 				</th>
 				<?php
 				if ( $section <> 'content') {
@@ -77,22 +77,22 @@ class categories_html {
 				}
 				?>
 				<th width="2%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'Order', 'c.ordering', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Order', 'c.ordering', $lists ); ?>
 				</th>
 				<th width="1%">
-					<?php mosCommonHTML :: saveorderButton( $rows ); ?>
+					<?php mosCommonHTML::saveorderButton( $rows ); ?>
 				</th>
 				<th width="7%">
-					<?php mosCommonHTML :: tableOrdering( 'Access', 'groupname', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Access', 'groupname', $lists ); ?>
 				</th>
 				<th width="2%" nowrap="nowrap">
-					<?php mosCommonHTML :: tableOrdering( 'ID', 'c.id', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'ID', 'c.id', $lists ); ?>
 				</th>
 				<?php
 				if ( $section == 'content') {
 					?>
 					<th width="20%"  class="title">
-						<?php mosCommonHTML :: tableOrdering( 'Section', 'section_name', $lists ); ?>
+						<?php mosCommonHTML::tableOrdering( 'Section', 'section_name', $lists ); ?>
 					</th>
 					<?php
 				}
@@ -214,7 +214,7 @@ class categories_html {
 
 	/**
 	* Writes the edit form for new and existing categories
-	* @param JModelCategory The category object
+	* @param JTableCategory The category object
 	* @param string
 	* @param array
 	*/

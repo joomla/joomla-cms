@@ -145,7 +145,7 @@ class JMediaViews {
 	 */
 	function listMedia($listFolder, $folders, $docs, $images)
 	{
-		JMediaViews :: imageStyle($listFolder);
+		JMediaViews::imageStyle($listFolder);
 
 		if (count($images) > 0 || count($folders) > 0 || count($docs) > 0) {
 			//now sort the folders and images by name.
@@ -153,14 +153,14 @@ class JMediaViews {
 			ksort($folders);
 			ksort($docs);
 
-			JMediaViews :: drawTableHeader();
+			JMediaViews::drawTableHeader();
 
 			/*
 			 * Handle the folders
 			 */
 			if (count($folders)) {
 				foreach ($folders as $folder => $folderName) {
-					JMediaViews :: showDir('/'.$folderName, $folder, $listFolder);
+					JMediaViews::showDir('/'.$folderName, $folder, $listFolder);
 				}
 			}
 
@@ -175,7 +175,7 @@ class JMediaViews {
 					} else {
 						$icon = "components/com_media/images/con_info.png";
 					}
-					JMediaViews :: showDoc($doc, $docDetails['size'], $listFolder, $icon);
+					JMediaViews::showDoc($doc, $docDetails['size'], $listFolder, $icon);
 				}
 			}
 
@@ -184,13 +184,13 @@ class JMediaViews {
 			 */
 			if (count($images)) {
 				foreach ($images as $image => $imageDetails) {
-					JMediaViews :: showImage($imageDetails['file'], $image, $imageDetails['imgInfo'], $imageDetails['size'], $listFolder);
+					JMediaViews::showImage($imageDetails['file'], $image, $imageDetails['imgInfo'], $imageDetails['size'], $listFolder);
 				}
 			}
 
-			JMediaViews :: drawTableFooter();
+			JMediaViews::drawTableFooter();
 		} else {
-			JMediaViews :: drawNoResults();
+			JMediaViews::drawNoResults();
 		}
 	}
 

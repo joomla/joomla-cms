@@ -246,7 +246,7 @@ class JContactView {
 			<td align="right" colspan="6">				
 				<?php
 				if ($params->get('display')) {
-					echo JText :: _('Display Num') .'&nbsp;';
+					echo JText::_('Display Num') .'&nbsp;';
 					$link = "index.php?option=com_contact&amp;catid=$catid&amp;Itemid=$Itemid";
 					echo $page->getLimitBox($link);
 				}
@@ -258,16 +258,16 @@ class JContactView {
 			?>
 			<tr>
 				<td width="5" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
-					<?php echo JText :: _('Num'); ?>
+					<?php echo JText::_('Num'); ?>
 				</td>
 				<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
-					<?php mosCommonHTML :: tableOrdering( 'Name', 'cd.name', $lists ); ?>
+					<?php mosCommonHTML::tableOrdering( 'Name', 'cd.name', $lists ); ?>
 				</td>
 				<?php
 				if ( $params->get( 'position' ) ) {
 					?>
 					<td height="20" class="sectiontableheader<?php echo $params->get( 'pageclass_sfx' ); ?>">
-						<?php mosCommonHTML :: tableOrdering( 'Position', 'cd.con_position', $lists ); ?>
+						<?php mosCommonHTML::tableOrdering( 'Position', 'cd.con_position', $lists ); ?>
 					</td>
 					<?php
 				}
@@ -449,7 +449,7 @@ class JContactView {
 		$option = JRequest::getVar('option');
 		?>
 		<script>
-		alert( "<?php echo JText :: _('CONTACT_FORM_NC', true); ?>" );
+		alert( "<?php echo JText::_('CONTACT_FORM_NC', true); ?>" );
 		document.location.href='<?php echo sefRelToAbs( 'index.php?option='. $option .'&Itemid='. $Itemid ); ?>';
 		</script>
 		<?php

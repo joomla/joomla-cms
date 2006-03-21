@@ -28,7 +28,7 @@ class content_category_menu {
 	function editCategory( $uid, $menutype, $option ) {
 		global $database, $my, $mainframe;
 
-		$menu =& JModel::getInstance('menu', $database );
+		$menu =& JTable::getInstance('menu', $database );
 		$menu->load( $uid );
 
 		// fail if checked out not by 'me'

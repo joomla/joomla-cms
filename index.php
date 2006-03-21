@@ -76,7 +76,7 @@ if ($option == '' || $option == 'login' || $option == 'logout')
 		;
 		$database->setQuery( $query );
 	}
-	$menu =& JModel::getInstance('menu', $database );
+	$menu =& JTable::getInstance('menu', $database );
 	if ($database->loadObject( $menu )) {
 		$Itemid = $menu->id;
 	}
@@ -108,7 +108,7 @@ JDEBUG ? $_PROFILER->mark( 'afterStartFramework' ) : null;
 // get the information about the current user from the sessions table
 // Note: Moved to allow for single sign-on bots that can't run with onBeforeStart due to extra setup
 $user	= & $mainframe->getUser();
-$my		= $user->_model;
+$my		= $user->_table;
 
 // checking if we can find the Itemid thru the content
 if ( $option == 'com_content' && $Itemid === 0 ) {

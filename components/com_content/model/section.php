@@ -58,8 +58,8 @@ class JContentSection
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
-		// Load the section data model
-		$section = & JModel::getInstance('section', $db);
+		// Load the section data table
+		$section = & JTable::getInstance('section', $db);
 		$section->load($id);
 
 		/*

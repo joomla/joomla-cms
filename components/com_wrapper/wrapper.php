@@ -24,7 +24,7 @@ showWrap( $option );
 function showWrap( $option ) {
 	global $database, $Itemid, $mainframe;
 
-	$menu =& JModel::getInstance('menu', $database );
+	$menu =& JTable::getInstance('menu', $database );
 	$menu->load( $Itemid );
 	$params = new JParameter( $menu->params );
 	$params->def( 'back_button', $mainframe->getCfg( 'back_button' ) );

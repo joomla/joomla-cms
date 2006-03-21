@@ -38,7 +38,7 @@ function pluginNavigation( &$row, &$params, $page=0 )
 		$access->canPublish = $user->authorize('action', 'publish', 'content', 'all');		
 
 		// Paramters for menu item as determined by controlling Itemid
-		$menu = & JModel::getInstance( 'menu', $db );
+		$menu = & JTable::getInstance( 'menu', $db );
 		$menu->load($Itemid);
 		$mparams = new JParameter($menu->params);
 		

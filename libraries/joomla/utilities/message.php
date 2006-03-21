@@ -11,7 +11,7 @@
  * See COPYRIGHT.php for copyright notices and details.
  */
 
-jimport('joomla.model.model');
+jimport('joomla.database.table');
 
 /**
  * Message Class  
@@ -24,7 +24,7 @@ jimport('joomla.model.model');
  * @subpackage 	Utilities
  * @since		1.1
  */
-class JMessage extends JModel
+class JMessage extends JTable
 {
 	/**
 	 * Primary Key

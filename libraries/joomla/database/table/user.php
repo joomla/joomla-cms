@@ -13,13 +13,13 @@
 */
 
 /**
- * Users model
+ * Users table
  *
  * @package 	Joomla.Framework
  * @subpackage 	Model
  * @since		1.0
  */
-class JModelUser extends JModel 
+class JTableUser extends JTable 
 {
 	/** @var int Unique id*/
 	var $id				= null;
@@ -249,7 +249,7 @@ class JModelUser extends JModel
 	* @acces public  
 	* @param array $hash named array
 	* @return null|string	null is operation was satisfactory, otherwise returns an error
-	* @see JModel:bind
+	* @see JTable:bind
 	* @since 1.1
 	*/
 	

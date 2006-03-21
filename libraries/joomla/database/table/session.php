@@ -13,13 +13,13 @@
 */
 
 /**
- * Session model
+ * Session table
  *
  * @package 	Joomla.Framework
  * @subpackage 	Model
  * @since		1.0
  */
-class JModelSession extends JModel 
+class JTableSession extends JTable 
 {
 	/** @var int Primary key */
 	var $session_id			= null;

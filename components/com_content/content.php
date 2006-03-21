@@ -176,8 +176,8 @@ class JContentController
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
-		// Load the section data model
-		$section = & JModel::getInstance('section', $db);
+		// Load the section data table
+		$section = & JTable::getInstance('section', $db);
 		$section->load($id);
 
 		/*
@@ -362,7 +362,7 @@ class JContentController
 			JError::raiseError( 403, JText::_("Access Forbidden") );
 		}
 
-		$section = & JModel::getInstance('section', $db);
+		$section = & JTable::getInstance('section', $db);
 		$section->load($category->section);
 
 		/*
@@ -977,7 +977,7 @@ class JContentController
 			// record the hit
 			if (!$params->get('intro_only') && ($limitstart == 0))
 			{
-				$obj = & JModel::getInstance('content', $db);
+				$obj = & JTable::getInstance('content', $db);
 				$obj->hit($row->id);
 			}
 	
@@ -1022,7 +1022,7 @@ class JContentController
 		/*
 		 * Get the content data object
 		 */
-		$row = & JModel::getInstance('content', $db);
+		$row = & JTable::getInstance('content', $db);
 		$row->load($uid);
 
 		// fail if checked out not by 'me'
@@ -1200,7 +1200,7 @@ class JContentController
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
-		$row = & JModel::getInstance('content', $db);
+		$row = & JTable::getInstance('content', $db);
 		if (!$row->bind($_POST))
 		{
 			JError::raiseError( 500, $row->getError());
@@ -1286,7 +1286,7 @@ class JContentController
 
 		// manage frontpage items
 		require_once (JApplicationHelper::getPath('class', 'com_frontpage'));
-		$fp = new JModelFrontPage($db);
+		$fp = new JTableFrontPage($db);
 
 		if (JRequest::getVar('frontpage', false, '', 'boolean'))
 		{
@@ -1407,7 +1407,7 @@ class JContentController
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
-		$row = & JModel::getInstance('content', $db);
+		$row = & JTable::getInstance('content', $db);
 		$row->bind($_POST);
 
 		if ($access->canEdit || ($access->canEditOwn && $row->created_by == $user->get('id')))
@@ -1463,7 +1463,7 @@ class JContentController
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
-		$row = & JModel::getInstance('content', $db);
+		$row = & JTable::getInstance('content', $db);
 		$row->load($uid);
 
 		if ($row->id === null || $row->access > $user->get('gid'))

@@ -13,13 +13,13 @@
 */
 
 /**
- * Content model
+ * Content table
  *
  * @package 	Joomla.Framework
  * @subpackage 	Model
  * @since		1.0
  */
-class JModelContent extends JModel 
+class JTableContent extends JTable 
 {
 	/** @var int Primary key */
 	var $id					= null;

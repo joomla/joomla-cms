@@ -89,12 +89,12 @@ class JContentViewHTML_blog
 			switch ($menu->type)
 			{
 				case 'content_blog_section' :
-					$description = & JModel::getInstance('section', $db);
+					$description = & JTable::getInstance('section', $db);
 					$description->load($menu->componentid);
 					break;
 
 				case 'content_blog_category' :
-					$description = & JModel::getInstance('category', $db);
+					$description = & JTable::getInstance('category', $db);
 					$description->load($menu->componentid);
 					break;
 

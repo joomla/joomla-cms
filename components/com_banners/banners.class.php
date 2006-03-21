@@ -19,7 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 * @package Joomla
 * @subpackage Banners
 */
-class mosBannerClient extends JModel {
+class mosBannerClient extends JTable {
 	var	$cid 				= null;
 	var $name 				= '';
 	var $contact 			= '';
@@ -59,7 +59,7 @@ class mosBannerClient extends JModel {
 /**
 * @package Joomla
 */
-class mosBanner extends JModel {
+class mosBanner extends JTable {
 	/** @var int */
 	var $bid				= null;
 	/** @var int */

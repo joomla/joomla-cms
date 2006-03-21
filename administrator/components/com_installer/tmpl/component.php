@@ -52,7 +52,7 @@ class JInstallerExtensionTasks {
 		/*
 		 * Get the component base directory
 		 */
-		$baseDir = JPath :: clean (JPATH_ADMINISTRATOR .DS. 'components');
+		$baseDir = JPath::clean (JPATH_ADMINISTRATOR .DS. 'components');
 		
 		$numRows = count($rows);
 		for($i=0;$i < $numRows; $i++) {
@@ -62,11 +62,11 @@ class JInstallerExtensionTasks {
 			 * Get the component folder and list of xml files in folder
 			 */
 			$folder = $baseDir . $row->option;
-			$xmlFilesInDir = JFolder :: files($folder, '.xml$');
+			$xmlFilesInDir = JFolder::files($folder, '.xml$');
 
 			foreach ($xmlFilesInDir as $xmlfile) {
 				// Read the file to see if it's a valid component XML file
-				$xmlDoc = & JFactory :: getXMLParser();
+				$xmlDoc = & JFactory::getXMLParser();
 				$xmlDoc->resolveErrors(true);
 
 				if (!$xmlDoc->loadXML($folder.DS.$xmlfile, false, true)) {
@@ -124,7 +124,7 @@ class JInstallerExtensionTasks {
 		$page = new JPagination( count( $rows ), $limitstart, $limit );
 		$rows = array_slice( $rows, $page->limitstart, $page->limit );
 		
-		JInstallerScreens_component :: showInstalled($rows, $page);
+		JInstallerScreens_component::showInstalled($rows, $page);
 	}
 
 }

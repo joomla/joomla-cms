@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access');
 $lang 	= & $mainframe->getLanguage();
 $doc 	= & $mainframe->getDocument();
 $user 	= & $mainframe->getUser();
-$hide 	= JRequest :: getVar( 'hidemainmenu', 0 );
+$hide 	= JRequest::getVar( 'hidemainmenu', 0 );
 
 // Add the javascript to the page head
 /*
@@ -57,9 +57,9 @@ $doc->addScriptDeclaration($js);
  */
 echo "<div id=\"sidemenu\">";
 if ($hide) {
-	JAdminMenu :: showDisabled($user->get('usertype'));
+	JAdminMenu::showDisabled($user->get('usertype'));
 } else {
-	JAdminMenu :: show($user->get('usertype'));
+	JAdminMenu::show($user->get('usertype'));
 }
 echo "</div>";
 
@@ -118,7 +118,7 @@ class JAdminMenu {
 				}
 			}
 		}
-		$menuTypes = mosAdminMenus :: menutypes();
+		$menuTypes = mosAdminMenus::menutypes();
 
 	/*
 	 * Home SubMenu
@@ -324,7 +324,7 @@ class JAdminMenu {
 		$canMassMail 		= $user->authorize('com_massmail', 		'manage');
 		$canManageUsers 	= $user->authorize('com_users', 		'manage');
 
-		$text = JText :: _('Menu inactive for this Page', true);
+		$text = JText::_('Menu inactive for this Page', true);
 	}
 	
 	function buildDiv ( $title, $list, $suffix = '-smenu' )

@@ -221,7 +221,7 @@ function view( $option ) {
 function edit( $uid, $option ) {
 	global $database, $my, $mainframe;
 
-	$row =& JModel::getInstance('content', $database );
+	$row =& JTable::getInstance('content', $database );
 
 	$row->load( $uid );
 
@@ -351,7 +351,7 @@ function save( $option, $task ) {
 	$menu 		= JRequest::getVar( 'menu', 'mainmenu', 'post' );
 	$menuid		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
 
-	$row =& JModel::getInstance('content', $database );
+	$row =& JTable::getInstance('content', $database );
 	if (!$row->bind( $_POST )) {
 		echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 		exit();
@@ -405,7 +405,7 @@ function save( $option, $task ) {
 	
 	// manage frontpage items
 	require_once( JApplicationHelper::getPath( 'class', 'com_frontpage' ) );
-	$fp = new JModelFrontPage( $database );
+	$fp = new JTableFrontPage( $database );
 	
 	$frontpage = JRequest::getVar( 'frontpage', 0, 'post' );
 	if ($frontpage) {		
@@ -533,7 +533,7 @@ function moveSave( &$cid ) {
 	$total = count( $cid );
 	$cids = implode( ',', $cid );
 	
-	$row =& JModel::getInstance('content', $database );
+	$row =& JTable::getInstance('content', $database );
 	// update old orders - put existing items in last place
 	foreach ($cid as $id) {
 		$row->load( intval( $id ) );
@@ -572,7 +572,7 @@ function copyItem( $cid ) {
 
 	$total = count( $cid );
 	for ( $i = 0; $i < $total; $i++ ) {
-		$row =& JModel::getInstance('content', $database );
+		$row =& JTable::getInstance('content', $database );
 
 		// main query
 		$query = "SELECT a.*"
@@ -646,7 +646,7 @@ function toggleFrontPage( $cid ) {
 	$msg = '';
 	require_once( JApplicationHelper::getPath( 'class', 'com_frontpage' ) );
 
-	$fp = new JModelFrontPage( $database );
+	$fp = new JTableFrontPage( $database );
 	foreach ($cid as $id) {
 		// toggles go to first place
 		if ($fp->load( $id )) {
@@ -735,7 +735,7 @@ function changeState( $cid=null, $state=0, $option ) {
 	}
 
 	if (count( $cid ) == 1) {
-		$row =& JModel::getInstance('content', $database );
+		$row =& JTable::getInstance('content', $database );
 		$row->checkin( $cid[0] );
 	}
 
@@ -754,7 +754,7 @@ function changeState( $cid=null, $state=0, $option ) {
 function changeAccess( $id, $access, $option  ) {
 	global $database;
 
-	$row =& JModel::getInstance('content', $database );
+	$row =& JTable::getInstance('content', $database );
 	$row->load( $id );
 	$row->access = $access;
 
@@ -775,7 +775,7 @@ function changeAccess( $id, $access, $option  ) {
 function resethits( $option, $id ) {
 	global $database;
 
-	$row =& JModel::getInstance('content', $database );
+	$row =& JTable::getInstance('content', $database );
 	$row->Load( $id );
 	$row->hits = "0";
 	$row->store();
@@ -792,7 +792,7 @@ function resethits( $option, $id ) {
 function cancel( $option ) {
 	global $database;
 
-	$row =& JModel::getInstance('content', $database );
+	$row =& JTable::getInstance('content', $database );
 	$row->bind( $_POST );
 	$row->checkin();
 	mosRedirect( 'index2.php?option='. $option );
@@ -806,7 +806,7 @@ function menuLink( $option, $id ) {
 
 	$link	= stripslashes( ampReplace($link) );
 	
-	$row 				=& JModel::getInstance( 'menu', $database );
+	$row 				=& JTable::getInstance( 'menu', $database );
 	$row->menutype 		= $menu;
 	$row->name 			= $link;
 	$row->type 			= 'content_typed';
@@ -834,7 +834,7 @@ function go2menu() {
 	global $database;
 
 	// checkin content
-	$row =& JModel::getInstance('content', $database );
+	$row =& JTable::getInstance('content', $database );
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -847,7 +847,7 @@ function go2menuitem() {
 	global $database;
 
 	// checkin content
-	$row =& JModel::getInstance('content', $database );
+	$row =& JTable::getInstance('content', $database );
 	$row->bind( $_POST );
 	$row->checkin();
 
@@ -862,7 +862,7 @@ function saveOrder( &$cid ) {
 
 	$total		= count( $cid );
 	$order 		= JRequest::getVar( 'order', array(0), 'post', 'array' );
-	$row 		=& JModel::getInstance('content', $database );
+	$row 		=& JTable::getInstance('content', $database );
 	$conditions = array();
 
 	// update ordering values

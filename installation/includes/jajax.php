@@ -68,7 +68,7 @@ class JAJAXHandler {
 		/*
 		 * Get a database connection instance
 		 */		
-		$database = & JDatabase :: getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'] );
+		$database = & JDatabase::getInstance($args['DBtype'], $args['DBhostname'], $args['DBuserName'], $args['DBpassword'] );
 
 		if ($err = $database->getErrorNum()) {
 			if ($err != 3) {
