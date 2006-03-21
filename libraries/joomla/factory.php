@@ -43,7 +43,7 @@ class JFactory
 			/*
 			 * Add the application specific subdirectory for cache paths
 			 */
-			$cachePath = $mainframe->getCfg('cachepath');
+			$cachePath = $mainframe->getCfg('cachepath').DS;
 			$cachePath .= ($mainframe->getClientId()) ? 'administrator'.DS : 'site'.DS;
 	
 			/*
