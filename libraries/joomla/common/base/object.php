@@ -12,7 +12,7 @@
 */
 
 /**
- * Object class, allowing __construct and __destruct in PHP4.
+ * Object class, allowing __construct in PHP4.
  *
  * @abstract
  * @author	Johan Janssens <johan@joomla.be>
