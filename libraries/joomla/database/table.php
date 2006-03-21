@@ -117,24 +117,6 @@ class JTable extends JObject
 	}
 
 	/**
-	 * Returns an array of public properties
-	 * 
-	 * @return array
-	 */
-	function getPublicProperties() {
-		static $cache = null;
-		if (is_null( $cache )) {
-			$cache = array();
-			foreach (get_class_vars( get_class( $this ) ) as $key=>$val) {
-				if (substr( $key, 0, 1 ) != '_') {
-					$cache[] = $key;
-				}
-			}
-		}
-		return $cache;
-	}
-
-	/**
 	* Binds a named array/hash to this object
 	*
 	* can be overloaded/supplemented by the child class
@@ -303,13 +285,14 @@ class JTable extends JObject
 			}
 		}
 	}
+
 	/**
 	* Compacts the ordering sequence of the selected records
 	* 
 	* @access public
 	* @param string Additional where query to limit ordering to a particular subset of records
 	*/
-	function updateOrder( $where='' ) 
+	function reorder( $where='' )
 	{
 		$k = $this->_tbl_key;
 
@@ -381,6 +364,7 @@ class JTable extends JObject
 		}
 		return true;
 	}
+
 	/**
 	* Generic check for whether dependancies exist for this object in the db schema
 	*
@@ -633,17 +617,10 @@ class JTable extends JObject
 		}
 		if ($order_filter) {
 			$filter_value = $this->$order_filter;
-			$this->updateOrder( $order_filter ? "`$order_filter` = '$filter_value'" : '' );
+			$this->reorder( $order_filter ? "`$order_filter` = '$filter_value'" : '' );
 		}
 		$this->_error = '';
 		return true;
-	}
-
-	/**
-	 * @deprecated As of 1.0.3, replaced by publish
-	 */
-	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
-		$this->publish( $cid, $publish, $user_id );
 	}
 
 	/**
@@ -711,5 +688,4 @@ class JTable extends JObject
 		return $xml;
 	}
 }
-
 ?>

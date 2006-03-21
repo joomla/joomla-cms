@@ -39,6 +39,8 @@ Legend:
 
 21-Mar-2005 Louis Landry
  ^ Renamed JModel to JTable and added to the database package 
+ ^ Use josRedirect instead of mosRedirect in codebase
+ ^ Moved deprecated methods out of JTable class and getPublicProperties() into JObject
 
 20-Mar-2005 Louis Landry
  ^ Use JRequest::getVar instead of mosGetParam in codebase 

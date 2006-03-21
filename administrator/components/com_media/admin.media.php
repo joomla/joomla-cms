@@ -69,7 +69,7 @@ switch ($task) {
 		break;
 
 	case 'cancel' :
-		mosRedirect('index2.php');
+		josRedirect('index2.php');
 		break;
 
 		// popup directory creation interface for use by components
@@ -258,7 +258,7 @@ class JMediaController
 
 		if (strlen($folderName) > 0) {
 			if (eregi("[^0-9a-zA-Z_]", $folderName)) {
-				mosRedirect("index2.php?option=com_media&listdir=".$_POST['dirPath'], JText::_('WARNDIRNAME'));
+				josRedirect("index2.php?option=com_media&listdir=".$_POST['dirPath'], JText::_('WARNDIRNAME'));
 			}
 			$folder = COM_MEDIA_BASE.$path.DS.$folderName;
 			if (!is_dir($folder) && !is_file($folder)) {

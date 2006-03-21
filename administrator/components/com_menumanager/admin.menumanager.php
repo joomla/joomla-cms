@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $user = & $mainframe->getUser();
 if (!$user->authorize( 'com_menumanager', 'manage' ))
 {
-	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
@@ -256,7 +256,7 @@ function saveMenu() {
 			}
 
 			$row->checkin();
-			$row->updateOrder( "position='". $row->position ."'" );
+			$row->reorder( "position='". $row->position ."'" );
 
 			// module assigned to show on All pages by default
 			// ToDO: Changed to become a Joomla! db-object
@@ -327,7 +327,7 @@ function saveMenu() {
 			break;
 	}
 
-	mosRedirect( 'index2.php?option=com_menumanager', $msg );
+	josRedirect( 'index2.php?option=com_menumanager', $msg );
 }
 
 /**
@@ -436,12 +436,12 @@ function deleteMenu( $option, $cid, $type ) {
 		// reorder modules after deletion
 		$mod =& JTable::getInstance('module', $database );
 		$mod->ordering = 0;
-		$mod->updateOrder( "position='left'" );
-		$mod->updateOrder( "position='right'" );
+		$mod->reorder( "position='left'" );
+		$mod->reorder( "position='right'" );
 	}
 
 	$msg = JText::_( 'Menu Deleted' );
-	mosRedirect( 'index2.php?option=' . $option, $msg );
+	josRedirect( 'index2.php?option=' . $option, $msg );
 }
 
 
@@ -533,7 +533,7 @@ function copyMenu( $option, $cid, $type ) {
 		exit();
 	}
 	$row->checkin();
-	$row->updateOrder( "position='$row->position'" );
+	$row->reorder( "position='$row->position'" );
 	// module assigned to show on All pages by default
 	// ToDO: Changed to become a Joomla! db-object
 	$query = "INSERT INTO #__modules_menu VALUES ( $row->id, 0 )";
@@ -544,7 +544,7 @@ function copyMenu( $option, $cid, $type ) {
 	}
 
 	$msg = sprintf( JText::_( 'Copy of Menu created' ), $type, $total );
-	mosRedirect( 'index2.php?option=' . $option, $msg );
+	josRedirect( 'index2.php?option=' . $option, $msg );
 }
 
 /**
@@ -552,6 +552,6 @@ function copyMenu( $option, $cid, $type ) {
 * @param option	options for the operation
 */
 function cancelMenu( $option ) {
-	mosRedirect( 'index2.php?option=' . $option . '&task=view' );
+	josRedirect( 'index2.php?option=' . $option . '&task=view' );
 }
 ?>

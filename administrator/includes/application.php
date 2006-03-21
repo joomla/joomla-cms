@@ -64,7 +64,7 @@ class JAdministrator extends JApplication
 
 			JAdministrator::purgeMessages();
 		
-			mosRedirect( 'index2.php' );
+			josRedirect( 'index2.php' );
 		}
 		
 		return false;
@@ -78,7 +78,7 @@ class JAdministrator extends JApplication
 	*/
 	function logout() {
 		parent::logout();
-		mosRedirect( $this->getSiteURL() );
+		josRedirect( $this->getSiteURL() );
 	}
 	
 	/**

@@ -48,7 +48,7 @@ switch( $task ) {
 		break;
 
 	case 'cancel':
-		mosRedirect( 'index.php' );
+		josRedirect( 'index.php' );
 		break;
 
 	default:
@@ -159,7 +159,7 @@ function userSave( $option, $uid)
 	}
 
 	$link = $_SERVER['HTTP_REFERER'];
-	mosRedirect( $link, JText::_( 'Your settings have been saved.' ) );
+	josRedirect( $link, JText::_( 'Your settings have been saved.' ) );
 }
 
 function CheckIn( $userid, $access, $option ){

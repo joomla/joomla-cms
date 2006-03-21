@@ -113,7 +113,7 @@ class content_typed_menu {
 		}
 		$menu->checkin();
 
-		mosRedirect( 'index2.php?option=com_typedcontent&task=edit&id='. $id );
+		josRedirect( 'index2.php?option=com_typedcontent&task=edit&id='. $id );
 	}
 }
 ?>

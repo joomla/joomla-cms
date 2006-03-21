@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $user = & $mainframe->getUser();
 if (!$user->authorize( 'com_frontpage', 'manage' ))
 {
-	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 // call
@@ -236,7 +236,7 @@ function changeFrontPage( $cid=null, $state=0, $option ) {
 		$row->checkin( $cid[0] );
 	}
 
-	mosRedirect( "index2.php?option=$option" );
+	josRedirect( "index2.php?option=$option" );
 }
 
 function removeFrontPage( &$cid, $option ) {
@@ -260,9 +260,9 @@ function removeFrontPage( &$cid, $option ) {
 			exit();
 		}
 	}
-	$fp->updateOrder();
+	$fp->reorder();
 
-	mosRedirect( "index2.php?option=$option" );
+	josRedirect( "index2.php?option=$option" );
 }
 
 /**
@@ -276,7 +276,7 @@ function orderFrontPage( $uid, $inc, $option ) {
 	$fp->load( $uid );
 	$fp->move( $inc );
 
-	mosRedirect( "index2.php?option=$option" );
+	josRedirect( "index2.php?option=$option" );
 }
 
 /**
@@ -298,7 +298,7 @@ function accessMenu( $uid, $access ) {
 		return $row->getError();
 	}
 
-	mosRedirect( 'index2.php?option=com_frontpage' );
+	josRedirect( 'index2.php?option=com_frontpage' );
 }
 
 function saveOrder( &$cid ) {
@@ -320,10 +320,10 @@ function saveOrder( &$cid ) {
 		// update ordering
 		$row = new JTableFrontPage( $database );
 		$row->load( $cid[$i] );
-		$row->updateOrder();
+		$row->reorder();
 	}
 
 	$msg 	= JText::_( 'New ordering saved' );
-	mosRedirect( 'index2.php?option=com_frontpage', $msg );
+	josRedirect( 'index2.php?option=com_frontpage', $msg );
 }
 ?>

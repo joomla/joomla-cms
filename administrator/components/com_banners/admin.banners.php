@@ -256,7 +256,7 @@ function saveBanner( $task ) {
 	
 	$msg = JText::_( 'Saved Banner info' );
 	
-	mosRedirect( $link, $msg );
+	josRedirect( $link, $msg );
 }
 
 function cancelEditBanner() {
@@ -266,7 +266,7 @@ function cancelEditBanner() {
 	$row->bind( $_POST );
 	$row->checkin();
 
-	mosRedirect( 'index2.php?option=com_banners' );
+	josRedirect( 'index2.php?option=com_banners' );
 }
 
 function publishBanner( $cid, $publish=1 ) {
@@ -295,7 +295,7 @@ function publishBanner( $cid, $publish=1 ) {
 		$row = new mosBanner( $database );
 		$row->checkin( $cid[0] );
 	}
-	mosRedirect( 'index2.php?option=com_banners' );
+	josRedirect( 'index2.php?option=com_banners' );
 
 }
 
@@ -318,7 +318,7 @@ function removeBanner( $cid ) {
 		}
 	}
 
-	mosRedirect( 'index2.php?option=com_banners' );
+	josRedirect( 'index2.php?option=com_banners' );
 }
 
 // ---------- BANNER CLIENTS ----------
@@ -388,7 +388,7 @@ function editBannerClient( $clientid, $option ) {
 	// fail if checked out not by 'me'
 	if ($row->checked_out && $row->checked_out <> $my->id) {
     	$msg = sprintf( JText::_( 'WARNEDITEDBYPERSON' ), $row->name );
-		mosRedirect( 'index2.php?option='. $option .'&task=listclients', $msg );
+		josRedirect( 'index2.php?option='. $option .'&task=listclients', $msg );
 	}
 
 	if ($clientid) {
@@ -433,7 +433,7 @@ function saveBannerClient( $task ) {
 			break;
 	}
 
-	mosRedirect( $link );
+	josRedirect( $link );
 }
 
 function cancelEditClient( $option ) {
@@ -441,7 +441,7 @@ function cancelEditClient( $option ) {
 	$row = new mosBannerClient( $database );
 	$row->bind( $_POST );
 	$row->checkin();
-	mosRedirect( "index2.php?option=$option&task=listclients" );
+	josRedirect( "index2.php?option=$option&task=listclients" );
 }
 
 function removeBannerClients( $cid, $option ) {
@@ -463,7 +463,7 @@ function removeBannerClients( $cid, $option ) {
 		}
 
 		if ($count != 0) {
-			mosRedirect( "index2.php?option=$option&task=listclients", JText::_( 'WARNCANNOTDELCLIENTBANNER' ) );
+			josRedirect( "index2.php?option=$option&task=listclients", JText::_( 'WARNCANNOTDELCLIENTBANNER' ) );
 		} else {
 			$query="DELETE FROM #__bannerfinish"
 			. "\n WHERE cid = ". $cid[$i]
@@ -478,6 +478,6 @@ function removeBannerClients( $cid, $option ) {
 			$database->query();
 		}
 	}
-	mosRedirect("index2.php?option=$option&task=listclients");
+	josRedirect("index2.php?option=$option&task=listclients");
 }
 ?>

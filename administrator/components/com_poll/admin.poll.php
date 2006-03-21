@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $user = & $mainframe->getUser();
 if (!$user->authorize( 'com_poll', 'manage' ))
 {
-	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
@@ -155,7 +155,7 @@ function editPoll( $uid=0, $option='com_poll' ) {
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The poll' ), $row->title );
-		mosRedirect( 'index2.php?option='. $option, $msg );
+		josRedirect( 'index2.php?option='. $option, $msg );
 	}
 
 	$options = array();
@@ -263,7 +263,7 @@ function savePoll( $task ) {
 			break;
 	}
 	
-	mosRedirect($link);
+	josRedirect($link);
 }
 
 function removePoll( $cid, $option ) 
@@ -276,7 +276,7 @@ function removePoll( $cid, $option )
 			$msg .= $poll->getError();
 		}
 	}
-	mosRedirect( 'index2.php?option='. $option, $msg );
+	josRedirect( 'index2.php?option='. $option, $msg );
 }
 
 /**
@@ -314,7 +314,7 @@ function publishPolls( $cid=null, $publish=1, $option )
 		$row = new mosPoll( $database );
 		$row->checkin( $cid[0] );
 	}
-	mosRedirect( 'index2.php?option='. $option );
+	josRedirect( 'index2.php?option='. $option );
 }
 
 function cancelPoll( $option ) 
@@ -323,7 +323,7 @@ function cancelPoll( $option )
 	$row = new mosPoll( $database );
 	$row->bind( $_POST );
 	$row->checkin();
-	mosRedirect( 'index2.php?option='. $option );
+	josRedirect( 'index2.php?option='. $option );
 }
 
 function previewPoll($option) 

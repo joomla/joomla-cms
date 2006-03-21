@@ -97,18 +97,18 @@ class wrapper_menu {
 			exit();
 		}
 		$row->checkin();
-		$row->updateOrder( "menutype = '$row->menutype' AND parent = $row->parent" );
+		$row->reorder( "menutype = '$row->menutype' AND parent = $row->parent" );
 
 
 		$msg = JText::_( 'Menu item Saved' );
 		switch ( $task ) {
 			case 'apply':
-				mosRedirect( 'index2.php?option='. $option .'&menutype='. $row->menutype .'&task=edit&id='. $row->id, $msg );
+				josRedirect( 'index2.php?option='. $option .'&menutype='. $row->menutype .'&task=edit&id='. $row->id, $msg );
 				break;
 
 			case 'save':
 			default:
-				mosRedirect( 'index2.php?option='. $option .'&menutype='. $row->menutype, $msg );
+				josRedirect( 'index2.php?option='. $option .'&menutype='. $row->menutype, $msg );
 			break;
 		}
 	}

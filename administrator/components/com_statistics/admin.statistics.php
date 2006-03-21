@@ -372,6 +372,6 @@ function resetStats( $option, $task ) {
 		$database->setQuery( $query );
 		$database->query();
 
-		mosRedirect( $redirecturl, $msg );
+		josRedirect( $redirecturl, $msg );
 }
 ?>

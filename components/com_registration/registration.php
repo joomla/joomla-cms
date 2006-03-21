@@ -42,7 +42,7 @@ switch( $task )
 		break;
 		
 	case 'cancel':
-		mosRedirect( 'index.php' );
+		josRedirect( 'index.php' );
 		break;	
 }
 
@@ -79,7 +79,7 @@ function sendNewPass()
 	;
 	$database->setQuery( $query );
 	if (!($user_id = $database->loadResult()) || !$checkusername || !$confirmEmail) {
-		mosRedirect( 'index.php?option=com_registration&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
+		josRedirect( 'index.php?option=com_registration&task=lostPassword', JText::_( 'Sorry, no corresponding user was found' ) );
 	}
 
 	$newpass = mosMakePassword();
@@ -101,7 +101,7 @@ function sendNewPass()
 		die("SQL error" . $database->stderr(true));
 	}
 
-	mosRedirect( 'index.php?option=com_registration', JText::_( 'New User Password created and sent!' ) );
+	josRedirect( 'index.php?option=com_registration', JText::_( 'New User Password created and sent!' ) );
 }
 
 function registerForm() 

@@ -881,7 +881,7 @@ class JContentController
 		 * Check the content item in and update item order
 		 */
 		$row->checkin();
-		$row->updateOrder("catid = $row->catid AND state >= 0");
+		$row->reorder("catid = $row->catid AND state >= 0");
 
 		/*
 		 * We need to update frontpage status for the content item.
@@ -923,7 +923,7 @@ class JContentController
 			}
 			$fp->ordering = 0;
 		}
-		$fp->updateOrder();
+		$fp->reorder();
 
 		switch ($task)
 		{
@@ -1104,7 +1104,7 @@ class JContentController
 				}
 				$fp->ordering = 0;
 			}
-			$fp->updateOrder();
+			$fp->reorder();
 		}
 
 		josRedirect('index2.php?option='.$option.'&sectionid='.$section, $msg);
@@ -1272,7 +1272,7 @@ class JContentController
 
 		if (!$newsect && !$newcat)
 		{
-			mosRedirect("index2.php?option=com_content&sectionid=$sectionid&josmsg=".JText::_('An error has occurred'));
+			josRedirect("index2.php?option=com_content&sectionid=$sectionid&josmsg=".JText::_('An error has occurred'));
 		}
 
 		// find section name
@@ -1300,7 +1300,7 @@ class JContentController
 			$row->load(intval($id));
 			$row->ordering = 0;
 			$row->store();
-			$row->updateOrder("catid = $row->catid AND state >= 0");
+			$row->reorder("catid = $row->catid AND state >= 0");
 		}
 
 		$query = "UPDATE #__content SET sectionid = $newsect, catid = $newcat" .
@@ -1319,7 +1319,7 @@ class JContentController
 			$row->load(intval($id));
 			$row->ordering = 0;
 			$row->store();
-			$row->updateOrder("catid = $row->catid AND state >= 0");
+			$row->reorder("catid = $row->catid AND state >= 0");
 		}
 
 		if ($section && $category)
@@ -1331,7 +1331,7 @@ class JContentController
 			$msg = JText::_('Item(s) successfully moved to Static Content');
 		}
 
-		mosRedirect('index2.php?option='.$option.'&sectionid='.$sectionid, $msg);
+		josRedirect('index2.php?option='.$option.'&sectionid='.$sectionid, $msg);
 	}
 
 	/**
@@ -1402,7 +1402,7 @@ class JContentController
 
 		if (!$newsect && !$newcat)
 		{
-			mosRedirect('index.php?option=com_content&sectionid='.$sectionid.'&josmsg='.JText::_('An error has occurred'));
+			josRedirect('index.php?option=com_content&sectionid='.$sectionid.'&josmsg='.JText::_('An error has occurred'));
 		}
 
 		// find section name
@@ -1471,7 +1471,7 @@ class JContentController
 				JError::raiseError( 500, $row->getError() );
 				return false;
 			}
-			$row->updateOrder("catid='".$row->catid."' AND state >= 0");
+			$row->reorder("catid='".$row->catid."' AND state >= 0");
 		}
 
 		$msg = sprintf(JText::_('Item(s) successfully copied to Section'), $total, $section, $category);
@@ -1576,7 +1576,7 @@ class JContentController
 		foreach ($conditions as $cond)
 		{
 			$row->load($cond[0]);
-			$row->updateOrder($cond[1]);
+			$row->reorder($cond[1]);
 		} // foreach
 
 		$msg = JText::_('New ordering saved');
@@ -1716,7 +1716,7 @@ class JContentHelper {
 			return false;
 		}
 		$row->checkin();
-		$row->updateOrder("menutype = '$row->menutype' AND parent = $row->parent");
+		$row->reorder("menutype = '$row->menutype' AND parent = $row->parent");
 
 		$msg = sprintf(JText::_('LINKITEMINMENUCREATED'), $link, $menu);
 		josRedirect('index2.php?option=com_content&sectionid='.$redirect.'&task=edit&hidemainmenu=1&id='.$id, $msg);

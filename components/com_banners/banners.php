@@ -124,6 +124,6 @@ function clickbanner( $bid ) {
 	} else {
 		$clickurl = $row->clickurl;
 	}
-	mosRedirect( $clickurl );
+	josRedirect( $clickurl );
 }
 ?>

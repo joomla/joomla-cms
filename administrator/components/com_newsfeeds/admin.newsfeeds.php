@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $user = & $mainframe->getUser();
 if (!$user->authorize( 'com_newsfeeds', 'manage' ))
 {
-	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
@@ -233,7 +233,7 @@ function saveNewsFeed( $task ) {
 		exit();
 	}
 	$row->checkin();
-	$row->updateOrder();
+	$row->reorder();
 
 	switch ($task) {
 		case 'apply':
@@ -246,7 +246,7 @@ function saveNewsFeed( $task ) {
 			break;
 	}
 	
-	mosRedirect( $link );
+	josRedirect( $link );
 }
 
 /**
@@ -282,7 +282,7 @@ function publishNewsFeeds( $cid, $publish, $option ) {
 		$row->checkin( $cid[0] );
 	}
 
-	mosRedirect( 'index2.php?option='. $option );
+	josRedirect( 'index2.php?option='. $option );
 }
 
 /**
@@ -308,7 +308,7 @@ function removeNewsFeeds( &$cid, $option ) {
 		}
 	}
 
-	mosRedirect( 'index2.php?option='. $option );
+	josRedirect( 'index2.php?option='. $option );
 }
 
 /**
@@ -321,7 +321,7 @@ function cancelNewsFeed( $option ) {
 	$row = new mosNewsFeed( $database );
 	$row->bind( $_POST );
 	$row->checkin();
-	mosRedirect( 'index2.php?option='. $option );
+	josRedirect( 'index2.php?option='. $option );
 }
 
 /**
@@ -341,7 +341,7 @@ function orderNewsFeed( $id, $inc, $option ) {
 	$row->load( $id );
 	$row->move( $inc, "catid = $row->catid AND published != 0" );
 
-	mosRedirect( 'index2.php?option='. $option );
+	josRedirect( 'index2.php?option='. $option );
 }
 
 function saveOrder( &$cid ) {
@@ -363,10 +363,10 @@ function saveOrder( &$cid ) {
 		// update ordering
 		$row = new mosNewsFeed( $database );
 		$row->load( $cid[$i] );
-		$row->updateOrder( "catid = $row->catid AND published != 0" );
+		$row->reorder( "catid = $row->catid AND published != 0" );
 	}
 
 	$msg 	= 'New ordering saved';
-	mosRedirect( 'index2.php?option=com_newsfeeds', $msg );
+	josRedirect( 'index2.php?option=com_newsfeeds', $msg );
 }
 ?>

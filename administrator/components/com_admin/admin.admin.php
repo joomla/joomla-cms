@@ -21,24 +21,24 @@ switch ($task) {
 	case 'clean_cache':
 		$cache = & JFactory::getCache();
 		$cache->cleanCache( 'com_content' );
-		mosRedirect( 'index2.php', JText::_( 'Content caches cleaned' ) );
+		josRedirect( 'index2.php', JText::_( 'Content caches cleaned' ) );
 		break;
 
 	case 'clean_all_cache':
 		$cache = & JFactory::getCache();
 		$cache->cleanCache( );
-		mosRedirect( 'index2.php', JText::_( 'All caches cleaned' ) );
+		josRedirect( 'index2.php', JText::_( 'All caches cleaned' ) );
 		break;
 
 	case 'redirect':
 		$goto = trim( strtolower( JRequest::getVar( 'link' ) ) );
 		if ($goto == 'null') {
 			$msg = JText::_( 'There is no link associated with this item' );
-			mosRedirect( 'index2.php?option=com_admin&task=listcomponents', $msg );
+			josRedirect( 'index2.php?option=com_admin&task=listcomponents', $msg );
 			exit();
 		}
 		$goto = str_replace( "'", '', $goto );
-		mosRedirect( $goto );
+		josRedirect( $goto );
 		break;
 
 	case 'listcomponents':

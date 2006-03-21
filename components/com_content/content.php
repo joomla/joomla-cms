@@ -1314,10 +1314,10 @@ class JContentController
 			}
 			$fp->ordering = 0;
 		}
-		$fp->updateOrder();
+		$fp->reorder();
 
 		$row->checkin();
-		$row->updateOrder("catid = $row->catid");
+		$row->reorder("catid = $row->catid");
 
 		// gets section name of item
 		$query = "SELECT s.title" .

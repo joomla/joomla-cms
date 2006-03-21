@@ -64,6 +64,24 @@ class JObject
 	}
 
 	/**
+	 * Returns an array of public properties
+	 * 
+	 * @return array
+	 */
+	function getPublicProperties() {
+		static $cache = null;
+		if (is_null( $cache )) {
+			$cache = array();
+			foreach (get_class_vars( get_class( $this ) ) as $key=>$val) {
+				if (substr( $key, 0, 1 ) != '_') {
+					$cache[] = $key;
+				}
+			}
+		}
+		return $cache;
+	}
+
+	/**
 	 * Object-to-string conversion.
 	 * Each class can override it as necessary.
 	 *

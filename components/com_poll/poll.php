@@ -89,7 +89,7 @@ function pollAddVote( $uid ) {
 	$database->query();
 
 	if ( $redirect ) {
-		mosRedirect( sefRelToAbs( 'index.php?option=com_poll&task=results&id='. $uid ), JText::_( 'Thanks for your vote!' ) );
+		josRedirect( sefRelToAbs( 'index.php?option=com_poll&task=results&id='. $uid ), JText::_( 'Thanks for your vote!' ) );
 	} else {
 		echo '<h3>'. JText::_( 'Thanks for your vote!' ) .'</h3>';
 		echo '<form action="" method="GET">';

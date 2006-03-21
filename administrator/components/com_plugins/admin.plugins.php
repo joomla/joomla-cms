@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $user = & $mainframe->getUser();
 if (!$user->authorize( 'com_plugins', 'manage' ))
 {
-		mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+		josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
@@ -207,17 +207,17 @@ function savePlugin( $option, $client, $task )
 		$where = "client_id='0'";
 	}
 	
-	$row->updateOrder( "folder = '$row->folder' AND ordering > -10000 AND ordering < 10000 AND ( $where )" );
+	$row->reorder( "folder = '$row->folder' AND ordering > -10000 AND ordering < 10000 AND ( $where )" );
 
 	switch ( $task ) {
 		case 'apply':
         	$msg = sprintf( JText::_( 'Successfully Saved changes to Plugin' ), $row->name );
-			mosRedirect( 'index2.php?option='. $option .'&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
+			josRedirect( 'index2.php?option='. $option .'&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 
 		case 'save':
 		default:
         	$msg = sprintf( JText::_( 'Successfully Saved Plugin' ), $row->name );
-			mosRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
+			josRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
 			break;
 	}
 }
@@ -348,7 +348,7 @@ function publishPlugin( $cid=null, $publish=1, $option, $client ) {
 		$row->checkin( $cid[0] );
 	}
 
-	mosRedirect( 'index2.php?option='. $option .'&client='. $client );
+	josRedirect( 'index2.php?option='. $option .'&client='. $client );
 }
 
 /**
@@ -361,7 +361,7 @@ function cancelPlugin( $option, $client ) {
 	$row->bind( $_POST );
 	$row->checkin();
 
-	mosRedirect( 'index2.php?option='. $option .'&client='. $client );
+	josRedirect( 'index2.php?option='. $option .'&client='. $client );
 }
 
 /**
@@ -382,7 +382,7 @@ function orderPlugin( $uid, $inc, $option, $client ) {
 	$row->load( $uid );
 	$row->move( $inc, "folder='$row->folder' AND ordering > -10000 AND ordering < 10000 AND ($where)"  );
 
-	mosRedirect( 'index2.php?option='. $option );
+	josRedirect( 'index2.php?option='. $option );
 }
 
 /**
@@ -417,7 +417,7 @@ function accessMenu( $uid, $access, $option, $client ) {
 		return $row->getError();
 	}
 
-	mosRedirect( 'index2.php?option='. $option );
+	josRedirect( 'index2.php?option='. $option );
 }
 
 function saveOrder( &$cid ) {
@@ -452,10 +452,10 @@ function saveOrder( &$cid ) {
 	// execute updateOrder for each group
 	foreach ( $conditions as $cond ) {
 		$row->load( $cond[0] );
-		$row->updateOrder( $cond[1] );
+		$row->reorder( $cond[1] );
 	} // foreach
 
 	$msg 	= JText::_( 'New ordering saved' );
-	mosRedirect( 'index2.php?option=com_plugins', $msg );
+	josRedirect( 'index2.php?option=com_plugins', $msg );
 } // saveOrder
 ?>

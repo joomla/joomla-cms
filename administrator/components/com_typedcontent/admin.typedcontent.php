@@ -429,19 +429,19 @@ function save( $option, $task ) {
 		}
 		$fp->ordering = 0;
 	}
-	$fp->updateOrder();
+	$fp->reorder();
 	$msg = $frontpage;
 	
 	$row->checkin();
-	$row->updateOrder( "state >= 0" );	
+	$row->reorder( "state >= 0" );	
 
 	switch ( $task ) {
 		case 'go2menu':
-			mosRedirect( 'index2.php?option=com_menus&menutype='. $menu );
+			josRedirect( 'index2.php?option=com_menus&menutype='. $menu );
 			break;
 
 		case 'go2menuitem':
-			mosRedirect( 'index2.php?option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $menuid );
+			josRedirect( 'index2.php?option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $menuid );
 			break;
 
 		case 'menulink':
@@ -454,13 +454,13 @@ function save( $option, $task ) {
 
 		case 'save':
 			$msg = JText::_( 'Typed Content Item saved' );
-			mosRedirect( 'index2.php?option='. $option, $msg );
+			josRedirect( 'index2.php?option='. $option, $msg );
 			break;
 
 		case 'apply':
 		default:
 			$msg = JText::_( 'Changes to Typed Content Item saved' );
-			mosRedirect( 'index2.php?option='. $option .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
+			josRedirect( 'index2.php?option='. $option .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 	}
 }
@@ -511,7 +511,7 @@ function moveSave( &$cid ) {
 	list( $newsect, $newcat ) = explode( ',', $sectcat );
 	
 	if (!$newsect && !$newcat ) {
-		mosRedirect( "index.php?option=com_content&sectionid=". $sectionid ."&mosmsg=". JText::_( 'An error has occurred' ) );
+		josRedirect( "index.php?option=com_content&sectionid=". $sectionid ."&mosmsg=". JText::_( 'An error has occurred' ) );
 	}
 	
 	// find section name
@@ -539,7 +539,7 @@ function moveSave( &$cid ) {
 		$row->load( intval( $id ) );
 		$row->ordering = 0;
 		$row->store();
-		$row->updateOrder( "catid = $row->catid AND state >= 0" );
+		$row->reorder( "catid = $row->catid AND state >= 0" );
 	}
 	
 	$query = "UPDATE #__content SET sectionid = $newsect, catid = $newcat"
@@ -557,11 +557,11 @@ function moveSave( &$cid ) {
 		$row->load( intval( $id ) );
 		$row->ordering = 0;
 		$row->store();
-		$row->updateOrder( "catid = $row->catid AND state >= 0" );
+		$row->reorder( "catid = $row->catid AND state >= 0" );
 	}
 	
 	$msg = sprintf( JText::_( 'Item(s) successfully moved to Section' ), $total, $section, $category );
-	mosRedirect( 'index2.php?option=com_typedcontent', $msg );
+	josRedirect( 'index2.php?option=com_typedcontent', $msg );
 }
 
 /**
@@ -619,11 +619,11 @@ function copyItem( $cid ) {
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
-		$row->updateOrder( "catid='". $row->catid ."' AND state >= 0" );
+		$row->reorder( "catid='". $row->catid ."' AND state >= 0" );
 	}
 
 	$msg = JText::_( 'Item(s) successfully copied' );
-	mosRedirect( 'index2.php?option=com_typedcontent', $msg );
+	josRedirect( 'index2.php?option=com_typedcontent', $msg );
 }
 
 
@@ -666,10 +666,10 @@ function toggleFrontPage( $cid ) {
 			}
 			$fp->ordering = 0;
 		}
-		$fp->updateOrder();
+		$fp->reorder();
 	}
 
-	mosRedirect( 'index2.php?option=com_typedcontent', $msg );
+	josRedirect( 'index2.php?option=com_typedcontent', $msg );
 }
 
 /**
@@ -700,7 +700,7 @@ function trash( &$cid, $option ) {
 	}
 	
 	$msg = sprintf( JText::_( 'Item(s) sent to the Trash' ), $total );
-	mosRedirect( 'index2.php?option='. $option, $msg );
+	josRedirect( 'index2.php?option='. $option, $msg );
 }
 
 /**
@@ -744,7 +744,7 @@ function changeState( $cid=null, $state=0, $option ) {
 	} else if ( $state == "0" ) {
     	$msg = sprintf( JText::_( 'Item(s) successfully Unpublished' ), $total );
 	}
-	mosRedirect( 'index2.php?option='. $option .'&msg='. $msg );
+	josRedirect( 'index2.php?option='. $option .'&msg='. $msg );
 }
 
 /**
@@ -765,7 +765,7 @@ function changeAccess( $id, $access, $option  ) {
 		return $row->getError();
 	}
 
-	mosRedirect( 'index2.php?option='. $option );
+	josRedirect( 'index2.php?option='. $option );
 }
 
 
@@ -782,7 +782,7 @@ function resethits( $option, $id ) {
 	$row->checkin();
 
 	$msg = JText::_( 'Successfully Reset Hit' );
-	mosRedirect( 'index2.php?option='. $option .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
+	josRedirect( 'index2.php?option='. $option .'&task=edit&hidemainmenu=1&id='. $row->id, $msg );
 }
 
 /**
@@ -795,7 +795,7 @@ function cancel( $option ) {
 	$row =& JTable::getInstance('content', $database );
 	$row->bind( $_POST );
 	$row->checkin();
-	mosRedirect( 'index2.php?option='. $option );
+	josRedirect( 'index2.php?option='. $option );
 }
 
 function menuLink( $option, $id ) {
@@ -824,10 +824,10 @@ function menuLink( $option, $id ) {
 		exit();
 	}
 	$row->checkin();
-	$row->updateOrder( "menutype='$row->menutype' AND parent='$row->parent'" );
+	$row->reorder( "menutype='$row->menutype' AND parent='$row->parent'" );
 
 	$msg = sprintf( JText::_( '(Link - Static Content) in menu' ), $link, $menu );
-	mosRedirect( 'index2.php?option='. $option .'&task=edit&hidemainmenu=1&id='. $id, $msg );
+	josRedirect( 'index2.php?option='. $option .'&task=edit&hidemainmenu=1&id='. $id, $msg );
 }
 
 function go2menu() {
@@ -840,7 +840,7 @@ function go2menu() {
 
 	$menu = JRequest::getVar( 'menu', 'mainmenu', 'post' );
 
-	mosRedirect( 'index2.php?option=com_menus&menutype='. $menu );
+	josRedirect( 'index2.php?option=com_menus&menutype='. $menu );
 }
 
 function go2menuitem() {
@@ -854,7 +854,7 @@ function go2menuitem() {
 	$menu 	= JRequest::getVar( 'menu', 'mainmenu', 'post' );
 	$id		= JRequest::getVar( 'menuid', 0, 'post', 'int' );
 
-	mosRedirect( 'index2.php?option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $id );
+	josRedirect( 'index2.php?option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $id );
 }
 
 function saveOrder( &$cid ) {
@@ -889,10 +889,10 @@ function saveOrder( &$cid ) {
 	// execute updateOrder for each group
 	foreach ( $conditions as $cond ) {
 		$row->load( $cond[0] );
-		$row->updateOrder( $cond[1] );
+		$row->reorder( $cond[1] );
 	} // foreach
 
 	$msg 	= JText::_( 'New ordering saved' );
-	mosRedirect( 'index2.php?option=com_typedcontent', $msg );
+	josRedirect( 'index2.php?option=com_typedcontent', $msg );
 } // saveOrder
 ?>

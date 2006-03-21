@@ -40,7 +40,7 @@ switch ($task)
 		break;
 
 	case 'cancel':
-		mosRedirect( "index2.php?option=$option" );
+		josRedirect( "index2.php?option=$option" );
 		break;
 
 	default:

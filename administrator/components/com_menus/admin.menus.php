@@ -63,17 +63,17 @@ switch ($task) {
 	case 'unpublish':
 		if ($msg = publishMenuSection( $cid, ($task == 'publish') )) {
 			// proceed no further if the menu item can't be published
-			mosRedirect( 'index2.php?option=com_menus&menutype='. $menutype .'&mosmsg= '.$msg );
+			josRedirect( 'index2.php?option=com_menus&menutype='. $menutype .'&mosmsg= '.$msg );
 		} else {
-			mosRedirect( 'index2.php?option=com_menus&menutype='. $menutype );
+			josRedirect( 'index2.php?option=com_menus&menutype='. $menutype );
 		}
 		break;
 
 	case 'remove':
 		if ($msg = TrashMenu( $cid )) {
-			mosRedirect( 'index2.php?option=com_menus&menutype='. $menutype .'&mosmsg= '.$msg );
+			josRedirect( 'index2.php?option=com_menus&menutype='. $menutype .'&mosmsg= '.$msg );
 		} else {
-			mosRedirect( 'index2.php?option=com_menus&menutype='. $menutype );
+			josRedirect( 'index2.php?option=com_menus&menutype='. $menutype );
 		}
 		break;
 
@@ -410,17 +410,17 @@ function saveMenu( $option, $task='save' ) {
 		exit();
 	}
 	$row->checkin();
-	$row->updateOrder( "menutype = '$row->menutype' AND parent = $row->parent" );
+	$row->reorder( "menutype = '$row->menutype' AND parent = $row->parent" );
 
 	$msg = JText::_( 'Menu item Saved' );
 	switch ( $task ) {
 		case 'apply':
-			mosRedirect( 'index2.php?option='. $option .'&menutype='. $row->menutype .'&task=edit&id='. $row->id . '&hidemainmenu=1' , $msg );
+			josRedirect( 'index2.php?option='. $option .'&menutype='. $row->menutype .'&task=edit&id='. $row->id . '&hidemainmenu=1' , $msg );
 			break;
 
 		case 'save':
 		default:
-			mosRedirect( 'index2.php?option='. $option .'&menutype='. $row->menutype, $msg );
+			josRedirect( 'index2.php?option='. $option .'&menutype='. $row->menutype, $msg );
 			break;
 	}
 }
@@ -510,7 +510,7 @@ function cancelMenu( $option ) {
 		$content->checkin();
 	}
 */
-	mosRedirect( 'index2.php?option='. $option .'&menutype='. $menu->menutype );
+	josRedirect( 'index2.php?option='. $option .'&menutype='. $menu->menutype );
 }
 
 /**
@@ -524,7 +524,7 @@ function orderMenu( $uid, $inc, $option ) {
 	$row->load( $uid );
 	$row->move( $inc, "menutype = '$row->menutype' AND parent = $row->parent" );
 
-	mosRedirect( 'index2.php?option='. $option .'&menutype='. $row->menutype );
+	josRedirect( 'index2.php?option='. $option .'&menutype='. $row->menutype );
 }
 
 
@@ -546,7 +546,7 @@ function accessMenu( $uid, $access, $option, $menutype ) {
 		return $menu->getError();
 	}
 
-	mosRedirect( 'index2.php?option='. $option .'&menutype='. $menutype );
+	josRedirect( 'index2.php?option='. $option .'&menutype='. $menutype );
 }
 
 /**
@@ -656,11 +656,11 @@ function moveMenuSave( $option, $cid, $menu, $menutype ) {
 
 	if ($firstroot) {
 		$row->load( $firstroot );
-		$row->updateOrder( "menutype = '$row->menutype' AND parent = $row->parent" );
+		$row->reorder( "menutype = '$row->menutype' AND parent = $row->parent" );
 	} // if
 
 	$msg = sprintf( JText::_( 'Menu Items moved to' ), count($cid), $menu );
-	mosRedirect( 'index2.php?option='. $option .'&menutype='. $menutype .'&mosmsg='. $msg );
+	josRedirect( 'index2.php?option='. $option .'&menutype='. $menutype .'&mosmsg='. $msg );
 } // moveMenuSave
 
 /**
@@ -730,10 +730,10 @@ function copyMenuSave( $option, $cid, $menu, $menutype ) {
 			echo "<script> alert('".$row->getError()."'); window.history.go(-1); </script>\n";
 			exit();
 		}
-		$curr->updateOrder( "menutype = '$curr->menutype' AND parent = $curr->parent" );
+		$curr->reorder( "menutype = '$curr->menutype' AND parent = $curr->parent" );
 	} // foreach
 	$msg = sprintf( JText::_( 'Menu Items Copied to' ), count( $cid ), $menu );
-	mosRedirect( 'index2.php?option='. $option .'&menutype='. $menutype .'&mosmsg='. $msg );
+	josRedirect( 'index2.php?option='. $option .'&menutype='. $menutype .'&mosmsg='. $msg );
 }
 
 function ReadMenuXML( $type, $component=-1 ) {
@@ -801,10 +801,10 @@ function saveOrder( &$cid, $menutype ) {
 	// execute updateOrder for each group
 	foreach ( $conditions as $cond ) {
 		$row->load( $cond[0] );
-		$row->updateOrder( $cond[1] );
+		$row->reorder( $cond[1] );
 	} // foreach
 
 	$msg 	= JText::_( 'New ordering saved' );
-	mosRedirect( 'index2.php?option=com_menus&menutype='. $menutype, $msg );
+	josRedirect( 'index2.php?option=com_menus&menutype='. $menutype, $msg );
 } // saveOrder
 ?>

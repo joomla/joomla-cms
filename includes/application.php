@@ -58,7 +58,7 @@ class JSite extends JApplication {
 			if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
 				// checks for the presence of a return url
 				// and ensures that this url is not the registration or login pages
-				mosRedirect( $return );
+				josRedirect( $return );
 			}
 		} 
 		
@@ -80,9 +80,9 @@ class JSite extends JApplication {
 		if ( $return && !( strpos( $return, 'com_registration' ) || strpos( $return, 'com_login' ) ) ) {
 			// checks for the presence of a return url
 			// and ensures that this url is not the registration or logout pages
-			mosRedirect( $return );
+			josRedirect( $return );
 		} else {
-			mosRedirect( 'index.php' );
+			josRedirect( 'index.php' );
 		}
 	}
 	

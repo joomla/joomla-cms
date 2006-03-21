@@ -1560,7 +1560,7 @@ class mosAdminMenus {
 		}
 
 		if ( count( $categories ) < 1 ) {
-			mosRedirect( 'index2.php?option=com_categories&section='. $section, JText::_( 'You must create a category first.' ) );
+			josRedirect( 'index2.php?option=com_categories&section='. $section, JText::_( 'You must create a category first.' ) );
 		}
 
 		$category = mosHTML::selectList( $categories, $name, 'class="inputbox" size="'. $size .'" '. $javascript, 'value', 'text', $active );

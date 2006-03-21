@@ -52,7 +52,7 @@ $acl =& JFactory::getACL();
 $mainframe->setSession( $mainframe->getCfg('live_site').$mainframe->getClientId() );
 
 if (is_null(JSession::get('guest')) || JSession::get('guest')) {
-	mosRedirect( 'index.php');
+	josRedirect( 'index.php');
 }
 
 // set language 

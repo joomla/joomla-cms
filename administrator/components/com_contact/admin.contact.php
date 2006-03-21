@@ -268,7 +268,7 @@ function saveContact( $task ) {
 		exit();
 	}
 	$row->checkin();
-	$row->updateOrder();
+	$row->reorder();
 	if ($row->default_con) {
 		$query = "UPDATE #__contact_details"
 		. "\n SET default_con = 0"
@@ -295,7 +295,7 @@ function saveContact( $task ) {
 			break;
 	}
 	
-	mosRedirect( $link );
+	josRedirect( $link );
 }
 
 /**
@@ -317,7 +317,7 @@ function removeContacts( &$cid ) {
 		}
 	}
 
-	mosRedirect( "index2.php?option=com_contact" );
+	josRedirect( "index2.php?option=com_contact" );
 }
 
 /**
@@ -353,7 +353,7 @@ function changeContact( $cid=null, $state=0 ) {
 		$row->checkin( intval( $cid[0] ) );
 	}
 
-	mosRedirect( "index2.php?option=com_contact" );
+	josRedirect( "index2.php?option=com_contact" );
 }
 
 /** JJC
@@ -367,7 +367,7 @@ function orderContacts( $uid, $inc ) {
 	$row->load( $uid );
 	$row->move( $inc, "catid = $row->catid AND published != 0" );
 
-	mosRedirect( "index2.php?option=com_contact" );
+	josRedirect( "index2.php?option=com_contact" );
 }
 
 /** PT
@@ -380,7 +380,7 @@ function cancelContact() {
 	$row->bind( $_POST );
 	$row->checkin();
 	
-	mosRedirect('index2.php?option=com_contact');
+	josRedirect('index2.php?option=com_contact');
 }
 
 /**
@@ -401,7 +401,7 @@ function changeAccess( $id, $access  ) {
 		return $row->getError();
 	}
 	
-	mosRedirect( 'index2.php?option=com_contact' );
+	josRedirect( 'index2.php?option=com_contact' );
 }
 
 function saveOrder( &$cid ) {
@@ -423,10 +423,10 @@ function saveOrder( &$cid ) {
 		// update ordering
 		$row = new JTableContact( $database );
 		$row->load( $cid[$i] );
-		$row->updateOrder( "catid = $row->catid AND published != 0" );
+		$row->reorder( "catid = $row->catid AND published != 0" );
 	}
 
 	$msg 	= 'New ordering saved';
-	mosRedirect( 'index2.php?option=com_contact', $msg );
+	josRedirect( 'index2.php?option=com_contact', $msg );
 }
 ?>

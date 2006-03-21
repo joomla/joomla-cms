@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 $user = & $mainframe->getUser();
 if (!$user->authorize( 'com_modules', 'manage' )) {
-	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
@@ -250,7 +250,7 @@ function copyModule( $option, $uid )
 	}
 	$row->checkin();
 	
-	$row->updateOrder( "position=".$row->position." AND client_id=".$client->id );
+	$row->reorder( "position=".$row->position." AND client_id=".$client->id );
 
 	$query = "SELECT menuid"
 	. "\n FROM #__modules_menu"
@@ -268,7 +268,7 @@ function copyModule( $option, $uid )
 	}
 
 	$msg = sprintf( JText::_( 'Module Copied' ), $row->title );
-	mosRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
+	josRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
 }
 
 /**
@@ -299,7 +299,7 @@ function saveModule( $option, $task )
 	}
 	$row->checkin();
 	
-	$row->updateOrder( "position=".$row->position." AND client_id=".$client->id );
+	$row->reorder( "position=".$row->position." AND client_id=".$client->id );
 
 	$menus = JRequest::getVar( 'selections', array(), 'post', 'array' );
 
@@ -339,13 +339,13 @@ function saveModule( $option, $task )
 	switch ( $task ) {
 		case 'apply':
         	$msg = sprintf( JText::_( 'Successfully Saved changes to Module' ), $row->title );
-			mosRedirect( 'index2.php?option='. $option .'&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
+			josRedirect( 'index2.php?option='. $option .'&client='. $client .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
         	$msg = sprintf( JText::_( 'Successfully Saved Module' ), $row->title );
-			mosRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
+			josRedirect( 'index2.php?option='. $option .'&client='. $client, $msg );
 			break;
 	}
 }
@@ -617,8 +617,8 @@ function removeModule( &$cid, $option )
 		}
 		$mod =& JTable::getInstance('module', $database );
 		$mod->ordering = 0;
-		$mod->updateOrder( "position='left'" );
-		$mod->updateOrder( "position='right'" );
+		$mod->reorder( "position='left'" );
+		$mod->reorder( "position='right'" );
 	}
 
 	if (count( $err )) {
@@ -626,7 +626,7 @@ function removeModule( &$cid, $option )
 		echo "<script>alert('". JText::_( 'Module(s)', true ) .": \'". $cids ."\' ". JText::_( 'WARNMODULES', true ) ."');</script>\n";
 	}
 
-	mosRedirect( 'index2.php?option='. $option .'&client='. $client->id );
+	josRedirect( 'index2.php?option='. $option .'&client='. $client->id );
 }
 
 /**
@@ -667,7 +667,7 @@ function publishModule( $cid=null, $publish=1, $option )
 		$row->checkin( $cid[0] );
 	}
 
-	mosRedirect( 'index2.php?option='. $option .'&client='. $client->id );
+	josRedirect( 'index2.php?option='. $option .'&client='. $client->id );
 }
 
 /**
@@ -687,7 +687,7 @@ function cancelModule( $option )
 	$row->bind( $_POST, 'selections params' );
 	$row->checkin();
 
-	mosRedirect( 'index2.php?option='. $option .'&client='. $client->id );
+	josRedirect( 'index2.php?option='. $option .'&client='. $client->id );
 }
 
 /**
@@ -709,7 +709,7 @@ function orderModule( $uid, $inc, $option )
 
 	$row->move( $inc, "position = ".$row->position." AND client_id=".$client->id  );
 	
-	mosRedirect( 'index2.php?option='. $option .'&client='. $client->id );
+	josRedirect( 'index2.php?option='. $option .'&client='. $client->id );
 }
 
 /**
@@ -750,7 +750,7 @@ function accessMenu( $uid, $access, $option )
 		return $row->getError();
 	}
 
-	mosRedirect( 'index2.php?option='. $option .'&client='. $client->id );
+	josRedirect( 'index2.php?option='. $option .'&client='. $client->id );
 }
 
 function saveOrder( &$cid ) 
@@ -791,11 +791,11 @@ function saveOrder( &$cid )
 	// execute updateOrder for each group
 	foreach ( $conditions as $cond ) {
 		$row->load( $cond[0] );
-		$row->updateOrder( $cond[1] );
+		$row->reorder( $cond[1] );
 	} // foreach
 
 	$msg 	= JText::_( 'New ordering saved' );
-	mosRedirect( 'index2.php?option=com_modules&client='. $client->id, $msg );
+	josRedirect( 'index2.php?option=com_modules&client='. $client->id, $msg );
 } // saveOrder
 
 function previewModule($id ) 

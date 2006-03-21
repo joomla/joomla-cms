@@ -176,7 +176,7 @@ function saveConfig( $option ) {
 		$database->setQuery( $query );
 		$database->query();
 	}
-	mosRedirect( "index2.php?option=$option" );
+	josRedirect( "index2.php?option=$option" );
 }
 
 function newMessage( $option, $user, $subject ) {
@@ -218,9 +218,9 @@ function saveMessage( $option ) {
 	}
 
 	if (!$row->send()) {
-		mosRedirect( "index2.php?option=com_messages&mosmsg=" . $row->getError() );
+		josRedirect( "index2.php?option=com_messages&mosmsg=" . $row->getError() );
 	}
-	mosRedirect( "index2.php?option=com_messages" );
+	josRedirect( "index2.php?option=com_messages" );
 }
 
 function viewMessage( $uid='0', $option ) {
@@ -267,6 +267,6 @@ function removeMessage( $cid, $option ) {
 	$limit 		= JRequest::getVar( 'limit', 10, '', 'int' );
 	$limitstart	= JRequest::getVar( 'limitstart', 0, '', 'int' );
 
-	mosRedirect( "index2.php?option=$option&limit=$limit&limitstart=$limitstart" );
+	josRedirect( "index2.php?option=$option&limit=$limit&limitstart=$limitstart" );
 }
 ?>

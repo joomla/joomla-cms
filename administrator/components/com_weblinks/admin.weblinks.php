@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $user = & $mainframe->getUser();
 if (!$user->authorize( 'com_weblinks', 'manage' ))
 {
-	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
@@ -183,7 +183,7 @@ function editWeblink( $option, $id )
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The module' ), $row->title );
-		mosRedirect( 'index2.php?option='. $option, $msg );
+		josRedirect( 'index2.php?option='. $option, $msg );
 	}
 
 	if ($id) {
@@ -247,7 +247,7 @@ function saveWeblink( $task ) {
 		exit();
 	}
 	$row->checkin();
-	$row->updateOrder( "catid = $row->catid" );
+	$row->reorder( "catid = $row->catid" );
 
 	switch ($task) {
 		case 'apply':
@@ -260,7 +260,7 @@ function saveWeblink( $task ) {
 			break;
 	}
 	
-	mosRedirect($link);
+	josRedirect($link);
 }
 
 /**
@@ -286,7 +286,7 @@ function removeWeblinks( $cid, $option ) {
 		}
 	}
 
-	mosRedirect( 'index2.php?option=com_weblinks' );
+	josRedirect( 'index2.php?option=com_weblinks' );
 }
 
 /**
@@ -323,7 +323,7 @@ function publishWeblinks( $cid=null, $publish=1,  $option ) {
 		$row = new JTableWeblink( $database );
 		$row->checkin( $cid[0] );
 	}
-	mosRedirect( "index2.php?option=". $option );
+	josRedirect( "index2.php?option=". $option );
 }
 /**
 * Moves the order of a record
@@ -335,7 +335,7 @@ function orderWeblinks( $uid, $inc, $option ) {
 	$row->load( $uid );
 	$row->move( $inc, "published >= 0" );
 
-	mosRedirect( "index2.php?option=". $option );
+	josRedirect( "index2.php?option=". $option );
 }
 
 /**
@@ -349,7 +349,7 @@ function cancelWeblink() {
 	$row->bind( $_POST );
 	$row->checkin();
 	
-	mosRedirect( 'index2.php?option=com_weblinks' );
+	josRedirect( 'index2.php?option=com_weblinks' );
 }
 
 function saveOrder( &$cid ) {
@@ -371,10 +371,10 @@ function saveOrder( &$cid ) {
 		// update ordering
 		$row = new JTableWeblink( $database );
 		$row->load( $cid[$i] );
-		$row->updateOrder();
+		$row->reorder();
 	}
 
 	$msg 	= 'New ordering saved';
-	mosRedirect( 'index2.php?option=com_weblinks', $msg );
+	josRedirect( 'index2.php?option=com_weblinks', $msg );
 }
 ?>

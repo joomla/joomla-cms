@@ -225,7 +225,7 @@ function editSection( $uid=0, $scope='', $option ) {
 	// fail if checked out not by 'me'
 	if ($row->isCheckedOut( $my->id )) {
     	$msg = sprintf( JText::_( 'DESCBEINGEDITTED' ), JText::_( 'The section' ), $row->title );
-		mosRedirect( 'index2.php?option='. $option .'&scope='. $row->scope .'&mosmsg='. $msg );
+		josRedirect( 'index2.php?option='. $option .'&scope='. $row->scope .'&mosmsg='. $msg );
 	}
 
 	if ( $uid ) {
@@ -330,15 +330,15 @@ function saveSection( $option, $scope, $task ) {
 		exit();
 	}
 	$row->checkin();
-	$row->updateOrder( "scope='$row->scope'" );
+	$row->reorder( "scope='$row->scope'" );
 
 	switch ( $task ) {
 		case 'go2menu':
-			mosRedirect( 'index2.php?option=com_menus&menutype='. $menu );
+			josRedirect( 'index2.php?option=com_menus&menutype='. $menu );
 			break;
 
 		case 'go2menuitem':
-			mosRedirect( 'index2.php?option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $menuid );
+			josRedirect( 'index2.php?option=com_menus&menutype='. $menu .'&task=edit&hidemainmenu=1&id='. $menuid );
 			break;
 
 		case 'menulink':
@@ -347,13 +347,13 @@ function saveSection( $option, $scope, $task ) {
 
 		case 'apply':
 			$msg = JText::_( 'Changes to Section saved' );
-			mosRedirect( 'index2.php?option='. $option .'&scope='. $scope .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
+			josRedirect( 'index2.php?option='. $option .'&scope='. $scope .'&task=editA&hidemainmenu=1&id='. $row->id, $msg );
 			break;
 
 		case 'save':
 		default:
 			$msg = JText::_( 'Section saved' );
-			mosRedirect( 'index2.php?option='. $option .'&scope='. $scope, $msg );
+			josRedirect( 'index2.php?option='. $option .'&scope='. $scope, $msg );
 			break;
 	}
 }
@@ -409,12 +409,12 @@ function removeSections( $cid, $scope, $option ) {
 	if (count( $err )) {
 		$cids = implode( ', ', $err );
     	$msg = sprintf( JText::_( 'DESCCANNOTBEREMOVED' ), $cids );
-		mosRedirect( 'index2.php?option='. $option .'&scope='. $scope, $msg );
+		josRedirect( 'index2.php?option='. $option .'&scope='. $scope, $msg );
 	}
 
 	$names = implode( ', ', $name );
 	$msg = sprintf( JText::_( 'Sections successfully deleted' ), $names );
-	mosRedirect( 'index2.php?option='. $option .'&scope='. $scope, $msg );
+	josRedirect( 'index2.php?option='. $option .'&scope='. $scope, $msg );
 }
 
 /**
@@ -482,7 +482,7 @@ function publishSections( $scope, $cid=null, $publish=1, $option ) {
 		}
 	}
 
-	mosRedirect( 'index2.php?option='. $option .'&scope='. $scope );
+	josRedirect( 'index2.php?option='. $option .'&scope='. $scope );
 }
 
 /**
@@ -497,7 +497,7 @@ function cancelSection( $option, $scope ) {
 	$row->bind( $_POST );
 	$row->checkin();
 
-	mosRedirect( 'index2.php?option='. $option .'&scope='. $scope );
+	josRedirect( 'index2.php?option='. $option .'&scope='. $scope );
 }
 
 /**
@@ -511,7 +511,7 @@ function orderSection( $uid, $inc, $option, $scope ) {
 	$row->load( $uid );
 	$row->move( $inc, "scope = '$row->scope'" );
 
-	mosRedirect( 'index2.php?option='. $option .'&scope='. $scope );
+	josRedirect( 'index2.php?option='. $option .'&scope='. $scope );
 }
 
 
@@ -575,7 +575,7 @@ function copySectionSave( $sectionid ) {
 			exit();
 		}
 		$section->checkin();
-		$section->updateOrder( "section = '$section->id'" );
+		$section->reorder( "section = '$section->id'" );
 		// stores original catid
 		$newsectids[]["old"] = $id;
 		// pulls new catid
@@ -604,7 +604,7 @@ function copySectionSave( $sectionid ) {
 			exit();
 		}
 		$category->checkin();
-		$category->updateOrder( "section = '$category->section'" );
+		$category->reorder( "section = '$category->section'" );
 		// stores original catid
 		$newcatids[]["old"] = $id;
 		// pulls new catid
@@ -641,7 +641,7 @@ function copySectionSave( $sectionid ) {
 	$sectionOld->load( $sectionMove );
 
 	$msg = sprintf( JText::_( 'DESCCATANDITEMSCOPIED' ), $sectionOld-> name, $title );
-	mosRedirect( 'index2.php?option=com_sections&scope=content&mosmsg='. $msg );
+	josRedirect( 'index2.php?option=com_sections&scope=content&mosmsg='. $msg );
 }
 
 /**
@@ -662,7 +662,7 @@ function accessMenu( $uid, $access, $option ) {
 		return $row->getError();
 	}
 
-	mosRedirect( 'index2.php?option='. $option .'&scope='. $row->scope );
+	josRedirect( 'index2.php?option='. $option .'&scope='. $row->scope );
 }
 
 function menuLink( $id ) {
@@ -717,10 +717,10 @@ function menuLink( $id ) {
 		exit();
 	}
 	$row->checkin();
-	$row->updateOrder( "menutype = '$menu'" );
+	$row->reorder( "menutype = '$menu'" );
 
 	$msg = sprintf( JText::_( 'menutype successfully created' ), $name, $menutype, $menu );
-	mosRedirect( 'index2.php?option=com_sections&scope=content&task=editA&hidemainmenu=1&id='. $id,  $msg );
+	josRedirect( 'index2.php?option=com_sections&scope=content&task=editA&hidemainmenu=1&id='. $id,  $msg );
 }
 
 function saveOrder( &$cid ) {
@@ -755,10 +755,10 @@ function saveOrder( &$cid ) {
 	// execute updateOrder for each group
 	foreach ( $conditions as $cond ) {
 		$row->load( $cond[0] );
-		$row->updateOrder( $cond[1] );
+		$row->reorder( $cond[1] );
 	} // foreach
 
 	$msg 	= JText::_( 'New ordering saved' );
-	mosRedirect( 'index2.php?option=com_sections&scope=content', $msg );
+	josRedirect( 'index2.php?option=com_sections&scope=content', $msg );
 } // saveOrder
 ?>

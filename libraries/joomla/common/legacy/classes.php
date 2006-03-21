@@ -125,6 +125,22 @@ class mosDBTable extends JTable
 	function mosDBTable($table, $key, &$db) {
 		parent::__construct( $table, $key, $db );
 	}
+
+	/**
+	 * Legacy Method, use reorder() instead
+	 * @deprecated As of 1.1
+	 */
+	function updateOrder( $where='' )	{
+		return $this->reorder( $where );
+	}
+
+	/**
+	 * Legacy Method, use publish() instead
+	 * @deprecated As of 1.0.3
+	 */
+	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+		$this->publish( $cid, $publish, $user_id );
+	}
 }
 
 /**
@@ -145,6 +161,22 @@ class mosCategory extends JTableCategory
 
 	function mosCategory(&$db) {
 		parent::__construct( $db );
+	}
+
+	/**
+	 * Legacy Method, use reorder() instead
+	 * @deprecated As of 1.1
+	 */
+	function updateOrder( $where='' )	{
+		return $this->reorder( $where );
+	}
+
+	/**
+	 * Legacy Method, use publish() instead
+	 * @deprecated As of 1.0.3
+	 */
+	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+		$this->publish( $cid, $publish, $user_id );
 	}
 }
 
@@ -167,6 +199,22 @@ class mosComponent extends JTableComponent
 	function mosComponent( &$db) {
 		parent::__construct( $db );
 	}
+
+	/**
+	 * Legacy Method, use reorder() instead
+	 * @deprecated As of 1.1
+	 */
+	function updateOrder( $where='' )	{
+		return $this->reorder( $where );
+	}
+
+	/**
+	 * Legacy Method, use publish() instead
+	 * @deprecated As of 1.0.3
+	 */
+	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+		$this->publish( $cid, $publish, $user_id );
+	}
 }
 
 /**
@@ -187,6 +235,22 @@ class mosContent extends JTableContent
 
 	function mosComponent( &$db ) {
 		parent::__construct($db );
+	}
+
+	/**
+	 * Legacy Method, use reorder() instead
+	 * @deprecated As of 1.1
+	 */
+	function updateOrder( $where='' )	{
+		return $this->reorder( $where );
+	}
+
+	/**
+	 * Legacy Method, use publish() instead
+	 * @deprecated As of 1.0.3
+	 */
+	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+		$this->publish( $cid, $publish, $user_id );
 	}
 }
 
@@ -209,6 +273,22 @@ class mosMambot extends JTablePlugin
 	function mosMambot(&$db) {
 		parent::__construct( $db );
 	}
+
+	/**
+	 * Legacy Method, use reorder() instead
+	 * @deprecated As of 1.1
+	 */
+	function updateOrder( $where='' )	{
+		return $this->reorder( $where );
+	}
+
+	/**
+	 * Legacy Method, use publish() instead
+	 * @deprecated As of 1.0.3
+	 */
+	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+		$this->publish( $cid, $publish, $user_id );
+	}
 }
 
 /**
@@ -229,6 +309,22 @@ class mosMenu extends JTableMenu
 
 	function mosMenu(&$db) {
 		parent::__construct( $db );
+	}
+
+	/**
+	 * Legacy Method, use reorder() instead
+	 * @deprecated As of 1.1
+	 */
+	function updateOrder( $where='' )	{
+		return $this->reorder( $where );
+	}
+
+	/**
+	 * Legacy Method, use publish() instead
+	 * @deprecated As of 1.0.3
+	 */
+	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+		$this->publish( $cid, $publish, $user_id );
 	}
 }
 
@@ -251,6 +347,22 @@ class mosModule extends JTableModule
 	function mosModule(&$db) {
 		parent::__construct( $db );
 	}
+
+	/**
+	 * Legacy Method, use reorder() instead
+	 * @deprecated As of 1.1
+	 */
+	function updateOrder( $where='' )	{
+		return $this->reorder( $where );
+	}
+
+	/**
+	 * Legacy Method, use publish() instead
+	 * @deprecated As of 1.0.3
+	 */
+	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+		$this->publish( $cid, $publish, $user_id );
+	}
 }
 
 /**
@@ -271,6 +383,22 @@ class mosSection extends JTableSection
 
 	function mosSection(&$db) {
 		parent::__construct( $db );
+	}
+
+	/**
+	 * Legacy Method, use reorder() instead
+	 * @deprecated As of 1.1
+	 */
+	function updateOrder( $where='' )	{
+		return $this->reorder( $where );
+	}
+
+	/**
+	 * Legacy Method, use publish() instead
+	 * @deprecated As of 1.0.3
+	 */
+	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+		$this->publish( $cid, $publish, $user_id );
 	}
 }
 
@@ -323,6 +451,22 @@ class mosSession extends JTableSession
 			$mainframe->login( $usercookie['username'], $usercookie['password'] );
 		}
 	}
+
+	/**
+	 * Legacy Method, use reorder() instead
+	 * @deprecated As of 1.1
+	 */
+	function updateOrder( $where='' )	{
+		return $this->reorder( $where );
+	}
+
+	/**
+	 * Legacy Method, use publish() instead
+	 * @deprecated As of 1.0.3
+	 */
+	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+		$this->publish( $cid, $publish, $user_id );
+	}
 }
 
 /**
@@ -343,6 +487,22 @@ class mosUser extends JTableUser
 
 	function mosUser(&$db) {
 		parent::__construct( $db);
+	}
+
+	/**
+	 * Legacy Method, use reorder() instead
+	 * @deprecated As of 1.1
+	 */
+	function updateOrder( $where='' )	{
+		return $this->reorder( $where );
+	}
+
+	/**
+	 * Legacy Method, use publish() instead
+	 * @deprecated As of 1.0.3
+	 */
+	function publish_array( $cid=null, $publish=1, $user_id=0 ) {
+		$this->publish( $cid, $publish, $user_id );
 	}
 }
 
@@ -564,7 +724,7 @@ class mosAbstractTasker
 	 */
 	function redirect() {
 		if ($this->_redirect) {
-			mosRedirect( $this->_redirect, $this->_message );
+			josRedirect( $this->_redirect, $this->_message );
 		}
 	}
 	/**

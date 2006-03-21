@@ -642,7 +642,7 @@ class JContactController {
 			$link = 'index.php?option=com_contact&task=view&contact_id='. $contactId .'&Itemid='. $Itemid;
 			$text = JText::_( 'Thank you for your e-mail', true );
 			
-			mosRedirect( $link, $text );
+			josRedirect( $link, $text );
 		}
 	}
 

@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 $user = & $mainframe->getUser();
 if (!$user->authorize( 'com_syndicate', 'manage' )) {
-	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
@@ -92,13 +92,13 @@ function saveSyndicate() {
 	}
 
 	$msg = JText::_( 'Settings successfully Saved' );
-	mosRedirect( 'index2.php?option=com_syndicate&hidemainmenu=1', $msg );
+	josRedirect( 'index2.php?option=com_syndicate&hidemainmenu=1', $msg );
 }
 
 /**
 * Cancels editing and checks in the record
 */
 function cancelSyndicate(){
-	mosRedirect( 'index2.php' );
+	josRedirect( 'index2.php' );
 }
 ?>

@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $user = & $mainframe->getUser();
 if (!$user->authorize( 'com_users', 'manage' ))
 {
-	mosRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
+	josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
 require_once( JApplicationHelper::getPath( 'admin_html' ) );
@@ -79,7 +79,7 @@ switch ($task) {
 
 	case 'contact':
 		$contact_id = JRequest::getVar( 'contact_id', '', 'post', 'int' );
-		mosRedirect( 'index2.php?option=com_contact&task=editA&id='. $contact_id );
+		josRedirect( 'index2.php?option=com_contact&task=editA&id='. $contact_id );
 		break;
 
 	default:
@@ -240,7 +240,7 @@ function editUser( $id, $option='users' )
 
 	if ( in_array( $userGroups[0], $excludeGroups ) ) {
 		echo 'not auth';
-		mosRedirect( 'index2.php?option=com_users', JText::_('NOT_AUTH') );
+		josRedirect( 'index2.php?option=com_users', JText::_('NOT_AUTH') );
 	}
 
 	//if ( $userGroupName == 'super administrator' ) {
@@ -370,7 +370,7 @@ function saveUser( $option, $task )
 */
 function cancelUser( $option ) 
 {
-	mosRedirect( 'index2.php?option='. $option .'&task=view' );
+	josRedirect( 'index2.php?option='. $option .'&task=view' );
 }
 
 function removeUsers( $cid ) 
@@ -412,7 +412,7 @@ function removeUsers( $cid )
 		}
 	}
 
-	mosRedirect( 'index2.php?option=com_users', $user->getError() );
+	josRedirect( 'index2.php?option=com_users', $user->getError() );
 }
 
 /**
@@ -444,7 +444,7 @@ function changeUserBlock( $cid=null, $block=1, $option )
 		exit();
 	}
 
-	mosRedirect( 'index2.php?option='. $option );
+	josRedirect( 'index2.php?option='. $option );
 }
 
 /**
@@ -460,7 +460,7 @@ function logoutUser( $cid=null, $option, $task )
 	$cids = $cid;
 	if ( is_array( $cid ) ) {
 		if ( count( $cid ) < 1 ) {
-			mosRedirect( 'index2.php?option=com_users', JText::_( 'Please select a user' ) );
+			josRedirect( 'index2.php?option=com_users', JText::_( 'Please select a user' ) );
 		}
 		$cids = implode( ',', $cid );
 	}
@@ -475,11 +475,11 @@ function logoutUser( $cid=null, $option, $task )
 	$msg = JText::_( 'User Sesssion ended' );
 	switch ( $task ) {
 		case 'flogout':
-			mosRedirect( 'index2.php', $msg );
+			josRedirect( 'index2.php', $msg );
 			break;
 
 		default:
-			mosRedirect( 'index2.php?option=com_users', $msg );
+			josRedirect( 'index2.php?option=com_users', $msg );
 			break;
 	}
 }
