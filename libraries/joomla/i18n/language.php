@@ -147,7 +147,6 @@ class JLanguage extends JObject
 		//set locale based on the language tag
 		//TODO : add function to display locale setting in configuration
 		$locale = setlocale(LC_ALL, $this->getLocale());
-		//echo $locale;
 
 		$this->load();
 	}
@@ -245,7 +244,8 @@ class JLanguage extends JObject
 	*/
 	function _load( $filename ) 
 	{
-		if (file_exists( $filename )) {
+		if (file_exists( $filename )) 
+		{
 			if ($content = file_get_contents( $filename )) {
 				if( $this->_identifyer === null ) {
 					$this->_identifyer = basename( $filename, '.ini' );
@@ -294,7 +294,7 @@ class JLanguage extends JObject
 	* @return string name of pdf font to be used
 	*/
 	function getPdfFontName() {
-		return $this->_metadata['pdfFontName'];
+		return $this->_metadata['pdffontname'];
 	}
 
 	/**
@@ -304,7 +304,7 @@ class JLanguage extends JObject
 	* @return string windows locale encoding
 	*/
 	function getWinCP() {
-		return $this->_metadata['winCodePage'];
+		return $this->_metadata['wincodepage'];
 	}
 
 	/**
@@ -314,7 +314,7 @@ class JLanguage extends JObject
 	* @return string backward compatible name
 	*/
 	function getBackwardLang() {
-		return $this->_metadata['backwardLang'];
+		return $this->_metadata['backwardlang'];
 	}
 
 	/**
@@ -526,29 +526,24 @@ class JLanguage extends JObject
 	 */
 	function _parseXMLLanguageFile($path) 
 	{
-		$xmlDoc = & JFactory::getXMLParser();
-		$xmlDoc->resolveErrors(true);
-		if (!$xmlDoc->loadXML($path, false, true)) {
+		$xml = & JFactory::getXMLParser('Simple');
+		if (!$xml->loadFile($path)) {
 			return null;
 		}
-		$language = & $xmlDoc->documentElement;
-
+		
 		// Check that it's am installation file
-		if ($language->getTagName() != 'mosinstall' && $language->getTagName() != 'install') {
+		if ($xml->document->name() != 'mosinstall' && $xml->document->name() != 'install') {
 			return null;
 		}
 
 		$metadata = array ();
 
-		if ($language->getAttribute('type') == 'language') {
-			$node = & $language->getElementsByPath('metadata', 1);
-
-			for ($i = 0; $i < count($node->childNodes); $i ++) {
-				$currNode = & $node->childNodes[$i];
-				$metadata[$currNode->nodeName] = $currNode->getText();
+		if ($xml->document->attributes('type') == 'language') {
+			
+			foreach ($xml->document->metadata[0]->children() as $child) {
+				$metadata[$child->name()] = $child->data();
 			}
 		}
-
 		return $metadata;
 	}
 }

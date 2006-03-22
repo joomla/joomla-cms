@@ -150,6 +150,12 @@ class JFactory
 				jimport('domit.xml_domit_rss_lite');
 				$doc = new xml_domit_rss_document_lite();
 			} break;
+			
+			case 'Simple' :
+			{
+				jimport('joomla.utilities.simplexml');
+				$doc = new JSimpleXML();
+			}
 		}
 
 		$reference =& $doc;

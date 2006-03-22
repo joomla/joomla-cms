@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+21-Mar-2006 Johan Janssens
+ + Added JSimpleXML class to utilities package
+
 21-Mar-2005 Louis Landry
  ^ Renamed JModel to JTable and added to the database package 
  ^ Use josRedirect instead of mosRedirect in codebase

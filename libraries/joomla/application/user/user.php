@@ -74,8 +74,7 @@ class JUser extends JObject
 		/*
 		 * Create the user parameters object
 		 */
-		$path 	= JApplicationHelper::getPath( 'com_xml', 'com_users' );
-		$this->_params = new JParameter( '', $path );
+		$this->_params = new JParameter( '' );
 		
 		if (!empty($identifier) && $identifier != 'guest') {	
 			$this->_load($identifier);
