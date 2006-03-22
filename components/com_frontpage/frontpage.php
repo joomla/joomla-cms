@@ -20,6 +20,55 @@ global $mainframe;
 $lang =& $mainframe->getLanguage();
 $lang->load('com_content');
 
-// code handling has been shifted into content.php
-require_once( JPATH_SITE .'/components/com_content/content.php' );
+// require the frontpage html view
+require_once (JApplicationHelper::getPath('front_html', 'com_frontpage'));
+/**
+ * Frontpage Component Controller
+ *
+ * @static
+ * @package Joomla
+ * @subpackage Frontpage
+ * @since 1.1
+ */
+class JFrontpageController
+{
+	function show()
+	{
+		global $mainframe, $Itemid;
+
+		/*
+		 * Initialize some variables
+		 */
+		$db			= & $mainframe->getDBO();
+		$user		= & $mainframe->getUser();
+		$gid			= $user->get('gid');
+
+		/*
+		 * Create a user access object for the user
+		 */
+		$access							= new stdClass();
+		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
+		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
+		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
+
+		// Parameters
+		$menu = JMenu::getInstance();
+		$menu = $menu->getItem($Itemid);
+		$params = new JParameter($menu->params);
+
+		require_once (dirname(__FILE__).DS.'model'.DS.'frontpage.php');
+		$model = new JModelFrontpage($db, $params);
+		
+		// Dynamic Page Title
+		$mainframe->SetPageTitle($menu->name);
+
+		$cache = & JFactory::getCache('com_frontpage');
+		$cache->call('JFrontpageViewHTML::show', $model, $access, $menu);
+	}
+}
+
+/*
+ * Show the frontpage
+ */
+JFrontpageController::show();
 ?>

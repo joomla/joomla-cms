@@ -71,20 +71,6 @@ class JModelCategory extends JObject
 	var $_content = array();
 
 	/**
-	 * Number of content rows in category array
-	 *
-	 * @var array
-	 */
-	var $_contentTotal = array();
-
-	/**
-	 * Content data JPagination Object array
-	 *
-	 * @var array
-	 */
-	var $_contentPagination = array();
-
-	/**
 	 * Constructor.
 	 *
 	 * @access protected
@@ -111,8 +97,16 @@ class JModelCategory extends JObject
 		$this->_category				= null;
 		$this->_siblings					= null;
 		$this->_content					= array();
-		$this->_contentTotal			= array();
-		$this->_contentPagination	= array();
+	}
+
+	/**
+	 * Method to get current menu parameters
+	 *
+	 * @since 1.1
+	 */
+	function & getMenuParams()
+	{
+		return $this->_mparams;
 	}
 
 	/**
@@ -235,47 +229,6 @@ class JModelCategory extends JObject
 	}
 
 	/**
-	 * Method to get content item data for the current category
-	 *
-	 * @param	int	$state	The content state to pull from for the current
-	 * category
-	 * @since 1.1
-	 */
-	function getContentPagination($state = 1)
-	{
-		global $mainframe;
-
-		/*
-		 * Initialize some variables
-		 */
-		$user = & $mainframe->getUser();
-
-		/*
-		 * Load the Category data
-		 */
-		if ($this->_loadCategory() && $this->_loadContent($state))
-		{
-			/*
-			 * Make sure the category is published
-			 */
-			if (!$this->_category->published)
-			{
-				JError::raiseError(404, JText::_("Resource Not Found"));
-				return false;
-			}
-			/*
-			 * check whether category access level allows access
-			 */
-			if ($this->_category->access > $user->get('gid'))
-			{
-				JError::raiseError(403, JText::_("Access Forbidden"));
-				return false;
-			}
-		}
-		return $this->_contentPagination[$state];
-	}
-
-	/**
 	 * Method to load category data if it doesn't exist.
 	 *
 	 * @access	private
@@ -392,22 +345,6 @@ class JModelCategory extends JObject
 			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
 
 			/*
-			 * Set some defaults for $limit and $limitstart
-			 */
-			$this->_loadContentTotal($state);
-			$limit = $limit ? $limit : $this->_mparams->get('display_num');
-			if ($this->_contentTotal[$state] <= $limit)
-			{
-				$limitstart = 0;
-			}
-
-			/*
-			 * Create JPagination object for the content
-			 */
-			jimport('joomla.presentation.pagination');
-			$this->_contentPagination[$state] = new JPagination($this->_contentTotal[$state], $limitstart, $limit);
-
-			/*
 			 * If voting is turned on, get voting data as well for the content
 			 * items
 			 */
@@ -430,42 +367,6 @@ class JModelCategory extends JObject
 					$orderby;
 			$this->_db->setQuery($query, $limitstart, $limit);
 			$this->_content[$state] = $this->_db->loadObjectList();
-		}		
-		return true;
-	}
-
-	/**
-	 * Method to load total number of content items in the category.
-	 *
-	 * @access	private
-	 * @return	boolean	True on success
-	 */
-	function _loadContentTotal($state)
-	{
-		if (empty($this->_category))
-		{
-			return false; // TODO: set error
-		}
-
-		/*
-		 * Lets load total number of content items in the category
-		 */
-		if (!isset($this->_contentTotal[$state]) || is_null($this->_contentTotal[$state]))
-		{
-			/*
-			 * Get the WHERE and ORDER BY clauses for the query
-			 */
-			$where	= $this->_buildContentWhere($state);
-			$orderby	= $this->_buildContentOrderBy($state);
-	
-			$query = "SELECT COUNT(a.id) as numitems" .
-					"\n FROM #__content AS a" .
-					"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
-					"\n LEFT JOIN #__groups AS g ON a.access = g.id" .
-					$where.
-					$orderby;
-			$this->_db->setQuery($query);
-			$this->_contentTotal[$state] = $this->_db->loadResult();
 		}		
 		return true;
 	}

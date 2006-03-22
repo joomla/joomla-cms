@@ -15,15 +15,18 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+// require the content html view
+require_once (JApplicationHelper::getPath('front_html', 'com_content'));
+
 /**
- * HTML View class for the Content component
+ * HTML Blog View class for the Frontpage component
  *
  * @static
  * @package Joomla
  * @subpackage Content
  * @since 1.1
  */
-class JContentViewHTML_blog
+class JFrontpageViewHTML_blog
 {
 
 	function show(&$model, &$access, &$menu)
@@ -157,7 +160,7 @@ class JContentViewHTML_blog
 						break;
 					}
 					echo '<div>';
-					JContentViewHTML_blog::showItem($rows[$i], $access, true);
+					JFrontpageViewHTML_blog::showItem($rows[$i], $access, true);
 					echo '</div>';
 				}
 				echo '</td>';
@@ -191,7 +194,7 @@ class JContentViewHTML_blog
 					{
 						if ($i <= $intro && ($i <= $total))
 						{
-							JContentViewHTML_blog::showItem($rows[$i], $access);
+							JFrontpageViewHTML_blog::showItem($rows[$i], $access);
 							$i ++;
 						}
 					}
@@ -210,7 +213,7 @@ class JContentViewHTML_blog
 				echo '<tr>';
 				echo '<td valign="top">';
 				echo '<div class="blog_more'.$params->get('pageclass_sfx').'">';
-				JContentViewHTML_blog::showLinks($rows, $links, $total, $i);
+				JFrontpageViewHTML_blog::showLinks($rows, $links, $total, $i);
 				echo '</div>';
 				echo '</td>';
 				echo '</tr>';
@@ -264,7 +267,7 @@ class JContentViewHTML_blog
 		else
 		{
 			// Generic blog empty display
-			JContentViewHTML::emptyContainer(_EMPTY_BLOG);
+			JFrontpageViewHTML::emptyContainer(_EMPTY_BLOG);
 		}
 
 	}
@@ -392,7 +395,6 @@ class JContentViewHTML_blog
 			<?php
 
 		}
-
 		if (!$params->get('intro_only'))
 		{
 			$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (& $row, & $params,0));

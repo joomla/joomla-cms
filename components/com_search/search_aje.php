@@ -179,7 +179,7 @@ function viewSearch() {
 		*/
 
 		$cache = & JFactory::getCache('getItemid');
-		require_once (JApplicationHelper::getPath('front', 'com_content'));
+		require_once (JApplicationHelper::getPath('helper', 'com_content'));
 		
 		$rows = $oSearch->getResults();
 		$totalRows = count( $rows );

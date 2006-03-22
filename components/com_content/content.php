@@ -21,15 +21,6 @@ require_once (JApplicationHelper::getPath('helper', 'com_content'));
 // require the html view class
 require_once (JApplicationHelper::getPath('front_html', 'com_content'));
 
-/*
- * Special case if we are on the frontpage [index.php of the site]
- */
-if ($option == 'com_frontpage')
-{
-	JContentController::frontpage();
-	return;
-}
-
 switch (strtolower($task))
 {
 	case 'section' :
@@ -114,40 +105,6 @@ switch (strtolower($task))
  */
 class JContentController
 {
-	function frontpage()
-	{
-		global $mainframe, $Itemid;
-
-		/*
-		 * Initialize some variables
-		 */
-		$db			= & $mainframe->getDBO();
-		$user		= & $mainframe->getUser();
-		$gid			= $user->get('gid');
-
-		/*
-		 * Create a user access object for the user
-		 */
-		$access							= new stdClass();
-		$access->canEdit			= $user->authorize('action', 'edit', 'content', 'all');
-		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
-		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
-
-		// Parameters
-		$menu = JMenu::getInstance();
-		$menu = $menu->getItem($Itemid);
-		$params = new JParameter($menu->params);
-
-		require_once (dirname(__FILE__).DS.'model'.DS.'frontpage.php');
-		$model = new JModelFrontpage($db, $params);
-		
-		// Dynamic Page Title
-		$mainframe->SetPageTitle($menu->name);
-
-		$cache = & JFactory::getCache('com_content');
-		$cache->call('JContentViewHTML::showBlog', $model, $params, $access, $menu);
-	}
-
 	/**
 	 * Method to build data for displaying a content section
 	 *
@@ -223,7 +180,7 @@ class JContentController
 		$model = new JModelSection($db, $params, $id);
 
 		$cache = & JFactory::getCache('com_content');
-		$cache->call('JContentViewHTML::showSection', $model, $params);
+		$cache->call('JContentViewHTML::showSection', $model);
 	}
 
 	/**
@@ -316,7 +273,7 @@ class JContentController
 		require_once (dirname(__FILE__).DS.'model'.DS.'category.php');
 		$model = new JModelCategory($db, $params, $id);
 		
-		JContentViewHTML::showCategory($model, $access, $params, $lists, $selected);
+		JContentViewHTML::showCategory($model, $access, $lists, $selected);
 	}
 
 	function showBlogSection()
@@ -367,7 +324,7 @@ class JContentController
 		$model = new JModelSection($db, $params, $id);
 		
 		$cache = & JFactory::getCache('com_content');
-		$cache->call('JContentViewHTML::showBlog', $model, $params, $access, $menu);
+		$cache->call('JContentViewHTML::showBlog', $model, $access, $menu);
 	}
 
 	function showBlogCategory()
@@ -377,6 +334,7 @@ class JContentController
 		/*
 		 * Initialize variables
 		 */
+		$db			= & $mainframe->getDBO();
 		$user		= & $mainframe->getUser();
 		$id			= JRequest::getVar('id', 0, '', 'int');
 
@@ -414,11 +372,11 @@ class JContentController
 			$breadcrumbs->addItem($rows[0]->section, '');
 		}
 
-		require_once (dirname(__FILE__).DS.'model'.DS.'blog.php');
-		$rows = & JContentBlog::getCategoryData($id, $access, $params);
+		require_once (dirname(__FILE__).DS.'model'.DS.'category.php');
+		$model = new JModelCategory($db, $params, $id);
 		
 		$cache = & JFactory::getCache('com_content');
-		$cache->call('JContentViewHTML::showBlog', $rows, $params, $access, $menu);
+		$cache->call('JContentViewHTML::showBlog', $model, $access, $menu);
 	}
 
 	function showArchiveSection()

@@ -30,24 +30,24 @@ class JContentViewHTML {
 	 * 
 	 * @since 1.1
 	 */
-	function showSection(& $model, & $params) {
+	function showSection(& $model) {
 		require_once (dirname(__FILE__).DS.'view'.DS.'section'.DS.'section.php');
 		/*
 		 * Need to cache this for speed
 		 */
-		JContentViewHTML_section::show($model, $params);
+		JContentViewHTML_section::show($model);
 	}
 
 	/**
 	* Draws a Content List
 	* Used by Content Category & Content Section
 	*/
-	function showCategory(& $model, & $access, & $params, & $lists, $order) {
+	function showCategory(& $model, & $access, & $lists, $order) {
 		require_once (dirname(__FILE__).DS.'view'.DS.'category'.DS.'category.php');
 		/*
 		 * Need to cache this for speed
 		 */
-		JContentViewHTML_category::show($model, $access, $params, $lists, $order);
+		JContentViewHTML_category::show($model, $access, $lists, $order);
 	}
 
 	function showArchive(&$rows, &$params, &$menu, &$access, $id) 
@@ -59,13 +59,13 @@ class JContentViewHTML {
 		JContentViewHTML_archive::show($rows, $params, $access, $menu, $id);
 	}
 
-	function showBlog(&$rows, &$params, &$access, &$menu) 
+	function showBlog(&$model, &$access, &$menu) 
 	{
 		require_once (dirname(__FILE__).DS.'view'.DS.'blog'.DS.'blog.php');
 		/*
 		 * Need to cache this for speed
 		 */
-		JContentViewHTML_blog::show($rows, $params, $access, $menu);
+		JContentViewHTML_blog::show($model, $access, $menu);
 	}
 
 	function showItem(&$rows, &$params, &$access) 

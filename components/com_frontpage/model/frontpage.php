@@ -88,6 +88,16 @@ class JModelFrontpage extends JObject
 	}
 
 	/**
+	 * Method to get current menu parameters
+	 *
+	 * @since 1.1
+	 */
+	function & getMenuParams()
+	{
+		return $this->_mparams;
+	}
+
+	/**
 	 * Method to get content item data for the frontpage
 	 *
 	 * @since 1.1
@@ -99,22 +109,6 @@ class JModelFrontpage extends JObject
 		 */
 		$this->_loadContent();
 		return $this->_content;
-	}
-
-	/**
-	 * Method to get content item data for the current section
-	 *
-	 * @param	int	$state	The content state to pull from for the current
-	 * section
-	 * @since 1.1
-	 */
-	function getContentPagination()
-	{
-		/*
-		 * Load the Category data
-		 */
-		$this->_loadContent();
-		return $this->_contentPagination;
 	}
 
 	/**
@@ -141,22 +135,6 @@ class JModelFrontpage extends JObject
 			 */
 			$limit		= JRequest::getVar('limit', 0, '', 'int');
 			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
-
-			/*
-			 * Set some defaults for $limit and $limitstart
-			 */
-//			$this->_loadContentTotal();
-//			$limit = $limit ? $limit : $this->_mparams->get('display_num');
-//			if ($this->_contentTotal <= $limit)
-//			{
-//				$limitstart = 0;
-//			}
-
-			/*
-			 * Create JPagination object for the content
-			 */
-			jimport('joomla.presentation.pagination');
-			$this->_contentPagination = new JPagination($this->_contentTotal, $limitstart, $limit);
 
 			/*
 			 * If voting is turned on, get voting data as well for the content

@@ -26,14 +26,32 @@ defined('_JEXEC') or die('Restricted access');
 class JContentViewHTML_category
 {
 
-	function show(& $model, & $access, & $params, & $lists, $order)
+	function show(& $model, & $access, & $lists, $order)
 	{
 		global $mainframe, $Itemid;
 
 		$category = $model->getCategoryData();
 		$other_categories = $model->getSiblingData();
 		$items = $model->getContentData();
-		$pagination = $model->getContentPagination();
+		$params = & $model->getMenuParams();
+
+		/*
+		 * Set some defaults for $limit and $limitstart
+		 */
+		$limit		= JRequest::getVar('limit', 0, '', 'int');
+		$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+		$total = count($items);
+		$limit = $limit ? $limit : $params->get('display_num');
+		if ($total <= $limit)
+		{
+			$limitstart = 0;
+		}
+
+		/*
+		 * Create JPagination object for the content
+		 */
+		jimport('joomla.presentation.pagination');
+		$pagination = new JPagination($total, $limitstart, $limit);
 
 		/*
 		 * Handle BreadCrumbs

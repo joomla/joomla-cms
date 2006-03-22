@@ -26,12 +26,13 @@ defined('_JEXEC') or die('Restricted access');
 class JContentViewHTML_section
 {
 
-	function show(& $model, & $params)
+	function show(& $model)
 	{
 		global $mainframe;
 		
 		$section = $model->getSectionData();
 		$categories = $model->getCategoriesData();
+		$params = & $model->getMenuParams();
 
 		/*
 		 * Handle BreadCrumbs
