@@ -325,6 +325,7 @@ class HTML_users {
 						<td>
 							<?php 
 								$params =& $user->getParameters();
+								$params->loadSetupFile(JApplicationHelper::getPath( 'com_xml', 'com_users' ));
 								echo $params->render( 'params' );
 							?>
 						</td>
