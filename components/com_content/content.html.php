@@ -50,13 +50,13 @@ class JContentViewHTML {
 		JContentViewHTML_category::show($model, $access, $lists, $order);
 	}
 
-	function showArchive(&$rows, &$params, &$menu, &$access, $id) 
+	function showArchive(&$model, &$menu, &$access, $id) 
 	{
 		require_once (dirname(__FILE__).DS.'view'.DS.'archive'.DS.'archive.php');
 		/*
 		 * Need to cache this for speed
 		 */
-		JContentViewHTML_archive::show($rows, $params, $access, $menu, $id);
+		JContentViewHTML_archive::show($model, $access, $menu, $id);
 	}
 
 	function showBlog(&$model, &$access, &$menu) 

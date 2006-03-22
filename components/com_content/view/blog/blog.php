@@ -35,12 +35,14 @@ class JContentViewHTML_blog
 		 */
 		$db			= & $mainframe->getDBO();
 		$user		= & $mainframe->getUser();
+		$gid			= $user->get('gid');
 		$task		= JRequest::getVar('task');
 		$id			= JRequest::getVar('id');
 		$option	= JRequest::getVar('option');
-		$gid			= $user->get('gid');
 
-		// parameters
+		/*
+		 * Menu item parameters
+		 */
 		$params = & $model->getMenuParams();
 		if ($params->get('page_title', 1) && $menu) {
 			$header = $params->def('header', $menu->name);
@@ -65,19 +67,19 @@ class JContentViewHTML_blog
 		$params->def('pageclass_sfx', '');
 		$params->set('intro_only', 1);
 
+		/*
+		 * Lets get the content item data from the model
+		 */
 		$rows = & $model->getContentData();
 
 		/*
 		 * Pagination support
 		 */
-		$total = count($rows);
-		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
-		$limit = $intro + $leading + $links;
-		if (!$limitstart) {
-			$limitstart = 0;
-		}
-		
-		if ($total <= $limit) {
+		$total			= count($rows);
+		$limitstart		= JRequest::getVar('limitstart', 0, '', 'int');
+		$limit			= $intro + $leading + $links;
+		if ($total <= $limit) 
+		{
 			$limitstart = 0;
 		}
 		$i = $limitstart;
@@ -109,7 +111,8 @@ class JContentViewHTML_blog
 		/*
 		 * Header output
 		 */
-		if ($header) {
+		if ($header)
+		{
 			echo '<div class="componentheading'.$params->get('pageclass_sfx').'">'.$header.'</div>';
 		}
 

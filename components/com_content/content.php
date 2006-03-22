@@ -386,8 +386,9 @@ class JContentController
 		/*
 		 * Initialize some variables
 		 */
-		$user		= & $mainframe->getUser();
-		$id			= JRequest::getVar('id', 0, '', 'int');
+		$db		= & $mainframe->getDBO();
+		$user	= & $mainframe->getUser();
+		$id		= JRequest::getVar('id', 0, '', 'int');
 
 		/*
 		 * Create a user access object for the user
@@ -413,32 +414,23 @@ class JContentController
 		// Dynamic Page Title
 		$mainframe->SetPageTitle($menu->name);
 
-		// Append Archives to BreadCrumbs
-		$breadcrumbs = & $mainframe->getPathWay();
-		$breadcrumbs->addItem('Archives', '');
+		require_once (dirname(__FILE__).DS.'model'.DS.'section.php');
+		$model = new JModelSection($db, $params, $id);
 
-
-		require_once (dirname(__FILE__).DS.'model'.DS.'archive.php');
-		$rows = & JContentArchive::getSectionData($id, $access, $params);
-
-		if (!$rows)
-		{
-			JContentViewHTML::emptyContainer(JText::_('CATEGORY_ARCHIVE_EMPTY'));
-		}
-		else
-		{
-			$cache = & JFactory::getCache('com_content');
-			$cache->call('JContentViewHTML::showArchive', $rows, $params, $access, $menu, $id);
-		}
+		$cache = & JFactory::getCache('com_content');
+		$cache->call('JContentViewHTML::showArchive', $model, $access, $menu, $id);
 	}
 
 	function showArchiveCategory()
 	{
 		global $mainframe, $Itemid;
 
-		// Parameters
-		$user		= & $mainframe->getUser();
-		$id			= JRequest::getVar( 'id', 0, '', 'int' );
+		/*
+		 * Initialize some variables
+		 */
+		$db		= & $mainframe->getDBO();
+		$user	= & $mainframe->getUser();
+		$id		= JRequest::getVar( 'id', 0, '', 'int' );
 
 		/*
 		 * Create a user access object for the user
@@ -463,21 +455,10 @@ class JContentController
 		// Page Title
 		$mainframe->SetPageTitle($menu->name);
 
-		// Append Archives to BreadCrumbs
-		$breadcrumbs = & $mainframe->getPathWay();
-		$breadcrumbs->addItem('Archives', '');
-
-		require_once (dirname(__FILE__).DS.'model'.DS.'archive.php');
-		$rows = & JContentArchive::getCategoryData($id, $access, $params);
-
-		if (!$rows)
-		{
-			JContentViewHTML::emptyContainer(JText::_('CATEGORY_ARCHIVE_EMPTY'));
-		}
-		else
-		{
-			JContentViewHTML::showArchive($rows, $params, $access, $menu, $id);
-		}
+		require_once (dirname(__FILE__).DS.'model'.DS.'category.php');
+		$model = new JModelCategory($db, $params, $id);
+		
+		JContentViewHTML::showArchive($model, $access, $menu, $id);
 	}
 
 	/**

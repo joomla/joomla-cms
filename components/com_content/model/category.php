@@ -418,16 +418,12 @@ class JModelCategory extends JObject
 		 * First thing we need to do is assert that the content items are in
 		 * the current category
 		 */
-		$where = "\n WHERE a.catid = $this->_id";
-		
-		/*
-		 * Does the user have access to view the items?
-		 */
-		if ($noauth)
+		$where = "\n WHERE a.access <= $gid";
+		if ($this->_id)
 		{
-			$where .= "\n AND a.access <= $gid";
+			$where .= "\n AND a.catid = $this->_id";
 		}
-		
+
 		/*
 		 * Regular Published Content
 		 */

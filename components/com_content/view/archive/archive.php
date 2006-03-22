@@ -26,7 +26,7 @@ defined('_JEXEC') or die('Restricted access');
 class JContentViewHTML_archive
 {
 
-	function show(& $rows, & $params, & $menu, & $access, $id)
+	function show(& $model, & $menu, & $access, $id)
 	{
 		global $Itemid;
 
@@ -39,7 +39,7 @@ class JContentViewHTML_archive
 		$link = 'index.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
 		echo '<form action="'.sefRelToAbs($link).'" method="post">';
 
-		JContentViewHTML_archive::showArchive($rows, $params, $access, $menu, ($id) ? 0 : 1);
+		JContentViewHTML_archive::showArchive($model, $access, $menu, ($id) ? 0 : 1);
 
 		echo '<input type="hidden" name="id" value="'.$id.'" />';
 		echo '<input type="hidden" name="Itemid" value="'.$Itemid.'" />';
@@ -48,7 +48,7 @@ class JContentViewHTML_archive
 		echo '</form>';
 	}
 
-	function showArchive(&$rows, &$params, &$access, &$menu, $showAll = 1)
+	function showArchive(&$model, &$access, &$menu, $showAll = 1)
 	{
 		global $mainframe, $Itemid;
 
@@ -62,9 +62,14 @@ class JContentViewHTML_archive
 		$id			= JRequest::getVar('id');
 		$option	= JRequest::getVar('option');
 
+		// Append Archives to BreadCrumbs
+		$breadcrumbs = & $mainframe->getPathWay();
+		$breadcrumbs->addItem('Archives', '');
+
 		/*
-		 * Parameters
+		 * Menu item parameters
 		 */
+		$params = & $model->getMenuParams();
 		if ($params->get('page_title', 1) && $menu)
 		{
 			$header = $params->def('header', $menu->name);
@@ -90,11 +95,16 @@ class JContentViewHTML_archive
 		$params->set('intro_only', 1);
 
 		/*
+		 * Lets get the content item data from the model
+		 */
+		$rows = & $model->getContentData();
+
+		/*
 		 * Pagination support
 		 */
+		$total			= count($rows);
 		$limitstart		= JRequest::getVar('limitstart', 0, '', 'int');
 		$limit			= $intro + $leading + $links;
-		$total			= count($rows);
 		if ($total <= $limit)
 		{
 			$limitstart = 0;
@@ -140,7 +150,7 @@ class JContentViewHTML_archive
 			{
 				echo '<tr>';
 				echo '<td valign="top">';
-				for ($z = 0; $z < $leading; $z ++)
+				for ($i = 0; $i < $leading; $i ++)
 				{
 					if ($i >= $total)
 					{
@@ -167,7 +177,6 @@ class JContentViewHTML_archive
 				echo '<tr>';
 				echo '<td>';
 
-				$indexcount = 0;
 				$divider = '';
 				for ($z = 0; $z < $columns; $z ++)
 				{
@@ -178,9 +187,9 @@ class JContentViewHTML_archive
 					echo "<td valign=\"top\"".$width." class=\"article_column".$divider."\">\n";
 					for ($y = 0; $y < $intro / $columns; $y ++)
 					{
-						if ($indexcount < $intro && ($i < $total))
+						if ($i <= $intro && ($i <= $total))
 						{
-							JContentViewHTML_archive::showItem($rows[++ $indexcount], $params, $access);
+							JContentViewHTML_archive::showItem($rows[ $i], $params, $access);
 							$i ++;
 						}
 					}
@@ -198,7 +207,7 @@ class JContentViewHTML_archive
 				echo '<tr>';
 				echo '<td valign="top">';
 				echo '<div class="blog_more'.$params->get('pageclass_sfx').'">';
-				JContentViewHTML_archive::showLinks($rows, $links, $total, ++ $indexcount);
+				JContentViewHTML_archive::showLinks($rows, $links, $total, $i);
 				echo '</div>';
 				echo '</td>';
 				echo '</tr>';
