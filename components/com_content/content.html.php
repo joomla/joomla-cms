@@ -30,24 +30,24 @@ class JContentViewHTML {
 	 * 
 	 * @since 1.1
 	 */
-	function showSection(& $section, & $categories, & $params) {
+	function showSection(& $model, & $params) {
 		require_once (dirname(__FILE__).DS.'view'.DS.'section'.DS.'section.php');
 		/*
 		 * Need to cache this for speed
 		 */
-		JContentViewHTML_section::show($section, $categories, $params);
+		JContentViewHTML_section::show($model, $params);
 	}
 
 	/**
 	* Draws a Content List
 	* Used by Content Category & Content Section
 	*/
-	function showCategory(& $category, & $other_categories, & $items, & $access, & $params, & $page, & $lists, $order) {
+	function showCategory(& $model, & $access, & $params, & $lists, $order) {
 		require_once (dirname(__FILE__).DS.'view'.DS.'category'.DS.'category.php');
 		/*
 		 * Need to cache this for speed
 		 */
-		JContentViewHTML_category::show($category, $other_categories, $items, $access, $params, $page, $lists, $order);
+		JContentViewHTML_category::show($model, $access, $params, $lists, $order);
 	}
 
 	function showArchive(&$rows, &$params, &$menu, &$access, $id) 

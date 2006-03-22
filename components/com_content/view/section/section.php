@@ -26,8 +26,19 @@ defined('_JEXEC') or die('Restricted access');
 class JContentViewHTML_section
 {
 
-	function show(& $section, & $categories, & $params)
+	function show(& $model, & $params)
 	{
+		global $mainframe;
+		
+		$section = $model->getSectionData();
+		$categories = $model->getCategoriesData();
+
+		/*
+		 * Handle BreadCrumbs
+		 */
+		$breadcrumbs = & $mainframe->getPathWay();
+		$breadcrumbs->addItem($section->title, '');
+
 		if ($params->get('page_title')) {
 		?>
 			<div class="componentheading<?php echo $params->get( 'pageclass_sfx' ); ?>">

@@ -26,9 +26,23 @@ defined('_JEXEC') or die('Restricted access');
 class JContentViewHTML_category
 {
 
-	function show(& $category, & $other_categories, & $items, & $access, & $params, & $pagination, & $lists, $order)
+	function show(& $model, & $access, & $params, & $lists, $order)
 	{
-		global $Itemid;
+		global $mainframe, $Itemid;
+
+		$category = $model->getCategoryData();
+		$other_categories = $model->getSiblingData();
+		$items = $model->getContentData();
+		$pagination = $model->getContentPagination();
+
+		/*
+		 * Handle BreadCrumbs
+		 */
+		$breadcrumbs = & $mainframe->getPathWay();
+		// Section
+		$breadcrumbs->addItem($category->sectiontitle, sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$category->sectionid.'&amp;Itemid='.$Itemid));
+		// Category
+		$breadcrumbs->addItem($category->title, '');
 
 		if ($params->get('page_title'))
 		{

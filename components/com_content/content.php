@@ -121,6 +121,7 @@ class JContentController
 		/*
 		 * Initialize some variables
 		 */
+		$db			= & $mainframe->getDBO();
 		$user		= & $mainframe->getUser();
 		$gid			= $user->get('gid');
 
@@ -137,14 +138,14 @@ class JContentController
 		$menu = $menu->getItem($Itemid);
 		$params = new JParameter($menu->params);
 
-		require_once (dirname(__FILE__).DS.'model'.DS.'blog.php');
-		$rows = & JContentBlog::getFrontpageData($access, $params);
+		require_once (dirname(__FILE__).DS.'model'.DS.'frontpage.php');
+		$model = new JModelFrontpage($db, $params);
 		
 		// Dynamic Page Title
 		$mainframe->SetPageTitle($menu->name);
 
 		$cache = & JFactory::getCache('com_content');
-		$cache->call('JContentViewHTML::showBlog', $rows, $params, $access, $menu);
+		$cache->call('JContentViewHTML::showBlog', $model, $params, $access, $menu);
 	}
 
 	/**
@@ -176,27 +177,11 @@ class JContentController
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
-		// Load the section data table
-		$section = & JTable::getInstance('section', $db);
-		$section->load($id);
-
 		/*
-		Check if section is published
-		*/
-		if (!$section->published)
-		{
-			JError::raiseError( 404, JText::_("Resource Not Found") );
-		}
-		/*
-		* check whether section access level allows access
-		*/
-		if ($section->access > $gid)
-		{
-			JError::raiseError( 403, JText::_("Access Forbidden") );
-		}
-
-		/*
-		 * Build menu parameters
+		 * I ABSOLUTELY HATE THIS.... But, menu parameters are coupled to the
+		 * display of a category and/or content item.... crazy isn't it?
+		 * Anyway, lets do the obligatory getting of menu params and setting
+		 * them if they exist
 		 */
 		if ($Itemid)
 		{
@@ -225,63 +210,6 @@ class JContentController
 		$params->def('back_button', $mainframe->getCfg('back_button'));
 		$params->def('pageclass_sfx', '');
 
-		// Ordering control
-		$orderby = $params->get('orderby', '');
-		$orderby = JContentHelper::orderbySecondary($orderby);
-
-		// Handle the access permissions part of the main database query
-		if ($access->canEdit)
-		{
-			$xwhere = '';
-			$xwhere2 = "\n AND b.state >= 0";
-		}
-		else
-		{
-			$xwhere = "\n AND a.published = 1";
-			$xwhere2 = "\n AND b.state = 1" .
-					"\n AND ( b.publish_up = '$nullDate' OR b.publish_up <= '$now' )" .
-					"\n AND ( b.publish_down = '$nullDate' OR b.publish_down >= '$now' )";
-		}
-
-		// Determine whether to show/hide the empty categories and sections
-		$empty = null;
-		$empty_sec = null;
-		if ($params->get('type') == 'category')
-		{
-			// show/hide empty categories
-			if (!$params->get('empty_cat'))
-			{
-				$empty = "\n HAVING numitems > 0";
-			}
-		}
-		if ($params->get('type') == 'section')
-		{
-			// show/hide empty categories in section
-			if (!$params->get('empty_cat_section'))
-			{
-				$empty_sec = "\n HAVING numitems > 0";
-			}
-		}
-
-		// Handle the access permissions
-		$access_check = null;
-		if ($noauth)
-		{
-			$access_check = "\n AND a.access <= $gid";
-		}
-
-		// Query of categories within section
-		$query = "SELECT a.*, COUNT( b.id ) AS numitems" .
-				"\n FROM #__categories AS a" .
-				"\n LEFT JOIN #__content AS b ON b.catid = a.id".
-				$xwhere2 .
-				"\n WHERE a.section = '$section->id'".
-				$xwhere.
-				$access_check .
-				"\n GROUP BY a.id".$empty.$empty_sec .
-				"\n ORDER BY $orderby";
-		$db->setQuery($query);
-		$categories = $db->loadObjectList();
 
 		/*
 		 * Lets set the page title
@@ -291,14 +219,11 @@ class JContentController
 			$mainframe->setPageTitle($menu->name);
 		}
 
-		/*
-		 * Handle BreadCrumbs
-		 */
-		$breadcrumbs = & $mainframe->getPathWay();
-		$breadcrumbs->addItem($section->title, '');
+		require_once (dirname(__FILE__).DS.'model'.DS.'section.php');
+		$model = new JModelSection($db, $params, $id);
 
 		$cache = & JFactory::getCache('com_content');
-		$cache->call('JContentViewHTML::showSection', $section, $categories, $params);
+		$cache->call('JContentViewHTML::showSection', $model, $params);
 	}
 
 	/**
@@ -316,17 +241,10 @@ class JContentController
 		 */
 		$db						= & $mainframe->getDBO();
 		$user					= & $mainframe->getUser();
-		$noauth				= !$mainframe->getCfg('shownoauth');
-		$now					= $mainframe->get('requestTime');
-		$nullDate				= $db->getNullDate();
-		$gid						= $user->get('gid');
 		$id						= JRequest::getVar('id', 0, '', 'int');
-		$sectionid			= JRequest::getVar('sectionid', 0, '', 'int');
-		$limit					= JRequest::getVar('limit', 0, '', 'int');
-		$limitstart				= JRequest::getVar('limitstart', 0, '', 'int');
-		$filter_order		= JRequest::getVar('filter_order', 'a.created');
-		$filter_order_Dir	= JRequest::getVar('filter_order_Dir', 'DESC');
-		$category			= null;
+		$filter					= JRequest::getVar('filter', '', 'request');
+		$filter_order		= JRequest::getVar('filter_order');
+		$filter_order_Dir	= JRequest::getVar('filter_order_Dir');
 
 		/*
 		 * Create a user access object for the user
@@ -337,51 +255,9 @@ class JContentController
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
 		/*
-		* Lets get the information for the current category
-		*/
-		$query = "SELECT c.*, s.id sectionid, s.title as sectiontitle" .
-				"\n FROM #__categories AS c" .
-				"\n INNER JOIN #__sections AS s ON s.id = c.section" .
-				"\n WHERE c.id = '$id'". ($noauth ? "\n AND c.access <= $gid" : '') .
-				"\n LIMIT 1";
-		$db->setQuery($query);
-		$db->loadObject($category);
-
-		/*
-		Check if category is published
-		*/
-		if (!$category->published)
-		{
-			JError::raiseError( 404, JText::_("Resource Not Found") );
-		}
-		/*
-		* check whether category access level allows access
-		*/
-		if ($category->access > $gid)
-		{
-			JError::raiseError( 403, JText::_("Access Forbidden") );
-		}
-
-		$section = & JTable::getInstance('section', $db);
-		$section->load($category->section);
-
-		/*
-		Check if section is published
-		*/
-		if (!$section->published)
-		{
-			JError::raiseError( 404, JText::_("Resource Not Found") );
-		}
-
-		/*
-		* check whether section access level allows access
-		*/
-		if ($section->access > $gid)
-		{
-			JError::raiseError( 403, JText::_("Access Forbidden") );
-		}
-
-		// Paramters
+		 * I HATE that menu item parameters are coupled so closely with the
+		 * view... but alas... they are, so lets get them
+		 */
 		if ($Itemid)
 		{
 			$menu = JMenu::getInstance();
@@ -395,8 +271,6 @@ class JContentController
 			$params = new JParameter();
 			$pagetitle = null;
 		}
-
-		$params->set('type', 'category');
 
 		$params->def('page_title',				1);
 		$params->def('title',							1);
@@ -417,135 +291,17 @@ class JContentController
 		$params->def('filter',						1);
 		$params->def('filter_type',				'title');
 
-		if ($access->canEdit)
-		{
-			$xwhere = '';
-			$xwhere2 = "\n AND b.state >= 0";
-		}
-		else
-		{
-			$xwhere = "\n AND c.published = 1";
-			$xwhere2 = "\n AND b.state = 1" .
-					"\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )" .
-					"\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )";
-		}
-
-		// show/hide empty categories
-		$empty = null;
-		if (!$params->get('empty_cat'))
-		{
-			$empty = "\n HAVING COUNT( b.id ) > 0";
-		}
-
-		// get the list of other categories
-		$query = "SELECT c.*, COUNT( b.id ) AS numitems" .
-				"\n FROM #__categories AS c" .
-				"\n LEFT JOIN #__content AS b ON b.catid = c.id " .
-				$xwhere2. ($noauth ? "\n AND b.access <= $gid" : '') .
-				"\n WHERE c.section = '$category->section'".
-				$xwhere. ($noauth ? "\n AND c.access <= $gid" : '') .
-				"\n GROUP BY c.id".
-				$empty .
-				"\n ORDER BY c.ordering";
-		$db->setQuery($query);
-		$other_categories = $db->loadObjectList();
-
-		// get the total number of published items in the category
-		// filter functionality
-		$and = null;
-		$filter = null;
-		if ($params->get('filter'))
-		{
-			$filter = JRequest::getVar('filter', '', 'request');
-			if ($filter)
-			{
-				// clean filter variable
-				$filter = strtolower($filter);
-
-				switch ($params->get('filter_type'))
-				{
-					case 'title' :
-						$and = "\n AND LOWER( a.title ) LIKE '%$filter%'";
-						break;
-
-					case 'author' :
-						$and = "\n AND ( ( LOWER( u.name ) LIKE '%$filter%' ) OR ( LOWER( a.created_by_alias ) LIKE '%$filter%' ) )";
-						break;
-
-					case 'hits' :
-						$and = "\n AND a.hits LIKE '%$filter%'";
-						break;
-				}
-			}
-
-		}
-
-		if ($access->canEdit)
-		{
-			$xwhere = "\n AND a.state >= 0";
-		}
-		else
-		{
-			$xwhere = "\n AND a.state = 1" .
-					"\n AND ( publish_up = '$nullDate' OR publish_up <= '$now' )" .
-					"\n AND ( publish_down = '$nullDate' OR publish_down >= '$now' )";
-		}
-
-		// Ordering control
-		$orderby = "\n ORDER BY $filter_order $filter_order_Dir, a.created DESC";
-
-		$query = "SELECT COUNT(a.id) as numitems" .
-				"\n FROM #__content AS a" .
-				"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
-				"\n LEFT JOIN #__groups AS g ON a.access = g.id" .
-				"\n WHERE a.catid = $category->id".
-				$xwhere. 
-				($noauth ? "\n AND a.access <= $gid" : '') .
-				"\n AND $category->access <= $gid".
-				$and.
-				$orderby;
-		$db->setQuery($query);
-		$counter = $db->loadObjectList();
-		$total = $counter[0]->numitems;
-		$limit = $limit ? $limit : $params->get('display_num');
-		if ($total <= $limit)
-		{
-			$limitstart = 0;
-		}
-
-		jimport('joomla.presentation.pagination');
-		$page = new JPagination($total, $limitstart, $limit);
-
-		// get the list of items for this category
-		$query = "SELECT a.id, a.title, a.hits, a.created_by, a.created_by_alias, a.created AS created, a.access, u.name AS author, a.state, g.name AS groups" .
-				"\n FROM #__content AS a" .
-				"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
-				"\n LEFT JOIN #__groups AS g ON a.access = g.id" .
-				"\n WHERE a.catid = $category->id".
-				$xwhere. 
-				($noauth ? "\n AND a.access <= $gid" : '') .
-				"\n AND $category->access <= $gid".
-				$and.
-				$orderby;
-		$db->setQuery($query, $limitstart, $limit);
-		$items = $db->loadObjectList();
-
-		$lists['task'] = 'category';
-		$lists['filter'] = $filter;
 
 		// Dynamic Page Title
+		// TODO: fix this... move to view and pass proper data
 		$mainframe->SetPageTitle($pagetitle);
 
-		/*
-		 * Handle BreadCrumbs
-		 */
-		$breadcrumbs = & $mainframe->getPathWay();
-		// Section
-		$breadcrumbs->addItem($category->sectiontitle, sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$category->sectionid.'&amp;Itemid='.$menu->id));
-		// Category
-		$breadcrumbs->addItem($category->title, '');
 
-		// table ordering
+		/*
+		 * Table ordering values
+		 */
+		$lists['task'] = 'category';
+		$lists['filter'] = $filter;
 		if ($filter_order_Dir == 'DESC')
 		{
 			$lists['order_Dir'] = 'ASC';
@@ -557,8 +313,10 @@ class JContentController
 		$lists['order'] = $filter_order;
 		$selected = '';
 
-		$cache = & JFactory::getCache('com_content');
-		$cache->call('JContentViewHTML::showCategory', $category, $other_categories, $items, $access, $params, $page, $lists, $selected);
+		require_once (dirname(__FILE__).DS.'model'.DS.'category.php');
+		$model = new JModelCategory($db, $params, $id);
+		
+		JContentViewHTML::showCategory($model, $access, $params, $lists, $selected);
 	}
 
 	function showBlogSection()
@@ -568,6 +326,7 @@ class JContentController
 		/*
 		 * Initialize some variables
 		 */
+		$db			= & $mainframe->getDBO();
 		$user		= & $mainframe->getUser();
 		$id			= JRequest::getVar('id', 0, '', 'int');
 
@@ -604,11 +363,11 @@ class JContentController
 			$breadcrumbs->addItem($rows[0]->section, '');
 		}
 
-		require_once (dirname(__FILE__).DS.'model'.DS.'blog.php');
-		$rows = & JContentBlog::getSectionData($id, $access, $params);
+		require_once (dirname(__FILE__).DS.'model'.DS.'section.php');
+		$model = new JModelSection($db, $params, $id);
 		
 		$cache = & JFactory::getCache('com_content');
-		$cache->call('JContentViewHTML::showBlog', $rows, $params, $access, $menu);
+		$cache->call('JContentViewHTML::showBlog', $model, $params, $access, $menu);
 	}
 
 	function showBlogCategory()

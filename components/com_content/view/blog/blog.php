@@ -26,7 +26,7 @@ defined('_JEXEC') or die('Restricted access');
 class JContentViewHTML_blog
 {
 
-	function show(&$rows, &$params, &$access, &$menu)
+	function show(&$model, &$params, &$access, &$menu)
 	{
 		global $mainframe, $Itemid;
 
@@ -64,6 +64,7 @@ class JContentViewHTML_blog
 		$params->def('pageclass_sfx', '');
 		$params->set('intro_only', 1);
 
+		$rows = $model->getContentData();
 
 		/*
 		 * Pagination support
@@ -147,7 +148,7 @@ class JContentViewHTML_blog
 			{
 				echo '<tr>';
 				echo '<td valign="top">';
-				for ($z = 0; $z < $leading; $z ++)
+				for ($i = 0; $i < $leading; $i++)
 				{
 					if ($i >= $total)
 					{
@@ -157,10 +158,13 @@ class JContentViewHTML_blog
 					echo '<div>';
 					JContentViewHTML_blog::showItem($rows[$i], $access, true);
 					echo '</div>';
-					$i ++;
 				}
 				echo '</td>';
 				echo '</tr>';
+			}
+			else
+			{
+				$i = 0;
 			}
 
 			/*
@@ -174,7 +178,6 @@ class JContentViewHTML_blog
 				echo '<tr>';
 				echo '<td>';
 
-				$indexcount = 0;
 				$divider = '';
 				for ($z = 0; $z < $columns; $z ++)
 				{
@@ -185,9 +188,9 @@ class JContentViewHTML_blog
 					echo "<td valign=\"top\"".$width." class=\"article_column".$divider."\">\n";
 					for ($y = 0; $y < $intro / $columns; $y ++)
 					{
-						if ($indexcount < $intro && ($i < $total))
+						if ($i <= $intro && ($i <= $total))
 						{
-							JContentViewHTML_blog::showItem($rows[++ $indexcount], $access);
+							JContentViewHTML_blog::showItem($rows[$i], $access);
 							$i ++;
 						}
 					}
@@ -206,7 +209,7 @@ class JContentViewHTML_blog
 				echo '<tr>';
 				echo '<td valign="top">';
 				echo '<div class="blog_more'.$params->get('pageclass_sfx').'">';
-				JContentViewHTML_blog::showLinks($rows, $links, $total, ++ $indexcount);
+				JContentViewHTML_blog::showLinks($rows, $links, $total, $i);
 				echo '</div>';
 				echo '</td>';
 				echo '</tr>';
@@ -325,7 +328,7 @@ class JContentViewHTML_blog
 		/*
 		 * Build the link and text of the readmore button
 		 */
-		if (($params->get('readmore') && @ $row->readmore) || $params->get('link_titles'))
+		if (($params->get('readmore') && @ $row->fulltext) || $params->get('link_titles'))
 		{
 			if ($params->get('intro_only'))
 			{
@@ -459,7 +462,7 @@ class JContentViewHTML_blog
 			
 			<ul>
 		<?php
-		for ($z = 0; $z < $links; $z ++)
+		for ($j = 0; $j < $links; $j ++)
 		{
 			if ($i >= $total)
 			{
