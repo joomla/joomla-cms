@@ -514,4 +514,4 @@ class JSimpleXMLElement extends JObject
         return $out;
     }
 }
-?> 
+?>
