@@ -37,6 +37,9 @@ Legend:
 - -> Removed
 ! -> Note
 
+23-Mar-2006 Johan Janssens
+ - Removed DOMIT! XML-RPC library
+
 21-Mar-2006 Johan Janssens
  + Added JSimpleXML class to utilities package
 
