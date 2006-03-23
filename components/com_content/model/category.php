@@ -93,10 +93,10 @@ class JModelCategory extends JObject
 		/*
 		 * Set new ID and wipe data
 		 */
-		$this->_id							= $id;
-		$this->_category				= null;
-		$this->_siblings					= null;
-		$this->_content					= array();
+		$this->_id				= $id;
+		$this->_category	= null;
+		$this->_siblings		= null;
+		$this->_content		= array();
 	}
 
 	/**

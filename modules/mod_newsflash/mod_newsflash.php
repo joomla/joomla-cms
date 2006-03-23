@@ -34,11 +34,43 @@ if (!defined('_JOS_NEWSFLASH_MODULE'))
 		$row->created = '';
 		$row->modified = '';
 
-		$cache = & JFactory::getCache('mod_newsflash');
-		$cache->call( 'JContentViewHTML::showItem', $row, $params, $access, "mod_newsflash");
+		if ($params->get('item_title') || $params->get('pdf') || $params->get('print') || $params->get('email'))
+		{
+			?>
+			<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
+			<tr>
+			<?php
+			// displays Item Title
+			JViewContentHTMLHelper::title($row, $params, 0, $access);
+			?>
+			</tr>
+			</table>
+			<?php
+		}
+
+		if (!$params->get('intro_only'))
+		{
+			$results = $mainframe->triggerEvent('onAfterDisplayTitle', array (& $row, & $params, 1));
+			echo trim(implode("\n", $results));
+		}
+
+		$onBeforeDisplayContent = $mainframe->triggerEvent('onBeforeDisplayContent', array (& $row, & $params, 1));
+		echo trim(implode("\n", $onBeforeDisplayContent));
+		?>
+
+		<table class="contentpaneopen<?php echo $params->get( 'pageclass_sfx' ); ?>">
+			<td valign="top" colspan="2">
+		<?php
+		// displays Item Text
+		echo ampReplace($row->text);
+		?>
+			</td>
+		</tr>
+		</table>
+		<span class="article_seperator">&nbsp;</span>
+		<?php
 	}
 }
-
 global $my, $mosConfig_shownoauth, $mosConfig_offset, $mosConfig_link_titles, $acl;
 
 // Disable edit ability icon

@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Content
  * @since 1.0
  */
-class JContentViewHTML {
+class JViewContentHTML {
 
 	/**
 	 * Draws a Content List Used by Content Category & Content Section
@@ -35,7 +35,7 @@ class JContentViewHTML {
 		/*
 		 * Need to cache this for speed
 		 */
-		JContentViewHTML_section::show($model);
+		JViewContentHTML_section::show($model);
 	}
 
 	/**
@@ -47,7 +47,7 @@ class JContentViewHTML {
 		/*
 		 * Need to cache this for speed
 		 */
-		JContentViewHTML_category::show($model, $access, $lists, $order);
+		JViewContentHTML_category::show($model, $access, $lists, $order);
 	}
 
 	function showArchive(&$model, &$menu, &$access, $id) 
@@ -56,7 +56,7 @@ class JContentViewHTML {
 		/*
 		 * Need to cache this for speed
 		 */
-		JContentViewHTML_archive::show($model, $access, $menu, $id);
+		JViewContentHTML_archive::show($model, $access, $menu, $id);
 	}
 
 	function showBlog(&$model, &$access, &$menu) 
@@ -65,16 +65,16 @@ class JContentViewHTML {
 		/*
 		 * Need to cache this for speed
 		 */
-		JContentViewHTML_blog::show($model, $access, $menu);
+		JViewContentHTML_blog::show($model, $access, $menu);
 	}
 
-	function showItem(&$rows, &$params, &$access) 
+	function showItem(&$model, &$access) 
 	{
 		require_once (dirname(__FILE__).DS.'view'.DS.'item'.DS.'item.php');
 		/*
 		 * Need to cache this for speed
 		 */
-		JContentViewHTML_item::show($rows, $params, $access);
+		JViewContentHTML_item::show($model, $access);
 	}
 
 	/**
@@ -738,7 +738,7 @@ class JContentViewHTML {
 	}
 }
 
-class JContentViewHTMLHelper {
+class JViewContentHTMLHelper {
 
 	/**
 	 * Helper method to print the content item's title block if enabled.
@@ -914,10 +914,10 @@ class JContentViewHTMLHelper {
 		}
 
 		// displays Section Name
-		JContentViewHTMLHelper::section($row, $params);
+		JViewContentHTMLHelper::section($row, $params);
 
 		// displays Section Name
-		JContentViewHTMLHelper::category($row, $params);
+		JViewContentHTMLHelper::category($row, $params);
 
 		if (($params->get('section') && $row->sectionid) || ($params->get('category') && $row->catid)) {
 				?>

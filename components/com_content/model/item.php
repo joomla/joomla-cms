@@ -248,7 +248,7 @@ class JContentItem
 			}
 	
 			$cache = & JFactory::getCache('com_content');
-			$cache->call('JContentViewHTML::showItem', $row, $params, $access, $limitstart);
+			$cache->call('JViewContentHTML::showItem', $row, $params, $access, $limitstart);
 		}
 		else
 		{
@@ -259,7 +259,7 @@ class JContentItem
 	function showItemAsPDF()
 	{
 		require_once (dirname(__FILE__).DS.'content.pdf.php');
-		JContentViewPDF::showItem();
+		JViewContentPDF::showItem();
 	}
 
 	function editItem()
@@ -294,7 +294,7 @@ class JContentItem
 		// fail if checked out not by 'me'
 		if ($row->isCheckedOut($user->get('id')))
 		{
-			JContentViewHTML::userInputError(JText::_('The module')." [ ".$row->title." ] ".JText::_('DESCBEINGEDITTEDBY'));
+			JViewContentHTML::userInputError(JText::_('The module')." [ ".$row->title." ] ".JText::_('DESCBEINGEDITTEDBY'));
 		}
 
 		if ($uid)
@@ -440,7 +440,7 @@ class JContentItem
 		// Add pathway item
 		$breadcrumbs->addItem($title, '');
 
-		JContentViewHTML::editContent($row, $section, $lists, $images, $access, $user->get('id'), $sectionid, $task, $Itemid);
+		JViewContentHTML::editContent($row, $section, $lists, $images, $access, $user->get('id'), $sectionid, $task, $Itemid);
 	}
 
 	/**
@@ -744,7 +744,7 @@ class JContentItem
 					"\n AND menuid = 0";
 			$db->setQuery($query);
 			$template = $db->loadResult();
-			JContentViewHTML::emailForm($row->id, $row->title, $template);
+			JViewContentHTML::emailForm($row->id, $row->title, $template);
 		}
 
 	}
@@ -835,7 +835,7 @@ class JContentItem
 		jimport('joomla.utilities.mail');
 		if ($uid < 1 || !$email || !$youremail || (JMailHelper::isEmailAddress($email) == false) || (JMailHelper::isEmailAddress($youremail) == false))
 		{
-			JContentViewHTML::userInputError(JText::_('EMAIL_ERR_NOINFO'));
+			JViewContentHTML::userInputError(JText::_('EMAIL_ERR_NOINFO'));
 		}
 
 		$query = "SELECT template" .
@@ -860,7 +860,7 @@ class JContentItem
 		 */
 		josMail($youremail, $yourname, $email, $subject, $msg);
 
-		JContentViewHTML::emailSent($email, $template);
+		JViewContentHTML::emailSent($email, $template);
 	}
 
 	function recordVote()

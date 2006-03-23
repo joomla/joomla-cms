@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Content
  * @since 1.1
  */
-class JContentViewHTML_category
+class JViewContentHTML_category
 {
 
 	function show(& $model, & $access, & $lists, $order)
@@ -96,7 +96,7 @@ class JContentViewHTML_category
 		// Displays the Table of Items in Category View
 		if (count($items))
 		{
-			JContentViewHTML_category::buildItemTable($items, $pagination, $params, $lists, $access, $category->id, $category->sectionid, $order);
+			JViewContentHTML_category::buildItemTable($items, $pagination, $params, $lists, $access, $category->id, $category->sectionid, $order);
 		}
 		else
 			if ($category->id)
@@ -132,7 +132,7 @@ class JContentViewHTML_category
 		{
 			if ($params->get('other_cat'))
 			{
-				JContentViewHTML_category::buildCategories($other_categories, $params, $category->id, $category->sectionid);
+				JViewContentHTML_category::buildCategories($other_categories, $params, $category->id, $category->sectionid);
 			}
 		}
 		?>
@@ -361,7 +361,7 @@ class JContentViewHTML_category
 								<?php echo $row->title; ?></a>
 							<?php
 
-					JContentViewHTMLHelper::editIcon($row, $params, $access);
+					JViewContentHTMLHelper::editIcon($row, $params, $access);
 		?>
 						</td>
 						<?php

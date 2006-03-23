@@ -23,10 +23,10 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Content
  * @since 1.1
  */
-class JContentViewHTML_item
+class JViewContentHTML_item
 {
 
-	function show(& $row, & $params, & $access, $page = 0)
+	function show( &$model, &$access, $page = 0)
 	{
 		global $mainframe, $hide_js;
 
@@ -43,6 +43,29 @@ class JContentViewHTML_item
 		$linkOn			= null;
 		$linkText		= null;
 
+		$row		= $model->getContentData();
+		$params	= $row->parameters;
+
+		/*
+		 * Handle BreadCrumbs and Page Title
+		 */
+		$breadcrumbs = & $mainframe->getPathWay();
+		if (!empty ($Itemid))
+		{
+			// Section
+			if (!empty ($row->section))
+			{
+				$breadcrumbs->addItem($row->section, sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$row->sectionid.'&amp;Itemid='.$Itemid));
+			}
+			// Category
+			if (!empty ($row->section))
+			{
+				$breadcrumbs->addItem($row->category, sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$row->sectionid.'&amp;id='.$row->catid.'&amp;Itemid='.$Itemid));
+			}
+		}
+		// Item
+		$breadcrumbs->addItem($row->title, '');
+		$mainframe->setPageTitle($row->title);
 		$mainframe->appendMetaTag('description', $row->metadesc);
 		$mainframe->appendMetaTag('keywords', $row->metakey);
 
@@ -93,7 +116,7 @@ class JContentViewHTML_item
 		{
 			?>
 			<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">				
-				<?php JContentViewHTMLHelper::editIcon($row, $params, $access); ?>
+				<?php JViewContentHTMLHelper::editIcon($row, $params, $access); ?>
 			</div>
 			<?php
 
@@ -111,16 +134,16 @@ class JContentViewHTML_item
 
 
 			// displays Item Title
-			JContentViewHTMLHelper::title($row, $params, $linkOn, $access);
+			JViewContentHTMLHelper::title($row, $params, $linkOn, $access);
 
 			// displays PDF Icon
-			JContentViewHTMLHelper::pdfIcon($row, $params, $linkOn, $hide_js);
+			JViewContentHTMLHelper::pdfIcon($row, $params, $linkOn, $hide_js);
 
 			// displays Print Icon
 			mosHTML::PrintIcon($row, $params, $hide_js, $print_link);
 
 			// displays Email Icon
-			JContentViewHTMLHelper::emailIcon($row, $params, $hide_js);
+			JViewContentHTMLHelper::emailIcon($row, $params, $hide_js);
 			?>
 			</tr>
 			</table>
@@ -144,16 +167,16 @@ class JContentViewHTML_item
 
 
 		// displays Section & Category
-		JContentViewHTMLHelper::sectionCategory($row, $params);
+		JViewContentHTMLHelper::sectionCategory($row, $params);
 
 		// displays Author Name
-		JContentViewHTMLHelper::author($row, $params);
+		JViewContentHTMLHelper::author($row, $params);
 
 		// displays Created Date
-		JContentViewHTMLHelper::createDate($row, $params);
+		JViewContentHTMLHelper::createDate($row, $params);
 
 		// displays Urls
-		JContentViewHTMLHelper::url($row, $params);
+		JViewContentHTMLHelper::url($row, $params);
 		?>
 		<tr>
 			<td valign="top" colspan="2">
@@ -161,7 +184,7 @@ class JContentViewHTML_item
 
 
 		// displays Table of Contents
-		JContentViewHTMLHelper::toc($row);
+		JViewContentHTMLHelper::toc($row);
 
 		// displays Item Text
 		echo ampReplace($row->text);
@@ -172,10 +195,10 @@ class JContentViewHTML_item
 
 
 		// displays Modified Date
-		JContentViewHTMLHelper::modifiedDate($row, $params);
+		JViewContentHTMLHelper::modifiedDate($row, $params);
 
 		// displays Readmore button
-		JContentViewHTMLHelper::readMore($params, $linkOn, $linkText);
+		JViewContentHTMLHelper::readMore($params, $linkOn, $linkText);
 		?>
 		</table>
 		<span class="article_seperator">&nbsp;</span>
@@ -188,7 +211,7 @@ class JContentViewHTML_item
 		echo trim(implode("\n", $onAfterDisplayContent));
 
 		// displays the next & previous buttons
-		//JContentViewHTMLHelper::navigation($row, $params);
+		//JViewContentHTMLHelper::navigation($row, $params);
 
 		// displays close button in pop-up window
 		mosHTML::CloseButton($params, $hide_js);

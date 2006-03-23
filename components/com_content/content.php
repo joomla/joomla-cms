@@ -211,7 +211,7 @@ class JContentController
 		$model = new JModelSection($db, $params, $id);
 
 		$cache = & JFactory::getCache('com_content');
-		$cache->call('JContentViewHTML::showSection', $model);
+		$cache->call('JViewContentHTML::showSection', $model);
 	}
 
 	/**
@@ -304,7 +304,7 @@ class JContentController
 		require_once (dirname(__FILE__).DS.'model'.DS.'category.php');
 		$model = new JModelCategory($db, $params, $id);
 		
-		JContentViewHTML::showCategory($model, $access, $lists, $selected);
+		JViewContentHTML::showCategory($model, $access, $lists, $selected);
 	}
 
 	function showBlogSection()
@@ -355,7 +355,7 @@ class JContentController
 		$model = new JModelSection($db, $params, $id);
 		
 		$cache = & JFactory::getCache('com_content');
-		$cache->call('JContentViewHTML::showBlog', $model, $access, $menu);
+		$cache->call('JViewContentHTML::showBlog', $model, $access, $menu);
 	}
 
 	function showBlogCategory()
@@ -407,7 +407,7 @@ class JContentController
 		$model = new JModelCategory($db, $params, $id);
 		
 		$cache = & JFactory::getCache('com_content');
-		$cache->call('JContentViewHTML::showBlog', $model, $access, $menu);
+		$cache->call('JViewContentHTML::showBlog', $model, $access, $menu);
 	}
 
 	function showArchiveSection()
@@ -449,7 +449,7 @@ class JContentController
 		$model = new JModelSection($db, $params, $id);
 
 		$cache = & JFactory::getCache('com_content');
-		$cache->call('JContentViewHTML::showArchive', $model, $access, $menu, $id);
+		$cache->call('JViewContentHTML::showArchive', $model, $access, $menu, $id);
 	}
 
 	function showArchiveCategory()
@@ -489,7 +489,7 @@ class JContentController
 		require_once (dirname(__FILE__).DS.'model'.DS.'category.php');
 		$model = new JModelCategory($db, $params, $id);
 		
-		JContentViewHTML::showArchive($model, $access, $menu, $id);
+		JViewContentHTML::showArchive($model, $access, $menu, $id);
 	}
 
 	/**
@@ -516,11 +516,7 @@ class JContentController
 		$nullDate	= $db->getNullDate();
 		$gid		= $user->get('gid');
 		$option		= JRequest::getVar('option');
-		$uid		= JRequest::getVar('id',			0, '', 'int');
-		$pop		= JRequest::getVar('pop',			0, '', 'int');
-		$limit		= JRequest::getVar('limit',			0, '', 'int');
-		$limitstart	= JRequest::getVar('limitstart',	0, '', 'int');
-		$row		= null;
+		$id		= JRequest::getVar('id', 0, '', 'int');
 
 		/*
 		 * Create a user access object for the user
@@ -530,199 +526,29 @@ class JContentController
 		$access->canEditOwn		= $user->authorize('action', 'edit', 'content', 'own');
 		$access->canPublish		= $user->authorize('action', 'publish', 'content', 'all');
 
-		/*
-		 * Get a content component cache object
-		 */
+		if ($Itemid)
+		{
+			$menu = JMenu::getInstance();
+			$menu = $menu->getItem($Itemid);
+			$params = new JParameter($menu->params);
+		}
+		else
+		{
+			$menu = null;
+			$params = new JParameter();
+		}
+
+		require_once (dirname(__FILE__).DS.'model'.DS.'article.php');
+		$model = & new JModelItem($db, $params, $id);
+
 		$cache = & JFactory::getCache('com_content');
-
-		if ($access->canEdit)
-		{
-			$xwhere = '';
-		}
-		else
-		{
-			$xwhere = " AND ( a.state = 1 OR a.state = -1 )" .
-					"\n AND ( a.publish_up = '$nullDate' OR a.publish_up <= '$now' )" .
-					"\n AND ( a.publish_down = '$nullDate' OR a.publish_down >= '$now' )";
-		}
-
-		$voting = JContentHelper::buildVotingQuery();
-
-		// Main content item query
-		$query = "SELECT a.*, u.name AS author, u.usertype, cc.title AS category, s.title AS section," .
-				"\n g.name AS groups, s.published AS sec_pub, cc.published AS cat_pub, s.access AS sec_access, cc.access AS cat_access".$voting['select'].
-				"\n FROM #__content AS a" .
-				"\n LEFT JOIN #__categories AS cc ON cc.id = a.catid" .
-				"\n LEFT JOIN #__sections AS s ON s.id = cc.section AND s.scope = 'content'" .
-				"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
-				"\n LEFT JOIN #__groups AS g ON a.access = g.id".
-				$voting['join'].
-				"\n WHERE a.id = $uid".
-				$xwhere.
-				"\n AND a.access <= $gid";
-		$db->setQuery($query);
-
-		if ($db->loadObject($row))
-		{
-			if (!$row->cat_pub && $row->catid)
-			{
-				// check whether category is published
-				JError::raiseError( 404, JText::_("Resource Not Found") );
-			}
-			if (!$row->sec_pub && $row->sectionid)
-			{
-				// check whether section is published
-				JError::raiseError( 404, JText::_("Resource Not Found") );
-			}
-			if (($row->cat_access > $gid) && $row->catid)
-			{
-				// check whether category access level allows access
-				JError::raiseError( 403, JText::_("Access Forbidden") );
-			}
-			if (($row->sec_access > $gid) && $row->sectionid)
-			{
-				// check whether section access level allows access
-				JError::raiseError( 403, JText::_("Access Forbidden") );
-			}
-
-			$params = new JParameter($row->attribs);
-			$params->set('intro_only', 0);
-			$params->def('back_button', $mainframe->getCfg('back_button'));
-			if ($row->sectionid == 0)
-			{
-				$params->set('item_navigation', 0);
-			}
-			else
-			{
-				$params->set('item_navigation', $mainframe->getCfg('item_navigation'));
-			}
-			if ($MetaTitle == '1')
-			{
-				$mainframe->addMetaTag('title', $row->title);
-			}
-			if ($MetaAuthor == '1')
-			{
-				$mainframe->addMetaTag('author', $row->author);
-			}
-
-			/*
-			 * Handle BreadCrumbs and Page Title
-			 */
-			$breadcrumbs = & $mainframe->getPathWay();
-			if (!empty ($Itemid))
-			{
-				// Section
-				if (!empty ($row->section))
-				{
-					$breadcrumbs->addItem($row->section, sefRelToAbs('index.php?option=com_content&amp;task=section&amp;id='.$row->sectionid.'&amp;Itemid='.$Itemid));
-				}
-				// Category
-				if (!empty ($row->section))
-				{
-					$breadcrumbs->addItem($row->category, sefRelToAbs('index.php?option=com_content&amp;task=category&amp;sectionid='.$row->sectionid.'&amp;id='.$row->catid.'&amp;Itemid='.$Itemid));
-				}
-			}
-			// Item
-			$breadcrumbs->addItem($row->title, '');
-			$mainframe->setPageTitle($row->title);
-
-			if ($access->canEdit)
-			{
-				if ($row->id === null || $row->access > $gid)
-				{
-					JError::raiseError( 404, JText::_("Resource Not Found") );
-				}
-			}
-			else
-			{
-				if ($row->id === null || $row->state == 0)
-				{
-					JError::raiseError( 404, JText::_("Resource Not Found") );
-				}
-				if ($row->access > $gid)
-				{
-					if ($noauth)
-					{
-						JError::raiseError( 403, JText::_("Access Forbidden") );
-					}
-					else
-					{
-						if (!($params->get('intro_only')))
-						{
-							JError::raiseError( 403, JText::_("Access Forbidden") );
-						}
-					}
-				}
-			}
-
-			/*
-			 * Get some parameters from global configuration
-			 */
-			$params->def('link_titles',		$mainframe->getCfg('link_titles'));
-			$params->def('author',			!$mainframe->getCfg('hideAuthor'));
-			$params->def('createdate',	!$mainframe->getCfg('hideCreateDate'));
-			$params->def('modifydate',	!$mainframe->getCfg('hideModifyDate'));
-			$params->def('print',				!$mainframe->getCfg('hidePrint'));
-			$params->def('pdf',					!$mainframe->getCfg('hidePdf'));
-			$params->def('email',				!$mainframe->getCfg('hideEmail'));
-			$params->def('rating',				$mainframe->getCfg('vote'));
-			$params->def('icons',				$mainframe->getCfg('icons'));
-			$params->def('readmore',		$mainframe->getCfg('readmore'));
-			
-			/*
-			 * Get some item specific parameters
-			 */
-			$params->def('image',					1);
-			$params->def('section',				0);
-			$params->def('popup',					$pop);
-			$params->def('section_link',		0);
-			$params->def('category',			0);
-			$params->def('category_link',	0);
-			$params->def('introtext',			1);
-			$params->def('pageclass_sfx',	'');
-			$params->def('item_title',			1);
-			$params->def('url',						1);
-	
-			if ($params->get('section_link') && $row->sectionid)
-			{
-				$row->section = JContentHelper::getSectionLink($row);
-			}
-	
-			if ($params->get('category_link') && $row->catid)
-			{
-				$row->category = JContentHelper::getCategoryLink($row);
-			}
-	
-			// show/hides the intro text
-			if ($params->get('introtext'))
-			{
-				$row->text = $row->introtext. ($params->get('intro_only') ? '' : chr(13).chr(13).$row->fulltext);
-			}
-			else
-			{
-				$row->text = $row->fulltext;
-			}
-	
-			// record the hit
-			if (!$params->get('intro_only') && ($limitstart == 0))
-			{
-				$obj = & JTable::getInstance('content', $db);
-				$obj->hit($row->id);
-			}
-	
-			$cache = & JFactory::getCache('com_content');
-			$cache->call('JContentViewHTML::showItem', $row, $params, $access, $limitstart);
-		}
-		else
-		{
-			JError::raiseError( 404, JText::_("Resource Not Found") );
-		}
+		$cache->call('JViewContentHTML::showItem', $model, $access);
 	}
 
 	function showItemAsPDF()
 	{
 		require_once (dirname(__FILE__).DS.'content.pdf.php');
-		JContentViewPDF::showItem();
+		JViewContentPDF::showItem();
 	}
 
 	function editItem()
@@ -757,7 +583,7 @@ class JContentController
 		// fail if checked out not by 'me'
 		if ($row->isCheckedOut($user->get('id')))
 		{
-			JContentViewHTML::userInputError(JText::_('The module')." [ ".$row->title." ] ".JText::_('DESCBEINGEDITTEDBY'));
+			JViewContentHTML::userInputError(JText::_('The module')." [ ".$row->title." ] ".JText::_('DESCBEINGEDITTEDBY'));
 		}
 
 		if ($uid)
@@ -903,7 +729,7 @@ class JContentController
 		// Add pathway item
 		$breadcrumbs->addItem($title, '');
 
-		JContentViewHTML::editContent($row, $section, $lists, $images, $access, $user->get('id'), $sectionid, $task, $Itemid);
+		JViewContentHTML::editContent($row, $section, $lists, $images, $access, $user->get('id'), $sectionid, $task, $Itemid);
 	}
 
 	/**
@@ -1207,7 +1033,7 @@ class JContentController
 					"\n AND menuid = 0";
 			$db->setQuery($query);
 			$template = $db->loadResult();
-			JContentViewHTML::emailForm($row->id, $row->title, $template);
+			JViewContentHTML::emailForm($row->id, $row->title, $template);
 		}
 
 	}
@@ -1298,7 +1124,7 @@ class JContentController
 		jimport('joomla.utilities.mail');
 		if ($uid < 1 || !$email || !$youremail || (JMailHelper::isEmailAddress($email) == false) || (JMailHelper::isEmailAddress($youremail) == false))
 		{
-			JContentViewHTML::userInputError(JText::_('EMAIL_ERR_NOINFO'));
+			JViewContentHTML::userInputError(JText::_('EMAIL_ERR_NOINFO'));
 		}
 
 		$query = "SELECT template" .
@@ -1323,7 +1149,7 @@ class JContentController
 		 */
 		josMail($youremail, $yourname, $email, $subject, $msg);
 
-		JContentViewHTML::emailSent($email, $template);
+		JViewContentHTML::emailSent($email, $template);
 	}
 
 	function recordVote()

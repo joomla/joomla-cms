@@ -26,7 +26,7 @@ jimport('tcpdf.tcpdf');
  * @subpackage Content
  * @since 1.0
  */
-class JContentViewPDF
+class JViewContentPDF
 {
 	function showSection()
 	{
@@ -104,7 +104,7 @@ class JContentViewPDF
 		$pdf->SetKeywords($row->metakey);
 
 		// prepare header lines
-		$headerText = JContentViewPDFHelper::getHeaderText($row, $params);
+		$headerText = JViewContentPDFHelper::getHeaderText($row, $params);
 
 		$pdf->SetHeaderData('', 0, $row->title, $headerText);
 
@@ -174,7 +174,7 @@ class JContentViewPDF
 	}
 }
 
-class JContentViewPDFHelper
+class JViewContentPDFHelper
 {
 	function getHeaderText(& $row, & $params)
 	{

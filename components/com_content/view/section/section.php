@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Content
  * @since 1.1
  */
-class JContentViewHTML_section
+class JViewContentHTML_section
 {
 
 	function show(& $model)
@@ -68,7 +68,7 @@ class JContentViewHTML_section
 				// Displays listing of Categories
 				if (count($categories) > 0) {
 					if ($params->get('other_cat_section')) {
-						JContentViewHTML_section::buildCategories($categories, $params, $section->id);
+						JViewContentHTML_section::buildCategories($categories, $params, $section->id);
 					}
 				}
 				?>

@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Content
  * @since 1.1
  */
-class JContentViewHTML_archive
+class JViewContentHTML_archive
 {
 
 	function show(& $model, & $menu, & $access, $id)
@@ -39,7 +39,7 @@ class JContentViewHTML_archive
 		$link = 'index.php?option=com_content&task='.$task.'&id='.$id.'&Itemid='.$Itemid;
 		echo '<form action="'.sefRelToAbs($link).'" method="post">';
 
-		JContentViewHTML_archive::showArchive($model, $access, $menu, ($id) ? 0 : 1);
+		JViewContentHTML_archive::showArchive($model, $access, $menu, ($id) ? 0 : 1);
 
 		echo '<input type="hidden" name="id" value="'.$id.'" />';
 		echo '<input type="hidden" name="Itemid" value="'.$Itemid.'" />';
@@ -158,7 +158,7 @@ class JContentViewHTML_archive
 						break;
 					}
 					echo '<div>';
-					JContentViewHTML_archive::showItem($rows[$i], $params, $access, true);
+					JViewContentHTML_archive::showItem($rows[$i], $params, $access, true);
 					echo '</div>';
 					$i ++;
 				}
@@ -189,7 +189,7 @@ class JContentViewHTML_archive
 					{
 						if ($i <= $intro && ($i <= $total))
 						{
-							JContentViewHTML_archive::showItem($rows[ $i], $params, $access);
+							JViewContentHTML_archive::showItem($rows[ $i], $params, $access);
 							$i ++;
 						}
 					}
@@ -207,7 +207,7 @@ class JContentViewHTML_archive
 				echo '<tr>';
 				echo '<td valign="top">';
 				echo '<div class="blog_more'.$params->get('pageclass_sfx').'">';
-				JContentViewHTML_archive::showLinks($rows, $links, $total, $i);
+				JViewContentHTML_archive::showLinks($rows, $links, $total, $i);
 				echo '</div>';
 				echo '</td>';
 				echo '</tr>';
@@ -274,7 +274,7 @@ class JContentViewHTML_archive
 			else
 			{
 				// Generic blog empty display
-				JContentViewHTML::emptyContainer(_EMPTY_BLOG);
+				JViewContentHTML::emptyContainer(_EMPTY_BLOG);
 			}
 	}
 
@@ -371,7 +371,7 @@ class JContentViewHTML_archive
 		{
 			?>
 			<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">				
-				<?php JContentViewHTMLHelper::editIcon($row, $params, $access); ?>
+				<?php JViewContentHTMLHelper::editIcon($row, $params, $access); ?>
 			</div>
 			<?php
 
@@ -388,16 +388,16 @@ class JContentViewHTML_archive
 
 
 			// displays Item Title
-			JContentViewHTMLHelper::title($row, $params, $linkOn, $access);
+			JViewContentHTMLHelper::title($row, $params, $linkOn, $access);
 
 			// displays PDF Icon
-			JContentViewHTMLHelper::pdfIcon($row, $params, $linkOn, $hide_js);
+			JViewContentHTMLHelper::pdfIcon($row, $params, $linkOn, $hide_js);
 
 			// displays Print Icon
 			mosHTML::PrintIcon($row, $params, $hide_js, $print_link);
 
 			// displays Email Icon
-			JContentViewHTMLHelper::emailIcon($row, $params, $hide_js);
+			JViewContentHTMLHelper::emailIcon($row, $params, $hide_js);
 			?>
 			</tr>
 			</table>
@@ -420,23 +420,23 @@ class JContentViewHTML_archive
 
 
 		// displays Section & Category
-		JContentViewHTMLHelper::sectionCategory($row, $params);
+		JViewContentHTMLHelper::sectionCategory($row, $params);
 
 		// displays Author Name
-		JContentViewHTMLHelper::author($row, $params);
+		JViewContentHTMLHelper::author($row, $params);
 
 		// displays Created Date
-		JContentViewHTMLHelper::createDate($row, $params);
+		JViewContentHTMLHelper::createDate($row, $params);
 
 		// displays Urls
-		JContentViewHTMLHelper::url($row, $params);
+		JViewContentHTMLHelper::url($row, $params);
 		?>
 		<tr>
 			<td valign="top" colspan="2">
 				<?php
 
 		// displays Table of Contents
-		JContentViewHTMLHelper::toc($row);
+		JViewContentHTMLHelper::toc($row);
 
 		// displays Item Text
 		echo ampReplace($row->text);
@@ -447,10 +447,10 @@ class JContentViewHTML_archive
 
 
 		// displays Modified Date
-		JContentViewHTMLHelper::modifiedDate($row, $params);
+		JViewContentHTMLHelper::modifiedDate($row, $params);
 
 		// displays Readmore button
-		JContentViewHTMLHelper::readMore($params, $linkOn, $linkText);
+		JViewContentHTMLHelper::readMore($params, $linkOn, $linkText);
 		?>
 		</table>
 		<span class="article_seperator">&nbsp;</span>
@@ -462,7 +462,7 @@ class JContentViewHTML_archive
 		echo trim(implode("\n", $onAfterDisplayContent));
 
 		// displays the next & previous buttons
-		//JContentViewHTMLHelper::navigation($row, $params);
+		//JViewContentHTMLHelper::navigation($row, $params);
 	}
 
 	function showLinks(& $rows, $links, $total, $i = 0)

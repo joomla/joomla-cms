@@ -981,7 +981,7 @@ class JContentController
 		if (count($cid) < 1)
 		{
 			$action = $state == 1 ? 'publish' : ($state == -1 ? 'archive' : 'unpublish');
-			JContentView::displayError( JText::_('Select an item to') . ' ' . JText::_($action) );
+			JViewContent::displayError( JText::_('Select an item to') . ' ' . JText::_($action) );
 			return false;
 		}
 
@@ -1067,7 +1067,7 @@ class JContentController
 
 		if (count($cid) < 1)
 		{
-			JContentView::displayError( JText::_('Select an item to toggle') );
+			JViewContent::displayError( JText::_('Select an item to toggle') );
 			return false;
 		}
 
@@ -1126,7 +1126,7 @@ class JContentController
 		
 		if (count($cid) < 1)
 		{
-			JContentView::displayError( JText::_('Select an item to delete') );
+			JViewContent::displayError( JText::_('Select an item to delete') );
 			return false;
 		}
 
@@ -1223,7 +1223,7 @@ class JContentController
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JContentView::displayError( JText::_('Select an item to move') );
+			JViewContent::displayError( JText::_('Select an item to move') );
 			return false;
 		}
 
@@ -1351,7 +1351,7 @@ class JContentController
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JContentView::displayError( JText::_('Select an item to move') );
+			JViewContent::displayError( JText::_('Select an item to move') );
 			return false;
 		}
 

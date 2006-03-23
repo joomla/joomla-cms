@@ -362,7 +362,7 @@ class JViewFrontpageHTML_blog
 		{
 			?>
 			<div class="contentpaneopen_edit<?php echo $params->get( 'pageclass_sfx' ); ?>" style="float: left;">				
-				<?php JContentViewHTMLHelper::editIcon($row, $params, $access); ?>
+				<?php JViewContentHTMLHelper::editIcon($row, $params, $access); ?>
 			</div>
 			<?php
 
@@ -379,16 +379,16 @@ class JViewFrontpageHTML_blog
 
 
 			// displays Item Title
-			JContentViewHTMLHelper::title($row, $params, $linkOn, $access);
+			JViewContentHTMLHelper::title($row, $params, $linkOn, $access);
 
 			// displays PDF Icon
-			JContentViewHTMLHelper::pdfIcon($row, $params, $linkOn, $hide_js);
+			JViewContentHTMLHelper::pdfIcon($row, $params, $linkOn, $hide_js);
 
 			// displays Print Icon
 			mosHTML::PrintIcon($row, $params, $hide_js, $print_link);
 
 			// displays Email Icon
-			JContentViewHTMLHelper::emailIcon($row, $params, $hide_js);
+			JViewContentHTMLHelper::emailIcon($row, $params, $hide_js);
 			?>
 			</tr>
 			</table>
@@ -409,23 +409,23 @@ class JViewFrontpageHTML_blog
 		<?php
 
 		// displays Section & Category
-		JContentViewHTMLHelper::sectionCategory($row, $params);
+		JViewContentHTMLHelper::sectionCategory($row, $params);
 
 		// displays Author Name
-		JContentViewHTMLHelper::author($row, $params);
+		JViewContentHTMLHelper::author($row, $params);
 
 		// displays Created Date
-		JContentViewHTMLHelper::createDate($row, $params);
+		JViewContentHTMLHelper::createDate($row, $params);
 
 		// displays Urls
-		JContentViewHTMLHelper::url($row, $params);
+		JViewContentHTMLHelper::url($row, $params);
 		?>
 		<tr>
 			<td valign="top" colspan="2">
 				<?php
 
 		// displays Table of Contents
-		JContentViewHTMLHelper::toc($row);
+		JViewContentHTMLHelper::toc($row);
 
 		// displays Item Text
 		echo ampReplace($row->text);
@@ -436,10 +436,10 @@ class JViewFrontpageHTML_blog
 
 
 		// displays Modified Date
-		JContentViewHTMLHelper::modifiedDate($row, $params);
+		JViewContentHTMLHelper::modifiedDate($row, $params);
 
 		// displays Readmore button
-		JContentViewHTMLHelper::readMore($params, $linkOn, $linkText);
+		JViewContentHTMLHelper::readMore($params, $linkOn, $linkText);
 		?>
 		</table>
 		<span class="article_seperator">&nbsp;</span>
@@ -451,7 +451,7 @@ class JViewFrontpageHTML_blog
 		echo trim(implode("\n", $onAfterDisplayContent));
 
 		// displays the next & previous buttons
-		//JContentViewHTMLHelper::navigation($row, $params);
+		//JViewContentHTMLHelper::navigation($row, $params);
 	}
 
 	function showLinks(& $rows, $links, $total, $i = 0)
