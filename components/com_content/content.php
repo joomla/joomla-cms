@@ -18,8 +18,42 @@ defined('_JEXEC') or die('Restricted access');
 // require the component helper 
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
+// SHOULD NOT NEED THIS
 // require the html view class
 require_once (JApplicationHelper::getPath('front_html', 'com_content'));
+
+jimport( 'joomla.application.controller' );
+jimport( 'joomla.application.model' );
+jimport( 'joomla.application.view' );
+
+// get the view from the request - set the default
+// note - alternatively we can get it from the menu params
+
+$view = JRequest::getVar( 'view', 'item2' );
+
+// note: this will change to JContentController
+
+$controller = new JController();
+
+$controller->registerDefaultTask( 'display' );
+
+// need to tell the controller where to look for views
+
+$controller->setViewPath( dirname( __FILE__ ) . DS . 'view' );
+
+// set the view name from the Request
+
+$controller->setViewName( $view, 'com_content', 'Content_' );
+
+// perform the Request task
+
+$controller->performTask( $task );
+
+// redirect if set by the controller
+
+$controller->redirect();
+
+
 
 switch (strtolower($task))
 {
