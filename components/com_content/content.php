@@ -18,10 +18,10 @@ defined('_JEXEC') or die('Restricted access');
 // require the component helper 
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
-// SHOULD NOT NEED THIS
 // require the html view class
 require_once (JApplicationHelper::getPath('front_html', 'com_content'));
 
+/*
 jimport( 'joomla.application.controller' );
 jimport( 'joomla.application.model' );
 jimport( 'joomla.application.view' );
@@ -50,8 +50,7 @@ $controller->performTask( $task );
 // redirect if set by the controller
 
 $controller->redirect();
-
-
+*/
 
 switch (strtolower($task))
 {
