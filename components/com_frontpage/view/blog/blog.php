@@ -26,7 +26,7 @@ require_once (JApplicationHelper::getPath('front_html', 'com_content'));
  * @subpackage Content
  * @since 1.1
  */
-class JFrontpageViewHTML_blog
+class JViewFrontpageHTML_blog
 {
 
 	function show(&$model, &$access, &$menu)
@@ -160,7 +160,7 @@ class JFrontpageViewHTML_blog
 						break;
 					}
 					echo '<div>';
-					JFrontpageViewHTML_blog::showItem($rows[$i], $access, true);
+					JViewFrontpageHTML_blog::showItem($rows[$i], $access, true);
 					echo '</div>';
 				}
 				echo '</td>';
@@ -194,7 +194,7 @@ class JFrontpageViewHTML_blog
 					{
 						if ($i <= $intro && ($i <= $total))
 						{
-							JFrontpageViewHTML_blog::showItem($rows[$i], $access);
+							JViewFrontpageHTML_blog::showItem($rows[$i], $access);
 							$i ++;
 						}
 					}
@@ -213,7 +213,7 @@ class JFrontpageViewHTML_blog
 				echo '<tr>';
 				echo '<td valign="top">';
 				echo '<div class="blog_more'.$params->get('pageclass_sfx').'">';
-				JFrontpageViewHTML_blog::showLinks($rows, $links, $total, $i);
+				JViewFrontpageHTML_blog::showLinks($rows, $links, $total, $i);
 				echo '</div>';
 				echo '</td>';
 				echo '</tr>';
@@ -267,7 +267,7 @@ class JFrontpageViewHTML_blog
 		else
 		{
 			// Generic blog empty display
-			JFrontpageViewHTML::emptyContainer(_EMPTY_BLOG);
+			JViewFrontpageHTML::emptyContainer(_EMPTY_BLOG);
 		}
 
 	}

@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
 
 /**
- * Content Component Frontpage Model
+ * Frontpage Component Model
  *
  * @author	Louis Landry <louis.landry@joomla.org>
  * @package Joomla
@@ -50,20 +50,6 @@ class JModelFrontpage extends JObject
 	var $_content = null;
 
 	/**
-	 * Number of content rows in category array
-	 *
-	 * @var array
-	 */
-	var $_contentTotal = null;
-
-	/**
-	 * Content data JPagination Object array
-	 *
-	 * @var array
-	 */
-	var $_contentPagination = null;
-
-	/**
 	 * Constructor.
 	 *
 	 * @access protected
@@ -83,8 +69,6 @@ class JModelFrontpage extends JObject
 	function setId($id)
 	{
 		$this->_content					= null;
-		$this->_contentTotal			= null;
-		$this->_contentPagination	= null;
 	}
 
 	/**
@@ -181,37 +165,6 @@ class JModelFrontpage extends JObject
 				}
 			}
 			$this->_content = $rows;
-		}		
-		return true;
-	}
-
-	/**
-	 * Method to load total number of content items in the category.
-	 *
-	 * @access	private
-	 * @return	boolean	True on success
-	 */
-	function _loadContentTotal()
-	{
-		/*
-		 * Lets load total number of content items in the category
-		 */
-		if (!isset($this->_contentTotal) || is_null($this->_contentTotal))
-		{
-			/*
-			 * Get the WHERE and ORDER BY clauses for the query
-			 */
-			$where	= $this->_buildContentWhere();
-			$orderby	= $this->_buildContentOrderBy();
-	
-			$query = "SELECT COUNT(a.id) as numitems" .
-					"\n FROM #__content AS a" .
-					"\n LEFT JOIN #__users AS u ON u.id = a.created_by" .
-					"\n LEFT JOIN #__groups AS g ON a.access = g.id" .
-					$where.
-					$orderby;
-			$this->_db->setQuery($query);
-			$this->_contentTotal = $this->_db->loadResult();
 		}		
 		return true;
 	}

@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage Content
  * @since 1.0
  */
-class JFrontpageViewHTML
+class JViewFrontpageHTML
 {
 
 	function show(&$model, &$access, &$menu) 
@@ -32,7 +32,7 @@ class JFrontpageViewHTML
 		/*
 		 * Need to cache this for speed
 		 */
-		JFrontpageViewHTML_blog::show($model, $access, $menu);
+		JViewFrontpageHTML_blog::show($model, $access, $menu);
 	}
 
 	/**

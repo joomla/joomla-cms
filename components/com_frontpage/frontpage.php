@@ -63,7 +63,7 @@ class JFrontpageController
 		$mainframe->SetPageTitle($menu->name);
 
 		$cache = & JFactory::getCache('com_frontpage');
-		$cache->call('JFrontpageViewHTML::show', $model, $access, $menu);
+		$cache->call('JViewFrontpageHTML::show', $model, $access, $menu);
 	}
 }
 
