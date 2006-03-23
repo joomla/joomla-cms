@@ -19,8 +19,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * Make sure the user is authorized to view this page
  */
 $user = & $mainframe->getUser();
-if (!$user->authorize( 'com_plugins', 'manage' ))
-{
+if (!$user->authorize( 'com_plugins', 'manage' )) {
 		josRedirect( 'index2.php', JText::_('ALERTNOTAUTH') );
 }
 
@@ -30,12 +29,13 @@ $option = JRequest::getVar( 'option', '' );
 $client = JRequest::getVar( 'client', 'site' );
 $cid 	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
 $id 	= JRequest::getVar( 'id', 0, '', 'int' );
+
 if (!is_array( $cid )) {
 	$cid = array(0);
 }
 
-switch ( $task ) {
-
+switch ( $task ) 
+{
 	case 'new':
 	case 'edit':
 		editPlugin( $option, $cid[0], $client );
@@ -86,7 +86,8 @@ switch ( $task ) {
 /**
 * Compiles a list of installed or defined modules
 */
-function viewPlugins( $option, $client ) {
+function viewPlugins( $option, $client ) 
+{
 	global $database, $mainframe, $mosConfig_list_limit;
 
 	$filter_order		= $mainframe->getUserStateFromRequest( "$option.$client.filter_order", 		'filter_order', 	'p.folder' );
@@ -227,7 +228,8 @@ function savePlugin( $option, $client, $task )
 * @param string The current GET/POST option
 * @param integer The unique id of the record to edit
 */
-function editPlugin( $option, $uid, $client ) {
+function editPlugin( $option, $uid, $client ) 
+{
 	global $database, $my, $mainframe;
 
 	$lists 	= array();
@@ -278,19 +280,11 @@ function editPlugin( $option, $uid, $client ) {
 
         $lang =& $mainframe->getLanguage();
         $lang->load( trim('plg_'. $row->element), JPATH_SITE );
+		
+		$data = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element .'.xml');
+		
+		$row->description = $data['description'];
 
-		// xml file for plugins
-		$xmlfile = JPATH_SITE . DS . 'plugins'. DS .$row->folder . DS . $row->element .'.xml';
-		$xmlDoc =& JFactory::getXMLParser();
-		$xmlDoc->resolveErrors( true );
-		if ($xmlDoc->loadXML( $xmlfile, false, true )) {
-			$root = &$xmlDoc->documentElement;
-			if ($root->getTagName() == 'install' && $root->getAttribute( 'type' ) == 'plugin' ) {
-				$element = &$root->getElementsByPath( 'description', 1 );
-				$row->description = $element ? trim( $element->getText() ) : '';
-
-			}
-		}
 	} else {
 		$row->folder 		= '';
 		$row->ordering 		= 999;
@@ -322,7 +316,8 @@ function editPlugin( $option, $uid, $client ) {
 * @param array An array of unique category id numbers
 * @param integer 0 if unpublishing, 1 if publishing
 */
-function publishPlugin( $cid=null, $publish=1, $option, $client ) {
+function publishPlugin( $cid=null, $publish=1, $option, $client ) 
+{
 	global $database, $my;
 
 	if (count( $cid ) < 1) {
@@ -354,7 +349,8 @@ function publishPlugin( $cid=null, $publish=1, $option, $client ) {
 /**
 * Cancels an edit operation
 */
-function cancelPlugin( $option, $client ) {
+function cancelPlugin( $option, $client ) 
+{
 	global $database;
 
 	$row =& JTable::getInstance('plugin', $database); 
@@ -369,7 +365,8 @@ function cancelPlugin( $option, $client ) {
 * @param integer The unique id of record
 * @param integer The increment to reorder by
 */
-function orderPlugin( $uid, $inc, $option, $client ) {
+function orderPlugin( $uid, $inc, $option, $client ) 
+{
 	global $database;
 
 	// Currently Unsupported
@@ -389,7 +386,8 @@ function orderPlugin( $uid, $inc, $option, $client ) {
 * changes the access level of a record
 * @param integer The increment to reorder by
 */
-function accessMenu( $uid, $access, $option, $client ) {
+function accessMenu( $uid, $access, $option, $client ) 
+{
 	global $database;
 
 	switch ( $access ) {
@@ -420,7 +418,8 @@ function accessMenu( $uid, $access, $option, $client ) {
 	josRedirect( 'index2.php?option='. $option );
 }
 
-function saveOrder( &$cid ) {
+function saveOrder( &$cid ) 
+{
 	global $database;
 
 	$total		= count( $cid );

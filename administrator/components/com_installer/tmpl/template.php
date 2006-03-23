@@ -106,53 +106,25 @@ class JInstallerExtensionTasks {
 		$rows = array();
 		$rowid = 0;
 		// Check that the directory contains an xml file
-		foreach($templates as $template) {
+		foreach($templates as $template) 
+		{
 			$dirName = JPath::clean($template->baseDir .DS. $template->folder);
 			$xmlFilesInDir = JFolder::files($dirName,'.xml$');
 	
-			foreach($xmlFilesInDir as $xmlfile) {
-				// Read the file to see if it's a valid template XML file
-				$xmlDoc =& JFactory::getXMLParser();
-				$xmlDoc->resolveErrors( true );
-				if (!$xmlDoc->loadXML( $dirName . $xmlfile, false, true )) {
-					continue;
-				}
-	
-				$root = &$xmlDoc->documentElement;
-	
-				if ($root->getTagName() != 'mosinstall' && $root->getTagName() != 'install') {
-					continue;
-				}
-				if ($root->getAttribute( 'type' ) != 'template') {
-					continue;
-				}
-	
+			foreach($xmlFilesInDir as $xmlfile) 
+			{
+				$data = JApplicationHelper::parseXMLInstallFile($dirName . $xmlfile);
+				
 				$row = new StdClass();
 				$row->id 		= $rowid;
 				$row->client_id	= $template->client;
 				$row->directory = $template->folder;
 				$row->baseDir   = $template->baseDir;
-				$element 		= &$root->getElementsByPath('name', 1 );
-				$row->name 		= $element->getText();
-	
-				$element 		= &$root->getElementsByPath('creationDate', 1);
-				$row->creationdate = $element ? $element->getText() : 'Unknown';
-	
-				$element 		= &$root->getElementsByPath('author', 1);
-				$row->author 	= $element ? $element->getText() : 'Unknown';
-	
-				$element 		= &$root->getElementsByPath('copyright', 1);
-				$row->copyright = $element ? $element->getText() : '';
-	
-				$element 		= &$root->getElementsByPath('authorEmail', 1);
-				$row->authorEmail = $element ? $element->getText() : '';
-	
-				$element 		= &$root->getElementsByPath('authorUrl', 1);
-				$row->authorUrl = $element ? $element->getText() : '';
-	
-				$element 		= &$root->getElementsByPath('version', 1);
-				$row->version 	= $element ? $element->getText() : '';
-	
+				
+				foreach($data as $key => $value) {
+					$row->$key = $value;
+				}
+				
 				$row->checked_out = 0;
 				$row->jname = strtolower( str_replace( ' ', '_', $row->name ) );
 	

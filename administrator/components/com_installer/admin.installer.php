@@ -38,12 +38,13 @@ if ($extension != '') {
 	}
 }
 
-class JInstallerController {
-
+class JInstallerController 
+{
 	/**
 	 * @param string The class name for the installer
 	 */
-	function uploadpackage() {
+	function uploadpackage() 
+	{
 		global $mainframe;
 
 		/*
@@ -136,7 +137,8 @@ class JInstallerController {
 	 * @return boolean True on success
 	 * @since 1.0
 	 */
-	function installFromDirectory() {
+	function installFromDirectory() 
+	{
 		global $mainframe;
 
 		/*
@@ -202,7 +204,8 @@ class JInstallerController {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function installFromUrl() {
+	function installFromUrl() 
+	{
 		global $mainframe;
 
 		/*
@@ -285,7 +288,8 @@ class JInstallerController {
 	 * @return boolean True on success
 	 * @since 1.0
 	 */
-	function enableextension() {
+	function enableextension() 
+	{
 		global $mainframe;
 
 		/*
@@ -349,7 +353,8 @@ class JInstallerController {
 	 * @return boolean True on success
 	 * @since 1.1
 	 */
-	function disableextension() {
+	function disableextension() 
+	{
 		global $mainframe;
 
 		/*
@@ -488,8 +493,8 @@ class JInstallerController {
 	/**
 	 * Unified intaller
 	 */
-	function installer() {
-
+	function installer()
+	{
 		/*
 		 * Initialize variables
 		 */

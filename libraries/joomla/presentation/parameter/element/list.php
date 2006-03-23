@@ -30,13 +30,15 @@ class JElement_List extends JElement
 	*/
 	var	$_name = 'List';
 	
-	function fetchElement($name, $value, &$node, $control_name)	{
-		$size = $node->getAttribute('size');
+	function fetchElement($name, $value, &$node, $control_name)	
+	{
+		$size = $node->attributes('size');
 		
 		$options = array ();
-		foreach ($node->childNodes as $option) {
-			$val  = $option->getAttribute('value');
-			$text = $option->gettext();
+		foreach ($node->children() as $option) 
+		{
+			$val  = $option->attributes('value');
+			$text = $option->data();
 			$options[] = mosHTML::makeOption($val, JText::_($text));
 		}
 

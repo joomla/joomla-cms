@@ -128,17 +128,15 @@ class JParameter extends JRegistry
 			return false;
 		}
 		
-		$element = & $this->_xml;
-		
 		$html = array ();
 		$html[] = '<table width="100%" class="paramlist">';
 
-		if ($description = $element->getAttribute('description')) {
+		if ($description = $this->_xml->attributes('description')) {
 			// add the params description to the display
 			$html[] = '<tr><td colspan="3">'.$description.'</td></tr>';
 		}
 
-		foreach ($element->childNodes as $param) 
+		foreach ($this->_xml->children() as $param) 
 		{
 			$result = $this->renderParam($param, $name);
 			
@@ -150,7 +148,7 @@ class JParameter extends JRegistry
 			$html[] = '</tr>';
 		}
 
-		if (count($element->childNodes) < 1) {
+		if (count($this->_xml->children()) < 1) {
 			$html[] = "<tr><td colspan=\"2\"><i>".JText::_('There are no Parameters for this item')."</i></td></tr>";
 		}
 		
@@ -169,7 +167,7 @@ class JParameter extends JRegistry
 	function renderParam(&$node, $control_name = 'params') 
 	{
 		//get the type of the parameter
-		$type = $node->getAttribute('type');
+		$type = $node->attributes('type');
 		
 		//remove any occurance of a mos_ prefix
 		$type = str_replace('mos_', '', $type);
@@ -182,7 +180,7 @@ class JParameter extends JRegistry
 		if ($element === false) {
 			
 			$result = array();
-			$result[0] = $node->getAttribute('name');
+			$result[0] = $node->attributes('name');
 			$result[1] = JText::_('Element not defined for type').' = '.$type;
 			return $result;
 		}
@@ -202,22 +200,20 @@ class JParameter extends JRegistry
 	{
 		if ($path)
 		{
-			$xmlDoc = & JFactory::getXMLParser();
-			$xmlDoc->resolveErrors(true);
-			
-			$result = false;
-			if ($xmlDoc->loadXML($path, false, true)) {
-				$root = & $xmlDoc->documentElement;
-	
-				if ($params = & $root->getElementsByPath('params', 1)) {
+			$xml = & JFactory::getXMLParser('Simple');
+		
+			if ($xml->loadFile($path)) 
+			{
+				if ($params = & $xml->document->params[0]) {
 					$this->_xml = & $params;
 					$result = true;
 				}
 			}
 		}
-		else {
-				$result = true;
-			}
+		else 
+		{
+			$result = true;
+		}
 		
 		return $result;
 	}

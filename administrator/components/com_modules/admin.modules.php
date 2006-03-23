@@ -487,18 +487,10 @@ function editModule( $option, $uid, $module=NULL )
 
 	// xml file for module
 	$xmlfile = JApplicationHelper::getPath( $path, $row->module );
-	$xmlDoc =& JFactory::getXMLParser();
-	$xmlDoc->resolveErrors( true );
-	if ($xmlDoc->loadXML( $xmlfile, false, true )) {
-		$root = &$xmlDoc->documentElement;
-
-		if (($root->getTagName() == 'mosinstall' || $root->getTagName() == 'install') && $root->getAttribute( 'type' ) == 'module' ) {
-			$element = &$root->getElementsByPath( 'name', 1 );
-			$row->type = $element ? trim( $element->getText() ) : '';
-			
-			$element = &$root->getElementsByPath( 'description', 1 );
-			$row->description = $element ? trim( $element->getText() ) : '';
-		}
+	
+	$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
+	foreach($data as $key => $value) {
+		$row->$key = $value;
 	}
 
 	// get params definitions
@@ -816,32 +808,11 @@ function ReadAModuleXML( &$rows )
 	// xml file for module
 	$xmlfile = JPATH_ADMINISTRATOR .'/components/com_menus/'. $type .'/'. $type .'.xml';
 	
-	$xmlDoc =& JFactory::getXMLParser();
-	$xmlDoc->resolveErrors( true );
+	$data = JApplicationHelper::parseXMLInstallFile($xmlfile);	
 	
-	if ($xmlDoc->loadXML( $xmlfile, false, true )) {
-		$root = &$xmlDoc->documentElement;
-		
-		if ( ($root->getTagName() == 'mosinstall' || $root->getTagName() == 'install')&& ( $root->getAttribute( 'type' ) == 'component' || $root->getAttribute( 'type' ) == 'menu' ) ) {
-			// Menu Type Name
-			$element 	= &$root->getElementsByPath( 'name', 1 );
-			$name 		= $element ? trim( $element->getText() ) : '';
-			// Menu Type Description
-			$element 	= &$root->getElementsByPath( 'description', 1 );
-			$descrip 	= $element ? trim( $element->getText() ) : '';
-			// Menu Type Group
-			$element 	= &$root->getElementsByPath( 'group', 1 );
-			$group 		= $element ? trim( $element->getText() ) : '';
-		}
-	}
-	
-	if ( ( $component <> -1 ) && ( $name == 'Component') ) {
-		$name .= ' - '. $component;
-	}
-	
-	$row[0]	= $name;
-	$row[1] = $descrip;
-	$row[2] = $group;
+	$row[0]	= $data['name'];
+	$row[1] = $data['description'];
+	$row[2] = $data['group'];
 	
 	return $row;
 }
@@ -857,21 +828,12 @@ function ReadModuleXML( &$rows  )
 		} 
 		else 
 		{
-			$xmlfile =  $row->path .'/'. $row->file;
-			$xmlDoc =& JFactory::getXMLParser();
-			$xmlDoc->resolveErrors( true );
+			$data = JApplicationHelper::parseXMLInstallFile( $row->path.DS.$row->file);	
 			
-			if ($xmlDoc->loadXML( $xmlfile, false, true )) {
-				$root = &$xmlDoc->documentElement;
-				
-				if ( ($root->getTagName() == 'mosinstall' || $root->getTagName() == 'install')&& ( $root->getAttribute( 'type' ) == 'module' ) ) {
-					
-					$element 			= &$root->getElementsByPath( 'name', 1 );
-					$rows[$i]->name		= $element ? trim( $element->getText() ) : '';
-					
-					$element 			= &$root->getElementsByPath( 'description', 1 );
-					$rows[$i]->descrip	= $element ? trim( $element->getText() ) : '';
-				}
+			if ( $data['type'] == 'module' ) 
+			{
+				$rows[$i]->name		= $data['name'];
+				$rows[$i]->descrip	= $data['description'];
 			}
 		}	}
 }

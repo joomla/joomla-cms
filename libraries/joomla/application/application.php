@@ -1046,7 +1046,7 @@ class JApplicationHelper
 				
 			case 'helper':
 				$path	= DS.'components'.DS. $user_option .DS. $name .'.helper.php';
-				$result = JApplicationHelper::_checkPath( $path, 0 );
+				$result = JApplicationHelper::_checkPath( $path );
 				break;
 
 			case 'com_xml':
@@ -1091,6 +1091,59 @@ class JApplicationHelper
 		}
 
 		return $result;
+	}
+	
+	function parseXMLInstallFile($path)
+	{
+		// Read the file to see if it's a valid component XML file
+		$xml = & JFactory::getXMLParser('Simple');
+
+		if (!$xml->loadFile($path)) {
+			unset($xml);
+			continue;
+		}
+
+		/*
+		 * Check for a valid XML root tag.
+	     * 
+		 * Should be 'install', but for backward compatability we will accept 'mosinstall'.
+		 */
+		if ($xml->document->name() != 'install' && $xml->document->name() != 'mosinstall') {
+			unset($xml);
+			continue;
+		}
+
+		$data = array();
+		
+		$element = & $xml->document->name[0];
+		$data['name'] = $element ? $element->data() : '';
+		$data['type'] = $element ? $xml->document->attributes("type") : '';
+		
+		$element = & $xml->document->creationdate[0];
+		$data['creationdate'] = $element ? $element->data() : 'Unknown';
+
+		$element = & $xml->document->author[0];
+		$data['author'] = $element ? $element->data() : 'Unknown';
+
+		$element = & $xml->document->copyright[0];
+		$data['copyright'] = $element ? $element->data() : '';
+
+		$element = & $xml->document->authoremail[0];
+		$data['authorEmail'] = $element ? $element->data() : '';
+
+		$element = & $xml->document->authorurl[0];
+		$data['authorUrl'] = $element ? $element->data() : '';
+
+		$element = & $xml->document->version[0];
+		$data['version'] = $element ? $element->data() : '';
+		
+		$element = & $xml->document->description[0];
+		$data['description'] = $element ? $element->data() : '';
+		
+		$element = & $xml->document->group[0];
+		$data['group'] = $element ? $element->group() : '';
+		
+		return $data;
 	}
 
 	/**

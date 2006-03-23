@@ -71,30 +71,30 @@ class JHelp {
 	{
 		$list = array ();
 
-		$xmlDoc = JFactory::getXMLParser();
-		$xmlDoc->resolveErrors(true);
-		$xml = @file_get_contents($pathToXml);
+		$xml  = JFactory::getXMLParser('Simple');
+		$data = @file_get_contents($pathToXml);
 		
-		if(empty($xml)) {
+		if(empty($data)) 
+		{
 			$option['text'] = 'English (GB) help.joomla.org';
 			$option['value'] = 'http://help.joomla.org';
 			$list[] = $option;
-		} else {
-
-			if($xmlDoc->parseXML($xml, false, true)) {
-				$root = & $xmlDoc->documentElement;
-
+		} 
+		else 
+		{
+			if($xml->loadString($data)) 
+			{
 				// Are there any languages??
-				$elmSites = & $root->getElementsByPath('sites', 1);
+				$elmSites = & $xml->document->sites[0];
 
 				if (is_object($elmSites)) {
 
 					$option = array ();
-					$sites = $elmSites->childNodes;
+					$sites = $elmSites->children();
 					foreach ($sites as $site) {
 						
-						$text = $site->getText();
-						$url  = $site->getAttribute('url');
+						$text = $site->data();
+						$url  = $site->attributes('url');
 
 						$option['text'] = $text;
 						$option['value'] = $url;

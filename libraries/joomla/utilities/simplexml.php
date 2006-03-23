@@ -409,28 +409,54 @@ class JSimpleXMLElement extends JObject
         $this->_level = $level;
     }
 	
+	/**
+	 * Get the name of the element
+	 * 
+	 * @access public
+	 * @return string
+	 */
 	function name()
 	{
 		return $this->_name;
 	}
 	
-	function attributes($attribute = null)
-	{
-		return $this->_attributes[$attribute];
+	/**
+	 * Get the name of the element
+	 * 
+	 * @access public
+	 * @return string
+	 */
+	function attributes($attribute = null) {
+		return isset($this->_attributes[$attribute]) ? $this->_attributes[$attribute] : null;
 	}
 	
-	function data()
-	{
+	/**
+	 * Get the data of the element
+	 * 
+	 * @access public
+	 * @return string
+	 */
+	function data() {
 		return $this->_data;
 	}
 	
-	function children()
-	{
+	/**
+	 * Get the children of the element
+	 * 
+	 * @access public
+	 * @return array
+	 */
+	function children() {
 		return $this->_children;
 	}
 	
-	function level()
-	{
+	/**
+	 * Get the level of the element
+	 * 
+	 * @access public
+	 * @return int
+	 */
+	function level() {
 		return $this->_level;
 	}
     

@@ -20,7 +20,8 @@
  * @since		1.1
  */
 
-class JElement_FileList extends JElement {
+class JElement_FileList extends JElement 
+{
    /**
 	* Element name
 	*
@@ -29,7 +30,8 @@ class JElement_FileList extends JElement {
 	*/
 	var	$_name = 'FileList';
 	
-	function fetchTooltip($label, $description, &$node, $control_name, $name) {
+	function fetchTooltip($label, $description, &$node, $control_name, $name) 
+	{
 		$output = '<label for="'.$control_name.$name.'">';
 		$output .= mosToolTip(addslashes($description), $label, '', '', $label, '#', 0);
 		$output .= '</label>';
@@ -37,20 +39,21 @@ class JElement_FileList extends JElement {
 		return $output;
 	}
 	
-	function fetchElement($name, $value, &$node, $control_name)	{
+	function fetchElement($name, $value, &$node, $control_name)	
+	{
 		// path to images directory
-		$path = JPATH_SITE.$node->getAttribute('directory');
-		$filter = $node->getAttribute('filter');
+		$path = JPATH_SITE.$node->attributes('directory');
+		$filter = $node->attributes('filter');
 		$files = mosReadDirectory($path, $filter);
 
 		$options = array ();
 		foreach ($files as $file) {
 			$options[] = mosHTML::makeOption($file, $file);
 		}
-		if (!$node->getAttribute('hide_none')) {
+		if (!$node->attributes('hide_none')) {
 			array_unshift($options, mosHTML::makeOption('-1', '- '.JText::_('Do not use').' -'));
 		}
-		if (!$node->getAttribute('hide_default')) {
+		if (!$node->attributes('hide_default')) {
 			array_unshift($options, mosHTML::makeOption('', '- '.JText::_('Use default').' -'));
 		}
 

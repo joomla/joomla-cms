@@ -34,7 +34,8 @@ class JElement_Spacer extends JElement
 		return '';
 	}
 	
-	function fetchElement($name, $value, &$node, $control_name)	{
+	function fetchElement($name, $value, &$node, $control_name)	
+	{
 		if ($value) {
 			return $value;
 		} else {

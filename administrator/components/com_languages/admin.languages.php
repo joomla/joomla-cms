@@ -74,47 +74,19 @@ function viewLanguages()
 	foreach ($dirs as $dir) 
 	{
 		$files = JFolder::files( $path . $dir, '^([-_A-Za-z]*)\.xml$' );
-		foreach ($files as $file) {
-			// Read the file to see if it's a valid template XML file
-			$xmlDoc =& JFactory::getXMLParser();
-			$xmlDoc->resolveErrors( true );
-			if (!$xmlDoc->loadXML( $path . $dir . DS . $file, false, true )) {
-				continue;
-			}
-
-			$root = &$xmlDoc->documentElement;
-
-			if ($root->getTagName() != 'mosinstall' && $root->getTagName() != 'install') {
-					continue;
-			}
-			if ($root->getAttribute( "type" ) != "language") {
-				continue;
-			}
-
+		foreach ($files as $file) 
+		{
+			$data = JApplicationHelper::parseXMLInstallFile($path.$dir.DS.$file);
+			
+			
 			$row 			= new StdClass();
 			$row->id 		= $rowid;
 			$row->language 	= substr($file,0,-4);
-			$element 		= &$root->getElementsByPath('name', 1 );
-			$row->name 		= $element->getText();
-
-			$element		= &$root->getElementsByPath('creationDate', 1);
-			$row->creationdate = $element ? $element->getText() : 'Unknown';
-
-			$element 		= &$root->getElementsByPath('author', 1);
-			$row->author 	= $element ? $element->getText() : 'Unknown';
-
-			$element 		= &$root->getElementsByPath('copyright', 1);
-			$row->copyright = $element ? $element->getText() : '';
-
-			$element 		= &$root->getElementsByPath('authorEmail', 1);
-			$row->authorEmail = $element ? $element->getText() : '';
-
-			$element 		= &$root->getElementsByPath('authorUrl', 1);
-			$row->authorUrl = $element ? $element->getText() : '';
-
-			$element 		= &$root->getElementsByPath('version', 1);
-			$row->version 	= $element ? $element->getText() : '';
-
+			
+			foreach($data as $key => $value) {
+				$row->$key = $value;
+			}
+			
 			$lang = ($client->name == 'site') ? 'lang_site' : 'lang_'.$client->name;
 
 			// if current than set published
@@ -133,7 +105,7 @@ function viewLanguages()
 
 
 	jimport('joomla.presentation.pagination');
-	$pageNav = new JPagination( $total, $limitstart, $limit );
+	$pageNav = new JPagination( $rowid, $limitstart, $limit );
 
 	$rows = array_slice( $rows, $pageNav->limitstart, $pageNav->limit );
 

@@ -624,47 +624,18 @@ class JTemplatesHelper
 			return false;
 		}
 		
-		// Read the file to see if it's a valid template XML file
-		$xmlDoc = & JFactory::getXMLParser();
-		$xmlDoc->resolveErrors(true);
-		if (!$xmlDoc->loadXML($templateBaseDir.$templateDir.DS.'templateDetails.xml', false, true)) {
-			return false;
-		}
-
-		$root = & $xmlDoc->documentElement;
-
-		if ($root->getTagName() != 'mosinstall' && $root->getTagName() != 'install') {
-			return false;
-		}
-		if ($root->getAttribute('type') != 'template') {
+		$xml = JApplicationHelper::parseXMLInstallFile($templateBaseDir.$templateDir.DS.'templateDetails.xml');
+			
+		if ($xml['type'] != 'template') {
 			return false;
 		}
 
 		$data = new StdClass();
 		$data->directory = $templateDir;
-		$element = & $root->getElementsByPath('name', 1);
-		$data->name = $element->getText();
-
-		$element = & $root->getElementsByPath('creationDate', 1);
-		$data->creationdate = $element ? $element->getText() : 'Unknown';
-
-		$element = & $root->getElementsByPath('author', 1);
-		$data->author = $element ? $element->getText() : 'Unknown';
-
-		$element = & $root->getElementsByPath('copyright', 1);
-		$data->copyright = $element ? $element->getText() : '';
-
-		$element = & $root->getElementsByPath('authorEmail', 1);
-		$data->authorEmail = $element ? $element->getText() : '';
-
-		$element = & $root->getElementsByPath('authorUrl', 1);
-		$data->authorUrl = $element ? $element->getText() : '';
-
-		$element = & $root->getElementsByPath('version', 1);
-		$data->version = $element ? $element->getText() : '';
 		
-		$element = & $root->getElementsByPath('description', 1);
-		$data->description = $element ? $element->getText() : '';
+		foreach($xml as $key => $value) {
+			$data->$key = $value;
+		}
 
 		$data->checked_out = 0;
 		$data->mosname = strtolower(str_replace(' ', '_', $data->name));

@@ -350,27 +350,21 @@ function restoreTrash( $cid, $option ) {
 	josRedirect( "index2.php?option=$option&task=$return&mosmsg=$msg" );
 }
 
-function ReadMenuXML( $type, $component=-1 ) {
+function ReadMenuXML( $type, $component=-1 ) 
+{
 	// xml file for module
 	$xmlfile = JPATH_ADMINISTRATOR .'/components/com_menus/'. $type .'/'. $type .'.xml';
-	$xmlDoc =& JFactory::getXMLParser();
-	$xmlDoc->resolveErrors( true );
 	
-	if ($xmlDoc->loadXML( $xmlfile, false, true )) {
-		$root = &$xmlDoc->documentElement;
-		
-		if ( ($root->getTagName() == 'mosinstall' || $root->getTagName() == 'install')&& ( $root->getAttribute( 'type' ) == 'component' || $root->getAttribute( 'type' ) == 'menu' ) ) {
-			// Menu Type Name
-			$element 	= &$root->getElementsByPath( 'name', 1 );
-			$name 		= $element ? trim( $element->getText() ) : '';
+	$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
+	
+	if ( $data['type'] == 'component' || $data['type'] == 'menu' ) 
+	{
+		if ( ( $component <> -1 ) && ( $data['name'] == 'Component') ) {
+			$data['name'] .= ' - '. $component;
 		}
+		
+		$row[0]	= $data['name'];
 	}
-	
-	if ( ( $component <> -1 ) && ( $name == 'Component') ) {
-		$name .= ' - '. $component;
-	}
-	
-	$row[0]	= $name;
 	
 	return $row;
 }

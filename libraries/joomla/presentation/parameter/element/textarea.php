@@ -32,8 +32,8 @@ class JElement_Textarea extends JElement
 	
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$rows = $node->getAttribute('rows');
-		$cols = $node->getAttribute('cols');
+		$rows = $node->attributes('rows');
+		$cols = $node->attributes('cols');
 		// convert <br /> tags so they are not visible when editing
 		$value = str_replace('<br />', "\n", $value);
 

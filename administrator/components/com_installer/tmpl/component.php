@@ -25,21 +25,20 @@ defined('_JEXEC') or die('Restricted access');
  * @category Controller
  * @since 1.1
  */
-class JInstallerExtensionTasks {
-
+class JInstallerExtensionTasks 
+{
 	/**
 	 * @param string The URL option
 	 */
-	function showInstalled() {
+	function showInstalled() 
+	{
 		global $mainframe;
 
 		$option				= JRequest::getVar( 'option' );
 		$limit 				= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit') );
 		$limitstart 		= $mainframe->getUserStateFromRequest( "$option.limitstart", 'limitstart', 0 );
 		
-		/*
-		 * Get a database connector
-		 */
+		/* Get a database connector */
 		$db =& $mainframe->getDBO();
 
 		$query = 	"SELECT *" .
@@ -49,77 +48,30 @@ class JInstallerExtensionTasks {
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 
-		/*
-		 * Get the component base directory
-		 */
+		/* Get the component base directory */
 		$baseDir = JPath::clean (JPATH_ADMINISTRATOR .DS. 'components');
 		
 		$numRows = count($rows);
-		for($i=0;$i < $numRows; $i++) {
+		for($i=0;$i < $numRows; $i++) 
+		{
 			$row =& $rows[$i];
 			
-			/*
-			 * Get the component folder and list of xml files in folder
-			 */
+			 /* Get the component folder and list of xml files in folder */ 
 			$folder = $baseDir . $row->option;
 			$xmlFilesInDir = JFolder::files($folder, '.xml$');
 
-			foreach ($xmlFilesInDir as $xmlfile) {
-				// Read the file to see if it's a valid component XML file
-				$xmlDoc = & JFactory::getXMLParser();
-				$xmlDoc->resolveErrors(true);
-
-				if (!$xmlDoc->loadXML($folder.DS.$xmlfile, false, true)) {
-					// Free up xml parser memory and return null
-					unset ($xmlDoc);
-					continue;
+			foreach ($xmlFilesInDir as $xmlfile) 
+			{
+				$data = JApplicationHelper::parseXMLInstallFile($folder.DS.$xmlfile);
+				foreach($data as $key => $value) {
+					$row->$key = $value;
 				}
-
-				// Get the root node of the xml document
-				$root = & $xmlDoc->documentElement;
-
-				/*
-				 * Check for a valid XML root tag.
-				 * 
-				 * Should be 'install', but for backward compatability we will accept 'mosinstall'.
-				 */
-				if ($root->getTagName() != 'install' && $root->getTagName() != 'mosinstall') {
-					// Free up xml parser memory and return null
-					unset ($xmlDoc);
-					continue;
-				}
-
-				if ($root->getAttribute("type") != "component") {
-					// Free up xml parser memory and return null
-					unset ($xmlDoc);
-					continue;
-				}
-
-				$element = & $root->getElementsByPath('creationDate', 1);
-				$row->creationdate = $element ? $element->getText() : 'Unknown';
-
-				$element = & $root->getElementsByPath('author', 1);
-				$row->author = $element ? $element->getText() : 'Unknown';
-
-				$element = & $root->getElementsByPath('copyright', 1);
-				$row->copyright = $element ? $element->getText() : '';
-
-				$element = & $root->getElementsByPath('authorEmail', 1);
-				$row->authorEmail = $element ? $element->getText() : '';
-
-				$element = & $root->getElementsByPath('authorUrl', 1);
-				$row->authorUrl = $element ? $element->getText() : '';
-
-				$element = & $root->getElementsByPath('version', 1);
-				$row->version = $element ? $element->getText() : '';
 
 				$row->jname = strtolower(str_replace(" ", "_", $row->name));
 			}
 		}
 		
-		/*
-		* Take care of the pagination
-		*/	
+		/* Take care of the pagination */
 		jimport('joomla.presentation.pagination');
 		$page = new JPagination( count( $rows ), $limitstart, $limit );
 		$rows = array_slice( $rows, $page->limitstart, $page->limit );

@@ -31,7 +31,8 @@ class JInstallerExtensionTasks {
 	/**
 	* @param string The URL option
 	*/
-	function showInstalled() {
+	function showInstalled() 
+	{
 		global $mainframe;
 		
 		$option		= JRequest::getVar( 'option' );
@@ -44,7 +45,8 @@ class JInstallerExtensionTasks {
 		$select[] 			= mosHTML::makeOption('1', JText::_('Admin Languages'));
 		$lists['filter'] 	= mosHTML::selectList($select, 'filter', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter);
 
-		if ($filter == '-1') {
+		if ($filter == '-1') 
+		{
 			$client = 'all';
 			// Get the site languages
 			$langBDir = JLanguage::getLanguagePath(JPATH_SITE);
@@ -70,7 +72,9 @@ class JInstallerExtensionTasks {
 				
 				$languages[] = $lang;				
 			}			
-		} elseif ($filter == '0') {
+		} 
+		elseif ($filter == '0') 
+		{
 			$client = 'site';
 			$langBDir = JLanguage::getLanguagePath(JPATH_SITE);
 			$langDirs = JFolder::folders($langBDir);
@@ -83,7 +87,9 @@ class JInstallerExtensionTasks {
 				
 				$languages[] = $lang;				
 			}			
-		} elseif ($filter == '1') {
+		} 
+		elseif ($filter == '1') 
+		{
 			$client = 'administrator';
 			$langBDir = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR);
 			$langDirs = JFolder::folders($langBDir);
@@ -100,49 +106,21 @@ class JInstallerExtensionTasks {
 		
 		$rows = array();
 		$rowid = 0;
-		foreach ($languages as $language) {
+		foreach ($languages as $language) 
+		{
 			$files = JFolder::files( $language->baseDir .DS. $language->folder, '^([-_A-Za-z]*)\.xml$' );
-			foreach ($files as $file) {
-				// Read the file to see if it's a valid template XML file
-				$xmlDoc =& JFactory::getXMLParser();
-				$xmlDoc->resolveErrors( true );
-				if (!$xmlDoc->loadXML( $language->baseDir .DS. $language->folder . DS . $file, false, true )) {
-					continue;
-				}
-	
-				$root = &$xmlDoc->documentElement;
-	
-				if ($root->getTagName() != 'mosinstall' && $root->getTagName() != 'install') {
-						continue;
-				}
-				if ($root->getAttribute( "type" ) != "language") {
-					continue;
-				}
-	
+			foreach ($files as $file) 
+			{
+				$data = JApplicationHelper::parseXMLInstallFile($language->baseDir .DS. $language->folder . DS . $file);
+			
 				$row 			= new StdClass();
 				$row->id 		= $rowid;
 				$row->client_id = $language->client;
 				$row->language 	= substr($file,0,-4);
-				$element 		= &$root->getElementsByPath('name', 1 );
-				$row->name 		= $element->getText();
-	
-				$element		= &$root->getElementsByPath('creationDate', 1);
-				$row->creationdate = $element ? $element->getText() : 'Unknown';
-	
-				$element 		= &$root->getElementsByPath('author', 1);
-				$row->author 	= $element ? $element->getText() : 'Unknown';
-	
-				$element 		= &$root->getElementsByPath('copyright', 1);
-				$row->copyright = $element ? $element->getText() : '';
-	
-				$element 		= &$root->getElementsByPath('authorEmail', 1);
-				$row->authorEmail = $element ? $element->getText() : '';
-	
-				$element 		= &$root->getElementsByPath('authorUrl', 1);
-				$row->authorUrl = $element ? $element->getText() : '';
-	
-				$element 		= &$root->getElementsByPath('version', 1);
-				$row->version 	= $element ? $element->getText() : '';
+				
+				foreach($data as $key => $value) {
+					$row->$key = $value;
+				}
 	
 				$lang = ($client == 'site') ? 'lang_site' : 'lang_'.$client;
 	

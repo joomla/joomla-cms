@@ -30,7 +30,8 @@ class JElement_Helpsites extends JElement
 	*/
 	var	$_name = 'Helpsites';
 	
-	function fetchElement($name, $value, &$node, $control_name)	{
+	function fetchElement($name, $value, &$node, $control_name)	
+	{
 		jimport('joomla.i18n.help');
 		
 		$helpsites 				= JHelp::createSiteList('http://help.joomla.org/helpsites-11.xml', $value);

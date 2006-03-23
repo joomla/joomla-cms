@@ -82,39 +82,12 @@ class JInstallerExtensionTasks {
 			// xml file for module
 			$xmlfile = $moduleBaseDir . DS . $row->module .DS. $row->module.".xml";
 
-			if (file_exists($xmlfile)) {
-				$xmlDoc = & JFactory::getXMLParser();
-				$xmlDoc->resolveErrors(true);
-				if (!$xmlDoc->loadXML($xmlfile, false, true)) {
-					continue;
+			if (file_exists($xmlfile)) 
+			{
+				$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
+				foreach($data as $key => $value) {
+					$row->$key = $value;
 				}
-
-				$root = & $xmlDoc->documentElement;
-
-				if ($root->getTagName() != 'mosinstall' && $root->getTagName() != 'install') {
-					continue;
-				}
-				if ($root->getAttribute("type") != "module") {
-					continue;
-				}
-
-				$element = & $root->getElementsByPath('creationDate', 1);
-				$row->creationdate = $element ? $element->getText() : '';
-
-				$element = & $root->getElementsByPath('author', 1);
-				$row->author = $element ? $element->getText() : '';
-
-				$element = & $root->getElementsByPath('copyright', 1);
-				$row->copyright = $element ? $element->getText() : '';
-
-				$element = & $root->getElementsByPath('authorEmail', 1);
-				$row->authorEmail = $element ? $element->getText() : '';
-
-				$element = & $root->getElementsByPath('authorUrl', 1);
-				$row->authorUrl = $element ? $element->getText() : '';
-
-				$element = & $root->getElementsByPath('version', 1);
-				$row->version = $element ? $element->getText() : '';
 			}
 		}
 

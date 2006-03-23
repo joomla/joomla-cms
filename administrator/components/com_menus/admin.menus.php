@@ -736,35 +736,23 @@ function copyMenuSave( $option, $cid, $menu, $menutype ) {
 	josRedirect( 'index2.php?option='. $option .'&menutype='. $menutype .'&mosmsg='. $msg );
 }
 
-function ReadMenuXML( $type, $component=-1 ) {
+function ReadMenuXML( $type, $component=-1 ) 
+{
 	// xml file for module
 	$xmlfile = JPATH_ADMINISTRATOR .'/components/com_menus/'. $type .'/'. $type .'.xml';
-	$xmlDoc =& JFactory::getXMLParser();
-	$xmlDoc->resolveErrors( true );
-
-	if ($xmlDoc->loadXML( $xmlfile, false, true )) {
-		$root = &$xmlDoc->documentElement;
-
-		if ( ($root->getTagName() == 'mosinstall' || $root->getTagName() == 'install')&& ( $root->getAttribute( 'type' ) == 'component' || $root->getAttribute( 'type' ) == 'menu' ) ) {
-			// Menu Type Name
-			$element 	= &$root->getElementsByPath( 'name', 1 );
-			$name 		= $element ? trim( $element->getText() ) : '';
-			// Menu Type Description
-			$element 	= &$root->getElementsByPath( 'description', 1 );
-			$descrip 	= $element ? trim( $element->getText() ) : '';
-			// Menu Type Group
-			$element 	= &$root->getElementsByPath( 'group', 1 );
-			$group 		= $element ? trim( $element->getText() ) : '';
+	
+	$data = JApplicationHelper::parseXMLInstallFile($xmlfile);
+			
+	if ( $data['type'] == 'component' || $data['type'] == 'menu' )  
+	{
+		if ( ( $component <> -1 ) && ( $data['name'] == 'Component') ) {
+			$data['name'] .= ' - '. $component;
 		}
+		
+		$row[0]	= $data['name'];
+		$row[1] = $data['description'];
+		$row[2] = $data['group'];
 	}
-
-	if ( ( $component <> -1 ) && ( $name == 'Component') ) {
-			$name .= ' - '. $component;
-	}
-
-	$row[0]	= $name;
-	$row[1] = $descrip;
-	$row[2] = $group;
 
 	return $row;
 }

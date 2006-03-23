@@ -30,7 +30,8 @@ class JElement_Menu extends JElement
 	*/
 	var	$_name = 'Menu';
 	
-	function fetchElement($name, $value, &$node, $control_name)	{
+	function fetchElement($name, $value, &$node, $control_name)	
+	{
 		global $database;
 
 		$menuTypes = mosAdminMenus::menutypes();

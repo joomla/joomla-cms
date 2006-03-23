@@ -29,7 +29,8 @@ class JElement_ImageList extends JElement {
 	*/
 	var	$_name = 'ImageList';
 	
-	function fetchTooltip($label, $description, &$node, $control_name, $name) {
+	function fetchTooltip($label, $description, &$node, $control_name, $name) 
+	{
 		$output = '<label for="param'. $name .'">';
 		$output .= mosToolTip(addslashes($description), $label, '', '', $label, '#', 0);
 		$output .= '</label>';
@@ -37,8 +38,10 @@ class JElement_ImageList extends JElement {
 		return $output;
 	}
 	
-	function fetchElement($name, $value, &$node, $control_name)	{
-		$node->setAttribute('filter', '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$');
+	function fetchElement($name, $value, &$node, $control_name)	
+	{
+		$filter =& $node->attributes('filter');
+		$filter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$';
 		
 		$parameter =& $this->_parent->loadElement('filelist');
 		

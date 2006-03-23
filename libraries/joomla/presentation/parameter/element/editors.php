@@ -30,7 +30,8 @@ class JElement_Editors extends JElement
 	*/
 	var	$_name = 'Editors';
 	
-	function fetchElement($name, $value, &$node, $control_name)	{
+	function fetchElement($name, $value, &$node, $control_name)	
+	{
 		global $mainframe;
 
 		$db		= & $mainframe->getDBO();

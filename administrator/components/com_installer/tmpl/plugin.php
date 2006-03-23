@@ -71,54 +71,12 @@ class JInstallerExtensionTasks {
 			 */
 			$xmlfile = $baseDir.DS.$row->folder.DS.$row->element.".xml";
 
-			if (file_exists($xmlfile)) {
-
-				$xmlDoc = & JFactory::getXMLParser();
-				$xmlDoc->resolveErrors(true);
-
-				if (!$xmlDoc->loadXML($xmlfile, false, true)) {
-					// Free up xml parser memory and return null
-					unset ($xmlDoc);
-					continue;
+			if (file_exists($xmlfile)) 
+			{
+				$data = JApplicationHelper::parseXMLInstallFile($folder.DS.$xmlfile);
+				foreach($data as $key => $value) {
+					$row->$key = $value;
 				}
-
-				// Get the root document node
-				$root = & $xmlDoc->documentElement;
-
-				/*
-				 * Check for a valid XML root tag.
-				 * 
-				 * Should be 'install', but for backward compatability we will accept 'mosinstall'.
-				 */
-				if ($root->getTagName() != 'install' && $root->getTagName() != 'mosinstall') {
-					// Free up xml parser memory and return null
-					unset ($xmlDoc);
-					continue;
-				}
-
-				if ($root->getAttribute("type") != "plugin" && $root->getAttribute("type") != "mambot") {
-					// Free up xml parser memory and return null
-					unset ($xmlDoc);
-					continue;
-				}
-
-				$element = & $root->getElementsByPath('creationDate', 1);
-				$row->creationdate = $element ? $element->getText() : '';
-
-				$element = & $root->getElementsByPath('author', 1);
-				$row->author = $element ? $element->getText() : '';
-
-				$element = & $root->getElementsByPath('copyright', 1);
-				$row->copyright = $element ? $element->getText() : '';
-
-				$element = & $root->getElementsByPath('authorEmail', 1);
-				$row->authorEmail = $element ? $element->getText() : '';
-
-				$element = & $root->getElementsByPath('authorUrl', 1);
-				$row->authorUrl = $element ? $element->getText() : '';
-
-				$element = & $root->getElementsByPath('version', 1);
-				$row->version = $element ? $element->getText() : '';
 			}
 		}
 		
