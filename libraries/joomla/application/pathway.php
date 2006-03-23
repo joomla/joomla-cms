@@ -19,7 +19,7 @@ jimport( 'joomla.common.base.object' );
  * Main example of use so far is the mod_breadcrumbs module that keeps track of
  * the user's navigated path within the Joomla application.
  *
- * @author		Louis Landry <louis@webimagery.net>
+ * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Application
  * @since		1.1

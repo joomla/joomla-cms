@@ -17,7 +17,7 @@
  * Checks the accept encoding of the browser and
  * compresses the data before sending it to the client.
  *
- * @author		Johan Janssens <johan@joomla.be>
+ * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.1

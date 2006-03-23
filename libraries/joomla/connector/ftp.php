@@ -39,7 +39,7 @@ if (!defined("FTP_ASCII")) {
 /**
  * FTP client class
  *
- * @author		Louis Landry  <louis@webimagery.net>
+ * @author		Louis Landry  <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Connector
  * @since		1.1

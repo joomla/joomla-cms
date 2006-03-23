@@ -16,7 +16,7 @@ jimport( 'joomla.registry.registry' );
 /**
  * Parameter handler
  *
- * @author 		Johan Janssens <johan@joomla.be>
+ * @author 		Johan Janssens <johan.janssens@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Parameter
  * @since		1.1

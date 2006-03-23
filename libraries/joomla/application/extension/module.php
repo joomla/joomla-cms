@@ -15,7 +15,7 @@
 * Module helper class
 *
 * @static
-* @author		Johan Janssens <johan@joomla.be>
+* @author		Johan Janssens <johan.janssens@joomla.org>
 * @package		Joomla.Framework
 * @subpackage	Application
 * @since		1.1

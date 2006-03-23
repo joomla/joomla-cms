@@ -21,7 +21,7 @@ require_once (JApplicationHelper::getPath('helper', 'com_content'));
 /**
  * Content Component Frontpage Model
  *
- * @author	Louis Landry <louis@webimagery.net>
+ * @author	Louis Landry <louis.landry@joomla.org>
  * @package Joomla
  * @subpackage Content
  * @since 1.1

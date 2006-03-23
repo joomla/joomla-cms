@@ -18,7 +18,7 @@ jimport('joomla.application.extension.plugin');
 /**
  * Joomla Core JAuthenticate plugin
  *
- * @author Louis Landry <louis@webimagery.net>
+ * @author Louis Landry <louis.landry@joomla.org>
  * @package Joomla
  * @subpackage JFramework
  * @since 1.1

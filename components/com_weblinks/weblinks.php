@@ -75,7 +75,7 @@ switch ($task)
  * Static class to hold controller functions for the Weblink component
  *
  * @static
- * @author		Louis Landry <louis@webimagery.net>
+ * @author		Louis Landry <louis.landry@joomla.org>
  * @package	Joomla
  * @subpackage	Weblinks
  * @since			1.1

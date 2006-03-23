@@ -16,7 +16,7 @@ jimport( 'joomla.common.base.object' );
 /**
  * ToolBar handler
  *
- * @author 		Louis Landry <louis@webimagery.net>
+ * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Presentation
  * @since		1.1

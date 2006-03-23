@@ -18,7 +18,7 @@ jimport('joomla.application.extension.module');
  * Document class, provides an easy interface to parse and display a document
  *
  * @abstract
- * @author		Johan Janssens <johan@joomla.be>
+ * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.1
@@ -572,7 +572,7 @@ class JDocument extends JTemplate
  * Document helper functions
  * 
  * @static
- * @author		Johan Janssens <johan@joomla.be>
+ * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.1

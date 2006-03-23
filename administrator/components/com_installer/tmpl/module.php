@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * Static class to handle module view logic
  * 
- * @author Louis Landry <louis@webimagery.net>
+ * @author Louis Landry <louis.landry@joomla.org>
  * @static
  * @package Joomla
  * @subpackage Installer
@@ -133,7 +133,7 @@ class JInstallerExtensionTasks {
 /**
  * Static class to handle module view display
  * 
- * @author Louis Landry <louis@webimagery.net>
+ * @author Louis Landry <louis.landry@joomla.org>
  * @static
  * @package Joomla
  * @subpackage Installer

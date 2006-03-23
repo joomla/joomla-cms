@@ -15,7 +15,7 @@
 /**
  * JMenu class
  *
- * @author Louis Landry <louis@webimagery.net>
+ * @author Louis Landry <louis.landry@joomla.org>
  * @package JoomlaFramework
  * @since 1.1
  */

@@ -19,7 +19,7 @@ jimport('joomla.database.table');
  * Provides a common interface to send an internal message to
  * a JUser via the Joomla! Framework
  *
- * @author		Louis Landry <louis@webimagery.net>
+ * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Utilities
  * @since		1.1

@@ -14,7 +14,7 @@
 /**
  * JEditor class to handle WYSIWYG editors
  *
- * @author		Louis Landry <louis@webimagery.net>
+ * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Presentation
  * @since		1.1

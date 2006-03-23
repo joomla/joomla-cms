@@ -17,7 +17,7 @@ jimport( 'joomla.common.base.object' );
  * Abstract observer class to implement the observer design pattern
  *
  * @abstract
- * @author	Louis Landry <louis@webimagery.net>
+ * @author	Louis Landry <louis.landry@joomla.org>
  * @package	Joomla.Framework
  * @since	1.1
  */
@@ -59,7 +59,7 @@ class JObserver extends JObject {
  * Abstract observable class to implement the observer design pattern
  *
  * @abstract
- * @author	Louis Landry <louis@webimagery.net>
+ * @author	Louis Landry <louis.landry@joomla.org>
  * @package	Joomla.Framework
  * @since	1.1
  */

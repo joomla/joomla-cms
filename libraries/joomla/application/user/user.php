@@ -17,7 +17,7 @@ jimport( 'joomla.presentation.parameter.parameter' );
 /**
  * User class.  Handles all application interaction with a user
  *
- * @author 		Louis Landry <louis@webimagery.net>
+ * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Application
  * @since		1.1
@@ -514,7 +514,7 @@ die("HERE");
  * the JUser class that don't logically fit inside the JUser object
  *
  * @static
- * @author 		Louis Landry <louis@webimagery.net>
+ * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Application
  * @since		1.1

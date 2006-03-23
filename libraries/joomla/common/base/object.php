@@ -15,7 +15,7 @@
  * Object class, allowing __construct in PHP4.
  *
  * @abstract
- * @author	Johan Janssens <johan@joomla.be>
+ * @author	Johan Janssens <johan.janssens@joomla.org>
  * @package	Joomla.Framework
  * @since	1.1
  */

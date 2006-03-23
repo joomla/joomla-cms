@@ -29,7 +29,7 @@ define("_J_ALLOWRAW", 4);
  * environment package.  <http://www.binarycloud.com/>
  *
  * @static
- * @author		Louis Landry <louis@webimagery.net>
+ * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Application
  * @since		1.1

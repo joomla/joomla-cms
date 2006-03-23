@@ -14,7 +14,7 @@
 /**
  * JDocument head renderer
  *
- * @author		Johan Janssens <johan@joomla.be>
+ * @author		Johan Janssens <johan.janssens@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Document
  * @since		1.1

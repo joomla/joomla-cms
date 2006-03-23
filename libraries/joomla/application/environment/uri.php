@@ -23,7 +23,7 @@ jimport( 'joomla.common.base.object' );
  * The concept and implementation of this class is drawn heavily from the binary cloud
  * environment package.  <http://www.binarycloud.com/>
  *
- * @author		Louis Landry <louis@webimagery.net>
+ * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Application
  * @since		1.1

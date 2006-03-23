@@ -17,7 +17,7 @@
  * The JButton is the base class for all JButton types
  *
  * @abstract
- * @author 		Louis Landry <louis@webimagery.net
+ * @author 		Louis Landry <louis.landry@joomla.org
  * @package 	Joomla.Framework
  * @subpackage 	Presentation
  * @since		1.1

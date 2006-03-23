@@ -16,7 +16,7 @@ jimport('phpmailer.phpmailer');
 /**
  * E-Mail Class.  Provides a common interface to send e-mail from the Joomla! Framework
  *
- * @author		Louis Landry <louis@webimagery.net>
+ * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Utilities
  * @since		1.1
@@ -318,7 +318,7 @@ class JMail extends PHPMailer
  * TODO: Test these methods as the regex work is first run and not tested thoroughly
  *
  * @static
- * @author 		Louis Landry <louis@webimagery.net>
+ * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	Utilities
  * @since		1.1

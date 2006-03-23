@@ -29,7 +29,7 @@ define("HTTP_SESSION_CONTINUED",    2);
 * This class has many influences from the PEAR HTTP_Session module
 *
 * @static
-* @author		Johan Janssens <johan@joomla.be>
+* @author		Johan Janssens <johan.janssens@joomla.org>
 * @package		Joomla.Framework
 * @subpackage	Application
 * @since		1.1

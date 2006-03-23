@@ -19,7 +19,7 @@ jimport( 'joomla.application.extension.plugin' );
 /**
  * TinyMCE WYSIWYG Editor Plugin
  *
- * @author Louis Landry <louis@webimagery.net>
+ * @author Louis Landry <louis.landry@joomla.org>
  * @package Editors
  * @since 1.1
  */

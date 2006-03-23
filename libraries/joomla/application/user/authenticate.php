@@ -16,7 +16,7 @@ jimport( 'joomla.common.base.object' );
 /**
  * Authorization class, provides an interface for the Joomla authentication system
  *
- * @author 		Louis Landry <louis@webimagery.net>
+ * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Application
  * @since		1.1
@@ -150,7 +150,7 @@ class JAuthenticate extends JObject
  * This class has influences and some method logic from the Horde Auth package
  *
  * @static
- * @author 		Louis Landry <louis@webimagery.net>
+ * @author 		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage	Application
  * @since		1.1

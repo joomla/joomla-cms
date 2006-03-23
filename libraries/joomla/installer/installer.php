@@ -17,7 +17,7 @@ jimport('joomla.common.base.object');
  * Joomla base installer class
  *
  * @abstract
- * @author		Louis Landry <louis@webimagery.net>
+ * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @since		1.1
@@ -1115,7 +1115,7 @@ class JInstaller extends JObject
  * Installer helper class
  *
  * @static
- * @author		Louis Landry <louis@webimagery.net>
+ * @author		Louis Landry <louis.landry@joomla.org>
  * @package		Joomla.Framework
  * @subpackage	Installer
  * @since		1.1
