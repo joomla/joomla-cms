@@ -33,9 +33,7 @@ $view = JRequest::getVar( 'view', 'item2' );
 
 // note: this will change to JContentController
 
-$controller = new JController();
-
-$controller->registerDefaultTask( 'display' );
+$controller = new JController( 'display' );
 
 // need to tell the controller where to look for views
 
