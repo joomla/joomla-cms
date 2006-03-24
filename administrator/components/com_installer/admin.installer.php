@@ -116,7 +116,7 @@ class JInstallerController
 			 * There was an error in installing the package
 			 */
 			$msg = sprintf(JText::_('INSTALLEXT'), $package['type'], JText::_('Error'));
-			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
+			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 			// Cleanup the install files
 			JInstallerHelper::cleanupInstall($baseDir.$userfile['name'], $package['extractdir']);
 		} else {
@@ -124,7 +124,7 @@ class JInstallerController
 			 * Package installed sucessfully
 			 */
 			$msg = sprintf(JText::_('INSTALLEXT'), $package['type'], JText::_('Success'));
-			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
+			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 			// Cleanup the install files
 			JInstallerHelper::cleanupInstall($baseDir.$userfile['name'], $package['extractdir']);
 		}
@@ -187,13 +187,13 @@ class JInstallerController
 			 * There was an error in installing the package
 			 */
 			$msg = sprintf(JText::_('INSTALLEXT'), $package['type'], JText::_('Error'));
-			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
+			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 		} else {
 			/*
 			 * Package installed sucessfully
 			 */
 			$msg = sprintf(JText::_('INSTALLEXT'), $package['type'], JText::_('Success'));
-			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
+			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 		}
 	}
 
@@ -267,7 +267,7 @@ class JInstallerController
 			 * There was an error in installing the package
 			 */
 			$msg = sprintf(JText::_('INSTALLEXT'), $package['type'], JText::_('Error'));
-			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
+			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 			// Cleanup the install files
 			JInstallerHelper::cleanupInstall($p_file, $package['extractdir']);
 		} else {
@@ -275,7 +275,7 @@ class JInstallerController
 			 * Package installed sucessfully
 			 */
 			$msg = sprintf(JText::_('INSTALLEXT'), $package['type'], JText::_('Success'));
-			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
+			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 			// Cleanup the install files
 			JInstallerHelper::cleanupInstall($p_file, $package['extractdir']);
 		}
@@ -480,13 +480,13 @@ class JInstallerController
 			 * There was an error in uninstalling the package
 			 */
 			$msg = sprintf(JText::_('UNINSTALLEXT'), $extension, JText::_('Error'));
-			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
+			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 		} else {
 			/*
 			 * Package uninstalled sucessfully
 			 */
 			$msg = sprintf(JText::_('UNINSTALLEXT'), $extension, JText::_('Success'));
-			JInstallerScreens::showInstallMessage($msg, $installer->i_description, $installer->i_message);
+			JInstallerScreens::showInstallMessage($msg, $installer->description, $installer->message);
 		}
 	}
 
