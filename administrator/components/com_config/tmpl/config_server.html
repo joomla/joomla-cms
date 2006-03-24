@@ -1,0 +1,64 @@
+<table class="adminform">
+<thead>
+	<tr>
+		<th colspan="2">
+			<?php echo JText::_( 'Server Settings' ); ?>:
+		</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td width="185">
+			<?php echo JText::_( 'Secret Word' ); ?>:
+		</td>
+		<td>
+			<strong><?php echo $row->secret; ?></strong>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<span class="editlinktip">
+			<?php
+			$tip = JText::_( 'Compress buffered output if supported' );
+			echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'GZIP Page Compression' ), '', 0 );
+			?>
+			:				
+			</span>
+		</td>
+		<td>
+			<?php echo $lists['gzip']; ?>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<span class="editlinktip">
+			<?php
+			$tip = JText::_( 'TIPAUTOLOGOUTTIMEOF' );
+			echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Login Session Lifetime' ), '', 0 );
+			?>
+			:				
+			</span>
+		</td>
+		<td>
+			<input class="text_area" type="text" name="lifetime" size="10" value="<?php echo $row->lifetime; ?>" />
+			&nbsp;<?php echo JText::_('seconds'); ?>&nbsp;
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<?php echo JText::_( 'Error Reporting' ); ?>:
+		</td>
+		<td>
+			<?php echo $lists['error_reporting']; ?>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<?php echo JText::_( 'Enable XML-RPC' ); ?>:
+		</td>
+		<td>
+			<?php echo $lists['xmlrpc_server']; ?>
+		</td>
+	</tr>
+</tbody>
+</table>

@@ -1,0 +1,30 @@
+<table class="adminform">
+<thead>
+<tr>
+	<th colspan="2">
+		<?php echo JText::_( 'SEO Settings' ); ?>:
+	</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td colspan="2">
+		<strong><?php echo JText::_( 'Search Engine Optimization Settings' ); ?></strong>
+	</td>
+</tr>
+<tr>
+	<td width="185">
+		<?php echo JText::_( 'Search Engine Friendly URLs' ); ?>:
+	</td>
+	<td>
+		<?php echo $lists['sef']; ?>
+		<span class="error">
+		<?php
+			$tip = JText::_( 'WARNAPACHEONLY', true );
+			echo mosHTML::WarningIcon( $tip ); 
+		?>
+		</span>
+	</td>
+</tr>
+</tbody>
+</table>

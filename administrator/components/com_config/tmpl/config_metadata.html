@@ -1,0 +1,55 @@
+<table class="adminform">
+<thead>
+<tr>
+	<th colspan="2">
+		<?php echo JText::_( 'Metadata Settings' ); ?>:
+	</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td width="185" valign="top">
+		<?php echo JText::_( 'Global Site Meta Description' ); ?>:
+	</td>
+	<td>
+		<textarea class="text_area" cols="50" rows="3" style="width:500px; height:50px" name="MetaDesc"><?php echo htmlspecialchars($row->MetaDesc, ENT_QUOTES); ?></textarea>
+	</td>
+</tr>
+<tr>
+	<td valign="top">
+		<?php echo JText::_( 'Global Site Meta Keywords' ); ?>:
+	</td>
+	<td>
+		<textarea class="text_area" cols="50" rows="3" style="width:500px; height:50px" name="MetaKeys"><?php echo htmlspecialchars($row->MetaKeys, ENT_QUOTES); ?></textarea>
+	</td>
+</tr>
+<tr>
+	<td valign="top">
+	<span class="editlinktip">
+	<?php
+		$tip = JText::_( 'TIPSHOWTITLEMETATAGITEMS' );
+		echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Show Title Meta Tag' ), '', 0 );
+		?>
+		:				
+	</span>
+	</td>
+	<td>
+		<?php echo $lists['MetaTitle']; ?>
+	</td>
+</tr>
+<tr>
+	<td valign="top">
+		<span class="editlinktip">
+		<?php
+			$tip = JText::_( 'TIPSHOWAUTHORMETATAGITEMS' );
+			echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Show Author Meta Tag' ), '', 0 );
+		?>
+		:				
+		</span>
+	</td>
+	<td>
+		<?php echo $lists['MetaAuthor']; ?>
+	</td>
+</tr>
+</tbody>
+</table>

@@ -1,0 +1,59 @@
+<table class="adminform">
+<thead>
+<tr>
+	<th colspan="2">
+		<?php echo JText::_( 'FTP Settings' ); ?>:
+	</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td width="185">
+		<?php echo JText::_( 'Enable FTP' ); ?>:
+	</td>
+	<td>
+		<?php echo $lists['enable_ftp']; ?>
+	</td>
+</tr>
+<tr>
+	<td>
+		<?php echo JText::_( 'FTP Host' ); ?>:
+	</td>
+	<td>
+		<input class="text_area" type="text" name="ftp_host" size="25" value="<?php echo $row->ftp_host; ?>" />
+	</td>
+</tr>
+<tr>
+	<td>
+		<?php echo JText::_( 'FTP Port' ); ?>:
+	</td>
+	<td>
+		<input class="text_area" type="text" name="ftp_port" size="25" value="<?php echo $row->ftp_port; ?>" />
+	</td>
+</tr>
+<tr>
+	<td>
+		<?php echo JText::_( 'FTP Username' ); ?>:
+	</td>
+	<td>
+		<input class="text_area" type="text" name="ftp_user" size="25" value="<?php echo $row->ftp_user; ?>" />
+	</td>
+</tr>
+<tr>
+	<td>
+		<?php echo JText::_( 'FTP Password' ); ?>:
+	</td>
+	<td>
+		<input class="text_area" type="password" name="ftp_pass" size="25" value="<?php echo $row->ftp_pass; ?>" />
+	</td>
+</tr>
+<tr>
+	<td>
+		<?php echo JText::_( 'FTP Root' ); ?>:
+	</td>
+	<td>
+		<input class="text_area" type="text" name="ftp_root" size="50" value="<?php echo $row->ftp_root; ?>" />
+	</td>
+</tr>
+</tbody>
+</table>

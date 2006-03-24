@@ -1,0 +1,56 @@
+<fieldset title="Navigation">
+<legend>
+	<?php echo JText::_( 'Configuration' ); ?>	
+</legend>
+<ul id="menu-tree">
+	<li><a id="site"><?php echo JText::_( 'Site' ); ?></a>
+		<ul>
+			<li><a id="debug"><?php echo JText::_( 'Debug' ); ?></a></li>
+			<li><a id="user"><?php echo JText::_( 'Users' ); ?></a></li>
+			<li><a id="metadata"><?php echo JText::_( 'Metadata' ); ?></a></li>
+			<li><a id="statistics"><?php echo JText::_( 'Statistics' ); ?></a></li>
+			<li><a id="seo"><?php echo JText::_( 'SEO' ); ?></a></li>
+			<li><a id="content"><?php echo JText::_( 'Content' ); ?></a></li>
+		</ul>
+	</li>
+	<li><a id="server"><?php echo JText::_( 'Server' ); ?></a>
+		<ul>
+			<li><a id="database"><?php echo JText::_( 'Database' ); ?></li></a>
+			<li><a id="ftp"><?php echo JText::_( 'FTP' ); ?></li></a>
+			<li><a id="locale"><?php echo JText::_( 'Locale' ); ?></li></a>
+			<li><a id="mail"><?php echo JText::_( 'Mail' ); ?></li></a>
+			<li><a id="cache"><?php echo JText::_( 'Cache' ); ?></li></a>
+		</ul>
+	</li>
+</ul>
+</fieldset>
+<fieldset title="File Status">
+<legend>
+	<?php echo JText::_( 'File Status' ); ?>	
+</legend>
+<span class="small">
+<?php
+	if (JPath::canCHMOD( JPATH_CONFIGURATION . DS . 'configuration.php' )) {
+	if (is_writable( JPATH_CONFIGURATION . DS . 'configuration.php')) {
+?>
+	<label for="disable_write">
+		<?php echo JText::_( 'Make unwriteable after saving' ); ?>
+	</label>
+	<input type="checkbox" id="disable_write" name="disable_write" value="1" />
+<?php
+} else {
+?>
+	<label for="enable_write">
+		<?php echo JText::_( 'Override write protection while saving' ); ?>
+	</label>
+	<input type="checkbox" id="enable_write" name="enable_write" value="1" />
+<?php
+} 
+} 
+?>
+</span>
+<span class="small">
+<?php echo JText::_( 'configuration.php' ); ?> :							
+<?php echo is_writable( JPATH_CONFIGURATION . DS . 'configuration.php' ) ? '<b><font color="green"> '. JText::_( 'Writeable' ) .'</font></b>' : '<b><font color="red"> '. JText::_( 'Unwriteable' ) .'</font></b>' ?>
+</span>	
+</fieldset>

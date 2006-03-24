@@ -1,0 +1,85 @@
+<table class="adminform">
+<thead>
+	<tr>
+		<th colspan="2">
+			<?php echo JText::_( 'Site Settings' ); ?>:
+		</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td width="185">
+		<?php echo JText::_( 'Site Offline' ); ?>:
+		</td>
+		<td>
+		<?php echo $lists['offline']; ?>
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<span class="editlinktip">
+			<?php
+			$tip = JText::_( 'TIPIFYOURSITEISOFFLINE' );
+			echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Offline Message' ), '', 0 );
+			?>
+			:				
+			</span>
+		</td>
+		<td>
+			<textarea class="text_area" cols="60" rows="2" style="width:500px; height:40px" name="offline_message"><?php echo htmlspecialchars( stripslashes( $row->offline_message ), ENT_QUOTES); ?></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			<span class="editlinktip">
+			<?php
+			$tip = JText::_( 'TIPCOULDNOTCONNECTDB' );
+			echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'System Error Message' ), '', 0 );
+			?>
+			:				
+			</span>
+		</td>
+		<td>
+			<textarea class="text_area" cols="60" rows="2" style="width:500px; height:40px" name="error_message"><?php echo htmlspecialchars( stripslashes( $row->error_message ), ENT_QUOTES); ?></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<?php echo JText::_( 'Site Name' ); ?>:
+		</td>
+		<td>
+			<input class="text_area" type="text" name="sitename" size="50" value="<?php echo $row->sitename; ?>" />
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<?php echo JText::_( 'Default WYSIWYG Editor' ); ?>:
+		</td>
+		<td>
+			<?php echo $lists['editor']; ?>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<span class="editlinktip">
+			<?php
+				$tip = JText::_( 'TIPSETSDEFAULTLENGTHLISTS' );
+				echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'List Length' ), '', 0 );
+			?>
+			:				
+			</span>
+		</td>
+		<td>
+			<?php echo $lists['list_limit']; ?>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<?php echo JText::_( 'Help Server' ); ?>:
+		</td>
+		<td>
+			<?php echo $lists['helpsites']; ?>
+		</td>
+	</tr>
+</tbody>
+</table>

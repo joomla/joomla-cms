@@ -1,0 +1,67 @@
+<table class="adminform">
+<thead>
+<tr>
+	<th colspan="2">
+		<?php echo JText::_( 'User Settings' ); ?>:
+	</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td width="185">
+		<span class="editlinktip">
+		<?php
+		$tip = JText::_( 'If yes, allows users to self-register' );
+		echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Allow User Registration' ), '', 0 );
+		?>
+		:				
+		</span>
+	</td>
+	<td>
+		<?php echo $lists['allowUserRegistration']; ?>
+	</td>
+</tr>
+<tr>
+	<td>
+		<span class="editlinktip">
+		<?php
+		$tip = JText::_( 'TIPIFYESUSERMAILEDLINK' );
+		echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Use New Account Activation' ), '', 0 );
+		?>
+		:				
+		</span>
+	</td>
+	<td>
+		<?php echo $lists['useractivation']; ?>
+	</td>
+</tr>
+<tr>
+	<td>
+		<span class="editlinktip">
+		<?php
+		$tip = JText::_( 'TIPIFYESUSERSCANNOTSHAREEMAIL' );
+		echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Require Unique Email' ), '', 0 );
+		?>
+		:				
+		</span>
+	</td>
+	<td>
+		<?php echo $lists['uniquemail']; ?>
+	</td>
+</tr>
+<tr>
+	<td>
+		<span class="editlinktip">
+		<?php
+		$tip = JText::_( 'TIPLINKS' );
+		echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Show UnAuthorized Links' ), '', 0 );
+		?>
+		:				
+		</span>
+	</td>
+	<td>
+		<?php echo $lists['shownoauth']; ?>
+	</td>
+</tr>
+</tbody>
+</table>

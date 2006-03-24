@@ -1,0 +1,56 @@
+<table class="adminform" border="0">
+<thead>
+<tr>
+	<th colspan="2">
+		<?php echo JText::_( 'Cache Settings' ); ?>:
+	</th>
+</tr>
+</thead>
+<tbody>
+<?php
+	if (is_writeable($row->cachepath)) {
+?>
+<tr>
+	<td>
+		<?php echo JText::_( 'Caching' ); ?>:
+	</td>
+	<td>
+		<?php echo $lists['caching']; ?>
+	</td>
+</tr>
+<?php
+}
+?>
+<tr>
+	<td width="185">
+		<span class="editlinktip">
+		<?php
+			if (is_writeable($row->cachepath)) {
+				$tip = JText::_( 'TIPDIRWRITEABLE' );
+			}
+			echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Cache Folder' ), '', 0 );
+			?>
+			:				
+		</span>
+	</td>
+	<td>
+		<input class="text_area" type="text" name="cachepath" size="50" value="<?php echo $row->cachepath; ?>" />
+		<?php
+			if (!is_writeable($row->cachepath)) {
+				$warn = JText::_( 'TIPCACHEDIRISUNWRITEABLE', true );
+				echo mosHTML::WarningIcon( $warn );
+			}
+		?>
+	</td>
+</tr>
+<tr>
+	<td>
+		<?php echo JText::_( 'Cache Time' ); ?>:
+	</td>
+	<td>
+		<input class="text_area" type="text" name="cachetime" size="5" value="<?php echo $row->cachetime; ?>" /> 
+			<?php echo JText::_( 'seconds' ); ?>
+	</td>
+</tr>
+</tbody>
+</table>

@@ -61,7 +61,7 @@ jimport( 'joomla.common.base.object' );
  * print $xml->asXML();
  *
  * // access a given node's CDATA
- * print $xml->root->node->child[0]->CDATA(); // Tom Foo
+ * print $xml->root->node->child[0]->data(); // Tom Foo
  *
  * // access attributes
  * $attr = $xml->root->node->child[1]->attributes();
@@ -473,15 +473,6 @@ class JSimpleXMLElement extends JObject
         //create an empty array for it
         if(!isset($this->$name))
             $this->$name = array();
-
-        //If the tag has the same name as a member in JSimpleXMLElement, or somehow the 
-        //array wasn't properly created, output a more informative error than
-        //PHP otherwise would.
-        if(!is_array($this->$name))
-        {
-            trigger_error('You have used a reserved name as the name of an XML tag. Please rename the tag named '.$name.' to something other than a reserved name.', E_USER_ERROR);
-            return;
-        }
 
         //Create the child object itself
         $child = new JSimpleXMLElement($name, $attrs, $level);

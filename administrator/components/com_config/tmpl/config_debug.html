@@ -1,0 +1,55 @@
+<table class="adminform">
+<thead>
+<tr>
+	<th colspan="2">
+		<?php echo JText::_( 'Debug Settings' ); ?>:
+	</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td width="185">
+		<span class="editlinktip">
+		<?php
+			$tip = JText::_( 'TIPDEBUGGINGINFO' );
+			echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Enable Debugging' ), '', 0 );
+		?>
+		:				
+		</span>
+	</td>
+	<td>
+		<?php echo $lists['debug']; ?>
+	</td>
+</tr>
+<tr>
+	<td>
+		<?php echo JText::_( 'Debug Database' ); ?>:
+	</td>
+	<td>
+		<?php echo $lists['debug_db']; ?>
+	</td>
+</tr>
+<tr>
+	<td>
+		<span class="editlinktip">
+		<?php
+			$tip = JText::_( 'TIPLOGGINGINFO' );
+			echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Enable Logging' ), '', 0 );
+		?>
+		:				
+		</span>
+	</td>
+	<td>
+		<?php echo $lists['log']; ?>
+	</td>
+</tr>
+<tr>
+	<td>
+		<?php echo JText::_( 'Log Database' ); ?>:
+	</td>
+	<td>
+		<?php echo $lists['log_db']; ?>
+	</td>
+</tr>
+</tbody>
+</table>

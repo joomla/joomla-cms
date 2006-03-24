@@ -1,0 +1,33 @@
+<table class="adminform">
+<thead>
+<tr>
+	<th colspan="2">
+		<?php echo JText::_( 'Locale Settings' ); ?>:
+	</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td width="185">
+		<span class="editlinktip">
+		<?php
+			$tip = JText::_( 'Current date/time configured to display' ) .': '. mosCurrentDate( JText::_( '_DATE_FORMAT_LC2' ) );
+			echo mosToolTip( $tip, '', 280, 'tooltip.png', JText::_( 'Time Offset' ), '', 0 );
+		?>
+		:				
+		</span>
+	</td>
+	<td>
+		<?php echo $lists['offset']; ?>
+	</td>
+</tr>
+<tr>
+	<td width="185">
+		<?php echo JText::_( 'Server Offset' ); ?>:
+	</td>
+	<td>
+		<input class="text_area" type="text" name="offset" size="15" value="<?php echo $row->offset; ?>" disabled="disabled" />
+	</td>
+</tr>
+</tbody>
+</table>
