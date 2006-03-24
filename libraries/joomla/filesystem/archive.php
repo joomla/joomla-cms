@@ -22,7 +22,7 @@ if (!defined('DS')) {
  * @static
  * @package 	Joomla.Framework
  * @subpackage 	FileSystem
- * @since		1.1
+ * @since		1.5
  */
 class JArchive {
 	/**

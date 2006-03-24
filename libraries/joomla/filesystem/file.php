@@ -20,18 +20,18 @@ if (!defined('DS')) {
  * A File handling class
  *
  * @static
+ * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	FileSystem
- * @since		1.1
+ * @since		1.5
  */
 class JFile {
-
 	/**
 	 * Gets the extension of a file name
 	 *
 	 * @param string $file The file name
 	 * @return string The file extension
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function getExt($file) {
 		$dot = strrpos($file, '.') + 1;
@@ -43,7 +43,7 @@ class JFile {
 	 *
 	 * @param string $file The file name
 	 * @return string The file name without the extension
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function stripExt($file) {
 		return preg_replace('#\.[^.]*$#', '', $file);
@@ -54,7 +54,7 @@ class JFile {
 	 *
 	 * @param string $file The name of the file [not full path]
 	 * @return string The sanitised string
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function makeSafe($file) {
 		$regex = '#\.\.[^A-Za-z0-9\.\_\- ]#';
@@ -68,15 +68,14 @@ class JFile {
 	 * @param string $dest The path to the destination file
 	 * @param string $path An optional base path to prefix to the file names
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function copy($src, $dest, $path = null) {
 		global $mainframe;
 
 		// Initialize variables
-		$ftpFlag = false;
-		$ftpRoot = $mainframe->getCfg('ftp_root');
-
+		$ftpFlag	= true;
+		$ftpRoot	= $mainframe->getCfg('ftp_root');
 
 		// Prepend a base path if it exists
 		if ($path) {
@@ -90,21 +89,8 @@ class JFile {
 
 		//Check src path
 		if (!is_readable($src)) {
-			JError::raiseWarning( 21, 'JFile::copy: '. JText::_('Cannot find or read file: '.$src));
+			JError::raiseWarning(21, 'JFile::copy: '.JText::_('Cannot find or read file: '.$src));
 			return false;
-		}
-
-		/*
-		 * If the file exists but isn't writable OR if the file doesn't exist
-		 * and the parent directory is not writable we need to use FTP
-		 */
-		if ((file_exists($dest) && !is_writable($dest)) || (!file_exists($dest) && !is_writable(dirname($dest)))) {
-			$ftpFlag = true;
-		}
-
-		// Check for safe mode
-		if (ini_get('safe_mode')) {
-			$ftpFlag = true;
 		}
 
 		// Do NOT use ftp if it is not enabled
@@ -116,7 +102,7 @@ class JFile {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
 			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'), $mainframe->getCfg('ftp_port'));
-			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
+			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
 
 			// If the parent folder doesn't exist we must create it
 			if (!file_exists(dirname($dest))) {
@@ -125,17 +111,15 @@ class JFile {
 
 			//Translate the destination path for the FTP account
 			$dest = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $dest), false);
-
 			if (!$ftp->store($src, $dest)) {
 				// FTP connector throws an error
 				return false;
 			}
 			$ftp->quit();
-
 			$ret = true;
 		} else {
 			if (!@ copy($src, $dest)) {
-				JError::raiseWarning( 21, JText::_('Copy failed'));
+				JError::raiseWarning(21, JText::_('Copy failed'));
 				return false;
 			}
 			$ret = true;
@@ -148,14 +132,14 @@ class JFile {
 	 *
 	 * @param mixed $file The file name or an array of file names
 	 * @return boolean  True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function delete($file) {
 		global $mainframe;
 
 		// Initialize variables
-		$ftpFlag = false;
-		$ftpRoot = $mainframe->getCfg('ftp_root');
+		$ftpFlag	= true;
+		$ftpRoot	= $mainframe->getCfg('ftp_root');
 
 		if (is_array($file)) {
 			$files = $file;
@@ -163,40 +147,32 @@ class JFile {
 			$files[] = $file;
 		}
 
-		// Check for safe mode
-		if (ini_get('safe_mode')) {
-			$ftpFlag = true;
-		}
-
 		// Do NOT use ftp if it is not enabled
-		if ($mainframe->getCfg('ftp_enable') == 1) {
+		if ($mainframe->getCfg('ftp_enable') != 1) {
+			$ftpFlag = false;
+		} else {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
 			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'), $mainframe->getCfg('ftp_port'));
-			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
-			$enabled = true;
-		} else {
-			$enabled = false;
-			$ftpFlag = false;
+			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
 		}
 
 		$retval = true;
 		foreach ($files as $file) {
 			$file = JPath::clean($file, false);
 			JPath::check($file);
-
-			if (($enabled == true && !is_writable($file)) || $ftpFlag == true) {
+			if ($ftpFlag) {
 				$fail = !$ftp->delete(JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $file)));
 			} else {
 				$fail = !unlink($file);
 			}
-			
 			if ($fail) {
 				$retval = false;
 			}
 		}
 
-		if ($enabled) {
+		// Close FTP connection if connected
+		if ($ftpFlag) {
 			$ftp->quit();
 		}
 		return $retval;
@@ -209,39 +185,25 @@ class JFile {
 	 * @param string $dest The path to the destination file
 	 * @param string $path An optional base path to prefix to the file names
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function move($src, $dest, $path = '') {
 		global $mainframe;
 
 		// Initialize variables
-		$ftpFlag = false;
-		$ftpRoot = $mainframe->getCfg('ftp_root');
+		$ftpFlag	= true;
+		$ftpRoot	= $mainframe->getCfg('ftp_root');
 
 		if ($path) {
 			$src = JPath::clean($path.$src, false);
 			$dest = JPath::clean($path.$dest, false);
 		}
-
 		JPath::check($src);
 		JPath::check($dest);
 
 		//Check src path
 		if (!is_readable($src) && !is_writable($src)) {
 			return JText::_('Cannot find source file');
-		}
-
-		/*
-		 * If the file exists but isn't writable OR if the file doesn't exist
-		 * and the parent directory is not writable we need to use FTP
-		 */
-		if ((file_exists($dest) && !is_writable($dest)) || (!file_exists($dest) && !is_writable(dirname($dest)))) {
-			$ftpFlag = true;
-		}
-
-		// Check for safe mode
-		if (ini_get('safe_mode')) {
-			$ftpFlag = true;
 		}
 
 		// Do NOT use ftp if it is not enabled
@@ -253,7 +215,7 @@ class JFile {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
 			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'), $mainframe->getCfg('ftp_port'));
-			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
+			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
 
 			//Translate path for the FTP account
 			$src = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $src), false);
@@ -261,15 +223,14 @@ class JFile {
 
 			// Use FTP rename to simulate move
 			if (!$ftp->rename($src, $dest)) {
-				JError::raiseWarning( 21, JText::_('Rename failed'));
-				return false; 
+				JError::raiseWarning(21, JText::_('Rename failed'));
+				return false;
 			}
 			$ftp->quit();
-
 		} else {
 			if (!@ rename($src, $dest)) {
-				JError::raiseWarning( 21, JText::_('Rename failed'));
-				return false; 
+				JError::raiseWarning(21, JText::_('Rename failed'));
+				return false;
 			}
 		}
 		return true;
@@ -281,15 +242,15 @@ class JFile {
 	 * @param string $filename The full file path
 	 * @param boolean $incpath Use include path
 	 * @return mixed Returns file contents or boolean False if failed
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function read($filename, $incpath = false) {
 		global $mainframe;
 
 		// Initialize variables
-		$ftpFlag = false;
-		$ftpRoot = $mainframe->getCfg('ftp_root');
-		$data = null;
+		$ftpFlag	= false;
+		$ftpRoot	= $mainframe->getCfg('ftp_root');
+		$data		= null;
 
 		/*
 		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
@@ -313,12 +274,11 @@ class JFile {
 		if ($mainframe->getCfg('ftp_enable') != 1) {
 			$ftpFlag = false;
 		}
-
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
 			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'), $mainframe->getCfg('ftp_port'));
-			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
+			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
 
 			//Translate path for the FTP account
 			$file = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $filename), false);
@@ -327,15 +287,12 @@ class JFile {
 			if (!$ftp->read($file, $data)) {
 				$ret = false;
 			}
-
 			$ret = true;
 		} else {
-
 			if (false === $fh = fopen($filename, 'rb', $incpath)) {
-				JError::raiseWarning( 21, 'JFile::read: '. JText::_( 'Unable to open file ').$filename);
+				JError::raiseWarning(21, 'JFile::read: '.JText::_('Unable to open file ').$filename);
 				return false;
 			}
-
 			clearstatcache();
 			if ($fsize = @ filesize($filename)) {
 				$data = fread($fh, $fsize);
@@ -345,10 +302,8 @@ class JFile {
 					$data .= fread($fh, 8192);
 				}
 			}
-
 			fclose($fh);
 		}
-		
 		return $data;
 	}
 
@@ -358,29 +313,15 @@ class JFile {
 	 * @param string $file The full file path
 	 * @param string $buffer The buffer to write
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function write($file, $buffer) {
 		global $mainframe;
 
 		// Initialize variables
-		$ftpFlag = false;
-		$ftpRoot = $mainframe->getCfg('ftp_root');
-
+		$ftpFlag	= true;
+		$ftpRoot	= $mainframe->getCfg('ftp_root');
 		JPath::check($file);
-
-		/*
-		 * If the file exists but isn't writable OR if the file doesn't exist
-		 * and the parent directory is not writable we need to use FTP
-		 */
-		if ((file_exists($file) && !is_writable($file)) || (!file_exists($file) && !is_writable(dirname($file)))) {
-			$ftpFlag = true;
-		}
-
-		// Check for safe mode
-		if (ini_get('safe_mode')) {
-			$ftpFlag = true;
-		}
 
 		// Do NOT use ftp if it is not enabled
 		if ($mainframe->getCfg('ftp_enable') != 1) {
@@ -391,7 +332,7 @@ class JFile {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
 			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'), $mainframe->getCfg('ftp_port'));
-			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
+			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
 
 			// If the destination directory doesn't exist we need to create it
 			if (!file_exists(dirname($file))) {
@@ -405,13 +346,11 @@ class JFile {
 			if (!$ftp->write($file, $buffer)) {
 				$ret = false;
 			}
-
 			$ftp->quit();
 			$ret = true;
 		} else {
 			$ret = file_put_contents($file, $buffer);
 		}
-
 		return $ret;
 	}
 
@@ -419,53 +358,29 @@ class JFile {
 	 * Moves and uploaded file to a destination folder
 	 * 
 	 * @param string $src The name of the php (temporary) uploaded file
-	 * @param string $dest The path (including filename) to move the uploaded
-	 * file to
+	 * @param string $dest The path (including filename) to move the uploaded file to
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function upload($src, $dest) {
 		global $mainframe;
 
 		// Initialize variables
-		$ftpFlag = false;
-		$ftpRoot = $mainframe->getCfg('ftp_root');
-		$ret = false;
+		$ftpFlag	= true;
+		$ftpRoot	= $mainframe->getCfg('ftp_root');
+		$ret			= false;
 
-		/*
-		 * Prepare the destination path as well as verify that the detination
-		 * path is in the Joomla Root
-		 */
+		// Ensure that the path is valid and clean
 		$dest = JPath::clean($dest, false);
 		JPath::check($dest);
 
-		/*
-		 * If the destination directory does not exist, we need to create it.
-		 */
+		// Create the destination directory if it does not exist
 		$baseDir = dirname($dest);
 		if (!file_exists($baseDir)) {
 			JFolder::create($baseDir);
 		}
 
-		/*
-		 * If the destination file exists but isn't writable OR if the file
-		 * doesn't exist and the parent directory is not writable we need to use
-		 * FTP
-		 */
-		if ((file_exists($dest) && !is_writable($dest)) || (!file_exists($dest) && !is_writable(dirname($dest)))) {
-			$ftpFlag = true;
-		}
-
-		/*
-		 * Oh, and use ftp if we are in safe mode...
-		 */
-		if (ini_get('safe_mode')) {
-			$ftpFlag = true;
-		}
-
-		/*
-		 * But, not if it is not enabled...
-		 */
+		// do NOT use FTP if it is not enabled
 		if ($mainframe->getCfg('ftp_enable') != 1) {
 			$ftpFlag = false;
 		}
@@ -474,30 +389,27 @@ class JFile {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
 			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'), $mainframe->getCfg('ftp_port'));
-			$ftp->login($mainframe->getCfg('ftp_user'),$mainframe->getCfg('ftp_pass'));
+			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
 
 			//Translate path for the FTP account
 			$dest = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $dest), false);
 
-			/*
-			 * Copy the file to the destination directory
-			 */
+			// Copy the file to the destination directory
 			if ($ftp->store($src, $dest)) {
 				$ret = true;
 			} else {
-				JError::raiseWarning( 21, JText::_('WARNFS_ERR02'));
+				JError::raiseWarning(21, JText::_('WARNFS_ERR02'));
 			}
 			$ftp->quit();
-
 		} else {
 			if (move_uploaded_file($src, $dest)) {
 				if (JPath::setPermissions($dest)) {
 					$ret = true;
 				} else {
-					JError::raiseWarning( 21, JText::_('WARNFS_ERR01'));
+					JError::raiseWarning(21, JText::_('WARNFS_ERR01'));
 				}
 			} else {
-				JError::raiseWarning( 21, JText::_('WARNFS_ERR02'));
+				JError::raiseWarning(21, JText::_('WARNFS_ERR02'));
 			}
 		}
 		return $ret;
@@ -508,7 +420,7 @@ class JFile {
 	 *
 	 * @param string $file File path
 	 * @return boolean True if path is a file
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function exists($file) {
 		$file = JPath::clean($file, false);

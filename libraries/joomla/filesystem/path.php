@@ -32,7 +32,7 @@ if (!defined('JPATH_ROOT')) {
  * @static
  * @package 	Joomla.Framework
  * @subpackage 	FileSystem
- * @since		1.1
+ * @since		1.5
  */
 class JPath {
 
@@ -41,7 +41,7 @@ class JPath {
 	 *
 	 * @param string $path Path to check
 	 * @return boolean True if path can have mode changed
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function canChmod($path) {
 		$perms = fileperms($path);
@@ -60,7 +60,7 @@ class JPath {
 	 * @param string $filemode Octal representation of the value to change file mode to [null = no change]
 	 * @param string $foldermode Octal representation of the value to change folder mode to [null = no change]
 	 * @return boolean True if successful [one fail means the whole operation failed]
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function setPermissions($path, $filemode = '0644', $foldermode = '0755') {
 
@@ -102,7 +102,7 @@ class JPath {
 	 *
 	 * @param string $path The path of a file/folder
 	 * @return string Filesystem permissions
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function getPermissions($path) {
 		$path = JPath::clean($path, false);
@@ -134,7 +134,7 @@ class JPath {
 	 * Checks for snooping outside of the file system root
 	 *
 	 * @param string $path A file system path to check
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function check($path) {
 		if (strpos($path, '..') != false) {
@@ -153,7 +153,7 @@ class JPath {
 	 * @param string $p_path The path to clean
 	 * @param boolean $p_addtrailingslash True if the function shoul add a trailing slash
 	 * @return string The cleaned path
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function clean($p_path, $p_addtrailingslash = true) {
 		$retval = '';
@@ -187,7 +187,7 @@ class JPath {
 	 * @static
 	 * @param string $path Path to check ownership
 	 * @return boolean True if the php script owns the path passed
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function isOwner($path) {
 		return (posix_getuid() == fileowner($path));

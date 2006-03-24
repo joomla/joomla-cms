@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @version $Id$
  * @package Joomla
@@ -21,39 +20,35 @@ if (!defined('DS')) {
  * A Folder handling class
  *
  * @static
+ * @author		Louis Landry <louis.landry@joomla.org>
  * @package 	Joomla.Framework
  * @subpackage 	FileSystem
- * @since		1.1
+ * @since		1.5
  */
 class JFolder {
-
 	/**
 	 * Create a folder -- and all necessary parent folders
 	 *
 	 * @param string $path A path to create from the base path
 	 * @param int $mode Directory permissions to set for folders created
 	 * @return boolean True if successful
-	 * @since 1.1
+	 * @since 1.5
 	 */
 	function create($path = '', $mode = 0755)
 	{
 		global $mainframe;
 
 		// Initialize variables
-		$ftpFlag = false;
-		$ftpRoot = $mainframe->getCfg('ftp_root');
+		$ftpFlag	= true;
+		$ftpRoot	= $mainframe->getCfg('ftp_root');
 
+		// Check to make sure the path valid and clean
 		JPath::check($path);
 		$path = JPath::clean($path, false);
 
 		// Check if dir already exists
 		if (JFolder::exists($path)) {
 			return true;
-		}
-
-		// Check for safe mode
-		if (ini_get('safe_mode')) {
-			$ftpFlag = true;
 		}
 
 		// Do NOT use ftp if it is not enabled
@@ -71,19 +66,17 @@ class JFolder {
 
 			// Translate path to FTP path
 			$path = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path), false);
-
 			if (!$ftp->mkdir($path)) {
 				$ret = false;
 			}
 			if (!$ftp->chmod($path, $mode)) {
 				$ret = false;
 			}
-
 			$ftp->quit();
 		} else {
 			// First set umask
 			$origmask = @ umask(0);
-	
+
 			// We need to get and explode the open_basedir paths
 			$obd = ini_get('open_basedir');
 
@@ -105,44 +98,37 @@ class JFolder {
 						break;
 					}
 				}
-
 				if ($inOBD == false) {
 					// Return false for JFolder::create because the path to be created is not in open_basedir
 					return false;
 				}
 			}
-
 			// Just to make sure
 			$inOBD = true;
 
 			$dir = $path;
-			while ($dir != dirname($dir))
-			{
+			while ($dir != dirname($dir)) {
 				$dir = $path;
 				while (!@ mkdir($dir, $mode)) {
 					$dir = dirname($dir);
-
 					if ($obd != null) {
 						if (strpos($dir, $obdpath) === false) {
 							$inOBD = false;
 							break 2;
 						}
 					}
-					if ($dir == dirname($dir))
-					{
+					if ($dir == dirname($dir)) {
 						break;
 					}
-					if (is_dir($dir)){
+					if (is_dir($dir)) {
 						// Reset umask
-						@ umask($origmask);
-						return false;
+						//	@ umask($origmask);
+						//	return false;
 					}
 				}
 			}
-
 			// Reset umask
 			@ umask($origmask);
-
 			// If there is no open_basedir restriction this should always be true
 			if ($inOBD == false) {
 				// Return false for JFolder::create -- could not create path without violating open_basedir restrictions
@@ -151,7 +137,6 @@ class JFolder {
 				$ret = true;
 			}
 		}
-
 		return $ret;
 	}
 
@@ -160,25 +145,20 @@ class JFolder {
 	 *
 	 * @param string $path The path to the folder to delete
 	 * @return boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
-	function delete($path)
-	{
+	function delete($path) {
 		global $mainframe;
 
 		// Initialize variables
-		$ftpFlag = false;
-		$ftpRoot = $mainframe->getCfg('ftp_root');
+		$ftpFlag	= true;
+		$ftpRoot	= $mainframe->getCfg('ftp_root');
 
-		/*
-		 * Make sure that the path given is a valid Joomla path
-		 */
+		// Check to make sure the path valid and clean
 		$path = JPath::clean($path);
 		JPath::check($path);
 
-		/*
-		 * Make sure that the path given to delete is in fact a folder
-		 */
+		// Is this really a folder?
 		if (!is_dir($path)) {
 			JError::raiseWarning(21, 'JFolder::delete: Path is not a folder: '.$path);
 			return false;
@@ -189,21 +169,10 @@ class JFolder {
 		if (count($files)) {
 			JFile::delete($files);
 		}
-
 		// Remove sub-folders of folder
 		$folders = JFolder::folders($path, '.', false, true);
 		foreach ($folders as $folder) {
 			JFolder::delete($folder);
-		}
-
-		// Make sure the path to be deleted is writable or use FTP
-		if (!is_writable($path)) {
-			$ftpFlag = true;
-		}
-
-		// Check for safe mode
-		if (ini_get('safe_mode')) {
-			$ftpFlag = true;
 		}
 
 		// Do NOT use ftp if it is not enabled
@@ -217,7 +186,7 @@ class JFolder {
 			$ftp = & JFTP::getInstance($mainframe->getCfg('ftp_host'), $mainframe->getCfg('ftp_port'));
 			$ftp->login($mainframe->getCfg('ftp_user'), $mainframe->getCfg('ftp_pass'));
 
-			// Translate Path
+			// Translate path and delete
 			$path = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path));
 			$ret = $ftp->delete($path);
 			$ftp->quit();
@@ -235,21 +204,19 @@ class JFolder {
 	 * @param string $dest The path to the destination folder
 	 * @param string $path An optional base path to prefix to the file names
 	 * @return mixed Error message on false or boolean True on success
-	 * @since 1.1
+	 * @since 1.5
 	 */
-	function move($src, $dest, $path = '')
-	{
+	function move($src, $dest, $path = '') {
 		global $mainframe;
 
 		// Initialize variables
-		$ftpFlag = false;
-		$ftpRoot = $mainframe->getCfg('ftp_root');
+		$ftpFlag	= false;
+		$ftpRoot	= $mainframe->getCfg('ftp_root');
 
 		if ($path) {
 			$src = JPath::clean($path.$src, false);
 			$dest = JPath::clean($path.$dest, false);
 		}
-
 		JPath::check($src);
 		JPath::check($dest);
 
@@ -258,19 +225,6 @@ class JFolder {
 		}
 		if (JFolder::exists($dest)) {
 			return JText::_('Directory exists');
-		}
-
-		/*
-		 * If the destination file exists but isn't writable OR if the file doesn't exist and the parent directory
-		 * is not writable we need to use FTP
-		 */
-		if ((file_exists($dest) && !is_writable($dest)) || (!file_exists($dest) && !is_writable(dirname($dest)))) {
-			$ftpFlag = true;
-		}
-
-		// Check for safe mode
-		if (ini_get('safe_mode')) {
-			$ftpFlag = true;
 		}
 
 		// Do NOT use ftp if it is not enabled
@@ -292,9 +246,7 @@ class JFolder {
 			if (!$ftp->rename($src, $dest)) {
 				return JText::_('Rename failed');
 			}
-
 			$ftp->quit();
-
 			$ret = true;
 		} else {
 			if (!@ rename($src, $dest)) {
@@ -310,10 +262,9 @@ class JFolder {
 	 *
 	 * @param string $path Folder name relative to installation dir
 	 * @return boolean True if path is a folder
-	 * @since 1.1
+	 * @since 1.5
 	 */
-	function exists($path)
-	{
+	function exists($path) {
 		$path = JPath::clean($path, false);
 		return is_dir($path);
 	}
@@ -326,41 +277,24 @@ class JFolder {
 	 * @param boolean $recurse True to recursively search into sub-folders
 	 * @param boolean $fullpath True to return the full path to the file
 	 * @return array Files in the given folder
-	 * @since 1.1
+	 * @since 1.5
 	 */
-	function files($path, $filter = '.', $recurse = false, $fullpath = false)
-	{
+	function files($path, $filter = '.', $recurse = false, $fullpath = false) {
 		global $mainframe;
 
 		// Initialize variables
-		$ftpFlag = false;
+		$ftpFlag = true;
 		$ftpRoot = $mainframe->getCfg('ftp_root');
 		$arr = array ();
 
-		/*
-		 * Make sure that the path given is a valid Joomla path
-		 */
+		// Check to make sure the path valid and clean
 		$path = JPath::clean($path);
 		JPath::check($path);
 
-		/*
-		 * Make sure that the path given to delete is in fact a folder
-		 */
+		// Is the path a folder?
 		if (!is_dir($path)) {
 			JError::raiseWarning(21, 'JFolder::files: Path is not a folder: '.$path);
 			return false;
-		}
-
-		/*
-		 * If the directory exists but isn't readable we need to use FTP
-		 */
-		if (!is_readable($path)) {
-			$ftpFlag = true;
-		}
-
-		// Check for safe mode
-		if (ini_get('safe_mode')) {
-			$ftpFlag = true;
 		}
 
 		// Do NOT use ftp if it is not enabled
@@ -444,48 +378,32 @@ class JFolder {
 	 * @param boolean $recurse True to recursively search into sub-folders
 	 * @param boolean $fullpath True to return the full path to the folders
 	 * @return array Folders in the given folder
-	 * @since 1.1
+	 * @since 1.5
 	 */
-	function folders($path, $filter = '.', $recurse = false, $fullpath = false)
-	{
+	function folders($path, $filter = '.', $recurse = false, $fullpath = false) {
 		global $mainframe;
 
 		// Initialize variables
-		$ftpFlag = false;
+		$ftpFlag = true;
 		$arr = array ();
 		$ftpRoot = $mainframe->getCfg('ftp_root');
 
-		/*
-		 * Make sure that the path given is a valid Joomla path
-		 */
+		// Check to make sure the path valid and clean
 		$path = JPath::clean($path);
 		JPath::check($path);
 
-		/*
-		 * Make sure that the path given to delete is in fact a folder
-		 */
+		// Is the path a folder?
 		if (!is_dir($path)) {
 			JError::raiseWarning(21, 'JFolder::folder: Path is not a folder: '.$path);
 			return false;
 		}
 
-		/*
-		 * If the directory isn't readable or safe mode is on we need to use FTP
-		 */
-		if (!is_readable($path) || ini_get('safe_mode')) {
-			$ftpFlag = true;
-		}
-
-		/*
-		 * Obviously if the FTP layer is not enabled, don't use it
-		 */
+		// Don't use FTP if it isn't enabled.
 		if ($mainframe->getCfg('ftp_enable') != 1) {
 			$ftpFlag = false;
 		}
 
-		/*
-		 * Do we use FTP?
-		 */
+		// Are we using FTP?
 		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.connector.ftp');
@@ -550,22 +468,18 @@ class JFolder {
 		asort($arr);
 		return $arr;
 	}
-	
+
 	/**
 	 * Lists folder in format suitable for tree display
 	 */
-	function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0)
-	{
+	function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0) {
 		$dirs = array ();
 		if ($level == 0) {
 			$GLOBALS['_JFolder_folder_tree_index'] = 0;
 		}
-
 		if ($level < $maxLevel) {
 			JPath::check($path);
-
 			$folders = JFolder::folders($path, $filter);
-
 			// first path, index foldernames
 			for ($i = 0, $n = count($folders); $i < $n; $i ++) {
 				$id = ++ $GLOBALS['_JFolder_folder_tree_index'];
@@ -576,7 +490,6 @@ class JFolder {
 				$dirs = array_merge($dirs, $dirs2);
 			}
 		}
-
 		return $dirs;
 	}
 }
