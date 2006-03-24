@@ -170,7 +170,11 @@ class JMenu extends JObject
 
 	function getItem($id)
 	{
-		return $this->_menuitems[$id];
+		if (isset($this->_menuitems[$id])) {
+			return $this->_menuitems[$id];
+		} else {
+			return false;
+		}
 	}
 
 	function getItems($attribute, $value)

@@ -145,7 +145,7 @@ class JController extends JObject {
 			$menu->parameters = & new JParameter($menu->params);
 		} else {
 			$menu = & new stdClass();
-			$menu->parameters = & new JParameter();
+			$menu->parameters = & new JParameter('');
 		}
 		$this->_menu = & $menu;
 	}

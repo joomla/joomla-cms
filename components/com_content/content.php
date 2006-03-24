@@ -15,41 +15,13 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// require the component helper 
+// Require the com_content helper library
 require_once (JApplicationHelper::getPath('helper', 'com_content'));
-require_once (JApplicationHelper::getPath('front_html', 'com_content'));
 
 // Require the MVC libraries
 require_once (dirname(__FILE__).DS.'app'.DS.'model.php');
 require_once (dirname(__FILE__).DS.'app'.DS.'view.php');
 require_once (dirname(__FILE__).DS.'app'.DS.'controller.php');
-
-
-/*
-switch (strtolower($task))
-{
-	case 'edit' :
-	case 'new' :
-		JContentController::editItem();
-		break;
-
-	case 'save' :
-	case 'apply' :
-	case 'apply_new' :
-		$cache = & JFactory::getCache();
-		$cache->cleanCache('com_content');
-		JContentController::saveContent();
-		break;
-
-	case 'cancel' :
-		JContentController::cancelContent();
-		break;
-
-	case 'emailform' :
-		JContentController::emailContentForm();
-		break;
-}
-*/
 
 /**
  * Content Component Controller
@@ -154,12 +126,6 @@ class JContentController extends JController
 		$view->setModel($model, true);
 		// Display the view
 		$view->display();
-		
-//		$cache = & JFactory::getCache('com_content', 'output');
-//		if (!$cache->start(md5($id.'category'.$Itemid), 'com_content')) {
-//			JViewContentHTML::showCategory($model, $access, $lists, $selected);
-//			$cache->end();
-//		}
 	}
 
 	function blogsection()
@@ -181,12 +147,6 @@ class JContentController extends JController
 		$view->setModel($model, true);
 		// Display the view
 		$view->display();
-		
-//		$cache = & JFactory::getCache('com_content', 'output');
-//		if (!$cache->start(md5($id.'sectionblog'.$Itemid), 'com_content')) {
-//			JViewContentHTML::showblog($model, $access, $menu);
-//			$cache->end();
-//		}
 	}
 
 	function blogcategory()
@@ -208,12 +168,6 @@ class JContentController extends JController
 		$view->setModel($model, true);
 		// Display the view
 		$view->display();
-		
-//		$cache = & JFactory::getCache('com_content', 'output');
-//		if (!$cache->start(md5($id.'sectionblog'.$Itemid), 'com_content')) {
-//			JViewContentHTML::showblog($model, $access, $menu);
-//			$cache->end();
-//		}
 	}
 
 	function archivesection()
@@ -285,12 +239,6 @@ class JContentController extends JController
 		$view->setModel($model, true);
 		// Display the view
 		$view->display();
-		
-//		$cache = & JFactory::getCache('com_content', 'output');
-//		if (!$cache->start(md5($id.'article'.$Itemid.$page), 'com_content')) {
-//			JViewContentHTML::showItem($model, $access, $page);
-//			$cache->end();
-//		}
 	}
 
 	function viewpdf()
@@ -299,8 +247,12 @@ class JContentController extends JController
 		JViewContentPDF::showItem();
 	}
 
-	function editItem()
+	function edit()
 	{
+		require_once (JApplicationHelper::getPath('front_html', 'com_content'));
+		JViewContentHTML::emptyContainer( 'Temporarily Unavailable :: No need to report it broken ;)');
+		return true;
+
 		global $mainframe, $Itemid;
 
 		/*
@@ -464,8 +416,12 @@ class JContentController extends JController
 	/**
 	* Saves the content item an edit form submit
 	*/
-	function saveContent()
+	function save()
 	{
+		require_once (JApplicationHelper::getPath('front_html', 'com_content'));
+		JViewContentHTML::emptyContainer( 'Temporarily Unavailable :: No need to report it broken ;)');
+		return true;
+
 		global $mainframe, $Itemid;
 
 		/*
@@ -669,8 +625,12 @@ class JContentController extends JController
 	* @static
 	* @since 1.0
 	*/
-	function cancelContent()
+	function cancel()
 	{
+		require_once (JApplicationHelper::getPath('front_html', 'com_content'));
+		JViewContentHTML::emptyContainer( 'Temporarily Unavailable :: No need to report it broken ;)');
+		return true;
+
 		global $mainframe;
 
 		/*
@@ -728,8 +688,12 @@ class JContentController extends JController
 	 * @static
 	 * @since 1.0
 	 */
-	function emailContentForm()
+	function emailform()
 	{
+		require_once (JApplicationHelper::getPath('front_html', 'com_content'));
+		JViewContentHTML::emptyContainer( 'Temporarily Unavailable :: No need to report it broken ;)');
+		return true;
+
 		global $mainframe;
 
 		/*
@@ -921,26 +885,26 @@ class JContentController extends JController
 	}
 }
 
-// get the view from the request - set the default
-// note - alternatively we can get it from the menu params
-
-$view = JRequest::getVar( 'view', 'article' );
-
 // Create the controller
 $controller = & new JContentController( $mainframe, 'view' );
 
 // need to tell the controller where to look for views
 $controller->setViewPath( dirname( __FILE__ ) . DS . 'view' );
 
-// set the view name from the Request
+// Set the default view name from the Request
+// note - alternatively we can get it from the menu parameters
+$view = JRequest::getVar( 'view', 'article' );
 $controller->setViewName( $view, 'com_content', 'HTML' );
 
 // Register Extra tasks
 $controller->registerTask( 'blogcategorymulti', 'blogcategory' );
+$controller->registerTask( 'new', 'edit' );
+$controller->registerTask( 'apply', 'save' );
+$controller->registerTask( 'apply_new', 'save' );
 
-// perform the Request task
+// Perform the Request task
 $controller->performTask( $task );
 
-// redirect if set by the controller
+// Redirect if set by the controller
 $controller->redirect();
 ?>
