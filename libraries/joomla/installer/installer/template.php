@@ -138,10 +138,10 @@ class JInstallerTemplate extends JInstaller
 		$e = & $root->getElementsByPath('description', 1);
 		if (!is_null($e))
 		{
-			$this->_description = $this->_extensionName.'<p>'.$e->getText().'</p>';
+			$this->description = $this->_extensionName.'<p>'.$e->getText().'</p>';
 		} else
 		{
-			$this->_description = $this->_extensionName;
+			$this->description = $this->_extensionName;
 		}
 
 		/*

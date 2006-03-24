@@ -122,14 +122,14 @@ class JInstaller extends JObject
 	 *
 	 * @var string
 	 */
-	var $_description = null;
+	var $description = null;
 
 	/**
 	 * The output from the install/uninstall scripts
 	 *
 	 * @var string
 	 */
-	var $_message = null;
+	var $message = null;
 
 	/**
 	 * Constructor

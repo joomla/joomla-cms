@@ -353,10 +353,10 @@ class JInstallerComponent extends JInstaller
 		$e = & $root->getElementsByPath('description', 1);
 		if (!is_null($e))
 		{
-			$this->_description = $this->_extensionName.'<p>'.$e->getText().'</p>';
+			$this->description = $this->_extensionName.'<p>'.$e->getText().'</p>';
 		} else
 		{
-			$this->_description = $this->_extensionName;
+			$this->description = $this->_extensionName;
 		}
 
 		/*
@@ -376,7 +376,7 @@ class JInstallerComponent extends JInstaller
 				ob_end_clean();
 				if ($ret != '')
 				{
-					$this->_message = $ret;
+					$this->message = $ret;
 				}
 			}
 		}
@@ -473,7 +473,7 @@ class JInstallerComponent extends JInstaller
 				$ret = com_uninstall();
 				$ret .= ob_get_contents();
 				ob_end_clean();
-				$this->_message = $ret;
+				$this->message = $ret;
 			}
 		}
 
